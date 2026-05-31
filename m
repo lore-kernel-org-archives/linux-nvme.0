@@ -4,124 +4,110 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4C7E1CD6E52
-	for <linux-nvme@archiver.kernel.org>; Sun, 31 May 2026 15:09:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47B09CD6E52
+	for <linux-nvme@archiver.kernel.org>; Sun, 31 May 2026 15:22:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=d8RzpESidvKK8rHOAWFW2Z2XR8DQggNk9Hq1RIAx/gs=; b=X40AO0HgL4YI+wJMn7ctyLG6fj
-	VE+pFiN9RUKJ3NDqcqQ13LOc3vHQAxHzOku5q6pWMQxb7zx3DgQIFOWk2AGMQsyIXAMrt8rZhH+DG
-	KrIRotOR0/Dc6MR1RiU3C6gbUz1O7rBgyxkSClwwssvSvvAkKFBsbP4e5I0gZlyjpTW1q+CK9VTex
-	RE0aLxlvLzMIjf2yQhyzCwN8C/7FxjVw+AcB+HnS+iKlaAjBWtWwPOC+s2OVarKjvdnuLr9R1LFol
-	TcisxCAu1JEeqKVqrJ+uVHRkxVX4fZKn2qvUK4v+UCyMFiZKz7GQCEEqE1Uqs6mjz06SKLfJobcLN
-	6T1C29Wg==;
+	bh=Lu2csOfhc1/kyY/keb7HAYD2b9vRJNpMBYxVJbBcET4=; b=BkBhHAQFRK2S5sjje2KE6PJp1X
+	7UGRE8krQe6Fvnq5pipd0Ygs6UWqwk6x7HktA+GovviHgKzIvjHhVw6F/xijsmxZTtJw520AiipzA
+	1XH8X1olzJB3+9VKeSaRKXs71KLAYwD+BYEh4IvjA54qd54vkChtyNW0miLzHD/TWF5lshMRc/SR5
+	v0TCxaq7bLuHcxclOV8E1KCLK8rozUw3fEgz8r6R54jzJ4TEfSdy9gu4qdJT51ZGdp+s/IB8pBJnU
+	cJyPGTc9ueodHr0vH7Nn8WrbuvJcE2/CdQxTv8Td/5Tl2JgUoUVqekmxbul72SHgrYNQx9Q4WFayJ
+	bwS94HxQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wThmb-00000009fnm-1V7T;
-	Sun, 31 May 2026 15:08:57 +0000
+	id 1wThzR-00000009gLo-19eR;
+	Sun, 31 May 2026 15:22:13 +0000
 Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wThmY-00000009fnS-3GwG
+	id 1wThzN-00000009gLS-3w0g
 	for linux-nvme@lists.infradead.org;
-	Sun, 31 May 2026 15:08:55 +0000
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64V47FZb2292720;
-	Sun, 31 May 2026 15:08:35 GMT
+	Sun, 31 May 2026 15:22:12 +0000
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64V2jIba392882;
+	Sun, 31 May 2026 15:21:51 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=d8RzpE
-	SidvKK8rHOAWFW2Z2XR8DQggNk9Hq1RIAx/gs=; b=e7+BBswNi0VdCDPFHdbCbS
-	5yxqGjH1+dg0l+dbh3d4lI1g9QHXtRHXHGBRNJ2iupNq1J/s572870mD2ztdbKif
-	7iI8L1aXBciIgkLR8oJrAGMnne/nPUlLpSOOMEjjwhwKxB7NSujr9SB0ZwHSVasl
-	oUXkobkHdtTiIbojN8JCDuGTYchGoXEuI5/eyP9pWRemTSPjD04cYKFcQ3/GDwpM
-	ih5VQO8xLy/e6Ni/+wHqLRAG5tHVs0nrqQbJlM7SBmOBTw4J4W2G1T5OOgy3iYUP
-	N1KVVFHntkhxf6pM8c0h9UNuAWiY3DZMyMmRtH5Psks62f5f0PoLrP6ab06fuARQ
+	:message-id:mime-version:references:subject:to; s=pp1; bh=Lu2csO
+	fhc1/kyY/keb7HAYD2b9vRJNpMBYxVJbBcET4=; b=fM9N+Tv8OArXIOoO5/OvGz
+	XuGjuP42tpe8OWqL9RB47I//2jKJV1gv8gXvG/EZwwo+J3n4JZgrSRBN99Thv+zW
+	3OAPmxdhZ2QdfRS4zS8Sjl2dgvtv6Xhhqt+Lp9Ir/F6ErO8+BSt5/F6lRwllVTAS
+	5hjWdyPUTyKclctSDuQsNJX0IDUvlcB1SN73Hx1Emxx61zLuNkyyI4coryie+/9H
+	oepoex6BFU8i/v0xU6K5hkxmRY+lBY1uolGHDE/p+ucM97mDcU00VmOQ9TeDvtga
+	a6EahlZkbHpoR5vfTMyczNuusr3TE/hQgrtH6Jd3+xkba1hxAlyG9UA4ivLFk7OA
 	==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4efqjpvwdk-1
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4efqm4mxrj-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 31 May 2026 15:08:34 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 64VEs6KV002699;
-	Sun, 31 May 2026 15:08:33 GMT
-Received: from smtprelay03.dal12v.mail.ibm.com ([172.16.1.5])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4egbqh21q1-1
+	Sun, 31 May 2026 15:21:51 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 64VEs75r000521;
+	Sun, 31 May 2026 15:21:50 GMT
+Received: from smtprelay01.wdc07v.mail.ibm.com ([172.16.1.68])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4ega7q2c17-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 31 May 2026 15:08:33 +0000 (GMT)
+	Sun, 31 May 2026 15:21:50 +0000 (GMT)
 Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com [10.39.53.228])
-	by smtprelay03.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 64VF8W8c29885056
+	by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 64VFLoPG63635956
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sun, 31 May 2026 15:08:32 GMT
+	Sun, 31 May 2026 15:21:50 GMT
 Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 3A4FD5804B;
-	Sun, 31 May 2026 15:08:32 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 060C658055;
+	Sun, 31 May 2026 15:21:50 +0000 (GMT)
 Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7D4B558059;
-	Sun, 31 May 2026 15:08:23 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id A3F785804B;
+	Sun, 31 May 2026 15:21:47 +0000 (GMT)
 Received: from [9.43.126.202] (unknown [9.43.126.202])
 	by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Sun, 31 May 2026 15:08:23 +0000 (GMT)
-Message-ID: <822b40f8-7e23-4f91-a048-c2872e04dcb6@linux.ibm.com>
-Date: Sun, 31 May 2026 20:38:21 +0530
+	Sun, 31 May 2026 15:21:47 +0000 (GMT)
+Message-ID: <f93b8aca-50bc-4d0a-bc28-a00f400e1d0f@linux.ibm.com>
+Date: Sun, 31 May 2026 20:51:45 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/11] nvme-tcp: implement host mptcp proto
-To: Geliang Tang <geliang@kernel.org>, Keith Busch <kbusch@kernel.org>,
-        Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-        Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
-        Matthieu Baerts <matttbe@kernel.org>,
-        Mat Martineau <martineau@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
-        Shuah Khan <shuah@kernel.org>
-Cc: Geliang Tang <tanggeliang@kylinos.cn>, linux-nvme@lists.infradead.org,
-        netdev@vger.kernel.org, mptcp@lists.linux.dev,
-        linux-kselftest@vger.kernel.org, Hannes Reinecke <hare@suse.de>,
-        John Meneghini <jmeneghi@redhat.com>,
-        Randy Jennings
- <randyj@purestorage.com>,
-        zhenwei pi <zhenwei.pi@linux.dev>, Hui Zhu <zhuhui@kylinos.cn>,
-        Gang Yan <yangang@kylinos.cn>
-References: <cover.1779934709.git.tanggeliang@kylinos.cn>
- <a3ceb2b974d74b78d205731353f5e3bbeff2acf4.1779934709.git.tanggeliang@kylinos.cn>
+Subject: Re: [PATCH 1/2] nvme-tcp: move nvme_tcp_reclassify_socket()
+To: "Shin'ichiro Kawasaki" <shinichiro.kawasaki@wdc.com>,
+        linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
+        Jens Axboe <axboe@kernel.dk>
+Cc: Christoph Hellwig <hch@infradead.org>, Sagi Grimberg <sagi@grimberg.me>
+References: <20260530052045.296749-1-shinichiro.kawasaki@wdc.com>
+ <20260530052045.296749-2-shinichiro.kawasaki@wdc.com>
 Content-Language: en-US
 From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <a3ceb2b974d74b78d205731353f5e3bbeff2acf4.1779934709.git.tanggeliang@kylinos.cn>
+In-Reply-To: <20260530052045.296749-2-shinichiro.kawasaki@wdc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: T3buCMTza_xDN3L0rI9flmIQtNB52e7k
-X-Proofpoint-GUID: FdilKW1GDCBjTaKIn6fpNZxz9Qx16Dk0
-X-Authority-Analysis: v=2.4 cv=bcVbluPB c=1 sm=1 tr=0 ts=6a1c4ef3 cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+X-Proofpoint-GUID: PKLzRQuCm2aGKh3XZVbr-Tzf4si7rgUO
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTMxMDE2NCBTYWx0ZWRfX1+FH/4yDA/Uq
+ SkLhdTIemQ09SiryHN3BhC0+5wNb6zy19K1gh9DmbjQz+MOBM9jryQDCCreUJBjabQ3F0CcVfRo
+ hakg1162z5dcYNO5N7mijwwzY8AMXvC2VHjkJdzHaj96RSFBOwNoalCV6qiQCOXGMVdTFH/v0DO
+ CAATpfiCeucICWQ6phH82wsbyrvMmheqyPnHuhmK0WMpwtyMrZeiEggw9YAVHbB2zF6Y7p3cv/w
+ qU5VWtcOuqVKZGq3aH06Eblg1W0hPLD7NHbcxuHd/Wv2y1/srH6WNNxqsMqLx34zmERBZUrLSaR
+ G2cHC4iWlRKWT9rG25HirJyY4n+tQ/acXGUoZIwtvMslf4/+ds+Qr7ifdsWKorzHgKzhNBIkm9I
+ GxzFwXzENJk5PILkxCmKDhLC9TNiTvu/aHWYZcR5Xm1cN4FbUcyVfl2LFtuHejGd4s9bxCpJqS0
+ x9PtYB/YZ8KGO3GOoZQ==
+X-Proofpoint-ORIG-GUID: PKLzRQuCm2aGKh3XZVbr-Tzf4si7rgUO
+X-Authority-Analysis: v=2.4 cv=Vf3H+lp9 c=1 sm=1 tr=0 ts=6a1c520f cx=c_pps
+ a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
  a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=20KFwNOVAAAA:8
- a=WTJdmG3rAAAA:8 a=VnNF1IyMAAAA:8 a=ZCWZM8ohGpsOdJoV-x4A:9 a=QEXdDO2ut3YA:10
- a=q3NGepEMMmKWaCv8Sx90:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTMxMDE2NCBTYWx0ZWRfX+2cDxE3MPPKT
- yrelqQyp0V4LBWbpZUfAbiQkSWkPI31IxdOLQKQN3tfuYNyZEzjkq10psN16Av36Q+JpUBWi7Hq
- QLumPfx7rPYYVjH9ktjiB4NoazC0NzAVuTKEMBqXpJpK6YkdHe56HJxYvxsh/neV79jbh+hCaWa
- fNeeJApiZ4dNzC+cVTsS70tb3hIrEftEQt1oCj6bntbLEyinZQVhII0oGpKvNkcszcvjFbEeEi3
- CSHlMwxFcbPE4EF0N+ZG3EMXxxUvXD2OkaYCvK1hyfnnYHqOpJqXtXdy8O/R/aXCfnJlIIPA+U8
- Xt3tzr3uZuH5zaTWJQJ7uJKTKXLXQEqsT4V2lAexTHb32pe9iIJOn5JUilZ0PWHK+tHCQ4NjGlF
- gGzEqGRKB/j7KbcZXuDNIjZaxdyy19FAHHFHepuBgpPI7v5ehk++UbgfRu4rvMe/gZLDy/i6QW4
- pRsWDOUBtxC12GTz/Bw==
+ a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=JF9118EUAAAA:8
+ a=VnNF1IyMAAAA:8 a=LClqJrE8pOexBVp5_SEA:9 a=QEXdDO2ut3YA:10
+ a=xVlTc564ipvMDusKsbsT:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
  definitions=2026-05-31_05,2026-05-28_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 clxscore=1015 adultscore=0 priorityscore=1501 phishscore=0
- lowpriorityscore=0 bulkscore=0 malwarescore=0 spamscore=0 suspectscore=0
+ priorityscore=1501 suspectscore=0 adultscore=0 bulkscore=0 impostorscore=0
+ phishscore=0 lowpriorityscore=0 malwarescore=0 clxscore=1015 spamscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2605310164
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260531_080854_830825_7F9DCB30 
-X-CRM114-Status: GOOD (  20.51  )
+X-CRM114-CacheID: sfid-20260531_082209_987478_E81BF5FB 
+X-CRM114-Status: GOOD (  13.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -136,66 +122,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/28/26 8:40 AM, Geliang Tang wrote:
-> From: Geliang Tang<tanggeliang@kylinos.cn>
+On 5/30/26 10:50 AM, Shin'ichiro Kawasaki wrote:
+> Move nvme_tcp_reclassify_socket() in tcp.c after the struct
+> nvme_tcp_queue definition. This is preparation for adding a reference
+> to struct nvme_tcp_queue in the function, which would otherwise cause a
+> compile failure due to the struct being defined after the function.
 > 
-> An MPTCP-specific version of struct nvme_tcp_proto is implemented,
-> and it is assigned to ctrl->proto when the transport string is "mptcp".
+> Move the entire CONFIG_DEBUG_LOCK_ALLOC block along with the function
+> to maintain the code organization.
 > 
-> The socket option setting logic is similar to the target side, except that
-> mptcp_sock_set_syncnt is newly defined for the host side.
-> 
-> These helpers set the values on all existing subflows of an MPTCP
-> connection, except for set_reuseaddr which only applies to the first
-> subflow. The values are then synchronized to other newly created
-> subflows in sync_socket_options().
-> 
-> A separate nvme_mptcp_ctrl_ops structure with .name = "mptcp" is defined
-> and used for MPTCP controllers.
-> 
-> "mptcp" is planned to be introduced as a new NVMe transport type into the
-> NVMe Base Specification in the future.
-> 
-> Currently, the Discovery Log does not yet recognize trtype=4 (MPTCP), and
-> will show "trtype: unrecognized" for such entries:
-> 
->   =====Discovery Log Entry 0======
->   trtype:  unrecognized
->   adrfam:  ipv4
->   subtype: current discovery subsystem
->   treq:    not specified, sq flow control disable supported
->   portid:  23106
->   trsvcid: 23601
->   subnqn:  nqn.2014-08.org.nvmexpress.discovery
->   traddr:  10.1.1.1
->   eflags:  none
-> 
-> Cc: Hannes Reinecke<hare@suse.de>
-> Cc: John Meneghini<jmeneghi@redhat.com>
-> Cc: Randy Jennings<randyj@purestorage.com>
-> Cc: Nilay Shroff<nilay@linux.ibm.com>
-> Co-developed-by: zhenwei pi<zhenwei.pi@linux.dev>
-> Signed-off-by: zhenwei pi<zhenwei.pi@linux.dev>
-> Co-developed-by: Hui Zhu<zhuhui@kylinos.cn>
-> Signed-off-by: Hui Zhu<zhuhui@kylinos.cn>
-> Co-developed-by: Gang Yan<yangang@kylinos.cn>
-> Signed-off-by: Gang Yan<yangang@kylinos.cn>
-> Signed-off-by: Geliang Tang<tanggeliang@kylinos.cn>
+> Signed-off-by: Shin'ichiro Kawasaki<shinichiro.kawasaki@wdc.com>
 > ---
->   drivers/nvme/host/tcp.c | 34 ++++++++++++++++++++++++++++++++++
->   include/net/mptcp.h     | 11 +++++++++++
->   net/mptcp/sockopt.c     | 30 +++++++++++++++++++++++++++++-
->   3 files changed, 74 insertions(+), 1 deletion(-)
+>   drivers/nvme/host/tcp.c | 76 ++++++++++++++++++++---------------------
+>   1 file changed, 38 insertions(+), 38 deletions(-)
 
-Agian the same comment as earlier to split this into two patches.
-BTW, it seems another approach would be to club all mptcp helpers
-in one patch (may be the first patch in the series) as prep and then
-use those helpers in the subsequent patches.
-
-Thanks,
---Nilay
-
-
-
-
+Looks good to me.
+Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>
 
