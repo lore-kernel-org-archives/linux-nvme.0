@@ -4,113 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 31A59CD5BD1
-	for <linux-nvme@archiver.kernel.org>; Mon,  1 Jun 2026 07:26:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 96E6FCD5BD1
+	for <linux-nvme@archiver.kernel.org>; Mon,  1 Jun 2026 08:59:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:In-Reply-To:Cc:To
+	:Subject:Message-ID:From:Content-Transfer-Encoding:Content-Type:Date:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ryu8HrbGopPS++BlH/oFGGPY6Erp2jwhY2d5xXtbxk4=; b=eduhSwRGA+NBJnZPF0HNAh/SXx
-	usaoZInTMJ/E+gdxaluBfdDLCXQVwgHJKkECczjV946mMRv9SfK6iWcQggFB3WyIB8yeM422uP09g
-	qL0rwoc0uSFbuD8GZtcS8IPGNm5b3lAksgfnfp00/SrJya0WWD14+bQGxMLNIeTMcCmOO1W9w8wa8
-	mc4LJxfGsclISAfzRu1HKRNhWefyi5Z+DD3o5ig2MMuZIB+zUz5OELbc2puHSSZA5Xw9KZw0hsak9
-	hu5pFAt9ZGYElWdoGfSx9lhUj+tN7loMJIivWXqVbd/1e7swTjFcU6ZhbQ1gk+G1iMT7WNDx9dxDl
-	ZLrLhyRQ==;
+	bh=7i6dypURVTbR75PULfoiba2GsQ19C8ZDxeRT25Zix4A=; b=U8APS4hLlRBiw9zRxMAJMqmPEp
+	FclJXWd2wIH1lB6/oA2r0kwugKaI4rZVgQmq33GhuCicLJBI2WIyj3BmLYy9wCKMx5R9SqOawxFbP
+	IUvslWHI6w6EGvc01i/9Kockf/dScQtuXGrkMU0J/Bn3p3xFxIPIG7LG67ncmpRGvtNUhclotPX2z
+	9TeId1xqGKZzde21QPd5WnkyN6x2NFZyGq1xYHIbSfjSa5BtCmjZII26IeYUBpZFwshvT732E9vsY
+	R6A1TtuNnpVyMMzLIaz/u8NSWVMosanfJLoHakJ6uN4YCkZ/G6pV0STNH6k4L2m5F8RxGr4cBCQbt
+	6DbcFT2A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wTx2c-0000000AIhR-07Pg;
-	Mon, 01 Jun 2026 07:26:30 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1wTyU5-0000000ARQ8-1mnY;
+	Mon, 01 Jun 2026 08:58:57 +0000
+Received: from mta1.migadu.com ([2001:41d0:203:375::] helo=out-177.mta1.migadu.com)
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wTx2Z-0000000AIh1-1Dcu
+	id 1wTyU1-0000000ARO5-3B4J
 	for linux-nvme@lists.infradead.org;
-	Mon, 01 Jun 2026 07:26:28 +0000
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64VGLD1V3263017;
-	Mon, 1 Jun 2026 07:26:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=ryu8Hr
-	bGopPS++BlH/oFGGPY6Erp2jwhY2d5xXtbxk4=; b=jBkSbjkGyC3aCEmV+4ZZbh
-	y3kE/3PgNKevOmTCN0VOzVCIasyIvnwCy9GrKQJJjdCHMYu46G5nvDFKYy9ecNLp
-	hANt6OonaB7WhHjp3oCR0UCeKworXcFR2U85dsmSyYfHYCYbZ5XzgKDj1lzZUyva
-	usn2OVNCo+HPAgAgxyI8T5Z4JO6qVi1tw4nxicHilKuY/rZh60doCyb0s+FKA/+j
-	xymu1bS6MqNMRcRZVrByaYf0lyg6GhynitDRsY55fwGBM7vhKo5sIdHm16keBeg0
-	vqWIbH5uILtM6j70a8Fp25vCNQu/whCXbOC0uyYzZmC/MkLxMkpAKdwH3vNXZyDg
-	==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4efqm4qfgc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 01 Jun 2026 07:26:14 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 6517OQSu023837;
-	Mon, 1 Jun 2026 07:26:13 GMT
-Received: from smtprelay06.dal12v.mail.ibm.com ([172.16.1.8])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4egb7jvyd5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 01 Jun 2026 07:26:13 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
-	by smtprelay06.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6517QClj29557410
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 1 Jun 2026 07:26:12 GMT
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9597A58055;
-	Mon,  1 Jun 2026 07:26:12 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2A6BF58043;
-	Mon,  1 Jun 2026 07:26:09 +0000 (GMT)
-Received: from [9.123.7.57] (unknown [9.123.7.57])
-	by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Mon,  1 Jun 2026 07:26:08 +0000 (GMT)
-Message-ID: <52933605-108f-489e-a31a-5524844e7c18@linux.ibm.com>
-Date: Mon, 1 Jun 2026 12:56:07 +0530
+	Mon, 01 Jun 2026 08:58:56 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme-tcp: Use WQ_PERCPU explicitly if wq_unbound is
- false.
-To: Kuniyuki Iwashima <kuniyu@google.com>, Keith Busch <kbusch@kernel.org>,
-        Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-        Sagi Grimberg <sagi@grimberg.me>
-Cc: Marco Crivellari <marco.crivellari@suse.com>, Tejun Heo <tj@kernel.org>,
-        Kuniyuki Iwashima <kuni1840@gmail.com>, linux-nvme@lists.infradead.org,
-        syzbot+d078cba4418e65f61984@syzkaller.appspotmail.com
-References: <20260530081059.428303-1-kuniyu@google.com>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <20260530081059.428303-1-kuniyu@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-GUID: iWJlRLLfeIbY0jj5V5KtikyPrqZ5wpHs
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjAxMDA3MCBTYWx0ZWRfX7rxDJqMifGCg
- w3byabaJk1nXHM+HD3g/SKmpDX6AP0RQvBwsaH3QKdiaNcwm3Qb6KQ+Xm8jWj/ExkLdq7zuPYjw
- dhdq5O7qksSQm6j89y916hhpJ6nT8VQCidzdBdT0zjO8dB5vOxetg19qwJd43pB7sgvP9D1iqJe
- /Mqpvk9ETl3R0iHPpiro0OtEIi9VPKTwvMF6DhbSF0o+h9Yh+GnjKLJpBsxWDZGT0BgWSXwnJJO
- HaQNz+4BrHXivkudg7+/vIhKRKTV8A5VhtBBe1bD6nOVYKFWlo8ibKiuAnbT3qkkr6EqAuHC8Qn
- mQoAx/rLTKI8DMC8BZrtFxGJ97bhiKBVyCPvjZCMj0/rTivd9hp5Z6cl3w4BrH5f/IUZfVThVM9
- 960lb2UdiJ0P8Gu4d/3X36JSXdqwh3U9vowBBPB+zeHl97a6oRWB4RHWLjglko8/fzgmjl+FpdX
- rM+gqlN8RXP01VgfZnw==
-X-Proofpoint-ORIG-GUID: 5vF9PauZUMgEupuZcBYSKdGet4Aw93fD
-X-Authority-Analysis: v=2.4 cv=Vf3H+lp9 c=1 sm=1 tr=0 ts=6a1d3416 cx=c_pps
- a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
- a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=VwQbUJbxAAAA:8
- a=1XWaLZrsAAAA:8 a=hSkVLCK3AAAA:8 a=VnNF1IyMAAAA:8 a=ZFmSVnsuCCONPfhWVtMA:9
- a=QEXdDO2ut3YA:10 a=cQPPKAXgyycSBL8etih5:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-01_02,2026-05-28_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 suspectscore=0 adultscore=0 bulkscore=0 impostorscore=0
- phishscore=0 lowpriorityscore=0 malwarescore=0 clxscore=1011 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606010070
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1780304303;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7i6dypURVTbR75PULfoiba2GsQ19C8ZDxeRT25Zix4A=;
+	b=oV+QQ9kmYKhdIeFtQd4Hyx1cdi9/omGzsPJC1YRRnv66k/f1higWDiK7mfAUe3flbDOZRZ
+	yu803nLfezzWWIdLiOErlinsOmq5ZTBKCr16CqMsUxdRcASGtxcHI7YkUP4zMlPkGOcHWx
+	8icJp2nSwV2Y6za2N8HJrBwbTsybkNw=
+Date: Mon, 01 Jun 2026 08:58:18 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Tianchu Chen" <tianchu.chen@linux.dev>
+Message-ID: <c023c72aa183dd31fc9a2d7e9781c5551d5cdb9f@linux.dev>
+TLS-Required: No
+Subject: Re: [PATCH] nvmet-auth: validate reply message payload bounds
+ against transfer length
+To: "Christoph Hellwig" <hch@lst.de>
+Cc: hare@suse.de, hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
+In-Reply-To: <20260601071921.GB7582@lst.de>
+References: <f4aca9b14e74a7f7f8cd9620e13cc32a6a2b7746@linux.dev>
+ <20260601071921.GB7582@lst.de>
+X-Migadu-Flow: FLOW_OUT
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260601_002627_339648_6BD8A95D 
-X-CRM114-Status: GOOD (  19.40  )
+X-CRM114-CacheID: sfid-20260601_015854_939057_C4F352B5 
+X-CRM114-Status: GOOD (  23.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -125,41 +71,123 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/30/26 1:40 PM, Kuniyuki Iwashima wrote:
-> Since commit 21c05ca88a54 ("workqueue: Add warnings and ensure
-> one among WQ_PERCPU or WQ_UNBOUND is present"), we must explicitly
-> set WQ_PERCPU or WQ_UNBOUND when creating workqueue.
-> 
-> nvme_tcp_init_module() sets WQ_UNBOUND when the module param
-> wq_unbound is set, but otherwise, WQ_PERCPU is missing, triggering
-> the warning below:
-> 
->    workqueue: nvme_tcp_wq is using neither WQ_PERCPU or WQ_UNBOUND. Setting WQ_PERCPU.
->    WARNING: kernel/workqueue.c:5856 at __alloc_workqueue+0x1d02/0x2070 kernel/workqueue.c:5855, CPU#0: swapper/0/1
-> 
-> Let's set WQ_PERCPU if wq_unbound is false.
-> 
-> Reported-by: syzbot+d078cba4418e65f61984@syzkaller.appspotmail.com
-> Closes: https://lore.kernel.org/all/6a1a9a86.323e8352.141b09.0001.GAE@google.com/
-> Signed-off-by: Kuniyuki Iwashima <kuniyu@google.com>
-> ---
->   drivers/nvme/host/tcp.c | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 22be0e0eee07..fcf54cc38c3c 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -3046,6 +3046,8 @@ static int __init nvme_tcp_init_module(void)
->   
->   	if (wq_unbound)
->   		wq_flags |= WQ_UNBOUND;
-> +	else
-> +		wq_flags |= WQ_PERCPU;
->   
->   	nvme_tcp_wq = alloc_workqueue("nvme_tcp_wq", wq_flags, 0);
->   	if (!nvme_tcp_wq)
+June 1, 2026 at 3:19 PM, "Christoph Hellwig" <hch@lst.de mailto:hch@lst.d=
+e?to=3D%22Christoph%20Hellwig%22%20%3Chch%40lst.de%3E > wrote:
 
-Looks good to me.
-Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>
+
+>=20
+>=20On Fri, May 29, 2026 at 02:18:39PM +0000, Tianchu Chen wrote:
+>=20
+>=20>=20
+>=20> From: Tianchu Chen <flynnnchen@tencent.com>
+> >=20=20
+>=20>  nvmet_auth_reply() accesses the variable-length rval[] array using
+> >  attacker-controlled hl (hash length) and dhvlen (DH value length) fi=
+elds
+> >  without verifying they fit within the allocated buffer of tl bytes.
+> >=20=20
+>=20>  A malicious NVMe-oF initiator can craft a DHCHAP_REPLY message wit=
+h a
+> >  small transfer length but large hl/dhvlen values, causing out-of-bou=
+nds
+> >  heap reads when the target processes the DH public key (rval + 2*hl)=
+ or
+> >  performs the host response memcmp.
+> >=20=20
+>=20>  With DH authentication configured, the OOB pointer is passed direc=
+tly to
+> >  sg_init_one() and read by crypto_kpp_compute_shared_secret(), reachi=
+ng
+> >  up to 526 bytes past the buffer. This is exploitable pre-authenticat=
+ion.
+> >=20=20
+>=20>  Add bounds validation ensuring sizeof(*data) + 2*hl + dhvlen <=3D =
+tl before
+> >  any access to the variable-length fields.
+> >=20=20
+>=20>  Discovered by Atuin - Automated Vulnerability Discovery Engine.
+> >=20=20
+>=20>  Fixes: db1312dd9548 ("nvmet: implement basic In-Band Authenticatio=
+n")
+> >  Cc: stable@vger.kernel.org
+> >  Signed-off-by: Tianchu Chen <flynnnchen@tencent.com>
+> >  ---
+> >  drivers/nvme/target/fabrics-cmd-auth.c | 15 ++++++++++++---
+> >  1 file changed, 12 insertions(+), 3 deletions(-)
+> >=20=20
+>=20>  diff --git a/drivers/nvme/target/fabrics-cmd-auth.c b/drivers/nvme=
+/target/fabrics-cmd-auth.c
+> >  index f1e613e7c..0a85acf1e 100644
+> >  --- a/drivers/nvme/target/fabrics-cmd-auth.c
+> >  +++ b/drivers/nvme/target/fabrics-cmd-auth.c
+> >  @@ -132,13 +132,22 @@ static u8 nvmet_auth_negotiate(struct nvmet_re=
+q *req, void *d)
+> >  return 0;
+> >  }
+> >=20=20
+>=20>  -static u8 nvmet_auth_reply(struct nvmet_req *req, void *d)
+> >  +static u8 nvmet_auth_reply(struct nvmet_req *req, void *d, u32 tl)
+> >  {
+> >  struct nvmet_ctrl *ctrl =3D req->sq->ctrl;
+> >  struct nvmf_auth_dhchap_reply_data *data =3D d;
+> >  - u16 dhvlen =3D le16_to_cpu(data->dhvlen);
+> >  + u16 dhvlen;
+> >  u8 *response;
+> >=20=20
+>=20>  + if (tl < sizeof(*data))
+> >  + return NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD;
+> >  +
+> >  + dhvlen =3D le16_to_cpu(data->dhvlen);
+> >  +
+> >  + /* Validate that hl and dhvlen fit within the transfer length */
+> >  + if (sizeof(*data) + 2 * (size_t)data->hl + dhvlen > tl)
+> >=20
+>=20Can't still still overflow? This should probably use struct_size
+> to get the size up to and including the rval array, then
+> use use checked subtractions from tl.
+>
+
+Thanks for the review.
+
+I think the current patch doesn't actually allows overflow.
+
+hl is a __u8 and dhvlen is a __le16. So the maximum value of
+sizeof(*data) + 2 * (size_t)data->hl + dhvlen
+is 66061, which is far below SIZE_MAX. It can't wrap.
+
+About rewritting using struct_size: we still need to check
+tl >=3D struct_size(data, rval, 0) first, which is exactly the same
+as just using sizeof(*data) in current patch. Because we have to
+confirm the header is fully present before we can even read
+hl / dhvlen, which are the values that determine the minimum
+required rval[] length.
+
+So I believe the current patch already achieves the intended
+goal of validating the payload against the buffer size,
+using struct_size won't change the behavior.
+
+That said, I'm happy to send a v2 that uses struct_size(data, rval, 0)
+as the header anchor and then peels off the variable parts=20
+with=20checked subtractions, if you prefer that style:
+
+size_t size =3D struct_size(data, rval, 0); /* check the header is fully =
+present */
+if (tl < size)
+	return NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD;
+tl -=3D size;
+/* rval[] carries: response (hl) + challenge (hl) + DH value (dhvlen) */
+if (tl < 2 * (u32)data->hl)
+	return NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD;
+tl -=3D 2 * (u32)data->hl;
+dhvlen =3D le16_to_cpu(data->dhvlen);
+if (tl < dhvlen)
+	return NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD;
+
+Which one do you prefer? Just let me know which you'd prefer and I can se=
+nd=20
+a=20v2 if needed.
+
+
+Best regards,
+Tianchu
 
