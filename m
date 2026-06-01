@@ -4,39 +4,39 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C681FCD6E55
-	for <linux-nvme@archiver.kernel.org>; Mon,  1 Jun 2026 10:53:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 69920CD6E56
+	for <linux-nvme@archiver.kernel.org>; Mon,  1 Jun 2026 10:53:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=BFX78O88CjQY7Y/2w6tN7zdXgkfzRGM2fLKan91nyeM=; b=KCWiryPef8FxNEKy5fhcYn5qZ8
-	e58a0uQXXMLhri/zDozL0NQ9XN69Tq5/By4BsO/zXdoZmHWaE6Xmm8mBsoW87ouYrzfkM0lvYIQke
-	ewsScpNt/E4KwvlPCcxHJpU4ZJBzXAOcFQBSsKuugsQF5qCWAzNcDl56YoVpkt8RJKCMwhT8HRJpb
-	BlojP22iIv3PHd2NCc0BVhXn2xh57Qz2AinORazHxLgiTvAdh1N4FoFcpnj/oM6JqzZS26oFl66yl
-	H8Q10W3XpBsBn4yKhzHkOdm/uytFSXsoMK9A9si2hk045436jtb2ehiaR+LBSWEi0LJJNsCg2td3t
-	75eZQv2Q==;
+	bh=3b9Q3PvDSLzSghzPzzP9pVclyLFUMon6F8MQuOc8hs0=; b=ZFEesgU8GWh6z/k7fK6e0XoQWG
+	vQIuUM185dFGRW/sVTLGKiiQHXpZXDL52UdLkUe3z6NhPayvVbyWacJfWyyEzRTVopRgg2/Y0rIve
+	no8v1RpHi/VH6o2tT/NKdf7u3VKqzquVDXWn9WpkLK4l8XsQgmZVw9EarPc8M4wMHdq8TYpnq0xhg
+	ZwzQllsijP0VEAIcZbAqWnJLoXqPdL7QnTtkx8kg3xaBSqi+dPkh6FjwKe+xfFtwcFg2darCbBuZ1
+	KGo2UmRBD9sPOy7RAlXEZcudO/+/g2P5MpV7f8ti8SmGXmh+NG7ANLDvAT6ZAN2gApWrMvnAClrmv
+	KBRdyAIg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wU0H4-0000000Afty-0LoW;
-	Mon, 01 Jun 2026 10:53:38 +0000
+	id 1wU0H3-0000000Aftj-3WiI;
+	Mon, 01 Jun 2026 10:53:37 +0000
 Received: from linux.microsoft.com ([13.77.154.182])
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wTyuH-0000000AUP1-2LtQ
+	id 1wTyk2-0000000ATNy-2Fmh
 	for linux-nvme@lists.infradead.org;
-	Mon, 01 Jun 2026 09:26:03 +0000
+	Mon, 01 Jun 2026 09:15:28 +0000
 Received: by linux.microsoft.com (Postfix, from userid 1173)
-	id 37BF220B7168; Mon,  1 Jun 2026 02:25:48 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 37BF220B7168
+	id 16AFD20B7166; Mon,  1 Jun 2026 02:15:12 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 16AFD20B7166
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1780305948;
-	bh=BFX78O88CjQY7Y/2w6tN7zdXgkfzRGM2fLKan91nyeM=;
+	s=default; t=1780305312;
+	bh=3b9Q3PvDSLzSghzPzzP9pVclyLFUMon6F8MQuOc8hs0=;
 	h=From:To:Cc:Subject:Date:From;
-	b=YhQZhvp+4kezuyxW+zI3oJ5OX/Kde7aBxRAqF5BBU0jS+/Ob7sdaDghDaC1rktdgQ
-	 1J0v6Lm3vkt0+woPell8kmvbe2cm10VJzReObeHH2L+pOgorQGR0PW+sJmCY8pDbNs
-	 +jnDfDNUmqj213NRaMzICItf/K6StUWBpSZJPw10=
+	b=ayhWZQAknP+GUBtR31B2IhhPb+GOB11p4z5IE5q9nxUNRobH0CGlJv3J9sSLCgtIg
+	 zUilc36p10Hnnj1I3+JPoJ8qrrJTHhhVSv5eC9rNjn11J8ar+i1WzYO/VkueWX2lLK
+	 7f+elAit9GDnOSIlMkBRA6OnRjESiK6cUdC+NwGI=
 From: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
 To: mkalderon@marvell.com,
 	Jason Gunthorpe <jgg@ziepe.ca>,
@@ -55,13 +55,13 @@ To: mkalderon@marvell.com,
 	linkinjeon@kernel.org,
 	metze@samba.org,
 	tom@talpey.com,
+	trondmy@kernel.org,
+	anna@kernel.org,
 	chuck.lever@oracle.com,
 	jlayton@kernel.org,
 	neil@brown.name,
 	okorniev@redhat.com,
 	Dai.Ngo@oracle.com,
-	trondmy@kernel.org,
-	anna@kernel.org,
 	achender@kernel.org,
 	davem@davemloft.net,
 	edumazet@google.com,
@@ -82,15 +82,15 @@ To: mkalderon@marvell.com,
 	rds-devel@oss.oracle.com
 Cc: Erni Sri Satya Vennela <ernis@linux.microsoft.com>,
 	Jason Gunthorpe <jgg@nvidia.com>
-Subject: [PATCH rdma-next v6] RDMA: Change capability fields in ib_device_attr from int to u32
-Date: Mon,  1 Jun 2026 02:25:15 -0700
-Message-ID: <20260601092534.1764560-1-ernis@linux.microsoft.com>
+Subject: [PATCH net-next v5] RDMA: Change capability fields in ib_device_attr from int to u32
+Date: Mon,  1 Jun 2026 02:14:44 -0700
+Message-ID: <20260601091505.1763912-1-ernis@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.7
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260601_022601_657758_70A687A8 
-X-CRM114-Status: GOOD (  20.78  )
+X-CRM114-CacheID: sfid-20260601_021526_627697_61E4A025 
+X-CRM114-Status: GOOD (  21.14  )
 X-Mailman-Approved-At: Mon, 01 Jun 2026 03:53:37 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -121,8 +121,6 @@ narrowing local variables.
 Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
 Signed-off-by: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
 ---
-Changes in v6:
-* Fix subject prefix: net-next -> rdma-next.
 Changes in v5:
 * Add U8_MAX clamps in iser_verbs, nvme/host, nvme/target, isert, rds/ib_cm,
   smbdirect/connect and smbdirect/accept where u32 capability fields were
