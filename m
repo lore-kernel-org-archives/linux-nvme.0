@@ -4,58 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 93355CD5BD1
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 Jun 2026 17:37:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9ECF1CD5BD1
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Jun 2026 17:48:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=b24eVHz8MUC02G/JGsH2uS7uvP8dbxDFQRzJ7hCxvJs=; b=axLSRYDm+dN/OPOoG+svUWdp11
-	OdhYPbtqtiJSHt8WQdu/fY1LVMmfxLtIM8UPqnLI3Wsol58CIjrC3ec/Zh2VZlJHiMv3UlXCPN1Rs
-	ZZ246FJNAzN3PBr95A5fexasDSM7Jt2qYOhEtF/pfHvOIS1EEKaDbFP3LrWys0GO3UptkH726aCiS
-	sIk7VY92KWPuOViZFCYrjxL01GmS0ccHuXULAUKBBFqZhBDyggyaqvriVmpnItdBvLo405v019Pw8
-	9Hvr9MmeifRPrFIs9fojUicwj/u6IUxRBhStHVa/xC2wadc0euQGgJb/MCrTUPHaOXdYhHVwnerTq
-	Uvww8leg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=kLihbXa2a8fNDEP2OqjZaOtL61+yK1pr+dLDttThCdg=; b=W6HUuRzyFvBdsB7G3BfRs3QPwk
+	oiD2Z5SwhrynjhTlB3B7yHsdzGtPyyNJ6NzAY7mF43QirmMcmupnvVMQwRmUTCM8lghhxxYdvz2Et
+	JCVdHz0Yrnt+eB4IlYLC7zS9c5wDchoySp5JswQt/ZturPv6au4iZ755BWb1yaq97mXJu+WEfkdE1
+	tXgKr9PoDR3zfR+KxQPYCMg5FSdFrhNV5rsWHuCdVTtVrZ7hWrUnjtlD3Txl60EJ9Td2dLHHeRkb5
+	KjjJSV2Iub/E6yUaKeZU8bmK7D761zesNIeWD/fUtTok9j8O09JDZlxMv4UZOrbmbW9JAj8FRThhV
+	GSPqdb5g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wUT3Q-0000000DbCe-1JVh;
-	Tue, 02 Jun 2026 17:37:28 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1wUTDh-0000000DbnQ-2lFs;
+	Tue, 02 Jun 2026 17:48:05 +0000
+Received: from mail.nearlyone.de ([2a01:4f8:1c1e:abde::1])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wUT3P-0000000DbCP-3VDm
+	id 1wUTDe-0000000Dbmg-40PX
 	for linux-nvme@lists.infradead.org;
-	Tue, 02 Jun 2026 17:37:27 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 4619E60098;
-	Tue,  2 Jun 2026 17:37:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71BC21F00893;
-	Tue,  2 Jun 2026 17:37:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780421847;
-	bh=b24eVHz8MUC02G/JGsH2uS7uvP8dbxDFQRzJ7hCxvJs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=oso/TiscCHftZr0R5jssZNTwXj9sFo/Nn5P+uqJjUSkC40MYPeXx9AutHFgzwfZel
-	 /jsSP8GwwskFyEZkMbGu9hD9o8hyTvIImZpYMZ9uXopaTaSz0FK29bnWsz8eREPtBq
-	 QZEMOPtc0LTMUqrWf/K+C38Bv8Q/Z2JFSOQw5DYmx789i4kd8xomP/hi37J+eoB2TE
-	 9s3+UhYoD44Wot8jhmbJUJtVcooR2D3wRPtHw35SEmPfKa3BnaGwqIh3Z9ueleyCst
-	 ibhfj7fjDx866hOvgicq6MYH7F1Ns6IX0nIG24N261agZ9O4yyDUCLzMDCj12+E0Ml
-	 dk195HxRUw64Q==
-From: Daniel Wagner <wagi@kernel.org>
-To: linux-nvme@lists.infradead.org,
-	Stuart Hayes <stuart.w.hayes@gmail.com>
-Cc: Daniel Wagner <wagi@kernel.org>,
-	stuart.hayes@dell.com
+	Tue, 02 Jun 2026 17:48:04 +0000
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id AFA20DACCF;
+	Tue,  2 Jun 2026 19:39:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
+	t=1780421984; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=kLihbXa2a8fNDEP2OqjZaOtL61+yK1pr+dLDttThCdg=;
+	b=MkBfHGYpD1UT5NzMccecW8oUMloL1heogWCIYgAIqUhKhRyHqX7tH/7+4/ML0iLsvg5kRo
+	e90vMhdOB663p910FBv2QqRcW0sLuncJ7gLVhnH9qz6ALZ4ACBPaNkgXySGE91kV80LJ4Z
+	+I9KkM3KmQazsHrPTNKLxSmUB4IWvDcNYPqjKZkbHjc9hm8md4R2BoaAaDn4FHuGF6DeU9
+	wkO5IwsY8zwYu5UCVCwb/igH7JDiAmFThdtPoVejlfki/4SyF+EH4AV21DJbIG/Eey0pCN
+	XfTPK/LWZQRawICfKZWgHEzfP7/imBF23oKbBNyPkf9DKZAmUBpdu1AS5pvAPw==
+Date: Tue, 2 Jun 2026 19:39:29 +0200
+From: Daniel Wagner <wagi@monom.org>
+To: Keith Busch <kbusch@kernel.org>
+Cc: stuart hayes <stuart.w.hayes@gmail.com>, 
+	linux-nvme@lists.infradead.org, Daniel Wagner <wagi@kernel.org>, stuart.hayes@dell.com
 Subject: Re: [PATCH] nbft: use the correct interfaces for NBFT connections
-Date: Tue,  2 Jun 2026 19:37:20 +0200
-Message-ID: <178042183382.214157.16095466226130069527.b4-ty@b4>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260507202345.277280-1-stuart.w.hayes@gmail.com>
+Message-ID: <9b1cefd7-5998-427f-a570-cb34f2267364@nitrogen.local>
 References: <20260507202345.277280-1-stuart.w.hayes@gmail.com>
+ <236bf316-edf2-4273-9dea-8b82235b9d22@gmail.com>
+ <ah7JWB1_K_-FBP7O@kbusch-mbp>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ah7JWB1_K_-FBP7O@kbusch-mbp>
+X-Last-TLS-Session-Version: TLSv1.3
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260602_104803_264773_B5854B15 
+X-CRM114-Status: GOOD (  11.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,23 +69,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-On Thu, 07 May 2026 15:23:45 -0500, Stuart Hayes wrote:
-> The NBFT specifies which network interface should be used to connect to
-> each namespace (using the HFI descriptor), but that is currently ignored
-> when "nvme connect-all --nbft" is used. If there are namespaces on
-> different interfaces, some namespaces can fail to connect, unless the IP
-> tables were already set up to route these in the desired way when the
-> interface isn't specified.
+On Tue, Jun 02, 2026 at 01:15:20PM +0100, Keith Busch wrote:
+> > Should I submit this as a PR, rather than sending the patch to this list?
 > 
-> [...]
+> Maybe the PR is a quicker route. The mailing list historically picked up
+> these things too, but you normally need to alter the subject to
+> [PATCH nvme-cli] or something like that so it stands out separately from
+> the usual kernel patches.
 
-Applied, thanks!
-
-[1/1] nbft: use the correct interfaces for NBFT connections
-      commit: 685861ae563e3bcd77f2224d0206e448e426db01
-
-Best regards,
--- 
-Daniel Wagner <wagi@kernel.org>
+Sorry, didn't see it because focusing a bit much on getting nvme-cli 3.x
+out the door and not scanning the mailing list closely. But this is only
+temporary, promised.
 
