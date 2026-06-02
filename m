@@ -4,124 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07381CD6E4A
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 Jun 2026 13:11:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5389CCD6E57
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Jun 2026 15:05:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GLDBAEw7nKphNuU/SnbyqPGIgnsAKgHLf8878YKhiB4=; b=koULVYo/oVYXBEITWwrTvsGIwm
-	4hWgS/gULTpQmCjmYaKz5CJp/OyfA+3vHlYGZxtXK6moL17X0DbpMT6c02Ou3AGOy4zGeh6coIqFg
-	j/OSBZ9onBTwmkeLSpOS/Q+u5ggs6t2GA4xtOupi+TQbAddJzKrxUbEnm0umGZL2fD7qWds2C6T11
-	yqbHGuUcdgDMrLDsG1lbI2zHhZxGE1c5hYt6nXLukbi3/C4eBXRuzlXBt+Dx44v5ZW0JIr9PEyEbZ
-	tZ5Rxy1ovf0MVlQG6/0S2i4AVtTEor8h2fF8HCb74eE+pJX2BhLXWJwa5NK3XY6uradyGr2Q3z0Bn
-	/dBGY94g==;
+	bh=7gn2SCTXGYKGAdjPYnJlsXR/5r+hRDxN2u19V6XCrtQ=; b=HfFHAgOMu/FTzfy5N1vB8sMR6n
+	xnGMLKdan587uXtewZDHAuq2MynVq1/zBH22MMnOfTIf/ATXHARlID2pNlTFUxRC7NwhsDdLmiMU/
+	Q0oeAJhk4BRVVFeyaFK3ovVsWyosuSHg1P8r/vZ16AgCLCslz2NDbfLUi5qLU/8BDHsQlzdcS2OOh
+	zf9Z1nIbL/6Ix6/WR+a4MavxtS92o4CLqFgiYTwBoqRedLDbmcTz1kJkE/GRb6/508dxUiUgPxQ7e
+	9P31BRUdoUdNmRQd/upyrvaPu6+Viyv+ddMDd0F3vDwTKNPO1ooYEDEQNv8fJFb05EFENRfVL+hcB
+	Vl4xDcYA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wUOu9-0000000D3FR-1nuU;
-	Tue, 02 Jun 2026 13:11:37 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1wUQgX-0000000DFRT-0nxw;
+	Tue, 02 Jun 2026 15:05:41 +0000
+Received: from mgamail.intel.com ([192.198.163.15])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wUOu7-0000000D3F3-0pFw
+	id 1wULIa-0000000Cdhk-273k
 	for linux-nvme@lists.infradead.org;
-	Tue, 02 Jun 2026 13:11:36 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B5E456BD89;
-	Tue,  2 Jun 2026 13:11:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1780405891; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GLDBAEw7nKphNuU/SnbyqPGIgnsAKgHLf8878YKhiB4=;
-	b=at4MGJtPRY3ZIE9BIO1sccy95hv5OvDBT2teJESXuDfSX4aAkqj4BPRD8xU6yM9fL/D3pv
-	pFJIQP03Hiqyvi1HmlZjeRamINmtLgNSRb6ZOvTm3v8rUPoED6xvt9RRO3Ao/EC18XOlAl
-	sBIrIFzwgOxDLEtM4LHiq1YLel7OWV8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1780405891;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GLDBAEw7nKphNuU/SnbyqPGIgnsAKgHLf8878YKhiB4=;
-	b=+CxrNCh7b8V7ZI2vP0X+L1SKu4NULWd2p/eYKcG+JGEQqL0b4ODeMpPrgRnTF2JvuGXqo0
-	k/n7tNgUXd3hAeBg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1780405891; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GLDBAEw7nKphNuU/SnbyqPGIgnsAKgHLf8878YKhiB4=;
-	b=at4MGJtPRY3ZIE9BIO1sccy95hv5OvDBT2teJESXuDfSX4aAkqj4BPRD8xU6yM9fL/D3pv
-	pFJIQP03Hiqyvi1HmlZjeRamINmtLgNSRb6ZOvTm3v8rUPoED6xvt9RRO3Ao/EC18XOlAl
-	sBIrIFzwgOxDLEtM4LHiq1YLel7OWV8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1780405891;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GLDBAEw7nKphNuU/SnbyqPGIgnsAKgHLf8878YKhiB4=;
-	b=+CxrNCh7b8V7ZI2vP0X+L1SKu4NULWd2p/eYKcG+JGEQqL0b4ODeMpPrgRnTF2JvuGXqo0
-	k/n7tNgUXd3hAeBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A1874779A7;
-	Tue,  2 Jun 2026 13:11:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id /VTEJYPWHmoAKQAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Tue, 02 Jun 2026 13:11:31 +0000
-Date: Tue, 2 Jun 2026 15:11:22 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: =?utf-8?B?6aG+5rO95YW1?= <guzebing@bytedance.com>
-Cc: guzebing <guzebing1612@gmail.com>, 
-	linux-nvme <linux-nvme@lists.infradead.org>, Tokunori Ikegami <ikegami.t@gmail.com>, 
-	Daniel Wagner <wagi@kernel.org>
-Subject: Re: [PATCH nvme-cli] nvme: check MUD support before firmware commit
-Message-ID: <bb573146-9423-49bc-98ec-26fea8800d7d@flourine.local>
-References: <20260519134542.1841435-1-guzebing1612@gmail.com>
- <4b210910448ef2227190f426e97614787d15d32b.e5ce5e1d.af0b.4b3d.a55b.5eff144cf045@bytedance.com>
+	Tue, 02 Jun 2026 09:20:37 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780392036; x=1811928036;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6BQsHpGsUXg2fWEevShYArT8/T1HQSJKUOOi9RFcaco=;
+  b=JOZY3BQdS3kMTkEkbHPL+PhTPdPomq/6CjVt1jCKqsn4ClRndtq0QRtl
+   v95wZnSa9JrycFwlOMWdG6/m59ooG+p8+AIKL7RIzL9fpuaSYsWWRlGOT
+   vbdL+LW1yKUADxRu+s5a+XkDYS5BeUiybEQRmOX48hV4mg+aGT2sBI6yV
+   ALnIeGw2r+dhbWPh/oKu/i0kARWGeDbMj8O8BweP4Qrt7O88cNLXHMd2E
+   uxLN3vj3yOL2llmaTyKrBxRc3RzQD/+ZrJ62tfS8kOdGk/PhA97lyFT41
+   GWT+wEXeSf30SZurV1GEJCY9vTJKYjcHJyTl6eFeN7/kjetZ55vqLNQRr
+   g==;
+X-CSE-ConnectionGUID: 39rImW31TmyqHFQVQYFdIw==
+X-CSE-MsgGUID: uqdq4JIlSq+d9Q1LcZd8Tw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="81298082"
+X-IronPort-AV: E=Sophos;i="6.24,183,1774335600"; 
+   d="scan'208";a="81298082"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 02:20:35 -0700
+X-CSE-ConnectionGUID: O7CD12lDRu+OSzqR/16fAw==
+X-CSE-MsgGUID: LeqUzhbQREKqhxz6sCXoyA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,183,1774335600"; 
+   d="scan'208";a="240848911"
+Received: from mkosciow-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.229])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 02:20:26 -0700
+Date: Tue, 2 Jun 2026 12:20:24 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
+Cc: mkalderon@marvell.com, Jason Gunthorpe <jgg@ziepe.ca>,
+	Leon Romanovsky <leon@kernel.org>, zyjzyj2000@gmail.com,
+	sagi@grimberg.me, mgurtovoy@nvidia.com, haris.iqbal@ionos.com,
+	jinpu.wang@ionos.com, bvanassche@acm.org, kbusch@kernel.org,
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	kch@nvidia.com, smfrench@gmail.com, linkinjeon@kernel.org,
+	metze@samba.org, tom@talpey.com, trondmy@kernel.org,
+	anna@kernel.org, chuck.lever@oracle.com, jlayton@kernel.org,
+	neil@brown.name, okorniev@redhat.com, Dai.Ngo@oracle.com,
+	achender@kernel.org, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	kees@kernel.org, ebadger@purestorage.com,
+	linux-rdma@vger.kernel.org, linux-kernel@vger.kernel.org,
+	target-devel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
+	linux-nfs@vger.kernel.org, netdev@vger.kernel.org,
+	rds-devel@oss.oracle.com, Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH net-next v5] RDMA: Change capability fields in
+ ib_device_attr from int to u32
+Message-ID: <ah6gWPQP56RO6_ho@ashevche-desk.local>
+References: <20260601091505.1763912-1-ernis@linux.microsoft.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4b210910448ef2227190f426e97614787d15d32b.e5ce5e1d.af0b.4b3d.a55b.5eff144cf045@bytedance.com>
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_DN_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,lists.infradead.org,kernel.org];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+In-Reply-To: <20260601091505.1763912-1-ernis@linux.microsoft.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260602_061135_400880_9F508D2F 
-X-CRM114-Status: UNSURE (   7.53  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260602_022036_628005_10FF328E 
+X-CRM114-Status: GOOD (  11.59  )
+X-Mailman-Approved-At: Tue, 02 Jun 2026 08:05:36 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -136,12 +102,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, May 28, 2026 at 11:48:54AM +0800, 顾泽兵 wrote:
-> Just a gentle ping on this patch.
+On Mon, Jun 01, 2026 at 02:14:44AM -0700, Erni Sri Satya Vennela wrote:
+> The capability counter fields in struct ib_device_attr are declared
+> as signed int, but these values are inherently non-negative. Drivers
+> maintain their cached caps as u32 and assign them directly into these
+> int fields; if a cap exceeds INT_MAX the implicit narrowing yields a
+> negative value visible to the IB core.
+> 
+> Change the signed int capability fields to u32 to match the
+> underlying nature of the data. Also update consumers across the IB
+> core, ULPs, NVMe-oF target, RDS, and NFS/RDMA so the new u32 values
+> are not forced back through signed int or u8 via min()/min_t() or
+> narrowing local variables.
 
-Ah sorry, I missed it. In the meantime the patch is merged.
+...
 
-Thanks,
-Daniel
+>  	attr->max_qp_rd_atom =
+> -	    min(1 << (fls(qattr->max_qp_resp_rd_atomic_resc) - 1),
+> -		attr->max_qp_init_rd_atom);
+> +	    min_t(u32, 1 << (fls(qattr->max_qp_resp_rd_atomic_resc) - 1),
+> +		  attr->max_qp_init_rd_atom);
+
+Just no. min_t() usage has to be very well justified. It's a beast which may
+stub one in the back. As Linus said in most of the cases one wants clamp()
+rather than min().
+
+Please, redo this and similar pieces.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
 
