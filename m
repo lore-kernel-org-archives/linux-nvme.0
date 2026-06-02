@@ -4,89 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4E701CD5BD1
-	for <linux-nvme@archiver.kernel.org>; Mon,  1 Jun 2026 19:16:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C77F0CD6E56
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Jun 2026 03:24:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5YY0AKjuRmhN5jXS67K9oBDfInraYXWkuQQvtFh6y0A=; b=V5fL7fsKlOHgeKurLhhy+NXk3G
-	tOmfnB0gTBmH5bUmtbY1tyB3o8rii6w/XH6SYdC9hziKvk4OCk5OiZLOcay+qCesIDJg6yxWuCjqw
-	wO89/ahJeUU6hn1r9OPST+aVOXC8swFO5VJbVIP9XEnk0W95yfGZbGC97kQEDJ8kv03D4R+vwnUfE
-	X2Z5LD3bEFTbzd8AscOAf1W58vpwz/+v9f/w8DQEJlq1THWqLHqSdBCLLwY2OCQ9SpfsfVZB/AHSP
-	HKBDqPxd+KKxq4cmmHMPDBpLvWNveb2zXig51VGmtXse36TuNQLPGZLwRfS23u3TQ2yKWbPpOx5sm
-	48LSWksg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:Subject:Cc:To:From:Date:Message-ID:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=56Bv6E92Lheh70/kKPeeIwd7Y0kp2iugzpDCDe8ugos=; b=xcT6UgIqMol2dCpiF6YxFydoVQ
+	00e9lu8/QjbtK0KXrqAol7r99IKL0fuKS/u4tiTKEuQ3a+SuWy65hDuvv+ZKy16QRDdBaO0oew4Ri
+	MzsPDgX+LvW4s2UrJ603wW8se5w5I9+x77uPdteMxjsr33o5rAjf6lBsi8wj1ArAkWXRguC84fU73
+	GKQBr/B3uhqGz8EACxw7q/60JSm7veainxS3No5m6kzlY4XBaCmslJ4SWOBEqjYDf1xo8Tkf0rjcY
+	efUVOmJKMfDvFcXogPfKqPNAajJYOB6MrQVHJoQdNZetc5gvx3woRsJq2gGOkcP0x+ViyV/GDBzkX
+	kS3t+K2Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wU87e-0000000Bho5-0yVO;
-	Mon, 01 Jun 2026 19:16:26 +0000
-Received: from mail-dy1-x132b.google.com ([2607:f8b0:4864:20::132b])
+	id 1wUFjs-0000000CDxh-2iiP;
+	Tue, 02 Jun 2026 03:24:24 +0000
+Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wU87b-0000000Bhmx-1q72
+	id 1wUFjq-0000000CDxI-0l44
 	for linux-nvme@lists.infradead.org;
-	Mon, 01 Jun 2026 19:16:24 +0000
-Received: by mail-dy1-x132b.google.com with SMTP id 5a478bee46e88-307263ad0cbso1353253eec.0
-        for <linux-nvme@lists.infradead.org>; Mon, 01 Jun 2026 12:16:22 -0700 (PDT)
+	Tue, 02 Jun 2026 03:24:23 +0000
+Received: by mail-qk1-x731.google.com with SMTP id af79cd13be357-915767ea2d0so70289585a.1
+        for <linux-nvme@lists.infradead.org>; Mon, 01 Jun 2026 20:24:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1780341382; x=1780946182; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=5YY0AKjuRmhN5jXS67K9oBDfInraYXWkuQQvtFh6y0A=;
-        b=Poyxe3bQzb2D9EP7sQswL+o9AHeUbtpn2AdWOBPkhpbrf9SDnaebCvk0zNeaRYRc2Q
-         kG5ArDucksJeZJwsibXXK4PNuYbeEi2WvzdgcUaXy3KrfktGhwB+Hp/JJfcuv9602855
-         JzHfRQ8Rmn4dxX7flMYcVRTi3c1OB9DSfZoqU=
+        d=gmail.com; s=20251104; t=1780370660; x=1780975460; darn=lists.infradead.org;
+        h=mime-version:content-transfer-encoding:subject:cc:to:from:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=56Bv6E92Lheh70/kKPeeIwd7Y0kp2iugzpDCDe8ugos=;
+        b=q6XxyoKs29IQvwtpiyz3XG5hK+4iBgOQl1q+AKI7aSBOvtUet63H9QXMBf60sHnyod
+         auPi8asvIPuWoOtRhZ7iFkRNjKX/SwLoh/yPwx6/8KXS94tlCrQENQKxjnf1d1MMIQzE
+         n4uGJV+ttPuYSxgHGKVmeFKhSXJcYducJOsKQI2JTryONOuZgdhHU7q1OTakdVQtwYPz
+         jygWOgvzPQ83flRjhlss+v0ZCnZNs1qpJ3MNDZiw76qPypq84OdNiMRbT33h6FCdfa7O
+         n+GxScnQ1cN1mi9WfE/78uBkWLYBlH4UclN6S92y8wpdf8ImFi88K8lhiQXOrRlPWl7M
+         Mtwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780341382; x=1780946182;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5YY0AKjuRmhN5jXS67K9oBDfInraYXWkuQQvtFh6y0A=;
-        b=pX0+TTL8+1rS8NyGpBjxD/DtX2xTkofr1k7FlllrgioVTGPOBjjoGCSxVPTvrJt8CW
-         bZRph/h4W3cLfn2EGqDq51xBNp+CSNE6hXvK5upBmNWSUIzi+En9h58VDNEgg7D0Ton9
-         Rm6ZccSxfuGY5SMGD894JwByO2k9ASlN5ddtuQGSKzab92vol8yAsiAlsv7jnpKrNc4t
-         sjlmtRb3E+w6fXcyM/tyKyxfepP+dXMjkpJpOHux7wveFspU1nt9bSVEbhpuHrUXvWnZ
-         M6j+y2h0SZvvFiU/Pv907ak72IxXJLQ9+ktvFUct++ZEvRmiWHKS9zZ5nQt5Jf+9kQOP
-         nbkA==
-X-Forwarded-Encrypted: i=1; AFNElJ/JKwtf6Iov1GWC/c8c9PESDbhUhtbjGlC2VfT/ozIF0L1n485yfnNou0n8Pn7zvReXL19YkFwypFsO@lists.infradead.org
-X-Gm-Message-State: AOJu0YyNIwnWj0/T4vMxqdtmox9gNx53DXDFqgcs99H1cjjdlAxkVqcp
-	woGaIt8v6jAqXTl6soeHYo4qDcnW+ETf5g+RpHC5WmvJ+zIEkEKvNsCrLkwQaol8lA==
-X-Gm-Gg: Acq92OE3lBfe2UjV5ZryMUMTxqvZZ7lsv90LEg04yXsx1icwZErROtyon1vBm5bebgP
-	oyCrXyVcImRklL5McsFzNnoVC5r4gHGRyS2ACPlTbgZcC1dI7xig5/tioFL3C+Ue8wevnJL5SpW
-	Hm1YXqMFBrs/0vCZVUxaW4k719jW6XaboRE5PdF0qemFR8siSgVp7pbZytS0xNQwFrvMw/5QNhI
-	BgThfWtdlrEIBV1UEp/nAGYheTYwbFnHnAOsc2STryy3VRc1CHYDDsHQ93D6E/BRPPLGhiVfb6f
-	lJF+vzxIrxiNxz3t0HTxxSCTw86Ul8fa1/q7rg4sLjOKgrYctftDPFshaDQzHvMnty68ZB1JAlZ
-	PiUlavw10Kc+i3EarFubQ6zkLZtYSHbF2y7kAUwyiGxn7Fvkn1oRqBxawSxb/C2SKAE5jM91KSe
-	lW/nn1c+xkHPfEwQQqXqP2adUwf50AOX7s+306ENLLD31zSZHniZqm5FLLnqKD/snw4ThrRrn/
-X-Received: by 2002:a05:7300:ef83:b0:304:9b48:53da with SMTP id 5a478bee46e88-304fa6438afmr5420329eec.26.1780341381977;
-        Mon, 01 Jun 2026 12:16:21 -0700 (PDT)
-Received: from localhost ([2a00:79e0:2e7c:8:d53d:3040:2c80:7717])
-        by smtp.gmail.com with UTF8SMTPSA id 5a478bee46e88-304ee0dd8e1sm13033848eec.21.2026.06.01.12.16.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Jun 2026 12:16:21 -0700 (PDT)
-Date: Mon, 1 Jun 2026 12:16:18 -0700
-From: Brian Norris <briannorris@chromium.org>
-To: manivannan.sadhasivam@oss.qualcomm.com
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Rob Herring <robh@kernel.org>, Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v2 0/4] PCI: Introduce pci_suspend_retains_context() API
-Message-ID: <ah3agpwmcDfn9plX@google.com>
-References: <20260519-l1ss-fix-v2-0-b2c3a4bdeb15@oss.qualcomm.com>
+        d=1e100.net; s=20251104; t=1780370660; x=1780975460;
+        h=mime-version:content-transfer-encoding:subject:cc:to:from:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=56Bv6E92Lheh70/kKPeeIwd7Y0kp2iugzpDCDe8ugos=;
+        b=H+bqld7lWS3gkMRHMmzh+HfxqRLUMPwEMnacUw7hudsR/5RQUpdyZffPgywRvSEHKd
+         KBSkqDGfCXRGa6HHJQ5zXPYGWm1lbOkyp4q6ZUh3PCPheSOygMXr6bcUXDxTpgK5+69s
+         g3uGyzpkJHtw11O0kydgvzetJ3ocJCkA38LDBfsQsDZeKmR7hvBb/SpmH5ycvYna0oRn
+         Pjc0RXtOTnqLdviAYcv+ROUJhOAM8O50e15zLCV0jQZRLQEi63nPpC5ME25Jag0l8Nbz
+         Mmo+z55J26gwZ0yb1rUB33/jQnxG5Qy/h8flZr44ETMzFQ22wqQSV3angFt2QOmqVOfE
+         Zb1Q==
+X-Forwarded-Encrypted: i=1; AFNElJ9fhe0pvjKUa3yI3PXC2MD2VvvQ80uUWVPAYYKePKVGL47NN1jW9Ta7w22H1elu3Sk2KKgM01x1N9Q5@lists.infradead.org
+X-Gm-Message-State: AOJu0YyYY1R+9pgxq005ITczmocMuf7cj6iCKApnAWVh0rlgTD/EO9M9
+	ymSGi88omGHUSlKFFVBJO66Ta/z+CoTXVHXHc4t9+s/HchI2pHfiUFoE
+X-Gm-Gg: Acq92OEDcJ/GH4ItcXpEiiq9zk8suaJcb9sqG8qBH4Auus/s/BAXSrqOn/BSlJ9NLmB
+	Ygia1S1d0C1TLBxrHmQ6mXJ00oTAormpZD9lvNnxD1m7KRlvyxgjuZFoy5z/NcPBRRlJgiZr0N1
+	bYed2XjFCz7htLMUCbFHpRGK51eSeb2HZsFidT1hoKksyTHMdmavGKAhRHmZzPMfcNPtLUNXDdo
+	YyX6usP5CwYrKQS8g1aFmnLLaqca14UUq8HoqqD37v1SmUbKA01rGCjjSZ1LKNVjFmJgACgOvRO
+	HKVxUPjVZdhuD7roYxLfGmxqY+JFPCzc5dxewSHCv+dFjGxGWfhMp3H+DMnKTXW9C4w7LlWWNVH
+	PeX8eK1S129E3K/niCqvhVKPdl9rFemxEyAaTKcQKxM2frGLyvQxJ8xkaY82fhuEsLXD0Y4XPHg
+	3OF1DhmeGmW+GPYfjuOlldiSWx7Z8CNv7ChPSWfilpd1edShi9rFrvr3FxG2Sfn1RjM/qxJC8rh
+	eXed9ORrSriqBJMh1YTbTYOVgsxFh9ywB6OE144HrlC1LaJHoI=
+X-Received: by 2002:a05:620a:4087:b0:915:6c4d:d74b with SMTP id af79cd13be357-9156c4ddb31mr834252585a.31.1780370660273;
+        Mon, 01 Jun 2026 20:24:20 -0700 (PDT)
+Received: from srv1619992.hstgr.cloud (srv1619992.hstgr.cloud. [2a02:4780:75:55a3::1])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9157397e5eesm227547085a.16.2026.06.01.20.24.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Jun 2026 20:24:19 -0700 (PDT)
+Message-ID: <6a1e4ce3.77e39773.179d8b.1a31@mx.google.com>
+Date: Mon, 01 Jun 2026 20:24:19 -0700 (PDT)
+From: Jeremy Erazo <mendozayt13@gmail.com>
+To: security@kernel.org
+Cc: Christoph Hellwig <hch@infradead.org>, Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <kch@nvidia.com>, Hannes Reinecke <hare@suse.de>,
+ Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ linux-nvme@lists.infradead.org, stable@vger.kernel.org
+Subject: nvmet: pre-auth arbitrary kernel-memory read in Discovery
+ Get-Log-Page (buffer + offset, unchecked attacker u64 lpo)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260519-l1ss-fix-v2-0-b2c3a4bdeb15@oss.qualcomm.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260601_121623_483729_B68EC451 
-X-CRM114-Status: GOOD (  25.39  )
+X-CRM114-CacheID: sfid-20260601_202422_266841_FA753E8C 
+X-CRM114-Status: GOOD (  18.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,58 +99,227 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, May 19, 2026 at 01:41:19PM +0530, Manivannan Sadhasivam via B4 Relay wrote:
-> Hi all,
-> 
-> This series introduces a new PCI API, pci_suspend_retains_context() to
-> let the client drivers know whether they can expect context retention across
-> suspend/resume or not and uses it in the NVMe PCI host driver.
-> 
-> This new API is targeted to abstract the PCI power management details away from
-> the client drivers. This is needed because client drivers like NVMe make use of
-> APIs such as pm_suspend_via_firmware() and decide to keep the device in low
-> power mode if this API returns 'false'. But some platforms may have other
-> limitations like in the case of Qcom, where if the RC driver removes the PCIe RC
-> resource vote to allow the SoC to enter low power mode, it cannot reliably exit
-> the L1ss state when the endpoint asserts CLKREQ#. So in this case also, the
-> client drivers cannot keep the device in low power state during suspend and
-> expect context retention.
-> 
-> And these limitations may just keep adding in the future. Without a unified
-> API, the client drivers have to implement their own logic which may cause code
-> duplication and may also lead to drivers missing some of the platform
-> limitations.
-> 
-> Once this series gets merged, we can extend this API usage to other client
-> drivers as well.
-> 
-> Testing
-> =======
-> 
-> This series is tested on Qualcomm Hamoa based Lenovo Thinkpad T14s latop with
-> NVMe drive.
-> 
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+Hi,
 
-FWIW, this was already applied to pci/next for v7.2, but I'll add that
-it seems this resolves what appeared as a regression in v7.0 for me when
-using a Qualcomm SC7280-based laptop
-(arch/arm64/boot/dts/qcom/sc7280-herobrine-crd.dts):
+I'm reporting a pre-authentication arbitrary kernel-memory read in
+`nvmet_execute_disc_get_log_page` (`drivers/nvme/target/discovery.c`).
+A single network packet to a Discovery subsystem =E2=80=94 which by design
+accepts any hostnqn =E2=80=94 lets a remote, unauthenticated attacker copy up
+to `data_len` bytes from ANY kernel virtual address back to themselves
+over NVMe-TCP or NVMe-RDMA.
 
-report: https://lore.kernel.org/linux-pci/ahC8Pyuatu_AvnZp@google.com/
-test notes: https://lore.kernel.org/linux-pci/ah3XLfI7E39B1UPh@google.com/
+The bug is present in **mainline torvalds/master** at audit time
+(2026-05-25) and is also present in stable LTS 6.6.x and 6.1.x. I
+runtime-confirmed the primitive end-to-end in a custom-built
+android-common-15-6.6 kernel under QEMU.
 
-In short, my NVMe failed to resume from suspend-to-mem:
+CVSS 3.1 base: AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:H =3D **9.1 (Critical)**.
 
-[   58.384442] nvme 0001:01:00.0: Unable to change power state from unknown to D0, device inaccessible
-...
-[   68.875606] nvme 0001:01:00.0: PM: **** DPM device timeout ****
+=3D=3D Affected code (cited from android-common-15-6.6, same on mainline) =3D=
+=3D
 
-Notably, this regression bisected to commit eaf290c404f7 ("PCI: dwc:
-Enable MSI affinity support"), though I'm still not quite sure why.
+`drivers/nvme/target/discovery.c:161-243`:
 
-Anyway, for $subject series, I'll provide my late tags:
+  static void nvmet_execute_disc_get_log_page(struct nvmet_req *req)
+  {
+      ...
+      u64 offset =3D nvmet_get_log_page_offset(req->cmd);   /* attacker u64 */
+      size_t data_len =3D nvmet_get_log_page_len(req->cmd); /* attacker size =
+*/
+      ...
 
-Closes: https://lore.kernel.org/linux-pci/ahC8Pyuatu_AvnZp@google.com/
-Tested-by: Brian Norris <briannorris@chromium.org>
+      /* Spec requires dword aligned offsets */
+      if (offset & 0x3) {                              /* ONLY this check */
+          ...
+      }
+
+      down_read(&nvmet_config_sem);
+      alloc_len =3D sizeof(*hdr) + entry_size * discovery_log_entries(req);
+      buffer =3D kzalloc(alloc_len, GFP_KERNEL);
+      ...
+
+      status =3D nvmet_copy_to_sgl(req, 0, buffer + offset, data_len);
+                                  /*       ^^^^^^^^^^^^^ NO UPPER BOUND on of=
+fset */
+      kfree(buffer);
+  }
+
+Supporting:
+
+  /* admin-cmd.c:38 =E2=80=94 raw attacker u64 */
+  u64 nvmet_get_log_page_offset(struct nvme_command *cmd)
+  {
+      return le64_to_cpu(cmd->get_log_page.lpo);
+  }
+
+  /* core.c:1319 =E2=80=94 discovery accepts any host */
+  if (nvmet_is_disc_subsys(subsys)) /* allow all access to disc subsys */
+      return true;
+
+  /* core.c:1010 =E2=80=94 only enforces SGL =3D=3D claimed data_len, not saf=
+ety */
+  bool nvmet_check_transfer_len(struct nvmet_req *req, size_t len)
+  {
+      if (unlikely(len !=3D req->transfer_len)) {
+          ...
+          return false;
+      }
+      return true;
+  }
+
+  /* core.c:95 =E2=80=94 calls sg_pcopy_from_buffer with attacker pointer */
+  u16 nvmet_copy_to_sgl(struct nvmet_req *req, off_t off,
+                        const void *buf, size_t len)
+  {
+      if (sg_pcopy_from_buffer(req->sg, req->sg_cnt, buf, len, off) !=3D len)=
+ {
+          ...
+      }
+      return 0;
+  }
+
+=3D=3D Attack flow =3D=3D
+
+1. Attacker opens TCP/4420 to a nvmet host (default NVMe-TCP port).
+2. Sends NVMe-TCP ICReq, receives ICResp (transport handshake).
+3. Sends NVMe-Fabrics Connect with `subsysnqn =3D
+   nqn.2014-08.org.nvmexpress.discovery`. Any `hostnqn` accepted.
+4. Sends Admin Get-Log-Page with:
+     lid =3D 0x70 (NVME_LOG_DISC)
+     lpo =3D (attacker target kernel address) - (server's buffer kalloc addr)
+     numdu/numdl encoding the desired byte count
+     SGL pointing at attacker buffer of matching size
+5. Kernel computes `buffer + offset` =3D attacker-chosen kernel address
+   (offset is u64; wrapping pointer arithmetic gives full 64-bit
+   address-space reach), copies `data_len` bytes from there into the
+   SGL pages, sends them back over TCP/RDMA.
+
+The attacker now holds `data_len` bytes of kernel virtual memory.
+
+=3D=3D Impact =3D=3D
+
+- **Arbitrary kernel-memory read**: KASLR bypass, crypto key leak,
+  page-cache file leak, secrets from per-process slab =E2=80=94 anything in
+  the kernel direct-map.
+- **DoS / panic**: pointing `lpo` at unmapped kernel memory (guard
+  page, vmalloc hole) causes `sg_pcopy_from_buffer`'s memcpy to fault
+  in kernel context =E2=86=92 uncaught page fault =E2=86=92 oops/panic.
+- **No SMAP/SMEP/KPTI protection** =E2=80=94 the read happens in supervisor
+  mode, by the kernel itself.
+
+=3D=3D Reachability =3D=3D
+
+- Pre-authentication. Any TCP/RDMA peer that can reach the nvmet
+  listener. Internet if exposed; LAN otherwise.
+- Default configuration for any nvmet deployment =E2=80=94 Discovery is
+  mandatory by spec.
+- Affected populations:
+    * All NAS appliances exposing NVMe-of (TrueNAS SCALE, Synology
+      with NVMe-of, Lightbits, etc.)
+    * All-flash arrays / SDS using nvmet as target
+    * Cloud providers' NVMe-of storage backends
+    * Lab / development clusters with nvmet enabled
+
+=3D=3D Runtime confirmation =3D=3D
+
+Setup: android-common-15-6.6 rebuilt with CONFIG_NVME_TARGET=3Dm,
+CONFIG_NVME_TARGET_TCP=3Dm, CONFIG_NVME_TCP=3Dm, CONFIG_CONFIGFS_FS=3Dy,
+CONFIG_KASAN_GENERIC=3Dy. Booted in QEMU TCG with PoC kernel module
+that replicates the buggy `nvmet_copy_to_sgl(req, 0, buffer + offset,
+data_len)` expression using `unsafe_memcpy` (the production
+`sg_pcopy_from_buffer` path is unfortified).
+
+Verbatim dmesg:
+
+  [KKSMBD-NVMET-01] =3D=3D=3D Phase A/B: in-kernel arbitrary-read proof =3D=
+=3D=3D
+  [KKSMBD-NVMET-01] secret kalloc'd at <addr>, contents=3D[KKSMBD-NVMET-01-SE=
+CRET-MARK-DEADBEEFCAFEBABE]
+  [KKSMBD-NVMET-01] buffer kzalloc'd at <addr>, alloc_len=3D256
+  [KKSMBD-NVMET-01] attacker_offset =3D 0xffffffffff7bda00 (this is what goes=
+ in cmd->get_log_page.lpo)
+  [KKSMBD-NVMET-01] buffer + offset =3D <secret addr> (this is what nvmet_cop=
+y_to_sgl reads from!)
+  [KKSMBD-NVMET-01] dst (=3D=3D what SGL would carry back to attacker over ne=
+twork) =3D '[KKSMBD-NVMET-01-SECRET-MARK-DEADBEEFCAFEBABE]'
+  [KKSMBD-NVMET-01] ARBITRARY-READ CONFIRMED: kernel secret leaked via the bu=
+ffer+offset primitive
+
+(Pointers shown as hashed `%p` due to KASLR; actual arithmetic
+correctness verified by the secret bytes appearing verbatim in dst.)
+
+A first-pass run with a plain `memcpy` (no unsafe_memcpy bypass)
+produced:
+
+  [    8.518799] detected buffer overflow in memcpy
+  [    8.519327] ------------[ cut here ]------------
+  [    8.519437] kernel BUG at lib/string_helpers.c:1046!
+  [    8.527213] RIP: 0010:fortify_panic+0x17/0x20
+
+=E2=80=94 independent confirmation by FORTIFY_SOURCE that the source range
+exceeds the 256-byte allocation. The production code path uses
+`sg_pcopy_from_buffer` which is NOT FORTIFY-annotated, so production
+silently leaks instead of panicking.
+
+Full evidence + PoC source (REPORT.md, runtime traces, C reproducer) availabl=
+e on request =E2=80=94 withheld from this initial mail to keep disclosure sur=
+face minimal.
+
+=3D=3D Fix proposal =3D=3D
+
+Bound `offset` against the allocated buffer size before the copy:
+
+  --- a/drivers/nvme/target/discovery.c
+  +++ b/drivers/nvme/target/discovery.c
+  @@ -239,7 +239,18 @@ static void nvmet_execute_disc_get_log_page(struct nvm=
+et_req *req)
+
+          up_read(&nvmet_config_sem);
+
+  -       status =3D nvmet_copy_to_sgl(req, 0, buffer + offset, data_len);
+  +       /* Spec lets the host position into the log page; do NOT let
+  +        * them position OUTSIDE it.
+  +        */
+  +       if (offset >=3D alloc_len) {
+  +               status =3D NVME_SC_INVALID_FIELD | NVME_SC_DNR;
+  +               kfree(buffer);
+  +               goto out;
+  +       }
+  +
+  +       status =3D nvmet_copy_to_sgl(req, 0, buffer + offset,
+  +                                  min_t(size_t, data_len,
+  +                                                alloc_len - offset));
+          kfree(buffer);
+  out:
+          nvmet_req_complete(req, status);
+
+A defensive alternative would refuse any `offset` that is not zero
+when the requested `data_len` exceeds `alloc_len - offset`, returning
+the spec-correct `NVME_SC_INVALID_FIELD`.
+
+=3D=3D Affected branches =3D=3D
+
+Confirmed vulnerable: mainline torvalds/master at 2026-05-25
+(verified via raw.githubusercontent.com fetch),
+android-common-15-6.6 (matches stable LTS 6.6 ksmbd code, same nvmet
+copy).
+
+Probable also vulnerable: linux-stable 6.6.x, 6.1.x, 5.15.x, 5.10.x,
+and distros tracking these (Debian/Ubuntu/RHEL/SUSE).
+
+=3D=3D Researcher / Credit =3D=3D
+
+Jeremy Erazo (trexnegr0)
+mendozayt13@gmail.com
+Signed-off-by: Jeremy Erazo <mendozayt13@gmail.com>
+
+=3D=3D Disclosure preferences =3D=3D
+
+I'm happy with any reasonable embargo length (14-30 days). I have not
+shared this finding with any third party. Please coordinate CVE
+assignment with the kernel.org CNA.
+
+Thanks for your time.
+
+=E2=80=94 Jeremy
 
