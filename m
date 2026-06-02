@@ -4,57 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 46174CD6E4A
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 Jun 2026 06:24:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 38776CD6E4A
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Jun 2026 08:35:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=RpAPDmNA66WNnfJ4AvN0raoD8EJGzen/3LXo27lsL7Y=; b=MAg2Clej26FW6DcevIGjDn+dBu
-	BLpYyNy/3BvWZ4A0o16Q6sVUNGViRqmTAYlQbCk9wEVLrjK4Yvu8pgpVJ2N7utVKKdaN3aiAvuRqB
-	Gv0x7aJs0eNUuL8TKmy/ZdF7WpSzWA/MkZZhzfgyWf4J8qnD6ngPE73Do6ikjsRt81R2J+fwz38Dc
-	pmHu8d3Q949HXtLYvZEEnEWUVFLQmw2ZTCVqiBg3oAIeQQzHJgipkFCFsKhbmkr3Z1DTIOc+jC+oG
-	MiYjK6H8NH5kWf72d0unzuz+6RZDmg0yZBPao3e6pxJsHXqMI9jeaHbsUShFv0o4iM/J/yGstN6J8
-	VF5FcswA==;
+	bh=JvgG8elpY5kC1tmOmtJ925WyWExqIFQwb9CQv7YaSuI=; b=WxJWxkNJGpn2IDICKLpe8uOwuq
+	YFgpU/e7vUXqCvD/MjsQrNyRhVG/gWd6+DW0i5dOBG1VtBFo1Mg678P2nl0TRO0oPneO9KL1g1WQR
+	IXs01s93qw/zVFLQR/vAaRr/VgTwDoQJUiSlrD4VsG/cc44EsICoqUreRS4NzpV/mAse/VYPCnBsb
+	966Q7EO+RVvePjOfYr82YPy3WoSpHT3DGf5ojyA0Jb9hJw5w0wbHBM3AZqdh3K6F+jyUVUkg6SeTa
+	VOJqjnZOmmy5zTM/y3sW+0KOmQZPOKwZUUK3brzBXhHaE04sXZGe5FlQyzOq1060sIKe1wTXfU77+
+	arn6weZg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wUIXw-0000000COCY-41Ye;
-	Tue, 02 Jun 2026 06:24:16 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1wUKab-0000000CZsG-06EI;
+	Tue, 02 Jun 2026 08:35:09 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wUIXv-0000000COCD-1u4Z
+	id 1wUKaX-0000000CZqg-2SDw
 	for linux-nvme@lists.infradead.org;
-	Tue, 02 Jun 2026 06:24:15 +0000
+	Tue, 02 Jun 2026 08:35:07 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 6A4856001A;
-	Tue,  2 Jun 2026 06:24:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86BA21F00893;
-	Tue,  2 Jun 2026 06:24:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1780381454;
-	bh=RpAPDmNA66WNnfJ4AvN0raoD8EJGzen/3LXo27lsL7Y=;
+	by sea.source.kernel.org (Postfix) with ESMTP id B5E1841A53;
+	Tue,  2 Jun 2026 08:35:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC64D1F00893;
+	Tue,  2 Jun 2026 08:35:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780389304;
+	bh=JvgG8elpY5kC1tmOmtJ925WyWExqIFQwb9CQv7YaSuI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=LwIXW8A54XgAcI8IXyrpZm+VtfwgbM+MIcaueaafGe+QRdiE5JMHpEJmxHr1kjPdU
-	 2YN0S/RblTUFchG64dc8VXPIfsussE0UW3hHlkETI6OYtVphfj2KxF+T+0+dwGwRir
-	 LHsBOgR+Jd6HuoPLWvIIKbDqgGpY3JPR2vXhGHeo=
-Date: Tue, 2 Jun 2026 08:23:18 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
+	b=kzull5NKHCZc1Ix0SxveUYuTmAftN8ECgK2P/Z/p0MKEDSo3K3pB8xG+UgbJ6Zuoi
+	 rNkNA2mntqBnfT2Ll4s/zGLOAF4laT1Fh8l1NTSSV5YfrjbQyL+jC2FozoWaGejJ91
+	 MFDNdqrmeqOvR43sg8WG8EIz4YJHqCctZa8Tfu6Tm8OkCL1fYzzASMQwdxyQucl0Vb
+	 0YS0u/aaPAoShYMlcNwJmAnLifJ8qj1bu90+fe4GcukHfWbGVUrKTlg6282lYCSPp3
+	 FBDVNtv/dIZ5isc+SabhBGhL0m65O9oksPbluRn7DwQgpbYNdDX9IeFzTGKkYy+K4S
+	 qxxW1b7UMB4fw==
+Date: Tue, 2 Jun 2026 09:34:58 +0100
+From: Keith Busch <kbusch@kernel.org>
 To: Jeremy Erazo <mendozayt13@gmail.com>
 Cc: security@kernel.org, Christoph Hellwig <hch@infradead.org>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	Chaitanya Kulkarni <kch@nvidia.com>, Hannes Reinecke <hare@suse.de>,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	linux-nvme@lists.infradead.org, stable@vger.kernel.org
-Subject: Re: nvmet: pre-auth heap OOB read in DH-HMAC-CHAP authentication
- (data->hl unchecked in nvmet_auth_reply)
-Message-ID: <2026060255-flagstone-salaried-7cab@gregkh>
-References: <6a1e4ed5.f18a29c3.bfe2b.5229@mx.google.com>
+	Jens Axboe <axboe@kernel.dk>, linux-nvme@lists.infradead.org,
+	stable@vger.kernel.org
+Subject: Re: nvmet: pre-auth arbitrary kernel-memory read in Discovery
+ Get-Log-Page (buffer + offset, unchecked attacker u64 lpo)
+Message-ID: <ah6Vsn9eIBlgH_gB@kbusch-mbp>
+References: <6a1e4ce3.77e39773.179d8b.1a31@mx.google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <6a1e4ed5.f18a29c3.bfe2b.5229@mx.google.com>
+In-Reply-To: <6a1e4ce3.77e39773.179d8b.1a31@mx.google.com>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260602_013505_765307_076458DF 
+X-CRM114-Status: UNSURE (   8.70  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,21 +76,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jun 01, 2026 at 08:32:37PM -0700, Jeremy Erazo wrote:
-> == Disclosure preferences ==
-> 
-> I'm happy with any reasonable embargo length (14-30 days). I have
-> not shared this finding with any third party. Please coordinate CVE
-> assignment with the kernel.org CNA.
+On Mon, Jun 01, 2026 at 08:24:19PM -0700, Jeremy Erazo wrote:
+> I'm reporting a pre-authentication arbitrary kernel-memory read in
+> `nvmet_execute_disc_get_log_page` (`drivers/nvme/target/discovery.c`).
+> A single network packet to a Discovery subsystem - which by design
+> accepts any hostnqn - lets a remote, unauthenticated attacker copy up
+> to `data_len` bytes from ANY kernel virtual address back to themselves
+> over NVMe-TCP or NVMe-RDMA.
 
-You sent this to a public mailing list, there is no "embargo" possible.
-Nor is this how CVEs are assigned (please read the documentation for
-that.)
+Duplicate report:
 
-Please submit a patch for both of the issues you reported, in a format
-that can be applied, so this can be resolved properly.
-
-thanks,
-
-greg k-h
+https://lore.kernel.org/linux-nvme/39YwPS5jntghiVQLt9ikZnmMc7O2g1AY3OVDcxdZjaK53FZHyzQNmyaS5eYBTS93g0Wc-S-UDC0auDRcGgC4iMR5RgXLEBPvqHfFZfbaeoU=@proton.me/
 
