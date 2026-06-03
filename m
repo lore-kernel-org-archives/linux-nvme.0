@@ -4,109 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C8FC4CD6E4A
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Jun 2026 12:19:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 30272CD6E60
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Jun 2026 23:23:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=cFxhpVick/m2eBX2Kmz4bK5oFHGM6slO66GGYlync4A=; b=UjkcQXAPo+DQ0qBvoD0tocjt4s
-	Wff1efqFi2mP0V8lo3kI8qKHAPKjkNHDc2B+r5eFUDanf7/ygJ7JubJ5nIcGXt0DSaeZ09wxlnip/
-	MY/tF4Shf++dm4lyTgtLN9sQQ+Cg0WlDpq2kNpHMTmwdE4p24V0XoTPJ49HYdkgo9DxfHuIAlmdbN
-	omTrAtKMCsq/C9N1pU02w6mLg/e1MGr/ehpJRNBJgJHbtGObziEGDd95zQsZ7FKNML1u1fq6SxR5A
-	4xsVjKRjN8fSdLdlkguMjmPDsmPjUzrmVgrrMiV8m0JsBwnvIdunSyK8IW8c5cEE02PETKYartUjw
-	BXscV4Xg==;
+	bh=DoFQuUn//VEPKHTxWpoyKGMURH99p4nsZgAVxAI31mU=; b=qhZUz2Y/rR1WhdmFEbJePomUVM
+	U9q9Pf0/U4OJQTlD1Ei2/ZpfVeVw4Ka5u3XJ5T3H6CSsmRT7FSsFoz8DIHOVjCmHCXLMZMXgafo/K
+	LUIxiN+YN/L9ylfyvZ/vxEw1xrGYovHmkENdMKvADsQMHW4lFevP6vY1Jjh5aY5Dlcy50KQZNGRz/
+	kk59v4MY+DdP6Sld94y52jz6vfC2B4gxUtX7d6WOo6Zj9gFPMAr0WkTRQiwvavj/Y1Lqp2B0t9QUn
+	s/YA1jQqv1ebSZmPaM9fKGN22lqTVzj9IEXhIwgjIWwGD9m7BI1iJ0Qpvo+8mbMPlW0bWlMtAPgnB
+	AxQahv6A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wUkZd-0000000F3Th-3max;
-	Wed, 03 Jun 2026 12:19:53 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1wUuw8-0000000Fvqh-1Rkk;
+	Wed, 03 Jun 2026 23:23:48 +0000
+Received: from mail-qk1-x72c.google.com ([2607:f8b0:4864:20::72c])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wUkZb-0000000F3TG-00wH
+	id 1wUuw0-0000000FvqO-1T0S
 	for linux-nvme@lists.infradead.org;
-	Wed, 03 Jun 2026 12:19:52 +0000
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6537TcdV1956882;
-	Wed, 3 Jun 2026 12:19:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=cFxhpV
-	ick/m2eBX2Kmz4bK5oFHGM6slO66GGYlync4A=; b=IoIcz0d/zRXioucmOw79v4
-	/I5C5aqRxd2XjYkprgEqUZHxxE7ckOgpdRAsVyg+VDGhp0VYLVso0l4dNXhUQA4p
-	9yIh089K+qny21602H3VLmRqIhG3B6rfadwov0E9SAxwmVkGzc985dxdymjQZaGL
-	XZ/3Wb3FPsBI0TzwUSyLMfEcKxQW48wB+BjSGkh6qZlJfeO5ISiZmVU8Dlh7Bfgd
-	rT7qm/75589Y08tZW7h1RBsJvlhnPrs7hWjHFQPxkhuR2/+KkgOpKvYg+4KFC1qI
-	TYr12SLOhPhCfxeeMxRWh2I9/ygTUxdordLhZkqDbhO+bj/uRQkUr+v6jSqZkX7A
-	==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4efnahte6w-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 03 Jun 2026 12:19:30 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 653C97uJ015094;
-	Wed, 3 Jun 2026 12:19:29 GMT
-Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4egcegqtsb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 03 Jun 2026 12:19:29 +0000 (GMT)
-Received: from smtpav04.wdc07v.mail.ibm.com (smtpav04.wdc07v.mail.ibm.com [10.39.53.231])
-	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 653CJSeQ31261404
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 3 Jun 2026 12:19:28 GMT
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id CFBF358052;
-	Wed,  3 Jun 2026 12:19:28 +0000 (GMT)
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 09E2C58045;
-	Wed,  3 Jun 2026 12:19:26 +0000 (GMT)
-Received: from [9.43.101.61] (unknown [9.43.101.61])
-	by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Wed,  3 Jun 2026 12:19:25 +0000 (GMT)
-Message-ID: <34707988-b1be-4ff0-9786-ef02b26eb0de@linux.ibm.com>
-Date: Wed, 3 Jun 2026 17:49:24 +0530
+	Wed, 03 Jun 2026 23:23:41 +0000
+Received: by mail-qk1-x72c.google.com with SMTP id af79cd13be357-9157b94a07aso24164985a.0
+        for <linux-nvme@lists.infradead.org>; Wed, 03 Jun 2026 16:23:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780529018; x=1781133818; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DoFQuUn//VEPKHTxWpoyKGMURH99p4nsZgAVxAI31mU=;
+        b=fnfir+xo6yVvfEiNr2TAkPHPGcSyL5lYVwhSeRdj57/x8+E4ZtyoYv4/26MTiIX+to
+         pe/KmgOlQhYGeCNmg6YjmiEIVHpMc1SxR+KjWVw/7FpO8nljaOS56PgbUNpU7o6FzxUE
+         +6ZjzJ0Rq0hzzzFw9GeO9BxOar+yJdAcP1t5ZCHjaQvdaDr9y3Eu83E9gxrd1ZVAqt3H
+         f1UbZj+zaSnQSqAfkaCXXw95lKxLLEkHbxUX61MW0nXZ27LwdEGLWBymgDc/kJyzyW+O
+         sh3d+CqszTQV8ep0lLWDsaV5fJvTGcXzbV/LF5OpM1JpsrKuCZiiaOx+86cdB3i6wh1b
+         tJIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780529018; x=1781133818;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DoFQuUn//VEPKHTxWpoyKGMURH99p4nsZgAVxAI31mU=;
+        b=Mqb36TWPw32qJls19gM6FvShpHd1VGm4YapB2qLxlXWBYlO0psFiKz51bKEgdtFq42
+         0hSc468xvRJS4PnsSXRoaCSMnIBWNsN8HWlkSlRTVF6psoAmnn4SgWCsD1Vfa0BJNsjL
+         u4uNKIP/8KdMHS4s9kFZFDMJDdy0tp5Q/nxl3fC4w7nQqNUlfOcd4geQMO/+QSI81wko
+         iWthlWkHLXz0ltX/R3PMp1xGhAB00S68P1EelX3WD0KBParLfwpuOQiXQhPYFWFR+YaI
+         o/hKWXmPH0H0LQ3EFCgODn9L2YsyS46/wI63qQLm7L0zx5BJI3s++P2ede1R9uONQYms
+         OvsQ==
+X-Gm-Message-State: AOJu0YxjfsEZBx6PM8PpYFu5eonzrAoHKvT2GESp66bFfdqRvqF+LPod
+	xUbJWgxY4FtAl/yo7Nn92SXGGYUKF1+3kY5BMwhiQTh19yVJ6W/GcgXb
+X-Gm-Gg: Acq92OGubXu4Vm7pQIV8c7qlG7EeKAmqeESvfFwILO2ai78MhLysEdhNc1LmoJxcvH7
+	Tlpd5TxDgEWeRgjnLFqpgo6qhZhu5o0aNw9Ld5xCoNBMNcFzVnWxdTlXpRn22ja+BfTWNQUD08f
+	i+bkQVmgGp8g9ibxojRt2oLY93gXw/eENWTpOmifGnKThhaQQhd+auFCWCsXqeDrASiW5oNaHbH
+	PVrSQCNsNll6zZlKzF3j1swNFI//d0zFHU1dRuwhIEv0CMEYWct1PWV80hMFTx5BHaJd3BFq7kk
+	LH0nOqEMtzFwiAImQNAGa2lpuDKU8rBUSp+TBv7TkdGFKd/Leb2oPesBhSDZNsNm0ctjrENkZ4g
+	ITMo9EU7tTs0VHVkHNqiRI3Ceat4ItaX2HKuCSOIVlqBN+9XRyq+qbmSe+KxFsDtnHywhHYfr49
+	kHSmLoJaN/GEiqEXIEZ+reuYxqbhgba+dTaNdcOFsTkrOhbWLCeANZeDUvwGr3jm88HltS+3sl6
+	BMQ7srOqbIEOWo=
+X-Received: by 2002:a05:620a:630a:20b0:915:10b7:36e2 with SMTP id af79cd13be357-9158a656e5fmr695748285a.12.1780529018426;
+        Wed, 03 Jun 2026 16:23:38 -0700 (PDT)
+Received: from [10.69.73.69] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9158a3e35dbsm392890685a.42.2026.06.03.16.23.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 03 Jun 2026 16:23:38 -0700 (PDT)
+Message-ID: <56c826df-efe7-4c48-9142-c32c8e3415a8@gmail.com>
+Date: Wed, 3 Jun 2026 16:22:05 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] nvme-tcp: lockdep: use dynamic lockdep keys per socket
- instance
-To: "Shin'ichiro Kawasaki" <shinichiro.kawasaki@wdc.com>,
-        linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
-        Jens Axboe <axboe@kernel.dk>
-Cc: Christoph Hellwig <hch@infradead.org>, Sagi Grimberg <sagi@grimberg.me>
-References: <20260603112533.375925-1-shinichiro.kawasaki@wdc.com>
+Subject: Re: [BUG] KASAN: slab-use-after-free in nvmet_fc_tgt_q_put
+To: Shuangpeng <shuangpeng.kernel@gmail.com>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ justin.tee@broadcom.com, nareshgottumukkala83@gmail.com,
+ paul.ely@broadcom.com, hch@lst.de, sagi@grimberg.me, kch@nvidia.com
+References: <F54D7903-EA2A-4DF8-92BD-839877786139@gmail.com>
 Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <20260603112533.375925-1-shinichiro.kawasaki@wdc.com>
+From: Justin Tee <justintee8345@gmail.com>
+In-Reply-To: <F54D7903-EA2A-4DF8-92BD-839877786139@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjAzMDExNiBTYWx0ZWRfX9R/AypMBqoeu
- /Jw9r1834t6+KRzQAKG2CAZPeSAT5ycucfvSI8GyxKlbdFwDthnSD9UdU/LZ1HsofmDkAMEAbQz
- /g/vABqyXrg8kk94bdQ0rYXoateB/lMpZE56ZodnYNMBDzflQxnYqn5yFUhdCgB1MSEwTZ6CtL7
- +qCaMqBQTBNs65BgDjQYMDDbVrcTTbtDSRrO/+hCopRkbCZ69IYYGFA7jqwOdcdgWQXuvlKXr2l
- 8nghcglu5S3c3CQzF+2cG3zQu+rV0UQHyZNT7EziM31+oAr0YnSbYS8LwYl8uRO+0oVWKi4Oq1t
- /SDB44YX2D+hKkSv4oY9voj6ASEwZetQGV8a8TMlAAshhkcPGsZkAvlNIO4lw1HezrgrqgWluZM
- nMZ9gVilL0Yy81fMV5sNzjHB143+2XDx+DSqLa1EMFetE3WLq1YetoFP9sBE9CPONpwQeBMEFuo
- FGyr9ZA47iklbFvSNSg==
-X-Proofpoint-ORIG-GUID: 9oWRsfZU-2zk0i3d35FexHIPOuk9B5u3
-X-Authority-Analysis: v=2.4 cv=cOzQdFeN c=1 sm=1 tr=0 ts=6a201bd2 cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=p3UdGyPDsOXEwFfnFAwA:9
- a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: 9oWRsfZU-2zk0i3d35FexHIPOuk9B5u3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-03_04,2026-05-28_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0 lowpriorityscore=0 spamscore=0 bulkscore=0
- malwarescore=0 phishscore=0 suspectscore=0 priorityscore=1501 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606030116
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260603_051951_168660_A20287AC 
-X-CRM114-Status: GOOD (  12.81  )
+X-CRM114-CacheID: sfid-20260603_162340_395474_3B51A052 
+X-CRM114-Status: UNSURE (   4.59  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -121,39 +103,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/3/26 4:55 PM, Shin'ichiro Kawasaki wrote:
->   static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
-> @@ -1813,7 +1818,12 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
->   	}
->   
->   	sk_net_refcnt_upgrade(queue->sock->sk);
-> -	nvme_tcp_reclassify_socket(queue->sock);
-> +
-> +#ifdef CONFIG_DEBUG_LOCK_ALLOC
-> +	lockdep_register_key(&queue->nvme_tcp_sk_key);
-> +	lockdep_register_key(&queue->nvme_tcp_slock_key);
-> +	nvme_tcp_reclassify_socket(queue);
-> +#endif
->   
->   	/* Single syn retry */
->   	tcp_sock_set_syncnt(queue->sock->sk, 1);
-> @@ -1921,6 +1931,11 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
->   err_destroy_mutex:
->   	mutex_destroy(&queue->send_mutex);
->   	mutex_destroy(&queue->queue_lock);
-> +
-> +#ifdef CONFIG_DEBUG_LOCK_ALLOC
-> +	lockdep_unregister_key(&queue->nvme_tcp_sk_key);
-> +	lockdep_unregister_key(&queue->nvme_tcp_slock_key);
-> +#endif
->   	return ret;
->   }
+Hi Shuangpeng,
 
-I think we shouldn't call lockdep_unregister_key() from under err_destroy_mutex
-label, and instead it should be moved just before the err_destroy_mutex label.
-The reason being, when the code jumps to err_destroy_mutex label, it hasn't
-yet registered those lockdep keys.
+I will look into this and get back to you, but typically the nvme target 
+fcloop module does not indicate a real life issue when utilizing the 
+nvmet-fc stack on actual fibre channel hardware.
 
-Thanks,
---Nilay
+ > on commit: e8c2f9fdadee7cbc75134dc463c1e0d856d6e5c7 (May 25 2026)
+Was wondering what this means?  Because it doesn’t look like that is an 
+nvme commit.
+
+Regards,
+Justin
 
