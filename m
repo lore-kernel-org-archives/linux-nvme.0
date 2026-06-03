@@ -4,107 +4,109 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 37C6ACD6E4A
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Jun 2026 11:45:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C8FC4CD6E4A
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Jun 2026 12:19:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Iynfz1W1N4GfIpEnhSfMfTKqIz/C/8nZcfTGa23ppGE=; b=gN8BOXPCfgWvNsL6Z0TMHORfsq
-	fdY3V2QlBfLCpGqTtW0aLFd7FeC7IHFvUkIDTzsu8BwswI59EtMtkFS1ILWlDl29KwQe9AiROgh+X
-	gDP+PeY617eVQdmaS9akGpiubxSQpN7Kro9eUwLmrKtEDzA7BRWTSQs6Bp5pSSZYj6pazIKvlq75e
-	qu42jLg89aicFxJ0avy+63AYt/Jg9Sq8xj0k8Eqf7z1Z7ECteZIywvMkwyTvkCNjQBe3KyLMdGk29
-	HPosc5jVu9S3ncN8U/mPmR7BRRIDUS0TeQES/kz0tUJjHEF48Rpn1CD2e4Rq33iZuWkCvjzsD8V+Q
-	8yL+REDw==;
+	bh=cFxhpVick/m2eBX2Kmz4bK5oFHGM6slO66GGYlync4A=; b=UjkcQXAPo+DQ0qBvoD0tocjt4s
+	Wff1efqFi2mP0V8lo3kI8qKHAPKjkNHDc2B+r5eFUDanf7/ygJ7JubJ5nIcGXt0DSaeZ09wxlnip/
+	MY/tF4Shf++dm4lyTgtLN9sQQ+Cg0WlDpq2kNpHMTmwdE4p24V0XoTPJ49HYdkgo9DxfHuIAlmdbN
+	omTrAtKMCsq/C9N1pU02w6mLg/e1MGr/ehpJRNBJgJHbtGObziEGDd95zQsZ7FKNML1u1fq6SxR5A
+	4xsVjKRjN8fSdLdlkguMjmPDsmPjUzrmVgrrMiV8m0JsBwnvIdunSyK8IW8c5cEE02PETKYartUjw
+	BXscV4Xg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wUk2f-0000000EyEV-0oNO;
-	Wed, 03 Jun 2026 11:45:49 +0000
-Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329])
+	id 1wUkZd-0000000F3Th-3max;
+	Wed, 03 Jun 2026 12:19:53 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wUk2c-0000000EyDa-2L5J
+	id 1wUkZb-0000000F3TG-00wH
 	for linux-nvme@lists.infradead.org;
-	Wed, 03 Jun 2026 11:45:47 +0000
-Received: by mail-ot1-x329.google.com with SMTP id 46e09a7af769-7e6d991991dso1447558a34.3
-        for <linux-nvme@lists.infradead.org>; Wed, 03 Jun 2026 04:45:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780487145; cv=none;
-        d=google.com; s=arc-20240605;
-        b=WbMEsIJjnVL/exwuElw9eIbkzNo2SoJDdSawLFw7xzIIBAeC/d7TAA5tEwt3mjgM1L
-         Za8LXy2CBK9lb+OTpE9Mld2cFvSjY34Lpv36RyZ6/LLjgyeiRf1UVOvrINtKtrZ0iXbP
-         MW56S6ogjfQt+Blf5tD/Slsb4U+pAx5qRNKrxRO1YZ7ChwKnWsoPjM9JJcaZTwuDw932
-         J+p5Xr6UtpJc0F53uYDupgo00BzDYygl1vZoksFpZVYNhqDRhS/Zrc4uY/KqnJdytrQC
-         PEmk2nxxLIZFz4kpDkWGiPf3dekYU9iHSk8tkIl5ErZ/KBfAj9qJJFWSaxKxQBp3SwIU
-         I5pA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Iynfz1W1N4GfIpEnhSfMfTKqIz/C/8nZcfTGa23ppGE=;
-        fh=Dgbj3EBcfdLCLF3s+jpr94lLa5N4H7N/Vi3pWmOCaJs=;
-        b=HSVmmgt1gUNczQhjW/xEnNWGbjLg7jpjojsurpq94lSIKNgGHKF7a6vmlzaoCvl+nS
-         m71ZcsHBx1B0AKtplIeII1I48Q1YcIQb76uOB+02flAdZ5Y97rwr1CACueev77DM9r9w
-         Srr/3twVxg5Ch+G48pDYKGDj6+A16uB8tZvxnLoFFl2YKmIlxMQv5yf0hk/DTA2K1Xr3
-         DoJCchQWpvYHUBuQbdkmp8FVWeWXDraiWnuRCtz8J7tZcjjvmfMYnJVJUQKhT4wKsh8k
-         1a4eN+QR24/qWXZA4/hDP/duKKyIAXprFTy+GqjaL+MThELd+B/O56XSI1+NN0K2ZEpJ
-         4h4Q==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780487145; x=1781091945; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Iynfz1W1N4GfIpEnhSfMfTKqIz/C/8nZcfTGa23ppGE=;
-        b=KN6xKPuL4Y841FmR0A79bGsCgZBarPt6jAx8OevkH6qUUMkq+evzQ2HkLfBkfyyY7B
-         roEGjc0pRf0mwlTHxah3qwr4SUOROqYA5xHGYrTGqHn5A9AOuGAHpgitPB85J1fuwP6z
-         UZMnWe4QvyL9ybHsNgy0BEtgT4AyghJ3E4+CWM0Pt8ZuuSD01rwznUbA3URW1BBxN+wq
-         KnQA1Cur22B0iNSod1qwY2pm5fSrVFcGPsXrh5tri7iMmpq7gveXQluFx3qe6ssFhkIa
-         CK7kV2t+M8bNIP2S3MGPV6ckBVOBURJCvsvRoJRZp2YGxvIhgoKVyoDUzidf7EBkbuIe
-         yFMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780487145; x=1781091945;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Iynfz1W1N4GfIpEnhSfMfTKqIz/C/8nZcfTGa23ppGE=;
-        b=RojAVraSqQCm7EAGcGR2pDJeu8jr/Zgilbsz8NefzCeLuFpKc4yOqs4hFL1kiFC8W6
-         ZRPhp+8sm9NTFvUvM02ex+SsI4/Waxh9c3ztsGv1AjkpeE1I1LLncejqEJqOPJ39sbl+
-         Q1FMIp1HBlU5LBNeDYtHwT5/kqDg/OA3mC2NxxiHd+EYW6FjH59tEsRvcbEL5VO1TP0i
-         nDYL6vRVtNXkKGsnly8GtDOIQLWkHpsfvurqKye2h+CLTVvQLbLfs44dbRoSMHcvPczG
-         8lkbIlyAO1MFOzgFLOzeiTBYLS0GUXo3IrtpLOxLZTop5BUmTJIy9t+S7QJW44I/TU7s
-         Pl8Q==
-X-Forwarded-Encrypted: i=1; AFNElJ92qdRtbjUe4gZngIUELuBUp4AO+6Yepw7E7RlRA1udjjLc1D27w9GpZPcI0uW7iS1xfJftnmnKqNR3@lists.infradead.org
-X-Gm-Message-State: AOJu0Yx9uIKjBUozlDUUjAhSxryUNbhPwDIPypM4o74EyMUdHNHJpw17
-	LzdnfyMemhD9n46BZfkZ3QtR9GM4lMTrOctMdiNXa1GUH2uQvYqwpMqvGYeJv21XqZVjKIJZsRY
-	D0xoRSB5WUxaW5osS2UcJJEF0WlveaB8=
-X-Gm-Gg: Acq92OGqmJKqJIlMIHgf3A1zEPiO7sIvKQCf1wxyYETC7UzD5OzMbt94nxMs3i5g/Ny
-	XkEepq8me37+5MoAd0znsc5ZyjzpwVRsfxl4dWd3IBfAMySwX0KAPuo79VP9FWyR6LAY6XyU/vn
-	HU0Uy4VMvr/iT5wRMMPox2weP3gyqCMXnbZ4CTqiJzjEWol5vbnGnwkXZ9CNgXyqEhyhtgTcIQH
-	7iYqVvM3p2clLT08JIg4XO0mdMQfFIkbQjrHwgE6aD2ie5uA70CG5KUnLAzfwgg2XKH7Y+7ydTg
-	bRcIu8yHWm0BDNaOUeuxLtJD4K4wFET6Gj3YYLmAaUs2zKV633ChtsB0V7U1x1h2InvOwwtBk88
-	O2AyyouSiIX+gRciUF8BrGwpG8tOvBPE=
-X-Received: by 2002:a05:6830:448a:b0:7e6:c734:94a with SMTP id
- 46e09a7af769-7e6e9df435cmr1717770a34.23.1780487145503; Wed, 03 Jun 2026
- 04:45:45 -0700 (PDT)
+	Wed, 03 Jun 2026 12:19:52 +0000
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6537TcdV1956882;
+	Wed, 3 Jun 2026 12:19:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=cFxhpV
+	ick/m2eBX2Kmz4bK5oFHGM6slO66GGYlync4A=; b=IoIcz0d/zRXioucmOw79v4
+	/I5C5aqRxd2XjYkprgEqUZHxxE7ckOgpdRAsVyg+VDGhp0VYLVso0l4dNXhUQA4p
+	9yIh089K+qny21602H3VLmRqIhG3B6rfadwov0E9SAxwmVkGzc985dxdymjQZaGL
+	XZ/3Wb3FPsBI0TzwUSyLMfEcKxQW48wB+BjSGkh6qZlJfeO5ISiZmVU8Dlh7Bfgd
+	rT7qm/75589Y08tZW7h1RBsJvlhnPrs7hWjHFQPxkhuR2/+KkgOpKvYg+4KFC1qI
+	TYr12SLOhPhCfxeeMxRWh2I9/ygTUxdordLhZkqDbhO+bj/uRQkUr+v6jSqZkX7A
+	==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4efnahte6w-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 03 Jun 2026 12:19:30 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 653C97uJ015094;
+	Wed, 3 Jun 2026 12:19:29 GMT
+Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4egcegqtsb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 03 Jun 2026 12:19:29 +0000 (GMT)
+Received: from smtpav04.wdc07v.mail.ibm.com (smtpav04.wdc07v.mail.ibm.com [10.39.53.231])
+	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 653CJSeQ31261404
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 3 Jun 2026 12:19:28 GMT
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id CFBF358052;
+	Wed,  3 Jun 2026 12:19:28 +0000 (GMT)
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 09E2C58045;
+	Wed,  3 Jun 2026 12:19:26 +0000 (GMT)
+Received: from [9.43.101.61] (unknown [9.43.101.61])
+	by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Wed,  3 Jun 2026 12:19:25 +0000 (GMT)
+Message-ID: <34707988-b1be-4ff0-9786-ef02b26eb0de@linux.ibm.com>
+Date: Wed, 3 Jun 2026 17:49:24 +0530
 MIME-Version: 1.0
-References: <20260603072205.3291888-1-hanguidong02@gmail.com> <ah_5utfy2oJbUCw7@kbusch-mbp>
-In-Reply-To: <ah_5utfy2oJbUCw7@kbusch-mbp>
-From: Gui-Dong Han <hanguidong02@gmail.com>
-Date: Wed, 3 Jun 2026 19:45:35 +0800
-X-Gm-Features: AVHnY4LflgzL8o28wk732XkC7u2yUcX4Dke1kxTIgi6mAtBN5-lOxr2Un6SRfDE
-Message-ID: <CALbr=LbQPZNiztjqTCmw3J+iNcXuQRjNgHpbM7TJD1ib+wTZvw@mail.gmail.com>
-Subject: Re: [PATCH] nvme-apple: Use acquire/release for queue enabled state
-To: Keith Busch <kbusch@kernel.org>
-Cc: sven@kernel.org, linux-nvme@lists.infradead.org, axboe@kernel.dk, 
-	hch@lst.de, sagi@grimberg.me, j@jannau.net, neal@gompa.dev, 
-	asahi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, baijiaju1990@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] nvme-tcp: lockdep: use dynamic lockdep keys per socket
+ instance
+To: "Shin'ichiro Kawasaki" <shinichiro.kawasaki@wdc.com>,
+        linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
+        Jens Axboe <axboe@kernel.dk>
+Cc: Christoph Hellwig <hch@infradead.org>, Sagi Grimberg <sagi@grimberg.me>
+References: <20260603112533.375925-1-shinichiro.kawasaki@wdc.com>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <20260603112533.375925-1-shinichiro.kawasaki@wdc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjAzMDExNiBTYWx0ZWRfX9R/AypMBqoeu
+ /Jw9r1834t6+KRzQAKG2CAZPeSAT5ycucfvSI8GyxKlbdFwDthnSD9UdU/LZ1HsofmDkAMEAbQz
+ /g/vABqyXrg8kk94bdQ0rYXoateB/lMpZE56ZodnYNMBDzflQxnYqn5yFUhdCgB1MSEwTZ6CtL7
+ +qCaMqBQTBNs65BgDjQYMDDbVrcTTbtDSRrO/+hCopRkbCZ69IYYGFA7jqwOdcdgWQXuvlKXr2l
+ 8nghcglu5S3c3CQzF+2cG3zQu+rV0UQHyZNT7EziM31+oAr0YnSbYS8LwYl8uRO+0oVWKi4Oq1t
+ /SDB44YX2D+hKkSv4oY9voj6ASEwZetQGV8a8TMlAAshhkcPGsZkAvlNIO4lw1HezrgrqgWluZM
+ nMZ9gVilL0Yy81fMV5sNzjHB143+2XDx+DSqLa1EMFetE3WLq1YetoFP9sBE9CPONpwQeBMEFuo
+ FGyr9ZA47iklbFvSNSg==
+X-Proofpoint-ORIG-GUID: 9oWRsfZU-2zk0i3d35FexHIPOuk9B5u3
+X-Authority-Analysis: v=2.4 cv=cOzQdFeN c=1 sm=1 tr=0 ts=6a201bd2 cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+ a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=p3UdGyPDsOXEwFfnFAwA:9
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: 9oWRsfZU-2zk0i3d35FexHIPOuk9B5u3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-03_04,2026-05-28_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 impostorscore=0 lowpriorityscore=0 spamscore=0 bulkscore=0
+ malwarescore=0 phishscore=0 suspectscore=0 priorityscore=1501 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606030116
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260603_044546_601719_773F121C 
-X-CRM114-Status: GOOD (  18.09  )
+X-CRM114-CacheID: sfid-20260603_051951_168660_A20287AC 
+X-CRM114-Status: GOOD (  12.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -119,52 +121,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jun 3, 2026 at 5:54=E2=80=AFPM Keith Busch <kbusch@kernel.org> wrot=
-e:
->
-> On Wed, Jun 03, 2026 at 03:22:05PM +0800, Gui-Dong Han wrote:
-> > apple_nvme_init_queue() initializes queue state and then marks the queu=
-e
-> > enabled. The interrupt and request paths check enabled before using tha=
-t
-> > queue state.
-> >
-> > The existing wmb() after WRITE_ONCE(enabled, true) orders the enabled
-> > store before later queue use, but it does not publish the earlier
-> > initialization before enabled becomes visible.
-> >
-> > Use a release store when enabling the queue and acquire loads when
-> > testing it. Keep the existing wmb() in place for the
-> > store-before-later-use ordering.
->
-> Doesn't smp_store_release() already get you those semantics?
+On 6/3/26 4:55 PM, Shin'ichiro Kawasaki wrote:
+>   static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
+> @@ -1813,7 +1818,12 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
+>   	}
+>   
+>   	sk_net_refcnt_upgrade(queue->sock->sk);
+> -	nvme_tcp_reclassify_socket(queue->sock);
+> +
+> +#ifdef CONFIG_DEBUG_LOCK_ALLOC
+> +	lockdep_register_key(&queue->nvme_tcp_sk_key);
+> +	lockdep_register_key(&queue->nvme_tcp_slock_key);
+> +	nvme_tcp_reclassify_socket(queue);
+> +#endif
+>   
+>   	/* Single syn retry */
+>   	tcp_sock_set_syncnt(queue->sock->sk, 1);
+> @@ -1921,6 +1931,11 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
+>   err_destroy_mutex:
+>   	mutex_destroy(&queue->send_mutex);
+>   	mutex_destroy(&queue->queue_lock);
+> +
+> +#ifdef CONFIG_DEBUG_LOCK_ALLOC
+> +	lockdep_unregister_key(&queue->nvme_tcp_sk_key);
+> +	lockdep_unregister_key(&queue->nvme_tcp_slock_key);
+> +#endif
+>   	return ret;
+>   }
 
-Yes, smp_store_release() is enough for the ordering intended by that
-comment.
+I think we shouldn't call lockdep_unregister_key() from under err_destroy_mutex
+label, and instead it should be moved just before the err_destroy_mutex label.
+The reason being, when the code jumps to err_destroy_mutex label, it hasn't
+yet registered those lockdep keys.
 
-The old wmb() after the store does not really provide that ordering.  I
-kept it only because it is not identical to a release store, and I was
-worried it might have some other ordering effect with later queue-start
-operations.
-
-If you prefer, I can drop the wmb() in v2.
-
->
-> Also, there are a few other places doing the READ/WRITE_ONCE() calls in
-> apple_nvme_disable. Do you want to update those too for consistency?
-
-For apple_nvme_disable(), I left those READ_ONCE()/WRITE_ONCE() users
-unchanged because they are used for the shutdown path rather than for
-publishing queue initialization.
-
-The READ_ONCE(anv->ioq.enabled) only decides whether to issue delete
-SQ/CQ commands.  It does not consume the queue state initialized before
-enabled is set.
-
-The WRITE_ONCE(false) users are followed by mb(), which orders the
-shutdown/quiesce path.  A release store would not replace that.
-
-If you prefer the consistency, I can update them in v2 too.
-
-Thanks.
+Thanks,
+--Nilay
 
