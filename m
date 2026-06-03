@@ -4,76 +4,107 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0DE9ECD6E56
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Jun 2026 11:25:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 37C6ACD6E4A
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Jun 2026 11:45:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=Y6W4aFPGcqzc6g6Z5EYI+ZJTbl4uoT/p++KsxeP1pQg=; b=wmXyHXCzfTaZItXP88PjXAN8Do
-	12DTCqNWQj6wTqs6IlXrpy8pSspEWOYD4c1avGCVrvGPADoyFzKYyICP3rHfBpYR71gFiUYQP6Nl8
-	1g7n2yRJhTFyA5ImpqrIYqoDxIQt81atFrCCfbqXunyTl/nF1Gyeqsx9g92nFf5QRuAN+ToWELYyZ
-	fTaUZkR4HOhQdoU5XDXgXCy9LyhglmE7+x+Tm2KdjDbw/GPyyKH5P45yxIfPqJdEldqIrzy8qnpPG
-	7o5nSEkKQaPOHTq9lIl1CEBHt69YLrh7/pi4ZFs58i7tq3hlpfGtA2i2574AywyzABA2GDtI58zTr
-	MxW5TMSA==;
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Iynfz1W1N4GfIpEnhSfMfTKqIz/C/8nZcfTGa23ppGE=; b=gN8BOXPCfgWvNsL6Z0TMHORfsq
+	fdY3V2QlBfLCpGqTtW0aLFd7FeC7IHFvUkIDTzsu8BwswI59EtMtkFS1ILWlDl29KwQe9AiROgh+X
+	gDP+PeY617eVQdmaS9akGpiubxSQpN7Kro9eUwLmrKtEDzA7BRWTSQs6Bp5pSSZYj6pazIKvlq75e
+	qu42jLg89aicFxJ0avy+63AYt/Jg9Sq8xj0k8Eqf7z1Z7ECteZIywvMkwyTvkCNjQBe3KyLMdGk29
+	HPosc5jVu9S3ncN8U/mPmR7BRRIDUS0TeQES/kz0tUJjHEF48Rpn1CD2e4Rq33iZuWkCvjzsD8V+Q
+	8yL+REDw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wUjjS-0000000EwI6-0ak4;
-	Wed, 03 Jun 2026 11:25:58 +0000
-Received: from esa5.hgst.iphmx.com ([216.71.153.144])
+	id 1wUk2f-0000000EyEV-0oNO;
+	Wed, 03 Jun 2026 11:45:49 +0000
+Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wUjjP-0000000EwHG-2OIM
+	id 1wUk2c-0000000EyDa-2L5J
 	for linux-nvme@lists.infradead.org;
-	Wed, 03 Jun 2026 11:25:56 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1780485956; x=1812021956;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Q1mpUorkDqWAhhwh5OSt4MZz0+ub/MOet3spJNvvzU4=;
-  b=qd3MtIbn5G9QHWyjWHG5WiWQK5P/w148czk4/9vub67TKH57m++lTFR8
-   V1/MliRMvxV0ceLU8LLFXjwH2YcMuPB4NuWGZ5WqMN9CZ0k/2pPsqet9u
-   8YTvHt7devpwv2hYfQuDks1MDNhFMG+rs0g4PJQqE/VKqD/toq9Ihymj4
-   ppsTFrZNj00bgCXAjVn49sI6ZB8HXyIzN8iztNuT8be+tSa+Y0JOtYTL5
-   qK74+JeVAJKrX9MDuaPtB/BBwukwAWDvp0WOk/qXM4xBOLBtpkdSTz052
-   d4WUcicbJG6VKB6cXT3RA9pVF6ls0m5Ws9UlFzDMTS7DmuHNkZLd5iQSj
-   g==;
-X-CSE-ConnectionGUID: R3Lhlj9GRSm+Go6cRZjGwA==
-X-CSE-MsgGUID: pEeajfjgRW6u8YCtt/KrYA==
-X-IronPort-AV: E=Sophos;i="6.24,185,1774281600"; 
-   d="scan'208";a="147372119"
-Received: from unknown (HELO uls-op-esad2-o.wdc.com) ([199.255.45.15])
-  by ob1.hgst.iphmx.com with ESMTP; 03 Jun 2026 19:25:55 +0800
-X-CSE-ConnectionGUID: 2Ok/nW1hQX+zJDgrlvsLbQ==
-X-CSE-MsgGUID: HQf3BvFNRU+8fm6gwnDUig==
-IronPort-SDR: 6a200f2e_d3uK8H+HUmrHJFrHTQFM+M6XLJPwnXRs5LkpOQZowt7ViIJ
- qtz9SFEPfxt7uHDO2qxVrUVYAXa9KkhIA5HmjMA==
-Received: from uls-op-esai1-o.wdc.com ([10.248.3.45])
-  by uls-op-esad2-o.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 03 Jun 2026 04:25:34 -0700
-X-CSE-ConnectionGUID: miHVj6AhQ8Wtn+ZTlxF3VQ==
-X-CSE-MsgGUID: zlnEbYZnR9mHnAf/upr7og==
-WDCIronportException: Internal
-Received: from unknown (HELO shindev.ssa.fujisawa.hgst.com) ([10.149.67.30])
-  by uls-op-esai1-o.wdc.com with ESMTP; 03 Jun 2026 04:25:34 -0700
-From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: linux-nvme@lists.infradead.org,
-	Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>
-Cc: Christoph Hellwig <hch@infradead.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Nilay Shroff <nilay@linux.ibm.com>,
-	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Subject: [PATCH v2] nvme-tcp: lockdep: use dynamic lockdep keys per socket instance
-Date: Wed,  3 Jun 2026 20:25:33 +0900
-Message-ID: <20260603112533.375925-1-shinichiro.kawasaki@wdc.com>
-X-Mailer: git-send-email 2.54.0
+	Wed, 03 Jun 2026 11:45:47 +0000
+Received: by mail-ot1-x329.google.com with SMTP id 46e09a7af769-7e6d991991dso1447558a34.3
+        for <linux-nvme@lists.infradead.org>; Wed, 03 Jun 2026 04:45:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780487145; cv=none;
+        d=google.com; s=arc-20240605;
+        b=WbMEsIJjnVL/exwuElw9eIbkzNo2SoJDdSawLFw7xzIIBAeC/d7TAA5tEwt3mjgM1L
+         Za8LXy2CBK9lb+OTpE9Mld2cFvSjY34Lpv36RyZ6/LLjgyeiRf1UVOvrINtKtrZ0iXbP
+         MW56S6ogjfQt+Blf5tD/Slsb4U+pAx5qRNKrxRO1YZ7ChwKnWsoPjM9JJcaZTwuDw932
+         J+p5Xr6UtpJc0F53uYDupgo00BzDYygl1vZoksFpZVYNhqDRhS/Zrc4uY/KqnJdytrQC
+         PEmk2nxxLIZFz4kpDkWGiPf3dekYU9iHSk8tkIl5ErZ/KBfAj9qJJFWSaxKxQBp3SwIU
+         I5pA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Iynfz1W1N4GfIpEnhSfMfTKqIz/C/8nZcfTGa23ppGE=;
+        fh=Dgbj3EBcfdLCLF3s+jpr94lLa5N4H7N/Vi3pWmOCaJs=;
+        b=HSVmmgt1gUNczQhjW/xEnNWGbjLg7jpjojsurpq94lSIKNgGHKF7a6vmlzaoCvl+nS
+         m71ZcsHBx1B0AKtplIeII1I48Q1YcIQb76uOB+02flAdZ5Y97rwr1CACueev77DM9r9w
+         Srr/3twVxg5Ch+G48pDYKGDj6+A16uB8tZvxnLoFFl2YKmIlxMQv5yf0hk/DTA2K1Xr3
+         DoJCchQWpvYHUBuQbdkmp8FVWeWXDraiWnuRCtz8J7tZcjjvmfMYnJVJUQKhT4wKsh8k
+         1a4eN+QR24/qWXZA4/hDP/duKKyIAXprFTy+GqjaL+MThELd+B/O56XSI1+NN0K2ZEpJ
+         4h4Q==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780487145; x=1781091945; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Iynfz1W1N4GfIpEnhSfMfTKqIz/C/8nZcfTGa23ppGE=;
+        b=KN6xKPuL4Y841FmR0A79bGsCgZBarPt6jAx8OevkH6qUUMkq+evzQ2HkLfBkfyyY7B
+         roEGjc0pRf0mwlTHxah3qwr4SUOROqYA5xHGYrTGqHn5A9AOuGAHpgitPB85J1fuwP6z
+         UZMnWe4QvyL9ybHsNgy0BEtgT4AyghJ3E4+CWM0Pt8ZuuSD01rwznUbA3URW1BBxN+wq
+         KnQA1Cur22B0iNSod1qwY2pm5fSrVFcGPsXrh5tri7iMmpq7gveXQluFx3qe6ssFhkIa
+         CK7kV2t+M8bNIP2S3MGPV6ckBVOBURJCvsvRoJRZp2YGxvIhgoKVyoDUzidf7EBkbuIe
+         yFMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780487145; x=1781091945;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Iynfz1W1N4GfIpEnhSfMfTKqIz/C/8nZcfTGa23ppGE=;
+        b=RojAVraSqQCm7EAGcGR2pDJeu8jr/Zgilbsz8NefzCeLuFpKc4yOqs4hFL1kiFC8W6
+         ZRPhp+8sm9NTFvUvM02ex+SsI4/Waxh9c3ztsGv1AjkpeE1I1LLncejqEJqOPJ39sbl+
+         Q1FMIp1HBlU5LBNeDYtHwT5/kqDg/OA3mC2NxxiHd+EYW6FjH59tEsRvcbEL5VO1TP0i
+         nDYL6vRVtNXkKGsnly8GtDOIQLWkHpsfvurqKye2h+CLTVvQLbLfs44dbRoSMHcvPczG
+         8lkbIlyAO1MFOzgFLOzeiTBYLS0GUXo3IrtpLOxLZTop5BUmTJIy9t+S7QJW44I/TU7s
+         Pl8Q==
+X-Forwarded-Encrypted: i=1; AFNElJ92qdRtbjUe4gZngIUELuBUp4AO+6Yepw7E7RlRA1udjjLc1D27w9GpZPcI0uW7iS1xfJftnmnKqNR3@lists.infradead.org
+X-Gm-Message-State: AOJu0Yx9uIKjBUozlDUUjAhSxryUNbhPwDIPypM4o74EyMUdHNHJpw17
+	LzdnfyMemhD9n46BZfkZ3QtR9GM4lMTrOctMdiNXa1GUH2uQvYqwpMqvGYeJv21XqZVjKIJZsRY
+	D0xoRSB5WUxaW5osS2UcJJEF0WlveaB8=
+X-Gm-Gg: Acq92OGqmJKqJIlMIHgf3A1zEPiO7sIvKQCf1wxyYETC7UzD5OzMbt94nxMs3i5g/Ny
+	XkEepq8me37+5MoAd0znsc5ZyjzpwVRsfxl4dWd3IBfAMySwX0KAPuo79VP9FWyR6LAY6XyU/vn
+	HU0Uy4VMvr/iT5wRMMPox2weP3gyqCMXnbZ4CTqiJzjEWol5vbnGnwkXZ9CNgXyqEhyhtgTcIQH
+	7iYqVvM3p2clLT08JIg4XO0mdMQfFIkbQjrHwgE6aD2ie5uA70CG5KUnLAzfwgg2XKH7Y+7ydTg
+	bRcIu8yHWm0BDNaOUeuxLtJD4K4wFET6Gj3YYLmAaUs2zKV633ChtsB0V7U1x1h2InvOwwtBk88
+	O2AyyouSiIX+gRciUF8BrGwpG8tOvBPE=
+X-Received: by 2002:a05:6830:448a:b0:7e6:c734:94a with SMTP id
+ 46e09a7af769-7e6e9df435cmr1717770a34.23.1780487145503; Wed, 03 Jun 2026
+ 04:45:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260603072205.3291888-1-hanguidong02@gmail.com> <ah_5utfy2oJbUCw7@kbusch-mbp>
+In-Reply-To: <ah_5utfy2oJbUCw7@kbusch-mbp>
+From: Gui-Dong Han <hanguidong02@gmail.com>
+Date: Wed, 3 Jun 2026 19:45:35 +0800
+X-Gm-Features: AVHnY4LflgzL8o28wk732XkC7u2yUcX4Dke1kxTIgi6mAtBN5-lOxr2Un6SRfDE
+Message-ID: <CALbr=LbQPZNiztjqTCmw3J+iNcXuQRjNgHpbM7TJD1ib+wTZvw@mail.gmail.com>
+Subject: Re: [PATCH] nvme-apple: Use acquire/release for queue enabled state
+To: Keith Busch <kbusch@kernel.org>
+Cc: sven@kernel.org, linux-nvme@lists.infradead.org, axboe@kernel.dk, 
+	hch@lst.de, sagi@grimberg.me, j@jannau.net, neal@gompa.dev, 
+	asahi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, baijiaju1990@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260603_042555_621552_01DE63BF 
-X-CRM114-Status: GOOD (  16.66  )
+X-CRM114-CacheID: sfid-20260603_044546_601719_773F121C 
+X-CRM114-Status: GOOD (  18.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,147 +119,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When NVMe-TCP controller setup and teardown are repeated with lockdep
-enabled, lockdep reports false positives WARN for the following locks:
+On Wed, Jun 3, 2026 at 5:54=E2=80=AFPM Keith Busch <kbusch@kernel.org> wrot=
+e:
+>
+> On Wed, Jun 03, 2026 at 03:22:05PM +0800, Gui-Dong Han wrote:
+> > apple_nvme_init_queue() initializes queue state and then marks the queu=
+e
+> > enabled. The interrupt and request paths check enabled before using tha=
+t
+> > queue state.
+> >
+> > The existing wmb() after WRITE_ONCE(enabled, true) orders the enabled
+> > store before later queue use, but it does not publish the earlier
+> > initialization before enabled becomes visible.
+> >
+> > Use a release store when enabling the queue and acquire loads when
+> > testing it. Keep the existing wmb() in place for the
+> > store-before-later-use ordering.
+>
+> Doesn't smp_store_release() already get you those semantics?
 
-  1) &q->elevator_lock        : IO scheduler change context
-  2) &q->q_usage_counter(io)  : SCSI disk probe context
-  3) fs_reclaim               : CPU hotplug bring-up context
-  4) cpu_hotplug_lock         : socket establishment context
-  5) sk_lock-AF_INET-NVME     : MQ sched dispatch context for the socket
-  6) set->srcu                : NVMe controller delete context
+Yes, smp_store_release() is enough for the ordering intended by that
+comment.
 
-The lockdep WARN was observed by running blktests test case nvme/005 for
-tcp transport on v7.1-rc1 kernel with a patch. Refer to the Link tag for
-the details of the WARN.
+The old wmb() after the store does not really provide that ordering.  I
+kept it only because it is not identical to a release store, and I was
+worried it might have some other ordering effect with later queue-start
+operations.
 
-This is a false positive because lockdep confuses lock 4) (socket
-establishment) with lock 5) (socket in use) for different socket
-instances. The locks belong to different sockets, but lockdep treats
-them as the same due to shared static lockdep keys.
+If you prefer, I can drop the wmb() in v2.
 
-Fix this by using dynamically allocated lockdep keys per socket instance
-instead of static keys nvme_tcp_sk_key[] and nvme_tcp_slock_key[]. Add
-nvme_tcp_sk_key and nvme_tcp_slock_key fields to struct nvme_tcp_queue
-and pass them to sock_lock_init_class_and_name() for proper lockdep
-tracking. Change the argument of nvme_tcp_reclassify_socket() from
-'struct socket *' to 'struct nvme_tcp_queue *' to pass both the socket
-and the keys. Add CONFIG_DEBUG_LOCK_ALLOC guards to nvme_tcp_alloc_queue()
-and nvme_tcp_free_queue() to register and unregister the dynamic keys.
-Additionally, move nvme_tcp_reclassify_socket() inside these guards since
-it's only needed when lockdep is enabled.
+>
+> Also, there are a few other places doing the READ/WRITE_ONCE() calls in
+> apple_nvme_disable. Do you want to update those too for consistency?
 
-Link: https://lore.kernel.org/linux-nvme/afB5syZbUrppgsDQ@shinmob/
-Suggested-by: Nilay Shroff <nilay@linux.ibm.com>
-Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
----
-* Changes from v1:
-- Removed the 1st patch from the series that was already applied
-- Added lockdep_unregsiter_key() calls in nvme_tcp_alloc_queue() failure path
-- Moved lockdep_regsiter_key() calls from nvme_tcp_reclassify_socket() to
-  nvme_tcp_alloc_queue()
-- Link to v1: https://lore.kernel.org/linux-nvme/20260530052045.296749-1-shinichiro.kawasaki@wdc.com/
+For apple_nvme_disable(), I left those READ_ONCE()/WRITE_ONCE() users
+unchanged because they are used for the shutdown path rather than for
+publishing queue initialization.
 
- drivers/nvme/host/tcp.c | 39 +++++++++++++++++++++++++++------------
- 1 file changed, 27 insertions(+), 12 deletions(-)
+The READ_ONCE(anv->ioq.enabled) only decides whether to issue delete
+SQ/CQ commands.  It does not consume the queue state initialized before
+enabled is set.
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 2b4ab6a3a109..70374918a9f1 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -142,6 +142,11 @@ struct nvme_tcp_queue {
- 	void (*state_change)(struct sock *);
- 	void (*data_ready)(struct sock *);
- 	void (*write_space)(struct sock *);
-+
-+#ifdef CONFIG_DEBUG_LOCK_ALLOC
-+	struct lock_class_key nvme_tcp_sk_key;
-+	struct lock_class_key nvme_tcp_slock_key;
-+#endif
- };
- 
- struct nvme_tcp_ctrl {
-@@ -176,12 +181,9 @@ static int nvme_tcp_try_send(struct nvme_tcp_queue *queue);
-  * a separate class prevents lockdep from conflating nvme-tcp socket use with
-  * user-space socket API use.
-  */
--static struct lock_class_key nvme_tcp_sk_key[2];
--static struct lock_class_key nvme_tcp_slock_key[2];
--
--static void nvme_tcp_reclassify_socket(struct socket *sock)
-+static void nvme_tcp_reclassify_socket(struct nvme_tcp_queue *queue)
- {
--	struct sock *sk = sock->sk;
-+	struct sock *sk = queue->sock->sk;
- 
- 	if (WARN_ON_ONCE(!sock_allow_reclassification(sk)))
- 		return;
-@@ -189,22 +191,20 @@ static void nvme_tcp_reclassify_socket(struct socket *sock)
- 	switch (sk->sk_family) {
- 	case AF_INET:
- 		sock_lock_init_class_and_name(sk, "slock-AF_INET-NVME",
--					      &nvme_tcp_slock_key[0],
-+					      &queue->nvme_tcp_slock_key,
- 					      "sk_lock-AF_INET-NVME",
--					      &nvme_tcp_sk_key[0]);
-+					      &queue->nvme_tcp_sk_key);
- 		break;
- 	case AF_INET6:
- 		sock_lock_init_class_and_name(sk, "slock-AF_INET6-NVME",
--					      &nvme_tcp_slock_key[1],
-+					      &queue->nvme_tcp_slock_key,
- 					      "sk_lock-AF_INET6-NVME",
--					      &nvme_tcp_sk_key[1]);
-+					      &queue->nvme_tcp_sk_key);
- 		break;
- 	default:
- 		WARN_ON_ONCE(1);
- 	}
- }
--#else
--static void nvme_tcp_reclassify_socket(struct socket *sock) { }
- #endif
- 
- static inline struct nvme_tcp_ctrl *to_tcp_ctrl(struct nvme_ctrl *ctrl)
-@@ -1468,6 +1468,11 @@ static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
- 	kfree(queue->pdu);
- 	mutex_destroy(&queue->send_mutex);
- 	mutex_destroy(&queue->queue_lock);
-+
-+#ifdef CONFIG_DEBUG_LOCK_ALLOC
-+	lockdep_unregister_key(&queue->nvme_tcp_sk_key);
-+	lockdep_unregister_key(&queue->nvme_tcp_slock_key);
-+#endif
- }
- 
- static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
-@@ -1813,7 +1818,12 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
- 	}
- 
- 	sk_net_refcnt_upgrade(queue->sock->sk);
--	nvme_tcp_reclassify_socket(queue->sock);
-+
-+#ifdef CONFIG_DEBUG_LOCK_ALLOC
-+	lockdep_register_key(&queue->nvme_tcp_sk_key);
-+	lockdep_register_key(&queue->nvme_tcp_slock_key);
-+	nvme_tcp_reclassify_socket(queue);
-+#endif
- 
- 	/* Single syn retry */
- 	tcp_sock_set_syncnt(queue->sock->sk, 1);
-@@ -1921,6 +1931,11 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
- err_destroy_mutex:
- 	mutex_destroy(&queue->send_mutex);
- 	mutex_destroy(&queue->queue_lock);
-+
-+#ifdef CONFIG_DEBUG_LOCK_ALLOC
-+	lockdep_unregister_key(&queue->nvme_tcp_sk_key);
-+	lockdep_unregister_key(&queue->nvme_tcp_slock_key);
-+#endif
- 	return ret;
- }
- 
--- 
-2.54.0
+The WRITE_ONCE(false) users are followed by mb(), which orders the
+shutdown/quiesce path.  A release store would not replace that.
 
+If you prefer the consistency, I can update them in v2 too.
+
+Thanks.
 
