@@ -4,53 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6831ECD6E74
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Jun 2026 10:52:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3B981CD6E6B
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Jun 2026 13:43:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=u/ohDQtOxUHzk7MDlk76j7G3Z+QOKtMK+Uu1cGOtCOY=; b=35DnriQO3ete7slv5Wy1ugVDT4
-	R6CPGSWx40Rv72ZZotKlxS7pcq/Rhhau3jOjAlSeWbUgcHT0ko00adToEJHZcJ5qDea7N2XAPr5+e
-	oPstrNMes1he8EjBYx+yBj6GHnnVEPPf7KuYWRD9TmYyZaOaH6Y7CeBL9YJexmq7++FHk38lWsrj3
-	G8iD+kCTe1YwfRlKC3Gig+XxWew8E7I5WJVzmLUEOj+iOsLDrd/Q81S17DbPi8dUDWg4RWEzdJBPs
-	S3rvJ2D4tjW/J0iq9fRtFPT+iDxgusOjk8HqJFHOZSLhmvO+EMDX5qxO1yOH2DAat9vhD3W6zv3c5
-	CoMyCwAA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=axhQa4sfcsucw3XCyeUBd0Qzibedn3bLfPLDnK6n8ow=; b=oeaECmrZuIf3PIHMW2EPvuxOjD
+	jmD8bU7r7fcyEwKKgPfyA8LCBfSdSiC4lyN7SLv3Nhc378aTtBnp9eV+/sy5M4qKDra3vZ0vdFdJ0
+	u8nNsrD501j6epL7uCbMevl+sHBJhqgAo2MMWqaraAl33k7133pAf3lbVLMKuaM/g6/WTAOjFWwTj
+	YsWtEJJcI9V0nJcGP4jvwa08l90QLehhAG7XMNZvmaGMxwbtMPQTfV9btyDPnoCe1RaCxd+4z7NTr
+	LhfSqTQWCeGYAERgQRxvnVoKO87dEwbPc+6rFnYGSmO9pvfmZogP8q1G5KX4XIKQ2vyIi+qE7F7NZ
+	EZaj+5TQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wV5gH-0000000Gb4I-1v6S;
-	Thu, 04 Jun 2026 10:52:09 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1wV8M0-0000000Gog0-2MlH;
+	Thu, 04 Jun 2026 13:43:24 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wV5gG-0000000Gb40-2CSK
+	id 1wV8Lw-0000000GofW-3mWF
 	for linux-nvme@lists.infradead.org;
-	Thu, 04 Jun 2026 10:52:08 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id F0ABF43662;
-	Thu,  4 Jun 2026 10:52:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03AB71F00893;
-	Thu,  4 Jun 2026 10:52:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780570327;
-	bh=u/ohDQtOxUHzk7MDlk76j7G3Z+QOKtMK+Uu1cGOtCOY=;
-	h=Date:From:To:Cc:Subject;
-	b=NoA7b/dGfCTM6lmoEg6llsavGQtHTXrdGsmfqu6xabFiJsNWhTbjrFNFxcoU4dn/8
-	 KRXPKV5Se1PF+P/SLt0ucNYen/SRF0GQgrwVw2+ueW/RL6kkHCmp2UIJKpZbGyS+tu
-	 G6k4/JnAqMKlOvgk9Ie/4niyEF9gZAwchhU1nOCs7DbyYzyosVYe3AGJJdBFNcVXZd
-	 OBWffYuKJ9QeyF6/88IfgUy+jHdMfm0sWYvL5fzBL5xeAgrxGw2ZAF3VlO22wDnzZN
-	 K9iz/j8mBou9jz+IkSxtKYYa9o9hhWr9GqnK8MI4bGiXfXHmWbOXYAh7vBwYpWTbeL
-	 5HQor4DNzoAfQ==
-Date: Thu, 4 Jun 2026 11:52:02 +0100
-From: Keith Busch <kbusch@kernel.org>
-To: axboe@kernel.dk
-Cc: hch@lst.de, linux-nvme@lists.infradead.org, sagi@grimberg.me
-Subject: [GIT PULL] nvme updates for Linux 7.2
-Message-ID: <aiFY0kfy2Xt-nPQO@kbusch-mbp>
+	Thu, 04 Jun 2026 13:43:22 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1780580598;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=axhQa4sfcsucw3XCyeUBd0Qzibedn3bLfPLDnK6n8ow=;
+	b=gq4OCKfPOvQxFDr/mFiCZZP5uykC5z7RTvsgm2PhCzF45b1mOHeOgzlM56e8wT4kSe7dY4
+	Rhyt9Qe6qjC+/wLbn0k9EAWnv6DMP1KgRRxcKnxspykk78AtrmUIsrNZ6CjDlPwFK3oHxa
+	yU23/1jYvxaLh+YQ3Yk9Tm3COgJCuQo=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-173-kRU4fcrdOIyk0ksmqbgVlg-1; Thu,
+ 04 Jun 2026 09:43:15 -0400
+X-MC-Unique: kRU4fcrdOIyk0ksmqbgVlg-1
+X-Mimecast-MFC-AGG-ID: kRU4fcrdOIyk0ksmqbgVlg_1780580593
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CE982195608D;
+	Thu,  4 Jun 2026 13:43:12 +0000 (UTC)
+Received: from mlombard-thinkpadt14gen4.rmtit.csb (unknown [10.44.48.19])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id C21E7195608E;
+	Thu,  4 Jun 2026 13:43:09 +0000 (UTC)
+From: Maurizio Lombardi <mlombard@redhat.com>
+To: kbusch@kernel.org
+Cc: hch@lst.de,
+	linux-nvme@lists.infradead.org,
+	dwagner@suse.de,
+	mlombard@arkamax.eu
+Subject: [PATCH RFC] nvme: fix crash due to invalid cdev teardown
+Date: Thu,  4 Jun 2026 15:43:08 +0200
+Message-ID: <20260604134308.192478-1-mlombard@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: E86tdmQfltsaUEg0NF9RW-2JBUiZAwCwSv37pIyQfes_1780580593
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260604_064321_006488_8C289F31 
+X-CRM114-Status: GOOD (  13.88  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,107 +85,98 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The following changes since commit be34ec59ef061a1cc435a3e066ad71ca675c7fcd:
+In the NVMe multipath code, if nvme_add_ns_head_cdev() fails during
+nvme_mpath_set_live(), the error is completely ignored. However, during
+teardown, nvme_remove_head() unconditionally calls nvme_cdev_del().
+This teardown asymmetry leads to a kernel panic if the character device
+was never successfully initialized, which might happen in very rare
+circumstances.
 
-  block: unexport bio_{set,check}_pages_dirty (2026-05-15 08:46:45 -0600)
+BUG: kernel NULL pointer dereference, address: 00000000000000d0
+ device_del+0x39/0x3c0
+ cdev_device_del+0x15/0x50
+ nvme_cdev_del+0xe/0x20 [nvme_core]
+ nvme_mpath_shutdown_disk+0x38/0x60 [nvme_core]
+ nvme_ns_remove+0x177/0x1f0 [nvme_core]
+ nvme_remove_namespaces+0xdc/0x130 [nvme_core]
+ nvme_do_delete_ctrl+0x71/0xd0 [nvme_core]
 
-are available in the Git repository at:
+Regarding head namespaces, introduce the NVME_NSHEAD_CDEV_LIVE bit to
+track the successful creation of the head character device.
+nvme_remove_head() now checks this bit before attempting deletion.
+Enforcing rollback here is unsafe, as it triggers kobject_init panics
+on the embedded device struct during asynchronous ANA retries.
 
-  git://git.infradead.org/nvme.git tags/nvme-7.2-2026-06-04
+Regarding non-head namespaces, enforce strict failure by capturing the
+return value of nvme_add_ns_cdev() and rolling back the namespace's
+creation. Because nvme_alloc_ns() completely frees the nvme_ns structure
+on error, rolling back is safe here.
 
-for you to fetch changes up to 3c8c284dfcdfce81a02fe3c911196d9876468ae4:
+Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
+---
+ drivers/nvme/host/core.c      | 5 ++++-
+ drivers/nvme/host/multipath.c | 5 ++++-
+ drivers/nvme/host/nvme.h      | 1 +
+ 3 files changed, 9 insertions(+), 2 deletions(-)
 
-  nvme: export controller reconnect event count via sysfs (2026-06-04 01:57:40 -0700)
-
-----------------------------------------------------------------
-nvme updates for Linux 7.2
-
-  - Per-controller timeouts
-  - Multipath telemetry
-  - Namespace format validation
-  - Various other fixes
-
-----------------------------------------------------------------
-Achkinazi, Igor (1):
-      nvme-multipath: set BIO_REMAPPED on bios remapped to per-path namespace disks
-
-Bryam Vargas (1):
-      nvmet: fix pre-auth out-of-bounds heap read in Discovery Get Log Page
-
-Chao Shi (1):
-      nvme: core: reject invalid LBA data size from Identify Namespace
-
-Geliang Tang (2):
-      nvmet-tcp: fix page fragment cache leak in error path
-      nvmet-tcp: check return value of nvmet_tcp_set_queue_sock
-
-John Garry (2):
-      nvme: use DEFINE_SIMPLE_SYSFS_GROUP_VISIBLE for multipath_sysfs
-      nvme-multipath: pass NS head to nvme_mpath_revalidate_paths()
-
-Kuniyuki Iwashima (1):
-      nvme-tcp: Use WQ_PERCPU explicitly if wq_unbound is false.
-
-Mateusz Nowicki (1):
-      nvme-pci: fix out-of-bounds access in nvme_setup_descriptor_pools
-
-Maurizio Lombardi (7):
-      nvme: remove redundant timeout argument from nvme_wait_freeze_timeout
-      nvme: add sysfs attribute to change admin timeout per nvme controller
-      nvme: add sysfs attribute to change IO timeout per controller
-      nvme-core: align fabrics_q teardown with admin_q in nvme_free_ctrl
-      nvmet-loop: do not alloc admin tag set during reset
-      nvme-core: warn on allocating admin tag set with existing queue
-      nvme-core: fix unsigned comparison warning in nvme_wait_freeze_timeout
-
-Maximilian Heyne (1):
-      nvme: Let the blocklayer set timeouts for requests
-
-Nilay Shroff (9):
-      nvme-multipath: fix flex array size in struct nvme_ns_head
-      nvme: add diag attribute group under sysfs
-      nvme: export command retry count via sysfs
-      nvme: export multipath failover count via sysfs
-      nvme: export command error counters via sysfs
-      nvme: export I/O requeue count when no path is usable via sysfs
-      nvme: export I/O failure count when no path is available via sysfs
-      nvme: export controller reset event count via sysfs
-      nvme: export controller reconnect event count via sysfs
-
-Shin'ichiro Kawasaki (2):
-      nvme-tcp: move nvme_tcp_reclassify_socket()
-      nvme-tcp: lockdep: use dynamic lockdep keys per socket instance
-
-Tianchu Chen (1):
-      nvmet-auth: validate reply message payload bounds against transfer length
-
-Wentao Liang (1):
-      nvme: target: rdma: fix ndev refcount leak on queue connect
-
-Yao Sang (1):
-      nvme: refresh multipath head zoned limits from path limits
-
-liuxixin (2):
-      nvme: fix FDP fdpcidx bounds check
-      nvme: validate FDP configuration descriptor sizes
-
-liyouhong (1):
-      nvme-multipath: require exact iopolicy names for module parameter
-
- drivers/nvme/host/apple.c              |   2 +-
- drivers/nvme/host/core.c               |  74 +++++---
- drivers/nvme/host/fc.c                 |   3 +
- drivers/nvme/host/multipath.c          | 137 +++++++++++++--
- drivers/nvme/host/nvme.h               |  21 ++-
- drivers/nvme/host/pci.c                |  14 +-
- drivers/nvme/host/rdma.c               |   4 +-
- drivers/nvme/host/sysfs.c              | 311 ++++++++++++++++++++++++++++++++-
- drivers/nvme/host/tcp.c                |  98 ++++++-----
- drivers/nvme/target/discovery.c        |  23 ++-
- drivers/nvme/target/fabrics-cmd-auth.c |  15 +-
- drivers/nvme/target/loop.c             |  31 ++--
- drivers/nvme/target/rdma.c             |   6 +-
- drivers/nvme/target/tcp.c              |  11 +-
- 14 files changed, 631 insertions(+), 119 deletions(-)
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 72c50d5e938d..1e24232c0aac 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4213,13 +4213,16 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
+ 		goto out_cleanup_ns_from_list;
+ 
+ 	if (!nvme_ns_head_multipath(ns->head))
+-		nvme_add_ns_cdev(ns);
++		if (nvme_add_ns_cdev(ns))
++			goto out_del_disk;
+ 
+ 	nvme_mpath_add_disk(ns, info->anagrpid);
+ 	nvme_fault_inject_init(&ns->fault_inject, ns->disk->disk_name);
+ 
+ 	return;
+ 
++ out_del_disk:
++	del_gendisk(ns->disk);
+  out_cleanup_ns_from_list:
+ 	nvme_put_ctrl(ctrl);
+ 	mutex_lock(&ctrl->namespaces_lock);
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 263161cb8ac0..a786eb18735a 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -628,6 +628,8 @@ static int nvme_add_ns_head_cdev(struct nvme_ns_head *head)
+ 		return ret;
+ 	ret = nvme_cdev_add(&head->cdev, &head->cdev_device,
+ 			    &nvme_ns_head_chr_fops, THIS_MODULE);
++	if (!ret)
++		set_bit(NVME_NSHEAD_CDEV_LIVE, &head->flags);
+ 	return ret;
+ }
+ 
+@@ -672,7 +674,8 @@ static void nvme_remove_head(struct nvme_ns_head *head)
+ 		 */
+ 		kblockd_schedule_work(&head->requeue_work);
+ 
+-		nvme_cdev_del(&head->cdev, &head->cdev_device);
++		if (test_and_clear_bit(NVME_NSHEAD_CDEV_LIVE, &head->flags))
++			nvme_cdev_del(&head->cdev, &head->cdev_device);
+ 		synchronize_srcu(&head->srcu);
+ 		del_gendisk(head->disk);
+ 	}
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 9ccaed0b9dbf..e8833e56e9fd 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -567,6 +567,7 @@ struct nvme_ns_head {
+ 	unsigned int		delayed_removal_secs;
+ #define NVME_NSHEAD_DISK_LIVE		0
+ #define NVME_NSHEAD_QUEUE_IF_NO_PATH	1
++#define NVME_NSHEAD_CDEV_LIVE		2
+ 	struct nvme_ns __rcu	*current_path[];
+ #endif
+ };
+-- 
+2.54.0
 
 
