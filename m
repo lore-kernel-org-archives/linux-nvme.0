@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5DB11CD6E4A
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Jun 2026 09:32:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA043CD6E4A
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Jun 2026 10:22:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VL4VWJzeB4HS/d5/cXGyc8snM32gvnfTLIvoAz8tltQ=; b=dNv+zrDb5EfcIqd/yBUTY8QfYY
-	UJ43H22u6QWMxf8ktdqf0oGhp2UU72GQtkaS2OZ9ucTrxpDR7eluguUzE3gQ6m6t3keM1CF/H0SIY
-	+pIGQKD8AuOVjzm6C5z1ZmEJu2ynBrfWK//c8sRIxA83QAMzAT2OEwtCGntQy23zdQVsW5v+jhBHy
-	R0vb+mDlGqRBUiBEgv3x5nF9yUPLeF/Zr/rIlAjYHlKTWRu+x7S5NWL9fVGJwARbzBmS8JgyKXj3h
-	N3pGm1QqLnRLrJIxQh/6hQouTAVlp0WpL4KCLkfhRi+wAUdRLHEYPFVnN56jn2+92AIBqFVWQ5id4
-	yxj6I77g==;
+	bh=mLduu1BN8oVDlsMVXW9d1+2kTVCOlPEKY23vvFbWsFs=; b=DSeDIS9y3MGkohSpXwIipGm2O8
+	VyzKOuA/MvZgHNcElFO1f05Pk26AOZu7hibPcJ/taGc2bIaSLqayUQfWpJw/xSNmgtBQimIw0tfMX
+	Jd55JmZ/zQprqP0MIlWWAXocCpRh2usXUsZMoSF4O3RR/1Cg7fgm9mNxhyRsXI8LLCOQswCH91MBz
+	0milnBuU9Bv8bEJc5YGG5EJtN8cCXUs4+C1Jz/YTAIYapPIQORzHF2NQ38oYb6TzhIfalYt2anKW6
+	3BO1DCAJyClJG3n/gtT2mMF93NqZUMTwLG5TDdIu47vl1zVMPUjFWBtcSiC/GOTo9QXX3CDtfGrd9
+	yeNsTtdQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wV4R4-0000000GVRY-3pQt;
-	Thu, 04 Jun 2026 09:32:22 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1wV5Du-0000000GZKI-1hKm;
+	Thu, 04 Jun 2026 10:22:50 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wV4R4-0000000GVRL-1XFc
+	id 1wV5Du-0000000GZK8-0dJR
 	for linux-nvme@lists.infradead.org;
-	Thu, 04 Jun 2026 09:32:22 +0000
+	Thu, 04 Jun 2026 10:22:50 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id BBB3A601D6;
-	Thu,  4 Jun 2026 09:32:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 351901F00893;
-	Thu,  4 Jun 2026 09:32:20 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 67E5860219;
+	Thu,  4 Jun 2026 10:22:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D03D61F00893;
+	Thu,  4 Jun 2026 10:22:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780565541;
-	bh=VL4VWJzeB4HS/d5/cXGyc8snM32gvnfTLIvoAz8tltQ=;
+	s=k20260515; t=1780568569;
+	bh=mLduu1BN8oVDlsMVXW9d1+2kTVCOlPEKY23vvFbWsFs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=YyBmZV6Gj1cw9+fUsn3OpPTIY9Tyirfyxsm83lLN3kFPcSdTGF0yVSUxogeAb2e1P
-	 J78K+BfC4V5oCLrld/ZQN9YCB6IWjWnEy/rugxGH1SIg8f7f2cq58kd1kPalTrfzI4
-	 C1h4rNNbbqj72uVVO24Whsil5lDipwmnr/SLilAHvzg8v+JEVqUoXYYLh8h5wSdfm7
-	 ugC8+ZXKrFXGqM9G5fSMqyj0Oy6WY2patYjjbOYqvtI4DDG0JCGfcrHr5kEA9m8voE
-	 ABxzBaK9bErXK1fNgIyifJciezd74niTT6ODNyaBjV2djZqDyoJZA9Cx9tRQtn7bZN
-	 GYPSYu1bo0YdQ==
-Date: Thu, 4 Jun 2026 10:32:15 +0100
+	b=QIsGHYA0WcZE3oERGImpnuJVLx6AJq73KcO/q7CliE8Dn98sagksNM4BE5LaEAEjO
+	 EZwBYc3p4tra7JCHhXHwNr0vf6sthuDgV9MwbMhggawYqGrnkUuhF9DN9OvjwRDIUQ
+	 47d7dqDxFHPmX/GNRqJ5deQsn/+A8LVnQs6XqX23RWV8Zp141Hs5O4W3nN7dSiGwIl
+	 iMHqEVmOBQrzZOfIKq6Smay+Ku+gZWs8cwnf1aiHB6dVjahlXbOqUtBQbGZFEkZW2I
+	 AZibZ+pj/iNXwNAyVIkRm5NOkVIN/6gkyDTWwD/bdWjqO+JqhUeR75C27eFmlw+0D6
+	 nzgoHmFtU4+dg==
+Date: Thu, 4 Jun 2026 11:22:43 +0100
 From: Keith Busch <kbusch@kernel.org>
 To: Bryam Vargas <hexlabsecurity@proton.me>
 Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
 	Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org,
 	linux-rdma@vger.kernel.org, linux-block@vger.kernel.org
 Subject: Re: [PATCH] nvmet-rdma: reject inline data with a nonzero offset
-Message-ID: <aiFGHxci7FnDRUL1@kbusch-mbp>
+Message-ID: <aiFR81yE9_BIsNbM@kbusch-mbp>
 References: <LM21QIR-1-qJb7PViyJKCnGBnUzizeiNJVWQ3wb7ZwGezodjgKg3f-iobqOyequ-sT1jFCKJImfqNO_BKU3KO80xFITnaI5GTV_GxLUNDDc=@proton.me>
  <ahm6Ksr3rfGdnOsN@kbusch-mbp>
  <20260604084624.120032-1-hexlabsecurity@proton.me>
@@ -72,17 +72,62 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On Thu, Jun 04, 2026 at 08:46:33AM +0000, Bryam Vargas wrote:
-> A nonzero inline offset is never legitimate here.  nvmet advertises
-> icdoff = 0, nvme_rdma_setup_ctrl() refuses to use a controller that
-> reports a nonzero icdoff ("icdoff is not supported!"), and
-> nvme_rdma_map_sg_inline() sets the inline descriptor addr to icdoff, so
-> a compliant initiator always sends offset 0.  nvmet_rdma_use_inline_sg()
-> likewise assumes the inline data begins at the start of the first inline
-> page (the RNIC DMAs it to page offset 0); any nonzero offset also
-> mis-describes the scatterlist even when it is in bounds.
+> It does stop the u64 overflow, but while testing it I found it is still
+> incomplete when a port is configured with inline_data_size > PAGE_SIZE
+> (it is settable up to max(SZ_16K, PAGE_SIZE)): an offset in
+> (PAGE_SIZE, inline_data_size] passes that bound and then "PAGE_SIZE - off"
+> in nvmet_rdma_use_inline_sg() underflows, leaving scatterlist::length at
+> ~4 GiB pointing past the first inline page.
 
-Wait, is this accurate? I'm pretty sure icdoff == 0 just means the host
-can start the inline data immediately after the SQE, not that it
-necessarily must do that. My understanding is offsets are still allowed
-as long as the total length fits.
+Then the use_inline_sg() should find the appropriate index and offset
+accordingly.
+
+---
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index 1234567..abcdefg 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -821,22 +821,29 @@ static void nvmet_rdma_use_inline_sg(struct nvmet_rdma_rsp *rsp, u32 len,
+ 		u64 off)
+ {
+-	int sg_count = num_pages(len);
++	u64 page_off = off % PAGE_SIZE;
++	u64 page_idx = off / PAGE_SIZE;
++	int sg_count = num_pages(page_off + len);
+ 	struct scatterlist *sg;
+ 	int i;
+ 
+-	sg = rsp->cmd->inline_sg;
++	sg = &rsp->cmd->inline_sg[page_idx];
+ 	for (i = 0; i < sg_count; i++, sg++) {
+ 		if (i < sg_count - 1)
+ 			sg_unmark_end(sg);
+ 		else
+ 			sg_mark_end(sg);
+-		sg->offset = off;
+-		sg->length = min_t(int, len, PAGE_SIZE - off);
++		sg->offset = page_off;
++		sg->length = min_t(u64, len, PAGE_SIZE - page_off);
+ 		len -= sg->length;
+-		if (!i)
+-			off = 0;
++		page_off = 0;
+ 	}
+ 
+-	rsp->req.sg = rsp->cmd->inline_sg;
++	rsp->req.sg = &rsp->cmd->inline_sg[page_idx];
+ 	rsp->req.sg_cnt = sg_count;
+ }
+ 
+@@ -857,7 +864,8 @@ static u16 nvmet_rdma_map_sgl_inline(struct nvmet_rdma_rsp *rsp)
+ 			return NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
+ 	}
+ 
+-	if (off + len > rsp->queue->dev->inline_data_size) {
++	if (off > rsp->queue->dev->inline_data_size ||
++	    len > rsp->queue->dev->inline_data_size - off) {
+ 		pr_err("invalid inline data offset!\n");
+ 		return NVME_SC_SGL_INVALID_OFFSET | NVME_STATUS_DNR;
+ 	}
+--
 
