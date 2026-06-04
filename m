@@ -4,169 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 48385CD6E6D
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Jun 2026 14:59:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EBB17CD6E75
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Jun 2026 18:22:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Message-ID:Date:Subject:Cc:To:From:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:To:Cc:Date:Message-Id:
+	Subject:Mime-Version:Content-Transfer-Encoding:Content-Type:From:Reply-To:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=hwO6QK9Megv61XnM0txdrdEf604cfcaVxWYbLQGJkUQ=; b=wvAiN3SSpamVRZbvqhz7ZBCpfF
-	O42/xtAhL40MxmubAzuO3YmdE++wgcWaE+k23IzHJA4bH+YlHT9Nmwv026aSQ2EUXEOnKT2pmAvjL
-	zZgmq7cRKgLGO03utVe4FY8/Dcs9IAaXPlSkQqD4awDjOQB/NBO/U3J2rMA38mRtqDB/MUZcU66uV
-	waYcgL+Odo5Gzrne/UB2y+OAzAIJtUO/kFwMR5zd7Jih+FKc71DhS5itgCAnBcgFVA8k1k9D3BN0C
-	v9oHwBhnwOWPlMOCYSd8eYUjMaeJuwy2I8KtED4QJGGZC0PUkN6bVDbImp0ev2oqGtlR8/2StcYMu
-	t/8+Fjwg==;
+	bh=ZUIXUbkq9CBGBl58TAwO6tnCm3lHowZD0AFC0wgqMjs=; b=nOXu0lAVl4jM69RjEgmAPN3Rvm
+	xIJON7FXa0jSArDFBsAV+huGhK/SPA7N1YfHG7xtB6mLZIOg0VbyjZ3VaMSawBdsqxo14MOLcfnFD
+	/QTfG80t+LMzx/D4CrF2CXPeprgCbMcsSh8LZb5/N0+7YlA9mjtEAr8fLiWDrGLJZy9e6hmvulN5g
+	ek6hmXaBYjtpuZU+BZOqZZeRq9uORxl5UxiQv6zXXvvtNPLALZBRWtmlVeGw5B9ZoJtWxhsRSRrae
+	2metw7CL/xeuLwkPEMAgDdjrgaQzoTi0LAUAU2QVrsYb2KEYP61aUqVhWnpvrCbYJTiZ8qrjK89uK
+	sqJn650A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wV9XG-0000000GwsU-2g3N;
-	Thu, 04 Jun 2026 14:59:06 +0000
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+	id 1wVCiK-0000000HAJG-1t5O;
+	Thu, 04 Jun 2026 18:22:44 +0000
+Received: from mail-qk1-x72c.google.com ([2607:f8b0:4864:20::72c])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wV9XD-0000000Gwrp-11xV
+	id 1wVCiH-0000000HAIv-2gCf
 	for linux-nvme@lists.infradead.org;
-	Thu, 04 Jun 2026 14:59:05 +0000
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 654DkYw82541788;
-	Thu, 4 Jun 2026 14:58:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=corp-2025-04-25; bh=hwO6QK9Megv61XnM
-	0txdrdEf604cfcaVxWYbLQGJkUQ=; b=QzFO+36hShKm5QQgXTYqpnOpFmlwmola
-	A0orWzAxvtEsngUlpHDqVdK9jHjM3hBtInz656NYUckK5TEUDwJKfht/f1yqjc9y
-	vyxLtMYPWuUIqZoRc+tzNKUExcFYnHkEpBkO43xXMX91uj2NgZpZRTF3IXAYYDnS
-	DQUiQKmtkfbjvedimrdiaqjgwyLNuEjmoj04x2Fiej2XsSYGl4bK8vpNZ5o6AbOg
-	FtHUQeFJBzOdMui9PjSs9vZ/7IKf1UUtXvonnfCSsn839vpF/NMAnPgFLrs2i1IX
-	MmzwOYHaFjzKKcxG9wdooTnHdsaaJU0VQhVrl+nL43AMznS35v2RJg==
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4efpp20bcv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 04 Jun 2026 14:58:48 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 654EjLAY036309;
-	Thu, 4 Jun 2026 14:58:47 GMT
-Received: from sn4pr2101cu001.outbound.protection.outlook.com (mail-southcentralusazon11012071.outbound.protection.outlook.com [40.93.195.71])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4ek324ty91-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 04 Jun 2026 14:58:47 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HjndjSChqG1nRcqVz+75kNNRbWDEneNH8WArTi717M+9BQRhgH6Z6KFnZYr9BvJjNYCt2X3JYfSSVS6hPGaPJNf3rzeLH0p/vIWUnbk7V0bHjTYXIuKDXXT+KvbiP5YTIFXaOujrR4RKP9NvplHQOxANfsOzcJA5rUWqNdgcmWxlyVel2FCb10dDsl2XIrOiimqncgzKEEVzpu9lviy8N8pKSRr0OgIDkDPhDFSqfQEz5EPeuFcXDpSGuAUS4gwMstmfp9BOTwIc1PHo3Mx7MjhRpzPhksT1ExnXz5MNW2rCB3Ztdfn5DWdVt9pPgl+9V+0/sINtUoyQr/yYPDbxGQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hwO6QK9Megv61XnM0txdrdEf604cfcaVxWYbLQGJkUQ=;
- b=WOvVPZvoX9x3BJ6MPESUxT/zjKWO/TDe112iKpdfcuW385BtD0VWPHtgtVTzFPw1OTR1c506Qy6eVMB2eUew+UGS8FokZliY3b8OKyMqPFY29t/nl3UJFmAmXa5JNL9Fqg3QyyapAJgpY7LFa/GWtnXZJAMh5e0rldW6iotBmQKMDwbbtWGogKqpHjojJZlmdz5/0rE4IhsPeWWWuSTQjMJGUjZUZGi+WgCloDisec6WomKRPFdnkrVYV9ZVQ0f4AdXErbhflNhY7x9NqZz2WaI9wHOkezzkFgzeHPM2EZ3U/dpYmce+kiRVhExUvW1XZZcKh6jPlWqBmIR06rQ+gA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	Thu, 04 Jun 2026 18:22:43 +0000
+Received: by mail-qk1-x72c.google.com with SMTP id af79cd13be357-915336b83adso123203185a.2
+        for <linux-nvme@lists.infradead.org>; Thu, 04 Jun 2026 11:22:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hwO6QK9Megv61XnM0txdrdEf604cfcaVxWYbLQGJkUQ=;
- b=u+f9lhg1JZPkih0TMEG4TpoFUFpdn/Nb2raMg3wcf8hDl9vjDjw11cXJRyuOUbN7pku/QNpkVHo8r8TWUleNNXhjeWk3FqjSqSUuSlzCHfmNks5vW4LNelp7NySVv1JNHsVUY+2BKHlAYi1eJlcwhgQNA3Fix6BHImw+SysQTbY=
-Received: from DS4PPFEAFA21C69.namprd10.prod.outlook.com
- (2603:10b6:f:fc00::d54) by DS0PR10MB6127.namprd10.prod.outlook.com
- (2603:10b6:8:c5::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.15; Thu, 4 Jun 2026
- 14:58:44 +0000
-Received: from DS4PPFEAFA21C69.namprd10.prod.outlook.com
- ([fe80::9da2:46fe:4d63:a74b]) by DS4PPFEAFA21C69.namprd10.prod.outlook.com
- ([fe80::9da2:46fe:4d63:a74b%7]) with mapi id 15.21.0092.007; Thu, 4 Jun 2026
- 14:58:44 +0000
-From: John Garry <john.g.garry@oracle.com>
-To: hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, axboe@fb.com
-Cc: linux-nvme@lists.infradead.org, John Garry <john.g.garry@oracle.com>
-Subject: [PATCH] nvme: quieten sparse warning in valid LBA size check
-Date: Thu,  4 Jun 2026 14:58:40 +0000
-Message-ID: <20260604145840.948130-1-john.g.garry@oracle.com>
-X-Mailer: git-send-email 2.43.5
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: PH8P221CA0059.NAMP221.PROD.OUTLOOK.COM
- (2603:10b6:510:349::10) To DS4PPFEAFA21C69.namprd10.prod.outlook.com
- (2603:10b6:f:fc00::d54)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS4PPFEAFA21C69:EE_|DS0PR10MB6127:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0903caff-6fbe-4d38-af07-08dec249c5e0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|18002099003|56012099006;
-X-Microsoft-Antispam-Message-Info: SEsyl/GIw/P1NHuZVrkqvBP+NH7WsnoPpDEolsBMuScXRTAsXvFwWwl0BockmOA9czYjXKJR5nyl5tutboT6SQ/QB+EFvufkjO8ms5OXZs0f8z9dCLACkBge77m3Yr8MhL4c5NyTsu+cUh5eZwI3BeOeYAOoP1Xs6o020PAY8e4yOpeELJPoRIzwECrvmCPkEJ8G7mbMNCv1s5TW43RhvMQkkNttVOoaii00EsoV+a0q/TfAKXaxMPuqAOg/Ozm8ARwVGcK0G3SXgM9c3ShcsYPnh3BBZvAWOL+1zHVYfZvrEW+Ya3/1mzuPelbnUj0MCSwuxkitAraiFDXa3pG/d0llMlSG0/hhe53An5fj9UHHOMPzP5olVk4tANOkmYsJfSg6yyGFogH9MhdDOslBS/Ekp/G114msXkS0zpKJUn96ImfvEsQ1e76wkN/XSzj2+JZ4kFaCGFTGFxJT4gTBRlnuGK4aua0+hzZeO8NwFtqBZkQAtA+k6M2DzhbmvtQQQMbL1Wwhq8XTEG8x6bEs5zYIQHCkpXdyPjV3gOpy1OoxoR7b8M09Lpo0tf93ewtylodbdHHOFMu1sUIGrXDClxAX2O4tVzmE5MqCQ/fo8tOzVC8cxhzMM3vb+mdyyR+jJeUVv2f02oZyHWfL2Ap+5XXAIGO9ZC6StCfhdVNTZhPO+nYDAALp7vCFJfSTnljx
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPFEAFA21C69.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(18002099003)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?hlqHJhNOtwnuEIRg2JSfk8rzMtEGBoJtdGRpOGaqfnmf9qaRtte7KEcfwxU/?=
- =?us-ascii?Q?H8nw95WcDar5yAQWfumq4QfuCCZGpA72yg9x3abssoXyFXwGK2Nx7JH8Hziy?=
- =?us-ascii?Q?5U6NBHLRqUBEAjQqx9Ld33IXxwckUs8YoP4LCM7HlOVpBBoIO3cU3AiHhcbM?=
- =?us-ascii?Q?z6zZbU9XmBQxRL+/DXPQtieVIsMOrHUTX9+KgmsRmTuu+ANjGL1GyHyMfKie?=
- =?us-ascii?Q?ISCWieXb6NMgQggSOLoyehYFHwlPMNWlrWGjWrRzNo2k39l5p1gxl9/CKp2B?=
- =?us-ascii?Q?+UW9hkTfWPdUVejDUBzbuPmO7geEEaPvpCD35M4uzRBxDBC00mv4RKjFrrtN?=
- =?us-ascii?Q?/2eMh9My87n6WuayN4Rzh7Pe0MC1BAbE3cVqdmwS6+L6xYNkmfhwndqazms9?=
- =?us-ascii?Q?ml6JAg6+XwBG89E7SSq/WbA9ZN1tCAQfRX1NH4tz7B4yfzYmyHCUrD6glc6n?=
- =?us-ascii?Q?gqh1jgOzyuGqjD8CB6D0UKtNbfuxryxSE4b/BBK4O9Gs4BcgDM/z9cQQF7It?=
- =?us-ascii?Q?jTaRxUKYEUPuW7brHqulXw896fzLXzPnQ/b3kEi0/3+z6MLjT7lsLSx8JVT6?=
- =?us-ascii?Q?dHg/ss1UdpAtifGA5raCO11ARED37hvvyFFhv4iRPv/b2NraP6JehCceD4FL?=
- =?us-ascii?Q?MSEDO5hG1wmvZFTB6kZaxhFBPZTi8wLoMa5wb+QbwCLIh0BP1FB6O21QZwlh?=
- =?us-ascii?Q?XSKZfRRQO0yHrzVFGDCjsb3zheykNfbE5PKJbu6ncHvhMVAtc4745nBmUudD?=
- =?us-ascii?Q?X1Uf2eUbEaY+OEXd4Fux9kABzxeCffbJEM6Lt3yk19NSegj8FqtlgJOInL1V?=
- =?us-ascii?Q?PYpZK69wXD3qK9SiD6lFsPYIGs22m2rw42eGOjB5hQTKSSygGa25czwqurY7?=
- =?us-ascii?Q?8RgxUrbSiDSMrPZbhXd2V70djdpA+0UpUbX8czDqKVq9v/mXvS/QBDDANAYT?=
- =?us-ascii?Q?3gTNF6vrSUe8/oBfee19s6ipgnz0XzOXmjiZHl3/pZypiZRaExL6t2IXbyBh?=
- =?us-ascii?Q?zPhfL6BTt8Day4mwFoobvrp5iXujmOYRY8vCZzLPRcGNrT0LcLfeV0e0fBft?=
- =?us-ascii?Q?Eg1Iw91mhWTAPQNvlH5B8tcIQwrfpYyb03Z8KnJlIymyy7DxhgeD801LY85L?=
- =?us-ascii?Q?oV8jDh7ulw9ib+rJEIp/gHUlxCfK4od2YM2/TyX8g/Rm5X27MbbMNlpCPKqC?=
- =?us-ascii?Q?HfSGjtU0NbFb2n+qkFNA2jvm9+j+wAapW2DS4LHmAD4tP2oi8NF2FPr443qx?=
- =?us-ascii?Q?DZRa50OXjD/1IuTw16OcNWzXPgoSHu4ckIYyKgcyL4A5ltGTv6U6+Uu/56+6?=
- =?us-ascii?Q?GxvRm1MR/2Fi8bni9zFJV3ts86FFydmMHOd8MdJ6F48U+iYh0/izf3PJUZ4+?=
- =?us-ascii?Q?Yq1yxpn7O/Au+OLjfoInm2fB3mvtu2/O0j8fIz5ArP3R9qTZUVq2hz5jhBvn?=
- =?us-ascii?Q?QJ19gqNYsiTAxU0lU8BerxzKns65TaQhzZouRt36mkkYK3RoJfzgvrYMDXKf?=
- =?us-ascii?Q?8P0xB1IFd78Pj97foWstFalNsGd8VaZPTzWi7i38b5jvN/RWalxoupEqoeHw?=
- =?us-ascii?Q?s0JtZZTY5KDwefz4wRWAuL5bViPAdJs/++X7+3o3SUUAz3lZ261aHp7jnEx1?=
- =?us-ascii?Q?a2q9rRxZeewaSTN5v2F+gkej5fNzaVOxIGp5FUouUjfmf9a60kT0jKLwzC1k?=
- =?us-ascii?Q?VDevXWNudVBR4GcKhIpw19M/Eo7NMzHMnuRbRSsoHdy39MepnEWeGZsnJ1zr?=
- =?us-ascii?Q?jld6yLkGAQ=3D=3D?=
-X-Exchange-RoutingPolicyChecked: S86czldvgVTjdfxd1R9DYLhjvdvfgXEK5puFXId+1M6nARpFJnQuG9ArZZB1clasNdl7V0226yM0FwZ5OCSl/mTuUAuMWnmhLqUuMermQRF3vzGJw1nj4oD4fKHC+XKWCEh+eMqLDuO9aPQVvRUM9HU2CoU2CA9IE9EPmIua1AVN9hEo/L7+aJ1QlS8e8BsfS4eYQ7z2DMoYRXLK71uPvOv4CIb2G2XUEKLnGyxtJw+8468CXu+RJop9puYjUBsXzD0141tTnTQD7/wjP4BZKkV8A6CXOrYZsHku+fWkJZqo5QxHzHJQJp8HvEC7sXHrhfUxbMBP3eyme0JPaVvnVw==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: Aa2agwwNoF+U35nQz7jHeVj/kdODxdARs873hPOFgaDDcEk2TGYM3Nei0En4d/Y/TG5e2Pa+vbun7MTXQw20KySuBtjpyUN2/6jKZVSNxWUHpWvGe41LNHcRM1p2uGA6Z1ua/L/v682kcQytcmW2CSTu37aM/mnISwjxMvjs/eET3PxB/pnvALNrn6CUnbwQG1TTJAJ1mtAgLx2GKu6LKX7vEa3pq6Ed6BtoGvnwdpJl2QurgwDWVdOrx8C6+KLji7ylPWdmQ68ktjqmYxHSEkPl4CJiKHZOIaOVrVKfg7zW5HUwwDoUKwgi8LIdz+AqFs7lrSmOEVEZCnmZKastzebH4d0cXlblJ1Erp5bvB91j0ciTCepLPv1Ra1ZpKzjKuiUyh/hoTJcSX1dzuO5tZ9ptQqbrVByJv82hvldJJqhUM41aIuDZMHZi0F1br3h4DVY1dGUU3DqIQAFgdpzuw7PVkQpbEdsRoSKQrqxbP6ibOn/W4/UMB9MU69o16A6u6HUa1fhk5oFa/4XkP1FZu+j/dUynaMjj3yUhaSRmBylb8QsZUL6MUUFsijgbQgsdQQRQop5hamaSmDC+ShmCu4TkdUqng3uUQ+xLJsQTF9A=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0903caff-6fbe-4d38-af07-08dec249c5e0
-X-MS-Exchange-CrossTenant-AuthSource: DS4PPFEAFA21C69.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2026 14:58:44.2910
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zy7/pkYAQqtHoLaAtJKatSXQNVZLUsJ0D+cE2B7C/0jXDkJLR5o336IrHIw8O/m1t4EGmMJlIlLJkZWddbQo0w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB6127
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-04_04,2026-05-28_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- mlxlogscore=999 phishscore=0 malwarescore=0 mlxscore=0 suspectscore=0
- bulkscore=0 lowpriorityscore=0 spamscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.19.0-2605130000 definitions=main-2606040144
-X-Proofpoint-GUID: G6ypkNobHSeZLYiSOFjs2naSJ0mTwc9_
-X-Authority-Analysis: v=2.4 cv=BMWDalQG c=1 sm=1 tr=0 ts=6a2192a8 b=1 cx=c_pps
- a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=FelO9ux0wxsA:10
- a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22 a=jiCTI4zE5U7BLdzWsZGv:22
- a=o5oIOnhZENCTenyL_yNV:22 a=yPCof4ZbAAAA:8 a=Zxa-kF15Lloonj2IvKkA:9
- a=5yU3S35YU4bGjq-dph-N:22 a=Bho9c0fBagfJEIQBS7DQ:22 cc=ntf awl=host:12313
-X-Proofpoint-ORIG-GUID: G6ypkNobHSeZLYiSOFjs2naSJ0mTwc9_
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA0MDE0NiBTYWx0ZWRfXw4doWD+FBfaB
- OhFO4JpeipGfU6vc+Y63BTv1NfavDJuxq9JTkj637tiXPHEKRWqM9ZGfrJyqlktaFj9ALml9bga
- dy3ZCUwF9jwW+eLmrSMMbWRO+cE1w8aZZ4sfW1LelzKer6YHcDfkInVpi+On4tvz4DVo+NGMBMs
- r1xd9Q4kchdiHgWGTbKCc904iHsU69Fc0/yr68gJbiv8OwhD4AXDhoOTJ2SNj1Mf27M7gEv+ZQl
- kM3aP68nPaIsVA7Vra7PqPatmJcDsj1oyK3sF4dG3RBr2WBjiQZQNN0/hCd54ZUbcpQdpQwXpSu
- /ZiJdT014P0OC+/jonfzlVqDFblexpGdqUzNc+p9I5HS62sBjfvxmmvgsFbX1O0QmZnCwK7AphW
- c0EJgx5i8K7MdNYZijagvDVf4uVjDH1v+D7980n122r+t6UFtEd4ldyp60FPen34n8/2q375Nnk
- HYkw2M/wDMzVWTbvKjpxN+abuL8WEomoN0f1J6z8=
+        d=gmail.com; s=20251104; t=1780597359; x=1781202159; darn=lists.infradead.org;
+        h=to:cc:date:message-id:subject:mime-version
+         :content-transfer-encoding:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZUIXUbkq9CBGBl58TAwO6tnCm3lHowZD0AFC0wgqMjs=;
+        b=XNY3JGapnu0Vr+pxBUsYTsvbAXxNCqQ5n55W+cKxPXIpccfsyMGZeqibtmd26FmhcN
+         EB/bsdImRtDoAEE86DxclIy9wv6E5QxIZURngLu/4ur6ErvVnK+CLYpS/Uz/XRAa/TlG
+         hHSX+UrfnMh7peN5Jmar9kIwwc0fiatGIdG2bLcBZGA73FJHBxhe/aepraeh44UJnsnE
+         L0UPrd0BhyPDevGAKVjfcoylf7TRl9F1BBFEbjZEHyb3MmiEYY/P+Az9KNhd097662iH
+         lDf11Bww3/IUjtqHu91TQq9eJGq/j3RIIP4ojNTpO+zC/iadXHyppLn7Ek+9VJYmg26U
+         P/YQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780597359; x=1781202159;
+        h=to:cc:date:message-id:subject:mime-version
+         :content-transfer-encoding:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=ZUIXUbkq9CBGBl58TAwO6tnCm3lHowZD0AFC0wgqMjs=;
+        b=SVcInElld6PV5axTeAlAvYu/cARZbaRVIQxbcVlPpEjiOzD7GugeBKEZFIz80nmhXC
+         7322uZr27D8w2BbV91QQr7qGkbQ4XlMHaJG0wWKARepyoZVrpkMFmCDeLlqQmdN4XOgB
+         Tzkcr99CBd2I1ke7q+9A7KeSJ+o2P+k70kpEhComJv0PfirwSrUITv23zjxuI8UAYdgV
+         DyMcNFYHiFE+yy63oMFS6QidelJR+tKT+gF4zdmCp0g39YSka1H5sOFNPqHnGG/BG4Ze
+         hHlE0R4Ga8PkxLCqHj0MDqpROqnLCGq5A8aA8j/Gr24t1Yjzg+5ZeWSrjtJi58MxBrXG
+         5/OA==
+X-Gm-Message-State: AOJu0YzwNF397dHoo3I1pJ2WW+MG/qV4oiaOM2Sr/SriVEVg8DZ8BZTR
+	EE59iC42dqzpMxmh9ADSefAy0jJgYc2AyILaHXSbPZWS+6m/9HHRuQ8nkVGDqpoU
+X-Gm-Gg: Acq92OF4zyRGaYZtXpuQ1SjQtNUAsWPdYOWkfWkjvuHj7U94eqR+5qNCF43X1Hd8Ngf
+	zJ5t1AkN/ryYpsU56df2HprkfUI1W74x+81S/wVuj57znSkeCPGAuIjEFjJZHc9Cvp4s9FEGQyc
+	xeDldnvSvrKLX1dYNMkPL9irkoFeAqLH9DHb1ttbmDxpSx3HjzINWpXze8qi5NIZ26lF/JahLy/
+	ap3Hrml8s6VMDeLA5odqx2wsI1xNmY69zjy6xHv4I1apGt3pNsPzQ4CKRs8bIBLI5APOD+WLXF6
+	jsdcAUSyulTgP9pHIQzrI0ozJM8RnwuJcmaoOCPmuSsasJKFpHqYGUy1zG/pOp+bUm0pqinEPQM
+	3ZjcNHpbMY6WfrZHuKJHhB2LMPWS5RasRS6x5pVJ10FjdCWb3r6NQJ2+J+w3uJ66V5L4CcA3w44
+	MKr/l2W+5DMrKogJSaKpLc0QFjayTPj91/EGbUrRPWvaXkaZQcKFSChGVPGOw5v/gb
+X-Received: by 2002:a05:620a:29d0:b0:915:a811:1707 with SMTP id af79cd13be357-915a9c12fb0mr52063185a.5.1780597359541;
+        Thu, 04 Jun 2026 11:22:39 -0700 (PDT)
+Received: from smtpclient.apple ([104.39.165.68])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9158a00b474sm648962985a.10.2026.06.04.11.22.38
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 04 Jun 2026 11:22:39 -0700 (PDT)
+From: Shuangpeng <shuangpeng.kernel@gmail.com>
+Content-Type: text/plain;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.600.51.1.1\))
+Subject: [BUG] KASAN: slab-use-after-free in nvme_fc_fcpio_done
+Message-Id: <C0EE55F1-9ACD-494A-9EEC-D94EDC220AF9@gmail.com>
+Date: Thu, 4 Jun 2026 14:22:07 -0400
+Cc: linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+To: justin.tee@broadcom.com,
+ nareshgottumukkala83@gmail.com,
+ paul.ely@broadcom.com,
+ kbusch@kernel.org,
+ axboe@kernel.dk,
+ sagi@grimberg.me,
+ hch@lst.de
+X-Mailer: Apple Mail (2.3864.600.51.1.1)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260604_075903_407267_DC0E45B0 
-X-CRM114-Status: GOOD (  11.21  )
+X-CRM114-CacheID: sfid-20260604_112241_719138_81630911 
+X-CRM114-Status: UNSURE (   9.21  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -181,55 +104,104 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Currently building with C=1 generates the following warning:
+Hi Kernel Maintainers,
 
-  CC      drivers/nvme/host/core.o
-  CHECK   drivers/nvme/host/core.c
-drivers/nvme/host/core.c:2426:13: warning: unsigned value that used to be signed checked against zero?
-drivers/nvme/host/core.c:2426:13: signed value source
+I hit the following KASAN report while testing current upstream kernel:
 
-This issue was introduced when using check_shl_overflow() to check for
-invalid LBA size. Sparse is having trouble dealing with __bitwise __le64
-conversion when passing to check_shl_overflow().
+KASAN: slab-use-after-free in nvme_fc_fcpio_done
 
-Resolve the issue by moving the check_shl_overflow() call to a separate
-function, where types are not converted.
+on upstream commit: e8c2f9fdadee7cbc75134dc463c1e0d856d6e5c7 (May 25 =
+2026)
 
-The id->lbaf[lbaf].ds < SECTOR_SHIFT check is dropped as
-check_shl_overflow() is able to detect negative shifts.
+This was found with nvme-fcloop. A previous fcloop-related report I sent =
+hit
+nvmet_fc_tgt_q_put on the target side:
+=
+https://lore.kernel.org/linux-nvme/56c826df-efe7-4c48-9142-c32c8e3415a8@gm=
+ail.com/
 
-Signed-off-by: John Garry <john.g.garry@oracle.com>
+This report is different in that the freed object is the host-side
+nvme_fc_ctrl, freed through nvme_sysfs_delete() -> nvme_free_ctrl(), and =
+the
+later access happens in nvme_fc_fcpio_done() after fcloop calls the host
+completion path.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index efaddab8296e0..d37fc70fe48aa 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2379,6 +2379,11 @@ static int nvme_query_fdp_info(struct nvme_ns *ns, struct nvme_ns_info *info)
- 	return ret;
- }
- 
-+static bool nvme_invalid_lba_sz(u64 nsze, signed int shift, sector_t *capacity)
-+{
-+	return check_shl_overflow(nsze, shift, capacity);
-+}
-+
- static int nvme_update_ns_info_block(struct nvme_ns *ns,
- 		struct nvme_ns_info *info)
- {
-@@ -2422,10 +2427,8 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
- 			goto out;
- 	}
- 
--	if (id->lbaf[lbaf].ds < SECTOR_SHIFT ||
--	    check_shl_overflow(le64_to_cpu(id->nsze),
--			       id->lbaf[lbaf].ds - SECTOR_SHIFT,
--			       &capacity)) {
-+	if (nvme_invalid_lba_sz(le64_to_cpu(id->nsze),
-+			id->lbaf[lbaf].ds - SECTOR_SHIFT, &capacity)) {
- 		dev_warn_once(ns->ctrl->device,
- 			"invalid LBA data size %u, skipping namespace\n",
- 			id->lbaf[lbaf].ds);
--- 
-2.43.5
+To help trigger the bug more reliably, we applied a minimal diagnostic =
+patch
+that only adds delays and print statements.
+
+The reproducer and .config files are here.
+https://gist.github.com/shuangpengbai/b88810aba94d68ae11ac65b8d1e03a5b
+
+I=E2=80=99m happy to test debug patches or provide additional =
+information.
+
+Reported-by: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
+
+[ 117.632186][ T1165] =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+[ 117.632793][ T1165] BUG: KASAN: slab-use-after-free in =
+nvme_fc_fcpio_done (./drivers/nvme/host/nvme.h:473 =
+drivers/nvme/host/fc.c:2063)
+[ 117.634328][ T1165] Read of size 4 at addr ffff8881269fc3f4 by task =
+kworker/u9:2/1165
+[ 117.634865][ T1165]
+[ 117.635075][ T1165] Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + =
+PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+[ 117.635078][ T1165] Workqueue: nvmet-wq fcloop_fcp_abort_recv_work
+[ 117.635098][ T1165] Call Trace:
+[ 117.635108][ T1165] <TASK>
+[ 117.635111][ T1165] dump_stack_lvl (lib/dump_stack.c:94 =
+lib/dump_stack.c:120)
+[ 117.635145][ T1165] print_report (mm/kasan/report.c:378 =
+mm/kasan/report.c:482)
+[ 117.635201][ T1165] kasan_report (mm/kasan/report.c:595)
+[ 117.635207][ T1165] nvme_fc_fcpio_done (./drivers/nvme/host/nvme.h:473 =
+drivers/nvme/host/fc.c:2063)
+[ 117.635215][ T1165] fcloop_call_host_done =
+(drivers/nvme/target/fcloop.c:607)
+[ 117.635219][ T1165] process_scheduled_works (kernel/workqueue.c:3314 =
+kernel/workqueue.c:3397)
+[ 117.635232][ T1165] worker_thread (kernel/workqueue.c:3478)
+[ 117.635248][ T1165] kthread (kernel/kthread.c:436)
+[ 117.635258][ T1165] ret_from_fork (arch/x86/kernel/process.c:158)
+[ 117.635297][ T1165] ret_from_fork_asm (arch/x86/entry/entry_64.S:245)
+[ 117.635301][ T1165] </TASK>
+[ 117.635302][ T1165]
+[ 117.644920][ T1165] Freed by task 8162 on cpu 1 at 117.604613s:
+[ 117.645351][ T1165] kasan_save_track (mm/kasan/common.c:57 =
+mm/kasan/common.c:78)
+[ 117.645683][ T1165] kasan_save_free_info (mm/kasan/generic.c:584)
+[ 117.646041][ T1165] __kasan_slab_free (mm/kasan/common.c:253 =
+mm/kasan/common.c:285)
+[ 117.646377][ T1165] kfree (./include/linux/kasan.h:235 mm/slub.c:2689 =
+mm/slub.c:6251 mm/slub.c:6566)
+[ 117.646664][ T1165] nvme_free_ctrl (drivers/nvme/host/core.c:5102)
+[ 117.646997][ T1165] device_release (drivers/base/core.c:2562)
+[ 117.647344][ T1165] kobject_put (lib/kobject.c:689 lib/kobject.c:720 =
+./include/linux/kref.h:65 lib/kobject.c:737)
+[ 117.648052][ T1165] nvme_sysfs_delete (drivers/nvme/host/sysfs.c:401)
+[ 117.648392][ T1165] kernfs_fop_write_iter (fs/kernfs/file.c:352)
+[ 117.648769][ T1165] vfs_write (fs/read_write.c:595 =
+fs/read_write.c:688)
+[ 117.649088][ T1165] ksys_write (fs/read_write.c:740)
+[ 117.649390][ T1165] do_syscall_64 (arch/x86/entry/syscall_64.c:63 =
+arch/x86/entry/syscall_64.c:94)
+[ 117.649737][ T1165] entry_SYSCALL_64_after_hwframe =
+(arch/x86/entry/entry_64.S:121)
+[ 117.650124][ T1165]
+[ 117.650282][ T1165] The buggy address belongs to the object at =
+ffff8881269fc000
+[ 117.650282][ T1165] which belongs to the cache kmalloc-4k of size 4096
+[ 117.651226][ T1165] The buggy address is located 1012 bytes inside of
+[ 117.651226][ T1165] freed 4096-byte region [ffff8881269fc000, =
+ffff8881269fd000)
+
+
+
+Best,
+Shuangpeng
 
 
