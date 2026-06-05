@@ -4,88 +4,133 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C54BBCD6E7C
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Jun 2026 17:35:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9FC1ECD6E7C
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Jun 2026 18:34:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
-	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nvzhyXwGUFrdqi65Noh+UK8zz7St44WUKJkM8kmVVkI=; b=CNKmsJ+ycSygVIWmq7e8ufG0Uw
-	4El81YcHV1DP0ybrPOyw/1uf597WTtBdE6GujPNUS/wEJgyqNeYc1CxyrzgJBPHJc7cE69XBms0a/
-	u0feoOoSu5QhFPsjiyFlDXizbGMGNiQijwTdjKeha/ipJMOo4Xsn2iV6J8TaF5oVGkUeJKGHG3779
-	bpW2Taz1NgWmV5s7J9mu7HXqrOcSmAzaRgYynMFfu4wYlp1V91Bd9KY17Tp4jczbLbXodGe8mzhZF
-	QqKLV7LiLxmAF0olCTU7TSFuTeORtTLuQHjBz1EOz0RHu7e5fK6RyxXF1WJoldElM95mwdJ3QGjQa
-	c+8kGKMA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=xOyR+wfwUklacILNo2EQAOfOdkTlAsTtELiM/OaL9IU=; b=K14RgW/Bttc1rk1RJovJnmlJWX
+	2z2luyTgDG5c6PKuI+yDOGiwuG7tyZCYA6BVz5pmVrrgZckeHprkdmBnqjKJ7PaH74kjwk88+U4Es
+	7OsQCJEGQIjswBtEP6wPdA62PRUCRgIG2DF59EhdQwQxojUF+4g8Xm/W1a1/df1oPyOsYUFTsDBIo
+	owrVoZnv39tbDT58N5Xwcit/FuaKiXuQGVf2O9XuxA3VTuUrCISNPpReCyyX9ie3P/vrpn+Ff7kFH
+	0pESWdmTW/Hc872kbayOE4MZgQ9+s9xz1nKDLIEFvty3PbxVX3BirEqS/ECWyStnzsmGPh+WAC7NV
+	TqtTU7XQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wVYRa-00000000yk8-0C6p;
-	Fri, 05 Jun 2026 17:34:54 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1wVZN1-000000012tv-3Dp3;
+	Fri, 05 Jun 2026 18:34:15 +0000
+Received: from mail-westeuropeazon11013058.outbound.protection.outlook.com ([52.101.72.58] helo=AM0PR02CU008.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wVYRY-00000000yjZ-3MNb
+	id 1wVZMy-000000012tU-0hZq
 	for linux-nvme@lists.infradead.org;
-	Fri, 05 Jun 2026 17:34:52 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 8B52C4390F;
-	Fri,  5 Jun 2026 17:34:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D5FB1F0089A;
-	Fri,  5 Jun 2026 17:34:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780680892;
-	bh=nvzhyXwGUFrdqi65Noh+UK8zz7St44WUKJkM8kmVVkI=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=ZMtQOBMXbAh5CF2eTzXC8XXmy26eXEyhQXXDKqynoHO2vmrF9/x9U8LL54ceV8BpM
-	 r87VJpc8Wfj37DML8mwOmreW3+ZE8sc5sq0QdfzrCo6RrC1ofOjD+7SduJ5ME1kWur
-	 TlZp1CgqGptXGI2gC4ekGw14vaztpobAKlsREr2dmo7n2+a2b4tnGtOM4eDO6g3C7i
-	 mMvXI/hM/uhk6Kw2MwiVfP9BzSW3DVfuI00XnWbME81Bp+YX+vDrky9v4BMP6kgP7K
-	 q2zVruH0Fm1ou8oespIVsr4d4pRcVvQ7pYm7A05lwErl/eb9SuSkJfUrFo9bP4168B
-	 7BPk3O7guhsnA==
-From: Chuck Lever <cel@kernel.org>
-Date: Fri, 05 Jun 2026 13:34:37 -0400
-Subject: [PATCH 3/9] lib: Add a "tagset" data structure
+	Fri, 05 Jun 2026 18:34:13 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Q5/l+d0+20SakBCDjMMov8oiIdanlrwMO8lIF//zDohc2JCO//u8yWpm7BnbLJbFpkLZLVQHsdmgwub8EjS+tDIqBPEkpnfDSFzGJcanFEEq9I2yenLxeugcmwo7sX1eZxtrm2LtcfwoqXFFT1lWsPJCC7NZ+RamjwNreQs97We2pUKmCi9u1ocpi2VupYnMmv/BA5JUXFjFUQqfIbXKcMtuNs3HEcxkgROxnMx9fW2k6TmDcOVe5fK7ayboJokIHGI6rz5+ueS2wOtNk4DyJSbMpnZBtNBtMwDkGJDuapk0ERiIugzI/E2sAH3WD9GZ9QNUvyN4Hcwk3y9kaUlsFw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xOyR+wfwUklacILNo2EQAOfOdkTlAsTtELiM/OaL9IU=;
+ b=CHuN29Tgyeq04SaCrEgXYIiwXSpSVsFI+Nhw3+fR0Hh46Qu+pUMr/k9J579jWvFIADCbszM8loYXJjb9WX4J+lZMjGynRescZaIC7cnDIfqybfDWFt9cOkOmN8LPe9vq/kpgAXRklOorGDffqjeP7Zl/ASXwMHPcEH/MMK0RNwZmLXtO8GKVODaIk6Zz6bNrlhPykN6eS3939ATF/PwiEoe14jiEiwfvKOBy5pRFU7NxnfYQOwTZlWJwJGJIQFrpZ+XQfv30eRikz3I7mdAsAWCKSgmGg0ovDytqj9G114xZTToa2AADtZ8JNf0KSid5FreyS52vgSkkrxsNweKjAQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xOyR+wfwUklacILNo2EQAOfOdkTlAsTtELiM/OaL9IU=;
+ b=T4K+xjlJ2kiJ0O5246eostbHo+BLwXlXuG55wOMkEEvhcEsRSVw0YJ8PSRNYNTeUz/71/dXyiJD/ZKcvQlULdsChs1914N2CxLmWRMbVESr+A1uhUvfPkYCBlQ1y4LFm+SPvU4I2Ej5boYnH0eZTEHd3driU9pTIT/pZMuYR1y45u7Fihll+oCYmsr+Ex4N97AbijvJN9tu97RhKAVEZ1K72FlCNPG+Wd2sdjM+1OEy0JSfOyAnAx3NEKRgoaSckA+LcZ1U67SWboDgk8CTysIyeMxsm2imswDHjoKzeO2RNJ8IklQ6hG0XTjtw/ny/85iBUuOtznEURb9I10fK+Rg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
+ by DB9PR04MB8252.eurprd04.prod.outlook.com (2603:10a6:10:24d::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.8; Fri, 5 Jun 2026
+ 18:34:08 +0000
+Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
+ ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
+ ([fe80::75e4:8143:ddbc:6588%3]) with mapi id 15.21.0092.007; Fri, 5 Jun 2026
+ 18:34:08 +0000
+Date: Fri, 5 Jun 2026 14:34:00 -0400
+From: Frank Li <Frank.li@nxp.com>
+To: Koichiro Den <den@valinux.co.jp>
+Cc: Manivannan Sadhasivam <mani@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+	Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>, Christoph Hellwig <hch@lst.de>,
+	Niklas Cassel <cassel@kernel.org>, dmaengine@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-nvme@lists.infradead.org,
+	Damien Le Moal <dlemoal@kernel.org>, imx@lists.linux.dev
+Subject: Re: [PATCH RFT 0/5] dmaengine: dw-edma: support dynamtic add link
+ entry during dma engine running
+Message-ID: <aiMWmI8QMddHUzL5@lizhi-Precision-Tower-5810>
+References: <20260109-edma_dymatic-v1-0-9a98c9c98536@nxp.com>
+ <24a5wo2ncgf7d43mxbv6pacvqkzmiuo4bvuyygfeyoq4lbdt25@kqw4cx7xzrfu>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <24a5wo2ncgf7d43mxbv6pacvqkzmiuo4bvuyygfeyoq4lbdt25@kqw4cx7xzrfu>
+X-ClientProxiedBy: SN7P222CA0002.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:124::14) To PA4PR04MB9366.eurprd04.prod.outlook.com
+ (2603:10a6:102:2a9::8)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260605-tls-session-tags-v1-3-47bd1d94d552@oracle.com>
-References: <20260605-tls-session-tags-v1-0-47bd1d94d552@oracle.com>
-In-Reply-To: <20260605-tls-session-tags-v1-0-47bd1d94d552@oracle.com>
-To: Donald Hunter <donald.hunter@gmail.com>, 
- Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- John Fastabend <john.fastabend@gmail.com>, 
- Sabrina Dubroca <sd@queasysnail.net>, Keith Busch <kbusch@kernel.org>, 
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
- Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, 
- Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
- Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, 
- Tom Talpey <tom@talpey.com>, Trond Myklebust <trondmy@kernel.org>, 
- Anna Schumaker <anna@kernel.org>
-Cc: kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org, 
- linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org, 
- Chuck Lever <chuck.lever@oracle.com>
-X-Mailer: b4 0.16-dev-da966
-X-Developer-Signature: v=1; a=openpgp-sha256; l=20554;
- i=chuck.lever@oracle.com; h=from:subject:message-id;
- bh=vRucQo5Cu6HRxT3Xwlsvz7Fo2hFkJRjveVoe+ISVr+U=;
- b=owEBbQKS/ZANAwAKATNqszNvZn+XAcsmYgBqIwi41lGLi+XLq6OAkH9enu/nOU+qRi7aDKT8m
- I573/nbqbuJAjMEAAEKAB0WIQQosuWwEobfJDzyPv4zarMzb2Z/lwUCaiMIuAAKCRAzarMzb2Z/
- l8teD/43HmSE4+naDZN9yq3c7woc7O+7ENxzqHLWOuTEDKs8jm3zy3gn/wcpBjmdiW9FrZa2AVq
- OgIjQw+R/H+HvA5iBq+6COgQcBXzZmifrMPyenS4AyJmi/KwsxK0DcGNNZpLN3/pLaHQGjWzy8x
- PdPwIu2LzkyfeRJHgnzg2KBNAkAH8n9xOVUSd0WxHhGueuDd53N/N83f342ggBB/xDPbdZIOlxI
- r8b66KxhhIk+IcpQb+DczzS50jPYPnVoJw2oElDqTxRCh6SPq9BXK0y1dRIKQ8FoOtu1IOSvV9q
- 6wvVgiXqjU0rYUlgu0TWXuVtOiG0HBDizXjGok/TP6pk5IpbONa7Qqrml5jTpjvIohkpIPT/JSh
- y0Hz+dtCby0uVqfoKYQCPBc5o8GPO1vPVRF6N9STM55upNGh7QAEZTWhf4fITcrE0kYyEnxxh1Z
- f2hIMLBJ4+qdSbu0zpNK5H2OhliucZvpYbtncfQsf0yDmsq/zmzN3bKdxTrpiyyYo5oXH1J51We
- jwbJ//k8Pre452MzcmelQU9gCZk3vPbULYSAPudOUWAUoNbdYSbrFGxDCUVwlfl5IVQwi4sLOyy
- CNSu53fRcV8UeqR1oafTRzHv/8r3rBWBheLkFffB5x9jbqutBawh35dlE6TgCe+FAz3vAhBPKJG
- eOWx1BviVfvqh8g==
-X-Developer-Key: i=chuck.lever@oracle.com; a=openpgp;
- fpr=28B2E5B01286DF243CF23EFE336AB3336F667F97
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|DB9PR04MB8252:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9337a204-410d-46c2-2cda-08dec3310765
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|19092799006|52116014|7416014|376014|1800799024|56012099006|4143699003|11063799006|18002099003|22082099003|6133799003|38350700014;
+X-Microsoft-Antispam-Message-Info: 6HF1AmZsuio0lGMcBH4Pwq1Ib9kQ971WRZOiDEa0GcY2yi3d3QjjvGwilMX70YWMTPjK4yH33xxKhtyxrnQbggeG6+ldku8EEHlbiIs/e7zbvBtgzex53ptE+j0WdeVOB439XWvQq5A4d2LXZ4CcE7SNWRZJxq9nB42nkE9Cm6qV/FbyDJulF36MPJDianepkcRyi+y3MW3SwN6dCI3ky9YRUYlEmNnmS1WUYoXIK+jvrAthUC/GcpWTKsXdRGjffYe5tI45MSluBowkKvZekmYBVqzu+xC4DVS2Vn7AURLP9qEXtUbB+Ek2+BQiZG505YXRW3X9w6BtnpPgx5CPtjW9QaHxdOcuLh2tUp1iirY6x+2bVmlJpClfYPfHLof4irP5uktMiucfKW9zceQRd+zTQAEQx+wPF4TNpyXpcwQcJGyEzMMCD1FcEtxJ3iaOM851+ojHvWGe11LJ7+DaSeuwFXxZgkxPPxRaS+tnbZ5kwdbHTbEjmgO3ZzCCGigud+CofTKXkIZZTzRqIb4JR3qCjBTPu43ulOVeomJFIj0kZazW7iGUSDVWUc2S3QI14hEFpgWXBbuMSYtlDeLfQ0NOR6B96Pxq6x1b7wTMMYSo7WVIGgpqakvubQLmCcACBcyasv4bscJCHFtOZaFx6vgLeyPuuCkV9douzMqJkRtKOeuLFFzbUetivVDC23OVYjd2KRYQVTuwr2Em1LvCIOI8SHRXA1cNnLZA1zSCvJ1Fsvj/ZfaaeBS2h8a3stmb
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9366.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(19092799006)(52116014)(7416014)(376014)(1800799024)(56012099006)(4143699003)(11063799006)(18002099003)(22082099003)(6133799003)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Jo8TTzvPnvtoZfRP0Yd/nXnUCE0oNFl1+DpzPgsNKY+0GfhsuKJKA5l4Gyj1?=
+ =?us-ascii?Q?Ms6UQH/eXbQBfqI1rFHJ4u+dlWHzr+QAW047ylsxAKNrmJpSjjwvZDJRclC8?=
+ =?us-ascii?Q?54ollmleNz+7ex8qCCLKkhPdu/33QTOd6e45mZVMlezSm2qCYenx5XS6bFr0?=
+ =?us-ascii?Q?b73zyC4mCfZq0L8yt1dB07MgZvkSKOAI2vHPyP93whmNzWasT/gXxhB3o2g5?=
+ =?us-ascii?Q?0YJwxIbtdGWx6Fvxa0wj0UWnLGb8+VH3VLp/eCwLb1zxnqyjr0sx8qV17XqX?=
+ =?us-ascii?Q?vezvNolSCJPuYQWPMOfCXeUAzSqBh++4Jfj7yUE5ClDKWgBKs65h78e1K8x9?=
+ =?us-ascii?Q?gXxiR8OGwZWsqX2AYNNCRGV8lmMgjKzgon0Xt464kW8c1K4E5vA7XMgP6WSP?=
+ =?us-ascii?Q?ZbNevDy7JWEFoA+nfQCFoWAXdoWxRlIzANrRSYu6LbiUKyxEBBsuOLEF1UV2?=
+ =?us-ascii?Q?tF5GxaHD4dssai+z0rPPez4VFnYoSKoP6QKZTz61rUD03PTHmB1lKxx+JfTD?=
+ =?us-ascii?Q?USWt00YOuVcYrAda1VmT464xLT/xlD83AHemV/frWVyxDX6ePWv16Tc+7yqJ?=
+ =?us-ascii?Q?NxnBi4QkbPZMi8UOqEV5zvIJH8k9jytMe1h7pFj45cAYTdsFBGb+FSINRJ0q?=
+ =?us-ascii?Q?kkoEasRGmsiE2/hmcCZVO4rCYZkFC0/2a1A6GGZH2WO0xqbtFX5GTUBGGRbs?=
+ =?us-ascii?Q?9WMrbWqVTp6LpivSGacSrc7KM1PQr78mdHM8rh8rBnCgAbkeoN2TVRjEQ38X?=
+ =?us-ascii?Q?vyuxyZyiusvRlnRcrtN7z2REonMbnuMJw0zh3ROBZZ9VQEwaanTqVJTREc+I?=
+ =?us-ascii?Q?BXT2o/ElmYqR39ykTt1AUwSKPq4m4Hk9kTTPAP4AV9+DV+fNHsnJJnwOZ9SR?=
+ =?us-ascii?Q?Lp+L2vF7/deOYc2OXz8JNjerYVGNMXTa28SOMvzPDmKjlqxVk8+vsg3b3MI9?=
+ =?us-ascii?Q?W2WY+1igfvliyisINQKcSzoopzwCUovbdHQdVHI5gxbNCsHeSs1aRtRod5bV?=
+ =?us-ascii?Q?zxdumm4Wrteb0wr8OEqR9mmxIMe1DF53H5wJxSE2MigBB5IjYyEK7iol8GvP?=
+ =?us-ascii?Q?zr4gGIgdzC4pZIRJEWtU+pu2IlYhrot9gKvoULrbfaIs8xC24vllIZrrIi54?=
+ =?us-ascii?Q?wWtTtImDz0mdWaKpqPn8Jvx6/y0/JZMvDQKqWJYxOT7ICtKIQX0OyJTL/p+S?=
+ =?us-ascii?Q?OI8StD9SaYQHRSyuPiBOdyClhwE9yj2cbF/pehfwqQTlE66NKu9r3VIxDuTs?=
+ =?us-ascii?Q?qVQhkufWngpjbhq59NbQZMam9+wAEXpNyJIo/dFKpGB+EzDLOik2TeeCgDih?=
+ =?us-ascii?Q?LyKfcfPcDdyAPEEu2xDEKoPwLplPsvoWskSe/FhDpwjjHsX4L+au/h5QUhQt?=
+ =?us-ascii?Q?HuD0wLXp4O1BHmKC17M1zUWNfheOj4d0M9FoTtpna6afMUdTFaQ75nhcm8Bp?=
+ =?us-ascii?Q?77GEs1NfkRXjIeqWajTAZc3mqc/O/RDRUd6iMxOk/qgt+Xfy9qC4i/p/DjaT?=
+ =?us-ascii?Q?zKjWgxwb6jWKHHxyjk74ME65bILiGkW6z4FPu0BDEqs6QnF4eK/OR5+AGRT/?=
+ =?us-ascii?Q?vALGlu15di4YcJhPHjqRDuzlsCzzGnfTHaSco+GxlyUaTx6WKW++ltNGmXyn?=
+ =?us-ascii?Q?/FyE0zLgcxm8In0JAB/DWb1Cy0mdb6jFEUrHtwJexiTYd7hFHqH3cCg+M9jn?=
+ =?us-ascii?Q?6y3PsorLUjaWUOm0DjDjxdnO0jGTFHYvSl1HM9qAdnaBG84mqXIhATeQXHm4?=
+ =?us-ascii?Q?mTbVw5VjGQ=3D=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9337a204-410d-46c2-2cda-08dec3310765
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9366.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2026 18:34:07.9815
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Y82bXGFhvTo4YEcncTIwjwKzFfUxhRV37+eNTorbTGsiXUPJyLY6mnmP+w29s8KRV/1t68aHjruoxqhk1QYYWA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB8252
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260605_113412_383231_EA317C7B 
+X-CRM114-Status: GOOD (  18.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,670 +145,219 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Chuck Lever <chuck.lever@oracle.com>
+On Thu, Jun 04, 2026 at 04:08:06PM +0900, Koichiro Den wrote:
+> On Fri, Jan 09, 2026 at 03:13:24PM -0500, Frank Li wrote:
+> > Patch depend on
+> > https://lore.kernel.org/imx/20260109-edma_ll-v2-0-5c0b27b2c664@nxp.com/T/#t
+> >
+> > Only test eDMA, have not tested HDMA.
+>
+> Hi Frank,
+>
+> I expect this series may be revisited in the near future, since the first
+> dependency series reached v7 and looks close to landing.
+>
+> With the latest versions of the two dependencies:
+>   - [PATCH v7 0/9] dmaengine: Add new API to combine configuration and descriptor preparation
+>     https://lore.kernel.org/dmaengine/20260521-dma_prep_config-v7-0-1f73f4899883@nxp.com/
+>   - [PATCH v2 00/11] dmaengine: dw-edma: flatten desc structions and simple code
+>     https://lore.kernel.org/dmaengine/20260109-edma_ll-v2-0-5c0b27b2c664@nxp.com/
+>
+> I tested this RFT series with the HDMA engine on a SpacemiT K3.
+> The test results are below, using the same format as your results:
+>
+>   Baseline, before applying the three series (v7 + v2 + this RFT)
+>
+>     Rnd read ,     4KB, QD=1 , 1 job :  IOPS=8567, BW=33.5MiB/s (35.1MB/s)
+>     Rnd read ,     4KB, QD=32, 1 job :  IOPS=55.5k, BW=217MiB/s (227MB/s)
+>     Rnd read ,     4KB, QD=32, 4 jobs:  IOPS=83.0k, BW=324MiB/s (340MB/s)
+>     Rnd read ,   128KB, QD=1 , 1 job :  IOPS=3817, BW=477MiB/s (500MB/s)
+>     Rnd read ,   128KB, QD=32, 1 job :  IOPS=10.8k, BW=1346MiB/s (1411MB/s)
+>     Rnd read ,   128KB, QD=32, 4 jobs:  IOPS=11.2k, BW=1403MiB/s (1471MB/s)
+>     Rnd read ,   512KB, QD=1 , 1 job :  IOPS=1515, BW=758MiB/s (794MB/s)
+>     Rnd read ,   512KB, QD=32, 1 job :  IOPS=2795, BW=1399MiB/s (1467MB/s)
+>     Rnd read ,   512KB, QD=32, 4 jobs:  IOPS=2795, BW=1404MiB/s (1472MB/s)
+>     Rnd write,     4KB, QD=1 , 1 job :  IOPS=9035, BW=35.3MiB/s (37.0MB/s)
+>     Rnd write,     4KB, QD=32, 1 job :  IOPS=38.3k, BW=149MiB/s (157MB/s)
+>     Rnd write,     4KB, QD=32, 4 jobs:  IOPS=41.8k, BW=163MiB/s (171MB/s)
+>     Rnd write,   128KB, QD=1 , 1 job :  IOPS=3969, BW=496MiB/s (520MB/s)
+>     Rnd write,   128KB, QD=32, 1 job :  IOPS=8260, BW=1033MiB/s (1083MB/s)
+>     Rnd write,   128KB, QD=32, 4 jobs:  IOPS=8295, BW=1038MiB/s (1089MB/s)
+>     Seq read ,   128KB, QD=1 , 1 job :  IOPS=4609, BW=576MiB/s (604MB/s)
+>     Seq read ,   128KB, QD=32, 1 job :  IOPS=10.8k, BW=1345MiB/s (1410MB/s)
+>     Seq read ,   512KB, QD=1 , 1 job :  IOPS=1524, BW=762MiB/s (799MB/s)
+>     Seq read ,   512KB, QD=32, 1 job :  IOPS=2799, BW=1401MiB/s (1469MB/s)
+>     Seq read ,     1MB, QD=32, 1 job :  IOPS=1401, BW=1404MiB/s (1472MB/s)
+>     Seq write,   128KB, QD=1 , 1 job :  IOPS=3722, BW=465MiB/s (488MB/s)
+>     Seq write,   128KB, QD=32, 1 job :  IOPS=8246, BW=1031MiB/s (1081MB/s)
+>     Seq write,   512KB, QD=1 , 1 job :  IOPS=1283, BW=642MiB/s (673MB/s)
+>     Seq write,   512KB, QD=32, 1 job :  IOPS=2072, BW=1038MiB/s (1088MB/s)
+>     Seq write,     1MB, QD=32, 1 job :  IOPS=1037, BW=1040MiB/s (1091MB/s)
+>     Rnd rdwr , 4K..1MB, QD=8 , 4 jobs:  IOPS=1540, BW=768MiB/s (805MB/s)
+>      IOPS=1549, BW=768MiB/s (805MB/s)
+>
+>   After your three series (v7 + v2 + this)
+>
+>     Rnd read ,     4KB, QD=1 , 1 job :  IOPS=7216, BW=28.2MiB/s (29.6MB/s)
+>     Rnd read ,     4KB, QD=32, 1 job :  IOPS=61.1k, BW=239MiB/s (250MB/s)
+>     Rnd read ,     4KB, QD=32, 4 jobs:  IOPS=75.3k, BW=294MiB/s (309MB/s)
+>     Rnd read ,   128KB, QD=1 , 1 job :  IOPS=4711, BW=589MiB/s (618MB/s)
+>     Rnd read ,   128KB, QD=32, 1 job :  IOPS=10.8k, BW=1354MiB/s (1420MB/s)
+>     Rnd read ,   128KB, QD=32, 4 jobs:  IOPS=11.2k, BW=1403MiB/s (1471MB/s)
+>     Rnd read ,   512KB, QD=1 , 1 job :  IOPS=1497, BW=749MiB/s (785MB/s)
+>     Rnd read ,   512KB, QD=32, 1 job :  IOPS=2802, BW=1403MiB/s (1471MB/s)
+>     Rnd read ,   512KB, QD=32, 4 jobs:  IOPS=2798, BW=1405MiB/s (1474MB/s)
+>     Rnd write,     4KB, QD=1 , 1 job :  IOPS=7411, BW=29.0MiB/s (30.4MB/s)
+>     Rnd write,     4KB, QD=32, 1 job :  IOPS=39.3k, BW=153MiB/s (161MB/s)
+>     Rnd write,     4KB, QD=32, 4 jobs:  IOPS=42.9k, BW=167MiB/s (176MB/s)
+>     Rnd write,   128KB, QD=1 , 1 job :  IOPS=3736, BW=467MiB/s (490MB/s)
+>     Rnd write,   128KB, QD=32, 1 job :  IOPS=8302, BW=1038MiB/s (1089MB/s)
+>     Rnd write,   128KB, QD=32, 4 jobs:  IOPS=8314, BW=1041MiB/s (1091MB/s)
+>     Seq read ,   128KB, QD=1 , 1 job :  IOPS=4092, BW=512MiB/s (536MB/s)
+>     Seq read ,   128KB, QD=32, 1 job :  IOPS=10.8k, BW=1354MiB/s (1420MB/s)
+>     Seq read ,   512KB, QD=1 , 1 job :  IOPS=1474, BW=737MiB/s (773MB/s)
+>     Seq read ,   512KB, QD=32, 1 job :  IOPS=2794, BW=1399MiB/s (1467MB/s)
+>     Seq read ,     1MB, QD=32, 1 job :  IOPS=1401, BW=1404MiB/s (1472MB/s)
+>     Seq write,   128KB, QD=1 , 1 job :  IOPS=4135, BW=517MiB/s (542MB/s)
+>     Seq write,   128KB, QD=32, 1 job :  IOPS=8307, BW=1039MiB/s (1089MB/s)
+>     Seq write,   512KB, QD=1 , 1 job :  IOPS=1259, BW=630MiB/s (660MB/s)
+>     Seq write,   512KB, QD=32, 1 job :  IOPS=2073, BW=1038MiB/s (1089MB/s)
+>     Seq write,     1MB, QD=32, 1 job :  IOPS=1034, BW=1038MiB/s (1088MB/s)
+>     Rnd rdwr , 4K..1MB, QD=8 , 4 jobs:  IOPS=1531, BW=763MiB/s (801MB/s)
+>      IOPS=1540, BW=765MiB/s (802MB/s)
+>
+> On this HDMA setup, I did not observe a clear performance difference from
+> applying the three series alone. Still, I like the overall direction.
+>
+>
+> P.S.
+> Separately, as a follow-up experiment, I also prototyped an extra series on top
+> of your three series that allows us to make use of HDMA watermark interrupts.
+> With that series, in particular for the high queue-depth cases, the results
+> improved noticeably on this platform. I haven't posted that series yet though.
 
-Access control mechanisms sometimes need to match metadata tags
-between a session and a resource. A tagset provides efficient
-membership testing and set intersection operations for this purpose.
+Thanks for test it. I am monitor above recondition patch set.
 
-The implementation uses a sorted array of string pointers. Unlike
-hash tables, sorted arrays support efficient intersection without
-needing to iterate one set and probe the other. Unlike rbtrees,
-they require no per-element node allocation, minimizing memory
-overhead for small sets typical of resource tagging.
-
-Operation complexities:
-
-  - tagset_add():          O(1)
-  - tagset_finalize():     O(N log N) for sorting and deduplication
-  - tagset_is_member():    O(log N) via binary search
-  - tagset_intersection(): O(N + M) via merge comparison
-
-The API follows a build-then-query pattern: callers initialize,
-allocate capacity, add tags, then finalize before querying. Once
-finalized, the tagset is suitable for concurrent read access.
-
-Consumers of the new APIs will be introduced in subsequent patches.
-
-Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
----
- Documentation/core-api/index.rst  |   1 +
- Documentation/core-api/tagset.rst | 225 ++++++++++++++++++++++++++++++++++++++
- include/linux/tagset.h            | 187 +++++++++++++++++++++++++++++++
- lib/Makefile                      |   1 +
- lib/tagset.c                      | 174 +++++++++++++++++++++++++++++
- 5 files changed, 588 insertions(+)
-
-diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
-index 13769d5c40bf..d48c074e6b12 100644
---- a/Documentation/core-api/index.rst
-+++ b/Documentation/core-api/index.rst
-@@ -45,6 +45,7 @@ Library functionality that is used throughout the kernel.
-    idr
-    circular-buffers
-    rbtree
-+   tagset
-    generic-radix-tree
-    packing
-    this_cpu_ops
-diff --git a/Documentation/core-api/tagset.rst b/Documentation/core-api/tagset.rst
-new file mode 100644
-index 000000000000..2945cfa95ab4
---- /dev/null
-+++ b/Documentation/core-api/tagset.rst
-@@ -0,0 +1,225 @@
-+.. SPDX-License-Identifier: GPL-2.0+
-+
-+======
-+Tagset
-+======
-+
-+Overview
-+========
-+
-+A tagset is a set of strings, intended for resource tagging where
-+metadata about a resource is represented simply by a name. The public
-+API can be found in ``<linux/tagset.h>``.
-+
-+
-+Initialization and Destruction
-+==============================
-+
-+A tagset must be initialized before use::
-+
-+    struct tagset tags;
-+    tagset_init(&tags);
-+
-+Before adding tags, allocate capacity::
-+
-+    if (!tagset_alloc(&tags, num_tags, GFP_KERNEL))
-+        return -ENOMEM;
-+
-+When finished, release all resources::
-+
-+    tagset_destroy(&tags);
-+
-+This frees all tag strings and the array. The tagset is reinitialized
-+and may be reused by calling ``tagset_alloc()`` again.
-+
-+
-+Adding Tags
-+===========
-+
-+Two functions are provided for adding tags. Both require that
-+sufficient capacity has been allocated via ``tagset_alloc()``.
-+All functions that allocate memory return false on failure; callers
-+should check return values.
-+
-+``tagset_add()``
-+    Adds a tag string that is already in kmalloc'd memory. On success,
-+    the tagset takes ownership of the string and will free it when
-+    the tagset is destroyed::
-+
-+        char *tag = kstrdup("mytag", GFP_KERNEL);
-+        if (!tag || !tagset_add(&tags, tag))
-+            kfree(tag);  /* failed, caller must free */
-+
-+``tagset_add_dup()``
-+    Duplicates the tag string internally. The caller retains ownership
-+    of the original string::
-+
-+        if (!tagset_add_dup(&tags, "mytag", GFP_KERNEL))
-+            return -ENOMEM;
-+
-+Both functions return true on success, false on failure. Tags must
-+not be added after ``tagset_finalize()`` has been called. Use
-+``GFP_ATOMIC`` when adding tags in atomic context.
-+
-+
-+Finalizing
-+==========
-+
-+After adding all tags, the tagset must be finalized before querying::
-+
-+    tagset_finalize(&tags);
-+
-+This sorts the array to enable efficient binary search and removes
-+any duplicate tags. Calling ``tagset_is_member()`` or
-+``tagset_intersection()`` on a non-finalized tagset produces
-+undefined results.
-+
-+
-+Querying Tags
-+=============
-+
-+``tagset_is_empty()``
-+    Returns true if the tagset contains no tags.
-+
-+``tagset_count()``
-+    Returns the number of tags in the tagset. Before finalization,
-+    this is the number of tags added; after finalization, this is
-+    the number of unique tags.
-+
-+``tagset_is_member()``
-+    Returns true if a tag is present in the tagset. Uses binary
-+    search for O(log N) complexity::
-+
-+        if (tagset_is_member(&tags, "mytag"))
-+            pr_info("tag found\n");
-+
-+``tagset_intersection()``
-+    Returns true if two tagsets share at least one common tag.
-+    Uses merge-style comparison for O(N+M) complexity::
-+
-+        if (tagset_intersection(&tags1, &tags2))
-+            pr_info("sets overlap\n");
-+
-+
-+Iteration
-+=========
-+
-+Use ``tagset_for_each()`` to iterate over all tags::
-+
-+    unsigned int index;
-+    char *tag;
-+
-+    tagset_for_each(&tags, index, tag)
-+        pr_info("tag: %s\n", tag);
-+
-+Callers should not depend on the order in which tags are returned.
-+Modifying the tagset during iteration produces undefined behavior.
-+
-+
-+Copying
-+=======
-+
-+``tagset_copy()`` duplicates all tags from one tagset to another::
-+
-+    struct tagset copy;
-+    if (!tagset_copy(&copy, &original, GFP_KERNEL))
-+        pr_err("copy failed\n");
-+
-+The source tagset should be finalized before copying. The destination
-+tagset is initialized and ready for queries after this function
-+returns (no separate ``tagset_finalize()`` call is needed). Each tag
-+string is duplicated, so the two tagsets are fully independent after
-+copying.
-+
-+
-+Typical Usage Pattern
-+=====================
-+
-+A typical usage pattern for building a tagset::
-+
-+    struct tagset tags;
-+
-+    tagset_init(&tags);
-+    if (!tagset_alloc(&tags, count, GFP_KERNEL))
-+        return -ENOMEM;
-+
-+    for (i = 0; i < count; i++) {
-+        if (!tagset_add_dup(&tags, strings[i], GFP_KERNEL)) {
-+            tagset_destroy(&tags);
-+            return -ENOMEM;
-+        }
-+    }
-+    tagset_finalize(&tags);
-+
-+    /* Now safe to query */
-+    if (tagset_is_member(&tags, "target"))
-+        do_something();
-+
-+    tagset_destroy(&tags);
-+
-+
-+Thread Safety
-+=============
-+
-+Tagsets have no internal locking. Callers provide synchronization
-+between writers and readers.
-+
-+The build-and-finalize phase mutates the tagset; the post-finalize
-+query phase reads from it. The two phases must be separated by a
-+publication boundary, because ``tagset_finalize()`` itself carries
-+no memory barrier. A reader that observes the finalized tagset
-+before the writer's stores have propagated may see a stale
-+``ts_count`` or a partially populated ``ts_tags[]`` array.
-+
-+Three publication patterns are sufficient:
-+
-+* Lock release after ``tagset_finalize()``, lock acquire before
-+  each query. The matching unlock/lock pair supplies release and
-+  acquire ordering.
-+
-+* ``rcu_assign_pointer()`` of the tagset pointer after
-+  ``tagset_finalize()``, paired with ``rcu_dereference()`` inside
-+  an RCU read-side critical section on the reader.
-+
-+* ``smp_store_release()`` of the tagset pointer after
-+  ``tagset_finalize()``, paired with ``smp_load_acquire()`` on the
-+  reader.
-+
-+Once published, the tagset must remain immutable until no further
-+readers can observe it. ``tagset_destroy()`` is not safe against
-+concurrent readers, and ``tagset_finalize()`` must not be called
-+more than once. With RCU publication, callers typically defer
-+destruction to a grace period (``synchronize_rcu()`` before
-+``tagset_destroy()``, or ``tagset_destroy()`` from a
-+``call_rcu()`` callback) so that in-flight readers drain before
-+the storage is freed.
-+
-+
-+Implementation
-+==============
-+
-+Each tagset is rooted on the following structure::
-+
-+    struct tagset {
-+            char         **ts_tags;
-+            unsigned int   ts_count;
-+            unsigned int   ts_capacity;
-+            bool           ts_finalized;
-+    };
-+
-+The implementation uses a sorted array of string pointers, providing
-+O(log N) membership testing and O(N+M) intersection operations.
-+
-++------------------------+-------------+
-+| Operation              | Complexity  |
-++========================+=============+
-+| tagset_add             | O(1)        |
-++------------------------+-------------+
-+| tagset_finalize        | O(N log N)  |
-++------------------------+-------------+
-+| tagset_is_member       | O(log N)    |
-++------------------------+-------------+
-+| tagset_intersection    | O(N + M)    |
-++------------------------+-------------+
-+| tagset_copy            | O(N)        |
-++------------------------+-------------+
-diff --git a/include/linux/tagset.h b/include/linux/tagset.h
-new file mode 100644
-index 000000000000..8b0a58add8fc
---- /dev/null
-+++ b/include/linux/tagset.h
-@@ -0,0 +1,187 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Tagsets
-+ *
-+ * Copyright (c) 2025, Oracle and/or its affiliates.
-+ * Author: Chuck Lever <chuck.lever@oracle.com>
-+ *
-+ * A tagset is a set of strings. See
-+ * Documentation/core-api/tagset.rst for how to use tagsets.
-+ *
-+ * Tagsets have no internal locking. Callers provide synchronization
-+ * between writers and readers, including a release/acquire (RCU, or
-+ * matching unlock/lock) publication boundary between tagset_finalize()
-+ * and the first concurrent query, and a grace period (or equivalent
-+ * reader drain) before tagset_destroy(). See the Thread Safety section
-+ * of Documentation/core-api/tagset.rst.
-+ */
-+
-+#ifndef _LINUX_TAGSET_H
-+#define _LINUX_TAGSET_H
-+
-+#include <linux/bug.h>
-+#include <linux/slab.h>
-+
-+struct tagset {
-+	char		**ts_tags;
-+	unsigned int	ts_count;
-+	unsigned int	ts_capacity;
-+	bool		ts_finalized;
-+};
-+
-+#define TAGSET_INIT \
-+	{ .ts_tags = NULL, .ts_count = 0, .ts_capacity = 0, .ts_finalized = false }
-+#define DEFINE_TAGSET(name) \
-+	struct tagset name = TAGSET_INIT
-+
-+/**
-+ * tagset_for_each - Iterate over items in a tagset
-+ * @set: An initialized tagset containing zero or more items
-+ * @index: Index counter for the iteration
-+ * @tag: Tag retrieved from the tagset
-+ */
-+#define tagset_for_each(set, index, tag) \
-+	for ((index) = 0; (index) < (set)->ts_count && \
-+	     ((tag) = (set)->ts_tags[index], true); (index)++)
-+
-+/**
-+ * tagset_init - Initialize an empty tagset
-+ * @set: tagset to be initialized
-+ */
-+static inline void tagset_init(struct tagset *set)
-+{
-+	set->ts_tags = NULL;
-+	set->ts_count = 0;
-+	set->ts_capacity = 0;
-+	set->ts_finalized = false;
-+}
-+
-+/**
-+ * tagset_alloc - Pre-allocate space for tags
-+ * @set: An initialized tagset
-+ * @capacity: Number of tags to allocate space for
-+ * @gfp: Memory allocation flags
-+ *
-+ * This function may only be called once per tagset. Calling it on a
-+ * tagset that has already been allocated returns failure.
-+ *
-+ * @capacity may be zero. The tagset then represents an empty set:
-+ * tagset_add() rejects further additions, and tagset_finalize(),
-+ * tagset_is_member(), tagset_intersection(), and tagset_destroy()
-+ * all handle it correctly. The same state is produced by
-+ * DEFINE_TAGSET() and tagset_init() alone, so callers that know the
-+ * set is empty may skip tagset_alloc() entirely.
-+ *
-+ * Return:
-+ *   %true: allocation succeeded (or @capacity was zero)
-+ *   %false: allocation failed or tagset already allocated
-+ */
-+static inline __must_check bool
-+tagset_alloc(struct tagset *set, unsigned int capacity, gfp_t gfp)
-+{
-+	if (set->ts_tags)
-+		return false;
-+	if (capacity == 0)
-+		return true;
-+
-+	set->ts_tags = kcalloc(capacity, sizeof(char *), gfp);
-+	if (!set->ts_tags)
-+		return false;
-+	set->ts_capacity = capacity;
-+	return true;
-+}
-+
-+/**
-+ * tagset_is_empty - Determine if a tagset contains any tags
-+ * @set: An initialized tagset to be checked
-+ *
-+ * Return:
-+ *    %true: if @set is empty
-+ *    %false: if @set contains one or more tags
-+ */
-+static inline bool tagset_is_empty(const struct tagset *set)
-+{
-+	return set->ts_count == 0;
-+}
-+
-+/**
-+ * tagset_count - Return the number of tags in a tagset
-+ * @set: An initialized tagset to be checked
-+ *
-+ * If called before tagset_finalize(), returns the number of tags
-+ * added. If called after, returns the number of unique tags.
-+ *
-+ * Return:
-+ *    The number of tags in @set
-+ */
-+static inline unsigned int tagset_count(const struct tagset *set)
-+{
-+	return set->ts_count;
-+}
-+
-+/**
-+ * tagset_add - Add a tag to a tagset
-+ * @set: An initialized tagset with available capacity
-+ * @tag: non-NULL tag string to be added to @set, in kmalloc'd memory
-+ *
-+ * On success, @tag is now owned by @set and will be freed either
-+ * by tagset_finalize() (if a content duplicate) or tagset_destroy().
-+ * The tagset must have been allocated with sufficient capacity via
-+ * tagset_alloc(). Tags must not be added after tagset_finalize() has
-+ * been called. Callers must not hand the same pointer to tagset_add()
-+ * more than once: ownership has already transferred, and a second add
-+ * produces a double-free at tagset_destroy().
-+ *
-+ * Return:
-+ *   %true: @tag is now a member of @set
-+ *   %false: @tag could not be added (NULL or no capacity)
-+ */
-+static inline __must_check bool
-+tagset_add(struct tagset *set, char *tag)
-+{
-+	if (WARN_ON_ONCE(set->ts_finalized))
-+		return false;
-+	if (!tag || set->ts_count >= set->ts_capacity)
-+		return false;
-+	set->ts_tags[set->ts_count++] = tag;
-+	return true;
-+}
-+
-+/**
-+ * tagset_add_dup - Add a copy of a tag to a tagset
-+ * @set: An initialized tagset with available capacity
-+ * @tag: non-NULL tag string to be copied and added to @set
-+ * @gfp: Memory allocation flags
-+ *
-+ * On success, @tag will have been copied into a kmalloc'd
-+ * buffer. The caller can release @tag immediately. Tags must not
-+ * be added after tagset_finalize() has been called.
-+ *
-+ * Return:
-+ *   %true: @tag is now a member of @set
-+ *   %false: @tag could not be added (NULL, no capacity, or ENOMEM)
-+ */
-+static inline __must_check bool
-+tagset_add_dup(struct tagset *set, const char *tag, gfp_t gfp)
-+{
-+	char *entry;
-+
-+	if (WARN_ON_ONCE(set->ts_finalized))
-+		return false;
-+	if (!tag || set->ts_count >= set->ts_capacity)
-+		return false;
-+	entry = kstrdup(tag, gfp);
-+	if (!entry)
-+		return false;
-+	set->ts_tags[set->ts_count++] = entry;
-+	return true;
-+}
-+
-+/* Implemented in lib/tagset.c */
-+void tagset_finalize(struct tagset *set);
-+void tagset_destroy(struct tagset *set);
-+bool tagset_is_member(const struct tagset *set, const char *tag);
-+bool tagset_copy(struct tagset *dest, const struct tagset *src, gfp_t gfp);
-+bool tagset_intersection(const struct tagset *set1, const struct tagset *set2);
-+
-+#endif /* _LINUX_TAGSET_H */
-diff --git a/lib/Makefile b/lib/Makefile
-index f33a24bf1c19..4f3be192be5b 100644
---- a/lib/Makefile
-+++ b/lib/Makefile
-@@ -61,6 +61,7 @@ obj-y += bcd.o sort.o parser.o debug_locks.o random32.o \
- 	 generic-radix-tree.o bitmap-str.o
- obj-y += string_helpers.o
- obj-y += hexdump.o
-+obj-y += tagset.o
- obj-$(CONFIG_TEST_HEXDUMP) += test_hexdump.o
- obj-y += kstrtox.o
- obj-$(CONFIG_FIND_BIT_BENCHMARK) += find_bit_benchmark.o
-diff --git a/lib/tagset.c b/lib/tagset.c
-new file mode 100644
-index 000000000000..a7e09895e370
---- /dev/null
-+++ b/lib/tagset.c
-@@ -0,0 +1,174 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Tagsets - a sorted set of strings
-+ *
-+ * Copyright (c) 2025, Oracle and/or its affiliates.
-+ * Author: Chuck Lever <chuck.lever@oracle.com>
-+ */
-+
-+#include <linux/bug.h>
-+#include <linux/export.h>
-+#include <linux/sort.h>
-+#include <linux/tagset.h>
-+
-+static int tagset_cmp(const void *a, const void *b)
-+{
-+	const char * const *sa = a;
-+	const char * const *sb = b;
-+
-+	return strcmp(*sa, *sb);
-+}
-+
-+/**
-+ * tagset_finalize - Sort the tagset and remove duplicates
-+ * @set: An initialized tagset that has been populated
-+ *
-+ * This must be called after all tags have been added and before
-+ * calling tagset_is_member() or tagset_intersection(). Duplicate
-+ * tags are removed and their memory is freed.
-+ */
-+void tagset_finalize(struct tagset *set)
-+{
-+	unsigned int i, j;
-+
-+	if (WARN_ON_ONCE(set->ts_finalized))
-+		return;
-+	if (set->ts_count > 1) {
-+		sort(set->ts_tags, set->ts_count, sizeof(char *),
-+		     tagset_cmp, NULL);
-+
-+		/* Remove duplicates in place */
-+		for (i = 0, j = 1; j < set->ts_count; j++) {
-+			if (strcmp(set->ts_tags[i], set->ts_tags[j]) == 0)
-+				kfree(set->ts_tags[j]);
-+			else
-+				set->ts_tags[++i] = set->ts_tags[j];
-+		}
-+		set->ts_count = i + 1;
-+	}
-+	set->ts_finalized = true;
-+}
-+EXPORT_SYMBOL_GPL(tagset_finalize);
-+
-+/**
-+ * tagset_destroy - Release tagset resources
-+ * @set: tagset to be destroyed
-+ */
-+void tagset_destroy(struct tagset *set)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < set->ts_count; i++)
-+		kfree(set->ts_tags[i]);
-+	kfree(set->ts_tags);
-+	tagset_init(set);
-+}
-+EXPORT_SYMBOL_GPL(tagset_destroy);
-+
-+/**
-+ * tagset_is_member - Check if a tag is already a member of a tagset
-+ * @set: An initialized and finalized tagset to be checked
-+ * @tag: tag string to search for
-+ *
-+ * Uses binary search. The tagset must have been finalized first.
-+ *
-+ * Return:
-+ *   %true: if @tag is a member of @set
-+ *   %false: if @tag is not a member of @set
-+ */
-+bool tagset_is_member(const struct tagset *set, const char *tag)
-+{
-+	unsigned int low = 0, high = set->ts_count;
-+
-+	WARN_ON_ONCE(!set->ts_finalized);
-+	while (low < high) {
-+		unsigned int mid = low + (high - low) / 2;
-+		int cmp = strcmp(tag, set->ts_tags[mid]);
-+
-+		if (cmp == 0)
-+			return true;
-+		if (cmp < 0)
-+			high = mid;
-+		else
-+			low = mid + 1;
-+	}
-+	return false;
-+}
-+EXPORT_SYMBOL_GPL(tagset_is_member);
-+
-+/**
-+ * tagset_copy - Duplicate tags to another tagset
-+ * @dest: An empty, initialized tagset to be filled
-+ * @src: An initialized tagset to be copied from
-+ * @gfp: Memory allocation flags
-+ *
-+ * @dest must be initialized -- via TAGSET_INIT, DEFINE_TAGSET,
-+ * tagset_init(), or a prior tagset_destroy() -- and must hold no
-+ * tags. Passing a populated tagset leaks its contents.
-+ *
-+ * On success @dest is populated and ready for use; no call to
-+ * tagset_finalize() is required. On failure @dest is left as an
-+ * empty, finalized tagset, so callers can safely run queries
-+ * against it without first checking the return value.
-+ *
-+ * Return:
-+ *   %true: All tags in @src were copied to @dest
-+ *   %false: A failure occurred; @dest is empty and finalized
-+ */
-+bool tagset_copy(struct tagset *dest, const struct tagset *src, gfp_t gfp)
-+{
-+	unsigned int i;
-+
-+	/* src is already sorted, so dest is too */
-+	dest->ts_finalized = src->ts_finalized;
-+	if (src->ts_count == 0)
-+		return true;
-+	if (!tagset_alloc(dest, src->ts_count, gfp))
-+		goto out_fail;
-+	for (i = 0; i < src->ts_count; i++) {
-+		char *entry = kstrdup(src->ts_tags[i], gfp);
-+
-+		if (!entry)
-+			goto out_fail;
-+		dest->ts_tags[dest->ts_count++] = entry;
-+	}
-+	return true;
-+
-+out_fail:
-+	tagset_destroy(dest);
-+	dest->ts_finalized = true;
-+	return false;
-+}
-+EXPORT_SYMBOL_GPL(tagset_copy);
-+
-+/**
-+ * tagset_intersection - Report if there are common tags
-+ * @set1: An initialized and finalized tagset
-+ * @set2: Another initialized and finalized tagset
-+ *
-+ * Uses merge-style comparison of two sorted arrays for O(N+M)
-+ * complexity.
-+ *
-+ * Return:
-+ *   %true: @set1 and @set2 have at least one common tag
-+ *   %false: @set1 and @set2 have no tags in common
-+ */
-+bool tagset_intersection(const struct tagset *set1, const struct tagset *set2)
-+{
-+	unsigned int i = 0, j = 0;
-+
-+	WARN_ON_ONCE(!set1->ts_finalized);
-+	WARN_ON_ONCE(!set2->ts_finalized);
-+	while (i < set1->ts_count && j < set2->ts_count) {
-+		int cmp = strcmp(set1->ts_tags[i], set2->ts_tags[j]);
-+
-+		if (cmp == 0)
-+			return true;
-+		if (cmp < 0)
-+			i++;
-+		else
-+			j++;
-+	}
-+	return false;
-+}
-+EXPORT_SYMBOL_GPL(tagset_intersection);
-
--- 
-2.54.0
-
+Frank
+>
+>   After your three series (v7 + v2 + this) + use of HDMA watermark interrupts
+>
+>     Rnd read ,     4KB, QD=1 , 1 job :  IOPS=8016, BW=31.3MiB/s (32.8MB/s)
+>     Rnd read ,     4KB, QD=32, 1 job :  IOPS=63.4k, BW=248MiB/s (260MB/s)
+>     Rnd read ,     4KB, QD=32, 4 jobs:  IOPS=92.7k, BW=362MiB/s (380MB/s)
+>     Rnd read ,   128KB, QD=1 , 1 job :  IOPS=3530, BW=441MiB/s (463MB/s)
+>     Rnd read ,   128KB, QD=32, 1 job :  IOPS=12.0k, BW=1500MiB/s (1573MB/s)
+>     Rnd read ,   128KB, QD=32, 4 jobs:  IOPS=12.4k, BW=1555MiB/s (1631MB/s)
+>     Rnd read ,   512KB, QD=1 , 1 job :  IOPS=1541, BW=771MiB/s (808MB/s)
+>     Rnd read ,   512KB, QD=32, 1 job :  IOPS=3116, BW=1560MiB/s (1636MB/s)
+>     Rnd read ,   512KB, QD=32, 4 jobs:  IOPS=3099, BW=1556MiB/s (1632MB/s)
+>     Rnd write,     4KB, QD=1 , 1 job :  IOPS=8748, BW=34.2MiB/s (35.8MB/s)
+>     Rnd write,     4KB, QD=32, 1 job :  IOPS=57.6k, BW=225MiB/s (236MB/s)
+>     Rnd write,     4KB, QD=32, 4 jobs:  IOPS=80.3k, BW=314MiB/s (329MB/s)
+>     Rnd write,   128KB, QD=1 , 1 job :  IOPS=3878, BW=485MiB/s (508MB/s)
+>     Rnd write,   128KB, QD=32, 1 job :  IOPS=9798, BW=1225MiB/s (1285MB/s)
+>     Rnd write,   128KB, QD=32, 4 jobs:  IOPS=9970, BW=1248MiB/s (1308MB/s)
+>     Seq read ,   128KB, QD=1 , 1 job :  IOPS=4516, BW=565MiB/s (592MB/s)
+>     Seq read ,   128KB, QD=32, 1 job :  IOPS=12.0k, BW=1497MiB/s (1570MB/s)
+>     Seq read ,   512KB, QD=1 , 1 job :  IOPS=1571, BW=786MiB/s (824MB/s)
+>     Seq read ,   512KB, QD=32, 1 job :  IOPS=3073, BW=1538MiB/s (1613MB/s)
+>     Seq read ,     1MB, QD=32, 1 job :  IOPS=1573, BW=1576MiB/s (1653MB/s)
+>     Seq write,   128KB, QD=1 , 1 job :  IOPS=3977, BW=497MiB/s (521MB/s)
+>     Seq write,   128KB, QD=32, 1 job :  IOPS=9806, BW=1226MiB/s (1286MB/s)
+>     Seq write,   512KB, QD=1 , 1 job :  IOPS=1404, BW=702MiB/s (736MB/s)
+>     Seq write,   512KB, QD=32, 1 job :  IOPS=2496, BW=1250MiB/s (1310MB/s)
+>     Seq write,     1MB, QD=32, 1 job :  IOPS=1252, BW=1256MiB/s (1317MB/s)
+>     Rnd rdwr , 4K..1MB, QD=8 , 4 jobs:  IOPS=1682, BW=836MiB/s (877MB/s)
+>      IOPS=1688, BW=838MiB/s (879MB/s)
+>
+> Best regards,
+> Koichiro
+>
+> > Corn case have not tested, such as pause/resume transfer.
+> >
+> > Before
+> >
+> >   Rnd read,    4KB,  QD=1, 1 job :  IOPS=6780, BW=26.5MiB/s (27.8MB/s)
+> >   Rnd read,    4KB, QD=32, 1 job :  IOPS=28.6k, BW=112MiB/s (117MB/s)
+> >   Rnd read,    4KB, QD=32, 4 jobs:  IOPS=33.4k, BW=130MiB/s (137MB/s)
+> >   Rnd read,  128KB,  QD=1, 1 job :  IOPS=1188, BW=149MiB/s (156MB/s)
+> >   Rnd read,  128KB, QD=32, 1 job :  IOPS=1440, BW=180MiB/s (189MB/s)
+> >   Rnd read,  128KB, QD=32, 4 jobs:  IOPS=1282, BW=160MiB/s (168MB/s)
+> >   Rnd read,  512KB,  QD=1, 1 job :  IOPS=254, BW=127MiB/s (134MB/s)
+> >   Rnd read,  512KB, QD=32, 1 job :  IOPS=354, BW=177MiB/s (186MB/s)
+> >   Rnd read,  512KB, QD=32, 4 jobs:  IOPS=388, BW=194MiB/s (204MB/s)
+> >   Rnd write,   4KB,  QD=1, 1 job :  IOPS=6282, BW=24.5MiB/s (25.7MB/s)
+> >   Rnd write,   4KB, QD=32, 1 job :  IOPS=24.9k, BW=97.5MiB/s (102MB/s)
+> >   Rnd write,   4KB, QD=32, 4 jobs:  IOPS=27.4k, BW=107MiB/s (112MB/s)
+> >   Rnd write, 128KB,  QD=1, 1 job :  IOPS=1098, BW=137MiB/s (144MB/s)
+> >   Rnd write, 128KB, QD=32, 1 job :  IOPS=1195, BW=149MiB/s (157MB/s)
+> >   Rnd write, 128KB, QD=32, 4 jobs:  IOPS=1120, BW=140MiB/s (147MB/s)
+> >   Seq read,  128KB,  QD=1, 1 job :  IOPS=936, BW=117MiB/s (123MB/s)
+> >   Seq read,  128KB, QD=32, 1 job :  IOPS=1218, BW=152MiB/s (160MB/s)
+> >   Seq read,  512KB,  QD=1, 1 job :  IOPS=301, BW=151MiB/s (158MB/s)
+> >   Seq read,  512KB, QD=32, 1 job :  IOPS=360, BW=180MiB/s (189MB/s)
+> >   Seq read,    1MB, QD=32, 1 job :  IOPS=193, BW=194MiB/s (203MB/s)
+> >   Seq write, 128KB,  QD=1, 1 job :  IOPS=796, BW=99.5MiB/s (104MB/s)
+> >   Seq write, 128KB, QD=32, 1 job :  IOPS=1019, BW=127MiB/s (134MB/s)
+> >   Seq write, 512KB,  QD=1, 1 job :  IOPS=213, BW=107MiB/s (112MB/s)
+> >   Seq write, 512KB, QD=32, 1 job :  IOPS=273, BW=137MiB/s (143MB/s)
+> >   Seq write,   1MB, QD=32, 1 job :  IOPS=168, BW=168MiB/s (177MB/s)
+> >   Rnd rdwr, 4K..1MB, QD=8, 4 jobs:  IOPS=255, BW=128MiB/s (134MB/s)
+> >    IOPS=266, BW=135MiB/s (141MB/s)
+> >
+> > After
+> >
+> >   Rnd read,    4KB,  QD=1, 1 job :  IOPS=6148, BW=24.0MiB/s (25.2MB/s)
+> >   Rnd read,    4KB, QD=32, 1 job :  IOPS=29.4k, BW=115MiB/s (121MB/s)
+> >   Rnd read,    4KB, QD=32, 4 jobs:  IOPS=38.8k, BW=151MiB/s (159MB/s)
+> >   Rnd read,  128KB,  QD=1, 1 job :  IOPS=859, BW=107MiB/s (113MB/s)
+> >   Rnd read,  128KB, QD=32, 1 job :  IOPS=1504, BW=188MiB/s (197MB/s)
+> >   Rnd read,  128KB, QD=32, 4 jobs:  IOPS=1531, BW=191MiB/s (201MB/s)
+> >   Rnd read,  512KB,  QD=1, 1 job :  IOPS=238, BW=119MiB/s (125MB/s)
+> >   Rnd read,  512KB, QD=32, 1 job :  IOPS=390, BW=195MiB/s (205MB/s)
+> >   Rnd read,  512KB, QD=32, 4 jobs:  IOPS=404, BW=202MiB/s (212MB/s)
+> >   Rnd write,   4KB,  QD=1, 1 job :  IOPS=5801, BW=22.7MiB/s (23.8MB/s)
+> >   Rnd write,   4KB, QD=32, 1 job :  IOPS=24.7k, BW=96.6MiB/s (101MB/s)
+> >   Rnd write,   4KB, QD=32, 4 jobs:  IOPS=32.7k, BW=128MiB/s (134MB/s)
+> >   Rnd write, 128KB,  QD=1, 1 job :  IOPS=744, BW=93.1MiB/s (97.6MB/s)
+> >   Rnd write, 128KB, QD=32, 1 job :  IOPS=1278, BW=160MiB/s (168MB/s)
+> >   Rnd write, 128KB, QD=32, 4 jobs:  IOPS=1278, BW=160MiB/s (168MB/s)
+> >   Seq read,  128KB,  QD=1, 1 job :  IOPS=853, BW=107MiB/s (112MB/s)
+> >   Seq read,  128KB, QD=32, 1 job :  IOPS=1511, BW=189MiB/s (198MB/s)
+> >   Seq read,  512KB,  QD=1, 1 job :  IOPS=240, BW=120MiB/s (126MB/s)
+> >   Seq read,  512KB, QD=32, 1 job :  IOPS=386, BW=193MiB/s (203MB/s)
+> >   Seq read,    1MB, QD=32, 1 job :  IOPS=200, BW=201MiB/s (211MB/s)
+> >   Seq write, 128KB,  QD=1, 1 job :  IOPS=749, BW=93.7MiB/s (98.3MB/s)
+> >   Seq write, 128KB, QD=32, 1 job :  IOPS=1266, BW=158MiB/s (166MB/s)
+> >   Seq write, 512KB,  QD=1, 1 job :  IOPS=198, BW=99.0MiB/s (104MB/s)
+> >   Seq write, 512KB, QD=32, 1 job :  IOPS=352, BW=176MiB/s (185MB/s)
+> >   Seq write,   1MB, QD=32, 1 job :  IOPS=184, BW=184MiB/s (193MB/s)
+> >   Rnd rdwr, 4K..1MB, QD=8, 4 jobs:  IOPS=287, BW=145MiB/s (152MB/s)
+> >  IOPS=299, BW=149MiB/s (156MB/s)
+> >
+> > Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> > ---
+> > Frank Li (5):
+> >       dmaengine: dw-edma: Add dw_edma_core_ll_cur_idx() to get completed link entry pos
+> >       dmaengine: dw-edma: Move dw_hdma_set_callback_result() up
+> >       dmaengine: dw-edma: Make DMA link list work as a circular buffer
+> >       dmaengine: dw-edma: Dynamitc append new request during dmaengine running
+> >       dmaengine: dw-edma: Add trace support
+> >
+> >  drivers/dma/dw-edma/Makefile          |   3 +
+> >  drivers/dma/dw-edma/dw-edma-core.c    | 215 ++++++++++++++++++++++++----------
+> >  drivers/dma/dw-edma/dw-edma-core.h    |  42 ++++++-
+> >  drivers/dma/dw-edma/dw-edma-trace.c   |   4 +
+> >  drivers/dma/dw-edma/dw-edma-trace.h   | 150 ++++++++++++++++++++++++
+> >  drivers/dma/dw-edma/dw-edma-v0-core.c |  39 +++++-
+> >  drivers/dma/dw-edma/dw-hdma-v0-core.c |  17 +++
+> >  7 files changed, 409 insertions(+), 61 deletions(-)
+> > ---
+> > base-commit: 020f6d8442f35105660a29d0d236d3f8650c8142
+> > change-id: 20251212-edma_dymatic-a57843ff0dfe
+> >
+> > Best regards,
+> > --
+> > Frank Li <Frank.Li@nxp.com>
+> >
 
