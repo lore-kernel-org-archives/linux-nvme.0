@@ -4,72 +4,110 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B9632CD8C8E
-	for <linux-nvme@archiver.kernel.org>; Sat,  6 Jun 2026 12:20:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ADE15CD8C8C
+	for <linux-nvme@archiver.kernel.org>; Sat,  6 Jun 2026 13:26:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Date:Cc:To:From
-	:Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KQbb4kAqpREnn8YJ4csak5xFjL0CPICJLcGvclLWvU8=; b=POjSXz3VTVycpsmPtTxgBkH56+
-	Ug8ZMca2E7qMGH20CeWr7UOoWKhAOmqEw8uq1nV5BbrKsMui8W81Z0y6ip94Th9lVju+dgF9bksLy
-	5naVNVgb687ngBqyJVzSVyRY7IXmctwh9zdvnymWxV1ZL8RqRyNOzHUoskcTvngXvvVpaHr4zP+pY
-	9h9h5Q56IDJmHMibmKMSP9cijLWIKUCxJBfUZLvP5SEvz67sQx/qgb2twI4xodX2MIizPWxoZ4Zk8
-	Xo0jDksiKrlemgSOIIs9Fz+5/CP/QjuXmmy8u/G3k7QXL292aca01zV63Bkqkj44+0hAasuLG22jc
-	AMHlMr3A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:Date:Subject:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=gt51o7gJucZDYngX+zezYd8oMcYGRKCaBEJDS7EqeeU=; b=eD87MhEwYoty18
+	TclMTDGQpNdNeYofXPyfQW0omVZLItz4gqyHqTmCY2ie2xxxFAqf6i3CNe8yVDU7NOT6NMzzCU2CY
+	5ET4PbYnrrggw6Uccl72rmg87W83VsE+thFBRxxhspXHOvo1valeKiSnr9UNzGQYKFVOHtJ4SAaG2
+	41b9Ne2tbS/6V2sXCV4ZcG8Opx2iAvZUeZxfCHGtLfnhq1LfNNcZ7sj6+YiqqXLoLrjl4M+gvIe2z
+	Ws4BdyMSoxVtoKaxW7uNw+GPOt+I3YxbAmVqMS1aEpWSUgAaaZ3W3F40uOZP2eUH4Dvg5+JzOkmAL
+	syMuLWcdLjgbitYYql6g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wVq0w-00000001ajr-12PR;
-	Sat, 06 Jun 2026 12:20:34 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1wVr2R-00000001c82-1Ku7;
+	Sat, 06 Jun 2026 13:26:11 +0000
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wVq0p-00000001ajl-2tet
+	id 1wVr2O-00000001c7K-2tOa
 	for linux-nvme@lists.infradead.org;
-	Sat, 06 Jun 2026 12:20:27 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 35C9360132;
-	Sat,  6 Jun 2026 12:20:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 265D31F00893;
-	Sat,  6 Jun 2026 12:20:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780748425;
-	bh=KQbb4kAqpREnn8YJ4csak5xFjL0CPICJLcGvclLWvU8=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=Q8QFwC7SFZbdk+JA2KFJwVwpI94pUOCPyDkIGcvJ2ce4R4FwXMFvNZQM5XBk8NJoO
-	 dIp1IVvi5hfVkRV8ymYUzkM7aWOSaIO2ZjFlFwdFHhh2oVpicMSOnyuKI6WpujS6h0
-	 QYKHnAXSPcuo25LNtmq8fYYfl9Hn39p1EqpwjbwGMeWZz5ab+8ADTZlrCggB/OHkv1
-	 Had7lPm95AZBsWpoIx8KhwBTkbRCfl1Q/m9vzfhR/3CALZ4khW1RfVxD74d4trX+Qe
-	 VKSwzSZ3slxZtGDBRCW+Ksjr4j8q3AjL/scdY6U8nD6Z+nmqF6vFRdZtgUpqwTEOTi
-	 BM3L1Wj0A/sGw==
-Message-ID: <87300aef395fb7fbfee84f30dcec83118f68ba56.camel@kernel.org>
-Subject: Re: [PATCH 1/9] handshake: Require admin permission for DONE command
-From: Jeff Layton <jlayton@kernel.org>
-To: Chuck Lever <cel@kernel.org>, Donald Hunter <donald.hunter@gmail.com>, 
- Jakub Kicinski	 <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet	 <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
- Horman	 <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan	
- <skhan@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>,
- John Fastabend <john.fastabend@gmail.com>, Sabrina Dubroca
- <sd@queasysnail.net>, Keith Busch	 <kbusch@kernel.org>, Jens Axboe
- <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,  Sagi Grimberg
- <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, NeilBrown
- <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo
- <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, Trond Myklebust
- <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>
-Cc: kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org, Chuck Lever
-	 <chuck.lever@oracle.com>
-Date: Sat, 06 Jun 2026 08:20:21 -0400
-In-Reply-To: <20260605-tls-session-tags-v1-1-47bd1d94d552@oracle.com>
-References: <20260605-tls-session-tags-v1-0-47bd1d94d552@oracle.com>
-	 <20260605-tls-session-tags-v1-1-47bd1d94d552@oracle.com>
-Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual; keydata=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 QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
+	Sat, 06 Jun 2026 13:26:09 +0000
+Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-842307473b5so2005674b3a.2
+        for <linux-nvme@lists.infradead.org>; Sat, 06 Jun 2026 06:26:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780752367; x=1781357167; darn=lists.infradead.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=gt51o7gJucZDYngX+zezYd8oMcYGRKCaBEJDS7EqeeU=;
+        b=AcbBa/cWnI+r1cKvmBkS6HPdgEJ+PmrCQDR7gKMgiuLnH7/L71Fq70DkHZHBk975ld
+         TlyGTCYCfSQEgWP+oaJKcV9H2O1pJ+3T1DSYxUOQmnxqCIMmv70d4K0o6Y8E70iV1aoy
+         8Sejs8tpxn2kQN5+JyValrmflqJoyaCPSl+fp+QmINTZ1MKff1sgqNxLNkO5MHzGDSfy
+         +9Fzwd6MBDHPTAh3IsnYOAqc6ADrvv2h4wpL4fQsz2sDfDwqpKNZ76TN5ycnITE2xzUx
+         G9QefbzXSnT7lje872LY8wv/rVnEdBrmYRlMwIyatoSpv4SKSpbi89oiGn4sxL5OCTP2
+         bA8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780752367; x=1781357167;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gt51o7gJucZDYngX+zezYd8oMcYGRKCaBEJDS7EqeeU=;
+        b=LlRHm1c9Gupc4ZQbQSt2+RRmuniXuWouNdTed7PxZo5cnR1+W5GQ/QFhvHmlLeyMNE
+         DkcJSvhI0QYXBQbuArOgCzVtG6FipSYnE3whSixyPsu/D/DtuHbXty2yqCfMO9OvYpBh
+         C5PUYkaOE4Zg8mODBGrC6Kgb0Hwogr0JfiWZl2aqPEll3VkuHpFiXzSvc70dvkcb6qLz
+         qb3hErVFzpKoD8WZtCD+ehcYh3d/07jNERjqzXiMEE2N2PyaEEA5ixIYxzsSEErx/QB4
+         8MG2du8eR7pz1x3hX4Wbj5N7JwSnq8U3eWyMHUZLlAS8i6hH9LV5V1Ync0/OVpmGp4XU
+         22QA==
+X-Forwarded-Encrypted: i=1; AFNElJ91zsWoF1SKQHNqLABCjh0Py/9Ti8PscMI8cAohvFxftd2KrEBNced4Em5o6nS+TVEra8Urs5qTYma+@lists.infradead.org
+X-Gm-Message-State: AOJu0YzPSuPAWjk8PWTCix3IlVvMfnVV/tGZ8zcat58luFJPqxm+FEY3
+	GqPLieUumqdaDmZ3owqSdo2ryqNhZFB4glmw0Gw/PNgNqW/3b+iMqM//
+X-Gm-Gg: Acq92OFnLzGlaeoqwtoanXtiQKsKb3/FwswuuKml/buUAJeyvp8M9LG8Fag2QxPNJjs
+	tkokLOsfMhhbopvu+z0X95nEXZ5AbZeNqC55oELNHN8bFW5NNi6HvGbAQA6AL3vMJe7tz5Hknhf
+	X3hGiRodOAD7qIBweQFtidMI0w9Rpz+Rz9kEfeaicHyQvwUSUrcVSgaEc7zTvlS55G3xH/1V44X
+	M/QE6tzQPQ81GaXOGi8MZNRQFqIuYVIEhNlxVM3690YP7ifJT4Z63Jr3Ud0Sa0Jt1LcDtMJ4SyO
+	+UNkpoglI/DuFyi9YxHSimQWPkW8zB8EUmJdxaDohFue9Cta/VOJNQRb4hf5ikutkXGk4v38pQp
+	n6c94hMHyTMV1su9YZwm/R5dXv6kILsDYO17vtayriX49DO18WPPZ7npqBYp6C/86po2jLz5CIJ
+	R3z8lPVEV3MwX/9/xa5AoJqOkBHPkS5avK36vm
+X-Received: by 2002:a05:6a00:2d96:b0:835:45bf:9660 with SMTP id d2e1a72fcca58-842b0ec1242mr8396268b3a.42.1780752367167;
+        Sat, 06 Jun 2026 06:26:07 -0700 (PDT)
+Received: from [127.0.1.1] ([223.122.38.120])
+        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-842829188b9sm12910688b3a.59.2026.06.06.06.26.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 06 Jun 2026 06:26:06 -0700 (PDT)
+From: Nick Chan <towinchenmi@gmail.com>
+Subject: [PATCH 0/2] nvme-apple: Prevent tag collision across queues on
+ Apple A11
+Date: Sat, 06 Jun 2026 21:25:24 +0800
+Message-Id: <20260606-prevent-tag-collision-t8015-v1-0-93ccf4eca550@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2MSwqAMAwFryJZG2jrB/Eq4qK2UQOlii0iSO9uk
+ LcamDcvJLqYEozVCxfdnPiIArquwO02boTshcEo0ysZnmJRzJjthu4I4X9gHpTuULvB+qUxTes
+ JpCDuys9fn+ZSPlccjSltAAAA
+X-Change-ID: 20260606-prevent-tag-collision-t8015-1c8adb3234de
+To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Neal Gompa <neal@gompa.dev>, Keith Busch <kbusch@kernel.org>, 
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
+ Sagi Grimberg <sagi@grimberg.me>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org, Nick Chan <towinchenmi@gmail.com>, 
+ Yuriy Havrylyuk <yhavry@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1728; i=towinchenmi@gmail.com;
+ h=from:subject:message-id; bh=N0iat9euPSfI1ozrhTkUFwtonZRHs7P7+pN8pw5Lenk=;
+ b=owEBbQKS/ZANAwAKAQHKCLemxQgkAcsmYgBqJB/qkvWEJiDJdwuAwbXwF80g9Gz+3xtXU5NzS
+ q5demgubFKJAjMEAAEKAB0WIQRLUnh4XJes95w8aIMBygi3psUIJAUCaiQf6gAKCRABygi3psUI
+ JD/lD/9wdAdvVm893ZEs7t9U1NqvQU+m1R8joTO0MSFw3Gz/v9nkAmdgA3DJPgfPJeRAaH2pSln
+ COt//d9nV78OoIV7Xd95emThXhNuWWzlZ8+RoipvZ39pCQH18BkE+/k4sH4OmnUfAc9Xn78sXEo
+ RXEWIGapLa03efOgvdLSRlWKk9+JM96Ztx1a3uBM0ZLkaan8f6JiWfRyUotgH8FTHZIuYpDwe6T
+ +0nx7r7otrfEDHJpCQgO1TsiDHdHGBztPs/DUkSFctKbn3cEBS1jEHBFeKVRlHRVy6xJQIMjZTk
+ MDyYGyNKRBKQwygmHU3uVAoxEBu/Di2evar+aLhdUmDMUm9wMaWlKx2ogMsWoX4acncB3xBqCu9
+ o/FGp5CAbrb4cXvYj8OahtZeHOFeRbJTsCu1K8GpNRtxwWaYufaTIOkW6dqb5H8CsUrEO1d5p/X
+ Xq0XLnqCM5wQJ+CKsUSJ8moOat1zsuhE9NbxGcJNMM8wBUc0GqSLJdhUqZtp/dkHhw/VDSaEwXP
+ z5hn2oPSt3ej2qov2bl6Ex2DZvnZGQ+XiTvXiEpmPrerMrp0qsDNNw2QtBqPsEUIJT2PsXtTOtl
+ kfRVFEgnIK4Fl6vCImpzDD/YFhJGTnvAMttZJskctGg0/828A1mEjxc15PobAOXVCDT598oQRO2
+ ujV8N80CPGZFGsQ==
+X-Developer-Key: i=towinchenmi@gmail.com; a=openpgp;
+ fpr=4B5278785C97ACF79C3C688301CA08B7A6C50824
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260606_062608_734529_60F47447 
+X-CRM114-Status: GOOD (  11.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,66 +122,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, 2026-06-05 at 13:34 -0400, Chuck Lever wrote:
-> From: Chuck Lever <chuck.lever@oracle.com>
->=20
-> ACCEPT and DONE are the two downcalls of the handshake genl
-> family, both intended for use by the trusted handshake agent
-> (tlshd). ACCEPT already requires GENL_ADMIN_PERM; DONE has
-> no privilege check at all.
->=20
-> The fd-lookup in handshake_nl_done_doit() only confirms that
-> some pending handshake request exists for the supplied sockfd;
-> it does not authenticate the sender. An unprivileged process
-> that guesses or observes a valid sockfd can therefore submit
-> a DONE with HANDSHAKE_A_DONE_STATUS =3D=3D 0, leaving the kernel
-> consumer to proceed as if the handshake succeeded. A non-zero
-> status on a forged DONE tears down a legitimate in-flight
-> handshake before tlshd can report its real result.
->=20
-> A subsequent patch teaches the DONE handler to carry session
-> tags consumed for access control. That work makes closing the
-> existing gap a prerequisite, but the gap itself predates tags.
->=20
-> Fixes: 3b3009ea8abb ("net/handshake: Create a NETLINK service for handlin=
-g handshake requests")
-> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
-> ---
->  Documentation/netlink/specs/handshake.yaml | 1 +
->  net/handshake/genl.c                       | 2 +-
->  2 files changed, 2 insertions(+), 1 deletion(-)
->=20
-> diff --git a/Documentation/netlink/specs/handshake.yaml b/Documentation/n=
-etlink/specs/handshake.yaml
-> index 95c3fade7a8d..24f5a0ac5920 100644
-> --- a/Documentation/netlink/specs/handshake.yaml
-> +++ b/Documentation/netlink/specs/handshake.yaml
-> @@ -117,6 +117,7 @@ operations:
->        name: done
->        doc: Handler reports handshake completion
->        attribute-set: done
-> +      flags: [admin-perm]
->        do:
->          request:
->            attributes:
-> diff --git a/net/handshake/genl.c b/net/handshake/genl.c
-> index 870612609491..791c45671cd6 100644
-> --- a/net/handshake/genl.c
-> +++ b/net/handshake/genl.c
-> @@ -37,7 +37,7 @@ static const struct genl_split_ops handshake_nl_ops[] =
-=3D {
->  		.doit		=3D handshake_nl_done_doit,
->  		.policy		=3D handshake_done_nl_policy,
->  		.maxattr	=3D HANDSHAKE_A_DONE_REMOTE_AUTH,
-> -		.flags		=3D GENL_CMD_CAP_DO,
-> +		.flags		=3D GENL_ADMIN_PERM | GENL_CMD_CAP_DO,
->  	},
->  };
-> =20
+Apple NVMe controllers require tags of pending commands to not be shared
+across admin and IO queues.
 
-Seems like this ought to go in ahead of the rest of the set? tlshd
-generally runs as root anyway so I don't forsee a problem just doing
-this:
+If a pending command tag is duplicated across queues, the firmware
+crashes with: "duplicate tag error for tag N", with N being the tag.
 
-Reviewed-by: Jeff Layton <jlayton@kernel.org>
+On Apple M1 or above, this is worked around by partitioning the tag
+space between the admin and IO queue.
+
+However, on Apple A11 without linear SQ, it is not possible for either
+queue to skip over some tags and must go from 0 to the configured maximum
+before wrapping around.
+
+Instead of partitioning the tag space, which is not possible without
+linear SQ, prevent tag collisions by keeping track of which tags are
+currently in-flight across either queues, and return BLK_STS_RESOURCE to
+temporaily block command submission when a collision would have occured.
+
+While fixing the issue, it became apparent the admin queue tag space
+is limited even on Apple A11. There is no reason to do this as it hampers
+performance and does not help preventing tag collisions, so also allow
+the admin queue to use the full tag space.
+
+Tested on iPhone 8, iPhone X and Macbook Pro (14-inch, M1 Pro, 2021).
+
+Signed-off-by: Nick Chan <towinchenmi@gmail.com>
+---
+Nick Chan (1):
+      nvme-apple: Only limit admin queue tag space when with Linear SQ is present
+
+Yuriy Havrylyuk (1):
+      nvme-apple: Prevent tag collision across queues even if tag space is shared
+
+ drivers/nvme/host/apple.c | 70 ++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 69 insertions(+), 1 deletion(-)
+---
+base-commit: e43ffb69e0438cddd72aaa30898b4dc446f664f8
+change-id: 20260606-prevent-tag-collision-t8015-1c8adb3234de
+
+Best regards,
+-- 
+Nick Chan <towinchenmi@gmail.com>
+
 
