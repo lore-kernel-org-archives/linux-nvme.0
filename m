@@ -4,133 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9FC1ECD6E7C
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Jun 2026 18:34:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B9632CD8C8E
+	for <linux-nvme@archiver.kernel.org>; Sat,  6 Jun 2026 12:20:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
-	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Date:Cc:To:From
+	:Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xOyR+wfwUklacILNo2EQAOfOdkTlAsTtELiM/OaL9IU=; b=K14RgW/Bttc1rk1RJovJnmlJWX
-	2z2luyTgDG5c6PKuI+yDOGiwuG7tyZCYA6BVz5pmVrrgZckeHprkdmBnqjKJ7PaH74kjwk88+U4Es
-	7OsQCJEGQIjswBtEP6wPdA62PRUCRgIG2DF59EhdQwQxojUF+4g8Xm/W1a1/df1oPyOsYUFTsDBIo
-	owrVoZnv39tbDT58N5Xwcit/FuaKiXuQGVf2O9XuxA3VTuUrCISNPpReCyyX9ie3P/vrpn+Ff7kFH
-	0pESWdmTW/Hc872kbayOE4MZgQ9+s9xz1nKDLIEFvty3PbxVX3BirEqS/ECWyStnzsmGPh+WAC7NV
-	TqtTU7XQ==;
+	bh=KQbb4kAqpREnn8YJ4csak5xFjL0CPICJLcGvclLWvU8=; b=POjSXz3VTVycpsmPtTxgBkH56+
+	Ug8ZMca2E7qMGH20CeWr7UOoWKhAOmqEw8uq1nV5BbrKsMui8W81Z0y6ip94Th9lVju+dgF9bksLy
+	5naVNVgb687ngBqyJVzSVyRY7IXmctwh9zdvnymWxV1ZL8RqRyNOzHUoskcTvngXvvVpaHr4zP+pY
+	9h9h5Q56IDJmHMibmKMSP9cijLWIKUCxJBfUZLvP5SEvz67sQx/qgb2twI4xodX2MIizPWxoZ4Zk8
+	Xo0jDksiKrlemgSOIIs9Fz+5/CP/QjuXmmy8u/G3k7QXL292aca01zV63Bkqkj44+0hAasuLG22jc
+	AMHlMr3A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wVZN1-000000012tv-3Dp3;
-	Fri, 05 Jun 2026 18:34:15 +0000
-Received: from mail-westeuropeazon11013058.outbound.protection.outlook.com ([52.101.72.58] helo=AM0PR02CU008.outbound.protection.outlook.com)
+	id 1wVq0w-00000001ajr-12PR;
+	Sat, 06 Jun 2026 12:20:34 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wVZMy-000000012tU-0hZq
+	id 1wVq0p-00000001ajl-2tet
 	for linux-nvme@lists.infradead.org;
-	Fri, 05 Jun 2026 18:34:13 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Q5/l+d0+20SakBCDjMMov8oiIdanlrwMO8lIF//zDohc2JCO//u8yWpm7BnbLJbFpkLZLVQHsdmgwub8EjS+tDIqBPEkpnfDSFzGJcanFEEq9I2yenLxeugcmwo7sX1eZxtrm2LtcfwoqXFFT1lWsPJCC7NZ+RamjwNreQs97We2pUKmCi9u1ocpi2VupYnMmv/BA5JUXFjFUQqfIbXKcMtuNs3HEcxkgROxnMx9fW2k6TmDcOVe5fK7ayboJokIHGI6rz5+ueS2wOtNk4DyJSbMpnZBtNBtMwDkGJDuapk0ERiIugzI/E2sAH3WD9GZ9QNUvyN4Hcwk3y9kaUlsFw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xOyR+wfwUklacILNo2EQAOfOdkTlAsTtELiM/OaL9IU=;
- b=CHuN29Tgyeq04SaCrEgXYIiwXSpSVsFI+Nhw3+fR0Hh46Qu+pUMr/k9J579jWvFIADCbszM8loYXJjb9WX4J+lZMjGynRescZaIC7cnDIfqybfDWFt9cOkOmN8LPe9vq/kpgAXRklOorGDffqjeP7Zl/ASXwMHPcEH/MMK0RNwZmLXtO8GKVODaIk6Zz6bNrlhPykN6eS3939ATF/PwiEoe14jiEiwfvKOBy5pRFU7NxnfYQOwTZlWJwJGJIQFrpZ+XQfv30eRikz3I7mdAsAWCKSgmGg0ovDytqj9G114xZTToa2AADtZ8JNf0KSid5FreyS52vgSkkrxsNweKjAQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xOyR+wfwUklacILNo2EQAOfOdkTlAsTtELiM/OaL9IU=;
- b=T4K+xjlJ2kiJ0O5246eostbHo+BLwXlXuG55wOMkEEvhcEsRSVw0YJ8PSRNYNTeUz/71/dXyiJD/ZKcvQlULdsChs1914N2CxLmWRMbVESr+A1uhUvfPkYCBlQ1y4LFm+SPvU4I2Ej5boYnH0eZTEHd3driU9pTIT/pZMuYR1y45u7Fihll+oCYmsr+Ex4N97AbijvJN9tu97RhKAVEZ1K72FlCNPG+Wd2sdjM+1OEy0JSfOyAnAx3NEKRgoaSckA+LcZ1U67SWboDgk8CTysIyeMxsm2imswDHjoKzeO2RNJ8IklQ6hG0XTjtw/ny/85iBUuOtznEURb9I10fK+Rg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
- by DB9PR04MB8252.eurprd04.prod.outlook.com (2603:10a6:10:24d::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.8; Fri, 5 Jun 2026
- 18:34:08 +0000
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588%3]) with mapi id 15.21.0092.007; Fri, 5 Jun 2026
- 18:34:08 +0000
-Date: Fri, 5 Jun 2026 14:34:00 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: Koichiro Den <den@valinux.co.jp>
-Cc: Manivannan Sadhasivam <mani@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-	Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>, Christoph Hellwig <hch@lst.de>,
-	Niklas Cassel <cassel@kernel.org>, dmaengine@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-nvme@lists.infradead.org,
-	Damien Le Moal <dlemoal@kernel.org>, imx@lists.linux.dev
-Subject: Re: [PATCH RFT 0/5] dmaengine: dw-edma: support dynamtic add link
- entry during dma engine running
-Message-ID: <aiMWmI8QMddHUzL5@lizhi-Precision-Tower-5810>
-References: <20260109-edma_dymatic-v1-0-9a98c9c98536@nxp.com>
- <24a5wo2ncgf7d43mxbv6pacvqkzmiuo4bvuyygfeyoq4lbdt25@kqw4cx7xzrfu>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <24a5wo2ncgf7d43mxbv6pacvqkzmiuo4bvuyygfeyoq4lbdt25@kqw4cx7xzrfu>
-X-ClientProxiedBy: SN7P222CA0002.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:806:124::14) To PA4PR04MB9366.eurprd04.prod.outlook.com
- (2603:10a6:102:2a9::8)
+	Sat, 06 Jun 2026 12:20:27 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id 35C9360132;
+	Sat,  6 Jun 2026 12:20:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 265D31F00893;
+	Sat,  6 Jun 2026 12:20:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780748425;
+	bh=KQbb4kAqpREnn8YJ4csak5xFjL0CPICJLcGvclLWvU8=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=Q8QFwC7SFZbdk+JA2KFJwVwpI94pUOCPyDkIGcvJ2ce4R4FwXMFvNZQM5XBk8NJoO
+	 dIp1IVvi5hfVkRV8ymYUzkM7aWOSaIO2ZjFlFwdFHhh2oVpicMSOnyuKI6WpujS6h0
+	 QYKHnAXSPcuo25LNtmq8fYYfl9Hn39p1EqpwjbwGMeWZz5ab+8ADTZlrCggB/OHkv1
+	 Had7lPm95AZBsWpoIx8KhwBTkbRCfl1Q/m9vzfhR/3CALZ4khW1RfVxD74d4trX+Qe
+	 VKSwzSZ3slxZtGDBRCW+Ksjr4j8q3AjL/scdY6U8nD6Z+nmqF6vFRdZtgUpqwTEOTi
+	 BM3L1Wj0A/sGw==
+Message-ID: <87300aef395fb7fbfee84f30dcec83118f68ba56.camel@kernel.org>
+Subject: Re: [PATCH 1/9] handshake: Require admin permission for DONE command
+From: Jeff Layton <jlayton@kernel.org>
+To: Chuck Lever <cel@kernel.org>, Donald Hunter <donald.hunter@gmail.com>, 
+ Jakub Kicinski	 <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet	 <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
+ Horman	 <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan	
+ <skhan@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>,
+ John Fastabend <john.fastabend@gmail.com>, Sabrina Dubroca
+ <sd@queasysnail.net>, Keith Busch	 <kbusch@kernel.org>, Jens Axboe
+ <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,  Sagi Grimberg
+ <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, NeilBrown
+ <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo
+ <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, Trond Myklebust
+ <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>
+Cc: kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org, Chuck Lever
+	 <chuck.lever@oracle.com>
+Date: Sat, 06 Jun 2026 08:20:21 -0400
+In-Reply-To: <20260605-tls-session-tags-v1-1-47bd1d94d552@oracle.com>
+References: <20260605-tls-session-tags-v1-0-47bd1d94d552@oracle.com>
+	 <20260605-tls-session-tags-v1-1-47bd1d94d552@oracle.com>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual; keydata=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 QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|DB9PR04MB8252:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9337a204-410d-46c2-2cda-08dec3310765
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|19092799006|52116014|7416014|376014|1800799024|56012099006|4143699003|11063799006|18002099003|22082099003|6133799003|38350700014;
-X-Microsoft-Antispam-Message-Info: 6HF1AmZsuio0lGMcBH4Pwq1Ib9kQ971WRZOiDEa0GcY2yi3d3QjjvGwilMX70YWMTPjK4yH33xxKhtyxrnQbggeG6+ldku8EEHlbiIs/e7zbvBtgzex53ptE+j0WdeVOB439XWvQq5A4d2LXZ4CcE7SNWRZJxq9nB42nkE9Cm6qV/FbyDJulF36MPJDianepkcRyi+y3MW3SwN6dCI3ky9YRUYlEmNnmS1WUYoXIK+jvrAthUC/GcpWTKsXdRGjffYe5tI45MSluBowkKvZekmYBVqzu+xC4DVS2Vn7AURLP9qEXtUbB+Ek2+BQiZG505YXRW3X9w6BtnpPgx5CPtjW9QaHxdOcuLh2tUp1iirY6x+2bVmlJpClfYPfHLof4irP5uktMiucfKW9zceQRd+zTQAEQx+wPF4TNpyXpcwQcJGyEzMMCD1FcEtxJ3iaOM851+ojHvWGe11LJ7+DaSeuwFXxZgkxPPxRaS+tnbZ5kwdbHTbEjmgO3ZzCCGigud+CofTKXkIZZTzRqIb4JR3qCjBTPu43ulOVeomJFIj0kZazW7iGUSDVWUc2S3QI14hEFpgWXBbuMSYtlDeLfQ0NOR6B96Pxq6x1b7wTMMYSo7WVIGgpqakvubQLmCcACBcyasv4bscJCHFtOZaFx6vgLeyPuuCkV9douzMqJkRtKOeuLFFzbUetivVDC23OVYjd2KRYQVTuwr2Em1LvCIOI8SHRXA1cNnLZA1zSCvJ1Fsvj/ZfaaeBS2h8a3stmb
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9366.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(19092799006)(52116014)(7416014)(376014)(1800799024)(56012099006)(4143699003)(11063799006)(18002099003)(22082099003)(6133799003)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Jo8TTzvPnvtoZfRP0Yd/nXnUCE0oNFl1+DpzPgsNKY+0GfhsuKJKA5l4Gyj1?=
- =?us-ascii?Q?Ms6UQH/eXbQBfqI1rFHJ4u+dlWHzr+QAW047ylsxAKNrmJpSjjwvZDJRclC8?=
- =?us-ascii?Q?54ollmleNz+7ex8qCCLKkhPdu/33QTOd6e45mZVMlezSm2qCYenx5XS6bFr0?=
- =?us-ascii?Q?b73zyC4mCfZq0L8yt1dB07MgZvkSKOAI2vHPyP93whmNzWasT/gXxhB3o2g5?=
- =?us-ascii?Q?0YJwxIbtdGWx6Fvxa0wj0UWnLGb8+VH3VLp/eCwLb1zxnqyjr0sx8qV17XqX?=
- =?us-ascii?Q?vezvNolSCJPuYQWPMOfCXeUAzSqBh++4Jfj7yUE5ClDKWgBKs65h78e1K8x9?=
- =?us-ascii?Q?gXxiR8OGwZWsqX2AYNNCRGV8lmMgjKzgon0Xt464kW8c1K4E5vA7XMgP6WSP?=
- =?us-ascii?Q?ZbNevDy7JWEFoA+nfQCFoWAXdoWxRlIzANrRSYu6LbiUKyxEBBsuOLEF1UV2?=
- =?us-ascii?Q?tF5GxaHD4dssai+z0rPPez4VFnYoSKoP6QKZTz61rUD03PTHmB1lKxx+JfTD?=
- =?us-ascii?Q?USWt00YOuVcYrAda1VmT464xLT/xlD83AHemV/frWVyxDX6ePWv16Tc+7yqJ?=
- =?us-ascii?Q?NxnBi4QkbPZMi8UOqEV5zvIJH8k9jytMe1h7pFj45cAYTdsFBGb+FSINRJ0q?=
- =?us-ascii?Q?kkoEasRGmsiE2/hmcCZVO4rCYZkFC0/2a1A6GGZH2WO0xqbtFX5GTUBGGRbs?=
- =?us-ascii?Q?9WMrbWqVTp6LpivSGacSrc7KM1PQr78mdHM8rh8rBnCgAbkeoN2TVRjEQ38X?=
- =?us-ascii?Q?vyuxyZyiusvRlnRcrtN7z2REonMbnuMJw0zh3ROBZZ9VQEwaanTqVJTREc+I?=
- =?us-ascii?Q?BXT2o/ElmYqR39ykTt1AUwSKPq4m4Hk9kTTPAP4AV9+DV+fNHsnJJnwOZ9SR?=
- =?us-ascii?Q?Lp+L2vF7/deOYc2OXz8JNjerYVGNMXTa28SOMvzPDmKjlqxVk8+vsg3b3MI9?=
- =?us-ascii?Q?W2WY+1igfvliyisINQKcSzoopzwCUovbdHQdVHI5gxbNCsHeSs1aRtRod5bV?=
- =?us-ascii?Q?zxdumm4Wrteb0wr8OEqR9mmxIMe1DF53H5wJxSE2MigBB5IjYyEK7iol8GvP?=
- =?us-ascii?Q?zr4gGIgdzC4pZIRJEWtU+pu2IlYhrot9gKvoULrbfaIs8xC24vllIZrrIi54?=
- =?us-ascii?Q?wWtTtImDz0mdWaKpqPn8Jvx6/y0/JZMvDQKqWJYxOT7ICtKIQX0OyJTL/p+S?=
- =?us-ascii?Q?OI8StD9SaYQHRSyuPiBOdyClhwE9yj2cbF/pehfwqQTlE66NKu9r3VIxDuTs?=
- =?us-ascii?Q?qVQhkufWngpjbhq59NbQZMam9+wAEXpNyJIo/dFKpGB+EzDLOik2TeeCgDih?=
- =?us-ascii?Q?LyKfcfPcDdyAPEEu2xDEKoPwLplPsvoWskSe/FhDpwjjHsX4L+au/h5QUhQt?=
- =?us-ascii?Q?HuD0wLXp4O1BHmKC17M1zUWNfheOj4d0M9FoTtpna6afMUdTFaQ75nhcm8Bp?=
- =?us-ascii?Q?77GEs1NfkRXjIeqWajTAZc3mqc/O/RDRUd6iMxOk/qgt+Xfy9qC4i/p/DjaT?=
- =?us-ascii?Q?zKjWgxwb6jWKHHxyjk74ME65bILiGkW6z4FPu0BDEqs6QnF4eK/OR5+AGRT/?=
- =?us-ascii?Q?vALGlu15di4YcJhPHjqRDuzlsCzzGnfTHaSco+GxlyUaTx6WKW++ltNGmXyn?=
- =?us-ascii?Q?/FyE0zLgcxm8In0JAB/DWb1Cy0mdb6jFEUrHtwJexiTYd7hFHqH3cCg+M9jn?=
- =?us-ascii?Q?6y3PsorLUjaWUOm0DjDjxdnO0jGTFHYvSl1HM9qAdnaBG84mqXIhATeQXHm4?=
- =?us-ascii?Q?mTbVw5VjGQ=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9337a204-410d-46c2-2cda-08dec3310765
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9366.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2026 18:34:07.9815
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Y82bXGFhvTo4YEcncTIwjwKzFfUxhRV37+eNTorbTGsiXUPJyLY6mnmP+w29s8KRV/1t68aHjruoxqhk1QYYWA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB8252
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260605_113412_383231_EA317C7B 
-X-CRM114-Status: GOOD (  18.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -145,219 +84,66 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jun 04, 2026 at 04:08:06PM +0900, Koichiro Den wrote:
-> On Fri, Jan 09, 2026 at 03:13:24PM -0500, Frank Li wrote:
-> > Patch depend on
-> > https://lore.kernel.org/imx/20260109-edma_ll-v2-0-5c0b27b2c664@nxp.com/T/#t
-> >
-> > Only test eDMA, have not tested HDMA.
->
-> Hi Frank,
->
-> I expect this series may be revisited in the near future, since the first
-> dependency series reached v7 and looks close to landing.
->
-> With the latest versions of the two dependencies:
->   - [PATCH v7 0/9] dmaengine: Add new API to combine configuration and descriptor preparation
->     https://lore.kernel.org/dmaengine/20260521-dma_prep_config-v7-0-1f73f4899883@nxp.com/
->   - [PATCH v2 00/11] dmaengine: dw-edma: flatten desc structions and simple code
->     https://lore.kernel.org/dmaengine/20260109-edma_ll-v2-0-5c0b27b2c664@nxp.com/
->
-> I tested this RFT series with the HDMA engine on a SpacemiT K3.
-> The test results are below, using the same format as your results:
->
->   Baseline, before applying the three series (v7 + v2 + this RFT)
->
->     Rnd read ,     4KB, QD=1 , 1 job :  IOPS=8567, BW=33.5MiB/s (35.1MB/s)
->     Rnd read ,     4KB, QD=32, 1 job :  IOPS=55.5k, BW=217MiB/s (227MB/s)
->     Rnd read ,     4KB, QD=32, 4 jobs:  IOPS=83.0k, BW=324MiB/s (340MB/s)
->     Rnd read ,   128KB, QD=1 , 1 job :  IOPS=3817, BW=477MiB/s (500MB/s)
->     Rnd read ,   128KB, QD=32, 1 job :  IOPS=10.8k, BW=1346MiB/s (1411MB/s)
->     Rnd read ,   128KB, QD=32, 4 jobs:  IOPS=11.2k, BW=1403MiB/s (1471MB/s)
->     Rnd read ,   512KB, QD=1 , 1 job :  IOPS=1515, BW=758MiB/s (794MB/s)
->     Rnd read ,   512KB, QD=32, 1 job :  IOPS=2795, BW=1399MiB/s (1467MB/s)
->     Rnd read ,   512KB, QD=32, 4 jobs:  IOPS=2795, BW=1404MiB/s (1472MB/s)
->     Rnd write,     4KB, QD=1 , 1 job :  IOPS=9035, BW=35.3MiB/s (37.0MB/s)
->     Rnd write,     4KB, QD=32, 1 job :  IOPS=38.3k, BW=149MiB/s (157MB/s)
->     Rnd write,     4KB, QD=32, 4 jobs:  IOPS=41.8k, BW=163MiB/s (171MB/s)
->     Rnd write,   128KB, QD=1 , 1 job :  IOPS=3969, BW=496MiB/s (520MB/s)
->     Rnd write,   128KB, QD=32, 1 job :  IOPS=8260, BW=1033MiB/s (1083MB/s)
->     Rnd write,   128KB, QD=32, 4 jobs:  IOPS=8295, BW=1038MiB/s (1089MB/s)
->     Seq read ,   128KB, QD=1 , 1 job :  IOPS=4609, BW=576MiB/s (604MB/s)
->     Seq read ,   128KB, QD=32, 1 job :  IOPS=10.8k, BW=1345MiB/s (1410MB/s)
->     Seq read ,   512KB, QD=1 , 1 job :  IOPS=1524, BW=762MiB/s (799MB/s)
->     Seq read ,   512KB, QD=32, 1 job :  IOPS=2799, BW=1401MiB/s (1469MB/s)
->     Seq read ,     1MB, QD=32, 1 job :  IOPS=1401, BW=1404MiB/s (1472MB/s)
->     Seq write,   128KB, QD=1 , 1 job :  IOPS=3722, BW=465MiB/s (488MB/s)
->     Seq write,   128KB, QD=32, 1 job :  IOPS=8246, BW=1031MiB/s (1081MB/s)
->     Seq write,   512KB, QD=1 , 1 job :  IOPS=1283, BW=642MiB/s (673MB/s)
->     Seq write,   512KB, QD=32, 1 job :  IOPS=2072, BW=1038MiB/s (1088MB/s)
->     Seq write,     1MB, QD=32, 1 job :  IOPS=1037, BW=1040MiB/s (1091MB/s)
->     Rnd rdwr , 4K..1MB, QD=8 , 4 jobs:  IOPS=1540, BW=768MiB/s (805MB/s)
->      IOPS=1549, BW=768MiB/s (805MB/s)
->
->   After your three series (v7 + v2 + this)
->
->     Rnd read ,     4KB, QD=1 , 1 job :  IOPS=7216, BW=28.2MiB/s (29.6MB/s)
->     Rnd read ,     4KB, QD=32, 1 job :  IOPS=61.1k, BW=239MiB/s (250MB/s)
->     Rnd read ,     4KB, QD=32, 4 jobs:  IOPS=75.3k, BW=294MiB/s (309MB/s)
->     Rnd read ,   128KB, QD=1 , 1 job :  IOPS=4711, BW=589MiB/s (618MB/s)
->     Rnd read ,   128KB, QD=32, 1 job :  IOPS=10.8k, BW=1354MiB/s (1420MB/s)
->     Rnd read ,   128KB, QD=32, 4 jobs:  IOPS=11.2k, BW=1403MiB/s (1471MB/s)
->     Rnd read ,   512KB, QD=1 , 1 job :  IOPS=1497, BW=749MiB/s (785MB/s)
->     Rnd read ,   512KB, QD=32, 1 job :  IOPS=2802, BW=1403MiB/s (1471MB/s)
->     Rnd read ,   512KB, QD=32, 4 jobs:  IOPS=2798, BW=1405MiB/s (1474MB/s)
->     Rnd write,     4KB, QD=1 , 1 job :  IOPS=7411, BW=29.0MiB/s (30.4MB/s)
->     Rnd write,     4KB, QD=32, 1 job :  IOPS=39.3k, BW=153MiB/s (161MB/s)
->     Rnd write,     4KB, QD=32, 4 jobs:  IOPS=42.9k, BW=167MiB/s (176MB/s)
->     Rnd write,   128KB, QD=1 , 1 job :  IOPS=3736, BW=467MiB/s (490MB/s)
->     Rnd write,   128KB, QD=32, 1 job :  IOPS=8302, BW=1038MiB/s (1089MB/s)
->     Rnd write,   128KB, QD=32, 4 jobs:  IOPS=8314, BW=1041MiB/s (1091MB/s)
->     Seq read ,   128KB, QD=1 , 1 job :  IOPS=4092, BW=512MiB/s (536MB/s)
->     Seq read ,   128KB, QD=32, 1 job :  IOPS=10.8k, BW=1354MiB/s (1420MB/s)
->     Seq read ,   512KB, QD=1 , 1 job :  IOPS=1474, BW=737MiB/s (773MB/s)
->     Seq read ,   512KB, QD=32, 1 job :  IOPS=2794, BW=1399MiB/s (1467MB/s)
->     Seq read ,     1MB, QD=32, 1 job :  IOPS=1401, BW=1404MiB/s (1472MB/s)
->     Seq write,   128KB, QD=1 , 1 job :  IOPS=4135, BW=517MiB/s (542MB/s)
->     Seq write,   128KB, QD=32, 1 job :  IOPS=8307, BW=1039MiB/s (1089MB/s)
->     Seq write,   512KB, QD=1 , 1 job :  IOPS=1259, BW=630MiB/s (660MB/s)
->     Seq write,   512KB, QD=32, 1 job :  IOPS=2073, BW=1038MiB/s (1089MB/s)
->     Seq write,     1MB, QD=32, 1 job :  IOPS=1034, BW=1038MiB/s (1088MB/s)
->     Rnd rdwr , 4K..1MB, QD=8 , 4 jobs:  IOPS=1531, BW=763MiB/s (801MB/s)
->      IOPS=1540, BW=765MiB/s (802MB/s)
->
-> On this HDMA setup, I did not observe a clear performance difference from
-> applying the three series alone. Still, I like the overall direction.
->
->
-> P.S.
-> Separately, as a follow-up experiment, I also prototyped an extra series on top
-> of your three series that allows us to make use of HDMA watermark interrupts.
-> With that series, in particular for the high queue-depth cases, the results
-> improved noticeably on this platform. I haven't posted that series yet though.
+On Fri, 2026-06-05 at 13:34 -0400, Chuck Lever wrote:
+> From: Chuck Lever <chuck.lever@oracle.com>
+>=20
+> ACCEPT and DONE are the two downcalls of the handshake genl
+> family, both intended for use by the trusted handshake agent
+> (tlshd). ACCEPT already requires GENL_ADMIN_PERM; DONE has
+> no privilege check at all.
+>=20
+> The fd-lookup in handshake_nl_done_doit() only confirms that
+> some pending handshake request exists for the supplied sockfd;
+> it does not authenticate the sender. An unprivileged process
+> that guesses or observes a valid sockfd can therefore submit
+> a DONE with HANDSHAKE_A_DONE_STATUS =3D=3D 0, leaving the kernel
+> consumer to proceed as if the handshake succeeded. A non-zero
+> status on a forged DONE tears down a legitimate in-flight
+> handshake before tlshd can report its real result.
+>=20
+> A subsequent patch teaches the DONE handler to carry session
+> tags consumed for access control. That work makes closing the
+> existing gap a prerequisite, but the gap itself predates tags.
+>=20
+> Fixes: 3b3009ea8abb ("net/handshake: Create a NETLINK service for handlin=
+g handshake requests")
+> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+> ---
+>  Documentation/netlink/specs/handshake.yaml | 1 +
+>  net/handshake/genl.c                       | 2 +-
+>  2 files changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/netlink/specs/handshake.yaml b/Documentation/n=
+etlink/specs/handshake.yaml
+> index 95c3fade7a8d..24f5a0ac5920 100644
+> --- a/Documentation/netlink/specs/handshake.yaml
+> +++ b/Documentation/netlink/specs/handshake.yaml
+> @@ -117,6 +117,7 @@ operations:
+>        name: done
+>        doc: Handler reports handshake completion
+>        attribute-set: done
+> +      flags: [admin-perm]
+>        do:
+>          request:
+>            attributes:
+> diff --git a/net/handshake/genl.c b/net/handshake/genl.c
+> index 870612609491..791c45671cd6 100644
+> --- a/net/handshake/genl.c
+> +++ b/net/handshake/genl.c
+> @@ -37,7 +37,7 @@ static const struct genl_split_ops handshake_nl_ops[] =
+=3D {
+>  		.doit		=3D handshake_nl_done_doit,
+>  		.policy		=3D handshake_done_nl_policy,
+>  		.maxattr	=3D HANDSHAKE_A_DONE_REMOTE_AUTH,
+> -		.flags		=3D GENL_CMD_CAP_DO,
+> +		.flags		=3D GENL_ADMIN_PERM | GENL_CMD_CAP_DO,
+>  	},
+>  };
+> =20
 
-Thanks for test it. I am monitor above recondition patch set.
+Seems like this ought to go in ahead of the rest of the set? tlshd
+generally runs as root anyway so I don't forsee a problem just doing
+this:
 
-Frank
->
->   After your three series (v7 + v2 + this) + use of HDMA watermark interrupts
->
->     Rnd read ,     4KB, QD=1 , 1 job :  IOPS=8016, BW=31.3MiB/s (32.8MB/s)
->     Rnd read ,     4KB, QD=32, 1 job :  IOPS=63.4k, BW=248MiB/s (260MB/s)
->     Rnd read ,     4KB, QD=32, 4 jobs:  IOPS=92.7k, BW=362MiB/s (380MB/s)
->     Rnd read ,   128KB, QD=1 , 1 job :  IOPS=3530, BW=441MiB/s (463MB/s)
->     Rnd read ,   128KB, QD=32, 1 job :  IOPS=12.0k, BW=1500MiB/s (1573MB/s)
->     Rnd read ,   128KB, QD=32, 4 jobs:  IOPS=12.4k, BW=1555MiB/s (1631MB/s)
->     Rnd read ,   512KB, QD=1 , 1 job :  IOPS=1541, BW=771MiB/s (808MB/s)
->     Rnd read ,   512KB, QD=32, 1 job :  IOPS=3116, BW=1560MiB/s (1636MB/s)
->     Rnd read ,   512KB, QD=32, 4 jobs:  IOPS=3099, BW=1556MiB/s (1632MB/s)
->     Rnd write,     4KB, QD=1 , 1 job :  IOPS=8748, BW=34.2MiB/s (35.8MB/s)
->     Rnd write,     4KB, QD=32, 1 job :  IOPS=57.6k, BW=225MiB/s (236MB/s)
->     Rnd write,     4KB, QD=32, 4 jobs:  IOPS=80.3k, BW=314MiB/s (329MB/s)
->     Rnd write,   128KB, QD=1 , 1 job :  IOPS=3878, BW=485MiB/s (508MB/s)
->     Rnd write,   128KB, QD=32, 1 job :  IOPS=9798, BW=1225MiB/s (1285MB/s)
->     Rnd write,   128KB, QD=32, 4 jobs:  IOPS=9970, BW=1248MiB/s (1308MB/s)
->     Seq read ,   128KB, QD=1 , 1 job :  IOPS=4516, BW=565MiB/s (592MB/s)
->     Seq read ,   128KB, QD=32, 1 job :  IOPS=12.0k, BW=1497MiB/s (1570MB/s)
->     Seq read ,   512KB, QD=1 , 1 job :  IOPS=1571, BW=786MiB/s (824MB/s)
->     Seq read ,   512KB, QD=32, 1 job :  IOPS=3073, BW=1538MiB/s (1613MB/s)
->     Seq read ,     1MB, QD=32, 1 job :  IOPS=1573, BW=1576MiB/s (1653MB/s)
->     Seq write,   128KB, QD=1 , 1 job :  IOPS=3977, BW=497MiB/s (521MB/s)
->     Seq write,   128KB, QD=32, 1 job :  IOPS=9806, BW=1226MiB/s (1286MB/s)
->     Seq write,   512KB, QD=1 , 1 job :  IOPS=1404, BW=702MiB/s (736MB/s)
->     Seq write,   512KB, QD=32, 1 job :  IOPS=2496, BW=1250MiB/s (1310MB/s)
->     Seq write,     1MB, QD=32, 1 job :  IOPS=1252, BW=1256MiB/s (1317MB/s)
->     Rnd rdwr , 4K..1MB, QD=8 , 4 jobs:  IOPS=1682, BW=836MiB/s (877MB/s)
->      IOPS=1688, BW=838MiB/s (879MB/s)
->
-> Best regards,
-> Koichiro
->
-> > Corn case have not tested, such as pause/resume transfer.
-> >
-> > Before
-> >
-> >   Rnd read,    4KB,  QD=1, 1 job :  IOPS=6780, BW=26.5MiB/s (27.8MB/s)
-> >   Rnd read,    4KB, QD=32, 1 job :  IOPS=28.6k, BW=112MiB/s (117MB/s)
-> >   Rnd read,    4KB, QD=32, 4 jobs:  IOPS=33.4k, BW=130MiB/s (137MB/s)
-> >   Rnd read,  128KB,  QD=1, 1 job :  IOPS=1188, BW=149MiB/s (156MB/s)
-> >   Rnd read,  128KB, QD=32, 1 job :  IOPS=1440, BW=180MiB/s (189MB/s)
-> >   Rnd read,  128KB, QD=32, 4 jobs:  IOPS=1282, BW=160MiB/s (168MB/s)
-> >   Rnd read,  512KB,  QD=1, 1 job :  IOPS=254, BW=127MiB/s (134MB/s)
-> >   Rnd read,  512KB, QD=32, 1 job :  IOPS=354, BW=177MiB/s (186MB/s)
-> >   Rnd read,  512KB, QD=32, 4 jobs:  IOPS=388, BW=194MiB/s (204MB/s)
-> >   Rnd write,   4KB,  QD=1, 1 job :  IOPS=6282, BW=24.5MiB/s (25.7MB/s)
-> >   Rnd write,   4KB, QD=32, 1 job :  IOPS=24.9k, BW=97.5MiB/s (102MB/s)
-> >   Rnd write,   4KB, QD=32, 4 jobs:  IOPS=27.4k, BW=107MiB/s (112MB/s)
-> >   Rnd write, 128KB,  QD=1, 1 job :  IOPS=1098, BW=137MiB/s (144MB/s)
-> >   Rnd write, 128KB, QD=32, 1 job :  IOPS=1195, BW=149MiB/s (157MB/s)
-> >   Rnd write, 128KB, QD=32, 4 jobs:  IOPS=1120, BW=140MiB/s (147MB/s)
-> >   Seq read,  128KB,  QD=1, 1 job :  IOPS=936, BW=117MiB/s (123MB/s)
-> >   Seq read,  128KB, QD=32, 1 job :  IOPS=1218, BW=152MiB/s (160MB/s)
-> >   Seq read,  512KB,  QD=1, 1 job :  IOPS=301, BW=151MiB/s (158MB/s)
-> >   Seq read,  512KB, QD=32, 1 job :  IOPS=360, BW=180MiB/s (189MB/s)
-> >   Seq read,    1MB, QD=32, 1 job :  IOPS=193, BW=194MiB/s (203MB/s)
-> >   Seq write, 128KB,  QD=1, 1 job :  IOPS=796, BW=99.5MiB/s (104MB/s)
-> >   Seq write, 128KB, QD=32, 1 job :  IOPS=1019, BW=127MiB/s (134MB/s)
-> >   Seq write, 512KB,  QD=1, 1 job :  IOPS=213, BW=107MiB/s (112MB/s)
-> >   Seq write, 512KB, QD=32, 1 job :  IOPS=273, BW=137MiB/s (143MB/s)
-> >   Seq write,   1MB, QD=32, 1 job :  IOPS=168, BW=168MiB/s (177MB/s)
-> >   Rnd rdwr, 4K..1MB, QD=8, 4 jobs:  IOPS=255, BW=128MiB/s (134MB/s)
-> >    IOPS=266, BW=135MiB/s (141MB/s)
-> >
-> > After
-> >
-> >   Rnd read,    4KB,  QD=1, 1 job :  IOPS=6148, BW=24.0MiB/s (25.2MB/s)
-> >   Rnd read,    4KB, QD=32, 1 job :  IOPS=29.4k, BW=115MiB/s (121MB/s)
-> >   Rnd read,    4KB, QD=32, 4 jobs:  IOPS=38.8k, BW=151MiB/s (159MB/s)
-> >   Rnd read,  128KB,  QD=1, 1 job :  IOPS=859, BW=107MiB/s (113MB/s)
-> >   Rnd read,  128KB, QD=32, 1 job :  IOPS=1504, BW=188MiB/s (197MB/s)
-> >   Rnd read,  128KB, QD=32, 4 jobs:  IOPS=1531, BW=191MiB/s (201MB/s)
-> >   Rnd read,  512KB,  QD=1, 1 job :  IOPS=238, BW=119MiB/s (125MB/s)
-> >   Rnd read,  512KB, QD=32, 1 job :  IOPS=390, BW=195MiB/s (205MB/s)
-> >   Rnd read,  512KB, QD=32, 4 jobs:  IOPS=404, BW=202MiB/s (212MB/s)
-> >   Rnd write,   4KB,  QD=1, 1 job :  IOPS=5801, BW=22.7MiB/s (23.8MB/s)
-> >   Rnd write,   4KB, QD=32, 1 job :  IOPS=24.7k, BW=96.6MiB/s (101MB/s)
-> >   Rnd write,   4KB, QD=32, 4 jobs:  IOPS=32.7k, BW=128MiB/s (134MB/s)
-> >   Rnd write, 128KB,  QD=1, 1 job :  IOPS=744, BW=93.1MiB/s (97.6MB/s)
-> >   Rnd write, 128KB, QD=32, 1 job :  IOPS=1278, BW=160MiB/s (168MB/s)
-> >   Rnd write, 128KB, QD=32, 4 jobs:  IOPS=1278, BW=160MiB/s (168MB/s)
-> >   Seq read,  128KB,  QD=1, 1 job :  IOPS=853, BW=107MiB/s (112MB/s)
-> >   Seq read,  128KB, QD=32, 1 job :  IOPS=1511, BW=189MiB/s (198MB/s)
-> >   Seq read,  512KB,  QD=1, 1 job :  IOPS=240, BW=120MiB/s (126MB/s)
-> >   Seq read,  512KB, QD=32, 1 job :  IOPS=386, BW=193MiB/s (203MB/s)
-> >   Seq read,    1MB, QD=32, 1 job :  IOPS=200, BW=201MiB/s (211MB/s)
-> >   Seq write, 128KB,  QD=1, 1 job :  IOPS=749, BW=93.7MiB/s (98.3MB/s)
-> >   Seq write, 128KB, QD=32, 1 job :  IOPS=1266, BW=158MiB/s (166MB/s)
-> >   Seq write, 512KB,  QD=1, 1 job :  IOPS=198, BW=99.0MiB/s (104MB/s)
-> >   Seq write, 512KB, QD=32, 1 job :  IOPS=352, BW=176MiB/s (185MB/s)
-> >   Seq write,   1MB, QD=32, 1 job :  IOPS=184, BW=184MiB/s (193MB/s)
-> >   Rnd rdwr, 4K..1MB, QD=8, 4 jobs:  IOPS=287, BW=145MiB/s (152MB/s)
-> >  IOPS=299, BW=149MiB/s (156MB/s)
-> >
-> > Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> > ---
-> > Frank Li (5):
-> >       dmaengine: dw-edma: Add dw_edma_core_ll_cur_idx() to get completed link entry pos
-> >       dmaengine: dw-edma: Move dw_hdma_set_callback_result() up
-> >       dmaengine: dw-edma: Make DMA link list work as a circular buffer
-> >       dmaengine: dw-edma: Dynamitc append new request during dmaengine running
-> >       dmaengine: dw-edma: Add trace support
-> >
-> >  drivers/dma/dw-edma/Makefile          |   3 +
-> >  drivers/dma/dw-edma/dw-edma-core.c    | 215 ++++++++++++++++++++++++----------
-> >  drivers/dma/dw-edma/dw-edma-core.h    |  42 ++++++-
-> >  drivers/dma/dw-edma/dw-edma-trace.c   |   4 +
-> >  drivers/dma/dw-edma/dw-edma-trace.h   | 150 ++++++++++++++++++++++++
-> >  drivers/dma/dw-edma/dw-edma-v0-core.c |  39 +++++-
-> >  drivers/dma/dw-edma/dw-hdma-v0-core.c |  17 +++
-> >  7 files changed, 409 insertions(+), 61 deletions(-)
-> > ---
-> > base-commit: 020f6d8442f35105660a29d0d236d3f8650c8142
-> > change-id: 20251212-edma_dymatic-a57843ff0dfe
-> >
-> > Best regards,
-> > --
-> > Frank Li <Frank.Li@nxp.com>
-> >
+Reviewed-by: Jeff Layton <jlayton@kernel.org>
 
