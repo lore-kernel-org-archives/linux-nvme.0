@@ -4,96 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 24CCCCD8C88
-	for <linux-nvme@archiver.kernel.org>; Sat,  6 Jun 2026 16:46:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 36B0CCD8C88
+	for <linux-nvme@archiver.kernel.org>; Sat,  6 Jun 2026 18:13:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0CCEPdnbAf9O7YZGI5gomWMwSVZTv0vCb5M8aGMFXew=; b=Xq/pL/dCApbcXfBtopxzC4cxFM
-	toQmuFgqLsC8TU9z95mM9FDpf5AHar8kj38RCxhAee01e+mXjnQowxIg8PKYPXb0bHupmAadMu17w
-	y5IVI/NKZ7Pk9IBpjzIeRDbcF8KOaEa06nH5+ZiTV84n156uJ7KFfbDS2cj0XZ1EBgagGqKGUawuK
-	3msvE3u8whIBFqWlGB1yjH5YcQPrz+nCI7dDuY5hnvl1l0SiGKlB1QJyily8TLRlc15XAnqTHhjtm
-	EeWQ/lGliJQTp7gjJN13SPEKlQayBtH0DsjG9aKkmtd1xRtzpF+AbQAlwLP5znUbJn7y6tke4jUdr
-	hRC0R10A==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=vs9sOPs398rODDZTFwVgFO5RKpuWAqMg6hg4GuJ04No=; b=DsqdDYbI0QJd8rt7Cgom8e88G3
+	aad40i+6351dnKp0B6NWdsB4+NVJVdI0x437cUg5OtAXRrMuvGykg0kw7RLq/qXW87barn8yRiaxE
+	UDRXOzwG5e1dmZTBJzgp0tVm7KSjkle338wGpI5jj/jJm9TMjaYlpCtlHCFoAVi/9QQkX+stdXNkV
+	AomnWjJgyh9Q5yE7Zaoybbq7t9VlwE3zqdyK6L+M3x2QXS3IBR3c6ciS0JIFyF7hMem3DD0yr0CAx
+	8mIE/HF/4P7oBeWO4wyOc2mNioCIkw1v2VMROrX1goKZf4LBzMz030Xp2JbbucfcMRXwX6V3yuMHS
+	1XyCQYRA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wVuA1-00000001iXK-13FW;
-	Sat, 06 Jun 2026 16:46:13 +0000
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
+	id 1wVvWS-00000001kQN-09Jw;
+	Sat, 06 Jun 2026 18:13:28 +0000
+Received: from mail-qt1-x834.google.com ([2607:f8b0:4864:20::834])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wVu9y-00000001iW2-11Op
+	id 1wVvWP-00000001kQ1-1l3O
 	for linux-nvme@lists.infradead.org;
-	Sat, 06 Jun 2026 16:46:11 +0000
-Received: by mail-pj1-x102f.google.com with SMTP id 98e67ed59e1d1-36b903567fdso2986990a91.1
-        for <linux-nvme@lists.infradead.org>; Sat, 06 Jun 2026 09:46:09 -0700 (PDT)
+	Sat, 06 Jun 2026 18:13:26 +0000
+Received: by mail-qt1-x834.google.com with SMTP id d75a77b69052e-5176d4c14f5so24908241cf.0
+        for <linux-nvme@lists.infradead.org>; Sat, 06 Jun 2026 11:13:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780764369; x=1781369169; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0CCEPdnbAf9O7YZGI5gomWMwSVZTv0vCb5M8aGMFXew=;
-        b=boliuFEvrnPyh/Kj4HBG4ukAdBkTeX44dy7fMLP+x6zuKbuSMP5pg24kgeUwICtlgs
-         6HJbpBSJh/Gh3ucA6tuVoFxUQqpnHGoADpl2GIHn5Tc+g4b4IZE+BsLP6qI2W1lz6JMJ
-         iJSNhq4xS+Ok8IZQH3G+nt4nJUb2HGapkuks9Lt8I2Qrk4DD83n8P4eN/q9NzLmZSZrY
-         RAQeX7JlGeAP3UkfEKwEWzxMSGrcxRKFGNHFOaqTbXUy7CZjY7EGooj+Dy4Fvz6qksEG
-         qx28pzdQavGwQ1J+pwwV0y9cov2cMIZtPLEVeA7VpYpTsJGjnGBAG6XETLLChwIEhVmG
-         2d3g==
+        d=gmail.com; s=20251104; t=1780769603; x=1781374403; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vs9sOPs398rODDZTFwVgFO5RKpuWAqMg6hg4GuJ04No=;
+        b=PxGkKRaqjNqxjXn59eZ6AUkFe09EW73qHSVWHrDRJQr+wZ3CpCcACzFWO9DRXrzIGu
+         YHA9fAuaqW4sw3ANY9SXPL+JCNqatT4Yy9Qzq850Sc6aa84b9czUjhptrb6BIhkoo6HP
+         NircKnG0NN/ZszveOuuiPBbt+NcxqBXg04a7Z8iEqQnk3QVGr3wmzuA3NR6zG2m6Hk1w
+         YABH/aBWURqapmo8zfOeXvWd1cH8PfJeCENvORCppX9mzgLy8skeIOC6vs+vFbcRSH5H
+         2EhuZynB7HrAdwJ9yqv2EywNsa1fobhwQK6CQDrbEOuwRq1Gt3aavyhAWWIvSVg8v/gb
+         xyYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780764369; x=1781369169;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0CCEPdnbAf9O7YZGI5gomWMwSVZTv0vCb5M8aGMFXew=;
-        b=eEoRmrzF1nziosRHTrOcJg6w4HuKpCtPG6UUJOo49LtoX6PcT7HnhsA+2l8pj3xN5V
-         eytKjvqLG/R9T7UUdkG5SarT9HcKwK/9qYzbLUV0+LiFswm29j1F3RpHAjTAPoTtplTV
-         C++DsxTRt81CyI+btglXPeAF3GLEY3rKOk7LchDSr171VbwNEGTAioOUFumKfiEk0yXF
-         iPcdFY+Gi4Q7oJkDc/XLbJDNLR+QX2uKTV9O0JRpfhtOXM0D4JeOIDFqTFsYF6RZZrgP
-         qAGAllKDrA4x6kRLysiedcBYj4k0iqd2QYiZCmtmR2mg5dCUCgJSpm47zcDhe2p1b9Pk
-         tvaw==
-X-Forwarded-Encrypted: i=1; AFNElJ/oqBFk6lp3pln8IniBdBk8ABimTe/F/aW7y7/aqSXvuhkoiIqR+R1x0WN6QtTxeSHjUTWzqgyH927o@lists.infradead.org
-X-Gm-Message-State: AOJu0YwqRETGeOos2nuqInvriVf+BKzL4FXcCBYIhH1pmNsePLZNE0Wp
-	qzyGp1DmWEZvGNS5/5MdCBgEHF43ajesVfzibXUJBnJXdQRIReDeTm2r
-X-Gm-Gg: Acq92OHtzdoHG8quEFOqrojd1LtTju/HTM85/0uXRIt6cp66rD/hqSxqsTlbM3Y2YzD
-	zjRgrIlcoTAa1T9bwzLZj+VjRoN8oCcAh7IywHJGECnQl1TjD83AxZJaabI9ERgzvt7FLJXnW7o
-	spfL7gkhqU3xfeIEfZ5xcfUR0PPWoHibOm/+cuIn3d1TMIExR/3j7Sn6fYT9pBB2G8+YdOQ1zLA
-	SdgSFovSr7DfJ7Sone//PdsLz1mLBn3k4ziPOLougL0QG93+8+STe9GW3CPmPSoGmw7dGJo7WTJ
-	O69wl2VKFwUuLVmiFzZ4sh/FjqaATEgP0/92G3jGL0rdE1o/R6LK3yawHq9ynCL4hjJu8vlv/RE
-	ookjtCfIt6z3lFkg5Jh9ra3l+wAxERQTBICFzVsfE9o81xi9b1yOOtFjDjmzz64D1LQcdYL7cMS
-	hHK+vXa5VsJil6njf5UrJkDNVT00jhvRTF4L9LhnF0uQ==
-X-Received: by 2002:a17:90b:1ccd:b0:368:a297:bd38 with SMTP id 98e67ed59e1d1-370eedfff8dmr9852447a91.7.1780764369256;
-        Sat, 06 Jun 2026 09:46:09 -0700 (PDT)
-Received: from [192.168.1.111] ([223.122.38.120])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36f714e26afsm10414758a91.17.2026.06.06.09.46.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 06 Jun 2026 09:46:08 -0700 (PDT)
-Message-ID: <b791aed1-cd05-45cd-973b-4d8bef27ee7c@gmail.com>
-Date: Sun, 7 Jun 2026 00:46:03 +0800
+        d=1e100.net; s=20251104; t=1780769603; x=1781374403;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vs9sOPs398rODDZTFwVgFO5RKpuWAqMg6hg4GuJ04No=;
+        b=iM6e9Qcgr81sE/k065iULfezZ/zjFU9I5bzXNrpRr5tjZ/4jkMabvGW7Tj3DoNolQc
+         e4YVaphBIeYLYIa7vAjNrLCKq0mtW9ZMfOyK5UtLQrhUhfyFBfZyZYg9dx4aRvEppNJP
+         +1vCk3TFRBcpL7g07mOYewcWML3mzIAiJHYGCMYwRaQYYk2n+ueVeky39aZoH6hdTetv
+         hvg2Q7yf5eGG8FYY5vYnPR5kAe36XeKzqLePjuSJSsmjeqGEplxIivyduJmckcZz/29K
+         T0O9EPUJ1JQSztWWxGdIYbRvNHT1eN3YMIHPKIgNJJn8dYDVuLNnXHagemRKbqwIdneh
+         5GuA==
+X-Forwarded-Encrypted: i=1; AFNElJ8Hyyi9KuwasrWQ+p7vHnyGR/SIzX6FPeDrPnr7H1Q5GiTFnj88dAiqEPm7RrS5e9M9h3km85acMh/U@lists.infradead.org
+X-Gm-Message-State: AOJu0YyvdAldk4clvaCOF9ywnAzkdWiAXF6sxN28nULodAzHOwZLvMRG
+	TTQr7veQJSC1OofJrkk1BFM8zZU/RCe4Zp/SnVSBlF/qrA0FJImuPDOL
+X-Gm-Gg: Acq92OE/bbktYhWg5GzwKvcks9C7DkiEE5XCSm00wOUu52w9RSktHnYPTbb+gOOdfFJ
+	SzUTolFJneJtJVIuj32r6dGJqAgvBXoCb7OuWGh6ODX/wqqB6p/wDuGK0P2eWTEKkF+h030yFFP
+	0gpuCDxVsdJiv6JHi7d1OVSe7ippLVBuTFq5x7iMY18YjOEg/QZtIrvmvfUaAd0l4JPrDzSq+eK
+	a7cHsUDPKdsiEFj/bBHwspbrH2gEYy9eHer5+C5O7dzXIQkcTOSYcpQpRMYBzxZhJXYOYUPyPzS
+	hFUSOOkWI3byvLguBeiaOB+QryMgh9AfHdMJMqA7mijhy/PA/GyIpJtpzUD2UUX6MYGOo7a1FCM
+	Y64bZXu8H3Bg/LsvEyvYGGfrgMLdNKKYWzlRhidhKNkNKxhmLJrNv2UvFtKS8M8+8cQd75O76x1
+	LPNsUHx3xPF+kQhG7AOb68YoMTn0dpaH/wyeCnf+dPIERY8ilfyWj5wofwN3MU8W7Mbaxod6Lkf
+	N4WtgiR0pOLcBHQ79jyk5yHqqzbRls=
+X-Received: by 2002:a05:622a:4d09:b0:516:e290:991a with SMTP id d75a77b69052e-51795be8192mr140592791cf.40.1780769603612;
+        Sat, 06 Jun 2026 11:13:23 -0700 (PDT)
+Received: from server0 (c-68-48-65-54.hsd1.mi.comcast.net. [68.48.65.54])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51775da6f41sm104769301cf.22.2026.06.06.11.13.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 06 Jun 2026 11:13:23 -0700 (PDT)
+From: Michael Bommarito <michael.bommarito@gmail.com>
+To: Hannes Reinecke <hare@suse.de>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Cc: Jens Axboe <axboe@kernel.dk>,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH] nvmet-auth: reject short AUTH_RECEIVE buffers
+Date: Sat,  6 Jun 2026 14:13:06 -0400
+Message-ID: <20260606181306.1651139-1-michael.bommarito@gmail.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] nvme-apple: Prevent tag collision across queues even
- if tag space is shared
-Content-Language: en-MW
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
- Neal Gompa <neal@gompa.dev>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, Yuriy Havrylyuk <yhavry@gmail.com>
-References: <20260606-prevent-tag-collision-t8015-v1-0-93ccf4eca550@gmail.com>
- <20260606-prevent-tag-collision-t8015-v1-2-93ccf4eca550@gmail.com>
- <a0b0bea4-998e-4196-a2b0-9fcaf531d9f3@kernel.org>
-From: Nick Chan <towinchenmi@gmail.com>
-In-Reply-To: <a0b0bea4-998e-4196-a2b0-9fcaf531d9f3@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260606_094610_282576_ABC91BA0 
-X-CRM114-Status: GOOD (  14.53  )
+X-CRM114-CacheID: sfid-20260606_111325_470851_401CCC8A 
+X-CRM114-Status: GOOD (  15.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,41 +101,88 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+nvmet_execute_auth_receive() trusts the AUTH_RECEIVE allocation length
+after checking only that it is nonzero and matches the transfer length.
+In SUCCESS1 and FAILURE1/default states, that lets a remote NVMe-oF
+initiator reach fixed-size DHCHAP response builders with a kmalloc()
+buffer shorter than the response, so the builder writes past the
+allocation.
 
+Reject AUTH_RECEIVE commands whose allocation length is shorter than the
+response for the current state before allocating the buffer. Keep the
+existing CHALLENGE variable-length guard in nvmet_auth_challenge().
 
-Sven Peter 於 2026/6/7 凌晨12:12 寫道:
-> On 06.06.26 15:25, Nick Chan wrote:
->> From: Yuriy Havrylyuk <yhavry@gmail.com>
->>
->> Apple NVMe controllers require tags of pending commands to not be shared
->> across admin and IO queues. However, on Apple A11 without linear SQ, it is
->> not possible for either queue to skip over some tags and must go from 0 to
->> the configured maximum before wrapping around.
->>
->> If a pending command tag is duplicated across queues, the firmware
->> crashes with: "duplicate tag error for tag N", with N being the tag.
->>
->> Instead of partitioning the tag space, which is not possible without
->> linear SQ, 
-> 
-> Isn't that just what the pci.c driver does with NVME_QUIRK_SHARED_TAGS 
-> for the T2 macs or what we do in this driver with
-> 	if (anv->hw->has_lsq_nvmmu)
-> 		anv->tagset.reserved_tags = APPLE_NVME_AQ_DEPTH;
-> ?
+This is the AUTH_RECEIVE response-write counterpart to the separately
+posted AUTH_SEND read-side bounds fix in nvmet_auth_reply() [1]; the two
+paths do not overlap.
 
-After adjusting the apple_nvme_submit_cmd_t8015() function to account for
-the admin queue depth, it seems that the existing workaround for M1 of
-reserving two tags for the admin queue works on A11 as well.
+Link: https://lore.kernel.org/all/f4aca9b14e74a7f7f8cd9620e13cc32a6a2b7746@linux.dev/ [1]
+Fixes: db1312dd95488 ("nvmet: implement basic In-Band Authentication")
+Cc: stable@vger.kernel.org
+Assisted-by: Codex:gpt-5-5-xhigh
+Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
+---
+A temporary KUnit harness, not included in this patch, ran under UML
+with KASAN enabled. The stock run crashed in
+nvmet_execute_auth_receive() on the SUCCESS1 path with "memset:
+detected buffer overflow: 16 byte write of buffer size 1"; the patched
+run passed the same harness. The harness source is available on
+request.
 
-Will post a much simplified v2.
+ drivers/nvme/target/fabrics-cmd-auth.c | 27 ++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-Best regards,
-Nick Chan
-
-> 
-> 
-> Sven
-> 
+diff --git a/drivers/nvme/target/fabrics-cmd-auth.c b/drivers/nvme/target/fabrics-cmd-auth.c
+index f1e613e7c63e5..77c7b412a8691 100644
+--- a/drivers/nvme/target/fabrics-cmd-auth.c
++++ b/drivers/nvme/target/fabrics-cmd-auth.c
+@@ -487,11 +487,30 @@ u32 nvmet_auth_receive_data_len(struct nvmet_req *req)
+ 	return le32_to_cpu(req->cmd->auth_receive.al);
+ }
+ 
++static u32 nvmet_auth_receive_min_len(struct nvmet_req *req)
++{
++	struct nvmet_ctrl *ctrl = req->sq->ctrl;
++	u32 hash_len = 0;
++
++	switch (req->sq->dhchap_step) {
++	case NVME_AUTH_DHCHAP_MESSAGE_CHALLENGE:
++		return 0;
++	case NVME_AUTH_DHCHAP_MESSAGE_SUCCESS1:
++		if (req->sq->dhchap_c2)
++			hash_len = nvme_auth_hmac_hash_len(ctrl->shash_id);
++
++		return sizeof(struct nvmf_auth_dhchap_success1_data) + hash_len;
++	default:
++		return sizeof(struct nvmf_auth_dhchap_failure_data);
++	}
++}
++
+ void nvmet_execute_auth_receive(struct nvmet_req *req)
+ {
+ 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
+ 	void *d;
+ 	u32 al;
++	u32 min_len;
+ 	u16 status = 0;
+ 
+ 	if (req->cmd->auth_receive.secp != NVME_AUTH_DHCHAP_PROTOCOL_IDENTIFIER) {
+@@ -524,6 +543,14 @@ void nvmet_execute_auth_receive(struct nvmet_req *req)
+ 		return;
+ 	}
+ 
++	min_len = nvmet_auth_receive_min_len(req);
++	if (al < min_len) {
++		status = NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
++		req->error_loc =
++			offsetof(struct nvmf_auth_receive_command, al);
++		goto done;
++	}
++
+ 	d = kmalloc(al, GFP_KERNEL);
+ 	if (!d) {
+ 		status = NVME_SC_INTERNAL;
+-- 
+2.53.0
 
 
