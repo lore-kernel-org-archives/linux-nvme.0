@@ -4,60 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1F609CD8CA4
-	for <linux-nvme@archiver.kernel.org>; Mon,  8 Jun 2026 19:45:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E5D06CD6E79
+	for <linux-nvme@archiver.kernel.org>; Mon,  8 Jun 2026 21:30:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nOUM233BkDBWLACgplH8WA444SMzwf33kfGfAapuszI=; b=cGYwKwf2tl0RR/RVtxx2FoFLi2
-	Qgx5t/o6lwyCtL6QJJG3/cRoe8+pxdOwuc57Vzk9hmRh+oTteXS//rAox5769k0+hzo48WiqLNrwX
-	YdAQvY2ztJNkoVRhnaEeJiQRnBnZPC5EW4MsgWklX43zP69T4vgtucO+omsxveJwyni2KCC3osEnY
-	EPDd9/gXDMrvpzYvm4KOz3Tt04Q+daz6DVMYYR8Wj+1G2SICTdsb1qWssIKv7GS22EzvdHmAbB0oc
-	KoPPw6beRccvFsQ4Hg+z/pnPDs+ZsiQkkP5AWe6yIuXamsGCFlwHseNNUuZgK4Ey959TYShZf9YZ+
-	n3bL6OIw==;
+	bh=OYREVr9VZXayCO499FM20XDrq2RGW0OqqEdmget5RDU=; b=KfLJfWHYdSaDgzM/CCPg0YTxPw
+	CLjEd9Sp5Wdd+4caAmC24Q0kpzHEHd9NolSH4CDKGehrY5+LckQND1xsZnKwjLI+qMDlvIwtAN/wA
+	m/pljXNDIVpvL4wmqauX6jaH87nLV+Wb+gH4rvL6x2VTPn7naXzNXbSYyq+wOtTsODAe2+Kovu9F4
+	FWXDJ5U50vDNjkcspH9LfMyallp5hqSjEQr8v9DkrvRP/6+fZzcde1PXNnXtDsmWNAX6s2G+P4R+4
+	oSqcGqvqXEAAWN8APp+Ir9OYT9XJT/8OZcx8A3SsC+rXHjzZX2KnYi0iRoed0HxIxXGxiB/nh/YzT
+	a/z1hejg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wWfuP-00000004Jn4-34WX;
-	Mon, 08 Jun 2026 19:45:17 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1wWhXz-00000004R0e-0OrE;
+	Mon, 08 Jun 2026 21:30:15 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wWfuO-00000004Jmb-3MtB;
-	Mon, 08 Jun 2026 19:45:16 +0000
+	id 1wWhXx-00000004R0W-0pBR
+	for linux-nvme@lists.infradead.org;
+	Mon, 08 Jun 2026 21:30:13 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 735A9440F3;
-	Mon,  8 Jun 2026 19:45:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C51AE1F00898;
-	Mon,  8 Jun 2026 19:45:15 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 48D306001D;
+	Mon,  8 Jun 2026 21:30:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9BF81F00893;
+	Mon,  8 Jun 2026 21:30:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780947916;
-	bh=nOUM233BkDBWLACgplH8WA444SMzwf33kfGfAapuszI=;
+	s=k20260515; t=1780954212;
+	bh=OYREVr9VZXayCO499FM20XDrq2RGW0OqqEdmget5RDU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ijWIg8hEXUjPIsGy30fNPYYxzPq3N1OHeiab4V3QfTyUN7SmS+ddM8BHST4psVUw8
-	 JVd48+84OrFEkT/Wmd1ljv6pgmk/szWVRlpcquySAwMCwo1GU37BvOVV+HbczSeDS3
-	 DqfgkSH5G/IGDA3y/m1HT1BlIMs3jSDrJbhDh5wo3IIQ9wsiWCUmqH/C3qODLC1JRi
-	 juw2KI2WBY6ye8L7hAZUTl7LWXJ2u2Iw7CIYbxGLM772r/CjqUarLmZNXqHyxc2O2y
-	 nvnRuz1ERBMws+VH0h2/bX37JVlNDrqChe8+Excwz7iLUPgP7N2mIzY06PNaNSuErd
-	 qbEQsmgnVFSSA==
-Date: Mon, 8 Jun 2026 13:45:14 -0600
+	b=LNIkqIlCJOZcvUoNzgdMd3TBjOhzxS3/qIljoYyPhZt9VtXnYyXiVSRMu2b/jezNw
+	 vCdYwJ+i3DrH1NVZlq7i56X+BWzJQnkzS/qthsR2PsrDzrMuMyhhbK2oS/hJh/PejZ
+	 gAdne5/a+4Sn6VwPX+UYRwfp42/AYror3TOqq2A6yg5X/EqmeomeLNBZ7YRshrI0bg
+	 Sn1ohKmddZEhkSn+g95akCbBUJNgPcNpnL+ldJy3kT8KKyfKIBhjJC69bv0AisIzt3
+	 tVFNOiWNnn/u+AG0Qg1LuHYF4yi8neoZnmgc3MAnje5CJWWBLhjtPV7mY13E44BEUs
+	 ldheRkaFisGYg==
+Date: Mon, 8 Jun 2026 15:30:10 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Nick Chan <towinchenmi@gmail.com>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2] nvme-apple: Prevent shared tags across queues on
- Apple A11
-Message-ID: <aicbyoYG_XFUkocj@kbusch-mbp>
-References: <20260607-prevent-tag-collision-t8015-v2-1-dc4ef4fb42bc@gmail.com>
+To: John Garry <john.g.garry@oracle.com>
+Cc: hch@lst.de, sagi@grimberg.me, axboe@fb.com,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH] nvme: quieten sparse warning in valid LBA size check
+Message-ID: <aic0Yv_gO4sBkTeM@kbusch-mbp>
+References: <20260604145840.948130-1-john.g.garry@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260607-prevent-tag-collision-t8015-v2-1-dc4ef4fb42bc@gmail.com>
+In-Reply-To: <20260604145840.948130-1-john.g.garry@oracle.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,13 +68,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Jun 07, 2026 at 02:10:58PM +0800, Nick Chan wrote:
-> On Apple A11, tags of pending commands must be unique across the admin
-> and IO queues, else the firmware crashes with
-> "duplicate tag error for tag N", with N being the tag.
+On Thu, Jun 04, 2026 at 02:58:40PM +0000, John Garry wrote:
+> Currently building with C=1 generates the following warning:
 > 
-> Apply the existing workaround for M1 of reserving two tags for the admin
-> queue to A11.
+>   CC      drivers/nvme/host/core.o
+>   CHECK   drivers/nvme/host/core.c
+> drivers/nvme/host/core.c:2426:13: warning: unsigned value that used to be signed checked against zero?
+> drivers/nvme/host/core.c:2426:13: signed value source
+> 
+> This issue was introduced when using check_shl_overflow() to check for
+> invalid LBA size. Sparse is having trouble dealing with __bitwise __le64
+> conversion when passing to check_shl_overflow().
+> 
+> Resolve the issue by moving the check_shl_overflow() call to a separate
+> function, where types are not converted.
 
 Thanks, applied to nvme-7.2.
 
