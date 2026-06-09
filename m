@@ -4,136 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 445E7CD8CAE
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Jun 2026 06:51:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B7550CD8CAD
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Jun 2026 07:03:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5X06zig+UKxVMDIfUi6G+f9hwbst8eY+SMVRqeH3Nr0=; b=Q+fNkaP4whm4MNJTCvxFtW/G8S
-	H9jQYWKjRxizLSZFGwXVnRuImZfUv++Wf9vWdgEb8cHfDT+bUEVYVUGlkoKz+dVy/58889vZFjN2r
-	/WGGtBfQn7gXiRJkXWm+57zqwqAgA+rfnDw4EYmIDTNegi8EMIea8MSVYdokSmWlaaXyHNlE+ALC6
-	vLvqBibfq6jKIxENbdEomdEMF3XZNQWZUWgDvlKSHnUKKQAbhOS/oN4C16JVF+hy+jJzxbCkwGTqW
-	eQmCx8TuyFSGT7gChsZmK1Tidh6IA8e8hFeyXf0iIJQ+OAJNGbiLqaEJy0H9v0qBTFmzWO8G06G7c
-	ENbw2WHQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:From:
+	Subject:Message-ID:Mime-Version:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=JxPb+RxK32jFv/xJSoX/EYo4cdhBkfXrSsqEtmmG9wM=; b=T7vAE6xGZ9wRPPRXUtTwpQbgwJ
+	1VYipRVaFeucVNDa3gzVAmzakqm28vGLL+NTJyMnGnv972ReHommFwhMRdlCt+0CMa+WOFiGkcye4
+	ntm6/lGoZq3Vo/XrKUCcuFm0EZMqmIkOxlFesw8/c2J8F6RymBtMnrVLXgk2coAX1ccDbFc7TU7v5
+	dYZoPqpCkn4kX36hNV1OqRtHH85xzdXpU5xC9DRIjWeaNzQpr7ObtXaITAFz18kpsnU3brGBpSaGn
+	GqzDR09DQcSMQec4Sv1gSCFJmmdrGvGtjEwrkxdo2LiEXPWKYxMfhsbLVaYshSHYpNAqcmlqWEJCe
+	dRxBolOg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wWqJI-00000004uv8-1ZwX;
-	Tue, 09 Jun 2026 06:51:40 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1wWqVC-00000004w0p-1sMn;
+	Tue, 09 Jun 2026 07:03:58 +0000
+Received: from mail-dl1-x1249.google.com ([2607:f8b0:4864:20::1249])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wWqJE-00000004utp-33ZD
+	id 1wWqVA-00000004w0P-3L1Z
 	for linux-nvme@lists.infradead.org;
-	Tue, 09 Jun 2026 06:51:38 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3221B6A7E7;
-	Tue,  9 Jun 2026 06:51:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1780987894; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5X06zig+UKxVMDIfUi6G+f9hwbst8eY+SMVRqeH3Nr0=;
-	b=cSO2iyb2hcz4MDgQjRsck5RkT/Zr9C3V6fG4Kb099ITt6Id+elqENRWfmx2QRg23cIIfh3
-	FzPw2wm6kSVbPCS4Sw8vvmCf1VDUEkGmGfQW1pz8ueWhu58gLTZAGLF5qA3DSv4qHmh9mj
-	eI1IqStVhIc9jP+sWeJ1CalL/dMNGYU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1780987894;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5X06zig+UKxVMDIfUi6G+f9hwbst8eY+SMVRqeH3Nr0=;
-	b=6WIRBEPi0LxEYJMQMNQA6CNWraQOvjw9ABRVaXnb0DsZyqRB/sQhXKJnS+zzN5DkqmwlLb
-	yLUsb88VGhvffACw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=cSO2iyb2;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=6WIRBEPi
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1780987894; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5X06zig+UKxVMDIfUi6G+f9hwbst8eY+SMVRqeH3Nr0=;
-	b=cSO2iyb2hcz4MDgQjRsck5RkT/Zr9C3V6fG4Kb099ITt6Id+elqENRWfmx2QRg23cIIfh3
-	FzPw2wm6kSVbPCS4Sw8vvmCf1VDUEkGmGfQW1pz8ueWhu58gLTZAGLF5qA3DSv4qHmh9mj
-	eI1IqStVhIc9jP+sWeJ1CalL/dMNGYU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1780987894;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5X06zig+UKxVMDIfUi6G+f9hwbst8eY+SMVRqeH3Nr0=;
-	b=6WIRBEPi0LxEYJMQMNQA6CNWraQOvjw9ABRVaXnb0DsZyqRB/sQhXKJnS+zzN5DkqmwlLb
-	yLUsb88VGhvffACw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DE890779A7;
-	Tue,  9 Jun 2026 06:51:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ouOvNPW3J2oeeQAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 09 Jun 2026 06:51:33 +0000
-Message-ID: <f5d8e307-83e6-48e1-bba6-4d9f88d5fa7f@suse.de>
-Date: Tue, 9 Jun 2026 08:51:33 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvmet-auth: reject short AUTH_RECEIVE buffers
-To: Michael Bommarito <michael.bommarito@gmail.com>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <kch@nvidia.com>
-Cc: Jens Axboe <axboe@kernel.dk>, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20260606181306.1651139-1-michael.bommarito@gmail.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20260606181306.1651139-1-michael.bommarito@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 3221B6A7E7
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	URIBL_BLOCKED(0.00)[suse.de:dkim,suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,lst.de,grimberg.me,nvidia.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+	Tue, 09 Jun 2026 07:03:58 +0000
+Received: by mail-dl1-x1249.google.com with SMTP id a92af1059eb24-13815cb1507so6229079c88.0
+        for <linux-nvme@lists.infradead.org>; Tue, 09 Jun 2026 00:03:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1780988635; x=1781593435; darn=lists.infradead.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=JxPb+RxK32jFv/xJSoX/EYo4cdhBkfXrSsqEtmmG9wM=;
+        b=L5Bj0CxbPSIltM3ZlQBpdrJpTF2qFEnwaOXWc9TREGxfDJwP1Ts5xQyzPAQHHThesJ
+         DUaRa79MQNxYFszL8cWStrdjxnHP2CUnD/Jocx6KR9zx9tIIClRvXcjGjMhUagFRDv9Y
+         DqLDK7FFgyqT4S/HzzOnaCsLSiLejQON8mqzSkr2YXKQ8LPn0MBK2OU/SXyxN/Rg9fog
+         C9XtGOH1RgRzxwoj1Y9ffsPuiwufKXgRvVxH9qdFanu2HsrMVSNYeP1H5XBUaGcdy6Hv
+         LFJ687RGU3oz4biOmCfFPjqLoLsIyhG/uT5vQbz8qkBj3mEXn5GJ5LuBhhPXj5+ctkkw
+         8VAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780988635; x=1781593435;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JxPb+RxK32jFv/xJSoX/EYo4cdhBkfXrSsqEtmmG9wM=;
+        b=QxrQNC1s+DyQeoN3iizJWPK+bB8imIEFZaDDK/WMaAYpWNrImnEM7BUIMuam/2KHAK
+         5y+a30ivli3811QCKGqfdyczTm2oNxAmeiKjLLIMNPugYN725YZgrgenYcakeWsFrLv5
+         skbaGJegmkb+JT/Ru4LPpeo7BmHP6oPf01wu+IPhx80SRw6FfDZWD1RhZr1JR+BnUT2e
+         ULRRcFYmGlNVqJ7FZ9qynXirSVNfBroVJMqoXtptdCs2hzy2pMH38YkyC/QaSJfMceGi
+         24TX2yvRCGA+0l87hCb4jX4YI9nbkTSXKx/J13IIJ4HLaIWcr/nn7LJ4WSpxBBgygpm1
+         G/ww==
+X-Gm-Message-State: AOJu0YzBsMcTq1tJCrVxLFDYhfMVoIaycE8YF+29rTnpJ9aPI+dLYsJ8
+	KmYl9WZKgXVBaNnMeABByJghrgPttGAJ1U7xwttOrVuCK5xsWT7nYy0rfWiLFhpcdQe2tjh5Hbr
+	cWgnaDq+asg==
+X-Received: from dlbrx14.prod.google.com ([2002:a05:7022:170e:b0:137:fb92:f7ee])
+ (user=irogers job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7022:6613:b0:12c:8e70:c33b
+ with SMTP id a92af1059eb24-138066be665mr9925946c88.8.1780988635043; Tue, 09
+ Jun 2026 00:03:55 -0700 (PDT)
+Date: Tue,  9 Jun 2026 00:03:45 -0700
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.54.0.1064.gd145956f57-goog
+Message-ID: <20260609070348.541964-1-irogers@google.com>
+Subject: [PATCH v1 0/3] perf pmu: Add tool-provided NVMe PMU
+From: Ian Rogers <irogers@google.com>
+To: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
+	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
+	James Clark <james.clark@linaro.org>, Tomas Glozar <tglozar@redhat.com>, 
+	Michael Jeanson <mjeanson@efficios.com>, Dmitrii Dolgov <9erthalion6@gmail.com>, 
+	Alexandre Chartre <alexandre.chartre@oracle.com>, Yuzhuo Jing <yuzhuo@google.com>, 
+	Leo Yan <leo.yan@arm.com>, German Gomez <german.gomez@arm.com>, 
+	Anubhav Shelat <ashelat@redhat.com>, linux-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org
+Cc: linux-nvme@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260608_235136_931026_5A3D5BAD 
-X-CRM114-Status: GOOD (  23.60  )
+X-CRM114-CacheID: sfid-20260609_000356_868111_FA9C7619 
+X-CRM114-Status: GOOD (  14.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -148,97 +92,64 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/6/26 20:13, Michael Bommarito wrote:
-> nvmet_execute_auth_receive() trusts the AUTH_RECEIVE allocation length
-> after checking only that it is nonzero and matches the transfer length.
-> In SUCCESS1 and FAILURE1/default states, that lets a remote NVMe-oF
-> initiator reach fixed-size DHCHAP response builders with a kmalloc()
-> buffer shorter than the response, so the builder writes past the
-> allocation.
-> 
-> Reject AUTH_RECEIVE commands whose allocation length is shorter than the
-> response for the current state before allocating the buffer. Keep the
-> existing CHALLENGE variable-length guard in nvmet_auth_challenge().
-> 
-> This is the AUTH_RECEIVE response-write counterpart to the separately
-> posted AUTH_SEND read-side bounds fix in nvmet_auth_reply() [1]; the two
-> paths do not overlap.
-> 
-> Link: https://lore.kernel.org/all/f4aca9b14e74a7f7f8cd9620e13cc32a6a2b7746@linux.dev/ [1]
-> Fixes: db1312dd95488 ("nvmet: implement basic In-Band Authentication")
-> Cc: stable@vger.kernel.org
-> Assisted-by: Codex:gpt-5-5-xhigh
-> Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
-> ---
-> A temporary KUnit harness, not included in this patch, ran under UML
-> with KASAN enabled. The stock run crashed in
-> nvmet_execute_auth_receive() on the SUCCESS1 path with "memset:
-> detected buffer overflow: 16 byte write of buffer size 1"; the patched
-> run passed the same harness. The harness source is available on
-> request.
-> 
->   drivers/nvme/target/fabrics-cmd-auth.c | 27 ++++++++++++++++++++++++++
->   1 file changed, 27 insertions(+)
-> 
-> diff --git a/drivers/nvme/target/fabrics-cmd-auth.c b/drivers/nvme/target/fabrics-cmd-auth.c
-> index f1e613e7c63e5..77c7b412a8691 100644
-> --- a/drivers/nvme/target/fabrics-cmd-auth.c
-> +++ b/drivers/nvme/target/fabrics-cmd-auth.c
-> @@ -487,11 +487,30 @@ u32 nvmet_auth_receive_data_len(struct nvmet_req *req)
->   	return le32_to_cpu(req->cmd->auth_receive.al);
->   }
->   
-> +static u32 nvmet_auth_receive_min_len(struct nvmet_req *req)
-> +{
-> +	struct nvmet_ctrl *ctrl = req->sq->ctrl;
-> +	u32 hash_len = 0;
-> +
-> +	switch (req->sq->dhchap_step) {
-> +	case NVME_AUTH_DHCHAP_MESSAGE_CHALLENGE:
-> +		return 0;
-> +	case NVME_AUTH_DHCHAP_MESSAGE_SUCCESS1:
-> +		if (req->sq->dhchap_c2)
-> +			hash_len = nvme_auth_hmac_hash_len(ctrl->shash_id);
-> +
-> +		return sizeof(struct nvmf_auth_dhchap_success1_data) + hash_len;
-> +	default:
-> +		return sizeof(struct nvmf_auth_dhchap_failure_data);
-> +	}
-> +}
-> +
->   void nvmet_execute_auth_receive(struct nvmet_req *req)
->   {
->   	struct nvmet_ctrl *ctrl = req->sq->ctrl;
->   	void *d;
->   	u32 al;
-> +	u32 min_len;
->   	u16 status = 0;
->   
->   	if (req->cmd->auth_receive.secp != NVME_AUTH_DHCHAP_PROTOCOL_IDENTIFIER) {
-> @@ -524,6 +543,14 @@ void nvmet_execute_auth_receive(struct nvmet_req *req)
->   		return;
->   	}
->   
-> +	min_len = nvmet_auth_receive_min_len(req);
-> +	if (al < min_len) {
-> +		status = NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
-> +		req->error_loc =
-> +			offsetof(struct nvmf_auth_receive_command, al);
-> +		goto done;
-> +	}
-> +
->   	d = kmalloc(al, GFP_KERNEL);
->   	if (!d) {
->   		status = NVME_SC_INTERNAL;
+This patch series introduces a tool-provided PMU for NVMe devices to expose
+various hardware logs as perf events.
 
-Please move this check into nvmet_auth_receive_data_len().
+Using libnvme, the new nvme_pmu extracts metrics from standard NVMe log pages
+including:
+- SMART / Health Information (e.g. data units read/written, power cycles,
+  temperature)
+- Endurance Group Information
+- FDP (Flexible Data Placement) Statistics
+- Error Information
+- Zoned Namespaces (ZNS) Changed Zones
 
-Cheers,
+Key features:
+- Dynamic probing of supported log pages on /dev/nvmeX. Unsupported events
+  are marked as deprecated and hidden from `perf list` by default.
+- Generic configuration encoding where the log type, size, and offset are
+  encoded directly into the event configuration.
+- Correct interval delta tracking using baseline offset snapshots. This mimics
+  the behavior of the hwmon PMU, allowing gauges like Temperature to be
+  reported instantaneously in `perf stat -I`, while standard counters
+  correctly accumulate deltas.
+- Robust handling of cross-architecture endianness when reading 128-bit and
+  64-bit fields from the NVMe specification.
 
-Hannes
+The series is broken down into:
+1. Adding the libnvme feature detection via pkg-config in tools/build.
+2. The core implementation of the NVMe tool PMU.
+3. A unit test suite verifying the parsing and encoding of the NVMe PMU
+   events using a mocked device.
+
+Ian Rogers (3):
+  perf build: Add libnvme feature detection
+  perf pmu: Implement tool-provided NVMe PMU
+  perf tests: Add NVMe PMU event parsing test
+
+ tools/build/Makefile.feature       |   2 +
+ tools/build/feature/Makefile       |   3 +
+ tools/build/feature/test-libnvme.c |  11 +
+ tools/perf/Makefile.config         |  12 +
+ tools/perf/tests/Build             |   1 +
+ tools/perf/tests/builtin-test.c    |   1 +
+ tools/perf/tests/nvme_pmu.c        | 176 ++++++++++
+ tools/perf/tests/tests.h           |   1 +
+ tools/perf/util/Build              |   1 +
+ tools/perf/util/evsel.c            |  11 +-
+ tools/perf/util/nvme_pmu.c         | 535 +++++++++++++++++++++++++++++
+ tools/perf/util/nvme_pmu.h         | 143 ++++++++
+ tools/perf/util/pmu.c              |  15 +
+ tools/perf/util/pmu.h              |   8 +-
+ tools/perf/util/pmus.c             |  31 +-
+ tools/perf/util/pmus.h             |   1 +
+ 16 files changed, 945 insertions(+), 7 deletions(-)
+ create mode 100644 tools/build/feature/test-libnvme.c
+ create mode 100644 tools/perf/tests/nvme_pmu.c
+ create mode 100644 tools/perf/util/nvme_pmu.c
+ create mode 100644 tools/perf/util/nvme_pmu.h
+
 -- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+2.54.0.1064.gd145956f57-goog
+
 
