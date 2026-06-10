@@ -4,74 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E8B16CD8CB2
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 Jun 2026 16:26:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9D1E9CD8CB2
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 Jun 2026 16:29:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=V1O7VHDRfnBO/Jp7C9ioC0b7HEmd3k2QEBKmqxWU1H0=; b=CGE6z0FhAAqqNx4TPDCc/uhxti
-	+f+ZmM5wt+Cwh46RrYuid/ZQsCwccEUi5E0zI2X187xfl948ymGlw8UHoVxFtODe43hoCK6bnKLd9
-	ux3xYlpgiLW6vP0zljbgvhiCYInr0GMn60iTLHPYKmv7+E/eVdbE11tlDFXFVNiIqdi2eMqNl7paV
-	MHtCue5jJK4pYLBhE/2EgIXEP2x2AJK1LlefLRXlyhiHF10oadm5vPyuaxOev22FIXTog9rG4Elbv
-	kGVaOfjjAlKDrjVUHYT23XP9qpG9uPjzFGdCJZrsNsW+tU5E02/ZdVgq66THsTgDwpd0X+3dUCm8/
-	ZEPuvdSA==;
+	bh=KOya9xCztn9m1Qwe21aHdaX4JPjjppokz/WAIXPtlZ4=; b=hvp2u8oPYSOF/v4QrlX29gtWX2
+	2i8krFXiH0EiT8KGSJapbefnfBUfjGtiNOBfQ+ys/Hz6TywmfMEE0yTUK9xpjNGKELSOB4FB6Je1+
+	gPYHh5gN+Wvg0NQwcKOAB99n6AYcSUQCwRMrjnRI1wNfb79ppo91hk7wjwOGx4yWt//R2zaWzChSX
+	7NOfilBFNxqZlDlb+WSug/YAmQCqLqy6JzaHtMZwzq96znzWI/cg+qYTE9dJoUXwjR7bjE6gLGq6a
+	0p/TYQf6GV9T3PPmEj7o+ydXWSh7RwcgHi1SlW0Ywr+B7qyEYfdkzUANnN0n+jwkLcAD6SOQcvlu1
+	j9G3jDOg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wXLkh-000000086bV-3kLk;
-	Wed, 10 Jun 2026 16:26:03 +0000
-Received: from 013.lax.mailroute.net ([199.89.1.16])
+	id 1wXLnY-000000086xC-1UCW;
+	Wed, 10 Jun 2026 16:29:00 +0000
+Received: from 011.lax.mailroute.net ([199.89.1.14])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wXLkf-000000086ac-1ClE
+	id 1wXLnW-000000086wo-19lI
 	for linux-nvme@lists.infradead.org;
-	Wed, 10 Jun 2026 16:26:02 +0000
+	Wed, 10 Jun 2026 16:28:59 +0000
 Received: from localhost (localhost [127.0.0.1])
-	by 013.lax.mailroute.net (Postfix) with ESMTP id 4gbB3W0DV9zlfpM6;
-	Wed, 10 Jun 2026 16:25:59 +0000 (UTC)
+	by 011.lax.mailroute.net (Postfix) with ESMTP id 4gbB6x65Gfz1XLyhV;
+	Wed, 10 Jun 2026 16:28:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
 	content-transfer-encoding:content-type:content-type:in-reply-to
 	:from:from:content-language:references:subject:subject
 	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1781108755; x=1783700756; bh=V1O7VHDRfnBO/Jp7C9ioC0b7
-	HEmd3k2QEBKmqxWU1H0=; b=D5Iii07c3sB43dQvud9a7PaAc1uQudM9O4C/opJ4
-	BsvuOHuZIc/Yxa6V+Cytd7Z7VL6WOObSw5IVeGEyIAR3AVGwcDHwszb7IeMnCI9e
-	ym2ht6mpSadvSSqbk6u1u1WYiSTFb+s4yVyMpEB7GJCX8IQjOJiEIDiDsHGwjoC8
-	YwsLwgqQwo+8Mz4eSI5+NPNeKS0SGFZEemzOXX+xGLP1j4HGZ9Vjfa12TOhQSM0u
-	okS0AckazM+Kzq1FLEOqlK5TPZRJN+XGywx3A8MwqLDPvgYhb3NgMEwwy57xgbnl
-	44EZ9DxUkFWX4cAykVPfXkjypmkUS8UdjJLK/0WtoyfhLQ==
+	 s=mr01; t=1781108933; x=1783700934; bh=KOya9xCztn9m1Qwe21aHdaX4
+	JPjjppokz/WAIXPtlZ4=; b=LbROMwSVRm/8L8NxmThR8xpKuy47zKuBY7zJJam5
+	ecelH8ecxDJgfTIYgDt3/WW7bKIof0ZiJOs6r8BLyqLgV2WvqRxtw4djqcPQBb1q
+	SMffOhKxXADO07FvMCkr7wu/TSF0c/vChRzCOoi9WYEk99xM7njqkab2pxGSdZUH
+	avSMpnlSaxmGsdii+8Ufx6Gh6h9W9QjdcShzI8f6pgwHJ51JLXik8J+4PthdI/gk
+	jjfajJvX7bEJUU9zIxrNLSGnZLkn404J8rp1Nl0WwelVKeyBXzHOActLoBAsd9Ir
+	/71ep4x807OLOil3TWF+ATBb/hQxqHbxYwpI/20E0Ek2+Q==
 X-Virus-Scanned: by MailRoute
-Received: from 013.lax.mailroute.net ([127.0.0.1])
- by localhost (013.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id UF1JK3AKsMuR; Wed, 10 Jun 2026 16:25:55 +0000 (UTC)
+Received: from 011.lax.mailroute.net ([127.0.0.1])
+ by localhost (011.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id QgLivcy8P4SC; Wed, 10 Jun 2026 16:28:53 +0000 (UTC)
 Received: from [100.119.48.131] (unknown [104.135.180.219])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: bvanassche@acm.org)
-	by 013.lax.mailroute.net (Postfix) with ESMTPSA id 4gbB3N68JGzlfvpK;
-	Wed, 10 Jun 2026 16:25:52 +0000 (UTC)
-Message-ID: <0b3ab980-db78-4f21-8af7-f74961f5d648@acm.org>
-Date: Wed, 10 Jun 2026 09:25:51 -0700
+	by 011.lax.mailroute.net (Postfix) with ESMTPSA id 4gbB6q4G4Jz1XLyhT;
+	Wed, 10 Jun 2026 16:28:51 +0000 (UTC)
+Message-ID: <bd51432e-616a-4a87-b006-3ff7e5aaaa27@acm.org>
+Date: Wed, 10 Jun 2026 09:28:50 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/15] nvme: add Clang context annotations for
- nvme_ns_head::requeue_list
+Subject: Re: [PATCH 07/15] nvme: add Clang context annotations for
+ nvme_subsystem::lock
 To: Nilay Shroff <nilay@linux.ibm.com>, linux-nvme@lists.infradead.org,
  linux-kernel@vger.kernel.org
 Cc: hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, axboe@fb.com,
  elver@google.com, gjoyce@linux.ibm.com
 References: <20260610142743.115898-1-nilay@linux.ibm.com>
- <20260610142743.115898-5-nilay@linux.ibm.com>
+ <20260610142743.115898-8-nilay@linux.ibm.com>
 Content-Language: en-US
 From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20260610142743.115898-5-nilay@linux.ibm.com>
+In-Reply-To: <20260610142743.115898-8-nilay@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260610_092601_347315_D6348106 
-X-CRM114-Status: UNSURE (   9.22  )
+X-CRM114-CacheID: sfid-20260610_092858_350620_616A294E 
+X-CRM114-Status: UNSURE (   5.85  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -88,21 +88,11 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 6/10/26 7:27 AM, Nilay Shroff wrote:
-> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-> index a275c03e7c59..985a8c693c6f 100644
-> --- a/drivers/nvme/host/multipath.c
-> +++ b/drivers/nvme/host/multipath.c
-> @@ -706,8 +706,8 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
->   	struct queue_limits lim;
->   
->   	mutex_init(&head->lock);
-> +	guard(spinlock_init)(&head->requeue_lock);
->   	bio_list_init(&head->requeue_list);
-> -	spin_lock_init(&head->requeue_lock);
-scoped_guard() is preferred over guard() because with scoped_guard() the
-scope the guard applies to is explicit. When using guard(), if new code
-is added, it may end up being covered by a guard() statement although it
-shouldn't.
+> +	mutex_lock(&ctrl->subsys->lock);
+>   	list_add_tail(&head->entry, &ctrl->subsys->nsheads);
+> +	mutex_unlock(&ctrl->subsys->lock);
+
+Has it been considered to use scoped_guard()?
 
 Thanks,
 
