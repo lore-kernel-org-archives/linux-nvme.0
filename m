@@ -4,103 +4,105 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E6019CD8CB2
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 Jun 2026 13:44:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AF6A0CD8CB9
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 Jun 2026 14:28:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Subject:References:In-Reply-To:Message-Id:Cc:To:From:Date:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wPPDhxKh3hPc6l1/pq4WkUoyCmQ73QpGV3SN3sLOFRo=; b=niR1yoa0LMWpT0r/LXohfWjVHc
-	cZEFe3AxV/db2yv4kItqyXgi7WVhRfxgsGNFLpE7bKvGlyjZl6f3JqGPM6UEq9112Fd7as3tJ/fH+
-	v5bvdHXk94tTMgvyU4QK80C32YHU9qCMiYLy6NmruIEowMIyFTm+cIEhuz6HvcTQcUB8+2IDFsf2b
-	fiuVhJV5TAii/nMzobXHDe+PHoDR61jDkUbDZM9w4X9aVFORIKP7XKxVAT3nHwJEVJ+G7LoStDLeN
-	KUj4gQM/tsjkwKCFC7ZtxXCHcPppfRlNA1GMuwzq/OL2E8uhKWru9AbnSW+s7p9AnDYkMUHlkYRL+
-	lBt9KoSg==;
+	bh=f6Zu8l03fl9GgwQNye7HsEqsBMablBLNtGsWRuC89LM=; b=d4G6p0IJMJkhV8Q28amn86a0FX
+	NPW4P62FsJ1e1BRZOIFG0ge+s5NWgkBPGfXgubxUPp+dVZeJ7m4r0si7KVSJKtulmqiTQ6XG3VZAg
+	9FYmKihwYumLxGjmjmo4NJ8q6rjJ/edzA19FErpmMHu828I+x+XuVqi8TPLXdvF4JO0X7Ho+mZXxz
+	SNROrMqEXKo0D/0Yo0E63Mcj66J52twtXttGeVr0Oz/w63nRG5ISNm1MBCdiDUNRsX3pKyp4uPMvY
+	3hLrJG606FWxbACW2dnyjtl7qLl2wtYDoSbfw+zOd0OCbWigcgjUI2LPYTwoWUIP9t6VZJYU705Hz
+	p1YoPgWg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wXJEM-00000007ns9-2WgO;
-	Wed, 10 Jun 2026 13:44:30 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1wXJux-00000007sVg-3dGb;
+	Wed, 10 Jun 2026 14:28:31 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wXJEL-00000007ns1-2xwq
+	id 1wXJuu-00000007sTd-1E91
 	for linux-nvme@lists.infradead.org;
-	Wed, 10 Jun 2026 13:44:29 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id AFB2F600AB;
-	Wed, 10 Jun 2026 13:44:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4D971F00893;
-	Wed, 10 Jun 2026 13:44:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781099068;
-	bh=wPPDhxKh3hPc6l1/pq4WkUoyCmQ73QpGV3SN3sLOFRo=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=BVOSb6H3xr1dTTnA6IyJcvki9vKqeErst4XNJQblTnHZck+W55a5bkHy06PA/rFnk
-	 BzeNsmCCR+ATshWPpMmlo2gztxWdn55c8KGJyJOGAH4FKWyZTviqHmrGgZfmrtO47J
-	 rAYWUhy+/L5fGIUYkxwrOtkIaFAqCO1c103WVtdawY8TzxjEdd1oWbOaKCvfv0eKz1
-	 LO/D5npkfeUSOdkHl5SZB836NW+DDVt2nxfzA4ZVvQuNv36qwmdAt693elYcL2lmTu
-	 NbZanSLLCgP0sc96gpZhb4QHrCWGpxKNj47fqYPXftu/RAxXtR4qr+sW7xcN2c1lIh
-	 1TtZIIf6YqTIg==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id E2E81F40077;
-	Wed, 10 Jun 2026 09:44:26 -0400 (EDT)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Wed, 10 Jun 2026 09:44:26 -0400
-X-ME-Sender: <xms:Omopaszll95i-3fJFd6CskCrToGzY4ZK5vyfiFZgBFxT5A37wj_iKQ>
-    <xme:OmoparHzwNrSu-NHoBGiw2xAHot2S5IZPLxAX7cvsUO4E8cgFFtcUK-uvezsl8z7a
-    qA4ZDPYhIc04TVClC9TyDxb9zuKDfHsd92yRUJ_GAkdehaZSGnbrEU>
-X-ME-Proxy-Cause: dmFkZTFo6lJcIYlhfzO/M7VQ/JnV1u4EHs5xq3VlZnBCfR540veWQVuwQPexuiS4eLQ9He
-    2632OciM8xFfTwlrrqsfBrJFYSd43AdzjUtlKEJQ7ztos01/QDK8f0NKCFDLtiH6/PI8Xe
-    Rh2ta8+yx4RJ4qjkPUZJSjLMMGk67Y/x5VondMjwqe2J5HUezBrRZBfgby9HaDQa7uw9XA
-    0ZO+vPRgUARmUBEwHVMK6OUZuHsQgeTPM7dNVId1LklSaSvhzscZLscEOlrBX68uUL7Uh4
-    muMOzMveIndhSACewxMIyLTuWF4kgSGQA1trSBckDEF95S7IOLs0WvEff0ifWxq3h8dABF
-    jXli4WNoMJObTrcXcZhT0yNEAGez015qGKZV3dDKd1g4fY1WCNfiR8az0cNsMcYG9r/f94
-    RmJR6z8dJkqd2jYr+DvoCTuxD7PEMyJYsJSrBb9mIimXygUailkO9U7B6uHpBQY9n01Q97
-    tKgpWLnVyvG97FcfHsXmTxL9sFLQFjuwEszrMy9he8qsdkIRErVenWi6bLoMWDswWmbGoo
-    Ga+BkuaRorJ9sCj5WwOXAM3d4Q2TAaVa03KR3AWtXT98T3fz7h5B9Yzn+Ln2hbF/31V4D/
-    6ygODKDG7YLbZ4wsWnGwkCvkMWUYOwu/ABIzt0CbYHI1lEj00Aa+97pJGzRA
-X-ME-Proxy: <xmx:Omopajb9Q_c5ELOPrPCO6ibbO_KC0kOAKkNXt8CMSh5PlPS741hyyQ>
-    <xmx:Omopaig0QQ3SWZ50PrMxg56iDMdHDDDh0_hGEPmNDcVjFvzwdG3V7Q>
-    <xmx:OmopajyDVfnPWFVoqrteEXQ0si-20fOP1_OVPianFEFhUzhQ45fXcA>
-    <xmx:Omopat4HlpRERPyyuchP9miI8KLrPxVqOjV1SbaSnUREM4u7j1P-3w>
-    <xmx:Omopas17tC3U4tMRF30GWJtmyX6viVpeXC8T8icfy2hd8u-bp3QpqJGk>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id B460F780070; Wed, 10 Jun 2026 09:44:26 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	Wed, 10 Jun 2026 14:28:29 +0000
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65A55HXG3408398;
+	Wed, 10 Jun 2026 14:28:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=pp1; bh=f6Zu8l03fl9GgwQNy
+	e7HsEqsBMablBLNtGsWRuC89LM=; b=SSafE4QauU2lLEtG1SO3+KYfxJW3lW++/
+	jeQP8tjXtyqTUp6hgZyRfHftGwSFWZoWM8TUZLtltDVWQuRQqAcBpGqAWyNUJX+7
+	In63o+MfTfG1NckFVxqvSQ90ul2yZzHWSEbJoASUtXA0UDUYbqMY482mJVkkut2Q
+	bX+GGjGTaZYBdeyQXBu2kF+c+GFKsA1anpfov0Y0BzieXHqj5HBghsmrWA2Qvd0Y
+	L8zXoVh2PgKXB0cYbG/+uAlldRqSMabc1ZT0eyVSHMNMLl/2PUm/BwhlXb2cPgX1
+	czYafn5pbBLKP0JsL5XNv7TSBXSSTSCUZl9OTIiD2B75TcDzhG5aw==
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4em8yj1bh0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 10 Jun 2026 14:28:14 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 65AEJvqj011389;
+	Wed, 10 Jun 2026 14:28:14 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4en0jyeruw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 10 Jun 2026 14:28:14 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 65AESAKG47513894
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 10 Jun 2026 14:28:10 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 84C5720049;
+	Wed, 10 Jun 2026 14:28:10 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3379920040;
+	Wed, 10 Jun 2026 14:28:08 +0000 (GMT)
+Received: from li-a84c74cc-2b13-11b2-a85c-acdd023f0674.ibm.com.com (unknown [9.43.34.89])
+	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 10 Jun 2026 14:28:07 +0000 (GMT)
+From: Nilay Shroff <nilay@linux.ibm.com>
+To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, axboe@fb.com,
+        bvanassche@acm.org, elver@google.com, gjoyce@linux.ibm.com,
+        Nilay Shroff <nilay@linux.ibm.com>
+Subject: [PATCH 01/15] nvme: update nvme_passthru_end() signature
+Date: Wed, 10 Jun 2026 19:57:21 +0530
+Message-ID: <20260610142743.115898-2-nilay@linux.ibm.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260610142743.115898-1-nilay@linux.ibm.com>
+References: <20260610142743.115898-1-nilay@linux.ibm.com>
 MIME-Version: 1.0
-X-ThreadId: AL3hV2aBoURB
-Date: Wed, 10 Jun 2026 09:44:05 -0400
-From: "Chuck Lever" <cel@kernel.org>
-To: "Hannes Reinecke" <hare@suse.de>,
- "Donald Hunter" <donald.hunter@gmail.com>,
- "Jakub Kicinski" <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- "Eric Dumazet" <edumazet@google.com>, "Paolo Abeni" <pabeni@redhat.com>,
- "Simon Horman" <horms@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
- "Shuah Khan" <skhan@linuxfoundation.org>,
- "Andrew Morton" <akpm@linux-foundation.org>,
- "John Fastabend" <john.fastabend@gmail.com>,
- "Sabrina Dubroca" <sd@queasysnail.net>, "Keith Busch" <kbusch@kernel.org>,
- "Jens Axboe" <axboe@kernel.dk>, "Christoph Hellwig" <hch@lst.de>,
- "Sagi Grimberg" <sagi@grimberg.me>, "Chaitanya Kulkarni" <kch@nvidia.com>,
- "Jeff Layton" <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
- "Olga Kornievskaia" <okorniev@redhat.com>, "Dai Ngo" <Dai.Ngo@oracle.com>,
- "Tom Talpey" <tom@talpey.com>, "Trond Myklebust" <trondmy@kernel.org>,
- "Anna Schumaker" <anna@kernel.org>
-Cc: kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org,
- "Chuck Lever" <chuck.lever@oracle.com>
-Message-Id: <98b7f6ef-3c1d-4af0-86d0-cad6d1f29b1c@app.fastmail.com>
-In-Reply-To: <d14fff89-3c7b-40ea-9380-e8c37499916e@suse.de>
-References: <20260605-tls-session-tags-v1-0-47bd1d94d552@oracle.com>
- <20260605-tls-session-tags-v1-3-47bd1d94d552@oracle.com>
- <922040b0-f87e-484d-9f7b-78098024ad04@suse.de>
- <2dc23995-3ff9-4714-ac6c-d70255b15687@app.fastmail.com>
- <d14fff89-3c7b-40ea-9380-e8c37499916e@suse.de>
-Subject: Re: [PATCH 3/9] lib: Add a "tagset" data structure
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjEwMDEzNSBTYWx0ZWRfX2EdrYyRyYNsT
+ iSVzBYney/OUIZ6pl+EgSgl5yeHP+KXt9hBcHHQMQou7jcSWzn5OIFPYunxcHe6jIcBjPcs26LC
+ pJRxMHex48vuI+q2WeWSr1NbWRuxmv+H709sY34mPu7oVo8nzjxiHY0qgp5e418vvVeOJG6CYc+
+ 6gU3XloN6A/eRN2DdNG1esgt6lMGX3qlEM3W2IJx+2R27mHbFV+gUi7PziM1H/hguLrmba/kbIO
+ 4fjqjQzYGCQuGshqy5BjAblsfRsc3sUnmewoCvwNSC/QyryMMD9VFDSLyJwaySW19UI0fm/pvfS
+ nC/BEPm7St882Bb2lxugQ9OZ/nAjZfAZ1YC+i89OklFoMziGYnx5F6XHaHu3T6Bcytr8livfmvR
+ I3BmO8QkLbUtgd+iAdcqzSKaLwiaSusXf5+Owmf6bSNg5+ERKSgzctR416Mk++r8LGkqCzJ1GML
+ Jc+s0ua7jSVQjkY8VLQ==
+X-Authority-Analysis: v=2.4 cv=HvFG3UTS c=1 sm=1 tr=0 ts=6a29747f cx=c_pps
+ a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
+ a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
+ a=Y2IxJ9c9Rs8Kov3niI8_:22 a=VnNF1IyMAAAA:8 a=SiEiA-kSKP9ZIulfK2kA:9
+X-Proofpoint-ORIG-GUID: gSH8RCKGM0h5HRzLKMLAjxXHwyUj4f8g
+X-Proofpoint-GUID: w1wLMyirtBoPwYtiMnCuX3G3vr5hu7dz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-10_03,2026-06-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 clxscore=1015 lowpriorityscore=0 adultscore=0 suspectscore=0
+ spamscore=0 priorityscore=1501 phishscore=0 malwarescore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606100135
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260610_072828_452868_0B83A48A 
+X-CRM114-Status: GOOD (  15.44  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -115,83 +117,71 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Change nvme_passthru_end() to return the command effects value passed
+to it.
 
+This is a preparatory change for Clang's context/thread-safety analysis
+support. The conditional release annotations (__cond_releases()) model
+lock release based on a function's return value. Returning the existing
+effects value allows a subsequent patch to annotate nvme_passthru_end()
+as conditionally releasing locks acquired by nvme_passthru_start().
 
-On Wed, Jun 10, 2026, at 3:06 AM, Hannes Reinecke wrote:
-> On 6/9/26 15:35, Chuck Lever wrote:
->> 
->> On Tue, Jun 9, 2026, at 2:45 AM, Hannes Reinecke wrote:
->>> On 6/5/26 19:34, Chuck Lever wrote:
->>>> From: Chuck Lever <chuck.lever@oracle.com>
->>>>
->>>> Access control mechanisms sometimes need to match metadata tags
->>>> between a session and a resource. A tagset provides efficient
->>>> membership testing and set intersection operations for this purpose.
->>>>
->>>> The implementation uses a sorted array of string pointers. Unlike
->>>> hash tables, sorted arrays support efficient intersection without
->>>> needing to iterate one set and probe the other. Unlike rbtrees,
->>>> they require no per-element node allocation, minimizing memory
->>>> overhead for small sets typical of resource tagging.
->>>>
->>> [ .. ]
->>>
->>>
->>> Isn't this overcomplicating matters?
->>> In the end, this a list of strings.
->>> Wouldn't a simple rbtree holding the strings be sufficient?
->>> (And quicker to lookup :-)
->> 
->> This isn't overcomplicating matters.
->> 
->> Consider that a TLS session might have several, even dozens of
->> tags. An NFSD export might also have a dozen or more tags.
->> 
->> We need a mechanism that will compute the intersection of those
->> two sets efficiently -- that is not a simple lookup. Keeping a
->> set of tags in a list or in an r-b tree would require MxN look
->> up operations to compute that intersection.
->> 
-> It sure would. But we're dealing with a comparative small number
-> of entries (later patches cap it to 64), so runtime really is of
-> no concern.
+No functional change intended.
 
-I'm going to push back on that. Let's compare the proposed
-tagset implementation with a putative r-b tree-based one.
+A follow-up patch will add the corresponding context analysis
+annotations.
 
-On a big NFS server, mount operations happen frequently. With 5
-tags on a session (say) and 5 allow-tags on an export, that is
-25 lookups, each O(log(5)) (for r-b tree).
+Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+---
+ drivers/nvme/host/core.c | 6 ++++--
+ drivers/nvme/host/nvme.h | 2 +-
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-With the current tagset implementation, it is O(5 + 5).
-
-If both the session and export tags are using the maximum number
-of tags, an "intersection" turns into 4000+ lookups, each
-O(log(64)). With the current tagset implementation, it's only
-O(64 + 64).
-
-The performance of one "intersection" operation goes south
-quickly with the number of tags when conventional data types are
-used.
-
-And these are all memory fetches, so not all that fast. r-b trees
-are notoriously non-optimal in terms of memory access efficiency,
-though not as bad as a linked list.
-
-
-> But let me see if I can come up with an alternative implementation
-> using rb trees.
-
-I'm skeptical that an r-b tree implementation will be much simpler.
-It will definitely be more costly in terms of CPU and memory
-accesses.
-
-For the time being, note that TLS session tags have no support
-for PSK -- there are no data items inside the shared keys on
-which to match a tag. We might find something else to match on,
-though, who knows?
-
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index c3032d6ad6b1..d6153c3e0007 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1257,7 +1257,7 @@ u32 nvme_passthru_start(struct nvme_ctrl *ctrl, struct nvme_ns *ns, u8 opcode)
+ }
+ EXPORT_SYMBOL_NS_GPL(nvme_passthru_start, "NVME_TARGET_PASSTHRU");
+ 
+-void nvme_passthru_end(struct nvme_ctrl *ctrl, struct nvme_ns *ns, u32 effects,
++u32 nvme_passthru_end(struct nvme_ctrl *ctrl, struct nvme_ns *ns, u32 effects,
+ 		       struct nvme_command *cmd, int status)
+ {
+ 	if (effects & NVME_CMD_EFFECTS_CSE_MASK) {
+@@ -1278,7 +1278,7 @@ void nvme_passthru_end(struct nvme_ctrl *ctrl, struct nvme_ns *ns, u32 effects,
+ 		flush_work(&ctrl->scan_work);
+ 	}
+ 	if (ns)
+-		return;
++		return effects;
+ 
+ 	switch (cmd->common.opcode) {
+ 	case nvme_admin_set_features:
+@@ -1299,6 +1299,8 @@ void nvme_passthru_end(struct nvme_ctrl *ctrl, struct nvme_ns *ns, u32 effects,
+ 	default:
+ 		break;
+ 	}
++
++	return effects;
+ }
+ EXPORT_SYMBOL_NS_GPL(nvme_passthru_end, "NVME_TARGET_PASSTHRU");
+ 
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index ccd5e05dac98..aa42f5a9d1fa 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -1274,7 +1274,7 @@ u32 nvme_command_effects(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 			 u8 opcode);
+ u32 nvme_passthru_start(struct nvme_ctrl *ctrl, struct nvme_ns *ns, u8 opcode);
+ int nvme_execute_rq(struct request *rq, bool at_head);
+-void nvme_passthru_end(struct nvme_ctrl *ctrl, struct nvme_ns *ns, u32 effects,
++u32 nvme_passthru_end(struct nvme_ctrl *ctrl, struct nvme_ns *ns, u32 effects,
+ 		       struct nvme_command *cmd, int status);
+ struct nvme_ctrl *nvme_ctrl_from_file(struct file *file);
+ struct nvme_ns *nvme_find_get_ns(struct nvme_ctrl *ctrl, unsigned nsid);
 -- 
-Chuck Lever
+2.53.0
+
 
