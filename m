@@ -4,49 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8EB0BCD98C5
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 Jun 2026 05:12:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F2830CD8CB9
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 Jun 2026 06:17:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qkignFTpZF7uHwgeYELHQN77FbWbfi1UY8WYR1I5MM0=; b=GHHpFMQQIEqa78XjjRXzRFK10R
-	lC1PZPNkcM0KkKpi/rvCBzqjokmreHsknGTh4yV5O7tIWRFwVLMUUriMNQi9Leqast4hg6Z6pns7v
-	J1EhCDA5dHRRnuz/YfRHvhko65uPuCthCq3iu4uheF9/Fv3TzGtksdJl8MZnjOW1gidUEqaYoDRXm
-	ZO2ihkMJg3xtrYGrCT8T9UESKqJM5ZpDK8xNESGkQHgvVJLzM6SNNEqPzRoV/qTSozCK38d7c3bdt
-	gTVoBcS080rxr0VQWfV2OLKjpvTYfFQDHrPf3aaIiP+yOZFvu+0ZgG0u7cBcBdW7NfpfH+dHlRim5
-	IWZeTq8w==;
+	bh=UAWeR7hUP3bLrsobOVF8T1MNmJV+xvCkerR0WtRSKIg=; b=BP5xnQoFQqAAjyRroETzZ6vddp
+	13wg22We+TdRiDv1xWuwpVFwnXzpO7YodLx/frpTRvKJqh9uxnDtecG1AGSBG6nZRVuUWgxg1DyZb
+	0qYXcunEmrooFAVbSUjP1qYLiM4ePdXR5z/DytcEyVcvac2pbHtK87bRwv8UlN0TYUtIo7VwG3gfO
+	QZfKeXBU07MaNvdUXBM+4iocglLj9sH8Vm9AjyaxwE1T6nwsFHgAblgI+qplSdOnM3VNdpGeLW0Ag
+	Ak2dNACGJi8cHRuk1cSnYJPKnZt2HTI5RNO7icCicqI//QzZAsTNkhKxXy+txySfjfUKweuKL2LrT
+	mKsS7qJA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wXBFI-00000006oUd-1OBz;
-	Wed, 10 Jun 2026 05:12:56 +0000
-Received: from verein.lst.de ([213.95.11.211])
-	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wXBFF-00000006oUF-12s3
-	for linux-nvme@lists.infradead.org;
-	Wed, 10 Jun 2026 05:12:54 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id D3D8668BEB; Wed, 10 Jun 2026 07:12:49 +0200 (CEST)
-Date: Wed, 10 Jun 2026 07:12:49 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Rosen Penev <rosenp@gmail.com>, linux-nvme@lists.infradead.org,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] nvme: target: allocate ana_state with port
-Message-ID: <20260610051249.GB559@lst.de>
-References: <20260608051223.6884-1-rosenp@gmail.com> <aihfCMQewU3kR_5J@kbusch-mbp>
+	id 1wXCFv-00000006rrA-1xLd;
+	Wed, 10 Jun 2026 06:17:39 +0000
+Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wXCFt-00000006rqN-2BZi;
+	Wed, 10 Jun 2026 06:17:37 +0000
+Date: Tue, 9 Jun 2026 23:17:37 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Ian Rogers <irogers@google.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	James Clark <james.clark@linaro.org>,
+	Tomas Glozar <tglozar@redhat.com>,
+	Michael Jeanson <mjeanson@efficios.com>,
+	Dmitrii Dolgov <9erthalion6@gmail.com>,
+	Alexandre Chartre <alexandre.chartre@oracle.com>,
+	Yuzhuo Jing <yuzhuo@google.com>, Leo Yan <leo.yan@arm.com>,
+	German Gomez <german.gomez@arm.com>,
+	Anubhav Shelat <ashelat@redhat.com>, linux-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v1 1/3] perf build: Add libnvme feature detection
+Message-ID: <aikBgfn9yZG93sZQ@infradead.org>
+References: <20260609070348.541964-1-irogers@google.com>
+ <20260609070348.541964-2-irogers@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aihfCMQewU3kR_5J@kbusch-mbp>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260609_221253_480299_4B4C2E6D 
-X-CRM114-Status: GOOD (  11.92  )
+In-Reply-To: <20260609070348.541964-2-irogers@google.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,13 +63,10 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jun 09, 2026 at 12:44:24PM -0600, Keith Busch wrote:
-> On Sun, Jun 07, 2026 at 10:12:23PM -0700, Rosen Penev wrote:
-> > Use a flexible array member to remove one allocation. Simplifies code
-> > slightly.
-> 
-> Thanks, applied to nvme-7.2.
+On Tue, Jun 09, 2026 at 12:03:46AM -0700, Ian Rogers wrote:
+> CONV=ca4c5d09-4ef8-405a-80bb-aa988020b436
+> TAG=agy
 
-Btw, given that the array is of fixed size we don't even really the
-VLA here.
+What is this supposed to mean?
+
 
