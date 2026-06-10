@@ -4,58 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EE148CD8CAD
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 Jun 2026 00:01:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 512C6CD8CA8
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 Jun 2026 03:17:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4OZsjnwFhyfsENooiiYgR1pxdxc+gWvdKCR6mawy1Zo=; b=yyA+0KzA0RvxGTfEx6x85Sy1ih
-	FNlwfz31/6WSrDYO02gUPOO6FEv21javDkddk7bDMu0/xM2RsfudRgJZ2ttXTTk0AghnN01659FeL
-	FmFsauV1rN024RMWcRUlHtUZXZA4ftCR2TID7BmHyZj8d0iQqskMNZQv5WA979RaywpvdDqbpbZLm
-	09M5TVcYWTgbJaanJOmy4B7Zmoknxh0gcHkpDr1XfJDK2BZ2iCSR2FIu20KuEmx9ldd4dmIEhGVRb
-	rbhe3rD3KPlZuj+BqHQxr9dTHShOxIOKybP0PWtme/MOTIH0GwIe+y7wqXvYmsYjmTEEToLWVnBwF
-	mHYYCS5g==;
+	bh=I4emnqIqIdL6Z/thgfMcOzQbTKLZMtmRN7K6d6fNY9M=; b=bvM2nHwHFGg8zOLNKEJQc0b7z2
+	2xfhHc6vkjouw5qqEFJ8bsWB7L2erdUVfiIyhH+tK80DYOBsVpPjiulftzEs0Mmxd+MGf13uWzsoS
+	KzyP0RS2D8LZtQDGeltpohMfDT6DVrw8qCEfJ3cj4HYSMpvx0qkBvTFyeh/j0IkByDsCpzxOfUY4S
+	P+h3PV/TMMUsCKyWbODJD7hdvn+cAbpcaA1vy+wcXvJvAzKnJUAhmIA6N0zk76fthPmJBAslzgEGm
+	EwMoNgwWah/QruW6ov5Qx0FvEQldbfp5bd4yHvSfrThH8pFGjR1cIE+fCX3FaOKa4oQ17SOt/qFtx
+	niKGEzzg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wX6OB-00000006XPs-4B6C;
-	Wed, 10 Jun 2026 00:01:47 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1wX9S0-00000006jYL-1eAe;
+	Wed, 10 Jun 2026 03:17:56 +0000
+Received: from mailgw.kylinos.cn ([124.126.103.232])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wX6O4-00000006XPg-1Mn2
+	id 1wX9Rx-00000006jWx-3izo
 	for linux-nvme@lists.infradead.org;
-	Wed, 10 Jun 2026 00:01:43 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id A13F542A12;
-	Wed, 10 Jun 2026 00:01:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15EA71F00893;
-	Wed, 10 Jun 2026 00:01:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781049699;
-	bh=4OZsjnwFhyfsENooiiYgR1pxdxc+gWvdKCR6mawy1Zo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=mlLDHlY/rC5559/T6gueObV/LbVBhqKfnFT0QO1ZC98AIJNkN3Xg7NNxtXTqf0xhU
-	 PAgGu1w317oLh6k6kESkfGV96rzikz2IEY9G8X6Os6Q5cHgrWGY6yjGljJPhEOFw4u
-	 Kd1CcoCN+5VQCa6JCV1xJbPhZwxXo048Eg90pzOyxeTVUB3TmRI6ZVRnrWWth1v7/X
-	 DAN6pS328qhTyi/rvgU8N2jy4ckqLdfWVBaIO7PzwuXs8E57u5SFv/YnQcZq2iOc5H
-	 r6YKrkZzuyuhPCbVIKfuocn3dyKm2YtNZ+NPDwJDwMzgZjbAoOmNPqByV/QmD2pnVp
-	 UZT57g6Xk+GEw==
-Message-ID: <8214e0b3-c9b7-4881-8357-5f84e2f8b1cb@kernel.org>
-Date: Wed, 10 Jun 2026 08:01:24 +0800
+	Wed, 10 Jun 2026 03:17:55 +0000
+X-UUID: f1f7e11c647a11f1aa26b74ffac11d73-20260610
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:532d9d4b-2e4b-44b9-bcba-6fffcb037931,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:e7bac3a,CLOUDID:f303d14455f77b0210d028143ca7a2b5,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|136|865|898,TC:nil,Content:0|1
+	5|50,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI
+	:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: f1f7e11c647a11f1aa26b74ffac11d73-20260610
+X-User: liuxixin@kylinos.cn
+Received: from [127.0.1.1] [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <liuxixin@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 147462138; Wed, 10 Jun 2026 11:17:43 +0800
+From: Xixin Liu <liuxixin@kylinos.cn>
+To: linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, linux-kernel@vger.kernel.org, liuxixin@kylinos.cn
+Subject: [PATCH v1 1/1] nvme-pci: tear down controller on ERS permanent failure
+Date: Tue, 10 Jun 2026 10:55:00 +0800
+Message-ID: <6a9c9c654d0a0000000000000000000000000000.1780449274.git.liuxixin@kylinos.cn>
+In-Reply-To: <cover.nvme-ers-v1.1780449274.git.liuxixin@kylinos.cn>
+References: <cover.nvme-ers-v1.1780449274.git.liuxixin@kylinos.cn>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme-multipath: revalidate zones for namespace heads
-To: Yao Sang <sangyao@kylinos.cn>, linux-nvme@lists.infradead.org
-Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me
-References: <20260609063102.2689195-1-sangyao@kylinos.cn>
-Content-Language: en-US
-From: Damien Le Moal <dlemoal@kernel.org>
-Organization: Western Digital Research
-In-Reply-To: <20260609063102.2689195-1-sangyao@kylinos.cn>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Mailer: nvme-ers-resetting/send-local.py
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260609_201754_234233_244E782C 
+X-CRM114-Status: UNSURE (   9.12  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,64 +76,55 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2026/06/09 14:31, Yao Sang wrote:
-> Zoned multipath namespace heads get BLK_FEAT_ZONED and their limits are
-> refreshed from the paths, but the zone state for the head disk is never
-> initialized.  The previous nr_zones assignment only updated a single
-> field and did not allocate or populate the block layer's per-zone state.
-> 
-> That leaves the head disk without valid zone condition information.  Code
-> using the head device, such as bdev_zone_is_seq(), can then treat a
-> sequential zone as non-sequential and submit regular writes to it.
-> 
-> Add a small helper to run blk_revalidate_disk_zones() for a live zoned
-> namespace head after the path limits have been committed and when a path
-> becomes live.  Return the error to the namespace update path, and keep the
-> live path transition as a warning-only update.  Drop the nr_zones copy, as
-> blk_revalidate_disk_zones() updates it together with the rest of the zoned
-> disk state.
-> 
-> Signed-off-by: Yao Sang <sangyao@kylinos.cn>
-> ---
-> The failure was found with xfstests xfs/643 and xfs/646 on an NVMe
-> ZNS multipath namespace. Tracing showed regular REQ_OP_WRITE I/O being
-> submitted to sequential zones through the multipath head.
-> 
-> The head queue had the zoned limits stacked from the path, but the head
-> gendisk had not gone through blk_revalidate_disk_zones(). That left the
-> block layer per-zone state missing on the head disk, so users of the head
-> device could treat sequential zones as non-sequential.
+On pci_channel_io_frozen nvme-pci moves the controller to NVME_CTRL_RESETTING
+and quiesces I/O.  If pcie_do_recovery() then fails and the core calls
+error_detected(perm_failure), the driver only logged and returned DISCONNECT
+without changing state.  sysfs state remained "resetting";
+nvme_fail_nonready_command() returned BLK_STS_RESOURCE and new I/O blocked
+indefinitely.
 
-Mentioning the test case that triggered the issue is good, so it would be nice
-to include this text in the commit message.
+Reproduced with aer_inject Uncorrectable Fatal on a QEMU hotplug NVMe when
+pci_bus_error_reset() failed (LnkCap.DLLLARC set, LnkSta.DLLLA not set
+within 100 ms).  slot_reset was never called.
 
-> +#ifdef CONFIG_BLK_DEV_ZONED
-> +int nvme_mpath_revalidate_zones(struct nvme_ns_head *head)
-> +{
-> +	struct gendisk *disk = head->disk;
-> +	int ret;
-> +
-> +	if (!disk || !blk_queue_is_zoned(disk->queue) ||
-> +	    !test_bit(NVME_NSHEAD_DISK_LIVE, &head->flags))
-> +		return 0;
-> +
-> +	ret = blk_revalidate_disk_zones(disk);
-> +	if (ret)
-> +		dev_warn_ratelimited(disk_to_dev(disk),
-> +				     "failed to revalidate zoned namespace head: %d\n",
-> +				     ret);
-> +	return ret;
-> +}
-> +#endif /* CONFIG_BLK_DEV_ZONED */
+Add nvme_pci_ers_failed() with the same teardown sequence as reset_work
+failure: DELETING, disable with shutdown, mark namespaces dead, then DEAD.
 
-Maybe define this helper in nvme/host/zns.c ? But either way, this depends on
-both CONFIG_BLK_DEV_ZONED and CONFIG_NVME_MULTIPATH, so this is also fine as is.
+Signed-off-by: Xixin Liu <liuxixin@kylinos.cn>
+---
+ drivers/nvme/host/pci.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-So regardless, with the commit message updated,
-
-Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
-
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index cebe8c9e598c..6a9c9c654d0a 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -4032,6 +4032,16 @@ static const struct dev_pm_ops nvme_dev_pm_ops = {
+ };
+ #endif /* CONFIG_PM_SLEEP */
+ 
++static void nvme_pci_ers_failed(struct nvme_dev *dev)
++{
++	nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DELETING);
++	nvme_dev_disable(dev, true);
++	nvme_sync_queues(&dev->ctrl);
++	nvme_mark_namespaces_dead(&dev->ctrl);
++	nvme_unquiesce_io_queues(&dev->ctrl);
++	nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DEAD);
++}
++
+ static pci_ers_result_t nvme_error_detected(struct pci_dev *pdev,
+ 						pci_channel_state_t state)
+ {
+@@ -4057,6 +4067,7 @@ static pci_ers_result_t nvme_error_detected(struct pci_dev *pdev,
+ 	case pci_channel_io_perm_failure:
+ 		dev_warn(dev->ctrl.device,
+ 			"failure state error detected, request disconnect\n");
++		nvme_pci_ers_failed(dev);
+ 		return PCI_ERS_RESULT_DISCONNECT;
+ 	}
+ 	return PCI_ERS_RESULT_NEED_RESET;
 -- 
-Damien Le Moal
-Western Digital Research
+2.43.0
+
 
