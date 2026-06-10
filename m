@@ -4,59 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E93EFCD8CB2
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 Jun 2026 14:44:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A455CCD8CB2
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 Jun 2026 14:47:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=CzpOn/vnwhVqBK82tea3EwQywjpBoBgwUkewtYnNrAw=; b=c7h7OCeavVd1bHxZK/XZBLrSsJ
-	6sr+q+jUGSMvxFCVu0VXLTeNH/9lwAT+yZ7zw3lfIgowg1jc7zFBQlbmRlJ5ctu3SDdqauXYrPVEp
-	A1cwwV4+jczaEHVdCpDKFlkKi9tmDW2KcUGrgcCecRFo8Bb/JNEf70KAJAO1Y+a2QNeolwMTypd2w
-	LeCrNCeMwm9GoAe+wVC3rk0BEKnM04n34E2actx/TANZ0964emmyLhkR1LF4AjoeCK5ONTgkLdmQK
-	66C3CAWqYWXrHekA6OBoIcJmdg6mClQ4tbE7ob9ivcfb9rJf98NmyhwgRKDPKfWXdcK0Rq0XVX5y7
-	On1Jsokw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:To:
+	From:Subject:Cc:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
+	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Uc5E+GOo9Ti+HLKRxWPZb9QJwMUCbl8G9oqBSZ89rL4=; b=blEGiXahF4IHqqjI5RGtIHB98j
+	/jy0w49y56RUCm7+MJj5Jm80PaYinMmJZgCBiG92+KECFwffmY2+8P5CKJbpZw4ilnzLhHgITRmnD
+	7EVj/Snww25AQ8chnRHLjJhp1WOcDKPLQ0cmCt12GNbx4QsST7yE24rBcV5Y+cuCVKqmIv/JApTVP
+	oODf3NZFmq/P+YUoIka2Zrmoqt+Geqihiv0WiDI1sJ2ehOwJjEwWuJ24LJqgm0XmnnN1xqD+sp6WT
+	2+2oZ1XmYxuECK/Q7WjlSx0d425h4Iugrk0nzHPSiwDWoLCfu+QvvmO2f0BmxD74cIs+kcRcm0j8f
+	spXYPHgg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wXKAD-00000007wM8-2zd0;
-	Wed, 10 Jun 2026 14:44:17 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1wXKDA-00000007x0d-432y;
+	Wed, 10 Jun 2026 14:47:20 +0000
+Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=arkamax.eu)
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wXKAD-00000007wM1-06gu
+	id 1wXKD7-00000007wy7-3CaW
 	for linux-nvme@lists.infradead.org;
-	Wed, 10 Jun 2026 14:44:17 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 4BDA8442F3;
-	Wed, 10 Jun 2026 14:44:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA51A1F00893;
-	Wed, 10 Jun 2026 14:44:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781102656;
-	bh=CzpOn/vnwhVqBK82tea3EwQywjpBoBgwUkewtYnNrAw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=X3NmxFadAqcgwkw+SRXv8eNX+AUDM/Gs/rUuiilkfyMlhfw7k26da4J2+cXdqgFFP
-	 dgKTNGV9OdEtUiRISczL6GO2aER3JmdM1ldMsRu2ETkqwdLTuFXsaZZZNyjnMAAjA7
-	 x6pikG1o7kEhFj8x3lTrl6mS1jkIIf4OMWH+8mw0kpYlRbzFiuuz6MfTpp/0aLJIaR
-	 6DwxFgBhp9IXmidgVGR97IZB6ieYa4YkVr1rklWxNSIPNj1nC8yfm7zuHvpsCuSA19
-	 9lnTsC7weOYgrLFTYBTLYO6AKIED/ClgUbsnY2gllMDMtsH4vLmjdd8qIqlEyLscjX
-	 OxMSk5nh50I3w==
-Date: Wed, 10 Jun 2026 08:44:14 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Michael Bommarito <michael.bommarito@gmail.com>
-Cc: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>, Jens Axboe <axboe@kernel.dk>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2] nvmet-auth: reject short AUTH_RECEIVE buffers
-Message-ID: <ail4PgdFd3Xljugs@kbusch-mbp>
-References: <20260609182431.2437882-1-michael.bommarito@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260609182431.2437882-1-michael.bommarito@gmail.com>
+	Wed, 10 Jun 2026 14:47:19 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; s=mail1; bh=fLcK4QgVX74lcd
+	NB/SKVPXx3MAr94VM7+WZse1gYT98=; h=in-reply-to:references:to:from:
+	subject:cc:date; d=arkamax.eu; b=TOO64i1tvjxJ54LqSLyrFbwbDmY4+th+amgUG
+	caYPuq+5rEp+QqlxIoCMKKgX5aW7Uc2bTIejHeBCuT1TC1flCWgcCqY0zu05d3d7qk68xG
+	VVrnfN1rEJxWsuqLWzLqFC4dKSgnT3mRClbhwCnaZBZzt356Inb0HrlWcMD3EScHov2rrO
+	3El7GG/DCFyyC7jIkTa/Mk+gb6lqnBrC+Y7+QGsmFbmO2si6HKYtu5dg7bgxm3V8VXsG/c
+	upZsnvqm6OBw8kTj1w9txPuMextp2ZT0P1ztTC3Tu/f7HGjuZU+akUmC05mTSjC25jdPAs
+	1olSc+9q7pWp3PhSToS3f+BUQ==
+Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
+	by arkamax.eu (OpenSMTPD) with ESMTPSA id 69901fb1 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Wed, 10 Jun 2026 16:47:12 +0200 (CEST)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 10 Jun 2026 16:47:12 +0200
+Message-Id: <DJ5G9DKDHTLN.XZZ7G3J78S1X@arkamax.eu>
+Cc: <linux-nvme@lists.infradead.org>, <hare@suse.de>, <sagi@grimberg.me>,
+ <mlombard@arkamax.eu>
+Subject: Re: [PATCH] nvmet-tcp: handle TCP_CLOSING state in
+ nvmet_tcp_state_change
+From: "Maurizio Lombardi" <mlombard@arkamax.eu>
+To: "Maurizio Lombardi" <mlombard@redhat.com>, <kbusch@kernel.org>
+X-Mailer: aerc 0.21.0
+References: <20260316164441.180393-1-mlombard@redhat.com>
+In-Reply-To: <20260316164441.180393-1-mlombard@redhat.com>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260610_074718_151715_4F8FCB59 
+X-CRM114-Status: GOOD (  12.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,14 +69,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jun 09, 2026 at 02:24:31PM -0400, Michael Bommarito wrote:
-> nvmet_execute_auth_receive() trusts the AUTH_RECEIVE allocation length
-> after checking only that it is nonzero and matches the transfer length.
-> In the SUCCESS1 and FAILURE1/default states, that lets a remote NVMe-oF
-> initiator reach the fixed-size DH-HMAC-CHAP response builders with a
-> kmalloc() buffer shorter than the response, so nvmet_auth_success1() and
-> nvmet_auth_failure1() write past the allocation; both only WARN_ON the
-> short length and then format the message anyway.
+On Mon Mar 16, 2026 at 5:44 PM CET, Maurizio Lombardi wrote:
+> When an NVMe/TCP connection shuts down, the underlying
+> TCP socket can enter the TCP_CLOSING state (state 11).
+> Currently, the nvmet_tcp_state_change() callback does not
+> explicitly handle this state, which results in harmless but
+> noisy kernel warnings:
+>
+> nvmet_tcp: queue 2 unhandled state 11
+>
+> Add TCP_CLOSING to the switch statement alongside TCP_FIN_WAIT2 and
+> TCP_LAST_ACK to silently ignore the state transition.
+>
+> Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
+> ---
+>  drivers/nvme/target/tcp.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+> index acc71a26733f..ce497843b979 100644
+> --- a/drivers/nvme/target/tcp.c
+> +++ b/drivers/nvme/target/tcp.c
+> @@ -1667,6 +1667,7 @@ static void nvmet_tcp_state_change(struct sock *sk)
+>  	switch (sk->sk_state) {
+>  	case TCP_FIN_WAIT2:
+>  	case TCP_LAST_ACK:
+> +	case TCP_CLOSING:
+>  		break;
+>  	case TCP_FIN_WAIT1:
+>  	case TCP_CLOSE_WAIT:
 
-Thanks, applied to nvme-7.2.
+Ping, it looks this patch has been forgotten
+Can I get some reviews?
+
+Maurizio
 
