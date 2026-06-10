@@ -4,72 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 362B1CD98C7
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 Jun 2026 09:49:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B305ACD8CB2
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 Jun 2026 11:15:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:
-	Subject:Cc:To:From:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
-	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=n6G3aI0LugG79K9lPIlod2NJj3VP7NyRtydOCN0r1wM=; b=dz1O12RtJOTkdjbNiw9GWFX5rn
-	Dw7qwokm6Mo+jgCNOHNx2keuvGQc/qzfZtkCLoY0Q0DLXq35uod4XU440JzAluhew/pfe9YLJf9LB
-	0JxeN0n8ZwXyLOhHLMl2GOCMAaNlku/YLWIXKOJ1JPeWm3n5AwycNqH2yZ7lvmcgvhW2UrkQu4YQ2
-	8LE+LbiyB2Wdy54hdaFvhVAehfvbchwoTpSf72EoQb2MKT+UKaJYK7RHRg04OOzg7RcMMKxKRGzO7
-	AS8rDQiLEKYxP5BmNTiE8K7LDu7Q9N/U4vyx76ZvTreA2ih9Qe24mX7TbqlLZtNOODbB3jfsNsD2S
-	frzUt+aw==;
+	bh=KWnTRg+mjczQPC1dW7dIXNyJPlDFUHTGB3Kh2mwFLDE=; b=PGwm3X5Ow0C4fv6CPjjToyT3eG
+	kMRURU6MlYrlvmW4yVSJdymJIGkyFGomfoTmktlBSzcosl6lPkho5w9UTKFw1Ozp7NHZvEu0+JHqC
+	/pBQNTaGZ/2MY7CMVtn8q6EC9aENzHDJhpUR+2LPMShpgdF0bs+MAR0AsbBP5YaNID9ctJ3Uk+H2X
+	Ta18PMD9Ejo5MNRPOsEm/1hK7OTfFe1BOA4syPdrsh5chpfUWFakr5Yh/yQ/ggVlLzVRktnq2wtu9
+	4gUbnyWGyb/r1246zcWOR5tYZCetnfxrjNDJchpB8u8nvR70voZmwBajN/LFaxLAHMUe54IIz2b4A
+	anwe3zng==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wXFYc-00000007J0z-0mQE;
-	Wed, 10 Jun 2026 09:49:10 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1wXGuY-00000007VKE-09Hh;
+	Wed, 10 Jun 2026 11:15:54 +0000
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wXFYa-00000007J0D-3ifi
-	for linux-nvme@bombadil.infradead.org;
-	Wed, 10 Jun 2026 09:49:09 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:References:Subject:Cc:To:
-	From:Message-Id:Date:Content-Type:Content-Transfer-Encoding:Mime-Version:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=n6G3aI0LugG79K9lPIlod2NJj3VP7NyRtydOCN0r1wM=; b=kImQGJms9NhDI5HQT+hCRMsVvU
-	f6kcjb10j0elapjWEobkI0c2Iva8NpCgawFCxhcZl39PJXHlszyqW/wFLdH2nHMzNGvxn/S2tzilP
-	mdMfqynZSvaCYX4Zu4nt/lIA7OsmbdXBA8j7j7vfji2LF75WkiKGQojcaDPe70Q7YtA7DVNcczW0a
-	frC+qzmwXqaIDz6W0dmwo73oUe7S7LYxU6E4dKgsr+DUTFPweCLun/Dp2mYAnvlsGnDP4TiWkou6R
-	MTaFZL198CM8+6qE35GLiE8VAfIDlEPp1I1yQ1Nyqra2wVXtcka/5E0oz9WprtBoUNTPDWgRwKO9W
-	cz8gltnA==;
-Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=arkamax.eu)
-	by desiato.infradead.org with esmtps (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1wXFGI-00000003gpS-0Tiu
+	id 1wXGuU-00000007VIy-2zSn
 	for linux-nvme@lists.infradead.org;
-	Wed, 10 Jun 2026 09:30:16 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; s=mail1; bh=KuPvhO1BhYA4GB
-	6aUx439QYkZ+otlav39zOseMi0Xsg=; h=in-reply-to:references:subject:cc:
-	to:from:date; d=arkamax.eu; b=jcOH2SbNEzho3erXbN/mv9PTlKf5WHrVUi4djWro
-	TgR1R4pX6Z1G5UOMccVBBRF2h4dKJ5bRbfJ61xKsMo1e6k/LcDsZvkQrUsPvFg2VZgMvoC
-	JOvbsKVbiXPrVUiLDfIziElCO8aFAU2S9cqJOTpoe39wFxaj4efFB2AujoK/o3iu5irwgM
-	5klkMRvWyIPnwkJqDn/AXlJncIaKtc5+b+OYcX1XYOvKEFw3J8pfXImZUHcdxw/oQpGn+q
-	BEfacYq2Vc1/3UEGn129t0mx8QDD9oydHr03QQ/B4DTSWQc3jBnGpt2Enbgsq1gVMaJPAY
-	qDsJMPAQou5YRDen6YF9Jw==
-Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
-	by arkamax.eu (OpenSMTPD) with ESMTPSA id 9399ba44 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Wed, 10 Jun 2026 11:23:31 +0200 (CEST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+	Wed, 10 Jun 2026 11:15:52 +0000
+Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-2c168baac83so31268095ad.2
+        for <linux-nvme@lists.infradead.org>; Wed, 10 Jun 2026 04:15:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781090149; x=1781694949; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=KWnTRg+mjczQPC1dW7dIXNyJPlDFUHTGB3Kh2mwFLDE=;
+        b=WBXTtnsASWX1aeay/1vuwqDXTtasYgAP3ussoR7bbGJ92GyJdq3slg7b0xrehub8Di
+         xwjC8YcoG2bi0Nc1HpDTd3xZCVP5dmszu1wWy6fU2SUk2OAo4jpM4xGImseD0MZj9sau
+         G5Q8DMI3IHgWP7UNH5msCsLmO0a9xN3GSUg6FROCchw1UbDj6PAB4OB5KRe0apFCGYSn
+         G6zWm80r4J6svvO23OvWfMBMWHQll71TYkLuVw8JZxRtJJOTzWRaj1751TuHfa1dszEs
+         hJcxzNYb/cL89HcHG0ZxuobiSflT6dC+OQ5XIzN2nyzvZII7d0X7h2qD5wrZPA2XbxSE
+         fGpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781090149; x=1781694949;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KWnTRg+mjczQPC1dW7dIXNyJPlDFUHTGB3Kh2mwFLDE=;
+        b=cMmVgz5w5peioFdwy/fvhkQnZsSrdq3IKVTeQ6nwethRswRUgRbw9hkWAQBBg4ZkYd
+         CB1Z734Xj3d1Tl21rMVIEr12k2tBLnmYbhL4GMMaKZPN8Q7fR8BnDKwSXytjTMXxq0Pc
+         caOSLU+oMzpvO7D/24qcCqu5nFLxly3ANClHnIewr277IVE2/x8tO5JcDkHlJQ2bcond
+         uaE6S3/nS3mNdwT81Ptb5qPsBrQvVnmhKbNaTrBZ8iHjguY1yKtl9CGHWc0HohE9V09o
+         474TnsXVxdP89WrLtAdReAmmv5q/ccuS2ACdkUI1bW5FOo8wnAoLGvtG34bmC6gAnqaf
+         Ie9w==
+X-Forwarded-Encrypted: i=1; AFNElJ+dw+J5YwnCiIaVFsK1v8tnfjS2DKal5E+1DDV6/BVxgtUq4fr0y0Xm4MwCXHjy+E4lGMpmAUYQTu3j@lists.infradead.org
+X-Gm-Message-State: AOJu0YzE9TOkR0g1ngr04PdqrIxBgAHcc7zYXcUh0+Vz9GctV5yyeytI
+	F9u2SHvUraeixB7vMxFEd9OyL6c2kXbveFiWunbUqlysdABkuD+KC/B/r8Qqx0em
+X-Gm-Gg: Acq92OE+fNVbGBYAzdsQ0R9vz7FSUO2SmL85i8s8Re7jGXPnjGn6n5vRK3kqHOWSy4d
+	jihnYDREJc6cErl5/bTe2bvHMsG2du8NpBp0axp4tzaiCLHsTplQ8O36H8lkNu5C7yTCgW1iKHT
+	azeQpuDti3EbS832LnrU2tbx0+43oMHL8CFrG8E40glsqPFNLnMxCtdoThjZGPJCTr8Dd5ql0QJ
+	TeSUsKZerCugF7zP0CwebwIOYH55vIlddHs/yzeAIm6so4d02xYHIP5Iit2qov3RrGw0vju07y2
+	OCT7hwUF5M3N3xIIsipFHO0pD3pf/byXaz1m8QSD5BtlNoLR7iiXq6H6ONJwq6+302zZWmHJt65
+	OVy8odPfNvMstIB3+PEJ4yG2eY6T3l5SJAzDdAtPjydJ96OiD7CiSZB8wjuZIMkndJtXc4L55jG
+	weBA+y7Rfc7ETQikOEKqLLGGboaNx2VpJr2OJUmYjRkHCGBNP/LfTg7fia4EYD3w==
+X-Received: by 2002:a17:902:e848:b0:2c0:b6c7:2273 with SMTP id d9443c01a7336-2c1e79e29ebmr292674635ad.3.1781090149023;
+        Wed, 10 Jun 2026 04:15:49 -0700 (PDT)
+Received: from [192.168.1.116] ([223.122.38.120])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c16609e234sm251459075ad.53.2026.06.10.04.15.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Jun 2026 04:15:48 -0700 (PDT)
+Message-ID: <4bef16f2-ad9d-4417-ae12-484ffd7a87a9@gmail.com>
+Date: Wed, 10 Jun 2026 19:15:45 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] nvme-apple: Only limit admin queue tag space when
+ with Linear SQ is present
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+ Neal Gompa <neal@gompa.dev>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20260606-prevent-tag-collision-t8015-v1-0-93ccf4eca550@gmail.com>
+ <20260606-prevent-tag-collision-t8015-v1-1-93ccf4eca550@gmail.com>
+ <20260610051146.GA559@lst.de>
+Content-Language: en-US
+From: Nick Chan <towinchenmi@gmail.com>
+In-Reply-To: <20260610051146.GA559@lst.de>
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 10 Jun 2026 11:23:31 +0200
-Message-Id: <DJ59DJP51GGT.E93WATHA48KW@arkamax.eu>
-From: "Maurizio Lombardi" <mlombard@arkamax.eu>
-To: "Maurizio Lombardi" <mlombard@redhat.com>, <kbusch@kernel.org>
-Cc: <mlombard@arkamax.eu>, <mkhalfella@purestorage.com>,
- <randyj@purestorage.com>, <hch@lst.de>, <linux-nvme@lists.infradead.org>,
- <dwagner@suse.de>, <emilne@redhat.com>
-Subject: Re: [PATCH 0/1] Fix a kernel panic in nvme-fc
-X-Mailer: aerc 0.21.0
-References: <20260528092734.258899-1-mlombard@redhat.com>
-In-Reply-To: <20260528092734.258899-1-mlombard@redhat.com>
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260610_103014_485159_2DD21038 
-X-CRM114-Status: GOOD (  10.34  )
+X-CRM114-CacheID: sfid-20260610_041550_752890_70B166B9 
+X-CRM114-Status: GOOD (  12.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,37 +108,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu May 28, 2026 at 11:27 AM CEST, Maurizio Lombardi wrote:
-> We received a RHEL bug report regarding a kernel panic that occurs
-> when loading/unloading the lpfc module:
->
-> Call Trace:
-> blk_mq_tagset_busy_iter+0x210/0x440
-> __nvme_fc_abort_outstanding_ios+0x1d8/0x260 [nvme_fc]
-> nvme_fc_ctrl_ioerr_work+0x4c/0x90 [nvme_fc]
-> process_one_work+0x1f4/0x500
-> worker_thread+0x33c/0x510
-> kthread+0x154/0x170
-> start_kernel_thread+0x14/0x18
->
-> The following patch, which is part of the Rapid Path Failure patchset,
-> fixes the crash.
->
-> https://lore.kernel.org/linux-nvme/20260328004518.1729186-16-mkhalfella@p=
-urestorage.com/
->
-> Since this patch is independent of the Rapid Path Failure feature itself,
-> I propose merging it separately so we don't have to wait for the full
-> feature to be approved.
->
-> Mohamed Khalfella (1):
->   nvme-fc: Do not cancel requests in io target before it is initialized
->
->  drivers/nvme/host/fc.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
 
-Keith? Can you merge this?
+Christoph Hellwig 於 2026/6/10 下午1:11 寫道:
+> On Sat, Jun 06, 2026 at 09:25:25PM +0800, Nick Chan wrote:
+>> Apple NVMe controllers require tags of pending commands to not be shared
+>> across admin and IO queues. However, on Apple A11 without linear SQ, it is
+>> not possible for either queue to skip over some tags and must go from 0 to
+>> the configured maximum before wrapping around.
+>>
+>> As a result, in order to prevent tag collision, dynamic tag reservation
+>> while a command is in-flight becomes necessary. In this context, there is
+>> no reason to limit the admin queue's tag space, as it is not helpful in
+>> preventing tag collision.
+> I'm not really into these Apple specific, but what does
+> "dynamic tag reservation" mean here?
 
-Thanks,
-Maurizio
+This version is based on an incorrect premise (v2 is correct and already applied)
+so feel free to stop reading.
+
+In this version, the incorrect premise is that it was not possible for either queue
+to skip over tags and must go from 0 to the configured the maximum. 
+
+Under this premise, the only way to prevent collision is to set a bitfield indicating
+which tags are in use when submitting a command ("dynamic tag reservation").
+If a tag is already found to be used when submitting a command, return
+BLK_STS_RESOURCE so the caller retries later.
+
+Best regards,
+Nick Chan
+
+
+
+>
 
