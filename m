@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 51098CD98C5
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 322FCCD8CA8
 	for <linux-nvme@archiver.kernel.org>; Sat, 13 Jun 2026 11:14:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,46 +12,46 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=iu6rBvjoOvKNSLxUBR2DOeDWWTvyfxrhpfZm8j2G/EA=; b=iBOYc0eFXFp3hntr9jitY+AE/u
-	P6zUHfAtyGyjfBvzHu4U0raGBcddFnGTUmPYoXVN/atSe7tkozZ8qDGUF21kDnoIJmBlL//yHtxp6
-	5welu87pC7STHsiWToB1UR7aTETXjo4np0YTUHd1BoyhG90X1aCnC8yrZddvuw3WTBwR042siMDoy
-	cYeCBoR/XsZEZ5lZNqcmnqasvGbgStHT0nD1PF/heYDbP9hvqktUTlWHbxQglzsl7UVIDn/k16+1p
-	zsBDkFIW9WOcJr5czDBMwKdjNbN59SW8vsM0NADGGQ1OGxcUDOUIEL3oLVLycjimsnEQXdVk00jAv
-	0OF59J9w==;
+	bh=R03/AF2xU5C+Qg8eoSjwp1j2DlW2r4g5h2ejCWMVZWM=; b=NrTubpYFYx7VdDs1utTGz79O3D
+	MgEniPnck2fASFh43iY6726gH3/iuWRlFZRtWLSyvNbZ4C1AxqpoWe35GU1hB/VR3KGUS/7YviNIR
+	yJN6l8b1AZ7c0Avn3ynwXd0ZkqGSr/7UyFeZuDIhgN6QNQTOkJGnZVAys9YAn4aSLZu4+p2GvQGzl
+	8uhc3J1sXVsDChfX1t0N8grhk3xjIeLu7ll3uz1Ev7bgtYMN1tvQwQVJN7qiRir+l/IbYVleTYmyV
+	vXh50F5LNElOlRdH50+kBWlXah3ibPZy30idaWaGasUVwRbaUmBGKCvswn2xjkBwhOm1BBzXNotOI
+	uBtHCNNQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wYMKI-0000000CE3s-3Yfa;
-	Sat, 13 Jun 2026 11:14:58 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1wYMKF-0000000CE2M-2nPf;
+	Sat, 13 Jun 2026 11:14:55 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wYMKH-0000000CE2e-1pwV
+	id 1wYMKD-0000000CE1H-0EC3
 	for linux-nvme@lists.infradead.org;
-	Sat, 13 Jun 2026 11:14:57 +0000
+	Sat, 13 Jun 2026 11:14:53 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id BB47F43D3C;
-	Sat, 13 Jun 2026 11:14:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28A021F00A3A;
-	Sat, 13 Jun 2026 11:14:54 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id CD650439BA;
+	Sat, 13 Jun 2026 11:14:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A7DA1F00A3A;
+	Sat, 13 Jun 2026 11:14:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781349296;
-	bh=iu6rBvjoOvKNSLxUBR2DOeDWWTvyfxrhpfZm8j2G/EA=;
+	s=k20260515; t=1781349292;
+	bh=R03/AF2xU5C+Qg8eoSjwp1j2DlW2r4g5h2ejCWMVZWM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=e6tWoE2soNdNngx+ebFBwQ29/VqDMitXwAc4bcAljbPSEhbJc3ut/yHHyj8XcvRUR
-	 GJ5V0tjAXt2pyKyAfLr5k4IRRTeuXD7N8vFBKZDKaJGB/dyjM69HaSgG/Zi9lvofpM
-	 s9b/FnO3U5HKGFf36CFUrIFCyfYL5uL1o0qRHlZ/UdjdDWJl2iae1DAjWacFX2OON3
-	 W/42Si+T4DP1eNAMinZh9E5VfgKoGKrKH7H2mbC0kqWZqrfs39o3XQxlS2qiK9ekb7
-	 CHAYPd3Kwh9VO9SvBUenCPRaH+53RS3DyJAy9wZNDg7kLkrONWMA6nrkC/XYi9dCHF
-	 mxAt1O0MlB3iQ==
+	b=fvDPhA5RLFey1qjcqlOjNuErYTcdrKdaS3fgvgxjzz5YAct7ICdT9Tq35FZrqZfkM
+	 ArkCJoRkdfTi8/0drfzkQhIhOVEBNq0lLPKyYz6qYI1Akc544A3Gu7HenUwCJqOBsR
+	 +JztAHb8u/MCxi9uTnj75a4lvzpVtDmwXijBam+/fWc9nIHoaYGfVa3hHAJeA/cMAE
+	 EzgaIwQJsEN4Ns5KJyRSVBHl4QYGI2KG1A5saUKraDSdL3gk6nvvaUU8nJlP1RiZxp
+	 ZhDdb5KvtvYytxk69O9SH5QW/gHkKAD3dRCKg2M9LWBM5cY7O6xHTIxmbvsBdSpWQe
+	 vf723ds82mD/A==
 From: Hannes Reinecke <hare@kernel.org>
 To: Christian Brauner <brauner@kernel.org>
 Cc: Jan Kara <jack@suse.cz>,
 	Andreas Hindborg <a.hindborg@kernel.org>,
 	linux-fsdevel@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
-	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH 5/8] fs/configfs: add superblock as attribute to configfs_pin_fs()
-Date: Sat, 13 Jun 2026 13:14:34 +0200
-Message-ID: <20260613111437.101763-6-hare@kernel.org>
+	Hannes Reinecke <hare@suse.de>
+Subject: [PATCH 3/8] fs/configfs: separate out configfs_{link,unlink}_root()
+Date: Sat, 13 Jun 2026 13:14:32 +0200
+Message-ID: <20260613111437.101763-4-hare@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260613111437.101763-1-hare@kernel.org>
 References: <20260613111437.101763-1-hare@kernel.org>
@@ -71,141 +71,128 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Each namspace might have its own superblock, so add it as an argument
-to configfs_pin_fs() to ensure that the correct filesystem instance
-will be pinned.
+From: Hannes Reinecke <hare@suse.de>
 
-Signed-off-by: Hannes Reinecke <hare@kernel.org>
+Separate out functions to link and unlink subsystem groups.
+
+Signed-off-by: Hannes Reinecke <hare@suse.de>
 ---
- fs/configfs/configfs_internal.h |  4 +--
- fs/configfs/dir.c               | 10 ++++----
- fs/configfs/mount.c             | 44 +++++++++++++++++++++++++++------
- 3 files changed, 44 insertions(+), 14 deletions(-)
+ fs/configfs/dir.c | 61 +++++++++++++++++++++++++++++------------------
+ 1 file changed, 38 insertions(+), 23 deletions(-)
 
-diff --git a/fs/configfs/configfs_internal.h b/fs/configfs/configfs_internal.h
-index e91f4249b83a..a91e97194c3d 100644
---- a/fs/configfs/configfs_internal.h
-+++ b/fs/configfs/configfs_internal.h
-@@ -90,8 +90,8 @@ extern const unsigned char * configfs_get_name(struct configfs_dirent *sd);
- extern int configfs_setattr(struct mnt_idmap *idmap,
- 			    struct dentry *dentry, struct iattr *iattr);
- 
--extern struct dentry *configfs_pin_fs(void);
--extern void configfs_release_fs(void);
-+extern struct dentry *configfs_pin_fs(struct super_block *sb);
-+extern void configfs_release_fs(struct super_block *sb);
- extern struct configfs_super_info *configfs_get_super_info(u64 ns_id);
- extern void configfs_put_super_info(struct configfs_super_info *info);
- 
 diff --git a/fs/configfs/dir.c b/fs/configfs/dir.c
-index cf89c76ea7e6..6e111e3fd0e0 100644
+index 57719bee0c07..cf89c76ea7e6 100644
 --- a/fs/configfs/dir.c
 +++ b/fs/configfs/dir.c
-@@ -1114,7 +1114,7 @@ int configfs_depend_item(struct configfs_subsystem *subsys,
- 	 * Pin the configfs filesystem.  This means we can safely access
- 	 * the root of the configfs filesystem.
- 	 */
--	root = configfs_pin_fs();
-+	root = configfs_pin_fs(NULL);
- 	if (IS_ERR(root))
- 		return PTR_ERR(root);
- 
-@@ -1141,7 +1141,7 @@ int configfs_depend_item(struct configfs_subsystem *subsys,
- 	 * If we succeeded, the fs is pinned via other methods.  If not,
- 	 * we're done with it anyway.  So release_fs() is always right.
- 	 */
--	configfs_release_fs();
-+	configfs_release_fs(NULL);
- 
- 	return ret;
+@@ -1831,31 +1831,19 @@ void configfs_unregister_default_group(struct config_group *group)
  }
-@@ -1896,7 +1896,7 @@ int configfs_register_subsystem(struct configfs_subsystem *subsys)
- 	if (WARN_ON(IS_ERR(info)))
- 		return PTR_ERR(info);
+ EXPORT_SYMBOL(configfs_unregister_default_group);
  
--	root = configfs_pin_fs();
-+	root = configfs_pin_fs(NULL);
- 	if (IS_ERR(root)) {
- 		err = PTR_ERR(root);
- 		goto out_put;
-@@ -1904,7 +1904,7 @@ int configfs_register_subsystem(struct configfs_subsystem *subsys)
- 
- 	err = configfs_link_root(info, subsys, root);
- 	if (err)
--		configfs_release_fs();
-+		configfs_release_fs(NULL);
- 
- out_put:
- 	configfs_put_super_info(info);
-@@ -1964,7 +1964,7 @@ void configfs_unregister_subsystem(struct configfs_subsystem *subsys)
- 	configfs_unlink_root(subsys);
- 	unlink_group(group);
- 	mutex_unlock(&info->subsys_mutex);
--	configfs_release_fs();
-+	configfs_release_fs(NULL);
- 	configfs_put_super_info(info);
- }
- 
-diff --git a/fs/configfs/mount.c b/fs/configfs/mount.c
-index f49c8636eccb..8cf4bda14bec 100644
---- a/fs/configfs/mount.c
-+++ b/fs/configfs/mount.c
-@@ -177,18 +177,48 @@ static struct file_system_type configfs_fs_type = {
- };
- MODULE_ALIAS_FS("configfs");
- 
--struct dentry *configfs_pin_fs(void)
-+struct dentry *configfs_pin_fs(struct super_block *sb)
+-int configfs_register_subsystem(struct configfs_subsystem *subsys)
++static int configfs_link_root(struct configfs_super_info  *info,
++			      struct configfs_subsystem *subsys,
++			      struct dentry *root)
  {
--	int err = simple_pin_fs(&configfs_fs_type, &configfs_root->mnt,
--			     &configfs_root->mnt_count);
--	return err ? ERR_PTR(err) : configfs_root->mnt->mnt_root;
-+	struct configfs_super_info *info = configfs_root;
+-	struct configfs_super_info *info = configfs_get_super_info(0);
+ 	struct config_group *group = &subsys->su_group;
+ 	struct dentry *dentry;
+-	struct dentry *root;
+ 	struct configfs_dirent *sd;
+ 	struct configfs_fragment *frag;
+ 	int err;
+ 
+-	if (IS_ERR(info))
+-		return PTR_ERR(info);
+-
+ 	frag = new_fragment();
+-	if (!frag) {
+-		configfs_put_super_info(info);
++	if (!frag)
+ 		return -ENOMEM;
+-	}
+-
+-	root = configfs_pin_fs();
+-	if (IS_ERR(root)) {
+-		put_fragment(frag);
+-		configfs_put_super_info(info);
+-		return PTR_ERR(root);
+-	}
+ 
+ 	if (!group->cg_item.ci_name)
+ 		group->cg_item.ci_name = group->cg_item.ci_namebuf;
+@@ -1894,29 +1882,46 @@ int configfs_register_subsystem(struct configfs_subsystem *subsys)
+ 		mutex_lock(&info->subsys_mutex);
+ 		unlink_group(group);
+ 		mutex_unlock(&info->subsys_mutex);
+-		configfs_release_fs();
+ 	}
+ 	put_fragment(frag);
+-	configfs_put_super_info(info);
+ 	return err;
+ }
+ 
+-void configfs_unregister_subsystem(struct configfs_subsystem *subsys)
++int configfs_register_subsystem(struct configfs_subsystem *subsys)
+ {
+ 	struct configfs_super_info *info = configfs_get_super_info(0);
++	struct dentry *root;
 +	int err;
 +
-+	if (sb) {
-+		struct configfs_super_info *root = info;
-+		struct dentry *dentry = sb->s_root;
-+		struct vfsmount *mnt;
++	if (WARN_ON(IS_ERR(info)))
++		return PTR_ERR(info);
 +
-+		info = sb->s_fs_info;
-+		if (!info->mnt) {
-+			mnt = mnt_clone_direct(root->mnt, dentry);
-+			if (IS_ERR(mnt))
-+				return ERR_CAST(mnt);
-+			info->mnt = mnt;
-+		}
-+		dget(dentry);
-+		mntget(info->mnt);
-+		info->mnt_count++;
-+		return info->mnt->mnt_root;
++	root = configfs_pin_fs();
++	if (IS_ERR(root)) {
++		err = PTR_ERR(root);
++		goto out_put;
 +	}
 +
-+	err = simple_pin_fs(&configfs_fs_type, &info->mnt, &info->mnt_count);
++	err = configfs_link_root(info, subsys, root);
 +	if (err)
-+		return ERR_PTR(err);
++		configfs_release_fs();
 +
-+	return info->mnt->mnt_root;
- }
- 
--void configfs_release_fs(void)
-+void configfs_release_fs(struct super_block *sb)
- {
--	simple_release_fs(&configfs_root->mnt, &configfs_root->mnt_count);
--}
-+	struct configfs_super_info *info = configfs_root;
- 
-+	if (sb) {
-+		info = sb->s_fs_info;
-+		dput(sb->s_root);
-+	}
-+
-+	pr_debug("release ns %llu\n", info->ns_id);
-+	simple_release_fs(&info->mnt, &info->mnt_count);
++out_put:
++	configfs_put_super_info(info);
++	return err;
 +}
++
++static void configfs_unlink_root(struct configfs_subsystem *subsys)
++{
+ 	struct config_group *group = &subsys->su_group;
+ 	struct dentry *dentry = dget(group->cg_item.ci_dentry);
+ 	struct dentry *root = dentry->d_sb->s_root;
+ 	struct configfs_dirent *sd = dentry->d_fsdata;
+ 	struct configfs_fragment *frag = sd->s_frag;
  
- static int __init configfs_init(void)
- {
+-	if (WARN_ON(IS_ERR(info)))
+-		return;
+-
+ 	if (dentry->d_parent != root) {
+ 		pr_err("Tried to unregister non-subsystem!\n");
+ 		dput(dentry);
+-		configfs_put_super_info(info);
+ 		return;
+ 	}
+ 
+@@ -1945,8 +1950,18 @@ void configfs_unregister_subsystem(struct configfs_subsystem *subsys)
+ 	inode_unlock(d_inode(root));
+ 
+ 	dput(dentry);
++}
++
++void configfs_unregister_subsystem(struct configfs_subsystem *subsys)
++{
++	struct configfs_super_info *info = configfs_get_super_info(0);
++	struct config_group *group = &subsys->su_group;
++
++	if (WARN_ON(IS_ERR(info)))
++		return;
+ 
+ 	mutex_lock(&info->subsys_mutex);
++	configfs_unlink_root(subsys);
+ 	unlink_group(group);
+ 	mutex_unlock(&info->subsys_mutex);
+ 	configfs_release_fs();
 -- 
 2.51.0
 
