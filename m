@@ -4,109 +4,124 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 905C2CD98DA
-	for <linux-nvme@archiver.kernel.org>; Sun, 14 Jun 2026 13:16:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2F9A9CD98C5
+	for <linux-nvme@archiver.kernel.org>; Mon, 15 Jun 2026 07:56:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZDOuf+17wYcDr5PsyvzgD2sagqVvJYl3zxrieacw8BU=; b=qkvTH1b4dYC8X4Jp5lctOQx92v
-	psOIZexIva7gAMxuWJGWv10gkh5voRxambJ0PZxk9IwD+Pqg9jm9n14RL3gSNvzbrwKVwiwgMenzh
-	OFUGEe2p1rU6w/4/p/FauEnfJDEOPvSm/aa+49U7FDJanholxumtIk+cz1CwdKvUfdRM6Wv6m1BUC
-	8D64V8UqX2zIoR+QwGWAVAp2Hmj5LsP1xWuNXTGEB+7gTVpEywhw232VqgLY5zVl5lEgR0SgIh3/t
-	vtJUirdFpPM8K9VWVjPGkO9SY/K2W43b2jW9sts1kpgKRCWJUgl7cL/QMD4bOarZ/j3JplwXb0vv/
-	Bz//LR6w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=fY2EUZdDII3FaNno//LiZ4ewVTPk2PNYMOEnebwO9yI=; b=fYly5qXmz2iizXVJZ2T53TTnmB
+	DKGo8OdF7o3kR35e4FncF84hmcQeHotC3yY6uITBeltwA2psTHeXJTqDBh2rTaEQ07JVtJ30dNeeW
+	lU7aa+GEroRT+VCjrasf02na1LMh+oGCH6LMGR6VIOZUCrg/S0v4r/xts1DdJat/fbf3WQLbnJ32E
+	VpLdFKHYWP6KEK3S7pxV0vQzWHP0jsL31bsWG2MBQ33u1cbRnmKvjkntwiseP5rXWLIRZwq8bKe1Y
+	pS55rztRAkGblzHmPz412F+2X8wXDQ5GdJpmKU8R2JQGIfwGUOBI2T5btMvJQvecVZNdUZQaxqCoE
+	ujChV/pw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wYkhu-0000000D1Nh-16Pb;
-	Sun, 14 Jun 2026 13:16:58 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1wZ2BJ-0000000DpCF-2k0n;
+	Mon, 15 Jun 2026 07:56:29 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wYkhr-0000000D1Kb-4ADh
+	id 1wZ2BH-0000000DpBh-1sjE
 	for linux-nvme@lists.infradead.org;
-	Sun, 14 Jun 2026 13:16:57 +0000
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65ECmRYV3531299;
-	Sun, 14 Jun 2026 13:16:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=ZDOuf+17wYcDr5Psy
-	vzgD2sagqVvJYl3zxrieacw8BU=; b=QrIvniV06+/LU5WnS41GHOPcTOuGGZMbE
-	NbaIJlXLSG8+fFRtdN6t0yKCbydEGZloMoiPwByUiGOjAQqzXhCjBMzXVC3coERa
-	ixvZaU30kvg1f3ZvTD0KK0IIsCKhzgyME4MQcVUw1zfCsuen+Mxz7gHqxiciIMkF
-	NNqzRw9mdcJiNwtKc1tvGT98nePYQttpTU/cvEAmpXn4SLh+vA5/zuPojKn0KTdK
-	FboBV2WyDUcjsQIPB6h5lqKrCau4zod4mDwerP4pA0ix4aUVvWwdZ6aH0G4YT6TH
-	hxXjR5SrKcxU58v0FiflJ66jgJhdiMwxsQR5EMgzPVkmFUZS7SryQ==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4es1h7us3k-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 14 Jun 2026 13:16:47 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 65ED4fOW018183;
-	Sun, 14 Jun 2026 13:16:46 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4eshwvsrk6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 14 Jun 2026 13:16:46 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 65EDGgw752953586
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sun, 14 Jun 2026 13:16:42 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A66912004B;
-	Sun, 14 Jun 2026 13:16:42 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D597620040;
-	Sun, 14 Jun 2026 13:16:39 +0000 (GMT)
-Received: from li-a84c74cc-2b13-11b2-a85c-acdd023f0674.ibm.com.com (unknown [9.43.80.1])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Sun, 14 Jun 2026 13:16:39 +0000 (GMT)
-From: Nilay Shroff <nilay@linux.ibm.com>
-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc: hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, axboe@fb.com,
-        bvanassche@acm.org, elver@google.com, gjoyce@linux.ibm.com,
-        Nilay Shroff <nilay@linux.ibm.com>
-Subject: [PATCHv2 17/17] nvme: enable Clang context analysis support for nvme host driver
-Date: Sun, 14 Jun 2026 18:45:32 +0530
-Message-ID: <20260614131541.2017845-18-nilay@linux.ibm.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260614131541.2017845-1-nilay@linux.ibm.com>
-References: <20260614131541.2017845-1-nilay@linux.ibm.com>
+	Mon, 15 Jun 2026 07:56:28 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 1564775936;
+	Mon, 15 Jun 2026 07:56:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1781510183; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fY2EUZdDII3FaNno//LiZ4ewVTPk2PNYMOEnebwO9yI=;
+	b=M6uhFFrCElDyCGDJSzzxiU09+xgjbuhMv6oD17hJt3WzTv0qGeqd1840EIusJZaDzKkcYw
+	u268iOZmlwmWCNUbgMQBGaMba7a6KuxMB94++aK7WZxcYj99nTWGcfFi/RZNGDji8Fdo3P
+	3XbElxw93+0CzXZAxTF5bef3O0WXxKo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1781510183;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fY2EUZdDII3FaNno//LiZ4ewVTPk2PNYMOEnebwO9yI=;
+	b=ZylWdRbsPlGqmk6bYY1Uchle648MeNYMrl3xdvM9PG6iEkAmOdlWHYKsX53buhKVtZbY+C
+	VQNpnibNl5fqHCAg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=M6uhFFrC;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ZylWdRbs
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1781510183; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fY2EUZdDII3FaNno//LiZ4ewVTPk2PNYMOEnebwO9yI=;
+	b=M6uhFFrCElDyCGDJSzzxiU09+xgjbuhMv6oD17hJt3WzTv0qGeqd1840EIusJZaDzKkcYw
+	u268iOZmlwmWCNUbgMQBGaMba7a6KuxMB94++aK7WZxcYj99nTWGcfFi/RZNGDji8Fdo3P
+	3XbElxw93+0CzXZAxTF5bef3O0WXxKo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1781510183;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fY2EUZdDII3FaNno//LiZ4ewVTPk2PNYMOEnebwO9yI=;
+	b=ZylWdRbsPlGqmk6bYY1Uchle648MeNYMrl3xdvM9PG6iEkAmOdlWHYKsX53buhKVtZbY+C
+	VQNpnibNl5fqHCAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 02F62779A7;
+	Mon, 15 Jun 2026 07:56:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id eIatOiawL2oUYAAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Mon, 15 Jun 2026 07:56:22 +0000
+Date: Mon, 15 Jun 2026 09:56:22 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Maurizio Lombardi <mlombard@redhat.com>
+Cc: kbusch@kernel.org, hch@lst.de, linux-nvme@lists.infradead.org, 
+	mlombard@arkamax.eu
+Subject: Re: [PATCH] nvme: fix crash and memory leak during invalid cdev
+ teardown
+Message-ID: <5a393a6c-371a-4c8f-8a90-6736907dccf4@flourine.local>
+References: <20260605151048.354313-1-mlombard@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjE0MDEzMCBTYWx0ZWRfX9H/iqFZ+IOz6
- +LlhfA4wPsBaIn2W8oshN8U9Udp3RZAN+T1Z3GXr1g+ytX3EGdyHx48VSUZaxejEDwhnv7fu9Bz
- Mtc6uSna4k83Mj0HKkU57rGRz1Hw6nQ=
-X-Proofpoint-ORIG-GUID: 1nlvpXy5j53Ctvnb9qQc-Ini-iw-eBWd
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjE0MDEzMCBTYWx0ZWRfX3OgbUMfr1PxI
- 6CDTSqUA4b6kR9TnIIbPdzQvE5byBHlWk69rS//hZlXCIsPED8Jcp8vBkfm0ltHTou82xggAwBK
- 5CyGbhptNmcfFYRQJMl62jYQyjs8lxC2+AolOdDfIdGDY+kB2Gp4/f1LX2lUSAiY/0lb5byxBRI
- mkKlx9AyPs8QZqzAjuGA8VRGda2W3erhbotEsascW51NMknhonIl3ZOqmSpp8STVkWDw5FyFNl+
- VUGqcsDcdwJLE3AUFwiAvtPeIWvXBmuCA4SZEPr/WET1xb1TGfvCD+BqqgBY6VqJOPcH2dQfyV9
- kUFa62jTK2WtDx2lFoul9wVOnrlU5cPBB1Gwv82hWs9kMPeRkpUHpwWOuNzj1Gtcrevus/y1IBm
- kGZGKP/4ofTXn3Jz1eqnbY3nSyjKIofY3uw6lyzDbVmHiZNCv/g+PMKlEjos1mrv20yYWa3B6B7
- W/sTqduBrY1/TisMkoA==
-X-Authority-Analysis: v=2.4 cv=U9uiy+ru c=1 sm=1 tr=0 ts=6a2ea9bf cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
- a=uAbxVGIbfxUO_5tXvNgY:22 a=VnNF1IyMAAAA:8 a=GVzyxF2uuL8LOb_S8PgA:9
-X-Proofpoint-GUID: HEGS1jbz1k_H3jk-Zn-5lXeGozlypr5m
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-14_03,2026-06-12_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 impostorscore=0 bulkscore=0 phishscore=0
- priorityscore=1501 clxscore=1015 adultscore=0 malwarescore=0 suspectscore=0
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2606040000
- definitions=main-2606140130
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260605151048.354313-1-mlombard@redhat.com>
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 1564775936
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260614_061656_059312_402834A0 
-X-CRM114-Status: GOOD (  10.85  )
+X-CRM114-CacheID: sfid-20260615_005627_646732_926F95C1 
+X-CRM114-Status: GOOD (  11.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -121,26 +136,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Update nvme host driver makefile to enable support for the Clang's
-context anaysis.
+>  static int nvme_add_ns_head_cdev(struct nvme_ns_head *head)
+>  {
+>  	int ret;
+> +	char *name;
+>  
+>  	head->cdev_device.parent = &head->subsys->dev;
+> -	ret = dev_set_name(&head->cdev_device, "ng%dn%d",
+> -			   head->subsys->instance, head->instance);
+> -	if (ret)
+> -		return ret;
+> -	ret = nvme_cdev_add(&head->cdev, &head->cdev_device,
+> +	name = kasprintf(GFP_KERNEL, "ng%dn%d", head->subsys->instance,
+> +			 head->instance);
+> +	if (!name)
+> +		return -ENOMEM;
+> +
+> +	ret = nvme_cdev_add(name, &head->cdev, &head->cdev_device,
+>  			    &nvme_ns_head_chr_fops, THIS_MODULE);
+> +	if (ret)
+> +		dev_err(disk_to_dev(head->disk),
+> +			"Unable to create the %s device", name);
+> +	else
+> +		set_bit(NVME_NSHEAD_CDEV_LIVE, &head->flags);
+> +
+> +	kfree(name);
+>  	return ret;
+>  }
 
-Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
----
- drivers/nvme/host/Makefile | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/nvme/host/Makefile b/drivers/nvme/host/Makefile
-index 6414ec968f99..67563a69f7dc 100644
---- a/drivers/nvme/host/Makefile
-+++ b/drivers/nvme/host/Makefile
-@@ -1,5 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
- 
-+CONTEXT_ANALYSIS			:= y
- ccflags-y				+= -I$(src)
- 
- obj-$(CONFIG_NVME_CORE)			+= nvme-core.o
--- 
-2.53.0
-
+nvme_add_ns_head_cdev returns the error code but nvme_mpath_set_live
+handle the return code. So we either don't need to return the error code
+or we should do something in nvme_mpath_set_live with it.
 
