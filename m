@@ -4,131 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 08384CD98CF
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Jun 2026 09:33:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1FE9CCD98E4
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Jun 2026 20:17:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FyO7OsbniWN38MX5WhioDZA54+rT91knG5i5jAars/Q=; b=nj62hT+3xz8c26MiJpOb8tQiqM
-	OcvT/hMi5BXqEg/JxAyfB4E6zQIFMCGduUyuJngss7CBxVZfGW7LR8vp7mVDnHQKpjQBql1gxL4fL
-	UnjlnN1jO2PpRbuOoNbsDBN6vuDNDhqLyW4Tzs7KT3OrJeOrCgCeF5/Muwgc3nNRlGi+B0gLLufml
-	Px6PsxRpmU8ctJccZbAN8JUm5F/5SkWeFrWlNTwaX19XXqDO/oEfEGtYZZeYGX93rx/0udSpYv2NP
-	wHi5am4mwMecnGtwMU2DQ97Q40u9ERY0/jgOJPdWG4KFFqxjAfhc3pbRC8TFWbW8t4ORkbv9oz48M
-	yhJlsNlA==;
+	Content-Type:MIME-Version:Message-ID:Subject:Cc:From:To:Date:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=H3Goi+Y+UYTPjsaFMxwCKhXsIsypsit8EhU2bFsQTZ8=; b=akJhp4mx51OSZudKpovUS56GCY
+	ExtGZC2lpXZY+35jxAk2D30fzp658mqjCsJrF4swT1CGbJ6WoqWUoTfAFeo3PsZmT1k+9eWWEcpSt
+	RvKJU5L2pRCxAR1bEFf9JQZ89UmHIeRqTZV4gO2omSnot8n50o2MMjfMGBUpDUGgSzCdD7B82s7AY
+	UaGKssjBUWP6YGMpMLyBkp40vLtDrmFK/OxldOXSxP0g5o1W1cthaaY3xDcIolzWM7eACQjkF3Gsn
+	6mptLXnZQCI4ExF7nhQGTSDSoKLxbQJghAxCTQIvlRDAtfFfWHVdkeYxyyX4L68ovUnHz6QVILw9Z
+	qtQgtLyA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wZQAs-0000000FWWK-3M2b;
-	Tue, 16 Jun 2026 09:33:38 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1wZaDW-0000000GHbn-28Vb;
+	Tue, 16 Jun 2026 20:17:02 +0000
+Received: from mail-4316.protonmail.ch ([185.70.43.16])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wZQAp-0000000FWVj-1fPt
+	id 1wZaDO-0000000GHbQ-4ABz
 	for linux-nvme@lists.infradead.org;
-	Tue, 16 Jun 2026 09:33:37 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 432C475828;
-	Tue, 16 Jun 2026 09:33:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781602413; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FyO7OsbniWN38MX5WhioDZA54+rT91knG5i5jAars/Q=;
-	b=wCVYuNuJuYHQ0YlDlXnSg8bBwggnrGlor1LUBfVfmNuG290WC6Yz1VWXDLP9hIHMJdWVW6
-	FxppCcwQwH09u603omSnL5wnqm/pno1rizixxRBs7vxbuyuTHhZxJhFMOVcT4/Br3tU1jx
-	pHdoz2ju5S+SemIuKBVq9IoNHcuHu8M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781602413;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FyO7OsbniWN38MX5WhioDZA54+rT91knG5i5jAars/Q=;
-	b=3XpC7v7cow0Gxc62vqFUTZLiuv63gqiFEp92OSkTESVf2KkObfwuD0pPqAl4tzNjRk4LJk
-	tbY0v9/GxV/lGNCQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=wCVYuNuJ;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=3XpC7v7c
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781602413; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FyO7OsbniWN38MX5WhioDZA54+rT91knG5i5jAars/Q=;
-	b=wCVYuNuJuYHQ0YlDlXnSg8bBwggnrGlor1LUBfVfmNuG290WC6Yz1VWXDLP9hIHMJdWVW6
-	FxppCcwQwH09u603omSnL5wnqm/pno1rizixxRBs7vxbuyuTHhZxJhFMOVcT4/Br3tU1jx
-	pHdoz2ju5S+SemIuKBVq9IoNHcuHu8M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781602413;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FyO7OsbniWN38MX5WhioDZA54+rT91knG5i5jAars/Q=;
-	b=3XpC7v7cow0Gxc62vqFUTZLiuv63gqiFEp92OSkTESVf2KkObfwuD0pPqAl4tzNjRk4LJk
-	tbY0v9/GxV/lGNCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2D20E779A8;
-	Tue, 16 Jun 2026 09:33:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 7BOECm0YMWopPQAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 16 Jun 2026 09:33:33 +0000
-Message-ID: <182988c8-575b-479e-a87c-37493dd70023@suse.de>
-Date: Tue, 16 Jun 2026 11:33:32 +0200
+	Tue, 16 Jun 2026 20:16:56 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1781641008; x=1781900208;
+	bh=H3Goi+Y+UYTPjsaFMxwCKhXsIsypsit8EhU2bFsQTZ8=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=ZSqXwoP18j95VEpeIPuJrId4YQp29HTTpm39pM4v+fM4XP33kyZUmEu2wzTuoDYLu
+	 vFSNW4xOrw0N24Afqk6Fo3+Vkl18qSjujUAiK1/hNYIOS889a9itxmVlcnrm8TF4Af
+	 7giJ3PN9MxzKPnw4TfXrhbEgCqDdPA12VfvyZlug20gYFsXH8CjkBAtHH0MduT6G6q
+	 6fEzS5XFR6q7Ujq3uOZOcYJ6mZwcBs8gVNFDa5KegSVOhmtC5LGUkpA/iwKXGNfMaP
+	 VgcZxB3NfyA/SC5L8hVen29zPm6czIiC99C3o6Oy7Bp0P9iP/Kh+M0GUFy1sfd1xWK
+	 Gl+tpnYLLcf+Q==
+Date: Tue, 16 Jun 2026 20:16:41 +0000
+To: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+From: Bryam Vargas <hexlabsecurity@proton.me>
+Cc: =?utf-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, Paul Moore <paul@paul-moore.com>, Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, linux-security-module@vger.kernel.org, io-uring@vger.kernel.org, linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Landlock: LANDLOCK_ACCESS_FS_IOCTL_DEV bypass via io_uring IORING_OP_URING_CMD
+Message-ID: <20260616201633.275067-1-hexlabsecurity@proton.me>
+Feedback-ID: 199661219:user:proton
+X-Pm-Message-ID: 3e618764aa8d1c1ba3df37c48f031a42fe7e9e1c
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 8/8] nvmet: make configfs setup namespace aware
-To: Maurizio Lombardi <mlombard@arkamax.eu>, Hannes Reinecke
- <hare@kernel.org>, Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>, Andreas Hindborg <a.hindborg@kernel.org>,
- linux-fsdevel@vger.kernel.org, linux-nvme@lists.infradead.org
-References: <20260613111437.101763-1-hare@kernel.org>
- <20260613111437.101763-9-hare@kernel.org>
- <DJACVCF5YTMZ.3TWM3MQYJCMA@arkamax.eu>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <DJACVCF5YTMZ.3TWM3MQYJCMA@arkamax.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 432C475828
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260616_023335_596990_3AB307EC 
-X-CRM114-Status: GOOD (  12.04  )
+X-CRM114-CacheID: sfid-20260616_131655_701267_B03BA4EA 
+X-CRM114-Status: GOOD (  16.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -143,49 +66,168 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/16/26 11:11, Maurizio Lombardi wrote:
-> On Sat Jun 13, 2026 at 1:14 PM CEST, Hannes Reinecke wrote:
->> Implement 'fill_subsystem' and 'clear_subsystem' callbacks to make
->> nvmet configfs namespace aware.
->>
->> +static int nvmet_add_port_list(u64 ns_id, struct nvmet_port *p)
->> +{
->> +	struct list_head *port_list;
->> +
->> +	mutex_lock(&nvmet_ports_mutex);
->> +	port_list = idr_find(&nvmet_ports_idr, ns_id);
->> +	if (!port_list) {
->> +		int err;
->> +
->> +		port_list = kzalloc_obj(*port_list);
->> +		if (!port_list)
->> +			return -ENOMEM;
->> +		INIT_LIST_HEAD(port_list);
->> +		err = idr_alloc(&nvmet_ports_idr, port_list,
->> +				ns_id, ns_id + 1, GFP_KERNEL);
->> +		if (err < 0) {
->> +			kfree(port_list);
->> +			return err;
->> +		}
->> +		WARN_ON(err != ns_id);
->> +	}
->> +	list_add(&p->global_entry, port_list);
->> +	mutex_unlock(&nvmet_ports_mutex);
->> +	return 0;
->> +}
-> 
-> Just a minor thing that I noticed: the error paths leave the mutex
-> locked.
-> 
-Oh. And so they do. Thanks for pointing it out.
-(Sashiko already told me, but nevertheless :-)
+Hello Micka=C3=ABl, and Landlock / io_uring folks,
 
-Cheers,
+A task confined by a Landlock ruleset that grants READ_FILE/WRITE_FILE on a=
+ block
+or NVMe character device but withholds LANDLOCK_ACCESS_FS_IOCTL_DEV can sti=
+ll
+reach the device-command surface through io_uring IORING_OP_URING_CMD with =
+the
+IOCTL_DEV check bypassed: the request enters the device-command handler (bl=
+ock
+discard, or the NVMe char-device passthrough) where the equivalent ioctl(2)=
+ is
+denied. The destructive completion and the NVMe-admin surface follow from t=
+he
+code -- see Impact.
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Affected
+--------
+Any kernel with CONFIG_SECURITY_LANDLOCK=3Dy and Landlock enabled that supp=
+orts
+LANDLOCK_ACCESS_FS_IOCTL_DEV (Landlock ABI >=3D 5, since Linux 6.8) and io_=
+uring
+uring_cmd for the device class (block BLOCK_URING_CMD_DISCARD; NVMe passthr=
+ough).
+Confirmed by source inspection on mainline (v7.1-rc7) and reproduced on Lin=
+ux
+7.0.11 (Landlock ABI 8). The confined task needs a writable fd to a device =
+it is
+legitimately allowed to use (e.g. a partition/loop device or an NVMe namesp=
+ace
+passed into a container or granted by the ruleset); no CAP is required to r=
+each
+the io_uring path. The gap is structural -- Landlock has never registered a
+uring_cmd hook -- so it is present from ABI 5 (Linux 6.8) through current
+mainline (v7.1-rc7) and is not a regression tied to a single Fixes: commit.
+
+Root cause
+----------
+On the ioctl(2) path, the syscall handler in fs/ioctl.c calls
+security_file_ioctl() (its only call site on the ioctl(2) path) before
+dispatching to do_vfs_ioctl(); that reaches Landlock hook_file_ioctl_common=
+(),
+which denies a device ioctl unless the file's
+allowed_access holds LANDLOCK_ACCESS_FS_IOCTL_DEV (BLKDISCARD/BLKSECDISCARD=
+/
+BLKZEROOUT and NVMe passthrough are not in the is_masked_device_ioctl()
+allow-list, so they require the right).
+
+io_uring reaches the same device-command surface by a different producer:
+
+  IORING_OP_URING_CMD -> io_uring_cmd()   io_uring/uring_cmd.c
+   -> security_uring_cmd(ioucmd)          (the ONLY LSM gate on this path)
+   -> file->f_op->uring_cmd()             e.g. blkdev_uring_cmd() / nvme_ns=
+_chr_uring_cmd()
+
+Landlock's LSM_HOOK_INIT list (security/landlock/fs.c, net.c, task.c) regis=
+ters
+file_ioctl/file_ioctl_compat but no uring_cmd hook -- only SELinux
+(selinux_uring_cmd) and Smack (smack_uring_cmd) gate this surface -- so
+security_uring_cmd() returns 0 for a Landlocked task and hook_file_ioctl /
+IOCTL_DEV is never consulted. For block, blkdev_cmd_discard() is then gated=
+ only
+by BLK_OPEN_WRITE; for NVMe, nvme_ns_chr_uring_cmd() reaches the admin/IO
+passthrough with no security_file_ioctl on the path. There is no shared hel=
+per
+that re-applies the IOCTL_DEV check.
+
+SELinux and Smack hooking uring_cmd while Landlock does not is the coverage
+asymmetry; the Landlock documentation describes IOCTL_DEV as gating ioctl(2=
+) but
+does not mention io_uring.
+
+Reproducer
+----------
+A self-contained PoC is available on request (it needs root only to set up =
+a loop
+block device and open it; Landlock enforcement is uid-independent, so the
+confined child demonstrates the gap regardless of the setup uid). The child
+applies a Landlock ruleset handling READ_FILE|WRITE_FILE|IOCTL_DEV with a r=
+ule
+granting only READ_FILE|WRITE_FILE on the device, then:
+
+  (1) ioctl(fd, BLKDISCARD, range)        -> -EACCES  (Landlock enforces IO=
+CTL_DEV)
+  (2) IORING_OP_URING_CMD,
+      cmd_op =3D BLOCK_URING_CMD_DISCARD     -> reaches the block command h=
+andler
+
+Observed on Linux 7.0.11 (Landlock ABI 8):
+
+  [1] ioctl(BLKDISCARD)   -> ret=3D-1 errno=3D13 (Permission denied)
+  [2] uring_cmd(DISCARD)  -> cqe.res=3D-22 (Invalid argument)
+
+A Landlock denial is always -EACCES; the io_uring path returned -EINVAL, wh=
+ich
+originates in a post-authorization check inside the block command handler
+(blk_validate_byte_range() in blkdev_cmd_discard()), reached only after
+security_uring_cmd() returned 0. So this run demonstrates the authorization
+bypass -- the request traversed the LSM gate into the block device-command
+handler with no IOCTL_DEV check -- and then failed a parameter check, not a=
+n
+authorization check. The destructive completion (an authorized discard with=
+ a
+granularity-aligned range) is the expected behaviour but was not exercised =
+in
+this run.
+
+Impact
+------
+Demonstrated: the LANDLOCK_ACCESS_FS_IOCTL_DEV authorization is bypassed. T=
+he
+device-command request reaches the block command handler with no Landlock c=
+heck;
+the only remaining gate is BLK_OPEN_WRITE (held, since the policy granted w=
+rite).
+Inferred from the code, not exercised here: an authorized DISCARD with a va=
+lid
+range completes (DISCARD/secure-erase semantics, destroying on-device data)=
+, and
+the same missing hook leaves the NVMe char-device uring_cmd surface ungated=
+ --
+nvme_ns_chr_uring_cmd (namespace device /dev/nvmeXnY) -> nvme_ns_uring_cmd =
+for
+NVME_URING_CMD_IO/IO_VEC passthrough, and nvme_dev_uring_cmd (controller de=
+vice
+/dev/nvmeX) for NVME_URING_CMD_ADMIN (format, sanitize, firmware download,
+security send) -- both reach f_op->uring_cmd with no Landlock/IOCTL_DEV gat=
+e.
+
+So the confirmed finding is a missing authorization (the confined task esca=
+pes
+its own IOCTL_DEV restriction); the destructive data effect and the NVMe-ad=
+min
+high-water-mark follow from the code but are not shown in the run above. Th=
+e
+proven authorization bypass alone scores CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C=
+:N/I:H/A:N
+(6.5 Medium) -- S:C because the confined task crosses the Landlock policy
+boundary it was placed under, I:H because the bypassed path reaches a handl=
+er
+whose authorized completion modifies device data. With the device command
+completing destructively the projected ceiling is
+CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:N/I:H/A:H (8.4 High), the A:H component
+reasoned from the source rather than executed. No memory safety is involved=
+.
+
+Suggested direction
+-------------------
+Have Landlock register a uring_cmd hook that maps the device command to the=
+ same
+checks the ioctl path applies (IOCTL_DEV, and truncate where relevant), so =
+a
+single chokepoint covers every f_op->uring_cmd provider (block, NVMe, ublk,=
+ and
+any future one). Mirrors how SELinux/Smack already gate this surface.
+
+I am happy to send a patch for this if you would like.
+
+Best regards,
+
+Bryam Vargas
+Independent security researcher, HEXLAB S.A.S., Cali, Colombia
+hexlabsecurity@proton.me
+
 
