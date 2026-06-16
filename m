@@ -4,54 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1FE9CCD98E4
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Jun 2026 20:17:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 20B90CD98D2
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Jun 2026 20:36:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Subject:Cc:From:To:Date:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=H3Goi+Y+UYTPjsaFMxwCKhXsIsypsit8EhU2bFsQTZ8=; b=akJhp4mx51OSZudKpovUS56GCY
-	ExtGZC2lpXZY+35jxAk2D30fzp658mqjCsJrF4swT1CGbJ6WoqWUoTfAFeo3PsZmT1k+9eWWEcpSt
-	RvKJU5L2pRCxAR1bEFf9JQZ89UmHIeRqTZV4gO2omSnot8n50o2MMjfMGBUpDUGgSzCdD7B82s7AY
-	UaGKssjBUWP6YGMpMLyBkp40vLtDrmFK/OxldOXSxP0g5o1W1cthaaY3xDcIolzWM7eACQjkF3Gsn
-	6mptLXnZQCI4ExF7nhQGTSDSoKLxbQJghAxCTQIvlRDAtfFfWHVdkeYxyyX4L68ovUnHz6QVILw9Z
-	qtQgtLyA==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=a2o1XTR7VeYkIhqu4UtENSoBuqpZfEyKyn3oza9yC94=; b=0ndIHyywTRL28SmCnXps/IIM4Y
+	MNfittgkQgKsBoKvy4Mnh3Q/1xrdKEtxlEL7DS/qnqk/xDe+PggNBxbRDXA7aMmLF6I3eLkAOO0M1
+	VRKyuiLaO3F9GlU9S0Kcu9GRh24DdeauJ3r5rnBz4Sbyj/NT+m2nvrLVb2DbFxfELu08Z5udGixKg
+	DiwAeYqfha73KQzDM7wPP5X54XG8G51JRu8QNkKm79XcJ6u0ips+d1Wqymh3ZjW+Fk+wpJj9lLWgn
+	P6HdPY0r8stROU8FLcqfl9Y9ByXfZGsLeW+M4i+Vaf5NJDv1LnlnRgsLKcOTTctWwLzwDMj+Kjq9T
+	Yx4pOAEQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wZaDW-0000000GHbn-28Vb;
-	Tue, 16 Jun 2026 20:17:02 +0000
-Received: from mail-4316.protonmail.ch ([185.70.43.16])
+	id 1wZaW2-0000000GJFG-45uS;
+	Tue, 16 Jun 2026 20:36:10 +0000
+Received: from mail-ot1-x32a.google.com ([2607:f8b0:4864:20::32a])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wZaDO-0000000GHbQ-4ABz
+	id 1wZaVz-0000000GJEp-3NO8
 	for linux-nvme@lists.infradead.org;
-	Tue, 16 Jun 2026 20:16:56 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1781641008; x=1781900208;
-	bh=H3Goi+Y+UYTPjsaFMxwCKhXsIsypsit8EhU2bFsQTZ8=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=ZSqXwoP18j95VEpeIPuJrId4YQp29HTTpm39pM4v+fM4XP33kyZUmEu2wzTuoDYLu
-	 vFSNW4xOrw0N24Afqk6Fo3+Vkl18qSjujUAiK1/hNYIOS889a9itxmVlcnrm8TF4Af
-	 7giJ3PN9MxzKPnw4TfXrhbEgCqDdPA12VfvyZlug20gYFsXH8CjkBAtHH0MduT6G6q
-	 6fEzS5XFR6q7Ujq3uOZOcYJ6mZwcBs8gVNFDa5KegSVOhmtC5LGUkpA/iwKXGNfMaP
-	 VgcZxB3NfyA/SC5L8hVen29zPm6czIiC99C3o6Oy7Bp0P9iP/Kh+M0GUFy1sfd1xWK
-	 Gl+tpnYLLcf+Q==
-Date: Tue, 16 Jun 2026 20:16:41 +0000
-To: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-From: Bryam Vargas <hexlabsecurity@proton.me>
-Cc: =?utf-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, Paul Moore <paul@paul-moore.com>, Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, linux-security-module@vger.kernel.org, io-uring@vger.kernel.org, linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Landlock: LANDLOCK_ACCESS_FS_IOCTL_DEV bypass via io_uring IORING_OP_URING_CMD
-Message-ID: <20260616201633.275067-1-hexlabsecurity@proton.me>
-Feedback-ID: 199661219:user:proton
-X-Pm-Message-ID: 3e618764aa8d1c1ba3df37c48f031a42fe7e9e1c
+	Tue, 16 Jun 2026 20:36:09 +0000
+Received: by mail-ot1-x32a.google.com with SMTP id 46e09a7af769-7e6da33a561so4487140a34.3
+        for <linux-nvme@lists.infradead.org>; Tue, 16 Jun 2026 13:36:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1781642166; x=1782246966; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=a2o1XTR7VeYkIhqu4UtENSoBuqpZfEyKyn3oza9yC94=;
+        b=HbLy6nOhSDeb1P9by0wTjPx2b4ho+vNuNG7UTNclQvW2c7pezElTCmgRH3qj0NnVyU
+         KeieRozd+kVkf1W+Y27/nspby3ASIn4TsLtgFdievYT59bXrHMlT8XVyNHsBalmMCS6E
+         6OT+ZsW47TlOKprijlTWPYUfmZtu1qzImtip81FOZN7gR3pYc+RLfnzcdypT5yGO97H+
+         te+65rM26JSHoRIBto2HcajXXZIdyOx9blWjTjPXpcKr+7j7oIJHrY3r1D+Njf9NvtP5
+         73JIeeBahKp8D/4SWCWO/MT74W7KdDwrHhVBwMr18BdOybAqpoCN1s3hsJp64juDOYd6
+         GoXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781642166; x=1782246966;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=a2o1XTR7VeYkIhqu4UtENSoBuqpZfEyKyn3oza9yC94=;
+        b=KCfCm7sEpso+0SyewBL1TT0+uOeKMs7ToQt1HNZdNPtGljV8lzdPkI2ehzP6oqG+Pz
+         bOkJGpCs94ewGNOAGOctDzfW7Vy4S2iY0GCohT0edj60pSWbLng5HKhXJF04rjsjGc6Q
+         ISkh45Y/kcNJwww3LxnmfqvpByuqaKlZ1K2LbQNvQNtG4KJtQmuHKIQcBJfi/e1TRiqx
+         LxB5wrYXRHcqyt29AMuT2YjIlbQMR0cE35xaGc4D7H6XSCnVQ4MGjG/zkCXmVOjVtssb
+         WAjwcqZ8/hh1YLgH5TEV3in5d485CaRev726aupYiXZmEoVjRvFydWshjAtxIIGoWaG1
+         Ps4Q==
+X-Forwarded-Encrypted: i=1; AFNElJ9zAXTw3EJhESwBKn/0xs1Jinaqt8eHh80q3WtD+ARUOjMBb3+59K63CMk4pG6kbI55b/UrbWC+/c5/@lists.infradead.org
+X-Gm-Message-State: AOJu0Yy+6R9OHJcnJFTgjXg3a5l1Q03MGHNuUeiGkciAiL+RVp54CGow
+	6DgC7Q91roZ5O+PwxOhP2OJoouDtWk4kG/q8FRVGMF81Gc81hcxMJSrAK0ntAI9Yt2I=
+X-Gm-Gg: Acq92OHbMkndYGWdoSQL3lVPIMwW7IKvgpnVlQfxagkhYvPbE8b5+iefxhmzcp166gw
+	Eswzm9meqnrIKGdd0KQNmNm0f6Qo+VRLn+JuqYkEq4f/2z35JHFJVeU9ULk0ppSMvi7qWK+C3QN
+	rcir5XimUJNu87sWXoj69Th/vPK7Bak0VGNfqlcX4vvD8Rkzg7yFFFs8ycSPcUyhceLWJi2fzvk
+	iszxT7vJNqcLWRpg2K9Zj2HCqQJ2KIS67jbUc+WIeJRpaTwT1P31rPxBJMeGyJOaSk3Q2Gp8eCl
+	J9tckxS7E1xcwCrQWiIkD3FuL+FGyYZA0qTqGqGRlByDEe9kO0Isk1Gr8ZGH8kjaQiTAo7LBC3J
+	zAwTWOeM0UREFWzmfg42KM8W5JHEJpChgTEcjBatlbqKwYfkMKPZHVkWKuybRBvjkU0eOd1SPEi
+	tSvRSaySR3gg+kLLdrpgROJpue20GfMhGYzt6/LVqpD7i5jGD/Hp3Lx9H59iC9I11H8gEUY6Wrg
+	CCOEMMFqA==
+X-Received: by 2002:a05:6830:3747:b0:7e6:fd45:9cbc with SMTP id 46e09a7af769-7e90b3b982dmr1104256a34.14.1781642166451;
+        Tue, 16 Jun 2026 13:36:06 -0700 (PDT)
+Received: from [192.168.1.150] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e79f6de65bsm7523821a34.19.2026.06.16.13.36.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Jun 2026 13:36:05 -0700 (PDT)
+Message-ID: <fcfa9bc9-4f7d-478c-90a2-ec4efd4c7d43@kernel.dk>
+Date: Tue, 16 Jun 2026 14:36:04 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: Landlock: LANDLOCK_ACCESS_FS_IOCTL_DEV bypass via io_uring
+ IORING_OP_URING_CMD
+To: Bryam Vargas <hexlabsecurity@proton.me>, =?UTF-8?B?TWlja2HDq2wgU2FsYcO8?=
+ =?UTF-8?Q?n?= <mic@digikod.net>
+Cc: =?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>,
+ Paul Moore <paul@paul-moore.com>, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-security-module@vger.kernel.org, io-uring@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20260616201633.275067-1-hexlabsecurity@proton.me>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20260616201633.275067-1-hexlabsecurity@proton.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260616_131655_701267_B03BA4EA 
-X-CRM114-Status: GOOD (  16.96  )
+X-CRM114-CacheID: sfid-20260616_133608_105101_AC7181E7 
+X-CRM114-Status: GOOD (  12.12  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -66,168 +108,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello Micka=C3=ABl, and Landlock / io_uring folks,
+On 6/16/26 2:16 PM, Bryam Vargas wrote:
+> Hello Micka?l, and Landlock / io_uring folks,
+> 
+> A task confined by a Landlock ruleset that grants READ_FILE/WRITE_FILE
+> on a block or NVMe character device but withholds
+> LANDLOCK_ACCESS_FS_IOCTL_DEV can still reach the device-command
+> surface through io_uring IORING_OP_URING_CMD with the IOCTL_DEV check
+> bypassed: the request enters the device-command handler (block
+> discard, or the NVMe char-device passthrough) where the equivalent
+> ioctl(2) is denied. The destructive completion and the NVMe-admin
+> surface follow from the code -- see Impact.
 
-A task confined by a Landlock ruleset that grants READ_FILE/WRITE_FILE on a=
- block
-or NVMe character device but withholds LANDLOCK_ACCESS_FS_IOCTL_DEV can sti=
-ll
-reach the device-command surface through io_uring IORING_OP_URING_CMD with =
-the
-IOCTL_DEV check bypassed: the request enters the device-command handler (bl=
-ock
-discard, or the NVMe char-device passthrough) where the equivalent ioctl(2)=
- is
-denied. The destructive completion and the NVMe-admin surface follow from t=
-he
-code -- see Impact.
+I've said this before, but apparently it hasn't been received - this
+isn't an io_uring issue. If landlock is missing a hook, then that's on
+landlock and they should add it. Other security handlers already have
+that. Hence no need to broadcast this to a bunch of lists, it's strictly
+a landlock issue.
 
-Affected
---------
-Any kernel with CONFIG_SECURITY_LANDLOCK=3Dy and Landlock enabled that supp=
-orts
-LANDLOCK_ACCESS_FS_IOCTL_DEV (Landlock ABI >=3D 5, since Linux 6.8) and io_=
-uring
-uring_cmd for the device class (block BLOCK_URING_CMD_DISCARD; NVMe passthr=
-ough).
-Confirmed by source inspection on mainline (v7.1-rc7) and reproduced on Lin=
-ux
-7.0.11 (Landlock ABI 8). The confined task needs a writable fd to a device =
-it is
-legitimately allowed to use (e.g. a partition/loop device or an NVMe namesp=
-ace
-passed into a container or granted by the ruleset); no CAP is required to r=
-each
-the io_uring path. The gap is structural -- Landlock has never registered a
-uring_cmd hook -- so it is present from ABI 5 (Linux 6.8) through current
-mainline (v7.1-rc7) and is not a regression tied to a single Fixes: commit.
-
-Root cause
-----------
-On the ioctl(2) path, the syscall handler in fs/ioctl.c calls
-security_file_ioctl() (its only call site on the ioctl(2) path) before
-dispatching to do_vfs_ioctl(); that reaches Landlock hook_file_ioctl_common=
-(),
-which denies a device ioctl unless the file's
-allowed_access holds LANDLOCK_ACCESS_FS_IOCTL_DEV (BLKDISCARD/BLKSECDISCARD=
-/
-BLKZEROOUT and NVMe passthrough are not in the is_masked_device_ioctl()
-allow-list, so they require the right).
-
-io_uring reaches the same device-command surface by a different producer:
-
-  IORING_OP_URING_CMD -> io_uring_cmd()   io_uring/uring_cmd.c
-   -> security_uring_cmd(ioucmd)          (the ONLY LSM gate on this path)
-   -> file->f_op->uring_cmd()             e.g. blkdev_uring_cmd() / nvme_ns=
-_chr_uring_cmd()
-
-Landlock's LSM_HOOK_INIT list (security/landlock/fs.c, net.c, task.c) regis=
-ters
-file_ioctl/file_ioctl_compat but no uring_cmd hook -- only SELinux
-(selinux_uring_cmd) and Smack (smack_uring_cmd) gate this surface -- so
-security_uring_cmd() returns 0 for a Landlocked task and hook_file_ioctl /
-IOCTL_DEV is never consulted. For block, blkdev_cmd_discard() is then gated=
- only
-by BLK_OPEN_WRITE; for NVMe, nvme_ns_chr_uring_cmd() reaches the admin/IO
-passthrough with no security_file_ioctl on the path. There is no shared hel=
-per
-that re-applies the IOCTL_DEV check.
-
-SELinux and Smack hooking uring_cmd while Landlock does not is the coverage
-asymmetry; the Landlock documentation describes IOCTL_DEV as gating ioctl(2=
-) but
-does not mention io_uring.
-
-Reproducer
-----------
-A self-contained PoC is available on request (it needs root only to set up =
-a loop
-block device and open it; Landlock enforcement is uid-independent, so the
-confined child demonstrates the gap regardless of the setup uid). The child
-applies a Landlock ruleset handling READ_FILE|WRITE_FILE|IOCTL_DEV with a r=
-ule
-granting only READ_FILE|WRITE_FILE on the device, then:
-
-  (1) ioctl(fd, BLKDISCARD, range)        -> -EACCES  (Landlock enforces IO=
-CTL_DEV)
-  (2) IORING_OP_URING_CMD,
-      cmd_op =3D BLOCK_URING_CMD_DISCARD     -> reaches the block command h=
-andler
-
-Observed on Linux 7.0.11 (Landlock ABI 8):
-
-  [1] ioctl(BLKDISCARD)   -> ret=3D-1 errno=3D13 (Permission denied)
-  [2] uring_cmd(DISCARD)  -> cqe.res=3D-22 (Invalid argument)
-
-A Landlock denial is always -EACCES; the io_uring path returned -EINVAL, wh=
-ich
-originates in a post-authorization check inside the block command handler
-(blk_validate_byte_range() in blkdev_cmd_discard()), reached only after
-security_uring_cmd() returned 0. So this run demonstrates the authorization
-bypass -- the request traversed the LSM gate into the block device-command
-handler with no IOCTL_DEV check -- and then failed a parameter check, not a=
-n
-authorization check. The destructive completion (an authorized discard with=
- a
-granularity-aligned range) is the expected behaviour but was not exercised =
-in
-this run.
-
-Impact
-------
-Demonstrated: the LANDLOCK_ACCESS_FS_IOCTL_DEV authorization is bypassed. T=
-he
-device-command request reaches the block command handler with no Landlock c=
-heck;
-the only remaining gate is BLK_OPEN_WRITE (held, since the policy granted w=
-rite).
-Inferred from the code, not exercised here: an authorized DISCARD with a va=
-lid
-range completes (DISCARD/secure-erase semantics, destroying on-device data)=
-, and
-the same missing hook leaves the NVMe char-device uring_cmd surface ungated=
- --
-nvme_ns_chr_uring_cmd (namespace device /dev/nvmeXnY) -> nvme_ns_uring_cmd =
-for
-NVME_URING_CMD_IO/IO_VEC passthrough, and nvme_dev_uring_cmd (controller de=
-vice
-/dev/nvmeX) for NVME_URING_CMD_ADMIN (format, sanitize, firmware download,
-security send) -- both reach f_op->uring_cmd with no Landlock/IOCTL_DEV gat=
-e.
-
-So the confirmed finding is a missing authorization (the confined task esca=
-pes
-its own IOCTL_DEV restriction); the destructive data effect and the NVMe-ad=
-min
-high-water-mark follow from the code but are not shown in the run above. Th=
-e
-proven authorization bypass alone scores CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C=
-:N/I:H/A:N
-(6.5 Medium) -- S:C because the confined task crosses the Landlock policy
-boundary it was placed under, I:H because the bypassed path reaches a handl=
-er
-whose authorized completion modifies device data. With the device command
-completing destructively the projected ceiling is
-CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:N/I:H/A:H (8.4 High), the A:H component
-reasoned from the source rather than executed. No memory safety is involved=
-.
-
-Suggested direction
--------------------
-Have Landlock register a uring_cmd hook that maps the device command to the=
- same
-checks the ioctl path applies (IOCTL_DEV, and truncate where relevant), so =
-a
-single chokepoint covers every f_op->uring_cmd provider (block, NVMe, ublk,=
- and
-any future one). Mirrors how SELinux/Smack already gate this surface.
-
-I am happy to send a patch for this if you would like.
-
-Best regards,
-
-Bryam Vargas
-Independent security researcher, HEXLAB S.A.S., Cali, Colombia
-hexlabsecurity@proton.me
-
+-- 
+Jens Axboe
 
