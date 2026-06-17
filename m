@@ -4,66 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 92C35CD98E2
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Jun 2026 17:42:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3A3CCD98F2
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Jun 2026 18:44:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:Cc:To
-	:From:Subject:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
-	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kvFAel3hT2aCpodG8ZLF82cEweXUConelsw4C01uKcs=; b=LmyvXeZyr8RMKN6BPRklM0aUiC
-	lc83h7m9wRB99l+BntlrVre5GETWo+1hAdXiQxvrMcEsSpxkvllQJyxFfDXnL9Rc1ALm0VuONpqdo
-	yOGFoPOzKfQa6USbaDpjEQ4pL/xJC8WszUl48GeaJNVJLilZGhth4xBxtNeofRkMW2HjFIWKfS/Ik
-	dMcc6iB11rG/T/UC/Zuy/jsPYnpOGlwgrPNtzKlNULswXEnMDZlPNZ/9n2pLAhrTuZ5ONLrc2lc51
-	O+F3qAJSYNAUVx1B1QblN++NKMd4nI/I26vFwbotIRWOnjIgDykbL6Xt+C+MMzUfd7eOi1jtCLk4r
-	Ho52xxew==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=4Qrc59+zIokh8fs0JKNG4MO+Rw0dpQBwmRZDN3GGNVk=; b=xuLDbzwEQR3CI8Lh9g0wfI3p5s
+	mFsPTxzDOLFyhyVxcE9uvuvsTr/MthzMgPngS6DkCikySSShtfd8ibJkUg3SOUHtfWa3X7Cf1ewUc
+	aiI2QQiyLQ/rS70PSoXHRebwVPZktIAh6urZgHGsKZGMEgzgo23toQkt0CVhkOy+6nGlCYcKJe161
+	V50P8+3KkFbIYuikF0hZhfXMIIbT1XRokTXt343ZSUI2yisCx/Gu++/cEI8zRFwRYtw9ovGqCN7fO
+	KkkGvcvT5dK79aZYlWCN9Njcbu8X8gMDIfgQtGSr7jVrW/P5j3uUv62d45puviNLWn4Astt9HLRs5
+	5kr0wMJg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wZuHD-000000007iJ-1xhw;
-	Wed, 17 Jun 2026 17:42:11 +0000
-Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=arkamax.eu)
+	id 1wZvFg-00000000Bdu-3aTc;
+	Wed, 17 Jun 2026 18:44:40 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wZuHA-000000007gj-0i9j
+	id 1wZvFf-00000000Bdo-3LSJ
 	for linux-nvme@lists.infradead.org;
-	Wed, 17 Jun 2026 17:42:10 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; s=mail1; bh=kvFAel3hT2aCpo
-	dG8ZLF82cEweXUConelsw4C01uKcs=; h=in-reply-to:references:cc:to:from:
-	subject:date; d=arkamax.eu; b=bXoC4Q/+g8Q3M+9xsufKiMepSkRrdEDbRettbEIo
-	oajAncUGQUldjtbTqy8AhgaD+HzaJ8QAADRQLRGqczE7okLXDvig4Lz48/IDg02y89IFTn
-	aTC1piz2s2ajSiFnh3J6Uh04E6UkdMVY3aAY/f0eViV1SAUmSuFSkyI51WBtjCEcArizU6
-	Indz+Zmt8umniFjDZwXlzbVabHvL5eQl/dIbD35xX5+nzG7/wTIUg6yIJOK6m779E0ggwU
-	MTPmbT21rydTl7O6YryJVEvIA8szKEy2Cw0XS1TxVmkemKpOysUEmNO4nEug2IAp4bjEMD
-	32RESfS9GtpbnrzxVpIVAQ==
-Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
-	by arkamax.eu (OpenSMTPD) with ESMTPSA id 52c4389b (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Wed, 17 Jun 2026 19:41:58 +0200 (CEST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 17 Jun 2026 19:41:58 +0200
-Message-Id: <DJBICZU143X2.3S261SDT21N0V@arkamax.eu>
-Subject: Re: [PATCH V3 0/3] Ensure ordered namespace registration during
- async scan
-From: "Maurizio Lombardi" <mlombard@arkamax.eu>
-To: "Keith Busch" <kbusch@kernel.org>, "Hannes Reinecke" <hare@suse.de>
-Cc: "John Meneghini" <jmeneghi@redhat.com>, "Maurizio Lombardi"
- <mlombard@arkamax.eu>, "Maurizio Lombardi" <mlombard@redhat.com>,
- <hch@lst.de>, <chaitanyak@nvidia.com>, <bvanassche@acm.org>,
- <linux-scsi@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
- <James.Bottomley@hansenpartnership.com>, <emilne@redhat.com>,
- <bgurney@redhat.com>
-X-Mailer: aerc 0.21.0
-References: <20260225161203.76168-1-mlombard@redhat.com>
- <aZ9sjbZ3CEW_1rW1@kbusch-mbp> <DGOQMFJJ6K5P.3KLF45WQT2SAS@arkamax.eu>
- <e43b914c-2ca5-455e-b0fe-3ce2eb0c64bd@redhat.com>
- <aaCNtpPzP9TIDNjE@kbusch-mbp>
- <869034b1-c7e8-4e35-b153-43fd787a8edd@suse.de>
- <aaXE4s3AT45UIAN8@kbusch-mbp>
-In-Reply-To: <aaXE4s3AT45UIAN8@kbusch-mbp>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260617_104208_848253_5E94E1E6 
-X-CRM114-Status: GOOD (  11.90  )
+	Wed, 17 Jun 2026 18:44:39 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id F39336001D;
+	Wed, 17 Jun 2026 18:44:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FA711F000E9;
+	Wed, 17 Jun 2026 18:44:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781721878;
+	bh=4Qrc59+zIokh8fs0JKNG4MO+Rw0dpQBwmRZDN3GGNVk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ByEkJuuE9nbyaIp/AQKOc7BgltZ37Y5pU5hWDI+iYV9uecqDARXLR8QnGxnoxHXpA
+	 ECwi2Abi8sAtbXOMDmnQIPj7Ec8bAsFsz6UCVVIi23EiSkWjXv7Z3w7D4tHNQACcy9
+	 LfLcaJ/EpDqnWTuIvIY8lfAzxfNtQAnn3sIphFQnhslUDfuKRi3coIZQE/kYSOce3G
+	 R5f/fZyDbIojYvxRQJ/497rmdKN1tay/TDgvkzwSh1Mcu4TFI+dVU54Sh7ZYXedpPb
+	 kYV2U7MGaIaXx2imIC6lWekOXUFrqUWVcj4N9frjZKXbSEJ0P1lDz0vmGLCiSuqGZo
+	 zitDiw87+blag==
+Date: Wed, 17 Jun 2026 12:44:37 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Kangfenglong <kangfenglong@huawei.com>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+	"Wangyu (Eric)" <seven.wangyu@huawei.com>,
+	"Zengtao (B)" <prime.zeng@hisilicon.com>,
+	duziming <duziming2@huawei.com>
+Subject: Re: [BUG] nvme/pci: nvme_map_cmb triggers WARN_ON in __add_pages
+ when CMBSZ.SZ is zero
+Message-ID: <ajLrFQnair8i978C@kbusch-mbp>
+References: <ee28ccf4e3a6479e8851b7b196219244@huawei.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ee28ccf4e3a6479e8851b7b196219244@huawei.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,28 +72,13 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello Keith,
+On Wed, Jun 17, 2026 at 07:01:32AM +0000, Kangfenglong wrote:
+> Proposed fix:
+> In nvme_map_cmb(), add an early return after the existing dev->cmbsz check:
+> if (!dev->cmbsz)
+>     return;
+> + if (!nvme_cmb_size(dev))
+> +    return;
 
-On Mon Mar 2, 2026 at 6:12 PM CET, Keith Busch wrote:
-> On Mon, Mar 02, 2026 at 08:16:19AM +0100, Hannes Reinecke wrote:
->> I really would like to go with the nsid based solution from Keith.
->> That would avoid quite some cumbersome code here.
->
-> I've seen various documentation that assumes the current naming
-> indicates the nsid, so the scheme follows at least some people's
-> expectations. I don't know if we can make everyone happy here, though.
-> :(
->
-> I've fixed up most of the multipath races that get us closer to allowing
-> nsid suffix, but there's one left: nvme_remove_head is called outside
-> the subsys lock after detaching the head from the subsystem list. That
-> could cause a subsequent add event to call nvme_alloc_ns() before the
-> mpath side has completed del_gendisk() for the old nsid.
-
-Did you manage to find a solution for this race?
-I just wanted to check whether you had any patches ready for testing since
-this discussion.
-
-Thanks,
-Maurizio
+Looks fine to me. Do you want to send a proper patch for it?
 
