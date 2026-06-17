@@ -4,59 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2DB57CD98E4
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Jun 2026 14:10:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 92C35CD98E2
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Jun 2026 17:42:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=z0l6+g1rDCrPE1xY+T101+BXsaDlbCV1J0qUbRh4BtA=; b=LIddjAreEC3QB6mKJMT3nBVlnp
-	JVIGjZL9l8V78PSLUWIjGQBaoNV11eju6V0LHtupI/zWQ2GZ1C/bdfSw9PBrzb8OwwN1rATbREo+0
-	HFB79JxfvNbimbxNVl6kksC1Cw+nw/rsmtDnPC1ewp7rjn+gwkWuTPxY6vvW/hgcKKAinlR0S2/JL
-	KGMhtliXYOM6MhNof+ajc8p76Jkr0WNCDnPpReagi0VsUN4IzBrcoJJOlQjDUbUALKsiAeewJMCAy
-	tVPMEZrVBaAuOGntDVjjPGU2n41xEjaYSHtZGcB/BX6HB9bnA565u/ILMFzQFBgLfEgD0+PbI9hgq
-	8GM1yRZA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:Cc:To
+	:From:Subject:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
+	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=kvFAel3hT2aCpodG8ZLF82cEweXUConelsw4C01uKcs=; b=LmyvXeZyr8RMKN6BPRklM0aUiC
+	lc83h7m9wRB99l+BntlrVre5GETWo+1hAdXiQxvrMcEsSpxkvllQJyxFfDXnL9Rc1ALm0VuONpqdo
+	yOGFoPOzKfQa6USbaDpjEQ4pL/xJC8WszUl48GeaJNVJLilZGhth4xBxtNeofRkMW2HjFIWKfS/Ik
+	dMcc6iB11rG/T/UC/Zuy/jsPYnpOGlwgrPNtzKlNULswXEnMDZlPNZ/9n2pLAhrTuZ5ONLrc2lc51
+	O+F3qAJSYNAUVx1B1QblN++NKMd4nI/I26vFwbotIRWOnjIgDykbL6Xt+C+MMzUfd7eOi1jtCLk4r
+	Ho52xxew==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wZqxx-0000000HSu1-079M;
-	Wed, 17 Jun 2026 14:10:05 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1wZuHD-000000007iJ-1xhw;
+	Wed, 17 Jun 2026 17:42:11 +0000
+Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=arkamax.eu)
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wZqxw-0000000HStt-0XtN
+	id 1wZuHA-000000007gj-0i9j
 	for linux-nvme@lists.infradead.org;
-	Wed, 17 Jun 2026 14:10:04 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 6BCBC41B4B;
-	Wed, 17 Jun 2026 14:10:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B99A31F000E9;
-	Wed, 17 Jun 2026 14:10:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781705403;
-	bh=z0l6+g1rDCrPE1xY+T101+BXsaDlbCV1J0qUbRh4BtA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=XkffQyVTrijgcT1OtIhuP8LwfY4+eWzSQNdJD+7diK0080wPNBCQwmsbi6Dasl9zK
-	 z5wwTQQ8w7ph0r7QMrUxYYDn5yKEkUUgF+3a5T4v+BF1igPus3C5lcxo7gbRnYbcXQ
-	 t7YyEl65spNyYtSKM5hDUnvps2gc0fC7hDu4udnUYKqYCgbLT1xNYWKHvuKY0hQSPw
-	 69feGXidr9kRGBFoiebFsKuiKpzU40hFvOoi9t694XFHmI4P8MhjuWhbI6pepqk6jJ
-	 tPsYYdCwFltzsM8BN1O/xMvkYPCrX8FkkumPIWJn3yn0JdgiPZO5PmPoSOipMvVE2Q
-	 oZaT2+0/N+QlA==
-Date: Wed, 17 Jun 2026 16:09:57 +0200
-From: Joel Granados <joel.granados@kernel.org>
-To: Maurizio Lombardi <mlombard@arkamax.eu>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	Daniel Gomez <da.gomez@kernel.org>, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] nvme: unmap the data buffer when metadata mapping fails
-Message-ID: <ucuw6j7fkmxjk5hktf4l2y6svnmduuax5dslifsthwpvcxmrht@s6gygbw6it2m>
-References: <20260612-jag-fixes-v1-1-24423dc8afdb@kernel.org>
- <DJ6Z3EVG32PV.1CXC6PRBH1CIY@arkamax.eu>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="4lrk4q3nqgm75u6b"
-Content-Disposition: inline
-In-Reply-To: <DJ6Z3EVG32PV.1CXC6PRBH1CIY@arkamax.eu>
+	Wed, 17 Jun 2026 17:42:10 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; s=mail1; bh=kvFAel3hT2aCpo
+	dG8ZLF82cEweXUConelsw4C01uKcs=; h=in-reply-to:references:cc:to:from:
+	subject:date; d=arkamax.eu; b=bXoC4Q/+g8Q3M+9xsufKiMepSkRrdEDbRettbEIo
+	oajAncUGQUldjtbTqy8AhgaD+HzaJ8QAADRQLRGqczE7okLXDvig4Lz48/IDg02y89IFTn
+	aTC1piz2s2ajSiFnh3J6Uh04E6UkdMVY3aAY/f0eViV1SAUmSuFSkyI51WBtjCEcArizU6
+	Indz+Zmt8umniFjDZwXlzbVabHvL5eQl/dIbD35xX5+nzG7/wTIUg6yIJOK6m779E0ggwU
+	MTPmbT21rydTl7O6YryJVEvIA8szKEy2Cw0XS1TxVmkemKpOysUEmNO4nEug2IAp4bjEMD
+	32RESfS9GtpbnrzxVpIVAQ==
+Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
+	by arkamax.eu (OpenSMTPD) with ESMTPSA id 52c4389b (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Wed, 17 Jun 2026 19:41:58 +0200 (CEST)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 17 Jun 2026 19:41:58 +0200
+Message-Id: <DJBICZU143X2.3S261SDT21N0V@arkamax.eu>
+Subject: Re: [PATCH V3 0/3] Ensure ordered namespace registration during
+ async scan
+From: "Maurizio Lombardi" <mlombard@arkamax.eu>
+To: "Keith Busch" <kbusch@kernel.org>, "Hannes Reinecke" <hare@suse.de>
+Cc: "John Meneghini" <jmeneghi@redhat.com>, "Maurizio Lombardi"
+ <mlombard@arkamax.eu>, "Maurizio Lombardi" <mlombard@redhat.com>,
+ <hch@lst.de>, <chaitanyak@nvidia.com>, <bvanassche@acm.org>,
+ <linux-scsi@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
+ <James.Bottomley@hansenpartnership.com>, <emilne@redhat.com>,
+ <bgurney@redhat.com>
+X-Mailer: aerc 0.21.0
+References: <20260225161203.76168-1-mlombard@redhat.com>
+ <aZ9sjbZ3CEW_1rW1@kbusch-mbp> <DGOQMFJJ6K5P.3KLF45WQT2SAS@arkamax.eu>
+ <e43b914c-2ca5-455e-b0fe-3ce2eb0c64bd@redhat.com>
+ <aaCNtpPzP9TIDNjE@kbusch-mbp>
+ <869034b1-c7e8-4e35-b153-43fd787a8edd@suse.de>
+ <aaXE4s3AT45UIAN8@kbusch-mbp>
+In-Reply-To: <aaXE4s3AT45UIAN8@kbusch-mbp>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260617_104208_848253_5E94E1E6 
+X-CRM114-Status: GOOD (  11.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,66 +78,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hello Keith,
 
---4lrk4q3nqgm75u6b
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon Mar 2, 2026 at 6:12 PM CET, Keith Busch wrote:
+> On Mon, Mar 02, 2026 at 08:16:19AM +0100, Hannes Reinecke wrote:
+>> I really would like to go with the nsid based solution from Keith.
+>> That would avoid quite some cumbersome code here.
+>
+> I've seen various documentation that assumes the current naming
+> indicates the nsid, so the scheme follows at least some people's
+> expectations. I don't know if we can make everyone happy here, though.
+> :(
+>
+> I've fixed up most of the multipath races that get us closer to allowing
+> nsid suffix, but there's one left: nvme_remove_head is called outside
+> the subsys lock after detaching the head from the subsystem list. That
+> could cause a subsequent add event to call nvme_alloc_ns() before the
+> mpath side has completed del_gendisk() for the old nsid.
 
-On Fri, Jun 12, 2026 at 11:45:26AM +0200, Maurizio Lombardi wrote:
-> On Fri Jun 12, 2026 at 11:40 AM CEST, Joel Granados wrote:
-> > Commit d0d1d522316e ("blk-map: provide the bdev to bio if one exists")
-> > dropped the "bio =3D req->bio" assignment in nvme_map_user_request(), b=
-ut
-> > left the local bio variable initialized to NULL and still used it in the
-> > out_unmap error path.  The "if (bio)" test is therefore always false, so
-> > a failure of blk_rq_integrity_map_user() no longer unmaps the already
-> > mapped data buffer.  The callers only call blk_mq_free_request(), which
-> > does not unmap user pages, leaking the bio and its pinned user pages.
-> >
-> > Use req->bio directly to unmap the data buffer on the error path, and
-> > drop the now unused local variable.
-> >
-> > Fixes: d0d1d522316e ("blk-map: provide the bdev to bio if one exists")
-> >
-> > Signed-off-by: Joel Granados <joel.granados@kernel.org>
-> > ---
-> > Did we forget to unmap?
-> > ---
->=20
-> Isn't this already fixed in mainline tree?
-That is indeed the case. I must have been looking at an outdated state.
+Did you manage to find a solution for this race?
+I just wanted to check whether you had any patches ready for testing since
+this discussion.
 
-Sorry for the noise.
-
-Best
->=20
-> 2279cd9c61a330e5 ("nvme: fix bio leak on mapping failure")
->=20
-> Maurizio
->=20
-
---=20
-
-Joel Granados
-
---4lrk4q3nqgm75u6b
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmoyqqwACgkQupfNUreW
-QU9zEAwAj1Gkw7Vzehe3MzFmWZzDc3Hy+yN7BrhtGjPaKIjv4IWDjzsV1bbgjW7q
-6k6TLNlSaGMrIqpbKw/i05dwP6m8t4mtqlWgiyqDdkxDc65kNb4lEVFgGUbVeKvk
-kcnLRHO18Rum/s9GomdacW2NuY06cbLWxDbeGpWyjtb+suJFMZ2nPZo7roG/Ammi
-rYHcgIm1B6dVtygPZs61DqIR6yjLS/VZAZBhac2befesX6hqQPpkRIY/vwg/2PUj
-bwp3vo3ASaRv6/YBqOgX1ewfNquHfM1dWxnMVjNhs5gHN5losnAF1HcdC54ieofW
-Cd4OypctajZchZ8pCrEeuzftt8AlbseTY7bC+m+yANgW/6vAmS/3XI3yIGR9ezfz
-KOd6UkMAHYioPtTPViDURngbQeGEj5ePP40dSsxp6PlwMvh8SrIyJiNZHAWxb84g
-kXPizGRGWawUeWuhAQ/P9WfJF2YAjvkGn1VzD6D+5RR2M/rBmstLyr1Vf9Vv5P3L
-MQ9jeEz1
-=eio8
------END PGP SIGNATURE-----
-
---4lrk4q3nqgm75u6b--
+Thanks,
+Maurizio
 
