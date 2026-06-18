@@ -4,94 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8B902CD98E4
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jun 2026 02:17:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6AB6FCD98E4
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jun 2026 03:12:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=G6bgdFP6eQHqUIHYA197THpQx8Z+j/fXy0gSUXkLpxo=; b=Qz23pn19NJRB8KMlRPwBwxXGyq
-	XS9g6m+FYp37goL6kW9ALQOpKcmaxwgoeETY9XTNbXeE95n9d6dn9pngght8jAJ7i9MZVBVm1PQ79
-	lMvJ7meIUJf3gZqUJa8scg9WmnMVI5iVmmhlkrbeYDeAxvt/lPOlZMMy2jd5R1uOYcPL0V4FG7GSf
-	y6mqSsF7YIc/D8nrKgi1QdkvadW4dZoP1UkmYtlFbMZcxZp1OGPNKt1URsIFx6PjJ7Hmo/F/ZUFht
-	G0/qFirF1s8cRlq/dYuYyMI5nqliHCVTGqWq6b1RgQkvR1qv1A6Y/dwZNF0KYHNXmQkpouBw9ufir
-	oQdTt4eQ==;
+	bh=AwSv1YQDCP6y4NiTu0AZ9c3/eYi+OygQL41jUGGPRsU=; b=IpZ7prd14YEU//5Zk7nJJNJ9Kr
+	QdFlIdsgP7MovHgdNMZhav9ZwIiiSleqwAv7BhoyaociV/8CpQbrtaCCgfBMxxM91ruftGMGIIGfO
+	qqL1cbizxBf+OlC32e6Jo/cTkDT0/AboDkTwprP3ev9oaDlYGeuMWIAkGETOms4SqeCKAZeQeAfCP
+	ifPS5t3+IOQxnGdMvP+PYLn2uSuwak2A8MBQUEjOlnvhSmQ5S7XL295aW/xL7M07gxFBCzgJM+G+Q
+	2LzjSqt03ShUtO1f9gMWbRE1v7Q85uckUBN3Sno/hnDNzIoun17ZYPrRjh8dLcGchBEsrbCY2agN2
+	ej+58xEA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wa2JL-00000000WG0-3N8q;
-	Thu, 18 Jun 2026 02:16:55 +0000
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
+	id 1wa3BA-00000000Y9u-2rII;
+	Thu, 18 Jun 2026 03:12:32 +0000
+Received: from mailgw.kylinos.cn ([124.126.103.232])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wa2JF-00000000WFI-08X0
+	id 1wa3B7-00000000Y91-44yK
 	for linux-nvme@lists.infradead.org;
-	Thu, 18 Jun 2026 02:16:50 +0000
-Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-2c6ec0af575so1127085ad.1
-        for <linux-nvme@lists.infradead.org>; Wed, 17 Jun 2026 19:16:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781749008; x=1782353808; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=G6bgdFP6eQHqUIHYA197THpQx8Z+j/fXy0gSUXkLpxo=;
-        b=sIUOIy+eNwGrDjCDUUJiRjjzYOQIMxMXS1gfav83j0Wfpycwr+/lD/Q20q6u1F2xF+
-         zXl9SpbI6iT4oatxq0HZRoquLBe2yaoJNgkDMyweFbzocqIN7Ks5AJAQSbggTqTVAeVv
-         BxNKBWSBzy+ogLqaZu+mhhpZrTY5TFlU52s7dYCdH/z4dUrh6qWQYXBh5vmNhfOxPnvP
-         dXrBBb1QaioK50v5QaHqJj5Lu634OEntLlP5qxtA2+m6859s4ozne70OxbP8MPqLBvs3
-         ma9Yu/M2VuUvRfkfmU+kB0o0IaeO5V44MgQBOCrvRcXnKeVyZjWdTy61ELb8rBtrbj5/
-         HLBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781749008; x=1782353808;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=G6bgdFP6eQHqUIHYA197THpQx8Z+j/fXy0gSUXkLpxo=;
-        b=ehXAkKuXCGApOgQGn5kgza19LNlhMvw3K8opu6Iylh499WUjUqMV8ISCvrwr3i3zcR
-         eq9sGxF0MazUf9h7CRMPns+JweA1oRpVsbax0wW+1V5ZeXCYHSh3517Qy7rUQQEmt0BI
-         qcjQyM28rAXn+st5Tqf3w6eNmROS19vEQ/ojfNC1MyRUb7qllFLxlcKWqsS29ZAZvsxZ
-         ORygiMmoeI7SdmmdYh+3eZVANv1iPMD5P3H+CMqRP54b7eUNznLICzy9M9/lLWQFKY29
-         aK15A02g2YX+x+r/EIExA464Dq5Vo5Y5bAbokA3AN5jQxsS2T+K2U+ueDcXeSGgKPW0u
-         E4eA==
-X-Forwarded-Encrypted: i=1; AFNElJ8nBZZ1y2ET642OCnWwiu+0tZ7AvrOA8gVJqda/mTN8Aj/VvlPMkD0rBXiN/Xu3XsSYt9NmPv2sm1Fh@lists.infradead.org
-X-Gm-Message-State: AOJu0YylcWEXCDWK/J7UJ+Bhy+dSZ7rMNaeo7ALy0LmBV/b9xPE+Ta5h
-	RneFqhEIFGGBBIVng70BrXyTt3iUKucGcBvpZph6DdIGFcUJQNb4Fqyj
-X-Gm-Gg: AfdE7cnGAbGqzVziEbL0/B3DFkC3FrIIZvhz2wVSZNV9M75hKPxnYvQAbPjtmVlVbVx
-	LLvY5rldELv8ADSPdpw2I13SvhsIOC778JLhpqsd3EYlCCUiDWfwIvXszA4PFWau+gXB73NjwNQ
-	FEAXDGYR+C6RLyXwta9pWiCGIBJzsvKsWWiFLdaxW/PmDt2UVqYWMhxP5Jm2NGmnHci5faynU2S
-	JM9OpqTMYY0GvJ62kJ+FxrttMVGT5Lm78lBFTfO1QhDDKGrAMyZHWEf9mC6b/m2CyrXTTiuk0/s
-	GeZY423uTgfXtRJhekQ79yhOSjUfXVsQmFVzXsQlfSX7m0pl3FBNYjbNwKiLgNPjkbwMOLEB3ER
-	YIn1tBnKCFUQv03ilshDyuVAfpsBm5oS66imPnHOb0WN8qSJc+Gq1qyI16GXQ++tZiTb48KZJ79
-	FplNmKUhGA3wq5KXLJwjuUxULWLFasQF8vimOQuNWybKw7AUhu08IOczVhKXeyXR/g3eQEjBe++
-	g3urBcXdu76bDP7uY8faQvwZU+uGTdDK9z6HkxPPTuCQwI=
-X-Received: by 2002:a17:903:19ed:b0:2c2:50c7:58a4 with SMTP id d9443c01a7336-2c6bc223ee0mr64827035ad.22.1781749007689;
-        Wed, 17 Jun 2026 19:16:47 -0700 (PDT)
-Received: from bass-virtual-machine.. ([111.202.175.140])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c6a1878493sm61854705ad.81.2026.06.17.19.16.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2026 19:16:47 -0700 (PDT)
-From: Gui-Dong Han <hanguidong02@gmail.com>
-To: sven@kernel.org,
-	kbusch@kernel.org,
-	linux-nvme@lists.infradead.org
-Cc: axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me,
-	j@jannau.net,
-	neal@gompa.dev,
-	asahi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	baijiaju1990@gmail.com,
-	Gui-Dong Han <hanguidong02@gmail.com>
-Subject: [PATCH v2] nvme-apple: Use acquire/release for queue enabled state
-Date: Thu, 18 Jun 2026 10:15:43 +0800
-Message-Id: <20260618021543.3866850-1-hanguidong02@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	Thu, 18 Jun 2026 03:12:31 +0000
+X-UUID: 82a9b9626ac311f1aa26b74ffac11d73-20260618
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:620d1433-5573-4c72-a1ca-b69b26657322,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:e7bac3a,CLOUDID:6d55710aaaa8060313bc92c833766890,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|865|898,TC:nil,Content:0|15|50,EDM:-
+	3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,A
+	V:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 82a9b9626ac311f1aa26b74ffac11d73-20260618
+X-User: liuxixin@kylinos.cn
+Received: from [127.0.1.1] [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <liuxixin@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1365626505; Thu, 18 Jun 2026 11:12:16 +0800
+From: Xixin Liu <liuxixin@kylinos.cn>
+To: linux-nvme@lists.infradead.org
+Cc: hch@lst.de, sagi@grimberg.me, kch@nvidia.com, kbusch@kernel.org, axboe@kernel.dk, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, liuxixin@kylinos.cn
+Subject: [PATCH v1 0/1] nvmet: implement discovery Get Log indexing and LID 0x00
+Date: Thu, 18 Jun 2026 11:03:36 +0800
+Message-ID: <cover.1781751816.git.liuxixin@kylinos.cn>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Mailer: nvme-ecn124/send-local.py
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260617_191649_076945_6FAB5284 
-X-CRM114-Status: GOOD (  15.83  )
+X-CRM114-CacheID: sfid-20260617_201230_346629_765EAE2A 
+X-CRM114-Status: UNSURE (   7.90  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,107 +74,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-apple_nvme_init_queue() initializes queue state and then marks the queue
-enabled. The interrupt and request paths check enabled before using that
-queue state.
+Hi,
 
-The old wmb() after WRITE_ONCE(enabled, true) does not publish the
-earlier initialization before enabled becomes visible. Use a release store
-when enabling the queue and acquire loads when testing it.
+NVM Express Base Specification 2.3 defines Get Log CDW14 Offset Type (OT):
+when OT is set, LPO is a structure index into the log page rather than a
+byte offset.  For the Discovery log (LID 0x70), the controller advertises
+Index Offset Supported (IOS) in Supported Log Pages (LID 0x00) and must
+reject OT=1 when IOS is clear for the requested LID.
 
-Although the shutdown-side enabled accesses are not used for publishing
-queue initialization, use helpers for them as well for consistency.
+nvmet already handles OT=0 byte offsets on the Discovery controller
+(including partial reads and zero-fill within the log page).  It does not
+implement LID 0x00 there, does not set IOS for LID 0x70, and treats LPO
+as bytes even when OT=1.
 
-Fixes: 5bd2927aceba ("nvme-apple: Add initial Apple SoC NVMe driver")
-Signed-off-by: Gui-Dong Han <hanguidong02@gmail.com>
+This patch:
+
+- Answers Get Log LID 0x00 on the Discovery controller.
+- Sets LSUPP|IOS for the Supported and Discovery log page IDs.
+- Adds NVME_LIDS_IOS and NVME_LOG_CDW14_OT (bit 23, matching libnvme).
+- Translates OT=1 LPO from index to byte offset (index 0 = header).
+- Rejects OT=1 when IOS is not set for the requested LID.
+- Guards u64 overflow when converting large indices so a wrapped offset
+  cannot bypass the existing offset > alloc_len check.
+
+OT=0 behaviour and nvme discover (libnvme default) are unchanged.
+
+Tested on linux-next (7.1.0-rc7-next-20260611) with nvmet-tcp and
+null_blk:
+
+- nvme get-log LID 0x00 / 0x70 with OT=0 and OT=1 (index and byte paths)
+- blktests nvme/003 (tcp), nvme/002/016/017/030 (loop): passed
+- make -C drivers/nvme/target
+
+Thanks,
+Xixin Liu
+
 ---
-v2:
-- Drop the old wmb(), as suggested by Keith Busch.
-- Use the queue enabled helpers in apple_nvme_disable(), as suggested by
-  Keith Busch.
-v1:
-- Found by auditing READ_ONCE() used for synchronization.
-- A similar fix can be found in 8df672bfe3ec.
----
- drivers/nvme/host/apple.c | 30 +++++++++++++++++++++++-------
- 1 file changed, 23 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
-index f9327feb87d0..291271c3954b 100644
---- a/drivers/nvme/host/apple.c
-+++ b/drivers/nvme/host/apple.c
-@@ -151,6 +151,23 @@ struct apple_nvme_queue {
- 	bool enabled;
- };
- 
-+static inline bool apple_nvme_queue_enabled(struct apple_nvme_queue *q)
-+{
-+	/* Pair with apple_nvme_enable_queue(). */
-+	return smp_load_acquire(&q->enabled);
-+}
-+
-+static inline void apple_nvme_enable_queue(struct apple_nvme_queue *q)
-+{
-+	/* Publish queue initialization before setting q->enabled. */
-+	smp_store_release(&q->enabled, true);
-+}
-+
-+static inline void apple_nvme_disable_queue(struct apple_nvme_queue *q)
-+{
-+	WRITE_ONCE(q->enabled, false);
-+}
-+
- /*
-  * The apple_nvme_iod describes the data in an I/O.
-  *
-@@ -677,7 +694,7 @@ static bool apple_nvme_handle_cq(struct apple_nvme_queue *q, bool force)
- 	bool found;
- 	DEFINE_IO_COMP_BATCH(iob);
- 
--	if (!READ_ONCE(q->enabled) && !force)
-+	if (!apple_nvme_queue_enabled(q) && !force)
- 		return false;
- 
- 	found = apple_nvme_poll_cq(q, &iob);
-@@ -780,7 +797,7 @@ static blk_status_t apple_nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	 * We should not need to do this, but we're still using this to
- 	 * ensure we can drain requests on a dying queue.
- 	 */
--	if (unlikely(!READ_ONCE(q->enabled)))
-+	if (unlikely(!apple_nvme_queue_enabled(q)))
- 		return BLK_STS_IOERR;
- 
- 	if (!nvme_check_ready(&anv->ctrl, req, true))
-@@ -863,7 +880,7 @@ static void apple_nvme_disable(struct apple_nvme *anv, bool shutdown)
- 	nvme_quiesce_io_queues(&anv->ctrl);
- 
- 	if (!dead) {
--		if (READ_ONCE(anv->ioq.enabled)) {
-+		if (apple_nvme_queue_enabled(&anv->ioq)) {
- 			apple_nvme_remove_sq(anv);
- 			apple_nvme_remove_cq(anv);
- 		}
-@@ -887,8 +904,8 @@ static void apple_nvme_disable(struct apple_nvme *anv, bool shutdown)
- 		nvme_disable_ctrl(&anv->ctrl, false);
- 	}
- 
--	WRITE_ONCE(anv->ioq.enabled, false);
--	WRITE_ONCE(anv->adminq.enabled, false);
-+	apple_nvme_disable_queue(&anv->ioq);
-+	apple_nvme_disable_queue(&anv->adminq);
- 	mb(); /* ensure that nvme_queue_rq() sees that enabled is cleared */
- 	nvme_quiesce_admin_queue(&anv->ctrl);
- 
-@@ -1016,8 +1033,7 @@ static void apple_nvme_init_queue(struct apple_nvme_queue *q)
- 		memset(q->tcbs, 0, anv->hw->max_queue_depth
- 			* sizeof(struct apple_nvmmu_tcb));
- 	memset(q->cqes, 0, depth * sizeof(struct nvme_completion));
--	WRITE_ONCE(q->enabled, true);
--	wmb(); /* ensure the first interrupt sees the initialization */
-+	apple_nvme_enable_queue(q);
- }
- 
- static void apple_nvme_reset_work(struct work_struct *work)
+Xixin Liu (1):
+  nvmet: implement discovery Get Log indexing and LID 0x00
+
+ drivers/nvme/target/discovery.c | 101 +++++++++++++++++++++++++++++++++++++++--
+ include/linux/nvme.h            | 18 +++++++-
+ 2 files changed, 113 insertions(+), 6 deletions(-)
+
 -- 
-2.34.1
+2.43.0
+
 
