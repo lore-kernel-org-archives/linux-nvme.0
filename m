@@ -4,123 +4,128 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B297CCD98F6
-	for <linux-nvme@archiver.kernel.org>; Fri, 19 Jun 2026 05:57:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 78698CD98F6
+	for <linux-nvme@archiver.kernel.org>; Fri, 19 Jun 2026 05:59:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=cm1jSMhNz5FmdPus3q31Xj/+Td+4zswtfwKV6CTvXEE=; b=JD944VXR08Ev8lolMBER1/rWjz
-	ZmQ1cZt0FeAJjlP5331PU+wU/PG2n7O/OIRpCfHOVBk//r+HUMsbIB6hUjwdvdzcV42iFaktJ/Mpl
-	VWgIPVyWm1pmdRXkebZdQmtXmclDtdTMxK8sSnWoaLcm/jlbxrCA8QAxoWfiJ7tgSJCGeC6Qrq0dP
-	J6oBTe5Bw94OCAxZjsBuBNoVFYnkvL1VVvHHXwkG/qwQNUnz4ADSv+rk4UTyz/dX5cStVMd6wzSC5
-	ARbQk+NNmpV9rbx2I8zJOJ1kM7JvZvokgV7cWKHPw7qeIx9TRmHspkzBEV7Cra5gA4j773eofrAQS
-	0InzqPkQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=+rmUdXpia5krblnPKRkGzb3Y0WMVphnSCgATKEz61No=; b=w0NnXX7xM5TaCjXTC7FT3GY8V/
+	SvmflkZl7AMhQQ1+Q2P98J7iHar4GZUXG5mmUz6aDRabxoaUFkHC3lbQ2Yu+RsRXB0s1X7XflOezd
+	iYgxo0XkR5JX52KqYmFf0JH1TczjMwUjb2ff957vP5DLiFXNCuQUQvXhZ6MqudBwi7mqZD9m+YAi3
+	fH76cIKHnvN2y3w7ZXF6YnF/l+1OvI1EKZSyqy/jdZz2Zu9xfwOsFiAvYB30g/Yd6sh5iQjIkvYH9
+	35Nv60M/JlX2oJPpWNpLwp08KO1V0zekgluCM48fYQTqGJaNVErlo6G/kE6dxn7Xfjt8XKLV6Ewxk
+	gaeEHqwA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1waSEm-000000021lp-2h9l;
-	Fri, 19 Jun 2026 05:57:56 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1waSGf-000000021yR-0JXl;
+	Fri, 19 Jun 2026 05:59:53 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1waSEj-000000021lC-0w8M
+	id 1waSGa-000000021xh-2VIW
 	for linux-nvme@lists.infradead.org;
-	Fri, 19 Jun 2026 05:57:54 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	Fri, 19 Jun 2026 05:59:51 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0D21376022;
-	Fri, 19 Jun 2026 05:57:51 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DF2AB6D895;
+	Fri, 19 Jun 2026 05:59:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781848671; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1781848785; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cm1jSMhNz5FmdPus3q31Xj/+Td+4zswtfwKV6CTvXEE=;
-	b=erVCR9ZuWOCIJfn7beSiKE+CDuNge7FKaeCsXFYden6cMvBQfnSiwpUgqjao4fFbhc2xyC
-	06RpwWobNzrFjDfcVHAYND16mQCiENvcEeX2p8VxqzzHWhyNRA6RwYaCSKaVnUE4IPE8bl
-	Cc+z781+YCRlICIa1udjJ0LWHBALeBM=
+	bh=+rmUdXpia5krblnPKRkGzb3Y0WMVphnSCgATKEz61No=;
+	b=xSJHl58Rk2KMoLBiiQwr3Ex97CSNVbcJwZ10jpbuZ42x684krnjXu8qxqU5uDSEYk7DTMm
+	9pDXZVlpS7ELLAR8g46Ps4Zbj3TjuOFc5j70tv3AH7rk1ZLQbYIsHhMjo5ocgrcoF1A3O8
+	SCGAc2cHaDdmhQDxsc6B6Dmi40xQid8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781848671;
+	s=susede2_ed25519; t=1781848785;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cm1jSMhNz5FmdPus3q31Xj/+Td+4zswtfwKV6CTvXEE=;
-	b=NhUXrcOym0+lSSNFY5p1HSBD+XQRdSGAyKRHwE0leRSKrMVmzIJeeaGQsr6tTtMP26xzpq
-	07xjZ5B9VZe5x0Bw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=erVCR9Zu;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=NhUXrcOy
+	bh=+rmUdXpia5krblnPKRkGzb3Y0WMVphnSCgATKEz61No=;
+	b=PFU5+ibltGOFX0LDkIhNAY55C7uKwyo/9uN39a6tCqTCjS7x6swbPTNA0L1FRPT6ZNSsk2
+	uNj9f3pfPrHKs6Bw==
+Authentication-Results: smtp-out1.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781848671; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1781848784; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cm1jSMhNz5FmdPus3q31Xj/+Td+4zswtfwKV6CTvXEE=;
-	b=erVCR9ZuWOCIJfn7beSiKE+CDuNge7FKaeCsXFYden6cMvBQfnSiwpUgqjao4fFbhc2xyC
-	06RpwWobNzrFjDfcVHAYND16mQCiENvcEeX2p8VxqzzHWhyNRA6RwYaCSKaVnUE4IPE8bl
-	Cc+z781+YCRlICIa1udjJ0LWHBALeBM=
+	bh=+rmUdXpia5krblnPKRkGzb3Y0WMVphnSCgATKEz61No=;
+	b=w919NYx1YEEpDOCmWvFt9EZrnk+moZscLHa44kg9lkF2Fo3D66r3yLjIDUuin8OXq0SPiM
+	wik0zkKnniRfFoIPMSkIUDf9HocyOewEIrmH3de0bbSdx4exJSL4Lt2/hJfe78h9ueCTT2
+	w3PTOr3eJtngQ/C5UAgreFTWcnYbL2w=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781848671;
+	s=susede2_ed25519; t=1781848784;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cm1jSMhNz5FmdPus3q31Xj/+Td+4zswtfwKV6CTvXEE=;
-	b=NhUXrcOym0+lSSNFY5p1HSBD+XQRdSGAyKRHwE0leRSKrMVmzIJeeaGQsr6tTtMP26xzpq
-	07xjZ5B9VZe5x0Bw==
+	bh=+rmUdXpia5krblnPKRkGzb3Y0WMVphnSCgATKEz61No=;
+	b=BKUPQOBU9bQUHs+wx+Ye1gqkDAVQ9DOFAwD3Zbu/lQUdPLw8ocXCJmge+4khQ6LbSsrnS3
+	Ty3j5Yjy7Qq4VxBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EEDF8779A8;
-	Fri, 19 Jun 2026 05:57:50 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7147E779A8;
+	Fri, 19 Jun 2026 05:59:44 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Wx2iOF7aNGpUFAAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Fri, 19 Jun 2026 05:57:50 +0000
-Date: Fri, 19 Jun 2026 07:57:50 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: linux-nvme@lists.infradead.org, Daniel Wagner <wagi@kernel.org>
-Subject: Re: [PATCH blktests 2/2] nvme/060: suppress "nvme connect" failure
- for rdma transport
-Message-ID: <2fffa872-eaeb-41cb-afe2-fda4cff19154@flourine.local>
-References: <20260619013329.558580-1-shinichiro.kawasaki@wdc.com>
- <20260619013329.558580-3-shinichiro.kawasaki@wdc.com>
+	id BCiUGdDaNGrKFQAAD6G6ig
+	(envelope-from <hare@suse.de>); Fri, 19 Jun 2026 05:59:44 +0000
+Message-ID: <531aa19b-a9ae-44f7-82ce-3714621ceee8@suse.de>
+Date: Fri, 19 Jun 2026 07:59:43 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260619013329.558580-3-shinichiro.kawasaki@wdc.com>
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V3 0/3] Ensure ordered namespace registration during async
+ scan
+To: Keith Busch <kbusch@kernel.org>, Maurizio Lombardi <mlombard@arkamax.eu>
+Cc: John Meneghini <jmeneghi@redhat.com>,
+ Maurizio Lombardi <mlombard@redhat.com>, hch@lst.de, chaitanyak@nvidia.com,
+ bvanassche@acm.org, linux-scsi@vger.kernel.org,
+ linux-nvme@lists.infradead.org, James.Bottomley@hansenpartnership.com,
+ emilne@redhat.com, bgurney@redhat.com
+References: <20260225161203.76168-1-mlombard@redhat.com>
+ <aZ9sjbZ3CEW_1rW1@kbusch-mbp> <DGOQMFJJ6K5P.3KLF45WQT2SAS@arkamax.eu>
+ <e43b914c-2ca5-455e-b0fe-3ce2eb0c64bd@redhat.com>
+ <aaCNtpPzP9TIDNjE@kbusch-mbp> <869034b1-c7e8-4e35-b153-43fd787a8edd@suse.de>
+ <aaXE4s3AT45UIAN8@kbusch-mbp> <DJBICZU143X2.3S261SDT21N0V@arkamax.eu>
+ <ajRpWLqaEyA6cwkJ@kbusch-mbp>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <ajRpWLqaEyA6cwkJ@kbusch-mbp>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	RCVD_COUNT_TWO(0.00)[2];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:dkim];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 0D21376022
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260618_225753_420952_BAA3CB7F 
-X-CRM114-Status: GOOD (  10.95  )
+X-CRM114-CacheID: sfid-20260618_225949_230105_B8E84564 
+X-CRM114-Status: GOOD (  12.93  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -135,27 +140,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jun 19, 2026 at 10:33:29AM +0900, Shin'ichiro Kawasaki wrote:
-> The test case nvme/060 often fails for the rdma transport with the
-> message "FAIL: nvme connect return error code":
+On 6/18/26 23:55, Keith Busch wrote:
+> On Wed, Jun 17, 2026 at 07:41:58PM +0200, Maurizio Lombardi wrote:
+>> Did you manage to find a solution for this race?
+>> I just wanted to check whether you had any patches ready for testing since
+>> this discussion.
 > 
-> nvme/060 (tr=rdma) (test nvme fabrics target reset)          [failed]
->     runtime  86.258s  ...  23.604s
->     --- tests/nvme/060.out	2025-08-26 21:28:52.798847739 +0900
->     +++ /home/shin/Blktests/blktests/results/nodev_tr_rdma/nvme/060.out.bad	2026-06-18 15:36:18.239424796 +0900
->     @@ -1,2 +1,3 @@
->      Running nvme/060
->     +FAIL: nvme connect return error code
->      Test complete
-> 
-> The test case repeats nvme connect and disconnect while controller
-> resets are repeated in parallel. In this situation, connect failures are
-> expected and should not alarm users. Suppress the failure message for
-> the rdma transport.
-> 
-> Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+> At last month's LSFMM, I heard concerns that this would break something.
+> I don't remember the specifics as I wasn't trying to push the issue. I
+> think this feedback was from the more fabrics focused folks, maybe Randy
+> Jennings, Nilay Shroff or John Meneghini remembers?
 
-Looks good to me!
+The problem here is namespace lifetime. The ns_ida is only ever released
+at the very last step, so the 'number' of the namespace will only be 
+freed once all references to the namespace are dropped.
+So if you were trying to keep the namespace number ordered you would
+have to delay the creation of the namespace until that point, and you
+would induce a serialization between deletion and creation.
+Which will drastically prolong the rescan process.
+And of course you need to hope that no-one triggers another rescan
+process while the old one isn't finished, as that would need to wait
+for the previous one to finish, too.
+Or you need to introduce a mechanism to terminate an already running
+rescan process.
+So really, not a good idea.
 
-Reviewed-by: Daniel Wagner <dwagner@suse.de>
+I fail to see why one cannot use persistent names here.
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
