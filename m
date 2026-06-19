@@ -4,68 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 89E2FCD98F0
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jun 2026 21:55:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9E02ACDB466
+	for <linux-nvme@archiver.kernel.org>; Fri, 19 Jun 2026 01:34:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MHeE9gSz/1T0NL4o3NPZo9mrwnldmtumUWG12dasCNU=; b=ctKUSU1xqyOAngECfqgvUe/ql7
-	qEirALIArbTTh9HBWaXXZJCQH+rRZQbTbQtV6jm4tDOOLue6lp7qfc2Ie9SRz+nKSJpmJGh7ggO/3
-	8RE4xvklgAzVBdtDT4Adk6n9GKm2dPn+8LpZmnxFWH1Ll/cAC8OM13LAo6lYTXTD/GvISsurFs+mx
-	p5lBWJZ9TQGxMXAzIEDNZfVg+FayUwvMjBQhu8scUSycgT+W3yQejXkRJ+ei6FeCPQd7EWJtrUlaU
-	tI6qCb4NeYo5+5hCWchATcMlsXlpuA14T7IFblWnFkEoNtSygSludA/GEojaQy4En7tD5AJB8s+Ux
-	B5bvsP1A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ZdA6Nd8QxzLAsEpKY/KeJ+uDI39xjhRtSPoh0SeX7iY=; b=NERvljENdYVOu6V/Py6/nkdh1i
+	gKFUye3gVFBbkSJs/nnW2U6NM987HrLEwg/kgjhayJLpoJ69P5TaH0oty/aAVmCHR4xR6gL7WShqh
+	fR9DOM55Vmkq8j2iiemCbEvheAVvMyP7ewyQ8735X5PnkLTHg6iPjzAYhgFd+aFL5IiZWrjj6A/u0
+	gvidxINhpXCA4diqXBcr8/ys+pCrfCX1OC9niBhyuhvUgfJUWgvwKbDfGNrhE3J4/FRMAqKbG7Vpn
+	xadr38Ev+M0bqX51qL/TD6n83fpaGXBRsCCMGiiJTeXqlcQsIqLTV65XcVVkoSzpmmCL5uhZuSyk1
+	kH/KVJlQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1waKi5-00000001oyD-39gm;
-	Thu, 18 Jun 2026 21:55:41 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1waO7L-00000001v32-0u3D;
+	Fri, 19 Jun 2026 01:33:59 +0000
+Received: from esa6.hgst.iphmx.com ([216.71.154.45])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1waKi4-00000001oxy-0hCI
+	id 1waO7I-00000001v1f-0NwH
 	for linux-nvme@lists.infradead.org;
-	Thu, 18 Jun 2026 21:55:40 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 4AA41601E1;
-	Thu, 18 Jun 2026 21:55:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D1BF1F000E9;
-	Thu, 18 Jun 2026 21:55:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781819739;
-	bh=MHeE9gSz/1T0NL4o3NPZo9mrwnldmtumUWG12dasCNU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=LaZdDqJQFQM/+fHlbtHBfljdpJ2L9v4z6KKjR0sTW4MM8+0CQwn4aUgC3JMpBj2/S
-	 TCXsVgv9SzdCQNP/151G3Nsmkf1OUXgvmaSNSk6Dme77MgB3E2+KDAqSwJYhWKlBod
-	 WYAxzqrrSIe8+hLeh26LqNvgUwYOKHnHXnP3ZGJQ5Rq8lAP2T7zpPzXFW9jM07Bpox
-	 Ok8wfSBnn+jaOAvUEXcvpYqKYFDl4WEAZjhugZW+Pm0Ik+LS5ByGzMfk8IUFOLwDQL
-	 +5NiRdD+r4h5q4aZNAm/Iy+5i1e7RvHuvNEKCgGlMHyxikj883bDpg+JZQXzvaCCil
-	 EXrsUDbQvs+zw==
-Date: Thu, 18 Jun 2026 15:55:36 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Maurizio Lombardi <mlombard@arkamax.eu>
-Cc: Hannes Reinecke <hare@suse.de>, John Meneghini <jmeneghi@redhat.com>,
-	Maurizio Lombardi <mlombard@redhat.com>, hch@lst.de,
-	chaitanyak@nvidia.com, bvanassche@acm.org,
-	linux-scsi@vger.kernel.org, linux-nvme@lists.infradead.org,
-	James.Bottomley@hansenpartnership.com, emilne@redhat.com,
-	bgurney@redhat.com
-Subject: Re: [PATCH V3 0/3] Ensure ordered namespace registration during
- async scan
-Message-ID: <ajRpWLqaEyA6cwkJ@kbusch-mbp>
-References: <20260225161203.76168-1-mlombard@redhat.com>
- <aZ9sjbZ3CEW_1rW1@kbusch-mbp>
- <DGOQMFJJ6K5P.3KLF45WQT2SAS@arkamax.eu>
- <e43b914c-2ca5-455e-b0fe-3ce2eb0c64bd@redhat.com>
- <aaCNtpPzP9TIDNjE@kbusch-mbp>
- <869034b1-c7e8-4e35-b153-43fd787a8edd@suse.de>
- <aaXE4s3AT45UIAN8@kbusch-mbp>
- <DJBICZU143X2.3S261SDT21N0V@arkamax.eu>
+	Fri, 19 Jun 2026 01:33:57 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1781832837; x=1813368837;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=FaMx/M9PDL8MpM+PXkXQpldp47IIOrdDenyCLbVDXcE=;
+  b=nAxnh64uV9xhKYAO5hcHL3IK2zF0FdHrgkDslS1PnWVV1g1tI91vp/Dn
+   V9jCWbuErKMj2gESGPSz37ln6dRx3MSvZ4fr3TTg4d7YcnxNbwaLZwQdH
+   b1MajC03Z6YIxVCmO3AGzTkfajfPhigNPHyRbD5xi/S16EO0C+DivlHaL
+   5c1pEN8UUDxtB1beriKJFoSvGpAl2MWyv9MgSk8r5H3n81813zB3Umr6t
+   NHABvyk+HeJk8NaDJatkywMrU0MEKBbadCnGMbO9mAHsX00dnWGlaWSPd
+   tk8qCRaBb4pJTModb/UTIGfQW8bcibyut6QoAEw0IRf0FDnnyj2OqTNha
+   w==;
+X-CSE-ConnectionGUID: E2mfGD0iRxmJJZdZIPoqQQ==
+X-CSE-MsgGUID: pH5+JnFWQLyFw/NVg9KWoQ==
+X-IronPort-AV: E=Sophos;i="6.24,212,1774281600"; 
+   d="scan'208";a="147932160"
+Received: from unknown (HELO uls-op-esad2-o.wdc.com) ([199.255.45.15])
+  by ob1.hgst.iphmx.com with ESMTP; 19 Jun 2026 09:33:54 +0800
+X-CSE-ConnectionGUID: TZSgRBZ6TyC96yxblkY/sA==
+X-CSE-MsgGUID: aU7HHbngQvSdOo+IR+yqNQ==
+IronPort-SDR: 6a349c6c_3zVy5yu74tTuJxK++FfY0KRfGtNud0juQe7ylGdUwNAzvUx
+ qu5xI0ppx0XSzEXDry0u0ndbWhtVTuUlR1wZJ2w==
+Received: from uls-op-esai2-o.wdc.com ([10.248.3.38])
+  by uls-op-esad2-o.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 18 Jun 2026 18:33:32 -0700
+X-CSE-ConnectionGUID: GFG/uxESTtOeVCfPcSpJxw==
+X-CSE-MsgGUID: npjZvh5MQi6M6O95gSjY1g==
+WDCIronportException: Internal
+Received: from unknown (HELO shindev.ssa.fujisawa.hgst.com) ([10.149.67.30])
+  by uls-op-esai2-o.wdc.com with ESMTP; 18 Jun 2026 18:33:32 -0700
+From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: linux-nvme@lists.infradead.org
+Cc: Daniel Wagner <wagi@kernel.org>,
+	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Subject: [PATCH blktests 2/2] nvme/060: suppress "nvme connect" failure for rdma transport
+Date: Fri, 19 Jun 2026 10:33:29 +0900
+Message-ID: <20260619013329.558580-3-shinichiro.kawasaki@wdc.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260619013329.558580-1-shinichiro.kawasaki@wdc.com>
+References: <20260619013329.558580-1-shinichiro.kawasaki@wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DJBICZU143X2.3S261SDT21N0V@arkamax.eu>
+Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260618_183356_190325_60DA0300 
+X-CRM114-Status: GOOD (  14.55  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,13 +86,56 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jun 17, 2026 at 07:41:58PM +0200, Maurizio Lombardi wrote:
-> Did you manage to find a solution for this race?
-> I just wanted to check whether you had any patches ready for testing since
-> this discussion.
+The test case nvme/060 often fails for the rdma transport with the
+message "FAIL: nvme connect return error code":
 
-At last month's LSFMM, I heard concerns that this would break something.
-I don't remember the specifics as I wasn't trying to push the issue. I
-think this feedback was from the more fabrics focused folks, maybe Randy
-Jennings, Nilay Shroff or John Meneghini remembers?
+nvme/060 (tr=rdma) (test nvme fabrics target reset)          [failed]
+    runtime  86.258s  ...  23.604s
+    --- tests/nvme/060.out	2025-08-26 21:28:52.798847739 +0900
+    +++ /home/shin/Blktests/blktests/results/nodev_tr_rdma/nvme/060.out.bad	2026-06-18 15:36:18.239424796 +0900
+    @@ -1,2 +1,3 @@
+     Running nvme/060
+    +FAIL: nvme connect return error code
+     Test complete
+
+The test case repeats nvme connect and disconnect while controller
+resets are repeated in parallel. In this situation, connect failures are
+expected and should not alarm users. Suppress the failure message for
+the rdma transport.
+
+Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+---
+ tests/nvme/060 | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/tests/nvme/060 b/tests/nvme/060
+index 9e694af..49786af 100755
+--- a/tests/nvme/060
++++ b/tests/nvme/060
+@@ -19,6 +19,12 @@ set_conditions() {
+ 	_set_nvme_trtype "$@"
+ }
+ 
++filter_connect_msg() {
++	if [[ ${nvme_trtype} == rdma ]]; then
++		grep --invert-match "nvme connect return error code"
++	fi
++}
++
+ filter_state_write_msg() {
+ 	grep --invert-match "state: No such file or directory"
+ }
+@@ -56,7 +62,8 @@ test() {
+ 	# The target reset is triggered with an even number timeout, while the
+ 	# host reconnects with an odd number timeout.
+ 	for ((i = 0; i <= 5; i++)); do
+-		_nvme_connect_subsys --keep-alive-tmo 1 --reconnect-delay 1 --no-wait-ns
++		_nvme_connect_subsys --keep-alive-tmo 1 --reconnect-delay 1 \
++				     --no-wait-ns | filter_connect_msg
+ 		sleep 3
+ 		_nvme_disconnect_subsys >> "$FULL" 2>&1
+ 	done
+-- 
+2.54.0
+
 
