@@ -4,51 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 95506CD4F26
-	for <linux-nvme@archiver.kernel.org>; Fri, 19 Jun 2026 08:37:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BE1BCCDB466
+	for <linux-nvme@archiver.kernel.org>; Fri, 19 Jun 2026 08:37:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=dsI+pHEENnVSPRRn/9X8duGm2aaLb2NpgWh8jim+CPM=; b=dn+WTqnYiwnW2q0OQULhllGRoP
-	yhSi1h3T+cDzasCHueaUlvpA0GQ11A5pDEYlCrs4T7P46RlxUtul8VThsJXsnczDpb3nwBqz7yst7
-	w+zq6VSplMq/T4/v7NDERqmPx1KPy0WzFvHfGkQSX+0NkZLtEUBKsbjC+E63wZSOzSmjgjqUYFxV9
-	iz5x2ZB9ZR9jLsc0rmvCQXEaRBoIAflQd8Jg3hMmUUE/gGzv4uD5CI1Ok171gJ99JH7YtjiJYrasM
-	sHvBS948ntE39IiObB7Ru43WuAYOcgtj0M6/p8fnpXbl9wwbPnfgzzyNDJrIFicmb7CGLCEgxiqaq
-	R60PbmCw==;
+	bh=KDiwLGU+odzbmD9GZSL5//LByb2p+7bHG/tzyfspCIQ=; b=16HxDpiT5pJiP/OZNpPaSnVtFZ
+	WjDSH63hZD9hZetuZoZdVyMv5NA77IjCDIWgVxYSTaTgAoryAzRlb0jHiu7qprFRjlbfD99CkRFhX
+	/GKtb0NLBYhKxdMEJi20FOjQbCKhH1jtC16YoVr9CGsIhLJP7VX+IfnK9HS+BpBroGgYn+DEJ9h8B
+	3wn2n49V2CUrRNuDUIeJNnqQPmOPjg9HC9EaSZqpDyYOqznVlaU/IDyX/02fYU1QYEyX+Vdq2Un6J
+	diVw7DuDtAOo4ueEutDRRDb1K1KEE/YtyYGNxuY1ijP/tTdvtiKC1baRZlxkgosSnHv5e+mJqdzi3
+	EGI6aZIQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1waUj2-00000002AjW-3a1c;
-	Fri, 19 Jun 2026 08:37:20 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1waUj4-00000002AlK-1vob;
+	Fri, 19 Jun 2026 08:37:22 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1waUj1-00000002AhH-0o8M
+	id 1waUj3-00000002AkK-2bXJ
 	for linux-nvme@lists.infradead.org;
-	Fri, 19 Jun 2026 08:37:19 +0000
+	Fri, 19 Jun 2026 08:37:21 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id A2048601F0;
+	by sea.source.kernel.org (Postfix) with ESMTP id 611DC44556;
+	Fri, 19 Jun 2026 08:37:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC63B1F00A3A;
 	Fri, 19 Jun 2026 08:37:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E04941F000E9;
-	Fri, 19 Jun 2026 08:37:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781858238;
-	bh=dsI+pHEENnVSPRRn/9X8duGm2aaLb2NpgWh8jim+CPM=;
+	s=k20260515; t=1781858241;
+	bh=KDiwLGU+odzbmD9GZSL5//LByb2p+7bHG/tzyfspCIQ=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=nBnLcrwNGdfgsyY+shY2f0ROOes+Ir5xTqmWIoJciQMA/kJQ3rDFTnq+aw/XnASda
-	 FTbGNTlQXi6VhKE3bMTWYZUr+tuKXAmEAfUaBGbIWMF9I/Ztm9hP35Yg5cPcg5FMa3
-	 pa2qEsDDsbIWtEJ5KB6DaEBI45Npsx1XduuD0uw3Hp+nNOhs7IiddWpT6MgbzpkpEo
-	 M7CaXBLM2lVeUuYsPhaWpje0r/TIox7s2R0Ps5f2B7VnrotoXu8mF2vhKKGHXMw1pG
-	 zmawrK0YQxBYG02SiSt+yV+5SXM5XGsiIl91f3G0qFIkVz45IuB+11P/NqutWT13TH
-	 8Yp0L/nRKzsGQ==
+	b=cyFIgQKkywXArtsxvVjycromWIk9d6/aDNJN2QZ6WFJstDdixKOWpEvBaWONZ67vF
+	 MkRB2C3UIB3n2yNXkEFlk3h0bU4CDZ16rq/Z37KJu4AkRiNbevy0IG6vlUyU1TBDAc
+	 lv6DsUBajPpOgppCZt8rVjzyrhyL6cvUnWNosnTXDcagHydhYzjkK58gaDRejeYjbd
+	 +fXkV62rqu/I3N5Z/1xRULJcFspc184F6nOIBSYGZ12eo8+aoDK69Vlr1ToGR7T98K
+	 V6I5bm7lIiDJPOIGO9qisJ+4bcsCixu9akB060njQS/ddrK17/3yCOZAlRoGUMXCj9
+	 BxFkxy3AxfkTg==
 From: Hannes Reinecke <hare@kernel.org>
-Date: Fri, 19 Jun 2026 10:36:48 +0200
-Subject: [PATCH RFC v2 08/12] fs/configfs: switch to get_tree_keyed()
+Date: Fri, 19 Jun 2026 10:36:49 +0200
+Subject: [PATCH RFC v2 09/12] fs/configfs: open-code simple_pin_fs()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260619-configfs-ns-v2-8-82fd7094b8dc@kernel.org>
+Message-Id: <20260619-configfs-ns-v2-9-82fd7094b8dc@kernel.org>
 References: <20260619-configfs-ns-v2-0-82fd7094b8dc@kernel.org>
 In-Reply-To: <20260619-configfs-ns-v2-0-82fd7094b8dc@kernel.org>
 To: Andreas Hindborg <a.hindborg@kernel.org>, 
@@ -59,11 +59,11 @@ To: Andreas Hindborg <a.hindborg@kernel.org>,
 Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
  linux-nvme@lists.infradead.org, Hannes Reinecke <hare@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1781858211; l=3948;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1781858211; l=2713;
  i=hare@kernel.org; s=20260619; h=from:subject:message-id;
- bh=Sp1aD6lr0/ruqYg7MacY1Cj2t49FQ3JeRBmcY0Ey7BY=;
- b=lJR/pV9NZBjYZVx+opmNElEJnFBMeV8tk7VEtfXqtvudHiRQenFh94oqRt/sIBHdybZNEjIui
- NtHCYDxhBwbBiKY1QBFSX6s1bYE3ADLfD/OACYtqjZPnKFd/8lQqrye
+ bh=ch4bHGgbRPURj2zO9pNW/tcTcK3a5KTWkscKkwzKVR4=;
+ b=dAEuGgEFfSWlO+kzPLmI6jFBHDmp3qCxSxyaWT1G8mrtUs748LMG0jLYZpsqZsQxgRfT+OLhL
+ fOzY43JU4fmDD9df6SyMPX4/di+82WY1Bla5HfPzcpgWOTK1BPopi7O
 X-Developer-Key: i=hare@kernel.org; a=ed25519;
  pk=iekPF4ZZFva3sutm7d1ryPNR1G/WFfUgHaDB423JXho=
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -80,121 +80,99 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Switch to get_tree_keyed() to instatiate a new superblock whenever
-the mount namespace changed.
+simple_pin_fs() is protected by an internal spin lock, to
+protect against concurrent use of simple_release_fs().
+But as we also need to clone the mountpoint we cannot
+easily expand the scope of the lock as it's internal to
+fs/libfs. So open-code simple_pin_fs() and simple_release_fs()
+to be able to use a lock covering all use-cases.
 
 Signed-off-by: Hannes Reinecke <hare@kernel.org>
 ---
- fs/configfs/dir.c   |  6 ++++--
- fs/configfs/mount.c | 31 ++++++++++++++++++++++++++-----
- 2 files changed, 30 insertions(+), 7 deletions(-)
+ fs/configfs/mount.c | 56 +++++++++++++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 48 insertions(+), 8 deletions(-)
 
-diff --git a/fs/configfs/dir.c b/fs/configfs/dir.c
-index b87b92e3a248dfb091eb52727f06cc4551143f7b..4caf040a909115ac1997a99a81ba38ffac065449 100644
---- a/fs/configfs/dir.c
-+++ b/fs/configfs/dir.c
-@@ -1968,8 +1968,10 @@ void configfs_link_subsystems(struct super_block *sb,
- 
- 	if (WARN_ON(IS_ERR(parent)))
- 		return;
--	if ((info->net_ns == &init_net) || WARN_ON(parent == info))
-+	if ((info->net_ns == &init_net) || WARN_ON(parent == info)) {
-+		configfs_put_super_info(parent);
- 		return;
-+	}
- 	mutex_lock(&parent->subsys_mutex);
- 	list_splice_init(&parent->subsys_list, &subsys_list);
- 	mutex_unlock(&parent->subsys_mutex);
-@@ -2080,7 +2082,7 @@ void configfs_unlink_subsystems(struct super_block *sb,
- 
- void configfs_unregister_subsystem(struct configfs_subsystem *subsys)
- {
--	struct configfs_super_info *info = configfs_get_super_info(0);
-+	struct configfs_super_info *info = configfs_get_super_info(&init_net);
- 	struct config_group *group = &subsys->su_group;
- 
- 	if (WARN_ON(IS_ERR(info)))
 diff --git a/fs/configfs/mount.c b/fs/configfs/mount.c
-index d36fc4a6f6439bea645e62b8423b518a5d7d51c1..36f275aaaf871f748dfcb011b782c22abe19d9d5 100644
+index 36f275aaaf871f748dfcb011b782c22abe19d9d5..1f61bc1efe6e2644985c6b90777fa8ddcbb4b742 100644
 --- a/fs/configfs/mount.c
 +++ b/fs/configfs/mount.c
-@@ -123,11 +123,10 @@ void configfs_put_super_info(struct configfs_super_info *info)
+@@ -25,6 +25,7 @@
+ struct kmem_cache *configfs_dir_cachep;
+ static DEFINE_XARRAY(configfs_super_xa);
+ static struct configfs_super_info *configfs_root;
++static DEFINE_SPINLOCK(configfs_pin_lock);
  
- static int configfs_fill_super(struct super_block *sb, struct fs_context *fc)
+ static u64 configfs_ns_id(struct net *net_ns)
  {
--	struct configfs_super_info *info = configfs_get_super_info(&init_net);
-+	struct configfs_super_info *info = sb->s_fs_info;
- 	struct inode *inode;
- 	struct dentry *root;
+@@ -219,21 +220,60 @@ MODULE_ALIAS_FS("configfs");
  
--	sb->s_fs_info = info;
- 	sb->s_blocksize = PAGE_SIZE;
- 	sb->s_blocksize_bits = PAGE_SHIFT;
- 	sb->s_magic = CONFIGFS_MAGIC;
-@@ -138,7 +137,6 @@ static int configfs_fill_super(struct super_block *sb, struct fs_context *fc)
- 				   &info->root, sb);
- 	if (IS_ERR(inode)) {
- 		pr_debug("could not get root inode\n");
--		configfs_put_super_info(info);
- 		return PTR_ERR(inode);
- 	}
- 	inode->i_op = &configfs_root_inode_operations;
-@@ -149,7 +147,6 @@ static int configfs_fill_super(struct super_block *sb, struct fs_context *fc)
- 	root = d_make_root(inode);
- 	if (!root) {
- 		pr_debug("%s: could not get root dentry!\n",__func__);
--		configfs_put_super_info(info);
- 		return -ENOMEM;
- 	}
- 	info->group.cg_item.ci_dentry = root;
-@@ -165,15 +162,38 @@ static int configfs_fill_super(struct super_block *sb, struct fs_context *fc)
- 
- static int configfs_get_tree(struct fs_context *fc)
+ struct dentry *configfs_pin_fs(struct super_block *sb)
  {
--	return get_tree_single(fc, configfs_fill_super);
-+	struct net *net_ns = fc->fs_private;
+-	struct configfs_super_info *info = configfs_root;
+-	int err;
+-
+-	err = simple_pin_fs(&configfs_fs_type, &info->mnt, &info->mnt_count);
+-	if (err)
+-		return ERR_PTR(err);
 +	struct configfs_super_info *info;
-+	int err;
+ 
++	spin_lock(&configfs_pin_lock);
++	if (sb) {
++		struct configfs_super_info *root = configfs_root;
++		struct dentry *dentry = sb->s_root;
 +
-+	info = configfs_get_super_info(net_ns);
-+	if (IS_ERR(info))
-+		return PTR_ERR(info);
++		info = sb->s_fs_info;
++		if (!info->mnt) {
++			struct vfsmount *mnt;
 +
-+	err = get_tree_keyed(fc, configfs_fill_super, info);
-+	if (err && fc->s_fs_info)
-+		configfs_put_super_info(info);
-+	return err;
-+}
++			spin_unlock(&configfs_pin_lock);
++			mnt = mnt_clone_direct(root->mnt, dentry);
++			if (IS_ERR(mnt))
++				return ERR_CAST(mnt);
++			spin_lock(&configfs_pin_lock);
++			info->mnt = mnt;
++		} else {
++			mntget(info->mnt);
++		}
++	} else {
++		info = configfs_root;
++		if (!info->mnt) {
++			struct vfsmount *mnt;
 +
-+static void configfs_fs_context_free(struct fs_context *fc)
-+{
-+	struct net *net_ns = fc->fs_private;
-+
-+	fc->fs_private = NULL;
-+	put_net(net_ns);
++			spin_unlock(&configfs_pin_lock);
++			mnt = vfs_kern_mount(&configfs_fs_type, SB_KERNMOUNT,
++					     configfs_fs_type.name, NULL);
++			if (IS_ERR(mnt))
++				return ERR_CAST(mnt);
++			spin_lock(&configfs_pin_lock);
++			info->mnt = mnt;
++		} else {
++			mntget(info->mnt);
++		}
++	}
++	info->mnt_count++;
++	spin_unlock(&configfs_pin_lock);
+ 	return info->mnt->mnt_root;
  }
  
- static const struct fs_context_operations configfs_context_ops = {
- 	.get_tree	= configfs_get_tree,
-+	.free		= configfs_fs_context_free,
- };
- 
- static int configfs_init_fs_context(struct fs_context *fc)
+ void configfs_release_fs(struct super_block *sb)
  {
-+	struct net *net_ns = get_net_ns_by_pid(current->pid);
+ 	struct configfs_super_info *info = configfs_root;
+-
+-	simple_release_fs(&info->mnt, &info->mnt_count);
++	struct vfsmount *mnt;
 +
-+	fc->fs_private = net_ns;
- 	fc->ops = &configfs_context_ops;
- 	return 0;
++	spin_lock(&configfs_pin_lock);
++	if (sb)
++		info = sb->s_fs_info;
++	mnt = info->mnt;
++	if (--info->mnt_count)
++		info->mnt = NULL;
++	spin_unlock(&configfs_pin_lock);
++	mntput(mnt);
  }
-@@ -193,6 +213,7 @@ static struct file_system_type configfs_fs_type = {
- 	.name		= "configfs",
- 	.init_fs_context = configfs_init_fs_context,
- 	.kill_sb	= configfs_kill_sb,
-+	.fs_flags	= FS_USERNS_MOUNT,
- };
- MODULE_ALIAS_FS("configfs");
  
+ static int __init configfs_init(void)
 
 -- 
 2.51.0
