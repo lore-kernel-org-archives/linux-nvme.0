@@ -4,51 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6DCBECDB46F
-	for <linux-nvme@archiver.kernel.org>; Mon, 22 Jun 2026 14:16:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6C500CDB46F
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Jun 2026 14:24:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=R5BQMlcA4sBRd56V+bZyV0R8VPpI2nLqvrQGkIMBlao=; b=lyJszOmF6wMnmiklXr2N/QhhZf
-	W90dWMYZifZFDtUX31AZOxhAgxRbOT9FWxK3TbzcX5RpsnmTzc48MwgaItA2yYw5ADA1TGLGbV4F7
-	tkGzTiszEs1eoXc9k92qt8sWZflIA83k71Oz1cv0BBT4zMP+7r5LakuSXlUYngPIbLa/t2us2A9Kd
-	2NucBuV54iqZi3CZSiM5s5OhMzLPFQOo3+MQAWhkaxeuqltLrRNIJc6Skuaj445//MCgv1f6AbEly
-	3IlAwpZfNT5JrbesAOBJbBUqabbRp3cc3A0MlpGGAHNAxB7MyNKEnbQ2vtI2doKE3y/ugspdPq0mr
-	AS1exKEA==;
+	bh=n4dcnQDRYO7g/pijledoht4bAUk0uf+z8Em1nWTfv0s=; b=tBnGwqbqb2O9xn3M9xPvbx13D0
+	H8X1qMtT+QQ3MgUti9LTRXjbk9bn4LMEeGRmWQDFei/sd8KOQ434g9SdXxXy5qaNxLsEYAtKrlpZ2
+	DPicsBlLmbjF+orPEHkSldxGxT9oDLuxmH2Fp56WPlhUfCQMb0vnRhpIBhEEkog+QqecDJYWdMHut
+	wpvZxzyXxOe2fSASiydrjW8JVknHsiDB+d9LGyxu6ifeW0Or1IbUHL2wzCyS6VmkIU48bsnPXRpd7
+	vSjYt9v3bYKiDY3TMqt5KS8yNOjvwLhHJb40k6HKgY8kdRdNqvyq7xOz+C1vTwGkaVNJ7AmloJWEZ
+	bsIxiX+Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wbfRU-000000053Xa-1RLo;
-	Mon, 22 Jun 2026 14:16:04 +0000
-Received: from smtp.missinglinkelectronics.com ([162.55.135.183])
+	id 1wbfZI-000000053vM-0PxU;
+	Mon, 22 Jun 2026 14:24:08 +0000
+Received: from imap4.hz.codethink.co.uk ([188.40.203.114])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wbfRM-000000053WH-2eY1
+	id 1wbfZF-000000053uw-3SgN
 	for linux-nvme@lists.infradead.org;
-	Mon, 22 Jun 2026 14:15:58 +0000
-Received: from ubuntu-server (ppp-88-217-75-1.dynamic.mnet-online.de [88.217.75.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: david)
-	by smtp.missinglinkelectronics.com (Postfix) with ESMTPSA id 9FA1B202AB;
-	Mon, 22 Jun 2026 16:15:51 +0200 (CEST)
-Date: Mon, 22 Jun 2026 16:15:42 +0200
-From: David Epping <david.epping@missinglinkelectronics.com>
-To: linux-nvme@lists.infradead.org
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Leon Romanovsky <leon@kernel.org>,
-	Joachim Foerster <joachim.foerster@missinglinkelectronics.com>
-Subject: [PATCH RFC] nvme-ioctl: propagate PRP1 from ioctl to admin cmd
-Message-ID: <ajlDjpjK_clMrnwx@ubuntu-server>
+	Mon, 22 Jun 2026 14:24:07 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=codethink.co.uk; s=imap4-20230908; h=Sender:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:In-Reply-To:
+	References; bh=n4dcnQDRYO7g/pijledoht4bAUk0uf+z8Em1nWTfv0s=; b=leumnoGD5LZ71B
+	pHBi2q92ciQtCwK5pV2KwHivpCcR3MFR6kQM33GX6+IMp7uRo9y9Sdz/OsF+oWn1k80KTy/SrONM5
+	8zdNiWPtISUz9xUGtzkrNNB7ueuiqPf0iBHOJz2gCE5vctQMXTXVvdwCtTN0+G61Le48Pn0sTVBdQ
+	6HVVivdFCyEvHebJTg9MKkAGsVfWW/6i6V2N+QzOZKa+TTLFHcMhuHHzpPJrIwQPhPORFiRpiH/vp
+	HdL9zZskLrvO60bWvhnecEDFeXHGZWi1IAlwKBtGAEY/D27CpWsROMxuKJfLxgLals46jXpzqwStr
+	ui8iNHPxBYzuBXEEd0XQ==;
+Received: from [167.98.27.226] (helo=rainbowdash)
+	by imap4.hz.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
+	id 1wbfZ8-00EpVl-Lg; Mon, 22 Jun 2026 15:23:58 +0100
+Received: from ben by rainbowdash with local (Exim 4.99.4)
+	(envelope-from <ben@rainbowdash>)
+	id 1wbfZ8-000000024i3-1CN0;
+	Mon, 22 Jun 2026 15:23:58 +0100
+From: Ben Dooks <ben.dooks@codethink.co.uk>
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: Ben Dooks <ben.dooks@codethink.co.uk>
+Subject: [PATCH] nvme: make unexported sysfs structures static
+Date: Mon, 22 Jun 2026 15:23:57 +0100
+Message-Id: <20260622142357.494750-1-ben.dooks@codethink.co.uk>
+X-Mailer: git-send-email 2.37.2.352.g3c44437643
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260622_071556_831064_1C322A71 
-X-CRM114-Status: GOOD (  19.58  )
+X-CRM114-CacheID: sfid-20260622_072405_873173_035E6489 
+X-CRM114-Status: GOOD (  13.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -63,66 +74,50 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello,
+These sysfs attributes are not exported out of sysfs.c so make
+them static to remove the following sparse warnings:
 
-some NVMe admin commands (like IO queue creation) require information to
-be provided via the PRP1 field of the command.
-This information has not previously been passed from the ioctl to the NVMe
-command structure, which prevented execution of such commands from userspace.
-Likely this is not an oversight but intentional because of security concerns?
+drivers/nvme/host/sysfs.c:397:25: warning: symbol 'dev_attr_io_errors' was not declared. Should it be static?
+drivers/nvme/host/sysfs.c:444:30: warning: symbol 'nvme_ns_diag_attr_group' was not declared. Should it be static?
+drivers/nvme/host/sysfs.c:1150:25: warning: symbol 'dev_attr_adm_errors' was not declared. Should it be static?
 
-With this email I'm seeking to see if there is interest in getting support
-for userspace NVMe IO queue creation in the upstream driver.
-The attached patch is one way to do it and has been used for multiple years
-with multiple Kernel versions now. There are additional patches required to
-for example allocate sufficiently many IO queues at initialization time, but
-I would like to focus on the ability to create queues for now.
-A final patch would also not ignore nvme_user_cmd64().
-
-The system setup where this patch has been used is as follows:
-- P2P PCIe capable CPU (currently also IOMMU disabled)
-- patched Linux in-Kernel NVMe driver for local PCIe NVMe SSDs
-- FPGA accelerator implementing NVMe IO queue memory and IO queue handling,
-  exposed via PCIe BAR
-- vfio-pcie Kernel driver plus vfio userspace FPGA driver / application
-- The userspace application creates new NVMe IO queues at the SSD using the
-  patched admin ioctl and points them towards the FPGA BAR. It then informs
-  the FPGA about the SSD BAR address and IO queue ID. From then on the FPGA
-  can access the SSD storage entirely without software interaction.
-
-Since the omition of PRP1 access from userspace is likely intentional, maybe
-the discussion and patches by Leon Romanovsky for making dmabuf and p2pdma
-available via vfio lead in the right direction:
-https://lore.kernel.org/all/20251106-dmabuf-vfio-v7-0-2503bf390699@nvidia.com/
-
-It currently seems focused on SPDK for handling the SSDs in userspace, but the
-author also describes it as a general mechanism that can support other
-scenarios.
-How about having the in-Kernel NVMe driver accept a dmabuf as IO queue location
-for creating a new IO queue? And in turn it likely has to provide a small
-dmabuf to the FPGA VFIO world for access to the queue doorbells on the SSD.
-
-Looking forward to your feedback,
-David
-
-Signed-off-by: David Epping <david.epping@missinglinkelectronics.com>
+Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
 ---
- drivers/nvme/host/ioctl.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/nvme/host/sysfs.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index ca86d3bf7ea4..d5d740f1b554 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -306,6 +306,7 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	c.common.nsid = cpu_to_le32(cmd.nsid);
- 	c.common.cdw2[0] = cpu_to_le32(cmd.cdw2);
- 	c.common.cdw2[1] = cpu_to_le32(cmd.cdw3);
-+	c.common.dptr.prp1 = cpu_to_le64(cmd.addr);
- 	c.common.cdw10 = cpu_to_le32(cmd.cdw10);
- 	c.common.cdw11 = cpu_to_le32(cmd.cdw11);
- 	c.common.cdw12 = cpu_to_le32(cmd.cdw12);
+diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+index 933a5adfb7af..75b2d69b5957 100644
+--- a/drivers/nvme/host/sysfs.c
++++ b/drivers/nvme/host/sysfs.c
+@@ -394,7 +394,7 @@ static ssize_t nvme_io_errors_store(struct device *dev,
+ 	return count;
+ }
+ 
+-struct device_attribute dev_attr_io_errors =
++static struct device_attribute dev_attr_io_errors =
+ 	__ATTR(command_error_count, 0644,
+ 		nvme_io_errors_show, nvme_io_errors_store);
+ 
+@@ -441,7 +441,7 @@ static umode_t nvme_ns_diag_attrs_are_visible(struct kobject *kobj,
+ 	return a->mode;
+ }
+ 
+-const struct attribute_group nvme_ns_diag_attr_group = {
++static const struct attribute_group nvme_ns_diag_attr_group = {
+ 	.name		= "diag",
+ 	.attrs		= nvme_ns_diag_attrs,
+ 	.is_visible	= nvme_ns_diag_attrs_are_visible,
+@@ -1147,7 +1147,7 @@ static ssize_t nvme_adm_errors_store(struct device *dev,
+ 	return count;
+ }
+ 
+-struct device_attribute dev_attr_adm_errors =
++static struct device_attribute dev_attr_adm_errors =
+ 	__ATTR(command_error_count, 0644,
+ 		nvme_adm_errors_show, nvme_adm_errors_store);
+ 
 -- 
-2.43.0
+2.37.2.352.g3c44437643
 
 
