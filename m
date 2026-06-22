@@ -4,56 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 08E35CD98F0
-	for <linux-nvme@archiver.kernel.org>; Mon, 22 Jun 2026 02:03:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0A86CCDB466
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Jun 2026 02:41:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=S+hICL1h5dC4ykvmiE/JrhHjQZWnawwGq/li0Mm4uFg=; b=Qk94wvL/QQQfeQ5tgdUVtrwzjX
-	hDv3jHdjIVr8pCahz9TPrJd/Yjs8uF5L9fws0E1ru31rJoFH5McE3nUyXK7HAQmYjo1K8bBXYreoH
-	l635y3i/8Edl1IvqJpkQPCc5+BdL7sYPpFhe74RKw6BG4ruxidB4Toq0ey1Uo17WmVpL6/I1VovwT
-	kO/CvcUt7DjYidyKRSTqsrChlDeFu7EF65qb/lEXl1Z8lq7dD5qmvCN7RdBbSuoBpSRi9bIfgClpm
-	aw0yoKpB3kNPuQBLgU7nPCs8z6ZI/7VbkP8MCNGDD5qzJkcZFFzadyIVPe125SJEjgfLPxeZ+vWOr
-	h/R7gqag==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=9BnFW/2HEYqWCzSBvq/hAgcWSW4r8rZSmcNCElC6wCo=; b=pMhhxUdiy/O0TemLQmzodjf61s
+	JGv+2cWJfN+8FKSutCkoPgdj3+zlh37WCAvSYL2s0MdC64ZKXpM6wqpqOuS/Id0EhQVUQ7QChN5sn
+	xARvqcXkNK9GEGBzjClLXuZnabYY0PSOQN1202OqpRJt/mt3w4TREnDWGf1QQXYNH3ypdL7KlEMN2
+	mIanN5mybX0dQdISCBBn84bGtOBWN0nctAL13b/q24h5pGw4Ez8/Ke2wsPF+W7wOPLgAG6tQGPCse
+	KkeedRI3AhdBN5h59DGbLme4JmXJBJILD9qdyuKAAQGtIe2ATTt7UZw3+DGvYKhb8eatR+IKqPzFa
+	afdfmc5w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wbU08-00000004IDo-0owf;
-	Mon, 22 Jun 2026 02:03:04 +0000
-Received: from out30-99.freemail.mail.aliyun.com ([115.124.30.99])
+	id 1wbUbb-00000004JhJ-46od;
+	Mon, 22 Jun 2026 02:41:47 +0000
+Received: from canpmsgout09.his.huawei.com ([113.46.200.224])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wbU05-00000004ICn-1QXs
+	id 1wbUbY-00000004Jgt-1tnI
 	for linux-nvme@lists.infradead.org;
-	Mon, 22 Jun 2026 02:03:02 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1782093773; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=S+hICL1h5dC4ykvmiE/JrhHjQZWnawwGq/li0Mm4uFg=;
-	b=Ly0twbXLI8o6SWkvdb3OjDEfT9vALLqtJSNBtI6Yn/FlPn+0laNVRSsl7zXBB1ecfEoQipYNAeGe83Gf5/ZZSbVMMHueDqftp16WMoICRahe3xu+4+4+uZCfzFuPTaOIVY2tKc67zWMOtwmOU28XaSAC/TYNC5B6K71p8xDJwG4=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R101e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037009110;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0X5GTt5l_1782093770;
-Received: from 30.178.82.96(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0X5GTt5l_1782093770 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Mon, 22 Jun 2026 10:02:51 +0800
-Message-ID: <f4488a80-2e8c-4782-af48-40e5806929d9@linux.alibaba.com>
-Date: Mon, 22 Jun 2026 10:02:48 +0800
+	Mon, 22 Jun 2026 02:41:46 +0000
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=9BnFW/2HEYqWCzSBvq/hAgcWSW4r8rZSmcNCElC6wCo=;
+	b=1rXktTVYSjiGs8vejW7HVcORLCCAdInTquMvNFGmOcLmfjtGr37e0jgxtdfFjXQwbFL3cxaiz
+	JEe8IxxlEhPIn36As5cnclf5xROqdNiPil/W0AAGgY5B2kgif8AN1TtIbZgvn7rEbTXNym7H0s9
+	MzwVufRSOubA7CpeuY+FTN4=
+Received: from mail.maildlp.com (unknown [172.19.163.163])
+	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4gkC0F75GMz1cynl;
+	Mon, 22 Jun 2026 10:32:29 +0800 (CST)
+Received: from dggpemf100007.china.huawei.com (unknown [7.185.36.214])
+	by mail.maildlp.com (Postfix) with ESMTPS id 83434405D0;
+	Mon, 22 Jun 2026 10:41:32 +0800 (CST)
+Received: from huawei.com (10.67.121.11) by dggpemf100007.china.huawei.com
+ (7.185.36.214) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 22 Jun
+ 2026 10:41:31 +0800
+From: kangfenglong <kangfenglong@huawei.com>
+To: <kbusch@kernel.org>
+CC: <linux-nvme@lists.infradead.org>, <linux-pci@vger.kernel.org>,
+	<liuyonglong@huawei.com>, <seven.wangyu@huawei.com>,
+	<kangfenglong@huawei.com>
+Subject: [PATCH v3] nvme-pci: fix CMB mapping when CMBSZ Size field is zero
+Date: Mon, 22 Jun 2026 10:41:29 +0800
+Message-ID: <20260622024129.40800-1-kangfenglong@huawei.com>
+X-Mailer: git-send-email 2.12.0.windows.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme-multipath: expose path_state via sysfs
-To: Daniel Wagner <dwagner@suse.de>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org
-References: <20260617121543.2291455-1-kanie@linux.alibaba.com>
- <498d2a2f-8545-470e-b42a-dd47e26a948a@flourine.local>
-From: Guixin Liu <kanie@linux.alibaba.com>
-In-Reply-To: <498d2a2f-8545-470e-b42a-dd47e26a948a@flourine.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.67.121.11]
+X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
+ dggpemf100007.china.huawei.com (7.185.36.214)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260621_190301_721624_BD373491 
-X-CRM114-Status: GOOD (  12.54  )
+X-CRM114-CacheID: sfid-20260621_194144_846091_91F390A6 
+X-CRM114-Status: GOOD (  16.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,51 +75,86 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+The controller memory buffer size is defined by the SZ field in the
+CMBSZ register (bits 31:12). According to the NVMe specification, a
+value of zero in the SZ field indicates that no CMB is present.
 
+Commit f65efd6dfe4e ("nvme-pci: clean up CMB initialization") replaced
+the check for a zero SZ field with a check for a zero CMBSZ register
+value, under the assumption that a zero register implies no CMB.
+However, a CMBSZ register can be non-zero while the SZ field is zero,
+for example when Size Units (SZU) is set to a non-zero value but the
+actual size is zero (e.g. CMBSZ = 0x100: SZU = 1, SZ = 0).
 
-在 2026/6/18 21:02, Daniel Wagner 写道:
-> On Wed, Jun 17, 2026 at 08:15:43PM +0800, Guixin Liu wrote:
->> Add a read-only "path_state" sysfs attribute to each NVMe path namespace
->> device (/sys/class/nvme/nvmeX/nvmeXcYnZ/path_state) that exposes whether
->> the path is currently enabled or disabled.
->>
->> The attribute reflects the result of nvme_path_is_disabled(), showing
->> "disabled" when the controller is not live/deleting, the namespace has
->> an ANA state change pending, or the namespace is not ready. Otherwise
->> it shows "enabled".
->>
->> This gives userspace visibility into the multipath path selection state
->> without requiring users to piece together controller state and namespace
->> flags manually.
-> The ctrl state is already exposed to the sysfs. What's the use case for
-> this sysfs entry?
-1. A controller being live only indicates that the transport connection 
-is healthy.
-However, due to ANA, a path through that controller may be inaccessible 
-or non-optimized.
-The ctrl state simply cannot express this.
+When this happens, nvme_map_cmb() proceeds to compute a size of zero,
+passes the alignment checks (zero is always aligned), and calls
+pci_p2pdma_add_resource() with size=0. The P2PDMA subsystem then
+defaults size to the entire remaining BAR, which may not be properly
+aligned for memory hotplug, triggering:
 
-2. Different namespaces on the same controller can belong to different 
-ANA groups
-with different access states. For example, ns1 may be optimized while ns2 is
-inaccessible on the same controller. A single ctrl state value cannot 
-represent this granularity.
+  WARNING: CPU: 0 PID: 10 at mm/memory_hotplug.c:396 __add_pages
+  Misaligned __add_pages start: 0x494a0000 end: 0x494a000f
 
-3. The multipath iopolicy (numa, round-robin, queue-depth, service-time) 
-makes
-routing decisions based on path state. Without visibility into path 
-state, users
-cannot understand or predict why I/O is routed to a particular path,
-making performance debugging a black box.
+Fix this by:
+1. Restoring the check for a zero SZ field, which explicitly verifies
+   that the controller actually has a CMB before proceeding.
+2. Adding a boundary check in nvme_cmb_size_unit() to reject SZU values
+   greater than 6. The SZU field is 4 bits, but values 7-15 are reserved
+   by the NVMe specification and produce a shift count >= 40 in the
+   left-shift operation (1ULL << (12 + 4 * szu) when szu >= 7), which
+   exceeds the maximum 64 GB unit size defined by the spec.
+3. Checking the return value of nvme_cmb_size_unit() for zero before
+   proceeding, and using check_mul_overflow() for the size calculation
+   to detect integer overflow that could wrap to a non-zero value and
+   bypass the SZ check.
 
-4. For monitoring and diagnosis, When I/O latency spikes in production, 
-operators need
-to determine within seconds: Did an ANA failover occur? Which path 
-became inaccessible? Is a non-optimized
-path now carrying traffic? The ctrl state just shows live and cannot 
-answer any of these questions.
+Fixes: f65efd6dfe4e ("nvme-pci: clean up CMB initialization")
+Signed-off-by: kangfenglong <kangfenglong@huawei.com>
+---
+ drivers/nvme/host/pci.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-Best Regards,
-Guixin Liu
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 8438c904ec49..ee2d782f4957 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2448,6 +2448,9 @@ static u64 nvme_cmb_size_unit(struct nvme_dev *dev)
+ {
+ 	u8 szu = (dev->cmbsz >> NVME_CMBSZ_SZU_SHIFT) & NVME_CMBSZ_SZU_MASK;
+ 
++	if (szu > 6)
++		return 0;
++
+ 	return 1ULL << (12 + 4 * szu);
+ }
+ 
+@@ -2458,7 +2461,7 @@ static u32 nvme_cmb_size(struct nvme_dev *dev)
+ 
+ static void nvme_map_cmb(struct nvme_dev *dev)
+ {
+-	u64 size, offset;
++	u64 size, unit_size, offset;
+ 	resource_size_t bar_size;
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+ 	int bar;
+@@ -2472,9 +2475,15 @@ static void nvme_map_cmb(struct nvme_dev *dev)
+ 	dev->cmbsz = readl(dev->bar + NVME_REG_CMBSZ);
+ 	if (!dev->cmbsz)
+ 		return;
++	if (!nvme_cmb_size(dev))
++		return;
+ 	dev->cmbloc = readl(dev->bar + NVME_REG_CMBLOC);
+ 
+-	size = nvme_cmb_size_unit(dev) * nvme_cmb_size(dev);
++	unit_size = nvme_cmb_size_unit(dev);
++	if (!unit_size)
++		return;
++	if (check_mul_overflow(unit_size, nvme_cmb_size(dev), &size))
++		return;
+ 	offset = nvme_cmb_size_unit(dev) * NVME_CMB_OFST(dev->cmbloc);
+ 	bar = NVME_CMB_BIR(dev->cmbloc);
+ 	bar_size = pci_resource_len(pdev, bar);
+-- 
+2.12.0.windows.1
 
 
