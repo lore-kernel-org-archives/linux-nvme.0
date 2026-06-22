@@ -4,62 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6C500CDB46F
-	for <linux-nvme@archiver.kernel.org>; Mon, 22 Jun 2026 14:24:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C9190CDB470
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Jun 2026 14:35:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=n4dcnQDRYO7g/pijledoht4bAUk0uf+z8Em1nWTfv0s=; b=tBnGwqbqb2O9xn3M9xPvbx13D0
-	H8X1qMtT+QQ3MgUti9LTRXjbk9bn4LMEeGRmWQDFei/sd8KOQ434g9SdXxXy5qaNxLsEYAtKrlpZ2
-	DPicsBlLmbjF+orPEHkSldxGxT9oDLuxmH2Fp56WPlhUfCQMb0vnRhpIBhEEkog+QqecDJYWdMHut
-	wpvZxzyXxOe2fSASiydrjW8JVknHsiDB+d9LGyxu6ifeW0Or1IbUHL2wzCyS6VmkIU48bsnPXRpd7
-	vSjYt9v3bYKiDY3TMqt5KS8yNOjvwLhHJb40k6HKgY8kdRdNqvyq7xOz+C1vTwGkaVNJ7AmloJWEZ
-	bsIxiX+Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=GR2xv4cnlx7ImAPN7DUM4pmhvp063Y6ta6sjYjwnitc=; b=ev92pWv8T399LLcobH3Y4OLhtG
+	6jpp/S/KOFMPrXZN7+VFGQ032G8CXlcN3kwKN2pb8e9h4Vi4zgwt/PYRTrGZQ1nrz6YYLCYBJTDpi
+	6IFtOYpMC+v+9LkxuoDHYu209LtMc+RJLM7AOPVWEc/0TB6oMRFd7l2erOWQVkHaDdTFBV5/EyTy1
+	7kJmOIFRpHrSqGCBF9AGwRER8PD8Y6Ra7M1iYREM8DyhvRg8xJI8LSd8aCMsYaJRwQwLAgb36gtHY
+	mYZoKR6uMNKWg4aldvrr8BN5/sLtqYvI9YZY6iszX47QF9TWuX438+fbDjEWHVEd3FXefoHtVXsq8
+	S+ukccgQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wbfZI-000000053vM-0PxU;
-	Mon, 22 Jun 2026 14:24:08 +0000
-Received: from imap4.hz.codethink.co.uk ([188.40.203.114])
+	id 1wbfkX-0000000555W-236b;
+	Mon, 22 Jun 2026 14:35:45 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wbfZF-000000053uw-3SgN
+	id 1wbfkW-00000005552-0nc6
 	for linux-nvme@lists.infradead.org;
-	Mon, 22 Jun 2026 14:24:07 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=codethink.co.uk; s=imap4-20230908; h=Sender:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:In-Reply-To:
-	References; bh=n4dcnQDRYO7g/pijledoht4bAUk0uf+z8Em1nWTfv0s=; b=leumnoGD5LZ71B
-	pHBi2q92ciQtCwK5pV2KwHivpCcR3MFR6kQM33GX6+IMp7uRo9y9Sdz/OsF+oWn1k80KTy/SrONM5
-	8zdNiWPtISUz9xUGtzkrNNB7ueuiqPf0iBHOJz2gCE5vctQMXTXVvdwCtTN0+G61Le48Pn0sTVBdQ
-	6HVVivdFCyEvHebJTg9MKkAGsVfWW/6i6V2N+QzOZKa+TTLFHcMhuHHzpPJrIwQPhPORFiRpiH/vp
-	HdL9zZskLrvO60bWvhnecEDFeXHGZWi1IAlwKBtGAEY/D27CpWsROMxuKJfLxgLals46jXpzqwStr
-	ui8iNHPxBYzuBXEEd0XQ==;
-Received: from [167.98.27.226] (helo=rainbowdash)
-	by imap4.hz.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
-	id 1wbfZ8-00EpVl-Lg; Mon, 22 Jun 2026 15:23:58 +0100
-Received: from ben by rainbowdash with local (Exim 4.99.4)
-	(envelope-from <ben@rainbowdash>)
-	id 1wbfZ8-000000024i3-1CN0;
-	Mon, 22 Jun 2026 15:23:58 +0100
-From: Ben Dooks <ben.dooks@codethink.co.uk>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Cc: Ben Dooks <ben.dooks@codethink.co.uk>
-Subject: [PATCH] nvme: make unexported sysfs structures static
-Date: Mon, 22 Jun 2026 15:23:57 +0100
-Message-Id: <20260622142357.494750-1-ben.dooks@codethink.co.uk>
-X-Mailer: git-send-email 2.37.2.352.g3c44437643
+	Mon, 22 Jun 2026 14:35:44 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id E92D844487;
+	Mon, 22 Jun 2026 14:35:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 802431F00A3A;
+	Mon, 22 Jun 2026 14:35:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782138943;
+	bh=GR2xv4cnlx7ImAPN7DUM4pmhvp063Y6ta6sjYjwnitc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=YVWcuRrK8e7fHFtD/SHmnSesFx6lVimpCJZ+MdQoqBKzMHTuwLXG1HstJ4DjMiMJn
+	 XuPYPbT/1VaySw60NXjWiiBXbMipKgE5iJTzR+MgZjUaPwvHicgSyxZLMQqVyQoWsP
+	 QHhpAhK7dPueUIQ89c/RdaFUau2vnnWrisnsV8hmP6pFeRjGSs4RccHt8YMpbqjSs8
+	 trLt8e28KA1tN6hN1stouH6YHNmwX/5xnu5C+6TNVlektQhlnPhzVunoSC1mWDgFoy
+	 nqJyhuT2mwfQpeSAU03Gq24IBGDBpL6vWWor0sFs0pI/xQhrIWdl2GiuGE/EzNrOSN
+	 /0yRfVLXg58Xw==
+Date: Mon, 22 Jun 2026 08:35:42 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: David Epping <david.epping@missinglinkelectronics.com>
+Cc: linux-nvme@lists.infradead.org, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Leon Romanovsky <leon@kernel.org>,
+	Joachim Foerster <joachim.foerster@missinglinkelectronics.com>
+Subject: Re: [PATCH RFC] nvme-ioctl: propagate PRP1 from ioctl to admin cmd
+Message-ID: <ajlIPlEv_zBfTMVG@kbusch-mbp>
+References: <ajlDjpjK_clMrnwx@ubuntu-server>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260622_072405_873173_035E6489 
-X-CRM114-Status: GOOD (  13.03  )
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ajlDjpjK_clMrnwx@ubuntu-server>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,50 +70,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-These sysfs attributes are not exported out of sysfs.c so make
-them static to remove the following sparse warnings:
+On Mon, Jun 22, 2026 at 04:15:42PM +0200, David Epping wrote:
+> @@ -306,6 +306,7 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+>  	c.common.nsid = cpu_to_le32(cmd.nsid);
+>  	c.common.cdw2[0] = cpu_to_le32(cmd.cdw2);
+>  	c.common.cdw2[1] = cpu_to_le32(cmd.cdw3);
+> +	c.common.dptr.prp1 = cpu_to_le64(cmd.addr);
 
-drivers/nvme/host/sysfs.c:397:25: warning: symbol 'dev_attr_io_errors' was not declared. Should it be static?
-drivers/nvme/host/sysfs.c:444:30: warning: symbol 'nvme_ns_diag_attr_group' was not declared. Should it be static?
-drivers/nvme/host/sysfs.c:1150:25: warning: symbol 'dev_attr_adm_errors' was not declared. Should it be static?
-
-Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
----
- drivers/nvme/host/sysfs.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-index 933a5adfb7af..75b2d69b5957 100644
---- a/drivers/nvme/host/sysfs.c
-+++ b/drivers/nvme/host/sysfs.c
-@@ -394,7 +394,7 @@ static ssize_t nvme_io_errors_store(struct device *dev,
- 	return count;
- }
- 
--struct device_attribute dev_attr_io_errors =
-+static struct device_attribute dev_attr_io_errors =
- 	__ATTR(command_error_count, 0644,
- 		nvme_io_errors_show, nvme_io_errors_store);
- 
-@@ -441,7 +441,7 @@ static umode_t nvme_ns_diag_attrs_are_visible(struct kobject *kobj,
- 	return a->mode;
- }
- 
--const struct attribute_group nvme_ns_diag_attr_group = {
-+static const struct attribute_group nvme_ns_diag_attr_group = {
- 	.name		= "diag",
- 	.attrs		= nvme_ns_diag_attrs,
- 	.is_visible	= nvme_ns_diag_attrs_are_visible,
-@@ -1147,7 +1147,7 @@ static ssize_t nvme_adm_errors_store(struct device *dev,
- 	return count;
- }
- 
--struct device_attribute dev_attr_adm_errors =
-+static struct device_attribute dev_attr_adm_errors =
- 	__ATTR(command_error_count, 0644,
- 		nvme_adm_errors_show, nvme_adm_errors_store);
- 
--- 
-2.37.2.352.g3c44437643
-
+This is not correct: the user space virtual address isn't the device
+DMA'able address. The driver already handles mapping the user address to
+kernel space, then to dma, then sets the PRP accordingly.
 
