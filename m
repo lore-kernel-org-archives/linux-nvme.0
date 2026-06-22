@@ -4,63 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0A86CCDB466
-	for <linux-nvme@archiver.kernel.org>; Mon, 22 Jun 2026 02:41:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 78EF1CD98E4
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Jun 2026 02:59:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Transfer-Encoding:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=9BnFW/2HEYqWCzSBvq/hAgcWSW4r8rZSmcNCElC6wCo=; b=pMhhxUdiy/O0TemLQmzodjf61s
-	JGv+2cWJfN+8FKSutCkoPgdj3+zlh37WCAvSYL2s0MdC64ZKXpM6wqpqOuS/Id0EhQVUQ7QChN5sn
-	xARvqcXkNK9GEGBzjClLXuZnabYY0PSOQN1202OqpRJt/mt3w4TREnDWGf1QQXYNH3ypdL7KlEMN2
-	mIanN5mybX0dQdISCBBn84bGtOBWN0nctAL13b/q24h5pGw4Ez8/Ke2wsPF+W7wOPLgAG6tQGPCse
-	KkeedRI3AhdBN5h59DGbLme4JmXJBJILD9qdyuKAAQGtIe2ATTt7UZw3+DGvYKhb8eatR+IKqPzFa
-	afdfmc5w==;
+	bh=6KsFQUJoeYL7Ze4WBExLyldd138Y6/Yj8uXh/IIZa/U=; b=Pee9EhQPFCdf7ToQPrwXWH70lW
+	LqK5NrHyxjNbUtvkgui0plqBxuiglvdCVp07uXLp8c2Q+pUbzbLjihal0z1shadPTzpL9F/qxe9B5
+	lfuHri3U4BEoyK+0pq03OMisReXPVEbmE3vjuARtg/d52TlgGcLs1OruwoLymznYwQURxxi9MZfFA
+	sBGwKK4bchA0/LmE+jodFCi22w51hu4MTpywNZlIwI87lQwywXO5hAwMMD1UyfsNNJMYpuWF12wfR
+	Oe+wJ0WKN8m/6fD5Zr+APpzAPBAcwZ4Z4LQewq2HjFI+VsDWHCfn1c+mWZVU3KBx2Q409hV28Jghf
+	/838ViCg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wbUbb-00000004JhJ-46od;
-	Mon, 22 Jun 2026 02:41:47 +0000
-Received: from canpmsgout09.his.huawei.com ([113.46.200.224])
+	id 1wbUsi-00000004Kg9-16Ni;
+	Mon, 22 Jun 2026 02:59:28 +0000
+Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wbUbY-00000004Jgt-1tnI
+	id 1wbUsf-00000004Kfg-1WU6
 	for linux-nvme@lists.infradead.org;
-	Mon, 22 Jun 2026 02:41:46 +0000
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=9BnFW/2HEYqWCzSBvq/hAgcWSW4r8rZSmcNCElC6wCo=;
-	b=1rXktTVYSjiGs8vejW7HVcORLCCAdInTquMvNFGmOcLmfjtGr37e0jgxtdfFjXQwbFL3cxaiz
-	JEe8IxxlEhPIn36As5cnclf5xROqdNiPil/W0AAGgY5B2kgif8AN1TtIbZgvn7rEbTXNym7H0s9
-	MzwVufRSOubA7CpeuY+FTN4=
-Received: from mail.maildlp.com (unknown [172.19.163.163])
-	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4gkC0F75GMz1cynl;
-	Mon, 22 Jun 2026 10:32:29 +0800 (CST)
-Received: from dggpemf100007.china.huawei.com (unknown [7.185.36.214])
-	by mail.maildlp.com (Postfix) with ESMTPS id 83434405D0;
-	Mon, 22 Jun 2026 10:41:32 +0800 (CST)
-Received: from huawei.com (10.67.121.11) by dggpemf100007.china.huawei.com
- (7.185.36.214) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 22 Jun
- 2026 10:41:31 +0800
-From: kangfenglong <kangfenglong@huawei.com>
-To: <kbusch@kernel.org>
-CC: <linux-nvme@lists.infradead.org>, <linux-pci@vger.kernel.org>,
-	<liuyonglong@huawei.com>, <seven.wangyu@huawei.com>,
-	<kangfenglong@huawei.com>
-Subject: [PATCH v3] nvme-pci: fix CMB mapping when CMBSZ Size field is zero
-Date: Mon, 22 Jun 2026 10:41:29 +0800
-Message-ID: <20260622024129.40800-1-kangfenglong@huawei.com>
-X-Mailer: git-send-email 2.12.0.windows.1
+	Mon, 22 Jun 2026 02:59:27 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1782097163; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=6KsFQUJoeYL7Ze4WBExLyldd138Y6/Yj8uXh/IIZa/U=;
+	b=obXVzxXXdzsWHZ4LKmz/6swkwWLiwO7q12NV5driarxICRhAzA9aLoggTwwJIiPiUhaBfuXRylg6Qt/qxHanU9PTmdAzVKWlPj6YtmQPmMw2FtsFNYYTP7/6EKaFqZHdcThKDQ6LBbV/Nc3BzTG4mCtWILqZwxDN3LMWovCBSnY=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R721e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0X5Ghg4v_1782097155;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0X5Ghg4v_1782097155 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Mon, 22 Jun 2026 10:59:20 +0800
+From: Guixin Liu <kanie@linux.alibaba.com>
+To: Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Cc: linux-nvme@lists.infradead.org
+Subject: [PATCH] nvmet: replace sysfs_emit() with sprintf() in configfs show attrs
+Date: Mon, 22 Jun 2026 10:59:15 +0800
+Message-ID: <20260622025915.1294806-1-kanie@linux.alibaba.com>
+X-Mailer: git-send-email 2.43.7
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.67.121.11]
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- dggpemf100007.china.huawei.com (7.185.36.214)
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260621_194144_846091_91F390A6 
-X-CRM114-Status: GOOD (  16.86  )
+X-CRM114-CacheID: sfid-20260621_195925_737349_94953469 
+X-CRM114-Status: UNSURE (   9.61  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,86 +65,82 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The controller memory buffer size is defined by the SZ field in the
-CMBSZ register (bits 31:12). According to the NVMe specification, a
-value of zero in the SZ field indicates that no CMB is present.
+sysfs_emit() is designed for sysfs attributes and internally checks that
+the buffer is page-aligned. Although configfs currently happens to use a
+page-aligned buffer allocated via kzalloc(PAGE_SIZE), using sysfs_emit()
+in configfs show callbacks is a semantic misuse of the API. Replace with
+sprintf() to match the convention used by all other configfs show
+functions in these files.
 
-Commit f65efd6dfe4e ("nvme-pci: clean up CMB initialization") replaced
-the check for a zero SZ field with a check for a zero CMBSZ register
-value, under the assumption that a zero register implies no CMB.
-However, a CMBSZ register can be non-zero while the SZ field is zero,
-for example when Size Units (SZU) is set to a non-zero value but the
-actual size is zero (e.g. CMBSZ = 0x100: SZU = 1, SZ = 0).
-
-When this happens, nvme_map_cmb() proceeds to compute a size of zero,
-passes the alignment checks (zero is always aligned), and calls
-pci_p2pdma_add_resource() with size=0. The P2PDMA subsystem then
-defaults size to the entire remaining BAR, which may not be properly
-aligned for memory hotplug, triggering:
-
-  WARNING: CPU: 0 PID: 10 at mm/memory_hotplug.c:396 __add_pages
-  Misaligned __add_pages start: 0x494a0000 end: 0x494a000f
-
-Fix this by:
-1. Restoring the check for a zero SZ field, which explicitly verifies
-   that the controller actually has a CMB before proceeding.
-2. Adding a boundary check in nvme_cmb_size_unit() to reject SZU values
-   greater than 6. The SZU field is 4 bits, but values 7-15 are reserved
-   by the NVMe specification and produce a shift count >= 40 in the
-   left-shift operation (1ULL << (12 + 4 * szu) when szu >= 7), which
-   exceeds the maximum 64 GB unit size defined by the spec.
-3. Checking the return value of nvme_cmb_size_unit() for zero before
-   proceeding, and using check_mul_overflow() for the size calculation
-   to detect integer overflow that could wrap to a non-zero value and
-   bypass the SZ check.
-
-Fixes: f65efd6dfe4e ("nvme-pci: clean up CMB initialization")
-Signed-off-by: kangfenglong <kangfenglong@huawei.com>
+Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
 ---
- drivers/nvme/host/pci.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ drivers/nvme/target/configfs.c | 6 +++---
+ drivers/nvme/target/pci-epf.c  | 6 +++---
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 8438c904ec49..ee2d782f4957 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2448,6 +2448,9 @@ static u64 nvme_cmb_size_unit(struct nvme_dev *dev)
- {
- 	u8 szu = (dev->cmbsz >> NVME_CMBSZ_SZU_SHIFT) & NVME_CMBSZ_SZU_MASK;
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index b88f897f06e2..f4c77dd1f160 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -798,7 +798,7 @@ CONFIGFS_ATTR_WO(nvmet_ns_, revalidate_size);
  
-+	if (szu > 6)
-+		return 0;
-+
- 	return 1ULL << (12 + 4 * szu);
+ static ssize_t nvmet_ns_resv_enable_show(struct config_item *item, char *page)
+ {
+-	return sysfs_emit(page, "%d\n", to_nvmet_ns(item)->pr.enable);
++	return sprintf(page, "%d\n", to_nvmet_ns(item)->pr.enable);
  }
  
-@@ -2458,7 +2461,7 @@ static u32 nvme_cmb_size(struct nvme_dev *dev)
- 
- static void nvme_map_cmb(struct nvme_dev *dev)
+ static ssize_t nvmet_ns_resv_enable_store(struct config_item *item,
+@@ -1534,7 +1534,7 @@ static ssize_t nvmet_subsys_attr_ieee_oui_show(struct config_item *item,
  {
--	u64 size, offset;
-+	u64 size, unit_size, offset;
- 	resource_size_t bar_size;
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	int bar;
-@@ -2472,9 +2475,15 @@ static void nvme_map_cmb(struct nvme_dev *dev)
- 	dev->cmbsz = readl(dev->bar + NVME_REG_CMBSZ);
- 	if (!dev->cmbsz)
- 		return;
-+	if (!nvme_cmb_size(dev))
-+		return;
- 	dev->cmbloc = readl(dev->bar + NVME_REG_CMBLOC);
+ 	struct nvmet_subsys *subsys = to_subsys(item);
  
--	size = nvme_cmb_size_unit(dev) * nvme_cmb_size(dev);
-+	unit_size = nvme_cmb_size_unit(dev);
-+	if (!unit_size)
-+		return;
-+	if (check_mul_overflow(unit_size, nvme_cmb_size(dev), &size))
-+		return;
- 	offset = nvme_cmb_size_unit(dev) * NVME_CMB_OFST(dev->cmbloc);
- 	bar = NVME_CMB_BIR(dev->cmbloc);
- 	bar_size = pci_resource_len(pdev, bar);
+-	return sysfs_emit(page, "0x%06x\n", subsys->ieee_oui);
++	return sprintf(page, "0x%06x\n", subsys->ieee_oui);
+ }
+ 
+ static ssize_t nvmet_subsys_attr_ieee_oui_store_locked(struct nvmet_subsys *subsys,
+@@ -1582,7 +1582,7 @@ static ssize_t nvmet_subsys_attr_firmware_show(struct config_item *item,
+ {
+ 	struct nvmet_subsys *subsys = to_subsys(item);
+ 
+-	return sysfs_emit(page, "%s\n", subsys->firmware_rev);
++	return sprintf(page, "%s\n", subsys->firmware_rev);
+ }
+ 
+ static ssize_t nvmet_subsys_attr_firmware_store_locked(struct nvmet_subsys *subsys,
+diff --git a/drivers/nvme/target/pci-epf.c b/drivers/nvme/target/pci-epf.c
+index 4e9db96ebfec..547eeb0cae85 100644
+--- a/drivers/nvme/target/pci-epf.c
++++ b/drivers/nvme/target/pci-epf.c
+@@ -2482,7 +2482,7 @@ static ssize_t nvmet_pci_epf_portid_show(struct config_item *item, char *page)
+ 	struct config_group *group = to_config_group(item);
+ 	struct nvmet_pci_epf *nvme_epf = to_nvme_epf(group);
+ 
+-	return sysfs_emit(page, "%u\n", le16_to_cpu(nvme_epf->portid));
++	return sprintf(page, "%u\n", le16_to_cpu(nvme_epf->portid));
+ }
+ 
+ static ssize_t nvmet_pci_epf_portid_store(struct config_item *item,
+@@ -2515,7 +2515,7 @@ static ssize_t nvmet_pci_epf_subsysnqn_show(struct config_item *item,
+ 	struct config_group *group = to_config_group(item);
+ 	struct nvmet_pci_epf *nvme_epf = to_nvme_epf(group);
+ 
+-	return sysfs_emit(page, "%s\n", nvme_epf->subsysnqn);
++	return sprintf(page, "%s\n", nvme_epf->subsysnqn);
+ }
+ 
+ static ssize_t nvmet_pci_epf_subsysnqn_store(struct config_item *item,
+@@ -2543,7 +2543,7 @@ static ssize_t nvmet_pci_epf_mdts_kb_show(struct config_item *item, char *page)
+ 	struct config_group *group = to_config_group(item);
+ 	struct nvmet_pci_epf *nvme_epf = to_nvme_epf(group);
+ 
+-	return sysfs_emit(page, "%u\n", nvme_epf->mdts_kb);
++	return sprintf(page, "%u\n", nvme_epf->mdts_kb);
+ }
+ 
+ static ssize_t nvmet_pci_epf_mdts_kb_store(struct config_item *item,
 -- 
-2.12.0.windows.1
+2.43.7
 
 
