@@ -4,55 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0850CD98F2
-	for <linux-nvme@archiver.kernel.org>; Mon, 22 Jun 2026 13:03:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6DCBECDB46F
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Jun 2026 14:16:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=60nlWTe7L0pbY3ILrnKRNEGZGF1g76Jz8bfCQz4D9xo=; b=a12MEYJ9iO/QY7K2JivCpZZf47
-	Ono/NlNbbOaZHhwSeFOnizdG7Ca5oGJrqLNLwx4PDnJfHI4PoKpUK5M1wBPcTCO4YQDK4eqQclZXm
-	1z5qWPe/wNtt9huRgv9buxqoM2vyEjXUE8XXB0vAfOr50nIHlNeSnwYqqYdNl25fPQuWQ8BMqGMeX
-	IwO90nLuTry5JdN23GuYDpR/pr2iVHQD/XRUMhwUedQA7WSo+RdCiIgsP2a6h0tDG90GbFMt6nwAH
-	KADG/rSuK+P0ZmEIvlDcT5KhjVqja8JUhgyJehA6PDXkuuYpjSCXzwRH4s9jfg8L5Iy46tCMRmhsr
-	+xA596nA==;
+	bh=R5BQMlcA4sBRd56V+bZyV0R8VPpI2nLqvrQGkIMBlao=; b=lyJszOmF6wMnmiklXr2N/QhhZf
+	W90dWMYZifZFDtUX31AZOxhAgxRbOT9FWxK3TbzcX5RpsnmTzc48MwgaItA2yYw5ADA1TGLGbV4F7
+	tkGzTiszEs1eoXc9k92qt8sWZflIA83k71Oz1cv0BBT4zMP+7r5LakuSXlUYngPIbLa/t2us2A9Kd
+	2NucBuV54iqZi3CZSiM5s5OhMzLPFQOo3+MQAWhkaxeuqltLrRNIJc6Skuaj445//MCgv1f6AbEly
+	3IlAwpZfNT5JrbesAOBJbBUqabbRp3cc3A0MlpGGAHNAxB7MyNKEnbQ2vtI2doKE3y/ugspdPq0mr
+	AS1exKEA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wbeJK-00000004zYE-1yeZ;
-	Mon, 22 Jun 2026 13:03:34 +0000
-Received: from out30-124.freemail.mail.aliyun.com ([115.124.30.124])
+	id 1wbfRU-000000053Xa-1RLo;
+	Mon, 22 Jun 2026 14:16:04 +0000
+Received: from smtp.missinglinkelectronics.com ([162.55.135.183])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wbeJH-00000004zXs-0q9w
+	id 1wbfRM-000000053WH-2eY1
 	for linux-nvme@lists.infradead.org;
-	Mon, 22 Jun 2026 13:03:32 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1782133408; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=60nlWTe7L0pbY3ILrnKRNEGZGF1g76Jz8bfCQz4D9xo=;
-	b=ktKRw2LCaHX40+DO5zcmKikFhKIdMXI0Ez3x3ViWN53Xa0fhwGBzdj7YZL606H/MGM9UfCS54gf57hLonFyOzvHktz0yr242p0FHM6B1K4pfTySWnNaZIaWwSImed9d2+XSxFiutatI2gcYHLijHt/HPmZjBkwQ/Z3EQ+QJniWY=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R861e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0X5NoecN_1782133402;
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0X5NoecN_1782133402 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Mon, 22 Jun 2026 21:03:23 +0800
-From: Guixin Liu <kanie@linux.alibaba.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Nilay Shroff <nilay@linux.ibm.com>,
-	Daniel Wagner <dwagner@suse.de>
-Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH v2] nvme-multipath: expose path_state via sysfs
-Date: Mon, 22 Jun 2026 21:03:18 +0800
-Message-ID: <20260622130318.2346995-1-kanie@linux.alibaba.com>
-X-Mailer: git-send-email 2.43.7
+	Mon, 22 Jun 2026 14:15:58 +0000
+Received: from ubuntu-server (ppp-88-217-75-1.dynamic.mnet-online.de [88.217.75.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: david)
+	by smtp.missinglinkelectronics.com (Postfix) with ESMTPSA id 9FA1B202AB;
+	Mon, 22 Jun 2026 16:15:51 +0200 (CEST)
+Date: Mon, 22 Jun 2026 16:15:42 +0200
+From: David Epping <david.epping@missinglinkelectronics.com>
+To: linux-nvme@lists.infradead.org
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Leon Romanovsky <leon@kernel.org>,
+	Joachim Foerster <joachim.foerster@missinglinkelectronics.com>
+Subject: [PATCH RFC] nvme-ioctl: propagate PRP1 from ioctl to admin cmd
+Message-ID: <ajlDjpjK_clMrnwx@ubuntu-server>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260622_060331_458946_EAC4929C 
-X-CRM114-Status: GOOD (  14.19  )
+X-CRM114-CacheID: sfid-20260622_071556_831064_1C322A71 
+X-CRM114-Status: GOOD (  19.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -67,94 +63,66 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add a read-only "path_state" sysfs attribute to each NVMe path namespace
-device (/sys/class/nvme/nvmeX/nvmeXcYnZ/path_state) that exposes whether
-the path is currently enabled or disabled with a specific reason.
+Hello,
 
-The attribute reflects the result of nvme_path_is_disabled() checks:
-  - "enabled"                   : path is available for I/O
-  - "disabled (ctrl_down)"      : controller is not live/deleting
-  - "disabled (ana_pending)"    : ANA state change pending
-  - "disabled (ns_not_ready)"   : namespace is not ready
+some NVMe admin commands (like IO queue creation) require information to
+be provided via the PRP1 field of the command.
+This information has not previously been passed from the ioctl to the NVMe
+command structure, which prevented execution of such commands from userspace.
+Likely this is not an oversight but intentional because of security concerns?
 
-This gives userspace visibility into the multipath path selection state
-without requiring users to piece together controller state and namespace
-flags manually.
+With this email I'm seeking to see if there is interest in getting support
+for userspace NVMe IO queue creation in the upstream driver.
+The attached patch is one way to do it and has been used for multiple years
+with multiple Kernel versions now. There are additional patches required to
+for example allocate sufficiently many IO queues at initialization time, but
+I would like to focus on the ability to create queues for now.
+A final patch would also not ignore nvme_user_cmd64().
 
-Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+The system setup where this patch has been used is as follows:
+- P2P PCIe capable CPU (currently also IOMMU disabled)
+- patched Linux in-Kernel NVMe driver for local PCIe NVMe SSDs
+- FPGA accelerator implementing NVMe IO queue memory and IO queue handling,
+  exposed via PCIe BAR
+- vfio-pcie Kernel driver plus vfio userspace FPGA driver / application
+- The userspace application creates new NVMe IO queues at the SSD using the
+  patched admin ioctl and points them towards the FPGA BAR. It then informs
+  the FPGA about the SSD BAR address and IO queue ID. From then on the FPGA
+  can access the SSD storage entirely without software interaction.
+
+Since the omition of PRP1 access from userspace is likely intentional, maybe
+the discussion and patches by Leon Romanovsky for making dmabuf and p2pdma
+available via vfio lead in the right direction:
+https://lore.kernel.org/all/20251106-dmabuf-vfio-v7-0-2503bf390699@nvidia.com/
+
+It currently seems focused on SPDK for handling the SSDs in userspace, but the
+author also describes it as a general mechanism that can support other
+scenarios.
+How about having the in-Kernel NVMe driver accept a dmabuf as IO queue location
+for creating a new IO queue? And in turn it likely has to provide a small
+dmabuf to the FPGA VFIO world for access to the queue doorbells on the SSD.
+
+Looking forward to your feedback,
+David
+
+Signed-off-by: David Epping <david.epping@missinglinkelectronics.com>
 ---
-v1->v2:
-- Show specific disabled reason instead of just "disabled":
-  "disabled (ctrl_down)", "disabled (ana_pending)",
-  "disabled (ns_not_ready)". (Nilay Shroff)
+ drivers/nvme/host/ioctl.c | 1 +
+ 1 file changed, 1 insertion(+)
 
- drivers/nvme/host/multipath.c | 16 ++++++++++++++++
- drivers/nvme/host/nvme.h      |  1 +
- drivers/nvme/host/sysfs.c     |  4 +++-
- 3 files changed, 20 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 81fff2f20d23..5e3847fd6632 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -1210,6 +1210,22 @@ static ssize_t in_flight_bytes_show(struct device *dev,
- }
- DEVICE_ATTR_RO(in_flight_bytes);
- 
-+static ssize_t path_state_show(struct device *dev,
-+		struct device_attribute *attr, char *buf)
-+{
-+	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
-+	enum nvme_ctrl_state state = nvme_ctrl_state(ns->ctrl);
-+
-+	if (state != NVME_CTRL_LIVE && state != NVME_CTRL_DELETING)
-+		return sysfs_emit(buf, "disabled (ctrl_down)\n");
-+	if (test_bit(NVME_NS_ANA_PENDING, &ns->flags))
-+		return sysfs_emit(buf, "disabled (ana_pending)\n");
-+	if (!test_bit(NVME_NS_READY, &ns->flags))
-+		return sysfs_emit(buf, "disabled (ns_not_ready)\n");
-+	return sysfs_emit(buf, "enabled\n");
-+}
-+DEVICE_ATTR_RO(path_state);
-+
- static ssize_t relative_throughput_show(struct device *dev,
- 		struct device_attribute *attr, char *buf)
- {
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 2b2627e0d3ce..bb9b8cdf973a 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -1066,6 +1066,7 @@ extern struct device_attribute dev_attr_queue_depth;
- extern struct device_attribute dev_attr_in_flight_bytes;
- extern struct device_attribute dev_attr_relative_throughput;
- extern struct device_attribute dev_attr_numa_nodes;
-+extern struct device_attribute dev_attr_path_state;
- extern struct device_attribute dev_attr_delayed_removal_secs;
- extern struct device_attribute subsys_attr_iopolicy;
- 
-diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-index 6309af224c93..5110a3bf5279 100644
---- a/drivers/nvme/host/sysfs.c
-+++ b/drivers/nvme/host/sysfs.c
-@@ -262,6 +262,7 @@ static struct attribute *nvme_ns_attrs[] = {
- 	&dev_attr_in_flight_bytes.attr,
- 	&dev_attr_relative_throughput.attr,
- 	&dev_attr_numa_nodes.attr,
-+	&dev_attr_path_state.attr,
- 	&dev_attr_delayed_removal_secs.attr,
- #endif
- 	&dev_attr_io_passthru_err_log_enabled.attr,
-@@ -296,7 +297,8 @@ static umode_t nvme_ns_attrs_are_visible(struct kobject *kobj,
- 			return 0;
- 	}
- 	if (a == &dev_attr_queue_depth.attr || a == &dev_attr_in_flight_bytes.attr ||
--	    a == &dev_attr_relative_throughput.attr || a == &dev_attr_numa_nodes.attr) {
-+	    a == &dev_attr_relative_throughput.attr || a == &dev_attr_numa_nodes.attr ||
-+	    a == &dev_attr_path_state.attr) {
- 		if (nvme_disk_is_ns_head(dev_to_disk(dev)))
- 			return 0;
- 	}
+diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+index ca86d3bf7ea4..d5d740f1b554 100644
+--- a/drivers/nvme/host/ioctl.c
++++ b/drivers/nvme/host/ioctl.c
+@@ -306,6 +306,7 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 	c.common.nsid = cpu_to_le32(cmd.nsid);
+ 	c.common.cdw2[0] = cpu_to_le32(cmd.cdw2);
+ 	c.common.cdw2[1] = cpu_to_le32(cmd.cdw3);
++	c.common.dptr.prp1 = cpu_to_le64(cmd.addr);
+ 	c.common.cdw10 = cpu_to_le32(cmd.cdw10);
+ 	c.common.cdw11 = cpu_to_le32(cmd.cdw11);
+ 	c.common.cdw12 = cpu_to_le32(cmd.cdw12);
 -- 
-2.43.7
+2.43.0
 
 
