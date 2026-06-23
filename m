@@ -4,88 +4,112 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8E0FBCDB46F
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jun 2026 00:23:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 62729CD98F0
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jun 2026 06:16:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=7PTFSvARfP+izVQxaR6V7pBafvpomsDJq67jAqCb+Bg=; b=OlmdJmd+8mBcZCaxjqI8P8Na0n
-	yF/fWSCBOR6PAXu9icf1kIrC9ERSAKaE8FrRUqKTTUWElfSv7a3/WYUFqCLrXMKZBzdXo/f3D1BVr
-	I1m80mstAfK1r4MDHWQSSN7fUhlxq8VxTDrz2CdIywxVX46WxJhWZP84SfWPc1pkiuiIJikaLpM/s
-	YVEgC2daCFrXAuHjBivsZa1y8Alwy/77oL/dbD7fUciv++1oQQu2yg2AXGGhu0oob/uR2Hiyo8jDE
-	RSPj8Hup6GunpPTLJWdoUZdF4/vrXymxTzcRQDzcCXmNwDyh7A1nShKR0RTAF3G9s3H4l4nNpPNGV
-	LD8lL5Tg==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=DH7SIiBBp9IyAZhVnJb2DCMGQr/9RkPesME/wV44UhA=; b=4dQ5CaFBb9Q2dak6HrM13Bn2Ur
+	uKrlpcqM2m3umZkG3XDzvMMOm5dNWC2+Ae55NdtCxFxD5JRsSyAkfVhoQrO+qb+K/XKo4vDe8caqM
+	oYt9O+FtQRwdvLXovffov7JUi5A/MKKryZLniY2lA6GVDjWLDOGbaoUtHvrraE/EYbYODn+m9KuL/
+	sCFe7uRHHy5a+Fc54S8c5F5hX9cKjAI05d64jav/xKCONf46yfYRYNPrytzK84JLLoB2lOmGTscRa
+	3BQTYjJuz8y1v23cQCGPLN+Q9wTvkg3b+ZcpW5ptEWwgFd2q/1KkZDE3928ZFYQXt3cKQ649VLR2k
+	PLrSRuIQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wbovT-00000005Um2-3JWs;
-	Tue, 23 Jun 2026 00:23:39 +0000
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
+	id 1wbuRJ-00000005lRq-3iJn;
+	Tue, 23 Jun 2026 06:16:53 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wbovQ-00000005UlU-0ily
+	id 1wbuRG-00000005lR0-2rjE
 	for linux-nvme@lists.infradead.org;
-	Tue, 23 Jun 2026 00:23:38 +0000
-Received: by mail-pl1-x62f.google.com with SMTP id d9443c01a7336-2c77d52bec4so2384355ad.1
-        for <linux-nvme@lists.infradead.org>; Mon, 22 Jun 2026 17:23:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782174215; x=1782779015; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7PTFSvARfP+izVQxaR6V7pBafvpomsDJq67jAqCb+Bg=;
-        b=dXvc9xQ9RMpwu6a5IJvrWS/Ve9oa6cSZ3oOT2O3HX6+FTHgI+IOfOVY1CkPhSy7WD0
-         0lhCJXBe2WRccIymQiALLQ6YqVPDAyWWV8TazDnEhFv0cXz11m+u8IRRY+tGe+oULwY9
-         aqtMX/ja/0hpRC/WuVgvW77XBHeaOdhnrjerJvYfG6VAQpk5epouNEf8WeWpHqEODSDi
-         99kyTaNsM8S4Dn0Q9tMzfTmmZK5uxEfMepFuwoxU/ZPB5tYhS2g6nLqQ9QUpJdycrsNF
-         XoNujE7uqm6lQ2QIoAmCqnspKwL9oZLEZ8qQYyqNxO96Kqv5uVsGSDnkbaFzsl/sea5X
-         trVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782174215; x=1782779015;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7PTFSvARfP+izVQxaR6V7pBafvpomsDJq67jAqCb+Bg=;
-        b=POgzsBUp1y0YCyIsOwvZypRyatch4hg7aQrIqjQCLFMaWkVvPd7Vm+sLx6AmvTEBRb
-         oRYbJLCzhKHEIovv0utRHhUhaITDv/oVYdS/VamXkDoOG2R0EnLsGphFiA3OR15Gklt+
-         8Wm0i9l4BnoOA9/GpveykReJptWXczfXs2074raHXs9zSKoP2BVC96QzkwF321d10iDA
-         8xnma+1WaLzxe0Vv1d0fHhHOaJkOOeHDLRy7JrQEEgjO+Q9lmMSDSTk6RHVdrOpHAKDw
-         PQSQ8VVMlczvriKegZ6ainuXJfJXz2an9hwspxL9KQj2WsZ5S2ZqFzGAJ8k2OAgxNAdd
-         z06Q==
-X-Gm-Message-State: AOJu0YylHh7H8NUN1y//t4HyY8K6witOy2klkgYj2M2d0Hzqa1Fd0KJB
-	+wAZc2R4beAvMP1FPsHxKg5HPw4HSDcz+QMPXrj4fYcpS24ZtY0qi4d5
-X-Gm-Gg: AfdE7clycvOvObsqi5F3r25Og2lK0HKuPvu62C6zd4UBUHyKgGiqmaDi5zpSL6oxA5y
-	G0TKTWPaT+5ckWTKL30vVzSFKy+1krETWX05jXnHphDBKCQX6mjwWtlqAxk4I18aHid/BNszxss
-	MqxKocmjpwBmJNVCp52HBfz9uUY1HkvzzfaxTIq+sWAAECEpLPJofDoO55l/uQgj1Pn0P8Q1L7D
-	hTbLIZU+cYWcKX/ZRZHXbCuLeh49wZROhbjVSZtyZi7jl0s3Duy5ock1K94TMv4AsN72Hv/3FDu
-	Atb7Y9cHgBoyAIvEJlIMSNUdSMzbiKjXnf7od+WdIxI5MxIF995K6wQ6DUBih0M6tgoTnqGbPkt
-	nINdRCc9Zmqr4gIRJlYItyjngRfb6mhEvpZ2sWgQd7g1kmLwasTAa9/bTgUpHHHuEHJjmKtndgJ
-	jhAot60go=
-X-Received: by 2002:a17:903:946:b0:2c0:fa52:1c47 with SMTP id d9443c01a7336-2c7c400fd0bmr10594565ad.25.1782174215113;
-        Mon, 22 Jun 2026 17:23:35 -0700 (PDT)
-Received: from localhost ([111.228.63.84])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c7436f7e0asm102210025ad.30.2026.06.22.17.23.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jun 2026 17:23:34 -0700 (PDT)
-From: Cen Zhang <zzzccc427@gmail.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Jens Axboe <axboe@kernel.dk>,
-	Steve Wise <larrystevenwise@gmail.com>
-Cc: linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	baijiaju1990@gmail.com,
-	zzzccc427@gmail.com
-Subject: [PATCH v3] nvme-rdma: pin device wrapper in remove_one
-Date: Tue, 23 Jun 2026 08:23:29 +0800
-Message-Id: <20260623002329.3880334-1-zzzccc427@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	Tue, 23 Jun 2026 06:16:51 +0000
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65N0mMkO351961;
+	Tue, 23 Jun 2026 06:16:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=DH7SIi
+	BBp9IyAZhVnJb2DCMGQr/9RkPesME/wV44UhA=; b=st782uXcI3fXRIBnemPIue
+	raLAJNerGC0AdKZFs89OdNRJQbJicDY7FHYYuxFRs3UcXG509QXSH+ivEOLVAjfe
+	IZP/Mmr5qwuNMETlBx2fLzx+GbkQ2SYuERYfDzgaFx96bmM4bVADluYOdxCgTlTF
+	gnKz8sq9Wlc+V4xhDYJBIsPeNSIgW4LBn3UGjD6dWcH4djQDGESfbx1EQXzhVIro
+	oOkHb6lGkz5CiuqytnVRn4IhDzZkvKaeMBLRDCdjNjEGzzDkCvLjUuelO6snyRcj
+	24B97hnFviJ3xGPwqvb3EbPL2ounzYYrzi74j+JJeoWKdys6dXw+tyePTN8Gy8UA
+	==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4ewjk4cwxd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 23 Jun 2026 06:16:38 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 65N64fen007464;
+	Tue, 23 Jun 2026 06:16:37 GMT
+Received: from smtprelay06.wdc07v.mail.ibm.com ([172.16.1.73])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4ex5jw9y9n-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 23 Jun 2026 06:16:37 +0000 (GMT)
+Received: from smtpav04.wdc07v.mail.ibm.com (smtpav04.wdc07v.mail.ibm.com [10.39.53.231])
+	by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 65N6Gb9x26346134
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 23 Jun 2026 06:16:37 GMT
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 506C558052;
+	Tue, 23 Jun 2026 06:16:37 +0000 (GMT)
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5183C58050;
+	Tue, 23 Jun 2026 06:16:34 +0000 (GMT)
+Received: from [9.43.75.139] (unknown [9.43.75.139])
+	by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 23 Jun 2026 06:16:33 +0000 (GMT)
+Message-ID: <47b1fee5-c7e8-4fd5-884f-80e651181407@linux.ibm.com>
+Date: Tue, 23 Jun 2026 11:46:32 +0530
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] nvme-multipath: expose path_state via sysfs
+To: Guixin Liu <kanie@linux.alibaba.com>, Keith Busch <kbusch@kernel.org>,
+        Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+        Sagi Grimberg <sagi@grimberg.me>, Daniel Wagner <dwagner@suse.de>
+Cc: linux-nvme@lists.infradead.org
+References: <20260622130318.2346995-1-kanie@linux.alibaba.com>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <20260622130318.2346995-1-kanie@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjIzMDA0NCBTYWx0ZWRfXyvfVkT7bVKl1
+ c72RtNL+T8acKbV4zRx22DFZxWZ4tgBWVHanfKeTJon0R0eFH+xIrmi7Em39w3ziZVfG+CXXzlw
+ WgFQexjLEiZq7tiC5AUMc8jDH6cp7Ik=
+X-Proofpoint-ORIG-GUID: Jn2JUmJuSZdJsIAZ9Rp5KKSa-eiVhyTo
+X-Authority-Analysis: v=2.4 cv=Oph/DS/t c=1 sm=1 tr=0 ts=6a3a24c7 cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=SRrdq9N9AAAA:8
+ a=fP0Swy4r6SKquNqiy-sA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjIzMDA0NCBTYWx0ZWRfX1EPXLgpP4klb
+ UC0oaMUh/liTU2/se3AnTOFa85YU3H1Q2sQsrAXfxIBz/mpv6B//rDgFJumaIZnbuZLaRN82BbT
+ QqULKYwgbbmdMOllm9A6egZ//ZYlQyog8XzJSmb4QHLgeCbqYdWvbehdd3JNYiP+p3JqqfTTkGZ
+ yhDCQD6otWOKKdud/Ym0QxpdelV4ORNi26c48ziesB05+jl7o4/vd4biESRvO6BDSHb5+8WnUW7
+ F4KItFC4iFzM02ntADjkl4dfYnn3SyVipappxFD8JVhu6lhThfqzCAvPYKh1fErm4rsA0PH25qz
+ Cd3kgJgaY1wVDSFbcc2RSX9BjxCow2bz6NTISyl9bO8qt4Mf8FGSupEVL0f6Vpu8KEGMK6IPWfm
+ 7yvVt1GnZk3NJ3oDuAbTHApXL+xlqswfa4yGTE1Cdj73CbJlP8XQWFT42f8ziZdwh+1QgucHvpn
+ 9heCpjaVG6J8Rx3kbwQ==
+X-Proofpoint-GUID: 26D208IglbfBpuUALPWlAfV0QpFrl6zr
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-23_01,2026-06-22_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 lowpriorityscore=0 bulkscore=0 spamscore=0 priorityscore=1501
+ clxscore=1015 impostorscore=0 malwarescore=0 adultscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606230044
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260622_172336_217399_9FC4691D 
-X-CRM114-Status: GOOD (  14.80  )
+X-CRM114-CacheID: sfid-20260622_231650_737367_FF9AE75A 
+X-CRM114-Status: GOOD (  28.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,159 +124,123 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvme_rdma_remove_one() first verifies that an ib_device has an
-nvme_rdma_device on device_list, but it drops device_list_mutex before it
-walks nvme_rdma_ctrl_list. It then identifies matching controllers by
-dereferencing ctrl->device->dev while holding only nvme_rdma_ctrl_mutex.
+On 6/22/26 6:33 PM, Guixin Liu wrote:
+> Add a read-only "path_state" sysfs attribute to each NVMe path namespace
+> device (/sys/class/nvme/nvmeX/nvmeXcYnZ/path_state) that exposes whether
+> the path is currently enabled or disabled with a specific reason.
+> 
+> The attribute reflects the result of nvme_path_is_disabled() checks:
+>    - "enabled"                   : path is available for I/O
+>    - "disabled (ctrl_down)"      : controller is not live/deleting
+>    - "disabled (ana_pending)"    : ANA state change pending
+>    - "disabled (ns_not_ready)"   : namespace is not ready
+> 
+> This gives userspace visibility into the multipath path selection state
+> without requiring users to piece together controller state and namespace
+> flags manually.
+> 
+> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+> ---
+> v1->v2:
+> - Show specific disabled reason instead of just "disabled":
+>    "disabled (ctrl_down)", "disabled (ana_pending)",
+>    "disabled (ns_not_ready)". (Nilay Shroff)
+> 
+>   drivers/nvme/host/multipath.c | 16 ++++++++++++++++
+>   drivers/nvme/host/nvme.h      |  1 +
+>   drivers/nvme/host/sysfs.c     |  4 +++-
+>   3 files changed, 20 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+> index 81fff2f20d23..5e3847fd6632 100644
+> --- a/drivers/nvme/host/multipath.c
+> +++ b/drivers/nvme/host/multipath.c
+> @@ -1210,6 +1210,22 @@ static ssize_t in_flight_bytes_show(struct device *dev,
+>   }
+>   DEVICE_ATTR_RO(in_flight_bytes);
+>   
+> +static ssize_t path_state_show(struct device *dev,
+> +		struct device_attribute *attr, char *buf)
+> +{
+> +	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
+> +	enum nvme_ctrl_state state = nvme_ctrl_state(ns->ctrl);
+> +
+> +	if (state != NVME_CTRL_LIVE && state != NVME_CTRL_DELETING)
+> +		return sysfs_emit(buf, "disabled (ctrl_down)\n");
+> +	if (test_bit(NVME_NS_ANA_PENDING, &ns->flags))
+> +		return sysfs_emit(buf, "disabled (ana_pending)\n");
+> +	if (!test_bit(NVME_NS_READY, &ns->flags))
+> +		return sysfs_emit(buf, "disabled (ns_not_ready)\n");
+> +	return sysfs_emit(buf, "enabled\n");
+> +}
+> +DEVICE_ATTR_RO(path_state);
+> +
 
-ctrl->device is a cached copy of queue 0's nvme_rdma_device. Queue
-teardown owns that wrapper's kref, so controller list membership does not
-keep the wrapper alive.
+I'd prefer not to open-code the path disabled checks in the sysfs attribute.
+Ideally, we could factor the logic into a helper that returns the path state
+(or disabled reason), and have nvme_path_is_disabled() built on top of that.
+This would keep the path selection logic and sysfs reporting in sync.
 
-The buggy scenario involves two paths, with each column showing the order
-within that path:
+The concern with the current implementation is that it duplicates the checks
+from nvme_path_is_disabled(). If someone updates the path disable criteria in
+the future, we'd also need to remember to update path_state_show(). Having a
+common helper would avoid that.
 
-RDMA remove callback:                Controller error recovery:
-  1. find ndev on device_list        1. run nvme_rdma_error_recovery_work()
-  2. drop device_list_mutex          2. tear down the admin queue
-  3. walk nvme_rdma_ctrl_list        3. drop the final queue device ref
-  4. read ctrl->device->dev          4. free the nvme_rdma_device wrapper
+For instance, something like below:
 
-Fix this by taking a temporary reference to the matching nvme_rdma_device
-while still holding device_list_mutex. The controller walk can then
-compare ctrl->device directly with the pinned wrapper without
-dereferencing a queue-owned object that might have been freed. Release the
-temporary reference after the delete workqueue flush.
+enum nvme_path_state {
+	NVME_PATH_ENABLED,
+	NVME_PATH_DISABLED_CTRL_DOWN,
+	NVME_PATH_DISABLED_ANA_PENDING,
+	NVME_PATH_DISABLED_NS_NOT_READY,
+};
 
-Validation reproduced this kernel report:
-BUG: KASAN: slab-use-after-free in nvme_rdma_remove_one+0x281/0x2c0 [nvme_rdma]
+static enum nvme_path_state nvme_path_get_state(struct nvme_ns *ns)
+{
+	enum nvme_ctrl_state state = nvme_ctrl_state(ns->ctrl);
 
-Call Trace:
- <TASK>
- dump_stack_lvl+0x66/0xa0
- print_report+0xce/0x630
- ? nvme_rdma_remove_one+0x281/0x2c0 [nvme_rdma]
- ? srso_alias_return_thunk+0x5/0xfbef5
- ? __virt_addr_valid+0x20d/0x410
- ? nvme_rdma_remove_one+0x281/0x2c0 [nvme_rdma]
- kasan_report+0xe0/0x110
- ? nvme_rdma_remove_one+0x281/0x2c0 [nvme_rdma]
- nvme_rdma_remove_one+0x281/0x2c0 [nvme_rdma]
- remove_client_context+0xa9/0xf0 [ib_core]
- disable_device+0x12d/0x240 [ib_core]
- ? __pfx_disable_device+0x10/0x10 [ib_core]
- ? srso_alias_return_thunk+0x5/0xfbef5
- ? __mutex_unlock_slowpath+0x147/0x900
- __ib_unregister_device+0x26f/0x460 [ib_core]
- ib_unregister_device_and_put+0x55/0x70 [ib_core]
- nldev_dellink+0x29e/0x3c0 [ib_core]
- ? unwind_next_frame+0x6e3/0x2190
- ? __pfx_nldev_dellink+0x10/0x10 [ib_core]
- ? lock_acquire+0x2b8/0x2f0
- ? srso_alias_return_thunk+0x5/0xfbef5
- ? cap_capable+0x196/0x330
- ? __pfx_down_read+0x10/0x10
- rdma_nl_rcv_msg+0x2db/0x5f0 [ib_core]
- ? __pfx_rdma_nl_rcv_msg+0x10/0x10 [ib_core]
- rdma_nl_rcv_skb.constprop.0.isra.0+0x222/0x380 [ib_core]
- ? __pfx_rdma_nl_rcv_skb.constprop.0.isra.0+0x10/0x10 [ib_core]
- ? srso_alias_return_thunk+0x5/0xfbef5
- ? srso_alias_return_thunk+0x5/0xfbef5
- ? netlink_deliver_tap+0x150/0xac0
- netlink_unicast+0x47c/0x790
- ? __pfx_netlink_unicast+0x10/0x10
- netlink_sendmsg+0x767/0xc30
- ? __pfx_netlink_sendmsg+0x10/0x10
- ? lock_release+0x1e0/0x280
- __sys_sendto+0x339/0x390
- ? __pfx___sys_sendto+0x10/0x10
- ? srso_alias_return_thunk+0x5/0xfbef5
- __x64_sys_sendto+0xe0/0x1c0
- ? do_syscall_64+0x81/0x6a0
- ? srso_alias_return_thunk+0x5/0xfbef5
- ? trace_hardirqs_on+0x18/0x160
- do_syscall_64+0x115/0x6a0
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
+	/*
+	 * We don't treat NVME_CTRL_DELETING as a disabled path as I/O should
+	 * still be able to complete assuming that the controller is connected.
+	 * Otherwise it will fail immediately and return to the requeue list.
+	 */
+	if (state != NVME_CTRL_LIVE && state != NVME_CTRL_DELETING)
+		return NVME_PATH_DISABLED_CTRL_DOWN;
 
-Allocated by task 436:
- kasan_save_stack+0x33/0x60
- kasan_save_track+0x14/0x30
- __kasan_kmalloc+0xaa/0xb0
- nvme_rdma_cm_handler+0xcbc/0x2914 [nvme_rdma]
- cma_cm_event_handler+0xb2/0x390 [rdma_cm]
- addr_handler+0x199/0x2b0 [rdma_cm]
- process_one_req+0x113/0x650 [ib_core]
- process_one_work+0x8d0/0x1870
- worker_thread+0x575/0xf80
- kthread+0x2e7/0x3c0
- ret_from_fork+0x576/0x810
- ret_from_fork_asm+0x1a/0x30
+	if (test_bit(NVME_NS_ANA_PENDING, &ns->flags))
+		return NVME_PATH_DISABLED_ANA_PENDING;
 
-Freed by task 436:
- kasan_save_stack+0x33/0x60
- kasan_save_track+0x14/0x30
- kasan_save_free_info+0x3b/0x60
- __kasan_slab_free+0x5f/0x80
- kfree+0x307/0x580
- nvme_rdma_free_dev+0x16d/0x260 [nvme_rdma]
- nvme_rdma_free_queue+0x6d/0x90 [nvme_rdma]
- nvme_rdma_error_recovery_work+0x7f/0x110 [nvme_rdma]
- process_one_work+0x8d0/0x1870
- worker_thread+0x575/0xf80
- kthread+0x2e7/0x3c0
- ret_from_fork+0x576/0x810
- ret_from_fork_asm+0x1a/0x30
+	if (!test_bit(NVME_NS_READY, &ns->flags))
+		return NVME_PATH_DISABLED_NS_NOT_READY;
 
-Fixes: e87a911fed07 ("nvme-rdma: use ib_client API to detect device removal")
-Assisted-by: Codex:gpt-5.5
-Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
----
-v3:
-Removed the temporary iterator and goto-based lookup in
-nvme_rdma_remove_one().
-Preserved the original found-based device-list flow while pinning the
-matched nvme_rdma_device.
+	return NVME_PATH_ENABLED;
+}
 
-v2:
-Reworked the fix to take a temporary nvme_rdma_device reference during the
-device_list lookup instead of adding a cached ib_device field to struct
-nvme_rdma_ctrl.
-Changed the controller-list match to compare ctrl->device against the pinned
-wrapper while preserving the existing delete workqueue flush behavior.
+static bool nvme_path_is_disabled(struct nvme_ns *ns)
+{
+         return nvme_path_get_state(ns) != NVME_PATH_ENABLED;
+}
 
- drivers/nvme/host/rdma.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Now the existing callers can continue using nvme_path_is_disabled()
+as is without any change. But for sysfs, we'd call nvme_path_get_state().
+Then the sysfs would map enum nvme_path_state to strings and
+use it for output.
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 6909e3542794..663e38540073 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -2378,7 +2378,7 @@ static void nvme_rdma_remove_one(struct ib_device *ib_device, void *client_data)
- 	mutex_lock(&device_list_mutex);
- 	list_for_each_entry(ndev, &device_list, entry) {
- 		if (ndev->dev == ib_device) {
--			found = true;
-+			found = nvme_rdma_dev_get(ndev);
- 			break;
- 		}
- 	}
-@@ -2390,13 +2390,14 @@ static void nvme_rdma_remove_one(struct ib_device *ib_device, void *client_data)
- 	/* Delete all controllers using this device */
- 	mutex_lock(&nvme_rdma_ctrl_mutex);
- 	list_for_each_entry(ctrl, &nvme_rdma_ctrl_list, list) {
--		if (ctrl->device->dev != ib_device)
-+		if (ctrl->device != ndev)
- 			continue;
- 		nvme_delete_ctrl(&ctrl->ctrl);
- 	}
- 	mutex_unlock(&nvme_rdma_ctrl_mutex);
- 
- 	flush_workqueue(nvme_delete_wq);
-+	nvme_rdma_dev_put(ndev);
- }
- 
- static struct ib_client nvme_rdma_ib_client = {
--- 
-2.43.0
+static const char * const nvme_path_state_str[] = {
+         [NVME_PATH_ENABLED] = "enabled",
+         [NVME_PATH_DISABLED_CTRL_DOWN] = "disabled (ctrl_down)",
+         [NVME_PATH_DISABLED_ANA_PENDING] = "disabled (ana_pending)",
+         [NVME_PATH_DISABLED_NS_NOT_READY] = "disabled (ns_not_ready)",
+};
+
+...
+return sysfs_emit(buf, "%s\n",
+                   nvme_path_state_str[nvme_path_get_state(ns)]);
+
+This way any future updates to the path disable logic would automatically
+be reflected in the sysfs output as well.
+
+Thanks,
+--Nilay
 
 
