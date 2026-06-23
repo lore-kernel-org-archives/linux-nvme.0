@@ -4,56 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9DCCBCDB470
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jun 2026 07:54:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6344FCDB46F
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jun 2026 09:16:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
+	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=dqlqeUC/y8TQoyisTeookWhYmfBiljY8LUnwxfv8eG8=; b=SUWEEN6XKhO8TZUDzabPC8x/es
-	tATSwe44Ba4VW63F8YyD9F8L9FOgPxnUpjud/kTExSRGXXPslxh8SbkosKSGiA5cIqeeYJln9sRQk
-	rFlRljESB3eBBAaUsTvNaTXvAFm1crReQb+cUxXwOz1BVp7t4BeichwwAj89ru1V3MJ5KBlvH9I/Q
-	JUnaCyqXdYTkpfTZlMdvJG5KYLgVLBm5dOOWGyoagRShUvRD5LW2BDXtCmt8OQAzNzu3v2MZTgtev
-	La+E/Tb8W7KskO0sh0snCBJUIdasy4oyI4S7ZrDaoTvhWq11yHLlM/kEfLGidwpxS7YjggPtFuXif
-	9NmcZA+A==;
+	bh=Ez0VfHhGoU0GTVPOD0OStLzH0MYIign36GoetrV9P98=; b=cKBeqhMIgiqYLMbtkGE6eYyirm
+	vL6NdAxOHsxFOI+Ts4pNq6DZ4JI0sBcRWmhUmLRVEcDdCpKCOmpT2jpE7pQgVomI1cUDY4tNLN5ak
+	reHzZk/7k9SavdC2UI/EZA8TmcIOpYy8Ju5WzlZsMNrg5rqShnpDUItb265lgbvOYfdySWYnrW1ZJ
+	Q0e6ldSIgcOQH4CyPfFj7gQAQMHqM6DJ8xQwgCSMR5Bed/O+CF5MsHCV8ujOu4LbW2Z1dpdvNLVqG
+	yLcYNXb93G6JXe0tmARiOTxy20DnAqpOf00fOQZL/tEq/gTXLrI1o2Rnr8QS9BzECHPMXoeXrdSGW
+	qHno1iyg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wbvxt-00000005rfp-1y8k;
-	Tue, 23 Jun 2026 07:54:37 +0000
-Received: from out30-100.freemail.mail.aliyun.com ([115.124.30.100])
+	id 1wbxEk-00000005zDH-1N8d;
+	Tue, 23 Jun 2026 09:16:06 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wbvxp-00000005rfM-2tP5
+	id 1wbxEj-00000005zDA-0iy4
 	for linux-nvme@lists.infradead.org;
-	Tue, 23 Jun 2026 07:54:36 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1782201265; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=dqlqeUC/y8TQoyisTeookWhYmfBiljY8LUnwxfv8eG8=;
-	b=v2E8174pJALEpeoFWELArIiaiNhumzPRkRrwJ/BvMnishwI7JudBZK2jUEjPhlyolhLsGEsxrCLW2rKTWd3iNJHgzyfqNQ8k34woVf2rbHSzIJN5o08ciiknKqgduUu/S4X5flP0fSl0KoiXAJvuDrOOdjPKTU+Owi+cSBJ52cE=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033032089153;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0X5TT.GG_1782201262;
-Received: from 30.178.84.29(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0X5TT.GG_1782201262 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Tue, 23 Jun 2026 15:54:23 +0800
-Message-ID: <d34f4f41-fc35-4df9-b657-e84b520a6784@linux.alibaba.com>
-Date: Tue, 23 Jun 2026 15:54:21 +0800
+	Tue, 23 Jun 2026 09:16:05 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id 851F56020B;
+	Tue, 23 Jun 2026 09:16:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C437E1F00A3A;
+	Tue, 23 Jun 2026 09:16:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782206164;
+	bh=Ez0VfHhGoU0GTVPOD0OStLzH0MYIign36GoetrV9P98=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=L3SQEPFTF3vNjO+J10+sgIzJ9wekrDd8g5HwID3AmeDou70HoQjERcpP8AJbWQAG9
+	 qhP1/ZhrBUiyOcixevfQnxrW3ER4pgXqSqD1ciQLqt2YG56qizfCs0HyBeWnUtdkx6
+	 8vRAY62bI1YdblBZt2jzRVCu+3TFTun9Kv2crrZ9bJfhBQdMVmbeV9scGKbveE5IzQ
+	 lXJM+db570HoSws3Cq1vamJY/cRup4onr+CNz0ReZp5mZwsOm9H+xMnruMt89jdxEU
+	 W8zSHpLo9TW2tXqRAKJFz9TsFsgthb1wYZzoK86WmhIe140Eg100Uhh0dJs579EOxy
+	 88+FtgvrkDYyQ==
+From: Hannes Reinecke <hare@kernel.org>
+Date: Tue, 23 Jun 2026 11:15:46 +0200
+Subject: [PATCH RFC v3 01/12] fs/configfs: rework configfs_is_root()
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] nvme-multipath: expose path_state via sysfs
-To: Nilay Shroff <nilay@linux.ibm.com>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Daniel Wagner <dwagner@suse.de>
-Cc: linux-nvme@lists.infradead.org
-References: <20260622130318.2346995-1-kanie@linux.alibaba.com>
- <47b1fee5-c7e8-4fd5-884f-80e651181407@linux.ibm.com>
-From: Guixin Liu <kanie@linux.alibaba.com>
-In-Reply-To: <47b1fee5-c7e8-4fd5-884f-80e651181407@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260623_005434_657966_E428E83F 
-X-CRM114-Status: GOOD (  28.27  )
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260623-configfs-ns-v3-1-841c100fd5dd@kernel.org>
+References: <20260623-configfs-ns-v3-0-841c100fd5dd@kernel.org>
+In-Reply-To: <20260623-configfs-ns-v3-0-841c100fd5dd@kernel.org>
+To: Andreas Hindborg <a.hindborg@kernel.org>, 
+ Breno Leitao <leitao@debian.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+ Chaitanya Kulkarni <kch@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ linux-nvme@lists.infradead.org, Hannes Reinecke <hare@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1782206158; l=1706;
+ i=hare@kernel.org; s=20260619; h=from:subject:message-id;
+ bh=Vk3YLAgdQQ3JhwKy+7LI/rSXNZ8cgsxQcGMX5eeKgbM=;
+ b=eaW5hVZUWv7ZKjXGT6NGRXmqUfDweUmp17HJ4HBHmCFWx+MsnrgZY6CD+yQ5T8Ae06ZKWfZb9
+ npn6Sdq0z7EDInKkEDzEbNtQkA8H5Gb3iydogYJt2FZKvqS4ZMhBE0+
+X-Developer-Key: i=hare@kernel.org; a=ed25519;
+ pk=iekPF4ZZFva3sutm7d1ryPNR1G/WFfUgHaDB423JXho=
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,138 +80,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+In preparation for making configfs namespace-aware rework
+configfs_is_root() to not rely on static structures but
+rather use the information in the structures themselves.
 
+Signed-off-by: Hannes Reinecke <hare@kernel.org>
+---
+ fs/configfs/configfs_internal.h | 2 +-
+ fs/configfs/mount.c             | 9 +++++++--
+ 2 files changed, 8 insertions(+), 3 deletions(-)
 
-在 2026/6/23 14:16, Nilay Shroff 写道:
-> On 6/22/26 6:33 PM, Guixin Liu wrote:
->> Add a read-only "path_state" sysfs attribute to each NVMe path namespace
->> device (/sys/class/nvme/nvmeX/nvmeXcYnZ/path_state) that exposes whether
->> the path is currently enabled or disabled with a specific reason.
->>
->> The attribute reflects the result of nvme_path_is_disabled() checks:
->>    - "enabled"                   : path is available for I/O
->>    - "disabled (ctrl_down)"      : controller is not live/deleting
->>    - "disabled (ana_pending)"    : ANA state change pending
->>    - "disabled (ns_not_ready)"   : namespace is not ready
->>
->> This gives userspace visibility into the multipath path selection state
->> without requiring users to piece together controller state and namespace
->> flags manually.
->>
->> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
->> ---
->> v1->v2:
->> - Show specific disabled reason instead of just "disabled":
->>    "disabled (ctrl_down)", "disabled (ana_pending)",
->>    "disabled (ns_not_ready)". (Nilay Shroff)
->>
->>   drivers/nvme/host/multipath.c | 16 ++++++++++++++++
->>   drivers/nvme/host/nvme.h      |  1 +
->>   drivers/nvme/host/sysfs.c     |  4 +++-
->>   3 files changed, 20 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/nvme/host/multipath.c 
->> b/drivers/nvme/host/multipath.c
->> index 81fff2f20d23..5e3847fd6632 100644
->> --- a/drivers/nvme/host/multipath.c
->> +++ b/drivers/nvme/host/multipath.c
->> @@ -1210,6 +1210,22 @@ static ssize_t in_flight_bytes_show(struct 
->> device *dev,
->>   }
->>   DEVICE_ATTR_RO(in_flight_bytes);
->>   +static ssize_t path_state_show(struct device *dev,
->> +        struct device_attribute *attr, char *buf)
->> +{
->> +    struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
->> +    enum nvme_ctrl_state state = nvme_ctrl_state(ns->ctrl);
->> +
->> +    if (state != NVME_CTRL_LIVE && state != NVME_CTRL_DELETING)
->> +        return sysfs_emit(buf, "disabled (ctrl_down)\n");
->> +    if (test_bit(NVME_NS_ANA_PENDING, &ns->flags))
->> +        return sysfs_emit(buf, "disabled (ana_pending)\n");
->> +    if (!test_bit(NVME_NS_READY, &ns->flags))
->> +        return sysfs_emit(buf, "disabled (ns_not_ready)\n");
->> +    return sysfs_emit(buf, "enabled\n");
->> +}
->> +DEVICE_ATTR_RO(path_state);
->> +
->
-> I'd prefer not to open-code the path disabled checks in the sysfs 
-> attribute.
-> Ideally, we could factor the logic into a helper that returns the path 
-> state
-> (or disabled reason), and have nvme_path_is_disabled() built on top of 
-> that.
-> This would keep the path selection logic and sysfs reporting in sync.
->
-> The concern with the current implementation is that it duplicates the 
-> checks
-> from nvme_path_is_disabled(). If someone updates the path disable 
-> criteria in
-> the future, we'd also need to remember to update path_state_show(). 
-> Having a
-> common helper would avoid that.
->
-> For instance, something like below:
->
-> enum nvme_path_state {
->     NVME_PATH_ENABLED,
->     NVME_PATH_DISABLED_CTRL_DOWN,
->     NVME_PATH_DISABLED_ANA_PENDING,
->     NVME_PATH_DISABLED_NS_NOT_READY,
-> };
->
-> static enum nvme_path_state nvme_path_get_state(struct nvme_ns *ns)
-> {
->     enum nvme_ctrl_state state = nvme_ctrl_state(ns->ctrl);
->
->     /*
->      * We don't treat NVME_CTRL_DELETING as a disabled path as I/O should
->      * still be able to complete assuming that the controller is 
-> connected.
->      * Otherwise it will fail immediately and return to the requeue list.
->      */
->     if (state != NVME_CTRL_LIVE && state != NVME_CTRL_DELETING)
->         return NVME_PATH_DISABLED_CTRL_DOWN;
->
->     if (test_bit(NVME_NS_ANA_PENDING, &ns->flags))
->         return NVME_PATH_DISABLED_ANA_PENDING;
->
->     if (!test_bit(NVME_NS_READY, &ns->flags))
->         return NVME_PATH_DISABLED_NS_NOT_READY;
->
->     return NVME_PATH_ENABLED;
-> }
->
-> static bool nvme_path_is_disabled(struct nvme_ns *ns)
-> {
->         return nvme_path_get_state(ns) != NVME_PATH_ENABLED;
-> }
->
-> Now the existing callers can continue using nvme_path_is_disabled()
-> as is without any change. But for sysfs, we'd call nvme_path_get_state().
-> Then the sysfs would map enum nvme_path_state to strings and
-> use it for output.
->
-> static const char * const nvme_path_state_str[] = {
->         [NVME_PATH_ENABLED] = "enabled",
->         [NVME_PATH_DISABLED_CTRL_DOWN] = "disabled (ctrl_down)",
->         [NVME_PATH_DISABLED_ANA_PENDING] = "disabled (ana_pending)",
->         [NVME_PATH_DISABLED_NS_NOT_READY] = "disabled (ns_not_ready)",
-> };
->
-> ...
-> return sysfs_emit(buf, "%s\n",
->                   nvme_path_state_str[nvme_path_get_state(ns)]);
->
-> This way any future updates to the path disable logic would automatically
-> be reflected in the sysfs output as well.
->
-> Thanks,
-> --Nilay
-That's reasonable, will be changed in v3, thanks.
+diff --git a/fs/configfs/configfs_internal.h b/fs/configfs/configfs_internal.h
+index acdeea8e2d69ac9d621e1a42b039719811c31757..6261e1f3ec201a58a5d46b08dfbced8c2a44d82b 100644
+--- a/fs/configfs/configfs_internal.h
++++ b/fs/configfs/configfs_internal.h
+@@ -63,7 +63,7 @@ extern spinlock_t configfs_dirent_lock;
+ 
+ extern struct kmem_cache *configfs_dir_cachep;
+ 
+-extern int configfs_is_root(struct config_item *item);
++extern bool configfs_is_root(struct config_item *item);
+ 
+ extern struct inode * configfs_new_inode(umode_t mode, struct configfs_dirent *, struct super_block *);
+ extern struct inode *configfs_create(struct dentry *, umode_t mode);
+diff --git a/fs/configfs/mount.c b/fs/configfs/mount.c
+index 4929f343118946eaa55a539db4192e9c6621a8dc..88da7b428e52f2f4ab139ad3907101f685d617b1 100644
+--- a/fs/configfs/mount.c
++++ b/fs/configfs/mount.c
+@@ -47,9 +47,14 @@ static struct config_group configfs_root_group = {
+ 	},
+ };
+ 
+-int configfs_is_root(struct config_item *item)
++bool configfs_is_root(struct config_item *item)
+ {
+-	return item == &configfs_root_group.cg_item;
++	struct configfs_dirent *sd;
++
++	if (!item->ci_dentry)
++		return false;
++	sd = item->ci_dentry->d_fsdata;
++	return !!(sd->s_type & CONFIGFS_ROOT);
+ }
+ 
+ static struct configfs_dirent configfs_root = {
 
-Best Regards,
-Guixin Liu
+-- 
+2.51.0
 
 
