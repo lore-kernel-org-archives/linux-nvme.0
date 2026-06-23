@@ -4,88 +4,107 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 66CACCDB46F
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jun 2026 15:07:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA3A3CDB470
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jun 2026 20:38:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QsWqcAoSJUbbr5g4gu335g27eTBAN4Ee3NvL2USPRbY=; b=Kl+eptL5aptM2rwO73e1ZRuQ9Q
-	uDkKJfkAZqxed8eLWJj6jFFn2m9E/zd2/uOOPL3cCxTgFBvuvZ1rA62Ofmv97kdxZwVj4km+day+z
-	XZxhzfYNJddkAEcNWHkumFcuYhLaS2LrOD6XYooYThx0ebwQ5Een0Ym3WwiieHATZ/Imwqfi8Qywb
-	rSV0Zf11fplx6Aevygu3s8lhCiM4kLvz7wOtGuL2MGVU+5giHt678x1xB9PczZxIp0DrurZZXaAgN
-	Ck02ADv45WKzhjjG/WY4TQdatoyzqMbbdAI2HjjTTZRxQt0s2uq1Y8c43wRYlQSaQc3Jmv8UtTxIc
-	HOUVdy+Q==;
+	bh=9MUGSR+G8w0e9t/Us+u+afYAQZW56UL9oik51hoBoiU=; b=DB9HCbW9qB1U4VQS+Nm1z4NFjl
+	P8cM39mXIw8YfL2hcb0uA4F6I2mCmZDTQYe1sS06u2WTxJKabvULvSrWxFH/A+hUnfObtt2nyQPCg
+	HDRLnZY/O4A38plguhrKKEWv8jjBnzXDgbsaI3Uml/IG4QcFuAQLunoLHvmDw16d2/PHhmCD0Agfn
+	isGfKwVMZfdt0hy2eplGnoh9f7a9/JWT1W4nR1Tsqzr+o7B2PRpJzwAgMqzrKulCPaiJY6aArzvJs
+	7aajg3WWmSWqo5AZvD88M/1hF7zVe2RwqlhTWj2UI+v3v0zfx14QMIS6FKwAcLSW9VjqobiSvxfnv
+	jJia/Rqg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wc2iL-00000006VRL-0U3w;
-	Tue, 23 Jun 2026 15:07:01 +0000
-Received: from mail-oo1-xc2e.google.com ([2607:f8b0:4864:20::c2e])
+	id 1wc7sj-00000006rEN-3JLk;
+	Tue, 23 Jun 2026 20:38:05 +0000
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wc2iI-00000006VQH-0XJc
+	id 1wc7sg-00000006rDz-0o7o
 	for linux-nvme@lists.infradead.org;
-	Tue, 23 Jun 2026 15:06:59 +0000
-Received: by mail-oo1-xc2e.google.com with SMTP id 006d021491bc7-69d8f70cb0cso4275411eaf.0
-        for <linux-nvme@lists.infradead.org>; Tue, 23 Jun 2026 08:06:57 -0700 (PDT)
+	Tue, 23 Jun 2026 20:38:03 +0000
+Received: by mail-ed1-x52f.google.com with SMTP id 4fb4d7f45d1cf-697de335c18so450216a12.2
+        for <linux-nvme@lists.infradead.org>; Tue, 23 Jun 2026 13:37:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782247079; cv=none;
+        d=google.com; s=arc-20240605;
+        b=FD/U4MnKkQdVpsOEiXBK8Xz971fY3oRs2QgO4ntgZKg0akHH1Gxx9a7wkS7qCDbLy0
+         JV5FJlRyCHD764ZNXUYhQbiuT1heGU6xGj78p8HPWHyrqKyqI1qDo9K2sLQ7/GgmioIJ
+         2J0DUIuGnmFrBqzfUeP0BHZVVdrRlUPfl1+NeiXwMaDyjkgP7qEMC8rSC/XdnuVHLKgi
+         6yRTKp/4Hi0mHx6qOVEXDWqdeDjFitUbSMAxZeG+70m1QCruJ2KMYR6SxhZkesFyMWXd
+         aB3TEXBEGAHhq6Y/IfOl79HrMMphgAjbJwX1egfn5vz/PC85u7rdqcK3TdKSMADc9SZu
+         vBUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=9MUGSR+G8w0e9t/Us+u+afYAQZW56UL9oik51hoBoiU=;
+        fh=AWinbm2SbSQFXtcrkR9LsvKi+jB6/HNwSsADz6JIemY=;
+        b=A5W7s/EG7htknTCCEd5Vv2xdSKSGnIC8Of6c4g4XbL60BEj6lfQT+ZAXL8PXnma7L4
+         SRD7i4liXCu5cdpaXL4h8lSS7tViz1QMLT/cB47WWkeOIk+PsA5fqeV+caXNIs20azWS
+         E7jmnvjwIzXCf6xmwCGLwlhd28fD+6cbqtfH/XkhxE57YHQTTJseCPETPYa01+i1KiPQ
+         3PHbmIaX0GOcKGwbhyyMyY75IrkevcRFm92UjsDxrVQaEQED2ec+mtyp1kiXfHe/Y8kH
+         t+9xnAyFIUKROpD1PlTErhWD4w+eqVpGo5dLTT7qHsfxDrlC63pvtVTIRxwjK5dC3PGA
+         nuHg==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1782227216; x=1782832016; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QsWqcAoSJUbbr5g4gu335g27eTBAN4Ee3NvL2USPRbY=;
-        b=t7diqVhixcEAzeJ87S9CZ4o1vruvAs0QE7M3f19VNK50hayOL+V5GcZnAu4noQMGO7
-         ZHsZWqA1kFWk+KDpGap7kJJkgxoR9jx2d3DcM4pgncse/yhfQ6DOTYiOpA+ICgBOVG+w
-         3hM+R8qn7GJDpT6i/IeVhuDcVkIwNZOKibGYjfzDlGubsk7ZhiaTCtdqVrZsnXvAhjml
-         rvCUVf+fQjMegFM7YKNemfg7j7cXSak5MUcOrfw9yKogANRBwFkmK0iaFMWlylkPlgux
-         n8wUFTz/6/IaYG9bWKrHqhHcgas6AzRGf8PKCjqPiZsQg7ILSESBD9bJ+cSNtVexibLy
-         O+uw==
+        d=gmail.com; s=20251104; t=1782247079; x=1782851879; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9MUGSR+G8w0e9t/Us+u+afYAQZW56UL9oik51hoBoiU=;
+        b=O1/wHwGw28ip/iAwNzeJxGEo00DN+jI88fkNR6C/vy60a2U+YcTG9kISXSIeUxk/Tn
+         fE8MTMKqD50nWE7pJY/fexDA69qvBTyiFOsMCydEfEbpTEKyHGC+1ZsADHgsm+cpMilH
+         9AzyqWnqfhh/Cp5KzG52X9SuTf5nWT/fJ3/cNymACc64lE3wns55WlL93FRoY1c+65gy
+         P5UXJcjSPqvFOn8rRDSzAjt743UQ7IHcK7F3wZiyA2zfS4YFRyj4my1rKrKUXsNBeKTG
+         t1vhKse2953qMw0d5QXPMkGoibQM279GBd032v6ydfBSFgFehhaoJ+T/rIPpjS7yPusF
+         sMHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782227216; x=1782832016;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QsWqcAoSJUbbr5g4gu335g27eTBAN4Ee3NvL2USPRbY=;
-        b=aqHAZ473xjv6PPaxMl6PeALBe2OLzUol5nIOp/hlwg8S0Jq27cKA8h3BKm3ANFxOai
-         mbtGEm+Yzk3xFHzbFjjf7qNXzOi3nSPYV4ZULUmQWr7EJ/eqTPY+g2FN4lzp7JYNfSMQ
-         JGH1KKspjMQi9iCf22hpy4pLolcXDuskZWxwHFhvkCVhs3HpUTSwP/QXWdhA7527qC0U
-         xxDmSJjBXqTj7Fwtfz9Jm8uarCuO5szxEzlQPuNp38pvt+vDOcJXiwfQQg332VE8Fl0t
-         h09EI4m8uA8/iDyQulmv76hsTSi4Wd0qBpA2h7yYJjB/WimyS4Vh3dxonsAZjU61j+AO
-         tZFA==
-X-Forwarded-Encrypted: i=1; AFNElJ8r109YzQ+z/gd7R3sQrVPWN4bwPwXNVOmKeF8CL3QRZxQp4ac6v1ovDirGR/WWBTUmQE8GBB6HtOy1@lists.infradead.org
-X-Gm-Message-State: AOJu0Yy1kxfXxtTPqF69bB6ruZTC0oISxZa6F4tkE8St4QtFvC+nxRzY
-	/21WKki2kvV4UfiySu1/jkJzqfeQoheSpFYB0J3ZNsLmhE5PGiwL+qyqWhD7Zl1o5wM=
-X-Gm-Gg: AfdE7ck8OA7GJExjgGK2wPvu5dXjSJGrhWNtoTBaWlW64XtSlrxuAinQGAGLrsxBjjy
-	syQk40TBlXYzThpVfwCitpEA8NwZSYicx5OlE773dkMWbMATcibUZ1zDp54WZAR76493ExQZoxy
-	L7zCFdgXJp/M8WmtQLfSROezusByzPb84CxIEQ8WZc7VpDATr/pYPu+BcsXiajCUTp5unU1nh7q
-	wtLjdq5pqhanrTTTmxeMeWvcYyzrCkcyRaa5Vaqfda0Mc7GdQzJadzRuVSguAhSzNU6vWYQ9sd0
-	LF3MxTWclu4p3BUqQxAdN62J2CTlYHwWfh+MpPjI5fsdr9A9aves069z456DWmBlFIxSUKMP327
-	nUiR4TSlcpztYXZ+FD3zSFyihHm+ybdB/8YsNmWusmC39TOeSc4e7XxxgAh2HKgXZqAlwvvUw/V
-	meKUsvLN4eT5G7c9yTYZCEZJV1cP74Ky3n24VpgSVFuKStndqX3FaVLxU9dm/0Bvxgmd1IAZg=
-X-Received: by 2002:a4a:e905:0:b0:6a0:ac70:ecf with SMTP id 006d021491bc7-6a0d8c17eabmr17207407eaf.17.1782227216474;
-        Tue, 23 Jun 2026 08:06:56 -0700 (PDT)
-Received: from [192.168.1.150] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6a0e9fae72csm7362926eaf.7.2026.06.23.08.06.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Jun 2026 08:06:55 -0700 (PDT)
-Message-ID: <354f3f77-056c-4562-927d-4dfc36bd4a99@kernel.dk>
-Date: Tue, 23 Jun 2026 09:06:54 -0600
+        d=1e100.net; s=20251104; t=1782247079; x=1782851879;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=9MUGSR+G8w0e9t/Us+u+afYAQZW56UL9oik51hoBoiU=;
+        b=eqYdy8y582pTHIm5GaWuJyM7i2HES32febNokxJZBvZ9xFAx3rIuxSdYphJ4Aetu6i
+         c7U+59zinKNwuNFm9UjXxnJzYwPtNTvEkZcSzWcrrhuxHjTurv5oDPafxIJjAwCuxXN/
+         0EkK1F4NSQmOGKvh9TvIjexK5LUP2soeA3bWjcUdi3HiC5qavITv5ce3eupAdgvKy6AZ
+         E7UybAIB0JGkC764gxQE+T8ShvHa35mwrjJJowZhPTtRtQWe4GGdxcIl5+Fv6ih/J3JC
+         nXWYlAkUCeqsBKmrKnO3RZLS16h0tri7RurH/9mXdnElpsbHn1J6oBZ0seT9QOU4y+BH
+         kQZQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9xs/neYwCvaGMkU/sN4aetJpKstbvbxrzMV+8Y4jidFPvWWniwSQcVjsV5FMSNcJ82+cjLJIXlODje@lists.infradead.org
+X-Gm-Message-State: AOJu0YxAuY/KZAu9sng7768hjpTx+tpnUSD0PvPpHa2QrKIOoAg9nGaK
+	+5mcFq3zPrSquqRRRPljPKN6JBhQSTocR5XTNbxSzz8ntBgWFUVI1GOYS2t//iayrg+VSG9D04b
+	My/8hmPa1oUAfL+EPm5TNaq41YU475S8=
+X-Gm-Gg: AfdE7clUkBzyWM43Z4Gj6+zhTrRJr7T7RW/N2TrOE9/dkF+B+8FjjRnSVrviaRnQAB/
+	5gdRTM0j6OuczMl0Rr2N4lnG5IbCJ8vyx0h6A4qZzzqTlCepfljCNYpL3U4T2NgafGF/jcAGjzH
+	ILzuKKpB120PVmvO04M6KOWfsJ9FoV3YRcWdI9zUdfvhs8jxrVRLih7ryIO+43g35W0qiATiBNE
+	DlpVFbEkd9DWrUvLivZNRFQgH8fHpzg06SDM2l1QnVXoTR1gMJrpb36GQ+UO4ELNxiOfL0G
+X-Received: by 2002:a05:6402:350d:b0:697:e93d:6da6 with SMTP id
+ 4fb4d7f45d1cf-697f376fca1mr87760a12.1.1782247078289; Tue, 23 Jun 2026
+ 13:37:58 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL] nvme fixes for Linux 7.2
-To: Keith Busch <kbusch@kernel.org>
-Cc: hch@lst.de, sagi@grimberg.me, linux-nvme@lists.infradead.org
-References: <ajqchuQAz534Erac@kbusch-mbp>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <ajqchuQAz534Erac@kbusch-mbp>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260515185853.2761456-1-coshi036@gmail.com> <0938b6f8-8001-4fcf-95a4-327fa9077163@oracle.com>
+ <ah7znSpPM-H-ACaV@kbusch-mbp> <ah752_DIQdr_LHaB@kbusch-mbp>
+ <c6046eb2-9594-4355-9f4c-21a6f3bd8131@oracle.com> <539bb4aa-30a3-457c-8c77-c0d660376c3a@oracle.com>
+In-Reply-To: <539bb4aa-30a3-457c-8c77-c0d660376c3a@oracle.com>
+From: Chao S <coshi036@gmail.com>
+Date: Tue, 23 Jun 2026 16:37:46 -0400
+X-Gm-Features: AVVi8Cf0Ls-PhmtmYZDcGBNpWXae8oiqTX3KHoBFoPHS_gI1lQYxm3lX8MRa_j4
+Message-ID: <CACd_6n1h6NW3DS1MDKkcr=r-uxGQ=HspMLN6TWtLc26Vct8sYQ@mail.gmail.com>
+Subject: Re: [PATCH v3] nvme: core: reject invalid LBA data size from Identify Namespace
+To: John Garry <john.g.garry@oracle.com>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, linux-nvme@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	Daniel Wagner <dwagner@suse.de>, Hannes Reinecke <hare@suse.de>, Maurizio Lombardi <mlombard@arkamax.eu>, 
+	Sungwoo Kim <iam@sung-woo.kim>, Dave Tian <daveti@purdue.edu>, Weidong Zhu <weizhu@fiu.edu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260623_080658_418645_77ADD904 
-X-CRM114-Status: GOOD (  11.36  )
+X-CRM114-CacheID: sfid-20260623_133802_364492_0FDE5B0C 
+X-CRM114-Status: GOOD (  20.48  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,35 +119,91 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/23/26 8:47 AM, Keith Busch wrote:
-> The following changes since commit 7ed4aab1381f3439f45032eb860f89d9da5e45c2:
-> 
->   block: optimize I/O merge hot path with unlikely() hints (2026-06-08 07:46:58 -0600)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git tags/nvme-7.2-2026-06-23
-> 
-> for you to fetch changes up to 7d953c75f0a3f905aadf3675c9394a5b9d9897bf:
-> 
->   nvmet-tcp: handle TCP_CLOSING state in nvmet_tcp_state_change (2026-06-10 08:14:19 -0700)
-> 
-> ----------------------------------------------------------------
-> nvme fixes for Linux 7.2
-> 
->  - Apple A11 quirk for sharing tags across admin and IO queues (Nick)
->  - Target fix for short AUTH_RECEIVE buffers (Michael)
->  - Target fix for SQ refcount leak (Wentao)
->  - Target RDMA handling inline data with nonzero offset (Bryam)
->  - Target TCP fix handling the TCP_CLOSING state (Maurizio)
->  - FC abort fixes in early initialization (Mohamed)
->  - Controller device teardown fixes (Maurizio, John)
->  - Allocate the target ana_state with the port (Rosen)
->  - Quieten sparse and sysfs symbol warnings (John)
+Hi John, Keith,
 
-Pulled, thanks.
+Thanks for catching the sparse warning, and sorry for the delayed response.
 
--- 
-Jens Axboe
+> BTW, I have thought that check_shl_overflow would catch
+> id->lbaf[lbaf].ds < SECTOR_SHIFT (so that we don't need the extra check).
 
+Confirmed -- check_shl_overflow() returns true for the negative shift
+that ds < SECTOR_SHIFT produces (_to_shift collapses to 0 and the
+_to_shift !=3D _s test fires). I checked ds=3D0 and ds=3D8: both are still
+rejected with the explicit lower-bound test removed, so it is redundant.
+
+For the C=3D1 warning, the minimal fix is to drop that redundant check and
+feed nsze through a plain u64 local -- as Keith found, laundering the
+le64_to_cpu() result through a non-__le64 type makes the warning go away:
+
+u64 nsze;
+...
+nsze =3D le64_to_cpu(id->nsze);
+if (check_shl_overflow(nsze, id->lbaf[lbaf].ds - SECTOR_SHIFT,
+      &capacity)) {
+dev_warn_once(...);
+ret =3D -ENODEV;
+goto out;
+}
+
+This keeps check_shl_overflow() in one tested helper and avoids a
+wrapper. John's nvme_valid_ds() works too; if we prefer that, I'd name it
+for its actual sense (it returns true on overflow, i.e. invalid), e.g.
+nvme_ds_overflows().
+
+One note: I'd lean toward keeping check_shl_overflow() rather than
+open-coding the bound. It folds the lower-bound (negative shift) and the
+overflow case into one tested helper, so we don't have to re-derive the
+boundary by hand -- e.g. the lower bound is on ds itself, not on the
+post-subtract (ds - SECTOR_SHIFT) shift, which I found easy to get
+subtly wrong.
+
+Keith, since v3 is already in your tree: do you want an incremental fixup
+on top, or a v4 to replace the applied commit? I have both ready.
+
+Thanks,
+Chao
+
+On Wed, Jun 3, 2026 at 6:08=E2=80=AFAM John Garry <john.g.garry@oracle.com>=
+ wrote:
+>
+> On 02/06/2026 17:18, John Garry wrote:
+> >
+> >> I say we can ignore the sparse warning, or we
+> >> can rewrite this to avoid the check_shl_overflow entirely.
+> >
+>
+> FWIW, adding a separate function keeps sparse happy for me:
+>
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index ea837b94d3e5..3ec98038668e 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -2364,6 +2364,11 @@ static int nvme_query_fdp_info(struct nvme_ns
+> *ns, struct nvme_ns_info *info)
+>         return ret;
+>   }
+>
+> +static bool nvme_valid_ds(u64 nsze, signed int shift, u64 *capacity)
+> +{
+> +       return check_shl_overflow(nsze, shift, capacity);
+> +}
+> +
+>   static int nvme_update_ns_info_block(struct nvme_ns *ns,
+>                 struct nvme_ns_info *info)
+>   {
+> @@ -2407,10 +2412,8 @@ static int nvme_update_ns_info_block(struct
+> nvme_ns *ns,
+>                         goto out;
+>         }
+>
+> -       if (id->lbaf[lbaf].ds < SECTOR_SHIFT ||
+> -           check_shl_overflow(le64_to_cpu(id->nsze),
+> -                              id->lbaf[lbaf].ds - SECTOR_SHIFT,
+> -                              &capacity)) {
+> +       if (nvme_valid_ds(le64_to_cpu(id->nsze),
+> +               id->lbaf[lbaf].ds - SECTOR_SHIFT, &capacity)) {
+>                 dev_warn_once(ns->ctrl->device,
+>                         "invalid LBA data size %u, skipping namespace\n",
+>                         id->lbaf[lbaf].ds);
+>
 
