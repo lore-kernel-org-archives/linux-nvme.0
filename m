@@ -4,107 +4,105 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA3A3CDB470
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jun 2026 20:38:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0C619CDB471
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jun 2026 22:29:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
 	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9MUGSR+G8w0e9t/Us+u+afYAQZW56UL9oik51hoBoiU=; b=DB9HCbW9qB1U4VQS+Nm1z4NFjl
-	P8cM39mXIw8YfL2hcb0uA4F6I2mCmZDTQYe1sS06u2WTxJKabvULvSrWxFH/A+hUnfObtt2nyQPCg
-	HDRLnZY/O4A38plguhrKKEWv8jjBnzXDgbsaI3Uml/IG4QcFuAQLunoLHvmDw16d2/PHhmCD0Agfn
-	isGfKwVMZfdt0hy2eplGnoh9f7a9/JWT1W4nR1Tsqzr+o7B2PRpJzwAgMqzrKulCPaiJY6aArzvJs
-	7aajg3WWmSWqo5AZvD88M/1hF7zVe2RwqlhTWj2UI+v3v0zfx14QMIS6FKwAcLSW9VjqobiSvxfnv
-	jJia/Rqg==;
+	bh=lktyDVRtVy/viiqrhpDpy008z8LoJ6ZN5NvRhb+XjTs=; b=INqz0M/ieEg9gCkT9o3xhjj9jD
+	6C+SbBJD+mNHSZUpk673Efen+Am0MA7EsGw82YXT13v7Wvfiho3jXAIT+QYli3JpV/60Z1xECQ080
+	lY+hI99eZdh/f0LUiBB6oDQcsn3wk/Qh0nIUURL1PlNDoPPiqdKbEcnzfcdLQtolTLCxBHFZbrK8d
+	UcAxlJ3KNb3r2+cwvNBtKJN/xx+Xjfz74zg2G6Oq0QPwuPkyr6HRm4WlfWs5yHmhCMNvxwB9iTYLb
+	59m2pBjlq+jMyNsQq0Zv775CnKQ42pOM6RVPTwwX++Z4JgE12qAYX2Fv13zJylEt4KciLdrtrlfbe
+	CNgILVtw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wc7sj-00000006rEN-3JLk;
-	Tue, 23 Jun 2026 20:38:05 +0000
+	id 1wc9c9-00000006woB-2c77;
+	Tue, 23 Jun 2026 22:29:05 +0000
 Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wc7sg-00000006rDz-0o7o
+	id 1wc9c7-00000006wnn-0aLd
 	for linux-nvme@lists.infradead.org;
-	Tue, 23 Jun 2026 20:38:03 +0000
-Received: by mail-ed1-x52f.google.com with SMTP id 4fb4d7f45d1cf-697de335c18so450216a12.2
-        for <linux-nvme@lists.infradead.org>; Tue, 23 Jun 2026 13:37:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782247079; cv=none;
+	Tue, 23 Jun 2026 22:29:04 +0000
+Received: by mail-ed1-x52f.google.com with SMTP id 4fb4d7f45d1cf-693c69b97e7so566710a12.2
+        for <linux-nvme@lists.infradead.org>; Tue, 23 Jun 2026 15:29:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782253741; cv=none;
         d=google.com; s=arc-20240605;
-        b=FD/U4MnKkQdVpsOEiXBK8Xz971fY3oRs2QgO4ntgZKg0akHH1Gxx9a7wkS7qCDbLy0
-         JV5FJlRyCHD764ZNXUYhQbiuT1heGU6xGj78p8HPWHyrqKyqI1qDo9K2sLQ7/GgmioIJ
-         2J0DUIuGnmFrBqzfUeP0BHZVVdrRlUPfl1+NeiXwMaDyjkgP7qEMC8rSC/XdnuVHLKgi
-         6yRTKp/4Hi0mHx6qOVEXDWqdeDjFitUbSMAxZeG+70m1QCruJ2KMYR6SxhZkesFyMWXd
-         aB3TEXBEGAHhq6Y/IfOl79HrMMphgAjbJwX1egfn5vz/PC85u7rdqcK3TdKSMADc9SZu
-         vBUQ==
+        b=Gvq2PJ1H1exhctmrgiph4rOwFXujT4O8QShNDQltRBDO58pm+E02kyZF7E/b8oOOCR
+         YlvC/1/4JQWCYtNszt0CrzM3CbKxUeGo5uyve4BwydBMYPfz75HafpQ382CjGMgIpbfV
+         0S72VIIKi7ma+Vp0sLs4V9vnq1jmdouOZsGxdu7RNES8eHBEtfCzXjobsiL1TsuluaV2
+         T7aFc3w9gEueAHlBhppWTwxnI5Epj57slkJGRQxmR7mhG7VYCWF51syQP3cg8DSJtCBJ
+         Lx233GukiuXo/NNuaRCEHbcPlQ9pIziWevcgmkGt49yoCd2FfxTK7Yb22AhGRlBEgAQU
+         6ZOg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=9MUGSR+G8w0e9t/Us+u+afYAQZW56UL9oik51hoBoiU=;
-        fh=AWinbm2SbSQFXtcrkR9LsvKi+jB6/HNwSsADz6JIemY=;
-        b=A5W7s/EG7htknTCCEd5Vv2xdSKSGnIC8Of6c4g4XbL60BEj6lfQT+ZAXL8PXnma7L4
-         SRD7i4liXCu5cdpaXL4h8lSS7tViz1QMLT/cB47WWkeOIk+PsA5fqeV+caXNIs20azWS
-         E7jmnvjwIzXCf6xmwCGLwlhd28fD+6cbqtfH/XkhxE57YHQTTJseCPETPYa01+i1KiPQ
-         3PHbmIaX0GOcKGwbhyyMyY75IrkevcRFm92UjsDxrVQaEQED2ec+mtyp1kiXfHe/Y8kH
-         t+9xnAyFIUKROpD1PlTErhWD4w+eqVpGo5dLTT7qHsfxDrlC63pvtVTIRxwjK5dC3PGA
-         nuHg==;
+        bh=lktyDVRtVy/viiqrhpDpy008z8LoJ6ZN5NvRhb+XjTs=;
+        fh=3z/6Qej+pYASJYvEvz8KeWveHe24d+PxhHKrPAWJc/Y=;
+        b=bsxQi2TXew51gwptVxLlj/usZQWS71gOu+Sz+hbVMPVpzkgGDzkRISq8Oi7Y3Zo+66
+         nUj+nb4i7F67PK9Se7z5dxDIWrwqul1TsE7HtgKeRD16MkBCk0UWnkI43uyFbVHXMIf8
+         MhNA1uNa5uEvb0WYa7qVfu7RgTYh/PnptslZZz81+D/eE2J9w3/QnBJp43IRV/Zg/se0
+         PYJPN1U7wbLZ93XW3awEvk+RD/oteoy0r7QPkRt6JOc0qEPVOHiONtPc4/S2sgLKrBED
+         uNT2DyYI5ODZGhpJV3R83uNxMf7sgHQyb7sTvyXpI13/H1B6BAiixCU2QauxjVSlJg3s
+         Z6Gw==;
         darn=lists.infradead.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782247079; x=1782851879; darn=lists.infradead.org;
+        d=gmail.com; s=20251104; t=1782253741; x=1782858541; darn=lists.infradead.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9MUGSR+G8w0e9t/Us+u+afYAQZW56UL9oik51hoBoiU=;
-        b=O1/wHwGw28ip/iAwNzeJxGEo00DN+jI88fkNR6C/vy60a2U+YcTG9kISXSIeUxk/Tn
-         fE8MTMKqD50nWE7pJY/fexDA69qvBTyiFOsMCydEfEbpTEKyHGC+1ZsADHgsm+cpMilH
-         9AzyqWnqfhh/Cp5KzG52X9SuTf5nWT/fJ3/cNymACc64lE3wns55WlL93FRoY1c+65gy
-         P5UXJcjSPqvFOn8rRDSzAjt743UQ7IHcK7F3wZiyA2zfS4YFRyj4my1rKrKUXsNBeKTG
-         t1vhKse2953qMw0d5QXPMkGoibQM279GBd032v6ydfBSFgFehhaoJ+T/rIPpjS7yPusF
-         sMHA==
+        bh=lktyDVRtVy/viiqrhpDpy008z8LoJ6ZN5NvRhb+XjTs=;
+        b=XfALH7rAv93gvv7bE5di4lV6v9wivDPfxa4xj/KHgY6I8y7nwxcici94ppU0ho69aP
+         OeHgHlvayeWvPigVIzk3wIk80NpClLrU+ZdNlftCKswby9IKitWzwCWHi4y+uhXSPu+e
+         JxGeHeeJdNbCjUR/QkERWxMlLwK1gnMkx9IYJvUBmCWh70VNECU4fkBlTOoGA0KerYWd
+         R1A64YJdFirKycEqbpF8jOtjiAhMPPaa05Yso5ltajsiSQN0nNRujT4qJfv9EHWvwdsO
+         6/FIcs399DZnSx/lQfnnwkt6ij1eR7YyTZJVp9fQ1bssKWODOYbzTLljJRkpAY40LeS/
+         IeSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782247079; x=1782851879;
+        d=1e100.net; s=20251104; t=1782253741; x=1782858541;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=9MUGSR+G8w0e9t/Us+u+afYAQZW56UL9oik51hoBoiU=;
-        b=eqYdy8y582pTHIm5GaWuJyM7i2HES32febNokxJZBvZ9xFAx3rIuxSdYphJ4Aetu6i
-         c7U+59zinKNwuNFm9UjXxnJzYwPtNTvEkZcSzWcrrhuxHjTurv5oDPafxIJjAwCuxXN/
-         0EkK1F4NSQmOGKvh9TvIjexK5LUP2soeA3bWjcUdi3HiC5qavITv5ce3eupAdgvKy6AZ
-         E7UybAIB0JGkC764gxQE+T8ShvHa35mwrjJJowZhPTtRtQWe4GGdxcIl5+Fv6ih/J3JC
-         nXWYlAkUCeqsBKmrKnO3RZLS16h0tri7RurH/9mXdnElpsbHn1J6oBZ0seT9QOU4y+BH
-         kQZQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9xs/neYwCvaGMkU/sN4aetJpKstbvbxrzMV+8Y4jidFPvWWniwSQcVjsV5FMSNcJ82+cjLJIXlODje@lists.infradead.org
-X-Gm-Message-State: AOJu0YxAuY/KZAu9sng7768hjpTx+tpnUSD0PvPpHa2QrKIOoAg9nGaK
-	+5mcFq3zPrSquqRRRPljPKN6JBhQSTocR5XTNbxSzz8ntBgWFUVI1GOYS2t//iayrg+VSG9D04b
-	My/8hmPa1oUAfL+EPm5TNaq41YU475S8=
-X-Gm-Gg: AfdE7clUkBzyWM43Z4Gj6+zhTrRJr7T7RW/N2TrOE9/dkF+B+8FjjRnSVrviaRnQAB/
-	5gdRTM0j6OuczMl0Rr2N4lnG5IbCJ8vyx0h6A4qZzzqTlCepfljCNYpL3U4T2NgafGF/jcAGjzH
-	ILzuKKpB120PVmvO04M6KOWfsJ9FoV3YRcWdI9zUdfvhs8jxrVRLih7ryIO+43g35W0qiATiBNE
-	DlpVFbEkd9DWrUvLivZNRFQgH8fHpzg06SDM2l1QnVXoTR1gMJrpb36GQ+UO4ELNxiOfL0G
-X-Received: by 2002:a05:6402:350d:b0:697:e93d:6da6 with SMTP id
- 4fb4d7f45d1cf-697f376fca1mr87760a12.1.1782247078289; Tue, 23 Jun 2026
- 13:37:58 -0700 (PDT)
+        bh=lktyDVRtVy/viiqrhpDpy008z8LoJ6ZN5NvRhb+XjTs=;
+        b=nuU03unU1xhLmEqgDMSh3snEt+gDdt7YtqsSx72wvtkXk1zc1WGYO2DAml6Q+wuEHj
+         zcyYIIWhbE7WVG8hUuPeQm8kXkDrkjfSUOhOA6gR1h9fa6LUny+A7IdtRrynFpc+bTaX
+         kHjrjNsfi5jRvvykOCtcjMZ5RagO+wITxRFohqsNVK1WhKOytrcgOLPuhrBVZ6Q6iizC
+         AUqISEsZ+LerclRADka3MeUz1Bf8eQV2aQUo+Rb3T761qlhGbAxvOAXW8kGjvYwbr5aL
+         Yai7TnvTv4zROvz8ANj0FLKnMmQq0SvBxiP+oc2OKFgHT0icIzNDDNDW8i+L6TLUC8lp
+         oynw==
+X-Forwarded-Encrypted: i=1; AFNElJ+lBsIn5O9YgC4rNwsC/JSCBoHOq3OZMKK8jyG11xvMIxNfZnIsJnO7dOOHAztdCpnmuoKh4WNlG4PB@lists.infradead.org
+X-Gm-Message-State: AOJu0Ywiup7DNZRfmngEoEY+johTm8y8F5xb6Gx3+/AFm8mMtUxxnFQz
+	5bVw6ErefhVpj/wlls6P6j+5Mb+NmEbdN8k04t9MV4sI5zd9gVZTRJQUX/XZHhV4C25ZeTJ5r7k
+	VgcAXEPpvNHh8Bgp0h/9QhdUUjjIbZHo=
+X-Gm-Gg: AfdE7cklkhL9k4h5mHgpt85y2w9rHHXYQRlDv4HPUfghI4rw/Nw5EyF9oDaNOnuirHf
+	iANf6c3dHZIxkMvg/vDLavveoImlbfbhnlN8SIONKfpGtttRzHQQILAcwt6taYyqAVHpgpBQKLb
+	04PwJHTpCsrfuBaCr1wgyVgy98ncxE2qK8gDbqpeDlK9prBmQx57a1gOTC0zSStUfTE9fa0u17I
+	kOhBiVTL5P5Ta3Ip6w44HvUaUM7goM8D3p8qGngRQSsm2hP0cFLqsFZJfFa6Sr0M5mv9BXD
+X-Received: by 2002:a05:6402:440b:b0:697:e953:d14d with SMTP id
+ 4fb4d7f45d1cf-697f3aa2104mr240703a12.17.1782253740745; Tue, 23 Jun 2026
+ 15:29:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20260515185853.2761456-1-coshi036@gmail.com> <0938b6f8-8001-4fcf-95a4-327fa9077163@oracle.com>
- <ah7znSpPM-H-ACaV@kbusch-mbp> <ah752_DIQdr_LHaB@kbusch-mbp>
- <c6046eb2-9594-4355-9f4c-21a6f3bd8131@oracle.com> <539bb4aa-30a3-457c-8c77-c0d660376c3a@oracle.com>
-In-Reply-To: <539bb4aa-30a3-457c-8c77-c0d660376c3a@oracle.com>
+References: <20260527055923.456769-1-coshi036@gmail.com> <ahcR2vy8k2FZAp9D@kbusch-mbp>
+In-Reply-To: <ahcR2vy8k2FZAp9D@kbusch-mbp>
 From: Chao S <coshi036@gmail.com>
-Date: Tue, 23 Jun 2026 16:37:46 -0400
-X-Gm-Features: AVVi8Cf0Ls-PhmtmYZDcGBNpWXae8oiqTX3KHoBFoPHS_gI1lQYxm3lX8MRa_j4
-Message-ID: <CACd_6n1h6NW3DS1MDKkcr=r-uxGQ=HspMLN6TWtLc26Vct8sYQ@mail.gmail.com>
-Subject: Re: [PATCH v3] nvme: core: reject invalid LBA data size from Identify Namespace
-To: John Garry <john.g.garry@oracle.com>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, linux-nvme@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	Daniel Wagner <dwagner@suse.de>, Hannes Reinecke <hare@suse.de>, Maurizio Lombardi <mlombard@arkamax.eu>, 
-	Sungwoo Kim <iam@sung-woo.kim>, Dave Tian <daveti@purdue.edu>, Weidong Zhu <weizhu@fiu.edu>
+Date: Tue, 23 Jun 2026 18:28:49 -0400
+X-Gm-Features: AVVi8Cd8_G414Jfa45nLwZOQQmYHszzp1qOg3SGpW-z2r5OuMuUQr0k4A6KZk8E
+Message-ID: <CACd_6n2vT8RiWGL6g2aasEgzpdnOFz5NnwF42vwzO0gEd=cu1g@mail.gmail.com>
+Subject: Re: [PATCH] nvme: bound the freeze drain in passthrough commands
+To: Keith Busch <kbusch@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Sungwoo Kim <iam@sung-woo.kim>, 
+	Dave Tian <daveti@purdue.edu>, Weidong Zhu <weizhu@fiu.edu>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260623_133802_364492_0FDE5B0C 
-X-CRM114-Status: GOOD (  20.48  )
+X-CRM114-CacheID: sfid-20260623_152903_231271_24634733 
+X-CRM114-Status: GOOD (  25.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -119,91 +117,106 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi John, Keith,
+Hi Keith, Christoph,
 
-Thanks for catching the sparse warning, and sorry for the delayed response.
+Both questions land on the same point, so one answer below.
 
-> BTW, I have thought that check_shl_overflow would catch
-> id->lbaf[lbaf].ds < SECTOR_SHIFT (so that we don't need the extra check).
+Keith wrote:
+> The IO timeout callbacks that nvme drivers provide are supposed to
+> forcefully reclaim any IO no matter what state the device is in. Is
+> that not happening for some reason?
 
-Confirmed -- check_shl_overflow() returns true for the negative shift
-that ds < SECTOR_SHIFT produces (_to_shift collapses to 0 and the
-_to_shift !=3D _s test fires). I checked ds=3D0 and ds=3D8: both are still
-rejected with the explicit lower-bound test removed, so it is redundant.
+Christoph wrote:
+> Note that the blocked message itself is not a problem, but around
+> this time we should have done a controller reset and fixed up the
+> issue.  Does that not happen for your test case?
 
-For the C=3D1 warning, the minimal fix is to drop that redundant check and
-feed nsze through a plain u64 local -- as Keith found, laundering the
-le64_to_cpu() result through a non-__le64 type makes the warning go away:
+It did happen.  nvme_io_timeout was the default 30, and the relevant
+dmesg from the campaign that produced the hung-task report:
 
-u64 nsze;
-...
-nsze =3D le64_to_cpu(id->nsze);
-if (check_shl_overflow(nsze, id->lbaf[lbaf].ds - SECTOR_SHIFT,
-      &capacity)) {
-dev_warn_once(...);
-ret =3D -ENODEV;
-goto out;
-}
+  [ 44.220408] nvme nvme0: I/O tag 451 opcode 0x2 (Read) QID 1 timeout, abo=
+rting
+  [ 44.220798] nvme nvme0: I/O tag 819 opcode 0x1 (Write) QID 1
+timeout, aborting
+  [ 44.220820] nvme nvme0: Abort status: 0x0
+  [ 44.221286] nvme nvme0: Abort status: 0x0
+  [ 45.591197] nvme nvme0: resetting controller
+  [ 46.307151] nvme nvme0: IO queues lost
+  [...100s of silence...]
+  [144.561596] INFO: task systemd-udevd:134 blocked for more than 123 secon=
+ds.
 
-This keeps check_shl_overflow() in one tested helper and avoids a
-wrapper. John's nvme_valid_ds() works too; if we prefer that, I'd name it
-for its actual sense (it returns true on overflow, i.e. invalid), e.g.
-nvme_ds_overflows().
+Timeout fires, abort is accepted, reset starts, reset reaches the
+"IO queues lost" branch (drivers/nvme/host/pci.c).  Then nvme_reset_work
+itself blocks at
 
-One note: I'd lean toward keeping check_shl_overflow() rather than
-open-coding the bound. It folds the lower-bound (negative shift) and the
-overflow case into one tested helper, so we don't have to re-derive the
-boundary by hand -- e.g. the lower bound is on ds itself, not on the
-post-subtract (ds - SECTOR_SHIFT) shift, which I found easy to get
-subtly wrong.
+  nvme_mark_namespaces_dead -> blk_mark_disk_dead -> blk_report_disk_dead
+    -> bdev_mark_dead(bdev, true) -> sync_blockdev -> folio_wait_writeback
 
-Keith, since v3 is already in your tree: do you want an incremental fixup
-on top, or a v4 to replace the applied commit? I have both ready.
+i.e. the unconditional sync_blockdev in bdev_mark_dead's bare-bdev
+else-branch (block/bdev.c) is itself waiting on the writeback that the
+reset was supposed to drain.  The reset_work kworker doesn't show in
+this dmesg because it crosses the 123s threshold ~25s after the
+snapshot console was cut.
+
+So in this report, the IO timeout did its job, but the reset that the
+timeout kicks off cannot complete, and nvme_passthru_start (which is
+already in nvme_wait_freeze at this point) has no way to back out.
+
+Two reasons I still think the bound in passthru_start is worth applying
+on its own merit:
+
+1. The reset path has several ways to fail to drain in
+   nvme_io_timeout: abort can be rejected, the admin tag for abort
+   can be unavailable, the controller can be wedged before abort
+   lands, an in-progress reset can outlast nvme_io_timeout, or (as
+   here) reset itself can block.  Each leaves nvme_passthru_start
+   waiting forever, holding ctrl->scan_lock + subsys->lock + every
+   namespace's freeze ref, which then fans out on bd_disk->open_mutex
+   via any concurrent bdev_open/release or BLKRRPART.
+
+2. The same pattern is already established in the tree.  pci shutdown
+   (drivers/nvme/host/pci.c), nvme-tcp reset, nvme-rdma reset,
+   nvme-apple, and Daniel Wagner's 2021 nvme-fc series
+   (20210818120530.130501-1-dwagner@suse.de) all use
+   nvme_wait_freeze_timeout(NVME_IO_TIMEOUT) for exactly this reason.
+   nvme_passthru_start is the only userspace-reachable caller still
+   on the unbounded variant.
+
+Christoph also wrote:
+> So not blocking forever sounds useful, but this might break existing
+> uses.  I guess we could do it based on the O_NONBLOCK flag if people
+> really cared.
+
+NVME_IO_TIMEOUT is already the bound any submitted I/O can be
+synchronously waited on; a freeze drain that legitimately exceeds it
+implies the controller isn't doing useful I/O anyway, and
+nvme_core.io_timeout=3DN scales both knobs coherently.  Drain on a
+healthy system is sub-second.
+
+Gating on O_NONBLOCK is a reasonable fallback if you'd rather keep
+the old default, but the nvme ioctl path doesn't currently consult
+fd flags, so it would be a new userspace contract.  My concern with
+the current default is that any of the scenarios above lets a
+userspace ioctl wedge a kthread with two ctrl-wide mutexes held; the
++9-line bound prevents that without changing the success path.
+
+If the maintainer preference is the O_NONBLOCK gate instead, I'll
+respin.
 
 Thanks,
 Chao
 
-On Wed, Jun 3, 2026 at 6:08=E2=80=AFAM John Garry <john.g.garry@oracle.com>=
- wrote:
+On Wed, May 27, 2026 at 11:46=E2=80=AFAM Keith Busch <kbusch@kernel.org> wr=
+ote:
 >
-> On 02/06/2026 17:18, John Garry wrote:
-> >
-> >> I say we can ignore the sparse warning, or we
-> >> can rewrite this to avoid the check_shl_overflow entirely.
-> >
+> On Wed, May 27, 2026 at 01:59:23AM -0400, Chao Shi wrote:
+> > If a completion is silently dropped or the device hangs, the calling
+> > task wedges with ctrl->scan_lock and ctrl->subsys->lock held, fanning
+> > out into hung-task reports on any concurrent open/close/passthru on
+> > the same controller:
 >
-> FWIW, adding a separate function keeps sparse happy for me:
->
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index ea837b94d3e5..3ec98038668e 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -2364,6 +2364,11 @@ static int nvme_query_fdp_info(struct nvme_ns
-> *ns, struct nvme_ns_info *info)
->         return ret;
->   }
->
-> +static bool nvme_valid_ds(u64 nsze, signed int shift, u64 *capacity)
-> +{
-> +       return check_shl_overflow(nsze, shift, capacity);
-> +}
-> +
->   static int nvme_update_ns_info_block(struct nvme_ns *ns,
->                 struct nvme_ns_info *info)
->   {
-> @@ -2407,10 +2412,8 @@ static int nvme_update_ns_info_block(struct
-> nvme_ns *ns,
->                         goto out;
->         }
->
-> -       if (id->lbaf[lbaf].ds < SECTOR_SHIFT ||
-> -           check_shl_overflow(le64_to_cpu(id->nsze),
-> -                              id->lbaf[lbaf].ds - SECTOR_SHIFT,
-> -                              &capacity)) {
-> +       if (nvme_valid_ds(le64_to_cpu(id->nsze),
-> +               id->lbaf[lbaf].ds - SECTOR_SHIFT, &capacity)) {
->                 dev_warn_once(ns->ctrl->device,
->                         "invalid LBA data size %u, skipping namespace\n",
->                         id->lbaf[lbaf].ds);
->
+> The IO timeout callbacks that nvme drivers provide are supposed to
+> forcefully reclaim any IO no matter what state the device is in. Is that
+> not happening for some reason?
 
