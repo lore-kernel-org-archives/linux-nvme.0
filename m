@@ -4,114 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AB1ACCDB46F
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jun 2026 14:02:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 170ABCDB479
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jun 2026 14:37:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=i5QMhpagsL1hSIa8spNGIjmtjiarjF3XbgMPWmkWVl8=; b=VWDDwODhBr7DIKsPepYL8FP9Mu
-	T7VWwHLDIFmeBwozyE73oxKlUxIYi/OP7Cmt3Tf6VIIxGdz/drLOVC08Hybnz4eWzmBWptEuo1yjy
-	bJ5DRamXN2HVeG5DoiZHjueXn6UDYcD28xiujoe522ccl0HtWEYoVTbn5ipd6mxhh/+zYjmo0vREt
-	IOOvttmH1Pu5cpkzkirlN6Z3n1gdVEFtcHsPyQ0XD+fna+kQmlWHy0gxlfMvVfTRG1D2ACCm8caRC
-	c3uijtrKf1bIUBNd/GmJtSUAi/xqUxQvT5pGEO/6ajQ0WdoMszqw6hz7EDqYhnhlweaSzhrHX5a+l
-	+v3xFEog==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:From:
+	Subject:Message-ID:In-Reply-To:Date:MIME-Version:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+	List-Owner; bh=/BHZcvnSPzHj34ZJ/mcgVfc5dMIdapQHiQfyHhonThY=; b=EEpSWAgilr4Vuh
+	SePSj2gg1XVMFzugCuQ6/bUiZnjN9M2KBMBWErdLEulJ7zSB7HAJddTCcoDt2IfDl9gyttCqpEY6j
+	cTxthlTAs9CGMXxtDki+pLWrcQObN3sTmezSAQyDX7SyWaorpkB9MBmVuqpTGVmD9F7iHwGKC4LjM
+	gHaATcbwj8sxAvLp5PtHHEgX4lOe0Q+RvbfTpLHd4Q+xQmq2P6yeXiJPTzIW5uhi++lI3RD2ktZbI
+	19XTp9caioZQpPWt/3E6BryZmhfbsQIBGQEe9qkW46Cpi8D581m0Q18jCRGBa3BJT+E5Kux2UBCuJ
+	9B71jJpwa7UfrWiyU56Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wc1hc-00000006OZa-41pw;
-	Tue, 23 Jun 2026 14:02:12 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1wc2Fo-00000006TD2-1Zsj;
+	Tue, 23 Jun 2026 14:37:32 +0000
+Received: from mail-oi1-f198.google.com ([209.85.167.198])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wc1ha-00000006OZA-05aq
+	id 1wc2Fi-00000006TCR-3LeB
 	for linux-nvme@lists.infradead.org;
-	Tue, 23 Jun 2026 14:02:11 +0000
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65NBmckn2136394;
-	Tue, 23 Jun 2026 14:01:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=i5QMhp
-	agsL1hSIa8spNGIjmtjiarjF3XbgMPWmkWVl8=; b=bkGXompDOi8USMeB7TMYZ1
-	cB8diSNrk2vY3vnl/Rsqn/2hJisg7foi88YVySwTE9p7NyogJnDOI+MoxwUwhcwe
-	MZmeksrgfIqtsYrkkvY9hbweQYcVuzM+VRKfPrggrg8xZ4PPEgrK6/m+GGGaMDJD
-	81HY3HIt/5gkKrobJIC2+wb+UdgE0D1xdx8ryFdVS6xitP89JS4eZJuinV8wmb/a
-	J3HxYVSM1lchVV5PwxsZehQsHdzvsJxBq1pgYRYrlaefoRquN5hUoT8cMVP29mmR
-	FUuPiIX6gMB1ab9phSJtO7pP7Ae9RRMH/lQhs0nWmiXPfl3HowQgTDu5P71IBA+w
-	==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4ewjhqpu2d-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 23 Jun 2026 14:01:51 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 65NDne6U015398;
-	Tue, 23 Jun 2026 14:01:50 GMT
-Received: from smtprelay05.wdc07v.mail.ibm.com ([172.16.1.72])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4ex66k3ju5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 23 Jun 2026 14:01:50 +0000 (GMT)
-Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
-	by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 65NE1oMQ52494656
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 23 Jun 2026 14:01:50 GMT
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2592D58062;
-	Tue, 23 Jun 2026 14:01:50 +0000 (GMT)
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9A93258058;
-	Tue, 23 Jun 2026 14:01:47 +0000 (GMT)
-Received: from [9.43.75.139] (unknown [9.43.75.139])
-	by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 23 Jun 2026 14:01:47 +0000 (GMT)
-Message-ID: <1d4a2988-96e3-46a9-955e-a36cba41c7b3@linux.ibm.com>
-Date: Tue, 23 Jun 2026 19:31:45 +0530
+	Tue, 23 Jun 2026 14:37:28 +0000
+Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-486cc29e03bso10500291b6e.3
+        for <linux-nvme@lists.infradead.org>; Tue, 23 Jun 2026 07:37:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782225444; x=1782830244;
+        h=cc:to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/BHZcvnSPzHj34ZJ/mcgVfc5dMIdapQHiQfyHhonThY=;
+        b=VzKr1iEBTYT2HdsQ0PuiNG/P4jQzGzNAw4yHYhpzioyG1BLFvjPR8/UA/jEGZuAgNh
+         qaSclY79STb/0RFQb98xzrORU1ALAq6zfej5O/Lpodsg7Ak9L2EWHfCTyRcMzLYzM0QK
+         aFpbZVDn2vuMp/IV+38zGXraUT1X4y7mmOXip7AiUIRIbBntmdMkOGUStWbcJlzQNLfy
+         x80D8odAl8lTw0bDvo2yQwZtdFL0DEZY9asBaIDQdOlnASZgqd37uc8v+kPfr4rod6fl
+         +K2sgYmfBetp5PdAZ36ShPA7r+dvdJHx1KsNdLWALQrnJ/KSoZJLv3dGiERn4GuvElbG
+         h1bA==
+X-Forwarded-Encrypted: i=1; AFNElJ/KXKGZOnaEWP/PzCx66kGxUFpVr7lorDyMzgqndCB4CYXdxAlt4vR6Jev1P1ijzKs/vrw1aMPaw2de@lists.infradead.org
+X-Gm-Message-State: AOJu0YzaQHAj+GfV8pporSPoU4LK+duRkFuBDlN+9pQ2q+WzYalD5qaY
+	kLEEiaOcVbmj8l70EBlTa5CCsxWIV9cvyRuL8ra4ZlUi72BVzXlWiiAiZIJ6lDxiOl8rA+zV7hp
+	m/RRIqtegCg+jkgm4VOCXQHPfOp3z37GbdO4WOUGkXNpw8ecZAVLl1F1SymA=
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] nvme-multipath: expose path_state via sysfs
-To: Keith Busch <kbusch@kernel.org>, Guixin Liu <kanie@linux.alibaba.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-        Sagi Grimberg <sagi@grimberg.me>, Daniel Wagner <dwagner@suse.de>,
-        linux-nvme@lists.infradead.org
-References: <20260622130318.2346995-1-kanie@linux.alibaba.com>
- <ajp9gHepQX-j1-Lz@kbusch-mbp>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <ajp9gHepQX-j1-Lz@kbusch-mbp>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=I4VVgtgg c=1 sm=1 tr=0 ts=6a3a91d0 cx=c_pps
- a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
- a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=eBeaEUT2Rfq-W78KMvwA:9
- a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjIzMDExNCBTYWx0ZWRfX5iz1rdBNpB3P
- ImZJ5GL2+aDtJBfkHO+/OQMIU4FgFml33R2iw8kuiZIHNs41tIm66zY4gOaROBnvIyL8MvVUgvJ
- Pf1Lx6p8roJSxPePOhzedkoTUZYtyHK07D39qWIWS0stEpcsSwIjmDu3KPabHkmS/MDh8mvN6Ft
- a5v9ddniTN7YJo2dLmL6RJM24kF1KRTvcZKzfOredNHq7Z8YX+yNF0cTuqp5PU0Ke4rTsBjM7WL
- B4r9y0SrFhOZSdoagwjEDQw6USxlMNCeD982+zmZ29z/uQJ1+XrIeWF5mO7R0GUh8QYqXf8we7+
- gxQrumMPm+Tad7c5I1QqMVVBEmkpSNAJlL04PlLHrvDTEiLi4Z4BR+7VS0At5lyhJmzD/uEPBHO
- 2j0CQWkP8BGMpBE2ba5FPTfrOxOGYBWf7hDbaynA0kqdX5tWQ8lmDa6+ER256muC3dNPdJihphx
- l+BOIqamua45sG/EZug==
-X-Proofpoint-GUID: oJhORTg0KeiYA8jZ3uqUeI4gH2iS4Anm
-X-Proofpoint-ORIG-GUID: 6sxDjZqGwbHYhJ46yXIZ5C9syNuwMm-Q
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjIzMDExNCBTYWx0ZWRfX/Dqzy4UjC1oN
- aA32fB0NQE7GdJa678PonjEa9x3Bh+FjKSVnb/ISgosqvGK4LcfK59cOWaAWQ9isVqiBqqS4gIb
- ovdrKyJ4iKTs0H4YgNrhLbEy8o0D/ok=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-23_03,2026-06-23_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 malwarescore=0 clxscore=1015 impostorscore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 priorityscore=1501
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2606230114
+X-Received: by 2002:a05:6808:3508:b0:48b:f341:113c with SMTP id
+ 5614622812f47-48f62c2d046mr1564778b6e.37.1782225444266; Tue, 23 Jun 2026
+ 07:37:24 -0700 (PDT)
+Date: Tue, 23 Jun 2026 07:37:24 -0700
+In-Reply-To: <20260623-configfs-ns-v3-0-841c100fd5dd@kernel.org>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a3a9a24.ac26f6c2.9a9c4.0005.GAE@google.com>
+Subject: [syzbot ci] Re: namespace-aware configfs
+From: syzbot ci <syzbot+ciba837a74ccbd374c@syzkaller.appspotmail.com>
+To: a.hindborg@kernel.org, brauner@kernel.org, hare@kernel.org, hch@lst.de, 
+	jack@suse.cz, kch@nvidia.com, leitao@debian.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, sagi@grimberg.me, viro@zeniv.linux.org.uk
+Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260623_070210_088522_00C92502 
-X-CRM114-Status: GOOD (  14.40  )
+X-CRM114-CacheID: sfid-20260623_073726_842473_E4478CB1 
+X-CRM114-Status: UNSURE (   7.80  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -126,20 +79,94 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/23/26 6:05 PM, Keith Busch wrote:
-> On Mon, Jun 22, 2026 at 09:03:18PM +0800, Guixin Liu wrote:
->> The attribute reflects the result of nvme_path_is_disabled() checks:
->>    - "enabled"                   : path is available for I/O
->>    - "disabled (ctrl_down)"      : controller is not live/deleting
->>    - "disabled (ana_pending)"    : ANA state change pending
->>    - "disabled (ns_not_ready)"   : namespace is not ready
-> 
-> I'm a bit late to looking at this, but just a knee jerk thought,
-> wouldn't you want to distinguish "enabled optimized" vs "enabled
-> unoptimized"?
+syzbot ci has tested the following series
 
-This is a good idea. I think, we should consider reporting this.
+[v3] namespace-aware configfs
+https://lore.kernel.org/all/20260623-configfs-ns-v3-0-841c100fd5dd@kernel.org
+* [PATCH RFC v3 01/12] fs/configfs: rework configfs_is_root()
+* [PATCH RFC v3 02/12] fs/configfs: dynamically allocate super_info
+* [PATCH RFC v3 03/12] fs/configfs: separate out configfs_{link,unlink}_root()
+* [PATCH RFC v3 04/12] fs/configfs: add superblock as attribute to configfs_pin_fs()
+* [PATCH RFC v3 05/12] fs/configfs: add 'fill_subsystem' and 'clear_subsystem' callbacks
+* [PATCH RFC v3 06/12] fs/namespace: implement mnt_clone_direct()
+* [PATCH RFC v3 07/12] fs/configfs: switch to get_tree_keyed()
+* [PATCH RFC v3 08/12] fs/configfs: open-code simple_pin_fs()
+* [PATCH RFC v3 09/12] nvmet: make discovery subsystem dynamic
+* [PATCH RFC v3 10/12] nvmet: per net-namespace port list
+* [PATCH RFC v3 11/12] nvmet: make configfs setup namespace aware
+* [PATCH RFC v3 12/12] nvmet: enable transports for net namespaces
 
-Thanks,
---Nilay
+and found the following issue:
+BUG: sleeping function called from invalid context in configfs_get_super_info
+
+Full report is available here:
+https://ci.syzbot.org/series/f460be5a-d520-4bc1-9cfb-6492f841629b
+
+***
+
+BUG: sleeping function called from invalid context in configfs_get_super_info
+
+tree:      bpf-next
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/bpf/bpf-next.git
+base:      66affa37cfac0aec061cc4bcf4a065b0c52f7e19
+arch:      amd64
+compiler:  Debian clang version 22.1.6 (++20260514074242+fc4aad7b5db3-1~exp1~20260514074407.73), Debian LLD 22.1.6
+config:    https://ci.syzbot.org/builds/73803fa0-5ba4-4d03-976f-f9962ee982c8/config
+syz repro: https://ci.syzbot.org/findings/4102267c-e678-4ffc-9ac0-4fb2dcbe5c0d/syz_repro
+
+BUG: sleeping function called from invalid context at ./include/linux/sched/mm.h:323
+in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 5856, name: syz.0.17
+preempt_count: 1, expected: 0
+RCU nest depth: 0, expected: 0
+INFO: lockdep is turned off.
+Preemption disabled at:
+[<0000000000000000>] 0x0
+CPU: 0 UID: 0 PID: 5856 Comm: syz.0.17 Tainted: G        W           syzkaller #0 PREEMPT(full) 
+Tainted: [W]=WARN
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ __might_resched+0x378/0x4d0 kernel/sched/core.c:9193
+ might_alloc include/linux/sched/mm.h:323 [inline]
+ slab_pre_alloc_hook mm/slub.c:4559 [inline]
+ slab_alloc_node mm/slub.c:4916 [inline]
+ __kmalloc_cache_noprof+0x74/0x660 mm/slub.c:5446
+ _kmalloc_noprof include/linux/slab.h:969 [inline]
+ _kzalloc_noprof include/linux/slab.h:1286 [inline]
+ configfs_get_super_info+0x218/0x5e0 fs/configfs/mount.c:91
+ configfs_get_tree+0x41/0xd0 fs/configfs/mount.c:170
+ vfs_get_tree+0x92/0x2a0 fs/super.c:1694
+ vfs_cmd_create+0xa2/0x200 fs/fsopen.c:231
+ __do_sys_fsconfig fs/fsopen.c:463 [inline]
+ __se_sys_fsconfig+0x6b9/0x810 fs/fsopen.c:350
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f5c9db9ce59
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f5c9ea71028 EFLAGS: 00000246 ORIG_RAX: 00000000000001af
+RAX: ffffffffffffffda RBX: 00007f5c9de15fa0 RCX: 00007f5c9db9ce59
+RDX: 0000000000000000 RSI: 0000000000000006 RDI: 0000000000000003
+RBP: 00007f5c9dc32e6f R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f5c9de16038 R14: 00007f5c9de15fa0 R15: 00007ffe63465d98
+ </TASK>
+
+
+***
+
+If these findings have caused you to resend the series or submit a
+separate fix, please add the following tag to your commit message:
+  Tested-by: syzbot@syzkaller.appspotmail.com
+
+---
+This report is generated by a bot. It may contain errors.
+syzbot ci engineers can be reached at syzkaller@googlegroups.com.
+
+To test a patch for this bug, please reply with `#syz test`
+(should be on a separate line).
+
+The patch should be attached to the email.
+Note: arguments like custom git repos and branches are not supported.
 
