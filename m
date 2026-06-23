@@ -4,56 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 030E7CDB470
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jun 2026 09:16:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3F69FCD4F26
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jun 2026 09:16:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:Date:Subject:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
+	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=dwJksdIzMwz2uxNEIudYReLSHRnKiNyII3cysFwTREY=; b=s4U0nGtxwdcY0c
-	4rWTVgXOw8Y3NPrpUkeyXZWUSnPJNoceJcJ3pLnpidY9tNKUctFIa1VObb0UpuFu9ohRRQVNt7sKZ
-	vb9xdj5bsBbvcLoFrAFzCd343fZp9Ues0Nhd12Km6Xe7IzkPxv+N++LECQdtS0RgI/++K5xsOou8N
-	WmxBtGFupBH3jIIvXrvA6F6Fa3WCgER4liyxR2eoXVIAqIMGFlbxVukC2Rxdd4+da2y7znIUmvR1u
-	+b16wK6BAgjmDLSsdTK77f62TCz0kq4otX6eCzRsI+XzgqPaprR3uQeVeLnM/7qwDCUWKljTCnLDz
-	Bp5awbL/YYmZsLSBuseA==;
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=wpAp/KZC49c8kFrudIwCYrutlIBdMZ0fdUwXtidR8Dg=; b=trz79g0ogFqalAfOTbvj6PulcU
+	DkjXJWc8lJNJPNUofv1h7OXthR1uXiaFe7LGPMKrblPPM4UANUwa7a4z/yix4EOM+9sdb9vodqXo7
+	tKZzBlobtCjelubsS8WfMJm4L6DqPu6HBxbDMXgByed2SHt/t1r19S+CJcm5i4YPAKtLclcMIaNy2
+	NL22CoDukAfNgMTUGPBI1QvinNUnDLx9Mr4898xdvSva5xDmbXJMLKzyYWOGRWt+TbKZEzTHki4gR
+	gts48YbgKktYGLJOzx8/iY6lbZb835e+jtTyIuuRaXuEyu8xdYBchOjSbkrBt2VM19Yrh8KjwXX6n
+	3kKproAA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wbxEi-00000005zD3-0qpD;
-	Tue, 23 Jun 2026 09:16:04 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1wbxEs-00000005zHa-3YMx;
+	Tue, 23 Jun 2026 09:16:14 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wbxEg-00000005zCm-2hjG
+	id 1wbxEr-00000005zGM-3Uy0
 	for linux-nvme@lists.infradead.org;
-	Tue, 23 Jun 2026 09:16:02 +0000
+	Tue, 23 Jun 2026 09:16:13 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 99D3C60052;
-	Tue, 23 Jun 2026 09:16:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A17431F000E9;
-	Tue, 23 Jun 2026 09:15:58 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 49D6F60207;
+	Tue, 23 Jun 2026 09:16:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 877071F00A3A;
+	Tue, 23 Jun 2026 09:16:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782206161;
-	bh=dwJksdIzMwz2uxNEIudYReLSHRnKiNyII3cysFwTREY=;
-	h=From:Subject:Date:To:Cc;
-	b=VNaKgmFmznQyoeBulK2m9ac4kiPLoAR5JPsaxOdisC7FWIf3vYYbj6lRKounZbT6U
-	 /+6LumlFCNSd5GgF4g2EZ1H02pFT2iHEqAIlv40GpnhseIE11drxjSvcc3DZoNdxNW
-	 SQOXGkj8Ws376UM43KATbYphopYWFowsCK/safTm8l0SSMVI3O81QxJnwmzRqa0It1
-	 B/CXZ5GgxmthzDbx3NcFYPIqwz5JY86m0eDgG3B5mnqmMolIyftsuL1aBv79O/PUYy
-	 m2t5nvXsjDW3sLav1I+bO1iDLSsHk+fqHto9IomYNlKWfsFRfzTyrN4EwdiwPnEURL
-	 YN/xyKjcTrMvg==
+	s=k20260515; t=1782206173;
+	bh=wpAp/KZC49c8kFrudIwCYrutlIBdMZ0fdUwXtidR8Dg=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=Qdnze3LBkpE2yPLr+MdG7rHzOIR3SZYXMJ0KU5ruOJ3i9EB7tCgISxawV9Yfrgg1o
+	 C/o4a6VBOE7fhHu13dXXU8eafj9GNZIFU/jJ853jKfSkrrEAcB7Lc6JT6XVW6f7QnT
+	 JiW5o+pcJ58JUIxDymhMw29thKnDcXA9z1etOnNPdHqCkJNATkaVC7Q/uKLd2vEG2/
+	 N3fB3LlPFmoO/SJUrEdrnM0/P1L+m5FO4c3/hWqlYuzMr9U1pTtSEUbwKt29fBzAyZ
+	 P42K9UHvflO0WKerO+jJ5C5h8OKhgpSZq8diUigD5vV9Uok9JHOVWLJgsN/KIwyxDu
+	 ClcVLRMFItPjg==
 From: Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH RFC v3 00/12] namespace-aware configfs
-Date: Tue, 23 Jun 2026 11:15:45 +0200
-Message-Id: <20260623-configfs-ns-v3-0-841c100fd5dd@kernel.org>
+Date: Tue, 23 Jun 2026 11:15:49 +0200
+Subject: [PATCH RFC v3 04/12] fs/configfs: add superblock as attribute to
+ configfs_pin_fs()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAMFOOmoC/22NQQrCMBREr1L+2khMa5q6EgQP4Fa6MMlP+qkkk
- khRSu9uyFqYzZthZlbImAgznJoVEi6UKYYC7a4BMz2CR0a2MAguJJeHgZkYHHmXWchMH/tO6Vb
- KIiiNV0JHn7p2h9v1AmMxJ8rvmL71YRE1+ju2CMaZEs72fOi0suY8Ywr43MfkYdy27QcOPuYBr
- AAAAA==
-X-Change-ID: 20260619-configfs-ns-b5748b366366
+Message-Id: <20260623-configfs-ns-v3-4-841c100fd5dd@kernel.org>
+References: <20260623-configfs-ns-v3-0-841c100fd5dd@kernel.org>
+In-Reply-To: <20260623-configfs-ns-v3-0-841c100fd5dd@kernel.org>
 To: Andreas Hindborg <a.hindborg@kernel.org>, 
  Breno Leitao <leitao@debian.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
  Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
@@ -62,11 +60,11 @@ To: Andreas Hindborg <a.hindborg@kernel.org>,
 Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
  linux-nvme@lists.infradead.org, Hannes Reinecke <hare@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1782206158; l=3779;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1782206158; l=4037;
  i=hare@kernel.org; s=20260619; h=from:subject:message-id;
- bh=2fGGWS0P4+GqP7BDsbXG+4M0kJfHb/Qy81cW24j0Es8=;
- b=7NedXzaZugWH2oJPuKLHBA6vecxoG9Jg3H+7rVkhZp6LR3ZBzVif3pMuzDOsvpBbVamfRC7Xa
- hcCBwWaKnaPCaxTGLqZV94tb4GYUJxtlIOVPabw481xAhY3Qrt7BaFJ
+ bh=zUpx+94NDxKVX6LvFJ3flbPP+BGcIFXXRg+eAJdt+bQ=;
+ b=wTmfwy2RjcY+l1qLtrc5imI1PGeGOKV8nD4Sf9ccBSU5G9MVzktHtGjVzVES7bTxX7n7UFceF
+ JXwju+f0tBdBUWGcTYomuzDmeTSxBudR/yCN1MT3GeUIhn4v+6X3t+x
 X-Developer-Key: i=hare@kernel.org; a=ed25519;
  pk=iekPF4ZZFva3sutm7d1ryPNR1G/WFfUgHaDB423JXho=
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -83,92 +81,119 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hey all,
-
-during discussions at LSF/MM I thought it would be quite helpful
-to make configfs namespace aware, such that one could do:
-
-unshare --mnt
-mount -t configfs none /sys/kernel/config
-
-and get a new instance of configfs. This will allow to have distinct
-configurations for each namespace.
-This is particularly helpful if you want to run eg nvmet in a container;
-with this patchset each container can have its own configuration, and
-one can simulate a multi-node nvmet cluster using containers.
-
-How it works:
-The configfs 'root' entries are stored in 'configfs_super_info', which
-can be looked up from an xarray using the (network) namespace ID as the index.
-A configfs subsystem can be converted to be namespace aware by implementing
-the new subsyste callbacks 'fill_subsystem()' and 'clear_subsystem', which
-are responsible for populating the subsystem structure.
-Upon registration via 'register_subsystem()' the subsystem is put in a
-linked list within 'configfs_super_info'. So when mount() is called from
-a different namespace this list is traversed, and new subsystems are created
-in the new namespace using the callbacks.
-
-Open Issues:
-- I've added a new function 'mnt_clone_direct()' to clone the vfsmount
-  entry (the original code just did a simple_pin_fs()). Not sure if
-  that's correct. Christian?
-- Ideally I would love to make the whole thing work without having
-  to mount a new configfs instance from within the container.
-  Again, not sure if that's possible.
-- I've decided to base it off the net namespace (and not any namespace).
-  That makes implementation easier, but requires the various subsystems
-  to actually _use_ the network namespace.
-  The current use-case (nvmet) does that, so it works for me :-)
-
-Otherwise, as usual, commands and reviews are welcome.
-
-Changes to the original submission:
-- Changed to use 'net' namespace instead of 'mnt' namespace
-- Smaller fixes as suggested by sashiko.
+Each namspace might have its own superblock, so add it as an argument
+to configfs_pin_fs() to ensure that the correct filesystem instance
+will be pinned.
 
 Signed-off-by: Hannes Reinecke <hare@kernel.org>
 ---
-Changes in v3:
-- Split off nvmet patches
-- kbuild robot fixes
-- Simplify namespace selection
-- Link to v2: https://lore.kernel.org/r/20260619-configfs-ns-v2-0-82fd7094b8dc@kernel.org
+ fs/configfs/configfs_internal.h |  4 ++--
+ fs/configfs/dir.c               | 10 +++++-----
+ fs/configfs/mount.c             | 20 +++++++++++++-------
+ 3 files changed, 20 insertions(+), 14 deletions(-)
 
----
-Hannes Reinecke (12):
-      fs/configfs: rework configfs_is_root()
-      fs/configfs: dynamically allocate super_info
-      fs/configfs: separate out configfs_{link,unlink}_root()
-      fs/configfs: add superblock as attribute to configfs_pin_fs()
-      fs/configfs: add 'fill_subsystem' and 'clear_subsystem' callbacks
-      fs/namespace: implement mnt_clone_direct()
-      fs/configfs: switch to get_tree_keyed()
-      fs/configfs: open-code simple_pin_fs()
-      nvmet: make discovery subsystem dynamic
-      nvmet: per net-namespace port list
-      nvmet: make configfs setup namespace aware
-      nvmet: enable transports for net namespaces
+diff --git a/fs/configfs/configfs_internal.h b/fs/configfs/configfs_internal.h
+index 94b9e306709150e7a123c46bb359077c6dc917ad..a4f10dd8ce0f46873d2053860a9fd25f3ee4c809 100644
+--- a/fs/configfs/configfs_internal.h
++++ b/fs/configfs/configfs_internal.h
+@@ -90,8 +90,8 @@ extern const unsigned char * configfs_get_name(struct configfs_dirent *sd);
+ extern int configfs_setattr(struct mnt_idmap *idmap,
+ 			    struct dentry *dentry, struct iattr *iattr);
+ 
+-extern struct dentry *configfs_pin_fs(void);
+-extern void configfs_release_fs(void);
++extern struct dentry *configfs_pin_fs(struct super_block *sb);
++extern void configfs_release_fs(struct super_block *sb);
+ extern struct configfs_super_info *configfs_get_super_info(struct net *net_ns);
+ extern void configfs_put_super_info(struct configfs_super_info *info);
+ 
+diff --git a/fs/configfs/dir.c b/fs/configfs/dir.c
+index ffd0e302cff1756f2161bdb58f1d8c1ac0cf893a..64635c58c0f33ec2d722b0555d3a9153f28bb200 100644
+--- a/fs/configfs/dir.c
++++ b/fs/configfs/dir.c
+@@ -1144,7 +1144,7 @@ int configfs_depend_item(struct configfs_subsystem *subsys,
+ 	 * Pin the configfs filesystem.  This means we can safely access
+ 	 * the root of the configfs filesystem.
+ 	 */
+-	root = configfs_pin_fs();
++	root = configfs_pin_fs(NULL);
+ 	if (IS_ERR(root))
+ 		return PTR_ERR(root);
+ 
+@@ -1171,7 +1171,7 @@ int configfs_depend_item(struct configfs_subsystem *subsys,
+ 	 * If we succeeded, the fs is pinned via other methods.  If not,
+ 	 * we're done with it anyway.  So release_fs() is always right.
+ 	 */
+-	configfs_release_fs();
++	configfs_release_fs(NULL);
+ 
+ 	return ret;
+ }
+@@ -1926,7 +1926,7 @@ int configfs_register_subsystem(struct configfs_subsystem *subsys)
+ 	if (WARN_ON(IS_ERR(info)))
+ 		return PTR_ERR(info);
+ 
+-	root = configfs_pin_fs();
++	root = configfs_pin_fs(NULL);
+ 	if (IS_ERR(root)) {
+ 		err = PTR_ERR(root);
+ 		goto out_put;
+@@ -1934,7 +1934,7 @@ int configfs_register_subsystem(struct configfs_subsystem *subsys)
+ 
+ 	err = configfs_link_root(info, subsys, root);
+ 	if (err)
+-		configfs_release_fs();
++		configfs_release_fs(NULL);
+ 
+ out_put:
+ 	configfs_put_super_info(info);
+@@ -2000,7 +2000,7 @@ void configfs_unregister_subsystem(struct configfs_subsystem *subsys)
+ 	mutex_lock(&info->subsys_mutex);
+ 	unlink_group(group);
+ 	mutex_unlock(&info->subsys_mutex);
+-	configfs_release_fs();
++	configfs_release_fs(NULL);
+ 	configfs_put_super_info(info);
+ }
+ 
+diff --git a/fs/configfs/mount.c b/fs/configfs/mount.c
+index 067bb1099a52ca2216d1b2881429a3fd1811c706..8b26ceb7b0d4a03a17c251de42902aaabef5a652 100644
+--- a/fs/configfs/mount.c
++++ b/fs/configfs/mount.c
+@@ -192,18 +192,24 @@ static struct file_system_type configfs_fs_type = {
+ };
+ MODULE_ALIAS_FS("configfs");
+ 
+-struct dentry *configfs_pin_fs(void)
++struct dentry *configfs_pin_fs(struct super_block *sb)
+ {
+-	int err = simple_pin_fs(&configfs_fs_type, &configfs_root->mnt,
+-			     &configfs_root->mnt_count);
+-	return err ? ERR_PTR(err) : configfs_root->mnt->mnt_root;
++	struct configfs_super_info *info = configfs_root;
++	int err;
++
++	err = simple_pin_fs(&configfs_fs_type, &info->mnt, &info->mnt_count);
++	if (err)
++		return ERR_PTR(err);
++
++	return info->mnt->mnt_root;
+ }
+ 
+-void configfs_release_fs(void)
++void configfs_release_fs(struct super_block *sb)
+ {
+-	simple_release_fs(&configfs_root->mnt, &configfs_root->mnt_count);
+-}
++	struct configfs_super_info *info = configfs_root;
+ 
++	simple_release_fs(&info->mnt, &info->mnt_count);
++}
+ 
+ static int __init configfs_init(void)
+ {
 
- drivers/nvme/target/configfs.c  | 206 +++++++++++++++++++++++++++------
- drivers/nvme/target/core.c      |  36 +++---
- drivers/nvme/target/discovery.c |  91 +++++++++++----
- drivers/nvme/target/loop.c      |   4 +
- drivers/nvme/target/nvmet.h     |  15 ++-
- drivers/nvme/target/rdma.c      |   6 +-
- drivers/nvme/target/tcp.c       |   6 +-
- fs/configfs/configfs_internal.h |  23 +++-
- fs/configfs/dir.c               | 188 +++++++++++++++++++++++++-----
- fs/configfs/mount.c             | 248 +++++++++++++++++++++++++++++++++-------
- fs/namespace.c                  |  11 ++
- include/linux/configfs.h        |   8 ++
- include/linux/mount.h           |   1 +
- 13 files changed, 682 insertions(+), 161 deletions(-)
----
-base-commit: 66affa37cfac0aec061cc4bcf4a065b0c52f7e19
-change-id: 20260619-configfs-ns-b5748b366366
-
-Best regards,
 -- 
-Hannes Reinecke <hare@kernel.org>
+2.51.0
 
 
