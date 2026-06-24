@@ -4,71 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 09F88CDE001
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2026 16:05:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7E10CDB479
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2026 19:58:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:To:
-	From:Subject:Cc:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
-	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hD4FEc334k5p7wS+1EUZv0M3YDlfeRjBdxRkz3ymdlQ=; b=xs+b6PVY9xz/VkHh6+GjkwVPkc
-	LArtVTpnmtOQRIsXX/DHzn/fUzAaGGfK3iE2GM0ViE3wBoxl6sAK8tgvIQoU2t6hbwXuUuI4fn6BA
-	GjOrP7CIF050iwmNZhslDMjt0Sgmwne0XKWxpu2CfSwNbTRpvkvWVueToO5peloTjcwf6ryUeB+mz
-	oQGBkpISZWVth5UNTmutCCmVyfGC1GXqNu8fr8I/GSUCMSmrv7xwnsDrz76i3febbxuD5pw0gOMpr
-	A+MfjHRB/X+8PCLbv8nJ/6vFkKBWYlMn5azw7ywwjRg6eYV8XksO7jAWCjyXAb3rU3HMtbAKrM4g5
-	My2a7Rgg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Ea3HIUVto5uwz2Q2ZR8R/Q6C7MwhYo1rdMh3Z+B5Zow=; b=emcaUgqrbicDGpOb1DLfF8ccR+
+	v3ZiKtjVY8Gie/FRv4Q+mFMpUlcVRT9Ev56smqCatzmK1FtaHr6yYZv+XS6pinfaw/oWe5isvukjQ
+	ScNICrh3sSyQT9eW/9qkUiZ0IpXhaiGaAgH92AaR6PyEQXhLS95ABMNQ6SbepF4i7qQlOt8v9WYvC
+	GvQnPrhDXOn2cvbezqx5jtUegO2xUBcsuGjjFS6iTI0+1EYs0E/XaGp/pgNjgENMdXNSVrm7XrysS
+	9+Ud4VH8SZFdMgA2toxNjDL0sRA96BDG2cszIp5Unc0R0uA///CnDeP51evDApQwObu1q/GFNdPKd
+	W/CnOwrQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wcQ6b-0000000856z-2sh0;
-	Wed, 24 Jun 2026 16:05:37 +0000
-Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=arkamax.eu)
+	id 1wcTkD-00000008Ihl-3ZJt;
+	Wed, 24 Jun 2026 19:58:45 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wcQ6V-0000000856M-08kq
+	id 1wcTkC-00000008IhY-408l
 	for linux-nvme@lists.infradead.org;
-	Wed, 24 Jun 2026 16:05:32 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; s=mail1; bh=hD4FEc334k5p7w
-	S+1EUZv0M3YDlfeRjBdxRkz3ymdlQ=; h=in-reply-to:references:to:from:
-	subject:cc:date; d=arkamax.eu; b=FDd2vMQK2LoTxyh9w8EnDq82IP8B1nNYfoQ4b
-	u6BW3U6fQi7iSE9TpLNwfA9zz+Sx9WmhrO1SSUHUjlKNgGShdHtBUAamkN6czrigZPbbfn
-	VT8NtHzzA8ONr6PU2fRqmyZmRZnYsvBCkSst8xL8s1FXm0ZbMv52nUYMYUm0yI7Ynki3BS
-	rZyoqM+rGGDcb50asDNLl97FQ2z1rEzoSDz2ovng1ca32sTRXt5Exp8X5TmSoHW6G0ICHD
-	5nWhzjyKDYkXoIycxDxUsMSx0bVFsA1kQl7dtbZ04Fv6OsSeCKaMlznjG1qip0vL7ekrnJ
-	QR5MpouiNBVVwlyeajgPeHBMg==
-Received: from localhost (<unknown> [213.175.37.14])
-	by arkamax.eu (OpenSMTPD) with ESMTPSA id e4795dec (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Wed, 24 Jun 2026 18:05:24 +0200 (CEST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 24 Jun 2026 18:05:22 +0200
-Message-Id: <DJHEOUT0726X.1GXII59NZR3YQ@arkamax.eu>
-Cc: "Maurizio Lombardi" <mlombard@arkamax.eu>, "John Meneghini"
- <jmeneghi@redhat.com>, "Maurizio Lombardi" <mlombard@redhat.com>,
- <hch@lst.de>, <chaitanyak@nvidia.com>, <bvanassche@acm.org>,
- <linux-scsi@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
- <James.Bottomley@hansenpartnership.com>, <emilne@redhat.com>,
- <bgurney@redhat.com>
-Subject: Re: [PATCH V3 0/3] Ensure ordered namespace registration during
- async scan
-From: "Maurizio Lombardi" <mlombard@arkamax.eu>
-To: "Hannes Reinecke" <hare@suse.de>, "Keith Busch" <kbusch@kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20260225161203.76168-1-mlombard@redhat.com>
- <aZ9sjbZ3CEW_1rW1@kbusch-mbp> <DGOQMFJJ6K5P.3KLF45WQT2SAS@arkamax.eu>
- <e43b914c-2ca5-455e-b0fe-3ce2eb0c64bd@redhat.com>
- <aaCNtpPzP9TIDNjE@kbusch-mbp>
- <869034b1-c7e8-4e35-b153-43fd787a8edd@suse.de>
- <aaXE4s3AT45UIAN8@kbusch-mbp> <DJBICZU143X2.3S261SDT21N0V@arkamax.eu>
- <ajRpWLqaEyA6cwkJ@kbusch-mbp>
- <531aa19b-a9ae-44f7-82ce-3714621ceee8@suse.de>
- <ajWOWdD0P5ri9bWY@kbusch-mbp>
- <d46493a3-3c9c-4799-bd63-e8759f04463c@suse.de>
-In-Reply-To: <d46493a3-3c9c-4799-bd63-e8759f04463c@suse.de>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260624_090531_714752_D7DDC714 
-X-CRM114-Status: UNSURE (   7.15  )
-X-CRM114-Notice: Please train this message.
+	Wed, 24 Jun 2026 19:58:44 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id EFBDC40AD1;
+	Wed, 24 Jun 2026 19:58:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A1AF1F000E9;
+	Wed, 24 Jun 2026 19:58:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782331123;
+	bh=Ea3HIUVto5uwz2Q2ZR8R/Q6C7MwhYo1rdMh3Z+B5Zow=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Ao72++iiPoFqzJl2YBsSYZPh4n4xYyvUTnNNajCu1hcd6VeiYmJijo77sns55UflP
+	 NA8N08hF0H6bhwqDP5WTDg9sz8tarvMFAvc44L4tSqSDk2597ikCgRgUost2aQ5EuX
+	 RJ9oC+Pk2tojI6Mv/PuwNDVTUATo1AF9E1pIyB6eXf8S062mrsmBghZiFbqz73T5f4
+	 0vv4BICnJ1iJ90boPuH3mp0gGONcbnX0TgfLF40SDaqSaXVQlEb6iHCc2oaJgxWIpa
+	 rNlITbjYWM5xWsGZjxa7oX0tWJXs4CxYQSt6ViNAR2XapvEAMulGStLUKkotZGC3xf
+	 ksgLCYQ6z/eFw==
+Date: Wed, 24 Jun 2026 12:58:42 -0700
+From: Namhyung Kim <namhyung@kernel.org>
+To: Ian Rogers <irogers@google.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	James Clark <james.clark@linaro.org>,
+	Tomas Glozar <tglozar@redhat.com>,
+	Michael Jeanson <mjeanson@efficios.com>,
+	Dmitrii Dolgov <9erthalion6@gmail.com>,
+	Alexandre Chartre <alexandre.chartre@oracle.com>,
+	Yuzhuo Jing <yuzhuo@google.com>, Leo Yan <leo.yan@arm.com>,
+	German Gomez <german.gomez@arm.com>,
+	Anubhav Shelat <ashelat@redhat.com>, linux-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v1 0/3] perf pmu: Add tool-provided NVMe PMU
+Message-ID: <ajw28nITeOgtH0GF@google.com>
+References: <20260609070348.541964-1-irogers@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260609070348.541964-1-irogers@google.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,21 +79,72 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon Jun 22, 2026 at 9:15 AM CEST, Hannes Reinecke wrote:
->
-> In general I fail to see the issue here.
-> Any modern distro should be using persistent device links to access
-> devices, so the actual device name is pretty much irrelevant.
-> We on our side haven't had any issues here since ages.
+On Tue, Jun 09, 2026 at 12:03:45AM -0700, Ian Rogers wrote:
+> This patch series introduces a tool-provided PMU for NVMe devices to expose
+> various hardware logs as perf events.
+> 
+> Using libnvme, the new nvme_pmu extracts metrics from standard NVMe log pages
+> including:
+> - SMART / Health Information (e.g. data units read/written, power cycles,
+>   temperature)
+> - Endurance Group Information
+> - FDP (Flexible Data Placement) Statistics
+> - Error Information
+> - Zoned Namespaces (ZNS) Changed Zones
+> 
+> Key features:
+> - Dynamic probing of supported log pages on /dev/nvmeX. Unsupported events
+>   are marked as deprecated and hidden from `perf list` by default.
+> - Generic configuration encoding where the log type, size, and offset are
+>   encoded directly into the event configuration.
+> - Correct interval delta tracking using baseline offset snapshots. This mimics
+>   the behavior of the hwmon PMU, allowing gauges like Temperature to be
+>   reported instantaneously in `perf stat -I`, while standard counters
+>   correctly accumulate deltas.
+> - Robust handling of cross-architecture endianness when reading 128-bit and
+>   64-bit fields from the NVMe specification.
 
-In principle, I agree with you that persistent links are best practice.
-That said, many users still rely on /dev/nvmeXnY links, for example for
-some nvme-cli commands. Because kernel 6.11 made these names totally
-random across reboots, it's causing some confusion for them.
+Can you please show actual output so that we can understand what you're
+doing?
 
-But yes, I totally understand the reason why you don't perceive this as
-an issue.
+Thanks,
+Namhyung
 
-Maurizio
-
+> 
+> The series is broken down into:
+> 1. Adding the libnvme feature detection via pkg-config in tools/build.
+> 2. The core implementation of the NVMe tool PMU.
+> 3. A unit test suite verifying the parsing and encoding of the NVMe PMU
+>    events using a mocked device.
+> 
+> Ian Rogers (3):
+>   perf build: Add libnvme feature detection
+>   perf pmu: Implement tool-provided NVMe PMU
+>   perf tests: Add NVMe PMU event parsing test
+> 
+>  tools/build/Makefile.feature       |   2 +
+>  tools/build/feature/Makefile       |   3 +
+>  tools/build/feature/test-libnvme.c |  11 +
+>  tools/perf/Makefile.config         |  12 +
+>  tools/perf/tests/Build             |   1 +
+>  tools/perf/tests/builtin-test.c    |   1 +
+>  tools/perf/tests/nvme_pmu.c        | 176 ++++++++++
+>  tools/perf/tests/tests.h           |   1 +
+>  tools/perf/util/Build              |   1 +
+>  tools/perf/util/evsel.c            |  11 +-
+>  tools/perf/util/nvme_pmu.c         | 535 +++++++++++++++++++++++++++++
+>  tools/perf/util/nvme_pmu.h         | 143 ++++++++
+>  tools/perf/util/pmu.c              |  15 +
+>  tools/perf/util/pmu.h              |   8 +-
+>  tools/perf/util/pmus.c             |  31 +-
+>  tools/perf/util/pmus.h             |   1 +
+>  16 files changed, 945 insertions(+), 7 deletions(-)
+>  create mode 100644 tools/build/feature/test-libnvme.c
+>  create mode 100644 tools/perf/tests/nvme_pmu.c
+>  create mode 100644 tools/perf/util/nvme_pmu.c
+>  create mode 100644 tools/perf/util/nvme_pmu.h
+> 
+> -- 
+> 2.54.0.1064.gd145956f57-goog
+> 
 
