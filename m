@@ -4,124 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6724DCDB47C
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2026 09:55:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0A5ECCDB479
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2026 11:08:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5Toa/su82adeuG0+DiD00KOzyOpuAML2e/37IP6S54U=; b=e16yLB70VcXYprn98lgpRgKcW6
-	VC8pKTl07oz12fFGcFM2uczM2U7CNgF+hD3lEtBXZzUDC6t3JoxcTL5q3rToIC376vKg+aWi5diwZ
-	v1/fTH4H7BXigwj0rO6NX1OKXzQihd2vvAyc8xaSijbZCCTRMSGowEXjWjvlRU/Zxx81SddqfN4C8
-	+eh0uCjAeCr8aG+ohwLQVEDfJMreNuOMulKkLvBMl1NeHIYjeE6QjQoARVeLGum/L0TMl0ZlN2hXM
-	rWR3zacvFKPIV+wbf9ENQWJvBfE+Z330mG4Iq+oty2k3KQNygXuDnEfPJI/m0eSQ78/HG7jhm4pY9
-	ZefTRE3Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=x88ERQOESPvy1Nz067zcorVdmS/CfsOkDdl1XMkJXZ4=; b=SPHkpcdtrtrsiQm9hZZ6xEzJLU
+	ojGW2xibXbQoirROgee7B8FjliPXh7lbc8/S8G3wyuGqZCILyCi3eG85TwjsvR5aEYTjZ2y1TOD9d
+	NJsHOFkHxCj0m7h+DgefvkTFIJNhQIhhGalxkhaieMGXnRZYIMyIjJNvWDVyVP+MRTYR7n6UsLj4F
+	AaqtdsbLYXxlsGUgx4XQGrxXzGPRxv4me36Q/f7NSGTJ2+CHw7PxrmJbjdZxH14bhPbfksTJpkhTf
+	ZEmocA+bVzCGBNyiNhLxDd0WXdntf2c9PK51GpLSTJ6Bd6mDlyxdUw2sWrZIXylDfWdJ5iPGPRPNN
+	IRD/qMeg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wcKKA-00000007Y3k-2d5w;
-	Wed, 24 Jun 2026 09:55:14 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1wcLTU-00000007eTU-0E9K;
+	Wed, 24 Jun 2026 11:08:56 +0000
+Received: from out30-119.freemail.mail.aliyun.com ([115.124.30.119])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wcKK6-00000007Y2a-1FGG
+	id 1wcLTQ-00000007eT1-3Ba6
 	for linux-nvme@lists.infradead.org;
-	Wed, 24 Jun 2026 09:55:13 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C3CED76190;
-	Wed, 24 Jun 2026 09:55:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782294906; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5Toa/su82adeuG0+DiD00KOzyOpuAML2e/37IP6S54U=;
-	b=wSSySn7LY+l7E9MclRpjdWO1lIpdy6/bXsiOMzAs4pHRaT9sMWRp7Gr5MnZodX0P21Ic+R
-	EZ/ei9mkRkazCDQuLIUACSWznPx6HaLhtfD3OSNaCl9Ia9g6SJMtlnR1F3hTX4EDaigiTL
-	st6fscch0HYD6bxAQgQTdgAgtuyHpZ8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782294906;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5Toa/su82adeuG0+DiD00KOzyOpuAML2e/37IP6S54U=;
-	b=LMkdm/BxPx2r1ykbVWOR398bRlwO/VubGbK1uIpm68jBJkh13A19XiVkYhGq2qdHyLEmPh
-	0TCz0IOrBv3GV5AA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ITXn6DDs;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=WOr2CLGx
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782294902; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5Toa/su82adeuG0+DiD00KOzyOpuAML2e/37IP6S54U=;
-	b=ITXn6DDsUmOj4GgxwvDQA3ZVxpv/b12/lh2a18/9XcV8LHTYLOuOh1TP6LkFHiIH76B8n4
-	54RRctWeMEei/PXw6gg3Isz2GxEyqC91d9Wv3EB6LGijR8xHOCH5SQP2mfVHgklOEp3nBh
-	RvfNinW1od3OriC5jnDYRkzEUOiZI+w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782294902;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5Toa/su82adeuG0+DiD00KOzyOpuAML2e/37IP6S54U=;
-	b=WOr2CLGxPMt07+am3Q84S3YuczSzfo3BHOza0cCwe3qqkI+PIb0ocUeofZpCXveX1X6ts+
-	2qpaXe5O5siYmEDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AA09F779A8;
-	Wed, 24 Jun 2026 09:55:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id uRYGKHapO2rQJAAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Wed, 24 Jun 2026 09:55:02 +0000
-Date: Wed, 24 Jun 2026 11:55:01 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: John Garry <john.g.garry@oracle.com>
-Cc: Guixin Liu <kanie@linux.alibaba.com>, Keith Busch <kbusch@kernel.org>, 
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	Nilay Shroff <nilay@linux.ibm.com>, linux-nvme@lists.infradead.org
+	Wed, 24 Jun 2026 11:08:55 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1782299324; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=x88ERQOESPvy1Nz067zcorVdmS/CfsOkDdl1XMkJXZ4=;
+	b=ONGnQ8lrfZJ3q+BzSbDcD/Y8RIy031JAgwThvagtTCL7hB+3Xv8rMZ/MmJNmPKFryNXaSS213avVbWtf5z7QJwOaxbpkKoNqjNSXm3AHNL52tbYaukzJTaAtd2CIxbBCCb54RMGThS3ZEa/krZugygc3BLDGrpJEoTmuAXe3Ias=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R141e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033032089153;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0X5Y2JGX_1782299318;
+Received: from 30.178.83.21(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0X5Y2JGX_1782299318 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Wed, 24 Jun 2026 19:08:39 +0800
+Message-ID: <79d9fb06-d2ac-495a-83a6-f348b97a798a@linux.alibaba.com>
+Date: Wed, 24 Jun 2026 19:08:37 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3] nvme-multipath: expose path_state via sysfs
-Message-ID: <c9b1d8fd-7012-44a0-a975-947fc0e16fac@flourine.local>
+To: John Garry <john.g.garry@oracle.com>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Nilay Shroff <nilay@linux.ibm.com>,
+ Daniel Wagner <dwagner@suse.de>
+Cc: linux-nvme@lists.infradead.org
 References: <20260624054843.1132083-1-kanie@linux.alibaba.com>
  <01e1bdfa-2917-401e-9ffb-a2229798e542@oracle.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+From: Guixin Liu <kanie@linux.alibaba.com>
 In-Reply-To: <01e1bdfa-2917-401e-9ffb-a2229798e542@oracle.com>
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,flourine.local:mid,suse.de:dkim];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: C3CED76190
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260624_025510_487612_C9437362 
-X-CRM114-Status: GOOD (  16.56  )
+X-CRM114-CacheID: sfid-20260624_040853_500467_2D32B34C 
+X-CRM114-Status: GOOD (  21.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -136,42 +69,146 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jun 24, 2026 at 08:36:44AM +0100, John Garry wrote:
+
+
+在 2026/6/24 15:36, John Garry 写道:
 > On 24/06/2026 06:48, Guixin Liu wrote:
-> > Add a read-only "path_state" sysfs attribute to each NVMe path namespace
-> > device (/sys/class/nvme/nvmeX/nvmeXcYnZ/path_state) that exposes the
-> > current path state, including whether the path is enabled or disabled
-> > with a specific reason.
-> > 
-> > Factor the path disable checks from nvme_path_is_disabled() into a new
-> > nvme_path_get_state() helper that returns an enum nvme_path_state. This
-> > keeps the path selection logic and sysfs reporting in sync, so any future
-> > updates to the path disable criteria are automatically reflected in the
-> > sysfs output.
-> > 
-> > Possible values:
-> >    - "enabled (optimized)"     : ANA state is optimized
-> >    - "enabled (non-optimized)" : ANA state is not optimized
-> >    - "disabled (ctrl_down)"    : controller is not live
-> >    - "disabled (ana_pending)"  : ANA state change pending
-> >    - "disabled (ns_not_ready)" : namespace is not ready
+>> Add a read-only "path_state" sysfs attribute to each NVMe path namespace
+>> device (/sys/class/nvme/nvmeX/nvmeXcYnZ/path_state) that exposes the
+>> current path state, including whether the path is enabled or disabled
+>> with a specific reason.
+>>
+>> Factor the path disable checks from nvme_path_is_disabled() into a new
+>> nvme_path_get_state() helper that returns an enum nvme_path_state. This
+>> keeps the path selection logic and sysfs reporting in sync, so any 
+>> future
+>> updates to the path disable criteria are automatically reflected in the
+>> sysfs output.
+>>
+>> Possible values:
+>>    - "enabled (optimized)"     : ANA state is optimized
+>>    - "enabled (non-optimized)" : ANA state is not optimized
+>>    - "disabled (ctrl_down)"    : controller is not live
+>>    - "disabled (ana_pending)"  : ANA state change pending
+>>    - "disabled (ns_not_ready)" : namespace is not ready
+>>
+>> This gives userspace visibility into the multipath path selection state
+>> without requiring users to piece together controller state and namespace
+>> flags manually.
+>>
+>> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+>> ---
+>> v2->v3:
+>> - Factor path disable checks into nvme_path_get_state()
+>>    helper returning enum nvme_path_state, and rebuild
+>>    nvme_path_is_disabled() on top of it to keep path
+>>    selection logic and sysfs reporting in sync.
+>>    (Nilay Shroff)
+>> - Distinguish "enabled (optimized)" vs
+>>    "enabled (non-optimized)" based on ANA state.
+>>    (Keith Busch)
+>>
+>> v1->v2:
+>> - Show specific disabled reason instead of just
+>>    "disabled": "disabled (ctrl_down)",
+>>    "disabled (ana_pending)",
+>>    "disabled (ns_not_ready)". (Nilay Shroff)
+>> ---
+>>   drivers/nvme/host/multipath.c | 47 ++++++++++++++++++++++++++++++-----
+>>   drivers/nvme/host/nvme.h      |  1 +
+>>   drivers/nvme/host/sysfs.c     |  4 ++-
+>>   3 files changed, 45 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/drivers/nvme/host/multipath.c 
+>> b/drivers/nvme/host/multipath.c
+>> index e033ede953cc..2da5e9da1866 100644
+>> --- a/drivers/nvme/host/multipath.c
+>> +++ b/drivers/nvme/host/multipath.c
+>> @@ -288,7 +288,15 @@ void nvme_mpath_revalidate_paths(struct 
+>> nvme_ns_head *head)
+>>       kblockd_schedule_work(&head->requeue_work);
+>>   }
+>>   -static bool nvme_path_is_disabled(struct nvme_ns *ns)
+>> +enum nvme_path_state {
+>> +    NVME_PATH_ENABLED_OPTIMIZED,
+>> +    NVME_PATH_ENABLED_NONOPTIMIZED,
+>> +    NVME_PATH_DISABLED_CTRL_DOWN,
+>> +    NVME_PATH_DISABLED_ANA_PENDING,
+>> +    NVME_PATH_DISABLED_NS_NOT_READY,
+>> +};
+>> +
+>> +static enum nvme_path_state nvme_path_get_state(struct nvme_ns *ns)
+>>   {
+>>       enum nvme_ctrl_state state = nvme_ctrl_state(ns->ctrl);
+>>   @@ -298,11 +306,20 @@ static bool nvme_path_is_disabled(struct 
+>> nvme_ns *ns)
+>>        * Otherwise it will fail immediately and return to the requeue 
+>> list.
+>>        */
+>>       if (state != NVME_CTRL_LIVE && state != NVME_CTRL_DELETING)
+>> -        return true;
+>> -    if (test_bit(NVME_NS_ANA_PENDING, &ns->flags) ||
+>> -        !test_bit(NVME_NS_READY, &ns->flags))
+>> -        return true;
+>> -    return false;
+>> +        return NVME_PATH_DISABLED_CTRL_DOWN;
+>> +    if (test_bit(NVME_NS_ANA_PENDING, &ns->flags))
+>> +        return NVME_PATH_DISABLED_ANA_PENDING;
+>> +    if (!test_bit(NVME_NS_READY, &ns->flags))
+>> +        return NVME_PATH_DISABLED_NS_NOT_READY;
+>> +    if (nvme_ctrl_use_ana(ns->ctrl) &&
+>> +        ns->ana_state != NVME_ANA_OPTIMIZED)
+>> +        return NVME_PATH_ENABLED_NONOPTIMIZED;
+>> +    return NVME_PATH_ENABLED_OPTIMIZED;
+>> +}
+>> +
+>> +static bool nvme_path_is_disabled(struct nvme_ns *ns)
+>> +{
+>> +    return nvme_path_get_state(ns) > NVME_PATH_ENABLED_NONOPTIMIZED;
+>
+> I don't think that this is a particularly robust programming style, 
+> since nothing in enum nvme_path_state explicitly states that a very 
+> specific ordering or grouping is required
+>
+I think so, should add NVME_PATH_DISABLED_FIRST to identify the
+start of the disabled state.
+>
+>>   }
+>>     static struct nvme_ns *__nvme_find_path(struct nvme_ns_head 
+>> *head, int node)
+>> @@ -1101,6 +1118,24 @@ static ssize_t queue_depth_show(struct device 
+>> *dev,
+>>   }
+>>   DEVICE_ATTR_RO(queue_depth);
+>>   +static const char * const nvme_path_state_names[] = {
+>> +    [NVME_PATH_ENABLED_OPTIMIZED]        = "enabled (optimized)",
+>> +    [NVME_PATH_ENABLED_NONOPTIMIZED]    = "enabled (non-optimized)",
+>> +    [NVME_PATH_DISABLED_CTRL_DOWN]        = "disabled (ctrl_down)",
+>> +    [NVME_PATH_DISABLED_ANA_PENDING]    = "disabled (ana_pending)",
+>> +    [NVME_PATH_DISABLED_NS_NOT_READY]    = "disabled (ns_not_ready)",
+>
+> some strings are abbreviated and some aren't
+   "enabled (optimized)"
+   "enabled (non-optimized)"
+   "disabled (controller down)"
+   "disabled (ana pending)"
+   "disabled (namespace not ready)"
+is this OK?
+>
+>> +};
+>> +
+>> +static ssize_t path_state_show(struct device *dev,
+>> +        struct device_attribute *attr, char *buf)
+>> +{
+>> +    struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
+>> +
+>> +    return sysfs_emit(buf, "%s\n",
+>> + nvme_path_state_names[nvme_path_get_state(ns)]);
+>
+> you should really check that nvme_path_get_state(ns) does not exceed 
+> indexing into ARRAY_SIZE(nvme_path_state_names)
+Changed in v4, thanks.
 
-I'd prefer to have a single string here instead of something we might need
-to parse again. The sysfs docs says
-
-  Mixing types, expressing multiple lines of data, and doing fancy
-  formatting of data is heavily frowned upon. Doing these things may get
-  you publicly humiliated and your code rewritten without notice.
-
-Something like
-
-  - optimized
-  - non-optimized
-  - ctrl-down
-  - ana-pending
-  - ns-no-ready
-
-BTW, the docs on sysfs say, these interfaces should be documented also
-in Documentation/ABI. So far we haven't done this for the nvme
-subsystem. Should we start with it? 
+Best Regards,
+Guixin Liu
 
