@@ -4,105 +4,95 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BE1F1CDE00B
-	for <linux-nvme@archiver.kernel.org>; Thu, 25 Jun 2026 21:05:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F108ECDE00B
+	for <linux-nvme@archiver.kernel.org>; Thu, 25 Jun 2026 21:27:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nNJXObhuc80JJYRIbgz8YBrnkiKjNqPYQ1jYTpzRuWg=; b=zUBa/XtENoGdSWQ2Yizt/7JZrk
-	O89xcbIqyLzV4OYeyYdVIiGHVdiGvX8dsZ5Sefgacee9/rfyHLmWKIG48CPBUVQqhbF4gHt8OQN2x
-	V1shS3+oPEpBOPQOb2r3ovp1+zMFlMsIdKZZMmxScFaMunw/X66lEvC1pN6FqUjuThIauxMEUkbtZ
-	STxk/KHJg28xh2ZZ4mALB1pA0m1L6Qg8RCgnMGfkz4iLRiqcY4+99GCTLCfmswgtNDk3VkZkSXOJy
-	aZqndPsyAGHcq28d93wyEr3xr65+QISRyyRBSmWrq5sRN0yUlINlJE6H4gHGseFju5YYj7L0aNSHP
-	x/BCigSQ==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=u6g8GnQBUk2ne5BaPEaScB3+h0qp9XYYdT6ZfiBb2l4=; b=UP6cF8ch/96jA0D407lDeVm2tM
+	zUxiEcP6RnLlqKf0OOtpGf+MgKKBF5i1Is/HCZhKmcwOMt5Pr8zuLOoXW6P+uK/cLK4vy0qj+L9P2
+	MOeps9M7bHC1DFfXTyuu57bMHax1w7Wv/tnFQTi1hIegWtQnDj3kHO6WyTPURtk2pI9//c1XJtmYB
+	WUZvMf5lDG5w5jPg9khBns0tokbXGIaqhO9CP0R11qnatUz/u9YyLq+Ao2vTs9AEbRKaSQUirkgt+
+	g1k1kNPol2YWYDp69l8EEq2/NNLyr9iMjJLMr7unIBfs7xQFwCKdEq3DEDwSypShu37k2eS8ErDkF
+	mZhHKcQQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wcrFz-00000009ptV-3Q2I;
-	Thu, 25 Jun 2026 21:05:07 +0000
-Received: from mail-qt1-x82c.google.com ([2607:f8b0:4864:20::82c])
+	id 1wcrbl-00000009s5R-1id5;
+	Thu, 25 Jun 2026 21:27:37 +0000
+Received: from mail-oo1-xc66.google.com ([2607:f8b0:4864:20::c66])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wcrFx-00000009pt4-21Zd
+	id 1wcrbi-00000009s4y-3buV
 	for linux-nvme@lists.infradead.org;
-	Thu, 25 Jun 2026 21:05:06 +0000
-Received: by mail-qt1-x82c.google.com with SMTP id d75a77b69052e-5174a3d9598so2284821cf.3
-        for <linux-nvme@lists.infradead.org>; Thu, 25 Jun 2026 14:05:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782421504; cv=none;
-        d=google.com; s=arc-20260327;
-        b=SbSuxy9OqKxblBbshJS/WkPwQBxU6gGrP8DJiUyJ4EmEpveLujDnaPzntBawJgInuf
-         dGHWKuLgR/GW+MHC0HH0wNHcHaAv7eHKarCdU2sHK2S6KK2UxoXwd9R2xflkqKahIFuL
-         fqX5NITpm9x82tobjvF2q9vJ3sug6wpGmOThHIBUUSBBY3Ag4r4Gkuidx/gxU6c8AmS4
-         9awM2KhCGguZcGgAAdjmyr3RkXiAO+dWgGVmk0xzMwa5WCgUD0Jf/tRyvSqHyyu0WHp4
-         tTv1WLque9LeAGAZgGuFFkBUK2hz2x0oHjNyAa5hiL9aTZM4ZJXch7E6Jo8tOhELLe2P
-         a8nQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=nNJXObhuc80JJYRIbgz8YBrnkiKjNqPYQ1jYTpzRuWg=;
-        fh=SPiOrL98yB6YSVcch5y6W/f5f0QFp/rD1tnm5ntekTQ=;
-        b=XXKe+dTCRw5fpCJinbN2w3tp5tImwGus3y35AZZYB6DqumJd+/elA239G3Hg7uw4H0
-         LAvC5Ch1SMsyBI+O/5xGIjoFNc5rWd5+lu9vWm6XwnJeofr7LBbv7ly5ES/BLoUfin3o
-         l9/SoYmsw0Q55+Q3LcNU0XOjzFHk+50SJt/fQHsvkndd1d4QsC7JWFY4WA3G4sN06kLa
-         N6gLfnFEpvKbR9AKlWF8WfTPyBaeJTJ7MSO0qxVuxUlKwMOIXyQEE9IlkFH0W9JVImNx
-         DrjUTe8ltCtZDmJPblM3COhKVpfRIcs7vBKST76vdRwIclR3x3Ob0Xmt67elbfQU2T7E
-         9IXQ==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	Thu, 25 Jun 2026 21:27:36 +0000
+Received: by mail-oo1-xc66.google.com with SMTP id 006d021491bc7-69de16f5f79so164220eaf.0
+        for <linux-nvme@lists.infradead.org>; Thu, 25 Jun 2026 14:27:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1782421504; x=1783026304; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nNJXObhuc80JJYRIbgz8YBrnkiKjNqPYQ1jYTpzRuWg=;
-        b=Py0TcsTzxKadfXaVf5+60Btr8vwr+PFkS9CIYwnMrZpuoX/SSEEqjNDw5OuY3A50cw
-         umafcDq5FlqxEReut/4hJwebqVvpRh2E06dx6ZMZd43tw37hFyDx5DDqoJsdm5aSPNHb
-         DM6fU7E55+A4bKNAO0Ju60hh1jV4jM3cQ0k78587tsIyK4ii5mz/UthJJq1NLBXekFSc
-         F/MjK2/UXeS74Z3WOBGl7fHcOsTwXiC6KbY6hznv/w5gj6YNGTdOfdIMbtCiK+qRtXr2
-         vyPIAoJ6C4lBh8UUjKV9abWZETt83cZa939mt1GeVGOaihUrR7Vs7DB4y+SBQVCJtYis
-         sOfA==
+        d=purestorage.com; s=google2022; t=1782422853; x=1783027653; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=u6g8GnQBUk2ne5BaPEaScB3+h0qp9XYYdT6ZfiBb2l4=;
+        b=baPmm9AqI4Bek2dBOFc2BaFwnWGqtUjUuszkm3gcaLd0TYBvcaVo5+aiaMzp7CstxU
+         XkqdkfJVS85qfJUOEv/KzXmq7rxYCKAMv+IxiHXig0QRyqNm5tVCaw5DbHLtbcMFbPLp
+         68E34VGaDxvsPu0RXJJGEcOnE675pzHVULENDZjvdgFPe6BtdM5SXIPux6TYmoKOkzEm
+         rPJJCnHJwsD/SNePwYovDikbVT0o+nZam4scuIJzNY4pQ+W5XTq1q4im7rCGen+Thypf
+         olVcXDzBxKoVEaba99226FfbJpKNvkgRVQ+pfI9u2hv9iUE7IhZVdl8yzzYaqA91ZHCm
+         zOHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782421504; x=1783026304;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=nNJXObhuc80JJYRIbgz8YBrnkiKjNqPYQ1jYTpzRuWg=;
-        b=Vq2GUmLbNPGv5X0+v5rc+Wp3lEDp2yxW50g8QTICkTUJragLGJ2Aaq1XTVxuh+x6uO
-         /w/UHTHF7vL63DWP058YRfENAhVEoUU7owsSISiW6HuEmDxWWMLiekwVIX36CNAR7TmF
-         YD9Doz1RLXg6lttcwSFOLLxAv9BELhWk15uE8dfrqs6DGYWMYkYpDvaUEKIoQDrl2Bkn
-         HSKE6Qn2zoUhgXjaTKQKgygBbzQPhnMJfkNRrZCrTbBCqoQrUje1g6HyHR6eLncXmFGj
-         BHRuwCAn/PWLmSuLveXN4anUCxOPDl8q/yFRcjp/BhcQugKLvZlRAAEURBzq4MoU2mxp
-         aHpg==
-X-Forwarded-Encrypted: i=1; AFNElJ96PNcVbyRT6fqV3kGQq5XlgL22R8+TMYDz1tw4jUDxZkcNEyc+PFXiWVc6rVWmO9i4hxB0nj3wY5J+@lists.infradead.org
-X-Gm-Message-State: AOJu0YxLgj5VCbGgJQfnr8LW5hwWBmvsCmaMcbqLXNE4fs2LDh47MSlU
-	Uo7DNt+cSOaAQTydkAwMOwrl47HfFS4rx1/0s5oA0aZFFsDSRHW0bCqeaqyooaSnZjG4+HB6E0q
-	cYRutUNPRXADEpp95gwqfg4zL1NJve10WrhokzbTDMOCyMQ6lATCe0t1ZUA==
-X-Gm-Gg: AfdE7clUmmJux4C2wBUBarH77hZuAPCwoomGu9Qr+yGO5BPt4/dky1kuF477VEInpRL
-	ZMW9lAycxsjFduksudHv3TRaYflHFaPY2hPsw+S/+oiz2yOuyRsIU6O2v9m543k5yrhNzECHyrr
-	4/fE2g2hnKsdE0NTUeZwjn5l8tt+81oo7tAToeOu4wnoPHvtuB0+L4JGmQ4u/Bkte/Zb5k9RmNa
-	cs5twc9PbjqgComxcspP/UQ//S3lcnyOwOY8+vxiMcZJ9z1HsltKx0QrJKn7ctW/LIbGhDflMwB
-	i4d72gI=
-X-Received: by 2002:a05:622a:180f:b0:519:51a9:fc84 with SMTP id
- d75a77b69052e-51a727cb368mr60024431cf.41.1782421503934; Thu, 25 Jun 2026
- 14:05:03 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1782422853; x=1783027653;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=u6g8GnQBUk2ne5BaPEaScB3+h0qp9XYYdT6ZfiBb2l4=;
+        b=IalDb1dFkCIvs7Kcmr7d8gknnm65X6AVHVZ25w4hzTyOcOAnLNvMTmHtVCQ7a8NdvN
+         7iiomLOiu5nGwpDVjcHvzYypnoixZCiUYmkdQLBzVWgIN8rif1TOiQW9lhens0sjfIup
+         AG0A9Cw+tR2VDbF2PJd25/ixBKmmt8JlK0hJB9WqGmxgLRMAddvrYdS9X0MyVQQbMp4G
+         R8KynX6VtxWGGM8huEL/3Sg0TSkRtdLNJYJUKNpL0p5kPdcDaRd0SWnGixPY5u1jMbDU
+         mfVFkGJSp+L4+JfJBQeN7x6KG5kAo7YYIJHN8sgaMXM4gqPuFLytN9feF+bnNOYkggVT
+         3afQ==
+X-Gm-Message-State: AOJu0YyS/D1z5YlrCRiD5H+xOj9I+hWr5FoWpt/8xLLmRnGlcFvQ5e0t
+	AgegJhabNbOo37SqozRnnyBSXoWg3A17d7N+g9Kh0Rc5DGwGm18TeB7550zNVRfXZzFB5T/qsbF
+	rAGPoq5EG7SymWUAFDq7ofFVLY7Ey4LrEsPLQ
+X-Gm-Gg: AfdE7cml88kPDlvi+iJ63bH8n0IiVCBk9IRN+rIXfcfsuxCtT4oDvN0ZbUMOjyBaObu
+	G/GpkRbpehP4WFsNZEjecguPSTTgiK5eQtmdcYlvL7RR26EdaXtx/B3LKZV3NnIeifZf9WTqMHB
+	YR2xcXtd1uS+m8S/Uyy/a5901bysDXlOjLJfYZ5QvohLKKI6h2lY5YnHU7bZzvvZp0WVuXt66xV
+	rAgMwIK+yx6aj3VDl4Dv1Md7ZyQM4KWpiJPMyCkPrHOR2GuBjtyKWuLYzSExRXlE1RnLyTSceLc
+	5J27VwuPzt50+idv10zSnugf6QvF11/6rbd0K+3954swiicRcqdb7ppPjOD5YU0xvOntsTeX6NB
+	GCbamh1YFGwBpTRGyjHJJdSKfoM0k4oKejOthYxebGQ==
+X-Received: by 2002:a05:6820:1b14:b0:69d:f7bf:c53f with SMTP id 006d021491bc7-6a13524882bmr3311653eaf.39.1782422853559;
+        Thu, 25 Jun 2026 14:27:33 -0700 (PDT)
+Received: from c7-smtp-2026.dev.purestorage.com ([208.88.159.129])
+        by smtp-relay.gmail.com with ESMTPS id 586e51a60fabf-4472f162514sm1474497fac.12.2026.06.25.14.27.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Jun 2026 14:27:33 -0700 (PDT)
+X-Relaying-Domain: purestorage.com
+Received: from dev-sgogte.dev.purestorage.com (bond0.slc5-n22m24-k8s.dev.purestorage.com [IPv6:2620:125:9025:20::a31:429])
+	by c7-smtp-2026.dev.purestorage.com (Postfix) with ESMTP id 171DA401FD;
+	Thu, 25 Jun 2026 15:27:33 -0600 (MDT)
+Received: by dev-sgogte.dev.purestorage.com (Postfix, from userid 1557734945)
+	id 1352051222; Thu, 25 Jun 2026 15:27:33 -0600 (MDT)
+From: Surabhi Gogte <sgogte@purestorage.com>
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	mkhalfella@purestorage.com,
+	randyj@purestorage.com,
+	adailey@purestorage.com,
+	Surabhi Gogte <sgogte@purestorage.com>
+Subject: [PATCH v3 0/2] nvme-rdma: parallelize I/O queue setup
+Date: Thu, 25 Jun 2026 15:27:20 -0600
+Message-ID: <20260625212722.1302344-1-sgogte@purestorage.com>
+X-Mailer: git-send-email 2.54.0
 MIME-Version: 1.0
-References: <20260604195321.2232838-1-sgogte@purestorage.com> <20260610120458.GD19624@lst.de>
-In-Reply-To: <20260610120458.GD19624@lst.de>
-From: "Surabhi Gogte (she/her)" <sgogte@purestorage.com>
-Date: Thu, 25 Jun 2026 14:04:26 -0700
-X-Gm-Features: AVVi8CcR6224056QR7fx4VbeYN7hzVP58EIivDKO0GFgLUywb_hmgj4PkVNwG1c
-Message-ID: <CAMof9cXbj1ATEm+VOzrqiVLFXgbRbOWS4o4=PjTn33iYiYsy9A@mail.gmail.com>
-Subject: Re: [PATCH v2] nvme-rdma: parallelize I/O queue allocation and startup
-To: Christoph Hellwig <hch@lst.de>
-Cc: kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me, 
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	mkhalfella@purestorage.com, randyj@purestorage.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260625_140505_534499_21DDA888 
-X-CRM114-Status: GOOD (  16.33  )
+X-CRM114-CacheID: sfid-20260625_142734_908373_B27A25B4 
+X-CRM114-Status: GOOD (  11.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -117,46 +107,46 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jun 10, 2026 at 5:05=E2=80=AFAM Christoph Hellwig <hch@lst.de> wrot=
-e:
->
-> On Thu, Jun 04, 2026 at 01:53:21PM -0600, Surabhi Gogte wrote:
-> > +static void nvme_rdma_setup_queue_async(void *setup_queue, async_cooki=
-e_t cookie)
->
-> Overly long line.  Easily fixed by renaming setup_queue to data
-> as in the async_schedule_domain prototype.
->
-done.
+This patch series parallelizes nvme-rdma connection and reconnection by
+setting up I/O queues in parallel instead of sequentially. Allocation and
+startup of each queue are combined into a single per-queue async work
+item, so per-queue connection latency overlaps across all queues. This
+matters most on high-core-count hosts with many I/O queues, where serial
+setup dominates connect time.
 
-> > +static int nvme_rdma_setup_io_queues(struct nvme_rdma_ctrl *ctrl, int =
-first,
-> > +                                  int last, size_t queue_size)
->
-> should first and last be unsigned?
->
-> Also please use two-tab indents for prototype continuations.
->
-converted to unsigned int. yeah using 2-tab indents in v3.
+Patch 1 is a preparatory refactor: nvme_rdma_alloc_queue() takes a queue
+pointer so allocation and startup can be folded into a single async
+worker.
 
-> > +     async_synchronize_full_domain(&setup_queue_domain);
-> >
-> > -out_free_queues:
-> > -     for (i--; i >=3D 1; i--)
-> > -             nvme_rdma_free_queue(&ctrl->queues[i]);
-> > +     ret =3D atomic_read(&ctrl->qsetup_err);
-> > +     if (ret) {
->
-> Jump to an error label if there was an error to reduce indentation
-> a bit below.
->
-done.
-> > +     ctrl->queues[0].ctrl =3D ctrl;
-> > +     ctrl->queues[0].queue_size =3D NVME_AQ_DEPTH;
-> > +     error =3D nvme_rdma_alloc_queue(&ctrl->queues[0]);
->
-> The nvme_rdma_alloc_queue prototype change would be a nice prep patch
-> to split out from the main change.
->
-done. Separated the patches in v3.
+Patch 2 contains the implementation for async setup of I/O queues.
+
+Testing on a 64-core host with 64 I/O queues shows nvme-rdma connection
+time reduced from ~1.4s to 416ms.
+
+Signed-off-by: Surabhi Gogte <sgogte@purestorage.com>
+---
+Changes from v2->v3:
+- Split the series into two patches: extract the nvme_rdma_alloc_queue()
+  refactor into a separate preparatory patch.
+- Replace the atomic error flag in struct nvme_rdma_ctrl with a per-work
+  nvme_rdma_setup_ctx { queue, err } struct.
+- Fix formatting changes regarding line overflow indentation and nesting.
+
+Changes from v1->v2:
+- Remove separate workqueue and use the async API instead.
+
+Previous versions:
+v1: https://lore.kernel.org/all/20260529001354.1003640-1-sgogte@purestorage.com/
+v2: https://lore.kernel.org/all/20260604195321.2232838-1-sgogte@purestorage.com/
+
+Surabhi Gogte (2):
+  nvme-rdma: refactor nvme_rdma_alloc_queue() to take a queue pointer
+  nvme-rdma: parallelize I/O queue allocation and startup
+
+ drivers/nvme/host/rdma.c | 135 ++++++++++++++++++++++++---------------
+ 1 file changed, 82 insertions(+), 53 deletions(-)
+
+--
+2.54.0
+
 
