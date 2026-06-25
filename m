@@ -4,48 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C795ECDE008
-	for <linux-nvme@archiver.kernel.org>; Thu, 25 Jun 2026 11:59:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E05E4CDE000
+	for <linux-nvme@archiver.kernel.org>; Thu, 25 Jun 2026 17:59:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=p7UjoSZjBgjyufVnsfF+rFlecXx2zMfdv+4FTKeMWqQ=; b=ynLcOit9mOnmLZf2IjpoJm2JQF
-	fAV89YuQbGwUrsg35cwV7Y+cZM7JEeheIPFr9VO0paLS4YRdoIojpH2y8+YzXMqNOkvlmJSP46mqK
-	PcTERp+kTgnOHVkFksRLSNeZ5uFCq/quKafOPu3f0dlnbnNQqgnSLZ3yyL0HKHnZy5QxRvjMAlBSk
-	dauFTHvluMXMZmLFOlAguL9tXqESL9AvJL9JF2nrZqjRp8Jtx48iBjPlTnVcG9R1bMckuV4r4Sl6r
-	YZEBnBfiYgi0r5esxqp/vFR4PgDvH5ftYieE0gFpe2lY+ratTNMXUdBFLX+2Zeg5j+cia97qIr99o
-	VmCLVsIw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=CmnqN0Danv7ElOphfIciwt9WXbAOE7CWgRjRgaJy6oc=; b=X61MdA+yHGimdmZgJD2+Ydxq4W
+	NgGNqWAwPnwa+MVbYvY5tcKawI7RzUII4QTB5bYtbM5RFjJ9thCppsikG/LTFCnNtO5evrSqA/mIL
+	IrZwTz/O/+xxaDiZSRKprQ10PojvIyfQxwt7Hm0l1aH70P5LPawKXPoZrlST+HBUb1/dRDjI+hSHZ
+	RSLrBRAvsZTnp5qnESvGLiLnsP6Jh5RFvXe59IKQvA1MKrozoOONoi6dUkY3dwGaT59LmAFxptO0f
+	c4SY9d8FTDPf6HubPMGs7lrMyrUFVfjSXUcHNwtuFowi/gJTBwPEvy+COjlfyFAL+QMtw67atp08O
+	vthp+TNA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wcijp-000000098u8-04Gk;
-	Thu, 25 Jun 2026 11:59:21 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1wcoMb-00000009eTD-41KB;
+	Thu, 25 Jun 2026 17:59:45 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wcijl-000000098qQ-3BhX
+	id 1wcoMW-00000009eT7-2Q4t
 	for linux-nvme@lists.infradead.org;
-	Thu, 25 Jun 2026 11:59:19 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 2896B68B05; Thu, 25 Jun 2026 13:59:10 +0200 (CEST)
-Date: Thu, 25 Jun 2026 13:59:09 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Xixin Liu <liuxixin@kylinos.cn>
-Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, axboe@kernel.dk,
-	hch@lst.de, sagi@grimberg.me, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/1] nvme: zns: cap zone report nr_zones by DMA
- buffer size
-Message-ID: <20260625115909.GA18766@lst.de>
-References: <cover.1782280420.git.liuxixin@kylinos.cn> <8ed1b6a33454.1782280420.git.liuxixin@kylinos.cn>
+	Thu, 25 Jun 2026 17:59:40 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id 0B73460098;
+	Thu, 25 Jun 2026 17:59:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D3AF1F000E9;
+	Thu, 25 Jun 2026 17:59:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782410379;
+	bh=CmnqN0Danv7ElOphfIciwt9WXbAOE7CWgRjRgaJy6oc=;
+	h=From:To:Cc:Subject:Date;
+	b=ZCLqgFgtGsUwkfvcP4dshu5t8LHSeu3LN0kB240TPGIG1ghmpVN7hmLVPi30p6Vpo
+	 1MeW3ZwJzh7U/ASKxgRMMlVVS+Vc2xHgDJ1Z04QRWSfT9Yb6FmHTNhT9HxcAHHFweK
+	 8AB39pf19rc8rPHAe5ukP30A/VrlyWZVLYYDZdRnueEfSKmEmQT0jISf7JUVs/oVn9
+	 uf9iTo0hmxV48cjVSKu/34FDigx6XRNGw/+RzrvHg9rxBhM/h/CTHdYfUdnQV9XHqk
+	 XButRHv66xlHdxVV2u3JQWKoH+UVUWunuqvgDsiZaEZ68jh8TSKE1TMKD8O/t9dYro
+	 sXVj50P5zd1aQ==
+From: Eric Biggers <ebiggers@kernel.org>
+To: linux-nvme@lists.infradead.org,
+	Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: Eric Biggers <ebiggers@kernel.org>,
+	John Garry <john.g.garry@oracle.com>
+Subject: [PATCH] nvme-auth: Avoid C=1 warning in nvme_auth_derive_tls_psk()
+Date: Thu, 25 Jun 2026 10:59:11 -0700
+Message-ID: <20260625175911.35094-1-ebiggers@kernel.org>
+X-Mailer: git-send-email 2.54.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8ed1b6a33454.1782280420.git.liuxixin@kylinos.cn>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260625_045917_952919_29D349A8 
-X-CRM114-Status: GOOD (  19.50  )
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -60,35 +70,77 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jun 24, 2026 at 01:53:40PM +0800, Xixin Liu wrote:
-> With Partial Report (PR=1), the Number of Zones (NZ) field in the report
-> header must equal the number of zone descriptors fully transferred in the
-> DMA buffer (ZNS Command Set Specification Rev 1.2, section 3.4.2).
-> 
-> nvme_ns_report_zones() does not cap the parse loop by max_in_buf derived
-> from buflen.  Cap nz with min3() over the device-reported count, nr_zones -
-> zone_idx, and max_in_buf.
-> 
-> Signed-off-by: Xixin Liu <liuxixin@kylinos.cn>
-> ---
->  drivers/nvme/host/zns.c | 11 ++++++++---
->  1 file changed, 8 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/zns.c b/drivers/nvme/host/zns.c
-> index 8ed1b6a33454..2a152e87bd76 100644
-> --- a/drivers/nvme/host/zns.c
-> +++ b/drivers/nvme/host/zns.c
-> @@ -155,7 +155,8 @@ static int nvme_zone_parse_entry(struct nvme_ns *ns,
->  	struct blk_zone zone = { };
->  
->  	if ((entry->zt & 0xf) != NVME_ZONE_TYPE_SEQWRITE_REQ) {
-> -		dev_err(ns->ctrl->device, "invalid zone type %#x\n", entry->zt);
-> +		dev_err(ns->ctrl->device, "invalid zone type %#x at zone %u\n",
-> +			entry->zt, idx);
->  		return -EINVAL;
->  	}
+The following works fine with gcc and clang, but sparse warns about
+label_len not being an actual constant expression:
 
-This looks fine, but unrelated.  Please split it into a separate patch.
+    const size_t label_len = sizeof(label) - 1;
+    ...
+    static_assert(label_len <= 255);
 
-The rest looks good as well.
+Avoid this by giving label an explicit length and using sizeof(label)
+instead of label_len.
+
+Reported-by: John Garry <john.g.garry@oracle.com>
+Closes: https://lore.kernel.org/linux-nvme/965a37dd-f698-46b6-9623-1099a13f7e60@oracle.com
+Fixes: d126cbaa7d9a ("nvme-auth: common: use crypto library in nvme_auth_derive_tls_psk()")
+Signed-off-by: Eric Biggers <ebiggers@kernel.org>
+---
+ drivers/nvme/common/auth.c | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/nvme/common/auth.c b/drivers/nvme/common/auth.c
+index 77f1d22512f8..e2e0c736540a 100644
+--- a/drivers/nvme/common/auth.c
++++ b/drivers/nvme/common/auth.c
+@@ -690,12 +690,11 @@ EXPORT_SYMBOL_GPL(nvme_auth_generate_digest);
+  */
+ int nvme_auth_derive_tls_psk(int hmac_id, const u8 *psk, size_t psk_len,
+ 			     const char *psk_digest, u8 **ret_psk)
+ {
+ 	static const u8 default_salt[NVME_AUTH_MAX_DIGEST_SIZE];
+-	static const char label[] = "tls13 nvme-tls-psk";
+-	const size_t label_len = sizeof(label) - 1;
++	static const char label[18] = "tls13 nvme-tls-psk";
+ 	u8 prk[NVME_AUTH_MAX_DIGEST_SIZE];
+ 	size_t hash_len, ctx_len;
+ 	u8 *hmac_data = NULL, *tls_key;
+ 	size_t i;
+ 	int ret;
+@@ -727,11 +726,11 @@ int nvme_auth_derive_tls_psk(int hmac_id, const u8 *psk, size_t psk_len,
+ 	 * HKDF-Expand-Label (RFC 8446 section 7.1), with output length equal to
+ 	 * the hash length (so only a single HMAC operation is needed)
+ 	 */
+ 
+ 	hmac_data = kmalloc(/* output length */ 2 +
+-			    /* label */ 1 + label_len +
++			    /* label */ 1 + sizeof(label) +
+ 			    /* context (max) */ 1 + 3 + 1 + strlen(psk_digest) +
+ 			    /* counter */ 1,
+ 			    GFP_KERNEL);
+ 	if (!hmac_data) {
+ 		ret = -ENOMEM;
+@@ -741,14 +740,14 @@ int nvme_auth_derive_tls_psk(int hmac_id, const u8 *psk, size_t psk_len,
+ 	i = 0;
+ 	hmac_data[i++] = hash_len >> 8;
+ 	hmac_data[i++] = hash_len;
+ 
+ 	/* label */
+-	static_assert(label_len <= 255);
+-	hmac_data[i] = label_len;
+-	memcpy(&hmac_data[i + 1], label, label_len);
+-	i += 1 + label_len;
++	static_assert(sizeof(label) <= 255);
++	hmac_data[i] = sizeof(label);
++	memcpy(&hmac_data[i + 1], label, sizeof(label));
++	i += 1 + sizeof(label);
+ 
+ 	/* context */
+ 	ctx_len = sprintf(&hmac_data[i + 1], "%02d %s", hmac_id, psk_digest);
+ 	if (ctx_len > 255) {
+ 		ret = -EINVAL;
+
+base-commit: a142da0b2d32b68a6d1b183343bbe43de8c222f9
+-- 
+2.54.0
+
 
