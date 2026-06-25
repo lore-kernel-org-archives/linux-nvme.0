@@ -4,58 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E05E4CDE000
-	for <linux-nvme@archiver.kernel.org>; Thu, 25 Jun 2026 17:59:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8B3C3CDE001
+	for <linux-nvme@archiver.kernel.org>; Thu, 25 Jun 2026 18:01:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=CmnqN0Danv7ElOphfIciwt9WXbAOE7CWgRjRgaJy6oc=; b=X61MdA+yHGimdmZgJD2+Ydxq4W
-	NgGNqWAwPnwa+MVbYvY5tcKawI7RzUII4QTB5bYtbM5RFjJ9thCppsikG/LTFCnNtO5evrSqA/mIL
-	IrZwTz/O/+xxaDiZSRKprQ10PojvIyfQxwt7Hm0l1aH70P5LPawKXPoZrlST+HBUb1/dRDjI+hSHZ
-	RSLrBRAvsZTnp5qnESvGLiLnsP6Jh5RFvXe59IKQvA1MKrozoOONoi6dUkY3dwGaT59LmAFxptO0f
-	c4SY9d8FTDPf6HubPMGs7lrMyrUFVfjSXUcHNwtuFowi/gJTBwPEvy+COjlfyFAL+QMtw67atp08O
-	vthp+TNA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Q0SVLg83SG3PTPWfxPfrZg/BRkjquTSYNHGY8gQqXnk=; b=jMTy9IuKfbAaeYNCEY/aGxapNX
+	gQnvmAhdXhjFKmxTSSYaZUMeon9dSqLMU9iMvG0ltKfWAfrQa1mvM4sJCQp+kMx6PhpH8dmbk+JzP
+	sqssmtJcFhkh7vt5PYyeWXOpkZDBfeivPO0OwlWzuB1YBmRNrkZi9HrnLHL1u3BESwaxHfP6AxNMt
+	4G4EFNREkxK4lRtcwcQaQZ3NigdMLOCJulqN9e1AOMtjJmIhpwi1wYsINVQjQ/Wyj8/df8E3+E9qe
+	Em5x7eDdnKy3sqeWuKP87/PpZTP/fvRI2pJyqPbCYb/vdnJ+reasFbeThB8qzKYNitKXB+naLXPqm
+	v1AUPOyQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wcoMb-00000009eTD-41KB;
-	Thu, 25 Jun 2026 17:59:45 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1wcoOO-00000009eaL-1DDk;
+	Thu, 25 Jun 2026 18:01:36 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wcoMW-00000009eT7-2Q4t
+	id 1wcoON-00000009eaE-3zzI
 	for linux-nvme@lists.infradead.org;
-	Thu, 25 Jun 2026 17:59:40 +0000
+	Thu, 25 Jun 2026 18:01:36 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 0B73460098;
-	Thu, 25 Jun 2026 17:59:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D3AF1F000E9;
-	Thu, 25 Jun 2026 17:59:38 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 66E6060098;
+	Thu, 25 Jun 2026 18:01:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9AB01F000E9;
+	Thu, 25 Jun 2026 18:01:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782410379;
-	bh=CmnqN0Danv7ElOphfIciwt9WXbAOE7CWgRjRgaJy6oc=;
-	h=From:To:Cc:Subject:Date;
-	b=ZCLqgFgtGsUwkfvcP4dshu5t8LHSeu3LN0kB240TPGIG1ghmpVN7hmLVPi30p6Vpo
-	 1MeW3ZwJzh7U/ASKxgRMMlVVS+Vc2xHgDJ1Z04QRWSfT9Yb6FmHTNhT9HxcAHHFweK
-	 8AB39pf19rc8rPHAe5ukP30A/VrlyWZVLYYDZdRnueEfSKmEmQT0jISf7JUVs/oVn9
-	 uf9iTo0hmxV48cjVSKu/34FDigx6XRNGw/+RzrvHg9rxBhM/h/CTHdYfUdnQV9XHqk
-	 XButRHv66xlHdxVV2u3JQWKoH+UVUWunuqvgDsiZaEZ68jh8TSKE1TMKD8O/t9dYro
-	 sXVj50P5zd1aQ==
+	s=k20260515; t=1782410495;
+	bh=Q0SVLg83SG3PTPWfxPfrZg/BRkjquTSYNHGY8gQqXnk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=b5CBx9dTMH7bGiSEGRv81b9hUKYyqCl30M26u+2aipPWWt/jtxIoOr54+8/+6Cin7
+	 3sv9MpM4PO7Hw2wbjavlAIzIeOzyC5JgCbA03OXUqYoFeamxZDgc2cs9ckJBvGh2MV
+	 XUnXOi3DJLktR3bXRsgHd4FYKg7jsphWs63oAfN2xJGS88tygAdamhyby9lEChVz39
+	 nhvFJ7QNmtvnh6SFn0cjV1d7JbbZMwr2Ifs2+FsNdLPoGQ/vx6ZEfpycOLKr5cdwjc
+	 L/zjhG+maYjWVGLXmKIKYz34K8rDM7B0nmI/TWulM5Om7BjUWJslrEiX04zfMIgh5f
+	 JBC3vYhSMoonA==
+Date: Thu, 25 Jun 2026 11:01:30 -0700
 From: Eric Biggers <ebiggers@kernel.org>
-To: linux-nvme@lists.infradead.org,
-	Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: Eric Biggers <ebiggers@kernel.org>,
-	John Garry <john.g.garry@oracle.com>
-Subject: [PATCH] nvme-auth: Avoid C=1 warning in nvme_auth_derive_tls_psk()
-Date: Thu, 25 Jun 2026 10:59:11 -0700
-Message-ID: <20260625175911.35094-1-ebiggers@kernel.org>
-X-Mailer: git-send-email 2.54.0
+To: John Garry <john.g.garry@oracle.com>
+Cc: linux-nvme@lists.infradead.org, Chaitanya Kulkarni <kch@nvidia.com>,
+	Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
+	Hannes Reinecke <hare@suse.de>, linux-crypto@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
+	"Jason A . Donenfeld" <Jason@zx2c4.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>
+Subject: Re: [PATCH 12/21] nvme-auth: common: use crypto library in
+ nvme_auth_derive_tls_psk()
+Message-ID: <20260625180130.GA2514@quark>
+References: <20260302075959.338638-1-ebiggers@kernel.org>
+ <20260302075959.338638-13-ebiggers@kernel.org>
+ <965a37dd-f698-46b6-9623-1099a13f7e60@oracle.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <965a37dd-f698-46b6-9623-1099a13f7e60@oracle.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,77 +75,56 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The following works fine with gcc and clang, but sparse warns about
-label_len not being an actual constant expression:
+On Thu, Jun 25, 2026 at 10:02:27AM +0100, John Garry wrote:
+> On 02/03/2026 07:59, Eric Biggers wrote:
+> >   int nvme_auth_derive_tls_psk(int hmac_id, const u8 *psk, size_t psk_len,
+> >   			     const char *psk_digest, u8 **ret_psk)
+> >   {
+> > -	struct crypto_shash *hmac_tfm;
+> > -	const char *hmac_name;
+> > -	const char *label = "nvme-tls-psk";
+> >   	static const u8 default_salt[NVME_AUTH_MAX_DIGEST_SIZE];
+> > -	size_t prk_len;
+> > -	const char *ctx;
+> > -	u8 *prk, *tls_key;
+> > +	static const char label[] = "tls13 nvme-tls-psk";
+> > +	const size_t label_len = sizeof(label) - 1;
+> > +	u8 prk[NVME_AUTH_MAX_DIGEST_SIZE];
+> > +	size_t hash_len, ctx_len;
+> > +	u8 *hmac_data = NULL, *tls_key;
+> > +	size_t i;
+> >   	int ret;
+> > -	hmac_name = nvme_auth_hmac_name(hmac_id);
+> > -	if (!hmac_name) {
+> > +	hash_len = nvme_auth_hmac_hash_len(hmac_id);
+> > +	if (hash_len == 0) {
+> >   		pr_warn("%s: invalid hash algorithm %d\n",
+> 
+> ...
+> 
+> > +	i = 0;
+> > +	hmac_data[i++] = hash_len >> 8;
+> > +	hmac_data[i++] = hash_len;
+> > +
+> > +	/* label */
+> > +	static_assert(label_len <= 255);
+> 
+> JFYI, this is generating a C=1 warning for me:
+> 
+>   CHECK   drivers/nvme/common/auth.c
+> drivers/nvme/common/auth.c:746:9: error: bad constant expression
+> 
+> The following fixes/avoids it:
+> 
+> /* label */
+> -       static_assert(label_len <= 255);
+> +       static_assert(sizeof(label) - 1 <= 255);
+> 
+> Even though label_len is declared as const, label_len <= 255 is not a
+> constant expression.
 
-    const size_t label_len = sizeof(label) - 1;
-    ...
-    static_assert(label_len <= 255);
+Only affects sparse, but I sent a patch:
+https://lore.kernel.org/linux-nvme/20260625175911.35094-1-ebiggers@kernel.org
 
-Avoid this by giving label an explicit length and using sizeof(label)
-instead of label_len.
-
-Reported-by: John Garry <john.g.garry@oracle.com>
-Closes: https://lore.kernel.org/linux-nvme/965a37dd-f698-46b6-9623-1099a13f7e60@oracle.com
-Fixes: d126cbaa7d9a ("nvme-auth: common: use crypto library in nvme_auth_derive_tls_psk()")
-Signed-off-by: Eric Biggers <ebiggers@kernel.org>
----
- drivers/nvme/common/auth.c | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/nvme/common/auth.c b/drivers/nvme/common/auth.c
-index 77f1d22512f8..e2e0c736540a 100644
---- a/drivers/nvme/common/auth.c
-+++ b/drivers/nvme/common/auth.c
-@@ -690,12 +690,11 @@ EXPORT_SYMBOL_GPL(nvme_auth_generate_digest);
-  */
- int nvme_auth_derive_tls_psk(int hmac_id, const u8 *psk, size_t psk_len,
- 			     const char *psk_digest, u8 **ret_psk)
- {
- 	static const u8 default_salt[NVME_AUTH_MAX_DIGEST_SIZE];
--	static const char label[] = "tls13 nvme-tls-psk";
--	const size_t label_len = sizeof(label) - 1;
-+	static const char label[18] = "tls13 nvme-tls-psk";
- 	u8 prk[NVME_AUTH_MAX_DIGEST_SIZE];
- 	size_t hash_len, ctx_len;
- 	u8 *hmac_data = NULL, *tls_key;
- 	size_t i;
- 	int ret;
-@@ -727,11 +726,11 @@ int nvme_auth_derive_tls_psk(int hmac_id, const u8 *psk, size_t psk_len,
- 	 * HKDF-Expand-Label (RFC 8446 section 7.1), with output length equal to
- 	 * the hash length (so only a single HMAC operation is needed)
- 	 */
- 
- 	hmac_data = kmalloc(/* output length */ 2 +
--			    /* label */ 1 + label_len +
-+			    /* label */ 1 + sizeof(label) +
- 			    /* context (max) */ 1 + 3 + 1 + strlen(psk_digest) +
- 			    /* counter */ 1,
- 			    GFP_KERNEL);
- 	if (!hmac_data) {
- 		ret = -ENOMEM;
-@@ -741,14 +740,14 @@ int nvme_auth_derive_tls_psk(int hmac_id, const u8 *psk, size_t psk_len,
- 	i = 0;
- 	hmac_data[i++] = hash_len >> 8;
- 	hmac_data[i++] = hash_len;
- 
- 	/* label */
--	static_assert(label_len <= 255);
--	hmac_data[i] = label_len;
--	memcpy(&hmac_data[i + 1], label, label_len);
--	i += 1 + label_len;
-+	static_assert(sizeof(label) <= 255);
-+	hmac_data[i] = sizeof(label);
-+	memcpy(&hmac_data[i + 1], label, sizeof(label));
-+	i += 1 + sizeof(label);
- 
- 	/* context */
- 	ctx_len = sprintf(&hmac_data[i + 1], "%02d %s", hmac_id, psk_digest);
- 	if (ctx_len > 255) {
- 		ret = -EINVAL;
-
-base-commit: a142da0b2d32b68a6d1b183343bbe43de8c222f9
--- 
-2.54.0
-
+- Eric
 
