@@ -4,98 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F3D8DCDE010
-	for <linux-nvme@archiver.kernel.org>; Thu, 25 Jun 2026 21:27:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B9E8DCDE00C
+	for <linux-nvme@archiver.kernel.org>; Thu, 25 Jun 2026 23:50:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Y4b2dFsTucb4aU0SZUuf4AYL/tgS35O39eqo6KSrHbE=; b=ESE6YzOZZl3Is7JV0kJ5+CxPrX
-	ep/j8SYWiBzL9PtcZgW/bCaGjOPph+zY+nP3Uu5Y7ucNsYDOmcT7TfE/ETVa3i278+kBLi7rP1Ytd
-	avkaj0y9RJQiGus/kSBcGexgzIiOmhvGjgQfiO+bi/2wEakFstMtVEN0qqPrHc2hYVq0qb0CqDGIe
-	mEMct0aY9l3AiuHfp26dUdRanzTKri99GncRVq6k7AQKAGJDS8kqc042iGSr8t2Zbb1udHkTrmNOQ
-	UmCuEKepJ/oM8S8VNW0Kxtgir/NpiV+07qXW5jT1n28WrAI7DVjX8CKVm4W8o5UZeC/5YM+54nZCN
-	D5kaMIJg==;
+	bh=nPKUZaKOV+T0YJEXJcsPSJeM+eppQ2kUQs5Ru8ktT/0=; b=c6oZmBLPQwabq562aTVQ26m8c4
+	x0chTZv6gem9LRW/swRlMBueROKpBWa5G23eH3IKXjT9x5bBE6Y1CGaKlwAm4TDkYWI/Ra90lA/uE
+	1alwewbY39gplAu8mWedHs1AprgAm3hs4KOyfNhcE8Isc8F7G5AiPZ1oo2UR9z2XHJ3iWPXNaVA1X
+	BzOMy6r0nYud8NcXA/ZHCaRkzT9SOJZMx+yGBxYYwMas8dalC3GqE5gpm67xbpsCuliujw94FWbvT
+	vNzyUeqEl/Zn5S0SCdTLv0NCOFLD+yoYGmebzMKN28v7v6cmF9+IpK30NftKs3K77FhH5vVJpoLV3
+	wfY6dQZQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wcrby-00000009s8o-2ZFD;
-	Thu, 25 Jun 2026 21:27:50 +0000
-Received: from mail-vs1-xe62.google.com ([2607:f8b0:4864:20::e62])
+	id 1wctq1-0000000A0Qp-0Rhk;
+	Thu, 25 Jun 2026 23:50:29 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wcrbv-00000009s7g-3Fen
+	id 1wctpz-0000000A0QY-00cu
 	for linux-nvme@lists.infradead.org;
-	Thu, 25 Jun 2026 21:27:49 +0000
-Received: by mail-vs1-xe62.google.com with SMTP id ada2fe7eead31-734653f9899so131344137.3
-        for <linux-nvme@lists.infradead.org>; Thu, 25 Jun 2026 14:27:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1782422866; x=1783027666; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Y4b2dFsTucb4aU0SZUuf4AYL/tgS35O39eqo6KSrHbE=;
-        b=U2sxZfB707s2Y3fIaYPdF2+NOhxCEkwlBJtcB7CRlTyRDSkrrmMKftbdeZbfCSpbBA
-         wV5IzpghJ1bK2B/vKGVuyOhjyt0fbYAjr2GxqfRYqkNrc0jj1VGj1QvlDUJwRocYlnEV
-         w9V/6iO1Ryx4Ry/VjszoGnGZagrVOlW0pRMDqH/wkWgdmqOLAK2nnnADd2PRwQdhr7YT
-         wqpM+cBEQMHVEI0J+yVE/qLYiy+1B/VNwI+k6yZBazW31THlX+Vvrr/dxqI90CRi26T9
-         01blLWrf+rAZSPCRIVOGZas0XjLl5BPy2ywEklowDOUiqlit7I6JH2d3N9SK+cojpy15
-         Fe5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782422866; x=1783027666;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Y4b2dFsTucb4aU0SZUuf4AYL/tgS35O39eqo6KSrHbE=;
-        b=ao67eskGdPPpZceA5oXjzobdYZo1I9aJ5R1PN+t0fSaJ3559O3HZhqFOPExgW48/QG
-         UkkpRj/A6UJwTlSKW5E6oAUCcI64zwjup9+7WNCKSHH+F+sjOCwSog/jFgUMqm9ePhJ4
-         boD5MjGdT+OX+LpmunBTJMzS+nnTGfoFK2mwPTMDXMf2NWY+md86DfA8fyR6ehhbmvSV
-         L371GJUvv+jHDVuWpiesdwhuqSIDE8VGKGu7/ZJQK05YNhL3zjMH0xADtlfZXHxLTsiJ
-         jRwkt1SvI2+PL2tM2pwytWpSmhSx0ml7X/jsi83vHaLQGLNCCJEC3cMf1AhJV36y8JRI
-         gCxw==
-X-Gm-Message-State: AOJu0YxDmyB/bBYI4tEo8UrVCiKZKHRno3KAgeCYAtr+5pgYj55IV98g
-	vA0PlmmKspGLEbjSb8AVpv4HRWLuZDbfoBYNxKqWll1DZ0TYKvMyBAOqNTlmjp0T4UwA4RqWdKH
-	pT+ypK4JlXlkMHxgwYAxOv6+1U3VuFIzRT0Az
-X-Gm-Gg: AfdE7ckGIMIQxIKlwH89V7r4cM7GuQN6kMCIEFYNDbUr0RzElNZ5jubZpNeYKPxcgI9
-	VGTDAjWlXqMbUsTilfRrCggaLN8ipDGignAq5zg5XU9JcWPA4LXSvcFeNuWfeXaTfEKDWGwP7fx
-	NS1LCKuZznEK+CBdLhR55jMSvSTfqm8+rWdo43XPmjfSuFtDb+qGh2bQ0+PGET6UodZxzfa/X2a
-	sFnXQwiLXfbW0q9yutLN160vBHT36oj0pIqVRIRYe2YU4QcfyM2EHSjrml8tb+d7wjlYcHWQZ+A
-	GZWrfjLK4RAiiLSaiXed4M7uwT5yQkJ6QO/C4Hqg+K11VgDKBcsm3JeCyMn2NsFYcNc2S8AGdxp
-	7wPEQjwJfjj7TzK7wFGrCu2EquYx04cis6b2jxAbodA==
-X-Received: by 2002:a05:6102:c8a:b0:6c6:74d:e090 with SMTP id ada2fe7eead31-734349573a6mr2562285137.9.1782422864391;
-        Thu, 25 Jun 2026 14:27:44 -0700 (PDT)
-Received: from c7-smtp-2026.dev.purestorage.com ([208.88.159.129])
-        by smtp-relay.gmail.com with ESMTPS id ada2fe7eead31-7356689f0aasm18944137.5.2026.06.25.14.27.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jun 2026 14:27:44 -0700 (PDT)
-X-Relaying-Domain: purestorage.com
-Received: from dev-sgogte.dev.purestorage.com (bond0.slc5-n22m24-k8s.dev.purestorage.com [IPv6:2620:125:9025:20::a31:429])
-	by c7-smtp-2026.dev.purestorage.com (Postfix) with ESMTP id C320F401FD;
-	Thu, 25 Jun 2026 15:27:43 -0600 (MDT)
-Received: by dev-sgogte.dev.purestorage.com (Postfix, from userid 1557734945)
-	id C0B8751222; Thu, 25 Jun 2026 15:27:43 -0600 (MDT)
-From: Surabhi Gogte <sgogte@purestorage.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	mkhalfella@purestorage.com,
-	randyj@purestorage.com,
-	adailey@purestorage.com,
-	Surabhi Gogte <sgogte@purestorage.com>
-Subject: [PATCH v3 2/2] nvme-rdma: parallelize I/O queue allocation and startup
-Date: Thu, 25 Jun 2026 15:27:22 -0600
-Message-ID: <20260625212722.1302344-3-sgogte@purestorage.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260625212722.1302344-1-sgogte@purestorage.com>
-References: <20260625212722.1302344-1-sgogte@purestorage.com>
+	Thu, 25 Jun 2026 23:50:27 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id 0C08C60098;
+	Thu, 25 Jun 2026 23:50:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C1391F000E9;
+	Thu, 25 Jun 2026 23:50:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782431425;
+	bh=nPKUZaKOV+T0YJEXJcsPSJeM+eppQ2kUQs5Ru8ktT/0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=VO8YTXhZvxJBWT9+DE82g3PxL+51L6Ww30E759CA9otYOPqXMzpdghOPFjzZQdRp6
+	 xoS/VKzUyYgGHtLLnsY+B3QzC3DrvuKaCpoPQLBYD9sfKu869hg0tSUHpxShvZkNdB
+	 CL4b1HQ6bCZ2kds0Xljo6dmvXh3Oi4WgNZYnUVykkl1wgJe7crmfIDaZ6/BJqZYCcu
+	 UnlRzImqbm7x4BHF7Q6WfBMyGbNChpP8DbDLLm4Ljq1UbbJAqR547QE1DafRc3x9y0
+	 XINwDn5zgzgXjiOrvlXgsnPX/eXpaVVLnmszxoCy9S6ATtIYXPyJdet/NRJOSSbhDZ
+	 TbXYaoymzju1w==
+Message-ID: <9104ac5d-ed2b-409d-8220-512dd4581966@kernel.org>
+Date: Fri, 26 Jun 2026 08:50:11 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260625_142747_832585_725EA25D 
-X-CRM114-Status: GOOD (  23.95  )
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] mempool: optimize mempool resizing
+To: Vitaly Wool <vitaly.wool@konsulko.se>,
+ Andrew Morton <akpm@linux-foundation.org>, Jens Axboe <axboe@kernel.dk>,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Vlastimil Babka <vbabka@kernel.org>,
+ Harry Yoo <harry@kernel.org>, Hao Li <hao.li@linux.dev>,
+ Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-mm@kvack.org,
+ Vitaly Vul <vitaly.vul@partner.samsung.com>
+References: <20260625194915.387663-1-vitaly.wool@konsulko.se>
+From: Damien Le Moal <dlemoal@kernel.org>
+Content-Language: en-US
+Organization: Western Digital Research
+In-Reply-To: <20260625194915.387663-1-vitaly.wool@konsulko.se>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,221 +77,301 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Refactor nvme rdma I/O queue setup to use async API, combining
-allocation and startup into a single parallel operation per queue. This
-reduces connection and reconnection setup time when there are delays in
-establishing connections, which is especially important for
-high-core-count hosts.
+On 6/26/26 4:49 AM, Vitaly Wool wrote:
+> From: Vitaly Vul <vitaly.vul@partner.samsung.com>
+> 
+> Resizing mempool to a bigger size currently requires a new allocation and a
+> data copy to a new larger elements array which doesn't go well with the
+> idea of having a fast and deadlock free memory allocations during exreme VM
+> load.
+> 
+> This patch introduces a new parameter max_nr for a part of the mempool API,
+> which denotes the maximum size of the pool. With it in place we can avoid
+> any allocations in mempool_resize() since we can either grant the resizing
+> request or reject it basing on thr maximum allowed size of the elements
+> array. For those few users of the mempool API that actually use
+> mempool_resize() it is a clear upgrade because the maximum number of
+> elements is known upfront.
+> 
+> Derivative APIs (like mempool_init_kmalloc_pool()) are mostly left intact,
+> substituted by the new mempool_init_kmalloc_resizable_pool() API where the
+> pool is actually meant to be resizable.
+> 
+> Signed-off-by: Vitaly Vul <vitaly.vul@partner.samsung.com>
+> ---
+>  block/blk-zoned.c       |  6 ++--
+>  drivers/nvme/host/pci.c |  2 +-
+>  include/linux/mempool.h | 18 +++++++---
+>  mm/mempool.c            | 75 +++++++++++------------------------------
+>  4 files changed, 38 insertions(+), 63 deletions(-)
+> 
+> diff --git a/block/blk-zoned.c b/block/blk-zoned.c
+> index 6a221c180889..5d31597f2fe6 100644
+> --- a/block/blk-zoned.c
+> +++ b/block/blk-zoned.c
+> @@ -1918,8 +1918,10 @@ static int disk_alloc_zone_resources(struct gendisk *disk,
+>  	for (i = 0; i < disk_zone_wplugs_hash_size(disk); i++)
+>  		INIT_HLIST_HEAD(&disk->zone_wplugs_hash[i]);
+>  
+> -	disk->zone_wplugs_pool = mempool_create_kmalloc_pool(pool_size,
+> -						sizeof(struct blk_zone_wplug));
+> +	disk->zone_wplugs_pool = mempool_create_kmalloc_resizable_pool(
+> +					pool_size,
+> +					BLK_ZONE_WPLUG_DEFAULT_POOL_SIZE,
 
-Key changes:
-- Use async API to facilitate parallel calls for io queue setup.
-- Add nvme_rdma_setup_ctx for propagating errors from async workers.
-- Remove nvme_rdma_alloc_io_queues() and nvme_rdma_start_io_queues();
-  their logic is folded into nvme_rdma_setup_io_queues() and
-  nvme_rdma_configure_io_queues().
-- Move queue count negotiation (nvme_set_queue_count,
-  nvmf_set_io_queues) from the removed nvme_rdma_alloc_io_queues()
-  into nvme_rdma_configure_io_queues().
+Even though that is not encouraged, we can have far more than
+BLK_ZONE_WPLUG_DEFAULT_POOL_SIZE zone write plugs for a device, if the user is
+writting to more zones that the device advertized max open zone limit.
 
-Testing on a 64-core host with 64 IO-queues shows
-nvme-rdma connection time reduced from ~1.4s to 416ms.
+Furthermore, a device can have a max open zone limit that is far larger than
+BLK_ZONE_WPLUG_DEFAULT_POOL_SIZE, in which case, we would ve the min_nr
+(pool_size argument) greater than the max_nr argument
+(BLK_ZONE_WPLUG_DEFAULT_POOL_SIZE).
 
-Signed-off-by: Surabhi Gogte <sgogte@purestorage.com>
----
- drivers/nvme/host/rdma.c | 124 ++++++++++++++++++++++++---------------
- 1 file changed, 77 insertions(+), 47 deletions(-)
+So this does not look correct to me. But more importantly, I am failing to see
+what you are after here, and as Andrew asked, I do not see the issue that you
+are trying to solve. The mempool resizing to pool_size is always done so that
+we can have at least enough zone write plugs in the mempool to satisfy the
+device max open zones (or max active zones) limit. Any allocation beyond that
+limit is still possible but not relying on having a free element in the mempool.
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 6b0b0a3dea62..45d0ef8c4dd3 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -16,6 +16,7 @@
- #include <linux/types.h>
- #include <linux/list.h>
- #include <linux/mutex.h>
-+#include <linux/async.h>
- #include <linux/scatterlist.h>
- #include <linux/nvme.h>
- #include <linux/unaligned.h>
-@@ -100,6 +101,11 @@ struct nvme_rdma_queue {
- 	struct mutex		queue_lock;
- };
- 
-+struct nvme_rdma_setup_ctx {
-+	struct nvme_rdma_queue	*queue;
-+	int			*err;
-+};
-+
- struct nvme_rdma_ctrl {
- 	/* read only in the hot path */
- 	struct nvme_rdma_queue	*queues;
-@@ -690,60 +696,68 @@ static int nvme_rdma_start_queue(struct nvme_rdma_ctrl *ctrl, int idx)
- 	return ret;
- }
- 
--static int nvme_rdma_start_io_queues(struct nvme_rdma_ctrl *ctrl,
--				     int first, int last)
-+static void nvme_rdma_setup_queue_async(void *data, async_cookie_t cookie)
- {
--	int i, ret = 0;
-+	struct nvme_rdma_setup_ctx *ctx = data;
-+	struct nvme_rdma_queue *queue;
-+	int ret;
- 
--	for (i = first; i < last; i++) {
--		ret = nvme_rdma_start_queue(ctrl, i);
--		if (ret)
--			goto out_stop_queues;
--	}
-+	queue = ctx->queue;
-+	ret = nvme_rdma_alloc_queue(queue);
-+	if (ret)
-+		goto out_err;
- 
--	return 0;
-+	ret = nvme_rdma_start_queue(queue->ctrl, nvme_rdma_queue_idx(queue));
-+	if (ret)
-+		goto out_err;
- 
--out_stop_queues:
--	for (i--; i >= first; i--)
--		nvme_rdma_stop_queue(&ctrl->queues[i]);
--	return ret;
-+	return;
-+out_err:
-+	WRITE_ONCE(*ctx->err, ret);
- }
- 
--static int nvme_rdma_alloc_io_queues(struct nvme_rdma_ctrl *ctrl)
-+static int nvme_rdma_setup_io_queues(struct nvme_rdma_ctrl *ctrl, unsigned int first,
-+		unsigned int last, size_t queue_size)
- {
--	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
--	unsigned int nr_io_queues;
--	int i, ret;
--
--	nr_io_queues = nvmf_nr_io_queues(opts);
--	ret = nvme_set_queue_count(&ctrl->ctrl, &nr_io_queues);
--	if (ret)
--		return ret;
-+	ASYNC_DOMAIN_EXCLUSIVE(queue_domain);
-+	struct nvme_rdma_setup_ctx *ctxs;
-+	int nr_queues = last - first;
-+	int err = 0, i, ret;
- 
--	if (nr_io_queues == 0) {
--		dev_err(ctrl->ctrl.device,
--			"unable to set any I/O queues\n");
-+	ctxs = kmalloc_array(nr_queues, sizeof(*ctxs), GFP_KERNEL);
-+	if (!ctxs)
- 		return -ENOMEM;
--	}
- 
--	ctrl->ctrl.queue_count = nr_io_queues + 1;
--	dev_info(ctrl->ctrl.device,
--		"creating %d I/O queues.\n", nr_io_queues);
--
--	nvmf_set_io_queues(opts, nr_io_queues, ctrl->io_queues);
--	for (i = 1; i < ctrl->ctrl.queue_count; i++) {
--		ctrl->queues[i].ctrl = ctrl;
--		ctrl->queues[i].queue_size = ctrl->ctrl.sqsize + 1;
--		ret = nvme_rdma_alloc_queue(&ctrl->queues[i]);
--		if (ret)
--			goto out_free_queues;
-+	for (i = 0; i < nr_queues; i++) {
-+		struct nvme_rdma_queue *queue = &ctrl->queues[first + i];
-+
-+		queue->ctrl = ctrl;
-+		queue->queue_size = queue_size;
-+
-+		ctxs[i].queue = queue;
-+		ctxs[i].err = &err;
-+		async_schedule_domain(nvme_rdma_setup_queue_async, &ctxs[i],
-+				&queue_domain);
- 	}
- 
--	return 0;
-+	async_synchronize_full_domain(&queue_domain);
-+	kfree(ctxs);
- 
-+	ret = READ_ONCE(err);
-+	if (ret)
-+		goto out_free_queues;
-+
-+	return 0;
- out_free_queues:
--	for (i--; i >= 1; i--)
--		nvme_rdma_free_queue(&ctrl->queues[i]);
-+	for (i = 0; i < nr_queues; i++) {
-+		struct nvme_rdma_queue *queue =
-+			&ctrl->queues[first + i];
-+
-+		if (test_bit(NVME_RDMA_Q_LIVE, &queue->flags))
-+			nvme_rdma_stop_queue(queue);
-+		if (test_bit(NVME_RDMA_Q_ALLOCATED, &queue->flags))
-+			nvme_rdma_free_queue(queue);
-+	}
- 
- 	return ret;
- }
-@@ -862,12 +876,23 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
- 
- static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
- {
-+	unsigned int nr_io_queues;
- 	int ret, nr_queues;
- 
--	ret = nvme_rdma_alloc_io_queues(ctrl);
-+	nr_io_queues = nvmf_nr_io_queues(ctrl->ctrl.opts);
-+	ret = nvme_set_queue_count(&ctrl->ctrl, &nr_io_queues);
- 	if (ret)
- 		return ret;
- 
-+	if (nr_io_queues == 0) {
-+		dev_err(ctrl->ctrl.device, "unable to set any I/O queues\n");
-+		return -ENOMEM;
-+	}
-+
-+	ctrl->ctrl.queue_count = nr_io_queues + 1;
-+	dev_info(ctrl->ctrl.device, "creating %d I/O queues.\n", nr_io_queues);
-+	nvmf_set_io_queues(ctrl->ctrl.opts, nr_io_queues, ctrl->io_queues);
-+
- 	if (new) {
- 		ret = nvme_rdma_alloc_tag_set(&ctrl->ctrl);
- 		if (ret)
-@@ -880,7 +905,9 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
- 	 * queue number might have changed.
- 	 */
- 	nr_queues = min(ctrl->tag_set.nr_hw_queues + 1, ctrl->ctrl.queue_count);
--	ret = nvme_rdma_start_io_queues(ctrl, 1, nr_queues);
-+	ret = nvme_rdma_setup_io_queues(ctrl, 1, nr_queues,
-+			ctrl->ctrl.sqsize + 1);
-+
- 	if (ret)
- 		goto out_cleanup_tagset;
- 
-@@ -904,12 +931,15 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
- 
- 	/*
- 	 * If the number of queues has increased (reconnect case)
--	 * start all new queues now.
-+	 * setup all new queues now.
- 	 */
--	ret = nvme_rdma_start_io_queues(ctrl, nr_queues,
--					ctrl->tag_set.nr_hw_queues + 1);
--	if (ret)
--		goto out_wait_freeze_timed_out;
-+	if (ctrl->tag_set.nr_hw_queues + 1 > nr_queues) {
-+		ret = nvme_rdma_setup_io_queues(ctrl, nr_queues,
-+				ctrl->tag_set.nr_hw_queues + 1,
-+				ctrl->ctrl.sqsize + 1);
-+		if (ret)
-+			goto out_wait_freeze_timed_out;
-+	}
- 
- 	return 0;
- 
+> +					sizeof(struct blk_zone_wplug));
+>  	if (!disk->zone_wplugs_pool)
+>  		goto free_hash;
+>  
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index b5f846200678..eaa4804ab3c3 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -3349,7 +3349,7 @@ static int nvme_pci_alloc_iod_mempool(struct nvme_dev *dev)
+>  {
+>  	size_t alloc_size = sizeof(struct nvme_dma_vec) * NVME_MAX_SEGS;
+>  
+> -	dev->dmavec_mempool = mempool_create_node(1,
+> +	dev->dmavec_mempool = mempool_create_node(1, 2,
+>  			mempool_kmalloc, mempool_kfree,
+>  			(void *)alloc_size, GFP_KERNEL,
+>  			dev_to_node(dev->dev));
+> diff --git a/include/linux/mempool.h b/include/linux/mempool.h
+> index e8e440e04a06..8b950efded18 100644
+> --- a/include/linux/mempool.h
+> +++ b/include/linux/mempool.h
+> @@ -18,6 +18,7 @@ typedef void (mempool_free_t)(void *element, void *pool_data);
+>  typedef struct mempool {
+>  	spinlock_t lock;
+>  	int min_nr;		/* nr of elements at *elements */
+> +	int max_nr;		/* max nr of elements at *elements */
+>  	int curr_nr;		/* Current nr of elements at *elements */
+>  	void **elements;
+>  
+> @@ -38,7 +39,7 @@ static inline bool mempool_is_saturated(struct mempool *pool)
+>  }
+>  
+>  void mempool_exit(struct mempool *pool);
+> -int mempool_init_node(struct mempool *pool, int min_nr,
+> +int mempool_init_node(struct mempool *pool, int min_nr, int max_nr,
+>  		mempool_alloc_t *alloc_fn, mempool_free_t *free_fn,
+>  		void *pool_data, gfp_t gfp_mask, int node_id);
+>  int mempool_init_noprof(struct mempool *pool, int min_nr,
+> @@ -49,15 +50,15 @@ int mempool_init_noprof(struct mempool *pool, int min_nr,
+>  
+>  struct mempool *mempool_create(int min_nr, mempool_alloc_t *alloc_fn,
+>  		mempool_free_t *free_fn, void *pool_data);
+> -struct mempool *mempool_create_node_noprof(int min_nr,
+> +struct mempool *mempool_create_node_noprof(int min_nr, int max_nr,
+>  		mempool_alloc_t *alloc_fn, mempool_free_t *free_fn,
+>  		void *pool_data, gfp_t gfp_mask, int nid);
+>  #define mempool_create_node(...)					\
+>  	alloc_hooks(mempool_create_node_noprof(__VA_ARGS__))
+>  
+> -#define mempool_create(_min_nr, _alloc_fn, _free_fn, _pool_data)	\
+> -	mempool_create_node(_min_nr, _alloc_fn, _free_fn, _pool_data,	\
+> -			    GFP_KERNEL, NUMA_NO_NODE)
+> +#define mempool_create(_min_nr, _alloc_fn, _free_fn, _data)	\
+> +	mempool_create_node(_min_nr, (_min_nr)*2, _alloc_fn, _free_fn,	\
+> +			    _data, GFP_KERNEL, NUMA_NO_NODE)
+>  
+>  int mempool_resize(struct mempool *pool, int new_min_nr);
+>  void mempool_destroy(struct mempool *pool);
+> @@ -102,6 +103,13 @@ void mempool_kfree(void *element, void *pool_data);
+>  	mempool_create((_min_nr), mempool_kmalloc, mempool_kfree,	\
+>  		       (void *)(unsigned long)(_size))
+>  
+> +#define mempool_init_kmalloc_resizable_pool(_pool, _min_nr, _max_nr, _size)		\
+> +	mempool_init_node(_pool, _min_nr, _max_nr, mempool_kmalloc, mempool_kfree,	\
+> +		     (void *)(unsigned long)(_size), GFP_KERNEL, NUMA_NO_NODE)
+> +#define mempool_create_kmalloc_resizable_pool(_min_nr, _max_nr, _size)			\
+> +	mempool_create_node(_min_nr, _max_nr, mempool_kmalloc, mempool_kfree,		\
+> +		       (void *)(unsigned long)(_size), GFP_KERNEL, NUMA_NO_NODE)
+> +
+>  /*
+>   * A mempool_alloc_t and mempool_free_t for a simple page allocator that
+>   * allocates pages of the order specified by pool_data
+> diff --git a/mm/mempool.c b/mm/mempool.c
+> index db23e0eef652..4675405c0bd8 100644
+> --- a/mm/mempool.c
+> +++ b/mm/mempool.c
+> @@ -207,7 +207,7 @@ void mempool_exit(struct mempool *pool)
+>  		void *element = remove_element(pool);
+>  		pool->free(element, pool->pool_data);
+>  	}
+> -	kfree(pool->elements);
+> +	kvfree(pool->elements);
+>  	pool->elements = NULL;
+>  }
+>  EXPORT_SYMBOL(mempool_exit);
+> @@ -230,22 +230,22 @@ void mempool_destroy(struct mempool *pool)
+>  }
+>  EXPORT_SYMBOL(mempool_destroy);
+>  
+> -int mempool_init_node(struct mempool *pool, int min_nr,
+> +int mempool_init_node(struct mempool *pool, int min_nr, int max_nr,
+>  		mempool_alloc_t *alloc_fn, mempool_free_t *free_fn,
+>  		void *pool_data, gfp_t gfp_mask, int node_id)
+>  {
+>  	spin_lock_init(&pool->lock);
+>  	pool->min_nr	= min_nr;
+> +	pool->max_nr	= max_nr;
+>  	pool->pool_data = pool_data;
+>  	pool->alloc	= alloc_fn;
+>  	pool->free	= free_fn;
+>  	init_waitqueue_head(&pool->wait);
+> -	/*
+> -	 * max() used here to ensure storage for at least 1 element to support
+> -	 * zero minimum pool
+> -	 */
+> -	pool->elements = kmalloc_array_node(max(1, min_nr), sizeof(void *),
+> -					    gfp_mask, node_id);
+> +
+> +	if (WARN_ON(max_nr < 1 || min_nr < 0))
+> +		return -EINVAL;
+> +
+> +	pool->elements = kvmalloc_array_node_noprof(max_nr, sizeof(void *), gfp_mask, node_id);
+>  	if (!pool->elements)
+>  		return -ENOMEM;
+>  
+> @@ -253,7 +253,7 @@ int mempool_init_node(struct mempool *pool, int min_nr,
+>  	 * First pre-allocate the guaranteed number of buffers,
+>  	 * also pre-allocate 1 element for zero minimum pool.
+>  	 */
+> -	while (pool->curr_nr < max(1, pool->min_nr)) {
+> +	while (pool->curr_nr < pool->min_nr) {
+>  		void *element;
+>  
+>  		element = pool->alloc(gfp_mask, pool->pool_data);
+> @@ -286,7 +286,7 @@ int mempool_init_noprof(struct mempool *pool, int min_nr,
+>  		mempool_alloc_t *alloc_fn, mempool_free_t *free_fn,
+>  		void *pool_data)
+>  {
+> -	return mempool_init_node(pool, min_nr, alloc_fn, free_fn,
+> +	return mempool_init_node(pool, min_nr, min_nr * 2, alloc_fn, free_fn,
+>  				 pool_data, GFP_KERNEL, NUMA_NO_NODE);
+>  
+>  }
+> @@ -296,6 +296,7 @@ EXPORT_SYMBOL(mempool_init_noprof);
+>   * mempool_create_node - create a memory pool
+>   * @min_nr:    the minimum number of elements guaranteed to be
+>   *             allocated for this pool.
+> + * @max_nr:    the maximum capacity of the pool
+>   * @alloc_fn:  user-defined element-allocation function.
+>   * @free_fn:   user-defined element-freeing function.
+>   * @pool_data: optional private data available to the user-defined functions.
+> @@ -310,7 +311,7 @@ EXPORT_SYMBOL(mempool_init_noprof);
+>   *
+>   * Return: pointer to the created memory pool object or %NULL on error.
+>   */
+> -struct mempool *mempool_create_node_noprof(int min_nr,
+> +struct mempool *mempool_create_node_noprof(int min_nr, int max_nr,
+>  		mempool_alloc_t *alloc_fn, mempool_free_t *free_fn,
+>  		void *pool_data, gfp_t gfp_mask, int node_id)
+>  {
+> @@ -320,7 +321,7 @@ struct mempool *mempool_create_node_noprof(int min_nr,
+>  	if (!pool)
+>  		return NULL;
+>  
+> -	if (mempool_init_node(pool, min_nr, alloc_fn, free_fn, pool_data,
+> +	if (mempool_init_node(pool, min_nr, max_nr, alloc_fn, free_fn, pool_data,
+>  			      gfp_mask, node_id)) {
+>  		kfree(pool);
+>  		return NULL;
+> @@ -338,9 +339,8 @@ EXPORT_SYMBOL(mempool_create_node_noprof);
+>   *              allocated for this pool.
+>   *
+>   * This function shrinks/grows the pool. In the case of growing,
+> - * it cannot be guaranteed that the pool will be grown to the new
+> - * size immediately, but new mempool_free() calls will refill it.
+> - * This function may sleep.
+> + * the pool will be grown to the new size immediately, but new mempool_free()
+> + * calls will refill it.
+>   *
+>   * Note, the caller must guarantee that no mempool_destroy is called
+>   * while this function is running. mempool_alloc() & mempool_free()
+> @@ -351,11 +351,13 @@ EXPORT_SYMBOL(mempool_create_node_noprof);
+>  int mempool_resize(struct mempool *pool, int new_min_nr)
+>  {
+>  	void *element;
+> -	void **new_elements;
+>  	unsigned long flags;
+>  
+> -	BUG_ON(new_min_nr <= 0);
+> -	might_sleep();
+> +	if (WARN_ON(new_min_nr < 0))
+> +		return -EINVAL;
+> +
+> +	if (new_min_nr > pool->max_nr)
+> +		return -ENOSPC;
+>  
+>  	spin_lock_irqsave(&pool->lock, flags);
+>  	if (new_min_nr <= pool->min_nr) {
+> @@ -366,45 +368,8 @@ int mempool_resize(struct mempool *pool, int new_min_nr)
+>  			spin_lock_irqsave(&pool->lock, flags);
+>  		}
+>  		pool->min_nr = new_min_nr;
+> -		goto out_unlock;
+> -	}
+> -	spin_unlock_irqrestore(&pool->lock, flags);
+> -
+> -	/* Grow the pool */
+> -	new_elements = kmalloc_objs(*new_elements, new_min_nr);
+> -	if (!new_elements)
+> -		return -ENOMEM;
+> -
+> -	spin_lock_irqsave(&pool->lock, flags);
+> -	if (unlikely(new_min_nr <= pool->min_nr)) {
+> -		/* Raced, other resize will do our work */
+> -		spin_unlock_irqrestore(&pool->lock, flags);
+> -		kfree(new_elements);
+> -		goto out;
+> -	}
+> -	memcpy(new_elements, pool->elements,
+> -			pool->curr_nr * sizeof(*new_elements));
+> -	kfree(pool->elements);
+> -	pool->elements = new_elements;
+> -	pool->min_nr = new_min_nr;
+> -
+> -	while (pool->curr_nr < pool->min_nr) {
+> -		spin_unlock_irqrestore(&pool->lock, flags);
+> -		element = pool->alloc(GFP_KERNEL, pool->pool_data);
+> -		if (!element)
+> -			goto out;
+> -		spin_lock_irqsave(&pool->lock, flags);
+> -		if (pool->curr_nr < pool->min_nr) {
+> -			add_element(pool, element);
+> -		} else {
+> -			spin_unlock_irqrestore(&pool->lock, flags);
+> -			pool->free(element, pool->pool_data);	/* Raced */
+> -			goto out;
+> -		}
+>  	}
+> -out_unlock:
+>  	spin_unlock_irqrestore(&pool->lock, flags);
+> -out:
+>  	return 0;
+>  }
+>  EXPORT_SYMBOL(mempool_resize);
+
+
 -- 
-2.54.0
-
+Damien Le Moal
+Western Digital Research
 
