@@ -4,103 +4,115 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 938A9CDE008
-	for <linux-nvme@archiver.kernel.org>; Fri, 26 Jun 2026 09:51:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EA2CCC43458
+	for <linux-nvme@archiver.kernel.org>; Fri, 26 Jun 2026 14:21:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7DzD3U3iDBh2MhudNMQ5tBeVHk0YLvDRALHx7DAM6Fk=; b=eQ1Y43cEwAZWnPwtcpNo6Jweqz
-	T2/imXp3tgFG/jSmltNMZ2mD2GfpEEO7FNn7fi5YK8XNlpsm9q6ElPPozQq0mMPIG61TbA8xorq+9
-	d/9sjdP4h1Y/lur75JxMcwOp7unxNWy9aQhl+h1TrNXybvGNN16b/0Y5jr2Ho3c3ELYqPuBs9wR0+
-	8W4MO2KXF2VSvm205Ve5oOZYecbsvchx9IZuDcWPVqG8BXyrPhB1CFDylk6otyEzQGw9lDRxuO5IB
-	f39ARdyFbdcDBOX+ZGaNeh8wWkxjiuMAPwqJ1kvBilZxhnAmAcPBM1oRCkqW/RKCKCLUqsL7xw+4d
-	MeNwjr3w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=6fkZZ1HGVwrfUPNPdbVxpz4fYCpfOkajKfkeOLetQ00=; b=QnkSH4IG9mKRRjl7mdWIFTkqcp
+	vgK41rzefzlfcSbkdlmaouJzNFxhMD47F2BCxhwGLCIV5HG8GCmO8mo1kElHDkl+nmLhzdy4Dr6xD
+	+o0m+1pBopCk7Dhfna79XlbO9fQi44nenBwzB2Yk3vceYi94QTsEtmnTMir9E/FnZU1VnnQ6/Xf5T
+	jl8LXIivwNVhYJiXZvHLa/lawtVnjIG1tgcgU3HhKkwHFQG6TeD1D/x/XjIKjjOcduUxU2JIVLEvr
+	xcnN+c+kd79nsvao0r6wWNUwPDPfKVqeiOlkpCYtybA73sp3uZqsVIjvzKkPX4DtVe8BB+siHhBu6
+	4OFDT+Gg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wd3Dd-0000000B25J-1kie;
-	Fri, 26 Jun 2026 09:51:29 +0000
-Received: from mail-dl1-x122c.google.com ([2607:f8b0:4864:20::122c])
+	id 1wd7Qk-0000000BRue-0znY;
+	Fri, 26 Jun 2026 14:21:18 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wd3DZ-0000000B24Q-2RRq
+	id 1wd7Qi-0000000BRu2-2X5q
 	for linux-nvme@lists.infradead.org;
-	Fri, 26 Jun 2026 09:51:27 +0000
-Received: by mail-dl1-x122c.google.com with SMTP id a92af1059eb24-137eb0d76beso1033355c88.0
-        for <linux-nvme@lists.infradead.org>; Fri, 26 Jun 2026 02:51:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782467484; cv=none;
-        d=google.com; s=arc-20260327;
-        b=aK/PpZsslkp61CN3dQEl+RRVoVcdzBgLpTcVyY9TX4K2FvirtzAZlYz1m7MGKYipH3
-         M/eTZilvp8tXgmnLe9nuXxnJlMcwX9GMjuwQeR1DVmBSF5Ij3XfWjiA6aMm2r/HW0d4i
-         PUF8LG/cRelTeVy65nWYpqeZwiZbfAAjyxtzTAie4wWFL0hzQx/7gh6fV/3bH+2mMDGf
-         +eLjcGa4hJBIjETXC+pP19k85UF1YEFTTmHS/ZOM+seeoSZO/m4wQ7vZAmOScOqbA8G3
-         axtJ2xvtcoWTOV+EjmuPBAiI90TbGPK4mxJuNJ52knyG/ucXeVmvl+fqfpH7laJ7SDRX
-         dylA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=7DzD3U3iDBh2MhudNMQ5tBeVHk0YLvDRALHx7DAM6Fk=;
-        fh=0oVVR8snTq+zkuB1xb7I8KzhUQtt/GkMd+y05rp/bW0=;
-        b=RNXxodEvKQmydUg9gfhTbTQbKdGmK27J6z5P0GrqgHKYJCk7tDAeEeYJsOMY0KP6Uc
-         9DbLvBKbPzN/7m0w6FWmpb+u60x6VUsrOqve7hGZPtYJd0OLgWjNyD3Mu6toFefUqoUR
-         oUhpiVWeLvy4Sk/2w/y1YgDGuU1ADAkSGDRQi4FFROsZ0gybsHEwsIxCYmlhgZvzClM/
-         z0DztQtmOX9puaYpo+IfTWQTHDZRPN9v41t0KTWJVs/vQ8tPGZAa4uBldSoMguzFpyjH
-         6PSb695jZg4bVHYXGJLqsMX3waUyt90OM8IAiB1x2HszJtPN/lIGBeufEgcOUwQzgOyd
-         82vg==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782467484; x=1783072284; darn=lists.infradead.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=7DzD3U3iDBh2MhudNMQ5tBeVHk0YLvDRALHx7DAM6Fk=;
-        b=j/QGI37BGUXbh77qg3KDbtc0/G6y3YUQzT8h4sNb9fE0DqH81G1ALZcXCxwNck5vc6
-         PJycZTqxDeyTQx3FF8VJACT6egD2gPYJcDczGPc4sryp2luYT3oyI81RTZd1KC/GsaCB
-         Nltsqf5aAZWHO0Q8ce4iv22e0avA//hvJVQZyEL0dCOyB1PTOf8J3ruFWhT80N5UlCUq
-         +qcshna5UcqyT3pnS1qdRnqMxaAtikETT9gspzIxqqj74ogbkX01QseMyMTxAd8XZ/8u
-         cynjLyFwSEzqZdtLNUHbiQshimGV3lCYGChisxxGIswzaJQ2PxD8YkZESDzCNN1njl6G
-         gvyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782467484; x=1783072284;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7DzD3U3iDBh2MhudNMQ5tBeVHk0YLvDRALHx7DAM6Fk=;
-        b=i8+u9ewwIwvE9qdVI1jmtR6LVG0QMEggvsI1Uw0davybnU9EX9mA6Ksi89yjFewJEc
-         oyQ8hz3nPqSslXJIm5BOQgGI6i8IUiljTBzWSksTeAcYJ/CjLiaeI61wvchBnUZbv6yx
-         cPy7PLzHhgQ9/qyUA7n+ApyedmU14Jj1j1BziOwJH9pS0LtxylIK1vtO7uU8mbJLyJNF
-         ulyqWzLT3alvNnhglYTpmggZxwR1grhHKQVd8sYgn6mh0/hfz3KWUnMQvgOj6kwSQCZp
-         i/CFBg2I3ge+0EBsSRgl6E1JAHENSxhlar73Eh7FLvl4U4bcwRJzQWVC/KQMzOPv8PZG
-         clzA==
-X-Forwarded-Encrypted: i=1; AFNElJ8aNF33G5dugNwuS2XroRHSdflHJ+b9NfmhkA/O0H6ZISqv5vf+Ukae56yQ2SN/QhspzQ3bDMV5Sv24@lists.infradead.org
-X-Gm-Message-State: AOJu0YzW4hO5MayFaW3aHdgazzMlFskP3q94ozw9CE9uq+nVZ1LwGxEH
-	SuuP8011UZlWTr3cteb9F55N/HCV86mTis1JlNMDZCGyZMje3mUMHqaJFoWpRsyJjXY9dcakPpF
-	YyZPyA0kPFVieSIV1kTqGQuEiMj7BlYpFNibuEFnf
-X-Gm-Gg: AfdE7ckFPGmKWbeIyf1ukfwQqdugKZEsOH7vg6i4NeJ/1rDjpXw0R9FxHlg6JWStJwL
-	qNcEElEotDJb85jScKO7e4OBEFUlD8RHJ0Goz428ZUwIrg4S8cGCbcGfyzVZj8EdgLLao/eNpfi
-	4tLv9h5xJNQqrKb/Ceas1r+QyYPo5daVZ9E3tac6GeXibNS6xnPKnQJN5LgxIvFE8r/JaUjTYBV
-	4OQxdZssyItoyYitrIYR90nxuwah861HUe6TNILHhmMw1zw8q01sMO0oxGuj+yugCqCH5M=
-X-Received: by 2002:a05:7022:130d:b0:128:d396:f2ea with SMTP id
- a92af1059eb24-139c3c44cc1mr7662031c88.11.1782467482904; Fri, 26 Jun 2026
- 02:51:22 -0700 (PDT)
+	Fri, 26 Jun 2026 14:21:17 +0000
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65QAIEg52719766;
+	Fri, 26 Jun 2026 14:21:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=6fkZZ1
+	HGVwrfUPNPdbVxpz4fYCpfOkajKfkeOLetQ00=; b=HidsgjCQ8dbH4cqffq/ZmD
+	UwzBWasCSwwSYK/6a0U22LJlOazbgzNdypjgHWCAUDD2J0maSvG/fEav6lK0TjLU
+	Z7QE21YgFAS5NVEv/O6aLKz1UDmw5zZkXHvQufGE0goOgJoQFTBhhMBlX4QkWANQ
+	nTgAa7CbN7VXrm7fDKzKyWwcy7Pf22GkGFY6mswkfQG4Fk03l8zGcE8UO5arN8rJ
+	rScIrGZ6vXmPfJJkzce1PMM5xpFXv20B3iGWjtqXJDyAiC6zrEQBPX8oPA1SRTkj
+	WOUcGYo2d3GIyEyP0Fw9vHejCDqB7LYrzMqizpt6ckPhNnXHoSyDadnKU4vRV3Pg
+	==
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4ewjk4yfec-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 26 Jun 2026 14:20:59 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 65QEJkdG001608;
+	Fri, 26 Jun 2026 14:20:58 GMT
+Received: from smtprelay03.dal12v.mail.ibm.com ([172.16.1.5])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4ex7w0341w-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 26 Jun 2026 14:20:58 +0000 (GMT)
+Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
+	by smtprelay03.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 65QEKwam25100896
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 26 Jun 2026 14:20:58 GMT
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5E6E158058;
+	Fri, 26 Jun 2026 14:20:58 +0000 (GMT)
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1E14758057;
+	Fri, 26 Jun 2026 14:20:55 +0000 (GMT)
+Received: from [9.43.54.234] (unknown [9.43.54.234])
+	by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 26 Jun 2026 14:20:54 +0000 (GMT)
+Message-ID: <c2918a28-10c5-4424-894c-596949eac9e0@linux.ibm.com>
+Date: Fri, 26 Jun 2026 19:50:53 +0530
 MIME-Version: 1.0
-References: <20260614131541.2017845-1-nilay@linux.ibm.com> <20260614131541.2017845-12-nilay@linux.ibm.com>
- <20260626064721.GA11106@lst.de>
-In-Reply-To: <20260626064721.GA11106@lst.de>
-From: Marco Elver <elver@google.com>
-Date: Fri, 26 Jun 2026 11:50:46 +0200
-X-Gm-Features: AVVi8CeEUJuNMMKe1RlR5d-5xh8sYdf7NbOTe6AafYbvn9QM5pSriuXf_gmmOr8
-Message-ID: <CANpmjNNc0YaFWv9yW_AT3fPX1cOY7k5no2kKqvSTijnp_GV=Gw@mail.gmail.com>
-Subject: Re: [PATCHv2 11/17] nvme: add Clang context annotations for nvme_queue::sq_lock
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv2 02/17] nvme: add Clang context annotations for
+ nvme_passthru_{start|stop}
 To: Christoph Hellwig <hch@lst.de>
-Cc: Nilay Shroff <nilay@linux.ibm.com>, linux-nvme@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, kbusch@kernel.org, sagi@grimberg.me, 
-	axboe@fb.com, bvanassche@acm.org, gjoyce@linux.ibm.com
-Content-Type: text/plain; charset="UTF-8"
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kbusch@kernel.org, sagi@grimberg.me, axboe@fb.com, bvanassche@acm.org,
+        elver@google.com, gjoyce@linux.ibm.com
+References: <20260614131541.2017845-1-nilay@linux.ibm.com>
+ <20260614131541.2017845-3-nilay@linux.ibm.com>
+ <20260626063347.GB10731@lst.de>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <20260626063347.GB10731@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjI2MDExOCBTYWx0ZWRfX0Ioq/lw/SBAm
+ iufhswcUzu/5+aTafrMEKqvKG0cP6RgkMrgexb0OCJ+J2j5qDGxhnLVVhRHKL0gvlP6hJ1kP96W
+ wJBGQ4kbXXeY10aCd3kXgUTzi4FFx8M=
+X-Proofpoint-ORIG-GUID: zwUJ8681E6EY7JZSGvI7_2h3h8x1w9Sc
+X-Authority-Analysis: v=2.4 cv=Oph/DS/t c=1 sm=1 tr=0 ts=6a3e8acc cx=c_pps
+ a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
+ a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=l5mnpRCxdIeBdmcAbkgA:9
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjI2MDExOCBTYWx0ZWRfX70g3eaPyaYH4
+ lXrmw8NI6KSsXxlnvRt+ymkZleAH9XRLjXdN03ogqUSPZCkGstEqYwHXrUZTn6+bVA0EpOOFPTm
+ oPJQbMx68YzK1+Yvd7C0nJ5a3sXxqLOHw6a6gYyKhJWGX3MNd+r4moZG5mgbIpoJhcxGmSyjWFK
+ y+5jgbn3ElGGmYuFP3M48wA8r7WudMpAPEdbjycTDAZvLS8kQFTUGTCz+MFrFHVnJvBsmU53N2G
+ h2fWeOGmksC5FYQABUM4SVgffv5qx8EStfYpklMx0xsb0jBrTbwDhst8+mlwTiCxarzrEhXMv3m
+ dqxyAhUTZ+bQffOet5IfMif9/oxcZhiqBvlbOPvgDYU56ap9hWwM8EvFWtrxzhNsJScV00PQgCM
+ BZ8sqOz6qPJ8xTrBpU1tQVWr3gVjvsW4d+FwUK2Iju74nF9vk90F7ciKutI0GA762pd2gymFSOp
+ OwNxcBeLdINh9an/lxw==
+X-Proofpoint-GUID: Ne75kf82fRcj9wmTrGLx_7bsNXdmZaQR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-26_03,2026-06-24_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 lowpriorityscore=0 bulkscore=0 spamscore=0 priorityscore=1501
+ clxscore=1015 impostorscore=0 malwarescore=0 adultscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606260118
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260626_025125_625223_52C47A97 
-X-CRM114-Status: GOOD (  16.60  )
+X-CRM114-CacheID: sfid-20260626_072116_650535_4BD10EDD 
+X-CRM114-Status: GOOD (  10.69  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -115,29 +127,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, 26 Jun 2026 at 08:47, Christoph Hellwig <hch@lst.de> wrote:
->
-> On Sun, Jun 14, 2026 at 06:45:26PM +0530, Nilay Shroff wrote:
-> > Accesses to sq_tail used solely for tracing are annotated with
-> > context_unsafe(), as they only require a lockless snapshot of the
+On 6/26/26 12:03 PM, Christoph Hellwig wrote:
+> Note on the subject (also the following ones):  please just say context
+> analysis.  Currently only clang implements them, but that's an
+> implementation detail.
+> 
+Yeah, I will update the subject accordingly in the next patchset revision.
 
-This sounds like an intentional "benign" data race...
+> Otherwise looks good:
+> 
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
 
-> > value. Likewise, nvme_init_queue() and nvme_free_queue() operate on
-> > queues that have not yet been published or are no longer reachable,
-> > and therefore do not require sq_lock protection. Similarly,
-> > nvme_alloc_sq_cmds() allocates memory for nvme_queue::sq_cmds for
-> > the queue which is not yet published or in use and hence it's safe
-> > to annotate all these helpers using context_unsafe.
->
-> Accessing scalar fields without lock is pretty common.  Don't we
-> have an annotation that only requires the guarding lock for
-> writes?
-
-If the writes can happen concurrently with readers these are data
-races. I'd probably annotate the particular reads with data_race(...):
-this will both tell Context Analysis this is ok without a lock, and
-also if KCSAN is enabled, not to report these data races when actually
-observed at runtime
-(https://docs.kernel.org/dev-tools/lkmm/docs/access-marking.html).
+Thanks,
+--Nilay
 
