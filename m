@@ -4,117 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0449CC43458
-	for <linux-nvme@archiver.kernel.org>; Fri, 26 Jun 2026 15:36:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3AC69C43458
+	for <linux-nvme@archiver.kernel.org>; Fri, 26 Jun 2026 15:40:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Y7KG3aWVjjABvFSsEvFOYonDBZJARoHq93Z0Ub8cgZo=; b=v69ZqPyLpEthq7so5Y3sknx6vE
-	h+wimtiWbNFyNMRyez6h+q19FZxGKL73zFrg1e0NHAt0wgsYfTDA2rs9twtTYEFyVeiwJw2aGD+zj
-	xIkkhnfeGBfbgENSSthkFB6iY25TywZZWGrvHwtIAgyVHpnAJUwvt0OHSSP9ypm7x0HrTJcKruIY2
-	CT9zBoJJEkNmpm69NNElqDwoestrO7jWFP66Jw0wShL7GyXx+uIeBiTinjg9gtmnCxeS3S241a84l
-	gREV/6jeaApkKF1Uu3DF0d+KmMh/BAKHAzqRVvrEcASKTg/eR9fv6Eiri8CMvMQy46bqMq3miJBzw
-	mrwbGVHA==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=LXOuub+be30iBiw/mnBtFu03c02gL1YtYSJCsUFa3HE=; b=X8GwLZQ661UVS4r8SQRu/cMxNF
+	E7sn4NzodFvMO71xY0InW2c9+Wxvx86NjsI4ASMGtQSwC7H+ZX4WNIsOl70o7pIDwZz8lX1cDrHLt
+	QfCHPe0GE0GaRBpDZEUqeXzWTjNEQaR+N86jsrpFZQ3DjRaQAqNlM8DodosolHCzg/Glpio/RQsR5
+	AqQ17M2f2gs+Z/Kpp89VBwp0WSHkXVdba1cSkQ9W6cb/n3O6wr3CUj7y6qxmnQp5jRZ4eb3CwrGSx
+	Cmy4Z2NGDO3QVpUOPWJgdmackIWwfcup+YvZpZ4mYNZIiEhJwAutoEg/4KKUoqL/fubCK+eYIHDuK
+	1Attpoyg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wd8bG-0000000BYnT-2L1N;
-	Fri, 26 Jun 2026 15:36:14 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1wd8fi-0000000BZ04-19K2;
+	Fri, 26 Jun 2026 15:40:50 +0000
+Received: from smtp21.cstnet.cn ([159.226.251.21] helo=cstnet.cn)
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wd8bE-0000000BYn7-2xdg
+	id 1wd8ff-0000000BYzk-1TLM
 	for linux-nvme@lists.infradead.org;
-	Fri, 26 Jun 2026 15:36:13 +0000
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65QFIUVc3356640;
-	Fri, 26 Jun 2026 15:36:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=Y7KG3a
-	WVjjABvFSsEvFOYonDBZJARoHq93Z0Ub8cgZo=; b=PVwipafH3y9n7kalusfKK7
-	HyTq4Fsu80RlrClmsVhMLW2Z7FdwXIL5AoKRjN7O7ORDAAbnkblBBYi2Ah1do2St
-	uXd3MDNhsf8PNVPZgUqlnyhNNIHGdG/AK9TTvHeB5Du2eWp/5Tzrwq8oJk5qhTx1
-	+RQTCsonDJrFWQqqRqwXYxTvgu6PNoQjKn6p4Px6MqxwNynXJS/mJBdVpQwir+ux
-	F1fz1k6wmxGPAqCVoALaKZ4mj5eRsMzp0A2jrJ1U1SgTBxD65Lej5I2IMWrxav/p
-	czNiMkuNOx8iZBxBGZYCeHc4t4dsfJzb+kfL30p7Jn7pMrPNa48lgmQOdrd2BMtg
-	==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4ewjk4yu1p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 26 Jun 2026 15:36:03 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 65QFYhDJ032160;
-	Fri, 26 Jun 2026 15:36:02 GMT
-Received: from smtprelay04.dal12v.mail.ibm.com ([172.16.1.6])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4ex7dgkgug-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 26 Jun 2026 15:36:02 +0000 (GMT)
-Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
-	by smtprelay04.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 65QFa2k125363154
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 26 Jun 2026 15:36:02 GMT
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2B6F558057;
-	Fri, 26 Jun 2026 15:36:02 +0000 (GMT)
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6D43758058;
-	Fri, 26 Jun 2026 15:35:58 +0000 (GMT)
-Received: from [9.43.54.234] (unknown [9.43.54.234])
-	by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 26 Jun 2026 15:35:58 +0000 (GMT)
-Message-ID: <b0be30c3-e2ab-47cd-a07b-aa9e82ece233@linux.ibm.com>
-Date: Fri, 26 Jun 2026 21:05:56 +0530
+	Fri, 26 Jun 2026 15:40:48 +0000
+Received: from localhost.localdomain (unknown [117.182.75.66])
+	by APP-01 (Coremail) with SMTP id qwCowAAHrNR7nT5qtqRsAw--.10415S2;
+	Fri, 26 Jun 2026 23:40:44 +0800 (CST)
+From: WenTao Liang <vulab@iscas.ac.cn>
+To: Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org
+Cc: Keith Busch <kbusch@kernel.org>,
+	stable@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	WenTao Liang <vulab@iscas.ac.cn>
+Subject: [PATCH] fix: nvmet: nvmet_sq_create: fix ctrl reference leak on nvmet_check_sqid   failure
+Date: Fri, 26 Jun 2026 23:40:43 +0800
+Message-Id: <20260626154043.53241-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv2 05/17] nvme: add Clang context annotations for
- nvme_ns_head::current_path
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kbusch@kernel.org, sagi@grimberg.me, axboe@fb.com, bvanassche@acm.org,
-        elver@google.com, gjoyce@linux.ibm.com,
-        "Paul E. McKenney"
- <paulmck@kernel.org>
-References: <20260614131541.2017845-1-nilay@linux.ibm.com>
- <20260614131541.2017845-6-nilay@linux.ibm.com>
- <20260626064050.GE10731@lst.de>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <20260626064050.GE10731@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjI2MDEyNiBTYWx0ZWRfX+uFy4oRBkDym
- gHUdO2s+NUWbD8uOJd2+yjUuk7rPKhgloqH414V1nCKneQK1QAshpp3X2ODLCtLpleRHwFdlblt
- KcjRZantts0Kom7FeVZAvyAKXAUv/h0=
-X-Proofpoint-ORIG-GUID: LY265qMJR9Sw8jd4MfJuNc7vSmemCWLf
-X-Authority-Analysis: v=2.4 cv=Oph/DS/t c=1 sm=1 tr=0 ts=6a3e9c63 cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=XItdjK9yAn4fJZ3DEfgA:9
- a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjI2MDEyNiBTYWx0ZWRfX9sxdDc+Et21Q
- NeNrznx1bFgrRzeehRFhuvKruwPT9NgDtvh7TcuPv4P/IM6RGnqAeun2x+K84lnwIr7zv3nl/uO
- TuBOIuDl7bN9MYZO1A8BJ8Qz/AIz86Es71UueMP2wpxBNXKTWmOcswMX3M2GnVJ3xwj0zbCYp/k
- Qd/i4yIx4k0KsRN0QrdDLI49I+SXLEZduKMPczyjOFR3qph6UPYY1K99VWiE+ZmDOykAyI0KUMO
- dVgaLcolq9iaa+YhZiCXiWK7ew05cPaR6QYW+A6fxgF6231mxD95skTIxDTkXHmYxLIFHNvlr6A
- 3Nvs9pil7y1O1/dcTIbB7Jb48gTtyuAH9Wy9xzhmTrcYuKRS43+YFZDRE3DOmUx6W/Y89WTrNLO
- EaQtA4NjUY40pt8ZwRp/0f4kny5CFBe13oclo9pls7Kh1YGq8swumHSZ58E8BZ90DcIpXe5RvGX
- rHt3nnsInkyDguXkN1w==
-X-Proofpoint-GUID: BFcLJFWfqu_havzfDW9BQ4CRac9ixr9l
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-26_03,2026-06-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 lowpriorityscore=0 bulkscore=0 spamscore=0 priorityscore=1501
- clxscore=1011 impostorscore=0 malwarescore=0 adultscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606260126
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: qwCowAAHrNR7nT5qtqRsAw--.10415S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrtrWrWFyxArWUuFyUtr1DKFg_yoWkAFcEk3
+	48GrnrWa48ua1qkrW7Wr9xZr97KrnYqw1I9w4ktay3tr9YgFy3Gw1vyrnxJryxuw4rXry7
+	CFnrGr4rArWakjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUb4AFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
+	Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+	jxv20xvE14v26r1q6rW5McIj6I8E87Iv67AKxVWxJVW8Jr1lOx8S6xCaFVCjc4AY6r1j6r
+	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY1x0262kKe7AKxVWU
+	AVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14
+	v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkG
+	c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI
+	0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWxJVW8
+	Jr1lIxAIcVC2z280aVCY1x0267AKxVWxJr0_GcJvcSsGvfC2KfnxnUUI43ZEXa7VU11SoJ
+	UUUUU==
+X-Originating-IP: [117.182.75.66]
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBgUKA2o+h0E80AABs1
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260626_083612_776225_668E00A0 
-X-CRM114-Status: GOOD (  18.80  )
+X-CRM114-CacheID: sfid-20260626_084047_771930_61D89281 
+X-CRM114-Status: UNSURE (   8.57  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -129,39 +81,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/26/26 12:10 PM, Christoph Hellwig wrote:
-> On Sun, Jun 14, 2026 at 06:45:20PM +0530, Nilay Shroff wrote:
->> +++ b/drivers/nvme/host/multipath.c
->> @@ -231,8 +231,16 @@ bool nvme_mpath_clear_current_path(struct nvme_ns *ns)
->>   	bool changed = false;
->>   	int node;
->>   
->> +	/*
->> +	 * This helper is used by namespace failover/teardown and I/O policy
->> +	 * update paths. We only compare the head->current_path[] pointer value
->> +	 * and do not dereference the referenced namespace, so suppress the
->> +	 * context analysis warning for this lockless inspection of the
->> +	 * __rcu_guarded pointer.
->> +	 */
->>   	for_each_node(node) {
->> -		if (ns == rcu_access_pointer(head->current_path[node])) {
->> +		if (context_unsafe(ns ==
->> +				rcu_access_pointer(head->current_path[node]))) {
-> 
-> I think we need a helper for this, as for a simple pointer value
-> comparison without a dereference we don't really need either
-> rcu_access_pointer nor locking.
-> 
-> Maybe somthing like a
-> 
-> 	rcu_compare_pointer(rcu_pointer, nonrcu_pointer)
-> 
-> ?
+After kref_get_unless_zero successfully acquires a ctrl reference, the
+  nvmet_check_sqid failure path returns the status directly without calling
+  nvmet_ctrl_put, leaving the ctrl reference permanently leaked.
 
-Probably a good idea to have such helper. And if it's implemented
-then it should be wrapped under contetx_unsafe() as is done for
-other rcu helpers. But lets wait for Paul/Marco to comment on it.
+Add nvmet_ctrl_put before returning on the nvmet_check_sqid error path to
+  properly release the acquired reference.
 
-Thanks,
---Nilay
+Cc: stable@vger.kernel.org
+Fixes: a07b4970f464 ("nvmet: add a generic NVMe target")
+Signed-off-by: WenTao Liang <vulab@iscas.ac.cn>
+---
+ drivers/nvme/target/core.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 62dd59b9aa4f..52fc2dade4ea 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -943,8 +943,10 @@ u16 nvmet_sq_create(struct nvmet_ctrl *ctrl, struct nvmet_sq *sq,
+ 		return NVME_SC_INTERNAL | NVME_STATUS_DNR;
+ 
+ 	status = nvmet_check_sqid(ctrl, sqid, true);
+-	if (status != NVME_SC_SUCCESS)
++	if (status != NVME_SC_SUCCESS) {
++		nvmet_ctrl_put(ctrl);
+ 		return status;
++	}
+ 
+ 	ret = nvmet_sq_init(sq, cq);
+ 	if (ret) {
+-- 
+2.39.5 (Apple Git-154)
+
 
