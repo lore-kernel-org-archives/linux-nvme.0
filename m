@@ -4,86 +4,95 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2C503C43458
-	for <linux-nvme@archiver.kernel.org>; Sat, 27 Jun 2026 01:06:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6D016C43458
+	for <linux-nvme@archiver.kernel.org>; Sat, 27 Jun 2026 04:16:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=z/CmrupfxEbqvdymOr0KYrLCg1DOvL9/cDXxDowDgHc=; b=OsUlzAA25PemNfTZYOthNZu8Jj
-	L7JKYwsBqxW7Q9fpwW1kH2iAj56WexkwOLCTnawXv95YjHeR0fZ7GbI8H6l9BPWuTJcEmC/Q2zvfm
-	7h+HK91tVw5PQPBBNTWPN0c/nEwzZh5KoGq2+LKABszoyaixxwPOnCA0Kv3A1NFN+nUZ14Ia9pc4k
-	VKaOJODk79F74joTMBdkLS5W6qfpG+BJ1zHyRnQg8alZepv0WxAr+oyByTFOJRSZJ3xTzDpWUsWNO
-	dpE4p3n8r2y/eXqxpzbLaCH4HY89o0XylkdBT0n1gdNRZKu41B5DFIRQcJcnCXM9iBr75KaOkdje/
-	+GT8oMfg==;
+	bh=W3BlDeepFbwZ4oE1Vsnyo+V98vHfS2bZA1E4/dojlN4=; b=vTwqyXpcXJe+X+Z7Q6YAzS31Jc
+	5cK6sRThOl/OZvEsSr0fbXy4ei5VjV18m/61ukgUG2ppT4lC2lgY8Nrx53E0MvKeaAL+/B8dmQ7hA
+	YuVEQ8s+98LDHecAdWEKIX/UaheIfpu2NPxM++4MtNlam4J7NzP9CUOtbE/DJoxAZM2ZqhCdLurme
+	/YufVdtzcvCYr3tgvuM4v27xGmuz60Bh6irKZIjvDViXbNoxKnhEfYNQ5VhvU1N4RIedD38R6M6QQ
+	1ZatgiV+jxOP2S7YpDWEYl3Kfrn1fuNzEIVrEIcqA10gQgzYdGZbaoWNZoWHkg2XjBHnLG8SQfrWb
+	5bu7CjRw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wdHVL-0000000C2u9-0vax;
-	Sat, 27 Jun 2026 01:06:43 +0000
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
+	id 1wdKTD-0000000C7uK-2CUW;
+	Sat, 27 Jun 2026 04:16:43 +0000
+Received: from mail-ej1-x666.google.com ([2a00:1450:4864:20::666])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wdHVJ-0000000C2tn-28P1
+	id 1wdKT9-0000000C7th-2mCZ
 	for linux-nvme@lists.infradead.org;
-	Sat, 27 Jun 2026 01:06:42 +0000
-Received: by mail-pj1-x1030.google.com with SMTP id 98e67ed59e1d1-37d46e0d246so778759a91.2
-        for <linux-nvme@lists.infradead.org>; Fri, 26 Jun 2026 18:06:40 -0700 (PDT)
+	Sat, 27 Jun 2026 04:16:41 +0000
+Received: by mail-ej1-x666.google.com with SMTP id a640c23a62f3a-c07c67ad9f2so194879266b.0
+        for <linux-nvme@lists.infradead.org>; Fri, 26 Jun 2026 21:16:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782522400; x=1783127200; darn=lists.infradead.org;
+        d=purestorage.com; s=google2022; t=1782533797; x=1783138597; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=z/CmrupfxEbqvdymOr0KYrLCg1DOvL9/cDXxDowDgHc=;
-        b=otBwXOVTUN4QIaz2RBebfq7EOlgr/dqvatlWsgDGew3C+lul3or7Ld7AWM+ASvGCy+
-         mDzaWM5x1RcB2gvqLtjkd5RuEgd8hBgSqoxFuaWB9qOCgniB6mi2A71DkzSZVSDSq7bw
-         kieSPI8xncOXB8PRvySrZHnGzzy6hVIo8x7tJvOFRClV5Wd6mQKGyKSVPwg0yQ3lHk2E
-         zduqYCk2yF5fpjF9S1AvTnuSVkjhYRmXbUJAC0Du4l6umf1iFYi8w/BbWtN0ekKJgxYT
-         UOL4V7mr27SalMjMo2s4zJtZPtKjT+JTl/6HLAOtvQvdSiqViiVzQ9BcNZ2l7EJNFAPn
-         fKHg==
+        bh=W3BlDeepFbwZ4oE1Vsnyo+V98vHfS2bZA1E4/dojlN4=;
+        b=NeMyIEJrcQcNpiHXfNnlWs9BcU4jL7/Cvwqi0bzvpA8pD53eIdUHXtbLHgi1TZJVYm
+         XCcWrPbcHfsMWK+9/sBYq6YYQn1RWiE3FP3YM0RsxjBLKbM6/CtHTt1DIdV14Wp0Ed2x
+         WdUc8DnWgHCZ3YSbl/IURAHMD9Pj0z1114CdbdiCCb8meoYcw/Nwy29gBAlJVxxq56Yz
+         UNzvr8SY1SrGaCxktu1xtXRIL6h2CWACc51BhWmwoRFM1JHZ2Z1Buzq6GV+vXxoAKGUq
+         QknTSya6qFnqYkV2i0s1ojCGLtzRc5igXQeIP/iUzMR6T4/yHGvsUTKBY6pOxpbirOO7
+         lmYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782522400; x=1783127200;
+        d=1e100.net; s=20251104; t=1782533797; x=1783138597;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=z/CmrupfxEbqvdymOr0KYrLCg1DOvL9/cDXxDowDgHc=;
-        b=qJqvM5ICE5aze6ntHN/yI2I79RYgcS7Ni5EZoCJWGQ+wdvfG/JtMNu9vPlOTdcc5eR
-         ufco/8QUgfeyVBbQUHHDuWuakcJR6rLj2IGDyC4ye+pT49Mi5bMU0oZBjCXEdGB3CLfl
-         MSxjDOcvODwz2eWMy7wMOI0SPNqhriiRgj8oSU9wOba//8AaGh5/ig3bxgTGiM/QiPe2
-         fl8xnuUOACFB8TQx0+0gk9smlNWFxY+FLJ7qkagRfaDzv7luO0P/de7l77af2Oq+6anf
-         I76/+fQKA6nHABwRa167HufSSZxk1Kj94osLWxbCE4Tm2wW6lTx6fdu1kxZLc0ouUUoj
-         T0pA==
-X-Gm-Message-State: AOJu0YydDzXTorgEBn4/A8DjrWKA1Wao2Czg0gsfd9G+GrsHjHkPjfTP
-	5NrQ9Y/WZLrfvY3OStkfuXKNQi6rsgGvnbucDE89MwqQggn35Y1EzLI3
-X-Gm-Gg: AfdE7cncymvcnc0w+QFA2iU2QH+9B8RDdJlGcZb5PTXkfPYACC1ur1ABUMv+1KU9IJg
-	ETCiIa2RBTN3pPqGKD/WLB48fYIw+lQzt032sOaoTMCi9zp9iJtpCZwniKhzYq7x7eh7/u4kAU7
-	MT4/4JRH0gbxgK0wKtqiramdtiqbAMQZZVUhNxI9WHzGT4SQRf0+9fFxLrxcFXWgUHVhPVRtyah
-	1WF/I9zUXWL1C3vD6U0YJYlGf1IVJbb+0yybH+auJRJ78SNi0MjBppehbXqlPFo5Fp4IDa2hqpX
-	mC1Dsw4Vg+6J8Ldz3T/31f7qUU7bDDP75Idg4ylPG6mAn9UDbPSVnlazKZmyOuuuSo5DN2pAZtN
-	xgV5ESsAZya7q9ZifChke9yyhzDg9ZVy+dlIoIgiDLIpYDfRSrZvO4hC24wwkPjOA1Kd6lcr7XY
-	mUCXC38NqTVl5C+YU=
-X-Received: by 2002:a17:90b:270b:b0:37d:edb2:830d with SMTP id 98e67ed59e1d1-37dfa1f3e14mr7957053a91.9.1782522400035;
-        Fri, 26 Jun 2026 18:06:40 -0700 (PDT)
-Received: from n232-175-066.byted.org ([240e:83:200::354])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c7f63b27dasm48028825ad.45.2026.06.26.18.06.37
+        bh=W3BlDeepFbwZ4oE1Vsnyo+V98vHfS2bZA1E4/dojlN4=;
+        b=BSk9mjG0EP++0L0TdCTKYta+qWaZg33vLbMwJL+QDs3Panky138m5fr3o9ItK0ggZS
+         Z6Vgk6cUhAeLw3JukMC1zi2gTcCRobV4NahPy0ofgNeGGUyI3LkCHMxE2kfug45TX00K
+         suO3stCJ+AD8nf1Xdpj9TvNz/j5ibf2Zi0Rn6J+37bmWXVr+bBu3QZcPJp49716C97/l
+         CjTzJ/IGivRck+97o9AMtEqf4mkK7GNGpm3RrKRa+Mrws0NONH0RWmh3dVlMY1vKDONL
+         9SsJLLOBQ4WhoaaszjCmgcOMtGvA+IsRqsqC7uZMHpuUlhUAWiNSkz251ZQLbUmpqQvj
+         soJw==
+X-Gm-Message-State: AOJu0YyysgNUllqbC+l6q7ST0IC/UGv1sUrGeXdvNfGUNOfdqJU/Rg2a
+	vOVjFPfJuLxSiJ+dda8DcRh4SGMZoUt+EUKKhQJ/ODwyV2Offw0bNDUJTZg188z1elXhHfYyCik
+	5AfSGxfZOgb8VHFsULaVebHPHq9FAjdFKZT/2KOsA05Dk9lrpNIoL
+X-Gm-Gg: AfdE7clPHJpOC/QXq1HJYUbl27X3XhniVGPaKvjy14WZNg5acKUSUjh/nv0G07B9DMd
+	lAr2Ov49amMe4ai48wTsfVhEhhaUeQE02xQY7JQi1viWUVCFXaMISEfZetAZBZ+Zu45+nap8RCE
+	jc2OVA94zDhIjeTfnDIKhulvHsmPNaAtxmF423gpBo+Nz95vjEssdq79/4nC5yZbUpOcZdhOBxl
+	prFD/8zzvBPtbfUFnhRCYQ9belbZ5qw7Mfch8GAza0LBFSR13S2dBbySYYsh4O2EPiNteo6ruU6
+	2z4IJ21MHgyLcn+/FkdatVsPc0rGR+WYWER5gXIM7Vu5fWLao4B9V9mX4KxU+UpD0WC/YkLCuxt
+	7rUXjfuEU9JLBJsgGbJ8gQZtfdUs=
+X-Received: by 2002:a17:907:d30c:b0:c0f:bf3b:1793 with SMTP id a640c23a62f3a-c120446a4camr569437966b.21.1782533797198;
+        Fri, 26 Jun 2026 21:16:37 -0700 (PDT)
+Received: from c7-smtp-2026.dev.purestorage.com ([2620:125:9017:12:36:3:6:0])
+        by smtp-relay.gmail.com with ESMTPS id a640c23a62f3a-c1230ac0218sm13606566b.35.2026.06.26.21.16.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jun 2026 18:06:39 -0700 (PDT)
-From: guzebing <guzebing1612@gmail.com>
-To: kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me
+        Fri, 26 Jun 2026 21:16:37 -0700 (PDT)
+X-Relaying-Domain: purestorage.com
+Received: from dev-sgogte.dev.purestorage.com (bond0.slc5-n22m24-k8s.dev.purestorage.com [IPv6:2620:125:9025:20::a31:429])
+	by c7-smtp-2026.dev.purestorage.com (Postfix) with ESMTP id 17A9540146;
+	Fri, 26 Jun 2026 22:16:35 -0600 (MDT)
+Received: by dev-sgogte.dev.purestorage.com (Postfix, from userid 1557734945)
+	id 11F2551219; Fri, 26 Jun 2026 22:16:35 -0600 (MDT)
+From: Surabhi Gogte <sgogte@purestorage.com>
+To: Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Sagi Grimberg <sagi@grimberg.me>
 Cc: linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	Guzebing <guzebing@bytedance.com>
-Subject: [PATCH] nvme: make firmware activation poll interval configurable
-Date: Sat, 27 Jun 2026 09:06:10 +0800
-Message-Id: <20260627010610.47768-1-guzebing1612@gmail.com>
-X-Mailer: git-send-email 2.20.1
+	mkhalfella@purestorage.com,
+	randyj@purestorage.com,
+	adailey@purestorage.com,
+	Surabhi Gogte <sgogte@purestorage.com>
+Subject: [PATCH v4 0/2] nvme-rdma: parallelize I/O queue setup
+Date: Fri, 26 Jun 2026 22:15:49 -0600
+Message-ID: <20260627041551.1981256-1-sgogte@purestorage.com>
+X-Mailer: git-send-email 2.54.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260626_180641_601623_49BA7D5A 
-X-CRM114-Status: GOOD (  12.94  )
+X-CRM114-CacheID: sfid-20260626_211639_890093_1B03A0BF 
+X-CRM114-Status: GOOD (  11.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,95 +107,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Guzebing <guzebing@bytedance.com>
+This patch series parallelizes nvme-rdma connection and reconnection by
+setting up I/O queues in parallel instead of sequentially. Allocation and
+startup of each queue are combined into a single per-queue async work
+item, so per-queue connection latency overlaps across all queues. This
+matters most on high-core-count hosts with many I/O queues, where serial
+setup dominates connect time.
 
-nvme_fw_act_work() polls the controller processing-paused status every
-100 ms while firmware activation is pending. Some devices can complete
-online activation in only a few hundred milliseconds, so the fixed
-interval can add noticeable latency before the driver observes
-completion.
+Patch 1 is a preparatory refactor: nvme_rdma_alloc_queue() takes a queue
+pointer so allocation and startup can be folded into a single async
+worker.
 
-Add an nvme_core.fw_act_poll_interval_ms module parameter to make the
-poll interval tunable. Keep the default at 100 ms to preserve existing
-behavior, and accept values from 10 ms to 100 ms so systems that need
-faster completion detection can opt in to a shorter interval.
+Patch 2 contains the implementation for async setup of I/O queues.
 
-Signed-off-by: Guzebing <guzebing@bytedance.com>
+Testing on a 64-core host with 64 I/O queues shows nvme-rdma connection
+time reduced from ~1.4s to 416ms.
+
+Signed-off-by: Surabhi Gogte <sgogte@purestorage.com>
 ---
-We recently observed this issue while performing online firmware
-updates for Gen5 NVMe SSDs in a production environment.
+Changes from v3->v4:
+- Fixed formatting.
+- Replaced kmalloc_array with kmalloc_objs.
 
-During firmware activation, the kernel quiesces I/O. Detecting the end
-of firmware activation earlier lets the driver unquiesce I/O earlier,
-which is important for the long-tail I/O latency of production
-workloads.
+Changes from v2->v3:
+- Split the series into two patches: extract the nvme_rdma_alloc_queue()
+  refactor into a separate preparatory patch.
+- Replace the atomic error flag in struct nvme_rdma_ctrl with a per-work
+  nvme_rdma_setup_ctx { queue, err } struct.
+- Fix formatting changes regarding line overflow indentation and nesting.
 
-Operation steps:
-  nvme fw-download /dev/nvme13n1 \
-    -f ./Inventec_G238B_NVME_LDD5902Q_MZWL61T9HFLT-00B07.bin
-  nvme fw-commit /dev/nvme13n1 -s 0 -a 3
-  nvme fw-log /dev/nvme13n1
+Changes from v1->v2:
+- Remove separate workqueue and use the async API instead.
 
-Operation device:
-  Samsung PM9D3a Gen5 NVMe SSD, model MZWL67T6HBLC-00B07
-  Firmware update: LDD5702Q -> LDD5902Q
+Previous versions:
+v1: https://lore.kernel.org/all/20260529001354.1003640-1-sgogte@purestorage.com/
+v2: https://lore.kernel.org/all/20260604195321.2232838-1-sgogte@purestorage.com/
+v3: https://lore.kernel.org/all/20260625212722.1302344-1-sgogte@purestorage.com/
 
-Operation results:
-  100 ms polling interval: 3 polls, 311 ms
-   10 ms polling interval: 24 polls, 266 ms
+Surabhi Gogte (2):
+  nvme-rdma: refactor nvme_rdma_alloc_queue() to take a queue pointer
+  nvme-rdma: parallelize I/O queue allocation and startup
 
- drivers/nvme/host/core.c | 24 +++++++++++++++++++++++-
- 1 file changed, 23 insertions(+), 1 deletion(-)
+ drivers/nvme/host/rdma.c | 136 ++++++++++++++++++++++++---------------
+ 1 file changed, 83 insertions(+), 53 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 3b7a8f7a35426..784da06fee559 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -58,6 +58,21 @@ module_param_named(io_timeout, nvme_io_timeout, uint, 0644);
- MODULE_PARM_DESC(io_timeout, "timeout in seconds for I/O");
- EXPORT_SYMBOL_GPL(nvme_io_timeout);
- 
-+#define NVME_FW_ACT_POLL_INTERVAL_MIN_MS	10
-+#define NVME_FW_ACT_POLL_INTERVAL_MAX_MS	100
-+static int fw_act_poll_interval_ms_set(const char *val,
-+				       const struct kernel_param *kp);
-+static const struct kernel_param_ops fw_act_poll_interval_ms_ops = {
-+	.set = fw_act_poll_interval_ms_set,
-+	.get = param_get_uint,
-+};
-+
-+static unsigned int fw_act_poll_interval_ms = 100;
-+module_param_cb(fw_act_poll_interval_ms, &fw_act_poll_interval_ms_ops,
-+		&fw_act_poll_interval_ms, 0644);
-+MODULE_PARM_DESC(fw_act_poll_interval_ms,
-+		 "firmware activation polling interval in ms (10-100)");
-+
- static unsigned char shutdown_timeout = 5;
- module_param(shutdown_timeout, byte, 0644);
- MODULE_PARM_DESC(shutdown_timeout, "timeout in seconds for controller shutdown");
-@@ -106,6 +121,13 @@ module_param(disable_pi_offsets, bool, 0444);
- MODULE_PARM_DESC(disable_pi_offsets,
- 	"disable protection information if it has an offset");
- 
-+static int fw_act_poll_interval_ms_set(const char *val,
-+				       const struct kernel_param *kp)
-+{
-+	return param_set_uint_minmax(val, kp, NVME_FW_ACT_POLL_INTERVAL_MIN_MS,
-+				     NVME_FW_ACT_POLL_INTERVAL_MAX_MS);
-+}
-+
- /*
-  * nvme_wq - hosts nvme related works that are not reset or delete
-  * nvme_reset_wq - hosts nvme reset works
-@@ -4798,7 +4820,7 @@ static void nvme_fw_act_work(struct work_struct *work)
- 			nvme_try_sched_reset(ctrl);
- 			return;
- 		}
--		msleep(100);
-+		msleep(READ_ONCE(fw_act_poll_interval_ms));
- 	}
- 
- 	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_CONNECTING) ||
 -- 
-2.20.1
+2.54.0
+
 
