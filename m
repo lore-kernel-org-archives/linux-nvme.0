@@ -4,105 +4,98 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0D15BC43458
-	for <linux-nvme@archiver.kernel.org>; Sat, 27 Jun 2026 04:27:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 76E60C43327
+	for <linux-nvme@archiver.kernel.org>; Sat, 27 Jun 2026 05:42:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=PVUT9pVKYl5aTfseZ4Q9L9bZE13G3ny4RYRZZRP5PHw=; b=Z43+ChNUx2o4+MkOdQzcBoMGnv
-	PPWzuSpP59g4sW4yd5Q4dqUbCZJEXRxTnrdiwvGehpc/0dCr+NB3PnF++mag3P58HdQEYEOTKkMCv
-	2/5uKr68bODNnQkBN8L0uUaeufuIcLyYIhsR1s85fH/LAzoz53KwAgUOkqoVbPFCZuajf5ye1j+vS
-	JQI/v/okA8rRHxlkjV1d3C9ZPKJq1f0fJHMPyUM8WPyC+1Zj+1HR/adIQ/FgJ4QgeRrOpaKXFJqo2
-	epFn1SCeBJTtQwwvM/xxaaEszdWvN9fnFeWaJFey0H7v9suBtEU90lZep2z3alWwxn/XwR7hrMvGB
-	Kf6Ug0KA==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=LBI2TZBBdvnIGwxDwxfcA0X2DAXeqtxaRyAM5YR83X8=; b=GVEkwk7dHJZeDH7beDgIruwX4Y
+	XyFslX/VNFiVj5i6vASmFReuBRQmWmA7Z5yi0Xst8wYE6YjB50cOZjGWNhXkxH9Vsu+COX1JC2dUV
+	cx6si6uHti4lEY8pgBTuObdas3bp2Li4vmLEbzZXZ+1mDhZXcr+bljJzNEkEJtVfdwt9n1YhlDb7D
+	c7WVtCqBEB3yK70clN7N+ve4DG6z5qj3E6Jse/QdtdMS8Y4cPt3QNi0Wo/vmNZsMYapovnSsxhEyz
+	lA55w4t0F7Fh2AHwnKTmk6BpDMwDsM81mMEKQhPYzd20IwvF1yx2KF2UlHUpVdQXCREDx5Pv1Sxs3
+	BLZCxS/w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wdKdi-0000000C8VG-3yRo;
-	Sat, 27 Jun 2026 04:27:34 +0000
-Received: from mail-qt1-x82d.google.com ([2607:f8b0:4864:20::82d])
+	id 1wdLoZ-0000000CA5k-24Xv;
+	Sat, 27 Jun 2026 05:42:51 +0000
+Received: from mail-pj1-x1068.google.com ([2607:f8b0:4864:20::1068])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wdKdf-0000000C8Un-3UrK
+	id 1wdLoW-0000000CA4A-1FjH
 	for linux-nvme@lists.infradead.org;
-	Sat, 27 Jun 2026 04:27:33 +0000
-Received: by mail-qt1-x82d.google.com with SMTP id d75a77b69052e-519ff1c8b8bso18009231cf.3
-        for <linux-nvme@lists.infradead.org>; Fri, 26 Jun 2026 21:27:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782534449; cv=none;
-        d=google.com; s=arc-20260327;
-        b=XtiJwYjJxMnA3uFNJ7kuevEBOYMmufhcRtt9rAZqzePSsDrkyimnFBZVKhr/RsaApE
-         XoOiflv3h9vAGOGjI3CMl7C3wW9HUXu3pcqnyMyS0xVuDHSAj31X4pJBEAPvQ7C8/N42
-         U8xFJTl0fE+jaQBcAflSkh0n7FexPYm2MT87QaYl3BUltgj7Z+cJ5vkR/kGc/WAwZp4e
-         DRHvXxbkF7QgPVWz2rKlafB90x9Ll2GccFyJ0Atg0kE5c5RJtgs33aPjjx6qQftlTulZ
-         /1ph7YMek/iv+IsleLsNRglFGwrndSnhuSuR30mWqG3YLB4ifY5Te8h5TdurFVKEQ5T+
-         kSbg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=PVUT9pVKYl5aTfseZ4Q9L9bZE13G3ny4RYRZZRP5PHw=;
-        fh=n1C4m2FPer5EvtDyPPZmCbRzdrtvMV+7gccgnB4U9Kg=;
-        b=Sbs9uIbBFX0YBenJgyEWnNyB0StMOpCUMoVK9avAB4m9tkOtOYOKD/fg+ftaifDJSJ
-         4pelqbdNFMW+V+eFZPrrXpKLWVggF9JaL6OLPzKvpmmOO1mbxGzyBfZSMplYAVDyeB6C
-         iNknbCGtGJMlw2hxI4ydC5h9v/kOkDdkyRULxVFmz6DwhcNZgUdAMhMu4j81WMoERBDH
-         GT+RZKJLhSwqu0Jx6VK18p0Xery+ObYCmGOX9p0JlPgLf+bOT1jQFCDi/531BEZvj/Aj
-         gGWNcnIkp2UnIoMx4650inkUSHErpXc8afO8BvOvenveWaoBp8OagFKzfQTXlLvl/8rg
-         Y4+w==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	Sat, 27 Jun 2026 05:42:50 +0000
+Received: by mail-pj1-x1068.google.com with SMTP id 98e67ed59e1d1-37f9e2642deso58826a91.1
+        for <linux-nvme@lists.infradead.org>; Fri, 26 Jun 2026 22:42:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1782534449; x=1783139249; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PVUT9pVKYl5aTfseZ4Q9L9bZE13G3ny4RYRZZRP5PHw=;
-        b=KM7BfxwZP+k5tUtD35MOlciGfYapbMcoDPj5V7jOIY4musiVLoUQrrQRZW2SObhMt8
-         EeKWMQW3CuUL/11erxQIfdYWi6Fiv/MERuJ4zHtIvzLSm/tCeeHNBo9o6IkgsGLiu0gf
-         3tCpfdUEBF+WtUaZ7BEwhbtUS/mky3YieGkoBUQy0vAMJ7dEwxOur4fEYsC9Sj3GYUis
-         xjcCaR+u9Dod05Dm7T+k1y4LWfsvIaxxschALEV8XS+cRaYP0fM8QROQbvx2vVu9Cz4m
-         J6B98foI30WM9jMWr462QUy2UAxQTiSgQg+LXmphTFDsHH4o0xPwXWh6sDwxF7PUwa2k
-         Jc3A==
+        d=purestorage.com; s=google2022; t=1782538967; x=1783143767; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=LBI2TZBBdvnIGwxDwxfcA0X2DAXeqtxaRyAM5YR83X8=;
+        b=ADlJYCUF7/+RX5B4us+lzxtEQqpMqgs3z5GjC6oZepgDgw8ozc4nM8ldE8z2Y68aly
+         9rPKt6YzVdbf+KUXzsisA6WYv0JwxGwyeuRDMF8P/D7h8erEBiPWAaJL69dVUkDDmEtP
+         DEjdphg4cIKtPoyW6kYEuaUnf1Merwy0ZZthUDWKbgpPjJ2XeS0iBC67HD9vUQ0QgM+b
+         9HdrMsbetbvl6EmnR9/n07I1uwVXvJn2hzWhhY7whrVYX2kD70FfBvS8XAZ2FFBgDrpF
+         mGoN2dTUEf0nilMRVuQrPU2TE/MBCaE7yKGQgrGc3sUwgDDf5FLA+4O+o3aIJtmHFLf/
+         oHWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782534449; x=1783139249;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=PVUT9pVKYl5aTfseZ4Q9L9bZE13G3ny4RYRZZRP5PHw=;
-        b=bU7fl/dKKVTgMHg80KouIbsCja+XX+c8Vya4Ct5wgsz2jfxpwSUkB8+nzkSVeFyGcm
-         ERh7sGazi5mJygAZ8Z4uWXFIgP6tVvIzzJkUEoAATGO55mliFCtnjVcTGlF6Z2jZoZDR
-         xGXqHt+4ODuhMGhZZltmnYrGC2OTUhRNav1itljnj7Y3sa5CCsujFRlTpoWtCRyYFdfk
-         Qx4RYHdLnBkBIqfV6b3NhU+5N9cnpTbClOVufmXqiWw9G9hWRXTw1kSgCKh/RheuwavR
-         pGTz11K8ID1ReGih8/LxhLG9KYgVkzGGg9w8f+AwnDfWpFdisOHPql/KGNoC/5jfZ2+a
-         6kdw==
-X-Forwarded-Encrypted: i=1; AFNElJ9hga3abi1yZ2dN/wNykscYZwT/09Li7vhvIFHyLGa+r167F0MdM04FSEdTPLWWWr/BvwOZPIAg6oBD@lists.infradead.org
-X-Gm-Message-State: AOJu0Yzu0k1uuE3hiYsquwxr34XNwFsh/5tHrqaEkrwWM/NEQ5r4VctQ
-	M2ugEHCEtj4j0tJh3lUril5alQdacXxllM7cQ4Gb6RJFUDk7jpIDxUoZh4EXU/ggqv285yo4Nbt
-	B44oM0zCBL1XIYMLq81+6HmivSHdb0T+i6seOLZQrVlzpLzIunbfRL1I=
-X-Gm-Gg: AfdE7cl09XOOgMgVyo6DkA786oDDA3CAW1DTZoTaLErh6TLrNImWfJzZ+wB03LbeKO0
-	cMIfDCO8o4RLTFjdoq1iSZ7/cokb5h4koF/0L4V318moN19v7sFn2VHHc1DeGssrw6V51vpd75z
-	HpvxoQn1esloq7GA1zHRvK9hpwDAGJVlj/cbIIwUlE3JWeuUXadoiBqbeksLgY/J/khNRBj1wOL
-	3fhugmsuRfoY76YfPlH17B+cQ0yHxHF05veXacGtTiKCKJ3xgoQNQNfJqByu6bmw1wXADbw
-X-Received: by 2002:ac8:7d81:0:b0:51a:8f63:9e18 with SMTP id
- d75a77b69052e-51a8f63a7eamr25685661cf.33.1782534449087; Fri, 26 Jun 2026
- 21:27:29 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1782538967; x=1783143767;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=LBI2TZBBdvnIGwxDwxfcA0X2DAXeqtxaRyAM5YR83X8=;
+        b=pgmDoHG5Ec7OOAaJeMCQDJBfRJP1WEU83+zs5/skqxIYtmRcNttt8h2y/Mu/ZJGI0C
+         vnNb59SiqtHo6cPWoDbdvEAHkl7Ekd443Gt4mum532XkjWd2fk5+g9Ke59utvce8WtmN
+         V3PurrZEflYdmC3wN62mizbV0hrKUBKgkr3hAyXTE6mn5JYjitL9dIfhvzmZN/qn9sXx
+         y9WE9rI3NGEVMCa38ldydpn2w3LZG/oWQ2A26flhL2/O+X4bYs7uR90xk1XwORD5qiz/
+         3FIGAZCJNB+Q/xej6fg5bYe8sCAXnP2aIxBDFdYRw8QNLBIX+o0ZbpgNHHUvgJuaGpvA
+         EKLQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rp+vrvq/v+NXoPevDgAHXI7zuN9EzHHngCHHHlcdJo/F+2xJgrHOsx9TlWoeHlTJ4zJGToweIXVhwAg@lists.infradead.org
+X-Gm-Message-State: AOJu0Yw2llfjIb77auo+JVQddiSnVVv4xy8MomWuCoqokUCO3Z8NPfEs
+	yxeM1yKpwA/ZyYAGC2qTcuShy5qkus1UNcAwrV57JUGybKXch5Tyv+rCsiOa1lUTbSJaXcTXhkS
+	/xa+grllffocO/XfK6xsgYVu2oz6g3w2wjiWdbNGj9uP1hP8Zhtu7
+X-Gm-Gg: AfdE7cntEobf3yNZNxGM2SGErx7IggaSkdaAd0hkMTiumuZyhvOU4sX8jV44LDGRdXx
+	1fk/t+7UnXIv9L/Ni91NQHj3j4gzFPBrkTwo/fRfxeyEyBx5w+t5wL+fN8qV0awsRWS63UqmBtr
+	LIk/8wVOKzJe//oOb3wgvDURpBJOlXpI/1MZ3KbqMm0rNrQ4/+fW+6a1xTL93zsIvL4JrvB3EQp
+	ZL70fdazr3zJF6CP9QNnHvt7ii/KdvpliRQEfwMbi4N8YUD2EolIHTxn4l37pkyHaysDY/XGctQ
+	jU0D73B3UqYwEA1GGlrN0z3sKgQWNmmlLf8lMjb/VhAuPL/vep+wQeZDMm2zAmfJRQKCoJW4tS2
+	E0aB5njFpQ6Lct0TTKMkLuf+o4O4X
+X-Received: by 2002:a17:90b:5207:b0:364:be8f:1d86 with SMTP id 98e67ed59e1d1-37dfa223d7dmr4789320a91.8.1782538966692;
+        Fri, 26 Jun 2026 22:42:46 -0700 (PDT)
+Received: from c7-smtp-2026.dev.purestorage.com ([2620:125:9017:12:36:3:6:0])
+        by smtp-relay.gmail.com with ESMTPS id 98e67ed59e1d1-37fb11c60c1sm166693a91.3.2026.06.26.22.42.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Jun 2026 22:42:46 -0700 (PDT)
+X-Relaying-Domain: purestorage.com
+Received: from dev-csander.dev.purestorage.com (bond0.slc5-n17m28-k8s.dev.purestorage.com [IPv6:2620:125:9025:20::a31:41f])
+	by c7-smtp-2026.dev.purestorage.com (Postfix) with ESMTP id 0809840146;
+	Fri, 26 Jun 2026 23:42:46 -0600 (MDT)
+Received: by dev-csander.dev.purestorage.com (Postfix, from userid 1557716354)
+	id F351FE40712; Fri, 26 Jun 2026 23:42:45 -0600 (MDT)
+From: Caleb Sander Mateos <csander@purestorage.com>
+To: Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: Anuj Gupta <anuj20.g@samsung.com>,
+	linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org,
+	target-devel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Caleb Sander Mateos <csander@purestorage.com>
+Subject: [PATCH v4 0/5] block: use integrity interval instead of sector as seed
+Date: Fri, 26 Jun 2026 23:42:15 -0600
+Message-ID: <20260627054220.2174166-1-csander@purestorage.com>
+X-Mailer: git-send-email 2.54.0
 MIME-Version: 1.0
-References: <20260625212722.1302344-1-sgogte@purestorage.com>
- <20260625212722.1302344-3-sgogte@purestorage.com> <20260626074004.GB12072@lst.de>
-In-Reply-To: <20260626074004.GB12072@lst.de>
-From: "Surabhi Gogte (she/her)" <sgogte@purestorage.com>
-Date: Fri, 26 Jun 2026 21:26:53 -0700
-X-Gm-Features: AVVi8CdatJc8oCtpt9Lu4K3xJytFDiv8BvMb2K2B6dC9vDi5AmNL0O7HVp6C39U
-Message-ID: <CAMof9cWSDR=z-0ziBj0OV7S95H+uhHX23PMOK65LHNPhFaso3g@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] nvme-rdma: parallelize I/O queue allocation and startup
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>, 
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	mkhalfella@purestorage.com, randyj@purestorage.com, adailey@purestorage.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260626_212731_883220_24A97F31 
-X-CRM114-Status: GOOD (  19.50  )
+X-CRM114-CacheID: sfid-20260626_224248_523780_25F4C8AD 
+X-CRM114-Status: GOOD (  10.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -117,57 +110,55 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jun 26, 2026 at 12:40=E2=80=AFAM Christoph Hellwig <hch@lst.de> wro=
-te:
->
-> On Thu, Jun 25, 2026 at 03:27:22PM -0600, Surabhi Gogte wrote:
-> > -static int nvme_rdma_alloc_io_queues(struct nvme_rdma_ctrl *ctrl)
-> > +static int nvme_rdma_setup_io_queues(struct nvme_rdma_ctrl *ctrl, unsi=
-gned int first,
->
-> Overly long line.
->
-Yes. My bad, checkpatch didn't catch it. Fixed in v4.
+The block integrity layer currently sets the integrity seed (initial
+reference tag) in units of 512-byte sectors. However, Type 1 and Type 2
+ref tags are actually in units of integrity intervals. On devices with
+integrity interval size > 512 bytes, ref tags are seeded incorrectly.
 
-> > +             unsigned int last, size_t queue_size)
-> >  {
-> > +     ASYNC_DOMAIN_EXCLUSIVE(queue_domain);
-> > +     struct nvme_rdma_setup_ctx *ctxs;
-> > +     int nr_queues =3D last - first;
-> > +     int err =3D 0, i, ret;
-> >
-> > +     ctxs =3D kmalloc_array(nr_queues, sizeof(*ctxs), GFP_KERNEL);
->
-> This should use kmalloc_objs in the brave new world.
->
-Done.
+Ref tag "remapping" in blk_integrity_{prepare,complete}() covers up this
+ref tag seed discrepancy by offsetting all ref tags in each bio to
+convert to/from the absolute integrity interval numbers. But
+REQ_OP_ZONE_APPEND operations don't have their ref tags remapped, so the
+ref tags using units of sectors will be stored to the device. As future
+optimizations, the ref tag remapping could be avoided entirely on NVMe
+and some SCSI devices by passing the ref tag seed instead of the
+absolute integrity interval as the expected initial ref tag.
 
-> > +     if (!ctxs)
-> >               return -ENOMEM;
-> >
-> > +     for (i =3D 0; i < nr_queues; i++) {
-> > +             struct nvme_rdma_queue *queue =3D &ctrl->queues[first + i=
-];
-> > +
-> > +             queue->ctrl =3D ctrl;
-> > +             queue->queue_size =3D queue_size;
-> > +
-> > +             ctxs[i].queue =3D queue;
-> > +             ctxs[i].err =3D &err;
-> > +             async_schedule_domain(nvme_rdma_setup_queue_async, &ctxs[=
-i],
-> > +                             &queue_domain);
-> >       }
-> >
-> > +     async_synchronize_full_domain(&queue_domain);
-> > +     kfree(ctxs);
->
-> It would nice if the async domain had a way to do the error propagation.
-> Well, that would be a nice follow on if you're interested.
->
-> Talking about follow ons:  do you plan to do a similar change
-> to nvme-tcp?  It would be great to keep the setup path for
-> both in sync.
->
-Yeah, there are plans to expand this to nvme-tcp as well.
+So avoid relying on remapping to convert between the ref tag seed in
+units of sectors and stored ref tags in units of integrity intervals.
+Initialize the ref tag seed as the integrity interval, not sector.
+
+The subsequent commits clean up the integrity ref tag seed code a bit.
+
+v4:
+- Drop patch already applied
+
+v3: https://lore.kernel.org/linux-block/20260417015732.2692434-1-csander@purestorage.com/T/
+- Drop bi and bip arguments to bip_set_seed() (Christoph)
+
+v2:
+- Reorder fixes before refactoring commits
+- Use u64, SECTOR_SHIFT (Christoph)
+- Don't take sector_t in bip_set_seed() (Christoph)
+
+Caleb Sander Mateos (5):
+  block: use integrity interval instead of sector as seed
+  blk-integrity: take u64 in bio_integrity_intervals()
+  bio-integrity-fs: use integrity interval instead of sector as seed
+  t10-pi: use bio_integrity_intervals() helper
+  blk-integrity: avoid sector_t in bip_{get,set}_seed()
+
+ block/bio-integrity-fs.c            |  2 +-
+ block/bio-integrity.c               |  4 ++--
+ block/t10-pi.c                      |  7 ++++---
+ drivers/nvme/target/io-cmd-bdev.c   |  3 +--
+ drivers/target/target_core_iblock.c |  3 +--
+ include/linux/bio-integrity.h       | 11 -----------
+ include/linux/blk-integrity.h       | 27 ++++++++++++++++++++-------
+ include/linux/bvec.h                |  1 +
+ 8 files changed, 30 insertions(+), 28 deletions(-)
+
+-- 
+2.54.0
+
 
