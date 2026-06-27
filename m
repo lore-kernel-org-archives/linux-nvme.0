@@ -4,98 +4,105 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 283B6C43327
-	for <linux-nvme@archiver.kernel.org>; Sat, 27 Jun 2026 04:17:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0D15BC43458
+	for <linux-nvme@archiver.kernel.org>; Sat, 27 Jun 2026 04:27:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=PaVrMx15yJC3UQAct8EhgWFhwmFAMOShPun1TdcWdQM=; b=cBUb65DUZ4S5dLcCnJRxK9Fhz6
-	GFSGqMW5llJVSRAd8xU2ZWLlHj5sxU2lvg5j1mg6OcEa3Mno8gRiEgKXQ1xNZXHML2EtMEc+s5T5X
-	ADWKer9J32Q5lWcPUE5vh2RMifnegB2fVDkdsSVhABUV0xDt+YuMAgyvt3xRQZ0yzjsFU1Wh8SgXk
-	5kl19xG4M+pxF6iQRzK5q/jxVW4YBX7XMY/AIFuS4vDxRjwHCB9YUWsHPaRGErr7t3Eb4bqA5MIZO
-	JQZVmoEp0ZI41TdmmRb+i0DXUf10Z/FQqcyR6Y/AXfANL3wxghcJ7PNH9KDUEB/A85rcNZmhc1PYY
-	4DEts5oQ==;
+	bh=PVUT9pVKYl5aTfseZ4Q9L9bZE13G3ny4RYRZZRP5PHw=; b=Z43+ChNUx2o4+MkOdQzcBoMGnv
+	PPWzuSpP59g4sW4yd5Q4dqUbCZJEXRxTnrdiwvGehpc/0dCr+NB3PnF++mag3P58HdQEYEOTKkMCv
+	2/5uKr68bODNnQkBN8L0uUaeufuIcLyYIhsR1s85fH/LAzoz53KwAgUOkqoVbPFCZuajf5ye1j+vS
+	JQI/v/okA8rRHxlkjV1d3C9ZPKJq1f0fJHMPyUM8WPyC+1Zj+1HR/adIQ/FgJ4QgeRrOpaKXFJqo2
+	epFn1SCeBJTtQwwvM/xxaaEszdWvN9fnFeWaJFey0H7v9suBtEU90lZep2z3alWwxn/XwR7hrMvGB
+	Kf6Ug0KA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wdKTU-0000000C7y3-3UWT;
-	Sat, 27 Jun 2026 04:17:00 +0000
-Received: from mail-dy1-x1361.google.com ([2607:f8b0:4864:20::1361])
+	id 1wdKdi-0000000C8VG-3yRo;
+	Sat, 27 Jun 2026 04:27:34 +0000
+Received: from mail-qt1-x82d.google.com ([2607:f8b0:4864:20::82d])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wdKTS-0000000C7xE-22Fl
+	id 1wdKdf-0000000C8Un-3UrK
 	for linux-nvme@lists.infradead.org;
-	Sat, 27 Jun 2026 04:16:59 +0000
-Received: by mail-dy1-x1361.google.com with SMTP id 5a478bee46e88-30b6dad2382so3367425eec.0
-        for <linux-nvme@lists.infradead.org>; Fri, 26 Jun 2026 21:16:58 -0700 (PDT)
+	Sat, 27 Jun 2026 04:27:33 +0000
+Received: by mail-qt1-x82d.google.com with SMTP id d75a77b69052e-519ff1c8b8bso18009231cf.3
+        for <linux-nvme@lists.infradead.org>; Fri, 26 Jun 2026 21:27:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782534449; cv=none;
+        d=google.com; s=arc-20260327;
+        b=XtiJwYjJxMnA3uFNJ7kuevEBOYMmufhcRtt9rAZqzePSsDrkyimnFBZVKhr/RsaApE
+         XoOiflv3h9vAGOGjI3CMl7C3wW9HUXu3pcqnyMyS0xVuDHSAj31X4pJBEAPvQ7C8/N42
+         U8xFJTl0fE+jaQBcAflSkh0n7FexPYm2MT87QaYl3BUltgj7Z+cJ5vkR/kGc/WAwZp4e
+         DRHvXxbkF7QgPVWz2rKlafB90x9Ll2GccFyJ0Atg0kE5c5RJtgs33aPjjx6qQftlTulZ
+         /1ph7YMek/iv+IsleLsNRglFGwrndSnhuSuR30mWqG3YLB4ifY5Te8h5TdurFVKEQ5T+
+         kSbg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=PVUT9pVKYl5aTfseZ4Q9L9bZE13G3ny4RYRZZRP5PHw=;
+        fh=n1C4m2FPer5EvtDyPPZmCbRzdrtvMV+7gccgnB4U9Kg=;
+        b=Sbs9uIbBFX0YBenJgyEWnNyB0StMOpCUMoVK9avAB4m9tkOtOYOKD/fg+ftaifDJSJ
+         4pelqbdNFMW+V+eFZPrrXpKLWVggF9JaL6OLPzKvpmmOO1mbxGzyBfZSMplYAVDyeB6C
+         iNknbCGtGJMlw2hxI4ydC5h9v/kOkDdkyRULxVFmz6DwhcNZgUdAMhMu4j81WMoERBDH
+         GT+RZKJLhSwqu0Jx6VK18p0Xery+ObYCmGOX9p0JlPgLf+bOT1jQFCDi/531BEZvj/Aj
+         gGWNcnIkp2UnIoMx4650inkUSHErpXc8afO8BvOvenveWaoBp8OagFKzfQTXlLvl/8rg
+         Y4+w==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1782533817; x=1783138617; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=purestorage.com; s=google2022; t=1782534449; x=1783139249; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PaVrMx15yJC3UQAct8EhgWFhwmFAMOShPun1TdcWdQM=;
-        b=b1v/FTpH/G83BDwMX72Lxbd1IF28ss4RDZHBLa1fmBYZQqY2BLsr75xneFNZdUJ+Ew
-         /U8VfhKXK8lsl386HgNhj5mc6ygnmlBugeWXeAseeQUDJWfznx6BmPkMAiL/l8cvfJRP
-         87GnU1JbXUtaicgW71PG5wSmikp/H9p1ucH0oZPoAWx7MOQQ8SNjPuqpzl6t94pTJr4r
-         M3UqkmHKJT0Xvnin3v8GZOj0aFZCyMAq0xQJNLcBY7u0XaO74OJFPc6ExbWSyww8z77D
-         kX2LQTvaxcBGud8vegBDB84KQIayfOlG9NfCwp26AX/A04q/ouvcU4da0/456UGj/Uqe
-         SCLw==
+        bh=PVUT9pVKYl5aTfseZ4Q9L9bZE13G3ny4RYRZZRP5PHw=;
+        b=KM7BfxwZP+k5tUtD35MOlciGfYapbMcoDPj5V7jOIY4musiVLoUQrrQRZW2SObhMt8
+         EeKWMQW3CuUL/11erxQIfdYWi6Fiv/MERuJ4zHtIvzLSm/tCeeHNBo9o6IkgsGLiu0gf
+         3tCpfdUEBF+WtUaZ7BEwhbtUS/mky3YieGkoBUQy0vAMJ7dEwxOur4fEYsC9Sj3GYUis
+         xjcCaR+u9Dod05Dm7T+k1y4LWfsvIaxxschALEV8XS+cRaYP0fM8QROQbvx2vVu9Cz4m
+         J6B98foI30WM9jMWr462QUy2UAxQTiSgQg+LXmphTFDsHH4o0xPwXWh6sDwxF7PUwa2k
+         Jc3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782533817; x=1783138617;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1782534449; x=1783139249;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=PaVrMx15yJC3UQAct8EhgWFhwmFAMOShPun1TdcWdQM=;
-        b=ewYnbVrSY3BvtXAkxiVyVWelHc49Z44YbGLI7ahAakjaLOFsZ9Vq9XO4ZJoB42Zk7r
-         EditvtorLffuYxafZkdaajHNizjOeVpDb/U6XAmUlvztY36oykAWqrXBzPUMEE/ogLso
-         DBsGNd/wSZ99+msP1TKEWnOsiqKkffU5yRPKY/8najwQ9e0YTZpff+/z99sgvr1oDl46
-         oBPlkq7F/MtYO9RF6+EsS484pMXYhHFUT90srQtmzs+qpNs8jbN/rhjG0HOqPV6NbIJN
-         yorttdsHwtSbarAnoQlRxi6H+/KPLoaE7noO1wsqqf89I+g7k1J1lLJcM+tz64Yppas5
-         1hUA==
-X-Gm-Message-State: AOJu0YzONBgg91vePPmPoeYosfOcbOu6ZOSU7JL4ey+9G2rHSH7d5VtQ
-	vf4pmVx/f8O3OrN8sMOK+EAKeEhLrrJdVsCmFAbjIDXH39CF8TwbkZo/s94MsYLUD+mlVhxd1/v
-	FtJWs5aOkOV1Xx5TbaLeBb3Pyce2HcpeWIwdr
-X-Gm-Gg: AfdE7cmHsinLiWysVeXinOjVanWytXj6TBT37R17TG2OihaEEvcUCzv/1zrzpFEba8Z
-	lh5boJKib1v/Ouxy7QALsEcL9b6PSGh/BqvR2xZPjcYypGO3BfA3V0p98IZa0tFTijn7j0T8hN4
-	c6BNkLtmIwLgbILDIm3ZmgG8YwlB9LryT82j7bon7CUGGxChnKas7bCqtsmg6ZBp2tHK4naOZW+
-	JBT7BY0ItH+zY1R+UihaW93vMxwLubR5cvttR8YYG8gUZIAWDfyx6Cp0KtWaDdAUn8SbGXN4Sjq
-	tCxT8ZHLFdrhjZ6YS/gByqyjgaTLgpn8+vC3gMllMS8TlbKT0KkAVp6A2ChyUxpGEktborNNOEt
-	vpweFWb7iaPtfGrSsQlYCMKHxXaW+RDs6OEnuDljSVg==
-X-Received: by 2002:a05:7301:7bc2:b0:30c:ab4d:da43 with SMTP id 5a478bee46e88-30cab4ddbdemr2560368eec.39.1782533817219;
-        Fri, 26 Jun 2026 21:16:57 -0700 (PDT)
-Received: from c7-smtp-2026.dev.purestorage.com ([208.88.159.129])
-        by smtp-relay.gmail.com with ESMTPS id 5a478bee46e88-30c7c443596sm617443eec.4.2026.06.26.21.16.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jun 2026 21:16:57 -0700 (PDT)
-X-Relaying-Domain: purestorage.com
-Received: from dev-sgogte.dev.purestorage.com (bond0.slc5-n22m24-k8s.dev.purestorage.com [IPv6:2620:125:9025:20::a31:429])
-	by c7-smtp-2026.dev.purestorage.com (Postfix) with ESMTP id 4DCD840146;
-	Fri, 26 Jun 2026 22:16:56 -0600 (MDT)
-Received: by dev-sgogte.dev.purestorage.com (Postfix, from userid 1557734945)
-	id 45C8C51219; Fri, 26 Jun 2026 22:16:56 -0600 (MDT)
-From: Surabhi Gogte <sgogte@purestorage.com>
-To: Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	mkhalfella@purestorage.com,
-	randyj@purestorage.com,
-	adailey@purestorage.com,
-	Surabhi Gogte <sgogte@purestorage.com>
-Subject: [PATCH v4 2/2] nvme-rdma: parallelize I/O queue allocation and startup
-Date: Fri, 26 Jun 2026 22:15:51 -0600
-Message-ID: <20260627041551.1981256-3-sgogte@purestorage.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260627041551.1981256-1-sgogte@purestorage.com>
-References: <20260627041551.1981256-1-sgogte@purestorage.com>
+        bh=PVUT9pVKYl5aTfseZ4Q9L9bZE13G3ny4RYRZZRP5PHw=;
+        b=bU7fl/dKKVTgMHg80KouIbsCja+XX+c8Vya4Ct5wgsz2jfxpwSUkB8+nzkSVeFyGcm
+         ERh7sGazi5mJygAZ8Z4uWXFIgP6tVvIzzJkUEoAATGO55mliFCtnjVcTGlF6Z2jZoZDR
+         xGXqHt+4ODuhMGhZZltmnYrGC2OTUhRNav1itljnj7Y3sa5CCsujFRlTpoWtCRyYFdfk
+         Qx4RYHdLnBkBIqfV6b3NhU+5N9cnpTbClOVufmXqiWw9G9hWRXTw1kSgCKh/RheuwavR
+         pGTz11K8ID1ReGih8/LxhLG9KYgVkzGGg9w8f+AwnDfWpFdisOHPql/KGNoC/5jfZ2+a
+         6kdw==
+X-Forwarded-Encrypted: i=1; AFNElJ9hga3abi1yZ2dN/wNykscYZwT/09Li7vhvIFHyLGa+r167F0MdM04FSEdTPLWWWr/BvwOZPIAg6oBD@lists.infradead.org
+X-Gm-Message-State: AOJu0Yzu0k1uuE3hiYsquwxr34XNwFsh/5tHrqaEkrwWM/NEQ5r4VctQ
+	M2ugEHCEtj4j0tJh3lUril5alQdacXxllM7cQ4Gb6RJFUDk7jpIDxUoZh4EXU/ggqv285yo4Nbt
+	B44oM0zCBL1XIYMLq81+6HmivSHdb0T+i6seOLZQrVlzpLzIunbfRL1I=
+X-Gm-Gg: AfdE7cl09XOOgMgVyo6DkA786oDDA3CAW1DTZoTaLErh6TLrNImWfJzZ+wB03LbeKO0
+	cMIfDCO8o4RLTFjdoq1iSZ7/cokb5h4koF/0L4V318moN19v7sFn2VHHc1DeGssrw6V51vpd75z
+	HpvxoQn1esloq7GA1zHRvK9hpwDAGJVlj/cbIIwUlE3JWeuUXadoiBqbeksLgY/J/khNRBj1wOL
+	3fhugmsuRfoY76YfPlH17B+cQ0yHxHF05veXacGtTiKCKJ3xgoQNQNfJqByu6bmw1wXADbw
+X-Received: by 2002:ac8:7d81:0:b0:51a:8f63:9e18 with SMTP id
+ d75a77b69052e-51a8f63a7eamr25685661cf.33.1782534449087; Fri, 26 Jun 2026
+ 21:27:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260625212722.1302344-1-sgogte@purestorage.com>
+ <20260625212722.1302344-3-sgogte@purestorage.com> <20260626074004.GB12072@lst.de>
+In-Reply-To: <20260626074004.GB12072@lst.de>
+From: "Surabhi Gogte (she/her)" <sgogte@purestorage.com>
+Date: Fri, 26 Jun 2026 21:26:53 -0700
+X-Gm-Features: AVVi8CdatJc8oCtpt9Lu4K3xJytFDiv8BvMb2K2B6dC9vDi5AmNL0O7HVp6C39U
+Message-ID: <CAMof9cWSDR=z-0ziBj0OV7S95H+uhHX23PMOK65LHNPhFaso3g@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] nvme-rdma: parallelize I/O queue allocation and startup
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>, 
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	mkhalfella@purestorage.com, randyj@purestorage.com, adailey@purestorage.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260626_211658_530385_A3CD2D76 
-X-CRM114-Status: GOOD (  23.44  )
+X-CRM114-CacheID: sfid-20260626_212731_883220_24A97F31 
+X-CRM114-Status: GOOD (  19.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,221 +117,57 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Refactor nvme rdma I/O queue setup to use async API, combining
-allocation and startup into a single parallel operation per queue. This
-reduces connection and reconnection setup time when there are delays in
-establishing connections, which is especially important for
-high-core-count hosts.
+On Fri, Jun 26, 2026 at 12:40=E2=80=AFAM Christoph Hellwig <hch@lst.de> wro=
+te:
+>
+> On Thu, Jun 25, 2026 at 03:27:22PM -0600, Surabhi Gogte wrote:
+> > -static int nvme_rdma_alloc_io_queues(struct nvme_rdma_ctrl *ctrl)
+> > +static int nvme_rdma_setup_io_queues(struct nvme_rdma_ctrl *ctrl, unsi=
+gned int first,
+>
+> Overly long line.
+>
+Yes. My bad, checkpatch didn't catch it. Fixed in v4.
 
-Key changes:
-- Use async API to facilitate parallel calls for io queue setup.
-- Add nvme_rdma_setup_ctx for propagating errors from async workers.
-- Remove nvme_rdma_alloc_io_queues() and nvme_rdma_start_io_queues();
-  their logic is folded into nvme_rdma_setup_io_queues() and
-  nvme_rdma_configure_io_queues().
-- Move queue count negotiation (nvme_set_queue_count,
-  nvmf_set_io_queues) from the removed nvme_rdma_alloc_io_queues()
-  into nvme_rdma_configure_io_queues().
+> > +             unsigned int last, size_t queue_size)
+> >  {
+> > +     ASYNC_DOMAIN_EXCLUSIVE(queue_domain);
+> > +     struct nvme_rdma_setup_ctx *ctxs;
+> > +     int nr_queues =3D last - first;
+> > +     int err =3D 0, i, ret;
+> >
+> > +     ctxs =3D kmalloc_array(nr_queues, sizeof(*ctxs), GFP_KERNEL);
+>
+> This should use kmalloc_objs in the brave new world.
+>
+Done.
 
-Testing on a 64-core host with 64 IO-queues shows
-nvme-rdma connection time reduced from ~1.4s to 416ms.
-
-Signed-off-by: Surabhi Gogte <sgogte@purestorage.com>
----
- drivers/nvme/host/rdma.c | 124 ++++++++++++++++++++++++---------------
- 1 file changed, 77 insertions(+), 47 deletions(-)
-
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 6b0b0a3dea62..52933d11ea03 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -16,6 +16,7 @@
- #include <linux/types.h>
- #include <linux/list.h>
- #include <linux/mutex.h>
-+#include <linux/async.h>
- #include <linux/scatterlist.h>
- #include <linux/nvme.h>
- #include <linux/unaligned.h>
-@@ -100,6 +101,11 @@ struct nvme_rdma_queue {
- 	struct mutex		queue_lock;
- };
- 
-+struct nvme_rdma_setup_ctx {
-+	struct nvme_rdma_queue	*queue;
-+	int			*err;
-+};
-+
- struct nvme_rdma_ctrl {
- 	/* read only in the hot path */
- 	struct nvme_rdma_queue	*queues;
-@@ -690,60 +696,68 @@ static int nvme_rdma_start_queue(struct nvme_rdma_ctrl *ctrl, int idx)
- 	return ret;
- }
- 
--static int nvme_rdma_start_io_queues(struct nvme_rdma_ctrl *ctrl,
--				     int first, int last)
-+static void nvme_rdma_setup_queue_async(void *data, async_cookie_t cookie)
- {
--	int i, ret = 0;
-+	struct nvme_rdma_setup_ctx *ctx = data;
-+	struct nvme_rdma_queue *queue;
-+	int ret;
- 
--	for (i = first; i < last; i++) {
--		ret = nvme_rdma_start_queue(ctrl, i);
--		if (ret)
--			goto out_stop_queues;
--	}
-+	queue = ctx->queue;
-+	ret = nvme_rdma_alloc_queue(queue);
-+	if (ret)
-+		goto out_err;
- 
--	return 0;
-+	ret = nvme_rdma_start_queue(queue->ctrl, nvme_rdma_queue_idx(queue));
-+	if (ret)
-+		goto out_err;
- 
--out_stop_queues:
--	for (i--; i >= first; i--)
--		nvme_rdma_stop_queue(&ctrl->queues[i]);
--	return ret;
-+	return;
-+out_err:
-+	WRITE_ONCE(*ctx->err, ret);
- }
- 
--static int nvme_rdma_alloc_io_queues(struct nvme_rdma_ctrl *ctrl)
-+static int nvme_rdma_setup_io_queues(struct nvme_rdma_ctrl *ctrl,
-+		unsigned int first, unsigned int last, size_t queue_size)
- {
--	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
--	unsigned int nr_io_queues;
--	int i, ret;
--
--	nr_io_queues = nvmf_nr_io_queues(opts);
--	ret = nvme_set_queue_count(&ctrl->ctrl, &nr_io_queues);
--	if (ret)
--		return ret;
-+	ASYNC_DOMAIN_EXCLUSIVE(queue_domain);
-+	struct nvme_rdma_setup_ctx *ctxs;
-+	int nr_queues = last - first;
-+	int err = 0, i, ret;
- 
--	if (nr_io_queues == 0) {
--		dev_err(ctrl->ctrl.device,
--			"unable to set any I/O queues\n");
-+	ctxs = kmalloc_objs(*ctxs, nr_queues);
-+	if (!ctxs)
- 		return -ENOMEM;
--	}
- 
--	ctrl->ctrl.queue_count = nr_io_queues + 1;
--	dev_info(ctrl->ctrl.device,
--		"creating %d I/O queues.\n", nr_io_queues);
--
--	nvmf_set_io_queues(opts, nr_io_queues, ctrl->io_queues);
--	for (i = 1; i < ctrl->ctrl.queue_count; i++) {
--		ctrl->queues[i].ctrl = ctrl;
--		ctrl->queues[i].queue_size = ctrl->ctrl.sqsize + 1;
--		ret = nvme_rdma_alloc_queue(&ctrl->queues[i]);
--		if (ret)
--			goto out_free_queues;
-+	for (i = 0; i < nr_queues; i++) {
-+		struct nvme_rdma_queue *queue = &ctrl->queues[first + i];
-+
-+		queue->ctrl = ctrl;
-+		queue->queue_size = queue_size;
-+
-+		ctxs[i].queue = queue;
-+		ctxs[i].err = &err;
-+		async_schedule_domain(nvme_rdma_setup_queue_async, &ctxs[i],
-+				&queue_domain);
- 	}
- 
--	return 0;
-+	async_synchronize_full_domain(&queue_domain);
-+	kfree(ctxs);
- 
-+	ret = READ_ONCE(err);
-+	if (ret)
-+		goto out_free_queues;
-+
-+	return 0;
- out_free_queues:
--	for (i--; i >= 1; i--)
--		nvme_rdma_free_queue(&ctrl->queues[i]);
-+	for (i = 0; i < nr_queues; i++) {
-+		struct nvme_rdma_queue *queue =
-+			&ctrl->queues[first + i];
-+
-+		if (test_bit(NVME_RDMA_Q_LIVE, &queue->flags))
-+			nvme_rdma_stop_queue(queue);
-+		if (test_bit(NVME_RDMA_Q_ALLOCATED, &queue->flags))
-+			nvme_rdma_free_queue(queue);
-+	}
- 
- 	return ret;
- }
-@@ -862,12 +876,23 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
- 
- static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
- {
-+	unsigned int nr_io_queues;
- 	int ret, nr_queues;
- 
--	ret = nvme_rdma_alloc_io_queues(ctrl);
-+	nr_io_queues = nvmf_nr_io_queues(ctrl->ctrl.opts);
-+	ret = nvme_set_queue_count(&ctrl->ctrl, &nr_io_queues);
- 	if (ret)
- 		return ret;
- 
-+	if (nr_io_queues == 0) {
-+		dev_err(ctrl->ctrl.device, "unable to set any I/O queues\n");
-+		return -ENOMEM;
-+	}
-+
-+	ctrl->ctrl.queue_count = nr_io_queues + 1;
-+	dev_info(ctrl->ctrl.device, "creating %d I/O queues.\n", nr_io_queues);
-+	nvmf_set_io_queues(ctrl->ctrl.opts, nr_io_queues, ctrl->io_queues);
-+
- 	if (new) {
- 		ret = nvme_rdma_alloc_tag_set(&ctrl->ctrl);
- 		if (ret)
-@@ -880,7 +905,9 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
- 	 * queue number might have changed.
- 	 */
- 	nr_queues = min(ctrl->tag_set.nr_hw_queues + 1, ctrl->ctrl.queue_count);
--	ret = nvme_rdma_start_io_queues(ctrl, 1, nr_queues);
-+	ret = nvme_rdma_setup_io_queues(ctrl, 1, nr_queues,
-+			ctrl->ctrl.sqsize + 1);
-+
- 	if (ret)
- 		goto out_cleanup_tagset;
- 
-@@ -904,12 +931,15 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
- 
- 	/*
- 	 * If the number of queues has increased (reconnect case)
--	 * start all new queues now.
-+	 * setup all new queues now.
- 	 */
--	ret = nvme_rdma_start_io_queues(ctrl, nr_queues,
--					ctrl->tag_set.nr_hw_queues + 1);
--	if (ret)
--		goto out_wait_freeze_timed_out;
-+	if (ctrl->tag_set.nr_hw_queues + 1 > nr_queues) {
-+		ret = nvme_rdma_setup_io_queues(ctrl, nr_queues,
-+				ctrl->tag_set.nr_hw_queues + 1,
-+				ctrl->ctrl.sqsize + 1);
-+		if (ret)
-+			goto out_wait_freeze_timed_out;
-+	}
- 
- 	return 0;
- 
--- 
-2.54.0
-
+> > +     if (!ctxs)
+> >               return -ENOMEM;
+> >
+> > +     for (i =3D 0; i < nr_queues; i++) {
+> > +             struct nvme_rdma_queue *queue =3D &ctrl->queues[first + i=
+];
+> > +
+> > +             queue->ctrl =3D ctrl;
+> > +             queue->queue_size =3D queue_size;
+> > +
+> > +             ctxs[i].queue =3D queue;
+> > +             ctxs[i].err =3D &err;
+> > +             async_schedule_domain(nvme_rdma_setup_queue_async, &ctxs[=
+i],
+> > +                             &queue_domain);
+> >       }
+> >
+> > +     async_synchronize_full_domain(&queue_domain);
+> > +     kfree(ctxs);
+>
+> It would nice if the async domain had a way to do the error propagation.
+> Well, that would be a nice follow on if you're interested.
+>
+> Talking about follow ons:  do you plan to do a similar change
+> to nvme-tcp?  It would be great to keep the setup path for
+> both in sync.
+>
+Yeah, there are plans to expand this to nvme-tcp as well.
 
