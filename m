@@ -4,65 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D5CD8C43458
-	for <linux-nvme@archiver.kernel.org>; Sat, 27 Jun 2026 17:14:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 981E0C43458
+	for <linux-nvme@archiver.kernel.org>; Sun, 28 Jun 2026 04:02:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rD2QavbyyU8Kdy21wbFJDYe0/oFEIlXWcp9nR/nwxJQ=; b=bXZisvwU0NLOveUA4zGOZvl+wp
-	SxJHRoDXpVdn91+7owksBeuip6pkcxmL8BrtzR+Fyde6nw1EUEZeQySgcy3MhhGT9LUF3HcXFMpeR
-	EYgr/I8JvxpL2HBdg36mwOB1F96QKlBNFJR7YpxS3P4Eo2+qI2C8H+rv6DkZ7PXVS61UF0HFSd66G
-	P55H6Vfdwix/LFcPD3Y5bvfKxRj30b3UBGCMSLKB/yO3JmFHKytxFouXV1kMjpN++Ah1HKZiGfBfM
-	Btxiqou7A6ucXy6RJVXDc7BqIEK44LAyPHhaZzbsOjSleWyXR//xIlgfb1gPy/nvetyQt+1U5FIzq
-	k7mJDr2Q==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:To:References:Message-Id:
+	Content-Transfer-Encoding:Cc:Date:In-Reply-To:From:Subject:Mime-Version:
+	Content-Type:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=g33rmq9Rlq2iClwAL+H3RfpWb9p57xOuPZbPDUcvWTo=; b=yvp4Ln8+pGHpOWOgVL9DWRdGPs
+	WjA49ZQLS+7tsMQBwd44ndiFdcS3GPdjXsiZasChkzDMmmVH4UaC0KqZ4ZQ+VXjH/X2H7dnaPlg+G
+	mjtvBXvVCN+O/uFLrRCHa+CGrttuFjxNbswlsQfFSnw/eh3QsKSAzcVi/5i1vVWb6Nr243NLQbQNk
+	rWmb+kvYh4FEE0PrAumj+s7oOfIvQT2Iq9vtE8fOaX1vG3MW83vygwwXuuKMSWYUQ6L4py85N550Z
+	Xqi6eY216F/lf64FIlwBu49rQ5QhnCW/Qp/dX1KchMq+dNFUAb+R2sTP6L44CkF6+TDFAAp8SV8iO
+	dijNEVNg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wdWc1-0000000Cf26-0Nva;
-	Sat, 27 Jun 2026 17:14:37 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1wdgiw-0000000Cu7r-0XKa;
+	Sun, 28 Jun 2026 04:02:26 +0000
+Received: from smtp21.cstnet.cn ([159.226.251.21] helo=cstnet.cn)
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wdWbz-0000000Cf1z-2ygm
+	id 1wdgio-0000000Cu7M-2cXk
 	for linux-nvme@lists.infradead.org;
-	Sat, 27 Jun 2026 17:14:35 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 910F56001A;
-	Sat, 27 Jun 2026 17:14:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42D811F000E9;
-	Sat, 27 Jun 2026 17:14:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782580473;
-	bh=rD2QavbyyU8Kdy21wbFJDYe0/oFEIlXWcp9nR/nwxJQ=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
-	b=IW/slwCT/7fp/gjpx9xAeGo7NsuP705FzXQiTOnz7SLl9ZV/Damnd32PqBmQ5R0WM
-	 6lvH5Sm/I66yYg9AwknQNxKDvhCDY5py83fIkWtuTgAnHmYotNFto5jU3EFvVJQqpL
-	 FcWZEbwcE6Zm6q0ms/gIKFRPUGwT90vX7vCURRqYe3vBAdsH2X0/qkaj06fYn1DgZy
-	 F8eIvQbv0KxG/CNl7R8Yk9HhqJUByhClj98gY3D5IPEhpwji1jpp9LB9rP/9p3ATnJ
-	 ZoCGYnlLx/UysKjI6MQfuaIBLCsQnfdrsAkwxwE8Fgx+XHBQS2+ejthf2S9yN5vMj4
-	 XmyNQuJfJc5oA==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 0840ACE09ED; Sat, 27 Jun 2026 10:14:33 -0700 (PDT)
-Date: Sat, 27 Jun 2026 10:14:33 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Marco Elver <elver@google.com>
-Cc: Nilay Shroff <nilay@linux.ibm.com>, Christoph Hellwig <hch@lst.de>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	kbusch@kernel.org, sagi@grimberg.me, axboe@fb.com,
-	bvanassche@acm.org, gjoyce@linux.ibm.com
-Subject: Re: [PATCHv2 05/17] nvme: add Clang context annotations for
- nvme_ns_head::current_path
-Message-ID: <41a4cb5a-077c-499f-b060-2a4263303350@paulmck-laptop>
-References: <20260614131541.2017845-1-nilay@linux.ibm.com>
- <20260614131541.2017845-6-nilay@linux.ibm.com>
- <20260626064050.GE10731@lst.de>
- <e1c60afc-423b-47ec-9c38-db1397d8838f@paulmck-laptop>
- <CANpmjNPPF3TYx6qPzLO-DbQE6qvL_g6r3jYnGCk3aqeiQnnL5g@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANpmjNPPF3TYx6qPzLO-DbQE6qvL_g6r3jYnGCk3aqeiQnnL5g@mail.gmail.com>
+	Sun, 28 Jun 2026 04:02:20 +0000
+Received: from smtpclient.apple (unknown [117.182.74.7])
+	by APP-01 (Coremail) with SMTP id qwCowAD3j8h4nEBq+V6qAw--.55335S7;
+	Sun, 28 Jun 2026 12:02:15 +0800 (CST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81.1.8\))
+Subject: Re: [PATCH] fix: nvmet: nvmet_sq_create: fix ctrl reference leak on
+ nvmet_check_sqid   failure
+From: WenTao Liang <vulab@iscas.ac.cn>
+In-Reply-To: <20260626154043.53241-1-vulab@iscas.ac.cn>
+Date: Sun, 28 Jun 2026 12:02:05 +0800
+Cc: Keith Busch <kbusch@kernel.org>,
+ stable@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <E4DA546F-94F7-4B5C-975C-1BC3BE622F7F@iscas.ac.cn>
+References: <20260626154043.53241-1-vulab@iscas.ac.cn>
+To: Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org
+X-Mailer: Apple Mail (2.3826.700.81.1.8)
+X-CM-TRANSID: qwCowAD3j8h4nEBq+V6qAw--.55335S7
+X-Coremail-Antispam: 1UD129KBjvJXoW7Cw1rZF4DGF17JryfWFy3Arb_yoW8GFWrpF
+	s8Kr4jyrZxGFZ7ta1xAw4Y9FyF9w45KryUCwn5Kw1xZrn0q3y3Ar4DW3Wjvr15GrWrGry3
+	JF4jyFy0ga45ZFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUBEb7Iv0xC_tr1lb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I2
+	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI
+	8067AKxVWUAVCq3wA2048vs2IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28C
+	jxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI
+	8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2
+	z280aVCY1x0267AKxVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2
+	IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JF0_Jw1lYx0Ex4A2jsIE14v26r1j6r4U
+	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY1x0262kKe7AKxVWUAVWUtw
+	CF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j
+	6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64
+	vIr41lIxAIcVC0I7IYx2IY67AKxVW5JVW7JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr1j
+	6F4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIx
+	AIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x07jedgAUUUUU
+	=
+X-Originating-IP: [117.182.74.7]
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBwIMA2pAixEc0gAAs0
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260627_210219_197800_4C57E3A4 
+X-CRM114-Status: GOOD (  13.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,89 +82,56 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: paulmck@kernel.org
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Jun 27, 2026 at 05:38:44PM +0200, Marco Elver wrote:
-> On Fri, 26 Jun 2026 at 20:36, Paul E. McKenney <paulmck@kernel.org> wrote:
-> > On Fri, Jun 26, 2026 at 08:40:50AM +0200, Christoph Hellwig wrote:
-> > > On Sun, Jun 14, 2026 at 06:45:20PM +0530, Nilay Shroff wrote:
-> > > > +++ b/drivers/nvme/host/multipath.c
-> > > > @@ -231,8 +231,16 @@ bool nvme_mpath_clear_current_path(struct nvme_ns *ns)
-> > > >     bool changed = false;
-> > > >     int node;
-> > > >
-> > > > +   /*
-> > > > +    * This helper is used by namespace failover/teardown and I/O policy
-> > > > +    * update paths. We only compare the head->current_path[] pointer value
-> > > > +    * and do not dereference the referenced namespace, so suppress the
-> > > > +    * context analysis warning for this lockless inspection of the
-> > > > +    * __rcu_guarded pointer.
-> > > > +    */
-> > > >     for_each_node(node) {
-> > > > -           if (ns == rcu_access_pointer(head->current_path[node])) {
-> > > > +           if (context_unsafe(ns ==
-> > > > +                           rcu_access_pointer(head->current_path[node]))) {
-> > >
-> > > I think we need a helper for this, as for a simple pointer value
-> > > comparison without a dereference we don't really need either
-> > > rcu_access_pointer nor locking.
-> > >
-> > > Maybe somthing like a
-> > >
-> > >       rcu_compare_pointer(rcu_pointer, nonrcu_pointer)
-> > >
-> > > ?
-> >
-> > We could provide something like this:
-> >
-> > #define rcu_compare_pointer(rcu_pointer, nonrcu_pointer) \
-> >         context_unsafe(rcu_access_pointer(rcu_pointer) == (nonrcu_pointer))
-> >
-> > Or maybe rcu_pointer_equals()?
-> >
-> > Marco, thoughts?
-> 
-> I see 2 options:
-> 
-> 1. rcu_compare_pointer / rcu_pointer_equals as proposed. It's more
-> explicit but does add some friction during Context Analysis
-> enablement. But this only makes sense if there are cases where
-> rcu_access_pointer() should be used under the RCU reader lock, which
-> led me to the next suggestion...
-> 
-> 2. Redefine rcu_access_pointer() to just not require the RCU read-side
-> lock to be held as:
-> 
-> > #define rcu_access_pointer(p) context_unsafe(__rcu_access_pointer((p), __UNIQUE_ID(rcu), __rcu))
-> 
-> [ Or alternatively wrap __rcu_access_pointer() in context_unsafe()
->   (similar to rcu_assign_pointer and friends). ]
-> 
-> I think rcu_access_pointer() is in the same category as the other RCU
-> pointer helpers, although currently only the pointer update helpers
-> imply context_unsafe(); I think it might have been an oversight
-> initially, and we should change rcu_access_pointer() to match. There
-> should be no reason why an rcu_access_pointer() should be protected by
-> the RCU read-side critical section, since it's not meant for
-> dereferencing the pointer (that'd be a bug; its documentation also
-> says "Return the value of the specified RCU-protected pointer, but
-> omit the lockdep checks for being in an RCU read-side critical section
-> [...]").
-> 
-> If you agree there should be no cases where an rcu_access_pointer()
-> should be guarded by an RCU read-side critical section, then I think
-> this is the simplest and correct design, and avoids expanding the RCU
-> API.
 
-I don't know of any uses of rcu_access_pointer() within an RCU read-side
-critical section, but code in a function that might be called both within
-and outside of a critical section might well use rcu_access_pointer().
-In other words, it should be OK to use rcu_access_pointer() within an
-RCU read-side critical section as well as outside of one.
 
-Or am I missing the point of your question?
+> 2026=E5=B9=B46=E6=9C=8826=E6=97=A5 23:40=EF=BC=8CWenTao Liang =
+<vulab@iscas.ac.cn> =E5=86=99=E9=81=93=EF=BC=9A
+>=20
+> After kref_get_unless_zero successfully acquires a ctrl reference, the
+>  nvmet_check_sqid failure path returns the status directly without =
+calling
+>  nvmet_ctrl_put, leaving the ctrl reference permanently leaked.
+>=20
+> Add nvmet_ctrl_put before returning on the nvmet_check_sqid error path =
+to
+>  properly release the acquired reference.
+>=20
+> Cc: stable@vger.kernel.org
+> Fixes: a07b4970f464 ("nvmet: add a generic NVMe target")
+> Signed-off-by: WenTao Liang <vulab@iscas.ac.cn>
+> ---
+> drivers/nvme/target/core.c | 4 +++-
+> 1 file changed, 3 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+> index 62dd59b9aa4f..52fc2dade4ea 100644
+> --- a/drivers/nvme/target/core.c
+> +++ b/drivers/nvme/target/core.c
+> @@ -943,8 +943,10 @@ u16 nvmet_sq_create(struct nvmet_ctrl *ctrl, =
+struct nvmet_sq *sq,
+> 		return NVME_SC_INTERNAL | NVME_STATUS_DNR;
+>=20
+> 	status =3D nvmet_check_sqid(ctrl, sqid, true);
+> -	if (status !=3D NVME_SC_SUCCESS)
+> +	if (status !=3D NVME_SC_SUCCESS) {
+> +		nvmet_ctrl_put(ctrl);
+> 		return status;
+> +	}
+>=20
+> 	ret =3D nvmet_sq_init(sq, cq);
+> 	if (ret) {
+> --=20
+> 2.39.5 (Apple Git-154)
 
-							Thanx, Paul
+Please ignore this patch. I will resend a proper version after
+learning the kernel submission process.
+
+Apologies for the noise.
+
+Best regards,
+WenTao Liang=
+
 
