@@ -4,57 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AE058C43458
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2026 09:06:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5AFF4C43602
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2026 12:00:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:To:Content-Transfer-Encoding
-	:Content-Type:From:Date:In-Reply-To:References:Mime-Version:Subject:Cc:
-	Message-Id:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:Cc:References:To:
+	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6bx4yk85YzTITcDGdvOKkJN17ivUTPYJLuBEy9X1mGE=; b=aT0PkwRoK8wgU5INIkiSGeEu0O
-	HoVZ7mFlAqfnDZwxZ0/1LbgECJLFCdcvfYmdVZo3oePXWqtY7Mgbo9rzAHwgjqX/xxkL2cHCLBK7Z
-	IUOucooyYqKLVorAywG0pxK1JBcPYXymCwROpi0ZXJhn7fp/F/2hacuyGY46k1foAEx666W8zYD4Y
-	K9ePRDduKnEGNy77EaChamiOZ37I+RbsWTZjRqGNsrmKX8lPop+RWR9HGC8QcB8Zhpn/moUCWvJve
-	nZ5e2kxRaZwcTlEsXm8+zLOVC9ehTwzbZ/jhhTzyOY6h0IugvCDUE4i5hGbLstS6vzlSFESfHiqSw
-	gTePNYkQ==;
+	bh=qc2dJIGn/T/Zcx9NyKvd2GaxxcbBcR0NwnAr98oWx7E=; b=kWOoR4jPFMPhnz4O2urm8PvQtv
+	pKPgyJaexo0h8TKfNLJbrWSKq+BKv9vdQb7TTtgKbi06Dq5KEc8Nsd6tpMxhN4UehNlrbi9Ayp1Vk
+	bIctpkoCjUKOMtocOTGJZHHoQvc9ax+ss2dzlf7DfYJWlLNqa6ixGCR1bOAr06D932za7qJnvxbRp
+	RpUlxwBhJFaahr2VsLa2OcXtyA1p9fHhvWIZ2GEJRc7eX5nC8wQXvssiv/RQ7ql9tPfRG4CRwqxW7
+	umHLA2oM9ZhEpnUgQBBrGq0219ZRGVLwgMQ6ktFvU1R7dD7MEa3sjTbxY4DhhcS7rLoceaDHNf82X
+	FA2gUK3g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1we7wP-0000000E6EE-2Phl;
-	Mon, 29 Jun 2026 09:06:09 +0000
-Received: from va-1-111.ptr.blmpb.com ([209.127.230.111])
+	id 1weAf9-0000000EVHi-3Rqi;
+	Mon, 29 Jun 2026 12:00:31 +0000
+Received: from dggsgout12.his.huawei.com ([45.249.212.56])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1we7wL-0000000E6Dp-1BSt
+	id 1weAf5-0000000EVD8-2Nf3
 	for linux-nvme@lists.infradead.org;
-	Mon, 29 Jun 2026 09:06:08 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1782723956; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=6bx4yk85YzTITcDGdvOKkJN17ivUTPYJLuBEy9X1mGE=;
- b=LwjtUbNU6tdUi6HLc7dnHn5FxGt8EVi+4wgTKBBjQ8GAvV1w69ljXOWirMyawrmfozSo3o
- F9w/cthQLBmyRH2JYF4bNG7KRhEMvumspuBHVaIhg5f4He/usimwgqonq8fD+t4Pu9taIY
- OZjkBKH9TOZfnUZsJIge8e0a8O5aVu7y4MHCILdKpeksVydOYE95NJOHwJ6DrPg2A8BsNg
- 026ICUEY+BAYkQ0DnXaui5eZ8oyKARJTHGnogY7dOo+g5XIIehitF6r2LhnhZzGawj3Xd/
- 5tjZU4oJDIzuiYJJc52y2E9j06SVutoJHejmxy0+ZkaEf9xYc7xg49QWcDauVw==
-Message-Id: <4b210910448ef2227190f426e97614787d15d32b.5465e366.d014.4145.8c6e.48ae0643e67e@bytedance.com>
-Cc: <linux-nvme@lists.infradead.org>, "Keith Busch" <kbusch@kernel.org>, 
-	"Jens Axboe" <axboe@kernel.dk>, "Christoph Hellwig" <hch@lst.de>, 
-	"Sagi Grimberg" <sagi@grimberg.me>, "Leon Romanovsky" <leon@kernel.org>, 
-	"Joachim Foerster" <joachim.foerster@missinglinkelectronics.com>
-Subject: Re: [PATCH RFC] nvme-ioctl: propagate PRP1 from ioctl to admin cmd
-Mime-Version: 1.0
-References: <ajlDjpjK_clMrnwx@ubuntu-server>
-In-Reply-To: <ajlDjpjK_clMrnwx@ubuntu-server>
-Date: Mon, 29 Jun 2026 17:05:51 +0800
-From: =?utf-8?q?=E9=A1=BE=E6=B3=BD=E5=85=B5?= <guzebing@bytedance.com>
-X-Lms-Return-Path: <lba+16a423572+d46161+lists.infradead.org+guzebing@bytedance.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-To: "David Epping" <david.epping@missinglinkelectronics.com>
+	Mon, 29 Jun 2026 12:00:30 +0000
+Received: from mail.maildlp.com (unknown [172.19.163.198])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4gplFv6dxvzKHMXR
+	for <linux-nvme@lists.infradead.org>; Mon, 29 Jun 2026 20:00:03 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.112])
+	by mail.maildlp.com (Postfix) with ESMTP id 4EAFD409FA
+	for <linux-nvme@lists.infradead.org>; Mon, 29 Jun 2026 20:00:10 +0800 (CST)
+Received: from [10.174.178.185] (unknown [10.174.178.185])
+	by APP1 (Coremail) with UTF8SMTPSA id cCh0CgCHWodIXkJqQ4j3AA--.50413S3;
+	Mon, 29 Jun 2026 20:00:10 +0800 (CST)
+Subject: Re: [PATCH] blk-flush: fix possibe deadlock when process
+ nvme_timeout()
+To: axboe@kernel.dk, linux-block@vger.kernel.org, yebin10@huawei.com
+References: <20260608113923.3893518-1-yebin@huaweicloud.com>
+Cc: kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+ linux-nvme@lists.infradead.org
+From: yebin <yebin@huaweicloud.com>
+Message-ID: <6A425E48.3050109@huaweicloud.com>
+Date: Mon, 29 Jun 2026 20:00:08 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:38.0) Gecko/20100101
+ Thunderbird/38.1.0
+MIME-Version: 1.0
+In-Reply-To: <20260608113923.3893518-1-yebin@huaweicloud.com>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: cCh0CgCHWodIXkJqQ4j3AA--.50413S3
+X-Coremail-Antispam: 1UD129KBjvJXoW3JFW8CF18Ww1UKF48tw17trb_yoW7WFy7pF
+	WYqa90krn5Wr1ktr4xJw4kAw1v9ws2yF43JF1Skr13Ars5C392kFyrtryFqF13AwnYvrWr
+	WF4qgF4DXFWqv37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkKb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
+	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AK
+	xVWUAVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F4
+	0E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1l
+	IxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxV
+	AFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j
+	6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU1veHD
+	UUUUU==
+X-CM-SenderInfo: p1hex046kxt4xhlfz01xgou0bp/
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260629_020605_560741_86FF72B1 
-X-CRM114-Status: GOOD (  11.98  )
+X-CRM114-CacheID: sfid-20260629_050027_991673_465567A3 
+X-CRM114-Status: GOOD (  26.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,42 +86,133 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> The system setup where this patch has been used is as follows:
-> - P2P PCIe capable CPU (currently also IOMMU disabled)
-> - patched Linux in-Kernel NVMe driver for local PCIe NVMe SSDs
-> - FPGA accelerator implementing NVMe IO queue memory and IO queue handlin=
-g,
-> =C2=A0 exposed via PCIe BAR
-> - vfio-pcie Kernel driver plus vfio userspace FPGA driver / application
-> - The userspace application creates new NVMe IO queues at the SSD using t=
-he
-> =C2=A0 patched admin ioctl and points them towards the FPGA BAR. It then =
-informs
-> =C2=A0 the FPGA about the SSD BAR address and IO queue ID. From then on t=
-he FPGA
-> =C2=A0 can access the SSD storage entirely without software interaction.
+Friendly ping ...
 
-Hi David,
+This issue occurs once every week in our product's live network environment.
+The root cause is certainly triggered by firmware issues. The kernel still
+needs to reinforce this scenario to prevent system hangs caused by dead loops.
 
-I would like to ask for your insight on one point about the FPGA
-queue-offload setup described in the RFC. This is not about the PRP1
-ioctl change itself; I am personally interested in FPGA/NVMe datapath
-offload and would like to better understand how your setup handled this.
 
-For the I/O queues handled by the FPGA, how does the FPGA learn that the
-SSD has posted new CQEs?
+In `blk_mq_tagset_wait_completed_request()`, the reference count is continuously
+acquired and released, and there is still a chance for the request to be in the
+MQ_RQ_IDLE state. Therefore, the race condition pointed out by sashiko exists,
+but in this scenario, it can still be handled correctly in the end.
 
-Did your implementation disable interrupts for those CQs and let the
-FPGA poll the CQ phase tag, or did you use MSI/MSI-X with the
-corresponding NVMe MSI-X vector targeting an FPGA BAR event register
-instead of the host interrupt controller?
+[1] https://sashiko.dev/#/patchset/20260608113923.3893518-1-yebin%40huaweicloud.com
 
-I also wonder how the I/O work was submitted to the FPGA in this model.
-Does the CPU still provide the FPGA with per-I/O information such as the
-data buffer address and the NVMe namespace/LBA range, while the FPGA
-then builds and submits the NVMe commands? Or is the FPGA able to derive
-most of that by itself after the initial queue setup?
+On 2026/6/8 19:39, Ye Bin wrote:
+> From: Ye Bin <yebin10@huawei.com>
+>
+>   There's when process nvme_timeout():
+>   [  206.734601][ T8184] nvme nvme0: I/O tag 512 (1200) opcode 0x0 (I/O Cmd) QID 3 timeout, aborting req_op:FLUSH(2) size:0
+>   [  206.736112][    C0] nvme nvme0: Abort status: 0x0
+>   [  208.094637][ T8184] nvme nvme0: I/O tag 512 (1200) opcode 0x0 (I/O Cmd) QID 3 timeout, reset controller
+>
+>   [root@localhost ~]# cat /proc/8184/stack
+>   [<0>] msleep+0x37/0x50
+>   [<0>] blk_mq_tagset_wait_completed_request+0x6f/0xe0
+>   [<0>] nvme_cancel_tagset+0x79/0xa0
+>   [<0>] nvme_dev_disable+0x55c/0x7e0
+>   [<0>] nvme_timeout+0x25b/0x1530
+>   [<0>] blk_mq_handle_expired+0x210/0x2c0
+>   [<0>] bt_iter+0x2bb/0x360
+>   [<0>] blk_mq_queue_tag_busy_iter+0x9f8/0x1f30
+>   [<0>] blk_mq_timeout_work+0x5dc/0x7d0
+>   [<0>] process_one_work+0xa08/0x1d00
+>   [<0>] worker_thread+0x698/0xeb0
+>   [<0>] kthread+0x408/0x540
+>   [<0>] ret_from_fork+0xa4d/0xdd0
+>   [<0>] ret_from_fork_asm+0x1a/0x30
+>
+>   Above issue may happen as follows:
+>   nvme_timeout  // tag 512 request's flush request the first timeout
+>     iod->aborted = 1;
+>     abort_req = nvme_alloc_request(dev->ctrl.admin_q, &cmd,
+>            BLK_MQ_REQ_NOWAIT, NVME_QID_ANY);  // Abort tag 512 flush request
+>     blk_execute_rq_nowait(abort_req->q, NULL, abort_req, 0, abort_endio);
+>        // Abort request completion, will no wait
+>           ....
+>    ****'abort_req' not complete***
+>           ....
+>   nvme_timeout  // tag 512 request's flush request the second timeout
+>    if (!nvmeq->qid || (iod->flags & IOD_ABORTED))
+>      nvme_req(req)->flags |= NVME_REQ_CANCELLED;
+>      goto disable;
+>        ...
+>      **** tag 512 request's flush request end ****
+>           nvme_try_complete_req
+>            blk_mq_complete_request_remote(req);
+>             WRITE_ONCE(rq->state, MQ_RQ_COMPLETE);
+>              ...
+>               nvme_end_req(req);
+>                blk_mq_end_request(req, status);
+>                 __blk_mq_end_request(rq, error);
+>                  if (rq->end_io)
+>                   rq->end_io(rq, error);
+>                    flush_end_io(rq, error);
+>                    // The timeout process holds the reference count.
+>                    // so request keep MQ_RQ_COMPLETE state
+>                     if (!refcount_dec_and_test(&flush_rq->ref))
+>                      fq->rq_status = error;
+>                      return;
+>      **** tag 512 flush request is MQ_RQ_COMPLETE state ****
+>   disable:
+>     nvme_dev_disable(dev, false);
+>       nvme_cancel_tagset(&dev->ctrl);
+>         blk_mq_tagset_busy_iter(&dev->tagset, nvme_cancel_request,
+>                                 &dev->ctrl);
+>           nvme_cancel_request
+>             if (blk_mq_request_completed(req))
+>               return true;
+>        blk_mq_tagset_wait_completed_request(&dev->tagset);
+>          while (true)
+>            blk_mq_tagset_busy_iter(tagset,
+>                             blk_mq_tagset_count_completed_rqs, &count);
+>               blk_mq_tagset_count_completed_rqs();
+>               // request is MQ_RQ_COMPLETE state
+>                  if (blk_mq_request_completed(rq))   // return true
+>                    (*count)++;
+>            if (!count) // So the value of 'count' is never 0, loop endless
+>                break;
+>            msleep(5);
+> The preceding problem occurs because the timeout processing flow holds
+> the reference count of the request, and the flush request is always in
+> the MQ_RQ_COMPLETE state due to the special nature of the flush request.
+> As a result, a dead loop occurs in the nvme_dev_disable() process.
+> To solve the preceding problem, if only the timeout processing flow holds
+> the reference count when the flush request times out, the request status
+> must be changed to MQ_RQ_IDLE in advance. In this way, it is safe to call
+> blk_mq_tagset_wait_completed_request () during the timeout processing.
+>
+> Fixes: e1569a16180a ("nvme: do not restart the request timeout if we're resetting the controller")
+> Signed-off-by: Ye Bin <yebin10@huawei.com>
+> ---
+>   block/blk-flush.c | 12 ++++++++++++
+>   1 file changed, 12 insertions(+)
+>
+> diff --git a/block/blk-flush.c b/block/blk-flush.c
+> index 403a46c86411..d12839b1fcb5 100644
+> --- a/block/blk-flush.c
+> +++ b/block/blk-flush.c
+> @@ -213,6 +213,18 @@ static enum rq_end_io_ret flush_end_io(struct request *flush_rq,
+>
+>   	if (!req_ref_put_and_test(flush_rq)) {
+>   		fq->rq_status = error;
+> +
+> +		/*
+> +		 * The timeout processing flow holds the reference count
+> +		 * of flush_rq. If the last reference count is held by the
+> +		 * timeout processing flow, the status of flush_rq must be
+> +		 * changed to MQ_RQ_IDLE in advance. Otherwise, a deadlock
+> +		 * occurs when blk_mq_tagset_wait_completed_request() is
+> +		 * called in the timeout processing flow.
+> +		 */
+> +		if (req_ref_read(flush_rq) == 1 &&
+> +		    flush_rq->rq_flags & RQF_TIMED_OUT)
+> +			WRITE_ONCE(flush_rq->state, MQ_RQ_IDLE);
+>   		spin_unlock_irqrestore(&fq->mq_flush_lock, flags);
+>   		return RQ_END_IO_NONE;
+>   	}
+>
 
-Thanks,
-Guzebing
 
