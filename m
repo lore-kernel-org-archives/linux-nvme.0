@@ -4,59 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 51E94C43458
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2026 05:16:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7D43C43327
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2026 05:16:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+B8u7VsaUllcnXwbLyKAgESHBOIGfavqAoty/yFi8Mo=; b=HFDNkCfAhBxcaRz0cr8+HOXv5j
-	O5DwCuNoFd+DLQfiNRgSi1qrxsLSHKO+I0zo4TTJ6e4tfIMc4n4XDSaCbm4l/XYRFjhh3cntIW5B0
-	mGn9iKbO+Md9ua83Ny7/T7OXPIJDO50lbR308U17PWvP234AgncFl6He12y3Aisp+z6OsmcQAvtAi
-	Fy0a9FN6LuEvGBXYiivYwOnWQlYxHHnS7eIhVdYnjKPOZEQOHiq9gaMk2bk0EJt6e0B+9aJ4ydHlJ
-	K/KQPDrV8tu4y+E7ykUhu7qv+JIQxUzgK8QrkUwZzUfachKvZUNiZn87Hjo9KoSNAS+QsI/heVghR
-	pCJW08Ww==;
+	bh=MNruNrtELMCDSkeLvhdYt98meVygRYHwINz89asKZqk=; b=mqaqvR/nadEH1nB1Gj21Z9CX+O
+	yBpONdnkcPRIKHydZhoudkFPPeWCnH/so/yOe4uvq/HY+stHEF5B5vx8R99gLaHLrDqRYbb/P/NV6
+	eqpoQ++4PXnT78AJ4Jif8HScdRO4yHfBC4Lc6fQVC/Uqj1KMfEooreUVbs9DHTMEwGBw5gGEhYBSO
+	AcXb24RlKsyJC7vgVt+RLQLxSPqrzdpKcPwgYhHMjzfi7jzg8T9UXK+UVi8K4uLdioAdJO0go0PfS
+	jbVyyQu+JD9tXJS6MSRes/hIu9tnnJIxHpZNtJVh05vTCmmP9ZaOhZ+tm/eCpMjPV4DEKvXFWJGfC
+	sT87x9+Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1we4Lg-0000000DhMs-3tks;
-	Mon, 29 Jun 2026 05:16:00 +0000
+	id 1we4La-0000000DhLx-3Oqt;
+	Mon, 29 Jun 2026 05:15:54 +0000
 Received: from esa2.hgst.iphmx.com ([68.232.143.124])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1we4LV-0000000DhKM-42F4
+	id 1we4LW-0000000DhKt-0kkl
 	for linux-nvme@lists.infradead.org;
-	Mon, 29 Jun 2026 05:16:00 +0000
+	Mon, 29 Jun 2026 05:15:51 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
   t=1782710151; x=1814246151;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=IPRRKkSsO/67nTG5mbNmoNWxGwYQWQ1m2DLERmXcovI=;
-  b=lXRFZTmJJlMWKMw14scCfcEIclp6fTjfKA4nl4SJYWUbSK7A97Oka8ev
-   y9cyhUZb8QBtHzkRabHpppNHfFvSp0oa+87mxZQWuujb8i4y6aJBHQIYT
-   FUHgKNP6wx0z6iFy4o2d0/3JXauImcRX3i9noPs7Y02YNWkAArAT5KZbO
-   CpfNbwEiCKNVLz/qFkO67jzYhJTCCDLVDSlE54v4i9Rt4ZiV6vSD2S/KB
-   CTK6s07/vaKASQV54C4prd8dnQTLqOWVOKld8LoJjHl2c37+UA7cV/N/W
-   xdU22pEjNEmBsenpzMsl3LtsWfS2j0sZcf8uHkDZFHFlWd6YvKWWSbv/Z
-   Q==;
-X-CSE-ConnectionGUID: pVMjrEvuSPmIBXwTawu/eg==
-X-CSE-MsgGUID: 4ZK9qLD1SsSP/6max0+hig==
+  bh=6DoIqrJilPkXnz4B18AvFiA2xFOShKOgo4CWDov633M=;
+  b=FwqtDRWkts27sNfy9ZtVSi9ddypbaMSoECwQ/cW3oZfghrZaafR7bjxR
+   7LFZqkNMIcq6t9Sl2L74RP6SQs0t1T5bw07b4ssduISeO7UJ7MC4QVdsy
+   SH9rhu7RUv57Ot0Ul5VlQeBnsgHqGJth8qjVFRSFw2CtJIIkQHDuR6pGk
+   lzXCwg6h7ywn9ZyhpneMBs5HbmdAbKZmqZViHo+fDa8VuJXbUSVq3V5V5
+   9Q1fXAOHNbK4PudB+h52wEgs7fkhq8rqdkQRBHEzg+HSKyEJhnkWWvDLZ
+   mpv4FWAGnIHtP5tB2i6ic7n6hFVn+cewNemhY5s3eikmlhjj77BE/WWQ/
+   A==;
+X-CSE-ConnectionGUID: FeDWhDvZTOmvNVCcgW2JrQ==
+X-CSE-MsgGUID: OyO82FtQSDGG78JYjFBaLw==
 X-IronPort-AV: E=Sophos;i="6.24,231,1774281600"; 
-   d="scan'208";a="150909811"
+   d="scan'208";a="150909812"
 Received: from unknown (HELO uls-op-esad2-o.wdc.com) ([199.255.45.15])
   by ob1.hgst.iphmx.com with ESMTP; 29 Jun 2026 13:15:47 +0800
-X-CSE-ConnectionGUID: DRSXGIx1SW6F6DZzjQF7kQ==
-X-CSE-MsgGUID: cBCZTkgRSRGlC63euvjjHA==
-IronPort-SDR: 6a41ff74_LI+x8bUGo6KUXnPhPId3vxPX7byu2Rb3nI5DltHur8ycw3e
- 0l5MoZX3sNWIWX2M6plN8GruyoGSb/5o4YAjTXg==
+X-CSE-ConnectionGUID: e3vgXoPwRemxJx9YOM1usQ==
+X-CSE-MsgGUID: 1zD6SUzmQo2kmCrwGq2o7g==
+IronPort-SDR: 6a41ff75_NSd5mcJljF3H03aWJEUNcsgpzyFi5FloyK55t2YPYKbkjj+
+ U6FlC0wqm+gcnU1t57RlORJkZPvqyi0CPATJ8ew==
 Received: from uls-op-esai2-o.wdc.com ([10.248.3.38])
-  by uls-op-esad2-o.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 28 Jun 2026 22:15:31 -0700
-X-CSE-ConnectionGUID: 67XX8wMkSCGkkzbioj24NA==
-X-CSE-MsgGUID: WBTIzVKvQuqNaPJgj+M9+w==
+  by uls-op-esad2-o.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 28 Jun 2026 22:15:32 -0700
+X-CSE-ConnectionGUID: GASTXjM+TrK975qtvevj3g==
+X-CSE-MsgGUID: 7Akzlz/0QamXtupu1k7l1g==
 WDCIronportException: Internal
 Received: from unknown (HELO shindev.ssa.fujisawa.hgst.com) ([10.149.67.30])
-  by uls-op-esai2-o.wdc.com with ESMTP; 28 Jun 2026 22:15:31 -0700
+  by uls-op-esai2-o.wdc.com with ESMTP; 28 Jun 2026 22:15:32 -0700
 From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 To: linux-nvme@lists.infradead.org,
 	Keith Busch <kbusch@kernel.org>
@@ -64,17 +64,17 @@ Cc: Christoph Hellwig <hch@infradead.org>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	Chaitanya Kulkarni <kch@nvidia.com>,
 	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Subject: [PATCH 1/2] nvmet-rdma: factor out response resource cleanup
-Date: Mon, 29 Jun 2026 14:15:27 +0900
-Message-ID: <20260629051529.810925-2-shinichiro.kawasaki@wdc.com>
+Subject: [PATCH 2/2] nvmet-rdma: fix response resource leak on queue teardown
+Date: Mon, 29 Jun 2026 14:15:28 +0900
+Message-ID: <20260629051529.810925-3-shinichiro.kawasaki@wdc.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260629051529.810925-1-shinichiro.kawasaki@wdc.com>
 References: <20260629051529.810925-1-shinichiro.kawasaki@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260628_221550_066263_A11D637D 
-X-CRM114-Status: GOOD (  13.60  )
+X-CRM114-CacheID: sfid-20260628_221550_279641_74B98E38 
+X-CRM114-Status: GOOD (  15.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,51 +89,91 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Move the RDMA read/write context teardown and the request SGL freeing
-out of nvmet_rdma_release_rsp() into a new helper function
-nvmet_rdma_free_rsp_resources().
+When an nvme target with rdma transport is removed while I/Os are in
+flight, a response can be posted but its send completion is never
+delivered before the connection is torn down. As a result
+nvmet_rdma_send_done() and nvmet_rdma_release_rsp() are never called for
+the response, and this leaks the allocated RDMA read/write context and
+request SGLs.
 
-This is a refactoring with no functional change, in preparation for the
-following patch that uses nvmet_rdma_free_rsp_resources().
+These leaks are recreated by running blktests nvme/061 with the rdma
+transport and the siw driver. Kernel kmemleak feature reports them as
+follows:
 
+  unreferenced object 0xffff88812bc490c0 (size 32):
+    comm "kworker/2:1H", pid 409, jiffies 4307744490
+    backtrace (crc 89afd339):
+      __kmalloc_noprof+0x5f9/0x890
+      sgl_alloc_order+0x7b/0x380
+      nvmet_req_alloc_sgls+0x290/0x4f0 [nvmet]
+      nvmet_rdma_map_sgl_keyed+0x241/0x12e0 [nvmet_rdma]
+      nvmet_rdma_handle_command+0x73e/0xb80 [nvmet_rdma]
+      __ib_process_cq+0x149/0x4c0 [ib_core]
+      ib_cq_poll_work+0x49/0x160 [ib_core]
+      process_one_work+0x8b2/0x1640
+      worker_thread+0x5fd/0xfe0
+      kthread+0x367/0x460
+      ret_from_fork+0x655/0x9d0
+      ret_from_fork_asm+0x1a/0x30
+
+  unreferenced object 0xffff88814bd05e80 (size 64):
+    comm "kworker/3:1H", pid 148, jiffies 4295195428
+    backtrace (crc e35510cb):
+      __kmalloc_noprof+0x5f9/0x890
+      rdma_rw_ctx_init+0x333/0x1fa0 [ib_core]
+      nvmet_rdma_map_sgl_keyed+0x5c8/0x12e0 [nvmet_rdma]
+      nvmet_rdma_handle_command+0x73e/0xb80 [nvmet_rdma]
+      __ib_process_cq+0x149/0x4c0 [ib_core]
+      ib_cq_poll_work+0x49/0x160 [ib_core]
+      process_one_work+0x8b2/0x1640
+      worker_thread+0x5fd/0xfe0
+      kthread+0x367/0x460
+      ret_from_fork+0x655/0x9d0
+      ret_from_fork_asm+0x1a/0x30
+
+To avoid the memory leaks, reclaim the memory of the in-flight responses
+when the queue QP is torn down. Call nvmet_rdma_free_rsp_resources()
+that frees up the RDMA read/write context and the request SGLs of such
+responses.
+
+Fixes: 8f000cac6e7a ("nvmet-rdma: add a NVMe over Fabrics RDMA target driver")
 Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 ---
- drivers/nvme/target/rdma.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ drivers/nvme/target/rdma.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
 diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index ea1185b8267e..3c34f235e542 100644
+index 3c34f235e542..de5a88fbb233 100644
 --- a/drivers/nvme/target/rdma.c
 +++ b/drivers/nvme/target/rdma.c
-@@ -657,18 +657,25 @@ static void nvmet_rdma_rw_ctx_destroy(struct nvmet_rdma_rsp *rsp)
- 				    req->sg, req->sg_cnt, nvmet_data_dir(req));
+@@ -1345,9 +1345,27 @@ static int nvmet_rdma_create_queue_ib(struct nvmet_rdma_queue *queue)
+ 	goto out;
  }
  
--static void nvmet_rdma_release_rsp(struct nvmet_rdma_rsp *rsp)
-+static void nvmet_rdma_free_rsp_resources(struct nvmet_rdma_rsp *rsp)
- {
- 	struct nvmet_rdma_queue *queue = rsp->queue;
- 
--	atomic_add(1 + rsp->n_rdma, &queue->sq_wr_avail);
--
- 	if (rsp->n_rdma)
- 		nvmet_rdma_rw_ctx_destroy(rsp);
- 
- 	if (rsp->req.sg < rsp->cmd->inline_sg ||
- 	    rsp->req.sg >= rsp->cmd->inline_sg + queue->dev->inline_page_count)
- 		nvmet_req_free_sgls(&rsp->req);
++static bool nvmet_rdma_reclaim_rsp(struct sbitmap *sb, unsigned int bitnr,
++				   void *data)
++{
++	struct nvmet_rdma_queue *queue = data;
++
++	nvmet_rdma_free_rsp_resources(&queue->rsps[bitnr]);
++
++	return true;
 +}
 +
-+static void nvmet_rdma_release_rsp(struct nvmet_rdma_rsp *rsp)
-+{
-+	struct nvmet_rdma_queue *queue = rsp->queue;
+ static void nvmet_rdma_destroy_queue_ib(struct nvmet_rdma_queue *queue)
+ {
+ 	ib_drain_qp(queue->qp);
 +
-+	atomic_add(1 + rsp->n_rdma, &queue->sq_wr_avail);
++	/*
++	 * Reclaim resources of a response that is still in-flight when the
++	 * queue is being torn down. This happens when the connection was
++	 * forcefully disconnected while an I/O is in flight.
++	 */
++	sbitmap_for_each_set(&queue->rsp_tags, nvmet_rdma_reclaim_rsp, queue);
 +
-+	nvmet_rdma_free_rsp_resources(rsp);
- 
- 	if (unlikely(!list_empty_careful(&queue->rsp_wr_wait_list)))
- 		nvmet_rdma_process_wr_wait_list(queue);
+ 	if (queue->cm_id)
+ 		rdma_destroy_id(queue->cm_id);
+ 	ib_destroy_qp(queue->qp);
 -- 
 2.54.0
 
