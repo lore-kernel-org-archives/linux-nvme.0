@@ -4,49 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CEB19C43458
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2026 12:28:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B5414C43458
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2026 12:34:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=leU+FCE7AUl8wKIz5Hc31oqJLOeN0AHaX3MOwjeElw4=; b=kFreeXy+l5LauWGXn23B5wSy9P
-	EV4UKQB9UiHOn7/ELzZtM7Rx1yfPGyKVfLdrErk8DL4yHyrS0CjaNGjfRu1uaZdK3hETZvK/hBmed
-	RJhzlSE1EALDkGAiq0O8DCWlOpUbUvc0GWr4TucaCcKuK0iLZp7tyeIrJONYqu6StGu1Nh+HshY3F
-	s05OSIfrE7NCqNQfSyXKmcKZFN+9FV4TL9ZFwO8PVqU8FhVdhMs+jQxdYSiFQR5m72AN+TUQlFJP/
-	uZ/J+eLalcwJhWeSjJLHXWLl7xr0onR038B/8QzcFWt7+n3i4ndrc1x5RPUwY4mxabYGBQ8uFKRCm
-	1Xw7W4NA==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=iAQwDUCvuRpnFpurzAXZ3Ii4On
+	9w2tu3r8rSOvyfND2Cs11DFV/xuqUO4dEI5LVYnY4ytRKubpzBfWsi7brLbE+mKKhTffXFDgizzHB
+	eJQTUQjLyfOR6c+BEdDdIu1sEpLkS/noOf1oRiPTtmhtOLDLuxk/LmC1yT81RjW1DUuhZIMYU+Fx/
+	naXkCeXOp7XedwGJ7d8SzruQJ2kpWgfxlAvbEQCPA0rT09U3WfG99W3Lc4YBEZzgqDNduI+4wq0if
+	9OOcpCkOCdJtNa5YrHvcnK+sGFXpiXJuwJ7XzHSpeo3oStmkAxZ6TTv9jDpQMS8gw4GHXfyn3lP4Y
+	Gpf5ivkg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1weB6E-0000000EYeM-459Q;
-	Mon, 29 Jun 2026 12:28:30 +0000
+	id 1weBCD-0000000EZpe-3QKU;
+	Mon, 29 Jun 2026 12:34:41 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1weB6B-0000000EYdA-3XRg
+	id 1weBCB-0000000EZol-3n4k
 	for linux-nvme@lists.infradead.org;
-	Mon, 29 Jun 2026 12:28:29 +0000
+	Mon, 29 Jun 2026 12:34:41 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 45E2B68C4E; Mon, 29 Jun 2026 14:28:23 +0200 (CEST)
-Date: Mon, 29 Jun 2026 14:28:23 +0200
+	id 7EA7668C7B; Mon, 29 Jun 2026 14:34:35 +0200 (CEST)
+Date: Mon, 29 Jun 2026 14:34:35 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: David Epping <david.epping@missinglinkelectronics.com>
-Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	linux-nvme@lists.infradead.org, Jens Axboe <axboe@kernel.dk>,
-	Sagi Grimberg <sagi@grimberg.me>, Leon Romanovsky <leon@kernel.org>,
-	Joachim Foerster <joachim.foerster@missinglinkelectronics.com>
-Subject: Re: [PATCH RFC] nvme-ioctl: propagate PRP1 from ioctl to admin cmd
-Message-ID: <20260629122823.GE21344@lst.de>
-References: <ajlDjpjK_clMrnwx@ubuntu-server> <ajlIPlEv_zBfTMVG@kbusch-mbp> <ajlNFpz5977PzLvb@ubuntu-server> <ajlRnLI8OdaUVOZp@kbusch-mbp> <ajphNQIpfIRYZg_H@ubuntu-server> <ajp5vFaVB4wOHjpf@kbusch-mbp> <20260624074045.GB12649@lst.de> <aj69FEOLH82dLErr@ubuntu-server> <aj77qInSZ3jJfNRU@kbusch-mbp> <akJiSTxXC84z4KiT@ubuntu-server>
+To: Surabhi Gogte <sgogte@purestorage.com>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	mkhalfella@purestorage.com, randyj@purestorage.com,
+	adailey@purestorage.com
+Subject: Re: [PATCH v4 2/2] nvme-rdma: parallelize I/O queue allocation and
+ startup
+Message-ID: <20260629123435.GA22441@lst.de>
+References: <20260627041551.1981256-1-sgogte@purestorage.com> <20260627041551.1981256-3-sgogte@purestorage.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <akJiSTxXC84z4KiT@ubuntu-server>
+In-Reply-To: <20260627041551.1981256-3-sgogte@purestorage.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260629_052828_035246_DE721F27 
-X-CRM114-Status: GOOD (  12.48  )
+X-CRM114-CacheID: sfid-20260629_053440_076403_FDF4DCFD 
+X-CRM114-Status: GOOD (  10.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,12 +63,8 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jun 29, 2026 at 02:20:27PM +0200, David Epping wrote:
-> Keith, thank you for the follow up and catching my mistake. I noticed the
-> missing R and just assumed its a typo... Sorry.
-> I will absolutely look into SIOV to understand the concept!
+Looks good:
 
-Note that SIOV would indeed be very interesting for these use cases,
-but it requires spec work and hardware support.  The NVMe technical
-working group is looking into a proposal for it at the moment.
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+
 
