@@ -4,70 +4,105 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 65396C43458
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2026 15:34:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0E933C43458
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2026 22:47:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=BCvLMieP2pytnq+4rVw8hEBl8873sVwzabVjRVg/b1g=; b=SDNcDA36E44EqQL626U4cwn3mx
-	hBIw17BzLhRDdfrgEcSMl94CO8OW6edIouTgQPT+Sihq1VBiMrQy/hxLjitFJAIZZbk18iRykggzE
-	F5awhiysCqYDon0Ac3Env3xrFw+N++LX9rQ/U9tmsEKr4Yl2jH0HYzLfwJdGthKOS5NIir0nb73cz
-	29opIj7qpmpzUOrhTMEcxod+UTyD2kHPOWwEkLEeGOCyfKGDamF0j5C1uWF78/kGck/9qMZEuwu7D
-	V2Hd8WWNBWMCELzmNOhCBYi10QEQG+v8U3QyCUAyhHil1bkMMzHESBMcAb33CaFJ0w+ozMAX3JBjo
-	6OR854jA==;
+	bh=em5zCJrORblXF6ZwaZ+68vuw/ptEQHtpGgIbYM3pA/o=; b=BWdTGSZcKyhmT97tcas1/fuIfF
+	v6NTwcVIjHPGt1xZ/nPDpsWU4t2L8v5kjOU4dsrOZMXCRCPwREKiBC89gPygtFk8G3AXhsuq8kNgx
+	Tzyrkkzfm9JbFhiGWbcaePaxMtOgizVMRjMwcJaN6YXkys8aR3ZGdgWy48HUEbrtRZATm1r697IKM
+	Jb+5O285j+wJw8oNjW49oW8kixrqPa0xVGQ9RQXRBewclPy2XPNIRZwTsaj4TXTsXueeOnDSPmLZb
+	Wc1Et6KOY4lcVdiYOIE0tLGo2xMx81aokSx/P9/SKF/k98yWuhQJJAJcswva2C2ljPEOgjo/qp/Nl
+	cv03IM1w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1weDzk-0000000F5Je-1DN1;
-	Mon, 29 Jun 2026 15:34:00 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1weKlY-0000000FYtC-4762;
+	Mon, 29 Jun 2026 22:47:48 +0000
+Received: from mail-dl1-x122d.google.com ([2607:f8b0:4864:20::122d])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1weDzi-0000000F5JT-2lDH
+	id 1weKlW-0000000FYss-1PgL
 	for linux-nvme@lists.infradead.org;
-	Mon, 29 Jun 2026 15:33:58 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id D885760008;
-	Mon, 29 Jun 2026 15:33:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F0721F000E9;
-	Mon, 29 Jun 2026 15:33:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782747237;
-	bh=BCvLMieP2pytnq+4rVw8hEBl8873sVwzabVjRVg/b1g=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
-	b=GbUAZgTnZa7olaMU4aPk6oiu8TdKfaRMRntV6SfIU567iFpM1MbfRYBJK0KhwSWqc
-	 51dWJ+hNvdr+1od7rklRk6D52K4oZ7WfmxfoctfX9Z8zZEzGJyNnvw43UOzChK3jEW
-	 lFTk/cZim2QH3ldwWPkncKmxEDKQO6Y8OS9LKRT5vHV5XS5WS8lFIrPoOsbA7u/wOw
-	 c4q9Voxy7gewQ01Pg0O03XaJcZqsQgD8hokH2s1+Dmeidrx1gNk6IzuUCGYeNO0MkP
-	 3Y5cueKXxf+2xUMgoArfp27VH5c1C5bmSvSKG40VzVp72XEqS3a4XHubQHK2JHJ21V
-	 XO6+dKDQ/nCsQ==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 5ACB3CE04B8; Mon, 29 Jun 2026 08:33:57 -0700 (PDT)
-Date: Mon, 29 Jun 2026 08:33:57 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Marco Elver <elver@google.com>
-Cc: Nilay Shroff <nilay@linux.ibm.com>, Christoph Hellwig <hch@lst.de>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	kbusch@kernel.org, sagi@grimberg.me, axboe@fb.com,
-	bvanassche@acm.org, gjoyce@linux.ibm.com
-Subject: Re: [PATCHv2 05/17] nvme: add Clang context annotations for
- nvme_ns_head::current_path
-Message-ID: <38955e20-0bf3-4c8c-bfc6-352ca1a4d83c@paulmck-laptop>
-References: <20260614131541.2017845-1-nilay@linux.ibm.com>
- <20260614131541.2017845-6-nilay@linux.ibm.com>
- <20260626064050.GE10731@lst.de>
- <e1c60afc-423b-47ec-9c38-db1397d8838f@paulmck-laptop>
- <CANpmjNPPF3TYx6qPzLO-DbQE6qvL_g6r3jYnGCk3aqeiQnnL5g@mail.gmail.com>
- <41a4cb5a-077c-499f-b060-2a4263303350@paulmck-laptop>
- <CANpmjNPAYsiQ=eiZ=0g579j1uO+-23ZXAhRA7M3uM-B8NdHg1g@mail.gmail.com>
- <62bbec8e-6eb5-4024-acba-6be1e7f33080@paulmck-laptop>
- <2a3c6a56-a9a6-461e-80ca-c0f2b4203bff@linux.ibm.com>
- <CANpmjNNVw9rR5J-Bd3FL9Cxss3b+mN-XCGsg1c9HrTa70S0HEQ@mail.gmail.com>
+	Mon, 29 Jun 2026 22:47:47 +0000
+Received: by mail-dl1-x122d.google.com with SMTP id a92af1059eb24-13981833e13so4718706c88.1
+        for <linux-nvme@lists.infradead.org>; Mon, 29 Jun 2026 15:47:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782773265; cv=none;
+        d=google.com; s=arc-20260327;
+        b=R9F+PFdwd7mlxFkzcEcHojL2bRHFlrKcPLhPUwPhp0ekOAVOGbEX6SuMokSSWJNc0W
+         b5LeuE0yM3fWttKe1utjH/Nm7kadYjFeE3sToBsOos2p7FrBLaoQddm9P+/ZUYQXrVVQ
+         Heqn9Y3hzYS1r91F2xUT+F5iVHooVEpFONCtoQF1AC/xHYnfTBM8fxBs+uVDVuWE+76x
+         KFqbRbbbxk+vCNC104wTlbGzA0+1cufK/AwpGFtwE3J85KXIyVP0F0SLaBPwTHxDGw6R
+         zSkO0GOOZrk3/mzJ+QwB+uAGO/zh+AkavgMpnaXpXsUbw4+AsH7lLverKA9RzBZG58v7
+         08jg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=em5zCJrORblXF6ZwaZ+68vuw/ptEQHtpGgIbYM3pA/o=;
+        fh=IddAW4Sgi6S7SnhYnaQgAoVITWl1gDb4ZFykOEQuP18=;
+        b=VML6gF5mTjybcwD/ox8xLyI7PbzfdqDnGwPXjoP+KFrCp61BI3vwZqqowCwhzpekQa
+         1PrWuhM49xUQK4DxI8GqjVRe20Uc9ojsbYe+VHmSWVuwhq/R/uUbiJ4VQcaewvu0Y1Rd
+         mU/laNvZPhx1NzuBGqWkDdFdavvbCntZSA34UPZ1+mDoO0G+I7RyOr/5Vcb/F1+njEuh
+         8ZldcWmfMq+ukQVhc+ZMthPcYYQyUI1JWN5jjk1Qsdu7SEAJ5Qq9uRJU9DR9JtON0R68
+         xXcpiM4rVOMAJA9xGo2nfAsY/dQdGIFecW0J1N12Q8h7m4gE1gnOTDrczHEKhrBfPIpl
+         PU+w==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1782773265; x=1783378065; darn=lists.infradead.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=em5zCJrORblXF6ZwaZ+68vuw/ptEQHtpGgIbYM3pA/o=;
+        b=QfzKfMZu2TJJKLq4WI080+RXpELmCbDEApz9COP1U0jPnifFQKnJK+EinzsyVTEt0P
+         NIGVWX56Antdqh2BSZBjqRdZ5YOOsJi449NS+Nbg/k7R0a9HodfkZXwD3jGZOwwZx/bX
+         P0MX+oJG3WDTq+E4FLSae/mVydecBS1UHfyyQPQQ/rZzGFsQ6ifUYk86Wr8O6o28VBkd
+         dBYWqKM/gtVobCrd3eKvxX4SVYqGqrgewwaTicPLnXUcd3FAmnDi02YeGkZ8y1GCaNx4
+         k47CEG6MMpQ5x6rD00xPQYYkYwkhWeWfo8e/ymzW4IccSwz1Cva4H9hbpM6n9dlF6SAM
+         GECQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782773265; x=1783378065;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=em5zCJrORblXF6ZwaZ+68vuw/ptEQHtpGgIbYM3pA/o=;
+        b=mNsOEWk/AYffiNxvcdtKwH0MU7cScXQvwW4EdzLGRuaiUmH56baw+QV/WwWT8hZqnO
+         INLNQcitorXxNJ0tXd/31UAfNH2cYCXReQ592DfUKSiR14dOORrNuvm0MeVW0l5a5Bay
+         HiN7YDjok9UnnVbWOH4N/eREt7n8VaLoMgO3OYvO8Pa9fN8RYyhHj8t5c7Si3GbAHQc9
+         pelz06mx6zttbjbRtNmQSsRDN+Qdr6GvP+zgGmCQnS/uOdQWOgGoAwe1bXCtaSzDcnKI
+         XNeyoS74Y6TgrVl++z97eMSAUS00lJL9iYh54gu9QcRLJfEDiBdJhz6Jjc/1UwzZIfC2
+         FuRw==
+X-Forwarded-Encrypted: i=1; AFNElJ+Yk9KWK8aBSjh4aD7V2WACsOOUMVB74ls4OtdZgaqePn6KP+urta8vftfhHhSsQrOv/Hon2mmGWLVc@lists.infradead.org
+X-Gm-Message-State: AOJu0Yy8lZiJkBOsibDnjmjitm4od9Wew3X+eB3KyoAsjgj1bdx2u+3O
+	WQ+rrMvyb99LxlTUD7NDOzPkK0/LD8gmxU3MU+kzdib6pTi1F/LfnKrafm8O6ZLs6HU/aMqNdi4
+	w8N3185a9XtvOUBB7u9bxcR+eT1u4J/voZOI86jLH
+X-Gm-Gg: AfdE7clHIQtrIVEJfe1oP79YP4w/8h1tHa94L8a8ZcRbvTZhd4nUH8F+X6frlubjmlx
+	eH9dTCPm6/0Q2TKwtpsrUVTBVQMamaoxg14k3UpBELTa6ahX7Nk2b+tsEqyPpkxOonGZggeJNoT
+	nQzrhSyl2hrfzeB7MbAkiatW24l2P0GcfO69KHkcguZWoEC/VC8nGH3nLC5MBF94PccRCywB5su
+	XnO8aoCUFSHfMpn2t2snduovuVWR9D9JUocmFexTiq8ekuQg7wEImlYxJzJ4+teN0csdiq0Kuih
+	SqDymg==
+X-Received: by 2002:a05:7022:7a5:b0:139:9e79:43fa with SMTP id
+ a92af1059eb24-13b2a1602a6mr681055c88.9.1782773264731; Mon, 29 Jun 2026
+ 15:47:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANpmjNNVw9rR5J-Bd3FL9Cxss3b+mN-XCGsg1c9HrTa70S0HEQ@mail.gmail.com>
+References: <20260614131541.2017845-1-nilay@linux.ibm.com> <20260614131541.2017845-15-nilay@linux.ibm.com>
+ <20260626064916.GC11106@lst.de> <d72e3efb-875e-40b4-80cb-1fa642bea7a5@linux.ibm.com>
+ <20260629125054.GC23695@lst.de>
+In-Reply-To: <20260629125054.GC23695@lst.de>
+From: Marco Elver <elver@google.com>
+Date: Tue, 30 Jun 2026 00:47:08 +0200
+X-Gm-Features: AVVi8CdCfyw5QUlPYng-1Iw4VBbAyMKxvxPdjnmeMfmbbNF6QexIOCemsewC8QI
+Message-ID: <CANpmjNPgvdKLvQTFvt2OUYzG4V7GMPSmrDfV0jPbbtNxv36GJA@mail.gmail.com>
+Subject: Re: [PATCHv2 14/17] nvme: fix Clang context analysis warning in rdma.c
+To: Christoph Hellwig <hch@lst.de>
+Cc: Nilay Shroff <nilay@linux.ibm.com>, linux-nvme@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, kbusch@kernel.org, sagi@grimberg.me, 
+	axboe@fb.com, bvanassche@acm.org, gjoyce@linux.ibm.com
+Content-Type: text/plain; charset="UTF-8"
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260629_154746_374710_9A7427DD 
+X-CRM114-Status: GOOD (  17.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,171 +114,28 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: paulmck@kernel.org
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jun 29, 2026 at 10:48:43AM +0200, Marco Elver wrote:
-> On Mon, 29 Jun 2026 at 07:20, Nilay Shroff <nilay@linux.ibm.com> wrote:
+On Mon, 29 Jun 2026 at 14:50, Christoph Hellwig <hch@lst.de> wrote:
+>
+> On Fri, Jun 26, 2026 at 09:01:20PM +0530, Nilay Shroff wrote:
+> >> Does switching to list_empty_careful fix this?  If not, does
+> >> list_empty_careful need annotations to make this work?
+> >>
 > >
-> > On 6/28/26 9:37 PM, Paul E. McKenney wrote:
-> > > On Sun, Jun 28, 2026 at 08:00:00AM +0200, Marco Elver wrote:
-> > >> On Sat, 27 Jun 2026 at 19:14, Paul E. McKenney <paulmck@kernel.org> wrote:
-> > >>>
-> > >>> On Sat, Jun 27, 2026 at 05:38:44PM +0200, Marco Elver wrote:
-> > >>>> On Fri, 26 Jun 2026 at 20:36, Paul E. McKenney <paulmck@kernel.org> wrote:
-> > >>>>> On Fri, Jun 26, 2026 at 08:40:50AM +0200, Christoph Hellwig wrote:
-> > >>>>>> On Sun, Jun 14, 2026 at 06:45:20PM +0530, Nilay Shroff wrote:
-> > >>>>>>> +++ b/drivers/nvme/host/multipath.c
-> > >>>>>>> @@ -231,8 +231,16 @@ bool nvme_mpath_clear_current_path(struct nvme_ns *ns)
-> > >>>>>>>      bool changed = false;
-> > >>>>>>>      int node;
-> > >>>>>>>
-> > >>>>>>> +   /*
-> > >>>>>>> +    * This helper is used by namespace failover/teardown and I/O policy
-> > >>>>>>> +    * update paths. We only compare the head->current_path[] pointer value
-> > >>>>>>> +    * and do not dereference the referenced namespace, so suppress the
-> > >>>>>>> +    * context analysis warning for this lockless inspection of the
-> > >>>>>>> +    * __rcu_guarded pointer.
-> > >>>>>>> +    */
-> > >>>>>>>      for_each_node(node) {
-> > >>>>>>> -           if (ns == rcu_access_pointer(head->current_path[node])) {
-> > >>>>>>> +           if (context_unsafe(ns ==
-> > >>>>>>> +                           rcu_access_pointer(head->current_path[node]))) {
-> > >>>>>>
-> > >>>>>> I think we need a helper for this, as for a simple pointer value
-> > >>>>>> comparison without a dereference we don't really need either
-> > >>>>>> rcu_access_pointer nor locking.
-> > >>>>>>
-> > >>>>>> Maybe somthing like a
-> > >>>>>>
-> > >>>>>>        rcu_compare_pointer(rcu_pointer, nonrcu_pointer)
-> > >>>>>>
-> > >>>>>> ?
-> > >>>>>
-> > >>>>> We could provide something like this:
-> > >>>>>
-> > >>>>> #define rcu_compare_pointer(rcu_pointer, nonrcu_pointer) \
-> > >>>>>          context_unsafe(rcu_access_pointer(rcu_pointer) == (nonrcu_pointer))
-> > >>>>>
-> > >>>>> Or maybe rcu_pointer_equals()?
-> > >>>>>
-> > >>>>> Marco, thoughts?
-> > >>>>
-> > >>>> I see 2 options:
-> > >>>>
-> > >>>> 1. rcu_compare_pointer / rcu_pointer_equals as proposed. It's more
-> > >>>> explicit but does add some friction during Context Analysis
-> > >>>> enablement. But this only makes sense if there are cases where
-> > >>>> rcu_access_pointer() should be used under the RCU reader lock, which
-> > >>>> led me to the next suggestion...
-> > >>>>
-> > >>>> 2. Redefine rcu_access_pointer() to just not require the RCU read-side
-> > >>>> lock to be held as:
-> > >>>>
-> > >>>>> #define rcu_access_pointer(p) context_unsafe(__rcu_access_pointer((p), __UNIQUE_ID(rcu), __rcu))
-> > >>>>
-> > >>>> [ Or alternatively wrap __rcu_access_pointer() in context_unsafe()
-> > >>>>    (similar to rcu_assign_pointer and friends). ]
-> > >>>>
-> > >>>> I think rcu_access_pointer() is in the same category as the other RCU
-> > >>>> pointer helpers, although currently only the pointer update helpers
-> > >>>> imply context_unsafe(); I think it might have been an oversight
-> > >>>> initially, and we should change rcu_access_pointer() to match. There
-> > >>>> should be no reason why an rcu_access_pointer() should be protected by
-> > >>>> the RCU read-side critical section, since it's not meant for
-> > >>>> dereferencing the pointer (that'd be a bug; its documentation also
-> > >>>> says "Return the value of the specified RCU-protected pointer, but
-> > >>>> omit the lockdep checks for being in an RCU read-side critical section
-> > >>>> [...]").
-> > >>>>
-> > >>>> If you agree there should be no cases where an rcu_access_pointer()
-> > >>>> should be guarded by an RCU read-side critical section, then I think
-> > >>>> this is the simplest and correct design, and avoids expanding the RCU
-> > >>>> API.
-> > >>>
-> > >>> I don't know of any uses of rcu_access_pointer() within an RCU read-side
-> > >>> critical section, but code in a function that might be called both within
-> > >>> and outside of a critical section might well use rcu_access_pointer().
-> > >>> In other words, it should be OK to use rcu_access_pointer() within an
-> > >>> RCU read-side critical section as well as outside of one.
-> > >>
-> > >> Thanks, yes, that's what I wanted to confirm; i.e. it's ok to use
-> > >> rcu_access_pointer() within and outside an RCU read-side critical
-> > >> section.
-> > >>
-> > >> In which case, my proposal (2) to make rcu_access_pointer() not warn
-> > >> on accessing __rcu_guarded pointers outside an RCU read-side critical
-> > >> section should be the simpler and more generic change (vs. adding a
-> > >> new rcu_pointer_equals() helper).
-> > >
-> > > As shown below?
-> > >
-> > > My guess is that this change makes it unnecessary to have a separate
-> > > RCU-protected-pointer comparison macro, but please let me know if I am
-> > > missing something.
-> > >
-> > >                                                       Thanx, Paul
-> > >
-> > > ------------------------------------------------------------------------
-> > >
-> > > commit 32c1e63fee171f7ed8cc986ec64f576ee80bccab
-> > > Author: Paul E. McKenney <paulmck@kernel.org>
-> > > Date:   Sun Jun 28 09:00:01 2026 -0700
-> > >
-> > >      rcu: Mark __rcu_access_pointer() as context_unsafe()
-> > >
-> > >      A simple comparison of a pointer returned by rcu_access_pointer() results
-> > >      in a context-analysis warning for lockless inspection of the RCU-protected
-> > >      (also known as __rcu-protected) pointer.  This can be suppressed by
-> > >      placing context_unsafe() calls around calls rcu_access_pointer(),
-> > >      but this is messy and distracting.  This commit therefore wraps the
-> > >      underlying __rcu_access_pointer() macro with a call to context_unsafe(),
-> > >      thereby informing the context-analysis code that rcu_access_pointer()
-> > >      may safely be invoked outside of an RCU read-side critical section.
-> > >
-> > >      Reported-by: Christoph Hellwig <hch@lst.de>
-> > >      Suggested-by: Marco Elver <elver@google.com>
-> > >      Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-> > >
-> > > diff --git a/include/linux/rcupdate.h b/include/linux/rcupdate.h
-> > > index 5e95acc33989b6..e40dc2e20c5b1f 100644
-> > > --- a/include/linux/rcupdate.h
-> > > +++ b/include/linux/rcupdate.h
-> > > @@ -490,12 +490,12 @@ context_unsafe(                                                         \
-> > >    */
-> > >   #define unrcu_pointer(p) __unrcu_pointer(p, __UNIQUE_ID(rcu))
-> > >
-> > > -#define __rcu_access_pointer(p, local, space) \
-> > > +#define __rcu_access_pointer(p, local, space) context_unsafe( \
-> > >   ({ \
-> > >       typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
-> > >       rcu_check_sparse(p, space); \
-> > >       ((typeof(*p) __force __kernel *)(local)); \
-> > > -})
-> > > +}) )
-> > >   #define __rcu_dereference_check(p, local, c, space) \
-> > >   ({ \
-> > >       /* Dependency order vs. p above. */ \
-> >
-> > I have tested the above patch with an __rcu_guarded pointer accessed
-> > outside an RCU read-side critical section while Clang context analysis
-> > is enabled. I can confirm that this change suppresses the context
-> > analysis warning when the pointer is accessed via rcu_access_pointer().
-> >
-> > With that, if you send out this change, please add:
-> >
-> > Tested-by: Nilay Shroff <nilay@linux.ibm.com>
-> 
-> Thanks for double-checking.
-> 
-> Reviewed-by: Marco Elver <elver@google.com>
+> > I tried using list_empty_careful() but clang still throws the
+> > same warning. And yes it needs same annotation to suppress
+> > the warning.
+>
+> Sounds like we should have annotations (or just use of data_race)
+> in list_empty_careful, as it is designed to be used without holding
+> the relevant lock used for modifications?
 
-Thank you all!
-
-By default, I will push this into the upcoming v7.3 merge window.  If you
-need it earlier, we would have to make a case for this being a regression.
-Which I could probably do, but first, is v7.3 too late for you?
-
-							Thanx, Paul
+Given list_empty_careful() is a real inline function (not a macro),
+you can just add __no_context_analysis to list_empty_careful(), which
+should also suppress warnings about pointer-to-guarded-variable being
+passed as an argument into it. data_race() wouldn't work, as the
+warning is generated in the caller, but when the attribute is added to
+the callee, it also suppresses warnings about arguments in the caller.
 
