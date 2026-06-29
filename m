@@ -4,67 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BA772C43458
-	for <linux-nvme@archiver.kernel.org>; Sun, 28 Jun 2026 16:07:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E54B1C43458
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2026 05:15:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Fl6LmaQ7mCERBv+RR+kR+AVwN/pewOVd7cVWDKRU79c=; b=u7n4jx933ckpUzyQDHe+s3GbOa
-	aBDA9EQIS3BdP75hoE/3YafyL1JkZlpHxy2D4w2+j4nX5X0FOJqkfn8hPNzePtouQbNgQWePOEYfi
-	GZV5EvgjtasMuReMuPwTlpaBCGle3SuflkxFF5YHnfyWvbplJpn+eheltP0WJFQjE0Rh2n93IpUIV
-	LVfO0tqdMqljLZZW8xHgDJwG0p9Fsr7q9NcD20TcYXEB4OxnXVX0xcQKxGuQkiyiEoSQZGs7Y0wPu
-	hHCNFG1EczNjek+BcRGdRr00vjz8FgVebxXiP/iaeSORCBi/UR/1nsT3v7nMdUO+JT8EiuXlQmCZj
-	R64vLOEw==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=UCXPFf3lx+nqMPOv+q+ywzlIPYrdCXgejjR9i4xbnDQ=; b=w0GMxTaFthvon/ti7FP4xV85AX
+	NLCONqq0cEwwouPSz9Ekfn3LQKSclKecANGZAMhw5TBPDYwGfMCadURQrFbLUBCUEdHbKd0mrTopL
+	TndJz5gavSUfJ/CgUcS48LVZNdP8tLfn5/ZLdpenFJzTfg9Za8IBuRyOYSHzjK6GvYvdA+HD8gYBv
+	9doBxzmqUUm5ZorAk4OLyhWP/Tp0bA3+cO18rWI616LH060ur+pGpDuIyZYEt+SGcmQOhbNcXdKqY
+	Eurr7JXsX87v6jRJk3mRGSBs2YMsUpx31buD4TRg6IcmwmVYyb8f/9LnWL8K+d0GVN+6VCa1HVUbo
+	iZgya8aw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wds31-0000000DBsN-1RWX;
-	Sun, 28 Jun 2026 16:07:55 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1we4La-0000000DhLM-2yRN;
+	Mon, 29 Jun 2026 05:15:54 +0000
+Received: from esa2.hgst.iphmx.com ([68.232.143.124])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wds30-0000000DBsG-0lFx
+	id 1we4LU-0000000DhKM-1eBu
 	for linux-nvme@lists.infradead.org;
-	Sun, 28 Jun 2026 16:07:54 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 3149543D0C;
-	Sun, 28 Jun 2026 16:07:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6BFB1F000E9;
-	Sun, 28 Jun 2026 16:07:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782662872;
-	bh=Fl6LmaQ7mCERBv+RR+kR+AVwN/pewOVd7cVWDKRU79c=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
-	b=KM/tLHRH1XF325qayO+L5DtMLJIr1cuQ9YLZquPtDLzvedLQxLaNTE7btH483xeHx
-	 6VBL3kcXtb8UBAsqQntk14zfiCb5PmeSXPB3IzEe8VDBAAdKDcrcs0hdfqoh/pxitr
-	 ovz2pghmqNiB7CDn3etZSPHQfxGOyVGBSuK6J+r0Yru0FJHCVEHAJwqXrqFz8Fkq+2
-	 dcP1yOLQL6PFkYg9d0Zbq9/Zl8gH6vuXsofrNR0qW1hDjPiWvz40wMRYdidEOZ23v4
-	 c4o+9rjLmuw4XxxhxpMrhZUoCJfSwMysQUgm7MvszO5FZhClCxUCUk+Uw1OoIrKubE
-	 CcGUEn1ROmUvQ==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id A4E1ACE08B8; Sun, 28 Jun 2026 09:07:51 -0700 (PDT)
-Date: Sun, 28 Jun 2026 09:07:51 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Marco Elver <elver@google.com>
-Cc: Nilay Shroff <nilay@linux.ibm.com>, Christoph Hellwig <hch@lst.de>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	kbusch@kernel.org, sagi@grimberg.me, axboe@fb.com,
-	bvanassche@acm.org, gjoyce@linux.ibm.com
-Subject: Re: [PATCHv2 05/17] nvme: add Clang context annotations for
- nvme_ns_head::current_path
-Message-ID: <62bbec8e-6eb5-4024-acba-6be1e7f33080@paulmck-laptop>
-References: <20260614131541.2017845-1-nilay@linux.ibm.com>
- <20260614131541.2017845-6-nilay@linux.ibm.com>
- <20260626064050.GE10731@lst.de>
- <e1c60afc-423b-47ec-9c38-db1397d8838f@paulmck-laptop>
- <CANpmjNPPF3TYx6qPzLO-DbQE6qvL_g6r3jYnGCk3aqeiQnnL5g@mail.gmail.com>
- <41a4cb5a-077c-499f-b060-2a4263303350@paulmck-laptop>
- <CANpmjNPAYsiQ=eiZ=0g579j1uO+-23ZXAhRA7M3uM-B8NdHg1g@mail.gmail.com>
+	Mon, 29 Jun 2026 05:15:49 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1782710149; x=1814246149;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=dYG/M4mKxi518AMskepviyT27phsj06S2qC8Bpvd2k8=;
+  b=QvdbXKZWSsZ41B3vri0CndfxQFVDRjCT9WGtc83cyDItqup9P36/piZO
+   IYmDOvr40ATDeXQUHq4GLEjEPzdX0/Q5nHvcTSm6ebD13xQk8RY6opY+0
+   1WLeCBiz43zUrCKR/HaJyvy69oabC8ZLmiDKBBGQyy+lkLoqxORGjIWr1
+   dj0Og2zhTUYIVQRvNgAfrtAOlx8e2ARqAUDC7fcokOUG3NSeEBE56XXrc
+   /u/tO7KhIsMtSEcUv9lm1MkFzNdv3pw/b3y03nZ814O69CC0zf+d+1UIj
+   njoR8N2vL7uC7enQXUSYANyYjM0dEwOrJSfIXS2yGAXaqnGwczQI/4EDx
+   A==;
+X-CSE-ConnectionGUID: vPlolDmSQRyhR8g3xPjTCA==
+X-CSE-MsgGUID: YOKhG+tpT7SwZ4OSxUHPGw==
+X-IronPort-AV: E=Sophos;i="6.24,231,1774281600"; 
+   d="scan'208";a="150909809"
+Received: from unknown (HELO uls-op-esad2-o.wdc.com) ([199.255.45.15])
+  by ob1.hgst.iphmx.com with ESMTP; 29 Jun 2026 13:15:47 +0800
+X-CSE-ConnectionGUID: B8cymhxpSUi1AnrE58SNVg==
+X-CSE-MsgGUID: gJBbhfGnSmiHS3hCFo47Cg==
+IronPort-SDR: 6a41ff72_rEA3f652rKWgYiVw1s6TdUZJllG+cqYDdBvVf/SRj8C59ng
+ mALq0tk9v4Us8lY3skLeWTF2ckLV599QRbFQ09w==
+Received: from uls-op-esai2-o.wdc.com ([10.248.3.38])
+  by uls-op-esad2-o.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 28 Jun 2026 22:15:29 -0700
+X-CSE-ConnectionGUID: IreS3r0OQkmXezaJlJOrjA==
+X-CSE-MsgGUID: v74nCZG4Rjy8hZcWMLtdVw==
+WDCIronportException: Internal
+Received: from unknown (HELO shindev.ssa.fujisawa.hgst.com) ([10.149.67.30])
+  by uls-op-esai2-o.wdc.com with ESMTP; 28 Jun 2026 22:15:29 -0700
+From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: linux-nvme@lists.infradead.org,
+	Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@infradead.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Subject: [PATCH 0/2] nvmet-rdma: fix response resource leak on queue teardown
+Date: Mon, 29 Jun 2026 14:15:26 +0900
+Message-ID: <20260629051529.810925-1-shinichiro.kawasaki@wdc.com>
+X-Mailer: git-send-email 2.54.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANpmjNPAYsiQ=eiZ=0g579j1uO+-23ZXAhRA7M3uM-B8NdHg1g@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260628_221548_513565_17D59C78 
+X-CRM114-Status: GOOD (  11.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,146 +84,30 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: paulmck@kernel.org
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Jun 28, 2026 at 08:00:00AM +0200, Marco Elver wrote:
-> On Sat, 27 Jun 2026 at 19:14, Paul E. McKenney <paulmck@kernel.org> wrote:
-> >
-> > On Sat, Jun 27, 2026 at 05:38:44PM +0200, Marco Elver wrote:
-> > > On Fri, 26 Jun 2026 at 20:36, Paul E. McKenney <paulmck@kernel.org> wrote:
-> > > > On Fri, Jun 26, 2026 at 08:40:50AM +0200, Christoph Hellwig wrote:
-> > > > > On Sun, Jun 14, 2026 at 06:45:20PM +0530, Nilay Shroff wrote:
-> > > > > > +++ b/drivers/nvme/host/multipath.c
-> > > > > > @@ -231,8 +231,16 @@ bool nvme_mpath_clear_current_path(struct nvme_ns *ns)
-> > > > > >     bool changed = false;
-> > > > > >     int node;
-> > > > > >
-> > > > > > +   /*
-> > > > > > +    * This helper is used by namespace failover/teardown and I/O policy
-> > > > > > +    * update paths. We only compare the head->current_path[] pointer value
-> > > > > > +    * and do not dereference the referenced namespace, so suppress the
-> > > > > > +    * context analysis warning for this lockless inspection of the
-> > > > > > +    * __rcu_guarded pointer.
-> > > > > > +    */
-> > > > > >     for_each_node(node) {
-> > > > > > -           if (ns == rcu_access_pointer(head->current_path[node])) {
-> > > > > > +           if (context_unsafe(ns ==
-> > > > > > +                           rcu_access_pointer(head->current_path[node]))) {
-> > > > >
-> > > > > I think we need a helper for this, as for a simple pointer value
-> > > > > comparison without a dereference we don't really need either
-> > > > > rcu_access_pointer nor locking.
-> > > > >
-> > > > > Maybe somthing like a
-> > > > >
-> > > > >       rcu_compare_pointer(rcu_pointer, nonrcu_pointer)
-> > > > >
-> > > > > ?
-> > > >
-> > > > We could provide something like this:
-> > > >
-> > > > #define rcu_compare_pointer(rcu_pointer, nonrcu_pointer) \
-> > > >         context_unsafe(rcu_access_pointer(rcu_pointer) == (nonrcu_pointer))
-> > > >
-> > > > Or maybe rcu_pointer_equals()?
-> > > >
-> > > > Marco, thoughts?
-> > >
-> > > I see 2 options:
-> > >
-> > > 1. rcu_compare_pointer / rcu_pointer_equals as proposed. It's more
-> > > explicit but does add some friction during Context Analysis
-> > > enablement. But this only makes sense if there are cases where
-> > > rcu_access_pointer() should be used under the RCU reader lock, which
-> > > led me to the next suggestion...
-> > >
-> > > 2. Redefine rcu_access_pointer() to just not require the RCU read-side
-> > > lock to be held as:
-> > >
-> > > > #define rcu_access_pointer(p) context_unsafe(__rcu_access_pointer((p), __UNIQUE_ID(rcu), __rcu))
-> > >
-> > > [ Or alternatively wrap __rcu_access_pointer() in context_unsafe()
-> > >   (similar to rcu_assign_pointer and friends). ]
-> > >
-> > > I think rcu_access_pointer() is in the same category as the other RCU
-> > > pointer helpers, although currently only the pointer update helpers
-> > > imply context_unsafe(); I think it might have been an oversight
-> > > initially, and we should change rcu_access_pointer() to match. There
-> > > should be no reason why an rcu_access_pointer() should be protected by
-> > > the RCU read-side critical section, since it's not meant for
-> > > dereferencing the pointer (that'd be a bug; its documentation also
-> > > says "Return the value of the specified RCU-protected pointer, but
-> > > omit the lockdep checks for being in an RCU read-side critical section
-> > > [...]").
-> > >
-> > > If you agree there should be no cases where an rcu_access_pointer()
-> > > should be guarded by an RCU read-side critical section, then I think
-> > > this is the simplest and correct design, and avoids expanding the RCU
-> > > API.
-> >
-> > I don't know of any uses of rcu_access_pointer() within an RCU read-side
-> > critical section, but code in a function that might be called both within
-> > and outside of a critical section might well use rcu_access_pointer().
-> > In other words, it should be OK to use rcu_access_pointer() within an
-> > RCU read-side critical section as well as outside of one.
-> 
-> Thanks, yes, that's what I wanted to confirm; i.e. it's ok to use
-> rcu_access_pointer() within and outside an RCU read-side critical
-> section.
-> 
-> In which case, my proposal (2) to make rcu_access_pointer() not warn
-> on accessing __rcu_guarded pointers outside an RCU read-side critical
-> section should be the simpler and more generic change (vs. adding a
-> new rcu_pointer_equals() helper).
+When an nvme target with rdma transport is removed while I/Os are in
+flight, a response can be posted but its send completion is never
+delivered before the connection is torn down. This leaks the request
+SGLs and the RDMA read/write context. The leaks are recreated by
+running blktests nvme/061 with rdma transport and the siw driver [1].
 
-As shown below?
+[1] https://lore.kernel.org/linux-nvme/ajtk1CaN1pBreS4O@shinmob/
 
-My guess is that this change makes it unnecessary to have a separate
-RCU-protected-pointer comparison macro, but please let me know if I am
-missing something.
+This series addresses the problem. The first patch is a preparation
+refactoring. The second patch fixes the problem by reclaiming memory
+objects on queue QP teardown.
 
-							Thanx, Paul
 
-------------------------------------------------------------------------
+Shin'ichiro Kawasaki (2):
+  nvmet-rdma: factor out response resource cleanup
+  nvmet-rdma: fix response resource leak on queue teardown
 
-commit 32c1e63fee171f7ed8cc986ec64f576ee80bccab
-Author: Paul E. McKenney <paulmck@kernel.org>
-Date:   Sun Jun 28 09:00:01 2026 -0700
+ drivers/nvme/target/rdma.c | 31 ++++++++++++++++++++++++++++---
+ 1 file changed, 28 insertions(+), 3 deletions(-)
 
-    rcu: Mark __rcu_access_pointer() as context_unsafe()
-    
-    A simple comparison of a pointer returned by rcu_access_pointer() results
-    in a context-analysis warning for lockless inspection of the RCU-protected
-    (also known as __rcu-protected) pointer.  This can be suppressed by
-    placing context_unsafe() calls around calls rcu_access_pointer(),
-    but this is messy and distracting.  This commit therefore wraps the
-    underlying __rcu_access_pointer() macro with a call to context_unsafe(),
-    thereby informing the context-analysis code that rcu_access_pointer()
-    may safely be invoked outside of an RCU read-side critical section.
-    
-    Reported-by: Christoph Hellwig <hch@lst.de>
-    Suggested-by: Marco Elver <elver@google.com>
-    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+-- 
+2.54.0
 
-diff --git a/include/linux/rcupdate.h b/include/linux/rcupdate.h
-index 5e95acc33989b6..e40dc2e20c5b1f 100644
---- a/include/linux/rcupdate.h
-+++ b/include/linux/rcupdate.h
-@@ -490,12 +490,12 @@ context_unsafe(								\
-  */
- #define unrcu_pointer(p) __unrcu_pointer(p, __UNIQUE_ID(rcu))
- 
--#define __rcu_access_pointer(p, local, space) \
-+#define __rcu_access_pointer(p, local, space) context_unsafe( \
- ({ \
- 	typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
- 	rcu_check_sparse(p, space); \
- 	((typeof(*p) __force __kernel *)(local)); \
--})
-+}) )
- #define __rcu_dereference_check(p, local, c, space) \
- ({ \
- 	/* Dependency order vs. p above. */ \
 
