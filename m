@@ -4,104 +4,120 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E2B8AC43458
-	for <linux-nvme@archiver.kernel.org>; Wed,  1 Jul 2026 03:33:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EBD47C43602
+	for <linux-nvme@archiver.kernel.org>; Wed,  1 Jul 2026 07:46:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Tb8rzvIsMJ6RJjQF5wQOi3mbfxQmYnq5SEFybG+B22I=; b=dSXaz+4zZALnhpvUHtMqfHvjq0
-	mr4/FzosDCbjnLBQrOQXE5AT7II9RfhTTgqIGsuVl6oYBruCS87RHKkHrk5uHk859O+ndEjmoFPBN
-	fiiVZ1wMPqyUnV2Ct51WiSGIr8O/DiaheBf4XO+KEubXVAGK9OWsmTVOQgM/dL2Tc0PXXftoaa7fV
-	9vhgxnSTsyFqXtumgHo38aXXfetU6gwifM1YLS7mbaDW/gwMW9CM+cDAmpBMVxIuu0HiLKJEYrVBB
-	1j4YlaOuvgzXFW5hT9T7OvwLKDw3dM/vClnQLdo+6XlZV3taYFktrljxgTO1oApO/rUOsfE/k5FN8
-	8kfCVaMg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=RvxggTR14kYI/LBXmxIZU4DT50I7BgpPfAWv9biA3TM=; b=aRWWNJMa6HXP3lSmpWF0TX/BnU
+	HSo3T6GxV89KYVk+l2tBKDR3xeXkfsOL+y/+NWIVr9nnmUbYjryhlvopsLYid7MShNuSB7deST/X6
+	eBqceSDN7MOAqE4h7GQ7HT4tjy45rLKlC9pmV0uf/9TTUV/WCpNOGWK6VcBwAtiwpeSWCh1qFuqQe
+	5l6b7l/p41dkYjBbvmOVCG6L0EmhuCa17LmbV4ymsaB1YSFAxKk+5fn5ahGMDscuqYocZBo7Swrxx
+	Mj36JEGVZKzo/xC8qo6AVxWJY21jWx7Tf6Tk0k07uRe0ZYpeUVnF076awXQcBpBlq7f/7M7Tx5YOy
+	jPPk4mew==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1welhW-00000000aXH-0Eoj;
-	Wed, 01 Jul 2026 03:33:26 +0000
-Received: from mail-yx1-xb12f.google.com ([2607:f8b0:4864:20::b12f])
+	id 1wepeQ-00000000wCw-02gK;
+	Wed, 01 Jul 2026 07:46:30 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1welhS-00000000aWx-25ce
+	id 1wepeH-00000000wBY-2dTD
 	for linux-nvme@lists.infradead.org;
-	Wed, 01 Jul 2026 03:33:23 +0000
-Received: by mail-yx1-xb12f.google.com with SMTP id 956f58d0204a3-664b05d408bso119694d50.1
-        for <linux-nvme@lists.infradead.org>; Tue, 30 Jun 2026 20:33:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782876801; cv=none;
-        d=google.com; s=arc-20260327;
-        b=FFOukB1NheWiQDcwC01LTLEbbe9tGOuKAGy5b0kxjDUHfFWZMW07itiiyobwmoQx9T
-         EwFPwAZMVqLoSliydGzxjESUsBm6aewY6OBCVhEL743WbMpeizGn7zWB5Idom1EoV3lF
-         l5vBPkmE93m4mI1vn8ymc0Ful8NxQK/C6CLz4Zehy35gvAxKicYSu8ytQc8EXRVPnSPJ
-         OdbDaptWEqVn01sKsmZBCoIFaYdF+beKgguZJvK8hbF5nCgbNs5j0Bb6cMZyyLycSb+8
-         3w31aJlsi2B4sX6gTr3pKbTJAW6Pj1dDrObn+7+4PpsLuPk5M5BzQRasktXbSrM62KcX
-         h/uw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Tb8rzvIsMJ6RJjQF5wQOi3mbfxQmYnq5SEFybG+B22I=;
-        fh=SmxU9/4N1doNw8KjZo64J+aqVGiSoF2b0YildNXOnCQ=;
-        b=bsykRyuuj2s4i+TY4jaFhxntBw8F+H8hh0xWTtCHu+Jj2awJ8pvfwUcGoe6JQvlZaD
-         xbDHg57GutFbTCy+o03jrxQAI51jjM9AwVvKBWZOchIuJXJz4qi76vr8VPu8muOuZcpy
-         4wfM+2acE5SEaFNWJi4YBhKIcxM8egihNZNmez6C9zSdFA1qP3tgPJ9NNUvVOe2kxb6q
-         Y4deLkw/ol3G0bJ1lLG89i0N2q/SIZcb7PJYP0W53gmh4WEhQJtVmasBP2x97+Rbg/0I
-         4LjuGb/32slbYTri2MVqdA5DD2eXq1O/EBfW7wLOwUwyH+sQRcGQetSHn0SaEvBjbrqt
-         9sWA==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782876801; x=1783481601; darn=lists.infradead.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Tb8rzvIsMJ6RJjQF5wQOi3mbfxQmYnq5SEFybG+B22I=;
-        b=o8SS+bk1Eb/9o//vJ1Ywgx77Z6bmsLjuxeJFZeHRpsRdvg0gwFIGIoyiK/a94N7Vqp
-         UmUIS1VhIaUDooPxCm7YRQub0HLq4vyOiCw9zW/5HDbK4aXWyFlIUFMpypS0ZFRLBoAc
-         96pU7rlR2gqjJejdydpEjgyaL7aSxP1d97po1Uka+hlRnNUzzsDqhzIs4F3anP9j1E0I
-         eoCp0AGLEPMHWzWseED/o4t0CnfzNO/DB9yQTPOkEqgjisznGFiYWhzd4+OC0wyBk3o2
-         gyNHvjA6KUjsVR1rQOgJrawWeQRAfjRZYpFcGumIyBFxUUNScIBDL0e1TcOzdDKbQc/9
-         2KTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782876801; x=1783481601;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Tb8rzvIsMJ6RJjQF5wQOi3mbfxQmYnq5SEFybG+B22I=;
-        b=B4lC2Df7rUcWVmaZrB1x9E5q3ufIJhCbc7yXBGNlHe5bQufp4w1QIEbYYrCiqUAmgt
-         dT7L6C9H0Eiy3akgvbs4SRI/0O2Putzu+KFcn2XG8FhSdHmYm+lO6Cxv4674JRG1/87J
-         iL7GYXhvkVnadtJhKwFkuf99MrKUdevtJv7ixQDq8ThgVKU2fukwyI+mRSH6H0FU+T+L
-         uIxCB5YhCd9G+O4YpyMMZRRbbvREabl9aVc7WgQ85QTsUKDbLdwSsrMnm420Ah9gyxT0
-         y30RYMDroQHVj8Tq1yV8eYQn+nSEx5QpYtitronWBYlgKNUmmOmqDjc1SaEXG0vPHRFS
-         UPLg==
-X-Forwarded-Encrypted: i=1; AHgh+Rr11IRMqGXjw8a0JhKP+TnrLFPoryqbw1LwTFyTAQkoajIEG8dl4rsMc+T4qhLJFxaEvR4U/PPeq4JS@lists.infradead.org
-X-Gm-Message-State: AOJu0Yx5W2UN34xPpwOyZOdUT2fk9+wYDOSlBk6jwNFTos2+TVTf3nfD
-	CXaDV+FVBwO8RgIC9+vEESf232SplYXC+N/boMLwRxrV72AgZDLGdVFzCVqM311UciJ4ReTTX76
-	//LH2lPfoJxQgVwxMs2fNGabCpYcREOV9q57lqgk=
-X-Gm-Gg: AfdE7cmpaiMX+/W41i9oK414jE7JDPIDj5V157LmrWFSxRxrIKXul+hX5mrR/V+7LlS
-	V+bDYUNpnSBKjFBNKomD5n0nSGucXUihXHUPa10hhUtj1rNJRojmOJlCL4jtw9sRSS6oD0/BENK
-	UwptopKMCKOwlgvwfagahxBb93UZK4zRdKF7egHkZg+Ft2NDfh+xGhcCYBcFYfrFNXieRxssGGb
-	Wcq1CuYXBSN6A8ojs0F7+MazGEeCGjyg/cA/yNVNPL0+VuBGVykPX9qqxl/mNaQeJS3/eA8xjfW
-	RQSewAMAbA==
-X-Received: by 2002:a05:690c:3603:b0:80c:85b6:764e with SMTP id
- 00721157ae682-810daf0fcf9mr62423127b3.67.1782876800749; Tue, 30 Jun 2026
- 20:33:20 -0700 (PDT)
+	Wed, 01 Jul 2026 07:46:22 +0000
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6613IHrY3867369;
+	Wed, 1 Jul 2026 07:46:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=RvxggT
+	R14kYI/LBXmxIZU4DT50I7BgpPfAWv9biA3TM=; b=mqCaK6E1j4DJV1D4RdPvu7
+	3NXe2gHenuh6zSdMaa5UNBR9E1I5uHAOUWO1ik15mccAc9Jd5T58n6q3Wic8719y
+	MbiTkAzFHr9IYpawWP77udm+pWVcrqhGrPIJOdaB6smTZs9ESKWQ/HpYxH4N8eU9
+	Vlrh3/8/BfKNjKtfdFskYgmQuCrhWI4Pzu/315BkAfp0BsaqON9TPGe5i/U+z77J
+	x0icMNCY18wWGWdQ2XnpOvAE/+5np5lZIe4C/RzIiHdzMigRjGe/0k5stYkRLQCt
+	y/UK7DAq5B6BzAxTt+Aktsj8shFxTFIizr3JhwrjZmitdBGjTwWjnk/rkx7hO3mg
+	==
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4f26n5u7ux-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 01 Jul 2026 07:46:03 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 6617Ji8p006303;
+	Wed, 1 Jul 2026 07:46:02 GMT
+Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4f2suk68jm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 01 Jul 2026 07:46:02 +0000 (GMT)
+Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com [10.39.53.228])
+	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6617k2lf25887292
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 1 Jul 2026 07:46:02 GMT
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8901B5804B;
+	Wed,  1 Jul 2026 07:46:02 +0000 (GMT)
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 245DD58068;
+	Wed,  1 Jul 2026 07:45:59 +0000 (GMT)
+Received: from [9.43.78.19] (unknown [9.43.78.19])
+	by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Wed,  1 Jul 2026 07:45:58 +0000 (GMT)
+Message-ID: <e6cbe529-8529-4927-8e16-637fb8d9012d@linux.ibm.com>
+Date: Wed, 1 Jul 2026 13:15:57 +0530
 MIME-Version: 1.0
-References: <20260623002329.3880334-1-zzzccc427@gmail.com> <20260626070324.GA11524@lst.de>
-In-Reply-To: <20260626070324.GA11524@lst.de>
-From: Cen Zhang <zzzccc427@gmail.com>
-Date: Wed, 1 Jul 2026 11:33:08 +0800
-X-Gm-Features: AVVi8CeIZdBoJqb7Bqm6NCFjaCbFbmYMwSFK80vYiCrj4EvCz25feESYRTMSacc
-Message-ID: <CAFRLqsUdFQCpXHmcL4jSj+cViwm=hdaOP0H+btJYrV-9BbLOMw@mail.gmail.com>
-Subject: Re: [PATCH v3] nvme-rdma: pin device wrapper in remove_one
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, Jens Axboe <axboe@kernel.dk>, 
-	Steve Wise <larrystevenwise@gmail.com>, linux-nvme@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, baijiaju1990@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv2 12/17] nvme: add Clang context annotations for
+ nvme_queue::cq_poll_lock
+To: Marco Elver <elver@google.com>
+Cc: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
+        linux-kernel@vger.kernel.org, kbusch@kernel.org, sagi@grimberg.me,
+        axboe@fb.com, bvanassche@acm.org, gjoyce@linux.ibm.com
+References: <20260614131541.2017845-1-nilay@linux.ibm.com>
+ <20260614131541.2017845-13-nilay@linux.ibm.com>
+ <20260626064816.GB11106@lst.de>
+ <b9961ab6-897d-4a93-8e43-8b23eb439fc5@linux.ibm.com>
+ <20260629125010.GB23695@lst.de>
+ <5eb42ac4-9fda-48ec-ad65-c895c81d7608@linux.ibm.com>
+ <CANpmjNMnaxfoT6C5rC_Q8NaEuVANN0-imbYKZ6LNA004_uuMxg@mail.gmail.com>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <CANpmjNMnaxfoT6C5rC_Q8NaEuVANN0-imbYKZ6LNA004_uuMxg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAxMDA3NCBTYWx0ZWRfX8RprF5Nb9W+G
+ ILW9D9Fu/wLyLMaMS1cpPiM6rxc3h+4oEQb4ok86jE7VpYpWW74+cl46OXovGmaI2Tv++l+b/RC
+ xlDvoKajzbntvY9RFIge+Fgo2sum/NdoBa1LEWZq0tyzNjlhDSynUF4A3Itaw6LhHjDrlO68W8E
+ V9GIECZMb6cwlvcCXoUsAVazfyaTw4mGcknFce7DVo/HxZzpG26TINQFUYnFYI3IVvs1g+WoIdS
+ NW6rtUkAkqbIi86/n+uJDSzGTgsy72LQhbJSl5cdMXr1bxTw2Rx0zwbd3nPXyEBqIZlI39XgnGr
+ C3wrbFjqvX7ZzSK0MqQoGKUqGyoiXDcWqOcwZbi4i7Jm5l3p9XJ+FDoZ0lvFstJyP5eXoNjq3jc
+ LKMGDkU+Bge0Xa+U8d+VQMO4a2dpRiPpgegPyWYr4YCxtNP9rltjUpDaGa3Gz3vzDvG727yhnyi
+ ztTJAn+eka+5NUA7hPA==
+X-Authority-Analysis: v=2.4 cv=V45NF+ni c=1 sm=1 tr=0 ts=6a44c5bc cx=c_pps
+ a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=bC-a23v3AAAA:8
+ a=1XWaLZrsAAAA:8 a=VnNF1IyMAAAA:8 a=f_3kpL7QzgRnMEoAwwoA:9 a=QEXdDO2ut3YA:10
+ a=FO4_E8m0qiDe52t0p3_H:22
+X-Proofpoint-ORIG-GUID: qTvB5DvE2pQN13LtZJjKFMfTig4wKpci
+X-Proofpoint-GUID: 9aDTWY44R1Fpjf4VBblCRvKqQdTNUo8a
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAxMDA3NCBTYWx0ZWRfXwPKgA4uChce+
+ EtPFaDSx6M0jVMst+V0/ZvNWFkI/ELqS6HJwY/iWlRmQBytuCkLAP/rYLco3GJuVSYBZr+2cp0e
+ dKoffbUB67l+FvP8B/gFz6S0a3Fu7vs=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-07-01_01,2026-06-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 spamscore=0 suspectscore=0 lowpriorityscore=0 priorityscore=1501
+ adultscore=0 clxscore=1015 impostorscore=0 malwarescore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607010074
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260630_203322_652378_C2D3B735 
-X-CRM114-Status: UNSURE (   8.48  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260701_004621_693671_7BC87DB4 
+X-CRM114-Status: GOOD (  29.65  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -116,21 +132,68 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi, Christoph
+On 6/30/26 4:26 PM, Marco Elver wrote:
+> On Tue, 30 Jun 2026 at 11:26, Nilay Shroff <nilay@linux.ibm.com> wrote:
+>>
+>> On 6/29/26 6:20 PM, Christoph Hellwig wrote:
+>>> On Fri, Jun 26, 2026 at 08:52:36PM +0530, Nilay Shroff wrote:
+>>>>
+>>>> That's because nvme_poll() and nvme_irq() both reuse nvme_poll_cq() to
+>>>> process completions, but they rely on different synchronization mechanisms.
+>>>
+>>> Well, we could split the function easily, but it still uses the same
+>>> data structure and thus annotations.
+>>>
+>> I see your point. The annotations describe only the polling synchronization model,
+>> while the same state is also accessed under interrupt serialization for IRQ queues.
+>> Since __guarded_by() cannot express alternative synchronization mechanisms today,
+>> the annotations end up requiring __context_unsafe() for the IRQ path.
+>>
+>> It sounds like your preference would be to leave these fields unannotated rather
+>> than partially annotate one synchronization model. Is that the direction you'd
+>> recommend until the annotation infrastructure can express multiple valid
+>> synchronization schemes?
+>>
+>>
+>> Marco,
+>> I know it's not currently supported, but are there any plan to extend the current
+>> capability model to support multiple valid synchronization mechanisms for a single
+>> object? For example, allowing a guarded field to be protected by either a lock or
+>> another abstract capability (such as interrupt serialization), instead of requiring
+>> a single __guarded_by() relationship." For instance,
+>>
+>> __guarded_by_any(&cq_poll_lock, IRQ_CONTEXT)
+>>
+>> Then irq handler would be annotated with __capability(irq_serialization).
+> 
+> I had planned to support IRQ context locks, which would be abstract
+> but not be backed by a real object (similar to how RCU is handled).
+> Just haven't gotten around to it.
+> 
+>> So now the compiler would know if the code executes in the interrupt/irq context
+>> then access to the guarded variable doesn't require any lock otherwise it needs
+>> ->cq_poll_lock when accessed. I don't know how easy it'd be to add such support
+>> but it may be explored.
+> 
+> Multi-arg __guarded_by() is supported by Clang, but perhaps not
+> exactly the way you imagined above. This has a brief summary:
+> https://patch.msgid.link/20260515124426.2227783-1-elver@google.com
+> 
+> In short, you can hold any lock to get reader access, and must hold
+> all for writer access.
 
->
-> What is the wrapper that the subject talks about?
+That's interesting, and I can see how that would be useful. However, I don't think
+it quite addresses this particular use case.
+Here we're not choosing between multiple locks protecting the same object. Instead,
+the synchronization mechanism depends on the execution context: the polling path
+protects the completion queue with ->cq_poll_lock, whereas the IRQ path relies on
+interrupt serialization and deliberately does not acquire ->cq_poll_lock.
 
-I meant struct nvme_rdma_device, the nvme-rdma object on device_list
-that wraps the ib_device pointer and carries the kref.
+So the requirement is effectively "hold ->cq_poll_lock or execute in the IRQ
+serialization context and thus avoid holding any lock". Unless I'm misunderstanding,
+I don't think multi-argument __guarded_by() can express that today.
 
-Sorry that "device wrapper" is vague for the subject.  I'll respin with
-a clearer subject, e.g.
+Thanks,
+--Nilay
 
-  nvme-rdma: hold nvme_rdma_device reference in remove_one
-
-and use struct nvme_rdma_device explicitly in the changelog.
-
-Best regards,
-Cen Zhang
 
