@@ -4,126 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3036EC43458
-	for <linux-nvme@archiver.kernel.org>; Wed,  1 Jul 2026 13:01:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 49645C43327
+	for <linux-nvme@archiver.kernel.org>; Wed,  1 Jul 2026 13:49:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=42HisIemLDAaB9PYi5wHE+U+F0xLaap+aR1Ygx2vBD4=; b=RsFMkfeT2BLgBUmZxzMelaAXcr
-	L310CzQO53o3Fb13lfceg3AEr3GE9DHm13hTnuLzAE4ZFmMTrRLSKQlcwV8x6B3p5CnlcooKj/6X+
-	QPOBFeYwsKPzpgNMKyGRmeYL8LGOwtNok0gruCjyPO6ghZoGD2YzpMK6tqtsVuaOYj3hUj304Zp9G
-	SLQn8rH6zujt/P3vXOLuxDpdHB0nOWo1EJB15c5BTnhMrD3Pm3PXt2Ser8b0Edg4JqbuFQzYkzWtl
-	ZkWscz37pJ+4xlenT2nHqfJ7LAduhhDVYTEfrU9EF9kxEzPOA7wRM2pjzdK3iMJ0skUBRGblz0N11
-	sCeN02AQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=SGXE/7wv5lCrkCqb5tP5HEIZQWgbH2VC/JSKP94oKzE=; b=4uGXMFXlPhRnoj/VbChyjeuIu1
+	mHgQUaiYxaxIcgCQedHDmCGx+ErSyvmJxbTdruSK6DbBPrW/WWtm3iEV5AYfg2pauC2aDrTP7SNjW
+	kTjIFIzxGmL5YLVoRPhu9xuJvp5DUlyKk5OD6/LLdN1A7UwcOipPZA8//IN3l/F4en4r85F1FWzQK
+	DXGtsaaBVO3DvZXkGSueM+Sqrl1ZpKvvDdVrlRxBZy3iyCyCb25YO8gOSrdfHY5BbJ7xlv8fWACgR
+	GtVGV0H9cmyml0OSB4BQaTJhGo9LsI4yVIc0/eQZ5Su9/7UcB9dEqDtluRnxs7TKLlWakriUMMtBY
+	i4CGO+lQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1weuZG-000000026dp-1cyK;
-	Wed, 01 Jul 2026 13:01:30 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1wevK1-00000002DHV-1ewa;
+	Wed, 01 Jul 2026 13:49:49 +0000
+Received: from out30-112.freemail.mail.aliyun.com ([115.124.30.112])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1weuZD-000000026dK-1z3a
+	id 1wevJu-00000002DFf-1ORH
 	for linux-nvme@lists.infradead.org;
-	Wed, 01 Jul 2026 13:01:29 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id BEF0973AA2;
-	Wed,  1 Jul 2026 13:01:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782910884; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=42HisIemLDAaB9PYi5wHE+U+F0xLaap+aR1Ygx2vBD4=;
-	b=MabHrzxI4UOGG2wN0xU86BWcMSKLo0i1PKFpIyOkF8WJYWejQezwq6xo+hY3imEGnlYvXP
-	EqsTpDu6sgxbyiJ0acQlMBj2/tvXKiBeexfsH3c1YQ67N2MhMKtiCXIZowfdpg+ynZS0F/
-	NOEkaO5NB4inAsMig0cjd1usoy8+cLc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782910884;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=42HisIemLDAaB9PYi5wHE+U+F0xLaap+aR1Ygx2vBD4=;
-	b=olEAGgakdEVsDqEHhDj6r0zFByuDDQgnZWoXlCxlkWOPM/2B1VVG6oNAURF+iK9FHC2kNP
-	MOgkl78cyGlyGZBg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=yRrVbgZJ;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=DmgRg1Jo
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782910879; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=42HisIemLDAaB9PYi5wHE+U+F0xLaap+aR1Ygx2vBD4=;
-	b=yRrVbgZJxjR+lLUlRxpj5nXWlsgSXy+ZEYA3XM9x/C3FruuGppCrluCi3AIzayTiyicI+z
-	XhbSGgiiihkqLYb+XIACRMUH2Hgjt/JknyTL06jTqKaKPBH0jwGnQD6VwJ1OVcZNTArrzO
-	rpeEODzmeOQHzBiCxeQiCfQiyeswu4I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782910879;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=42HisIemLDAaB9PYi5wHE+U+F0xLaap+aR1Ygx2vBD4=;
-	b=DmgRg1JogUNf8XOzpOBxyrsUgfTDZEuKN9M7IQaWh0Ymzz93UFrga7maI93fiqYsVt9Jf6
-	0XPbdqjNctO+wsBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9E099779AA;
-	Wed,  1 Jul 2026 13:01:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id pgDpJJ8PRWreawAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Wed, 01 Jul 2026 13:01:19 +0000
-Date: Wed, 1 Jul 2026 15:01:10 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Tomas Hrnciar <thrnciar@redhat.com>
-Cc: linux-nvme@lists.infradead.org, hch@infradead.org, 
-	Ales Novak <alnovak@suse.com>
-Subject: Re: [PATCH] Drop python2 support and the dependency on python-six
-Message-ID: <8eabaa9f-9698-4e51-8147-c73c2b25a53d@flourine.local>
-References: <CALkDUM9r6NjVuPM15==o04eAGjhw8AeXeQEtQifksU6gd95V3A@mail.gmail.com>
+	Wed, 01 Jul 2026 13:49:47 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1782913774; h=From:To:Subject:Date:Message-Id:MIME-Version;
+	bh=SGXE/7wv5lCrkCqb5tP5HEIZQWgbH2VC/JSKP94oKzE=;
+	b=ETjP0uisYKohmJXSqjw1gCFNFk4SbinkqQw8+4GR9H3yHIwFrEfzhb+GDCBXKRpZZhYpFo7w+D1hF0mhdO9SDMkV8h7yHME+APmJ0GEFauJ92OZkFtzrNoP+jW1qw3NqI+mVyrvvXybPb3M02f/QkLNOBTudZfjm+5b4gvND8nk=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R211e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037009110;MF=lulie@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0X69H23N_1782913773;
+Received: from localhost(mailfrom:lulie@linux.alibaba.com fp:SMTPD_---0X69H23N_1782913773 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Wed, 01 Jul 2026 21:49:33 +0800
+From: Philo Lu <lulie@linux.alibaba.com>
+To: stable@vger.kernel.org
+Cc: hch@lst.de,
+	sagi@grimberg.me,
+	kch@nvidia.com,
+	gregkh@linuxfoundation.org,
+	skumar47@syr.edu,
+	kumar.shivam43666@gmail.com,
+	kbusch@kernel.org,
+	dust.li@linux.alibaba.com,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 6.6.y] nvmet-tcp: fix race between ICReq handling and queue teardown
+Date: Wed,  1 Jul 2026 21:49:33 +0800
+Message-Id: <20260701134933.66838-1-lulie@linux.alibaba.com>
+X-Mailer: git-send-email 2.32.0.3.g01195cf9f
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALkDUM9r6NjVuPM15==o04eAGjhw8AeXeQEtQifksU6gd95V3A@mail.gmail.com>
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: BEF0973AA2
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260701_060127_827491_04350561 
-X-CRM114-Status: GOOD (  14.52  )
+X-CRM114-CacheID: sfid-20260701_064945_791590_EB745B4A 
+X-CRM114-Status: GOOD (  15.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -138,30 +71,109 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Tomáš,
+From: Chaitanya Kulkarni <kch@nvidia.com>
 
-On Tue, Jun 23, 2026 at 02:24:28PM +0200, Tomas Hrnciar wrote:
-> I'd like to propose a patch which removes support for Python 2 and
-> drops the dependency on python-six. Python 2 has been EOL since
-> January 2020 and we are trying to remove python-six from distribution.
-> This patch drops the remaining six usage.
+commit 5293a8882c549fab4a878bc76b0b6c951f980a61 upstream.
 
-Christoph has ask me to maintain the nvmetcli project. With Ales help I
-started to collect patches posted in the last few years. I've setup an
-integration tree at github so we can use fancy tools:
+nvmet_tcp_handle_icreq() updates queue->state after sending an
+Initialization Connection Response (ICResp), but it does so without
+serializing against target-side queue teardown.
 
-  https://github.com/linux-nvme/nvmetcli
+If an NVMe/TCP host sends an Initialization Connection Request
+(ICReq) and immediately closes the connection, target-side teardown
+may start in softirq context before io_work drains the already
+buffered ICReq. In that case, nvmet_tcp_schedule_release_queue()
+sets queue->state to NVMET_TCP_Q_DISCONNECTING and drops the queue
+reference under state_lock.
 
-Still in the early setup phase but the initial CI worklows start to
-work and with Ales help going through the issues found by the fancy
-tools:
+If io_work later processes that ICReq, nvmet_tcp_handle_icreq() can
+still overwrite the state back to NVMET_TCP_Q_LIVE. That defeats the
+DISCONNECTING-state guard in nvmet_tcp_schedule_release_queue() and
+allows a later socket state change to re-enter teardown and issue a
+second kref_put() on an already released queue.
 
-  https://github.com/linux-nvme/nvmetcli/pull/2
+The ICResp send failure path has the same problem. If teardown has
+already moved the queue to DISCONNECTING, a send error can still
+overwrite the state with NVMET_TCP_Q_FAILED, again reopening the
+window for a second teardown path to drop the queue reference.
 
-There is also a python-six removal path queued up. When the PR is good
-shape I'll post it here once again before applying it to the upstream
-repo.
+Fix this by serializing both post-send state transitions with
+state_lock and bailing out if teardown has already started.
 
-Thanks,
-Daniel
+Use -ESHUTDOWN as an internal sentinel for that bail-out path rather
+than propagating it as a transport error like -ECONNRESET. Keep
+nvmet_tcp_socket_error() setting rcv_state to NVMET_TCP_RECV_ERR before
+honoring that sentinel so receive-side parsing stays quiesced until the
+existing release path completes.
+
+Fixes: c46a6465bac2 ("nvmet-tcp: add NVMe over TCP target driver")
+Cc: stable@vger.kernel.org
+Reported-by: Shivam Kumar <skumar47@syr.edu>
+Tested-by: Shivam Kumar <kumar.shivam43666@gmail.com>
+Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+[ context diff adaptation: drop `queue->state = NVMET_TCP_Q_FAILED` since
+ the enum introduced in 6.7, 675b453e0241 ("nvmet-tcp: enable TLS handshake
+ upcall" ]
+Signed-off-by: Philo Lu <lulie@linux.alibaba.com>
+---
+This fix has been backported to 6.12, 6.18, and 7.1.
+This patch just adds it to 6.6.
+---
+ drivers/nvme/target/tcp.c | 29 ++++++++++++++++++++++++++++-
+ 1 file changed, 28 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index 5f85c4a812abc..4174fef03eac7 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -380,6 +380,19 @@ static int nvmet_tcp_build_pdu_iovec(struct nvmet_tcp_cmd *cmd)
+
+ static void nvmet_tcp_fatal_error(struct nvmet_tcp_queue *queue)
+ {
++	/*
++	 * Keep rcv_state at RECV_ERR even for the internal -ESHUTDOWN path.
++	 * nvmet_tcp_handle_icreq() can return -ESHUTDOWN after the ICReq has
++	 * already been consumed and queue teardown has started.
++	 *
++	 * If nvmet_tcp_data_ready() or nvmet_tcp_write_space() queues
++	 * nvmet_tcp_io_work() again before nvmet_tcp_release_queue_work()
++	 * cancels it, the queue must not keep that old receive state.
++	 * Otherwise the next nvmet_tcp_io_work() run can reach
++	 * nvmet_tcp_done_recv_pdu() and try to handle the same ICReq again.
++	 *
++	 * That is why queue->rcv_state needs to be updated before we return.
++	 */
+ 	queue->rcv_state = NVMET_TCP_RECV_ERR;
+ 	if (queue->nvme_sq.ctrl)
+ 		nvmet_ctrl_fatal_error(queue->nvme_sq.ctrl);
+@@ -935,10 +948,24 @@ static int nvmet_tcp_handle_icreq(struct nvmet_tcp_queue *queue)
+ 	iov.iov_base = icresp;
+ 	iov.iov_len = sizeof(*icresp);
+ 	ret = kernel_sendmsg(queue->sock, &msg, &iov, 1, iov.iov_len);
+-	if (ret < 0)
++	if (ret < 0) {
++		spin_lock_bh(&queue->state_lock);
++		if (queue->state == NVMET_TCP_Q_DISCONNECTING) {
++			spin_unlock_bh(&queue->state_lock);
++			return -ESHUTDOWN;
++		}
++		spin_unlock_bh(&queue->state_lock);
+ 		return ret; /* queue removal will cleanup */
++	}
+
++	spin_lock_bh(&queue->state_lock);
++	if (queue->state == NVMET_TCP_Q_DISCONNECTING) {
++		spin_unlock_bh(&queue->state_lock);
++		/* Tell nvmet_tcp_socket_error() teardown is in progress. */
++		return -ESHUTDOWN;
++	}
+ 	queue->state = NVMET_TCP_Q_LIVE;
++	spin_unlock_bh(&queue->state_lock);
+ 	nvmet_prepare_receive_pdu(queue);
+ 	return 0;
+ }
+--
+2.32.0.3.g01195cf9f
+
 
