@@ -4,55 +4,126 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B3A15C43458
-	for <linux-nvme@archiver.kernel.org>; Wed,  1 Jul 2026 12:36:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3036EC43458
+	for <linux-nvme@archiver.kernel.org>; Wed,  1 Jul 2026 13:01:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:To:
-	From:Subject:Cc:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
-	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HB2opTeCo45isxz0UUguK3ZoXjCTT39LITT/l4XDmTg=; b=PoMZ2E0ko51jy2qfcMVrMFVqFR
-	AMhmotNezNe96GioFOoOQ9fhsma8iJFhsc7fPSyb0TeGMIIIt5VafV0zAqllpXjYNAvTquRvp+fJh
-	vDU9qBt0+VamdJqXQQ533ZzKw8lALwl0BgirNYUsxWaBDQXjMGjXL7WqrxtGKHsCqw9m/dOYNwrBS
-	0mLlfALRPG4U5rjdkOKwiXVbjyh6x7xJ94+W3HFSx1zE4cPzrYpfLl8lMgBci2p7peAd7h2eHOjpb
-	yUpg0vHO2y8TtsLIkJV2pNrn5oKbpxd6/AotimhtsBRb1sNvHAoykqGVSV+9fj7QR7EBvWnSBIPqb
-	Oi6VkMiA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=42HisIemLDAaB9PYi5wHE+U+F0xLaap+aR1Ygx2vBD4=; b=RsFMkfeT2BLgBUmZxzMelaAXcr
+	L310CzQO53o3Fb13lfceg3AEr3GE9DHm13hTnuLzAE4ZFmMTrRLSKQlcwV8x6B3p5CnlcooKj/6X+
+	QPOBFeYwsKPzpgNMKyGRmeYL8LGOwtNok0gruCjyPO6ghZoGD2YzpMK6tqtsVuaOYj3hUj304Zp9G
+	SLQn8rH6zujt/P3vXOLuxDpdHB0nOWo1EJB15c5BTnhMrD3Pm3PXt2Ser8b0Edg4JqbuFQzYkzWtl
+	ZkWscz37pJ+4xlenT2nHqfJ7LAduhhDVYTEfrU9EF9kxEzPOA7wRM2pjzdK3iMJ0skUBRGblz0N11
+	sCeN02AQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1weuB0-000000020z7-0IFz;
-	Wed, 01 Jul 2026 12:36:26 +0000
-Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=arkamax.eu)
+	id 1weuZG-000000026dp-1cyK;
+	Wed, 01 Jul 2026 13:01:30 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1weuAx-000000020y6-0VnC
+	id 1weuZD-000000026dK-1z3a
 	for linux-nvme@lists.infradead.org;
-	Wed, 01 Jul 2026 12:36:25 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; s=mail1; bh=LyTdOWlsjqz+eF
-	l5FgDcdACZaY3BCFiA3W1KLiWUVsU=; h=in-reply-to:references:to:from:
-	subject:cc:date; d=arkamax.eu; b=TioxDzs1p0zZvRdEmuCwH8vhmUJgNJEfT8b3g
-	SZY8gUdixmpZGgjprjpYFiKrK/bqo82Fr7VpQYtfLbgzpa5wOfVWV+ipZICJ2VVKRJTJSd
-	+at5F2xqeAyW5C8SlanAIJNQTL0NQcSlHuA4ilxfUIry0qn/WLrny13FFRSafjq/FstwjF
-	7at84cdI0LjrFNWdAItQD85Bw6bBuEqRY0g1Tp8PepFXb/4KoZzA+DuA5e2YBhNvfuejEn
-	aEgwCC6QeJ4aGHle82NAo/IYSNLebETIguEKgycuDZJPtE9X/V5QdRIbHk0fBS7T8enHqO
-	yT8ohbB96PRBgUm/CajauHATA==
-Received: from localhost (<unknown> [94.32.41.112])
-	by arkamax.eu (OpenSMTPD) with ESMTPSA id a9602334 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Wed, 1 Jul 2026 14:36:17 +0200 (CEST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 01 Jul 2026 14:36:15 +0200
-Message-Id: <DJN8MK265J48.3QCC1AK34UEKE@arkamax.eu>
-Cc: <hch@infradead.org>
+	Wed, 01 Jul 2026 13:01:29 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id BEF0973AA2;
+	Wed,  1 Jul 2026 13:01:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1782910884; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=42HisIemLDAaB9PYi5wHE+U+F0xLaap+aR1Ygx2vBD4=;
+	b=MabHrzxI4UOGG2wN0xU86BWcMSKLo0i1PKFpIyOkF8WJYWejQezwq6xo+hY3imEGnlYvXP
+	EqsTpDu6sgxbyiJ0acQlMBj2/tvXKiBeexfsH3c1YQ67N2MhMKtiCXIZowfdpg+ynZS0F/
+	NOEkaO5NB4inAsMig0cjd1usoy8+cLc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1782910884;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=42HisIemLDAaB9PYi5wHE+U+F0xLaap+aR1Ygx2vBD4=;
+	b=olEAGgakdEVsDqEHhDj6r0zFByuDDQgnZWoXlCxlkWOPM/2B1VVG6oNAURF+iK9FHC2kNP
+	MOgkl78cyGlyGZBg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=yRrVbgZJ;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=DmgRg1Jo
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1782910879; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=42HisIemLDAaB9PYi5wHE+U+F0xLaap+aR1Ygx2vBD4=;
+	b=yRrVbgZJxjR+lLUlRxpj5nXWlsgSXy+ZEYA3XM9x/C3FruuGppCrluCi3AIzayTiyicI+z
+	XhbSGgiiihkqLYb+XIACRMUH2Hgjt/JknyTL06jTqKaKPBH0jwGnQD6VwJ1OVcZNTArrzO
+	rpeEODzmeOQHzBiCxeQiCfQiyeswu4I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1782910879;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=42HisIemLDAaB9PYi5wHE+U+F0xLaap+aR1Ygx2vBD4=;
+	b=DmgRg1JogUNf8XOzpOBxyrsUgfTDZEuKN9M7IQaWh0Ymzz93UFrga7maI93fiqYsVt9Jf6
+	0XPbdqjNctO+wsBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9E099779AA;
+	Wed,  1 Jul 2026 13:01:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id pgDpJJ8PRWreawAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Wed, 01 Jul 2026 13:01:19 +0000
+Date: Wed, 1 Jul 2026 15:01:10 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Tomas Hrnciar <thrnciar@redhat.com>
+Cc: linux-nvme@lists.infradead.org, hch@infradead.org, 
+	Ales Novak <alnovak@suse.com>
 Subject: Re: [PATCH] Drop python2 support and the dependency on python-six
-From: "Maurizio Lombardi" <mlombard@arkamax.eu>
-To: "Tomas Hrnciar" <thrnciar@redhat.com>, <linux-nvme@lists.infradead.org>
-X-Mailer: aerc 0.21.0
+Message-ID: <8eabaa9f-9698-4e51-8147-c73c2b25a53d@flourine.local>
 References: <CALkDUM9r6NjVuPM15==o04eAGjhw8AeXeQEtQifksU6gd95V3A@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <CALkDUM9r6NjVuPM15==o04eAGjhw8AeXeQEtQifksU6gd95V3A@mail.gmail.com>
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: BEF0973AA2
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260701_053623_800123_2E367172 
-X-CRM114-Status: GOOD (  21.29  )
+X-CRM114-CacheID: sfid-20260701_060127_827491_04350561 
+X-CRM114-Status: GOOD (  14.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -67,96 +138,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Christoph? This patch is intended for nvmetcli.
+Hi Tomáš,
 
-What do you think about it? Python3 is now the default on all major
-distros, AFAIK.
-
-Can we drop the python-six dependency?
-
-Maurizio
-
-On Tue Jun 23, 2026 at 2:24 PM CEST, Tomas Hrnciar wrote:
-> Hi,
->
+On Tue, Jun 23, 2026 at 02:24:28PM +0200, Tomas Hrnciar wrote:
 > I'd like to propose a patch which removes support for Python 2 and
 > drops the dependency on python-six. Python 2 has been EOL since
 > January 2020 and we are trying to remove python-six from distribution.
 > This patch drops the remaining six usage.
->
-> Thanks,
-> Tom=C3=A1=C5=A1 Hrn=C4=8Diar
-> ---
->  README                 | 3 ---
->  nvmet/nvme.py          | 7 +++----
->  rpm/nvmetcli.spec.tmpl | 2 +-
->  3 files changed, 4 insertions(+), 8 deletions(-)
->
-> diff --git a/README b/README
-> index 6ebe666..7df25f1 100644
-> --- a/README
-> +++ b/README
-> @@ -14,9 +14,6 @@ using setup.py.
->
->  Common Package Dependencies and Problems
->  -----------------------------------------
-> -Both python2 and python3 are supported via use of the 'python-six'
-> -package.
-> -
->  nvmetcli uses the 'pyparsing' package -- running nvmetcli without this
->  package may produce hard-to-decipher errors.
->
-> diff --git a/nvmet/nvme.py b/nvmet/nvme.py
-> index 59efdb5..4c63eb1 100644
-> --- a/nvmet/nvme.py
-> +++ b/nvmet/nvme.py
-> @@ -23,7 +23,6 @@ import stat
->  import uuid
->  import json
->  from glob import iglob as glob
-> -from six import iteritems, moves
->
->  DEFAULT_SAVE_FILE =3D '/etc/nvmet/config.json'
->
-> @@ -220,7 +219,7 @@ class CFSNode(object):
->
->      def _setup_attrs(self, attr_dict, err_func):
->          for group in self.attr_groups:
-> -            for name, value in iteritems(attr_dict.get(group, {})):
-> +            for name, value in attr_dict.get(group, {}).items():
->                  try:
->                      self.set_attr(group, name, value)
->                  except CFSError as e:
-> @@ -556,7 +555,7 @@ class Namespace(CFSNode):
->                  raise CFSError("Need NSID for lookup")
->
->              nsids =3D [n.nsid for n in subsystem.namespaces]
-> -            for index in moves.xrange(1, self.MAX_NSID + 1):
-> +            for index in range(1, self.MAX_NSID + 1):
->                  if index not in nsids:
->                      nsid =3D index
->                      break
-> @@ -816,7 +815,7 @@ class ANAGroup(CFSNode):
->                  raise CFSError("Need grpid for lookup")
->
->              grpids =3D [n.grpid for n in port.ana_groups]
-> -            for index in moves.xrange(2, self.MAX_GRPID + 1):
-> +            for index in range(2, self.MAX_GRPID + 1):
->                  if index not in grpids:
->                      grpid =3D index
->                      break
-> diff --git a/rpm/nvmetcli.spec.tmpl b/rpm/nvmetcli.spec.tmpl
-> index f1b5533..ce454a2 100644
-> --- a/rpm/nvmetcli.spec.tmpl
-> +++ b/rpm/nvmetcli.spec.tmpl
-> @@ -9,7 +9,7 @@ Source:         nvmetcli-%{version}.tar.gz
->  BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-rpmroot
->  BuildArch:      noarch
->  BuildRequires:  python-devel python-setuptools systemd-units
-> -Requires:    python-configshell python-kmod python-six
-> +Requires:    python-configshell python-kmod
->  Requires(post): systemd
->  Requires(preun): systemd
->  Requires(postun): systemd
 
+Christoph has ask me to maintain the nvmetcli project. With Ales help I
+started to collect patches posted in the last few years. I've setup an
+integration tree at github so we can use fancy tools:
+
+  https://github.com/linux-nvme/nvmetcli
+
+Still in the early setup phase but the initial CI worklows start to
+work and with Ales help going through the issues found by the fancy
+tools:
+
+  https://github.com/linux-nvme/nvmetcli/pull/2
+
+There is also a python-six removal path queued up. When the PR is good
+shape I'll post it here once again before applying it to the upstream
+repo.
+
+Thanks,
+Daniel
 
