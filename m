@@ -4,63 +4,103 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 88375C43458
-	for <linux-nvme@archiver.kernel.org>; Wed,  1 Jul 2026 01:52:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E2B8AC43458
+	for <linux-nvme@archiver.kernel.org>; Wed,  1 Jul 2026 03:33:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2ewv9qY40mwRWH+z517DiAqPJJT29u3XlZFRHH+gaM8=; b=z49Od172s32c3o5PDZXRf1TiSA
-	GNxnM/FLMjMUNaP/wMmbNft+zAewY6vnJnUByhlYSem+Ugs2O048vjyBkA165bNpPnPHri8HGHeBp
-	U/vIg9/0hbScUzh+TZLFnL6tzOGA+e8t9dExEjdYfsFjNpyKe9WcIgt43t5eVigajPRV1QW91LQhB
-	xSiNNB8Unm4hFKz15KvLASPY9JvVHyrmY65pVg5vIvw+91Q7sOGQSTkV+Z3rAB5VLr3UXzQMQfjsj
-	Rk9v7w1NrP8FGm5JfyWqmnobHlxJvbdfij+1RPXoBkWUxXVUMJFJeYOh4lKeEJMzzCx/VKxxMihmq
-	wgK3xwtw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Tb8rzvIsMJ6RJjQF5wQOi3mbfxQmYnq5SEFybG+B22I=; b=dSXaz+4zZALnhpvUHtMqfHvjq0
+	mr4/FzosDCbjnLBQrOQXE5AT7II9RfhTTgqIGsuVl6oYBruCS87RHKkHrk5uHk859O+ndEjmoFPBN
+	fiiVZ1wMPqyUnV2Ct51WiSGIr8O/DiaheBf4XO+KEubXVAGK9OWsmTVOQgM/dL2Tc0PXXftoaa7fV
+	9vhgxnSTsyFqXtumgHo38aXXfetU6gwifM1YLS7mbaDW/gwMW9CM+cDAmpBMVxIuu0HiLKJEYrVBB
+	1j4YlaOuvgzXFW5hT9T7OvwLKDw3dM/vClnQLdo+6XlZV3taYFktrljxgTO1oApO/rUOsfE/k5FN8
+	8kfCVaMg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wek7i-00000000TNB-2dI0;
-	Wed, 01 Jul 2026 01:52:22 +0000
-Received: from mailgw.kylinos.cn ([124.126.103.232])
+	id 1welhW-00000000aXH-0Eoj;
+	Wed, 01 Jul 2026 03:33:26 +0000
+Received: from mail-yx1-xb12f.google.com ([2607:f8b0:4864:20::b12f])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wek7e-00000000TMa-48tk
+	id 1welhS-00000000aWx-25ce
 	for linux-nvme@lists.infradead.org;
-	Wed, 01 Jul 2026 01:52:21 +0000
-X-UUID: 776213c074ef11f1aa26b74ffac11d73-20260701
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:43a14c82-540c-4858-bd1a-a553a40e96c2,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:e7bac3a,CLOUDID:f9147111aa2ade0c25ffc934bdfb6214,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|83|102|865|898,TC:nil,Content:0|15
-	|50,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:
-	0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 776213c074ef11f1aa26b74ffac11d73-20260701
-X-User: liuxixin@kylinos.cn
-Received: from [127.0.1.1] [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <liuxixin@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 632858861; Wed, 01 Jul 2026 09:52:07 +0800
-From: Xixin Liu <liuxixin@kylinos.cn>
-To: hare@suse.de
-Cc: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org, linux-nvme@lists.infradead.org, liuxixin@kylinos.cn, sagi@grimberg.me, shinichiro.kawasaki@wdc.com
-Subject: Re: blktests nvme/062 lockdep — defer TLS inline send to io_work?
-Date: Wed, 1 Jul 2026 09:50:43 +0800
-Message-ID: <reply-hannes.062lockdep.20260701.liuxixin@kylinos.cn>
-In-Reply-To: <reply-hannes.062lockdep.20260629.liuxixin@kylinos.cn>
-References: <ajtk1CaN1pBreS4O@shinmob> <cover.1782436781.git.liuxixin@kylinos.cn> <8803a2bf-3f8e-4ee9-b6d7-5467bfc1b1ce@suse.de> <reply-hannes.062lockdep.20260629.liuxixin@kylinos.cn>
+	Wed, 01 Jul 2026 03:33:23 +0000
+Received: by mail-yx1-xb12f.google.com with SMTP id 956f58d0204a3-664b05d408bso119694d50.1
+        for <linux-nvme@lists.infradead.org>; Tue, 30 Jun 2026 20:33:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782876801; cv=none;
+        d=google.com; s=arc-20260327;
+        b=FFOukB1NheWiQDcwC01LTLEbbe9tGOuKAGy5b0kxjDUHfFWZMW07itiiyobwmoQx9T
+         EwFPwAZMVqLoSliydGzxjESUsBm6aewY6OBCVhEL743WbMpeizGn7zWB5Idom1EoV3lF
+         l5vBPkmE93m4mI1vn8ymc0Ful8NxQK/C6CLz4Zehy35gvAxKicYSu8ytQc8EXRVPnSPJ
+         OdbDaptWEqVn01sKsmZBCoIFaYdF+beKgguZJvK8hbF5nCgbNs5j0Bb6cMZyyLycSb+8
+         3w31aJlsi2B4sX6gTr3pKbTJAW6Pj1dDrObn+7+4PpsLuPk5M5BzQRasktXbSrM62KcX
+         h/uw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Tb8rzvIsMJ6RJjQF5wQOi3mbfxQmYnq5SEFybG+B22I=;
+        fh=SmxU9/4N1doNw8KjZo64J+aqVGiSoF2b0YildNXOnCQ=;
+        b=bsykRyuuj2s4i+TY4jaFhxntBw8F+H8hh0xWTtCHu+Jj2awJ8pvfwUcGoe6JQvlZaD
+         xbDHg57GutFbTCy+o03jrxQAI51jjM9AwVvKBWZOchIuJXJz4qi76vr8VPu8muOuZcpy
+         4wfM+2acE5SEaFNWJi4YBhKIcxM8egihNZNmez6C9zSdFA1qP3tgPJ9NNUvVOe2kxb6q
+         Y4deLkw/ol3G0bJ1lLG89i0N2q/SIZcb7PJYP0W53gmh4WEhQJtVmasBP2x97+Rbg/0I
+         4LjuGb/32slbYTri2MVqdA5DD2eXq1O/EBfW7wLOwUwyH+sQRcGQetSHn0SaEvBjbrqt
+         9sWA==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782876801; x=1783481601; darn=lists.infradead.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Tb8rzvIsMJ6RJjQF5wQOi3mbfxQmYnq5SEFybG+B22I=;
+        b=o8SS+bk1Eb/9o//vJ1Ywgx77Z6bmsLjuxeJFZeHRpsRdvg0gwFIGIoyiK/a94N7Vqp
+         UmUIS1VhIaUDooPxCm7YRQub0HLq4vyOiCw9zW/5HDbK4aXWyFlIUFMpypS0ZFRLBoAc
+         96pU7rlR2gqjJejdydpEjgyaL7aSxP1d97po1Uka+hlRnNUzzsDqhzIs4F3anP9j1E0I
+         eoCp0AGLEPMHWzWseED/o4t0CnfzNO/DB9yQTPOkEqgjisznGFiYWhzd4+OC0wyBk3o2
+         gyNHvjA6KUjsVR1rQOgJrawWeQRAfjRZYpFcGumIyBFxUUNScIBDL0e1TcOzdDKbQc/9
+         2KTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782876801; x=1783481601;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Tb8rzvIsMJ6RJjQF5wQOi3mbfxQmYnq5SEFybG+B22I=;
+        b=B4lC2Df7rUcWVmaZrB1x9E5q3ufIJhCbc7yXBGNlHe5bQufp4w1QIEbYYrCiqUAmgt
+         dT7L6C9H0Eiy3akgvbs4SRI/0O2Putzu+KFcn2XG8FhSdHmYm+lO6Cxv4674JRG1/87J
+         iL7GYXhvkVnadtJhKwFkuf99MrKUdevtJv7ixQDq8ThgVKU2fukwyI+mRSH6H0FU+T+L
+         uIxCB5YhCd9G+O4YpyMMZRRbbvREabl9aVc7WgQ85QTsUKDbLdwSsrMnm420Ah9gyxT0
+         y30RYMDroQHVj8Tq1yV8eYQn+nSEx5QpYtitronWBYlgKNUmmOmqDjc1SaEXG0vPHRFS
+         UPLg==
+X-Forwarded-Encrypted: i=1; AHgh+Rr11IRMqGXjw8a0JhKP+TnrLFPoryqbw1LwTFyTAQkoajIEG8dl4rsMc+T4qhLJFxaEvR4U/PPeq4JS@lists.infradead.org
+X-Gm-Message-State: AOJu0Yx5W2UN34xPpwOyZOdUT2fk9+wYDOSlBk6jwNFTos2+TVTf3nfD
+	CXaDV+FVBwO8RgIC9+vEESf232SplYXC+N/boMLwRxrV72AgZDLGdVFzCVqM311UciJ4ReTTX76
+	//LH2lPfoJxQgVwxMs2fNGabCpYcREOV9q57lqgk=
+X-Gm-Gg: AfdE7cmpaiMX+/W41i9oK414jE7JDPIDj5V157LmrWFSxRxrIKXul+hX5mrR/V+7LlS
+	V+bDYUNpnSBKjFBNKomD5n0nSGucXUihXHUPa10hhUtj1rNJRojmOJlCL4jtw9sRSS6oD0/BENK
+	UwptopKMCKOwlgvwfagahxBb93UZK4zRdKF7egHkZg+Ft2NDfh+xGhcCYBcFYfrFNXieRxssGGb
+	Wcq1CuYXBSN6A8ojs0F7+MazGEeCGjyg/cA/yNVNPL0+VuBGVykPX9qqxl/mNaQeJS3/eA8xjfW
+	RQSewAMAbA==
+X-Received: by 2002:a05:690c:3603:b0:80c:85b6:764e with SMTP id
+ 00721157ae682-810daf0fcf9mr62423127b3.67.1782876800749; Tue, 30 Jun 2026
+ 20:33:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Mailer: patches/scripts/send-local.py
+References: <20260623002329.3880334-1-zzzccc427@gmail.com> <20260626070324.GA11524@lst.de>
+In-Reply-To: <20260626070324.GA11524@lst.de>
+From: Cen Zhang <zzzccc427@gmail.com>
+Date: Wed, 1 Jul 2026 11:33:08 +0800
+X-Gm-Features: AVVi8CeIZdBoJqb7Bqm6NCFjaCbFbmYMwSFK80vYiCrj4EvCz25feESYRTMSacc
+Message-ID: <CAFRLqsUdFQCpXHmcL4jSj+cViwm=hdaOP0H+btJYrV-9BbLOMw@mail.gmail.com>
+Subject: Re: [PATCH v3] nvme-rdma: pin device wrapper in remove_one
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, Jens Axboe <axboe@kernel.dk>, 
+	Steve Wise <larrystevenwise@gmail.com>, linux-nvme@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, baijiaju1990@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260630_185219_341100_133C893B 
-X-CRM114-Status: UNSURE (   7.25  )
+X-CRM114-CacheID: sfid-20260630_203322_652378_C2D3B735 
+X-CRM114-Status: UNSURE (   8.48  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -76,40 +116,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Hannes,
+Hi, Christoph
 
-On Mon, 29 Jun 2026, Hannes Reinecke wrote:
-> The most likely testcase showing regressions would be having as many
-> jobs as your machine has CPUs and use qd=1.
-> Just a single job will not be enough to show a noticeable difference.
+>
+> What is the wrapper that the subject talks about?
 
-I re-ran the TLS perf comparison with one job per CPU and queue depth 1
-on a new test host.  Please treat the results below as the authoritative
-perf data for this workload.
+I meant struct nvme_rdma_device, the nvme-rdma object on device_list
+that wraps the ib_device pointer and carries the kref.
 
-Test setup
-----------
-  aarch64 server, 128 CPUs, linux-next 7.2.0-rc1-*-perf-dirty
+Sorry that "device wrapper" is vague for the subject.  I'll respin with
+a clearer subject, e.g.
 
-  Same-machine nvmet-tcp with TLS; target backing store is a 32G file on a
-  local NVMe SSD.  fio runs against the connected nvme-tcp namespace.
+  nvme-rdma: hold nvme_rdma_device reference in remove_one
 
-  Compared inline send_all (baseline) vs deferring TLS inline send (io_work).
-  fio randwrite 4k, direct I/O, 30s per run, 15s warmup discarded before
-  each mode (10 runs total):
+and use struct nvme_rdma_device explicitly in the changelog.
 
-  - iodepth=1, numjobs=128:
-      baseline 54539.4 IOPS, mean 2.34ms, p99 6.02ms
-      patched  54529.0 IOPS, mean 2.34ms, p99 5.99ms
-
-  - iodepth=128, numjobs=8:
-      baseline 54632.6 IOPS, mean 18.74ms, p99 47.08ms
-      patched  54633.6 IOPS, mean 18.74ms, p99 46.92ms
-
-So on a 128-CPU box with the workload you called out, deferring TLS inline
-send still looks neutral across 10 consecutive runs after warmup.
-
-Thanks,
-Xixin Liu
-
+Best regards,
+Cen Zhang
 
