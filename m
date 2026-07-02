@@ -4,38 +4,38 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 36058C43458
-	for <linux-nvme@archiver.kernel.org>; Thu,  2 Jul 2026 12:38:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4DEDAC43458
+	for <linux-nvme@archiver.kernel.org>; Thu,  2 Jul 2026 12:38:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=zVPsC72MacI+7uoqqa+knkUXaga+oDDWAOgXUhuF+3U=; b=d7tn8KP8ZGOvXBwL86w9VLFB0L
-	68/q6u2rc/OTWPL5CPF8LjtpZeSKm4XqDgPi1XASlBXSMR9XA9Im0gKgXWQDLS1tYRrXdT0t3OoNx
-	51uAlyMRBUiGgoojXtPh2X50hWNqauc5l8OX93LIeUD2AvAeTgve7jGOhb6viGleqQk5j1BbfZAh+
-	3qEBfdYeBgi68iDAmO8rG1o2RA1F0E3/8UujhsbRVCI4pULPX/wMSRnBUuDD5oGEz0xwGFlQc+4xX
-	GOWzAC72hHmC4nfi0uiwNd6GQAcYpRLC3h0VAyHXnaSk8z9GB+N7gVn9ciyZfZTYT0k6HgwlI7VuS
-	wNqKvwZA==;
+	bh=lKI7fmOaYipG31xvygjbfgJ816qdaKPkIEG+rDNU3b4=; b=jQbvowqi68IEEkEgIhEZjDQVR6
+	05Js0hC+QtnE2aIe8RyiriOG9l7dh84EOewBqqOTZrPDizBPWNP+OFOpu6PkusJR6tD9/YY5CTUU+
+	/GCo9w5l6WSCISDDj/Bm0MMRwfOgKhJASaIjrDwUFLi+5R7f6bAVNiIzldZxYgxrCxHwveKfhkQ6F
+	Vm2BkMO0FTlskEbnd+3mdeZz7PUeLIXrmyTFb2LGNCQBVO7GCWYuDnAT9fREQdGJo+gy7g7S4CG0C
+	PrQKux9woFvJaIzQUGPhOu5XmAJbTXpf2v2jF9n16UGNY++3R04eitjjBYe47AoX5ooCtUZMOe5+K
+	jBX5bDvA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wfGgA-00000004S1O-2cv7;
-	Thu, 02 Jul 2026 12:38:06 +0000
-Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130])
+	id 1wfGgn-00000004S5F-3CZ7;
+	Thu, 02 Jul 2026 12:38:45 +0000
+Received: from out30-98.freemail.mail.aliyun.com ([115.124.30.98])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wfGg5-00000004S0f-0WpZ
+	id 1wfGgl-00000004S4k-2PQY
 	for linux-nvme@lists.infradead.org;
-	Thu, 02 Jul 2026 12:38:05 +0000
+	Thu, 02 Jul 2026 12:38:44 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1782995879; h=From:To:Subject:Date:Message-Id:MIME-Version;
-	bh=zVPsC72MacI+7uoqqa+knkUXaga+oDDWAOgXUhuF+3U=;
-	b=LAf5FoOglFZRYIlxf2Z7tPmhZssFsVzZpDMhxEHIv3GQhy0OlgIYlZlCk1w5EztrmnpYB5tmsH3sobwr4epB6ZpXdTj2z04IWza/fHxoEJzfoJLiVBXA68KW0Bjlumk97Opzl71iTwW9RvhlxzUzUjiz32755mD8zxBL28Qc8kM=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R141e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=lulie@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0X6EoVO7_1782995877;
-Received: from localhost(mailfrom:lulie@linux.alibaba.com fp:SMTPD_---0X6EoVO7_1782995877 cluster:ay36)
+	t=1782995921; h=From:To:Subject:Date:Message-Id:MIME-Version;
+	bh=lKI7fmOaYipG31xvygjbfgJ816qdaKPkIEG+rDNU3b4=;
+	b=wI7uLnPt9rnpQArrmE/BXinoB+Rg6G2wj4gJB0oFi5m4YYWc26Gb+NcSiBd6Pb8GGZDnTOIItmNIyMcXDKyu05N9YMbBEKEhAkwyM0bydSs9AqYvtkCiMTFHtczDEF1v+GyFnb6wBBa3cOuG7tBd+I7YohI1xJWpb9CUthKOJKQ=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037026112;MF=lulie@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0X6En153_1782995919;
+Received: from localhost(mailfrom:lulie@linux.alibaba.com fp:SMTPD_---0X6En153_1782995919 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Thu, 02 Jul 2026 20:37:58 +0800
+          Thu, 02 Jul 2026 20:38:40 +0800
 From: Philo Lu <lulie@linux.alibaba.com>
 To: stable@vger.kernel.org
 Cc: hch@lst.de,
@@ -48,15 +48,15 @@ Cc: hch@lst.de,
 	dust.li@linux.alibaba.com,
 	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 5.15.y] nvmet-tcp: fix race between ICReq handling and queue teardown
-Date: Thu,  2 Jul 2026 20:37:57 +0800
-Message-Id: <20260702123757.99897-1-lulie@linux.alibaba.com>
+Subject: [PATCH 5.10.y] nvmet-tcp: fix race between ICReq handling and queue teardown
+Date: Thu,  2 Jul 2026 20:38:39 +0800
+Message-Id: <20260702123839.100640-1-lulie@linux.alibaba.com>
 X-Mailer: git-send-email 2.32.0.3.g01195cf9f
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260702_053801_336207_0BFEC534 
-X-CRM114-Status: GOOD (  15.13  )
+X-CRM114-CacheID: sfid-20260702_053843_788397_7D31019B 
+X-CRM114-Status: GOOD (  15.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -121,10 +121,10 @@ Signed-off-by: Philo Lu <lulie@linux.alibaba.com>
  1 file changed, 28 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 29ed707e76e0..06cfcf085007 100644
+index edcc0662c3e5..4bd82e9b113f 100644
 --- a/drivers/nvme/target/tcp.c
 +++ b/drivers/nvme/target/tcp.c
-@@ -357,6 +357,19 @@ static void nvmet_tcp_build_pdu_iovec(struct nvmet_tcp_cmd *cmd)
+@@ -345,6 +345,19 @@ static void nvmet_tcp_build_pdu_iovec(struct nvmet_tcp_cmd *cmd)
 
  static void nvmet_tcp_fatal_error(struct nvmet_tcp_queue *queue)
  {
@@ -144,7 +144,7 @@ index 29ed707e76e0..06cfcf085007 100644
  	queue->rcv_state = NVMET_TCP_RECV_ERR;
  	if (queue->nvme_sq.ctrl)
  		nvmet_ctrl_fatal_error(queue->nvme_sq.ctrl);
-@@ -900,10 +913,24 @@ static int nvmet_tcp_handle_icreq(struct nvmet_tcp_queue *queue)
+@@ -888,10 +901,24 @@ static int nvmet_tcp_handle_icreq(struct nvmet_tcp_queue *queue)
  	iov.iov_base = icresp;
  	iov.iov_len = sizeof(*icresp);
  	ret = kernel_sendmsg(queue->sock, &msg, &iov, 1, iov.iov_len);
