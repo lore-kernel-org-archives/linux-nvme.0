@@ -4,57 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 67BC6C43458
-	for <linux-nvme@archiver.kernel.org>; Thu,  2 Jul 2026 02:35:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 42093C43458
+	for <linux-nvme@archiver.kernel.org>; Thu,  2 Jul 2026 03:49:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8kqHDz1T8vPkOVeqe1XSIrL8LjI68jWeARu4pzITenY=; b=vVolQULoqJ0sMKVdwti6zLtVjb
-	8227bUVN5/stc6aviTeqY20C9btYJlPzzkxJgYeGTNU03Sg35fak88Qve13bjHrSu2YvjMy4Cm5jV
-	hVmCDeAc/JCSrOzoPTwwhw50wEm/gtTXOrWlj4LMQ+gQDCR+w1XEb5NfAU9jtD7h3hKFWSiEsQeXE
-	slQ40HNpXpC/qHib7BMjn4NccYY+DJc2U24c5JEJ0OzoMWxj7j8SvjydTQqV135iQrFs74P+mWs9F
-	hPBACH8lOQ4/X5ij/oseu51BwU/RgXA7gmT8CmRWGRVCB9I5/W+JyM4qtiIOyA8y3rned2P3P842D
-	SS9n3QLg==;
+	bh=3x7DP5uX8Prslbur/sQYZRe+ltfiRUh+5TV+Is+8aGk=; b=4+Xa/ODgdn4ZlT/C3ViuM6uBQR
+	ChjHKRP6ttpG+5xr9KWjWdCvrLOV9yrdHodm0/zScM7Jd1gpEMRqQP5FP7uxtHif30fI9SIhi3PAo
+	JFGFx8oSyAVemqqoJAZaV9iQOY6fWZ023IJg+QhCtkOvkXnvTm4WjstE/sES6hmRrom02bbJMWcXE
+	BrN49Qi9+6cwJlNiXbn/mt8betONp7Wz7xXve/1NwgOINjEQmuNFnv4j5BT9/TTBr//GD+CJmRpTl
+	C3G/ogRfzJQXMXF+Nl0Rj/4SZvPKAtwnWoGHa91xyigAn87Ok5ayknzsM/jXUte+s3YDS23VBpyvC
+	MyFP5ItQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wf7GV-00000003QzV-1l7v;
-	Thu, 02 Jul 2026 02:34:59 +0000
-Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131])
+	id 1wf8Q5-00000003WSl-1bfu;
+	Thu, 02 Jul 2026 03:48:57 +0000
+Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wf7GR-00000003Qyr-2PQ5
+	id 1wf8Q2-00000003WRR-2slM
 	for linux-nvme@lists.infradead.org;
-	Thu, 02 Jul 2026 02:34:57 +0000
+	Thu, 02 Jul 2026 03:48:56 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1782959689; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=8kqHDz1T8vPkOVeqe1XSIrL8LjI68jWeARu4pzITenY=;
-	b=LUR6SWoimTDoiHVKvUNSg2DIF4pP9A9ZBw8ggc5mrxVmE+3VDAbJxMT3yuF5k6+SnmWiIEdJXsHfJwFxfTVg3bUQ6k2UVzHQ0r6OZsBd8Qzd/OWv5Y0jEZn/+hNCxCktdubmHGqNebSepOEena4WdyX58Mf1pmp4LZGukTa3r6w=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R201e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0X6COG0M_1782959686;
-Received: from 30.178.83.30(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0X6COG0M_1782959686 cluster:ay36)
+	t=1782964132; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=3x7DP5uX8Prslbur/sQYZRe+ltfiRUh+5TV+Is+8aGk=;
+	b=uTSEqQ4D1L23wHwKdhBML6c8WuUS5VtkN5pok5ctoi2KsoWVbuljvsVeV94vTHgEbo49M87ONKgrySgkmfXwrRFhFNK9Ns2aNrYjJF0ojdTYzn9Kw6RMCS5ZLzUNGqvFV6Q9NXyTcJpFeb2P3rf7t7F0wl9RrHy+rnY4X4vWpRk=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R241e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037026112;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0X6CiTz8_1782964131;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0X6CiTz8_1782964131 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Thu, 02 Jul 2026 10:34:47 +0800
-Message-ID: <2dc374ad-b365-48c0-8d45-aacf53f80e4c@linux.alibaba.com>
-Date: Thu, 2 Jul 2026 10:34:46 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] nvme: Introduce service-time iopolicy
-To: Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, onathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-nvme@lists.infradead.org, linux-doc@vger.kernel.org
-References: <20260617114602.2224074-1-kanie@linux.alibaba.com>
- <8103a626-d07b-4b20-b10e-d258485176ee@suse.de>
+          Thu, 02 Jul 2026 11:48:51 +0800
 From: Guixin Liu <kanie@linux.alibaba.com>
-In-Reply-To: <8103a626-d07b-4b20-b10e-d258485176ee@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Daniel Wagner <dwagner@suse.de>,
+	John Garry <john.g.garry@oracle.com>,
+	Nilay Shroff <nilay@linux.ibm.com>,
+	Hannes Reinecke <hare@suse.de>
+Cc: linux-nvme@lists.infradead.org,
+	xlpang@linux.alibaba.com,
+	oliver.yang@linux.alibaba.com
+Subject: [PATCH 1/3] nvme: add ABI documentation for host sysfs interfaces
+Date: Thu,  2 Jul 2026 11:48:43 +0800
+Message-ID: <20260702034845.3066876-2-kanie@linux.alibaba.com>
+X-Mailer: git-send-email 2.43.7
+In-Reply-To: <20260702034845.3066876-1-kanie@linux.alibaba.com>
+References: <20260702034845.3066876-1-kanie@linux.alibaba.com>
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260701_193456_323336_E4DA0348 
-X-CRM114-Status: GOOD (  12.00  )
+X-CRM114-CacheID: sfid-20260701_204855_025257_9695DF1B 
+X-CRM114-Status: GOOD (  19.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,34 +73,473 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Add Documentation/ABI/testing/sysfs-nvme documenting all NVMe host
+sysfs attributes, covering controller attributes under
+/sys/class/nvme/nvmeX/, namespace attributes under
+/sys/block/nvmeXnY/, and subsystem attributes under
+/sys/class/nvme-subsystem/nvme-subsysX/.
 
+Each entry has been traced to its original introducing commit to
+provide accurate Date, KernelVersion, and Contact information.
 
-在 2026/7/1 19:14, Hannes Reinecke 写道:
-> On 6/17/26 1:45 PM, Guixin Liu wrote:
->> Hi all,
->>    I developed the service-time iopolicy in nvme native
->> multipath, please review, all comments are wellcome.
->>
->> Guixin Liu (2):
->>    nvme-multipath: add service-time I/O policy
->>    docs: nvme-multipath: document service-time I/O policy
->>
->>   Documentation/admin-guide/nvme-multipath.rst |  31 +++-
->>   drivers/nvme/host/multipath.c                | 165 ++++++++++++++++++-
->>   drivers/nvme/host/nvme.h                     |   6 +
->>   drivers/nvme/host/sysfs.c                    |   5 +-
->>   4 files changed, 202 insertions(+), 5 deletions(-)
->>
-> We're still waiting for the adaptive I/O policy to be included, so I
-> guess this patch should build on top of that.
->
-> Cheers,
->
-> Hannes
-Yes, I work on that adaptation. But I thought it would be helpful
-for the maintainers to review the logic here first before I proceed.
+Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+---
+ Documentation/ABI/testing/sysfs-nvme | 444 ++++++++++++++++++++++++++-
+ 1 file changed, 434 insertions(+), 10 deletions(-)
 
-Best Regards,
-Guixin Liu
+diff --git a/Documentation/ABI/testing/sysfs-nvme b/Documentation/ABI/testing/sysfs-nvme
+index 499d5f843cd4..079561601acd 100644
+--- a/Documentation/ABI/testing/sysfs-nvme
++++ b/Documentation/ABI/testing/sysfs-nvme
+@@ -1,13 +1,437 @@
+-What:		/sys/devices/virtual/nvme-fabrics/ctl/.../tls_configured_key
++What:		/sys/class/nvme/nvmeX/model
++What:		/sys/class/nvme/nvmeX/serial
++What:		/sys/class/nvme/nvmeX/firmware_rev
++Date:		January 2016
++KernelVersion:	4.5
++Contact:	Keith Busch <kbusch@kernel.org>
++Description:
++		Shows the model, serial number, or firmware revision string
++		of the NVMe controller, as reported in the Identify
++		Controller data structure.
++
++What:		/sys/class/nvme/nvmeX/reset_controller
++Date:		November 2015
++KernelVersion:	4.5
++Contact:	Christoph Hellwig <hch@lst.de>
++Description:
++		Write-only. Writing any value triggers a synchronous
++		controller reset.
++
++What:		/sys/block/nvmeXnY/uuid
++What:		/sys/block/nvmeXnY/eui
++What:		/sys/block/nvmeXnY/nsid
++Date:		December 2015
++KernelVersion:	4.5
++Contact:	Keith Busch <kbusch@kernel.org>
++Description:
++		Namespace identification attributes.
++
++		uuid: Shows the UUID for this namespace. Falls back to
++		showing the NGUID for backward compatibility. Hidden if
++		both are all zeros.
++
++		eui: Shows the IEEE Extended Unique Identifier (EUI-64).
++		Hidden if all zeros.
++
++		nsid: Shows the namespace identifier (NSID).
++
++What:		/sys/class/nvme/nvmeX/cntlid
++Date:		February 2016
++KernelVersion:	4.6
++Contact:	Ming Lin <ming.l@ssi.samsung.com>
++Description:
++		Shows the controller identifier assigned by the NVMe
++		subsystem.
++
++What:		/sys/block/nvmeXnY/wwid
++Date:		February 2016
++KernelVersion:	4.6
++Contact:	Keith Busch <kbusch@kernel.org>
++Description:
++		Shows the World Wide Identifier for this namespace. The
++		format depends on available identifiers (in priority
++		order): "uuid.{UUID}", "eui.{NGUID}", "eui.{EUI64}", or
++		"nvme.{VID}-{SERIAL}-{MODEL}-{NSID}".
++
++What:		/sys/class/nvme/nvmeX/rescan_controller
++Date:		April 2016
++KernelVersion:	4.7
++Contact:	Keith Busch <kbusch@kernel.org>
++Description:
++		Write-only. Writing any value triggers a namespace rescan
++		on this controller.
++
++What:		/sys/class/nvme/nvmeX/transport
++What:		/sys/class/nvme/nvmeX/subsysnqn
++What:		/sys/class/nvme/nvmeX/address
++What:		/sys/class/nvme/nvmeX/delete_controller
++What:		/sys/class/nvme/nvmeX/reconnect_delay
++What:		/sys/class/nvme/nvmeX/ctrl_loss_tmo
++Date:		June 2016
++KernelVersion:	4.8
++Contact:	Ming Lin <ming.l@ssi.samsung.com>
++Description:
++		Fabrics controller attributes added with NVMe-oF support.
++
++		transport: Shows the transport type string. Possible values:
++		"pcie", "tcp", "rdma", "fc", "loop".
++
++		subsysnqn: Shows the NVMe Qualified Name (NQN) of the
++		subsystem this controller belongs to.
++
++		address: Shows the transport-specific address string. Only
++		available for fabrics controllers.
++
++		delete_controller: Write-only. Triggers deletion of this
++		fabrics controller.
++
++		reconnect_delay: Shows or sets the reconnect delay in
++		seconds. Reading returns the delay value, or "off" if
++		disabled.
++
++		ctrl_loss_tmo: Shows or sets the controller loss timeout in
++		seconds. Reading returns the timeout value, or "off" if
++		infinite reconnects are allowed. Writing a negative value
++		disables the timeout.
++
++What:		/sys/class/nvme/nvmeX/cmb
++Date:		October 2016
++KernelVersion:	4.9
++Contact:	Stephen Bates <sbates@raithlin.com>
++Description:
++		Shows the Controller Memory Buffer (CMB) register values
++		in format "cmbloc : 0x%08x\ncmbsz  : 0x%08x\n". Only
++		visible when the controller has a CMB (cmbsz != 0).
++		PCI transport only.
++
++What:		/sys/class/nvme/nvmeX/state
++Date:		November 2016
++KernelVersion:	4.11
++Contact:	Sagi Grimberg <sagi@grimberg.me>
++Description:
++		Shows the current state of the controller. Possible values:
++		"new", "live", "resetting", "connecting", "deleting",
++		"deleting (no IO)", "dead".
++
++What:		/sys/block/nvmeXnY/nguid
++Date:		June 2017
++KernelVersion:	4.13
++Contact:	Johannes Thumshirn <jthumshirn@suse.de>
++Description:
++		Shows the Namespace Globally Unique Identifier (NGUID).
++		Hidden if the NGUID is all zeros.
++
++What:		/sys/class/nvme-subsystem/nvme-subsysX/model
++What:		/sys/class/nvme-subsystem/nvme-subsysX/serial
++What:		/sys/class/nvme-subsystem/nvme-subsysX/firmware_rev
++What:		/sys/class/nvme-subsystem/nvme-subsysX/subsysnqn
++Date:		November 2017
++KernelVersion:	4.15
++Contact:	Hannes Reinecke <hare@suse.de>
++Description:
++		Shows the model, serial number, firmware revision, or NQN
++		of the NVMe subsystem.
++
++What:		/sys/block/nvmeXnY/ana_grpid
++What:		/sys/block/nvmeXnY/ana_state
++Date:		May 2018
++KernelVersion:	4.19
++Contact:	Christoph Hellwig <hch@lst.de>
++Description:
++		ana_grpid: Shows the ANA Group ID for this per-path
++		namespace device.
++
++		ana_state: Shows the ANA state. Possible values:
++		"optimized", "non-optimized", "inaccessible",
++		"persistent-loss", "change".
++
++		Only visible on per-path devices (not multipath head) when
++		the controller supports ANA. Requires CONFIG_NVME_MULTIPATH.
++
++What:		/sys/class/nvme/nvmeX/numa_node
++Date:		November 2018
++KernelVersion:	5.0
++Contact:	Hannes Reinecke <hare@suse.de>
++Description:
++		Shows the NUMA node the controller is attached to.
++
++What:		/sys/class/nvme-subsystem/nvme-subsysX/iopolicy
++Date:		February 2019
++KernelVersion:	5.1
++Contact:	Hannes Reinecke <hare@suse.de>
++Description:
++		Shows or sets the multipath I/O path selection policy for
++		this subsystem. Accepted values: "numa", "round-robin",
++		"queue-depth". Changing the policy clears all current path
++		selections. Only available when CONFIG_NVME_MULTIPATH is
++		enabled.
++
++What:		/sys/class/nvme/nvmeX/queue_count
++What:		/sys/class/nvme/nvmeX/sqsize
++Date:		September 2019
++KernelVersion:	5.4
++Contact:	James Smart <jsmart2021@gmail.com>
++Description:
++		queue_count: Shows the total number of queues (admin + I/O)
++		for this controller.
++
++		sqsize: Shows the submission queue size for this controller.
++
++What:		/sys/class/nvme/nvmeX/hostnqn
++What:		/sys/class/nvme/nvmeX/hostid
++Date:		February 2020
++KernelVersion:	5.7
++Contact:	Sagi Grimberg <sagi@grimberg.me>
++Description:
++		hostnqn: Shows the host NQN used by this fabrics controller.
++
++		hostid: Shows the host identifier (UUID format) used by this
++		fabrics controller.
++
++		Only available for fabrics controllers.
++
++What:		/sys/class/nvme/nvmeX/fast_io_fail_tmo
++Date:		November 2020
++KernelVersion:	5.11
++Contact:	Victor Gladkov <Victor.Gladkov@kioxia.com>
++Description:
++		Shows or sets the fast I/O fail timeout in seconds. Reading
++		returns the timeout value, or "off" if disabled. Writing a
++		negative value disables the fast I/O fail. Only available
++		for fabrics controllers.
++
++What:		/sys/class/nvme/nvmeX/kato
++Date:		April 2021
++KernelVersion:	5.13
++Contact:	Hannes Reinecke <hare@suse.de>
++Description:
++		Shows the Keep Alive Timeout value in milliseconds for
++		this controller.
++
++What:		/sys/class/nvme/nvmeX/cmbloc
++What:		/sys/class/nvme/nvmeX/cmbsz
++What:		/sys/class/nvme/nvmeX/hmb
++Date:		July 2021
++KernelVersion:	5.15
++Contact:	Keith Busch <kbusch@kernel.org>
++Description:
++		cmbloc: Shows the CMBLOC register value.
++
++		cmbsz: Shows the CMBSZ register value.
++
++		cmbloc and cmbsz are only visible when the controller has
++		a CMB. PCI transport only.
++
++		hmb: Shows or sets whether the Host Memory Buffer (HMB) is
++		enabled. Reading returns 1 (enabled) or 0 (disabled).
++		Writing 1 enables HMB; writing 0 disables it. Only
++		visible when the controller supports HMB (hmpre != 0).
++		PCI transport only.
++
++What:		/sys/class/nvme-subsystem/nvme-subsysX/subsystype
++Date:		September 2021
++KernelVersion:	5.16
++Contact:	Hannes Reinecke <hare@suse.de>
++Description:
++		Shows the subsystem type. Possible values: "discovery",
++		"nvm", "reserved".
++
++What:		/sys/class/nvme/nvmeX/cntrltype
++What:		/sys/class/nvme/nvmeX/dctype
++Date:		February 2022
++KernelVersion:	5.18
++Contact:	Martin Belanger <martin.belanger@dell.com>
++Description:
++		cntrltype: Shows the controller type. Possible values: "io",
++		"discovery", "admin", "reserved".
++
++		dctype: Shows the discovery controller type. Possible values:
++		"none", "ddc", "cdc", "reserved".
++
++What:		/sys/class/nvme/nvmeX/dhchap_secret
++What:		/sys/class/nvme/nvmeX/dhchap_ctrl_secret
++Date:		June 2022
++KernelVersion:	6.0
++Contact:	Hannes Reinecke <hare@suse.de>
++Description:
++		dhchap_secret: Shows or sets the host DH-HMAC-CHAP secret
++		for this controller. Reading returns "none" if not set.
++		Writing must use the "DHHC-1:" key format and triggers
++		re-authentication.
++
++		dhchap_ctrl_secret: Shows or sets the controller
++		DH-HMAC-CHAP secret for bidirectional authentication.
++		Same format as dhchap_secret.
++
++		Only available when CONFIG_NVME_HOST_AUTH is enabled and
++		for fabrics controllers.
++
++What:		/sys/class/nvme/nvmeX/tls_key
++Date:		August 2023
++KernelVersion:	6.7
++Contact:	Hannes Reinecke <hare@suse.de>
++Description:
++		Shows the serial of the currently active TLS PSK as hex.
++		Returns empty if no TLS key is active. Only available for
++		TCP controllers with TLS or secure concatenation enabled
++		(CONFIG_NVME_TCP_TLS).
++
++What:		/sys/class/nvme/nvmeX/passthru_err_log_enabled
++What:		/sys/block/nvmeXnY/passthru_err_log_enabled
++Date:		January 2024
++KernelVersion:	6.8
++Contact:	Alan Adamson <alan.adamson@oracle.com>
++Description:
++		Shows or sets whether passthrough error logging is enabled.
++		Reading returns "on" or "off". Writing accepts a boolean
++		value. The controller-level attribute controls admin
++		passthrough logging; the namespace-level attribute controls
++		I/O passthrough logging.
++
++What:		/sys/block/nvmeXnY/csi
++What:		/sys/block/nvmeXnY/metadata_bytes
++What:		/sys/block/nvmeXnY/nuse
++Date:		December 2023
++KernelVersion:	6.8
++Contact:	Daniel Wagner <dwagner@suse.de>
++Description:
++		csi: Shows the Command Set Identifier for this namespace.
++
++		metadata_bytes: Shows the metadata size in bytes.
++
++		nuse: Shows the Namespace Utilization (NUSE) value. Reading
++		triggers an Identify Namespace command to refresh the
++		value (rate-limited to avoid excessive commands).
++
++What:		/sys/block/nvmeXnY/queue_depth
++Date:		June 2024
++KernelVersion:	6.11
++Contact:	Thomas Song <tsong@purestorage.com>
++Description:
++		Shows the current active I/O count on this path's
++		controller. Returns empty if iopolicy is not "queue-depth".
++		Only visible on per-path devices.
++		Requires CONFIG_NVME_MULTIPATH.
++
++What:		/sys/class/nvme/nvmeX/tls_configured_key
++Date:		July 2024
++KernelVersion:	6.12
++Contact:	Hannes Reinecke <hare@kernel.org>
++Description:
++		Shows the serial of the configured TLS key. Writing 0
++		triggers a PSK reauthentication (REPLACETLSPSK) with
++		the target. After reauthentication the returned serial
++		will be the new key. Only available for TCP controllers
++		with secure concatenation enabled (CONFIG_NVME_TCP_TLS).
++
++What:		/sys/class/nvme/nvmeX/tls_keyring
++Date:		July 2024
++KernelVersion:	6.12
++Contact:	Hannes Reinecke <hare@kernel.org>
++Description:
++		Shows the TLS keyring description. Only available for TCP
++		controllers with a keyring configured (CONFIG_NVME_TCP_TLS).
++
++What:		/sys/block/nvmeXnY/numa_nodes
++Date:		January 2025
++KernelVersion:	6.15
++Contact:	Nilay Shroff <nilay@linux.ibm.com>
++Description:
++		Shows the NUMA node mask for which this path is the
++		currently selected path. Returns empty if iopolicy is not
++		"numa". Only visible on per-path devices.
++		Requires CONFIG_NVME_MULTIPATH.
++
++What:		/sys/block/nvmeXnY/delayed_removal_secs
++Date:		May 2025
++KernelVersion:	6.16
++Contact:	Nilay Shroff <nilay@linux.ibm.com>
++Description:
++		Shows or sets the delayed removal timeout in seconds for
++		the multipath head device. When nonzero, I/O is queued
++		instead of failed when all paths are gone, and head removal
++		is deferred. Only visible on multipath head devices.
++		Requires CONFIG_NVME_MULTIPATH.
++
++What:		/sys/class/nvme/nvmeX/quirks
+ Date:		November 2025
+-KernelVersion:	6.19
+-Contact:	Linux NVMe mailing list <linux-nvme@lists.infradead.org>
++KernelVersion:	7.0
++Contact:	Maurizio Lombardi <mlombard@redhat.com>
+ Description:
+-		The file is avaliable when using a secure concatanation
+-		connection to a NVMe target. Reading the file will return
+-		the serial of the currently negotiated key.
++		Shows the active quirk names for this controller, one per
++		line. Shows "none" if no quirks are active.
++
++What:		/sys/class/nvme/nvmeX/tls_mode
++Date:		April 2026
++KernelVersion:	7.1
++Contact:	Daniel Wagner <wagi@kernel.org>
++Description:
++		Shows the TLS mode: "tls" for direct TLS or "concat" for
++		secure concatenation. Only available for TCP controllers
++		with TLS or secure concatenation enabled
++		(CONFIG_NVME_TCP_TLS).
++
++What:		/sys/class/nvme/nvmeX/admin_timeout
++What:		/sys/class/nvme/nvmeX/io_timeout
++Date:		May 2026
++KernelVersion:	7.2
++Contact:	Maurizio Lombardi <mlombard@redhat.com>
++Description:
++		admin_timeout: Shows or sets the admin command timeout in
++		milliseconds.
++
++		io_timeout: Shows or sets the I/O command timeout in
++		milliseconds. Changes are propagated to all namespace
++		request queues.
++
++		The value must be nonzero. Only writable after the
++		controller has been started at least once.
++
++What:		/sys/class/nvme/nvmeX/diag/command_error_count
++What:		/sys/class/nvme/nvmeX/diag/reset_count
++What:		/sys/class/nvme/nvmeX/diag/reconnect_count
++Date:		May 2026
++KernelVersion:	7.2
++Contact:	Nilay Shroff <nilay@linux.ibm.com>
++Description:
++		Controller diagnostic counters.
++
++		command_error_count: Admin command error counter.
++
++		reset_count: Controller reset counter.
++
++		reconnect_count: Accumulated reconnect counter. Only
++		available for fabrics controllers.
++
++		All counters can be reset by writing a value.
++
++What:		/sys/block/nvmeXnY/diag/command_retries_count
++What:		/sys/block/nvmeXnY/diag/command_error_count
++What:		/sys/block/nvmeXnY/diag/multipath_failover_count
++What:		/sys/block/nvmeXnY/diag/io_requeue_no_usable_path_count
++What:		/sys/block/nvmeXnY/diag/io_fail_no_available_path_count
++Date:		May 2026
++KernelVersion:	7.2
++Contact:	Nilay Shroff <nilay@linux.ibm.com>
++Description:
++		Namespace diagnostic counters.
++
++		command_retries_count: I/O command retry counter. Only
++		visible on per-path devices.
++
++		command_error_count: I/O command error counter. Only
++		visible on per-path devices.
++
++		multipath_failover_count: Multipath failover counter.
++		Only visible on per-path devices. Requires
++		CONFIG_NVME_MULTIPATH.
++
++		io_requeue_no_usable_path_count: Counter of I/Os requeued
++		because no usable path was available. Only visible on
++		multipath head devices. Requires CONFIG_NVME_MULTIPATH.
++
++		io_fail_no_available_path_count: Counter of I/Os failed
++		because no available path existed. Only visible on
++		multipath head devices. Requires CONFIG_NVME_MULTIPATH.
+ 
+-		Writing 0 to the file will trigger a PSK reauthentication
+-		(REPLACETLSPSK) with the target. After a reauthentication
+-		the value returned by tls_configured_key will be the new
+-		serial.
++		All counters can be reset by writing a value.
+-- 
+2.43.7
 
 
