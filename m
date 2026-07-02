@@ -4,43 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E3934C43458
-	for <linux-nvme@archiver.kernel.org>; Thu,  2 Jul 2026 06:50:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E462EC43458
+	for <linux-nvme@archiver.kernel.org>; Thu,  2 Jul 2026 06:51:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OkyZREbq6NfL7vGqAi3dzllMfCcN1BhzF3ISmOvRLZI=; b=3YPqtRPwtLLbqfiOHAqQZSl/pY
-	shCfmqFNvVN+oIvMmsFBVR6lhCem7spXsS+U2+T0innMagqO3fj7n3MuHhdyzYPXW3Rco45sk3Eeb
-	CgO1BLiVzMB9YkAUVmf4b5RolcYWfBEFn5gyLYFkZcFxMiWvYFWQbTYL6tr4ePDAtNI1cYvFwDkVE
-	BX27zfi7JShvil591V31y29+RMaWyOlMIpXTyOcLRhwZ8YQLdcvUnvaUM5eWMar7GQHph4wHBoHmm
-	YVCkrwJtmr+wltFNR5x6ZRhkiEc1W4vUV/qAAOZnAzMmHNc9n+oh0xTPWASycxOZsfYlxs+LXL07T
-	U2dbC0qg==;
+	bh=ynd6rW30Lsw4czYaMqKhskuLZa90/TwZPVhhOJBQYoA=; b=bpGC/BRVWqkqd1qdP/4wscVs5R
+	HseCjN7SAdxWRjLiEFq2nG7m0UxhZB95aDN8g88Rej3KeWfRrtXdeUS6nQSm2Fofqyfcz2EjPa6+o
+	i5+vYS674l6aJLMLK2FRaCKL+Qd92pC/X/rEFkIwxdyKwgNTPf/3ZdxxmAykNMq5S3R/l02OhHykW
+	iqcUPf5wGnRrNKGwfNxfZw0YZZ+3RpehN9PYETlfrUmZh5s9bbjodc1eXt/RMgMTe4wVls+I0+qBc
+	nqh2F5kBaP+6xHF2pUtxLB57wgCslwJRcgAM2w4a+9g78U5VLdW4ddOvxigtbucXDPlmir2L/AMuO
+	6RUd1bzQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wfBFs-00000003fqG-02qm;
-	Thu, 02 Jul 2026 06:50:36 +0000
-Received: from out30-97.freemail.mail.aliyun.com ([115.124.30.97])
+	id 1wfBGk-00000003fuR-0jbL;
+	Thu, 02 Jul 2026 06:51:30 +0000
+Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wfBFm-00000003fpJ-1hua
+	id 1wfBGh-00000003ftw-36u8
 	for linux-nvme@lists.infradead.org;
-	Thu, 02 Jul 2026 06:50:34 +0000
+	Thu, 02 Jul 2026 06:51:29 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1782975025; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=OkyZREbq6NfL7vGqAi3dzllMfCcN1BhzF3ISmOvRLZI=;
-	b=yrlXMz/U5P6vkDzjR40qW8j0m2AJcfi3wQ4TcmhTxNE/kexixytO/g0evve+Hnp8RuFlITaA2CobkhLsUsFXU85DfoY59IuIA/nYv6J2MpOgF5cpWq8vLlfioCqnIFiQESv205SO65lc3uZFnzu2d6ktRXY5/2Dby9brtMhrOJg=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037026112;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0X6DJqps_1782975023;
-Received: from 30.178.83.30(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0X6DJqps_1782975023 cluster:ay36)
+	t=1782975085; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=ynd6rW30Lsw4czYaMqKhskuLZa90/TwZPVhhOJBQYoA=;
+	b=LgmhxItIPoBYlAxy9fRmV3kIQFVdBrW8z2w/g57YH57Vyu4RE/UHdnBKqDmWjlQVuSTlB0KLDQXJ/QDElmUyJ6woYlgORoHkBfpD4C7mjO1AINKc02FW4CJZLYlM5TYnkv03HUdhpyIr6CDHT3nw9dGMfHu7hEAickRClkuO1gQ=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R521e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037009110;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0X6DKb14_1782975083;
+Received: from 30.178.83.30(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0X6DKb14_1782975083 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Thu, 02 Jul 2026 14:50:24 +0800
-Message-ID: <6416295a-2d7b-4432-8392-46ae48e64331@linux.alibaba.com>
-Date: Thu, 2 Jul 2026 14:50:22 +0800
+          Thu, 02 Jul 2026 14:51:24 +0800
+Message-ID: <8bfe46b6-2626-4061-b6eb-0f374f2509e7@linux.alibaba.com>
+Date: Thu, 2 Jul 2026 14:51:23 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] nvme: add ABI documentation for host sysfs interfaces
+Subject: Re: [PATCH 2/3] nvmet: add ABI documentation for target configfs
+ interfaces
 To: Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>,
  Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
  Sagi Grimberg <sagi@grimberg.me>, Daniel Wagner <dwagner@suse.de>,
@@ -48,15 +49,15 @@ To: Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>,
 Cc: linux-nvme@lists.infradead.org, xlpang@linux.alibaba.com,
  oliver.yang@linux.alibaba.com
 References: <20260702034845.3066876-1-kanie@linux.alibaba.com>
- <20260702034845.3066876-2-kanie@linux.alibaba.com>
- <cd292576-e7f4-4ac3-8964-edb1bef05e78@suse.de>
+ <20260702034845.3066876-3-kanie@linux.alibaba.com>
+ <8c320767-8d3d-418a-80fc-55e5d342b6e5@suse.de>
 From: Guixin Liu <kanie@linux.alibaba.com>
-In-Reply-To: <cd292576-e7f4-4ac3-8964-edb1bef05e78@suse.de>
+In-Reply-To: <8c320767-8d3d-418a-80fc-55e5d342b6e5@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260701_235032_081566_A94EF40C 
-X-CRM114-Status: GOOD (  20.69  )
+X-CRM114-CacheID: sfid-20260701_235128_155038_7DF64E0A 
+X-CRM114-Status: GOOD (  21.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,483 +74,387 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-在 2026/7/2 14:31, Hannes Reinecke 写道:
+在 2026/7/2 14:35, Hannes Reinecke 写道:
 > On 7/2/26 5:48 AM, Guixin Liu wrote:
->> Add Documentation/ABI/testing/sysfs-nvme documenting all NVMe host
->> sysfs attributes, covering controller attributes under
->> /sys/class/nvme/nvmeX/, namespace attributes under
->> /sys/block/nvmeXnY/, and subsystem attributes under
->> /sys/class/nvme-subsystem/nvme-subsysX/.
+>> Add Documentation/ABI/testing/configfs-nvmet documenting all NVMe
+>> target configfs attributes, covering port attributes, subsystem
+>> attributes, namespace attributes, host authentication, passthrough
+>> mode, and ANA configuration.
 >>
 >> Each entry has been traced to its original introducing commit to
 >> provide accurate Date, KernelVersion, and Contact information.
 >>
 >> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
 >> ---
->>   Documentation/ABI/testing/sysfs-nvme | 444 ++++++++++++++++++++++++++-
->>   1 file changed, 434 insertions(+), 10 deletions(-)
+>>   Documentation/ABI/testing/configfs-nvmet | 347 +++++++++++++++++++++++
+>>   1 file changed, 347 insertions(+)
+>>   create mode 100644 Documentation/ABI/testing/configfs-nvmet
 >>
->> diff --git a/Documentation/ABI/testing/sysfs-nvme 
->> b/Documentation/ABI/testing/sysfs-nvme
->> index 499d5f843cd4..079561601acd 100644
->> --- a/Documentation/ABI/testing/sysfs-nvme
->> +++ b/Documentation/ABI/testing/sysfs-nvme
->> @@ -1,13 +1,437 @@
->> -What: /sys/devices/virtual/nvme-fabrics/ctl/.../tls_configured_key
->> +What:        /sys/class/nvme/nvmeX/model
->> +What:        /sys/class/nvme/nvmeX/serial
->> +What:        /sys/class/nvme/nvmeX/firmware_rev
->> +Date:        January 2016
->> +KernelVersion:    4.5
->> +Contact:    Keith Busch <kbusch@kernel.org>
->> +Description:
->> +        Shows the model, serial number, or firmware revision string
->> +        of the NVMe controller, as reported in the Identify
->> +        Controller data structure.
->> +
->> +What:        /sys/class/nvme/nvmeX/reset_controller
->> +Date:        November 2015
->> +KernelVersion:    4.5
->> +Contact:    Christoph Hellwig <hch@lst.de>
->> +Description:
->> +        Write-only. Writing any value triggers a synchronous
->> +        controller reset.
->> +
->> +What:        /sys/block/nvmeXnY/uuid
->> +What:        /sys/block/nvmeXnY/eui
->> +What:        /sys/block/nvmeXnY/nsid
->> +Date:        December 2015
->> +KernelVersion:    4.5
->> +Contact:    Keith Busch <kbusch@kernel.org>
->> +Description:
->> +        Namespace identification attributes.
->> +
->> +        uuid: Shows the UUID for this namespace. Falls back to
->> +        showing the NGUID for backward compatibility. Hidden if
->> +        both are all zeros.
->> +
->> +        eui: Shows the IEEE Extended Unique Identifier (EUI-64).
->> +        Hidden if all zeros.
->> +
->> +        nsid: Shows the namespace identifier (NSID).
->> +
->> +What:        /sys/class/nvme/nvmeX/cntlid
->> +Date:        February 2016
->> +KernelVersion:    4.6
->> +Contact:    Ming Lin <ming.l@ssi.samsung.com>
->> +Description:
->> +        Shows the controller identifier assigned by the NVMe
->> +        subsystem.
->> +
->> +What:        /sys/block/nvmeXnY/wwid
->> +Date:        February 2016
->> +KernelVersion:    4.6
->> +Contact:    Keith Busch <kbusch@kernel.org>
->> +Description:
->> +        Shows the World Wide Identifier for this namespace. The
->> +        format depends on available identifiers (in priority
->> +        order): "uuid.{UUID}", "eui.{NGUID}", "eui.{EUI64}", or
->> +        "nvme.{VID}-{SERIAL}-{MODEL}-{NSID}".
->> +
->> +What:        /sys/class/nvme/nvmeX/rescan_controller
->> +Date:        April 2016
->> +KernelVersion:    4.7
->> +Contact:    Keith Busch <kbusch@kernel.org>
->> +Description:
->> +        Write-only. Writing any value triggers a namespace rescan
->> +        on this controller.
->> +
->> +What:        /sys/class/nvme/nvmeX/transport
->> +What:        /sys/class/nvme/nvmeX/subsysnqn
->> +What:        /sys/class/nvme/nvmeX/address
->> +What:        /sys/class/nvme/nvmeX/delete_controller
->> +What:        /sys/class/nvme/nvmeX/reconnect_delay
->> +What:        /sys/class/nvme/nvmeX/ctrl_loss_tmo
+>> diff --git a/Documentation/ABI/testing/configfs-nvmet 
+>> b/Documentation/ABI/testing/configfs-nvmet
+>> new file mode 100644
+>> index 000000000000..728c905310c5
+>> --- /dev/null
+>> +++ b/Documentation/ABI/testing/configfs-nvmet
+>> @@ -0,0 +1,347 @@
+>> +What:        /config/nvmet/ports/N/addr_adrfam
+>> +What:        /config/nvmet/ports/N/addr_portid
+>> +What:        /config/nvmet/ports/N/addr_traddr
+>> +What:        /config/nvmet/ports/N/addr_trsvcid
+>> +What:        /config/nvmet/ports/N/addr_trtype
+>> +What:        /config/nvmet/ports/N/addr_treq
 >> +Date:        June 2016
 >> +KernelVersion:    4.8
->> +Contact:    Ming Lin <ming.l@ssi.samsung.com>
+>> +Contact:    Christoph Hellwig <hch@lst.de>
 >> +Description:
->> +        Fabrics controller attributes added with NVMe-oF support.
+>> +        Address attributes for an NVMe-oF target port.
 >> +
->> +        transport: Shows the transport type string. Possible values:
->> +        "pcie", "tcp", "rdma", "fc", "loop".
+>> +        addr_adrfam: Shows or sets the address family. Accepted
+>> +        values: "pcie", "ipv4", "ipv6", "ib", "fc", "pci", "loop".
 >> +
->> +        subsysnqn: Shows the NVMe Qualified Name (NQN) of the
->> +        subsystem this controller belongs to.
+>> +        addr_portid: Shows or sets the port identifier (u16).
 >> +
->> +        address: Shows the transport-specific address string. Only
->> +        available for fabrics controllers.
+>> +        addr_traddr: Shows or sets the transport address string.
 >> +
->> +        delete_controller: Write-only. Triggers deletion of this
->> +        fabrics controller.
+>> +        addr_trsvcid: Shows or sets the transport service identifier.
 >> +
->> +        reconnect_delay: Shows or sets the reconnect delay in
->> +        seconds. Reading returns the delay value, or "off" if
->> +        disabled.
+>> +        addr_trtype: Shows or sets the transport type. Accepted
+>> +        values: "rdma", "fc", "tcp", "pci", "loop". Also
+>> +        initializes default TSAS values.
 >> +
->> +        ctrl_loss_tmo: Shows or sets the controller loss timeout in
->> +        seconds. Reading returns the timeout value, or "off" if
->> +        infinite reconnects are allowed. Writing a negative value
->> +        disables the timeout.
+>> +        addr_treq: Shows or sets the transport security requirements.
+>> +        Accepted values: "not specified", "required",
+>> +        "not required". For TCP with TLS1.3, "not specified" is
+>> +        rejected.
 >> +
->> +What:        /sys/class/nvme/nvmeX/cmb
->> +Date:        October 2016
->> +KernelVersion:    4.9
->> +Contact:    Stephen Bates <sbates@raithlin.com>
+>> +        All attributes require the port to be disabled before
+>> +        modification.
+>> +
+>> +What:        /config/nvmet/ports/N/referrals/NAME/addr_adrfam
+>> +What:        /config/nvmet/ports/N/referrals/NAME/addr_portid
+>> +What:        /config/nvmet/ports/N/referrals/NAME/addr_traddr
+>> +What: /config/nvmet/ports/N/referrals/NAME/addr_trsvcid
+>> +What:        /config/nvmet/ports/N/referrals/NAME/addr_trtype
+>> +What:        /config/nvmet/ports/N/referrals/NAME/addr_treq
+>> +What:        /config/nvmet/ports/N/referrals/NAME/enable
+>> +Date:        June 2016
+>> +KernelVersion:    4.8
+>> +Contact:    Christoph Hellwig <hch@lst.de>
 >> +Description:
->> +        Shows the Controller Memory Buffer (CMB) register values
->> +        in format "cmbloc : 0x%08x\ncmbsz  : 0x%08x\n". Only
->> +        visible when the controller has a CMB (cmbsz != 0).
->> +        PCI transport only.
+>> +        Address attributes and enable control for a referral entry
+>> +        under a port. The addr_* attributes have the same semantics
+>> +        as the corresponding port-level attributes. The enable
+>> +        attribute shows or sets whether this referral is enabled
+>> +        (boolean).
 >> +
->> +What:        /sys/class/nvme/nvmeX/state
->> +Date:        November 2016
->> +KernelVersion:    4.11
->> +Contact:    Sagi Grimberg <sagi@grimberg.me>
+>> +What: /config/nvmet/subsystems/NAME/attr_allow_any_host
+>> +Date:        June 2016
+>> +KernelVersion:    4.8
+>> +Contact:    Christoph Hellwig <hch@lst.de>
 >> +Description:
->> +        Shows the current state of the controller. Possible values:
->> +        "new", "live", "resetting", "connecting", "deleting",
->> +        "deleting (no IO)", "dead".
+>> +        Shows or sets whether any host is allowed to connect.
+>> +        Accepts boolean value. Cannot be set to 1 if explicit
+>> +        hosts are linked in the allowed_hosts/ directory.
 >> +
->> +What:        /sys/block/nvmeXnY/nguid
+>> +What: /config/nvmet/subsystems/NAME/namespaces/NSID/device_path
+>> +What: /config/nvmet/subsystems/NAME/namespaces/NSID/device_nguid
+>> +What: /config/nvmet/subsystems/NAME/namespaces/NSID/enable
+>> +Date:        June 2016
+>> +KernelVersion:    4.8
+>> +Contact:    Christoph Hellwig <hch@lst.de>
+>> +Description:
+>> +        Namespace attributes added with the initial NVMe target.
+>> +
+>> +        device_path: Shows or sets the backend block device path.
+>> +        The namespace must be disabled before modification.
+>> +
+>> +        device_nguid: Shows or sets the NGUID (128-bit identifier).
+>> +        Accepts 32 hex digits with optional "-" or ":" separators.
+>> +        The namespace must be disabled before modification.
+>> +
+>> +        enable: Shows or sets whether this namespace is enabled
+>> +        (boolean).
+>> +
+>> +What: /config/nvmet/subsystems/NAME/namespaces/NSID/device_uuid
 >> +Date:        June 2017
 >> +KernelVersion:    4.13
 >> +Contact:    Johannes Thumshirn <jthumshirn@suse.de>
 >> +Description:
->> +        Shows the Namespace Globally Unique Identifier (NGUID).
->> +        Hidden if the NGUID is all zeros.
+>> +        Shows or sets the UUID for this namespace. The namespace
+>> +        must be disabled before modification.
 >> +
->> +What:        /sys/class/nvme-subsystem/nvme-subsysX/model
->> +What:        /sys/class/nvme-subsystem/nvme-subsysX/serial
->> +What: /sys/class/nvme-subsystem/nvme-subsysX/firmware_rev
->> +What:        /sys/class/nvme-subsystem/nvme-subsysX/subsysnqn
->> +Date:        November 2017
->> +KernelVersion:    4.15
->> +Contact:    Hannes Reinecke <hare@suse.de>
+>> +What:        /config/nvmet/subsystems/NAME/attr_version
+>> +What:        /config/nvmet/subsystems/NAME/attr_serial
+>> +Date:        July 2017
+>> +KernelVersion:    4.13
+>> +Contact:    Johannes Thumshirn <jthumshirn@suse.de>
 >> +Description:
->> +        Shows the model, serial number, firmware revision, or NQN
->> +        of the NVMe subsystem.
+>> +        attr_version: Shows or sets the NVMe version reported by
+>> +        this subsystem. Format: "major.minor" or
+>> +        "major.minor.tertiary". Cannot be changed after the
+>> +        subsystem has been discovered.
 >> +
->> +What:        /sys/block/nvmeXnY/ana_grpid
->> +What:        /sys/block/nvmeXnY/ana_state
->> +Date:        May 2018
+>> +        attr_serial: Shows or sets the serial number. Must be a
+>> +        1-20 byte ASCII string (characters 0x20-0x7e). Cannot be
+>> +        changed after the subsystem has been discovered.
+>> +
+>> +What:        /config/nvmet/ports/N/ana_groups/ID/ana_state
+>> +What: /config/nvmet/subsystems/NAME/namespaces/NSID/ana_grpid
+>> +Date:        June 2018
 >> +KernelVersion:    4.19
 >> +Contact:    Christoph Hellwig <hch@lst.de>
 >> +Description:
->> +        ana_grpid: Shows the ANA Group ID for this per-path
->> +        namespace device.
+>> +        ANA (Asymmetric Namespace Access) attributes.
 >> +
->> +        ana_state: Shows the ANA state. Possible values:
->> +        "optimized", "non-optimized", "inaccessible",
->> +        "persistent-loss", "change".
+>> +        ana_state: Shows or sets the ANA state for this group on
+>> +        this port. Accepted values: "optimized", "non-optimized",
+>> +        "inaccessible", "persistent-loss", "change". Changes
+>> +        trigger an ANA change event.
 >> +
->> +        Only visible on per-path devices (not multipath head) when
->> +        the controller supports ANA. Requires CONFIG_NVME_MULTIPATH.
+>> +        ana_grpid: Shows or sets the ANA Group ID for this
+>> +        namespace. Must be between 1 and 128. Changing triggers
+>> +        an ANA event notification.
 >> +
->> +What:        /sys/class/nvme/nvmeX/numa_node
->> +Date:        November 2018
->> +KernelVersion:    5.0
->> +Contact:    Hannes Reinecke <hare@suse.de>
+>> +What:        /config/nvmet/ports/N/param_inline_data_size
+>> +Date:        June 2018
+>> +KernelVersion:    4.19
+>> +Contact:    Steve Wise <swise@opengridcomputing.com>
 >> +Description:
->> +        Shows the NUMA node the controller is attached to.
+>> +        Shows or sets the inline data size for this port. Default
+>> +        is -1 which lets the transport choose. The port must be
+>> +        disabled before modification.
 >> +
->> +What:        /sys/class/nvme-subsystem/nvme-subsysX/iopolicy
->> +Date:        February 2019
->> +KernelVersion:    5.1
->> +Contact:    Hannes Reinecke <hare@suse.de>
+>> +What: /config/nvmet/subsystems/NAME/namespaces/NSID/buffered_io
+>> +Date:        June 2018
+>> +KernelVersion:    4.19
+>> +Contact:    Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 >> +Description:
->> +        Shows or sets the multipath I/O path selection policy for
->> +        this subsystem. Accepted values: "numa", "round-robin",
->> +        "queue-depth". Changing the policy clears all current path
->> +        selections. Only available when CONFIG_NVME_MULTIPATH is
->> +        enabled.
+>> +        Shows or sets whether buffered I/O is used for this
+>> +        namespace. Accepts boolean value. The namespace must be
+>> +        disabled before modification.
 >> +
->> +What:        /sys/class/nvme/nvmeX/queue_count
->> +What:        /sys/class/nvme/nvmeX/sqsize
->> +Date:        September 2019
->> +KernelVersion:    5.4
->> +Contact:    James Smart <jsmart2021@gmail.com>
+>> +What: /config/nvmet/subsystems/NAME/namespaces/NSID/p2pmem
+>> +Date:        October 2018
+>> +KernelVersion:    4.20
+>> +Contact:    Logan Gunthorpe <logang@deltatee.com>
 >> +Description:
->> +        queue_count: Shows the total number of queues (admin + I/O)
->> +        for this controller.
+>> +        Shows or sets the P2P DMA memory device for this namespace.
+>> +        Accepts a PCI device BDF, "auto", or "none". The namespace
+>> +        must be disabled before modification. Only available when
+>> +        CONFIG_PCI_P2PDMA is enabled.
 >> +
->> +        sqsize: Shows the submission queue size for this controller.
->> +
->> +What:        /sys/class/nvme/nvmeX/hostnqn
->> +What:        /sys/class/nvme/nvmeX/hostid
->> +Date:        February 2020
+>> +What:        /config/nvmet/subsystems/NAME/attr_cntlid_min
+>> +What:        /config/nvmet/subsystems/NAME/attr_cntlid_max
+>> +Date:        January 2020
 >> +KernelVersion:    5.7
->> +Contact:    Sagi Grimberg <sagi@grimberg.me>
+>> +Contact:    Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 >> +Description:
->> +        hostnqn: Shows the host NQN used by this fabrics controller.
+>> +        attr_cntlid_min: Shows or sets the minimum controller ID
+>> +        (u16). Must be nonzero and not greater than attr_cntlid_max.
 >> +
->> +        hostid: Shows the host identifier (UUID format) used by this
->> +        fabrics controller.
+>> +        attr_cntlid_max: Shows or sets the maximum controller ID
+>> +        (u16). Must be nonzero and not less than attr_cntlid_min.
 >> +
->> +        Only available for fabrics controllers.
+>> +What:        /config/nvmet/subsystems/NAME/attr_model
+>> +Date:        January 2020
+>> +KernelVersion:    5.7
+>> +Contact:    Mark Ruijter <MRuijter@onestopsystems.com>
+>> +Description:
+>> +        Shows or sets the model number for this subsystem. Must
+>> +        be a 1-40 byte ASCII string (characters 0x20-0x7e).
+>> +        Cannot be changed after the subsystem has been discovered.
 >> +
->> +What:        /sys/class/nvme/nvmeX/fast_io_fail_tmo
+>> +What:        /config/nvmet/subsystems/NAME/attr_pi_enable
+>> +What:        /config/nvmet/ports/N/param_pi_enable
+>> +Date:        May 2020
+>> +KernelVersion:    5.8
+>> +Contact:    Israel Rukshin <israelr@mellanox.com>
+>> +Description:
+>> +        Shows or sets whether protection information (PI) is
+>> +        enabled/supported. Accepts boolean value. Only available
+>> +        when CONFIG_BLK_DEV_INTEGRITY is enabled. The port-level
+>> +        attribute requires the port to be disabled before
+>> +        modification.
+>> +
+>> +What: /config/nvmet/subsystems/NAME/namespaces/NSID/revalidate_size
+>> +Date:        May 2020
+>> +KernelVersion:    5.8
+>> +Contact:    Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+>> +Description:
+>> +        Write-only. Writing 1 triggers namespace size revalidation.
+>> +        If the size has changed, a namespace changed AEN is sent.
+>> +        The namespace must be enabled.
+>> +
+>> +What: /config/nvmet/subsystems/NAME/passthru/device_path
+>> +What:        /config/nvmet/subsystems/NAME/passthru/enable
+>> +Date:        July 2020
+>> +KernelVersion:    5.9
+>> +Contact:    Logan Gunthorpe <logang@deltatee.com>
+>> +Description:
+>> +        Passthrough mode attributes.
+>> +
+>> +        device_path: Shows or sets the NVMe controller character
+>> +        device path (e.g., /dev/nvme0). Cannot be changed while
+>> +        the passthrough controller is active.
+>> +
+>> +        enable: Shows or sets whether passthrough mode is enabled
+>> +        (boolean).
+>> +
+>> +        Only available when CONFIG_NVME_TARGET_PASSTHRU is enabled.
+>> +
+>> +What: /config/nvmet/subsystems/NAME/passthru/admin_timeout
+>> +What: /config/nvmet/subsystems/NAME/passthru/io_timeout
 >> +Date:        November 2020
 >> +KernelVersion:    5.11
->> +Contact:    Victor Gladkov <Victor.Gladkov@kioxia.com>
+>> +Contact:    Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 >> +Description:
->> +        Shows or sets the fast I/O fail timeout in seconds. Reading
->> +        returns the timeout value, or "off" if disabled. Writing a
->> +        negative value disables the fast I/O fail. Only available
->> +        for fabrics controllers.
+>> +        admin_timeout: Shows or sets the admin command timeout for
+>> +        passthrough mode, in jiffies.
 >> +
->> +What:        /sys/class/nvme/nvmeX/kato
->> +Date:        April 2021
->> +KernelVersion:    5.13
->> +Contact:    Hannes Reinecke <hare@suse.de>
+>> +        io_timeout: Shows or sets the I/O command timeout for
+>> +        passthrough mode, in jiffies.
+>> +
+>> +        Only available when CONFIG_NVME_TARGET_PASSTHRU is enabled.
+>> +
+>> +What:        /config/nvmet/subsystems/NAME/passthru/clear_ids
+>> +Date:        June 2022
+>> +KernelVersion:    5.19
+>> +Contact:    Alan Adamson <alan.adamson@oracle.com>
 >> +Description:
->> +        Shows the Keep Alive Timeout value in milliseconds for
->> +        this controller.
+>> +        Shows or sets whether to clear identify data IDs in
+>> +        passthrough mode. Only available when
+>> +        CONFIG_NVME_TARGET_PASSTHRU is enabled.
 >> +
->> +What:        /sys/class/nvme/nvmeX/cmbloc
->> +What:        /sys/class/nvme/nvmeX/cmbsz
->> +What:        /sys/class/nvme/nvmeX/hmb
->> +Date:        July 2021
->> +KernelVersion:    5.15
->> +Contact:    Keith Busch <kbusch@kernel.org>
->> +Description:
->> +        cmbloc: Shows the CMBLOC register value.
->> +
->> +        cmbsz: Shows the CMBSZ register value.
->> +
->> +        cmbloc and cmbsz are only visible when the controller has
->> +        a CMB. PCI transport only.
->> +
->> +        hmb: Shows or sets whether the Host Memory Buffer (HMB) is
->> +        enabled. Reading returns 1 (enabled) or 0 (disabled).
->> +        Writing 1 enables HMB; writing 0 disables it. Only
->> +        visible when the controller supports HMB (hmpre != 0).
->> +        PCI transport only.
->> +
->> +What: /sys/class/nvme-subsystem/nvme-subsysX/subsystype
->> +Date:        September 2021
->> +KernelVersion:    5.16
->> +Contact:    Hannes Reinecke <hare@suse.de>
->> +Description:
->> +        Shows the subsystem type. Possible values: "discovery",
->> +        "nvm", "reserved".
->> +
->> +What:        /sys/class/nvme/nvmeX/cntrltype
->> +What:        /sys/class/nvme/nvmeX/dctype
->> +Date:        February 2022
->> +KernelVersion:    5.18
->> +Contact:    Martin Belanger <martin.belanger@dell.com>
->> +Description:
->> +        cntrltype: Shows the controller type. Possible values: "io",
->> +        "discovery", "admin", "reserved".
->> +
->> +        dctype: Shows the discovery controller type. Possible values:
->> +        "none", "ddc", "cdc", "reserved".
->> +
->> +What:        /sys/class/nvme/nvmeX/dhchap_secret
->> +What:        /sys/class/nvme/nvmeX/dhchap_ctrl_secret
+>> +What:        /config/nvmet/hosts/HOSTNQN/dhchap_key
+>> +What:        /config/nvmet/hosts/HOSTNQN/dhchap_ctrl_key
+>> +What:        /config/nvmet/hosts/HOSTNQN/dhchap_hash
 >> +Date:        June 2022
 >> +KernelVersion:    6.0
 >> +Contact:    Hannes Reinecke <hare@suse.de>
 >> +Description:
->> +        dhchap_secret: Shows or sets the host DH-HMAC-CHAP secret
->> +        for this controller. Reading returns "none" if not set.
->> +        Writing must use the "DHHC-1:" key format and triggers
->> +        re-authentication.
+>> +        DH-HMAC-CHAP authentication attributes.
 >> +
->> +        dhchap_ctrl_secret: Shows or sets the controller
->> +        DH-HMAC-CHAP secret for bidirectional authentication.
->> +        Same format as dhchap_secret.
+>> +        dhchap_key: Shows or sets the host secret key. Accepts a
+>> +        key string in "DHHC-1:" format.
 >> +
->> +        Only available when CONFIG_NVME_HOST_AUTH is enabled and
->> +        for fabrics controllers.
+>> +        dhchap_ctrl_key: Shows or sets the controller secret key
+>> +        for bidirectional authentication. Same format as dhchap_key.
 >> +
->> +What:        /sys/class/nvme/nvmeX/tls_key
+>> +        dhchap_hash: Shows or sets the HMAC hash algorithm.
+>> +        Accepted values: "hmac(sha256)", "hmac(sha384)",
+>> +        "hmac(sha512)".
+>> +
+>> +        Only available when CONFIG_NVME_TARGET_AUTH is enabled.
+>> +
+>> +What:        /config/nvmet/hosts/HOSTNQN/dhchap_dhgroup
+>> +Date:        June 2022
+>> +KernelVersion:    6.0
+>> +Contact:    Hannes Reinecke <hare@suse.de>
+>> +Description:
+>> +        Shows or sets the Diffie-Hellman group for DH-HMAC-CHAP
+>> +        key exchange. Accepted values: "null", "ffdhe2048",
+>> +        "ffdhe3072", "ffdhe4096", "ffdhe6144". Non-null groups
+>> +        require the corresponding KPP crypto algorithm to be
+>> +        available. Only available when CONFIG_NVME_TARGET_AUTH
+>> +        is enabled.
+>> +
+>
+> Why is this a separate entry, and not grouped with the other dhchap
+> entries?
+>
+> And these are 'host' settings. Please keep settings for 'host', 
+> 'subsystem', and 'ports' together.
+>
+Changed in v2, thanks.
+
+Best Regards,
+Guixin Liu
+>> +What: /config/nvmet/subsystems/NAME/attr_qid_max
+>> +Date:        August 2022
+>> +KernelVersion:    6.1
+>> +Contact:    Daniel Wagner <dwagner@suse.de>
+>> +Description:
+>> +        Shows or sets the maximum queue ID (number of I/O queues,
+>> +        u16). Must be between 1 and 128. Changing this value
+>> +        forces reconnection of all connected controllers.
+>> +
+>> +What:        /config/nvmet/subsystems/NAME/attr_ieee_oui
+>> +Date:        November 2022
+>> +KernelVersion:    6.2
+>> +Contact:    Aleksandr Miloserdov <a.miloserdov@yadro.com>
+>> +Description:
+>> +        Shows or sets the IEEE OUI for this subsystem. Displayed
+>> +        in "0x%06x" format. Must be a 24-bit value. Cannot be
+>> +        changed after the subsystem has been discovered.
+>> +
+>> +What:        /config/nvmet/subsystems/NAME/attr_firmware
+>> +Date:        November 2022
+>> +KernelVersion:    6.2
+>> +Contact:    Aleksandr Miloserdov <a.miloserdov@yadro.com>
+>> +Description:
+>> +        Shows or sets the firmware revision string for this
+>> +        subsystem. Must be a 1-8 byte ASCII string (characters
+>> +        0x20-0x7e). Cannot be changed after the subsystem has
+>> +        been discovered.
+>> +
+>> +What:        /config/nvmet/ports/N/addr_tsas
 >> +Date:        August 2023
 >> +KernelVersion:    6.7
 >> +Contact:    Hannes Reinecke <hare@suse.de>
 >> +Description:
->> +        Shows the serial of the currently active TLS PSK as hex.
->> +        Returns empty if no TLS key is active. Only available for
->> +        TCP controllers with TLS or secure concatenation enabled
->> +        (CONFIG_NVME_TCP_TLS).
+>> +        Shows or sets the transport-specific address subtype. For
+>> +        TCP transport, accepted values: "none", "tls1.3" (requires
+>> +        CONFIG_NVME_TARGET_TCP_TLS). For RDMA transport, shows the
+>> +        QP type: "connected" or "datagram". The port must be
+>> +        disabled before modification.
 >> +
->
-> Can you keep the TLS attributes together?
-> That way it's easier to figure out which attributes one need to look at
-> when checking the TLS status.
-OK, I just sort them by date, changed in v2, thanks.
-
-Best Regards,
-Guixin Liu
->
->> +What: /sys/class/nvme/nvmeX/passthru_err_log_enabled
->> +What:        /sys/block/nvmeXnY/passthru_err_log_enabled
+>> +What:        /config/nvmet/ports/N/param_max_queue_size
 >> +Date:        January 2024
->> +KernelVersion:    6.8
->> +Contact:    Alan Adamson <alan.adamson@oracle.com>
+>> +KernelVersion:    6.9
+>> +Contact:    Max Gurtovoy <mgurtovoy@nvidia.com>
 >> +Description:
->> +        Shows or sets whether passthrough error logging is enabled.
->> +        Reading returns "on" or "off". Writing accepts a boolean
->> +        value. The controller-level attribute controls admin
->> +        passthrough logging; the namespace-level attribute controls
->> +        I/O passthrough logging.
+>> +        Shows or sets the maximum queue size for this port. Default
+>> +        is -1 which lets the transport choose. The port must be
+>> +        disabled before modification.
 >> +
->> +What:        /sys/block/nvmeXnY/csi
->> +What:        /sys/block/nvmeXnY/metadata_bytes
->> +What:        /sys/block/nvmeXnY/nuse
->> +Date:        December 2023
->> +KernelVersion:    6.8
->> +Contact:    Daniel Wagner <dwagner@suse.de>
->> +Description:
->> +        csi: Shows the Command Set Identifier for this namespace.
->> +
->> +        metadata_bytes: Shows the metadata size in bytes.
->> +
->> +        nuse: Shows the Namespace Utilization (NUSE) value. Reading
->> +        triggers an Identify Namespace command to refresh the
->> +        value (rate-limited to avoid excessive commands).
->> +
->> +What:        /sys/block/nvmeXnY/queue_depth
->> +Date:        June 2024
->> +KernelVersion:    6.11
->> +Contact:    Thomas Song <tsong@purestorage.com>
->> +Description:
->> +        Shows the current active I/O count on this path's
->> +        controller. Returns empty if iopolicy is not "queue-depth".
->> +        Only visible on per-path devices.
->> +        Requires CONFIG_NVME_MULTIPATH.
->> +
->> +What:        /sys/class/nvme/nvmeX/tls_configured_key
->> +Date:        July 2024
->> +KernelVersion:    6.12
+>> +What:        /config/nvmet/discovery_nqn
+>> +Date:        April 2024
+>> +KernelVersion:    6.9
 >> +Contact:    Hannes Reinecke <hare@kernel.org>
 >> +Description:
->> +        Shows the serial of the configured TLS key. Writing 0
->> +        triggers a PSK reauthentication (REPLACETLSPSK) with
->> +        the target. After reauthentication the returned serial
->> +        will be the new key. Only available for TCP controllers
->> +        with secure concatenation enabled (CONFIG_NVME_TCP_TLS).
+>> +        Shows or sets the NQN of the discovery subsystem. The
+>> +        value must be unique and not duplicate any existing
+>> +        subsystem name.
 >> +
->> +What:        /sys/class/nvme/nvmeX/tls_keyring
->> +Date:        July 2024
->> +KernelVersion:    6.12
->> +Contact:    Hannes Reinecke <hare@kernel.org>
+>> +What: /config/nvmet/subsystems/NAME/namespaces/NSID/resv_enable
+>> +Date:        November 2024
+>> +KernelVersion:    6.13
+>> +Contact:    Guixin Liu <kanie@linux.alibaba.com>
 >> +Description:
->> +        Shows the TLS keyring description. Only available for TCP
->> +        controllers with a keyring configured (CONFIG_NVME_TCP_TLS).
+>> +        Shows or sets whether persistent reservation support is
+>> +        enabled for this namespace. Accepts boolean value. The
+>> +        namespace must be disabled before modification.
 >> +
->> +What:        /sys/block/nvmeXnY/numa_nodes
+>> +What:        /config/nvmet/subsystems/NAME/attr_vendor_id
+>> +What: /config/nvmet/subsystems/NAME/attr_subsys_vendor_id
 >> +Date:        January 2025
->> +KernelVersion:    6.15
->> +Contact:    Nilay Shroff <nilay@linux.ibm.com>
+>> +KernelVersion:    6.14
+>> +Contact:    Damien Le Moal <dlemoal@kernel.org>
 >> +Description:
->> +        Shows the NUMA node mask for which this path is the
->> +        currently selected path. Returns empty if iopolicy is not
->> +        "numa". Only visible on per-path devices.
->> +        Requires CONFIG_NVME_MULTIPATH.
+>> +        attr_vendor_id: Shows or sets the PCI vendor ID reported
+>> +        by this subsystem. Displayed in "0x%x" format.
 >> +
->> +What:        /sys/block/nvmeXnY/delayed_removal_secs
->> +Date:        May 2025
->> +KernelVersion:    6.16
->> +Contact:    Nilay Shroff <nilay@linux.ibm.com>
->> +Description:
->> +        Shows or sets the delayed removal timeout in seconds for
->> +        the multipath head device. When nonzero, I/O is queued
->> +        instead of failed when all paths are gone, and head removal
->> +        is deferred. Only visible on multipath head devices.
->> +        Requires CONFIG_NVME_MULTIPATH.
+>> +        attr_subsys_vendor_id: Shows or sets the PCI subsystem
+>> +        vendor ID. Displayed in "0x%x" format.
 >> +
->> +What:        /sys/class/nvme/nvmeX/quirks
->>   Date:        November 2025
->> -KernelVersion:    6.19
->> -Contact:    Linux NVMe mailing list <linux-nvme@lists.infradead.org>
->> +KernelVersion:    7.0
->> +Contact:    Maurizio Lombardi <mlombard@redhat.com>
->>   Description:
->> -        The file is avaliable when using a secure concatanation
->> -        connection to a NVMe target. Reading the file will return
->> -        the serial of the currently negotiated key.
->> +        Shows the active quirk names for this controller, one per
->> +        line. Shows "none" if no quirks are active.
->> +
->> +What:        /sys/class/nvme/nvmeX/tls_mode
+>> +What:        /config/nvmet/ports/N/param_mdts
 >> +Date:        April 2026
 >> +KernelVersion:    7.1
->> +Contact:    Daniel Wagner <wagi@kernel.org>
+>> +Contact:    Aurelien Aptel <aaptel@nvidia.com>
 >> +Description:
->> +        Shows the TLS mode: "tls" for direct TLS or "concat" for
->> +        secure concatenation. Only available for TCP controllers
->> +        with TLS or secure concatenation enabled
->> +        (CONFIG_NVME_TCP_TLS).
->> +
->> +What:        /sys/class/nvme/nvmeX/admin_timeout
->> +What:        /sys/class/nvme/nvmeX/io_timeout
->> +Date:        May 2026
->> +KernelVersion:    7.2
->> +Contact:    Maurizio Lombardi <mlombard@redhat.com>
->> +Description:
->> +        admin_timeout: Shows or sets the admin command timeout in
->> +        milliseconds.
->> +
->> +        io_timeout: Shows or sets the I/O command timeout in
->> +        milliseconds. Changes are propagated to all namespace
->> +        request queues.
->> +
->> +        The value must be nonzero. Only writable after the
->> +        controller has been started at least once.
->> +
->> +What:        /sys/class/nvme/nvmeX/diag/command_error_count
->> +What:        /sys/class/nvme/nvmeX/diag/reset_count
->> +What:        /sys/class/nvme/nvmeX/diag/reconnect_count
->> +Date:        May 2026
->> +KernelVersion:    7.2
->> +Contact:    Nilay Shroff <nilay@linux.ibm.com>
->> +Description:
->> +        Controller diagnostic counters.
->> +
->> +        command_error_count: Admin command error counter.
->> +
->> +        reset_count: Controller reset counter.
->> +
->> +        reconnect_count: Accumulated reconnect counter. Only
->> +        available for fabrics controllers.
->> +
->> +        All counters can be reset by writing a value.
->> +
->> +What:        /sys/block/nvmeXnY/diag/command_retries_count
->> +What:        /sys/block/nvmeXnY/diag/command_error_count
->> +What:        /sys/block/nvmeXnY/diag/multipath_failover_count
->> +What: /sys/block/nvmeXnY/diag/io_requeue_no_usable_path_count
->> +What: /sys/block/nvmeXnY/diag/io_fail_no_available_path_count
->> +Date:        May 2026
->> +KernelVersion:    7.2
->> +Contact:    Nilay Shroff <nilay@linux.ibm.com>
->> +Description:
->> +        Namespace diagnostic counters.
->> +
->> +        command_retries_count: I/O command retry counter. Only
->> +        visible on per-path devices.
->> +
->> +        command_error_count: I/O command error counter. Only
->> +        visible on per-path devices.
->> +
->> +        multipath_failover_count: Multipath failover counter.
->> +        Only visible on per-path devices. Requires
->> +        CONFIG_NVME_MULTIPATH.
->> +
->> +        io_requeue_no_usable_path_count: Counter of I/Os requeued
->> +        because no usable path was available. Only visible on
->> +        multipath head devices. Requires CONFIG_NVME_MULTIPATH.
->> +
->> +        io_fail_no_available_path_count: Counter of I/Os failed
->> +        because no available path existed. Only visible on
->> +        multipath head devices. Requires CONFIG_NVME_MULTIPATH.
->>   -        Writing 0 to the file will trigger a PSK reauthentication
->> -        (REPLACETLSPSK) with the target. After a reauthentication
->> -        the value returned by tls_configured_key will be the new
->> -        serial.
->> +        All counters can be reset by writing a value.
+>> +        Shows or sets the maximum data transfer size for this port.
+>> +        Default is -1 which lets the transport choose. The port
+>> +        must be disabled before modification.
 >
 > Otherwise looks good.
 >
