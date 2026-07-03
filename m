@@ -4,124 +4,116 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0E9E5C43458
-	for <linux-nvme@archiver.kernel.org>; Fri,  3 Jul 2026 06:34:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2319BC43458
+	for <linux-nvme@archiver.kernel.org>; Fri,  3 Jul 2026 06:47:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kiQmnhROPKdcyxeb45I2DkytJG2s0wYktCvUihxigfc=; b=cUMxJJ5Pc9q4WY/RIVx17qc8rZ
-	y0oKU5jmSepoJPyCziFOx/Wmgi4rsAPrrb6mFu/PHqh8/coPwZjXBP/N4e00LeQQpXskqV/28OTVv
-	oxLbm1mR2zbB0hWwcfYglgjA5ee1YYom3SpRBVq9sMX/skfFvOJY8csDWasrkyeo/Z6+kf2O1hLv/
-	JzTkgSKvNe+CvWrRvk3Gu7ufgw9YwMzymzXj7LQRMOXdGbrxIKUTGY5QugJe3qX59WuaZbHI5iVvK
-	mZqPlwXz8rF4WctTu9QuLuG13BUbDD7BsAa2+6F7DenHf3iZktZKZ3kPrbqssl6S28hj8oCX5ryyq
-	s4YEnxMw==;
+	bh=TVmMUKAkHguF6YoTzmii7E3P+QgsTFF1WvG+WiGjqt4=; b=R48gNUhtKTkQNcoCh1T/onQThk
+	f9ANxbeUY7T0QVjAQmamGjFCJIS3e2T0/aY8N+gnABJfYsyfZjVsMgKx5PAZzw4wl5PbdFmst3yqF
+	6WTAYDlmeyYJ9EiWvOK481bJ71ZYtLWKkbQtT+Kp31zeJ4AA0VZSJkdIv92VI75bviApPNe8Vn+Zy
+	33KyV+l1vvUn5vbw3sROt+bZVw2Rkxxsor9FsEycDiXfZ2JaW/tx8wDHd86EOcjh39/qYSxquX/Ih
+	k3hxP+XEbaFDc0NTeg6BnnKT6c01VrYgtNhWmehrDlqYi2K1xoKS0Kpg4VHL2YCvZKsTFsrv3y+N1
+	7gADWdvA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wfXU1-00000006B3n-2YUa;
-	Fri, 03 Jul 2026 06:34:41 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1wfXgF-00000006CJ1-3kEt;
+	Fri, 03 Jul 2026 06:47:19 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wfXTz-00000006B3K-0n8Q
+	id 1wfXgB-00000006CIW-1yAt
 	for linux-nvme@lists.infradead.org;
-	Fri, 03 Jul 2026 06:34:40 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4151774766;
-	Fri,  3 Jul 2026 06:34:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783060477; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kiQmnhROPKdcyxeb45I2DkytJG2s0wYktCvUihxigfc=;
-	b=SzorhEI5EHacKsx3N+VJnEXbM7cqPGSgLSuLH6DfanuLNsN9JeJhoxXehcfDzYdyuPYxt4
-	THV9UVWjW/oOkgKqvqHHvO1Wxfb78PvIXwkEtjpPfZUY97jdm00XwmnXbuHlrs/JdWXxNB
-	TYWNLtQPDVLa3XmlWKM4agMSIJ9ZkKo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783060477;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kiQmnhROPKdcyxeb45I2DkytJG2s0wYktCvUihxigfc=;
-	b=tmUoVtMoWEuHZ5ph8BebV/10io1zEYWHWxOrFeYKko6M5EM0liXSkXSLomB6gzjABrt2lV
-	5hltcqiVtruClYBA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783060476; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kiQmnhROPKdcyxeb45I2DkytJG2s0wYktCvUihxigfc=;
-	b=MDSjPj+X9ubjEksASRC2CiKSxrL7y2ztxSNNMZhPmV4+yYbc0wowX8+Cb+rhnmTJG6Kmoy
-	PsF54Zd6UIKaY4OpaIOLHAccvqJouH95DUGaab6RTG5D0Cvt+2se9tK4KJsmYDZ+p14+q8
-	0rNUwmmRmuH7p8RZuPqvZlYzqI/BWZg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783060476;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kiQmnhROPKdcyxeb45I2DkytJG2s0wYktCvUihxigfc=;
-	b=JfVZJGTroLzJyWgktwCspZz7iMbokX06xrOo1TtY/IASSuUnG9JX70A2HsPL5v8/qKRngT
-	RtRPdgO+nH/lGUDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F178F779AA;
-	Fri,  3 Jul 2026 06:34:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id XbhrOftXR2qrRwAAD6G6ig
-	(envelope-from <hare@suse.de>); Fri, 03 Jul 2026 06:34:35 +0000
-Message-ID: <7e397186-2a04-4c89-95e3-38caac320980@suse.de>
-Date: Fri, 3 Jul 2026 08:34:35 +0200
+	Fri, 03 Jul 2026 06:47:16 +0000
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6636IWda1761314;
+	Fri, 3 Jul 2026 06:47:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=TVmMUK
+	AkHguF6YoTzmii7E3P+QgsTFF1WvG+WiGjqt4=; b=kZR6ihWmarau8OxbpKMdEh
+	UQsYGaV8QzjOSSO7WIj2BMCn0Z6ychDnkfuRUVSN988CNpKefG2sizaeaZu6/VIS
+	G0/v/ao1OtlCVMEpPYN4e938QNflmJSkrvib1O9RzFlWIDYzgixKAYUwpqZ7JZKa
+	63XLOFlXqgyjx+RMgalrRrdG3YbG7REty4eJA70MCAZZdBHmEnH3kZ7RNW/+2pzV
+	oDo3JVhxv5iKH70uEdx6HWBRoWP4tH5jZHOFIvB7RAGG3nlsbnAM1uv5uF2JGMxS
+	ZYmZSpWXzlO5ouWnqM7IPqXsyKjS6zG9SA5ICWqUvNe1OORgmI6PIiIbKzRDyXLg
+	==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4f26mk5cmq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 03 Jul 2026 06:47:02 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 6636YgdK001791;
+	Fri, 3 Jul 2026 06:47:02 GMT
+Received: from smtprelay03.wdc07v.mail.ibm.com ([172.16.1.70])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4f2tbhqhe8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 03 Jul 2026 06:47:02 +0000 (GMT)
+Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com [10.39.53.229])
+	by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6636kRXd20972036
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 3 Jul 2026 06:46:27 GMT
+Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E31D258058;
+	Fri,  3 Jul 2026 06:47:00 +0000 (GMT)
+Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id CF55558059;
+	Fri,  3 Jul 2026 06:46:55 +0000 (GMT)
+Received: from [9.43.125.166] (unknown [9.43.125.166])
+	by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Fri,  3 Jul 2026 06:46:55 +0000 (GMT)
+Message-ID: <f4b989ed-f661-4048-97e6-49989a1419e0@linux.ibm.com>
+Date: Fri, 3 Jul 2026 12:16:53 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] nvmet: add ABI documentation for target configfs
- interfaces
-To: Guixin Liu <kanie@linux.alibaba.com>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Daniel Wagner <dwagner@suse.de>,
- John Garry <john.g.garry@oracle.com>, Nilay Shroff <nilay@linux.ibm.com>
-Cc: linux-nvme@lists.infradead.org, xlpang@linux.alibaba.com,
- oliver.yang@linux.alibaba.com
-References: <20260702095541.1145128-1-kanie@linux.alibaba.com>
- <20260702095541.1145128-3-kanie@linux.alibaba.com>
+Subject: Re: [PATCHv4 6/8] nvme: export I/O failure count when no path is
+ available via sysfs
+To: John Garry <john.g.garry@oracle.com>, linux-nvme@lists.infradead.org
+Cc: dwagner@suse.de, hare@suse.com, kbusch@kernel.org, hch@lst.de,
+        sagi@grimberg.me, axboe@kernel.dk, chaitanyak@nvidia.com,
+        venkat88@linux.ibm.com, gjoyce@linux.ibm.com, wenxiong@linux.ibm.com
+References: <20260516183709.269937-1-nilay@linux.ibm.com>
+ <20260516183709.269937-7-nilay@linux.ibm.com>
+ <3bfd53f3-16b7-4585-b528-6745ee64e980@oracle.com>
+ <54c163fa-91a1-4535-aded-4beee698591a@linux.ibm.com>
+ <6cbf1ed3-9637-4c8e-a4f6-84a762161556@oracle.com>
 Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20260702095541.1145128-3-kanie@linux.alibaba.com>
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <6cbf1ed3-9637-4c8e-a4f6-84a762161556@oracle.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.988];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[alibaba.com:email,imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid]
+X-TM-AS-GCONF: 00
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAzMDA1OCBTYWx0ZWRfX+EGmU6VtF8ic
+ U2aTisbrzD34fdlGXRTZsBc97ITiVWSejHaqSbL0xCGRGLAI6NC+7do+WlV8sbTTFO+dTgOJJIp
+ 3hsrbr1BM9WdhHGwwwaVOJU8eWCn++1SctQxmw3dB5V+rCBeOFhZz+boeVEWPLNQFhEl7vpuunc
+ +qjFDlCaYUCYlWWcmlow1bK6zNfxOyhKBrnrQavrH6Nv+Tf1Hri8NBzf5KmkQvd8Y4G8aaKoR2A
+ z3MYZt+8xplgTI7BCYNl9PmhdOs4Z/hqH8mor5gwFBYp4FNgfLS24g1TqRbs444kQxMT86eLFm7
+ V3TYYJB977e9rrhs50DLbirNxvTKkRrLEkvhxpego5LI3axcsvdvkLeoip/pjvfAqldqY7QeXAO
+ v+KXD/JCA23FoxgB+9ZBItbrn5IFmpGRTN+xS72hGMtu9HQRvPkIpvD1QDDoHgztT0txymvGiMb
+ pI/BraRQw+Y75VrTWbw==
+X-Proofpoint-GUID: l_jeYOvgZ_BIpKvr0yO4miqwFVm3CU6p
+X-Authority-Analysis: v=2.4 cv=Z8bc2nRA c=1 sm=1 tr=0 ts=6a475ae6 cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=sWKEhP36mHoA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22
+ a=ZeNCurENlnX7_RCBNXEA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAzMDA1OCBTYWx0ZWRfX/hqjbIOC/O+m
+ G1/8s7q++01igg7ezplWXz6mNC8X/qvoOI/hjvyFlKy/swqg4IHMkPjxY/HYk6Ip7KXy6fNLdPk
+ iUG+Qo1F/tR333M+LIiyXnoBVA0kkcA=
+X-Proofpoint-ORIG-GUID: l_jeYOvgZ_BIpKvr0yO4miqwFVm3CU6p
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-07-03_02,2026-06-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 adultscore=0 spamscore=0 priorityscore=1501 impostorscore=0
+ malwarescore=0 phishscore=0 bulkscore=0 lowpriorityscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607030058
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260702_233439_549233_4B277EC1 
-X-CRM114-Status: GOOD (  10.52  )
+X-CRM114-CacheID: sfid-20260702_234715_626522_1DA37345 
+X-CRM114-Status: GOOD (  17.53  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -136,35 +128,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/2/26 11:55 AM, Guixin Liu wrote:
-> Add Documentation/ABI/testing/configfs-nvmet documenting all NVMe
-> target configfs attributes, covering port attributes, subsystem
-> attributes, namespace attributes, host authentication, passthrough
-> mode, and ANA configuration.
+On 7/2/26 8:18 PM, John Garry wrote:
+> On 02/07/2026 14:10, Nilay Shroff wrote:
+>>
+>> The primary purpose of this attribute is to aid debugging. Under normal
+>> operation, the counter is expected to be zero most of the time because
+>> the namespace head is short-lived after all paths are removed. However,
+>> if there is a subtle bug in the namespace head reference counting logic
+>> that prevents it from being deleted, a non-zero value would remain
+>> visible under:
+>>
+>> /sys/block/<nshead-dev>/diag/io_fail_no_available_path_count
+>>
+>> And yes this attribute is writable (as all other diag attributes), only
+>> to allow users to reset the counter to zero and then observe subsequent
+>> events.
 > 
-> Each entry has been traced to its original introducing commit to
-> provide accurate Date, KernelVersion, and Contact information.
+> It's something minor, but it makes sense to me that we only allow users to reset the value to zero, like:
 > 
-> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
-> ---
-> v1->v2:
->   - Group attributes by object type (ports, subsystems, hosts).
->   - Merge dhchap_dhgroup into the DH-HMAC-CHAP host authentication entry.
->   - Split the combined ANA and PI-enable entries into separate port and
->     subsystem entries.
+> @@ -1249,7 +1249,7 @@ static ssize_t
+> io_fail_no_available_path_count_store(struct device *dev,
+>          struct nvme_ns_head *head = disk->private_data;
 > 
->   Documentation/ABI/testing/configfs-nvmet | 352 +++++++++++++++++++++++
->   1 file changed, 352 insertions(+)
->   create mode 100644 Documentation/ABI/testing/configfs-nvmet
+>          err = kstrtoul(buf, 0, &fail_cnt);
+> -       if (err)
+> +       if (err || fail_cnt)
+>                  return -EINVAL;
 > 
-Reviewed-by: Hannes Reinecke <hare@kernel.org>
+>          atomic_long_set(&head->io_fail_no_available_path_count, fail_cnt);
+> 
 
-Cheers,
+Yes practically, I think no one would want to set these
+counters value to anything but zero. So I'm okay with
+the above change.
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Thanks,
+--Nilay
 
