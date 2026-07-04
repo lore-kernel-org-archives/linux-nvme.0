@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D2466C43458
-	for <linux-nvme@archiver.kernel.org>; Sat,  4 Jul 2026 19:53:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EE92AC43602
+	for <linux-nvme@archiver.kernel.org>; Sat,  4 Jul 2026 19:53:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZHOaqZ/LhOhHQYZrYbmcZFHexqdd2uvYRy06XraBRZw=; b=GenkQdhdkqb10KTlVC17yjavDG
-	XULCGvreRBPabwwfqTu/VN/BwIK841XTdasIwwmP+PRQMHLpccQaJ1qEzU6Jhp9CnCGh2EYaiQmbj
-	rXpsVWgpRpd5ZEyPghPHUs4gOaSyFLnRzzvfyPPb6+0faTLPLJnj5Je1rnIsqeP3/0mbegQFBxOKC
-	OFVjm3RHwIdkP94Z9D5BL6bgzftjVwCUmPU3iJhVbylUCBg05mH+ri++gevizPLvljV1Z+fJa/yia
-	tcbscqgmn7hc2H6GFS+MDRqeJJdQvmY+5zjF3sp2EZ2WSi18v8VQDt05mgFF/vhkD+gunuS8W3Q9b
-	Ctwo9lWg==;
+	bh=+BiKm4kVK4oPKVGcsKEfBVImUZcHd9qj5zTEiTKcjs4=; b=N1xOb8uph6y/o8XTnQeeTgytxn
+	sxB1546AcQ3TBpbJeNGpNZKcaV5MRYXyiLftKffPigsq+0bH0REexeuxX145x/OF0EzIwAnfF+Wb0
+	+WwXtQA7pGux18OYoHwSkzNwbxfCYUzFozBRq8193pt0NekKM7HTzoIzEMo3YaDrpumQErMj7mfLL
+	8hnCePhHB01q/naSUANED++F74+x/bivRrWCqFOaKFfW6U/BildEdU1sWTeJEZ8pAr+tSqwKjbxCd
+	uYlhrO9x8A1m1PcEsyejHnVWhb9TTVqcGr6+aTzmWgQ9ClFqIoZR99O6prCAMZhMz/qB68ga+V8gM
+	gxOG82hA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wg6Qr-00000008j9S-1s0W;
-	Sat, 04 Jul 2026 19:53:45 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1wg6R2-00000008jD0-2oQh;
+	Sat, 04 Jul 2026 19:53:56 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wg6Qp-00000008j93-2XS1
+	id 1wg6R1-00000008jCS-0N86
 	for linux-nvme@lists.infradead.org;
-	Sat, 04 Jul 2026 19:53:43 +0000
+	Sat, 04 Jul 2026 19:53:55 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 1056A61373;
+	by tor.source.kernel.org (Postfix) with ESMTP id 8787E61374;
+	Sat,  4 Jul 2026 19:53:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C477A1F000E9;
 	Sat,  4 Jul 2026 19:53:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D8EC1F00A3A;
-	Sat,  4 Jul 2026 19:53:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783194822;
-	bh=ZHOaqZ/LhOhHQYZrYbmcZFHexqdd2uvYRy06XraBRZw=;
+	s=k20260515; t=1783194834;
+	bh=+BiKm4kVK4oPKVGcsKEfBVImUZcHd9qj5zTEiTKcjs4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=RYJLAz9VYwydHo4sD+p6eGMOD8kpwfPJtash7Ltij6VmKmwEyHRwoDKBdWdX3DqAS
-	 n4qwbrhW32pOz0qBM+pR+OwA06+0/8Lxh3TMqAypDQKjqcLgziKaWlR/iRevm20zrp
-	 1VPKHNmg45HWT2FZ8irnbc0fMwCgNTtekSIUjxoKXZ8Q/oCo95Q19im7QAMNGhTwHX
-	 36XKdC6l5/vhmc1QiisH8s98dSAkp6KhllcyXZY0lQb9NJhpdnbtxX36t1hN+r9H9u
-	 7SMMa4MnKT0JKPx1nWvMXTtUprjhiXMEL/43sSAby6/bnJivg7IO0oyPKPoDigpN4R
-	 kcCfUOGMqAxQw==
+	b=bnPjrSXoAI1pj9LrT9/YYsJtmp5BA7OGXwpAMroDo3L6eJWrMBi03RQaGLvD9OriC
+	 CGw47ifQXwsu6nuSAIceH1OkAeijT15S/VCDrk/EtRqF9POH6jafoU/0XxchU6L9Qq
+	 za9TtK25VBeCcT01PxbjLBWuZqZycT8VIaFLEfodUFtirF8RHRmoejk9/yKeDyYMaX
+	 mO6hz2zf3Dr7K22UlOxzhJza6AXvQEyjhl4ZHewyxQvmzLsTLXwKmn3SaJTfc0cFOB
+	 SoV0Bx1Dk37H7tOJ4DtcHCETnzNadD4VfXYBZSbTsTRE4tc9bg60iuRlCQDHgTqPrt
+	 +9Xq1ySEdQ3jw==
 From: Yu Kuai <yukuai@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>,
 	Tejun Heo <tj@kernel.org>
@@ -64,9 +64,9 @@ Cc: Christoph Hellwig <hch@lst.de>,
 	linux-nvme@lists.infradead.org,
 	dm-devel@lists.linux.dev,
 	linux-bcache@vger.kernel.org
-Subject: [RFC PATCH v1 10/17] dm pcache: handle non-blocking bio clone init failure
-Date: Sun,  5 Jul 2026 03:51:17 +0800
-Message-ID: <20260704195124.1375075-11-yukuai@kernel.org>
+Subject: [RFC PATCH v1 11/17] block: avoid scheduling from non-blocking helper allocations
+Date: Sun,  5 Jul 2026 03:51:18 +0800
+Message-ID: <20260704195124.1375075-12-yukuai@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260704195124.1375075-1-yukuai@kernel.org>
 References: <20260704195124.1375075-1-yukuai@kernel.org>
@@ -88,52 +88,54 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Yu Kuai <yukuai@fygo.io>
 
-dm-pcache may preallocate backing requests with GFP_NOWAIT and initialize
-the embedded bio with bio_init_clone().  Non-blocking clone initialization
-can now fail if cloning the blkg association would need to create a blkg.
+blk_alloc_discard_bio() and blk_rq_map_bio_alloc() can be used with
+non-blocking GFP masks.  Their bio allocation now handles bdev association in
+nowait mode, so the helpers can pass the target bdev directly and avoid local
+open-coded association paths.
 
-Check the return value and free the preallocated request on failure so the
-existing caller can retry through its GFP_NOIO preallocation path.
+The discard helper can also be reached from io_uring with GFP_NOWAIT.  Keep
+its long-loop cond_resched() only for blocking callers.
 
 Signed-off-by: Yu Kuai <yukuai@fygo.io>
 ---
- drivers/md/dm-pcache/backing_dev.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ block/blk-lib.c | 3 ++-
+ block/blk-map.c | 7 +------
+ 2 files changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/md/dm-pcache/backing_dev.c b/drivers/md/dm-pcache/backing_dev.c
-index 7165fc0364bb..5bde289ec5d7 100644
---- a/drivers/md/dm-pcache/backing_dev.c
-+++ b/drivers/md/dm-pcache/backing_dev.c
-@@ -204,6 +204,7 @@ static struct pcache_backing_dev_req *req_type_req_alloc(struct pcache_backing_d
- 	struct pcache_request *pcache_req = opts->req.upper_req;
- 	struct pcache_backing_dev_req *backing_req;
- 	struct bio *orig = pcache_req->bio;
-+	int ret;
- 
- 	backing_req = mempool_alloc(&backing_dev->req_pool, opts->gfp_mask);
- 	if (!backing_req)
-@@ -211,13 +212,20 @@ static struct pcache_backing_dev_req *req_type_req_alloc(struct pcache_backing_d
- 
- 	memset(backing_req, 0, sizeof(struct pcache_backing_dev_req));
- 
--	bio_init_clone(backing_dev->dm_dev->bdev, &backing_req->bio, orig, opts->gfp_mask);
-+	ret = bio_init_clone(backing_dev->dm_dev->bdev, &backing_req->bio,
-+			     orig, opts->gfp_mask);
-+	if (ret)
-+		goto free_backing_req;
- 
- 	backing_req->type = BACKING_DEV_REQ_TYPE_REQ;
- 	backing_req->backing_dev = backing_dev;
- 	atomic_inc(&backing_dev->inflight_reqs);
- 
- 	return backing_req;
-+
-+free_backing_req:
-+	mempool_free(backing_req, &backing_dev->req_pool);
-+	return NULL;
+diff --git a/block/blk-lib.c b/block/blk-lib.c
+index 688bc67cbf73..b5645f8f69b6 100644
+--- a/block/blk-lib.c
++++ b/block/blk-lib.c
+@@ -56,7 +56,8 @@ struct bio *blk_alloc_discard_bio(struct block_device *bdev,
+ 	 * discards (like mkfs).  Be nice and allow us to schedule out to avoid
+ 	 * softlocking if preempt is disabled.
+ 	 */
+-	cond_resched();
++	if (gfpflags_allow_blocking(gfp_mask))
++		cond_resched();
+ 	return bio;
  }
  
- static struct pcache_backing_dev_req *kmem_type_req_alloc(struct pcache_backing_dev *backing_dev,
+diff --git a/block/blk-map.c b/block/blk-map.c
+index 768549f19f97..75c7b864c15a 100644
+--- a/block/blk-map.c
++++ b/block/blk-map.c
+@@ -46,14 +46,9 @@ static struct bio *blk_rq_map_bio_alloc(struct request *rq,
+ 		unsigned int nr_vecs, gfp_t gfp_mask)
+ {
+ 	struct block_device *bdev = rq->q->disk ? rq->q->disk->part0 : NULL;
+-	struct bio *bio;
+ 
+-	bio = bio_alloc_bioset(bdev, nr_vecs, rq->cmd_flags, gfp_mask,
++	return bio_alloc_bioset(bdev, nr_vecs, rq->cmd_flags, gfp_mask,
+ 				&fs_bio_set);
+-	if (!bio)
+-		return NULL;
+-
+-	return bio;
+ }
+ 
+ /**
 -- 
 2.51.0
 
