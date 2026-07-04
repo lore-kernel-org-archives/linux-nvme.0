@@ -4,88 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2C28FC43458
-	for <linux-nvme@archiver.kernel.org>; Sat,  4 Jul 2026 16:28:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7DA12C43458
+	for <linux-nvme@archiver.kernel.org>; Sat,  4 Jul 2026 19:51:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=9OYlBbWfBggrw2pnATd+jWmrmoW3Jn22DaA7suvtDpQ=; b=TYnnRhhbmt5IYIikcPYGbhJeJZ
-	eRoXFF3ZuSPKf8yqx+cO/dnNwo4aJurGVvM2sUhIhqwDlr/zUyN3m9WikN8ivb2GbxwFhMcJnW1si
-	HYKHa7SHV9h8ghoY3UZBYcVWh+Us3Wd5EU2c9s3PflIkK8/WDl/JBUriICqJ7vSXfItkMQK6+5fWT
-	v5CA2I/yzfnOJ0JtbVIt2gwWfRvV2lelqWNhuB0LN4/RrijCqaL18rcl66NHCRyi65esF2WMNpFph
-	/Wf64kZTUPakyKUJDkmWlKrCvkvMUKP+Pp21tM8mBRBGc9w20RCDOmsAAXnTQgFZY7RCd5giHYm4i
-	a2uAm68w==;
+	bh=XBefwgHbcKa8lF9fx4CimAkm/mOI1OLeJiYAKnbJMVM=; b=bNinCvKufcwra2SFS+5TBrtvbi
+	ctSWFvQneeoU4z0myKM+064/kvJRTAGHNI/4VQXhNsIxLfLV7r6YOyZ/pdV3aZG/4ckAdDCFgqvaD
+	DHJ2eGYeZn6uo1P/47By/qO9pVSOda5MTxn5YpfXm1z19PnCI9kUwrhglkyWS5Udy8WodmdoyTNpQ
+	96UO9gPvwpksLBk4qQzPHTaVWZ1wXYAuIMdntckGQ8ZOaQW1zb+SLXZgittPlW/UvDrPr220fFxvc
+	Px106haNP9cA0UONCjcKFebyle8sR0qPR5zUllPpa6mMJ6dczcGjEFcWLRyI0JF85oljz5uT0jb0S
+	hPbGDjDA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wg3Dv-00000008ZJ7-39c6;
-	Sat, 04 Jul 2026 16:28:11 +0000
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434])
+	id 1wg6Ox-00000008iU6-1qtq;
+	Sat, 04 Jul 2026 19:51:47 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wg3Ds-00000008ZIf-21n0
+	id 1wg6Ov-00000008iTg-46Ry
 	for linux-nvme@lists.infradead.org;
-	Sat, 04 Jul 2026 16:28:09 +0000
-Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-845f2909cd4so1056072b3a.1
-        for <linux-nvme@lists.infradead.org>; Sat, 04 Jul 2026 09:28:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783182487; x=1783787287; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9OYlBbWfBggrw2pnATd+jWmrmoW3Jn22DaA7suvtDpQ=;
-        b=TEFirGRWl1wrZjCOHyekLaxBT58B/tG7ISG5SLdIxRfrVd3D3RazZpcsiXLDe1IgCt
-         mgHOHCOfF3+ygTToEtbYRMXwOYuUOuAc9RPwWDWeNPzq4kP3TZAYMk+mik+Ub3Cx/gU9
-         OaN970wdyJ6YqJLwwstvYvTmR7Y0E2F/x7CbrXbZcZ19ctKZck/YoWYnKYjc8/ys7KCG
-         qbNy1DUPz6e+VZucPbbHmlrjLxJVtM6MdRPLMEr40T77qIVfOte5PGP7M8Wd4LP+jmt8
-         G/jJAxhDsicadryqvSj/x2ZjxNZYTDGBIu3MoJJ6E4gFB/fAKWqFGzhimQJ6+x7Liwv6
-         XknQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783182487; x=1783787287;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9OYlBbWfBggrw2pnATd+jWmrmoW3Jn22DaA7suvtDpQ=;
-        b=fnTqlYzs8vtGVRcntnGAwVnEKbGXuX5vg2SfDd7ykCr15GOFl72a/MfS5uS+SibC6W
-         PdfyOwzO33NnhkKic/O+zUezmJK/z+Yhua+8PkMQdKM8i9BbyWUfbihiQN6CEio0oCSw
-         q+8pm/n09TbHzbkbSEx8N3hTIftYM8MMSu4RoL+cCMkRN+Uw70o7tRZYM6O8uriCTP42
-         cQ4TAHtaSB3pitzBWb4Y+ZV9KAd/eObYN1DdBk2ju6nkRolWV8NcXFc01QCvpRcw87my
-         PNXKPcWe8RkfDOL3IN8qhEChKmtP58KUWU4mcKE5UGd87NLiFCEqIN9FUwUoKsvbiUaJ
-         Zw9Q==
-X-Gm-Message-State: AOJu0YwGEO0snYo/XhCiS72wGMrGwr0WSgMCA9wQ0cUsQ+weYNdtNBS6
-	+89fbrb8g8BqbsOtDY/GyG0fgXahIZ+1pmnLZlDv3HAq0dIhaXS+xYh/
-X-Gm-Gg: AfdE7cmT6PU+fmNUj2d/BUsODRDGP1+NIV0rXZ/pXVTyLYAqCfT1vi1RO+2FP+CqPa4
-	TGv+MxW8/oaQjfonMhmAsnBYXE/JLmNrB2WaWyNdN1MAfrySwT9l9VyP1y8mLWFV9tEzp6zln+T
-	MgMUrdpzpYvz4rX0+O+Cqm+YqvrGzpz/B1TQplHv2ClkHWMJF9/2HWSSHdLiqzGiHHkg9rvdmRC
-	qvxuK2a6uWzVPqXCNkv+gF9uSljCqhaxf3hyxxBsa9L7ButcGJKHO3/vL+Fm71FNSGdtU1B3h/j
-	00QAm7+5LmNinnhOvsDWFkI5sj+fKLkUZ++6FLerESQQVfO/rDaaTcdTPJq0HEaIZ9o60WOjwMb
-	1upQB+ujJ5/aHoqx+qtP3MK7touHuoqqEmrXL4Hgwp5EG2V5U18f4g8lrN/qGGomkq3IXFQcOCd
-	sj+Vn/J8k=
-X-Received: by 2002:a05:6a00:6c91:b0:847:9188:e492 with SMTP id d2e1a72fcca58-847f6dc6812mr3659467b3a.22.1783182486820;
-        Sat, 04 Jul 2026 09:28:06 -0700 (PDT)
-Received: from localhost ([111.228.63.84])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847f6dd9237sm1392842b3a.59.2026.07.04.09.28.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Jul 2026 09:28:05 -0700 (PDT)
-From: Cen Zhang <zzzccc427@gmail.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
+	Sat, 04 Jul 2026 19:51:46 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id 54C94435AA;
+	Sat,  4 Jul 2026 19:51:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB6A41F000E9;
+	Sat,  4 Jul 2026 19:51:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783194705;
+	bh=XBefwgHbcKa8lF9fx4CimAkm/mOI1OLeJiYAKnbJMVM=;
+	h=From:To:Cc:Subject:Date;
+	b=eyGDj+l9ou1O5f59vydhkXwbA3fDVbVY5wPAk+z0treKXGPKqXslTE3lUBAsGocd7
+	 j4HWvk4BMNpWicrOIm4gLY3YVgF3Q6UEhK7cReG0YCnUSyd7h/IgSYc0DKYXfWNGK2
+	 4NTeA2Sr3moCGhheLA2o94lnROHcghNi1lucHAcN49jDn2x5ypWvXlRjRz19Rb4+79
+	 D3BUC+ZGPqCZb8zqM+3k0kbrkEvOlPw3Ll9PYCZOu2J/UuiBjkZaboSHjLU787V9b2
+	 JaEC6vggxII6Lo1jd3LNPsKr4cE4QactM2ublptM5aeMxzXzOBZq6U+mCcpHFheYal
+	 aWylKO5MUd0xw==
+From: Yu Kuai <yukuai@kernel.org>
+To: Jens Axboe <axboe@kernel.dk>,
+	Tejun Heo <tj@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
 	Sagi Grimberg <sagi@grimberg.me>,
-	Jens Axboe <axboe@kernel.dk>,
-	Steve Wise <larrystevenwise@gmail.com>
-Cc: linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	baijiaju1990@gmail.com,
-	zzzccc427@gmail.com
-Subject: [PATCH v4] nvme-rdma: hold nvme_rdma_device reference in remove_one
-Date: Sun,  5 Jul 2026 00:27:57 +0800
-Message-Id: <20260704162757.1792325-1-zzzccc427@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	Alasdair Kergon <agk@redhat.com>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Dongsheng Yang <dongsheng.yang@linux.dev>,
+	Zheng Gu <cengku@gmail.com>,
+	Coly Li <colyli@fygo.io>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Yu Kuai <yukuai@fygo.io>,
+	Nilay Shroff <nilay@linux.ibm.com>,
+	linux-block@vger.kernel.org,
+	cgroups@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	dm-devel@lists.linux.dev,
+	linux-bcache@vger.kernel.org
+Subject: [RFC PATCH v1 00/17] blk-cgroup: protect blkgs with blkcg_mutex
+Date: Sun,  5 Jul 2026 03:51:07 +0800
+Message-ID: <20260704195124.1375075-1-yukuai@kernel.org>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260704_092808_858549_60F2816A 
-X-CRM114-Status: GOOD (  15.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,165 +84,147 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvme_rdma_remove_one() first verifies that an ib_device has an
-nvme_rdma_device on device_list, but it drops device_list_mutex before it
-walks nvme_rdma_ctrl_list. It then identifies matching controllers by
-dereferencing ctrl->device->dev while holding only nvme_rdma_ctrl_mutex.
+From: Yu Kuai <yukuai@fygo.io>
 
-ctrl->device is a cached copy of queue 0's struct nvme_rdma_device. Queue
-teardown owns that object's kref, so controller list membership does not
-keep the nvme_rdma_device alive.
+This RFC moves queue-local blkg topology synchronization from
+q->queue_lock to q->blkcg_mutex.
 
-The buggy scenario involves two paths, with each column showing the order
-within that path:
+q->queue_lock is a hot block-layer spinlock used by request queue runtime
+paths, and it is also used in irq-disabled or otherwise atomic contexts.
+Using it to protect blkg topology makes blkg lookup, creation,
+destruction, policy activation, and policy-state walks inherit those atomic
+locking constraints.  That forces awkward preallocation schemes such as
+radix-tree preloading and prevents missing-blkg creation from sleeping,
+even though blkg creation is a blkcg control-plane operation rather than a
+queue dispatch fast-path operation.
 
-RDMA remove callback:                Controller error recovery:
-  1. find ndev on device_list        1. run nvme_rdma_error_recovery_work()
-  2. drop device_list_mutex          2. tear down the admin queue
-  3. walk nvme_rdma_ctrl_list        3. drop the final queue device ref
-  4. read ctrl->device->dev          4. free the nvme_rdma_device
+q->blkcg_mutex is a better fit for blkg protection because it is already a
+queue-local blkcg lock, it can serialize the full lookup/create/destroy and
+policy activation path, and it allows allocation and parent lookup to run
+from sleepable contexts.  Moving blkg topology under q->blkcg_mutex also
+separates blkcg topology from queue runtime locking, reducing queue_lock
+scope and making the locking rules for blkcg policy users explicit.
 
-Fix this by taking a temporary reference to the matching struct
-nvme_rdma_device while still holding device_list_mutex. The controller
-walk can then compare ctrl->device directly with the pinned
-nvme_rdma_device without dereferencing a queue-owned object that might
-have been freed. Release the temporary reference after the delete
-workqueue flush.
+bio_set_dev() and bio allocation with a bdev can associate a bio with the
+destination queue's blkg.  Once missing blkg creation is serialized by
+q->blkcg_mutex, those helpers may sleep when they create a blkg.  The first
+part of the series therefore audits callers that can reach these helpers
+from completion, spinlocked, irq-disabled, GFP_NOWAIT, or other
+non-blocking paths, and either moves association to process context or uses
+a nowait association path that avoids sleeping.
 
-Validation reproduced this kernel report:
-BUG: KASAN: slab-use-after-free in nvme_rdma_remove_one+0x281/0x2c0
-[nvme_rdma]
+The preparatory patches cover NVMe multipath requeue, dm-thin and
+dm-snapshot map paths, blk-throttle's private runtime lock, atomic bio
+allocation helpers, bcache, dm-bufio, dm-pcache, DM NOWAIT clones/remaps,
+and BFQ's locked cgroup update path.  The final blkcg patches then move
+blkg lookup/create/destroy, policy activation, and configuration
+preparation to q->blkcg_mutex; remove radix-tree preloading; move blkg
+allocation into blkg_create(); and share creation code between bio
+association and config preparation.
 
-Call Trace:
- <TASK>
- dump_stack_lvl+0x66/0xa0
- print_report+0xce/0x630
- ? nvme_rdma_remove_one+0x281/0x2c0 [nvme_rdma]
- ? srso_alias_return_thunk+0x5/0xfbef5
- ? __virt_addr_valid+0x20d/0x410
- ? nvme_rdma_remove_one+0x281/0x2c0 [nvme_rdma]
- kasan_report+0xe0/0x110
- ? nvme_rdma_remove_one+0x281/0x2c0 [nvme_rdma]
- nvme_rdma_remove_one+0x281/0x2c0 [nvme_rdma]
- remove_client_context+0xa9/0xf0 [ib_core]
- disable_device+0x12d/0x240 [ib_core]
- ? __pfx_disable_device+0x10/0x10 [ib_core]
- ? srso_alias_return_thunk+0x5/0xfbef5
- ? __mutex_unlock_slowpath+0x147/0x900
- __ib_unregister_device+0x26f/0x460 [ib_core]
- ib_unregister_device_and_put+0x55/0x70 [ib_core]
- nldev_dellink+0x29e/0x3c0 [ib_core]
- ? unwind_next_frame+0x6e3/0x2190
- ? __pfx_nldev_dellink+0x10/0x10 [ib_core]
- ? lock_acquire+0x2b8/0x2f0
- ? srso_alias_return_thunk+0x5/0xfbef5
- ? cap_capable+0x196/0x330
- ? __pfx_down_read+0x10/0x10
- rdma_nl_rcv_msg+0x2db/0x5f0 [ib_core]
- ? __pfx_rdma_nl_rcv_msg+0x10/0x10 [ib_core]
- rdma_nl_rcv_skb.constprop.0.isra.0+0x222/0x380 [ib_core]
- ? __pfx_rdma_nl_rcv_skb.constprop.0.isra.0+0x10/0x10 [ib_core]
- ? srso_alias_return_thunk+0x5/0xfbef5
- ? srso_alias_return_thunk+0x5/0xfbef5
- ? netlink_deliver_tap+0x150/0xac0
- netlink_unicast+0x47c/0x790
- ? __pfx_netlink_unicast+0x10/0x10
- netlink_sendmsg+0x767/0xc30
- ? __pfx_netlink_sendmsg+0x10/0x10
- ? lock_release+0x1e0/0x280
- __sys_sendto+0x339/0x390
- ? __pfx___sys_sendto+0x10/0x10
- ? srso_alias_return_thunk+0x5/0xfbef5
- __x64_sys_sendto+0xe0/0x1c0
- ? do_syscall_64+0x81/0x6a0
- ? srso_alias_return_thunk+0x5/0xfbef5
- ? trace_hardirqs_on+0x18/0x160
- do_syscall_64+0x115/0x6a0
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
+This is RFC because the locking conversion changes a central blkcg lifetime
+path and relies on all non-sleepable bio association users either being
+converted or tolerating nowait association failure.
 
-Allocated by task 436:
- kasan_save_stack+0x33/0x60
- kasan_save_track+0x14/0x30
- __kasan_kmalloc+0xaa/0xb0
- nvme_rdma_cm_handler+0xcbc/0x2914 [nvme_rdma]
- cma_cm_event_handler+0xb2/0x390 [rdma_cm]
- addr_handler+0x199/0x2b0 [rdma_cm]
- process_one_req+0x113/0x650 [ib_core]
- process_one_work+0x8d0/0x1870
- worker_thread+0x575/0xf80
- kthread+0x2e7/0x3c0
- ret_from_fork+0x576/0x810
- ret_from_fork_asm+0x1a/0x30
+One intentional tradeoff is left in the nowait paths.  They first associate
+with an existing blkg.  If a thread issues IO to a queue for the first time
+from a GFP_NOWAIT or otherwise non-blocking path, the cgroup's blkg for
+that queue may not exist yet.  After blkg topology moves to q->blkcg_mutex,
+preemptible task-context callers try q->blkcg_mutex and attempt blkg
+creation.  Once allocation moves into blkg_create(), that opportunistic
+nowait creation uses GFP_ATOMIC.  If the caller is in atomic context,
+q->blkcg_mutex is contended, or allocation fails, the nowait helper still
+fails and the caller needs to retry from a blocking context, defer the
+association, or fall back to an existing slow path.
 
-Freed by task 436:
- kasan_save_stack+0x33/0x60
- kasan_save_track+0x14/0x30
- kasan_save_free_info+0x3b/0x60
- __kasan_slab_free+0x5f/0x80
- kfree+0x307/0x580
- nvme_rdma_free_dev+0x16d/0x260 [nvme_rdma]
- nvme_rdma_free_queue+0x6d/0x90 [nvme_rdma]
- nvme_rdma_error_recovery_work+0x7f/0x110 [nvme_rdma]
- process_one_work+0x8d0/0x1870
- worker_thread+0x575/0xf80
- kthread+0x2e7/0x3c0
- ret_from_fork+0x576/0x810
- ret_from_fork_asm+0x1a/0x30
+Patch layout:
 
-Fixes: e87a911fed07 ("nvme-rdma: use ib_client API to detect device removal")
-Assisted-by: Codex:gpt-5.5
-Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
----
-v4:
-Renamed the subject and commit message wording to refer explicitly to struct
-nvme_rdma_device instead of the vague "device wrapper" term.
+Patch 1: move NVMe multipath failover bio retargeting to requeue work so
+bio_set_dev() runs from process context instead of completion context.
 
-v3:
-Removed the temporary iterator and goto-based lookup in
-nvme_rdma_remove_one().
-Preserved the original found-based device-list flow while pinning the
-matched nvme_rdma_device.
+Patches 2-3: remove or avoid bio_set_dev() while dm-thin and dm-snapshot
+locks are held, and restore blkcg association later where needed.
 
-v2:
-Reworked the fix to take a temporary nvme_rdma_device reference during the
-device_list lookup instead of adding a cached ib_device field to struct
-nvme_rdma_ctrl.
-Changed the controller-list match to compare ctrl->device against the pinned
-wrapper while preserving the existing delete workqueue flush behavior.
+Patch 4: give blk-throttle its own runtime-state lock so blkcg topology
+can be moved away from queue_lock.
 
- drivers/nvme/host/rdma.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Patches 5-7: add bio_alloc_atomic(), make bio association nowait-aware,
+and make bio allocation with a bdev fail rather than sleep for
+non-blocking callers.
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 6909e3542794..663e38540073 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -2378,7 +2378,7 @@ static void nvme_rdma_remove_one(struct ib_device *ib_device, void *client_data)
- 	mutex_lock(&device_list_mutex);
- 	list_for_each_entry(ndev, &device_list, entry) {
- 		if (ndev->dev == ib_device) {
--			found = true;
-+			found = nvme_rdma_dev_get(ndev);
- 			break;
- 		}
- 	}
-@@ -2390,13 +2390,14 @@ static void nvme_rdma_remove_one(struct ib_device *ib_device, void *client_data)
- 	/* Delete all controllers using this device */
- 	mutex_lock(&nvme_rdma_ctrl_mutex);
- 	list_for_each_entry(ctrl, &nvme_rdma_ctrl_list, list) {
--		if (ctrl->device->dev != ib_device)
-+		if (ctrl->device != ndev)
- 			continue;
- 		nvme_delete_ctrl(&ctrl->ctrl);
- 	}
- 	mutex_unlock(&nvme_rdma_ctrl_mutex);
- 
- 	flush_workqueue(nvme_delete_wq);
-+	nvme_rdma_dev_put(ndev);
- }
- 
- static struct ib_client nvme_rdma_ib_client = {
+Patches 8-12: convert bcache, dm-bufio, dm-pcache, block helper
+allocations, and DM NOWAIT remaps/clones to the new nowait or deferred
+association model.
+
+Patch 13: avoid a sleeping blkg lookup from BFQ while bfqd->lock is held.
+
+Patch 14: protect queue-local blkg lookup, creation, destruction, policy
+activation, and policy state walks with q->blkcg_mutex.  This also makes
+preemptible nowait bio association try q->blkcg_mutex instead of failing
+immediately after an RCU lookup miss.
+
+Patch 15: remove radix-tree preloading after blkg creation no longer runs
+under queue_lock.
+
+Patch 16: allocate blkgs inside blkg_create() and use GFP_ATOMIC for the
+nowait bio-association trylock creation path.
+
+Patch 17: share blkg creation between bio association and config
+preparation.
+
+Yu Kuai (17):
+  nvme-multipath: retarget failedover bios from requeue work
+  dm thin: avoid bio_set_dev under pool lock
+  dm snapshot: avoid bio_set_dev in locked map paths
+  blk-throttle: protect throttle state with td lock
+  block: add bio_alloc_atomic() for atomic bio users
+  blk-cgroup: support non-blocking bio association
+  block: support non-blocking bio allocation with a bdev
+  bcache: avoid sleeping blkg association from locked paths
+  dm bufio: avoid blkg association from GFP_NOWAIT bio init
+  dm pcache: handle non-blocking bio clone init failure
+  block: avoid scheduling from non-blocking helper allocations
+  dm: avoid sleeping blkg association from NOWAIT remaps
+  bfq: avoid blkg lookup from locked cgroup update
+  blk-cgroup: protect blkgs with blkcg_mutex
+  blk-cgroup: remove blkg radix tree preloading
+  blk-cgroup: allocate blkgs in blkg_create
+  blk-cgroup: share blkg creation between lookup and config prep
+
+ block/bfq-cgroup.c                 |  26 +-
+ block/bio.c                        |  50 +++-
+ block/blk-cgroup.c                 | 397 ++++++++++++-----------------
+ block/blk-cgroup.h                 |  16 +-
+ block/blk-crypto-fallback.c        |   2 +-
+ block/blk-iocost.c                 |   5 +-
+ block/blk-iolatency.c              |   7 +-
+ block/blk-lib.c                    |   3 +-
+ block/blk-map.c                    |   7 +-
+ block/blk-throttle.c               |  93 +++++--
+ drivers/md/bcache/journal.c        |   9 +-
+ drivers/md/bcache/request.c        |   4 +-
+ drivers/md/dm-bufio.c              |   9 +-
+ drivers/md/dm-linear.c             |   2 +-
+ drivers/md/dm-pcache/backing_dev.c |  10 +-
+ drivers/md/dm-snap.c               |  29 ++-
+ drivers/md/dm-stripe.c             |   6 +-
+ drivers/md/dm-switch.c             |   2 +-
+ drivers/md/dm-thin.c               |   3 -
+ drivers/md/dm-unstripe.c           |   2 +-
+ drivers/md/dm.c                    |  28 +-
+ drivers/md/md.c                    |   2 +-
+ drivers/nvdimm/nd_virtio.c         |  11 +-
+ drivers/nvme/host/multipath.c      |   4 +-
+ fs/gfs2/lops.c                     |   3 +-
+ fs/ocfs2/cluster/heartbeat.c       |  15 +-
+ include/linux/bio.h                |  53 ++--
+ include/linux/device-mapper.h      |   8 +
+ include/linux/writeback.h          |   2 +-
+ mm/page_io.c                       |   2 +-
+ 30 files changed, 467 insertions(+), 343 deletions(-)
+
+
+base-commit: a1c8bdbbd72564cebb0d02948c1ed57b80b2e773
 -- 
-2.43.0
-
+2.51.0
 
