@@ -4,141 +4,107 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47982C44503
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Jul 2026 13:21:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2B994C43458
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Jul 2026 14:15:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:References:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=i/iXOOdgdMfxRDLYmcgTlP0PnUI2kVt+61ugHMsL9Ao=; b=am9XlvztxYBFY+WeDC3UUXCKvk
-	uTz0jr1uCRQMzi6RblRfAjX/AG2Z1ofSwGzfm7Npv+G+olFY0ZHqKaqOesxtAe3USJuZ9yv/GkXqK
-	sW/4cmyyhABD3pIMfhYu685+B/pnaLHxvvV2pnS7js6zLxd4Z8+TPgKPmRpJo/DKYHvhlHuM3BF7H
-	2Ln9XKaA8kdOfOjWTXC0vYfs1aJC5zeThlOfGrfwOJu6l3eIITF5ejYyU5bM5s5Oqte93Rto3EEGy
-	aH/gW6iN1UmFuM9lXACCpaGFjvG01S+9wkJsLK8VxBfvlR9glWf/SFeesAJygpZOCd0KDhXtS3AGZ
-	FL/VqmDg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=x50HAsiA3XtMMUoADGJon8UIxcTtMr1Xv9a2j0LKQg0=; b=MdSy6HAZbh8jvkdPOiLK+dxtt4
+	Al9lw3ctymWjskFM/2GCyVTxqqJbX0adEWhaQjwHKRJXQU74upggKMok3Lc0eEH9kgc2aNMfOIxdn
+	i4Pn8LacxF8bPDKCg25fX95RfxIRGerISEoWzuAYv8lseVFXB5wFpkd4OZYgXVMbXSUgZZjvX2Zf+
+	XEOWQlFzZAdD3nt6UPyN588AE4fEbmyirrKeigGly1ufhKgmzJsCBVvP5WADcRm11Ppx50vhsOIyv
+	NwImLQPhmPQqIkbO4/U8ZA+zPobX6M0Nfjpok2jdEpSdAtLbWUSobflWn9tA+y5g9AjLQHB3gilzP
+	Y1b4CIRw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wgjFu-0000000CYzF-3XS1;
-	Mon, 06 Jul 2026 13:21:02 +0000
-Received: from mail-japanwestazon11021108.outbound.protection.outlook.com ([40.107.74.108] helo=OS0P286CU010.outbound.protection.outlook.com)
+	id 1wgk6r-0000000Chmh-3ML2;
+	Mon, 06 Jul 2026 14:15:45 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wgjFl-0000000CYhl-1nRs
+	id 1wgk6o-0000000Chlw-2qrD
 	for linux-nvme@lists.infradead.org;
-	Mon, 06 Jul 2026 13:20:56 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oQUPWDrH5mw+sjZerFWLIWiYlgV2TOIFWjJUOTEWceg1E/xfWWFevA00C721p2tUKAzh+nb8hBnRUxFHaRVeWiIOCzyKDjohad2f/eqJbrrsgey39N8wJrYMVGUNDBdIdQXdlQRhPinFvbNvkNYAVsaTZCjYLUaGSBXkEzM41Ih2FrRnCtae2vz6ej93GJhKwENnkSSkztkKMGyQFS2O6BZaMi/A4WfxfSQ1nsVwI5sY74d+HD5hZoqmbmONzv8ba2qYSV+K5GEPR3UzM07N4+F0qfMU9fpdcweO+3HF0vhJJdx/dgI4ZPLlB/bLh2xaXHMFcfv5kPVlun5RhTRPtg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=i/iXOOdgdMfxRDLYmcgTlP0PnUI2kVt+61ugHMsL9Ao=;
- b=q2+VAjYUFXGJTXtjZMUjrBIqAIgcHqVPR9T9AC41z4bE6Kd+zYGG3Q2Zy3W+v7Xeb3K0hwvkL+nKzwG4iCVp5DjWzlLCXgDVwS3/HBh6eLPCR6M9kTOew95u1Nx/M7V2FTwNNTbi8McHbPd4qTFJiImzVobmpV0JRlLglSh4V64uwOarJO82KVIjbDSX/+Gef83f1O+ENx6N41maGTSe0JFde3H3oVFTm3Nt9I+ZLBj0tG+HiDSElM85ln2Kdqtk9HH1TmNPVfbeL5N7YkzzmhBxPInl8z1Nrtojz6bfG+rm8o7luNgpwbe/JZW1EhAyzVcHk4BWX0b1j9x+QveWaQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=valinux.co.jp; dmarc=pass action=none
- header.from=valinux.co.jp; dkim=pass header.d=valinux.co.jp; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valinux.co.jp;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i/iXOOdgdMfxRDLYmcgTlP0PnUI2kVt+61ugHMsL9Ao=;
- b=m4cNntfWGwgNliOP/ypymtoFQEWl+IXLRVeHloDa1nd5U+YDMRSDmltSnLdLfYDmjW2140rJ0E6AdNi3HZqIBzmzmC/0fCquIg04UBCs3V7FvoYX+A74vb2bzqkdxJmLacxl2PgmMOfKJU113w05ifaLelCKEDvejC5Pmy1uBCs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=valinux.co.jp;
-Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:38f::10)
- by OSCP286MB5902.JPNP286.PROD.OUTLOOK.COM (2603:1096:604:3e7::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.11; Mon, 6 Jul
- 2026 13:20:39 +0000
-Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- ([fe80::2305:327c:28ec:9b32]) by TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- ([fe80::2305:327c:28ec:9b32%5]) with mapi id 15.21.0181.009; Mon, 6 Jul 2026
- 13:20:39 +0000
-Date: Mon, 6 Jul 2026 22:20:38 +0900
-From: Koichiro Den <den@valinux.co.jp>
-To: Frank.Li@oss.nxp.com
-Cc: Manivannan Sadhasivam <mani@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
-	Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>, Kees Cook <kees@kernel.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Christoph Hellwig <hch@lst.de>, Niklas Cassel <cassel@kernel.org>, dmaengine@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, imx@lists.linux.dev, "Verma, Devendra" <devverma@amd.com>, 
-	Frank Li <Frank.Li@nxp.com>
-Subject: Re: [PATCH v3 00/10] dmaengine: dw-edma: flatten desc structions and
- simple code
-Message-ID: <gfylpnuieclkt52xzbcghzaza7oirunstgzfmru7aqpnapdlit@dpgmjrs6ww7u>
-References: <20260702-edma_ll-v3-0-877aa463740c@nxp.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260702-edma_ll-v3-0-877aa463740c@nxp.com>
-X-ClientProxiedBy: TY4P301CA0108.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:405:37b::11) To TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:38f::10)
+	Mon, 06 Jul 2026 14:15:44 +0000
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 666BIEoN318854;
+	Mon, 6 Jul 2026 14:15:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=pp1; bh=x50HAsiA3XtMMUoADGJon8UIxcTtMr1Xv9a2j0LKQ
+	g0=; b=OjHCcB6fZnNf/QOmjdJHoqXm/ymJPUoN3mlxlduc9CTlIItggHf9lyQEK
+	0N5G4eFaM74lIMPshOX/enlBc56MAjEiCbofjbqiHbQRt70zlKgvVEnxfakKWdcH
+	Zo4p8VShlUOfNu9pKt2Owa+M0+b/zluDlQdZHBh+oNbfu13m3n9kLOzH8SYTJmff
+	tkwP2qMaj+ML/4t74go2oL3M7dHKA9uMRx3dN3WTQOSyhKv+k6yiipur0+UHI8Kc
+	aeWBY44PgNVI4Jq9Ol2QlWYF6JpH4zHBx1DWgCIjsw4TDfoEUO/wCJKpaHVCk4ut
+	gPmU8Lh8gx418byoG6S1Ipj8Jtfhg==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4f6suqhqr6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 06 Jul 2026 14:15:23 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 666E4cIR018959;
+	Mon, 6 Jul 2026 14:15:22 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4f7cgpx41v-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 06 Jul 2026 14:15:22 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
+	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 666EFInw51380488
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 6 Jul 2026 14:15:18 GMT
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 9379420043;
+	Mon,  6 Jul 2026 14:15:18 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5505920040;
+	Mon,  6 Jul 2026 14:15:16 +0000 (GMT)
+Received: from li-a84c74cc-2b13-11b2-a85c-acdd023f0674.bl1-in.ibm.com (unknown [9.123.7.57])
+	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Mon,  6 Jul 2026 14:15:16 +0000 (GMT)
+From: Nilay Shroff <nilay@linux.ibm.com>
+To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: hch@lst.de, elver@google.com, kbusch@kernel.org, sagi@grimberg.me,
+        axboe@fb.com, bvanassche@acm.org, gjoyce@linux.ibm.com,
+        Nilay Shroff <nilay@linux.ibm.com>
+Subject: [PATCH v3 00/18] Support Clang context analysis for NVMe host drivers
+Date: Mon,  6 Jul 2026 19:44:02 +0530
+Message-ID: <20260706141452.3008233-1-nilay@linux.ibm.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY7P286MB7722:EE_|OSCP286MB5902:EE_
-X-MS-Office365-Filtering-Correlation-Id: d4ad0e54-5fe4-4750-22b3-08dedb615f4e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|366016|1800799024|10070799003|376014|7416014|18002099003|22082099003|56012099006;
-X-Microsoft-Antispam-Message-Info: 6pTIDpnYkBgJqhPuVcqnx62WuuCFrOTf2l/wXbMmPyXGsUxfJ9l/ZGZ1zu3kT9Eyxq1APA2oE3y8JuwV7MwfcqpKsCbafjykYBfDkiTfqdrpBq6fTvfSGWvGkDfXri4a6pwFGYRDUW4tqrFJm0rec8FOE60dQhPcYWegyRdDy9aCggRs2tG+6tHOOM+V9WX9qbnEAG06XUb9J19cva72pgIFFWkrP0lhOMCjPmJY5Ap6YyJyZwP1pKNDmd03BRtR2iz52J6sCnDiNDd2P2NX+CpRiEBYiwbBeyHo5O8Npta9Y8Kn35TlcvvfmSMVAFLSRCHq7oR1nJzOaC7vm5NWzybrbP80q5uAquA91h53J88iAHWKRTSKpDh1/npNsJwvW8yJ0LwcxW6+6YxHauVmJwT8VPhvBRBpmHlmqVAbI7Rvnl8iOs4gDgWqd3AUjAsSRSm7OzAV3WLgP9UXIeeMX1ZtGR47MvlcArZ8DuomhkHgCj43/drFEkcBmJ0runD9ggaIE6RzFT94d+8q4CyNwR7fvQ+Wz9TNkAZkhByEW4NNo+ay8AINj4UfU1tmdv31kcseINdIqQ7RpnRHRywpH31Qvim/RInC7Bjb+UPJq7BoB0oGTutypJrTFtsRsoiSVAFiV0rpflf3YXkvMZOVz11A9z09X4dbqqIs0NAIg+c=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(10070799003)(376014)(7416014)(18002099003)(22082099003)(56012099006);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TzgxNjdaUm9CUnVyUzZKV04xNG45TjNMZlY5M2VmUGNuaFduaDlFSS9KV0Nr?=
- =?utf-8?B?ek0wRTlOcCtxb3hDUkVYNVhSc2tHQmo5NEdyckE1WEN5c1dncUFUT082K3hl?=
- =?utf-8?B?TmpSeHN1NEZibFJ4U3Y5UFJKYjNDcXRYOHVrVE9EalJzZUZxZnBBZzZOV1JQ?=
- =?utf-8?B?QWpycmx2b1dSYzk4bmdLT3JmWGhtZGxxTVF0SUp0ejNUaDlJV3FscUQ3ajB1?=
- =?utf-8?B?R0xzSjFtRUk5dS9zamRSNDlTSEtpYWszRnVMTEZZZWlDemxTUzVQYkVBZXli?=
- =?utf-8?B?SGNOdmk0NDd0NFEvYWpFTm5jb2kwV0J5SjJVY3RQOVpWOFJIa2x5QjloYUJz?=
- =?utf-8?B?RXdCRTV1Zk1aWFF3SGhBcWs4T3NodndBaU5xWG1obUZPOGJrUTFPZVMwK28x?=
- =?utf-8?B?SmwvQnJuTHJxYUFQdVp5c3JmNXRLMEUwSEgzZTh4SjMwang0WDhHZE15bTZS?=
- =?utf-8?B?aGFVRWFxTDFRRjNMSXZUNWQ4TEV6MWlRY3c1RW52b2llSkxxVzBSM2M2RUxH?=
- =?utf-8?B?QTFoRXVFQkhRZkNRWUg4a1N0eVdVM3gzclU4MmsxZ2FXeCtiZjBPeDIwUmd5?=
- =?utf-8?B?M3pPZU5HTEZUL05MTnZiVFBmZ2ZlVmNBYzdwWE9ESDE2ZTIvR1pndUdkQ0NO?=
- =?utf-8?B?ZUFiOUo0RTJ5c2lNcDdIUnFFbmwxNFBBamtlSzJLUW0xRjBkd1FwclFBa2cw?=
- =?utf-8?B?cWQzQzFCaXFLdyt0ZVc0SERrTkxDUXZmWXJteVR3VmplY2JxSnA4RUJkMitN?=
- =?utf-8?B?M2dPaWRMNmpGMFM4NTRuYWdXN3hWbFFxT1pIT0xTcW9ZTEZnZEpZalBsTjR3?=
- =?utf-8?B?S3pubGd6bkRkQk9aNGt6UGR3RFI2TUk4RnBva2VwS3hDRjB3V2I5bUgyWWlE?=
- =?utf-8?B?VCs4NGQ1OWcwU0J1bnJySjNpRFZrZTVNLzVkMlBPMHJZQklYUTREdk5VSHVW?=
- =?utf-8?B?UFNVZ1dLdjJ5cXRpUzBySmtvUHpaengvM0JsWnp4N0FHWUl2bDB4OWxnNlBC?=
- =?utf-8?B?c2lWYlE5TUd2UDlTZy9yc0tVcEo1Z1dyRXJGUmNnd3YvUVNvZ0lHSi92YXlx?=
- =?utf-8?B?V2RkOGxOREFQNkJWVzhCWXE5R3NDaXlPVStQMFNYVUhiWHNYb3dXTkxWM2pN?=
- =?utf-8?B?WjRkTFlVQnJFNEcxbVFlWmUzLzFxOWNpN01uNS9CMnB0OU5MUmUxZ2NJd2Mz?=
- =?utf-8?B?QmcvcGd1V1IyZHVieEpJTUt4dDRKckU5MmIvSW5adlN2b0VteG5GcERlOVpE?=
- =?utf-8?B?bm5ieEQ4L2pPb05RcUVHWnR4WWczM1IwKy9FTTBGSzJvSU5ldlMyQm96MzFn?=
- =?utf-8?B?Z0N4alN3RElhRmd3cEh3aVpvMVhJWDBXd2daRWNBOThGVW5Wb091bXlNNEJI?=
- =?utf-8?B?TmRUK2VsaFFOWmh5Q3ZvaWEvWUp3N3hYTHhuU25kQ2M3UHVQSVZMTjJWN2I1?=
- =?utf-8?B?bGo3Q1F1SjgzUEkvZlRvVE9IeEtyN1NKY1dYMDNRWTVtclBGVVZvRzljZkZ0?=
- =?utf-8?B?L0hmckhXamY2eDFJTy95cVpYRHo2alVCb2REVGxYOFNkMFQ3V2dvWStsWmVj?=
- =?utf-8?B?R3RmeVplV0NON2wzZzNRUlkzYW1YdHUzM0l5NTY3ejZWclcwNm5iUEFPUVFx?=
- =?utf-8?B?QjN3Y1A1VDZqeEFqQ3Uzd0ZVeERXUnBpMWdkTFBzMVN3SUpYaE0rQVdvcTg2?=
- =?utf-8?B?RkQ2eWxIU2d0M0FMNGpOTkdRYThHZ2xCTDc4cE5Rbmc1cm1WNThvRUNncy9m?=
- =?utf-8?B?SEFSbjFabXFnbnBEQS9TbmtPMExjTXhYUnFYcFl2WlovaVBYamZpdHRxY3Yy?=
- =?utf-8?B?Rzk4Z3FzSkwyR3ZkZUpCY3JoMWh2elE1S3dvMU1Qa1lySGNtVmNIaDJwMm1G?=
- =?utf-8?B?SGorLzBBV0o0RERaSzJ6Qjd0RUJ5d0RSeHJKZWJGelJObUpDaHRiRGNrb09M?=
- =?utf-8?B?d1d6S0lIQTFNcmxBZmFKWWVWU3ViVUZUczRYM1ZMTUQ3QW1EaVdyZGtYeUZu?=
- =?utf-8?B?VXZ1SnUzL1VlbUlRNDFtY0s2azF4L2JZWVJqOFlQTDY3N2ViVHU0b1FvOFky?=
- =?utf-8?B?M1UydkNhaVROLzdIVjlGbmdoMy9Hb2lkQzVQcmdmWEYxR0xkZHpvZC9LUlRi?=
- =?utf-8?B?Q2hKbHVpNUhtR25Yc1l1WVNNTGZyYXV4bWlPcG1KeHQyU2FtU2VmNTU3dDNP?=
- =?utf-8?B?bDZSVWEyTVBXdWlnTzc3NnZDY0I1SElid1Q5cnFQbzA2bjc5RkZvVlloY2Z3?=
- =?utf-8?B?VC9VUVZKRnpMVFFQN3UvYXFTMm9sN3BvUmZlcWk0TnJaVXlvT2dIbEJQMVUy?=
- =?utf-8?B?Q2lQL0tQSXpoa2FJRmNqclhGNXdYWVErMVhxWmVhNjMrN0lFa3BUeTlLeXhU?=
- =?utf-8?Q?Eh85Uw9af9c0RHUV4Rrsz6PKTjZV5E0M8aVF/?=
-X-OriginatorOrg: valinux.co.jp
-X-MS-Exchange-CrossTenant-Network-Message-Id: d4ad0e54-5fe4-4750-22b3-08dedb615f4e
-X-MS-Exchange-CrossTenant-AuthSource: TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2026 13:20:39.1079
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 7a57bee8-f73d-4c5f-a4f7-d72c91c8c111
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eHPT9FZBrhA4+tLW6ZzHjVHK3/yWJMl61D8Uazl3QVpCZ25Wyq06bLr0b02MU29/HlziIBji0f8USeOmZgWKNA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSCP286MB5902
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA2MDE0MSBTYWx0ZWRfX9uoG55BlACUy
+ f8TavTfLKHfJ/H6SIhysW21sOVP6GFl46owPnwUwhog5p/TxlgqxXBYRLRIS8EU7+uplv135BaI
+ jfyiD+xb9Ur8LJRco3UuX6loaPAt/wE=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA2MDE0MSBTYWx0ZWRfXzwOyAY9K9VW5
+ QwfKfDdpDNMEYyBZkZplJaofxx4LE7Bm4XnLbUPjqudzIib2+gCHY5YfsZbToauWAh49YVGMNN4
+ X1GFgG1AOOPug8jzJ9ueVzpZYMRsV5KLxc9iFCR/Jo17hHG1cMIg2Z3aaB+LOM2mxKaaQPDVW/o
+ /3rjzyEcz8bkiHy7229DXGubuufjPPVYjlt8xohaih6HLnoYjbzTW+mWmXT0vCGHKFs25QRo7gs
+ 8b6GtjCehLVwJdH2Ojx3siPhZfApXcn9yiSg+Fh6YtOLgygdT5FFQNI0MFivEVv0D6xkf5xIfy4
+ 0mFJhwFteeuQ4D5mhMKStkmOXfl73qV6v55SsUtao5qI9xrkHp1IA3DKPPZ6z3Xja1JOCiPHxDP
+ 5bY4BuX5V1SBm1vt3cXQLDaasfAQUmTrSinHAq0HDhAQ4krpu73YyNiXbBp9NBWbM2DYpKJSXco
+ vFgN/PABvWevEYGnQ+g==
+X-Proofpoint-GUID: pmNCK-6tfWLD1uMy1CVuKN9yFJj7r20d
+X-Authority-Analysis: v=2.4 cv=Oot/DS/t c=1 sm=1 tr=0 ts=6a4bb87b cx=c_pps
+ a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
+ a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
+ a=uAbxVGIbfxUO_5tXvNgY:22 a=VwQbUJbxAAAA:8 a=1XWaLZrsAAAA:8 a=VnNF1IyMAAAA:8
+ a=yJd4khT4T4pqtWizPYcA:9
+X-Proofpoint-ORIG-GUID: 39AYPx1qNkN93-bnQ7GL5iXg24Xv1CJs
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-06_01,2026-07-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 lowpriorityscore=0 clxscore=1015 impostorscore=0 phishscore=0
+ malwarescore=0 suspectscore=0 spamscore=0 adultscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607060141
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260706_062054_065215_355437E4 
-X-CRM114-Status: GOOD (  20.19  )
+X-CRM114-CacheID: sfid-20260706_071542_734221_6C579183 
+X-CRM114-Status: GOOD (  17.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -153,146 +119,111 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jul 02, 2026 at 05:21:20PM -0400, Frank.Li@oss.nxp.com wrote:
-> Koichiro Den:
-> 	My hardware temperately is unavaible recently. Can you help test
-> it.
+This series adds support for Clang's context analysis to the NVMe host
+drivers.
 
-Sure, I can test it on my side. I'll report back once I have the results.
+Recent work[1] by Marco Elver introduced infrastructure for lock context
+analysis in the kernel, allowing Clang to verify locking requirements at
+compile time through various annotations.
 
-Best regards,
-Koichiro
+This series build on top of that infrastructure by annotating the NVMe
+host drivers with the appropriate locking requirements and by addressing
+warnings reported by the analyzer. 
 
-> 
-> Rebase and compile test only now.
-> 
-> Verma, Devendra:
-> 	Can you help check if block non-ll mode?
-> 
-> Frank
-> 
-> Basic change
-> 
-> struct dw_edma_desc *desc
->        └─ chunk list
->             └─ burst list
-> 
-> To
-> 
-> struct dw_edma_desc *desc
->             └─ burst[n]
-> 
-> And reduce at least 2 times kzalloc() for each dma descriptor create.
-> 
-> I only test eDMA part, not hardware test hdma part.
-> 
-> The finial goal is dymatic add DMA request when DMA running. So needn't
-> wait for irq for fetch next round DMA request.
-> 
-> This work is neccesary to for dymatic DMA request appending.
-> 
-> The post this part first to review and test firstly during working dymatic
-> DMA part.
-> 
-> performance is little bit better. Use NVME as EP function
-> 
-> Before
-> 
->   Rnd read,    4KB,  QD=1, 1 job :  IOPS=6660, BW=26.0MiB/s (27.3MB/s)
->   Rnd read,    4KB, QD=32, 1 job :  IOPS=28.6k, BW=112MiB/s (117MB/s)
->   Rnd read,    4KB, QD=32, 4 jobs:  IOPS=33.4k, BW=130MiB/s (137MB/s)
->   Rnd read,  128KB,  QD=1, 1 job :  IOPS=914, BW=114MiB/s (120MB/s)
->   Rnd read,  128KB, QD=32, 1 job :  IOPS=1204, BW=151MiB/s (158MB/s)
->   Rnd read,  128KB, QD=32, 4 jobs:  IOPS=1255, BW=157MiB/s (165MB/s)
->   Rnd read,  512KB,  QD=1, 1 job :  IOPS=248, BW=124MiB/s (131MB/s)
->   Rnd read,  512KB, QD=32, 1 job :  IOPS=353, BW=177MiB/s (185MB/s)
->   Rnd read,  512KB, QD=32, 4 jobs:  IOPS=388, BW=194MiB/s (204MB/s)
->   Rnd write,   4KB,  QD=1, 1 job :  IOPS=6241, BW=24.4MiB/s (25.6MB/s)
->   Rnd write,   4KB, QD=32, 1 job :  IOPS=24.7k, BW=96.5MiB/s (101MB/s)
->   Rnd write,   4KB, QD=32, 4 jobs:  IOPS=26.9k, BW=105MiB/s (110MB/s)
->   Rnd write, 128KB,  QD=1, 1 job :  IOPS=780, BW=97.5MiB/s (102MB/s)
->   Rnd write, 128KB, QD=32, 1 job :  IOPS=987, BW=123MiB/s (129MB/s)
->   Rnd write, 128KB, QD=32, 4 jobs:  IOPS=1021, BW=128MiB/s (134MB/s)
->   Seq read,  128KB,  QD=1, 1 job :  IOPS=1190, BW=149MiB/s (156MB/s)
->   Seq read,  128KB, QD=32, 1 job :  IOPS=1400, BW=175MiB/s (184MB/s)
->   Seq read,  512KB,  QD=1, 1 job :  IOPS=243, BW=122MiB/s (128MB/s)
->   Seq read,  512KB, QD=32, 1 job :  IOPS=355, BW=178MiB/s (186MB/s)
->   Seq read,    1MB, QD=32, 1 job :  IOPS=191, BW=192MiB/s (201MB/s)
->   Seq write, 128KB,  QD=1, 1 job :  IOPS=784, BW=98.1MiB/s (103MB/s)
->   Seq write, 128KB, QD=32, 1 job :  IOPS=1030, BW=129MiB/s (135MB/s)
->   Seq write, 512KB,  QD=1, 1 job :  IOPS=216, BW=108MiB/s (114MB/s)
->   Seq write, 512KB, QD=32, 1 job :  IOPS=295, BW=148MiB/s (155MB/s)
->   Seq write,   1MB, QD=32, 1 job :  IOPS=164, BW=165MiB/s (173MB/s)
->   Rnd rdwr, 4K..1MB, QD=8, 4 jobs:  IOPS=250, BW=126MiB/s (132MB/s)
->   IOPS=261, BW=132MiB/s (138MB/s
-> 
-> After
->   Rnd read,    4KB,  QD=1, 1 job :  IOPS=6780, BW=26.5MiB/s (27.8MB/s)
->   Rnd read,    4KB, QD=32, 1 job :  IOPS=28.6k, BW=112MiB/s (117MB/s)
->   Rnd read,    4KB, QD=32, 4 jobs:  IOPS=33.4k, BW=130MiB/s (137MB/s)
->   Rnd read,  128KB,  QD=1, 1 job :  IOPS=1188, BW=149MiB/s (156MB/s)
->   Rnd read,  128KB, QD=32, 1 job :  IOPS=1440, BW=180MiB/s (189MB/s)
->   Rnd read,  128KB, QD=32, 4 jobs:  IOPS=1282, BW=160MiB/s (168MB/s)
->   Rnd read,  512KB,  QD=1, 1 job :  IOPS=254, BW=127MiB/s (134MB/s)
->   Rnd read,  512KB, QD=32, 1 job :  IOPS=354, BW=177MiB/s (186MB/s)
->   Rnd read,  512KB, QD=32, 4 jobs:  IOPS=388, BW=194MiB/s (204MB/s)
->   Rnd write,   4KB,  QD=1, 1 job :  IOPS=6282, BW=24.5MiB/s (25.7MB/s)
->   Rnd write,   4KB, QD=32, 1 job :  IOPS=24.9k, BW=97.5MiB/s (102MB/s)
->   Rnd write,   4KB, QD=32, 4 jobs:  IOPS=27.4k, BW=107MiB/s (112MB/s)
->   Rnd write, 128KB,  QD=1, 1 job :  IOPS=1098, BW=137MiB/s (144MB/s)
->   Rnd write, 128KB, QD=32, 1 job :  IOPS=1195, BW=149MiB/s (157MB/s)
->   Rnd write, 128KB, QD=32, 4 jobs:  IOPS=1120, BW=140MiB/s (147MB/s)
->   Seq read,  128KB,  QD=1, 1 job :  IOPS=936, BW=117MiB/s (123MB/s)
->   Seq read,  128KB, QD=32, 1 job :  IOPS=1218, BW=152MiB/s (160MB/s)
->   Seq read,  512KB,  QD=1, 1 job :  IOPS=301, BW=151MiB/s (158MB/s)
->   Seq read,  512KB, QD=32, 1 job :  IOPS=360, BW=180MiB/s (189MB/s)
->   Seq read,    1MB, QD=32, 1 job :  IOPS=193, BW=194MiB/s (203MB/s)
->   Seq write, 128KB,  QD=1, 1 job :  IOPS=796, BW=99.5MiB/s (104MB/s)
->   Seq write, 128KB, QD=32, 1 job :  IOPS=1019, BW=127MiB/s (134MB/s)
->   Seq write, 512KB,  QD=1, 1 job :  IOPS=213, BW=107MiB/s (112MB/s)
->   Seq write, 512KB, QD=32, 1 job :  IOPS=273, BW=137MiB/s (143MB/s)
->   Seq write,   1MB, QD=32, 1 job :  IOPS=168, BW=168MiB/s (177MB/s)
->   Rnd rdwr, 4K..1MB, QD=8, 4 jobs:  IOPS=255, BW=128MiB/s (134MB/s)
->    IOPS=266, BW=135MiB/s (141MB/s)
-> 
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> ---
-> Changes in v3:
-> - remove patch dmaengine: dw-edma: Remove ll_max = -1 in dw_edma_channel_setup()
-> - rebase to vnod's dmaengine topic/config_prep_api
-> - Add non-ll-start() callback to handle non-ll mode transfer
-> - Link to v2: https://lore.kernel.org/r/20260109-edma_ll-v2-0-5c0b27b2c664@nxp.com
-> 
-> Changes in v2:
-> - use 'eDMA' and 'HDMA' at commit message
-> - remove debug code.
-> - keep 'inline' to avoid build warning
-> - Link to v1: https://lore.kernel.org/r/20251212-edma_ll-v1-0-fc863d9f5ca3@nxp.com
-> 
-> ---
-> Frank Li (10):
->       dmaengine: dw-edma: Move control field update of DMA link to the last step
->       dmaengine: dw-edma: Add xfer_sz field to struct dw_edma_chunk
->       dmaengine: dw-edma: Move ll_region from struct dw_edma_chunk to struct dw_edma_chan
->       dmaengine: dw-edma: Pass down dw_edma_chan to reduce one level of indirection
->       dmaengine: dw-edma: Add helper dw_(edma|hdma)_v0_core_ch_enable()
->       dmaengine: dw-edma: Add callbacks to fill link list entries
->       dmaengine: dw-edma: Add non_ll_start() callback
->       dmaengine: dw-edma: Use common dw_edma_core_start() for both eDMA and HDMA
->       dmaengine: dw-edma: Use burst array instead of linked list
->       dmaengine: dw-edma: Remove struct dw_edma_chunk
-> 
->  drivers/dma/dw-edma/dw-edma-core.c    | 216 ++++++++----------------------
->  drivers/dma/dw-edma/dw-edma-core.h    |  65 ++++++---
->  drivers/dma/dw-edma/dw-edma-v0-core.c | 240 +++++++++++++++++-----------------
->  drivers/dma/dw-edma/dw-hdma-v0-core.c | 169 ++++++++++++------------
->  4 files changed, 302 insertions(+), 388 deletions(-)
-> ---
-> base-commit: c9e9927c6d8346cdf6555a8f97da093980172e4b
-> change-id: 20251211-edma_ll-0904ba089f01
-> 
-> Best regards,
-> --  
-> Frank Li <Frank.Li@nxp.com>
-> 
+The series was built and tested with LLVM/Clang 23.x and enables the
+NVMe host drivers to build cleanly with CONFIG_CONTEXT_ANALYSIS enabled.
+
+Support for the NVMe target drivers will be addressed separately.
+
+As usual, comments/feedback/suggestions are most welcome!
+
+Thanks!
+
+[1] https://lore.kernel.org/lkml/20251219154418.3592607-1-elver@google.com/
+
+Changes from v2:
+  
+- removed "Clang" from each commit subject line (hch)
+
+- for zero-initialized struct bio_list_init() is redundant and also to
+  suppress false-positive context analysis warning for a list variable
+  guarded by lock, remove bio_list_init(&head->requeue_list) from
+  nvme_mpath_alloc_disk() (hch)
+  
+- get rid off wrapping rcu_access_pointer() using context_unsafe() as
+  the access to __rcu_guarded pointer using helper rcu_access_pointer()
+  should be implicitly safe (hch, Marco, Paul)
+  
+- wrap INIT_LIST_HEAD() under context_unsafe(...) instead of interleaving
+  it under scoped_guard(...) to suppress context analysis warning while
+  initializing subsys->nsheads  (hch)
+  
+- initializing head->delayed_removal_secs from nvme_mpath_alloc_disk() is
+  redudnamt as struct nvme_ns_head is zero allocated. This also helps
+  avoid false positive conext analysis warning (hch)
+  
+- introduce LIST_HEAD_GUARDED(_name, _lock) and use it for guarding a 
+  list (hch)
+  
+- dropped context annotations for nvme_queue::cq_poll_lock as this
+  requires a annotation which could support guarding multiple
+  valid synchronization mechanisms for a single object, which is 
+  ,as of today, not yet avalilable (hch)
+  
+- new patch in the series from Marco Elver <elver@google.com>, which
+  annotates list_empty_careful() using __context_unsafe 
+  
+- context_unsafe() has a statement expression inside so group
+  multiple scope guarded variables before those are publsihed
+  under context_unsafe(...) where possible (Marco)
+
+Link to v2: https://lore.kernel.org/all/20260614131541.2017845-1-nilay@linux.ibm.com/
+
+Changes from v1:
+  - replace guard() with scoped_guard() for guarding request_list (Bart)
+  - annotate nvme_alloc_ns_head() using __must_hold(&ctrl->subsys->lock)
+    (Sashiko)
+  - guard nvme_queue::sq_cmds using nvme_queue::sq_lock
+  - annotate nvme_cqe_pending() using context_unsafe in nvme_poll()
+    (Keith)
+  - Split patch #13 and #14 to separate the context annotation change
+    from functionality change (Bart)
+
+Marco Elver (1):
+  list: Permit context-unguarded access with list_empty_careful()
+
+Nilay Shroff (17):
+  nvme: update nvme_passthru_end() signature
+  nvme: add context annotations for nvme_passthru_{start|stop}
+  nvme: add context annotations for nvme_ns_head::srcu
+  nvme: add context annotations for nvme_ns_head::requeue_list
+  nvme: add context annotations for nvme_ns_head::current_path
+  nvme: add context annotations for nvme_dev::shutdown_lock
+  nvme: add context annotations for nvme_subsystem::lock
+  nvme: add context annotations for nvme_ctrl::ana_lock
+  list: introduce LIST_HEAD_GUARDED
+  nvme: add context annotations for nvme_subsystems_lock
+  nvme: add context annotations in fabric.c
+  nvme: add context annotations for nvme_queue::sq_lock
+  nvme: add context annotations in rdma.c
+  nvme: fix context analysis warning in rdma.c
+  nvme: add context annotations in tcp.c
+  nvme: fix context analysis warning in tcp.c
+  nvme: enable context analysis support for nvme host driver
+
+ drivers/nvme/host/Makefile    |  1 +
+ drivers/nvme/host/core.c      | 20 ++++++++++++----
+ drivers/nvme/host/fabrics.c   |  4 ++--
+ drivers/nvme/host/ioctl.c     |  2 +-
+ drivers/nvme/host/multipath.c |  7 ++++--
+ drivers/nvme/host/nvme.h      | 44 ++++++++++++++++++++++++-----------
+ drivers/nvme/host/pci.c       | 28 +++++++++++++++++-----
+ drivers/nvme/host/rdma.c      | 25 ++++++++++++--------
+ drivers/nvme/host/tcp.c       | 15 ++++++++----
+ include/linux/list.h          |  9 +++++++
+ 10 files changed, 110 insertions(+), 45 deletions(-)
+
+-- 
+2.53.0
+
 
