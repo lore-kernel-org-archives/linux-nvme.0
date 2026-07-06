@@ -4,56 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E496BC43458
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Jul 2026 18:53:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4AEADC43458
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Jul 2026 18:54:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rinMnqakmw3sXeXqyVmCy2MjaLJ0YRohop5WivEfGNw=; b=KCTxpnYNKyccC1pZeC2eHPLXG2
-	StQpgK8qzckakSueHLIUswNS4cqFt4WXmEKAKe2GhoWSyeqg+BgGHX0YUl2k09smhj3y1ptmvr4V8
-	5mZi9SjPt5GizkIh9qcsBGuO0bnmh7IzGxbAExGYXFCZMrrVbRfX7xE3peeLztSUupbOct7jViQpA
-	fZDXjIZtue1hAyfM78oR18828aW+99s7yeHcsu3XfG0qmmUeEs2GEhmutZD1WY2Mogstukf1R4mzA
-	0ielkqaUhNPSDp96GHt3vPKyJh5G8i1Qy1oxZpZoXd76bi9uzZEeXIrPsfNQxhSyL6RS9h+h4xPxs
-	y9VqUu2w==;
+	bh=OdKd6q7VVmZu6vE+fSrmTrzPYB3Oq3rv09sQ4SZzZFw=; b=hkSZ88e9sUkQvhON5RIStL2X0G
+	A3wJUaFVcGt5ejcQebq7uSyChwGsxZeiiOxGrCUlSjNfj62KbhKYBRY6oQ69vcjlII19gTcyMSSRI
+	Xd21EJo9yrytzOivOJftN0/1Fb+BiLU7B/JKw9fnx/eRQtNWJOkCQ6QHezmuoi68vU5+e17DmD4u+
+	kPZIL+reYX9l43AvtSKCkgqSSNx7qBA42tkPqkXtzmAgyH04xK3m5B69cFlC3AN8GKkoTpPQVxyc/
+	sdWzkcOPjuaS5MlUjj9z7QHg97UCDtZEWqDvILVwskNjqyMFWWqpSezL/dcqvaWJuJuEyF63ZwN/x
+	A6BdE5nw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wgoRx-0000000DNpH-3TF2;
-	Mon, 06 Jul 2026 18:53:49 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1wgoSG-0000000DNs1-08ya;
+	Mon, 06 Jul 2026 18:54:08 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wgoRq-0000000DNp5-2GUv
-	for linux-nvme@lists.infradead.org;
-	Mon, 06 Jul 2026 18:53:42 +0000
+	id 1wgoSE-0000000DNre-1y9k;
+	Mon, 06 Jul 2026 18:54:06 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 991B641375;
-	Mon,  6 Jul 2026 18:53:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42C751F000E9;
-	Mon,  6 Jul 2026 18:53:39 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 6F5EB600AE;
+	Mon,  6 Jul 2026 18:54:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B30A81F000E9;
+	Mon,  6 Jul 2026 18:54:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783364019;
-	bh=rinMnqakmw3sXeXqyVmCy2MjaLJ0YRohop5WivEfGNw=;
+	s=k20260515; t=1783364045;
+	bh=OdKd6q7VVmZu6vE+fSrmTrzPYB3Oq3rv09sQ4SZzZFw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=O33XfqL/241LO0nhab6rTkwAC6/HDxoiQqjY7joQ/IVX5lI21uyT7mlupmArjLNqN
-	 F0+m8KmgsnHXYHKDz/LjdO6X9gVO2uNLb7M4+BxeJcCmDcnOOVKVMpXQC6Fx2xzgEs
-	 v1m0KJ2ExDwsf6XNZPaLRCeb6IYyUh2F/ZxcYLMUoVRtfbU03PWikW7Jns8y4f8OvC
-	 TqHKg+gntUodBe06ZHDsL1Etth/kycSfajDSygmfGgZ9PYdrwXptMBY1Ghrq64z8Gn
-	 BfRyUTkBtA241GfLUc9l3+8tFQyY/es8HLFhexl1SCfMN361RiQramchnnxq2TyAEc
-	 0uodGXpdoVL4A==
-Date: Mon, 6 Jul 2026 12:53:37 -0600
+	b=XtnFv4zfkYmOH5NoiBju7aItKcdcotaeM+w4X0SQQxIlnvTwnfs7Pp8xiGajI9WrF
+	 SyHOyBQlclZFtZiIUsPSb/5oEAyI48EqWJLwS3NQaFRX0XlJL5/MhXVWYtDg4wsUuX
+	 PUY2hF6WODRklwNwud9lg4pgObeKThWR9eNpifzb5WYiRS50+/ol5i1lTpqvU4w8BS
+	 rHyc6AQiLCo9cZBcCdzM5QdCGVIxRJZ5ubOSuK7Y/CBgMC9xibHPZAD3RZ2JFJxZ5p
+	 SDFZNRNJVD0FtRPU+q/onEjtettFj6WCmP8FEO/3S482xlmr9iQjrBgDRuADxXfoYw
+	 8U8JczjBDKYpQ==
+Date: Mon, 6 Jul 2026 12:54:03 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Yao Sang <sangyao@kylinos.cn>
-Cc: linux-nvme@lists.infradead.org, dlemoal@kernel.org, axboe@kernel.dk,
-	hch@lst.de, sagi@grimberg.me
-Subject: Re: [PATCH v2] nvme-multipath: revalidate zones for namespace heads
-Message-ID: <akv5sZSOvxW7JbWI@kbusch-mbp>
-References: <20260610032846.54044-1-sangyao@kylinos.cn>
+To: Gui-Dong Han <hanguidong02@gmail.com>
+Cc: sven@kernel.org, linux-nvme@lists.infradead.org, axboe@kernel.dk,
+	hch@lst.de, sagi@grimberg.me, j@jannau.net, neal@gompa.dev,
+	asahi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, baijiaju1990@gmail.com
+Subject: Re: [PATCH v2] nvme-apple: Use acquire/release for queue enabled
+ state
+Message-ID: <akv5y0wqV76xKZmj@kbusch-mbp>
+References: <20260618021543.3866850-1-hanguidong02@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260610032846.54044-1-sangyao@kylinos.cn>
+In-Reply-To: <20260618021543.3866850-1-hanguidong02@gmail.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,15 +70,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jun 10, 2026 at 11:28:46AM +0800, Yao Sang wrote:
-> Zoned multipath namespace heads get BLK_FEAT_ZONED and their limits are
-> refreshed from the paths, but the zone state for the head disk is never
-> initialized. The previous nr_zones assignment only updated a single
-> field and did not allocate or populate the block layer's per-zone state.
+On Thu, Jun 18, 2026 at 10:15:43AM +0800, Gui-Dong Han wrote:
+> apple_nvme_init_queue() initializes queue state and then marks the queue
+> enabled. The interrupt and request paths check enabled before using that
+> queue state.
 > 
-> The failure was found with xfstests xfs/643 and xfs/646 on an NVMe
-> ZNS multipath namespace. Tracing showed regular REQ_OP_WRITE I/O being
-> submitted to sequential zones through the multipath head.
+> The old wmb() after WRITE_ONCE(enabled, true) does not publish the
+> earlier initialization before enabled becomes visible. Use a release store
+> when enabling the queue and acquire loads when testing it.
+> 
+> Although the shutdown-side enabled accesses are not used for publishing
+> queue initialization, use helpers for them as well for consistency.
 
 Thanks, applied to nvme-7.3.
 
