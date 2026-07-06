@@ -4,58 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AFF64C43458
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Jul 2026 18:56:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2480EC43458
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Jul 2026 18:57:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=q4zluGVeKdD4Rc/Sqmk60Q7TxGgIc5ir2G9jBeTb0LI=; b=eTl39iCP86/zo+T/cYEScglygV
-	xnmufxjSeQ9JvY8ojyYBmcEcnOJoYLnGoYtUcz/eRL8myplDvDQmi4XWIiqcCaJoX00e00g26Qgb7
-	Sj33hApkHi44sAgaHD23nqumuVPrYZ69Lj1tRNMCGeKmHEHFK4JkOCLjLjlsaHM07TbGoYUIvUCVm
-	slJakVrsytFM7F7ZVs6TqeXO06siZrBTzXOy+0mwIaubAi7eBSwP/MnKVIPpt2bKWKxT1NoWhdgHF
-	cVC7w+zthe+a7z31/E3ZNDvuMEAVocacKCAS+WmdycFWfuP7sNVHlwijyQxi7M9l5Fy+l1NGIXwq/
-	HdjDfDSg==;
+	bh=tQmZC8XSGU7d7u4Up6pxYk0RmHqY7ku8v476tIPEZNc=; b=eGsvoSCvjAb30FNkym4bg06fD0
+	vGzxDm10JrQMiTT55+ZWr30+UNB1VXFyAMf3UpLzF4RXJUv9ALbCGqtFPk0KZMatluA3x3ZeV108o
+	4aQAcvS6pfsr7S16CEExxpNonVtuJulp5xhLhcPi7KCFYkQ55a3A6c/xNUmKAJ8zfgNTtIqgPvl7F
+	mCDqyZhPcLT3cF3B2M4svbGpFSqwYkxHVEk3QO9TKasRuK79q7KmflVqnJJM6jst2n/Z03PB03+NU
+	LiTWpkGmpaQ4B4e4uEv3wQ4Mk2GcE2J3ZLKbnuDaok2lQKP2ChSojaTLNlhyRuYTrKabJnvCXyKt4
+	XTZoVh1w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wgoUc-0000000DOQH-31sP;
-	Mon, 06 Jul 2026 18:56:34 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1wgoVA-0000000DOVj-3ipk;
+	Mon, 06 Jul 2026 18:57:08 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wgoUc-0000000DOQA-1JnD
+	id 1wgoVA-0000000DOVX-0ELd
 	for linux-nvme@lists.infradead.org;
-	Mon, 06 Jul 2026 18:56:34 +0000
+	Mon, 06 Jul 2026 18:57:08 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 0A65B436FF;
-	Mon,  6 Jul 2026 18:56:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 921601F000E9;
-	Mon,  6 Jul 2026 18:56:33 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 7D57A600C3;
+	Mon,  6 Jul 2026 18:57:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0503C1F000E9;
+	Mon,  6 Jul 2026 18:57:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783364193;
-	bh=q4zluGVeKdD4Rc/Sqmk60Q7TxGgIc5ir2G9jBeTb0LI=;
+	s=k20260515; t=1783364227;
+	bh=tQmZC8XSGU7d7u4Up6pxYk0RmHqY7ku8v476tIPEZNc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=hgtx63RfWAQ8Ja1qDXSR75yrN4PWDRSFz9QF0MJFFHuW8Yc0gQZbAT+LwkoaB0hJJ
-	 tmo4t2G8ZDwnnChxkEbXk2Qg9K4nRMLScOs+gNByw/oDBwU+y5qtUpJafasgKyggcY
-	 n4wlJOZ3q9jQmr2IuB23aaqlCFDHxESDwlWGOjQN7g3X6q3Kvv8NWwgPLlNAWIEV3/
-	 wHR/1VQDrMCGVWaut9G9tWXFoTs8fWRBaBEXL2dQVply9fl4o+SzYCK3IqlJg0i/zL
-	 aGqiK8Tm/gyk+yPkfXSIL+b5OXorjARoeJtsQ7vHQVSQYgStxyNS7l6s+LfYtw8BJW
-	 S3ajH6qI2yktQ==
-Date: Mon, 6 Jul 2026 12:56:32 -0600
+	b=mFFG7CaqcULiBW8ygtZyMdT9J+nFC8JTMfk0iBHfrXycDt7GXFn7Jz165NdqGqNzu
+	 VtOg+qCSqT+TDayN7ucKHjFZx6pbfMSGULVCGL7qs1OF6ZJsmlQfWu935aGAfUtiU8
+	 1TWHSdTb3fappLiaDyjIFLjGLu5ISxHWeiJM+ou7TW9WEMrz6qP2lFRVfo7pzBIt+j
+	 EAfaDuS9DvSNbLMfhjyRavjOCkBCaUsDn86iiw3N7CBo9TgjQ4UBF6A4SRB19kw3jc
+	 yTXKUuaSwBBnLexkYDDxwTm2NXD66sgRM1GJEFc1M+vMZX81A4dvSSTfyNNz+PdCPY
+	 OYC+omtMuKQNg==
+Date: Mon, 6 Jul 2026 12:57:05 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Surabhi Gogte <sgogte@purestorage.com>
-Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org, mkhalfella@purestorage.com,
-	randyj@purestorage.com, adailey@purestorage.com
-Subject: Re: [PATCH v4 0/2] nvme-rdma: parallelize I/O queue setup
-Message-ID: <akv6YJ2-GLFwwzGn@kbusch-mbp>
-References: <20260627041551.1981256-1-sgogte@purestorage.com>
+To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@infradead.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Subject: Re: [PATCH 0/2] nvmet-rdma: fix response resource leak on queue
+ teardown
+Message-ID: <akv6gcd6-mT7lyw9@kbusch-mbp>
+References: <20260629051529.810925-1-shinichiro.kawasaki@wdc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260627041551.1981256-1-sgogte@purestorage.com>
+In-Reply-To: <20260629051529.810925-1-shinichiro.kawasaki@wdc.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,13 +70,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jun 26, 2026 at 10:15:49PM -0600, Surabhi Gogte wrote:
-> This patch series parallelizes nvme-rdma connection and reconnection by
-> setting up I/O queues in parallel instead of sequentially. Allocation and
-> startup of each queue are combined into a single per-queue async work
-> item, so per-queue connection latency overlaps across all queues. This
-> matters most on high-core-count hosts with many I/O queues, where serial
-> setup dominates connect time.
+On Mon, Jun 29, 2026 at 02:15:26PM +0900, Shin'ichiro Kawasaki wrote:
+> When an nvme target with rdma transport is removed while I/Os are in
+> flight, a response can be posted but its send completion is never
+> delivered before the connection is torn down. This leaks the request
+> SGLs and the RDMA read/write context. The leaks are recreated by
+> running blktests nvme/061 with rdma transport and the siw driver [1].
+> 
+> [1] https://lore.kernel.org/linux-nvme/ajtk1CaN1pBreS4O@shinmob/
+> 
+> This series addresses the problem. The first patch is a preparation
+> refactoring. The second patch fixes the problem by reclaiming memory
+> objects on queue QP teardown.
 
 Thanks, applied to nvme-7.3.
 
