@@ -4,173 +4,141 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 62336C43458
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Jul 2026 13:02:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47982C44503
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Jul 2026 13:21:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Message-ID:Date:Subject:Cc:To:From:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=Zfay4HgWWPlshPAuVl75odVdc+kAmfCZTtkoJhBqNJk=; b=xekjsxQEFdQP2dnLqqDspFgHOl
-	tNjFFZWVLetsUYKraHON6Tql4hT1c27qc1uOJU1887Dmd7NzkBWuiNDYiGLUUGJJXNDyygFFRDe6p
-	Ec4yJrUnopxbW1d19CfzW23BMTUWeldapyaLUa4+vazTjXBm3X2SNhrpzu5jkzYgOCkkMli3uP0CM
-	EdxXfCt4RzXvRzOAGLu/zDf38Cb/AV+lk55GZKdsH6R/6QoXkvJxZaZfFaY1OdUCI8n5sqUMukY5R
-	SwDEI0A02iHsK1fNFHhBlcSDG8hw/FlpaC/SRb2+8RLNrEs4sbSnDyWbQjt+/LeI3hg7CkJScFi/k
-	a6N67i+w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:References:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=i/iXOOdgdMfxRDLYmcgTlP0PnUI2kVt+61ugHMsL9Ao=; b=am9XlvztxYBFY+WeDC3UUXCKvk
+	uTz0jr1uCRQMzi6RblRfAjX/AG2Z1ofSwGzfm7Npv+G+olFY0ZHqKaqOesxtAe3USJuZ9yv/GkXqK
+	sW/4cmyyhABD3pIMfhYu685+B/pnaLHxvvV2pnS7js6zLxd4Z8+TPgKPmRpJo/DKYHvhlHuM3BF7H
+	2Ln9XKaA8kdOfOjWTXC0vYfs1aJC5zeThlOfGrfwOJu6l3eIITF5ejYyU5bM5s5Oqte93Rto3EEGy
+	aH/gW6iN1UmFuM9lXACCpaGFjvG01S+9wkJsLK8VxBfvlR9glWf/SFeesAJygpZOCd0KDhXtS3AGZ
+	FL/VqmDg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wgixo-0000000CWM3-2RFZ;
-	Mon, 06 Jul 2026 13:02:20 +0000
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+	id 1wgjFu-0000000CYzF-3XS1;
+	Mon, 06 Jul 2026 13:21:02 +0000
+Received: from mail-japanwestazon11021108.outbound.protection.outlook.com ([40.107.74.108] helo=OS0P286CU010.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wgixl-0000000CWLX-0jat
+	id 1wgjFl-0000000CYhl-1nRs
 	for linux-nvme@lists.infradead.org;
-	Mon, 06 Jul 2026 13:02:19 +0000
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6660jIXW1147689;
-	Mon, 6 Jul 2026 13:02:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=corp-2025-04-25; bh=Zfay4HgWWPlshPAu
-	Vl75odVdc+kAmfCZTtkoJhBqNJk=; b=RQX8kIRqI+FfiwROWiEAGadMdv8Q8GjI
-	G9SUVIjoAdjH5kDX8csw0vn1y5+Pfm/qHyYKILskhdv+IOxfW+CFCQjWj029Zb3B
-	2qAoDm7KH7OEJn4EXmAmM9bXGmKcXVwlicTzOJ6tW5mDda1yQ0K/0SrDX9O2/bXI
-	iUcF4UptKWXE7BET0uCP6EH00DVctyMtgOOcI1Hvn5iv8eNNRCXeBnUUj3yjPzg0
-	/K3mg5C63HsUSkdHrm0mi3hSPKDY4hDRAECriJHHATFzzpKEev5VRxwQbt0NAIHN
-	jKm5U+D4q3hCwgHs4ttyEUf9gH475ZIbzaifYyCfuO7GocCj/i/sqQ==
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4f6rkbbpv5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 06 Jul 2026 13:02:02 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 666CwfB6025847;
-	Mon, 6 Jul 2026 13:02:01 GMT
-Received: from sa9pr02cu001.outbound.protection.outlook.com (mail-southcentralusazon11013054.outbound.protection.outlook.com [40.93.196.54])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4f6rmp42bc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 06 Jul 2026 13:02:01 +0000 (GMT)
+	Mon, 06 Jul 2026 13:20:56 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=e2lgUe+OX30fJDdpreY6l8dKcWkD3EUktI6nsVU36NxpSbZj2p8eBTWmfucF0qr/ANeRGb0blXU/rN+JZTLj/g0rKX0clc6cjQeNRxmTi4fY6WYnJt6yp+9GeRaoivg0zL4wwjQFnO2FLDG1MqP7eXnTbFXDdrfMH1W2AyerxuAAL2O9hdCbk3WW2b3P5zV5kbLODIzymp5vWQKzQV6mR46jrK2ritveLQqk1mBirZBZQyGkJQIhvcg5GIkarNBTx2+IFcX/5ajhKqxltTC4aQ2fCf4XCZvegQIPBaLI4+Nnej1X+4W/d9pZzCW4zGFXY2eCZWGUR1nZtAnHvyb6IQ==
+ b=oQUPWDrH5mw+sjZerFWLIWiYlgV2TOIFWjJUOTEWceg1E/xfWWFevA00C721p2tUKAzh+nb8hBnRUxFHaRVeWiIOCzyKDjohad2f/eqJbrrsgey39N8wJrYMVGUNDBdIdQXdlQRhPinFvbNvkNYAVsaTZCjYLUaGSBXkEzM41Ih2FrRnCtae2vz6ej93GJhKwENnkSSkztkKMGyQFS2O6BZaMi/A4WfxfSQ1nsVwI5sY74d+HD5hZoqmbmONzv8ba2qYSV+K5GEPR3UzM07N4+F0qfMU9fpdcweO+3HF0vhJJdx/dgI4ZPLlB/bLh2xaXHMFcfv5kPVlun5RhTRPtg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Zfay4HgWWPlshPAuVl75odVdc+kAmfCZTtkoJhBqNJk=;
- b=wFr69Xvu1Q+ncrlavnkrOrre6qQxaWNI56TbgUi+xvStEir/hBuk6A/zGDlGekd6joORZoxPjV5jALW5x8LMfw5cxH6v5qrqVIs07Ejae2Rm1jLv+U/Paf3YYd2UxV5s5QlxN5zSeJ+DgR5hBaCZnkjpHkL4gPmpLQWjGvkF1mAVTIpW4yrjeJZP7toia8FzauMsB2jctxbzp6Tk9x3kkgTErGsb3LKISTCMgFblvU9TtGujx5ClUw/A/NNPeKQzefUlkEp4tSiBwIbGk4Z9+W4kMQSNSkFlUfgO0ebRDJ9oiZNIPJ4z/20GkpDtGkwMiyNQi1aWwKvKy/OqipPzig==
+ bh=i/iXOOdgdMfxRDLYmcgTlP0PnUI2kVt+61ugHMsL9Ao=;
+ b=q2+VAjYUFXGJTXtjZMUjrBIqAIgcHqVPR9T9AC41z4bE6Kd+zYGG3Q2Zy3W+v7Xeb3K0hwvkL+nKzwG4iCVp5DjWzlLCXgDVwS3/HBh6eLPCR6M9kTOew95u1Nx/M7V2FTwNNTbi8McHbPd4qTFJiImzVobmpV0JRlLglSh4V64uwOarJO82KVIjbDSX/+Gef83f1O+ENx6N41maGTSe0JFde3H3oVFTm3Nt9I+ZLBj0tG+HiDSElM85ln2Kdqtk9HH1TmNPVfbeL5N7YkzzmhBxPInl8z1Nrtojz6bfG+rm8o7luNgpwbe/JZW1EhAyzVcHk4BWX0b1j9x+QveWaQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ smtp.mailfrom=valinux.co.jp; dmarc=pass action=none
+ header.from=valinux.co.jp; dkim=pass header.d=valinux.co.jp; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valinux.co.jp;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Zfay4HgWWPlshPAuVl75odVdc+kAmfCZTtkoJhBqNJk=;
- b=DotX8zCOvpXVN3fDqy0dYWz/VSLDLe9RyVxmpUsXbHW8YaF5Fb4QJgyzDAfsg8xd1tv3izA4z3rysVRvDQTwOCFhuRUzTUEixghQ/xcd+1zs7Nm+Pnv4cUdKNsekj2rWgx2xkzmlKIA1cagkFVm0Yaq2/3iZ8NYlgToLWbuwlh4=
-Received: from DM4PR10MB6229.namprd10.prod.outlook.com (2603:10b6:8:8c::12) by
- LV3PR10MB7745.namprd10.prod.outlook.com (2603:10b6:408:1b7::22) with
+ bh=i/iXOOdgdMfxRDLYmcgTlP0PnUI2kVt+61ugHMsL9Ao=;
+ b=m4cNntfWGwgNliOP/ypymtoFQEWl+IXLRVeHloDa1nd5U+YDMRSDmltSnLdLfYDmjW2140rJ0E6AdNi3HZqIBzmzmC/0fCquIg04UBCs3V7FvoYX+A74vb2bzqkdxJmLacxl2PgmMOfKJU113w05ifaLelCKEDvejC5Pmy1uBCs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=valinux.co.jp;
+Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:38f::10)
+ by OSCP286MB5902.JPNP286.PROD.OUTLOOK.COM (2603:1096:604:3e7::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Mon, 6 Jul
- 2026 13:01:55 +0000
-Received: from DM4PR10MB6229.namprd10.prod.outlook.com
- ([fe80::867:63e7:13fa:fa7d]) by DM4PR10MB6229.namprd10.prod.outlook.com
- ([fe80::867:63e7:13fa:fa7d%6]) with mapi id 15.21.0181.008; Mon, 6 Jul 2026
- 13:01:55 +0000
-From: John Garry <john.g.garry@oracle.com>
-To: hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, axboe@fb.com
-Cc: linux-nvme@lists.infradead.org, John Garry <john.g.garry@oracle.com>
-Subject: [PATCH RFC] nvme: fix NS head cdev lifetime
-Date: Mon,  6 Jul 2026 13:01:46 +0000
-Message-ID: <20260706130146.617258-1-john.g.garry@oracle.com>
-X-Mailer: git-send-email 2.43.7
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.11; Mon, 6 Jul
+ 2026 13:20:39 +0000
+Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::2305:327c:28ec:9b32]) by TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::2305:327c:28ec:9b32%5]) with mapi id 15.21.0181.009; Mon, 6 Jul 2026
+ 13:20:39 +0000
+Date: Mon, 6 Jul 2026 22:20:38 +0900
+From: Koichiro Den <den@valinux.co.jp>
+To: Frank.Li@oss.nxp.com
+Cc: Manivannan Sadhasivam <mani@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
+	Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>, Kees Cook <kees@kernel.org>, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Kishon Vijay Abraham I <kishon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Christoph Hellwig <hch@lst.de>, Niklas Cassel <cassel@kernel.org>, dmaengine@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, linux-pci@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, imx@lists.linux.dev, "Verma, Devendra" <devverma@amd.com>, 
+	Frank Li <Frank.Li@nxp.com>
+Subject: Re: [PATCH v3 00/10] dmaengine: dw-edma: flatten desc structions and
+ simple code
+Message-ID: <gfylpnuieclkt52xzbcghzaza7oirunstgzfmru7aqpnapdlit@dpgmjrs6ww7u>
+References: <20260702-edma_ll-v3-0-877aa463740c@nxp.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: DS7P221CA0001.NAMP221.PROD.OUTLOOK.COM
- (2603:10b6:8:25b::18) To DM4PR10MB6229.namprd10.prod.outlook.com
- (2603:10b6:8:8c::12)
+In-Reply-To: <20260702-edma_ll-v3-0-877aa463740c@nxp.com>
+X-ClientProxiedBy: TY4P301CA0108.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:37b::11) To TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:38f::10)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR10MB6229:EE_|LV3PR10MB7745:EE_
-X-MS-Office365-Filtering-Correlation-Id: c52d669a-6bf9-404a-18ca-08dedb5ec16b
+X-MS-TrafficTypeDiagnostic: TY7P286MB7722:EE_|OSCP286MB5902:EE_
+X-MS-Office365-Filtering-Correlation-Id: d4ad0e54-5fe4-4750-22b3-08dedb615f4e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|23010399003|56012099006|6133799003|18002099003;
-X-Microsoft-Antispam-Message-Info: 5zGTjVdJnH4Q2jRRg9lqg3sIN2qRnvnWr/7i4hiGLrRtJUpZXtE4yFBYxyv5jvToGtKK631SMUkS3O7sQr8NM90TAb3pzUl1o4DknOmh7GEtXMU5N/sAIvPXKNKmbQPHXGvog6sUEiMydL8NaCUptI1xgapxt4/UYum5QLpunvwu0GKiNgNvoQt/3CTpLkZEeZuH+xTXBbKqjA23IxooonUJgDXDU25cX8Ki4YAvQvPcumX+q+a46wivT7DHYSD/8JOgO2DIjdR+d9X5teoVCcG0ZFuDOYnBBL/S0o6OzY8liMO1/H6emgRvSxaVMwDGuRwy9inJ1ORSI0Sjsp2Q0kEpPj6ZYoMnqTlXWWDJlu/KsiNwCbc6rNIIWDMRDsVSDEqblrLN9VFajAYpyUJlKesav4v+etVQtBVzzKFhbYuFGwFzgwct4fNcyNo7oqA3KzSHI4HuQnRbMl6WcXq88bxEMVaqzN0O0DtvDo77uhXFAzRxQ/BQarLmqf0UYOVuzRjjCV2QaDh3NfwQCckUiEA84Ervg8O205yN+h8XhjmHp0NBatCtBQm3aZaD5Wl5sC2Z7ZOJ3b82WMnEI4OyJr5h2lSZjPbEK5d35X1CGNqs4Pj6VKdR7Z4/fhzPbQag8f/Mk5YTiBF9cf0DlBX7kxg/tVQLUlEZv/cpZw/oLxc=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB6229.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(23010399003)(56012099006)(6133799003)(18002099003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|366016|1800799024|10070799003|376014|7416014|18002099003|22082099003|56012099006;
+X-Microsoft-Antispam-Message-Info: 6pTIDpnYkBgJqhPuVcqnx62WuuCFrOTf2l/wXbMmPyXGsUxfJ9l/ZGZ1zu3kT9Eyxq1APA2oE3y8JuwV7MwfcqpKsCbafjykYBfDkiTfqdrpBq6fTvfSGWvGkDfXri4a6pwFGYRDUW4tqrFJm0rec8FOE60dQhPcYWegyRdDy9aCggRs2tG+6tHOOM+V9WX9qbnEAG06XUb9J19cva72pgIFFWkrP0lhOMCjPmJY5Ap6YyJyZwP1pKNDmd03BRtR2iz52J6sCnDiNDd2P2NX+CpRiEBYiwbBeyHo5O8Npta9Y8Kn35TlcvvfmSMVAFLSRCHq7oR1nJzOaC7vm5NWzybrbP80q5uAquA91h53J88iAHWKRTSKpDh1/npNsJwvW8yJ0LwcxW6+6YxHauVmJwT8VPhvBRBpmHlmqVAbI7Rvnl8iOs4gDgWqd3AUjAsSRSm7OzAV3WLgP9UXIeeMX1ZtGR47MvlcArZ8DuomhkHgCj43/drFEkcBmJ0runD9ggaIE6RzFT94d+8q4CyNwR7fvQ+Wz9TNkAZkhByEW4NNo+ay8AINj4UfU1tmdv31kcseINdIqQ7RpnRHRywpH31Qvim/RInC7Bjb+UPJq7BoB0oGTutypJrTFtsRsoiSVAFiV0rpflf3YXkvMZOVz11A9z09X4dbqqIs0NAIg+c=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(10070799003)(376014)(7416014)(18002099003)(22082099003)(56012099006);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Nq4puylLaMXnI7YJigK7S13Qa5Hn+K6PvsH4mRhXwK5rWb8TGfPPGtTNMbbG?=
- =?us-ascii?Q?Foi9nMQYzY3MCQIMdIbnkJHIYyssF0zCDGwX416KGC5V0YSx8XUTa7RePPr1?=
- =?us-ascii?Q?stJoBpLG1OhDjVE83Vgzo1mGefoBOSDrL/AGpuA3hY10HNl+PLx2B212466B?=
- =?us-ascii?Q?9rAMie7/zn2CAzDHsDdOiTs1cu3kJmIS1Io7YN4MS2w0GKRBeabPJDf4wKWH?=
- =?us-ascii?Q?5wAou6lc8FG6ScO7kcf5dSJM4vVjGEmrRSGLts0AM9Ztaq2CZh17vuCsSqIH?=
- =?us-ascii?Q?inl/gb5vSh87Aic65vMBtdfNyZX4RkliYZRzSicUTZCbBoME67sXZH5GRz0u?=
- =?us-ascii?Q?GRGZjHmakz/7ydzNvnPsLcgByYe8PThQWGf5jBBKuFcyy74BnERTzxt8IG0a?=
- =?us-ascii?Q?GYY60/cD3ooB1tXGTlPehhaluf5lDq+VswR31BrB+d+jicXoDSsVCc4icfrd?=
- =?us-ascii?Q?BLeGQ3IuoWipN8HXy9EPzhE3GqXn/mdjUXabMwAuqJVBwYs4QbmmtmSnbaWo?=
- =?us-ascii?Q?V1PJdTk3DlQah7uOaM8oyCJFz0jxGSnzJIgCZiPbof0HHnJbSm0oUaQnyHsT?=
- =?us-ascii?Q?VYL7HvZu+ncLGceV70rdhR3ndKR218u4EapAFYrgZ01PBDkeKjeSf+os2FrV?=
- =?us-ascii?Q?/iWu3Jkshkg2mh4Kd5CV9LsOTPQx7r6xT22fDnNDnBAQorF7uAjzSDRQ5CJz?=
- =?us-ascii?Q?BHXVCRHh+d32rvJFKcVPd8jytQMJFNSys8c0tfgmW5ULB2VsfRdQVkDzIBXp?=
- =?us-ascii?Q?a4Xpk8q4MdBNVY34BW+Qk43PoejXVJcuPyjVv9XfF/zUhrl/1gGuc/irTc/m?=
- =?us-ascii?Q?C6lBrKh8H3KmbvtRcwUhMpmsDEYqCDKlqViDUi1e/XoxU6KNbmUNjFYvqFZC?=
- =?us-ascii?Q?nSkwlIznsQBEMTjdV3/s8a5DoZ36A/sdVAveSMUhhGaYf36QqdFpyMEKRCHn?=
- =?us-ascii?Q?loEY/fJepPOnjVAnCvQOvAg9uFOUZGobGtfDvV21+0DFBb710cOgGFrfGHVO?=
- =?us-ascii?Q?ehAj8ot9og//qyBA7DMSKPiJ77qiz2RM93wn5r/C71OjweqrygHtdoyblm40?=
- =?us-ascii?Q?3daWp9Hf6JpLM2jdqyRcn0ARTdWwu5yneBoJV5aSJ+useQqw8sBUj8gEkeTb?=
- =?us-ascii?Q?8sSVzP7nwx5cqyo3k2ckbyo9FCVuQGhMSroIszl0XGTT8BkhMArIeHKGLmRj?=
- =?us-ascii?Q?XgeLputmzaOCRQKbgYdfDvzRiu4LwVJBRqtAZ/EwAtoh1jFxCYourTjHw/aS?=
- =?us-ascii?Q?8jaOSpY9+7080GHfMr7yuDZ090wdlVbTPkX/Vo9+7fu4dkHKU5WGO1evqmGH?=
- =?us-ascii?Q?jHg+zO1xJ/RYy3//ss+SlpYd0Rqsvkn0HLchoT4kiYFplz+pmVI5CDRFlowl?=
- =?us-ascii?Q?oU0mOlhgm2N1/SlxXiOSXzQgcHnVzoccU08jEg+UllD2p8ZtpLvac4Z48MHt?=
- =?us-ascii?Q?uwmh88+9dc0b5owk45h4Kn9ZcahMarcxekuLAyj3J6hKko2qnZAfvih7Y74M?=
- =?us-ascii?Q?1ZfuqV/qCXA8+H7LDpznVzG6GGmPAuM2co89VWGRbkf2MSLzwlf+KpNbiPnU?=
- =?us-ascii?Q?kOZXWVs5uB4aAyEpnNja/R8vlbM+KkvxUbLv75ow6soEJX732PAiis+4JDUt?=
- =?us-ascii?Q?SRbCBAOqOf2fo9GxBHHz007YItlgyG73AtHtMeKZNukHp6fTf5GVEp2Fl2zq?=
- =?us-ascii?Q?e7J8TBUhSAul+Ek4X8K3MKKACQB4ndWUC1VDc7vF3/sp5HMjwpabZmy3W9VI?=
- =?us-ascii?Q?4zNC9XE8cQ=3D=3D?=
-X-Exchange-RoutingPolicyChecked: j9Mj8XNM+2qI7hIr8p3HPTIWEpR6cKE15oTjB0mnbFFXokbQE3GRGLsfzuNuTpws0849DBp2hdlmdeeRMAaNR2WHDGxypZ3lkRBFXkYlK3VH+cUuYfpnR4p7jM+gsMSZKlz7TnCNfopvR+2qpJ43KEG5+6bnpSa/UVdbyyRz+NDYWeNq/hzt+arPIPnP7mX1m6KqxNwhr/ww+1cOb/Ai9yH/+jjqWi96uKYIgit+5+IUhR759gSf520YKN3FOoe5SgIQ5tOzMTPFl/iv13yAMdpYQ/hvgMTWmbfDDlPC1dGGtO+m+Fd51u+WzYUaqkvL9gzEbWSHGaAjqsMG10LC8A==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: sSoPMaWoXIShNnQn1sQbu0Ca8HIq/pMC5lbBwbSKyY2C/4w+ew7ehRetWVTvu5orB1Lqby+MV07nB/AV5mNULWYqaBGkgs/mGONP4yl+hK9v3IKs2rSTH9VWVX0zcTOWV1HrRwsTg/gPL+cTJ8ivAJXFwSL4rgP8XoW6KzXGXjVYDdMW+ic2iG0ZgMh/H9P9fOcydq6oo+4opcKEkh2UlN6ugbJHO4bbAJdgPLZ9xZ3fpO90Ih2zJY5wVmo/dYGWQgrDAtjgPrC1iQmVcV2BhIM19Pfgx4qKH7NEuNLZ462ME153PLplGTmm5AVoDY7bWbgLHv2kBfRaEHvczADo0v3KiJzeRs0e6ECdQOxHj9k5kJWmfOxp0I0Ysn5nh3KDxTWuVG2eRzqo7XIJFh+bd0vJ7Vfy6PGPCYMeSz64e0S8L9giZQaRodOd1jtF9LK2oK3firP8VhPwh0zFHOzu1LUb2dYA3UVrmfpDcuj4QL1egrOTStVVIdMMKJBkv/oWqhxIA+8vPqvdDj+z/SaaQ3GeEv3vtG96KPJXShrMAtQk8wPXdlKGa2Zc+y4UG4DqGO6gjyOIVo5s/TN0raW61C9fSIjusCLq1iaKAnDHDaM=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c52d669a-6bf9-404a-18ca-08dedb5ec16b
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB6229.namprd10.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TzgxNjdaUm9CUnVyUzZKV04xNG45TjNMZlY5M2VmUGNuaFduaDlFSS9KV0Nr?=
+ =?utf-8?B?ek0wRTlOcCtxb3hDUkVYNVhSc2tHQmo5NEdyckE1WEN5c1dncUFUT082K3hl?=
+ =?utf-8?B?TmpSeHN1NEZibFJ4U3Y5UFJKYjNDcXRYOHVrVE9EalJzZUZxZnBBZzZOV1JQ?=
+ =?utf-8?B?QWpycmx2b1dSYzk4bmdLT3JmWGhtZGxxTVF0SUp0ejNUaDlJV3FscUQ3ajB1?=
+ =?utf-8?B?R0xzSjFtRUk5dS9zamRSNDlTSEtpYWszRnVMTEZZZWlDemxTUzVQYkVBZXli?=
+ =?utf-8?B?SGNOdmk0NDd0NFEvYWpFTm5jb2kwV0J5SjJVY3RQOVpWOFJIa2x5QjloYUJz?=
+ =?utf-8?B?RXdCRTV1Zk1aWFF3SGhBcWs4T3NodndBaU5xWG1obUZPOGJrUTFPZVMwK28x?=
+ =?utf-8?B?SmwvQnJuTHJxYUFQdVp5c3JmNXRLMEUwSEgzZTh4SjMwang0WDhHZE15bTZS?=
+ =?utf-8?B?aGFVRWFxTDFRRjNMSXZUNWQ4TEV6MWlRY3c1RW52b2llSkxxVzBSM2M2RUxH?=
+ =?utf-8?B?QTFoRXVFQkhRZkNRWUg4a1N0eVdVM3gzclU4MmsxZ2FXeCtiZjBPeDIwUmd5?=
+ =?utf-8?B?M3pPZU5HTEZUL05MTnZiVFBmZ2ZlVmNBYzdwWE9ESDE2ZTIvR1pndUdkQ0NO?=
+ =?utf-8?B?ZUFiOUo0RTJ5c2lNcDdIUnFFbmwxNFBBamtlSzJLUW0xRjBkd1FwclFBa2cw?=
+ =?utf-8?B?cWQzQzFCaXFLdyt0ZVc0SERrTkxDUXZmWXJteVR3VmplY2JxSnA4RUJkMitN?=
+ =?utf-8?B?M2dPaWRMNmpGMFM4NTRuYWdXN3hWbFFxT1pIT0xTcW9ZTEZnZEpZalBsTjR3?=
+ =?utf-8?B?S3pubGd6bkRkQk9aNGt6UGR3RFI2TUk4RnBva2VwS3hDRjB3V2I5bUgyWWlE?=
+ =?utf-8?B?VCs4NGQ1OWcwU0J1bnJySjNpRFZrZTVNLzVkMlBPMHJZQklYUTREdk5VSHVW?=
+ =?utf-8?B?UFNVZ1dLdjJ5cXRpUzBySmtvUHpaengvM0JsWnp4N0FHWUl2bDB4OWxnNlBC?=
+ =?utf-8?B?c2lWYlE5TUd2UDlTZy9yc0tVcEo1Z1dyRXJGUmNnd3YvUVNvZ0lHSi92YXlx?=
+ =?utf-8?B?V2RkOGxOREFQNkJWVzhCWXE5R3NDaXlPVStQMFNYVUhiWHNYb3dXTkxWM2pN?=
+ =?utf-8?B?WjRkTFlVQnJFNEcxbVFlWmUzLzFxOWNpN01uNS9CMnB0OU5MUmUxZ2NJd2Mz?=
+ =?utf-8?B?QmcvcGd1V1IyZHVieEpJTUt4dDRKckU5MmIvSW5adlN2b0VteG5GcERlOVpE?=
+ =?utf-8?B?bm5ieEQ4L2pPb05RcUVHWnR4WWczM1IwKy9FTTBGSzJvSU5ldlMyQm96MzFn?=
+ =?utf-8?B?Z0N4alN3RElhRmd3cEh3aVpvMVhJWDBXd2daRWNBOThGVW5Wb091bXlNNEJI?=
+ =?utf-8?B?TmRUK2VsaFFOWmh5Q3ZvaWEvWUp3N3hYTHhuU25kQ2M3UHVQSVZMTjJWN2I1?=
+ =?utf-8?B?bGo3Q1F1SjgzUEkvZlRvVE9IeEtyN1NKY1dYMDNRWTVtclBGVVZvRzljZkZ0?=
+ =?utf-8?B?L0hmckhXamY2eDFJTy95cVpYRHo2alVCb2REVGxYOFNkMFQ3V2dvWStsWmVj?=
+ =?utf-8?B?R3RmeVplV0NON2wzZzNRUlkzYW1YdHUzM0l5NTY3ejZWclcwNm5iUEFPUVFx?=
+ =?utf-8?B?QjN3Y1A1VDZqeEFqQ3Uzd0ZVeERXUnBpMWdkTFBzMVN3SUpYaE0rQVdvcTg2?=
+ =?utf-8?B?RkQ2eWxIU2d0M0FMNGpOTkdRYThHZ2xCTDc4cE5Rbmc1cm1WNThvRUNncy9m?=
+ =?utf-8?B?SEFSbjFabXFnbnBEQS9TbmtPMExjTXhYUnFYcFl2WlovaVBYamZpdHRxY3Yy?=
+ =?utf-8?B?Rzk4Z3FzSkwyR3ZkZUpCY3JoMWh2elE1S3dvMU1Qa1lySGNtVmNIaDJwMm1G?=
+ =?utf-8?B?SGorLzBBV0o0RERaSzJ6Qjd0RUJ5d0RSeHJKZWJGelJObUpDaHRiRGNrb09M?=
+ =?utf-8?B?d1d6S0lIQTFNcmxBZmFKWWVWU3ViVUZUczRYM1ZMTUQ3QW1EaVdyZGtYeUZu?=
+ =?utf-8?B?VXZ1SnUzL1VlbUlRNDFtY0s2azF4L2JZWVJqOFlQTDY3N2ViVHU0b1FvOFky?=
+ =?utf-8?B?M1UydkNhaVROLzdIVjlGbmdoMy9Hb2lkQzVQcmdmWEYxR0xkZHpvZC9LUlRi?=
+ =?utf-8?B?Q2hKbHVpNUhtR25Yc1l1WVNNTGZyYXV4bWlPcG1KeHQyU2FtU2VmNTU3dDNP?=
+ =?utf-8?B?bDZSVWEyTVBXdWlnTzc3NnZDY0I1SElid1Q5cnFQbzA2bjc5RkZvVlloY2Z3?=
+ =?utf-8?B?VC9VUVZKRnpMVFFQN3UvYXFTMm9sN3BvUmZlcWk0TnJaVXlvT2dIbEJQMVUy?=
+ =?utf-8?B?Q2lQL0tQSXpoa2FJRmNqclhGNXdYWVErMVhxWmVhNjMrN0lFa3BUeTlLeXhU?=
+ =?utf-8?Q?Eh85Uw9af9c0RHUV4Rrsz6PKTjZV5E0M8aVF/?=
+X-OriginatorOrg: valinux.co.jp
+X-MS-Exchange-CrossTenant-Network-Message-Id: d4ad0e54-5fe4-4750-22b3-08dedb615f4e
+X-MS-Exchange-CrossTenant-AuthSource: TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2026 13:01:55.3804
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2026 13:20:39.1079
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-Id: 7a57bee8-f73d-4c5f-a4f7-d72c91c8c111
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: avFiZoLpNoel70vviRNMnfdSm3rfE8+u3inWf4qYE+ZU+QlHgMNeZsfWXi4AqSFBDp9sDVvEG8B8mFIBtzBUwg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR10MB7745
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-06_01,2026-07-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- mlxscore=0 spamscore=0 lowpriorityscore=0 suspectscore=0 malwarescore=0
- adultscore=0 mlxlogscore=999 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2606160000 definitions=main-2607060132
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA2MDEzMyBTYWx0ZWRfXxk6a2xwpeqQf
- jgh9Z0f7sd8sroAJDpf0LHSQCu8sjawQqmnqNX/7FipmXxkx1Cc9Of0hKWnYZZgPvYPWcBonF82
- P7fe7IbT2ULu5mjloyeQYEFT35+EI/ijleoTgXI5eqczO6olJ8Nm
-X-Authority-Analysis: v=2.4 cv=QP1YgALL c=1 sm=1 tr=0 ts=6a4ba74a b=1 cx=c_pps
- a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=RAioF0-LDSMA:10
- a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22 a=jiCTI4zE5U7BLdzWsZGv:22
- a=x4eqshVgHu-cdnggieHk:22 a=VwQbUJbxAAAA:8 a=yPCof4ZbAAAA:8
- a=pVYE9yASy03MFby3wFgA:9 a=5yU3S35YU4bGjq-dph-N:22 a=Bho9c0fBagfJEIQBS7DQ:22
- cc=ntf awl=host:12222
-X-Proofpoint-GUID: 5gKlFmJvUbTiUpSrjtqmOFIQO9OGH_uf
-X-Proofpoint-ORIG-GUID: 5gKlFmJvUbTiUpSrjtqmOFIQO9OGH_uf
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA2MDEzMyBTYWx0ZWRfX/lwHKKYqyb43
- q7X01XYRwTGQwDkQ0AsMt1uYwtshN0hl31OXBPg46xrZvq5gBpoNpjh+F6vRMO/7jdgrUeSgYkE
- BvLBmIb6UUTXjSVsbiyVY36JrCrM6mN3tcIC6fLdOnOrMS9Cjn3RwLm+0LvwVti9qOkBP8fB25i
- mTCy7DaRJOjO96wArZ9mqD3mTsWVG5ENeRtj80EpNE1NAQJoLADQ3q6x2Yhknya5HS69GWpXmx6
- l71zpWeMCBCheB5ejXZ65DwnQSsTK2jEfIVIBPfvyaKlBAZXJUNICwOM6F4O99+jBimGGdyPvSe
- Xx3RJ49QRDF0qs5Sg0Kxv/SICzY3Wmp5RfBg8a51Cx/rVZH7vfxiMYk/SAvfYJJQoKNKekOq+f+
- SU8QTUL0Fv6fEQd0bak9YduM/WoDBCoSDLxR6F8zHHYXV6Wq7BW91f4VR+MNnBSBJFTx1HLw0KE
- QWOXZq3EFajFTqPGBjbPoTLOOIbc0XxlsoA1Q3n4=
+X-MS-Exchange-CrossTenant-UserPrincipalName: eHPT9FZBrhA4+tLW6ZzHjVHK3/yWJMl61D8Uazl3QVpCZ25Wyq06bLr0b02MU29/HlziIBji0f8USeOmZgWKNA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSCP286MB5902
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260706_060217_364285_1B88FF29 
-X-CRM114-Status: GOOD (  11.29  )
+X-CRM114-CacheID: sfid-20260706_062054_065215_355437E4 
+X-CRM114-Status: GOOD (  20.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -185,288 +153,146 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Sashiko bot reported a potential problem for the NS head cdev lifetime in
-the libmultipath refactoring in [0].
+On Thu, Jul 02, 2026 at 05:21:20PM -0400, Frank.Li@oss.nxp.com wrote:
+> Koichiro Den:
+> 	My hardware temperately is unavaible recently. Can you help test
+> it.
 
-Currently the NS head .open and .release file_operations methods take a
-reference to the nvme_ns_head to ensure that this structure does not
-disappear while we have files open.
+Sure, I can test it on my side. I'll report back once I have the results.
 
-When we teardown the NS head, we call nvme_cdev_del() -> cdev_device_del()
--> cdev_del(). However after cdev_del() returns, cdevs already open will
-remain and their fops will still be callable. As such, we can still
-reference the cdev after the nvme_ns_head reference count drops to 0 (and
-is freed).
+Best regards,
+Koichiro
 
-This can be shown with an application which delays between opening the cdev
-and issuing the ioctl while the NS head is being torn down:
-
-# ./ioctl_file /dev/ng1n1 &
-# waiting 10 seconds ....
-
-# ./ini_nvme_teardown.sh
-[   21.221718] nvme nvme1: Removing ctrl: NQN "nvme-test-target"
-[   21.274609] nvme nvme2: Removing ctrl: NQN "nvme-test-target"
-# now going to issue ioctl ....
-[   26.549285] ==================================================================
-[   26.550841] BUG: KASAN: slab-use-after-free in cdev_put.part.0+0x3d/0x40
-[   26.552352] Read of size 8 at addr ffff88811e7fa170 by task ioctl_file/237
-[   26.553805]
-[   26.554227] CPU: 3 UID: 0 PID: 237 Comm: ioctl_file Not tainted 7.2.0-rc1-00004-g6852a10e32d4 #921 PREEMPT(lazy)
-[   26.554236] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-[   26.554241] Call Trace:
-[   26.554245]  <TASK>
-[   26.554248]  dump_stack_lvl+0x68/0xa0
-[   26.554266]  print_report+0x10d/0x5d0
-[   26.554276]  ? __virt_addr_valid+0x21d/0x3f0
-[   26.554287]  ? cdev_put.part.0+0x3d/0x40
-[   26.554292]  kasan_report+0x96/0xd0
-[   26.554300]  ? cdev_put.part.0+0x3d/0x40
-[   26.554307]  cdev_put.part.0+0x3d/0x40
-[   26.554313]  __fput+0x7bc/0xa70
-[   26.554322]  fput_close_sync+0xd8/0x190
-[   26.554328]  ? __pfx_fput_close_sync+0x10/0x10
-[   26.554337]  __x64_sys_close+0x79/0xd0
-[   26.554344]  do_syscall_64+0x117/0x6b0
-[   26.554351]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-[   26.554358] RIP: 0033:0x7f938c067727
-[   26.554364] Code: 48 89 fa 4c 89 df e8 28 ad 00 00 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 1a 5b c3 0f 1f 84 00 00 00 00 00 48 8b 44 24 10 0f 05 <5bf
-[   26.554369] RSP: 002b:00007fff49f05980 EFLAGS: 00000202 ORIG_RAX: 0000000000000003
-[   26.554376] RAX: ffffffffffffffda RBX: 00007f938bfd7780 RCX: 00007f938c067727
-[   26.554380] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000003
-[   26.554383] RBP: 00007fff49f05a10 R08: 0000000000000000 R09: 0000000000000000
-[   26.554386] R10: 0000000000000000 R11: 0000000000000202 R12: 0000000000000000
-[   26.554389] R13: 00007fff49f05b40 R14: 00007f938c207000 R15: 000055c148471d78
-[   26.554397]  </TASK>
-[   26.554399]
-[   26.575612] Allocated by task 100:
-[   26.575871]  kasan_save_stack+0x24/0x50
-[   26.576157]  kasan_save_track+0x14/0x30
-[   26.576418]  __kasan_kmalloc+0x7f/0x90
-[   26.576668]  __kmalloc_noprof+0x281/0x6c0
-[   26.576938]  nvme_alloc_ns+0x7f7/0x3170
-[   26.577206]  nvme_scan_ns+0x508/0x880
-[   26.577449]  async_run_entry_fn+0x8c/0x350
-[   26.577723]  process_scheduled_works+0xb6f/0x1a00
-[   26.578034]  worker_thread+0x4ad/0xb40
-[   26.578283]  kthread+0x34f/0x450
-[   26.578501]  ret_from_fork+0x563/0x800
-[   26.578752]  ret_from_fork_asm+0x1a/0x30
-[   26.579012]
-[   26.579124] Freed by task 237:
-[   26.579335]  kasan_save_stack+0x24/0x50
-[   26.579596]  kasan_save_track+0x14/0x30
-[   26.579855]  kasan_save_free_info+0x3a/0x60
-[   26.580131]  __kasan_slab_free+0x43/0x70
-[   26.580388]  kfree+0x321/0x500
-[   26.580591]  nvme_ns_head_chr_release+0x39/0x50
-[   26.580883]  __fput+0x352/0xa70
-[   26.581095]  fput_close_sync+0xd8/0x190
-[   26.581350]  __x64_sys_close+0x79/0xd0
-[   26.581595]  do_syscall_64+0x117/0x6b0
-[   26.581842]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-[   26.582176]
-[   26.582286] Last potentially related work creation:
-[   26.582593]  kasan_save_stack+0x24/0x50
-[   26.582841]  kasan_record_aux_stack+0x89/0xa0
-[   26.583210]  insert_work+0x22/0x170
-[   26.583442]  __queue_work+0x7b1/0xfa0
-[   26.583682]  queue_work_on+0x77/0x80
-[   26.583921]  kblockd_schedule_work+0x18/0x20
-[   26.584207]  nvme_mpath_put_disk+0x42/0xa0
-[   26.584632]  nvme_free_ns_head+0x1c/0x160
-[   26.584904]  nvme_ns_head_chr_release+0x39/0x50
-[   26.585208]  __fput+0x352/0xa70
-[   26.585420]  fput_close_sync+0xd8/0x190
-[   26.585677]  __x64_sys_close+0x79/0xd0
-[   26.585924]  do_syscall_64+0x117/0x6b0
-[   26.586173]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-[   26.586505]
-[   26.586616] Second to last potentially related work creation:
-[   26.586991]  kasan_save_stack+0x24/0x50
-[   26.587246]  kasan_record_aux_stack+0x89/0xa0
-[   26.587538]  insert_work+0x22/0x170
-[   26.587770]  __queue_work+0x7b1/0xfa0
-[   26.588010]  queue_work_on+0x77/0x80
-[   26.588247]  kblockd_schedule_work+0x18/0x20
-[   26.588529]  nvme_remove_head+0x3d/0xb0
-[   26.588787]  nvme_ns_remove+0x4b2/0x930
-[   26.589040]  nvme_remove_namespaces+0x29c/0x410
-[   26.589340]  nvme_do_delete_ctrl+0xf3/0x190
-[   26.589611]  nvme_delete_ctrl_sync+0x71/0x90
-[   26.589889]  nvme_sysfs_delete+0x91/0xb0
-[   26.590151]  kernfs_fop_write_iter+0x2fb/0x4a0
-[   26.590452]  vfs_write+0x929/0xfc0
-[   26.590688]  ksys_write+0xf2/0x1d0
-[   26.590923]  do_syscall_64+0x117/0x6b0
-[   26.591171]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-[   26.591498]
-[   26.591605] The buggy address belongs to the object at ffff88811e7fa000
-[   26.591605]  which belongs to the cache kmalloc-4k of size 4096
-[   26.592409] The buggy address is located 368 bytes inside of
-[   26.592409]  freed 4096-byte region [ffff88811e7fa000, ffff88811e7fb000)
-[   26.593205]
-[   26.593321] The buggy address belongs to the physical page:
-[   26.593701] page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x11e7f8
-[   26.594250] head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-[   26.594743] flags: 0x200000000000040(head|node=0|zone=2)
-[   26.595093] page_type: f5(slab)
-[   26.595312] raw: 0200000000000040 ffff888100043040 dead000000000122 0000000000000000
-[   26.595810] raw: 0000000000000000 0000000000040004 00000000f5000000 0000000000000000
-[   26.596309] head: 0200000000000040 ffff888100043040 dead000000000122 0000000000000000
-[   26.596806] head: 0000000000000000 0000000000040004 00000000f5000000 0000000000000000
-[   26.597313] head: 0200000000000003 fffffffffffffe01 00000000ffffffff 00000000ffffffff
-[   26.597813] head: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000000
-[   26.598317] page dumped because: kasan: bad access detected
-[   26.598676]
-[   26.598784] Memory state around the buggy address:
-[   26.599093]  ffff88811e7fa000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-[   26.599559]  ffff88811e7fa080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-[   26.600023] >ffff88811e7fa100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-[   26.600485]                                                              ^
-[   26.600921]  ffff88811e7fa180: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-[   26.601390]  ffff88811e7fa200: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-[   26.601855] ==================================================================
-[   26.602374] Disabling lock debugging due to kernel taint
-
-When all fds for the cdev disappear, the cdev removal path puts a
-reference to the parent object, which is the nvme_ns_head.cdev_device - see
-cdev_default_release() -> kobject_put(parent). We can use the lifetime
-of the cdev_device to resolve this lifetime issue.
-
-Fix the lifetime for the cdev by making adding the cdev add take a
-reference to the NS head and drop that reference in the
-nvme_ns_head.cdev_device release function.
-
-[0] https://lore.kernel.org/linux-scsi/20260703102918.3723667-1-john.g.garry@oracle.com/T/#m67265e2906d617acd2743c0a00809246d0cfc506
-
-Signed-off-by: John Garry <john.g.garry@oracle.com>
----
-Setting as RFC as I am not sure if this is the best solution.
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 453c1f0b2dd09..c7578b7ed6b76 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3887,7 +3887,7 @@ static int nvme_subsys_check_duplicate_ids(struct nvme_subsystem *subsys,
- 	return 0;
- }
- 
--static void nvme_cdev_rel(struct device *dev)
-+void nvme_cdev_rel(struct device *dev)
- {
- 	ida_free(&nvme_ns_chr_minor_ida, MINOR(dev->devt));
- }
-@@ -3900,7 +3900,8 @@ void nvme_cdev_del(struct cdev *cdev, struct device *cdev_device)
- 
- int nvme_cdev_add(const char *name, struct cdev *cdev,
- 		struct device *cdev_device,
--		const struct file_operations *fops, struct module *owner)
-+		const struct file_operations *fops, struct module *owner,
-+		void (*release)(struct device *cdev_dev))
- {
- 	int minor, ret;
- 
-@@ -3915,7 +3916,7 @@ int nvme_cdev_add(const char *name, struct cdev *cdev,
- 	}
- 	cdev_device->devt = MKDEV(MAJOR(nvme_ns_chr_devt), minor);
- 	cdev_device->class = &nvme_ns_chr_class;
--	cdev_device->release = nvme_cdev_rel;
-+	cdev_device->release = release;
- 	device_initialize(cdev_device);
- 	cdev_init(cdev, fops);
- 	cdev->owner = owner;
-@@ -3956,7 +3957,8 @@ static void nvme_add_ns_cdev(struct nvme_ns *ns)
- 		 ns->head->instance);
- 
- 	if (nvme_cdev_add(name, &ns->cdev, &ns->cdev_device,
--			&nvme_ns_chr_fops, ns->ctrl->ops->module)) {
-+			&nvme_ns_chr_fops, ns->ctrl->ops->module,
-+			nvme_cdev_rel)) {
- 		dev_err(ns->ctrl->device, "Unable to create the %s device\n",
- 			name);
- 		return;
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 9b9a657fa330f..016b6b0128c71 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -616,29 +616,23 @@ static inline struct nvme_ns_head *cdev_to_ns_head(struct cdev *cdev)
- 	return container_of(cdev, struct nvme_ns_head, cdev);
- }
- 
--static int nvme_ns_head_chr_open(struct inode *inode, struct file *file)
--{
--	if (!nvme_tryget_ns_head(cdev_to_ns_head(inode->i_cdev)))
--		return -ENXIO;
--	return 0;
--}
--
--static int nvme_ns_head_chr_release(struct inode *inode, struct file *file)
--{
--	nvme_put_ns_head(cdev_to_ns_head(inode->i_cdev));
--	return 0;
--}
--
- static const struct file_operations nvme_ns_head_chr_fops = {
- 	.owner		= THIS_MODULE,
--	.open		= nvme_ns_head_chr_open,
--	.release	= nvme_ns_head_chr_release,
- 	.unlocked_ioctl	= nvme_ns_head_chr_ioctl,
- 	.compat_ioctl	= compat_ptr_ioctl,
- 	.uring_cmd	= nvme_ns_head_chr_uring_cmd,
- 	.uring_cmd_iopoll = nvme_ns_chr_uring_cmd_iopoll,
- };
- 
-+static void nvme_cdev_ns_head_rel(struct device *dev)
-+{
-+	struct nvme_ns_head *head = container_of(dev, struct nvme_ns_head,
-+						cdev_device);
-+
-+	nvme_cdev_rel(dev);
-+	nvme_put_ns_head(head);
-+}
-+
- static void nvme_add_ns_head_cdev(struct nvme_ns_head *head)
- {
- 	char name[32];
-@@ -647,11 +641,15 @@ static void nvme_add_ns_head_cdev(struct nvme_ns_head *head)
- 	snprintf(name, sizeof(name), "ng%dn%d", head->subsys->instance,
- 		 head->instance);
- 
--	if (nvme_cdev_add(name, &head->cdev, &head->cdev_device,
--			&nvme_ns_head_chr_fops, THIS_MODULE)) {
--		dev_err(disk_to_dev(head->disk),
--			"Unable to create the %s device\n", name);
--		return;
-+	if (nvme_tryget_ns_head(head)) {
-+		if (nvme_cdev_add(name, &head->cdev, &head->cdev_device,
-+			&nvme_ns_head_chr_fops, THIS_MODULE,
-+			nvme_cdev_ns_head_rel)) {
-+			dev_err(disk_to_dev(head->disk),
-+				"Unable to create the %s device\n", name);
-+			nvme_put_ns_head(head);
-+			return;
-+		}
- 	}
- 	set_bit(NVME_NSHEAD_CDEV_LIVE, &head->flags);
- }
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 824651cc898db..60d2d35926743 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -999,8 +999,10 @@ bool nvme_tryget_ns_head(struct nvme_ns_head *head);
- void nvme_put_ns_head(struct nvme_ns_head *head);
- int nvme_cdev_add(const char *name, struct cdev *cdev,
- 		struct device *cdev_device,
--		const struct file_operations *fops, struct module *owner);
-+		const struct file_operations *fops, struct module *owner,
-+		void (*release)(struct device *cdev_device));
- void nvme_cdev_del(struct cdev *cdev, struct device *cdev_device);
-+void nvme_cdev_rel(struct device *dev);
- int nvme_ioctl(struct block_device *bdev, blk_mode_t mode,
- 		unsigned int cmd, unsigned long arg);
- long nvme_ns_chr_ioctl(struct file *file, unsigned int cmd, unsigned long arg);
--- 
-2.43.7
-
+> 
+> Rebase and compile test only now.
+> 
+> Verma, Devendra:
+> 	Can you help check if block non-ll mode?
+> 
+> Frank
+> 
+> Basic change
+> 
+> struct dw_edma_desc *desc
+>        └─ chunk list
+>             └─ burst list
+> 
+> To
+> 
+> struct dw_edma_desc *desc
+>             └─ burst[n]
+> 
+> And reduce at least 2 times kzalloc() for each dma descriptor create.
+> 
+> I only test eDMA part, not hardware test hdma part.
+> 
+> The finial goal is dymatic add DMA request when DMA running. So needn't
+> wait for irq for fetch next round DMA request.
+> 
+> This work is neccesary to for dymatic DMA request appending.
+> 
+> The post this part first to review and test firstly during working dymatic
+> DMA part.
+> 
+> performance is little bit better. Use NVME as EP function
+> 
+> Before
+> 
+>   Rnd read,    4KB,  QD=1, 1 job :  IOPS=6660, BW=26.0MiB/s (27.3MB/s)
+>   Rnd read,    4KB, QD=32, 1 job :  IOPS=28.6k, BW=112MiB/s (117MB/s)
+>   Rnd read,    4KB, QD=32, 4 jobs:  IOPS=33.4k, BW=130MiB/s (137MB/s)
+>   Rnd read,  128KB,  QD=1, 1 job :  IOPS=914, BW=114MiB/s (120MB/s)
+>   Rnd read,  128KB, QD=32, 1 job :  IOPS=1204, BW=151MiB/s (158MB/s)
+>   Rnd read,  128KB, QD=32, 4 jobs:  IOPS=1255, BW=157MiB/s (165MB/s)
+>   Rnd read,  512KB,  QD=1, 1 job :  IOPS=248, BW=124MiB/s (131MB/s)
+>   Rnd read,  512KB, QD=32, 1 job :  IOPS=353, BW=177MiB/s (185MB/s)
+>   Rnd read,  512KB, QD=32, 4 jobs:  IOPS=388, BW=194MiB/s (204MB/s)
+>   Rnd write,   4KB,  QD=1, 1 job :  IOPS=6241, BW=24.4MiB/s (25.6MB/s)
+>   Rnd write,   4KB, QD=32, 1 job :  IOPS=24.7k, BW=96.5MiB/s (101MB/s)
+>   Rnd write,   4KB, QD=32, 4 jobs:  IOPS=26.9k, BW=105MiB/s (110MB/s)
+>   Rnd write, 128KB,  QD=1, 1 job :  IOPS=780, BW=97.5MiB/s (102MB/s)
+>   Rnd write, 128KB, QD=32, 1 job :  IOPS=987, BW=123MiB/s (129MB/s)
+>   Rnd write, 128KB, QD=32, 4 jobs:  IOPS=1021, BW=128MiB/s (134MB/s)
+>   Seq read,  128KB,  QD=1, 1 job :  IOPS=1190, BW=149MiB/s (156MB/s)
+>   Seq read,  128KB, QD=32, 1 job :  IOPS=1400, BW=175MiB/s (184MB/s)
+>   Seq read,  512KB,  QD=1, 1 job :  IOPS=243, BW=122MiB/s (128MB/s)
+>   Seq read,  512KB, QD=32, 1 job :  IOPS=355, BW=178MiB/s (186MB/s)
+>   Seq read,    1MB, QD=32, 1 job :  IOPS=191, BW=192MiB/s (201MB/s)
+>   Seq write, 128KB,  QD=1, 1 job :  IOPS=784, BW=98.1MiB/s (103MB/s)
+>   Seq write, 128KB, QD=32, 1 job :  IOPS=1030, BW=129MiB/s (135MB/s)
+>   Seq write, 512KB,  QD=1, 1 job :  IOPS=216, BW=108MiB/s (114MB/s)
+>   Seq write, 512KB, QD=32, 1 job :  IOPS=295, BW=148MiB/s (155MB/s)
+>   Seq write,   1MB, QD=32, 1 job :  IOPS=164, BW=165MiB/s (173MB/s)
+>   Rnd rdwr, 4K..1MB, QD=8, 4 jobs:  IOPS=250, BW=126MiB/s (132MB/s)
+>   IOPS=261, BW=132MiB/s (138MB/s
+> 
+> After
+>   Rnd read,    4KB,  QD=1, 1 job :  IOPS=6780, BW=26.5MiB/s (27.8MB/s)
+>   Rnd read,    4KB, QD=32, 1 job :  IOPS=28.6k, BW=112MiB/s (117MB/s)
+>   Rnd read,    4KB, QD=32, 4 jobs:  IOPS=33.4k, BW=130MiB/s (137MB/s)
+>   Rnd read,  128KB,  QD=1, 1 job :  IOPS=1188, BW=149MiB/s (156MB/s)
+>   Rnd read,  128KB, QD=32, 1 job :  IOPS=1440, BW=180MiB/s (189MB/s)
+>   Rnd read,  128KB, QD=32, 4 jobs:  IOPS=1282, BW=160MiB/s (168MB/s)
+>   Rnd read,  512KB,  QD=1, 1 job :  IOPS=254, BW=127MiB/s (134MB/s)
+>   Rnd read,  512KB, QD=32, 1 job :  IOPS=354, BW=177MiB/s (186MB/s)
+>   Rnd read,  512KB, QD=32, 4 jobs:  IOPS=388, BW=194MiB/s (204MB/s)
+>   Rnd write,   4KB,  QD=1, 1 job :  IOPS=6282, BW=24.5MiB/s (25.7MB/s)
+>   Rnd write,   4KB, QD=32, 1 job :  IOPS=24.9k, BW=97.5MiB/s (102MB/s)
+>   Rnd write,   4KB, QD=32, 4 jobs:  IOPS=27.4k, BW=107MiB/s (112MB/s)
+>   Rnd write, 128KB,  QD=1, 1 job :  IOPS=1098, BW=137MiB/s (144MB/s)
+>   Rnd write, 128KB, QD=32, 1 job :  IOPS=1195, BW=149MiB/s (157MB/s)
+>   Rnd write, 128KB, QD=32, 4 jobs:  IOPS=1120, BW=140MiB/s (147MB/s)
+>   Seq read,  128KB,  QD=1, 1 job :  IOPS=936, BW=117MiB/s (123MB/s)
+>   Seq read,  128KB, QD=32, 1 job :  IOPS=1218, BW=152MiB/s (160MB/s)
+>   Seq read,  512KB,  QD=1, 1 job :  IOPS=301, BW=151MiB/s (158MB/s)
+>   Seq read,  512KB, QD=32, 1 job :  IOPS=360, BW=180MiB/s (189MB/s)
+>   Seq read,    1MB, QD=32, 1 job :  IOPS=193, BW=194MiB/s (203MB/s)
+>   Seq write, 128KB,  QD=1, 1 job :  IOPS=796, BW=99.5MiB/s (104MB/s)
+>   Seq write, 128KB, QD=32, 1 job :  IOPS=1019, BW=127MiB/s (134MB/s)
+>   Seq write, 512KB,  QD=1, 1 job :  IOPS=213, BW=107MiB/s (112MB/s)
+>   Seq write, 512KB, QD=32, 1 job :  IOPS=273, BW=137MiB/s (143MB/s)
+>   Seq write,   1MB, QD=32, 1 job :  IOPS=168, BW=168MiB/s (177MB/s)
+>   Rnd rdwr, 4K..1MB, QD=8, 4 jobs:  IOPS=255, BW=128MiB/s (134MB/s)
+>    IOPS=266, BW=135MiB/s (141MB/s)
+> 
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
+> Changes in v3:
+> - remove patch dmaengine: dw-edma: Remove ll_max = -1 in dw_edma_channel_setup()
+> - rebase to vnod's dmaengine topic/config_prep_api
+> - Add non-ll-start() callback to handle non-ll mode transfer
+> - Link to v2: https://lore.kernel.org/r/20260109-edma_ll-v2-0-5c0b27b2c664@nxp.com
+> 
+> Changes in v2:
+> - use 'eDMA' and 'HDMA' at commit message
+> - remove debug code.
+> - keep 'inline' to avoid build warning
+> - Link to v1: https://lore.kernel.org/r/20251212-edma_ll-v1-0-fc863d9f5ca3@nxp.com
+> 
+> ---
+> Frank Li (10):
+>       dmaengine: dw-edma: Move control field update of DMA link to the last step
+>       dmaengine: dw-edma: Add xfer_sz field to struct dw_edma_chunk
+>       dmaengine: dw-edma: Move ll_region from struct dw_edma_chunk to struct dw_edma_chan
+>       dmaengine: dw-edma: Pass down dw_edma_chan to reduce one level of indirection
+>       dmaengine: dw-edma: Add helper dw_(edma|hdma)_v0_core_ch_enable()
+>       dmaengine: dw-edma: Add callbacks to fill link list entries
+>       dmaengine: dw-edma: Add non_ll_start() callback
+>       dmaengine: dw-edma: Use common dw_edma_core_start() for both eDMA and HDMA
+>       dmaengine: dw-edma: Use burst array instead of linked list
+>       dmaengine: dw-edma: Remove struct dw_edma_chunk
+> 
+>  drivers/dma/dw-edma/dw-edma-core.c    | 216 ++++++++----------------------
+>  drivers/dma/dw-edma/dw-edma-core.h    |  65 ++++++---
+>  drivers/dma/dw-edma/dw-edma-v0-core.c | 240 +++++++++++++++++-----------------
+>  drivers/dma/dw-edma/dw-hdma-v0-core.c | 169 ++++++++++++------------
+>  4 files changed, 302 insertions(+), 388 deletions(-)
+> ---
+> base-commit: c9e9927c6d8346cdf6555a8f97da093980172e4b
+> change-id: 20251211-edma_ll-0904ba089f01
+> 
+> Best regards,
+> --  
+> Frank Li <Frank.Li@nxp.com>
+> 
 
