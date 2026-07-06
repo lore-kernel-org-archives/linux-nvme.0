@@ -4,58 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D388AC43458
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Jul 2026 18:55:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AFF64C43458
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Jul 2026 18:56:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2b8zVVHtR8AsoB3Z+L4xYcTSTo5TBWr0at8m0NugyBs=; b=x/ezyjP0GXlD+nRlqr7KK+Nlm3
-	a5mkTp/A3zCrNd4kuuxn1X5xDoVXGiVWamCYHQcihTAhWMcIR35mDtw12uIDxx0hlMZyV/6SQVa0q
-	2O5GKRphm0ZhtL0huMfkoGjBn2sa8hxxn3WWqD5J+Xo6eatEmjC7e5B8rmll+vOis8hM2XdSt7m3F
-	ee3xFjQU2yzpYdLZXfAdro3TKT0XkaLrpGhqFODPVCaHB1i58R1q0bXYsRratsRv9j/jHvkRsTIt+
-	KkInRKS5/RgiDeYJPQOtUvgLDIeMtANTt6R6WQUkKtv/s5jvVKG3az1UIB8apEJazRpG0L0eiyWcX
-	pPvVLfOg==;
+	bh=q4zluGVeKdD4Rc/Sqmk60Q7TxGgIc5ir2G9jBeTb0LI=; b=eTl39iCP86/zo+T/cYEScglygV
+	xnmufxjSeQ9JvY8ojyYBmcEcnOJoYLnGoYtUcz/eRL8myplDvDQmi4XWIiqcCaJoX00e00g26Qgb7
+	Sj33hApkHi44sAgaHD23nqumuVPrYZ69Lj1tRNMCGeKmHEHFK4JkOCLjLjlsaHM07TbGoYUIvUCVm
+	slJakVrsytFM7F7ZVs6TqeXO06siZrBTzXOy+0mwIaubAi7eBSwP/MnKVIPpt2bKWKxT1NoWhdgHF
+	cVC7w+zthe+a7z31/E3ZNDvuMEAVocacKCAS+WmdycFWfuP7sNVHlwijyQxi7M9l5Fy+l1NGIXwq/
+	HdjDfDSg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wgoTm-0000000DOFw-2H9V;
-	Mon, 06 Jul 2026 18:55:42 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1wgoUc-0000000DOQH-31sP;
+	Mon, 06 Jul 2026 18:56:34 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wgoTk-0000000DOFV-3pL9
+	id 1wgoUc-0000000DOQA-1JnD
 	for linux-nvme@lists.infradead.org;
-	Mon, 06 Jul 2026 18:55:40 +0000
+	Mon, 06 Jul 2026 18:56:34 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 0D9A561383;
-	Mon,  6 Jul 2026 18:55:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79E161F000E9;
-	Mon,  6 Jul 2026 18:55:39 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 0A65B436FF;
+	Mon,  6 Jul 2026 18:56:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 921601F000E9;
+	Mon,  6 Jul 2026 18:56:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783364139;
-	bh=2b8zVVHtR8AsoB3Z+L4xYcTSTo5TBWr0at8m0NugyBs=;
+	s=k20260515; t=1783364193;
+	bh=q4zluGVeKdD4Rc/Sqmk60Q7TxGgIc5ir2G9jBeTb0LI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=nOR9YhlV1xgpuouZ5Z59ActGq46LhREmAhP+APQugcH6r1WHdzs9Tt0us0WJfg0Gv
-	 nOno52c/xts/m6+adepRr+sW+M4UEheUKDSkXuRHE3LCbvriMCdx9Wg3n9hbjlstXA
-	 9YWeGfrx+I4dEqTnuvQCP8MLllYw2zyhrjIWkyXvDwGQag5QvQw47+IeSni2C9XZpk
-	 b8nouuBk4aRqy1dHZ8yIIiHXB+dh0+GCLKakqnX7dKDXTR9jKea2yH1dzVHKUJ20V2
-	 IEQ9/Hyu/pVxgEtIf2C9QeN71iUz04fQJPrEKQzsr7E7U9Ii6KW030UAp9n0As+rA4
-	 p/25zpWETW0kw==
-Date: Mon, 6 Jul 2026 12:55:38 -0600
+	b=hgtx63RfWAQ8Ja1qDXSR75yrN4PWDRSFz9QF0MJFFHuW8Yc0gQZbAT+LwkoaB0hJJ
+	 tmo4t2G8ZDwnnChxkEbXk2Qg9K4nRMLScOs+gNByw/oDBwU+y5qtUpJafasgKyggcY
+	 n4wlJOZ3q9jQmr2IuB23aaqlCFDHxESDwlWGOjQN7g3X6q3Kvv8NWwgPLlNAWIEV3/
+	 wHR/1VQDrMCGVWaut9G9tWXFoTs8fWRBaBEXL2dQVply9fl4o+SzYCK3IqlJg0i/zL
+	 aGqiK8Tm/gyk+yPkfXSIL+b5OXorjARoeJtsQ7vHQVSQYgStxyNS7l6s+LfYtw8BJW
+	 S3ajH6qI2yktQ==
+Date: Mon, 6 Jul 2026 12:56:32 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: linux-nvme@lists.infradead.org, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	John Garry <john.g.garry@oracle.com>
-Subject: Re: [PATCH] nvme-auth: Avoid C=1 warning in
- nvme_auth_derive_tls_psk()
-Message-ID: <akv6KmKqp2y5MHPS@kbusch-mbp>
-References: <20260625175911.35094-1-ebiggers@kernel.org>
+To: Surabhi Gogte <sgogte@purestorage.com>
+Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org, mkhalfella@purestorage.com,
+	randyj@purestorage.com, adailey@purestorage.com
+Subject: Re: [PATCH v4 0/2] nvme-rdma: parallelize I/O queue setup
+Message-ID: <akv6YJ2-GLFwwzGn@kbusch-mbp>
+References: <20260627041551.1981256-1-sgogte@purestorage.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260625175911.35094-1-ebiggers@kernel.org>
+In-Reply-To: <20260627041551.1981256-1-sgogte@purestorage.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,16 +70,13 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jun 25, 2026 at 10:59:11AM -0700, Eric Biggers wrote:
-> The following works fine with gcc and clang, but sparse warns about
-> label_len not being an actual constant expression:
-> 
->     const size_t label_len = sizeof(label) - 1;
->     ...
->     static_assert(label_len <= 255);
-> 
-> Avoid this by giving label an explicit length and using sizeof(label)
-> instead of label_len.
+On Fri, Jun 26, 2026 at 10:15:49PM -0600, Surabhi Gogte wrote:
+> This patch series parallelizes nvme-rdma connection and reconnection by
+> setting up I/O queues in parallel instead of sequentially. Allocation and
+> startup of each queue are combined into a single per-queue async work
+> item, so per-queue connection latency overlaps across all queues. This
+> matters most on high-core-count hosts with many I/O queues, where serial
+> setup dominates connect time.
 
 Thanks, applied to nvme-7.3.
 
