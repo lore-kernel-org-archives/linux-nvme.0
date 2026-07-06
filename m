@@ -4,58 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2480EC43458
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Jul 2026 18:57:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4F11FC43458
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Jul 2026 18:57:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=tQmZC8XSGU7d7u4Up6pxYk0RmHqY7ku8v476tIPEZNc=; b=eGsvoSCvjAb30FNkym4bg06fD0
-	vGzxDm10JrQMiTT55+ZWr30+UNB1VXFyAMf3UpLzF4RXJUv9ALbCGqtFPk0KZMatluA3x3ZeV108o
-	4aQAcvS6pfsr7S16CEExxpNonVtuJulp5xhLhcPi7KCFYkQ55a3A6c/xNUmKAJ8zfgNTtIqgPvl7F
-	mCDqyZhPcLT3cF3B2M4svbGpFSqwYkxHVEk3QO9TKasRuK79q7KmflVqnJJM6jst2n/Z03PB03+NU
-	LiTWpkGmpaQ4B4e4uEv3wQ4Mk2GcE2J3ZLKbnuDaok2lQKP2ChSojaTLNlhyRuYTrKabJnvCXyKt4
-	XTZoVh1w==;
+	bh=g1lO6eQinke3g+u23uKP/C5+Qg9mo+bCCNuVb6Fl7L8=; b=iNAokKnNX3dQs0hKJ/waWBGtWV
+	kkd6otOXFtzZnHMhC8ClqFel4nUqTbnuin99vEmK5IbzEtIj2wkwtA4sZbTmfBmwVLGewhx+AQ3Ap
+	N3Vk0bfTCrQVPFq5k4UnSMu16cOo/rTzKaTAqJPi92kcIuvdxm7l1ekV17uAt1W4Um1jp35tGcyqA
+	yc2NAss2/G/l/0lXGZBsZpi1AxvXP8pycfDFmKZe9ypmejgz/dThY4WPchVXJ7H/j9rYPeI2B1nrY
+	FTGzJ6/K0nZ/0ZknWe2eCbOAIgvW0vZKOJ3vFoPXhOIa4euAeTrtFXH81fDIOPBIMQxI/QbMJYRvB
+	HQRIkAXg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wgoVA-0000000DOVj-3ipk;
-	Mon, 06 Jul 2026 18:57:08 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1wgoVc-0000000DOZT-09Ol;
+	Mon, 06 Jul 2026 18:57:36 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wgoVA-0000000DOVX-0ELd
+	id 1wgoVb-0000000DOZH-1ZD3
 	for linux-nvme@lists.infradead.org;
-	Mon, 06 Jul 2026 18:57:08 +0000
+	Mon, 06 Jul 2026 18:57:35 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 7D57A600C3;
-	Mon,  6 Jul 2026 18:57:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0503C1F000E9;
-	Mon,  6 Jul 2026 18:57:06 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 196F44080E;
+	Mon,  6 Jul 2026 18:57:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE5A31F000E9;
+	Mon,  6 Jul 2026 18:57:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783364227;
-	bh=tQmZC8XSGU7d7u4Up6pxYk0RmHqY7ku8v476tIPEZNc=;
+	s=k20260515; t=1783364255;
+	bh=g1lO6eQinke3g+u23uKP/C5+Qg9mo+bCCNuVb6Fl7L8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=mFFG7CaqcULiBW8ygtZyMdT9J+nFC8JTMfk0iBHfrXycDt7GXFn7Jz165NdqGqNzu
-	 VtOg+qCSqT+TDayN7ucKHjFZx6pbfMSGULVCGL7qs1OF6ZJsmlQfWu935aGAfUtiU8
-	 1TWHSdTb3fappLiaDyjIFLjGLu5ISxHWeiJM+ou7TW9WEMrz6qP2lFRVfo7pzBIt+j
-	 EAfaDuS9DvSNbLMfhjyRavjOCkBCaUsDn86iiw3N7CBo9TgjQ4UBF6A4SRB19kw3jc
-	 yTXKUuaSwBBnLexkYDDxwTm2NXD66sgRM1GJEFc1M+vMZX81A4dvSSTfyNNz+PdCPY
-	 OYC+omtMuKQNg==
-Date: Mon, 6 Jul 2026 12:57:05 -0600
+	b=IFqamzyUNyC3IY8uDWRdoyQ1ioefIqoHLsyD8j1aYZp48tEV95e8rOEwqWLLIXu3W
+	 VWW0uhHY2i17obq798qpgBMo0OmC4CFaJtyhBTM+ZaIN+bMpovDEWCiZ5CO+wAkaXR
+	 FLa/WcamwTmesQMHEIMoUyy7B8TuwHp/UlRamRLajKzNsmvgBn8Y9mo8AYVatKYxdQ
+	 ws2T7Tk5oRYCkTOy2U8MBMw1xF0XN4IInBB8Vf5MTm+CBMkdfvclLEhJL+8QG8kNlw
+	 8AtXm1KHeqa/R0dfnoEIxuOmddxtUbnpZOq4hw5cBs6MvWaq3teJoXS65v8lmCE3af
+	 vGGSBkdLZUw6g==
+Date: Mon, 6 Jul 2026 12:57:33 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@infradead.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Subject: Re: [PATCH 0/2] nvmet-rdma: fix response resource leak on queue
- teardown
-Message-ID: <akv6gcd6-mT7lyw9@kbusch-mbp>
-References: <20260629051529.810925-1-shinichiro.kawasaki@wdc.com>
+To: John Garry <john.g.garry@oracle.com>
+Cc: hch@lst.de, sagi@grimberg.me, axboe@fb.com,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH] nvme: handle positive error codes in nuse_show()
+Message-ID: <akv6nYVwUXvUOqC8@kbusch-mbp>
+References: <20260630102717.2671475-1-john.g.garry@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260629051529.810925-1-shinichiro.kawasaki@wdc.com>
+In-Reply-To: <20260630102717.2671475-1-john.g.garry@oracle.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,18 +68,19 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jun 29, 2026 at 02:15:26PM +0900, Shin'ichiro Kawasaki wrote:
-> When an nvme target with rdma transport is removed while I/Os are in
-> flight, a response can be posted but its send completion is never
-> delivered before the connection is torn down. This leaks the request
-> SGLs and the RDMA read/write context. The leaks are recreated by
-> running blktests nvme/061 with rdma transport and the siw driver [1].
+On Tue, Jun 30, 2026 at 10:27:17AM +0000, John Garry wrote:
+> Function __nvme_submit_sync_cmd() returns a positive error code for NVMe
+> errors. Otherwise, we get 0 for success or a negative error code for a
+> kernel error.
 > 
-> [1] https://lore.kernel.org/linux-nvme/ajtk1CaN1pBreS4O@shinmob/
+> In nuse_show() -> ns_{head}_update_nuse() -> nvme_identify_ns() ->
+> nvme_submit_sync_cmd() -> __nvme_submit_sync_cmd(), we then may get a
+> positive error code returned.
 > 
-> This series addresses the problem. The first patch is a preparation
-> refactoring. The second patch fixes the problem by reclaiming memory
-> objects on queue QP teardown.
+> Function nuse_show() - being a device attr handler - should return the
+> number of bytes written to the buffer or a negative error code.
+> 
+> Convert any positive NVMe error code to -EIO.
 
 Thanks, applied to nvme-7.3.
 
