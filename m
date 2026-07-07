@@ -4,38 +4,38 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A6A8DC43602
-	for <linux-nvme@archiver.kernel.org>; Tue,  7 Jul 2026 12:12:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1ADAAC43602
+	for <linux-nvme@archiver.kernel.org>; Tue,  7 Jul 2026 12:12:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=JzTahqbJIGFsTQPAMqduH2v9Y2mo0ojfy5QvuRc2Qgg=; b=xJ8HlSNmH99DKz8M9l0ANEnkRN
-	6QRmYH1nDjqd4M+7hSsnhmw4r+Z8dnFO9IaRR7i2Zocf1wjTb00l1a++SDCYxR9jI4aw5mHgtVYWF
-	k+fA+WYvzesMYGZsIwzfL2xPUSRy52LNNTtTJkUcH6xBHkQN3rwQR9BfHVuvsTJwh1jIpReyUya5k
-	rvRjyEEBOZUFMw0BEKGpiYrlEHT5BmaBjgKOxRh/4AqtVk69ASco+cAts7Y6C+ub8hrs8iUmkQI1q
-	BjNDMQ97S7U6gfxTS436tKUGu7LXd90NagRLRdB4VKcXnhIL6hepPtipLQ+aOKHtFBsdj+BKIQbxB
-	jG0XVgKQ==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=cgkSvSppzHySradbD3t6x82HbpSVJBSkax5Zi/5zde4=; b=S80Jj+75lSGvhIlBMhbsRopW+U
+	LUPcTblLUgUbht6Q10M7D58bolTGbw6ELs3aJQwIRBrmP6RL5/biqtg2RiQ3Auqh9tRMDvgmpPH4v
+	jOoM8Maki2r6pBOkeR6uIlsevTnUWgiUmVXEQ8Gxoz1VvFhW8jjRtPwL6MbJl0+shL/JsZE2lPySG
+	Q+pslcvcSjNSV+qgF9baq0BWIwNdyN6x5bDcRh+r2ylOtrq/qfER8qVj/NcHENOitCtpXAbKl5QaK
+	+IMF/zfn7Aik9vq5WVdL70N0LJfKqhhRj7bCygjEKiCmEw5CcH4byiVajNdz864pKqe2TtvS7fJPV
+	8DGNw8rw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wh4fB-0000000EvNs-12E1;
-	Tue, 07 Jul 2026 12:12:33 +0000
+	id 1wh4fE-0000000EvRc-3FVA;
+	Tue, 07 Jul 2026 12:12:36 +0000
 Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wh4f8-0000000EvMY-39IR
+	id 1wh4fB-0000000EvNH-31hL
 	for linux-nvme@lists.infradead.org;
-	Tue, 07 Jul 2026 12:12:31 +0000
+	Tue, 07 Jul 2026 12:12:35 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1783426348; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=JzTahqbJIGFsTQPAMqduH2v9Y2mo0ojfy5QvuRc2Qgg=;
-	b=jyD+9bud75N9En0vg3s/oE6hFXQx25GY0fpJ7RnMxbcwA81JRz38il1WmYR5YBCdu7CSYxoJGPX30O+WNsJ+YM8WyvOW/gw+WA220466SczkWKTuQsivvXmoLBNyf5fm3oO6nW9rTAIvI48XBklL9bE+vcgxTjyTJpXEk5tcpw8=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037033178;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0X6dVpNS_1783426347;
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0X6dVpNS_1783426347 cluster:ay36)
+	t=1783426351; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=cgkSvSppzHySradbD3t6x82HbpSVJBSkax5Zi/5zde4=;
+	b=fPgmT/cu5LBAScBhoG6/ZhLBgFC243y4jybuEChZ/P8pz+4q1R5KrM31LuHY2NfQYYc3x6yIs+K2HsYghX6mJLoxnqUxSj7OWrMX0q18k+2YgNhE0ZIjwqAm99Vx/AZ7k/5CL6NWmMfeM/sMyFop/8GnMxbL2W5QmLmVB6GUEno=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R321e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037009110;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0X6dVpOo_1783426350;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0X6dVpOo_1783426350 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Tue, 07 Jul 2026 20:12:27 +0800
+          Tue, 07 Jul 2026 20:12:30 +0800
 From: Guixin Liu <kanie@linux.alibaba.com>
 To: Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>,
@@ -48,15 +48,18 @@ To: Christoph Hellwig <hch@lst.de>,
 Cc: linux-nvme@lists.infradead.org,
 	xlpang@linux.alibaba.com,
 	oliver.yang@linux.alibaba.com
-Subject: [PATCH v4 0/3] nvme: add ABI documentation for sysfs and configfs interfaces
-Date: Tue,  7 Jul 2026 20:12:24 +0800
-Message-ID: <20260707121227.2274769-1-kanie@linux.alibaba.com>
+Subject: [PATCH v4 3/3] MAINTAINERS: add missing NVMe documentation files
+Date: Tue,  7 Jul 2026 20:12:27 +0800
+Message-ID: <20260707121227.2274769-4-kanie@linux.alibaba.com>
 X-Mailer: git-send-email 2.43.7
+In-Reply-To: <20260707121227.2274769-1-kanie@linux.alibaba.com>
+References: <20260707121227.2274769-1-kanie@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260707_051230_953108_9F9D4876 
-X-CRM114-Status: GOOD (  12.21  )
+X-CRM114-CacheID: sfid-20260707_051233_946361_D52DFA79 
+X-CRM114-Status: UNSURE (   8.44  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,68 +74,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The NVMe host sysfs interfaces and target configfs interfaces lack
-ABI documentation under Documentation/ABI/. This series adds the
-missing documentation and updates MAINTAINERS accordingly.
+Add documentation file entries that were missing from the NVM EXPRESS
+DRIVER and NVM EXPRESS TARGET DRIVER sections, so patches touching
+these files are properly routed to the NVMe mailing list and
+maintainers.
 
-Each attribute entry has been traced back to its original introducing
-commit via git archaeology to provide accurate Date, KernelVersion,
-and Contact information.
+Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+Reviewed-by: Hannes Reinecke <hare@kernel.org>
+Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>
+---
+ MAINTAINERS | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-This documentation was created with the assistance of AI (Claude)
-for git history tracing and document formatting.
-
-Patch 1 adds Documentation/ABI/stable/sysfs-nvme for host sysfs.
-Patch 2 adds Documentation/ABI/stable/configfs-nvmet for target configfs.
-Patch 3 adds missing F: entries in MAINTAINERS for NVMe documentation.
-
-v3->v4:
- - Move the documentation from Documentation/ABI/testing/ to
-   Documentation/ABI/stable/, since the NVMe host sysfs and target
-   configfs interfaces are long-established, stable ABI (Daniel Wagner).
- - Add Reviewed-by tag from Daniel Wagner in the first patch, and from
-   Nilay Shroff in all three patches, thanks.
-
-v2->v3:
- - sysfs: document the namespace diagnostic counters as two separate
-   entries, one for non-multipath configurations (/sys/block/nvmeXnY/)
-   and one for multipath configurations (/sys/block/nvmeXcYnZ/ per-path
-   and /sys/block/nvmeXnY/ head), so the actual sysfs location of each
-   counter is obvious without per-attribute visibility notes.
- - sysfs: keep all diagnostic counters (controller and namespace)
-   adjacent for easier browsing.
- - sysfs: document the per-path attributes ana_grpid, ana_state,
-   queue_depth and numa_nodes under /sys/block/nvmeXcYnZ/ to reflect
-   their real location, dropping the now-redundant "only visible on
-   per-path devices" wording.
- - Add Reviewed-by tag from Hannes Reinecke in the first two patches,
-   thanks.
-
-v1->v2:
- - sysfs: group all TLS attributes together and reorganize the file by
-   device class (controller, namespace, subsystem), keeping related
-   attributes grouped within each class; split the combined
-   passthru_err_log_enabled entry into controller and namespace entries.
- - configfs: group attributes by object type (ports, subsystems,
-   hosts), merge dhchap_dhgroup into the DH-HMAC-CHAP host
-   authentication entry, and split the combined ANA and PI-enable
-   entries into separate port and subsystem entries.
- - Add Reviewed-by tag from Hannes Reinecke in the third patch, thanks.
-
-Guixin Liu (3):
-  nvme: add ABI documentation for host sysfs interfaces
-  nvmet: add ABI documentation for target configfs interfaces
-  MAINTAINERS: add missing NVMe documentation files
-
- Documentation/ABI/stable/configfs-nvmet | 352 ++++++++++++++++++
- Documentation/ABI/stable/sysfs-nvme     | 453 ++++++++++++++++++++++++
- Documentation/ABI/testing/sysfs-nvme    |  13 -
- MAINTAINERS                             |   4 +
- 4 files changed, 809 insertions(+), 13 deletions(-)
- create mode 100644 Documentation/ABI/stable/configfs-nvmet
- create mode 100644 Documentation/ABI/stable/sysfs-nvme
- delete mode 100644 Documentation/ABI/testing/sysfs-nvme
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 25453040dffb..78723f92b238 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -19367,6 +19367,9 @@ L:	linux-nvme@lists.infradead.org
+ S:	Supported
+ W:	http://git.infradead.org/nvme.git
+ T:	git git://git.infradead.org/nvme.git
++F:	Documentation/ABI/stable/sysfs-nvme
++F:	Documentation/admin-guide/nvme-multipath.rst
++F:	Documentation/fault-injection/nvme-fault-injection.rst
+ F:	Documentation/nvme/
+ F:	drivers/nvme/common/
+ F:	drivers/nvme/host/
+@@ -19409,6 +19412,7 @@ L:	linux-nvme@lists.infradead.org
+ S:	Supported
+ W:	http://git.infradead.org/nvme.git
+ T:	git git://git.infradead.org/nvme.git
++F:	Documentation/ABI/stable/configfs-nvmet
+ F:	drivers/nvme/target/
+ 
+ NVMEM FRAMEWORK
 -- 
 2.43.7
 
