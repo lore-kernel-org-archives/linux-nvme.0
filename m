@@ -4,64 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3AA1BC43602
-	for <linux-nvme@archiver.kernel.org>; Tue,  7 Jul 2026 09:45:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A0EB1C44500
+	for <linux-nvme@archiver.kernel.org>; Tue,  7 Jul 2026 12:11:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kAbzOhSpBup51V3SsMfK3exDEEwOqma51KRW8M3oE54=; b=KvniDb+RQmillYxtzBTBz0mOe1
-	o4CYYs+5JJ5s5XvjgAl0h0UoUY9y/Se0u0j05rG3HczZ++t/fz1tDeg3BzfRpggsm3lQx0apZn67J
-	nNVm0ok965ZPDQ4NA4gJWQbAImsquQP/KUJK44pLrm3Vyiy48s2yfUsMvZ9wPulz1s9CqcdUufvY7
-	gPCT53mYV+lUtVxFhPamLRpuU7hVUiElGn1RwAgxlz6Lyj4nwSbX1fOrTqAr074qykYpbUOZamgKu
-	AJj8uOPRj/FcDmP9ou7m0SMnntlweiXmhb9qz36GaYnBbJj29UYSmPjsEG+S1CANUP7RjokT/lhj3
-	0gW1fyyA==;
+	bh=2fE4KwJwvNZ+Bt/82tv48rMTHzXlu891NcFOzAYBSng=; b=bitVCBWBAr8rU/KvG09Kwh+yf6
+	W1paPuCDEu72HlCxuM83BngOuhQalqKp6PQiTkrUyMlAQLT0MY5m9x9yXFLKnavSSXSBdtys8FBrN
+	ORlBKoxhLWlGPKTRP0Um5sTYwhGkrEzyW5a2DZxOPDt36dtec9nKc72fIOYZI9reXYlnV2eVtHkyy
+	xVUN9xa5T0RnMlgGxVwhVjpza9fOLDWPbyautYiFAUhtwdNkytCifV4WyUvHDesmNQXks9HTI4Pu0
+	ByHj+W0LjcwABcpeCvKN8l5Bn8CuEws/IbCAUhvWZVLOeXmSyXzrr0KDSnUHA6KFWmrLTASKhkgGi
+	+0sTttPw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wh2Me-0000000Eers-1Dwd;
-	Tue, 07 Jul 2026 09:45:16 +0000
-Received: from out30-98.freemail.mail.aliyun.com ([115.124.30.98])
+	id 1wh4eB-0000000Ev4i-0KU8;
+	Tue, 07 Jul 2026 12:11:31 +0000
+Received: from out30-113.freemail.mail.aliyun.com ([115.124.30.113])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wh2Mb-0000000EerN-2fuY
+	id 1wh4e7-0000000Ev2r-10Bf
 	for linux-nvme@lists.infradead.org;
-	Tue, 07 Jul 2026 09:45:15 +0000
+	Tue, 07 Jul 2026 12:11:29 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1783417507; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=kAbzOhSpBup51V3SsMfK3exDEEwOqma51KRW8M3oE54=;
-	b=Fi9JstslOw+GZoQZLd2VBgFIuSQzsDA6CEyi4510/EfDzFh53VB0BCxZZ7OfjDOX5+m4XHWcBqoHM8bwfea1081jog0reqWuctgn1aihkrItiFcz27cH6gN/u3qOEEDIP4cpgUZZOAPOuq/v9EXF+J+0x/MFx0H0EOmgKrlptvE=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037033178;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0X6d1oUl_1783417505;
-Received: from 30.178.83.41(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0X6d1oUl_1783417505 cluster:ay36)
+	t=1783426283; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=2fE4KwJwvNZ+Bt/82tv48rMTHzXlu891NcFOzAYBSng=;
+	b=juqt6/iov1YiWwYmLm1u50AOUydZrth8boCdt/PBHlAph/cNnZBTzLLkRoxi1A/S6SGNbKktLCwhC5NKF3+9IbDG9URuwKpgkFrm5QdroLL/BP6trfNFS6GYZrmEP3z7fdbbePISDTbi/8d+CHh01aYWPSWaLE0QFXWKfMCpFKQ=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R161e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0X6dZSVz_1783426282;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0X6dZSVz_1783426282 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Tue, 07 Jul 2026 17:45:06 +0800
-Message-ID: <ef44efdb-dbc3-40ea-8bae-743e6f93884a@linux.alibaba.com>
-Date: Tue, 7 Jul 2026 17:45:04 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/3] MAINTAINERS: add missing NVMe documentation files
-To: Daniel Wagner <dwagner@suse.de>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- John Garry <john.g.garry@oracle.com>, Nilay Shroff <nilay@linux.ibm.com>,
- Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org,
- xlpang@linux.alibaba.com, oliver.yang@linux.alibaba.com
-References: <20260706023439.3054578-1-kanie@linux.alibaba.com>
- <20260706023439.3054578-4-kanie@linux.alibaba.com>
- <ba0bd2f7-48e2-4a79-ae92-4c856c991d62@flourine.local>
- <d7a0a987-3b79-4c94-ab42-2044556c835e@linux.alibaba.com>
- <7f5a765a-1f2b-4d67-b03d-f2cd7c73218c@flourine.local>
- <fb23530e-3b0c-4993-ac98-d7c1ba3f5986@linux.alibaba.com>
- <e2ac204c-83bf-4738-bbed-a1fffc98a678@flourine.local>
+          Tue, 07 Jul 2026 20:11:22 +0800
 From: Guixin Liu <kanie@linux.alibaba.com>
-In-Reply-To: <e2ac204c-83bf-4738-bbed-a1fffc98a678@flourine.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Hannes Reinecke <hare@suse.com>,
+	Daniel Wagner <dwagner@suse.de>,
+	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: linux-nvme@lists.infradead.org,
+	xlpang@linux.alibaba.com,
+	oliver.yang@linux.alibaba.com
+Subject: [PATCH v2 1/2] nvmet: add namespace-level debugfs directory
+Date: Tue,  7 Jul 2026 20:11:13 +0800
+Message-ID: <20260707121114.2273629-2-kanie@linux.alibaba.com>
+X-Mailer: git-send-email 2.43.7
+In-Reply-To: <20260707121114.2273629-1-kanie@linux.alibaba.com>
+References: <20260707121114.2273629-1-kanie@linux.alibaba.com>
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260707_024514_010335_E9E05070 
-X-CRM114-Status: UNSURE (   6.75  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260707_051127_807830_71BF0E95 
+X-CRM114-Status: GOOD (  12.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,20 +71,111 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Add per-namespace debugfs directory support under the subsystem debugfs
+directory. Each enabled namespace gets a ns<nsid>/ directory created
+during nvmet_ns_enable() and removed during nvmet_ns_disable().
 
+This provides the infrastructure for exposing namespace-specific debug
+information in subsequent patches.
 
-在 2026/7/7 17:20, Daniel Wagner 写道:
-> On Tue, Jul 07, 2026 at 09:40:01AM +0800, Guixin Liu wrote:
->>>> so I've put them all under the testing directory for now.
->>> The NVMe APIs are definitely not in the 'testing' section. The nvmet
->>> APIs are also not in 'testing', IMO. While they are used upstream
->>> predominantly by blktests, there are also people out there using them in
->>> production systems, if we like or not.
->> You mean we can put them all under stable directory?
-> Exactly, let's go ahead and put them under the stable directory.
-OK，changed in v4.
+Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+---
+ drivers/nvme/target/core.c    |  2 ++
+ drivers/nvme/target/debugfs.c | 21 +++++++++++++++++++++
+ drivers/nvme/target/debugfs.h |  5 +++++
+ drivers/nvme/target/nvmet.h   |  3 +++
+ 4 files changed, 31 insertions(+)
 
-Best Regards,
-Guixin Liu
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 62dd59b9aa4f..9752913e05c6 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -616,6 +616,7 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
+ 	nvmet_ns_changed(subsys, ns->nsid);
+ 	ns->enabled = true;
+ 	xa_set_mark(&subsys->namespaces, ns->nsid, NVMET_NS_ENABLED);
++	nvmet_debugfs_ns_setup(ns);
+ 	ret = 0;
+ out_unlock:
+ 	mutex_unlock(&subsys->lock);
+@@ -642,6 +643,7 @@ void nvmet_ns_disable(struct nvmet_ns *ns)
+ 
+ 	ns->enabled = false;
+ 	xa_clear_mark(&subsys->namespaces, ns->nsid, NVMET_NS_ENABLED);
++	nvmet_debugfs_ns_free(ns);
+ 
+ 	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry)
+ 		pci_dev_put(radix_tree_delete(&ctrl->p2p_ns_map, ns->nsid));
+diff --git a/drivers/nvme/target/debugfs.c b/drivers/nvme/target/debugfs.c
+index 5dcbd5aa86e1..e6f51eb59010 100644
+--- a/drivers/nvme/target/debugfs.c
++++ b/drivers/nvme/target/debugfs.c
+@@ -153,6 +153,27 @@ static int nvmet_ctrl_tls_concat_show(struct seq_file *m, void *p)
+ NVMET_DEBUGFS_ATTR(nvmet_ctrl_tls_concat);
+ #endif
+ 
++void nvmet_debugfs_ns_setup(struct nvmet_ns *ns)
++{
++	char name[16];
++	struct dentry *parent = ns->subsys->debugfs_dir;
++
++	if (!parent)
++		return;
++	snprintf(name, sizeof(name), "ns%u", ns->nsid);
++	ns->debugfs_dir = debugfs_create_dir(name, parent);
++	if (IS_ERR(ns->debugfs_dir)) {
++		ns->debugfs_dir = NULL;
++		return;
++	}
++}
++
++void nvmet_debugfs_ns_free(struct nvmet_ns *ns)
++{
++	debugfs_remove_recursive(ns->debugfs_dir);
++	ns->debugfs_dir = NULL;
++}
++
+ int nvmet_debugfs_ctrl_setup(struct nvmet_ctrl *ctrl)
+ {
+ 	char name[32];
+diff --git a/drivers/nvme/target/debugfs.h b/drivers/nvme/target/debugfs.h
+index cfb8bbf6a297..b559d254fc2a 100644
+--- a/drivers/nvme/target/debugfs.h
++++ b/drivers/nvme/target/debugfs.h
+@@ -14,6 +14,8 @@ int nvmet_debugfs_subsys_setup(struct nvmet_subsys *subsys);
+ void nvmet_debugfs_subsys_free(struct nvmet_subsys *subsys);
+ int nvmet_debugfs_ctrl_setup(struct nvmet_ctrl *ctrl);
+ void nvmet_debugfs_ctrl_free(struct nvmet_ctrl *ctrl);
++void nvmet_debugfs_ns_setup(struct nvmet_ns *ns);
++void nvmet_debugfs_ns_free(struct nvmet_ns *ns);
+ 
+ int __init nvmet_init_debugfs(void);
+ void nvmet_exit_debugfs(void);
+@@ -30,6 +32,9 @@ static inline int nvmet_debugfs_ctrl_setup(struct nvmet_ctrl *ctrl)
+ }
+ static inline void nvmet_debugfs_ctrl_free(struct nvmet_ctrl *ctrl) {}
+ 
++static inline void nvmet_debugfs_ns_setup(struct nvmet_ns *ns) {}
++static inline void nvmet_debugfs_ns_free(struct nvmet_ns *ns) {}
++
+ static inline int __init nvmet_init_debugfs(void)
+ {
+     return 0;
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 3305a88684ec..142a78d9160f 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -128,6 +128,9 @@ struct nvmet_ns {
+ 	u8			csi;
+ 	struct nvmet_pr		pr;
+ 	struct xarray		pr_per_ctrl_refs;
++#ifdef CONFIG_NVME_TARGET_DEBUGFS
++	struct dentry		*debugfs_dir;
++#endif
+ };
+ 
+ static inline struct nvmet_ns *to_nvmet_ns(struct config_item *item)
+-- 
+2.43.7
 
 
