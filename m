@@ -4,71 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7A7F7C43458
-	for <linux-nvme@archiver.kernel.org>; Wed,  8 Jul 2026 00:43:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1AC49C43458
+	for <linux-nvme@archiver.kernel.org>; Wed,  8 Jul 2026 07:52:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=klWBgDOrFYyD4eZe+5sfktrgg9Dxxvdxd2lJh5GKsCo=; b=s3sVGpPeMv3rC/jvA5adCwnJYP
-	fEbn+a7RFlYM/YLdT3NqPh/fEK8WSxzuguqMnZnK2wluhF5Guj+JP1ckN11dRy5ZWprUytOHRuPFc
-	rutNSKvPg02GO8Idq9A1g2nV053PW7/2bNTvg/Fs91ERQm6j7e1lJGD1cahZDi+1KwnGEAKFTLuTN
-	inlZD8qyGI3UbZ6fXOO975Lrl6sFG/G8aCDOAVaX7btojPqhppM7BgU5VnFwYKO4AbiucpouDON1s
-	vlqh1S1tOqeq2YG6de5N04S/TUwO2VcBU6oGXzvccrDdYesRn2Dg606R0j80/P1U1yMsJSJWmg8fW
-	qOk0xBSA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=mnX0Xor/Tw8U/V1nZ7vUJbpJLhv1WXsPVIqYsN1S9JI=; b=Uw9oTmXcskSb+SLUvhZOGQ27/l
+	QjU9GsLFlGNU60L8QDirHj5j1UqVqfpYQU8g4bBYHyP03yKxoakcJZzkXauKUaBMb0sfmOffsUjvb
+	SmoL1Y8jmF3R9xYrNQaVLIw81ysFEyAJOkfGOQJiDMOGEKeL/WBvZD2EmPXpuUrGb53eZnKbPV0m5
+	eEZLmCUQzU8OTdJjeMkCzfpJo+zu4XYipsFWAqreO1GmInQWkAPv2k4j2/OoyEyjVmAZrWcQH1pK7
+	APlxr3vbfJJhXsgfvKaaerqZNbZqYc/LndN7XxTTbk/q+vE6pyO7L8hEaubJHj0oBefKQKc/rOuZf
+	ZxXO9YGg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1whGNP-0000000G44C-30cj;
-	Wed, 08 Jul 2026 00:42:59 +0000
-Received: from mgamail.intel.com ([198.175.65.18])
+	id 1whN59-0000000GXhC-0gGQ;
+	Wed, 08 Jul 2026 07:52:35 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1whGNH-0000000G43g-48Is
+	id 1wh2zx-0000000Ek5j-2TXg
 	for linux-nvme@lists.infradead.org;
-	Wed, 08 Jul 2026 00:42:53 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783471372; x=1815007372;
-  h=date:from:to:cc:subject:message-id;
-  bh=in9jzIeFBAGGf/SGtk39Q8zleJjgrsfH0hUt+5FKTNY=;
-  b=hSKGzf5K0HG6kR76KWC0O3yHT0EZI8YbUaukju2ez7JubF9ojOX4/h8P
-   JxqNU17Xc/7yJGdKcAiugetugh3u8G8+ALUXabSp7++CQQtdB7hyjWgUN
-   p1PZa+AITp7w851xvuLrJnP7DPcZb0P9zyAG/SILv3b9Z8Yl+wBETIhvZ
-   uXV+VGySjJX+ed1EevWdxo/Fflr1mlbJ0wVr+rG9EnLA3QvEpQvmeGznw
-   7OSi9Su1QYnigryn79VrMOZ417cmAMFXFhKcZuT7QlaORGFXi/vHRihxk
-   ucCEaCN6c7ZzcBTiT+JjgiwyZPdAV1pJwg7AMmKG2/beJVhZaMA93ZrRx
-   g==;
-X-CSE-ConnectionGUID: LB6Dfro5RqaaVZrTzBkIqg==
-X-CSE-MsgGUID: RJlZoApTTAmXfFhLUoJLdQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11840"; a="84224584"
-X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="84224584"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2026 17:42:49 -0700
-X-CSE-ConnectionGUID: wMZn5YChRoOufsHUUqmgmw==
-X-CSE-MsgGUID: XwX4qTZTSw+keOd7VovjGw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="250784557"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 07 Jul 2026 17:42:47 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1whGN7-00000000Fq5-0G5V;
-	Wed, 08 Jul 2026 00:42:42 +0000
-Date: Wed, 08 Jul 2026 08:41:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-7.3] BUILD SUCCESS
- 3ddcfb013322aa37eaa7a0d344b73079c38dfa21
-Message-ID: <202607080839.ijy7Ggz0-lkp@intel.com>
-User-Agent: s-nail v14.9.25
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260707_174252_107954_E1EE6CDB 
-X-CRM114-Status: UNSURE (   5.57  )
-X-CRM114-Notice: Please train this message.
+	Tue, 07 Jul 2026 10:25:53 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id 4018143A16;
+	Tue,  7 Jul 2026 10:25:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8D7F1F00A3A;
+	Tue,  7 Jul 2026 10:25:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783419953;
+	bh=mnX0Xor/Tw8U/V1nZ7vUJbpJLhv1WXsPVIqYsN1S9JI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=H8uhI0odf1+Nyc1vY1CAo56e01lIQRebr/i+R9T6Kt2TRVpmlVOcGQ6Im6ER4Sy/t
+	 RRY9GlYhnqkRfIVTXtJSw3hSLRXgIF6Uq5Kz0sVb07aSArilOz021PEGns2rlw2r8v
+	 6Pdnt/z6u0ati+bODvS9XJzgNCsrvJxU7lKZxjig+ODoqnGicqXLwJ6sJU3oxAryqq
+	 32rIazm76gCZ+a4BPcXhpECSGZ2Amk22Yx57OiChxpZ73lHbx5VnjTF3K/Ulnxuhu+
+	 YaAbd3UpBZ4cjSCcbIUGXQiGel3HL8yFdfM+AH2G7pDPedlo3ahuUlYqhjjSiZ+SX7
+	 DO1SsLFw/wo0g==
+Date: Tue, 7 Jul 2026 13:25:46 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, mkalderon@marvell.com,
+	zyjzyj2000@gmail.com, sagi@grimberg.me, mgurtovoy@nvidia.com,
+	haris.iqbal@ionos.com, jinpu.wang@ionos.com, bvanassche@acm.org,
+	kbusch@kernel.org, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, kch@nvidia.com, smfrench@gmail.com,
+	linkinjeon@kernel.org, metze@samba.org, tom@talpey.com,
+	cel@kernel.org, jlayton@kernel.org, neil@brown.name,
+	okorniev@redhat.com, Dai.Ngo@oracle.com, trondmy@kernel.org,
+	anna@kernel.org, achender@kernel.org, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	horms@kernel.org, kees@kernel.org,
+	andriy.shevchenko@linux.intel.com, clm@meta.com,
+	ebadger@purestorage.com, linux-rdma@vger.kernel.org,
+	linux-kernel@vger.kernel.org, target-devel@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-cifs@vger.kernel.org,
+	samba-technical@lists.samba.org, linux-nfs@vger.kernel.org,
+	netdev@vger.kernel.org, rds-devel@oss.oracle.com,
+	Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH rdma-next v9] RDMA: Change capability fields in
+ ib_device_attr from int to u32
+Message-ID: <20260707102546.GM15188@unreal>
+References: <20260703060329.896125-1-ernis@linux.microsoft.com>
+ <20260706084950.GK15188@unreal>
+ <akzS9EdxScQsx9n8@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <akzS9EdxScQsx9n8@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+X-Mailman-Approved-At: Wed, 08 Jul 2026 00:52:34 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,176 +88,102 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-7.3
-branch HEAD: 3ddcfb013322aa37eaa7a0d344b73079c38dfa21  nvmet-auth: zero the AUTH_RECEIVE response buffer
+On Tue, Jul 07, 2026 at 03:20:36AM -0700, Erni Sri Satya Vennela wrote:
+> On Mon, Jul 06, 2026 at 11:49:50AM +0300, Leon Romanovsky wrote:
+> > > ---
+> > >  drivers/infiniband/core/cq.c               |  3 +-
+> > >  drivers/infiniband/hw/qedr/verbs.c         |  2 +-
+> > >  drivers/infiniband/sw/rxe/rxe_qp.c         | 22 +++++-----
+> > >  drivers/infiniband/sw/rxe/rxe_srq.c        | 16 +++----
+> > >  drivers/infiniband/ulp/ipoib/ipoib_cm.c    | 10 ++---
+> > >  drivers/infiniband/ulp/ipoib/ipoib_verbs.c |  3 +-
+> > >  drivers/infiniband/ulp/iser/iser_verbs.c   |  5 +--
+> > >  drivers/infiniband/ulp/isert/ib_isert.c    |  7 ++-
+> > >  drivers/infiniband/ulp/rtrs/rtrs-clt.c     | 11 ++---
+> > >  drivers/infiniband/ulp/rtrs/rtrs-srv.c     | 11 ++---
+> > >  drivers/infiniband/ulp/srp/ib_srp.c        |  2 +-
+> > >  drivers/infiniband/ulp/srpt/ib_srpt.c      | 21 +++++----
+> > >  drivers/nvme/host/rdma.c                   |  8 ++--
+> > >  drivers/nvme/target/rdma.c                 | 22 ++++++----
+> > >  fs/smb/smbdirect/accept.c                  |  5 ++-
+> > >  fs/smb/smbdirect/connect.c                 |  5 ++-
+> > >  fs/smb/smbdirect/connection.c              |  8 ++--
+> > >  include/linux/sunrpc/svc_rdma.h            |  4 +-
+> > >  include/rdma/ib_verbs.h                    | 50 +++++++++++-----------
+> > >  net/rds/ib.c                               | 10 ++---
+> > >  net/rds/ib_cm.c                            | 10 ++---
+> > >  net/sunrpc/xprtrdma/frwr_ops.c             |  7 +--
+> > >  net/sunrpc/xprtrdma/svc_rdma_transport.c   |  5 +--
+> > >  net/sunrpc/xprtrdma/verbs.c                |  2 +-
+> > >  24 files changed, 122 insertions(+), 127 deletions(-)
+> > 
+> > The following code is still missing. 
+> 
+> I'll make this change in the next version.
+> 
+> >Also, what about mxa_srq?
+> > Why wasn't it converted as well?
+> 
+> I originally left max_srq as int because its only consumer pairs it with
+> num_comp_vectors (a signed int) in nvmet_rdma, so keeping it int let
+> that site stay a plain min() instead of a min_t().
+> 
+> num_comp_vectors is the completion-vector count, legitimately int and
+> never anywhere near INT_MAX, so I'd prefer to leave it signed rather
+> than convert it everywhere. Does that work for you, or would you rather
+> num_comp_vectors be converted too?
 
-elapsed time: 1320m
+In this patch no, but it is worth to write this in commit message.
 
-configs tested: 156
-configs skipped: 6
+Thanks
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                             allnoconfig    gcc-16.1.0
-alpha                            allyesconfig    gcc-16.1.0
-alpha                               defconfig    gcc-16.1.0
-arc                              alldefconfig    gcc-16.1.0
-arc                              allmodconfig    clang-23
-arc                              allmodconfig    gcc-16.1.0
-arc                               allnoconfig    gcc-16.1.0
-arc                              allyesconfig    clang-23
-arc                              allyesconfig    gcc-16.1.0
-arc                                 defconfig    gcc-16.1.0
-arc                   randconfig-001-20260708    gcc-13.4.0
-arc                   randconfig-002-20260708    gcc-13.4.0
-arc                   randconfig-002-20260708    gcc-15.2.0
-arm                               allnoconfig    gcc-16.1.0
-arm                              allyesconfig    clang-23
-arm                              allyesconfig    gcc-16.1.0
-arm                                 defconfig    gcc-16.1.0
-arm                   randconfig-001-20260708    gcc-11.5.0
-arm                   randconfig-001-20260708    gcc-13.4.0
-arm                   randconfig-002-20260708    gcc-10.5.0
-arm                   randconfig-002-20260708    gcc-13.4.0
-arm                   randconfig-003-20260708    gcc-13.4.0
-arm                   randconfig-003-20260708    gcc-8.5.0
-arm                   randconfig-004-20260708    gcc-13.4.0
-arm                   randconfig-004-20260708    gcc-8.5.0
-arm64                            allmodconfig    clang-23
-arm64                             allnoconfig    gcc-16.1.0
-arm64                               defconfig    gcc-16.1.0
-arm64                 randconfig-001-20260708    gcc-9.5.0
-arm64                 randconfig-002-20260708    gcc-9.5.0
-arm64                 randconfig-003-20260708    gcc-9.5.0
-arm64                 randconfig-004-20260708    gcc-9.5.0
-csky                             allmodconfig    gcc-16.1.0
-csky                              allnoconfig    gcc-16.1.0
-csky                                defconfig    gcc-16.1.0
-csky                  randconfig-001-20260708    gcc-9.5.0
-csky                  randconfig-002-20260708    gcc-9.5.0
-hexagon                          allmodconfig    clang-23
-hexagon                          allmodconfig    gcc-16.1.0
-hexagon                           allnoconfig    gcc-16.1.0
-hexagon                             defconfig    gcc-16.1.0
-i386                             allmodconfig    clang-22
-i386                              allnoconfig    gcc-14
-i386                              allnoconfig    gcc-16.1.0
-i386                             allyesconfig    clang-22
-i386                             allyesconfig    gcc-14
-i386        buildonly-randconfig-001-20260708    clang-22
-i386        buildonly-randconfig-002-20260708    clang-22
-i386        buildonly-randconfig-003-20260708    clang-22
-i386        buildonly-randconfig-004-20260708    clang-22
-i386        buildonly-randconfig-005-20260708    clang-22
-i386        buildonly-randconfig-006-20260708    clang-22
-i386                                defconfig    gcc-16.1.0
-i386                  randconfig-001-20260708    clang-22
-i386                  randconfig-002-20260708    clang-22
-i386                  randconfig-003-20260708    clang-22
-i386                  randconfig-004-20260708    clang-22
-i386                  randconfig-005-20260708    clang-22
-i386                  randconfig-006-20260708    clang-22
-i386                  randconfig-007-20260708    clang-22
-i386                  randconfig-011-20260708    gcc-14
-i386                  randconfig-012-20260708    gcc-14
-i386                  randconfig-013-20260708    gcc-14
-i386                  randconfig-014-20260708    gcc-14
-i386                  randconfig-015-20260708    gcc-14
-i386                  randconfig-016-20260708    gcc-14
-i386                  randconfig-017-20260708    gcc-14
-loongarch                        allmodconfig    clang-19
-loongarch                        allmodconfig    clang-23
-loongarch                         allnoconfig    gcc-16.1.0
-loongarch                           defconfig    clang-23
-m68k                             allmodconfig    gcc-16.1.0
-m68k                              allnoconfig    gcc-16.1.0
-m68k                             allyesconfig    clang-23
-m68k                             allyesconfig    gcc-16.1.0
-m68k                                defconfig    clang-23
-microblaze                        allnoconfig    gcc-16.1.0
-microblaze                       allyesconfig    gcc-16.1.0
-microblaze                          defconfig    clang-23
-mips                             allmodconfig    gcc-16.1.0
-mips                              allnoconfig    gcc-16.1.0
-mips                             allyesconfig    gcc-16.1.0
-nios2                            allmodconfig    gcc-11.5.0
-nios2                             allnoconfig    clang-23
-nios2                             allnoconfig    gcc-11.5.0
-nios2                               defconfig    clang-23
-openrisc                         allmodconfig    gcc-16.1.0
-openrisc                          allnoconfig    clang-23
-openrisc                          allnoconfig    gcc-16.1.0
-parisc                           allmodconfig    gcc-16.1.0
-parisc                            allnoconfig    clang-23
-parisc                            allnoconfig    gcc-16.1.0
-parisc                           allyesconfig    gcc-16.1.0
-parisc                randconfig-001-20260708    clang-22
-parisc                randconfig-002-20260708    clang-22
-parisc64                            defconfig    clang-23
-powerpc                          allmodconfig    gcc-16.1.0
-powerpc                           allnoconfig    clang-23
-powerpc                           allnoconfig    gcc-16.1.0
-powerpc               randconfig-001-20260708    clang-22
-powerpc               randconfig-002-20260708    clang-22
-powerpc64             randconfig-001-20260708    clang-22
-powerpc64             randconfig-002-20260708    clang-22
-riscv                            allmodconfig    clang-23
-riscv                             allnoconfig    clang-23
-riscv                             allnoconfig    gcc-16.1.0
-riscv                            allyesconfig    clang-23
-riscv                 randconfig-001-20260708    clang-23
-riscv                 randconfig-002-20260708    clang-23
-s390                             allmodconfig    clang-23
-s390                              allnoconfig    clang-23
-s390                             allyesconfig    gcc-16.1.0
-s390                  randconfig-001-20260708    clang-23
-s390                  randconfig-002-20260708    clang-23
-sh                               allmodconfig    gcc-16.1.0
-sh                                allnoconfig    clang-23
-sh                                allnoconfig    gcc-16.1.0
-sh                               allyesconfig    gcc-16.1.0
-sh                                  defconfig    gcc-14
-sh                    randconfig-001-20260708    clang-23
-sh                    randconfig-002-20260708    clang-23
-sparc                             allnoconfig    clang-23
-sparc                             allnoconfig    gcc-16.1.0
-sparc64                          allmodconfig    clang-20
-sparc64                             defconfig    gcc-14
-um                               allmodconfig    clang-17
-um                                allnoconfig    clang-17
-um                                allnoconfig    clang-23
-um                               allyesconfig    gcc-14
-um                               allyesconfig    gcc-16.1.0
-um                                  defconfig    gcc-14
-um                             i386_defconfig    gcc-14
-um                           x86_64_defconfig    gcc-14
-x86_64                           allmodconfig    clang-22
-x86_64                            allnoconfig    clang-22
-x86_64                            allnoconfig    clang-23
-x86_64                           allyesconfig    clang-22
-x86_64      buildonly-randconfig-001-20260708    gcc-12
-x86_64      buildonly-randconfig-002-20260708    gcc-12
-x86_64      buildonly-randconfig-003-20260708    gcc-12
-x86_64      buildonly-randconfig-004-20260708    gcc-12
-x86_64      buildonly-randconfig-005-20260708    gcc-12
-x86_64      buildonly-randconfig-006-20260708    gcc-12
-x86_64                              defconfig    gcc-14
-x86_64                randconfig-011-20260708    clang-22
-x86_64                randconfig-012-20260708    clang-22
-x86_64                randconfig-013-20260708    clang-22
-x86_64                randconfig-014-20260708    clang-22
-x86_64                randconfig-015-20260708    clang-22
-x86_64                randconfig-016-20260708    clang-22
-x86_64                           rhel-9.4-bpf    gcc-14
-x86_64                         rhel-9.4-kunit    gcc-14
-x86_64                           rhel-9.4-ltp    gcc-14
-x86_64                          rhel-9.4-rust    clang-22
-xtensa                            allnoconfig    clang-23
-xtensa                            allnoconfig    gcc-16.1.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> If it needs converting, I'll do it as a separate patch, since it lives
+> in a different struct (ib_device) and touches many call sites.
+> Otherwise, using min_t() for just this one call is fine too.
+> 
+> Thanks,
+> Vennela
+> 
+> > 
+> > diff --git a/drivers/infiniband/core/nldev.c b/drivers/infiniband/core/nldev.c
+> > index f599c24b34e8..aae4f3f6bcba 100644
+> > --- a/drivers/infiniband/core/nldev.c
+> > +++ b/drivers/infiniband/core/nldev.c
+> > @@ -454,7 +454,8 @@ static int fill_res_info(struct sk_buff *msg, struct ib_device *device,
+> >         };
+> > 
+> >         struct nlattr *table_attr;
+> > -       int ret, i, curr, max;
+> > +       u64 curr, max;
+> > +       int ret, i;
+> > 
+> >         if (fill_nldev_handle(msg, device))
+> >                 return -EMSGSIZE;
+> > diff --git a/drivers/infiniband/core/restrack.c b/drivers/infiniband/core/restrack.c
+> > index cfee2071586c..1b2f9df49e28 100644
+> > --- a/drivers/infiniband/core/restrack.c
+> > +++ b/drivers/infiniband/core/restrack.c
+> > @@ -61,7 +61,7 @@ void rdma_restrack_clean(struct ib_device *dev)
+> >   * @type: actual type of object to operate
+> >   * @show_details: count driver specific objects
+> >   */
+> > -int rdma_restrack_count(struct ib_device *dev, enum rdma_restrack_type type,
+> > +u32 rdma_restrack_count(struct ib_device *dev, enum rdma_restrack_type type,
+> >                         bool show_details)
+> >  {
+> >         struct rdma_restrack_root *rt = &dev->res[type];
+> > diff --git a/include/rdma/restrack.h b/include/rdma/restrack.h
+> > index 451f99e3717d..c081384740ce 100644
+> > --- a/include/rdma/restrack.h
+> > +++ b/include/rdma/restrack.h
+> > @@ -123,7 +123,7 @@ struct rdma_restrack_entry {
+> >         u32 id;
+> >  };
+> > 
+> > -int rdma_restrack_count(struct ib_device *dev, enum rdma_restrack_type type,
+> > +u32 rdma_restrack_count(struct ib_device *dev, enum rdma_restrack_type type,
+> >                         bool show_details);
+> >  /**
+> >   * rdma_is_kernel_res() - check the owner of resource
 
