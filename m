@@ -4,113 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 70CDFC43458
-	for <linux-nvme@archiver.kernel.org>; Tue,  7 Jul 2026 13:37:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0C2CDC44500
+	for <linux-nvme@archiver.kernel.org>; Tue,  7 Jul 2026 13:58:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=IuEPD0jWts4svd2xAWZK0uyVgL/6lCoJlkeVPxbPmsM=; b=EFQ4e1Frw2V+rYZk8zWmQNnTxY
-	UenrM1tQ/uX5cCYpbujD+INX65ZUMHHFegnQp1QMjAYJ3Ev/mTyTWcZlU6GL9TWLgQnQi8jNiS/hr
-	0N2BrfWwutWVuOV0NZm/aPI1cRzDHLK2Mx2HZcxFXNkzZWmh0ofU+jb8WhDdTFTBa/DbGusqWprub
-	KmSBvu/nLQQXRkTkRHkzJzenx5ka+1BauedHIPgNwVOry62O7W0gJ79dLh6CZYA2HydRVLpebxqvR
-	LQvn74att6J67wLv7Q1ZA0+jVbE3BX1pzmLpC3Q/m3kAhptya+luVmJVpiQJWrwI4HkprFjYRvb/5
-	f7UDIgjw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=odZi3J3pcdjUTPi1MshSb9GhTjgHgTpmLkTRrf7I94Y=; b=jBE16XvxjHgMVnQhWT+sWpuDdU
+	wdUVk2Rch4e1yk1XD9tqN41fqOD1Qa0g3hGOV8iX8I+MyJNDHH/3EFORsomiu7/kItOlyWPZ2pqTv
+	YfutmwduHH9Q6/c57n0IR+x6kI3cz0gd6pUWu4cxKnYlUPj+2qgvgLepgrodJgV9ZheNg0BAVx0aJ
+	9bJv9sGekillvGxH0MjKZH7rpUpkIEVmUpZKIdTanko7l1YAJhShpQD9Zd9/va7K3SM7Xjjd541ij
+	gc5Ku3USLvoSji8bx3NeXPsthH5UgLYVzH7RbLxKPOKTWpe6ShvCFQntTYNlSlVVQBx4tjyHESofm
+	SpXHcM7A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wh5zC-0000000F4P0-1Blp;
-	Tue, 07 Jul 2026 13:37:18 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1wh6Je-0000000F6Nx-0gPy;
+	Tue, 07 Jul 2026 13:58:26 +0000
+Received: from out-186.mta1.migadu.com ([95.215.58.186])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wh5z9-0000000F4Na-3ipH
+	id 1wh6Ja-0000000F6NZ-40tS
 	for linux-nvme@lists.infradead.org;
-	Tue, 07 Jul 2026 13:37:17 +0000
-Received: from kunlun.suse.cz (unknown [IPv6:2a07:de40:b306:2000::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D64CB75BCA;
-	Tue,  7 Jul 2026 13:37:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783431432; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IuEPD0jWts4svd2xAWZK0uyVgL/6lCoJlkeVPxbPmsM=;
-	b=RVjUoEBpG7OVPQndTscLgxLkZoD3QX5lSOTequ1ugX8PgbONdnan4AqbOvN6TMfVqvffb5
-	syuCYRYMl/KZTXW1gwqASpY/4MrWZW8Qq+iGBfk3DqjV10l/xmum0HmnWvQDtegRC6tV92
-	h/Cutg/ZwEm6Dw0020awi848Tj4ElvA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783431432;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IuEPD0jWts4svd2xAWZK0uyVgL/6lCoJlkeVPxbPmsM=;
-	b=vajsEHkGgfJK7Y97WXZ1i3FzjxyrS0cmx4ijr6y3CNKFsQJhnW8nT/y6sDyZ7o+v5qSWxO
-	MXiGvIGrQUv6uRCQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=VwMgytJ9;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=6nBXDHkH
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783431431; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IuEPD0jWts4svd2xAWZK0uyVgL/6lCoJlkeVPxbPmsM=;
-	b=VwMgytJ9XGoOx6sH7R9euEw3eOj35eLmeso2lG0a+P73jkIHz3AOL9tG3teh9fvaZDuRbO
-	IbQzzLoBmXDKTdTROiQP8oQg6Ci/01Q/LjOewMb+oGe6gBJyIbMYcPW2//m6xL0gLXzSNb
-	9T3J2MRozQbkp0oaKHYvsC159wLmHSU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783431431;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IuEPD0jWts4svd2xAWZK0uyVgL/6lCoJlkeVPxbPmsM=;
-	b=6nBXDHkH01w89jImPceMJi7NAbWtd/CTwnE9tCo5AWl76riqOWm6rLWjr4m9rsZzZJQB1K
-	QPU//LwbgQhrq4CA==
-Date: Tue, 7 Jul 2026 15:37:09 +0200
-From: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
-To: linux-nvme@lists.infradead.org
-Cc: Daniel Wagner <wagi@kernel.org>
-Subject: Re: [PATCH] When kmodpy is not available call kmod binary directly
-Message-ID: <ak0BBYBYdrLBh63I@kunlun.suse.cz>
-References: <20250321105915.8971-1-msuchanek@suse.de>
+	Tue, 07 Jul 2026 13:58:24 +0000
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1783432699;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=odZi3J3pcdjUTPi1MshSb9GhTjgHgTpmLkTRrf7I94Y=;
+	b=QB1pkt1n6qPdkNSYmaehmYjF7HsIdeCcG7lHfthUSU7NmFTcuXxaKbvIWs30kR2E48ipCR
+	2KxYHVjcbsOR3G8MwaCwnUjwjHmmfJEKHCKx0+BRTARAUHmMRYsnl/2fdTfxfNdodhAKYJ
+	hla7SDsoqvZmml2eOG8hqyBARjVjHNc=
+From: John Garry <john.garry@linux.dev>
+To: kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org,
+	nilay@linux.ibm.com,
+	John Garry <john.g.garry@oracle.com>
+Subject: [PATCH] nvme: swap synchronization ordering in nvme_remove_head()
+Date: Tue,  7 Jul 2026 14:57:44 +0100
+Message-ID: <20260707135744.1470014-1-john.garry@linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250321105915.8971-1-msuchanek@suse.de>
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [3.51 / 50.00];
-	HFILTER_HOSTNAME_UNKNOWN(2.50)[];
-	RDNS_NONE(2.00)[];
-	BAYES_HAM(-1.99)[94.97%];
-	ONCE_RECEIVED(1.20)[];
-	HFILTER_HELO_IP_A(1.00)[kunlun.suse.cz];
-	NEURAL_HAM_LONG(-1.00)[-0.997];
-	HFILTER_HELO_NORES_A_OR_MX(0.30)[kunlun.suse.cz];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-0.996];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWO(0.00)[2];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_ZERO(0.00)[0];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spamd-Bar: +++
-X-Rspamd-Queue-Id: D64CB75BCA
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260707_063716_090485_97A7C7C5 
-X-CRM114-Status: GOOD (  17.57  )
+X-CRM114-CacheID: sfid-20260707_065823_171668_BB26526C 
+X-CRM114-Status: GOOD (  10.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -125,52 +68,71 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Mar 21, 2025 at 11:59:10AM +0100, Michal Suchanek wrote:
-> kmodpy is an unmaintained project. Python is not really good at
-> backwards compatibility. With the upstream project not keeping up with
-> python churn using the library is a maintenance burden.
-> 
-> nvmet does not use the python library in any substantial way, it only
-> loads a module once. This can be easily accomplished without any library
-> using the modprobe tool directly.
+From: John Garry <john.g.garry@oracle.com>
 
-Forgot
+sashiko bot reported a potential issue in the requeue handling in [0] -
+the code there is same as the NVMe driver.
 
-Signed-off-by: Michal Suchanek <msuchanek@suse.de>
+The issue is that when we schedule the requeue work, if a bio is added to
+the requeue list afterwards in nvme_ns_head_submit_bio(), it is missed by
+the requeue worker.
 
-> ---
->  nvmet/nvme.py | 17 ++++++++++++++---
->  1 file changed, 14 insertions(+), 3 deletions(-)
-> 
-> diff --git a/nvmet/nvme.py b/nvmet/nvme.py
-> index 59efdb5b7c1b..397f103abcdb 100644
-> --- a/nvmet/nvme.py
-> +++ b/nvmet/nvme.py
-> @@ -256,9 +256,20 @@ class Root(CFSNode):
->              # Try the ctypes library included with the libkmod itself.
->              try:
->                  import kmod
-> -                kmod.Kmod().modprobe(modname)
-> -            except Exception as e:
-> -                pass
-> +
-> +                try:
-> +                    kmod.Kmod().modprobe(modname)
-> +                except Exception as e:
-> +                    pass
-> +            except ImportError:
-> +                # Try the binary specified in /proc
-> +                try:
-> +                    kmod = None
-> +                    with open('/proc/sys/kernel/modprobe', 'r') as f:
-> +                        kmod = f.read().rstrip()
-> +                    os.system(kmod + ' ' + modname)
-> +                except Exception as e:
-> +                    pass
->  
->      def _list_subsystems(self):
->          self._check_self()
-> -- 
-> 2.47.1
-> 
+This issue can be recreated by hacking a large delay in the bio submission
+requeue path:
+
+        } else if (nvme_available_path(head)) {
+                dev_warn_ratelimited(dev, "no usable path - requeuing I/O\n");
+
++               msleep(30000);
+                spin_lock_irq(&head->requeue_lock);
+                bio_list_add(&head->requeue_list, bio);
+                spin_unlock_irq(&head->requeue_lock);
+
+
+Then if we issue a write after removing all paths, a hang can be seen:
+
+# echo 20 > /sys/devices/virtual/nvme-subsystem/nvme-subsys1/nvme1n1/delayed_removal_secs
+#
+# ./ini_nvme_teardown.sh
+[   25.877224] nvme nvme1: Removing ctrl: NQN "nvme-test-target"
+[   25.939569] nvme nvme2: Removing ctrl: NQN "nvme-test-target"
+#
+# xfs_io -d -C "pwrite -b 64k -V 1 -D 0 64k" /dev/nvme1n1p1
+[   29.883653] block nvme1n1: no usable path - requeuing I/O
+
+Fix by re-ordering the SRCU synchronization and scheduling the requeue
+work.
+
+[0] https://lore.kernel.org/linux-scsi/20260703102918.3723667-1-john.g.garry@oracle.com/T/#m72af1f29deb0ebfb2973464207f201f1be1f660c
+
+Signed-off-by: John Garry <john.g.garry@oracle.com>
+---
+I am not sure if we still require the synchronize_srcu() after nvme_cdev_del().
+
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 016b6b0128c7..0b017eeb82b2 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -690,14 +690,15 @@ static void nvme_remove_head(struct nvme_ns_head *head)
+ {
+ 	if (test_and_clear_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
+ 		/*
+-		 * requeue I/O after NVME_NSHEAD_DISK_LIVE has been cleared
+-		 * to allow multipath to fail all I/O.
++		 * Requeue I/O after NVME_NSHEAD_DISK_LIVE has been cleared
++		 * to allow multipath to fail all I/O. First synchronize to
++		 * add any bios to the requeue list.
+ 		 */
++		synchronize_srcu(&head->srcu);
+ 		kblockd_schedule_work(&head->requeue_work);
+ 
+ 		if (test_and_clear_bit(NVME_NSHEAD_CDEV_LIVE, &head->flags))
+ 			nvme_cdev_del(&head->cdev, &head->cdev_device);
+-		synchronize_srcu(&head->srcu);
+ 		del_gendisk(head->disk);
+ 	}
+ 	nvme_put_ns_head(head);
+-- 
+2.43.0
+
 
