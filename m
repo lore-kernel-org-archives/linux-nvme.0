@@ -4,58 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A8612C44501
-	for <linux-nvme@archiver.kernel.org>; Tue,  7 Jul 2026 12:11:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A6A8DC43602
+	for <linux-nvme@archiver.kernel.org>; Tue,  7 Jul 2026 12:12:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=ojbX1nEXLeAoCWFrpN7CBWt+bZr7+t+rdnMp6zKWArU=; b=wXpLYR9lkW2irN8yUvxBbDNqP3
-	iIu/eY6yme1ZNE/FtvZNImcrftx3mpsTKf/YfIKB0lH04BW+RxeDV0BBkpJeRK10k5DCtQdvIVVzo
-	DHRSAX9TRqmQ2hkGv9ZPxtDQmHPxjVPmToYDZEg7RY0hpq+N+3Xi/lfqhl+7Cc47dqK0EybDf503p
-	dDX4NTbQgdEM9zwU5wCljbEj02MOAcD+swxKyKXci/OW2l6UWu7J1NpeVqIXkxp+e5dLLs9ZILMLT
-	FI6thrfnBHmf53LNvqfM4Bl6MwMeTCDM1vQmOnz1cztG5/KBFldOESfYxEtJapDqXf05IWUwHI7j+
-	NpVNRqLg==;
+	bh=JzTahqbJIGFsTQPAMqduH2v9Y2mo0ojfy5QvuRc2Qgg=; b=xJ8HlSNmH99DKz8M9l0ANEnkRN
+	6QRmYH1nDjqd4M+7hSsnhmw4r+Z8dnFO9IaRR7i2Zocf1wjTb00l1a++SDCYxR9jI4aw5mHgtVYWF
+	k+fA+WYvzesMYGZsIwzfL2xPUSRy52LNNTtTJkUcH6xBHkQN3rwQR9BfHVuvsTJwh1jIpReyUya5k
+	rvRjyEEBOZUFMw0BEKGpiYrlEHT5BmaBjgKOxRh/4AqtVk69ASco+cAts7Y6C+ub8hrs8iUmkQI1q
+	BjNDMQ97S7U6gfxTS436tKUGu7LXd90NagRLRdB4VKcXnhIL6hepPtipLQ+aOKHtFBsdj+BKIQbxB
+	jG0XVgKQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wh4eA-0000000Ev4V-3lwc;
-	Tue, 07 Jul 2026 12:11:30 +0000
-Received: from out30-118.freemail.mail.aliyun.com ([115.124.30.118])
+	id 1wh4fB-0000000EvNs-12E1;
+	Tue, 07 Jul 2026 12:12:33 +0000
+Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wh4e7-0000000Ev2v-2X4E
+	id 1wh4f8-0000000EvMY-39IR
 	for linux-nvme@lists.infradead.org;
-	Tue, 07 Jul 2026 12:11:28 +0000
+	Tue, 07 Jul 2026 12:12:31 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1783426285; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=ojbX1nEXLeAoCWFrpN7CBWt+bZr7+t+rdnMp6zKWArU=;
-	b=cnGiP0KVPADoemrPeql1syhwTu7q33t44z8eiw7RVvvyz3sscu4M6yCBCwX2q2Ff+P9uGDQFl9Wkyzu67+QSVjR9uX1KkZp2baCp1u0roORBQ+OVq26Wcwx4iBhFRgguuNTwuKDVKsUfoJEvp3z70Trf3UApxvShhUZojyUbI5g=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037026112;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0X6dZSVX_1783426281;
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0X6dZSVX_1783426281 cluster:ay36)
+	t=1783426348; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=JzTahqbJIGFsTQPAMqduH2v9Y2mo0ojfy5QvuRc2Qgg=;
+	b=jyD+9bud75N9En0vg3s/oE6hFXQx25GY0fpJ7RnMxbcwA81JRz38il1WmYR5YBCdu7CSYxoJGPX30O+WNsJ+YM8WyvOW/gw+WA220466SczkWKTuQsivvXmoLBNyf5fm3oO6nW9rTAIvI48XBklL9bE+vcgxTjyTJpXEk5tcpw8=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037033178;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0X6dVpNS_1783426347;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0X6dVpNS_1783426347 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Tue, 07 Jul 2026 20:11:21 +0800
+          Tue, 07 Jul 2026 20:12:27 +0800
 From: Guixin Liu <kanie@linux.alibaba.com>
 To: Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	Chaitanya Kulkarni <kch@nvidia.com>,
 	Hannes Reinecke <hare@suse.com>,
 	Daniel Wagner <dwagner@suse.de>,
-	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+	John Garry <john.g.garry@oracle.com>,
+	Nilay Shroff <nilay@linux.ibm.com>
 Cc: linux-nvme@lists.infradead.org,
 	xlpang@linux.alibaba.com,
 	oliver.yang@linux.alibaba.com
-Subject: [PATCH v2 0/2] nvmet: add namespace-level debugfs for reservation state
-Date: Tue,  7 Jul 2026 20:11:12 +0800
-Message-ID: <20260707121114.2273629-1-kanie@linux.alibaba.com>
+Subject: [PATCH v4 0/3] nvme: add ABI documentation for sysfs and configfs interfaces
+Date: Tue,  7 Jul 2026 20:12:24 +0800
+Message-ID: <20260707121227.2274769-1-kanie@linux.alibaba.com>
 X-Mailer: git-send-email 2.43.7
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260707_051127_804801_43A7385E 
-X-CRM114-Status: UNSURE (   8.83  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260707_051230_953108_9F9D4876 
+X-CRM114-Status: GOOD (  12.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,48 +71,67 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This series adds debugfs support for inspecting NVMe target reservation
-(PR) state at the namespace level.
+The NVMe host sysfs interfaces and target configfs interfaces lack
+ABI documentation under Documentation/ABI/. This series adds the
+missing documentation and updates MAINTAINERS accordingly.
 
-Patch 1 introduces per-namespace debugfs directories under each subsystem,
-providing the infrastructure for namespace-specific debug entries.
+Each attribute entry has been traced back to its original introducing
+commit via git archaeology to provide accurate Date, KernelVersion,
+and Contact information.
 
-Patch 2 adds a 'reservation' file that exposes the persistent reservation
-state including enable status, generation counter, notification mask,
-holder information, and the full registrant list.
+This documentation was created with the assistance of AI (Claude)
+for git history tracing and document formatting.
 
-Example output with two registered hosts and an active holder:
+Patch 1 adds Documentation/ABI/stable/sysfs-nvme for host sysfs.
+Patch 2 adds Documentation/ABI/stable/configfs-nvmet for target configfs.
+Patch 3 adds missing F: entries in MAINTAINERS for NVMe documentation.
 
-  $ cat /sys/kernel/debug/nvmet/testnqn/ns1/reservation
-  enable=1
-  generation=2
-  notify_mask=reg_preempted,resv_released,resv_preempted
-  rtype=write_exclusive
-  holder=11111111-1111-1111-1111-111111111111,0x1111
-  reg=11111111-1111-1111-1111-111111111111,0x1111
-  reg=22222222-2222-2222-2222-222222222222,0x2222
+v3->v4:
+ - Move the documentation from Documentation/ABI/testing/ to
+   Documentation/ABI/stable/, since the NVMe host sysfs and target
+   configfs interfaces are long-established, stable ABI (Daniel Wagner).
+ - Add Reviewed-by tag from Daniel Wagner in the first patch, and from
+   Nilay Shroff in all three patches, thanks.
+
+v2->v3:
+ - sysfs: document the namespace diagnostic counters as two separate
+   entries, one for non-multipath configurations (/sys/block/nvmeXnY/)
+   and one for multipath configurations (/sys/block/nvmeXcYnZ/ per-path
+   and /sys/block/nvmeXnY/ head), so the actual sysfs location of each
+   counter is obvious without per-attribute visibility notes.
+ - sysfs: keep all diagnostic counters (controller and namespace)
+   adjacent for easier browsing.
+ - sysfs: document the per-path attributes ana_grpid, ana_state,
+   queue_depth and numa_nodes under /sys/block/nvmeXcYnZ/ to reflect
+   their real location, dropping the now-redundant "only visible on
+   per-path devices" wording.
+ - Add Reviewed-by tag from Hannes Reinecke in the first two patches,
+   thanks.
 
 v1->v2:
-  - Switch the output to a "key=value" line format so it is easier to
-    parse from scripts (Daniel Wagner).
-  - Emit the registrant list as repeated "reg=" lines instead of a
-    "registrants:" header with indented entries.
-  - Print the holder as "holder=<uuid>,0x<rkey>" and report an empty
-    holder/rtype as "none".
-  - Stringify notify_mask as a comma-separated list of masked
-    notification names (reg_preempted, resv_released, resv_preempted)
-    instead of a raw hex bitmask; empty mask is reported as "none".
-  - When reservation is not enabled, print only "enable=0".
+ - sysfs: group all TLS attributes together and reorganize the file by
+   device class (controller, namespace, subsystem), keeping related
+   attributes grouped within each class; split the combined
+   passthru_err_log_enabled entry into controller and namespace entries.
+ - configfs: group attributes by object type (ports, subsystems,
+   hosts), merge dhchap_dhgroup into the DH-HMAC-CHAP host
+   authentication entry, and split the combined ANA and PI-enable
+   entries into separate port and subsystem entries.
+ - Add Reviewed-by tag from Hannes Reinecke in the third patch, thanks.
 
-Guixin Liu (2):
-  nvmet: add namespace-level debugfs directory
-  nvmet: expose reservation state through debugfs
+Guixin Liu (3):
+  nvme: add ABI documentation for host sysfs interfaces
+  nvmet: add ABI documentation for target configfs interfaces
+  MAINTAINERS: add missing NVMe documentation files
 
- drivers/nvme/target/core.c    |   2 +
- drivers/nvme/target/debugfs.c | 103 ++++++++++++++++++++++++++++++++++
- drivers/nvme/target/debugfs.h |   5 ++
- drivers/nvme/target/nvmet.h   |   3 +
- 4 files changed, 113 insertions(+)
+ Documentation/ABI/stable/configfs-nvmet | 352 ++++++++++++++++++
+ Documentation/ABI/stable/sysfs-nvme     | 453 ++++++++++++++++++++++++
+ Documentation/ABI/testing/sysfs-nvme    |  13 -
+ MAINTAINERS                             |   4 +
+ 4 files changed, 809 insertions(+), 13 deletions(-)
+ create mode 100644 Documentation/ABI/stable/configfs-nvmet
+ create mode 100644 Documentation/ABI/stable/sysfs-nvme
+ delete mode 100644 Documentation/ABI/testing/sysfs-nvme
 
 -- 
 2.43.7
