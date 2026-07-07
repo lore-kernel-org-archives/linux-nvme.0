@@ -4,62 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8ED1EC43458
-	for <linux-nvme@archiver.kernel.org>; Tue,  7 Jul 2026 01:42:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F2ED8C43458
+	for <linux-nvme@archiver.kernel.org>; Tue,  7 Jul 2026 01:47:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HzSDU5v4QNXrloVmtzmO/cT0fybuWxbNH85fBrZ3rjA=; b=36s43aQQvYOm3fqkxVMlXWdkOC
-	Ozn2z1plEsxPuCaAxZDXKONjKK+JOTQECApH23kIU4f/JpBmNR4BwHoNi0x3E6W/wpx5YQcBFzUqV
-	l+qAq/bzJMa8/iHhxC6lIEmqjdwzhtMZo297ffvgEdz9G53AJIneld4lp2ERUa2YgvNnYY+CAORNf
-	7j18jYm9hcaJX5714QvAprgmW5d11aw839AUY6EvEfybdftzCQVQk8BhcWRfM90bJzvQG63+XDRTp
-	D3Z4nOwu27teNJWcYNrv18XcYUEWnQmuPGVivsgt/u5H+qpp4JDuMZM5fZnt3r2BtxOCbuYsmXDGB
-	XKwcXeAQ==;
+	bh=I7WVrLu4JVgMSG6O/gAElPWK/ulnuTIDDlrsVsbDSlQ=; b=SruEbGCwbn1/1e6Z5VFKj9O7i9
+	3qtApnmH5oGQAUVoPRqC/1U/77u2vsApOislKL1T9mh6JqeHNdXyXDL0vCn40o/WqNLWKnVc/TUQ8
+	WmW0quwraNYnBQdHdibRS79U0XvqNzDSvz8XSADMutK/tWOtB0DRjPU/YNgZfVmzxCRO7d9Nlw6Hh
+	aAeUdkBBdVU7tYrp2mPuAUH+nFraEc5Lna5hK2/FdZ+ZQhgqYYxDjEZ5IEDUOK2FQPzLyH3WeuS4p
+	a8qWwXZBkfznfrYM3XDQztHwMxR186BksEwVyHZ11QJpDgzXeaPE1Lc7TMhCVcjvJ2o6Rv5hmiQMm
+	HDiUeO2A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wgupU-0000000DtJn-1Aoa;
-	Tue, 07 Jul 2026 01:42:32 +0000
-Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131])
+	id 1wguuQ-0000000Dtax-46hX;
+	Tue, 07 Jul 2026 01:47:38 +0000
+Received: from out30-111.freemail.mail.aliyun.com ([115.124.30.111])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wgupR-0000000DtJ9-0xr8
+	id 1wguuN-0000000DtaK-1SP5
 	for linux-nvme@lists.infradead.org;
-	Tue, 07 Jul 2026 01:42:30 +0000
+	Tue, 07 Jul 2026 01:47:37 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1783388547; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=HzSDU5v4QNXrloVmtzmO/cT0fybuWxbNH85fBrZ3rjA=;
-	b=eTGafDIm0hZ1cflaAP+k2RcsYnqbm4hpcQWRkGhvv9n1JBNnEIUiw931kL4a7CxXRVQ8bmRA45e+9iTDo1+haYNb8uSyYv7GQypmk9ahb3/OoD6nJM3ytFfRckbGtcuxpVSUuAvVvWaznP8XhwUSfSrw0qt6y2DLYd3UdLb52E4=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R361e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0X6b0tSK_1783388545;
-Received: from 30.178.83.41(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0X6b0tSK_1783388545 cluster:ay36)
+	t=1783388851; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=I7WVrLu4JVgMSG6O/gAElPWK/ulnuTIDDlrsVsbDSlQ=;
+	b=eFMY9UB88bTrwfz7KcKoGm9tEaARFKrEMvms3tK1/BSVjJZ1Yc6+vTMmNu1B7BC0Kn5U1mbXD29x5HihfF+QEndIrkA0N+qQQkUImn9AAIUnXqTsoQllz/1Gup2LtK2yuIqhywA8opCherpTVmgMj2XqPDkng0FwmiQyacd2p74=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R691e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0X6b0v2v_1783388849;
+Received: from 30.178.83.41(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0X6b0v2v_1783388849 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Tue, 07 Jul 2026 09:42:25 +0800
-Message-ID: <fbd64f1b-7970-4136-9dc5-d7db474ae87a@linux.alibaba.com>
-Date: Tue, 7 Jul 2026 09:42:25 +0800
+          Tue, 07 Jul 2026 09:47:30 +0800
+Message-ID: <f00962bb-630d-46d1-9dce-d09f1176111f@linux.alibaba.com>
+Date: Tue, 7 Jul 2026 09:47:29 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] nvmet: add namespace-level debugfs for reservation
- state
-To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: Daniel Wagner <dwagner@suse.de>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
- Hannes Reinecke <hare@suse.com>, linux-nvme@lists.infradead.org
-References: <20260622104418.2070277-1-kanie@linux.alibaba.com>
- <5b2a11e8-bb66-4111-9090-bcdbb0458fcf@flourine.local>
- <f0c00d47-0f33-4c9a-84ea-2fb82cd4d102@linux.alibaba.com>
- <1b56186c-9e5b-4e9a-813e-74e4d1511738@linux.alibaba.com>
- <78c97eb1-a69e-4f14-977d-f3950db1a0e2@flourine.local>
- <551ef1f7-ceec-4e4d-9555-0661ecbcc845@linux.alibaba.com>
- <akuji5egnkVWM5u2@shinmob>
+Subject: Re: [PATCH v3] nvme-multipath: expose path_state via sysfs
+To: Nilay Shroff <nilay@linux.ibm.com>, Daniel Wagner <dwagner@suse.de>,
+ John Garry <john.g.garry@oracle.com>, Keith Busch <kbusch@kernel.org>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org
+References: <20260624054843.1132083-1-kanie@linux.alibaba.com>
+ <01e1bdfa-2917-401e-9ffb-a2229798e542@oracle.com>
+ <c9b1d8fd-7012-44a0-a975-947fc0e16fac@flourine.local>
+ <315b3fcf-a4ba-4f81-aa16-0d2f61a47b5f@linux.alibaba.com>
+ <7da38928-fcb6-4ae4-891a-a71516b2977c@linux.ibm.com>
 From: Guixin Liu <kanie@linux.alibaba.com>
-In-Reply-To: <akuji5egnkVWM5u2@shinmob>
+In-Reply-To: <7da38928-fcb6-4ae4-891a-a71516b2977c@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260706_184229_435903_4E40AC98 
-X-CRM114-Status: GOOD (  10.53  )
+X-CRM114-CacheID: sfid-20260706_184735_764040_88B18A6D 
+X-CRM114-Status: GOOD (  15.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,64 +74,77 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-在 2026/7/6 20:57, Shin'ichiro Kawasaki 写道:
-> On Jul 06, 2026 / 18:28, Guixin Liu wrote:
+在 2026/6/24 21:21, Nilay Shroff 写道:
+> On 6/24/26 5:22 PM, Guixin Liu wrote:
 >>
->> 在 2026/7/6 15:59, Daniel Wagner 写道:
->>> On Mon, Jul 06, 2026 at 11:10:41AM +0800, Guixin Liu wrote:
->>>>>>> Example output with two registered hosts and an active holder:
->>>>>>>
->>>>>>>      $ cat /sys/kernel/debug/nvmet/testnqn/ns1/reservation
->>>>>>>      enable : 1
->>>>>>>      generation : 2
->>>>>>>      notify_mask : 0x0
->>>>>>>      rtype : write_exclusive
->>>>>>>      holder : hostid=11111111-1111-1111-1111-111111111111, rkey=0x1111
->>>>>>>      registrants:
->>>>>>>        hostid=11111111-1111-1111-1111-111111111111, rkey=0x1111
->>>>>>>        hostid=22222222-2222-2222-2222-222222222222, rkey=0x2222
->>>>>> I expect blktests will make use of this interface eventually. The parser
->>>>>> for this wont be dead simple, sure doable but not simple. If you see a
->>>>>> way to make a bit simpler I wouldn't mind.
->>>>> How about this:
+>>
+>> 在 2026/6/24 17:55, Daniel Wagner 写道:
+>>> On Wed, Jun 24, 2026 at 08:36:44AM +0100, John Garry wrote:
+>>>> On 24/06/2026 06:48, Guixin Liu wrote:
+>>>>> Add a read-only "path_state" sysfs attribute to each NVMe path 
+>>>>> namespace
+>>>>> device (/sys/class/nvme/nvmeX/nvmeXcYnZ/path_state) that exposes the
+>>>>> current path state, including whether the path is enabled or disabled
+>>>>> with a specific reason.
 >>>>>
->>>>> 1. One holer, multi registrants:
->>>>>     enable=1
->>>>>     generation=2
->>>>>     notify_mask=0x0
->>>>>     rtype=write_exclusive
->>>>>     holder=11111111-1111-1111-1111-111111111111,0x1111
->>>>>     reg=11111111-1111-1111-1111-111111111111,0x1111
->>>>>     reg=22222222-2222-2222-2222-222222222222,0x2222
+>>>>> Factor the path disable checks from nvme_path_is_disabled() into a 
+>>>>> new
+>>>>> nvme_path_get_state() helper that returns an enum nvme_path_state. 
+>>>>> This
+>>>>> keeps the path selection logic and sysfs reporting in sync, so any 
+>>>>> future
+>>>>> updates to the path disable criteria are automatically reflected 
+>>>>> in the
+>>>>> sysfs output.
 >>>>>
->>>>> 2. No holder, multi registrants:
->>>>>     enable=1
->>>>>     generation=1
->>>>>     notify_mask=0x0
->>>>>     rtype=none
->>>>>     holder=none
->>>>>     reg=11111111-1111-1111-1111-111111111111,0x1111
->>>>>     reg=22222222-2222-2222-2222-222222222222,0x2222
->>>>>
->>>>> 3. No registrant:
->>>>>     enable=1
->>>>>     generation=0
->>>>>     notify_mask=0x0
->>>>>     rtype=none
->>>>>     holder=none
->>>>>
->>>>> 4. Reservation not enabled:
->>>>>     enable=0
-> ...
->> Hi Shin'ichiro:
->>      Does this work for you?
-> Hi Guixin, yes, I think it is good enough. If this is sysfs, "one value
-> per file" and "array by files in a directory" would be guided, but this is
-> debugfs readonly data. So, it sounds reasonable to put some data structure into
-> a single debufs attribute file. Uevent like key=value format sounds good. It is
-> a bit wacky to use comma to hold both host id and key for a holder and a
-> registrant, but I cannot think of better solution.
-OK, I will change this in v2, thanks.
+>>>>> Possible values:
+>>>>>     - "enabled (optimized)"     : ANA state is optimized
+>>>>>     - "enabled (non-optimized)" : ANA state is not optimized
+>>>>>     - "disabled (ctrl_down)"    : controller is not live
+>>>>>     - "disabled (ana_pending)"  : ANA state change pending
+>>>>>     - "disabled (ns_not_ready)" : namespace is not ready
+>>> I'd prefer to have a single string here instead of something we 
+>>> might need
+>>> to parse again. The sysfs docs says
+>>>
+>>>    Mixing types, expressing multiple lines of data, and doing fancy
+>>>    formatting of data is heavily frowned upon. Doing these things 
+>>> may get
+>>>    you publicly humiliated and your code rewritten without notice.
+>>>
+>>> Something like
+>>>
+>>>    - optimized
+>>>    - non-optimized
+>>>    - ctrl-down
+>>>    - ana-pending
+>>>    - ns-no-ready
+>> Would this be redundant with ana_state?
+>>
+>> Is this OK?
+>>      - enabled
+>>      - ctrl-down
+>>      - ana-pending
+>>      - ns-not-ready
+>>
+>>
+>> CC Keith, John, Nilay, what do you think?
+>
+> I tend to agree with Daniel about both mixing types and
+> reporting ana state values here as ana state is also reported
+> separately.
+>
+> The purpose of path_state is really to expose whether the path
+> is currently eligible for path selection and, if not, why.
+>
+> IMO, a simpler set of values which you suggested above
+> should be sufficient. But lets wait if Keith has any
+> other suggestion.
+>
+> Thanks
+> --Nilay
+>
+Hi Keith, would you have any suggestions on this?
 
 Best Regards,
 Guixin Liu
