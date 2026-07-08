@@ -4,47 +4,152 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 46C15C43458
-	for <linux-nvme@archiver.kernel.org>; Wed,  8 Jul 2026 16:18:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 10B21C43458
+	for <linux-nvme@archiver.kernel.org>; Wed,  8 Jul 2026 18:35:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Cc:To:
+	In-Reply-To:References:Message-Id:Content-Transfer-Encoding:Content-Type:
+	Subject:Date:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ta1LvuxtTvBLeSagRyjO44/xlj15EWzcg4gKDuWwVVc=; b=NFIAqSlWr7i/qy6f+1/eBkP+VG
-	GGtpUaqHC1FW7OLvxldnXJvEl/NuOLsEUKvwWlnmz5+ysmZOq1oV5F+c4rJuq+hJlqt2yxL1hgrgq
-	sWqz77Y1tHeEEwdabVuGsi5xT/IL4IbOLXPhQNAt5YmtEN3oulTqMqaFSKR3s2BcLF3kn7gFFTORU
-	APOs8qDFnHcxktVH/SIKIOFs6sXgZbOE/0m9N28iqrT1Omk0oNqUq8TBQe3OlTp7lwy6t8dgWMMWE
-	POVDYOPISOQzMViPA8Qur7IUVvlXCxx1L9FSAMP5ot0AOPE4BoFyYaZz39VJS7EAHAdRkTXNGdcUq
-	wD3+vuqw==;
+	bh=Vdfg/n8nGgvFwcsy0j9MK+wCSiPdNNYD732a15idxaI=; b=MiQAt9S5FhKTMFrYm6yjciG2FK
+	sEc9J/Mzmh8IemfUQ8s/sOXxRCBnMpSxYBJJ09+3Otx5uslkA4tR1zIcMKTT+CWkTzClzTwNCOwNB
+	27n0PdRYBpuSdKlUAln1j4OdVOdjKJklyfbtAoFuFpRjbXgcg9bWbmmG8y/ghqOGHjcD4v8bstQe+
+	Img/vK3EEOo2kJIxfdfxzdQ3Z79X0mv435WbY1XzCraacHglNrSyUqvHO0f2Of7UcIoud4IClvDer
+	UHTYmhBHkVafZ5U7dQQrC//ujF9jTKdFs0aVQennCcF6q7EasGtGmatE5FVRs/4QatSbDPPOWQb4R
+	phTGZNgA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1whUz8-0000000HaEO-3wFP;
-	Wed, 08 Jul 2026 16:18:54 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1whX7C-00000000BDq-0sJB;
+	Wed, 08 Jul 2026 18:35:22 +0000
+Received: from mail-westeuropeazon11011018.outbound.protection.outlook.com ([52.101.70.18] helo=AS8PR04CU009.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1whUz6-0000000HaDV-1CFq
+	id 1whX79-00000000BCm-3Z4b
 	for linux-nvme@lists.infradead.org;
-	Wed, 08 Jul 2026 16:18:53 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id B81A668BFE; Wed,  8 Jul 2026 18:18:46 +0200 (CEST)
-Date: Wed, 8 Jul 2026 18:18:46 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: John Garry <john.g.garry@oracle.com>
-Cc: Christoph Hellwig <hch@lst.de>, kbusch@kernel.org, sagi@grimberg.me,
-	axboe@fb.com, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH RFC] nvme: fix NS head cdev lifetime
-Message-ID: <20260708161846.GA2262@lst.de>
-References: <20260706130146.617258-1-john.g.garry@oracle.com> <20260708092740.GB6513@lst.de> <d27cb4a8-cf04-40ac-a271-c7d83dadc8a1@oracle.com>
+	Wed, 08 Jul 2026 18:35:21 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=cBZWEKZHEXfSZddF36SXt5CgMPGfB/88pG2hu5IDrhQBqInJvECaPui+6Wi3LkvWpu9XtwUxY4Dut0ODasnSn45xnsEv/YQpJoXLQ/CNTv/W6vhKEx2H+cWSkER+ZUALfPxcC8mbfcIhZ/yzR2/5xzyzGZjVPRiGurBe0oC7Hk9xb/O3Z06sXDvOvzDK/9PQBKZ/2goXW2RFMfYwyYLDH6XZFayDBosNct5FNbns/PTBcKyyHE53cevDPyh+mc47FcpaaLy878mCZQ7VZuDXy14PqaORKJTIwwyx+H4Y0nHwOnXBLMCdWtJ1o/c9JfuTl9Nf1EFdHJUzb/Y0QzqGUw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Vdfg/n8nGgvFwcsy0j9MK+wCSiPdNNYD732a15idxaI=;
+ b=KeUjTOC7yPdvmAJKNdOYKpp5zYYrI0BIVQAQDIz0Zz5ABnBlcafJPlQ1FIoB/w6o5xchxH+5eM5/3rxy0K5voQRMRCQhu9Ta3NiyYBQpigNx4thqmMA3QKRyyF8zIJuDsQn2Klq8NRth+9+tHfcc3VxVvt9xoAap/FWv9mromouCpVZz45qUaKhiGVclNKtwxwemkWJH5ohMI9u1c3R7uNeoKjdeNegbDuOtuCvwgG4ZTkeITJ9bUKOjmZr55+9bqQi20o5DmjbbTjhM78seLZtZVfay1Ti0ZZMAB7M1z0jXp6haIVVMNVNo8+xQBVYGNLQD83XNFrgDxn6q2YuHoA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Vdfg/n8nGgvFwcsy0j9MK+wCSiPdNNYD732a15idxaI=;
+ b=mAJ8nvjj5984iCHGaZbt7gOjMs6BXs+F6/kyv/iaI0TlUbzCa31DRJzSl99WOVCFMyFcpcnJouvyrpO2GNFUyEcfg7dbucsiBL6wKIvc8iZAwFZEVCEDnuXnqG/Fz7yPdCRj+wTp2shJO7wprGQCgGi1hnYf7jetiiNIC2978gTsTdEN5mhbjEs6To+5JOzcUffqIuE9vzSjfZmorabeKbtoYYwJC1wceHCFSuva2uS5IFsNUOKkvCogqWMmYzn+V1uTDWhOqAril5ifR/nFABSvrZpeaI+OSihvCGl2uj3AVtPobab2MvhxhvjHrWHsXZYvguYKI0eNTfR/hTl0Ag==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
+ by GV2PR04MB11883.eurprd04.prod.outlook.com (2603:10a6:150:2f9::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Wed, 8 Jul 2026
+ 18:35:16 +0000
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c%6]) with mapi id 15.21.0159.007; Wed, 8 Jul 2026
+ 18:35:16 +0000
+From: Frank.Li@oss.nxp.com
+Date: Wed, 08 Jul 2026 14:35:01 -0400
+Subject: [PATCH v4 01/10] dmaengine: dw-edma: Move control field update of
+ DMA link to the last step
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260708-edma_ll-v4-1-cc128f0afb61@nxp.com>
+References: <20260708-edma_ll-v4-0-cc128f0afb61@nxp.com>
+In-Reply-To: <20260708-edma_ll-v4-0-cc128f0afb61@nxp.com>
+To: Manivannan Sadhasivam <mani@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
+ Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>, 
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+ Manivannan Sadhasivam <mani@kernel.org>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Bjorn Helgaas <bhelgaas@google.com>, Christoph Hellwig <hch@lst.de>, 
+ Niklas Cassel <cassel@kernel.org>
+Cc: dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-hardening@vger.kernel.org, linux-pci@vger.kernel.org, 
+ linux-nvme@lists.infradead.org, Koichiro Den <den@valinux.co.jp>, 
+ imx@lists.linux.dev, "Verma, Devendra" <devverma@amd.com>, 
+ Frank Li <Frank.Li@nxp.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1783535707; l=3566;
+ i=Frank.Li@nxp.com; s=20240130; h=from:subject:message-id;
+ bh=geWLY7+7Bq0r3OZ5EWJpTkJEDEWVSA01WcSxrlvbm7w=;
+ b=wuoeWP5O2HWYsyQvjbhrN3A967djXYkb249hvdszMJT5z2Xd85u2A0iINFk+cugvQfDTp9wmn
+ f/Q//kvjCsYAstwdw65O0TSFjpCTQGzfZLqpZCT4umW4Xp+JXBt3wzf
+X-Developer-Key: i=Frank.Li@nxp.com; a=ed25519;
+ pk=I0L1sDUfPxpAkRvPKy7MdauTuSENRq+DnA+G4qcS94Q=
+X-ClientProxiedBy: SN7P220CA0005.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:806:123::10) To GV2PR04MB11799.eurprd04.prod.outlook.com
+ (2603:10a6:150:2cf::9)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d27cb4a8-cf04-40ac-a271-c7d83dadc8a1@oracle.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|GV2PR04MB11883:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6ead05d5-207f-423c-2c68-08dedd1fa7e2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|19092799006|23010399003|366016|1800799024|7416014|921020|11063799006|56012099006|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info: 4z9hq34aN1ldey789mDE9tSe9MM7bxClFrEmbhb7z6qyQMqotihDnHqbAqufiAX6hEy+bsU/rEenQpq4oLxaEJ4vyGmdNDYwD7400MV02qsXGwH+Q86cIIxyl/rfuiIYgyWjnmDQ1ZJXrbSzSru+qj1B9L8GvpkRaxy4ct/ZHdk1m02McvqhKYuHvihb7gr1+2zITuseb5K3UWS97xMP1+SHvpgMgDEvGGq+CGsxuH/bzcbrISHYTWeS90eCwpEbywnuZumRrkBZEVKJaEHGPDhkngPvdJI1eRloK3319HvyxAHsgdEx4ekk4qALgiEv/G090DFLMM+04IMbFCyEAbdj9Vm8Q1WyEGlhTogUHrlYYbvO7GcWk8Nvl1IEuh8ZFxIxlcErLutJl7oJoqb1z2k6f6+aVFY4UW6i/QkCfqWzXjlQo9GXMa2LOKbLrFKTEH36DiFXcO7VBdGOe3i4ZxN3syW4Wd++2/l8aX1pW0+bnXBBQX3FFrF/GQB6eXC3iBymwO1fZfK2rU5tTg9cVJdk3Lu8qAuKQtXIM/25+XRSMN0JnxTE1RBVztmPWp/v89fp75Sel1jl6exkBLbBE5CUM5oBhKyJUCXcr7VpiLe3oOWmwpBqbTk7xn2Bh0KvCDz02NmSd5RFaD1yhHhWqAPlSeNurLctenKKK/CPYembyXWD8xMg1JvtVJJK5lN4MXs4ImnJ1RB6P32e2wDYFw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(19092799006)(23010399003)(366016)(1800799024)(7416014)(921020)(11063799006)(56012099006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QnVyd200Y0VmMHFvSVY1TWxDbCtjekJYcW1lSEhQRWR4RloxT0czdjVBSHgz?=
+ =?utf-8?B?bDhyaXV1eUN3ZmRrcTI5ZktlTGRxenNGUzVSRXRYakFMRkU3SC91dWplNXBq?=
+ =?utf-8?B?Z1Jod3pjOUpnZE1ZL0lrdHFXL1A4Tk80K1gvVzJCeXFWemxwZUJuNjVaTG40?=
+ =?utf-8?B?UUhDcFhieEVlV1VXOUxScmlGS3FXMTY3VTc2YlZCblpWcmdnR3NieFVJbW9i?=
+ =?utf-8?B?bW9RZTRWVVJCQ3NxUFZBQ3ZqWGNZZFR3cjlKampTNlpHLzhmNlVpeE41VUdQ?=
+ =?utf-8?B?Yi9rYUN2M25KeUgrWDhUa0ZTa0dlR2dpVFJWL3BGelo1Nkc2ZktHamJoNzgx?=
+ =?utf-8?B?THVCd2dSdkZLVHhpWWFiSW11Tmc5Q2p1dFJmbkhxekJ2MGVCQUJGWXBzdGE3?=
+ =?utf-8?B?OWNXWUxBN0toMzl5Ky9lSDlWN0ZBaVBnR2RYbTQxSEM1NEs0UDVwbFRETU83?=
+ =?utf-8?B?NE94ajdXMkVWQlVES0c1UzRJcElvWmhCazJGYmNTbDVvK0M2Tm5EanE3eFFW?=
+ =?utf-8?B?Yk9YdHc1RTVjV2hOVlRrOGFzb1dKbFpyZ2c0TWxtNUxjaTRRWXRRZW14YTVq?=
+ =?utf-8?B?MzZmT3JIUitvVUN0U2Q5bzllL1BMcnpVQjNHYU00L3d4bHg1aU9lNUgxODU3?=
+ =?utf-8?B?anF0QmJiSVhoTTJuckxoTk00MlBnMWRDN1lBRk42K1REbi9Ha1NEelkxcXM0?=
+ =?utf-8?B?UVlsS0hRVURXemYvRGhwUSszUWhieVRFTkgzMXAvRm8zcFBqVzNpdXJHU29p?=
+ =?utf-8?B?TEoxSFNXRzVjQ3E4cWdOOVNES0FvZ1VkTEJBWnc3Snh6QnJSZCtyTWVvYVNK?=
+ =?utf-8?B?c1F2aHR1RGJRZlpnQjJKWllFZHBjNUtkZFZKY2pzdm4vcTdzL1BLNitpU2Rl?=
+ =?utf-8?B?VnNrQkxUMDlHc09WdGNJR1IySUNBdDdJeGJTYlFBK2lpTXd1ckQvNk13Q29B?=
+ =?utf-8?B?UUtUNFNGQWpJREFYcUxNUWpjNDBuemduSy81MmJ1UGJBelBvdzBFTE5GMTAw?=
+ =?utf-8?B?bVFUd0hQeUd5eDdTelhTdEVTWnBLOTBidEw2MHE0U1ovaTU3bEFVUDFZbXFo?=
+ =?utf-8?B?a0FQbTlkdmVWQ1JaVUltanZNcDFKM2NlVk1mTi9pcFYvMEFnVjJHU0RBU052?=
+ =?utf-8?B?aFVkTjlCaXRGbUhDSHdjTUpwSkxBaW9qSGI0dXlGTTJaWXVrLzI0cmN1Tkhm?=
+ =?utf-8?B?bDJsU1ZNbCszWit1NmNvSzg4TExaVGlmWUZ6eUNnR1doQ2hDYWgzYkZSOGhY?=
+ =?utf-8?B?MG55T3ZtMlVvQVc3SXRoUUx0RTNGWGxxWlNPa3liVmMwVXpoM0E1OE5MU2lt?=
+ =?utf-8?B?UjMvS2VZRm9vY0t1SDMwdVVkRGFxNGQ2U0hCRmZNVWRJUzl0M3dnbnpNY3JY?=
+ =?utf-8?B?eGs1dURMdlF5Y1ZaTCtDamdjVy83SDlsOS9IT2J2cU1pb3kvbHA2QU5tanJu?=
+ =?utf-8?B?YmpzcGJMUmVLODVkdWFTajQwSitWWXA4WlhsT3p5dDdCamVZdmo3T1dBZnds?=
+ =?utf-8?B?QUMrNW81clZLMHJzSW5KbXBOM3dDY0RmTEJiTW43OFJOSktYRWFDS0wvdUdD?=
+ =?utf-8?B?czY3d09VT1JFWlltdkFrM3FoTXY0R2svUExFRUtKYVpwcU5ZZHh3L29WQjV3?=
+ =?utf-8?B?dGdMWitoZlJlUGpjZTlYMHhNSUVOcXlNaVRuVFVwMGlkb0JFMG9ubHJYc0xD?=
+ =?utf-8?B?clR6aDdWSG14UXdraStYMkFWaE9sWFlDRHFaVDlsL0xyTC9mWlJoN0ljeW12?=
+ =?utf-8?B?QzlYNlhacy8zZTlza0JRa3IzVDhVdDJnRkJEUVlyUXNYT1VlNFpDVXBKRmlW?=
+ =?utf-8?B?NGJGTSs4cWN0ZTZ3SEswSU9XT3lRSDVsUTJURjViVVhQWko4SklYS0R2U2ZW?=
+ =?utf-8?B?UXQ5VzdsVVUzbXMxNkRlcXgvMkJyaUFJSG1IUGFLcEgxRjZ4cCszMEN4Mmgw?=
+ =?utf-8?B?dEt0ZFRENy9RdGUyVWN4enE0ZjFWcmpzZjZBOHVWelFyNFJYZXF2YjJUQkxH?=
+ =?utf-8?B?STRWZFd5L0Qxekd6bzhHSVBRenN4UlI1TmF5VW1weWhvM3RML0U0aG11cG1K?=
+ =?utf-8?B?WG1aZnFiS3lQNU5XQnhkSzFPL2h3eHVzdGYrVy82VWN3aHJsdFl0aTk1Z2RC?=
+ =?utf-8?B?bWZLbHZYMFdoejFOd0UwMU5kWUlMa1VodmVkOVJnOHUzTTkvcEQvWnBEMDln?=
+ =?utf-8?B?bTh4THdObEh1QnpYNk1zRHR4eUc4ek9LdTF2dnByVE1jdkdUeGFxUHNETWJD?=
+ =?utf-8?B?NkFRajdwWC9oWW1lalMrdDVMbXF6d281TFJ3VjRnMjNKeVBwS2gwWjNrTElq?=
+ =?utf-8?B?UDBkT0tVOEl1UUdSSDBiRnpBdWovRkxZRllENVFNeCsybm5WRGpJRW85b25L?=
+ =?utf-8?Q?MyLNVv6f4ADfd7I6Sg7lBs2EwD121A77PtIMT?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6ead05d5-207f-423c-2c68-08dedd1fa7e2
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2026 18:35:16.5783
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: l/eyzPonTIDuz0lA8+BpRZ4XUNaIFa48a0CXNeS3g2B7DzeQt2pg3qPB49IhZRzeiKvw5M+HDoQeWl/LFr5kYEpJJ2nWDi8vgl48sRZbZ44RfWtaQrV1dsMULWK7RKUs
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR04MB11883
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260708_091852_472588_315D3F02 
-X-CRM114-Status: GOOD (  19.74  )
+X-CRM114-CacheID: sfid-20260708_113519_898407_EF20E151 
+X-CRM114-Status: GOOD (  13.33  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -59,22 +164,112 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jul 08, 2026 at 10:57:02AM +0100, John Garry wrote:
-> If we put the nvne_ns_head (vs nvme_ns) in the driver data, then I can't 
-> see a check to know is the driver data points to a nvne_ns_head or nvme_ns. 
-> Unless we keep NULL for one, but that is not so nice.
+From: Frank Li <Frank.Li@nxp.com>
 
-I think NULL just for one is fine, and I'm pretty sure we already do
-something like this in the nvme code (or at least used to in the
-past).
+The control field in a DMA link list entry must be updated as the final
+step because it includes the CB bit, which indicates whether the entry is
+ready. Add dma_wmb() to ensure the correct memory write ordering.
 
->
->> but shouldn't we warn for the nvme_tryget_ns_head failure as well?
->> Or can that even happen here?
->>
-> It should not happen as we have a pointer to nvme_ns_head. If the recount 
-> was zero and we referenced ns_head, then we have bigger problems.
+Currently the driver does not update DMA link entries while the DMA is
+running, so no visible failure occurs. However, fixing the ordering now
+prepares the driver for supporting link entry updates during DMA operation.
 
-That's what I though, so we could do a plain kref_get here.
-And maybe replace the annoying krefs with a plain refcount_t one day.
+Tested-by: Koichiro Den <den@valinux.co.jp>
+Signed-off-by: Frank Li <Frank.Li@nxp.com>
+---
+change in v4
+- add Koichiro's tags
+---
+ drivers/dma/dw-edma/dw-edma-v0-core.c | 10 ++++++----
+ drivers/dma/dw-edma/dw-hdma-v0-core.c | 10 ++++++----
+ 2 files changed, 12 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/dma/dw-edma/dw-edma-v0-core.c b/drivers/dma/dw-edma/dw-edma-v0-core.c
+index cfdd6463252e6..ee5c3c317557b 100644
+--- a/drivers/dma/dw-edma/dw-edma-v0-core.c
++++ b/drivers/dma/dw-edma/dw-edma-v0-core.c
+@@ -284,17 +284,18 @@ static void dw_edma_v0_write_ll_data(struct dw_edma_chunk *chunk, int i,
+ 	if (chunk->chan->dw->chip->flags & DW_EDMA_CHIP_LOCAL) {
+ 		struct dw_edma_v0_lli *lli = chunk->ll_region.vaddr.mem + ofs;
+ 
+-		lli->control = control;
+ 		lli->transfer_size = size;
+ 		lli->sar.reg = sar;
+ 		lli->dar.reg = dar;
++		dma_wmb();
++		lli->control = control;
+ 	} else {
+ 		struct dw_edma_v0_lli __iomem *lli = chunk->ll_region.vaddr.io + ofs;
+ 
+-		writel(control, &lli->control);
+ 		writel(size, &lli->transfer_size);
+ 		writeq(sar, &lli->sar.reg);
+ 		writeq(dar, &lli->dar.reg);
++		writel(control, &lli->control);
+ 	}
+ }
+ 
+@@ -306,13 +307,14 @@ static void dw_edma_v0_write_ll_link(struct dw_edma_chunk *chunk,
+ 	if (chunk->chan->dw->chip->flags & DW_EDMA_CHIP_LOCAL) {
+ 		struct dw_edma_v0_llp *llp = chunk->ll_region.vaddr.mem + ofs;
+ 
+-		llp->control = control;
+ 		llp->llp.reg = pointer;
++		dma_wmb();
++		llp->control = control;
+ 	} else {
+ 		struct dw_edma_v0_llp __iomem *llp = chunk->ll_region.vaddr.io + ofs;
+ 
+-		writel(control, &llp->control);
+ 		writeq(pointer, &llp->llp.reg);
++		writel(control, &llp->control);
+ 	}
+ }
+ 
+diff --git a/drivers/dma/dw-edma/dw-hdma-v0-core.c b/drivers/dma/dw-edma/dw-hdma-v0-core.c
+index 632abb8b481cf..1201f1ab5f359 100644
+--- a/drivers/dma/dw-edma/dw-hdma-v0-core.c
++++ b/drivers/dma/dw-edma/dw-hdma-v0-core.c
+@@ -160,17 +160,18 @@ static void dw_hdma_v0_write_ll_data(struct dw_edma_chunk *chunk, int i,
+ 	if (chunk->chan->dw->chip->flags & DW_EDMA_CHIP_LOCAL) {
+ 		struct dw_hdma_v0_lli *lli = chunk->ll_region.vaddr.mem + ofs;
+ 
+-		lli->control = control;
+ 		lli->transfer_size = size;
+ 		lli->sar.reg = sar;
+ 		lli->dar.reg = dar;
++		dma_wmb();
++		lli->control = control;
+ 	} else {
+ 		struct dw_hdma_v0_lli __iomem *lli = chunk->ll_region.vaddr.io + ofs;
+ 
+-		writel(control, &lli->control);
+ 		writel(size, &lli->transfer_size);
+ 		writeq(sar, &lli->sar.reg);
+ 		writeq(dar, &lli->dar.reg);
++		writel(control, &lli->control);
+ 	}
+ }
+ 
+@@ -182,13 +183,14 @@ static void dw_hdma_v0_write_ll_link(struct dw_edma_chunk *chunk,
+ 	if (chunk->chan->dw->chip->flags & DW_EDMA_CHIP_LOCAL) {
+ 		struct dw_hdma_v0_llp *llp = chunk->ll_region.vaddr.mem + ofs;
+ 
+-		llp->control = control;
+ 		llp->llp.reg = pointer;
++		dma_wmb();
++		llp->control = control;
+ 	} else {
+ 		struct dw_hdma_v0_llp __iomem *llp = chunk->ll_region.vaddr.io + ofs;
+ 
+-		writel(control, &llp->control);
+ 		writeq(pointer, &llp->llp.reg);
++		writel(control, &llp->control);
+ 	}
+ }
+ 
+
+-- 
+2.43.0
+
 
