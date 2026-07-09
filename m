@@ -4,59 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 720CAC43458
-	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jul 2026 06:18:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CAB17C43458
+	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jul 2026 06:20:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4xX18i9cZ41ZaKga0dRrI4tcTj8BTHIF2WZ/8NB4AUE=; b=k0c9VKRVfEAF5rkF+76jpUbNCr
-	wCg1jZ2bqTk67tT9/sNoNIMXYWL9Zets3jnOzDGvhOJq1YFYacWPBfhBY1wmoCBEZL0tL4lpGV9FI
-	GA007g56RU7skVwBoTKBXNQvX6Y1rrXYWtfsi64NSEhdHbJJHH2u6yeA/nZ30ll+2G1ac2VntGK1T
-	oFaGitgIpjpQTC/l5W0cINRO1V/Bu7iR8sgqtXcltc6oqpS+jRWFCEgphNH7DUMYlUCzCSxvVteg+
-	q9egtav/e+VebCDDQfCANV84JI+DeG9vD7qPyHhQ6Qdy+z4XTufUrsEo39VtHPz5IZ5FJzygrJxvK
-	WZYYK/3g==;
+	bh=x9zSepfnsxO6z4iI82ggzlfe6byk7IEM2eoSEzFDh0g=; b=F6Pe+sTxOSpOvj3R3K1lYVogG1
+	Ud/p3cu2plXen3z4q8hzY26jg/oggogbdejGP9FE/qQpkjPKqaCIeps2KEHwYH7hziAoicRXHush1
+	9LnRxrOU4EYID9KGLT1NBk2oKiyjPZN2bT3qfrJzEx/zrl1zHxs4C/o1TV4NyipNQS0seei55Q+9r
+	Lv8Y5knm0MzbveAFu5i4x9WXGQVL8lNuxZdTq0asFJJHiE6YL+uaVlc2PSlaf94XPHYKwhws9KsPq
+	TdZFUjLosYxv33adPWS3wQ8DIutIfVKtZpfW6tqtBTZ8R5qr3jxOBnuc2VSHI7DO5dkBM1OADJ3Rh
+	43NraPUg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1whi5s-000000018T0-32d2;
-	Thu, 09 Jul 2026 06:18:44 +0000
+	id 1whi7Q-000000018gL-0ITq;
+	Thu, 09 Jul 2026 06:20:20 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1whi5p-000000018SQ-25E2
+	id 1whi7N-000000018fi-3sK8
 	for linux-nvme@lists.infradead.org;
-	Thu, 09 Jul 2026 06:18:42 +0000
+	Thu, 09 Jul 2026 06:20:19 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id A266168BFE; Thu,  9 Jul 2026 08:18:37 +0200 (CEST)
-Date: Thu, 9 Jul 2026 08:18:37 +0200
+	id 1646F68BFE; Thu,  9 Jul 2026 08:20:15 +0200 (CEST)
+Date: Thu, 9 Jul 2026 08:20:14 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Yu Kuai <yukuai@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Tejun Heo <tj@kernel.org>,
-	Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>, Alasdair Kergon <agk@redhat.com>,
-	Benjamin Marzinski <bmarzins@redhat.com>,
-	Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Dongsheng Yang <dongsheng.yang@linux.dev>,
-	Zheng Gu <cengku@gmail.com>, Coly Li <colyli@fygo.io>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	Josef Bacik <josef@toxicpanda.com>, Yu Kuai <yukuai@fygo.io>,
-	Nilay Shroff <nilay@linux.ibm.com>, linux-block@vger.kernel.org,
-	cgroups@vger.kernel.org, linux-nvme@lists.infradead.org,
-	dm-devel@lists.linux.dev, linux-bcache@vger.kernel.org
-Subject: Re: [RFC PATCH v1 15/17] blk-cgroup: remove blkg radix tree
- preloading
-Message-ID: <20260709061837.GF16504@lst.de>
-References: <20260704195124.1375075-1-yukuai@kernel.org> <20260704195124.1375075-16-yukuai@kernel.org>
+To: Marco Elver <elver@google.com>
+Cc: Christoph Hellwig <hch@lst.de>, Nilay Shroff <nilay@linux.ibm.com>,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	kbusch@kernel.org, sagi@grimberg.me, axboe@fb.com,
+	bvanassche@acm.org, gjoyce@linux.ibm.com
+Subject: Re: [PATCHv2 07/17] nvme: add Clang context annotations for
+ nvme_subsystem::lock
+Message-ID: <20260709062014.GA17526@lst.de>
+References: <20260614131541.2017845-1-nilay@linux.ibm.com> <20260614131541.2017845-8-nilay@linux.ibm.com> <20260626064335.GG10731@lst.de> <0f3add6e-4e2c-4656-ad82-e86e18f6fcb7@linux.ibm.com> <20260629124703.GB23417@lst.de> <CANpmjNMCg_Qo9MVz3n_-gu6wRZp+y2uuuzjAdk+a1b-1J4LeNA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260704195124.1375075-16-yukuai@kernel.org>
+In-Reply-To: <CANpmjNMCg_Qo9MVz3n_-gu6wRZp+y2uuuzjAdk+a1b-1J4LeNA@mail.gmail.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260708_231841_683259_42EBB164 
-X-CRM114-Status: GOOD (  12.92  )
+X-CRM114-CacheID: sfid-20260708_232018_110553_E9337D22 
+X-CRM114-Status: GOOD (  12.82  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,20 +62,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Jul 05, 2026 at 03:51:22AM +0800, Yu Kuai wrote:
-> From: Yu Kuai <yukuai@fygo.io>
-> 
-> blkg creation is now serialized by q->blkcg_mutex and no longer runs
-> under q->queue_lock.  The radix tree is initialized with GFP_NOWAIT, so
-> radix_tree_insert() cannot sleep while blkcg->lock is held and the old
-> preload dance is no longer needed.
-> 
-> Remove the preload calls and the associated unwind path.
+On Tue, Jun 30, 2026 at 01:12:55AM +0200, Marco Elver wrote:
+> Initialization of guarded objects has gone through a few iterations,
 
-Isn't the GFP_NOWAIT a bit of a problem because it can fail way too
-easy?
+And all of them suck badly, with the current one being the worse.
 
-What about converting both the radix tree and list to an xarray
-using the internal xarray to deal with sleeping allocations?
+> so I don't want to open that can of worms again. I think the
+> infrastructure we have now provides various options (the scoped guard
+> machinery isn't the only way). You could just write:
+> 
+> /* Initializes unpublished lock-guarded variables. */
+> context_unsafe(
+>     INIT_LIST_HEAD(&subsys->nsheads);
+>     // ... other guarded var init in same block ...
+> );
+
+Using all these silly context makes it total mess unfortunately.
 
 
