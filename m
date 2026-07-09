@@ -4,30 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ECCDCC44503
-	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jul 2026 08:54:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1EF72C44506
+	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jul 2026 08:54:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fsvCqyZcUVB22iSZ3crExKDcCG92305efa2wsETQa6E=; b=mFtyVqYWE4oqHine6Ufrw9HM5f
-	EjyWNM9R5Lm4VhJhI5nmZgDOFGgCzdkUgXicTI7UCQ99f4HvQbmutF9NEJsp31nVh7UtlTver9fIw
-	rct5AxvIN+Vnc95deBCT007Oo43HgJ+qQGjzoaIeZoQzAXiMKo3E1F9tThuM710weIYSMp1HW9Rbn
-	MAKppBRJnCfv3aqkcY7PmjyKMNzPKQFd7fMINVI6pcPAABiaP2NjKG91xwCYlr1uqf6bI3HU0G8jM
-	NVB73Z2gxn8L9YxJME1HMrZ5ZwljZzRJ0xFHgDH+by7X3KV5q1qqOfhpe9ctM/i+dkFG1iVhaqqXx
-	aqW1DFdQ==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=YEeMxrTkK+uVIj1KQJ1Gew62lQSplcI/QnjXePppFNk=; b=h64sQSBaPWnVW1HcCv52JEU6kK
+	0HfGX5wbHQMv/NkpFNHCFyO7WxRmA3ZK11yV6IrvINE7PlK9vze1SOHoNCBmNzT6/fhanhcc44vcr
+	7U/PZpG7330ruJdzQkAqZF3nYeOOaRcarkUw+WL5CxqMb+oGkZd33gn9P8P/XBCWOJXC92obT3uYT
+	bzwsA87Rn4PulVRUIOwKZ75liyFuI9Wp+S3tk5MdRRia4q5KdyfF1n0QonLNqJiAGWqpI0wYiv/y8
+	MMGsXMp14FypAYs8ib+HciwJkLz8MM+2+lj+ldw9Cgtxg+i0obUCx3U4LoLDodODk0WiYpCKToF5H
+	2a5GgHnA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1whkWn-00000001eNP-1aNo;
-	Thu, 09 Jul 2026 08:54:41 +0000
-Received: from mailgw.kylinos.cn ([124.126.103.232])
+	id 1whkWl-00000001eKQ-3m8g;
+	Thu, 09 Jul 2026 08:54:39 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1whkSF-00000001Y9a-1N99
+	id 1whkSO-00000001Z8w-1MdE
+	for linux-nvme@bombadil.infradead.org;
+	Thu, 09 Jul 2026 08:50:08 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
+	:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=YEeMxrTkK+uVIj1KQJ1Gew62lQSplcI/QnjXePppFNk=; b=kQGEH2xbVCZCamB25QIW6mb0lY
+	14ezpUzWLkd/XB3VgCzGFwHRGNLwxUhAlreQ0pzNfC5yojXEYj9N4wsFElqwY6AXE+nctjn2r2BC8
+	em19g5OykEBnOJjRLx0UvQMfY7mztQBnWrkTaRNZLEDLul3Drt72PG/QcVHQ0PcQFs0cRPFCpG6sx
+	qeUTZUT4PgOSDxkyhpC8S6B3FY9uLAZ68HzkbIn+tHGdjqxarPQQRHrwAMIIghFyj7t14ngWRi7fy
+	CW1jn5G3iexdjg4/uGUJ1R/BzXNd4qhWYFx+MXoY3SsLuFdlqBUZnhUtbyBfigTKog6UgUOb5VGYp
+	7cMk2rTg==;
+Received: from mailgw.kylinos.cn ([124.126.103.232])
+	by desiato.infradead.org with esmtps (Exim 4.99.2 #2 (Red Hat Linux))
+	id 1whkSH-00000008ybG-1nAq
 	for linux-nvme@lists.infradead.org;
-	Thu, 09 Jul 2026 08:50:11 +0000
-X-UUID: 1acd705c7b7311f1aa26b74ffac11d73-20260709
+	Thu, 09 Jul 2026 08:50:06 +0000
+X-UUID: 13559cbe7b7311f1aa26b74ffac11d73-20260709
 X-CTIC-Tags: HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CTE_8B, HR_CTT_MISS
 	HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME, HR_SJ_DIGIT_LEN
 	HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE
@@ -37,27 +52,27 @@ X-CTIC-Tags: HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CTE_8B, HR_CTT_MISS
 	CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS, GTI_RG_INFO, GTI_C_BU
 	AMN_GOOD, ABX_MISS_RDNS
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:788f2ea1-9b07-4d85-9110-781dbc55c3c6,IP:10,
+X-CID-O-INFO: VERSION:1.3.12,REQID:c29b30d0-0587-482b-8439-a107c600937d,IP:10,
 	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
 	:release,TS:10
-X-CID-INFO: VERSION:1.3.12,REQID:788f2ea1-9b07-4d85-9110-781dbc55c3c6,IP:10,UR
+X-CID-INFO: VERSION:1.3.12,REQID:c29b30d0-0587-482b-8439-a107c600937d,IP:10,UR
 	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
 	elease,TS:10
-X-CID-META: VersionHash:e7bac3a,CLOUDID:50bfe9d9d3f7d298236c0ce866c44650,BulkI
-	D:260709162249S5RUH8GJ,BulkQuantity:1,Recheck:0,SF:10|66|78|81|82|102|127|
-	136|850|865|898,TC:nil,Content:0|15|50,EDM:-3,IP:-2,URL:0,File:nil,RT:nil,
-	Bulk:40,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR
-	:0,BRE:0,ARC:0
+X-CID-META: VersionHash:e7bac3a,CLOUDID:a50fbfcbfcee484f14699107e6e42695,BulkI
+	D:260709162240S0RJ0A0N,BulkQuantity:1,Recheck:0,SF:10|66|78|102|127|850|86
+	5|898,TC:nil,Content:0|15|50,EDM:-3,IP:-2,URL:0,File:nil,RT:nil,Bulk:40,QS
+	:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,A
+	RC:0
 X-CID-BVR: 2,SSN|SDN
 X-CID-BAS: 2,SSN|SDN,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 1acd705c7b7311f1aa26b74ffac11d73-20260709
+X-UUID: 13559cbe7b7311f1aa26b74ffac11d73-20260709
 X-User: sangyao@kylinos.cn
 Received: from localhost.localdomain [(223.70.159.239)] by mailgw.kylinos.cn
 	(envelope-from <sangyao@kylinos.cn>)
 	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1630952228; Thu, 09 Jul 2026 16:49:32 +0800
+	with ESMTP id 149286387; Thu, 09 Jul 2026 16:49:20 +0800
 From: Yao Sang <sangyao@kylinos.cn>
 To: linux-nvme@lists.infradead.org
 Cc: Sagi Grimberg <sagi@grimberg.me>,
@@ -65,17 +80,15 @@ Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Jens Axboe <axboe@kernel.dk>,
 	Keith Busch <kbusch@kernel.org>,
 	Yao Sang <sangyao@kylinos.cn>
-Subject: [RFC PATCH blktests v1] nvme: check user queue limits across namespace rescans
-Date: Thu,  9 Jul 2026 16:48:26 +0800
-Message-Id: <20260709084826.3208740-4-sangyao@kylinos.cn>
+Subject: [RFC PATCH v1 0/2] nvme: use local limits for namespace heads
+Date: Thu,  9 Jul 2026 16:48:23 +0800
+Message-Id: <20260709084826.3208740-1-sangyao@kylinos.cn>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260709084826.3208740-1-sangyao@kylinos.cn>
-References: <20260709084826.3208740-1-sangyao@kylinos.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260709_014959_775812_14A4B836 
-X-CRM114-Status: GOOD (  15.35  )
+X-CRM114-CacheID: sfid-20260709_095004_869906_264C6B8A 
+X-CRM114-Status: GOOD (  10.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,186 +103,58 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-NVMe namespace rescans should not reset queue user caps on the namespace
-head. Add a regression test that lowers max_sectors_kb, optionally lowers
-discard_max_bytes, optionally disables write_zeroes_unmap_max_bytes, runs
-nvme ns-rescan, and verifies that the user values are preserved.
+Hi,
 
-Mark the test as zoned-capable so it can run on ZNS devices as well.
+This series makes the namespace-head queue-limit refresh in NVMe native
+multipath local to NVMe instead of routing it through generic
+stacked-device helpers. Patch 1 factors the existing refresh sequence into
+nvme_update_ns_head_limits() without changing behavior. Patch 2 replaces
+queue_limits_stack_bdev() with NVMe-local limit handling.
 
-Signed-off-by: Yao Sang <sangyao@kylinos.cn>
----
- tests/nvme/068     | 151 +++++++++++++++++++++++++++++++++++++++++++++
- tests/nvme/068.out |   2 +
- 2 files changed, 153 insertions(+)
- create mode 100755 tests/nvme/068
- create mode 100644 tests/nvme/068.out
+The motivation is a zoned namespace configuration issue that made the
+current namespace-head limit refresh hard to reason about. NVMe native
+multipath heads currently call queue_limits_stack_bdev(), then adjust some
+NVMe-specific values afterwards. That mixes the rules for mapped stacked
+devices, such as DM, with the rules for refreshing one NVMe namespace
+through multiple paths.
 
-diff --git a/tests/nvme/068 b/tests/nvme/068
-new file mode 100755
-index 0000000..a7786db
---- /dev/null
-+++ b/tests/nvme/068
-@@ -0,0 +1,151 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-3.0+
-+#
-+# Test queue user limits across NVMe namespace rescans.
-+
-+. tests/nvme/rc
-+
-+DESCRIPTION="check queue user limits across NVMe namespace rescans"
-+QUICK=1
-+CAN_BE_ZONED=1
-+
-+requires() {
-+	_nvme_requires
-+	_have_program nvme
-+}
-+
-+_test_dev_nvme_ctrl_dev() {
-+	local ctrl
-+
-+	ctrl="$(_nvme_get_ctrl_list | head -n 1)"
-+	if [[ -z "$ctrl" ]]; then
-+		return 1
-+	fi
-+
-+	echo "/dev/$(basename "$ctrl")"
-+}
-+
-+device_requires() {
-+	local ctrl_dev
-+
-+	_require_test_dev_is_nvme
-+	_require_test_dev_sysfs queue/max_sectors_kb queue/max_hw_sectors_kb
-+
-+	if ! ctrl_dev="$(_test_dev_nvme_ctrl_dev)"; then
-+		SKIP_REASONS+=("unable to find NVMe controller for $TEST_DEV")
-+		return 1
-+	fi
-+	if [[ ! -c "$ctrl_dev" ]]; then
-+		SKIP_REASONS+=("$ctrl_dev is not a character device")
-+		return 1
-+	fi
-+}
-+
-+_cleanup_queue_limits() {
-+	if [[ -z "${nvme068_queue_path:-}" ]]; then
-+		return
-+	fi
-+
-+	echo "$nvme068_max_sectors_kb" > "$nvme068_queue_path/max_sectors_kb"
-+	if [[ -n "${nvme068_discard_max_bytes:-}" ]]; then
-+		echo "$nvme068_discard_max_bytes" > \
-+			"$nvme068_queue_path/discard_max_bytes"
-+	fi
-+	if [[ -n "${nvme068_wzeroes_unmap_max_bytes:-}" ]]; then
-+		echo "$nvme068_wzeroes_unmap_max_bytes" > \
-+			"$nvme068_queue_path/write_zeroes_unmap_max_bytes"
-+	fi
-+}
-+
-+_check_queue_limit() {
-+	local queue_path=$1
-+	local attr=$2
-+	local expected=$3
-+	local actual
-+
-+	actual="$(cat "$queue_path/$attr")"
-+	if [[ "$actual" -ne "$expected" ]]; then
-+		echo "ERROR: $attr changed from $expected to $actual"
-+	fi
-+}
-+
-+test_device() {
-+	local queue_path="$TEST_DEV_SYSFS/queue"
-+	local ctrl_dev
-+	local max_hw_sectors_kb
-+	local max_sectors_kb
-+	local discard_hw_bytes
-+	local discard_granularity
-+	local discard_max_bytes=""
-+	local wzeroes_unmap_hw_bytes
-+	local wzeroes_unmap_max_bytes=""
-+
-+	echo "Running ${TEST_NAME}"
-+
-+	ctrl_dev="$(_test_dev_nvme_ctrl_dev)"
-+	nvme068_queue_path="$queue_path"
-+	nvme068_max_sectors_kb="$(cat "$queue_path/max_sectors_kb")"
-+	nvme068_discard_max_bytes=""
-+	nvme068_wzeroes_unmap_max_bytes=""
-+	_register_test_cleanup _cleanup_queue_limits
-+
-+	max_hw_sectors_kb="$(cat "$queue_path/max_hw_sectors_kb")"
-+	max_sectors_kb=$((max_hw_sectors_kb / 2))
-+	if ((max_sectors_kb == 0)); then
-+		max_sectors_kb=1
-+	fi
-+
-+	if [[ -e "$queue_path/discard_max_bytes" &&
-+	      -e "$queue_path/discard_max_hw_bytes" &&
-+	      -e "$queue_path/discard_granularity" ]]; then
-+		nvme068_discard_max_bytes="$(cat "$queue_path/discard_max_bytes")"
-+		if echo "$nvme068_discard_max_bytes" > \
-+				"$queue_path/discard_max_bytes" 2>/dev/null; then
-+			discard_hw_bytes="$(cat "$queue_path/discard_max_hw_bytes")"
-+			discard_granularity="$(cat "$queue_path/discard_granularity")"
-+			if ((discard_granularity > 0 &&
-+			     discard_hw_bytes >= discard_granularity * 2)); then
-+				discard_max_bytes=$(((discard_hw_bytes / 2) /
-+					discard_granularity * discard_granularity))
-+			fi
-+		else
-+			nvme068_discard_max_bytes=""
-+		fi
-+	fi
-+
-+	if [[ -e "$queue_path/write_zeroes_unmap_max_bytes" &&
-+	      -e "$queue_path/write_zeroes_unmap_max_hw_bytes" ]]; then
-+		nvme068_wzeroes_unmap_max_bytes="$(<"$queue_path/write_zeroes_unmap_max_bytes")"
-+		wzeroes_unmap_hw_bytes="$(<"$queue_path/write_zeroes_unmap_max_hw_bytes")"
-+		if ((wzeroes_unmap_hw_bytes > 0)); then
-+			wzeroes_unmap_max_bytes=0
-+		fi
-+	fi
-+
-+	echo "$max_sectors_kb" > "$queue_path/max_sectors_kb"
-+	if [[ -n "$discard_max_bytes" ]]; then
-+		echo "$discard_max_bytes" > "$queue_path/discard_max_bytes"
-+	fi
-+	if [[ -n "$wzeroes_unmap_max_bytes" ]]; then
-+		echo "$wzeroes_unmap_max_bytes" > \
-+			"$queue_path/write_zeroes_unmap_max_bytes"
-+	fi
-+
-+	if ! nvme ns-rescan "$ctrl_dev" >> "$FULL" 2>&1; then
-+		echo "ERROR: ns-rescan failed"
-+	fi
-+
-+	_check_queue_limit "$queue_path" max_sectors_kb "$max_sectors_kb"
-+	if [[ -n "$discard_max_bytes" ]]; then
-+		_check_queue_limit "$queue_path" discard_max_bytes \
-+			"$discard_max_bytes"
-+	fi
-+	if [[ -n "$wzeroes_unmap_max_bytes" ]]; then
-+		_check_queue_limit "$queue_path" write_zeroes_unmap_max_bytes \
-+			"$wzeroes_unmap_max_bytes"
-+	fi
-+
-+	_cleanup_queue_limits
-+
-+	echo "Test complete"
-+}
-diff --git a/tests/nvme/068.out b/tests/nvme/068.out
-new file mode 100644
-index 0000000..28407c6
---- /dev/null
-+++ b/tests/nvme/068.out
-@@ -0,0 +1,2 @@
-+Running nvme/068
-+Test complete
+The goal is to make the NVMe native multipath path easier to review and
+decouple it from the configuration rules used by DM and other mapped
+devices. If this direction looks reasonable, the next step can be either to
+keep the helper local to NVMe or to discuss a smaller common helper later.
+
+The main RFC question is the exact handling for individual queue limits
+once NVMe stops using queue_limits_stack_bdev(). For example, this version
+does not carry bdev offset and alignment handling from the namespace
+head refresh, keeps the existing feature inheritance behavior, and merges
+request limits conservatively. Review on whether these field handling
+choices are the right ones for NVMe native multipath would be appreciated.
+
+The thread also carries the nvme/068 blktests self-test as a
+companion patch. It can be submitted to the blktests tree later if the
+direction looks good.
+
+Testing:
+- blktests nvme/068 passed.
+- blktests nvme/004, 005, 006, 008, 010, 012, 014, 016, 017, 018,
+  019, 021, 022, 023, 025, 026, 027, 028, 029, 030, 031, 040, 041,
+  042, 043, 044, 045, 049, 051, 052, 053, 054, 057, 058, 059, 065,
+  and 067 passed.
+- blktests zbd/001, 003, 004, 005, 006, 008, 009, 011, 012, and 013
+  passed.
+- blktests block/003, 004, and 012 passed.
+- blktests scsi/009 and scsi/010 passed.
+
+Thanks,
+Yao
+
+Yao Sang (2):
+  nvme: factor namespace-head queue-limit update
+  nvme: stop using queue_limits_stack_bdev for namespace heads
+
+ drivers/nvme/host/core.c | 188 +++++++++++++++++++++++++++++----------
+ 1 file changed, 139 insertions(+), 49 deletions(-)
+
 -- 
 2.25.1
 
