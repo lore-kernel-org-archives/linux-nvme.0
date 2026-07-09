@@ -4,45 +4,30 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E64F8C43458
-	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jul 2026 08:54:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ECCDCC44503
+	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jul 2026 08:54:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=TrnKzxhY1spmC0VI8iHJTvoh2I1rEbhoCuQB1efxphQ=; b=5CKC+uSopdnGwG+kUBP2PLgPYj
-	kuqxflZkdVIRzvS20c3xodhyPUb2v8i4h7edCyYGt0Vdf976R8fIGRve04W+Od4BWswDbF63sljAE
-	dI5uTuQNvw8fEAe5qGDJjb6Bu1DLoZAQcA6GjyNtypVyVUBHC8D0VV2ho60kxDPyG4/uYdgtHEnoG
-	BCeLVZKdjqyPLC3IngKaGvm7UDgf9n9JKvEEAqFySywx5aTYV0P2bBwKDPXDoqVPaCvR5SZ8SjWuo
-	9aJFPFgwmVeMvtLOcE8bp9XNU0vjJ6U6MmSP3/bKOsxCQnU6co2qIkVvfgpyxdOFFfRmtcGFNsrdL
-	WmeIb+eg==;
+	bh=fsvCqyZcUVB22iSZ3crExKDcCG92305efa2wsETQa6E=; b=mFtyVqYWE4oqHine6Ufrw9HM5f
+	EjyWNM9R5Lm4VhJhI5nmZgDOFGgCzdkUgXicTI7UCQ99f4HvQbmutF9NEJsp31nVh7UtlTver9fIw
+	rct5AxvIN+Vnc95deBCT007Oo43HgJ+qQGjzoaIeZoQzAXiMKo3E1F9tThuM710weIYSMp1HW9Rbn
+	MAKppBRJnCfv3aqkcY7PmjyKMNzPKQFd7fMINVI6pcPAABiaP2NjKG91xwCYlr1uqf6bI3HU0G8jM
+	NVB73Z2gxn8L9YxJME1HMrZ5ZwljZzRJ0xFHgDH+by7X3KV5q1qqOfhpe9ctM/i+dkFG1iVhaqqXx
+	aqW1DFdQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1whkWk-00000001eIL-23qs;
-	Thu, 09 Jul 2026 08:54:38 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1whkS6-00000001YS6-1N6X
-	for linux-nvme@bombadil.infradead.org;
-	Thu, 09 Jul 2026 08:49:50 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=TrnKzxhY1spmC0VI8iHJTvoh2I1rEbhoCuQB1efxphQ=; b=E+EMSS3+CsEFXiHNyw4HEY0rYS
-	yuzKDLFG0cWwgxhpLXc9xh4AJviLqPTDsMae8ezKdJuYZ4GJmED3RRbbHNcBgMLaI7zclHmF10PhW
-	yjNGXxJdK9XnE+oqxdXYwYltfWBf3+LRxkjE7KhIto7h16KMZlKgs5ivtQAlcMS/RodWbGOplhF0G
-	AmoAYR6wiEepuS/NGjCcS6lekB1VMso8HtBluEaWY3DwE8VZUe/uTrRUQbwMIc/5G8wfb0hI6n6XG
-	n0aktrafkWXSlTiaegZ/K0uQ9svQcUEpvCMjfUDVXNhHSSUdN8mC84XVmhQKJ3dwTvjqFoLn4sCxp
-	ZfOO4Uug==;
+	id 1whkWn-00000001eNP-1aNo;
+	Thu, 09 Jul 2026 08:54:41 +0000
 Received: from mailgw.kylinos.cn ([124.126.103.232])
-	by desiato.infradead.org with esmtps (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1whkS0-00000008ybH-2bbo
+	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1whkSF-00000001Y9a-1N99
 	for linux-nvme@lists.infradead.org;
-	Thu, 09 Jul 2026 08:49:46 +0000
-X-UUID: 150a3b007b7311f1aa26b74ffac11d73-20260709
+	Thu, 09 Jul 2026 08:50:11 +0000
+X-UUID: 1acd705c7b7311f1aa26b74ffac11d73-20260709
 X-CTIC-Tags: HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CTE_8B, HR_CTT_MISS
 	HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME, HR_SJ_DIGIT_LEN
 	HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE
@@ -52,27 +37,27 @@ X-CTIC-Tags: HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CTE_8B, HR_CTT_MISS
 	CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS, GTI_RG_INFO, GTI_C_BU
 	AMN_GOOD, ABX_MISS_RDNS
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:f21c4681-4dee-43f4-af74-cb53fdb22c03,IP:10,
-	URL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:35
-X-CID-INFO: VERSION:1.3.12,REQID:f21c4681-4dee-43f4-af74-cb53fdb22c03,IP:10,UR
-	L:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:35
-X-CID-META: VersionHash:e7bac3a,CLOUDID:17afc31435f40472aa0343583dbef2f8,BulkI
-	D:260709162246EOG67FXZ,BulkQuantity:1,Recheck:0,SF:10|66|78|81|82|102|127|
-	136|850|865|898,TC:nil,Content:0|15|50,EDM:5,IP:-2,URL:0,File:nil,RT:nil,B
-	ulk:40,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:
-	0,BRE:0,ARC:0
+X-CID-O-INFO: VERSION:1.3.12,REQID:788f2ea1-9b07-4d85-9110-781dbc55c3c6,IP:10,
+	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:10
+X-CID-INFO: VERSION:1.3.12,REQID:788f2ea1-9b07-4d85-9110-781dbc55c3c6,IP:10,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:10
+X-CID-META: VersionHash:e7bac3a,CLOUDID:50bfe9d9d3f7d298236c0ce866c44650,BulkI
+	D:260709162249S5RUH8GJ,BulkQuantity:1,Recheck:0,SF:10|66|78|81|82|102|127|
+	136|850|865|898,TC:nil,Content:0|15|50,EDM:-3,IP:-2,URL:0,File:nil,RT:nil,
+	Bulk:40,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR
+	:0,BRE:0,ARC:0
 X-CID-BVR: 2,SSN|SDN
 X-CID-BAS: 2,SSN|SDN,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 150a3b007b7311f1aa26b74ffac11d73-20260709
+X-UUID: 1acd705c7b7311f1aa26b74ffac11d73-20260709
 X-User: sangyao@kylinos.cn
 Received: from localhost.localdomain [(223.70.159.239)] by mailgw.kylinos.cn
 	(envelope-from <sangyao@kylinos.cn>)
 	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1340717855; Thu, 09 Jul 2026 16:49:22 +0800
+	with ESMTP id 1630952228; Thu, 09 Jul 2026 16:49:32 +0800
 From: Yao Sang <sangyao@kylinos.cn>
 To: linux-nvme@lists.infradead.org
 Cc: Sagi Grimberg <sagi@grimberg.me>,
@@ -80,17 +65,17 @@ Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Jens Axboe <axboe@kernel.dk>,
 	Keith Busch <kbusch@kernel.org>,
 	Yao Sang <sangyao@kylinos.cn>
-Subject: [RFC PATCH v1 1/2] nvme: factor namespace-head queue-limit update
-Date: Thu,  9 Jul 2026 16:48:24 +0800
-Message-Id: <20260709084826.3208740-2-sangyao@kylinos.cn>
+Subject: [RFC PATCH blktests v1] nvme: check user queue limits across namespace rescans
+Date: Thu,  9 Jul 2026 16:48:26 +0800
+Message-Id: <20260709084826.3208740-4-sangyao@kylinos.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20260709084826.3208740-1-sangyao@kylinos.cn>
 References: <20260709084826.3208740-1-sangyao@kylinos.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260709_094945_446013_83E9B610 
-X-CRM114-Status: GOOD (  18.01  )
+X-CRM114-CacheID: sfid-20260709_014959_775812_14A4B836 
+X-CRM114-Status: GOOD (  15.35  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -105,134 +90,186 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Move the namespace head queue-limit update out of nvme_update_ns_info().
-The new helper keeps the existing queue_limits_stack_bdev() based behavior
-intact, including the current zoned resource handling, write-stream
-assignment, integrity setup, capacity update, readonly update, and path
-revalidation.
+NVMe namespace rescans should not reset queue user caps on the namespace
+head. Add a regression test that lowers max_sectors_kb, optionally lowers
+discard_max_bytes, optionally disables write_zeroes_unmap_max_bytes, runs
+nvme ns-rescan, and verifies that the user values are preserved.
 
-This is a preparatory refactor for replacing the generic stacked-device
-limit update in the next patch.
+Mark the test as zoned-capable so it can run on ZNS devices as well.
 
 Signed-off-by: Yao Sang <sangyao@kylinos.cn>
 ---
- drivers/nvme/host/core.c | 96 ++++++++++++++++++++++------------------
- 1 file changed, 52 insertions(+), 44 deletions(-)
+ tests/nvme/068     | 151 +++++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/068.out |   2 +
+ 2 files changed, 153 insertions(+)
+ create mode 100755 tests/nvme/068
+ create mode 100644 tests/nvme/068.out
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 453c1f0b2dd0..b96fa993a08f 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2517,6 +2517,56 @@ static void nvme_stack_zone_resources(struct queue_limits *t,
- 		min_not_zero(t->max_active_zones, b->max_active_zones);
- }
- 
-+static int nvme_update_ns_head_limits(struct nvme_ns *ns,
-+				      struct nvme_ns_info *info, bool unsupported)
-+{
-+	struct queue_limits *ns_lim = &ns->disk->queue->limits;
-+	struct request_queue *head_q = ns->head->disk->queue;
-+	struct queue_limits lim;
-+	unsigned int memflags;
-+	int ret;
+diff --git a/tests/nvme/068 b/tests/nvme/068
+new file mode 100755
+index 0000000..a7786db
+--- /dev/null
++++ b/tests/nvme/068
+@@ -0,0 +1,151 @@
++#!/bin/bash
++# SPDX-License-Identifier: GPL-3.0+
++#
++# Test queue user limits across NVMe namespace rescans.
 +
-+	lim = queue_limits_start_update(head_q);
-+	memflags = blk_mq_freeze_queue(head_q);
-+	/*
-+	 * queue_limits mixes values that are the hardware limitations
-+	 * for bio splitting with what is the device configuration.
-+	 *
-+	 * For NVMe the device configuration can change after e.g. a
-+	 * Format command, and we really want to pick up the new format
-+	 * value here. But we must still stack the queue limits to the
-+	 * least common denominator for multipathing to split the bios
-+	 * properly.
-+	 *
-+	 * To work around this, we explicitly set the device
-+	 * configuration to those that we just queried, but only stack
-+	 * the splitting limits in to make sure we still obey possibly
-+	 * lower limitations of other controllers.
-+	 */
-+	lim.logical_block_size = ns_lim->logical_block_size;
-+	lim.physical_block_size = ns_lim->physical_block_size;
-+	lim.io_min = ns_lim->io_min;
-+	lim.io_opt = ns_lim->io_opt;
-+	queue_limits_stack_bdev(&lim, ns->disk->part0, 0,
-+				ns->head->disk->disk_name);
-+	if (lim.features & BLK_FEAT_ZONED)
-+		nvme_stack_zone_resources(&lim, ns_lim);
-+	if (unsupported)
-+		ns->head->disk->flags |= GENHD_FL_HIDDEN;
-+	else
-+		nvme_init_integrity(ns->head, &lim, info);
-+	lim.max_write_streams = ns_lim->max_write_streams;
-+	lim.write_stream_granularity = ns_lim->write_stream_granularity;
-+	ret = queue_limits_commit_update(head_q, &lim);
++. tests/nvme/rc
 +
-+	set_capacity_and_notify(ns->head->disk, get_capacity(ns->disk));
-+	set_disk_ro(ns->head->disk, nvme_ns_is_readonly(ns, info));
-+	nvme_mpath_revalidate_paths(ns->head);
++DESCRIPTION="check queue user limits across NVMe namespace rescans"
++QUICK=1
++CAN_BE_ZONED=1
 +
-+	blk_mq_unfreeze_queue(head_q, memflags);
-+	return ret;
++requires() {
++	_nvme_requires
++	_have_program nvme
 +}
 +
- static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_ns_info *info)
- {
- 	bool unsupported = false;
-@@ -2555,50 +2605,8 @@ static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_ns_info *info)
- 		ret = 0;
- 	}
- 
--	if (!ret && nvme_ns_head_multipath(ns->head)) {
--		struct queue_limits *ns_lim = &ns->disk->queue->limits;
--		struct queue_limits lim;
--		unsigned int memflags;
--
--		lim = queue_limits_start_update(ns->head->disk->queue);
--		memflags = blk_mq_freeze_queue(ns->head->disk->queue);
--		/*
--		 * queue_limits mixes values that are the hardware limitations
--		 * for bio splitting with what is the device configuration.
--		 *
--		 * For NVMe the device configuration can change after e.g. a
--		 * Format command, and we really want to pick up the new format
--		 * value here.  But we must still stack the queue limits to the
--		 * least common denominator for multipathing to split the bios
--		 * properly.
--		 *
--		 * To work around this, we explicitly set the device
--		 * configuration to those that we just queried, but only stack
--		 * the splitting limits in to make sure we still obey possibly
--		 * lower limitations of other controllers.
--		 */
--		lim.logical_block_size = ns_lim->logical_block_size;
--		lim.physical_block_size = ns_lim->physical_block_size;
--		lim.io_min = ns_lim->io_min;
--		lim.io_opt = ns_lim->io_opt;
--		queue_limits_stack_bdev(&lim, ns->disk->part0, 0,
--					ns->head->disk->disk_name);
--		if (lim.features & BLK_FEAT_ZONED)
--			nvme_stack_zone_resources(&lim, ns_lim);
--		if (unsupported)
--			ns->head->disk->flags |= GENHD_FL_HIDDEN;
--		else
--			nvme_init_integrity(ns->head, &lim, info);
--		lim.max_write_streams = ns_lim->max_write_streams;
--		lim.write_stream_granularity = ns_lim->write_stream_granularity;
--		ret = queue_limits_commit_update(ns->head->disk->queue, &lim);
--
--		set_capacity_and_notify(ns->head->disk, get_capacity(ns->disk));
--		set_disk_ro(ns->head->disk, nvme_ns_is_readonly(ns, info));
--		nvme_mpath_revalidate_paths(ns->head);
--
--		blk_mq_unfreeze_queue(ns->head->disk->queue, memflags);
--	}
-+	if (!ret && nvme_ns_head_multipath(ns->head))
-+		ret = nvme_update_ns_head_limits(ns, info, unsupported);
- 
- 	return ret;
- }
++_test_dev_nvme_ctrl_dev() {
++	local ctrl
++
++	ctrl="$(_nvme_get_ctrl_list | head -n 1)"
++	if [[ -z "$ctrl" ]]; then
++		return 1
++	fi
++
++	echo "/dev/$(basename "$ctrl")"
++}
++
++device_requires() {
++	local ctrl_dev
++
++	_require_test_dev_is_nvme
++	_require_test_dev_sysfs queue/max_sectors_kb queue/max_hw_sectors_kb
++
++	if ! ctrl_dev="$(_test_dev_nvme_ctrl_dev)"; then
++		SKIP_REASONS+=("unable to find NVMe controller for $TEST_DEV")
++		return 1
++	fi
++	if [[ ! -c "$ctrl_dev" ]]; then
++		SKIP_REASONS+=("$ctrl_dev is not a character device")
++		return 1
++	fi
++}
++
++_cleanup_queue_limits() {
++	if [[ -z "${nvme068_queue_path:-}" ]]; then
++		return
++	fi
++
++	echo "$nvme068_max_sectors_kb" > "$nvme068_queue_path/max_sectors_kb"
++	if [[ -n "${nvme068_discard_max_bytes:-}" ]]; then
++		echo "$nvme068_discard_max_bytes" > \
++			"$nvme068_queue_path/discard_max_bytes"
++	fi
++	if [[ -n "${nvme068_wzeroes_unmap_max_bytes:-}" ]]; then
++		echo "$nvme068_wzeroes_unmap_max_bytes" > \
++			"$nvme068_queue_path/write_zeroes_unmap_max_bytes"
++	fi
++}
++
++_check_queue_limit() {
++	local queue_path=$1
++	local attr=$2
++	local expected=$3
++	local actual
++
++	actual="$(cat "$queue_path/$attr")"
++	if [[ "$actual" -ne "$expected" ]]; then
++		echo "ERROR: $attr changed from $expected to $actual"
++	fi
++}
++
++test_device() {
++	local queue_path="$TEST_DEV_SYSFS/queue"
++	local ctrl_dev
++	local max_hw_sectors_kb
++	local max_sectors_kb
++	local discard_hw_bytes
++	local discard_granularity
++	local discard_max_bytes=""
++	local wzeroes_unmap_hw_bytes
++	local wzeroes_unmap_max_bytes=""
++
++	echo "Running ${TEST_NAME}"
++
++	ctrl_dev="$(_test_dev_nvme_ctrl_dev)"
++	nvme068_queue_path="$queue_path"
++	nvme068_max_sectors_kb="$(cat "$queue_path/max_sectors_kb")"
++	nvme068_discard_max_bytes=""
++	nvme068_wzeroes_unmap_max_bytes=""
++	_register_test_cleanup _cleanup_queue_limits
++
++	max_hw_sectors_kb="$(cat "$queue_path/max_hw_sectors_kb")"
++	max_sectors_kb=$((max_hw_sectors_kb / 2))
++	if ((max_sectors_kb == 0)); then
++		max_sectors_kb=1
++	fi
++
++	if [[ -e "$queue_path/discard_max_bytes" &&
++	      -e "$queue_path/discard_max_hw_bytes" &&
++	      -e "$queue_path/discard_granularity" ]]; then
++		nvme068_discard_max_bytes="$(cat "$queue_path/discard_max_bytes")"
++		if echo "$nvme068_discard_max_bytes" > \
++				"$queue_path/discard_max_bytes" 2>/dev/null; then
++			discard_hw_bytes="$(cat "$queue_path/discard_max_hw_bytes")"
++			discard_granularity="$(cat "$queue_path/discard_granularity")"
++			if ((discard_granularity > 0 &&
++			     discard_hw_bytes >= discard_granularity * 2)); then
++				discard_max_bytes=$(((discard_hw_bytes / 2) /
++					discard_granularity * discard_granularity))
++			fi
++		else
++			nvme068_discard_max_bytes=""
++		fi
++	fi
++
++	if [[ -e "$queue_path/write_zeroes_unmap_max_bytes" &&
++	      -e "$queue_path/write_zeroes_unmap_max_hw_bytes" ]]; then
++		nvme068_wzeroes_unmap_max_bytes="$(<"$queue_path/write_zeroes_unmap_max_bytes")"
++		wzeroes_unmap_hw_bytes="$(<"$queue_path/write_zeroes_unmap_max_hw_bytes")"
++		if ((wzeroes_unmap_hw_bytes > 0)); then
++			wzeroes_unmap_max_bytes=0
++		fi
++	fi
++
++	echo "$max_sectors_kb" > "$queue_path/max_sectors_kb"
++	if [[ -n "$discard_max_bytes" ]]; then
++		echo "$discard_max_bytes" > "$queue_path/discard_max_bytes"
++	fi
++	if [[ -n "$wzeroes_unmap_max_bytes" ]]; then
++		echo "$wzeroes_unmap_max_bytes" > \
++			"$queue_path/write_zeroes_unmap_max_bytes"
++	fi
++
++	if ! nvme ns-rescan "$ctrl_dev" >> "$FULL" 2>&1; then
++		echo "ERROR: ns-rescan failed"
++	fi
++
++	_check_queue_limit "$queue_path" max_sectors_kb "$max_sectors_kb"
++	if [[ -n "$discard_max_bytes" ]]; then
++		_check_queue_limit "$queue_path" discard_max_bytes \
++			"$discard_max_bytes"
++	fi
++	if [[ -n "$wzeroes_unmap_max_bytes" ]]; then
++		_check_queue_limit "$queue_path" write_zeroes_unmap_max_bytes \
++			"$wzeroes_unmap_max_bytes"
++	fi
++
++	_cleanup_queue_limits
++
++	echo "Test complete"
++}
+diff --git a/tests/nvme/068.out b/tests/nvme/068.out
+new file mode 100644
+index 0000000..28407c6
+--- /dev/null
++++ b/tests/nvme/068.out
+@@ -0,0 +1,2 @@
++Running nvme/068
++Test complete
 -- 
 2.25.1
 
