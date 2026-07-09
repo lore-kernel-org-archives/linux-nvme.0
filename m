@@ -4,69 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D19CAC43458
-	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jul 2026 10:08:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 37776C43458
+	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jul 2026 11:34:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:
-	Content-Transfer-Encoding:Content-Type:Date:Subject:To:References:
-	Mime-Version:Message-Id:Cc:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nzPK7Q3qm+3tUE8Y8KFwnXjquoOkl/kUWyXBpYXUuB8=; b=yCvqWrBJgWMNDNX6fBGs7bzosT
-	J51tknxXT4novhlgiUL61jN3/6kRjz2chVRxduui+nTmSKS7uplgAg97p6052txqcokQ63n0ClgAg
-	gd4NwdARq3CFzcgNYE5eIe2UStCvFz/uBJjbZLCMA8H2rZiJpq/ZPDgMYMHAfo/uLs5iFhE341zUS
-	i7q008sUCNuNDYW9jh3uHs5dMeJmSzlVzAq8cGdBrHDwP+wMAI8oJkmgmUXzNNmg3EnlcaVC9n/Hl
-	ZNpJ59sJRZeji1vRkZ2ftJVgcszgIDCByH76m1cepNbJ/+dTnsoZrnwCACcObvzPIwraC+MutabSb
-	CyLR7YSQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:Subject:References:Cc:To:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=dU3V5lsCup//9g4z3abO31CvstIgXQ6vFr0DdAt97Vk=; b=pB9Z7IfB2K7Mq0r5bY/RP108kt
+	mFsOa38jz3D4WfnRzfF2s35OUIRTCdNroFQ6IvEj7/9tlgjszYOSoGR34m8ZQZCNxNtb4q5njL/Sb
+	iqPcIFtTpjY2n0RY6UFHkBIDoDGqFq6QF9LG+rlh2J6432B9pMfYVwP3+c0Cj/T3BJsMXGMqR9kfN
+	rNv0mBALRgoYDcQV86ltHSKO991du8yqG9hA6nrfVg8aLB/64tDAzwPLbc3lCXNn4+KjgTXc/nDSw
+	Vang6Qq8efekz2OW6f45Wtz0mgWwDp7qiqBrRGko6qxFBcxo8+ZeLsz91fHry8P68hm9PryHHI5mj
+	lwxYqUNA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1whlgY-00000001tSx-3lW9;
-	Thu, 09 Jul 2026 10:08:50 +0000
-Received: from va-2-59.ptr.blmpb.com ([209.127.231.59])
+	id 1whn1K-00000002DTy-1fXM;
+	Thu, 09 Jul 2026 11:34:22 +0000
+Received: from mout.web.de ([212.227.17.11])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1whlgV-00000001tS8-2LJw
+	id 1whn1H-00000002DRK-2uwl
 	for linux-nvme@lists.infradead.org;
-	Thu, 09 Jul 2026 10:08:49 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=s1; d=fygo-io.20200929.dkim.larksuite.com; t=1783591722;
-  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
- reply-to:content-type:mime-version:in-reply-to:message-id;
- bh=nzPK7Q3qm+3tUE8Y8KFwnXjquoOkl/kUWyXBpYXUuB8=;
- b=lmEr59L6hyNDPoexltHX9iycAL/45pk6YoF3XWWsg6Wvx0rwSLZKorXPyguGonelmtu3sE
- 2SFPEcoysIMDs3YXsZXF9DIQ7mta8Ukm1vDmj0+cGVbZRE0mBZyjMYpnUpuYXmV7XjRnUC
- eONZHfJJ+Ns3mhhCK59zJJWgCu4Vyjod1zKrlUG/b4BQLAUvG7c8X0yc+qTy2Fp/FYWYh/
- 3Myivt1FYf4L5l67F5beixXxczc9s07jswbBqs/CkDlav9ZhKGzZdZaeKWcKxneIdsk0Kf
- auVcM8LVokNBtyNphHUMxjAcQdvowFH8U55ZQUNtxWRmykiEhEAtk2JT4XGIeQ==
-Cc: "Jens Axboe" <axboe@kernel.dk>, "Tejun Heo" <tj@kernel.org>, 
-	"Keith Busch" <kbusch@kernel.org>, "Sagi Grimberg" <sagi@grimberg.me>, 
-	"Alasdair Kergon" <agk@redhat.com>, 
-	"Benjamin Marzinski" <bmarzins@redhat.com>, 
-	"Mike Snitzer" <snitzer@kernel.org>, 
-	"Mikulas Patocka" <mpatocka@redhat.com>, 
-	"Dongsheng Yang" <dongsheng.yang@linux.dev>, 
-	"Zheng Gu" <cengku@gmail.com>, "Coly Li" <colyli@fygo.io>, 
-	"Kent Overstreet" <kent.overstreet@linux.dev>, 
-	"Josef Bacik" <josef@toxicpanda.com>, 
-	"Nilay Shroff" <nilay@linux.ibm.com>, <linux-block@vger.kernel.org>, 
-	<cgroups@vger.kernel.org>, <linux-nvme@lists.infradead.org>, 
-	<dm-devel@lists.linux.dev>, <linux-bcache@vger.kernel.org>
-Message-Id: <75bc21b5-9cc5-4d39-8ba3-7cf69689e438@fygo.io>
-Mime-Version: 1.0
-X-Lms-Return-Path: <lba+26a4f7329+7660f4+lists.infradead.org+yukuai@fygo.io>
-References: <20260704195124.1375075-1-yukuai@kernel.org> <20260709060959.GA16504@lst.de>
-To: "Christoph Hellwig" <hch@lst.de>, "yu kuai" <yukuai@fygo.io>
-Subject: Re: [RFC PATCH v1 00/17] blk-cgroup: protect blkgs with blkcg_mutex
-Date: Thu, 9 Jul 2026 18:08:36 +0800
+	Thu, 09 Jul 2026 11:34:21 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1783596808; x=1784201608; i=markus.elfring@web.de;
+	bh=dU3V5lsCup//9g4z3abO31CvstIgXQ6vFr0DdAt97Vk=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=ApEx2uWT2md4Ljv7OHE2JGXqcbX/scE8BbdwHpueNt/FfjNRPd7zMo5xWTJ64KA+
+	 4HD4/CmpOpy4leFt00T+d515WIuTFPEkT8ol5X2FRuM6ttauJK91ZSjl47bKkq6mj
+	 0+Y4zx2epfB7tmTepLDGItLZQD/3SYGuWhpaXd6Y3Ok/+3d3YuV5apyTEn5kgLaO/
+	 NXKsDFrjTUD7AYIsr+O/ZafS9APq3ogw9k2o8D1ErXmD0DbcQeLCxORtZjRbNmc8s
+	 BW1FAN5znfDfut8cAqUK8pdpaSxhXmCD69ancM4JHm1reQCmZlpc2f56Pg6yeovPF
+	 pfy3VVHXnyvvnn828Q==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from client.hidden.invalid by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MVJRl-1wXA3L0Rrb-00RPky; Thu, 09
+ Jul 2026 13:33:28 +0200
+Message-ID: <eb695a2a-2e80-414c-91a1-3d7fa580c7ec@web.de>
+Date: Thu, 9 Jul 2026 13:33:24 +0200
+MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
+To: Frank Li <Frank.Li@nxp.com>, dmaengine@vger.kernel.org,
+ linux-hardening@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-nvme@lists.infradead.org, imx@lists.linux.dev,
+ Bjorn Helgaas <bhelgaas@google.com>, Christoph Hellwig <hch@lst.de>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>, Kees Cook
+ <kees@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>, Niklas Cassel <cassel@kernel.org>,
+ Vinod Koul <vkoul@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, Devendra Verma <devverma@amd.com>,
+ Koichiro Den <den@valinux.co.jp>
+References: <20260708-edma_ll-v4-0-cc128f0afb61@nxp.com>
+Subject: Re: [PATCH v4 00/10] dmaengine: dw-edma: flatten desc structions and
+ simple code
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20260708-edma_ll-v4-0-cc128f0afb61@nxp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Original-From: yu kuai <yukuai@fygo.io>
-Received: from [192.168.1.104] ([39.182.0.144]) by smtp.larksuite.com with ESMTPS; Thu, 09 Jul 2026 10:08:41 +0000
-From: "yu kuai" <yukuai@fygo.io>
-In-Reply-To: <20260709060959.GA16504@lst.de>
+X-Provags-ID: V03:K1:lazUhBIMmLzqNSbxN+eYaYB2AqlmNHAb516c8ebt3InwwhzLtrl
+ JOpmxNLhNl0IGmmgJGm4FIip5O7NhfW9Q72B3HqfOpbI6n9lkr37fMKSuMcllBOayHT34Ej
+ dWsUTUCocwfbqdOphT2+KXnImaUeXXrLj2zus2RjLoJRYfsnwi1MY8kdF38mq3HXujFwSmi
+ ecu9u0pPRgv56187FP8Gw==
+UI-OutboundReport: notjunk:1;M01:P0:+Sjfrk61JOk=;sgpjzjLoMopB1XcWzDVZmB7Gaex 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 TZd1CGY3MxPtY0zsSGDpfPyMdP4=
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260709_030847_655974_65199198 
-X-CRM114-Status: GOOD (  12.44  )
+X-CRM114-CacheID: sfid-20260709_043420_160230_55A8CBE8 
+X-CRM114-Status: UNSURE (   5.22  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,37 +89,24 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: yukuai@fygo.io
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+=E2=80=A6
+> And reduce at least 2 times kzalloc() for each dma descriptor create.
+=E2=80=A6
 
-=E5=9C=A8 2026/7/9 14:09, Christoph Hellwig =E5=86=99=E9=81=93:
-> On Sun, Jul 05, 2026 at 03:51:07AM +0800, Yu Kuai wrote:
->> From: Yu Kuai <yukuai@fygo.io>
->>
->> This RFC moves queue-local blkg topology synchronization from
->> q->queue_lock to q->blkcg_mutex.
->>
->> q->queue_lock is a hot block-layer spinlock used by request queue runtim=
-e
->> paths,
-> I don't think it is hot any more.  If it is in one of your workloads
-> we have a deep problem somewhere.  That being said, futher removing
-> uses of his old catch-all lock is always good, hopefully we can
-> eventually remove it entirely.
->
-> So this series looks great to me conceptually, but I'm unfortunately
-> not a very qualified reviewer for the blk-cgroup code.
+How do you think about to use a summary phrase like =E2=80=9CFlatten destr=
+uctions
+and simplify code=E2=80=9D?
 
-Thanks a lot for taking a look at this RFC set, it's very helpful.
 
-It's true that blk-cgroup review is not active for a long time. I'd like to
-help but I really don't have time to check every block layer patches.
+=E2=80=A6
+> The finial goal is dymatic add DMA request when DMA running. =E2=80=A6
 
->
---=20
-Thanks,
-Kuai
+                     dynamic?
+
+Regards,
+Markus
+
 
