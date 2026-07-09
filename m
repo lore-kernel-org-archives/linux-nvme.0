@@ -4,93 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BFFD0C44508
-	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jul 2026 08:54:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1EE4CC43458
+	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jul 2026 09:06:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xIZ6qRExbPn7qKQLZNWfShYUkaAQGdpQ4rbB62Uq+9k=; b=N2hHLoBI5i5KtPz14Z1Vc8iNdQ
-	KSGnN32DpOyc+8XPPlzulBt1QZD6lX6MndH3zusJdkVZ6lADVc9QHBYqtR8+QEKXP8bM5ODNc56P8
-	yBwGeCBexpaGoj2qDjuTpNOFXnZrFUvxZhNRrKCy4qsrBK/nFP8gVb1aFEoUQ/9XIy0ssuLi8rX+L
-	z0h64+2CF2t3UVObNG1ILLt/D1E8X9duMmW05NOZa+M9PZaxU9SCQ3Y0qGHutUVpGLo/H9Xit5RD/
-	PDbg/0A05vYuSVpTJwXifcXahE2JLDxj9naaA1sqe6E+EVfVcBrcdu6f2pDfDhDAZmFJKlp0G4SWB
-	U9NlIHlg==;
+	bh=niqcxvxx9mjN5W6h/lURJAP03sAdP9CJ4GgRbGY87SM=; b=orUEJ0cPwBrcCr5yXY8qDYtG7O
+	plpDM6akON+7QGWNMFt4R9L9HNrvbuFlhp1LixfEi9bj5DG43XcVhHucoO6OfawEpMg1BA57Wi4PP
+	2NWarCJkNZSzDAYVyu2zj4gPpGQHSUZGG55wGloZ6cwfEc/oQL68zvCGkPhV8E2fR/IaXowAAqUWC
+	sB6Y08TCm8BJ3c6khd2OTiQjXaMQ3abIIQrMwjthXqvTJ0E5yE/3KHzQsOIC/N+DeUPqnlRRKFMQw
+	BA9uwvWwG4e6kDC7GaxDuFZIrmdeuRmCEGQHypsPcGd/YN+5rGx0Mt5i4HG0ozqu4uX56Mxq8WE5w
+	KtO7oQNw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1whkWk-00000001eHk-0iJb;
-	Thu, 09 Jul 2026 08:54:38 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1whki3-00000001iGN-2I6W;
+	Thu, 09 Jul 2026 09:06:19 +0000
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1whkS4-00000001YRL-3rox
-	for linux-nvme@bombadil.infradead.org;
-	Thu, 09 Jul 2026 08:49:49 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=xIZ6qRExbPn7qKQLZNWfShYUkaAQGdpQ4rbB62Uq+9k=; b=TQ3XK8bJigwBPWQnNb46P7oYrD
-	PS6MFUai0Xess1EjknR4gdhsYWhG2WLtBjVbfvSKhjzL/AXzvNaqmSD2EntwLktpAa0XuU4ehlc+/
-	MoXsQmTytBs1ldtkKM0YXVjmdUhYAOsgMjsOF/WvzQhCmlc9hnC0cGlanLiPj7VyhjMAgO49CUq0t
-	bHLr+xe8ULF0j5viAM2UwWFEP3/WKxIKYzDor9wBXSq1NuuB4uv/ck39mQcjrz39zPP5nwoJauVCO
-	e+VQ//a/JFW6Gdiexxwtu4OEq8OqFmI9V8nzlPdsmkBb2kBBW4Irjg66JZiSBYxxrX6x4GmhBrne1
-	BKRc0lOg==;
-Received: from mailgw.kylinos.cn ([124.126.103.232])
-	by desiato.infradead.org with esmtps (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1whkS0-00000008yba-01kZ
+	id 1whki0-00000001iG0-2KAL
 	for linux-nvme@lists.infradead.org;
-	Thu, 09 Jul 2026 08:49:46 +0000
-X-UUID: 188127767b7311f1aa26b74ffac11d73-20260709
-X-CTIC-Tags: HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CTE_8B, HR_CTT_MISS
-	HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME, HR_SJ_DIGIT_LEN
-	HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE
-	HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT, HR_TO_NO_NAME
-	IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_TRUSTED, SA_EXISTED
-	SN_TRUSTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS
-	CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS, GTI_RG_INFO, GTI_C_BU
-	AMN_GOOD, ABX_MISS_RDNS
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:ce51439b-b2dc-4a1d-af92-b96187a7ae38,IP:10,
-	URL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:35
-X-CID-INFO: VERSION:1.3.12,REQID:ce51439b-b2dc-4a1d-af92-b96187a7ae38,IP:10,UR
-	L:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:35
-X-CID-META: VersionHash:e7bac3a,CLOUDID:f8cb6f004a3e50bd8a4490085dd22f56,BulkI
-	D:260709162246RCBM95B1,BulkQuantity:1,Recheck:0,SF:10|66|78|81|82|102|127|
-	136|850|865|898,TC:nil,Content:0|15|50,EDM:5,IP:-2,URL:0,File:nil,RT:nil,B
-	ulk:40,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:
-	0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 188127767b7311f1aa26b74ffac11d73-20260709
-X-User: sangyao@kylinos.cn
-Received: from localhost.localdomain [(223.70.159.239)] by mailgw.kylinos.cn
-	(envelope-from <sangyao@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 644923052; Thu, 09 Jul 2026 16:49:28 +0800
-From: Yao Sang <sangyao@kylinos.cn>
-To: linux-nvme@lists.infradead.org
-Cc: Sagi Grimberg <sagi@grimberg.me>,
-	Christoph Hellwig <hch@lst.de>,
-	Jens Axboe <axboe@kernel.dk>,
-	Keith Busch <kbusch@kernel.org>,
-	Yao Sang <sangyao@kylinos.cn>
-Subject: [RFC PATCH v1 2/2] nvme: stop using queue_limits_stack_bdev for namespace heads
-Date: Thu,  9 Jul 2026 16:48:25 +0800
-Message-Id: <20260709084826.3208740-3-sangyao@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260709084826.3208740-1-sangyao@kylinos.cn>
-References: <20260709084826.3208740-1-sangyao@kylinos.cn>
+	Thu, 09 Jul 2026 09:06:18 +0000
+Received: by mail-pj1-x1033.google.com with SMTP id 98e67ed59e1d1-3856d6fbcb3so1280721a91.2
+        for <linux-nvme@lists.infradead.org>; Thu, 09 Jul 2026 02:06:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783587975; x=1784192775; darn=lists.infradead.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=niqcxvxx9mjN5W6h/lURJAP03sAdP9CJ4GgRbGY87SM=;
+        b=XqbASA/yScpRFboxi588rMFVnvYmxOtTMuEcHHkfQ1KuOOdCOTnJCzRMStyvSg4Wdi
+         qdXOhDrsDomimCkL+orSUBqYzHqLCTHu1llClGK4M0YNLqboJjlG59OKWGrtUqTNujVJ
+         C6dqeo2u4Z2BD9Hm2ileEy5rrGJJ+NekdyTyHZ9owjb/NF2RHGRgjll9T5eHaKTwjjZo
+         WI9GmfIK6UqCI3gNbA8lncrnrQfEdI/wdAmtHUNWgS/2+NeQkvH7JJ1m161imAdsqCh/
+         cVp0DRK9bNOi3Ygvtj2i4CEik4jb9xj9GKuSy9/8wQKfHANW2MBVjKs4w6P+O3PSxMCR
+         Dtag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783587975; x=1784192775;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=niqcxvxx9mjN5W6h/lURJAP03sAdP9CJ4GgRbGY87SM=;
+        b=VKGR+9crwBmFdqAtlBiMJRs/SVqFI7zI9mi/euyn3yKfV0uio718HGNAUT3u6cZXyx
+         L4yLJ+sPES3pGCAdl8HoFBKHsa4igOvqGTwOqJrnxK5XKOWGvCY+fRKK7nfusnHxDZQW
+         XjWkAa6Iq2PkwxEKFfP72v3/NFUqmSgDb561CcC8pqfEjNJx+zJZ+8JhJGP5x/3KZf2G
+         dn0PEXV5Gvtx5qWK24GMet9XNqjwDKtEY6Jzmh9W2ryRzM2t/ULvKo9BsEUWZnj9s94B
+         lLTwAfwUzT9QM0eUaPUSTjhgMzNYBGcjfVNZU3pRHnZonjzkmnfgwXm2rhOjkY3WwZdd
+         LEvg==
+X-Forwarded-Encrypted: i=1; AHgh+Ro3wtoYh0/t8NfOC8k0da5QyA4F/JJtCGaS2+RI5rEQU4mIEvELGm5aLb4gVHK6afVYx+biVvklfqAt@lists.infradead.org
+X-Gm-Message-State: AOJu0Ywv/iq++YXcBcZrkhGxFsy6o8g3BqVKURFgEyJL7V7Sl8mYL8RT
+	EykVyeUGBj3y5omRXpH7Fhygw7ul/BMxhorZaxKyft1QkCUa/1uYHuOS
+X-Gm-Gg: AfdE7cnexp8tX3oic6ruTztsG5wYZkrD744H/uo7GCpqeJHPG3mn69mbkKuUL5nlMod
+	/HbAes3h0pQIy7DPi+Xpxt4qNOxtTdthkaH965GsNPREk52U17Z3y9ZWKiG0junImCmF3F3KoQV
+	Roo/mu7y/zE3FCbdIDRHwVsq59E01kCYOl7wLL/hbXuPZ4FG78Z8yzP3ePHePT1RByV1U65yJMs
+	61IjeVVCZLCX+tFBtaO6tRpRsuXB7AKAprtP8HyJvKPBjcfn1depUdYJEFvg4Uq4/T5umZVJvEZ
+	RDgIfCJ6JnLFHv/0B4KFUtV02mdrschyhhOwbbEWj3AIRDfIDwl3CY07UubWVWJhmy1y/bGPRGX
+	P00vtPu3QKIgG8wOPjeenInvEnLU4KC8U9greKtT1OxBYSqOiN8Arjh/T8daw6o1J/efZYKdd3X
+	W5jGe81nHQWKC75ThDH0RK6phEISQAEFTLc4wSBntn
+X-Received: by 2002:a17:90a:e70d:b0:37f:9cdf:f03a with SMTP id 98e67ed59e1d1-38941fb57e3mr6283355a91.29.1783587975008;
+        Thu, 09 Jul 2026 02:06:15 -0700 (PDT)
+Received: from [10.0.48.76] ([61.213.176.7])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38a583a22f8sm825313a91.15.2026.07.09.02.06.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Jul 2026 02:06:14 -0700 (PDT)
+Message-ID: <7ae65361-f601-4fd9-8eac-5dfb9f6bb7ea@gmail.com>
+Date: Thu, 9 Jul 2026 17:06:11 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvme: make firmware activation poll interval configurable
+To: Christoph Hellwig <hch@lst.de>
+Cc: kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Guzebing <guzebing@bytedance.com>
+References: <20260627010610.47768-1-guzebing1612@gmail.com>
+ <20260709064233.GA18381@lst.de>
+From: guzebing <guzebing1612@gmail.com>
+In-Reply-To: <20260709064233.GA18381@lst.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260709_094944_981212_27B96D90 
-X-CRM114-Status: GOOD (  18.28  )
+X-CRM114-CacheID: sfid-20260709_020616_605743_13975D8C 
+X-CRM114-Status: GOOD (  17.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -105,191 +102,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-NVMe namespace heads are not generic stacked block devices. Updating a head
-with queue_limits_stack_bdev() pulls in bdev offset, alignment, and generic
-stacking policy that belongs to mapped devices, while NVMe needs to refresh
-namespace Identify data and preserve head user caps.
 
-Add an NVMe-local helper that copies refreshed namespace configuration,
-keeps head user caps from queue_limits_start_update(), preserves
-the existing write-cache and compatibility feature inheritance, and merges
-request limits conservatively. Head-level execution features are kept only
-when every usable path supports them.
 
-Keep the helper local to NVMe for now so field ownership can be reviewed
-before any block core helper is considered.
+On 7/9/26 2:42 PM, Christoph Hellwig wrote:
+> On Sat, Jun 27, 2026 at 09:06:10AM +0800, guzebing wrote:
+>> From: Guzebing <guzebing@bytedance.com>
+>>
+>> nvme_fw_act_work() polls the controller processing-paused status every
+>> 100 ms while firmware activation is pending. Some devices can complete
+>> online activation in only a few hundred milliseconds, so the fixed
+>> interval can add noticeable latency before the driver observes
+>> completion.
+>>
+>> Add an nvme_core.fw_act_poll_interval_ms module parameter to make the
+>> poll interval tunable. Keep the default at 100 ms to preserve existing
+>> behavior, and accept values from 10 ms to 100 ms so systems that need
+>> faster completion detection can opt in to a shorter interval.
+>>
+>> Signed-off-by: Guzebing <guzebing@bytedance.com>
+>> ---
+>> We recently observed this issue while performing online firmware
+>> updates for Gen5 NVMe SSDs in a production environment.
+>>
+>> During firmware activation, the kernel quiesces I/O. Detecting the end
+>> of firmware activation earlier lets the driver unquiesce I/O earlier,
+>> which is important for the long-tail I/O latency of production
+>> workloads.
+> 
+> What value does this device report in the Maximum Time for Firmware
+> Activation (MTFA) field?  It might make sense to scale the polling
+> time as a fraction of that instead of requiring a manual override.
+> 
 
-Signed-off-by: Yao Sang <sangyao@kylinos.cn>
----
- drivers/nvme/host/core.c | 142 ++++++++++++++++++++++++++++++---------
- 1 file changed, 112 insertions(+), 30 deletions(-)
+The Samsung PM9D3a Gen5 SSD reports MTFA = 10, i.e. 1000 ms.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index b96fa993a08f..d5e45dc13041 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2509,12 +2509,117 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
- 	return ret;
- }
- 
--static void nvme_stack_zone_resources(struct queue_limits *t,
--				      const struct queue_limits *b)
-+static void nvme_apply_ns_head_identify_limits(struct queue_limits *lim,
-+					       const struct queue_limits *ns_lim)
- {
--	t->max_open_zones = min_not_zero(t->max_open_zones, b->max_open_zones);
--	t->max_active_zones =
--		min_not_zero(t->max_active_zones, b->max_active_zones);
-+	/*
-+	 * Identify-derived namespace/head attributes come from the refreshed
-+	 * NVMe namespace limits, not from generic mapped-device stacking.
-+	 */
-+	lim->features &= ~(BLK_FEAT_ZONED | BLK_FEAT_ATOMIC_WRITES);
-+	lim->features |= ns_lim->features & BLK_FEAT_ZONED;
-+	lim->logical_block_size = ns_lim->logical_block_size;
-+	lim->physical_block_size = ns_lim->physical_block_size;
-+	lim->io_min = ns_lim->io_min;
-+	lim->io_opt = ns_lim->io_opt;
-+	lim->chunk_sectors = ns_lim->chunk_sectors;
-+	lim->discard_granularity = ns_lim->discard_granularity;
-+	lim->max_hw_discard_sectors = ns_lim->max_hw_discard_sectors;
-+	lim->max_discard_segments = ns_lim->max_discard_segments;
-+	lim->zone_write_granularity = ns_lim->zone_write_granularity;
-+	lim->max_hw_zone_append_sectors = ns_lim->max_hw_zone_append_sectors;
-+	lim->max_write_streams = ns_lim->max_write_streams;
-+	lim->write_stream_granularity = ns_lim->write_stream_granularity;
-+
-+	if ((ns_lim->features & BLK_FEAT_ATOMIC_WRITES) &&
-+	    ns_lim->atomic_write_hw_unit_min) {
-+		lim->features |= BLK_FEAT_ATOMIC_WRITES;
-+		lim->atomic_write_hw_max = ns_lim->atomic_write_hw_max;
-+		lim->atomic_write_hw_unit_min =
-+			ns_lim->atomic_write_hw_unit_min;
-+		lim->atomic_write_hw_unit_max =
-+			ns_lim->atomic_write_hw_unit_max;
-+		lim->atomic_write_hw_boundary =
-+			ns_lim->atomic_write_hw_boundary;
-+	} else {
-+		lim->atomic_write_hw_max = 0;
-+		lim->atomic_write_hw_unit_min = 0;
-+		lim->atomic_write_hw_unit_max = 0;
-+		lim->atomic_write_hw_boundary = 0;
-+	}
-+
-+	if (lim->features & BLK_FEAT_ZONED) {
-+		lim->max_open_zones = min_not_zero(lim->max_open_zones,
-+						   ns_lim->max_open_zones);
-+		lim->max_active_zones =
-+			min_not_zero(lim->max_active_zones,
-+				     ns_lim->max_active_zones);
-+	} else {
-+		lim->max_open_zones = 0;
-+		lim->max_active_zones = 0;
-+		lim->max_zone_append_sectors = 0;
-+	}
-+}
-+
-+static void nvme_apply_ns_head_feature_limits(struct queue_limits *lim,
-+					      const struct queue_limits *ns_lim)
-+{
-+	/*
-+	 * Keep the existing inheritance for compatibility feature bits.
-+	 * Path execution features are handled separately below.
-+	 */
-+	lim->features |= ns_lim->features &
-+		(BLK_FEAT_WRITE_CACHE | BLK_FEAT_FUA |
-+		 BLK_FEAT_ROTATIONAL | BLK_FEAT_STABLE_WRITES);
-+
-+	/*
-+	 * Head-level execution capabilities are only safe if every usable path
-+	 * supports them.
-+	 */
-+	if (!(ns_lim->features & BLK_FEAT_NOWAIT))
-+		lim->features &= ~BLK_FEAT_NOWAIT;
-+	if (!(ns_lim->features & BLK_FEAT_POLL))
-+		lim->features &= ~BLK_FEAT_POLL;
-+	if (!(ns_lim->features & BLK_FEAT_PCI_P2PDMA))
-+		lim->features &= ~BLK_FEAT_PCI_P2PDMA;
-+}
-+
-+static void nvme_apply_ns_head_request_limits(struct queue_limits *lim,
-+					      const struct queue_limits *ns_lim)
-+{
-+	lim->max_hw_sectors = min_not_zero(lim->max_hw_sectors,
-+					   ns_lim->max_hw_sectors);
-+	lim->max_dev_sectors = min_not_zero(lim->max_dev_sectors,
-+					    ns_lim->max_dev_sectors);
-+	lim->max_write_zeroes_sectors =
-+		min(lim->max_write_zeroes_sectors,
-+		    ns_lim->max_write_zeroes_sectors);
-+	lim->max_hw_wzeroes_unmap_sectors =
-+		min(lim->max_hw_wzeroes_unmap_sectors,
-+		    ns_lim->max_hw_wzeroes_unmap_sectors);
-+	lim->seg_boundary_mask = min_not_zero(lim->seg_boundary_mask,
-+					      ns_lim->seg_boundary_mask);
-+	lim->virt_boundary_mask = min_not_zero(lim->virt_boundary_mask,
-+					       ns_lim->virt_boundary_mask);
-+	lim->max_segments = min_not_zero(lim->max_segments,
-+					 ns_lim->max_segments);
-+	lim->max_integrity_segments =
-+		min_not_zero(lim->max_integrity_segments,
-+			     ns_lim->max_integrity_segments);
-+	lim->max_segment_size = min_not_zero(lim->max_segment_size,
-+					     ns_lim->max_segment_size);
-+	lim->dma_alignment = max(lim->dma_alignment, ns_lim->dma_alignment);
-+	lim->max_secure_erase_sectors =
-+		min_not_zero(lim->max_secure_erase_sectors,
-+			     ns_lim->max_secure_erase_sectors);
-+}
-+
-+static void nvme_apply_ns_head_limits(struct queue_limits *lim,
-+				      const struct queue_limits *ns_lim)
-+{
-+	nvme_apply_ns_head_identify_limits(lim, ns_lim);
-+	nvme_apply_ns_head_feature_limits(lim, ns_lim);
-+	nvme_apply_ns_head_request_limits(lim, ns_lim);
- }
- 
- static int nvme_update_ns_head_limits(struct nvme_ns *ns,
-@@ -2528,35 +2633,12 @@ static int nvme_update_ns_head_limits(struct nvme_ns *ns,
- 
- 	lim = queue_limits_start_update(head_q);
- 	memflags = blk_mq_freeze_queue(head_q);
--	/*
--	 * queue_limits mixes values that are the hardware limitations
--	 * for bio splitting with what is the device configuration.
--	 *
--	 * For NVMe the device configuration can change after e.g. a
--	 * Format command, and we really want to pick up the new format
--	 * value here. But we must still stack the queue limits to the
--	 * least common denominator for multipathing to split the bios
--	 * properly.
--	 *
--	 * To work around this, we explicitly set the device
--	 * configuration to those that we just queried, but only stack
--	 * the splitting limits in to make sure we still obey possibly
--	 * lower limitations of other controllers.
--	 */
--	lim.logical_block_size = ns_lim->logical_block_size;
--	lim.physical_block_size = ns_lim->physical_block_size;
--	lim.io_min = ns_lim->io_min;
--	lim.io_opt = ns_lim->io_opt;
--	queue_limits_stack_bdev(&lim, ns->disk->part0, 0,
--				ns->head->disk->disk_name);
--	if (lim.features & BLK_FEAT_ZONED)
--		nvme_stack_zone_resources(&lim, ns_lim);
-+
-+	nvme_apply_ns_head_limits(&lim, ns_lim);
- 	if (unsupported)
- 		ns->head->disk->flags |= GENHD_FL_HIDDEN;
- 	else
- 		nvme_init_integrity(ns->head, &lim, info);
--	lim.max_write_streams = ns_lim->max_write_streams;
--	lim.write_stream_granularity = ns_lim->write_stream_granularity;
- 	ret = queue_limits_commit_update(head_q, &lim);
- 
- 	set_capacity_and_notify(ns->head->disk, get_capacity(ns->disk));
--- 
-2.25.1
+I also checked another device, an Intel/Solidigm P5520 Gen4 drive.  It
+reports MTFA = 100, i.e. 10000 ms, while the observed online activation
+time is about 800 ms.
+
+I agree that deriving the polling interval from MTFA would be better
+than adding a module parameter.  Given that MTFA is a conservative upper
+bound rather than a good estimate of the common activation time, would
+using a small fraction of it, for example MTFA / 100 clamped to 10..100
+ms, be a reasonable policy for v2?
+
+That would give 10 ms for the PM9D3a device above, while keeping the
+current 100 ms interval for the P5520 case and for large-MTFA devices.
 
 
