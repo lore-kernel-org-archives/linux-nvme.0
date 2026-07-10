@@ -4,115 +4,115 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 91A36C43458
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 Jul 2026 08:10:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6528FC43458
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 Jul 2026 08:18:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=AHDsFMi/TGo1n41jN1GI2sFJMmRgrR171764xb7VuCw=; b=u3+fH+jXX6B8BYlfQHFemZmtFR
-	kUyO1gsC1/CjC77Jdf9pp/dmYbVkC9f/IRWxizbBXolxANzf8RLDfaho8D5QpDpRD7uJseOP7YDu1
-	Uo5YR/n1/KR0fZAN7fn0HBbh3cX0jMzfHoKcDfDHe098j1d//VdNPbLl2phZNBGANbgQnOKHABkDU
-	Mp1YCoMeANodoqaxRp4AmKaX1rFNhKBiEAGc54P33x5gTgJ5kyvPCvL85FFOchhnbG8aOmQtRn7J0
-	Q39v9SnJNbQfHaur4jMEW0ZLz1DIq2FDGF5NQse2Qe9v0kpqzLGPxepjs3ruSnplXX9bcJtqHI/0B
-	cUWfYjdg==;
+	bh=Co+MBVxnbPOLb66s1VxJ6IqsBCfel7NrZlPPyoEsFbs=; b=hos3ItPPmHsVP9be+uQZaLPO6C
+	mEh9sJaamY9ToqWZR12K70UOny+N3lUZP9YxR8h0qgWcPwRXbirsbgf12tUcQlG7y9ME/baaJTwRL
+	d70Svk+OoLVDsSEK2awPlOTebxt0nxVvBOIZM5yJpBXL0XjZrcW/0YxMf3mHgdBh1w78rrT/BxDJk
+	GQgAOr3KBN30ZIHDPxihdvcXcSeru8MG27odGGrAnvTZJhTWeLcTZuVVuTNOu6NbNjWzfr8yD94sH
+	+DabQFhHqpFt2oP9Tm5AuylwhrcHTROSh8j8J2b5nubAFu5J0wy5AhXMIEB2oU3TIecCGtqsWuTin
+	Ic2Rariw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wi6JS-00000004Qh2-1pLC;
-	Fri, 10 Jul 2026 08:10:22 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1wi6RK-00000004Rfn-1StO;
+	Fri, 10 Jul 2026 08:18:30 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wi6JP-00000004QgS-3dUQ
+	id 1wi6RI-00000004Req-3PMf
 	for linux-nvme@lists.infradead.org;
-	Fri, 10 Jul 2026 08:10:21 +0000
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66A7mJmd4024913;
-	Fri, 10 Jul 2026 08:10:05 GMT
+	Fri, 10 Jul 2026 08:18:29 +0000
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66A7mKqE223095;
+	Fri, 10 Jul 2026 08:18:07 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=AHDsFM
-	i/TGo1n41jN1GI2sFJMmRgrR171764xb7VuCw=; b=hPIU5oua6yBQruSoKuY9Xf
-	Zd3cGijNN5z9cpPSwM3SgVuK3TfyTtGA3ipXvE6XIb9AReJL5h1jmX2pUnioz3+g
-	bHefVLVcQ/R7StpScHQgBDdCakblaDHce0ebkLOyg/ZJGLGc8ERi2YFTupvkdcrD
-	CCreVMI8skFxaCcYh01qRtgS5FdWZ1da2Yo7owdySiWInZU0GvQ91ELrH8GIqzYo
-	O/gdFhA6l57kIFHkJTvvn8GbEFL2ZVYpkBXZDioIKdRQzd4Am3Ax7DXYpIkHDYJr
-	CSVCheGBV2gGagqHmWQQPmLWmNa9wlI2+CHJdivDyXaRGEILHkDqN8p1NfTVv7cg
+	:message-id:mime-version:references:subject:to; s=pp1; bh=Co+MBV
+	xnbPOLb66s1VxJ6IqsBCfel7NrZlPPyoEsFbs=; b=J00NnuPQyI8hx/nJ69m5V0
+	5pGuE/iCkc+oRi2yEDf7e7g5B7yYGxbkDjnP/bkmI4jSrjyYZ74TCpkh4eQKUE/a
+	8TJ1JVCeGTTqaGQn69PzqJTMDd2oVbMnhpCHvY/XvvfkqwddJnUFwv8BuUC0uxql
+	U3aN7dkbshkT2Ellp2/IyZ4STx61LIazea/Xu5/QHZRkgstiwVN3jyio5G72daCC
+	j4FPD9Ra/lMf0INPxqTJftUY4TeRQ2Vm+lqKLUZCs6Eq2d7YOqgTgD9qo+oFgyPd
+	jsJLTHJiXGQ1z/7Kl91E6Y0d0zPMNK7FIVkhqd+1o3qfGtdygpVPhuoAcfMG7X2A
 	==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4f6rke5xpd-1
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4f6sw55rjx-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 10 Jul 2026 08:10:04 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 66A84jKw008259;
-	Fri, 10 Jul 2026 08:10:03 GMT
-Received: from smtprelay03.dal12v.mail.ibm.com ([172.16.1.5])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4f7eqggv8a-1
+	Fri, 10 Jul 2026 08:18:07 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 66A84jxu016391;
+	Fri, 10 Jul 2026 08:18:06 GMT
+Received: from smtprelay07.dal12v.mail.ibm.com ([172.16.1.9])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4f7dgkh3g7-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 10 Jul 2026 08:10:03 +0000 (GMT)
+	Fri, 10 Jul 2026 08:18:06 +0000 (GMT)
 Received: from smtpav02.dal12v.mail.ibm.com (smtpav02.dal12v.mail.ibm.com [10.241.53.101])
-	by smtprelay03.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 66A8A0na22479426
+	by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 66A8I5ah22938324
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 10 Jul 2026 08:10:00 GMT
+	Fri, 10 Jul 2026 08:18:05 GMT
 Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C85DF58062;
-	Fri, 10 Jul 2026 08:10:00 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 83F675805E;
+	Fri, 10 Jul 2026 08:18:05 +0000 (GMT)
 Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 91F575805E;
-	Fri, 10 Jul 2026 08:09:57 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 11F695805C;
+	Fri, 10 Jul 2026 08:18:02 +0000 (GMT)
 Received: from [9.43.90.92] (unknown [9.43.90.92])
 	by smtpav02.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 10 Jul 2026 08:09:57 +0000 (GMT)
-Message-ID: <1e72d8d2-ecfb-42c8-9ba4-97cf70f8b70b@linux.ibm.com>
-Date: Fri, 10 Jul 2026 13:39:56 +0530
+	Fri, 10 Jul 2026 08:18:01 +0000 (GMT)
+Message-ID: <32ffcd98-1d9e-4f12-b7f9-4960942f8650@linux.ibm.com>
+Date: Fri, 10 Jul 2026 13:48:00 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 14/18] list: Permit context-unguarded access with
- list_empty_careful()
-To: Christoph Hellwig <hch@lst.de>, Marco Elver <elver@google.com>
+Subject: Re: [PATCH v3 07/18] nvme: add context annotations for
+ nvme_subsystem::lock
+To: Christoph Hellwig <hch@lst.de>
 Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kbusch@kernel.org, sagi@grimberg.me, axboe@fb.com, bvanassche@acm.org,
-        gjoyce@linux.ibm.com
+        elver@google.com, kbusch@kernel.org, sagi@grimberg.me, axboe@fb.com,
+        bvanassche@acm.org, gjoyce@linux.ibm.com
 References: <20260706141452.3008233-1-nilay@linux.ibm.com>
- <20260706141452.3008233-15-nilay@linux.ibm.com>
- <20260709063020.GC18056@lst.de>
+ <20260706141452.3008233-8-nilay@linux.ibm.com>
+ <20260709062845.GA18056@lst.de>
 Content-Language: en-US
 From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <20260709063020.GC18056@lst.de>
+In-Reply-To: <20260709062845.GA18056@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
 X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=M7J97Sws c=1 sm=1 tr=0 ts=6a50a8dc cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+X-Proofpoint-GUID: jNopTae3gpEzoJJVHFEg7enKlEjkpcfZ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzEwMDA4MCBTYWx0ZWRfX60lPonr9b/DQ
+ 3LZ9BZjZOasvBM4S3IscMVpX647wp+u5jynYub3JguAJf5UbiZ1fjfZGasQpZC1sse0vf7q/ssY
+ Y1YYleDkZfD9zZqZ0i+5+jpR7tFpcclEyWnVTmmcUL2aHdlLokm+oyfEze8Oq3emX++eyPnnX1a
+ ejGixibQh77lUSFCbZuqUd0xdEXV1fNkN11o47ZETWBS/WMKFcSILkx/F+4kr313GetY3pY691O
+ zH1S0LbMVc48pL8uUD0hPCVt2AgHoMafoFU1FQqITRTqMVFK+YLPbaEMcYP1Fp1b9vy9IjjYD1v
+ T1QlFUHB/7pjHqJq8jsavjKIugnXx+rFNMHoo7zNT8w/ZCrcGwBBa3O4P8r248GGwS4gvXKVaRe
+ p1l3/x1PBYclApKvAEqTc/zU/+JnUQf2WRdRLr0d2rHuwaYhpwKniD91e4LmlcxwZINgotx0vs3
+ Mo5fnZPCdtA5thckePQ==
+X-Proofpoint-ORIG-GUID: zn1IEVjIvGTJ01g064ufCQdW38KjN_3X
+X-Authority-Analysis: v=2.4 cv=FqQ1OWrq c=1 sm=1 tr=0 ts=6a50aabf cx=c_pps
+ a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
  a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=1XWaLZrsAAAA:8
- a=x7wxYoYxGjGoRpqTYEQA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzEwMDA3NCBTYWx0ZWRfXx4hBz9tNFLxj
- aznqZGnkNINZclQXgTb7gLSdpvcc6BdJ9QgdCcd4wksoihojhUlHcs4hVNqCwksII4g0L2AKt6X
- D0KIuIr+KOtwVXzsNeDLJ/o0e3/IsKVfVdtGzfBqre/hgIbHkP8BaULsmOVIlvRxVI2mp/z9WqL
- mzLZN2qhjbnvAMXrU5FRsKRSqQ+n9tzRR3JuubmzAzklXR3CBF1KTsPlPuYIW5nLV8yTXXJUKgc
- l5brru29EMn/JbPk9MoMgA5iSxD72cEGg1qWxhDPX6/X8R7OCwFphWMa/vNaiGxWajHt420g9QI
- 6R5LJmAMDCFGL2y6rCu2UMYf4fe93aqvgGhg30VMAq2+6KuHZj3TrqPEln/2wQo5Vv1k76Pt7Gn
- B/P3fBSLhVJKOD16uD73a8EmcbsEFMOCx2C0Ck6cSJNvUZmX4P8T+F96sjTzv/2/v7ppgSSavEJ
- /nE3z2QdJXhrGDIKwTw==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzEwMDA3NCBTYWx0ZWRfX4A4vqXu+2qpG
- F6i865eOl0YuajISeUFhf1af0C1mIu4GAWQalPjh3/q2R3TkSBpCGzAHVcbk4C6WNxihs6kDUMD
- +JF7e3h+E05MVV4fDZn+My2BaLR02yI=
-X-Proofpoint-GUID: uc_WQRERGeJxbc8ensrKpUfVdtxFEloy
-X-Proofpoint-ORIG-GUID: 54v5Di_ezg29vN3KkPnvG2giajRKTjT2
+ a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=FlTBnMmiTBUqsbusg5kA:9
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzEwMDA4MCBTYWx0ZWRfX36cL0oy/0qWo
+ 9JYgDJeJooFV9dMQUhVLruUVcPiiqgCNc6G1qyHw2+mjdfrrsVX0W1rLjloeUPJKq/CqsA6q57g
+ EbFv6oo0S2SMxox3nBMkM8am6B/8Df8=
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-07-10_02,2026-07-09_04,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 lowpriorityscore=0 malwarescore=0 clxscore=1015 adultscore=0
- priorityscore=1501 bulkscore=0 spamscore=0 impostorscore=0 phishscore=0
+ adultscore=0 impostorscore=0 clxscore=1015 malwarescore=0 lowpriorityscore=0
+ priorityscore=1501 bulkscore=0 suspectscore=0 spamscore=0 phishscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607100074
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607100080
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260710_011020_029459_AA6B6426 
-X-CRM114-Status: GOOD (  18.61  )
+X-CRM114-CacheID: sfid-20260710_011828_857993_34D97D73 
+X-CRM114-Status: GOOD (  13.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -127,35 +127,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Marco,
-
-On 7/9/26 12:00 PM, Christoph Hellwig wrote:
-> On Mon, Jul 06, 2026 at 07:44:16PM +0530, Nilay Shroff wrote:
->> From: Marco Elver <elver@google.com>
->>
->> With Context Analysis (viz. Clang's Thread Safety Analysis), list_heads
->> that are __guarded_by(..) require holding the appropriate context lock
->> when accessing and manipulating them via the list API. Because Clang's
->> warning diagnostics do not perform inter-procedural analysis, this is
->> enforced by Clang with -Wthread-safety-pointer in the caller at the call
->> boundary; a warning is produced when passing a pointer to a guarded
->> variable without holding the appropriate context locks:
+On 7/9/26 11:58 AM, Christoph Hellwig wrote:
+> On Mon, Jul 06, 2026 at 07:44:09PM +0530, Nilay Shroff wrote:
+>> Wrap the initialization of nvme_subsystem::nsheads with
+>> context_unsafe(...) to suppress the context analysis warning emitted
+>> for INIT_LIST_HEAD() during object initialization.
 > 
-> Same thing here, maybe try to get this to Linus late in the current
-> window as it's trivial and makes dependency management much easier.
+> Still not a fan of that vs adding a proper helper.
 > 
-> If that doesn't work, move it to the front of the series.
+Okay so I think lets instead annotate nvme_init_subsystem() with
+__context_unsafe.
+
+>> nvme_ns_head is allocated with kzalloc(), so explicitly initializing
+>> nvme_ns_head::delayed_removal_secs to 0 in nvme_mpath_alloc_disk() is
+>> redundant. Remove the redundant initialization, which also avoids a
+>> false positive from Clang's context analysis.
 > 
-
-Would it be possible for you to send a pull request for Linus directly, or
-would it need to go through another maintainer?
-
-If you're able to send it directly, we also have patch 09/18 in this
-series that should go to Linus. In that case, I'd suggest including both
-patches in the same pull request.
-
-Otherwise, as Christoph suggested, I'll move these patches to the
-beginning of the series in the next revision.
+> Please split that into a prep patch.
+> 
+Sure, I'll split that into a separate preparatory patch in the next
+revision.
 
 Thanks,
 --Nilay
