@@ -4,69 +4,104 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E911EC43458
-	for <linux-nvme@archiver.kernel.org>; Sat, 11 Jul 2026 07:54:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 95E0DC43458
+	for <linux-nvme@archiver.kernel.org>; Sat, 11 Jul 2026 22:00:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Yq9ugPgqSi+vvCA2JUOrVgCq0uNPuvnlAUK0ndk5THo=; b=XT0yDFUZBPoxYflkIDXjXSh87A
-	WSVJdPZSE+Jckg1345FoUlV/H02j8RhZ9B3zCc92hjun/bC90CHcOkW02frVGI7Ktj7Og4s8LtTjQ
-	4uu0uX3OZ50WhE07kQHMk74+XS/PG4GAgbD2ndFkN2y+tMPw3Wa5iBszNKEi8AYnJTxREqqZ7CSc7
-	stQMjP+SXPpb8oRIUDEEBqtN6ozxPD/P4czU4zKSh6ROxMxoIribJIs7vJIErOP4K6PRUXm/rvOKu
-	R3yPVkuHY+6c5hGVOTwnshBPCyc5Er/NS/ZuMcdYnx6mZO0279DXSreoqdZOuPbn0n5nCmCiaeBdq
-	c3Qwd27w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=OoHfKViv96Cd5dk2dx1K0qDipK81ZDFw1ZlAuoD6eRA=; b=j25Ik5B+Gor7mRSYh+10K2f5AV
+	0/VDpUFP1kWMsKqk6eD+f2vOhLR1aSdBrqW2+fp9a7LclzaP+kimZ0PAcex3RaIzQgTjHGUTCTYIX
+	Y5tTeomgWXMIS26gyduX2Cv7RwDPZSHRZuTeHEDDDLMdeQstqUR2ChMCJxi3VKyNbscWPxXrbsDCR
+	i4NVq+K71cgSye7p1qDBFU8pmRoMmPZRdCS4PHxquMDTWZ7gRWWX6sqZ1uTi0WaX0GLDm1UxCcaWs
+	E+FjZ3+xFxHU5bDpF1vAPxniH0/ZIVvPSRaKc7Db04B7xKDZenFh9EpQ+5+TktJLgVn86kVnO06o7
+	MmoNnEnQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wiSXF-00000006L2g-2Fg3;
-	Sat, 11 Jul 2026 07:54:05 +0000
-Received: from sender-op-o17.zoho.eu ([136.143.169.17])
+	id 1wifkN-00000006vXd-1pnv;
+	Sat, 11 Jul 2026 22:00:31 +0000
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wiSX8-00000006L27-1Yyh
+	id 1wifkL-00000006vXI-3AOF
 	for linux-nvme@lists.infradead.org;
-	Sat, 11 Jul 2026 07:54:00 +0000
-ARC-Seal: i=1; a=rsa-sha256; t=1783756429; cv=none; 
-	d=zohomail.eu; s=zohoarc; 
-	b=XGjAkknBmAke5pGc1MBdG5w2FJOAxojSYgb8KVm4SzSWCVfvTMaBXOENz9IgiXSA6REdPBFzJHgVUs4Ldu+4n0EgC+Jf6hD/CBfcU5p53x7T/XOMcYLOnGLnbQyFxBn5tYaBsles9wy5RSjxPXqyP29u4SToyI6FaMDhUXsk2bo=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.eu; s=zohoarc; 
-	t=1783756429; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=Yq9ugPgqSi+vvCA2JUOrVgCq0uNPuvnlAUK0ndk5THo=; 
-	b=fVFI5v/SEafWpVuKoIW/1r81qOoTGecy5jE8yphTcKYGzK2t3fY7Bg1KfgV92FvbMjfgylkDHyEXC8NBaQlpGGAppBNTNfD5YvJ0AKkOCm5nEckqWguTALKu1u8S4xhdB9Eic8a7W2w2Num/8VjAtP/aqyfn97tk0gkTaSyBB08=
-ARC-Authentication-Results: i=1; mx.zohomail.eu;
-	dkim=pass  header.i=auditcode.ai;
-	spf=pass  smtp.mailfrom=security@auditcode.ai;
-	dmarc=pass header.from=<security@auditcode.ai>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1783756429;
-	s=zmail; d=auditcode.ai; i=security@auditcode.ai;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=Yq9ugPgqSi+vvCA2JUOrVgCq0uNPuvnlAUK0ndk5THo=;
-	b=CU0fpnAqscKwgEh5QP3XjwHlNryiaLNT+7jzxCdw4jf/CysdDy4WAY4vXxo8g0wv
-	8AgsGYg282CLbEVk3puwfhJiPAemexcn+lZbqSK55RpMjhTIyYIb+S+kRUls4RUuWTi
-	sQ0giJjguMBDgnvr7ywE+JyZSB1JeJZy/1RW1oGk=
-Received: by mx.zoho.eu with SMTPS id 17837564262591023.3003370679169;
-	Sat, 11 Jul 2026 09:53:46 +0200 (CEST)
-From: Ibrahim Hashimov <security@auditcode.ai>
-To: hare@suse.de,
-	hch@lst.de,
-	sagi@grimberg.me,
-	kch@nvidia.com
-Cc: linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] nvmet-auth: fix uninitialized-memory leak in AUTH_RECEIVE
-Date: Sat, 11 Jul 2026 09:53:42 +0200
-Message-ID: <20260711075342.54787-1-security@auditcode.ai>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260709132520.44160-1-security@auditcode.ai>
-References: <20260709132520.44160-1-security@auditcode.ai>
+	Sat, 11 Jul 2026 22:00:30 +0000
+Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-84a2c90e383so71044b3a.0
+        for <linux-nvme@lists.infradead.org>; Sat, 11 Jul 2026 15:00:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783807228; cv=none;
+        d=google.com; s=arc-20260327;
+        b=NTcGJFk0xHej2yAh1mXvO0sCCaIrluiMuA2+q86u8qxp23ykAeox/e9pUvBkP3/Kwm
+         3cccKKghSabhAXVXguduCmokjHd+6cGPL7FLoqkLikXwDaddLrJnysOQaD8Qn/Idx5xH
+         bkPbWFE5YTMVfuuzTPEAsyxr8CjAL2m7ltpVMlZmzfdkvJK7KAzvrC0HaWF8XzLW7qA8
+         FvxTY3x4JUNcZol+t6HtPTrdNF9gU1Cbu/Zx2+sfkQ87rv2zjtijtOPmw2pSDfQ/A3fT
+         qwK5jaDZ1w6SxzpI1c2iicTLW0+iohIs5VmY6fBKmXEq8VYPQL0FNVWbdp9UMjnUMyj5
+         c12w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=OoHfKViv96Cd5dk2dx1K0qDipK81ZDFw1ZlAuoD6eRA=;
+        fh=unw4ZMiNMo9siHivfvkoI1AXDaPn5oEWRzJhQt5Ht0Q=;
+        b=jKmp9JASbJzphbFHIMtFExkAABtPNqpF5x3PijVyVBPr3zfvMu1HbwX7YeXgSs7N30
+         Yjy6npZOkX+XCXJfqmRUw9YcGNtbo0HjGcPPZytDInX+VqpBZNgYo0GaRQ/Vst28m5Mh
+         9Uh8lGkfr8Smbwk4LkZseCNzfZbyEsN0jMwPHKVIBlZG7f+m305OndJU6eP57RrRS1JQ
+         mcKUEHkKHYyWKw3wzECTHzD528maTgpedob1u9f8foBqGCXFWEqvhgpiNi4R8gI9VGr+
+         yfATrfVItgbsUt4LWX1cFUbKGZld6F040BCbuHAnRfwoKkL9yMWvQQMRcsRyqMD8s9S8
+         W+Ag==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1783807228; x=1784412028; darn=lists.infradead.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=OoHfKViv96Cd5dk2dx1K0qDipK81ZDFw1ZlAuoD6eRA=;
+        b=E4FiEXN5GXKrnMhYI4ZhOQuEjIvgarJnQoKHQjjTHoV5MzJ4svkimCE5FdFqJhiQCH
+         uw/1n0wODtbxL+xOJO5mQC5sWj1YKjAO4XCeimL5NfTEkLqIOeOxF9CGFWsoWVUv8riC
+         s/+NnrItb9agQrl6b1HoJUl4jDyJaLIe8xwZ0gzML7mQCrA/VnnFBwQFVCmDl4a/NcH7
+         XK+XuypSj7KELsMLsFO0xrorOsiFWW9JZ+dsBoBGqZHKuyJwLgcYu/zi7R8Qmnr/YHLt
+         R+M1kQpAbmi2tS1bbTk1aEU6nC+i8Ugn/dGfTbfloMdZ7qHy3eTLuH67uNESi4T53hBo
+         EQgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783807228; x=1784412028;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=OoHfKViv96Cd5dk2dx1K0qDipK81ZDFw1ZlAuoD6eRA=;
+        b=aJLOQHIX4VD8D98y+RWolNy3DXAhMBQR45zhr/iZC/EVBijEJuXjQbFJF/zwXFjivl
+         8jDBYx0HOBHk0oWdNlCylDVTQn3NCwrJjSLmFvQj91B7R0mzcjX1Uddcxw6WfB+ohtGY
+         Jy6ObI1f42BMt9cOIbrFjhUEwuAiQcmh8e/xDfLQZcJtm50rJ4mZoCB9vv5OfL/PGR0A
+         xIyX03hOXKjotJzASP2Zy9rle6MkGAC/wGk2T8LmNgM9pZjLgc+Ho4GLfbrxYp9nbKvF
+         PGGgM6t8xK/yorMZkxEVRCX3jaj3gACaKjoXVy1vtZiFdWQk26vgClEngxGjUXJWHi0t
+         eL0g==
+X-Forwarded-Encrypted: i=1; AHgh+RqsX/tvb27iipg7xrDFr8vl4GDbzX2ZMx4Pzn5hIEIfsuo6Sfb9NOkxkluMFgEby9Wf5piAqRO8RUZ0@lists.infradead.org
+X-Gm-Message-State: AOJu0Yyoi64LEQevizMiQy39m2uGeEbY6dxPrmYqxhRKnW8tTthwnQf9
+	smI+HPND3ZFBOWF7rsJ/AdcoqWW4wv8sgcsHxGgZ335TVQxjhpba8+s0bktfxnhrwc9IetmScvA
+	TKNXYgg2wgG5HOeBbTH86mZd9x+vG0U+SXKAPKZ7s
+X-Gm-Gg: AfdE7cnjox95oJhqB5EjfOdaOXudddLL4Km+VEi3uISvX983GkUc+GCb7JjiHTEcgW8
+	qB93sZizRuDhr7HtbwAZBpjGcGgPpoEMwtqcEBGqDbEmONxHHwEZwwXuZJA1NT7xZu8NO4d6mEb
+	ySRP68zHOLzeN4v7S5NdGwJmcrRxEvIY+J9fcy/X0I7jaP9cPRietJGSGodNZgH0gce059A1W4B
+	Wf/M2o6VWKxhW3n7DPMEYpJfiRjBoFRTpOnzDgWrgfwz6Ysw1uQNtMlJG4j1ywcwXmst4XdsA==
+X-Received: by 2002:a05:6a21:490:b0:3bf:b625:5bd0 with SMTP id
+ adf61e73a8af0-3c0f08efe2bmr9873396637.9.1783807227204; Sat, 11 Jul 2026
+ 15:00:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+References: <20260706141452.3008233-1-nilay@linux.ibm.com> <20260706141452.3008233-15-nilay@linux.ibm.com>
+ <20260709063020.GC18056@lst.de> <1e72d8d2-ecfb-42c8-9ba4-97cf70f8b70b@linux.ibm.com>
+In-Reply-To: <1e72d8d2-ecfb-42c8-9ba4-97cf70f8b70b@linux.ibm.com>
+From: Marco Elver <elver@google.com>
+Date: Sat, 11 Jul 2026 23:59:48 +0200
+X-Gm-Features: AVVi8CeYiGAvVjerxGFsLJPavUOx4WUoapX8FeHJ67Z2vQywhrQw3Mpo5oklosQ
+Message-ID: <CANpmjNMckikjJUdTT=ugs4pHMTOOQ+9mvSWZG31BGU3EFvRU1g@mail.gmail.com>
+Subject: Re: [PATCH v3 14/18] list: Permit context-unguarded access with list_empty_careful()
+To: Nilay Shroff <nilay@linux.ibm.com>
+Cc: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, kbusch@kernel.org, sagi@grimberg.me, 
+	axboe@fb.com, bvanassche@acm.org, gjoyce@linux.ibm.com
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260711_005358_720822_5FC591B6 
-X-CRM114-Status: UNSURE (   5.26  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260711_150029_849133_02E09D1B 
+X-CRM114-Status: GOOD (  24.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,13 +116,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Please disregard this patch -- it duplicates Bryam Vargas's
-"nvmet-auth: zero the AUTH_RECEIVE response buffer"
-(https://lore.kernel.org/linux-nvme/20260702-b4-disp-127414cf-v1-1-e5395cc0f9ae@proton.me/),
-which fixes the same uninitialized-memory leak with the same
-kmalloc() -> kzalloc() change and the same Fixes: tag, and already has
-Christoph's Reviewed-by. I missed it before sending; sorry for the
-noise.
+On Fri, 10 Jul 2026 at 10:10, Nilay Shroff <nilay@linux.ibm.com> wrote:
+>
+> Hi Marco,
+>
+> On 7/9/26 12:00 PM, Christoph Hellwig wrote:
+> > On Mon, Jul 06, 2026 at 07:44:16PM +0530, Nilay Shroff wrote:
+> >> From: Marco Elver <elver@google.com>
+> >>
+> >> With Context Analysis (viz. Clang's Thread Safety Analysis), list_heads
+> >> that are __guarded_by(..) require holding the appropriate context lock
+> >> when accessing and manipulating them via the list API. Because Clang's
+> >> warning diagnostics do not perform inter-procedural analysis, this is
+> >> enforced by Clang with -Wthread-safety-pointer in the caller at the call
+> >> boundary; a warning is produced when passing a pointer to a guarded
+> >> variable without holding the appropriate context locks:
+> >
+> > Same thing here, maybe try to get this to Linus late in the current
+> > window as it's trivial and makes dependency management much easier.
 
-Ibrahim
+It's not a bug fix, more of a feature, so I don't think this should be
+sent in a post-rc1 PR (and Linus would likely reject it).
+
+> > If that doesn't work, move it to the front of the series.
+> >
+> Would it be possible for you to send a pull request for Linus directly, or
+> would it need to go through another maintainer?
+
+Needs another maintainer.
+
+> If you're able to send it directly, we also have patch 09/18 in this
+> series that should go to Linus. In that case, I'd suggest including both
+> patches in the same pull request.
+
+list has no de-facto maintainer, so anyone could take it. My guess is
+it could go through tip/locking/core since it's related to Context
+Analysis...
+
+... alas, this is more complex than it needs to be, esp. given it's
+borderline to get this merged post-rc1.
+
+> Otherwise, as Christoph suggested, I'll move these patches to the
+> beginning of the series in the next revision.
+
+I'd just move it to the beginning on the respin, given what I said above.
+
+Thanks,
+-- Marco
 
