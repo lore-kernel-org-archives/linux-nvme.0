@@ -4,100 +4,180 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 66D85C44506
-	for <linux-nvme@archiver.kernel.org>; Sun, 12 Jul 2026 02:25:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1C712C43458
+	for <linux-nvme@archiver.kernel.org>; Sun, 12 Jul 2026 23:09:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5Qa2xMYNGZeTkTFfjF7wK7qrZQsQxsgN9mLNQPwLDOE=; b=rlckqg0K48mx5m/EBMqXym8CK3
-	9R/ds2v/MUnmKBpa1qxm3ybSBv1LFgPHUDrCjFZerj/7ex3kEdDG+PWyfykba+usq8wnfMFqzmUd+
-	RITKYTfuZPbZKD4vGUENlZiGaIQc0hji6tE/3Rn7/aTmVmLL6xsqbfWynOL/bFkCz15t9FRvsty2A
-	oZ5nVbA/LOvFW78k804feuu7YG+k0DOsYt8+y8iwj4/3baiNS83S5Cd12woCSjlW90yvoeuruZ24O
-	ZE7U6cGTUdvENUKsnfQBtGhRXued0pc8kg2EXKxJhbImiRH3wWRUqk2vUrdjfmCVPqdSELJojcCkr
-	fgfhfJXw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Date:References:Message-ID:In-Reply-To:From:Subject:Cc:To:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ZOcXREll+XHBXXScWD1Q8zm3luiS7+RRzi9uow2Jeqo=; b=FDIua4BNHNdMKaKP2N5LnfxbXz
+	Lj8ycGn/ASJXcBax9RGJb/oK3hMVlAIZr/B2891MC87Tfwnbr6BHGjOkIa7VKq4+A/kNnus2tshW7
+	S8d1lMEE4uhiiBQ2G5+vaNtCH9CYYtM3qoiAhfVKYeOcwSVCBZ01SrsyWJ5//mYmfo1m1fip7Kt4B
+	CYbF+VtafmP7SI0sG+WSGAzfDGY1Fa0FMQ8k6Aefw22iyuAGbcj7BvUdJpwNVyFKKPaui1Xm7DY5x
+	91yKvffJhg+WC9MpoA4bNAq4BHMhDujPH+LJoidNErSkIiWuKOHW236FkwVOsL0JolBqcFlTaouMe
+	5ZIqqH9Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wijtA-000000071yz-3ure;
-	Sun, 12 Jul 2026 02:25:52 +0000
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
+	id 1wj3Ih-00000007q4M-1bSd;
+	Sun, 12 Jul 2026 23:09:31 +0000
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wijt4-000000071qf-2vYR
+	id 1wj3IY-00000007q41-1V8L
 	for linux-nvme@lists.infradead.org;
-	Sun, 12 Jul 2026 02:25:51 +0000
-Received: by mail-pj1-x1029.google.com with SMTP id 98e67ed59e1d1-3810c5d691bso1745700a91.1
-        for <linux-nvme@lists.infradead.org>; Sat, 11 Jul 2026 19:25:46 -0700 (PDT)
+	Sun, 12 Jul 2026 23:09:24 +0000
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66CM7MID4155876;
+	Sun, 12 Jul 2026 23:09:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2025-04-25; bh=ZOcXREll+XHBXXScWD
+	1Q8zm3luiS7+RRzi9uow2Jeqo=; b=LywXxxmgZ7nHiTup+YReEwo1dG9f2DGlUB
+	N8db8693AFBmG0u6e3p/iDBdTazrpV7jf3pXISZJaV4Fo3DtXDzJ74ARrvLhh44/
+	+JRidbnYPSozVxZHDzeXnKKpJplE02J55oFOKE4BFUmS61lkYU/i3m7rv0kYPn1f
+	p5jVGt02PJRbrVBXyIKS/o5CXNx5t+AmPBh4a3KJ8lVaE0cmba7IFO0X4BrZZaXN
+	W279UtDb7KLts4JOcbr2qSqZXPfb7hnUdn5+aRh5jI/ApSenVLaZPBR5BhW8SmvX
+	qU+LZCx6/f3wKK1x8xSBRXygq+xvEfCWRnu3io2yI6Si5+L2GQEg==
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4fbed81981-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sun, 12 Jul 2026 23:09:10 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 66CN85H0011240;
+	Sun, 12 Jul 2026 23:09:09 GMT
+Received: from sn4pr0501cu005.outbound.protection.outlook.com (mail-southcentralusazon11011017.outbound.protection.outlook.com [40.93.194.17])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4fbc9c18y2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sun, 12 Jul 2026 23:09:09 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=uIdheG1dWDtZXe56o/hWGA7y+AKnMcHv7ESGv0MWyWLgxEEl6/nWeUTsFdkl+gFjG8PcS0FtA2Et8ahPogjelB7S9AvBPFwDHtiW4oY9XlKgmG2bMcXarXS/+8PZT/niKlIOIBzY7Nwq+0rHndzdS8rWL9w7BJCxJwcBHud8uzs/8udRYAFhoJU4dzC1oGqmCrsQPF3e/cxigJ2VE83FOyjNHUqOom3GJTbLG8ozDgAv5pZyNjBjlFV+Na5y1VqJaCnvu5Fq2Ly8LVpit8Xkj003OpNDgIzhi6i890+y6j5x2f7Dmk1idp3kvZEPXvt9vVgpVt080ZW4z6+IUh7NYw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZOcXREll+XHBXXScWD1Q8zm3luiS7+RRzi9uow2Jeqo=;
+ b=vMaMR1UykwMinJvYuyz+jRqT31FD4LnM2QdEkDnc/4IYPPDdzeE5d6iH0m0XxMDp0UUfYGFkIq/crlT7aO1mFOjqu9v0XSRXmyRYjjasotKr0hoWqdNZ/CnfMrPS2KlDemv3mkLWSjkdymIeV7nX4zLqxfvBzglvgt0+kZYmF8E+am+DLKnh773ECrinVRCBPCb2jYNFnKtH2BooQiXLkFXjSbcHd0hoak4ThK+yflfpTlR5GzX1SMm44jodVn4vB6/fi2OpCLC1zD72tEpgrJjkPioogNcjr5GbFj706Y5VgjdAJwjvk9JYNDWhnbaASeuS7sHw3r4aeGQb4fxpAw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1783823146; x=1784427946; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=5Qa2xMYNGZeTkTFfjF7wK7qrZQsQxsgN9mLNQPwLDOE=;
-        b=baBSpVUBp5JibQVCscrA97oG/0vCyJhCe4hDOQ+Kr7RoibM5w3+bDmogwTULzXrdAJ
-         MkZAduaFiyl/rOJe9BcypQ6SPfqYiGVJZ/l81qSaap9E2lxiq8SBmM5GODZfMjizk8FR
-         L8xr0lgbfMsnG8rAvbBqmLiAXS+ihocP+BjRGXIEpjNkPbXvOa2qZAHowpNQxEhEYEOp
-         iRH3Sc+p9sm6EqwXiSsX1frHiBU1Rt6MSyuTZiDz/9vnkqN2lbppt4l1c2qWJcNOQz/o
-         H1Aal76iCeHhGpJnSFCgqm87Uq2OQ46D2kli+Ux+Gkz5wcLi44Fq8tqzXrI4MvNZwqPX
-         RbQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783823146; x=1784427946;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=5Qa2xMYNGZeTkTFfjF7wK7qrZQsQxsgN9mLNQPwLDOE=;
-        b=YaVft6s7zfbni0bfzPmerd8RtswmmAKokhYNkUcR5Yb/tsSPFjCMuGN9jNQGQa/RRw
-         +8rzFXnVSprQnobNvngRE58bvJ6b36DoHOYpsadHKdE6F5RhuWvw6fdT8LR6XmLEEjST
-         AGkB1XDjstuNXDkRTIYLaT+dVxdMaw0B5UdHVopkbBUjbl+aczN7fyquQprLKokxOPkl
-         1C6cmIfVNXXpmLd029IthULI0G6tXOoLePCddEIkMrcqjvIT23npsKz3ilBw6CqUEKP6
-         g7uHApM/qdmtdkeOWWCKktr40oDGlV2DIm9wiAE5vnqcNvKFUUrD6AUIe69lJU0jfwFW
-         3SHA==
-X-Forwarded-Encrypted: i=1; AHgh+Rpu/Y4hiPN/L57/YIiU420Ojj3UeK3lJXMlfmHjICn+E325Fa6LaBMXV+JrkBke9DC5Suh0prqNV/O8@lists.infradead.org
-X-Gm-Message-State: AOJu0YyzUhcyVdQmg/Tr15bw00Kux716MjQ/pC5iUEmkW8BwmVXPQXQR
-	EpcHk+noTUweu7qaVn/7gKvfzlRXlUJDuvDrJMEsinaxkMW+H0kMYqWxznUUV8eDnIhdUV7QK15
-	xClJU
-X-Gm-Gg: AfdE7clItx/bihWDUNpxjOCF7VN4ySvlzPPaprb3lcbPFSeqa4gB2RVT/bu7pGZz5m8
-	s0mSjrROCkKXTZqoqQ27r1l1aX2SN7ImCPjvr9vVB9gP63XhNosUsQjmjnnpwAPYrGsTVHjiRqy
-	TiwTdGAnX6aBvmQmYtM9piiPnk0LjWAjR7uy/261goI4zFUqxmXrELLmPYHyCua1NMnHA/VlwtH
-	ch+tEVFMOutEtndj3Gv1W9IzDv4/mJ3u9J5Ox8mM7OBU6Pp64iOFPboKfYM5O42cJqPYpXtMwnn
-	y1OovPdE43FKuxMww1W8z5EawGni3vYgJzHd/dFkJBIGFWpjh2y7N1g5vXWswfvbE2Z00wTU9sA
-	nzqx2fl+wElYHaus5VNdShv1hhzlNAGatLxypME7WJlRZIykvalThDoSFnf+nkHb1mOz3KOV3yS
-	pHhbWiyKHJ2jLr/q4=
-X-Received: by 2002:a17:90b:1645:b0:380:873:49cb with SMTP id 98e67ed59e1d1-38dc774d582mr4427579a91.21.1783823145888;
-        Sat, 11 Jul 2026 19:25:45 -0700 (PDT)
-Received: from ceto.lan ([2607:fb90:9c20:2264::1c31])
-        by smtp.googlemail.com with ESMTPSA id 5a478bee46e88-3117462f5c7sm60704693eec.0.2026.07.11.19.25.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Jul 2026 19:25:45 -0700 (PDT)
-From: Mohamed Khalfella <mkhalfella@purestorage.com>
-To: Justin Tee <justin.tee@broadcom.com>,
-	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
-	Paul Ely <paul.ely@broadcom.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Jens Axboe <axboe@kernel.dk>,
-	Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	James Smart <jsmart833426@gmail.com>,
-	Hannes Reinecke <hare@suse.de>,
-	Randy Jennings <randyj@purestorage.com>,
-	Dhaval Giani <dgiani@purestorage.com>
-Cc: Aaron Dailey <adailey@purestorage.com>,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Mohamed Khalfella <mkhalfella@purestorage.com>
-Subject: [PATCH v5 16/16] nvme: Add support for CQT to nvme host
-Date: Sat, 11 Jul 2026 19:23:37 -0700
-Message-ID: <20260712022437.3743117-17-mkhalfella@purestorage.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260712022437.3743117-1-mkhalfella@purestorage.com>
-References: <20260712022437.3743117-1-mkhalfella@purestorage.com>
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZOcXREll+XHBXXScWD1Q8zm3luiS7+RRzi9uow2Jeqo=;
+ b=uLkOe51KYaT3QQfBOuehJzVnNNBwZB7y4Ygg6EZgGXqmQ+oygjI5lJX5eBhqTi/aNrYO//7bse90IcW4mbR3jU8IZ/YezWqtlF/5PPIbWMBaMJWU6VqytrrkHsalEzOuao41iaaI0wRjMLsZmvpVJfdqmhn/O4zNmUgrQbgdNBk=
+Received: from CH0PR10MB5338.namprd10.prod.outlook.com (2603:10b6:610:cb::8)
+ by CH3PR10MB7233.namprd10.prod.outlook.com (2603:10b6:610:121::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.202.18; Sun, 12 Jul
+ 2026 23:09:04 +0000
+Received: from CH0PR10MB5338.namprd10.prod.outlook.com
+ ([fe80::e525:dd71:b002:6ad5]) by CH0PR10MB5338.namprd10.prod.outlook.com
+ ([fe80::e525:dd71:b002:6ad5%6]) with mapi id 15.21.0181.014; Sun, 12 Jul 2026
+ 23:09:03 +0000
+To: Caleb Sander Mateos <csander@purestorage.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+        Sagi
+ Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Anuj Gupta
+ <anuj20.g@samsung.com>, linux-block@vger.kernel.org,
+        linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+        target-devel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 0/5] block: use integrity interval instead of sector
+ as seed
+From: "Martin K. Petersen" <martin.petersen@oracle.com>
+In-Reply-To: <20260627054220.2174166-1-csander@purestorage.com> (Caleb Sander
+	Mateos's message of "Fri, 26 Jun 2026 23:42:15 -0600")
+Message-ID: <yq1cxwrdgmx.fsf@ca-mkp.ca.oracle.com>
+References: <20260627054220.2174166-1-csander@purestorage.com>
+Date: Sun, 12 Jul 2026 19:09:01 -0400
+Content-Type: text/plain
+X-ClientProxiedBy: YQBPR0101CA0193.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:67::32) To CH0PR10MB5338.namprd10.prod.outlook.com
+ (2603:10b6:610:cb::8)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH0PR10MB5338:EE_|CH3PR10MB7233:EE_
+X-MS-Office365-Filtering-Correlation-Id: f8a330bb-77c4-4b17-4e05-08dee06a90b0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|1800799024|366016|7416014|376014|56012099006|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info: hCdW6zirIh5sCpD2+anJIxte3C6Jmg7CWGsQl74fOgvW7GptkrhPDLm4feksURfEAR4U9Y1c66EpRvoWYLgP01z9Q6ZiHnSk5RpK47JoXV/rSuQJGm1ICO+f5kJOoiAprTv2iFZWPxxh5WNko6Bu0xSp/qMlrlMGQdE2OgVn5SQGQBC9ipy4PHWsskhhxUMwWQpuVOUWOQooezoKScph3nzdWG5lkAnWMXgzRYMz/+Ur51iTR9mtCUB7BhEIM790Tuk7uycmbvzyq/LYbOrQcRYE99+b0XC0IsLEikGcPuP7RzECDGcd8hh+inSlgb9MMOoe5I3/0PegtHeKNouGDkUAXm5HGZmbk8QyaYEiMIepW0Ze9TskG6ASf2abBgBw4Mpnu4WrOgP9swcVnuqDf2Ak5D0Ut3+UlxHZdHNxiq1ujJ63c4gSIclcUL8a4/swKOt3jBbbtUrk9oQlQDh0ArC+t4C7Jd1nCX/RGFIPkHgl+ff7u3I7DzD5vEPOTxXIO7eo4uno6jxRBhijzIiRVqfezckmHvA8mi3VRw2O2D+XxX6WBdls2uIY2xnjp/1z85y9xDcjyERQoVgjzgki0bVcMDLQ3j3Ez5Db9Fqxxrc5B+mUUF29Y+sE4GlKGalgos90Qhoi53f25mqLB4KeKqf1rIvNEOL8nR7uSp/0qIc=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR10MB5338.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(366016)(7416014)(376014)(56012099006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?JphnC6/X67mXzDvHGfGDucyT+btLjcmIzSXI+X+zAmE7GaGqVvfBIDhS4wDs?=
+ =?us-ascii?Q?dTuDZL/RIKyMbL9nMnfYFheYeE7w5bUHveD1vG/tfDAA/bL5oLp6VMvOtqJD?=
+ =?us-ascii?Q?WK9nL1198TcvbMbnhkWl3yfu4cYW6NFHN3arjxFD5HLP/9BmIGtFMEsMx/vp?=
+ =?us-ascii?Q?E92wnWMOdd74DJkDOi/L43xr/w0HVk0L1wJh0kGEGwo7KUhZ/NHYznoS5brj?=
+ =?us-ascii?Q?Aao2OjAaZSsseMzUwTRkN30iWNTGZoBcZhzhBIzFCGAiA5IH9WkZgZ9431AT?=
+ =?us-ascii?Q?lRashGLDcBDHD6Ij04hAHeXjPL8j3tbFlBRKoqjVrCidEwu8Wa0KXRS+YZ86?=
+ =?us-ascii?Q?pjdBkFBb7LDvopYygRrcQUd58gt+GN5+Zy2+W2iM9blQOTlNCfbRpwxmBZo8?=
+ =?us-ascii?Q?+HUcjPceK8sdGuPd4wB3VPBn1U7k5SGz9dHT0JFEVR0A0lMBMGgxaRf053ml?=
+ =?us-ascii?Q?BUWmOgjzMIjUF48mmzfPq5Cay89JyIVPPqoe2qu7eYjflmc7ezSIUlGBhVvz?=
+ =?us-ascii?Q?D2Q1zPULPtWo+HPLyNoHI1RvZYqUdb7CfaFlFKLK5oZh/JJznznUTArenkZW?=
+ =?us-ascii?Q?maKBthnPI8cqCgd1ZoKggGfWTmlYQeaDVFMhN831JQ8frIVzUweIFVP5H2Zt?=
+ =?us-ascii?Q?xwmU1jxeQ5MENL1WucgoqMmsXuuHCrfB3NkGsZUrWrVFHrM8t7DpYslhqI4i?=
+ =?us-ascii?Q?TdDjah0WaGfmnI9T3g/xpP/5tuUL51aAsW4Y3MpZVwV2lbwsPS+6wmxf0Z87?=
+ =?us-ascii?Q?6bbplPRos8+Owc/AFfQC1E0DP4I54aQdVL83csF2iP7LW7hQmFDtaRY6U/Xt?=
+ =?us-ascii?Q?UwZ4gynqF51UK/yig38agVRCy3aeDBl4kkAzFN+VHeTAw22GrQ+JnZfY5OyG?=
+ =?us-ascii?Q?PI+XBPuWp5KGUGx8OYicKPCeRoWSns11BRhUIThxkSU1a13zUuTw8rrkTDKY?=
+ =?us-ascii?Q?cNoqVstJBOJoXI/T80nP+rk2pE3NQtjV9cnarjKG2mIRcP11oqmnPhtnYD/9?=
+ =?us-ascii?Q?ruDQSlp2YxBSTlvoHlKuHgGEK58XXyqHl7y7ng56AcyMfrNFEg9ok7wVkBo2?=
+ =?us-ascii?Q?zxkqbMZ4Trxz9qwHEsbz4khHMiTdWfeSHQn2AWfmZfL9jZ1zrCNwqZJc0dMj?=
+ =?us-ascii?Q?Di7yVxSeCxzazzR7aYomPlNLbQGYBExsjgXzYzOKD2jGF6GR+RJObXXTS2+b?=
+ =?us-ascii?Q?CuWOIx48kBzEFYjw9/VqntXVaSwk7lmqSHRSkFu5yJmvkZjvopqkpR+X4/49?=
+ =?us-ascii?Q?VKlpdJGgLgq8kXmZHqOC1FEpbrg9yPW2bjKSoMh//HZnaeVzdw2qSgAnl/tk?=
+ =?us-ascii?Q?N68+Z2JS87Z1iXoMHqtEY1kfsRgOIfj5LA1QExuMkUt/otxBw+8SjoVEJoh6?=
+ =?us-ascii?Q?yp871h4j/QR9BdA8VjyyE9SRoB5krZvFa6BWBWiDJz6NhIYgpiwqqXhxWVSu?=
+ =?us-ascii?Q?YTku2QY4MqbPhfrNXKmZkWMb9T3f7U9X0139/XaidfRdANL1jyqDS5OqYXMz?=
+ =?us-ascii?Q?aPO0Ej23sSRm7uGzpW0tj/CRTV9xRu6t6SpAsadgAxaY97E0iYC4XDe2b1KJ?=
+ =?us-ascii?Q?dMD+3byj0hN01iX5h3vsm/i/et4LNkvtlwqKBWUqIFf/3YGplZVgoI7irRjU?=
+ =?us-ascii?Q?wBmVwEAHMLJZxSd3iQVQdONNaXlhf4nGE86o+3DKDYzQRStcYFurGdgHCza7?=
+ =?us-ascii?Q?BREujSkiqeepQpW/EvE5iU/QYr66YpSvk8c9NT3C+utYKtzB436A3Si3tpvj?=
+ =?us-ascii?Q?Z3EM4cdeTJ8jDwrLtauVX8uDTE5bWXA=3D?=
+X-Exchange-RoutingPolicyChecked: Q9xkWkFyCofzK/ntGma8sdvWTAdUbqo05zoZ5RqTx0Tgslc5o/n96zPIwmgKEKwhn9yiobYE8uP3UERj86kwjBpdMVBunv69WdwCeyxJTMsXY6lZf46QOb7GbkLbHqOewljKH5/rILRnLeae+9ZfB+vjdhtsvK8tud6wgGVIpbmwaIJxpzeO3bQjvKq2qgt+q9V/l7+2totMaowtQyiimtWxmXokPQLm5wxY65keDNPrKlp5pN0CaZL0TWnQbXbN+Q8ZbPhHddgQn3PGZ6X5ZfwiYUb892IdeHLSeQPkbcxhxAziBBlN6tTgbAIOSvIv/OZhN3eNE8jwx+3A7+rN5Q==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: Jb8Tf1yCNpEHMXlHqDjmMMV1O10Zv7gEmLyBprIs3Tl3iq5SPEQJNh15SmI31r1U4Eof4Yic0Nj5XJuW383FFKt4arPbcMca3vt/k2gkey5SB7jutNtla/sMdrOhOFZXALn8jjnXheesjWjEhcCy2dXQtD+qzqP6akcqq5QE58XzFarioZ3HxEHixzikfrIIDLeHeQDAY1nedsDP9SMPpz+G+m6JMY8U4mYjFxExjRxZfe0CckfLQkyLKfZOH9B5pk2vtoZOi17HqAz0e9+tcAzOrVyjwi5JoQwEgFo8spT+xtXjkCuz000/CiGdb3oMgkX08Xdewk55mbF64CuvyIpkZxUsIlzELmk41oUrVNN62UWGQX+c84r4Hb09nhAOWqYGgs5Xoi5+i7sYoG0SgPObshs3LJDvtmddMFwiAokTQaKFeKemC3NQj3Z+H/O+71IlaWF5c+9cVriB2RPxQLeu9fF8AKWKvRiZh+ixiLMMwFHX6tjYkBiPMrSS7tfnc4nkgwlHh6h0hoSnJw5gsdKpEocDQjhLkGfR1BZM9uMIDjyMxShtJZFTI5h5kQQsDsNCDa/LT15HodyFCyWv/ZsMX8JIFxO9CwEgV6Z9aWw=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f8a330bb-77c4-4b17-4e05-08dee06a90b0
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR10MB5338.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2026 23:09:03.3767
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: olRK3gLm19fdrA4vishYMdM5/gKoJdZi/inGavWBKCv9aNeNqWH+TiywYcPBYJsOf+6DD2HZXLBVGloP1TIrUd5iLLxrDEVzAviZR9wGTwo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR10MB7233
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-12_07,2026-07-10_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ mlxlogscore=697 lowpriorityscore=0 suspectscore=0 adultscore=0 phishscore=0
+ malwarescore=0 mlxscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2606160000 definitions=main-2607120251
+X-Proofpoint-GUID: 6lpz-P0ZtVyccsJeyoE30wHGEibuVnSq
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzEyMDI1MCBTYWx0ZWRfXw7P/LQqjWX/d
+ /kjqVM73qrr5mb+agOmHVokIX8U80r5UikgMN7nFSWcUS+kGr+TDHc0DMFPDkv7ANNZq4pIGoMp
+ fkANAezyiHsUj2twX1Dq2aIUpq68dCaohX2V08NqKbEkmLfvCRu6
+X-Authority-Analysis: v=2.4 cv=JKALdcKb c=1 sm=1 tr=0 ts=6a541e96 cx=c_pps
+ a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=RAioF0-LDSMA:10
+ a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22 a=jiCTI4zE5U7BLdzWsZGv:22
+ a=o5oIOnhZENCTenyL_yNV:22 a=S-WosWXpVsDzJHGSFk8A:9
+X-Proofpoint-ORIG-GUID: 6lpz-P0ZtVyccsJeyoE30wHGEibuVnSq
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzEyMDI1MCBTYWx0ZWRfX0DOX0fqB3sUA
+ uX9SqD7K/5+9r2yKMRxNUEsoca3fTksENO+dJaD3Nx7FOC0FgxNKqo38cNT4Ki0Vgp9Epw0p8b9
+ gRA+BCDoNJ4XydJI7YQrvTI+jKv3IIpiOacIQSMiP1XhXVg2Lu+hcqjzbyMb9j/UCjonwlYsFOl
+ iwZWY8rlnYpBjoWHaKIlDl9qYqaSuSXQ+jQfQgLRReP0W0vfmqIZl7OfJb88kKUP5xs6GgMGI33
+ S4ZqA2eQ4pETkKQ2aEc3S+A8bk8bbn5FzMI/OrAc5BD2zKsJjRkbDDeCPhp1Xpdlbkql2wZbamG
+ yavTDRux/eCUnNPXV/gVD/cpVFZRoj4WG6so4XsvUoE4r5ZGYCMayQ6W2vkoyewz+u/S1qLbiFH
+ aG3VIkFHa3UIoUfZoKjgX/JhXUOT2R87xflpLQAtkxUfsIYxXbt0vKrltnWzfYPPgRIIziHBlnA
+ 9b/JwjfvTPBHNZ2ezqg==
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260711_192546_797515_C77AC590 
-X-CRM114-Status: GOOD (  18.37  )
+X-CRM114-CacheID: sfid-20260712_160922_527125_45F2D1D2 
+X-CRM114-Status: GOOD (  17.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -112,360 +192,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-TP4129 KATO Corrections and Clarifications defined CQT (Command Quiesce
-Time) which is used along with KATO (Keep Alive Timeout) to set an upper
-limit for attempting Cross-Controller Recovery. Add ctrl->cqt, read its
-value from controller identify response, expose it via sysfs, and have
-nvme_fence_timeout_ms() account for it.
 
-Use CQT to drive time-based recovery in fc, rdma, and tcp transports.
-Add a fenced_work delayed work to each transport controller. If CCR
-fails, fencing_work switches to error recovery immediately if CQT is not
-supported. Otherwise it schedules fenced_work after the remaining fence
-timeout, which also switches to error recovery when scheduled.
+Caleb,
 
-Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
----
- drivers/nvme/host/core.c  |  1 +
- drivers/nvme/host/fc.c    | 41 +++++++++++++++++++++++++++++++++++----
- drivers/nvme/host/nvme.h  |  5 +++--
- drivers/nvme/host/rdma.c  | 41 +++++++++++++++++++++++++++++++++++----
- drivers/nvme/host/sysfs.c |  2 ++
- drivers/nvme/host/tcp.c   | 41 +++++++++++++++++++++++++++++++++++----
- 6 files changed, 117 insertions(+), 14 deletions(-)
+> The block integrity layer currently sets the integrity seed (initial
+> reference tag) in units of 512-byte sectors.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 18de3805eff8..d3a2db50a89c 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3821,6 +3821,7 @@ static int nvme_init_identify(struct nvme_ctrl *ctrl)
- 	ctrl->ciu = id->ciu;
- 	ctrl->cirn = le64_to_cpu(id->cirn);
- 	ctrl->ccrl = id->ccrl;
-+	ctrl->cqt = le16_to_cpu(id->cqt);
- 
- 	ctrl->oacs = le16_to_cpu(id->oacs);
- 	ctrl->oncs = le16_to_cpu(id->oncs);
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 006b5a984dfe..dca7a26a4b15 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -167,6 +167,7 @@ struct nvme_fc_ctrl {
- 	struct blk_mq_tag_set	tag_set;
- 
- 	struct work_struct	fencing_work;
-+	struct delayed_work	fenced_work;
- 	struct work_struct	ioerr_work;
- 	struct delayed_work	connect_work;
- 
-@@ -1878,6 +1879,18 @@ __nvme_fc_fcpop_chk_teardowns(struct nvme_fc_ctrl *ctrl,
- 	return ret;
- }
- 
-+static void nvme_fc_fenced_work(struct work_struct *work)
-+{
-+	struct nvme_fc_ctrl *fc_ctrl = container_of(to_delayed_work(work),
-+					struct nvme_fc_ctrl, fenced_work);
-+	struct nvme_ctrl *ctrl = &fc_ctrl->ctrl;
-+
-+	dev_info(ctrl->device, "Time-based recovery finished\n");
-+	nvme_change_ctrl_state(ctrl, NVME_CTRL_FENCED);
-+	if (nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
-+		queue_work(nvme_reset_wq, &fc_ctrl->ioerr_work);
-+}
-+
- static void nvme_fc_fencing_work(struct work_struct *work)
- {
- 	struct nvme_fc_ctrl *fc_ctrl =
-@@ -1886,14 +1899,33 @@ static void nvme_fc_fencing_work(struct work_struct *work)
- 	unsigned long rem;
- 
- 	rem = nvme_fence_ctrl(ctrl);
--	if (rem)
--		dev_info(ctrl->device, "CCR failed, starting error recovery\n");
-+	if (!rem)
-+		goto done;
-+
-+	if (!ctrl->cqt) {
-+		dev_info(ctrl->device,
-+			 "CCR failed, CQT not supported, skip time-based recovery\n");
-+		goto done;
-+	}
-+
-+	dev_info(ctrl->device,
-+		 "CCR failed, switch to time-based recovery, timeout = %ums\n",
-+		 jiffies_to_msecs(rem));
-+	queue_delayed_work(nvme_wq, &fc_ctrl->fenced_work, rem);
-+	return;
- 
-+done:
- 	nvme_change_ctrl_state(ctrl, NVME_CTRL_FENCED);
- 	if (nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
- 		queue_work(nvme_reset_wq, &fc_ctrl->ioerr_work);
- }
- 
-+static void nvme_fc_flush_fencing_works(struct nvme_fc_ctrl *ctrl)
-+{
-+	flush_work(&ctrl->fencing_work);
-+	flush_delayed_work(&ctrl->fenced_work);
-+}
-+
- static void
- nvme_fc_ctrl_ioerr_work(struct work_struct *work)
- {
-@@ -1915,7 +1947,7 @@ nvme_fc_ctrl_ioerr_work(struct work_struct *work)
- 		return;
- 	}
- 
--	flush_work(&ctrl->fencing_work);
-+	nvme_fc_flush_fencing_works(ctrl);
- 	nvme_fc_error_recovery(ctrl);
- }
- 
-@@ -3395,7 +3427,7 @@ nvme_fc_reset_ctrl_work(struct work_struct *work)
- 	struct nvme_fc_ctrl *ctrl =
- 		container_of(work, struct nvme_fc_ctrl, ctrl.reset_work);
- 
--	flush_work(&ctrl->fencing_work);
-+	nvme_fc_flush_fencing_works(ctrl);
- 	nvme_stop_ctrl(&ctrl->ctrl);
- 
- 	/* will block will waiting for io to terminate */
-@@ -3573,6 +3605,7 @@ nvme_fc_alloc_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- 	INIT_WORK(&ctrl->ctrl.reset_work, nvme_fc_reset_ctrl_work);
- 	INIT_DELAYED_WORK(&ctrl->connect_work, nvme_fc_connect_ctrl_work);
- 	INIT_WORK(&ctrl->fencing_work, nvme_fc_fencing_work);
-+	INIT_DELAYED_WORK(&ctrl->fenced_work, nvme_fc_fenced_work);
- 	INIT_WORK(&ctrl->ioerr_work, nvme_fc_ctrl_ioerr_work);
- 	spin_lock_init(&ctrl->lock);
- 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 578fedda9946..8ea7d22b78f8 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -392,6 +392,7 @@ struct nvme_ctrl {
- 	u32 max_zone_append;
- #endif
- 	u16 crdt[3];
-+	u16 cqt;
- 	u16 oncs;
- 	u8 dmrl;
- 	u8 ciu;
-@@ -1334,8 +1335,8 @@ static inline bool nvme_multi_css(struct nvme_ctrl *ctrl)
- static inline unsigned long nvme_fence_timeout_ms(struct nvme_ctrl *ctrl)
- {
- 	if (ctrl->ctratt & NVME_CTRL_ATTR_TBKAS)
--		return 3 * ctrl->kato * 1000;
--	return 2 * ctrl->kato * 1000;
-+		return 3 * ctrl->kato * 1000 + ctrl->cqt;
-+	return 2 * ctrl->kato * 1000 + ctrl->cqt;
- }
- 
- #endif /* _NVME_H */
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 7c8108523980..3745b7242fce 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -113,6 +113,7 @@ struct nvme_rdma_ctrl {
- 	/* other member variables */
- 	struct blk_mq_tag_set	tag_set;
- 	struct work_struct	fencing_work;
-+	struct delayed_work	fenced_work;
- 	struct work_struct	err_work;
- 
- 	struct nvme_rdma_qe	async_event_sqe;
-@@ -1152,6 +1153,18 @@ static void nvme_rdma_reconnect_ctrl_work(struct work_struct *work)
- 	nvme_rdma_reconnect_or_remove(ctrl, ret);
- }
- 
-+static void nvme_rdma_fenced_work(struct work_struct *work)
-+{
-+	struct nvme_rdma_ctrl *rdma_ctrl = container_of(to_delayed_work(work),
-+					   struct nvme_rdma_ctrl, fenced_work);
-+	struct nvme_ctrl *ctrl = &rdma_ctrl->ctrl;
-+
-+	dev_info(ctrl->device, "Time-based recovery finished\n");
-+	nvme_change_ctrl_state(ctrl, NVME_CTRL_FENCED);
-+	if (nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
-+		queue_work(nvme_reset_wq, &rdma_ctrl->err_work);
-+}
-+
- static void nvme_rdma_fencing_work(struct work_struct *work)
- {
- 	struct nvme_rdma_ctrl *rdma_ctrl = container_of(work,
-@@ -1160,20 +1173,39 @@ static void nvme_rdma_fencing_work(struct work_struct *work)
- 	unsigned long rem;
- 
- 	rem = nvme_fence_ctrl(ctrl);
--	if (rem)
--		dev_info(ctrl->device, "CCR failed, starting error recovery\n");
-+	if (!rem)
-+		goto done;
-+
-+	if (!ctrl->cqt) {
-+		dev_info(ctrl->device,
-+			 "CCR failed, CQT not supported, skip time-based recovery\n");
-+		goto done;
-+	}
-+
-+	dev_info(ctrl->device,
-+		 "CCR failed, switch to time-based recovery, timeout = %ums\n",
-+		 jiffies_to_msecs(rem));
-+	queue_delayed_work(nvme_wq, &rdma_ctrl->fenced_work, rem);
-+	return;
- 
-+done:
- 	nvme_change_ctrl_state(ctrl, NVME_CTRL_FENCED);
- 	if (nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
- 		queue_work(nvme_reset_wq, &rdma_ctrl->err_work);
- }
- 
-+static void nvme_rdma_flush_fencing_works(struct nvme_rdma_ctrl *ctrl)
-+{
-+	flush_work(&ctrl->fencing_work);
-+	flush_delayed_work(&ctrl->fenced_work);
-+}
-+
- static void nvme_rdma_error_recovery_work(struct work_struct *work)
- {
- 	struct nvme_rdma_ctrl *ctrl = container_of(work,
- 			struct nvme_rdma_ctrl, err_work);
- 
--	flush_work(&ctrl->fencing_work);
-+	nvme_rdma_flush_fencing_works(ctrl);
- 	nvme_stop_keep_alive(&ctrl->ctrl);
- 	flush_work(&ctrl->ctrl.async_event_work);
- 	nvme_rdma_teardown_io_queues(ctrl, false);
-@@ -2226,7 +2258,7 @@ static void nvme_rdma_reset_ctrl_work(struct work_struct *work)
- 		container_of(work, struct nvme_rdma_ctrl, ctrl.reset_work);
- 	int ret;
- 
--	flush_work(&ctrl->fencing_work);
-+	nvme_rdma_flush_fencing_works(ctrl);
- 	nvme_stop_ctrl(&ctrl->ctrl);
- 	nvme_rdma_shutdown_ctrl(ctrl, false);
- 
-@@ -2348,6 +2380,7 @@ static struct nvme_rdma_ctrl *nvme_rdma_alloc_ctrl(struct device *dev,
- 	INIT_DELAYED_WORK(&ctrl->reconnect_work,
- 			nvme_rdma_reconnect_ctrl_work);
- 	INIT_WORK(&ctrl->fencing_work, nvme_rdma_fencing_work);
-+	INIT_DELAYED_WORK(&ctrl->fenced_work, nvme_rdma_fenced_work);
- 	INIT_WORK(&ctrl->err_work, nvme_rdma_error_recovery_work);
- 	INIT_WORK(&ctrl->ctrl.reset_work, nvme_rdma_reset_ctrl_work);
- 
-diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-index 3853c9a6356e..7479cd370584 100644
---- a/drivers/nvme/host/sysfs.c
-+++ b/drivers/nvme/host/sysfs.c
-@@ -486,6 +486,7 @@ nvme_show_int_function(numa_node);
- nvme_show_int_function(queue_count);
- nvme_show_int_function(sqsize);
- nvme_show_int_function(kato);
-+nvme_show_int_function(cqt);
- 
- static ssize_t nvme_sysfs_ciu_show(struct device *dev,
- 					  struct device_attribute *attr,
-@@ -966,6 +967,7 @@ static struct attribute *nvme_dev_attrs[] = {
- 	&dev_attr_sqsize.attr,
- 	&dev_attr_ciu.attr,
- 	&dev_attr_cirn.attr,
-+	&dev_attr_cqt.attr,
- 	&dev_attr_hostnqn.attr,
- 	&dev_attr_hostid.attr,
- 	&dev_attr_ctrl_loss_tmo.attr,
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index a1711dd1d3c2..13e250110c1b 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -162,6 +162,7 @@ struct nvme_tcp_ctrl {
- 	struct nvme_ctrl	ctrl;
- 
- 	struct work_struct	fencing_work;
-+	struct delayed_work	fenced_work;
- 	struct work_struct	err_work;
- 	struct delayed_work	connect_work;
- 	struct nvme_tcp_request async_req;
-@@ -2501,6 +2502,18 @@ static void nvme_tcp_reconnect_ctrl_work(struct work_struct *work)
- 	nvme_tcp_reconnect_or_remove(ctrl, ret);
- }
- 
-+static void nvme_tcp_fenced_work(struct work_struct *work)
-+{
-+	struct nvme_tcp_ctrl *tcp_ctrl = container_of(to_delayed_work(work),
-+					 struct nvme_tcp_ctrl, fenced_work);
-+	struct nvme_ctrl *ctrl = &tcp_ctrl->ctrl;
-+
-+	dev_info(ctrl->device, "Time-based recovery finished\n");
-+	nvme_change_ctrl_state(ctrl, NVME_CTRL_FENCED);
-+	if (nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
-+		queue_work(nvme_reset_wq, &tcp_ctrl->err_work);
-+}
-+
- static void nvme_tcp_fencing_work(struct work_struct *work)
- {
- 	struct nvme_tcp_ctrl *tcp_ctrl = container_of(work,
-@@ -2509,21 +2522,40 @@ static void nvme_tcp_fencing_work(struct work_struct *work)
- 	unsigned long rem;
- 
- 	rem = nvme_fence_ctrl(ctrl);
--	if (rem)
--		dev_info(ctrl->device, "CCR failed, starting error recovery\n");
-+	if (!rem)
-+		goto done;
- 
-+	if (!ctrl->cqt) {
-+		dev_info(ctrl->device,
-+			 "CCR failed, CQT not supported, skip time-based recovery\n");
-+		goto done;
-+	}
-+
-+	dev_info(ctrl->device,
-+		 "CCR failed, switch to time-based recovery, timeout = %ums\n",
-+		 jiffies_to_msecs(rem));
-+	queue_delayed_work(nvme_wq, &tcp_ctrl->fenced_work, rem);
-+	return;
-+
-+done:
- 	nvme_change_ctrl_state(ctrl, NVME_CTRL_FENCED);
- 	if (nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
- 		queue_work(nvme_reset_wq, &tcp_ctrl->err_work);
- }
- 
-+static void nvme_tcp_flush_fencing_works(struct nvme_ctrl *ctrl)
-+{
-+	flush_work(&to_tcp_ctrl(ctrl)->fencing_work);
-+	flush_delayed_work(&to_tcp_ctrl(ctrl)->fenced_work);
-+}
-+
- static void nvme_tcp_error_recovery_work(struct work_struct *work)
- {
- 	struct nvme_tcp_ctrl *tcp_ctrl = container_of(work,
- 				struct nvme_tcp_ctrl, err_work);
- 	struct nvme_ctrl *ctrl = &tcp_ctrl->ctrl;
- 
--	flush_work(&to_tcp_ctrl(ctrl)->fencing_work);
-+	nvme_tcp_flush_fencing_works(ctrl);
- 	if (nvme_tcp_key_revoke_needed(ctrl))
- 		nvme_auth_revoke_tls_key(ctrl);
- 	nvme_stop_keep_alive(ctrl);
-@@ -2566,7 +2598,7 @@ static void nvme_reset_ctrl_work(struct work_struct *work)
- 		container_of(work, struct nvme_ctrl, reset_work);
- 	int ret;
- 
--	flush_work(&to_tcp_ctrl(ctrl)->fencing_work);
-+	nvme_tcp_flush_fencing_works(ctrl);
- 	if (nvme_tcp_key_revoke_needed(ctrl))
- 		nvme_auth_revoke_tls_key(ctrl);
- 	nvme_stop_ctrl(ctrl);
-@@ -2956,6 +2988,7 @@ static struct nvme_tcp_ctrl *nvme_tcp_alloc_ctrl(struct device *dev,
- 	INIT_DELAYED_WORK(&ctrl->connect_work,
- 			nvme_tcp_reconnect_ctrl_work);
- 	INIT_WORK(&ctrl->fencing_work, nvme_tcp_fencing_work);
-+	INIT_DELAYED_WORK(&ctrl->fenced_work, nvme_tcp_fenced_work);
- 	INIT_WORK(&ctrl->err_work, nvme_tcp_error_recovery_work);
- 	INIT_WORK(&ctrl->ctrl.reset_work, nvme_reset_ctrl_work);
- 
+... because that is the fundamental addressing unit in the block layer.
+
+> However, Type 1 and Type 2 ref tags are actually in units of integrity
+> intervals.
+
+They are not in units of anything until they reach their final
+protection envelope.
+
+> On devices with integrity interval size > 512 bytes, ref tags are
+> seeded incorrectly.
+
+The bip seed is whatever the caller decides it should be. The integrity
+interval size is irrelevant. As is the destination LBA.
+
+> But REQ_OP_ZONE_APPEND operations don't have their ref tags remapped,
+> so the ref tags using units of sectors will be stored to the device.
+
+Then there's a problem with how we handle REQ_OP_ZONE_APPEND. For NVMe,
+the PIREMAP flag should address this issue by remapping the written ref
+tags based on their ultimate destination LBA.
+
+Fundamentally, you should be able to set the bip seed for any READ or
+WRITE bio to 42, regardless of logical block size, and have it work. If
+it doesn't, then that's a bug.
+
+The fact that the block layer happens to know the start LBA or ZSLBA
+does not mean that callers above the block layer have access to the same
+information. Changing the block layer's integrity handling semantics is
+not the correct approach. Everything above the block layer depends on
+the existing, format-agnostic, semantics.
+
 -- 
-2.54.0
-
+Martin K. Petersen
 
