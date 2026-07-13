@@ -4,57 +4,108 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1AC11C43458
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jul 2026 10:47:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6DD24C43458
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jul 2026 11:55:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=vsIiP014dpiBHxdi1djvvsF06kHQ9BuwxD4utiVOcAo=; b=pR+98rJKMhoXPSGQZPBuX4Q0o8
-	+0+Vevxm/0l0U9T2nn6ebSdgY14TVvaoUVjFbND6yZUZhFXfsoJPYXzpS6pGyMt0Ihjic+7eMC0Ra
-	KouG1Mvs9egiasjKgC/8GwZ9OI8n1m6QL2Q6adIgudRUJe1pWStfQY486uo+MNjGVX0nDtIT2ddi/
-	KdZge/IRNSTDewpjnaKuxfZbDlBl5QXzrl4KF5znPYjfTfIkcRk3M+RXv/W0X0QK5pLufTgOfzyOR
-	WalHP7Ui3qbYADpP8IB9l2alAsdgeLn+H7IV003G0U0XPxh55ToiNF24OPUvzMpKdGLOI/s5JtnXw
-	KhqAX6HA==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=EComTKARJb89wPXmLllPWe40ccC9VGBvxmvNUjxIFfM=; b=pxByKEbGWaTAjNhpMVNzXecU8q
+	71vQaqDh3n9Um5qCxy7EpMaBPore9I1XlLeV8EIi1E5f8tOfnMnyBBQjxNK9pMTQ3zBxNRt1v2tI/
+	58JHhTAwlz57nOTol6kuxWB3MPEgOWzc0uMODLV8bw/d0wAc/hkQknY3Cs62eBz2fW9ZLI5VDqBsD
+	mT/A264Tba0WmAXZJGVoIY/MphWzCB7W/HVyXGRuA8PJZaUpv0ug0wWIQIFrHD36WqI1+mum4gatS
+	dtEy02LEnaDp9sd+XJyfeYDzW33umSJOkGjjRAxooyPHIp+8ltmRlRw/01MLZLybYmeTX2UcSGIIv
+	Uih8YNdw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wjEBp-00000008vPb-3Vfy;
-	Mon, 13 Jul 2026 10:47:09 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1wjFFm-000000094OY-0V3U;
+	Mon, 13 Jul 2026 11:55:18 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wjEBo-00000008vPV-1JXz
+	id 1wjFFj-000000094MO-2O0s
 	for linux-nvme@lists.infradead.org;
-	Mon, 13 Jul 2026 10:47:08 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id BD90841777;
-	Mon, 13 Jul 2026 10:47:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D4E41F000E9;
-	Mon, 13 Jul 2026 10:47:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783939627;
-	bh=vsIiP014dpiBHxdi1djvvsF06kHQ9BuwxD4utiVOcAo=;
-	h=From:To:Cc:Subject:Date;
-	b=QL+WB6QYPRxyrqq+jPPJXzG+EwrSlQXjOLEpBbfoHYg68ob20llz06j5LrgSNr7F1
-	 fQsgdSezqHZ0pQnoVrZ6QUcKvN6zPoBzPWMnetsL5J2PiuAa8oRwe2qJ9fNdBPdl4R
-	 Iq65wc1xYERWKsPfLgnidVxPJHQ3o342RI32RxocFa3Dpns6LK7MQfJq1R0+5rxqa4
-	 lj4rAT36fRhNSPfkedHTtzUloG+ka5BbR2cuatZsxcHPbJ8eWcV+AGDO+BvleY3nSF
-	 bu1ngrYL86D2gacDY/x1uq5+sqcNRO6G0PQeex8UFWe0yM0GAVPSo51rMtELpnemrl
-	 /MarfOT3Vu8NA==
-From: Hannes Reinecke <hare@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Daniel Wagner <wagi@kernel.org>,
-	linux-nvme@lists.infradead.org,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>,
-	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH] nvmetcli: store DHCHAP attributes
-Date: Mon, 13 Jul 2026 12:46:57 +0200
-Message-ID: <20260713104657.121217-1-hare@kernel.org>
-X-Mailer: git-send-email 2.51.0
+	Mon, 13 Jul 2026 11:55:16 +0000
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66D6ftmm1668583;
+	Mon, 13 Jul 2026 11:55:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=pp1; bh=EComTKARJb89wPXmL
+	llPWe40ccC9VGBvxmvNUjxIFfM=; b=VObOpOU9nWnvMp9qCgc7M6Iu699bw0s3M
+	6FeqU9Lu2pLJhbgtfi9hyYChIAvNryYyjOnby/KrVYWQ5wAUEBP5giUyuMFjOhVe
+	7dlId7FyyqbnjN1t2AGdQln5HQ8yEH0OCeVe65UR7AVYfqiRzQpQlOSj22NzGt3R
+	pnxM0ciUs8eL0l428PidkWURq8+TAI6ajQLLr1h7ufuqztzzNGxjU//OGhdaWUXx
+	FrmYOaL0spg+T9E4e43lWT7/DOpkQdPZID8jc1H0hSEPudQwgRak8F9gUJjNfo5a
+	mwmSiTdjmixB1CQo4Y9kc9XR5enYspCkRjDCua53LQYGfO7HTzh8w==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fbexwg1ta-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 13 Jul 2026 11:55:04 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 66DBna5S023614;
+	Mon, 13 Jul 2026 11:55:03 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4fc1nh5cv1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 13 Jul 2026 11:55:03 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
+	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 66DBsx4K52101552
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 13 Jul 2026 11:54:59 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 64EE820043;
+	Mon, 13 Jul 2026 11:54:59 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7BC4120040;
+	Mon, 13 Jul 2026 11:54:57 +0000 (GMT)
+Received: from li-a84c74cc-2b13-11b2-a85c-acdd023f0674.bl1-in.ibm.com (unknown [9.123.7.57])
+	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Mon, 13 Jul 2026 11:54:57 +0000 (GMT)
+From: Nilay Shroff <nilay@linux.ibm.com>
+To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: hch@lst.de, elver@google.com, kbusch@kernel.org, sagi@grimberg.me,
+        axboe@fb.com, bvanassche@acm.org, gjoyce@linux.ibm.com,
+        Nilay Shroff <nilay@linux.ibm.com>
+Subject: [PATCH v4 01/20] list: introduce LIST_HEAD_GUARDED
+Date: Mon, 13 Jul 2026 17:24:02 +0530
+Message-ID: <20260713115444.465704-2-nilay@linux.ibm.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260713115444.465704-1-nilay@linux.ibm.com>
+References: <20260713115444.465704-1-nilay@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-GUID: bTKwBTJjdhCUN3eOzq9uFUDeJ3HPzemx
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzEzMDEyMiBTYWx0ZWRfX1p7fjFnYjPXe
+ 75XQd1C8yqfdE0CyjisUkf+8S/Ndgu6FPCvs7fHVCopY/ehJy7cRHHGA7XCUKx5E5v9RdbSQvuP
+ /TUUKQqwQmTwhH7qFLvs1fLnzBoU+k+07EMLgYgv+lOJbkdimhK80NJP7p+r5Qr2SjBDoI5NoU4
+ JtlneMFwTM6qtJbQP3llj7mGhX62oLla17ur5anQkJ7/ty2Ci/I4VT98X4FZrvotu8fKvEUtRbW
+ sWOUYsPMC1fT49/9ZvNUlpzI+cc1n6IKacMoCAgTXrziZbmK4ApWLlKcyAIBwPJA0lpylxOVDyo
+ JqVZ71EtHBLjl7TZWaYsS7JJQMA1PWHMZDW+Z4zc4tSNdY1yJDSmiWSai45XAUcq+0+dnIqaNSX
+ rUKcGDDz1vEa9BwjypH0I89Q0fXjdICsoKpxYFyHUyZ3Mc90G8FimqoHS5O9gxP3kkXMgAoB5zs
+ 3ZrrXNkY2Ukef0hvjmw==
+X-Authority-Analysis: v=2.4 cv=XJoAjwhE c=1 sm=1 tr=0 ts=6a54d218 cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
+ a=V8glGbnc2Ofi9Qvn3v5h:22 a=VnNF1IyMAAAA:8 a=yEdB1FNURbGifd-vTGUA:9
+X-Proofpoint-ORIG-GUID: -hgeGAVeqLIyNtYsh-QJ85jlscnWnySb
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzEzMDEyMiBTYWx0ZWRfXwEnMtMBdEE0j
+ EO7laSTHVqvvZfjMmwUNKwx5vM3QFZIzpkTtJOM/OT3HZkvM/4QYbpwF3trkKw5vktS/kvVkHB9
+ r4YwF6FOqkmAT9rRO1Bg0TzPHGWh0X4=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-13_02,2026-07-10_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 adultscore=0 bulkscore=0 phishscore=0 lowpriorityscore=0
+ priorityscore=1501 impostorscore=0 clxscore=1015 spamscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607130122
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260713_045515_822750_07D2D9E2 
+X-CRM114-Status: GOOD (  13.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,30 +120,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Hannes Reinecke <hare@suse.de>
+Introduce LIST_HEAD_GUARDED(name, lock) to define a struct list_head
+annotated with __guarded_by(lock). This provides a convenient shorthand
+for defining lock-protected list heads and allows compiler context
+analysis to validate accesses to the list against the associated lock.
 
-The DHCHAP authentication is stored under hosts/, and are starting
-with 'dhchap_'. So add a 'dhchap' attribute group for the host object
-to correctly save and restore DHCHAP values.
+The new helper also reduces boilerplate and improves consistency across
+callers that annotate struct list_head objects with __guarded_by().
 
-Signed-off-by: Hannes Reinecke <hare@suse.de>
+This is a preparatory change for subsequent patches that annotate
+LIST_HEAD() instances with their protecting lock.
+
+Suggested-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
 ---
- nvmet/nvme.py | 1 +
- 1 file changed, 1 insertion(+)
+ include/linux/list.h | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/nvmet/nvme.py b/nvmet/nvme.py
-index faf1eb2..80d3953 100644
---- a/nvmet/nvme.py
-+++ b/nvmet/nvme.py
-@@ -1013,6 +1013,7 @@ class Host(CFSNode):
-         '''
-         super(Host, self).__init__()
+diff --git a/include/linux/list.h b/include/linux/list.h
+index 09d979976b3b..f6f22c8b06f7 100644
+--- a/include/linux/list.h
++++ b/include/linux/list.h
+@@ -33,6 +33,14 @@
+ #define LIST_HEAD(name) \
+ 	struct list_head name = LIST_HEAD_INIT(name)
  
-+        self.attr_groups = ['dhchap']
-         self.nqn = nqn
-         self._path = "%s/hosts/%s" % (self.configfs_dir, nqn)
-         self._create_in_cfs(mode)
++/**
++ * LIST_HEAD_GUARDED - define a &struct list_head annotated with __guarded_by()
++ * @name: name of the list_head
++ * @lock: lock protecting the list
++ */
++#define LIST_HEAD_GUARDED(name, lock) \
++	__guarded_by(&(lock)) LIST_HEAD(name)
++
+ /**
+  * INIT_LIST_HEAD - Initialize a list_head structure
+  * @list: list_head structure to be initialized.
 -- 
-2.51.0
+2.53.0
 
 
