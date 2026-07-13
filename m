@@ -4,106 +4,109 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 525A0C43458
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jul 2026 15:51:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F3251C44501
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jul 2026 16:58:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
 	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3mECq0JgKQxu+65FqIfg6qBb9bwB9oI7Lmlwod5ymao=; b=bYUbQvCQEk/nMMl2dGLa8aBXZW
-	FlwR57jySu8UqU2QQbAojydfjaCASfHX8omhQYV2XzIlpcbPSA8rmRkdXlBlsGzT8Xft4G4BUBS+J
-	0Crp9gxqP/Biu14lmhun7HJE2dtYYaeFYHcgC18IS31cBk+NllElnr/WvDmBWcEklUeeGofYhyITd
-	rOfkPKt5+rcDgcFRcmOkQ5xASwFRDYINAzfrQunUHB1jiO/zJyRF1gDjKySAagQc2Tuhv81gNdlAL
-	HkiRm9IyXH7huHY8Auvk5+dFtZKlImBbDgrYHzfzrWyGzq5w8H3DTn5H9PTM/3xxz4T+A5LjHGUHT
-	q56NpAog==;
+	bh=e/4L/szZu38b4G+YBCDLvQaRnOkQwRq1nKzcGbKzOls=; b=RkH0IcFby4YOXBwef8uXeENCs3
+	ROpZyC5CIciokxdi1CHyKEP5vgYAZGKN8lknkXrbvQVHBItSrNMpkHDQI21NCVkXRC4b+EyuTHMKS
+	L8yorr/6AMSR9JUGTYhO26CCJ9ip1M0wGS4X62QuPftkYVuTh8Gdgc8Fg/nsR9Ie0kTTFzVaFWfSW
+	jb/Ia3rdm1znTEQyxbPfLrfhoc2tc87KvqawSQf/aOERlnCsxDB7qkOyI6SivMeqhKRH1mqKkkVx9
+	qfkYKSQpxnG+l9dQf+aDmqeL8bazNb5iPuy0b0u78ApmkzYgxmJNIB4+Iucav6ArPZOxE6lS2lAt/
+	dwlXVU7A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wjIvp-00000009qAc-02BS;
-	Mon, 13 Jul 2026 15:50:57 +0000
-Received: from mail-ot1-f44.google.com ([209.85.210.44])
+	id 1wjJzE-0000000A2EG-14xr;
+	Mon, 13 Jul 2026 16:58:32 +0000
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wjIvk-00000009q9e-3oBB
+	id 1wjJzB-0000000A2Dp-3P1F
 	for linux-nvme@lists.infradead.org;
-	Mon, 13 Jul 2026 15:50:55 +0000
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-7e938d8538eso641068a34.2
-        for <linux-nvme@lists.infradead.org>; Mon, 13 Jul 2026 08:50:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783957851; cv=none;
+	Mon, 13 Jul 2026 16:58:31 +0000
+Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-698562f10e7so4745067a12.0
+        for <linux-nvme@lists.infradead.org>; Mon, 13 Jul 2026 09:58:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783961907; cv=none;
         d=google.com; s=arc-20260327;
-        b=dSbAX8qJtk3OT88395WeLbN3mRwngMx4tb7C68qvQG4GflwphbXKi7ME4pJPTB40PJ
-         Ow7qB/DdZsFqk8F0zxgWAISUJekbVfMddu3f2Y+WP7JPm8CNP0f/jdXzAdre8IsZY2eM
-         VrZ6bl3VNRqk+lYlQBVGeeDMTe5E2RG7yP5Ir7WpklmiK4roKfZ/xuc5GIa9rb0yz/uE
-         YOGdag3B464XoThFgpdRM+4g+Kf65qTxMLVvd/R5USWM9YvE6Klumdyrp7g/JYluXlkc
-         IMKYj4U8iSmqQJGGcGON3O4ODp9/XFJP4AbWfes1nk1cCoN8Y+kJq5w90LdGLVZjnVH2
-         FB9A==
+        b=Xsf3YLustYOtDvesXOgDa/qw6qrI1E1RLH3F0QOrDo0umokbuHS5fHIBvcLUbMhhqK
+         mGVLGB+YddtKFRYWBHNHCMINLCxB6LkjPFuCfqHQWMMc73CuJbORlZ34CGgXxb2iKCjg
+         Q87DSU2ATpqCD4urYHpI2LelmZq7b+5f+wNP55dLexribH/1zwwpj/wCF1nQFD2qoF2i
+         ZpqmM7ooUk13uEw3iOhjwU07NzyzBYqaDvuss4LP5Ycq/xieP1p4SQOlcH8PvZah8UY0
+         /qCTW+KMgsg06ihG6D4F6WgIiIcVxs1eYRilipLrlmJyhBwicmIALxARja7Jgb9zBddO
+         u5AA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=3mECq0JgKQxu+65FqIfg6qBb9bwB9oI7Lmlwod5ymao=;
-        fh=RcPv634HljaZ367Fg/sAE8kdgDF6zGhpgNk5vfvW2v8=;
-        b=rO5TbuNM54dA/cWT26ij0GT6W784bWTHXdzWnQ+WjvmIAUjVwKa+F1wN+NtLgf6fln
-         bZ7mCNtCqnRdzuU6mFIk0jDcCLLNkbq6xHV3LOiWi2LTAKKTdvklod+FABr/lcIvke4L
-         rHIdvu4w/9M0Y8wnuh4lLrkb1WoczRAQaxN+kouVwdzcUlylbq5RdIN/MVZ8+nKaNTY2
-         Obwfi1aRiulYFBZbXQrcX1v1ttYAsKsa6QfgX16kFklFYtZHEta4T0M2OWdls8VkV+k6
-         369oamDWgJ6S0JU0L0lYwBNEZ1ROmQO3lDexfoQmPSGan44aGtaqZNyoT9wbyLYx+Uze
-         8qbw==;
+        bh=e/4L/szZu38b4G+YBCDLvQaRnOkQwRq1nKzcGbKzOls=;
+        fh=6QAmwhPHu8CEpBfKgnfk87FjchphfLH/wW0wuwQic9A=;
+        b=PzYPhG21kqy7W1Xn3VrNUYiYE91zYirOFO4uRLzB3hnh2+amOEt/mXHdO9lQnefR3A
+         NKp2dZ+uPil5XghPtCNP4re3hJnlLJ0pATsKNj/81TtDWkoqc4ppXa1O5MLr6/7wGQ/u
+         QbSH8W/u8MjVGx05WJG90uhfdyFgY2fI56CXCr78jtwRaLVMf/ZJOnmytfM+u+nEPuMG
+         eBq5nuFCPpy1YQ10S7cyedB/X/aH90sh32TrqO2uqZEjCJC4pyOs7hGRTrkzCvQQLIbI
+         ahq+DeknFJlhk7CWg4yeKBI9BrZc4rlIM07lG+g65LPyOmoloEatgoyUUcwObte3PLQD
+         Zlog==;
         darn=lists.infradead.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1783957851; x=1784562651; darn=lists.infradead.org;
+        d=gmail.com; s=20251104; t=1783961907; x=1784566707; darn=lists.infradead.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=3mECq0JgKQxu+65FqIfg6qBb9bwB9oI7Lmlwod5ymao=;
-        b=JwMBEnOu+2+scH0u3SRVqxgpiq/nZfu1zBuLW2scj5WA7dnxTZPfhhRydTBYLbQnfx
-         q5dOZC6pBALZ9sp9TkOpiBfz1P61HlIv1azo7/DyJzOp1eZTpqDf6DaJ5T30zZPzFOKG
-         6umzO79m0shZv9lXmRvCsLctaII5pJU28IdEd2AF194vqcMDJzokXKY0fzp718KoUVlS
-         /NUgVXYaghq1o4CnVjtAPoESszKjj5fi0tD51UIdM5GfB6zxz6ZoDZ4nU8ep3AEDKbea
-         VZO1P7NZSSUax2pKrecIOayquF75skxd1Nfz0O3SCsV6NszA2jTpMC954q7TFgE4eXoU
-         v/TQ==
+        bh=e/4L/szZu38b4G+YBCDLvQaRnOkQwRq1nKzcGbKzOls=;
+        b=T5IPyCIonQU3qIaolFmxEePmrlGFOD0xuiJNmr54htXH76lsHEL26u/2fplJgJoLYo
+         gMav43ySN2r3WXp/C6BKzBGEJaB1GH1+V9nCGcmR5KWc0xkXj316w7ZTgda758+NP1+n
+         eF3U6AzW+mVPMJ+6H6iclEJZmna9VS7XG4eRJgiSrECmnQCmizpowlbEm64JCTULQbkp
+         jRzmjWmNB5eGgUpbPLdtb4C1C2B/idiPw52DnsXnnfhhBStc8YprwT5Hdt4o/eFqGxb9
+         ODhS6td9r3pFkiDtvk54O0n19vEerRN0w99OGemXlCS/sRBJW66O6urHBp2hR67Pvfr8
+         q67w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783957851; x=1784562651;
+        d=1e100.net; s=20251104; t=1783961907; x=1784566707;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=3mECq0JgKQxu+65FqIfg6qBb9bwB9oI7Lmlwod5ymao=;
-        b=fMwGvIdviiIvxc1c8LLS7et8oVDM7eo5r++ovSPc1YNmGnT0QwOJBCoMGtKq8ZvdY3
-         fYKtzahIacCoRy4t5d8oWnJgGOre3p+3MxxnO39WrR7F+rnZ+Ya7G2b1nG5tVb9/3x9f
-         imEekiT4MMA7hl//qmhjOc0e/w+dO5KvQrhci9FWHe/CMyTTwMc1+MjiZ0cMiCkv+e1Q
-         T63qv9zpk5cl459PhCApvoDqSOBGlYy2QrKCYdOqJtuahFPAwCGdZaqE8GvLOA1yqD3f
-         Lxn+djkH2mx/8GTxpTAiIQOBALVOdDxJsfz5/ExkwUJkqptgt5kRTP5/IleQ3t/SaXBs
-         e3xA==
-X-Forwarded-Encrypted: i=1; AFNElJ/I+D4Hnzg1ftINjqsysO/eILwUi7RAt6xvVi8uFRCL3CW5JyC+Axm8ezXgQv8OFh3bK2J1zYRfIaz0@lists.infradead.org
-X-Gm-Message-State: AOJu0Yx2zmUQ2QJ3R9Zr+sui0QKZY08EMlDBvRoMN0rEgyXy8OJ13Pek
-	JrF6sn0vQbiaUqYd22E8jfyw30UwjWNq9WPHhJM2nHnyVv5D9iWsxZcWcA9z7gozxbU8ea8kbgs
-	m5mEKM/x19/48JNMigCgR0ZkcfIyPvqxGLct7HiEBRA==
-X-Gm-Gg: AfdE7ckh68Qkzui9cJs/Dlla0/INRfBmKLs4t13sWHBEfT4NM0M9p1AF3YFigR0Wth2
-	nc8WJzhnCHvcr3JxTG04NCgWUYCPd4hv/l+8kCNIJy4jR68EcQtsoZWriNSZterfa5qklmsNoKN
-	tsnfZ02lEc4XgoCaC2cT5HYkDgllbwic4+48t5WG3UZWzMc4dmbrhSOsKk+q74aPC3K+Hi5g4An
-	9Ijd17X5JfWnnPX4RNwODxkxi5AbmZbhyDdPedNid8XHurtYRYE0D4Ee1mYE3fNwGP6qKT4og==
-X-Received: by 2002:a05:6830:650f:b0:7e9:e702:a9d1 with SMTP id
- 46e09a7af769-7ec097b58famr3955386a34.4.1783957851185; Mon, 13 Jul 2026
- 08:50:51 -0700 (PDT)
+        bh=e/4L/szZu38b4G+YBCDLvQaRnOkQwRq1nKzcGbKzOls=;
+        b=EE60WfW97gdnLuJ0CiBtwZtMdtOXWpFcbpmqB1TLoSeBqilyeEDqnpEbfT1rGJhj0h
+         Am3Dggc9YsJqadUvaMAd3m6w0pgRkcaGr1S8hwcHSx8FowyyWU1+QL6a3GnA2rpzIyfX
+         MO/a05sazcb2nnvdc7c+HkUIEpZfeS3CpDo7qDF4OZOy8SqlXX1eqQrGFrCNcgBY4P6A
+         ACBZCvBdWhHkq9/HBgftxJQU50potLg7cLPhiZaqooM8sx4cUP5LOZ56nerd+8ysSghj
+         ObWomX+IWP4ExV8Ja/oGnrVC5tAENISWUkI00HSBJN3CkCUAlV1qFNCVG0dGUfvseDeV
+         GoZQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpEpiGFV1CH3KpftEs7YPL5gm8BiXV1VN/Tddjnq4nH/l6bQEkl0xpRdKVZrZbotizQ79SNh21KpVxQ@lists.infradead.org
+X-Gm-Message-State: AOJu0Yx2VRQp7MD/QoEEK5+eMBPGFcJJ9VaYZ46qNxdW1IMc1SMX1lpP
+	RV1V0pcBP414Vu8tjYp29eNz2rvXiCi46LmLxRPUBfSK+0BwW4E+yzl4HWdEdTODvzKE1wc0A4K
+	kv7sGawPJKr/lGUMi97Cu3GRGZgm8enQ=
+X-Gm-Gg: AfdE7cmPJ+NMB/VojLgUZAvgwZ+pdB2uGS7Hu+dcEImk9bAi3GVaV5fHJ7pp2Hv/VSA
+	/6o4ccRID17zGUcpSE6kPPbIw/QE9eVzYTx9c4JWkJbbHWETsviqUqmXjj7eiLoi4K9cHpw5iL0
+	C4853bI+liUFH95hhNnBVEUSWly0Jgxks/ijr7TCdrDHfxvV6lhLDm5DA8wuXJtiI7wVKpis0mZ
+	rEgG78YVg9QioeHL2PqzTpxGS+hK7AnBruRRnmvlHOf3W3KuHBrKM4xH8xOWTowdSMikUYQ
+X-Received: by 2002:a05:6402:11cf:b0:698:bf17:867d with SMTP id
+ 4fb4d7f45d1cf-69c5f103099mr4274097a12.21.1783961907066; Mon, 13 Jul 2026
+ 09:58:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20260627054220.2174166-1-csander@purestorage.com> <yq1cxwrdgmx.fsf@ca-mkp.ca.oracle.com>
-In-Reply-To: <yq1cxwrdgmx.fsf@ca-mkp.ca.oracle.com>
-From: Caleb Sander Mateos <csander@purestorage.com>
-Date: Mon, 13 Jul 2026 08:50:39 -0700
-X-Gm-Features: AUfX_mwkxpGgZJY4pVFOcqA7Ferj1yZzrVgo2oA_tVNxLSUmFMmyocci83-Ncfw
-Message-ID: <CADUfDZoGyu-EWxT5tN41K24oFwu8p4mmxFRsHcDpLBoAY6Y0Yw@mail.gmail.com>
-Subject: Re: [PATCH v4 0/5] block: use integrity interval instead of sector as seed
-To: "Martin K. Petersen" <martin.petersen@oracle.com>, Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, Anuj Gupta <anuj20.g@samsung.com>, linux-block@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, 
-	target-devel@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260515185853.2761456-1-coshi036@gmail.com> <0938b6f8-8001-4fcf-95a4-327fa9077163@oracle.com>
+ <ah7znSpPM-H-ACaV@kbusch-mbp> <ah752_DIQdr_LHaB@kbusch-mbp>
+ <c6046eb2-9594-4355-9f4c-21a6f3bd8131@oracle.com> <539bb4aa-30a3-457c-8c77-c0d660376c3a@oracle.com>
+ <CACd_6n1h6NW3DS1MDKkcr=r-uxGQ=HspMLN6TWtLc26Vct8sYQ@mail.gmail.com> <e4650024-1706-46b5-91f8-57f2c358fcd3@oracle.com>
+In-Reply-To: <e4650024-1706-46b5-91f8-57f2c358fcd3@oracle.com>
+From: Chao S <coshi036@gmail.com>
+Date: Mon, 13 Jul 2026 12:58:15 -0400
+X-Gm-Features: AUfX_mz0O4zwXGa1uwwRv2fBTT8dmZZUcGxBXcDRQCyDbmXJ9TyEyZtEtXeg570
+Message-ID: <CACd_6n2AZvgi1B8Vn8S6NwytDkqHmS=4z-1sxjmk+FPfWv_JMQ@mail.gmail.com>
+Subject: Re: [PATCH v3] nvme: core: reject invalid LBA data size from Identify Namespace
+To: John Garry <john.g.garry@oracle.com>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, linux-nvme@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	Daniel Wagner <dwagner@suse.de>, Hannes Reinecke <hare@suse.de>, Maurizio Lombardi <mlombard@arkamax.eu>, 
+	Sungwoo Kim <iam@sung-woo.kim>, Dave Tian <daveti@purdue.edu>, Weidong Zhu <weizhu@fiu.edu>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260713_085053_135194_C310A649 
-X-CRM114-Status: GOOD (  15.87  )
+X-CRM114-CacheID: sfid-20260713_095829_876653_101968E0 
+X-CRM114-Status: GOOD (  26.55  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -118,44 +121,106 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Jul 12, 2026 at 4:09=E2=80=AFPM Martin K. Petersen
-<martin.petersen@oracle.com> wrote:
->
->
-> Caleb,
->
-> > The block integrity layer currently sets the integrity seed (initial
-> > reference tag) in units of 512-byte sectors.
->
-> ... because that is the fundamental addressing unit in the block layer.
->
-> > However, Type 1 and Type 2 ref tags are actually in units of integrity
-> > intervals.
->
-> They are not in units of anything until they reach their final
-> protection envelope.
->
-> > On devices with integrity interval size > 512 bytes, ref tags are
-> > seeded incorrectly.
->
-> The bip seed is whatever the caller decides it should be. The integrity
-> interval size is irrelevant. As is the destination LBA.
->
-> > But REQ_OP_ZONE_APPEND operations don't have their ref tags remapped,
-> > so the ref tags using units of sectors will be stored to the device.
->
-> Then there's a problem with how we handle REQ_OP_ZONE_APPEND. For NVMe,
-> the PIREMAP flag should address this issue by remapping the written ref
-> tags based on their ultimate destination LBA.
+Hi John,
 
-Yes, it looks like PIREMAP should allow this to work. But Christoph
-reported that ref tags weren't working correctly with
-REQ_OP_ZONE_APPEND:
-https://lore.kernel.org/linux-block/20260624080014.1998650-3-hch@lst.de/T/#=
-u
+Here is the concrete change (drivers/nvme/host/core.c,
+nvme_update_ns_info_block()):
 
-Christoph, were you testing with an NVMe ZNS device?
+  unsigned int memflags;
+  sector_t capacity;
+  unsigned lbaf;
++ u64 nsze;
+  int ret;
+...
+- if (id->lbaf[lbaf].ds < SECTOR_SHIFT ||
+-    check_shl_overflow(le64_to_cpu(id->nsze),
+-       id->lbaf[lbaf].ds - SECTOR_SHIFT,
+-       &capacity)) {
++ /*
++ * check_shl_overflow() also rejects a data size below SECTOR_SHIFT,
++ * as that makes the shift count negative, so no separate lower-bound
++ * test is needed.  Feed nsze through a plain u64 so sparse does not
++ * trip over the __le64 provenance of le64_to_cpu().
++ */
++ nsze =3D le64_to_cpu(id->nsze);
++ if (check_shl_overflow(nsze, id->lbaf[lbaf].ds - SECTOR_SHIFT,
++       &capacity)) {
+  dev_warn_once(ns->ctrl->device,
+  "invalid LBA data size %u, skipping namespace\n",
+  id->lbaf[lbaf].ds);
+  ret =3D -ENODEV;
+  goto out;
+  }
+
+Two things:
+
+1. Drops the explicit ds < SECTOR_SHIFT test as redundant --
+   check_shl_overflow() already returns true for the resulting negative
+   shift. I confirmed ds=3D0 and ds=3D8 are still rejected without it.
+
+2. Routes le64_to_cpu(id->nsze) through a plain u64 local, which is what
+   silences the C=3D1 warning (sparse loses the __le64 provenance when the
+   value is passed straight into check_shl_overflow()).
+
+Behavior is otherwise unchanged. Since the original is already in
+v7.2-rc1, I'll send this as a standalone patch on top of mainline
+(Reported-by: you) unless you'd prefer a different form.
 
 Thanks,
-Caleb
+Chao
+
+On Wed, Jun 24, 2026 at 9:15=E2=80=AFAM John Garry <john.g.garry@oracle.com=
+> wrote:
+>
+> On 23/06/2026 21:37, Chao S wrote:
+> >> BTW, I have thought that check_shl_overflow would catch
+> >> id->lbaf[lbaf].ds < SECTOR_SHIFT (so that we don't need the extra chec=
+k).
+> > Confirmed -- check_shl_overflow() returns true for the negative shift
+> > that ds < SECTOR_SHIFT produces (_to_shift collapses to 0 and the
+> > _to_shift !=3D _s test fires). I checked ds=3D0 and ds=3D8: both are st=
+ill
+> > rejected with the explicit lower-bound test removed, so it is redundant=
+.
+> >
+> > For the C=3D1 warning, the minimal fix is to drop that redundant check =
+and
+> > feed nsze through a plain u64 local -- as Keith found, laundering the
+> > le64_to_cpu() result through a non-__le64 type makes the warning go awa=
+y:
+> >
+> > u64 nsze;
+> > ...
+> > nsze =3D le64_to_cpu(id->nsze);
+> > if (check_shl_overflow(nsze, id->lbaf[lbaf].ds - SECTOR_SHIFT,
+> >        &capacity)) {
+> > dev_warn_once(...);
+> > ret =3D -ENODEV;
+> > goto out;
+> > }
+> >
+> > This keeps check_shl_overflow() in one tested helper and avoids a
+> > wrapper. John's nvme_valid_ds() works too; if we prefer that, I'd name =
+it
+> > for its actual sense (it returns true on overflow, i.e. invalid), e.g.
+> > nvme_ds_overflows().
+> >
+> > One note: I'd lean toward keeping check_shl_overflow() rather than
+> > open-coding the bound. It folds the lower-bound (negative shift) and th=
+e
+> > overflow case into one tested helper, so we don't have to re-derive the
+> > boundary by hand -- e.g. the lower bound is on ds itself, not on the
+> > post-subtract (ds - SECTOR_SHIFT) shift, which I found easy to get
+> > subtly wrong.
+>
+> What exactly is your proposed change (to what is in the tree)?
+>
+> >
+> > Keith, since v3 is already in your tree: do you want an incremental fix=
+up
+> > on top, or a v4 to replace the applied commit? I have both ready.
+> >
+>
+>
+>
 
