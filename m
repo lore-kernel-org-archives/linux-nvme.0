@@ -4,60 +4,114 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 813C1C43458
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jul 2026 12:12:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A290DC43458
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jul 2026 12:16:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lwUIDKOTczCMhM9o1Ts4Niw4NsZfMxt7MzyPb/TJaaw=; b=bJpWCm5tkUkH9Tu9PWVazrId/h
-	62W7EhXsfgBZfkUBXaN9z/P9oiiFqhyqz2PMLG24LBlk3h/J7zTQ+Tr3t+axdf2ZLwIgbzMyGFgGF
-	QHrycIO8DQUtwW6wvmYvpsG97r7/IRF57g7wJd9vivBGdnT6Gk1jZ8YL5W9aG1xHUoW+1sWxNTm1M
-	So4xJGO4CEM7ypl5Oc7zwnCLz1CQTJUO0n/SkGEb7hyhFXizXEHkojMY8dscTZmvRtX9nAw1vVOkS
-	1YA7hM5KSY3Aeg1SdeWoi8GUMWngoAaNjmxiNBNkgLVP+hv0rouH0FdiPlcf3Z1HhvqZCQO3yYw0g
-	//WPvGZA==;
+	bh=C36HAj+x+mp8P9xaHvqfdcJTAdupzNdpiK+LlnAHLaI=; b=upModdK/RoBdxD+Zx1QUAB6Ps6
+	SmB2Bs56comiD9ekVWG0xC7qJgaKDzOhNwYKDHRpHor1TpT3IHX6JK6kbelL+hjEJv1NQga8Of5gf
+	EYxFO0HwA5mvnbpi7uTDS7dTDaNsmS2hppEs20Voxr1Ae99/3deObhBo/LT+ft34iRVqbnz0m4BVC
+	SSaQEg0oKE2w0K9mwU01Lqe86OlGMQZ/RXRPaYwD0IieTl5YA68wXa74vIqPBosI6gkTFtulYXKjM
+	6v70ApBE605pdi5J8Q7XnP50pRSet/28Vivrss3kdrOLoC+VA0MqE1Sm3JL5wkgJIj8NhH69xvGC/
+	dyfkypOA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wjFWo-00000009AKs-1Ajo;
-	Mon, 13 Jul 2026 12:12:54 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1wjFZy-00000009AiA-3CAM;
+	Mon, 13 Jul 2026 12:16:10 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wjFWl-00000009AJl-3SDf
+	id 1wjFZv-00000009AhD-0rRR
 	for linux-nvme@lists.infradead.org;
-	Mon, 13 Jul 2026 12:12:53 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 4694468BFE; Mon, 13 Jul 2026 14:12:45 +0200 (CEST)
-Date: Mon, 13 Jul 2026 14:12:44 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Yu Kuai <yukuai@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Tejun Heo <tj@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Alasdair Kergon <agk@redhat.com>,
-	Benjamin Marzinski <bmarzins@redhat.com>,
-	Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Dongsheng Yang <dongsheng.yang@linux.dev>,
-	Zheng Gu <cengku@gmail.com>, Coly Li <colyli@fygo.io>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	Josef Bacik <josef@toxicpanda.com>, Yu Kuai <yukuai@fygo.io>,
-	Nilay Shroff <nilay@linux.ibm.com>, linux-block@vger.kernel.org,
-	cgroups@vger.kernel.org, linux-nvme@lists.infradead.org,
-	dm-devel@lists.linux.dev, linux-bcache@vger.kernel.org
-Subject: Re: [RFC PATCH v1 01/17] nvme-multipath: retarget failedover bios
- from requeue work
-Message-ID: <20260713121244.GA20084@lst.de>
-References: <20260704195124.1375075-1-yukuai@kernel.org> <20260704195124.1375075-2-yukuai@kernel.org> <0ded62a6-b3da-4790-adf0-566ded30ee43@suse.de>
+	Mon, 13 Jul 2026 12:16:09 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id F37387789F;
+	Mon, 13 Jul 2026 12:16:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1783944964; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=C36HAj+x+mp8P9xaHvqfdcJTAdupzNdpiK+LlnAHLaI=;
+	b=Y4tFMnWZ6oNwDQNMP5t7rOH6SEjFaCyHxrKe3WSGmeQWmh1K/sITDqCnEBi58Sj+/65ib/
+	gRjA861MFPeQJSFWkwPGNaV7n69ZVLCKKB5TNpk3eZx1WOUZ6kWFVIRT4/7Flnwcwxduv/
+	xv7fiMWSPnpF3qhNssakNHmXcWZXjQk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1783944964;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=C36HAj+x+mp8P9xaHvqfdcJTAdupzNdpiK+LlnAHLaI=;
+	b=sjkBG6MuPC/w0IwAU3mdUUx3A68jEhSkr2D/bV4icTjhAfHpLKi0BewbO8oMGwkmA6ozwK
+	KULCNPrI5dy1VCAQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1783944964; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=C36HAj+x+mp8P9xaHvqfdcJTAdupzNdpiK+LlnAHLaI=;
+	b=Y4tFMnWZ6oNwDQNMP5t7rOH6SEjFaCyHxrKe3WSGmeQWmh1K/sITDqCnEBi58Sj+/65ib/
+	gRjA861MFPeQJSFWkwPGNaV7n69ZVLCKKB5TNpk3eZx1WOUZ6kWFVIRT4/7Flnwcwxduv/
+	xv7fiMWSPnpF3qhNssakNHmXcWZXjQk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1783944964;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=C36HAj+x+mp8P9xaHvqfdcJTAdupzNdpiK+LlnAHLaI=;
+	b=sjkBG6MuPC/w0IwAU3mdUUx3A68jEhSkr2D/bV4icTjhAfHpLKi0BewbO8oMGwkmA6ozwK
+	KULCNPrI5dy1VCAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DC0D1779AE;
+	Mon, 13 Jul 2026 12:16:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id F4EGNAPXVGp4JAAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Mon, 13 Jul 2026 12:16:03 +0000
+Date: Mon, 13 Jul 2026 14:16:03 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Hannes Reinecke <hare@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Daniel Wagner <wagi@kernel.org>, 
+	linux-nvme@lists.infradead.org, Sagi Grimberg <sagi@grimberg.me>, 
+	Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH] nvmetcli: store DHCHAP attributes
+Message-ID: <2b897a12-e265-40c5-8e48-b546cd606940@flourine.local>
+References: <20260713104657.121217-1-hare@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0ded62a6-b3da-4790-adf0-566ded30ee43@suse.de>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20260713104657.121217-1-hare@kernel.org>
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[flourine.local:mid,imap1.dmz-prg2.suse.org:helo,suse.de:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260713_051252_015065_9445434E 
-X-CRM114-Status: GOOD (  24.87  )
+X-CRM114-CacheID: sfid-20260713_051607_392258_0ECCD9E5 
+X-CRM114-Status: GOOD (  14.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,53 +126,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jul 13, 2026 at 11:29:35AM +0200, Hannes Reinecke wrote:
-> On 7/4/26 9:51 PM, Yu Kuai wrote:
->> From: Yu Kuai <yukuai@fygo.io>
->>
->> bio_set_dev() is about to become explicitly sleepable because it can
->> associate the bio with a blkg for the destination queue.  NVMe failover
->> can run from request completion context, and nvme_failover_req() also holds
->> head->requeue_lock with interrupts disabled while it steals bios from the
->> failed request.  Calling bio_set_dev() there is not safe once the helper is
->> allowed to sleep.
->>
->> The requeue lock only protects head->requeue_list.  Keep the list
->> manipulation under that lock, but defer retargeting to nvme_requeue_work(),
->> which already drains the list from process context before resubmitting each
->> bio.  The bios remain private to the requeue list until the worker pops
->> them, so moving the device switch there preserves the existing retry flow
->> while avoiding a sleepable helper in completion context.
->>
->> Signed-off-by: Yu Kuai <yukuai@fygo.io>
->> ---
->>   drivers/nvme/host/multipath.c | 4 +---
->>   1 file changed, 1 insertion(+), 3 deletions(-)
->>
->> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
->> index 9b9a657fa330..76baa180ae1c 100644
->> --- a/drivers/nvme/host/multipath.c
->> +++ b/drivers/nvme/host/multipath.c
->> @@ -149,7 +149,6 @@ void nvme_failover_req(struct request *req)
->>   	struct nvme_ns *ns = req->q->queuedata;
->>   	u16 status = nvme_req(req)->status & NVME_SCT_SC_MASK;
->>   	unsigned long flags;
->> -	struct bio *bio;
->>     	nvme_mpath_clear_current_path(ns);
->>   	atomic_long_inc(&ns->failover);
->> @@ -165,8 +164,6 @@ void nvme_failover_req(struct request *req)
->>   	}
->>     	spin_lock_irqsave(&ns->head->requeue_lock, flags);
->> -	for (bio = req->bio; bio; bio = bio->bi_next)
->> -		bio_set_dev(bio, ns->head->disk->part0);
->
-> If you remove this the original device remains being referenced by
-> the bio, so there might be a chance of some accidentally referencing
-> the (now invalid) bdev.
-> I think it might be better if you were set it to NULL here, to
-> signal that this bio currently has no bdev associated.
+Hi Hannes,
 
-What should reference it?  This moves setting bi_bdev from the only
-place adding to the list to the only place removing from the list.
+On Mon, Jul 13, 2026 at 12:46:57PM +0200, Hannes Reinecke wrote:
+> From: Hannes Reinecke <hare@suse.de>
+> 
+> The DHCHAP authentication is stored under hosts/, and are starting
+> with 'dhchap_'. So add a 'dhchap' attribute group for the host object
+> to correctly save and restore DHCHAP values.
+> 
+> Signed-off-by: Hannes Reinecke <hare@suse.de>
+> ---
+>  nvmet/nvme.py | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/nvmet/nvme.py b/nvmet/nvme.py
+> index faf1eb2..80d3953 100644
+> --- a/nvmet/nvme.py
+> +++ b/nvmet/nvme.py
+> @@ -1013,6 +1013,7 @@ class Host(CFSNode):
+>          '''
+>          super(Host, self).__init__()
+>  
+> +        self.attr_groups = ['dhchap']
 
+Would you mind also extend the test case?
+
+Thanks,
+Daniel
 
