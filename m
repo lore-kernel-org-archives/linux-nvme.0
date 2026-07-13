@@ -4,88 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AB675C43458
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jul 2026 07:29:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4823FC43458
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jul 2026 07:35:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=W7Xzew5rWDRlRGMpqB8Bq8Wd/JLPFE7C8SCawJlQk7U=; b=q8hzLIHUY2dcrBs/dpVINM/SAK
-	NXn2w0c682lB1iPEfO0gV56GsUZqNwD/lt7DTTjkkU8Ck8oc9I4ArMChZLFrcY0Tf0ctP11loksE1
-	Wnyb2Af0BUt1uCp9qq1VSKW22OQ2uAF8I6Ni2YK/JzlRXhjqA3EE6VscxkwUsrUYO25lvIU81mdhd
-	FHJqTUXN75iS8xjymlMwYXGRyPaPnxQUOiHWzIvY+HXTyDUUj3Rp+4zwaLKDcAFe3su0c74mS8xDj
-	qBEOYl8h8xgmFsXSfjpsV50ubrjPNIFzG+/aTPY4UzzpnWdOj0SVwAbyg5sNhDopQuLcc1BT597sh
-	cCBu1L+g==;
+	bh=yezZrL/XB4sWfCspZb88dUswE28pxgeU3kwnKzP3cGc=; b=vUQrzA4MU5ugX/MUNh76xOws9x
+	Hbz/9vTCY3mvEF6gIeTLHOjgJobaAcXEcVTUpp6RqPj0yZBjxMCNTcR7L4Px2gAHappgJqZ9QWXE+
+	GzHxrLRy8HusM+N+dJ36yP7H73T19/lHJHHrAyf5AaBxrgjlC5BbDe7lB7Ggjuu1yEXgNhoL5XPoA
+	akxCetu6+hzJ3JOhg0E+sI4mf//sUVcT2mBMkso4Z1I/dqr/PZYDflYFMr0w0d6ebn3WTc9cmngMq
+	/V27GyB8qbWKMaS+o9bFmfkjh57mhBzTKuj11vrAvID/7Im5MwDQgGRXuqqO+SxO0ZYMZTZHQ4o4L
+	gwOqNXFQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wjB6t-00000008Pf7-1Cl3;
-	Mon, 13 Jul 2026 07:29:51 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1wjBC1-00000008Rvm-16Y5;
+	Mon, 13 Jul 2026 07:35:09 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wjB6q-00000008Pel-0G40
+	id 1wjBBy-00000008RuC-04Yj
 	for linux-nvme@lists.infradead.org;
-	Mon, 13 Jul 2026 07:29:49 +0000
+	Mon, 13 Jul 2026 07:35:08 +0000
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E820077428;
-	Mon, 13 Jul 2026 07:29:44 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 01755777AB;
+	Mon, 13 Jul 2026 07:35:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783927786; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1783928104; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=W7Xzew5rWDRlRGMpqB8Bq8Wd/JLPFE7C8SCawJlQk7U=;
-	b=K7eyYUxUknkBwQC0L08GWrDp7lYnWJB1Q54UO6p2995QW8Uvo7rGSk09NrC8+XAM3lKELs
-	gedGfUoShiRPwV9QoVpLhPxZYzswqdCQGGMdeaTQWlwFaPl5qc0kgNE/HP774QKgGHX1Ex
-	8IYGI0H2lr2MBWCN2dHVopxLmC1bcGc=
+	bh=yezZrL/XB4sWfCspZb88dUswE28pxgeU3kwnKzP3cGc=;
+	b=ewT5MxvAHpGI0IZRNLk17puJGisUJtG6qeC9PJ6j1xP109TEZAzRp4E/kevKbmuRXZkVhI
+	Hqao0DYzqG/aG5QZZ/oBOxKucPxqeZb3N18qfkYaI1qObihV32cDXigXE38+ywsSk33hIi
+	6KzPRrKjt9ZPEXDZX0pWXqL51jR00KE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783927786;
+	s=susede2_ed25519; t=1783928104;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=W7Xzew5rWDRlRGMpqB8Bq8Wd/JLPFE7C8SCawJlQk7U=;
-	b=SqRP+t5rvWpfn7clFb8/rfp709hx+RxwmopTuWPNnWKB/1/MoMGVrJ3MUWU7T9KdBoL5zP
-	xHCOJjfvVCU4fABg==
-Authentication-Results: smtp-out2.suse.de;
+	bh=yezZrL/XB4sWfCspZb88dUswE28pxgeU3kwnKzP3cGc=;
+	b=jZK3LKrgSr1qGK0K48oqXBfk5gRdcfnrHrnoO2KPH93xGCSjwdZU54FSVhojeWCuHv0lcB
+	67106lpXDhyIvRAQ==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783927784; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1783928103; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=W7Xzew5rWDRlRGMpqB8Bq8Wd/JLPFE7C8SCawJlQk7U=;
-	b=QE7SM4Lw0+2I0n9NigIFw1hYHCUR0h9cU+hpJbcRE7J5sI1/A7jQ41cQUGrJ/uxPNXlHMq
-	zrAc3GWPERIqUXRDpoh7HzNMIvPtSzHMPZstWtHaNBNcoJ9ljrAa699lT8sEtjQuDz3wUy
-	M93b7NWffr71/xq3gk3K1JZu/XCIKrc=
+	bh=yezZrL/XB4sWfCspZb88dUswE28pxgeU3kwnKzP3cGc=;
+	b=WIATz83qhXp5RarDClpErypr3WhU1IP2Y2EOJvp98JMro5ZN4umh1LC0zwXI+egKUhVKZ1
+	2KCGhGNaGnliVj66HSj07zSIaBdqv73BObejL6d3Nf9nCdTXhqFVBoJ3+q8ihNEKv8L2YX
+	SXMYbGH+HsKWX1QUh55vSKmgvXWjMv8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783927784;
+	s=susede2_ed25519; t=1783928103;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=W7Xzew5rWDRlRGMpqB8Bq8Wd/JLPFE7C8SCawJlQk7U=;
-	b=nPkQ6BA4aoXU9cI4cB7hXjUsxSk9Z7ylvymj2pn8DMuCZ1K+OGiQPKibEi/ve95AspS65D
-	cFFn5Rzg9mCrjZCQ==
+	bh=yezZrL/XB4sWfCspZb88dUswE28pxgeU3kwnKzP3cGc=;
+	b=qZ12oq/X1qe313Qvrr0G8S4bjCpTS46kOsrx9cXHmYK37u+4mKis2ewqh/USTq9uyh7q9W
+	hw7aj9KLWCosyoAQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8F793779AE;
-	Mon, 13 Jul 2026 07:29:44 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 592D5779AE;
+	Mon, 13 Jul 2026 07:35:02 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ly7WIeiTVGpwaQAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 13 Jul 2026 07:29:44 +0000
-Message-ID: <da754227-87f9-44b1-926b-9b3b6ead6e19@suse.de>
-Date: Mon, 13 Jul 2026 09:29:44 +0200
+	id DFKeFCaVVGqubgAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 13 Jul 2026 07:35:02 +0000
+Message-ID: <e7b14340-4345-4b30-8c83-4387deb0082c@suse.de>
+Date: Mon, 13 Jul 2026 09:35:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 12/16] nvme-fc: Refactor IO error recovery
+Subject: Re: [PATCH v5 15/16] nvmet: Add support for CQT to nvme target
 To: Mohamed Khalfella <mkhalfella@purestorage.com>,
  Justin Tee <justin.tee@broadcom.com>,
  Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
@@ -97,16 +97,16 @@ To: Mohamed Khalfella <mkhalfella@purestorage.com>,
 Cc: Aaron Dailey <adailey@purestorage.com>, linux-nvme@lists.infradead.org,
  linux-kernel@vger.kernel.org
 References: <20260712022437.3743117-1-mkhalfella@purestorage.com>
- <20260712022437.3743117-13-mkhalfella@purestorage.com>
+ <20260712022437.3743117-16-mkhalfella@purestorage.com>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20260712022437.3743117-13-mkhalfella@purestorage.com>
+In-Reply-To: <20260712022437.3743117-16-mkhalfella@purestorage.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
+	BAYES_HAM(-3.00)[99.99%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
 	MIME_GOOD(-0.10)[text/plain];
 	ARC_NA(0.00)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
@@ -125,8 +125,8 @@ X-Spamd-Result: default: False [-4.30 / 50.00];
 	RCVD_COUNT_TWO(0.00)[2];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,purestorage.com:email,imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260713_002948_271359_6CA912CC 
-X-CRM114-Status: GOOD (  14.03  )
+X-CRM114-CacheID: sfid-20260713_003506_218576_3B062A9D 
+X-CRM114-Status: GOOD (  11.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -142,30 +142,21 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 7/12/26 4:23 AM, Mohamed Khalfella wrote:
-> Added new nvme_fc_start_ioerr_recovery() to trigger error recovery
-> instead of directly queueing ctrl->ioerr_work. nvme_fc_error_recovery()
-> now called only from ctrl->ioerr_work has been updated to not depend on
-> nvme_reset_ctrl() to handle error recovery. nvme_fc_error_recovery()
-> effectively resets the controller and attempts reconnection if needed.
-> This makes nvme-fc ioerr handling similar to other fabric transports.
+> TP4129 KATO Corrections and Clarifications defined CQT (Command Quiesce
+> Time) which is used along with KATO (Keep Alive Timeout) to set an upper
+> time limit for attempting Cross-Controller Recovery. CQT is added as a
+> subsystem attribute that defaults to 0 to maintain the current behavior.
 > 
-> Update nvme_fc_timeout() to not abort timed out IOs. IOs aborted from
-> nvme_fc_timeout() are not accounted for in ctrl->iocnt and this causes
-> nvme_fc_delete_association() not to wait for them. Instead of aborting
-> IOs nvme_fc_timeout() calls nvme_fc_start_ioerr_recovery() to start IO
-> error recovery. Since error recovery runs in ctrl->ioerr_work this
-> change fixes the issue reported in the link below.
-> 
-> Link: https://lore.kernel.org/all/20250529214928.2112990-1-mkhalfella@purestorage.com/
 > Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
 > ---
->   drivers/nvme/host/fc.c | 119 +++++++++++++++++++++++------------------
->   1 file changed, 66 insertions(+), 53 deletions(-)
+>   drivers/nvme/target/admin-cmd.c |  1 +
+>   drivers/nvme/target/configfs.c  | 36 +++++++++++++++++++++++++++++++++
+>   drivers/nvme/target/core.c      |  3 +++
+>   drivers/nvme/target/nvmet.h     |  2 ++
+>   include/linux/nvme.h            |  5 ++++-
+>   5 files changed, 46 insertions(+), 1 deletion(-)
 > 
-This is hard to read. Please split it several parst, one with
-open-coding nvme_reset_work(), one with adding 
-nvme_fc_start_ioerr_recovery((), and another one with the rest.
-If that makes sense to you...
+Reviewed-by: Hannes Reinecke <hare@kernel.org>
 
 Cheers,
 
