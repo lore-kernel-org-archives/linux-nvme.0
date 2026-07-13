@@ -4,133 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E15D7C44501
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jul 2026 09:29:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B3ECFC43458
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jul 2026 09:30:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=y9gcUkxCkRN2ZaCCFrl4N86ehymkTSYCDoMlEuWqjAE=; b=bD5MkOT0zccc8RLYo2/GLWtMqY
-	xft7NEs5b5aXXRisySJPSQBGtx/0sq0Z04ivdHqmReKTdkVbsTF3HuMYiuwIdUjrUPXK+LJf3OMtv
-	3g+KJpa4zPa9OOhgdRX8+PFI6FV6EeYOKjDnpFQkfnaW9fiSNWvg9WI/h85uWZlcIRWvq7IZrta7O
-	ClHi+YMsC3URWqFKS7uhC4Okezq0byINrp+HxkwlfaCJLl1xj+MVUrGVCGdX2eT9DUGvxqO30Gn24
-	IT+Pev/KO+XXVhzje7gX0KHj6jYnm3AkgEVjIZVfX6d9GYd7uNCbx90W0meyX36uobuglc/m+ttan
-	iFExkGKg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=JHKHJuyepL9DW985vrWt53SfYCfrlLA9rdZt4yBo4VU=; b=UxpTz/arNqEwRQzAnifYXfjJyY
+	Y2sHZNXhej9o8XCDNzM7kXE3DYntqnprteJu91NmZ9f0N2WbjIcy5hfSW6rdtYUfbbAu2Hlqzbb8U
+	voP/i7NJBOnrZjN6EkoE5qwoi0QmVOxo+tMzf9pDJhDa6AHRFkTV0fZvKlAXTrMrB1Tm/Hkp3DjyD
+	9uBENo4p/N56Hp2so6cGKhMonOPZg6U4zuFIIU1I4rcNpyekCPEKEivlEXGxA14M2E9oKwxON3XEp
+	J+otDw+9TALDdMqrx/qSrlZQEN2ujFQyV6KfaSAp78JYJrYAcDd0w4oShVCvja3NCB5NAtPEX6jcJ
+	6mg+35Aw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wjCyt-00000008jf3-0NFe;
-	Mon, 13 Jul 2026 09:29:43 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1wjD03-00000008k3y-1Iu3;
+	Mon, 13 Jul 2026 09:30:55 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wjCyn-00000008jYB-49i0
+	id 1wjCzw-00000008k32-3X39
 	for linux-nvme@lists.infradead.org;
-	Mon, 13 Jul 2026 09:29:39 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 0975177653;
-	Mon, 13 Jul 2026 09:29:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783934976; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=y9gcUkxCkRN2ZaCCFrl4N86ehymkTSYCDoMlEuWqjAE=;
-	b=wmWjcdrQtwWtJIeyLq2t5fcwg5iX2uJajA/r/0RMTrEjlLscL3f4QsEFByBg3/2ReeQJYt
-	FdU4qmXkDN98inPHlgV1owGzGkEbXZkw2ln0WTBPPuMj5ziyiqJjnljKAyYfNY4CuX1n1a
-	jLomKU0J4eYnu+ZCUTEfDTO75sA1oTk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783934976;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=y9gcUkxCkRN2ZaCCFrl4N86ehymkTSYCDoMlEuWqjAE=;
-	b=+Z8PIDeglO+Dj12Ww+r+s63GWL/dREZ5YhTFEjHue5szurCi8eQEz8zyOim1Z/6XbntnUP
-	y+EzIprM/3lPc5BA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783934976; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=y9gcUkxCkRN2ZaCCFrl4N86ehymkTSYCDoMlEuWqjAE=;
-	b=wmWjcdrQtwWtJIeyLq2t5fcwg5iX2uJajA/r/0RMTrEjlLscL3f4QsEFByBg3/2ReeQJYt
-	FdU4qmXkDN98inPHlgV1owGzGkEbXZkw2ln0WTBPPuMj5ziyiqJjnljKAyYfNY4CuX1n1a
-	jLomKU0J4eYnu+ZCUTEfDTO75sA1oTk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783934976;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=y9gcUkxCkRN2ZaCCFrl4N86ehymkTSYCDoMlEuWqjAE=;
-	b=+Z8PIDeglO+Dj12Ww+r+s63GWL/dREZ5YhTFEjHue5szurCi8eQEz8zyOim1Z/6XbntnUP
-	y+EzIprM/3lPc5BA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B7312779AE;
-	Mon, 13 Jul 2026 09:29:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id U0pALP+vVGpCdwAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 13 Jul 2026 09:29:35 +0000
-Message-ID: <0ded62a6-b3da-4790-adf0-566ded30ee43@suse.de>
-Date: Mon, 13 Jul 2026 11:29:35 +0200
+	Mon, 13 Jul 2026 09:30:50 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 3D9FE68C4E; Mon, 13 Jul 2026 11:30:45 +0200 (CEST)
+Date: Mon, 13 Jul 2026 11:30:44 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: John Garry <john.g.garry@oracle.com>
+Cc: hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, axboe@fb.com,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v2] nvme: fix cdev lifetime
+Message-ID: <20260713093044.GA8706@lst.de>
+References: <20260713091546.3013427-1-john.g.garry@oracle.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v1 01/17] nvme-multipath: retarget failedover bios
- from requeue work
-To: Yu Kuai <yukuai@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Tejun Heo <tj@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>, Alasdair Kergon <agk@redhat.com>,
- Benjamin Marzinski <bmarzins@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
- Mikulas Patocka <mpatocka@redhat.com>,
- Dongsheng Yang <dongsheng.yang@linux.dev>, Zheng Gu <cengku@gmail.com>,
- Coly Li <colyli@fygo.io>, Kent Overstreet <kent.overstreet@linux.dev>,
- Josef Bacik <josef@toxicpanda.com>, Yu Kuai <yukuai@fygo.io>,
- Nilay Shroff <nilay@linux.ibm.com>, linux-block@vger.kernel.org,
- cgroups@vger.kernel.org, linux-nvme@lists.infradead.org,
- dm-devel@lists.linux.dev, linux-bcache@vger.kernel.org
-References: <20260704195124.1375075-1-yukuai@kernel.org>
- <20260704195124.1375075-2-yukuai@kernel.org>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20260704195124.1375075-2-yukuai@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[lst.de,kernel.org,grimberg.me,redhat.com,linux.dev,gmail.com,fygo.io,toxicpanda.com,linux.ibm.com,vger.kernel.org,lists.infradead.org,lists.linux.dev];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	URIBL_BLOCKED(0.00)[fygo.io:email,suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[fygo.io:email,imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid]
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260713091546.3013427-1-john.g.garry@oracle.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260713_022938_184394_3AD97CDB 
-X-CRM114-Status: GOOD (  23.17  )
+X-CRM114-CacheID: sfid-20260713_023049_181859_EEF3C858 
+X-CRM114-Status: GOOD (  35.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -145,71 +59,243 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/4/26 9:51 PM, Yu Kuai wrote:
-> From: Yu Kuai <yukuai@fygo.io>
+On Mon, Jul 13, 2026 at 09:15:46AM +0000, John Garry wrote:
+> Sashiko bot reported a potential problem for the cdev lifetime in [0]
+> - the code there is heavily based on the NVMe code.
 > 
-> bio_set_dev() is about to become explicitly sleepable because it can
-> associate the bio with a blkg for the destination queue.  NVMe failover
-> can run from request completion context, and nvme_failover_req() also holds
-> head->requeue_lock with interrupts disabled while it steals bios from the
-> failed request.  Calling bio_set_dev() there is not safe once the helper is
-> allowed to sleep.
+> Currently the NS head .open and .release file_operations methods take and
+> put a reference to the nvme_ns_head to ensure that this structure does not
+> disappear while we open fds for that cdev.
 > 
-> The requeue lock only protects head->requeue_list.  Keep the list
-> manipulation under that lock, but defer retargeting to nvme_requeue_work(),
-> which already drains the list from process context before resubmitting each
-> bio.  The bios remain private to the requeue list until the worker pops
-> them, so moving the device switch there preserves the existing retry flow
-> while avoiding a sleepable helper in completion context.
+> In multipath mode, when we teardown the NS head, we call nvme_cdev_del() ->
+> cdev_device_del() -> cdev_del(). However after cdev_del() returns, cdevs
+> already open will remain and their fops will still be callable. As such,
+> we can still reference the cdev after the nvme_ns_head reference count
+> drops to 0 (and is freed).
 > 
-> Signed-off-by: Yu Kuai <yukuai@fygo.io>
+> This can be shown with a application which delays between opening the cdev
+> and issuing the ioctl while the NS head is being torn down:
+> 
+> # ./ioctl_file /dev/ng1n1 &
+> # waiting 10 seconds ....
+> 
+> # ./ini_nvme_teardown.sh
+> [   21.221718] nvme nvme1: Removing ctrl: NQN "nvme-test-target"
+> [   21.274609] nvme nvme2: Removing ctrl: NQN "nvme-test-target"
+> # now going to issue ioctl ....
+> [   26.549285] ==================================================================
+> [   26.550841] BUG: KASAN: slab-use-after-free in cdev_put.part.0+0x3d/0x40
+> [   26.552352] Read of size 8 at addr ffff88811e7fa170 by task ioctl_file/237
+> [   26.553805]
+> [   26.554227] CPU: 3 UID: 0 PID: 237 Comm: ioctl_file Not tainted 7.2.0-rc1-00004-g6852a10e32d4 #921 PREEMPT(lazy)
+> [   26.554236] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+> [   26.554241] Call Trace:
+> [   26.554245]  <TASK>
+> [   26.554248]  dump_stack_lvl+0x68/0xa0
+> [   26.554266]  print_report+0x10d/0x5d0
+> [   26.554276]  ? __virt_addr_valid+0x21d/0x3f0
+> [   26.554287]  ? cdev_put.part.0+0x3d/0x40
+> [   26.554292]  kasan_report+0x96/0xd0
+> [   26.554300]  ? cdev_put.part.0+0x3d/0x40
+> [   26.554307]  cdev_put.part.0+0x3d/0x40
+> [   26.554313]  __fput+0x7bc/0xa70
+> [   26.554322]  fput_close_sync+0xd8/0x190
+> [   26.554328]  ? __pfx_fput_close_sync+0x10/0x10
+> [   26.554337]  __x64_sys_close+0x79/0xd0
+> [   26.554344]  do_syscall_64+0x117/0x6b0
+> [   26.554351]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> [   26.554358] RIP: 0033:0x7f938c067727
+> [   26.554364] Code: 48 89 fa 4c 89 df e8 28 ad 00 00 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 1a 5b c3 0f 1f 84 00 00 00 00 00 48 8b 44 24 10 0f 05 <5bf
+> [   26.554369] RSP: 002b:00007fff49f05980 EFLAGS: 00000202 ORIG_RAX: 0000000000000003
+> [   26.554376] RAX: ffffffffffffffda RBX: 00007f938bfd7780 RCX: 00007f938c067727
+> [   26.554380] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000003
+> [   26.554383] RBP: 00007fff49f05a10 R08: 0000000000000000 R09: 0000000000000000
+> [   26.554386] R10: 0000000000000000 R11: 0000000000000202 R12: 0000000000000000
+> [   26.554389] R13: 00007fff49f05b40 R14: 00007f938c207000 R15: 000055c148471d78
+> [   26.554397]  </TASK>
+> [   26.554399]
+> [   26.575612] Allocated by task 100:
+> [   26.575871]  kasan_save_stack+0x24/0x50
+> [   26.576157]  kasan_save_track+0x14/0x30
+> [   26.576418]  __kasan_kmalloc+0x7f/0x90
+> [   26.576668]  __kmalloc_noprof+0x281/0x6c0
+> [   26.576938]  nvme_alloc_ns+0x7f7/0x3170
+> [   26.577206]  nvme_scan_ns+0x508/0x880
+> [   26.577449]  async_run_entry_fn+0x8c/0x350
+> [   26.577723]  process_scheduled_works+0xb6f/0x1a00
+> [   26.578034]  worker_thread+0x4ad/0xb40
+> [   26.578283]  kthread+0x34f/0x450
+> [   26.578501]  ret_from_fork+0x563/0x800
+> [   26.578752]  ret_from_fork_asm+0x1a/0x30
+> [   26.579012]
+> [   26.579124] Freed by task 237:
+> [   26.579335]  kasan_save_stack+0x24/0x50
+> [   26.579596]  kasan_save_track+0x14/0x30
+> [   26.579855]  kasan_save_free_info+0x3a/0x60
+> [   26.580131]  __kasan_slab_free+0x43/0x70
+> [   26.580388]  kfree+0x321/0x500
+> [   26.580591]  nvme_ns_head_chr_release+0x39/0x50
+> [   26.580883]  __fput+0x352/0xa70
+> [   26.581095]  fput_close_sync+0xd8/0x190
+> [   26.581350]  __x64_sys_close+0x79/0xd0
+> [   26.581595]  do_syscall_64+0x117/0x6b0
+> [   26.581842]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> [   26.582176]
+> [   26.582286] Last potentially related work creation:
+> [   26.582593]  kasan_save_stack+0x24/0x50
+> [   26.582841]  kasan_record_aux_stack+0x89/0xa0
+> [   26.583210]  insert_work+0x22/0x170
+> [   26.583442]  __queue_work+0x7b1/0xfa0
+> [   26.583682]  queue_work_on+0x77/0x80
+> [   26.583921]  kblockd_schedule_work+0x18/0x20
+> [   26.584207]  nvme_mpath_put_disk+0x42/0xa0
+> [   26.584632]  nvme_free_ns_head+0x1c/0x160
+> [   26.584904]  nvme_ns_head_chr_release+0x39/0x50
+> [   26.585208]  __fput+0x352/0xa70
+> [   26.585420]  fput_close_sync+0xd8/0x190
+> [   26.585677]  __x64_sys_close+0x79/0xd0
+> [   26.585924]  do_syscall_64+0x117/0x6b0
+> [   26.586173]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> [   26.586505]
+> [   26.586616] Second to last potentially related work creation:
+> [   26.586991]  kasan_save_stack+0x24/0x50
+> [   26.587246]  kasan_record_aux_stack+0x89/0xa0
+> [   26.587538]  insert_work+0x22/0x170
+> [   26.587770]  __queue_work+0x7b1/0xfa0
+> [   26.588010]  queue_work_on+0x77/0x80
+> [   26.588247]  kblockd_schedule_work+0x18/0x20
+> [   26.588529]  nvme_remove_head+0x3d/0xb0
+> [   26.588787]  nvme_ns_remove+0x4b2/0x930
+> [   26.589040]  nvme_remove_namespaces+0x29c/0x410
+> [   26.589340]  nvme_do_delete_ctrl+0xf3/0x190
+> [   26.589611]  nvme_delete_ctrl_sync+0x71/0x90
+> [   26.589889]  nvme_sysfs_delete+0x91/0xb0
+> [   26.590151]  kernfs_fop_write_iter+0x2fb/0x4a0
+> [   26.590452]  vfs_write+0x929/0xfc0
+> [   26.590688]  ksys_write+0xf2/0x1d0
+> [   26.590923]  do_syscall_64+0x117/0x6b0
+> [   26.591171]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> [   26.591498]
+> [   26.591605] The buggy address belongs to the object at ffff88811e7fa000
+> [   26.591605]  which belongs to the cache kmalloc-4k of size 4096
+> [   26.592409] The buggy address is located 368 bytes inside of
+> [   26.592409]  freed 4096-byte region [ffff88811e7fa000, ffff88811e7fb000)
+> [   26.593205]
+> [   26.593321] The buggy address belongs to the physical page:
+> [   26.593701] page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x11e7f8
+> [   26.594250] head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+> [   26.594743] flags: 0x200000000000040(head|node=0|zone=2)
+> [   26.595093] page_type: f5(slab)
+> [   26.595312] raw: 0200000000000040 ffff888100043040 dead000000000122 0000000000000000
+> [   26.595810] raw: 0000000000000000 0000000000040004 00000000f5000000 0000000000000000
+> [   26.596309] head: 0200000000000040 ffff888100043040 dead000000000122 0000000000000000
+> [   26.596806] head: 0000000000000000 0000000000040004 00000000f5000000 0000000000000000
+> [   26.597313] head: 0200000000000003 fffffffffffffe01 00000000ffffffff 00000000ffffffff
+> [   26.597813] head: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000000
+> [   26.598317] page dumped because: kasan: bad access detected
+> [   26.598676]
+> [   26.598784] Memory state around the buggy address:
+> [   26.599093]  ffff88811e7fa000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> [   26.599559]  ffff88811e7fa080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> [   26.600023] >ffff88811e7fa100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> [   26.600485]                                                              ^
+> [   26.600921]  ffff88811e7fa180: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> [   26.601390]  ffff88811e7fa200: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> [   26.601855] ==================================================================
+> [   26.602374] Disabling lock debugging due to kernel taint
+> 
+> When all fds for the cdev disappear, the cdev removal path puts a
+> reference to the parent object, which is the nvme_ns_head.cdev_device - see
+> cdev_default_release() -> kobject_put(parent).
+> 
+> Fix the lifetime for the cdev by making adding the cdev add take a
+> reference to the NS head and drop that reference in the
+> nvme_ns_head.cdev_device release function.
+> 
+> The same problem exists for the NS cdev lifetime, so resolve that issue
+> through a similar method by taking a reference to the NS for the lifetime
+> of the cdev. Note that nvme_ns_chr_open() -> nvme_ns_open() also takes a
+> reference to the NS. Now that should not be needed, but that code is
+> common to bdev ioctl, so keep as is.
+> 
+> [0] https://lore.kernel.org/linux-scsi/20260703102918.3723667-1-john.g.garry@oracle.com/T/#m67265e2906d617acd2743c0a00809246d0cfc506
+> 
+> Signed-off-by: John Garry <john.g.garry@oracle.com>
 > ---
->   drivers/nvme/host/multipath.c | 4 +---
->   1 file changed, 1 insertion(+), 3 deletions(-)
+> Differences to RFC:
+> - common release method
+> - fix NS cdev lifetime (as well as NS head cdev lifetime)
 > 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index db0c8ad4628a7..ef5bbd5ce9270 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -3894,6 +3894,11 @@ static int nvme_subsys_check_duplicate_ids(struct nvme_subsystem *subsys,
+>  static void nvme_cdev_rel(struct device *dev)
+>  {
+>  	ida_free(&nvme_ns_chr_minor_ida, MINOR(dev->devt));
+> +	if (dev->parent->class == &nvme_class)
+> +		nvme_put_ns(container_of(dev, struct nvme_ns, cdev_device));
+> +	else
+> +		nvme_put_ns_head(container_of(dev, struct nvme_ns_head,
+> +				cdev_device));
+>  }
+>  
+>  void nvme_cdev_del(struct cdev *cdev, struct device *cdev_device)
+> @@ -3959,10 +3964,12 @@ static void nvme_add_ns_cdev(struct nvme_ns *ns)
+>  	snprintf(name, sizeof(name), "ng%dn%d", ns->ctrl->instance,
+>  		 ns->head->instance);
+>  
+> +	nvme_get_ns(ns); /* Undone in nvme_cdev_rel() */
+>  	if (nvme_cdev_add(name, &ns->cdev, &ns->cdev_device,
+>  			&nvme_ns_chr_fops, ns->ctrl->ops->module)) {
+>  		dev_err(ns->ctrl->device, "Unable to create the %s device\n",
+>  			name);
+> +		nvme_put_ns(ns);
+>  		return;
+>  	}
+>  	set_bit(NVME_NS_CDEV_LIVE, &ns->flags);
 > diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-> index 9b9a657fa330..76baa180ae1c 100644
+> index 56587ae59c7f7..820ec2576041a 100644
 > --- a/drivers/nvme/host/multipath.c
 > +++ b/drivers/nvme/host/multipath.c
-> @@ -149,7 +149,6 @@ void nvme_failover_req(struct request *req)
->   	struct nvme_ns *ns = req->q->queuedata;
->   	u16 status = nvme_req(req)->status & NVME_SCT_SC_MASK;
->   	unsigned long flags;
-> -	struct bio *bio;
->   
->   	nvme_mpath_clear_current_path(ns);
->   	atomic_long_inc(&ns->failover);
-> @@ -165,8 +164,6 @@ void nvme_failover_req(struct request *req)
->   	}
->   
->   	spin_lock_irqsave(&ns->head->requeue_lock, flags);
-> -	for (bio = req->bio; bio; bio = bio->bi_next)
-> -		bio_set_dev(bio, ns->head->disk->part0);
+> @@ -630,28 +630,8 @@ const struct block_device_operations nvme_ns_head_ops = {
+>  	.pr_ops		= &nvme_pr_ops,
+>  };
+>  
+> -static inline struct nvme_ns_head *cdev_to_ns_head(struct cdev *cdev)
+> -{
+> -	return container_of(cdev, struct nvme_ns_head, cdev);
+> -}
+> -
+> -static int nvme_ns_head_chr_open(struct inode *inode, struct file *file)
+> -{
+> -	if (!nvme_tryget_ns_head(cdev_to_ns_head(inode->i_cdev)))
+> -		return -ENXIO;
+> -	return 0;
+> -}
+> -
+> -static int nvme_ns_head_chr_release(struct inode *inode, struct file *file)
+> -{
+> -	nvme_put_ns_head(cdev_to_ns_head(inode->i_cdev));
+> -	return 0;
+> -}
+> -
+>  static const struct file_operations nvme_ns_head_chr_fops = {
+>  	.owner		= THIS_MODULE,
+> -	.open		= nvme_ns_head_chr_open,
+> -	.release	= nvme_ns_head_chr_release,
+>  	.unlocked_ioctl	= nvme_ns_head_chr_ioctl,
+>  	.compat_ioctl	= compat_ptr_ioctl,
+>  	.uring_cmd	= nvme_ns_head_chr_uring_cmd,
+> @@ -666,10 +646,12 @@ static void nvme_add_ns_head_cdev(struct nvme_ns_head *head)
+>  	snprintf(name, sizeof(name), "ng%dn%d", head->subsys->instance,
+>  		 head->instance);
+>  
+> +	nvme_tryget_ns_head(head); /* Undone in nvme_cdev_rel() */
 
-If you remove this the original device remains being referenced by
-the bio, so there might be a chance of some accidentally referencing
-the (now invalid) bdev.
-I think it might be better if you were set it to NULL here, to
-signal that this bio currently has no bdev associated.
+I think we need to do a real get and not a tryget here.
 
->   	blk_steal_bios(&ns->head->requeue_list, req);
->   	spin_unlock_irqrestore(&ns->head->requeue_lock, flags);
->   
-> @@ -684,6 +681,7 @@ static void nvme_requeue_work(struct work_struct *work)
->   		next = bio->bi_next;
->   		bio->bi_next = NULL;
->   
-> +		bio_set_dev(bio, head->disk->part0);
->   		submit_bio_noacct(bio);
->   	}
->   }
+Otherwise this looks good.
 
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
