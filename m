@@ -4,47 +4,188 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B3ECFC43458
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jul 2026 09:30:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A8664C43458
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jul 2026 09:46:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JHKHJuyepL9DW985vrWt53SfYCfrlLA9rdZt4yBo4VU=; b=UxpTz/arNqEwRQzAnifYXfjJyY
-	Y2sHZNXhej9o8XCDNzM7kXE3DYntqnprteJu91NmZ9f0N2WbjIcy5hfSW6rdtYUfbbAu2Hlqzbb8U
-	voP/i7NJBOnrZjN6EkoE5qwoi0QmVOxo+tMzf9pDJhDa6AHRFkTV0fZvKlAXTrMrB1Tm/Hkp3DjyD
-	9uBENo4p/N56Hp2so6cGKhMonOPZg6U4zuFIIU1I4rcNpyekCPEKEivlEXGxA14M2E9oKwxON3XEp
-	J+otDw+9TALDdMqrx/qSrlZQEN2ujFQyV6KfaSAp78JYJrYAcDd0w4oShVCvja3NCB5NAtPEX6jcJ
-	6mg+35Aw==;
+	bh=ZyV+xoPjOp6aDTr0H9wSCpnX3XXLsBWqwcV0FoHw5XY=; b=fGkHZ6SVVgPieeHoW1aes20Ukp
+	0zwn1QsETwc+iAp0LMVMz0+0K6bGlDAeJo7lCHr+CLKSMlW2gGsCbD0Tp+Ol/+4v+0YsItaOB4RfN
+	QEKdODDVUn2+gyx9y7qPZU12yN/avov/FbqjTpmlvs13yooQ1KMnt6OqjE3+koTfhRMoDcMaBI4vz
+	3umDS4EIuIHLY/OMMtXDUigzIfEwLDSKOXoJgzyBou3wZVb3yjyC2iLZ6yVzgvRLdhde5+GORms26
+	X517yaFYr5rE/g0NxqPdoMxAJ2zF7iFTNpqSvuPJ4WfTs+gH36+clpjCScQJlwuP/JhSveq93Yn4k
+	Y5I/bwGA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wjD03-00000008k3y-1Iu3;
-	Mon, 13 Jul 2026 09:30:55 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1wjDFR-00000008mUJ-0nzO;
+	Mon, 13 Jul 2026 09:46:49 +0000
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wjCzw-00000008k32-3X39
+	id 1wjDFP-00000008mTh-0c5Y
 	for linux-nvme@lists.infradead.org;
-	Mon, 13 Jul 2026 09:30:50 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 3D9FE68C4E; Mon, 13 Jul 2026 11:30:45 +0200 (CEST)
-Date: Mon, 13 Jul 2026 11:30:44 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: John Garry <john.g.garry@oracle.com>
-Cc: hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, axboe@fb.com,
-	linux-nvme@lists.infradead.org
+	Mon, 13 Jul 2026 09:46:48 +0000
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66D0Fw07182323;
+	Mon, 13 Jul 2026 09:46:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=ZyV+xoPjOp6aDTr0H9wSCpnX3XXLsBWqwcV0FoHw5XY=; b=
+	d6FcUPhCH27kRKYgeKa00bgdd68cA3dADGEjjzPYC22IfwbEPAcwD6YC3zTG9HXr
+	ysIhBXBAX0fFh4YhmfWNvhhD7n1r6v5IhMO3tu2G7FI3xnd5TeYRrd1TS0FvbRBp
+	q4+tXeLjWk0/r6as1JZZL3arqJxBnxsr0pv5Vrcvf4lm2gL8DKb5kNLBSQsodvoR
+	iyJY05jqED+Cs7b3EIj6g9gW1ipo6BswmsTc21We4bZCqzP+vXJwSaBfw6ArRdZ1
+	nk9xpRQrtx0i0UlwVK7FS7nkYCCCjVUOcwYb1U2xpRLxlDcijho63OFiSkp4SvlM
+	TNaXs//vjMXT1Fpt9dZGUA==
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4fbeh61w2x-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 13 Jul 2026 09:46:36 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 66D9cXCc037292;
+	Mon, 13 Jul 2026 09:46:35 GMT
+Received: from bl0pr03cu003.outbound.protection.outlook.com (mail-eastusazon11012043.outbound.protection.outlook.com [52.101.53.43])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4fbc9q3w3c-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 13 Jul 2026 09:46:35 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ClazmRM5+f/d/YxwbyMiH+oWC3p5R8Jj11uPi4r8g/KyOt8baeShkzb/Xi+I+KvIgW6kKwpsIxgRXktPgy1zcTCw9WNqJOzW/ksnxL8Vayg928En91kp2OOV3P8k5g6FJ5RCGdVwATY2ME22JPeCAJl77Fi6VsJywTAw8NbAsjyOR7B0kmkPvtnY8Z9c4lms9PonyCWgCgJ0wq8hQfS8hF3y+578LgIySM+ql5EnTaNbj0rGJy5SaIdTwbnR/BWbgogixfLPrqfNS0DpOpmkJYwqTnKwaunVnaL5MWmr64PlLq+ao+yHB0dXhY1x12e7S5xvMsjZpo2GxpA4uhJ5ag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZyV+xoPjOp6aDTr0H9wSCpnX3XXLsBWqwcV0FoHw5XY=;
+ b=RUt9IGigbRMweU8LdwtCHDIJKY8/fosuNMS74IWuYMAQyA3R1Q/lLGHWdQ+bgolg9is9tUVq0fhbsPlKk1911SpVZVMIsve1635s8823BTdTnmpRzkA9jB7zsWhEdw544t6p+jmy2kKoh1diB4uiUGZFKZDxdCTd8bKlPa40u0DBw4JHCUFdTDKusdYVy514f8iRtj//0iwzrfsKzQJKRxdS2huT4wH6PHHpc/rIwyrbsP2qQnDCi2cQ/hwE3JMBSJyCfmy4FNIBs1PbxJY35/h3L+P8FbmhxKTcTCmDWYtsKWjHzcFNFujFW5W8RA9tW9ww3f98ulScI+BMQiAL3w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZyV+xoPjOp6aDTr0H9wSCpnX3XXLsBWqwcV0FoHw5XY=;
+ b=JLg7ozg3UBw+pSIWUaY5DGtNxLCd5kN3hRQXD80O8AvFQy8WORc3BvGWWyYQCBd4eN+Af93vdctHFK7NM9+gX+GnfnFSvNQ48zF88ctaUQjLL5CJ/w+Y1eRoRaVvsFtBQEgXF7te7BaG3gdgG/XU/NgyxhUpZnuxzEz3gzNUIig=
+Received: from DM4PR10MB6229.namprd10.prod.outlook.com (2603:10b6:8:8c::12) by
+ DM4PR10MB5967.namprd10.prod.outlook.com (2603:10b6:8:b1::17) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.202.19; Mon, 13 Jul 2026 09:46:33 +0000
+Received: from DM4PR10MB6229.namprd10.prod.outlook.com
+ ([fe80::867:63e7:13fa:fa7d]) by DM4PR10MB6229.namprd10.prod.outlook.com
+ ([fe80::867:63e7:13fa:fa7d%6]) with mapi id 15.21.0181.019; Mon, 13 Jul 2026
+ 09:46:33 +0000
+Message-ID: <92db8054-c7b0-4517-873e-8c0fb18c02ba@oracle.com>
+Date: Mon, 13 Jul 2026 10:46:26 +0100
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2] nvme: fix cdev lifetime
-Message-ID: <20260713093044.GA8706@lst.de>
+Content-Language: en-US
+To: Christoph Hellwig <hch@lst.de>
+Cc: kbusch@kernel.org, sagi@grimberg.me, axboe@fb.com,
+        linux-nvme@lists.infradead.org
 References: <20260713091546.3013427-1-john.g.garry@oracle.com>
+ <20260713093044.GA8706@lst.de>
+From: John Garry <john.g.garry@oracle.com>
+Organization: Oracle Corporation
+In-Reply-To: <20260713093044.GA8706@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: DX0P273CA0103.AREP273.PROD.OUTLOOK.COM
+ (2603:1086:300:5c::8) To DM4PR10MB6229.namprd10.prod.outlook.com
+ (2603:10b6:8:8c::12)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260713091546.3013427-1-john.g.garry@oracle.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR10MB6229:EE_|DM4PR10MB5967:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1f78d72f-2e79-446b-a48d-08dee0c39f12
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|1800799024|366016|376014|4143699003|56012099006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info: 8x6qGzWbHaRyBTQqsWWrp0kK4fdAd8wS3zpXkuXIBLW/5kY0CC4kZOLdRn6pm88oQZowHn03QyOPnm35lrq/J68MKDShhjZBjXlAzUk7klZDWFPTuiBwz9golzmuNY0D1oPmpMcKCEi3NqwNHJB+mPu4XjZNGWfHJ+5vXeXObTs2cBDzty1PjKS7cXUpsjfuRwZkj08/4BgHTDMJNZGIC7fF82KMxeAUIiBjsDVPkysOlUssVeDLVT6jaDCYTmCuGXw41swzHni8Fc9OQhvO17qgUIapGGAnvdkuULbb7OeiovFkOiTwcBZjRMpYlq/dQ7fFutuAoa/yZLVxjCsrzR42DsDALydg/XMpyhwqnGgmmplzWVoXciRe16pXVMreO48JTCw/tvG0rQQXnngI3tog/wgu3hiaZlfVtdpcVUSp5KKChhPoquHCeU4javt+xtkZkhZBnP9A2XvF16fdEYeFs1vatB7OPWKSGKehAzslKfgoVcMqU2T39+n5fXie9W6l3uFwd0Zwz2ovX+BmT4OkYhX/UrPiVisPtw8SBlSmtmMjDxZ8z63yoxdLowSz3w8Ae4gRlYooZdpq4jq49J799h6jpvQFAJ6lRdW02dVNzrQBABVJbMEQZYdXGI+AG4sXRQ2o67Qldtm+ptlXFuT85jVBifhUvKlrfN7xJcs=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB6229.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(366016)(376014)(4143699003)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K3VQZFBaOFF2V3V3NkdXWVRwWWIrWHJwUTVKWU16NW5uZ29nMERMS1FWR29Y?=
+ =?utf-8?B?MGNPaHhVS2c5eW5UbzBOY2N2Um42Z0FaRTdnM1p5T05ObWkxMW1rc1UrdmRz?=
+ =?utf-8?B?SGhFVU0vRmVRaXVqTXZqUExhK3NOWDR2VU52ZGFHZzVrZTFsSS9IM0t3QmRH?=
+ =?utf-8?B?TGhVajdaTXVWSnh4UXQvMXFBN2k4V050aU11RXJ2cGFmMkplUlU1WDJiT0Z4?=
+ =?utf-8?B?R05OWFBDT01ucjlObTRIOXZjWFpwUFBvUGZCTnNwV2V5QlpxTHRWRDFUTGVZ?=
+ =?utf-8?B?OGJqdXlZMW52K1d4c3hCbVJzN2ZlOXFaNlJXN0x4SmtCZFZtRE9tZjFoS000?=
+ =?utf-8?B?c2JZYnJoekk5dnFhVXpQbVZiTVJMeEpoSS9JYjZ4NzNUaFNGTlltSzBpQ0c0?=
+ =?utf-8?B?M1U3bVdudUhSY1RWSWVlWEJVQlQwTGhhcnpJZTFDa2U3ZklMbXRaR0wrZk50?=
+ =?utf-8?B?bDBGa2VxUUZ2M0Rpb0xsdS81bHNPQ3Mvd1A0Q3hya1JycExqME5mVnZKbE1r?=
+ =?utf-8?B?dVhJU3ZqNHdIczV5OW93TC92dFFhT1JZZkhSWFUxczZSeGpHMm1sQTEzQWJW?=
+ =?utf-8?B?NWNtWDUwK09JNWdIdXdlNytOVnA1cDZ6MDlyNy92OGJZNmFsUE9lYTVIMnpC?=
+ =?utf-8?B?dEFudzlvQlJKM3NUMS9vbm9UQlAzb0JKczZFdnFkSnYwdUM4T3gwT0twTkwy?=
+ =?utf-8?B?OTE0UHNWZU1wejZVZUxOU3RXT1YrZWY2VmNNMmhjL0JBZEdQN095aUpDVll4?=
+ =?utf-8?B?OHZvaHdaY2FDZlY2RFdlalh5NXNiTFJpSkVaUkl0a1JVcE9DSmJoWmwyNytO?=
+ =?utf-8?B?Mng4VHpFYUhlTlNYUk5FTFZVYm1FWExSei9QRmYvUXNKcTU5TG5UMTd3MHVm?=
+ =?utf-8?B?SEx6SjFXdlhrK3E0Z1B6RWpwRi9EN2Y4SU5QNWRRT1dVQ2dKZFltc3dSc0tz?=
+ =?utf-8?B?WFZOU2JuM0NCQWNJL0FucWE5YlE1dWJhem0ydGM2bUN4bzlobEJkV08zbU1I?=
+ =?utf-8?B?Ky8rdkxTem8zMFk0YTZ1TGtHSC8vdXRBWU5pdGdSYTdDcDRGZ29ST2V0RmFm?=
+ =?utf-8?B?aDhmMXR0dTJTalB1dHBwLysrRCtEYWxxYmRMYjEyTWdCUnhMNWtzR3JLa1Zp?=
+ =?utf-8?B?Z01Sd3FjcncrNXlhYmVZY05ueE5JVTdkcUVOeVN1Wlp6eGswUEhxQTJObVJ6?=
+ =?utf-8?B?WkZPVkFqUUw3VVZzV2VseFZINFJwU3lBVmJKQTZ0eUtBais1NnRlOGlhL3pv?=
+ =?utf-8?B?Q1R6dVZhQmRaemJZWFczOHZISDh5b0FuL2ZybnpIYkhma0lDeGwrWVo2dkRz?=
+ =?utf-8?B?cjhGcmg0VWxUYzlpUjJHcWZqRExhbDdOWGwwdzRVNUNDU0w2dkRRMTVWTkc1?=
+ =?utf-8?B?LzF5NHRSaVd4cmJtdmtNdm9EOFl3WERSUFBCUG8xWXFsdmVMWUFKWm56UE16?=
+ =?utf-8?B?cXdFUnY0QWorN0Y4ZHdQMW5jRy9uVklQMmRHVkFJVTVKM3ZDRG50Mm81bkRR?=
+ =?utf-8?B?N0dTcXptUm9VUExKWTNRY0xwNnIzN2RhMDhXZ0VNMVVHL205RklSbEJvTnhC?=
+ =?utf-8?B?UnVqdnRkSXgzVVJteXFGYnIxOHRqU3dVdTg1dXRZK01ySG1nOER5aTJxRHoy?=
+ =?utf-8?B?VzFxZXJKbng1clFrOWhDS1ZYRFFuejQrbG9MaEE0b2p0Q3pZdkxpSnpvVDhq?=
+ =?utf-8?B?aUg3K1lBN28vN2hKL0o4WTlQVmJaaU9kRFF0d2k1Mm1yK0hadkxvWjRnK1ZH?=
+ =?utf-8?B?Q0NPY2JwZko1RStycWJ0VEpwVXNsV3BSZjJaTzQ0M0NlaEJLWkR5TXBPa1VP?=
+ =?utf-8?B?RHZ0anZ0Z3lFWGx4SjZUaDZlcFU2TmM0bTFuWFZUN0FxYkxpUTRwMnNVT2F3?=
+ =?utf-8?B?V2lmZnI1SzZ2eDBBOHpRbjBCZStRSm1KakwrTDNwS3ZhQUw5b2dmK1lBamFN?=
+ =?utf-8?B?L0EvVkZXUkgvSjJIS0hyckt1M1RQNDdVdmFwZXZkSDNWZU9FTnBkUkRzZUJM?=
+ =?utf-8?B?dm8wRU0xQXN3WUsvV05rTDlEa2JucnBaeFd5c2hVa1NjNDlQeXB5R1Q3MDY1?=
+ =?utf-8?B?TGp6V05aQ2RxYzViTS93MGFiM3NjbVZLMVFZUlNGM1JpQ2RocGdsUHFST1Yz?=
+ =?utf-8?B?RDJvTTQrMDJRQUVOUDNaazV0cHpGdllyT21mRm1mSmd4ZzFrYWRueVpTWDlP?=
+ =?utf-8?B?MTFhM0s1NW53NXN3M2o2QmNCZEtiYmdpZEluQWxmUCt1TkNKR3lDVDVsNFln?=
+ =?utf-8?B?cVZOQUVxQVR2RXFzS1l6SW1DYko0OU4vWlRURnJMcWhYVGxzS2kyU29heFpB?=
+ =?utf-8?B?Mlh1U1Q2YnpKQit2VDBHTU9td0JrREdPbGZLd3hlOE9pd3BxckdNZz09?=
+X-Exchange-RoutingPolicyChecked: RB2mFG4GWy/8Tv00qgXhpjxHqwf/Eg10/kx2Wnz3/RuqelQjs9rpXfssA/YBzWGeWrKtkcI9uAJ1gBEcEZSKaQ9XQC57ojL7tWZf0O36jRhKLBuVR7sMAEfQs92dMhSzO+yto0EdkK/VcXsjP1u0249wsjbhUqDK5HJoPlIS3R7Pq8T2LB3qdAu6zl+laZcB3edPlDGUzL+/C4W0tqypraxysnuYKCRM7bXA4b63DtjbUDWTmm0rGqQ844Tv4skXfCqU5R/Rv/w/lMB9RXRmjNrPw7pOtcfLws9Vr58aU+YPgJY3YKvInZmv8JSpP/e51QeoI2oGmDADRtauPfZV+A==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: Ly9HtxUgM4svGntKvwgFLHuIYNQcSs8lFM+g5C4GstTKGbG52KO87Th5hBdfZaSeGFGRdbM4mfUX3oc5NR28Rh1GKL5eq3f2pI/Pi7U+u7ktostssBJWK2iAZiiDqvHd7ytAhKktMZMznZtuxy+W9Ll9AagH8ohPGgqoIjTQdtLB6PQZ77bpM+h8564wUi5NqM/eXPbKFRNWeVxafX8jYRN+T/rhvYB+Gun8oNraRCFAb9tj/ReaqDowSEXFin8qmuSm7zkddx3Od3OtipdZIk1mY4KVocrLTAcaRzFZkjmpnA7UD8W4S1OepNuxLti1pcMgTJN8LFFJi4AxRNfuqlifrWS3vlBRy/RTVrzm3fUcf4RWogfavICWbhusGz13S7FtaIPQdP9RVOzYnMnhe33inX6S5PeGjOwnypYEmt2UeVcUftTD2v3vBVFKCmjmzTVWBjO0PZuSuFbUQo3i5ftQFoPPR0b4VPre8LZks0lG3zdxQoHkvSay+TlApgqywiGTQzGIz8WRQ6BNc/3Nvj8DRiOsS1ygn7NOIWMeWrPxhB5QG5J7tWa6U04u5ql95SiIRK2vz+odmXen9vEvCyDXtMUZehITSp0Ku888c/A=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1f78d72f-2e79-446b-a48d-08dee0c39f12
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB6229.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2026 09:46:32.9371
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: m+gOhdlIZSsSdUwjo8fOqDEPeWeiLZMiqNsHR2xg02pxndP5QCQ8cNpHXycMyGnqEkhs5vSe5w+IVVs5uGH5iQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR10MB5967
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-13_02,2026-07-10_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ spamscore=0 bulkscore=0 phishscore=0 lowpriorityscore=0 mlxlogscore=922
+ suspectscore=0 malwarescore=0 adultscore=0 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2606160000 definitions=main-2607130100
+X-Proofpoint-GUID: 1ztWc1WIlnO8xYtn_SfLOoGRNMOWvlWM
+X-Proofpoint-ORIG-GUID: 1ztWc1WIlnO8xYtn_SfLOoGRNMOWvlWM
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzEzMDEwMSBTYWx0ZWRfX4MZNFd3qtGbD
+ obNbX3K5/kZLvadgEXnOd9cphqmzSHkT/2isTXIcdWCqZr1jXEz0rtRBK5iiEkBb6Fty1/Qbt33
+ 1fMcV4zuIi2n7QqR+5NLWlzR3bTVFQEKvZEpFDhAF18rcN7hqoVm
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzEzMDEwMSBTYWx0ZWRfX5s8lBJ7oBqrN
+ +leqoQYagKxwLOkW9zDYe/uaO3JpKnerZaji2FhbjI+26J1iGJkqfIJqGxnusUwdb57CQE1XSAX
+ BSVZHc7wpmKN2aPaYkDvZBl081V4/BGdFySksVSzcmMc7CeJq4VI66YXHvMLC6lD/MNr0fbtcc8
+ OLuDXTy/32bRb24HKg7CY2hkZsRjvrVCV7lDv//P1nfWJQbSlpjmmfTz/yxEEoA4MKatBxsjiRl
+ 33TyDwb6XxKOnUQ46uIxhaA5oWRcfZV8/x3UjCyD5u+BRq040t6edNH/36+B24wvMB8OsTYtXiz
+ mv0aebFKE0OHvt71fiGTnN6PRZDFNSKJn26v8WF/bCH0/nY1Py2VF8cpN14xYP8N02XEVX9as/E
+ /HDEg2vIW6G7/zE+f4Gi2A94gHLbGep8nC3Xya7oxg6CmMsEQClTX/ya6SYHPBVZsPcQI1gJcx0
+ iSptM3Zl3MA9+QV4uwEUcXAECAxe16nSk7t0O/SU=
+X-Authority-Analysis: v=2.4 cv=c+Obhx9l c=1 sm=1 tr=0 ts=6a54b3fc b=1 cx=c_pps
+ a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=RAioF0-LDSMA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=jiCTI4zE5U7BLdzWsZGv:22 a=BqU2WV_vvsyTyxaotp0D:22 a=hxaqM1z6yEkJ6eaYAGAA:9
+ a=QEXdDO2ut3YA:10 a=5yU3S35YU4bGjq-dph-N:22 a=Bho9c0fBagfJEIQBS7DQ:22 cc=ntf
+ awl=host:12222
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260713_023049_181859_EEF3C858 
-X-CRM114-Status: GOOD (  35.58  )
+X-CRM114-CacheID: sfid-20260713_024647_309073_08953D60 
+X-CRM114-Status: GOOD (  12.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -59,243 +200,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jul 13, 2026 at 09:15:46AM +0000, John Garry wrote:
-> Sashiko bot reported a potential problem for the cdev lifetime in [0]
-> - the code there is heavily based on the NVMe code.
+On 13/07/2026 10:30, Christoph Hellwig wrote:
+>>   	.compat_ioctl	= compat_ptr_ioctl,
+>>   	.uring_cmd	= nvme_ns_head_chr_uring_cmd,
+>> @@ -666,10 +646,12 @@ static void nvme_add_ns_head_cdev(struct nvme_ns_head *head)
+>>   	snprintf(name, sizeof(name), "ng%dn%d", head->subsys->instance,
+>>   		 head->instance);
+>>   
+>> +	nvme_tryget_ns_head(head); /* Undone in nvme_cdev_rel() */
+> I think we need to do a real get and not a tryget here.
 > 
-> Currently the NS head .open and .release file_operations methods take and
-> put a reference to the nvme_ns_head to ensure that this structure does not
-> disappear while we open fds for that cdev.
-> 
-> In multipath mode, when we teardown the NS head, we call nvme_cdev_del() ->
-> cdev_device_del() -> cdev_del(). However after cdev_del() returns, cdevs
-> already open will remain and their fops will still be callable. As such,
-> we can still reference the cdev after the nvme_ns_head reference count
-> drops to 0 (and is freed).
-> 
-> This can be shown with a application which delays between opening the cdev
-> and issuing the ioctl while the NS head is being torn down:
-> 
-> # ./ioctl_file /dev/ng1n1 &
-> # waiting 10 seconds ....
-> 
-> # ./ini_nvme_teardown.sh
-> [   21.221718] nvme nvme1: Removing ctrl: NQN "nvme-test-target"
-> [   21.274609] nvme nvme2: Removing ctrl: NQN "nvme-test-target"
-> # now going to issue ioctl ....
-> [   26.549285] ==================================================================
-> [   26.550841] BUG: KASAN: slab-use-after-free in cdev_put.part.0+0x3d/0x40
-> [   26.552352] Read of size 8 at addr ffff88811e7fa170 by task ioctl_file/237
-> [   26.553805]
-> [   26.554227] CPU: 3 UID: 0 PID: 237 Comm: ioctl_file Not tainted 7.2.0-rc1-00004-g6852a10e32d4 #921 PREEMPT(lazy)
-> [   26.554236] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-> [   26.554241] Call Trace:
-> [   26.554245]  <TASK>
-> [   26.554248]  dump_stack_lvl+0x68/0xa0
-> [   26.554266]  print_report+0x10d/0x5d0
-> [   26.554276]  ? __virt_addr_valid+0x21d/0x3f0
-> [   26.554287]  ? cdev_put.part.0+0x3d/0x40
-> [   26.554292]  kasan_report+0x96/0xd0
-> [   26.554300]  ? cdev_put.part.0+0x3d/0x40
-> [   26.554307]  cdev_put.part.0+0x3d/0x40
-> [   26.554313]  __fput+0x7bc/0xa70
-> [   26.554322]  fput_close_sync+0xd8/0x190
-> [   26.554328]  ? __pfx_fput_close_sync+0x10/0x10
-> [   26.554337]  __x64_sys_close+0x79/0xd0
-> [   26.554344]  do_syscall_64+0x117/0x6b0
-> [   26.554351]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> [   26.554358] RIP: 0033:0x7f938c067727
-> [   26.554364] Code: 48 89 fa 4c 89 df e8 28 ad 00 00 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 1a 5b c3 0f 1f 84 00 00 00 00 00 48 8b 44 24 10 0f 05 <5bf
-> [   26.554369] RSP: 002b:00007fff49f05980 EFLAGS: 00000202 ORIG_RAX: 0000000000000003
-> [   26.554376] RAX: ffffffffffffffda RBX: 00007f938bfd7780 RCX: 00007f938c067727
-> [   26.554380] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000003
-> [   26.554383] RBP: 00007fff49f05a10 R08: 0000000000000000 R09: 0000000000000000
-> [   26.554386] R10: 0000000000000000 R11: 0000000000000202 R12: 0000000000000000
-> [   26.554389] R13: 00007fff49f05b40 R14: 00007f938c207000 R15: 000055c148471d78
-> [   26.554397]  </TASK>
-> [   26.554399]
-> [   26.575612] Allocated by task 100:
-> [   26.575871]  kasan_save_stack+0x24/0x50
-> [   26.576157]  kasan_save_track+0x14/0x30
-> [   26.576418]  __kasan_kmalloc+0x7f/0x90
-> [   26.576668]  __kmalloc_noprof+0x281/0x6c0
-> [   26.576938]  nvme_alloc_ns+0x7f7/0x3170
-> [   26.577206]  nvme_scan_ns+0x508/0x880
-> [   26.577449]  async_run_entry_fn+0x8c/0x350
-> [   26.577723]  process_scheduled_works+0xb6f/0x1a00
-> [   26.578034]  worker_thread+0x4ad/0xb40
-> [   26.578283]  kthread+0x34f/0x450
-> [   26.578501]  ret_from_fork+0x563/0x800
-> [   26.578752]  ret_from_fork_asm+0x1a/0x30
-> [   26.579012]
-> [   26.579124] Freed by task 237:
-> [   26.579335]  kasan_save_stack+0x24/0x50
-> [   26.579596]  kasan_save_track+0x14/0x30
-> [   26.579855]  kasan_save_free_info+0x3a/0x60
-> [   26.580131]  __kasan_slab_free+0x43/0x70
-> [   26.580388]  kfree+0x321/0x500
-> [   26.580591]  nvme_ns_head_chr_release+0x39/0x50
-> [   26.580883]  __fput+0x352/0xa70
-> [   26.581095]  fput_close_sync+0xd8/0x190
-> [   26.581350]  __x64_sys_close+0x79/0xd0
-> [   26.581595]  do_syscall_64+0x117/0x6b0
-> [   26.581842]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> [   26.582176]
-> [   26.582286] Last potentially related work creation:
-> [   26.582593]  kasan_save_stack+0x24/0x50
-> [   26.582841]  kasan_record_aux_stack+0x89/0xa0
-> [   26.583210]  insert_work+0x22/0x170
-> [   26.583442]  __queue_work+0x7b1/0xfa0
-> [   26.583682]  queue_work_on+0x77/0x80
-> [   26.583921]  kblockd_schedule_work+0x18/0x20
-> [   26.584207]  nvme_mpath_put_disk+0x42/0xa0
-> [   26.584632]  nvme_free_ns_head+0x1c/0x160
-> [   26.584904]  nvme_ns_head_chr_release+0x39/0x50
-> [   26.585208]  __fput+0x352/0xa70
-> [   26.585420]  fput_close_sync+0xd8/0x190
-> [   26.585677]  __x64_sys_close+0x79/0xd0
-> [   26.585924]  do_syscall_64+0x117/0x6b0
-> [   26.586173]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> [   26.586505]
-> [   26.586616] Second to last potentially related work creation:
-> [   26.586991]  kasan_save_stack+0x24/0x50
-> [   26.587246]  kasan_record_aux_stack+0x89/0xa0
-> [   26.587538]  insert_work+0x22/0x170
-> [   26.587770]  __queue_work+0x7b1/0xfa0
-> [   26.588010]  queue_work_on+0x77/0x80
-> [   26.588247]  kblockd_schedule_work+0x18/0x20
-> [   26.588529]  nvme_remove_head+0x3d/0xb0
-> [   26.588787]  nvme_ns_remove+0x4b2/0x930
-> [   26.589040]  nvme_remove_namespaces+0x29c/0x410
-> [   26.589340]  nvme_do_delete_ctrl+0xf3/0x190
-> [   26.589611]  nvme_delete_ctrl_sync+0x71/0x90
-> [   26.589889]  nvme_sysfs_delete+0x91/0xb0
-> [   26.590151]  kernfs_fop_write_iter+0x2fb/0x4a0
-> [   26.590452]  vfs_write+0x929/0xfc0
-> [   26.590688]  ksys_write+0xf2/0x1d0
-> [   26.590923]  do_syscall_64+0x117/0x6b0
-> [   26.591171]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> [   26.591498]
-> [   26.591605] The buggy address belongs to the object at ffff88811e7fa000
-> [   26.591605]  which belongs to the cache kmalloc-4k of size 4096
-> [   26.592409] The buggy address is located 368 bytes inside of
-> [   26.592409]  freed 4096-byte region [ffff88811e7fa000, ffff88811e7fb000)
-> [   26.593205]
-> [   26.593321] The buggy address belongs to the physical page:
-> [   26.593701] page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x11e7f8
-> [   26.594250] head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-> [   26.594743] flags: 0x200000000000040(head|node=0|zone=2)
-> [   26.595093] page_type: f5(slab)
-> [   26.595312] raw: 0200000000000040 ffff888100043040 dead000000000122 0000000000000000
-> [   26.595810] raw: 0000000000000000 0000000000040004 00000000f5000000 0000000000000000
-> [   26.596309] head: 0200000000000040 ffff888100043040 dead000000000122 0000000000000000
-> [   26.596806] head: 0000000000000000 0000000000040004 00000000f5000000 0000000000000000
-> [   26.597313] head: 0200000000000003 fffffffffffffe01 00000000ffffffff 00000000ffffffff
-> [   26.597813] head: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000000
-> [   26.598317] page dumped because: kasan: bad access detected
-> [   26.598676]
-> [   26.598784] Memory state around the buggy address:
-> [   26.599093]  ffff88811e7fa000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> [   26.599559]  ffff88811e7fa080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> [   26.600023] >ffff88811e7fa100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> [   26.600485]                                                              ^
-> [   26.600921]  ffff88811e7fa180: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> [   26.601390]  ffff88811e7fa200: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> [   26.601855] ==================================================================
-> [   26.602374] Disabling lock debugging due to kernel taint
-> 
-> When all fds for the cdev disappear, the cdev removal path puts a
-> reference to the parent object, which is the nvme_ns_head.cdev_device - see
-> cdev_default_release() -> kobject_put(parent).
-> 
-> Fix the lifetime for the cdev by making adding the cdev add take a
-> reference to the NS head and drop that reference in the
-> nvme_ns_head.cdev_device release function.
-> 
-> The same problem exists for the NS cdev lifetime, so resolve that issue
-> through a similar method by taking a reference to the NS for the lifetime
-> of the cdev. Note that nvme_ns_chr_open() -> nvme_ns_open() also takes a
-> reference to the NS. Now that should not be needed, but that code is
-> common to bdev ioctl, so keep as is.
-> 
-> [0] https://lore.kernel.org/linux-scsi/20260703102918.3723667-1-john.g.garry@oracle.com/T/#m67265e2906d617acd2743c0a00809246d0cfc506
-> 
-> Signed-off-by: John Garry <john.g.garry@oracle.com>
-> ---
-> Differences to RFC:
-> - common release method
-> - fix NS cdev lifetime (as well as NS head cdev lifetime)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index db0c8ad4628a7..ef5bbd5ce9270 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -3894,6 +3894,11 @@ static int nvme_subsys_check_duplicate_ids(struct nvme_subsystem *subsys,
->  static void nvme_cdev_rel(struct device *dev)
->  {
->  	ida_free(&nvme_ns_chr_minor_ida, MINOR(dev->devt));
-> +	if (dev->parent->class == &nvme_class)
-> +		nvme_put_ns(container_of(dev, struct nvme_ns, cdev_device));
-> +	else
-> +		nvme_put_ns_head(container_of(dev, struct nvme_ns_head,
-> +				cdev_device));
->  }
->  
->  void nvme_cdev_del(struct cdev *cdev, struct device *cdev_device)
-> @@ -3959,10 +3964,12 @@ static void nvme_add_ns_cdev(struct nvme_ns *ns)
->  	snprintf(name, sizeof(name), "ng%dn%d", ns->ctrl->instance,
->  		 ns->head->instance);
->  
-> +	nvme_get_ns(ns); /* Undone in nvme_cdev_rel() */
->  	if (nvme_cdev_add(name, &ns->cdev, &ns->cdev_device,
->  			&nvme_ns_chr_fops, ns->ctrl->ops->module)) {
->  		dev_err(ns->ctrl->device, "Unable to create the %s device\n",
->  			name);
-> +		nvme_put_ns(ns);
->  		return;
->  	}
->  	set_bit(NVME_NS_CDEV_LIVE, &ns->flags);
-> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-> index 56587ae59c7f7..820ec2576041a 100644
-> --- a/drivers/nvme/host/multipath.c
-> +++ b/drivers/nvme/host/multipath.c
-> @@ -630,28 +630,8 @@ const struct block_device_operations nvme_ns_head_ops = {
->  	.pr_ops		= &nvme_pr_ops,
->  };
->  
-> -static inline struct nvme_ns_head *cdev_to_ns_head(struct cdev *cdev)
-> -{
-> -	return container_of(cdev, struct nvme_ns_head, cdev);
-> -}
-> -
-> -static int nvme_ns_head_chr_open(struct inode *inode, struct file *file)
-> -{
-> -	if (!nvme_tryget_ns_head(cdev_to_ns_head(inode->i_cdev)))
-> -		return -ENXIO;
-> -	return 0;
-> -}
-> -
-> -static int nvme_ns_head_chr_release(struct inode *inode, struct file *file)
-> -{
-> -	nvme_put_ns_head(cdev_to_ns_head(inode->i_cdev));
-> -	return 0;
-> -}
-> -
->  static const struct file_operations nvme_ns_head_chr_fops = {
->  	.owner		= THIS_MODULE,
-> -	.open		= nvme_ns_head_chr_open,
-> -	.release	= nvme_ns_head_chr_release,
->  	.unlocked_ioctl	= nvme_ns_head_chr_ioctl,
->  	.compat_ioctl	= compat_ptr_ioctl,
->  	.uring_cmd	= nvme_ns_head_chr_uring_cmd,
-> @@ -666,10 +646,12 @@ static void nvme_add_ns_head_cdev(struct nvme_ns_head *head)
->  	snprintf(name, sizeof(name), "ng%dn%d", head->subsys->instance,
->  		 head->instance);
->  
-> +	nvme_tryget_ns_head(head); /* Undone in nvme_cdev_rel() */
 
-I think we need to do a real get and not a tryget here.
+ok, np.
 
-Otherwise this looks good.
+Then I am going to propose adding nvme_get_ns_head() also. It can be 
+used elsewhere and it would match better with nvme_put_ns_head() (rather 
+than using kref_fget(&head->kref) here)
 
 
