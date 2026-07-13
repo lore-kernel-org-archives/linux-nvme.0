@@ -4,146 +4,133 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0BBC5C43458
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jul 2026 09:20:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E15D7C44501
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jul 2026 09:29:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YKiAQpcpocLrynnbHYWnSs+Xau7JUQkxyzo5xsI2ME4=; b=2v4jv56k36xgfCaKDKoy2FOwEG
-	6jVNvw58stxmdL04gcFVGpaBbuUTTb8zsETC3rL8Jju+Ho9Hpspk4UAbgQNGMT6CoyHAR0cEhB9yS
-	aQZSqtrR6U3WsMfooHMqlMQ5B5KtS3Ig1HDzJQR909AbK+2ACFMRwK+WRfPEyp+37VCs04f4qo7GI
-	Lyt29gms2yLjtkgJpVppy4Wj1o/Y0IniAY0ImA+Lx8jOIf94939Qcz8GM7YscszFZ+kN5/Lj9FXUF
-	GVYE91DavVslp4teLLgTTzpM/pXNgQVzvts9qxfQnCc5MsXrYWFSP4Y0sHiW1e8Yj6tpVVG9TbVwR
-	Z5jz0WmA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=y9gcUkxCkRN2ZaCCFrl4N86ehymkTSYCDoMlEuWqjAE=; b=bD5MkOT0zccc8RLYo2/GLWtMqY
+	xft7NEs5b5aXXRisySJPSQBGtx/0sq0Z04ivdHqmReKTdkVbsTF3HuMYiuwIdUjrUPXK+LJf3OMtv
+	3g+KJpa4zPa9OOhgdRX8+PFI6FV6EeYOKjDnpFQkfnaW9fiSNWvg9WI/h85uWZlcIRWvq7IZrta7O
+	ClHi+YMsC3URWqFKS7uhC4Okezq0byINrp+HxkwlfaCJLl1xj+MVUrGVCGdX2eT9DUGvxqO30Gn24
+	IT+Pev/KO+XXVhzje7gX0KHj6jYnm3AkgEVjIZVfX6d9GYd7uNCbx90W0meyX36uobuglc/m+ttan
+	iFExkGKg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wjCpp-00000008i4W-07LL;
-	Mon, 13 Jul 2026 09:20:21 +0000
-Received: from mail-eastus2azon11010018.outbound.protection.outlook.com ([52.101.56.18] helo=BN1PR04CU002.outbound.protection.outlook.com)
+	id 1wjCyt-00000008jf3-0NFe;
+	Mon, 13 Jul 2026 09:29:43 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wjCpl-00000008i2f-3E76
+	id 1wjCyn-00000008jYB-49i0
 	for linux-nvme@lists.infradead.org;
-	Mon, 13 Jul 2026 09:20:19 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CPwx9tu90c9w1shAmTUVb/p7OmWRbC0uhU5n2gOq2cZN7959iWp8zf6VVStDrm3oEI0wGbjm3OB88VdEwMPl2M90reuei0ZsVHN12pdbhDasW4AX/DaSQLgTegtut5gsQD93n9lx4w9v5LOYU81aGZymR7a8/pzVhqtdUZVRv+3fsQ6FCPIM4BB78bNSJcz44w43XP103d7cG+7KJlvgfetsmix84rbzuiMYaDU5HQNlDWekCkfNLr3IBbxK5sIfUfjJ1UmYkIPCJUjYGzpNfiUdPcdMOTrOTvfnQyQjyOKEWb0ooqa/4wrx2fv4quSBYrkBTobERWcZb8tGPRy/4A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YKiAQpcpocLrynnbHYWnSs+Xau7JUQkxyzo5xsI2ME4=;
- b=oCF9KjC3KBICwySvZVSZlA7lGWXN/1rh+tEtO2G0+Ym+gsQ6NSH96qHOdn9dxA91GDtLW5zDQ2DDN2WIk3NOgoBz+na7X5O6nfKzrYiyC/yue5OXB7TZ7+PnR8dbHCvSmkUh9DYEsaqbuvBtkzsq8et1gHFPNPe/PtLS6kxM9vTpx1/+d/n8toSZhusynjGN6a1q4bcyUYLxm1mu/FnVSX3brDDUXpJmX6b3zKg5UU2uwAUSAUMz98wI2nzfJeovxKCg19Q2sMdK7wKtmnioVjLhOd53T/cARqMn/xPu9ZbVjxczAIXmVb/bSce9LRMk3Wtl2cwomdS1k6JVaboaqA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YKiAQpcpocLrynnbHYWnSs+Xau7JUQkxyzo5xsI2ME4=;
- b=ZLgeT/E6NcZcWllcnqn70i7jHCCbSWFesB8j5mgq7+/Wybjy4qxynB8C6hxA2etCVySzmDW+wdnrrQ/1ML2dnSVqFVtuNQu8PLlKdrO9bIo9PguzZjZDU/9suA6APGlbbBadfT26UvTl4cgIdmHh05lBQOBG2T2E+T8x3eSGbTg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by MW4PR12MB6973.namprd12.prod.outlook.com (2603:10b6:303:20a::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.202.19; Mon, 13 Jul
- 2026 09:20:11 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.21.0202.014; Mon, 13 Jul 2026
- 09:20:11 +0000
-Message-ID: <49b4c4e0-d0a0-4301-afc6-5f6acf5e9424@amd.com>
-Date: Mon, 13 Jul 2026 11:20:01 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 00/10] Add dmabuf read/write via io_uring
-To: Christoph Hellwig <hch@lst.de>, Pavel Begunkov <asml.silence@gmail.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Nitesh Shetty <nj.shetty@samsung.com>,
- Kanchan Joshi <joshi.k@samsung.com>, Anuj Gupta <anuj20.g@samsung.com>,
- Tushar Gohad <tushar.gohad@intel.com>,
- William Power <william.power@intel.com>, Phil Cayton
- <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>
-References: <cover.1777475843.git.asml.silence@gmail.com>
- <20260713071828.GB30168@lst.de>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20260713071828.GB30168@lst.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR5P281CA0011.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:f2::19) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	Mon, 13 Jul 2026 09:29:39 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0975177653;
+	Mon, 13 Jul 2026 09:29:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1783934976; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=y9gcUkxCkRN2ZaCCFrl4N86ehymkTSYCDoMlEuWqjAE=;
+	b=wmWjcdrQtwWtJIeyLq2t5fcwg5iX2uJajA/r/0RMTrEjlLscL3f4QsEFByBg3/2ReeQJYt
+	FdU4qmXkDN98inPHlgV1owGzGkEbXZkw2ln0WTBPPuMj5ziyiqJjnljKAyYfNY4CuX1n1a
+	jLomKU0J4eYnu+ZCUTEfDTO75sA1oTk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1783934976;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=y9gcUkxCkRN2ZaCCFrl4N86ehymkTSYCDoMlEuWqjAE=;
+	b=+Z8PIDeglO+Dj12Ww+r+s63GWL/dREZ5YhTFEjHue5szurCi8eQEz8zyOim1Z/6XbntnUP
+	y+EzIprM/3lPc5BA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1783934976; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=y9gcUkxCkRN2ZaCCFrl4N86ehymkTSYCDoMlEuWqjAE=;
+	b=wmWjcdrQtwWtJIeyLq2t5fcwg5iX2uJajA/r/0RMTrEjlLscL3f4QsEFByBg3/2ReeQJYt
+	FdU4qmXkDN98inPHlgV1owGzGkEbXZkw2ln0WTBPPuMj5ziyiqJjnljKAyYfNY4CuX1n1a
+	jLomKU0J4eYnu+ZCUTEfDTO75sA1oTk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1783934976;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=y9gcUkxCkRN2ZaCCFrl4N86ehymkTSYCDoMlEuWqjAE=;
+	b=+Z8PIDeglO+Dj12Ww+r+s63GWL/dREZ5YhTFEjHue5szurCi8eQEz8zyOim1Z/6XbntnUP
+	y+EzIprM/3lPc5BA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B7312779AE;
+	Mon, 13 Jul 2026 09:29:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id U0pALP+vVGpCdwAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 13 Jul 2026 09:29:35 +0000
+Message-ID: <0ded62a6-b3da-4790-adf0-566ded30ee43@suse.de>
+Date: Mon, 13 Jul 2026 11:29:35 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MW4PR12MB6973:EE_
-X-MS-Office365-Filtering-Correlation-Id: 19b2df55-2d77-4a20-7cc7-08dee0bff094
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|23010399003|7416014|366016|1800799024|18002099003|22082099003|4143699003|56012099006|11063799006;
-X-Microsoft-Antispam-Message-Info: Maa6C0aIAEqIxiKREQcKjsXtpqN5WbTixaqoWHINISpoQwrpPoO+0WRKMHOw6LblHPp7Rx7r9Dy50/RB/lsQFqT2Y+l/OKCgAl1HZk6FPRfBB6cR1LPyGMrtwsf2qsARC1C7zWZzZg8CCLIjsHBFuHDZ8arkDfE+RAgvwAKiQcEvND1voahvJi0cUthnFfeKlZKg0So3wWqAzbN0ysW7P4tHZosH9DbwyTB7w3z/1F4VkgAKuz2afQxGaTEWzfvGk3wffyj7sisiDuW/MfU9macu6eXy8t6oTxWZh+7XNDkrIdnT9epWV3FSiO4de6suPW9vupzMRW3VV3au3KHI3/qZamDuTj45rrZfApAtY1m0DPfN6irszDyvw/lPeeVz0uVlOR1J299bZ87nBUgjX0wrhb54RW2Tqb0bML+ymyPJ1GSn+zCbBkdFbxa3W06iLPl1Rv3F+oXwemWNdggBS4Qw6D0b3e3Z0WMqyJfCJPz0OpyztMZNylIYVr4YdksGbJRr/broCxcuQ3ZIn6+PcCe1WmOL6r+dJX8YZjGvX3Y9OE/s2sNrudaN/S165faI5KHMbe7zJap/lnu+EcMvPJEeYWt7vyIE3u9cAOxEP7i3dgeJqNrJdWt0enRyS10EqhX6AZ/HLF87mfvAZqzWyYgtlm5cqBnYVXzIIh0rl4g=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(7416014)(366016)(1800799024)(18002099003)(22082099003)(4143699003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QlZZOEU4S0Y4NGJyUy9ibGltU0RpZWtRNjBFL3JwVGNIUU45SmE5VHlVai9x?=
- =?utf-8?B?b3psM3VNN2VKWFo4a0FIMkpwbXdaODBJUDRCTjN6Nk5mNlJ1SmtqWThxYUw1?=
- =?utf-8?B?UnY0RkYrcHc4WUdpVlgwQnlzajJGSGM3SjhIWkVFKzJTUzhWaSt4Q0NKaTJy?=
- =?utf-8?B?bUdGUUQxSnh0RENHRGFwZll0Q2ZRZ24xSkxaVHhNYkZOdmJMOGc2N2grSUpR?=
- =?utf-8?B?bGtGOFFsRmxSM2ZSY2pZM3I3UXVwa2VaMmFIN0pzUi9GY0NYVHhCVHpLUHYv?=
- =?utf-8?B?bnYzemVkUnI3eFBQYzlGWVJWby9LT0tSMkRIa0pUaDE1TjY1WHlJTW5QUkVU?=
- =?utf-8?B?R29ZODJmK1pZT2pKNGZMR3N1YmRob3FTTVM3TGV4b1ZEWmR4SG56amhyL01s?=
- =?utf-8?B?Q1RmTTQ2bzlEcDY0UndCa09lY25MMitUL1Bod05weURsbnVkdkRzTnhVM0lV?=
- =?utf-8?B?WGFDOG1SZDVDOGYrTGpRTlM2SlFmekV0aXEwaXZGQ01YblhJMXNjOElNZXJD?=
- =?utf-8?B?bExLYUw0bHF6cC9wNzI3bklZTzMraGk5Rk4zTjExYjZlbk1jS0NaOFBlbkIr?=
- =?utf-8?B?Rkw3UmdPOUxvNDZVM1hnTnNtUGVLSVRMaHhvcXM2Szh5V01vR0hZZmovRS80?=
- =?utf-8?B?cHNocS85VjIwVHpxNnhHcmJuMDFDTFNxRUVpM2hwQ1Ivdi8vYUJnZ2R6U1Fj?=
- =?utf-8?B?UzFMM2xocnJMUzNQbUpBWENaN1ZaSnN4eUlqNFI0ZmpldFBhYUZyT1VmVURl?=
- =?utf-8?B?REhSSURlWHZJVWlkYXI0eVJCYVpVekdWTGxERWNENUxmcU1rUkc1dHdmVzdm?=
- =?utf-8?B?M2RKZmRySk1Bd1N3VnN1MFF6NXMzbUQyV0lZeWN2MDBwZUl5VStTdVAvTUlS?=
- =?utf-8?B?YkdUMm1ZQ3JWMExhWnpCSHFUTzYxcDJKY3FqelU3WDBQMngxNmNBSHlMYmdU?=
- =?utf-8?B?VmJhMFVXZElUSDJUUklmSFhMN09DQ29VeWsveDBYTjJhc2owOTZ4MDA0eFcv?=
- =?utf-8?B?blN3YWppeHIxcmF3VmNIN1dPM3pnNVVQZHJjMnZBRVV0Q2JmM1pEWUgwTUI4?=
- =?utf-8?B?VEtZOUY5aHIxQmQvakdSdndOQ01QVnVLYi9aWG1jcXF2Rk9oa3pZbzBXdXNq?=
- =?utf-8?B?OVFJU2NLZktkcytmTkZkUTdIL2VxRzRvSytnL3BQTXpyODNkN2dNL3VXRHJR?=
- =?utf-8?B?SURybEpwWk52Wi9hbkViaVRDZUZEUSs2L3g3RTJvMDVjMVFiQjhlU1RVMDh4?=
- =?utf-8?B?MmttZWdwUVBSSzd0TXh5bW1FNjdvdEJJeGltNCtCQi9JMWdxdzliUnJJNUVP?=
- =?utf-8?B?aW9nNks1Nmp1bWxoMUlMSEdXa3hWcGtobXZYSnlvVk9DTFh5emRXMS9UcVh0?=
- =?utf-8?B?SFE3SHVod3hxNm5oRXE3RkhpbVo5VFlDckV1c0Fwek84MjZEaU5OVmFLaGhs?=
- =?utf-8?B?OThSZDlkaGhybU5ZTzdBS05SSUJiSW00aXplSFBqUW16dUFCbVd6b25lbzdC?=
- =?utf-8?B?RUQwN2I5eHFpVFV6YmNESGNmSlJlaGhaeUJFQzVSZm9QT3ZzOTc0WlV5QnB4?=
- =?utf-8?B?VW16ZWNLSWdDVi92cktBalA2L0I5UGFtWXYya2Z2V0lUOEN1SHdpSmdqSHZq?=
- =?utf-8?B?bkpHLzNGY0IwbzVNV2FkdEZwSVJ0ekh1b09rN0xaVUxteExub0lVMnFRZFlV?=
- =?utf-8?B?YWtPa3NmQVZENjBWZ3cvV1MxdjRVNlpacGZuSTVSMHg5S2lPRTBzSUdGRm5v?=
- =?utf-8?B?OEtUSDQxcnBMRC9hbG5hQ0ZiWFpMUWRjbU52amxzV3FuaFZzM1JlS3JnRXpa?=
- =?utf-8?B?VnFiRWw5YlVuRit3VmJ3R0p5RjJIQ291SmNGYUVTR2VpZGRmcUhrekFHQXNS?=
- =?utf-8?B?VzFOalVsK1VZZXByWExIOGViMGtqbU96akRRZ2xnYzVOZjhSVUtsOHlBQVRT?=
- =?utf-8?B?M1hRRDRmZTFuUC9TV3dTUklGZ1hwY3k5SENsOFpPUmdzZkN4eDdIVVpFODZZ?=
- =?utf-8?B?UkhrM1FIVXZFUUJ5YlJxR1BJVFljS29JSWdCTUgzRTJlSE9aNGV6OEQyaTRn?=
- =?utf-8?B?QUNMbjZUMkljQjUzdkwrQkFjN3UvbFlFM1k3a0NqVldpdG9qMWxMNDk0U2k0?=
- =?utf-8?B?YXdVbnZ6dHdCcFlJNm40dnMwNXgzcGhEWmNoY0tLc0dJSk02SzB6TnB3TmFK?=
- =?utf-8?B?U2RBbUZ5Y3k0OG9sRVBRUnZNOEs3S2t5bjhmL1cxdWFtT2JMSS8rcU1HOENV?=
- =?utf-8?B?N2U3Q2QvWEovZUw1Q2RLN2xBWHo3NFhjRnBLRDRhbzM3ZzNzVE8zRlo4UDA2?=
- =?utf-8?Q?NQF5UXo/cbVDCVBchz?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 19b2df55-2d77-4a20-7cc7-08dee0bff094
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2026 09:20:11.6336
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BqF35hSEX2A8JC8BZmm3J/p6xURQIdzOgnmvbZwr6oRn/3dZYNNuXP9vh4B8xsxH
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6973
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v1 01/17] nvme-multipath: retarget failedover bios
+ from requeue work
+To: Yu Kuai <yukuai@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Tejun Heo <tj@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>, Alasdair Kergon <agk@redhat.com>,
+ Benjamin Marzinski <bmarzins@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+ Mikulas Patocka <mpatocka@redhat.com>,
+ Dongsheng Yang <dongsheng.yang@linux.dev>, Zheng Gu <cengku@gmail.com>,
+ Coly Li <colyli@fygo.io>, Kent Overstreet <kent.overstreet@linux.dev>,
+ Josef Bacik <josef@toxicpanda.com>, Yu Kuai <yukuai@fygo.io>,
+ Nilay Shroff <nilay@linux.ibm.com>, linux-block@vger.kernel.org,
+ cgroups@vger.kernel.org, linux-nvme@lists.infradead.org,
+ dm-devel@lists.linux.dev, linux-bcache@vger.kernel.org
+References: <20260704195124.1375075-1-yukuai@kernel.org>
+ <20260704195124.1375075-2-yukuai@kernel.org>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20260704195124.1375075-2-yukuai@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[lst.de,kernel.org,grimberg.me,redhat.com,linux.dev,gmail.com,fygo.io,toxicpanda.com,linux.ibm.com,vger.kernel.org,lists.infradead.org,lists.linux.dev];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	URIBL_BLOCKED(0.00)[fygo.io:email,suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[fygo.io:email,imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260713_022017_817849_8305CA76 
-X-CRM114-Status: UNSURE (   9.70  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260713_022938_184394_3AD97CDB 
+X-CRM114-Status: GOOD (  23.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -158,15 +145,71 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/13/26 09:18, Christoph Hellwig wrote:
-> Hi Pavel,
+On 7/4/26 9:51 PM, Yu Kuai wrote:
+> From: Yu Kuai <yukuai@fygo.io>
 > 
-> do you plan to resend this series?  A lot of people are eagerly waiting
-> for it to land.
+> bio_set_dev() is about to become explicitly sleepable because it can
+> associate the bio with a blkg for the destination queue.  NVMe failover
+> can run from request completion context, and nvme_failover_req() also holds
+> head->requeue_lock with interrupts disabled while it steals bios from the
+> failed request.  Calling bio_set_dev() there is not safe once the helper is
+> allowed to sleep.
 > 
+> The requeue lock only protects head->requeue_list.  Keep the list
+> manipulation under that lock, but defer retargeting to nvme_requeue_work(),
+> which already drains the list from process context before resubmitting each
+> bio.  The bios remain private to the requeue list until the worker pops
+> them, so moving the device switch there preserves the existing retry flow
+> while avoiding a sleepable helper in completion context.
+> 
+> Signed-off-by: Yu Kuai <yukuai@fygo.io>
+> ---
+>   drivers/nvme/host/multipath.c | 4 +---
+>   1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+> index 9b9a657fa330..76baa180ae1c 100644
+> --- a/drivers/nvme/host/multipath.c
+> +++ b/drivers/nvme/host/multipath.c
+> @@ -149,7 +149,6 @@ void nvme_failover_req(struct request *req)
+>   	struct nvme_ns *ns = req->q->queuedata;
+>   	u16 status = nvme_req(req)->status & NVME_SCT_SC_MASK;
+>   	unsigned long flags;
+> -	struct bio *bio;
+>   
+>   	nvme_mpath_clear_current_path(ns);
+>   	atomic_long_inc(&ns->failover);
+> @@ -165,8 +164,6 @@ void nvme_failover_req(struct request *req)
+>   	}
+>   
+>   	spin_lock_irqsave(&ns->head->requeue_lock, flags);
+> -	for (bio = req->bio; bio; bio = bio->bi_next)
+> -		bio_set_dev(bio, ns->head->disk->part0);
 
-Seconded, we have a lot of people desperately waiting for that.
+If you remove this the original device remains being referenced by
+the bio, so there might be a chance of some accidentally referencing
+the (now invalid) bdev.
+I think it might be better if you were set it to NULL here, to
+signal that this bio currently has no bdev associated.
 
-Thanks,
-Christian.
+>   	blk_steal_bios(&ns->head->requeue_list, req);
+>   	spin_unlock_irqrestore(&ns->head->requeue_lock, flags);
+>   
+> @@ -684,6 +681,7 @@ static void nvme_requeue_work(struct work_struct *work)
+>   		next = bio->bi_next;
+>   		bio->bi_next = NULL;
+>   
+> +		bio_set_dev(bio, head->disk->part0);
+>   		submit_bio_noacct(bio);
+>   	}
+>   }
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
