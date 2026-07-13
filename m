@@ -4,122 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 133C1C43458
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jul 2026 13:44:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B6670C43458
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jul 2026 13:53:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=l8p/r9X/3sB97OQMdgXBNhLhxcy8rDVOhPop0ZQMwrM=; b=u470FmPKjckQ6M+LEeqx9RbQHW
-	xlraKPh6g6SdLCug+NgTgkonJEK4Th1+C4C25gRznEmDzUCC56j5LaESsaBUnZaklMfO8mcY4CDwW
-	HixsG/UrbI9SIvgkKTYaQEbbjAjCE2cr0RleAlsJfHN/w7xUK+AfsCvfe1/NbaTv5nRAoSbn2y8za
-	MnGZjNUxC9sIvCZfYaNv9tMIoVw70EJq/By+rWKupCYKqpf00SSWF2slFGZJILVa40XkQb8+N4u2h
-	V1MAYFX+iB5nQRvkYE0HsQHlHUtiUJHFQL67oRyw9Y2UfTp/5jbc5vMRknaCjLjGvtbEl/GRBbgcF
-	rf+fFNSg==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=7nKmdJsZXj3PQNWY4N5hkaiukT/lD+jmSZiBy2imvhw=; b=LG+krY9fr6VWqliMaBdzs6HD87
+	Zo0NdYRZcYL2SzwJna9e/sf1ldokKYSTTSowaJZd2o0u+Bcl48a50dr4pdgBtFX9qAcVoSqi6ng9F
+	YmYuhIiqV4WVCOQdgJbDzBjiQXjNa98t+tOWNCPI52RcD1Hem2VsMslzKEYVYpRL0WHmBTkCLUoVX
+	OhWo4Ng55hqovRLVoH5iVYmcSIzlWEZRpzPuiu/DBlE+yYxVJtD7fNHGnoLR3De1Ba33A1VWJ/N5C
+	hJtDm2YNwEpfw2zYUSTNyFvXnQSZ+Clm4/Q6UZHn9MKlfj21ydSf4RJbqyM7TQ8tn/i5YYmNyx4KI
+	8zgNO0bw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wjGxa-00000009RBS-2tOZ;
-	Mon, 13 Jul 2026 13:44:38 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1wjH68-00000009ScV-2mrj;
+	Mon, 13 Jul 2026 13:53:28 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wjGxY-00000009RAQ-0unM
+	id 1wjH66-00000009SbK-1sRE
 	for linux-nvme@lists.infradead.org;
-	Mon, 13 Jul 2026 13:44:37 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 4AD8D77515;
-	Mon, 13 Jul 2026 13:44:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783950274; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=l8p/r9X/3sB97OQMdgXBNhLhxcy8rDVOhPop0ZQMwrM=;
-	b=X20Iywa8egx10cSL4Egcp7P8IaYiiLxnQcUM933ZifyqrzjNduPMS6b4VbEb9+eb+WDxD3
-	zoTRscnz1uh7f28eY3Ti0I+pKhLQGrFroiNo0jQH/8FhzlzV5AUiyOezaye/LbOCOZMzkL
-	EP8kHnc/Pa629BCAzlFFE/KOwKXqZ3Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783950274;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=l8p/r9X/3sB97OQMdgXBNhLhxcy8rDVOhPop0ZQMwrM=;
-	b=zOUXNRZJakZ1cMExs5tglJPgNyRZbbjBYpwJgmrFQBdYDaINkoPKNp3ZeC3ipZ+jUOKvFw
-	hK55OyR15DALxACA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783950273; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=l8p/r9X/3sB97OQMdgXBNhLhxcy8rDVOhPop0ZQMwrM=;
-	b=MyW5C6lQgXOm4uCUEav3mqsBiU3K1u8oecCAK19iHDchQpWNk8fgxcHn6Ppi903XmfBDib
-	ZzXM/2XV8Oarb5I67mlOob22lDEwvgvYI+4KGRBr7gvFwS/ou9zKHR0kPs5wG2XTnFtzPW
-	stiTqoCJywF0pyu8jCNc97+eP2Fafxc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783950273;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=l8p/r9X/3sB97OQMdgXBNhLhxcy8rDVOhPop0ZQMwrM=;
-	b=7rnyXAyiIZinbZX2hlR8IvH4d4plCCY04jhnvYew+jxsiJycibGY+PTZkhklMtTjCNB/fM
-	FySVzEiG9mVqm/Ag==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 380B1779AE;
-	Mon, 13 Jul 2026 13:44:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id dR5GDcHrVGqIfgAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 13 Jul 2026 13:44:33 +0000
-Message-ID: <0492bbee-a89e-45ba-b874-77ecb70be6ca@suse.de>
-Date: Mon, 13 Jul 2026 15:44:33 +0200
+	Mon, 13 Jul 2026 13:53:26 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id BBE8960120;
+	Mon, 13 Jul 2026 13:53:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 077B51F000E9;
+	Mon, 13 Jul 2026 13:53:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783950805;
+	bh=7nKmdJsZXj3PQNWY4N5hkaiukT/lD+jmSZiBy2imvhw=;
+	h=From:To:Cc:Subject:Date;
+	b=XqGxzhxOHVCN1NMQtmKPGM+6eFnyiBevLacxYJN2VvwJqBzLwhyHXOZBIQ5As+qr9
+	 qRPEVe9mGRjUG2l9SlBUH93Qp60rwt7cTX5rx9HfbS/jE8O0ZCefB85j4ds8dRk7pm
+	 GBOPe9UoOu9ir18SJhC+uk/roViSiU4e26mGx7u/bL75uWoLB3rvGdu1LE2CvVKiYv
+	 81nWK1aJ6qJW5L/wyLaTAWIkloHfumNxHxXclLTx5cwgfOixszrQHkqnO9cHR5xk15
+	 jVBzPkuumiVBTEdin/MsgvGvNr7oZvwb7RMWtM41GiwrrUV/mqcREOS6kA8vn0owS2
+	 m4/tJCZQqcz2w==
+From: Hannes Reinecke <hare@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Daniel Wagner <wagi@kernel.org>,
+	linux-nvme@lists.infradead.org,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	Hannes Reinecke <hare@kernel.org>
+Subject: [PATCHv2] nvmetcli: store DHCHAP attributes
+Date: Mon, 13 Jul 2026 15:53:18 +0200
+Message-ID: <20260713135318.125238-1-hare@kernel.org>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvmetcli: store DHCHAP attributes
-To: Daniel Wagner <dwagner@suse.de>, Hannes Reinecke <hare@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Daniel Wagner <wagi@kernel.org>,
- linux-nvme@lists.infradead.org, Sagi Grimberg <sagi@grimberg.me>,
- Keith Busch <kbusch@kernel.org>
-References: <20260713104657.121217-1-hare@kernel.org>
- <2b897a12-e265-40c5-8e48-b546cd606940@flourine.local>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <2b897a12-e265-40c5-8e48-b546cd606940@flourine.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-8.30 / 50.00];
-	REPLY(-4.00)[];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.997];
-	MIME_GOOD(-0.10)[text/plain];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid]
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260713_064436_424994_E330AD60 
-X-CRM114-Status: GOOD (  13.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -134,41 +69,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/13/26 2:16 PM, Daniel Wagner wrote:
-> Hi Hannes,
-> 
-> On Mon, Jul 13, 2026 at 12:46:57PM +0200, Hannes Reinecke wrote:
->> From: Hannes Reinecke <hare@suse.de>
->>
->> The DHCHAP authentication is stored under hosts/, and are starting
->> with 'dhchap_'. So add a 'dhchap' attribute group for the host object
->> to correctly save and restore DHCHAP values.
->>
->> Signed-off-by: Hannes Reinecke <hare@suse.de>
->> ---
->>   nvmet/nvme.py | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/nvmet/nvme.py b/nvmet/nvme.py
->> index faf1eb2..80d3953 100644
->> --- a/nvmet/nvme.py
->> +++ b/nvmet/nvme.py
->> @@ -1013,6 +1013,7 @@ class Host(CFSNode):
->>           '''
->>           super(Host, self).__init__()
->>   
->> +        self.attr_groups = ['dhchap']
-> 
-> Would you mind also extend the test case?
-> 
-Sure. Will be looking into it.
+The DHCHAP authentication is stored under hosts/, and are starting
+with 'dhchap_'. So add a 'dhchap' attribute group for the host object
+to correctly save and restore DHCHAP values.
 
-Cheers,
+Signed-off-by: Hannes Reinecke <hare@kernel.org>
+---
+ nvmet/nvme.py       | 1 +
+ nvmet/test_nvmet.py | 2 ++
+ 2 files changed, 3 insertions(+)
 
-Hannes
+diff --git a/nvmet/nvme.py b/nvmet/nvme.py
+index faf1eb2..80d3953 100644
+--- a/nvmet/nvme.py
++++ b/nvmet/nvme.py
+@@ -1013,6 +1013,7 @@ class Host(CFSNode):
+         '''
+         super(Host, self).__init__()
+ 
++        self.attr_groups = ['dhchap']
+         self.nqn = nqn
+         self._path = "%s/hosts/%s" % (self.configfs_dir, nqn)
+         self._create_in_cfs(mode)
+diff --git a/nvmet/test_nvmet.py b/nvmet/test_nvmet.py
+index 13e2f6c..086d7bc 100644
+--- a/nvmet/test_nvmet.py
++++ b/nvmet/test_nvmet.py
+@@ -426,6 +426,7 @@ class TestNvmet(unittest.TestCase):
+         root.clear_existing()
+ 
+         h = nvme.Host(nqn='hostnqn', mode='create')
++        h.set_attr('dhgroup','ffdhe2048')
+ 
+         s = nvme.Subsystem(nqn='testnqn', mode='create')
+         s.add_allowed_host(nqn='hostnqn')
+@@ -475,6 +476,7 @@ class TestNvmet(unittest.TestCase):
+         self.assertEqual(n.get_attr('device', 'path'), NVMET_TEST_DEVICES[0])
+         self.assertEqual(n.get_attr('device', 'nguid'), nguid)
+ 
++        self.assertEqual(h.get_attr('dhchap', 'dhgroup'), 'ffdhe2048')
+         self.assertEqual(p.get_attr('addr', 'trtype'), 'loop')
+         self.assertEqual(p.get_attr('addr', 'adrfam'), 'ipv4')
+         self.assertEqual(p.get_attr('addr', 'traddr'), '192.168.0.1')
 -- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+2.51.0
+
 
