@@ -4,50 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E0A1EC43458
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jul 2026 06:43:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CEA71C43458
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jul 2026 06:44:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=v4cU/NZK01rE5/nCeoLExSdFIt
-	EybX1Aww0Ic9pHSjNNhmYkVTn7mNppa/BgT0clY5K3eoDNwmBUbb8c7x8cgX4vaek5A2gzDKHjfG6
-	cZx/LRrK7+8hssI09DBMvhYDdrbVqotQvBDKT899DfHe87n8JHSyeqqVXkG5urwcKDArR2+3zGzmK
-	dF369mRBUzKEGkOGQR0Ok903EEEAJMzjUZHWxSj4Brn+I5641idSkw1Tq6cMwak0KXuHk9iIxW163
-	K0QTZ9wCveHATED5oRmTzSvCILdQwL2wgrMtc7ubg+l+21Bo+qVK4GUKSB6NrkLhonHY+RaeSXi+d
-	pwgBA8kA==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=V5sMgGPE8G3zpY+T4f2+gAFf86
+	d4rZ3suor77ueB4osRBGnhy0ValAvstmoeHDf8lIQsVGY7UgqN02uuLOF/lTYRLEcqOFT7GZiCnEY
+	5q41oYGIqk1ou+TdusFHB5VHz8W8uF6HI4t3C2yn9BvwVzNreRq6qT9CExSdgoDDQIWPVCJeJqLc4
+	hT7sPxj5PMOH5KudHeqAc1xXT+dy1teXsIfgPGzCA5HCZX8snfneiuBUpiLrYD+yAlFTkH8d27cKF
+	MvvFePpdsaQkjsTsH7OmolO3BtTLCVsuKUiWnR/xIN0TPLwSyy9rCl8CAAkdhJzd/nZbPG3cG1vXr
+	5Uwo9KUQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wjAO5-00000008IIb-1Rcy;
-	Mon, 13 Jul 2026 06:43:33 +0000
+	id 1wjAOh-00000008INt-2NRH;
+	Mon, 13 Jul 2026 06:44:11 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wjAO2-00000008II4-2PsV
+	id 1wjAOe-00000008INQ-3DsZ
 	for linux-nvme@lists.infradead.org;
-	Mon, 13 Jul 2026 06:43:31 +0000
+	Mon, 13 Jul 2026 06:44:09 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id A5CD368BEB; Mon, 13 Jul 2026 08:43:27 +0200 (CEST)
-Date: Mon, 13 Jul 2026 08:43:27 +0200
+	id 0A47E68BEB; Mon, 13 Jul 2026 08:44:06 +0200 (CEST)
+Date: Mon, 13 Jul 2026 08:44:05 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Hari Mishal <harimishal1@gmail.com>,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH 2/2] nvme: clamp FDP nruhsd to allocated RUH status
- descriptor count
-Message-ID: <20260713064327.GD29416@lst.de>
-References: <2026070931-stopping-cost-239a@gregkh> <2026070932-fried-frying-9c36@gregkh>
+To: Ibrahim Hashimov <security@auditcode.ai>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] nvmet-tcp: bound SGL data length before allocating
+ command buffers
+Message-ID: <20260713064405.GE29416@lst.de>
+References: <20260709132533.44195-1-security@auditcode.ai>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2026070932-fried-frying-9c36@gregkh>
+In-Reply-To: <20260709132533.44195-1-security@auditcode.ai>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260712_234330_781790_4F002494 
-X-CRM114-Status: GOOD (  10.33  )
+X-CRM114-CacheID: sfid-20260712_234408_955981_6352B908 
+X-CRM114-Status: UNSURE (   8.86  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,5 +65,4 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 Looks good:
 
 Reviewed-by: Christoph Hellwig <hch@lst.de>
-
 
