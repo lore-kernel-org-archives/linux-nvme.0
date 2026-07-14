@@ -4,173 +4,100 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0C381C43458
-	for <linux-nvme@archiver.kernel.org>; Tue, 14 Jul 2026 11:25:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1BEB5C43458
+	for <linux-nvme@archiver.kernel.org>; Tue, 14 Jul 2026 11:37:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Message-ID:Date:Subject:Cc:To:From:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=iFLL6PcXjD9stX2C9a4jTu3G/t7aoJfnr9ELdumB8gQ=; b=3wWDhniOIRIRTsj543d5M2bGcs
-	29Tp1dtUMlbN+t8bvRSse1fb7+lMl2qi0jximTwWqo9AKm9BzESbAilk31Qzu8SNkxRy+7pwGSUiK
-	KA/+QXJDYyDjq/i3Aa64UlTaquYb/RqwOwwgyLlvhpMki8azwi+x5E2eKaeV20YRGAw0KSVjIF6+i
-	+Lr7jektUTnTIOUX94M1FHKueE65iSPAdfG5KwYnisG+MH/IjmHquDmJ2x0TK2ci5rAKZ6b2eHuY4
-	YeaaoQoEwUWmr0zLm2KOte6izxWuDm7lPKfRp0lUvvXEBZ759h4dSvT4VaqUmRoqDQ1wja77gXUJn
-	CUGhGMpQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=7RbE0Nv3PqcWEvg1NZK6t1ZxnUn6Kyl+33LgQxDmYXI=; b=lup/QvAGmwyEOQPnAwWT6rQa0P
+	NVyyegCZIi/npENsrahDT2LsOEDFS+fumGehPHi1zZTvX7d/HgjH2yY5EHbuXDIqgTUU7ekQW+2Qq
+	u/fzribLCMa93XAUPwCFaaugdFMu0yWmubpXQ1HdwLDJKFTDmcM/vPW5XlDbz/O5WPjYnYtpGU1Tm
+	tApsz2EiWLVpA8S4kHD3Fs7ILLa9eelwI+YfJ5lbugAm6xPAYLt8LfEgOhC+qo1sY00F529WqxPa4
+	fmy5A8WtI49ZY/BTwFPaMxKCYR2ZDUzpLuJJUW7/1z4xc2En2GKJ46QaAdiSl5IUhbVBwp8huwIq+
+	lJ6OD6sg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wjbGa-0000000Bfr5-3cTS;
-	Tue, 14 Jul 2026 11:25:36 +0000
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+	id 1wjbRj-0000000BhEN-3UyH;
+	Tue, 14 Jul 2026 11:37:07 +0000
+Received: from fout-b1-smtp.messagingengine.com ([202.12.124.144])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wjbGW-0000000Bfqg-1N3N
+	id 1wjbRg-0000000BhE0-0Pyz
 	for linux-nvme@lists.infradead.org;
-	Tue, 14 Jul 2026 11:25:35 +0000
-Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66E8UX40010421;
-	Tue, 14 Jul 2026 11:25:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=corp-2025-04-25; bh=iFLL6PcXjD9stX2C
-	9a4jTu3G/t7aoJfnr9ELdumB8gQ=; b=YlcW8SRS19q27lSq/rq2fEBI457TL+wL
-	/JN4ZW489EMbM0qAvY0ZgTuuEexr9GVu8O0TipARCEmYcpKhlxIW1FJLk35TSixc
-	D4PAxGScrgEtiXh79XyUpIIkuWXt9thYgT/vGvvo0frPImhTbkTKu70QLQtxJCE6
-	XRMzOchFdXjaxi57Z6Stbfr74Lco9IPR1Ib7zinBJ+2SFlROqoLpWHSSe2TIKftX
-	YlXnu/QvhRZDC+5DbEy9HioLnbdQ5Rg9ddu8D/yJzpPs7oXgG5jWEVamiFMOc2js
-	r8p8Esk0PvtaYmk91XKQrp8O2pM/eAf7bTFQ9cSEIVcQzRQfPqyXxg==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4fdhn086dm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 14 Jul 2026 11:25:28 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 66EBI90L020309;
-	Tue, 14 Jul 2026 11:25:27 GMT
-Received: from ph0pr06cu001.outbound.protection.outlook.com (mail-westus3azon11011018.outbound.protection.outlook.com [40.107.208.18])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4fbc9e2ajf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 14 Jul 2026 11:25:27 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Xauj9a+7W44uq3U40wXi5JhWVV97ZZ2LaFSSY4QWozR3skSKOh2uY4T2UszD6lmu0EN342YAsQlCyj+igx4EGWc4BEkBs3pLHZGNf1l6msdmvKGRhE8VaPtXcw6QeTq3T0EDRrPq3WfyFyNOz5T256aIatwEonZ1l/hMVzDhAbblOi8YTG8fTGYjIdITUeKArt2xUGQHoPbinq9/6g5LbcCuYmzXpiw5VpEogrjbX2UlA+7GDrgW2ni8oc8silLy47GQa4ziUnFU+TU5aaIBBauWrqbbrst3edVHqHsvRWL5sPKa/g3y2VFBO4xKJQZ+zQHVXEKArlAd1lkh0ZPcsw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iFLL6PcXjD9stX2C9a4jTu3G/t7aoJfnr9ELdumB8gQ=;
- b=ZJxU99N6XLSVZZ7e7ZN3cbHw5g8f6Ojt3RjkUMaQwqgt5VcvVkG+X4hl/nF5rOiDVu40b9IlqpMmTUzjsSz2rsgKyhjEjsTBq20zdYipJinfJyvwvAmtlzXo68ZAebdKZnmWfibr8olc23M11fWckwDB1XNlXFaHqUWTDiEu9b8CwxbZRMAjGFONVwIRilPbZuWKNGtapPmfoFGm3CzkFI/3E1OBtOHZ/BAkFwpTLq/5+xpAZATtz6yBAhL3DFvwx/uA1Bj1ojPYoyCCGfZ5OTrr/w2vhRvd9SXdmR7+BBZ6EqIQ0N4bGhvTcNitzg0DjRDIz/Ge7YWdiTpFY1r6Mg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iFLL6PcXjD9stX2C9a4jTu3G/t7aoJfnr9ELdumB8gQ=;
- b=oT8EUAu5j4mGzL0kryLDiyD6US14xIqzyY3nyaoxa6XwfNv6PKlJZbtdiPe/ObcNRVTu3fboT9wO8yItGLEYA1Ec2RKJQq19RE6ThpoxKChWAzZW2Ooeg5Uylf2AYdCoLfeNmyz53uRBuyx+jNYoaAtLcOLLa6tTD9vAMi+54F0=
-Received: from DM4PR10MB6229.namprd10.prod.outlook.com (2603:10b6:8:8c::12) by
- SA1PR10MB6367.namprd10.prod.outlook.com (2603:10b6:806:257::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.223.10; Tue, 14 Jul 2026 11:25:23 +0000
-Received: from DM4PR10MB6229.namprd10.prod.outlook.com
- ([fe80::867:63e7:13fa:fa7d]) by DM4PR10MB6229.namprd10.prod.outlook.com
- ([fe80::867:63e7:13fa:fa7d%6]) with mapi id 15.21.0202.018; Tue, 14 Jul 2026
- 11:25:23 +0000
-From: John Garry <john.g.garry@oracle.com>
-To: shinichiro.kawasaki@wdc.com, linux-block@vger.kernel.org
-Cc: hch@lst.de, linux-nvme@lists.infradead.org,
-        John Garry <john.garry@linux.dev>,
-        John Garry <john.g.garry@oracle.com>
-Subject: [PATCH v2] nvme/069: add a test for multipath cdev lifetime
-Date: Tue, 14 Jul 2026 11:25:18 +0000
-Message-ID: <20260714112518.3395603-1-john.g.garry@oracle.com>
-X-Mailer: git-send-email 2.43.7
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: CH0PR07CA0019.namprd07.prod.outlook.com
- (2603:10b6:610:32::24) To DM4PR10MB6229.namprd10.prod.outlook.com
- (2603:10b6:8:8c::12)
+	Tue, 14 Jul 2026 11:37:05 +0000
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.stl.internal (Postfix) with ESMTP id 1D8331D00169;
+	Tue, 14 Jul 2026 07:37:00 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Tue, 14 Jul 2026 07:37:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	invisiblethingslab.com; h=cc:cc:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1784029019;
+	 x=1784115419; bh=7RbE0Nv3PqcWEvg1NZK6t1ZxnUn6Kyl+33LgQxDmYXI=; b=
+	DIdZ3qJDNjFfCq4vVsWQ87xJiw3qZ5c7YL3vGL4qywkWZjEIN7uYZaZPgR1g5kWK
+	zCwiJGs2kcDMs+kKUnEnt5+l4ZAYNe6+ixyMRLMvh/j35WEBZlh6nkyWov9CcQl9
+	iFO4asR5sMES6GvXJHll6mWHJLZEyXfus6rkbxbjm/Rq1ZFRX75Tzef5cZ3Ydlyz
+	CMjjUmWYkaX9K3qC6XknGqMr4hVpQEu6L8djFyjbR/Q9cX9Iau8UDzdFVBYEdSFC
+	MkomefYe7mDOxVsoHS9jwp37FYFsLvuPPrmx7TgHeX9lKGcB5KmSlJ2RA+pBdmTa
+	Yxk+oL0dQ/udPcMqbBWYhg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1784029019; x=1784115419; bh=7RbE0Nv3PqcWEvg1NZK6t1ZxnUn6Kyl+33L
+	gQxDmYXI=; b=Z1xmThv1CYV1tNrSnZEi0QiOlbH+i7cdpdojeV31lnk0o8tWWgw
+	VuCcKnbphyhooTP1ke5JtxtCykYynYAgZDt2v5Oc/fZsNT25N1pLzjkMY1ZyPA8Q
+	mOXHggO+0G8d3chlmhbJgfemnWyoUKTw9Jg9ZA/G1Ztmxj/iRDgGxwaBxSTLnAUT
+	UmYFpbQ+DyTebINyw60T56YoaByJwORTvC3ybWlGQkShD58rHzK7Bryu8r8wG4cd
+	KT9yICHSimzQ22YJ5mi3wuhccZ2n4nvoP5nBtEzgwSEu61B1oiGawwb9YAncUDUk
+	05iz8nn//Dw7ZjraRfvZ9d+7Echhjez4JzQ==
+X-ME-Sender: <xms:Wx9WauHLaHt_gupfLLE40lPICHUHoourcg8bHJ6R1w-k8ZB3RzE7fw>
+    <xme:Wx9WavC2sU3qmnjz5XAdxkTFVgvmMnj-Em4YnBO3nV-C8CO0HLooevmK0eEOUtI-V
+    PibthgL5grIeVdpTGDagMwFyWkNozDfvtahLCl1sf2ezE6r>
+X-ME-Received: <xmr:Wx9WajwKv-bobG9As7YjRNvisWNxEcTNwnVpKSlIXLNW6jQrCrpKxDO9gVtsMTzeHFtlhSaKWYGS7EY4FrIuf-h_mCsJAtPrZUE>
+X-ME-Proxy-Cause: dmFkZTEFCIzIQMCd2MkWM2GVRPXPZcLLdFwqIvCqn7GNb/FgdSTRcwIq2bs70YB4KkszA0
+    2Uu3wp1FwQ9/V4n2J5vOU4vaQRgdzlHw0yPwcCuCso7VIxmXCWYu8IUyjRtDnMApMYk63Q
+    8YAp2R6L/gdWyVzjJB87R229XAVEhDPaYGFpcWlQAY4dDV31/3M34n7UFcBai4hWiu/l76
+    kgXWXllMALS0ldoYIP/4pPVV6OAtxoGSSxcgVBT79/xhnOGimo4VmNFxG8cGmqmy6BJYYt
+    cpa0mAteMx2JSNzl8dQSJVHtsmy/mpEFdof5T3KEXOGFqfC6F1gRed+oxwEL3Ys64vPppm
+    IEgImoAdzdXUaJGEhUB8BBAixpojp7+95yQn1EnMWiQVVtkqNA+YQsajUpPkfAazrpFKUs
+    Ax38yXkVmSI/xr2lCJ4OQnKslwH0zeLS0wNN5UZxT1ExwypRmjKdf8Rz4FVvv/RVxoekI9
+    M8Y3Sdt1btLcUD3dmPWYSWxLvIpOe8hvsyPdBQLWEgUkhC5RYQ3/CbYW/allvTEPNUgywj
+    IEhCg+ViWQhF6EhvLi9xgc5hqyVQsCgoEmDao6ceqs3QfuiRdJHbI3vZPXP3LwFfisEczt
+    oMNSe68bgBKoH379/ecqFep3N7MwTcJu0IioGwoEwcB59EnXNjrYBSJANnKg
+X-ME-Proxy: <xmx:Wx9Waj6HJ1HZy5pwxQMmH2l_QJSPJlgFBfNW-CIsuFaA-ZuaGhyMlw>
+    <xmx:Wx9WakwcY3m5WIs76-FAIFGMVngiHN81kPKXOj8-RufKbZ5tvNLbVg>
+    <xmx:Wx9WandveogwV-gWTqPYujKe2VvHtfP3RdF1wvcvqBjOQ_ycW5lAKA>
+    <xmx:Wx9WapDKK83ncNPhj7-FAJLXBG9TPlkhPdMcFKoG_02C97GSFFWnXw>
+    <xmx:Wx9WarWWotNXlr6sYu6OniZPRL6HhYOWATfOo8neVOEkPT05SnvjLu8m>
+Feedback-ID: i1568416f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 14 Jul 2026 07:36:57 -0400 (EDT)
+Date: Tue, 14 Jul 2026 13:36:55 +0200
+From: Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Roger Pau Monne <roger.pau@citrix.com>, xen-devel@lists.xenproject.org,
+	Jens Axboe <axboe@kernel.dk>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] nvme-pci: fix parameter order in nvme_free_sgls() call
+Message-ID: <alYfV2l-7p4Y3eX-@mail-itl>
+References: <20260127195907.34563-1-roger.pau@citrix.com>
+ <aXokOX20HMD0E_PM@kbusch-mbp>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR10MB6229:EE_|SA1PR10MB6367:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5762454c-34fa-4b39-d873-08dee19a985d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|23010399003|1800799024|56012099006|6133799003|18002099003;
-X-Microsoft-Antispam-Message-Info: DleVjA0w/whXyTe6OAi1fEONtwAy95dsL+NUIrwEylsMdw9yHTS8wciv1JIodhAbICiIXZQbbnx2tT9p3CBl5B9l5QDGfKPy2OG51SH6/Dceoz0OLfMxiXOYuMA8tZS7U6rUx1XhL85et0xZIqwvAXzKMqcaNTt19uC4HEvU2f23f4npINwMJuvl+sJQaKsCH5OAD87cYZfBn1BgLqg0yH6Qvo4Wp+sI2ck8n38whUXuy+HjrAbPB4hPkyWL/5MqEjXwF2sZzXXGwRx+epPOq5iAZcixggpXhBimTs46mSkzBR3zhrhX0zRT1Fwd0hkwYpkVXJPDjI3NkjDtfad8a2PhHa95fenuHqZuKViXQdDmA9kGqpt8lxEETX/uPcs5Kc2iVQ9Tj2Qt4yi6Lk4RIECbA+H0zWP2+3zB46vU9cEdVELhUShzazAsSfkxRaz0023O6DlVPYLXfrzREKm58e+9J+7lUhHdg5OkrFhzZAV7uMQenBADHGsD71eNb3HvDxoTu4ChXuNWZoA5tSr3BH8LoLSatJUJ1dHYYZS+tspQbsji9trS2NeWlX3/3YpmP2O4jxbew8DBqfKqff1WxJ4O83Nu/jdQaRGNcqXVpAcD99uNQVOP9aphZ7TvDvJL
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB6229.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(23010399003)(1800799024)(56012099006)(6133799003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?FzSO6TT94CTbw3/581BbMgAqqcvcJcHNKV6sSYPK4psYMFgLThD33DJy+dMF?=
- =?us-ascii?Q?/NowPwa9uyHmTZEyt0IV3KxFNu59pApQ2ezv+awQe0J9MD/Sf0eYT1NBgnHH?=
- =?us-ascii?Q?CqC05g0bDX8BeiVaZmetqJDftPllD3A01Onw84ojfTFGw4xI6tc2TP6BrDRt?=
- =?us-ascii?Q?LVp86aJWrORifiU376gNPbVgOzs/M/und2i3IkE4wk7yYp7RqdYh8c3BE9YM?=
- =?us-ascii?Q?gTeV+13t8I5YBcoxwOdvJUFMZjC0eOtIStTnoqX86+EiQWWAQwDjx3Z9XYmB?=
- =?us-ascii?Q?7RsLLbP8H/ee05uxb7NSiTBUBmxGsXAMgALKHnVR7nGcBMvSeWda0WAFWUXV?=
- =?us-ascii?Q?3WXGD+cWtKks0E/Ab4diXKGLkFHYzFD1BTJvaKVdyYU4LvtQvPQZ3+ocVlWT?=
- =?us-ascii?Q?ZShpXGs2j0zwUeyp7ulDUqqW8c/jhIJFjfa9Eligmtni5tQEQ2GGBZ0RR5gF?=
- =?us-ascii?Q?Cj1qdClGbXoMyQXztg9cVNqzTLt/oSX3VsdbLWki5lBsFaeZ4mDG+Z2xU0NX?=
- =?us-ascii?Q?zKWtjeDBtZErnhU5XcHagDMTsmdxrnpRtWXfRFN6Pn/nt2TPgwsJ0yDXw52t?=
- =?us-ascii?Q?RVPuVPC1rhbSd19QdULERpEUrgYrkwvM75pQw4anyovSMEIkRz+TfM+d6tAp?=
- =?us-ascii?Q?WuuKFaggNpTGGIXYryrV7PQ7aUxnB7hqz8eTkVjHp5JNiPUh9DygnKzQ6bsS?=
- =?us-ascii?Q?cwDxz+esU+TUukabN4S2O7JHCJ9ml363N6HxSliUh6tbEimZr/BmzB88Lw8D?=
- =?us-ascii?Q?XWQyElopTMyb1eu8S8HzOLOpru+mOILhX0QM9YhXn1jiSSPemzhBo7hMz+pi?=
- =?us-ascii?Q?hW+RlezxCTNyq7zid1rzr2ZJF4hMYDSoEQIgUn/umn6aKIhv0EdbgwZ6roNb?=
- =?us-ascii?Q?A/Mok+yMxSY8ucFBpNhINaAJOWxKgXH9VJX5yKDuGjPVRQagklGAj5UymjwP?=
- =?us-ascii?Q?iF0pw2nA2h05c6Ll1pKg8zBxiYhP+Ri//MQWLE5oecehaf5ZFtAyyXCmOfJJ?=
- =?us-ascii?Q?YGoHHDaWt30X4aAm0NSU0osTmYplqt79O0xNF/eG4ZwJD0wuTH2FAmUSLGQk?=
- =?us-ascii?Q?qEI8C1tOGBwEgJNCKPRI+fVmDZgzqxbmqyyU+FStxK7MwyxKw05kjyII8jYC?=
- =?us-ascii?Q?XQBwMJMFASmQiqGEbNmDsJZvXHCDdulVn4Fx1bl2RQKJ51vwxghq+yfsPgNc?=
- =?us-ascii?Q?YsclqYaHJ8W2Zw8SR3KhNLPYVeeMlhStzWAonU80qG2X2s7yV4tD9AM48OoT?=
- =?us-ascii?Q?TF9/bwap2yHCJPGlqoMju2YEX4lhq++DnSrmO2JpqjaSgSrg5KGPBYNbB5g6?=
- =?us-ascii?Q?9MBUKOmJbDmCxcuIMC2QEk70yp0EslQm5tXqP7n/pmV3op24P6BEh6hPyBuo?=
- =?us-ascii?Q?T+oXMySJXsVOzaZfjkrqzJMJT4ipyhQCW3vtPmFpIgh3mwUWIJu7EHrOGGPo?=
- =?us-ascii?Q?Q2ureHNTtjUQ2NFjMjgi/xE3VdKHa8h5Cld7D5m0Yj7aXEk0EZPx3P/BlLJO?=
- =?us-ascii?Q?bm/lFRm1UEV8ik9Sp65Dy8Nnmku57BOG0WKSE/XG0eX6W01hiD5OV5Dh4anq?=
- =?us-ascii?Q?hwMVB7T2K/IK5WOO56B2Qmz/wetM6Y/47B+QudavjkV2++ppswJ4i6soahYx?=
- =?us-ascii?Q?BKAvl/INPmJq2R/gcgoEZRHaZlrRh7bbx9DPK6PV63pAuVBF6Xn3XNv+vUrf?=
- =?us-ascii?Q?7pix0QukNuowAZO2oNWgBXMtsUZ0asQSswizEJESV9hUfWBJS2IYZFo0IJGN?=
- =?us-ascii?Q?j1ABnIAxPQ=3D=3D?=
-X-Exchange-RoutingPolicyChecked: iP/ESa3O1dHCca0PFZmfXg3/oahSA1BaeZYK50G17ccJlmHUjgF3sdJiX1krrtu2WCjIiGBzqwN1S4X0TueMqZliB2xDDRn1a2KbyyJxbNiL/ptGc1QThnfrXSdr+lkmKFo6qgCvvlh/2aPNwJGo8sski7AO1E0ZIGnzsBfgoLVpuR/JpxqQ10lW5+eX8ud643R8T1kvokOQS+PGzGShE2lKroWE6LiKvu2cgKgphfTHyNmCGmgcmE4M8LIirwM+NbnAi3VqfqVeMOLFbJtcwhah2F3DLVmsRnL9NmxahbN76W9B1p81zzVCIR/NKYiwqXAtsXENMmPghyVHq9OEfA==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: NSay5F50zY/bTFpTs6s79IThFs8H5acnnjNyNpLM9vk85EPsiIlkUAUlVcTbwysrADgbczTHWYOrVHSnQAW2vglkAPhIzblrM+wl+6taBGS53H8/NstfZc6y1fWfsY5fqrPxw3DCXqs5vdxfRYE8mRPFtFnI2aFD6QGJJ0B0w/lSgfqzbAwVgkkZltkGal+Ti1ZZJntl+lQLvtzYdK0iKBUHNjZ4CWI017jIv8zXVGyGiw4d06Yfa6kiRtBTe+1bUZGd1zRXs1AAbh8Fy/R3p7UjB+Vf6CgMMQ0vnFbBw9uhjdvoM/JBNOqyan+1H/Ubpe4+/NbJm1MagQZGMV+mNRKz6qD6Aa+mdrXVXmsQeMjf/FGa0Xid++6F45t2z/X4DuOPdDjPxO+fWthA2Bksg0ofGiJuAOwMhc05YiMmsoB2flZ/nyy4B2edeoFhBSiDMP3a/hX2eHQiYNmjWVc0IgO8VZL8RVeu1KKsKoBOxk0+7b7xD7HL0R4x738VPHh9opR9GOA4jzQ0ATJ1pWmDNGJke9kOLSDE2KI4I0jBexhTYl39r8igZQyy5CTIRoHh/hEAmztJD2iIeYCOUtIDHwYsuFMYUMMpghjp5NrgY+Y=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5762454c-34fa-4b39-d873-08dee19a985d
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB6229.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2026 11:25:23.3662
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +WR/Oy3RC+uTTZX2d71vYgvPWuraEoBAbmAle0qplB0pfONuswILZWXHbA9KZrUYQ+L/hCpDRs+4HWjVw6S7nA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR10MB6367
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-14_02,2026-07-10_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- lowpriorityscore=0 mlxscore=0 adultscore=0 spamscore=0 mlxlogscore=999
- malwarescore=0 suspectscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2606160000 definitions=main-2607140117
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE0MDExOCBTYWx0ZWRfX7HcsKoD8Roqw
- gWL9F0Qvg8vLCOytobzmDRtJtqDldod4vs7bWhq4Oqr14K15fLNvr0KP8bliHEgvJQcZIGchDPN
- xVdHpY6dbyO76fPwptkZKHdhcqw8pPmh11PWmNl0XEP8PxYyyz1J
-X-Proofpoint-GUID: Z1BGNEXbWmYreN_MWN8b_OfbvjJAmiOy
-X-Authority-Analysis: v=2.4 cv=ddewG3Xe c=1 sm=1 tr=0 ts=6a561ca8 cx=c_pps
- a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=RAioF0-LDSMA:10
- a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22 a=jiCTI4zE5U7BLdzWsZGv:22
- a=BqU2WV_vvsyTyxaotp0D:22 a=VwQbUJbxAAAA:8 a=yPCof4ZbAAAA:8
- a=QOYSxItt2YxLaTtbhTcA:9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE0MDExOCBTYWx0ZWRfX+lJsMDkEOwuh
- Rpe4vU/RuUmsmVQRNJJQyeK0PRIkAVI9A3oPiACALwXfxPx6Z6xjXHc5lpqxSeJkID5UWV+8EZZ
- /lSZzUj705hVot8IkZYcvuQTiuMVetmWSAhLheeuWjaukNF47ddpZ8Bk2w8C+yDdgtwY0fWvBo9
- r5OobU2bQ2HGuSSljyBQNJfR/FK1Gc6iMqEMlSvoICM6rikq0J3iGm0EbhafHan/UoRdc+nVCPT
- YTC39ZdhagVE0fcUD80VGg7TgScLoDC9MgpP5/2qnF4rCpdbbDje1snn+4dpWO+54ElZGScvAOM
- l7Q/7kM7/QivocMihPHUE50vjWPk/TcVM9NrebDjR9EBfDSvcTH8mSvVZg+5w4Cl1ESfNhPQDeC
- lFCXs8RgLP55VpqYMWzvXVq3xLyIjElI5BPS7S5ykZNQyS6lLuNLLkPvdSMDdGcb9z/n1cFr+gv
- AcXMpslcJfB6SGkpKZQ==
-X-Proofpoint-ORIG-GUID: Z1BGNEXbWmYreN_MWN8b_OfbvjJAmiOy
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="G/yGk+MB9HjdayeF"
+Content-Disposition: inline
+In-Reply-To: <aXokOX20HMD0E_PM@kbusch-mbp>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260714_042532_825053_DB6BFBA4 
-X-CRM114-Status: GOOD (  21.19  )
+X-CRM114-CacheID: sfid-20260714_043704_456573_CEA47BF7 
+X-CRM114-Status: GOOD (  16.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -185,218 +112,66 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: John Garry <john.garry@linux.dev>
 
-In [0], a fix was proposed for the NS and NS head (multipath) cdev
-lifetime.
+--G/yGk+MB9HjdayeF
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 14 Jul 2026 13:36:55 +0200
+From: Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Roger Pau Monne <roger.pau@citrix.com>, xen-devel@lists.xenproject.org,
+	Jens Axboe <axboe@kernel.dk>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] nvme-pci: fix parameter order in nvme_free_sgls() call
 
-The issue was that fds for the nvme-generic cdev may exist after we tear
-down the nvme-subsystem. Issuing an ioctl on that cdev may expose a
-use-after-free.
+On Wed, Jan 28, 2026 at 07:59:05AM -0700, Keith Busch wrote:
+> On Tue, Jan 27, 2026 at 08:59:06PM +0100, Roger Pau Monne wrote:
+> > The call to nvme_free_sgls() in nvme_unmap_data() has the sg_list and s=
+ge
+> > parameters swapped.  This wasn't noticed by the compiler because both s=
+hare
+> > the same type.  On a Xen PV hardware domain, and possibly any other
+> > architectures that takes that path, this leads to corruption of the NVMe
+> > contents.
 
-This test recreates the method described in [0] to expose this issue
-for NS head cdev.
+On Wed, Jan 28, 2026 at 09:49:58AM +0100, Christoph Hellwig wrote:
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+>=20
+> but maybe we can reword the subject to sound less harmless, e.g.:
+>=20
+> nvme-pci: DMA unmap the correct regions in nvme_free_sgls
 
-First a fd is created by opening the nvme-generic cdev. Next we tear down
-the nvme-subsystem. Finally we try to issue an ioctl on the cdev - without
-the kernel fix in [0], this should trigger a KASAN warn.
+On Wed, Jan 28, 2026 at 07:59:05AM -0700, Keith Busch wrote:
+> Thanks, applied to nvme-6.19 with updated subject.
 
-[0] https://lore.kernel.org/linux-nvme/20260713104238.3034640-1-john.g.garry@oracle.com/T/#me118851584fbcbb960795d0f04e2262e5a295613
+Hi,
 
-Signed-off-by: John Garry <john.g.garry@oracle.com>
----
-Difference to v1:
-- improve shell script formatting
+I think this wants to be included in v6.18 too, as it also has the
+faulty commit. And indeed, I do hit this issue when running 6.18.38.
 
-diff --git a/common/nvme b/common/nvme
-index 15e9c3f..902a33f 100644
---- a/common/nvme
-+++ b/common/nvme
-@@ -300,6 +300,26 @@ _nvme_wait_subsys_removed() {
- 	done
- }
- 
-+_nvme_find_subsys_nvme_generic() {
-+	local subsysnqn="$def_subsysnqn"
-+
-+	for subsyspath in /sys/class/nvme-subsystem/*; do
-+		_subsysnqn=$(cat "${subsyspath}/subsysnqn" 2> /dev/null)
-+		if [ "$subsysnqn" == "$_subsysnqn" ]; then
-+			subsyspathbase="$(basename "$subsyspath")"
-+			for nvmegeneric in /sys/class/nvme-generic/*; do
-+				nvmegenericbase="$(basename "$nvmegeneric")"
-+				devicelink="$(readlink "$nvmegeneric/device")"
-+				if [[ "$devicelink" =~ $subsyspathbase ]]; then
-+					echo "$nvmegenericbase"
-+					break
-+				fi
-+			done
-+			break
-+		fi
-+	done
-+}
-+
- _nvme_connect_subsys() {
- 	local subsysnqn="$def_subsysnqn"
- 	local hostnqn="$def_hostnqn"
-diff --git a/src/.gitignore b/src/.gitignore
-index 988d785..af9ebf6 100644
---- a/src/.gitignore
-+++ b/src/.gitignore
-@@ -14,3 +14,4 @@
- /nvme-passthrough-meta
- /ioctl-lbmd-query
- /nvme-passthru-admin-uring
-+/nvme-delay-ioctl
-diff --git a/src/Makefile b/src/Makefile
-index d75daf1..4779ffd 100644
---- a/src/Makefile
-+++ b/src/Makefile
-@@ -18,6 +18,7 @@ C_TARGETS := \
- 	loop_change_fd \
- 	loop_get_status_null \
- 	mount_clear_sock \
-+	nvme-delay-ioctl \
- 	nvme-passthrough-meta \
- 	ioctl-lbmd-query \
- 	nbdsetsize \
-diff --git a/src/nvme-delay-ioctl.c b/src/nvme-delay-ioctl.c
-new file mode 100644
-index 0000000..8699afa
---- /dev/null
-+++ b/src/nvme-delay-ioctl.c
-@@ -0,0 +1,67 @@
-+// SPDX-License-Identifier: GPL-3.0+
-+
-+/*
-+ * Simple test to issue an ioctl some time after opening a cdev.
-+ * This is to test lifetime of cdev, and whether we can handle
-+ * removing the cdev while we have active fds.
-+ */
-+#define _GNU_SOURCE
-+#include <dirent.h>
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <stdint.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <unistd.h>
-+
-+#include <inttypes.h>
-+#include <sys/ioctl.h>
-+#include <linux/types.h>
-+
-+#ifndef _LINUX_NVME_IOCTL_H
-+#define _LINUX_NVME_IOCTL_H
-+#define NVME_IOCTL_ID		_IO('N', 0x40)
-+#endif /* _UAPI_LINUX_NVME_IOCTL_H */
-+
-+int main(int argc, char **argv)
-+{
-+	int fd, fd1;
-+	int count;
-+
-+	int delay_seconds = 2;
-+
-+	if (argc < 2) {
-+		fprintf(stderr, "usage: %s /dev/ngXnX", argv[0]);
-+		return EINVAL;
-+	}
-+
-+	fd = open(argv[1], O_RDONLY);
-+	if (fd < 0)
-+		return fd;
-+
-+	/*
-+	 * Steps:
-+	 * a. Try to open device until disallowed/gone
-+	 * b. sleep to allow nvme-subsystem be torn down
-+	 * c. issue the ioctl on original fd
-+	 */
-+	count = 0;
-+	for (;;) {
-+		fd1 = open(argv[1], O_RDONLY);
-+		usleep(500000);
-+		if (fd1 < 0)
-+			break;
-+		close(fd1);
-+		count++;
-+		if (count > 10) {
-+			fprintf(stderr, "%s still present", argv[0]);
-+			return EINVAL;
-+		}
-+	}
-+	sleep(delay_seconds);
-+	ioctl(fd, NVME_IOCTL_ID);
-+	close(fd);
-+
-+	return 0;
-+}
-diff --git a/tests/nvme/069 b/tests/nvme/069
-new file mode 100755
-index 0000000..46c3e5a
---- /dev/null
-+++ b/tests/nvme/069
-@@ -0,0 +1,49 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-3.0+
-+# Copyright (C) 2026 John Garry
-+#
-+# Test NVMe multipath nvme-generic cdev lifetime behaves as expected.
-+
-+. tests/nvme/rc
-+
-+DESCRIPTION="NVMe multipath cdev lifetime test"
-+CHECK_DMESG=1
-+
-+requires() {
-+	_nvme_requires
-+	_have_loop
-+	_have_module_param_value nvme_core multipath Y
-+	_require_nvme_trtype_is_fabrics
-+	_have_kernel_options KASAN
-+}
-+
-+set_conditions() {
-+	_set_nvme_trtype "$@"
-+}
-+
-+test() {
-+	echo "Running ${TEST_NAME}"
-+
-+	_setup_nvmet
-+
-+	local nvmedev
-+	_nvmet_target_setup
-+
-+	_nvme_connect_subsys
-+
-+	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
-+
-+	nvmegeneric=$(_nvme_find_subsys_nvme_generic)
-+
-+	# nvme-delay-ioctl will open the nvme-generic cdev, sleep, and then
-+	# issue an ioctl.
-+	# We tear down the nvme-subsystem in the foreground so we can catch
-+	# if the ioctl triggers a use-after-free KASAN warn.
-+	src/nvme-delay-ioctl "/dev/$nvmegeneric" &
-+	sleep 0.5
-+	_nvme_disconnect_ctrl "${nvmedev}"
-+	_nvmet_target_cleanup
-+	wait < <(jobs -p)
-+
-+	echo "Test complete"
-+}
-diff --git a/tests/nvme/069.out b/tests/nvme/069.out
-new file mode 100644
-index 0000000..cd2e1fd
---- /dev/null
-+++ b/tests/nvme/069.out
-@@ -0,0 +1,2 @@
-+Running nvme/069
-+Test complete
--- 
-2.43.7
+--=20
+Best Regards,
+Marek Marczykowski-G=C3=B3recki
+Invisible Things Lab
 
+--G/yGk+MB9HjdayeF
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhrpukzGPukRmQqkK24/THMrX1ywFAmpWH1cACgkQ24/THMrX
+1yyenAf9FWpkwva0hdfgfqEDIy6a/Hgllhx36/HeJWibLzeDbTJFYpwU8I+qDTRh
+fFCn1CT9lYNxu4O0IFtCTBiktCI/J7aFuZXIvFak2viOU9Jc06fYF5q+dEgwnZm2
+m/glL8tOsJDW9TCtxqzvn5Zvjb7eGZCqKZeQFQmlcDWgTsXLssyoTrYJBoK3EyKV
+XqJooQme6+zH6s6S0ACyaBWq/5W6MmWsa6awJ2RlhDFOX3LgKjXY6TMAIXkCVjj5
+VHOepitO3/fFqVu2QpICN89638kG9JCZsG53x/dUSVrtdpBVZhXVYkzMTT2ViDUu
+P7FaNiGtA2F7sbx1kImZcp8q0pSQrA==
+=7k8S
+-----END PGP SIGNATURE-----
+
+--G/yGk+MB9HjdayeF--
 
