@@ -4,92 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A0F08C43458
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jul 2026 21:05:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 44F78C43458
+	for <linux-nvme@archiver.kernel.org>; Tue, 14 Jul 2026 01:22:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
+	Content-Type:In-Reply-To:Cc:To:Content-Transfer-Encoding:Date:From:
+	Mime-Version:Message-Id:Subject:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=c7dO4+855NDGBLOtYg+g5EbkrB6jsqmlhFGAdJvf5Qo=; b=r0I60oAJ8REF8y746EQqW7is8K
-	KYPRhEjVdeZecJcbC6QdAFysq6i+LiNodqjjULH3jTRmPa68gvvInn+g0/V5ChvxoVf3gLghMcp4v
-	00dYZORU/vC3ZcNWi0GSWC4wmhk5ngU5NMgs4I4Sf4bUFsg5QaQvx3XgvWDJ3kjSHISzPaCUmiwRW
-	4/K+g9XHX2v2503Tgz8zsg1nrkvH0VbjpaC7zSmfnEgHJUmStxLTjCtSDIH7oq8Z/6Ex7t6bPGIyE
-	spT9pEh6ad43baDdA1TKUmVyVU6zVcxD2ONW8QcD73Nevuhcc0rdO4MmgwVpjh52/YSVV4Kbt7mFd
-	K5yfjmoQ==;
+	bh=MXAT3+5slbifSjkkzpCjT7TTJaAwUZJ8MfqgEo/pHc0=; b=NHMiG2QXtd6aiVLJAoZLvSj6MK
+	baZtZMWGg7JBaNczEh20RFo2+Sz9jh04qcDW9mlKmFLXfak/7x4r/ECzEKzsJGUGgrsUHP9DTG5EV
+	0yUO5G3/eUYjJ2zkMcneFElB+fRaNzYVk5L5MaKw1R9w4KwiUP7u3Bpr3R7FzHpnwCOfhlRJTGPSl
+	jWBtdbX1ZDOunNPjZEVE4ct5NcZe+l+MkhRO4eA3gjHpe/B0aGwu20VbB+aFZQ0ZvTXR9BDGXbcTe
+	2W5Ur9tUg054F6/N2T+TqqzIZbGD9eNK5irdXcnEwrairIoL+7ZTx+uEE7Tz0Q/QOWPsr1WSgTY8m
+	L82rHp3g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wjNqU-0000000AQ4O-050n;
-	Mon, 13 Jul 2026 21:05:46 +0000
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
+	id 1wjRqh-0000000AfFq-2pJN;
+	Tue, 14 Jul 2026 01:22:15 +0000
+Received: from va-2-41.ptr.blmpb.com ([209.127.231.41])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wjNqR-0000000AQ3x-089e
+	id 1wjRqY-0000000AfEr-3f87
 	for linux-nvme@lists.infradead.org;
-	Mon, 13 Jul 2026 21:05:44 +0000
-Received: by mail-pl1-x631.google.com with SMTP id d9443c01a7336-2cca0c5799eso3116465ad.0
-        for <linux-nvme@lists.infradead.org>; Mon, 13 Jul 2026 14:05:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783976742; x=1784581542;
-        h=content-type:mime-version:message-id:date:user-agent:references
-         :in-reply-to:subject:cc:to:from:dkim-signature:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=c7dO4+855NDGBLOtYg+g5EbkrB6jsqmlhFGAdJvf5Qo=;
-        b=lCF57nUNGfA3lfHyAC+WnrY+1hZCb9xDoMT4gBxLk4gvxHcpCK/ExYQtzXWTTRZs/N
-         6r/EuRm8tslOPnGNkVftvoH5JGDOLFGi0vKVNLHnKFOnvtiva1yP29V4wua5yeLnth45
-         E/hmuZ3MZHoTVrGX8jnJolUFLz7Wgj5ppaJPXhfdFs/1Hq03F1ufnJmjOlaJZWDN3eDm
-         i61PbTFMqQUMpw5GNAk4ObiXVo7LayOJ+ppoOxzMOH6Ojs76yjcBkESU0tN9muaf/E+7
-         LI47sagfwnLR58QbBn7rYAnY/2/hJ6pBVSnLZ0IDqmekjtqz2bu+0LU34ge339xhHdN0
-         T4tg==
-X-Forwarded-Encrypted: i=1; AHgh+RqQcx5DDyXewRWttL42YJBQcYbWOkAEOq4Qeg0c8UC7Z34j79pkuST4ihBdr7TLlvooebzxrlsadjGf@lists.infradead.org
-X-Gm-Message-State: AOJu0YzK1JZGLZekMhO/lrWjN/gV7wqKiP/jBKIekdzkjdJj7nV7Hub0
-	nmPqi7rD9uSKBDgDgRitLAV7us+6weMEaovPbB7+h/UDb8M71u7mLhoZ
-X-Gm-Gg: AfdE7clwX/66yVJTiOW2hkbJBHHI5uXbqalMfqp9j9NDLQMd8LAlOBojouEuo0O9bFH
-	ASmYaLrmDHaMQHnvY0+dmpLFvfDkr9mvJIUHLVnffCCT/CH9qoqD1giMe+ur0epjFESnBRoMI7L
-	72RpPRz1crNdtdd1CSrzTnyeU80TZR6/Zrsagma10C/gLf0aCt7G+Fh8/Fdbk1VDgFK5BdT4xYi
-	J65hfZS0xIMUHLeIC9ijoreeW9S8ymaduRFvXLHyRxCSrtRssQVDTNg5gj8RlcWUQlnovaqUHQM
-	yhz8O7zjKYNGlcW8yn2Jt7XFfDwUnXI3TPd0vqT1+pDFF3pcsNznC3aTCiAIujnBxcU7U+gxLza
-	8BXkeWaeZmJISzxDRZPOR8+kdsMJoyJ28p0K2wsT4AueGgltO0+oAkpUhfvR1bYgJylO02KjOjP
-	Pa7sUEgw9che/sXzVorM9ooYW1I27UMU3IT/LjBh+4Yk2txo8vOvYGuB4KoIhz9JRqbDRcQ5SYj
-	RYBrmvrwRBcxN+nC7r5PdA2fRNhIA==
-X-Received: by 2002:a05:6a21:6b18:b0:3b2:a8cd:ef4a with SMTP id adf61e73a8af0-3c110768b5dmr10277166637.30.1783976741679;
-        Mon, 13 Jul 2026 14:05:41 -0700 (PDT)
-Received: from dancol.org (dancol.org. [2600:3c01:e000:3d8::1])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b8deb2a21sm24822220c88.3.2026.07.13.14.05.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2026 14:05:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=dancol.org;
-	s=x; h=Content-Type:MIME-Version:Message-ID:Date:Subject:To:From;
-	bh=c7dO4+855NDGBLOtYg+g5EbkrB6jsqmlhFGAdJvf5Qo=; b=XUk+YmJv363B5aLMU+rUknUvyJ
-	DaskylG5cYuDTzqw/u+bfm8iSOBAde4w81NZ9qfq8p5wdAgTnO+oYUHFn/1/vJgK71vZWPLaC2IsA
-	hVv+SeKHyKA5P1Rmw5RD/qK64HkMaE0CAk3bUmlu61rmMvvtKT7ih2wDej+5+orgSHucuYV7oscAt
-	2HMoesra/LoJMZmz8I3wYxNTg78w6hPGzuGR2TcsHJs8cCrbUaQJA8eEazKoEUtifRDBiq7Pf3J0J
-	rKjRpgR50YWGiHzdpMvq/bBY/AFusTUsMMELvmR/Z838+jpyqHFQ1NAV4A+xlHqSVe7Xr8foxzzgJ
-	35XXVO+g==;
-Received: from 2603-900b-c400-2854-78e1-05dc-8eec-2d4e.inf6.spectrum.com ([2603:900b:c400:2854:78e1:5dc:8eec:2d4e]:55276 helo=localhost)
-	by dancol.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <dancol@dancol.org>)
-	id 1wjNqN-00000000VeY-30g9;
-	Mon, 13 Jul 2026 17:05:40 -0400
-From: Daniel Colascione <dancol@dancol.org>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>,  Christoph Hellwig <hch@lst.de>,  Sagi
- Grimberg <sagi@grimberg.me>,  linux-nvme@lists.infradead.org,
-  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] nvme: make sending wall-clock time to NVMe opt-in
-In-Reply-To: <alVQCljd3a0dRRPw@kbusch-mbp>
-References: <20260713203443.322748-1-dancol@dancol.org>
-	<alVQCljd3a0dRRPw@kbusch-mbp>
-User-Agent: mu4e 1.14.1; emacs 31.0.50
-Date: Mon, 13 Jul 2026 17:05:38 -0400
-Message-ID: <87qzl6k3bx.fsf@dancol.org>
-MIME-Version: 1.0
-Content-Type: text/plain
+	Tue, 14 Jul 2026 01:22:08 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=s1; d=fygo-io.20200929.dkim.larksuite.com; t=1783992117;
+  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
+ reply-to:content-type:mime-version:in-reply-to:message-id;
+ bh=MXAT3+5slbifSjkkzpCjT7TTJaAwUZJ8MfqgEo/pHc0=;
+ b=CsJkfioZOfCKThBtkoFIqreHboAirqKwBEj69z/tsxUahDElsQl9i8Qq2wZGtQFC4vonXn
+ tWWCqZI9aFONnkCoGrW2IOvX/kMubR9mLGaTQS6Ch8sHTYNkGIUER6Xc1hvHZKlL1h/bPi
+ iCiVONZE8SU1oFJrvn2j8Q4tJ6GJWInKG5nevT4RT9C+qPjypZLMNH6QWrOBLl4Yd7v/dB
+ qmwlFLyVkvVI23fjTTo9NA96ob3JK/6cLszMo86b1HtQmYoQ3i0QSSvc4zOGoov7h4mafa
+ bQZb0LM89e/+gOH4L+Sn2WhWWnrMUKge8gH2IZWi0advUSoDqkZc6cg0BX8khw==
+Subject: Re: [RFC PATCH v1 01/17] nvme-multipath: retarget failedover bios from requeue work
+Message-Id: <e0ba356e-c5ef-4100-b774-b599cae65968@fygo.io>
+Mime-Version: 1.0
+From: "yu kuai" <yukuai@fygo.io>
+Date: Tue, 14 Jul 2026 09:21:50 +0800
+User-Agent: Mozilla Thunderbird
+Content-Transfer-Encoding: quoted-printable
+To: "Christoph Hellwig" <hch@lst.de>, "Hannes Reinecke" <hare@suse.de>
+Cc: "Jens Axboe" <axboe@kernel.dk>, "Tejun Heo" <tj@kernel.org>, 
+	"Keith Busch" <kbusch@kernel.org>, "Sagi Grimberg" <sagi@grimberg.me>, 
+	"Alasdair Kergon" <agk@redhat.com>, 
+	"Benjamin Marzinski" <bmarzins@redhat.com>, 
+	"Mike Snitzer" <snitzer@kernel.org>, 
+	"Mikulas Patocka" <mpatocka@redhat.com>, 
+	"Dongsheng Yang" <dongsheng.yang@linux.dev>, 
+	"Zheng Gu" <cengku@gmail.com>, "Coly Li" <colyli@fygo.io>, 
+	"Kent Overstreet" <kent.overstreet@linux.dev>, 
+	"Josef Bacik" <josef@toxicpanda.com>, 
+	"Nilay Shroff" <nilay@linux.ibm.com>, <linux-block@vger.kernel.org>, 
+	<cgroups@vger.kernel.org>, <linux-nvme@lists.infradead.org>, 
+	<dm-devel@lists.linux.dev>, <linux-bcache@vger.kernel.org>, 
+	"yu kuai" <yukuai@fygo.io>
+X-Original-From: yu kuai <yukuai@fygo.io>
+In-Reply-To: <20260713121244.GA20084@lst.de>
+X-Lms-Return-Path: <lba+26a558f34+ea9440+lists.infradead.org+yukuai@fygo.io>
+Content-Type: text/plain; charset=UTF-8
+Received: from [192.168.1.104] ([39.182.0.157]) by smtp.larksuite.com with ESMTPS; Tue, 14 Jul 2026 01:21:56 +0000
+References: <20260704195124.1375075-1-yukuai@kernel.org> <20260704195124.1375075-2-yukuai@kernel.org> <0ded62a6-b3da-4790-adf0-566ded30ee43@suse.de> <20260713121244.GA20084@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260713_140543_107663_98F4AB16 
-X-CRM114-Status: GOOD (  22.51  )
+X-CRM114-CacheID: sfid-20260713_182206_986974_75ADEDB9 
+X-CRM114-Status: GOOD (  16.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,56 +79,73 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: yukuai@fygo.io
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Keith Busch <kbusch@kernel.org> writes:
+Hi=EF=BC=8C
 
-> On Mon, Jul 13, 2026 at 04:34:43PM -0400, Daniel Colascione wrote:
->> Some NVMe devices maintain a persistent log, the PEL, of events like
->> power-on and thermal excursions. The NVMe Set Features (Timestamp)
->> command allows an operating system to inform the NVMe of the current
->> wall-clock time. Wall-clock timestamp updates are logged to the PEL
->> alongside other events. By correlating PEL records, an attacker can
->> infer a user's usage patterns and even guess at time zone changes.
+=E5=9C=A8 2026/7/13 20:12, Christoph Hellwig =E5=86=99=E9=81=93:
+> On Mon, Jul 13, 2026 at 11:29:35AM +0200, Hannes Reinecke wrote:
+>> On 7/4/26 9:51 PM, Yu Kuai wrote:
+>>> From: Yu Kuai <yukuai@fygo.io>
+>>>
+>>> bio_set_dev() is about to become explicitly sleepable because it can
+>>> associate the bio with a blkg for the destination queue.  NVMe failover
+>>> can run from request completion context, and nvme_failover_req() also h=
+olds
+>>> head->requeue_lock with interrupts disabled while it steals bios from t=
+he
+>>> failed request.  Calling bio_set_dev() there is not safe once the helpe=
+r is
+>>> allowed to sleep.
+>>>
+>>> The requeue lock only protects head->requeue_list.  Keep the list
+>>> manipulation under that lock, but defer retargeting to nvme_requeue_wor=
+k(),
+>>> which already drains the list from process context before resubmitting =
+each
+>>> bio.  The bios remain private to the requeue list until the worker pops
+>>> them, so moving the device switch there preserves the existing retry fl=
+ow
+>>> while avoiding a sleepable helper in completion context.
+>>>
+>>> Signed-off-by: Yu Kuai <yukuai@fygo.io>
+>>> ---
+>>>    drivers/nvme/host/multipath.c | 4 +---
+>>>    1 file changed, 1 insertion(+), 3 deletions(-)
+>>>
+>>> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipat=
+h.c
+>>> index 9b9a657fa330..76baa180ae1c 100644
+>>> --- a/drivers/nvme/host/multipath.c
+>>> +++ b/drivers/nvme/host/multipath.c
+>>> @@ -149,7 +149,6 @@ void nvme_failover_req(struct request *req)
+>>>    	struct nvme_ns *ns =3D req->q->queuedata;
+>>>    	u16 status =3D nvme_req(req)->status & NVME_SCT_SC_MASK;
+>>>    	unsigned long flags;
+>>> -	struct bio *bio;
+>>>      	nvme_mpath_clear_current_path(ns);
+>>>    	atomic_long_inc(&ns->failover);
+>>> @@ -165,8 +164,6 @@ void nvme_failover_req(struct request *req)
+>>>    	}
+>>>      	spin_lock_irqsave(&ns->head->requeue_lock, flags);
+>>> -	for (bio =3D req->bio; bio; bio =3D bio->bi_next)
+>>> -		bio_set_dev(bio, ns->head->disk->part0);
+>> If you remove this the original device remains being referenced by
+>> the bio, so there might be a chance of some accidentally referencing
+>> the (now invalid) bdev.
+>> I think it might be better if you were set it to NULL here, to
+>> signal that this bio currently has no bdev associated.
+> What should reference it?  This moves setting bi_bdev from the only
+> place adding to the list to the only place removing from the list.
+
+I'll follow your advice to move blkg association to bio submit. And this pa=
+tch
+will not be needed anymore.
+
 >
-> How does an attacker come to acquire PEL records if the system isn't
-> already compromised?
-
-The PEL can be read without any authentication whatsoever, so even an
-otherwise completely measured secure-boot system with FDE could leak the
-log to an evil maid. A sophisticated evil maid could execute some kind
-of adaptive attack, but the PEL is right there and easy to read even for
-an unsophisticated one-shot adversary.
-
-Another thing to emphasize is that the log persists *through*
-cryptographic sanitize, so you can "wipe" a drive using the strongest
-available NVMe command, hand it to someone else, and still unwittingly
-leak real-world usage patterns. It's a side channel I'd rather not have,
-especially if I'm not getting any value from the timestamp.
-
->> The nvme_core.timestamps_enabled_default module parameter supplies the
->> default value of the per-controller flag. Default it to false as the
->> privacy-preserving choice. Users who want to provide controllers with
->> real-world time can set the module parameter to true or enable
->> the per-controller sysfs flag, perhaps via udev.
->> 
->> As an alternative, we could also get the timestamp updates out of the
->> kernel entirely and have interested users run nvme(1) to
->> update timestamps.
->
-> The use cases for the timestamp feature are outside the specification.
-> But I know of at least one implementation that uses it to determine how
-> long it has been powered off so it can better apply correction to media
-> drift. Yeah yeah, depending on the host for something so critical is
-> pretty fragile, but it apparently worked out well enough. This proposal
-> would break them.
-
-We could make the timestamp-updating opt-out instead of opt-in or
-require users of this hardware to change the module parameter. Also,
-IIUC, nothing in the spec requires a host to use this command.
-
-I mostly care about having *some* knob to turn this off. Right now, it's
-unconditional. I'm happy with either opt-in or opt-out, although I have
-a weak preference for the former.
+--=20
+Thanks,
+Kuai
 
