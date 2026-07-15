@@ -4,89 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BB101C44508
-	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jul 2026 00:51:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 265B4C44508
+	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jul 2026 07:45:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=JPDFGbUcKjq0fLUsPvbs/BQdu6/FNunI8oqbYcrNDjI=; b=tSAu8aI5WJDatGHgIZYP2u5E9r
-	T13WGpF8j6zbnLBvNRJmM0k7kROT0U0vWjiAdgIt5pEvFqXBH+SAxY1QCTdyZydesyOVIeQT/Mbco
-	2bjtkcLwKGXctUAZvXpJJV+ZdAOfKVPd4JvsusetVH+ydGT9NcSheheq1D1VutGIdcxo3gqKUqavh
-	hRuAkzmgtvz41AIrszrcNd8t1FGnnqIRJ04XaWq8/U7OoC7Ki33LgcYe6XcryeLqb91gc3zgy5h8P
-	Sb2Vleg52uYYwgmC/bMITNRrvqt9ilziwJV+8ukO5rXWtm7nQSmijsj+egRtR2SX9oLRU/KKQ4qlD
-	7bxbCg5Q==;
+	bh=eFEOc9K8ZH4WjUhqE0lhCkuF5t/lKGFy+XbxPZKCt8U=; b=F6nFWZLp9Uy6uF8ZL/GPfvh/WN
+	Rars3Abrxtb9EwzHZthCSsOMv0jVsoj1CG7ldii69AHqIzYLkvDa8bA/qJYOYVF5m6OSeJiyHgOAK
+	fkSVbR3AAKBpJfUTlSo3BzZjJWOahaSLWIVHvCkbEkC+qWjaj5fgo1TmrVKaAAdxVOhMDECWOfgv3
+	YslYExW2pM6HQC8j2FxfDl+DtN74Rv2l/VzaIbdfiqj2S6qBo6ASouJrlvS4ZscOsgDAY5kqcK3a5
+	9EV2qozk3VyHnUTjretByTU7OkYIwY4oQH/EBzhdLazAiIeP2vOofYIfX6eHkhThsqgM8Coz5cFWc
+	OGjy8NNQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wjnqE-0000000DWFV-3ZnZ;
-	Wed, 15 Jul 2026 00:51:14 +0000
-Received: from mail-vk1-xa30.google.com ([2607:f8b0:4864:20::a30])
+	id 1wjuIt-0000000E4Bm-1CL8;
+	Wed, 15 Jul 2026 07:45:15 +0000
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wjnqC-0000000DWEi-2ctQ
+	id 1wjuIm-0000000E4BB-0Tjm
 	for linux-nvme@lists.infradead.org;
-	Wed, 15 Jul 2026 00:51:13 +0000
-Received: by mail-vk1-xa30.google.com with SMTP id 71dfb90a1353d-5bdb162ee53so889207e0c.2
-        for <linux-nvme@lists.infradead.org>; Tue, 14 Jul 2026 17:51:12 -0700 (PDT)
+	Wed, 15 Jul 2026 07:45:09 +0000
+Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-2ceed7018c8so11432385ad.1
+        for <linux-nvme@lists.infradead.org>; Wed, 15 Jul 2026 00:45:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784076671; x=1784681471; darn=lists.infradead.org;
+        d=gmail.com; s=20251104; t=1784101507; x=1784706307; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=JPDFGbUcKjq0fLUsPvbs/BQdu6/FNunI8oqbYcrNDjI=;
-        b=ankr6lHdvs2R37yMvJM9EVZcXzhbFhJnXylDYkQdmE+56pkVjUC+D9aZZuPMTGzQXC
-         X0BvhrQbPc1u/JpJU9PV1WnTYCMlaxHybEpGWQNNqnO9YHMfpeT/viwB8eyxRXpYmPVx
-         zmC5/OTcqrwcRrfWT/+oVHCxAdbHAgvdHqJCr8xH0uXwf5oYDd522sn7h4oYIP/HCuLx
-         ochR1wvbxEqEYpQVTM2NOjZxSOPb0CiZUTPYeLXDNtYEWqJCWGio6tlNGKGQPiXHi5cB
-         fKgEdQ/RXdBgk9teEtXDXQjMRxl7R1MIHdXHn4ENZfbBi6jrdPjyRy/+cwHTd3ZGpEPF
-         HBcg==
+        bh=eFEOc9K8ZH4WjUhqE0lhCkuF5t/lKGFy+XbxPZKCt8U=;
+        b=F4o454+2ufdWUfbON9oQYnAww90/75LI48dOYnbPs+c664IeXea3N6hClTqfNxwq0x
+         I+UIyRkZDpU4XK1vfZZTDqpF+H8nQO9aNw3p5T7gMew713aAyhV4a2pVWB4wKlfJK4uG
+         gvY8s00UJPnZQ+o+af6XjRwPTadePaRcTZRNtPAqgjGbM/Xs+cmy/qO/7WxsXs6aXQAN
+         ZXAcJBdjwZKy7rphwh1nnyOBam/4dc8Tb4s/jGw8AgPrrjsZBT7wT7qcl24DOKwYUyNm
+         /QZ6HgnURvUPfqh/pQYsvD/MyA3H8JpT/2PFQpMBecmd1dnRZWnACZG0j8JxwYzYheLe
+         Tyng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784076671; x=1784681471;
+        d=1e100.net; s=20251104; t=1784101507; x=1784706307;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=JPDFGbUcKjq0fLUsPvbs/BQdu6/FNunI8oqbYcrNDjI=;
-        b=de75n4tIKMdngwK8Agqg8/DEs2qYidFWhc2LTCunm0C+To+Hb8ZRlaRYB2GqFt0i7M
-         Lr15jlPPXagxpnN6NmeAEkvTsiiefXyPM6UkHw/oWOqUtagM4o+h84xt2Y3ogFxOHzrx
-         ga22vAaOHzxnCHJFGLsBS64eG/erVCfvIoUAw/bE6GDkU4CMpGpK6WfkL5ZHNJ48dsFo
-         0EkbQXDWGnIKd+/OTI2/maLiSJkaQRlnIs/zxld0iKHGDUHBBC0srSmpg2migSgnGmyF
-         JBDXeFeeV/cojRmVYrgH8Tc//pyALR2MK5Jg069BkDt/dptbz68zsAnHjaO0FVJmWCWC
-         QQ+g==
-X-Gm-Message-State: AOJu0YxjqITKYVjWS2WXpw1vlImiHfIPlD3xr9e2j+sotP49clG8hu2I
-	jZAlnWz/oeHzi0ULr0whGk0IxmLKoXk9H56dGneb2US+ju/6EJsxF8MR
-X-Gm-Gg: AfdE7cmc92mx605mI6iuf3p+KGAvwIyV8G/mvqJf/6uGGhKXPBEw/loQpLaWuvqW2gr
-	bxLiuAB8Gxq/ECj2VeRhnzJDBQaBSRO3rQcXsgqVM224GVRl9Xn5qQDbjxvYXS/GcVyf9bYSWjC
-	UogB7Ensc7eETiiTh15TpoGoZ+aZdSZAbnpihs6UCaMiAKFG7AXeNR842lEaH6mhnyzcGL+DhzZ
-	l+aT3ZLEehXqKqpXyqbhgKk+AkrdxGby246PEWcr0i3XEllM1SIqjekbuf+H4rw4SJmBVYKsyFB
-	yehtl9zU5+294Dwv31iAPLefQHXkfilP9m/wVJoc2sClOYvIz5c0iZdWkP/Qlh/GwdZfVqlo6dq
-	6T0WC6AXny6GytBzrv22erYarbORC6Iq5LxL5rdfX352xSQqE27kbB+BEi1hKVOZHGer/wlnhA0
-	iX36jjQ2gCskx2NxXgU5JtMteasVt3/Aw=
-X-Received: by 2002:a05:6122:787:b0:5a5:3eea:4513 with SMTP id 71dfb90a1353d-5bfbf34947bmr8882689e0c.12.1784076671006;
-        Tue, 14 Jul 2026 17:51:11 -0700 (PDT)
-Received: from syssplab.cs.fiu.edu (nat1.cs.fiu.edu. [131.94.134.89])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5bfd0b319cesm6149473e0c.11.2026.07.14.17.51.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2026 17:51:09 -0700 (PDT)
-From: Chao Shi <coshi036@gmail.com>
+        bh=eFEOc9K8ZH4WjUhqE0lhCkuF5t/lKGFy+XbxPZKCt8U=;
+        b=iCejteQCPxLy8lSr/7O7r6q6YSKB3ssyO0+Wxkxw0/B6eg0PWqBPLf7dzh+WbBWhsY
+         BD5S8LsKpW4vVeL4epMVgNFKrUi+WPX78N9e0k5JEkPrR3OsWSPQsRTXg4zF1jgzt1jw
+         wo10XTYSr9vA/n9oleHlhL3C0+ffepf4JMllyDLFZPM7J6MmGKlnNPKRDmTNcXYmXVKf
+         hkn670ag/Pb6sjrJ3whuLLC6dTkB2qpcQbWckBuEJTfCNew2tlJjczTfJkAWfzDjNLPW
+         8mqdz9vEW6owwuUx0O7CcJm2Og+MNt47EqML/zqctOhuA0m1B9aTgoX/TEH6ZP3ijhfG
+         7Slw==
+X-Gm-Message-State: AOJu0YzZHKQO1w+NtW+oM8JAGXFP1rXlQ0tM2FfmwdODJ3rcTj8QQpLT
+	gGGxv1KkhGdGZXs3bhyCaAXqtAaRdRfQvjUXtZEiAeRXTN9KhlqOV9A=
+X-Gm-Gg: AfdE7cn2YIw5KEx04xOzZlaoeVaY6RINy0rV1+aOKbj6p+M6Bgrzz1xGoyE9lqxF9V8
+	hzkSd6sApVSxk6jKTO2OtXz0vP5bBgZtsDLs8SYddNxFzlb3I2qpFXxmPJBmxnOTPGp0xUO982t
+	ef9PWumev3vliYbRZ4jPb7MYIY6K8MpofeF48NQtUNibEqTts7GykWWggSAHK6lJVYz4AAl8jjX
+	rpVyTOYO6xUSsQJNTeHVCNFSrEM9Ipsj61GPsKY8aPaLdhMINAp0tB2jgl1U6MYQdh6p/sWpRln
+	cYAZkZHdW9+yfUSkePi4+F4cANbOKvZMiPnevx4aJBBWE4ziydlQfeoCEpzld4ULA9n2dmFj4AL
+	ya4BEqCwQogJs236BBvEUVA263Bsm+sz9Zo4axbe4WRtzl6xZXgWvzl/RHMN0EumFUbjzsxOy6f
+	UPzW64ffPySnE7SEkdBPf9QvJT0IJjtTwXKHfeiQJy1mdJVZDHgLHjIZLtwW0CBxzrN4pw5KvYs
+	weA6vTyazs9zgUDuBo5PzagKwUJHzlNvjVQ/0NW1bIOPHcjjA==
+X-Received: by 2002:a17:902:db0b:b0:2cc:6b7a:dfcb with SMTP id d9443c01a7336-2ce9f028b80mr152805965ad.33.1784101506574;
+        Wed, 15 Jul 2026 00:45:06 -0700 (PDT)
+Received: from localhost.localdomain ([14.5.152.27])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9d3bd33sm130345175ad.58.2026.07.15.00.45.03
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 15 Jul 2026 00:45:05 -0700 (PDT)
+From: Myeonghun Pak <mhun512@gmail.com>
 To: Keith Busch <kbusch@kernel.org>,
 	Jens Axboe <axboe@kernel.dk>,
 	Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>
 Cc: linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	Sungwoo Kim <iam@sung-woo.kim>,
-	Dave Tian <daveti@purdue.edu>,
-	Weidong Zhu <weizhu@fiu.edu>,
-	Chao Shi <coshi036@gmail.com>
-Subject: [PATCH v2] nvme: reject completions for requests that are not in flight
-Date: Tue, 14 Jul 2026 20:51:05 -0400
-Message-ID: <20260715005105.1115958-1-coshi036@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	stable@vger.kernel.org,
+	Myeonghun Pak <mhun512@gmail.com>,
+	Ijae Kim <ae878000@gmail.com>
+Subject: [PATCH] nvme-pci: disable controller on admin queue IRQ setup failure
+Date: Wed, 15 Jul 2026 16:44:59 +0900
+Message-Id: <20260715074459.50760-1-mhun512@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260714_175112_674210_47CDF1BE 
-X-CRM114-Status: GOOD (  14.96  )
+X-CRM114-CacheID: sfid-20260715_004508_208475_83C705DE 
+X-CRM114-Status: GOOD (  13.84  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,64 +101,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvme_find_rq() resolves a device-supplied command id to a request with
-blk_mq_tag_to_rq(), which returns whatever request last used that tag -
-possibly one that is no longer in flight (freed, or never dispatched and
-thus with a NULL rq->mq_hctx).  Commit e7006de6c238 ("nvme: code
-command_id with a genctr for use-after-free validation") guards against
-this, but its generation counter is only 4 bits wide and can be matched
-by a malfunctioning device replaying command ids.  The driver then
-completes a request that is not outstanding, dereferencing a NULL
-rq->mq_hctx or double-completing a command:
+nvme_pci_configure_admin_queue() enables the controller and then requests
+the admin queue interrupt. If queue_request_irq() fails it returns without
+disabling the controller, and no caller compensates: nvme_pci_enable() only
+frees the IRQ vectors and calls pci_disable_device(), after which
+nvme_dev_disable() treats the controller as dead and skips nvme_disable_ctrl().
+The controller is left enabled (CC.EN set) on this error path.
 
-  Oops: general protection fault ... KASAN: null-ptr-deref
-  RIP: blk_mq_complete_request_remote+0xe5/0xa80 block/blk-mq.c:1319
-   nvme_handle_cqe drivers/nvme/host/pci.c:1418 [inline]
-   nvme_poll_cq drivers/nvme/host/pci.c:1449
-   nvme_irq drivers/nvme/host/pci.c:1463
+Disable it in the failure path, while the PCI device is still enabled so the
+CC.EN clear handshake completes.
 
-Require the request to be in flight before completing it.  The check uses
-the request state, so it also covers controllers with
-NVME_QUIRK_SKIP_CID_GEN.
+This issue was identified during our ongoing static-analysis research while
+reviewing kernel code.
 
-Found by FuzzNvme.
-
-Acked-by: Sungwoo Kim <iam@sung-woo.kim>
-Acked-by: Dave Tian <daveti@purdue.edu>
-Acked-by: Weidong Zhu <weizhu@fiu.edu>
-Signed-off-by: Chao Shi <coshi036@gmail.com>
+Fixes: b60503ba432b ("NVMe: New driver")
+Cc: stable@vger.kernel.org
+Co-developed-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
 ---
-Changes since v1:
-- Drop the "malicious device" framing; describe the trigger as a
-  malfunctioning controller.  Commit message only; the code is unchanged.
+ drivers/nvme/host/pci.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-v1: https://lore.kernel.org/linux-nvme/20260522153034.2168862-1-coshi036@gmail.com/
-
- drivers/nvme/host/nvme.h | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 9a5f28c5103c..3a525c1dc818 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -615,6 +615,17 @@ static inline struct request *nvme_find_rq(struct blk_mq_tags *tags,
- 			tag);
- 		return NULL;
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 2f0c05719316..07aa9af9bc89 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2221,6 +2221,7 @@ static int nvme_pci_configure_admin_queue(struct nvme_dev *dev)
+ 	result = queue_request_irq(nvmeq);
+ 	if (result) {
+ 		dev->online_queues--;
++		nvme_disable_ctrl(&dev->ctrl, false);
+ 		return result;
  	}
-+	/*
-+	 * blk_mq_tag_to_rq() returns whatever request last used this tag, which
-+	 * may no longer be in flight if the device reports a bogus command id.
-+	 * Completing it would deref a NULL rq->mq_hctx or double-complete a
-+	 * command; the 4-bit genctr below only narrows the window.
-+	 */
-+	if (unlikely(blk_mq_rq_state(rq) != MQ_RQ_IN_FLIGHT)) {
-+		dev_err(nvme_req(rq)->ctrl->device,
-+			"completion for request %#x not in flight\n", tag);
-+		return NULL;
-+	}
- 	if (unlikely(nvme_genctr_mask(nvme_req(rq)->genctr) != genctr)) {
- 		dev_err(nvme_req(rq)->ctrl->device,
- 			"request %#x genctr mismatch (got %#x expected %#x)\n",
---
-2.43.0
+ 
+-- 
+2.47.1
+
 
