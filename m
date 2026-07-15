@@ -4,173 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 81CBEC44501
-	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jul 2026 15:56:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 34B00C44508
+	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jul 2026 15:58:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Message-ID:Date:Subject:Cc:To:From:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=dIJ5k8mldU3xHnBNnci9qZNHR53khsmQJ0xvA2ocT4s=; b=GTt7znNBRhzQO3yMFG1XXHsDu0
-	rsdwlkKxErup02FFFZFBwwJzSYTpTFzBPxvKf3fZaw5noZusX2pNYGGvowWHZylNJ7JP/iSpPDfNZ
-	7ZVrhk9Swp2VA/Sa6FyZD0uU8EHC61KPf6VM8q8IoxP9NgRgwP3H4Dm3Roh1VnOptyOt6lcqHdFJP
-	ixvkHYTatiSjgsFWmATsQjA8152u4Vn80h2hB4ik8t3enj3y2W/dAIn70J1i2J3FHsEJzH9u8N+ck
-	EX1Z1NFJI1eVEue/lXQqrz59cijN890s6+NPN0O4/eeiKwu+XEum9dYbAEPC0w3EJgGO2QN/WYtlE
-	u8a1knOg==;
+	bh=9aijD+fPo0qOczwKPInOUobCTh5sBI95W49BowR2h/g=; b=LUgUYvBjjCh4Gq0BC08WKWCHbw
+	jcopRN6+x+OceGc2d9GhlHi+JSilspVFnvL+KHObl9mX6IFUnIDKYSXQqlpArIa4jtlAeZn8mggI4
+	ixkWLrvCABUcv3OI2+cf3zgIu6S7jfW2XOK84y+gwOT2sMdGfaXgl08amRqFVBcC314wKMqTgo6yY
+	GmJZ+js4+F2dO/OFsPtmhZgxl78DuzQquYMemzIUjXFzdOBO/Z4r5yTSjT/pEHDAc1g6oShUIiJef
+	pht5PDUTeiyTW6ha2b6Qv4atgYQ4iQY8tSCiDDI6tObYKA5TvTrtE+O0yAms15feCNuqi3uzEyCq8
+	DlGPpyCw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wk1xo-0000000FNMI-0moC;
-	Wed, 15 Jul 2026 15:56:00 +0000
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+	id 1wk1zj-0000000FNnf-3jiH;
+	Wed, 15 Jul 2026 15:57:59 +0000
+Received: from mail-vk1-xa2d.google.com ([2607:f8b0:4864:20::a2d])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wk1xj-0000000FNKI-2g0U
+	id 1wk1zg-0000000FNmk-1fT3
 	for linux-nvme@lists.infradead.org;
-	Wed, 15 Jul 2026 15:55:59 +0000
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66FEwu9i1169970;
-	Wed, 15 Jul 2026 15:55:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=corp-2025-04-25; bh=dIJ5k8mldU3xHnBN
-	nci9qZNHR53khsmQJ0xvA2ocT4s=; b=eDETbzZb7cHB9XaBJDYKPB5e0p7f+272
-	O57u/t7e35TDBkOLhNwxrfMbSfZNFu3CWgnprSCXf/3qoI0eQ758Z9D+45OMRtEl
-	avH982HZWKskYAnYmzfJQ7Q/MInB2OtuFAe/XmMbjxFyZsOSV+Oj28eMyDJLxlUL
-	+JlGJGXMbBa/6gJ2ofRwSSDpd9xNCyWWg0ojUjfTGL3NZrtd7oJKwvfymswxyky6
-	rv6+8POHXBhLJXtoluLyb5euLi5HD419leG1ZFbxgtBbXYZc+QufS2c1anmVl5kM
-	yQBrVvC2j8GdEm5eRLdAYXBz96huJq4WAj1gheBqTGEtw/P1v7MWqQ==
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4fben1py37-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 15 Jul 2026 15:55:51 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 66FFr8re036099;
-	Wed, 15 Jul 2026 15:55:50 GMT
-Received: from sn4pr2101cu001.outbound.protection.outlook.com (mail-southcentralusazon11012050.outbound.protection.outlook.com [40.93.195.50])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4fbc9f7a13-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 15 Jul 2026 15:55:50 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Hp5wruyGgZY1CGNOxMq/tuhgxBA1NfE91R8199q7wCr9fBQHYM4U8Q9g8j1XXbaj0Iz06ItGEwlSgjRY78tSzbHqwwd2ZWvgHgw0ZqOoY2MPjdjXl/9B0yipxFIpjgkxuar6bUfBpPkMcCpKD9gruPlv8fVxJtu6d7D5J566KQMk197M4QN8FQi2+Xdda9QTddvviFeoCwi1Y1Kwk1WYyCI6Kh/0eTvjyfuPfKgXxCUquj8fBMNQBC5/MVfQcMhLFI/9NvoSzDNlGmDPzjM6YXurUJIxL+rR+twi5VaGiRhys7/gn97QBhItnvFmc5HZarT/p3hIO274kQEGE0mtxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dIJ5k8mldU3xHnBNnci9qZNHR53khsmQJ0xvA2ocT4s=;
- b=Bu1WiXSVcM6xWziYcihk0kNi9qeyyDkQ9B/wn/8tW+o+I2C8VBap9AHjL35yIwT/W1nwNl0EgVN0chi/j/5w97KyZOhrOCPOmLGNfOJdNdF9asK540zFZJ1UbfO3krcd8dhluTiVnIvdDhpUHFuuFltjtYctiPYXGdiVuvU9LZAgj18dGjkDar6tzBR7hF3hvS39Jza1Z07sIBX8uG20WuN37k8WkKDh27++BJrVMWgbAdv9gfCM7q5ZQfug/WdAv67aK18Y1CTB4PAzBq79N14ffpjTnXMNIguwbMDH8QQ5Yb35tSAbbDpnYr8pJeG0HVzzeoATouAgxzu7poPC2Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	Wed, 15 Jul 2026 15:57:58 +0000
+Received: by mail-vk1-xa2d.google.com with SMTP id 71dfb90a1353d-5bdcbb1f3f2so774069e0c.3
+        for <linux-nvme@lists.infradead.org>; Wed, 15 Jul 2026 08:57:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dIJ5k8mldU3xHnBNnci9qZNHR53khsmQJ0xvA2ocT4s=;
- b=wdhXkHmGLQ0VBK2lTgreu8J5yT71pCEaAcHU8X53yyW7a0J9HWJVCWMJ+jhxcg+P3NFL1YvjxQS+3sCp8mIRViSEjrwDerjzyToITVcVLgik9XhVYdR3iJALSNxbyEYJujZyVxyqwvc0HUqz1nP4298F+sBxFkwjtadyjaQhUuU=
-Received: from DM4PR10MB6229.namprd10.prod.outlook.com (2603:10b6:8:8c::12) by
- DS4PPF94A902B17.namprd10.prod.outlook.com (2603:10b6:f:fc00::d34) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.17; Wed, 15 Jul
- 2026 15:55:37 +0000
-Received: from DM4PR10MB6229.namprd10.prod.outlook.com
- ([fe80::867:63e7:13fa:fa7d]) by DM4PR10MB6229.namprd10.prod.outlook.com
- ([fe80::867:63e7:13fa:fa7d%6]) with mapi id 15.21.0202.018; Wed, 15 Jul 2026
- 15:55:37 +0000
-From: John Garry <john.g.garry@oracle.com>
-To: shinichiro.kawasaki@wdc.com, linux-block@vger.kernel.org
-Cc: hch@lst.de, linux-nvme@lists.infradead.org, dwagner@suse.de,
-        John Garry <john.garry@linux.dev>,
-        John Garry <john.g.garry@oracle.com>
-Subject: [PATCH v3] nvme/069: add a test for multipath cdev lifetime
-Date: Wed, 15 Jul 2026 15:55:31 +0000
-Message-ID: <20260715155531.3811457-1-john.g.garry@oracle.com>
-X-Mailer: git-send-email 2.43.7
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: DS7P220CA0005.NAMP220.PROD.OUTLOOK.COM (2603:10b6:8:1ca::7)
- To DM4PR10MB6229.namprd10.prod.outlook.com (2603:10b6:8:8c::12)
+        d=gmail.com; s=20251104; t=1784131075; x=1784735875; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=9aijD+fPo0qOczwKPInOUobCTh5sBI95W49BowR2h/g=;
+        b=BrwEdkWXPS257X9IW/WTGpZi7a50kxnk/Ez5KPBlvJDtEyxM2nrlf3uwbMXk96yejJ
+         n3xfQ1TXV7+oyvG5bFBW2mvKaBqAfwc1prhQ8/77TJw88iUu4Xf75RH/gaEDSkFrVNtv
+         +guiksD0zPfFQBEcXCAZtZ56SZh1KAcyOVhBDScViXP1SKA+RvvNn/SVx/W0nBLE+Ce+
+         EVQanWuRd2KA/H+6Z80JYPBYbiLXzwPwdWFyowkFUDDsYezya67BY7za5rGa3aUWVtWr
+         +fBS8R2E6T6SdtYwAAx26vt2/cdzSVgzdHJPaVlgrmRct42mLMov+Y/vtMMDB1HDXO+q
+         +SoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784131075; x=1784735875;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=9aijD+fPo0qOczwKPInOUobCTh5sBI95W49BowR2h/g=;
+        b=H175i6b0oOZT3upDSP0uhDLTqGB5mKTXYgSZ6ImNa9RS5wwF1zh+t6k9pZ4aesPsho
+         4sfgx5oCVFoxj0MBxr38IgGjwNK/UwHGY3v7PBzaN1JlkunCOpAGNtvo9pT6jXZyCJ9B
+         czW9abEPmBf+LEPunAE7CqNM/1/y8g+9XO5HlGS60yjEQDXs8dNzsBpOkTVZVtU6L3Ax
+         OhoDOwWH1r4nxNxyRNBYuALux6oJOaf0x9sOOYsEir13e1cF0LMCdGWQ268C0r4elz5g
+         lw66NsAw9DiDTVN/AsbSvZtaNcBHiuWW2SW4zLzteOxpRNDpcx2xaq18XrdX6FEkYRji
+         CFVA==
+X-Gm-Message-State: AOJu0YymykzpfhgVdOAm++BhG0fnCQkuIyU6QkZmtoPG0FzEPfaGHGB6
+	gcB3iNg1N0TaoO0TjF1nF5Ucuqt6P/G1EQtpCvGknMn5dxlbEJsH1nDexr0ro+jqrlM=
+X-Gm-Gg: AfdE7cldC5dtG0dIpPARi3+VtBWzfSMuGcUMRAcUk0o4C3jLIAEFtDB03KJLH7tl3fM
+	bebkh+f+inIRUXZtrAX2dbtzcOUpyElhGnzcIkKCiDg01slnT21poD/KeGwuOnrCnFux9RCyl2o
+	tZPkHO8CEUV0aWMqsMaUuZTkIHgys4nZEyf/a+z0W1IOFCOcsL1IwIo7EqxdxjWw1s/IOtgK1Q4
+	cQtGKq50TvygJxdwuuh0MWSg5xFER6r+T9673bvnWq07gcSDDjTHwvxymvBEgSEz3il77ce+StH
+	M1uVc8U5QG/YcN/K4dfEH2VbxeUrrr7SjdOZEXpuyx5bp/dprgUWtLfA/fKjhHexV3sKh6qE33L
+	E2pNkwbAbQhVi0UFKfItIEzYbWurqjI22t25cly59eNXKyU3wPKcSJC/HlXcUjTMbCsUFBjm9Ch
+	Qaj+u6GMGGNaEa1icyWLO5a1YIiymC+yU=
+X-Received: by 2002:a05:6122:1682:b0:5bd:9c71:11e with SMTP id 71dfb90a1353d-5bfbf116fb5mr10853644e0c.4.1784131074738;
+        Wed, 15 Jul 2026 08:57:54 -0700 (PDT)
+Received: from syssplab.cs.fiu.edu (nat1.cs.fiu.edu. [131.94.134.89])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5bfb1aefafcsm8774511e0c.4.2026.07.15.08.57.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Jul 2026 08:57:54 -0700 (PDT)
+From: Chao Shi <coshi036@gmail.com>
+To: linux-nvme@lists.infradead.org,
+	Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Jens Axboe <axboe@kernel.dk>,
+	Tatsuya Sasaki <tatsuya6.sasaki@kioxia.com>,
+	Maurizio Lombardi <mlombard@arkamax.eu>,
+	linux-kernel@vger.kernel.org,
+	Sungwoo Kim <iam@sung-woo.kim>,
+	Dave Tian <daveti@purdue.edu>,
+	Weidong Zhu <weizhu@fiu.edu>
+Subject: [PATCH v6] nvme: reject passthrough of driver-managed Set Features
+Date: Wed, 15 Jul 2026 11:57:52 -0400
+Message-ID: <20260715155752.3363247-1-coshi036@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR10MB6229:EE_|DS4PPF94A902B17:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5f66e195-0209-4ce8-79b7-08dee289834d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|23010399003|18002099003|56012099006|10067099003|6133799003;
-X-Microsoft-Antispam-Message-Info: ViaAC33Q9gb2/c6tiQt8GTj98AuoWu8pNoEU+i4PaDGBtvRx/aWvSXaSv1AczEMudXpQEdtvUPETB0PuwsJKLwD30IQ2nRvP30+xll0bZPH38QnNCKwUXRpN/qT7ccCEOoM4JuLyM6maTWZgazVksMG5t44ixdR4lQmTbgJKkeIF2lH/51vMe42Jghm0eanxqpu/MVWVik5WlPoBaWo1hlLa2IhmShKzVJI4C8uq3QLSxXyLsGvRYFQyaVHFe8Bh+jHijU4oF0xVkj8KQM/dIxDy144NfnIq7bH7LHvQ+GIclgiZlvfa0hEORqwyjSnQ1QtKkONfM0ku2YvLNbFoR4WAK2C7VmLGUNLfoexbNwR/dezMXauCYynJfNt3G84qv/IndpJ3K8lbZXSHJV/Bayuvq1kZSgy8kABDNa/GrOwvoMBN5rEtpuq+sn9wqNFyXZDoINroGd52GLhlUBV5wSM2G/aRRroj0Tl+s4F7QdwylpcpitJg8l0qjAqNMrruUAR+kyppup2mX43JB6zWuHS1Up4ls6l2sMR7u0jNFN78RMF6D6bCO87lMiKa12vBJbEuxBCtgNBW+s9SQ7mm6b/bP/IHCYlQVPALCcQtQ7gqkkKnN/3DYlyGTv1Vtllo
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB6229.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(23010399003)(18002099003)(56012099006)(10067099003)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?JVsUezmn8l0IDUS5xBQ0ybiMyxNWCEpL5AbLmtEM7//9WQGOH+voHGagwswA?=
- =?us-ascii?Q?6cF3aMsQ7ChPeYNRniJU4kimc1NGKiL4qaShDfBh+OPX69fGmH/p8J+nMVXI?=
- =?us-ascii?Q?kCS5BXdUrx+CMkaFh3U3OP2PvTphQI3phMa41AytUuITjf/PNN/9NbFMW65o?=
- =?us-ascii?Q?lOBL9qJQLtQyYrlPBjGMLJsAZJ6IRphv5QhrKaDqNDtyCWIV5nK9E1Vgy9N2?=
- =?us-ascii?Q?0M7GszZeqcAYRWYfzEIINpTB/VmF3mKAEuK3ILkWXM4qU1x5fTYAmVa1+t8y?=
- =?us-ascii?Q?1AvHDAQNABofEECZskLoZe/8l2IJb4i0SlNT+Y8+1EEHYh5CaPxaJ+ub7vP8?=
- =?us-ascii?Q?poJS53cICrz25Fa/Qi4ZclinnAVVLgME7sIl5FglDfoebRLqeZ9ILxj88iQ0?=
- =?us-ascii?Q?2R+TmOJP4wlWIP1QpFDAHNzxNN8YqGtDkNsYuxJxRUVil4ilpkptfbm1a7YK?=
- =?us-ascii?Q?EN7QwSlLKX7jIXCodMTN88i622bm79N3bq5IGi6/9yFsr4sJI9TQZzjBnUlQ?=
- =?us-ascii?Q?yzdTre3c6lDjpm3B1ba8aO0RMjw8HcQHAsm+DbF/ozq4wttS5k5JvFuw95cW?=
- =?us-ascii?Q?9A4Lpbjszs2qWtc+YrQGMw7bXp08m/s3GQpJqoRtkHfUa9QpwsNMv+Fxmzbt?=
- =?us-ascii?Q?nbCc+MJThz3JR1xa/3O6HLSQ/sBdkIdblwAoKxUsROvlcjZDQV/580pPyPyb?=
- =?us-ascii?Q?n3/gBL0F0FaiS+Dex7ZJ9nj26V7UvNXlvY+VfLUOhyPpC6GSUqTcU4QPHZZk?=
- =?us-ascii?Q?C5gQjsk9FSyshb5wSLU0iemWH8dyT50hTVm9l8K45WLfThNSS8p1ynsvdxCZ?=
- =?us-ascii?Q?QjHlyXcRHONqQzpFTxXhbEsfiokfM1Wrkqo9EZJRO/tTbSMeI18g4Y7LscF/?=
- =?us-ascii?Q?SBSK8GGumE3zzP1XlrLn7iRm6rcoZCRM7ENVZHkPQRXAIlCPYwsL4r3Vwz40?=
- =?us-ascii?Q?Lcg3YQJlkQNTtzUp65bU9BWrfB5sXA1ZNiPasGzz/fUIJ0oYOyfo1kZXGK+k?=
- =?us-ascii?Q?0Qi4Pehnug5NhoWISHmkgcT6bH9BV3nEazL1jb1lYfmo93apqcrC8+denB5O?=
- =?us-ascii?Q?Z56cihWeZ1Pjw0AeGun7r/qhOR5cp6pU4mxCPycXlPcQEhavejkzBU7dVL2d?=
- =?us-ascii?Q?nfSdD6YHxJc9KV7N94CWbS7aTIHp5bX0AFreT6NRZIV9+8PPcPjIyu/rHWTh?=
- =?us-ascii?Q?ncoJlPmUWLpaUapazQIUV5sW2wYTQkC12cQEOizrr5PfueYk+F+7jg+I8r/u?=
- =?us-ascii?Q?8PAOeH3MIoO3SeEXiOj52qp8IMb59/GuAsAo0j3CSNgRPFEj8k483fKqyUN1?=
- =?us-ascii?Q?MoW4yCVUtoodqyXk3DhGVHdnZsrYrcD8dOeMKOIa3lQzeC/AorxG0ADbUPRO?=
- =?us-ascii?Q?+sGg54RNZg0dfLD1270kPblmtobhGbqhlsEOAfM2/DWaiYvBSXw2z8bMj2JX?=
- =?us-ascii?Q?K03pgIXm4v0grM6evy3nC33TWptCV4U1fb27E9ppnkldXgFZc1M1AS1b4N66?=
- =?us-ascii?Q?J9zoMCyFYj9kCCCSrxTt5EpKpPoRRaQ7npFLrF4nMSUjVeHNk5aHPfFHptEr?=
- =?us-ascii?Q?Zg+27xdWkH30vzNE+6aud1PG5nBNtugLuO8/GttYeF6S9NM4nL6/TUzoi3EH?=
- =?us-ascii?Q?Aa0xWT0SaOtsudqlyq/ivGJcVFkXPYYe+mAmhYmID8UUN7Uo4kKCyRAVsgGn?=
- =?us-ascii?Q?gNucm1Ez/NQPBePUV2DUwWMW01LcONx8nKIUfue4cuJOGDQybQxTj7P4D0Ak?=
- =?us-ascii?Q?6F0N4BoP8g=3D=3D?=
-X-Exchange-RoutingPolicyChecked: Sz7iS/FsQ7QXQtm1CZGh+8o8oJs4QDdGoDJY+xB7PVdFv+HU5EYC0ZFNLUPM0+opY8L2pI1/t2HbX+vxpYcxcVsKPkjBVzK8GlgUO5Me1+BZqTdiOFwd5Ox4H1XZQKHpSsc/RWBaJohw3fwz5igm/KidVBHcty6xRPjw8u/VWxeSmoXRkqzElfb3tEfEI6TJ+Ehh8fOZCC01HO/DyNzLQm5OPP77sXPQiPuZeYdFhPxQ+VV42FO+mWtwOWP9N1Fs/TeTiuShTxZi+sPwtjiW7jir9EptdrpHyFv1N/XRpO02PVOehXDNB2iwleVIBrum7RYGT2+EWGIL0F1pVS46pQ==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: QcuRCVE4iYsDOiZPWOTgHY7ZsB7msx/5oPOScVmXUmHzCSnw8tBHTdckzOZmsXZyDEut1PeUzHnSStjWQyx8yt5qApmQIFAAjMyLbn2GdIUlXQPNsh6tWOdCa1zljBiWJ823ZDoSaz7dF2VSmb70p40IMIMUyXQ7Wi9pVjyL5NLyFsA3ZWaNPaLtZVS7KwMr7RUfFAIPZwVwb96RWmCOXmzF5UajOaOX8Q8j46P1gHePBgM1wJdKjqGpwszvm+6h3lkPjWDCSg0h2Vamr9mxFlXstEQs1WG/nt+5rrzdf14N6RAL1va3/2DEM0vC0u2uVZ6NJ0SMIqADSB+BvJZZcRgesmK56Dr4pltmFMr/ma9ILqbfnM7qRXPs3+fJH8DLHxJrsKp3DvLiEaSDFCP/KLoiirVaRqcI2cfAnqC41/ivBovUQ1p2YbbzIB/PEqVUiD2te2XcgPmFDxThDKsjiN1/FGe6qjSjDVrsTHp6ZvYc/k37m3glvN8NznEFflnFCH98Jwem/Xy+S45Wb/m25r4Em5LIngLjVu9AFgfbN44iMCQwgBFJxecwnsgVdU3pfWRZrMjqcHr/JIqBIrVn+f97oIZMsjc83Z700Qf4CNo=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5f66e195-0209-4ce8-79b7-08dee289834d
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB6229.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2026 15:55:37.6125
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pIPqYTt1e8/xu+AVupE5xBARbh3x6U4bp9snsMEqsd/8uhNLwoBEnf0jZKkmEeRaLvfhUkrEt15lRx+iDrh7Xw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPF94A902B17
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-15_03,2026-07-15_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- mlxlogscore=999 lowpriorityscore=0 suspectscore=0 adultscore=0 phishscore=0
- malwarescore=0 mlxscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2606160000 definitions=main-2607150158
-X-Authority-Analysis: v=2.4 cv=d5nFDxjE c=1 sm=1 tr=0 ts=6a57ad87 cx=c_pps
- a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=RAioF0-LDSMA:10
- a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22 a=jiCTI4zE5U7BLdzWsZGv:22
- a=x4eqshVgHu-cdnggieHk:22 a=VwQbUJbxAAAA:8 a=yPCof4ZbAAAA:8
- a=QOYSxItt2YxLaTtbhTcA:9
-X-Proofpoint-GUID: w_Z7r2d_JZF6X9U98dAnkXIjvsaw8B60
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE1MDE1OCBTYWx0ZWRfXxZt2kkfh6+cV
- 81PP+jpAwldHZbwQV4JjeUm7oXJAtBW42pt3yt6tBsIrDBGkgETQW4CaKY8+jzf85RJlKwYwW2n
- j79LyKPXrWaDqii/H8mklfA6494SQmzMPHbSzfnjsEYSDbb/0tN78eY6/lceJbo44jKhjOENKSx
- WdgCasCY7weTEQQsqdgL/QQ/nOjENJ0/F2Gn7VfYyFnWh5aBbvInAgdBP4Oiz0+7bs78/u5NB16
- inqV1iH1R/RyPtmT0Rk8x/OcH3vOsAH/nO26GBY8XPnzSZCfvkTmxHjKwjU0cP3sywlkmF+wfJk
- ysbgNpzKqz0cifNJ2hYUdOQw0uZs2uxrgwdBB0LabSV5svLB0aiGAJw7px+RsSO4Om+YgpmUTkB
- vDfYF9FUsXUhZDAh4PjSAF0dZduGCiQqzdEpo1bXO/duq7nDQAFaoPu1xWaUbK6sUA0zu5XQ0Z/
- oOV7RzLW6wTBwoUhubA==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE1MDE1OCBTYWx0ZWRfX4tzOrGo8g9K0
- URPYrHyWBtmS3SX7zDElmMdCIXaNL2+CK3HMnLTcx3zzZ5mRZ/qXr4hcmiLDiRQEgQesRK5WCXu
- mtKLGk4wi1k0FfuAdW7Cw64teHCGT1j3E77nM/ql9DIhai55eAc2
-X-Proofpoint-ORIG-GUID: w_Z7r2d_JZF6X9U98dAnkXIjvsaw8B60
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260715_085556_025037_BDED6B46 
-X-CRM114-Status: GOOD (  22.19  )
+X-CRM114-CacheID: sfid-20260715_085756_462075_663C59BB 
+X-CRM114-Status: GOOD (  24.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -185,235 +102,259 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: John Garry <john.garry@linux.dev>
+Since commit b58da2d270db ("nvme: update keep alive interval when kato
+is modified"), a Set Features (KATO) passthrough command lets userspace
+start keep-alive on any transport. nvme_keep_alive_work() allocates with
+BLK_MQ_REQ_RESERVED, but nvme_alloc_admin_tag_set() reserves admin tags
+only for fabrics, so on other transports the allocation trips
+WARN_ON_ONCE() in blk_mq_get_tag() and fails:
 
-In [0], a fix was proposed for the NS and NS head (multipath) cdev
-lifetime.
+  nvme nvme0: keep-alive failed: -11
 
-The issue was that fds for the nvme-generic cdev may exist after we tear
-down the nvme-subsystem. Issuing an ioctl on that cdev may expose a
-use-after-free.
+Several Set Features change controller state the driver manages itself
+and cannot react to when set behind its back. Reject these in
+nvme_admin_cmd_allowed():
 
-This test recreates the method described in [0] to expose this issue
-for NS head cdev.
+  - KATO on non-fabrics (keep-alive is only armed for fabrics; on PCIe
+    it has no reserved tag and harms idle power states)
+  - Host Behavior Support, Host Memory Buffer, Number of Queues, and
+    Autonomous Power State Transition (all driver-managed)
 
-First a fd is created by opening the nvme-generic cdev. Next we tear down
-the nvme-subsystem. Finally we try to issue an ioctl on the cdev - without
-the kernel fix in [0], this should trigger a KASAN warn.
+Keep Alive on fabrics is unchanged; I/O commands are unaffected as the
+check is confined to the admin path (ns == NULL).
 
-[0] https://lore.kernel.org/linux-nvme/20260713104238.3034640-1-john.g.garry@oracle.com/T/#me118851584fbcbb960795d0f04e2262e5a295613
+Link: https://lore.kernel.org/linux-nvme/20260523225629.3964037-1-coshi036@gmail.com/
 
-Signed-off-by: John Garry <john.g.garry@oracle.com>
+Fixes: b58da2d270db ("nvme: update keep alive interval when kato is modified")
+
+Found by FuzzNvme.
+
+Acked-by: Sungwoo Kim <iam@sung-woo.kim>
+Acked-by: Dave Tian <daveti@purdue.edu>
+Acked-by: Weidong Zhu <weizhu@fiu.edu>
+Signed-off-by: Chao Shi <coshi036@gmail.com>
 ---
-Difference to v2:
-- remove sleep and use signal to sync
 
-Difference to v1:
-- fix script formatting issues
+Reproducer for the keep-alive case (run as root on a PCIe NVMe device):
 
-diff --git a/common/nvme b/common/nvme
-index 15e9c3f..902a33f 100644
---- a/common/nvme
-+++ b/common/nvme
-@@ -300,6 +300,26 @@ _nvme_wait_subsys_removed() {
- 	done
- }
+    #include <fcntl.h>
+    #include <stdio.h>
+    #include <string.h>
+    #include <sys/ioctl.h>
+    #include <linux/nvme_ioctl.h>
+
+    int main(void)
+    {
+            struct nvme_admin_cmd cmd = {0};
+            int fd = open("/dev/nvme0", O_RDWR);
+            if (fd < 0) { perror("open"); return 1; }
+            cmd.opcode = 0x09;       /* SET_FEATURES */
+            cmd.cdw10  = 0x0f;       /* Feature ID: KATO */
+            cmd.cdw11  = 5;          /* KATO = 5 seconds */
+            if (ioctl(fd, NVME_IOCTL_ADMIN_CMD, &cmd) < 0) {
+                    perror("ioctl");
+                    return 1;
+            }
+            return 0;
+    }
+
+On an unpatched kernel, within ~kato/2 seconds after the program exits,
+dmesg shows:
+
+    nvme nvme0: keep alive interval updated from 0 ms to 5000 ms
+    WARNING: CPU: 0 PID: ... at block/blk-mq-tag.c:148 blk_mq_get_tag+...
+    nvme nvme0: keep-alive failed: -11
+
+With this patch the ioctl fails with EACCES on non-fabrics.
+
+Changes since v5:
+- Split nvme_cmd_allowed() into nvme_admin_cmd_allowed() and
+  nvme_ns_cmd_allowed(), switch on the command, and fix the overly
+  long lines (Christoph Hellwig).
+ drivers/nvme/host/ioctl.c | 109 +++++++++++++++++++++++++-------------
+ 1 file changed, 71 insertions(+), 38 deletions(-)
+
+diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+index a9c097dacad6..ccd0120ad2e6 100644
+--- a/drivers/nvme/host/ioctl.c
++++ b/drivers/nvme/host/ioctl.c
+@@ -14,45 +14,54 @@ enum {
+ 	NVME_IOCTL_PARTITION	= (1 << 1),
+ };
  
-+_nvme_find_subsys_nvme_generic() {
-+	local subsysnqn="$def_subsysnqn"
-+
-+	for subsyspath in /sys/class/nvme-subsystem/*; do
-+		_subsysnqn=$(cat "${subsyspath}/subsysnqn" 2> /dev/null)
-+		if [ "$subsysnqn" == "$_subsysnqn" ]; then
-+			subsyspathbase="$(basename "$subsyspath")"
-+			for nvmegeneric in /sys/class/nvme-generic/*; do
-+				nvmegenericbase="$(basename "$nvmegeneric")"
-+				devicelink="$(readlink "$nvmegeneric/device")"
-+				if [[ "$devicelink" =~ $subsyspathbase ]]; then
-+					echo "$nvmegenericbase"
-+					break
-+				fi
-+			done
-+			break
-+		fi
-+	done
+-static bool nvme_cmd_allowed(struct nvme_ns *ns, struct nvme_command *c,
+-		unsigned int flags, bool open_for_write)
++static bool nvme_admin_cmd_allowed(struct nvme_ctrl *ctrl,
++				   struct nvme_command *c)
+ {
+-	u32 effects;
+-
+-	/*
+-	 * Do not allow unprivileged passthrough on partitions, as that allows an
+-	 * escape from the containment of the partition.
+-	 */
+-	if (flags & NVME_IOCTL_PARTITION)
+-		goto admin;
+-
+-	/*
+-	 * Do not allow unprivileged processes to send vendor specific or fabrics
+-	 * commands as we can't be sure about their effects.
+-	 */
+-	if (c->common.opcode >= nvme_cmd_vendor_start ||
+-	    c->common.opcode == nvme_fabrics_command)
+-		goto admin;
+-
+ 	/*
+ 	 * Do not allow unprivileged passthrough of admin commands except
+ 	 * for a subset of identify commands that contain information required
+ 	 * to form proper I/O commands in userspace and do not expose any
+ 	 * potentially sensitive information.
+ 	 */
+-	if (!ns) {
+-		if (c->common.opcode == nvme_admin_identify) {
+-			switch (c->identify.cns) {
+-			case NVME_ID_CNS_NS:
+-			case NVME_ID_CNS_CS_NS:
+-			case NVME_ID_CNS_NS_CS_INDEP:
+-			case NVME_ID_CNS_CS_CTRL:
+-			case NVME_ID_CNS_CTRL:
+-				return true;
+-			}
++	switch (c->common.opcode) {
++	case nvme_admin_identify:
++		switch (c->identify.cns) {
++		case NVME_ID_CNS_NS:
++		case NVME_ID_CNS_CS_NS:
++		case NVME_ID_CNS_NS_CS_INDEP:
++		case NVME_ID_CNS_CS_CTRL:
++		case NVME_ID_CNS_CTRL:
++			return true;
+ 		}
+-		goto admin;
++		break;
++	case nvme_admin_set_features:
++		/*
++		 * Reject Set Features that change controller state the driver
++		 * manages itself; setting them behind the driver's back from
++		 * userspace leaves it unable to react correctly. Keep Alive is
++		 * only armed for fabrics - on other transports it has no
++		 * reserved tag and harms idle power states.
++		 */
++		switch (le32_to_cpu(c->features.fid) & 0xff) {
++		case NVME_FEAT_KATO:
++			if (ctrl->ops->flags & NVME_F_FABRICS)
++				break;
++			fallthrough;
++		case NVME_FEAT_HOST_BEHAVIOR:
++		case NVME_FEAT_HOST_MEM_BUF:
++		case NVME_FEAT_NUM_QUEUES:
++		case NVME_FEAT_AUTO_PST:
++			return false;
++		}
++		break;
+ 	}
++	return capable(CAP_SYS_ADMIN);
 +}
 +
- _nvme_connect_subsys() {
- 	local subsysnqn="$def_subsysnqn"
- 	local hostnqn="$def_hostnqn"
-diff --git a/src/.gitignore b/src/.gitignore
-index 988d785..af9ebf6 100644
---- a/src/.gitignore
-+++ b/src/.gitignore
-@@ -14,3 +14,4 @@
- /nvme-passthrough-meta
- /ioctl-lbmd-query
- /nvme-passthru-admin-uring
-+/nvme-delay-ioctl
-diff --git a/src/Makefile b/src/Makefile
-index d75daf1..4779ffd 100644
---- a/src/Makefile
-+++ b/src/Makefile
-@@ -18,6 +18,7 @@ C_TARGETS := \
- 	loop_change_fd \
- 	loop_get_status_null \
- 	mount_clear_sock \
-+	nvme-delay-ioctl \
- 	nvme-passthrough-meta \
- 	ioctl-lbmd-query \
- 	nbdsetsize \
-diff --git a/src/nvme-delay-ioctl.c b/src/nvme-delay-ioctl.c
-new file mode 100644
-index 0000000..854b702
---- /dev/null
-+++ b/src/nvme-delay-ioctl.c
-@@ -0,0 +1,69 @@
-+// SPDX-License-Identifier: GPL-3.0+
-+
-+/*
-+ * Simple test to issue an ioctl some time after opening a cdev.
-+ * This is to test lifetime of cdev, and whether we can handle
-+ * removing the cdev while we have active fds.
-+ */
-+#define _GNU_SOURCE
-+#include <dirent.h>
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <stdint.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <unistd.h>
-+#include <signal.h>
-+
-+#include <inttypes.h>
-+#include <sys/ioctl.h>
-+#include <linux/types.h>
-+
-+#ifndef _LINUX_NVME_IOCTL_H
-+#define _LINUX_NVME_IOCTL_H
-+#define NVME_IOCTL_ID		_IO('N', 0x40)
-+#endif /* _UAPI_LINUX_NVME_IOCTL_H */
-+
-+int main(int argc, char **argv)
++static bool nvme_ns_cmd_allowed(struct nvme_ns *ns, struct nvme_command *c,
++				bool open_for_write)
 +{
-+	int fd, fd1;
-+	int count;
++	u32 effects;
+ 
+ 	/*
+ 	 * Check if the controller provides a Commands Supported and Effects log
+@@ -61,7 +70,7 @@ static bool nvme_cmd_allowed(struct nvme_ns *ns, struct nvme_command *c,
+ 	 */
+ 	effects = nvme_command_effects(ns->ctrl, ns, c->common.opcode);
+ 	if (!(effects & NVME_CMD_EFFECTS_CSUPP))
+-		goto admin;
++		return capable(CAP_SYS_ADMIN);
+ 
+ 	/*
+ 	 * Don't allow passthrough for command that have intrusive (or unknown)
+@@ -70,7 +79,7 @@ static bool nvme_cmd_allowed(struct nvme_ns *ns, struct nvme_command *c,
+ 	if (effects & ~(NVME_CMD_EFFECTS_CSUPP | NVME_CMD_EFFECTS_LBCC |
+ 			NVME_CMD_EFFECTS_UUID_SEL |
+ 			NVME_CMD_EFFECTS_SCOPE_MASK))
+-		goto admin;
++		return capable(CAP_SYS_ADMIN);
+ 
+ 	/*
+ 	 * Only allow I/O commands that transfer data to the controller or that
+@@ -79,11 +88,34 @@ static bool nvme_cmd_allowed(struct nvme_ns *ns, struct nvme_command *c,
+ 	 */
+ 	if ((nvme_is_write(c) || (effects & NVME_CMD_EFFECTS_LBCC)) &&
+ 	    !open_for_write)
+-		goto admin;
++		return capable(CAP_SYS_ADMIN);
+ 
+ 	return true;
+-admin:
+-	return capable(CAP_SYS_ADMIN);
++}
 +
-+	if (argc < 2) {
-+		fprintf(stderr, "usage: %s /dev/ngXnX", argv[0]);
-+		return EINVAL;
-+	}
-+
-+	fd = open(argv[1], O_RDONLY);
-+	if (fd < 0)
-+		return fd;
++static bool nvme_cmd_allowed(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
++			     struct nvme_command *c, unsigned int flags,
++			     bool open_for_write)
++{
++	/*
++	 * Do not allow unprivileged passthrough on partitions, as that
++	 * allows an escape from the containment of the partition.
++	 */
++	if (flags & NVME_IOCTL_PARTITION)
++		return capable(CAP_SYS_ADMIN);
 +
 +	/*
-+	 * Steps:
-+	 * a. Signal to parent that we have opened the file so that it may
-+	 *    start the teardown.
-+	 * b. Try to open device until disallowed/gone.
-+	 * c. Sleep to allow nvme-subsystem be torn down.
-+	 * d. Issue the ioctl on original fd.
++	 * Do not allow unprivileged processes to send vendor specific or
++	 * fabrics commands as we can't be sure about their effects.
 +	 */
-+	kill(getppid(), SIGUSR2);
-+	count = 0;
-+	for (;;) {
-+		fd1 = open(argv[1], O_RDONLY);
-+		usleep(500000);
-+		if (fd1 < 0)
-+			break;
-+		close(fd1);
-+		count++;
-+		if (count > 10) {
-+			fprintf(stderr, "%s still present", argv[0]);
-+			return EINVAL;
-+		}
-+	}
++	if (c->common.opcode >= nvme_cmd_vendor_start ||
++	    c->common.opcode == nvme_fabrics_command)
++		return capable(CAP_SYS_ADMIN);
 +
-+	ioctl(fd, NVME_IOCTL_ID);
-+	close(fd);
++	if (!ns)
++		return nvme_admin_cmd_allowed(ctrl, c);
 +
-+	return 0;
-+}
-diff --git a/tests/nvme/069 b/tests/nvme/069
-new file mode 100755
-index 0000000..89f048c
---- /dev/null
-+++ b/tests/nvme/069
-@@ -0,0 +1,61 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-3.0+
-+# Copyright (C) 2026 John Garry
-+#
-+# Test NVMe multipath nvme-generic cdev lifetime behaves as expected.
-+
-+. tests/nvme/rc
-+
-+DESCRIPTION="NVMe multipath cdev lifetime test"
-+CHECK_DMESG=1
-+
-+requires() {
-+	_nvme_requires
-+	_have_loop
-+	_have_module_param_value nvme_core multipath Y
-+	_require_nvme_trtype_is_fabrics
-+	_have_kernel_options KASAN
-+}
-+
-+set_conditions() {
-+	_set_nvme_trtype "$@"
-+}
-+
-+test() {
-+	echo "Running ${TEST_NAME}"
-+
-+	_setup_nvmet
-+
-+	local nvmedev
-+	local loops=0
-+	local quit=0
-+	_nvmet_target_setup
-+
-+	_nvme_connect_subsys
-+
-+	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
-+
-+	nvmegeneric=$(_nvme_find_subsys_nvme_generic)
-+
-+	trap 'quit=1' USR2
-+	# nvme-delay-ioctl will open the nvme-generic cdev, wait for teardown,
-+	# and then issue an ioctl.
-+	# We tear down the nvme-subsystem in the foreground so we can catch
-+	# if the ioctl triggers a use-after-free KASAN warn.
-+	src/nvme-delay-ioctl "/dev/$nvmegeneric" &
-+
-+	while [ "$quit" -ne 1 ]; do
-+		sleep 0.1
-+		((loops++))
-+		if [[ "$loops" == "100" ]]; then
-+			echo "no signal"
-+			break
-+		fi
-+	done
-+
-+	_nvme_disconnect_ctrl "${nvmedev}"
-+	_nvmet_target_cleanup
-+	wait < <(jobs -p)
-+
-+	echo "Test complete"
-+}
-diff --git a/tests/nvme/069.out b/tests/nvme/069.out
-new file mode 100644
-index 0000000..cd2e1fd
---- /dev/null
-+++ b/tests/nvme/069.out
-@@ -0,0 +1,2 @@
-+Running nvme/069
-+Test complete
++	return nvme_ns_cmd_allowed(ns, c, open_for_write);
+ }
+ 
+ /*
+@@ -308,7 +340,7 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 	c.common.cdw14 = cpu_to_le32(cmd.cdw14);
+ 	c.common.cdw15 = cpu_to_le32(cmd.cdw15);
+ 
+-	if (!nvme_cmd_allowed(ns, &c, 0, open_for_write))
++	if (!nvme_cmd_allowed(ctrl, ns, &c, 0, open_for_write))
+ 		return -EACCES;
+ 
+ 	if (cmd.timeout_ms)
+@@ -355,7 +387,7 @@ static int nvme_user_cmd64(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 	c.common.cdw14 = cpu_to_le32(cmd.cdw14);
+ 	c.common.cdw15 = cpu_to_le32(cmd.cdw15);
+ 
+-	if (!nvme_cmd_allowed(ns, &c, flags, open_for_write))
++	if (!nvme_cmd_allowed(ctrl, ns, &c, flags, open_for_write))
+ 		return -EACCES;
+ 
+ 	if (cmd.timeout_ms)
+@@ -442,6 +474,7 @@ static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 	struct nvme_uring_cmd_pdu *pdu = nvme_uring_cmd_pdu(ioucmd);
+ 	const struct nvme_uring_cmd *cmd = io_uring_sqe_cmd(ioucmd->sqe);
+ 	struct request_queue *q = ns ? ns->queue : ctrl->admin_q;
++	bool open_for_write = ioucmd->file->f_mode & FMODE_WRITE;
+ 	struct nvme_uring_data d;
+ 	struct nvme_command c;
+ 	struct iov_iter iter;
+@@ -472,7 +505,7 @@ static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 	c.common.cdw14 = cpu_to_le32(READ_ONCE(cmd->cdw14));
+ 	c.common.cdw15 = cpu_to_le32(READ_ONCE(cmd->cdw15));
+ 
+-	if (!nvme_cmd_allowed(ns, &c, 0, ioucmd->file->f_mode & FMODE_WRITE))
++	if (!nvme_cmd_allowed(ctrl, ns, &c, 0, open_for_write))
+ 		return -EACCES;
+ 
+ 	d.metadata = READ_ONCE(cmd->metadata);
 -- 
-2.43.7
+2.43.0
 
 
