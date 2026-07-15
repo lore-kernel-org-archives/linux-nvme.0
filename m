@@ -4,89 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 265B4C44508
-	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jul 2026 07:45:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 71D77C44508
+	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jul 2026 08:08:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=eFEOc9K8ZH4WjUhqE0lhCkuF5t/lKGFy+XbxPZKCt8U=; b=F6nFWZLp9Uy6uF8ZL/GPfvh/WN
-	Rars3Abrxtb9EwzHZthCSsOMv0jVsoj1CG7ldii69AHqIzYLkvDa8bA/qJYOYVF5m6OSeJiyHgOAK
-	fkSVbR3AAKBpJfUTlSo3BzZjJWOahaSLWIVHvCkbEkC+qWjaj5fgo1TmrVKaAAdxVOhMDECWOfgv3
-	YslYExW2pM6HQC8j2FxfDl+DtN74Rv2l/VzaIbdfiqj2S6qBo6ASouJrlvS4ZscOsgDAY5kqcK3a5
-	9EV2qozk3VyHnUTjretByTU7OkYIwY4oQH/EBzhdLazAiIeP2vOofYIfX6eHkhThsqgM8Coz5cFWc
-	OGjy8NNQ==;
+	bh=52tQ7n3GuCjp4Sewxu42YpiOfepWamn517hsrlm8XvM=; b=h3WmEbSI1WVdNIny7B+d/pQfp4
+	5jb5Aok/WSPFvIRHr7M5+wf1gOjoZC2aaRZNAquPRIanUAd/gV3Mba/BKcbkZvBgRlXZw1eOpXwS3
+	RtBQWV7mCCevQJDzKwEhbk9FsImElIMDLyiSdKpY4wZecjMnRUJLoCLD1aCJvXnyq4xdK8rcVOKY0
+	O2cTfLI77mDTW0g49ykQjptko5PonB4AWfquCGHnT4Lz9hSASGWao0ixmK7CE4J93DvlSDOHCDgUY
+	FYI7YmEEsj/oo1Yci4No4WAWi8AkwALtBAeYsDkV5XynXiUx/O3YHRJRaj1b1NW0OdPc8K3UfBhMY
+	yufa07FA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wjuIt-0000000E4Bm-1CL8;
-	Wed, 15 Jul 2026 07:45:15 +0000
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
+	id 1wjufF-0000000E6rx-0ld7;
+	Wed, 15 Jul 2026 08:08:21 +0000
+Received: from mgamail.intel.com ([192.198.163.15])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wjuIm-0000000E4BB-0Tjm
+	id 1wjufC-0000000E6rL-1Tn6
 	for linux-nvme@lists.infradead.org;
-	Wed, 15 Jul 2026 07:45:09 +0000
-Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-2ceed7018c8so11432385ad.1
-        for <linux-nvme@lists.infradead.org>; Wed, 15 Jul 2026 00:45:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784101507; x=1784706307; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=eFEOc9K8ZH4WjUhqE0lhCkuF5t/lKGFy+XbxPZKCt8U=;
-        b=F4o454+2ufdWUfbON9oQYnAww90/75LI48dOYnbPs+c664IeXea3N6hClTqfNxwq0x
-         I+UIyRkZDpU4XK1vfZZTDqpF+H8nQO9aNw3p5T7gMew713aAyhV4a2pVWB4wKlfJK4uG
-         gvY8s00UJPnZQ+o+af6XjRwPTadePaRcTZRNtPAqgjGbM/Xs+cmy/qO/7WxsXs6aXQAN
-         ZXAcJBdjwZKy7rphwh1nnyOBam/4dc8Tb4s/jGw8AgPrrjsZBT7wT7qcl24DOKwYUyNm
-         /QZ6HgnURvUPfqh/pQYsvD/MyA3H8JpT/2PFQpMBecmd1dnRZWnACZG0j8JxwYzYheLe
-         Tyng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784101507; x=1784706307;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=eFEOc9K8ZH4WjUhqE0lhCkuF5t/lKGFy+XbxPZKCt8U=;
-        b=iCejteQCPxLy8lSr/7O7r6q6YSKB3ssyO0+Wxkxw0/B6eg0PWqBPLf7dzh+WbBWhsY
-         BD5S8LsKpW4vVeL4epMVgNFKrUi+WPX78N9e0k5JEkPrR3OsWSPQsRTXg4zF1jgzt1jw
-         wo10XTYSr9vA/n9oleHlhL3C0+ffepf4JMllyDLFZPM7J6MmGKlnNPKRDmTNcXYmXVKf
-         hkn670ag/Pb6sjrJ3whuLLC6dTkB2qpcQbWckBuEJTfCNew2tlJjczTfJkAWfzDjNLPW
-         8mqdz9vEW6owwuUx0O7CcJm2Og+MNt47EqML/zqctOhuA0m1B9aTgoX/TEH6ZP3ijhfG
-         7Slw==
-X-Gm-Message-State: AOJu0YzZHKQO1w+NtW+oM8JAGXFP1rXlQ0tM2FfmwdODJ3rcTj8QQpLT
-	gGGxv1KkhGdGZXs3bhyCaAXqtAaRdRfQvjUXtZEiAeRXTN9KhlqOV9A=
-X-Gm-Gg: AfdE7cn2YIw5KEx04xOzZlaoeVaY6RINy0rV1+aOKbj6p+M6Bgrzz1xGoyE9lqxF9V8
-	hzkSd6sApVSxk6jKTO2OtXz0vP5bBgZtsDLs8SYddNxFzlb3I2qpFXxmPJBmxnOTPGp0xUO982t
-	ef9PWumev3vliYbRZ4jPb7MYIY6K8MpofeF48NQtUNibEqTts7GykWWggSAHK6lJVYz4AAl8jjX
-	rpVyTOYO6xUSsQJNTeHVCNFSrEM9Ipsj61GPsKY8aPaLdhMINAp0tB2jgl1U6MYQdh6p/sWpRln
-	cYAZkZHdW9+yfUSkePi4+F4cANbOKvZMiPnevx4aJBBWE4ziydlQfeoCEpzld4ULA9n2dmFj4AL
-	ya4BEqCwQogJs236BBvEUVA263Bsm+sz9Zo4axbe4WRtzl6xZXgWvzl/RHMN0EumFUbjzsxOy6f
-	UPzW64ffPySnE7SEkdBPf9QvJT0IJjtTwXKHfeiQJy1mdJVZDHgLHjIZLtwW0CBxzrN4pw5KvYs
-	weA6vTyazs9zgUDuBo5PzagKwUJHzlNvjVQ/0NW1bIOPHcjjA==
-X-Received: by 2002:a17:902:db0b:b0:2cc:6b7a:dfcb with SMTP id d9443c01a7336-2ce9f028b80mr152805965ad.33.1784101506574;
-        Wed, 15 Jul 2026 00:45:06 -0700 (PDT)
-Received: from localhost.localdomain ([14.5.152.27])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9d3bd33sm130345175ad.58.2026.07.15.00.45.03
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 15 Jul 2026 00:45:05 -0700 (PDT)
-From: Myeonghun Pak <mhun512@gmail.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
+	Wed, 15 Jul 2026 08:08:19 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1784102898; x=1815638898;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=IIgcK7fDzxnbaMlAcZz6Mnndkl5qCmW4G+4LmjqUl6U=;
+  b=UEfDz7LypA7UOFaVbwqWfbAhgdcRu77/OmqY2IY5RndMPOQjf7cY5n8D
+   o3MlSAS6DZscTK38CYw+qHLTs2z5UxmXq3ARa+wha2Aip/HNeeOHHOrCI
+   ffMs4je/z4Tmnr8DkKEte6PNlni94FrA8Q4EurFfggSUWOOlxksL/XVkZ
+   Xr/rYi2SbtWF00WNrdFCHzueExDHQGfiWMGH6YflF6gc/wjx8bH13DsUO
+   YR6XCYY33QFF7F2DN99js6D3PAgnFnj2ZO1nuiKl0eesgB8WJ1hqDVgiN
+   hsElPX2vr3OzfX480szd6Cdc+cGyb/eYntV+tcDKnQNzgqvxEd7vDqfyI
+   A==;
+X-CSE-ConnectionGUID: kOotW5mxSDiRaHRSVRJWCQ==
+X-CSE-MsgGUID: O0JMHuyJSIqbSAwNS8RrEA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11847"; a="84849397"
+X-IronPort-AV: E=Sophos;i="6.25,165,1779174000"; 
+   d="scan'208";a="84849397"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2026 01:08:17 -0700
+X-CSE-ConnectionGUID: eB6hVkVfSG6EzlX5YHCrAA==
+X-CSE-MsgGUID: T5BgwfCnSuSjrRnYebAzHQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,165,1779174000"; 
+   d="scan'208";a="254984186"
+Received: from sh14l02shfs0402.sh.intel.com ([10.239.12.240])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2026 01:08:14 -0700
+From: Jun Zeng <jun1.zeng@intel.com>
+To: kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me
 Cc: linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Myeonghun Pak <mhun512@gmail.com>,
-	Ijae Kim <ae878000@gmail.com>
-Subject: [PATCH] nvme-pci: disable controller on admin queue IRQ setup failure
-Date: Wed, 15 Jul 2026 16:44:59 +0900
-Message-Id: <20260715074459.50760-1-mhun512@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+	andriy.shevchenko@intel.com,
+	gang.cao@intel.com,
+	jun.i.jin@intel.com,
+	yong.hu@intel.com,
+	Jun Zeng <jun1.zeng@intel.com>
+Subject: [PATCH v1 0/1] nvme-pci: adaptive interrupt coalescing
+Date: Wed, 15 Jul 2026 15:57:02 +0800
+Message-ID: <20260715075703.15578-1-jun1.zeng@intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260715_004508_208475_83C705DE 
-X-CRM114-Status: GOOD (  13.84  )
+X-CRM114-CacheID: sfid-20260715_010818_433904_BFAE463C 
+X-CRM114-Status: UNSURE (   7.73  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,41 +90,83 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvme_pci_configure_admin_queue() enables the controller and then requests
-the admin queue interrupt. If queue_request_irq() fails it returns without
-disabling the controller, and no caller compensates: nvme_pci_enable() only
-frees the IRQ vectors and calls pci_disable_device(), after which
-nvme_dev_disable() treats the controller as dead and skips nvme_disable_ctrl().
-The controller is left enabled (CC.EN set) on this error path.
+Background
+==========
 
-Disable it in the failure path, while the PCI device is still enabled so the
-CC.EN clear handshake completes.
+Nowadays, with the high performance PCIe 5.0 NVMe drives been used
+more increasingly and widely, it's important to maintain and fully
+realize NVMe drive's performance at the system level in
+scenarios where multiple NVMe drives are used simultaneously.
 
-This issue was identified during our ongoing static-analysis research while
-reviewing kernel code.
+Problem
+=======
 
-Fixes: b60503ba432b ("NVMe: New driver")
-Cc: stable@vger.kernel.org
-Co-developed-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
----
- drivers/nvme/host/pci.c | 1 +
- 1 file changed, 1 insertion(+)
+With PCIe 5.0 NVMe drives, the interrupt count can reach very high
+levels in burst when running IOPS workloads (e.g., 4k/8k randread)
+with multiple queues across many NVMe drives. These high interrupts
+generated instantaneously may put pressure on current CPU handling
+mechanism.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 2f0c05719316..07aa9af9bc89 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2221,6 +2221,7 @@ static int nvme_pci_configure_admin_queue(struct nvme_dev *dev)
- 	result = queue_request_irq(nvmeq);
- 	if (result) {
- 		dev->online_queues--;
-+		nvme_disable_ctrl(&dev->ctrl, false);
- 		return result;
- 	}
- 
+Specifically, IOPS with small IO (e.g., 4k/8k randread) does not
+meet expectations when running with multiple queues among many NVMe
+drives (e.g., 6-8 NVMe drives per socket), even with each queue and
+job assigned to separate CPU cores.
+
+The IOPS for small IO can be significantly improved when enabling
+interrupt coalescing in this case. However, in some cases (e.g., big
+IO for bandwidth or latency-sensitive tests with small IO and small
+queue depth), interrupt coalescing has side effects.
+
+Solution
+========
+
+Monitor the IOPS and average queue depth of inflight IO periodically
+on each NVMe drive and enable/disable interrupt coalescing
+automatically without user intervention. This feature is enabled by
+default and can be disabled/enabled through debugfs during runtime.
+
+Test Results
+============
+
+1. IOPS improved from < 20M to 55M for 4k randread with fio job=8,
+   qd=128 across 16 PCIe Gen5 NVMe drives on Intel Xeon GNR CPUs.
+   - Latency not affected for 4k randread with job=1/2/4/8,
+     qd=1/2/4/8/16/32
+   - Bandwidth not affected for 32k/64k/128k read/write with
+     job=1/2/4/8, qd=128
+
+2. Tested with several mainstream PCIe Gen5 SSD vendors and Intel
+   CPUs (including AMD) with improved 4K random read IOPS.
+
+Notes
+=====
+
+1. Interrupt coalescing is a per-drive feature, not per-queue
+   feature. Each queue has a separate interrupt, but coalescing is
+   controlled globally per drive. We introduce thresholds for
+   IO_DELTA, AVG_QUEUE_DEPTH, and TOTAL_PENDING_IO to judge
+   workload status.
+
+2. Tunable parameters exposed via debugfs at
+   /sys/kernel/debug/nvme_pci/:
+   - disable_adaptive_interrupt_coalescing: 0=enabled, 1=disabled
+   - high_io_delta: IO count threshold per cycle (default: 45000)
+   - avg_qd_threshold: average queue depth threshold (default: 32)
+   - total_inflight_io_threshold: total inflight IO threshold
+     (default: 256)
+
+3. The default threshold values are derived from empirical testing
+   on various PCIe Gen5 NVMe drives.
+
+Jun Zeng (1):
+  nvme-pci: adaptive interrupt coalescing
+
+ drivers/nvme/host/pci.c | 540 +++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 539 insertions(+), 1 deletion(-)
+
+
+base-commit: 5d6919055dec134de3c40167a490f33c74c12581
 -- 
-2.47.1
+2.43.0
 
 
