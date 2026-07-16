@@ -4,156 +4,111 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BBF9EC44512
-	for <linux-nvme@archiver.kernel.org>; Thu, 16 Jul 2026 15:01:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EE2C6C44512
+	for <linux-nvme@archiver.kernel.org>; Thu, 16 Jul 2026 15:03:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vcWXpKMSq59reI46D3PoMFlhf4bMsFOmDLO8bdkAy90=; b=Yr+NNxq/vXR36cKFbDVeV2gSfA
-	wtk1jD6pHaB5KRX4SZm6RZzr2K4DaEkDR6l4+eKYAsQ+K+othVay4RV6PycrYM2YFEhPyXWpPzIeB
-	6AwFPADL5quEZVZhjlINcOsJmqcrjb4amYUIWJrfBwEZ+8raQDyDjGUlbB06iz3Zb6eBD26DJ7IAH
-	X6bAISVdZ5SY1Z4CQv87bhgnBvtKJDmEcSVYynNlV6OXsIucGYHpoFVcEx7NNVcm+4do9TmMjFpbN
-	YaXOMzv7UHjty6BZZ9UKMBlFB0GRKXffRjbu3+ow/TX7v10a9tluoQ8Br6REyK9BzPlRIm1j7ax5S
-	75iFNpEA==;
+	bh=lg0fKccqfEnzwPCKm65jsM9/nIHTBN3S18vdQ+py3HQ=; b=aKc3beDElIdUudbociyoLjwVtZ
+	HWItVc8MrQSXqFiAg1YxGzak9T3p+4ROPdhkOba4QJxrT9m5tgzlCMSMtURRNxr2f2Wg51XHvSlZY
+	4ICy43GxzZd5s/awINmVkb4diokoOH8x7Y884odpIWeiXfBP02tOuQNpV8Tb3qSdLm85yPpx2jVt3
+	5wOWeOHgCJ8uEAT2BWd4Ryah97Ef+09jK2HmBGXWir/N+I945lVlY4PBPN5oa5dhji/7EXWPVxktY
+	yDJKu82Nj7WbMe2VaV0nJV5/RATgECltPrFoZEBoUsX7MpQTXMWMUSFiRgZVfe//ixxiLe15Pg7kp
+	ced+b1Dg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wkNaW-0000000HZPm-1COc;
-	Thu, 16 Jul 2026 15:01:24 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1wkNcT-0000000HZsq-25mF;
+	Thu, 16 Jul 2026 15:03:25 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wjHDT-00000009VUa-1Qr8
-	for linux-nvme@bombadil.infradead.org;
-	Mon, 13 Jul 2026 14:01:03 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=vcWXpKMSq59reI46D3PoMFlhf4bMsFOmDLO8bdkAy90=; b=h6tR2GV8ubP3dt7uEsKEOfZ2Lx
-	F1CrORJTVkYUrLwyJpyEvwUR9UZEFnnbH4CbL4jXzgKDDIv0m+D3TJ46Iwj5x1mB21LMKPPmoLSES
-	aSUy5t9gpw/lsh1YR07vJ/GPskpU0wrD/cZ6kkJDabdujGQgHnaE997pNvH2m33ng/OKT8rbBdcO/
-	sGS0twCkk5+dO4QADvPtTJah8kASFYuHOfP3LG+fzEqA29KWQ0Ewl55CjIRgXBgbWac6rjDXoRa9F
-	7UIP4pCnuW02jDoIxGOHjkRmZpNSsbFXPv2JN/D+fqCgSG0SrYpBCZNsqZ7S6QVfXzEBDcSZUn1/C
-	xHopiusg==;
-Received: from smtp-out2.suse.de ([195.135.223.131])
-	by desiato.infradead.org with esmtps (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1wjHDO-0000000BgHe-3ZVC
+	id 1wkNcR-0000000HZr1-1KIu
 	for linux-nvme@lists.infradead.org;
-	Mon, 13 Jul 2026 14:01:02 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 83FB63E12;
-	Mon, 13 Jul 2026 14:00:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783951256; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vcWXpKMSq59reI46D3PoMFlhf4bMsFOmDLO8bdkAy90=;
-	b=H4n/nlOzSbC6kEf08Mt5PCFch2SnG8tyBuOt05AtDFm3Sezfdg5yX593HaKA6aTuamPcwD
-	htbNFckzP54JbOfP4QSOBVCw/FrvgILSk8fo38hIutmTDtgGvUw8lBAOJFoO8skDLsbz9y
-	32wqjJELZLybOJ5KxnKomeAhyZCck9E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783951256;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vcWXpKMSq59reI46D3PoMFlhf4bMsFOmDLO8bdkAy90=;
-	b=UDB1CXcHnCErcMegyp3uKFCagjRC+Png4e+SXpAjIKzmoie60e4uuOQZJlcwnWORqsY78F
-	7F2WW9VZXXdIhlCw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="H4n/nlOz";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=UDB1CXcH
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783951256; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vcWXpKMSq59reI46D3PoMFlhf4bMsFOmDLO8bdkAy90=;
-	b=H4n/nlOzSbC6kEf08Mt5PCFch2SnG8tyBuOt05AtDFm3Sezfdg5yX593HaKA6aTuamPcwD
-	htbNFckzP54JbOfP4QSOBVCw/FrvgILSk8fo38hIutmTDtgGvUw8lBAOJFoO8skDLsbz9y
-	32wqjJELZLybOJ5KxnKomeAhyZCck9E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783951256;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vcWXpKMSq59reI46D3PoMFlhf4bMsFOmDLO8bdkAy90=;
-	b=UDB1CXcHnCErcMegyp3uKFCagjRC+Png4e+SXpAjIKzmoie60e4uuOQZJlcwnWORqsY78F
-	7F2WW9VZXXdIhlCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 40CF3779AE;
-	Mon, 13 Jul 2026 14:00:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id RWCfDZPvVGoTEQAAD6G6ig
-	(envelope-from <fmancera@suse.de>); Mon, 13 Jul 2026 14:00:51 +0000
-Message-ID: <2256daf4-d03c-4a57-9d72-7a388d823f18@suse.de>
-Date: Mon, 13 Jul 2026 16:00:37 +0200
+	Thu, 16 Jul 2026 15:03:24 +0000
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66GDfdXG3359867;
+	Thu, 16 Jul 2026 15:03:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=lg0fKc
+	cqfEnzwPCKm65jsM9/nIHTBN3S18vdQ+py3HQ=; b=E1uIi/qkpWoRyP4n85W7oX
+	ZhjzJXasviUZhbKMDFJwn1cWBpov4E+clx8Ja59xRir1wXOy7MYDYwNb3kAnUv0i
+	FE6uDAg2fojgTELi3qJrL+OW3Q69YI8uM25ulDD+j4XF4bhk5MfQVyAP6mV1T1bM
+	CAteUftPKrKBsBeN3bUaf+OSU+MDCagSx4yJ/9tpZCOG+UmzSGe5jlfoN0zdQpV7
+	NnM82rpZQ9ORyJYgiRxaFOpS5r9exu9ml1h1HQSMMtQ0/qMDxsK9LMFMKAJ7oS0y
+	q4/WPbnfBK9cBtiwXRp3rF2y4znQrqDzzn2tLL8UFzmh6kA6YjvMawr8maJcRhXg
+	==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fbepxsgkq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 16 Jul 2026 15:03:14 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 66GEnZ8P032507;
+	Thu, 16 Jul 2026 15:03:13 GMT
+Received: from smtprelay04.wdc07v.mail.ibm.com ([172.16.1.71])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4fc05qdqn3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 16 Jul 2026 15:03:13 +0000 (GMT)
+Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com [10.39.53.230])
+	by smtprelay04.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 66GF3DT465339756
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 16 Jul 2026 15:03:13 GMT
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1F2B45806A;
+	Thu, 16 Jul 2026 15:03:13 +0000 (GMT)
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id EA7C45806C;
+	Thu, 16 Jul 2026 15:03:10 +0000 (GMT)
+Received: from [9.123.7.57] (unknown [9.123.7.57])
+	by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Thu, 16 Jul 2026 15:03:10 +0000 (GMT)
+Message-ID: <01c56065-b785-4cc6-87b7-47a0078ebc67@linux.ibm.com>
+Date: Thu, 16 Jul 2026 20:33:09 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/13 RFC net-next] net: ipv4: introduce CONFIG_IPV4 to
- decouple the IPv4 stack
-To: Arnd Bergmann <arnd@arndb.de>, Netdev <netdev@vger.kernel.org>
-Cc: "David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, David Ahern <dsahern@kernel.org>, Simon Horman <horms@kernel.org>, Ido Schimmel <idosch@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Anthony L Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, Elad Nachman <enachman@marvell.com>, Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, Mark Bloch <mbloch@nvidia.com>, Petr Machata <petrm@nvidia.com>, Edward Cree <ecree.xilinx@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, Arend van Spriel <arend.vanspriel@broadcom.com>, Miri Korenblit <miriam.rachel.korenblit@intel.com>, Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, Saurav Kashyap <skashyap@marvell.com>, Javed Hasan <jhasan@marvell.com>, GR-QLogic-Storage-Upstream@marvell.com, "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <martin.petersen@oracle.com>, Nilesh Javali <njavali@marvell.com>, Manish Rangankar <mrangankar@marvell.com>, Varun Prakash <varun@chelsio.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>, Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, Marek Lindner <marek.lindner@mailbox.org>, Simon Wunderlich <sw@simonwunderlich.de>, Antonio Quartulli <antonio@mandelbit.com>, Sven Eckelmann <sven@narfation.org>, Nikolay Aleksandrov <razor@blackwall.org>, Pablo Neira Ayuso <pablo@netfilter.org>, Florian Westphal <fw@strlen.de>, Phil Sutter <phil@nwl.cc>, Johannes Berg <johannes@sipsolutions.net>, Matthieu Baerts <matttbe@kernel.org>, Mat Martineau <martineau@kernel.org>, Geliang Tang <geliang@kernel.org>, Julian Anastasov <ja@ssi.bg>, Aaron Conole <aconole@redhat.com>, Eelco Chaudron <echaudro@redhat.com>, Ilya Maximets <i.maximets@ovn.org>, Allison Henderson <achender@kernel.org>, Jamal Hadi Salim <jhs@mojatatu.com>, Jiri Pirko <jiri@resnulli.us>, Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>, Xin Long <lucien.xin@gmail.com>, "D. Wythe" <alibuda@linux.alibaba.com>, Dust Li <dust.li@linux.alibaba.com>, Sidraya Jayagond <sidraya@linux.ibm.com>, Wenjia Zhang <wenjia@linux.ibm.com>, Mahanta Jambigi <mjambigi@linux.ibm.com>, Tony Lu <tonylu@linux.alibaba.com>, Wen Gu <guwen@linux.alibaba.com>, Jon Maloy <jmaloy@redhat.com>, Steffen Klassert <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>, Vikas Gupta <vikas.gupta@broadcom.com>, Rajashekar Hudumula <rajashekar.hudumula@broadcom.com>, Justin Chen <justin.chen@broadcom.com>, Bhargava Marreddy <bhargava.marreddy@broadcom.com>, Nicolai Buchwitz <nb@tipi-net.de>, Florian Fainelli <florian.fainelli@broadcom.com>, Heiner Kallweit <hkallweit1@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>, Russell King <rmk+kernel@armlinux.org.uk>, Yao Zi <me@ziyao.cc>, Yanteng Si <siyanteng@cqsoftware.com.cn>, Maxime Chevallier <maxime.chevallier@bootlin.com>, Julian Braha <julianbraha@gmail.com>, Joey Lu <a0987203069@gmail.com>, Shangjuan Wei <weishangjuan@eswincomputing.com>, Chen-Yu Tsai <wens@kernel.org>, Inochi Amaoto <inochiama@gmail.com>, "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>, Qingfang Deng <qingfang.deng@linux.dev>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Eric Biggers <ebiggers@kernel.org>, Ethan Nelson-Moore <enelsonmoore@gmail.com>, Ard Biesheuvel <ardb@kernel.org>, Dmitry Safonov <0x7f454c46@gmail.com>, Kuniyuki Iwashima <kuniyu@google.com>, Alyssa Ross <hi@alyssa.is>,
- linux-rdma@vger.kernel.org, linux-kernel@vger.kernel.org, "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>, "open list:NETRONOME ETHERNET DRIVERS" <oss-drivers@corigine.com>, linux-net-drivers@amd.com, linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org, linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com, linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, target-devel@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-afs@lists.infradead.org, linux-nfs@vger.kernel.org, b.a.t.m.a.n@lists.open-mesh.org, "open list:ETHERNET BRIDGE" <bridge@lists.linux.dev>, netfilter-devel@vger.kernel.org, coreteam@netfilter.org, mptcp@lists.linux.dev, lvs-devel@vger.kernel.org, dev@openvswitch.org, rds-devel@oss.oracle.com, linux-sctp@vger.kernel.org, linux-s390@vger.kernel.org, "open list:TIPC NETWORK LAYER" <tipc-discussion@lists.sourceforge.net>
-References: <20260712013941.4570-1-fmancera@suse.de>
- <20260712013941.4570-2-fmancera@suse.de>
- <12ffac6a-649a-4e4a-8d12-0b48171e1d95@app.fastmail.com>
+Subject: Re: [PATCH v3 2/2] nvme: fix cdev lifetime
+To: John Garry <john.g.garry@oracle.com>, hch@lst.de, kbusch@kernel.org,
+        sagi@grimberg.me, axboe@fb.com
+Cc: linux-nvme@lists.infradead.org
+References: <20260713104238.3034640-1-john.g.garry@oracle.com>
+ <20260713104238.3034640-3-john.g.garry@oracle.com>
 Content-Language: en-US
-From: Fernando Fernandez Mancera <fmancera@suse.de>
-In-Reply-To: <12ffac6a-649a-4e4a-8d12-0b48171e1d95@app.fastmail.com>
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <20260713104238.3034640-3-john.g.garry@oracle.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	FORGED_RECIPIENTS(2.00)[m:arnd@arndb.de,m:netdev@vger.kernel.org,m:davem@davemloft.net,m:edumazet@google.com,m:pabeni@redhat.com,m:jgg@ziepe.ca,m:anthony.l.nguyen@intel.com,m:przemyslaw.kitszel@intel.com,m:ecree.xilinx@gmail.com,m:mcoquelin.stm32@gmail.com,m:alexandre.torgue@foss.st.com,m:arend.vanspriel@broadcom.com,m:miriam.rachel.korenblit@intel.com,m:axboe@kernel.dk,m:sagi@grimberg.me,m:James.Bottomley@hansenpartnership.com,m:varun@chelsio.com,m:viro@zeniv.linux.org.uk,m:jack@suse.cz,m:dhowells@redhat.com,m:marc.dionne@auristor.com,m:neil@brown.name,m:okorniev@redhat.com,m:tom@talpey.com,m:sw@simonwunderlich.de,m:razor@blackwall.org,m:fw@strlen.de,m:johannes@sipsolutions.net,m:ja@ssi.bg,m:aconole@redhat.com,m:echaudro@redhat.com,m:i.maximets@ovn.org,m:jiri@resnulli.us,m:marcelo.leitner@gmail.com,m:lucien.xin@gmail.com,m:jmaloy@redhat.com,m:steffen.klassert@secunet.com,m:herbert@gondor.apana.org.au,m:vikas.gupta@broadcom.com,m:rajashekar.hudumula@broadcom.com,m:justin.chen@broadc
- om.com,m:bhargava.marreddy@broadcom.com,m:nb@tipi-net.de,m:florian.fainelli@broadcom.com,m:hkallweit1@gmail.com,m:rmk+kernel@armlinux.org.uk,m:me@ziyao.cc,m:siyanteng@cqsoftware.com.cn,m:maxime.chevallier@bootlin.com,m:julianbraha@gmail.com,m:a0987203069@gmail.com,m:weishangjuan@eswincomputing.com,m:inochiama@gmail.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,s:qingfang.deng@linux.dev,s:gregkh@linuxfoundation.org,s:linux-afs@lists.infradead.org,s:linux-arm-kernel@lists.infradead.org,s:linux-nvme@lists.infradead.org,s:brcm80211@lists.linux.dev,s:bridge@lists.linux.dev,s:mptcp@lists.linux.dev,s:b.a.t.m.a.n@lists.open-mesh.org,s:intel-wired-lan@lists.osuosl.org,s:tipc-discussion@lists.sourceforge.net,s:coreteam@netfilter.org,s:dev@openvswitch.org];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[davemloft.net,google.com,kernel.org,redhat.com,nvidia.com,ziepe.ca,lunn.ch,intel.com,marvell.com,gmail.com,foss.st.com,broadcom.com,kernel.dk,lst.de,grimberg.me,hansenpartnership.com,oracle.com,chelsio.com,zeniv.linux.org.uk,suse.cz,auristor.com,brown.name,talpey.com,mailbox.org,simonwunderlich.de,mandelbit.com,narfation.org,blackwall.org,netfilter.org,strlen.de,nwl.cc,sipsolutions.net,ssi.bg,ovn.org,mojatatu.com,resnulli.us,linux.alibaba.com,linux.ibm.com,secunet.com,gondor.apana.org.au,tipi-net.de,armlinux.org.uk,ziyao.cc,cqsoftware.com.cn,bootlin.com,eswincomputing.com,bp.renesas.com,linux.dev,linuxfoundation.org,alyssa.is,vger.kernel.org,lists.osuosl.org,corigine.com,amd.com,st-md-mailman.stormreply.com,lists.infradead.org,lists.linux.dev,lists.open-mesh.org,openvswitch.org,oss.oracle.com,lists.sourceforge.net];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	R_RATELIMIT(0.00)[to_ip_from(RLot4zeipb4y6kxqkujfrfqztj)];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[134];
-	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[netdev,kernel];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 83FB63E12
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: ouXCiUIHfhhGam0A5Kdxm8y_vE94NtBA
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE2MDE1MSBTYWx0ZWRfX1jxmZ8KXuX+h
+ FbwXakIcVzlhlzbekQ6AZJPnlpvdHCtWDyCzPvQjI8qlnjzAeWqqW3EOROfm9ry+6cAUiehHEyT
+ KJLwqF68EuEw6WDwxoi3tltPSV/EuHk=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE2MDE1MSBTYWx0ZWRfX3fmp1xlxBsPB
+ DnxIJ6L96NCsR/NbobmEp/r/6otOkhu0Umv7i202JEgmjPF2nXFLJyMTU44jR/ufGaYyxeddGz7
+ V41PVi2ELqn2wXttkRN4t74fNjsETWLU5bqZBBvAC0Lsuz0Qso6d4RNNx/oB3GeiKdbYPnbJQxB
+ yArVuVctyctNGFPsyU/A+FUqFcBb1KGM4cIvKp60Gqm3Nz0zT4/fUmR9a1yg5G8WeofPjESpvqp
+ pNNnPUBDrNRkrfO0JSGsyPPUcfTgF6pqUseaMiCpgMx3rRsjaWd5EHXnC6DBNK8MbCoq+M2z4gd
+ zqyu1JTO2DxDdOkjDdAA1d64Hn9hGtCOWTUaNEmR2zGfrM+dG4ekHhboS5AX0vNr+l/HlTfcugM
+ 0aTPcbHUkNmrQMiZV8/dbwc5k+JdJi676biJz8basHtWpA71m56q71dq3ZmS8Or5IunOBn0ohUZ
+ 8JlqsvyVFE1XotsWPhQ==
+X-Authority-Analysis: v=2.4 cv=XbS5Co55 c=1 sm=1 tr=0 ts=6a58f2b2 cx=c_pps
+ a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=VnNF1IyMAAAA:8
+ a=tfFcBDwWTW7q6L8D75MA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: ouXCiUIHfhhGam0A5Kdxm8y_vE94NtBA
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-16_05,2026-07-15_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0 spamscore=0 phishscore=0 lowpriorityscore=0
+ priorityscore=1501 adultscore=0 malwarescore=0 impostorscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607160151
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260713_150059_085122_7A6C7D25 
-X-CRM114-Status: GOOD (  23.89  )
-X-Mailman-Approved-At: Thu, 16 Jul 2026 08:01:23 -0700
+X-CRM114-CacheID: sfid-20260716_080323_378795_F1D80CF2 
+X-CRM114-Status: GOOD (  12.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -168,48 +123,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/12/26 1:01 PM, Arnd Bergmann wrote:
-> On Sun, Jul 12, 2026, at 03:38, Fernando Fernandez Mancera wrote:
->> Historically, the IPv4 protocol has been linked to the core INET
->> subsystem. Because shared infrastructure like the TCP/UDP engine,
->> routing or INET hashtables live inside net/ipv4/, it has been impossible
->> to compile a kernel with only IPv6 support.
->>
->> This patch introduces the CONFIG_IPV4 Kconfig symbol, which is set to
->> 'def_bool y' for now. This does not allow to completely disable the
->> IPv4 stack yet but it lays the necessary build-system work for that
->> goal.
+On 7/13/26 4:12 PM, John Garry wrote:
+> Fix the lifetime for the cdev by making adding the cdev add take a
+> reference to the NS head and drop that reference in the
+> nvme_ns_head.cdev_device release function.
 > 
-> I expect this will cause additional (trivial) build regression in the
-> next step when randconfig builds run into obscure corner cases, either
-> with INET=y IPV4=n IPV6=y or with INET=y IPV4=n IPV6=n.
-> 
-> I can probably give your patch (with IPV4 visible or disabled) an
-> early go on the randconfig tree to find these more quickly.
-> If I run into regressions, should I just add more 'depends on IPV4',
-> or do you have other plans?
-> 
+> The same problem exists for the NS cdev lifetime, so resolve that issue
+> through a similar method by taking a reference to the NS for the lifetime
+> of the cdev. Note that nvme_ns_chr_open() -> nvme_ns_open() also takes a
+> reference to the NS. Now that should not be needed, but that code is
+> common to bdev ioctl, so keep as is.
 
-Yes, I have a job running randconfig and verifying nothing breaks. If 
-something breaks and it isn't core networking stack I would just make 
-the Kconfig symbol depend on IPv4.
+The bdev ioctl uses nvme_ns_open() and nvme_ns_release(). So, IMO, you may also
+remove nvme_ns_chr_open() and nvme_ns_chr_release() methods.
 
-Then later we will have more time to write a dedicate patch so it does 
-not depend on IPv4.
+Otherwise this looks good.
 
-> Should we have some logic to ensure that at least one of IPV4 or
-> IPV6 is enabled? I think this would work
-> 
-> config IPV4
->        bool "The IPv4 protocol" if IPV6
->        default INET
-> 
-> which only allows turning IPV4 off if IPV6 has enabled.
-> 
+Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>
 
-I do wonder, should we? I mean, I didn't try it off but I don't see why 
-we should not allow a pure L2 system..
-
-Thanks,
-Fernando.
 
