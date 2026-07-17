@@ -4,116 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0A1BAC44507
-	for <linux-nvme@archiver.kernel.org>; Fri, 17 Jul 2026 09:49:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B034CC4451B
+	for <linux-nvme@archiver.kernel.org>; Fri, 17 Jul 2026 14:44:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jxNnfqvIKw34B2xIKrEtjKVLc0TAsbQJv6LrQ2KIZ5Q=; b=uJFkI8DJQ9Ezltnf3asG8htfFm
-	u8rWet8OzV/oxOms2rKMWTjGJNWqluhnE5aPTblZ0es89Jm8IVfdI9VcSqoSrd/NRynE2MEkbM6DO
-	E/fen7pK0vavqglfvvJqhA+8kpgdWAy23hSI4wkcZ6cpAXCjRaLacdlk7sAm8njWLCGWQKZeOz4wV
-	wmmPHPdaiDwqrkWSNvqHRiRmMXSssaabaoKLhmxYV/+xvHWG2fSYsiXxjKGUpgr4Rkc4kJXfA2NXL
-	Eog8Y/94T0/fehJIur/V+C4VpNNwsRisUYHFews/TvzJ+J9PyCf5b4dwSqtVRAxE9FDAJSjjEoUh5
-	xnIJTPmA==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=xCkYbjx2cQyuHcwYogCXd80/iygZG2u+MVDPY/mY78g=; b=dfCsQLqOUy/gcbEBTbpyWKH/g2
+	/ICzg4k1NDVNaWhE2rDyJW2Fvzev96cJyqyfU/iv97Hr2dLuX1r1nUUyQ7LXlCq3vjP+gdZX4+T9z
+	9Kgaz4UGyNn7lHBtX0EQrY6679DGJIcoRjgBuWgYaEdPhAvmQT/KOSl/LGC7qpFsbi20VESv9pSkb
+	h+XOvTpGVjBStD4cgLZpa+rKszIXz92z4e2ZPJkWM7I9+zyYOycT5ugGamdnMhHprg1o4iXEvNjAq
+	We4QNM+9I2o3emDKsAcJ6tGWH16kQEjtdNkliJjtrj1gam156z8zZDh4rSdMKEV23cVZGapVhr1BM
+	s7TRu8GA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wkfBz-00000001svB-0GQ4;
-	Fri, 17 Jul 2026 09:49:15 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1wkjnO-00000002Vax-4BB8;
+	Fri, 17 Jul 2026 14:44:10 +0000
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wkfBw-00000001suY-3TuJ
+	id 1wkjnM-00000002VaM-0x3Z
 	for linux-nvme@lists.infradead.org;
-	Fri, 17 Jul 2026 09:49:14 +0000
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66H6gRVg1279635;
-	Fri, 17 Jul 2026 09:49:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=jxNnfq
-	vIKw34B2xIKrEtjKVLc0TAsbQJv6LrQ2KIZ5Q=; b=AmbjVpNAGGZp08IWsEdbjJ
-	N+AblvzDUsaNRhcy1y7vn4UxPVWUjRB2pgUjzU5PwWQ4H/ZJSufnw/r3cIgMkNv8
-	yfwdC9dPY1h4DZznmr3o7FxRljJ2cqLJLd5L2PqMKN0ILlxDvxYto8nUvwDB8Sns
-	Gx4qJUIPGVgSFUFoMrVv5aRukOCPItk7kSiqcwDkP99ox15e6eRKgDEoD9ebimPk
-	cUIbtwEiTm4ze4D+z8uwBOJR1ERMr1w1yxY9nm+BdtQ/m+dzjxOtGgT0lbvOfyzs
-	GeQM6Yf7NyaUVvjuFzdQAUdWjBb4PSqUwUSgLTOiiVpaeF8wVKc0znFdb+TnXUig
-	==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fbegc4t8x-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 17 Jul 2026 09:49:08 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 66H9Yb43025824;
-	Fri, 17 Jul 2026 09:49:07 GMT
-Received: from smtprelay05.dal12v.mail.ibm.com ([172.16.1.7])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4fc2cgrwpj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 17 Jul 2026 09:49:07 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
-	by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 66H9n6Le21758700
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 17 Jul 2026 09:49:06 GMT
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C2A5E58043;
-	Fri, 17 Jul 2026 09:49:06 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 226A558055;
-	Fri, 17 Jul 2026 09:49:04 +0000 (GMT)
-Received: from [9.43.55.154] (unknown [9.43.55.154])
-	by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 17 Jul 2026 09:49:03 +0000 (GMT)
-Message-ID: <b8bfb51d-81f1-4bfd-b83b-5cd764473718@linux.ibm.com>
-Date: Fri, 17 Jul 2026 15:19:02 +0530
+	Fri, 17 Jul 2026 14:44:09 +0000
+Received: by mail-ed1-x535.google.com with SMTP id 4fb4d7f45d1cf-698beff7178so5209816a12.3
+        for <linux-nvme@lists.infradead.org>; Fri, 17 Jul 2026 07:44:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784299446; x=1784904246; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=xCkYbjx2cQyuHcwYogCXd80/iygZG2u+MVDPY/mY78g=;
+        b=q+lmGZih9uiRBThC2VWGTFapTES8UMtEJT1CqLNzXzrMhgTDjnnCXpS+ne2aUXZPQB
+         FJqimIdiNzu3t8wSUErcQgkEP1+dmub6WnmfoN7bxcoUgJgh/yh31E5zjtrPVY46htcF
+         VnzhVbrRL2RwvNpaoyXMSKsKVP8rTShUfQGhfYM6I+80SZKDle9liafNZOqBut51eOvw
+         PNlnQ+MJ19L9T7YRp7QfE1xXnsbeEMstgiuzQaT0P4XvAeD2q2CwjHXFJqE/bgcYda4e
+         RMID7knFePci8u9jCM5rPQQpNyKht76CMqoKOzKsW1yZdJgSVSdw/LDPwaJj1AlLN7Im
+         z0RA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784299446; x=1784904246;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=xCkYbjx2cQyuHcwYogCXd80/iygZG2u+MVDPY/mY78g=;
+        b=YziocQJj/UD1UXark5HNL2JUsOxf+quvSVxCJzdrIx4rO9RkyborO/g8GNC9r59Jz1
+         4v14bJTju4Dici8+VqT5sua6eDKjY+qX3/zOqqg2cZtQIJfAzQt0IKjlvPilLunQG1Q2
+         RcJ5AC4L96UTXAJV9yciX0j1UjhXAkOR9d5paq5GVqpLb/+W7q71yuxpZgDOuakBuN4Q
+         Gm3cyt66rWtpbZ2I44JDi8YaioR5Jz9ghZ243Ec8sohGQl0LmoN10USJUySOdqk0J7MR
+         KDq34IT9bv0vF1S1LPaWw0TuGIChUW9fVxx+CMkLuXr4ZM67LJ8VOVCV3Hi8mOF4Er5e
+         JfOQ==
+X-Gm-Message-State: AOJu0YxlppRFa43ZgYkCdRZkeDjLh82b4tZAJVBVwKaZaa2qLUZfMBzU
+	z51Edy0rWjOQqcbAMAeK2iaEyGyB6HdHJ8cPjDdpkhCzq15hK0V6GNAw
+X-Gm-Gg: AfdE7clQsO3n/likAdACLek/mJSknHjGFPdsFvz/++QmRkN/ssIIUdQwO8gXaGWxhnD
+	JKBVnLO0ogLsgOhDGR8uSvpq8gcAYXkdwSsQV7sfpJ4UE6FPb0FuA2wKCxLSuLYDwLQOthMRnDC
+	44hz1mSEhTO8rmx9uriEFbG30stUh/fivLrr9M+ZKjPiPLFqtW0UzAlz7jt5c9qzERV67zL7zb1
+	s38YFgPl3eujWuXwC1DZcfvZ1zRWyFeGc7T+36+TndZA9medJM9HYPz4v8F6Gl/PE8nYi5BxZ25
+	4gqIei2K488O2/TMOEE5zmukxmoSg1iM5ZRwCPQD5BhQafMx/v6HohjJKwGNFObpYjXT02NOUj5
+	buzmYqt0wnXglP2fzzqSMC7+3s7hKaT3rpPgRJmPSH1Tda6Ks/k19pu/29RktGEmpNoNwRhqZPm
+	QFX+j4bLVGQedWEYzkuB2s2QzayQxsgDwDFWXHjkt5g20jKQ2f5NIQXdCw2glAHc1AEzu/hzwoH
+	U+1
+X-Received: by 2002:a05:6402:241f:b0:697:d4ee:ab97 with SMTP id 4fb4d7f45d1cf-69e652726d6mr1158331a12.12.1784299445870;
+        Fri, 17 Jul 2026 07:44:05 -0700 (PDT)
+Received: from misharu.home (2a02-a463-a071-0-5347-776a-5ef9-a909.fixed6.kpn.net. [2a02:a463:a071:0:5347:776a:5ef9:a909])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69e6fef2477sm829324a12.7.2026.07.17.07.44.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jul 2026 07:44:05 -0700 (PDT)
+From: Hari Mishal <harimishal1@gmail.com>
+To: Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Cc: linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Hari Mishal <harimishal1@gmail.com>
+Subject: [PATCH] nvmet: passthru: fix OOB reads when parsing ns id descriptor list
+Date: Fri, 17 Jul 2026 16:43:53 +0200
+Message-ID: <20260717144353.19436-1-harimishal1@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] nvme/069: add a test for multipath cdev lifetime
-To: John Garry <john.g.garry@oracle.com>, shinichiro.kawasaki@wdc.com,
-        linux-block@vger.kernel.org
-Cc: hch@lst.de, linux-nvme@lists.infradead.org, dwagner@suse.de,
-        John Garry <john.garry@linux.dev>
-References: <20260716082927.4053505-1-john.g.garry@oracle.com>
- <a4f4f444-967f-43a8-becf-465a3007ade8@linux.ibm.com>
- <ae3a2f44-b26d-4040-b9a4-cd6122dca29a@oracle.com>
- <99842431-3ffa-412a-af57-e284888342a7@linux.ibm.com>
- <4a7868c2-a67c-4bfd-bf61-58131a98c97a@oracle.com>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <4a7868c2-a67c-4bfd-bf61-58131a98c97a@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=fOcJG5ae c=1 sm=1 tr=0 ts=6a59fa94 cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=rQewcHpba3w_WFlePm4A:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE3MDA5NiBTYWx0ZWRfX0a2Rlmq4ogIv
- TBwKb1ClBCsjpVgKX66yF3sBQqYF5YtfIfpYWxhADvNSDwPRR4fMhDbq25o+LYYEAprURFf+oiP
- 6EGeZ8ZOdyMrqyUFhqDGgjm6Ae0GdHRuGB42Db/A2B3vRqr7Xymh57cXRMKCGoHsqKnWr7kSsSz
- 0at5QvsthFsf3BXiZOHAZE5JM4Glg5TXpoJR1SXlxEcm/d9wZeqduDY2eeTY1JZEPFGVFpX6Nlt
- aRtb7E8z0nXV0qHZdhVP17ynxZSBC+gufn5nZvxkTffvhP9Z26Zaj1TLBHvSgw5GC1ZsJWjdlE4
- L7K7ttX++YMNkSLoA0mJEez6PtE3Xr0UbXD8YEVYR/PHexx7IXJhQHIqylZNm2TsQ2ni5j8Z2ey
- GDXAk51/eUpaPcQ9soGXDsD3oxqiM2RQIzTUcnX8CcIfReOmR7jY2TfmRKxqV0SRci+ZWjLrKHc
- ajy36vEBwJ2o2MMWX8g==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE3MDA5NiBTYWx0ZWRfX+e8tclNh4Ke3
- pQAHEiyhc80ScB1hnKAVsyUnk4V4VrJIVqUwNlYJbcdFZfl/VGqIjnONJmmwqc3FeRYZNbqWSTw
- KKV39DTDL3nGK3tqOCP9h811VTnv/Rw=
-X-Proofpoint-GUID: nx3zChGdrfD9Gh1ql-2iFgXywdFfP7lF
-X-Proofpoint-ORIG-GUID: nx3zChGdrfD9Gh1ql-2iFgXywdFfP7lF
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-17_02,2026-07-15_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 bulkscore=0 impostorscore=0 suspectscore=0 adultscore=0
- priorityscore=1501 malwarescore=0 clxscore=1015 phishscore=0
- lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2607170096
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260717_024912_989276_5B4A6345 
-X-CRM114-Status: GOOD (  19.00  )
+X-CRM114-CacheID: sfid-20260717_074408_281785_030F951B 
+X-CRM114-Status: GOOD (  13.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -128,59 +98,56 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/17/26 2:36 PM, John Garry wrote:
-> On 17/07/2026 08:00, Nilay Shroff wrote:
->> On 7/16/26 10: 06 PM, John Garry wrote: > On 16/07/2026 16: 16, Nilay Shroff
->> wrote: >>> +    kill(getppid(), SIGUSR2); >>> +    count = 0; >>> +    for (;;)
->> { >>> +        fd1 = open(argv[1], O_RDONLY); >>>
->>
->>
->> On 7/16/26 10:06 PM, John Garry wrote:
->>> On 16/07/2026 16:16, Nilay Shroff wrote:
->>>>> +    kill(getppid(), SIGUSR2);
->>>>> +    count = 0;
->>>>> +    for (;;) {
->>>>> +        fd1 = open(argv[1], O_RDONLY);
->>>>> +        usleep(500000);
->>>>> +        if (fd1 < 0)
->>>>> +            break;
->>>>
->>>> Does it make sense to check for errno set to ENODEV or ENOENT
->>>> before breaking out here?
->>>
->>> ehh, if the errno is not ENODEV or ENOENT, then how to handle? Would it to fail the test due to unexpected errno?
->>
->> I think yes, something like below:
->>
->> for (;;) {
->>            fd1 = open(argv[1], O_RDONLY);
->>            if (fd1 < 0) {
->>                    if (errno == EINTR)
->>                            continue;
->>
->>                    if (errno == ENOENT || errno == ENODEV)
->>                            break;
->>
->>                    perror("open");
-> 
-> if fd1 < 0, how is it open? Or maybe this message is too vague...
-> 
-Yes, if fd1 < 0 then it implies errno is non-zero and device is not
-opened. Later we evaluate the error code and take necessary
-action.
+nvmet_passthru_override_id_descs() walks a namespace identification
+descriptor list populated from the underlying passthru controller's
+Identify response, which is device reported. The loop advanced pos by
+device controlled amounts (sizeof(*cur) + nidl) without checking that
+the next descriptor header actually fits inside the buffer, so a
+malicious device could push pos to within a few bytes of the buffer end
+and cause cur->nidl, cur->nidt or the reserved field to be read past the
+allocation.
 
->>                    return EINVAL;
-> 
-> So are ENOENT, ENODEV, and EINTR the only expected error codes? Others are just unsupported and we fail the test (if and when we get them), right?
+Additionally, when a CSI descriptor lands exactly at the last valid
+header offset, cur + 1 points one byte past the end of the buffer.
+The unconditional memcpy(&csi, cur + 1, NVME_NIDT_CSI_LEN) could read
+that out-of-bounds byte and copy it back to the initiator via
+nvmet_copy_to_sgl(), leaking adjacent heap memory.
 
-Yes. My thinking is that, apart from EINTR, any failure from open() is an error.
-For this particular test, we're specifically waiting until the device node
-disappears, so ENOENT or ENODEV indicate the expected condition and we can
-break out of the loop and issue the ioctl() on the original fd. Any other
-errno would be unexpected, so I'd treat it as a test failure by logging the
-error and exiting.
+Bounds check both the descriptor header and the CSI value before
+dereferencing them.
 
-Thanks,
---Nilay
+Signed-off-by: Hari Mishal <harimishal1@gmail.com>
+---
+ drivers/nvme/target/passthru.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
+index e27f84e3cf2b..7ef02958078b 100644
+--- a/drivers/nvme/target/passthru.c
++++ b/drivers/nvme/target/passthru.c
+@@ -53,13 +53,21 @@ static u16 nvmet_passthru_override_id_descs(struct nvmet_req *req)
+ 	for (pos = 0; pos < NVME_IDENTIFY_DATA_SIZE; pos += len) {
+ 		struct nvme_ns_id_desc *cur = data + pos;
+ 
++		if (pos + sizeof(*cur) > NVME_IDENTIFY_DATA_SIZE)
++			break;
++
+ 		if (cur->nidl == 0)
+ 			break;
++
+ 		if (cur->nidt == NVME_NIDT_CSI) {
++			if (pos + sizeof(*cur) + NVME_NIDT_CSI_LEN > NVME_IDENTIFY_DATA_SIZE)
++				break;
++
+ 			memcpy(&csi, cur + 1, NVME_NIDT_CSI_LEN);
+ 			csi_seen = true;
+ 			break;
+ 		}
++
+ 		len = sizeof(struct nvme_ns_id_desc) + cur->nidl;
+ 	}
+ 
+-- 
+2.43.0
 
 
