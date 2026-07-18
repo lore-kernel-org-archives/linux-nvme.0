@@ -4,124 +4,120 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9952BC4451C
-	for <linux-nvme@archiver.kernel.org>; Fri, 17 Jul 2026 19:12:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3AF20C4451B
+	for <linux-nvme@archiver.kernel.org>; Sat, 18 Jul 2026 16:26:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=89syRlJ5f4RK2+c7tG9GpAaWSoEXbJLopmcI9DrtT/U=; b=XuKVLdDOr56Akh22SaOMzCzjDo
-	gCI29PR4zfuTS97PQWlcmQhnMEb8WH/gwn8C85S8FJjCjy63/RGkeomVJTJx65MXYCZiHgWH4xz2j
-	DJVrY4NjQHt005Xm/cNMDbZRfciV57d5Bgv7/NF+KWHn7dS9GHM6RyCVMkUhSF5hGiriBfxTM20La
-	sPSKMSl53sYLKGPzsClS2Ftj3+QLihd2ZCvl422F+lRpiHnk0WyEBKtMdAzHqKDRFHneeiZiFZ8he
-	ZAd0tWQKh4lCjB1q2URahFmdQrliMCBRutvFKYTG7ZrfCYvy62ADQtmwvb34Sv/lOxbzK8rIMB2Ub
-	NrksGWvA==;
+	bh=v4Dvf1BFTy/Vc0nJhWIM7SPA1tR6TPAktef7abvXxvQ=; b=UTeJaYgHaKw772dPQtvL4gUKX2
+	191+UFKvjEmg+2VXbSjcxSj21biWTWb1viwPsniaejFjz3AbTc1JcTKtC6nqCOHDHan+hN62mFUx9
+	WQo9W6cy0YKS093jjPtwfAHXltZ1OSrcvs2cmEfxn7RwMjHf8FH80nXTOqauTicbJV+Lvhk3BQ4ty
+	X3Rf0BgKkl8LmVMuq0qyU+NXm+tWrnFIe+o+KBZSp0Zhi535GH+RyedQlqh7w5hVxbsfsoLSbXw8d
+	/mO/ol8ZznzWe42XXzssn+RDKKl9CkhoMSJb9nQM6Xjq/4F0GdDDmZtNLo6ilG2E3C67XYxk6PPJY
+	zZSiD+5w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wknzR-000000036GE-0jGa;
-	Fri, 17 Jul 2026 19:12:53 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1wl7rr-00000004H2V-07qj;
+	Sat, 18 Jul 2026 16:26:23 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wknzO-000000036F9-1fsw
+	id 1wl7rn-00000004H0w-1zUf
+	for linux-nvme@bombadil.infradead.org;
+	Sat, 18 Jul 2026 16:26:19 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
+	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-Type:Content-ID:Content-Description;
+	bh=v4Dvf1BFTy/Vc0nJhWIM7SPA1tR6TPAktef7abvXxvQ=; b=U30C/68KfvRSFaTs9O4ThkhMLr
+	vOzqB4slwka5stXD0/oc0cM8uR/Wmopih/1JqjX+Ye7Opeo6aM5R7T84r7tAU2Ms1KsvZMMFUBp9m
+	t2tr4dtt42bjDcwxdFNWvfadx5YZTTVIWZsjR2ZPcwnyv5vokHXebYE8wt6wl9uyt+MbVjKxPXUd0
+	OP0BrHAc4ZmQtmP9k4MwtEWMcnrBzp6gTy0jHK2Qf5PwvRJEVRueg4uetUJz3QmYuJZo69Xys4g8i
+	11kmcf6xr1+uaIQ8JEerxk+z+ht3Sa0AJHGR5xWGfkBC8wVjMrTP7djjLWaC17bLlvVk8xUVi3xU3
+	BpAlQSSQ==;
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+	by desiato.infradead.org with esmtps (Exim 4.99.2 #2 (Red Hat Linux))
+	id 1wl7rk-0000000Fa3b-2Zs9
 	for linux-nvme@lists.infradead.org;
-	Fri, 17 Jul 2026 19:12:51 +0000
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66HHC7Ka2614668;
-	Fri, 17 Jul 2026 19:12:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=89syRl
-	J5f4RK2+c7tG9GpAaWSoEXbJLopmcI9DrtT/U=; b=fdBaiNGG7XZZAsG80ct/Cv
-	Rj9WKL4P0I5LixUez6dRnGyWWJ7f6qoIc+WsUsUBVLmOUYVpUBMd7GlaCEKjYM1/
-	cAISyCWZHv5BwOL1ifokD4bGa5OKiIasYS4DTzQQa2fIFCcuEP2FM7W3J2cIJqeC
-	/XEDVP4GbRRiTEqrT/WXj3Lp88VPkjKIRzpLLhHv+sim0DaBdldOnPOcWspa4T38
-	BkheyhLFbpafLcxWcOkayh2PcPkx8NcprfXliAAhrq29c9iCCT4/K2BLn84NoKCs
-	VTW7ntRTYvRLOfmEB9eAK+gsFMz6oWN/u+r737IBSk7SJw9/nEhXY2gAZFgSnWHA
-	==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fbegc70p6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 17 Jul 2026 19:12:18 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 66HJ4aCZ010039;
-	Fri, 17 Jul 2026 19:12:17 GMT
-Received: from smtprelay02.dal12v.mail.ibm.com ([172.16.1.4])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4fc1nhtyk6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 17 Jul 2026 19:12:17 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
-	by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 66HJCHoU57737610
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 17 Jul 2026 19:12:17 GMT
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id EDEA258055;
-	Fri, 17 Jul 2026 19:12:16 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1255758043;
-	Fri, 17 Jul 2026 19:12:10 +0000 (GMT)
-Received: from [9.43.55.154] (unknown [9.43.55.154])
-	by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 17 Jul 2026 19:12:09 +0000 (GMT)
-Message-ID: <6baae2af-640e-48bd-9909-977cd316c8d5@linux.ibm.com>
-Date: Sat, 18 Jul 2026 00:42:08 +0530
+	Sat, 18 Jul 2026 16:26:18 +0000
+Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-49556f97a9dso605855e9.1
+        for <linux-nvme@lists.infradead.org>; Sat, 18 Jul 2026 09:26:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=meshstor.io; s=google; t=1784391975; x=1784996775; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=v4Dvf1BFTy/Vc0nJhWIM7SPA1tR6TPAktef7abvXxvQ=;
+        b=q3m+41JRgwUmjoke+BvdFbwjaE5frwS0uuxqeEVTcdq637HaS92+MVdDFnSkByH6rE
+         iA1eYCoiuIoqwcWhZPpxT16QqHasX5Vor5ONu0BB0+NPVdwqmpRlf4n9VRvC/RzBLA1S
+         1TS9JWgzT6+RweND40V0VFYeCa2Bmn8cBzVknRKkEdiSTStmhof8ucPjzBZdAyKNONrE
+         WO+Btzolme+8II1YVXJ2+LwY5m9nBnPff2hbQepNCzVcT8FK38z3lcGfmDLI8I8VPMXH
+         oSfbPj5eV2OM2Nb2bWcCycO07+RPaPif8810BZzo0x5OlyT+f7A5nCubikM3rgQJJIyk
+         kD6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784391975; x=1784996775;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=v4Dvf1BFTy/Vc0nJhWIM7SPA1tR6TPAktef7abvXxvQ=;
+        b=ClMZFU3psw2lXFbF+aV0y5sh7mGmFemn2P12Pxa1XyIlXzsSCpHhdm5G3D8h1VGPII
+         TyiM6DkOVMhYjGXDXfs0hWH0rQjZ3M4ou3p5JQ87qLBuTuu2RKszfauntvYQxRc+JsbL
+         b1fKihfYOT16WZifAuJ4oVNFA9SxourHkitzheBUjZxX9Wg6LHoR/YD/6nLFq9jvOPIi
+         oYnguzhGFOERaR4EYmm0YyDAvuIoCWOlC9Fa3+GRD1VHF4yRB1ly4Ug0BbqtLot9kXEQ
+         nMN4CqmfLot5zTZd5CySXDg6OMIZPOs8TO5QnBrV5kivpiYZadX/ewstdphA0LKJowGO
+         F23Q==
+X-Forwarded-Encrypted: i=1; AHgh+RoHGdUbpukY80QGD0AJiP2TjoR47PzT2+YOVFQT5zTZGKTRlhcCLUvERN364Qsb11gA5zA4Cqen+M4E@lists.infradead.org
+X-Gm-Message-State: AOJu0Yw9ErNVA/OP8f7Ei/fj1zLKpjd0mn2UX12aBG0gjkRD3HR4IAYW
+	eX8a6RLFIZnsN89GG2jfugJFQsa+OiDrQeVt8w8yoEWlkCa+HrkAWbh8JOhi3HPSeg==
+X-Gm-Gg: AfdE7cnGtjDj/WAog1EAGPAhoy9Cz7jWnZjX3YSCswAQHsu9GOBH+yuDRB3EcrD13bE
+	6IvZPyw/hLhG4X5sVYNPg0akYpbRBicC1bFAZEsN5QTfg9gYWdlxozfqSHjQjLSYKFbYt5f7oO9
+	cS7+yzJo62+9TAEyH9ZJf0VVl5YoftNkRS1JuMUsA6hqiedR1fSe/w18OV3VNc5cyRS4AV7KIR9
+	YVoHUn/3px1fNWSmksrJ7igchrtOyo6WmXGK9wO0JrcCYsVz6uTH06hE91/lS/OB09fvQA88dz3
+	qjTwMwJooyk7Y2VJ06fRraESm6lJyCQUTGsLWqq6dW4zGSxZepXEuRa4wLZfKPeppZ4Gezkc/dm
+	/9Drg+JgaeH9bjESxQC3t8zRmTNP2mpHL7Mp4BwVjhDWsjLHM67CAMl8vh1+P4w==
+X-Received: by 2002:a05:600c:6b69:b0:493:e583:7053 with SMTP id 5b1f17b1804b1-4954a41431cmr58900345e9.35.1784391974915;
+        Sat, 18 Jul 2026 09:26:14 -0700 (PDT)
+Received: from mf-00-01.. ([194.220.239.180])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954a2eddb8sm266444085e9.14.2026.07.18.09.26.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 18 Jul 2026 09:26:14 -0700 (PDT)
+From: Mykola Marzhan <mykola@meshstor.io>
+To: Jens Axboe <axboe@kernel.dk>,
+	Song Liu <song@kernel.org>,
+	Yu Kuai <yukuai@fygo.io>,
+	Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	linux-block@vger.kernel.org,
+	linux-raid@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Cc: Li Nan <magiclinan@didiglobal.com>,
+	Xiao Ni <xiao@kernel.org>,
+	Leon Romanovsky <leonro@nvidia.com>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Kiran Kumar Modukuri <kmodukuri@nvidia.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Shivaji Kant <shivajikant@google.com>,
+	Pranjal Shrivastava <praan@google.com>,
+	Henrique Carvalho <henrique.carvalho@suse.com>,
+	linux-kernel@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	linux-pci@vger.kernel.org
+Subject: [PATCH 1/6] blk-mq-dma: restore BLK_STS_TARGET for unsupported P2P transfers
+Date: Sat, 18 Jul 2026 16:25:42 +0000
+Message-ID: <20260718162547.448892-2-mykola@meshstor.io>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260718162547.448892-1-mykola@meshstor.io>
+References: <20260718162547.448892-1-mykola@meshstor.io>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v1 01/17] nvme-multipath: retarget failedover bios
- from requeue work
-To: Yu Kuai <yukuai@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-        Tejun Heo <tj@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
-        Sagi Grimberg <sagi@grimberg.me>, Alasdair Kergon <agk@redhat.com>,
-        Benjamin Marzinski <bmarzins@redhat.com>,
-        Mike Snitzer <snitzer@kernel.org>,
-        Mikulas Patocka <mpatocka@redhat.com>,
-        Dongsheng Yang <dongsheng.yang@linux.dev>, Zheng Gu <cengku@gmail.com>,
-        Coly Li <colyli@fygo.io>, Kent Overstreet <kent.overstreet@linux.dev>,
-        Josef Bacik <josef@toxicpanda.com>, Yu Kuai <yukuai@fygo.io>,
-        linux-block@vger.kernel.org, cgroups@vger.kernel.org,
-        linux-nvme@lists.infradead.org, dm-devel@lists.linux.dev,
-        linux-bcache@vger.kernel.org
-References: <20260704195124.1375075-1-yukuai@kernel.org>
- <20260704195124.1375075-2-yukuai@kernel.org>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <20260704195124.1375075-2-yukuai@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=fOcJG5ae c=1 sm=1 tr=0 ts=6a5a7e92 cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=wsQ0yCsUK8wXSUUBpyMA:9
- a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE3MDE5NiBTYWx0ZWRfX7GLK2X+oF4UK
- iJeThXVkVapenyQ1sH1yQzUwapeLUMHpI0huFWOiHtJfQNJGfI1AW9PqYDCDJaalWjLAb5fPOLi
- rObNeXLBOt23K3q1VQphIm/q44BHhUb9tYA9yJ+jGMcMoxH546Qrp45+rZ9OWW8bOIV28gOnzf8
- YgqxtHlNjs7EY8LYjgAz+w66QLqDLzNJRWLr3bU7ynTQdHWaMF+Rkzoo4jx2tSCcl/6BwzxuJAL
- 2cKIAIrg1RbOmDJqWsbBrZTxCYTe3hXA/nWJpCOFre1tVC80M4KK457ZHB65LrwjL+HtcCTA45l
- dy7OS19z1Md04qd8NHRRFI+S3gEtVTPbXBB6IAtwJ0evAH48I8RQQBAsRfnayc1UQ3VW6qZ3IAa
- K/uOHo/6hE9GO6Ge/WtkDU1Ihthtt2FYikg6ANYHtALL0Nm7Cop0K3ps9nDTseCQvXPyu/Mjmkr
- VqllyeAwrX0XtQN112w==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE3MDE5NiBTYWx0ZWRfX3W6AXglZxwK2
- ueNSOqrmJUmdULiSN5cujIrGd1QIfi3DG8VyU8jYE1kNRBV1DK8ufGsGy4tT9OWcTt+Ji7SZxpY
- Q1H/NhS0jSlO20cMPivcrWp3EeohKfM=
-X-Proofpoint-GUID: qvRav-GNQoR5chPggKb6TgLJfY8amvqg
-X-Proofpoint-ORIG-GUID: ya_YvUqv2298obSTDavdmuJY0HegvuO_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-17_05,2026-07-17_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 bulkscore=0 impostorscore=0 suspectscore=0 adultscore=0
- priorityscore=1501 malwarescore=0 clxscore=1011 phishscore=0
- lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2607170196
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260717_121250_561660_3F371B0D 
-X-CRM114-Status: GOOD (  28.34  )
+X-CRM114-CacheID: sfid-20260718_172616_784810_3C2570C0 
+X-CRM114-Status: GOOD (  14.77  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -136,74 +132,69 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/5/26 1:21 AM, Yu Kuai wrote:
-> From: Yu Kuai <yukuai@fygo.io>
-> 
-> bio_set_dev() is about to become explicitly sleepable because it can
-> associate the bio with a blkg for the destination queue.  NVMe failover
-> can run from request completion context, and nvme_failover_req() also holds
-> head->requeue_lock with interrupts disabled while it steals bios from the
-> failed request.  Calling bio_set_dev() there is not safe once the helper is
-> allowed to sleep.
-> 
-> The requeue lock only protects head->requeue_list.  Keep the list
-> manipulation under that lock, but defer retargeting to nvme_requeue_work(),
-> which already drains the list from process context before resubmitting each
-> bio.  The bios remain private to the requeue list until the worker pops
-> them, so moving the device switch there preserves the existing retry flow
-> while avoiding a sleepable helper in completion context.
-> 
-> Signed-off-by: Yu Kuai <yukuai@fygo.io>
-> ---
->   drivers/nvme/host/multipath.c | 4 +---
->   1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-> index 9b9a657fa330..76baa180ae1c 100644
-> --- a/drivers/nvme/host/multipath.c
-> +++ b/drivers/nvme/host/multipath.c
-> @@ -149,7 +149,6 @@ void nvme_failover_req(struct request *req)
->   	struct nvme_ns *ns = req->q->queuedata;
->   	u16 status = nvme_req(req)->status & NVME_SCT_SC_MASK;
->   	unsigned long flags;
-> -	struct bio *bio;
->   
->   	nvme_mpath_clear_current_path(ns);
->   	atomic_long_inc(&ns->failover);
-> @@ -165,8 +164,6 @@ void nvme_failover_req(struct request *req)
->   	}
->   
->   	spin_lock_irqsave(&ns->head->requeue_lock, flags);
-> -	for (bio = req->bio; bio; bio = bio->bi_next)
-> -		bio_set_dev(bio, ns->head->disk->part0);
->   	blk_steal_bios(&ns->head->requeue_list, req);
->   	spin_unlock_irqrestore(&ns->head->requeue_lock, flags);
->   
-> @@ -684,6 +681,7 @@ static void nvme_requeue_work(struct work_struct *work)
->   		next = bio->bi_next;
->   		bio->bi_next = NULL;
->   
-> +		bio_set_dev(bio, head->disk->part0);
->   		submit_bio_noacct(bio);
+Commit 91fb2b6052f7 ("nvme-pci: convert to using dma_map_sgtable()")
+deliberately mapped unsupported P2PDMA transfers to BLK_STS_TARGET,
+matching dma_map_sgtable()'s -EREMOTEIO: "When this happens, return
+BLK_STS_TARGET so the request isn't retried." The conversion to
+blk_rq_dma_map silently changed the status to BLK_STS_INVAL, which
+regresses two consumers:
 
-What happens if bio_set_dev() fails to associate a blkg? From what
-I understand, bio_associate_blkg() may fail, leaving bio->bi_blkg
-set to NULL. Later, submit_bio_noacct() can invoke blkcg-related
-helpers such as blk_should_throtl(), which expect a valid bio->bi_blkg.
-However if bio->bi_blkg is NULL then accessing it without NULL check
-could crash the kernel. This is probably not a bug introduced with your
-changes, but you may want to check it.
+ - md/raid1 and raid10 ignore BLK_STS_INVAL leg failures
+   (commit f7b24c7b41f2 ("md/raid1,raid10: don't fail devices for
+   invalid IO errors"), where it means a request-shaped error that
+   fails identically on every member).  Since commit 02666132403a
+   ("md: propagate BLK_FEAT_PCI_P2PDMA from member devices to RAID device")
+   P2PDMA bios reach md arrays: a peer-memory write to a member the
+   peer cannot reach is counted as written, the master bio reports
+   success, mirrors silently diverge, and on a topology where no
+   member is reachable the write reports success with zero copies on
+   stable storage.
 
-The question is, is bio_associate_blkg() guaranteed never to fail, or
-should the failure be handled explicitly before the bio is resubmitted?
+ - the failure's classification flips: for direct NVMe consumers
+   (nvme advertises BLK_FEAT_PCI_P2PDMA) the mapping failure has
+   surfaced as EINVAL instead of the documented -EREMOTEIO since
+   v6.17, and blk_path_error(BLK_STS_INVAL) is true, so a stacking
+   consumer would treat it as a retryable path error (dm-mpath is
+   the only in-tree blk_path_error() caller; P2P bios cannot
+   currently reach it, but the classification is wrong on its face).
 
-I also skimmed through the rest of the series. However, as Christoph
-mentioned in an earlier thread, we may be moving away from non-blocking
-blkg allocation altogether. If that's the direction we're taking, this
-series will likely need to be reworked. I'd therefore prefer to wait for
-the next revision before reviewing the other patches.
+Restore BLK_STS_TARGET.  md then routes an unreachable leg through
+its per-device error handling (badblocks, WantReplacement, mirror
+retry for reads); a follow-up patch teaches raid1/raid10 to handle
+mapping failures without the retry storms that machinery was built
+around.
 
-Thanks,
---Nilay
+Fixes: 858299dc6160 ("block: add scatterlist-less DMA mapping helpers")
+Fixes: 7ce3c1dd78fc ("nvme-pci: convert the data mapping to blk_rq_dma_map")
+Cc: stable@vger.kernel.org
+Assisted-by: Claude:claude-opus-4-8
+Signed-off-by: Mykola Marzhan <mykola@meshstor.io>
+---
+ block/blk-mq-dma.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/block/blk-mq-dma.c b/block/blk-mq-dma.c
+index bfdb9ed70741..2eed06bfe791 100644
+--- a/block/blk-mq-dma.c
++++ b/block/blk-mq-dma.c
+@@ -190,7 +190,15 @@ static bool blk_dma_map_iter_start(struct request *req, struct device *dma_dev,
+ 	case PCI_P2PDMA_MAP_NONE:
+ 		break;
+ 	default:
+-		iter->status = BLK_STS_INVAL;
++		/*
++		 * P2P transfers that the mapping layer cannot support
++		 * report BLK_STS_TARGET, matching dma_map_sgtable()'s
++		 * -EREMOTEIO and the pre-blk_rq_dma_map nvme behavior:
++		 * the failure is a property of this device pairing, so
++		 * it must not be retried on another path (blk_path_error)
++		 * nor be mistaken for an invalid request.
++		 */
++		iter->status = BLK_STS_TARGET;
+ 		return false;
+ 	}
+ 
+-- 
+2.43.0
 
 
