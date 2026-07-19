@@ -4,70 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4EAB7C44523
-	for <linux-nvme@archiver.kernel.org>; Sun, 19 Jul 2026 10:53:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A96E2C44521
+	for <linux-nvme@archiver.kernel.org>; Sun, 19 Jul 2026 10:53:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FhGxTEOOON4RkKT9KdpeyXrdqn2SrMJKFWwPDsn11x4=; b=0qZe9kuXSDGUQH6J8GlQnlcYS0
-	IOZvjf1VqjIosfhuRhTP9Us/Oy31WfTRDCFyTVTY48wyVFiuoPJKPXtDQ+OBVo5LWNmQmEUYTguAP
-	4WyA9UVWBV9/vB2OsTeOzI/nlcArPL1JZFC/shPPAaJVE8mhZn83XfmTowaw0xViuxBat+1uYmhSl
-	oDL8b7GXtOqPEny2HIYQK0kdtbopF8uoG1vk/smq2KWQcZXKGMDFvsEfscAyl/LvCP84Q68dEfDGA
-	EsvWUazYYKZMvno1lpIt/o1SBuYGRebSpJlH3HaZIzx1pZFh5RCOJ0YZsTGz3gk8F5I+4vt2nOXEW
-	kaBvGQgw==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=OtVNRyXgZ3+RL4yiGXcejIrCkaAlEMOcMS0RlQFV+sM=; b=xz32Py6YG/bpAmuxRi9QSBjsbf
+	Sb0U92vowlPNu7Fzna9WwrgfavZqbDr++fquGGNRFHcjjLFwhXd4ZLmmv46LPI7eIgyUa/ZaCGdvs
+	+2UgKWDSARpLdY/YGEYtGYy5Hi/uHb67Bq+7c0BcDqIfAAhYWE67tbhEPh2uQzwuUxq9JXlhZbjAy
+	yXzF9mEFu9K9RaKbnMmfm7cV1VC7jOB5Zge6h10ewzcOyNJ2edLNnzEsJ+XwKPG19dwbxQorYI3XP
+	m1MXKvykRxHTxItXzKkTqSJuoiFomYo0eFB1+Y8Ux6YjmVe0rUjBkdSgBlm1YhqR72ROH97ArjppO
+	/pbB9Q3Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wlP9U-00000004va8-1j3p;
-	Sun, 19 Jul 2026 10:53:44 +0000
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+	id 1wlP9T-00000004vZ6-1ETA;
+	Sun, 19 Jul 2026 10:53:43 +0000
+Received: from mail-wm2-x09.google.com ([2a00:1450:4864:31::9])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wlP9Q-00000004vXH-0eFO
+	id 1wlP9O-00000004vWC-2GKO
 	for linux-nvme@lists.infradead.org;
-	Sun, 19 Jul 2026 10:53:42 +0000
-Received: by mail-wm1-x331.google.com with SMTP id 5b1f17b1804b1-4954a9e8490so9148315e9.1
-        for <linux-nvme@lists.infradead.org>; Sun, 19 Jul 2026 03:53:39 -0700 (PDT)
+	Sun, 19 Jul 2026 10:53:41 +0000
+Received: by mail-wm2-x09.google.com with SMTP id 5b1f17b1804b1-49553da76dcso3430325e9.1
+        for <linux-nvme@lists.infradead.org>; Sun, 19 Jul 2026 03:53:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=meshstor.io; s=google; t=1784458418; x=1785063218; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=FhGxTEOOON4RkKT9KdpeyXrdqn2SrMJKFWwPDsn11x4=;
-        b=Wj2EB7uCdnGmX5LQELw1bek+XeEi5QsmSYBcJXPf2umuumrUnJKpC4GFUJsJERHgKn
-         W/baIs+eB2atrvKY/GCqluGktqslJT3YLxcdeJMXCZ731VID3O/8su8jP1OMQCVBMGnH
-         R1zp8e2KUfAftcEi+IqIMBe/3yWFgg6WV1V944QysCffQZwVP6BVfqcaBSzFKCaQ3sny
-         8lw9n4BrMTiZm3aCC8W+I+QG9hLBaGch44R/Cm41fndR0L1W0c0GIcHF4nUXtYejGe6Q
-         z9uJ9qAtpoMd3sdCJfqUk0OYMyciTfTjMvB6dPSbNIRTHYrXXHKEo3Q4swLDz8iWghmi
-         UR8g==
+        d=meshstor.io; s=google; t=1784458416; x=1785063216; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=OtVNRyXgZ3+RL4yiGXcejIrCkaAlEMOcMS0RlQFV+sM=;
+        b=V24aKE04uBE9kRC6XXWMBTSSGf8bb6HxD0ohpGm311aVJNKOTwGxRzCRTFlJWLCRT0
+         GMFyi4HXl+dStG+xIZK4w/ja3VLSHtiFnEd2PoFWdlYaQCj/9fnLnyOj4XkQeS9PyCws
+         KU+OnvlstkvQoqXZMsglJ7R86/urTqJLLIvxXfX9VPNRUtRnIPG8TQqXjWygXcausoDZ
+         ET7IrAq288FCYtbEWDkvYj3Cpfdxr5g3guXx9sPFw1XwbmMwvkiuEQKpieboOQSHSWp/
+         +yfmcO/fcxQTd0hMNJxTYImr7nTqPm3XCdqNhnHT0v9OYXoM00FGKd3EUz+3FHCDDnOe
+         MhyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784458418; x=1785063218;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=FhGxTEOOON4RkKT9KdpeyXrdqn2SrMJKFWwPDsn11x4=;
-        b=EtaE6MtlAArNtboUFP9rfYHwp5mUh6qlNWxgmL5s3d7kEYO6t0nig3kSScUO2R9wYy
-         BzHJGX97RxnKookFmkyfutzKdfQT4wFyeWss+sNvfFR8b1B9XygV5x3VX+nF9IrR/1JF
-         DtHbnqxcGGcJ/bw1pmbfMn4MNpSXO+mzv82nzeWVHc5r41zugDPidiZjL4tybPCHjUcS
-         9ghUiihjmmOzd59kI6BGjhlZIWWz1HimmtyECjamoFjupxM+GrBmi8z6tlGOIXgkYUQZ
-         1tCeMCTAJbGIkya/xfRXkgbRI8nA/17f1Fy6UFz6XA5UYsCV0EaqKZH9HzfrDUu5QMf2
-         6YWw==
-X-Forwarded-Encrypted: i=1; AHgh+RqH7kMiAsrmDTdB9FixzLDGz+om6IcPSrlIZuRdb5TF2uunL3AT3IRaMVEuIiGRFEkDNGTfT410d9sz@lists.infradead.org
-X-Gm-Message-State: AOJu0YzoNR+0EvzERTDGx2Wd2Vc899me2O5tKMd+PNeAz/InJUswJHZ5
-	6bwj9ffScgMvWA7jRDDrzfqWkgkFg73FSqk9omQFvgfTgQsFtJCrZKG/m6HRyFJ+Qg==
-X-Gm-Gg: AfdE7cktCzxqwGcwv02XdajE6LLUPmmBdUB0wQUEbTHQwOoQayLhEgrm8krzUedpjCH
-	p0cACs0UEA8fPkCDNhiE/Lc5cO5yRYE/OeCHW469yWNtncqm+FAcMKJmRD/TY3T5d/V6A5f3rzq
-	fqHblk8OLzmz3dzdkZymTID3E6IAnL7JiVJ9M25IDQoffRSMUiVGd8FQxul+YmuiI6RNr/UVSUe
-	pXkMN3oVqcPov6WGtbFD2sL64QnB7oEd4TM4hiyQqpyXSmHElyZOASwICNwmzXuwOoPDZ/0ZE1Y
-	sCIs8tMBZA4v+pJDMRNU8lCP3YttqII2LT2ZlxjbcBIjK0Vyxgj1xBWd+J7VUhQruUXDL/PrBhY
-	30wCQCszJoqgwO9sKd2ZIO8zEemqDAarVPpMgbLlsn6DEAI2zWX+ww1nCEjbmoQ==
-X-Received: by 2002:a05:600c:35d1:b0:495:3a52:71b1 with SMTP id 5b1f17b1804b1-4954aa1a34fmr92326745e9.5.1784458418163;
-        Sun, 19 Jul 2026 03:53:38 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1784458416; x=1785063216;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=OtVNRyXgZ3+RL4yiGXcejIrCkaAlEMOcMS0RlQFV+sM=;
+        b=m0P1j/NoojOKE8/1kCVo8Lv+s9B7OqtR/w2DEgrRtCklw89t235vaWJ+B7w8q+P7ck
+         FpKCrKLirlRsOZomjEYtVO7tY3dtLsjHWbQyZ2Lg1Oy6YhjxGpbg7D7JAs6h0p57j+Vq
+         zxfNPL6iYZk4eQccyurstWOTdSx0loRxNrHm7tzerOk5+iMYRW/0WWK1n00bZxzj9iqc
+         R4LXjVMizdRXcO1oH+35OaRBzOFX54ow8VuEqLaFwlIVCVoy0sG+oYo1c/0KaLUfDCI+
+         axisF9pogaLiV0+QQapQWWqeIwQsjoDw/O+ktDJ9p2NmMxHBfHvMFxHZv6vxG+hOxO8E
+         6l+Q==
+X-Forwarded-Encrypted: i=1; AHgh+RqfvezTXmlTx66xgWuV2CZUPeW0iHw2qYaTH8Y/+Sfgk8VDiXRy7YoGOoxZpUSg97PHnTY+hEejrNfG@lists.infradead.org
+X-Gm-Message-State: AOJu0Yz8njUB/B0nElvFKM7X9C+ua8CAhjfLT8QhYvi7etVVqF3vXP/f
+	VT8eEtGT+9VudhkK7EU+J6/gf4AKlAvWbZ5eiNBz2CKEKcJ4mXPJ0Ri8BCT11AFYPw==
+X-Gm-Gg: AfdE7cnf1Fdp2JlqG3kAHS6xTQeF6qB1nZdcZd26MBRD849w5bHThgTjntlwzTu5oGp
+	cu5M92yleljWSW5tQeqG3tE1vDJ7h6/b3Gj9iNxVWMl9oy3b0poMGoyoZKOx/U4UQ9vk9VJWdII
+	yDUIsCWO1riWqApjQTKFapROpvn1ojNzccEhuSTZBhbolh9ENcYm9o7rWtTXsLSl9lvMoZwQyY8
+	bsrPhqAzcIjSAOR0cWWB+Ra1zJFZKZnVjSSnGNcxwEC6O8LbcfWaZZmxoTA3Q8KBYPysZLuuACA
+	XZUKsguiBAETEJ2GxnwmsL4NyC1fYxMOinTsiPUEUwW+BLb1whncTXrFSWirYji4kG+AabtTS/R
+	Rtb81wv3SJn5WUWBby0oG+awD+w5CBnogTeeHihqWQCfQFmzbldVKJyct9lb2wA==
+X-Received: by 2002:a05:600c:42c6:b0:495:4182:4456 with SMTP id 5b1f17b1804b1-4954a4104e1mr65164425e9.29.1784458414698;
+        Sun, 19 Jul 2026 03:53:34 -0700 (PDT)
 Received: from mf-00-01.. ([194.220.239.180])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954a2a24b6sm197679575e9.3.2026.07.19.03.53.36
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954a2a24b6sm197679575e9.3.2026.07.19.03.53.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Jul 2026 03:53:37 -0700 (PDT)
+        Sun, 19 Jul 2026 03:53:34 -0700 (PDT)
 From: Mykola Marzhan <mykola@meshstor.io>
 To: Jens Axboe <axboe@kernel.dk>,
 	Song Liu <song@kernel.org>,
@@ -93,17 +92,15 @@ Cc: Li Nan <magiclinan@didiglobal.com>,
 	linux-kernel@vger.kernel.org,
 	linux-rdma@vger.kernel.org,
 	linux-pci@vger.kernel.org
-Subject: [PATCH v2 2/7] md: ensure REQ_NOMERGE is set on P2PDMA bios
-Date: Sun, 19 Jul 2026 10:53:22 +0000
-Message-ID: <20260719105327.864949-3-mykola@meshstor.io>
+Subject: [PATCH v2 0/7] block,md,nvme: correct handling of unsupported P2PDMA transfers
+Date: Sun, 19 Jul 2026 10:53:20 +0000
+Message-ID: <20260719105327.864949-1-mykola@meshstor.io>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260719105327.864949-1-mykola@meshstor.io>
-References: <20260719105327.864949-1-mykola@meshstor.io>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260719_035340_216104_5F39FCFA 
-X-CRM114-Status: GOOD (  18.17  )
+X-CRM114-CacheID: sfid-20260719_035338_650597_B7966EE2 
+X-CRM114-Status: GOOD (  22.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -118,102 +115,222 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-md_submit_bio() unconditionally strips REQ_NOMERGE before passing the
-bio to the personality, an optimization from commit 9c573de3283a ("MD:
-make bio mergeable"): a bio that md has split may become mergeable
-again below md.
+Driving peer-to-peer I/O (NVMe CMB source) through md arrays and
+nvme-rdma legs on asymmetric PCIe topologies -- where the peer device
+reaches some members/paths but not others -- turns up two failures on
+v7.2-rc, both rooted in how an unsupported-P2PDMA mapping failure is
+reported. On md: silent data loss -- an unreachable-leg P2PDMA write
+counts as written, mirrors silently diverge, and where no member is
+reachable the write reports success with zero copies on stable
+storage; reads picked to an unreachable leg fail with EIO and are
+never retried on the mirror that holds the data. On nvme-rdma: the
+transport swallows the DMA layer's mapping errno into a path error,
+which under the default multipath configuration livelocks the I/O (a
+stacked md mirror hangs) and with nvme_core.multipath=N surfaces as
+retryable BLK_STS_TRANSPORT.
 
-For PCI P2PDMA bios the flag is load-bearing, not a hint. The block
-layer sets REQ_NOMERGE on P2PDMA bios (__bio_add_page(), and the
-extraction path of bio_iov_iter_get_pages()) because the DMA mapping
-type of a request is resolved once, from its first segment
-(blk_dma_map_iter_start()), and request-level merging is prevented
-only by REQ_NOMERGE. Stripping it allows the member queue to merge a
-P2PDMA bio with a bio carrying pages of a different pgmap, or host
-memory, mapping the merged segments with the wrong bus address:
-silent data corruption on the member.
+The root cause is a block-layer status-code regression, not an md or
+nvme bug. Commit 91fb2b6052f7 ("nvme-pci: convert to using
+dma_map_sgtable()") deliberately mapped unsupported P2PDMA transfers
+to BLK_STS_TARGET ("... return BLK_STS_TARGET so the request isn't
+retried"). Commit 858299dc6160 ("block: add scatterlist-less DMA
+mapping helpers") silently changed that to BLK_STS_INVAL, and since
+commit 7ce3c1dd78fc ("nvme-pci: convert the data mapping to
+blk_rq_dma_map") in v6.17 the failure surfaces to direct NVMe
+consumers as EINVAL instead of the documented -EREMOTEIO, with
+blk_path_error() now classifying it as retryable. md/raid1,raid10
+ignore BLK_STS_INVAL leg failures per commit f7b24c7b41f2
+("md/raid1,raid10: don't fail devices for invalid IO errors"), where
+it means a request-shaped error that fails identically on every
+member -- hence the silent divergence. The md leg of the regression
+became reachable when md started advertising BLK_FEAT_PCI_P2PDMA in
+v7.2-rc1 (commit 02666132403a ("md: propagate BLK_FEAT_PCI_P2PDMA
+from member devices to RAID device")).
 
-Set the flag for P2PDMA bios instead of merely preserving it. No
-in-tree path currently submits P2PDMA pages through the bvec-iter
-path (bio_iov_bvec_set()), which skips the flagging -- but nothing
-structural prevents one, so setting rather than preserving hardens
-md against that gap at the cost of one branch. Everything else keeps
-the original optimization of clearing the flag. This covers every
-personality that advertises BLK_FEAT_PCI_P2PDMA (raid0, raid1,
-raid10), which is why the fix lives in the shared md_submit_bio()
-path.
+Patch 1 restores BLK_STS_TARGET at the source. md then handles an
+unreachable leg like any other per-device error: badblocks on the
+affected member, the master bio succeeds while an In_sync leg holds
+the data, and reads are redirected to the other mirror.
 
-Fixes: 02666132403a ("md: propagate BLK_FEAT_PCI_P2PDMA from member devices to RAID device")
-Assisted-by: Claude:claude-opus-4-8
-Signed-off-by: Mykola Marzhan <mykola@meshstor.io>
----
- drivers/md/md.c | 14 ++++++++++++--
- drivers/md/md.h | 18 ++++++++++++++++++
- 2 files changed, 30 insertions(+), 2 deletions(-)
+Patches 2, 4 and 5 fix independent md-side P2PDMA bugs of the same
+vintage: md_submit_bio() strips REQ_NOMERGE (the only request-level
+protection against merging P2PDMA segments across pgmaps); raid1
+write-behind CPU-copies device BAR memory via bio_copy_data(); and
+narrow_write_error()'s retry clones reset bi_opf, dropping the
+REQ_NOMERGE protection exactly on the error-retry path.  Patch 3 is
+a standalone raid1 fix for a pre-existing ordering hole the
+write-behind bypass in patch 4 would otherwise widen: writes that
+skip write-behind (queue saturation, a waiting reader, allocation
+failure, discards -- and now P2PDMA bios) never serialized against
+in-flight write-behind I/O to overlapping sectors.
 
-diff --git a/drivers/md/md.c b/drivers/md/md.c
-index d1465bcd86c8..3ae4fd4ef381 100644
---- a/drivers/md/md.c
-+++ b/drivers/md/md.c
-@@ -451,8 +451,18 @@ static void md_submit_bio(struct bio *bio)
- 		return;
- 	}
- 
--	/* bio could be mergeable after passing to underlayer */
--	bio->bi_opf &= ~REQ_NOMERGE;
-+	/*
-+	 * A bio md split could be mergeable again below md, but for P2PDMA
-+	 * bios REQ_NOMERGE is load-bearing: the DMA mapping type of a
-+	 * request is resolved once, from its first segment, so requests
-+	 * must stay single-provider (see __bio_add_page()). Set the flag
-+	 * rather than merely preserve it -- bios built through the
-+	 * bvec-iter path arrive without it.
-+	 */
-+	if (md_bio_is_p2pdma(bio))
-+		bio->bi_opf |= REQ_NOMERGE;
-+	else
-+		bio->bi_opf &= ~REQ_NOMERGE;
- 
- 	md_handle_request(mddev, bio);
- }
-diff --git a/drivers/md/md.h b/drivers/md/md.h
-index d8daf0f75cbb..140e2b3670d8 100644
---- a/drivers/md/md.h
-+++ b/drivers/md/md.h
-@@ -11,8 +11,10 @@
- #include <linux/blkdev.h>
- #include <linux/backing-dev.h>
- #include <linux/badblocks.h>
-+#include <linux/bio.h>
- #include <linux/kobject.h>
- #include <linux/list.h>
-+#include <linux/memremap.h>
- #include <linux/mm.h>
- #include <linux/mutex.h>
- #include <linux/timer.h>
-@@ -22,6 +24,22 @@
- #include <trace/events/block.h>
- 
- #define MaxSector (~(sector_t)0)
-+
-+/*
-+ * Check if the bio carries PCI P2PDMA (peer device memory) pages. Read
-+ * bi_io_vec directly rather than using bio_first_bvec_all(), which WARNs
-+ * on cloned bios: md routinely handles split clones, which have
-+ * bi_vcnt == 0 but a valid bi_io_vec shared with the parent. P2PDMA and
-+ * host pages must not be mixed within one bio, so the first bvec is
-+ * representative. Only valid before the bio's iterator is consumed:
-+ * bio_has_data() is false at completion time.
-+ */
-+static inline bool md_bio_is_p2pdma(struct bio *bio)
-+{
-+	return bio_has_data(bio) && bio->bi_io_vec &&
-+	       is_pci_p2pdma_page(bio->bi_io_vec->bv_page);
-+}
-+
- /*
-  * Number of guaranteed raid bios in case of extreme VM load:
-  */
+Patch 6 stops the restored device-error machinery from misfiring
+where its medium-error assumptions don't hold. A mapping failure is a
+property of the peer/member pairing: retrying the same peer pages
+against the same member cannot succeed, and there is nothing on the
+medium to repair. Without it, narrow_write_error() serializes hundreds
+of guaranteed-to-fail chunk retries per failed write; on reads each
+unreachable-leg pick costs a full freeze_array() quiesce plus a tick
+of the read-error budget -- measured below, a mixed host/P2P read
+workload on an asymmetric topology kicks the perfectly healthy far
+leg after ~20 failed picks, in under a second; and on FailFast
+members a single unroutable I/O evicts a healthy mirror outright.
+Because BLK_STS_TARGET is also produced for transient device
+conditions md cannot distinguish from bi_status alone, writes probe
+the whole range once instead of predicting futility: a real mapping
+failure is recorded in one call, a cleared transient recovers with
+nothing recorded. Patches 1 and 6 belong in the same release: with
+patch 1 alone, restoring the error surfaces the retry storms and
+read-path evictions above on 7.2's newly reachable md path.
+
+Patch 7 closes the same hole in the rdma transport. nvme-rdma maps
+the data scatterlist with ib_dma_map_sg(), which returns 0 on a
+peer-unreachable failure, discarding the -EREMOTEIO that
+dma_map_sgtable() documents for exactly this case; the driver reports
+it as a path error. Because the multipath head node advertises
+BLK_FEAT_PCI_P2PDMA (commit fb0eeeed91f3 ("nvme-multipath: enable PCI
+P2PDMA for multipath devices"), v7.2-rc1) and the mapping failure is
+deterministic, nvme_failover_req() requeues the bios with a fresh
+retry budget every cycle and the I/O never completes -- a hot requeue
+livelock that hangs a stacked md mirror instead of failing over; with
+nvme_core.multipath=N it burns nvme_max_retries requeues and
+completes as retryable BLK_STS_TRANSPORT. Patch 7 maps with
+ib_dma_map_sgtable_attrs() to preserve the errno and returns
+BLK_STS_TARGET, matching nvme-pci so patch 6's handling covers rdma
+legs too, and starts the request only after the map succeeds so
+nvme_mpath_start_request() accounting cannot leak on the direct
+blk-mq completion. nvme-rdma stays on the scatterlist DMA API: its
+fast-reg MR path (ib_map_mr_sg()) consumes scatterlists, so a
+blk_rq_dma_map conversion is separate modernization, out of scope for
+a fix.
+
+Behavior on v7.2-rc2, QEMU rig (one CMB provider, two NVMe members,
+q35 PCIe topologies), 90 8KiB peer-memory reads under concurrent
+host reads for the read rows:
+
+  topology     op          v7.2-rc2                patched (md set)
+  symmetric    write+read  ok                      ok
+  asymmetric   write       "ok", silent diverge    ok + badblocks on
+                                                   far leg (1 probe)
+  asymmetric   read        41/90 EIO, no mirror    90/90 ok, no
+               under load  retry, no eviction      eviction
+  unreachable  write       "ok", NO data copied    EIO + badblocks
+  unreachable  read        EIO                     EIO, no members
+                                                   kicked
+
+Also verified on the same rig: a transient injected TARGET recovers
+through the single probe with nothing recorded; P2P MEDIUM keeps the
+chunked path; host-page TARGET/INVAL handling is unchanged; FailFast
+survives mapping failures but still evicts on genuine errors;
+write-mostly legs are written directly (no write-behind CPU copy); a
+degraded array whose only leg is unreachable gets plain EIO -- no
+budget charge, no eviction; an exhausted badblocks table fails the
+member as described below. The write/read/injection rows repeat
+identically on raid10.
+
+Validation of patch 7: the mechanism -- ib_dma_map_sg() returning 0
+where ib_dma_map_sgtable_attrs() preserves -EREMOTEIO -- was
+confirmed on a real mlx5 HCA with a map-only probe. The
+start-after-map reorder ran over an rxe nvmet-rdma loopback under fio
+with crc32c verification; multipath inflight and nr_active accounting
+drain to zero, matching the pre-reorder kernel. rxe cannot produce
+-EREMOTEIO, so the failure paths were driven by injecting that exact
+mechanism at the map call site: unpatched, one 4KiB write livelocked
+(132 failover requeues in 8s, a stacked raid1 hung; multipath=N:
+retryable BLK_STS_TRANSPORT); patched, it failed immediately as
+BLK_STS_TARGET with zero requeues, and the stacked raid1 badblocked
+the leg without evicting it.
+
+Known trade-offs of routing through the stock md write machinery:
+an unroutable P2P write records badblocks and sets WriteErrorSeen
+(which gates the write-path badblocks consult), so later writes
+overlapping those ranges skip the member -- host writes do not clear
+the entries and repair skips known-bad ranges -- leaving them
+single-copy until a re-add rebuild (host memory, so it succeeds)
+rewrites and clears them.  WantReplacement is deliberately not set
+for mapping failures: replacing a member cannot fix a topology
+property, and would burn a spare per unreachable member.  A member
+whose badblocks table is exhausted or disabled is failed on the
+first unroutable P2P write, as with any write error md cannot
+record. FailFast members are exempted from md_error() for
+mapping failures only (nothing reached the wire, so the error says
+nothing about device health); genuine I/O errors keep their
+immediate-eviction semantics. raid10 additionally fails a
+replacement device outright on a P2P write mapping failure (its
+stock replacement-write policy), and an IO_BLOCKED slot excludes
+that slot's replacement from the read retry -- both pre-existing
+raid10 behaviors with a new trigger. On reads, read_balance() keeps
+no memory of unreachability, so each far-leg pick still costs one
+failed submission before the redirect.
+
+Routing: patch 1 is block-tree material and fixes a v6.17-rc1 status
+regression (hence its Cc: stable); patches 2-6 are md (patch 3 fixes
+a pre-existing raid1 ordering bug and carries its own Cc: stable;
+the rest address exposure that only became reachable with v7.2-rc1);
+patch 7 is nvme-rdma and also carries Cc: stable -- the transport
+misreport predates the head-node change (Fixes: 23528aa3320a, v7.1)
+and is reachable on v7.1 with multipath=N. Patch 7 sources the errno
+from dma_map_sgtable() in rdma.c and does not depend on patch 1,
+which fixes the separate blk_rq_dma_map path. Patches 1 (block) and
+7 (nvme) are independently applicable bug fixes; a maintainer can
+take them even if the md discussion runs longer -- if the md side
+slips a release, patch 1 turns the silent divergence into loud
+per-leg errors, which we consider the right interim behavior.
+Single-cycle routing through the relevant trees with acks works for
+us: patch 1 block, 2-6 md, 7 nvme.
+
+Per Documentation/process/coding-assistants.rst: the patches were
+developed with AI assistance (see the Assisted-by trailers); all code
+was human-reviewed and tested as described above.
+
+Series is against v7.2-rc2.
+
+Changes in v2 (after Sashiko AI review of v1 and further internal
+review):
+ - new patch 3: writes that bypass write-behind (including discards)
+   never serialized against in-flight write-behind I/O to overlapping
+   sectors; gate the non-behind path on CollisionCheck so host
+   fallback writes, discards and P2PDMA bios (patch 4) all order
+   correctly.  Verified with an overlap scenario that hangs if the
+   completion-side removal is missing.
+ - patch 6: track P2PDMA masters with an r1bio/r10bio state bit set
+   at submission instead of sniffing bvec pages at completion time;
+   stop setting WantReplacement for mapping failures (a spare cannot
+   fix a topology property; verified that a genuine write error
+   still sets it); document why raid10 replacement legs keep their
+   stock fail-on-error policy and why the read path charges no
+   read-error budget.
+ - patch 7: also convert the metadata scatterlist to
+   ib_dma_map_sgtable_attrs() -- bio_integrity_map_user() accepts
+   P2P pages when the queue advertises P2PDMA, so integrity buffers
+   are not always host memory; state the asymmetric-multipath
+   failover trade-off explicitly.
+ - patch 1: version-annotate the stable Cc.
+ - patches 2, 5: unchanged.
+
+Link: https://lore.kernel.org/linux-raid/20260718162547.448892-1-mykola@meshstor.io/
+
+Mykola Marzhan (7):
+  blk-mq-dma: restore BLK_STS_TARGET for unsupported P2P transfers
+  md: ensure REQ_NOMERGE is set on P2PDMA bios
+  md/raid1: serialize non-write-behind writes on CollisionCheck rdevs
+  md/raid1: don't use write-behind for P2PDMA bios
+  md/raid1,raid10: keep REQ_NOMERGE on narrow_write_error() retry clones
+  md/raid1,raid10: skip futile retries on P2PDMA mapping failures
+  nvme-rdma: return BLK_STS_TARGET for unsupported P2P transfers
+
+ block/blk-mq-dma.c       | 10 +++++-
+ drivers/md/md.c          | 14 ++++++--
+ drivers/md/md.h          | 18 ++++++++++
+ drivers/md/raid1.c       | 78 ++++++++++++++++++++++++++++++++++------
+ drivers/md/raid1.h       |  2 ++
+ drivers/md/raid10.c      | 72 +++++++++++++++++++++++++++++++------
+ drivers/md/raid10.h      |  2 ++
+ drivers/nvme/host/rdma.c | 42 +++++++++++++---------
+ 8 files changed, 198 insertions(+), 40 deletions(-)
+
+
+base-commit: 8cdeaa50eae8dad34885515f62559ee83e7e8dda
 -- 
 2.43.0
 
