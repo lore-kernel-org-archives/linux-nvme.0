@@ -4,106 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5D84BC44512
-	for <linux-nvme@archiver.kernel.org>; Sun, 19 Jul 2026 10:53:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 80264C4451B
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Jul 2026 02:23:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DOCIvHQcUURC426TdmWIVqFzZor35QO+zXIWNPhmEXE=; b=gut2Zsq5vO5S/tKuIneGIbQU08
-	AINR15C5M1yEn3MqHCFyMk+GXapXqDrj5HAjz2VLAm0V1JZyJDVf4JSbzeUqjknU/lBFttLqOVxcS
-	HnzLGRAQy4WZ6RiXH8CJM7CShX5HqDSu5HgTJMN3K0vv/KRAUfBx6gIdHCCH1OIAdaS/JVK9qmdmb
-	m8MuVzD1pUJnP8SNJwgKIegIiDdGYA1XYmTwi6Q9tnR9x8RR+UP4Zeg2EDdipi35tqo2G1HFlE3Lk
-	7ti5Vba8YeEFypgCMQqwfZVi14UMoTz2eb56Y1NTPKy/wUrcNmR04rNLxYV9sulacCSZIVU9Q+HmS
-	OQauSOuQ==;
+	bh=BRO98f6YEA/j9dlNyrE0A2jsQKzeqIngJSoOI3wEv5A=; b=YLsloS/VqKWAPDSFOaqOry+JDI
+	2BsewIA9ICZ6wmiCD3yYYNveSd2eybb2/XCcnYghu42w8pImicdMjGupcB15d5DIBTomwfMiBWcPL
+	Q8t6vw33Q6bddJ25fCuVGpsX3jiKeTgylW0U/6XhCQKSS2j23kuKAxihpYBiE4YB15XZdwQ5NQx/i
+	TWfWZGOEkcyNSp/2ohnBiFr/P31XZNZocaus8zlqk+86+QugZ9gvlBGuTCMAumlJ+FeVFO3MGnVjT
+	RNw04oYjPondEc+vNAMeTAazf0ryBM0MWriyyAaNG37jRaImSxnezNpFnhacFRt/aLmNwtKGckMCq
+	3D9lmJxQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wlP9b-00000004vgn-2UnQ;
-	Sun, 19 Jul 2026 10:53:51 +0000
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+	id 1wldel-00000005gjY-1dC8;
+	Mon, 20 Jul 2026 02:22:59 +0000
+Received: from mailgw.kylinos.cn ([124.126.103.232])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wlP9Y-00000004vdE-3v9j
+	id 1wldee-00000005ghG-2Laa
 	for linux-nvme@lists.infradead.org;
-	Sun, 19 Jul 2026 10:53:50 +0000
-Received: by mail-wm1-x331.google.com with SMTP id 5b1f17b1804b1-49556f97a9dso3162355e9.1
-        for <linux-nvme@lists.infradead.org>; Sun, 19 Jul 2026 03:53:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=meshstor.io; s=google; t=1784458427; x=1785063227; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=DOCIvHQcUURC426TdmWIVqFzZor35QO+zXIWNPhmEXE=;
-        b=oo6TnLFAJggsEIpblG4FRjXY+MC07uDxfsNFxt2Lyw20wyWl1V8Mhz5xIhSH+x6TOm
-         mzNyjFvA3I++cN24bVrZHYmn3pswEycZsiIYw7f51uTKBNWoehMd7g2ptqB8j+Fg2yrT
-         eSN4XMTSj5SplWpEVBhTFRiuhdYssPOnpBEY1NrDzT7V++fRdzMJLpZYD3hHlzHWb1AB
-         Hy4rUtH9lA/H+uEaxyx7e75XR1L1nTgwf908k53019tsnszrIcbTh49D1B1CAavl/EoB
-         wXkKd9IoD8uHbtCirphkatxc25567f1NSd8Urfi+qTd0elyIWSOzaZdBAfRpiKukX9xQ
-         9z1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784458427; x=1785063227;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=DOCIvHQcUURC426TdmWIVqFzZor35QO+zXIWNPhmEXE=;
-        b=DRZ5u9u7ka3Mi2BHum4F55ccWLQt6vOeihHZ9dTUI3adxGOwUfJ59ZBEueQIgMQdl3
-         1IgFtnjcKfsOUBQQI3jFwVsbAjv0Z546c1k3NrByzkMeZ8GNe1thpJV3Tqkri/InTAV5
-         yjTtgjahH+HIGQH1EF8nEjwfQ2mjiwE4I2VG91ok8mkYtGuObO7LZmrnQtff1tG2UFzQ
-         9pgCp5ZDGLnBophtHIa4CSi4GLF/jX560XnSHleVdv8tHSgOrRp6F0HxiE9GZC0+qsAu
-         eyUP+0esksWRmRtGEHewVHJUjv9gUSEnEa7+a7gp/9hOeckhDkwCBXDu3DbOfZphs7mU
-         DCLQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rpprc/Fr4mETavziWMnZFBQFi6RLOpfvM6cehiAadkeyr4xMdfZfkZ1aohU1XkAIlyEPt1NhoRcL5n1@lists.infradead.org
-X-Gm-Message-State: AOJu0Yzxjc1tNb4YBiJp9QJvJH5oWGMC78POPS8hbElKtSxNHJZlK7RT
-	4s/f9EDSsJS5uzFXcxTsqnW+fOI6wtxhPzMStSuFl/hU6kfdCEaJjrmxvySoO0apEA==
-X-Gm-Gg: AfdE7clOkfzDPAiD/wLoTYFMRF0h/xV6mRIexiR/Rmu2zvQ1rpmH0zud5errpQElYEA
-	sQ9DSoLprm3uJ+jJt8lUxEp6LWztQ65BYp5Qapj01H1Fe1BKgAEhzE77MV07dM0ZSjSW9H7rv6J
-	rKlQagFDpHFfl3JXTmQ3LLBtHonX3KGvgh5PqhEpBL3oU21d21wL+WI/Ca88P58jxxA0LSe2g4n
-	+pIw93R3a2gGpaq3Ym//k1/CoNGNM/aJTzdnVtRc1Mbv8e2v8DOd4T05oolMgLj9AcmiEVpsw1T
-	TTRiOXOTp2NL7bkeSkxEKK7k5BjqJFrsUZO0UzF4EeexOPO/EOE5I9FqdwT9EoM67gWJJcDir8B
-	TceV6qjYfdIyDhxV49c9YlAiTk2CVPmPY+96BomUMnH2lWu3oQVsdL3nf0wm1KlYzGTE5n/tE
-X-Received: by 2002:a05:600c:3143:b0:493:faf3:3ea5 with SMTP id 5b1f17b1804b1-4954a3d0925mr109816675e9.4.1784458427000;
-        Sun, 19 Jul 2026 03:53:47 -0700 (PDT)
-Received: from mf-00-01.. ([194.220.239.180])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954a2a24b6sm197679575e9.3.2026.07.19.03.53.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Jul 2026 03:53:46 -0700 (PDT)
-From: Mykola Marzhan <mykola@meshstor.io>
-To: Jens Axboe <axboe@kernel.dk>,
-	Song Liu <song@kernel.org>,
-	Yu Kuai <yukuai@fygo.io>,
-	Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	linux-block@vger.kernel.org,
-	linux-raid@vger.kernel.org,
+	Mon, 20 Jul 2026 02:22:54 +0000
+X-UUID: e3b8dfc683e111f1aa26b74ffac11d73-20260720
+X-CTIC-Tags: HR_CC_AS_FROM, HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CTE_8B
+	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
+	HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
+	HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT
+	HR_TO_NO_NAME, IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_TRUSTED
+	SA_EXISTED, SN_TRUSTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS
+	DMARC_NOPASS, CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS, GTI_RG_INFO
+	GTI_C_BU, AMN_GOOD, ABX_MISS_RDNS
+X-CID-CACHE: Type:Local,Time:202607201014+08,HitQuantity:1
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:ba45b0d1-5f71-41aa-a3e9-82fd39765666,IP:20,
+	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:-50,FILE:0,BULK:0,RULE:Release_Ham,ACTI
+	ON:release,TS:-30
+X-CID-INFO: VERSION:1.3.12,REQID:ba45b0d1-5f71-41aa-a3e9-82fd39765666,IP:20,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:-50,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:-30
+X-CID-META: VersionHash:e7bac3a,CLOUDID:a2f50a9585a13576ed1b26a36bc0409a,BulkI
+	D:260717122115Y30Q5PIG,BulkQuantity:1,Recheck:0,SF:10|13|66|78|81|82|102|1
+	27|136|307|312|320|328|341|342|344|347|350|351|850|865|898|10035|15035|200
+	20|25000|26021,TC:nil,Content:0|15|50,EDM:-3,IP:-2,URL:0,File:nil,RT:nil,B
+	ulk:40,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:
+	0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: e3b8dfc683e111f1aa26b74ffac11d73-20260720
+X-User: sangyao@kylinos.cn
+Received: from localhost.localdomain [(223.70.159.239)] by mailgw.kylinos.cn
+	(envelope-from <sangyao@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1295290830; Mon, 20 Jul 2026 10:22:43 +0800
+From: Yao Sang <sangyao@kylinos.cn>
+To: kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me,
 	linux-nvme@lists.infradead.org
-Cc: Li Nan <magiclinan@didiglobal.com>,
-	Xiao Ni <xiao@kernel.org>,
-	Guoqing Jiang <guoqing.jiang@linux.dev>,
-	Leon Romanovsky <leon@kernel.org>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Kiran Kumar Modukuri <kmodukuri@nvidia.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Shivaji Kant <shivajikant@google.com>,
-	Pranjal Shrivastava <praan@google.com>,
-	Henrique Carvalho <henrique.carvalho@suse.com>,
-	linux-kernel@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	linux-pci@vger.kernel.org
-Subject: [PATCH v2 6/7] md/raid1,raid10: skip futile retries on P2PDMA mapping failures
-Date: Sun, 19 Jul 2026 10:53:26 +0000
-Message-ID: <20260719105327.864949-7-mykola@meshstor.io>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260719105327.864949-1-mykola@meshstor.io>
-References: <20260719105327.864949-1-mykola@meshstor.io>
+Cc: Yao Sang <sangyao@kylinos.cn>
+Subject: [PATCH v1 2/2] nvme: stop using queue_limits_stack_bdev for namespace heads
+Date: Mon, 20 Jul 2026 10:22:05 +0800
+Message-Id: <20260720022205.1798805-3-sangyao@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20260720022205.1798805-1-sangyao@kylinos.cn>
+References: <20260720022205.1798805-1-sangyao@kylinos.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260719_035349_144824_2D8B3357 
-X-CRM114-Status: GOOD (  29.10  )
+X-CRM114-CacheID: sfid-20260719_192253_070629_996EFC28 
+X-CRM114-Status: GOOD (  20.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -118,415 +92,195 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Since commit 02666132403a ("md: propagate BLK_FEAT_PCI_P2PDMA from
-member devices to RAID device") raid1 and raid10 arrays accept P2PDMA
-(peer device memory) bios, and a member that cannot DMA-map the
-peer's pages fails its leg bio with BLK_STS_TARGET (from
-blk_dma_map_iter_start()).  That mapping failure is a property of the
-peer-device/member pairing, not of the medium: re-submitting the same
-peer pages to the same member cannot succeed, and there is nothing on
-the disk to repair.  Routing it through the stock error machinery
-misfires on every path:
+NVMe namespace heads are not generic stacked block devices. Updating a
+head with queue_limits_stack_bdev() pulls in bdev offset, alignment, and
+generic stacking policy that belongs to mapped devices, while NVMe needs
+to refresh namespace Identify data and preserve head user caps.
 
- - narrow_write_error() re-issues the failed write in badblock-sized
-   chunks, serializing hundreds of guaranteed-to-fail synchronous bios
-   through raid1d/raid10d per failed write (256 for a 1 MiB write on
-   4K logical blocks, 2048 on 512e).
+Add NVMe-local helpers that copy refreshed namespace configuration, keep
+head user caps from queue_limits_start_update(), preserve the existing
+write-cache and compatibility feature inheritance, and merge request
+limits conservatively.
 
- - the write-error handler sets WantReplacement, so a hot spare is
-   pulled in, rebuilt onto, and the healthy member is then evicted by
-   spare_active() -- and if the spare is also unreachable from the
-   peer, the cycle consumes the next spare.
+Execution features and request limits continue to accumulate
+conservatively as paths are refreshed. This change does not attempt to
+widen head limits when a restrictive path disappears; recomputing limits
+from the complete live path set is a separate problem.
 
- - fix_read_error() probes members with kernel pages, starting with
-   the failing member itself.  That probe succeeds (the member is
-   healthy for host memory), so the routine rewrites nothing, records
-   nothing, and logs nothing -- but each invocation costs a full
-   freeze_array() quiesce and a tick of the read-error budget.  The
-   budget exists to evict members whose medium keeps producing
-   corrected errors; its hourly decay is sized for sporadic medium
-   errors, while mapping failures are deterministic and arrive at I/O
-   rate.  On an asymmetric PCIe topology a mixed host/P2P read
-   workload charges 20 errors to the unreachable leg within a second
-   and kicks a perfectly healthy member.
+Keep the helper local to NVMe so its field ownership remains explicit and
+does not impose NVMe namespace-head policy on mapped devices.
 
- - On FailFast members both paths short-circuit into md_error(), so a
-   single unroutable peer-memory I/O evicts a healthy mirror outright.
-
-Track P2PDMA masters with a new r1bio/r10bio state bit, set at
-submission where bio_has_data() is still meaningful; a leg's mapping
-failure is then "BLK_STS_TARGET and the master carries P2PDMA pages",
-cheap to test on every completion path.  Handle it explicitly:
-
- - Writes: probe the whole range with one retry and record one bad
-   range if it also fails.  BLK_STS_TARGET is also produced for
-   device conditions that narrow_write_error()'s retry loop recovers
-   from (e.g. NVME_SC_NS_NOT_READY and NVME_SC_CMD_INTERRUPTED via
-   nvme_error_status()), and md cannot tell the two apart from
-   bi_status alone, so it must not skip the retry outright.  A single
-   whole-range probe observes the outcome instead of predicting it.
-   WriteErrorSeen is still set (it gates the write-path badblocks
-   consult), but WantReplacement is not: replacing a member cannot
-   fix a topology property, and spending a spare on it destroys
-   redundancy management for real failures.
-
- - Reads: mark the leg IO_BLOCKED so read_balance() picks another
-   mirror, and skip the freeze/fix cycle and the budget charge.  The
-   same TARGET ambiguity exists here, but a redirected read leaves
-   nothing to fence, and fix_read_error()'s host-page probe fails
-   the same way under e.g. NVME_SC_NS_NOT_READY -- charging the
-   budget would evict a healthy member for a firmware activation
-   window.  A genuinely failing member is still evicted via host
-   reads, writes and BLK_STS_MEDIUM errors.  If no mirror can serve
-   the read the master bio fails with EIO as before (md completes
-   masters by Uptodate state, as for any failed mirror I/O), now
-   without kicking healthy members on the way.
-
- - FailFast: a mapping failure is rejected at map time and never
-   reaches the wire, so it is no evidence of device unreliability;
-   don't let it trigger the FailFast md_error() -- the same reasoning
-   commit f7b24c7b41f2 ("md/raid1,raid10: don't fail devices for
-   invalid IO errors") applied to BLK_STS_INVAL.
-
-raid10 replacement legs keep their stock policy: badblocks are never
-recorded on a replacement, so failing it is the only outcome that
-cannot leave a silent hole in a rebuilding replacement.
-
-This belongs in the same release as the BLK_STS_TARGET restoration:
-with that fix alone, an unroutable leg costs the retry storms and
-the healthy-member evictions above.
-
-Measured on QEMU q35 rigs (one CMB provider, two NVMe members),
-8KiB peer-memory I/O, reads x90 under concurrent host reads:
-
-  scenario       stock error machinery     with this patch
-  asym reads     90/90 ok, healthy far     90/90 ok, no eviction,
-                 leg kicked after ~20      no budget charge
-  unreach reads  all EIO, one healthy      all EIO, no members
-                 member kicked             kicked
-  p2p TARGET     16 chunk retries from     1 whole-range probe,
-  write          raid1d, then badblocks    same badblocks, master ok
-
-A transient TARGET recovers through the single probe with no
-badblocks recorded, and a mapping failure no longer trips FailFast
-eviction while a genuine I/O error still does -- both verified on
-the same rig.
-
-Fixes: 02666132403a ("md: propagate BLK_FEAT_PCI_P2PDMA from member devices to RAID device")
-Assisted-by: Claude:claude-opus-4-8
-Signed-off-by: Mykola Marzhan <mykola@meshstor.io>
+Signed-off-by: Yao Sang <sangyao@kylinos.cn>
 ---
- drivers/md/raid1.c  | 56 +++++++++++++++++++++++++++++++-----
- drivers/md/raid1.h  |  2 ++
- drivers/md/raid10.c | 69 ++++++++++++++++++++++++++++++++++++++-------
- drivers/md/raid10.h |  2 ++
- 4 files changed, 112 insertions(+), 17 deletions(-)
+ drivers/nvme/host/core.c | 142 ++++++++++++++++++++++++++++++---------
+ 1 file changed, 112 insertions(+), 30 deletions(-)
 
-diff --git a/drivers/md/raid1.c b/drivers/md/raid1.c
-index f562b6bd438b..61f635463475 100644
---- a/drivers/md/raid1.c
-+++ b/drivers/md/raid1.c
-@@ -483,12 +483,22 @@ static void raid1_end_write_request(struct bio *bio)
- 	 * 'one mirror IO has finished' event handler:
- 	 */
- 	if (bio->bi_status && !ignore_error) {
-+		/*
-+		 * A P2PDMA mapping failure reflects the peer/member
-+		 * pairing, not member health: don't pull in a spare
-+		 * or trip FailFast for it.
-+		 */
-+		bool p2pdma_unmappable = bio->bi_status == BLK_STS_TARGET &&
-+			test_bit(R1BIO_P2PDMA, &r1_bio->state);
-+
- 		set_bit(WriteErrorSeen,	&rdev->flags);
--		if (!test_and_set_bit(WantReplacement, &rdev->flags))
-+		if (!p2pdma_unmappable &&
-+		    !test_and_set_bit(WantReplacement, &rdev->flags))
- 			set_bit(MD_RECOVERY_NEEDED, &
- 				conf->mddev->recovery);
- 
--		if (test_bit(FailFast, &rdev->flags) &&
-+		if (!p2pdma_unmappable &&
-+		    test_bit(FailFast, &rdev->flags) &&
- 		    (bio->bi_opf & MD_FAILFAST) &&
- 		    /* We never try FailFast to WriteMostly devices */
- 		    !test_bit(WriteMostly, &rdev->flags)) {
-@@ -1378,6 +1388,8 @@ static void raid1_read_request(struct mddev *mddev, struct bio *bio,
- 	else
- 		init_r1bio(r1_bio, mddev, bio);
- 	r1_bio->sectors = max_read_sectors;
-+	if (md_bio_is_p2pdma(bio))
-+		set_bit(R1BIO_P2PDMA, &r1_bio->state);
- 
- 	/*
- 	 * make_request() can abort the operation when read-ahead is being
-@@ -1557,6 +1569,8 @@ static bool raid1_write_request(struct mddev *mddev, struct bio *bio,
- 
- 	r1_bio = alloc_r1bio(mddev, bio);
- 	r1_bio->sectors = max_sectors;
-+	if (md_bio_is_p2pdma(bio))
-+		set_bit(R1BIO_P2PDMA, &r1_bio->state);
- 
- 	/* first select target devices under rcu_lock and
- 	 * inc refcount on their rdev.  Record them by setting
-@@ -2525,7 +2539,7 @@ static void fix_read_error(struct r1conf *conf, struct r1bio *r1_bio)
- 	}
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index e351cb615b10..320bfdf39616 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2518,12 +2518,117 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
+ 	return ret;
  }
  
--static void narrow_write_error(struct r1bio *r1_bio, int i)
-+static void narrow_write_error(struct r1bio *r1_bio, int i, bool coarse)
+-static void nvme_stack_zone_resources(struct queue_limits *t,
+-				      const struct queue_limits *b)
++static void nvme_apply_ns_head_identify_limits(struct queue_limits *lim,
++					       const struct queue_limits *ns_lim)
  {
- 	struct mddev *mddev = r1_bio->mddev;
- 	struct r1conf *conf = mddev->private;
-@@ -2539,6 +2553,11 @@ static void narrow_write_error(struct r1bio *r1_bio, int i)
- 	 * It is conceivable that the bio doesn't exactly align with
- 	 * blocks.  We must handle this somehow.
- 	 *
-+	 * With 'coarse', retry the whole range as one bio and record
-+	 * one bad range if it fails: for P2PDMA mapping failures,
-+	 * which fail every block identically, while the single retry
-+	 * still lets a cleared transient error recover.
-+	 *
- 	 * We currently own a reference on the rdev.
- 	 */
- 
-@@ -2553,9 +2572,12 @@ static void narrow_write_error(struct r1bio *r1_bio, int i)
- 		block_sectors = roundup(1 << rdev->badblocks.shift, lbs);
- 
- 	sector = r1_bio->sector;
--	sectors = ((sector + block_sectors)
--		   & ~(sector_t)(block_sectors - 1))
--		- sector;
-+	if (coarse)
-+		sectors = sect_to_write;
-+	else
-+		sectors = ((sector + block_sectors)
-+			   & ~(sector_t)(block_sectors - 1))
-+			- sector;
- 
- 	while (sect_to_write) {
- 		struct bio *wbio;
-@@ -2636,8 +2658,18 @@ static void handle_write_finished(struct r1conf *conf, struct r1bio *r1_bio)
- 			 * narrow down and record precise write
- 			 * errors.
- 			 */
-+			bool coarse = r1_bio->bios[m]->bi_status ==
-+					BLK_STS_TARGET &&
-+				test_bit(R1BIO_P2PDMA, &r1_bio->state);
+-	t->max_open_zones = min_not_zero(t->max_open_zones, b->max_open_zones);
+-	t->max_active_zones =
+-		min_not_zero(t->max_active_zones, b->max_active_zones);
++	/*
++	 * Identify-derived namespace/head attributes come from the refreshed
++	 * NVMe namespace limits, not from generic mapped-device stacking.
++	 */
++	lim->features &= ~(BLK_FEAT_ZONED | BLK_FEAT_ATOMIC_WRITES);
++	lim->features |= ns_lim->features & BLK_FEAT_ZONED;
++	lim->logical_block_size = ns_lim->logical_block_size;
++	lim->physical_block_size = ns_lim->physical_block_size;
++	lim->io_min = ns_lim->io_min;
++	lim->io_opt = ns_lim->io_opt;
++	lim->chunk_sectors = ns_lim->chunk_sectors;
++	lim->discard_granularity = ns_lim->discard_granularity;
++	lim->max_hw_discard_sectors = ns_lim->max_hw_discard_sectors;
++	lim->max_discard_segments = ns_lim->max_discard_segments;
++	lim->zone_write_granularity = ns_lim->zone_write_granularity;
++	lim->max_hw_zone_append_sectors = ns_lim->max_hw_zone_append_sectors;
++	lim->max_write_streams = ns_lim->max_write_streams;
++	lim->write_stream_granularity = ns_lim->write_stream_granularity;
 +
- 			fail = true;
--			narrow_write_error(r1_bio, m);
-+			/*
-+			 * A P2PDMA mapping failure fails the whole range
-+			 * identically: probe it once (coarse) instead of
-+			 * narrowing block by block. A transient TARGET
-+			 * recovers via the probe with nothing recorded.
-+			 */
-+			narrow_write_error(r1_bio, m, coarse);
- 			rdev_dec_pending(conf->mirrors[m].rdev,
- 					 conf->mddev);
- 		}
-@@ -2664,6 +2696,9 @@ static void handle_read_error(struct r1conf *conf, struct r1bio *r1_bio)
- {
- 	struct md_rdev *rdev = conf->mirrors[r1_bio->read_disk].rdev;
- 	struct bio *bio = r1_bio->bios[r1_bio->read_disk];
-+	/* evaluate before the bio_put() below */
-+	bool p2pdma_error = bio->bi_status == BLK_STS_TARGET &&
-+		test_bit(R1BIO_P2PDMA, &r1_bio->state);
- 	struct mddev *mddev = conf->mddev;
- 	sector_t sector;
- 
-@@ -2683,6 +2718,13 @@ static void handle_read_error(struct r1conf *conf, struct r1bio *r1_bio)
- 	 */
- 	if (mddev->ro) {
- 		r1_bio->bios[r1_bio->read_disk] = IO_BLOCKED;
-+	} else if (p2pdma_error) {
-+		/*
-+		 * The peer cannot reach this member; nothing on the
-+		 * medium to fix. Skip the read-error budget and
-+		 * FailFast, just keep this leg out of the retry.
-+		 */
-+		r1_bio->bios[r1_bio->read_disk] = IO_BLOCKED;
- 	} else if (test_bit(FailFast, &rdev->flags)) {
- 		md_error(mddev, rdev);
- 	} else {
-diff --git a/drivers/md/raid1.h b/drivers/md/raid1.h
-index c98d43a7ae99..61b788a99d14 100644
---- a/drivers/md/raid1.h
-+++ b/drivers/md/raid1.h
-@@ -184,6 +184,8 @@ enum r1bio_state {
- 	R1BIO_MadeGood,
- 	R1BIO_WriteError,
- 	R1BIO_FailFast,
-+/* the master bio carries PCI P2PDMA (peer device memory) pages */
-+	R1BIO_P2PDMA,
- };
- 
- static inline int sector_to_idx(sector_t sector)
-diff --git a/drivers/md/raid10.c b/drivers/md/raid10.c
-index f7ef903a3d4e..144d07b6029c 100644
---- a/drivers/md/raid10.c
-+++ b/drivers/md/raid10.c
-@@ -482,13 +482,24 @@ static void raid10_end_write_request(struct bio *bio)
- 			 */
- 			md_error(rdev->mddev, rdev);
- 		else {
-+			/*
-+			 * A P2PDMA mapping failure reflects the
-+			 * peer/member pairing, not member health: don't
-+			 * pull in a spare or trip FailFast for it.
-+			 */
-+			bool p2pdma_unmappable =
-+				bio->bi_status == BLK_STS_TARGET &&
-+				test_bit(R10BIO_P2PDMA, &r10_bio->state);
-+
- 			set_bit(WriteErrorSeen,	&rdev->flags);
--			if (!test_and_set_bit(WantReplacement, &rdev->flags))
-+			if (!p2pdma_unmappable &&
-+			    !test_and_set_bit(WantReplacement, &rdev->flags))
- 				set_bit(MD_RECOVERY_NEEDED,
- 					&rdev->mddev->recovery);
- 
- 			dec_rdev = 0;
--			if (test_bit(FailFast, &rdev->flags) &&
-+			if (!p2pdma_unmappable &&
-+			    test_bit(FailFast, &rdev->flags) &&
- 			    (bio->bi_opf & MD_FAILFAST)) {
- 				md_error(rdev->mddev, rdev);
- 			}
-@@ -1170,6 +1181,9 @@ static void raid10_read_request(struct mddev *mddev, struct bio *bio,
- 	 */
- 	gfp_t gfp = err_path ? (GFP_NOIO | __GFP_HIGH) : GFP_NOIO;
- 
-+	if (md_bio_is_p2pdma(bio))
-+		set_bit(R10BIO_P2PDMA, &r10_bio->state);
-+
- 	if (slot >= 0 && r10_bio->devs[slot].rdev) {
- 		/*
- 		 * This is an error retry, but we cannot
-@@ -1357,6 +1371,9 @@ static bool raid10_write_request(struct mddev *mddev, struct bio *bio,
- 	sector_t sectors;
- 	int max_sectors;
- 
-+	if (md_bio_is_p2pdma(bio))
-+		set_bit(R10BIO_P2PDMA, &r10_bio->state);
-+
- 	if ((mddev_is_clustered(mddev) &&
- 	     mddev->cluster_ops->area_resyncing(mddev, WRITE,
- 						bio->bi_iter.bi_sector,
-@@ -2786,7 +2803,7 @@ static void fix_read_error(struct r10conf *conf, struct mddev *mddev, struct r10
- 	}
- }
- 
--static void narrow_write_error(struct r10bio *r10_bio, int i)
-+static void narrow_write_error(struct r10bio *r10_bio, int i, bool coarse)
- {
- 	struct bio *bio = r10_bio->master_bio;
- 	struct mddev *mddev = r10_bio->mddev;
-@@ -2800,6 +2817,11 @@ static void narrow_write_error(struct r10bio *r10_bio, int i)
- 	 * It is conceivable that the bio doesn't exactly align with
- 	 * blocks.  We must handle this.
- 	 *
-+	 * With 'coarse', retry the whole range as one bio and record
-+	 * one bad range if it fails: for P2PDMA mapping failures,
-+	 * which fail every block identically, while the single retry
-+	 * still lets a cleared transient error recover.
-+	 *
- 	 * We currently own a reference to the rdev.
- 	 */
- 
-@@ -2814,9 +2836,12 @@ static void narrow_write_error(struct r10bio *r10_bio, int i)
- 		block_sectors = roundup(1 << rdev->badblocks.shift, lbs);
- 
- 	sector = r10_bio->sector;
--	sectors = ((r10_bio->sector + block_sectors)
--		   & ~(sector_t)(block_sectors - 1))
--		- sector;
-+	if (coarse)
-+		sectors = sect_to_write;
-+	else
-+		sectors = ((r10_bio->sector + block_sectors)
-+			   & ~(sector_t)(block_sectors - 1))
-+			- sector;
- 
- 	while (sect_to_write) {
- 		struct bio *wbio;
-@@ -2856,6 +2881,7 @@ static void handle_read_error(struct mddev *mddev, struct r10bio *r10_bio)
- {
- 	int slot = r10_bio->read_slot;
- 	struct bio *bio;
-+	bool p2pdma_error;
- 	struct r10conf *conf = mddev->private;
- 	struct md_rdev *rdev = r10_bio->devs[slot].rdev;
- 
-@@ -2868,17 +2894,28 @@ static void handle_read_error(struct mddev *mddev, struct r10bio *r10_bio)
- 	 * frozen.
- 	 */
- 	bio = r10_bio->devs[slot].bio;
-+	/* evaluate before the bio_put() below */
-+	p2pdma_error = bio->bi_status == BLK_STS_TARGET &&
-+		test_bit(R10BIO_P2PDMA, &r10_bio->state);
- 	bio_put(bio);
- 	r10_bio->devs[slot].bio = NULL;
- 
- 	if (mddev->ro)
- 		r10_bio->devs[slot].bio = IO_BLOCKED;
--	else if (!test_bit(FailFast, &rdev->flags)) {
-+	else if (p2pdma_error) {
-+		/*
-+		 * The peer cannot reach this member; nothing on the
-+		 * medium to fix. Skip the read-error budget and
-+		 * FailFast, just keep this leg out of the retry.
-+		 */
-+		r10_bio->devs[slot].bio = IO_BLOCKED;
-+	} else if (test_bit(FailFast, &rdev->flags)) {
-+		md_error(mddev, rdev);
++	if ((ns_lim->features & BLK_FEAT_ATOMIC_WRITES) &&
++	    ns_lim->atomic_write_hw_unit_min) {
++		lim->features |= BLK_FEAT_ATOMIC_WRITES;
++		lim->atomic_write_hw_max = ns_lim->atomic_write_hw_max;
++		lim->atomic_write_hw_unit_min =
++			ns_lim->atomic_write_hw_unit_min;
++		lim->atomic_write_hw_unit_max =
++			ns_lim->atomic_write_hw_unit_max;
++		lim->atomic_write_hw_boundary =
++			ns_lim->atomic_write_hw_boundary;
 +	} else {
- 		freeze_array(conf, 1);
- 		fix_read_error(conf, mddev, r10_bio);
- 		unfreeze_array(conf);
--	} else
--		md_error(mddev, rdev);
++		lim->atomic_write_hw_max = 0;
++		lim->atomic_write_hw_unit_min = 0;
++		lim->atomic_write_hw_unit_max = 0;
++		lim->atomic_write_hw_boundary = 0;
 +	}
- 
- 	rdev_dec_pending(rdev, mddev);
- 	r10_bio->state = 0;
-@@ -2947,8 +2984,20 @@ static void handle_write_completed(struct r10conf *conf, struct r10bio *r10_bio)
- 					r10_bio->sectors, 0);
- 				rdev_dec_pending(rdev, conf->mddev);
- 			} else if (bio != NULL && bio->bi_status) {
-+				bool coarse = bio->bi_status ==
-+						BLK_STS_TARGET &&
-+					test_bit(R10BIO_P2PDMA,
-+						 &r10_bio->state);
 +
- 				fail = true;
--				narrow_write_error(r10_bio, m);
-+				/*
-+				 * A P2PDMA mapping failure fails the whole
-+				 * range identically: probe it once (coarse)
-+				 * instead of narrowing block by block.  A
-+				 * transient TARGET recovers via the probe
-+				 * with nothing recorded.
-+				 */
-+				narrow_write_error(r10_bio, m, coarse);
- 				rdev_dec_pending(rdev, conf->mddev);
- 			}
- 			bio = r10_bio->devs[m].repl_bio;
-diff --git a/drivers/md/raid10.h b/drivers/md/raid10.h
-index ec79d87fb92f..a2e1554f77db 100644
---- a/drivers/md/raid10.h
-+++ b/drivers/md/raid10.h
-@@ -174,6 +174,8 @@ enum r10bio_state {
- 	R10BIO_Previous,
- /* failfast devices did receive failfast requests. */
- 	R10BIO_FailFast,
-+/* the master bio carries PCI P2PDMA (peer device memory) pages */
-+	R10BIO_P2PDMA,
- 	R10BIO_Discard,
- };
- #endif
++	if (lim->features & BLK_FEAT_ZONED) {
++		lim->max_open_zones = min_not_zero(lim->max_open_zones,
++						   ns_lim->max_open_zones);
++		lim->max_active_zones =
++			min_not_zero(lim->max_active_zones,
++				     ns_lim->max_active_zones);
++	} else {
++		lim->max_open_zones = 0;
++		lim->max_active_zones = 0;
++		lim->max_zone_append_sectors = 0;
++	}
++}
++
++static void nvme_apply_ns_head_feature_limits(struct queue_limits *lim,
++					      const struct queue_limits *ns_lim)
++{
++	/*
++	 * Keep the existing inheritance for compatibility feature bits.
++	 * Path execution features are handled separately below.
++	 */
++	lim->features |= ns_lim->features &
++		(BLK_FEAT_WRITE_CACHE | BLK_FEAT_FUA |
++		 BLK_FEAT_ROTATIONAL | BLK_FEAT_STABLE_WRITES);
++
++	/*
++	 * Head-level execution capabilities are only safe if every usable path
++	 * supports them.
++	 */
++	if (!(ns_lim->features & BLK_FEAT_NOWAIT))
++		lim->features &= ~BLK_FEAT_NOWAIT;
++	if (!(ns_lim->features & BLK_FEAT_POLL))
++		lim->features &= ~BLK_FEAT_POLL;
++	if (!(ns_lim->features & BLK_FEAT_PCI_P2PDMA))
++		lim->features &= ~BLK_FEAT_PCI_P2PDMA;
++}
++
++static void nvme_apply_ns_head_request_limits(struct queue_limits *lim,
++					      const struct queue_limits *ns_lim)
++{
++	lim->max_hw_sectors = min_not_zero(lim->max_hw_sectors,
++					   ns_lim->max_hw_sectors);
++	lim->max_dev_sectors = min_not_zero(lim->max_dev_sectors,
++					    ns_lim->max_dev_sectors);
++	lim->max_write_zeroes_sectors =
++		min(lim->max_write_zeroes_sectors,
++		    ns_lim->max_write_zeroes_sectors);
++	lim->max_hw_wzeroes_unmap_sectors =
++		min(lim->max_hw_wzeroes_unmap_sectors,
++		    ns_lim->max_hw_wzeroes_unmap_sectors);
++	lim->seg_boundary_mask = min_not_zero(lim->seg_boundary_mask,
++					      ns_lim->seg_boundary_mask);
++	lim->virt_boundary_mask = min_not_zero(lim->virt_boundary_mask,
++					       ns_lim->virt_boundary_mask);
++	lim->max_segments = min_not_zero(lim->max_segments,
++					 ns_lim->max_segments);
++	lim->max_integrity_segments =
++		min_not_zero(lim->max_integrity_segments,
++			     ns_lim->max_integrity_segments);
++	lim->max_segment_size = min_not_zero(lim->max_segment_size,
++					     ns_lim->max_segment_size);
++	lim->dma_alignment = max(lim->dma_alignment, ns_lim->dma_alignment);
++	lim->max_secure_erase_sectors =
++		min_not_zero(lim->max_secure_erase_sectors,
++			     ns_lim->max_secure_erase_sectors);
++}
++
++static void nvme_apply_ns_head_limits(struct queue_limits *lim,
++				      const struct queue_limits *ns_lim)
++{
++	nvme_apply_ns_head_identify_limits(lim, ns_lim);
++	nvme_apply_ns_head_feature_limits(lim, ns_lim);
++	nvme_apply_ns_head_request_limits(lim, ns_lim);
+ }
+ 
+ static int nvme_update_ns_head_limits(struct nvme_ns *ns,
+@@ -2537,35 +2642,12 @@ static int nvme_update_ns_head_limits(struct nvme_ns *ns,
+ 
+ 	lim = queue_limits_start_update(head_q);
+ 	memflags = blk_mq_freeze_queue(head_q);
+-	/*
+-	 * queue_limits mixes values that are the hardware limitations
+-	 * for bio splitting with what is the device configuration.
+-	 *
+-	 * For NVMe the device configuration can change after e.g. a
+-	 * Format command, and we really want to pick up the new format
+-	 * value here. But we must still stack the queue limits to the
+-	 * least common denominator for multipathing to split the bios
+-	 * properly.
+-	 *
+-	 * To work around this, we explicitly set the device
+-	 * configuration to those that we just queried, but only stack
+-	 * the splitting limits in to make sure we still obey possibly
+-	 * lower limitations of other controllers.
+-	 */
+-	lim.logical_block_size = ns_lim->logical_block_size;
+-	lim.physical_block_size = ns_lim->physical_block_size;
+-	lim.io_min = ns_lim->io_min;
+-	lim.io_opt = ns_lim->io_opt;
+-	queue_limits_stack_bdev(&lim, ns->disk->part0, 0,
+-				ns->head->disk->disk_name);
+-	if (lim.features & BLK_FEAT_ZONED)
+-		nvme_stack_zone_resources(&lim, ns_lim);
++
++	nvme_apply_ns_head_limits(&lim, ns_lim);
+ 	if (unsupported)
+ 		ns->head->disk->flags |= GENHD_FL_HIDDEN;
+ 	else
+ 		nvme_init_integrity(ns->head, &lim, info);
+-	lim.max_write_streams = ns_lim->max_write_streams;
+-	lim.write_stream_granularity = ns_lim->write_stream_granularity;
+ 	ret = queue_limits_commit_update(head_q, &lim);
+ 	if (ret)
+ 		goto unfreeze_head_queue;
 -- 
-2.43.0
+2.25.1
 
 
