@@ -4,60 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AC31BC44515
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Jul 2026 06:04:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6A538C4451B
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Jul 2026 08:06:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=/Q/pV0BHewCj6TMUR7rjMp0Y6vbhI+08hcM/QYp42kg=; b=dGjL4ODaLDVKlE8QYNZygpjgw+
-	g5Y6y9jqpqez99AvDcuU/VuEtPhjL8d3LiywSWGTJd8rKuQlRdOTqKNAWX/G+U6X67re+9wtxr/Ai
-	tBlNCMvXXc+CmbEwAli0wpDwp0eqogrN2Sy0EugnKolK+kyqpGRlb/9/lzsl7n/1fq+nJKCPwyt3c
-	RD5BLMP+qgqvxUwVnYOXdAeBGhp2eZ47ORw1QK0mCYIfxpVN1Cw/LfGyW5mUX7Kmuq+2OF3dYE1aV
-	bnz1C1TVCMYSL61bTo8f607TKWahDPWfcJlGK0JIoQzLLmtEovD9t6Gdsbxt1i2ce2G9mHhhtRCPo
-	hDrq2sbg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=ktYVKQhepqBu9ei/JaTjk9qCOJ
+	ugcKAyFQIgW/BltR0bnGMmclHnnbTji6BdkC29wJgNTbfcnFq7T7jdrZebypyK/PkKdMMSSfvDK7a
+	5dUrrpXHlXB76Af9MxR29N8n3TgdC4cIFjJFgyNv+G0LSGHdWRdBMR3RUnt0H7GTygGUKsumG2PPS
+	BFh48iuR9OJW8nh4uozUQbBSsBZjc48XUVnsPERxTs9vyqp5PQrJxOmOHhuX6R3LiS3JUKXFSqxTi
+	IIrlsi7OYEV8EOHnelGHOqgixjObVLFWN49ObQ7YpCHi8Ae7w7lM39r7bJylXF/sLCnw7fFmcHLFl
+	MS77z8Wg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wlh6f-00000005ubo-0uvQ;
-	Mon, 20 Jul 2026 06:04:01 +0000
-Received: from m16.mail.163.com ([220.197.31.4])
+	id 1wlj15-000000069uY-3K5x;
+	Mon, 20 Jul 2026 08:06:23 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wlh6c-00000005uam-0Dbd
+	id 1wlj11-000000069tb-47UZ
 	for linux-nvme@lists.infradead.org;
-	Mon, 20 Jul 2026 06:04:00 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=/Q
-	/pV0BHewCj6TMUR7rjMp0Y6vbhI+08hcM/QYp42kg=; b=VIDOA5bBPMkcfEjbBa
-	C1JyT9o4Sm7s2o4eUUoX8ZUAlkVL/herKwLtCVnLWXPOAYPSnfbUIqrQG8F++Q4h
-	5U+ek0Uq0RJ+CZucVl84b+l7xk7cSpMi5kfAIAhdDckVLunu644yUi73evhSthwR
-	eeSZuA5+rEJkBeZCagJFfgGNs=
-Received: from localhost.localdomain (unknown [])
-	by gzsmtp5 (Coremail) with SMTP id QCgvCgD3PzQlul1qVm5qIA--.13283S2;
-	Mon, 20 Jul 2026 14:03:17 +0800 (CST)
-From: Yang Xiuwei <yangxiuwei@kylinos.cn>
-To: kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me
-Cc: linux-nvme@lists.infradead.org,
-	Yang Xiuwei <yangxiuwei@kylinos.cn>
-Subject: [PATCH] nvme/ioctl: check SUBMIT_IO with nvme_cmd_allowed()
-Date: Mon, 20 Jul 2026 14:03:05 +0800
-Message-Id: <20260720060305.885535-1-yangxiuwei@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	Mon, 20 Jul 2026 08:06:21 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id EEB0768BEB; Mon, 20 Jul 2026 10:06:09 +0200 (CEST)
+Date: Mon, 20 Jul 2026 10:06:09 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Yang Xiuwei <yangxiuwei@kylinos.cn>
+Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH] nvme/ioctl: check SUBMIT_IO with nvme_cmd_allowed()
+Message-ID: <20260720080609.GA18764@lst.de>
+References: <20260720060305.885535-1-yangxiuwei@kylinos.cn>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: QCgvCgD3PzQlul1qVm5qIA--.13283S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7Zw47XF1rXr4Dtw4UXr47Arb_yoW8Ar13pF
-	ZxXay2kF12gr45u34DJa1UZFyFq3WI9ryxG3yxW3yFvr90yryrCFWYk3ZIv343GF4v9F48
-	ZFW0kF1aqr4kWw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UdWrZUUUUU=
-X-Originating-IP: [116.128.244.169]
-X-CM-SenderInfo: p1dqw55lxzvxisqskqqrwthudrp/xtbC6QWpOmpduiXhnAAA3q
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260720060305.885535-1-yangxiuwei@kylinos.cn>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260719_230358_465737_BD98A45B 
+X-CRM114-CacheID: sfid-20260720_010620_169851_2C6341B6 
 X-CRM114-Status: UNSURE (   9.03  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -74,52 +60,8 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Unlike IO_CMD / IO64_CMD, NVME_IOCTL_SUBMIT_IO never calls
-nvme_cmd_allowed(). Unprivileged callers can thus issue I/O on a
-partition device or write through a read-only file descriptor.
+Looks good:
 
-Pass flags and open_for_write through and reject disallowed commands
-with -EACCES.
-
-Signed-off-by: Yang Xiuwei <yangxiuwei@kylinos.cn>
----
- drivers/nvme/host/ioctl.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index 664216eece4a..752d7b249000 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -202,7 +202,8 @@ static int nvme_submit_user_cmd(struct request_queue *q,
- 	return ret;
- }
- 
--static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
-+static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio,
-+		unsigned int flags, bool open_for_write)
- {
- 	struct nvme_user_io io;
- 	struct nvme_command c;
-@@ -260,6 +261,9 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
- 	c.rw.lbat = cpu_to_le16(io.apptag);
- 	c.rw.lbatm = cpu_to_le16(io.appmask);
- 
-+	if (!nvme_cmd_allowed(ns, &c, flags, open_for_write))
-+		return -EACCES;
-+
- 	return nvme_submit_user_cmd(ns->queue, &c, io.addr, length, metadata,
- 			meta_len, NULL, 0, 0);
- }
-@@ -595,7 +599,7 @@ static int nvme_ns_ioctl(struct nvme_ns *ns, unsigned int cmd,
- 	case NVME_IOCTL_SUBMIT_IO32:
- #endif
- 	case NVME_IOCTL_SUBMIT_IO:
--		return nvme_submit_io(ns, argp);
-+		return nvme_submit_io(ns, argp, flags, open_for_write);
- 	case NVME_IOCTL_IO64_CMD_VEC:
- 		flags |= NVME_IOCTL_VEC;
- 		fallthrough;
--- 
-2.25.1
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
 
