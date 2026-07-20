@@ -4,70 +4,103 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 31F1DC4452A
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Jul 2026 12:43:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A9710C44515
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Jul 2026 13:23:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vh8stEmHz5bYtGKNO5Fy88qwSoN0fVVLHD1xF2VP1xw=; b=B2UMAXrxncdb9Fw6qnRZ6U1Icf
-	CLaIsouusElnT7TRuXOTkQPuiOMZoMf8HEQRDrOZAuAjEv5iye65qk0XWfMXmPQEy3UxRvCdA7oPl
-	80mW7VM//qoyE21cRii8cYw7KdHBc9XUprpz68HiZ0PEisofrexkKZGLYiFyQuwLpSHPOytEMj2Cu
-	sVlqegqPkZJTar1aKOw6coIpzLQDZAKRvolvwAXGmtO3a+/kv1vq90hqX3kxt6vxeOURHeDHOAgYp
-	N/vz/Zfi59KyqjwB6A/p58KBFhEjvQbJp8FVxmWSoydmTeEIx5gMHLimvNPqr8CFoqzmJUWWZqS5H
-	gnyyyErA==;
+	bh=mzKZztxfHahgMkFrixMi9FNZB/aFI2nYhfBRqnN3Xns=; b=A3zNBJTwJeXvI/XTsV1BdkebDd
+	ozBz3mJOi2Cp5WAQIwvfCXdTdEUUOreMBQ3HRNuXQNcduO71/M9vf80h/aUwujdYWGMV4IPD0DYd1
+	FrtcTtvBML07RRsdjGZKGfdMCZj3LTXmJkWE5KtumGYLwqjdmiveLnLgYkuK3zwckyD6UUxLsGw3T
+	3435EJHSlk2S+nHVF0JkgJ7f4EjCygK1/xYEVU8K3FpEBUSokYaf36NJ3IiF62+vHGAR29AL+pA9J
+	Tp/eTU8Juv/eR7t8ecg3F0XRFRAuKWAsoyjDkUSmy+K6jZnVLdA7A6dfy1nclmk7EqHZkG5ILo881
+	//M4Qvzw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wlnKy-00000006irA-3qIg;
-	Mon, 20 Jul 2026 12:43:12 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1wlny0-00000006nNJ-3PJD;
+	Mon, 20 Jul 2026 13:23:32 +0000
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wlnKx-00000006ir3-1b4l
+	id 1wlnxx-00000006nLx-1F87
 	for linux-nvme@lists.infradead.org;
-	Mon, 20 Jul 2026 12:43:11 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id BBEC940E2B;
-	Mon, 20 Jul 2026 12:43:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEF571F000E9;
-	Mon, 20 Jul 2026 12:43:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784551390;
-	bh=vh8stEmHz5bYtGKNO5Fy88qwSoN0fVVLHD1xF2VP1xw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=UYelArYi0UUykQ/8KrpNSIBoSVZcxpEu3XqJga3fr2+gQD30+VNt3gN+ElNtO1HCg
-	 zG93FLYGosF4qLC1nH2vcqPyKLIq8haLcijvxIrcoL9lxmjXe/FBGj0T5u9ug2rwsE
-	 LYPzV+XWVhqobcEQdCio3Js6Zj+0Uq61RtkRBa3TMYg92E1TbsPQM/3fU2JscyvUAA
-	 DeM7d32/zt1/zAIoCJMLBQ1KRAeMT4x7rDFawTAJ2D8qoZZYEwJq+2WE6veaNISiws
-	 MGvCs6rbbvwFLFVcpbF/gGhd035/Z44tXUttS0KvtbhCNRe0e8RBVpkM0kyp641+pw
-	 2VGswEhaGWssQ==
-Date: Mon, 20 Jul 2026 15:43:04 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Mykola Marzhan <mykola@meshstor.io>
-Cc: Jens Axboe <axboe@kernel.dk>, Song Liu <song@kernel.org>,
-	Yu Kuai <yukuai@fygo.io>, Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	linux-block@vger.kernel.org, linux-raid@vger.kernel.org,
-	linux-nvme@lists.infradead.org, Li Nan <magiclinan@didiglobal.com>,
-	Xiao Ni <xiao@kernel.org>, Jason Gunthorpe <jgg@nvidia.com>,
-	Kiran Kumar Modukuri <kmodukuri@nvidia.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Shivaji Kant <shivajikant@google.com>,
-	Pranjal Shrivastava <praan@google.com>,
-	Henrique Carvalho <henrique.carvalho@suse.com>,
-	linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
-	linux-pci@vger.kernel.org
-Subject: Re: [PATCH 0/6] block,md,nvme: correct handling of unsupported
- P2PDMA transfers
-Message-ID: <20260720124304.GE110966@unreal>
-References: <20260718162547.448892-1-mykola@meshstor.io>
+	Mon, 20 Jul 2026 13:23:30 +0000
+Received: by mail-pj1-x102a.google.com with SMTP id 98e67ed59e1d1-3856d6fbcb3so5949311a91.2
+        for <linux-nvme@lists.infradead.org>; Mon, 20 Jul 2026 06:23:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784553807; cv=none;
+        d=google.com; s=arc-20260327;
+        b=T4hdsmx7RovoQnluvbNUBJcTBxZuMjexrfo4yBz8o8XadTTTaLyO7iO/3cPmEPuPQo
+         aJv+ZXe1Ov7n+z8cwXJ4GOJ1Rk/nSdpRp7wil60ZyQII7LBtrOcfSVjARglLTF+rlWDA
+         Vu9NMcd5KHOPqYTnYddTQguFhyZCYOfUQMmnNAGoH9wYoJj9lR4crFnW9qWfNN5Xj9tR
+         SdrGeIVlDssesVgRz0oLfv0xBVrPAuVz2FCYcdUNYK0Hg8RZIlcHAjFbJ0PQylB09hMC
+         VFFYhS63CudA0ubr/vxyElEi7dQvDxwZmThDHPVUB/hhNB+js4bVjKbOs4iNmSZqXMpl
+         7iqw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=mzKZztxfHahgMkFrixMi9FNZB/aFI2nYhfBRqnN3Xns=;
+        fh=/3MVdC+lCZthyf57AjJHkE4E9SbbGS4QNfTFfgMfI14=;
+        b=Cp9FwhKSq9HXzI3f/sSDTz3FRk97qRLS0XWdeB5ku/S6tQKYxrVAjgpLHVrRYLZyPE
+         ncZWLucHf8QNJuMZpLMCvXZoF5CJHYu0R42AiZK+Y2kw70ta5J7SHoCvRIwbi6okMKAk
+         qoNx1xjp6OdZ9RiQFUYmTXCaCtPKUTX9nCtJNBxmPdhJloj9RoPnyGTqiqabRPvsuUPS
+         a8chsCvGTx0l/e0mHvEsTtB3Gjv3Fdq8eqNyzRqlSqkAcbSTORIYxyJdppqUjR8xuPNt
+         HhPtAjBsOBlewuhJYM+i1wbl7gHR6Gl/l6Bp/adlR5SnUKXyEhUz/E8gTTNWS/hu6FGD
+         Gmpg==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1784553807; x=1785158607; darn=lists.infradead.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=mzKZztxfHahgMkFrixMi9FNZB/aFI2nYhfBRqnN3Xns=;
+        b=Cs4xHeAVEvwPR+VXk8A5fTpTf9MYl8uBRIm68APBOl/8qkmqQinjP2EaZwNrBUdaLo
+         jkk+h48KMHLHLoNpn4x2B8gHLn6kkEVnAeYLNvujenQ+FjDr7zujT/bN6vMW3wo94Tsu
+         xx7Am5ix7W9pBOtWODRVIuJhuPF4IksvKHbHzLkINmlUZyQ/pzrf39ef4VrG6s0lLKit
+         NctvILRKRFsM33eFiY8LbM0zgXmxeEM++2pXR6IKj9sH34gc3zPIUm9dPPLKBvHFrBVD
+         wg7ux5MusHC31KvdwFWHgoDfwAMVp4VI9TbJX3QaBLYagbOz25VIlVszyB3bk8RBrqqV
+         1iKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784553807; x=1785158607;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=mzKZztxfHahgMkFrixMi9FNZB/aFI2nYhfBRqnN3Xns=;
+        b=fbNNFi29zIyJWUpkwOo20AMutOGDro6zkIb/vze+cw4rkreJQu4/nm5uqljliJuEF8
+         A7UYbTgJjHbw+rrsVG+bkSiaFFu6zEqICkvsHCt+PsuWi75h0RmhIjU/8EZODwJ8pYAN
+         Tx4QL0X3Eevcw6cyT8pw0WDtvG5QXxHff3td07s8hb3mNtPJCzzYYt41n34l3RaoZXWb
+         nKiuYcLde003hNxj3eBxnBUc0HIhGspawcv5JXg3wpg9Q5B3/0O+k+C6EC1yQmHtWHvf
+         ZHa8GTu63Njf3+k8GfRqpblPSWJFDEnc7b47uAPL3Qr4drNvkuWkRYM282ZP0lZbHHRN
+         xjNA==
+X-Gm-Message-State: AOJu0YxmTxFWYqBThmjHLlybMRcBOYwgRocJt66giW78H4aOv2rL6lL5
+	5Ee2ECc0c8LfLS/hIEmWrfFSS5AKIwnaGYWLL5wb/CBtQ0WGSAVibsnUwftKmhPLL1KoOy9EYNA
+	j03Fjwg0URLQpkbyOtr/E/ZV1Tw0BVfu8mjKt9nHc
+X-Gm-Gg: AR+sD13+4DFpd6Ggl+KIsAc1mPB7fB5T+v31Esbh2hVbvDpfTD31yT55stA/czyK9Gb
+	wEnOMtmJc0Qlkm0X4JBiT0arXX/ikHRTaWfmreMnf3aOkRdppskOI2wbgolAyQD3vE6EBxr1TCF
+	L2EO1l4v35Ga5vmPfg7iq8KwPn/Y8bInvQDdYmBoVPhIzHbEjXxWRDvFZu7Lf0XRkgXYQbbnfom
+	Mxd2uU9cbVN/drwR/Nn2p0snDNQglNJ78C5FiW/3lDSFQ0n0x2QoNQrdVRBadZ48YSd1ldjKgZu
+	g+RhaHF3VQDtRoYdUmzHpgLiuQ==
+X-Received: by 2002:a17:90b:35c1:b0:38e:485c:ebd3 with SMTP id
+ 98e67ed59e1d1-38e4b43145bmr16358035a91.15.1784553806666; Mon, 20 Jul 2026
+ 06:23:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260718162547.448892-1-mykola@meshstor.io>
+References: <20260713115444.465704-1-nilay@linux.ibm.com>
+In-Reply-To: <20260713115444.465704-1-nilay@linux.ibm.com>
+From: Marco Elver <elver@google.com>
+Date: Mon, 20 Jul 2026 15:22:49 +0200
+X-Gm-Features: AUfX_mwVgNQ07S75fjdL3lVeubHz8P2VayCKCxRSO3ocoEc8yaPWqXFGkhcG9zs
+Message-ID: <CANpmjNNa=rNAaRSWg6ao9HGxH6JTRr7AgZfw8kqHGQCHJWmQfQ@mail.gmail.com>
+Subject: Re: [PATCH v4 00/20] Support Clang context analysis for NVMe host drivers
+To: Nilay Shroff <nilay@linux.ibm.com>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, hch@lst.de, 
+	kbusch@kernel.org, sagi@grimberg.me, axboe@fb.com, bvanassche@acm.org, 
+	gjoyce@linux.ibm.com
+Content-Type: text/plain; charset="UTF-8"
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260720_062329_346847_CC5C97FA 
+X-CRM114-Status: GOOD (  30.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,200 +115,129 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Jul 18, 2026 at 04:25:41PM +0000, Mykola Marzhan wrote:
-> Driving peer-to-peer I/O (NVMe CMB source) through md arrays and
-> nvme-rdma legs on asymmetric PCIe topologies -- where the peer device
-> reaches some members/paths but not others -- turns up two failures on
-> v7.2-rc, both rooted in how an unsupported-P2PDMA mapping failure is
-> reported. On md: silent data loss -- an unreachable-leg P2PDMA write
-> counts as written, mirrors silently diverge, and where no member is
-> reachable the write reports success with zero copies on stable
-> storage; reads picked to an unreachable leg fail with EIO and are
-> never retried on the mirror that holds the data. On nvme-rdma: the
-> transport swallows the DMA layer's mapping errno into a path error,
-> which under the default multipath configuration livelocks the I/O (a
-> stacked md mirror hangs) and with nvme_core.multipath=N surfaces as
-> retryable BLK_STS_TRANSPORT.
-> 
-> The root cause is a block-layer status-code regression, not an md or
-> nvme bug. Commit 91fb2b6052f7 ("nvme-pci: convert to using
-> dma_map_sgtable()") deliberately mapped unsupported P2PDMA transfers
-> to BLK_STS_TARGET ("... return BLK_STS_TARGET so the request isn't
-> retried"). Commit 858299dc6160 ("block: add scatterlist-less DMA
-> mapping helpers") silently changed that to BLK_STS_INVAL, and since
-> commit 7ce3c1dd78fc ("nvme-pci: convert the data mapping to
-> blk_rq_dma_map") in v6.17 the failure surfaces to direct NVMe
-> consumers as EINVAL instead of the documented -EREMOTEIO, with
-> blk_path_error() now classifying it as retryable. md/raid1,raid10
-> ignore BLK_STS_INVAL leg failures per commit f7b24c7b41f2
-> ("md/raid1,raid10: don't fail devices for invalid IO errors"), where
-> it means a request-shaped error that fails identically on every
-> member -- hence the silent divergence. The md leg of the regression
-> became reachable when md started advertising BLK_FEAT_PCI_P2PDMA in
-> v7.2-rc1 (commit 02666132403a ("md: propagate BLK_FEAT_PCI_P2PDMA
-> from member devices to RAID device")).
-> 
-> Patch 1 restores BLK_STS_TARGET at the source. md then handles an
-> unreachable leg like any other per-device error: badblocks on the
-> affected member, the master bio succeeds while an In_sync leg holds
-> the data, and reads are redirected to the other mirror.
-> 
-> Patches 2-4 fix independent md-side P2PDMA bugs of the same vintage:
-> md_submit_bio() strips REQ_NOMERGE (the only request-level protection
-> against merging P2PDMA segments across pgmaps); raid1 write-behind
-> CPU-copies device BAR memory via bio_copy_data(); and
-> narrow_write_error()'s retry clones reset bi_opf, dropping the
-> REQ_NOMERGE protection exactly on the error-retry path.
-> 
-> Patch 5 stops the restored device-error machinery from misfiring
-> where its medium-error assumptions don't hold. A mapping failure is a
-> property of the peer/member pairing: retrying the same peer pages
-> against the same member cannot succeed, and there is nothing on the
-> medium to repair. Without it, narrow_write_error() serializes dozens
-> of guaranteed-to-fail chunk retries per failed write; on reads each
-> unreachable-leg pick costs a full freeze_array() quiesce plus a tick
-> of the read-error budget -- measured below, a mixed host/P2P read
-> workload on an asymmetric topology kicks the perfectly healthy far
-> leg after ~20 failed picks, in under a second; and on FailFast
-> members a single unroutable I/O evicts a healthy mirror outright.
-> Because BLK_STS_TARGET is also produced for transient device
-> conditions md cannot distinguish from bi_status alone, writes probe
-> the whole range once instead of predicting futility: a real mapping
-> failure is recorded in one call, a cleared transient recovers with
-> nothing recorded. Patches 1 and 5 belong in the same release: with
-> patch 1 alone, restoring the error surfaces the retry storms and
-> read-path evictions above on 7.2's newly reachable md path.
-> 
-> Patch 6 closes the same hole in the rdma transport. nvme-rdma maps
-> the data scatterlist with ib_dma_map_sg(), which returns 0 on a
-> peer-unreachable failure, discarding the -EREMOTEIO that
-> dma_map_sgtable() documents for exactly this case; the driver reports
-> it as a path error. Because the multipath head node advertises
-> BLK_FEAT_PCI_P2PDMA (commit fb0eeeed91f3 ("nvme-multipath: enable PCI
-> P2PDMA for multipath devices"), v7.2-rc1) and the mapping failure is
-> deterministic, nvme_failover_req() requeues the bios with a fresh
-> retry budget every cycle and the I/O never completes -- a hot requeue
-> livelock that hangs a stacked md mirror instead of failing over; with
-> nvme_core.multipath=N it burns nvme_max_retries requeues and
-> completes as retryable BLK_STS_TRANSPORT. Patch 6 maps with
-> ib_dma_map_sgtable_attrs() to preserve the errno and returns
-> BLK_STS_TARGET, matching nvme-pci so patch 5's handling covers rdma
-> legs too, and starts the request only after the map succeeds so
-> nvme_mpath_start_request() accounting cannot leak on the direct
-> blk-mq completion. nvme-rdma stays on the scatterlist DMA API: its
-> fast-reg MR path (ib_map_mr_sg()) consumes scatterlists, so a
-> blk_rq_dma_map conversion is separate modernization, out of scope for
-> a fix.
-> 
-> Behavior on v7.2-rc2, QEMU rig (one CMB provider, two NVMe members,
-> q35 PCIe topologies), 90 8KiB peer-memory reads under concurrent
-> host reads for the read rows:
-> 
->   topology     op          v7.2-rc2                patched (1-5)
->   symmetric    write+read  ok                      ok
->   asymmetric   write       "ok", silent diverge    ok + badblocks on
->                                                    far leg (1 probe)
->   asymmetric   read        41/90 EIO, no mirror    90/90 ok, no
->                under load  retry, no eviction      eviction
->   unreachable  write       "ok", NO data copied    EIO + badblocks
->   unreachable  read        EIO                     EIO, no members
->                                                    kicked
-> 
-> Also verified on the same rig: a transient injected TARGET recovers
-> through the single probe with nothing recorded; P2P MEDIUM keeps the
-> chunked path; host-page TARGET/INVAL handling is unchanged; FailFast
-> survives mapping failures but still evicts on genuine errors;
-> write-mostly legs are written directly (no write-behind CPU copy); a
-> degraded array whose only leg is unreachable gets plain EIO -- no
-> budget charge, no eviction; an exhausted badblocks table fails the
-> member as described below. The write/read/injection rows repeat
-> identically on raid10.
-> 
-> Validation of patch 6: the mechanism -- ib_dma_map_sg() returning 0
-> where ib_dma_map_sgtable_attrs() preserves -EREMOTEIO -- was
-> confirmed on a real mlx5 HCA with a map-only probe. The
-> start-after-map reorder ran over an rxe nvmet-rdma loopback under fio
-> with crc32c verification; multipath inflight and nr_active accounting
-> drain to zero, matching the pre-reorder kernel. rxe cannot produce
-> -EREMOTEIO, so the failure paths were driven by injecting that exact
-> mechanism at the map call site: unpatched, one 4KiB write livelocked
-> (132 failover requeues in 8s, a stacked raid1 hung; multipath=N:
-> retryable BLK_STS_TRANSPORT); patched, it failed immediately as
-> BLK_STS_TARGET with zero requeues, and the stacked raid1 badblocked
-> the leg without evicting it.
-> 
-> Known trade-offs of routing through the stock md write machinery:
-> an unroutable P2P write records badblocks and sets WriteErrorSeen
-> and WantReplacement, so later writes overlapping those ranges skip
-> the member -- host writes do not clear the entries and repair skips
-> known-bad ranges -- leaving them single-copy until re-add or
-> replacement recovery (host memory, so it succeeds) rewrites and
-> clears them; a member whose badblocks table is exhausted or disabled
-> is failed on the first unroutable P2P write, as with any write error
-> md cannot record. FailFast members are exempted from md_error() for
-> mapping failures only (nothing reached the wire, so the error says
-> nothing about device health); genuine I/O errors keep their
-> immediate-eviction semantics. raid10 additionally fails a
-> replacement device outright on a P2P write mapping failure (its
-> stock replacement-write policy), and an IO_BLOCKED slot excludes
-> that slot's replacement from the read retry -- both pre-existing
-> raid10 behaviors with a new trigger. On reads, read_balance() keeps
-> no memory of unreachability, so each far-leg pick still costs one
-> failed submission before the redirect; a sticky per-rdev
-> reachability hint would be md-next follow-up material, as would a
-> distinct block status naming the mapping failure exactly.
-> 
-> Routing: patch 1 is block-tree material and fixes a v6.17-rc1 status
-> regression (hence its Cc: stable); patches 2-5 are md and address
-> exposure that only became reachable with v7.2-rc1; patch 6 is
-> nvme-rdma and also carries Cc: stable -- the transport misreport
-> predates the head-node change (Fixes: 23528aa3320a, v7.1) and is
-> reachable on v7.1 with multipath=N. Patch 6 sources the errno from
-> dma_map_sgtable() in rdma.c and does not depend on patch 1, which
-> fixes the separate blk_rq_dma_map path. Patches 1 (block) and 6 (nvme) are
-> independently applicable bug fixes: each fixes a user-visible defect
-> on its own and neither depends on the md patches, while 2-5 are
-> md-side hardening built on patch 1 -- a maintainer can take 1 and 6
-> even if the md discussion runs longer. Single-cycle routing through
-> the relevant trees with acks works for us: patch 1 block, 2-5 md,
-> 6 nvme.
-> 
-> Per Documentation/process/coding-assistants.rst: the patches were
-> developed with AI assistance (see the Assisted-by trailers); all code
-> was human-reviewed and tested as described above.
+On Mon, 13 Jul 2026 at 13:55, Nilay Shroff <nilay@linux.ibm.com> wrote:
+>
+> Hi,
+>
+> This series adds support for Clang's context analysis to the NVMe host
+> drivers.
+>
+> Recent work[1] by Marco Elver introduced infrastructure for lock context
+> analysis in the kernel, allowing Clang to verify locking requirements at
+> compile time through various annotations.
+>
+> This series build on top of that infrastructure by annotating the NVMe
+> host drivers with the appropriate locking requirements and by addressing
+> warnings reported by the analyzer.
+>
+> The series was built and tested with LLVM/Clang 23.x and enables the
+> NVMe host drivers to build cleanly with CONFIG_CONTEXT_ANALYSIS enabled.
+>
+> Support for the NVMe target drivers will be addressed separately.
+>
+> As usual, comments/feedback/suggestions are most welcome!
+>
+> Thanks!
+>
+> [1] https://lore.kernel.org/lkml/20251219154418.3592607-1-elver@google.com/
+>
+> Changes from v3:
+>
+> - Moved the infrastructure patches to the front of the series; the first two
+>   patches are now the infrastructure patches (hch).
+>
+> - Annotated initialization functions, which typically initialize objects
+>   before they are published, with __context_unsafe instead of wrapping
+>   individual initialization statements in context_unsafe(...).
+>
+> - Annotated nvme_next_ns() and nvme_available_path() with
+>   __must_hold_shared(&head->srcu) since both APIs require the caller to
+>   hold the SRCU read lock (Sashiko).
+>
+> - Split the removal of the redundant initialization of
+>   nvme_ns_head::delayed_removal_secs into a separate patch (09/20)
+>   (hch).
+>
+> - Split the removal of the redundant initialization of
+>   nvme_ns_head::requeue_list into a separate patch (05/20)
+>
+> Link to v3: https://lore.kernel.org/all/20260706141452.3008233-1-nilay@linux.ibm.com/
+>
+> Changes from v2:
+>
+> - removed "Clang" from each commit subject line (hch)
+>
+> - for zero-initialized struct bio_list_init() is redundant and also to
+>   suppress false-positive context analysis warning for a list variable
+>   guarded by lock, remove bio_list_init(&head->requeue_list) from
+>   nvme_mpath_alloc_disk() (hch)
+>
+> - get rid off wrapping rcu_access_pointer() using context_unsafe() as
+>   the access to __rcu_guarded pointer using helper rcu_access_pointer()
+>   should be implicitly safe (hch, Marco, Paul)
+>
+> - wrap INIT_LIST_HEAD() under context_unsafe(...) instead of interleaving
+>   it under scoped_guard(...) to suppress context analysis warning while
+>   initializing subsys->nsheads  (hch)
+>
+> - initializing head->delayed_removal_secs from nvme_mpath_alloc_disk() is
+>   redudnamt as struct nvme_ns_head is zero allocated. This also helps
+>   avoid false positive conext analysis warning (hch)
+>
+> - introduce LIST_HEAD_GUARDED(_name, _lock) and use it for guarding a
+>   list (hch)
+>
+> - dropped context annotations for nvme_queue::cq_poll_lock as this
+>   requires a annotation which could support guarding multiple
+>   valid synchronization mechanisms for a single object, which is
+>   ,as of today, not yet avalilable (hch)
+>
+> - new patch in the series from Marco Elver <elver@google.com>, which
+>   annotates list_empty_careful() using __context_unsafe
+>
+> - context_unsafe() has a statement expression inside so group
+>   multiple scope guarded variables before those are publsihed
+>   under context_unsafe(...) where possible (Marco)
+>
+> Link to v2: https://lore.kernel.org/all/20260614131541.2017845-1-nilay@linux.ibm.com/
+>
+> Changes from v1:
+>   - replace guard() with scoped_guard() for guarding request_list (Bart)
+>   - annotate nvme_alloc_ns_head() using __must_hold(&ctrl->subsys->lock)
+>     (Sashiko)
+>   - guard nvme_queue::sq_cmds using nvme_queue::sq_lock
+>   - annotate nvme_cqe_pending() using context_unsafe in nvme_poll()
+>     (Keith)
+>   - Split patch #13 and #14 to separate the context annotation change
+>     from functionality change (Bart)
+>
+> Marco Elver (1):
+>   list: Permit context-unguarded access with list_empty_careful()
+>
+> Nilay Shroff (19):
+>   list: introduce LIST_HEAD_GUARDED
+>   nvme: update nvme_passthru_end() signature
+>   nvme: add context annotations for nvme_passthru_{start|stop}
+>   nvme: add context annotations for nvme_ns_head::srcu
+>   nvme: remove redundant initialization of nvme_ns_head::requeue_list
+>   nvme: add context annotations for nvme_ns_head::requeue_list
+>   nvme: add context annotations for nvme_ns_head::current_path
+>   nvme: add context annotations for nvme_dev::shutdown_lock
+>   nvme: remove redundant initialization of delayed_removal_secs
+>   nvme: add context annotations for nvme_subsystem::lock
+>   nvme: add context annotations for nvme_ctrl::ana_lock
+>   nvme: add context annotations for nvme_subsystems_lock
+>   nvme: add context annotations in fabric.c
+>   nvme: add context annotations for nvme_queue::sq_lock
+>   nvme: add context annotations in rdma.c
+>   nvme: fix context analysis warning in rdma.c
+>   nvme: add context annotations in tcp.c
+>   nvme: fix context analysis warning in tcp.c
+>   nvme: enable context analysis support for nvme host driver
 
-It would be great if developers supervised their AI tools and kept
-commit messages and cover letters concise and readable.
+Acked-by: Marco Elver <elver@google.com>
 
-Everything above can be reduced to a simple sentence: "MD treats an
-unsupported P2P operation as success rather than failure; update the
-code accordingly."
+... from my end this looks reasonable.
 
-Thanks
-
-> 
-> Series is against v7.2-rc2.
-> 
-> Mykola Marzhan (6):
->   blk-mq-dma: restore BLK_STS_TARGET for unsupported P2P transfers
->   md: ensure REQ_NOMERGE is set on P2PDMA bios
->   md/raid1: don't use write-behind for P2PDMA bios
->   md/raid1,raid10: keep REQ_NOMERGE on narrow_write_error() retry clones
->   md/raid1,raid10: skip futile retries on P2PDMA mapping failures
->   nvme-rdma: return BLK_STS_TARGET for unsupported P2P transfers
-> 
->  block/blk-mq-dma.c       | 10 ++++++-
->  drivers/md/md.c          | 14 ++++++++--
->  drivers/md/md.h          | 31 +++++++++++++++++++++
->  drivers/md/raid1.c       | 56 +++++++++++++++++++++++++++++++------
->  drivers/md/raid10.c      | 60 ++++++++++++++++++++++++++++++++++------
->  drivers/nvme/host/rdma.c | 26 +++++++++++------
->  6 files changed, 168 insertions(+), 29 deletions(-)
-> 
-> 
-> base-commit: 8cdeaa50eae8dad34885515f62559ee83e7e8dda
-> --
-> 2.43.0
-> 
-> 
+Thanks!
 
