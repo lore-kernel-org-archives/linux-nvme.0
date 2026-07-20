@@ -4,92 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 51C4CC44520
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Jul 2026 16:04:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CA2E7C44515
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Jul 2026 16:09:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=T40zLSnGBy2hqHl7tiJhrkhW2pKsi4efBFaej6HGMec=; b=voz5QrHc+bI406
-	8hf13chVR0kWnU98iSBhS2GYHXM6MO4u3yLib6xU2MiVyTF2Xmnx49ii+iQkxVpM1aGAYruYr0jqP
-	GWh9x+GGaaK1O4tBbdo1DY6I2FE0XfCiGS8LM0Zp/yZ91Er1Ro6XAaWV4Xw2gaaERl8MuO8MRoEfZ
-	vZVLBEZ45wo7VlyWus7fEUBjeFEflxJv2OE24c27051RAm0mUStz8H/U1zDZLlX9EnCuBTh4Y4+Lh
-	MSVHxWUMpC1jvP99qZ1GeLWOHUMFYejfHjFV/cHB5j+hJszub2z0g9MkNvPSNPKdNZDfy0jWIHQjd
-	ISb772iB7SxdhkCuJbyA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=MH4EA/9Q4vMcKE/csYBaDf7EHyZDIanIpVZcoirKkdg=; b=RPv6tLHPLzVpDlVGfDgDCMaPv1
+	spd4YVY5FaRJOW4LwQBrZP9TdzQ+sKCz9e2dJgov7TTcFgc0lpYlzjORkEc46UvNGHYPH2vqP3ylY
+	V2EP7i05Rc0kMLR3EJ7fFbIkxhu6/fA9RDXpIEGGyV8K2OdKlMvgkSR/z7oB6AjP6eOKXNQR84MgK
+	uwMmV3tk3DmmBc7MoIcBuB3DPjF0pAHGHrKPardGDG/gljjNR9FxSRLiB43NUs4Ho6m7M+JVlSlIq
+	8qs59lXbPgor3qWTbo46Yq5wHistfwJ9JWSIxRBM9JsQGOe9ZqXscZzTUL+8IgWvxjgR1YBLjhspr
+	i6OJ/k9A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wlqTb-00000007Ivn-1W5n;
-	Mon, 20 Jul 2026 16:04:19 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1wlqYP-00000007Jbo-1OKO;
+	Mon, 20 Jul 2026 16:09:17 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wlqTZ-00000007IvS-4Av3
-	for linux-nvme@bombadil.infradead.org;
-	Mon, 20 Jul 2026 16:04:17 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Subject:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=T40zLSnGBy2hqHl7tiJhrkhW2pKsi4efBFaej6HGMec=; b=o5rT0XdQ0MYMDYGVcpLURipJpU
-	I14OYOLM1DZ+kMgXLILCjlLZakOA7xhIAkANzIhA135xR97AMhAW3TeGk4WKfFz+f47K12mRoXobi
-	hpvmTWSgOiPoxWlaht4xj38Ijhqk5B13MuiwAow+OGhh3FLy59f9UQTZWHpDpnWsr0WtvGnJPk4sF
-	OsdRRGxo+jcPIT17qDoSGKEDc1zh7OJcBKFRXlWmURnj4bNyyxvWDUL6nMm9sjwPuuNUsicmtYlkX
-	s4wd3zfL4N722DxcFNUCD8e2maj+8vJ3/AxP4GqvkCK5V0afqmc/iIXiyWBPJg/+V7oXaInnxomuB
-	p4xYTgDg==;
-Received: from ale.deltatee.com ([204.191.154.188])
-	by desiato.infradead.org with esmtps (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1wlqTW-0000000GluU-4Big
+	id 1wlqYO-00000007Jbd-1H6l
 	for linux-nvme@lists.infradead.org;
-	Mon, 20 Jul 2026 16:04:16 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
-	MIME-Version:Date:Message-ID:content-disposition;
-	bh=T40zLSnGBy2hqHl7tiJhrkhW2pKsi4efBFaej6HGMec=; b=j3o8JOj7B/uTCnqOrY71I6s6MT
-	4Uh+dKozXnsM8NdZw4ta/ExCHzOQByj+AHRZbALajjKdcg/BpbL5Tt1X8WkEDwX06kfa2bI4ociYl
-	1h1Kf8uyQkd7TtHGm4Pphe8ueAaGakzS8V/KCJBp2lXDiwD4wE7wxDfwwz6mYlgmdYk+iLZW3qMS+
-	DGBAOupX5dEpMOl7lyQsycgaVS+VRR57F77wgg5Vq8bq8RnGD+b/YfQD5NcqD6r70VIQzwPnh+1FS
-	S2/gP0194XnfJEN6DJdsLJP489/TwajgsH+oXBgm05Z49yYSFulasjT4D5jgrWQPVgtGOZ9MdVG2N
-	NtlrjWZQ==;
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
-	by ale.deltatee.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.98.2)
-	(envelope-from <logang@deltatee.com>)
-	id 1wlqTH-0000000B6Il-3Oce;
-	Mon, 20 Jul 2026 10:04:00 -0600
-Message-ID: <eded3e25-eb53-417a-8040-fcad3854c1a3@deltatee.com>
-Date: Mon, 20 Jul 2026 10:03:58 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Mykola Marzhan <mykola@meshstor.io>, Jens Axboe <axboe@kernel.dk>,
- Song Liu <song@kernel.org>, Yu Kuai <yukuai@fygo.io>,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
- linux-raid@vger.kernel.org, linux-nvme@lists.infradead.org
-Cc: Li Nan <magiclinan@didiglobal.com>, Xiao Ni <xiao@kernel.org>,
- Leon Romanovsky <leonro@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Kiran Kumar Modukuri <kmodukuri@nvidia.com>,
- Chaitanya Kulkarni <kch@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Shivaji Kant <shivajikant@google.com>, Pranjal Shrivastava
- <praan@google.com>, Henrique Carvalho <henrique.carvalho@suse.com>,
- linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-pci@vger.kernel.org
+	Mon, 20 Jul 2026 16:09:16 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id E0F1D4048A;
+	Mon, 20 Jul 2026 16:09:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8428D1F000E9;
+	Mon, 20 Jul 2026 16:09:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784563755;
+	bh=MH4EA/9Q4vMcKE/csYBaDf7EHyZDIanIpVZcoirKkdg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ErsymfqArlZZKEf+CLB2/QdT1mzzA/cRgFIFpe98cOTFEiWPpaYpfYlWnfRMWjq4M
+	 tLoCBRONpYk5+lv5xFxdHud8HFrpiASAExqGmhwpQpvVJKQdIFcpDDW5mYmmILpgn3
+	 vr0bNkj0Arj0NzZs4Aip+6NJqJpv66AOMKHhdyCsWj5f6D56OdMnP/WjLFaUYM6SUo
+	 U7ilIkf3ow30r7TOo85OMtLokulfhSnh0LijlS3YhsAUN11UKWJ/OJ1MGx6qAxDx73
+	 evZy8dhdcN4nB8ZtwYlRpkfMDPv/EsxfaNcQCWCMDzQcxiDFD5zDkqfELK5NS2/M8U
+	 btAXQhiihU99g==
+Date: Mon, 20 Jul 2026 10:09:09 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Mykola Marzhan <mykola@meshstor.io>, Jens Axboe <axboe@kernel.dk>,
+	Song Liu <song@kernel.org>, Yu Kuai <yukuai@fygo.io>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	linux-block@vger.kernel.org, linux-raid@vger.kernel.org,
+	linux-nvme@lists.infradead.org, Li Nan <magiclinan@didiglobal.com>,
+	Xiao Ni <xiao@kernel.org>, Jason Gunthorpe <jgg@nvidia.com>,
+	Kiran Kumar Modukuri <kmodukuri@nvidia.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Shivaji Kant <shivajikant@google.com>,
+	Pranjal Shrivastava <praan@google.com>,
+	Henrique Carvalho <henrique.carvalho@suse.com>,
+	linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+	linux-pci@vger.kernel.org
+Subject: Re: [PATCH 0/6] block,md,nvme: correct handling of unsupported
+ P2PDMA transfers
+Message-ID: <al5IJb-L0FpztnYz@kbusch-mbp>
 References: <20260718162547.448892-1-mykola@meshstor.io>
- <20260718162547.448892-3-mykola@meshstor.io>
-Content-Language: en-CA
-From: Logan Gunthorpe <logang@deltatee.com>
-In-Reply-To: <20260718162547.448892-3-mykola@meshstor.io>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: mykola@meshstor.io, axboe@kernel.dk, song@kernel.org, yukuai@fygo.io, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, linux-block@vger.kernel.org, linux-raid@vger.kernel.org, linux-nvme@lists.infradead.org, magiclinan@didiglobal.com, xiao@kernel.org, leonro@nvidia.com, jgg@nvidia.com, kmodukuri@nvidia.com, kch@nvidia.com, bhelgaas@google.com, shivajikant@google.com, praan@google.com, henrique.carvalho@suse.com, linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org, linux-pci@vger.kernel.org
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH 2/6] md: ensure REQ_NOMERGE is set on P2PDMA bios
-X-SA-Exim-Version: 4.2.1 (built Sun, 23 Feb 2025 07:57:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260720_170415_156850_522A471D 
-X-CRM114-Status: GOOD (  13.04  )
+ <20260720124304.GE110966@unreal>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260720124304.GE110966@unreal>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,39 +83,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 2026-07-18 10:25, Mykola Marzhan wrote:
-> md_submit_bio() unconditionally strips REQ_NOMERGE before passing the
-> bio to the personality, an optimization from commit 9c573de3283a ("MD:
-> make bio mergeable"): a bio that md has split may become mergeable
-> again below md.
+On Mon, Jul 20, 2026 at 03:43:04PM +0300, Leon Romanovsky wrote:
+> It would be great if developers supervised their AI tools and kept
+> commit messages and cover letters concise and readable.
 > 
-> For PCI P2PDMA bios the flag is load-bearing, not a hint. The block
-> layer sets REQ_NOMERGE on P2PDMA bios (__bio_add_page(), and the
-> extraction path of bio_iov_iter_get_pages()) because the DMA mapping
-> type of a request is resolved once, from its first segment
-> (blk_dma_map_iter_start()), and request-level merging is prevented
-> only by REQ_NOMERGE. Stripping it allows the member queue to merge a
-> P2PDMA bio with a bio carrying pages of a different pgmap, or host
-> memory, mapping the merged segments with the wrong bus address:
-> silent data corruption on the member.
-> 
-> Set the flag for P2PDMA bios instead of merely preserving it. No
-> in-tree path currently submits P2PDMA pages through the bvec-iter
-> path (bio_iov_bvec_set()), which skips the flagging -- but nothing
-> structural prevents one, so setting rather than preserving hardens
-> md against that gap at the cost of one branch. Everything else keeps
-> the original optimization of clearing the flag. This covers every
-> personality that advertises BLK_FEAT_PCI_P2PDMA (raid0, raid1,
-> raid10), which is why the fix lives in the shared md_submit_bio()
-> path.
-> 
-> Fixes: 02666132403a ("md: propagate BLK_FEAT_PCI_P2PDMA from member devices to RAID device")
-> Assisted-by: Claude:claude-opus-4-8
-> Signed-off-by: Mykola Marzhan <mykola@meshstor.io>
+> Everything above can be reduced to a simple sentence: "MD treats an
+> unsupported P2P operation as success rather than failure; update the
+> code accordingly."
 
-Makes sense to me. Matches the similar check in nvmet_bdev_execute_rw().
-
-Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+Thank you for TL;DR summary! The verbosity from these things is a bit
+annoying.
 
