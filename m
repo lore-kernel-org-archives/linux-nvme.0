@@ -4,70 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D5806C4451C
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Jul 2026 12:58:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 343CEC44532
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 Jul 2026 14:07:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OV27g3RrMSDD/33GKiBvboum/LxBfxvjNbEEz31xIGU=; b=ow3XvROK5BSEgF1FZZ+sY/KGhU
-	M2q0lDpcVi0fYE+4OX8MqRw3ZDtgMcrzpdugGFvZsQhmzQv0jg91nrJ1AcS5xK6/so/2YW/LZLalI
-	g7W0FnY4U3fkBGS6UmtSRMRXeLeoXy/ZTnn6c4JObnJTGZXR2igBGUgAMqiMEBtJz5yYkZHJRaXou
-	AUQoWHeoubuuOxcF4ADxDbUtKGb+N9ehBuiRAsILSL5iLiTSMGZDCYYTYIpu4VZlh7guEXKB5046g
-	HG8PLa9IRngEo4FERCqnG5zJWE6+6Ne/+yyxI74zO9oNNGraDoA7YdxUGulFSh9Vonr+6A8lB/Twr
-	KNNwLL5Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=EsXD0NNw+hCO8jhrbYSt/sSNSXA2mVOBq4GloqJETrI=; b=DmHpnHcHzjZ0F0pghqMpPENOVl
+	+o4REcJ54j7169+hj6TY8DqhV8jCO0PU1qV9MILREGR9eD/TlsmSGHedmaiwIV/y50Cw9klvJzTzs
+	7otW0Sn0rKWiFOP2ddCNtNRNbPMdv2vHwciDPrSpp/94TgwyEOEUaB1owHHFxB2BeIl+q1H8lWh40
+	p90BGZqZsWMbHb4MBKSWK6jfv0Dx+0HG+20pSzItU0dMfw3+wmtRa1WF03Tis2p3pJ21WYgB5MniG
+	GhfQY1j3SgW5q7nIVDMmb2JuedDIPxxLzZ/A2M/QlYV3BWX4x6ozFdxWeAchOTzir0O76ZFyAWfuq
+	R+Y0hbjg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wmA3P-00000009TFP-3TSJ;
-	Tue, 21 Jul 2026 12:58:35 +0000
-Received: from mailgw.kylinos.cn ([124.126.103.232])
+	id 1wmB7x-00000009bwj-2Cyb;
+	Tue, 21 Jul 2026 14:07:21 +0000
+Received: from mout-b-206.mailbox.org ([2001:67c:2050:102:465::206])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wmA3M-00000009TBg-1I1u
+	id 1wmB7v-00000009bw3-0r3t
 	for linux-nvme@lists.infradead.org;
-	Tue, 21 Jul 2026 12:58:34 +0000
-X-UUID: c0f78e24850311f1aa26b74ffac11d73-20260721
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:4d9ee047-bc8d-4d67-81e7-3787af46d65d,IP:10,
-	URL:0,TC:0,Content:7,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:17
-X-CID-INFO: VERSION:1.3.12,REQID:4d9ee047-bc8d-4d67-81e7-3787af46d65d,IP:10,UR
-	L:0,TC:0,Content:7,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
-	elease,TS:17
-X-CID-META: VersionHash:e7bac3a,CLOUDID:f78ff7ca3a42265b6d3fdcecbb22ee5b,BulkI
-	D:2607202247250Q01JUM8,BulkQuantity:1,Recheck:0,SF:10|64|66|78|80|81|82|83
-	|102|127|136|841|865|898,TC:nil,Content:4|15|50,EDM:-3,IP:-2,URL:0,File:ni
-	l,RT:nil,Bulk:40,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,
-	DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: c0f78e24850311f1aa26b74ffac11d73-20260721
-X-User: sangyao@kylinos.cn
-Received: from sang-pc [(223.70.159.239)] by mailgw.kylinos.cn
-	(envelope-from <sangyao@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 353180495; Tue, 21 Jul 2026 20:57:39 +0800
-Date: Tue, 21 Jul 2026 20:57:35 +0800
-From: Yao Sang <sangyao@kylinos.cn>
-To: Christoph Hellwig <hch@lst.de>
-Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v1 2/2] nvme: stop using queue_limits_stack_bdev for
- namespace heads
-Message-ID: <20260721125735.6kcnu4vuysbj6ali@sang-pc>
-References: <20260720022205.1798805-1-sangyao@kylinos.cn>
- <20260720022205.1798805-3-sangyao@kylinos.cn>
- <20260720144649.GC16699@lst.de>
+	Tue, 21 Jul 2026 14:07:21 +0000
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
+	(No client certificate requested)
+	by mout-b-206.mailbox.org (Postfix) with ESMTPS id 4h4K2R44CPzGv;
+	Tue, 21 Jul 2026 16:07:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mandelbit.com;
+	s=MBO0001; t=1784642831;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=EsXD0NNw+hCO8jhrbYSt/sSNSXA2mVOBq4GloqJETrI=;
+	b=pvZPYiiIDsnTHVuT31C3+it9mh76wChzFc+GJSQDJu89xKcAYRzB4D/56H5c2BNV/518r2
+	0PDuAD9hLVSHuy5NCwC11VWqz7cyNwWyfeK1endov/ftTRZO2RNVpJElEpvfUC4SnkB5XE
+	U5l2aWEYUybw78SKfiq9aFCBaj0CFKnELw6Cp3Ym06yCBJ2UxOSYYaDqznCBy/+ILzwEk5
+	ME5dTiWNF/EQj9QAXtvg/HODvjGVi6sKlKcG3CEDzX9Y+yUcquzrfLeURCduJO9bAA26vs
+	2VOZbRUTw2aEPejpMxeAWGrd7FcV2crYZ8hmTYSqVL7NTVu46G40vfG0H745pQ==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=none;
+	spf=pass (outgoing_mbo_mout: domain of marco@mandelbit.com designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=marco@mandelbit.com
+From: Marco Baffo <marco@mandelbit.com>
+To: linux-crypto@vger.kernel.org
+Cc: herbert@gondor.apana.org.au,
+	davem@davemloft.net,
+	ebiggers@kernel.org,
+	Jason@zx2c4.com,
+	ardb@kernel.org,
+	tytso@mit.edu,
+	jaegeuk@kernel.org,
+	linux-fscrypt@vger.kernel.org,
+	kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me,
+	hare@suse.de,
+	linux-nvme@lists.infradead.org,
+	andrew+netdev@lunn.ch,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	antonio@openvpn.net,
+	sd@queasysnail.net,
+	linux-kernel@vger.kernel.org,
+	Marco Baffo <marco@mandelbit.com>
+Subject: [PATCH 0/5] lib/crypto: add HKDF and convert fscrypt and NVMe
+Date: Tue, 21 Jul 2026 16:06:39 +0200
+Message-ID: <20260721140644.780006-1-marco@mandelbit.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260720144649.GC16699@lst.de>
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 4h4K2R44CPzGv
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260721_055832_665088_2D2B0CE9 
-X-CRM114-Status: GOOD (  24.90  )
+X-CRM114-CacheID: sfid-20260721_070719_680685_08A6D093 
+X-CRM114-Status: GOOD (  11.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,120 +94,68 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jul 20, 2026 at 04:46:49PM +0200, Christoph Hellwig wrote:
-> On Mon, Jul 20, 2026 at 10:22:05AM +0800, Yao Sang wrote:
-> > NVMe namespace heads are not generic stacked block devices.
-> 
-> Not many things actually are, which leads to every recurring problems
-> with the stacking scheme..
-> 
-> > Execution features and request limits continue to accumulate
-> > conservatively as paths are refreshed.
-> 
-> What is this supposed to mean?
+fscrypt and NVMe authentication each carry private HKDF
+implementations. Add HKDF-SHA256, HKDF-SHA384, and HKDF-SHA512
+functions to lib/crypto and convert both users.
 
-Sorry, that wording was unclear. This means that the common fields continue
-to use the existing block-layer merge rules as paths are refreshed
+Patches 1-4 are intended for review and inclusion.
 
-> > Keep the helper local to NVMe so its field ownership remains explicit and
-> 
-> What is "field ownership" supposed to mean?
+Patch 5 is RFC only and is not intended to be applied. It shows how
+the OVPN epoch-key code currently under development can use the new
+HKDF API. That patch has an additional dependency on the OVPN epoch
+series. It is included here to allow the API to be reviewed against
+a third user. The OVPN conversion will be submitted separately once
+its prerequisite code is ready.
 
-What I meant was grouping fields by how they are updated: Identify-derived,
-head-owned, feature, and path fields.
+HKDF-Expand accepts info as an array of segments and processes them as
+if concatenated. This preserves the byte ordering used by fscrypt and
+allows NVMe to encode HkdfLabel without allocating a temporary buffer.
 
-> > does not impose NVMe namespace-head policy on mapped devices.
-> 
-> I think you need to clearly state in what way we'll want to diverge
-> here.
+HKDF-Extract produces a prepared HMAC key, avoiding repeated key setup
+when the same PRK is expanded more than once. The implementation uses
+the direct HMAC library functions and neither allocates memory nor
+returns errors.
 
-The key difference is that NVMe paths address the same LBA space, so they do
-not need component offsets, mapped alignment, or generic topology merging.
+The series is intended for the libcrypto tree. Patches 3 and 4 need
+review from the fscrypt and NVMe maintainers, respectively.
 
-> > +static void nvme_apply_ns_head_identify_limits(struct queue_limits *lim,
-> > +					       const struct queue_limits *ns_lim)
-> 
-> Two tab indents, please.
+Tested with:
 
-Yes, I'll fix the indentation.
+- HKDF KUnit tests
+- NVMe authentication KUnit tests
+- kvm-xfstests smoketest on ext4
+- kvm-xfstests generic/582, generic/583, and generic/584 on ext4 and f2fs
+- kvm-xfstests encrypt group on ext4 and f2fs
 
-> >  {
-> > -	t->max_open_zones = min_not_zero(t->max_open_zones, b->max_open_zones);
-> > -	t->max_active_zones =
-> > -		min_not_zero(t->max_active_zones, b->max_active_zones);
-> > +	/*
-> > +	 * Identify-derived namespace/head attributes come from the refreshed
-> > +	 * NVMe namespace limits, not from generic mapped-device stacking.
-> > +	 */
-> > +	lim->features &= ~(BLK_FEAT_ZONED | BLK_FEAT_ATOMIC_WRITES);
-> > +	lim->features |= ns_lim->features & BLK_FEAT_ZONED;
-> > +	lim->logical_block_size = ns_lim->logical_block_size;
-> > +	lim->physical_block_size = ns_lim->physical_block_size;
-> 
-> A lot of this still duplicates the core code and creates a nightmare
-> when we add new fields.
-> 
-> Can you try to refactor the core code into lower level building
-> blocks and reuse as much as possible while also making the policy
-> differences clear?
+The following shortlog and diffstat refers only to the first 4 patches.
 
-The initial NVMe-local change was meant to limit block-layer changes and
-preserve the established blk_stack_limits() behavior for existing callers
-while the common field semantics were unclear.
+Marco Baffo (4):
+  lib/crypto: add HKDF-SHA{256,384,512}
+  lib/crypto: tests: add HKDF KUnit tests
+  fscrypt: use HKDF library functions
+  nvme-auth: use HKDF library functions for TLS PSK derivation
 
-I agree that the common rules should not be duplicated. I understand "the
-core code" to mean the block-layer stacking code in blk_stack_limits(). Based
-on that, I would first add a behavior-preserving block-layer refactoring and
-factor out the fields that have identical composition rules for generic
-stacking and same-LBA paths. In pseudo-code, the helper and its call sites are:
+ drivers/nvme/common/auth.c    | 120 ++++++++-------
+ fs/crypto/hkdf.c              |  56 ++-----
+ include/crypto/hkdf.h         | 131 ++++++++++++++++
+ lib/crypto/.kunitconfig       |   1 +
+ lib/crypto/Makefile           |   4 +-
+ lib/crypto/hkdf-sha256.c      |  22 +++
+ lib/crypto/hkdf-sha512.c      |  34 +++++
+ lib/crypto/hkdf-template.h    |  97 ++++++++++++
+ lib/crypto/tests/Kconfig      |   8 +
+ lib/crypto/tests/Makefile     |   1 +
+ lib/crypto/tests/hkdf_kunit.c | 276 ++++++++++++++++++++++++++++++++++
+ 11 files changed, 653 insertions(+), 97 deletions(-)
+ create mode 100644 include/crypto/hkdf.h
+ create mode 100644 lib/crypto/hkdf-sha256.c
+ create mode 100644 lib/crypto/hkdf-sha512.c
+ create mode 100644 lib/crypto/hkdf-template.h
+ create mode 100644 lib/crypto/tests/hkdf_kunit.c
 
-/*
- * Combine constraints required by every underlying queue that may execute
- * an I/O, independent of mapping, topology, operation, user or resource
- * policy.
- */
-void blk_stack_io_limits(struct queue_limits *t,
-			 const struct queue_limits *b)
-{
-	/* clear unsupported NOWAIT/POLL/PCI_P2PDMA bits */
 
-	/*
-	 * Apply min_not_zero(t->field, b->field) to:
-	 * max_hw_sectors, max_dev_sectors,
-	 * seg_boundary_mask, virt_boundary_mask,
-	 * max_segments, max_integrity_segments, max_segment_size.
-	 */
-	 
-	/* apply max(t->field, b->field) to dma_alignment */
-}
+base-commit: e4f23159c8d09b6b15d47f2c95e0a3e7c62f52a2
+-- 
+2.43.0
 
-blk_stack_limits(t, b, start)
-{
-	/* existing inherited-feature handling */
-	blk_stack_io_limits(t, b);
-	/* all remaining existing code stays in its current order */
-}
-
-nvme_apply_ns_head_limits(lim, ns_lim)
-{
-	/* existing Identify/head and inherited-feature handling */
-	blk_stack_io_limits(lim, ns_lim);
-	/* all remaining NVMe-local code stays in its current order */
-}
-
-Existing DM, MD/RAID, DRBD and Btrfs callers keep using blk_stack_limits()
-without a behavior change, while NVMe calls the lower-level helper directly.
-
-The key distinction is the composition relationship: NVMe native paths
-address the same LBA space, while generic stacking may remap LBAs and compose
-topology. This version therefore factors out only the mapping-independent
-rules shared by both cases into blk_stack_io_limits(), and leaves the remaining
-handling in its existing paths. I would split further only when another common
-composition rule is identified.
-
-Does this match the block-layer boundary you had in mind, or should this
-series factor out additional composition rules from blk_stack_limits()?
-
-Thanks,
-Yao
 
