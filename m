@@ -4,71 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 33DE0C44536
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Jul 2026 17:46:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7CE99C4451C
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 Jul 2026 17:46:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GLcS/ETJPdW48ntvSy2VqAomcBgiATmYTCUKJMNlgIw=; b=ArWmacwfDvL6tZE62fqobWCvBK
-	F3VMyaqdOBmBlk89Y7NV+p7Y4/zcWFvPUlCHyG2AHGFaJV/M9oHXM1ADpkk2/rYsgAcIGqSFMTmal
-	ype3tGykL0EonyoCEaHHq7I/J+wQKHgZJ4TYo28EX8+ek8N7uCUq6iK896x59B9ZxkSjd2arzqGJy
-	EL83r8GPX7He8U0gNYMXMfJsM/FrkRsQlRMaRB9k5fD9P6qkO3nJBpedYAtbeqGHdudYtRqyoArOh
-	kf1Nn4oYSu6avNPz9cg4tOn4WgxfQjq7c7aJ71LwiSoG7QwvNn4HjWrr2UV1vgoTR44JNZemG20Pm
-	m6oZRenw==;
+	bh=yn3hWNKXTlSTf/hzkreGnovc9sItcGhl/RSESOOgGvw=; b=l0sMSHyV+qbbEWkY/npVTQ2iDF
+	QM5250F6i4GbedDIggV0vejboAFcNSLbxEJZE0W/VD8Pp0SgV8l3Eo34Fei0t4OojdqUFWmM/vbbK
+	7sehL3i2ZA9XBHm64CPqAILzJexGZhZOBWSkhxSArxHed0olB5Nn8kzwzzBSSI/vYRkuPIVkE9djP
+	0zReHQJRVXmsa+a4B32bfQ2KyJHbU+GHLetJLzXPfAbsmeY5yS0NgAr3Sg6xL/HqNVRGL50JIzqKN
+	DmjXs2TmPfzP/Ub9o+5le4cheDeRwWixrSHWmx4OeiORAdaWIl1xlm0oO6pNeB0zFIvRQ2SsmmWwO
+	HRZ3ouHg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wmEXl-0000000A5S4-2sLB;
-	Tue, 21 Jul 2026 17:46:13 +0000
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+	id 1wmEXo-0000000A5Uz-069O;
+	Tue, 21 Jul 2026 17:46:16 +0000
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wmEXf-0000000A5Nb-34ow
+	id 1wmEXk-0000000A5PZ-01jo
 	for linux-nvme@lists.infradead.org;
-	Tue, 21 Jul 2026 17:46:09 +0000
-Received: by mail-wr1-x435.google.com with SMTP id ffacd0b85a97d-472326ca506so8974377f8f.2
-        for <linux-nvme@lists.infradead.org>; Tue, 21 Jul 2026 10:46:07 -0700 (PDT)
+	Tue, 21 Jul 2026 17:46:13 +0000
+Received: by mail-wr1-x429.google.com with SMTP id ffacd0b85a97d-47f7444576cso1929484f8f.0
+        for <linux-nvme@lists.infradead.org>; Tue, 21 Jul 2026 10:46:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=meshstor.io; s=google; t=1784655966; x=1785260766; darn=lists.infradead.org;
+        d=meshstor.io; s=google; t=1784655970; x=1785260770; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=GLcS/ETJPdW48ntvSy2VqAomcBgiATmYTCUKJMNlgIw=;
-        b=SAricblvvb6QUcvGyB7McagIaWUErbacCU6vmomi6QYgHemudiYC9VH/loTl1OxeJl
-         YWPEkw1yW9YHYj57cvpwi9WAxjuRT66Qx/MItKABtXAu/6T3uQmgkVfIBmTzCRxPqKxP
-         3zTedJCsOYd3uUDRnXHVlGZAO/iZmPT2YfjwNDt6GT1XeOh1CMxRJiqevhD0x/N4NXH9
-         x/lD0mcfsvLwvqT97fEPc1lMu85hmHEdnq/7mFYWDtj81oz5IA5nF/XpY7p3g1G9TsZy
-         /BbplDblcwIgY+qSc5crzfg60/BuuCHJZ5ZWbLKb4Ad1A9zUs7FYMekTg/9PczfrXrb1
-         5Gzw==
+        bh=yn3hWNKXTlSTf/hzkreGnovc9sItcGhl/RSESOOgGvw=;
+        b=lNGKpLV95c10bdu1Y917pid/WYwt4u7QyxycJ+N5TQQvTD1nLEYzxVWgfbcgwyJlLN
+         ybNeqGxvPANoiTW7Fug7HJ1mONUQO2AwquFEPgy0JTnjkVis7ZbmablAJuMuzHO/FlO8
+         qekk6SofX052AbYwmULzRCZe6mEIjNAyS9oT58kRUJak8M9kN+O6jb58/oCZ+yvU829I
+         uajm5k+5uP7jazp4+feKX3R0SFF0jjTtv1J+SEg12SnP1zTnR+nqju4l1zJXzAc1HKFu
+         sjPQby8RwhoBWFvPxumZYk2LSM2U9QGPIsNx1KvqWWtuYTqadkGsoh6QvhzLuOn+GMhH
+         EdVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784655966; x=1785260766;
+        d=1e100.net; s=20251104; t=1784655970; x=1785260770;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=GLcS/ETJPdW48ntvSy2VqAomcBgiATmYTCUKJMNlgIw=;
-        b=V5Qr61YUnyCaplYbz1/JGOIQMhGGS6hybGbLYOHIvZZs+zOpbQCJf/qwTb00UW5Dc3
-         BhmVzL1aEyVOlyhip7JZ4ZQHHWgFOPVLhiAY9LgI9IUedFGv1L3ik5UkWK9kpcUDBccM
-         s6meyCIMSN4Ak4Vay9FmCIWPz1/JSgBScolsQupHGYTUHS33IcVG+zOhGInfDNZk0u5u
-         q8RB580py7TAmPwUcPPzuEYCL1s3Y0BXyj/+8AplXtTpFqKYpWXHHG5mvb5aepgrhUXP
-         iG05zW93RAu647sBpDnhb4yQgvOfcIts8rsV85Lkr9FaYSY9YNLSmsxGZa2lRtbE3OeS
-         QO1A==
-X-Forwarded-Encrypted: i=1; AHgh+RoG2hZ8oOfR2lSeLenI/rfHubOq8b5QN8wexB12yWngabqkMy/LORnoxooEhmVs2XP2vvhZY88jDOHZ@lists.infradead.org
-X-Gm-Message-State: AOJu0Yw95Sk743oPvsvZ7qeZ3nf9A4z5KYJgKbkTZP+6/p2ZuPRZdGHY
-	p9mF7UufBaUc9c6YrHjhKjq8FAZNFqtz/ZSsmV9ewAH7ytxqe+AJnvxFdQKQGz+MbA==
-X-Gm-Gg: AR+sD12hpjxAvYTr1Xj2A+5uvNmWI1N0mD1MCvw4pA0Kxim/ftMcAMvdmPn3VCCH++u
-	cEhtiE0kfz7oOJbAAVjj2552uN6mlUGXtGu5aD1k/PsNCkN+QiLju18p//b7oyZ3xjrM/VKuYpR
-	+NjAf7QpO7TCDEopCpV2MzGFGtCYgxaUWtFuZa/Q4fcvslMdE6z3kemC9i57ewg7ObToig7UkIG
-	KFVntErrgZKHZGqCbAFcIB5P2KLd2C5jG1YZxwjUbSsEPkbshEkgI+v5swmBZuxtK6D57MIT4mz
-	RKPk4Q+r0zFIdfwb78eKg/uPfEy3S2IckmEygX/E1Bp/r3dAUg7s+kocG8gkXzu44k66wvKbWhc
-	MKqapG0xhLyMPzcC9TxmkPPpI5nIZGG7AhPpL9HGEGUBhTbD1doGxDD7ETvpoXmiB4StWwqMVqr
-	VJLUb2+EPHHPNMsiEV4yeVS28/wxMXTxcrvFqOhzM/xJM83Lk=
-X-Received: by 2002:a05:6000:27db:20b0:47f:4602:66e9 with SMTP id ffacd0b85a97d-47f6232e29dmr17004239f8f.40.1784655965889;
-        Tue, 21 Jul 2026 10:46:05 -0700 (PDT)
+        bh=yn3hWNKXTlSTf/hzkreGnovc9sItcGhl/RSESOOgGvw=;
+        b=SI1vum6B3qTHJz1v3WcOAaZNw2vrlIpdgZnmk3Dse6SH/Fn3geM8Usc0ispd6D9mxT
+         tcv7jDOwlOr09H6ewZ8Iujl/yzVZnXXI33xo/7quGtwag//ikjsHkO4VertiWybZyTFh
+         4SOa3yVbN+6q7Hk6ZWvl7TzB6UCOznQao8k5U4shAGMPr0uMQ2UB83cSIHYV+ceErqMo
+         HLNeRIRlNTUG/rX3l5+mnyqhf1zRvHc4rrDieq0h5RkrCKMEn4Wj03ar/PZdNik6oG36
+         qpnU1DL11R3C2PyqHAY0qheRnFWxTKr2UZOLZyst5Tf5FL9wxEvOwTp3CJjzICb3WLNM
+         asGg==
+X-Forwarded-Encrypted: i=1; AHgh+RoVoq2zLOpIWXuNiWm+UqO6TuKS11p+Ap9M7neCzW1SZtUI7Snyd3kazCpZ0ghm7oIfa3qKaPAJ80b/@lists.infradead.org
+X-Gm-Message-State: AOJu0Yw212tVH0oTCeS+e12N0FdvelFbrmq87+BuMheUDXV0ngwmK1o+
+	nGraOZrNLo2n2knjcQ6JP8uo1XXtlp4Zl+TVW5z1buLH9Klb3eyhWxC9iVKZ3Aao/w==
+X-Gm-Gg: AfdE7cmrO00gIHhOFFvicwGHAnXvHV9X2LUTKcjjUIfI/4ryCbHQILYkNmF1f/pqZmW
+	vAGPyjkdxEFjk6AJHXRpL+Ti2HnOzlvhM6SLy2Fl4wH3uVB7bRcpQ7zVaWKzUVQfiBa7NLi/iuF
+	168ZpfDFimovA4JhuhzVsrJV/HdiGsoFEzlP1j8uCeqtJOJx61A4AB3tlvkMsvhUd1JhI6Z3I5a
+	vR82KlZiz5beRmlbQHsVdzTezSipa6hG2OIv+jWTgOV2GZYn8MhZmK4TvSW+lMQbhqHFT2Ggex2
+	xNof+XnhRGiCVK3UL4CvdIky7lI1GQ+26L2FcYgXmBiFO8C5qIl87JBj0EBF+75VbZu9DVyHXcx
+	UC+bvrDW+OhGd4PseN5VUBLG0oRU28MWxpHzgXwS/juYuhuMqBGwNqCa68GgvCsLXipWPQfFkPR
+	78eAhQvFYl82zxgYxVUg3nLXfru5W46cFzD54uT3rABkWHQjnGAH0AAbEAVg==
+X-Received: by 2002:a05:600c:2908:b0:493:bb6b:5bb5 with SMTP id 5b1f17b1804b1-4954a3dcc67mr172161575e9.13.1784655970189;
+        Tue, 21 Jul 2026 10:46:10 -0700 (PDT)
 Received: from ai-pc ([46.172.241.174])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f63eddd27sm40860513f8f.28.2026.07.21.10.46.03
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f63eddd27sm40860513f8f.28.2026.07.21.10.46.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2026 10:46:05 -0700 (PDT)
+        Tue, 21 Jul 2026 10:46:09 -0700 (PDT)
 From: Mykola Marzhan <mykola@meshstor.io>
 To: Jens Axboe <axboe@kernel.dk>,
 	Song Liu <song@kernel.org>,
@@ -94,17 +94,17 @@ Cc: Li Nan <magiclinan@didiglobal.com>,
 	linux-kernel@vger.kernel.org,
 	linux-rdma@vger.kernel.org,
 	linux-pci@vger.kernel.org
-Subject: [PATCH v3 3/8] md/raid1: serialize non-write-behind writes on CollisionCheck rdevs
-Date: Tue, 21 Jul 2026 19:44:57 +0200
-Message-ID: <20260721174502.111503-4-mykola@meshstor.io>
+Subject: [PATCH v3 5/8] md/raid1,raid10: keep REQ_NOMERGE on narrow_write_error() retry clones
+Date: Tue, 21 Jul 2026 19:44:59 +0200
+Message-ID: <20260721174502.111503-6-mykola@meshstor.io>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260721174502.111503-1-mykola@meshstor.io>
 References: <20260721174502.111503-1-mykola@meshstor.io>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260721_104607_807987_8C928DD3 
-X-CRM114-Status: GOOD (  13.29  )
+X-CRM114-CacheID: sfid-20260721_104612_085513_602E05DB 
+X-CRM114-Status: GOOD (  12.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -119,53 +119,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-A write that skips write-behind (full behind queue, a waiting
-reader, failed behind-bio allocation) races the in-flight behind
-write it overlaps: nothing orders the two on the write-mostly
-member, and if the older behind data lands last the member keeps
-stale data for sectors already acknowledged as rewritten.
+narrow_write_error() re-issues a failed write in badblock-granularity
+chunks, cloning from the master bio and resetting bi_opf to a bare
+REQ_OP_WRITE. For a P2PDMA bio that reset drops REQ_NOMERGE, which is
+the only request-level protection against the member queue merging
+P2PDMA segments across pgmaps or with host memory (see the preceding
+md_submit_bio() fix): the retry path would quietly reopen the hole
+the submission path closes. Restore the flag on P2PDMA retry clones.
 
-Serialize on CollisionCheck, which marks exactly the rdevs owning a
-serial tree: serialize_policy rdevs plus write-mostly members when
-write-behind arms serialization -- the case the MD_SERIALIZE_POLICY
-test misses.  remove_serial() under the same condition.  This also
-avoids the old gate's latent NULL deref for rdevs hot-added under
-serialize_policy (they never get a serial tree).
-
-Fixes: d0d2d8ba0494 ("md/raid1: introduce wait_for_serialization")
-Cc: stable@vger.kernel.org
-Assisted-by: Claude:claude-fable-5
+Fixes: 02666132403a ("md: propagate BLK_FEAT_PCI_P2PDMA from member devices to RAID device")
+Assisted-by: Claude:claude-opus-4-8
 Signed-off-by: Mykola Marzhan <mykola@meshstor.io>
+
+Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
 ---
- drivers/md/raid1.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/md/raid1.c  | 3 +++
+ drivers/md/raid10.c | 3 +++
+ 2 files changed, 6 insertions(+)
 
 diff --git a/drivers/md/raid1.c b/drivers/md/raid1.c
-index afe2ca96ad8c..997f79c05db7 100644
+index 7d769b6460ca..16b7465c233a 100644
 --- a/drivers/md/raid1.c
 +++ b/drivers/md/raid1.c
-@@ -564,7 +564,7 @@ static void raid1_end_write_request(struct bio *bio)
- 				call_bio_endio(r1_bio);
- 			}
- 		}
--	} else if (test_bit(MD_SERIALIZE_POLICY, &rdev->mddev->flags))
-+	} else if (test_bit(CollisionCheck, &rdev->flags))
- 		remove_serial(rdev, lo, hi);
- 	if (r1_bio->bios[mirror] == NULL)
- 		rdev_dec_pending(rdev, conf->mddev);
-@@ -1677,7 +1677,11 @@ static bool raid1_write_request(struct mddev *mddev, struct bio *bio,
- 			mbio = bio_alloc_clone(rdev->bdev, bio, GFP_NOIO,
- 					       &mddev->bio_set);
- 
--			if (test_bit(MD_SERIALIZE_POLICY, &mddev->flags))
-+			/*
-+			 * CollisionCheck marks every rdev with a serial
-+			 * tree; order against in-flight write-behind I/O.
-+			 */
-+			if (test_bit(CollisionCheck, &rdev->flags))
- 				wait_for_serialization(rdev, r1_bio);
+@@ -2570,6 +2570,9 @@ static void narrow_write_error(struct r1bio *r1_bio, int i)
  		}
  
+ 		wbio->bi_opf = REQ_OP_WRITE;
++		/* Keep P2PDMA retry bios unmergeable, like the original */
++		if (md_bio_is_p2pdma(wbio))
++			wbio->bi_opf |= REQ_NOMERGE;
+ 		wbio->bi_iter.bi_sector = r1_bio->sector;
+ 		wbio->bi_iter.bi_size = r1_bio->sectors << 9;
+ 
+diff --git a/drivers/md/raid10.c b/drivers/md/raid10.c
+index 0a3cfdd3f5df..f7ef903a3d4e 100644
+--- a/drivers/md/raid10.c
++++ b/drivers/md/raid10.c
+@@ -2831,6 +2831,9 @@ static void narrow_write_error(struct r10bio *r10_bio, int i)
+ 		wbio->bi_iter.bi_sector = wsector +
+ 				   choose_data_offset(r10_bio, rdev);
+ 		wbio->bi_opf = REQ_OP_WRITE;
++		/* Keep P2PDMA retry bios unmergeable, like the original */
++		if (md_bio_is_p2pdma(wbio))
++			wbio->bi_opf |= REQ_NOMERGE;
+ 
+ 		if (submit_bio_wait(wbio) &&
+ 		    !rdev_set_badblocks(rdev, wsector, sectors, 0)) {
 -- 
 2.52.0
 
