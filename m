@@ -4,75 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 66F08C44533
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 Jul 2026 08:30:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 63A31C4451C
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Jul 2026 09:04:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kTGdLX16bo8iVm3g9g7XqDAnJcp6Rzf7D/QzQvQy9bY=; b=4ujy/wBvzHkEXx4BUzzH4mZB1A
-	MYCzO4QIojuzvIHm6YcmgzDp0fHBQXFIA+R23U7ceqwZW0wsHIa0izb0OMFX2NUNbuk5gx000j9UK
-	FqDjT7jn6DC1JDeto4mxkqmSyv+0Nf590wSqgaitgvkWdwnkcTE/fkyMvnBxlRASu5gD4758Mo83q
-	zWprxHNNWqpUe3Ln3t5hBBn22F8uYyBcELROho66fYGnS3uj/H0NcjpQBkGZk2DFMzoBO+1A/kk6n
-	X5h/fuBNMyBsNbRPvWnw0o4gFCiiomLzN1t65MmdLs/rBJMcpyoA8KtopW1KsZbkIG6WeRxBPZmGD
-	s23CCKjQ==;
+	bh=LvYpLTIo6wS7r7AdNLS+0GRxWdHoF1y3DxHVo5kCrhk=; b=mu/YbEreqZf/4nougeH/Sb+KRa
+	huim1QOAmRmpUBWbSmbEDsaRmkzwztrjw0DBC2zx6HdB0yZXCf3Ii7Zk/BcIdTz+4ZzGJNMqC7Ewp
+	7VMmqCsMBtcGEoAWKarXpwjz7fkCVKI8SDcv6kXATOlnwNi0RfMLHNVMVHtBPPm7ghQr6INcq0PDY
+	p/70LX9Ho4UQizUVQnddHmmqm3cUdu3xEdVuec+WyMXMvRtaImv9azq8XC1VbZoBmEH7CuioO2BtR
+	mx208LtXHQqMX6VZ/PXJpim+cJkTXPOrsS9ARWxWoN7XQxJq67Kb9XVFKsyosHdZgSw7lo+c0mumN
+	ywQLwL1w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wmSLQ-0000000BFyU-1Iij;
-	Wed, 22 Jul 2026 08:30:24 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1wmSsf-0000000BKRN-2fpx;
+	Wed, 22 Jul 2026 09:04:45 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wmSLP-0000000BFyO-0pRT
+	id 1wmSsX-0000000BKPR-1lyy
 	for linux-nvme@lists.infradead.org;
-	Wed, 22 Jul 2026 08:30:23 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 8F44C60A65;
-	Wed, 22 Jul 2026 08:30:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 492961F000E9;
-	Wed, 22 Jul 2026 08:30:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784709022;
-	bh=kTGdLX16bo8iVm3g9g7XqDAnJcp6Rzf7D/QzQvQy9bY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=c3U4Dn6FXm6Z2/Xe+nb6iDzx39x6EF1Mw6cmVB7YcbX/pInD9l+x3M0fFblcDpZDA
-	 RbXy35YTvnUK+vac9p1wMIKLwdLlgEMJfl+RQXzIqzL5VGi3Dpoqq5lonbiHoEHjb5
-	 Nj7RyuQ4B+aFJHkpGEnv/eXddDGKOAoHGE6fIZzl/rKsOvljJCFZ2Uztre88YxLimp
-	 rHdo/AJxTYpo/5VQXbvtARB2HHr/MZinjUCXJxody7h1a+LZuJ92cLWNLPbTbxJz9Y
-	 7rk11xNdjm56wPPR0CMXi2re6Ib3H+OpKmNKfVjaBD7rLWfwzXyog2xtGtAXoUGiwJ
-	 1ZD1muz4BbEGg==
-Date: Wed, 22 Jul 2026 11:30:15 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Logan Gunthorpe <logang@deltatee.com>
-Cc: Mykola Marzhan <mykola@meshstor.io>, Jens Axboe <axboe@kernel.dk>,
-	Song Liu <song@kernel.org>, Yu Kuai <yukuai@fygo.io>,
-	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
-	linux-raid@vger.kernel.org, linux-nvme@lists.infradead.org,
-	Li Nan <magiclinan@didiglobal.com>, Xiao Ni <xiao@kernel.org>,
-	Guoqing Jiang <guoqing.jiang@linux.dev>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Kiran Kumar Modukuri <kmodukuri@nvidia.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Shivaji Kant <shivajikant@google.com>,
-	Pranjal Shrivastava <praan@google.com>,
-	Henrique Carvalho <henrique.carvalho@suse.com>,
-	linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
-	linux-pci@vger.kernel.org
-Subject: Re: [PATCH v2 6/7] md/raid1,raid10: skip futile retries on P2PDMA
- mapping failures
-Message-ID: <20260722083015.GU110966@unreal>
-References: <20260719105327.864949-1-mykola@meshstor.io>
- <20260719105327.864949-7-mykola@meshstor.io>
- <ee312bcb-92f4-4884-91cd-3bd56180c8c7@deltatee.com>
- <CAPzsNDsLr_BABgizujN0CgnLNfzS3S37vQ133fjbJzFMvRs7CQ@mail.gmail.com>
- <9f846c85-f427-433a-b87d-8e9e3a4406e7@deltatee.com>
+	Wed, 22 Jul 2026 09:04:39 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 7355568D37; Wed, 22 Jul 2026 11:04:29 +0200 (CEST)
+Date: Wed, 22 Jul 2026 11:04:28 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: changfengnan <changfengnan@bytedance.com>
+Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	axboe <axboe@kernel.dk>, sagi <sagi@grimberg.me>,
+	"andriy.shevchenko" <andriy.shevchenko@intel.com>,
+	"gang.cao" <gang.cao@intel.com>, "jun.i.jin" <jun.i.jin@intel.com>,
+	"jun1.zeng" <jun1.zeng@intel.com>,
+	"liang.a.fang" <liang.a.fang@intel.com>,
+	linux-kernel <linux-kernel@vger.kernel.org>,
+	linux-nvme <linux-nvme@lists.infradead.org>, tglx <tglx@kernel.org>,
+	"yong.hu" <yong.hu@intel.com>, guzebing@bytedance.com
+Subject: Re: [PATCH v1 1/1] nvme-pci: adaptive interrupt coalescing
+Message-ID: <20260722090428.GA30753@lst.de>
+References: <20260715075703.15578-1-jun1.zeng@intel.com> <20260715075703.15578-2-jun1.zeng@intel.com> <allEmTmXCFosxIOr@kbusch-mbp> <20260720150539.GB17986@lst.de> <20260721083739.69676-1-changfengnan@bytedance.com> <al-MJGguFULZhYDO@kbusch-mbp> <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.1b934443.ec75.4a64.b2bc.6f822eb9e4bb@bytedance.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <9f846c85-f427-433a-b87d-8e9e3a4406e7@deltatee.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.1b934443.ec75.4a64.b2bc.6f822eb9e4bb@bytedance.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260722_020437_614411_78761D47 
+X-CRM114-Status: GOOD (  22.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,49 +67,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jul 21, 2026 at 05:38:53PM -0600, Logan Gunthorpe wrote:
+On Wed, Jul 22, 2026 at 10:22:11AM +0800, changfengnan wrote:
 > 
+> > From: "Keith Busch"<kbusch@kernel.org>
+> > Date:  Tue, Jul 21, 2026, 23:11
+> > Subject:  Re: [PATCH v1 1/1] nvme-pci: adaptive interrupt coalescing
+> > To: "Fengnan Chang"<changfengnan@bytedance.com>
+> > Cc: <hch@lst.de>, <andriy.shevchenko@intel.com>, <axboe@kernel.dk>, <gang.cao@intel.com>, <jun.i.jin@intel.com>, <jun1.zeng@intel.com>, <liang.a.fang@intel.com>, <linux-kernel@vger.kernel.org>, <linux-nvme@lists.infradead.org>, <sagi@grimberg.me>, <tglx@kernel.org>, <yong.hu@intel.com>, <guzebing@bytedance.com>
+> > On Tue, Jul 21, 2026 at 04:37:39PM +0800, Fengnan Chang wrote:
+> > > @@ -1618,6 +1748,8 @@ static inline bool nvme_poll_cq(struct nvme_queue *nvmeq,
+> > >                   * the cqe requires a full read memory barrier
+> > >                   */
+> > >                  dma_rmb();
+> > > +                if (sq_head)
+> > > +                        *sq_head = le16_to_cpu(nvmeq->cqes[nvmeq->cq_head].sq_head);
+> > 
+> > This is the wrong criteria to determine the outstanding depth. The spec
+> > allows the controller to move this forward after it has read an entry.
+> > The commands may still be in progress, so the depth of future
+> > completions to expect can't depend on this value.
+> > 
+> > But in general, I agree with the spirit of where this is going.
 > 
-> On 2026-07-21 11:50, Mykola Marzhan wrote:
-> > I have split it in v3 into a raid1 patch and a raid10 patch.
-> > I am not sure about separate "introduce the bit" patches.
-> > R1BIO_P2PDMA and R10BIO_P2PDMA are entries in the two personalities'
-> > with own r*bio state enums.
-> > The commit messages are shorter now.
+> Thanks for your feedback.  I’d like to hear more opinions from others. 
+> If this is the right direction, I’ll continue to improve this patch.
 > 
-> That helps a bit, thanks.
-> 
-> 
-> > An early return doesn't work here: on a mapping failure the
-> > function must still fall through to set R1BIO_WriteError, so the
-> > completion path runs the (single, whole-range) retry and records
-> > the bad range -- only WantReplacement and the FailFast md_error()
-> > are skipped.  v3 folds the two tests into one branch now,
-> > which reads better and keeps the fall-through. Please check v3.
-> 
-> The early return works if you create a helper.
-> 
-> > I compared the two sides after splitting: the P2PDMA handling is
-> > symmetric, and the remaining differences are pre-existing
-> > personality differences rather than missed fixes.
-> > A shared helper would be heavier than the two open-coded branches,
-> > so I kept it per-personality.
-> 
-> Yeah, I still think it's a bit of a mess so I dug into it a bit more
-> myself.
-> 
-> I realized the real problem in this patch set was reusing
-> BLK_STS_TARGET. I think I may have used that a long time ago and those
-> paths have since been removed. Using it here doesn't quite make sense
-> because we end up with those awkward checks (is P2PDMA enabled *and* the
-> error is a BLK_STS_TARGET). I don't think that can ever really be
-> correct here seeing something could, in theory return BLK_STS_TARGET for
-> another reason even when P2PDMA is enabled. So that should be cleaned up.
+> Hi Jens, Christoph, Sagi: 
+> what do you think?
 
-I had thoughts about this series too. It seems best to avoid
-the P2P path entirely unless all legs support P2P.
+Yes, this is a useful idea, please continue with it if you can.
 
-Can the md/raid code determine P2P support in advance?
-
-Thanks
 
