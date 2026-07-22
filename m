@@ -4,81 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7A5FC4452D
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Jul 2026 23:39:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 43894C4452D
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Jul 2026 02:22:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=HbarWDj744NAcsuxjg2Rf91YA+KE2onmHu1JCGxVkMk=; b=IBiEqZh/rE9WU5
-	AR5thQ+ae9k5LALR2/4eynNfbfabXAD1kLAR0yvRQFP0O7/E0DcxD77LyPkODh5RvLibL3QxI3QNR
-	P/aJ4w76Mas/FpybkFr/9pV0H6Mkf8MLTwKyw77+wdvNGrJooA3eYRsNDGExfuDrmlKLLtLI9dv7q
-	aEsds3ce38txx9VLy+6sNWw91aO5GoyOl3QMbcGEDYvfzv8DKNE4IcHbOkH/lYXzG+nEDoIZibjU8
-	ineaehl836jcc3x9AsaFwQ1ipbrLRuC6PBkeOlaS073NuwsE7F72zPEd0k8/5VjLFozWKCeAk623E
-	YW3YsklScprjQSyAE/gw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Mime-Version:
+	From:Cc:Message-Id:Content-Transfer-Encoding:In-Reply-To:References:Subject:
+	To:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=0looZ9aon4cGCkg0z4IHJEYlanw6R6RXQv4CamlhTEc=; b=N9/v6ZA+1WoP+gfyZAkPq87hkH
+	s1PVI/fVg69wZj0NGWZWdwbxdX2u1bx4YkqUYKyEQhjmHKvGwXJ57Spt5ufKZV4l0qiSQLUFlVceT
+	q172UoLlvufmy5A9RgWj+8pzeEndzTdpCFyQuKmEnuJfVQz04Ff7CfyrIA9C0fo49v9XpKIkVNt6X
+	W0bVWJpOc9yDxz0PcaJpDH08X9ELczDZMMXDZzpVkPUkmU9LAeJIU/SnCFQX1oN2punNdULjpXi+1
+	caifMRPXF7SIxAEASHPaWAJ2+uuWwfH2yXROhLYhT8ySygTLFdgvAlVdytSgABP5hPehm5kxNuXJn
+	EEjuqD/w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wmK3c-0000000AbX1-3xOi;
-	Tue, 21 Jul 2026 23:39:28 +0000
-Received: from ale.deltatee.com ([204.191.154.188])
+	id 1wmMbJ-0000000AkOV-3fIJ;
+	Wed, 22 Jul 2026 02:22:25 +0000
+Received: from va-1-115.ptr.blmpb.com ([209.127.230.115])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wmK3a-0000000AbW9-1Azz
+	id 1wmMbH-0000000AkNx-2JjZ
 	for linux-nvme@lists.infradead.org;
-	Tue, 21 Jul 2026 23:39:27 +0000
+	Wed, 22 Jul 2026 02:22:25 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
-	MIME-Version:Date:Message-ID:content-disposition;
-	bh=HbarWDj744NAcsuxjg2Rf91YA+KE2onmHu1JCGxVkMk=; b=JePFvpH8O3DliRZI9R402wwaly
-	fzTJoa1IC/gAX7iXrnp+PZZCWWxrbTrYtLFQQlDJAALmHAAHkvl9BS90oj/6KpknU6eecrU2DIvi9
-	bmrZYjqv2t5S1XlQ3svKNmfTRdxjLDyYuYYN5R0CnhkFkXqnziZ4oteFmlKz/LkSjjght2dXUlK4G
-	lSy6UgIhh4jH6/6xxQjEneuIobFofIakqQK67iX4Sf7KN3RdxfHjzseGs93v9EKKTnUngrXY2fMU/
-	8U6x0Acyjia92PkagrInKbsSkY9SyISp9cl/sfJWAk+AcZDTbYCeUs056xXviAH1IzKUT6kALehs1
-	CBt7pp9w==;
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
-	by ale.deltatee.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.98.2)
-	(envelope-from <logang@deltatee.com>)
-	id 1wmK3R-0000000BuOW-0FPO;
-	Tue, 21 Jul 2026 17:39:17 -0600
-Message-ID: <9f846c85-f427-433a-b87d-8e9e3a4406e7@deltatee.com>
-Date: Tue, 21 Jul 2026 17:38:53 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Mykola Marzhan <mykola@meshstor.io>
-Cc: Jens Axboe <axboe@kernel.dk>, Song Liu <song@kernel.org>,
- Yu Kuai <yukuai@fygo.io>, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- linux-block@vger.kernel.org, linux-raid@vger.kernel.org,
- linux-nvme@lists.infradead.org, Li Nan <magiclinan@didiglobal.com>,
- Xiao Ni <xiao@kernel.org>, Guoqing Jiang <guoqing.jiang@linux.dev>,
- Leon Romanovsky <leon@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- Kiran Kumar Modukuri <kmodukuri@nvidia.com>,
- Chaitanya Kulkarni <kch@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Shivaji Kant <shivajikant@google.com>, Pranjal Shrivastava
- <praan@google.com>, Henrique Carvalho <henrique.carvalho@suse.com>,
- linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-pci@vger.kernel.org
-References: <20260719105327.864949-1-mykola@meshstor.io>
- <20260719105327.864949-7-mykola@meshstor.io>
- <ee312bcb-92f4-4884-91cd-3bd56180c8c7@deltatee.com>
- <CAPzsNDsLr_BABgizujN0CgnLNfzS3S37vQ133fjbJzFMvRs7CQ@mail.gmail.com>
-Content-Language: en-CA
-From: Logan Gunthorpe <logang@deltatee.com>
-In-Reply-To: <CAPzsNDsLr_BABgizujN0CgnLNfzS3S37vQ133fjbJzFMvRs7CQ@mail.gmail.com>
+ s=2212171451; d=bytedance.com; t=1784686936; h=from:subject:
+ mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
+ mime-version:in-reply-to:message-id;
+ bh=0looZ9aon4cGCkg0z4IHJEYlanw6R6RXQv4CamlhTEc=;
+ b=QRE3wsss5iCvsJ7e4AEF8CgAXW9i/BVmxwcE3S+FQlg35n3bkxyF17ELVL2U6xM4ydVda/
+ I5LRb9+7JC3SMSj1G9z2IzuaDq5h8soxboUAJ6SYi6T/V12JzxdfO2c4p0d1TPRozgUgzk
+ uNWjYiJ9Eg6gmWBwkyWWpdv/AwZDHkVaqAhNn/U3Mzc7cZIMmbPPsvtbbAWcEUmx2OPsT9
+ /B0JzGKCNe5Qy+RiTePpBA1OJx1WFMG118+YJtFXRwI6+cuZvyPACEnDiBQyx9XwH2oeEt
+ dMhxMu9kK9gVzCdcCW5e3protgcD0PirVG+Z8nHEnxHlPx86pd5PHVmESHjGlA==
+Date: Wed, 22 Jul 2026 10:22:11 +0800
+To: "Keith Busch" <kbusch@kernel.org>, "Christoph Hellwig" <hch@lst.de>, 
+	"axboe" <axboe@kernel.dk>, "sagi" <sagi@grimberg.me>
+Subject: Re: [PATCH v1 1/1] nvme-pci: adaptive interrupt coalescing
+References: <20260715075703.15578-1-jun1.zeng@intel.com> <20260715075703.15578-2-jun1.zeng@intel.com> <allEmTmXCFosxIOr@kbusch-mbp> <20260720150539.GB17986@lst.de> <20260721083739.69676-1-changfengnan@bytedance.com>
+	<al-MJGguFULZhYDO@kbusch-mbp>
+In-Reply-To: <al-MJGguFULZhYDO@kbusch-mbp>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.1b934443.ec75.4a64.b2bc.6f822eb9e4bb@bytedance.com>
+Cc: "andriy.shevchenko" <andriy.shevchenko@intel.com>, 
+	"gang.cao" <gang.cao@intel.com>, "jun.i.jin" <jun.i.jin@intel.com>, 
+	"jun1.zeng" <jun1.zeng@intel.com>, 
+	"liang.a.fang" <liang.a.fang@intel.com>, 
+	"linux-kernel" <linux-kernel@vger.kernel.org>, 
+	"linux-nvme" <linux-nvme@lists.infradead.org>, "tglx" <tglx@kernel.org>, 
+	"yong.hu" <yong.hu@intel.com>, <guzebing@bytedance.com>
+From: "changfengnan" <changfengnan@bytedance.com>
+Mime-Version: 1.0
+X-Lms-Return-Path: <lba+16a602956+83e1b2+lists.infradead.org+changfengnan@bytedance.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: mykola@meshstor.io, axboe@kernel.dk, song@kernel.org, yukuai@fygo.io, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, linux-block@vger.kernel.org, linux-raid@vger.kernel.org, linux-nvme@lists.infradead.org, magiclinan@didiglobal.com, xiao@kernel.org, guoqing.jiang@linux.dev, leon@kernel.org, jgg@ziepe.ca, kmodukuri@nvidia.com, kch@nvidia.com, bhelgaas@google.com, shivajikant@google.com, praan@google.com, henrique.carvalho@suse.com, linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org, linux-pci@vger.kernel.org
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH v2 6/7] md/raid1,raid10: skip futile retries on P2PDMA
- mapping failures
-X-SA-Exim-Version: 4.2.1 (built Sun, 23 Feb 2025 07:57:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260721_163926_333548_6702C9FE 
-X-CRM114-Status: GOOD (  22.31  )
+X-CRM114-CacheID: sfid-20260721_192223_839684_304E3096 
+X-CRM114-Status: GOOD (  12.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,59 +75,49 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
+> From: "Keith Busch"<kbusch@kernel.org>
+> Date:=C2=A0 Tue, Jul 21, 2026, 23:11
+> Subject:=C2=A0 Re: [PATCH v1 1/1] nvme-pci: adaptive interrupt coalescing
+> To: "Fengnan Chang"<changfengnan@bytedance.com>
+> Cc: <hch@lst.de>, <andriy.shevchenko@intel.com>, <axboe@kernel.dk>, <gang=
+.cao@intel.com>, <jun.i.jin@intel.com>, <jun1.zeng@intel.com>, <liang.a.fan=
+g@intel.com>, <linux-kernel@vger.kernel.org>, <linux-nvme@lists.infradead.o=
+rg>, <sagi@grimberg.me>, <tglx@kernel.org>, <yong.hu@intel.com>, <guzebing@=
+bytedance.com>
+> On Tue, Jul 21, 2026 at 04:37:39PM +0800, Fengnan Chang wrote:
+> > @@ -1618,6 +1748,8 @@ static inline bool nvme_poll_cq(struct nvme_queue=
+ *nvmeq,
+> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * the cq=
+e requires a full read memory barrier
+> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */
+> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dma_rmb()=
+;
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (sq_head)
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0*sq_head =3D le16_to_cpu(nvmeq->cqes[nvmeq->cq_head].sq_head)=
+;
+>=C2=A0
+> This is the wrong criteria to determine the outstanding depth. The spec
+> allows the controller to move this forward after it has read an entry.
+> The commands may still be in progress, so the depth of future
+> completions to expect can't depend on this value.
+>=C2=A0
+> But in general, I agree with the spirit of where this is going.
 
-On 2026-07-21 11:50, Mykola Marzhan wrote:
-> I have split it in v3 into a raid1 patch and a raid10 patch.
-> I am not sure about separate "introduce the bit" patches.
-> R1BIO_P2PDMA and R10BIO_P2PDMA are entries in the two personalities'
-> with own r*bio state enums.
-> The commit messages are shorter now.
+Thanks for your feedback.=C2=A0 I=E2=80=99d like to hear more opinions from=
+ others.=C2=A0
+If this is the right direction, I=E2=80=99ll continue to improve this patch=
+.
 
-That helps a bit, thanks.
+Hi Jens, Christoph, Sagi:=C2=A0
+what do you think?
 
+Thanks.
+Fengnan.
 
-> An early return doesn't work here: on a mapping failure the
-> function must still fall through to set R1BIO_WriteError, so the
-> completion path runs the (single, whole-range) retry and records
-> the bad range -- only WantReplacement and the FailFast md_error()
-> are skipped.  v3 folds the two tests into one branch now,
-> which reads better and keeps the fall-through. Please check v3.
-
-The early return works if you create a helper.
-
-> I compared the two sides after splitting: the P2PDMA handling is
-> symmetric, and the remaining differences are pre-existing
-> personality differences rather than missed fixes.
-> A shared helper would be heavier than the two open-coded branches,
-> so I kept it per-personality.
-
-Yeah, I still think it's a bit of a mess so I dug into it a bit more
-myself.
-
-I realized the real problem in this patch set was reusing
-BLK_STS_TARGET. I think I may have used that a long time ago and those
-paths have since been removed. Using it here doesn't quite make sense
-because we end up with those awkward checks (is P2PDMA enabled *and* the
-error is a BLK_STS_TARGET). I don't think that can ever really be
-correct here seeing something could, in theory return BLK_STS_TARGET for
-another reason even when P2PDMA is enabled. So that should be cleaned up.
-
-Instead, I think it makes more sense to introduce a new BLK_STS_P2PDMA
-error and use that. Then we don't need to know if a transaction is
-P2PDMA when processing the result which simplifies patch 6 and 7
-significantly.
-
-I created a basic sketch which demonstrates what I'm thinking here:
-
-https://github.com/lsgunth/linux blk-sts-p2p-err
-
-Feel free to run with that.
-
-(Note: I omitted the narrow_write_error() from the sketch because I
-didn't dig into it enough to understand it. It'll need to be added to
-this, preferably cleaning up the tabbing style a bit.)
-
-Logan
-
-
+>=C2=A0
+> For MSI, you can make use of the INTMS/INTMC NVMe registers to make this
+> even more efficient. Your patch disables the irq at the cpU level, but
+> the device is still emitting those messages for no reason.
+>=C2=A0
 
