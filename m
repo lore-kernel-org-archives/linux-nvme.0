@@ -4,117 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A6BE6C44536
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 Jul 2026 19:00:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 799DAC4453A
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Jul 2026 19:18:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XFNAerwWaEDD0qf52Zr8HyArocr5+58TcoObbHLHtE4=; b=bb2sVte5q2LZanDD/JkpYvrnsK
-	GeY54lKGSA06ztI7rqWOxqZHfdhsOL/w7MiWnYR+/fSv6UIVOPNcOKZbr2jzpK6Ppo5v9g9scm8uU
-	MGX4EEQgSxctCNdwrGZkqBc6rL5VcdmBfT1CBsxEKhK9w2waRQneUNYY9eEz1FoyPFQSTjbRoOcuk
-	w31TpAiLt6mYDoDOUZbMFmp/R+f5XZBlrGM4M72UnM8V5NrNSc9/gNICjS03w5s9Ns8sylNUnqBHk
-	h7G/cFQeepWcrg/vPxF7Nae3+fqKsu21lYPe9+drLFoflroZn4cbJuMYaGalw+PdNupsjX/rZ6t8U
-	0J9YVi0Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=d+TcFgqQukObtCSZvW9VgUWZR2p8E5ySHAMVDnChiis=; b=Cf9hEniPsv4Y3O
+	pztjpMpuJI9gW52wh0EyZXt7pyEvSQ3e4hbMwyHzFF/Pf1d4bNgVx5qgFs0foorpWGyhpFSzMIJAk
+	hw0bdMb3C9oNrCkkS1BvP0a6ELM6vJ8dwk3xFO9EphBiT82ZMqcqi0eUeLmEf8kWXlARfBPx2+YPT
+	TqPx5FY7nb8QnlRo7FXG1VXbe6sen8xm7QBARXKJqUnt700wyn9ID5zIRH89hnyQ8DMO1rdRjQLch
+	SNwLcxm7hhc3Ow78vE58QA/HZij2S0weTPGuh2Kly4B7lgupA/MOtqHo+ZnUwsY0vB/3Li0Jucf6V
+	sDchNI/99a7/M8bkHgfg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wmcBG-0000000Cbw8-1HVO;
-	Wed, 22 Jul 2026 19:00:34 +0000
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+	id 1wmcSu-0000000CdFf-1WOq;
+	Wed, 22 Jul 2026 19:18:48 +0000
+Received: from ale.deltatee.com ([204.191.154.188])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wmcBB-0000000Cbtv-2HjV
+	id 1wmcSr-0000000CdEw-4B7Y
 	for linux-nvme@lists.infradead.org;
-	Wed, 22 Jul 2026 19:00:32 +0000
-Received: by mail-pj1-x1032.google.com with SMTP id 98e67ed59e1d1-38e58034d05so5088352a91.2
-        for <linux-nvme@lists.infradead.org>; Wed, 22 Jul 2026 12:00:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784746828; cv=none;
-        d=google.com; s=arc-20260327;
-        b=NBrKJwp9/Jilw6o3my9CBAfU4szTH/hNBcyX2sdli4QCH1fuYIlIqSMTEabrjFT2/G
-         S4txeaOHE9GAMbqbS1DvM1iy3kB1xdBlB5uIpBKEjXRxqZ81o6M73akED1Kp89gyC0D0
-         IkiT+p4fqnopriEyslZzkPGYZhbUcy213SSSnlru/juWLncS+y9DOe6q8+QBk0PgRgkM
-         wQYX5mhu4JqhVqeyNQjIvyGsd18ci6uRmfGA49KXuf05HeDDsH7QTInih63aMaZX/8vJ
-         q/jViku1UT0YC+jtbDPc5nqspNPzgO2/RXX7JJQQ0bBww0KIC80UzD1t4o8ZKb+qRV1x
-         +o2Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=XFNAerwWaEDD0qf52Zr8HyArocr5+58TcoObbHLHtE4=;
-        fh=8HKHkCa4hYUl1QLmPg5BZAYLUESVV5vXYhRwUBlfW4I=;
-        b=Os2P4dM/dE/ZsnWr/amxNAT1MaHRUpyorxLz+ak6Zeas8astcFW+CN0plVtTEik1CY
-         XtxeU16kqxwD5QFyef4FqwmaKPbpZyZVhS1q2I90QLWfz9r0citTNwYjVmpafSJtQ7UY
-         emb3LNLAm9XYlFJpVkBU2VA8czi0NgNCBFGmWMu8jQxIHxhCh4eQNb5hjRE28TrUJkMc
-         UhtVSFXGI1r509DSOms63WeU4wK/cXN+XhDWEmH7MmEBBbLq9rUmQQzD884nb76AwMx5
-         9CnfMPeNGHjZWd0qT58Hogz7uE5zaeoH4OCK/ZqAAvjGRG79ysyboxTxtbnhYpOKkTY6
-         mEXw==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=meshstor.io; s=google; t=1784746828; x=1785351628; darn=lists.infradead.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=XFNAerwWaEDD0qf52Zr8HyArocr5+58TcoObbHLHtE4=;
-        b=IzTHzJe+X8PCXv7bAx3N6zNJ87bO+hrkXkz5lEu/44qAqOdBpcsPg+DPws3Sf/bS3m
-         9jsAHxhNgsR094CpufVJZi9bE5f4mCyOXCbHcGS/VFFKSQiGBqpqs3B9LPkgEKQh6h7F
-         r+SEMJd62wM8Vo1Spi3hHVM3QqHe2rr4WtWEh/cytZfmkZkrJL9OyWJjhYPqqeNVtQJS
-         dT3ymKa+YdOoRS3RCVLYqyOHuwUv8JUkyWYTFTeI3t7uqbwcihIW42Lmj5j94M7ray4W
-         Cio5Pr1Kj/2Va+rypLPplaiYIIMOF1jA3Of0Ef9mU/o+lXQ6anNjq+b6GZoWGK3h3Ch3
-         pmqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784746828; x=1785351628;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=XFNAerwWaEDD0qf52Zr8HyArocr5+58TcoObbHLHtE4=;
-        b=oh1jBRzR5xIPj8/1K97ecQ2LVXAJ+43s5eC9PQ31+qG70JvmGSapv0t23Vav09+eJU
-         b3/evapJyzh+t2+B3YEXFeeeE2cdq1k82gYC+8GOFrCTh+t5ZuwMdFBveMkvoVkwJfw/
-         jAQYIWNcc5giFswY/oI8DXEBMBJsV5qWtk+oM7ZHUP8lGdWHzPdYx0hT/iLavM87SkH5
-         /4QprM42HK+ryYPQYHVdSz50F5QffygZU8yDhW6bsD/Yj3a0Q+aEYp0u9JirRpTkRDug
-         E5i8MDPoHZOzFjxVXEpjU1iETqc38LWJQHZtYndxehPmUQ0/gsKkEGzudCST0DVI15ep
-         6/Sw==
-X-Forwarded-Encrypted: i=1; AHgh+RqC79le1Fz8h0LU7GL3Gz+YVpUSWnC/CxHX6gY0CeI5o+n9bl81v3ohKc+35Z5ls+MlBPgItVjK7Hg8@lists.infradead.org
-X-Gm-Message-State: AOJu0YzcyLcbz1ptYRIa0mMebPA8b4i9PBeVtCrqi5foXx1IpohFtrzx
-	uL3rwnvnKaboN73kUA8sZbvgvC6UoN6hfABMPwwo0UOXhfNSX87nAIyIizxiSZRHoNTSqWtdxsD
-	W95ksD1AN5Q5hZSG1YUfDEEqtfnpGz6z52ecvA2wR
-X-Gm-Gg: AR+sD116wLlqj86YyQTep/3FtR8NJtpc3ASNwfZSLcRH2cFFDwGfHxwOAJyRcnB/5Jh
-	S9hIycx34BhwWkq5yDHrm3vdGXPLCavG0XLVHFc00DL4j8hMkjoSrapF/ZZgaj6C32hnOWc+tgG
-	r0HAdxwD5c+kR+S4hFEFvbSw/9wO6qQ31AjCJRofF3XyccBIFY75Cp66tLv1dqTxhs9EHXhb+o2
-	na9yabgfJYSosKpKovStz9JUE9OKT2W/UN1wBVJFGLYxF+IqvLQRmYcbDMjiyW91qkThr4igpSF
-	+5oH0YFMOri8VedqrzxlZIRuG84spBbcgKMdV5XzMfaNsx8arw62VwVtj3SuTKv39HjmXmhihPe
-	cJZbt1V6MNAC0mMnAvbqk7P0C3lYm3kJgrHC3MPU=
-X-Received: by 2002:a17:90a:d40f:b0:381:11eb:d78e with SMTP id
- 98e67ed59e1d1-38e4b430c6emr27167946a91.14.1784746828497; Wed, 22 Jul 2026
- 12:00:28 -0700 (PDT)
+	Wed, 22 Jul 2026 19:18:47 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
+	MIME-Version:Date:Message-ID:content-disposition;
+	bh=d+TcFgqQukObtCSZvW9VgUWZR2p8E5ySHAMVDnChiis=; b=mQRIs3wkfvk8mukQPjS6/uHcq4
+	5tZrNMWxPfrEuKuF3obOH9P+n5ni+wANeG2QV8ZQxeElcgt1o1fQFeTgHuY5qHD4MehFKNjbDQ1nx
+	LMMVNpHW74oJNrb7pa2a65oUPkStLb6kxtmVh3bWDnLnajXYk6L/yJIOgeENrD10BgP1HJGba4Mn3
+	AGcbgO59VYN5xvVe03XYgvcJBUdWqjk5YsNMkg3E8sKPWXNCR7tvaz7NZUxuIwJQzxf/0mpd412FP
+	GeW1wo8P4dZIXeekoOdsD5PWpQopBz8ckA3c+Dv2Xx4jLPm4mqQNm9HCngQKRGoRpDvxbmqURV4CY
+	yuejIiJA==;
+Received: from d172-219-145-25.abhsia.telus.net ([172.219.145.25] helo=[192.168.11.155])
+	by ale.deltatee.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.98.2)
+	(envelope-from <logang@deltatee.com>)
+	id 1wmcSm-0000000CaBm-2qki;
+	Wed, 22 Jul 2026 13:18:41 -0600
+Message-ID: <38c44536-51c0-43a1-b83c-b94915890aa2@deltatee.com>
+Date: Wed, 22 Jul 2026 13:18:27 -0600
 MIME-Version: 1.0
-References: <20260719105327.864949-1-mykola@meshstor.io> <20260719105327.864949-7-mykola@meshstor.io>
- <ee312bcb-92f4-4884-91cd-3bd56180c8c7@deltatee.com> <CAPzsNDsLr_BABgizujN0CgnLNfzS3S37vQ133fjbJzFMvRs7CQ@mail.gmail.com>
- <9f846c85-f427-433a-b87d-8e9e3a4406e7@deltatee.com> <20260722083015.GU110966@unreal>
-In-Reply-To: <20260722083015.GU110966@unreal>
-From: Mykola Marzhan <mykola@meshstor.io>
-Date: Wed, 22 Jul 2026 21:00:16 +0200
-X-Gm-Features: AUfX_mx6Cta37C8DCF1XHW6rVQfC4bnrtxly1T6dzUQd_16ovjA21XsyVTPdIOg
-Message-ID: <CAPzsNDuGfneEmx_nWqw5vYLyPyK8krfWChNRcsxO7icTEDDX5g@mail.gmail.com>
-Subject: Re: [PATCH v2 6/7] md/raid1,raid10: skip futile retries on P2PDMA
+User-Agent: Mozilla Thunderbird
+To: Mykola Marzhan <mykola@meshstor.io>, Jens Axboe <axboe@kernel.dk>,
+ Song Liu <song@kernel.org>, Yu Kuai <yukuai@fygo.io>,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
+ linux-raid@vger.kernel.org, linux-nvme@lists.infradead.org
+Cc: Li Nan <magiclinan@didiglobal.com>, Xiao Ni <xiao@kernel.org>,
+ Guoqing Jiang <guoqing.jiang@linux.dev>, Leon Romanovsky <leon@kernel.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Kiran Kumar Modukuri <kmodukuri@nvidia.com>,
+ Chaitanya Kulkarni <kch@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Shivaji Kant <shivajikant@google.com>, Pranjal Shrivastava
+ <praan@google.com>, Henrique Carvalho <henrique.carvalho@suse.com>,
+ linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-pci@vger.kernel.org
+References: <20260722185841.449934-1-mykola@meshstor.io>
+ <20260722185841.449934-8-mykola@meshstor.io>
+Content-Language: en-US
+From: Logan Gunthorpe <logang@deltatee.com>
+In-Reply-To: <20260722185841.449934-8-mykola@meshstor.io>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 172.219.145.25
+X-SA-Exim-Rcpt-To: mykola@meshstor.io, axboe@kernel.dk, song@kernel.org, yukuai@fygo.io, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, linux-block@vger.kernel.org, linux-raid@vger.kernel.org, linux-nvme@lists.infradead.org, magiclinan@didiglobal.com, xiao@kernel.org, guoqing.jiang@linux.dev, leon@kernel.org, jgg@ziepe.ca, kmodukuri@nvidia.com, kch@nvidia.com, bhelgaas@google.com, shivajikant@google.com, praan@google.com, henrique.carvalho@suse.com, linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org, linux-pci@vger.kernel.org
+X-SA-Exim-Mail-From: logang@deltatee.com
+Subject: Re: [PATCH v4 7/9] md/raid1,raid10: skip futile retries on P2PDMA
  mapping failures
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>, Song Liu <song@kernel.org>, 
-	Yu Kuai <yukuai@fygo.io>, Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org, linux-raid@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, Li Nan <magiclinan@didiglobal.com>, 
-	Xiao Ni <xiao@kernel.org>, Guoqing Jiang <guoqing.jiang@linux.dev>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Kiran Kumar Modukuri <kmodukuri@nvidia.com>, Chaitanya Kulkarni <kch@nvidia.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Shivaji Kant <shivajikant@google.com>, 
-	Pranjal Shrivastava <praan@google.com>, Henrique Carvalho <henrique.carvalho@suse.com>, 
-	linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org, 
-	linux-pci@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-SA-Exim-Version: 4.2.1 (built Sun, 23 Feb 2025 07:57:16 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260722_120029_584559_1299B05B 
-X-CRM114-Status: GOOD (  11.75  )
+X-CRM114-CacheID: sfid-20260722_121846_115129_85B1264B 
+X-CRM114-Status: GOOD (  21.44  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -129,24 +90,71 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> I had thoughts about this series too. It seems best to avoid
-> the P2P path entirely unless all legs support P2P.
->
-> Can the md/raid code determine P2P support in advance?
 
-Yes, and it already does: the block layer ANDs the P2PDMA queue
-feature across all legs, so an array with a non-P2P member
-(e.g. an nvme-tcp leg) never advertises P2P at all.
 
-But that flag can only say "this driver can do P2P in general".
-md cannot see which HCA device does the DMA for a fabrics leg =E2=80=94
-and with multipath failover it can change at any time.
+On 2026-07-22 12:58, Mykola Marzhan wrote:
+> From: Logan Gunthorpe <logang@deltatee.com>
+> 
+> BLK_STS_P2PDMA reflects the peer/member pairing, not member health:
+> retrying the same pages on the same member cannot succeed.  Keep
+> WriteErrorSeen so the range stays fenced, but skip WantReplacement and
+> FailFast eviction, as commit f7b24c7b41f2 ("md/raid1,raid10: don't fail
+> devices for invalid IO errors") did for BLK_STS_INVAL.
+> 
+> The failure is whole-range and deterministic, so narrow_write_error()'s
+> block-by-block submit_bio_wait() retries are pointless.  Record the
+> whole range as a bad block in the completion handler instead.
+> 
+> Fixes: 02666132403a ("md: propagate BLK_FEAT_PCI_P2PDMA from member devices to RAID device")
+> Assisted-by: Claude:claude-fable-5
+> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+> Co-developed-by: Mykola Marzhan <mykola@meshstor.io>
+> Signed-off-by: Mykola Marzhan <mykola@meshstor.io>
+> ---
+>  drivers/md/raid1-10.c |  3 +++
+>  drivers/md/raid1.c    | 12 +++++++++---
+>  drivers/md/raid10.c   |  8 +++++++-
+>  3 files changed, 19 insertions(+), 4 deletions(-)
 
-So the up-front gate covers what is knowable up front.
-This series is about the remainder.
-In mixed case, one local P2P leg plus a remote replica, with it:
-1) a failed read just redirects to a capable mirror;
-2) a failed write records bad blocks instead of retrying forever.
+Maybe drop my authorship from this patch. I only did the first hunk and
+don't fully understand the bulk of it.
 
-Mykola
+
+> diff --git a/drivers/md/raid1-10.c b/drivers/md/raid1-10.c
+> index cee21452e066..89daf8558251 100644
+> --- a/drivers/md/raid1-10.c
+> +++ b/drivers/md/raid1-10.c
+> @@ -309,6 +309,9 @@ static inline void raid1_write_error(struct mddev *mddev, struct md_rdev *rdev,
+>  {
+>  	set_bit(WriteErrorSeen, &rdev->flags);
+>  
+> +	if (bio->bi_status == BLK_STS_P2PDMA)
+> +		return;
+> +
+>  	if (!test_and_set_bit(WantReplacement, &rdev->flags))
+>  		set_bit(MD_RECOVERY_NEEDED, &mddev->recovery);
+>  
+> diff --git a/drivers/md/raid1.c b/drivers/md/raid1.c
+> index 19c4dec450de..917d694ef401 100644
+> --- a/drivers/md/raid1.c
+> +++ b/drivers/md/raid1.c
+> @@ -2624,10 +2624,16 @@ static void handle_write_finished(struct r1conf *conf, struct r1bio *r1_bio)
+>  			 * narrow down and record precise write
+>  			 * errors.
+>  			 */
+> +			struct md_rdev *rdev = conf->mirrors[m].rdev;
+> +
+>  			fail = true;
+> -			narrow_write_error(r1_bio, m);
+> -			rdev_dec_pending(conf->mirrors[m].rdev,
+> -					 conf->mddev);
+> +			/* Mapping failures are whole-range and deterministic */
+
+I'm not sure I follow the point of this new comment here.
+
+
+Thanks,
+
+Logan
+
 
