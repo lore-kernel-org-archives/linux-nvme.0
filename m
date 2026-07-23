@@ -4,61 +4,145 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6ED50C531CA
-	for <linux-nvme@archiver.kernel.org>; Thu, 23 Jul 2026 12:15:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7BA85C531CA
+	for <linux-nvme@archiver.kernel.org>; Thu, 23 Jul 2026 13:03:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:
-	Message-Id:Date:Content-Transfer-Encoding:Content-Type:From:Subject:Cc:To:
-	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=b3i9cmTeKgt+8AccDjj2JuDAlMA4u2G99Fe7LYubyl0=; b=BnJG2L62RHpDLpAxfdL345G/qo
-	XfmS9dhZy49fjkcGRZyKkMFJJ2yOq+TSVb5zuKmcZmVUW/8ApO5sdA12JMq4+1+jKEFtImWaczl73
-	Jyx2pDMkMJcEDVF6gVFux05pgl/pGkHPiG+aS6ebvfwC13pdxONTQQFOe/D1+fK6TIyh4S0xnsYYb
-	PJ+bjG/f583xObwkeQzEhvH/K7Hmgh1dcOj9Go1AS6rQ6rk5a31JsO8YbDl40n5s2M6TyTmjMece2
-	FQzp0Vcpp/z3XUniY+H5Ia7uOfEtDsuwOt1vb+uAs1oYw0XCH+NGHh/HEu7YSe7BGw9Olbjww1UXj
-	aijiJTQw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Type:References:Message-ID:Subject:To:From:Date:Reply-To:Cc:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=6IL236rOv8hGnE/eA5YWHRIsxXglvYVz56qppVvXGGo=; b=wjs1/JDjFiuNK2zWJ7CeD4yRK1
+	mNbIooRPd6iPFAi5gHFx3EhA6kfxJVlSyQ+mJrzOGJcioBKbKfMbkC0I1drSIrv4FT4T9p5kymihE
+	PzAuBpEJfWBJs2NFEJlF9O3Rr5Pcpq5Cgy5eDff4tTyvDVxoLx4cFIwahU1XIK6EAVKiAF0xGHPK2
+	Sw3UUfax/wormz1nbz7tjk+RWpqtuHSqK/odyVHTsRky/VJRsHf2LtX2Ahw4aZEgjDKG2duSw/oba
+	SGj05QVcQ8ON9b3WqU0JrBZfdbm+lywwxwuAMSOuTaiikUOL8VylErWVASQhsrBMdiXednHTANBO+
+	aqoyHIYA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wmsKU-0000000EDOH-146a;
-	Thu, 23 Jul 2026 12:15:10 +0000
-Received: from va-1-112.ptr.blmpb.com ([209.127.230.112])
+	id 1wmt4n-0000000EJgw-3jYW;
+	Thu, 23 Jul 2026 13:03:01 +0000
+Received: from esa4.hgst.iphmx.com ([216.71.154.42])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wmsKP-0000000EDN2-22E7
+	id 1wmt4m-0000000EJgQ-0qeS
 	for linux-nvme@lists.infradead.org;
-	Thu, 23 Jul 2026 12:15:07 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1784808899; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=b3i9cmTeKgt+8AccDjj2JuDAlMA4u2G99Fe7LYubyl0=;
- b=DIudd6TFJVa4dYUnbE8brBWM8KMoMoLbO5uQLElSheYtVTjcuos/D54tJVsVBv2spE6b7q
- 6c4EpcfYql1TDwQ36jDjO0miNMcSxxS850M+Okq/E7XM4yIyBMc832l/BRBfKzlbzieFYQ
- xiq8ui4scbma/KENkGyDcW+eTKDWp9aT1XQd+zGQivRoLj/bxVARtfnS2e6Aejm4+p7yfo
- tNmjSAVWbIgmQEI6NsYzE4u+Lzg+nILHSnh1HI8nePUUV1aX5JdKddxPJEnExMBtzZRrUH
- ZD2QRzR8hDOAIrulbzIHvRZLXXEcbS/5zPFKcFqHi1QIKLWj9J+G/AkshmK/Zg==
-Mime-Version: 1.0
-X-Lms-Return-Path: <lba+16a6205c1+5c1fcd+lists.infradead.org+changfengnan@bytedance.com>
-To: <linux-nvme@lists.infradead.org>, "Keith Busch" <kbusch@kernel.org>, 
-	"Jens Axboe" <axboe@kernel.dk>, "Christoph Hellwig" <hch@lst.de>, 
-	"Sagi Grimberg" <sagi@grimberg.me>, 
-	"Bart Van Assche" <bvanassche@acm.org>, 
-	"Andy Shevchenko" <andriy.shevchenko@intel.com>, 
-	"Thomas Gleixner" <tglx@kernel.org>, "Jun Zeng" <jun1.zeng@intel.com>, 
-	"Gang Cao" <gang.cao@intel.com>, "Jun I Jin" <jun.i.jin@intel.com>, 
-	"Liang A Fang" <liang.a.fang@intel.com>, "Yong Hu" <yong.hu@intel.com>
-Cc: <linux-kernel@vger.kernel.org>, "Guzebing" <guzebing@bytedance.com>
-Subject: Re: [RFC PATCH] nvme-pci: adaptively poll completions on busy queues
-From: "changfengnan" <changfengnan@bytedance.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 23 Jul 2026 20:14:54 +0800
-Message-Id: <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.4d5fdf63.b276.49d7.bc79.f7bcddd26cbe@bytedance.com>
-References: <20260723120556.58670-1-changfengnan@bytedance.com>
-In-Reply-To: <20260723120556.58670-1-changfengnan@bytedance.com>
+	Thu, 23 Jul 2026 13:03:01 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1784811780; x=1816347780;
+  h=date:from:to:subject:message-id:references:in-reply-to:
+   mime-version;
+  bh=VibUstMrL7hgTjaQwZnOYm5JU74FyShLHjfwri9z8tQ=;
+  b=pocwylIbzsqJ/0BcS5SMwSqZP2yCkD21IpuyQA8BPm0jZXurUL/EW/OK
+   NlOZqijp0EPAbpm2iQ51mYUGwc7wYHhOEi3bjpVAEFayWgIK+rAdgQFTP
+   u80DTXIssRqtZM2EJGq6PEmy8v8BIlfFtG7QhYSOzsXHjKXd/Nl99Anl+
+   VPENz7G04xEx8wqRrjExptZjm55WHjyq2YJhxopy7d97v9/FWawVRACuH
+   jo0bX4sqB+mWIbCVhoF1OOSai52Ee9FGRjVrvJJJDmyNNT6I51ZLTLfts
+   fleFRdpI5DIiN/fddYErNkbKASqw/2h4i0H+hv3opBxR0ln+Ri4wofg67
+   A==;
+X-CSE-ConnectionGUID: XsOpU1b8SPy1tp7zx1Yjyg==
+X-CSE-MsgGUID: 0NzvDh6XQeWkpKmPwXUvOA==
+X-IronPort-AV: E=Sophos;i="6.25,180,1779120000"; 
+   d="scan'208";a="147467676"
+Received: from mail-eastusazon11011005.outbound.protection.outlook.com (HELO BL2PR02CU003.outbound.protection.outlook.com) ([52.101.52.5])
+  by ob1.hgst.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 23 Jul 2026 21:02:58 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=e9I0tqQ/zQHs6g7iRwXhoaWRwFr5KctFWHptG0o/A+6GMSq2dvhned9o64r/c2uA7OYW/ixVtNQlG8f9bG6OqmlQ9NMCF3sj7fmSC56DpTqdvYJRCLYad6sW+zYe/dk9sv7tLFP8PZizqd0mBCEJ+c8psxdZU4be8GuZz+teyKVuBDXf0yYUCcwglvXylPzk+fhsjhxmPfm2Nh646A1hwvurVOnd11K6lfhc0kG3ePevM7So4fPREyPt5ZkMT93+1yrIM7zZHGhNJqMt/e+ttOpGoyZ5m57VZ/BnvTfZPIWH3h80EZHSy26sfV/3uDgq5Qh+Id3k27MnQlvrUwdpzg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6IL236rOv8hGnE/eA5YWHRIsxXglvYVz56qppVvXGGo=;
+ b=x42bvLcYctzU3eIhGNN3mIvIIL2H7VBOG1MThTjCi7ddMhVaLvnazYs1JwSgEH2X1U+vqoA4GrIk8JEtRRkJT91i3TcVRkcy24CFCq4IZ4fbjnd15L/jntbbrs4kTK8cuXFoxJqYcnZxhCM1pIok2UOFtnnsNIzPqDFp2HDBwHrS/mNp0IwAEBzFfZ/Q2wSp/PvieQF+wCpGoC5a0T39NX6c/4xzi6zBovUNCsrDTbE00SFmFkgL5twkO8C7G5yELVojH1wIFIwAH/aUzKSJ8QRVUTfOhuBsrUghzMnNfI+W4acIdvEC0yqmyDrHiBv2b2W4VNJ7LC2okLxOow/nvA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6IL236rOv8hGnE/eA5YWHRIsxXglvYVz56qppVvXGGo=;
+ b=AeYEutsKazygxcXjTIFZXF7SjZxgN0SPh94KPrCEwhlpdj/7qVCc8g0LCAh5Rgx0K+XA81hBPmnULKy6CfVw+n/dfzj2qehSOUjKJ6gpRo+tArq7gmDOKJb3sWd2vSWCNcNpqyvrqSs4ghdO8ovkxWiMGAvvliJtKojDBIOQcuM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+Received: from SA1PR04MB10065.namprd04.prod.outlook.com
+ (2603:10b6:806:4dd::14) by DS6PR04MB9939.namprd04.prod.outlook.com
+ (2603:10b6:8:368::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.11; Thu, 23 Jul
+ 2026 13:02:56 +0000
+Received: from SA1PR04MB10065.namprd04.prod.outlook.com
+ ([fe80::9b98:bf8a:b0b1:ef85]) by SA1PR04MB10065.namprd04.prod.outlook.com
+ ([fe80::9b98:bf8a:b0b1:ef85%4]) with mapi id 15.21.0245.009; Thu, 23 Jul 2026
+ 13:02:56 +0000
+Date: Thu, 23 Jul 2026 22:02:52 +0900
+From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH blktests 0/4] misc fixes
+Message-ID: <amIQ7WZEkPR3msQJ@shinhome>
+References: <20260713003906.21153-1-shinichiro.kawasaki@wdc.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260713003906.21153-1-shinichiro.kawasaki@wdc.com>
+X-ClientProxiedBy: TYCP286CA0144.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:31b::8) To SA1PR04MB10065.namprd04.prod.outlook.com
+ (2603:10b6:806:4dd::14)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR04MB10065:EE_|DS6PR04MB9939:EE_
+X-MS-Office365-Filtering-Correlation-Id: 814fdf19-adb7-4097-1351-08dee8bab733
+WDCIPOUTBOUND: EOP-TRUE
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|19092799006|366016|376014|23010399003|10067099003|56012099006|11063799006|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info: JbkwGJU4E8LjSyb699PG8ZiXW29Ga8NlqBvpzxLsI7BIMSCAGQd+PHYSzup0xfTJpXJNAAty591dOjkxLMw9hUIA2SGHM/COt69WXWsALMLytEat9A5aUJBtwVxZoPcaG3kurUKchu8aHIBAaRTeu4k3pBe0mebKUSPvvQE3MpYyWVIiXgAcwrKMwF6Dg7V6FgPCxAWYgfArlzVWISiSLdmDSR5ZcIEnr/TFCu2YisAjyxj/+wdkXqHXgckSIqqpdjmcpAIYiPreFAnnmRzsqW44/7zfQOsC2GF45/t/HL6FrOTkTASsD8K0cHp16F045HVWhCE2un2pFldrfm2lafL+aT/yjpeb/ySQL+ydVWY+TGGwkXyeXdHZtQJEAZFX+yc3BPxHu41xrOhw20/iC2LGeo52rI7Aib7qenOgRYZI3O0Oja2+/Hu+LHoiZaBRyKYTjqNvjA5OeAOmxiNwLYFc9fS9N84iSfo/zjNQ1IdG4wFLdhX8PyAAue/p57izWFih5wsOXjUqsqdio8AsoxmE/vfi2OZayOBAcV4JKJ83nvGblpzJRcXVrJtlqU6GnjdDfrDDK2YC+6Z/k5WyCizgJxd2K8/tf+8pZUp4dfMQHWabqto+hXjbriyF3zjp/lvOynkHgBeMvB1cuQw6KXo30zbyG+7ED+haPIR9zQE=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR04MB10065.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(19092799006)(366016)(376014)(23010399003)(10067099003)(56012099006)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?eblDrChVfDgh2fB5HXHliJQyZfe34Rege9oi8mDu/bZvEHBWlWJEFmeSrewa?=
+ =?us-ascii?Q?hrmsEcMX6Wrzf/DJDEP2NnafZtqQlqQLBk+o1awn0cC8ILoqcDXJAPA5dcDM?=
+ =?us-ascii?Q?BJyvMbv7mwVuzVAItGwmegdZmF536Ypr8WXtQQhEAr0U7gUAc1ttmqHm4b2y?=
+ =?us-ascii?Q?JZx4SXXodLGKu+Nnooke3TncQXWQbV5821s27MrF+/qXUPX9zOYogVp7z7PI?=
+ =?us-ascii?Q?eT6XNIjBVJt8/sBqIrEVkSOBwW0MuPrKMMs/3qruRlgC5P+L4Z6RwNLa9mTw?=
+ =?us-ascii?Q?i2jZMRIdMtaI32PMO8EQyoW4hTebUBnIvy9AZvHpWSrnYr2kLNUvnK26Njw0?=
+ =?us-ascii?Q?Nw2SlUBFNRjLYU/4inUmCxKDRAqgpmk4280o55bAOY890aEq2M0+AXUFXKKI?=
+ =?us-ascii?Q?uTLHfoN+KLolNDe+ONW9hbBBxjDuFExf4hTBlPagKjziPuueoImmacdSke24?=
+ =?us-ascii?Q?EQQlzwPe+9TG3p17iR8epxHvDvHwyxnAJfy3G8vFBUn8kRwwZhFjA1irC8SZ?=
+ =?us-ascii?Q?vhFF6Qtxnxu/pH5yj9D6wWAHp7M86+6JfJxErnm37Tcl3qq73Lp0Wm0YPV7N?=
+ =?us-ascii?Q?kJMgSl2AJp3ehPFHNRXc8wARqHF+PNdtbtJLqksfNlBM6elwyKIQHQxiRkry?=
+ =?us-ascii?Q?/FqLtFeJYPG7l/ath+kmgqeHwKIsF7n/yGeeQaOxjjNlJQnbea2YGelwr7kr?=
+ =?us-ascii?Q?rF27/FtL1wLBxWoLaik9rmqAe+NUyBhTgS29yEkJ11Lfd44Gm0Uf5+Knn91n?=
+ =?us-ascii?Q?8MVuUgM1oBuoL+bjtB0EBx/aJIZgw7MKe9yQCzLouB4kR0w5OPtnbLayTem3?=
+ =?us-ascii?Q?Q1rql2X0Roh7xf/7Ot3mGHPdCs3ZMVeG9B/bDmYGqYq4PneZbGGWzg1fD02z?=
+ =?us-ascii?Q?LWC6DVEb7wru8w8hELxiRDLJRupNNFIX7CIzPTGDp+k2U/3j1vNDXwiLPRJ2?=
+ =?us-ascii?Q?bxk40J5tFfZbTWKmqCPOwDs6T5rBjY4YiG1URFgnDG7DaGTfrVKXRd5z1cfq?=
+ =?us-ascii?Q?pSBFW8tQxgMG8iz6rmynUCp6O5Iw2UR3sHG9Ycjr/vuuz1l6xR4jnHETOmHn?=
+ =?us-ascii?Q?2wyI6dg7cWs31AcqvOq9h0GvhW9gw23hNn0uSp/WyCsgKFEQYYLse3ugShsA?=
+ =?us-ascii?Q?wm/R+jDcc/84lhdOOCzgVx8+Q8RxyVYr7gsVGHLrIRTY/48l4TdfWZ22PNTa?=
+ =?us-ascii?Q?WdcL4/dgj2+QnZ4QoTsYHmBXvjxoIdgpRYt69xBGG96yB+p792ij7osqIU8R?=
+ =?us-ascii?Q?xiCmEV811Zl2XMlFNXDVph8f8dyjLYefODkLNrsr1YzSAiGIKZz46mk+6+UZ?=
+ =?us-ascii?Q?fMW0Fa3JWVEnkUYGIgIGnrdBVQ8t2ol0nScS9SinIjd5BOtjTPeCgsntSFI9?=
+ =?us-ascii?Q?DIcMZUbeohI99gFv0bTw/6wrWa6+lh7fN4YrssRif5pBIMj6FHjCtxv1gBPf?=
+ =?us-ascii?Q?8EE1h6Bl1zIat7Y2AJId69BYJ3+TE3Qr/5J9oXTSTyfOsPiEiBqYB4Gjm81P?=
+ =?us-ascii?Q?HQfoNwv0lCrL4UvZfbcqBzr1NR1Dw6L/BwHWUMuVjy7gyAbDLCG9s8GXqitj?=
+ =?us-ascii?Q?FO1b+YMzuK4hU/ruXz/RhRh5XWLVM/UJ0TZjiUpaBPM68UL+edlX9U+j5SNn?=
+ =?us-ascii?Q?teo/sD7CNiHx4gFhWeuAeyu/ur8Kvo/Yi19zgFj3NVM7XV8c1xg/c58JpS7K?=
+ =?us-ascii?Q?+/FMS6slgc75l8obWxH013+XysV4qIGgrAKniX541yyIn2LfBMn3hGciB6v/?=
+ =?us-ascii?Q?puNoCsG3amz7eH26DuLqkExEKBPXOdI=3D?=
+X-Exchange-RoutingPolicyChecked: nsZ5t5vzaXbYUGRwYTPZGh0Zji+Eqd+ozZi9PKtI7ryfhdd+rw/EXTB9Mu6fxjKN9VUuMi3KTKy61buR5NoI9x6It87Ed8O3c231GW6+j+FZV1oi4coW1KCNNhVVP/MNyNsFMYqTqqw0pAnXVitdBO86O3mLJfy8Z9Zmg0uIwRSKWcNXV1ykUTjN1C1EX1EpXYaEsmZNjvv2WCSHwsynmc8Ea7uAaMWCgXyzdMEPLAbUlXxAVzfVYp0ax+27GGkWZ/8QJvvZQZ2GaCHT1HW4XWZZoWwUYi/UdL8RA6HgM4WCspZHa12jE0KNk8oOk/FXhnuSOIVYo2+qqQ3i1AOzmw==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: iGkj0wamqD3w9o7YtSs7fvOZPjK/nSaXSkDF2XqvPQfXQAUrAVGq3ZYYVDypNYTdAiE70kbf7pmfz9zkuymGrV0MJaOBVLeNpZdTs15vgeM8+t6gnkWXshf1u28e5ISsyiQwIdGiAkjjQSHhDInq1xXErjrI8r6YrUfLyCKNKnEyV2cmvWTEab0llPZ6iaRCVAb9DFygo0M57PGd/B2xHUabKtFd5CebidyK10tZNM/SKG/J4TNJFwFvxKQi/YPTXVFLIZh2Y1mppzFXqO2ihe59mWHBd9mbO+eK4sS6X80ogjSRQmkXVgFccwg8gogLdp6Kkd2l+43+mjfodDNli+6eKB/0VNp7xfPqaPwRTeLtisoxujy2ujmfVur9Tu3WqswMz0cqwLjqDngWApN6xeA6oHXe6FnKB1OAMzm0jPfaib/fYFlkLQIbkqmqR0KNAc7FsBBo9HmITbFLvuK6a5L1g6Jox76FzB7eOGtvnLA2GSiY3X8XEGSVGiJ0c0aW3tWaXUL4wXo7N3KbMEyCf9dSUhPoQLrQRqLYCP/2c01key1YdlQxp4NHRaLKFctsRyt4gLvpDZOFesyuwGtTAy07iy+J76h1o+n3bHIbqSvit5qyxCqiyD29FFD/RLbB
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 814fdf19-adb7-4097-1351-08dee8bab733
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR04MB10065.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2026 13:02:56.8980
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dGWw1H6SZ/fMa1tMWrY7ggARZDdQKomSpie1edEAj5RvjInrcmAbrBm6nGfEhPW5MUOR+IG4DEgkskY9xqw3dT0EOQx1AsVRl/Fw0u2RO0c=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS6PR04MB9939
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260723_051505_665947_A86C8F84 
-X-CRM114-Status: GOOD (  28.89  )
+X-CRM114-CacheID: sfid-20260723_060300_316694_CA6A1BCA 
+X-CRM114-Status: UNSURE (   8.83  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,669 +157,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Two additional points:=C2=A0
-1. The current handling of `nvme_adaptive_mask_irq` is a bit complex.
-=C2=A0I don=E2=80=99t think it=E2=80=99s necessary to add a separate logic =
-path specifically for
-MSI; using `disable_irq_nosync` directly should suffice.=C2=A0
-Keith, what do you think?=C2=A0
-2. More detailed testing is currently underway, covering a wider
-range of workloads and different drives.=C2=A0
-I=E2=80=99ll update the test data later.
+On Jul 13, 2026 / 09:39, Shin'ichiro Kawasaki wrote:
+> These are miscellaneous fixes. They do not affect test results, but worth
+> fixing.
+> 
+> Shin'ichiro Kawasaki (4):
+>   check: fix exit status code handling
+>   nvme/rc: use _set_attr() in _create_nvmet_passthru()
+>   CONTRIBUTING: clarify that GPL-2.0 is not applicable
+>   new: guide long command options
 
-Thanks.
-Fengnan
-
-> From: "Fengnan Chang"<changfengnan@bytedance.com>
-> Date:=C2=A0 Thu, Jul 23, 2026, 20:06
-> Subject:=C2=A0 [RFC PATCH] nvme-pci: adaptively poll completions on busy =
-queues
-> To: <linux-nvme@lists.infradead.org>, "Keith Busch"<kbusch@kernel.org>, "=
-Jens Axboe"<axboe@kernel.dk>, "Christoph Hellwig"<hch@lst.de>, "Sagi Grimbe=
-rg"<sagi@grimberg.me>, "Bart Van Assche"<bvanassche@acm.org>, "Andy Shevche=
-nko"<andriy.shevchenko@intel.com>, "Thomas Gleixner"<tglx@kernel.org>, "Jun=
- Zeng"<jun1.zeng@intel.com>, "Gang Cao"<gang.cao@intel.com>, "Jun I Jin"<ju=
-n.i.jin@intel.com>, "Liang A Fang"<liang.a.fang@intel.com>, "Yong Hu"<yong.=
-hu@intel.com>
-> Cc: <linux-kernel@vger.kernel.org>, "Fengnan Chang"<changfengnan@bytedanc=
-e.com>, "Guzebing"<guzebing@bytedance.com>
-> In high-IOPS scenarios, relying on interrupts to handle I/O operations
-> can limit performance. This issue becomes particularly pronounced in
-> multi-disk environments, where performance is constrained by the CPU=E2=
-=80=99s
-> interrupt-handling capacity.
->=C2=A0
-> Each Solidigm SB5PH27X038T device used for testing can deliver about 3.2M
-> 4 KiB random-read IOPS. =C2=A0Four devices therefore have about 12.8M IOP=
-S of
-> aggregate capability, but interrupt-driven completion topped out at 7.81M
-> IOPS, or about 61% of that capability.
->=C2=A0
-> Add optional adaptive polling for busy interrupt-driven I/O queues. =C2=
-=A0After
-> an interrupt drains the CQ, use the ring distance between last_sq_tail an=
-d
-> cq_head as an approximate host-side inflight count. =C2=A0If the count re=
-aches
-> a per-controller high watermark, let the threaded handler keep draining
-> completions instead of returning to interrupt-driven completion right awa=
-y.
->=C2=A0
-> The thread always checks for pending CQEs first. =C2=A0When the CQ is emp=
-ty, it
-> compares the inflight count with a per-controller low watermark and sleep=
-s
-> for a configurable interval before checking again. =C2=A0It returns to
-> interrupt-driven completion after three consecutive empty-CQ checks below
-> the low watermark or when the loop limit is reached.
->=C2=A0
-> The mode is disabled by default. It can be enabled at module load time.
-> The high and low watermarks, empty-CQ interval, and loop limit are
-> available through sysfs. =C2=A0The defaults are 32 commands, 3 commands,
-> 30 us, and 1000 iterations.
->=C2=A0
-> Tested with the default settings and 4 KiB random reads on four Solidigm
-> SB5PH27X038T devices. =C2=A0With adaptive polling off and on:
->=C2=A0
-> =C2=A0 - t/io_uring, depth 1024 and four workers per device:
-> =C2=A0 =C2=A0 7.810M and 12.780M aggregate IOPS (+63.64%).
-> =C2=A0 - fio/libaio, iodepth 1024, numjobs 4 and completion batches of 32=
-:
-> =C2=A0 =C2=A0 7.699M and 12.785M aggregate IOPS (+66.05%).
->=C2=A0
-> In a paired libaio and io_uring boundary sweep, QD8, QD16, QD32, and
-> QD16/numjobs=3D4 changed by -0.15% to +0.48%. =C2=A0QD64 improved by 28.6=
-1% to
-> 59.75%.
->=C2=A0
-> Link: https://lore.kernel.org/linux-nvme/20260720145927.GA17986@lst.de/
-> Signed-off-by: Guzebing <guzebing@bytedance.com>
-> Signed-off-by: Fengnan Chang <changfengnan@bytedance.com>
-> ---
-> =C2=A0Documentation/ABI/testing/sysfs-nvme | =C2=A063 +++++++
-> =C2=A0drivers/nvme/host/pci.c =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0| 266 +++++++++++++++++++++++++++
-> =C2=A02 files changed, 329 insertions(+)
->=C2=A0
-> diff --git a/Documentation/ABI/testing/sysfs-nvme b/Documentation/ABI/tes=
-ting/sysfs-nvme
-> index 499d5f843cd43..9e22a51a0f5bb 100644
-> --- a/Documentation/ABI/testing/sysfs-nvme
-> +++ b/Documentation/ABI/testing/sysfs-nvme
-> @@ -11,3 +11,66 @@ Description:
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(REPLACETLS=
-PSK) with the target. After a reauthentication
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0the value r=
-eturned by tls_configured_key will be the new
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0serial.
-> +
-> +What: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/sys/class/=
-nvme/nvmeX/adaptive_poll_inflight_high
-> +Date: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0July 2026
-> +KernelVersion: =C2=A0 =C2=A0 =C2=A0 =C2=A07.3
-> +Contact: =C2=A0 =C2=A0 =C2=A0 =C2=A0Linux NVMe mailing list <linux-nvme@=
-lists.infradead.org>
-> +Description:
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0The number of ou=
-tstanding commands at which an interrupt-driven
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0PCI I/O queue wa=
-kes its adaptive completion-drain thread. The value
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0must be greater =
-than adaptive_poll_inflight_low and smaller than
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0the queue depth.
-> +
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0The default valu=
-e is 32.
-> +
-> +What: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/sys/class/=
-nvme/nvmeX/adaptive_poll_inflight_low
-> +Date: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0July 2026
-> +KernelVersion: =C2=A0 =C2=A0 =C2=A0 =C2=A07.3
-> +Contact: =C2=A0 =C2=A0 =C2=A0 =C2=A0Linux NVMe mailing list <linux-nvme@=
-lists.infradead.org>
-> +Description:
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0The number of ou=
-tstanding commands below which an adaptive
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0completion-drain=
- thread starts counting empty-CQ checks. The
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0thread returns t=
-o interrupt-driven completion after three such
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0checks in a row.=
- The counter is reset whenever the number of
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0outstanding comm=
-ands reaches this value. The value must be nonzero
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0and smaller than=
- adaptive_poll_inflight_high.
-> +
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0The default valu=
-e is 3.
-> +
-> +What: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/sys/class/=
-nvme/nvmeX/adaptive_poll_interval_us
-> +Date: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0July 2026
-> +KernelVersion: =C2=A0 =C2=A0 =C2=A0 =C2=A07.3
-> +Contact: =C2=A0 =C2=A0 =C2=A0 =C2=A0Linux NVMe mailing list <linux-nvme@=
-lists.infradead.org>
-> +Description:
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0The number of mi=
-croseconds that an adaptive completion-drain
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0thread waits bef=
-ore rechecking an empty CQ. The value must be
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0nonzero.
-> +
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0The default valu=
-e is 30.
-> +
-> +What: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/sys/class/=
-nvme/nvmeX/adaptive_poll_max_loops
-> +Date: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0July 2026
-> +KernelVersion: =C2=A0 =C2=A0 =C2=A0 =C2=A07.3
-> +Contact: =C2=A0 =C2=A0 =C2=A0 =C2=A0Linux NVMe mailing list <linux-nvme@=
-lists.infradead.org>
-> +Description:
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0The maximum numb=
-er of iterations performed each time an adaptive
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0completion-drain=
- thread is woken. An iteration is counted whether
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0or not the CQ ha=
-s pending completions. The value must be nonzero
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0and is sampled w=
-hen the thread starts, so a new value applies to
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0subsequent threa=
-d activations.
-> +
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0The thread may e=
-xit earlier when the low-inflight condition is met.
-> +
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0The default valu=
-e is 1000.
-> +
-> +What: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/sys/module=
-/nvme/parameters/use_adaptive_polling
-> +Date: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0July 2026
-> +KernelVersion: =C2=A0 =C2=A0 =C2=A0 =C2=A07.3
-> +Contact: =C2=A0 =C2=A0 =C2=A0 =C2=A0Linux NVMe mailing list <linux-nvme@=
-lists.infradead.org>
-> +Description:
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Global module pa=
-rameter for adaptive polling on PCI I/O queues.
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Set to Y when lo=
-ading the module, or on the kernel command line when
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0the driver is bu=
-ilt in, to enable adaptive polling for all NVMe PCI
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0controllers. The=
- default is N and the value cannot be changed after
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0the driver is lo=
-aded.
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 69932d640b537..296eadaf43199 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -9,6 +9,7 @@
-> =C2=A0#include <linux/blkdev.h>
-> =C2=A0#include <linux/blk-mq-dma.h>
-> =C2=A0#include <linux/blk-integrity.h>
-> +#include <linux/delay.h>
-> =C2=A0#include <linux/dmi.h>
-> =C2=A0#include <linux/init.h>
-> =C2=A0#include <linux/interrupt.h>
-> @@ -21,6 +22,7 @@
-> =C2=A0#include <linux/nodemask.h>
-> =C2=A0#include <linux/once.h>
-> =C2=A0#include <linux/pci.h>
-> +#include <linux/sched.h>
-> =C2=A0#include <linux/suspend.h>
-> =C2=A0#include <linux/t10-pi.h>
-> =C2=A0#include <linux/types.h>
-> @@ -82,6 +84,17 @@ struct quirk_entry {
-> =C2=A0static int use_threaded_interrupts;
-> =C2=A0module_param(use_threaded_interrupts, int, 0444);
-> =C2=A0
-> +static bool use_adaptive_polling;
-> +module_param(use_adaptive_polling, bool, 0444);
-> +MODULE_PARM_DESC(use_adaptive_polling,
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 "enable adaptiv=
-e polling on busy interrupt-driven I/O queues");
-> +
-> +#define NVME_ADAPTIVE_POLL_INFLIGHT_HIGH_DEFAULT =C2=A0 =C2=A0 =C2=A0 =
-=C2=A032
-> +#define NVME_ADAPTIVE_POLL_INFLIGHT_LOW_DEFAULT =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A03
-> +#define NVME_ADAPTIVE_POLL_INTERVAL_US_DEFAULT =C2=A0 =C2=A0 =C2=A0 =C2=
-=A030
-> +#define NVME_ADAPTIVE_POLL_MAX_LOOPS_DEFAULT =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-1000
-> +#define NVME_ADAPTIVE_POLL_LOW_INFLIGHT_CHECKS =C2=A0 =C2=A0 =C2=A0 =C2=
-=A03
-> +
-> =C2=A0static bool use_cmb_sqes =3D true;
-> =C2=A0module_param(use_cmb_sqes, bool, 0444);
-> =C2=A0MODULE_PARM_DESC(use_cmb_sqes, "use controller's memory buffer for =
-I/O SQes");
-> @@ -302,6 +315,11 @@ struct nvme_dev {
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned io_queues[HCTX_MAX_TYPES];
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int num_vecs;
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 q_depth;
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int adaptive_poll_inflight_high;
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int adaptive_poll_inflight_low;
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int adaptive_poll_interval_us;
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int adaptive_poll_max_loops;
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0struct mutex adaptive_poll_config_lock; /* s=
-erializes watermark updates */
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int io_sqes;
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 db_stride;
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0void __iomem *bar;
-> @@ -386,6 +404,7 @@ struct nvme_queue {
-> =C2=A0#define NVMEQ_SQ_CMB =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A01
-> =C2=A0#define NVMEQ_DELETE_ERROR =C2=A0 =C2=A0 =C2=A0 =C2=A02
-> =C2=A0#define NVMEQ_POLLED =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A03
-> +#define NVMEQ_ADAPTIVE_POLLING =C2=A0 =C2=A0 =C2=A0 =C2=A04
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0__le32 *dbbuf_sq_db;
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0__le32 *dbbuf_cq_db;
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0__le32 *dbbuf_sq_ei;
-> @@ -1649,6 +1668,99 @@ static irqreturn_t nvme_irq_check(int irq, void *d=
-ata)
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return IRQ_NONE;
-> =C2=A0}
-> =C2=A0
-> +/*
-> + * PCI I/O queues have one SQ and one CQ of the same depth. =C2=A0last_s=
-q_tail
-> + * counts commands published to the controller while cq_head counts comm=
-ands
-> + * completed and consumed by the host, so their ring distance is the num=
-ber
-> + * of commands that can still produce completions.
-> + */
-> +static unsigned int nvme_adaptive_poll_inflight(struct nvme_queue *nvmeq=
-)
-> +{
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0int inflight =3D READ_ONCE(nvmeq->last_sq_ta=
-il) -
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0READ_ONCE(nvmeq->cq_head);
-> +
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (inflight < 0)
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0inflight +=3D nv=
-meq->q_depth;
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0return inflight;
-> +}
-> +
-> +static void nvme_adaptive_mask_irq(struct nvme_queue *nvmeq, int irq)
-> +{
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0struct nvme_dev *dev =3D nvmeq->dev;
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0struct pci_dev *pdev =3D to_pci_dev(dev->dev=
-);
-> +
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (pdev->msi_enabled) {
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0writel(BIT(nvmeq=
-->cq_vector), dev->bar + NVME_REG_INTMS);
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0readl(dev->bar +=
- NVME_REG_INTMS);
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0} else {
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0disable_irq_nosy=
-nc(irq);
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0}
-> +}
-> +
-> +static void nvme_adaptive_unmask_irq(struct nvme_queue *nvmeq, int irq)
-> +{
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0struct nvme_dev *dev =3D nvmeq->dev;
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0struct pci_dev *pdev =3D to_pci_dev(dev->dev=
-);
-> +
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0clear_bit(NVMEQ_ADAPTIVE_POLLING, &nvmeq->fl=
-ags);
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (pdev->msi_enabled) {
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0writel(BIT(nvmeq=
-->cq_vector), dev->bar + NVME_REG_INTMC);
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0readl(dev->bar +=
- NVME_REG_INTMS);
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0} else {
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0enable_irq(irq);
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0}
-> +}
-> +
-> +static irqreturn_t nvme_irq_adaptive_poll(int irq, void *data)
-> +{
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0struct nvme_queue *nvmeq =3D data;
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int max_loops =3D
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0READ_ONCE(nvmeq-=
->dev->adaptive_poll_max_loops);
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int low_inflight_checks =3D 0;
-> +
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0do {
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (nvme_cqe_pen=
-ding(nvmeq)) {
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0nvme_irq(irq, data);
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0low_inflight_checks =3D 0;
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0cond_resched();
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0continue;
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (nvme_adaptiv=
-e_poll_inflight(nvmeq) <
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0RE=
-AD_ONCE(nvmeq->dev->adaptive_poll_inflight_low)) {
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0if (++low_inflight_checks >=3D
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0NVME_ADAPTIVE_POLL_LOW_INFLIGHT_CHECKS)
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} else {
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0low_inflight_checks =3D 0;
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fsleep(READ_ONCE=
-(nvmeq->dev->adaptive_poll_interval_us));
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0} while (--max_loops);
-> +
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0nvme_adaptive_unmask_irq(nvmeq, irq);
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0return IRQ_HANDLED;
-> +}
-> +
-> +static irqreturn_t nvme_irq_adaptive_check(int irq, void *data)
-> +{
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0struct nvme_queue *nvmeq =3D data;
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0irqreturn_t ret;
-> +
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (test_bit(NVMEQ_ADAPTIVE_POLLING, &nvmeq-=
->flags))
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return IRQ_HANDL=
-ED;
-> +
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D nvme_irq(irq, data);
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ret !=3D IRQ_HANDLED)
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;
-> +
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (nvme_adaptive_poll_inflight(nvmeq) <
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0READ_ONCE(nvmeq->dev->adaptive=
-_poll_inflight_high))
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;
-> +
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0set_bit(NVMEQ_ADAPTIVE_POLLING, &nvmeq->flag=
-s);
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0nvme_adaptive_mask_irq(nvmeq, irq);
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0return IRQ_WAKE_THREAD;
-> +}
-> +
-> =C2=A0/*
-> =C2=A0 * Poll for completions for any interrupt driven queue
-> =C2=A0 * Can be called from any context.
-> @@ -2171,9 +2283,22 @@ static int queue_request_irq(struct nvme_queue *nv=
-meq)
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct pci_dev *pdev =3D to_pci_dev(nvm=
-eq->dev->dev);
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int nr =3D nvmeq->dev->ctrl.instance;
-> =C2=A0
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0/*
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 * INTMS/INTMC mask MSI vectors and only cov=
-er vectors 0-31. =C2=A0They must
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 * not be accessed while MSI-X is enabled, s=
-o mask MSI-X vectors through
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 * the PCI IRQ chip.
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 */
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (use_threaded_interrupts) {
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return pci_=
-request_irq(pdev, nvmeq->cq_vector, nvme_irq_check,
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0nvme_irq, nvmeq, "nvme%dq%d", =
-nr, nvmeq->qid);
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0} else if (use_adaptive_polling && nvmeq->qi=
-d &&
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0nvmeq->dev->num_vecs > 1 &&
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(pdev->msix_enabled ||
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (pdev->msi_enabled && nvmeq->=
-cq_vector < 32))) {
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return pci_reque=
-st_irq(pdev, nvmeq->cq_vector,
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0nvme_irq_adaptive_check, nvme_irq_=
-adaptive_poll,
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0nvmeq,
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0"nvme%dq%d", nr, nvmeq->qid);
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} else {
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return pci_=
-request_irq(pdev, nvmeq->cq_vector, nvme_irq,
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0NULL, nvmeq, "nvme%dq%d", nr, =
-nvmeq->qid);
-> @@ -2808,6 +2933,134 @@ static ssize_t hmb_store(struct device *dev, stru=
-ct device_attribute *attr,
-> =C2=A0}
-> =C2=A0static DEVICE_ATTR_RW(hmb);
-> =C2=A0
-> +static ssize_t adaptive_poll_inflight_high_show(struct device *dev,
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0struct device_attribute *attr,
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0char *buf)
-> +{
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0struct nvme_dev *ndev =3D to_nvme_dev(dev_ge=
-t_drvdata(dev));
-> +
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0return sysfs_emit(buf, "%u\n",
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0READ_ONCE(ndev->adaptive_poll_inflight_high));
-> +}
-> +
-> +static ssize_t adaptive_poll_inflight_high_store(struct device *dev,
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 struct device_attribute *attr,
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 const char *buf, size_t count)
-> +{
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0struct nvme_dev *ndev =3D to_nvme_dev(dev_ge=
-t_drvdata(dev));
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int value;
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0int ret;
-> +
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D kstrtouint(buf, 10, &value);
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ret)
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!value || value >=3D ndev->q_depth)
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -EINVAL;
-> +
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0mutex_lock(&ndev->adaptive_poll_config_lock)=
-;
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (value <=3D READ_ONCE(ndev->adaptive_poll=
-_inflight_low)) {
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mutex_unlock(&nd=
-ev->adaptive_poll_config_lock);
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -EINVAL;
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0}
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0WRITE_ONCE(ndev->adaptive_poll_inflight_high=
-, value);
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0mutex_unlock(&ndev->adaptive_poll_config_loc=
-k);
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0return count;
-> +}
-> +static DEVICE_ATTR_RW(adaptive_poll_inflight_high);
-> +
-> +static ssize_t adaptive_poll_inflight_low_show(struct device *dev,
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 struct device_attribute *attr,
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 char *buf)
-> +{
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0struct nvme_dev *ndev =3D to_nvme_dev(dev_ge=
-t_drvdata(dev));
-> +
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0return sysfs_emit(buf, "%u\n",
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0READ_ONCE(ndev->adaptive_poll_inflight_low));
-> +}
-> +
-> +static ssize_t adaptive_poll_inflight_low_store(struct device *dev,
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0struct device_attribute *attr,
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0const char *buf, size_t count)
-> +{
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0struct nvme_dev *ndev =3D to_nvme_dev(dev_ge=
-t_drvdata(dev));
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int value;
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0int ret;
-> +
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D kstrtouint(buf, 10, &value);
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ret)
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!value || value >=3D ndev->q_depth)
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -EINVAL;
-> +
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0mutex_lock(&ndev->adaptive_poll_config_lock)=
-;
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (value >=3D READ_ONCE(ndev->adaptive_poll=
-_inflight_high)) {
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mutex_unlock(&nd=
-ev->adaptive_poll_config_lock);
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -EINVAL;
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0}
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0WRITE_ONCE(ndev->adaptive_poll_inflight_low,=
- value);
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0mutex_unlock(&ndev->adaptive_poll_config_loc=
-k);
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0return count;
-> +}
-> +static DEVICE_ATTR_RW(adaptive_poll_inflight_low);
-> +
-> +static ssize_t adaptive_poll_interval_us_show(struct device *dev,
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0struct device_attribute *attr,
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0char *buf)
-> +{
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0struct nvme_dev *ndev =3D to_nvme_dev(dev_ge=
-t_drvdata(dev));
-> +
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0return sysfs_emit(buf, "%u\n",
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0READ_ONCE(ndev->adaptive_poll_interval_us));
-> +}
-> +
-> +static ssize_t adaptive_poll_interval_us_store(struct device *dev,
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 struct device_attribute *attr,
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 const char *buf, size_t count)
-> +{
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0struct nvme_dev *ndev =3D to_nvme_dev(dev_ge=
-t_drvdata(dev));
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int value;
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0int ret;
-> +
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D kstrtouint(buf, 10, &value);
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ret)
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!value)
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -EINVAL;
-> +
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0WRITE_ONCE(ndev->adaptive_poll_interval_us, =
-value);
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0return count;
-> +}
-> +static DEVICE_ATTR_RW(adaptive_poll_interval_us);
-> +
-> +static ssize_t adaptive_poll_max_loops_show(struct device *dev,
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0struct device_attribute *attr,
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0char *buf)
-> +{
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0struct nvme_dev *ndev =3D to_nvme_dev(dev_ge=
-t_drvdata(dev));
-> +
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0return sysfs_emit(buf, "%u\n",
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0READ_ONCE(ndev->adaptive_poll_max_loops));
-> +}
-> +
-> +static ssize_t adaptive_poll_max_loops_store(struct device *dev,
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 struct device_attribute *attr,
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 const char *buf, size_t count)
-> +{
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0struct nvme_dev *ndev =3D to_nvme_dev(dev_ge=
-t_drvdata(dev));
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int value;
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0int ret;
-> +
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D kstrtouint(buf, 10, &value);
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ret)
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!value)
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -EINVAL;
-> +
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0WRITE_ONCE(ndev->adaptive_poll_max_loops, va=
-lue);
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0return count;
-> +}
-> +static DEVICE_ATTR_RW(adaptive_poll_max_loops);
-> +
-> =C2=A0static umode_t nvme_pci_attrs_are_visible(struct kobject *kobj,
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct attr=
-ibute *a, int n)
-> =C2=A0{
-> @@ -2832,6 +3085,10 @@ static struct attribute *nvme_pci_attrs[] =3D {
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&dev_attr_cmbloc.attr,
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&dev_attr_cmbsz.attr,
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&dev_attr_hmb.attr,
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0&dev_attr_adaptive_poll_inflight_high.attr,
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0&dev_attr_adaptive_poll_inflight_low.attr,
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0&dev_attr_adaptive_poll_interval_us.attr,
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0&dev_attr_adaptive_poll_max_loops.attr,
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0NULL,
-> =C2=A0};
-> =C2=A0
-> @@ -3685,6 +3942,15 @@ static struct nvme_dev *nvme_pci_alloc_dev(struct =
-pci_dev *pdev,
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ERR_=
-PTR(-ENOMEM);
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0INIT_WORK(&dev->ctrl.reset_work, nvme_r=
-eset_work);
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mutex_init(&dev->shutdown_lock);
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0mutex_init(&dev->adaptive_poll_config_lock);
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0dev->adaptive_poll_inflight_high =3D
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0NVME_ADAPTIVE_PO=
-LL_INFLIGHT_HIGH_DEFAULT;
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0dev->adaptive_poll_inflight_low =3D
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0NVME_ADAPTIVE_PO=
-LL_INFLIGHT_LOW_DEFAULT;
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0dev->adaptive_poll_interval_us =3D
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0NVME_ADAPTIVE_PO=
-LL_INTERVAL_US_DEFAULT;
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0dev->adaptive_poll_max_loops =3D
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0NVME_ADAPTIVE_PO=
-LL_MAX_LOOPS_DEFAULT;
-> =C2=A0
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dev->nr_write_queues =3D write_queues;
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dev->nr_poll_queues =3D poll_queues;
-> --=C2=A0
-> 2.39.5 (Apple Git-154)
->=C2=A0
+FYI, I applied this series.
 
