@@ -4,77 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 06E57C531C7
-	for <linux-nvme@archiver.kernel.org>; Thu, 23 Jul 2026 09:37:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3A9EDC531CB
+	for <linux-nvme@archiver.kernel.org>; Thu, 23 Jul 2026 09:37:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
 	Content-Transfer-Encoding:References:In-Reply-To:Message-ID:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2huvFp/mAnt2ozXFKwtSvu8IC7sm2+Q6WgAYcXwqf/4=; b=1dcE4KgLOCSMs+IcGX88irrJFG
-	+UWrpGPanFemblFPcahI1aA1F5f85xsZdMDkf1vizLcfsuGFGOb6IWiWBHpQNmfzv84TAzuiGWD6X
-	GoEN9yPg89dX8EgQpHV1nY1fhK1JYCDTY4SWsCSFcuStcb5B2UHCHC7ocYHXm2Wx8gZvd83NFe5pO
-	TFgBAuTnUALZx0FsqqU0YqTk+Q0k2Brb3vZ9xyPCATeOuHpUoi0G8p9gXXQJYqsmzuDfsGgcTWhIo
-	dtfb9qnCaJvb6r1Yj3ICa3AG1dF+XaT3mSb9O32CXse7k3pLsLbJXAGJPI9cEdrnKEaHs6dpBVmqz
-	RMNE6eKQ==;
+	bh=6GgPaKhcQPSVQyzazNduRj+lv5C9sJGgmpbRHdwSUwY=; b=tEccPKZxLh6gjIp6845bGMpnet
+	A5XcsWtlsVFtU3R8QOg85jobXLcs9YOtlKql8XLJB8a47WrgvtGzVv4zCIwVsXgf+FNurxlMvdv3m
+	5ILCIdszcCdVJXfJCdyizEnnI9ggckUQOw7mclyEkbM9fzjpe3aCY4ylSkVtNIGM3GBOpIEvcZ72+
+	dV5d7lzjXLosX8lzjpnXvEtK5FygryyW7ZnlgY3ZWvtJ7ka4nBHLZdh/ULnSmxbPeYkjTGLTvQsQI
+	7/A8in+pjabNVmGZ04ccLxjtsUFbZ72Iap7Obo+s3omcRyxyDWt69s+CEeV/6n1QxC4cEpII9M6uf
+	LxEHIVVA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wmps1-0000000Dslr-1KT4;
-	Thu, 23 Jul 2026 09:37:37 +0000
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	id 1wmprf-0000000DsDn-0Rct;
+	Thu, 23 Jul 2026 09:37:15 +0000
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wmprv-0000000Dsbp-3qy1
+	id 1wmprX-0000000Ds9K-44IN
 	for linux-nvme@lists.infradead.org;
-	Thu, 23 Jul 2026 09:37:36 +0000
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66N4JhQs009715;
-	Thu, 23 Jul 2026 09:37:17 GMT
+	Thu, 23 Jul 2026 09:37:10 +0000
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66N0EfTN3817379;
+	Thu, 23 Jul 2026 09:37:01 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=2huvFp/mAnt2ozXFKwtSvu8IC7sm2+Q6WgAYcXwqf/4=; b=
-	nVejIij49akf+x0y7O/jckEJQ+dJN+F85+WWa+hAifYKC9RVKejCN2Q6SXJX0MNb
-	CJoa2FGUpmNDnnspEQ/uchDK23RZusex+9fxmXJoxCpFNNBxF2nhcuVAI61Uo3M6
-	pqZJTMzQtDmUvjuygAWmctyV2ebSkaRBT9rFQ4fuvYvKVXQ7flwIRu2OjorzF30F
-	ITPhX4y3sCGQItAmA+WEYSwJb/X9fGt8tP/UbAlNeEYS7/+dF8xV8VFQYuiccvv0
-	xCZI8bZwLW0yM1x5ozlXuC+8MdUqhiVD1+WtUVIjBtAE9sd/6K3aW4eGhvW8YQ/A
-	mXL2nksleKyttJ9GySHSag==
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4fg21q6mve-1
+	corp-2025-04-25; bh=6GgPaKhcQPSVQyzazNduRj+lv5C9sJGgmpbRHdwSUwY=; b=
+	Hl5yFDQLLVQGx3IzkwZyWMZZw5NaTXuLOP/oO6W6WLWzwBmL1XNt/YB6KkU4ohxv
+	AILf13XFyEeTvNVzEbjxwE3QAkYteii9M4UeFFKUsz5H3ef8ei7KCVhk1IfmDJk5
+	t0+j2ZLX2sL+wnH6hvNUN0q/4Fb9uaEn2dEEFbZICxj4DY1zXkg4ZO6Ot2bhWELj
+	K2QDzsoQYmmbZRBSTTg4+88j0+OVOKA7LCS0anVx6HYT+l50vT5fJWJjd5i6aIwF
+	Uj0eMa0J1JcUOvaBdOwlQfWMDGd7bST6jHm09JUfS3WqoTNXznwdByzsA3L786T0
+	/X5GzHFQBxdi31JRhsft9w==
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4fg1mv6nac-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 23 Jul 2026 09:37:16 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 66N9NXSo008245;
-	Thu, 23 Jul 2026 09:37:15 GMT
-Received: from ch1pr05cu001.outbound.protection.outlook.com (mail-northcentralusazon11010029.outbound.protection.outlook.com [52.101.193.29])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4ffyxrwmvb-1
+	Thu, 23 Jul 2026 09:37:00 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 66N9XVPT010588;
+	Thu, 23 Jul 2026 09:37:00 GMT
+Received: from bn8pr05cu002.outbound.protection.outlook.com (mail-eastus2azon11011004.outbound.protection.outlook.com [52.101.57.4])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4ffyxsdebf-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 23 Jul 2026 09:37:15 +0000 (GMT)
+	Thu, 23 Jul 2026 09:37:00 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=e9nd+osr2LBUiANqShsPsBkbmOEoaQEoheZJY34VbUAHIpeo2tnkx1a6UBQBwnBm1CT/oWedNKYWk/gzhn1LST6ywWSG0Qts6HXOBJS7a2TzuM9uuV7X8HJthV63ryMLNE/C8WFHXQ0IlekshcwvRHZHU/S2paf3+da5SmHd2kYOFgktTamiOjMRLr3meY/F3xeilW5/79w3rPax6ZwBnSjIYX635lWuGG5qYZjTLAKpH5I47NYZDNVEjtVREz7UzGCUrpGJckeXMq7zXUmaV10VEjvKY+QmOQk+MzA5PrjydjUfi7aKjHDwV2HE+eWO749zKQh/UsEawtvPKzhoKA==
+ b=KgBSA2KeUPNnIju8GcTcRPkik3JICkaficTLODr9+DH1g7HRSCOxAyUomNmzuZTMYln38QhWRc+7GgX2RQ5IMakewYVm0/lNWLkabs5BEpQKak/P0Q7kl5ZK/si6xmsVINFSg1I6879EWq1hKlEWCXHe78BQwAhN3cXd+y73B15fY6Jzrn6HtMch7+T657OkhhLpCzeZu14IURJeT+ZVU4RgGaUsD2T1o01aalixXCR0kKBOdUw8y+1jP4JUF9EQUeqs76cw41Vl5MzpQ3mcxjnN0kcq5fCE7MSEn9BmAw5J4jVN8Zm92YqPWgpEkK0wcaxdIn0njcuuYZE1lx8g/w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2huvFp/mAnt2ozXFKwtSvu8IC7sm2+Q6WgAYcXwqf/4=;
- b=G4XjJwHwAwo9VDeeLTuXoVwLJM3HqmXD/1JHCW+6VzJVS9C/BZVghTDi28d3pV47fSr/PRyxcaAF9aCQM20w/RHRuO+4KPg4yDZApa78YP0lF6H2+S3K8zIc7T+LIQiNyCj2OWtBxzLEcI/lULRJaHyEOb6L/M/+D6kur74ccC8RPIhzn0xAkfGrI2KhDnONS0ur5Ye9QcCjO6XCB/RWRpnl61f0yAnyxcrehBY6I352WqbtpSlikXsXZVixteOkDmKTMbWjz7ZpmyhRvs0hWs06uEoRCpHV45ivpLQSWUlxAk4IQ85VkE8P+Fe1S3eleiqGAy005sxeszBkzW/7Rg==
+ bh=6GgPaKhcQPSVQyzazNduRj+lv5C9sJGgmpbRHdwSUwY=;
+ b=k31Hm5PwrPsadylhy13ogKB2fZLO8D0VSzNd18ZopBBYKnD/eIPTVCm3SFFw1Qw1/9vfepOEKa6eLuV3T/lwDG+mbICEKnRjViIlOYgELFbGwvEYBednB5k3u6GGCMZN58Ag043F99Z+KvLgcygX2oycSF/krsokoSM6ykH6A5iGrAoSc6d9lOFRxXpsGab+zNZra8lQWJT1o2aVBOoTRv6olzNUrJ9A77FjS606TkdPu7QQpNLLAk7Fg59hShJaeRrQSojwsjddEbcvtlPV8/4R+Fn0s8JwgPb5c440uTWTtjVhXS8jg9NsYdx2BxxaiWY7acyRRJ2xWhPd9OADzg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2huvFp/mAnt2ozXFKwtSvu8IC7sm2+Q6WgAYcXwqf/4=;
- b=IEgR6Zd1QcwuX6AXq07iquZxSPin6D4DRXg6yYDq+P+JIu58hSc4ayU6teO2raoL5XgPKBSAgD0q25MEZG09PydoeYe79PWWY3Y79ojBBCAC23MvhUIBlMAdbj8j865I58DAvwdm2oSbkU5XCZ59ThSCF8FJCUL7wIal5x5goPw=
+ bh=6GgPaKhcQPSVQyzazNduRj+lv5C9sJGgmpbRHdwSUwY=;
+ b=RwuuXy4X9HM2wJ5CMw73Mw13TfIVAk4wMk28zgulhMATAOOMLF8uTZRjMbVxBBIAfCuaz/qfXJ5HgQxsiWx1m8rRHOI/BDj2zPd4ij4XJYdUIEri9PxzjQkmlOhhjbMEAC7+J9Le4yVkdPcy4ynnQz4yV2JfXjEe8Gz5J5imPHc=
 Received: from DM4PR10MB6229.namprd10.prod.outlook.com (2603:10b6:8:8c::12) by
- DM3PPF2FC05F2F4.namprd10.prod.outlook.com (2603:10b6:f:fc00::c16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.11; Thu, 23 Jul
- 2026 09:37:11 +0000
+ PH0PR10MB4678.namprd10.prod.outlook.com (2603:10b6:510:3b::8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.245.10; Thu, 23 Jul 2026 09:36:56 +0000
 Received: from DM4PR10MB6229.namprd10.prod.outlook.com
  ([fe80::867:63e7:13fa:fa7d]) by DM4PR10MB6229.namprd10.prod.outlook.com
  ([fe80::867:63e7:13fa:fa7d%6]) with mapi id 15.21.0245.009; Thu, 23 Jul 2026
- 09:37:11 +0000
+ 09:36:56 +0000
 From: John Garry <john.g.garry@oracle.com>
 To: martin.petersen@oracle.com, james.bottomley@hansenpartnership.com,
         hare@suse.com
@@ -84,102 +83,101 @@ Cc: jmeneghi@redhat.com, linux-nvme@lists.infradead.org,
         linux-kernel@vger.kernel.org, nilay@linux.ibm.com,
         john.garry@linux.dev, hch@lst.de, kbusch@kernel.org, sagi@grimberg.me,
         John Garry <john.g.garry@oracle.com>
-Subject: [PATCH v4 15/28] scsi-multipath: support iopolicy
-Date: Thu, 23 Jul 2026 09:36:13 +0000
-Message-ID: <20260723093627.2327456-16-john.g.garry@oracle.com>
+Subject: [PATCH v4 05/28] libmultipath: Add support for mpath_device management
+Date: Thu, 23 Jul 2026 09:36:03 +0000
+Message-ID: <20260723093627.2327456-6-john.g.garry@oracle.com>
 X-Mailer: git-send-email 2.43.7
 In-Reply-To: <20260723093627.2327456-1-john.g.garry@oracle.com>
 References: <20260723093627.2327456-1-john.g.garry@oracle.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: CH0P223CA0024.NAMP223.PROD.OUTLOOK.COM
- (2603:10b6:610:116::12) To DM4PR10MB6229.namprd10.prod.outlook.com
+X-ClientProxiedBy: CH2PR16CA0017.namprd16.prod.outlook.com
+ (2603:10b6:610:50::27) To DM4PR10MB6229.namprd10.prod.outlook.com
  (2603:10b6:8:8c::12)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR10MB6229:EE_|DM3PPF2FC05F2F4:EE_
-X-MS-Office365-Filtering-Correlation-Id: bf61f809-4dfc-4408-5232-08dee89df8be
+X-MS-TrafficTypeDiagnostic: DM4PR10MB6229:EE_|PH0PR10MB4678:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4f7d9cd7-a583-4285-32c0-08dee89def54
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|23010399003|1800799024|366016|56012099006|10067099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info: Hc+MBhhUamU5cWei1pcNQ6MooK5XPXLAMPVmsZyCp6yXMRJc6dyK6Q64gApUIXgzOD2jp3tncKcRAKd2rTS3k43k+gwsn8sTyP04VdDIsVLNSrUNmlWfiB7TN8qNOwD0X9AbHnC1R2nNuuqHbSuvXk+KNuBtGXZ8zW7FnIBi+CbnkYCicUW68e1Daeq1PTWXB+TcYg7h6BQ5sia6kWjIrt49IjtrQxqNOeZgrhGwarfqN0jD5lDzBLsMPF/ERkOfkG3hZa5qVZZF/jQVsVCfLK7eyx7hiJJIVIi9MuCSzSkrSqG7DVhXDB12477v6jxxct6SBUFATWAI0nRJ0ffbdMjfvNuCNkK/ry+Lu50Ec/CveeO/7jz80nrxhry97XyVlTOze8HJqFJRIYDocmTIKcYUbpQAHd5iMf5gKfR1OZdzjkVE8YBYE3FhlEMFA2GOXwghvULFyuhUfJbhZv7WecjJv7pct8hd7m6aXFJUSa1GDE6J9RZaq2czliMQtM5ZeCsiEN8pGtgCz6SnLpAt9VsfuAyNcT7hCs332xhl+9VG1SW+v1nR30PFE1hFU0PawJW4CEK7JDXAGAOurw7ZHXWt9+78kwAOY3df6ljRo0rg0L+tbfMMEfrJBoIv6p9Ig2Qg6yY6EIVdlNo2OHTZxc4uua7aSXCTIBq6OmqlIT0=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB6229.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(23010399003)(1800799024)(366016)(56012099006)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|23010399003|376014|22082099003|18002099003|10067099003|56012099006;
+X-Microsoft-Antispam-Message-Info: cRP6M5qi2UisjDJ1LtwmUkPpcongqzLf+2fFzMbvzNEU5/xgtUjnWH+4wdPttd3QLs+Iq8s8CCNUybCRXaf+N7UgQElFjH4U6EKG+V9fBOp3XEycm71Ll//s8IgbxwxIyHnKO0IMmb7ujhaX3UcZeeiBYg92NrDi/gLuxG0sVEZuM/aFQYlOqI0+7qemALFaZ7Ucet9LVNIXhlvjtFsuKk0z5hZ1yw/+dE4iDtFdf6xd48DzrAvcKoejNRj+fHBhyGg0kB+LwJ6VFam/WgvYYC3k+k0FrMtMdaUv8CfBmZKQ6wa8ACGgUFKov4u26bZjFi8l/FkFyb/BIpgXmSeNylid/qCXQhDYAJV2OJNwF+I2Z2ojjVwxWc/NOfgPuJ+hlKnYrjI1joWYWV+5Ti6oWDjcccc/Cs8oyJ1guFoRHIiOH7s0U2rgzg/ZAkFqsNIRDKITcWIJMj+IxOo0V6w1aF7UA5dN6CJJrAoim9tGWFaXKjnvaxtV0d5JPalHw9MsYiU0QW8I8E5J0x1I31S4/fhaKjh06uwRLnT7jE7mUly2i2hyVFs3zzSo1TkyuiafC2Tzr+Pg66IsmfREz6cN7JL+oKxylEgU+XNdmXdsPVvXuzNZFx0X234Z18l05dSE4XCF0NiVISWbBvAjvi2t7c71VAqZvYWE9NbLQwAO7Yg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB6229.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(23010399003)(376014)(22082099003)(18002099003)(10067099003)(56012099006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?u+StYWm2JtOhV3N1ekygntusnGDoeD3XxhruGXx0lC+HK1HjZgtADpL44tJ4?=
- =?us-ascii?Q?7Ngh+Z+nifFH5nvdG8IPa9vOmAVkDdJz00J6zVC9wiaLjouHPZAkcpPX1nTo?=
- =?us-ascii?Q?MUe4yn8K6CcmPbX/n2kg/ENNUrthPunsLrgItrA8HsICbse6BGI/vDB1Oyfn?=
- =?us-ascii?Q?HsVmjLIqupcYp3G0XsJeE7ZRJOINP/XG2n0PokzHXSIWccHCu/c4wqbIctjw?=
- =?us-ascii?Q?ByiLLeL90vNcnCpWOTkNuL93v7iWa7RSHZqmkV53ezSzBvHrOJRx1hosExPJ?=
- =?us-ascii?Q?9SYYCPHGNM1sCqcF3I8XUmLctkD/O2cVWrP5benb6wKnzv/6wnrbBlVN064m?=
- =?us-ascii?Q?Kfc8z2cGrHJRzMGEx/W4TL+NC1Cqmse8IdBcc+XfHnK6qZJxsImFb5Sg7LFP?=
- =?us-ascii?Q?/AaZT77X228wxNmXObZXB64LN8wr99oTURhQ6E8bnRvT6M/nJWnUDFpDXvK3?=
- =?us-ascii?Q?6TskWuYatZTTTb2Vo18JX9LbChV0IV30qf1rODfx7GP3sEby5PsMYkmq96+S?=
- =?us-ascii?Q?Jm1YzrUVlK3kMgt+b6m9Ln4ScrCGjopJovW2zWV7NjhLa/NFBf0ux2yMExVG?=
- =?us-ascii?Q?WEVsl65+mYKlwd1oYzdsbHV7fM6eIBxpLRn1XgZADiYmQBP+KVBfxVUZ2EZH?=
- =?us-ascii?Q?pmyVQltaj1wUE7EIjAQ0raOmmlHsDMj7aIm3rmpWrlQjVB2fYy1VAjfmeiEz?=
- =?us-ascii?Q?dAhP7v9g16MXTVYNl0quziYEcmENw8LTjMwOqExxlh1zNzaLVgAJNj1Fh5eA?=
- =?us-ascii?Q?VBrr/JPImvrejeWcRVUWYVqTv23Hz4yLuxFyCTu3LHSI9zhBiV7IntJ/L/To?=
- =?us-ascii?Q?nzrTx3KvUOB6W8F2e9LY6VBJPfBiU39Ah/QsXRfmUbPYSFqYKt3exjQ6/EYo?=
- =?us-ascii?Q?zXmr96iQ7kw5uVOe6zmb5dApRw8VWNaaHEFRfkp/uSwQGKfvtUTsHp7W8epA?=
- =?us-ascii?Q?llS4EnZQL1Kfvx0GUEciHBu89FgN13F49DqEFxujoucNFRGAPNfNKIFMBxYE?=
- =?us-ascii?Q?19woWOkxL+z6DfztHCEBhrK13RqVw5D8WfYqbxH/ahY2iYZVsZeVY3++cWGZ?=
- =?us-ascii?Q?E278fYkwrqspoK4TL16QXmyJQSo+ql3x4/GOjNrINAz8Whp4Iz5m1Djbehrc?=
- =?us-ascii?Q?LjFImzI8MHV1QChgFExROCQhLCdBZ9R83bd9Hh/9bti91bjH2toFoi5F+P7M?=
- =?us-ascii?Q?2EFd9vJanvM351jnaUNpVdUnpBvm9h7ZokioKQvgEBep9Khujl+Li8ebMlQE?=
- =?us-ascii?Q?NWztAXy0PWaYdXhKbJIkK59Iz0BRwsl5meiYSwU41VBORBCp30RUB4fx2bUa?=
- =?us-ascii?Q?Wo/YUTdS82CChGdw9aO7WcJ7HjSjnaF3R8kj3/FJH+EM5qeSGR7IhphKzBA2?=
- =?us-ascii?Q?nnwYXWjj8b6jU5fZKsY56G3fdUv1D410+GRaCCBIhfgtJO/Q3I8JZ+SBwsIz?=
- =?us-ascii?Q?Pt3iNUEwQxwUHLRylSMRDPJWvV4lET1lAvsqxqZeP9wKZ4nFQx95jhQvNgSv?=
- =?us-ascii?Q?lWTli3lxOLA3LeWCTiVLf5V62IfCh+crwzhgQuITQidyHsRp3bv6oXb3Itbr?=
- =?us-ascii?Q?G/SW7IOcR5d7CZwtlgTtTkARVeXn9RpJccf2uSERYU819iLilbfnnK8hf7ZR?=
- =?us-ascii?Q?LN9I+UxX/a+KzRA23rezcce0m11QtBWFpzFv9Vt/Fy0KSINhPpMWSStfzgjV?=
- =?us-ascii?Q?qnPDkfXjkUItR7huZ2PT8RLZgu5j1C2/vXalx4DUMMDDe7PbfnLDNeVHUwRG?=
- =?us-ascii?Q?O9ATICM1LXuom7MOUA4tFDbaY/CVEM8=3D?=
-X-Exchange-RoutingPolicyChecked: MU0oLo1ziKGAztB4CFKByX2pfBc/rilVmzTIneM7NYhi9oRBVOLsZAmiMVH0xcZ6DOy0jfhtjxPldAYfrbwrf7yHICZZhx63pzUD5NC5Y0w+3WPfb7B6qDSM4IdbpfbRFBtEyzHe0VbyjoFQlSgKParG/Adf8z5bcEGbYqEirwQoViay41upQFP1cH+6ye16n1ndviv6ll+AupmqrQI0PppgEgMGKNQge7qtIGIWupTCd+JYLq36a6qhlpORTpGP21oKqqaL0KN/5xYbCBY1srEeeJNQv61ShA68fC1rZRwyDuQs17kdC4DxOkjlJtyqWPfDq7A+VwYhZSkGrjQ3ng==
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ctBE7xLFMzSJLEVkqAPzWk95q3fUIfm954j7oPQi32zQ30n5GkqaK07jLlOQ?=
+ =?us-ascii?Q?/EiTAbFT24ISWMpAP6cWcEpsI3K8E6jLiLbspvAku+eaAJpLVKRNDSoVahxs?=
+ =?us-ascii?Q?QTWbFmQyrMPCV+ms9Rfn3auv1iz60VGTyVJY9s9bttY+n0ZyxeQQ4uDqF84s?=
+ =?us-ascii?Q?fz7LCuqboVG1/lqPi4Y43mCyL9nm7VInytcaQegUPDhTXetsWEtdjYgKD7dV?=
+ =?us-ascii?Q?pXz6QnmVPLg3GwvBIZutlHlQV1kiI0cRAsowGkcPrfMA4yby3VdfeVsgNgIy?=
+ =?us-ascii?Q?ScYqgyNiDRi/hvRrpKHAA5EDsXwL8PSGBG3H17US6/puXrmKopCy4dTv5jsC?=
+ =?us-ascii?Q?gmg0m0D0oLtYRbVJowhfdkcj8v0D1zITOFqyq2+oCtF5PPnsoOeN0w2ax4cU?=
+ =?us-ascii?Q?FA0pgcyDFN7KcxWAMOzqSUV5hKzCpeOHPy4E7JXo9Jl0JxbEqq7PjErW5l0B?=
+ =?us-ascii?Q?4eg93VcmH9Oza/xpT/Oi+z16IHyXRVzoZJUHqf+MNH5X3xMm8EsHNNaNh69e?=
+ =?us-ascii?Q?zM4QJil0jmZzZ1iN6apC4L14vQHG7yjYXSnGzDbfBfzetRDQAJNW0oSHlTbM?=
+ =?us-ascii?Q?sswEcVTft1CHaaNUwolMayQOpIbvKgRUghbtmi+zybjDIslqkpC4b05aZfsF?=
+ =?us-ascii?Q?WtdP3ZNo4SghfCrT4IgjuvyXeJl+CEPAK5FjaBYr6Q9TE+YcDmJdqLKBvi21?=
+ =?us-ascii?Q?kG7vuhiSMXLM3IwM0LOptqV+JZuw7RHFKBKmRcQbxtPgY7OkT5sJDcCBeqSj?=
+ =?us-ascii?Q?O1Ix9NNiGviDmjL2gU8bDXqX6ZcU1tQGqzIbFPkuGpH1z8/3PP6donE3Qt2L?=
+ =?us-ascii?Q?TRDvza217LfyGsH/ikBZ7ScAgZg177A6lUw9bDzc1GentzOugdatGalG2A2+?=
+ =?us-ascii?Q?/6XqvYFjWmgatBn7KEo9XJGXXrQQyE/eT9apOCrEtxTYzFNHmUj5eDDa3+jM?=
+ =?us-ascii?Q?Hn3Ey3pi8lC4svgZHJ1DVbTG+dQIGLBXK9pLlJLrWjngDtDIZUoM8oVml/N2?=
+ =?us-ascii?Q?1Us0VH+8wsmS+fLSXGk4AFzJjqxRWeFw0D4nlB8RZQXQOnvwNX62J5MCmGW/?=
+ =?us-ascii?Q?hPA/bxw041i5QM7e/7U/z9BF9+skG3ymzDf9tbmSWLP4jgN/Y6W+Hs0Iaha8?=
+ =?us-ascii?Q?E8sHoAfkhAyWI22jTkHpFkucjoof7c9pUxedu/+oU3VSWr/s0aEABPIR5rG9?=
+ =?us-ascii?Q?BuHi2wGxe7oM6OPSJG+la2He2d0yK1MRfXeVpXRlJkazx+S3JlKq51RX/gsm?=
+ =?us-ascii?Q?CBz/NCyKB4MM+E7nD3zQV9wZ809J/3apwj9CKUz4LMWt/YI+sOq+/WgiAcJg?=
+ =?us-ascii?Q?uoGYmq5yVQUTAD3IjJq5MCJB2ExDYXzJrhEwFB2QDBoNXwohdy8jN9WwCMaL?=
+ =?us-ascii?Q?Iy4yZ4THJjGBBmA5fh7C8WjkaifGF5UV23lFhLVoc/p6qzII/uCM458rotOh?=
+ =?us-ascii?Q?7B1IkHjZTaKPiHfdZQKEAkPZ6THzOMak7XcC9D/iWiZRxwzBQfqoEllG85aI?=
+ =?us-ascii?Q?CbCW4/Dv9StuJs+tntd4xcm9tMZfetixXv3lIBe7+jE7WOoq9JeQi2cNezYC?=
+ =?us-ascii?Q?WwCV9rRNQw9zOonzUBQHBBu4KoE49nkwHCxCh5i1F2qRR4n4BaFYgoy8RmqG?=
+ =?us-ascii?Q?OuNRTokrsf81nSRkHkA+3K4xvcGHiUMYFa7yDk8Yo4tdPd8PJuDwnkHiRQe1?=
+ =?us-ascii?Q?bwgMaST5rMP4LOb/YRTCm+WNhe+BGLfO/z7AV10j+CaAb1BhMh5C/IqDmelV?=
+ =?us-ascii?Q?CDWLLJDNeQ=3D=3D?=
+X-Exchange-RoutingPolicyChecked: cGRj1i/cYK3ZSaeiQ+uLyjGDdJtz07gs4HtfBnASXump59r30g2uJHCfZeGebl14adQ/O30Duq32K7K+YMEBR3eVwlA2fxqVVme95aF4JUomlnnTWZJ0HOhFRdYxurinO49R3XxahaTFQdv0hFujvmDoPv0LDNANBxhhwDW7MIu4Buh6a1fFcZwGb6xO2x0JImvL42IO/SeKRwgADz4SvVmq2nlhAejcvZ3u6GMoPehLZz4iVQjgyLoW34IPzYuP4QgrC+orh/3JPmwwtN0yeYdBVlPEwk95QCiK1N7N+qAiUVMhyANGjeNL+I7BjyMeWcyb2Z7+wcQhKahBJT/Xvw==
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: IijRYVeNxbEBLK5qlmzLby7n3MoYNh/wvonUdSdIxacAUsLfS3SUMZ2UQ5bcN6m3d656OSsPQJ+/ze39yeCN/DX7GrgdgF53nHZMmW1PfhVH3aT0TtIc5sLcO999Eb5wrWjXynjyMu9LA61p8QPehMkEPI3KNmRYkSqomaFZ5vR7ZPpdYx2h2az8c7YWOQ2ErXQa7CledcufHDBDqRxLk611C53fAdQWatWetuAhrma325/kXmRkXvpYyTPrBDNDe5SGOGjDRLz0lfUxi4OB83E4eupAY+dNyu8dTHE70IcZ+1R/3n7qR58z6Kouk8dnLcALoKattSvEMMWCDOF+6DcCMH0j61W9RBagkyvLcYoNZy/BeTUp8sDWt7/pYVUcRCvCIxZn4e1Fw8+Vzv9QKPUdbD5rEHTbx1zPsbsckIs0TFzE1aWBbwDrYmxxP+0BvxQfMkgYBfICTVus3La415SxnAd8dXaBUzsHEbVqXeDm/o1+7gDeU/SVyEF9xCepldcANKeNa5VG4yhO/C6+JCRcZ0oTlqdfc9XVxICRpv+RsuJigw1/4TXuoMkdVn2Gz9eDHBzBosxw42akommcszMZaCw2sq1XkYvsV9od/MU=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: VJjT9vsV2R93OZ51BJFxsyaNsor72+JcpBTjRzY5V6W/QjH4H6roGtXBtywGFoJtK+uzDq9SR0KHkOL5RyUKBa/kwsvISbN2Mx1z7H4vE9buSx4IHbvJ0xSF7hH6OegJii5RuRqGOuId6ebLY6l+ooFfG3sjd+lm1rrkNChsWdADEfh/dZ0MMK6G3sZJH4RnvoLo7Awnq5ri17pW4nfBOVTNTtqdHNgbP1uBPAGVy2ejFhESQmAAILXCKw1S49/fgYlCKM+C/d6I1XYW85uUpx6gqyCbawD29x15PH4ok7V+TB0jHClB0sHnanta8YS6ptsjNlSngMCir8cve7W09qjMxJ5PVeFIZzUH3SzezFOhuyW69VBSElRzK2/ptwAV84Pq8RrhT2dhAsQtM5sXokiKhViYKdACswZcxUnFjMi/k/qJ9WOSbSNJ5DHS+xaj+iMnd+3LL1X5uBM1byv4lUN1U/HnxUzMBTymYrCl6LAlBZH2lF2IbBkeRMz/cmaG5AJwmBw0Uq5nkWwTEZKd2SHedXq/nFFka0DWP0537ZaaeV1ASwC7TenJB/NgONubL6GCl6UtXAFv/eEQW05Dp9ExjX7rc+ldvg6oNHuxbAI=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bf61f809-4dfc-4408-5232-08dee89df8be
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4f7d9cd7-a583-4285-32c0-08dee89def54
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB6229.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2026 09:37:11.6697
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2026 09:36:56.0761
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8G+jiCqlSMe88eA5TMsm9BbjKj5dJ8fTUmRV3zb8Mjf3QlNoUVO2Py1NpevWnsr8AtCQGuPyGx6698SPFO5NVw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PPF2FC05F2F4
+X-MS-Exchange-CrossTenant-UserPrincipalName: Z3FO1+Tx2HXAXH4YvyzFVnEMzNpSUh2v4J9+A3lWXZXgETcLU2mGxfR9oqgpZV5HRS9aSysMpCthKrXel56IYA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4678
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-07-23_03,2026-07-22_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- lowpriorityscore=0 spamscore=0 suspectscore=0 mlxscore=0 malwarescore=0
- adultscore=0 bulkscore=0 mlxlogscore=999 phishscore=0 classifier=spam
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2606160000
- definitions=main-2607230093
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIzMDA5NSBTYWx0ZWRfX8MMeNHCcKNwq
- D0RK6xPQU1wNriqe4DEI5o9TCRyHmIQaOBw6PCA98hbhyH+eFwjR0c2B0z7b2wHser0jqXnXhRi
- 4xU4udpCumsqmSEUWC3JUWrNiyRWy1yeLV//5n1NUUhU4eJ9d4F4NIMzAHxp1Bq836NbeingFV4
- k98EtJU/D72HOJCycRYkwO1/kMv+MSvV74YN1upaFbKx+TkEei/EHFT9bxKC4xAuXrAhqZru9fj
- G47RGfr8LeMxj4SFd/NSFxP0J09A6zvD3yyq3N5WnNj7q7opWrthxsscf8mllbUfTAa6Z4mirhf
- T02yNVk2YKyK4AcodUqiXRiMfYiUFZTWl/NMjiMcU4Z9xrzRNxPwzKdKahd+zHN7vItXPUsYLKj
- WT9fHfdYx4cKz54CyT+NZoapD3LTseKojhp9tZOaMmdCx0S8u5oEPw9ehg47inONUFBhbyoNYNK
- LCorcjoWhgDtMLVvQlzw36IRrEQ0l0Gnjfdz42FA=
-X-Proofpoint-GUID: EOTrwcP_wJLn31FSLKmT0Klviw9j87u-
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIzMDA5NSBTYWx0ZWRfX+9j7OQpGfN8Z
- /rdktsRHSWjJF4gTRf8dTfbkEnDWQELs7CyPYT/luyEnb4RwhI46Ct+eoBo+/A3kQapoFk4wY9j
- VDADpmw6e+bqqCAWrbgZvuQIUL/c6IG1ZYqkU3WXu4Ggfd6sf5Bc
-X-Authority-Analysis: v=2.4 cv=ALkdLnG8 c=1 sm=1 tr=0 ts=6a61e0cc b=1 cx=c_pps
- a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ mlxscore=0 adultscore=0 suspectscore=0 lowpriorityscore=0 malwarescore=0
+ mlxlogscore=999 spamscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2606160000 definitions=main-2607230094
+X-Proofpoint-GUID: jeTC75lV145Cw8JwK42tNXws29VECpMB
+X-Proofpoint-ORIG-GUID: jeTC75lV145Cw8JwK42tNXws29VECpMB
+X-Authority-Analysis: v=2.4 cv=IsYutr/g c=1 sm=1 tr=0 ts=6a61e0bc b=1 cx=c_pps
+ a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
  a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=RAioF0-LDSMA:10
  a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22 a=jiCTI4zE5U7BLdzWsZGv:22
- a=7Gl3-_t3PgB9XO-mQDs3:22 a=yPCof4ZbAAAA:8 a=8fwEAWchWUUFBy44-ZgA:9
- a=5yU3S35YU4bGjq-dph-N:22 a=Bho9c0fBagfJEIQBS7DQ:22 cc=ntf awl=host:12114
-X-Proofpoint-ORIG-GUID: EOTrwcP_wJLn31FSLKmT0Klviw9j87u-
+ a=3I1J8UUJPc9JN9BFgKH3:22 a=yPCof4ZbAAAA:8 a=WlZ9DiTZ2y1qVm1cHVYA:9
+ a=5yU3S35YU4bGjq-dph-N:22 a=Bho9c0fBagfJEIQBS7DQ:22 cc=ntf awl=host:12115
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIzMDA5NSBTYWx0ZWRfX/MEan7YCifG9
+ 28Fkc9ApNsJ/QSp7+mTPzd2Oxcu+Rcd5bVS/gJdMs6rM7DfLBy5kuf+IIO4CktfjOLCvRsNyVLx
+ Av3Uy6WStr1A9Urwx1ybPrpFC6/EyJYv8zm1SawKhYdICdfnwZo5
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIzMDA5NSBTYWx0ZWRfX/+okhEaVKkQd
+ 5yYqbfylkPjTcdST/I7n88GJ7G0C9C0ZSYFr6V36nd8iJTLYZMlf9MxObR2T1jO1TEi2CwGLU2l
+ P5nUFCfemYj6qnOf4rXWkYSX7z/C5pkdiA0/DrgCTt6/BZOpzWBaCluSJln/d5Dr7QlFeu/EwzX
+ HPpq1VAU4RVUDA3RIr0wE695F5RkTPLM56mTX1deH7CYkV7AH/siSYKZYqectRDUsfz6vTy5ixL
+ jldWHV/V988W8udfWriVWqzw7mMMgF6YM0xl3M3xE5DdRMyPQuVrIufHhJ32PBgfCutURvvWus1
+ EcYWy0bj0o7KVVrbHoJWLTNzNFgYmVnFmfZADotFSGZnW0HgI5WhNBwHilyjt/4Im7l42fybEiL
+ fzAQfz4/QNWdc/4a/Dy8wvcyhXCUiWgO9MZ4KUZgCbHKc3egMWH/A+XsdWwOC+Em2QbbeuCCL95
+ PK7o//84Eh8iReY8+YbIgd3h63H2G6vXW0vz0T8E=
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260723_023732_034605_E8DDD45E 
-X-CRM114-Status: GOOD (  15.73  )
+X-CRM114-CacheID: sfid-20260723_023708_126012_FCF32F7E 
+X-CRM114-Status: GOOD (  14.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -194,113 +192,238 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add support to set the multipath iopolicy.
+Add support to add or remove a mpath_device as a path.
 
-The iopolicy member is per scsi_mpath_head structure.
+NVMe has almost like-for-like equivalents here:
+- nvme_mpath_clear_current_path() -> mpath_clear_current_path()
+- nvme_mpath_add_sysfs_link() -> mpath_add_sysfs_link()
+- nvme_mpath_remove_sysfs_link() -> mpath_remove_sysfs_link()
+- nvme_mpath_revalidate_paths() -> mpath_revalidate_paths()
 
-A module param is added so that the default iopolicy may be set.
+The functionality in mpath_clear_paths() and mpath_synchronize() have the
+same pattern which is frequently used in the NVMe code.
 
 Signed-off-by: John Garry <john.g.garry@oracle.com>
 ---
- drivers/scsi/scsi_multipath.c | 47 +++++++++++++++++++++++++++++++++++
- include/scsi/scsi_multipath.h |  3 +++
- 2 files changed, 50 insertions(+)
+ include/linux/multipath.h |  14 ++++
+ lib/multipath.c           | 154 ++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 168 insertions(+)
 
-diff --git a/drivers/scsi/scsi_multipath.c b/drivers/scsi/scsi_multipath.c
-index 59d1c0b2d3441..6228ff4be4ff7 100644
---- a/drivers/scsi/scsi_multipath.c
-+++ b/drivers/scsi/scsi_multipath.c
-@@ -61,6 +61,23 @@ static const struct kernel_param_ops multipath_param_ops = {
- module_param_cb(multipath, &multipath_param_ops, &scsi_multipath, 0444);
- MODULE_PARM_DESC(multipath, "turn on native multipath support, options: on, off, always");
+diff --git a/include/linux/multipath.h b/include/linux/multipath.h
+index 57d13eb1450cd..6915c2a979642 100644
+--- a/include/linux/multipath.h
++++ b/include/linux/multipath.h
+@@ -20,10 +20,13 @@ enum mpath_access_state {
+ 	MPATH_STATE_OTHER
+ };
  
-+static enum mpath_iopolicy_e iopolicy = MPATH_IOPOLICY_NUMA;
++#define MPATH_DEVICE_SYSFS_ATTR_LINK      0
 +
-+static int scsi_mpath_set_iopolicy_param(const char *val, const struct kernel_param *kp)
-+{
-+	return mpath_set_iopolicy(val, &iopolicy);
-+}
-+
-+static int scsi_mpath_get_iopolicy_param(char *buf, const struct kernel_param *kp)
-+{
-+	return mpath_get_iopolicy(buf, iopolicy);
-+}
-+
-+module_param_call(multipath_iopolicy, scsi_mpath_set_iopolicy_param,
-+		scsi_mpath_get_iopolicy_param, &iopolicy, 0644);
-+MODULE_PARM_DESC(multipath_iopolicy,
-+	"Default multipath I/O policy; 'numa' (default), 'round-robin' or 'queue-depth'");
-+
- static int scsi_mpath_unique_lun_id(struct scsi_device *sdev)
- {
- 	struct scsi_mpath_device *scsi_mpath_dev = sdev->scsi_mpath_dev;
-@@ -96,8 +113,36 @@ static ssize_t scsi_mpath_device_vpd_id_show(struct device *dev,
+ struct mpath_device {
+ 	struct mpath_head	*mpath_head;
+ 	struct list_head	siblings;
+ 	struct gendisk		*disk;
++	unsigned long		flags;
+ 	int			numa_node;
+ 	atomic_t		*nr_active;
+ 	enum mpath_access_state access_state;
+@@ -89,6 +92,17 @@ static inline enum mpath_iopolicy_e mpath_read_iopolicy(
+ void mpath_synchronize(struct mpath_head *mpath_head);
+ int mpath_set_iopolicy(const char *str, enum mpath_iopolicy_e *iopolicy);
+ int mpath_get_iopolicy(char *buf, int iopolicy);
++bool mpath_clear_current_path(struct mpath_device *mpath_device);
++void mpath_synchronize(struct mpath_head *mpath_head);
++int mpath_add_device(struct mpath_device *mpath_device,
++		struct mpath_head *mpath_head, struct gendisk *disk,
++		int numa_node, atomic_t *nr_active);
++bool mpath_delete_device(struct mpath_device *mpath_device);
++bool mpath_head_devices_empty(struct mpath_head *mpath_head);
++void mpath_clear_paths(struct mpath_head *mpath_head);
++void mpath_revalidate_paths(struct mpath_head *mpath_head);
++void mpath_add_sysfs_link(struct mpath_head *mpath_head);
++void mpath_remove_sysfs_link(struct mpath_device *mpath_device);
+ int mpath_get_head(struct mpath_head *mpath_head);
+ void mpath_put_head(struct mpath_head *mpath_head);
+ int mpath_head_init(struct mpath_head *mpath_head);
+diff --git a/lib/multipath.c b/lib/multipath.c
+index 448d879abb354..20c633ad7e1df 100644
+--- a/lib/multipath.c
++++ b/lib/multipath.c
+@@ -50,6 +50,87 @@ void mpath_synchronize(struct mpath_head *mpath_head)
  }
- static DEVICE_ATTR(vpd_id, S_IRUGO, scsi_mpath_device_vpd_id_show, NULL);
+ EXPORT_SYMBOL_GPL(mpath_synchronize);
  
-+static ssize_t scsi_mpath_device_iopolicy_store(struct device *dev,
-+		struct device_attribute *attr, const char *buf, size_t count)
++int mpath_add_device(struct mpath_device *mpath_device,
++		struct mpath_head *mpath_head, struct gendisk *disk,
++		int numa_node, atomic_t *nr_active)
 +{
-+	struct scsi_mpath_head *scsi_mpath_head =
-+		container_of(dev, struct scsi_mpath_head, dev);
-+	struct mpath_head *mpath_head = &scsi_mpath_head->mpath_head;
-+
-+	if (!mpath_iopolicy_store(&scsi_mpath_head->iopolicy, buf))
++	if (!disk || !nr_active)
 +		return -EINVAL;
 +
++	mpath_device->mpath_head = mpath_head;
++	mpath_device->disk = disk;
++	mpath_device->numa_node = numa_node;
++	mpath_device->nr_active = nr_active;
++	mutex_lock(&mpath_head->lock);
++	list_add_tail_rcu(&mpath_device->siblings, &mpath_head->dev_list);
++	mutex_unlock(&mpath_head->lock);
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(mpath_add_device);
++
++bool mpath_delete_device(struct mpath_device *mpath_device)
++{
++	bool empty;
++
++	mutex_lock(&mpath_device->mpath_head->lock);
++	list_del_rcu(&mpath_device->siblings);
++	empty = list_empty(&mpath_device->mpath_head->dev_list);
++	mutex_unlock(&mpath_device->mpath_head->lock);
++
++	mpath_synchronize(mpath_device->mpath_head);
++
++	return empty;
++}
++EXPORT_SYMBOL_GPL(mpath_delete_device);
++
++bool mpath_head_devices_empty(struct mpath_head *mpath_head)
++{
++	bool empty;
++
++	mutex_lock(&mpath_head->lock);
++	empty = list_empty(&mpath_head->dev_list);
++	mutex_unlock(&mpath_head->lock);
++
++	return empty;
++}
++EXPORT_SYMBOL_GPL(mpath_head_devices_empty);
++
++bool mpath_clear_current_path(struct mpath_device *mpath_device)
++{
++	struct mpath_head *mpath_head = mpath_device->mpath_head;
++	bool changed = false;
++	int node;
++
++	for_each_node(node) {
++		if (mpath_device ==
++			rcu_access_pointer(mpath_head->current_path[node])) {
++			rcu_assign_pointer(mpath_head->current_path[node],
++				NULL);
++			changed = true;
++		}
++	}
++
++	return changed;
++}
++EXPORT_SYMBOL_GPL(mpath_clear_current_path);
++
++void mpath_clear_paths(struct mpath_head *mpath_head)
++{
++	int node;
++
++	for_each_node(node)
++		rcu_assign_pointer(mpath_head->current_path[node], NULL);
++}
++EXPORT_SYMBOL_GPL(mpath_clear_paths);
++
++void mpath_revalidate_paths(struct mpath_head *mpath_head)
++{
 +	mpath_clear_paths(mpath_head);
 +	mpath_schedule_requeue_work(mpath_head);
-+	return count;
 +}
++EXPORT_SYMBOL_GPL(mpath_revalidate_paths);
 +
-+static ssize_t scsi_mpath_device_iopolicy_show(struct device *dev,
-+		struct device_attribute *attr, char *buf)
+ static bool mpath_path_is_disabled(struct mpath_head *mpath_head,
+ 				struct mpath_device *mpath_device)
+ {
+@@ -468,6 +549,8 @@ void mpath_device_set_live(struct mpath_device *mpath_device)
+ 		queue_work(mpath_wq, &mpath_head->partition_scan_work);
+ 	}
+ 
++	mpath_add_sysfs_link(mpath_head);
++
+ 	mutex_lock(&mpath_head->lock);
+ 	if (mpath_path_is_optimized(mpath_head, mpath_device)) {
+ 		int node, srcu_idx;
+@@ -484,6 +567,77 @@ void mpath_device_set_live(struct mpath_device *mpath_device)
+ }
+ EXPORT_SYMBOL_GPL(mpath_device_set_live);
+ 
++void mpath_add_sysfs_link(struct mpath_head *mpath_head)
 +{
-+	struct scsi_mpath_head *scsi_mpath_head =
-+		container_of(dev, struct scsi_mpath_head, dev);
++	struct device *target;
++	struct device *source;
++	int rc, srcu_idx;
++	struct kobject *mpath_gd_kobj;
++	struct mpath_device *mpath_device;
 +
-+	return mpath_iopolicy_show(&scsi_mpath_head->iopolicy, buf);
++	/*
++	 * Ensure head disk node is already added otherwise we may get invalid
++	 * kobj for head disk node
++	 */
++	if (!test_bit(GD_ADDED, &mpath_head->disk->state))
++		return;
++
++	mpath_gd_kobj = &disk_to_dev(mpath_head->disk)->kobj;
++	srcu_idx = srcu_read_lock(&mpath_head->srcu);
++
++	list_for_each_entry_srcu(mpath_device, &mpath_head->dev_list, siblings,
++				 srcu_read_lock_held(&mpath_head->srcu)) {
++		if (!test_bit(GD_ADDED, &mpath_device->disk->state))
++			continue;
++
++		if (test_and_set_bit(MPATH_DEVICE_SYSFS_ATTR_LINK,
++					&mpath_device->flags))
++			continue;
++
++		target = disk_to_dev(mpath_device->disk);
++		source = disk_to_dev(mpath_head->disk);
++		/*
++		 * Create sysfs link from head gendisk kobject @kobj to the
++		 * ns path gendisk kobject @target->kobj.
++		 */
++		rc = sysfs_add_link_to_group(mpath_gd_kobj, "multipath",
++				&target->kobj, dev_name(target));
++
++		if (unlikely(rc)) {
++			dev_err(disk_to_dev(mpath_head->disk),
++					"failed to create link to %s rc=%d\n",
++					dev_name(target), rc);
++			clear_bit(MPATH_DEVICE_SYSFS_ATTR_LINK,
++					&mpath_device->flags);
++		} else {
++			dev_info(source, "Created multipath sysfs link to %s\n",
++					mpath_device->disk->disk_name);
++		}
++	}
++
++	srcu_read_unlock(&mpath_head->srcu, srcu_idx);
 +}
++EXPORT_SYMBOL_GPL(mpath_add_sysfs_link);
 +
-+static DEVICE_ATTR(iopolicy, S_IRUGO | S_IWUSR,
-+		scsi_mpath_device_iopolicy_show, scsi_mpath_device_iopolicy_store);
++void mpath_remove_sysfs_link(struct mpath_device *mpath_device)
++{
++	struct device *target;
++	struct kobject *mpath_gd_kobj;
++	struct mpath_head *mpath_head = mpath_device->mpath_head;
 +
- static struct attribute *scsi_mpath_device_attrs[] = {
- 	&dev_attr_vpd_id.attr,
-+	&dev_attr_iopolicy.attr,
- 	NULL
- };
- 
-@@ -201,6 +246,8 @@ static struct scsi_mpath_head *scsi_mpath_alloc_head(void)
- 	if (mpath_head_init(&scsi_mpath_head->mpath_head))
- 		goto out_free;
- 	scsi_mpath_head->mpath_head.mpdt = &smpdt;
-+	scsi_mpath_head->iopolicy = iopolicy;
-+	scsi_mpath_head->mpath_head.iopolicy = &scsi_mpath_head->iopolicy;
- 
- 	scsi_mpath_head->index = ida_alloc(&scsi_multipath_dev_ida, GFP_KERNEL);
- 	if (scsi_mpath_head->index < 0)
-diff --git a/include/scsi/scsi_multipath.h b/include/scsi/scsi_multipath.h
-index a9fd02bc42371..2dc02313b0496 100644
---- a/include/scsi/scsi_multipath.h
-+++ b/include/scsi/scsi_multipath.h
-@@ -25,6 +25,7 @@ struct scsi_mpath_head {
- 	struct list_head	entry;
- 	struct ida		ida;
- 	struct kref		ref;
-+	enum mpath_iopolicy_e	iopolicy;
- 	struct device		dev;
- 	int			index;
- };
-@@ -40,6 +41,8 @@ struct scsi_mpath_device {
- 
- #define to_scsi_mpath_device(d) \
- 	container_of(d, struct scsi_mpath_device, mpath_device)
-+#define to_scsi_mpath_head(d) \
-+	container_of(d, struct scsi_mpath_head, mpath_head)
- 
- int scsi_mpath_dev_alloc(struct scsi_device *sdev);
- void scsi_mpath_dev_release(struct scsi_device *sdev);
++	if (!test_bit(MPATH_DEVICE_SYSFS_ATTR_LINK, &mpath_device->flags))
++		return;
++
++	target = disk_to_dev(mpath_device->disk);
++	mpath_gd_kobj = &disk_to_dev(mpath_head->disk)->kobj;
++
++	sysfs_remove_link_from_group(mpath_gd_kobj, "multipath",
++			dev_name(target));
++
++	clear_bit(MPATH_DEVICE_SYSFS_ATTR_LINK, &mpath_device->flags);
++}
++EXPORT_SYMBOL_GPL(mpath_remove_sysfs_link);
++
+ int mpath_head_init(struct mpath_head *mpath_head)
+ {
+ 	memset(mpath_head, 0, sizeof(*mpath_head));
 -- 
 2.43.7
 
