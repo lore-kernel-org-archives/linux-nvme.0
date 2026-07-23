@@ -4,84 +4,179 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E95B6C44524
-	for <linux-nvme@archiver.kernel.org>; Thu, 23 Jul 2026 07:04:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 95121C531CB
+	for <linux-nvme@archiver.kernel.org>; Thu, 23 Jul 2026 09:37:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:
-	Content-Transfer-Encoding:Message-Id:Date:Subject:References:Mime-Version:
-	From:In-Reply-To:To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:References:In-Reply-To:Message-ID:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uhyBvDEhPU+sGnw3/t9PBXDk9+k140Odr/fon+soAPc=; b=QVFMBfkVmwld3d+gD9O3mX+YfX
-	PPbm/bM5IWmK5aFN44R4xf7OYNAYZL+6B4gV7xJ+AdeM0AlF3KUrRxDHRzNetC5FtQirfvDk18YhZ
-	jhPHYBVnRYsGiPZlaa2lEEURAS99YpTAcGyblU/8m8/Q7oXmryA410Ka9uLSjvYUMI5wJVmNYdneF
-	Q7GUTaHXOpogJdOSZ2qz0iKiRpyFDCAiwInTFTsBn5XbhiLzloJ+XlcmhCjAeqlxWnod07S6dlPoC
-	uhICht762KQd026kX3c9AP5HVCdbHw2cboAKvWVIWHt4h2LXR41yquQmL0cq/DFNXkEgiOIu9qEcJ
-	bQwFr1Mg==;
+	bh=9eqajpk4+3ws8bxcDBFm5ZwUraG8nNOzrwN0wwelu5o=; b=1phWMDo3skEpKMFmp2m94vFmpa
+	PXLP2WfKG+STiWKdlzoagRPe0J1tn/eIw4zrck1+1ctD4eZ/RYoMQEHdtwxU2Dq/L69IPjFnbRi9S
+	wTBbpWkU8tRE3TFSfZSLkC+GjusiyG1hvYJeWgvTNLGC9XplWttpE+ZSNHY8dOqYh8aCsUgy5rf22
+	UFelG9JZ7DCu9BGR9GRG+8S3pPUuoV9VUcspStw7tZqb2bp/Q9Fqw0mlAOVSY+AfQD28oMeABDo7j
+	j/rW877tYwXRTNdfEtC5GRC59SVFAksjqI4ow4xkIr7MbZYf5BZOKiuY0bJb3w+vYzM6jTLLYfn9B
+	jHfSoRgA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wmnTP-0000000DbQz-0h3O;
-	Thu, 23 Jul 2026 07:04:03 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1wmpri-0000000DsHb-0WEu;
+	Thu, 23 Jul 2026 09:37:18 +0000
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wmnTO-0000000DbQf-1zxJ
-	for linux-nvme@bombadil.infradead.org;
-	Thu, 23 Jul 2026 07:04:02 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Type:Cc:
-	Content-Transfer-Encoding:Message-Id:Date:Subject:References:Mime-Version:
-	From:In-Reply-To:To:Reply-To:Sender:Content-ID:Content-Description;
-	bh=uhyBvDEhPU+sGnw3/t9PBXDk9+k140Odr/fon+soAPc=; b=eB66hupEf9j8D4rTRdcT5fcjn5
-	bcIkgM9aeCe/NBqJyYc1SWUSCCyBjpR4CSByqrQ5M9fdftNXqgtsYlIQxpSO39NkYHPJb/wuJ+Nkz
-	hhRStHMSkHbz7Zx09Mbk1CcgK5z8kbWsOMae09nuAfXk3dWYw1P930/VyvO5QVsTtyAgo3UsH0nJF
-	8drGfmIipFHshtJ8+wN4RUusS4giop46X8bAwOMVF8ZGPGen5SIdq37TRT0QD433U4JGofSh7GU0W
-	EJjA6sO7YYFZY5BkzNBQrWifKMnRs4fh8m2qmdSoFGiQ/VdEDElmd1HTSOlFVmdMM04Af72N1FZLV
-	fkypbgWQ==;
-Received: from va-2-55.ptr.blmpb.com ([209.127.231.55])
-	by desiato.infradead.org with esmtps (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1wmnTL-00000001Uv7-0g3q
+	id 1wmprc-0000000DsBV-26bH
 	for linux-nvme@lists.infradead.org;
-	Thu, 23 Jul 2026 07:04:01 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=s1; d=fygo-io.20200929.dkim.larksuite.com; t=1784790224;
-  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
- reply-to:content-type:mime-version:in-reply-to:message-id;
- bh=uhyBvDEhPU+sGnw3/t9PBXDk9+k140Odr/fon+soAPc=;
- b=kRCLEiKewcrFXOWLhoorNYSuDcSujGeZ+4YnuLSvybdE34VeH9awKs1DrmA8CDtssSpK7X
- rKLiZeSqg0YoQqDfdBx7bxC+P34/AFGG7iIgYmWmpc/Dh+wNCVO1vn3I8qD06Niz3WOVZd
- Ti22VrLglKfwRZDK+tgropkPvIOc//y9RAoRa9z+eU4lwyFlCQ+BQHJ2c2WQcnZ5EtuVAD
- ItBk8ScccMArT6vgWHA+qB/It/3pxoQn6kLcT2/6cMY7BIIxIYJY0TzhU3KBHmGsPbwnIm
- I2py8ldBbpQvkR+3+vTYp5+4F6O0StqnCGyCs+0ws9t+jlcS1VxhE57+494zGA==
-To: "Nilay Shroff" <nilay@linux.ibm.com>, "Jens Axboe" <axboe@kernel.dk>, 
-	"Tejun Heo" <tj@kernel.org>, "yu kuai" <yukuai@fygo.io>
-In-Reply-To: <6baae2af-640e-48bd-9909-977cd316c8d5@linux.ibm.com>
-Received: from [192.168.1.104] ([39.182.0.167]) by smtp.larksuite.com with ESMTPS; Thu, 23 Jul 2026 07:03:42 +0000
-From: "yu kuai" <yukuai@fygo.io>
-Mime-Version: 1.0
-X-Lms-Return-Path: <lba+26a61bccf+4ddb7a+lists.infradead.org+yukuai@fygo.io>
-References: <20260704195124.1375075-1-yukuai@kernel.org> <20260704195124.1375075-2-yukuai@kernel.org> <6baae2af-640e-48bd-9909-977cd316c8d5@linux.ibm.com>
-User-Agent: Mozilla Thunderbird
-X-Original-From: yu kuai <yukuai@fygo.io>
-Subject: Re: [RFC PATCH v1 01/17] nvme-multipath: retarget failedover bios from requeue work
-Date: Thu, 23 Jul 2026 15:03:37 +0800
-Message-Id: <338127ba-2c79-405e-bd8c-afa2bf812615@fygo.io>
-Content-Transfer-Encoding: quoted-printable
-Cc: "Christoph Hellwig" <hch@lst.de>, "Keith Busch" <kbusch@kernel.org>, 
-	"Sagi Grimberg" <sagi@grimberg.me>, "Alasdair Kergon" <agk@redhat.com>, 
-	"Benjamin Marzinski" <bmarzins@redhat.com>, 
-	"Mike Snitzer" <snitzer@kernel.org>, 
-	"Mikulas Patocka" <mpatocka@redhat.com>, 
-	"Dongsheng Yang" <dongsheng.yang@linux.dev>, 
-	"Zheng Gu" <cengku@gmail.com>, "Coly Li" <colyli@fygo.io>, 
-	"Kent Overstreet" <kent.overstreet@linux.dev>, 
-	"Josef Bacik" <josef@toxicpanda.com>, "Yu Kuai" <yukuai@fygo.io>, 
-	<linux-block@vger.kernel.org>, <cgroups@vger.kernel.org>, 
-	<linux-nvme@lists.infradead.org>, <dm-devel@lists.linux.dev>, 
-	<linux-bcache@vger.kernel.org>
-Content-Type: text/plain; charset=UTF-8
+	Thu, 23 Jul 2026 09:37:13 +0000
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66MJthu03404240;
+	Thu, 23 Jul 2026 09:37:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=9eqajpk4+3ws8bxcDBFm5ZwUraG8nNOzrwN0wwelu5o=; b=
+	drECQGNsBjRzlHu55E03gUHzRy8ii8KcsVzF0ifAe+V3Z0hKdEMfjEdz7txWh+re
+	yBqI8UpZ6dvbv78HxDcJIK9pcfI6QLC8UhPccn/4YVLLr5VNizFX1FE9XBzAe8/p
+	5nyzYn89aaqb6uWhdfcv8KahzCDk+cDO4vpl0zHEk+1Cwoq6Tz1M/VcvZM4jkODJ
+	gzT58eI9MxBIGJaWcE/LefOOYOawKjOyDeJZnK9YxbPXfQxbo3WAm1c26qDKGJp+
+	3XVXrGK4VfKqIPZ9hmPgr1LSTPH/GLn3/DF1jWPmOFRj6Fwf/fglVcF/piltk70w
+	QIUClfsYfwz3MgUF74YUfw==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4fg1n3pmps-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 23 Jul 2026 09:37:06 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 66N9X9SB021175;
+	Thu, 23 Jul 2026 09:37:05 GMT
+Received: from bn8pr05cu002.outbound.protection.outlook.com (mail-eastus2azon11011052.outbound.protection.outlook.com [52.101.57.52])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4fgts0y43e-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 23 Jul 2026 09:37:05 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=cfLDQLEQRgPyx6QTqteo9RcV60WGl2jxS7PrT+ZwsZUAGq6zBQAFoqYr5GB2/dCdPB8v9b0l3HB4QsmtjaWteGQZPfPOBln0i+yTA8ZhW3h0UDQTYEyuWdqPDNTQhahSvJf9Paur2W8j28dAToHNXn4pmgjxSxocFk7aLTC1NKuK9hjeD6/5xVUZpgeFrrCTZnAg+EirPxosJAYMRTRRCgKtNTj6wFKkRzNjydepdrdnhwSzRirVi4Pj2NmpeVAVhYWQ/ZCOPswlhS0FJ2Qa2F/LYLgNzakDOUVLa4XyGmKqHGUdXzl3XjW+0Oh/CajuFQZyvGXJOYCUuCjbfDiG5g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9eqajpk4+3ws8bxcDBFm5ZwUraG8nNOzrwN0wwelu5o=;
+ b=QoOT6EXAyfedRUzPinnN2J0mxiY5aozBA3mCTcQ83vmUXDr68tcxnJvLTxQKVzy1g5ZK/T/+Wj0ALVKvPrr5k5+70w6xVU7J+hBZEhCztTZ0AYz8I4FHLqgLCi2lpUgM2Z3lH1cQKUo/GlHDPQV1KIcEaZBBIXL/ksGK8NXtMk8cZQH/FLUYLwsRsEqEoo9enmObGfXcXW3zuXceoKxg8Adz6j4qcc06EKSZXQ9Dmxw15c1mhPgfTbUiD74e9LUB3WRESuvvk7P0aMto3qCl5OTk2NmZ/lY3it+k60FRZxrsKw97n6r3KKYAdd62ozOgJb5jq1JbawEwwC2eBDMb5w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9eqajpk4+3ws8bxcDBFm5ZwUraG8nNOzrwN0wwelu5o=;
+ b=gI4x756lm02+HcHGLXQR9PrJHqZGxzjdHDVA86KDpULKVuN0L2B38ztI2FVmfwvPmN4BtMX6ig21wtb3gtKJdcr3jkk+Hu6QMXXxJJFxlv+7ayK/eOvLmKMDVks0EC5atVXrHxj6kbaO3GdZNFrqhwC2U2OX4Nqrq37lMnPPXgE=
+Received: from DM4PR10MB6229.namprd10.prod.outlook.com (2603:10b6:8:8c::12) by
+ PH0PR10MB4678.namprd10.prod.outlook.com (2603:10b6:510:3b::8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.245.10; Thu, 23 Jul 2026 09:37:01 +0000
+Received: from DM4PR10MB6229.namprd10.prod.outlook.com
+ ([fe80::867:63e7:13fa:fa7d]) by DM4PR10MB6229.namprd10.prod.outlook.com
+ ([fe80::867:63e7:13fa:fa7d%6]) with mapi id 15.21.0245.009; Thu, 23 Jul 2026
+ 09:37:01 +0000
+From: John Garry <john.g.garry@oracle.com>
+To: martin.petersen@oracle.com, james.bottomley@hansenpartnership.com,
+        hare@suse.com
+Cc: jmeneghi@redhat.com, linux-nvme@lists.infradead.org,
+        linux-scsi@vger.kernel.org, michael.christie@oracle.com,
+        snitzer@kernel.org, bmarzins@redhat.com, dm-devel@lists.linux.dev,
+        linux-kernel@vger.kernel.org, nilay@linux.ibm.com,
+        john.garry@linux.dev, hch@lst.de, kbusch@kernel.org, sagi@grimberg.me,
+        John Garry <john.g.garry@oracle.com>
+Subject: [PATCH v4 08/28] libmultipath: Add mpath_bdev_report_zones()
+Date: Thu, 23 Jul 2026 09:36:06 +0000
+Message-ID: <20260723093627.2327456-9-john.g.garry@oracle.com>
+X-Mailer: git-send-email 2.43.7
+In-Reply-To: <20260723093627.2327456-1-john.g.garry@oracle.com>
+References: <20260723093627.2327456-1-john.g.garry@oracle.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: CH2PR16CA0021.namprd16.prod.outlook.com
+ (2603:10b6:610:50::31) To DM4PR10MB6229.namprd10.prod.outlook.com
+ (2603:10b6:8:8c::12)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR10MB6229:EE_|PH0PR10MB4678:EE_
+X-MS-Office365-Filtering-Correlation-Id: b3c4e19a-03ea-4207-5771-08dee89df25b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|23010399003|376014|22082099003|18002099003|10067099003|56012099006;
+X-Microsoft-Antispam-Message-Info: 1BIiFxmrbD+W/wauKL8GaxXuxIuLzHSY4YVh4cK57ex7D/q0lPuHb98Q26hFw8J8aAEz0rasLBK2wn5CyGQR4x/fhFL1fjS8B7CdWX3f0gBMKtAx/Ju0zN/E+XDo88La7Lr8dUS/4gB3HMeaLj4V0m4vqC2y01gy/TYcrq/2Vei54SrEtL9mxa18IZ5dJYOCnt/1mtmeoltq/Rv8QHKny0ER9Lngm/i/w5wSIicyPxtPtzIk1fJyiz4BOFbDBavpbVjvxgJ8MRVuAIiHOGrcz2+27T9mmX+Soow7N9ULsJzokZBw1JrpTWSu0sCBKICNGRYbO+2NNMmox438ss1FpkbkFAdOchC71WW+mkGEDLALuuh8Gv7ROafgOSt92J5c2CMaESsmE6qw/7cCr/BObA8jcV7jyVaImkpSabZS7T5C6fBFCRhZYeLUEKQWzVYPUzJsVmZEWHN5+dnPN8hffH26JSLfX4uOuEGpRM4GKhGTASksC+RWkmeIu5O8q/f/7qRheWnzXuR+jbMQZKNAJwQ9cN/KmjIP5Q8QUx5ydvAZ69wrMzRMPG2HGIQPj/7+/raVN/BllMlgKZ2y5BE3WLxl2xrHrx/lwnx0ZcNaBNpRiwe7KIqwy3RNhXed0uTsJTpzyHKoSnfoN2C67LNkp7InEdgXiJjqdkpo3JHN9sY=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB6229.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(23010399003)(376014)(22082099003)(18002099003)(10067099003)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?MjDrE2FCl0id6YWzPwhrJFA0TtvuEO0pY4pGuisXQ2rhlYLEWnzeXx4gictr?=
+ =?us-ascii?Q?gbXCAegOfGuxGZ2ORswW6zddhqgP5eAuBjcUi9XdCC8NdQgw1ZOgAojfKHiB?=
+ =?us-ascii?Q?YRx5MLiCwSGth9fTj84gXkv+f3fnfLcQdI/5J5JT3aAlVmyRXaSlAV69K371?=
+ =?us-ascii?Q?ZD2sBJc126DMyYBGAKtf9DA8pXYzzrZde4aEvpw469su4GeXfsDKdJydPO5e?=
+ =?us-ascii?Q?Hug25vLPfiOyczcX9pARM0OD0WirnUZQCDvu/li57Mefek7cR6NCL5Bur1VR?=
+ =?us-ascii?Q?0cPlXNZRiwZzPzZVj28s4+X2Jv2yYLbezqsRuT9SaA1dpp7drBqt0sLOaLQh?=
+ =?us-ascii?Q?gCaBRdhjF/O6seGCcsxAjTV5K09OobOqTuWHWBZNmKYlUDVPJ4MnGNsr1Kni?=
+ =?us-ascii?Q?p49CEFZpJVTURYVSzejIOePdizdxFxczP5npcfSJ/gGOLcG6XMSdVqxsVo3y?=
+ =?us-ascii?Q?oR5N+8/wV9y5M3/CHCjAHcDKqawGKsEIS+p+Q2ww2T4rTQzU43wIGAfmg1AE?=
+ =?us-ascii?Q?tGG16QE0muGicjaeal1H9UyJfuJZgXbFGWhfAoovu0g7ad4yrqBTRRcurvCS?=
+ =?us-ascii?Q?pzm+uuCTcnyO3HNaBh1kY9zNik0mMhi0MflwFRH0uZMAOZVWawzayefKCnUJ?=
+ =?us-ascii?Q?4yQFYIlu5Ev5BsIXmtYyoqsZQOfEjtLsNshrBvJ9i5duUMivgrZea4xThu/5?=
+ =?us-ascii?Q?SBaNhbJ8vxvAawW3NzUDOnHNrGVH0Z4s1Vg12Qyzrm1OM48jwLUYo5hLZdQ2?=
+ =?us-ascii?Q?iSenVNnj4jvT6dUwCtkJ1ebj915Z0QllLMyTB/vTDRj+wj0T2IeJatFk2opY?=
+ =?us-ascii?Q?8v7Atss60+PxliHQ0T42l+89UcXECAsQa2zDrBkfT2h6hF+c0YtOKc6ae1br?=
+ =?us-ascii?Q?ywhbdPCzM1XTWw0JSnfouel6ssU9iaCQfdgU6HIrwqnQJMvFSFJ0SSZ9o5uW?=
+ =?us-ascii?Q?WUgGhhg6LO4aN7Z9ecRk4r6l+4Hwgt8oNW4luM1VVFYMoPoSpH5qzDDbOpBb?=
+ =?us-ascii?Q?OLHc5zwE/xqpgGibS9ErGcSsac0BwE0FjgjOkBta5aQJo5Hrm3LzRLtifk+1?=
+ =?us-ascii?Q?sVORX83PYF4AxhHmN4Iu1VrxZARq6Jgk/oUDr3W4C1+zvXxnypRL1LZprl9B?=
+ =?us-ascii?Q?+9/AICOMKBKN2j6zyjW4HB8cvayyzXPcTf1enpfiBLyep+Sugw9k/vkEwoSy?=
+ =?us-ascii?Q?KOSJ0O9oQNiip3KQxbwKOkomRNdsV7DA1UYeSXrJP9Zz1eWyrPShQx4z/7Rv?=
+ =?us-ascii?Q?ydBYTc6Pje3YmNbuJSNKb4ovfxDgcikI8PD7cseyf7mtxSHqTLeRhN/SzzPq?=
+ =?us-ascii?Q?/nGuP8Dk/bPoWqiSFc+/5AasZmWic9iEA98VnUgZqaQ2gKQXzl0veP2WgPMG?=
+ =?us-ascii?Q?NxdErTDZG19Lz4nRpOQXQ47zmMb+JvqO0SO5PGuR5UlwWVCw0nH8EJR/Y2eY?=
+ =?us-ascii?Q?k05xArbnuWdZdwwxPWmmz5g23z4uIzaS3PjZAbrKjUWb+qnqtgllHiZaTw/C?=
+ =?us-ascii?Q?JhM6uEhq9/ERAHMI2VDEJMu9unBQNm9mlOGxeynrIpUtUX8JJXZJ8oZoCWj+?=
+ =?us-ascii?Q?GOwjibsKVzNcwigtAUE3nRXibG3FC1ZBw+vdrd0TTIteKO0GdkVUlas5t/dQ?=
+ =?us-ascii?Q?LU+/i08GJhOFQQbujC+3yL9kLTZHBNDep4Ew3p4CUYGeZvA3SqZZBY58Jr+r?=
+ =?us-ascii?Q?K3TJgKaEsIdjqk44CHMFz8b4vyHzCLFOKttk247mZO0UCI33wiMju4FVggsr?=
+ =?us-ascii?Q?IxmDNKC2xQ=3D=3D?=
+X-Exchange-RoutingPolicyChecked: rAJgzUgi+qp2183DHD9wiadRalTevucxYEh8l8+C+DQulz2hPMbzx1NaTg92RjNSSERrkrZh27X70ariJmLu4VUA0w2I/76WIfzPMmXocLFPyplTd2734jINV807KjCCpWYKIUmJydI27wtHHSM+psliDvODY9lYiu0RY/wcywnbmOwQl6+gZJ/VEeF5wEkRrC2vjaFdBYv1nlK8dKVXjZ16cyn6cmF+JzoW2/UDTGQQDIJN41dBwUK/TWCTv0/hku3tulRig8bp287zy+VELoA147AdvFliKDs3GlxJY+X+EP3qsUKmobRrQteqDGcR41N9a67CtdGHmq1L50rIMg==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: D5RwVkumI+szki0PVYQz6gHiy6XZVmUeL3Cb2PwT5/eXRdrdyupPw6Za4n3rHfhxsIrV9pDKz0Ud8FoHq4bW82Qo0JETqsHlAQsPD7qPhbQaMHTtCLxL/gTe8pcPawq1T92PL/bpMwPEobKh0DoXUOqWoUsN4KURNowmX6kMMG68W5XjAixDpceXaqE8W5NfGGHprs5l2XVvroIIVuRz8I53G/OEbPo3C6/Wuj/yZIrbiv0MA0Wi3zHPIShraVYaBlUtVsZoNnfhWA5GcQIujcTprRh1b6nTMyoc89M5rxveXFZA+CF2vMHIAUvQahIcHUtinG7XLG5f3zqQ907WWkM014is6ui1EU+N7VGs9ERh9b20x2gvNKlf59kQLffu9hNQUh+GA8URWZ6UIZDogDDaBoIRMEDLvlJiQzIRNQnFsSB1QNXiLe+Y6pTUs0eAZ/5TPwDPZcFRugCdLgtIaRtTKAsE2nBx5IG5G7Q87It/sZ5q2qUtvIyKqiVA+IPamuHQTe5897VBSLC5sIVsgCmNV9k6QVpzBCTi7iH0Kh9q3m0ebSQ/cRWLNpKAXRCb13U+Cd2P+pPHmEqaLDXLc10FyRlyfQ4MIYuu/HwTNQY=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b3c4e19a-03ea-4207-5771-08dee89df25b
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB6229.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2026 09:37:00.9070
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uYEtYDADiIOq6c4GqiePK9Mf+bNgk72Hu2cDgQzi1Sxe1TSJjtetysZk/zlbLpN30VcM7wUF6BoVp8KV7sEhsA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4678
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-23_03,2026-07-22_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ mlxlogscore=999 spamscore=0 malwarescore=0 lowpriorityscore=0 adultscore=0
+ suspectscore=0 phishscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2606160000 definitions=main-2607230094
+X-Proofpoint-GUID: kl6xyYDi3rm_hlMjDMe0OoZeT9S09zgk
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIzMDA5NSBTYWx0ZWRfX6aHOpGdX3ZtT
+ dWHW2ZsIXGnq0izP2WMH+LrgpTDr2+jmOzRfKKvfIaDzJoDAMOk/xJv5E9sqae3dxdBaZyunX86
+ uJvzR82QXLZ1quvTZIW/vo9i82NGK+aJ97y/ZMI3nJtrck9RcN24
+X-Proofpoint-ORIG-GUID: kl6xyYDi3rm_hlMjDMe0OoZeT9S09zgk
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIzMDA5NSBTYWx0ZWRfXzG6UOBGMhDoo
+ wLMIO3UY68gGb2HSDUTAIkK0WthcBzE3HsnuLq5kQb4JctXhltpLwpEq6e67ZbJeIsDRrswsu1L
+ NwmJMZjOcoNaoGsquioUeXCZ9zefyR0IezO7SxAMM7q83kqlTHm2Gy+eQ768vWv2FZKEAqMwSZl
+ dznk+RSCcOpn0kw1++GFJaxvK3NE1J9tBQbAYgG7RujCec5Tko6sjf7hQB2ZXiUWl4eGq5hUSJF
+ j0+qZTPod3+8nR23SQqe7WLZq0cTkV45vnDsYomaNOvVHiNdDwN7P4TUV1EljKerPfmrLMfA3tM
+ KXkdhR12dLkzM1d27Y1ghoBGziiFIVOCpuCo4KG4vsIUIH3HTxgnxFE+5+Ub6kSn1XBa5V2wbYz
+ c0xcm2/vIX4NMAqNlvX1nUDovPDiDty3LuZEpBbok0i6PGheJBDabYYu8LDWH+VNqjxdi0p2vIZ
+ KKEttdZzgqE2iPm5dgg==
+X-Authority-Analysis: v=2.4 cv=PryjqQM3 c=1 sm=1 tr=0 ts=6a61e0c3 cx=c_pps
+ a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=RAioF0-LDSMA:10
+ a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22 a=jiCTI4zE5U7BLdzWsZGv:22
+ a=o5oIOnhZENCTenyL_yNV:22 a=yPCof4ZbAAAA:8 a=hSvAkUGrqjTGy68UynwA:9
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260723_080359_564859_DDA4035B 
-X-CRM114-Status: GOOD (  22.61  )
+X-CRM114-CacheID: sfid-20260723_023712_671173_8395C7F6 
+X-CRM114-Status: GOOD (  13.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,110 +188,62 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: yukuai@fygo.io
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+From: John Garry <john.garry@linux.dev>
 
-=E5=9C=A8 2026/7/18 3:12, Nilay Shroff =E5=86=99=E9=81=93:
-> On 7/5/26 1:21 AM, Yu Kuai wrote:
->> From: Yu Kuai <yukuai@fygo.io>
->>
->> bio_set_dev() is about to become explicitly sleepable because it can
->> associate the bio with a blkg for the destination queue.=C2=A0 NVMe fail=
-over
->> can run from request completion context, and nvme_failover_req() also=20
->> holds
->> head->requeue_lock with interrupts disabled while it steals bios from=20
->> the
->> failed request.=C2=A0 Calling bio_set_dev() there is not safe once the=
-=20
->> helper is
->> allowed to sleep.
->>
->> The requeue lock only protects head->requeue_list.=C2=A0 Keep the list
->> manipulation under that lock, but defer retargeting to=20
->> nvme_requeue_work(),
->> which already drains the list from process context before=20
->> resubmitting each
->> bio.=C2=A0 The bios remain private to the requeue list until the worker =
-pops
->> them, so moving the device switch there preserves the existing retry=20
->> flow
->> while avoiding a sleepable helper in completion context.
->>
->> Signed-off-by: Yu Kuai <yukuai@fygo.io>
->> ---
->> =C2=A0 drivers/nvme/host/multipath.c | 4 +---
->> =C2=A0 1 file changed, 1 insertion(+), 3 deletions(-)
->>
->> diff --git a/drivers/nvme/host/multipath.c=20
->> b/drivers/nvme/host/multipath.c
->> index 9b9a657fa330..76baa180ae1c 100644
->> --- a/drivers/nvme/host/multipath.c
->> +++ b/drivers/nvme/host/multipath.c
->> @@ -149,7 +149,6 @@ void nvme_failover_req(struct request *req)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct nvme_ns *ns =3D req->q->queuedata;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u16 status =3D nvme_req(req)->status & NV=
-ME_SCT_SC_MASK;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned long flags;
->> -=C2=A0=C2=A0=C2=A0 struct bio *bio;
->> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 nvme_mpath_clear_current_path(ns);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 atomic_long_inc(&ns->failover);
->> @@ -165,8 +164,6 @@ void nvme_failover_req(struct request *req)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spin_lock_irqsave(&ns->head->reque=
-ue_lock, flags);
->> -=C2=A0=C2=A0=C2=A0 for (bio =3D req->bio; bio; bio =3D bio->bi_next)
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bio_set_dev(bio, ns->head->d=
-isk->part0);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 blk_steal_bios(&ns->head->requeue_list, r=
-eq);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spin_unlock_irqrestore(&ns->head->requeue=
-_lock, flags);
->> =C2=A0 @@ -684,6 +681,7 @@ static void nvme_requeue_work(struct=20
->> work_struct *work)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 next =3D bio->bi_=
-next;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bio->bi_next =3D =
-NULL;
->> =C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bio_set_dev(bio, head=
-->disk->part0);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 submit_bio_noacct=
-(bio);
->
-> What happens if bio_set_dev() fails to associate a blkg? From what
-> I understand, bio_associate_blkg() may fail, leaving bio->bi_blkg
-> set to NULL. Later, submit_bio_noacct() can invoke blkcg-related
-> helpers such as blk_should_throtl(), which expect a valid bio->bi_blkg.
-> However if bio->bi_blkg is NULL then accessing it without NULL check
-> could crash the kernel. This is probably not a bug introduced with your
-> changes, but you may want to check it.
+Add a multipath handler for block_device_operations.report_zones
 
-bio_set_dev() will not leave bio->bi_blkg set to NULL. blkg_lookup_create()
-will iterate closest blkg start from root_blkg, if any blkg is missing then
-create, and if creating failed, current closest blkg is returned.
+Signed-off-by: John Garry <john.g.garry@oracle.com>
+---
+ lib/multipath.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-The same iteration exist in blkcg configuration, where failure is returned =
-if
-blkg creation failed.
+diff --git a/lib/multipath.c b/lib/multipath.c
+index 3ff4f42a096c2..0232f51f64742 100644
+--- a/lib/multipath.c
++++ b/lib/multipath.c
+@@ -44,6 +44,30 @@ int mpath_get_iopolicy(char *buf, int iopolicy)
+ }
+ EXPORT_SYMBOL_GPL(mpath_get_iopolicy);
+ 
++#ifdef CONFIG_BLK_DEV_ZONED
++static int mpath_bdev_report_zones(struct gendisk *disk, sector_t sector,
++		unsigned int nr_zones, struct blk_report_zones_args *args)
++{
++	struct mpath_head *mpath_head = mpath_gendisk_to_head(disk);
++	struct mpath_device *mpath_device;
++	int srcu_idx, ret = -EWOULDBLOCK;
++
++	srcu_idx = srcu_read_lock(&mpath_head->srcu);
++	mpath_device = mpath_find_path(mpath_head);
++	if (mpath_device) {
++		if (mpath_device->disk->fops->report_zones)
++			ret = mpath_device->disk->fops->report_zones
++				(mpath_device->disk, sector, nr_zones, args);
++		else
++			ret = -EOPNOTSUPP;
++	}
++	srcu_read_unlock(&mpath_head->srcu, srcu_idx);
++	return ret;
++}
++#else
++#define mpath_bdev_report_zones	NULL
++#endif /* CONFIG_BLK_DEV_ZONED */
++
+ void mpath_synchronize(struct mpath_head *mpath_head)
+ {
+ 	synchronize_srcu(&mpath_head->srcu);
+@@ -459,6 +483,7 @@ const struct block_device_operations mpath_ops = {
+ 	.open		= mpath_bdev_open,
+ 	.release	= mpath_bdev_release,
+ 	.submit_bio	= mpath_bdev_submit_bio,
++	.report_zones	= mpath_bdev_report_zones,
+ };
+ EXPORT_SYMBOL_GPL(mpath_ops);
+ 
+-- 
+2.43.7
 
->
-> The question is, is bio_associate_blkg() guaranteed never to fail, or
-> should the failure be handled explicitly before the bio is resubmitted?
->
-> I also skimmed through the rest of the series. However, as Christoph
-> mentioned in an earlier thread, we may be moving away from non-blocking
-> blkg allocation altogether. If that's the direction we're taking, this
-> series will likely need to be reworked. I'd therefore prefer to wait for
-> the next revision before reviewing the other patches.
->
-> Thanks,
-> --Nilay
->
->
---=20
-Thanks,
-Kuai
 
