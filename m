@@ -4,78 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3F90EC44524
-	for <linux-nvme@archiver.kernel.org>; Thu, 23 Jul 2026 06:11:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E95B6C44524
+	for <linux-nvme@archiver.kernel.org>; Thu, 23 Jul 2026 07:04:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VBdn2EWjCzaB/LsGvu5JNC2sbY5O5dhhwEkMKQrKz6Y=; b=vdjsQ3oz2uECkYdJ4hE1rK3vnq
-	Sjz72z5iGyfwU/sRgta5S3So2VOcnrQ/x4qWHrNfZcXq18Bpxs9bpkS+cviyRt7AdDuwDA8r7RnLl
-	Sm3OIgy/+5/4VhMpAPOkxx5eAFzvzhMvggkNfhZ6w/65gGcOVLAz5IbplbFBMnjXsTqkzYVggYfG7
-	oznQ8RlDnsXJj72vzVxpD9sdljnJbb1umTHuaa6WfglTrIZ4cT+Klh4okd+++zzK7shZlrhhzqG5X
-	p9rItLUUgQlKfJjw+o0nk2ZLrm29aAVJkV/zmd9RXp6Hgn9pKhwLAWVaS2pE85Lhoi89/+v+uT9Xy
-	ghiirIWA==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:
+	Content-Transfer-Encoding:Message-Id:Date:Subject:References:Mime-Version:
+	From:In-Reply-To:To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=uhyBvDEhPU+sGnw3/t9PBXDk9+k140Odr/fon+soAPc=; b=QVFMBfkVmwld3d+gD9O3mX+YfX
+	PPbm/bM5IWmK5aFN44R4xf7OYNAYZL+6B4gV7xJ+AdeM0AlF3KUrRxDHRzNetC5FtQirfvDk18YhZ
+	jhPHYBVnRYsGiPZlaa2lEEURAS99YpTAcGyblU/8m8/Q7oXmryA410Ka9uLSjvYUMI5wJVmNYdneF
+	Q7GUTaHXOpogJdOSZ2qz0iKiRpyFDCAiwInTFTsBn5XbhiLzloJ+XlcmhCjAeqlxWnod07S6dlPoC
+	uhICht762KQd026kX3c9AP5HVCdbHw2cboAKvWVIWHt4h2LXR41yquQmL0cq/DFNXkEgiOIu9qEcJ
+	bQwFr1Mg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wmmeY-0000000DWmX-0M1y;
-	Thu, 23 Jul 2026 06:11:30 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1wmnTP-0000000DbQz-0h3O;
+	Thu, 23 Jul 2026 07:04:03 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wmmeU-0000000DWmA-451N
+	id 1wmnTO-0000000DbQf-1zxJ
+	for linux-nvme@bombadil.infradead.org;
+	Thu, 23 Jul 2026 07:04:02 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Type:Cc:
+	Content-Transfer-Encoding:Message-Id:Date:Subject:References:Mime-Version:
+	From:In-Reply-To:To:Reply-To:Sender:Content-ID:Content-Description;
+	bh=uhyBvDEhPU+sGnw3/t9PBXDk9+k140Odr/fon+soAPc=; b=eB66hupEf9j8D4rTRdcT5fcjn5
+	bcIkgM9aeCe/NBqJyYc1SWUSCCyBjpR4CSByqrQ5M9fdftNXqgtsYlIQxpSO39NkYHPJb/wuJ+Nkz
+	hhRStHMSkHbz7Zx09Mbk1CcgK5z8kbWsOMae09nuAfXk3dWYw1P930/VyvO5QVsTtyAgo3UsH0nJF
+	8drGfmIipFHshtJ8+wN4RUusS4giop46X8bAwOMVF8ZGPGen5SIdq37TRT0QD433U4JGofSh7GU0W
+	EJjA6sO7YYFZY5BkzNBQrWifKMnRs4fh8m2qmdSoFGiQ/VdEDElmd1HTSOlFVmdMM04Af72N1FZLV
+	fkypbgWQ==;
+Received: from va-2-55.ptr.blmpb.com ([209.127.231.55])
+	by desiato.infradead.org with esmtps (Exim 4.99.2 #2 (Red Hat Linux))
+	id 1wmnTL-00000001Uv7-0g3q
 	for linux-nvme@lists.infradead.org;
-	Thu, 23 Jul 2026 06:11:27 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 3DF9C43A8F;
-	Thu, 23 Jul 2026 06:11:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7994E1F000E9;
-	Thu, 23 Jul 2026 06:11:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784787084;
-	bh=VBdn2EWjCzaB/LsGvu5JNC2sbY5O5dhhwEkMKQrKz6Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jQI35ZHFBTChYjQ6kfiY3FIG5lc5U7yuTiFHA0MAJuCB5lQhyHKzfGFvMqu0Vg7oS
-	 wbmqZnrDUGLV+3FxAGADTsdviVKQKmKxL5b42UsWs1FHa/mxdTow2mrTa9oHPGfiFq
-	 7VcDodqNgInG29zaRfj9Q59DE3247biTYu4J02Ld6oUHDbnanBWeSf2IeYtx8nhSGh
-	 C4UgTQZqxfkmK2AoIZyCTBNAVlrVMRTOt7Unzfeklkfjs4POShPbXDmJPwwg+nCZOz
-	 P8UMjW2HY0eW3UKLb58b2RFEDv2qDkLqgPOUN6Ue6Zq6qTLfJTgAqH/sJ3VXsHAVsq
-	 IPE4/hdrctM0g==
-Date: Thu, 23 Jul 2026 09:11:18 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Mykola Marzhan <mykola@meshstor.io>
-Cc: Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
-	Song Liu <song@kernel.org>, Yu Kuai <yukuai@fygo.io>,
-	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
-	linux-raid@vger.kernel.org, linux-nvme@lists.infradead.org,
-	Li Nan <magiclinan@didiglobal.com>, Xiao Ni <xiao@kernel.org>,
-	Guoqing Jiang <guoqing.jiang@linux.dev>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Kiran Kumar Modukuri <kmodukuri@nvidia.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Shivaji Kant <shivajikant@google.com>,
-	Pranjal Shrivastava <praan@google.com>,
-	Henrique Carvalho <henrique.carvalho@suse.com>,
-	linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
-	linux-pci@vger.kernel.org
-Subject: Re: [PATCH v2 6/7] md/raid1,raid10: skip futile retries on P2PDMA
- mapping failures
-Message-ID: <20260723061118.GA110966@unreal>
-References: <20260719105327.864949-1-mykola@meshstor.io>
- <20260719105327.864949-7-mykola@meshstor.io>
- <ee312bcb-92f4-4884-91cd-3bd56180c8c7@deltatee.com>
- <CAPzsNDsLr_BABgizujN0CgnLNfzS3S37vQ133fjbJzFMvRs7CQ@mail.gmail.com>
- <9f846c85-f427-433a-b87d-8e9e3a4406e7@deltatee.com>
- <20260722083015.GU110966@unreal>
- <CAPzsNDuGfneEmx_nWqw5vYLyPyK8krfWChNRcsxO7icTEDDX5g@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAPzsNDuGfneEmx_nWqw5vYLyPyK8krfWChNRcsxO7icTEDDX5g@mail.gmail.com>
+	Thu, 23 Jul 2026 07:04:01 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=s1; d=fygo-io.20200929.dkim.larksuite.com; t=1784790224;
+  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
+ reply-to:content-type:mime-version:in-reply-to:message-id;
+ bh=uhyBvDEhPU+sGnw3/t9PBXDk9+k140Odr/fon+soAPc=;
+ b=kRCLEiKewcrFXOWLhoorNYSuDcSujGeZ+4YnuLSvybdE34VeH9awKs1DrmA8CDtssSpK7X
+ rKLiZeSqg0YoQqDfdBx7bxC+P34/AFGG7iIgYmWmpc/Dh+wNCVO1vn3I8qD06Niz3WOVZd
+ Ti22VrLglKfwRZDK+tgropkPvIOc//y9RAoRa9z+eU4lwyFlCQ+BQHJ2c2WQcnZ5EtuVAD
+ ItBk8ScccMArT6vgWHA+qB/It/3pxoQn6kLcT2/6cMY7BIIxIYJY0TzhU3KBHmGsPbwnIm
+ I2py8ldBbpQvkR+3+vTYp5+4F6O0StqnCGyCs+0ws9t+jlcS1VxhE57+494zGA==
+To: "Nilay Shroff" <nilay@linux.ibm.com>, "Jens Axboe" <axboe@kernel.dk>, 
+	"Tejun Heo" <tj@kernel.org>, "yu kuai" <yukuai@fygo.io>
+In-Reply-To: <6baae2af-640e-48bd-9909-977cd316c8d5@linux.ibm.com>
+Received: from [192.168.1.104] ([39.182.0.167]) by smtp.larksuite.com with ESMTPS; Thu, 23 Jul 2026 07:03:42 +0000
+From: "yu kuai" <yukuai@fygo.io>
+Mime-Version: 1.0
+X-Lms-Return-Path: <lba+26a61bccf+4ddb7a+lists.infradead.org+yukuai@fygo.io>
+References: <20260704195124.1375075-1-yukuai@kernel.org> <20260704195124.1375075-2-yukuai@kernel.org> <6baae2af-640e-48bd-9909-977cd316c8d5@linux.ibm.com>
+User-Agent: Mozilla Thunderbird
+X-Original-From: yu kuai <yukuai@fygo.io>
+Subject: Re: [RFC PATCH v1 01/17] nvme-multipath: retarget failedover bios from requeue work
+Date: Thu, 23 Jul 2026 15:03:37 +0800
+Message-Id: <338127ba-2c79-405e-bd8c-afa2bf812615@fygo.io>
+Content-Transfer-Encoding: quoted-printable
+Cc: "Christoph Hellwig" <hch@lst.de>, "Keith Busch" <kbusch@kernel.org>, 
+	"Sagi Grimberg" <sagi@grimberg.me>, "Alasdair Kergon" <agk@redhat.com>, 
+	"Benjamin Marzinski" <bmarzins@redhat.com>, 
+	"Mike Snitzer" <snitzer@kernel.org>, 
+	"Mikulas Patocka" <mpatocka@redhat.com>, 
+	"Dongsheng Yang" <dongsheng.yang@linux.dev>, 
+	"Zheng Gu" <cengku@gmail.com>, "Coly Li" <colyli@fygo.io>, 
+	"Kent Overstreet" <kent.overstreet@linux.dev>, 
+	"Josef Bacik" <josef@toxicpanda.com>, "Yu Kuai" <yukuai@fygo.io>, 
+	<linux-block@vger.kernel.org>, <cgroups@vger.kernel.org>, 
+	<linux-nvme@lists.infradead.org>, <dm-devel@lists.linux.dev>, 
+	<linux-bcache@vger.kernel.org>
+Content-Type: text/plain; charset=UTF-8
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260723_080359_564859_DDA4035B 
+X-CRM114-Status: GOOD (  22.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,32 +93,110 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: yukuai@fygo.io
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jul 22, 2026 at 09:00:16PM +0200, Mykola Marzhan wrote:
-> > I had thoughts about this series too. It seems best to avoid
-> > the P2P path entirely unless all legs support P2P.
-> >
-> > Can the md/raid code determine P2P support in advance?
-> 
-> Yes, and it already does: the block layer ANDs the P2PDMA queue
-> feature across all legs, so an array with a non-P2P member
-> (e.g. an nvme-tcp leg) never advertises P2P at all.
-> 
-> But that flag can only say "this driver can do P2P in general".
-> md cannot see which HCA device does the DMA for a fabrics leg —
-> and with multipath failover it can change at any time.
-> 
-> So the up-front gate covers what is knowable up front.
-> This series is about the remainder.
-> In mixed case, one local P2P leg plus a remote replica, with it:
-> 1) a failed read just redirects to a capable mirror;
-> 2) a failed write records bad blocks instead of retrying forever.
+Hi,
 
-Thanks for the explanation.
+=E5=9C=A8 2026/7/18 3:12, Nilay Shroff =E5=86=99=E9=81=93:
+> On 7/5/26 1:21 AM, Yu Kuai wrote:
+>> From: Yu Kuai <yukuai@fygo.io>
+>>
+>> bio_set_dev() is about to become explicitly sleepable because it can
+>> associate the bio with a blkg for the destination queue.=C2=A0 NVMe fail=
+over
+>> can run from request completion context, and nvme_failover_req() also=20
+>> holds
+>> head->requeue_lock with interrupts disabled while it steals bios from=20
+>> the
+>> failed request.=C2=A0 Calling bio_set_dev() there is not safe once the=
+=20
+>> helper is
+>> allowed to sleep.
+>>
+>> The requeue lock only protects head->requeue_list.=C2=A0 Keep the list
+>> manipulation under that lock, but defer retargeting to=20
+>> nvme_requeue_work(),
+>> which already drains the list from process context before=20
+>> resubmitting each
+>> bio.=C2=A0 The bios remain private to the requeue list until the worker =
+pops
+>> them, so moving the device switch there preserves the existing retry=20
+>> flow
+>> while avoiding a sleepable helper in completion context.
+>>
+>> Signed-off-by: Yu Kuai <yukuai@fygo.io>
+>> ---
+>> =C2=A0 drivers/nvme/host/multipath.c | 4 +---
+>> =C2=A0 1 file changed, 1 insertion(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/nvme/host/multipath.c=20
+>> b/drivers/nvme/host/multipath.c
+>> index 9b9a657fa330..76baa180ae1c 100644
+>> --- a/drivers/nvme/host/multipath.c
+>> +++ b/drivers/nvme/host/multipath.c
+>> @@ -149,7 +149,6 @@ void nvme_failover_req(struct request *req)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct nvme_ns *ns =3D req->q->queuedata;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u16 status =3D nvme_req(req)->status & NV=
+ME_SCT_SC_MASK;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned long flags;
+>> -=C2=A0=C2=A0=C2=A0 struct bio *bio;
+>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 nvme_mpath_clear_current_path(ns);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 atomic_long_inc(&ns->failover);
+>> @@ -165,8 +164,6 @@ void nvme_failover_req(struct request *req)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spin_lock_irqsave(&ns->head->reque=
+ue_lock, flags);
+>> -=C2=A0=C2=A0=C2=A0 for (bio =3D req->bio; bio; bio =3D bio->bi_next)
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bio_set_dev(bio, ns->head->d=
+isk->part0);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 blk_steal_bios(&ns->head->requeue_list, r=
+eq);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spin_unlock_irqrestore(&ns->head->requeue=
+_lock, flags);
+>> =C2=A0 @@ -684,6 +681,7 @@ static void nvme_requeue_work(struct=20
+>> work_struct *work)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 next =3D bio->bi_=
+next;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bio->bi_next =3D =
+NULL;
+>> =C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bio_set_dev(bio, head=
+->disk->part0);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 submit_bio_noacct=
+(bio);
+>
+> What happens if bio_set_dev() fails to associate a blkg? From what
+> I understand, bio_associate_blkg() may fail, leaving bio->bi_blkg
+> set to NULL. Later, submit_bio_noacct() can invoke blkcg-related
+> helpers such as blk_should_throtl(), which expect a valid bio->bi_blkg.
+> However if bio->bi_blkg is NULL then accessing it without NULL check
+> could crash the kernel. This is probably not a bug introduced with your
+> changes, but you may want to check it.
 
-> 
-> Mykola
-> 
+bio_set_dev() will not leave bio->bi_blkg set to NULL. blkg_lookup_create()
+will iterate closest blkg start from root_blkg, if any blkg is missing then
+create, and if creating failed, current closest blkg is returned.
+
+The same iteration exist in blkcg configuration, where failure is returned =
+if
+blkg creation failed.
+
+>
+> The question is, is bio_associate_blkg() guaranteed never to fail, or
+> should the failure be handled explicitly before the bio is resubmitted?
+>
+> I also skimmed through the rest of the series. However, as Christoph
+> mentioned in an earlier thread, we may be moving away from non-blocking
+> blkg allocation altogether. If that's the direction we're taking, this
+> series will likely need to be reworked. I'd therefore prefer to wait for
+> the next revision before reviewing the other patches.
+>
+> Thanks,
+> --Nilay
+>
+>
+--=20
+Thanks,
+Kuai
 
