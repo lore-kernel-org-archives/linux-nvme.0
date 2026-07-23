@@ -4,72 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7DC54C531FA
-	for <linux-nvme@archiver.kernel.org>; Thu, 23 Jul 2026 20:43:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 982F8C531F7
+	for <linux-nvme@archiver.kernel.org>; Thu, 23 Jul 2026 20:43:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xY1kaJm76bL7mULPuQYN6MgHSE4hk4KEujLtUR/lx4I=; b=I4MDkfYl+pCRTglS1kX1pQqT82
-	BO3XhPtgVIXhdo5Fj/7lJdf3+LCN4gwARb0+VVvYZxSzGdwxshJ1/eyoKtCyGMooeKo+xGnNpMAGP
-	bqE2qwrFTOFm1SOyU4yUobcXo5IZ+mu7tSkkTdK3MbtI3eQ+I9GLc8FQRx+8cb2/e7p2qf1w6jBOg
-	XqRgIENZLDurw1hNBBHDpsMYXI3sb/Py6c0lSZMzKZWKZ8YBQiHCX5q54+aENghQJ3buhBWvBq0Sb
-	5EbEt+XK7TUftvjNA20kkkj4c7NFKFQ4B8yzvUm0/M65iOlhyQSGfB4k9wvJmAKWtUFgftftmpE9j
-	DCL4vdqQ==;
+	bh=jvUC0Lia0it+LgLYsOXSPjeMnXEhLq3Hqn52LEDkVn4=; b=naY3Fadoiwr9ouHhY8F92y5c7J
+	5MsWfhV4o1ATIIh0VTjjttNs3826V7mNpalmj4YWXYrrt2TjvxKg2z+9VNqc+3W0Q2dSNMq9XP822
+	7jugojmjff9fo6yJpF6zHAefBIJwBBQi1krx1SNRwPEcSqdoBYngzxb/D5pc7W0vrWVdO0O2XYF10
+	cfrDRDzaDhyC8Fpz5qz2RIpZ8pfpyOYTbn0dpzTmhhxCE+wveUfH3y/cOCvc+JTsG7dxCKmV251H8
+	IuBBa9VUTwUKpzDYbxEjBX9DjawHsdazldGqc9TOChLaZe+YMSq9AOs3hsr4Nl4wYGF6u0JZKTkZ4
+	2PBn87QQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wn0G0-0000000F3aJ-0IC2;
-	Thu, 23 Jul 2026 20:43:04 +0000
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+	id 1wn0G2-0000000F3bg-0rkB;
+	Thu, 23 Jul 2026 20:43:06 +0000
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wn0Fx-0000000F3Y6-3JVK
+	id 1wn0Fz-0000000F3ZH-2v1x
 	for linux-nvme@lists.infradead.org;
-	Thu, 23 Jul 2026 20:43:02 +0000
-Received: by mail-wr1-x42c.google.com with SMTP id ffacd0b85a97d-4720f3bf164so588728f8f.1
-        for <linux-nvme@lists.infradead.org>; Thu, 23 Jul 2026 13:43:01 -0700 (PDT)
+	Thu, 23 Jul 2026 20:43:04 +0000
+Received: by mail-wr1-x42d.google.com with SMTP id ffacd0b85a97d-4728c12ba97so667140f8f.0
+        for <linux-nvme@lists.infradead.org>; Thu, 23 Jul 2026 13:43:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=meshstor.io; s=google; t=1784839380; x=1785444180; darn=lists.infradead.org;
+        d=meshstor.io; s=google; t=1784839382; x=1785444182; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=xY1kaJm76bL7mULPuQYN6MgHSE4hk4KEujLtUR/lx4I=;
-        b=VDmc8ftzCHHnfjt7LHg9rIy/O8CdScJMe74N1hwZghG99QRh9CxtoracKzRDCrknkj
-         3J23WakaDopTQZ6RtNOIYVSYOZrfS9ECW/LG9uEaT46LSPj/97AQnVPPziAPwzJRbu9/
-         JoAhOCQKzlDf2nae3bwIfDagaebomcMOeFCcrQ3yCnKnR+etMcFsacbjJaA7Gyg66e2S
-         njkIESqmIkyCrdCzR9/rF5uNuO3lsbMBEWIjbvWOqj10uxz1iJ/8avDNicSrsxQQlzXf
-         3BVi/JdchUKdL8SHPxe3pNoNuL5ORS3vPcehcWK61NpRIMVE0ZZ3pjPB3OJxrjCBSxHV
-         CnYw==
+        bh=jvUC0Lia0it+LgLYsOXSPjeMnXEhLq3Hqn52LEDkVn4=;
+        b=ksCJdpaeREKIYF2w3BN0HloUrQLBVkva3fwIcM8YtSG9Rv2H+GMOfxJrebI+H2Mhsi
+         8CJ6XTxgNU/tFCEiCXBs6FEipnwU/Q4BR2KxPqi4cu7CXw9D2dT2TCtMxLFJ2kE5gsM5
+         CZ6fKXqGl8dvAdyW5cUm333hl+b7uUo3bqjFfrRLgGbkNKG2q3VCWQY6LlAfG1zFpiKJ
+         c4NlWextSGD8kDuGjKNELA6ARzRYfjplK1gOHoiA5tmTYfnsDjkqWhiE5tGJqoCWPin/
+         KNLqPePvNDwyK7W48TiBWo23aQ2RLLmEjZQl3genwC29xLG39gL1yLCuaGKjfqnklHN6
+         510w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784839380; x=1785444180;
+        d=1e100.net; s=20251104; t=1784839382; x=1785444182;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=xY1kaJm76bL7mULPuQYN6MgHSE4hk4KEujLtUR/lx4I=;
-        b=lXm/J9B8xAUEUjxcvodoQlhGJL8qMQh1EQNYdZ+vVy2B4aRa4kqx9SlGJl6m+VvKv4
-         VOtX7yXYsyvnJa/iXWFYVPxRRDFDTKI7ALJWCTlKDy8hzjYbx4SWJj6ddsVzliXRbLDS
-         X3ODV6Vr+s65DJKnPKXkRWJzl3INKpcJg22rnWcqFB03/I/7rvs0HTL0yEmo/itANvrX
-         SQG9S9OoxpkfXkehKAbLlz9gutO/4iB0rrwtBlXpFc8pDJN3W2ASEEQ1+nU7mLDELwYR
-         AcRzIDP+ADUNjjqV5hhN013DyRkXbi9BFDdfQp1Kwso9PpGu5DwLC3SlXDKZ8r6S1UkU
-         JXFQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rpd+Kw+izdkHaSFmA+b2CFCtxpF0odayUVV+GMDAJYUzI8RtugZWGmKTabJDVaHC7lxznUowKh1JBi7@lists.infradead.org
-X-Gm-Message-State: AOJu0YyTfM9E6K/bPZZbVpszUClELB9WrkGW5ZvyBT9uvi9y1mYyfL+8
-	FID+I5ZeL3dOv9e0u3gcLgiadJIB9VES7a7O+7veJCya0Ia/zv1NWULUtxHxd+s/zw==
-X-Gm-Gg: AR+sD122usy9m2OzqsymO5MVucfZhjeBLoj3LYBy5MRZcqCo6KjII/pVT6n/kTnxYmx
-	Mh9Vlcc49+hWbumm9yyizBnVwIAHEy7OifOO3FBQ8EqEuc2RAqGyKij+oiXmebG/YbQLU1C6jYW
-	n7PUTLOJDvbXC6G/fwb2c4Vt2mxqXlQr6XS93rnIB6ndvUJUp8KxPaiZiFseOnrcpkDTYJaxJbi
-	mzC8DAbFw9Pz9y6hcAlAlmrL/Mq0qb5jzFVZZJdSp0zqqvl1RcRXE8r2iEfrLI8tlCqSNplXPsI
-	VhJAvBXMXVYdZR1LzMuFaY+Z0438foHj3z2HzltGRiaI+L7KfdYBZFJ0yP+PoqAnwxjIvJien5Y
-	Z5kly2l5SjtqXUPY3U2MohY9jWIku8XapamiLX3zPTIy9MP5A5f1fv9HNRsWA1syQA/uMOSinfG
-	/SxSza1rsrn4dAHKiSuujfCndC9S/UiDvvM7i24vvt11ODS22QUoGax2ZXdTO4ZZRVA+WfAXIDH
-	ppGWyoyxOAIm/Y2bHejeWxbjBlrhml6N6k6JYDoYg==
-X-Received: by 2002:a05:6000:2309:b0:47f:9208:9e4 with SMTP id ffacd0b85a97d-47f92080a4cmr4670984f8f.31.1784839379605;
-        Thu, 23 Jul 2026 13:42:59 -0700 (PDT)
+        bh=jvUC0Lia0it+LgLYsOXSPjeMnXEhLq3Hqn52LEDkVn4=;
+        b=Vp3pneaAGCxtRYwJ0fuwN4dMOOD7WxSExOKcN7kIPtlPLGOrnuHcVup5T/Z1Sm+AFP
+         bSAHa18vcQAMw4jOfNa6y9DkCaq3dBDZ7GwgRhiSdKSwq/ccdacUGOPvypUOBm7/rqev
+         fgUYMh4F5RBpiQn4g1Oxgdl4SrF8Py9aATGeJFQl6GOG3GAjAQd5a8Nokz7CsmmJh0Yd
+         YjnWp/6J1K88+Bpo+Nhx17yeN/m6ALEVwqtxjwV+/XAmCVecohFWpp6l5BWEJuoenSgh
+         UA/D3ryhOOz1R8xeU/G91h2MZWINNnyj8Oaa6s+5tM7j8IpnLgkxyXEif7knfXwLtugM
+         i/Hg==
+X-Forwarded-Encrypted: i=1; AHgh+RrOM6UPi4ozXPXAptS7Uwg+lZ/wasPWfNNe+v2/+8Gdc3UTlgcmNaOAexN7TNQywoTWu7Gt2h3w4xcM@lists.infradead.org
+X-Gm-Message-State: AOJu0YziVo+xJfUIrzeeavHiOXAk9Z28WpojEYfUE6AqwaQLVA7AHbpD
+	AL3/5pt54CL1hkjkYRC0rplfBmNWadoMNo3oJniuP8ByWEomghtZ7+v4lQ8XRqvNkw==
+X-Gm-Gg: AR+sD12dwikvOhMS5R1dcu3XyTonRchB2M8PIySfs5ubtl1+sqBppgyr9/SfYuapyAa
+	WtyzXS1IYlbaeaYJCd8ksdSed/3vLK7btefJmjaYdk/rXAKCKh6d8cNQFOPw4wLDkqO9A/bajEz
+	t5B+f/+8q/i0wuOtaabNOanIJunC3h7lLUdUwGmGQLmEaJhSkvVFmcFpEx577UYNSeKHL8I615/
+	FvRrtDanWUrz4uFq+N8RNmvpC8JkLn/HOIJZGEudLedMtoCFPM9dAdjMK+6fqlLY+S3t5IQSp+V
+	35NvpvgoHqMpzDDckAM8V4HDQdhVnE2UxHGxDLb+EAOYD9nPPL6NCMsDAHC3KZxuPaCgxp373jV
+	ZL74iNXAOBOvXDhCpDc9K3Z9Bzx7RDm8h2AZkTGvILNm4OL+SM1y2JfLNXry0uC7jt8xX0Dhdwd
+	tBVQQljyRt/18qvOBrKuO5ufaahOcn9mRkD11SAPqjoBIxH6RM3/13JFrafAHy7WIrzE/IT48W2
+	oNZa4YBoxeNvIuvoNhqUNt14/+BC4TDKaa8uYmbC55QPxHBCR0M
+X-Received: by 2002:a05:6000:4301:b0:47f:943a:a7f4 with SMTP id ffacd0b85a97d-47f943aa945mr2275162f8f.61.1784839381805;
+        Thu, 23 Jul 2026 13:43:01 -0700 (PDT)
 Received: from meshstor-pc ([185.87.42.56])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85c52fc0sm18268192f8f.23.2026.07.23.13.42.57
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85c52fc0sm18268192f8f.23.2026.07.23.13.42.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jul 2026 13:42:59 -0700 (PDT)
+        Thu, 23 Jul 2026 13:43:01 -0700 (PDT)
 From: Mykola Marzhan <mykola@meshstor.io>
 To: Jens Axboe <axboe@kernel.dk>,
 	Song Liu <song@kernel.org>,
@@ -96,17 +96,17 @@ Cc: Li Nan <magiclinan@didiglobal.com>,
 	linux-kernel@vger.kernel.org,
 	linux-rdma@vger.kernel.org,
 	linux-pci@vger.kernel.org
-Subject: [PATCH v5 03/10] md/raid1: serialize non-write-behind writes on CollisionCheck rdevs
-Date: Thu, 23 Jul 2026 22:41:59 +0200
-Message-ID: <20260723204206.76930-4-mykola@meshstor.io>
+Subject: [PATCH v5 04/10] md/raid1: don't use write-behind for P2PDMA bios
+Date: Thu, 23 Jul 2026 22:42:00 +0200
+Message-ID: <20260723204206.76930-5-mykola@meshstor.io>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260723204206.76930-1-mykola@meshstor.io>
 References: <20260723204206.76930-1-mykola@meshstor.io>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260723_134301_872266_E4297626 
-X-CRM114-Status: GOOD (  12.78  )
+X-CRM114-CacheID: sfid-20260723_134303_752488_5A500E2D 
+X-CRM114-Status: GOOD (  13.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -121,53 +121,54 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-A write that skips write-behind (full behind queue, a waiting
-reader, failed behind-bio allocation) races the in-flight behind
-write it overlaps: nothing orders the two on the write-mostly
-member, and if the older behind data lands last the member keeps
-stale data for sectors already acknowledged as rewritten.
+alloc_behind_master_bio() copies the bio's data with bio_copy_data(),
+a CPU copy. P2PDMA pages are peer device (BAR) memory; generic code
+must not assume CPU load/store access to them is safe or fast on
+every architecture, and bouncing peer memory through the CPU defeats
+the point of a peer-to-peer transfer.
 
-Serialize on CollisionCheck, which marks exactly the rdevs owning a
-serial tree: serialize_policy rdevs plus write-mostly members when
-write-behind arms serialization -- the case the MD_SERIALIZE_POLICY
-test misses.  remove_serial() under the same condition.  This also
-avoids the old gate's latent NULL deref for rdevs hot-added under
-serialize_policy (they never get a serial tree).
+Skip write-behind for P2PDMA bios: they are written directly to all
+members, including write-mostly ones.  Ordering against write-behind
+I/O in flight to overlapping sectors is preserved: the non-behind
+clone path serializes on CollisionCheck rdevs (see the preceding
+fix), which covers these bios like any other write that bypasses
+write-behind.
 
-Fixes: 69df9cfc7042 ("raid1: serialize the overlap write")
-Cc: stable@vger.kernel.org
-Assisted-by: Claude:claude-fable-5
+Fixes: 02666132403a ("md: propagate BLK_FEAT_PCI_P2PDMA from member devices to RAID device")
+Assisted-by: Claude:claude-opus-4-8
 Signed-off-by: Mykola Marzhan <mykola@meshstor.io>
+Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
 ---
  drivers/md/raid1.c | 8 ++++++--
  1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/md/raid1.c b/drivers/md/raid1.c
-index afe2ca96ad8c..997f79c05db7 100644
+index 997f79c05db7..7d769b6460ca 100644
 --- a/drivers/md/raid1.c
 +++ b/drivers/md/raid1.c
-@@ -564,7 +564,7 @@ static void raid1_end_write_request(struct bio *bio)
- 				call_bio_endio(r1_bio);
- 			}
- 		}
--	} else if (test_bit(MD_SERIALIZE_POLICY, &rdev->mddev->flags))
-+	} else if (test_bit(CollisionCheck, &rdev->flags))
- 		remove_serial(rdev, lo, hi);
- 	if (r1_bio->bios[mirror] == NULL)
- 		rdev_dec_pending(rdev, conf->mddev);
-@@ -1677,7 +1677,11 @@ static bool raid1_write_request(struct mddev *mddev, struct bio *bio,
- 			mbio = bio_alloc_clone(rdev->bdev, bio, GFP_NOIO,
- 					       &mddev->bio_set);
+@@ -1523,6 +1523,7 @@ static bool raid1_write_request(struct mddev *mddev, struct bio *bio,
+ 	bool write_behind = false;
+ 	bool nowait = bio->bi_opf & REQ_NOWAIT;
+ 	bool is_discard = op_is_discard(bio->bi_opf);
++	bool is_p2pdma = md_bio_is_p2pdma(bio);
+ 	sector_t sector = bio->bi_iter.bi_sector;
  
--			if (test_bit(MD_SERIALIZE_POLICY, &mddev->flags))
-+			/*
-+			 * CollisionCheck marks every rdev with a serial
-+			 * tree; order against in-flight write-behind I/O.
-+			 */
-+			if (test_bit(CollisionCheck, &rdev->flags))
- 				wait_for_serialization(rdev, r1_bio);
- 		}
+ 	if (mddev_is_clustered(mddev) &&
+@@ -1575,9 +1576,12 @@ static bool raid1_write_request(struct mddev *mddev, struct bio *bio,
+ 		/*
+ 		 * The write-behind io is only attempted on drives marked as
+ 		 * write-mostly, which means we could allocate write behind
+-		 * bio later.
++		 * bio later. P2PDMA bios are excluded: write-behind copies
++		 * the data with bio_copy_data(), a CPU copy that cannot be
++		 * assumed safe or fast on P2PDMA (device BAR) pages.
+ 		 */
+-		if (!is_discard && rdev && test_bit(WriteMostly, &rdev->flags))
++		if (!is_discard && !is_p2pdma && rdev &&
++		    test_bit(WriteMostly, &rdev->flags))
+ 			write_behind = true;
  
+ 		r1_bio->bios[i] = NULL;
 -- 
 2.52.0
 
