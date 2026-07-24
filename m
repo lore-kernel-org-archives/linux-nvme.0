@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CEFABC531FF
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B64A8C53215
 	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jul 2026 11:49:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,47 +12,46 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=sjk6amyEBjrYxLjeZ1QDRsyaaTyipDxO0LX58dfiMoY=; b=cgbECvfivHqISwwGD3se90564W
-	VPc+AArfXXcvOik6y0v+6p+1pSOYgpIt18hSZ1jU7h1khFDcto6bbxdiGWEog+eU0fb5gXYWrOlmF
-	QSYPhPzdmIMObTBmB2/Jpm/Mx9d97wsKVeuA+G3XNHaas8eWVW05QytpLMLDQ9cLMp1YEU/45PpJW
-	GGqrwqkuzGtSzr5sHkE71fj2rdmafF7ekVyyeP07ivabDjreLe4xBdxPhA9P9uMuMDjehBEZp3Kq+
-	b/DZLP1VzzZl4HmpIpmp+orX5MoiylT9/hgaZRhnkjRo16p6K++nNH6VyGcp9lIzkQKkD/2oQDDBT
-	tzeHY/Mg==;
+	bh=QTC6NsxRl1cissuVz2YgrF6JXpxFhpWBepXXxL0ejJo=; b=erINfdB0JyJ8MHRUEhSjsH/kxa
+	1Hl+Q/BZFBk+wvADECybIWEsIigYWVZPoNqEe9QoA7a9WfERRfmDjlvvrmd52Nq00ul0FL/iojZyP
+	3kN3dO0BNSpKHfjIp89yjSYDz1zVIwW4S7QFRByAcEZwguSjpZTC4CY+yAfLs8STUiD+r8cRM2Xrx
+	XETyuJZzPhomFkaH2VBFHYpdzuu6aJlt3fPGiocx1QX+uLt0e0h/VE0chV7Yts2CxdhwGo+Df6zeX
+	lm1ynyBFeDX3UCeqg2yelCkIHpZW8edApIPbJ3N0ADtr37S2GD253dSIfaPUzfHVcPo6Bq1RRTHgK
+	YS8vaatA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wnDoX-0000000GF9r-0thj;
+	id 1wnDoX-0000000GFAv-37zm;
 	Fri, 24 Jul 2026 11:11:37 +0000
 Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wnDoU-0000000GF7E-0BdB
+	id 1wnDoU-0000000GF7O-1BGz
 	for linux-nvme@lists.infradead.org;
 	Fri, 24 Jul 2026 11:11:34 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 4DBC460A5F;
+	by tor.source.kernel.org (Postfix) with ESMTP id 69DB660A63;
 	Fri, 24 Jul 2026 11:11:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 82DB8C4FF6C;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9AC95C4FF6E;
 	Fri, 24 Jul 2026 11:11:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1784891492;
-	bh=ctGGpbIzK8JbaKPapPs/06WW7DP5TK3ylIpHn8zRy8E=;
+	bh=cuXW3w1fKxELbA7o+sSCBXcLYsqfoxI6yUn985dXTOA=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=ow945mIo7qPG3DwG9fWGlk0w901LUpGkzW9JgDexi/1K3PYgEC/atYyLxyU85+VSY
-	 ZTMTFH58BEnf/NBS+zR0rr92b3aTFx4LtTCMHRCtwzdgmurlzcQ2MlrFNGzrk5wbet
-	 esZf8TQ9nk77V2ZlCd0voM/kkyOSLR1QzcSASUu3d/dgUeJ2VFXeJeuuFmCXXh9hq8
-	 60298jIjPkwHt61PHWWsaKBzt5jhoWqadUSE6luQW7LXr9uqgPiJ0CqWva06myDEww
-	 r55L4qmF6m4lbpAUdj9byzatHAtAnZO8M10O36XkxE841jkN3ICogNRVgWPGlCMa0E
-	 JyVrLIvHOIKKg==
+	b=cNxwOLTVZv7oUuu/vCFfSoAzNqGwUDUgRynYElcUIX14PO8/ZfBU1qp65JC/e1MGt
+	 Kmb7vz7RjMRR1C1zwYYyzVM62UFZStsbtYxFPhk+iTQFlNSLys6MfFddRgqRFA3Jyw
+	 /0Oz/liGRv5pThtFEuhOyC6ZXP+CEckVDFrhkIN91i4E7RHCmjP8/liPSNU+TofiIk
+	 IJTSDMwwbJDjXaTSGptXZg2ik7iRvtCMFewqvrTGf/SSEFJmwfBVNyMclDJfGDoYBH
+	 U8u8eEYLZO4q0p9zNjKYh6XsYv8gkhkl5UJetozniAeEclzKbw9ozmY6uhtoPPGTD5
+	 MBA7rz0QOqmKA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B39AC531F9;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84469C531FC;
 	Fri, 24 Jul 2026 11:11:32 +0000 (UTC)
 From: Joel Granados <joel.granados@kernel.org>
-Date: Fri, 24 Jul 2026 13:10:58 +0200
-Subject: [PATCH RFC v2 04/14] nvme: Add CDQ to xarray and define delete
- path
+Date: Fri, 24 Jul 2026 13:11:00 +0200
+Subject: [PATCH RFC v2 06/14] nvme: Add file descriptor to read CDQs
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260724-jag-cdq-lkml-v2-4-659a7449e849@kernel.org>
+Message-Id: <20260724-jag-cdq-lkml-v2-6-659a7449e849@kernel.org>
 References: <20260724-jag-cdq-lkml-v2-0-659a7449e849@kernel.org>
 In-Reply-To: <20260724-jag-cdq-lkml-v2-0-659a7449e849@kernel.org>
 To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
@@ -61,19 +60,19 @@ To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
 Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
  Joel Granados <joel.granados@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6664;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4622;
  i=joel.granados@kernel.org; h=from:subject:message-id;
- bh=ctGGpbIzK8JbaKPapPs/06WW7DP5TK3ylIpHn8zRy8E=;
- b=owJ4nAHtARL+kA0DAAoBupfNUreWQU8ByyZiAGpjSFt/XNfgWgLFYWMGHMQdodhVUC5mgZPEg
- hYvs+KyEnN0J4kBswQAAQoAHRYhBK5HCVcl5jElzssnkLqXzVK3lkFPBQJqY0hbAAoJELqXzVK3
- lkFP09sL/j2jHWSsx+FLMji4B3z+ehsawvgMK2OqHJf/zTD9Mk6USJqqnhYbgCu41vLgxuRV3vT
- kPnuyJPp/uc41jYAc1FDH05H8uEQ9IE6kAzD0p+FLAnUFNU25brWYJqed1tfVl4/HhH0RhL6qUm
- pvjFTMTswpQev/aM/vb54A5h88pdALYJy03BEuHDdJCmXHVxSOOfjSPg+jHiQDF8bGN8OImy1tq
- sALsxUC9Nn9k3sq8UcTKHTQvMeYBGFakrCk3SXSoiJCXWdv4dcK9lgUy5AExU6KZucyEIvt2bSk
- VqSRHrhlW8f1wQL1NspkmG2q1Jfy0//scfvJmHHkxl5+F54DXVy90qXFSPU7pHL1lKyCz4aQT0s
- o5kvLlSXQ9nWn/W/LK3nAH/8LjV3ciEGZLnN2wle5aAuCaLFUrODr5qYAeboSrSrdTug4cgQZCf
- 4NgLJ9QdJ3FVVICdq2MmL8qIXan46M43iq0WMcpZZxTUaGysOhrgeQTUYGoDWlhW5OnnBOJvPL7
- OM=
+ bh=cuXW3w1fKxELbA7o+sSCBXcLYsqfoxI6yUn985dXTOA=;
+ b=owJ4nAHtARL+kA0DAAoBupfNUreWQU8ByyZiAGpjSFx5KyutJlzAtt7LfqGf+4dOO0DZ/yiHc
+ wmz28VygnJVXokBswQAAQoAHRYhBK5HCVcl5jElzssnkLqXzVK3lkFPBQJqY0hcAAoJELqXzVK3
+ lkFPSrYL/A8YCfOy/tCi1jiOi5MVYG0dCQ4K5wVNRQmhJgD+9xWG4XlU9NXj4IEt93v0eiInGwC
+ JfKM+vAlAP7A2Co2M8pDJEphJ5jxt++mHhz3//y/NsjkaDQmae3vn6jZE0qDJV/JnAjYBlMMpnO
+ Mys2x3qlg/XWIn/JyhWsVgyFd5cx/NjLoXZErZBewVsNxevfi2PouqS4X6+YaPiHhWex2ZPx9xV
+ B2VsoSlieq3mNlmJ1eH8KMeH/O4jPnJ6NGucFQwqG5FCrEC2gOvwj6gUSdTRy5zlou8DTGOsoI5
+ vfSkFrpHo2SFiYcvsFKbWxH/s42HHWyvw8dN9Ruy4s6MAXmD7Y1hK+XNgrHld6GH+446pPKfU+s
+ X8NN+xPqx0EW/J4TVMgGer8SqvPlytdIf05vPYZtzsin+5ugsgmr/hNE8sU3MyJUPUe/14Rc/G6
+ g6kywQBzWURq2eyOY3kb+VnCa6kCQq9Sl5lUzDZ7Wjrh0RmE/mp7Wv3GXN+PL20YNHqK8IWhwe8
+ aM=
 X-Developer-Key: i=joel.granados@kernel.org; a=openpgp;
  fpr=F1F8E46D30F0F6C4A45FF4465895FAAC338C6E77
 X-Endpoint-Received: by B4 Relay for joel.granados@kernel.org/default with
@@ -92,207 +91,166 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add Controller managed CDQs to a new xarray in nvme_ctrl indexed by the
-CDQ id returned by the controller. The new cdqs xarray will house
-pointers to the struct cdq_nvme_queue which contains individual CDQ
-metadata. Start it off with id and ctrl back pointer; it will grow as
-features get added.
+CDQs are read using file descriptors provided by nvme_create_cdqfd. Only
+add the logic to create and release the file descriptor; return "not
+implemented" for now. The CDQ traversal logic will be added in a future
+commit.
 
-Commands on the delete path:
-1. Individual -vs- "All" CDQ delete:
-  - The individual delete path is taken when there is a specific command
-    from user space to "delete" one CDQ
-  - The "all" delete is taken on contrller reset
-2. Separation between host and controller delete:
-  - Controller delete takes care of sending and forwarding the result of
-    the nvme CDQ delete command
-  - Host delete memory on the host side
-
-The separation between host and controller delete is important in
-nvme_disable_ctrl as the host should delete the memory but expect the
-controller to follow NVMe protocol and remove the CDQ on its side.
-
-Note that there is no way of adding a CDQ just yet. This commit focuses
-on the delete path and leaves room for handling the creation in
-subsequent commits.
+The CDQ memory is now pointed from two different places (the user space
+FD and the nvme controller struct) and should only be freed when there
+are no pointers left. Use a kref to ensure that it is in the FD's
+private_data even if the controller is goes down.
 
 Signed-off-by: Joel Granados <joel.granados@kernel.org>
 ---
- drivers/nvme/host/Makefile |  2 +-
- drivers/nvme/host/cdq.c    | 62 ++++++++++++++++++++++++++++++++++++++++++++++
- drivers/nvme/host/cdq.h    | 20 +++++++++++++++
- drivers/nvme/host/core.c   | 15 ++++++++++-
- drivers/nvme/host/nvme.h   |  1 +
- 5 files changed, 98 insertions(+), 2 deletions(-)
+ drivers/nvme/host/cdq.c | 71 +++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/cdq.h | 21 +++++++++++++++
+ 2 files changed, 92 insertions(+)
 
-diff --git a/drivers/nvme/host/Makefile b/drivers/nvme/host/Makefile
-index 6414ec968f99ae69f991cbd61e7ad79554e5041f..cd895082e259a9b0673c7400f6ba62401f95767f 100644
---- a/drivers/nvme/host/Makefile
-+++ b/drivers/nvme/host/Makefile
-@@ -10,7 +10,7 @@ obj-$(CONFIG_NVME_FC)			+= nvme-fc.o
- obj-$(CONFIG_NVME_TCP)			+= nvme-tcp.o
- obj-$(CONFIG_NVME_APPLE)		+= nvme-apple.o
- 
--nvme-core-y				+= core.o ioctl.o sysfs.o pr.o
-+nvme-core-y				+= core.o ioctl.o sysfs.o pr.o cdq.o
- nvme-core-$(CONFIG_NVME_VERBOSE_ERRORS)	+= constants.o
- nvme-core-$(CONFIG_TRACING)		+= trace.o
- nvme-core-$(CONFIG_NVME_MULTIPATH)	+= multipath.o
 diff --git a/drivers/nvme/host/cdq.c b/drivers/nvme/host/cdq.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..0e9ac88a054f6630c1eea73ae4140f124b6bb31f
---- /dev/null
+index 73dd6af42055687bec62ad0350c67736c9c047c2..63c0852e0ba17a17227b9a0189be5123358a2262 100644
+--- a/drivers/nvme/host/cdq.c
 +++ b/drivers/nvme/host/cdq.c
-@@ -0,0 +1,62 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * NVMe Controller Data Queue (CDQ) support.
-+ */
+@@ -3,6 +3,9 @@
+  * NVMe Controller Data Queue (CDQ) support.
+  */
+ 
++#include <linux/anon_inodes.h>
++#include <linux/file.h>
 +
-+#include "nvme.h"
-+#include "cdq.h"
+ #include "nvme.h"
+ #include "cdq.h"
+ 
+@@ -151,6 +154,9 @@ static inline int nvme_create_cdq_backing(struct cdq_nvme_queue *cdq)
+ 			goto err_chunks;
+ 	}
+ 
++	/* FIXME: put this on the create_cdq function*/
++	kref_init(&cdq->ref);
 +
-+static int nvme_submit_delete_cdq_cmd(const struct cdq_nvme_queue *cdq)
+ 	return 0;
+ 
+ err_chunks:
+@@ -166,6 +172,69 @@ static inline void nvme_release_cdq_backing(struct cdq_nvme_queue *cdq)
+ 	nvme_free_cdqmem_chunks(cdq);
+ }
+ 
++static ssize_t nvme_cdq_fops_read(struct file *filep, char __user *buf,
++				  size_t size_nbyte, loff_t *ppos)
 +{
-+	struct nvme_command c = {
-+		.cdq.opcode = nvme_admin_cdq,
-+		.cdq.sel = NVME_CDQ_CMD_MGMT_DELETE,
-+		.cdq.dw11.cdqid = cpu_to_le16(cdq->id)
-+	};
++	struct cdq_nvme_queue *cdq = filep->private_data;
++	size_t nbytes = round_down(size_nbyte, NVME_CDQ_MQ_ENTRY_NRBYTES);
 +
-+	return __nvme_submit_sync_cmd(cdq->ctrl->admin_q, &c, NULL, NULL, 0, NVME_QID_ANY, 0);
++	if (*ppos)
++		return -ESPIPE;
++
++	if (size_nbyte < NVME_CDQ_MQ_ENTRY_NRBYTES)
++		return -EINVAL;
++
++	if (nbytes > (cdq->size_nbyte))
++		return -EINVAL;
++
++	/* CDQ traversal not implemented yet. */
++	return -EOPNOTSUPP;
 +}
 +
-+/* Sends a CDQ delete NVMe cmd */
-+static void nvme_delete_cdq_ctrl(struct cdq_nvme_queue *cdq)
++/* File reference already dropped by the close path, so don't fput() */
++static int nvme_release_cdqfd(struct cdq_nvme_queue *cdq)
 +{
-+	if (nvme_submit_delete_cdq_cmd(cdq))
-+		WARN_ONCE(1, "Failed delete CDQ (id: %d)", cdq->id);
++	nvme_cdq_put(cdq);
++	return 0;
 +}
 +
-+/* Does NOT send a CDQ delete NVMe cmd */
-+static void nvme_delete_cdq_host(struct cdq_nvme_queue *cdq)
++static int nvme_cdq_fops_release(struct inode *inode, struct file *filep)
 +{
-+	u16 cdq_id = cdq->id;
-+	struct nvme_ctrl *ctrl = cdq->ctrl;
-+
-+	xa_erase(&ctrl->cdqs, cdq_id);
++	return nvme_release_cdqfd(filep->private_data);
 +}
 +
-+void nvme_delete_cdq(struct cdq_nvme_queue *cdq)
-+{
-+	nvme_delete_cdq_ctrl(cdq);
-+	nvme_delete_cdq_host(cdq);
-+}
-+EXPORT_SYMBOL_GPL(nvme_delete_cdq);
-+
-+/* Will NOT send a CDQ delete NVMe cmd. */
-+void nvme_delete_cdqs_host(struct nvme_ctrl *ctrl)
-+{
-+	struct cdq_nvme_queue *cdq;
-+	unsigned long i;
-+
-+	xa_for_each(&ctrl->cdqs, i, cdq)
-+		nvme_delete_cdq_host(cdq);
-+}
-+
-+/* Final teardown at device->release: free all CDQs and destroy the xarray. */
-+void nvme_free_cdqs(struct nvme_ctrl *ctrl)
-+{
-+	/*
-+	 * Delete host side CDQ only. NOT sending delete cmd as
-+	 * Ctrl should delete on disable.
-+	 */
-+	nvme_delete_cdqs_host(ctrl);
-+	xa_destroy(&ctrl->cdqs);
-+}
-diff --git a/drivers/nvme/host/cdq.h b/drivers/nvme/host/cdq.h
-new file mode 100644
-index 0000000000000000000000000000000000000000..4378f97553ce2e649d8998eb168f82039dc762b1
---- /dev/null
-+++ b/drivers/nvme/host/cdq.h
-@@ -0,0 +1,20 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * NVMe Controller Data Queue (CDQ) support.
-+ */
-+
-+#ifndef _NVME_CDQ_H
-+#define _NVME_CDQ_H
-+
-+#include "nvme.h"
-+
-+struct cdq_nvme_queue {
-+	u16 id;
-+	struct nvme_ctrl *ctrl;
++static const struct file_operations cdq_fops = {
++	.owner		= THIS_MODULE,
++	.open		= nonseekable_open,
++	.read		= nvme_cdq_fops_read,
++	.release	= nvme_cdq_fops_release,
 +};
 +
-+void nvme_delete_cdq(struct cdq_nvme_queue *cdq);
-+void nvme_delete_cdqs_host(struct nvme_ctrl *ctrl);
-+void nvme_free_cdqs(struct nvme_ctrl *ctrl);
++__maybe_unused
++static int nvme_create_cdqfd(struct cdq_nvme_queue *cdq, int *cdq_fdno)
++{
++	int fdno;
++	struct file *filep;
 +
-+#endif /* _NVME_CDQ_H */
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index d11858300ad43f3e229eab7f2dd77563075b801e..fbaa2e065ab846e4700cddd7ae9f30a52e8a2cd9 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -25,6 +25,7 @@
- #include <linux/unaligned.h>
++	filep = anon_inode_getfile("[cdq-readfd]", &cdq_fops, cdq, O_RDWR);
++	if (IS_ERR(filep))
++		return PTR_ERR(filep);
++
++	/* cdq is being pionted at by ->private_data. increase ref */
++	nvme_cdq_get(cdq);
++
++	fdno = get_unused_fd_flags(O_CLOEXEC | O_RDONLY | O_DIRECT);
++	if (fdno < 0) {
++		fput(filep); /* nvme_cdq_put through release */
++		return fdno;
++	}
++
++	fd_install(fdno, filep);
++	*cdq_fdno = fdno;
++
++	return 0;
++}
++
+ static int nvme_submit_delete_cdq_cmd(const struct cdq_nvme_queue *cdq)
+ {
+ 	struct nvme_command c = {
+@@ -193,6 +262,8 @@ static void nvme_delete_cdq_host(struct cdq_nvme_queue *cdq)
+ 		return;
+ 
+ 	nvme_release_cdq_backing(cdq);
++
++	nvme_cdq_put(cdq);
+ }
+ 
+ void nvme_delete_cdq(struct cdq_nvme_queue *cdq)
+diff --git a/drivers/nvme/host/cdq.h b/drivers/nvme/host/cdq.h
+index 5deaf3705c65250ea9fdc69e2e973987c8f084c1..8c003aa75bd3e4df9a5f8af7ff21d1957dd43923 100644
+--- a/drivers/nvme/host/cdq.h
++++ b/drivers/nvme/host/cdq.h
+@@ -8,6 +8,8 @@
  
  #include "nvme.h"
-+#include "cdq.h"
- #include "fabrics.h"
- #include <linux/nvme-auth.h>
  
-@@ -2665,9 +2666,19 @@ int nvme_disable_ctrl(struct nvme_ctrl *ctrl, bool shutdown)
- 	}
- 	if (ctrl->quirks & NVME_QUIRK_DELAY_BEFORE_CHK_RDY)
- 		msleep(NVME_QUIRK_DELAY_AMOUNT);
--	return nvme_wait_ready(ctrl, NVME_CSTS_RDY, 0,
-+	ret =  nvme_wait_ready(ctrl, NVME_CSTS_RDY, 0,
- 			       (NVME_CAP_TIMEOUT(ctrl->cap) + 1) / 2, "reset");
-+	if (ret)
-+		return ret;
++#define NVME_CDQ_MQ_ENTRY_NRBYTES	32
 +
-+	/*
-+	 * Delete host side CDQ only. Purposefully NOT sending delete cmd.
-+	 * Ctrl should delete on disable.
-+	 */
-+	nvme_delete_cdqs_host(ctrl);
-+	return ret;
- }
+ /*
+  * The CDQ backing is a set of coherent DMA chunks. Chunk size expressed in
+  * host pages to match dma_alloc_coherency granularity.
+@@ -38,8 +40,27 @@ struct cdq_nvme_queue {
+ 	__le64 *prp_lists[MAX_NR_CDQ_PRPS];
+ 	dma_addr_t prp_lists_dma[MAX_NR_CDQ_PRPS];
+ 	unsigned int nr_prp_lists;
 +
- EXPORT_SYMBOL_GPL(nvme_disable_ctrl);
- 
- int nvme_enable_ctrl(struct nvme_ctrl *ctrl)
-@@ -5074,6 +5085,7 @@ static void nvme_free_ctrl(struct device *dev)
- 	if (!subsys || ctrl->instance != subsys->instance)
- 		ida_free(&nvme_instance_ida, ctrl->instance);
- 	nvme_free_cels(ctrl);
-+	nvme_free_cdqs(ctrl);
- 	nvme_mpath_uninit(ctrl);
- 	cleanup_srcu_struct(&ctrl->srcu);
- 	nvme_auth_stop(ctrl);
-@@ -5120,6 +5132,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	mutex_init(&ctrl->scan_lock);
- 	INIT_LIST_HEAD(&ctrl->namespaces);
- 	xa_init(&ctrl->cels);
-+	xa_init(&ctrl->cdqs);
- 	ctrl->dev = dev;
- 	ctrl->ops = ops;
- 	ctrl->quirks = quirks;
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 654e5c1b64956c877ff845f0b1f7ee2fa0852b64..7b9d1781816c4bad719584c3d4b4f9fdf7b4e3dc 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -466,6 +466,7 @@ struct nvme_ctrl {
- 	enum nvme_dctype dctype;
- 
- 	u16			awupf; /* 0's based value. */
-+	struct xarray cdqs;
++	/* Manage refs for read FD and controller xarray */
++	struct kref ref;
  };
  
- static inline enum nvme_ctrl_state nvme_ctrl_state(struct nvme_ctrl *ctrl)
++/* Must not touch cdq->ctrl: Ctrl may have been freed */
++static inline void nvme_free_cdq(struct kref *ref)
++{
++	kfree(container_of(ref, struct cdq_nvme_queue, ref));
++}
++
++static inline void nvme_cdq_get(struct cdq_nvme_queue *cdq)
++{
++	kref_get(&cdq->ref);
++}
++
++static inline void nvme_cdq_put(struct cdq_nvme_queue *cdq)
++{
++	kref_put(&cdq->ref, nvme_free_cdq);
++}
++
+ void nvme_delete_cdq(struct cdq_nvme_queue *cdq);
+ void nvme_delete_cdqs_host(struct nvme_ctrl *ctrl);
+ void nvme_free_cdqs(struct nvme_ctrl *ctrl);
 
 -- 
 2.50.1
