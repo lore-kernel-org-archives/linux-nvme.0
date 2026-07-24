@@ -4,63 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7C52DC531C9
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jul 2026 16:56:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 46674C531C9
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jul 2026 18:48:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=cUrnWy2WKVTXvQRFpa4Dg33IG19qhdXuCbSecbj9/ww=; b=W/Aj7ylZScgHnCHhVHu4iyvCeo
-	4GI9xEwdBHHis+XQA4dQk26XiZ/20VFKKFtvsAZm1+5m2A6BiwWTEN2yM5newwnWua54n9/x/VvNF
-	5Zh5N9rhjG4whfG+rY8dGTK7yvX22IMF6DnCPE+bGH7trYviGlErJo47++Yq+seEoAlhCgkFCejP1
-	CBW2aBbnt+uPG27Qp73eEUh7dX5VFIY3qtzN3R/goFJuDMHPzQohCa89mXJe4EDlD+jiXDAQ5dthu
-	ob1KOU/ck6E5JUpPZww+wzePwvwPXIdIY2lI8kxxcdHzXonzWmuixgcDWNt2r+kPj/QPva5EEF10R
-	frvp/E5w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=lyf4LTVkA3IdyxZk0dAuQutxNJYdqXOmUsPg3x/bmR8=; b=jFwh0DDmIl0IwM
+	D5qEf/aMJP3qECi7NxbgfoaHyCSz0HNNAatH+w3scsWOIU1jSExUUWHaHuTUMTdZ5nxyYhcBm24hg
+	sol64f+QmKe4Vcc0cJtvVp+vFmnUb4Dqy6Kj1fXkm8Tk+fxXime5bW11oJUuOeNzfJUqZyjTHjuLs
+	zvPODtQPoOLuriMSAp8Q4ehYbi2KcDO6QcYsoBapLTQEKW5MohA/dHWKz6NCoxgXgtrWdF8ru3qi8
+	K1REkUs2iyQS89JF/ijbqlzYbUxZVMDjpPMidn/0W71EI6jC1MDcDjHpTsoJ6c0YCqueQBTFsHw9P
+	7gz9S5w3GNuznPRfdcyQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wnJCW-0000000GtYk-2kmE;
-	Fri, 24 Jul 2026 16:56:44 +0000
-Received: from out-171.mta0.migadu.com ([2001:41d0:1004:224b::ab])
+	id 1wnKwv-0000000H5rb-0X0Q;
+	Fri, 24 Jul 2026 18:48:45 +0000
+Received: from ale.deltatee.com ([204.191.154.188])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wnJCT-0000000GtWt-0mXS
+	id 1wnKws-0000000H5rH-2R5f
 	for linux-nvme@lists.infradead.org;
-	Fri, 24 Jul 2026 16:56:43 +0000
-Message-ID: <94ed42ce-895d-4197-994b-60fc1d3f040c@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1784912197;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cUrnWy2WKVTXvQRFpa4Dg33IG19qhdXuCbSecbj9/ww=;
-	b=Epciqs5yfiRz6u6HGHqSg2CDRdAPPD2qTeNhYpUfxlt4tyVplFWCPZJTERcKUlRTR9DICd
-	O+xLXrvBLWYvPwmSi4c1SuSXIp39vebQL541e4rtC+fWoHyYr+cP1RVNJmfoolbNRuxvxk
-	9T7jv2kla5l9ZTEy9iV6lJWczJEAPt4=
-Date: Fri, 24 Jul 2026 17:56:35 +0100
+	Fri, 24 Jul 2026 18:48:43 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
+	MIME-Version:Date:Message-ID:content-disposition;
+	bh=lyf4LTVkA3IdyxZk0dAuQutxNJYdqXOmUsPg3x/bmR8=; b=CrMKD2tfE0Krvs8mmKJfzJXDz0
+	LF0h/ra2V9nlz87cZyJ86J3H6ImabZnYnPsYqIiEpBXoO9RUv/7g5Dq9VijqQDiKbGYhGn8g+ZhJt
+	S4khpU6MaDXMK0mQFi2TPFxSYU/MgpoDxf7ijmhAmiC19FBztWb3kr8mV+7F/MDKiDNXvZ9+xEPp8
+	jlFGycdN2IBoBaAq+xYUvS5zjX1ceFxqI075ggPHxB+oTofG2w1BvSeVI0o8Z+Cc+EeBhC312JzBD
+	gP5CAE3fmuPoZAI2ruN94yLDmTtp80pO81vOECjgJvynWK3MfrFy1XhpHc5RFpKvGakw1pbEvQwzP
+	oBIqCHaw==;
+Received: from s0106ac1f6bb1ecac.cg.shawcable.net ([96.51.150.74] helo=[10.0.33.8])
+	by ale.deltatee.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.98.2)
+	(envelope-from <logang@deltatee.com>)
+	id 1wnKwj-0000000E1PL-2AOY;
+	Fri, 24 Jul 2026 12:48:34 -0600
+Message-ID: <23b0a3ae-7f11-4ae9-8c1b-0401db0fd299@deltatee.com>
+Date: Fri, 24 Jul 2026 12:47:16 -0600
 MIME-Version: 1.0
-Subject: Re: [PATCH RFC] nvme-multipath: fix diskstats for partitions
-To: Keith Busch <kbusch@kernel.org>
-Cc: John Garry <john.g.garry@oracle.com>, Christoph Hellwig <hch@lst.de>,
- sagi@grimberg.me, axboe@fb.com, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org
-References: <20260721114553.1657841-1-john.g.garry@oracle.com>
- <20260724050152.GA3680@lst.de>
- <987782a9-e12a-4098-b438-a54a5765c2ae@oracle.com>
- <amNegPEvRX99EvPN@kbusch-mbp>
- <f76e9466-4b66-4a32-a491-728e24d34052@linux.dev>
- <amOGxr3rxvDflHLv@kbusch-mbp>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: John Garry <john.garry@linux.dev>
-In-Reply-To: <amOGxr3rxvDflHLv@kbusch-mbp>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+To: Mykola Marzhan <mykola@meshstor.io>, Jens Axboe <axboe@kernel.dk>,
+ Song Liu <song@kernel.org>, Yu Kuai <yukuai@fygo.io>,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
+ linux-raid@vger.kernel.org, linux-nvme@lists.infradead.org
+Cc: Li Nan <magiclinan@didiglobal.com>, Xiao Ni <xiao@kernel.org>,
+ Guoqing Jiang <guoqing.jiang@linux.dev>, Leon Romanovsky <leon@kernel.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Kiran Kumar Modukuri <kmodukuri@nvidia.com>,
+ Chaitanya Kulkarni <kch@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Shivaji Kant <shivajikant@google.com>, Pranjal Shrivastava
+ <praan@google.com>, Henrique Carvalho <henrique.carvalho@suse.com>,
+ stable@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rdma@vger.kernel.org, linux-pci@vger.kernel.org
+References: <20260723204206.76930-1-mykola@meshstor.io>
+ <20260723204206.76930-10-mykola@meshstor.io>
+Content-Language: en-CA
+From: Logan Gunthorpe <logang@deltatee.com>
+In-Reply-To: <20260723204206.76930-10-mykola@meshstor.io>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 96.51.150.74
+X-SA-Exim-Rcpt-To: mykola@meshstor.io, axboe@kernel.dk, song@kernel.org, yukuai@fygo.io, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, linux-block@vger.kernel.org, linux-raid@vger.kernel.org, linux-nvme@lists.infradead.org, magiclinan@didiglobal.com, xiao@kernel.org, guoqing.jiang@linux.dev, leon@kernel.org, jgg@ziepe.ca, kmodukuri@nvidia.com, kch@nvidia.com, bhelgaas@google.com, shivajikant@google.com, praan@google.com, henrique.carvalho@suse.com, stable@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org, linux-pci@vger.kernel.org
+X-SA-Exim-Mail-From: logang@deltatee.com
+Subject: Re: [PATCH v5 09/10] nvme-rdma: use ib_dma_map_sgtable_attrs()
+X-SA-Exim-Version: 4.2.1 (built Sun, 23 Feb 2025 07:57:16 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260724_095641_519552_86A73364 
-X-CRM114-Status: GOOD (  19.01  )
+X-CRM114-CacheID: sfid-20260724_114842_625874_B4626982 
+X-CRM114-Status: GOOD (  22.92  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,51 +89,84 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/24/26 16:37, Keith Busch wrote:
-> On Fri, Jul 24, 2026 at 04:29:08PM +0100, John Garry wrote:
->> On 7/24/26 13:45, Keith Busch wrote:
->>> Can we just thread through partitions for the bio's block_device instead
->>> of assuming part0? I know the hidden path devices skip partition
->>> scanning, but maybe if we let it happen, then those will have the same
->>> partition setup as the head gendisk. Then we can go right to the
->>> disk->part_tbl for what we provide to bio_set_dev() for both submission
->>> and failover, and everything should work out from there.
->>
->> I guess that we would just scan through the per-path gendisk->part_tbl and
->> match somehow to lookup the partition. Maybe vs start address of
->> bio->bi_bdev. Or is there a simpler (and quicker) way?
->>
+
+
+On 2026-07-23 2:42 p.m., Mykola Marzhan wrote:
+> ib_dma_map_sg() folds every mapping error into a zero return, losing
+> the DMA layer's error code.  Switch both scatterlist mappings to
+> ib_dma_map_sgtable_attrs(), which preserves it for the next patch to
+> act on.  No behavior change: failures are still reported as -EIO.
 > 
-> This is the idea, assuming we can get the partition tables of the head
-> and path disks to be aligned:
+> A local sg_table is needed: dma_map_sgtable() maps orig_nents
+> entries, and the embedded table's orig_nents is the allocated count,
+> not the count blk_rq_map_sg() produced.  rdma_rw_ctx_init() does the
+> same.
 > 
+> Assisted-by: Claude:claude-fable-5
+> Cc: stable@vger.kernel.org # v7.1
+> Signed-off-by: Mykola Marzhan <mykola@meshstor.io>
+
+I don't know. I think this could still use a bit more cleanup (see
+thoughts below). But the cleanup is probably too much to ask for this
+series. See my thoughts below.
+
+Reviewd-by: Logan Gunthorpe <logang@deltatee.com>
+
 > ---
-> --- a/drivers/nvme/host/multipath.c
-> +++ b/drivers/nvme/host/multipath.c
-> @@ -543,7 +543,10 @@ static void nvme_ns_head_submit_bio(struct bio *bio)
->          srcu_idx = srcu_read_lock(&head->srcu);
->          ns = nvme_find_path(head);
->          if (likely(ns)) {
-> -               bio_set_dev(bio, ns->disk->part0);
-> +               struct block_device *bdev;
-> +
-> +               bdev = xa_load(&ns->disk->part_tbl, bdev_partno(bio->bi_bdev));
-> +               bio_set_dev(bio, bdev);
->                  /*
->                   * Use BIO_REMAPPED to skip bio_check_eod() when this bio
->                   * enters submit_bio_noacct() for the per-path device. The EOD
-> --
+>  drivers/nvme/host/rdma.c | 23 +++++++++++++++--------
+>  1 file changed, 15 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 6909e3542794..63830334c73e 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -1469,6 +1469,7 @@ static int nvme_rdma_dma_map_req(struct ib_device *ibdev, struct request *rq,
+>  		int *count, int *pi_count)
+>  {
+>  	struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
+> +	struct sg_table sgt;
+>  	int ret;
+>  
+>  	req->data_sgl.sg_table.sgl = (struct scatterlist *)(req + 1);
+> @@ -1480,12 +1481,16 @@ static int nvme_rdma_dma_map_req(struct ib_device *ibdev, struct request *rq,
+>  
+>  	req->data_sgl.nents = blk_rq_map_sg(rq, req->data_sgl.sg_table.sgl);
+>  
+> -	*count = ib_dma_map_sg(ibdev, req->data_sgl.sg_table.sgl,
+> -			       req->data_sgl.nents, rq_dma_dir(rq));
+> -	if (unlikely(*count <= 0)) {
+> +	sgt = (struct sg_table) {
+> +		.sgl		= req->data_sgl.sg_table.sgl,
+> +		.orig_nents	= req->data_sgl.nents,
+> +	};
+> +	ret = ib_dma_map_sgtable_attrs(ibdev, &sgt, rq_dma_dir(rq), 0);
+> +	if (unlikely(ret)) {
+>  		ret = -EIO;
+>  		goto out_free_table;
+>  	}
+> +	*count = sgt.nents;
 
-ok, got it.
+This really makes these calls really complicated and harder to reason
+about just to get an appropriate return code in the next patch. Though I
+see the complexity here and I feel like I'm confused by the semantics of
+nents and orig_nents all the time. It seems like some cases really need
+to track three counts: the number of valid DMA addresses (nents), the
+number of valid segments and the number actually allocated. sg_table
+only has two fields, and orig_nents ends up doing double duty — the DMA
+API reads it as the valid-segment count, while
+sg_alloc/free_table_chained() treat it as the allocation size. When
+those two differ, as they do here, it creates this complexity.
 
-And I think that we would need to do the reverse lookup in 
-nvme_mpath_start_request() and nvme_mpath_end_request() to get the head 
-disk partition, like:
-bdev = xa_load(&ns->head->disk->part_tbl, bdev_partno(bio->bi_bdev));
+One cheap thought that might clean up this patch series is to create a
+helper that can be used for both the data and the metadata, but that's
+only slightly better and I don't know if it is worth the effort.
 
-I suppose that the tricky part now would be have the per-path disk scan 
-run but keep those per-path disks hidden.
+A better long term option might be to introduce a dma_map_sgtable like
+helper that also takes the number of valid segments which would clean
+this up pretty nicley. But that would be much more work.
 
-I experimented by stop setting GENHD_FL_HIDDEN for the per-path disk, 
-and the diskstats look ok, FWIW.
+Thanks,
+
+Logan
+
 
