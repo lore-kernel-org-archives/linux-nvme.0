@@ -4,59 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6B83EC531C9
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jul 2026 12:46:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 247AAC531FA
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jul 2026 15:13:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=NdIIWNJ3ERJGsJjiN9AEhl+dFqQlbhp2u6CVyCyiXJU=; b=WrBZ5RyIStawtbWPUn2ZmnrFw8
-	QMvf240bcqvCvSkz8T3irFCVWlSDigzUK6smSy10RGpeYVTe9WAwpfdQy1ZNcXdXwcj/NLNFY1iCc
-	hZzuFI5vZpr6RPbtwQVoUUCTTV5hRgQk0xrTW7OqSzATHWQCMr1oGpP7/sbQMgvZqsFNOp5bsnMmf
-	vhH19drHl7veFhYtWYKU1qKF0CXB8mHj5uCli9iQT1WnYPVBf4bIT+XTkwsi7tOwsf4AJ9yok6s/e
-	hbRh17QhblKSV+0NbwQVv/vmSKk6r6bfsBkYtpAw37q1jmAsi91ukIiutkiGq6iy9k4UVdQ1/5k8V
-	y5LEAjww==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=ZNQaYBhxmRPRp3MSD4orn4lVQITWPI7vJhQDea9WLWA=; b=kq8BKl2XFtLVWY
+	tdxMwtrTx5dsMnr+s/m2+iL6E7cSNvaFgh7LYna9bYvbbxlzInNTrv8Ifz+PbkNxoVxuiIHEb3yqq
+	S+XXWkLezr1znapihbXJLmVU+V7jkz0eO0YAB77rSlVPb21vbe+h1kvLE8FI31aJuyPLpyZxtnIOd
+	dRiVoX+hYbLfK7aQr/7SZQK0f30J2SaY+DGXK/xCl8a/2AyR+lIYXcfMwitoR2g1D2k9hWdpe7KVk
+	Dh7y/8OUT5mPW+lXXh8XGquHTf09wCH99sSLO9yaosIeRPRuhUW0qA2m4WpFUbtkBwnEIDdx8qF9T
+	hy9ubIhmWTNCDhlxSaag==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wnFHq-0000000GPnt-1InB;
-	Fri, 24 Jul 2026 12:45:58 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1wnHaT-0000000Gfyz-2Vks;
+	Fri, 24 Jul 2026 15:13:21 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wnFHp-0000000GPnh-3Ytu
+	id 1wnHaS-0000000GfwV-0cXt
+	for linux-nvme@bombadil.infradead.org;
+	Fri, 24 Jul 2026 15:13:20 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Subject:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=ZNQaYBhxmRPRp3MSD4orn4lVQITWPI7vJhQDea9WLWA=; b=MfM7kFBUHvW7vPwhf/TNNTv7bf
+	TsZJRelZKm71GWI3d/IsHnKiwjxaLXW+S/o83bnhOtuOFSeuOjiBl6BQJbgfxzH944gRWT05OEGJR
+	BQAhi7wxarNzJVJCzB0Q9bT7c9Fz8Gf62Uo5V97ceJvKv6/GA1pV2GH2STz8hUdE0HUUuIJVtC+zi
+	kvuqI/QcT680OShjdu5wM/aWi9pkTOnbG+XWFhE1cMxx4HJGaMFTPRtwnpXipPJsyvaVxoZs3reWi
+	4F0OuSp6pMx7BhjWh+YuVMgJwbq3XjfZikaIJdaZbrkcgxzwzeIDosf6jI7HkImND9d3K9A0z+0Kl
+	E0oVEutg==;
+Received: from ale.deltatee.com ([204.191.154.188])
+	by desiato.infradead.org with esmtps (Exim 4.99.2 #2 (Red Hat Linux))
+	id 1wnHaO-00000002g4O-0iBe
 	for linux-nvme@lists.infradead.org;
-	Fri, 24 Jul 2026 12:45:57 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 3F292600AA;
-	Fri, 24 Jul 2026 12:45:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D40BD1F000E9;
-	Fri, 24 Jul 2026 12:45:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784897156;
-	bh=NdIIWNJ3ERJGsJjiN9AEhl+dFqQlbhp2u6CVyCyiXJU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=aW1LGXubKWmZ7lNn4RAQkojiORE442GPtMZOnI+ff9putpeT4OLQArHbUv+Z3m2t/
-	 sTZe3vn3/ZJLnMLrzGTfsCaZfmH7m+ABSiKImPhyYFoEW+rZpoI7Bcy+UM98M/p167
-	 HMnlvyXKaj6cAfPHq3eNsfsBUVJR3tl0A0hNuZbcB+lchr4vUg70/dBf2g981DWeg3
-	 WctRX3oUyoARZeD8xVcg/cm8pEJpc2PLl6noZZAgK4odMxP5ICpnsnYLIyNNecu4AC
-	 c4+zx3tP4oLcG/Y9PDFLM7mYuupMcuUrNh+rlcT3XzXgR3Fjgb7jdotTLpVBIFF4wF
-	 +1b29CjCDk+7Q==
-Date: Fri, 24 Jul 2026 06:45:52 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: John Garry <john.g.garry@oracle.com>
-Cc: Christoph Hellwig <hch@lst.de>, sagi@grimberg.me, axboe@fb.com,
-	linux-nvme@lists.infradead.org, John Garry <john.garry@linux.dev>,
-	linux-block@vger.kernel.org
-Subject: Re: [PATCH RFC] nvme-multipath: fix diskstats for partitions
-Message-ID: <amNegPEvRX99EvPN@kbusch-mbp>
-References: <20260721114553.1657841-1-john.g.garry@oracle.com>
- <20260724050152.GA3680@lst.de>
- <987782a9-e12a-4098-b438-a54a5765c2ae@oracle.com>
+	Fri, 24 Jul 2026 15:13:18 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
+	MIME-Version:Date:Message-ID:content-disposition;
+	bh=ZNQaYBhxmRPRp3MSD4orn4lVQITWPI7vJhQDea9WLWA=; b=cWmRFP83Y7oPZwBv2BLRKVl1HD
+	D8rIMDnGdgxr1yVtuC+jeiGi7dT25yeEYXLQa5VBnxPIjaaiyQD5kqefwtNR8JP5td2qaCWlapYtw
+	Vd2lB/XyAkRJ2ZYbDE31HdlR0rB9YHNMJYPHrxkeOOKcfuwUzhQbWPqu0eghgt2IWpDxyjsQs1s8d
+	EB2c2EoWjQB8/ZBKMgtiZt+tj/HCdbS3B8MSQR9XpzXaLeng7EChYiemPYUadTVebvcIttEkCRR1t
+	n1T4l23fiGPBBRgawhsx7Y5uaX/BZmHaiB575OBeptxUHZa0Y0Ysymx0XcHzwlA3gqqS1dl5ECFhz
+	VU6pA5+A==;
+Received: from s0106ac1f6bb1ecac.cg.shawcable.net ([96.51.150.74] helo=[10.0.33.8])
+	by ale.deltatee.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.98.2)
+	(envelope-from <logang@deltatee.com>)
+	id 1wnHaC-0000000DzHJ-0tXv;
+	Fri, 24 Jul 2026 09:13:05 -0600
+Message-ID: <47954eca-63e6-401b-82d7-d5969207ded9@deltatee.com>
+Date: Fri, 24 Jul 2026 09:11:43 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <987782a9-e12a-4098-b438-a54a5765c2ae@oracle.com>
+User-Agent: Mozilla Thunderbird
+To: Mykola Marzhan <mykola@meshstor.io>, Jens Axboe <axboe@kernel.dk>,
+ Song Liu <song@kernel.org>, Yu Kuai <yukuai@fygo.io>,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
+ linux-raid@vger.kernel.org, linux-nvme@lists.infradead.org
+Cc: Li Nan <magiclinan@didiglobal.com>, Xiao Ni <xiao@kernel.org>,
+ Guoqing Jiang <guoqing.jiang@linux.dev>, Leon Romanovsky <leon@kernel.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Kiran Kumar Modukuri <kmodukuri@nvidia.com>,
+ Chaitanya Kulkarni <kch@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Shivaji Kant <shivajikant@google.com>, Pranjal Shrivastava
+ <praan@google.com>, Henrique Carvalho <henrique.carvalho@suse.com>,
+ stable@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rdma@vger.kernel.org, linux-pci@vger.kernel.org
+References: <20260723204206.76930-1-mykola@meshstor.io>
+ <20260723204206.76930-8-mykola@meshstor.io>
+Content-Language: en-CA
+From: Logan Gunthorpe <logang@deltatee.com>
+In-Reply-To: <20260723204206.76930-8-mykola@meshstor.io>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 96.51.150.74
+X-SA-Exim-Rcpt-To: mykola@meshstor.io, axboe@kernel.dk, song@kernel.org, yukuai@fygo.io, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, linux-block@vger.kernel.org, linux-raid@vger.kernel.org, linux-nvme@lists.infradead.org, magiclinan@didiglobal.com, xiao@kernel.org, guoqing.jiang@linux.dev, leon@kernel.org, jgg@ziepe.ca, kmodukuri@nvidia.com, kch@nvidia.com, bhelgaas@google.com, shivajikant@google.com, praan@google.com, henrique.carvalho@suse.com, stable@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org, linux-pci@vger.kernel.org
+X-SA-Exim-Mail-From: logang@deltatee.com
+Subject: Re: [PATCH v5 07/10] md/raid1,raid10: skip futile retries on P2PDMA
+ mapping failures
+X-SA-Exim-Version: 4.2.1 (built Sun, 23 Feb 2025 07:57:16 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260724_161316_673355_902A49C0 
+X-CRM114-Status: UNSURE (   9.89  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,40 +106,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jul 24, 2026 at 08:09:51AM +0100, John Garry wrote:
-> On 24/07/2026 06:01, Christoph Hellwig wrote:
-> > On Tue, Jul 21, 2026 at 11: 45: 53AM +0000, John Garry wrote: > Setting as an
-> > RFC as adding this extra bio field is not acceptable, but I > can't see how to
-> > lookup the original partition. In general it is not, but you should mark this a
-> > 
-> > 
-> > On Tue, Jul 21, 2026 at 11:45:53AM +0000, John Garry wrote:
-> > > Setting as an RFC as adding this extra bio field is not acceptable, but I
-> > > can't see how to lookup the original partition.
-> > 
-> > In general it is not, but you should mark this a block patch so that
-> > Jens can better cream at you :)
-> > 
-> > I'm also not sure that supporting per-partition diskstats on a multipath
-> > device makes too much sense, but then again there's a lot of setups
-> > that are crazy and actually used..
-> > 
-> 
-> It just seems to me that we should have same behaviour as if it were not
-> multipath.
-> 
-> So we can't use bi_private as that can be set by original bio submitter. I
-> was thinking that this bdev pointer could be temp stashed in bi_next (as it
-> should be originally NULL), but that it dodgy and maybe won't even work.
 
-Failover is corner case to consider here. We always reset the bio bdev
-to the part0, so your stats will be incorrect when that happens. I think
-you can quickly fix that in your proposal with the "bi_orig", though.
 
-Can we just thread through partitions for the bio's block_device instead
-of assuming part0? I know the hidden path devices skip partition
-scanning, but maybe if we let it happen, then those will have the same
-partition setup as the head gendisk. Then we can go right to the
-disk->part_tbl for what we provide to bio_set_dev() for both submission
-and failover, and everything should work out from there.
+On 2026-07-23 2:42 p.m., Mykola Marzhan wrote:
+> BLK_STS_P2PDMA reflects the peer/member pairing, not member health:
+> retrying the same pages on the same member cannot succeed.  Keep
+> WriteErrorSeen so the range stays fenced, but skip WantReplacement and
+> FailFast eviction, as commit f7b24c7b41f2 ("md/raid1,raid10: don't fail
+> devices for invalid IO errors") did for BLK_STS_INVAL.
+> 
+> The failure is whole-range and deterministic, so narrow_write_error()'s
+> block-by-block submit_bio_wait() retries are pointless.  Record the
+> whole range as a bad block in the completion handler instead.
+> 
+> Fixes: 02666132403a ("md: propagate BLK_FEAT_PCI_P2PDMA from member devices to RAID device")
+> Assisted-by: Claude:claude-fable-5
+> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+> Signed-off-by: Mykola Marzhan <mykola@meshstor.io>
+
+Change my no longer correct first Signed-off-by to:
+
+Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+
+Logan
 
