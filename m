@@ -4,55 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A9427C531F9
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jul 2026 12:17:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2C34FC531F9
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jul 2026 12:17:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YPqVa3itBqGqeSteaHkCZG9vLgNJSZSPXwVtYmjyqqw=; b=totDVlyKp50l1TMPaNpFNpI4/L
-	tKR4BeehSlYkROv6MZKzsXBIdCPBfWAjYPBkDL8PDRjwKe9Fmqu7v/cFSgas1SpFQOE1Tlhzi6kg5
-	QdvJZiFDNAEv7cc9dBnF6YG8rFJLOD1hQ7CabEhpZnT9gJGHnl8IdepupGPNzr5P4yd9TS1fdHvwd
-	tKrBH9qJReVC6V9ewYOMhPJcMAkXH1NCMK4c1UJZSz3f44rJ1ba30VhjWcn+wurMoDbNMKVBZYtfx
-	TxKYE3xDfHOc43n9lx6twGH/QTkolv85w3LcELO/0WcOrPj6vl2pc+5xRcT3gXDYnouYayQhydcCx
-	gI1lUF0Q==;
+	bh=HwvYUpEN31TyJeMK4E0NKueppuVH6i5wx8nma2WXWmM=; b=OIPXs3EajufruBj4s1K7EBKIy2
+	AONk82/IvC0YijE+zjklVITTL/h0LjBSJNG2XOP3+a5EcXAeoLKGufHKODF98fr8e2QAMe0wtAhow
+	LKxrR1v5O6WMcuo4/aNXos6p7KipQcBnibUYdSC9j5saFMLrUyCA4DUUzP0PsHVS2+9Nr9PciIPp0
+	+gJXydSCEHQdxIGyq6N2A4jwd9S7j6BvMJ50mansPPm5EggDoLbhpxpruaB4RcUTJDnW+GSUczLQ5
+	/012XRW5/suK93MD4gXk4UR0272Jc8ziCeVCV9ITsnvjGkNBCxQ/dEf3Ea8+N+OJvz/BXiLJMFP0G
+	rx08JmCw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wnDoY-0000000GFE0-3QAX;
+	id 1wnDoY-0000000GFC4-16GP;
 	Fri, 24 Jul 2026 11:11:38 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wnDoU-0000000GF7h-2tjm
+	id 1wnDoU-0000000GF7T-1LV4
 	for linux-nvme@lists.infradead.org;
 	Fri, 24 Jul 2026 11:11:34 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 9BE1660A90;
+	by tor.source.kernel.org (Postfix) with ESMTP id 8A7B260A84;
 	Fri, 24 Jul 2026 11:11:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0CC16C55DE1;
-	Fri, 24 Jul 2026 11:11:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id DA75AC4FF61;
+	Fri, 24 Jul 2026 11:11:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1784891493;
-	bh=d1zkJDIbXXjPHU7K9NaiA+mfZPVXne7PNdWSFhuUYSQ=;
+	s=k20201202; t=1784891492;
+	bh=Hl9wyVfReowmH9lQXOTj9hunvFlCPgM9Uuy4AsqCz3I=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=lmepWaRP4XPTDeonZJ/TvU2SItRT+ZCx6SjRshs+qwP3CP1TdoQbIJQtwVZorhYug
-	 lMVOblRNGgnKVUmA/VsHVEuK9jgSkxihAYr+utCgMjossNnZxMg5h0/lYq3Py7wJ2a
-	 8Mp7f/cdYNiiMQQPN0ll4+GVaoj+Yr4GkQkyB2wSpXPcT0ZRdRBYLD+bjGIyelw0WT
-	 fdULNuDX5b05gxyMNxfwixrr+Ci3z56gvMQ9FW5Kd6QB4DDWWzTD2h4ej8KcKw+oJ5
-	 6N0uZA5VHpqCqlSgdWniyrv5QNShF4+NbxKOKq4ljlSTn1QtbJuHa8m9mhRhfKolqC
-	 h/NKJcxDc64aQ==
+	b=u5PmhNDy62FU/PIUuw/jJ1O/ciA0R62JR06BjM31bi1UKrv1AuDEXUvggnMwTenUj
+	 vRQ9wNcbxuy3ewT4eux4w78z6T4FoUiCienbXubjq+yR7LTccO/6DmBsBDBLPQ1DGV
+	 9J920IQmy+J9TFI7OkrfdRZalDiFGGWri+su+vk/2yU6jrGwE/brUa3LE78FIz1Rlt
+	 0wnRJD2Oil62WuIjGRp7tqduiBdohc9tUSAc6wf+nmixyHM1ddXEPRdhiLwxAvZ7cE
+	 y7miuoVMNin8UkANKD+7drEK/pZhLDUHMJHtspztnF2MXMd6oP0xqoVJGrkrDiXbn0
+	 MJqvQKacuR6eg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBE52C53209;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4C06C53215;
 	Fri, 24 Jul 2026 11:11:32 +0000 (UTC)
 From: Joel Granados <joel.granados@kernel.org>
-Date: Fri, 24 Jul 2026 13:11:08 +0200
-Subject: [PATCH RFC v2 14/14] nvme: Add NVME_IOCTL_CDQ to create/delete
- migration CDQs
+Date: Fri, 24 Jul 2026 13:11:05 +0200
+Subject: [PATCH RFC v2 11/14] nvme: Implement CDQ traversal on the read
+ path
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260724-jag-cdq-lkml-v2-14-659a7449e849@kernel.org>
+Message-Id: <20260724-jag-cdq-lkml-v2-11-659a7449e849@kernel.org>
 References: <20260724-jag-cdq-lkml-v2-0-659a7449e849@kernel.org>
 In-Reply-To: <20260724-jag-cdq-lkml-v2-0-659a7449e849@kernel.org>
 To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
@@ -61,19 +61,19 @@ To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
 Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
  Joel Granados <joel.granados@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6659;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4810;
  i=joel.granados@kernel.org; h=from:subject:message-id;
- bh=d1zkJDIbXXjPHU7K9NaiA+mfZPVXne7PNdWSFhuUYSQ=;
- b=owJ4nAHtARL+kA0DAAoBupfNUreWQU8ByyZiAGpjSGG4UvFbI8wiFtfmB5bgwXKTltOYOGg8w
- ForyT5Mgi3g+YkBswQAAQoAHRYhBK5HCVcl5jElzssnkLqXzVK3lkFPBQJqY0hhAAoJELqXzVK3
- lkFP+/4L/1ZQCUenB+UJVFl3tXLpC7+xLkOUDCyPOmo4OeclITNiPo2Ffz2+XiKMOaWnD9dKfG/
- 3HAZprtR4WJkQvRjoCtnrHF4EOGu55YM/v39CWHfeaEM1v3BemGsYXwhyVU7TMrCBzQ8Nmk8+Nw
- 2XzHII9ExTo4uQe+NXjoYKtu21ibDjlHftMZXWmCRFw+t9t5zMWQQe+ACTihRl46DTgJSoXoLgO
- xd56VzVB7tINK7TH9+VJIGAl9GrjvvKCHrITEotkRhl6uBZO2I2c9bsYuRS+qRQ1P0em/Gj67n4
- Bg52FP+aPpSBj65FuWjRcdrQzsvBgVnp0ydtkYctM0B6nh3TRHh69hvvfQmzl6BRnHPdBdTnuti
- unVg6DD1DJT05oOOm0gLti36b2hyCl4tdw19AgCkEEwhp20polFUR5Qu23ZhyJW0/LLVEQyZeoE
- 0taGb608txEiKKFPjzgRffi9v2ZVGEtPLmrJVvTGr9VL+UcZSTwFw2TlgBqBlSidm3cghAcbSs5
- fE=
+ bh=Hl9wyVfReowmH9lQXOTj9hunvFlCPgM9Uuy4AsqCz3I=;
+ b=owJ4nAHtARL+kA0DAAoBupfNUreWQU8ByyZiAGpjSF+n2iXlrweqzc/nxEwB/z4f0UK8MBU+j
+ NCK/boeFLJJjYkBswQAAQoAHRYhBK5HCVcl5jElzssnkLqXzVK3lkFPBQJqY0hfAAoJELqXzVK3
+ lkFPUhsMAIGYljanPcOwQ6j/9z4kH80xLUK3aACtckcxSC/qwqXnuS1jRQ/wfkFNlGm7mHLaLmG
+ soKtFi6Cqblp/e8GuLUJqKYK5APRpeoSw8jyNNVEGP/9W+ddXMDjeS29pAXKzw3+OLrzk6E70hd
+ 4BG+b5iBTlhF/R5MpKCguGYIHIy7JgGH45natCdyWbEItJcYCsTijxW1vYXNzs0Qtn5T+9d1n8E
+ P8iGo60G2+RoGKfqGCMQ4cAdbRQgWwYmrzOs7w9rQEHgqcMqeu6cUtb8GWCXarUnKZpVqontwfW
+ yB2C6wgfTLS01ethQcQUpleFB/9btqTf9fBJMMyK6MF9A9mSjLQ/GJAq+/nqGK1Gc6lT0K+R8MV
+ av9LZLbMOkwXtnOqt7PJCSPNc+JSkH6EmBqB2Oxqh/GF72ohYT2WDyAbCQ92d6o6JYfM1x9yxEs
+ kRTx2fNi3KWNnH7kkLnqw2+QKGyYA2M0eMgy+P+O2KTTnc2sxgMn3aRTNXZH4jevDHI9I6bkAq7
+ HY=
 X-Developer-Key: i=joel.granados@kernel.org; a=openpgp;
  fpr=F1F8E46D30F0F6C4A45FF4465895FAAC338C6E77
 X-Endpoint-Received: by B4 Relay for joel.granados@kernel.org/default with
@@ -92,204 +92,147 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Controller Data Queue (CDQ) creation and deletion executed for the
-migratable controller id defined in mc_id. When an eventfd file
-descriptor is passed in tpt_fd, the AEN tail pointer trigger event is
-routed as an eventfd signal. When tpt_fd is <= 0, the routing is turned
-off.
+Replace the initial -EOPNOTSUPP stub with a call to
+nvme_traversecopy_cdq which copies new controller entries to the user
+space buffer, forwards and wraps host_head around when it reaches the
+end of the queue.
 
 Signed-off-by: Joel Granados <joel.granados@kernel.org>
 ---
- drivers/nvme/host/cdq.c         | 23 ++++++++++++++++++---
- drivers/nvme/host/cdq.h         |  4 +++-
- drivers/nvme/host/ioctl.c       | 44 ++++++++++++++++++++++++++++++++++++++++-
- include/uapi/linux/nvme_ioctl.h | 22 +++++++++++++++++++++
- 4 files changed, 88 insertions(+), 5 deletions(-)
+ drivers/nvme/host/cdq.c | 73 +++++++++++++++++++++++++++++++++++++++++++++++--
+ drivers/nvme/host/cdq.h |  7 +++++
+ 2 files changed, 78 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/host/cdq.c b/drivers/nvme/host/cdq.c
-index f4aabf0a8817058a11e6c30dcea9554076861327..ac10c8d48864615f53da232a547cd5da72630ed1 100644
+index 7fe08afa0d80db5f3d60993aba05624b5c59b309..36107cf2fe11ff212d5b02dd5513fe02e3ae8f81 100644
 --- a/drivers/nvme/host/cdq.c
 +++ b/drivers/nvme/host/cdq.c
-@@ -511,6 +511,22 @@ void nvme_delete_cdq(struct cdq_nvme_queue *cdq)
- }
- EXPORT_SYMBOL_GPL(nvme_delete_cdq);
+@@ -5,6 +5,7 @@
  
-+int nvme_delete_cdq_mcid(struct nvme_ctrl *ctrl, u16 mc_id)
-+{
-+	struct cdq_nvme_queue *cdq;
-+	unsigned long i;
-+
-+	xa_for_each(&ctrl->cdqs, i, cdq) {
-+		if (cdq->mc_id == mc_id) {
-+			nvme_delete_cdq(cdq);
-+			return 0;
-+		}
-+	}
-+
-+	return -ENOENT;
-+}
-+EXPORT_SYMBOL_GPL(nvme_delete_cdq_mcid);
-+
- int nvme_handle_cdq_aen_tpevent(struct nvme_ctrl *ctrl, u32 event_param)
- {
- 	u16 cdq_id = event_param & NVME_FEAT_CDQ_ID_MASK;
-@@ -556,11 +572,12 @@ static int nvme_submit_create_cdq_cmd(struct cdq_nvme_queue *cdq)
- 	return ret;
- }
+ #include <linux/anon_inodes.h>
+ #include <linux/file.h>
++#include <linux/uaccess.h>
  
--int nvme_create_cdq(struct nvme_ctrl *ctrl, const u32 entry_nr, const u16 mc_id, const int tpt_fd)
-+int nvme_create_cdq(struct nvme_ctrl *ctrl, const u32 entry_nr, const u16 mc_id,
-+		    const int tpt_fd, int *cdq_fd)
- {
- 	u64 size_nbyte = (u64)entry_nr * NVME_CDQ_MQ_ENTRY_NRBYTES;
- 	struct cdq_nvme_queue *cdq = NULL;
--	int ret, cdq_fd;
-+	int ret;
- 
- 	/* The backing size and the CDQSIZE field are both u32 (bytes). */
- 	if (size_nbyte > U32_MAX)
-@@ -598,7 +615,7 @@ int nvme_create_cdq(struct nvme_ctrl *ctrl, const u32 entry_nr, const u16 mc_id,
- 	if (ret)
- 		goto del_cmd;
- 
--	ret = nvme_create_cdqfd(cdq, &cdq_fd);
-+	ret = nvme_create_cdqfd(cdq, cdq_fd);
- 	if (ret)
- 		goto del_xarray;
- 
-diff --git a/drivers/nvme/host/cdq.h b/drivers/nvme/host/cdq.h
-index 2958c6b92b1312930414b8466690aa7c0eb57754..06a6224a6583dd2ec7463c62f9381e0edcb6718f 100644
---- a/drivers/nvme/host/cdq.h
-+++ b/drivers/nvme/host/cdq.h
-@@ -89,7 +89,9 @@ void nvme_free_cdq(struct kref *ref);
-  *    - Calls nvme_free_cdq if there are no more refs
-  */
- void nvme_delete_cdq(struct cdq_nvme_queue *cdq);
--int nvme_create_cdq(struct nvme_ctrl *ctrl, const u32 entry_nr, const u16 mc_id, int tpt_fd);
-+int nvme_delete_cdq_mcid(struct nvme_ctrl *ctrl, u16 mc_id);
-+int nvme_create_cdq(struct nvme_ctrl *ctrl, const u32 entry_nr, const u16 mc_id,
-+		    int tpt_fd, int *cdq_fd);
- 
- static inline void nvme_cdq_get(struct cdq_nvme_queue *cdq)
- {
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index 8844bbd395159e544218db413e066cae6c24b2f1..c289a220cb18b39bef4edbd0a8daaa4b46f8b4d9 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -8,6 +8,7 @@
- #include <linux/nvme_ioctl.h>
- #include <linux/io_uring/cmd.h>
  #include "nvme.h"
-+#include "cdq.h"
- 
- enum {
- 	NVME_IOCTL_VEC		= (1 << 0),
-@@ -538,9 +539,46 @@ static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	return ret;
+ #include "cdq.h"
+@@ -169,6 +170,75 @@ static inline void nvme_release_cdq_backing(struct cdq_nvme_queue *cdq)
+ 	nvme_free_cdqmem_chunks(cdq);
  }
  
-+static int nvme_user_cdq(struct nvme_ctrl *ctrl, void __user *argp)
++
++static inline void *nvme_get_cdq_entryvaddr(struct cdq_nvme_queue *cdq,
++					    unsigned int entry_idx)
 +{
-+	struct nvme_cdq_cmd cmd;
-+	u32 entry_nr;
-+	int ret, cdq_fd;
++	return cdq->chunks[entry_idx / NVME_CDQ_MQ_ENTRY_PER_CHUNK].vaddr +
++		(entry_idx % NVME_CDQ_MQ_ENTRY_PER_CHUNK) * NVME_CDQ_MQ_ENTRY_NRBYTES;
++}
 +
-+	if (copy_from_user(&cmd, argp, sizeof(cmd)))
-+		return -EFAULT;
++/* Advance cdq->host_head at most nrbytes and return actual advanced bytes */
++static size_t nvme_advance_cdq(struct cdq_nvme_queue *cdq, size_t max_nrbyte)
++{
++	size_t target_nbyte = 0;
++	void *entry;
++	u8 phase_bit;
++	u32 cdq_nrentry = cdq->size_nbyte / NVME_CDQ_MQ_ENTRY_NRBYTES;
 +
-+	/* A zero size requests deletion of the CDQ created for this mc_id. */
-+	if (cmd.size_nbyte == 0)
-+		return nvme_delete_cdq_mcid(ctrl, cmd.mc_id);
++	while (target_nbyte < max_nrbyte) {
++		entry = nvme_get_cdq_entryvaddr(cdq, cdq->host_head);
++		phase_bit = (*(u8 *)(entry + NVME_CDQ_MQ_PHASE_OFFSET) & NVME_CDQ_MQ_PHASE_MASK);
 +
-+	if (cmd.size_nbyte % NVME_CDQ_MQ_ENTRY_NRBYTES)
-+		return -EINVAL;
++		if (phase_bit == cdq->phase_bit)
++			break;
 +
-+	entry_nr = cmd.size_nbyte / NVME_CDQ_MQ_ENTRY_NRBYTES;
-+
-+	ret = nvme_create_cdq(ctrl, entry_nr, cmd.mc_id, cmd.tpt_fd, &cdq_fd);
-+	if (ret)
-+		goto err_out;
-+
-+	cmd.cdq_fd = cdq_fd;
-+	if (copy_to_user(argp, &cmd, sizeof(cmd))) {
-+		ret = -EFAULT;
-+		goto err_out;
++		cdq->host_head = (cdq->host_head + 1) % cdq_nrentry;
++		target_nbyte += NVME_CDQ_MQ_ENTRY_NRBYTES;
++		if (unlikely(cdq->host_head == 0))
++			cdq->phase_bit = ~cdq->phase_bit & NVME_CDQ_MQ_PHASE_MASK;
 +	}
 +
-+	return 0;
++	return target_nbyte;
++}
++
++static ssize_t nvme_traversecopy_cdq(struct cdq_nvme_queue *cdq, size_t max_nrbyte,
++				   void *priv_data)
++{
++	char __user *to_buf = priv_data;
++	void *from_buf;
++	u32 init_host_head = cdq->host_head;
++	u8 init_phase_bit = cdq->phase_bit;
++
++	size_t target_nbyte = nvme_advance_cdq(cdq, max_nrbyte);
++	size_t copied_nbyte = 0, chunks_idx, entry_idx, tx_nbytes;
++
++	if (target_nbyte == 0)
++		goto out;
++
++	for (chunks_idx = init_host_head / NVME_CDQ_MQ_ENTRY_PER_CHUNK,
++	     entry_idx = init_host_head % NVME_CDQ_MQ_ENTRY_PER_CHUNK;
++	     copied_nbyte < target_nbyte;
++	     chunks_idx = (chunks_idx + 1) % cdq->nr_chunks, entry_idx = 0) {
++		from_buf = cdq->chunks[chunks_idx].vaddr +
++			(entry_idx * NVME_CDQ_MQ_ENTRY_NRBYTES);
++		tx_nbytes = min(target_nbyte - copied_nbyte,
++				NVME_CDQ_CHUNK_SIZE - (entry_idx * NVME_CDQ_MQ_ENTRY_NRBYTES));
++		if (copy_to_user(to_buf, from_buf, tx_nbytes))
++			goto err_out;
++		copied_nbyte += tx_nbytes;
++		to_buf += tx_nbytes;
++	}
++
++out:
++	return copied_nbyte;
 +
 +err_out:
-+	nvme_delete_cdq_mcid(ctrl, cmd.mc_id);
-+	return ret;
-+
++	cdq->host_head = init_host_head;
++	cdq->phase_bit = init_phase_bit;
++	return -EFAULT;
 +}
 +
- static bool is_ctrl_ioctl(unsigned int cmd)
+ static ssize_t nvme_cdq_fops_read(struct file *filep, char __user *buf,
+ 				  size_t size_nbyte, loff_t *ppos)
  {
--	if (cmd == NVME_IOCTL_ADMIN_CMD || cmd == NVME_IOCTL_ADMIN64_CMD)
-+	if (cmd == NVME_IOCTL_ADMIN_CMD || cmd == NVME_IOCTL_ADMIN64_CMD ||
-+	    cmd == NVME_IOCTL_CDQ)
- 		return true;
- 	if (is_sed_ioctl(cmd))
- 		return true;
-@@ -555,6 +593,8 @@ static int nvme_ctrl_ioctl(struct nvme_ctrl *ctrl, unsigned int cmd,
- 		return nvme_user_cmd(ctrl, NULL, argp, 0, open_for_write);
- 	case NVME_IOCTL_ADMIN64_CMD:
- 		return nvme_user_cmd64(ctrl, NULL, argp, 0, open_for_write);
-+	case NVME_IOCTL_CDQ:
-+		return nvme_user_cdq(ctrl, argp);
- 	default:
- 		return sed_ioctl(ctrl->opal_dev, cmd, argp);
- 	}
-@@ -873,6 +913,8 @@ long nvme_dev_ioctl(struct file *file, unsigned int cmd,
- 			return -EACCES;
- 		nvme_queue_scan(ctrl);
- 		return 0;
-+	case NVME_IOCTL_CDQ:
-+		return nvme_user_cdq(ctrl, argp);
- 	default:
- 		return -ENOTTY;
- 	}
-diff --git a/include/uapi/linux/nvme_ioctl.h b/include/uapi/linux/nvme_ioctl.h
-index 2f76cba6716637baff53e167a6141b68420d75c3..b3fbab48a903bfb10521ca44d08e61fd2b37bbbd 100644
---- a/include/uapi/linux/nvme_ioctl.h
-+++ b/include/uapi/linux/nvme_ioctl.h
-@@ -92,6 +92,27 @@ struct nvme_uring_cmd {
- 	__u32   rsvd2;
+@@ -187,8 +257,7 @@ static ssize_t nvme_cdq_fops_read(struct file *filep, char __user *buf,
+ 	if (!READ_ONCE(cdq->valid_mem))
+ 		return -EINVAL;
+ 
+-	/* CDQ traversal not implemented yet. */
+-	return -EOPNOTSUPP;
++	return nvme_traversecopy_cdq(cdq, nbytes, buf);
+ }
+ 
+ /* File reference already dropped by the close path, so don't fput() */
+diff --git a/drivers/nvme/host/cdq.h b/drivers/nvme/host/cdq.h
+index a8c714ab5fada4325463013c2ffb23a117cd8423..96f208264c6144d26aa4ffc34854bb16d3f19af9 100644
+--- a/drivers/nvme/host/cdq.h
++++ b/drivers/nvme/host/cdq.h
+@@ -9,6 +9,8 @@
+ #include "nvme.h"
+ 
+ #define NVME_CDQ_MQ_ENTRY_NRBYTES	32
++#define NVME_CDQ_MQ_PHASE_MASK		0x1
++#define NVME_CDQ_MQ_PHASE_OFFSET	(NVME_CDQ_MQ_ENTRY_NRBYTES - 1)
+ 
+ /*
+  * The CDQ backing is a set of coherent DMA chunks expressed in
+@@ -17,6 +19,7 @@
+ #define NVME_CDQ_CHUNK_ORDER		2
+ #define NVME_CDQ_CHUNK_SIZE		(PAGE_SIZE << NVME_CDQ_CHUNK_ORDER)
+ #define NVME_CDQ_PAGES_PER_CHUNK	(NVME_CDQ_CHUNK_SIZE / NVME_CTRL_PAGE_SIZE)
++#define NVME_CDQ_MQ_ENTRY_PER_CHUNK	(NVME_CDQ_CHUNK_SIZE / NVME_CDQ_MQ_ENTRY_NRBYTES)
+ 
+ /* Max PRP List pages we are willing to chain to describe a discontiguous CDQ. */
+ #define MAX_NR_CDQ_PRPS		20
+@@ -45,6 +48,10 @@ struct cdq_nvme_queue {
+ 	/* True if mem for chunks and prps is valid */
+ 	bool valid_mem;
+ 
++	/* How far the CDQ was consumed by the host */
++	u32 host_head;
++	u8 phase_bit;
++
+ 	/* Manage refs for read FD and controller xarray */
+ 	struct kref ref;
  };
- 
-+struct nvme_cdq_cmd {
-+	/* Migratable controller id (filled by user space). */
-+	__u16	mc_id;
-+
-+	/*
-+	 * CDQ size in bytes: (number of entries) * 32. Must be a multiple of
-+	 * 32. A size of 0 requests deletion of the CDQ created for mc_id.
-+	 */
-+	__u32	size_nbyte;
-+
-+	/*
-+	 * Tail Pointer Trigger eventfd file descriptor, passed when creating
-+	 * the CDQ. A value <= 0 means there is no eventfd and AERs are not
-+	 * forwarded.
-+	 */
-+	__s32	tpt_fd;
-+
-+	/* Returned by the kernel: the CDQ file descriptor. */
-+	__s32	cdq_fd;
-+};
-+
- #define nvme_admin_cmd nvme_passthru_cmd
- 
- #define NVME_IOCTL_ID		_IO('N', 0x40)
-@@ -104,6 +125,7 @@ struct nvme_uring_cmd {
- #define NVME_IOCTL_ADMIN64_CMD	_IOWR('N', 0x47, struct nvme_passthru_cmd64)
- #define NVME_IOCTL_IO64_CMD	_IOWR('N', 0x48, struct nvme_passthru_cmd64)
- #define NVME_IOCTL_IO64_CMD_VEC	_IOWR('N', 0x49, struct nvme_passthru_cmd64)
-+#define NVME_IOCTL_CDQ		_IOWR('N', 0x50, struct nvme_cdq_cmd)
- 
- /* io_uring async commands: */
- #define NVME_URING_CMD_IO	_IOWR('N', 0x80, struct nvme_uring_cmd)
 
 -- 
 2.50.1
