@@ -4,60 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4ABA5C531C9
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jul 2026 15:29:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9F611C531FA
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jul 2026 15:37:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5nuOP4jxO16NLocZBZK4AZLVxWBdOiKE7BUbgb7/Hes=; b=1np6Wvo9IWvWkLn91vC9e+wego
-	n8NlcmIK8hMXEC0b8f3JWK7psfVoKrM6dKzAyRFPWhPxXZrsZ/asK+fXUpZldj3bTKM1Pkqfm+caJ
-	Q+Aew6R2Qb4sg5DN+NcL2LpbbRzU2IkNT7NyEgmPtIabBxJ4ZHZRxHlpN5odWhcoYgDJ+QxyIemOa
-	wYgvDCq7ii4m+WqPsRmv8wbxq+hzI50I3ReajfUbvdaVtMABEwFOcVBrUVKXIDXWLs/yaUjlhEXMG
-	mNmjtQAnSzIB0OscbkqFMrAMXi/hq2IB5UOOpOs5H1cqokA0Kp38+eoAxud6sIpVOdJCUSJD2MIs9
-	JnZcdV0A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=tApCYbmoflSbwJ8GmSfc8QLLcqki2mDSjkVeHAarplM=; b=iT3DWWzivdQgzg1QjMBaRanVv9
+	yvduh49PAwDFXQl9FCpTbeiOKqz0FKbH+LeZjpIdrsA+ru2xqfM9N33twKk8uwi+b0Pmxiu713T1e
+	MVwQADCR8LojaLnj1MUksf+ZeS1788zENigXE8DwDPjye55InYBz/5M8qO3RmycKbXBufBtZmpE7e
+	UuGDjFgXPUCSos/ab7+F0yOnbHrIuhWknGt27S6+68XpH9l9X+w0jJktWi9CKWpPhIyVPa1PLYuSZ
+	DwUjYcXiCxKq9/kzTc8pdF+H0frT6jp6Us4Q1p4kizx0k+b4aiIEjB6522oEUUvVqgKFQj6BthgX8
+	N03MZiqg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wnHpt-0000000GiBU-3eYI;
-	Fri, 24 Jul 2026 15:29:17 +0000
-Received: from out-170.mta0.migadu.com ([91.218.175.170])
+	id 1wnHy8-0000000Gjvm-2cFp;
+	Fri, 24 Jul 2026 15:37:48 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wnHpq-0000000GiAs-18Ff
+	id 1wnHy7-0000000Gjvf-0IIY
 	for linux-nvme@lists.infradead.org;
-	Fri, 24 Jul 2026 15:29:15 +0000
-Message-ID: <f76e9466-4b66-4a32-a491-728e24d34052@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1784906950;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5nuOP4jxO16NLocZBZK4AZLVxWBdOiKE7BUbgb7/Hes=;
-	b=ewCezjJxZxHKTLJcNu3qWDk6XBcK2Q1TLojeyfPWR8VzZo9OZUNSIr3HGxDLJ59AQr8wRK
-	IZ05ayaRiWY8ZOxcW7+FSwjxPzAv7NDzrOu8jYl41KqnRXlQxOg+5K/TUlzLUMqcvzXZ7o
-	iI+MEXRWdN9270MdvnTga9goe6/ijg4=
-Date: Fri, 24 Jul 2026 16:29:08 +0100
-MIME-Version: 1.0
+	Fri, 24 Jul 2026 15:37:47 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id 732304137E;
+	Fri, 24 Jul 2026 15:37:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 336681F000E9;
+	Fri, 24 Jul 2026 15:37:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784907466;
+	bh=tApCYbmoflSbwJ8GmSfc8QLLcqki2mDSjkVeHAarplM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=JNbaiDIi333V78oi5T3v1qagu/o0ogNtXK2A346gGm8rCuTtqGqS0/adXrUGG7FC6
+	 P1Vx7UvITCDG1zyIPsL7yJzTMsA3gyYB+qzYcBEetJXuJm1IfnIGu2HxiVNtroWkTE
+	 ZDDQJGoHSHt3upME6l/iSE25/2ba1jPHj0Rvej0uFx9DGTS7oHIUso3jLnfTpY4eFo
+	 zrdRDpx6uQpdw1yX+//V/L2x50rsJ59nlBAI39izr/Z0I76oir1VuNDRKZf4C1P0/T
+	 zG5ZsQVC7LH/afX+laVNSZmBHr9qMDiLNtXprOe1P5cx4CtGGKxHf/sAEWD25EcVNH
+	 TWgdihgU0mi5Q==
+Date: Fri, 24 Jul 2026 09:37:42 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: John Garry <john.garry@linux.dev>
+Cc: John Garry <john.g.garry@oracle.com>, Christoph Hellwig <hch@lst.de>,
+	sagi@grimberg.me, axboe@fb.com, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org
 Subject: Re: [PATCH RFC] nvme-multipath: fix diskstats for partitions
-To: Keith Busch <kbusch@kernel.org>, John Garry <john.g.garry@oracle.com>
-Cc: Christoph Hellwig <hch@lst.de>, sagi@grimberg.me, axboe@fb.com,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org
+Message-ID: <amOGxr3rxvDflHLv@kbusch-mbp>
 References: <20260721114553.1657841-1-john.g.garry@oracle.com>
  <20260724050152.GA3680@lst.de>
  <987782a9-e12a-4098-b438-a54a5765c2ae@oracle.com>
  <amNegPEvRX99EvPN@kbusch-mbp>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: John Garry <john.garry@linux.dev>
-In-Reply-To: <amNegPEvRX99EvPN@kbusch-mbp>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260724_082914_718725_6CF3B530 
-X-CRM114-Status: GOOD (  22.00  )
+ <f76e9466-4b66-4a32-a491-728e24d34052@linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f76e9466-4b66-4a32-a491-728e24d34052@linux.dev>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,46 +73,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/24/26 13:45, Keith Busch wrote:
-> On Fri, Jul 24, 2026 at 08:09:51AM +0100, John Garry wrote:
->> On 24/07/2026 06:01, Christoph Hellwig wrote:
->>> On Tue, Jul 21, 2026 at 11: 45: 53AM +0000, John Garry wrote: > Setting as an
->>> RFC as adding this extra bio field is not acceptable, but I > can't see how to
->>> lookup the original partition. In general it is not, but you should mark this a
->>>
->>>
->>> On Tue, Jul 21, 2026 at 11:45:53AM +0000, John Garry wrote:
->>>> Setting as an RFC as adding this extra bio field is not acceptable, but I
->>>> can't see how to lookup the original partition.
->>>
->>> In general it is not, but you should mark this a block patch so that
->>> Jens can better cream at you :)
->>>
->>> I'm also not sure that supporting per-partition diskstats on a multipath
->>> device makes too much sense, but then again there's a lot of setups
->>> that are crazy and actually used..
->>>
->>
->> It just seems to me that we should have same behaviour as if it were not
->> multipath.
->>
->> So we can't use bi_private as that can be set by original bio submitter. I
->> was thinking that this bdev pointer could be temp stashed in bi_next (as it
->> should be originally NULL), but that it dodgy and maybe won't even work.
+On Fri, Jul 24, 2026 at 04:29:08PM +0100, John Garry wrote:
+> On 7/24/26 13:45, Keith Busch wrote:
+> > Can we just thread through partitions for the bio's block_device instead
+> > of assuming part0? I know the hidden path devices skip partition
+> > scanning, but maybe if we let it happen, then those will have the same
+> > partition setup as the head gendisk. Then we can go right to the
+> > disk->part_tbl for what we provide to bio_set_dev() for both submission
+> > and failover, and everything should work out from there.
 > 
-> Failover is corner case to consider here. We always reset the bio bdev
-> to the part0, so your stats will be incorrect when that happens. I think
-> you can quickly fix that in your proposal with the "bi_orig", though.
+> I guess that we would just scan through the per-path gendisk->part_tbl and
+> match somehow to lookup the partition. Maybe vs start address of
+> bio->bi_bdev. Or is there a simpler (and quicker) way?
 > 
-> Can we just thread through partitions for the bio's block_device instead
-> of assuming part0? I know the hidden path devices skip partition
-> scanning, but maybe if we let it happen, then those will have the same
-> partition setup as the head gendisk. Then we can go right to the
-> disk->part_tbl for what we provide to bio_set_dev() for both submission
-> and failover, and everything should work out from there.
 
-I guess that we would just scan through the per-path gendisk->part_tbl 
-and match somehow to lookup the partition. Maybe vs start address of 
-bio->bi_bdev. Or is there a simpler (and quicker) way?
+This is the idea, assuming we can get the partition tables of the head
+and path disks to be aligned:
 
+---
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -543,7 +543,10 @@ static void nvme_ns_head_submit_bio(struct bio *bio)
+        srcu_idx = srcu_read_lock(&head->srcu);
+        ns = nvme_find_path(head);
+        if (likely(ns)) {
+-               bio_set_dev(bio, ns->disk->part0);
++               struct block_device *bdev;
++
++               bdev = xa_load(&ns->disk->part_tbl, bdev_partno(bio->bi_bdev));
++               bio_set_dev(bio, bdev);
+                /*
+                 * Use BIO_REMAPPED to skip bio_check_eod() when this bio
+                 * enters submit_bio_noacct() for the per-path device. The EOD
+--
 
