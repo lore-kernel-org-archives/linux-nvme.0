@@ -4,72 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BD54CC531F9
-	for <linux-nvme@archiver.kernel.org>; Sun, 26 Jul 2026 11:32:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 90C08C53200
+	for <linux-nvme@archiver.kernel.org>; Sun, 26 Jul 2026 11:32:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZaJ2bTFIw6n5gqGH1V3eysAf/jOPI3Jsri1IzDcY9ak=; b=kq8z7W0+ggHh2NTmTn0EXhHf2X
-	szFOhOlCIjvgh5xQNeVVUmimIincDqzwoz349NMnfW+1fsM9NyV2EmaKpwu2wZZiy6NFae3FpOwdx
-	j81Y7JZmnkHA40VtXoMUxJlk7URgi1nG4k6MzTscjGkU2f9CR5UwhyMD2M9bSiLdCRzKj2lJ6RQTE
-	Kr+NWjBiL9tMpMkA0ERXcHoir6cYz7quOo8ml11ZxX8a9fL+Eq8fgVB1OCMk1P1r10cE6KClw9C7E
-	Gn/LDxpTF1m8zrL9n715T0OYxBcsEFigOTx8f1L2/1LiA8JyRLbXUPcTEyflN9DkYWGy9sFZ9mhNi
-	JMJ2k/Ww==;
+	bh=LVDrwHOShpJST2v1XpPaKOLt9RN1zMUNY9kPyJb4mps=; b=IQMuoJ9POKxRTtKvtbia2KOhV7
+	TUOAByXg0tUHPtKdN1jgAnmX5Rqq1o6eru0Ncfg14NVkHgCOT5G0v65koKjZZWeyrnWSfbQ8JXqD9
+	9ObPloyT/MiMZCCs6Kl4FE8zhfaCH9MkFXk/pPYzhD7Lqj/NsFOu5Gi5TGdi3m+/tSocsaMuInxVw
+	g8rkA4C75nEheaGNIlqAUBFL227OINyVyaqukm74nks9JicZ/dMcRkhNSc/ekubZlnkDRktGEuFq4
+	iE0aQdM2+Q9p3WYaaeGaJjtlb9qiGBJqC5P6tRim8tQhoessQSZC1Pf/3ueSq8hmZ0z2d0An2vzqq
+	JnTyrJOA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wnx6F-00000001752-009d;
-	Sun, 26 Jul 2026 11:32:55 +0000
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+	id 1wnx6H-0000000176w-0VDd;
+	Sun, 26 Jul 2026 11:32:57 +0000
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wnx6C-0000000171z-11m6
+	id 1wnx6E-00000001742-1Kyf
 	for linux-nvme@lists.infradead.org;
-	Sun, 26 Jul 2026 11:32:53 +0000
-Received: by mail-wr1-x42e.google.com with SMTP id ffacd0b85a97d-4758bd3731bso1263260f8f.0
-        for <linux-nvme@lists.infradead.org>; Sun, 26 Jul 2026 04:32:51 -0700 (PDT)
+	Sun, 26 Jul 2026 11:32:55 +0000
+Received: by mail-wr1-x42f.google.com with SMTP id ffacd0b85a97d-47f71156e1aso781682f8f.3
+        for <linux-nvme@lists.infradead.org>; Sun, 26 Jul 2026 04:32:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=meshstor.io; s=google; t=1785065570; x=1785670370; darn=lists.infradead.org;
+        d=meshstor.io; s=google; t=1785065573; x=1785670373; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ZaJ2bTFIw6n5gqGH1V3eysAf/jOPI3Jsri1IzDcY9ak=;
-        b=N/LK4a/jmDsRhSIjeUjk2ExrMSrtomWg6IJ8xd3/vZREGcpmw4oJMzh/jKBOVUR6CK
-         ijmvvbu6LwlnRJM0zmw19wvsASeXg0CcLiIJglP2TE5r9unGqRwWkfhUcKmf5sycn5LC
-         6LFYqz0/iX/N7GLKdW1j7JegNe53T6l8r/VlXrtJkY2zxRAv0GuMJJfY1luaoMA3liNT
-         L5C6sMP912581Hg30bbdrKLjwuelvyGzSY6054epgfVMjGr5omUlDkLRyJkXwCa2MeLL
-         4EnQi+iyD1cam6syjlNLLK0db3Cz4/cS3CFppm2+5yyOuLRaVsZK459xJ/D2/iOSCCHk
-         GZJw==
+        bh=LVDrwHOShpJST2v1XpPaKOLt9RN1zMUNY9kPyJb4mps=;
+        b=kCVuMvngAoWbTou07tpgmof8EFiWyyjzfGMi53TeBPwT8KE+qITqw7YzUfq+WaXFVd
+         QX3Ms9F7ym2OTWjF2OwzndKjlM6exekyhXimqXKggrrLVLNzz8oyMqskH9eSBa8i6Rv8
+         jFmRQTluOb45iLq1xrXwv0Ci/o76Q+Qxj1TmZZzNIBhogT6aljnIuZbmpATTpmnHHBrE
+         Nyje/EUglKuQQDHDfZn/2MbeMS9rlLIUVgWWjQ/28jNVf/kUxf2/o93+UTB54zhNv5rv
+         2KEeYShE6zFxwLbsjdz3OKIayXsI5Zwphf0BgjKCdDmATMckXuCMnLnE3ZJEySftRBFC
+         QcfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785065570; x=1785670370;
+        d=1e100.net; s=20251104; t=1785065573; x=1785670373;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ZaJ2bTFIw6n5gqGH1V3eysAf/jOPI3Jsri1IzDcY9ak=;
-        b=feWWYyLKmkHH3ZXc9UV/dcMTANIMWl7ul3XwnWbmsEYgjz+ZAtHbdkIq4V0C17hvLT
-         CwHE1aFFp6UKRAOnFL7SzsUgUQsqLEXfz9FGutGFlJuJJQbszraUF3A2/nWuxRrCUbMh
-         7xIGD8c9MxQ5yzQA3ajmW9cc7EOCpegzU8kB5AcDBgKf8GgM56tjGk7frbrYRfQbZ2lp
-         6RWyhUVw5DBZb9rUMJrlf1uizOYA9zkM8My5S59jVRep8Rsxp8ea/ZBlMPDqqfyunJG9
-         YlpU2i3Q/PQBgbvdKX58gfCGTU2zLJV8cWbue/s5j9//j+BQgqgsNKd19yCGg9tEhO7b
-         7osQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rq170vyz3fXmnhcNKF0KMkKxY0QlgBBi6M4RfivKDEljPym3rMr/zD8cpI9e/xwBD57d5+A7sBhOIsC@lists.infradead.org
-X-Gm-Message-State: AOJu0YzknxMHF69nMt7jxMmL4HaEHgCz+mG+lmf919DvlEKzmPazifUJ
-	V9r2H3i+O9nloUX8JzHiIHy1eIKpiRTKheZ0t58+C6bl1gweALPUnMRCLmwcXVJLOQ==
-X-Gm-Gg: AR+sD12x3n01KBojNyjjbcUbeSC6CfDi7b5laJrVyVjYs13jrNSe37CkkAqyVsRf4b2
-	FzrzwTibRnp81Hn5GdKBjNBI3YW+jJS/oWMOgNodYMDWQa7f6ZBxovT0dp6VdzzbV9E1ock1mCF
-	iex3c5SEzZ0JJr5OGn3xm6kVLq/joFkej5Q7Q9PToqEdjQLvpq3JYYaeA1mHSTWOyRurtXJlgJE
-	YfikTG8iNJQtfJDRu4mW/L0IS4CGHezACqp4HoJ3xWlL5lK/h8hlN7bhjZ5pY7j5EmjgL7yxpw7
-	uez8ZQ4ZEsYxaMc2dLWyjihtskFcMlFSlNd3YKnM93lIim/KUJEfqarzf6YtM252FtJdFVJbI/+
-	921TzREA8PkYESEpsc4s03m6uKGKded4RXe84s0NjL0oLLVwC11R/ekaDA+xX3z55SG2jhOE5T/
-	TsCNVWpCr5gg4fn0Ae4NmC/Jxo7GT/w49QnJGSV3iyN4xYV1RexCWEtF8RQgeKLzHkS/14Yjobm
-	4kEvidXnDiZffS3G1uAsRN4MNzmRxmjk64mMo3NWA==
-X-Received: by 2002:a05:6000:402a:b0:47f:96e3:5322 with SMTP id ffacd0b85a97d-47f9fc8f595mr6148931f8f.7.1785065570487;
-        Sun, 26 Jul 2026 04:32:50 -0700 (PDT)
+        bh=LVDrwHOShpJST2v1XpPaKOLt9RN1zMUNY9kPyJb4mps=;
+        b=Rb3astNZGA715gtPfF2GMU+9C/QDOo8oIwj4Y81+0+ZF6jf8pzHHBY1t129+VzlAHo
+         jQ9sdxP7mn1iBEuSKkWV7UiIUiJKx4c2pHhmjTlHAse95X+WAY/ROzcjHxnPeHI9fFR8
+         7EdG7yCZd89Q1+UJySqH0gfFstvalMinH+73SQfZpUapBsB4wgm3vvt2FMJSwkR49Px2
+         o26HP/eEnOA34O0HmZ6FcXDyFN6OYZa8LL5w8+m3L1pWyyPncivdQ6qoGdojdHgg2/P7
+         uH5WG72GMxhcz5Xcutu+WkbiClIBQ+vlgRWjszfUNj8iuERj7dL56bJiKRH9+OBL/tYZ
+         2l0Q==
+X-Forwarded-Encrypted: i=1; AHgh+RrWxCuoyN6LkvWfkKK3jInYgkVB2caGZL47GGNEuV4AYYSqe+1QeMU8+rJNyelh/xguFmgtTChcGZtK@lists.infradead.org
+X-Gm-Message-State: AOJu0YxVHi279G0RLlB+yKX3RAKN6qaWlsiJTYe+r35ch2fExRFJ0/hj
+	DV9Iwh69dKAtjKFkzkea6tjzSKPyKfITbvq9uveBKau/Jgd21KPDansCNn84Fa3Ycg==
+X-Gm-Gg: AR+sD13a+UiP4C0OIDxHcX28Hg89tHou+evWHX1bZPoykqZ2RIP/9XTOa9wtZ7yHJXw
+	znoXNwO83f2LMWD4R0T0ITnWWcLDcABGxy1Qrs22u3xwQXhpylE9WAbXmE5xbroSHuw8NGzuha9
+	CLAZ1sgk6OYY1dpK01Z4ZgnGe2KlZOK2nANLw9xoNNSggwlVpAdhhN8yEajb3WHKPTTPA3eP6DM
+	M8Tg28+o0NOj6k58tWIfFSDn0Rt5FNcfCfMJr61zeYoeYKt2imr4MmJN0MzE7xmf5PpOtwcmyIt
+	zcTvquKG/56H/RAybxiST/Olf+JLfGpk8v3+kOiFMnXd3kli9Wa0Pfd5DgEsa6agnrZErTbi+j+
+	lhcix0n0P9IcfASkZCOLNi6B0y0v2vuaJ8UQTIO/nuGRfNg2dakQSzD5BelKeMAtMw4pw4t3hWO
+	qND0nf7E/bXW1AeS1Q3bw2JiyUFYkLl4YOgfocaTU2o98TrB/t35pAP8OMVOb+x2DbBAP46bt0I
+	MejzHsHCOxGE/8k0YYsCPzZ50nBcDDtZQVPRiCXzQ==
+X-Received: by 2002:a05:6000:40e1:b0:47f:8fb6:c32e with SMTP id ffacd0b85a97d-47f9fea93b1mr5573278f8f.46.1785065572724;
+        Sun, 26 Jul 2026 04:32:52 -0700 (PDT)
 Received: from meshstor-pc ([185.87.42.56])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85bb57cfsm40533083f8f.11.2026.07.26.04.32.48
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85bb57cfsm40533083f8f.11.2026.07.26.04.32.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Jul 2026 04:32:50 -0700 (PDT)
+        Sun, 26 Jul 2026 04:32:52 -0700 (PDT)
 From: Mykola Marzhan <mykola@meshstor.io>
 To: Jens Axboe <axboe@kernel.dk>,
 	Song Liu <song@kernel.org>,
@@ -98,17 +98,17 @@ Cc: Li Nan <magiclinan@didiglobal.com>,
 	linux-pci@vger.kernel.org,
 	Thorsten Leemhuis <regressions@leemhuis.info>,
 	Martin Wilck <mwilck@suse.com>
-Subject: [PATCH v6 07/12] md/raid1,raid10: skip futile retries on P2PDMA mapping failures
-Date: Sun, 26 Jul 2026 13:32:24 +0200
-Message-ID: <20260726113229.2154269-8-mykola@meshstor.io>
+Subject: [PATCH v6 08/12] md/raid1,raid10: set IO_BLOCKED in case of BLK_STS_P2PDMA
+Date: Sun, 26 Jul 2026 13:32:25 +0200
+Message-ID: <20260726113229.2154269-9-mykola@meshstor.io>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260726113229.2154269-1-mykola@meshstor.io>
 References: <20260726113229.2154269-1-mykola@meshstor.io>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260726_043252_314218_6DE387F7 
-X-CRM114-Status: GOOD (  15.02  )
+X-CRM114-CacheID: sfid-20260726_043254_373671_ECA30F23 
+X-CRM114-Status: GOOD (  16.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -123,83 +123,74 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-BLK_STS_P2PDMA reflects the peer/member pairing, not member health:
-retrying the same pages on the same member cannot succeed.  Keep
-WriteErrorSeen so the range stays fenced, but skip WantReplacement and
-FailFast eviction, as commit f7b24c7b41f2 ("md/raid1,raid10: don't fail
-devices for invalid IO errors") did for BLK_STS_INVAL.  raid10
-replacement legs are unchanged: a write error there fails the
-replacement, whatever the status.
-
-The failure is whole-range and deterministic, so narrow_write_error()'s
-block-by-block submit_bio_wait() retries are pointless.  Record the
-whole range as a bad block in the completion handler instead.
+A read that fails with BLK_STS_P2PDMA cannot succeed against that
+member, so mark the leg IO_BLOCKED and let the retry redirect elsewhere.
+Skip the read-error machinery: there is nothing on the medium to fix,
+fix_read_error()'s probe reads into host pages and would "succeed", and
+charging the read-error budget would evict a healthy member under a P2P
+read workload.  FailFast eviction is skipped for the same reason -- the
+request never reached the wire.
 
 Fixes: 02666132403a ("md: propagate BLK_FEAT_PCI_P2PDMA from member devices to RAID device")
 Assisted-by: Claude:claude-fable-5
+Co-developed-by: Logan Gunthorpe <logang@deltatee.com>
+Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 Signed-off-by: Mykola Marzhan <mykola@meshstor.io>
-Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
 ---
- drivers/md/raid1-10.c |  3 +++
- drivers/md/raid1.c    | 11 ++++++++---
- drivers/md/raid10.c   |  7 ++++++-
- 3 files changed, 17 insertions(+), 4 deletions(-)
+ drivers/md/raid1.c  | 4 +++-
+ drivers/md/raid10.c | 7 ++++---
+ 2 files changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/md/raid1-10.c b/drivers/md/raid1-10.c
-index cee21452e066..89daf8558251 100644
---- a/drivers/md/raid1-10.c
-+++ b/drivers/md/raid1-10.c
-@@ -309,6 +309,9 @@ static inline void raid1_write_error(struct mddev *mddev, struct md_rdev *rdev,
- {
- 	set_bit(WriteErrorSeen, &rdev->flags);
- 
-+	if (bio->bi_status == BLK_STS_P2PDMA)
-+		return;
-+
- 	if (!test_and_set_bit(WantReplacement, &rdev->flags))
- 		set_bit(MD_RECOVERY_NEEDED, &mddev->recovery);
- 
 diff --git a/drivers/md/raid1.c b/drivers/md/raid1.c
-index 19c4dec450de..83ebf40237d5 100644
+index 83ebf40237d5..16a47568679f 100644
 --- a/drivers/md/raid1.c
 +++ b/drivers/md/raid1.c
-@@ -2624,10 +2624,15 @@ static void handle_write_finished(struct r1conf *conf, struct r1bio *r1_bio)
- 			 * narrow down and record precise write
- 			 * errors.
- 			 */
-+			struct md_rdev *rdev = conf->mirrors[m].rdev;
-+
- 			fail = true;
--			narrow_write_error(r1_bio, m);
--			rdev_dec_pending(conf->mirrors[m].rdev,
--					 conf->mddev);
-+			if (r1_bio->bios[m]->bi_status == BLK_STS_P2PDMA)
-+				rdev_set_badblocks(rdev, r1_bio->sector,
-+						   r1_bio->sectors, 0);
-+			else
-+				narrow_write_error(r1_bio, m);
-+			rdev_dec_pending(rdev, conf->mddev);
- 		}
- 	if (fail) {
- 		spin_lock_irq(&conf->device_lock);
+@@ -2657,6 +2657,8 @@ static void handle_read_error(struct r1conf *conf, struct r1bio *r1_bio)
+ {
+ 	struct md_rdev *rdev = conf->mirrors[r1_bio->read_disk].rdev;
+ 	struct bio *bio = r1_bio->bios[r1_bio->read_disk];
++	/* evaluate before the bio_put() below */
++	blk_status_t status = bio->bi_status;
+ 	struct mddev *mddev = conf->mddev;
+ 	sector_t sector;
+ 
+@@ -2674,7 +2676,7 @@ static void handle_read_error(struct r1conf *conf, struct r1bio *r1_bio)
+ 	 * read error.  This is all done synchronously while the array is
+ 	 * frozen.
+ 	 */
+-	if (mddev->ro) {
++	if (mddev->ro || status == BLK_STS_P2PDMA) {
+ 		r1_bio->bios[r1_bio->read_disk] = IO_BLOCKED;
+ 	} else if (test_bit(FailFast, &rdev->flags)) {
+ 		md_error(mddev, rdev);
 diff --git a/drivers/md/raid10.c b/drivers/md/raid10.c
-index 428bddddfe71..77c7d8a59916 100644
+index 77c7d8a59916..462f622556ed 100644
 --- a/drivers/md/raid10.c
 +++ b/drivers/md/raid10.c
-@@ -2940,7 +2940,12 @@ static void handle_write_completed(struct r10conf *conf, struct r10bio *r10_bio)
- 				rdev_dec_pending(rdev, conf->mddev);
- 			} else if (bio != NULL && bio->bi_status) {
- 				fail = true;
--				narrow_write_error(r10_bio, m);
-+				if (bio->bi_status == BLK_STS_P2PDMA)
-+					rdev_set_badblocks(rdev,
-+							   r10_bio->devs[m].addr,
-+							   r10_bio->sectors, 0);
-+				else
-+					narrow_write_error(r10_bio, m);
- 				rdev_dec_pending(rdev, conf->mddev);
- 			}
- 			bio = r10_bio->devs[m].repl_bio;
+@@ -2847,7 +2847,9 @@ static void narrow_write_error(struct r10bio *r10_bio, int i)
+ static void handle_read_error(struct mddev *mddev, struct r10bio *r10_bio)
+ {
+ 	int slot = r10_bio->read_slot;
+-	struct bio *bio;
++	struct bio *bio = r10_bio->devs[slot].bio;
++	/* evaluate before the bio_put() below */
++	blk_status_t status = bio->bi_status;
+ 	struct r10conf *conf = mddev->private;
+ 	struct md_rdev *rdev = r10_bio->devs[slot].rdev;
+ 
+@@ -2859,11 +2861,10 @@ static void handle_read_error(struct mddev *mddev, struct r10bio *r10_bio)
+ 	 * This is all done synchronously while the array is
+ 	 * frozen.
+ 	 */
+-	bio = r10_bio->devs[slot].bio;
+ 	bio_put(bio);
+ 	r10_bio->devs[slot].bio = NULL;
+ 
+-	if (mddev->ro)
++	if (mddev->ro || status == BLK_STS_P2PDMA)
+ 		r10_bio->devs[slot].bio = IO_BLOCKED;
+ 	else if (!test_bit(FailFast, &rdev->flags)) {
+ 		freeze_array(conf, 1);
 -- 
 2.52.0
 
