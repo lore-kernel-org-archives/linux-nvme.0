@@ -4,73 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8310AC53200
-	for <linux-nvme@archiver.kernel.org>; Sun, 26 Jul 2026 11:32:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A157EC531CC
+	for <linux-nvme@archiver.kernel.org>; Sun, 26 Jul 2026 11:32:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=V5hliKyCAPWFZqHS5mW2T1dJRPt4J/vTka7mcNCHq10=; b=1/tH9QT7YYLNmq+INUtao4Y6Mx
-	AhBA2pkRcHHYaQk8kfP1zGYPL18pD8jr+wPWsR4IctGhFoAKXKWhicejM47Rp6Ccz41tKApoEC0xD
-	EXDAzj5JFqneA/eWa/4HW+ubK3/4ITuDzwgxIARkj5C2o8gZ8z55I5D0+EEyHRpRrz4spH9cI8n2u
-	sLBfxUsqXP37tcMx9tAKQCbbofNUSbwTmBAHCT3cpKUvAjYbZfWdidn/PjpgDSBjjyfeDh7wg66nR
-	Lky5iQnpzbqEWK1OAgG146HVhz6JP8KMDTNS8JRHGgGEbgKnyvfB4Y9FLLnDaKCChmoQe6+GUjUpz
-	3eGoQeiA==;
+	bh=LNWXk+rlZiNRYyXRDGVV7qCvY4AZPHPO/XYCzCCpSWs=; b=fhWnwb8Bk4cppTaJ35UKSKlCCt
+	yYduuEOhhM9KaV/S1L738Y+btdN4/QYtL+JEAtjnxofxqK5txCOrw6rEcz/vIAhxD18gWTEAumP5u
+	gctkpj4pLSVvAJ37mmLkGuQlTsRAK5W47gxSv6FSBgYRV1vw7lUP/JKHnzfN/iqn8rLwGmZMeya9Y
+	UCkd8zcwJinuSA9f9M9HCJit3RB7O1Xs6Fhl2yAOnKEDZ+UapEphwnK+mClzOV2EC1x1r+4ggYnv4
+	FvzFR05pwg2QaNjf8hfRBbaKMGq18UUvjs27Y1rHG4MZJHzJJbYXw9yFiVlH1MwRhZIANftiTZiq+
+	wTFKVQqA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wnx62-000000016wp-49e5;
-	Sun, 26 Jul 2026 11:32:42 +0000
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+	id 1wnx60-000000016vi-3dOd;
+	Sun, 26 Jul 2026 11:32:40 +0000
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wnx61-000000016vc-0jiM
+	id 1wnx5y-000000016uy-3z3Z
 	for linux-nvme@lists.infradead.org;
-	Sun, 26 Jul 2026 11:32:42 +0000
-Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-496bb7cdf51so3370365e9.2
-        for <linux-nvme@lists.infradead.org>; Sun, 26 Jul 2026 04:32:40 -0700 (PDT)
+	Sun, 26 Jul 2026 11:32:40 +0000
+Received: by mail-wr1-x435.google.com with SMTP id ffacd0b85a97d-47f92e3c14bso1731885f8f.0
+        for <linux-nvme@lists.infradead.org>; Sun, 26 Jul 2026 04:32:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=meshstor.io; s=google; t=1785065559; x=1785670359; darn=lists.infradead.org;
+        d=meshstor.io; s=google; t=1785065557; x=1785670357; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=V5hliKyCAPWFZqHS5mW2T1dJRPt4J/vTka7mcNCHq10=;
-        b=JKU+mOBZH4GfcArjK9w0wgijKNI0jxPI7NG2roiSwWONncjwowRv6ZGyR6URtAwosi
-         EfjiRBlhoRxtrn33VCit65pnukHh67BLNGy8OzzCdV+UTii7b90DA2BrOCgsYqWbx57A
-         TTkApoZNlEcwKpQOx0ANdu4YjypakVcwwtRMu2uBgF9x1fYR8B/GCViHORfls4s56E0J
-         Xt7s+czvkQSGfohCBWqDJysh4I12jJfX5BSxBUKI0RUTxE10su3OGejyZdhqunmuzV6Q
-         bdrtd4w2KLilA3sUe7qm4AyYnEcULaAQw+a/+IatoBJPCn7BEvuIL5JLIlFYfiw5ohhZ
-         STaw==
+        bh=LNWXk+rlZiNRYyXRDGVV7qCvY4AZPHPO/XYCzCCpSWs=;
+        b=bS44DB3b5uFaQLL5tSZhXm5ADvZxSIDtAEqLoB2j7qWP/Kq31T7JXiRLPL6sPvHRaq
+         a4WEdNnB/sVdYqkHGI2zbqQXuMldQIKNDcEaVPHIIr/4/4P63Z+LQeHN9aO/wK4Su/dp
+         xT7EMHFKAoLmuzrA+KyqlkGvzW/huBUBAWTQ59YcizuUkjcJIJ9bLHePbFzT5uIxliv1
+         S3nLTN1QECjfiembeh8PkETOOnSVI486s3pooTsBJ07fcvy0UnOJwDjZYLBJu8xTfddX
+         0WEnexzIZ3b7OD1KZTSket1yqXy3Chwoe8Q1iJdlka7+8EBF20ELlKDkAXCzsQbX8Ytc
+         NqmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785065559; x=1785670359;
+        d=1e100.net; s=20251104; t=1785065557; x=1785670357;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=V5hliKyCAPWFZqHS5mW2T1dJRPt4J/vTka7mcNCHq10=;
-        b=G4wPCA1xh/mmWYPlHY6cp/juGF2hdtiMaH1BoCoFhpLZXN0kM1DGb6yd+QIbTlKHzg
-         hJSj7xQq7sZFXRq28dAUiL+Cin0fbI1QIt+MrQW9RBqkOxJGDc/QZpirq+RkKywvq6Hx
-         2Dvrs+QRIGKFYU+Rky8HxDtTpgDSsx60WnDAud3Sey0udIu4iPxs414UcerHdk+cuYRi
-         uP4BgAlCosBP2f/LbemMPimr7SQFctCatqgmEUGDJR05ibHI2R09MyO6oxPRjysPiOyj
-         SL6rRlncNMdbQAolJx35rkwfVVn1wooxukKISxKgGFBhtUGehz225ZLycIl11PxDND1T
-         FjmQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrsRBNB/KrpVDiqDSGBH4jCREONWC3uk+/CfYtX7l25IWpdlwgLYptz/cOgCkCKlK4F8t0GgUkqvZWn@lists.infradead.org
-X-Gm-Message-State: AOJu0YzxABcb0sih+EO7ZaRFCrrtR/ljmoXhgdkDTUvKUtJ5N1p1b0vn
-	1VWFkMpUBXxsjmuLXEzbl5fqTjr3SL7ZZdnJikWDUDojXJJZLcFBtlVNEHlWj92+R6SEvr0Ebq4
-	zlWhXyMz2ZHk=
-X-Gm-Gg: AR+sD13ZbkuvmI3Uhe7J2cwlXNWs2iitrFGATTzjrQDHtKqJ5lt1yhe+NH+UgnTOHrN
-	i8z8H+kKMMbK7TyBEEuj+2N/RHvEkDH0AHRSjyhHlal4SX2Ovb4Hk9Ht1FfPUqAtOK7PlQ56dgu
-	nw5ePpCTr+1PV9g4wZIpYPZneqYWZwR5SPZ7FQDQFcN9xiPYbb9t29lQ6PwWM+DtzjclXyk16lU
-	3Nhyem+SbqrXykyD8gn3qHU+CGSQdyTwRgB5OQJxUUC++kPs+D/EL/0yB+DFpjjeelrDTiPYO1M
-	tcQrBi4WaknypvuCw9I9Vn8m31LguYZsUKl5WHzRAIzhUYHXEM2A+p5/uak2RQATQccKn/7tnwX
-	j5xNPPEcNUQ5vKu5YBAQsQjWSGc3FkGzqVeOJZD0vhE+he1u1M23uCCEpWxTLifvPwlasq6FGqC
-	GI1D5TOzrVyHGF4Jn4CiV9s9FTVSfjT8tc/6uJh7sas4mXGjiyQH/5YVUmQZMB5XrDjOa1gmZ+m
-	ziiWdtmpcEDuJo7ajx/NiNYgWrdZOvuCcmYGE3Irg==
-X-Received: by 2002:a05:600c:1d0d:b0:493:c8c6:4989 with SMTP id 5b1f17b1804b1-496b56bbc65mr64847835e9.6.1785065559344;
-        Sun, 26 Jul 2026 04:32:39 -0700 (PDT)
+        bh=LNWXk+rlZiNRYyXRDGVV7qCvY4AZPHPO/XYCzCCpSWs=;
+        b=Dg7IFQ/dMAV1a/ifI2ye72GeyJxIWNzkWRWvSDo7nc3ovDNmEfM++1/HPDyuRw3hLV
+         8/F2T5A5cT985K7P10qTs9q0c6AJtBs9NB99MwsZs3FOycB1gpzloHfKbk0az4UlFxqh
+         rQcRzdAiPPoIVT/5h7z3o2stGY6xdc55Ywx2URKQ5GCVvbZLSVkbn4xtY56cfMYztmN8
+         szm5XNXpmH9ur0vYyVIq9FVZWaYYSxRK9Qf6cflbM2ziHq3seP2rIDNXCqe2WKD+AWCQ
+         NknXPh2G33/QkAOafAe+6GNQPGujmxSQm8R73UJj2IE5bI4t0VqmY2DbXtitH6Is5zaX
+         PL0Q==
+X-Forwarded-Encrypted: i=1; AHgh+Rqvi6h67Fztt/tAzRjGQHeqnvvzgd3el5s52kzsyTY/VDF5eXu4M+ja1thCGIfE7sWyVKIggCQGm4+5@lists.infradead.org
+X-Gm-Message-State: AOJu0Yxpqc8UGrv1LqqJg+4/ElaiR5OhoKd0rG7fUbDuDHBqCxP5rEMz
+	Ejh0qwPRdL5lZNR5aT3raLGUbJVPmuLF43vR0BeZkhtW2f5YlqYT09A2Y8FcEN2bVw==
+X-Gm-Gg: AR+sD11yr47zSIDZ4XkFnLCHLSicaiVdfk0Zp6fvQb8NzcJpLpLfqOdUPh762sAdjFM
+	sSdtnDuw2xAg8cu092lufBWP/pJ+8XXq0Hz432Kn+USLHKYItkma4RxCwHIgdyBj9s2nsNozUeb
+	fXZRy+/QMPlzskTAe0NudP1zXLStRtzHOpJVJ65+qa+AaVC4AutpQIsn0/pdwV8E4eE5D0caHB5
+	NoiFuqAZqM4nCQ9HR3YxKC4KteQ/Y2SiNCZYWQkMTrNPMc4xxObjWvosvBamjjDso9EUy7Cb8+c
+	5I6w+acFgslA/VI123PmP4Dmt3s6Wrjsn4VkFQmeKF2pgNBIUya/8Vxu1mORLgM7J5EOggruiVS
+	JNkaU/6NWyjm1TcxImF3jTDw++FK06evURyqoqVmfdaKDfpKwnaJ0OuZaWQ/ghWEQNyyS7hgaLC
+	QkqaPwByAkqeO2n/SlYnKVwilKCmRGhf8Df4otXtnEm5jEynqMVylF9QLRbO77bizRNnOQEasog
+	MQ2YTjjOscGteMu9XU6B6So7591Ai8gX07ulqRrcjJBiUQCIen4
+X-Received: by 2002:a05:6000:4012:b0:47f:93e1:e7d0 with SMTP id ffacd0b85a97d-47f9fea2d2emr6157677f8f.36.1785065557128;
+        Sun, 26 Jul 2026 04:32:37 -0700 (PDT)
 Received: from meshstor-pc ([185.87.42.56])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85bb57cfsm40533083f8f.11.2026.07.26.04.32.37
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85bb57cfsm40533083f8f.11.2026.07.26.04.32.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Jul 2026 04:32:38 -0700 (PDT)
+        Sun, 26 Jul 2026 04:32:36 -0700 (PDT)
 From: Mykola Marzhan <mykola@meshstor.io>
 To: Jens Axboe <axboe@kernel.dk>,
 	Song Liu <song@kernel.org>,
@@ -99,17 +98,17 @@ Cc: Li Nan <magiclinan@didiglobal.com>,
 	linux-pci@vger.kernel.org,
 	Thorsten Leemhuis <regressions@leemhuis.info>,
 	Martin Wilck <mwilck@suse.com>
-Subject: [PATCH v6 02/12] md: ensure REQ_NOMERGE is set on P2PDMA bios
-Date: Sun, 26 Jul 2026 13:32:19 +0200
-Message-ID: <20260726113229.2154269-3-mykola@meshstor.io>
+Subject: [PATCH v6 01/12] block: add BLK_STS_P2PDMA for unsupported peer-to-peer transfers
+Date: Sun, 26 Jul 2026 13:32:18 +0200
+Message-ID: <20260726113229.2154269-2-mykola@meshstor.io>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260726113229.2154269-1-mykola@meshstor.io>
 References: <20260726113229.2154269-1-mykola@meshstor.io>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260726_043241_248250_4CF83BF2 
-X-CRM114-Status: GOOD (  15.21  )
+X-CRM114-CacheID: sfid-20260726_043239_006318_0DAE0411 
+X-CRM114-Status: GOOD (  14.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -124,79 +123,87 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-md_submit_bio() strips REQ_NOMERGE from every bio.  For P2PDMA bios
-the flag is what keeps requests single-provider (see
-__bio_add_page()): merging a P2PDMA bio with one over a different
-pgmap, or over host memory, maps the merged request with the wrong
-bus address.  Set the flag on P2PDMA bios -- bios built via
-bio_iov_bvec_set() arrive without it -- and keep stripping it
-otherwise.
+From: Logan Gunthorpe <logang@deltatee.com>
 
-Fixes: 02666132403a ("md: propagate BLK_FEAT_PCI_P2PDMA from member devices to RAID device")
-Assisted-by: Claude:claude-opus-4-8
+blk_dma_map_iter_start() reports BLK_STS_INVAL when a P2PDMA transfer
+is attempted between two devices whose PCIe topology cannot route it.
+blk_path_error() treats INVAL as retryable, so multipath requeues the
+I/O forever, and callers cannot tell it apart from an invalid request.
+md also ignores it for member failures, so a mirror silently diverges.
+
+Restoring the old BLK_STS_TARGET would stay ambiguous -- nvme maps
+NS_NOT_READY, LBA_RANGE and CMD_INTERRUPTED to it too.  Add a dedicated
+BLK_STS_P2PDMA, non-retryable in blk_path_error(), and return it from
+blk_dma_map_iter_start().
+
+Fixes: 858299dc6160 ("block: add scatterlist-less DMA mapping helpers")
+Fixes: 7ce3c1dd78fc ("nvme-pci: convert the data mapping to blk_rq_dma_map")
+Cc: stable@vger.kernel.org # v6.17
+Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 Signed-off-by: Mykola Marzhan <mykola@meshstor.io>
-Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
 ---
- drivers/md/md.c | 10 ++++++++--
- drivers/md/md.h | 15 +++++++++++++++
- 2 files changed, 23 insertions(+), 2 deletions(-)
+ block/blk-core.c          |  3 +++
+ block/blk-mq-dma.c        |  3 ++-
+ include/linux/blk_types.h | 10 ++++++++++
+ 3 files changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/md/md.c b/drivers/md/md.c
-index d1465bcd86c8..3770bdb4d4b2 100644
---- a/drivers/md/md.c
-+++ b/drivers/md/md.c
-@@ -451,8 +451,14 @@ static void md_submit_bio(struct bio *bio)
- 		return;
+diff --git a/block/blk-core.c b/block/blk-core.c
+index 365641266c9e..83cb5464265f 100644
+--- a/block/blk-core.c
++++ b/block/blk-core.c
+@@ -177,6 +177,9 @@ static const struct {
+ 
+ 	/* Command duration limit device-side timeout */
+ 	ENT(DURATION_LIMIT,	-ETIME,		"duration limit exceeded"),
++
++	/* no PCIe P2PDMA route between initiator and target */
++	ENT(P2PDMA,		-EREMOTEIO,	"peer-to-peer transfer unroutable"),
+ 	ENT(INVAL,		-EINVAL,	"invalid"),
+ 
+ 	/* everything else not covered above: */
+diff --git a/block/blk-mq-dma.c b/block/blk-mq-dma.c
+index bfdb9ed70741..e88d6b3524e6 100644
+--- a/block/blk-mq-dma.c
++++ b/block/blk-mq-dma.c
+@@ -189,8 +189,9 @@ static bool blk_dma_map_iter_start(struct request *req, struct device *dma_dev,
+ 		 */
+ 	case PCI_P2PDMA_MAP_NONE:
+ 		break;
++	case PCI_P2PDMA_MAP_NOT_SUPPORTED:
+ 	default:
+-		iter->status = BLK_STS_INVAL;
++		iter->status = BLK_STS_P2PDMA;
+ 		return false;
  	}
  
--	/* bio could be mergeable after passing to underlayer */
--	bio->bi_opf &= ~REQ_NOMERGE;
-+	/*
-+	 * A bio md split may merge again below md -- except P2PDMA bios,
-+	 * which must stay single-provider (see __bio_add_page()).
-+	 */
-+	if (md_bio_is_p2pdma(bio))
-+		bio->bi_opf |= REQ_NOMERGE;
-+	else
-+		bio->bi_opf &= ~REQ_NOMERGE;
+diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+index 8808ee76e73c..c8de7809320a 100644
+--- a/include/linux/blk_types.h
++++ b/include/linux/blk_types.h
+@@ -165,6 +165,15 @@ typedef u16 blk_short_t;
+  */
+ #define BLK_STS_DURATION_LIMIT	((__force blk_status_t)17)
  
- 	md_handle_request(mddev, bio);
- }
-diff --git a/drivers/md/md.h b/drivers/md/md.h
-index d8daf0f75cbb..73df1a6eccd8 100644
---- a/drivers/md/md.h
-+++ b/drivers/md/md.h
-@@ -11,8 +11,10 @@
- #include <linux/blkdev.h>
- #include <linux/backing-dev.h>
- #include <linux/badblocks.h>
-+#include <linux/bio.h>
- #include <linux/kobject.h>
- #include <linux/list.h>
-+#include <linux/memremap.h>
- #include <linux/mm.h>
- #include <linux/mutex.h>
- #include <linux/timer.h>
-@@ -22,6 +24,19 @@
- #include <trace/events/block.h>
- 
- #define MaxSector (~(sector_t)0)
-+
 +/*
-+ * P2P and host pages never mix within a bio, so the first bvec is
-+ * representative.  Read bi_io_vec directly: bio_first_bvec_all()
-+ * WARNs on the split clones md handles, and data-less bios have no
-+ * bi_io_vec.  Not valid after the bio's iterator is consumed.
++ * BLK_STS_P2PDMA is returned when a peer-to-peer DMA transfer cannot be
++ * mapped (typically because there is no route between the initiator and the
++ * target that the platform's PCIe topology and ACS settings allow). This
++ * is a property of the initiator/target pair, not of the target device's
++ * health. This error should never be retried.
 + */
-+static inline bool md_bio_is_p2pdma(struct bio *bio)
-+{
-+	return bio_has_data(bio) && bio->bi_io_vec &&
-+	       is_pci_p2pdma_page(bio->bi_io_vec->bv_page);
-+}
++#define BLK_STS_P2PDMA	((__force blk_status_t)18)
 +
  /*
-  * Number of guaranteed raid bios in case of extreme VM load:
+  * Invalid size or alignment.
   */
+@@ -188,6 +197,7 @@ static inline bool blk_path_error(blk_status_t error)
+ 	case BLK_STS_NOTSUPP:
+ 	case BLK_STS_NOSPC:
+ 	case BLK_STS_TARGET:
++	case BLK_STS_P2PDMA:
+ 	case BLK_STS_RESV_CONFLICT:
+ 	case BLK_STS_MEDIUM:
+ 	case BLK_STS_PROTECTION:
 -- 
 2.52.0
 
