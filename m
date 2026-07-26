@@ -4,94 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2D092C53200
-	for <linux-nvme@archiver.kernel.org>; Sat, 25 Jul 2026 13:51:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 56F70C531D0
+	for <linux-nvme@archiver.kernel.org>; Sun, 26 Jul 2026 02:47:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DsDPuWCrrbv34wnYAE4DR4tUqUyigMc/FOQGtObKAE8=; b=tWK/RD54i9b7jLUjNHJcxUDpvr
-	A/ZkJ4psggkLi14TWPNegTtbb/2xbpUN0Fg5yXFk4ArBjrevHBfdUa8Z7xOTFa0JXRqwgAShIeUCz
-	in6hBfbbuqHhoDgDKhU49oGo2OLJUxE+4sifeZUB+hCGHV0lE8mtW5AesS2hlq0coxYF/rMZ1QOZD
-	AV7JcGess34CggBtGqjgWb6zaqKpd6+58niQVeAsiOBk8VDI/T8PleJp9+s/i1SP08c/NvEmhw5yH
-	t0Oahv2yFO1btRU+XGvRHprfrh4svsgQRoFFzszAJIPFTjMkxZzXOtiIsZdOWnI2r6fGGhfq9uXpk
-	dxg7RDdQ==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Kkd0d9Ef7duSE2o9ews0NSBrFehbWhOmiPio61v7agM=; b=EPTNljxgtANaQxidb9rvZswfGQ
+	j9Py7iJrgxUnepXgMpfS6rlLALb0r6y0KMSkspEMgSMCakk8mvd7WBytumpz2R1iAQrYZ1aXqTR6k
+	kQXwW1wd95tu1edJm2hFjoGQysZ5sY28pwKTB833xn2bS6eBVWUYD4xEwvDDsjBfFdtGDWTIoJcLD
+	dhHzhMZ4HNtqXHOIf8LiZm23TqRK1RrJo/S7Vu08bC4cl33HK8s65WkQ0SC2Tr87IsXZ478zskkb3
+	9GcWYxQuCYoQOgqUD/sgf2gVOdWU7lzfaNgN4rxGu2IKoZKCpBCqA2pnA5hhOgP6ykVeUz9FdChpA
+	Zs26HzrA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wncmn-00000000PXc-3C69;
-	Sat, 25 Jul 2026 13:51:29 +0000
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636])
+	id 1wnotq-00000000pqd-0luv;
+	Sun, 26 Jul 2026 02:47:34 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wncml-00000000PVw-1Vtt
+	id 1wnotp-00000000pqV-0dip
 	for linux-nvme@lists.infradead.org;
-	Sat, 25 Jul 2026 13:51:28 +0000
-Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-c166f1bbeaeso214290466b.0
-        for <linux-nvme@lists.infradead.org>; Sat, 25 Jul 2026 06:51:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784987485; x=1785592285; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=DsDPuWCrrbv34wnYAE4DR4tUqUyigMc/FOQGtObKAE8=;
-        b=f3xY2un7fk6AwcktaqD3YdzAs5k5XZm1SzE5grMDakvp4z8ERXrOyfLt2YFV4OPUvC
-         bgGcslBlPNhlY2Th7wu5hSoqY4DR77lUTNCoSyWmnetWb7MX13YDaCSR6j7dJeslbYbk
-         Of36BP9SnghigbrTSn7qOFZXdNdNMlnJj9l24tOtoQnne0Auy//f15cJxJ787YoSGjgc
-         lWFyjNNGCcNkW1x3MdOusbwDcZ3PWwrLWtxuc5x9D50etBTwg3oBYs5giRa7hySbDSpp
-         gF57M5HZd3r3ndrNvsm2owqQV617Cs3PDYG81EkL6IqMITILGPvu88XCMDcnbfteQUu2
-         caTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784987485; x=1785592285;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=DsDPuWCrrbv34wnYAE4DR4tUqUyigMc/FOQGtObKAE8=;
-        b=el2J6SqBrJjZSKsonkgkazChxlbyLQG8QyW0f74vNvlIYair0ETcUG4n5X2Ng/sZXN
-         1g5/ET6ejQVQ2YLS4hUrJf0TgxeUf7aEk3YJBNHCpVXNydp2US3Fqo9EHkWyAO9KMzcM
-         yCc66TY2wJmgv8y11DgMmzeXh++0GGcX+TA96QQHvBEdo0+6RhdAqynb9TjaZ8xlmU+n
-         y03PN6Hx/iRJSVnqEeYAD1W99/9lSQaeD5Aj8eJirMpTUInjm3di06bxZbMAPBRNQSyr
-         ozd8O3bU7NNvzyK3z/ljzhOQ6+EOR3k3LeEzpsmdaMr+VgkASfe5wcQ39tb6zzENXIpT
-         KrqA==
-X-Forwarded-Encrypted: i=1; AHgh+Rrh4AcUepFSpw+8znmDxoiUfyH34KoXY1aejIgci1aC8KSLnDKAOSaSBnMAsp/Od/PHSUHeAP4jKvOb@lists.infradead.org
-X-Gm-Message-State: AOJu0Yx1O/iGoKFoRqLKSe6FV5tudsd3S97jFXslnoUg/7wT68fm93WT
-	GCsKnqV+2Pr7uGdFDkmR/KfkUpnKrJa43v384xXuoBXe09+Q6hhf9asd
-X-Gm-Gg: AR+sD12UvL/N4sNGuCDw/eO7ihepxVkM/03+ChQV/O+wShK2kGwo5XtuERw8m13XpAn
-	5Lh5cWjdiDzc/P7U4KXWWvyludshp0YXVOW+TpG2avkS47h2/Ko0AUU4qXUby5Y1p0zn3nAxJuM
-	u3Gq14Gpx/lOUUMyFYbvOpNtdfx8U6JHh76OjplY0JNJGjCLy9cGU938WpAhfUAUUDchc3p5Cwc
-	HmhJryTvycTXHOHeWm9goUaDT5bh2taTxlzCXAkziAqeqYoT/foV1oHoL72ZvJSYMxLD6z8rFtN
-	BO/0rHqAg+cx4S8iQNdqFtEd13usJkhBUGqRqRwS/kUFW6p0gCNf8TPt81grzkvgD6SnoBrlHiJ
-	JpeckxCEInuEVQffGG6yCJPbYjhUUEOPXV5PY1A355S/IkHcnTwZiNuK1iAMUakRueQHYcZdiSZ
-	m6E5/AfHPHbFWpjcwzWyPR0V8l7wZWkdyaDNx9BwwFbDjQ6dMpUVL4Hpt2zQDPbPk=
-X-Received: by 2002:a17:907:94c7:b0:c19:45df:1856 with SMTP id a640c23a62f3a-c1f1ea72490mr94475866b.17.1784987485216;
-        Sat, 25 Jul 2026 06:51:25 -0700 (PDT)
-Received: from misharu.home (2a02-a463-a071-0-7475-eec2-a79e-2db.fixed6.kpn.net. [2a02:a463:a071:0:7475:eec2:a79e:2db])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69fb5543aacsm836431a12.14.2026.07.25.06.51.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Jul 2026 06:51:24 -0700 (PDT)
-From: Hari Mishal <harimishal1@gmail.com>
+	Sun, 26 Jul 2026 02:47:33 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id CD26D60008;
+	Sun, 26 Jul 2026 02:47:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA3931F000E9;
+	Sun, 26 Jul 2026 02:47:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785034051;
+	bh=Kkd0d9Ef7duSE2o9ews0NSBrFehbWhOmiPio61v7agM=;
+	h=From:To:Cc:Subject:Date;
+	b=VT+541RuuVfWx9APHccWxgvF+Cli2kIy7N4t51NcHm//XC7uTEQJmRE8VvJm2R6y4
+	 lTkTk4eNuv9E1q+LupCrJYO+z5V1bFsNh8LpfRz74O8SBVsfnRXELxuLqtQ4/x+eJh
+	 dRPAOsJ56+Lefy+qOqeNV8/sYHbbOjkASjJVQ8FSOTDr2iMwctEYP0g4c0IqHy0H5y
+	 84vfNyQSJwPifXJSE8pXgxoOU8xRphbJ6bQYGKgcIH16hZYZL7fzvvwhQnm7OUsawM
+	 pJx3xopH4w0vxBpBsTb6mPjxdE1g9LYb9DLKSvoufwGNlgMFeOGib8iYe5x6oXO4ZG
+	 zx/+uq9uGvdAw==
+From: Geliang Tang <geliang@kernel.org>
 To: Keith Busch <kbusch@kernel.org>,
 	Jens Axboe <axboe@kernel.dk>,
 	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: Hannes Reinecke <hare@suse.de>,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	Nitesh Shetty <nj.shetty@samsung.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Hari Mishal <harimishal1@gmail.com>
-Subject: [PATCH 2/2] nvme: drop WARN_ON_ONCE on write_stream bounds check
-Date: Sat, 25 Jul 2026 15:51:11 +0200
-Message-ID: <20260725135111.14041-3-harimishal1@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260725135111.14041-1-harimishal1@gmail.com>
-References: <20260725135111.14041-1-harimishal1@gmail.com>
+	Sagi Grimberg <sagi@grimberg.me>,
+	Hannes Reinecke <hare@suse.de>
+Cc: Geliang Tang <tanggeliang@kylinos.cn>,
+	linux-nvme@lists.infradead.org
+Subject: [PATCH] nvme-tcp: look up host_iface in the current netns
+Date: Sun, 26 Jul 2026 10:46:49 +0800
+Message-ID: <c14cd4633c27abe2dec863480168691023694aee.1785033817.git.tanggeliang@kylinos.cn>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260725_065127_412907_06768FBD 
-X-CRM114-Status: GOOD (  14.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,39 +70,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-write_stream is validated against bdev_max_write_streams() in both
-generic block direct I/O (block/fops.c) and F2FS before a bio
-carrying it is ever built, so write_stream > nr_plids shouldn't be
-reachable through any current legitimate path. The remaining users
-of bio->bi_write_stream elsewhere in the block layer only copy an
-already-validated value between bios (bio.c, blk-crypto-fallback.c)
-or compare it for merge eligibility (blk-merge.c); none of them
-introduce a new, unvalidated value.
+From: Geliang Tang <tanggeliang@kylinos.cn>
 
-Using WARN_ON_ONCE as the backstop for that assumption isn't worth
-it given how many deployed systems run with panic-on-warn enabled;
-the existing graceful return BLK_STS_INVAL already handles it on
-its own.
+nvme_tcp_alloc_ctrl() looks opts->host_iface up in &init_net, the boot-time
+netns. When called from any other netns - e.g. the selftest's ns2, where
+ns2eth1 actually lives - the lookup misses and the controller setup fails
+with "invalid interface passed":
 
-Signed-off-by: Hari Mishal <harimishal1@gmail.com>
+ nvmet: adding nsid 1 to subsystem nqn.2014-08.org.nvmexpress.mptcpdev
+ nvmet_tcp: enabling port 24660 (0.0.0.0:24099)
+ # nvme discover -a 10.1.1.1 --tos=0x10 --host-iface=ns2eth1
+ nvme_tcp: invalid interface passed: ns2eth1
+ # failed to add controller, error invalid interface
+
+Look the device up in current->nsproxy->net_ns instead so the check sees
+the calling task's netns.
+
+Signed-off-by: Geliang Tang <tanggeliang@kylinos.cn>
 ---
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/host/tcp.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index bdc5f07f5bf0..48ae0ffbbe6e 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1023,7 +1023,7 @@ static inline blk_status_t nvme_setup_rw(struct nvme_ns *ns,
- 			u16 write_stream = req->bio->bi_write_stream;
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index ba5c7b3e2a7c..c89d84ccce1a 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -2960,7 +2960,8 @@ static struct nvme_tcp_ctrl *nvme_tcp_alloc_ctrl(struct device *dev,
+ 	}
  
- 			if (ns->head->nr_plids) {
--				if (WARN_ON_ONCE(write_stream > ns->head->nr_plids))
-+				if (write_stream > ns->head->nr_plids)
- 					return BLK_STS_INVAL;
- 
- 				if (write_stream) {
+ 	if (opts->mask & NVMF_OPT_HOST_IFACE) {
+-		if (!__dev_get_by_name(&init_net, opts->host_iface)) {
++		if (!__dev_get_by_name(current->nsproxy->net_ns,
++				       opts->host_iface)) {
+ 			pr_err("invalid interface passed: %s\n",
+ 			       opts->host_iface);
+ 			ret = -ENODEV;
 -- 
-2.43.0
+2.53.0
 
 
