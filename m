@@ -4,80 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 69603C531FC
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Jul 2026 15:49:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B8A12C53209
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Jul 2026 19:19:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=pAsOaMbYD+VLrKmhf9xajBJNx4DVk5XK8SrCLkgsxyc=; b=I0EBwVIopSDZYd
-	1THSG0dDAI0fWrSmvWeJa2c0cYuC1yi1jhwk4zIFNkVIK7OWnoU/TFmD5YW3kXyuLgOszWfg+hmWx
-	nNwv1T1mL8ieZVJe60Lq4acvSxkKT9HLapYiJz0XoY207naFoUIUNQBC9Tj46FfyR0mLmJnoqXMjC
-	wPiblw6Wq3nywG5XUgiSUoPyGbzOk9gOD5262pQgVelPhO+XXbQr3rSdSyGWdJMHVjfTXSrFWMwSN
-	iUKqFXQtGdalrVHHWqy9YyB4O75biEloVFE+d9TTQi6XwhMeTgVrDhJ1MmyTE9O2fwH461gSrgaYW
-	Cst5XeXK2LestgQoUgCg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=V6q7CtGOOXMQTu5vNg7sea9a4Y5hhuIlF+3IDYB5PdI=; b=BqqotgLd/QAZx1Pu2ETk5kSxCe
+	ZMKCjTQjPWCiWm4Ak8izAyzt9+i94jXNqtaVRA728fNDjnf/FgIwK6XRC+E6Giu3kLWSJM/47mg7+
+	q6+uMvL7HkiruxVeSKd3z5fjmYE8QO+DohR+r01oIvAM66Xejbz5f5MMm/bvWtyt0yMO+lzxUzsjL
+	swZnFGbdix2iy5mi2BV0d0EyXCIN5myUkISWR890g6T18SEIs3JO6nP8oReuf+6Z0MlVF+bxeY4tI
+	jyVm6nF2Va0mmi6PFnFG82uuDscEhf0OxE1sq6Iad+Oqmqyxl4VYGFEc8p2CnOi+pPw3gvNGxyUG2
+	zLqZ2Yuw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1woNa9-00000003EBI-09Us;
-	Mon, 27 Jul 2026 15:49:33 +0000
-Received: from ale.deltatee.com ([204.191.154.188])
+	id 1woQrV-00000003kJt-1Krq;
+	Mon, 27 Jul 2026 19:19:41 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1woNa6-00000003EAq-34qc
+	id 1woQrU-00000003kJk-2DZu
 	for linux-nvme@lists.infradead.org;
-	Mon, 27 Jul 2026 15:49:31 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
-	MIME-Version:Date:Message-ID:content-disposition;
-	bh=pAsOaMbYD+VLrKmhf9xajBJNx4DVk5XK8SrCLkgsxyc=; b=ZsYU5w7MEJcCZBLtMtpliX1JwA
-	/y8H3I10OsJZWklS/25iu56zAVAZ8t/+TlzVdpnHXVphyuImR1Idx0/8+CTzcBebY62EPLblLBSfz
-	tolaxekj2wdB9OJMK6gyR4PskuKv9cllyHRS9GfwKKEZ7A9W0fnf4UpgnSs3906atM7muZ8njM85i
-	ajLfOJymqCg24FUJdIfr0JWwd18k8h+HPao5khF1R4Yasfv21ZP6rrHxs7ksPkyGvK67DRT6qO12+
-	v98wGAvY0y6GnqR7PTMLlajN6WRLcmEHnA66pt8y4qwllU2Kb5bONRdju7kUIzmDPKunMe9wE62dp
-	0ooG+icg==;
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
-	by ale.deltatee.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.98.2)
-	(envelope-from <logang@deltatee.com>)
-	id 1woNa3-0000000GHTa-2lIC;
-	Mon, 27 Jul 2026 09:49:28 -0600
-Message-ID: <ba159aaa-648c-418e-b762-29822aaf12ab@deltatee.com>
-Date: Mon, 27 Jul 2026 09:49:27 -0600
+	Mon, 27 Jul 2026 19:19:40 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id 28EC942A06;
+	Mon, 27 Jul 2026 19:19:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C01C1F000E9;
+	Mon, 27 Jul 2026 19:19:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1785179980;
+	bh=V6q7CtGOOXMQTu5vNg7sea9a4Y5hhuIlF+3IDYB5PdI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=WZs5+wd3ep+px3IOCgx12eVRKM1PP9E2Sfr9fhBlr9vz77DoiAhZvHOmWylhSicJ/
+	 BgvpjJquBih399wjk5Jf6oX9GBVrA44Z29Mk+EeGwBuzVYNqyPtzJ6ORIg430U/xXw
+	 PrMXjsmOaTFW+Le8Xk2/CsYQuAIxTJhR02ljc7v4=
+Date: Mon, 27 Jul 2026 21:19:27 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Hari Mishal <harimishal1@gmail.com>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Hannes Reinecke <hare@suse.de>, Kanchan Joshi <joshi.k@samsung.com>,
+	Nitesh Shetty <nj.shetty@samsung.com>,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] nvme: drop WARN_ON_ONCE on write_stream bounds check
+Message-ID: <2026072748-unpopular-onlooker-4a2b@gregkh>
+References: <20260725135111.14041-1-harimishal1@gmail.com>
+ <20260725135111.14041-3-harimishal1@gmail.com>
+ <amdqKEI44SKwq-K2@kbusch-mbp>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Mykola Marzhan <mykola@meshstor.io>, Jens Axboe <axboe@kernel.dk>,
- Song Liu <song@kernel.org>, Yu Kuai <yukuai@fygo.io>,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
- linux-raid@vger.kernel.org, linux-nvme@lists.infradead.org
-Cc: Li Nan <magiclinan@didiglobal.com>, Xiao Ni <xiao@kernel.org>,
- Guoqing Jiang <guoqing.jiang@linux.dev>, Leon Romanovsky <leon@kernel.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Kiran Kumar Modukuri <kmodukuri@nvidia.com>,
- Chaitanya Kulkarni <kch@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Shivaji Kant <shivajikant@google.com>, Pranjal Shrivastava
- <praan@google.com>, Henrique Carvalho <henrique.carvalho@suse.com>,
- stable@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rdma@vger.kernel.org, linux-pci@vger.kernel.org,
- Thorsten Leemhuis <regressions@leemhuis.info>, Martin Wilck <mwilck@suse.com>
-References: <20260726113229.2154269-1-mykola@meshstor.io>
- <20260726113229.2154269-13-mykola@meshstor.io>
-Content-Language: en-CA
-From: Logan Gunthorpe <logang@deltatee.com>
-In-Reply-To: <20260726113229.2154269-13-mykola@meshstor.io>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: mykola@meshstor.io, axboe@kernel.dk, song@kernel.org, yukuai@fygo.io, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, linux-block@vger.kernel.org, linux-raid@vger.kernel.org, linux-nvme@lists.infradead.org, magiclinan@didiglobal.com, xiao@kernel.org, guoqing.jiang@linux.dev, leon@kernel.org, jgg@ziepe.ca, kmodukuri@nvidia.com, kch@nvidia.com, bhelgaas@google.com, shivajikant@google.com, praan@google.com, henrique.carvalho@suse.com, stable@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org, linux-pci@vger.kernel.org, regressions@leemhuis.info, mwilck@suse.com
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH v6 12/12] nvme-rdma: factor out the scatterlist DMA
- mapping helper
-X-SA-Exim-Version: 4.2.1 (built Sun, 23 Feb 2025 07:57:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260727_084930_784380_933E1A96 
-X-CRM114-Status: UNSURE (   9.87  )
-X-CRM114-Notice: Please train this message.
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <amdqKEI44SKwq-K2@kbusch-mbp>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,24 +70,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 2026-07-26 05:32, Mykola Marzhan wrote:
-> The data and the metadata mapping do the same thing: describe the
-> segments blk_rq_map_sg() produced in a local sg_table -- the embedded
-> one's orig_nents is the allocated size, not the valid-segment count --
-> map that, and hand back the DMA-mapped count.  Fold both into a
-> helper.
+On Mon, Jul 27, 2026 at 08:24:40AM -0600, Keith Busch wrote:
+> On Sat, Jul 25, 2026 at 03:51:11PM +0200, Hari Mishal wrote:
+> > write_stream is validated against bdev_max_write_streams() in both
+> > generic block direct I/O (block/fops.c) and F2FS before a bio
+> > carrying it is ever built, so write_stream > nr_plids shouldn't be
+> > reachable through any current legitimate path. The remaining users
+> > of bio->bi_write_stream elsewhere in the block layer only copy an
+> > already-validated value between bios (bio.c, blk-crypto-fallback.c)
+> > or compare it for merge eligibility (blk-merge.c); none of them
+> > introduce a new, unvalidated value.
+> > 
+> > Using WARN_ON_ONCE as the backstop for that assumption isn't worth
+> > it given how many deployed systems run with panic-on-warn enabled;
+> > the existing graceful return BLK_STS_INVAL already handles it on
+> > its own.
 > 
-> No functional change.
+> That's not a very good reason to remove a WARN_ON. You've left the check
+> in for a condition that should never happen, so when it does happen,
+> it'll be impossible to debug without the WARN.
 > 
-> Suggested-by: Logan Gunthorpe <logang@deltatee.com>
-> Assisted-by: Claude:claude-fable-5
-> Signed-off-by: Mykola Marzhan <mykola@meshstor.io>
+> And the WARN also annotates the branch as unlikely, which is desirable
+> for this case.
 
-In the future, it's usually better to do the refactoring commits before
-the commits that change things (as that makes the important commits
-easier to understand). But that is a very minor nit. Thanks!
+But, if it ever does happen, a WARN_ON will reboot the box, given that
+billions of Linux systems have panic-on-warn enabled.  So if this can
+ever happen, just properly handle it and recover and don't loose user
+data.
 
-Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+thanks,
+
+greg k-h
 
