@@ -4,60 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 989F8C54F51
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jul 2026 21:06:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0DF7C53219
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jul 2026 21:07:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JHPfV3RD6vW2cC87Nx8I0nem5pmDVBJJlTYT0fbqMW0=; b=qlpa/LLmNVPihxbilIQVoYYYpy
-	QcZITG6qlBeR1wNRqvFUNdM25CqQTSYrCTzC4/lbB44QYWvbtftdtpTXXZlFntuvBMY0yE8/jk1Io
-	ngf4a/4Q9PUQJ01ynaduQRdGmJyvXtQvBRLQ90CPlTAOW2dTolkYTzZFhbQM7Jwtw86A3Qv3T4mRu
-	JMQcYJ8WuJXV4NGQ+4+0VkdFDQhmbZgK8Tf+ECFeGaQH3ZBNmSwFhqvnXr4juCb5GzY/Yv5W+8i7h
-	mN7px7WsYM8JazRvCO6jTYpPNOCynA14YAYr0nvTjMn1v8fZbwtTVofnURTYeb+O6OTrk0/D6wzg+
-	H4S1dXjw==;
+	bh=kL4zEeK/b6QDKO4LWVchQT9gEYx7IN427TkBw/ijwCc=; b=rvIRi/RteAsgV71SCMn3hygYG+
+	tLWEJiRgPPDql9Rp0mmpU2bgOpVAnIroJjd12Iv9tXsHV0TtQlhuaDIhR6Aloj1X7ietlEqjObqTb
+	GcLoS4zhtyB0KjXmxqpgwYx5HNiiS3Yc1lzirWrSM5NMFJpYu6wWEQPH2lO/FLvK3LmL9NTOZZTIQ
+	8FLkwvisN+bRXTnwKkprlQcZ4uXB99zV52n6/W7rc5tEGRfCLIEm0fOzKWO3LRwO8P3sQxmS71zjf
+	ifiNhDISluUL9Oi1mGXUyq9neFM1VOXViwFk0wI/AgRPv8PoSk9Cw2mPmU9WxQ18ansGtaTZrKf8u
+	pxzSrTqQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wop0E-00000006FzP-17NB;
-	Tue, 28 Jul 2026 21:06:18 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1wop1l-00000006GAG-1yfu;
+	Tue, 28 Jul 2026 21:07:53 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wop0C-00000006Fyx-2If8;
-	Tue, 28 Jul 2026 21:06:16 +0000
+	id 1wop1k-00000006GA3-2prv
+	for linux-nvme@lists.infradead.org;
+	Tue, 28 Jul 2026 21:07:52 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 005F4418D1;
-	Tue, 28 Jul 2026 21:06:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77ABE1F000E9;
-	Tue, 28 Jul 2026 21:06:15 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 5DD5D404C2;
+	Tue, 28 Jul 2026 21:07:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 063931F000E9;
+	Tue, 28 Jul 2026 21:07:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785272775;
-	bh=JHPfV3RD6vW2cC87Nx8I0nem5pmDVBJJlTYT0fbqMW0=;
+	s=k20260515; t=1785272872;
+	bh=kL4zEeK/b6QDKO4LWVchQT9gEYx7IN427TkBw/ijwCc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=RTD4V4dmICcZrQHmHCByRSVOM4g7FmD4Rlx8Tc/7WrZ7Ocg6K08loPzrZupR7Vqum
-	 8xh8QIKhzs8r+1tC6mY+duoCntPjASXlplGkK0QO/7o+PZ+HEaMM95FA5qNAXKi4zw
-	 PFrZaYptH2Tbo2Bu0XBHC9pET8ZNbD8hLy+SuHovpGrNRYxequR4boeD3026UAzpd/
-	 uyJFpMiEneuuIFbkN+Mpc1Xems9fkDF1AzXSkn0fk8jivs9HVwWP6lm0Stxa5C5P3u
-	 ZTPmIXThwWAfhsxrB2av+b+RqJXPZ7koCPsyyFlaghz4E91aqYrgVkCF5jXcdAgTMX
-	 uH5b4rI8hs+ZQ==
-Date: Tue, 28 Jul 2026 15:06:14 -0600
+	b=BBIAi3ZSkz4YrGEHsFClCijX63D7WbGtgtp/E0nyQq6fc01I1H6AClXlQCenVa/Kv
+	 X3DITHEXwjkKs/FKtK+gwjwFyrezSc13TYLWaYFmcHr26H3ARrlQfQbWFAmBTpXfoc
+	 H0m/7i62UHunp5SnTxjGmK3QGPnzul3cuUwO8jPbFT6T+Wl7Yd8lANyiFQgiVlp+XN
+	 uSEnMlDRSz32Z/5zzif8AJN8kRcNszv3LiPuSa1ZYhpOJXJqg99rlMgbqVbP3LjWnw
+	 ng8liEQZeU1NfX2QpwANknfDzME5I0e3yu9qqFsn8ubmmSjLSeWgO56DBY40+F3BMt
+	 xo4+jGKuzg3fg==
+Date: Tue, 28 Jul 2026 15:07:50 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Pan Chuang <panchuang@vivo.com>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	"open list:ARM/APPLE MACHINE SUPPORT" <asahi@lists.linux.dev>,
-	"moderated list:ARM/APPLE MACHINE SUPPORT" <linux-arm-kernel@lists.infradead.org>,
-	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] nvme-apple: Remove redundant dev_err_probe()
-Message-ID: <amkZxmW3hGbRvUa4@kbusch-mbp>
-References: <20260716033301.212797-1-panchuang@vivo.com>
+To: Yang Xiuwei <yangxiuwei@kylinos.cn>
+Cc: axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH] nvme/ioctl: check SUBMIT_IO with nvme_cmd_allowed()
+Message-ID: <amkaJgFRImL888VT@kbusch-mbp>
+References: <20260720060305.885535-1-yangxiuwei@kylinos.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260716033301.212797-1-panchuang@vivo.com>
+In-Reply-To: <20260720060305.885535-1-yangxiuwei@kylinos.cn>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,11 +68,10 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jul 16, 2026 at 11:33:01AM +0800, Pan Chuang wrote:
-> Since commit 55b48e23f5c4 ("genirq/devres: Add error handling in
-> devm_request_*_irq()"), devm_request_irq() automatically logs
-> detailed error messages on failure. Remove the now-redundant
-> driver-specific dev_err_probe() calls.
+On Mon, Jul 20, 2026 at 02:03:05PM +0800, Yang Xiuwei wrote:
+> Unlike IO_CMD / IO64_CMD, NVME_IOCTL_SUBMIT_IO never calls
+> nvme_cmd_allowed(). Unprivileged callers can thus issue I/O on a
+> partition device or write through a read-only file descriptor.
 
 Thanks, applied to nvme-7.3.
 
