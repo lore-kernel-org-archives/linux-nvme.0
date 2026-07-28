@@ -4,72 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BBF9AC53219
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2026 02:16:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B3DF1C54F52
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2026 02:16:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Uu/V2cY9fiEPZWKdFNoipI3xUZZg8n/4RaaqV8GEYhU=; b=EtljBVNpVQd3zdorjznTtdpHdI
-	EDli5lJVS6xrpfMJZ5gj4tHIgFrj9HzbLSA283d/5exVS7TZA1M2EgtCnGN7OTC/K3SHe8/EWgL0M
-	VgDL/dWmCW0nXTpWRuGwvouqi3OHUdITdkHdV2x7yUfyUnhtCwe8KQk20AUWTBNJBG34OT+F6Fpjs
-	hUJUtZteUibWPgVrELfQoWn0NjVFwnHWIicpwEp3QuZLYVr2Z7TfkjZM0KPNMH+v/zmV3TTXVc6Qt
-	Qgqb5HLeT5GbZXcJZUQ+WfLECabSt+yC262elHcqIXgsb+WNl7eiOF+TQX2VL/I+ZUPkDhRP+Wpud
-	a5MY8THA==;
+	bh=9CVR7oFwap/NcOYCsrr92EnvOtaWQ9jX22O00IMi0SM=; b=jjKKWoSu0MQYtmzmxc3WM9zMo/
+	wJWYbTbxTmC/aNnC+0Dj6GWbGShau8BL8bkxVFCLKF6pQAWcyvcNu7SWPKQcndKpEPWt1Ql6i2qSq
+	VRTqUp3PN/Ulfvd6NO3hbr/5ls2Xs69lJIglFb8C8ZY38H57Aoc5p6suFYHgRIXLAfbhvZ/adKXGh
+	Tfx8r1LZRBUlHGFaVmrXkJyBeAN2Yn6tT6c+xQQoM083olfY33JThkZRsmMs9Kg1YX7wbzIAqz5ET
+	ORTxIejUTEySbh7e/dK0nuVlgAIwD6whxCha0na2BrqZDwI++1NYgBNt8KKlmGiZ8Ue0BXEWHBHob
+	fgE2sfAA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wotqF-00000006fQV-0jEH;
+	id 1wotqF-00000006fQh-2QMJ;
 	Wed, 29 Jul 2026 02:16:19 +0000
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wopMy-00000006KHC-0Os7
+	id 1wopN2-00000006KJP-0CGh
 	for linux-nvme@lists.infradead.org;
-	Tue, 28 Jul 2026 21:29:49 +0000
-Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-47f96c5b722so199055f8f.0
-        for <linux-nvme@lists.infradead.org>; Tue, 28 Jul 2026 14:29:47 -0700 (PDT)
+	Tue, 28 Jul 2026 21:29:53 +0000
+Received: by mail-wr1-x42c.google.com with SMTP id ffacd0b85a97d-47f707e5d75so224905f8f.1
+        for <linux-nvme@lists.infradead.org>; Tue, 28 Jul 2026 14:29:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785274186; x=1785878986; darn=lists.infradead.org;
+        d=gmail.com; s=20251104; t=1785274190; x=1785878990; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Uu/V2cY9fiEPZWKdFNoipI3xUZZg8n/4RaaqV8GEYhU=;
-        b=YpK3crf2f6A8QATsqEyHFGKoCJ76a8Bfh8kzDa2mQKsjyulL6IRgr0jD4UKkMXygoa
-         P8Ps4KdnHofsEq1ai6jDqeliyxArjMVvmqyzD2I0mj5nejtumH+rDPd0oqscCCL2aVIN
-         23edZe6xtsKMholgd6McfjJYbHPFGfsPe9JodgmM0u7RvPYj7kzElbf7X8SMn4aeluRe
-         8ij6epmi8XBd77c+13CE/kZPZIc+CfBCHXeDQKPnrAnwkSWBgKr/bZXXfDgjNZXTU4qf
-         4fYEA5YENe1JTTctMSM9P6pcbjB1wfxQuABwcK0izo0HgVqbi+ycZ6NxEQSjQn2iWl1O
-         luGQ==
+        bh=9CVR7oFwap/NcOYCsrr92EnvOtaWQ9jX22O00IMi0SM=;
+        b=UEL1Evm7wBD4815cQl/a1h+IKHFa/kW3WRcf8pPfbz1Bvqi3w2weU7POoMemo99DWl
+         1lEvtQBo/1HWkxNBghlxCMyYcjtQ9P/7fiOw2WWRlvL9fiPpq2ZOxTUjp1hddCIlhmbR
+         bSe5LItE0aDCGr27z8PyUyy1tVrqigwsMtxmibAqiFgCkbSlXedqRhBREIfH3B+cADsg
+         Uewqcsnmole+j+hBDOm0GARlz0jSxkvf2WYDAc9JOC/RUKrHmk1gV90/QxUaffDeS7JT
+         TFXIrO6DDK8ASY7675neGbVhgeOKdivzfsTYY0Hxkh/T2gHoJXBrfClI06zSD3uCAkaT
+         UiAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785274186; x=1785878986;
+        d=1e100.net; s=20251104; t=1785274190; x=1785878990;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Uu/V2cY9fiEPZWKdFNoipI3xUZZg8n/4RaaqV8GEYhU=;
-        b=R7yd7YNbs5OhKV6oQPnE8yHmPKfazPEBmwufEo3rwjCsQBtCAGzuFpUIX2+DFsXL61
-         eehcQexVOJh955c/5YXmsqhNhWveqeoX0/Sg57E/QfnCzVdhnK6D/e2FzXiuG4/3Te5y
-         mCb1DnVEpv+m4ZxVZBylGH+CjCRPNwTZwFOPjYTpVIbatSEt7Lb0oKbbXjxn92DmTyUf
-         eOyOM45Io/lLFr7XYJRNKKRItpf4HFSOj1SM0PijWX81j7m+WkxK4lmfYa1OadQc3DBi
-         Om5VkzVl1Fr3JdF1b8Q8HmQkLbIGAA2f25WA0Kj8MYOLrqwU6FyPeAax5IFWqI1sRf+7
-         rosQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrKQrg2A8dmJYlHe0sosdoXSsBVcOt+FltCc6wvcjpWCKM+HpKwXJs7v8j5L54YGlofI15eazyPo5tN@lists.infradead.org
-X-Gm-Message-State: AOJu0YzeJnMdWAQoGcOTF/TSA5V59trZEBwcpzJC/ocWokSWyHfNt00x
-	+hugpAIkhpztdfPu94PUUCHjcVjsn9c3bSGZxgO4z+WR79hKiMibWX5B
-X-Gm-Gg: AR+sD120px7G4CmY0iXS4ssbb+YlaUZ0UJd/pAwt53p58wRd+z8M4hl2i0WZQMP9OtY
-	yD/Bn6jGgCH28ZKcX0bkdnRtgA/RIqWRgMHd8iM+XsIoOsU/gAnHLQx1Q5i6JThomCwyXdS1PGf
-	MnI/0MK0DH0wlxnziPweMbsuVe9LeNPGztGbzYJWiE7z0gACfpxBonCMdepc/dkyTAGGySzStgY
-	ulqa/1H1z6yinWs+LeQMg6PKTyVtQSAKmYrTLW4AvBePXgH53iIwZXSGQuHAJbLIccqtLroFzgA
-	0BXpq+qYFFRqR+Twti5VOWz4JQ1LAUDjkdD7nBmUU3VkXfobELc9oc7viKvV53v4lhbn/ZliJTu
-	fI5/0hkrpN5GhSHZX9R4JQOsmn39k/IDgGaVtIYEY5h7Pb23pRkuXy9cETmVekX00BbLzcYlSvJ
-	IIBiFnbPvDj2mnOSvEaor0B5qTDJvWwBKCdzFTn5bziailCJOgLn4KhtDbkRJb1VZRi32vak6ZZ
-	wjYZEmRCjkjg+2Eyco=
-X-Received: by 2002:a5d:584c:0:b0:47f:95ce:6f48 with SMTP id ffacd0b85a97d-47fb1ec9671mr5039007f8f.11.1785274186132;
-        Tue, 28 Jul 2026 14:29:46 -0700 (PDT)
+        bh=9CVR7oFwap/NcOYCsrr92EnvOtaWQ9jX22O00IMi0SM=;
+        b=rm3e16PI2Linb3bKMx2JVeuqvucwBS5vRvpByzFaSkdEUQGKYNtOFhr0PZ4bWtjmGc
+         +zcotujVOkLc0gH75KUGi5Wc3hrlOdtXW0tfdQEG7CFG54Llb39CItLc4nYE9+mucDnd
+         EgUAkfbllj3TtQgyi85vZdLz8CwN4D4dqYxBKBYhBaRjVrrXTPYB3Ifg7jfq4T7r0yMq
+         YG3kgmLz8wZOOjGJkhNfMu7Bg7wH52pi+j8IJVSaauqer0qGffEQqPZtMJnJ92vqOX30
+         hbqgoOMZahshbp6zi6iDAncmVLPA0RYXBVp4buVP7ZTXLqNEWcQkLwAF7vibp3HuS1BI
+         yKGg==
+X-Forwarded-Encrypted: i=1; AHgh+RqibisyvhVLJ1wfHiE4ljXzvWQKCR1DSAh5/ELJxkuXOmmTsEJ0qzMTvBBv50+TLUH1qZgjfm6rtHmX@lists.infradead.org
+X-Gm-Message-State: AOJu0YxmDV7editcdZPlJ/E0LAZClpZ4qrd19LpTKbJ0RMqRcvc3iSQs
+	9q3lHv4K/rexgodyKODXkGZgpH7l9c3ZTlpelFU8iGMX3yZkTHzVfgw9
+X-Gm-Gg: AR+sD13cp/NuO1QsEKd6l7efqvYUl5BS0me4SJOCfOuaWPKLB0eu9fYda1FQJY8tDB/
+	zkVs7LyRDaQnRICBVS8yj3MGRObgbLAJ9j6TeT+yLClrJCN+LXt8P83yWWLwmKTMlDZP/72Rfnx
+	rtVLax/Bx8buFJKe6huN11XYW5et4mvt5gkWGBRMU6TZkYWhQjQHx0fFkB+Dt4R0uClYhZsEPmH
+	9yi5x4kBBSnh1ZzU+m/O/DJTHpUm1hsCXe0mlcPGQUG6v13teaiJhvfeWvMuO1JTnXmECpP3krP
+	uEC5uGPq7Bng+NWhkVGo8XL6pE4Gv9k3J+4vfAM5EhOIhSe3B6C2CoPW+xsR93lnMG1PwJkMFfE
+	q4kogru2AvME79heQvBcc4XwB05TYzWTCOYHmLpLaRZGpxpdw9akOnwCdwYe5yiITxgd8NUSDue
+	E04R+lDfOlAzWbgS7HQe99XneGOcJvvsC+Jy1J505MLxg9WhZQO+rV06uoICNKCW1Z/RqebdNRx
+	rQ+k/8n
+X-Received: by 2002:a5d:584e:0:b0:47f:95ec:a49b with SMTP id ffacd0b85a97d-47fb1ea7d64mr4772853f8f.34.1785274190146;
+        Tue, 28 Jul 2026 14:29:50 -0700 (PDT)
 Received: from 127.mynet ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fb6ac44bcsm2245329f8f.11.2026.07.28.14.29.44
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fb6ac44bcsm2245329f8f.11.2026.07.28.14.29.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2026 14:29:45 -0700 (PDT)
+        Tue, 28 Jul 2026 14:29:48 -0700 (PDT)
 From: Pavel Begunkov <asml.silence@gmail.com>
 To: Jens Axboe <axboe@kernel.dk>,
 	Keith Busch <kbusch@kernel.org>,
@@ -108,17 +108,17 @@ Cc: asml.silence@gmail.com,
 	nvdimm@lists.linux.dev,
 	linux-btrfs@vger.kernel.org,
 	ceph-devel@vger.kernel.org
-Subject: [PATCH v4 02/14] iov_iter: add iterator type for dmabuf maps
-Date: Tue, 28 Jul 2026 22:29:14 +0100
-Message-ID: <132442812a40277a5904cb2a8ca1e02f4f6e82a2.1785274111.git.asml.silence@gmail.com>
+Subject: [PATCH v4 04/14] block: always adjust bi_offset on bio_advance_iter
+Date: Tue, 28 Jul 2026 22:29:16 +0100
+Message-ID: <8d4f786e3cb9ac6002bde5f3271dcb6d22c498b0.1785274111.git.asml.silence@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <cover.1785274111.git.asml.silence@gmail.com>
 References: <cover.1785274111.git.asml.silence@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260728_142948_190885_5FC7B666 
-X-CRM114-Status: GOOD (  20.84  )
+X-CRM114-CacheID: sfid-20260728_142952_107886_1F635A15 
+X-CRM114-Status: GOOD (  15.22  )
 X-Mailman-Approved-At: Tue, 28 Jul 2026 19:16:17 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -134,148 +134,72 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Introduce a new iterator type for dmabuf maps. The map in an opaque
-object with internals and format specific to the subsystem / driver, and
-only it can use that subsystem / driver for issuing IO. The task of the
-middle layers is to pass the map / iterator further down, maybe doing
-basic splitting and length checking. The iterator can only be used by
-operations of the file the associated map was created for.
+Extend bio_no_advance_iter() iteration to also increment the offset.
+It's not currently needed because the currently listed request types
+don't have a buffer, but will be useful once we add bios backed by
+dma-buf, which don't have a bvec but work with a single range.
 
-Suggested-by: Keith Busch <kbusch@kernel.org>
+Suggested-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
 ---
- include/linux/uio.h | 11 +++++++++++
- lib/iov_iter.c      | 29 +++++++++++++++++++++++------
- 2 files changed, 34 insertions(+), 6 deletions(-)
+ drivers/md/dm-io-rewind.c |  6 ++++--
+ include/linux/bio.h       | 12 ++++++++----
+ 2 files changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/include/linux/uio.h b/include/linux/uio.h
-index a9bc5b3067e3..6c31ec131a71 100644
---- a/include/linux/uio.h
-+++ b/include/linux/uio.h
-@@ -12,6 +12,7 @@
+diff --git a/drivers/md/dm-io-rewind.c b/drivers/md/dm-io-rewind.c
+index 04f3fc8aeb6f..b22719c6411c 100644
+--- a/drivers/md/dm-io-rewind.c
++++ b/drivers/md/dm-io-rewind.c
+@@ -113,10 +113,12 @@ static inline void dm_bio_rewind_iter(const struct bio *bio,
+ 	iter->bi_sector -= bytes >> 9;
  
- struct page;
- struct folio_queue;
-+struct dma_buf_io_map;
- 
- typedef unsigned int __bitwise iov_iter_extraction_t;
- 
-@@ -29,6 +30,7 @@ enum iter_type {
- 	ITER_FOLIOQ,
- 	ITER_XARRAY,
- 	ITER_DISCARD,
-+	ITER_DMABUF_MAP,
- };
- 
- #define ITER_SOURCE	1	// == WRITE
-@@ -71,6 +73,7 @@ struct iov_iter {
- 				const struct folio_queue *folioq;
- 				struct xarray *xarray;
- 				void __user *ubuf;
-+				struct dma_buf_io_map *dmabuf_map;
- 			};
- 			size_t count;
- 		};
-@@ -155,6 +158,11 @@ static inline bool iov_iter_is_xarray(const struct iov_iter *i)
- 	return iov_iter_type(i) == ITER_XARRAY;
+ 	/* No advance means no rewind */
+-	if (bio_no_advance_iter(bio))
++	if (bio_no_advance_iter(bio)) {
+ 		iter->bi_size += bytes;
+-	else
++		iter->bi_offset -= bytes;
++	} else {
+ 		dm_bvec_iter_rewind(bio->bi_io_vec, iter, bytes);
++	}
  }
  
-+static inline bool iov_iter_is_dmabuf_map(const struct iov_iter *i)
-+{
-+	return iov_iter_type(i) == ITER_DMABUF_MAP;
-+}
-+
- static inline unsigned char iov_iter_rw(const struct iov_iter *i)
- {
- 	return i->data_source ? WRITE : READ;
-@@ -300,6 +308,9 @@ void iov_iter_folio_queue(struct iov_iter *i, unsigned int direction,
- 			  unsigned int first_slot, unsigned int offset, size_t count);
- void iov_iter_xarray(struct iov_iter *i, unsigned int direction, struct xarray *xarray,
- 		     loff_t start, size_t count);
-+void iov_iter_dmabuf_map(struct iov_iter *i, unsigned int direction,
-+			struct dma_buf_io_map *map,
-+			loff_t off, size_t count);
- ssize_t iov_iter_get_pages2(struct iov_iter *i, struct page **pages,
- 			size_t maxsize, unsigned maxpages, size_t *start);
- ssize_t iov_iter_get_pages_alloc2(struct iov_iter *i, struct page ***pages,
-diff --git a/lib/iov_iter.c b/lib/iov_iter.c
-index 273919b16161..6398b306d0e2 100644
---- a/lib/iov_iter.c
-+++ b/lib/iov_iter.c
-@@ -575,7 +575,8 @@ void iov_iter_advance(struct iov_iter *i, size_t size)
- {
- 	if (unlikely(i->count < size))
- 		size = i->count;
--	if (likely(iter_is_ubuf(i)) || unlikely(iov_iter_is_xarray(i))) {
-+	if (likely(iter_is_ubuf(i)) || unlikely(iov_iter_is_xarray(i)) ||
-+	    unlikely(iov_iter_is_dmabuf_map(i))) {
- 		i->iov_offset += size;
- 		i->count -= size;
- 	} else if (likely(iter_is_iovec(i) || iov_iter_is_kvec(i))) {
-@@ -631,7 +632,8 @@ void iov_iter_revert(struct iov_iter *i, size_t unroll)
- 		return;
- 	}
- 	unroll -= i->iov_offset;
--	if (iov_iter_is_xarray(i) || iter_is_ubuf(i)) {
-+	if (iov_iter_is_xarray(i) || iter_is_ubuf(i) ||
-+	    iov_iter_is_dmabuf_map(i)) {
- 		BUG(); /* We should never go beyond the start of the specified
- 			* range since we might then be straying into pages that
- 			* aren't pinned.
-@@ -775,6 +777,20 @@ void iov_iter_xarray(struct iov_iter *i, unsigned int direction,
- }
- EXPORT_SYMBOL(iov_iter_xarray);
- 
-+void iov_iter_dmabuf_map(struct iov_iter *i, unsigned int direction,
-+			 struct dma_buf_io_map *map,
-+			 loff_t off, size_t count)
-+{
-+	WARN_ON(direction & ~(READ | WRITE));
-+	*i = (struct iov_iter){
-+		.iter_type = ITER_DMABUF_MAP,
-+		.data_source = direction,
-+		.dmabuf_map = map,
-+		.count = count,
-+		.iov_offset = off,
-+	};
-+}
-+
  /**
-  * iov_iter_discard - Initialise an I/O iterator that discards data
-  * @i: The iterator to initialise.
-@@ -841,7 +857,7 @@ static unsigned long iov_iter_alignment_bvec(const struct iov_iter *i)
- 
- unsigned long iov_iter_alignment(const struct iov_iter *i)
+diff --git a/include/linux/bio.h b/include/linux/bio.h
+index 8f33f717b14f..dea9f567379d 100644
+--- a/include/linux/bio.h
++++ b/include/linux/bio.h
+@@ -113,11 +113,13 @@ static inline void bio_advance_iter(const struct bio *bio,
  {
--	if (likely(iter_is_ubuf(i))) {
-+	if (likely(iter_is_ubuf(i)) || iov_iter_is_dmabuf_map(i)) {
- 		size_t size = i->count;
- 		if (size)
- 			return ((unsigned long)i->ubuf + i->iov_offset) | size;
-@@ -872,7 +888,7 @@ unsigned long iov_iter_gap_alignment(const struct iov_iter *i)
- 	size_t size = i->count;
- 	unsigned k;
+ 	iter->bi_sector += bytes >> 9;
  
--	if (iter_is_ubuf(i))
-+	if (iter_is_ubuf(i) || iov_iter_is_dmabuf_map(i))
- 		return 0;
+-	if (bio_no_advance_iter(bio))
++	if (bio_no_advance_iter(bio)) {
+ 		iter->bi_size -= bytes;
+-	else
++		iter->bi_offset += bytes;
++	} else {
+ 		bvec_iter_advance(bio->bi_io_vec, iter, bytes);
+ 		/* TODO: It is reasonable to complete bio with error here. */
++	}
+ }
  
- 	if (WARN_ON(!iter_is_iovec(i)))
-@@ -1469,11 +1485,12 @@ EXPORT_SYMBOL_GPL(import_ubuf);
- void iov_iter_restore(struct iov_iter *i, struct iov_iter_state *state)
+ /* @bytes should be less or equal to bvec[i->bi_idx].bv_len */
+@@ -127,10 +129,12 @@ static inline void bio_advance_iter_single(const struct bio *bio,
  {
- 	if (WARN_ON_ONCE(!iov_iter_is_bvec(i) && !iter_is_iovec(i) &&
--			 !iter_is_ubuf(i)) && !iov_iter_is_kvec(i))
-+			 !iter_is_ubuf(i) && !iov_iter_is_kvec(i) &&
-+			 !iov_iter_is_dmabuf_map(i)))
- 		return;
- 	i->iov_offset = state->iov_offset;
- 	i->count = state->count;
--	if (iter_is_ubuf(i))
-+	if (iter_is_ubuf(i) || iov_iter_is_dmabuf_map(i))
- 		return;
- 	/*
- 	 * For the *vec iters, nr_segs + iov is constant - if we increment
+ 	iter->bi_sector += bytes >> 9;
+ 
+-	if (bio_no_advance_iter(bio))
++	if (bio_no_advance_iter(bio)) {
+ 		iter->bi_size -= bytes;
+-	else
++		iter->bi_offset += bytes;
++	} else {
+ 		bvec_iter_advance_single(bio->bi_io_vec, iter, bytes);
++	}
+ }
+ 
+ void __bio_advance(struct bio *, unsigned bytes);
 -- 
 2.54.0
 
