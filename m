@@ -4,62 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CCF53C53219
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jul 2026 06:58:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4CACFC53219
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jul 2026 07:52:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=I5t0spCHA8kw7R2VCvHnVLMLKMYN6URCuJS+nTpm+/s=; b=Y0+kPZe5NHbDQd8fVfpz7s4e0E
-	jz1OTXH7LH7uhkx3Z9cSaT9mxq41Oj9Rj+aPFHOWRY2rTnZlfDZDNo0G7kM9EQ9A3xbAcZwX3UrjF
-	6xBO4SOvkYuerIgqyrZwJhtS8Or5fKeevIZHaOHd9juMjaP35+GxOihfjTvISomGNmqx43OwaYItC
-	qR+oSmvgmi4vGj/BofBw5ZEtOY3Gdzvwf+g52KpzaMBApcpDP6VWN2P2zTcEjnfLsC/WCVM1v6eNL
-	hqo/4vzKPGtfrk9THx4Mv+jgthn5UWlR88IFa4Z4DtelwHVffr+6iSGrsmPY1NnjqFVFEsHCOYE49
-	TdnLy3uQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:From:
+	Subject:Cc:To:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
+	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=HQAgkDQdWolCH1WdxjRLn++QDNlQqY1mhu2LSiV4TEw=; b=mqeTvKh1VHECRtPhbLMmYf28pf
+	oxE/qGs/cFMzeV1YyCEdErFlqHjldL84GmtLBxj5GZtASP30IYD3P+QjRTrKX6OD+wNWwQNbBP+Ti
+	tHPHjHkpTAldlpuNoJduwmsDp0B2naK4+e5uFcyU9h9HuokJ0nseR9dNySnvrhs2M09Bi2K7++Ljr
+	5fBixF3IJdK4ovg8Z9VeWSIuTFWwA3301tasfq9IKMmM8lbOrv/sXd52Cf8qKutmY9oludcEoHvzR
+	kZKdvOolFpihVV4jZIJJrAt7hYV9a2w8GHCI1lDHDEKlfLgwrQAgeh/DnqsrkFtd4XpPE4NiYAYEP
+	cI2ux22w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1woblX-00000004aep-0Evi;
-	Tue, 28 Jul 2026 06:58:15 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1woccS-00000004fEw-2iM0;
+	Tue, 28 Jul 2026 07:52:56 +0000
+Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=arkamax.eu)
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1woblV-00000004aed-2VkD
+	id 1woccO-00000004fDO-2o0e
 	for linux-nvme@lists.infradead.org;
-	Tue, 28 Jul 2026 06:58:13 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id F3FD6600FC;
-	Tue, 28 Jul 2026 06:58:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31DDA1F000E9;
-	Tue, 28 Jul 2026 06:58:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1785221892;
-	bh=I5t0spCHA8kw7R2VCvHnVLMLKMYN6URCuJS+nTpm+/s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=IMsln0EsKmcITUu7xS+gzJJHWg8Sb3M4ZX/hiroN2gfUBoCU9Y1bMfoWsV4ym2Qy8
-	 1tavk2cq7UsKq86TsltMqAgpuJGGX0qc/XOD93wTEF5KSCqCUl+V2FV55ZQrTbdHRZ
-	 SkbjxDQiw1+oYXtsWKVCSrMDmwz/Y+L0N93LXP0Q=
-Date: Tue, 28 Jul 2026 08:58:00 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, Hari Mishal <harimishal1@gmail.com>,
-	Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
-	Hannes Reinecke <hare@suse.de>, Kanchan Joshi <joshi.k@samsung.com>,
-	Nitesh Shetty <nj.shetty@samsung.com>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] nvme: drop WARN_ON_ONCE on write_stream bounds check
-Message-ID: <2026072834-buffoon-entwine-ed16@gregkh>
-References: <20260725135111.14041-1-harimishal1@gmail.com>
- <20260725135111.14041-3-harimishal1@gmail.com>
- <amdqKEI44SKwq-K2@kbusch-mbp>
- <2026072748-unpopular-onlooker-4a2b@gregkh>
- <amfg_OFiyDadWb3v@kbusch-mbp>
- <2026072849-uproar-aqua-07c3@gregkh>
- <20260728051838.GA20593@lst.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260728051838.GA20593@lst.de>
+	Tue, 28 Jul 2026 07:52:54 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; s=mail1; bh=ppilJn1kCzNmfA
+	uDnPrcUc1O7jjR+vXpbMJbqEQVyvE=; h=in-reply-to:references:from:subject:
+	cc:to:date; d=arkamax.eu; b=N2tvchLwr5WsKAAxXVSvMcXG+9N3SL9Xv/9N9EfSrl
+	KRettjE1LuNh2HoGREvdH+BoZ7JmQG6kNp1b+DMQgKsdVrR/Wy0bn89F1V5O+SviJ1J8Ku
+	l76qOVIXWcs7JPIuDv1NHRVJXGfnTwvm3nbLQw/4r6wQsIsCc5zqlDGNsWejAZQH/dRM+c
+	nBFSFODtkMxbasJYH9ZYHuwfqm0/5Pb+W5EOWHVJIwwvKtIzkMmGs0LvwfnOxDi/FShVdJ
+	JMjXkDaxEFuK6UBaXCwARMlUXNGQPZoW6HkZyLNcmwnZ4mlDHjD/peIXCm0JtobH4L+BPe
+	J0WzaMM7GChbHhMECB1A==
+Received: from localhost (<unknown> [193.207.213.85])
+	by arkamax.eu (OpenSMTPD) with ESMTPSA id e52f5367 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Tue, 28 Jul 2026 09:52:46 +0200 (CEST)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 28 Jul 2026 09:52:44 +0200
+Message-Id: <DKA1I6TD9OGB.2NXHE0G2W3A7V@arkamax.eu>
+To: "Zhengrong Li" <zhengrong_li@linux.alibaba.com>,
+ <linux-nvme@lists.infradead.org>
+Cc: <hch@lst.de>, <sagi@grimberg.me>, <kch@nvidia.com>
+Subject: Re: [PATCH] nvmet: fix Reservation Register Replace for
+ unregistered host with IEKEY
+From: "Maurizio Lombardi" <mlombard@arkamax.eu>
+X-Mailer: aerc 0.21.0
+References: <178521959386.52051.17173420094473200063@linux.alibaba.com>
+In-Reply-To: <178521959386.52051.17173420094473200063@linux.alibaba.com>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260728_005253_348639_832C83D5 
+X-CRM114-Status: GOOD (  18.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,101 +69,74 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jul 28, 2026 at 07:18:38AM +0200, Christoph Hellwig wrote:
-> On Tue, Jul 28, 2026 at 07:15:28AM +0200, Greg Kroah-Hartman wrote:
-> > On Mon, Jul 27, 2026 at 04:51:40PM -0600, Keith Busch wrote:
-> > > On Mon, Jul 27, 2026 at 09:19:27PM +0200, Greg Kroah-Hartman wrote:
-> > > > On Mon, Jul 27, 2026 at 08:24:40AM -0600, Keith Busch wrote:
-> > > > > On Sat, Jul 25, 2026 at 03:51:11PM +0200, Hari Mishal wrote:
-> > > > > > write_stream is validated against bdev_max_write_streams() in both
-> > > > > > generic block direct I/O (block/fops.c) and F2FS before a bio
-> > > > > > carrying it is ever built, so write_stream > nr_plids shouldn't be
-> > > > > > reachable through any current legitimate path. The remaining users
-> > > > > > of bio->bi_write_stream elsewhere in the block layer only copy an
-> > > > > > already-validated value between bios (bio.c, blk-crypto-fallback.c)
-> > > > > > or compare it for merge eligibility (blk-merge.c); none of them
-> > > > > > introduce a new, unvalidated value.
-> > > > > > 
-> > > > > > Using WARN_ON_ONCE as the backstop for that assumption isn't worth
-> > > > > > it given how many deployed systems run with panic-on-warn enabled;
-> > > > > > the existing graceful return BLK_STS_INVAL already handles it on
-> > > > > > its own.
-> > > > > 
-> > > > > That's not a very good reason to remove a WARN_ON. You've left the check
-> > > > > in for a condition that should never happen, so when it does happen,
-> > > > > it'll be impossible to debug without the WARN.
-> > > > > 
-> > > > > And the WARN also annotates the branch as unlikely, which is desirable
-> > > > > for this case.
-> > > > 
-> > > > But, if it ever does happen, a WARN_ON will reboot the box, given that
-> > > > billions of Linux systems have panic-on-warn enabled.  
-> > > 
-> > > So WARN_ON is the new BUG_ON now?
-> > 
-> > It has been that way since syzbot started sending us reports (i.e. for
-> > many many years...)
-> > 
-> > > If the condition happens we need to
-> > > know how we got here and make it obvious something is wrong. So I guess
-> > > we'd have to replace every one of these:
-> > > 
-> > > 	if (WARN_ON_ONCE(condition)) ...
-> > > 
-> > > With an open-coded version like:
-> > > 
-> > > 	if (unlikely(condition)) {
-> > > 		do_once(dump_stack());
-> > > 		...
-> > > 	}
-> > > 
-> > > ?
-> > 
-> > Yes, if userspace can trigger this.  Because again, this will cause a
-> > box to reboot.
-> > 
-> > If we didn't have panic-on-warn, a ton of CVEs would just disappear
-> > tomorrow.  But that's not the world we live in :(
-> > 
-> > > That doesn't seem right, so if that is the suggestion, then I think we
-> > > need a new macro to provide the result that the WARN_ON usage expected.
-> > 
-> > You can provide a tracedump if you really need/want it, no need to call
-> > WARN_ON(), the macro is there for you to use.
-> > 
-> > > > So if this can ever happen, 
-> > > 
-> > > But it can't ever happen. This patch's commit message reasoned that as
-> > > justification to remove the warn, but we need to know how we got here
-> > > when it does happen because it means somebody broke contract.
-> > 
-> > Fair enough, but note that if userspace can trigger this, it should be
-> > fixed up.  See the other WARN_ON patch fix for nvme that I sent yesterday
-> > for an example of userspace being able to trigger this type of issue:
-> > 	https://lore.kernel.org/r/20260727-nvme-tcp-v1-1-61c0e36763eb@linuxfoundation.org
-> > 
-> > > > just properly handle it and recover and don't loose user
-> > > > data.
-> > > 
-> > > We can't save the data from this specific condition: the data from the
-> > > request is unwritable and lost. We've also learned that EINVAL errors
-> > > are not handled for many DM stacking drivers in very bad ways, so again,
-> > > we need to know how we got here when something breaks the API contract
-> > > otherwise it'll be a difficult problem to debug without that visibility.
-> > 
-> > Ok, if you want to keep this here, that's fine, because you know you
-> > can't recover properly and crashing the system is the only acceptable
-> > thing to do.  But in that case, why not make it a BUG_ON()?
-> 
-> Because we don't want a BUG_ON.  If you set panic on warn in anything
-> but a debug setup you get what you pay for, and I'm really tired of
-> all these totally stupid attempts to make WARN_ON the new BUG_ON.
-> It is not, and that's for a reason.
+On Sat Jul 25, 2026 at 5:50 AM CEST, Zhengrong Li wrote:
+> When a host sends a Reservation Register command with RREGA=3DReplace
+> and IEKEY=3D1 without being previously registered, nvmet returns
+> Reservation Conflict.  SPDK accepts this combination and creates a
+> new registrant with the provided NRKEY, with an explicit unit test
+> covering this scenario (test/unit/lib/nvmf/subsystem.c).
+>
+> Fix nvmet_pr_replace() to add a new registrant when the host is not
+> found in the registrant list and IEKEY is set with a non-zero NRKEY,
+> consistent with SPDK's behavior.
+>
+> Tested with nvme-cli against nvmet-tcp:
+>
+>   # no prior registration
+>   nvme resv-register /dev/nvmeXn1 -n 1 --rrega=3D2 --iekey --nrkey=3D0x99=
+99
+>
+>   Before: RESERVATION_CONFLICT (0x4083)
+>   After:  success, registrant created with rkey 0x9999
 
-I'm tired of it too, but again, if this can be hit by something a user
-does, it ends up being a DoS on the machine :(
+The SPDK behaviour seems to be correct, the spec indeed says that
 
-thanks,
+"A host may replace
+its reservation key without regard to its registration status or current re=
+servation key value by setting the
+Ignore Existing Key (IEKEY) bit to '1' in the Reservation Register
+command."
 
-greg k-h
+>
+> Signed-off-by: Zhengrong Li <zhengrong_li@linux.alibaba.com>
+> ---
+>  drivers/nvme/target/pr.c | 20 +++++++++++++++++++-
+>  1 file changed, 19 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/nvme/target/pr.c b/drivers/nvme/target/pr.c
+> index c71ae46244ff..f00de35683ca 100644
+> --- a/drivers/nvme/target/pr.c
+> +++ b/drivers/nvme/target/pr.c
+> @@ -355,12 +355,14 @@ static u16 nvmet_pr_replace(struct nvmet_req *req,
+>  	u16 status =3D NVME_SC_RESERVATION_CONFLICT | NVME_STATUS_DNR;
+>  	struct nvmet_ctrl *ctrl =3D req->sq->ctrl;
+>  	struct nvmet_pr *pr =3D &req->ns->pr;
+> -	struct nvmet_pr_registrant *reg;
+> +	struct nvmet_pr_registrant *reg, *new;
+>  	u64 nrkey =3D le64_to_cpu(d->nrkey);
+> +	bool found =3D false;
+> =20
+>  	down(&pr->pr_sem);
+>  	list_for_each_entry_rcu(reg, &pr->registrant_list, entry) {
+>  		if (uuid_equal(&reg->hostid, &ctrl->hostid)) {
+> +			found =3D true;
+>  			if (ignore_key || reg->rkey =3D=3D le64_to_cpu(d->crkey))
+>  				status =3D nvmet_pr_update_reg_attr(pr, reg,
+>  						nvmet_pr_update_reg_rkey,
+> @@ -368,6 +370,22 @@ static u16 nvmet_pr_replace(struct nvmet_req *req,
+>  			break;
+>  		}
+>  	}
+> +
+> +	if (!found && ignore_key && nrkey) {
+> +		new =3D kmalloc_obj(*new);
+> +		if (!new) {
+> +			status =3D NVME_SC_INTERNAL;
+> +			goto out;
+> +		}
+> +		memset(new, 0, sizeof(*new));
+
+Just use kzalloc_obj()?
+
+Maurizio
 
