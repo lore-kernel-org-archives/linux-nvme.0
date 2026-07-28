@@ -4,72 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E77BEC54F98
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2026 02:16:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ACA98C54FCC
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2026 02:16:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=h4lFfo5ZGoFgQzeJsrKlXRAyOLh0g5mqIoi0J3evNaQ=; b=B6Ihad5z5apms7dxhzG1eHbr6n
-	aXqTzsaK/vanW7ihT0KR0e7xMLs2inOledDlqUb/VryxhZcwa53RHrkoNuO7ZDC0lJQGpj9QXhoMh
-	VLOLCbPoa97l9tRSV5H468NzHd0woOVWfbZcaIip3BiKHv/qEhz/1BvltKJiyZnTxs4Y6iS2ewVWI
-	CjWdPV6wj6XO0Dnm/NFOfbjaLH05sGKN7HnGnzF32GFcoeGihcrBGjNUKzpxom5kgHxUxxSmSJ+pi
-	O97kh9gVWITnk9ZJ+hY1KtqOOxtquzXiBKwm9oFK/TIfdPOospkNVUgVXEtvbkzVmGEnNjdiZs7bL
-	uTleNNmw==;
+	bh=Ixnja4szAAkUS0Icn/+Rw0wsrgzfEtWS0xW14eGn2yo=; b=RiJhMBf+w6/Ybu4Io7PEsdTRlx
+	mX9AZJH7UeAKGtRWXFiEKzbCtnQo+HAtICqO0KgfEndBn76RLQBt/3xcJE9ioFvtUJMic6Dee6EsM
+	KXCuC4ADyS823uhL/QpblWf49LsriZW4VIRc+xE+fVIHYa73xm9Y0gfDE8o9+6+9XXz79l+3Fhe4d
+	rqnZj62uJAfRzcpTBZ8qQrw9JScP28bSbhZnUn/v82dge6Jk3G5VjIO4A7/BV4I4GdjNthicDw4sZ
+	a6AvAfqY39MgRxQW5R6h5eHiSwkqou3bXKOzpgQC2vbxui3nvk4atTmadTEr+aIArSuVVLelFWWtT
+	MhNCtpmw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wotqK-00000006fWM-23NV;
-	Wed, 29 Jul 2026 02:16:24 +0000
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+	id 1wotqJ-00000006fU7-39NZ;
+	Wed, 29 Jul 2026 02:16:23 +0000
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wopNO-00000006KWB-34bx
+	id 1wopNH-00000006KRS-14bC
 	for linux-nvme@lists.infradead.org;
-	Tue, 28 Jul 2026 21:30:16 +0000
-Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-4954c0833b4so1960845e9.1
-        for <linux-nvme@lists.infradead.org>; Tue, 28 Jul 2026 14:30:14 -0700 (PDT)
+	Tue, 28 Jul 2026 21:30:08 +0000
+Received: by mail-wr1-x432.google.com with SMTP id ffacd0b85a97d-47f7027ca11so205105f8f.3
+        for <linux-nvme@lists.infradead.org>; Tue, 28 Jul 2026 14:30:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785274213; x=1785879013; darn=lists.infradead.org;
+        d=gmail.com; s=20251104; t=1785274205; x=1785879005; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=h4lFfo5ZGoFgQzeJsrKlXRAyOLh0g5mqIoi0J3evNaQ=;
-        b=hZs6cGImga/sP3vK58k3MYGKvPmmUL4EQVT1YMzvKyRriQBXY2ivcfjVym7UnPe9SX
-         389VxAjAjLK3GYYvZ9DwjjXBMZ3MPrcTRdtHbmWaM/Z2i/sj8m3ex3G41iP7PSp/E23q
-         x2l+M4iDmX9yPiXWVqvMfYltX4z7tK1sh7mu9VOYuxBuDLTASE6+jQqTTV/NnOw0MVXt
-         rB2ChWdFPu6FpHhqBiIFkETcI7JW9WPQ13h0/XBNFhE8bvPI7tEk7f6uLKL8VeUcZ7es
-         T28euVwBfif6b8Y+Sy1YQG+j+WLdWedNTGjXI6dbuRC8AdKWKzweYBEWY7hAJdm8tEdn
-         lz/Q==
+        bh=Ixnja4szAAkUS0Icn/+Rw0wsrgzfEtWS0xW14eGn2yo=;
+        b=Yp017xIRksG7NM2vP/13f5vXqT74+/DYk2zblqEc+7QvatYjq+LSyBVyo49Dr80udj
+         rU+6NMCV1fALPAMAl2gcZIjV0VMWrktZ/N3aYeYsU2zHewxhjqjen3RSR7G6noW5UtgZ
+         dUrp/d4a6P7Bbut30Y6tBS5tw3rY04kGEuBmoYABiDPkJb/7RHXOSsOMatoKyWsl4zgv
+         F8pY7JzStCGe/X0WFL5oVtJ54UKSLZuSM6dEclKZc67BXrM7q654auLF0zCpYomnNRHF
+         JGfl9VzuCpeNvZSc5L+QQVcSSbRnDzBRFC7O3hgHQ/PbmZCe1Xtst4tADcXQ4qOfpSZl
+         r1SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785274213; x=1785879013;
+        d=1e100.net; s=20251104; t=1785274205; x=1785879005;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=h4lFfo5ZGoFgQzeJsrKlXRAyOLh0g5mqIoi0J3evNaQ=;
-        b=rqVEghHn5CLInV4kdzjAC4mYha++eClRhBWKDvQfvZAdlqS28hLHlHGOmBf6HHbJBq
-         VZdrC+MRi3tlMDciCIePTQyEHf/mDM0MdKp0X+U5azmssuZtDXxeTgx7+c3tfXkuha0g
-         61wbdpoWc+7MTFzHt0dZiOycdzH3T5WoqUBRljZdY5IsFaM8BogxifYGjhNMlzoj3kUg
-         /j33DskeANGFLxarjX9wXckMpIgjojIFZqlTFMpFznuLMxSBlvHsjnyLyhWaEWKrrFIr
-         cfG5+ponR9Mu7Q0iNeMUTlYcRxvwFV9wUVOA6YH7cu5nuhTxqepB5aI5GVVvmHqit3X/
-         bdXw==
-X-Forwarded-Encrypted: i=1; AHgh+Rr1DD3FgjH5PPmX6YWADC9YsB2JGAPWy6PS41dYrGETRLyE4NNt0q7ezoZOo6nrY/t2XM+FafSno4U+@lists.infradead.org
-X-Gm-Message-State: AOJu0YzrBF4wj9Hul6MgvVEZlN8iKD1N+0MnHFRcz9eaMgG3DVXwXsT1
-	UyQmU946fkZveia7umnxu/MYxJfeIj1yR8OmrGVBk2b04So9wWw+UEJD
-X-Gm-Gg: AR+sD11B9yQIIzbLVBgQ9qRh0C/S2GRHjaPXIeh/5fowM4CWGysk9Y8MxpgBl+dMla1
-	bw0MCP6BPR+9IplQngGdDfDp2dVlCBs/MpBZAa2J6zFC04XuFdLXNV4ByuLRBWa+7NMgsiEmenn
-	3mi8latDT+tBHdYJy2SGby6lU8u67E7lsu5yXgB8nykGpVoMGscIgIvFQm70/sojMwowtDsyt/q
-	taVietzPEFUDnL0XE4wHYtlsOJd+yBa/izhkniKwE4LrYbcapU9JKUgbEJprZEAPjbc0vBcTQ2O
-	5PhyepbUuOdhhr2oV+F1v1xA8DXiTMjMJWN9rC2LbFF3kIQ0ESN8LnomU+rp6Gc6cgot4G48kjY
-	LM5gRdff9XV2tzEraD7Fr980jpWb30FV3mSEEY4OzJpMbKPk466K8ZYhoivEJkK88hy/ofre8T+
-	TbMicheXybj12SMW5EEwqmSfmITZrEIvZS/ew3EsVT1BTWTMGSG+GrwGtUdhGmV3gP9XnY9PaA8
-	TB6F1FhZvvflvgmGjKWGlkEymjg2+8x4r8lA6+GLenf0E2brjtTxRhaxeatgFPyOps=
-X-Received: by 2002:a05:600c:4755:b0:495:3fe8:880f with SMTP id 5b1f17b1804b1-496c6414fe3mr44424285e9.4.1785274212668;
-        Tue, 28 Jul 2026 14:30:12 -0700 (PDT)
+        bh=Ixnja4szAAkUS0Icn/+Rw0wsrgzfEtWS0xW14eGn2yo=;
+        b=WxMbG/dnaNWSK4d6myhXtvS02jDC9LXqUBFVw7WzhT9KmhXdZRFSF1WHo7/9SKeC/l
+         gZnaHhztbJqIE+rYMGyYosHqX2YvmycvhOtY7xURPWJGa2ZmOatHrp3XyUq05HxpSlWG
+         tLS+c7Lv6orFcD2I5eX//tu4eDANw6pt7mBljfksWlNTiEzpy6d3wGJbf+qRoRSqR7R/
+         FxWbSLIbph2SXT66ViApXZiPjBouvMLw9SKg+7/ktEebWtxEXWO2bSnCw6xl4xVxwZiS
+         JPnbxKD+DDndxdnES+x08Aiiw2mkU12BzEoE9LAx3Cdv3dTKttRgY2SgNqf+RhAxbEDt
+         Sdyg==
+X-Forwarded-Encrypted: i=1; AHgh+RqjTW+vaKgCWBhPRptCc7zCvQ5JTIg82L22vTLdNkvgBkC7B8Cd+1KIxvfR0MvGg0UI8olXvitZRC35@lists.infradead.org
+X-Gm-Message-State: AOJu0YyIgdLLPbEKYCMLrl9//BiQk2ovb4c6980r2vnvW6B8H41t6bg1
+	472CDWPPHzCER0wr7LSjd59xSAz+1v37UGDHaFTjKpgJ6i3JQQTNOvXT
+X-Gm-Gg: AR+sD13F0XXWrMsb0ooHOKgq2LToiHvbbsViFfzJ8xXTrmtzmRH2l5e9nZ9HDkmHwJ4
+	ej5kWkK48bP/QFW4p954WYujIN4gIFrQ+f27iidyLHMtLlxnVIjVKMomDwnV1kN73Ii1wPQr9Gi
+	6ZiME1m7BOV3npG7Z8JreQ+bCCdWJXhNYxk08zDxbrRymKnH74A3Qs0MeKiCZaYCFyLKgXqkC9v
+	cLjt3ickP/fZLGJsKMhROx2wdR35DiD10LyTWCwP307HuErBRn6HxgRfh2HGoKyCtbBlojdMatv
+	XsghDNwFolDx9bDM3zSrCy0D1x5LfXMk21CR16/uDo8+X6OkYBxDohz/rhnPah7EKDr7c/L8pF6
+	MPjGqkkkh+HpAasaK5JNYtD4xwfbngCwfgL0tYIaSe7SNNnQlkS9apjddXHv0Fa2eAxA1K87yHB
+	Ufu1QUJuwsGNJX53tJc2BaWySW25rEwpgPzyg5ny16G5GEExJo5UVpl8N8TQKLbdASf0DUnmSF8
+	LFy1Xd5
+X-Received: by 2002:a05:6000:2012:b0:45e:64b3:af44 with SMTP id ffacd0b85a97d-47fb1ea780fmr4336279f8f.36.1785274205203;
+        Tue, 28 Jul 2026 14:30:05 -0700 (PDT)
 Received: from 127.mynet ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fb6ac44bcsm2245329f8f.11.2026.07.28.14.30.10
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fb6ac44bcsm2245329f8f.11.2026.07.28.14.30.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2026 14:30:11 -0700 (PDT)
+        Tue, 28 Jul 2026 14:30:03 -0700 (PDT)
 From: Pavel Begunkov <asml.silence@gmail.com>
 To: Jens Axboe <axboe@kernel.dk>,
 	Keith Busch <kbusch@kernel.org>,
@@ -108,17 +108,17 @@ Cc: asml.silence@gmail.com,
 	nvdimm@lists.linux.dev,
 	linux-btrfs@vger.kernel.org,
 	ceph-devel@vger.kernel.org
-Subject: [PATCH v4 14/14] io_uring/rsrc: add dmabuf backed registered buffers
-Date: Tue, 28 Jul 2026 22:29:26 +0100
-Message-ID: <26dcd0ae5c87a3ada5710b14b6894ef343cec6fe.1785274111.git.asml.silence@gmail.com>
+Subject: [PATCH v4 11/14] io_uring/rsrc: extend buffer update
+Date: Tue, 28 Jul 2026 22:29:23 +0100
+Message-ID: <633d33d8e278999f55126794fce948343403494a.1785274111.git.asml.silence@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <cover.1785274111.git.asml.silence@gmail.com>
 References: <cover.1785274111.git.asml.silence@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260728_143014_854274_067E77EC 
-X-CRM114-Status: GOOD (  28.37  )
+X-CRM114-CacheID: sfid-20260728_143007_332384_0835E934 
+X-CRM114-Status: GOOD (  23.66  )
 X-Mailman-Approved-At: Tue, 28 Jul 2026 19:16:17 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -134,394 +134,237 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Implement dmabuf backed registered buffers. To register them, the user
-should specify IO_REGBUF_TYPE_DMABUF for the regitration and pass the
-desired dmabuf fd and a file for which it should be registered.
+We need to pass more information to buffer registration than we can fit
+into a single struct iovec. This patch allows users to optionally pass
+struct io_uring_regbuf_desc. Apart from having more space for future use
+cases, it also introduces registration types.
 
-From there, it can be used with io_uring read/write requests
-IORING_OP_{READ,WRITE}_FIXED) as normal. The requests should be issued
-against the file specified during registration, and otherwise they'll be
-failed. The user should also be prepared to handle spurious -EAGAIN by
-reissuing the request.
+Currently, the type can be either of IO_REGBUF_TYPE_UADDR, which mirrors
+the iovec path, or IO_REGBUF_TYPE_EMPTY for leaving a buffer table slot
+empty. The next patch introduces a dmabuf backed type, and can be useful
+for other extensions like splicing a list of user addresses (i.e.
+iovec[]), interoperability with zcrx, kernel allocated memory like was
+brough up by Cristoph. Note, the type only represents a registration
+option, which is distinct from how io_uring internally stores it.
 
-Internally, dmabuf registered buffers is an optin feature for io_uring
-request opcodes and they should pass a special flag on import to use it.
+The flags field is not used yet but always useful to have, e.g. we can
+encode read-only / write-only restrictions using it.
 
-Suggested-by: David Wei <dw@davidwei.uk>
-Suggested-by: Vishal Verma <vishal1.verma@intel.com>
-Suggested-by: Tushar Gohad <tushar.gohad@intel.com>
 Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
 ---
- include/linux/io_uring_types.h |   5 +
- include/uapi/linux/io_uring.h  |   6 +-
- io_uring/io_uring.c            |   3 +-
- io_uring/rsrc.c                | 168 ++++++++++++++++++++++++++++++++-
- io_uring/rsrc.h                |  18 ++++
- io_uring/rw.c                  |   6 +-
- 6 files changed, 198 insertions(+), 8 deletions(-)
+ include/uapi/linux/io_uring.h | 27 +++++++++++++-
+ io_uring/rsrc.c               | 69 ++++++++++++++++++++++-------------
+ 2 files changed, 69 insertions(+), 27 deletions(-)
 
-diff --git a/include/linux/io_uring_types.h b/include/linux/io_uring_types.h
-index a2c623a67a25..f90586d353c1 100644
---- a/include/linux/io_uring_types.h
-+++ b/include/linux/io_uring_types.h
-@@ -10,6 +10,7 @@
- 
- struct iou_loop_params;
- struct io_uring_bpf_ops;
-+struct dma_buf_io_map;
- 
- enum {
- 	/*
-@@ -594,6 +595,7 @@ enum {
- 	REQ_F_IMPORT_BUFFER_BIT,
- 	REQ_F_SQE_COPIED_BIT,
- 	REQ_F_IOPOLL_BIT,
-+	REQ_F_DROP_DMABUF_BIT,
- 
- 	/* not a real bit, just to check we're not overflowing the space */
- 	__REQ_F_LAST_BIT,
-@@ -689,6 +691,8 @@ enum {
- 	REQ_F_SQE_COPIED	= IO_REQ_FLAG(REQ_F_SQE_COPIED_BIT),
- 	/* request must be iopolled to completion (set in ->issue()) */
- 	REQ_F_IOPOLL		= IO_REQ_FLAG(REQ_F_IOPOLL_BIT),
-+	/* there is a dma map attached to request that needs to be dropped */
-+	REQ_F_DROP_DMABUF	= IO_REQ_FLAG(REQ_F_DROP_DMABUF_BIT),
- };
- 
- struct io_tw_req {
-@@ -811,6 +815,7 @@ struct io_kiocb {
- 	/* custom credentials, valid IFF REQ_F_CREDS is set */
- 	const struct cred		*creds;
- 	struct io_wq_work		work;
-+	struct dma_buf_io_map		*dmabuf_map;
- 
- 	struct io_big_cqe {
- 		u64			extra1;
 diff --git a/include/uapi/linux/io_uring.h b/include/uapi/linux/io_uring.h
-index 98b259901185..c39297e8beb6 100644
+index 909fb7aea638..98b259901185 100644
 --- a/include/uapi/linux/io_uring.h
 +++ b/include/uapi/linux/io_uring.h
-@@ -810,6 +810,7 @@ enum io_uring_rsrc_reg_flags {
- enum io_uring_regbuf_type {
- 	IO_REGBUF_TYPE_EMPTY,
- 	IO_REGBUF_TYPE_UADDR,
-+	IO_REGBUF_TYPE_DMABUF,
+@@ -790,13 +790,38 @@ struct io_uring_rsrc_update {
  
- 	__IO_REGBUF_TYPE_MAX,
+ struct io_uring_rsrc_update2 {
+ 	__u32 offset;
+-	__u32 resv;
++	__u32 flags;
+ 	__aligned_u64 data;
+ 	__aligned_u64 tags;
+ 	__u32 nr;
+ 	__u32 resv2;
  };
-@@ -819,7 +820,10 @@ struct io_uring_regbuf_desc {
- 	__u32 flags;
- 	__u64 size;
- 	__u64 uaddr;
--	__u64 __resv[7];
+ 
++/* struct io_uring_rsrc_update2::flags */
++enum io_uring_rsrc_reg_flags {
++	/*
++	 * Use the extended descriptor format for buffer updates,
++	 * see struct io_uring_regbuf_desc
++	 */
++	IORING_RSRC_UPDATE_EXTENDED		= 1U << 1,
++};
 +
-+	__s32 dmabuf_fd;
-+	__s32 target_fd;
-+	__u64 __resv[6];
- };
- 
++/* Buffer registration type, passed in struct io_uring_regbuf_desc::type */
++enum io_uring_regbuf_type {
++	IO_REGBUF_TYPE_EMPTY,
++	IO_REGBUF_TYPE_UADDR,
++
++	__IO_REGBUF_TYPE_MAX,
++};
++
++struct io_uring_regbuf_desc {
++	__u32 type; /* enum io_uring_regbuf_type */
++	__u32 flags;
++	__u64 size;
++	__u64 uaddr;
++	__u64 __resv[7];
++};
++
  /* Skip updating fd indexes set to this value in the fd table */
-diff --git a/io_uring/io_uring.c b/io_uring/io_uring.c
-index 1279e27c2c6d..cb88d19c8fb2 100644
---- a/io_uring/io_uring.c
-+++ b/io_uring/io_uring.c
-@@ -109,7 +109,7 @@
+ #define IORING_REGISTER_FILES_SKIP	(-2)
  
- #define IO_REQ_CLEAN_SLOW_FLAGS (REQ_F_REFCOUNT | IO_REQ_LINK_FLAGS | \
- 				 REQ_F_REISSUE | REQ_F_POLLED | \
--				 IO_REQ_CLEAN_FLAGS)
-+				 IO_REQ_CLEAN_FLAGS | REQ_F_DROP_DMABUF)
- 
- #define IO_TCTX_REFS_CACHE_NR	(1U << 10)
- 
-@@ -1125,6 +1125,7 @@ static void io_free_batch_list(struct io_ring_ctx *ctx,
- 				io_queue_next(req);
- 			if (unlikely(req->flags & IO_REQ_CLEAN_FLAGS))
- 				io_clean_op(req);
-+			io_req_drop_dmabuf(req);
- 		}
- 		io_put_file(req);
- 		io_req_put_rsrc_nodes(req);
 diff --git a/io_uring/rsrc.c b/io_uring/rsrc.c
-index 05877b4c0ee5..d23dbb0dd6b8 100644
+index 8af371ba6c06..24fc3232a66a 100644
 --- a/io_uring/rsrc.c
 +++ b/io_uring/rsrc.c
-@@ -10,6 +10,7 @@
- #include <linux/compat.h>
- #include <linux/io_uring.h>
- #include <linux/io_uring/cmd.h>
-+#include <linux/dma-buf-io.h>
- 
- #include <uapi/linux/io_uring.h>
- 
-@@ -881,6 +882,95 @@ bool io_check_coalesce_buffer(struct page **page_array, int nr_pages,
- 	return true;
- }
- 
-+struct io_regbuf_dma {
-+	struct dma_buf_io_ctx		ctx;
-+	struct file			*target_file;
-+};
-+
-+static void io_release_reg_dmabuf(void *priv)
-+{
-+	struct io_regbuf_dma *db = priv;
-+
-+	fput(db->target_file);
-+	dma_buf_io_ctx_release(&db->ctx);
-+}
-+
-+static struct io_rsrc_node *io_register_dmabuf(struct io_ring_ctx *ctx,
-+						struct io_uring_regbuf_desc *desc)
-+{
-+	struct io_rsrc_node *node = NULL;
-+	struct io_mapped_ubuf *imu = NULL;
-+	struct io_regbuf_dma *regbuf = NULL;
-+	struct file *target_file = NULL;
-+	struct dma_buf *dmabuf = NULL;
-+	int ret;
-+
-+	if (!IS_ENABLED(CONFIG_DMA_SHARED_BUFFER))
-+		return ERR_PTR(-EOPNOTSUPP);
-+	if (ctx->flags & IORING_SETUP_IOPOLL)
-+		return ERR_PTR(-EOPNOTSUPP);
-+	if (desc->uaddr || desc->size)
-+		return ERR_PTR(-EINVAL);
-+
-+	ret = -ENOMEM;
-+	node = io_rsrc_node_alloc(ctx, IORING_RSRC_BUFFER);
-+	if (!node)
-+		return ERR_PTR(-ENOMEM);
-+	imu = io_alloc_imu(ctx, 0);
-+	if (!imu)
-+		goto err;
-+	regbuf = kzalloc(sizeof(*regbuf), GFP_KERNEL);
-+	if (!regbuf)
-+		goto err;
-+
-+	ret = -EBADF;
-+	target_file = fget(desc->target_fd);
-+	if (!target_file)
-+		goto err;
-+
-+	dmabuf = dma_buf_get(desc->dmabuf_fd);
-+	if (IS_ERR(dmabuf)) {
-+		ret = PTR_ERR(dmabuf);
-+		dmabuf = NULL;
-+		goto err;
-+	}
-+	if (dmabuf->size > SZ_1G) {
-+		ret = -EINVAL;
-+		goto err;
-+	}
-+
-+	ret = dma_buf_io_ctx_create(target_file, &regbuf->ctx, dmabuf,
-+				    DMA_BIDIRECTIONAL);
-+	if (ret)
-+		goto err;
-+
-+	regbuf->target_file = target_file;
-+	imu->nr_bvecs = 1;
-+	imu->ubuf = 0;
-+	imu->len = dmabuf->size;
-+	imu->folio_shift = 0;
-+	imu->release = io_release_reg_dmabuf;
-+	imu->priv = regbuf;
-+	imu->flags = IO_REGBUF_F_DMABUF;
-+	imu->dir = IO_IMU_DEST | IO_IMU_SOURCE;
-+	refcount_set(&imu->refs, 1);
-+	node->buf = imu;
-+	dma_buf_put(dmabuf);
-+	return node;
-+err:
-+	kfree(regbuf);
-+	if (imu)
-+		io_free_imu(ctx, imu);
-+	if (node)
-+		io_cache_free(&ctx->node_cache, node);
-+	if (target_file)
-+		fput(target_file);
-+	if (dmabuf)
-+		dma_buf_put(dmabuf);
-+	return ERR_PTR(ret);
-+}
-+
-+
- static struct io_rsrc_node *io_sqe_buffer_register(struct io_ring_ctx *ctx,
- 						   struct io_uring_regbuf_desc *desc)
- {
-@@ -899,6 +989,12 @@ static struct io_rsrc_node *io_sqe_buffer_register(struct io_ring_ctx *ctx,
- 	if (!mem_is_zero(&desc->__resv, sizeof(desc->__resv)))
- 		return ERR_PTR(-EINVAL);
- 
-+	if (desc->type == IO_REGBUF_TYPE_DMABUF)
-+		return io_register_dmabuf(ctx, desc);
-+
-+	if (desc->dmabuf_fd || desc->target_fd)
-+		return ERR_PTR(-EINVAL);
-+
- 	if (desc->type == IO_REGBUF_TYPE_EMPTY) {
- 		if (uaddr || size)
- 			return ERR_PTR(-EFAULT);
-@@ -1170,9 +1266,64 @@ static int io_import_kbuf(int ddir, struct iov_iter *iter,
- 	return 0;
- }
- 
--static int io_import_fixed(int ddir, struct iov_iter *iter,
-+void io_drop_dmabuf_node(struct io_kiocb *req)
-+{
-+	struct io_mapped_ubuf *imu;
-+
-+	if (!IS_ENABLED(CONFIG_DMA_SHARED_BUFFER))
-+		return;
-+	if (WARN_ON_ONCE(req->buf_node->type != IORING_RSRC_BUFFER))
-+		return;
-+	imu = req->buf_node->buf;
-+	if (WARN_ON_ONCE(!(imu->flags & IO_REGBUF_F_DMABUF)))
-+		return;
-+	dma_buf_io_map_drop(req->dmabuf_map);
-+	req->flags &= ~REQ_F_DROP_DMABUF;
-+}
-+
-+static int io_import_dmabuf(struct io_kiocb *req,
-+			   int ddir, struct iov_iter *iter,
-+			   struct io_mapped_ubuf *imu,
-+			   size_t len, size_t offset,
-+			   unsigned issue_flags)
-+{
-+	struct io_regbuf_dma *db = imu->priv;
-+	struct dma_buf_io_map *map;
-+
-+	if (!IS_ENABLED(CONFIG_DMA_SHARED_BUFFER))
-+		return -EOPNOTSUPP;
-+	if (!len)
-+		return -EFAULT;
-+	if (req->file != db->target_file)
-+		return -EBADF;
-+
-+	if (req->flags & REQ_F_DROP_DMABUF) {
-+		map = req->dmabuf_map;
-+		goto init_iter;
-+	}
-+
-+	map = dma_buf_io_get_map(&db->ctx);
-+	if (unlikely(!map)) {
-+		if (!(issue_flags & IO_URING_F_IOWQ))
-+			return -EAGAIN;
-+		map = dma_buf_io_create_map(&db->ctx);
-+		if (IS_ERR(map))
-+			return PTR_ERR(map);
-+	}
-+
-+	req->dmabuf_map = map;
-+	req->flags |= REQ_F_DROP_DMABUF;
-+init_iter:
-+	iov_iter_dmabuf_map(iter, ddir, map, offset, len);
-+	return 0;
-+}
-+
-+static int io_import_fixed(struct io_kiocb *req,
-+			   int ddir, struct iov_iter *iter,
- 			   struct io_mapped_ubuf *imu,
--			   u64 buf_addr, size_t len)
-+			   u64 buf_addr, size_t len,
-+			   unsigned issue_flags,
-+			   unsigned import_flags)
- {
- 	const struct bio_vec *bvec;
- 	size_t folio_mask;
-@@ -1192,6 +1343,12 @@ static int io_import_fixed(int ddir, struct iov_iter *iter,
- 
- 	offset = buf_addr - imu->ubuf;
- 
-+	if (imu->flags & IO_REGBUF_F_DMABUF) {
-+		if (!(import_flags & IO_REGBUF_IMPORT_ALLOW_DMABUF))
-+			return -EFAULT;
-+		return io_import_dmabuf(req, ddir, iter, imu, len, offset,
-+					issue_flags);
-+	}
- 	if (imu->flags & IO_REGBUF_F_KBUF)
- 		return io_import_kbuf(ddir, iter, imu, len, offset);
- 
-@@ -1254,7 +1411,8 @@ int __io_import_reg_buf(struct io_kiocb *req, struct iov_iter *iter,
- 	node = io_find_buf_node(req, issue_flags);
- 	if (!node)
- 		return -EFAULT;
--	return io_import_fixed(ddir, iter, node->buf, buf_addr, len);
-+	return io_import_fixed(req, ddir, iter, node->buf, buf_addr, len,
-+				issue_flags, import_flags);
- }
- 
- static int io_buffer_acct_cloned_hpages(struct io_ring_ctx *ctx,
-@@ -1676,7 +1834,9 @@ int __io_import_reg_vec(int ddir, struct iov_iter *iter,
- 	iovec_off = vec->nr - nr_iovs;
- 	iov = vec->iovec + iovec_off;
- 
--	if (imu->flags & IO_REGBUF_F_KBUF) {
-+	if (imu->flags & IO_REGBUF_F_DMABUF) {
-+		return -EOPNOTSUPP;
-+	} else if (imu->flags & IO_REGBUF_F_KBUF) {
- 		int ret = io_kern_bvec_size(iov, nr_iovs, imu, &nr_segs);
- 
- 		if (unlikely(ret))
-diff --git a/io_uring/rsrc.h b/io_uring/rsrc.h
-index f12abaf63270..3cb9b57f159b 100644
---- a/io_uring/rsrc.h
-+++ b/io_uring/rsrc.h
-@@ -31,6 +31,11 @@ enum {
- enum {
- 	IO_REGBUF_F_KBUF		= 1 << 0,
- 	IO_REGBUF_F_UNCLONEABLE		= 1 << 1,
-+	IO_REGBUF_F_DMABUF		= 1 << 3,
-+};
-+
-+enum {
-+	IO_REGBUF_IMPORT_ALLOW_DMABUF		= 1 << 1,
+@@ -27,11 +27,6 @@ struct io_rsrc_update {
+ 	u32				offset;
  };
  
- struct io_mapped_ubuf {
-@@ -173,4 +178,17 @@ static inline void io_alloc_cache_vec_kasan(struct iou_vec *iv)
- 		io_vec_free(iv);
+-struct io_uring_regbuf_desc {
+-	__u64 uaddr;
+-	__u64 size;
+-};
+-
+ static struct io_rsrc_node *io_sqe_buffer_register(struct io_ring_ctx *ctx,
+ 						   struct io_uring_regbuf_desc *desc);
+ 
+@@ -90,9 +85,12 @@ static void io_iov_to_regbuf_desc(const struct iovec *iov,
+ 				  struct io_uring_regbuf_desc *desc)
+ {
+ 	*desc = (struct io_uring_regbuf_desc) {
++		.type = IO_REGBUF_TYPE_UADDR,
+ 		.uaddr = (u64)(uintptr_t)iov->iov_base,
+ 		.size = iov->iov_len,
+ 	};
++	if (!desc->uaddr)
++		desc->type = IO_REGBUF_TYPE_EMPTY;
  }
  
-+void io_drop_dmabuf_node(struct io_kiocb *req);
-+
-+static inline void io_req_drop_dmabuf(struct io_kiocb *req)
-+{
-+	if (!IS_ENABLED(CONFIG_DMA_SHARED_BUFFER))
-+		return;
-+	if (!(req->flags & REQ_F_DROP_DMABUF))
-+		return;
-+	if (WARN_ON_ONCE(!(req->flags & REQ_F_BUF_NODE)))
-+		return;
-+	io_drop_dmabuf_node(req);
-+}
-+
- #endif
-diff --git a/io_uring/rw.c b/io_uring/rw.c
-index 95038cfda615..11ff7b5a1164 100644
---- a/io_uring/rw.c
-+++ b/io_uring/rw.c
-@@ -380,8 +380,8 @@ static int io_init_rw_fixed(struct io_kiocb *req, unsigned int issue_flags,
- 	if (io->bytes_done)
- 		return 0;
+ int __io_account_mem(struct user_struct *user, unsigned long nr_pages)
+@@ -323,6 +321,8 @@ static int __io_sqe_files_update(struct io_ring_ctx *ctx,
+ 		return -ENXIO;
+ 	if (up->offset + nr_args > ctx->file_table.data.nr)
+ 		return -EINVAL;
++	if (up->flags)
++		return -EINVAL;
  
--	ret = io_import_reg_buf(req, &io->iter, rw->addr, rw->len, ddir,
--				issue_flags);
-+	ret = __io_import_reg_buf(req, &io->iter, rw->addr, rw->len, ddir,
-+				  issue_flags, IO_REGBUF_IMPORT_ALLOW_DMABUF);
- 	iov_iter_save_state(&io->iter, &io->iter_state);
- 	return ret;
+ 	for (done = 0; done < nr_args; done++) {
+ 		u64 tag = 0;
+@@ -382,9 +382,8 @@ static int __io_sqe_buffers_update(struct io_ring_ctx *ctx,
+ 				   struct io_uring_rsrc_update2 *up,
+ 				   unsigned int nr_args)
+ {
++	bool extended = up->flags & IORING_RSRC_UPDATE_EXTENDED;
+ 	u64 __user *tags = u64_to_user_ptr(up->tags);
+-	struct iovec fast_iov, *iov;
+-	struct iovec __user *uvec;
+ 	u64 user_data = up->data;
+ 	__u32 done;
+ 	int i, err;
+@@ -393,29 +392,49 @@ static int __io_sqe_buffers_update(struct io_ring_ctx *ctx,
+ 		return -ENXIO;
+ 	if (up->offset + nr_args > ctx->buf_table.nr)
+ 		return -EINVAL;
++	if (up->flags & ~IORING_RSRC_UPDATE_EXTENDED)
++		return -EINVAL;
+ 
+ 	for (done = 0; done < nr_args; done++) {
+ 		struct io_uring_regbuf_desc desc;
+ 		struct io_rsrc_node *node;
+ 		u64 tag = 0;
+ 
+-		uvec = u64_to_user_ptr(user_data);
+-		iov = iovec_from_user(uvec, 1, 1, &fast_iov, io_is_compat(ctx));
+-		if (IS_ERR(iov)) {
+-			err = PTR_ERR(iov);
+-			break;
+-		}
+ 		if (tags && copy_from_user(&tag, &tags[done], sizeof(tag))) {
+ 			err = -EFAULT;
+ 			break;
+ 		}
+ 
+-		io_iov_to_regbuf_desc(iov, &desc);
++		if (extended) {
++			if (copy_from_user(&desc, u64_to_user_ptr(user_data),
++					   sizeof(desc))) {
++				err = -EFAULT;
++				break;
++			}
++			user_data += sizeof(desc);
++		} else {
++			struct iovec __user *uvec = u64_to_user_ptr(user_data);
++			struct iovec fast_iov, *iov;
++
++			if (io_is_compat(ctx))
++				user_data += sizeof(struct compat_iovec);
++			else
++				user_data += sizeof(struct iovec);
++
++			iov = iovec_from_user(uvec, 1, 1, &fast_iov, io_is_compat(ctx));
++			if (IS_ERR(iov)) {
++				err = PTR_ERR(iov);
++				break;
++			}
++			io_iov_to_regbuf_desc(iov, &desc);
++		}
++
+ 		node = io_sqe_buffer_register(ctx, &desc);
+ 		if (IS_ERR(node)) {
+ 			err = PTR_ERR(node);
+ 			break;
+ 		}
++
+ 		if (tag) {
+ 			if (!node) {
+ 				err = -EINVAL;
+@@ -426,10 +445,6 @@ static int __io_sqe_buffers_update(struct io_ring_ctx *ctx,
+ 		i = array_index_nospec(up->offset + done, ctx->buf_table.nr);
+ 		io_reset_rsrc_node(ctx, &ctx->buf_table, i);
+ 		ctx->buf_table.nodes[i] = node;
+-		if (io_is_compat(ctx))
+-			user_data += sizeof(struct compat_iovec);
+-		else
+-			user_data += sizeof(struct iovec);
+ 	}
+ 	return done ? done : err;
  }
-@@ -591,6 +591,8 @@ static void io_complete_rw(struct kiocb *kiocb, long res)
- 	struct io_rw *rw = container_of(kiocb, struct io_rw, kiocb);
- 	struct io_kiocb *req = cmd_to_io_kiocb(rw);
+@@ -464,7 +479,7 @@ int io_register_files_update(struct io_ring_ctx *ctx, void __user *arg,
+ 	memset(&up, 0, sizeof(up));
+ 	if (copy_from_user(&up, arg, sizeof(struct io_uring_rsrc_update)))
+ 		return -EFAULT;
+-	if (up.resv || up.resv2)
++	if (up.resv2)
+ 		return -EINVAL;
+ 	return __io_register_rsrc_update(ctx, IORING_RSRC_FILE, &up, nr_args);
+ }
+@@ -478,7 +493,7 @@ int io_register_rsrc_update(struct io_ring_ctx *ctx, void __user *arg,
+ 		return -EINVAL;
+ 	if (copy_from_user(&up, arg, sizeof(up)))
+ 		return -EFAULT;
+-	if (!up.nr || up.resv || up.resv2)
++	if (!up.nr || up.resv2)
+ 		return -EINVAL;
+ 	return __io_register_rsrc_update(ctx, type, &up, up.nr);
+ }
+@@ -578,12 +593,9 @@ int io_files_update(struct io_kiocb *req, unsigned int issue_flags)
+ 	struct io_uring_rsrc_update2 up2;
+ 	int ret;
  
-+	io_req_drop_dmabuf(req);
++	memset(&up2, 0, sizeof(up2));
+ 	up2.offset = up->offset;
+ 	up2.data = up->arg;
+-	up2.nr = 0;
+-	up2.tags = 0;
+-	up2.resv = 0;
+-	up2.resv2 = 0;
+ 
+ 	if (up->offset == IORING_FILE_INDEX_ALLOC) {
+ 		ret = io_files_update_with_index_alloc(req, issue_flags);
+@@ -882,8 +894,13 @@ static struct io_rsrc_node *io_sqe_buffer_register(struct io_ring_ctx *ctx,
+ 	struct io_imu_folio_data data;
+ 	bool coalesced = false;
+ 
+-	if (!uaddr) {
+-		if (size)
++	if (desc->type >= __IO_REGBUF_TYPE_MAX)
++		return ERR_PTR(-EINVAL);
++	if (!mem_is_zero(&desc->__resv, sizeof(desc->__resv)))
++		return ERR_PTR(-EINVAL);
 +
- 	__io_complete_rw_common(req, res);
- 	io_req_set_res(req, io_fixup_rw_res(req, res), 0);
- 	req->io_task_work.func = io_req_rw_complete;
++	if (desc->type == IO_REGBUF_TYPE_EMPTY) {
++		if (uaddr || size)
+ 			return ERR_PTR(-EFAULT);
+ 		/* remove the buffer without installing a new one */
+ 		return NULL;
 -- 
 2.54.0
 
