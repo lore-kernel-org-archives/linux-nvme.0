@@ -4,56 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0DF7C53219
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jul 2026 21:07:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3BF0FC54F51
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jul 2026 21:53:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Message-ID:Date
+	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kL4zEeK/b6QDKO4LWVchQT9gEYx7IN427TkBw/ijwCc=; b=rvIRi/RteAsgV71SCMn3hygYG+
-	tLWEJiRgPPDql9Rp0mmpU2bgOpVAnIroJjd12Iv9tXsHV0TtQlhuaDIhR6Aloj1X7ietlEqjObqTb
-	GcLoS4zhtyB0KjXmxqpgwYx5HNiiS3Yc1lzirWrSM5NMFJpYu6wWEQPH2lO/FLvK3LmL9NTOZZTIQ
-	8FLkwvisN+bRXTnwKkprlQcZ4uXB99zV52n6/W7rc5tEGRfCLIEm0fOzKWO3LRwO8P3sQxmS71zjf
-	ifiNhDISluUL9Oi1mGXUyq9neFM1VOXViwFk0wI/AgRPv8PoSk9Cw2mPmU9WxQ18ansGtaTZrKf8u
-	pxzSrTqQ==;
+	bh=DcMBODv7nOy1TIrmLxV6x/lTdJBO4Q5FzQXbMDsU8GU=; b=4FL5H75ZKcrZDgH1OqfXlJTyNl
+	Py1BqbC8MctoOK4zpirfcarBHj0+n8cdRUKFc66cgM8+JvQqvx+zCYR0txzSPVtmtzbPyYiFUeV02
+	I/LG7Kuza/9qN5j49vTihMWBJA6Bf+lOetoj7ZS6DQLiWSVNBXlHmfIAz6lyHwkgMMpJ+W4ZdB8bk
+	4ocm1zeyXTEyENwqtZ3R7wPSh3EQ8n/AJPkIWOOaLfNQ2A4W9YPduaKNnfkGicdxyYd6MnP/8cXfK
+	UgMGOWdH/DT+2ytl9ooGAJxXQceNHEp0HiQcUe7Zxw2FrANNXinpaZ3+qnnQ/qutXfvY6Ddx4iXPq
+	PuPnUWCg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wop1l-00000006GAG-1yfu;
-	Tue, 28 Jul 2026 21:07:53 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1wopja-00000006Mww-2QFt;
+	Tue, 28 Jul 2026 21:53:10 +0000
+Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wop1k-00000006GA3-2prv
+	id 1wopjW-00000006MwM-3mkj
 	for linux-nvme@lists.infradead.org;
-	Tue, 28 Jul 2026 21:07:52 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 5DD5D404C2;
-	Tue, 28 Jul 2026 21:07:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 063931F000E9;
-	Tue, 28 Jul 2026 21:07:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785272872;
-	bh=kL4zEeK/b6QDKO4LWVchQT9gEYx7IN427TkBw/ijwCc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BBIAi3ZSkz4YrGEHsFClCijX63D7WbGtgtp/E0nyQq6fc01I1H6AClXlQCenVa/Kv
-	 X3DITHEXwjkKs/FKtK+gwjwFyrezSc13TYLWaYFmcHr26H3ARrlQfQbWFAmBTpXfoc
-	 H0m/7i62UHunp5SnTxjGmK3QGPnzul3cuUwO8jPbFT6T+Wl7Yd8lANyiFQgiVlp+XN
-	 uSEnMlDRSz32Z/5zzif8AJN8kRcNszv3LiPuSa1ZYhpOJXJqg99rlMgbqVbP3LjWnw
-	 ng8liEQZeU1NfX2QpwANknfDzME5I0e3yu9qqFsn8ubmmSjLSeWgO56DBY40+F3BMt
-	 xo4+jGKuzg3fg==
-Date: Tue, 28 Jul 2026 15:07:50 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Yang Xiuwei <yangxiuwei@kylinos.cn>
-Cc: axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] nvme/ioctl: check SUBMIT_IO with nvme_cmd_allowed()
-Message-ID: <amkaJgFRImL888VT@kbusch-mbp>
-References: <20260720060305.885535-1-yangxiuwei@kylinos.cn>
+	Tue, 28 Jul 2026 21:53:08 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1785275583; h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version;
+	bh=DcMBODv7nOy1TIrmLxV6x/lTdJBO4Q5FzQXbMDsU8GU=;
+	b=NhxC47uyGIQteDSP4rdzEbsMap9iZupS1mOhjjLLxOWXTpAFqgejjAgVMp3pTCfylh64wl3jqZ0YReIeivGQ/N1Lm4GiabT15sAEm5hRnTElLSoYV6Mg+gVkptmZEZwVZTURHjEfeokt6E5KL6OMQeavmdUPPI21qRwcq7eYQ84=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R201e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033032089153;MF=zhengrong_li@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0X803afN_1785275575;
+Received: from U-92DF4J33-2338.local(mailfrom:zhengrong_li@linux.alibaba.com fp:SMTPD_---0X803afN_1785275575 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Wed, 29 Jul 2026 05:53:01 +0800
+From: Zhengrong Li <zhengrong_li@linux.alibaba.com>
+To: linux-nvme@lists.infradead.org
+Cc: hch@lst.de, sagi@grimberg.me, kch@nvidia.com, mlombard@arkamax.eu,
+ kanie@linux.alibaba.com, zhengrong_li@linux.alibaba.com
+Subject: [PATCH v4] nvmet: fix Reservation Register Replace for unregistered
+ host with IEKEY
+Date: Tue, 28 Jul 2026 16:26:01 +0800
+Message-ID: <178527555910.84385.14037905470970123793@linux.alibaba.com>
+In-Reply-To: <178521959386.52051.17173420094473200063@linux.alibaba.com>
+References: <178521959386.52051.17173420094473200063@linux.alibaba.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260720060305.885535-1-yangxiuwei@kylinos.cn>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260728_145307_470750_96D5F719 
+X-CRM114-Status: GOOD (  15.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,10 +66,98 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jul 20, 2026 at 02:03:05PM +0800, Yang Xiuwei wrote:
-> Unlike IO_CMD / IO64_CMD, NVME_IOCTL_SUBMIT_IO never calls
-> nvme_cmd_allowed(). Unprivileged callers can thus issue I/O on a
-> partition device or write through a read-only file descriptor.
+When a host sends a Reservation Register command with RREGA=Replace
+and IEKEY=1 without being previously registered, nvmet returns
+Reservation Conflict.
 
-Thanks, applied to nvme-7.3.
+The NVMe specification states:
+
+  "A host may replace its reservation key without regard to its
+   registration status or current reservation key value by setting
+   the Ignore Existing Key (IEKEY) bit to '1' in the Reservation
+   Register command."
+
+Fix nvmet_pr_replace() to add a new registrant when the host is not
+found in the registrant list and IEKEY is set with a non-zero NRKEY.
+If IEKEY is set but NRKEY is zero, return Invalid Field since there
+is no valid reservation key to register.
+
+Tested with nvme-cli against nvmet-tcp:
+
+  # no prior registration
+  nvme resv-register /dev/nvmeXn1 -n 1 --rrega=2 --iekey --nrkey=0x9999
+
+  Before: RESERVATION_CONFLICT (0x4083)
+  After:  success, registrant created with rkey 0x9999
+
+Fixes: 5a47c2080a73 ("nvmet: support reservation feature")
+Signed-off-by: Zhengrong Li <zhengrong_li@linux.alibaba.com>
+---
+Changes since v3:
+ - Use explicit goto free_data/out cleanup labels instead of the
+   NULL-pointer kfree trick, consistent with the rest of pr.c.
+ - Remove the redundant 'found' bool variable.
+Changes since v2:
+ - Quote the NVMe specification instead of referencing SPDK (Guixin).
+ - Add the Fixes tag (Guixin).
+ - Return NVME_SC_INVALID_FIELD when IEKEY is set but NRKEY is zero
+   for an unregistered host (Guixin).
+ - Allocate the new registrant before taking pr_sem and free it if
+   unused (Guixin).
+---
+ drivers/nvme/target/pr.c | 27 +++++++++++++++++++++++++--
+ 1 file changed, 25 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/target/pr.c b/drivers/nvme/target/pr.c
+index c71ae46244ff..7d937093b226 100644
+--- a/drivers/nvme/target/pr.c
++++ b/drivers/nvme/target/pr.c
+@@ -355,9 +355,15 @@ static u16 nvmet_pr_replace(struct nvmet_req *req,
+ 	u16 status = NVME_SC_RESERVATION_CONFLICT | NVME_STATUS_DNR;
+ 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
+ 	struct nvmet_pr *pr = &req->ns->pr;
+-	struct nvmet_pr_registrant *reg;
++	struct nvmet_pr_registrant *reg, *new = NULL;
+ 	u64 nrkey = le64_to_cpu(d->nrkey);
+ 
++	if (ignore_key && nrkey) {
++		new = kzalloc_obj(*new);
++		if (!new)
++			return NVME_SC_INTERNAL;
++	}
++
+ 	down(&pr->pr_sem);
+ 	list_for_each_entry_rcu(reg, &pr->registrant_list, entry) {
+ 		if (uuid_equal(&reg->hostid, &ctrl->hostid)) {
+@@ -365,9 +371,26 @@ static u16 nvmet_pr_replace(struct nvmet_req *req,
+ 				status = nvmet_pr_update_reg_attr(pr, reg,
+ 						nvmet_pr_update_reg_rkey,
+ 						&nrkey);
+-			break;
++			goto free_data;
++		}
++	}
++
++	if (ignore_key) {
++		if (!nrkey) {
++			status = NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
++			goto free_data;
+ 		}
++		INIT_LIST_HEAD(&new->entry);
++		new->rkey = nrkey;
++		uuid_copy(&new->hostid, &ctrl->hostid);
++		list_add_tail_rcu(&new->entry, &pr->registrant_list);
++		status = NVME_SC_SUCCESS;
++		goto out;
+ 	}
++
++free_data:
++	kfree(new);
++out:
+ 	up(&pr->pr_sem);
+ 	return status;
+ }
+-- 
+2.43.0
+
 
