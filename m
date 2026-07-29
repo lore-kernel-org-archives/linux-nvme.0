@@ -4,74 +4,114 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 716DAC53200
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2026 11:56:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B2275C53200
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2026 14:00:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fGbYxKjiwUXWbnfRWSfPvtr30GsGQo0trR5u9z62TnM=; b=CfTEIbAlRBL/2XtTR7lxEKPf5S
-	YKO2/6uaptzCH0gHjmhclpx/caTHk/f3MMW/042OfEIVaCbWQ3QMX7QaQDjq7eGI2S+Qf2A54J7zk
-	/WfznGxctAnyqInZ4cNs2F1XR4dIXEw7KZGVV6Jq+v5ZaNuMDWL+CqkeiXrfFIKjLxhFnhfKzZCR3
-	ZC592u2w9m2oq8GDVu9iiqOGmMz5KzAK9SF/ppaVRugLIvz1enh1pKk2qy94zH08D2jqyjUE7Mrq6
-	uj6OKZzx0pHpXMcYCqbVq5zd0fiJgPGGzSBuFYosQLIcBiqNOlX6VaSWCGpMp+rtsWUtEa1Ug3yNo
-	TRkqpE8A==;
+	bh=wEGS5KUg/AXQKEws9Ldankh4DNcsA//+KzGGZkZxjjE=; b=kjrq4/3a3mcq6vJ210tDwAxwdh
+	S8tbnlPxZ1udpF4VBqWN8F7y5q6q365ndpdPZkUzzWDt1LWWDECSXUGI3Zpz/5EKdDrJsSg+mwiXx
+	FncS4O6Fr2ir74hjgH9KODtWTmmmz8koqMJpHzbM/sDWcPXNfX033KHFkI+9MJ51CPuGqo7pzSAAX
+	s70MxqY5Hodu1g8rpf3ag3+im1U5Uzl3F4E+RQOPeQlgYlMSwC0/edOyk5AgYVYNvJSqMjPzmJw+w
+	EoGM5bXmpSn7aeL+6op11cG2Wzlj1ivgcHH9RqoVZtgF2NCedTOjQGrXLNp0tsAUpuFqOE9JcxOWt
+	o7GhFlrQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wp2tR-00000007nk8-0bSl;
-	Wed, 29 Jul 2026 11:56:13 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1wp4pZ-00000008Bwi-0ODc;
+	Wed, 29 Jul 2026 14:00:21 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wp2t0-00000007nfP-2iOK
+	id 1wp4pW-00000008BcF-3oag
 	for linux-nvme@lists.infradead.org;
-	Wed, 29 Jul 2026 11:55:48 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id B73F168AFE; Wed, 29 Jul 2026 13:55:40 +0200 (CEST)
-Date: Wed, 29 Jul 2026 13:55:40 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: Christoph Hellwig <hch@lst.de>,
-	Anuj Gupta/Anuj Gupta <anuj20.g@samsung.com>,
-	Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Nitesh Shetty <nj.shetty@samsung.com>,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	Tushar Gohad <tushar.gohad@intel.com>,
-	William Power <william.power@intel.com>,
-	Phil Cayton <phil.cayton@intel.com>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Benjamin Marzinski <bmarzins@redhat.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	David Sterba <dsterba@suse.com>, Ilya Dryomov <idryomov@gmail.com>,
-	dm-devel@lists.linux.dev, nvdimm@lists.linux.dev,
-	linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
-	cpgs@samsung.com
-Subject: Re: [PATCH v4 09/14] nvme-pci: add SGL support for the dmabuf path
-Message-ID: <20260729115540.GA32573@lst.de>
-References: <cover.1785274111.git.asml.silence@gmail.com> <5c2e9c3bdd3e87c0c9a6e4395ea199002b83fd36.1785274111.git.asml.silence@gmail.com> <CGME20260729072126epcas5p3ad4422a45f1274b71f15dec8bf487fcc@epcas5p3.samsung.com> <20260729072117.GI9534@lst.de> <81412691.21785320403945.JavaMail.epsvc@epcpadp1new> <20260729113108.GA31120@lst.de> <b03bba6f-0a8f-41fc-af59-2a69d271f28b@gmail.com>
+	Wed, 29 Jul 2026 14:00:20 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1BB1C7B80E;
+	Wed, 29 Jul 2026 13:56:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1785333370; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wEGS5KUg/AXQKEws9Ldankh4DNcsA//+KzGGZkZxjjE=;
+	b=RrumLfvhJXcUCeVeJnrM0bK+uuFJOu6+vHJ3/p+iPpMLVFj1+TD0auGz97iHTu/zROmO8R
+	47dBfGXkYZ/W0Yusg3svZQrhQfSiDBXf1CxqNsEtJ9M9z3HObB0S5quJIrmaO9a86c3Nmn
+	YrirA7Um37RojCn5pPCtjDmDDsX0ZQo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1785333370;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wEGS5KUg/AXQKEws9Ldankh4DNcsA//+KzGGZkZxjjE=;
+	b=M7lCPoWhs9CNInsDOS6XmREYNGVwAZvFWElvkVpwsSVY0VlZ5YjzKeTtkxliqM+pjWLpjS
+	ZZfRtvLJ7M5TQFCw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1785333366; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wEGS5KUg/AXQKEws9Ldankh4DNcsA//+KzGGZkZxjjE=;
+	b=cL+uxMfTq5Gf36+QkgJ/7K5RKfdja4PSLx6DoftKF0kIihLE/2okYcWBEj+pl1xjPI4lKO
+	km4f4hwfFPjcTJKFaop3Z8di9epD1fqZp6c+9qB5wDZYH4diNlXBSRrO09G3iWtghvB3sn
+	nk0rqxpxcehGCfdkamnxq5F8Zui/62A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1785333366;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wEGS5KUg/AXQKEws9Ldankh4DNcsA//+KzGGZkZxjjE=;
+	b=+Fg5QnWKTNLEvbx9z5yzmKeP4M5GDdBDzD541zkAJoa2wmUcFVe7QwvTYnzgekF12jSoiK
+	d1LlvQW83gqL+fBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 08335779A1;
+	Wed, 29 Jul 2026 13:56:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id FaZWAHYGamqiFgAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Wed, 29 Jul 2026 13:56:06 +0000
+Date: Wed, 29 Jul 2026 15:56:05 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Guixin Liu <kanie@linux.alibaba.com>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	Maurizio Lombardi <mlombard@redhat.com>, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 3/4] nvme-pci: return error when parsing a quirk string
+ fails
+Message-ID: <69b48ba3-ec3d-49fb-ada5-53332bce0034@flourine.local>
+References: <20260729105958.1403095-1-kanie@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b03bba6f-0a8f-41fc-af59-2a69d271f28b@gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20260729105958.1403095-1-kanie@linux.alibaba.com>
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260729_045547_217915_4024DA14 
-X-CRM114-Status: GOOD (  19.00  )
-X-Mailman-Approved-At: Wed, 29 Jul 2026 04:56:12 -0700
+X-CRM114-CacheID: sfid-20260729_070019_115667_36A6B2B2 
+X-CRM114-Status: GOOD (  11.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,31 +126,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jul 29, 2026 at 12:45:47PM +0100, Pavel Begunkov wrote:
-> It was exposed in early version as I was passing a [{dma,len}, ...]
-> array, but we moved from that. Maybe I should put the minimum
-> segment size in the map structure, and (possibly over) split using
-> that for now? Keith had this chunk in his patches:
->
-> +		int offset = offset_in_page(bio->bi_iter.bi_bvec_done);
-> +
-> +		nsegs = ALIGN(bio->bi_iter.bi_size + offset, PAGE_SIZE) >>
-> +								PAGE_SHIFT;
-> +		if (bio->bi_iter.bi_size > max_bytes) {
-> +			bytes = max_bytes;
-> +			nsegs = (bytes + offset) >> PAGE_SHIFT;
-> +		} else if (nsegs > lim->max_segments) {
-> +			nsegs = lim->max_segments;
-> +			bytes = PAGE_SIZE * nsegs - offset;
-> +		} else {
-> +			*segs = nsegs;
-> +			return NULL;
-> +		}
+On Wed, Jul 29, 2026 at 06:59:58PM +0800, Guixin Liu wrote:
+> quirks_param_set() reuses 'err', which param_set_copystring() left as 0,
+> as the return value of the whole function. When nvme_parse_quirk_entry()
+> fails to parse a field, the code jumps to out_free_qlist and returns that
+> stale 0, so a malformed quirks= parameter is silently accepted as valid.
+> 
+> Set err to -EINVAL before jumping out on a parse failure.
+> 
+> Fixes: 7bb8c40f5ad8 ("nvme: add support for dynamic quirk configuration via module parameter")
+> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
 
-This seems very pessimistic, especially for the case of the registration
-only having a single segment, which I'd expect to be fairly common due
-to P2P bar mappings, huge pages or IOMMU coalescing.  So at very least
-we'd want to special case that, but in an idea world the caller would
-be required to provide a useful nr_segments for the I/O.
+Looks good.
 
+Reviewed-by: Daniel Wagner <dwagner@suse.de>
 
