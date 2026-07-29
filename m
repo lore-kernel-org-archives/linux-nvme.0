@@ -4,56 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A6812C53200
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2026 05:40:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7D944C53200
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2026 05:46:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=H/AgoQ66Gx1QNJluQMlsR452ZiotXg+Sue4g3ozRJhw=; b=ri1y9uvi6BdajYSL1hLw2CCFi1
-	C4hZVT6T6hnshLkEkufvGXiZXi0e2jzv7Kn+2zVXrk2wXLRThth4mJIyOPvqhaE8uC4RIqj531BYm
-	L5yNgSZ7E2bzD6Tr38tAW3R2rBQQaLeNNlh0wquoH8QyzyXCkPAe8sKSUPp4PixtCh7xaLqFD9zGm
-	pvaFyD4zM+adxfz0E9uVPFB6E4Hs9YmGLaL+dtMXeMrw8Agumdzv/toigQtX7eJFHNL3JTVzoXwfC
-	xg/z4nZIDxnfd+dQ3pfr5LrLMu/N6sud3SO07TNt0bPovxxBzDGZ8ErDyUWPWXpurZuJWil36j1zc
-	7J/X0I2g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=N2OUE4XFPbIApySv4cd9+4/cmn0pHnKsOVRWx7UtEcY=; b=fslVWWSCcparQMn+2FXmuMc4pp
+	hFeN0BdRNYokJZuxXCHhptZDRHCeMchWFkXz+s0KSAhEqunEI6tb2Dum26NgQKrR9fJDqvCdEV46g
+	P/YtGNa0GDfiqwSY+NXvnUwzSDFQtXP0VIvObH6Lr4/nzSNwLYCRedGK+D+H1np+3OC5hlE9IityC
+	7JM0sh7/N9mIywZ1rB8ok0zxD2CeMuLDI3LConAjeUSyLf6zdLTroxtE1aXkr0YUluLbpdUT9rTYN
+	J+ecDcHF9vDCHrp6sNsn2za7ZF5lLWrSsR/c1/uh+On5buQEBODp+NvV9GTchn0z5IalTxVPYAkld
+	PGfUAqLQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wox22-00000006xFU-47Nd;
-	Wed, 29 Jul 2026 05:40:43 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1wox7g-00000006xk8-470I;
+	Wed, 29 Jul 2026 05:46:32 +0000
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wox1y-00000006xFN-0YhB
+	id 1wox7c-00000006xjJ-125P
 	for linux-nvme@lists.infradead.org;
-	Wed, 29 Jul 2026 05:40:38 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id F2A0C60A5F;
-	Wed, 29 Jul 2026 05:40:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 292741F000E9;
-	Wed, 29 Jul 2026 05:40:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1785303636;
-	bh=H/AgoQ66Gx1QNJluQMlsR452ZiotXg+Sue4g3ozRJhw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Kejc6IsBmAytfBzRNDmMxidpJx3JKjUc4QNt7tAoLpYtCEpIz9y44Jl/0xuNpQUa8
-	 wNCJ7NQex0VTglRMeGmkpNpxz7rV96LC45gmsZi1TqYGMXs2dKkF6fqqW/+4BPasy+
-	 2m23amk5pJQ3/nNyMJjMyudM0ttYzXCkyYREP+5c=
-Date: Wed, 29 Jul 2026 07:39:09 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org, stable <stable@kernel.org>
-Subject: Re: [PATCH] nvmet-tcp: Do not WARN on remotely-controlled oversized
- SGL allocations
-Message-ID: <2026072944-express-relapsing-42d7@gregkh>
-References: <20260727-nvme-tcp-v1-1-61c0e36763eb@linuxfoundation.org>
- <amjjhnBMMcHACoKp@kbusch-mbp>
+	Wed, 29 Jul 2026 05:46:30 +0000
+Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-2ceaf8a1265so7253005ad.2
+        for <linux-nvme@lists.infradead.org>; Tue, 28 Jul 2026 22:46:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=isslab-korea-ac-kr.20251104.gappssmtp.com; s=20251104; t=1785303986; x=1785908786; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=N2OUE4XFPbIApySv4cd9+4/cmn0pHnKsOVRWx7UtEcY=;
+        b=RCcDa/04ns1OCble7+Vui2Ax6VXLKHz9lC40CBRC3EfF9vJaSkx1154P2It0IiyDQW
+         STYy+CvoHlDDYVue+cE8JSwSAO3zrc3kJyKzftcW8XBF+G7+zoh+313fcX1Ua0MAEY9F
+         If0zBo9OEFrF783drt5T394aGVyQVBEjHAsA/sP+Vp+VSx/IUYmXE9yoj4LbO+cjRdDz
+         ufMHWVMrHbH+SsrtPr3/2N1McPb0COqaXDT0RcdIpRIdIkUtB9TXt/1NHXwL2ypCFjbK
+         lc6EaY2vOdSO0B5hN2+wCXoE5s7KI7IxqJmHCNvXN8+6cnlrvXxP5RCYo/6106iPtcD6
+         cc8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785303986; x=1785908786;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=N2OUE4XFPbIApySv4cd9+4/cmn0pHnKsOVRWx7UtEcY=;
+        b=Vo1zBqYn4Z7U/EHLrzQKyHUBi+iRes3MlnP6vk1qdE6yxqGx4KYSxD+Ocu0tMLjlZI
+         MZ98XwoOZZbhKjND1JAWAs+4U+AnZOViX8Iiq/tzfdHlalTnUoLzVXz3mh1ea8pcQg6I
+         zrT1AJvNK6u2Ag88gQ/nSGdDPz6vWJVLaCnuCAKjX7Gdq/VY2LWccXW2ROU20tFUEYu3
+         GTNtBiTkMT06pjBf/2XOnlhh9qKHoBNNVpQZgfxddPEgxqFiBmPFKquZ2Hk6YEob1dL5
+         TZBaZOG/XpMArnj5IZtlrtmkZ6Nf7vBnJsoo/UNnClBNk/m+WgoU8HgwIMcDz73oQ7vH
+         IxBQ==
+X-Gm-Message-State: AOJu0YxoHzAbejt+5eIahR0x1ifpOO4tl8YI210QzJqN+Blc95hF3mDX
+	iCTK/2dWHKqEI6VpsZOSMwbVYWKiHLpC5RYVqyZhO2heNc7E2N4AF3+C1D+QCgJ6A3K0CMGmCG0
+	Yv7azY0nq/Q==
+X-Gm-Gg: AR+sD11vzi568wWiWqKKDsnotzugf4wV4vOuseHSc3+XJTxF3ic0FSwcLSC/cRkyqBm
+	o2SXL5HRoqFZGTE7RjjSmSDz6bZHowOoX/8gxnK9aZCZ6jw12eRp9/vThStSf7xhn+WE09OknmN
+	yIm9mb5qQLQGs956MB+YEcvC7c+kGVMeHDkLoySlSzdRbr3GVXwjKcTWqwJhZBcNmbIpl7z/O2S
+	w9y+8kVENkeCqnZej1H57wGxJs1rrWFh1q6yyAdlwuebb6V+G+5hgKzoD19K//REKWe+ZdYUuOB
+	9/R2IiiINZOQlA3sV8DbcKs0PVy8nrN6EVcUaTIVXp+E+yBY3SGBB8sYtuVVru2EJtymUQtCpoV
+	MKcJ1LrlYHhVpN6RyLdMqV4scUQZqEP3l7f2XD2ekT77+E/1kxqA58iJBDd2ti4GTl+zn6mOMsC
+	BKD+hmD+77xbZMwk9szNZAVVEK/6fn+OiIBT1pU0g6nyzEwIIOYdPBOF2w6RBW2EDRXRtiXqJuo
+	5mnKRk=
+X-Received: by 2002:a17:903:2d0:b0:2ca:bb7e:29a7 with SMTP id d9443c01a7336-2d015ec9f0amr61452225ad.41.1785303986436;
+        Tue, 28 Jul 2026 22:46:26 -0700 (PDT)
+Received: from yhlee-960QFG.. ([125.131.91.97])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d022a45979sm5817845ad.18.2026.07.28.22.46.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Jul 2026 22:46:25 -0700 (PDT)
+From: Yehyeong Lee <yhlee@isslab.korea.ac.kr>
+To: linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me,
+	linux-kernel@vger.kernel.org,
+	Yehyeong Lee <yhlee@isslab.korea.ac.kr>,
+	stable@vger.kernel.org,
+	Solganik Alexander <sashas@lightbitslabs.com>,
+	Roy Shterman <roys@lightbitslabs.com>
+Subject: [PATCH] nvme-tcp: fix host memory disclosure on R2T for a read command
+Date: Wed, 29 Jul 2026 14:46:02 +0900
+Message-ID: <20260729054602.1237120-1-yhlee@isslab.korea.ac.kr>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <amjjhnBMMcHACoKp@kbusch-mbp>
+Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260728_224628_383911_0B146496 
+X-CRM114-Status: GOOD (  14.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,16 +103,59 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jul 28, 2026 at 11:14:46AM -0600, Keith Busch wrote:
-> On Mon, Jul 27, 2026 at 10:03:31PM +0200, Greg Kroah-Hartman wrote:
-> > When fuzzing the nvme target code, I tripped a kernel warning in
-> > nvmet_tcp_map_data() because the length passed into the allocator is
-> > controlled by the remote initiator.
-> 
-> Thanks, applied to nvme-7.3 with a minor fix for an overly long line.
+nvme_tcp_handle_r2t() does not check the direction of the request the
+R2T refers to. A malicious controller can send an R2T for a READ and
+the host will answer it: nvme_tcp_setup_h2c_data_pdu() builds the
+H2CData header and nvme_tcp_try_send_data() sends the request's data
+buffer. That buffer is the READ destination, so its contents go to the
+controller.
 
-Thanks, I thought you all would allow stuff longer than 80 columns like
-the rest of the kernel does in places :)
+The command then completes normally and nothing is logged.
 
-greg k-h
+Against a test controller that answers every READ with an R2T, a 4096
+byte buffered read returned all 4096 bytes, split over two R2Ts. The
+pages contained stale kernel data, including an array of struct page
+pointers.
+
+Reject an R2T for a request that is not a write.
+
+Fixes: 3f2304f8c6d6 ("nvme-tcp: add NVMe over TCP host driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Yehyeong Lee <yhlee@isslab.korea.ac.kr>
+---
+c2hdata has the same gap - nvme_tcp_handle_c2h_data() doesn't check
+direction either - but a write's iterator is ITER_SOURCE, so
+_copy_to_iter() refuses the copy. It does that with WARN_ON_ONCE(),
+which a controller can then trigger remotely. That seems like a
+separate problem; I haven't looked at it properly yet.
+
+Tested on v7.2-rc5 with a controller that answers every READ with an
+R2T. 68 of 68 H2CData PDUs came back with the read buffer before the
+patch, none after. Writes larger than the inline capsule size still go
+through the normal R2T path.
+
+ drivers/nvme/host/tcp.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index ba5c7b3e2a7c..07cda97ffab6 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -745,6 +745,13 @@ static int nvme_tcp_handle_r2t(struct nvme_tcp_queue *queue,
+ 	}
+ 	req = blk_mq_rq_to_pdu(rq);
+ 
++	if (unlikely(rq_data_dir(rq) != WRITE)) {
++		dev_err(queue->ctrl->ctrl.device,
++			"req %d unexpected r2t for a non-write command\n",
++			rq->tag);
++		return -EPROTO;
++	}
++
+ 	if (unlikely(!r2t_length)) {
+ 		dev_err(queue->ctrl->ctrl.device,
+ 			"req %d r2t len is %u, probably a bug...\n",
+-- 
+2.43.0
+
 
