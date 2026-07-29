@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DD793C54FCE
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DD761C54FCD
 	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2026 07:24:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,24 +12,24 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=TvBt85WwxO1TNs9IBTPVyFFDa0
-	D4iZfIwxQlnNtnCE+aORVF+cI3mWERS+KWbPUgeXLeY2TrNIhQqecZ9kzo/f5p6AZt3CA38vNSRHF
-	VmgTYnHnJfUBYG6MNKtlA0meD7Hij4xZry1eRfh1bz7vqruYNtIjsrOtCsDz/UbM/qtfVNje3qVO7
-	wsCgBsBQywt/RgRkrk/ER2xMdvuXIWLU5gH4mD/i6iedzv7nGjIv27pHYjHSJpthlGRbLSwYck4sS
-	a0dgi+dy/DLNXwSVzLcfPZcYEMoklFlV/LRtg7xyYxAWLAWcmG7pLf14U6Qi23HBAfrlzrbdlxpiM
-	I+97VoxA==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=NjxmIDRkRkYBrzlb9ihoQn95aP
+	PfD8Gfx7/shKxV46dNiA4eD7Ss2P60mZaHv3VOnMz9apQsL6PYWAhBk2oCPkBfrTc0YnKgW5Ke8AM
+	I3AOR+GmJfzorFGJoRBDWkJpCmpB/aYaCy9AafAMEQjYfbo/TvHmgLbglLKnnwIonNjtQn8bH4jJb
+	Xy57L9IKnfmlTO0XH3VqqBZoEyL3SfDSG/WDCi64jOKZQmDYvasduODBDpGIosWVOqhBXsqQNcZaK
+	Oack4PXSLFkpYLNJvR2fHhdxX9MlGiOskEclPRRXN3KGl9ywbBw4tMfWHffSK8i6Tbpvji/qaKkq6
+	RkDn30Ug==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1woyeT-000000076tv-2r89;
+	id 1woyeT-000000076th-1G2p;
 	Wed, 29 Jul 2026 07:24:29 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1woyHU-000000074U2-2AJc
+	id 1woyGy-000000074R9-2iDm
 	for linux-nvme@lists.infradead.org;
-	Wed, 29 Jul 2026 07:00:45 +0000
+	Wed, 29 Jul 2026 07:00:14 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id DB66368AFE; Wed, 29 Jul 2026 09:00:40 +0200 (CEST)
-Date: Wed, 29 Jul 2026 09:00:40 +0200
+	id AB4D768BEB; Wed, 29 Jul 2026 09:00:08 +0200 (CEST)
+Date: Wed, 29 Jul 2026 09:00:07 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Pavel Begunkov <asml.silence@gmail.com>
 Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
@@ -58,16 +58,16 @@ Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
 	David Sterba <dsterba@suse.com>, Ilya Dryomov <idryomov@gmail.com>,
 	dm-devel@lists.linux.dev, nvdimm@lists.linux.dev,
 	linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org
-Subject: Re: [PATCH v4 05/14] block: move bvec init into __bio_clone
-Message-ID: <20260729070040.GE9534@lst.de>
-References: <cover.1785274111.git.asml.silence@gmail.com> <7423d294c6184c683d7b2ccddf060b4a308e0316.1785274111.git.asml.silence@gmail.com>
+Subject: Re: [PATCH v4 03/14] block: rename bi_bvec_done
+Message-ID: <20260729070007.GC9534@lst.de>
+References: <cover.1785274111.git.asml.silence@gmail.com> <8344f6eb7f075653374c9c395ffed7d453045b4b.1785274111.git.asml.silence@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7423d294c6184c683d7b2ccddf060b4a308e0316.1785274111.git.asml.silence@gmail.com>
+In-Reply-To: <8344f6eb7f075653374c9c395ffed7d453045b4b.1785274111.git.asml.silence@gmail.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260729_000044_842813_D6525204 
+X-CRM114-CacheID: sfid-20260729_000012_941322_E5FE54C4 
 X-CRM114-Status: GOOD (  10.44  )
 X-Mailman-Approved-At: Wed, 29 Jul 2026 00:24:27 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
