@@ -4,91 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7D944C53200
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2026 05:46:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 175BEC54F55
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2026 07:24:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=N2OUE4XFPbIApySv4cd9+4/cmn0pHnKsOVRWx7UtEcY=; b=fslVWWSCcparQMn+2FXmuMc4pp
-	hFeN0BdRNYokJZuxXCHhptZDRHCeMchWFkXz+s0KSAhEqunEI6tb2Dum26NgQKrR9fJDqvCdEV46g
-	P/YtGNa0GDfiqwSY+NXvnUwzSDFQtXP0VIvObH6Lr4/nzSNwLYCRedGK+D+H1np+3OC5hlE9IityC
-	7JM0sh7/N9mIywZ1rB8ok0zxD2CeMuLDI3LConAjeUSyLf6zdLTroxtE1aXkr0YUluLbpdUT9rTYN
-	J+ecDcHF9vDCHrp6sNsn2za7ZF5lLWrSsR/c1/uh+On5buQEBODp+NvV9GTchn0z5IalTxVPYAkld
-	PGfUAqLQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=RKdfketBSzmUCQ9ZURw1C64H8qBYN8cXVoReBgR0+i8=; b=K9bOwD9jk36YdKUhQuoxwkEyQr
+	ZyI9qN5c0hymkqjVYL9GoJknsG+oArextvBg9PudMS2C/S3NpaYg7mRgZHEGv0mtkXHL3uDx0GZ0B
+	m9XDaZmuDvQnt5q6iV7OkS/At0hT6xWLutYIuJVCgJUo4AHo/shQgbbPuC9cuLgO7r79gyMVGXCYv
+	u+DMeojIm12GUssKbCoxY6rJzhVV/v4EgPmSpQrh8NDGPKMTE607EZGg1IXuw5VBnPKRAyIftsfLe
+	/KET2Ad3tc/asrofjQ5u1c9PdPN0aavnQg7lmhB2HpS/xJWNl2SmRqfU9Fn2ikBqPwexJ62/jOGX6
+	NM0lQjRg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wox7g-00000006xk8-470I;
-	Wed, 29 Jul 2026 05:46:32 +0000
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
+	id 1woyeT-000000076ta-0nIF;
+	Wed, 29 Jul 2026 07:24:29 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wox7c-00000006xjJ-125P
+	id 1woyGj-000000074OV-2Woi
 	for linux-nvme@lists.infradead.org;
-	Wed, 29 Jul 2026 05:46:30 +0000
-Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-2ceaf8a1265so7253005ad.2
-        for <linux-nvme@lists.infradead.org>; Tue, 28 Jul 2026 22:46:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=isslab-korea-ac-kr.20251104.gappssmtp.com; s=20251104; t=1785303986; x=1785908786; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=N2OUE4XFPbIApySv4cd9+4/cmn0pHnKsOVRWx7UtEcY=;
-        b=RCcDa/04ns1OCble7+Vui2Ax6VXLKHz9lC40CBRC3EfF9vJaSkx1154P2It0IiyDQW
-         STYy+CvoHlDDYVue+cE8JSwSAO3zrc3kJyKzftcW8XBF+G7+zoh+313fcX1Ua0MAEY9F
-         If0zBo9OEFrF783drt5T394aGVyQVBEjHAsA/sP+Vp+VSx/IUYmXE9yoj4LbO+cjRdDz
-         ufMHWVMrHbH+SsrtPr3/2N1McPb0COqaXDT0RcdIpRIdIkUtB9TXt/1NHXwL2ypCFjbK
-         lc6EaY2vOdSO0B5hN2+wCXoE5s7KI7IxqJmHCNvXN8+6cnlrvXxP5RCYo/6106iPtcD6
-         cc8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785303986; x=1785908786;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=N2OUE4XFPbIApySv4cd9+4/cmn0pHnKsOVRWx7UtEcY=;
-        b=Vo1zBqYn4Z7U/EHLrzQKyHUBi+iRes3MlnP6vk1qdE6yxqGx4KYSxD+Ocu0tMLjlZI
-         MZ98XwoOZZbhKjND1JAWAs+4U+AnZOViX8Iiq/tzfdHlalTnUoLzVXz3mh1ea8pcQg6I
-         zrT1AJvNK6u2Ag88gQ/nSGdDPz6vWJVLaCnuCAKjX7Gdq/VY2LWccXW2ROU20tFUEYu3
-         GTNtBiTkMT06pjBf/2XOnlhh9qKHoBNNVpQZgfxddPEgxqFiBmPFKquZ2Hk6YEob1dL5
-         TZBaZOG/XpMArnj5IZtlrtmkZ6Nf7vBnJsoo/UNnClBNk/m+WgoU8HgwIMcDz73oQ7vH
-         IxBQ==
-X-Gm-Message-State: AOJu0YxoHzAbejt+5eIahR0x1ifpOO4tl8YI210QzJqN+Blc95hF3mDX
-	iCTK/2dWHKqEI6VpsZOSMwbVYWKiHLpC5RYVqyZhO2heNc7E2N4AF3+C1D+QCgJ6A3K0CMGmCG0
-	Yv7azY0nq/Q==
-X-Gm-Gg: AR+sD11vzi568wWiWqKKDsnotzugf4wV4vOuseHSc3+XJTxF3ic0FSwcLSC/cRkyqBm
-	o2SXL5HRoqFZGTE7RjjSmSDz6bZHowOoX/8gxnK9aZCZ6jw12eRp9/vThStSf7xhn+WE09OknmN
-	yIm9mb5qQLQGs956MB+YEcvC7c+kGVMeHDkLoySlSzdRbr3GVXwjKcTWqwJhZBcNmbIpl7z/O2S
-	w9y+8kVENkeCqnZej1H57wGxJs1rrWFh1q6yyAdlwuebb6V+G+5hgKzoD19K//REKWe+ZdYUuOB
-	9/R2IiiINZOQlA3sV8DbcKs0PVy8nrN6EVcUaTIVXp+E+yBY3SGBB8sYtuVVru2EJtymUQtCpoV
-	MKcJ1LrlYHhVpN6RyLdMqV4scUQZqEP3l7f2XD2ekT77+E/1kxqA58iJBDd2ti4GTl+zn6mOMsC
-	BKD+hmD+77xbZMwk9szNZAVVEK/6fn+OiIBT1pU0g6nyzEwIIOYdPBOF2w6RBW2EDRXRtiXqJuo
-	5mnKRk=
-X-Received: by 2002:a17:903:2d0:b0:2ca:bb7e:29a7 with SMTP id d9443c01a7336-2d015ec9f0amr61452225ad.41.1785303986436;
-        Tue, 28 Jul 2026 22:46:26 -0700 (PDT)
-Received: from yhlee-960QFG.. ([125.131.91.97])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d022a45979sm5817845ad.18.2026.07.28.22.46.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2026 22:46:25 -0700 (PDT)
-From: Yehyeong Lee <yhlee@isslab.korea.ac.kr>
-To: linux-nvme@lists.infradead.org
-Cc: kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me,
-	linux-kernel@vger.kernel.org,
-	Yehyeong Lee <yhlee@isslab.korea.ac.kr>,
-	stable@vger.kernel.org,
-	Solganik Alexander <sashas@lightbitslabs.com>,
-	Roy Shterman <roys@lightbitslabs.com>
-Subject: [PATCH] nvme-tcp: fix host memory disclosure on R2T for a read command
-Date: Wed, 29 Jul 2026 14:46:02 +0900
-Message-ID: <20260729054602.1237120-1-yhlee@isslab.korea.ac.kr>
-X-Mailer: git-send-email 2.43.0
+	Wed, 29 Jul 2026 06:59:59 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 1F37368AFE; Wed, 29 Jul 2026 08:59:54 +0200 (CEST)
+Date: Wed, 29 Jul 2026 08:59:53 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+	io-uring@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Nitesh Shetty <nj.shetty@samsung.com>,
+	Kanchan Joshi <joshi.k@samsung.com>,
+	Anuj Gupta <anuj20.g@samsung.com>,
+	Tushar Gohad <tushar.gohad@intel.com>,
+	William Power <william.power@intel.com>,
+	Phil Cayton <phil.cayton@intel.com>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	David Sterba <dsterba@suse.com>, Ilya Dryomov <idryomov@gmail.com>,
+	dm-devel@lists.linux.dev, nvdimm@lists.linux.dev,
+	linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org
+Subject: Re: [PATCH v4 02/14] iov_iter: add iterator type for dmabuf maps
+Message-ID: <20260729065953.GB9534@lst.de>
+References: <cover.1785274111.git.asml.silence@gmail.com> <132442812a40277a5904cb2a8ca1e02f4f6e82a2.1785274111.git.asml.silence@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <132442812a40277a5904cb2a8ca1e02f4f6e82a2.1785274111.git.asml.silence@gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260728_224628_383911_0B146496 
-X-CRM114-Status: GOOD (  14.67  )
+X-CRM114-CacheID: sfid-20260728_235957_909658_028252CE 
+X-CRM114-Status: GOOD (  15.23  )
+X-Mailman-Approved-At: Wed, 29 Jul 2026 00:24:27 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,59 +84,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvme_tcp_handle_r2t() does not check the direction of the request the
-R2T refers to. A malicious controller can send an R2T for a READ and
-the host will answer it: nvme_tcp_setup_h2c_data_pdu() builds the
-H2CData header and nvme_tcp_try_send_data() sends the request's data
-buffer. That buffer is the READ destination, so its contents go to the
-controller.
+On Tue, Jul 28, 2026 at 10:29:14PM +0100, Pavel Begunkov wrote:
+> Introduce a new iterator type for dmabuf maps. The map in an opaque
+> object with internals and format specific to the subsystem / driver, and
+> only it can use that subsystem / driver for issuing IO. The task of the
+> middle layers is to pass the map / iterator further down, maybe doing
+> basic splitting and length checking. The iterator can only be used by
+> operations of the file the associated map was created for.
+> 
+> Suggested-by: Keith Busch <kbusch@kernel.org>
+> Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
 
-The command then completes normally and nothing is logged.
+Looks good:
 
-Against a test controller that answers every READ with an R2T, a 4096
-byte buffered read returned all 4096 bytes, split over two R2Ts. The
-pages contained stale kernel data, including an array of struct page
-pointers.
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
-Reject an R2T for a request that is not a write.
-
-Fixes: 3f2304f8c6d6 ("nvme-tcp: add NVMe over TCP host driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Yehyeong Lee <yhlee@isslab.korea.ac.kr>
----
-c2hdata has the same gap - nvme_tcp_handle_c2h_data() doesn't check
-direction either - but a write's iterator is ITER_SOURCE, so
-_copy_to_iter() refuses the copy. It does that with WARN_ON_ONCE(),
-which a controller can then trigger remotely. That seems like a
-separate problem; I haven't looked at it properly yet.
-
-Tested on v7.2-rc5 with a controller that answers every READ with an
-R2T. 68 of 68 H2CData PDUs came back with the read buffer before the
-patch, none after. Writes larger than the inline capsule size still go
-through the normal R2T path.
-
- drivers/nvme/host/tcp.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index ba5c7b3e2a7c..07cda97ffab6 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -745,6 +745,13 @@ static int nvme_tcp_handle_r2t(struct nvme_tcp_queue *queue,
- 	}
- 	req = blk_mq_rq_to_pdu(rq);
- 
-+	if (unlikely(rq_data_dir(rq) != WRITE)) {
-+		dev_err(queue->ctrl->ctrl.device,
-+			"req %d unexpected r2t for a non-write command\n",
-+			rq->tag);
-+		return -EPROTO;
-+	}
-+
- 	if (unlikely(!r2t_length)) {
- 		dev_err(queue->ctrl->ctrl.device,
- 			"req %d r2t len is %u, probably a bug...\n",
--- 
-2.43.0
+I'm also pretty sure I reviewed this and vairous other patches
+before..
 
 
