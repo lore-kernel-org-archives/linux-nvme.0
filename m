@@ -4,110 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C0BCBC53219
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2026 07:55:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0D22DC53219
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2026 07:55:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=usrfVYHsOydTgFDHdwjdurPUbbzlE2oAC72hFVI74H4=; b=ikFwJrH1esMUQlpdnqOcuozMLs
-	bnPMFA7NclWzvL4VBpepa/JIvGZ5TJjHLi6vZHF9QT8JT5PdoT3wcMFsuAkcVb5JXfu8q8NcEyDxN
-	qnfuWKbrzCpxnO5ZJ8IFmEeBDT2JjRV70pH87oFxgVHhKRpvZf0hYuRjQs7/dLhoXaAZnOJIUKT5B
-	nUKO5wkq73bgCc50KOzhZnoO/c5u52yc2vdgwzsGAGrw/jRIyXlk6AwwFitd8o0pUMDgy8Tvs56cB
-	pnByYEJT8dMWNI/xwyvyO+k6ybRnNSa5KMf+1IV2OaBegexSvL8SPKa7ZFigKlDgU1I0iuipqOY/j
-	HUqpHQGQ==;
+	bh=gebhtKZzoKLWYbGsxJ6a3x1LkL5DeinQCGorF37cCI0=; b=tdaZdmOcudXV3Z1Fd37PDeM4gy
+	IcdRgoUqq6ljTHhhXjaL09JN64+ZUDtSLNrWeMcVIiyMeCG0hiluENQaStDeGKGyMf4hw5nyphOGm
+	Qvhh0XaWjlnWPOT/KlrA0B+qbY0gNNqgD30KJt9vs08EEqEqtBTGFPFd6lALIZ5CrEwk71bmfHCTL
+	S7mOQNdINyEipmwxzRBWXqfz/5fR9WImlOVt9MajPz3PXwqx00iYuwCuFUcD3Mak12+HpL69SS19V
+	ylU9cqDZOpqbbRqk51Jzx4TtFJNSXO0neNlwEnIsoC4wga5IWr8ba0eGufiFNzX25GV06ZQSBXcJ4
+	5dYdJUYQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1woz8k-00000007Aqx-0jvZ;
-	Wed, 29 Jul 2026 07:55:46 +0000
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
+	id 1woz8t-00000007AtF-2RZL;
+	Wed, 29 Jul 2026 07:55:55 +0000
+Received: from out30-99.freemail.mail.aliyun.com ([115.124.30.99])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1woz8g-00000007Aqd-3PGQ
+	id 1woz8q-00000007As7-1jXI
 	for linux-nvme@lists.infradead.org;
-	Wed, 29 Jul 2026 07:55:44 +0000
-Received: by mail-ed1-x52a.google.com with SMTP id 4fb4d7f45d1cf-69f7fa1c548so908466a12.2
-        for <linux-nvme@lists.infradead.org>; Wed, 29 Jul 2026 00:55:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785311740; cv=none;
-        d=google.com; s=arc-20260327;
-        b=P6+KWOXIcVXOnVA0CkQmhBT+KQc0EzBC11z7PXroxvOMQIlIJSKuEIGUZDHOqSvJEb
-         7aWsTSiuy5xsTnH8L9kVZiKKayhVJCErEqVY9+0HEjGtVJgecAPeylKakSiaKVmQ7Cm9
-         EC7D1eNjwGfIoRo77SU1/VCzxH/14kcCF0nvjJ+dtNrMTTs/zFP7v/rFDrDeLKGJDY3w
-         sgcYRIUaVnRrav1jffetk0vFGahwlvCR7A+4q8p1w0Mx17WWm8YL4pOfKkWZLAAKdtiV
-         3VuRI3JHsZbEG+60LRuD8tgPr53zcNJkq6tCD/6wsXlCOz2GnT6R5gWRIz2K3TWpEgzh
-         vv+w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=usrfVYHsOydTgFDHdwjdurPUbbzlE2oAC72hFVI74H4=;
-        fh=8l7efM5a+N8DKRODn0ACrlF4oo+TCxdbd+CZVkF9X5I=;
-        b=e9hzvcefod2jEQssKhftV/f51Z7fzhG51lMoqj9q8wXRTwRoI/M65IqTLOlDlbn8b7
-         ILKq0gbvMkEVwqXyFDgShy3Zwoiou4px932YAsDg0IlSL9rNTM9oqPp3upx/k0Db/klH
-         docrbKi+LRjXNolDZ9p4wU7uibpkY3U3u25HmASBxcOAkK1SPBed8mpdLGhhiul0pI0q
-         0nHyUrqckvdzo46Oj2wzk4VdNUlNwzEgHvjeZOZGnObdfgGl2x/gRkgN5WKVwbUqYVUA
-         8229Rd+1bhqpN0sp02hjFweIBlxhnsrgfjrzrDq56N6t772xMAuJvdfgOmGEOqABQugE
-         lyTQ==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	Wed, 29 Jul 2026 07:55:54 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785311740; x=1785916540; darn=lists.infradead.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=usrfVYHsOydTgFDHdwjdurPUbbzlE2oAC72hFVI74H4=;
-        b=Ab7r6hq403abBJioprw1WrBOtiAThhbwyOKFinWB7TzjogPy4J5E8P1BbkgLATco2V
-         IGgXNlZXlD4tCV/GDW2rWRc+DZIGKAV2BlUTSlHjSEIVxsvyQD5t2SGdlo1lnv4Qo+so
-         IzJpH+oN/KX7eKe23RfeqJ6rKF1v+BL/jAHAu4cynFj+wDg4IJA8fe0gu0oN99CFS4Eh
-         OcsQVs2KFPqmeAW1tWtnkYxAAGdIAJgLMYldNQsLfTSjOnWIyeVdlsb3jx7jJygj/9Cr
-         Dq7INL/Lx70DMnN9D40M6QbXbViqYgI/oOq1uLnArb4TAhJGpw9xfPnxsde35hBHRG60
-         r1aQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785311740; x=1785916540;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=usrfVYHsOydTgFDHdwjdurPUbbzlE2oAC72hFVI74H4=;
-        b=jtgA0cuGeto2dIHn7Zplvqo5m71tbOIApdrluOfFkRXo3D+kK+xC7WfvSToKgf5JOU
-         hVm9wTErRKyDEuHE0iIPfh67U7Kj5vlp7+HNxvNvvxNhWzAR1tRr9aUd+nnnA9CJwcYP
-         I2whnLiQ3KYml/3rcLbnxre/EfiA9SUg3GyBexTnbVUk7135feKQBH4Woorig3gBDrsN
-         KrffdlptDcf50m/oXhv7x7sVAB4N3GEyEBuKE7gYg/1tgM6sQS+Rji9o4EzQpQxt9dCq
-         z9mOFRBHSaOeCgW5pUNBWA0B3WIRulYvXXgiL0PbNkg+8jJSWuTrp9ozMzuhv/wvAfxS
-         hZkA==
-X-Forwarded-Encrypted: i=1; AHgh+RocElY1AqPOb9Qv6IbTbAifYGQd0szWy0RJBVP3nKsWfuaEfKJfTcex62CjoWNGT9b9CfIdvRMqJ+98@lists.infradead.org
-X-Gm-Message-State: AOJu0YydOgYwRA1h18nHw/trjyJADC6B3bXnHytIqvMj4mIIPsJa0Fku
-	Yw4aHwPrTE65EnsfNemESb3PZR2cbEpqMODcw4POv9Ot4ztomzN2XxrzU7CrvPyNlqr+Y4CYCxW
-	rgEoiCgr/LtuZ71De5HaXe3evpaBtXV4=
-X-Gm-Gg: AR+sD11nMo3nQ9d0nl5yCve/DpMucUpyeJ/iEJQGM3qZ5xLTPN0en6HsizL+0ZB73Km
-	DrqnEF3WiyL5Qnns0KlTEz2HdYEIO4hKvbH5A4fwwydeY9EVISzkKb7a6/Chdyc/cfcRG64uyy/
-	ghgvps6vXzJaJHMD5ve56jtimmVI3bp3jfrd6cA23A/kHl3JI0GznIH3YtPfssgsnh0KrMmiTjs
-	zXxQEP8lfhWWhdB591Y3g9Y+HMBG+gRTeUQRI5qCLKzBLZ3VFIe/heajx+Yu8VZFsUYU1/O4Q0r
-	DVbdoKnqFuAuLrZ2TkosSpJBL36zasvM8+IRFOCXHaARWI8O3YHCre4UiM/jeH3jGA+JPRNXQGS
-	A
-X-Received: by 2002:a05:6402:52c9:b0:69a:bba:a526 with SMTP id
- 4fb4d7f45d1cf-6a034a737e8mr2702089a12.29.1785311740595; Wed, 29 Jul 2026
- 00:55:40 -0700 (PDT)
+	d=linux.alibaba.com; s=default;
+	t=1785311749; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=gebhtKZzoKLWYbGsxJ6a3x1LkL5DeinQCGorF37cCI0=;
+	b=UG8XsRlv0KTJvvvXj4+7JEbdpnvjepMHcaC9hluIfB14/MxfROrunTWwI1F7/Gto4Ti/qu9li9C+p2VApGLlKHRijd7F1dR8JRGTbs6cRAXzo0lx+Xhcwr9KhbGtnkWmh7vgk7yQodUOU+9LQFbA6LpQgEaC+gK5MyhQOFC0gZA=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0X81QP-W_1785311746;
+Received: from 30.178.84.37(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0X81QP-W_1785311746 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Wed, 29 Jul 2026 15:55:47 +0800
+Message-ID: <61fb25bf-3ee1-4400-8b65-ea6cfe27b9a2@linux.alibaba.com>
+Date: Wed, 29 Jul 2026 15:55:46 +0800
 MIME-Version: 1.0
-References: <20260727201257.211635-1-coshi036@gmail.com> <20260728042356.GA19874@lst.de>
-In-Reply-To: <20260728042356.GA19874@lst.de>
-From: Chris S <coshi036@gmail.com>
-Date: Wed, 29 Jul 2026 03:55:28 -0400
-X-Gm-Features: AUfX_myr7JpqXMkOy9tcHEjoMtEEuRi-rrvzumCtNMx_grG_fNvGn32KWtLiE5c
-Message-ID: <CACd_6n12dp2E7URMaEFtD-GUkL9K6viDWjU6JRd7ozu81BPJ=w@mail.gmail.com>
-Subject: Re: [PATCH] block: stop the timeout timer when releasing a never
- added disk
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Ming Lei <ming.lei@redhat.com>, Hannes Reinecke <hare@suse.de>, 
-	Keith Busch <kbusch@kernel.org>, Damien Le Moal <dlemoal@kernel.org>, Weidong Zhu <weizhu@fiu.edu>, 
-	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCHv5 2/7] nvme-multipath: add support for adaptive I/O
+ policy
+To: Nilay Shroff <nilay@linux.ibm.com>, linux-nvme@lists.infradead.org
+Cc: hare@suse.de, hch@lst.de, kbusch@kernel.org, sagi@grimberg.me,
+ dwagner@suse.de, axboe@kernel.dk, gjoyce@ibm.com
+References: <20251105103347.86059-1-nilay@linux.ibm.com>
+ <20251105103347.86059-3-nilay@linux.ibm.com>
+From: Guixin Liu <kanie@linux.alibaba.com>
+In-Reply-To: <20251105103347.86059-3-nilay@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260729_005542_875854_68AF3F33 
-X-CRM114-Status: UNSURE (   9.79  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260729_005553_316820_F4DE1A12 
+X-CRM114-Status: GOOD (  44.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -122,16 +68,579 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thank you!
+Hi,
+   Raise some comments to see if we can keep moving this
+feature forward.
+   Once this feature is merged, I'll be able to build the
+service-time I/O policy on top of it.
 
-Best,
-Chao
 
-On Tue, Jul 28, 2026 at 12:23=E2=80=AFAM Christoph Hellwig <hch@lst.de> wro=
-te:
+在 2025/11/5 18:33, Nilay Shroff 写道:
+> This commit introduces a new I/O policy named "adaptive". Users can
+> configure it by writing "adaptive" to "/sys/class/nvme-subsystem/nvme-
+> subsystemX/iopolicy"
 >
-> Looks good:
+> The adaptive policy dynamically distributes I/O based on measured
+> completion latency. The main idea is to calculate latency for each path,
+> derive a weight, and then proportionally forward I/O according to those
+> weights.
 >
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> To ensure scalability, path latency is measured per-CPU. Each CPU
+> maintains its own statistics, and I/O forwarding uses these per-CPU
+> values. Every ~15 seconds, a simple average latency of per-CPU batched
+> samples are computed and fed into an Exponentially Weighted Moving
+> Average (EWMA):
 >
+> avg_latency = div_u64(batch, batch_count);
+> new_ewma_latency = (prev_ewma_latency * (WEIGHT-1) + avg_latency)/WEIGHT
+>
+> With WEIGHT = 8, this assigns 7/8 (~87.5%) weight to the previous
+> latency value and 1/8 (~12.5%) to the most recent latency. This
+> smoothing reduces jitter, adapts quickly to changing conditions,
+> avoids storing historical samples, and works well for both low and
+> high I/O rates. Path weights are then derived from the smoothed (EWMA)
+> latency as follows (example with two paths A and B):
+>
+>      path_A_score = NSEC_PER_SEC / path_A_ewma_latency
+>      path_B_score = NSEC_PER_SEC / path_B_ewma_latency
+>      total_score  = path_A_score + path_B_score
+>
+>      path_A_weight = (path_A_score * 100) / total_score
+>      path_B_weight = (path_B_score * 100) / total_score
+>
+> where:
+>    - path_X_ewma_latency is the smoothed latency of a path in nanoseconds
+>    - NSEC_PER_SEC is used as a scaling factor since valid latencies
+>      are < 1 second
+>    - weights are normalized to a 0–64 scale across all paths.
+>
+> Path credits are refilled based on this weight, with one credit
+> consumed per I/O. When all credits are consumed, the credits are
+> refilled again based on the current weight. This ensures that I/O is
+> distributed across paths proportionally to their calculated weight.
+>
+> Reviewed-by: Hannes Reinecke <hare@suse.de>
+> Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+> ---
+>   drivers/nvme/host/core.c      |  15 +-
+>   drivers/nvme/host/ioctl.c     |  31 ++-
+>   drivers/nvme/host/multipath.c | 425 ++++++++++++++++++++++++++++++++--
+>   drivers/nvme/host/nvme.h      |  74 +++++-
+>   drivers/nvme/host/pr.c        |   6 +-
+>   drivers/nvme/host/sysfs.c     |   2 +-
+>   6 files changed, 530 insertions(+), 23 deletions(-)
+>
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index fa4181d7de73..47f375c63d2d 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -672,6 +672,9 @@ static void nvme_free_ns_head(struct kref *ref)
+>   	cleanup_srcu_struct(&head->srcu);
+>   	nvme_put_subsystem(head->subsys);
+>   	kfree(head->plids);
+> +#ifdef CONFIG_NVME_MULTIPATH
+> +	free_percpu(head->adp_path);
+> +#endif
+>   	kfree(head);
+>   }
+>   
+> @@ -689,6 +692,7 @@ static void nvme_free_ns(struct kref *kref)
+>   {
+>   	struct nvme_ns *ns = container_of(kref, struct nvme_ns, kref);
+>   
+> +	nvme_free_ns_stat(ns);
+>   	put_disk(ns->disk);
+>   	nvme_put_ns_head(ns->head);
+>   	nvme_put_ctrl(ns->ctrl);
+> @@ -4137,6 +4141,9 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
+>   	if (nvme_init_ns_head(ns, info))
+>   		goto out_cleanup_disk;
+>   
+> +	if (nvme_alloc_ns_stat(ns))
+> +		goto out_unlink_ns;
+> +
+>   	/*
+>   	 * If multipathing is enabled, the device name for all disks and not
+>   	 * just those that represent shared namespaces needs to be based on the
+> @@ -4161,7 +4168,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
+>   	}
+>   
+>   	if (nvme_update_ns_info(ns, info))
+> -		goto out_unlink_ns;
+> +		goto out_free_ns_stat;
+>   
+>   	mutex_lock(&ctrl->namespaces_lock);
+>   	/*
+> @@ -4170,7 +4177,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
+>   	 */
+>   	if (test_bit(NVME_CTRL_FROZEN, &ctrl->flags)) {
+>   		mutex_unlock(&ctrl->namespaces_lock);
+> -		goto out_unlink_ns;
+> +		goto out_free_ns_stat;
+>   	}
+>   	nvme_ns_add_to_ctrl_list(ns);
+>   	mutex_unlock(&ctrl->namespaces_lock);
+> @@ -4201,6 +4208,8 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
+>   	list_del_rcu(&ns->list);
+>   	mutex_unlock(&ctrl->namespaces_lock);
+>   	synchronize_srcu(&ctrl->srcu);
+> +out_free_ns_stat:
+> +	nvme_free_ns_stat(ns);
+>    out_unlink_ns:
+>   	mutex_lock(&ctrl->subsys->lock);
+>   	list_del_rcu(&ns->siblings);
+> @@ -4244,6 +4253,8 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+>   	 */
+>   	synchronize_srcu(&ns->head->srcu);
+>   
+> +	nvme_mpath_cancel_adaptive_path_weight_work(ns);
+> +
+
+Here cancel weight_work first and only then clear the NVME_NS_PATH_STAT 
+flag.
+
+During this window, nvme_mpath_end_request() may see that the 
+NVME_NS_PATH_STAT
+
+flag is still set and re-queue weight_work.
+
+Therefore, you should clear the NVME_NS_PATH_STAT flag first and then 
+cancel weight_work.
+
+>   	/* wait for concurrent submissions */
+>   	if (nvme_mpath_clear_current_path(ns))
+>   		synchronize_srcu(&ns->head->srcu);
+> diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+> index c212fa952c0f..759d147d9930 100644
+> --- a/drivers/nvme/host/ioctl.c
+> +++ b/drivers/nvme/host/ioctl.c
+> @@ -700,18 +700,29 @@ static int nvme_ns_head_ctrl_ioctl(struct nvme_ns *ns, unsigned int cmd,
+>   int nvme_ns_head_ioctl(struct block_device *bdev, blk_mode_t mode,
+>   		unsigned int cmd, unsigned long arg)
+>   {
+> +	u8 opcode;
+>   	struct nvme_ns_head *head = bdev->bd_disk->private_data;
+>   	bool open_for_write = mode & BLK_OPEN_WRITE;
+>   	void __user *argp = (void __user *)arg;
+>   	struct nvme_ns *ns;
+>   	int srcu_idx, ret = -EWOULDBLOCK;
+>   	unsigned int flags = 0;
+> +	unsigned int op_type = NVME_STAT_OTHER;
+>   
+>   	if (bdev_is_partition(bdev))
+>   		flags |= NVME_IOCTL_PARTITION;
+>   
+> +	if (cmd == NVME_IOCTL_SUBMIT_IO) {
+> +		if (get_user(opcode, (u8 *)argp))
+> +			return -EFAULT;
+> +		if (opcode == nvme_cmd_write)
+> +			op_type = NVME_STAT_WRITE;
+> +		else if (opcode == nvme_cmd_read)
+> +			op_type = NVME_STAT_READ;
+> +	}
+> +
+>   	srcu_idx = srcu_read_lock(&head->srcu);
+> -	ns = nvme_find_path(head);
+> +	ns = nvme_find_path(head, op_type);
+>   	if (!ns)
+>   		goto out_unlock;
+>   
+> @@ -733,6 +744,7 @@ int nvme_ns_head_ioctl(struct block_device *bdev, blk_mode_t mode,
+>   long nvme_ns_head_chr_ioctl(struct file *file, unsigned int cmd,
+>   		unsigned long arg)
+>   {
+> +	u8 opcode;
+>   	bool open_for_write = file->f_mode & FMODE_WRITE;
+>   	struct cdev *cdev = file_inode(file)->i_cdev;
+>   	struct nvme_ns_head *head =
+> @@ -740,9 +752,19 @@ long nvme_ns_head_chr_ioctl(struct file *file, unsigned int cmd,
+>   	void __user *argp = (void __user *)arg;
+>   	struct nvme_ns *ns;
+>   	int srcu_idx, ret = -EWOULDBLOCK;
+> +	unsigned int op_type = NVME_STAT_OTHER;
+> +
+> +	if (cmd == NVME_IOCTL_SUBMIT_IO) {
+> +		if (get_user(opcode, (u8 *)argp))
+> +			return -EFAULT;
+> +		if (opcode == nvme_cmd_write)
+> +			op_type = NVME_STAT_WRITE;
+> +		else if (opcode == nvme_cmd_read)
+> +			op_type = NVME_STAT_READ;
+> +	}
+>   
+>   	srcu_idx = srcu_read_lock(&head->srcu);
+> -	ns = nvme_find_path(head);
+> +	ns = nvme_find_path(head, op_type);
+>   	if (!ns)
+>   		goto out_unlock;
+>   
+> @@ -762,7 +784,10 @@ int nvme_ns_head_chr_uring_cmd(struct io_uring_cmd *ioucmd,
+>   	struct cdev *cdev = file_inode(ioucmd->file)->i_cdev;
+>   	struct nvme_ns_head *head = container_of(cdev, struct nvme_ns_head, cdev);
+>   	int srcu_idx = srcu_read_lock(&head->srcu);
+> -	struct nvme_ns *ns = nvme_find_path(head);
+> +	const struct nvme_uring_cmd *cmd = io_uring_sqe_cmd(ioucmd->sqe);
+> +	struct nvme_ns *ns = nvme_find_path(head,
+> +			READ_ONCE(cmd->opcode) & 1 ?
+> +			NVME_STAT_WRITE : NVME_STAT_READ);
+Here using nvme_cmd's opcode to find the path, but on the completion 
+side using
+req_op(rq) to count.
+
+For passthrough IOs, the req_op(rq) is REQ_OP_DRV_IN or REQ_OP_DRV_OUT, 
+this cause
+nvme_data_dir() return OTHER when the IO is nvme read, and also broken 
+to flush and write_zeros.
+>   	int ret = -EINVAL;
+>   
+>   	if (ns)
+> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+> index 543e17aead12..55dc28375662 100644
+> --- a/drivers/nvme/host/multipath.c
+> +++ b/drivers/nvme/host/multipath.c
+> @@ -6,6 +6,9 @@
+>   #include <linux/backing-dev.h>
+>   #include <linux/moduleparam.h>
+>   #include <linux/vmalloc.h>
+> +#include <linux/blk-mq.h>
+> +#include <linux/math64.h>
+> +#include <linux/rculist.h>
+>   #include <trace/events/block.h>
+>   #include "nvme.h"
+>   
+> @@ -66,9 +69,10 @@ MODULE_PARM_DESC(multipath_always_on,
+>   	"create multipath node always except for private namespace with non-unique nsid; note that this also implicitly enables native multipath support");
+>   
+>   static const char *nvme_iopolicy_names[] = {
+> -	[NVME_IOPOLICY_NUMA]	= "numa",
+> -	[NVME_IOPOLICY_RR]	= "round-robin",
+> -	[NVME_IOPOLICY_QD]      = "queue-depth",
+> +	[NVME_IOPOLICY_NUMA]	 = "numa",
+> +	[NVME_IOPOLICY_RR]	 = "round-robin",
+> +	[NVME_IOPOLICY_QD]       = "queue-depth",
+> +	[NVME_IOPOLICY_ADAPTIVE] = "adaptive",
+>   };
+>   
+>   static int iopolicy = NVME_IOPOLICY_NUMA;
+> @@ -83,6 +87,8 @@ static int nvme_set_iopolicy(const char *val, const struct kernel_param *kp)
+>   		iopolicy = NVME_IOPOLICY_RR;
+>   	else if (!strncmp(val, "queue-depth", 11))
+>   		iopolicy = NVME_IOPOLICY_QD;
+> +	else if (!strncmp(val, "adaptive", 8))
+> +		iopolicy = NVME_IOPOLICY_ADAPTIVE;
+>   	else
+>   		return -EINVAL;
+>   
+> @@ -198,6 +204,204 @@ void nvme_mpath_start_request(struct request *rq)
+>   }
+>   EXPORT_SYMBOL_GPL(nvme_mpath_start_request);
+>   
+> +static void nvme_mpath_weight_work(struct work_struct *weight_work)
+> +{
+> +	int cpu, srcu_idx;
+> +	u32 weight;
+> +	struct nvme_ns *ns;
+> +	struct nvme_path_stat *stat;
+> +	struct nvme_path_work *work = container_of(weight_work,
+> +			struct nvme_path_work, weight_work);
+> +	struct nvme_ns_head *head = work->ns->head;
+> +	int op_type = work->op_type;
+> +	u64 total_score = 0;
+> +
+> +	cpu = get_cpu();
+> +
+> +	srcu_idx = srcu_read_lock(&head->srcu);
+> +	list_for_each_entry_srcu(ns, &head->list, siblings,
+> +			srcu_read_lock_held(&head->srcu)) {
+> +
+> +		stat = &this_cpu_ptr(ns->info)[op_type].stat;
+> +		if (!READ_ONCE(stat->slat_ns)) {
+> +			stat->score = 0;
+> +			continue;
+> +		}
+> +		/*
+> +		 * Compute the path score as the inverse of smoothed
+> +		 * latency, scaled by NSEC_PER_SEC. Floating point
+> +		 * math is unavailable in the kernel, so fixed-point
+> +		 * scaling is used instead. NSEC_PER_SEC is chosen
+> +		 * because valid latencies are always < 1 second; longer
+> +		 * latencies are ignored.
+> +		 */
+> +		stat->score = div_u64(NSEC_PER_SEC, READ_ONCE(stat->slat_ns));
+> +
+> +		/* Compute total score. */
+> +		total_score += stat->score;
+> +	}
+> +
+> +	if (!total_score)
+> +		goto out;
+> +
+> +	/*
+> +	 * After computing the total slatency, we derive per-path weight
+> +	 * (normalized to the range 0–64). The weight represents the
+> +	 * relative share of I/O the path should receive.
+> +	 *
+> +	 *   - lower smoothed latency -> higher weight
+> +	 *   - higher smoothed slatency -> lower weight
+> +	 *
+> +	 * Next, while forwarding I/O, we assign "credits" to each path
+> +	 * based on its weight (please also refer nvme_adaptive_path()):
+> +	 *   - Initially, credits = weight.
+> +	 *   - Each time an I/O is dispatched on a path, its credits are
+> +	 *     decremented proportionally.
+> +	 *   - When a path runs out of credits, it becomes temporarily
+> +	 *     ineligible until credit is refilled.
+> +	 *
+> +	 * I/O distribution is therefore governed by available credits,
+> +	 * ensuring that over time the proportion of I/O sent to each
+> +	 * path matches its weight (and thus its performance).
+> +	 */
+> +	list_for_each_entry_srcu(ns, &head->list, siblings,
+> +			srcu_read_lock_held(&head->srcu)) {
+> +
+> +		stat = &this_cpu_ptr(ns->info)[op_type].stat;
+> +		weight = div_u64(stat->score * 64, total_score);
+> +
+> +		/*
+> +		 * Ensure the path weight never drops below 1. A weight
+> +		 * of 0 is used only for newly added paths. During
+> +		 * bootstrap, a few I/Os are sent to such paths to
+> +		 * establish an initial weight. Enforcing a minimum
+> +		 * weight of 1 guarantees that no path is forgotten and
+> +		 * that each path is probed at least occasionally.
+> +		 */
+> +		if (!weight)
+> +			weight = 1;
+> +
+> +		WRITE_ONCE(stat->weight, weight);
+> +	}
+> +out:
+> +	srcu_read_unlock(&head->srcu, srcu_idx);
+> +	put_cpu();
+> +}
+> +
+> +/*
+> + * Formula to calculate the EWMA (Exponentially Weighted Moving Average):
+> + * ewma = (old_ewma * (EWMA_SHIFT - 1) + (EWMA_SHIFT)) / EWMA_SHIFT
+> + * For instance, with EWMA_SHIFT = 3, this assigns 7/8 (~87.5 %) weight to
+> + * the existing/old ewma and 1/8 (~12.5%) weight to the new sample.
+> + */
+> +static inline u64 ewma_update(u64 old, u64 new)
+> +{
+> +	return (old * ((1 << NVME_DEFAULT_ADP_EWMA_SHIFT) - 1)
+> +			+ new) >> NVME_DEFAULT_ADP_EWMA_SHIFT;
+> +}
+> +
+> +static void nvme_mpath_add_sample(struct request *rq, struct nvme_ns *ns)
+> +{
+> +	int cpu;
+> +	unsigned int op_type;
+> +	struct nvme_path_info *info;
+> +	struct nvme_path_stat *stat;
+> +	u64 now, latency, slat_ns, avg_lat_ns;
+> +	struct nvme_ns_head *head = ns->head;
+> +
+> +	if (list_is_singular(&head->list))
+> +		return;
+> +
+> +	now = ktime_get_ns();
+> +	latency = now >= rq->io_start_time_ns ? now - rq->io_start_time_ns : 0;
+> +	if (!latency)
+> +		return;
+> +
+> +	/*
+> +	 * As completion code path is serialized(i.e. no same completion queue
+> +	 * update code could run simultaneously on multiple cpu) we can safely
+> +	 * access per cpu nvme path stat here from another cpu (in case the
+> +	 * completion cpu is different from submission cpu).
+> +	 * The only field which could be accessed simultaneously here is the
+> +	 * path ->weight which may be accessed by this function as well as I/O
+> +	 * submission path during path selection logic and we protect ->weight
+> +	 * using READ_ONCE/WRITE_ONCE. Yes this may not be 100% accurate but
+> +	 * we also don't need to be so accurate here as the path credit would
+> +	 * be anyways refilled, based on path weight, once path consumes all
+> +	 * its credits. And we limit path weight/credit max up to 100. Please
+> +	 * also refer nvme_adaptive_path().
+> +	 */
+> +	cpu = blk_mq_rq_cpu(rq);
+> +	op_type = nvme_data_dir(req_op(rq));
+> +	info = &per_cpu_ptr(ns->info, cpu)[op_type];
+> +	stat = &info->stat;
+> +
+> +	/*
+> +	 * If latency > ~1s then ignore this sample to prevent EWMA from being
+> +	 * skewed by pathological outliers (multi-second waits, controller
+> +	 * timeouts etc.). This keeps path scores representative of normal
+> +	 * performance and avoids instability from rare spikes. If such high
+> +	 * latency is real, ANA state reporting or keep-alive error counters
+> +	 * will mark the path unhealthy and remove it from the head node list,
+> +	 * so we safely skip such sample here.
+> +	 */
+> +	if (unlikely(latency > NSEC_PER_SEC)) {
+> +		stat->nr_ignored++;
+> +		dev_warn_ratelimited(ns->ctrl->device,
+> +			"ignoring sample with >1s latency (possible controller stall or timeout)\n");
+> +		return;
+> +	}
+> +
+> +	/*
+> +	 * Accumulate latency samples and increment the batch count for each
+> +	 * ~15 second interval. When the interval expires, compute the simple
+> +	 * average latency over that window, then update the smoothed (EWMA)
+> +	 * latency. The path weight is recalculated based on this smoothed
+> +	 * latency.
+> +	 */
+> +	stat->batch += latency;
+> +	stat->batch_count++;
+> +	stat->nr_samples++;
+> +
+> +	if (now > stat->last_weight_ts &&
+> +	    (now - stat->last_weight_ts) >= NVME_DEFAULT_ADP_WEIGHT_TIMEOUT) {
+> +
+> +		stat->last_weight_ts = now;
+> +
+> +		/*
+> +		 * Find simple average latency for the last epoch (~15 sec
+> +		 * interval).
+> +		 */
+> +		avg_lat_ns = div_u64(stat->batch, stat->batch_count);
+> +
+> +		/*
+> +		 * Calculate smooth/EWMA (Exponentially Weighted Moving Average)
+> +		 * latency. EWMA is preferred over simple average latency
+> +		 * because it smooths naturally, reduces jitter from sudden
+> +		 * spikes, and adapts faster to changing conditions. It also
+> +		 * avoids storing historical samples, and works well for both
+> +		 * slow and fast I/O rates.
+> +		 * Formula:
+> +		 * slat_ns = (prev_slat_ns * (WEIGHT - 1) + (latency)) / WEIGHT
+> +		 * With WEIGHT = 8, this assigns 7/8 (~87.5 %) weight to the
+> +		 * existing latency and 1/8 (~12.5%) weight to the new latency.
+> +		 */
+> +		if (unlikely(!stat->slat_ns))
+> +			WRITE_ONCE(stat->slat_ns, avg_lat_ns);
+> +		else {
+> +			slat_ns = ewma_update(stat->slat_ns, avg_lat_ns);
+> +			WRITE_ONCE(stat->slat_ns, slat_ns);
+> +		}
+> +
+> +		stat->batch = stat->batch_count = 0;
+> +
+> +		/*
+> +		 * Defer calculation of the path weight in per-cpu workqueue.
+> +		 */
+> +		schedule_work_on(cpu, &info->work.weight_work);
+> +	}
+> +}
+> +
+>   void nvme_mpath_end_request(struct request *rq)
+>   {
+>   	struct nvme_ns *ns = rq->q->queuedata;
+> @@ -205,6 +409,9 @@ void nvme_mpath_end_request(struct request *rq)
+>   	if (nvme_req(rq)->flags & NVME_MPATH_CNT_ACTIVE)
+>   		atomic_dec_if_positive(&ns->ctrl->nr_active);
+>   
+> +	if (test_bit(NVME_NS_PATH_STAT, &ns->flags))
+> +		nvme_mpath_add_sample(rq, ns);
+> +
+>   	if (!(nvme_req(rq)->flags & NVME_MPATH_IO_STATS))
+>   		return;
+>   	bdev_end_io_acct(ns->head->disk->part0, req_op(rq),
+> @@ -238,6 +445,62 @@ static const char *nvme_ana_state_names[] = {
+>   	[NVME_ANA_CHANGE]		= "change",
+>   };
+>   
+> +static void nvme_mpath_reset_adaptive_path_stat(struct nvme_ns *ns)
+> +{
+> +	int i, cpu;
+> +	struct nvme_path_stat *stat;
+> +
+> +	for_each_possible_cpu(cpu) {
+> +		for (i = 0; i < NVME_NUM_STAT_GROUPS; i++) {
+> +			stat = &per_cpu_ptr(ns->info, cpu)[i].stat;
+> +			memset(stat, 0, sizeof(struct nvme_path_stat));
+> +		}
+> +	}
+> +}
+> +
+> +void nvme_mpath_cancel_adaptive_path_weight_work(struct nvme_ns *ns)
+> +{
+> +	int i, cpu;
+> +	struct nvme_path_info *info;
+> +
+> +	if (!test_bit(NVME_NS_PATH_STAT, &ns->flags))
+> +		return;
+> +
+> +	for_each_online_cpu(cpu) {
+> +		for (i = 0; i < NVME_NUM_STAT_GROUPS; i++) {
+> +			info = &per_cpu_ptr(ns->info, cpu)[i];
+> +			cancel_work_sync(&info->work.weight_work);
+> +		}
+> +	}
+> +}
+> +
+> +static bool nvme_mpath_enable_adaptive_path_policy(struct nvme_ns *ns)
+> +{
+> +	struct nvme_ns_head *head = ns->head;
+> +
+> +	if (!head->disk || head->subsys->iopolicy != NVME_IOPOLICY_ADAPTIVE)
+> +		return false;
+> +
+> +	if (test_and_set_bit(NVME_NS_PATH_STAT, &ns->flags))
+> +		return false;
+> +
+> +	blk_queue_flag_set(QUEUE_FLAG_SAME_FORCE, ns->queue);
+> +	blk_stat_enable_accounting(ns->queue);
+> +	return true;
+> +}
+> +
+> +static bool nvme_mpath_disable_adaptive_path_policy(struct nvme_ns *ns)
+> +{
+> +
+> +	if (!test_and_clear_bit(NVME_NS_PATH_STAT, &ns->flags))
+> +		return false;
+> +
+> +	blk_stat_disable_accounting(ns->queue);
+> +	blk_queue_flag_clear(QUEUE_FLAG_SAME_FORCE, ns->queue);
+> +	nvme_mpath_reset_adaptive_path_stat(ns);
+The adp_path still hold the ns's pointer, should clear too,
+otherwise, we will access a freed ns.
+> +	return true;
+> +}
+> +
+>   bool nvme_mpath_clear_current_path(struct nvme_ns *ns)
+>   {
+>   	struct nvme_ns_head *head = ns->head;
+> @@ -253,6 +516,8 @@ bool nvme_mpath_clear_current_path(struct nvme_ns *ns)
+>   			changed = true;
+>   		}
+>   	}
+> +	if (nvme_mpath_disable_adaptive_path_policy(ns))
+> +		changed = true;
+>   out:
+>   	return changed;
+>   }
+> @@ -271,6 +536,45 @@ void nvme_mpath_clear_ctrl_paths(struct nvme_ctrl *ctrl)
+>   	srcu_read_unlock(&ctrl->srcu, srcu_idx);
+>   }
+>   
+> +int nvme_alloc_ns_stat(struct nvme_ns *ns)
+> +{
+> +	int i, cpu;
+> +	struct nvme_path_work *work;
+> +	gfp_t gfp = GFP_KERNEL | __GFP_ZERO;
+> +
+> +	if (!ns->head->disk)
+> +		return 0;
+> +
+> +	ns->info = __alloc_percpu_gfp(NVME_NUM_STAT_GROUPS *
+> +			sizeof(struct nvme_path_info),
+> +			__alignof__(struct nvme_path_info), gfp);
+Should alloc this only when the user use the adaptive io policy?
+
+Best Regards,
+Guixin Liu
+>
+>   
+
 
