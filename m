@@ -4,32 +4,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DD71DC54F9B
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2026 07:24:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1C0DBC54F51
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2026 07:24:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=kZhFpec1/PlVeLidksyR5Prky+
-	3zM57dB86yj1gXR8LKMosQoTdA4FyYywFiWriUOGcnwkpW4BgDoQcHZu/0JNp90pMoGE9/slWzMnN
-	6Unzxrfk93mmTKMeNU4LZIercQO2YlQXtuNIud68a/kQTLo+Apjmn08KWd/0uIc6y8MonYc6OrJ3e
-	W8ebwX0woIu6PQuzqDqgVebTj/7UtlUvws9DwyRurZXzMKEkVhnr9RAJ9EPwqy1YDQWAxMod4DFSb
-	95mbLUYT14MB1G/PcaMfm1dte1h41u0j+FNsd/Zv7sFUSG+pjbm2xNcDVEOfVJjeEyrDgNdSF/ruh
-	ClkAkMGQ==;
+	bh=fnav7AXFbXFdNoXE8HR2Ji9quUPLl7bNztP8k9+hnLE=; b=iV7MGWjuFNOWeu3EAfgcZHpIT/
+	5uCNNjHD6LibtQSS3xSdO0H9p+jv1anzTxbfCfwHZP+I6KTCzYqk2Sk78uLnXF+QN/fcOc7iuaiW4
+	rMHoPIS56HgbXQ2FkQj3sKWcOQ5gvG3OMgE93+RaI6p+fWl6/4wXtbusHFkhXQXXQUYbTyMHvce6B
+	6PMn+dAtGJq2h0LhGkpFy9UbF/0IA3ZJI9weXS4W8bhg4KT0zYTT64I9Fpw93t/iMkfmJMhIaTB8/
+	UPXihNebnlik6568SIZdhG8pFZjsntdCVYfAMOXtkgC5Fljrh1m7FuU+x0A2+cbPMTR/CJ2gz1Jjk
+	95WNspRQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1woyeT-000000076uA-3zRm;
-	Wed, 29 Jul 2026 07:24:29 +0000
+	id 1woyeS-000000076tO-3s9k;
+	Wed, 29 Jul 2026 07:24:28 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1woyOL-0000000755M-3hBd
+	id 1woyBT-000000074DU-3jm4
 	for linux-nvme@lists.infradead.org;
-	Wed, 29 Jul 2026 07:07:51 +0000
+	Wed, 29 Jul 2026 06:54:33 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 6470968AFE; Wed, 29 Jul 2026 09:07:46 +0200 (CEST)
-Date: Wed, 29 Jul 2026 09:07:46 +0200
+	id A678868AFE; Wed, 29 Jul 2026 08:54:21 +0200 (CEST)
+Date: Wed, 29 Jul 2026 08:54:21 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Pavel Begunkov <asml.silence@gmail.com>
 Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
@@ -58,17 +58,17 @@ Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
 	David Sterba <dsterba@suse.com>, Ilya Dryomov <idryomov@gmail.com>,
 	dm-devel@lists.linux.dev, nvdimm@lists.linux.dev,
 	linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org
-Subject: Re: [PATCH v4 07/14] block: forward init_dma_buf_io_ctx to drivers
-Message-ID: <20260729070746.GG9534@lst.de>
-References: <cover.1785274111.git.asml.silence@gmail.com> <e0cc82a15419ba7b38eb0bb00ae34cf3d0c3a938.1785274111.git.asml.silence@gmail.com>
+Subject: Re: [PATCH v4 00/14] Add dmabuf read/write via io_uring
+Message-ID: <20260729065421.GA9468@lst.de>
+References: <cover.1785274111.git.asml.silence@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e0cc82a15419ba7b38eb0bb00ae34cf3d0c3a938.1785274111.git.asml.silence@gmail.com>
+In-Reply-To: <cover.1785274111.git.asml.silence@gmail.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260729_000750_167544_54AACE80 
-X-CRM114-Status: GOOD (  10.65  )
+X-CRM114-CacheID: sfid-20260728_235432_265870_39042EC4 
+X-CRM114-Status: GOOD (  10.28  )
 X-Mailman-Approved-At: Wed, 29 Jul 2026 00:24:27 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -84,8 +84,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Looks good:
-
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Might help to say this applies to Jens' for-next branch for those trying
+to apply the patches..
 
 
