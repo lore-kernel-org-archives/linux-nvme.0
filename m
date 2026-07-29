@@ -4,114 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B2275C53200
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2026 14:00:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E70A7C54F51
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2026 14:06:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wEGS5KUg/AXQKEws9Ldankh4DNcsA//+KzGGZkZxjjE=; b=kjrq4/3a3mcq6vJ210tDwAxwdh
-	S8tbnlPxZ1udpF4VBqWN8F7y5q6q365ndpdPZkUzzWDt1LWWDECSXUGI3Zpz/5EKdDrJsSg+mwiXx
-	FncS4O6Fr2ir74hjgH9KODtWTmmmz8koqMJpHzbM/sDWcPXNfX033KHFkI+9MJ51CPuGqo7pzSAAX
-	s70MxqY5Hodu1g8rpf3ag3+im1U5Uzl3F4E+RQOPeQlgYlMSwC0/edOyk5AgYVYNvJSqMjPzmJw+w
-	EoGM5bXmpSn7aeL+6op11cG2Wzlj1ivgcHH9RqoVZtgF2NCedTOjQGrXLNp0tsAUpuFqOE9JcxOWt
-	o7GhFlrQ==;
+	bh=Ymh6iDnk70vzkTfI1rJg7jsntRh3NceOVlS3wu011Y0=; b=d7luOTrq5bhWJoi5U5Lo94kTiu
+	to/B6hsVAyx4nXQZC4LMuo+EHJODs0PSK47x2AiErrD6GwlQDhcOLZGoG+j+2Kp99UIeBWPnJK/CS
+	nv9DO8WpJRCafgnlxEOLtT6kk035M2R09+Iga3P9p6i5X2TYkoAHVvpnyPjQhqIY13Xmqo5uwJ9Ow
+	rTH1zJoubiSwH1LD6lQrmyZZIxOjHoE9K7QfP4gsN51dwvqgsli6VDrvTRWQP4s90dI/vK5vEs/T3
+	tjbKWNYKySKK+WP0BZlsrjKNp3SuVGzLqeCE4DmptgGOj428fkbhnCjp1Kqt2Aew2FdFPvihVRxpP
+	cyQ66j1A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wp4pZ-00000008Bwi-0ODc;
-	Wed, 29 Jul 2026 14:00:21 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1wp4vf-00000008Cgb-02fh;
+	Wed, 29 Jul 2026 14:06:39 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wp4pW-00000008BcF-3oag
+	id 1wp4vd-00000008CgH-3QLD
 	for linux-nvme@lists.infradead.org;
-	Wed, 29 Jul 2026 14:00:20 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1BB1C7B80E;
-	Wed, 29 Jul 2026 13:56:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785333370; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wEGS5KUg/AXQKEws9Ldankh4DNcsA//+KzGGZkZxjjE=;
-	b=RrumLfvhJXcUCeVeJnrM0bK+uuFJOu6+vHJ3/p+iPpMLVFj1+TD0auGz97iHTu/zROmO8R
-	47dBfGXkYZ/W0Yusg3svZQrhQfSiDBXf1CxqNsEtJ9M9z3HObB0S5quJIrmaO9a86c3Nmn
-	YrirA7Um37RojCn5pPCtjDmDDsX0ZQo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785333370;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wEGS5KUg/AXQKEws9Ldankh4DNcsA//+KzGGZkZxjjE=;
-	b=M7lCPoWhs9CNInsDOS6XmREYNGVwAZvFWElvkVpwsSVY0VlZ5YjzKeTtkxliqM+pjWLpjS
-	ZZfRtvLJ7M5TQFCw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785333366; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wEGS5KUg/AXQKEws9Ldankh4DNcsA//+KzGGZkZxjjE=;
-	b=cL+uxMfTq5Gf36+QkgJ/7K5RKfdja4PSLx6DoftKF0kIihLE/2okYcWBEj+pl1xjPI4lKO
-	km4f4hwfFPjcTJKFaop3Z8di9epD1fqZp6c+9qB5wDZYH4diNlXBSRrO09G3iWtghvB3sn
-	nk0rqxpxcehGCfdkamnxq5F8Zui/62A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785333366;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wEGS5KUg/AXQKEws9Ldankh4DNcsA//+KzGGZkZxjjE=;
-	b=+Fg5QnWKTNLEvbx9z5yzmKeP4M5GDdBDzD541zkAJoa2wmUcFVe7QwvTYnzgekF12jSoiK
-	d1LlvQW83gqL+fBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 08335779A1;
-	Wed, 29 Jul 2026 13:56:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id FaZWAHYGamqiFgAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Wed, 29 Jul 2026 13:56:06 +0000
-Date: Wed, 29 Jul 2026 15:56:05 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Guixin Liu <kanie@linux.alibaba.com>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	Maurizio Lombardi <mlombard@redhat.com>, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 3/4] nvme-pci: return error when parsing a quirk string
- fails
-Message-ID: <69b48ba3-ec3d-49fb-ada5-53332bce0034@flourine.local>
-References: <20260729105958.1403095-1-kanie@linux.alibaba.com>
+	Wed, 29 Jul 2026 14:06:37 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id CECDE6001D;
+	Wed, 29 Jul 2026 14:06:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37E5E1F000E9;
+	Wed, 29 Jul 2026 14:06:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785333996;
+	bh=Ymh6iDnk70vzkTfI1rJg7jsntRh3NceOVlS3wu011Y0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ZWSYsncx9Dxu6GRTl7K02K/XqI97Z2TECSSnrlQNvTxqG3coPPJXXstdOTiYis9u0
+	 FZ+fwFiTMPJfjsRfVaZZgYi5zic7R4TqSH3kycYIDEAuR64No3CCQKvbapo3oG25Zs
+	 yy5wfENh4xvGNIAPraTjbzoC8FeScWIkzNX9QE/KOJZs+ZxuhwrWqnabbSb0tzayPG
+	 08vL/rdCDnX5/jR/tD05nBApmzSMqn3jb/nMXFeMS2A9vDk/d9zxf/WBmKaEg6HsZf
+	 jxVK5TQ5DjHDsyiJfBods/rvOOpHpNhdPJ+WgEZeyCQcSfpmEdTN4P5nnnGVp0NZhM
+	 kukwXL3I1ZGWA==
+Date: Wed, 29 Jul 2026 08:06:34 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Marco Elver <elver@google.com>
+Cc: Nilay Shroff <nilay@linux.ibm.com>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org, hch@lst.de, sagi@grimberg.me,
+	axboe@fb.com, bvanassche@acm.org, gjoyce@linux.ibm.com
+Subject: Re: [PATCH v4 00/20] Support Clang context analysis for NVMe host
+ drivers
+Message-ID: <amoI6iw_e3DeACKD@kbusch-mbp>
+References: <20260713115444.465704-1-nilay@linux.ibm.com>
+ <amjp4ymLa-u9iO_U@kbusch-mbp>
+ <CANpmjNN2+m7O206xFDRwyCoihsEr9J972pOFSa5Uc=xx6kkTHw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260729105958.1403095-1-kanie@linux.alibaba.com>
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260729_070019_115667_36A6B2B2 
-X-CRM114-Status: GOOD (  11.49  )
+In-Reply-To: <CANpmjNN2+m7O206xFDRwyCoihsEr9J972pOFSa5Uc=xx6kkTHw@mail.gmail.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -126,18 +72,13 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jul 29, 2026 at 06:59:58PM +0800, Guixin Liu wrote:
-> quirks_param_set() reuses 'err', which param_set_copystring() left as 0,
-> as the return value of the whole function. When nvme_parse_quirk_entry()
-> fails to parse a field, the code jumps to out_free_qlist and returns that
-> stale 0, so a malformed quirks= parameter is silently accepted as valid.
+On Wed, Jul 29, 2026 at 11:03:52AM +0200, Marco Elver wrote:
+> On Tue, 28 Jul 2026 at 19:41, Keith Busch <kbusch@kernel.org> wrote:
+> >
+> > It doesn't look like there's a single source for updating list.h, so any
+> > concern with taking this series through the nvme tree?
 > 
-> Set err to -EINVAL before jumping out on a parse failure.
-> 
-> Fixes: 7bb8c40f5ad8 ("nvme: add support for dynamic quirk configuration via module parameter")
-> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+> I think that's fine; conflicts should appear in -next, but I don't see any yet.
 
-Looks good.
-
-Reviewed-by: Daniel Wagner <dwagner@suse.de>
+Sounds good, applied to nvme-7.3!
 
