@@ -4,32 +4,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1A38DC54F5C
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2026 07:24:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DD71DC54F9B
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2026 07:24:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=rioufC3vqAENOUPOmZKyOXdmCf
-	ByjtC0vmeHSJ0SLfEdOwOiFzVHzh27eyrhFp5w5ftSk6wGp9MVQOSksrq6tF1ZNVCBVvuNyZsSJ48
-	ZMvJbUUf6dnYsCFkRPv/uOFSH9EhjEkS83yRODRfyLkZlolY9UoZV93Qc4XnCkVTDCG0kaIbQ7D+B
-	tpUi8Ts2W/YTq7QAAQFcUJn4Q3FmXZvSehG0iFRetv1tfZOhNejiBbo8VNoCDIw5IisnpmD6KKYRN
-	XtiaaFgPKOKxFFt0P658ThgwqB/0MwN4Zs3OJ+WHuOSlku6i+vUlT/g3RemiO6NnwIwagltQXHB77
-	qB2VSXAA==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=kZhFpec1/PlVeLidksyR5Prky+
+	3zM57dB86yj1gXR8LKMosQoTdA4FyYywFiWriUOGcnwkpW4BgDoQcHZu/0JNp90pMoGE9/slWzMnN
+	6Unzxrfk93mmTKMeNU4LZIercQO2YlQXtuNIud68a/kQTLo+Apjmn08KWd/0uIc6y8MonYc6OrJ3e
+	W8ebwX0woIu6PQuzqDqgVebTj/7UtlUvws9DwyRurZXzMKEkVhnr9RAJ9EPwqy1YDQWAxMod4DFSb
+	95mbLUYT14MB1G/PcaMfm1dte1h41u0j+FNsd/Zv7sFUSG+pjbm2xNcDVEOfVJjeEyrDgNdSF/ruh
+	ClkAkMGQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1woyeT-000000076tn-2Fpy;
+	id 1woyeT-000000076uA-3zRm;
 	Wed, 29 Jul 2026 07:24:29 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1woyHF-000000074SV-0DJJ
+	id 1woyOL-0000000755M-3hBd
 	for linux-nvme@lists.infradead.org;
-	Wed, 29 Jul 2026 07:00:32 +0000
+	Wed, 29 Jul 2026 07:07:51 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 40DFA68BEB; Wed, 29 Jul 2026 09:00:25 +0200 (CEST)
-Date: Wed, 29 Jul 2026 09:00:24 +0200
+	id 6470968AFE; Wed, 29 Jul 2026 09:07:46 +0200 (CEST)
+Date: Wed, 29 Jul 2026 09:07:46 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Pavel Begunkov <asml.silence@gmail.com>
 Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
@@ -58,18 +58,17 @@ Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
 	David Sterba <dsterba@suse.com>, Ilya Dryomov <idryomov@gmail.com>,
 	dm-devel@lists.linux.dev, nvdimm@lists.linux.dev,
 	linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org
-Subject: Re: [PATCH v4 04/14] block: always adjust bi_offset on
- bio_advance_iter
-Message-ID: <20260729070024.GD9534@lst.de>
-References: <cover.1785274111.git.asml.silence@gmail.com> <8d4f786e3cb9ac6002bde5f3271dcb6d22c498b0.1785274111.git.asml.silence@gmail.com>
+Subject: Re: [PATCH v4 07/14] block: forward init_dma_buf_io_ctx to drivers
+Message-ID: <20260729070746.GG9534@lst.de>
+References: <cover.1785274111.git.asml.silence@gmail.com> <e0cc82a15419ba7b38eb0bb00ae34cf3d0c3a938.1785274111.git.asml.silence@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8d4f786e3cb9ac6002bde5f3271dcb6d22c498b0.1785274111.git.asml.silence@gmail.com>
+In-Reply-To: <e0cc82a15419ba7b38eb0bb00ae34cf3d0c3a938.1785274111.git.asml.silence@gmail.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260729_000029_318335_B063AAF2 
-X-CRM114-Status: GOOD (  10.53  )
+X-CRM114-CacheID: sfid-20260729_000750_167544_54AACE80 
+X-CRM114-Status: GOOD (  10.65  )
 X-Mailman-Approved-At: Wed, 29 Jul 2026 00:24:27 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
