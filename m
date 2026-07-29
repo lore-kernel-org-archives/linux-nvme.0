@@ -4,111 +4,116 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 30579C54F51
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2026 15:01:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 46AC7C54F55
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2026 15:01:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DFEWI+h+ujBl3AuAySkQO2sTC26NrP8SbkAb+UIr3F0=; b=qNHpMhW4WgIQ1JAtUttPPou9dY
-	D9Urs3NPVf/CE8I4WVEGopHJqZ9rVTzYgQSfwt/cgT+lHHLeHcaU7q2xTKZMI1mTfq5HQibBKCdgh
-	TIXqVM/ZwTo/jcpPdnVRuSdzirCNl/kFi5VjtllDG0MwkrYlAfhQ++YA8/sWe1jugf2uIK5z0LEsf
-	4hMMDRgUUxaaedR/n2c2oxUfU7K0Hqzj/eMWxSVj+LoOHkHS/51w+YBi5bTYC6Sux2IY4YosSI3GE
-	lIqziRccXucqcMga5O6bWb6IISAMMWDQzMtT5y5LAkKNgPAWB4blapQWSZHdnJkXrzcHAnMOUPrrL
-	CpyYQgOA==;
+	bh=QlPatibx3g8XfK6S5eprVRseiFbSJCNNQ3hXCye36cc=; b=4NtbuXzFS1QkgWitYdZ1UWkqQC
+	OjL59RRRpyZtIO6+9nfcLUZEKeiIeNVqKN7w7YZaOy+FUFF+HADx9i61+PJvGiidq9EplkONnmWv6
+	5a4wCFyIbXKBXm2bKncvV86CyXhztN6CYOMPXvHMgODV5gZ65fXLACF2MOBYe2iLTTVafwahhPpkc
+	nID3MeysMDr8dTaFsERyyvZK+3dE5ixeSClwLZJJaIiPykGdi+Nu4t+VPERNxv5uF/jFwEV6mNkq3
+	wlQt1JzbINn0nUkvFXoKAzTJCo6FM3n5obxQNDBVCj8gsJUw098jzNdr6DutjhOLjjbzTVyVfa1Fz
+	NBt9NOwQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wp5mP-00000008KRQ-2Yn4;
-	Wed, 29 Jul 2026 15:01:09 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1wp5mO-00000008KRK-10Io;
+	Wed, 29 Jul 2026 15:01:08 +0000
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wp4NR-000000086yh-3q81
-	for linux-nvme@bombadil.infradead.org;
-	Wed, 29 Jul 2026 13:31:18 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=References:Content-Type:
-	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=DFEWI+h+ujBl3AuAySkQO2sTC26NrP8SbkAb+UIr3F0=; b=KcFIFvwXv/D9A2DE28/tclKLCO
-	Gns+vVFQaS75O1oWlMwjUqpfnNkzs9KHoOguGcTotU0mL6AHaaTpXGdRFz6eRtAMR7QFVfz6JBIvA
-	8A3sxxc7iu0GodmhaDCJhkd1FUlhtiLkJD6LQXCFGKATF3/weEAP2vdaZ3W6WrAurcP6K2Rkthpwk
-	YzrypN1lJ6ZuMS+n1C7QyhOZWNnWPAK8AVKT90NL9K7s2nqlMzGiyiv0Nlg38vADnVfj2KjlGpYOh
-	JZoRrqlDXRJbpOWeg0jVTaO/ilc9d0mkTeAlUy8A4i/yKCpjMEvDwWasBFWWkMINY5hary8YSOxCa
-	4ULBqSSw==;
-Received: from mailout1.samsung.com ([203.254.224.24])
-	by desiato.infradead.org with esmtps (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1wp4NJ-00000005qpR-1df0
+	id 1wp44J-000000082JP-2BeG
 	for linux-nvme@lists.infradead.org;
-	Wed, 29 Jul 2026 13:31:16 +0000
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20260729133056epoutp01045ced0b94c7f0e836baa01c569108c0~Gxd1RYM7w1818818188epoutp01W
-	for <linux-nvme@lists.infradead.org>; Wed, 29 Jul 2026 13:30:56 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20260729133056epoutp01045ced0b94c7f0e836baa01c569108c0~Gxd1RYM7w1818818188epoutp01W
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1785331856;
-	bh=DFEWI+h+ujBl3AuAySkQO2sTC26NrP8SbkAb+UIr3F0=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=HsWwrPXXRrp/O6gwT2CU2W6MRSa3y4QEz2T9FZg7HvlUguP/w914PJzUXRCbt5/7G
-	 UKefM+7DXd9/6vIbCBl2WSX95poBvNMbvIoBPakrN0cJpiKKqEpLUvoNlCcwEX/r3P
-	 ccFIxzAri1rej6D74bRxn/e3Nag1sqkfn5YWR2k4=
-Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPS id
-	20260729133055epcas5p1ffb351ee3ef2c6b1de5218d34cae5f2c~Gxdz91yo90832108321epcas5p1C;
-	Wed, 29 Jul 2026 13:30:55 +0000 (GMT)
-Received: from epcas5p1.samsung.com (unknown [182.195.38.88]) by
-	epsnrtp01.localdomain (Postfix) with ESMTP id 4h9Crt1xWTz6B9m4; Wed, 29 Jul
-	2026 13:30:54 +0000 (GMT)
-Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20260729133052epcas5p21fab8c8ffc58e9b13b267e5af8bbbb63~Gxdx2A4v01143011430epcas5p21;
-	Wed, 29 Jul 2026 13:30:52 +0000 (GMT)
-Received: from [107.122.10.194] (unknown [107.122.10.194]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20260729133048epsmtip16941ede4dcd7309490d22dae2d039c4d~GxdtThzIP1847018470epsmtip1c;
-	Wed, 29 Jul 2026 13:30:47 +0000 (GMT)
-Message-ID: <583fdfb2-5368-467f-a388-6d388859c995@samsung.com>
-Date: Wed, 29 Jul 2026 19:00:46 +0530
+	Wed, 29 Jul 2026 13:11:32 +0000
+Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-496bb7cdf51so9691045e9.2
+        for <linux-nvme@lists.infradead.org>; Wed, 29 Jul 2026 06:11:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785330690; x=1785935490; darn=lists.infradead.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=QlPatibx3g8XfK6S5eprVRseiFbSJCNNQ3hXCye36cc=;
+        b=ZX+jLI8oCl8LSAONnAeLVo9CZ69kv1nxRrHU0IUIsP5tjOYKw6MDLWsxboabCC4GGD
+         eGM/o9WibamhYqhG1VyXhMOUAmRrRWfzggBI4H3LdTC8jJLBIOFTbZvxZfet0lxy1TPq
+         D5YCPsGa8YM+jeCkZuC4iPegiDFC2ZPKTs/ix/Tu781+wIiQKnOrXDiE5eyP/Ng5Vbwr
+         l2+prPpeGGBrjrC5DeyAPHZLRkYuO9ohpTDwcZW9RSI5ihYqyUNZy04Aq3ZZqm/K6yYp
+         Ut4K85TyL0xkXm2w5fw4wgfbaiIHkUp9y0dCb3t7L46rX9uaJFVQ3lBMPpLQZiwQ8U5H
+         TmnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785330690; x=1785935490;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=QlPatibx3g8XfK6S5eprVRseiFbSJCNNQ3hXCye36cc=;
+        b=A+JZMSowEKG/dyMk3otVrcN3nHUt5pFPQ2yojSG0eHbtEyrcQ+diXy3FJtYnfxW0u6
+         vavjzHudB+Y2keiZWScsSa1SjV+3iCy+WFkN7r0mKyX1z/N8HRw26btDbpjkkfhXpucg
+         A0YMSD7+WmWuwXGtmYKyBICRZVJMBmu2sxMRraFXvE7vOsHeHHKvAiR44/pxd0BsCdh9
+         k3u16YOSXlb34wI86PmiDnSO2DMP/Ih8yxc8W13HWU5QdgWw2OoPsCg0jdpCHuBi0ulj
+         teyQEzj29j+1DK9zO/ZjRw9XADzfGG9IO1D0uIbHfVdtICFyVnpRcJuG7aPcVgpxPqt5
+         XUsQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrroBjsk7htVSh7EMOCDm4HwYRiMMqB8VwI1MU/9yNUzXAz/Wq4mUnAYYAH149vI/CbMBZ9/kdGQKbR@lists.infradead.org
+X-Gm-Message-State: AOJu0Yxi3fxWWotPQD+yCAkCgIaAU0dpHk7WW3J3FkL7nPmwUllyZ2KQ
+	b6ATZrabW97NbobidO+/hMlFv5oxvST+J1fxjFYBrkqRYFMdkmvTcS/i
+X-Gm-Gg: AR+sD11JT7LaNVdcLBy/RL1Fv2C3O3RNf4UgyeI7Bo9TavRljXWoyBP9syw4wp+7Nrf
+	XZ+IOxuQBnkaV+62Lgpo2S8boQxDxnzB3cXqt5J/mmWVdf0S4jKuJbXf4xS6P0MLs8gAL1QwvHA
+	CDR27zROhJNO6I5Hl6KS65Bnyo/rDEsswdfoCaUuaAZ4Gnc6wlU3q8ZshQXbq3iorpftLf6JuA/
+	SruRuuqvjX6kJu6exd5bpYzJaJ3BCZ6Xt8r/RnhezSt10keDw1XzfrtdURQD7X3zHgqx8hxNjLl
+	t+7UmZJtSCqmkV+kRKv9ylXyGtGh4LO1rUOPYcz4+9KZ9VZ+0xjctrXbM78Kbycwjp8ZTu9e2DZ
+	PssSYC2uIpK2nRm1QxD7glcSbT0TQNyv1131hhlGEKBhQJkToQ9oP3SMu7o0tjA4AfWKjH95f4+
+	WEN7IboIJPBiDRTWaAWGJD9G477CMSPySgjqiYO/NMR0okUFaapfmM8SmX/cW0VZtioXGvng/pc
+	7HxhaOHTJgXGCKhaslRaUWIbV0g42y61q/1pB4edSnFqiKzDoTgQN0eSeockApz/0hVRpUs8da/
+	c0Ct/3vHVLK+1/eDEcs=
+X-Received: by 2002:a05:600c:3485:b0:493:b243:8ffc with SMTP id 5b1f17b1804b1-496c6586bbcmr69846215e9.35.1785330689440;
+        Wed, 29 Jul 2026 06:11:29 -0700 (PDT)
+Received: from ?IPV6:2620:10d:c096:325:77fd:1068:74c8:af87? ([2620:10d:c092:600::1:640])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496c45c338fsm157280305e9.8.2026.07.29.06.11.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Jul 2026 06:11:28 -0700 (PDT)
+Message-ID: <60df6af0-3bf0-4954-8181-a0acca7c21c4@gmail.com>
+Date: Wed, 29 Jul 2026 14:11:16 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 14/14] io_uring/rsrc: add dmabuf backed registered
- buffers
-To: Pavel Begunkov <asml.silence@gmail.com>, Jens Axboe <axboe@kernel.dk>,
-	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi
-	Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner
-	<brauner@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Sumit
-	Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?=
-	<christian.koenig@amd.com>, Nitesh Shetty <nj.shetty@samsung.com>, Kanchan
-	Joshi <joshi.k@samsung.com>, Jason Gunthorpe <jgg@nvidia.com>, Damien Le
-	Moal <dlemoal@kernel.org>, Alasdair Kergon <agk@redhat.com>, Mike Snitzer
-	<snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>, Benjamin
-	Marzinski <bmarzins@redhat.com>, David Sterba <dsterba@suse.com>, Ilya
-	Dryomov <idryomov@gmail.com>, dm-devel@lists.linux.dev,
-	nvdimm@lists.linux.dev, linux-btrfs@vger.kernel.org,
-	ceph-devel@vger.kernel.org
-Content-Language: en-US
-From: Anuj Gupta/Anuj Gupta <anuj20.g@samsung.com>
-In-Reply-To: <26dcd0ae5c87a3ada5710b14b6894ef343cec6fe.1785274111.git.asml.silence@gmail.com>
-Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20260729133052epcas5p21fab8c8ffc58e9b13b267e5af8bbbb63
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-cpgsPolicy: CPGSC10-542,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20260728213020epcas5p1721e72ba5544abf0b61482da005120d9
+Subject: Re: [PATCH v4 01/14] dma-buf: introduce initial file I/O
+ infrastructure
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
+ Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
+ William Power <william.power@intel.com>, Phil Cayton
+ <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Damien Le Moal <dlemoal@kernel.org>, Alasdair Kergon <agk@redhat.com>,
+ Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
+ Benjamin Marzinski <bmarzins@redhat.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, David Sterba <dsterba@suse.com>,
+ Ilya Dryomov <idryomov@gmail.com>, dm-devel@lists.linux.dev,
+ nvdimm@lists.linux.dev, linux-btrfs@vger.kernel.org,
+ ceph-devel@vger.kernel.org
 References: <cover.1785274111.git.asml.silence@gmail.com>
-	<CGME20260728213020epcas5p1721e72ba5544abf0b61482da005120d9@epcas5p1.samsung.com>
-	<26dcd0ae5c87a3ada5710b14b6894ef343cec6fe.1785274111.git.asml.silence@gmail.com>
+ <bc20381e8daf85ac58811c344325d8192cde9d1e.1785274111.git.asml.silence@gmail.com>
+ <20260729065927.GA9534@lst.de>
+ <340dd033-2a45-49e7-afd6-95dbbbf624da@gmail.com>
+ <20260729112808.GA30851@lst.de>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <20260729112808.GA30851@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260729_143112_628030_5FE1966B 
-X-CRM114-Status: GOOD (  17.46  )
+X-CRM114-CacheID: sfid-20260729_061131_579606_04A22A8A 
+X-CRM114-Status: GOOD (  18.12  )
 X-Mailman-Approved-At: Wed, 29 Jul 2026 08:01:06 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -124,111 +129,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/29/2026 2:59 AM, Pavel Begunkov wrote:
-> +static struct io_rsrc_node *io_register_dmabuf(struct io_ring_ctx *ctx,
-> +						struct io_uring_regbuf_desc *desc)
-> +{
-> +	struct io_rsrc_node *node = NULL;
-> +	struct io_mapped_ubuf *imu = NULL;
-> +	struct io_regbuf_dma *regbuf = NULL;
-> +	struct file *target_file = NULL;
-> +	struct dma_buf *dmabuf = NULL;
-> +	int ret;
-> +
-> +	if (!IS_ENABLED(CONFIG_DMA_SHARED_BUFFER))
-> +		return ERR_PTR(-EOPNOTSUPP);
-> +	if (ctx->flags & IORING_SETUP_IOPOLL)
-> +		return ERR_PTR(-EOPNOTSUPP);
-> +	if (desc->uaddr || desc->size)
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	ret = -ENOMEM;
-> +	node = io_rsrc_node_alloc(ctx, IORING_RSRC_BUFFER);
-> +	if (!node)
-> +		return ERR_PTR(-ENOMEM);
-> +	imu = io_alloc_imu(ctx, 0);
-> +	if (!imu)
-> +		goto err;
-> +	regbuf = kzalloc(sizeof(*regbuf), GFP_KERNEL);
-> +	if (!regbuf)
-> +		goto err;
-> +
-> +	ret = -EBADF;
-> +	target_file = fget(desc->target_fd);
-> +	if (!target_file)
-> +		goto err;
-> +
-> +	dmabuf = dma_buf_get(desc->dmabuf_fd);
-> +	if (IS_ERR(dmabuf)) {
-> +		ret = PTR_ERR(dmabuf);
-> +		dmabuf = NULL;
-> +		goto err;
-> +	}
-> +	if (dmabuf->size > SZ_1G) {
-> +		ret = -EINVAL;
-> +		goto err;
-> +	}
-> +
-> +	ret = dma_buf_io_ctx_create(target_file, &regbuf->ctx, dmabuf,
-> +				    DMA_BIDIRECTIONAL);
-> +	if (ret)
-> +		goto err;
-> +
-> +	regbuf->target_file = target_file;
-> +	imu->nr_bvecs = 1;
+On 7/29/26 12:28, Christoph Hellwig wrote:
+> On Wed, Jul 29, 2026 at 11:37:19AM +0100, Pavel Begunkov wrote:
+>> On 7/29/26 07:59, Christoph Hellwig wrote:
+>>> The method name feels a bit convoluted, but given all the
+>>> previous discussions I don't care too strongly.  I'll leave
+>>> the dma-buf side review to those who understand it.
+>>
+>> I assume you mean this:
+> 
+> Yes.
+> 
+>>
+>> +	int (*init_dma_buf_io_ctx)(struct file *, struct dma_buf_io_ctx *);
+>>
+>> I agree, and all dma_buf_io_[ctx,map] look clunky, but I don't
+>> see what I can drop out of the name. Suggestions? Maybe I at least
+>> should make the fs op sth like "register_dma_buf".
+> 
+> I just remember scares from the last discussion :)
+> 
+> register_dma_buf sounds fine to be, but unless I misremember there
+> were objections to that before.
+I'm going to respin the set in a couple of days, just going to
+leave it as is unless we find better options.
 
-There is no bvec backing a dmabuf imu - should this be 0?
-
-> +	imu->ubuf = 0;
-> +	imu->len = dmabuf->size;
-> +	imu->folio_shift = 0;
-> +	imu->release = io_release_reg_dmabuf;
-> +	imu->priv = regbuf;
-> +	imu->flags = IO_REGBUF_F_DMABUF;
-> +	imu->dir = IO_IMU_DEST | IO_IMU_SOURCE;
-> +	refcount_set(&imu->refs, 1);
-> +	node->buf = imu;
-> +	dma_buf_put(dmabuf);
-> +	return node;
-> +err:
-> +	kfree(regbuf);
-> +	if (imu)
-> +		io_free_imu(ctx, imu);
-> +	if (node)
-> +		io_cache_free(&ctx->node_cache, node);
-> +	if (target_file)
-> +		fput(target_file);
-> +	if (dmabuf)
-> +		dma_buf_put(dmabuf);
-> +	return ERR_PTR(ret);
-> +}
-> +
-> +
-
-nit: extra newline here
-
-> +static int io_import_dmabuf(struct io_kiocb *req,
-> +			   int ddir, struct iov_iter *iter,
-> +			   struct io_mapped_ubuf *imu,
-> +			   size_t len, size_t offset,
-> +			   unsigned issue_flags)
-> +{
-> +	struct io_regbuf_dma *db = imu->priv;
-> +	struct dma_buf_io_map *map;
-> +
-> +	if (!IS_ENABLED(CONFIG_DMA_SHARED_BUFFER))
-> +		return -EOPNOTSUPP;
-> +	if (!len)
-> +		return -EFAULT;
-> +	if (req->file != db->target_file)
-> +		return -EBADF;
-> +
-> +	if (req->flags & REQ_F_DROP_DMABUF) {
-> +		map = req->dmabuf_map;
-> +		goto init_iter;
-> +	}
-
-O_DIRECT is checked only during registration; we should recheck
-(file->f_flags & O_DIRECT) per request.
+-- 
+Pavel Begunkov
 
 
