@@ -4,64 +4,114 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3F6A5C54F51
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2026 11:03:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0E66FC54F51
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2026 11:03:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=xD+X9ia/eDtJrGcUqaYxaHDODjoWw3NqgRLnLXAzecA=; b=iPAromLnnZzXBssKiGIIU1tvwd
-	9b3EYwwQGiNdGq4fsDgfxf3iuM9iu3N868V6rJKrjXWBR37bsNdJ1flGxU9G5BYxoPEPcl6TqoDt5
-	ood1M86k9s3wtwQeVsdycrek+GCfYqxJ4KkrlFj2ZWZGCx/cFCD1ViK6O01VExRP5yUxekFqM4JYS
-	45vsu6bbL+RTR0cdLsEu6jtkSvWiHbfNx49MeYXUMwGSUEvmo//jmyEffVBxKYHfrrik6O8yf0Wpi
-	xZTWyau3BPwpNd9WaoGPxvZcEnB63Pi6sgj5RIz/bvP6y0Al9jaUBMJ8ZJSLT47G10WfCYhEJLgm7
-	CaExZbgQ==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=3xVEH4RvIZup14rRYV4Zvxl83sd+HTGGj/jXhd9ySH0=; b=fGUPcDHp9evYk141zw3Zt6isle
+	vvqxs1cIY6Cz6Kc+32cIA7nSE7ltWlszOs5bEXdmuG6woNMaJv8rLF8PTJo4Yd3o5dOx+ck5W34tJ
+	wXERBlMj7fppNKh3WeDYtQDuYGAmM8u4WKcs4aBCqFjSZxLB8gF47u6tl0eD3hDjOsVJ2zTsu7OUO
+	8D654JZBvFYm68BWyIZJtetuLBeDMyWoDrj2rR6HeHYOeKQmn1XmIVJf5ZPgdORPDjwPat3ReC81j
+	hHVmhXSFwMhryusXGZcMfYO//nNXcBuYqbApatu9NhNpFplHKKNEVy/5rVXB3s3V8+RkcmdCqxVHQ
+	mYh3dx9g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wp24R-00000007fvS-3esn;
-	Wed, 29 Jul 2026 11:03:31 +0000
-Received: from m16.mail.163.com ([117.135.210.2])
+	id 1wp24r-00000007fzW-1fiU;
+	Wed, 29 Jul 2026 11:03:57 +0000
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wp24N-00000007ft8-1c1v
+	id 1wp1rB-00000007bd2-0wn8
 	for linux-nvme@lists.infradead.org;
-	Wed, 29 Jul 2026 11:03:29 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=xD
-	+X9ia/eDtJrGcUqaYxaHDODjoWw3NqgRLnLXAzecA=; b=liQOkme0wiffP8mW+T
-	ZbWCR4Z3+FG2UwtalgwVPeSqjn1HX1p0OBjokrLOC6une8H4aqRv+heJNgsdyXU6
-	5kSK1B8m2Z71mwCtjPuajL0P1DETYMtrXHUyAgH4siSYVPoIQHgjHOTU7HG/TMb9
-	SXjau9mV4+LI7qmAsP4xdi75g=
-Received: from localhost.localdomain (unknown [])
-	by gzga-smtp-mtada-g0-1 (Coremail) with SMTP id _____wCXJXGw3WlqfCNlLw--.63477S2;
-	Wed, 29 Jul 2026 19:02:17 +0800 (CST)
-From: Jiang HongHui <jiang_hh2019@163.com>
-To: Justin Tee <justin.tee@broadcom.com>,
-	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
-	Paul Ely <paul.ely@broadcom.com>
-Cc: Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Jiang HongHui <jiang_hh2019@163.com>
-Subject: [PATCH] nvmet-fc: fix invalid free in LS IOD error path
-Date: Wed, 29 Jul 2026 19:02:06 +0800
-Message-ID: <20260729110206.207755-1-jiang_hh2019@163.com>
-X-Mailer: git-send-email 2.43.0
+	Wed, 29 Jul 2026 10:49:50 +0000
+Received: by mail-ed1-x534.google.com with SMTP id 4fb4d7f45d1cf-6a051b737d8so665878a12.1
+        for <linux-nvme@lists.infradead.org>; Wed, 29 Jul 2026 03:49:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785322187; x=1785926987; darn=lists.infradead.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=3xVEH4RvIZup14rRYV4Zvxl83sd+HTGGj/jXhd9ySH0=;
+        b=L2/JWzZ9Ng5bTzlsqnsIpDumuCedARvA1A8bGUoZ9UG/8+/q6gZ76mXiBePysngQxk
+         EvWUXLvpLEsdJxDHKA1kDG/bl3u9e4WxrHTFgvUWJ8KgmDNdtOqGN3srr04kjk6Ipeuu
+         gimaVQyjqceYzr9S6Cfr4GEBg0mty7fBra9T9MBqTOkrttUpAUVD/0KHF5cKPtzOTFz+
+         AciTOkoOudtfAeRuH+osurrKEjJBzh+WE7rrYQwvQyiyCmjtsRrAHzWfx64q3aGz1Wg3
+         aZXqMP/BvpIGQDrhyo++nLYYsZP5YwGz4Qu4mGjepgk/wbP03TS2zgpCmLTs2lNX5TgQ
+         9FSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785322187; x=1785926987;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=3xVEH4RvIZup14rRYV4Zvxl83sd+HTGGj/jXhd9ySH0=;
+        b=GymjfL4YewS24sUFjGQV8ddV/mYEg7YyN5X0k2IeXwNNwzJRtZ22U99a7I5gz+zRiH
+         zQvXKT/97OK0ASYE/5X2FsIGqcT7ulJ6H6cwOCT6OLXYcuByWnhxUt/RxMyn20PWqNxs
+         A3Zh0/1BGYiBHQ7hAt7TNN5ZQtK0s9788lz8YCyt/5KMHp8xszbUb98KJlYb5bymF/Tm
+         bAvgLUlgsv4EYqPhjDd5IyWm1JWHrJrQ9jURJ6VIGslOlMQBRD+AKu0hdH0WifJELXoa
+         c6n0WpsKzEGyVn9KVJ5PA4ldeiYvdetnyxgcob4f5+yWxY9VhxeYnvFt33C/OYQkvqVw
+         vbxw==
+X-Forwarded-Encrypted: i=1; AHgh+Rr7cxkoJhvO5N2t7Jd7XdyAnBEZrXO3yBdUtHhAzwEZsfDJOzn/K7kqozwjx3HQDisJJ7Xk64ccANoK@lists.infradead.org
+X-Gm-Message-State: AOJu0YyxmlcranlBEAr7cFsTVYwAIi/LjR91wXDKbcIlQKP3Cgdg1OEQ
+	+/9ozdjfQqkyctXGxXbXNwXj78mOREXojg9f4yZwxQLuY90hISKtBwBk
+X-Gm-Gg: AR+sD10T85bcunyk6RhEttn+7yWQL0WTabtnYDMHdxG3EJ3Ckv1fqfqq8DVj0VJRk3z
+	c3FiYMXnbIID7HrvpK2Drb9ROjhfjZbXSv2opo5RuNU6uVSVVm1CqhwUvfayBYA23Ec1hCLHCRT
+	zhPEoHco0ZIffmk9QmfpLSRpa3JpVQUzvZmwk4/rmGokY9Fc6ZkAgjzKmAVpt7ijVx/21Y/yYS3
+	GRplpNXliV6aWuawo4HaxflQECJaa0fE9Vsy8wnUqfwUG1821PjunpZM8tOwCFzVfnF7XpqV6L0
+	YCxLWxUUzvpX2SRQ1x749ZZ9pr9stZmxyJqS4Kle8NdYS+yNx101NrvsQF0c2zJXvKOKGPtAJth
+	olLYPc0JVXNXdSr9pumRMEwcIM0ZS7VYyJKS3tgxdO+0LAorD1thLMh7epLlcCdlDYGO1bvJzQa
+	JbiiXINVSDwQCdpWbqloqQKIabnT5S/5RMFaxPzK+F4MQO0CQPWBE7/AKwMp+rxoT6LH1tsCO+i
+	2fXDNzUiIFvTukXpduyL9KdjRQU+TaKVAjiI18Tn3lqm+chfpRBMb7rXq+Xs8s4ikuJASjoQYzG
+	o+KUc5iDRfmbeVf7wJ/tE49tFUybhA==
+X-Received: by 2002:a17:906:fe47:b0:c15:bea2:d209 with SMTP id a640c23a62f3a-c1f7215dee1mr299738366b.4.1785322187169;
+        Wed, 29 Jul 2026 03:49:47 -0700 (PDT)
+Received: from ?IPV6:2620:10d:c096:325:77fd:1068:74c8:af87? ([2620:10d:c092:600::1:640])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1f83d27f47sm97965566b.26.2026.07.29.03.49.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Jul 2026 03:49:46 -0700 (PDT)
+Message-ID: <c81be43c-2fe3-4403-b8a9-dd19855eeb58@gmail.com>
+Date: Wed, 29 Jul 2026 11:49:36 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wCXJXGw3WlqfCNlLw--.63477S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7tFy7tF18uF4kKF13GrW5Awb_yoW8Cw13pF
-	W5KrWakrZFkFW8t3yDAFs7ua40ka17WryUCr1Igw1qvwn3GrW8tryqkF1j9FyYvr48ua48
-	AFWDAryY9Fs8ZaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pi1EE8UUUUU=
-X-Originating-IP: [220.248.3.123]
-X-CM-SenderInfo: xmld0whbkkjiirz6il2tof0z/xtbC9hma2mpp3bl6KAAA3a
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 08/14] nvme-pci: implement dma_token backed requests
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
+ Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
+ William Power <william.power@intel.com>, Phil Cayton
+ <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Damien Le Moal <dlemoal@kernel.org>, Alasdair Kergon <agk@redhat.com>,
+ Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
+ Benjamin Marzinski <bmarzins@redhat.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, David Sterba <dsterba@suse.com>,
+ Ilya Dryomov <idryomov@gmail.com>, dm-devel@lists.linux.dev,
+ nvdimm@lists.linux.dev, linux-btrfs@vger.kernel.org,
+ ceph-devel@vger.kernel.org
+References: <cover.1785274111.git.asml.silence@gmail.com>
+ <19e5c945ea8114320c10f7951d19197d48b59249.1785274111.git.asml.silence@gmail.com>
+ <20260729071048.GH9534@lst.de>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <20260729071048.GH9534@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260729_040327_862156_66CC37C5 
-X-CRM114-Status: GOOD (  11.48  )
+X-CRM114-CacheID: sfid-20260729_034949_284777_C99E6FA1 
+X-CRM114-Status: GOOD (  12.50  )
+X-Mailman-Approved-At: Wed, 29 Jul 2026 04:03:55 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,54 +126,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvmet_fc_alloc_ls_iodlist() advances iod while initializing the LS IOD
-array. If an rqstbuf allocation or response buffer DMA mapping fails,
-the unwind loop decrements iod past the start of the array. The final
-kfree(iod) therefore frees an address before the allocated object.
+On 7/29/26 08:10, Christoph Hellwig wrote:
+>> +static int nvme_init_dma_buf_io_ctx(struct block_device *bdev,
+>> +				    struct dma_buf_io_ctx *ctx)
+> 
+> Please stick to two-tab indents for function declaration continuation
+> for the nvme code to keep the code easy to maintain.
+> 
+>> +#if defined(CONFIG_DMA_SHARED_BUFFER)
+> 
+> This should be good old #ifdef.  Same in a few other places over
+> the series.
 
-This can be reproduced with nvme-fcloop and failslab by setting
-fail-nth to 6 before creating a target port. KASAN reports:
+Going to apply both for v5, thanks.
 
-  BUG: KASAN: invalid-free in nvmet_fc_register_targetport
-  Free of addr ffff88816cf8ff48 by task nvmet_fail_nth/9552
+> Modulo these minor nits the patch looks good.
 
-Free the original allocation base stored in tgtport->iod instead. With
-this fix applied, the same sysfs write with fail-nth=6 returns -ENOMEM
-without any KASAN report.
-
-Fixes: c53432030d86 ("nvme-fabrics: Add target support for FC transport")
-Cc: stable@vger.kernel.org
-Assisted-by: Codex:gpt-5
-Signed-off-by: Jiang HongHui <jiang_hh2019@163.com>
----
-Tested on v7.2-rc5 with CONFIG_NVME_TARGET_FCLOOP=m, CONFIG_KASAN=y,
-CONFIG_FAULT_INJECTION=y and CONFIG_FAILSLAB=y.
-
-Before the fix, faddr2line resolved the fail-nth=6 injection to the
-rqstbuf kzalloc() at drivers/nvme/target/fc.c:542, and KASAN reported
-an invalid free. After the fix, the same injection resolved to the same
-allocation, the sysfs write returned -ENOMEM, fail-nth read back as 0,
-and dmesg contained no KASAN, invalid-free, BAD_PAGE or Oops reports.
-
- drivers/nvme/target/fc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index d16170755..1b557775e 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -566,7 +566,7 @@ nvmet_fc_alloc_ls_iodlist(struct nvmet_fc_tgtport *tgtport)
- 		list_del(&iod->ls_rcv_list);
- 	}
- 
--	kfree(iod);
-+	kfree(tgtport->iod);
- 
- 	return -EFAULT;
- }
-
-base-commit: f5098b6bae761e346ebcd9da7f95622c04733cff
 -- 
-2.43.0
+Pavel Begunkov
 
 
