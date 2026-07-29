@@ -4,113 +4,95 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6AB67C53219
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C2898C54F55
 	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2026 15:01:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GoC91kED98vuJAvVTLdEFxjWPhyWXTYJuu42/1RW6zQ=; b=zdTUp04vnJE2e7huEAVDjEX7Ta
-	vfV7Za7zPKFG1PTA7mCXQKxirG8NTDrplV+RCifPtl/vgyK/vmWk0UaqGt5E3YpBanUAbkjWaoNIM
-	YtTxZWHc37p7dRserjp7YN2Rm4X+R74685Sg/Yay3yeA4aAt+tmdbeRro8p6vp0gV1mkdljhvr8tU
-	G0SbZwdlFylJs/2P1lTQ/CXKAUl81mf4B/xVRC+RYxTfAb3bgFiGlo6ItslKW1xsG9c2q4FqmlPWL
-	tv8FXszP19B4ooFZd+WJOMXflqISpKQzH0EAkJsm36bC2nTG6Ky5M9Cxb5ptKaVQslCgWBFkraCGx
-	L2qK3SXA==;
+	bh=ZDJk27gz63Bjx+XAUOCj+oZxhX4eQ8qfTG8bNQ0cMfY=; b=IaI59CO9WjvXy8M/RTfSCY1AXE
+	JEvtS5Om2Uj6J6sjymYm+5FM2Fx673wnQ9uvHPp4HpgCZQcpRevNfkdwwuIgz4s6uycL4L5TrGb/z
+	HhGbE0vCV/+iToM9NVEPWAqKwAnbuiTiJrxoDI+eyK4xLPLEceLMU8fQBG4wwXqKMTdSxBPEI/H6i
+	soukc/5NmCXyZzfgI2CCHbYM7rddgAgg+y+lv1T85XS/Ymdjnmf7ZQeFNO4J3z6/Vn7IJNVaSzJrF
+	sOmcnWHxyet+CWverxmgYrpnI8Tkl5Pzz8LFBczZrnSSsF4tcDXOaBCbwxZTs9SVr66QFF0MGAFA1
+	GNTe3TeA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wp5mQ-00000008KSg-00iy;
-	Wed, 29 Jul 2026 15:01:10 +0000
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535])
+	id 1wp5mP-00000008KRZ-32ay;
+	Wed, 29 Jul 2026 15:01:09 +0000
+Received: from mailout4.samsung.com ([203.254.224.34])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wp4ZW-00000008APn-0ZjM
+	id 1wp4NZ-000000086zC-0UkI
 	for linux-nvme@lists.infradead.org;
-	Wed, 29 Jul 2026 13:43:47 +0000
-Received: by mail-ed1-x535.google.com with SMTP id 4fb4d7f45d1cf-6984169c126so1590647a12.1
-        for <linux-nvme@lists.infradead.org>; Wed, 29 Jul 2026 06:43:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785332624; x=1785937424; darn=lists.infradead.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=GoC91kED98vuJAvVTLdEFxjWPhyWXTYJuu42/1RW6zQ=;
-        b=AlczRHn3EFOMylHWBy7XaTrpnX15nft+/HkXXewrdJ6Fs24iFs9iGTpXsopD6Olb7J
-         TA12ZtwrOUP/OO9jPyJZyW+/Io6kQdDQWWNB/Zj5EDc02Slx5cTdzLKDqh+RDov5dup0
-         xK9BYkDG6KmH4OBOsBi+7Dz+sW/Cc8VARPihDxlvcoc7Xv0lq2wpyA583Lzbu3NWohQo
-         0EGexdVF7s3Hklt6u81he3dGy7G5FFm2zEIFUaVDSZOLTMf0tbZgmKRcv4mxCwVgAIrs
-         xVeMTYDLUIRPyiTeS2XfXJBts7Weyekx2iq3Xi2e6CuZ8n4G89AXP5w6htr48FU9ZH/E
-         AoeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785332624; x=1785937424;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=GoC91kED98vuJAvVTLdEFxjWPhyWXTYJuu42/1RW6zQ=;
-        b=E/lbYBIGanxdUdIG+VVNs7XgiAbo9F1Il2eS/l3n+j/yJ6bi26FAFpB/YKiaR8LS9C
-         GFU65d0PUyD7GNvbvEq+up6AY0oUgStdAUnk7d7knZLP5I5a8K6Hx8cYM8RrBVrNhW/F
-         m1cR6OUDt1dOwnIsZNwZLFyj4DfFbbKLz2glNV9efglsdKAT8e/7rjlPTWUDu7Ulwy6h
-         okt0WFRaZ1CD9M3D1o96IyQSmPOJ7RyydWgG4ywVJ3hIAeD0DTqtcNzZGeowWco8R2jI
-         hzY6gYBKlNA85MPYxnMdYLMZj2DQ/QK6NNm5PHedTZXxVnjG6uep17/Xn4nU4V/WbDvb
-         eSRg==
-X-Forwarded-Encrypted: i=1; AHgh+RoFkGKEoMvXADhDHQdMFcLF7o6HSk0OpLn6l8onQJrXiSlTHBSDgKxfy4doJez3CRwm3olQ4TLCgPGX@lists.infradead.org
-X-Gm-Message-State: AOJu0YwjKEjTsS42DU1jMspmNf5WSUveaDV3ZNLk+URmoe5zdKY8XfD9
-	tyC1Yf0+eJRe8qu+yKJqQW/uzXWT/L8QbICK8AuQ07TUWi1ykSY9NkM0
-X-Gm-Gg: AR+sD10wOhhXtRSJpwW7+6LXo1MwZE+PD3Ui8KHXoJKSP8urfoYBykYefN47zUBpBcN
-	YqNEUbfN3mW1I1x6lar1u/7bI8mfx2qLpSKHfzYXlvoHT0dH/js/sWBRZIOC9hkOwW3qNlHwF45
-	gwRDR+LW1DFBKxsp7HbEs2d6Fea+d1IwdWU8HiPhf55D3hlcTkg+f0SW7/WBetkpuJZD1i1xWaq
-	b3fB9bTryoF7gaR8uCjuULsOe/hz17fzFZRwsaMT9Bqwj+zxai3hPwoB36J7cTZMs+wHVUJeDcM
-	b1ysjn2yevrN5V3r2hQ82M+HW6qA2+iKq0DrIw6yGf/FqjN2lr7QKY4Oq8nb16fmqCF1t6EhqgW
-	UTyBXzbfebLWuNX0VjYrqPdNIQjrnLaGPOGJ5LP8YQBkEW2LVdj2sbtG60Dv9ad/fFGUZMNALGF
-	zZh2KngClLT4OY1QXXN8wq9iDiiewI83bmiNymDK0w74UJgfaEbCknEplWCLSx80kylvKDEBnJg
-	0hQvpfXu9M88oB1XQGU5VhBcames6xxUlUZfJnatEo5pCjDjOKWtzdH+k8VuLLIZc6T/s6mW4eD
-	gfoWbup+Vg2eeFzcv4U=
-X-Received: by 2002:a05:6402:24c8:b0:697:ecb4:b86c with SMTP id 4fb4d7f45d1cf-6a034a0b240mr2761963a12.2.1785332624180;
-        Wed, 29 Jul 2026 06:43:44 -0700 (PDT)
-Received: from ?IPV6:2620:10d:c096:325:77fd:1068:74c8:af87? ([2620:10d:c092:600::1:640])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a050c49fb5sm868560a12.14.2026.07.29.06.43.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jul 2026 06:43:43 -0700 (PDT)
-Message-ID: <0df2f832-e8a8-4fdd-a5b6-e08657c2891f@gmail.com>
-Date: Wed, 29 Jul 2026 14:43:34 +0100
+	Wed, 29 Jul 2026 13:31:27 +0000
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20260729133113epoutp04b5debdf4466253b43b409d3729b7b7c3~GxeE8JkzI2969929699epoutp04I
+	for <linux-nvme@lists.infradead.org>; Wed, 29 Jul 2026 13:31:13 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20260729133113epoutp04b5debdf4466253b43b409d3729b7b7c3~GxeE8JkzI2969929699epoutp04I
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1785331873;
+	bh=ZDJk27gz63Bjx+XAUOCj+oZxhX4eQ8qfTG8bNQ0cMfY=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=a/vx3sBpS/twRkYi1yYleTFghokVhPFGbyJBTuoA0tnB3E+P8eDvzp6JfzVf3SEz3
+	 X42C0s/dWsZL55ZqOZKs8UOHQgWrNJJT7qY9tQd+sBH5Uh+TAM8gFdOCvbZR5Gdzow
+	 w4HlYs4R0lC4adNXeJEodErFhPZUbOhGLjE6zSqQ=
+Received: from epsnrtp04.localdomain (unknown [182.195.42.156]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPS id
+	20260729133112epcas5p3bd1d18bb66b0f8808d9cacfabc76c032~GxeENHPUg2902429024epcas5p3H;
+	Wed, 29 Jul 2026 13:31:12 +0000 (GMT)
+Received: from epcas5p1.samsung.com (unknown [182.195.38.94]) by
+	epsnrtp04.localdomain (Postfix) with ESMTP id 4h9CsC4dk9z6B9m5; Wed, 29 Jul
+	2026 13:31:11 +0000 (GMT)
+Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20260729133110epcas5p4c215a866cd371ec48e2608765dc26ad9~GxeCj-bm90481504815epcas5p4d;
+	Wed, 29 Jul 2026 13:31:10 +0000 (GMT)
+Received: from [107.122.10.194] (unknown [107.122.10.194]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20260729133105epsmtip2d312a27a0649b2d7cf4807b11b2517f0~Gxd95g22x2496024960epsmtip2k;
+	Wed, 29 Jul 2026 13:31:05 +0000 (GMT)
+Message-ID: <73317bf9-f7df-43f9-abc2-daa25a675485@samsung.com>
+Date: Wed, 29 Jul 2026 19:01:04 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 14/14] io_uring/rsrc: add dmabuf backed registered
- buffers
-To: Anuj Gupta/Anuj Gupta <anuj20.g@samsung.com>, Jens Axboe
- <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- io-uring@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
- Jason Gunthorpe <jgg@nvidia.com>, Damien Le Moal <dlemoal@kernel.org>,
- Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
- Mikulas Patocka <mpatocka@redhat.com>,
- Benjamin Marzinski <bmarzins@redhat.com>, David Sterba <dsterba@suse.com>,
- Ilya Dryomov <idryomov@gmail.com>, dm-devel@lists.linux.dev,
- nvdimm@lists.linux.dev, linux-btrfs@vger.kernel.org,
- ceph-devel@vger.kernel.org
-References: <cover.1785274111.git.asml.silence@gmail.com>
- <CGME20260728213020epcas5p1721e72ba5544abf0b61482da005120d9@epcas5p1.samsung.com>
- <26dcd0ae5c87a3ada5710b14b6894ef343cec6fe.1785274111.git.asml.silence@gmail.com>
- <583fdfb2-5368-467f-a388-6d388859c995@samsung.com>
+Subject: Re: [PATCH v4 11/14] io_uring/rsrc: extend buffer update
+To: Pavel Begunkov <asml.silence@gmail.com>, Jens Axboe <axboe@kernel.dk>,
+	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi
+	Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner
+	<brauner@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Sumit
+	Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?=
+	<christian.koenig@amd.com>, Nitesh Shetty <nj.shetty@samsung.com>, Kanchan
+	Joshi <joshi.k@samsung.com>, Jason Gunthorpe <jgg@nvidia.com>, Damien Le
+	Moal <dlemoal@kernel.org>, Alasdair Kergon <agk@redhat.com>, Mike Snitzer
+	<snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>, Benjamin
+	Marzinski <bmarzins@redhat.com>, David Sterba <dsterba@suse.com>, Ilya
+	Dryomov <idryomov@gmail.com>, dm-devel@lists.linux.dev,
+	nvdimm@lists.linux.dev, linux-btrfs@vger.kernel.org,
+	ceph-devel@vger.kernel.org
 Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <583fdfb2-5368-467f-a388-6d388859c995@samsung.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Anuj Gupta/Anuj Gupta <anuj20.g@samsung.com>
+In-Reply-To: <633d33d8e278999f55126794fce948343403494a.1785274111.git.asml.silence@gmail.com>
 Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20260729133110epcas5p4c215a866cd371ec48e2608765dc26ad9
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20260728213008epcas5p418dfc10b7ef786e162ade86d14430475
+References: <cover.1785274111.git.asml.silence@gmail.com>
+	<CGME20260728213008epcas5p418dfc10b7ef786e162ade86d14430475@epcas5p4.samsung.com>
+	<633d33d8e278999f55126794fce948343403494a.1785274111.git.asml.silence@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260729_064346_205541_9DF4360E 
-X-CRM114-Status: GOOD (  17.12  )
+X-CRM114-CacheID: sfid-20260729_063125_490895_FD10F8D9 
+X-CRM114-Status: GOOD (  13.39  )
 X-Mailman-Approved-At: Wed, 29 Jul 2026 08:01:06 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -126,123 +108,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/29/26 14:30, Anuj Gupta/Anuj Gupta wrote:
-> On 7/29/2026 2:59 AM, Pavel Begunkov wrote:
->> +static struct io_rsrc_node *io_register_dmabuf(struct io_ring_ctx *ctx,
->> +						struct io_uring_regbuf_desc *desc)
->> +{
->> +	struct io_rsrc_node *node = NULL;
->> +	struct io_mapped_ubuf *imu = NULL;
->> +	struct io_regbuf_dma *regbuf = NULL;
->> +	struct file *target_file = NULL;
->> +	struct dma_buf *dmabuf = NULL;
->> +	int ret;
->> +
->> +	if (!IS_ENABLED(CONFIG_DMA_SHARED_BUFFER))
->> +		return ERR_PTR(-EOPNOTSUPP);
->> +	if (ctx->flags & IORING_SETUP_IOPOLL)
->> +		return ERR_PTR(-EOPNOTSUPP);
->> +	if (desc->uaddr || desc->size)
->> +		return ERR_PTR(-EINVAL);
->> +
->> +	ret = -ENOMEM;
->> +	node = io_rsrc_node_alloc(ctx, IORING_RSRC_BUFFER);
->> +	if (!node)
->> +		return ERR_PTR(-ENOMEM);
->> +	imu = io_alloc_imu(ctx, 0);
->> +	if (!imu)
->> +		goto err;
->> +	regbuf = kzalloc(sizeof(*regbuf), GFP_KERNEL);
->> +	if (!regbuf)
->> +		goto err;
->> +
->> +	ret = -EBADF;
->> +	target_file = fget(desc->target_fd);
->> +	if (!target_file)
->> +		goto err;
->> +
->> +	dmabuf = dma_buf_get(desc->dmabuf_fd);
->> +	if (IS_ERR(dmabuf)) {
->> +		ret = PTR_ERR(dmabuf);
->> +		dmabuf = NULL;
->> +		goto err;
->> +	}
->> +	if (dmabuf->size > SZ_1G) {
->> +		ret = -EINVAL;
->> +		goto err;
->> +	}
->> +
->> +	ret = dma_buf_io_ctx_create(target_file, &regbuf->ctx, dmabuf,
->> +				    DMA_BIDIRECTIONAL);
->> +	if (ret)
->> +		goto err;
->> +
->> +	regbuf->target_file = target_file;
->> +	imu->nr_bvecs = 1;
-> 
-> There is no bvec backing a dmabuf imu - should this be 0?
+On 7/29/2026 2:59 AM, Pavel Begunkov wrote:
+> @@ -882,8 +894,13 @@ static struct io_rsrc_node *io_sqe_buffer_register(struct io_ring_ctx *ctx,
+>   	struct io_imu_folio_data data;
+>   	bool coalesced = false;
+>   
+> -	if (!uaddr) {
+> -		if (size)
+> +	if (desc->type >= __IO_REGBUF_TYPE_MAX)
+> +		return ERR_PTR(-EINVAL);
+> +	if (!mem_is_zero(&desc->__resv, sizeof(desc->__resv)))
+> +		return ERR_PTR(-EINVAL);
 
-Doesn't really matter as it's not used. It's 1 to say that
-it's just 1 contig segment, but I can just zero it to avoid
-confusion.
+desc->flags  isn't validated here, unlike __resv. nonzero flags should 
+be rejected too?
 
-> 
->> +	imu->ubuf = 0;
->> +	imu->len = dmabuf->size;
->> +	imu->folio_shift = 0;
->> +	imu->release = io_release_reg_dmabuf;
->> +	imu->priv = regbuf;
->> +	imu->flags = IO_REGBUF_F_DMABUF;
->> +	imu->dir = IO_IMU_DEST | IO_IMU_SOURCE;
->> +	refcount_set(&imu->refs, 1);
->> +	node->buf = imu;
->> +	dma_buf_put(dmabuf);
->> +	return node;
->> +err:
->> +	kfree(regbuf);
->> +	if (imu)
->> +		io_free_imu(ctx, imu);
->> +	if (node)
->> +		io_cache_free(&ctx->node_cache, node);
->> +	if (target_file)
->> +		fput(target_file);
->> +	if (dmabuf)
->> +		dma_buf_put(dmabuf);
->> +	return ERR_PTR(ret);
->> +}
->> +
->> +
-> 
-> nit: extra newline here
-> 
->> +static int io_import_dmabuf(struct io_kiocb *req,
->> +			   int ddir, struct iov_iter *iter,
->> +			   struct io_mapped_ubuf *imu,
->> +			   size_t len, size_t offset,
->> +			   unsigned issue_flags)
->> +{
->> +	struct io_regbuf_dma *db = imu->priv;
->> +	struct dma_buf_io_map *map;
->> +
->> +	if (!IS_ENABLED(CONFIG_DMA_SHARED_BUFFER))
->> +		return -EOPNOTSUPP;
->> +	if (!len)
->> +		return -EFAULT;
->> +	if (req->file != db->target_file)
->> +		return -EBADF;
->> +
->> +	if (req->flags & REQ_F_DROP_DMABUF) {
->> +		map = req->dmabuf_map;
->> +		goto init_iter;
->> +	}
-> 
-> O_DIRECT is checked only during registration; we should recheck
-> (file->f_flags & O_DIRECT) per request.
-
-Nobody should be able to clear O_DIRECT, unless I missed something?
-And fwiw, io_uring wouldn't be the right place to do it.
-
--- 
-Pavel Begunkov
+> +
+> +	if (desc->type == IO_REGBUF_TYPE_EMPTY) {
+> +		if (uaddr || size)
+>   			return ERR_PTR(-EFAULT);
+>   		/* remove the buffer without installing a new one */
+>   		return NULL;
 
 
