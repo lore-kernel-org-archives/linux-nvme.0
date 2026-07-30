@@ -4,100 +4,100 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3EDB3C55164
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Jul 2026 08:22:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 826DCC54FDF
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Jul 2026 08:23:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bWQKeRGeil0eIK4vsl7hplOOgLHHOIBjHB/cHZMCqEU=; b=AXTSHLr3X5Dbma0kJcazVYn9OV
-	0nna3+mBC8tm/G3iJbtJcixLJ+4SFO8TZabeOKIfSrGO9Xx0YSmw3qC8AUG2TTWJ2rQJXvx9iXwzh
-	tyy6IW5Y9Ne/xQ0WBEhKwJwzEaROxC1VP3yque3eJ+zUhwnP7zcDyV7ONSrEeCbNnD7XTZSlAeKNX
-	afrnIaT8AO65kmdDpbmWBiEE40X0iyn4kH+edJPhd/eFT/8ZO0LzTJZNHWDbMBjYqGvd8aGC4//BW
-	qHuQkYSJMVGkV88WCgQY3xpFxhiab68KLFNF4W6yqgNBcEuhngjwVHra7gXbEno7opFdzzDcF7UZF
-	bvY7zhDA==;
+	bh=pucUGyh9jOKWcu+HZoLp3+D8vSOy62TnHkwIG7nIUa4=; b=KkULD5ncuKy5tZ/cyqgV6viPWm
+	qIJbRdAzVWFWEgnNIu+9Xr6XdiaGl1YrLVxm6pxmijNMgOyob9Kvw7hGw44Do+WqIedvFM/rpi/pf
+	7s1B2JVgf+1DZtqK56B1NaHGqfIuA/M7D8nhBJfQXALy+0poYnt9cksAJM9SXGWM5SQYtaD7qTp7u
+	VhWWtOd6LAkZ17RlgWu82SQ4wjIASqp+UvNlYdBroxwnEvMWJbizuEEDa4tXgBMGAMscx5OW3T5p1
+	i2qUz7lqoKtyTBHFpmc4n5RbXavqEO8TqC9yjSFKYItZ8E9ZqAf8EvdUXhn9MO01H4uIzo6wMQm3F
+	PdTZ0L/A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wpM22-00000009qIF-01Dv;
-	Thu, 30 Jul 2026 08:22:22 +0000
+	id 1wpM2w-00000009qTv-0lCi;
+	Thu, 30 Jul 2026 08:23:18 +0000
 Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wpM1z-00000009qHk-2owD
+	id 1wpM2t-00000009qSY-1qNp
 	for linux-nvme@lists.infradead.org;
-	Thu, 30 Jul 2026 08:22:21 +0000
+	Thu, 30 Jul 2026 08:23:16 +0000
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 04EC53EC5;
-	Thu, 30 Jul 2026 08:22:08 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 968BA3EE7;
+	Thu, 30 Jul 2026 08:23:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785399732; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1785399789; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bWQKeRGeil0eIK4vsl7hplOOgLHHOIBjHB/cHZMCqEU=;
-	b=NjyzorVlFA1a/s785Re7zL0kEZ9+8Guz0Gwp5hJ9M5n6ZQCXGDrRJLljPS7qEEL1Ty8aGf
-	oe9KR/aMZeZic6hTV39cYCRWo+UqcX//rG30oESP0/AHoqMcN7n2QCcj5sQKmMfQHyEg4d
-	Rn/cH4f++KbFjmw+p3K1kkqPPgb1ZJ4=
+	bh=pucUGyh9jOKWcu+HZoLp3+D8vSOy62TnHkwIG7nIUa4=;
+	b=0XZcobkQ9xjfY8kcRTo2k2o7ag3PCpPCIJdE+makxWhFhe3MPhQ+U/J0SuqBNzBImbTNMP
+	p7EFN3N1kx+I5aSvbKXVG7n0jNUq3udDXz5CGtjbnDqQgUJclMuC6rm56pex0QvzVIcdA/
+	W4XKvfMnMzFp103ITWJh15cYR+W8IK8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785399732;
+	s=susede2_ed25519; t=1785399789;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bWQKeRGeil0eIK4vsl7hplOOgLHHOIBjHB/cHZMCqEU=;
-	b=l4OV7stW5+eHw7TBawNB1MtXVHBzGv84sIJ9aMN/wpipnHcp0f3wTc/o/IDW4BeOYttpnD
-	KZutSwfFpplSFfDA==
+	bh=pucUGyh9jOKWcu+HZoLp3+D8vSOy62TnHkwIG7nIUa4=;
+	b=ytdFN5PmLc1zFzTVda7HpOR6b6GF8oJfkp6SKj3FSeMtxJHHy2j7SvcQ7nXAtYKklU9huq
+	7piL4nAGaSN3c5Dw==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=F1dmBbYl;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ELSGvNSG
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=EfmE+qmI;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Wp7yJuTb
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785399728; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1785399785; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bWQKeRGeil0eIK4vsl7hplOOgLHHOIBjHB/cHZMCqEU=;
-	b=F1dmBbYlzeoMxH5A8VgG2tvnqE3Tb0VeIS1BRp09b11gy8MjN/nfPf4Y6dLZyGLlufqv23
-	ModeZHQXOVqB1DyHHRBfcg+4gtWqwiozQiCyb0JEnTLKmkqosFNI0Q+GL3peGsBIel7GE0
-	wT4mmFhyWmko2jOcIBZveDu4jkRi/YU=
+	bh=pucUGyh9jOKWcu+HZoLp3+D8vSOy62TnHkwIG7nIUa4=;
+	b=EfmE+qmIm0cDVIekW8vq+fV7Knam2Es1FBqt4xL0jupWWB0o5ulNsd253QtQV44FI2vkoL
+	8Qe+Wq7wCnLIfdAxRDuBPZBNovofrwzuccqjJjPFuuxwaxZFI+DaIwF3Wp3leV4WgbHoaw
+	LqY3/gwM5WJtaud60AXiwIui6RyOSIA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785399728;
+	s=susede2_ed25519; t=1785399785;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bWQKeRGeil0eIK4vsl7hplOOgLHHOIBjHB/cHZMCqEU=;
-	b=ELSGvNSGzFPYS1tHEnEpmuw5o6QP69lI3yZrAOZiWt3K3XL8az962/JMQhA9UvhSL2nWce
-	ItM/2/caZZptdcAQ==
+	bh=pucUGyh9jOKWcu+HZoLp3+D8vSOy62TnHkwIG7nIUa4=;
+	b=Wp7yJuTbsbyxG4E2JjQZHGFvZlTckPnM1fLnrp/uWGgu/2dLJNaBvE/gYjuCOpXv0GYft1
+	cawsk9Zs/j6jumDQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DFE3B779CC;
-	Thu, 30 Jul 2026 08:22:07 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7D75D779CC;
+	Thu, 30 Jul 2026 08:23:05 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id h1I1Nq8Ja2oZMwAAD6G6ig
-	(envelope-from <hare@suse.de>); Thu, 30 Jul 2026 08:22:07 +0000
-Message-ID: <af96d90f-ef17-4ce1-93f6-ca0773890a42@suse.de>
-Date: Thu, 30 Jul 2026 10:22:07 +0200
+	id /yY5HukJa2r0MwAAD6G6ig
+	(envelope-from <hare@suse.de>); Thu, 30 Jul 2026 08:23:05 +0000
+Message-ID: <8c1d31b1-1f3e-4946-89e7-9db3009ecf22@suse.de>
+Date: Thu, 30 Jul 2026 10:23:05 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] nvmet: fix NULL pointer dereference in
- nvmet_execute_identify_nslist()
+Subject: Re: [PATCH 2/4] nvmet: propagate percpu_ref_init() failure in
+ nvmet_ns_enable()
 To: Guixin Liu <kanie@linux.alibaba.com>, Keith Busch <kbusch@kernel.org>,
  Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
  Sagi Grimberg <sagi@grimberg.me>, Nilay Shroff <nilay@linux.ibm.com>,
  Chaitanya Kulkarni <kch@nvidia.com>
 Cc: linux-nvme@lists.infradead.org
 References: <20260730043105.3071328-1-kanie@linux.alibaba.com>
- <20260730043105.3071328-2-kanie@linux.alibaba.com>
+ <20260730043105.3071328-3-kanie@linux.alibaba.com>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20260730043105.3071328-2-kanie@linux.alibaba.com>
+In-Reply-To: <20260730043105.3071328-3-kanie@linux.alibaba.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-4.51 / 50.00];
@@ -120,15 +120,15 @@ X-Spamd-Result: default: False [-4.51 / 50.00];
 	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,alibaba.com:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,suse.de:dkim,alibaba.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
 	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
 	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Queue-Id: 04EC53EC5
+X-Rspamd-Queue-Id: 968BA3EE7
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Rspamd-Action: no action
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260730_012220_024310_14E9DB64 
-X-CRM114-Status: GOOD (  19.67  )
+X-CRM114-CacheID: sfid-20260730_012315_630560_613C6A65 
+X-CRM114-Status: GOOD (  18.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -144,37 +144,35 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 7/30/26 6:31 AM, Guixin Liu wrote:
-> When a host issues an Identify command with CNS 07h (Active Namespace ID
-> List for a specific I/O Command Set), nvmet_execute_identify_nslist() is
-> called with match_css set. The command-set filter dereferences req->ns,
-> but this handler never calls nvmet_req_find_ns(), so req->ns is always
-> NULL (nvmet_req_init() resets it to NULL). As soon as an enabled
-> namespace with an NSID greater than the requested value exists,
-> req->ns->csi dereferences a NULL pointer and oopses.
+> The return value of percpu_ref_init() is discarded. At this point ret is
+> 0 from the preceding successful steps, so when the allocation inside
+> percpu_ref_init() fails the code jumps to the out_pr_exit cleanup chain
+> which ends with "return ret", i.e. reports success. The configfs enable
+> store then tells userspace the namespace was enabled even though it was
+> not and its backing device has already been torn down.
 > 
-> Besides the crash, the comparison is logically wrong: to filter the list
-> by command set it must test the command set of the namespace being
-> iterated, not a single fixed value. Use the loop variable ns->csi.
+> Capture the return value so the failure is propagated.
 > 
-> Fixes: 61c9967cd634 ("nvmet: implement active command set ns list")
+> Fixes: 408232680707 ("nvmet: Fix crash when a namespace is disabled")
 > Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
 > ---
->   drivers/nvme/target/admin-cmd.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/nvme/target/core.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-> index 01b799e92ae6..ab6a0a98dd5d 100644
-> --- a/drivers/nvme/target/admin-cmd.c
-> +++ b/drivers/nvme/target/admin-cmd.c
-> @@ -958,7 +958,7 @@ static void nvmet_execute_identify_nslist(struct nvmet_req *req, bool match_css)
->   	nvmet_for_each_enabled_ns(&ctrl->subsys->namespaces, idx, ns) {
->   		if (ns->nsid <= min_nsid)
->   			continue;
-> -		if (match_css && req->ns->csi != req->cmd->identify.csi)
-> +		if (match_css && ns->csi != req->cmd->identify.csi)
->   			continue;
->   		list[i++] = cpu_to_le32(ns->nsid);
->   		if (i == buf_size / sizeof(__le32))
+> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+> index 4477c4d6b1ee..c8e01dda4121 100644
+> --- a/drivers/nvme/target/core.c
+> +++ b/drivers/nvme/target/core.c
+> @@ -610,7 +610,8 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
+>   			goto out_dev_put;
+>   	}
+>   
+> -	if (percpu_ref_init(&ns->ref, nvmet_destroy_namespace, 0, GFP_KERNEL))
+> +	ret = percpu_ref_init(&ns->ref, nvmet_destroy_namespace, 0, GFP_KERNEL);
+> +	if (ret)
+>   		goto out_pr_exit;
+>   
+>   	nvmet_ns_changed(subsys, ns->nsid);
 
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 
