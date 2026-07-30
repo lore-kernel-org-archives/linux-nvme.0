@@ -4,132 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 10BE6C531D0
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Jul 2026 08:24:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2205AC55162
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Jul 2026 09:41:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9qq5fXeZ+9J7HvjHKAqEIreLCL3+ZVp2s+W9q95D6kU=; b=v90Dy1eTsXOtukTl4LkyUh3EjS
-	LEBTDXuDpV6HX75IEzmqFN9AwJ1NZjiPAbn/ZVsiS7zJN1/KT7/AflZ5aIpLOnXOofqfgL8yDvRLn
-	cr+4fsIAyqLQGPs/auBO0kPc/b8qk3PMEy2NJRVtfsTRlL10mgwJAbSwgtf0V4gA3U7T7cqWBPUvx
-	5wbhWUSm/1Zq+yhC9cK20HzqZpbboQ8nv1RilX7AyEFAREgWGWYYu4B60qpozYb5KwtCckTO/Yxvx
-	g4R6W5xw5VmNOvm4QXPLvPS1E/CrCyEaRjiqcfFK8on9wcd7znDArQfF60XF/jSOBgpyNQpvaE+sp
-	bhDSsf6w==;
+	bh=zJOE8fDTbP+2NUDk5mtlRQDxjdn6gYpUkpkplVDl+3Y=; b=0thfJAB5YdNOYCpO5DrrNlyZpF
+	2+UZQhMqcQYI9yP9+wDQk7yX3sTn10PGcVKYKF2oBaXJDXs4JDGHq4PCLuDlEIQs+E46OIHDS9zm5
+	+xIK/uN7FmVgWo7Lodaq5MaGqtxVCGGXmb3NCTZVKmG3ImKAVbzxASiYk8wVDKbXGarkhDjrWjQpJ
+	Gpjn6BRhVVS3FOQPGyJJIYiQGGiVHiEbWewnEc0Zh41FzL7Rt1oU1WoAGr64givhZw9IEqf8flqeC
+	HzJobMALvmFnExYgZErLznUeXFuoq1WHEt3S0UeQn65AjtupX4qwm7KpTuhs/jP1KhQH6xIQpZxSr
+	HwFncDig==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wpM4V-00000009qxP-3EWy;
-	Thu, 30 Jul 2026 08:24:55 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1wpNGN-0000000A2Xf-0lza;
+	Thu, 30 Jul 2026 09:41:15 +0000
+Received: from mailout3.samsung.com ([203.254.224.33])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wpM4T-00000009qwY-0AU1
+	id 1wpNGI-0000000A2V5-49vq
 	for linux-nvme@lists.infradead.org;
-	Thu, 30 Jul 2026 08:24:54 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 08B3D3ED7;
-	Thu, 30 Jul 2026 08:24:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785399887; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9qq5fXeZ+9J7HvjHKAqEIreLCL3+ZVp2s+W9q95D6kU=;
-	b=V3w75G7SEc0SaW3NvKGw+cvtGA7ntIVsU1ou6OyJtAXirDKeAwYVKb71P3oIyzgX8hOMxH
-	iKuidEgiTuMmnqhZzdJ9HAlW8UlfrOCyUC1y3xCxsUluXLtrzBAYn3VIQCwrP6ThnYgXFq
-	3SOjZdnR8F8xbL5U1DTOMOGO74N4orA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785399887;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9qq5fXeZ+9J7HvjHKAqEIreLCL3+ZVp2s+W9q95D6kU=;
-	b=J6JmBgZGZyj7a3xNnqK2mrREpstkRZCgaZsOGAvmPidw2Y5puocP4QeWST3yggKnQq/6fq
-	DvyCv8vHu74z1OBA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=nDKmPYHx;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=8vlL5lwv
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785399883; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9qq5fXeZ+9J7HvjHKAqEIreLCL3+ZVp2s+W9q95D6kU=;
-	b=nDKmPYHxie2YlM0o3LDMNPXEJzFAe6KGA/1mX4wFLV//c02ZL3V7Yi8oGFclUh1y38kqlR
-	U/I5pCFONK8EUW0xsOsk7R4O8eMQSinG//aEjQahHEvMUO0Oudnbht8mAN2o9mOKm7DI8D
-	ux3PHuPyOTsEHuqwJ5fQOPiXg4LLXVA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785399883;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9qq5fXeZ+9J7HvjHKAqEIreLCL3+ZVp2s+W9q95D6kU=;
-	b=8vlL5lwvDxWdIHefkHm6rHYrAvbmh7SSIA5LLJMKNi/cTIHGL9seiyQfgN8J+2wuP6O2p2
-	+9YfOI28oESg5UAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E6749779CD;
-	Thu, 30 Jul 2026 08:24:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id bLuvN0oKa2oHNgAAD6G6ig
-	(envelope-from <hare@suse.de>); Thu, 30 Jul 2026 08:24:42 +0000
-Message-ID: <d3e9364e-b4af-4fb0-94bc-a8339e9de146@suse.de>
-Date: Thu, 30 Jul 2026 10:24:42 +0200
+	Thu, 30 Jul 2026 09:41:14 +0000
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20260730094104epoutp03cd0bc4806d2c269d095648340519a2b5~HB_aYV0xZ2272722727epoutp03X
+	for <linux-nvme@lists.infradead.org>; Thu, 30 Jul 2026 09:41:04 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20260730094104epoutp03cd0bc4806d2c269d095648340519a2b5~HB_aYV0xZ2272722727epoutp03X
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1785404464;
+	bh=zJOE8fDTbP+2NUDk5mtlRQDxjdn6gYpUkpkplVDl+3Y=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=QGxWzKfNh+qBDb9EIKitqXBSYBv/bKdAGgAVTC6jTl/8cFk60CHc2uw95AfTdDkdT
+	 YCtV7tlCIxkCvjqfU+PtjBqiqTrNco7HNIu5JgfSM3CHae4t2XuxqKtOoBc/5g+CBR
+	 mkpDKl+9wncG9W1p0ZhojeRkXAxLOnOYbpNSdw8E=
+Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPS id
+	20260730094103epcas5p29e1eb1e8426101f502af58c066d5fee5~HB_aCQPMN1388613886epcas5p2d;
+	Thu, 30 Jul 2026 09:41:03 +0000 (GMT)
+Received: from epcas5p2.samsung.com (unknown [182.195.38.87]) by
+	epsnrtp01.localdomain (Postfix) with ESMTP id 4h9kjC12ngz6B9m4; Thu, 30 Jul
+	2026 09:41:03 +0000 (GMT)
+Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20260730094102epcas5p3626314f8dc7d200ae631017ae98c0920~HB_Y9qT8g2434024340epcas5p3n;
+	Thu, 30 Jul 2026 09:41:02 +0000 (GMT)
+Received: from [107.122.11.51] (unknown [107.122.11.51]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20260730094101epsmtip1514629a32f333b26ec19f812adc034ba~HB_XtcL6Z0654606546epsmtip1b;
+	Thu, 30 Jul 2026 09:41:01 +0000 (GMT)
+Message-ID: <749b4476-6d8c-4573-b51b-662b0ff57db3@samsung.com>
+Date: Thu, 30 Jul 2026 15:10:59 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] nvme: clamp FDP placement handle count to the buffer
- size
+Subject: Re: [PATCH 4/4] nvme: clamp FDP placement handle count to the
+ buffer size
 To: Guixin Liu <kanie@linux.alibaba.com>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Nilay Shroff <nilay@linux.ibm.com>,
- Chaitanya Kulkarni <kch@nvidia.com>
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
+	<sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>, Nilay Shroff
+	<nilay@linux.ibm.com>, Chaitanya Kulkarni <kch@nvidia.com>
 Cc: linux-nvme@lists.infradead.org
-References: <20260730043105.3071328-1-kanie@linux.alibaba.com>
- <20260730043105.3071328-5-kanie@linux.alibaba.com>
 Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
+From: Kanchan Joshi <joshi.k@samsung.com>
 In-Reply-To: <20260730043105.3071328-5-kanie@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 08B3D3ED7
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,alibaba.com:email];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20260730094102epcas5p3626314f8dc7d200ae631017ae98c0920
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20260730051151epcas5p1c47d82291b2bd4437fcf14e7816c4c8e
+References: <20260730043105.3071328-1-kanie@linux.alibaba.com>
+	<CGME20260730051151epcas5p1c47d82291b2bd4437fcf14e7816c4c8e@epcas5p1.samsung.com>
+	<20260730043105.3071328-5-kanie@linux.alibaba.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260730_012453_235801_C80C31D2 
-X-CRM114-Status: GOOD (  17.57  )
+X-CRM114-CacheID: sfid-20260730_024111_673999_75E95612 
+X-CRM114-Status: GOOD (  20.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -144,7 +95,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/30/26 6:31 AM, Guixin Liu wrote:
+On 7/30/2026 10:01 AM, Guixin Liu wrote:
 > nvme_query_fdp_info() allocates the RUH status buffer for at most
 > S8_MAX - 1 descriptors and caps the io-mgmt-receive transfer to that
 > size. head->nr_plids, however, is taken verbatim from the device-supplied
@@ -155,7 +106,7 @@ On 7/30/26 6:31 AM, Guixin Liu wrote:
 > Clamp nr_plids to the number of descriptors the buffer can actually hold.
 > 
 > Fixes: 30b5f20bb2dd ("nvme: register fdp parameters with the block layer")
-> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+> Signed-off-by: Guixin Liu<kanie@linux.alibaba.com>
 > ---
 >   drivers/nvme/host/core.c | 1 +
 >   1 file changed, 1 insertion(+)
@@ -169,18 +120,17 @@ On 7/30/26 6:31 AM, Guixin Liu wrote:
 >   
 >   	head->nr_plids = le16_to_cpu(ruhs->nruhsd);
 > +	head->nr_plids = min_t(u16, head->nr_plids, S8_MAX - 1);
->   	if (!head->nr_plids)
->   		goto free;
->   
 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+Given what we have at this point, the fix is fine.
 
-Cheers,
+Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+But I feel the need to improve (what we have) with a follow-up patch:
+1. Revise the cap, from S8_MAX - 1 to U8_MAX; since bio->bi_write_hint 
+is u8.
+2. And a dev_warn() to know if head->nr_plids go above the 
+kernel-defined cap. It's possible/fine for device to have more placement 
+ids, and if that happens, this can tell.
+
+Keith, Christoph - thoughts?
 
