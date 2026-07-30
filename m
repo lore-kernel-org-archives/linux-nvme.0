@@ -4,38 +4,38 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BB06AC531D0
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Jul 2026 04:31:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8EED0C54FD2
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Jul 2026 04:31:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uQWVHCKQec6ohoATCm3OB3r8yeaBn/4/MvS8nv9iLiY=; b=0lxE3zU7aEbPXuJl4pcYIcFwXL
-	8d6eDeu5y9fbENZbtTkl5+8BDJRb72x/G+Y1KOyPaFa5L1b2pJ9KtSclba/Jl0a4XsHhC5O6asGkF
-	nJ1UmoZz3GYCSUm+EciXbGSW4NLV4hk2NnVU1k3G1OuIRIp91IAhe7FBctqmg55F2UPJ4Y619bNlj
-	KnK1W8QD9KiXNtdt3ENexjKWidw8LwuPBDOLMe0gTPYF+rDTpEqp2QviuAGKmLFSVwQf6Cn5xVSlP
-	BYvQsLOug6RxPWXojcfzIz6+6aGKHGUdBs+dhMYvD0yyU0S7GJ7U/uecnmhMSWE7VXFibjsjzsV0H
-	ACWwbrfQ==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=tWZbSUCOnYdPxY374isKzLqFNgLoB0MwVU423wB/jAA=; b=RWjFXw/Vxz2KQJEsT161YmxU9E
+	n1M0NBCmEI4sr6PTx83GV9qgncCLeBAzzO8o1DYtAhAYr9oWgKcSyojRNKHtbpxOtPY5SHZhhOeRC
+	cUvriOA+/U3MMHhubb4COpa4Vy0YpWbIp0WP4XKNdg84On35EMkXy6O0J8/agKICpiUTc8Hv1qaD6
+	R0WxXdK2H1Kv5kOE9+AilpAed3dHRIK4gX6jTvk6gmnoa1QvrWrTQs+AONwIFHPmtv2X+nXcH4gIm
+	ry1JNXbPbNteDct+g2U0TT8n8g7QBC8Mt1grBqXAz4xCGHej0rQZTPxcsnHkCzC6oda5Qm0997tex
+	tTeWhHpA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wpIQU-00000009TpE-1q69;
-	Thu, 30 Jul 2026 04:31:22 +0000
-Received: from out30-100.freemail.mail.aliyun.com ([115.124.30.100])
+	id 1wpIQY-00000009Trd-0S2R;
+	Thu, 30 Jul 2026 04:31:26 +0000
+Received: from out30-98.freemail.mail.aliyun.com ([115.124.30.98])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wpIQS-00000009TkA-00Qv
+	id 1wpIQP-00000009Tjj-2eP4
 	for linux-nvme@lists.infradead.org;
-	Thu, 30 Jul 2026 04:31:21 +0000
+	Thu, 30 Jul 2026 04:31:22 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1785385873; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=uQWVHCKQec6ohoATCm3OB3r8yeaBn/4/MvS8nv9iLiY=;
-	b=EOJ/EjDcekZZxfFbGeJPJouoz9cE+Q/kwZtYhq8r+JJ8P15tYfwkQLaMB01WKFtZCttWEaN/kdMn3CX5AL9MwapTcuyD/PMQVSkSYrMAXwu3lmziaw2j7u2S1y1YDpXb1RRssnlKgs9+1ciUbQ8aBat7kWPQJX+XxZQQHKF7SLA=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0X83rcPb_1785385872;
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0X83rcPb_1785385872 cluster:ay36)
+	t=1785385871; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=tWZbSUCOnYdPxY374isKzLqFNgLoB0MwVU423wB/jAA=;
+	b=FS19ViVi5ko7rJyuT7gytd6QP1RjG+eY/nJ22pndnu9pZkVDByQvp2ZC2+EPqa9nYBXk0TEIUbI634sQijqnXBXC2SClM7/68xwKe3xqKi9W3VvMQDKxDbB/fIYBa0GxXyET3JhKCSj4SmxhG/VXgiIDQ2F/rrMXni7GgJJDbZk=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037026112;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0X83p0Gy_1785385870;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0X83p0Gy_1785385870 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Thu, 30 Jul 2026 12:31:12 +0800
+          Thu, 30 Jul 2026 12:31:11 +0800
 From: Guixin Liu <kanie@linux.alibaba.com>
 To: Keith Busch <kbusch@kernel.org>,
 	Jens Axboe <axboe@kernel.dk>,
@@ -45,17 +45,15 @@ To: Keith Busch <kbusch@kernel.org>,
 	Nilay Shroff <nilay@linux.ibm.com>,
 	Chaitanya Kulkarni <kch@nvidia.com>
 Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH 2/4] nvmet: propagate percpu_ref_init() failure in nvmet_ns_enable()
-Date: Thu, 30 Jul 2026 12:31:03 +0800
-Message-ID: <20260730043105.3071328-3-kanie@linux.alibaba.com>
+Subject: [PATCH 0/4] nvme: a few error-path and validation fixes
+Date: Thu, 30 Jul 2026 12:31:01 +0800
+Message-ID: <20260730043105.3071328-1-kanie@linux.alibaba.com>
 X-Mailer: git-send-email 2.43.7
-In-Reply-To: <20260730043105.3071328-1-kanie@linux.alibaba.com>
-References: <20260730043105.3071328-1-kanie@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260729_213120_212191_3ADF04EF 
-X-CRM114-Status: GOOD (  11.09  )
+X-CRM114-CacheID: sfid-20260729_213118_406736_99BCB4C2 
+X-CRM114-Status: GOOD (  10.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,35 +68,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The return value of percpu_ref_init() is discarded. At this point ret is
-0 from the preceding successful steps, so when the allocation inside
-percpu_ref_init() fails the code jumps to the out_pr_exit cleanup chain
-which ends with "return ret", i.e. reports success. The configfs enable
-store then tells userspace the namespace was enabled even though it was
-not and its backing device has already been torn down.
+This series collects four independent fixes found while auditing error
+and command-processing paths in the NVMe host and target drivers. Each
+is standalone; they only share the same subsystem.
 
-Capture the return value so the failure is propagated.
+  1. nvmet: an Identify CNS 07h (active NS list for a command set)
+     dereferences req->ns, which is always NULL on that path -> NULL
+     pointer oops. Also fixes the filter to test the iterated ns->csi.
 
-Fixes: 408232680707 ("nvmet: Fix crash when a namespace is disabled")
-Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
----
- drivers/nvme/target/core.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+  2. nvmet: nvmet_ns_enable() ignores the percpu_ref_init() return value
+     and reports success to userspace when it fails, leaving the ns dead.
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 4477c4d6b1ee..c8e01dda4121 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -610,7 +610,8 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
- 			goto out_dev_put;
- 	}
- 
--	if (percpu_ref_init(&ns->ref, nvmet_destroy_namespace, 0, GFP_KERNEL))
-+	ret = percpu_ref_init(&ns->ref, nvmet_destroy_namespace, 0, GFP_KERNEL);
-+	if (ret)
- 		goto out_pr_exit;
- 
- 	nvmet_ns_changed(subsys, ns->nsid);
+  3. nvme-pci: the per-NUMA-node descriptor DMA pools, created lazily on
+     admin tag set allocation, are only freed in nvme_remove(); a probe
+     failure after that point leaks them.
+
+  4. nvme: nvme_query_fdp_info() trusts the device-supplied nruhsd count
+     and can read past the fixed-size RUH status buffer (heap OOB read).
+
+Found by code audit. #1 and #2 are functional/crash fixes; #3 is a
+resource leak; #4 is device-triggered hardening. Compile-tested.
+
+Guixin Liu (4):
+  nvmet: fix NULL pointer dereference in nvmet_execute_identify_nslist()
+  nvmet: propagate percpu_ref_init() failure in nvmet_ns_enable()
+  nvme-pci: release descriptor pools on probe failure
+  nvme: clamp FDP placement handle count to the buffer size
+
+ drivers/nvme/host/core.c        | 1 +
+ drivers/nvme/host/pci.c         | 1 +
+ drivers/nvme/target/admin-cmd.c | 2 +-
+ drivers/nvme/target/core.c      | 3 ++-
+ 4 files changed, 5 insertions(+), 2 deletions(-)
+
+
+base-commit: 11028ab62899e4191e074ee364c712b77823a9c4
 -- 
 2.43.7
 
