@@ -4,47 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 240CFC55162
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Jul 2026 11:40:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B4EFEC55162
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Jul 2026 11:41:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=CTvqpYjtWg+vT4mCaE7M1KQ1/JYnnec1wYW9BFRSCI0=; b=ywXOQNaeU4rt5VVNginFnykMBL
-	xnpIzZLuQlcL8t434KdHscKthfzBsmJ6gd3dBroxHz5vPCX0ibBPHvi/nYIkDSbdYPxhO0shVPg8e
-	d7BOXpRADbeB7QffKKElnLK9MonJaRJwHrI+8g5+NLRmQoRG/rfEdYl0QeOJHRKi60PTCBfhqG8XO
-	8t4/LPIEZgSgItjcA24I162K7t87KycoqfLQ2hDXzM5J7DT+dLX93sLoZccVviNARgSTKbJQw5Clr
-	LnIHmaYfBt1WYLyWhS0OHlCQSn9Au48R0/BcoYKqgkGzRbuSura9wtCPsUVaNF/kiU3LALpzXGWhE
-	BnBvq2ew==;
+	bh=3UAqat8DsvoV9Jbs9bA/9OmE3RBZSH8XeiQnMzZQIhM=; b=r6XA2DspxqIPw5EMlW0BVonk2N
+	uijW3ywx4o4QH89kwmYT+DtlcDFBeK6+jRf/vzPcGm9HLIxXoYZLt4v0QgkFgATA9XddhHhp2rq+C
+	XexpIQgn8LK35mcUDZ58SEXb0qdtKJEXHJQX6G7ZmHWN+2eijE29XfPUA8IcqUuNfLU94hP5giPS/
+	m+THb5fUb75ahrTeTsP73vWjsN8r2NJ4XmkVa6ueGgWck9qYy5orvhOQduv+qmw7jL4s567Ol47pi
+	snBU1JflQsMyYwyWdUHx+/S8GMdwLNMFacvPIDBI/hJyhE5ql6ICX/BlCVTCpVVrcAWWrB7AhQEJm
+	YIZbdi+Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wpP7Z-0000000ANBA-45cb;
-	Thu, 30 Jul 2026 11:40:18 +0000
+	id 1wpP8j-0000000ANLj-1chD;
+	Thu, 30 Jul 2026 11:41:29 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wpP7X-0000000ANAW-0Spu
+	id 1wpP8g-0000000ANLH-3hxu
 	for linux-nvme@lists.infradead.org;
-	Thu, 30 Jul 2026 11:40:16 +0000
+	Thu, 30 Jul 2026 11:41:28 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 47AF968BFE; Thu, 30 Jul 2026 13:40:10 +0200 (CEST)
-Date: Thu, 30 Jul 2026 13:40:09 +0200
+	id 894DF68C7B; Thu, 30 Jul 2026 13:41:23 +0200 (CEST)
+Date: Thu, 30 Jul 2026 13:41:23 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: John Garry <john.g.garry@oracle.com>
-Cc: hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, axboe@fb.com,
-	linux-nvme@lists.infradead.org, John Garry <john.garry@linux.dev>
-Subject: Re: [PATCH RFC] nvme-multipath: don't retry adding head disk
-Message-ID: <20260730114009.GA25956@lst.de>
-References: <20260729182235.366634-1-john.g.garry@oracle.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+	Hari Mishal <harimishal1@gmail.com>, Jens Axboe <axboe@kernel.dk>,
+	Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
+	Kanchan Joshi <joshi.k@samsung.com>,
+	Nitesh Shetty <nj.shetty@samsung.com>,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] nvme: drop WARN_ON_ONCE on write_stream bounds
+ check
+Message-ID: <20260730114123.GB25956@lst.de>
+References: <20260725135111.14041-1-harimishal1@gmail.com> <20260725135111.14041-3-harimishal1@gmail.com> <amdqKEI44SKwq-K2@kbusch-mbp> <2026072748-unpopular-onlooker-4a2b@gregkh> <amfg_OFiyDadWb3v@kbusch-mbp> <2026072849-uproar-aqua-07c3@gregkh> <20260728051838.GA20593@lst.de> <2026072834-buffoon-entwine-ed16@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260729182235.366634-1-john.g.garry@oracle.com>
+In-Reply-To: <2026072834-buffoon-entwine-ed16@gregkh>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260730_044015_301724_60E5E792 
-X-CRM114-Status: GOOD (  20.86  )
+X-CRM114-CacheID: sfid-20260730_044127_096510_E2D974FF 
+X-CRM114-Status: GOOD (  16.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -59,29 +64,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jul 29, 2026 at 06:22:35PM +0000, John Garry wrote:
-> From: John Garry <john.garry@linux.dev>
+On Tue, Jul 28, 2026 at 08:58:00AM +0200, Greg Kroah-Hartman wrote:
+[... monster quote mostly dropped, please stick mail netiquette]
+> > but a debug setup you get what you pay for, and I'm really tired of
+> > all these totally stupid attempts to make WARN_ON the new BUG_ON.
+> > It is not, and that's for a reason.
 > 
-> If an attempt to add the head disk in nvme_mpath_set_live() ->
-> device_add_disk() fails, then flag NVME_NSHEAD_DISK_LIVE is cleared and
-> we bail out.
-> 
-> However, we may later call nvme_mpath_set_live() -> device_add_disk() again
-> for another NS or from ANA updates for the same NS. This is broken, as we
-> should not retry adding the disk - it breaks the driver model.
-> 
-> Add a flag NVME_NSHEAD_DISK_BROKEN to stop this happening.
-> 
-> Signed-off-by: John Garry <john.g.garry@oracle.com>
-> ---
-> I'm not happy with this solution, as we have a DOA disk and it would be
-> better to remove the NSes in this case. OTOH, this device_add_disk()
-> failure is very unlikely to happen, so we should not add a complex
-> solution to handle it.
+> I'm tired of it too, but again, if this can be hit by something a user
+> does, it ends up being a DoS on the machine :(
 
-Yeah.  Broken is a bit weird of a name for something that would
-either be a logic bug or a really messed up kernel, though.
-
-I guess you arrive there by error injection?
+So let's kill parnic_on_warn?  Or tain the kernel when it is set so
+that anyone enaling it knows they have to keep the pieces when it
+breaks?
 
 
