@@ -4,64 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BC2B7C55160
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Jul 2026 13:20:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EB417C55160
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Jul 2026 13:37:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hOAvUC518EXALy6zl7jVlRaNZkP1D+eSt8w9CZxi8xU=; b=cF2Frr8ORmnc3PkqATIvAzS/v1
-	MW5uSyRvyhfEFgV50sVBGyod8M3jc8ftJB8kUOJoFpnYpeOk3dVHQadKHsJMw48uwkFSAldbITM7D
-	yYlJ0uD/mISZwoVMjCWLfqQdS5fny1gXV7StK/qOXd47c2ZnmgPPwm3e5e0IAMjvb15ra6TLRi7Qq
-	Go9QCx68L7dUHHgh0k9+mua+nQFJzo1FhYTS2d7ZGn+ZpTjjQ9WLLCZIcwPKsqJ87tISCoQZ/UeEa
-	SCKIDGvoq4hJkwppLAkbYM2fP8JgwVI8I2DPBvYaXtr9tdU59rlI/oW2X2FjoQidB7m/I7c9fE3Jl
-	peZkW1zQ==;
+	bh=WHfxDXQIRYn7LAtuINReoYseo7byYMKWWI7ySQ/PUgI=; b=mpheRjjmo1FnqMIILKF6aKjLHS
+	0AHUxI+dfN8jz2ONH6HG1pMXAhBUQ/Pssm99rwFfUrYOLdUWsqLPasKBp7XkzgNEQCpGD+Wxw5hyJ
+	t4Fxoe0vUmGpmO6fE4j40tPO33RK2BtsZfM3n7MQiecWDhOMsfzwQrkNIlYtm0sLNF/EiZ6hTY9Kn
+	XW/zIoSQwXHnF92YYvpoHOiXb+SAGSMoJszB3xXHIZfr1ymAW7l7R9zLuDmTMTnUPW2Ila0MKWiKe
+	zLv+jePy/FnFpIJgbXSQNGeRffLjvyZX6IRBtP46Ueb0Z3d5G5xfSyXGFuWMiDM5GrLOlUuzMjB4C
+	x14vKCyw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wpQgf-0000000AZrE-2x5p;
-	Thu, 30 Jul 2026 13:20:37 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1wpQx7-0000000Ad9D-2TDN;
+	Thu, 30 Jul 2026 13:37:37 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wpQge-0000000AZr2-3fsO
+	id 1wpQx4-0000000Ad8S-0f4C
 	for linux-nvme@lists.infradead.org;
-	Thu, 30 Jul 2026 13:20:37 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 4973860A5A;
-	Thu, 30 Jul 2026 13:20:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74D961F000E9;
-	Thu, 30 Jul 2026 13:20:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1785417636;
-	bh=hOAvUC518EXALy6zl7jVlRaNZkP1D+eSt8w9CZxi8xU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=KqMI/6DguEU6rNvtLKmdLaxFImzjbizwvDDu/hMkpM4ezOPzsGpe5jMk7njbrw+HH
-	 fTVd0kfPeJukJ0eaMRM+mYrljDwP5rBCKUJj0Mqf7kvxBGFXte4PBmLLEu1VTJLhU2
-	 Voo4LVK8lPlFv2Ht+mUN8IdodDvPJTwTIn4HAlLw=
-Date: Thu, 30 Jul 2026 15:18:21 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, Hari Mishal <harimishal1@gmail.com>,
-	Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
-	Hannes Reinecke <hare@suse.de>, Kanchan Joshi <joshi.k@samsung.com>,
+	Thu, 30 Jul 2026 13:37:35 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 2BB0468BFE; Thu, 30 Jul 2026 15:37:27 +0200 (CEST)
+Date: Thu, 30 Jul 2026 15:37:26 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+	Hari Mishal <harimishal1@gmail.com>, Jens Axboe <axboe@kernel.dk>,
+	Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
+	Kanchan Joshi <joshi.k@samsung.com>,
 	Nitesh Shetty <nj.shetty@samsung.com>,
 	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] nvme: drop WARN_ON_ONCE on write_stream bounds check
-Message-ID: <2026073003-primp-granular-c176@gregkh>
-References: <20260725135111.14041-1-harimishal1@gmail.com>
- <20260725135111.14041-3-harimishal1@gmail.com>
- <amdqKEI44SKwq-K2@kbusch-mbp>
- <2026072748-unpopular-onlooker-4a2b@gregkh>
- <amfg_OFiyDadWb3v@kbusch-mbp>
- <2026072849-uproar-aqua-07c3@gregkh>
- <20260728051838.GA20593@lst.de>
- <2026072834-buffoon-entwine-ed16@gregkh>
- <20260730114123.GB25956@lst.de>
+Subject: Re: [PATCH 2/2] nvme: drop WARN_ON_ONCE on write_stream bounds
+ check
+Message-ID: <20260730133726.GA2983@lst.de>
+References: <20260725135111.14041-1-harimishal1@gmail.com> <20260725135111.14041-3-harimishal1@gmail.com> <amdqKEI44SKwq-K2@kbusch-mbp> <2026072748-unpopular-onlooker-4a2b@gregkh> <amfg_OFiyDadWb3v@kbusch-mbp> <2026072849-uproar-aqua-07c3@gregkh> <20260728051838.GA20593@lst.de> <2026072834-buffoon-entwine-ed16@gregkh> <20260730114123.GB25956@lst.de> <2026073003-primp-granular-c176@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260730114123.GB25956@lst.de>
+In-Reply-To: <2026073003-primp-granular-c176@gregkh>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260730_063734_350581_1448A68C 
+X-CRM114-Status: GOOD (  25.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,28 +64,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jul 30, 2026 at 01:41:23PM +0200, Christoph Hellwig wrote:
-> On Tue, Jul 28, 2026 at 08:58:00AM +0200, Greg Kroah-Hartman wrote:
-> [... monster quote mostly dropped, please stick mail netiquette]
-> > > but a debug setup you get what you pay for, and I'm really tired of
-> > > all these totally stupid attempts to make WARN_ON the new BUG_ON.
-> > > It is not, and that's for a reason.
+On Thu, Jul 30, 2026 at 03:18:21PM +0200, Greg Kroah-Hartman wrote:
+> On Thu, Jul 30, 2026 at 01:41:23PM +0200, Christoph Hellwig wrote:
+> > On Tue, Jul 28, 2026 at 08:58:00AM +0200, Greg Kroah-Hartman wrote:
+> > [... monster quote mostly dropped, please stick mail netiquette]
+> > > > but a debug setup you get what you pay for, and I'm really tired of
+> > > > all these totally stupid attempts to make WARN_ON the new BUG_ON.
+> > > > It is not, and that's for a reason.
+> > > 
+> > > I'm tired of it too, but again, if this can be hit by something a user
+> > > does, it ends up being a DoS on the machine :(
 > > 
-> > I'm tired of it too, but again, if this can be hit by something a user
-> > does, it ends up being a DoS on the machine :(
+> > So let's kill parnic_on_warn?  Or tain the kernel when it is set so
+> > that anyone enaling it knows they have to keep the pieces when it
+> > breaks?
 > 
-> So let's kill parnic_on_warn?  Or tain the kernel when it is set so
-> that anyone enaling it knows they have to keep the pieces when it
-> breaks?
+> I know why the cloud-boxes want panic-on-warn enabled, as they are
+> cattle and want any potential problem to just reboot the box and keep on
+> going.  And Samsung likes it for their billions of devices for the same
+> reason (it's "safe" to reboot a phone I guess...)
+> 
+> So as much as I would _love_ to drop it, we seem to have real users.
 
-I know why the cloud-boxes want panic-on-warn enabled, as they are
-cattle and want any potential problem to just reboot the box and keep on
-going.  And Samsung likes it for their billions of devices for the same
-reason (it's "safe" to reboot a phone I guess...)
+Then at least add a taint to make it clear to them that they are
+getting themselves into trouble instead of trying taking the only
+useful debug tool away because of bad choices of a few.
 
-So as much as I would _love_ to drop it, we seem to have real users.
-
-sorry,
-
-greg k-h
 
