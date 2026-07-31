@@ -4,122 +4,119 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 655CBC55167
-	for <linux-nvme@archiver.kernel.org>; Fri, 31 Jul 2026 05:07:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1BC5BC54F54
+	for <linux-nvme@archiver.kernel.org>; Fri, 31 Jul 2026 06:11:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=y9uL8axv/bSBp1hJEk9/5EREqK5uThhZ6LCPv7JfjT8=; b=01XrebHVNWrc+eRSUb06UYcLxO
-	V68XSpz+gNABd3HiYf5t9SjuTfUSmXwc3djj5nKCMcImDaYMDd/OzMaIgBcSNdgOIwjRzuocZs5Za
-	G+qXyp3KKkZG3/+qjQpuADlB0xRbS1LcjsSWsq4j+VvEYbwlMRYXNM/0Hug8goy0UGVYIbz8FtImZ
-	85K+vRAJyX/JI4enc2mWkMSQP+NfOpkX9ZeKNIzkUEt/yCjgY54XDJwqe0YPjVVT2s4j+FAj9UjFt
-	YRGJw3Rb4mZYVkHOe+pNSiH4jcCL+rgtsbsC9FN8omklTbvHJbWtMxTWkvWvKQpxAov70OCMcJANu
-	Et58rLrA==;
+	bh=0wFRj+p4FBHp9GPgyuiv6IYY2jAPyyQrtzPd4uBVoOQ=; b=DqDt61lp5mXFEVa2XF31Y/YtWl
+	vGB3WghPBBTVM683Jm4s/rATUvHri2d3eel54+/BZNgB/85O9bQtoUU+bZEpszQtYowiXZwFPrd1R
+	aEZJeBZe4fQgbT8YfHPK8g2J98i9ye0sotGmeutWnWxp8Nnrgi0o221vvHEnx8rWjRLJ7qvLGZ2UM
+	8OsiPGYmzfgcusITCASO98jxFCxLva830icV+5kZ8LVlFD7UPM4yt493KCEgtSErCvcHV7IlH1gaf
+	4zhUqwWRuklZPwGEb7LIhtM4mFts218LDypOHXEr1TiUWxWXslgZb1ygiLX3jE7OkFy31oayMYwhI
+	zjZW2C+A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wpfSf-0000000Blpx-40YH;
-	Fri, 31 Jul 2026 05:07:09 +0000
-Received: from mail-oa1-x36.google.com ([2001:4860:4864:20::36])
+	id 1wpgSW-0000000Brxa-2ydC;
+	Fri, 31 Jul 2026 06:11:04 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wpTS5-0000000AyUi-0LF5
+	id 1wpgSN-0000000BrxB-2bD0
 	for linux-nvme@lists.infradead.org;
-	Thu, 30 Jul 2026 16:17:48 +0000
-Received: by mail-oa1-x36.google.com with SMTP id 586e51a60fabf-451ef88519aso7739fac.1
-        for <linux-nvme@lists.infradead.org>; Thu, 30 Jul 2026 09:17:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785428264; cv=none;
-        d=google.com; s=arc-20260327;
-        b=d7cPHaAKkBsIKYskXX6ova8NRPPRT/ezZ2vRqxr/8gZhyxnYK9fK/j2gXYn7yyYlGy
-         NbdGIctFyFXqxRG3yR6ZapEOZH20+RI2tXdEkR5JI3aONkzbpR0rbWtfIpyBIt6dyoYr
-         dFUcMDUE5tGX2++1Umi25ZM5uEYiGyelHOgQTJJEJboQ3ucTYieM+IBdti/sIxk3vEIe
-         ybce66RHS2qEhX8eC6XrO0fPhIwhMKUOwWzKEojNcyiR1+Q46uEycFfQO9kX3PWGawMu
-         +0V59RyLbw1E0yrJ0S5LzleZx+9DYcZ113xmrUVi9MxFMmISfLszfH2OahFvLJtZLLo3
-         QAlQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=y9uL8axv/bSBp1hJEk9/5EREqK5uThhZ6LCPv7JfjT8=;
-        fh=JQWHEqiDanxUF9brciE1EVVQEixivCpzkJ4OrCmBpds=;
-        b=Pr+SicrQam1cYQcoTMxhKQyADVXcaOmEJA3kunNpeVHtvlRs+PxdvyEYbY9n6d0mXF
-         wUZ/HKayMs1nVWwpjkRD4XSs8C7S/ZH7EjwRihsghfmnLXejDx/5K/vIoK4PmoF3c3Ed
-         NjvTNsIq9Jn+c/pqNhh2ncmQR10M1DAjyLLrC0h9dbF6+kwA2ubZj1+PoaU/y6XSzMZb
-         K8ZtwuoPJo2D2DrucEmYRxmcRb40ZGJzSbvNOR0w7vglslR0M1UhoG8SQfDvhsEyFwK9
-         jByT7KOJuXVvcfijx5HMZkcfmAuvXfbT6HQd7NLv2uDbLkwGNCCwRiuM3qaaa6CGyy5C
-         yBeg==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1785428264; x=1786033064; darn=lists.infradead.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=y9uL8axv/bSBp1hJEk9/5EREqK5uThhZ6LCPv7JfjT8=;
-        b=IP3tKo7IqY4/YaA3m2GrPayhe6QaG3itJk7SdNT0NkvMKPL9+DO+bZ+U+IlS9+RyoC
-         Uz0cHRzMnE3EKjeeKvj+gYZhh3jh5J/keier4JH4I/zExPF7GQzEpjhAkTPIlNCrpEb8
-         By498eb8ZINTTaavxNwyP0EMLkmDtIlXlWdhK0Lx/DxDUx26zW9qxczeKQEITjiHKkje
-         rowkcc93ov0WT4Q0ym5RL0iRHAlpGm4On7+R2LMSfihvQDH8uEkzYzX0db9e75NSfRn/
-         io+iFttMLebaGvqrs+tpTvtlwKreBqyv//Iy9mfGpTCPd3+BCWojZZfuJA3pmG1k190n
-         ihpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785428264; x=1786033064;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=y9uL8axv/bSBp1hJEk9/5EREqK5uThhZ6LCPv7JfjT8=;
-        b=L/M/q203ZicRmiggfwrLD75EPp4kBtNgxD5vHKvfZge7KJYsATRTfU7rXfd+TLY9TR
-         Gzq2C7Ivf+iM1HBZ4lqSwDNOc9KgCTL8+w71EWnMfJ1f+9v5IupC0McE2ILALfKpfzse
-         h//NZ9Txual4JHbTazqhP9KiKoMJ3wUG7jIKQpjh4l28hNnki314+bWxDi6D83BUst0W
-         QClyVhCzq0jhEuNnmgc8jtEuDWvXfk5fwSG8KIGf421N6m2xgByLG5or5cpiINluEwaJ
-         uhvVboyZr11W6Te2Sg0ivAKLP5FS/titMvbaz6u4jJPJdsVhHP55+sN8Gcps1A8zDEt6
-         upJQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rp0d5ro9WEf/oR3l4wwSoA4Z9NMP/VWULfAk9YEGzrmSttdyr3Cx+LTqlFfNuoOl/uyYEfjC/GprqFs@lists.infradead.org
-X-Gm-Message-State: AOJu0Yye1wp1xhLEypL/T/L1KvX1Y+eeZ/uTsi9inDSgOB2emWRFbiQE
-	hIJf8np7LgsgCN2Xb9RFOKAUelGG+OsbflCuxV1dp/qVDjnQnMEiACMUSIFlnebh7333oDWZHHa
-	Vr/PrvkigCKqpnXyZQN64n9NoP0S0mevr2rqFm+5OrA==
-X-Gm-Gg: AR+sD10lftoHeMMARe0ik+ZEtfbseRhMX4V90JJOeBMg+3V/uaX3EannIf8gPb8IeMS
-	pErsqVeLj2lTfX6+xEpIt+VRS0jDjv0+S8AKMjCVp+znoBjaT/F692Y/nXlQDRRHCCDdQnRj+O1
-	W2xYEaN5A0Km0EYafTxzlUoJiz8glMbRskX3S3NnvrbnXuuIXONfc2YF1yEWdg4tdU/NeZzUkvx
-	SygcliFm3GNGsTMlDg8X+s4zhXQND1Xpk8Ux+uXFew2G1N/C2CTyQ09nVxM7O05v8kEDkUlq6Kf
-	5dmcddliaKjo611owbaYfetTa6X5LkHGc7AGv6Mmgh5/
-X-Received: by 2002:a05:6870:610c:b0:448:8595:1e8b with SMTP id
- 586e51a60fabf-458dd203cc6mr828125fac.4.1785428263717; Thu, 30 Jul 2026
- 09:17:43 -0700 (PDT)
+	Fri, 31 Jul 2026 06:11:03 +0000
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66V5HdUo853886;
+	Fri, 31 Jul 2026 06:10:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=0wFRj+
+	p4FBHp9GPgyuiv6IYY2jAPyyQrtzPd4uBVoOQ=; b=lIEmq6f1E9oLIOKfYOcw+Y
+	ySUj1zpk/dbgzLtbBkh0fR0rICZ/Y3pgizDOZYa6hwCz1AWSHrvrLEILqyMpMHPx
+	4/nBDoRnxUYYBg0RL/uxQNVFsKa5yEi9I4zwjZVvBHfDm2INE1C1RhUhX73hvGUN
+	zkgyXiGMoqJFxnb8sc2d8omKyMbr/H/C+HC+CTO5MBXpboaCzyRj9+U/WA0ghuiT
+	YnU9+RwVEF7gCMMJKPOd519hLSpGblvblvgQBm9Fs4q+1ygMXpKVlMo0LiFO4Msf
+	k+ghi/KgcaGIt7RWxZyVeLjm3KeMk22caTqd6jsjKFkyVdgzb5EQw9heHuNn41Zg
+	==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fmuyjjkeb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 31 Jul 2026 06:10:41 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 66V5uJBC025638;
+	Fri, 31 Jul 2026 06:10:40 GMT
+Received: from smtprelay07.wdc07v.mail.ibm.com ([172.16.1.74])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4fn7uwev4q-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 31 Jul 2026 06:10:40 +0000 (GMT)
+Received: from smtpav02.dal12v.mail.ibm.com (smtpav02.dal12v.mail.ibm.com [10.241.53.101])
+	by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 66V6Ad8D45416712
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 31 Jul 2026 06:10:40 GMT
+Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id CB94B5805A;
+	Fri, 31 Jul 2026 06:10:39 +0000 (GMT)
+Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4F2645805E;
+	Fri, 31 Jul 2026 06:10:35 +0000 (GMT)
+Received: from [9.43.39.116] (unknown [9.43.39.116])
+	by smtpav02.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 31 Jul 2026 06:10:34 +0000 (GMT)
+Message-ID: <4a7eee2a-6b63-4a65-a522-ff04497a8ce1@linux.ibm.com>
+Date: Fri, 31 Jul 2026 11:40:33 +0530
 MIME-Version: 1.0
-References: <cover.1785274111.git.asml.silence@gmail.com> <19e5c945ea8114320c10f7951d19197d48b59249.1785274111.git.asml.silence@gmail.com>
- <CADUfDZpwF0jp2e=+c3w_NjWPbnQ858bkSD731M6+x27jzgcJiw@mail.gmail.com>
- <CGME20260730104131epcas5p4b52720519486f7ac774c317923a79c81@epcas5p4.samsung.com>
- <de4ec386-42ba-41c3-bcbe-1fe8b2f71ba9@gmail.com> <09134617-6d9e-4963-9319-1855e88a4df9@samsung.com>
-In-Reply-To: <09134617-6d9e-4963-9319-1855e88a4df9@samsung.com>
-From: Caleb Sander Mateos <csander@purestorage.com>
-Date: Thu, 30 Jul 2026 09:17:31 -0700
-X-Gm-Features: AUfX_mzVuCLkHKoQjKU1BgpL-X0Ty4OF1wEt1trnCKGouEKw-m3DZTMxHTHiuQw
-Message-ID: <CADUfDZoVUHMWK0KBnznB73o6Vg+iQBBzJE2NmF1Tf22Zvh4=Yw@mail.gmail.com>
-Subject: Re: [PATCH v4 08/14] nvme-pci: implement dma_token backed requests
-To: "Anuj Gupta/Anuj Gupta" <anuj20.g@samsung.com>
-Cc: Pavel Begunkov <asml.silence@gmail.com>, Jens Axboe <axboe@kernel.dk>, 
-	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
-	io-uring@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>, 
-	Jason Gunthorpe <jgg@nvidia.com>, Damien Le Moal <dlemoal@kernel.org>, Alasdair Kergon <agk@redhat.com>, 
-	Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>, 
-	Benjamin Marzinski <bmarzins@redhat.com>, David Sterba <dsterba@suse.com>, 
-	Ilya Dryomov <idryomov@gmail.com>, dm-devel@lists.linux.dev, nvdimm@lists.linux.dev, 
-	linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/4] net: add helper for device lookup by destination
+ address
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kbusch@kernel.org, hch@lst.de, hare@suse.de, sagi@grimberg.me,
+        chaitanyak@nvidia.com, gjoyce@linux.ibm.com,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+        Simon Horman <horms@kernel.org>, netdev@vger.kernel.org
+References: <20260727151652.3660476-1-nilay@linux.ibm.com>
+ <20260727151652.3660476-2-nilay@linux.ibm.com>
+ <20260730161521.22695fff@kernel.org>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <20260730161521.22695fff@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzMxMDAzNyBTYWx0ZWRfX2/2PvEAd5nnR
+ 6CPfzItEAjzMxQvc4md0sEF/N/PH45TtHMsirUhgQ5PtCpGGpMhuv9gykvt3YHVuGwquO2N87Ec
+ 4A3FUzDQxJgYlu+xp3RtfvK/KvROP5M=
+X-Proofpoint-GUID: DenvK_pKDSC39pnJD23TFz6lakMiY3Dt
+X-Proofpoint-ORIG-GUID: dUIDfTHkieRugOc337awhMmKZJ5W3V6i
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzMxMDAzNyBTYWx0ZWRfX4augOfr5YHIo
+ 4w4fWOl674h7l5/AI1BwNmS7id37kJIcLoTEr0DSwOlewg1AaLc1hq1ugSxZNJ0mdz79Et6ZWSj
+ MG02gU3/RkenYmBG7+NyHj9RK2QTtvRMi4MGnemTl25yrBSZ06//0XJr7ahwqDeZF7dVsVer4Hq
+ gMyXM8Ymcr5SO7SN5bfcSctroWwXQV5V6j33ik2JGcmyB1r5FIwVnDbrSNSH0S0wd69VvP30CcC
+ pa5Wkq+ghaOGHRgMAO4Fs9V26ElMjvdRLhB5QVINxhEPuTQXD8wEZepxrCkPTrslZt34pmEITH1
+ Oks/8FfeB/3QMLDMEPzafUncEBF7b9jQ75OjRGtiqVa1nxTWRK89re5gAbsu+/2cDuxdEXfhYDd
+ T7KXpjBXyHWEErCnzefmz7IQuJlH0P7XVAUe+RUECW8VeSoevPExwK19X1LZm5ORuafXPmQXRml
+ IX+elINv3jIhMLdY6YQ==
+X-Authority-Analysis: v=2.4 cv=X5Vi7mTe c=1 sm=1 tr=0 ts=6a6c3c61 cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=fTXjkXMZjpTdXAl4l6kA:9
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-31_02,2026-07-30_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 impostorscore=0 lowpriorityscore=0 phishscore=0
+ priorityscore=1501 malwarescore=0 spamscore=0 suspectscore=0 bulkscore=0
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2607310037
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260730_091745_315715_EBAA3DE7 
-X-CRM114-Status: GOOD (  19.47  )
-X-Mailman-Approved-At: Thu, 30 Jul 2026 22:07:00 -0700
+X-CRM114-CacheID: sfid-20260730_231101_897313_14052A4C 
+X-CRM114-Status: GOOD (  12.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -134,35 +131,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jul 30, 2026 at 4:36=E2=80=AFAM Anuj Gupta/Anuj Gupta
-<anuj20.g@samsung.com> wrote:
->
-> On 7/30/2026 4:11 PM, Pavel Begunkov wrote:
-> >>
-> >> I wonder if it's possible to perform the PRP list page allocations and
-> >> initialization in nvme_dma_buf_io_map() instead of the I/O path. The
-> >> NVMe dma_pools are per-NUMA-node linked lists protected by spinlocks,
-> >> making them significant CPU hotspots. If the dmabuf registration set
-> >> up a contiguous DMA-coherent list of PRP entries for the pages of the
-> >> registered buffer, any command using the dmabuf and requiring at most
-> >> 1 PRP list page (i.e. length <=3D 2 MB) could just set its PRP list
-> >> pointer to an offset into the dmabuf's PRP list.
-> >
-> > Possible to an extent, predecessor patches tried that, I left it for
-> > later to keep the series simpler. I guess chaining won't work in
-> > general case.
-> > I mentioned this to Kanchan, Anuj and Nitesh before, they were up to
-> > playing with nvme optimisations in general, and since sgl from Anuj
-> > is ready, maybe they already have a prototype somewhere for that.
-> >
->
-> Right, I have prototyped the PRP list optimisation before. I will send
-> it once the initial version of this series lands, to avoid adding new
-> review churn while the rest of the series is pretty settled.
+On 7/31/26 4:45 AM, Jakub Kicinski wrote:
+> On Mon, 27 Jul 2026 20:46:44 +0530 Nilay Shroff wrote:
+>> Add netdev_get_by_addr(), a helper that looks up the routing table to
+>> retrieve the network device associated with a destination address. The
+>> helper also supports netdev reference tracking.
+> 
+> This does not explain why you're doing this.
+> Please CC the whole series to netdev or write better commit messages.
 
-Sure, landing it subsequently makes sense. Glad to hear it's already
-in the works.
+Yeah sure my bad, I would resend the series including all netdev folks in Cc.
 
 Thanks,
-Caleb
+--Nilay
 
