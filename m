@@ -4,83 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F1B94C54F54
-	for <linux-nvme@archiver.kernel.org>; Fri, 31 Jul 2026 16:37:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0407FC54F54
+	for <linux-nvme@archiver.kernel.org>; Fri, 31 Jul 2026 16:41:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=RSJ+f9xik0x5jkahvNZE5rtQIeiR1wLKaWlk7HAViBs=; b=Hm6bCWTpby4bqcnxjyJBecdoeH
-	4iqYyotIxiMAICNEFP1JGa//eqnAZv5sjUNmO9OpwzQprRo4OMRmZKF+2q6+7hVft6NhQoFlO25Jt
-	0jrkoUC17cQJcBRr54lCqm7Fa3XR35/lbisHRG+p+UiO9Y9Zn4HEEiwWu88/LgpYXfQvSuPKOYx5R
-	amqAm2BgDctECuGrGh9Xjvfb3Ido+TpRmDWjRSmv78hZBYlPOsPZHFsY8QU+F627qSOMNKFdhhstS
-	t+4p5tb3MCq02g1kBm45TnyI3u0AMv41+kaTVbYfAiYaLRPsU4oDvDKZyWHd8+9cvjT1iSxUrI0+b
-	I9wcwZQw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=axVwyepzuz5vs7KCy+kgdXSLK2Fq5ai7WRMb+rYqcNE=; b=2aLjgya28OUWtSIcqK9lo+Co1P
+	hXhycEly4ipO7Jy9PAUs1gnIv9093loHrNk2/ddcb6ku1mZRKEwdC3sNHulkfqTSJnhS5Xhvvim06
+	P8FZhyYwePZop2grJ0ticLUGHwdbi8tOLZ7CluTFqpmFquL6/zzv467vmzFtPDYsHiN0pJS7+HGxZ
+	+oumQgU2mtOalxlxEPgBdxDc90GxiG5TUlbxUl2GYwRFwxsZC5I6Y27fqndPv81g+WznSRAzFajEG
+	FM7FaQYkIgwP9XkyO0ZEuT7eUGipzTNy2DP2XGXVmaV5rBG/p3ZzocWtNXhO3yQXnLjfjUY6IFvzg
+	8oNmlbvA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wpqEW-0000000D9vv-0naG;
-	Fri, 31 Jul 2026 16:37:16 +0000
-Received: from mailout2.samsung.com ([203.254.224.25])
+	id 1wpqIJ-0000000DAGv-2aTg;
+	Fri, 31 Jul 2026 16:41:11 +0000
+Received: from mail-pz2-x01.google.com ([2607:f8b0:4864:3b::1])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wpqEQ-0000000D9uF-3Vl4
+	id 1wpqIH-0000000DAGC-17Ow
 	for linux-nvme@lists.infradead.org;
-	Fri, 31 Jul 2026 16:37:15 +0000
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20260731163704epoutp02177183b1abdaf2fea5b726c5d0510ffe~HbS7JfZBq3130031300epoutp02y
-	for <linux-nvme@lists.infradead.org>; Fri, 31 Jul 2026 16:37:04 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20260731163704epoutp02177183b1abdaf2fea5b726c5d0510ffe~HbS7JfZBq3130031300epoutp02y
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1785515825;
-	bh=RSJ+f9xik0x5jkahvNZE5rtQIeiR1wLKaWlk7HAViBs=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=oXGgdx5I4pdtdFhQ7C3nRvqpVC67xEMQWz/zxaFf35/i1ftBV//0gcu+4BQn7aDzD
-	 vef7+zS67JWgYN9hdf9rFuB+kzDryJ1jGPccjD+m4Su2GrJTnpvPFkS0mGX6swsZnU
-	 5iQuvxvm9Ckq5Oa+ZYRFEqbvE9D/aASNZa9ryQzQ=
-Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPS id
-	20260731163704epcas5p333bbb98de3a12d85a15d2ec43d6cd047~HbS6g26pC1817818178epcas5p3T;
-	Fri, 31 Jul 2026 16:37:04 +0000 (GMT)
-Received: from epcas5p2.samsung.com (unknown [182.195.38.93]) by
-	epsnrtp02.localdomain (Postfix) with ESMTP id 4hBWtl2Rb8z2SSKY; Fri, 31 Jul
-	2026 16:37:03 +0000 (GMT)
-Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20260731163702epcas5p2c474c8a976177d918f5fb498a1f674ce~HbS4Y7Poo1789617896epcas5p2X;
-	Fri, 31 Jul 2026 16:37:02 +0000 (GMT)
-Received: from [107.122.11.51] (unknown [107.122.11.51]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20260731163700epsmtip13f39ce4f73eff014ec538c2251d1b978~HbS3MbXnO2402224022epsmtip1I;
-	Fri, 31 Jul 2026 16:37:00 +0000 (GMT)
-Message-ID: <fe8f6e8c-185a-4089-848b-2c965fed84a8@samsung.com>
-Date: Fri, 31 Jul 2026 22:06:59 +0530
+	Fri, 31 Jul 2026 16:41:10 +0000
+Received: by mail-pz2-x01.google.com with SMTP id 41be03b00d2f7-ca8758e7e94so45929a12.0
+        for <linux-nvme@lists.infradead.org>; Fri, 31 Jul 2026 09:41:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785516068; x=1786120868; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=axVwyepzuz5vs7KCy+kgdXSLK2Fq5ai7WRMb+rYqcNE=;
+        b=T5CLhV/9nzqDSD8Yu879o3GaWfY2aXeJmMxgjDEm5M6RPRPcH6PINfXuxj283Zz7CM
+         D7mljbpujXTL4wypxSFjbezdeJQiUOpz5vskRu9RmBQgIb4lcRJuHeRDSQPoMF3fEmlM
+         Mh7lUiW6qE/8nHzIPscfeCsLVHjQ4thuk9kYYqOOTo7yVq0cB+wEcjDaYpLVB06uksy2
+         lzftrGEBhJJZSSQEdnxma5oE7e8j2UGu3HoYEVMJdTOU49QEimOArYGDzNLQ1dkz7WKt
+         jROpM7LC7Q1vPtPMDLscHL68rDYh9hPw3laMOd/dI7cM7LgQb8f7sDrTKlQ7oZ9Mr8y4
+         ScmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785516068; x=1786120868;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=axVwyepzuz5vs7KCy+kgdXSLK2Fq5ai7WRMb+rYqcNE=;
+        b=ps7OpwPA391G6gTa5Rb1vyUUvmQgcdzt2pFIXs0QHI3kNcZpiGAhoLHikYFY3to2CF
+         h9Rwq6q/I7551j5VEBLX8k5+HB6M8Cv6m6v0g1CmQ4ruRwbAuK5J/K/NZOiGzHPcz+5l
+         4mxoj2i2qa4dORuFZpsM++b+ZOskMaaezsjs7hc1fhgoLNt8crGXRVqxq6RRF0krrGdZ
+         TpnSGRrbZuUceBHwicVZ/Mf4tIfTRWpf5032/VR1UZs2TnWKJ49mIKerhoz08hR1V7Fc
+         rlAVlbGo5UQhKKszOngQQ9TeMYvuyUoUX69xj2x5hzh7w59k6RKPMaZBcb24j60bGyU9
+         4Xhg==
+X-Forwarded-Encrypted: i=1; AHgh+Rp1MNFnMzckYn5hQmrhRine8dlWFRLOsOTA/Lghv+Q9PkxpakN3Gp1/F6y4HZpTNIQEA4aKRiShSaMF@lists.infradead.org
+X-Gm-Message-State: AOJu0Ywy6kE0YGattEcUWStjFwEd4GoXr+pEkw9B5ZLqmMtUQHO1qsIb
+	b5/hs59Ex9ZKXeIol3eOz2pEVUBLt7mcxzH3a600EyqX1gNeVE0kHQVR
+X-Gm-Gg: AR+sD10Q1mIRcNhTDpcJDB/h5ROwevPaVwxA0IPth09OdHXWOMkKBOQzOKk2tV4X6ZP
+	iwgGIa2jdRKJyisD7rxpSw41QO3rPHks0ZRux4PidpHRhTER6ARCZ8oLCC+SVbcB0eljgmQ3L2V
+	AuHCNiJPO1IKUk0jLdhyUsVqLoi/dpYlc/1RxRK7uhhxtFwGO6xkrA1k3tF/YpGvmtCWOiewvFz
+	Hx18ggrqIQdyDkyCVpI2aApfz8ScZ3Gu1ys6VkBRKZ4J1PlBW6pDBZDCDf5kXOpikZSb6oI2cjU
+	k82yddEw+owYElhjVwkbnQ/L4WcjwIisf5Pujfl4zbhlCKZGQs39v9vOdc7wLwA9V6kk/u2EduQ
+	3ALHJktS2aLvxZgNF5QJWixZpaOV4wljyaRPcg+JihqClH7VBvitmYiROQCooL7+gQi1AbRZaUR
+	AttCv9qbxNwyDgyCJqCxNvXK4hAf8VKgqENx46FFfHxL7j6pRA4v1V6onCZ4riMN+r
+X-Received: by 2002:a05:6a00:a254:b0:847:9d6c:a56d with SMTP id d2e1a72fcca58-84ee4844d1dmr300123b3a.12.1785516067920;
+        Fri, 31 Jul 2026 09:41:07 -0700 (PDT)
+Received: from localhost ([2a03:2880:2ff:4d::])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84edbe7a243sm687490b3a.24.2026.07.31.09.41.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 31 Jul 2026 09:41:07 -0700 (PDT)
+Date: Fri, 31 Jul 2026 09:39:19 -0700
+From: Stanislav Fomichev <sdf.kernel@gmail.com>
+To: Nilay Shroff <nilay@linux.ibm.com>
+Cc: kbusch@kernel.org, hch@lst.de, hare@suse.de, sagi@grimberg.me, 
+	chaitanyak@nvidia.com, gjoyce@linux.ibm.com, kuba@kernel.org, davem@davemloft.net, 
+	edumazet@google.com, pabeni@redhat.com, horms@kernel.org, 
+	linux-nvme@lists.infradead.org, netdev@vger.kernel.org
+Subject: Re: [RESEND PATCH v2 0/4] nvme-tcp: NIC topology aware I/O queue
+ scaling and queue info export
+Message-ID: <amzPgFs4whuvrnUW@devvm7509.cco0.facebook.com>
+References: <20260731073918.614014-1-nilay@linux.ibm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/5] nvme: raise FDP placement handle cap to U8_MAX
- and warn on overflow
-To: Guixin Liu <kanie@linux.alibaba.com>, Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
-	<sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>, nilay@linux.ibm.com,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Cc: linux-nvme@lists.infradead.org
-Content-Language: en-US
-From: Kanchan Joshi <joshi.k@samsung.com>
-In-Reply-To: <20260731032031.1090755-6-kanie@linux.alibaba.com>
-Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20260731163702epcas5p2c474c8a976177d918f5fb498a1f674ce
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-cpgsPolicy: CPGSC10-542,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20260731032043epcas5p46e85c04297e36291545e0b688ba7f6fa
-References: <20260731032031.1090755-1-kanie@linux.alibaba.com>
-	<CGME20260731032043epcas5p46e85c04297e36291545e0b688ba7f6fa@epcas5p4.samsung.com>
-	<20260731032031.1090755-6-kanie@linux.alibaba.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260731073918.614014-1-nilay@linux.ibm.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260731_093711_558688_2566833B 
-X-CRM114-Status: GOOD (  11.63  )
+X-CRM114-CacheID: sfid-20260731_094109_328811_2E517094 
+X-CRM114-Status: GOOD (  16.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,42 +102,55 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/31/2026 8:50 AM, Guixin Liu wrote:
-> @@ -2342,7 +2350,7 @@ static int nvme_query_fdp_info(struct nvme_ns *ns, struct nvme_ns_info *info)
->   	if (!info->runs)
->   		return ret;
->   
-> -	size = struct_size(ruhs, ruhsd, S8_MAX - 1);
-> +	size = struct_size(ruhs, ruhsd, NVME_MAX_PLIDS);
->   	ruhs = kzalloc(size, GFP_KERNEL);
->   	if (!ruhs)
->   		return -ENOMEM;
-> @@ -2357,8 +2365,13 @@ static int nvme_query_fdp_info(struct nvme_ns *ns, struct nvme_ns_info *info)
->   		goto free;
->   	}
->   
-> -	head->nr_plids = le16_to_cpu(ruhs->nruhsd);
-> -	head->nr_plids = min_t(u16, head->nr_plids, S8_MAX - 1);
-> +	nr_plids = le16_to_cpu(ruhs->nruhsd);
-> +	if (nr_plids > NVME_MAX_PLIDS)
+On 07/31, Nilay Shroff wrote:
+> Hi,
+> 
+> This is a resend of the previous series to include the networking maintainers
+> and mailing list. There are no code or commit message changes since the
+> previous posting.
+> 
+> This series has been updated based on the feedback received during LSFMM.
+> The changelog is updated accordingly.
+> 
+> The NVMe/TCP host driver currently provisions I/O queues primarily based
+> on CPU availability rather than the capabilities and topology of the
+> underlying network interface.
+> 
+> On modern systems with many CPUs but fewer NIC hardware queues, this can
+> lead to multiple NVMe/TCP I/O workers contending for the same TX/RX queue,
+> resulting in increased lock contention, cacheline bouncing, and degraded
+> throughput.
+> 
+> This RFC proposes a set of changes to better align NVMe/TCP I/O queues
+> with NIC queue resources, and to expose queue/flow information to enable
+> more effective system-level tuning.
+> 
+> Key ideas
+> ---------
+> 
+> 1. Scale NVMe/TCP I/O queues based on NIC queue count
+>    Instead of relying solely on CPU count, limit the number of I/O workers
+>    to:
+>        min(num_online_cpus, netdev->real_num_{tx,rx}_queues)
+> 
+> 2. Improve CPU locality
+>    Align NVMe/TCP I/O workers with CPUs associated with NIC IRQ affinity
+>    to reduce cross-CPU traffic and improve cache locality.
+> 
+> 3. Expose queue and flow information via debugfs
+>    Export per-I/O queue information including:
+>        - queue id (qid)
+>        - CPU affinity
+>        - TCP flow (src/dst IP and ports)
 
-I'd move this check down; after if (!head->nr_plids) part below.
+[..]
 
-> +		dev_warn(ctrl->device,
-> +			 "FDP RUH status reports %u placement handles, capping at %u\n",
-> +			 nr_plids, NVME_MAX_PLIDS);
-> +
-> +	head->nr_plids = min_t(u16, nr_plids, NVME_MAX_PLIDS);
+>    This enables userspace tools to configure:
+>        - IRQ affinity
+>        - RPS/XPS
+>        - ntuple steering
+>        - or any other scaling as deemed feasible
 
-And will keep this in above if block, alongside dev_warn(). And kill 
-that min_t with a simple
-	head->nr_plids = NVME_MAX_PLIDS;
-
->   	if (!head->nr_plids)
->   		goto free;
->   
-
-Modulo these nits
-Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
-
+Can you expand on this a bit? What specifically helped the most for your
+tuned case?
 
