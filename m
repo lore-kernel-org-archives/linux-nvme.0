@@ -4,91 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EB4D3C5516F
-	for <linux-nvme@archiver.kernel.org>; Fri, 31 Jul 2026 16:41:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 61C59C55174
+	for <linux-nvme@archiver.kernel.org>; Fri, 31 Jul 2026 20:45:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=geJgXx5Dm6qqt2ZAAFVL9G2Q6MfkYPKO/H3Ubz8hDvA=; b=a37SGK0jOZ0GMfxqGQnHIbmsKA
-	gcKmqHkAKUQlqSdKQvDstLUdBeNZclQJDjX49xs+lwBcirlCu55XhRTr9yRZ16Nbh7CkWEP0zQS7V
-	ifDBKyEhPao+xQRk8r3eNulBwLElDZSStIrR5o5Io9KmZ9b1zcWfkjz99K4yISAQuuC19lxXAcfEN
-	e4/Zh11u2rOGpSN6YC0Hfmx+XG2I8cenBZ4pDURkFgHYVdhKbPuKY7ykI/h/IiP/QoOmH9frGDj5c
-	256zPJv/VjXlySv87Zr2gXfR63+hmPiNl6FEzkkc8duocG38pyY0lfSJYBVYS0b7GnY1Sr2Ihzsqz
-	ecPRE3fw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=xATEhxPNQxKXaG8sP+LX++AZXbUnFoZsLWamigGd8LI=; b=3K/YLMdV8Onmxpk8PMbSBtbp34
+	/3UUNyctSjFlBUh8qyY4SPC4qkYbOMYRqS+36OikWGhlhrFxogKtNsgW9RrgHivGtTL1e5nC4LRA1
+	cICm4pDrOzL9n+su6zyqdqwJV82qX9VDbSd2/Gl4hH6f19F7tg1TFrZebtpV4NLVJ/A6ahkp9gfEP
+	gmCPiGZJ91VkLMpBaRY4/rteajvful1YIPEX0ptTsMbecmx9JKCElK7QDPXJuawzemneTwrFWDrBF
+	/GO45MXNowSO3756/TVldc0cMSY0lDu7dTEdy8YX7GaYDGztsxrqsxgSErHOV8pBHF7JNmsTPexaA
+	VdpxwjTA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wpqIJ-0000000DAH4-324g;
-	Fri, 31 Jul 2026 16:41:11 +0000
-Received: from mail-pz2-x01.google.com ([2607:f8b0:4864:3b::1])
+	id 1wpu6g-0000000DZE9-0luh;
+	Fri, 31 Jul 2026 20:45:26 +0000
+Received: from mail-qv1-xf32.google.com ([2607:f8b0:4864:20::f32])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wpqIH-0000000DAGO-2AFn
+	id 1wpu6Z-0000000DZDf-0Lam
 	for linux-nvme@lists.infradead.org;
-	Fri, 31 Jul 2026 16:41:10 +0000
-Received: by mail-pz2-x01.google.com with SMTP id 41be03b00d2f7-ca7d1dc4554so507368a12.1
-        for <linux-nvme@lists.infradead.org>; Fri, 31 Jul 2026 09:41:09 -0700 (PDT)
+	Fri, 31 Jul 2026 20:45:20 +0000
+Received: by mail-qv1-xf32.google.com with SMTP id 6a1803df08f44-902fc790cd5so9687646d6.1
+        for <linux-nvme@lists.infradead.org>; Fri, 31 Jul 2026 13:45:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785516069; x=1786120869; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=geJgXx5Dm6qqt2ZAAFVL9G2Q6MfkYPKO/H3Ubz8hDvA=;
-        b=ieeMlmoL9iZfS53apxcwDpQllcyIJOUVYs8brmPQ21x1c1OkQwrHq83SJuunbub8OJ
-         02JPxMsSPWxtlUiRWBXsnS5nZG1M1cgSTX8y5wZ/pWXD5lf7K+h4L3KxHBDTHStfTokv
-         xmymcVMjpR61hULcwapxE8NgUr2B0H953uIUgdmeTVodtoRD9UaEhGn46vCQsKGGo8Xn
-         frj4Tmqv/sW8VPsETL6mT2ZAeKWR9WSYSX8XYK2HV1iXA7ZCAAPUMX377XfzWnL2CJ73
-         yq8/xMcGP9ShhweZmwNYXxyEuHF85xrb6lbqtuD2B0uWgYKj8QXvRT5S5QJ7FIvixNts
-         LUFg==
+        d=gmail.com; s=20251104; t=1785530717; x=1786135517; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=xATEhxPNQxKXaG8sP+LX++AZXbUnFoZsLWamigGd8LI=;
+        b=JscC2ziBqIdppF6OCRgR4bBQ7FmfaCKBsaWkxbArG6ddz8UhzQS6rMUm3iI/+flpKs
+         XRQqYROxh/q9+FtDSXAg2BxVPRSpEJlvJn9F8WFj8O1p5CgnnzibCBeR0V5ncctYP2eV
+         BrlaI4rGdcaILmkozPkAwDyHC3s6+n6jmTQz7hxGjBC/tnsYhKrPG6HU4Dqg3LFF3dGz
+         SD1KnEqLXSN5WqODfeOugJ/0hGGC4ahiCtUq5Mmi/1W/sILw4ed4VGfycI0B6x/B5som
+         EHjVfeV76WFk41Aq55XQBFAqj7GeWwP/8wTCTjc8CrZBvmxxhRCLtdegtNtEjB865WqI
+         OOPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785516069; x=1786120869;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=geJgXx5Dm6qqt2ZAAFVL9G2Q6MfkYPKO/H3Ubz8hDvA=;
-        b=jKzN9QOejSx0hCwUwxIWW03G//WRqZ/YdDj2QcGm9/hQyJFrt6sGGIosF4bY/9PMco
-         MbtEB27Apa4MxnRrdiuyTgxiEk1D8H465HcwWFQrAAn/Yr88QvhFaU2uvMGIco0lKMpZ
-         xv3P5x07QSeotnyN0G8HVsTDJNbr4xqrrd/sBkA4ZFNtNU4QXYf4Mr3Hk5U5LqSyIbcV
-         PJH6YUzzOrvy84wI1Vr0D8lXeA+8F+uM5dpdxN/9SrQXgoSWK3AWpnQWOi1d4TvA7Pfj
-         zEnlwJbRgUU0aievy/QsdX/BCZX2jY5PkWlBg9362nu/Xx8MuJ0GY0N0Yzqni6gjn/H4
-         pN8A==
-X-Forwarded-Encrypted: i=1; AHgh+RpgM4TATYiqRJAv+VMCD5AHOyoAM7hOoZJ39PBqxRNRWxDrhJyoDwnF6Iw7rtXgHRa82LyhMz9hHdet@lists.infradead.org
-X-Gm-Message-State: AOJu0YzkR5+8RMKeRhzH7v1wmmvTc4Ftwk9qudKmd4L0JFH+Jem0vFdA
-	ivD4MUZvMSW2h7rwqwpJ4BmA4fvVKSRn+FZZaBziU6G2Hmc5ebUY/+Tk
-X-Gm-Gg: AR+sD11zrRkzx3igTH8GXFf6KArj/H7zl5KfnYfycA+8jLVD3MspjdrCYOaDsY/fW5/
-	owjiMRPPovLcPD5byjWWXdsYiHYhq8e0+p5ndMugHDdI6wS+T5ySdgPp35qYuGJ7UGVZ562JMLT
-	kKIaWnswGxVp4hgIvgEqBiDfB1Zhkt8fvXT83x1O/GzKpR1U/f7IVOb1j+2VPAc30Me0V0WWdAZ
-	xhEDkO8ycap3wM63/E6FPA8Lpj+uK0SsMU915zogofXPiUn024MfQ+8hg2ZMVc9SY3e8rgyC23i
-	1w+Y7TDMEeflDKrYDaLmICLFXIgK5cRAYwQQKkDc37857PsH+fQqa4gNyIO6N+wLeWx2DexvwOR
-	roAMVNIvAGk+dok69LoZBAaAIu8xqYdh4giNl4Rw8ATydZ+qGWNhIs+LkUQu52PvY3oRk3UFWcL
-	/ksYFusy2SnsPIA80bjgIPL97uUALv+yMoruejphd3ka3y7rIn7+ej7g==
-X-Received: by 2002:a05:6a00:4fc7:b0:845:4928:8655 with SMTP id d2e1a72fcca58-84ee4899b2dmr323897b3a.39.1785516068847;
-        Fri, 31 Jul 2026 09:41:08 -0700 (PDT)
-Received: from localhost ([2a03:2880:2ff:45::])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84edc2d901csm675606b3a.48.2026.07.31.09.41.08
+        d=1e100.net; s=20251104; t=1785530717; x=1786135517;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=xATEhxPNQxKXaG8sP+LX++AZXbUnFoZsLWamigGd8LI=;
+        b=AzE6QUNFpl/1PmfgLcVzRQx45SdWfPY23omRZrtjQMmdhKXPVrYJa0XEdg8g3oY/Nd
+         x+hrWv92hdOpCfTTqJp0Q644kvulXlPckjl44eGd9u6zC9rOscGVM5DsL2wkLT8WKrWH
+         y9PltoLZmwMepqZysa60fD6Z+8NsV3HKS8gmnF/n394RLVAU3oVVwIRKeZ/Tx12C2PUO
+         tNzz5s6w6IMCqSPXg+ZgbHZBbZlpuckLIVyKWw3ilabtSon4Sj/SbbKknZ0IhE7DqhVn
+         uFeH0FkuGi34SQnmQNsK/N1Wro74Katov52KZsIba+CuVBcbw26ZFmTDgyHcaaB8BN/Q
+         JVuQ==
+X-Forwarded-Encrypted: i=1; AHgh+Ro4KsBUZvTOQ1ByTszJCpHbvSConaveVp6y6GBToONOLogcmj3WZ8Cp6DUp11OXVTa5SAvPZ5Mw1e3o@lists.infradead.org
+X-Gm-Message-State: AOJu0YzWzzpyQyxDKrMZswWVXDUGiZ39huHjCed4i/ubC3Sr0hhhxCAb
+	lNh+md6FU/oF6Fk0GePbOMUtymZFfnwuRjDiDAjsPvYGPkUjzuQq8fM8
+X-Gm-Gg: AR+sD10kY8eMMaIYotDlDDuPXbI9Eh/+gXZr5R21Hl5em2cLfS/vn/rsxCPS54fZNcy
+	CNWPt/gh7NRV/WDnarP/tS5ks2JhUnPCgELx45cP3smuC0rE2Z1EYJVCFWtcEvNc5X0wgX30dp/
+	wGQjQggVo3ZmmHfyh0Aff24kQaY0QKGCTGENK9ngFDf54OHAc6JZ+aRqpbM2EkhCx5EL8kuRGX4
+	6DiqjtWlSQecBluyQktJpZBUooH2h7Am49F+F0/qlHWT3iERwwi6iIELo14KGg74uNjtF48v3Fw
+	b31IL67SaUpuMexQEcsS4pzbzfOL4O38lfUSjDL4S4raV4tfjyTKDLz0ySRl6SC30QwXZYMFOLe
+	pyP8yRCfHuzCbxzE2oOS6f5p2ppqFFlWSdeRaRqtYpz5yRgT+uTH6K62c1uB0ElKEXeEFIbuAku
+	DkM8ndXL3XtnGZ8ITiL2bOlUJ6P70NnPeJSkwWZgMaE8JveYoJiCbnfevlNgxn9vUufTUrKFmaa
+	5+4C44FsHkQA3CwBg==
+X-Received: by 2002:ad4:5944:0:b0:8f1:323a:fc45 with SMTP id 6a1803df08f44-908495fbc7dmr21340776d6.15.1785530717136;
+        Fri, 31 Jul 2026 13:45:17 -0700 (PDT)
+Received: from i4-l-hqh5357-03.ad.psu.edu ([130.203.139.71])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-908435def8fsm18173676d6.38.2026.07.31.13.45.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jul 2026 09:41:08 -0700 (PDT)
-Date: Fri, 31 Jul 2026 09:41:00 -0700
-From: Stanislav Fomichev <sdf.kernel@gmail.com>
-To: Nilay Shroff <nilay@linux.ibm.com>
-Cc: kbusch@kernel.org, hch@lst.de, hare@suse.de, sagi@grimberg.me, 
-	chaitanyak@nvidia.com, gjoyce@linux.ibm.com, kuba@kernel.org, davem@davemloft.net, 
-	edumazet@google.com, pabeni@redhat.com, horms@kernel.org, 
-	linux-nvme@lists.infradead.org, netdev@vger.kernel.org
-Subject: Re: [RESEND PATCH v2 2/4] nvme-tcp: limit I/O queue count based on
- NIC queue count
-Message-ID: <amzPvMWfzetiirw0@devvm7509.cco0.facebook.com>
-References: <20260731073918.614014-1-nilay@linux.ibm.com>
- <20260731073918.614014-3-nilay@linux.ibm.com>
+        Fri, 31 Jul 2026 13:45:16 -0700 (PDT)
+From: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
+To: Justin Tee <justin.tee@broadcom.com>,
+	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
+	Paul Ely <paul.ely@broadcom.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Cc: Shuangpeng Bai <shuangpeng.kernel@gmail.com>,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [BUG] nvmet-fc: KASAN: slab-use-after-free in nvmet_fc_handle_ls_rqst_work
+Date: Fri, 31 Jul 2026 16:44:47 -0400
+Message-ID: <20260731204504.2396434-1-shuangpeng.kernel@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260731073918.614014-3-nilay@linux.ibm.com>
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260731_094109_555639_9C31B9FD 
-X-CRM114-Status: GOOD (  22.11  )
+X-CRM114-CacheID: sfid-20260731_134519_130835_1D368FD0 
+X-CRM114-Status: UNSURE (   8.00  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,95 +103,60 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 07/31, Nilay Shroff wrote:
-> NVMe-TCP currently provisions I/O queues based primarily on the number
-> of online CPUs. On systems where the CPU count significantly exceeds the
-> number of NIC hardware queues, multiple NVMe-TCP I/O queues end up
-> sharing the same NIC TX/RX queues. This increases lock contention,
-> cacheline bouncing, and inter-processor interrupts (IPIs), reducing I/O
-> efficiency.
-> 
-> Limit the number of NVMe-TCP default I/O queues to the smaller of the
-> number of online CPUs and the number of NIC hardware queues. Aligning
-> the number of NVMe-TCP I/O queues with the NIC queue topology reduces
-> queue sharing, improves locality, and can improve throughput while
-> reducing tail latency.
-> 
-> The number of NVMe-TCP I/O queues is now limited to:
-> 
->     min(num_online_cpus, num_nic_queues)
-> 
-> Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
-> ---
->  drivers/nvme/host/tcp.c | 61 +++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 61 insertions(+)
-> 
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index ba5c7b3e2a7c..a2110287099e 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -1774,6 +1774,50 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
->  	return ret;
->  }
->  
-> +static struct net_device *nvme_tcp_get_netdev(struct nvme_ctrl *ctrl,
-> +		netdevice_tracker *tracker, gfp_t gfp)
-> +{
-> +	struct net_device *dev = NULL;
-> +
-> +	if (ctrl->opts->mask & NVMF_OPT_HOST_IFACE)
-> +		dev = netdev_get_by_name(&init_net, ctrl->opts->host_iface,
-> +				tracker, gfp);
-> +	else {
-> +		struct nvme_tcp_ctrl *tctrl = to_tcp_ctrl(ctrl);
-> +		struct sockaddr_storage *src = NULL, *dest = NULL;
-> +
-> +		if (ctrl->opts->mask & NVMF_OPT_HOST_TRADDR)
-> +			src = &tctrl->src_addr;
-> +
-> +		dest = &tctrl->addr;
-> +
-> +		dev = netdev_get_by_addr(&init_net, src, dest, tracker, gfp);
-> +	}
-> +	return dev;
-> +}
-> +
-> +/*
-> + * Returns number of active NIC queues (min of TX/RX), or 0 if device cannot
-> + * be determined.
-> + */
-> +static int nvme_tcp_get_netdev_current_queue_count(struct nvme_ctrl *ctrl)
-> +{
-> +	struct net_device *dev;
-> +	int tx_queues, rx_queues;
-> +	netdevice_tracker tracker;
-> +
-> +	dev = nvme_tcp_get_netdev(ctrl, &tracker, GFP_KERNEL);
-> +	if (!dev)
-> +		return 0;
-> +
-> +	tx_queues = dev->real_num_tx_queues;
-> +	rx_queues = dev->real_num_rx_queues;
-> +
-> +	netdev_put(dev, &tracker);
-> +
-> +	return min(tx_queues, rx_queues);
-> +}
-> +
->  static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
->  				key_serial_t pskid)
->  {
-> @@ -2165,6 +2209,23 @@ static int nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
->  	unsigned int nr_io_queues;
->  	int ret;
+Hi Kernel Maintainers,
 
-[..]
- 
-> +	if (!(ctrl->opts->mask & NVMF_OPT_NR_IO_QUEUES)) {
-> +		int nr_hw_queues;
+I hit the following report while testing current upstream kernel:
 
-Looks like the userspace can already pass the preferred number of queues,
-so in this case, why not do all this netdev resolution and queue
-estimation in the userspace? Presumably most or the users you care
-about always go through nvme-cli, right?
+KASAN: slab-use-after-free in nvmet_fc_handle_ls_rqst_work
+
+on commit: 0d6269a4f6059d185d9f7e3efe7b58f8c0d9faf3 (2026-07-27)
+
+To help trigger the bug more reliably, we applied a minimal diagnostic patch
+that only adds a delay and a printk.
+
+The reproducer and .config files are here.
+https://gist.github.com/shuangpengbai/47cf6fb1b80e28f3c30a372333d1151e
+
+I'm happy to test debug patches or provide additional information.
+
+Reported-by: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
+
+[  405.999314][ T1167] BUG: KASAN: slab-use-after-free in nvmet_fc_handle_ls_rqst_work (drivers/nvme/target/fc.c:193 drivers/nvme/target/fc.c:1841 drivers/nvme/target/fc.c:1995 drivers/nvme/target/fc.c:2021)
+[  406.000605][ T1167] Read of size 8 at addr ffff888179f1b000 by task kworker/u9:2/1167
+[  406.001734][ T1167]
+[  406.002128][ T1167] Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+[  406.002134][ T1167] Workqueue: nvmet-wq nvmet_fc_handle_ls_rqst_work
+[  406.002165][ T1167] Call Trace:
+[  406.002182][ T1167]  <TASK>
+[  406.002187][ T1167]  dump_stack_lvl (lib/dump_stack.c:94 lib/dump_stack.c:120)
+[  406.002201][ T1167]  print_report (mm/kasan/report.c:378 mm/kasan/report.c:482)
+[  406.002220][ T1167]  kasan_report (mm/kasan/report.c:595)
+[  406.002232][ T1167]  nvmet_fc_handle_ls_rqst_work (drivers/nvme/target/fc.c:193 drivers/nvme/target/fc.c:1841 drivers/nvme/target/fc.c:1995 drivers/nvme/target/fc.c:2021)
+[  406.002238][ T1167]  process_scheduled_works (kernel/workqueue.c:3322 kernel/workqueue.c:3405)
+[  406.002250][ T1167]  worker_thread (kernel/workqueue.c:3486)
+[  406.002280][ T1167]  kthread (kernel/kthread.c:436)
+[  406.002296][ T1167]  ret_from_fork (archkernel/process.c:158)
+[  406.002320][ T1167]  ret_from_fork_asm (arch/x86/entry/entry_64.S:245)
+[  406.002328][ T1167]  </TASK>
+[  406.002330][ T1167]
+[  406.020787][ T1167] Freed by task 1167 on cpu 0 at 405.998150s:
+[  406.021660][ T1167]  kasan_save_track (mm/kasan/common.c:57 mm/kasan/common.c:78)
+[  406.022343][ T1167]  kasan_save_free_info (mm/kasan/generic.c:584)
+[  406.023069][ T1167]  __kasan_slab_free (mm/kasan/common.c:253 mm/kasan/common.c:285)
+[  406.023749][ T1167]  kfree (include/linux/kasan.h:235 mm/slub.c:2705 mm/slub.c:6405 mm/slub.c:6720)
+[  406.024312][ T1167]  nvmet_fc_handle_ls_rqst_work (drivers/nvme/target/fc.c:1808 drivers/nvme/target/fc.c:1995 drivers/nvme/target/fc.c:2021)
+[  406.025172][ T1167]  process_scheduled_works (kernel/workqueue.c:3322 kernel/workqueue.c:3405)
+[  406.025972][ T1167]  worker_thread (kernel/workqueue.c:3486)
+[  406.026653][ T1167]  kthread (kernel/kthread.c:436)
+[  406.027248][ T1167]  ret_from_fork (archkernel/process.c:158)
+[  406.027931][ T1167]  ret_from_fork_asm (arch/x86/entry/entry_64.S:245)
+[  406.028638][ T1167]
+[  406.028989][ T1167] The buggy address belongs to the object at ffff888179f1b000
+[  406.028989][ T1167]  which belongs to the cache kmalloc-2k of size 2048
+[  406.031005][ T1167] The buggy address is located 0 bytes inside of
+[  406.031005][ T1167]  freed 2048-byte region [ffff888179f1b000, ffff888179f1b800)
+
+
+Best,
+Shuangpeng
 
