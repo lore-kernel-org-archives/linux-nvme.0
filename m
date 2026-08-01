@@ -4,71 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 66E3AC54FCD
-	for <linux-nvme@archiver.kernel.org>; Sat,  1 Aug 2026 06:02:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2EE1EC5516F
+	for <linux-nvme@archiver.kernel.org>; Sat,  1 Aug 2026 06:02:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=8jsHQYZsIv+UEcM/v6JhPnpCp7qXtARbFHI5o9bFxNg=; b=Jp2af0REUSQ3+zkh+cZkavJ5j1
-	2Akf9ajxsfAnSfK3rsTCjH1aazeBhltIHfwzIvERDd3wrNB2iHE9NPxauyrwIiCWwWnXyPSO+Csgv
-	dOveEIVr9+23ffYpmzW7YyHcJSI1nm2ADGtrGf20S8Vv51S3LSHSA9e3sSBlp6uKMi+YIujOycwQF
-	uttEv15NM4Yprr98zu03GyLztGjL43usg78h193r8ClhoNqwtQcDRicrpSCVdO5Juv5IiIULyt2S8
-	cSP9ZATsK1b7UAJjMbTAyR2iRFxEPn97M6tFvKjuxf8TxgLCY2VQZtq4agK1NsD+2UmnVW9CQkNvD
-	ipqgC69w==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Ar0TU0A76j4CC+o54wdVQpftKVR0bXPf2ahLSopc8SM=; b=tl+VGPsYB/76J2JKvFclDizrQ+
+	n8LQOLRWIsTVLK+KKwxaM6rmcHuiHGbR1X11jEZWZP8bgit3qwWjp317NaByuAmIA287S6b4i2v7W
+	UolW0nUEPVPXLNRD4ieilMhiMl489EGi8XULVXRyadgf+hBx/88mjjrxIAwgheE8cvAU84KZ6YMVU
+	jnLc8jl4n35xzRVs/OsxawrT3IoPqPDwWAuwUpHfN4gfYjoTrAyBsketYz+UchioPS5dXzbmS4Puz
+	E/De78XXOAu8efJygUc/I1b+W8Y/oO1cSt5+vPzjillTIfJfgCO0zzM7iieaD5c+z+8ueF4+6jBYh
+	kqufd7Cw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wq2o1-0000000DvWY-1Co3;
-	Sat, 01 Aug 2026 06:02:45 +0000
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
+	id 1wq2o5-0000000DvXb-2SoM;
+	Sat, 01 Aug 2026 06:02:49 +0000
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wq2nv-0000000DvVa-3yBB
+	id 1wq2o1-0000000DvWh-3nqP
 	for linux-nvme@lists.infradead.org;
-	Sat, 01 Aug 2026 06:02:41 +0000
-Received: by mail-pj1-x102e.google.com with SMTP id 98e67ed59e1d1-38ea87caafeso1404037a91.3
-        for <linux-nvme@lists.infradead.org>; Fri, 31 Jul 2026 23:02:39 -0700 (PDT)
+	Sat, 01 Aug 2026 06:02:47 +0000
+Received: by mail-pl1-x631.google.com with SMTP id d9443c01a7336-2ceab75934dso19441125ad.2
+        for <linux-nvme@lists.infradead.org>; Fri, 31 Jul 2026 23:02:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=isslab-korea-ac-kr.20251104.gappssmtp.com; s=20251104; t=1785564159; x=1786168959; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=8jsHQYZsIv+UEcM/v6JhPnpCp7qXtARbFHI5o9bFxNg=;
-        b=ZhSas4sJlJC0FjtUHYMCfqDlmePt4ZNBh25ByXxMCjRSdfsa9O51hFGVyhLg2Br++o
-         xymJ1K5x1sxYMj7fiuD4G+BXTon/D2xNJM7JReuNGIzuDrsG3Hunphbs3bnwJxCgF+hc
-         bTFcG60BiEd8r73NrGL2C0CN7UrfXk8YvYiah5bygk7IKVSJGHo8NtXsqjl81IEpJwbp
-         HWnolm8T0v2VahbO+GTBWy8sJpednf9CjuL4RXP0W5E/T65V+TwQSbBDveIAXKUMbZ1/
-         c+Bg1BJEfLPdclEBpUdA37kkkRRwJcNIyNr3rA6NAA9tRr0YUML8JB5aq61EVE45Thoc
-         HCtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785564159; x=1786168959;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=isslab-korea-ac-kr.20251104.gappssmtp.com; s=20251104; t=1785564165; x=1786168965; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=8jsHQYZsIv+UEcM/v6JhPnpCp7qXtARbFHI5o9bFxNg=;
-        b=BbrX5ztYF5R4Z+1gZLvLkFJoiYwT7Touy0ceaQLDgPPB6mBaEeHn3jDYKPWerhvDgP
-         SKpFQArjj35gC/nBy4VN4dL+ZyxRrQt7SUyl2N2gW80nDwgKn2X+qiTZd1gwm2ZNOAhN
-         Pjkkqq2L3CWxcIGDYwwVtew4eUiNM8eYcxOWRfj3T3nRraHTD5ANMCojw3Pl2MJec1Zz
-         SLrIZdqDDTWk2iPpwOh+SxjTZWPDiSghrhUlIZmxkYSrpvoVrPWJmTafpR3PxzKk4ul9
-         PdIJkAsaX3ffgh0IQNtQ8hOjXR6ljmW5B9Wg1H3OrWVfhrYuHgUArKXziipqpkz6wsWV
-         XUdw==
-X-Gm-Message-State: AOJu0YwFLgp86Ek+v6wOloH2fUYb3xDdyxvtGrJzEtc13zzK+JfzTVr3
-	+jbLG75DLG8HuXNS1eahYbsGFe6HD1o8CxmHV3xGvVagI3JjJahcFhiTmgtObcqt+nhgC6yGRxH
-	U16OUFkQ=
-X-Gm-Gg: AR+sD10epUHG481xGwxvnyMBDGYRY3FD9ED4dirs7FQd26WbC54DW7p1m7m5FKjxASj
-	0335RvTaEbXd9OmOri/AbCjaKuzg9yw53uHzT1ifW5froFWKm1FH9npGmi05YU3/PjvOuPSewdS
-	dhhSN8UzTD614L5T5mSvrJCGWRaBs2Cf1Ol/HAcMd7d76IDFqsky/f4vRz/vhFaSKi3csGeeiBt
-	QoswS8vY2fqPCfqIjRPNCJ/VUE3Z6gydaapIq1EmB+NWuEToU/9hNQfUhnucp6NRARG2Gsxdo1a
-	ZJHKYNb3H3SKGKyHCl+pLjNhiEhtspn4UmQD8tOVXwpb5CSjPdie8F8NcJoeVCVYpSAm/OclYyV
-	/xHFZpU2Dj6eTBRd3Aeyd/Yuermn/pU5jQPfYwLw4qL7fBrMtOeXxBK50mTV2Wtjp86Kr83P5T+
-	uNwnjqCMVT599MlJhIsRSBjY4VXe6/gVJJDHfZHOcbL/6UD4/d/tD/+UqRdHE6cg/zIzt2GRSRk
-	lf15enhOXs=
-X-Received: by 2002:a17:90b:3912:b0:38e:6a44:671b with SMTP id 98e67ed59e1d1-38fbc0a436emr2481271a91.0.1785564158719;
-        Fri, 31 Jul 2026 23:02:38 -0700 (PDT)
+        bh=Ar0TU0A76j4CC+o54wdVQpftKVR0bXPf2ahLSopc8SM=;
+        b=QystAK7Wx9D2qRM9Yu2UnVmMsV/wthfQYmCAJ5WD3qRZ6MCcnvKdo3vsKG04H9DK7F
+         ifU6HGKnPkcKpDLh6HvXyTVDnn0GGRZtE7PN0bu2OAnx/MeOPdXUOmZlxXEHyYz8VzoE
+         qW02UbFCQlJPgjx4mmBWFc3878mYQQQXmNZBm/8RO3QQG7BYCze1HiXlejTITZvT2vOo
+         l3OIrY2fn2sOFTb5dcTVzaiIIy13XTwkrudjQuTlg0iyBTDy8gEGxAO7qBeszye8Usec
+         Vv2Z8uo+bdRE4kaj0V5Y4dLZxtYkFBMjqG+2GXaWpOAj4MaOoKZL9TU175pCCVhTCa1i
+         937w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785564165; x=1786168965;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Ar0TU0A76j4CC+o54wdVQpftKVR0bXPf2ahLSopc8SM=;
+        b=WXVF09nNXNmBPb8K63hgin9VDRvkxESqar0UkpnWRh1U3MZJ1cSb0QPyK0ZkXieZA3
+         rqTGD0QL8FNbUBM5hs9eQIaT8G5Ulx1RlUqspsUsVgvqh7vP1FaHR03+06Nzzd4M8h0T
+         vinqay0sUW+pMb5H3/oCygM2fAERS8AykWCAVRp+34iPj2/sdIS0Ws/D/K0gXmaFQQb6
+         xyEt8QGG28jUx5EMSgp6kRnAw17VnPP9DvjBx/mu1NPfKFN9qP3/y5UwTLmWU/PnqEHy
+         fCvJBJ8ljrniI5jwNF03BJVyPPciFpTKtlrf+lloyQALVFjVWa7MZkc+pCLQEasf8ORJ
+         sHJA==
+X-Gm-Message-State: AOJu0YwgViufKCGAY8Ktl2bdzZrEvIJvMZlZ3dhPikWa7nfWugmdpYyv
+	3j9IMdR95yEnWnQrDsn6OydBgpe7NtkG3yB9lGn1F7J0Wl7VS2VcD01gI66xCJzhG4zblSSV+GD
+	DQcUM42g=
+X-Gm-Gg: AR+sD13oIf1aJou0JPIO7i1xq3ZHF+XS99ZwkZSSHf/6OoA4yyqPTKbC0KY3epdtJri
+	+WcHVrOB0LeKmgnC8CrqR09uopKw+sv20vH6stv3wHP9ldj3zFsNIA4MBlXZ+6N0yrqOuf4DogR
+	AMNK3AdK1kOVlknHLEctSfx1CzoomOLRi+HE/BIvKLc9oHe3p0xLwd33eVTfSs3d0D9WyYn6itl
+	rgIsXGlBvn/u7O7N1S4nGJQR0wvmii1/tsX1xQmh8+8ZH4vsp8hYwNYWPf8ndl4dfguY7MIgPES
+	lZMBoaNLA2hntbqfElG6+MNnmKvyf3OFU7+1k/KjmCkEAjzjBvKIzvqVdY8nEN8JHc+7wfxmGYT
+	vjKJu5NaP4skjk8KAwSX3nIWQPJTQLbpw1CFHraQwDet1LaGxzhz5BdV33IHE/n7ikuybYn47M6
+	JuL34G1JM45Qm4X6IjQw0uYB0un0W+2PIGQtwYxaqF4z/3eeIwKpGYeci4SpDC1a/J0qRUihq61
+	HNpZPujoiE=
+X-Received: by 2002:a17:90b:1d52:b0:381:3b5d:30f4 with SMTP id 98e67ed59e1d1-38fbc40e3a0mr2124348a91.1.1785564164843;
+        Fri, 31 Jul 2026 23:02:44 -0700 (PDT)
 Received: from localhost.localdomain ([2406:5900:1044:110c:c329:7b28:fe02:5dc8])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38fb2bae2efsm1598856a91.11.2026.07.31.23.02.35
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38fb2bae2efsm1598856a91.11.2026.07.31.23.02.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jul 2026 23:02:38 -0700 (PDT)
+        Fri, 31 Jul 2026 23:02:44 -0700 (PDT)
 From: Yehyeong Lee <yhlee@isslab.korea.ac.kr>
 To: linux-nvme@lists.infradead.org
 Cc: kbusch@kernel.org,
@@ -76,17 +77,19 @@ Cc: kbusch@kernel.org,
 	hch@lst.de,
 	sagi@grimberg.me,
 	linux-kernel@vger.kernel.org,
-	Yehyeong Lee <yhlee@isslab.korea.ac.kr>
-Subject: [PATCH v2 0/2] nvme-tcp: two checks on the C2HData receive path
-Date: Sat,  1 Aug 2026 15:01:59 +0900
-Message-ID: <20260801060201.1879499-1-yhlee@isslab.korea.ac.kr>
+	Yehyeong Lee <yhlee@isslab.korea.ac.kr>,
+	stable@vger.kernel.org
+Subject: [PATCH v2 1/2] nvme-tcp: reject a read that transferred too few bytes
+Date: Sat,  1 Aug 2026 15:02:00 +0900
+Message-ID: <20260801060201.1879499-2-yhlee@isslab.korea.ac.kr>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260801060201.1879499-1-yhlee@isslab.korea.ac.kr>
+References: <20260801060201.1879499-1-yhlee@isslab.korea.ac.kr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260731_230240_115525_9E2644E1 
-X-CRM114-Status: UNSURE (   9.91  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260731_230245_952121_4ADCCFFE 
+X-CRM114-Status: GOOD (  19.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,33 +104,124 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Two problems on the nvme-tcp host receive path, both reachable by a
-controller sending a C2HData PDU that does not match the command.
+nvme_tcp_recv_data() completes a request once the current C2HData PDU
+has been consumed. Nothing compares the total bytes received against
+the length the command asked for -- struct nvme_tcp_request has no
+receive-side counter, and queue->data_remaining is per queue, not per
+command. The layers above do not catch it either, since
+blk_mq_end_request() completes for blk_rq_bytes(rq) unconditionally and
+nothing here has a residual concept.
 
-1/2: nothing compares the bytes actually received against the length the
-command asked for, so a 4096-byte read answered with 512 bytes completes
-as fully successful.
+A controller can therefore answer a 4096-byte read with 512 bytes and
+have it reported as a complete read; user space then gets 4096 bytes of
+which 3584 are whatever was already in the page. I reproduced that with
+a test target.
 
-2/2: the C2HData gate reads blk_rq_payload_bytes() without first
-checking blk_rq_nr_phys_segments(), the rule commit 25e5cb780e62
-("nvme-tcp: fix possible crash in write_zeroes processing") established
-for the send path.
+Count the bytes received and refuse to complete a successful read whose
+count does not match, at the two NVME_TCP_F_DATA_SUCCESS paths and in
+nvme_tcp_process_nvme_cqe(). Only REQ_OP_READ is checked, because there
+the length comes from the sectors the request covers; a passthrough
+command is built by its submitter, which picks both the command and the
+buffer, so the kernel has nothing to compare against.
 
-Reproduced on v7.2-rc5 against a test target on loopback; no real hardware.
+Fixes: 3f2304f8c6d6 ("nvme-tcp: add NVMe over TCP host driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Yehyeong Lee <yhlee@isslab.korea.ac.kr>
+---
+v1 -> v2: an automated review pointed out that the check also applied to
+passthrough commands, where the kernel does not know the command's real
+transfer length; restricted to REQ_OP_READ.  Patch 2/2 is unchanged.
 
-1/2 returns -EPROTO, which resets the controller rather than failing one
-command, matching the other protocol-violation returns in this file. I can
-fail just the command instead if you prefer.
+ drivers/nvme/host/tcp.c | 34 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
 
-Link: https://lore.kernel.org/r/20260731143116.1870962-1-yhlee@isslab.korea.ac.kr
-
-Yehyeong Lee (2):
-  nvme-tcp: reject a read that transferred too few bytes
-  nvme-tcp: do not accept C2HData based on blk_rq_payload_bytes() alone
-
- drivers/nvme/host/tcp.c | 38 +++++++++++++++++++++++++++++++++++++-
- 1 file changed, 37 insertions(+), 1 deletion(-)
-
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index ba5c7b3e2a7c..4b72f555495d 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -80,6 +80,7 @@ struct nvme_tcp_request {
+ 
+ 	struct bio		*curr_bio;
+ 	struct iov_iter		iter;
++	u32			data_recvd;
+ 
+ 	/* send state */
+ 	size_t			offset;
+@@ -612,6 +613,29 @@ static void nvme_tcp_error_recovery(struct nvme_ctrl *ctrl)
+ 	queue_work(nvme_reset_wq, &to_tcp_ctrl(ctrl)->err_work);
+ }
+ 
++/*
++ * NVMe has no short read: a read that completes successfully must
++ * have transferred everything it asked for.
++ */
++static bool nvme_tcp_data_in_short(struct nvme_tcp_queue *queue,
++				   struct request *rq)
++{
++	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
++
++	if (req->status != cpu_to_le16(NVME_SC_SUCCESS))
++		return false;
++	if (req_op(rq) != REQ_OP_READ || !req->data_len)
++		return false;
++	if (likely(req->data_recvd == req->data_len))
++		return false;
++
++	dev_err(queue->ctrl->ctrl.device,
++		"queue %d tag %#x short data-in: got %u of %u\n",
++		nvme_tcp_queue_id(queue), rq->tag,
++		req->data_recvd, req->data_len);
++	return true;
++}
++
+ static int nvme_tcp_process_nvme_cqe(struct nvme_tcp_queue *queue,
+ 		struct nvme_completion *cqe)
+ {
+@@ -631,6 +655,9 @@ static int nvme_tcp_process_nvme_cqe(struct nvme_tcp_queue *queue,
+ 	if (req->status == cpu_to_le16(NVME_SC_SUCCESS))
+ 		req->status = cqe->status;
+ 
++	if (unlikely(nvme_tcp_data_in_short(queue, rq)))
++		return -EPROTO;
++
+ 	if (!nvme_try_complete_req(rq, req->status, cqe->result))
+ 		nvme_complete_rq(rq);
+ 	queue->nr_cqe++;
+@@ -953,6 +980,7 @@ static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue, struct sk_buff *skb,
+ 		*len -= recv_len;
+ 		*offset += recv_len;
+ 		queue->data_remaining -= recv_len;
++		req->data_recvd += recv_len;
+ 	}
+ 
+ 	if (!queue->data_remaining) {
+@@ -961,6 +989,8 @@ static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue, struct sk_buff *skb,
+ 			queue->ddgst_remaining = NVME_TCP_DIGEST_LENGTH;
+ 		} else {
+ 			if (pdu->hdr.flags & NVME_TCP_F_DATA_SUCCESS) {
++				if (unlikely(nvme_tcp_data_in_short(queue, rq)))
++					return -EPROTO;
+ 				nvme_tcp_end_request(rq,
+ 						le16_to_cpu(req->status));
+ 				queue->nr_cqe++;
+@@ -1009,6 +1039,9 @@ static int nvme_tcp_recv_ddgst(struct nvme_tcp_queue *queue,
+ 					pdu->command_id);
+ 		struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
+ 
++		if (unlikely(nvme_tcp_data_in_short(queue, rq)))
++			return -EPROTO;
++
+ 		nvme_tcp_end_request(rq, le16_to_cpu(req->status));
+ 		queue->nr_cqe++;
+ 	}
+@@ -2736,6 +2769,7 @@ static blk_status_t nvme_tcp_setup_cmd_pdu(struct nvme_ns *ns,
+ 	req->status = cpu_to_le16(NVME_SC_SUCCESS);
+ 	req->offset = 0;
+ 	req->data_sent = 0;
++	req->data_recvd = 0;
+ 	req->pdu_len = 0;
+ 	req->pdu_sent = 0;
+ 	req->h2cdata_left = 0;
 -- 
 2.43.0
 
