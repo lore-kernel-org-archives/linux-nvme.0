@@ -4,72 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8D787C55178
-	for <linux-nvme@archiver.kernel.org>; Sun,  2 Aug 2026 06:18:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DE889C55171
+	for <linux-nvme@archiver.kernel.org>; Sun,  2 Aug 2026 06:18:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JlAMfxnCI+4aukUkFCGEvLd7cna91lGu4ajCL8U6GrU=; b=c9tsJDWgpJaWBoaDbDr54YL74R
-	IJY+fgoMqquSLdMGDZdELWAcWckKxg56wvCN0mRerwtf+kmDVTWU+jqQamJO4sRkx2gxFr6k+KeLH
-	WV3wzjH6omnZ/LwNR6KZbowkpoI07Lhi3i/N0DI8IhpH7RRteRC0EsTYHGZrC1t3cs4QEC3jLl0XI
-	iygfRqt2IxUI/UhqDQ8bkN3fGsn4fyk8Ab5hJIE5z3RP0YIIdWozx1+5MFivGaBT33Y6Owvv5jsdv
-	Yf33/lrOTT3nVwqIe95+FzqcsBI2mwlKYqf5cAj8NRWU41ieZKUcLsYrIy5FV00Ue44h04HOg+9+V
-	r22JYVYQ==;
+	bh=UQw568s99USSdIytlPm2Vpoz5MduETOEjKRltqiPXcQ=; b=0YBXPfXlVgFvWz6gklVzYzcNah
+	MgV83Efsu0POPDpvA1dSKj0bc2ykV7aiYCH4SVRakAJXHR8+syJbLRvvT4i6PZn7kxZF58kF0eKKJ
+	HBKLooPJ21eNQ3T6vZ/m4v/qqjgU+POjs+J3m4hIttegegwg7j7xH0XhY42uElwKx9rkLYEJSD4Ba
+	a6c9E7OhrNx/b73yF7ZlG9UGMYsFdoHs6Wj9gWWqkSt5ifQWhDKT1gO/vg/j9ZXqgO3qqsqrNeltU
+	xnoFuTtBVCOBXNBkr2E6dH3i8w+zpGsRR+ZDj+y4UyYggbZgAAy//VPltjzVx4KOOZAh8IC3yPrZy
+	hDMezLJQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wqPX6-0000000FOMD-1gqg;
-	Sun, 02 Aug 2026 06:18:48 +0000
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
+	id 1wqPX7-0000000FON6-2M0q;
+	Sun, 02 Aug 2026 06:18:49 +0000
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wqBvz-0000000EovV-3muH
+	id 1wqByj-0000000EpD4-09I9
 	for linux-nvme@lists.infradead.org;
-	Sat, 01 Aug 2026 15:47:37 +0000
-Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-2ceab75934dso22602065ad.2
-        for <linux-nvme@lists.infradead.org>; Sat, 01 Aug 2026 08:47:35 -0700 (PDT)
+	Sat, 01 Aug 2026 15:50:26 +0000
+Received: by mail-pl1-x631.google.com with SMTP id d9443c01a7336-2ce7d2adef4so32824785ad.3
+        for <linux-nvme@lists.infradead.org>; Sat, 01 Aug 2026 08:50:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785599255; x=1786204055; darn=lists.infradead.org;
+        d=gmail.com; s=20251104; t=1785599424; x=1786204224; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=JlAMfxnCI+4aukUkFCGEvLd7cna91lGu4ajCL8U6GrU=;
-        b=DwByA4U7uS9r5Y5II2QV9P0R00iUOuh7SBYByprq1M7/jBQzk6Lwsdbr7tc1tvUoaG
-         FiHj5eEeVK1e0E1/QUjkb8K4wwZprv609smmzjelSZhmLH7IxhGC+ihQnA2lp4KYb7NG
-         VD7LAQ76PaoLIYgwPzxMU65MOGn6rOIRIYJmYS9fw7IdtTF2wPkSl1FhgNoCfjfbV6Aa
-         Y+ILf3+Ke881HYOarQkBjlh8QhnkCAHFE5WBybG6wV1OmFJxi7cKbyXjvTmh8/8Un/Mc
-         Cr+AT5MEKCWyG7CkQ3ViPc4LUREHZPwNZSuzcKVNJ4YTWyvr+QN5PU2gBbBOubIXwR3w
-         /EOw==
+        bh=UQw568s99USSdIytlPm2Vpoz5MduETOEjKRltqiPXcQ=;
+        b=EwoAOcS4H0KQH/Ly5JGBh+ttksxUpGRC9VuctOgPjVO7+pdeFy5GO/Y7NfwirUZOVM
+         nE+6UCz5H9Jt2TLhkQ+hyyXdRukMlijrEcc/rpFA2JZK818rMENjE+dqmBMgK1hT1gHr
+         HLyhghQv1Zvh8J5wuMBRVJJE1gq2zF0Do8DgGFCdSkaACj4oOmpW0IbTXFQG3xWTNazL
+         XhuN7kg9MlX3uFo7I68Rdomjz5Hwvdpw1JamxVxy73rPKiXqmLp18CjIGY0MeRfiD29a
+         XSBaKYoeYc+Th1/QYQADYEcgS/oWi4h/SXyKwrsG5zGdkh6X8Xs3zaRR/maqon6ZXiGI
+         zWRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785599255; x=1786204055;
+        d=1e100.net; s=20251104; t=1785599424; x=1786204224;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=JlAMfxnCI+4aukUkFCGEvLd7cna91lGu4ajCL8U6GrU=;
-        b=IGPTzsr+B+T7bB5xQEWoCqFsvBwVsBlahbuzhwBfm+LUm59/cjKmBi8O/q4GhGfBNJ
-         y+7kdjhQN9qaitmqry2ua6XzXVxJfWNhClKQYsSmYGtqFiJ+SojmUH5IuP4F5SjvECxi
-         +a9rEW06Lw0oRsAkTlM5xkDZ0uOnigP/455kioe/D8rq9mDivhCKTq54yU7MaWhFzCRO
-         jOPg4eKN645fJusqb81m7QfV0TtByvS3zsG/G8lOgThYcFXe7fTP0pR+Z3/PccJKXdVJ
-         RYIjLyTMBj4xKmoPLN69LiaFpYTp5O30pvmlTvuA5SZnpGHF6JIUFBKDuG70WJhbUArr
-         Eraw==
-X-Forwarded-Encrypted: i=1; AHgh+RpApQD8hkoto5LoxY8gqPauFJdKTd6Y9ZBy6JintEsxcCivMbdO3INRBNKak4BZykvgXoEajVy2afKP@lists.infradead.org
-X-Gm-Message-State: AOJu0YzkHdfhSewKg48wza4EwLPdl5SsDe4RnRaL1WSUC25/wMw3BNKt
-	kCjg7EFYup/9UUT/sN+XJPA1tCY+ry/YO4sACM/iosd8roCqX42iXUdk
-X-Gm-Gg: AR+sD10/zeo7MkcoDgHqQYchDY0zJYM77DrZW43ZXIQiQVzoKZyzCgDyoKBMKoKSssj
-	A31V0A4tBObQ4nG7zR1uSmIkNfArl8xz4faRdClWmZJ7WDBulNHKfPyhLak+V/zHRm62QNETGiN
-	v7JyNezvG8Sy5Pn8r+sT+qSQJTrb6XvufKuJTrbxjlKfCHU1IIQ9KMruI59sfJ0bn+JO1Z4Py2h
-	+u77qd3RfYT/E0ucXHFphuMmb3eFKRI17Vajlj3Cf28aU95RVNmWFUs3du/asTd2Q2GvaDDe2nN
-	JkMWrFsmpikYL8QLy5WZ/SE8d1Rq6dbxyIEGIyrGSw1J7Jtklkxnd7iDRZGmeARzFv5Ot4I2R3i
-	ccdjMT8yvwRDnJ43gu7QO45nbuuNYW9T9DLi407VeQ6K+9EP96DQmYCihPEvLoRlzpVqkpAVSZO
-	yPJIpk/yzNCO7vJLySZOoPd+tEc+jSnKme1pmjULCaPs0pY425klabKJ7//4ooBxlKNUN/+6yS4
-	yA1ESXyaahUqgfZSvL8YS2qsURSTnxN4Je2YS85SbQ5w8sLEPAs8kVt1EM=
-X-Received: by 2002:a17:902:d2c4:b0:2ca:e5c:7fba with SMTP id d9443c01a7336-2d0524da9d3mr35313785ad.39.1785599254851;
-        Sat, 01 Aug 2026 08:47:34 -0700 (PDT)
+        bh=UQw568s99USSdIytlPm2Vpoz5MduETOEjKRltqiPXcQ=;
+        b=eg9txr5x9fwVlYH68dkWf4dIawqIt5KR1bBP0iNEf7y/qcA7HRad8ARYJcpJhoVGuw
+         3FUyrM7l/IlI6R2BFG3PHdSqKyQSS67eDVnChf2kIiSyrDqqbhXPxUPCU2ImAp9jMm5h
+         HC035G2C+bOlq/vT62uxtxmqWUxUJdh+M8mpNrcOMS6FFAhASWtxZmKVATZI/auoM21Y
+         knw9Ol+WvMH6zZzp/aVxNpD25LvqwUT1S3sdXLIrPNeJzq5mn1Z2rH/xTYc22YC9Xa0j
+         0JDpn2F66g9ySSzJoqnsQ91WRQSWDe1WnJZY88gSTrAcX5RuDKUhVkAEflyTcfaKXa1e
+         0aew==
+X-Forwarded-Encrypted: i=1; AHgh+Rp/nVb93bbBB20tm9Hdl1s9JFeuj5CdqzCaRDKZmeEKv03HxuYBhqgtUlSiV8x7+Ii18TRT6Yt5ASs/@lists.infradead.org
+X-Gm-Message-State: AOJu0Yzz5AkDhBp2RkTSI0WRPmzEhU3h3FrzTcRwmIRxMybvHfAJW0ox
+	iHtud+owPnV1PjI1VrZgfIb7+W0nSr3AZsuH9C8ANQ5OewLI83aJDLGt
+X-Gm-Gg: AR+sD13K+ZiwnLgIIT32PlocTuW/zU3G2nHsuKXKtkK8IpUg96RnNgBmLq3HNSXQ3vA
+	0ByG9GlXjz7+iOVR0hJyH0Pt2VeWWfegIK+3gUpr3TVWIL4uHMe36j70ohAtwEm1I5vo/Tm5yGq
+	2uVeH54+qu+iWxuqkKDsMrWDgyxEdPuCVSReyC7VSiHPgVjHEEAATxeOnu2ZTQpWDDnZqlW5Ia7
+	Rm8ydHfbzVBF7WZ6sMemyULuY++wK0WT0Uy6Xk2ig91Kt1g71y+/eV8AsBq2oRPa0k11Zu+BxMD
+	pLtELM/w4u/7hebefcp55QMb4iKfn8xFTJwuTMpXxAE4Kv6G0yWvKn1LYkl6F6M/WYWnGR6WjnO
+	pFb9HiPrSyndsRBRA3akLPJT5lgaOajOSaNRvfwHg0xFNtHAo5JTM4oYx+lOor2hCXFZEgVa6jS
+	K+gOpe/VaC0V4mxZdK8sMz5Sb6qeCQeS4+YrC+TmRo5an9UW38RyQoMIiizD1fHDR0YgunsUMhv
+	McFxddRiLAg7EhQTyxVx46f4P/Cte/E2tqUInQUGgOpyt8zKIXoKKb27w==
+X-Received: by 2002:a17:902:d2cf:b0:2ca:a03a:29b2 with SMTP id d9443c01a7336-2d0521a5657mr42155635ad.8.1785599424386;
+        Sat, 01 Aug 2026 08:50:24 -0700 (PDT)
 Received: from 127.net ([2620:10d:c092:600::1:61d0])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d04b12202bsm18287605ad.66.2026.08.01.08.47.14
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d04b12202bsm18287605ad.66.2026.08.01.08.50.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Aug 2026 08:47:34 -0700 (PDT)
+        Sat, 01 Aug 2026 08:50:23 -0700 (PDT)
 From: Pavel Begunkov <asml.silence@gmail.com>
 To: Jens Axboe <axboe@kernel.dk>,
 	Keith Busch <kbusch@kernel.org>,
@@ -108,17 +108,17 @@ Cc: asml.silence@gmail.com,
 	nvdimm@lists.linux.dev,
 	linux-btrfs@vger.kernel.org,
 	ceph-devel@vger.kernel.org
-Subject: [PATCH v5 02/16] iov_iter: add iterator type for dmabuf maps
-Date: Sat,  1 Aug 2026 16:46:14 +0100
-Message-ID: <c1ab6c0db3853b339a89aee0b1a9c5ac0c48b79e.1785596451.git.asml.silence@gmail.com>
+Subject: [PATCH v5 10/16] nvme-pci: rename nvme_pci_sgl_set_data to nvme_pci_dma_iter_set_sgl
+Date: Sat,  1 Aug 2026 16:46:22 +0100
+Message-ID: <ff507b4895521074938d82fe2647e003359ec2be.1785596451.git.asml.silence@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <cover.1785596451.git.asml.silence@gmail.com>
 References: <cover.1785596451.git.asml.silence@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260801_084735_959229_5AF76E91 
-X-CRM114-Status: GOOD (  20.95  )
+X-CRM114-CacheID: sfid-20260801_085025_083182_DCE98E46 
+X-CRM114-Status: GOOD (  13.10  )
 X-Mailman-Approved-At: Sat, 01 Aug 2026 23:18:43 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -134,149 +134,65 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Introduce a new iterator type for dmabuf maps. The map in an opaque
-object with internals and format specific to the subsystem / driver, and
-only it can use that subsystem / driver for issuing IO. The task of the
-middle layers is to pass the map / iterator further down, maybe doing
-basic splitting and length checking. The iterator can only be used by
-operations of the file the associated map was created for.
+From: Anuj Gupta <anuj20.g@samsung.com>
 
-Suggested-by: Keith Busch <kbusch@kernel.org>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Rename the blk_dma_iter based nvme_pci_sgl_set_data() to
+nvme_pci_dma_iter_set_sgl().
+
+Suggested-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
 Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
 ---
- include/linux/uio.h | 11 +++++++++++
- lib/iov_iter.c      | 29 +++++++++++++++++++++++------
- 2 files changed, 34 insertions(+), 6 deletions(-)
+ drivers/nvme/host/pci.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/include/linux/uio.h b/include/linux/uio.h
-index fe2e985d74d2..638c1116e912 100644
---- a/include/linux/uio.h
-+++ b/include/linux/uio.h
-@@ -12,6 +12,7 @@
- 
- struct page;
- struct folio_queue;
-+struct dma_buf_io_map;
- 
- typedef unsigned int __bitwise iov_iter_extraction_t;
- 
-@@ -29,6 +30,7 @@ enum iter_type {
- 	ITER_FOLIOQ,
- 	ITER_XARRAY,
- 	ITER_DISCARD,
-+	ITER_DMABUF_MAP,
- };
- 
- #define ITER_SOURCE	1	// == WRITE
-@@ -71,6 +73,7 @@ struct iov_iter {
- 				const struct folio_queue *folioq;
- 				struct xarray *xarray;
- 				void __user *ubuf;
-+				struct dma_buf_io_map *dmabuf_map;
- 			};
- 			size_t count;
- 		};
-@@ -155,6 +158,11 @@ static inline bool iov_iter_is_xarray(const struct iov_iter *i)
- 	return iov_iter_type(i) == ITER_XARRAY;
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 5608ede6c479..7b8ed101a13b 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1287,7 +1287,7 @@ static blk_status_t nvme_pci_setup_data_prp(struct request *req,
+ 	return BLK_STS_IOERR;
  }
  
-+static inline bool iov_iter_is_dmabuf_map(const struct iov_iter *i)
-+{
-+	return iov_iter_type(i) == ITER_DMABUF_MAP;
-+}
-+
- static inline unsigned char iov_iter_rw(const struct iov_iter *i)
+-static void nvme_pci_sgl_set_data(struct nvme_sgl_desc *sge,
++static void nvme_pci_dma_iter_set_sgl(struct nvme_sgl_desc *sge,
+ 		struct blk_dma_iter *iter)
  {
- 	return i->data_source ? WRITE : READ;
-@@ -300,6 +308,9 @@ void iov_iter_folio_queue(struct iov_iter *i, unsigned int direction,
- 			  unsigned int first_slot, unsigned int offset, size_t count);
- void iov_iter_xarray(struct iov_iter *i, unsigned int direction, struct xarray *xarray,
- 		     loff_t start, size_t count);
-+void iov_iter_dmabuf_map(struct iov_iter *i, unsigned int direction,
-+			struct dma_buf_io_map *map,
-+			loff_t off, size_t count);
- ssize_t iov_iter_get_pages2(struct iov_iter *i, struct page **pages,
- 			size_t maxsize, unsigned maxpages, size_t *start);
- ssize_t iov_iter_get_pages_alloc2(struct iov_iter *i, struct page ***pages,
-diff --git a/lib/iov_iter.c b/lib/iov_iter.c
-index 34a52e9ba9e1..de5c1040a4a0 100644
---- a/lib/iov_iter.c
-+++ b/lib/iov_iter.c
-@@ -575,7 +575,8 @@ void iov_iter_advance(struct iov_iter *i, size_t size)
- {
- 	if (unlikely(i->count < size))
- 		size = i->count;
--	if (likely(iter_is_ubuf(i)) || unlikely(iov_iter_is_xarray(i))) {
-+	if (likely(iter_is_ubuf(i)) || unlikely(iov_iter_is_xarray(i)) ||
-+	    unlikely(iov_iter_is_dmabuf_map(i))) {
- 		i->iov_offset += size;
- 		i->count -= size;
- 	} else if (likely(iter_is_iovec(i) || iov_iter_is_kvec(i))) {
-@@ -631,7 +632,8 @@ void iov_iter_revert(struct iov_iter *i, size_t unroll)
- 		return;
+ 	sge->addr = cpu_to_le64(iter->addr);
+@@ -1317,7 +1317,7 @@ static blk_status_t nvme_pci_setup_data_sgl(struct request *req,
+ 	iod->cmd.common.flags = NVME_CMD_SGL_METABUF;
+ 
+ 	if (entries == 1 || blk_rq_dma_map_coalesce(&iod->dma_state)) {
+-		nvme_pci_sgl_set_data(&iod->cmd.common.dptr.sgl, iter);
++		nvme_pci_dma_iter_set_sgl(&iod->cmd.common.dptr.sgl, iter);
+ 		iod->total_len += iter->len;
+ 		return BLK_STS_OK;
  	}
- 	unroll -= i->iov_offset;
--	if (iov_iter_is_xarray(i) || iter_is_ubuf(i)) {
-+	if (iov_iter_is_xarray(i) || iter_is_ubuf(i) ||
-+	    iov_iter_is_dmabuf_map(i)) {
- 		BUG(); /* We should never go beyond the start of the specified
- 			* range since we might then be straying into pages that
- 			* aren't pinned.
-@@ -775,6 +777,20 @@ void iov_iter_xarray(struct iov_iter *i, unsigned int direction,
- }
- EXPORT_SYMBOL(iov_iter_xarray);
+@@ -1339,7 +1339,7 @@ static blk_status_t nvme_pci_setup_data_sgl(struct request *req,
+ 			iter->status = BLK_STS_IOERR;
+ 			break;
+ 		}
+-		nvme_pci_sgl_set_data(&sg_list[mapped++], iter);
++		nvme_pci_dma_iter_set_sgl(&sg_list[mapped++], iter);
+ 		iod->total_len += iter->len;
+ 	} while (blk_rq_dma_map_iter_next(req, nvmeq->dev->dev, iter));
  
-+void iov_iter_dmabuf_map(struct iov_iter *i, unsigned int direction,
-+			 struct dma_buf_io_map *map,
-+			 loff_t off, size_t count)
-+{
-+	WARN_ON(direction & ~(READ | WRITE));
-+	*i = (struct iov_iter){
-+		.iter_type = ITER_DMABUF_MAP,
-+		.data_source = direction,
-+		.dmabuf_map = map,
-+		.count = count,
-+		.iov_offset = off,
-+	};
-+}
-+
- /**
-  * iov_iter_discard - Initialise an I/O iterator that discards data
-  * @i: The iterator to initialise.
-@@ -841,7 +857,7 @@ static unsigned long iov_iter_alignment_bvec(const struct iov_iter *i)
+@@ -1502,13 +1502,13 @@ static blk_status_t nvme_pci_setup_meta_iter(struct request *req)
+ 	iod->cmd.common.metadata = cpu_to_le64(sgl_dma);
+ 	if (entries == 1) {
+ 		iod->meta_total_len = iter.len;
+-		nvme_pci_sgl_set_data(sg_list, &iter);
++		nvme_pci_dma_iter_set_sgl(sg_list, &iter);
+ 		return BLK_STS_OK;
+ 	}
  
- unsigned long iov_iter_alignment(const struct iov_iter *i)
- {
--	if (likely(iter_is_ubuf(i))) {
-+	if (likely(iter_is_ubuf(i)) || iov_iter_is_dmabuf_map(i)) {
- 		size_t size = i->count;
- 		if (size)
- 			return ((unsigned long)i->ubuf + i->iov_offset) | size;
-@@ -872,7 +888,7 @@ unsigned long iov_iter_gap_alignment(const struct iov_iter *i)
- 	size_t size = i->count;
- 	unsigned k;
+ 	sgl_dma += sizeof(*sg_list);
+ 	do {
+-		nvme_pci_sgl_set_data(&sg_list[++i], &iter);
++		nvme_pci_dma_iter_set_sgl(&sg_list[++i], &iter);
+ 		iod->meta_total_len += iter.len;
+ 	} while (blk_rq_integrity_dma_map_iter_next(req, dev->dev, &iter));
  
--	if (iter_is_ubuf(i))
-+	if (iter_is_ubuf(i) || iov_iter_is_dmabuf_map(i))
- 		return 0;
- 
- 	if (WARN_ON(!iter_is_iovec(i)))
-@@ -1469,11 +1485,12 @@ EXPORT_SYMBOL_GPL(import_ubuf);
- void iov_iter_restore(struct iov_iter *i, struct iov_iter_state *state)
- {
- 	if (WARN_ON_ONCE(!iov_iter_is_bvec(i) && !iter_is_iovec(i) &&
--			 !iter_is_ubuf(i)) && !iov_iter_is_kvec(i))
-+			 !iter_is_ubuf(i) && !iov_iter_is_kvec(i) &&
-+			 !iov_iter_is_dmabuf_map(i)))
- 		return;
- 	i->iov_offset = state->iov_offset;
- 	i->count = state->count;
--	if (iter_is_ubuf(i))
-+	if (iter_is_ubuf(i) || iov_iter_is_dmabuf_map(i))
- 		return;
- 	/*
- 	 * For the *vec iters, nr_segs + iov is constant - if we increment
 -- 
 2.54.0
 
