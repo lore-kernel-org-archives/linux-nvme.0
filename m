@@ -4,115 +4,122 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EBCA4C55173
-	for <linux-nvme@archiver.kernel.org>; Sat,  1 Aug 2026 14:02:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B2B65C55171
+	for <linux-nvme@archiver.kernel.org>; Sun,  2 Aug 2026 06:18:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xXJlW879nntaanZOK2FIHzSjh19Wnn8AH29eV7xE6pg=; b=rZsc0D8PgAlM28ye9psB2bJhTR
-	12aWH9gaXY+v7ZqknsNLlJ9UT411Z+1MxF+AYH+SL9cDnqGALbArOreyxMd3reZPY4Y5JWccf3EO+
-	PrWsk6oOAJXfDDhcYDiTuv7iRZv0D12X57H67Gl8FFOmtECm2GdIVms730yhYOm49/B+2+OyqSjQn
-	7wurRBqzOFnW7U7QtBW2LWVOcsL/u2S/f2lLSvQhX67v5rhsZkX6IlYKBzYC02c1uUoY0h7pv5i3+
-	9Ict3ocR/WmoAjyJh/8a5DzEYPIQFiJt5/VWaxTtAYVRnk4Eg+/b8wjNog3y8nbasxiPksTjn48He
-	/r8chWzg==;
+	bh=fNwG3AVDWWb9LJ452AKZwLvgJ2n9C62K2MctNIPjTBk=; b=sH+YPrlfVWJn6ze3zerr3PG3YC
+	3Zuv513OrrnbelXqogKNk21YItNfoU7q3iTpxrgxJpzQ9D2WD9WSwj3f0v2gzEJiCCiICnUs10MQm
+	E1sWTXBYceieFrcwaYqPzPXOj/Rf4ounTCxymMjrZ92p99C0YIwZlhDFNVm1QO9km0HY8BWUvP6Cu
+	Z6bARnO6VhThKM23uyooRxwF2XMf8e6icMx0kEjEOTb9f6opdPbm5WVLc3FKC2CB6BrdaN1b5498y
+	iytGBh6wJZXybtXviYdwY5jezX6mHgwphIDrijR7LMK2q98qeX9FjULpZlx/1KNoGyz3YEC8ZfCg+
+	z6Ox2MdA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wqAHn-0000000EhgM-1G6k;
-	Sat, 01 Aug 2026 14:01:59 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1wqPX6-0000000FOMJ-2Yeo;
+	Sun, 02 Aug 2026 06:18:48 +0000
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wqAHl-0000000Ehg1-0iNr
+	id 1wqBwL-0000000Eowy-0tJW
 	for linux-nvme@lists.infradead.org;
-	Sat, 01 Aug 2026 14:01:58 +0000
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 671Clcom2923843;
-	Sat, 1 Aug 2026 14:01:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=xXJlW8
-	79nntaanZOK2FIHzSjh19Wnn8AH29eV7xE6pg=; b=VerTylqsqwzQLFkXgQZM7f
-	TIZZaLjFodow9ozmhnvT24FNTaJbEuazVKYvyigGedRFBQTYRvx7fQkp913N7IAa
-	d513+IplwKssZ0aAXKWBlPGlzsYPXjKMRZBVyUNt5UiYlMYJ9+SH74woSkuLJqYh
-	hvDU7a2WrUZFbzO5e49etOsORiqBNn4Cg3gls/vhvg4AlVbvmUNz0p6X+UrhHjVp
-	zeywuzPWiXMG96t7M3hL+/zcQovxXUSK1gi9H/TCFO/C2pZWhdBiJVkiRlLO/X0U
-	Ek4AgbcLJpqdLSU2R3zXkpR6+tlgnmnezavyt2NokUdME7LYeIJmmdP61uWJSipg
-	==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fs8fq9fd7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 01 Aug 2026 14:01:44 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 671DfFwc019968;
-	Sat, 1 Aug 2026 14:01:43 GMT
-Received: from smtprelay05.wdc07v.mail.ibm.com ([172.16.1.72])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4fn8fkm4u4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 01 Aug 2026 14:01:43 +0000 (GMT)
-Received: from smtpav02.dal12v.mail.ibm.com (smtpav02.dal12v.mail.ibm.com [10.241.53.101])
-	by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 671E1hF345810024
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 1 Aug 2026 14:01:43 GMT
-Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E1FC35805A;
-	Sat,  1 Aug 2026 14:01:42 +0000 (GMT)
-Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 81A4258051;
-	Sat,  1 Aug 2026 14:01:39 +0000 (GMT)
-Received: from [9.43.78.15] (unknown [9.43.78.15])
-	by smtpav02.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Sat,  1 Aug 2026 14:01:39 +0000 (GMT)
-Message-ID: <6f4a1b76-50f4-45f8-9a56-e6f66637d7e7@linux.ibm.com>
-Date: Sat, 1 Aug 2026 19:31:37 +0530
+	Sat, 01 Aug 2026 15:47:58 +0000
+Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-2cf52d15d88so16316705ad.2
+        for <linux-nvme@lists.infradead.org>; Sat, 01 Aug 2026 08:47:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785599276; x=1786204076; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=fNwG3AVDWWb9LJ452AKZwLvgJ2n9C62K2MctNIPjTBk=;
+        b=OrjRTtktJbxGQh1/y6xdPFBzSOVUq409mrT1gbPn0MVxGOq/z1PDFVaSWxLN/LxY0d
+         3g0Sf0EiaW88vWRAq8DYX7ehb5DwaSl3nXJSYvumRn9mrRBczl5qqN3WBetre/CjrhgV
+         J6KbkQisLiidJZnG9uacXjasEC2HlAK+UG9iAZ3a1lKRvYhV20bX0y/6ljmZIEWQbtMi
+         1tTjNC1YUM8kvO9fUGOyCQKggXEnCjRNhFGerbyNyas0nvyllvU8O+7C6AevEC+2PmaZ
+         /TfCbkE+/ocVUuDgqnJidjM/NAQxxSs8vb08usZvXWpR88lrlVEX26riPvSy6NYXB21Y
+         7L9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785599276; x=1786204076;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=fNwG3AVDWWb9LJ452AKZwLvgJ2n9C62K2MctNIPjTBk=;
+        b=FGqNmfPryt+hdYpJuk8iIYdPXSIKJlMA2XjvylB6qx4HJyQ01zC7D4ZNF3QRHynV7j
+         qNHuRu4pv+4uf2Tc5XY0/+IR2yk49B4z4brZv8pHyvfaE7Cbgy5AKzeolp3QYWGKo5vM
+         Y49kZp2sstdiolwDpxLRAqo/XwEG1WnVSMTM7A7IugmPTt0JZ+AApn6MueBKz24Zjsia
+         vbIHZfzAPuZ+UeLJaGaw2x03EpJjJYyeTPRn5pH5cyRxCHQ6g0G4mDM4DEQ8y9Lo8qCa
+         Zi6lxuncNvZ37ahSD/PEv7yqoc70GJMCEjMhOUA/Tk3y1ddVl5TVEHglX3qnHntEYz/S
+         Srtg==
+X-Forwarded-Encrypted: i=1; AHgh+RqiEqnsad+MaZP/RBa9KGMFelwNsSe+JnazO75yRE56JIFnggrIbskxP8KV7Jh/SIv+1XQNZuBj19KY@lists.infradead.org
+X-Gm-Message-State: AOJu0YxTJ3csc57ITuQPCVN9zb1RkS9v43qM4Z9Mv9m8UJfcaUf/NLzX
+	1HJE6gV85EJIpbHBvCq3EQBeQjCkhwQpBM8WqUiDUoFydzKtjSfeHaB7
+X-Gm-Gg: AR+sD10r4V6McMpNcGzY3DBjYQmrMb+EwCZ/ztf6HjUiXfH2P+ROJ6C7Y9+AdLtPRXc
+	LGiuv4qbzhO3M2VPH8sfEpGPwAbmT3jxDBsXK+aUAUvXe8AW4b4LK8BfF4KsIvmh5ieLvkSTOLR
+	nF98diQDP2D6sHDtYY042BiSVIuGskAfUyYJ23MDv9BniR7AnKp18DJbxeKqtqwdKXJ0gt0Yjlz
+	k+xXt5xf4312CstS9kaTizdvXGJ0QX7f1dmA45+qlmpjy5a10TfmHXYP1OOXmqJkti71WfwSR51
+	pvxYvyoc9Q4y2EUt5+njUGxe/C9IHNQRW8ed/V6/ARgudXAnfkjIkYgkLka9mAIwfceIkxMW4yO
+	1jj5Ocnovu746NJxmqXgleEhu4ekLt4meFBr8EHGGcQv35UACXjOjzkD5APNDhJgIjn3q+yuFyZ
+	PGEXO7itq8EqLZvkQIMP/U/0+o2Vw9ceJftSjp3opMjcoQcShjUnEx1SCQBJzj77e5akXjWfMzQ
+	sdl29GtjvALt8whZz3JESXUWT4OXK7U7y4Wxe92yyv7IkQ=
+X-Received: by 2002:a17:903:24e:b0:2c0:e2ea:6b0c with SMTP id d9443c01a7336-2d0521c66abmr36508465ad.21.1785599276070;
+        Sat, 01 Aug 2026 08:47:56 -0700 (PDT)
+Received: from 127.net ([2620:10d:c092:600::1:61d0])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d04b12202bsm18287605ad.66.2026.08.01.08.47.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 01 Aug 2026 08:47:55 -0700 (PDT)
+From: Pavel Begunkov <asml.silence@gmail.com>
+To: Jens Axboe <axboe@kernel.dk>,
+	Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org,
+	io-uring@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org
+Cc: asml.silence@gmail.com,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Nitesh Shetty <nj.shetty@samsung.com>,
+	Kanchan Joshi <joshi.k@samsung.com>,
+	Anuj Gupta <anuj20.g@samsung.com>,
+	Tushar Gohad <tushar.gohad@intel.com>,
+	William Power <william.power@intel.com>,
+	Phil Cayton <phil.cayton@intel.com>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Alasdair Kergon <agk@redhat.com>,
+	Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	David Sterba <dsterba@suse.com>,
+	Ilya Dryomov <idryomov@gmail.com>,
+	dm-devel@lists.linux.dev,
+	nvdimm@lists.linux.dev,
+	linux-btrfs@vger.kernel.org,
+	ceph-devel@vger.kernel.org
+Subject: [PATCH v5 03/16] block: rename bi_bvec_done
+Date: Sat,  1 Aug 2026 16:46:15 +0100
+Message-ID: <4c5836c6b69ba764419eb5eff7b6d69a3cc348d8.1785596451.git.asml.silence@gmail.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <cover.1785596451.git.asml.silence@gmail.com>
+References: <cover.1785596451.git.asml.silence@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH blktests] nvme/070: add a test for Identify CNS 07h NULL
- pointer dereference
-To: Guixin Liu <kanie@linux.alibaba.com>, shinichiro.kawasaki@wdc.com,
-        Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-        Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-        Hannes Reinecke <hare@suse.de>, Chaitanya Kulkarni <kch@nvidia.com>,
-        Kanchan Joshi <joshi.k@samsung.com>
-Cc: linux-nvme@lists.infradead.org
-References: <20260731032601.1100664-1-kanie@linux.alibaba.com>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <20260731032601.1100664-1-kanie@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-GUID: jQNXJKuRezt3EupqSQ4Z6s-MbX8SiJ2T
-X-Proofpoint-ORIG-GUID: Rc7v9RMSWeNdqEqHY6DPQKL_t_w84DoM
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODAxMDExMCBTYWx0ZWRfXxvxmifJQnxAS
- 8sTbHEtEWUuhDyk+Sj3h2WQ6ATFf4aKP6h23GEZdpqtvDRD7seIVWr1mpmBfEujh94u1A8vTucy
- bZhYO2pdLYTW3ZiRr3WL+Y7OTNM9xws=
-X-Authority-Analysis: v=2.4 cv=K8cS2SWI c=1 sm=1 tr=0 ts=6a6dfc49 cx=c_pps
- a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
- a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=MkjvqwrSNOGWUdQk704A:9
- a=QEXdDO2ut3YA:10 a=ZXulRonScM0A:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODAxMDExMCBTYWx0ZWRfX5CXXOr5CJtEe
- JFRAqZuwPI2KUKI567o0+9zdpy+iZtn+GRN1ebPzOigHg7Qa6srC533uPl2swBgh1sRjKGn2PdF
- 6mQK3pt9Jf4nlJRQaPtKr7Sj6bveg/5EP6q3D+D/09UKX7jd93RsFXIxOYQWiH5Wd07l/gqmGat
- zwv8cG+Iu6X8MbakdEygje58ELDmnj20d/KBfJqAbDamBopu/3b4WP43Fc4FQvM+RFK8eesnLGQ
- fR03vcA73cy2XxM3jOTVTYL3s4q+raeSK8Og7HPC4XzVlVf1GkjbaM1dMSnpb9l4el9EtvSi7nu
- Lx+u7PCMftvV96/67XMyM9Cbt85ND4r5e/ihvYQc1J9zYxFlCj43kc1XJ83nsPYNxaCs+QVBOLb
- juOe3Ne1jsJ+bqyBbSgVFMC1kd44fev97CY1ovUNLWnu3FqmrVkuOK2BjQqM/7tGVbfEUAkvOF4
- CqTvxC1flh7Vt+m4R5Q==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-01_01,2026-07-30_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 spamscore=0 impostorscore=0 bulkscore=0 priorityscore=1501
- lowpriorityscore=0 malwarescore=0 phishscore=0 suspectscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608010110
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260801_070157_226908_9C8C0AB3 
-X-CRM114-Status: GOOD (  12.94  )
+X-CRM114-CacheID: sfid-20260801_084757_305208_E8AE3996 
+X-CRM114-Status: GOOD (  29.09  )
+X-Mailman-Approved-At: Sat, 01 Aug 2026 23:18:43 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -127,32 +134,386 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/31/26 8:56 AM, Guixin Liu wrote:
-> +test() {
-> +	echo "Running ${TEST_NAME}"
-> +
-> +	_setup_nvmet
-> +
-> +	_nvmet_target_setup
-> +
-> +	_nvme_connect_subsys
-> +
-> +	local nvmedev
-> +	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
-> +
-> +	# CNS 07h == Active Namespace ID list for the specified I/O Command Set.
-> +	# CDW10 bits[7:0] hold the CNS; CDW11 bits[31:24] hold the CSI (0 == NVM).
-> +	# Request from NSID 0 so the enabled namespace (NSID 1) is listed, which
-> +	# is exactly the condition that used to dereference the NULL req->ns.
-> +	if ! nvme admin-passthru "/dev/${nvmedev}" --opcode=0x06 \
-> +		--namespace-id=0 --cdw10=0x07 --cdw11=0 --data-len=4096 -r \
-> +		>> "${FULL}" 2>&1; then
-> +		echo "Error: Identify CNS 07h failed"
-> +	fi
+struct bvec_iter::bi_bvec_done is used an offset in the current bvec,
+let's rename it accordingly for better clarity. We're also going to use
+it for non-bvec based iteration, so drop the "bvec" part.
 
-The nvme admin-passthru ... works but why instead not use the existing
-"nvme list-ns /dev/<nvmedev> --csi=0 ?
+Suggested-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
+---
+ Documentation/block/biovecs.rst |  8 ++++----
+ block/bio.c                     |  4 ++--
+ block/blk-merge.c               |  8 ++++----
+ block/blk-mq-dma.c              |  2 +-
+ block/blk.h                     |  2 +-
+ drivers/block/loop.c            |  2 +-
+ drivers/block/zloop.c           |  2 +-
+ drivers/md/dm-io-rewind.c       | 10 +++++-----
+ drivers/md/dm-pcache/segment.c  |  4 ++--
+ drivers/nvdimm/btt.c            |  2 +-
+ drivers/nvme/host/tcp.c         |  2 +-
+ fs/btrfs/misc.h                 |  2 +-
+ include/linux/bvec.h            | 14 +++++++-------
+ io_uring/net.c                  |  4 ++--
+ lib/iov_iter.c                  |  2 +-
+ net/ceph/messenger.c            |  4 ++--
+ 16 files changed, 36 insertions(+), 36 deletions(-)
 
-Thanks,
---Nilay
+diff --git a/Documentation/block/biovecs.rst b/Documentation/block/biovecs.rst
+index 11126ed6f40f..49da2147b7d8 100644
+--- a/Documentation/block/biovecs.rst
++++ b/Documentation/block/biovecs.rst
+@@ -16,16 +16,16 @@ bv_len by the number of bytes completed in that biovec.
+ In the new scheme of things, everything that must be mutated in order to
+ partially complete a bio is segregated into struct bvec_iter: bi_sector,
+ bi_size and bi_idx have been moved there; and instead of modifying bv_offset
+-and bv_len, struct bvec_iter has bi_bvec_done, which represents the number of
++and bv_len, struct bvec_iter has bi_offset, which represents the number of
+ bytes completed in the current bvec.
+ 
+ There are a bunch of new helper macros for hiding the gory details - in
+ particular, presenting the illusion of partially completed biovecs so that
+-normal code doesn't have to deal with bi_bvec_done.
++normal code doesn't have to deal with bi_offset.
+ 
+  * Driver code should no longer refer to biovecs directly; we now have
+    bio_iovec() and bio_iter_iovec() macros that return literal struct biovecs,
+-   constructed from the raw biovecs but taking into account bi_bvec_done and
++   constructed from the raw biovecs but taking into account bi_offset and
+    bi_size.
+ 
+    bio_for_each_segment() has been updated to take a bvec_iter argument
+@@ -101,7 +101,7 @@ Other implications:
+    I.e. instead of using bio_iovec_idx() (or bio->bi_iovec[bio->bi_idx]), you
+    now use bio_iter_iovec(), which takes a bvec_iter and returns a
+    literal struct bio_vec - constructed on the fly from the raw biovec but
+-   taking into account bi_bvec_done (and bi_size).
++   taking into account bi_offset (and bi_size).
+ 
+  * bi_vcnt can't be trusted or relied upon by driver code - i.e. anything that
+    doesn't actually own the bio. The reason is twofold: firstly, it's not
+diff --git a/block/bio.c b/block/bio.c
+index 500389f332d9..4074a0496b93 100644
+--- a/block/bio.c
++++ b/block/bio.c
+@@ -229,7 +229,7 @@ void bio_init(struct bio *bio, struct block_device *bdev, struct bio_vec *table,
+ 	bio->bi_iter.bi_sector = 0;
+ 	bio->bi_iter.bi_size = 0;
+ 	bio->bi_iter.bi_idx = 0;
+-	bio->bi_iter.bi_bvec_done = 0;
++	bio->bi_iter.bi_offset = 0;
+ 	bio->bi_end_io = NULL;
+ 	bio->bi_private = NULL;
+ #ifdef CONFIG_BLK_CGROUP
+@@ -1188,7 +1188,7 @@ void bio_iov_bvec_set(struct bio *bio, const struct iov_iter *iter)
+ 
+ 	bio->bi_io_vec = (struct bio_vec *)iter->bvec;
+ 	bio->bi_iter.bi_idx = 0;
+-	bio->bi_iter.bi_bvec_done = iter->iov_offset;
++	bio->bi_iter.bi_offset = iter->iov_offset;
+ 	bio->bi_iter.bi_size = iov_iter_count(iter);
+ 	bio_set_flag(bio, BIO_CLONED);
+ }
+diff --git a/block/blk-merge.c b/block/blk-merge.c
+index ab1161ca69f1..258a726071d1 100644
+--- a/block/blk-merge.c
++++ b/block/blk-merge.c
+@@ -33,7 +33,7 @@ static inline void bio_get_last_bvec(struct bio *bio, struct bio_vec *bv)
+ 
+ 	bio_advance_iter(bio, &iter, iter.bi_size);
+ 
+-	if (!iter.bi_bvec_done)
++	if (!iter.bi_offset)
+ 		idx = iter.bi_idx - 1;
+ 	else	/* in the middle of bvec */
+ 		idx = iter.bi_idx;
+@@ -41,11 +41,11 @@ static inline void bio_get_last_bvec(struct bio *bio, struct bio_vec *bv)
+ 	*bv = bio->bi_io_vec[idx];
+ 
+ 	/*
+-	 * iter.bi_bvec_done records actual length of the last bvec
++	 * iter.bi_offset records actual length of the last bvec
+ 	 * if this bio ends in the middle of one io vector
+ 	 */
+-	if (iter.bi_bvec_done)
+-		bv->bv_len = iter.bi_bvec_done;
++	if (iter.bi_offset)
++		bv->bv_len = iter.bi_offset;
+ }
+ 
+ static inline bool bio_will_gap(struct request_queue *q,
+diff --git a/block/blk-mq-dma.c b/block/blk-mq-dma.c
+index bfdb9ed70741..88fd9cbc951f 100644
+--- a/block/blk-mq-dma.c
++++ b/block/blk-mq-dma.c
+@@ -44,7 +44,7 @@ static bool blk_map_iter_next(struct request *req, struct blk_map_iter *iter,
+ 	 * one could be merged into it.  This typically happens when moving to
+ 	 * the next bio, but some callers also don't pack bvecs tight.
+ 	 */
+-	while (!iter->iter.bi_size || !iter->iter.bi_bvec_done) {
++	while (!iter->iter.bi_size || !iter->iter.bi_offset) {
+ 		struct bio_vec next;
+ 
+ 		if (!__blk_map_iter_next(iter))
+diff --git a/block/blk.h b/block/blk.h
+index eaac05815cb0..50abfd932886 100644
+--- a/block/blk.h
++++ b/block/blk.h
+@@ -406,7 +406,7 @@ static inline bool bio_may_need_split(struct bio *bio,
+ 		return true;
+ 
+ 	bv = __bvec_iter_bvec(bio->bi_io_vec, bio->bi_iter);
+-	if (bio->bi_iter.bi_size > bv->bv_len - bio->bi_iter.bi_bvec_done)
++	if (bio->bi_iter.bi_size > bv->bv_len - bio->bi_iter.bi_offset)
+ 		return true;
+ 	if ((bv->bv_offset | bv->bv_len) & lim->dma_alignment)
+ 		return true;
+diff --git a/drivers/block/loop.c b/drivers/block/loop.c
+index 26d7130c3f55..8639fa34b847 100644
+--- a/drivers/block/loop.c
++++ b/drivers/block/loop.c
+@@ -379,7 +379,7 @@ static int lo_rw_aio(struct loop_device *lo, struct loop_cmd *cmd,
+ 		iov_iter_bvec(&iter, rw,
+ 			__bvec_iter_bvec(rq->bio->bi_io_vec, rq->bio->bi_iter),
+ 			nr_bvec, blk_rq_bytes(rq));
+-		iter.iov_offset = rq->bio->bi_iter.bi_bvec_done;
++		iter.iov_offset = rq->bio->bi_iter.bi_offset;
+ 	}
+ 	atomic_set(&cmd->ref, 2);
+ 
+diff --git a/drivers/block/zloop.c b/drivers/block/zloop.c
+index f97a20cfdb7c..0fef5db8e5b8 100644
+--- a/drivers/block/zloop.c
++++ b/drivers/block/zloop.c
+@@ -554,7 +554,7 @@ static int zloop_do_rw(struct zloop_cmd *cmd)
+ 		iov_iter_bvec(&iter, rw,
+ 			__bvec_iter_bvec(rq->bio->bi_io_vec, rq->bio->bi_iter),
+ 					nr_bvec, blk_rq_bytes(rq));
+-		iter.iov_offset = rq->bio->bi_iter.bi_bvec_done;
++		iter.iov_offset = rq->bio->bi_iter.bi_offset;
+ 	}
+ 
+ 	cmd->iocb.ki_pos = (cmd->sector - zone->start) << SECTOR_SHIFT;
+diff --git a/drivers/md/dm-io-rewind.c b/drivers/md/dm-io-rewind.c
+index 6155b0117c9d..04f3fc8aeb6f 100644
+--- a/drivers/md/dm-io-rewind.c
++++ b/drivers/md/dm-io-rewind.c
+@@ -16,12 +16,12 @@ static inline bool dm_bvec_iter_rewind(const struct bio_vec *bv,
+ 	int idx;
+ 
+ 	iter->bi_size += bytes;
+-	if (bytes <= iter->bi_bvec_done) {
+-		iter->bi_bvec_done -= bytes;
++	if (bytes <= iter->bi_offset) {
++		iter->bi_offset -= bytes;
+ 		return true;
+ 	}
+ 
+-	bytes -= iter->bi_bvec_done;
++	bytes -= iter->bi_offset;
+ 	idx = iter->bi_idx - 1;
+ 
+ 	while (idx >= 0 && bytes && bytes > bv[idx].bv_len) {
+@@ -32,13 +32,13 @@ static inline bool dm_bvec_iter_rewind(const struct bio_vec *bv,
+ 	if (WARN_ONCE(idx < 0 && bytes,
+ 		      "Attempted to rewind iter beyond bvec's boundaries\n")) {
+ 		iter->bi_size -= bytes;
+-		iter->bi_bvec_done = 0;
++		iter->bi_offset = 0;
+ 		iter->bi_idx = 0;
+ 		return false;
+ 	}
+ 
+ 	iter->bi_idx = idx;
+-	iter->bi_bvec_done = bv[idx].bv_len - bytes;
++	iter->bi_offset = bv[idx].bv_len - bytes;
+ 	return true;
+ }
+ 
+diff --git a/drivers/md/dm-pcache/segment.c b/drivers/md/dm-pcache/segment.c
+index 7e9818701445..8f8816e1c539 100644
+--- a/drivers/md/dm-pcache/segment.c
++++ b/drivers/md/dm-pcache/segment.c
+@@ -14,7 +14,7 @@ int segment_copy_to_bio(struct pcache_segment *segment,
+ 
+ 	iov_iter_bvec(&iter, ITER_DEST, &bio->bi_io_vec[bio->bi_iter.bi_idx],
+ 			bio_segments(bio), bio->bi_iter.bi_size);
+-	iter.iov_offset = bio->bi_iter.bi_bvec_done;
++	iter.iov_offset = bio->bi_iter.bi_offset;
+ 	if (bio_off)
+ 		iov_iter_advance(&iter, bio_off);
+ 
+@@ -35,7 +35,7 @@ int segment_copy_from_bio(struct pcache_segment *segment,
+ 
+ 	iov_iter_bvec(&iter, ITER_SOURCE, &bio->bi_io_vec[bio->bi_iter.bi_idx],
+ 			bio_segments(bio), bio->bi_iter.bi_size);
+-	iter.iov_offset = bio->bi_iter.bi_bvec_done;
++	iter.iov_offset = bio->bi_iter.bi_offset;
+ 	if (bio_off)
+ 		iov_iter_advance(&iter, bio_off);
+ 
+diff --git a/drivers/nvdimm/btt.c b/drivers/nvdimm/btt.c
+index 7e1112960d7f..5d910a64503d 100644
+--- a/drivers/nvdimm/btt.c
++++ b/drivers/nvdimm/btt.c
+@@ -1155,7 +1155,7 @@ static int btt_rw_integrity(struct btt *btt, struct bio_integrity_payload *bip,
+ 		bv = bvec_iter_bvec(bip->bip_vec, bip->bip_iter);
+ 		/*
+ 		 * The 'bv' obtained from bvec_iter_bvec has its .bv_len and
+-		 * .bv_offset already adjusted for iter->bi_bvec_done, and we
++		 * .bv_offset already adjusted for iter->bi_offset, and we
+ 		 * can use those directly
+ 		 */
+ 
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index ba5c7b3e2a7c..ce03a0ea4ded 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -357,7 +357,7 @@ static void nvme_tcp_init_iter(struct nvme_tcp_request *req,
+ 		iov_iter_bvec(&req->iter, dir,
+ 			__bvec_iter_bvec(bio->bi_io_vec, bio->bi_iter), nr_bvec,
+ 			bio->bi_iter.bi_size);
+-		req->iter.iov_offset = bio->bi_iter.bi_bvec_done;
++		req->iter.iov_offset = bio->bi_iter.bi_offset;
+ 	}
+ }
+ 
+diff --git a/fs/btrfs/misc.h b/fs/btrfs/misc.h
+index 694be6d0562a..802060943180 100644
+--- a/fs/btrfs/misc.h
++++ b/fs/btrfs/misc.h
+@@ -74,7 +74,7 @@ static inline struct bvec_iter init_bvec_iter_for_bio(struct bio *bio)
+ 		.bi_sector = 0,
+ 		.bi_size = bio_size,
+ 		.bi_idx = 0,
+-		.bi_bvec_done = 0,
++		.bi_offset = 0,
+ 	};
+ }
+ 
+diff --git a/include/linux/bvec.h b/include/linux/bvec.h
+index 92837e2743f1..fc566ee1c1ff 100644
+--- a/include/linux/bvec.h
++++ b/include/linux/bvec.h
+@@ -110,7 +110,7 @@ struct bvec_iter {
+ 	/*
+ 	 * Current offset in the bvec entry pointed to by `bi_idx`.
+ 	 */
+-	unsigned int		bi_bvec_done;
++	unsigned int		bi_offset;
+ } __packed __aligned(4);
+ 
+ struct bvec_iter_all {
+@@ -135,14 +135,14 @@ mp_bvec_iter_page(const struct bio_vec *bvecs, const struct bvec_iter iter)
+ static __always_inline unsigned int
+ mp_bvec_iter_len(const struct bio_vec *bvecs, const struct bvec_iter iter)
+ {
+-	return min(__bvec_iter_bvec(bvecs, iter)->bv_len - iter.bi_bvec_done,
++	return min(__bvec_iter_bvec(bvecs, iter)->bv_len - iter.bi_offset,
+ 			iter.bi_size);
+ }
+ 
+ static __always_inline unsigned int
+ mp_bvec_iter_offset(const struct bio_vec *bvecs, const struct bvec_iter iter)
+ {
+-	return __bvec_iter_bvec(bvecs, iter)->bv_offset + iter.bi_bvec_done;
++	return __bvec_iter_bvec(bvecs, iter)->bv_offset + iter.bi_offset;
+ }
+ 
+ static __always_inline unsigned int
+@@ -204,7 +204,7 @@ static inline bool bvec_iter_advance(const struct bio_vec *bv,
+ 	}
+ 
+ 	iter->bi_size -= bytes;
+-	bytes += iter->bi_bvec_done;
++	bytes += iter->bi_offset;
+ 
+ 	while (bytes && bytes >= bv[idx].bv_len) {
+ 		bytes -= bv[idx].bv_len;
+@@ -212,7 +212,7 @@ static inline bool bvec_iter_advance(const struct bio_vec *bv,
+ 	}
+ 
+ 	iter->bi_idx = idx;
+-	iter->bi_bvec_done = bytes;
++	iter->bi_offset = bytes;
+ 	return true;
+ }
+ 
+@@ -223,13 +223,13 @@ static inline bool bvec_iter_advance(const struct bio_vec *bv,
+ static inline void bvec_iter_advance_single(const struct bio_vec *bv,
+ 				struct bvec_iter *iter, unsigned int bytes)
+ {
+-	unsigned int done = iter->bi_bvec_done + bytes;
++	unsigned int done = iter->bi_offset + bytes;
+ 
+ 	if (done == bv[iter->bi_idx].bv_len) {
+ 		done = 0;
+ 		iter->bi_idx++;
+ 	}
+-	iter->bi_bvec_done = done;
++	iter->bi_offset = done;
+ 	iter->bi_size -= bytes;
+ }
+ 
+diff --git a/io_uring/net.c b/io_uring/net.c
+index a74d15f7b7d2..439c99ad1884 100644
+--- a/io_uring/net.c
++++ b/io_uring/net.c
+@@ -1471,7 +1471,7 @@ static int io_sg_from_iter(struct sk_buff *skb,
+ 		return zerocopy_fill_skb_from_iter(skb, from, length);
+ 
+ 	bi.bi_size = min(from->count, length);
+-	bi.bi_bvec_done = from->iov_offset;
++	bi.bi_offset = from->iov_offset;
+ 	bi.bi_idx = 0;
+ 
+ 	while (bi.bi_size && frag < MAX_SKB_FRAGS) {
+@@ -1490,7 +1490,7 @@ static int io_sg_from_iter(struct sk_buff *skb,
+ 	from->bvec += bi.bi_idx;
+ 	from->nr_segs -= bi.bi_idx;
+ 	from->count -= copied;
+-	from->iov_offset = bi.bi_bvec_done;
++	from->iov_offset = bi.bi_offset;
+ 
+ 	skb->data_len += copied;
+ 	skb->len += copied;
+diff --git a/lib/iov_iter.c b/lib/iov_iter.c
+index de5c1040a4a0..d6f5d7e180b5 100644
+--- a/lib/iov_iter.c
++++ b/lib/iov_iter.c
+@@ -1651,7 +1651,7 @@ static ssize_t iov_iter_extract_bvec_pages(struct iov_iter *i,
+ 	}
+ 	bi.bi_idx = 0;
+ 	bi.bi_size = maxsize;
+-	bi.bi_bvec_done = skip;
++	bi.bi_offset = skip;
+ 
+ 	maxpages = want_pages_array(pages, maxsize, skip, maxpages);
+ 	if (!maxpages)
+diff --git a/net/ceph/messenger.c b/net/ceph/messenger.c
+index 34b3097b4c7b..9c1b6cf8c36f 100644
+--- a/net/ceph/messenger.c
++++ b/net/ceph/messenger.c
+@@ -762,7 +762,7 @@ static bool ceph_msg_data_bio_advance(struct ceph_msg_data_cursor *cursor,
+ 	if (!cursor->resid)
+ 		return false;   /* no more data */
+ 
+-	if (!bytes || (it->iter.bi_size && it->iter.bi_bvec_done &&
++	if (!bytes || (it->iter.bi_size && it->iter.bi_offset &&
+ 		       page == bio_iter_page(it->bio, it->iter)))
+ 		return false;	/* more bytes to process in this segment */
+ 
+@@ -817,7 +817,7 @@ static bool ceph_msg_data_bvecs_advance(struct ceph_msg_data_cursor *cursor,
+ 	if (!cursor->resid)
+ 		return false;   /* no more data */
+ 
+-	if (!bytes || (cursor->bvec_iter.bi_bvec_done &&
++	if (!bytes || (cursor->bvec_iter.bi_offset &&
+ 		       page == bvec_iter_page(bvecs, cursor->bvec_iter)))
+ 		return false;	/* more bytes to process in this segment */
+ 
+-- 
+2.54.0
+
 
