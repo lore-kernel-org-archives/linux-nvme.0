@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 73B81C55182
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1BB2BC55184
 	for <linux-nvme@archiver.kernel.org>; Tue,  4 Aug 2026 02:19:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,30 +12,30 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xgBFJ13+HvDOtpSLu7rBgHIyQWNnRy/oUaMbPGIpA4w=; b=himp0EhHZm0TNycKvlStQF13ev
-	alvjqAacaoZCKzZuq9NzYcmDN6Adou12LKcnpbun/4dQ2PBZKek4krqlLN87fr1JF7lLZYx5Y1qVw
-	yw23zjkebux/pNGHW39W+XB36uS4YkoPLVG4ODVk0zIbCd4XjAkJ6hkyd0fR0vgB2U14Inb35vUZ3
-	aP5XPpchVkiyfcfLYioFWLfJn24MPnkaYzJ5CZjP7ToTsNgcQ/cagYUozhmUko73kx7Ak5kZjeBHR
-	a/URSA0qz74Eba9I0PvByZuhEpq6fW0hMiwOUKRfzpL1N9fMfsWZ06A1LHcAZEetrAQSkaFgERTWa
-	atutrXCQ==;
+	bh=Tur8zxfAJZqkHi1FFdRTb797VuaFIxL1CU+5nZF205Y=; b=kI1ZlkK/gBn4oCF0nmEab/6pNG
+	l4lDxiANQ5EZir8RI1F8H6aUqJj+byl7EZgcOyoogB83uzCvisARM5Dujb4WEQR9xlsaQZ7OrTAN1
+	yCSCprvEVQZzLm820XxQm9XWwNsikgWr7u4piMKVqePKofWgfc60PGsaRUhtBNLuJQt0QmpaprU8N
+	ob60wgMgFqf+6Veinv9GTH8GjXcQxNjK2ISFETS3XpJ4zV0t45qENCvz/O/w4LjQUb32Ln5g2ds+6
+	oh4D8i0+25JEgCx8R8E676NecQedpwpt0Ra2TGLG5NR+Xp5kvE3ypobToQyX5+ClGsjrtuM8ESlqm
+	tENpEkFg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wr4kT-00000000pOh-46Ku;
-	Tue, 04 Aug 2026 02:19:21 +0000
-Received: from out30-97.freemail.mail.aliyun.com ([115.124.30.97])
+	id 1wr4kU-00000000pOq-0e4w;
+	Tue, 04 Aug 2026 02:19:22 +0000
+Received: from out30-100.freemail.mail.aliyun.com ([115.124.30.100])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wr4kM-00000000pJH-4B1n
+	id 1wr4kM-00000000pJU-1ktu
 	for linux-nvme@lists.infradead.org;
-	Tue, 04 Aug 2026 02:19:18 +0000
+	Tue, 04 Aug 2026 02:19:19 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1785809950; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=xgBFJ13+HvDOtpSLu7rBgHIyQWNnRy/oUaMbPGIpA4w=;
-	b=SrPnBm7hXIwlKe2MluqLzN0fhebREO4499pcaSIRp/+DOO3sKan0QZy5UiE8JdW9iek5hcwRHtOMvZ+t6kBO4zGdvL9R2Zz2wi3SqWtmTrp/Z95MNIP99qvU35lJXDcgjW3bIQb0wy7+DyeRxls5+HpFTNMnk5WPPE1wpROdSII=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R411e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0X8MFvs1_1785809949;
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0X8MFvs1_1785809949 cluster:ay36)
+	t=1785809952; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=Tur8zxfAJZqkHi1FFdRTb797VuaFIxL1CU+5nZF205Y=;
+	b=k5ZWnNlFQgiQDIs+sNAdyo3hRlxUso3JaGXRxoPVPRjRiYDV+qzifX+8eLYkxxcaGKCB4Mn9jZS0ciYNIvE+fW2N3yEVQYdo2+hH5ZDulQmIjmn+OZU79Fc9n/WpfDD6gE8vkIRvPWjKAGC9BvKF0rAAaP0RxIBbmNaSFd4bx2Q=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R991e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037009110;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0X8MDIzj_1785809950;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0X8MDIzj_1785809950 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Tue, 04 Aug 2026 10:19:10 +0800
+          Tue, 04 Aug 2026 10:19:11 +0800
 From: Guixin Liu <kanie@linux.alibaba.com>
 To: Keith Busch <kbusch@kernel.org>,
 	Jens Axboe <axboe@kernel.dk>,
@@ -46,17 +46,17 @@ To: Keith Busch <kbusch@kernel.org>,
 	Chaitanya Kulkarni <kch@nvidia.com>,
 	Kanchan Joshi <joshi.k@samsung.com>
 Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH v3 4/5] nvme: clamp FDP placement handle count to the buffer size
-Date: Tue,  4 Aug 2026 10:19:00 +0800
-Message-ID: <20260804021901.3777326-5-kanie@linux.alibaba.com>
+Subject: [PATCH v3 5/5] nvme: raise FDP placement handle cap to U8_MAX and warn on overflow
+Date: Tue,  4 Aug 2026 10:19:01 +0800
+Message-ID: <20260804021901.3777326-6-kanie@linux.alibaba.com>
 X-Mailer: git-send-email 2.43.7
 In-Reply-To: <20260804021901.3777326-1-kanie@linux.alibaba.com>
 References: <20260804021901.3777326-1-kanie@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260803_191915_205065_D3EC7FA8 
-X-CRM114-Status: GOOD (  11.07  )
+X-CRM114-CacheID: sfid-20260803_191915_214409_AE291147 
+X-CRM114-Status: GOOD (  13.46  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,37 +71,69 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvme_query_fdp_info() allocates the RUH status buffer for at most
-S8_MAX - 1 descriptors and caps the io-mgmt-receive transfer to that
-size. head->nr_plids, however, is taken verbatim from the device-supplied
-nruhsd field, which can be up to 65535. If a non-conformant or malicious
-device reports more descriptors than the buffer holds, the copy loop
-reads past the end of the ruhs buffer (heap out-of-bounds read).
+The RUH status buffer and the placement-handle clamp used S8_MAX - 1
+(126) as the maximum descriptor count. That value was picked only so the
+io-mgmt-receive result fit in a page, not because of any protocol or
+driver restriction.
 
-Clamp nr_plids to the number of descriptors the buffer can actually hold.
+The meaningful upper bound is U8_MAX: write hints (bio->bi_write_stream)
+are u8, so placement handles beyond U8_MAX can never be selected. Size
+the buffer and clamp nr_plids to U8_MAX, and emit a dev_warn() when the
+device reports more handles than the driver tracks so the truncation is
+observable.
 
-Fixes: 30b5f20bb2dd ("nvme: register fdp parameters with the block layer")
+Suggested-by: Kanchan Joshi <joshi.k@samsung.com>
 Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
 Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>
 ---
- drivers/nvme/host/core.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/nvme/host/core.c | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 453c1f0b2dd0..b1f444cd3daf 100644
+index b1f444cd3daf..14832be67779 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -2358,6 +2358,7 @@ static int nvme_query_fdp_info(struct nvme_ns *ns, struct nvme_ns_info *info)
+@@ -33,6 +33,13 @@
+ 
+ #define NVME_MINORS		(1U << MINORBITS)
+ 
++/*
++ * Write hints (bio->bi_write_stream) are u8, so FDP placement handles beyond
++ * U8_MAX can never be selected. Cap the handle count to bound both the RUH
++ * status buffer and the per-head plids array.
++ */
++#define NVME_MAX_PLIDS		U8_MAX
++
+ struct nvme_ns_info {
+ 	struct nvme_ns_ids ids;
+ 	u32 nsid;
+@@ -2342,7 +2349,7 @@ static int nvme_query_fdp_info(struct nvme_ns *ns, struct nvme_ns_info *info)
+ 	if (!info->runs)
+ 		return ret;
+ 
+-	size = struct_size(ruhs, ruhsd, S8_MAX - 1);
++	size = struct_size(ruhs, ruhsd, NVME_MAX_PLIDS);
+ 	ruhs = kzalloc(size, GFP_KERNEL);
+ 	if (!ruhs)
+ 		return -ENOMEM;
+@@ -2358,10 +2365,16 @@ static int nvme_query_fdp_info(struct nvme_ns *ns, struct nvme_ns_info *info)
  	}
  
  	head->nr_plids = le16_to_cpu(ruhs->nruhsd);
-+	head->nr_plids = min_t(u16, head->nr_plids, S8_MAX - 1);
+-	head->nr_plids = min_t(u16, head->nr_plids, S8_MAX - 1);
  	if (!head->nr_plids)
  		goto free;
  
++	if (head->nr_plids > NVME_MAX_PLIDS) {
++		dev_warn(ctrl->device,
++			 "FDP RUH status reports %u placement handles, capping at %u\n",
++			 head->nr_plids, NVME_MAX_PLIDS);
++		head->nr_plids = NVME_MAX_PLIDS;
++	}
++
+ 	head->plids = kcalloc(head->nr_plids, sizeof(*head->plids),
+ 			      GFP_KERNEL);
+ 	if (!head->plids) {
 -- 
 2.43.7
 
