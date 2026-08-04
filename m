@@ -4,38 +4,38 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3695CC55182
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3AC5EC55838
 	for <linux-nvme@archiver.kernel.org>; Tue,  4 Aug 2026 02:19:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=fNgOJWNyaE33jbzKAhUbaCwMEqU+6/OO2eTWTsC41zo=; b=GuDtX4MbmaYIaG6IEc3ggXQkMq
-	AF4iAu2356wSlRqDhgVB0QtZxNK+2OO5xabZlUFTKBqbGRxBPloZc8Ym/tbjzrDd8iCw3dCpveShE
-	IMJd9RBDvcqcaIVfkHiUQvWNQKddOezuCMsXDQrqifKeFAv7pM6EKqJTis9XTFnt/fJ/tYxFekkhP
-	+Dodhfvt0p04jGvJwe88H7aeNL/M4mRQ5B1xn2UhA5sdUlTROlF3+CUb0AcR4DxdxtJOmFvJv7Idj
-	leXXsf/6Z7trZXyxGow/J7guOco69rXG6iW6CvXz6tTX7pc4iZlcrzHYNLchzCsnubaZ1zy6PKRJR
-	Uqy6dJIw==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=0awXeF/gF88O8qDwUznvq70IwYmiWUT+LyVuwyr0H/Q=; b=MRgBpbjtLmTjNGvSpaE217URXq
+	Xy92g1drPDE24eKDy2idXZ0GnssnF59BJZa+PXk2iZjbod8Re94cBtX6mVEfE3HOyGAiDDQTL0bsx
+	PUOQVinXsgHz8IuC52EaDF/guM5pVsT5v1Jh5eaZhuGx5HtLolaNxXdDJ26Kjegzdfi8SG+3CeSlO
+	ITkmEZiEr/t9p1a22PsJEy62QRC6F9XRYtFNPPeARRO44fOmrHczZa7kZilsE/1dz1aL+7O96QXiN
+	Fc57MEEY6K8VjD8J0pJLn0SsuEApeXiNnaTNTYVF6NWU+ZdPKpwZ6nGYNZ8p3UaU08ubNKXB+zw+q
+	Uu0UVLEw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wr4kQ-00000000pM7-29hR;
-	Tue, 04 Aug 2026 02:19:18 +0000
-Received: from out30-119.freemail.mail.aliyun.com ([115.124.30.119])
+	id 1wr4kR-00000000pMf-333n;
+	Tue, 04 Aug 2026 02:19:19 +0000
+Received: from out30-118.freemail.mail.aliyun.com ([115.124.30.118])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wr4kM-00000000pJF-3L5L
+	id 1wr4kM-00000000pJB-14Ny
 	for linux-nvme@lists.infradead.org;
-	Tue, 04 Aug 2026 02:19:17 +0000
+	Tue, 04 Aug 2026 02:19:18 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1785809950; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=fNgOJWNyaE33jbzKAhUbaCwMEqU+6/OO2eTWTsC41zo=;
-	b=W6qL53Y7BevGWAhlpeOM72K8cYWyw/QmBZf6MhPGV3bILMzz7taO+/eBPkjxCNFvE8dja7S9YxSlkAs/DP+4Ezmdkz7tJ/CYoe0lL05pQCmriY1qG6JvqlAeL9aLltlgiuZZd279nqHEKfzK4GQunjlcFzCWpcJhDDy2VuNb9D4=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R141e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0X8MDIxR_1785809945;
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0X8MDIxR_1785809945 cluster:ay36)
+	t=1785809949; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=0awXeF/gF88O8qDwUznvq70IwYmiWUT+LyVuwyr0H/Q=;
+	b=s64DZoMApuilxBAvOi92qYzMKlcNlnJt6APBxEDn3OEn3bJnaOLkqSGWNdgKTX9LEZNIOBhDmnwQUh7JV8bUeJVttnAftluqHyOoxATKcj7yx98Z7VXGzys8rvACLRlcfkL5PWTKLozX2ptsOO7GiShym/DHU3VjXwbLvlOm1xo=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037009110;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0X8MDIyv_1785809948;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0X8MDIyv_1785809948 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Tue, 04 Aug 2026 10:19:06 +0800
+          Tue, 04 Aug 2026 10:19:09 +0800
 From: Guixin Liu <kanie@linux.alibaba.com>
 To: Keith Busch <kbusch@kernel.org>,
 	Jens Axboe <axboe@kernel.dk>,
@@ -46,15 +46,18 @@ To: Keith Busch <kbusch@kernel.org>,
 	Chaitanya Kulkarni <kch@nvidia.com>,
 	Kanchan Joshi <joshi.k@samsung.com>
 Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH v3 0/5] nvme: a few error-path and validation fixes
-Date: Tue,  4 Aug 2026 10:18:56 +0800
-Message-ID: <20260804021901.3777326-1-kanie@linux.alibaba.com>
+Subject: [PATCH v3 3/5] nvme-pci: release descriptor pools on probe failure
+Date: Tue,  4 Aug 2026 10:18:59 +0800
+Message-ID: <20260804021901.3777326-4-kanie@linux.alibaba.com>
 X-Mailer: git-send-email 2.43.7
+In-Reply-To: <20260804021901.3777326-1-kanie@linux.alibaba.com>
+References: <20260804021901.3777326-1-kanie@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260803_191915_199199_B5431303 
-X-CRM114-Status: GOOD (  13.70  )
+X-CRM114-CacheID: sfid-20260803_191915_214234_955E0FDB 
+X-CRM114-Status: UNSURE (   9.61  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,63 +72,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This series collects independent fixes found while auditing error and
-command-processing paths in the NVMe host and target drivers. Each is
-standalone; they only share the same subsystem.
+The per-NUMA-node descriptor DMA pools are created lazily from
+nvme_init_hctx_common() once the admin tag set is allocated, but they are
+only destroyed in nvme_remove() via nvme_release_descriptor_pools(). Any
+probe failure after the admin tag set has been allocated unwinds through
+the out_disable label and nvme_pci_free_ctrl(), neither of which releases
+the pools, leaking the dma_pool objects.
 
-  1. nvmet: an Identify CNS 07h (active NS list for a command set)
-     dereferences req->ns, which is always NULL on that path -> NULL
-     pointer oops. Also fixes the filter to test the iterated ns->csi.
+Release the descriptor pools in the out_disable error path. It must not
+be added to nvme_pci_free_ctrl(), as that would double-free against
+nvme_remove() on the normal teardown path.
 
-  2. nvmet: nvmet_ns_enable() ignores the percpu_ref_init() return value
-     and reports success to userspace when it fails, leaving the ns dead.
+Fixes: d977506f8863 ("nvme-pci: make PRP list DMA pools per-NUMA-node")
+Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
+Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>
+---
+ drivers/nvme/host/pci.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-  3. nvme-pci: the per-NUMA-node descriptor DMA pools, created lazily on
-     admin tag set allocation, are only freed in nvme_remove(); a probe
-     failure after that point leaks them.
-
-  4. nvme: nvme_query_fdp_info() trusts the device-supplied nruhsd count
-     and can read past the fixed-size RUH status buffer (heap OOB read).
-
-  5. nvme: follow-up to #4, suggested by Kanchan -- the RUH status buffer
-     and the placement handle clamp used the odd S8_MAX - 1 value; raise
-     the cap to the meaningful U8_MAX (bio->bi_write_stream is u8) and
-     warn on overflow.
-
-Found by code audit. #1 and #2 are functional/crash fixes; #3 is a
-resource leak; #4 is device-triggered hardening; #5 tidies up the cap
-introduced by #4.
-
-A blktests regression test for #1 (Identify CNS 07h) will be sent
-separately to the blktests list.
-
-v2 -> v3:
-  - patch 5: addressed Kanchan's review -- move the overflow check below
-    the zero-length check and fold the clamp into the warn branch (drop
-    min_t, assign NVME_MAX_PLIDS directly); collected his Reviewed-by.
-
-v1 -> v2:
-  - Collected Reviewed-by tags from Hannes, Christoph, Kanchan and Nilay,
-    thanks.
-  - patch 1: added the observed NULL-deref oops splat to the commit log.
-  - Added patch 5 (raise the FDP handle cap to U8_MAX and warn on
-    overflow), as discussed on patch 4 with Keith, Christoph and Kanchan.
-
-Guixin Liu (5):
-  nvmet: fix NULL pointer dereference in nvmet_execute_identify_nslist()
-  nvmet: propagate percpu_ref_init() failure in nvmet_ns_enable()
-  nvme-pci: release descriptor pools on probe failure
-  nvme: clamp FDP placement handle count to the buffer size
-  nvme: raise FDP placement handle cap to U8_MAX and warn on overflow
-
- drivers/nvme/host/core.c        | 16 +++++++++++++++-
- drivers/nvme/host/pci.c         |  1 +
- drivers/nvme/target/admin-cmd.c |  2 +-
- drivers/nvme/target/core.c      |  3 ++-
- 4 files changed, 19 insertions(+), 3 deletions(-)
-
-
-base-commit: 11028ab62899e4191e074ee364c712b77823a9c4
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 69932d640b53..f1b24a53aa02 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -3838,6 +3838,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	nvme_dev_remove_admin(dev);
+ 	nvme_dbbuf_dma_free(dev);
+ 	nvme_free_queues(dev, 0);
++	nvme_release_descriptor_pools(dev);
+ out_release_iod_mempool:
+ 	mempool_destroy(dev->dmavec_mempool);
+ out_dev_unmap:
 -- 
 2.43.7
 
