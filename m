@@ -4,133 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 94E9BC55172
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Aug 2026 07:32:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B67FFC55172
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Aug 2026 09:17:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:MIME-Version:Subject:References:In-Reply-To:Message-ID:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=shKaookRfRu+nQIQQzmOQrlMnbvNyLPqYee+G1JJaXw=; b=AdOxLVsU+r8xjme1yMoT7Wgyp3
-	7yrJD7VtYF4JWGF14YKL9KncmCuAwM/8NeVkSoJ7wUW7DhiXgxdi2w3oSkCWyAQg8g3fnfjywyKE4
-	5dfwiJktrwk0oxv5n+xaVbkJYalFZQP6D+R1PuUwSkNn9uWyT6oaDSWa8PH55DWFrcFuTGsSgDyql
-	7ow6bdkZi1CzeYG/5F+ZYT7PEPO+cHVT7C/wa8OpzItbdH3Htt7SuDde1nAyTsA4r4DBy4ZaDhZhY
-	xhdRIvoDcvR/yVCqTfOjdARUjr8KJAPt+fnas84LZdwGwz0oSCGatFe2B46WT9d2VBp/8Cu9JQPsn
-	QeQ1A29Q==;
+	bh=EesaN+w9OeC7jN85hlTnvT94IZFYcOPLiqCpaYTwXQE=; b=ie+31nsfKxMySCtKEsK/PJet+S
+	E56yNOpbB0y1o/0l3Cy6Irxdf+WHQr92hqmG2Fomytk4i5XHgA2SgP3he6pB+T6ypeYn+7jt7Pc9o
+	kZqTUyp/dGn95Wu27Ymm5JQiQIJdJjRoPET5HxE/6VhWYwNJrUJB9LAJlk27/Jh/188LhD3AAeJhh
+	QjB1nFdVspMDNjakNmO7P1lKDw1+4816jJ1Pn5WSZvZzo/qsbfiBa1QTsubd/ezIVKxg7526cBGEe
+	GbsRf5HCR4hvVBYhoigVrahuTU3Mbm47ih5HxvqbDHRMTFaD40pG3ieaDBz68uSXFVKfJbK2UWfmI
+	9En4jc2A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wr9dp-00000001FAw-1oR5;
-	Tue, 04 Aug 2026 07:32:49 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1wrBGd-00000001Qh0-3lx6;
+	Tue, 04 Aug 2026 09:16:59 +0000
+Received: from mout-b-107.mailbox.org ([2001:67c:2050:102:465::107])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wr9dn-00000001FAW-0iva
+	id 1wrBGa-00000001QfZ-1u22
 	for linux-nvme@lists.infradead.org;
-	Tue, 04 Aug 2026 07:32:49 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	Tue, 04 Aug 2026 09:16:58 +0000
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 276A37F5FF;
-	Tue,  4 Aug 2026 07:32:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785828761; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	by mout-b-107.mailbox.org (Postfix) with ESMTPS id 4hDnwx6Jghz3xxL;
+	Tue, 04 Aug 2026 11:16:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mandelbit.com;
+	s=MBO0001; t=1785835009;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=shKaookRfRu+nQIQQzmOQrlMnbvNyLPqYee+G1JJaXw=;
-	b=0ObQ1lGwkb6bttJ5yJXYI0nVDqp4oNa4PeJVb9DVDLlzz5a5nVInBCaoERGDnALfqaPcCl
-	+KXyeR21CUX/M7iuGO5Aho5S04Ab7ajJE667EPaTwdxm1g+YPSTfS3sW2Wn/GXDB/ujDbb
-	s9WLMQFT4+wJHw7DQb9okmS3QFuacLk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785828761;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=shKaookRfRu+nQIQQzmOQrlMnbvNyLPqYee+G1JJaXw=;
-	b=HD12m3IYjvJXW6ah279xBlXbX1N9bF4SKjc+GFBDMwEW5HVB5S1JaBGES6503hXmqGpaHZ
-	1z4xv609nRR9gjCA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=uLUqpDMh;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=KXuFWjcy
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785828757; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=shKaookRfRu+nQIQQzmOQrlMnbvNyLPqYee+G1JJaXw=;
-	b=uLUqpDMh9vK/MQpP3kT7Zv0ylO2AlofbYQ928F7r9l8rKSx9UF0wVv56EAAQd+DMdvlrBT
-	NyjQ8R+YxjsON4NpSETrzYD+Ki/R4y/H8KN/kT0r2yejOJ37W5bgakAqCdUCu6XVsXpn4O
-	7+p/o/HmTzdkK89AGJPa0VLnqhiG4VU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785828757;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=shKaookRfRu+nQIQQzmOQrlMnbvNyLPqYee+G1JJaXw=;
-	b=KXuFWjcysbNCx2lZzwOe5h9B1uBkFOx+aQcOjSM6NS2mjfNOnDjcAaSxhEqq82Y2wMX6uD
-	/WoK87GXBtqh/1DA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 08924779BB;
-	Tue,  4 Aug 2026 07:32:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 8myYAZWVcWrcIwAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 04 Aug 2026 07:32:37 +0000
-Message-ID: <f3d9c846-99ba-44f5-a18a-aed555fbfbdb@suse.de>
-Date: Tue, 4 Aug 2026 09:32:36 +0200
+	bh=EesaN+w9OeC7jN85hlTnvT94IZFYcOPLiqCpaYTwXQE=;
+	b=KggRqVaf/1ux5mOisg7yXZzz7Sg7UGiy415Lt3kI6qn0Mu2qG6Vo35iIn4nDqALvdsyxQD
+	VHYe7csJJfyFIFKQQEDWTbMo4+ohwYIDaITONcvy8mjamTgi69wBSUvv+5yNJKdANS2r/7
+	SW5qaDRaHAuBGUX0wDkJM65gs62L9p0gVr6D0UFSwCvyBGjtlyfCpQhGUZfWj0/tJtCzEP
+	8W1ZQBKPwqxtvE4OydMGGhitUVEhuZ0n+nAMrvDAlhesOSESsHKvPu/pSCx+imrC46qcec
+	DUDje/diV3tEZ4u05e2zNymiMwxwbypdce55d/ZPL7vz0XVD05QtkBnsCV9VNg==
+Date: Tue, 4 Aug 2026 11:16:39 +0200 (CEST)
+From: Marco Baffo <marco@mandelbit.com>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: linux-crypto@vger.kernel.org, herbert@gondor.apana.org.au,
+	davem@davemloft.net, Jason@zx2c4.com, ardb@kernel.org, tytso@mit.edu,
+	jaegeuk@kernel.org, linux-fscrypt@vger.kernel.org, kbusch@kernel.org,
+	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, hare@suse.de,
+	linux-nvme@lists.infradead.org, andrew+netdev@lunn.ch,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	antonio@openvpn.net, sd@queasysnail.net,
+	linux-kernel@vger.kernel.org
+Message-ID: <1784680780.63324.1785834999388@app.mailbox.org>
+In-Reply-To: <20260721150614.GA1932@sol>
+References: <20260721140644.780006-1-marco@mandelbit.com>
+ <20260721150614.GA1932@sol>
+Subject: Re: [PATCH 0/5] lib/crypto: add HKDF and convert fscrypt and NVMe
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] nvme/070: add a test for Identify CNS 07h NULL pointer
- dereference
-To: Guixin Liu <kanie@linux.alibaba.com>, shinichiro.kawasaki@wdc.com,
- Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- nilay@linux.ibm.com, Chaitanya Kulkarni <kch@nvidia.com>,
- Kanchan Joshi <joshi.k@samsung.com>
-Cc: linux-nvme@lists.infradead.org
-References: <20260804024644.3830277-1-kanie@linux.alibaba.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20260804024644.3830277-1-kanie@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-5.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[alibaba.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	URIBL_BLOCKED(0.00)[alibaba.com:email,suse.de:email,suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Queue-Id: 276A37F5FF
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Priority: 3
+Importance: Normal
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260804_003247_534593_B4D06B39 
-X-CRM114-Status: GOOD (  15.48  )
+X-CRM114-CacheID: sfid-20260804_021657_071992_B6FF1986 
+X-CRM114-Status: GOOD (  40.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -145,37 +83,118 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 8/4/26 4:46 AM, Guixin Liu wrote:
-> nvmet_execute_identify_nslist() handles both the Active Namespace ID list
-> (CNS 02h) and the per-command-set variant (CNS 07h). For CNS 07h it
-> filtered the list on req->ns->csi, but this handler never resolves
-> req->ns, so it is always NULL. As soon as an enabled namespace with an
-> NSID above the requested value exists, the target dereferenced a NULL
-> pointer and oopsed.
-> 
-> This test connects a target with a single namespace and issues an
-> Identify with CNS 07h starting from NSID 0, which is exactly the
-> condition that triggered the crash. Without the kernel fix [0] the target
-> oopses; with it the command completes normally.
-> 
-> [0] https://lore.kernel.org/linux-nvme/20260730043105.3071328-2-kanie@linux.alibaba.com/
-> 
-> Suggested-by: Christoph Hellwig <hch@lst.de>
-> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
-> ---
-> v1 -> v2:
->    - Use "nvme list-ns --csi=0" instead of a raw admin-passthru to issue
->      Identify CNS 07h, as suggested by Nilay and Shinichiro; it drives the
->      same target code path via the existing nvme-cli subcommand.
-> 
-Reviewed-by: Hannes Reinecke <hare@kernel.org>
+Thanks for the detailed explanation, and sorry for the slow reply.
 
-Cheers,
+I see your point now, and I agree that adding a generic HKDF implementation=
+ probably would not buy us much here.
+I can still see some value in having a shared, well-tested implementation, =
+but I agree it=E2=80=99s probably not worth it in this case.
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Thanks again for taking the time to review this.
+
+> On 07/21/2026 5:06 PM CEST Eric Biggers <ebiggers@kernel.org> wrote:
+>=20
+> =20
+> Hi Marco,
+>=20
+> On Tue, Jul 21, 2026 at 04:06:39PM +0200, Marco Baffo wrote:
+> > fscrypt and NVMe authentication each carry private HKDF
+> > implementations. Add HKDF-SHA256, HKDF-SHA384, and HKDF-SHA512
+> > functions to lib/crypto and convert both users.
+> >=20
+> > Patches 1-4 are intended for review and inclusion.
+> >=20
+> > Patch 5 is RFC only and is not intended to be applied. It shows how
+> > the OVPN epoch-key code currently under development can use the new
+> > HKDF API. That patch has an additional dependency on the OVPN epoch
+> > series. It is included here to allow the API to be reviewed against
+> > a third user. The OVPN conversion will be submitted separately once
+> > its prerequisite code is ready.
+> >=20
+> > HKDF-Expand accepts info as an array of segments and processes them as
+> > if concatenated. This preserves the byte ordering used by fscrypt and
+> > allows NVMe to encode HkdfLabel without allocating a temporary buffer.
+> >=20
+> > HKDF-Extract produces a prepared HMAC key, avoiding repeated key setup
+> > when the same PRK is expanded more than once. The implementation uses
+> > the direct HMAC library functions and neither allocates memory nor
+> > returns errors.
+> >=20
+> > The series is intended for the libcrypto tree. Patches 3 and 4 need
+> > review from the fscrypt and NVMe maintainers, respectively.
+> >=20
+> > Tested with:
+> >=20
+> > - HKDF KUnit tests
+> > - NVMe authentication KUnit tests
+> > - kvm-xfstests smoketest on ext4
+> > - kvm-xfstests generic/582, generic/583, and generic/584 on ext4 and f2=
+fs
+> > - kvm-xfstests encrypt group on ext4 and f2fs
+> >=20
+> > The following shortlog and diffstat refers only to the first 4 patches.
+> >=20
+> > Marco Baffo (4):
+> >   lib/crypto: add HKDF-SHA{256,384,512}
+> >   lib/crypto: tests: add HKDF KUnit tests
+> >   fscrypt: use HKDF library functions
+> >   nvme-auth: use HKDF library functions for TLS PSK derivation
+> >=20
+> >  drivers/nvme/common/auth.c    | 120 ++++++++-------
+> >  fs/crypto/hkdf.c              |  56 ++-----
+> >  include/crypto/hkdf.h         | 131 ++++++++++++++++
+> >  lib/crypto/.kunitconfig       |   1 +
+> >  lib/crypto/Makefile           |   4 +-
+> >  lib/crypto/hkdf-sha256.c      |  22 +++
+> >  lib/crypto/hkdf-sha512.c      |  34 +++++
+> >  lib/crypto/hkdf-template.h    |  97 ++++++++++++
+> >  lib/crypto/tests/Kconfig      |   8 +
+> >  lib/crypto/tests/Makefile     |   1 +
+> >  lib/crypto/tests/hkdf_kunit.c | 276 ++++++++++++++++++++++++++++++++++
+> >  11 files changed, 653 insertions(+), 97 deletions(-)
+> >  create mode 100644 include/crypto/hkdf.h
+> >  create mode 100644 lib/crypto/hkdf-sha256.c
+> >  create mode 100644 lib/crypto/hkdf-sha512.c
+> >  create mode 100644 lib/crypto/hkdf-template.h
+> >  create mode 100644 lib/crypto/tests/hkdf_kunit.c
+>=20
+> If we're going to reintroduce an HKDF library, this is probably the way
+> to do it (no crypto_shash dependency).
+>=20
+> But I think the positive diffstat makes having an HKDF library at all in
+> the kernel still kind of questionable.  HKDF is just a wrapper around
+> HMAC and it can "unroll" to as little as 1-2 HMAC calls.  It's not
+> really like the other crypto algorithms where the implementations can be
+> very complex and we often have multiple arch-specific implementations.
+>=20
+> In drivers/nvme/common/auth.c, using the library actually ended up as
+> more code than not using it.
+>=20
+> And in fs/crypto/hkdf.c this patchset only saves a bit (with some of the
+> savings coming from deleting helpful comments).
+>=20
+> In the ovpn case, the extraction step isn't actually used.  Nor are
+> multiple expansion iterations needed, since all the keys needing to be
+> derived are at most the hash size.  So vs. using hmac_sha256_* directly
+> it saves maybe 10-15 lines?  (Note that the diffstat in patch 5 isn't
+> directly relevant, as the starting point was crypto_shash.)
+>=20
+> So then we end up with quite a bit of additional code in lib/crypto/, to
+> support users where the diffstat is basically neutral.
+>=20
+> And this is only HKDF, so this hardly solves key derivation in general.
+> Plenty of KDFs don't use HKDF at all, either ones based on block ciphers
+> or stream ciphers, or newer hash functions that aren't vulnerable to
+> length extension attacks so don't require the HMAC layer.  There are
+> lots of other KDFs implemented in the kernel in various places.  Just to
+> pick a couple random examples, extract_entropy() in
+> drivers/char/random.c is doing a KDF, tcp_ao_calc_traffic_key() in
+> net/ipv4/tcp_ao.c is doing a KDF.  Do those need to be libraries too?
+>=20
+> So overall I would suggest it might be best to hold off on this for now
+> and just call the hmac_sha256_* functions directly from
+> ovpn_expand_label().  (And again, only one iteration is actually needed
+> there, so it doesn't even need to be the full HKDF-Expand.)
+>=20
+> - Eric
 
