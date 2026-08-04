@@ -4,38 +4,38 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 72C27C55ABA
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Aug 2026 02:19:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 73B81C55182
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Aug 2026 02:19:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=80JMy/2kLPFykHHgKiRnsR+X/BMINcG6pDzIfK+uaAc=; b=WccD3+sHC9i9mjI5hOoU7xyteL
-	Wt1Xt82Dpbf4JRAZ2YBVpxpo1mXlZbuHuYJmlfmABcCfxLyZV21FKSm4MUm2hYdX3dsQZNXipYQsE
-	U+RH9DWNPcGvEaJMkytpxJ25L78cpTuQ3yzX/xeB9EqJIin+Z1vP2IARQAMCHXbXndlRnj95Gka4w
-	UT0p5xn6A1CQKCp8z5usUAz77Xv4F50vd+tcbpSPrrNrILSu+7yMNJYwo3IztzWvU0hnYAx1z2o/T
-	R83/Qjs2ubt3gZUAbEc9T9CigOQs4Wgi6JU/eo9qwh6RcC3wBH7H/Gik/5ftS720xxyEqn2cSDPRD
-	eoQSQhuQ==;
+	bh=xgBFJ13+HvDOtpSLu7rBgHIyQWNnRy/oUaMbPGIpA4w=; b=himp0EhHZm0TNycKvlStQF13ev
+	alvjqAacaoZCKzZuq9NzYcmDN6Adou12LKcnpbun/4dQ2PBZKek4krqlLN87fr1JF7lLZYx5Y1qVw
+	yw23zjkebux/pNGHW39W+XB36uS4YkoPLVG4ODVk0zIbCd4XjAkJ6hkyd0fR0vgB2U14Inb35vUZ3
+	aP5XPpchVkiyfcfLYioFWLfJn24MPnkaYzJ5CZjP7ToTsNgcQ/cagYUozhmUko73kx7Ak5kZjeBHR
+	a/URSA0qz74Eba9I0PvByZuhEpq6fW0hMiwOUKRfzpL1N9fMfsWZ06A1LHcAZEetrAQSkaFgERTWa
+	atutrXCQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wr4kR-00000000pMZ-2a4t;
-	Tue, 04 Aug 2026 02:19:19 +0000
-Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131])
+	id 1wr4kT-00000000pOh-46Ku;
+	Tue, 04 Aug 2026 02:19:21 +0000
+Received: from out30-97.freemail.mail.aliyun.com ([115.124.30.97])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wr4kM-00000000pIp-1aIv
+	id 1wr4kM-00000000pJH-4B1n
 	for linux-nvme@lists.infradead.org;
 	Tue, 04 Aug 2026 02:19:18 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1785809947; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=80JMy/2kLPFykHHgKiRnsR+X/BMINcG6pDzIfK+uaAc=;
-	b=vcTkSj+XlEIuIOy8JX/SfsaRi10FM0asfA+9MgONeBidoJHiHG5WBAuH1hsukMW+w5UK7PdPelcPSYY0Q+U6d+bsF9qZoj22+d8PWRlXYJVQGVVLwgqfhz6cm6yH7Lj24GQljHbkRzbBtrjefQSorH4Go0owHO1aPVvMNBbRic4=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R271e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037033178;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0X8MFXIQ_1785809946;
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0X8MFXIQ_1785809946 cluster:ay36)
+	t=1785809950; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=xgBFJ13+HvDOtpSLu7rBgHIyQWNnRy/oUaMbPGIpA4w=;
+	b=SrPnBm7hXIwlKe2MluqLzN0fhebREO4499pcaSIRp/+DOO3sKan0QZy5UiE8JdW9iek5hcwRHtOMvZ+t6kBO4zGdvL9R2Zz2wi3SqWtmTrp/Z95MNIP99qvU35lJXDcgjW3bIQb0wy7+DyeRxls5+HpFTNMnk5WPPE1wpROdSII=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R411e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0X8MFvs1_1785809949;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0X8MFvs1_1785809949 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Tue, 04 Aug 2026 10:19:07 +0800
+          Tue, 04 Aug 2026 10:19:10 +0800
 From: Guixin Liu <kanie@linux.alibaba.com>
 To: Keith Busch <kbusch@kernel.org>,
 	Jens Axboe <axboe@kernel.dk>,
@@ -46,17 +46,17 @@ To: Keith Busch <kbusch@kernel.org>,
 	Chaitanya Kulkarni <kch@nvidia.com>,
 	Kanchan Joshi <joshi.k@samsung.com>
 Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH v3 1/5] nvmet: fix NULL pointer dereference in nvmet_execute_identify_nslist()
-Date: Tue,  4 Aug 2026 10:18:57 +0800
-Message-ID: <20260804021901.3777326-2-kanie@linux.alibaba.com>
+Subject: [PATCH v3 4/5] nvme: clamp FDP placement handle count to the buffer size
+Date: Tue,  4 Aug 2026 10:19:00 +0800
+Message-ID: <20260804021901.3777326-5-kanie@linux.alibaba.com>
 X-Mailer: git-send-email 2.43.7
 In-Reply-To: <20260804021901.3777326-1-kanie@linux.alibaba.com>
 References: <20260804021901.3777326-1-kanie@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260803_191915_215640_6B8046BD 
-X-CRM114-Status: GOOD (  13.74  )
+X-CRM114-CacheID: sfid-20260803_191915_205065_D3EC7FA8 
+X-CRM114-Status: GOOD (  11.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,40 +71,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When a host issues an Identify command with CNS 07h (Active Namespace ID
-List for a specific I/O Command Set), nvmet_execute_identify_nslist() is
-called with match_css set. The command-set filter dereferences req->ns,
-but this handler never calls nvmet_req_find_ns(), so req->ns is always
-NULL (nvmet_req_init() resets it to NULL). As soon as an enabled
-namespace with an NSID greater than the requested value exists,
-req->ns->csi dereferences a NULL pointer and oopses.
+nvme_query_fdp_info() allocates the RUH status buffer for at most
+S8_MAX - 1 descriptors and caps the io-mgmt-receive transfer to that
+size. head->nr_plids, however, is taken verbatim from the device-supplied
+nruhsd field, which can be up to 65535. If a non-conformant or malicious
+device reports more descriptors than the buffer holds, the copy loop
+reads past the end of the ruhs buffer (heap out-of-bounds read).
 
-Besides the crash, the comparison is logically wrong: to filter the list
-by command set it must test the command set of the namespace being
-iterated, not a single fixed value. Use the loop variable ns->csi.
+Clamp nr_plids to the number of descriptors the buffer can actually hold.
 
-Fixes: 61c9967cd634 ("nvmet: implement active command set ns list")
+Fixes: 30b5f20bb2dd ("nvme: register fdp parameters with the block layer")
 Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
 Reviewed-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>
 ---
- drivers/nvme/target/admin-cmd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 01b799e92ae6..ab6a0a98dd5d 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -958,7 +958,7 @@ static void nvmet_execute_identify_nslist(struct nvmet_req *req, bool match_css)
- 	nvmet_for_each_enabled_ns(&ctrl->subsys->namespaces, idx, ns) {
- 		if (ns->nsid <= min_nsid)
- 			continue;
--		if (match_css && req->ns->csi != req->cmd->identify.csi)
-+		if (match_css && ns->csi != req->cmd->identify.csi)
- 			continue;
- 		list[i++] = cpu_to_le32(ns->nsid);
- 		if (i == buf_size / sizeof(__le32))
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 453c1f0b2dd0..b1f444cd3daf 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2358,6 +2358,7 @@ static int nvme_query_fdp_info(struct nvme_ns *ns, struct nvme_ns_info *info)
+ 	}
+ 
+ 	head->nr_plids = le16_to_cpu(ruhs->nruhsd);
++	head->nr_plids = min_t(u16, head->nr_plids, S8_MAX - 1);
+ 	if (!head->nr_plids)
+ 		goto free;
+ 
 -- 
 2.43.7
 
