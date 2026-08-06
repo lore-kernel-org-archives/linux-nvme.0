@@ -4,30 +4,30 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 865E5C55174
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Aug 2026 02:47:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B101CC55ABA
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Aug 2026 02:47:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bKy4c1zZaaLWeS2EwWLKSw1SEKL67SiFpj9TEYQnyU4=; b=BLfbxTI+89pv116kZG3QGcFfoV
-	zIg6hJ9AhcJED2g7dVUZ8NgAYUJL86TDyzzf5My2orsYGf/f3vXN+MObAxcYrskDL3ylTCFgQJwxw
-	0zlJjF3nweFZ+IKsh/Ercd0cGyY/T9RMG/d4jUN6uSOE822oYB+TSrWUu/mWbIXn7LXTa8p7A3Eaa
-	4zMIESLX/efvNsvb9T7gSYVC985OLPx7utmMpfQPhcf0dL03GvTifTtueZbqCMLjZcmdEiOx0BK9k
-	gJTSxh3XSQUnKYTojsarAlzlzxY47eAZloMOwZs4/udhoyaoPnDo9JIniJbI3ZVoJkO5cHBzzd5eC
-	SdFmBkfw==;
+	bh=nhpvLW3dAtZnazuTRyAT4gK0O6HdZEeWdUAnQYiacSk=; b=wQ0c5au9J5or/MZ0hquT29jfCH
+	EbGkp4mq9DyYXWK0y/4rL3r6ShPuJ7owA/Pdqn8ovGmtP/skVshBCvr6AL+7ikcvKDQxzLsTTGnU6
+	dI6se+V+0ikR5Yb/vNle1zbap5VLyLn4mkqqWzR+Y80WTK4WKiYYv6upyhqtONrHQ2dH3TQUyDZsY
+	JScyZBkzyT3WXhzvSCkg8JgoSmrmDJXfQWu/8zFJ8jJPJoI6A3Vwm2JW1DfdTUjUcahQMyZkaN7Y5
+	L3CbHBkeu8KSRwo9L7RI3MYQ3jO1KEiJ+tnVCmGei9oS27bYtbwFN9enwELFyeHhFU968fOXM7LNN
+	xacY7H8g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wro95-00000004q0L-0IW5;
-	Thu, 06 Aug 2026 02:47:47 +0000
+	id 1wro96-00000004q10-0g2E;
+	Thu, 06 Aug 2026 02:47:48 +0000
 Received: from mailgw.kylinos.cn ([124.126.103.232])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wro92-00000004pyy-3E0T
+	id 1wro94-00000004pzW-1C9k
 	for linux-nvme@lists.infradead.org;
-	Thu, 06 Aug 2026 02:47:46 +0000
-X-UUID: 2cfa1882914111f1aa26b74ffac11d73-20260806
+	Thu, 06 Aug 2026 02:47:47 +0000
+X-UUID: 2f43a2e8914111f1aa26b74ffac11d73-20260806
 X-CTIC-Tags: HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
 	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
 	HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
@@ -37,27 +37,27 @@ X-CTIC-Tags: HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_
 	DMARC_NOPASS, CIE_BAD, CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS
 	GTI_RG_INFO, GTI_C_BU, AMN_GOOD, ABX_MISS_RDNS
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:a027dfa6-c262-417c-8cce-16ecc6c87673,IP:10,
+X-CID-O-INFO: VERSION:1.3.12,REQID:44dc73f2-efb9-4882-a671-6d9907bdd905,IP:10,
 	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
 	:release,TS:10
-X-CID-INFO: VERSION:1.3.12,REQID:a027dfa6-c262-417c-8cce-16ecc6c87673,IP:10,UR
+X-CID-INFO: VERSION:1.3.12,REQID:44dc73f2-efb9-4882-a671-6d9907bdd905,IP:10,UR
 	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
 	elease,TS:10
-X-CID-META: VersionHash:e7bac3a,CLOUDID:c03467de46b45fe85e373a49bfd9b583,BulkI
-	D:260806104738XNN5D7JN,BulkQuantity:0,Recheck:0,SF:10|38|66|78|81|82|102|1
-	27|136|850|865|898,TC:nil,Content:0|15|50,EDM:-3|-100,IP:-2,URL:0,File:nil
-	,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,
-	DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-META: VersionHash:e7bac3a,CLOUDID:9bee64b52ec2cd609e7e9d9bea0f0120,BulkI
+	D:2608061020071ICVMFH9,BulkQuantity:1,Recheck:0,SF:10|38|66|78|81|82|102|1
+	27|850|865|898,TC:nil,Content:0|15|50,EDM:-3,IP:-2,URL:0,File:nil,RT:nil,B
+	ulk:41,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:
+	0,BRE:0,ARC:0
 X-CID-BVR: 2,SSN|SDN
 X-CID-BAS: 2,SSN|SDN,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 2cfa1882914111f1aa26b74ffac11d73-20260806
+X-UUID: 2f43a2e8914111f1aa26b74ffac11d73-20260806
 X-User: sangyao@kylinos.cn
 Received: from localhost.localdomain [(223.70.159.239)] by mailgw.kylinos.cn
 	(envelope-from <sangyao@kylinos.cn>)
 	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 866893979; Thu, 06 Aug 2026 10:47:33 +0800
+	with ESMTP id 253893869; Thu, 06 Aug 2026 10:47:37 +0800
 From: Yao Sang <sangyao@kylinos.cn>
 To: Jens Axboe <axboe@kernel.dk>,
 	Keith Busch <kbusch@kernel.org>,
@@ -66,17 +66,17 @@ To: Jens Axboe <axboe@kernel.dk>,
 Cc: linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
 	Yao Sang <sangyao@kylinos.cn>
-Subject: [PATCH v2 1/4] nvme: factor namespace-head queue-limit update
-Date: Thu,  6 Aug 2026 10:46:55 +0800
-Message-Id: <20260806024658.4193386-2-sangyao@kylinos.cn>
+Subject: [PATCH v2 2/4] block: factor block size and alignment handling out of blk_stack_limits
+Date: Thu,  6 Aug 2026 10:46:56 +0800
+Message-Id: <20260806024658.4193386-3-sangyao@kylinos.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20260806024658.4193386-1-sangyao@kylinos.cn>
 References: <20260806024658.4193386-1-sangyao@kylinos.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260805_194745_116131_03435B29 
-X-CRM114-Status: GOOD (  19.21  )
+X-CRM114-CacheID: sfid-20260805_194746_622385_EDF67597 
+X-CRM114-Status: GOOD (  18.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,148 +91,229 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Move the namespace head queue-limit update out of nvme_update_ns_info().
-The new helper keeps the current queue_limits_stack_bdev() based behavior
-intact, including zoned resource handling, write-stream assignment,
-integrity setup, capacity and readonly updates, path revalidation, and
-namespace-head zone revalidation.
+Topology limits are the block size and alignment limits that the top
+device exposes after its data is placed at an offset on a bottom device.
+blk_stack_limits() uses start, the first data sector in the bottom device
+used by the top device, to calculate alignment_offset.
 
-Keep queue-limit commit failures on the existing short-circuit path so
-capacity and namespace-head state are only updated after a successful
-limits update.
+It then stacks logical_block_size, physical_block_size, io_min, io_opt and
+chunk_sectors, checks that they are compatible, and rounds max_sectors,
+max_hw_sectors and max_dev_sectors down to the final logical_block_size.
 
-The helper gives namespace-head queue-limit updates a single NVMe-local
-entry point while keeping the namespace information refresh sequencing
-unchanged.
+Keep these operations together because the checks and rounding must run
+after the final logical and physical block sizes are known. Factor them
+into a static blk_stack_topology_limits() helper.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+There is no behavior change.
+
 Signed-off-by: Yao Sang <sangyao@kylinos.cn>
 ---
- drivers/nvme/host/core.c | 104 +++++++++++++++++++++------------------
- 1 file changed, 56 insertions(+), 48 deletions(-)
+ block/blk-settings.c | 169 ++++++++++++++++++++++++-------------------
+ 1 file changed, 93 insertions(+), 76 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index cb93ada4376a..e3d27c0440db 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2528,6 +2528,60 @@ static void nvme_stack_zone_resources(struct queue_limits *t,
- 		min_not_zero(t->max_active_zones, b->max_active_zones);
+diff --git a/block/blk-settings.c b/block/blk-settings.c
+index 8274631290db..1aff818aaaac 100644
+--- a/block/blk-settings.c
++++ b/block/blk-settings.c
+@@ -756,6 +756,96 @@ static void blk_stack_atomic_writes_limits(struct queue_limits *t,
+ 	t->atomic_write_hw_boundary = 0;
  }
  
-+static int nvme_update_ns_head_limits(struct nvme_ns *ns,
-+		struct nvme_ns_info *info, bool unsupported)
++/*
++ * Stack and check logical_block_size, physical_block_size, io_min, io_opt,
++ * chunk_sectors and alignment_offset for a bottom-device range, then round
++ * max_sectors, max_hw_sectors and max_dev_sectors to logical_block_size.
++ */
++static int blk_stack_topology_limits(struct queue_limits *t,
++		const struct queue_limits *b, sector_t start)
 +{
-+	struct queue_limits *ns_lim = &ns->disk->queue->limits;
-+	struct request_queue *head_q = ns->head->disk->queue;
-+	struct queue_limits lim;
-+	unsigned int memflags;
-+	int ret;
++	unsigned int top, bottom, alignment;
++	int ret = 0;
 +
-+	lim = queue_limits_start_update(head_q);
-+	memflags = blk_mq_freeze_queue(head_q);
++	t->flags |= b->flags & BLK_FLAG_MISALIGNED;
++
++	alignment = queue_limit_alignment_offset(b, start);
++
 +	/*
-+	 * queue_limits mixes values that are the hardware limitations
-+	 * for bio splitting with what is the device configuration.
-+	 *
-+	 * For NVMe the device configuration can change after e.g. a
-+	 * Format command, and we really want to pick up the new format
-+	 * value here. But we must still stack the queue limits to the
-+	 * least common denominator for multipathing to split the bios
-+	 * properly.
-+	 *
-+	 * To work around this, we explicitly set the device
-+	 * configuration to those that we just queried, but only stack
-+	 * the splitting limits in to make sure we still obey possibly
-+	 * lower limitations of other controllers.
++	 * The bottom device has a different alignment. Check that it is
++	 * compatible with the current top alignment.
 +	 */
-+	lim.logical_block_size = ns_lim->logical_block_size;
-+	lim.physical_block_size = ns_lim->physical_block_size;
-+	lim.io_min = ns_lim->io_min;
-+	lim.io_opt = ns_lim->io_opt;
-+	queue_limits_stack_bdev(&lim, ns->disk->part0, 0,
-+				ns->head->disk->disk_name);
-+	if (lim.features & BLK_FEAT_ZONED)
-+		nvme_stack_zone_resources(&lim, ns_lim);
-+	if (unsupported)
-+		ns->head->disk->flags |= GENHD_FL_HIDDEN;
-+	else
-+		nvme_init_integrity(ns->head, &lim, info);
-+	lim.max_write_streams = ns_lim->max_write_streams;
-+	lim.write_stream_granularity = ns_lim->write_stream_granularity;
-+	ret = queue_limits_commit_update(head_q, &lim);
-+	if (ret)
-+		goto unfreeze_head_queue;
++	if (t->alignment_offset != alignment) {
++		top = max(t->physical_block_size, t->io_min) +
++			t->alignment_offset;
++		bottom = max(b->physical_block_size, b->io_min) + alignment;
 +
-+	set_capacity_and_notify(ns->head->disk, get_capacity(ns->disk));
-+	set_disk_ro(ns->head->disk, nvme_ns_is_readonly(ns, info));
-+	nvme_mpath_revalidate_paths(ns->head);
-+	ret = nvme_mpath_revalidate_zones(ns->head);
++		/* Verify that top and bottom intervals line up. */
++		if (max(top, bottom) % min(top, bottom)) {
++			t->flags |= BLK_FLAG_MISALIGNED;
++			ret = -1;
++		}
++	}
 +
-+unfreeze_head_queue:
-+	blk_mq_unfreeze_queue(head_q, memflags);
++	t->logical_block_size = max(t->logical_block_size,
++				    b->logical_block_size);
++	t->physical_block_size = max(t->physical_block_size,
++				     b->physical_block_size);
++	t->io_min = max(t->io_min, b->io_min);
++	t->io_opt = lcm_not_zero(t->io_opt, b->io_opt);
++
++	/* Set non-power-of-2 compatible chunk_sectors boundary. */
++	if (b->chunk_sectors)
++		t->chunk_sectors = gcd(t->chunk_sectors, b->chunk_sectors);
++
++	/* Physical block size a multiple of the logical block size? */
++	if (t->physical_block_size & (t->logical_block_size - 1)) {
++		t->physical_block_size = t->logical_block_size;
++		t->flags |= BLK_FLAG_MISALIGNED;
++		ret = -1;
++	}
++
++	/* Minimum I/O a multiple of the physical block size? */
++	if (t->io_min & (t->physical_block_size - 1)) {
++		t->io_min = t->physical_block_size;
++		t->flags |= BLK_FLAG_MISALIGNED;
++		ret = -1;
++	}
++
++	/* Optimal I/O a multiple of the physical block size? */
++	if (t->io_opt & (t->physical_block_size - 1)) {
++		t->io_opt = 0;
++		t->flags |= BLK_FLAG_MISALIGNED;
++		ret = -1;
++	}
++
++	/* chunk_sectors a multiple of the physical block size? */
++	if (t->chunk_sectors % (t->physical_block_size >> SECTOR_SHIFT)) {
++		t->chunk_sectors = 0;
++		t->flags |= BLK_FLAG_MISALIGNED;
++		ret = -1;
++	}
++
++	/* Find lowest common alignment_offset. */
++	t->alignment_offset = lcm_not_zero(t->alignment_offset, alignment) %
++		max(t->physical_block_size, t->io_min);
++
++	/* Verify that new alignment_offset is on a logical block boundary. */
++	if (t->alignment_offset & (t->logical_block_size - 1)) {
++		t->flags |= BLK_FLAG_MISALIGNED;
++		ret = -1;
++	}
++
++	t->max_sectors = blk_round_down_sectors(t->max_sectors,
++						t->logical_block_size);
++	t->max_hw_sectors = blk_round_down_sectors(t->max_hw_sectors,
++						   t->logical_block_size);
++	t->max_dev_sectors = blk_round_down_sectors(t->max_dev_sectors,
++						    t->logical_block_size);
++
 +	return ret;
 +}
 +
- static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_ns_info *info)
+ /**
+  * blk_stack_limits - adjust queue_limits for stacked devices
+  * @t:	the stacking driver limits (top device)
+@@ -780,8 +870,8 @@ static void blk_stack_atomic_writes_limits(struct queue_limits *t,
+ int blk_stack_limits(struct queue_limits *t, struct queue_limits *b,
+ 		     sector_t start)
  {
- 	bool unsupported = false;
-@@ -2566,54 +2620,8 @@ static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_ns_info *info)
- 		ret = 0;
- 	}
+-	unsigned int top, bottom, alignment;
+-	int ret = 0;
++	unsigned int alignment;
++	int ret;
  
--	if (!ret && nvme_ns_head_multipath(ns->head)) {
--		struct queue_limits *ns_lim = &ns->disk->queue->limits;
--		struct queue_limits lim;
--		unsigned int memflags;
+ 	t->features |= (b->features & BLK_FEAT_INHERIT_MASK);
+ 
+@@ -798,8 +888,6 @@ int blk_stack_limits(struct queue_limits *t, struct queue_limits *b,
+ 	if (!(b->features & BLK_FEAT_PCI_P2PDMA))
+ 		t->features &= ~BLK_FEAT_PCI_P2PDMA;
+ 
+-	t->flags |= (b->flags & BLK_FLAG_MISALIGNED);
 -
--		lim = queue_limits_start_update(ns->head->disk->queue);
--		memflags = blk_mq_freeze_queue(ns->head->disk->queue);
--		/*
--		 * queue_limits mixes values that are the hardware limitations
--		 * for bio splitting with what is the device configuration.
--		 *
--		 * For NVMe the device configuration can change after e.g. a
--		 * Format command, and we really want to pick up the new format
--		 * value here.  But we must still stack the queue limits to the
--		 * least common denominator for multipathing to split the bios
--		 * properly.
--		 *
--		 * To work around this, we explicitly set the device
--		 * configuration to those that we just queried, but only stack
--		 * the splitting limits in to make sure we still obey possibly
--		 * lower limitations of other controllers.
--		 */
--		lim.logical_block_size = ns_lim->logical_block_size;
--		lim.physical_block_size = ns_lim->physical_block_size;
--		lim.io_min = ns_lim->io_min;
--		lim.io_opt = ns_lim->io_opt;
--		queue_limits_stack_bdev(&lim, ns->disk->part0, 0,
--					ns->head->disk->disk_name);
--		if (lim.features & BLK_FEAT_ZONED)
--			nvme_stack_zone_resources(&lim, ns_lim);
--		if (unsupported)
--			ns->head->disk->flags |= GENHD_FL_HIDDEN;
--		else
--			nvme_init_integrity(ns->head, &lim, info);
--		lim.max_write_streams = ns_lim->max_write_streams;
--		lim.write_stream_granularity = ns_lim->write_stream_granularity;
--		ret = queue_limits_commit_update(ns->head->disk->queue, &lim);
--		if (ret)
--			goto unfreeze_head_queue;
+ 	t->max_sectors = min_not_zero(t->max_sectors, b->max_sectors);
+ 	t->max_user_sectors = min_not_zero(t->max_user_sectors,
+ 			b->max_user_sectors);
+@@ -830,80 +918,9 @@ int blk_stack_limits(struct queue_limits *t, struct queue_limits *b,
+ 
+ 	t->max_segment_size = min_not_zero(t->max_segment_size,
+ 					   b->max_segment_size);
 -
--		set_capacity_and_notify(ns->head->disk, get_capacity(ns->disk));
--		set_disk_ro(ns->head->disk, nvme_ns_is_readonly(ns, info));
--		nvme_mpath_revalidate_paths(ns->head);
--		ret = nvme_mpath_revalidate_zones(ns->head);
+-	alignment = queue_limit_alignment_offset(b, start);
 -
--unfreeze_head_queue:
--		blk_mq_unfreeze_queue(ns->head->disk->queue, memflags);
+-	/* Bottom device has different alignment.  Check that it is
+-	 * compatible with the current top alignment.
+-	 */
+-	if (t->alignment_offset != alignment) {
+-
+-		top = max(t->physical_block_size, t->io_min)
+-			+ t->alignment_offset;
+-		bottom = max(b->physical_block_size, b->io_min) + alignment;
+-
+-		/* Verify that top and bottom intervals line up */
+-		if (max(top, bottom) % min(top, bottom)) {
+-			t->flags |= BLK_FLAG_MISALIGNED;
+-			ret = -1;
+-		}
 -	}
-+	if (!ret && nvme_ns_head_multipath(ns->head))
-+		ret = nvme_update_ns_head_limits(ns, info, unsupported);
+-
+-	t->logical_block_size = max(t->logical_block_size,
+-				    b->logical_block_size);
+-
+-	t->physical_block_size = max(t->physical_block_size,
+-				     b->physical_block_size);
+-
+-	t->io_min = max(t->io_min, b->io_min);
+-	t->io_opt = lcm_not_zero(t->io_opt, b->io_opt);
+ 	t->dma_alignment = max(t->dma_alignment, b->dma_alignment);
  
- 	return ret;
- }
+-	/* Set non-power-of-2 compatible chunk_sectors boundary */
+-	if (b->chunk_sectors)
+-		t->chunk_sectors = gcd(t->chunk_sectors, b->chunk_sectors);
+-
+-	/* Physical block size a multiple of the logical block size? */
+-	if (t->physical_block_size & (t->logical_block_size - 1)) {
+-		t->physical_block_size = t->logical_block_size;
+-		t->flags |= BLK_FLAG_MISALIGNED;
+-		ret = -1;
+-	}
+-
+-	/* Minimum I/O a multiple of the physical block size? */
+-	if (t->io_min & (t->physical_block_size - 1)) {
+-		t->io_min = t->physical_block_size;
+-		t->flags |= BLK_FLAG_MISALIGNED;
+-		ret = -1;
+-	}
+-
+-	/* Optimal I/O a multiple of the physical block size? */
+-	if (t->io_opt & (t->physical_block_size - 1)) {
+-		t->io_opt = 0;
+-		t->flags |= BLK_FLAG_MISALIGNED;
+-		ret = -1;
+-	}
+-
+-	/* chunk_sectors a multiple of the physical block size? */
+-	if (t->chunk_sectors % (t->physical_block_size >> SECTOR_SHIFT)) {
+-		t->chunk_sectors = 0;
+-		t->flags |= BLK_FLAG_MISALIGNED;
+-		ret = -1;
+-	}
+-
+-	/* Find lowest common alignment_offset */
+-	t->alignment_offset = lcm_not_zero(t->alignment_offset, alignment)
+-		% max(t->physical_block_size, t->io_min);
+-
+-	/* Verify that new alignment_offset is on a logical block boundary */
+-	if (t->alignment_offset & (t->logical_block_size - 1)) {
+-		t->flags |= BLK_FLAG_MISALIGNED;
+-		ret = -1;
+-	}
+-
+-	t->max_sectors = blk_round_down_sectors(t->max_sectors, t->logical_block_size);
+-	t->max_hw_sectors = blk_round_down_sectors(t->max_hw_sectors, t->logical_block_size);
+-	t->max_dev_sectors = blk_round_down_sectors(t->max_dev_sectors, t->logical_block_size);
++	ret = blk_stack_topology_limits(t, b, start);
+ 
+ 	/* Discard alignment and granularity */
+ 	if (b->discard_granularity) {
 -- 
 2.25.1
 
