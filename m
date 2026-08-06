@@ -4,30 +4,30 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 671D8C55ABA
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Aug 2026 02:47:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 865E5C55174
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Aug 2026 02:47:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=5CpPCD2D0yhYsD+VbTMUSL4rI9V0KH9FcJnHD4jpKlk=; b=YLr1E6aTcFfDAs/MdimLVRX+5F
-	8aD5HiXR7AT29SRbf0E4GpwYvXiSGhfqzp8yIcuJnQhzZ3h6ljQuxmXQpzThfM+RSd+YLoInQNoBF
-	tBQheMYOFc0pTd82W+kZr1G1jM9yhdWen1FbuigpycPH976uYuxuNYq/+qZoLJxfWT7WIx4ViLs8O
-	WHlb9MEGLen4ffjRya1amYzdX+Vz9s8NOWJW2We9/mntmpS41ZoS6I1C8c3KzF6BcGadiLo1Di1ZK
-	KRtjnXuDJzHlkM71AEPGl4s4sWJup/xP0GGXi1MohEUL3zhoyDD53R5UgXfSdbQ4duGwiczVPGpN5
-	+vdLXhnQ==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=bKy4c1zZaaLWeS2EwWLKSw1SEKL67SiFpj9TEYQnyU4=; b=BLfbxTI+89pv116kZG3QGcFfoV
+	zIg6hJ9AhcJED2g7dVUZ8NgAYUJL86TDyzzf5My2orsYGf/f3vXN+MObAxcYrskDL3ylTCFgQJwxw
+	0zlJjF3nweFZ+IKsh/Ercd0cGyY/T9RMG/d4jUN6uSOE822oYB+TSrWUu/mWbIXn7LXTa8p7A3Eaa
+	4zMIESLX/efvNsvb9T7gSYVC985OLPx7utmMpfQPhcf0dL03GvTifTtueZbqCMLjZcmdEiOx0BK9k
+	gJTSxh3XSQUnKYTojsarAlzlzxY47eAZloMOwZs4/udhoyaoPnDo9JIniJbI3ZVoJkO5cHBzzd5eC
+	SdFmBkfw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wro8y-00000004pyT-445q;
-	Thu, 06 Aug 2026 02:47:40 +0000
+	id 1wro95-00000004q0L-0IW5;
+	Thu, 06 Aug 2026 02:47:47 +0000
 Received: from mailgw.kylinos.cn ([124.126.103.232])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wro8w-00000004pxG-1Ljn
+	id 1wro92-00000004pyy-3E0T
 	for linux-nvme@lists.infradead.org;
-	Thu, 06 Aug 2026 02:47:39 +0000
-X-UUID: 28caa4e8914111f1aa26b74ffac11d73-20260806
+	Thu, 06 Aug 2026 02:47:46 +0000
+X-UUID: 2cfa1882914111f1aa26b74ffac11d73-20260806
 X-CTIC-Tags: HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
 	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
 	HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
@@ -37,27 +37,27 @@ X-CTIC-Tags: HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_
 	DMARC_NOPASS, CIE_BAD, CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS
 	GTI_RG_INFO, GTI_C_BU, AMN_GOOD, ABX_MISS_RDNS
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:a57f6063-1c1e-420d-8b19-d2d39e85c900,IP:10,
-	URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:5
-X-CID-INFO: VERSION:1.3.12,REQID:a57f6063-1c1e-420d-8b19-d2d39e85c900,IP:10,UR
-	L:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:5
-X-CID-META: VersionHash:e7bac3a,CLOUDID:3d8dfee83539f0cfc41b5df24b4021d8,BulkI
-	D:260806102001MKX985AD,BulkQuantity:1,Recheck:0,SF:10|38|66|78|102|127|850
-	|865|898,TC:nil,Content:0|15|50,EDM:-3,IP:-2,URL:99|1,File:nil,RT:nil,Bulk
-	:40,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,B
-	RE:0,ARC:0
+X-CID-O-INFO: VERSION:1.3.12,REQID:a027dfa6-c262-417c-8cce-16ecc6c87673,IP:10,
+	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:10
+X-CID-INFO: VERSION:1.3.12,REQID:a027dfa6-c262-417c-8cce-16ecc6c87673,IP:10,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:10
+X-CID-META: VersionHash:e7bac3a,CLOUDID:c03467de46b45fe85e373a49bfd9b583,BulkI
+	D:260806104738XNN5D7JN,BulkQuantity:0,Recheck:0,SF:10|38|66|78|81|82|102|1
+	27|136|850|865|898,TC:nil,Content:0|15|50,EDM:-3|-100,IP:-2,URL:0,File:nil
+	,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,
+	DKP:0,BRR:0,BRE:0,ARC:0
 X-CID-BVR: 2,SSN|SDN
 X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-FACTOR: TF_CID_SPAM_SNR
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 28caa4e8914111f1aa26b74ffac11d73-20260806
+X-UUID: 2cfa1882914111f1aa26b74ffac11d73-20260806
 X-User: sangyao@kylinos.cn
 Received: from localhost.localdomain [(223.70.159.239)] by mailgw.kylinos.cn
 	(envelope-from <sangyao@kylinos.cn>)
 	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 2047902434; Thu, 06 Aug 2026 10:47:26 +0800
+	with ESMTP id 866893979; Thu, 06 Aug 2026 10:47:33 +0800
 From: Yao Sang <sangyao@kylinos.cn>
 To: Jens Axboe <axboe@kernel.dk>,
 	Keith Busch <kbusch@kernel.org>,
@@ -66,15 +66,17 @@ To: Jens Axboe <axboe@kernel.dk>,
 Cc: linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
 	Yao Sang <sangyao@kylinos.cn>
-Subject: [PATCH v2 0/4] block/nvme: split path limits for namespace heads
-Date: Thu,  6 Aug 2026 10:46:54 +0800
-Message-Id: <20260806024658.4193386-1-sangyao@kylinos.cn>
+Subject: [PATCH v2 1/4] nvme: factor namespace-head queue-limit update
+Date: Thu,  6 Aug 2026 10:46:55 +0800
+Message-Id: <20260806024658.4193386-2-sangyao@kylinos.cn>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20260806024658.4193386-1-sangyao@kylinos.cn>
+References: <20260806024658.4193386-1-sangyao@kylinos.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260805_194738_667583_84B11B37 
-X-CRM114-Status: GOOD (  14.52  )
+X-CRM114-CacheID: sfid-20260805_194745_116131_03435B29 
+X-CRM114-Status: GOOD (  19.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,76 +91,149 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-An NVMe namespace head and each path refer to the same namespace. Using
-queue_limits_stack_bdev() for the head treats a path as a bottom-device
-range and applies the full blk_stack_limits() model. That model is for
-generic stacked devices, not for an NVMe namespace head.
+Move the namespace head queue-limit update out of nvme_update_ns_info().
+The new helper keeps the current queue_limits_stack_bdev() based behavior
+intact, including zoned resource handling, write-stream assignment,
+integrity setup, capacity and readonly updates, path revalidation, and
+namespace-head zone revalidation.
 
-For a generic stacked device, the top device maps its data to a range in a
-bottom device. blk_stack_limits() must then combine the limits that depend
-on that bottom-device range with the limits that must be supported by every
-bottom queue. For an NVMe namespace head, all paths address the same LBA
-space, so the head should refresh namespace layout values from the
-namespace scan and only combine the path limits across paths.
+Keep queue-limit commit failures on the existing short-circuit path so
+capacity and namespace-head state are only updated after a successful
+limits update.
 
-This series makes that split explicit. Topology limits are the block size,
-alignment, io_min, io_opt and chunk_sectors values that depend on where the
-top device data starts in the bottom device. Path limits are the all-path
-execution feature bits, such as NOWAIT, POLL and PCI_P2PDMA, and hardware
-limits that every queue which may execute an I/O must support. Operation
-and resource limits, such as discard, write zeroes, atomic writes and zoned
-resources, keep their own rules.
+The helper gives namespace-head queue-limit updates a single NVMe-local
+entry point while keeping the namespace information refresh sequencing
+unchanged.
 
-The first block patch moves the topology work into a static helper. The
-second block patch moves the path feature checks and the sector, segment,
-integrity segment and DMA alignment updates into blk_stack_path_limits().
-The final patch exports that helper and the existing atomic write helper
-when adding the NVMe namespace head caller. Existing callers of
-blk_stack_limits() continue to use the full function with no behavior
-change.
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Yao Sang <sangyao@kylinos.cn>
+---
+ drivers/nvme/host/core.c | 104 +++++++++++++++++++++------------------
+ 1 file changed, 56 insertions(+), 48 deletions(-)
 
-The topology helper uses start, the first data sector in the bottom device
-used by the top device, when calculating alignment_offset. A failed
-topology check sets BLK_FLAG_MISALIGNED and makes blk_stack_limits()
-return -1. This keeps the existing behavior and only moves the code into
-the helper. The atomic write helper uses start only in
-blk_atomic_write_start_sect_aligned(); a failed check disables atomic
-writes without changing the return value. Keep these parts separate even
-though both use start. The existing discard alignment handling also
-remains in blk_stack_limits().
-
-Changes since v1:
-- factor block size and alignment handling out of blk_stack_limits();
-- factor the explicitly listed all-path feature and hardware limit updates
-  into a block helper;
-- export the block helpers only when adding the NVMe caller;
-- retain the existing atomic write helper name and parameter types.
-
-Tests:
-- blktests nvme/004, 005, 006, 008, 010, 012, 014, 016, 017, 018,
-  019, 021, 022, 023, 025, 026, 027, 028, 029, 030, 031, 040, 041,
-  042, 043, 044, 045, 049, 051, 052, 053, 054, 057, 058, 059, 065,
-  067 and 068 passed.
-- blktests zbd/001, 003, 004, 005, 006, 008, 009, 011, 012, and 013
-  passed.
-- blktests block/003, 004, and 012, and scsi/009 and 010 passed.
-- xfstests xfs/643, xfs/646, generic/765, and generic/773 passed.
-
-Link to v1:
-https://lore.kernel.org/all/20260720022205.1798805-3-sangyao@kylinos.cn/
-
-Yao Sang (4):
-  nvme: factor namespace-head queue-limit update
-  block: factor block size and alignment handling out of
-    blk_stack_limits
-  block: factor out path limit stacking
-  block, nvme: use lower-level limit helpers for namespace heads
-
- block/blk-settings.c     | 171 +++++++++++++++++++++++---------------
- drivers/nvme/host/core.c | 169 +++++++++++++++++++++++++++------------
- include/linux/blkdev.h   |   4 +
- 3 files changed, 224 insertions(+), 120 deletions(-)
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index cb93ada4376a..e3d27c0440db 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2528,6 +2528,60 @@ static void nvme_stack_zone_resources(struct queue_limits *t,
+ 		min_not_zero(t->max_active_zones, b->max_active_zones);
+ }
+ 
++static int nvme_update_ns_head_limits(struct nvme_ns *ns,
++		struct nvme_ns_info *info, bool unsupported)
++{
++	struct queue_limits *ns_lim = &ns->disk->queue->limits;
++	struct request_queue *head_q = ns->head->disk->queue;
++	struct queue_limits lim;
++	unsigned int memflags;
++	int ret;
++
++	lim = queue_limits_start_update(head_q);
++	memflags = blk_mq_freeze_queue(head_q);
++	/*
++	 * queue_limits mixes values that are the hardware limitations
++	 * for bio splitting with what is the device configuration.
++	 *
++	 * For NVMe the device configuration can change after e.g. a
++	 * Format command, and we really want to pick up the new format
++	 * value here. But we must still stack the queue limits to the
++	 * least common denominator for multipathing to split the bios
++	 * properly.
++	 *
++	 * To work around this, we explicitly set the device
++	 * configuration to those that we just queried, but only stack
++	 * the splitting limits in to make sure we still obey possibly
++	 * lower limitations of other controllers.
++	 */
++	lim.logical_block_size = ns_lim->logical_block_size;
++	lim.physical_block_size = ns_lim->physical_block_size;
++	lim.io_min = ns_lim->io_min;
++	lim.io_opt = ns_lim->io_opt;
++	queue_limits_stack_bdev(&lim, ns->disk->part0, 0,
++				ns->head->disk->disk_name);
++	if (lim.features & BLK_FEAT_ZONED)
++		nvme_stack_zone_resources(&lim, ns_lim);
++	if (unsupported)
++		ns->head->disk->flags |= GENHD_FL_HIDDEN;
++	else
++		nvme_init_integrity(ns->head, &lim, info);
++	lim.max_write_streams = ns_lim->max_write_streams;
++	lim.write_stream_granularity = ns_lim->write_stream_granularity;
++	ret = queue_limits_commit_update(head_q, &lim);
++	if (ret)
++		goto unfreeze_head_queue;
++
++	set_capacity_and_notify(ns->head->disk, get_capacity(ns->disk));
++	set_disk_ro(ns->head->disk, nvme_ns_is_readonly(ns, info));
++	nvme_mpath_revalidate_paths(ns->head);
++	ret = nvme_mpath_revalidate_zones(ns->head);
++
++unfreeze_head_queue:
++	blk_mq_unfreeze_queue(head_q, memflags);
++	return ret;
++}
++
+ static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_ns_info *info)
+ {
+ 	bool unsupported = false;
+@@ -2566,54 +2620,8 @@ static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_ns_info *info)
+ 		ret = 0;
+ 	}
+ 
+-	if (!ret && nvme_ns_head_multipath(ns->head)) {
+-		struct queue_limits *ns_lim = &ns->disk->queue->limits;
+-		struct queue_limits lim;
+-		unsigned int memflags;
+-
+-		lim = queue_limits_start_update(ns->head->disk->queue);
+-		memflags = blk_mq_freeze_queue(ns->head->disk->queue);
+-		/*
+-		 * queue_limits mixes values that are the hardware limitations
+-		 * for bio splitting with what is the device configuration.
+-		 *
+-		 * For NVMe the device configuration can change after e.g. a
+-		 * Format command, and we really want to pick up the new format
+-		 * value here.  But we must still stack the queue limits to the
+-		 * least common denominator for multipathing to split the bios
+-		 * properly.
+-		 *
+-		 * To work around this, we explicitly set the device
+-		 * configuration to those that we just queried, but only stack
+-		 * the splitting limits in to make sure we still obey possibly
+-		 * lower limitations of other controllers.
+-		 */
+-		lim.logical_block_size = ns_lim->logical_block_size;
+-		lim.physical_block_size = ns_lim->physical_block_size;
+-		lim.io_min = ns_lim->io_min;
+-		lim.io_opt = ns_lim->io_opt;
+-		queue_limits_stack_bdev(&lim, ns->disk->part0, 0,
+-					ns->head->disk->disk_name);
+-		if (lim.features & BLK_FEAT_ZONED)
+-			nvme_stack_zone_resources(&lim, ns_lim);
+-		if (unsupported)
+-			ns->head->disk->flags |= GENHD_FL_HIDDEN;
+-		else
+-			nvme_init_integrity(ns->head, &lim, info);
+-		lim.max_write_streams = ns_lim->max_write_streams;
+-		lim.write_stream_granularity = ns_lim->write_stream_granularity;
+-		ret = queue_limits_commit_update(ns->head->disk->queue, &lim);
+-		if (ret)
+-			goto unfreeze_head_queue;
+-
+-		set_capacity_and_notify(ns->head->disk, get_capacity(ns->disk));
+-		set_disk_ro(ns->head->disk, nvme_ns_is_readonly(ns, info));
+-		nvme_mpath_revalidate_paths(ns->head);
+-		ret = nvme_mpath_revalidate_zones(ns->head);
+-
+-unfreeze_head_queue:
+-		blk_mq_unfreeze_queue(ns->head->disk->queue, memflags);
+-	}
++	if (!ret && nvme_ns_head_multipath(ns->head))
++		ret = nvme_update_ns_head_limits(ns, info, unsupported);
+ 
+ 	return ret;
+ }
 -- 
 2.25.1
+
 
