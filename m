@@ -4,59 +4,113 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C17F8C56205
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Aug 2026 12:24:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D394BC56208
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Aug 2026 12:47:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:Cc:To
-	:From:Subject:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
-	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nUvKDTbVZtttTCFTYuamcqVrLr0sSKD0scPXK/a+ohQ=; b=hKLjRcnbz5qFnY0YbQ3Pto5BDY
-	8ti7jYYbXUN+kPU1fnXZbc0tRO6aTGRiU/gb75fCEQmvQiuq8gWoKkkS7Bki44mUQREbRYxFje1PX
-	IA48YTpB4kxI5Bdy82EozMvMgMcJXnhgxscwDBk86LbA9byC1UT4swbB3LFCM+hjwAtNX9MeGtyhg
-	pq0j3xFUGD6hXwA6vgIsLGptVgR7AcvXOITNWaLzf/NQdzYq1tAZhM07aBNi69gTlUzWJjezamrqS
-	vukAUlZTjwSKieJVBAPsPjUGZKi4POwUNlGVLMNm1rbRUD/vetDhhtqRmd37ZWbd/dyRzFNMYz1D2
-	1DnO8gJw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ndsVTs8Vb4+eWTvpoW1bxOyGOZV5iCDP4dM9epJVIgo=; b=lxvCgevSGiWB4dVEWyqxz2IHid
+	RZpz3Jx6+q4poN64awDYyg8XvIhElx4tLj70lpekUmmj8//yXKcmf8Pz0XWF0FnRnRazC9FxMz9m5
+	0IKiLkVGgHuxuJtw8x0yj0n/tf2cmZ2SDjYFJ0em4I+2jx6F/+oaOoM3VlxzA2WzY54sXwp0ber8/
+	rIazBoFQSHGhqKcsgUKQA2oA0UEpCQpGh9IPoQIVAWqpre82m8ntRYP33TLKpa/WqTaIQa2EXLC4s
+	AfX0uMfoPZZBuikbMCWN6mZw8T+B9zvqEVsaQiH9XzKhy84MZQ8YVUvYsiV2BxW8eJ5aKdyMhYROA
+	s+H/XGww==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wrx9F-00000005lck-1H7J;
-	Thu, 06 Aug 2026 12:24:33 +0000
-Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=arkamax.eu)
+	id 1wrxV1-00000005oqC-3zF9;
+	Thu, 06 Aug 2026 12:47:03 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wrx9B-00000005laK-1Ja4
+	id 1wrxUz-00000005opB-2tm1
 	for linux-nvme@lists.infradead.org;
-	Thu, 06 Aug 2026 12:24:32 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; s=mail1; bh=XXRyQX0fnP4m5e
-	SqIAWzgNY40FmSTS4FHVT+kO2xicw=; h=in-reply-to:references:cc:to:from:
-	subject:date; d=arkamax.eu; b=cCXgps5MzlA+mXrNiNkkceQVKfvtx0N3BfiWeqYc
-	GYa4NqKuNTqNIvraq9q1V9M3ybWWEiAldskgMs5aj8TZu2eIX+gYb42v81bcfdjqIRcCON
-	6QJGZYlV70wDREghthjbvJXgT+FAaSm77Rjzcb6ZFT4y9jbbFj2LGNxTZf/PgiAAGqnIUQ
-	CFtBaaZem36paPp98X0bt4F2hcX2X3xJybMm9d2xAKJqw4L6L45b2vO20YUVFTQUlIs4/C
-	zp69weaC9s4YQAMjsekVVd9CK787VukSTntZ/SW0Dq0jB+kQLCGqxM8imBGTDL0dcgm+eZ
-	IWGRK7EmueqTsD/4Z7+IsA==
-Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
-	by arkamax.eu (OpenSMTPD) with ESMTPSA id 65e027f9 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Thu, 6 Aug 2026 14:24:20 +0200 (CEST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 06 Aug 2026 14:24:19 +0200
-Message-Id: <DKHUX16DSA52.46FZOG8TB6T1@arkamax.eu>
-Subject: Re: [PATCH] nvmet-fc: fix invalid free in LS IOD error path
-From: "Maurizio Lombardi" <mlombard@arkamax.eu>
-To: "Jiang HongHui" <jiang_hh2019@163.com>, "Justin Tee"
- <justin.tee@broadcom.com>, "Naresh Gottumukkala"
- <nareshgottumukkala83@gmail.com>, "Paul Ely" <paul.ely@broadcom.com>
-Cc: "Christoph Hellwig" <hch@lst.de>, "Sagi Grimberg" <sagi@grimberg.me>,
- "Chaitanya Kulkarni" <kch@nvidia.com>, <linux-nvme@lists.infradead.org>,
- <linux-kernel@vger.kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20260729110206.207755-1-jiang_hh2019@163.com>
-In-Reply-To: <20260729110206.207755-1-jiang_hh2019@163.com>
+	Thu, 06 Aug 2026 12:47:03 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 0E4983E05;
+	Thu,  6 Aug 2026 12:46:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1786020413; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ndsVTs8Vb4+eWTvpoW1bxOyGOZV5iCDP4dM9epJVIgo=;
+	b=Rx15opfQXS5I3BI39vYnXEpPK/6+OPHkvqqji4tLlzKku/Xc6VW1gR3VU7lJyBZ9UCeTNp
+	O1OLt4KJuPtI9h4nkUAIXto4iIz3JE3/D3v9brY3vNTdU+ysTWk0Bz72JiMBX/rNhuG6LD
+	rja9LRVJst/3YwYzzLbRs5QQbddnOEo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1786020413;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ndsVTs8Vb4+eWTvpoW1bxOyGOZV5iCDP4dM9epJVIgo=;
+	b=ij5WXpgQwjwrIfHUCG6fP9eCVZIcTGBRs92l4E4ZBQVxNZ2zPeiM9Vh3cfBeHjx0dF8qrn
+	EJ2MYvLH7AURu0Bg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1786020409; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ndsVTs8Vb4+eWTvpoW1bxOyGOZV5iCDP4dM9epJVIgo=;
+	b=bYbp36UWOtJUk0fZmU0sGrRv9Bu4Tnr8ByfdLzmQh2naGO+RpNe+tDStvLM9gLurgmg0X+
+	VhHOE5UGWpSZRGgktzb03YrTHRM5Dm0JPVkZdS+4M0sTrj7l5DK/u/XxGXvgeGF37/08VV
+	W4XVv8Dn7AyGtJSYnk16XdW0oLyBt6I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1786020409;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ndsVTs8Vb4+eWTvpoW1bxOyGOZV5iCDP4dM9epJVIgo=;
+	b=jRs2wpRpRyVO8JwTQsP0w9mj/IQ9sgFTK1BHSozyRZ/gGqCawjxNpxEQ2GQs0LqXASM8eG
+	NWq7q07Ab8dB7rDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EF646779B6;
+	Thu,  6 Aug 2026 12:46:48 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id FV/AODiCdGqzcQAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Thu, 06 Aug 2026 12:46:48 +0000
+Date: Thu, 6 Aug 2026 14:46:44 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: Chris Leech <cleech@redhat.com>, linux-nvme@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Dmitry Bogdanov <d.bogdanov@yadro.com>
+Subject: Re: [PATCH] nvme-tcp: fix usage of page_frag_cache
+Message-ID: <7d7f4d21-eb8a-46ad-a903-873f2d90b4a5@flourine.local>
+References: <20260716-nvme-tcp-page_fraq_cache-v1-1-ea660828cf93@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260716-nvme-tcp-page_fraq_cache-v1-1-ea660828cf93@kernel.org>
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260806_052430_783605_6530C7FF 
-X-CRM114-Status: GOOD (  17.61  )
+X-CRM114-CacheID: sfid-20260806_054701_874387_5238822C 
+X-CRM114-Status: GOOD (  14.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,55 +125,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed Jul 29, 2026 at 1:02 PM CEST, Jiang HongHui wrote:
-> nvmet_fc_alloc_ls_iodlist() advances iod while initializing the LS IOD
-> array. If an rqstbuf allocation or response buffer DMA mapping fails,
-> the unwind loop decrements iod past the start of the array. The final
-> kfree(iod) therefore frees an address before the allocated object.
->
-> This can be reproduced with nvme-fcloop and failslab by setting
-> fail-nth to 6 before creating a target port. KASAN reports:
->
->   BUG: KASAN: invalid-free in nvmet_fc_register_targetport
->   Free of addr ffff88816cf8ff48 by task nvmet_fail_nth/9552
->
-> Free the original allocation base stored in tgtport->iod instead. With
-> this fix applied, the same sysfs write with fail-nth=3D6 returns -ENOMEM
-> without any KASAN report.
->
-> Fixes: c53432030d86 ("nvme-fabrics: Add target support for FC transport")
-> Cc: stable@vger.kernel.org
-> Assisted-by: Codex:gpt-5
-> Signed-off-by: Jiang HongHui <jiang_hh2019@163.com>
+On Thu, Jul 16, 2026 at 04:42:19PM +0200, Daniel Wagner wrote:
+> From: Dmitry Bogdanov <d.bogdanov@yadro.com>
+> 
+> nvme uses page_frag_cache to preallocate PDU for each preallocated request
+> of block device. Block devices are created in parallel threads,
+> consequently page_frag_cache is used in not thread-safe manner.
+> That leads to incorrect refcounting of backstore pages and premature free.
+> 
+> That can be catched by !sendpage_ok inside network stack:
+> 
+> WARNING: CPU: 7 PID: 467 at ../net/core/skbuff.c:6931 skb_splice_from_iter+0xfa/0x310.
+> 	tcp_sendmsg_locked+0x782/0xce0
+> 	tcp_sendmsg+0x27/0x40
+> 	sock_sendmsg+0x8b/0xa0
+> 	nvme_tcp_try_send_cmd_pdu+0x149/0x2a0
+> Then random panic may occur.
+> 
+> Fix that by serializing the usage of page_frag_cache.
+> 
+> Fixes: 4e893ca81170 ("nvme_core: scan namespaces asynchronously")
+> Signed-off-by: Dmitry Bogdanov <d.bogdanov@yadro.com>
+> Signed-off-by: Daniel Wagner <wagi@kernel.org>
 > ---
-> Tested on v7.2-rc5 with CONFIG_NVME_TARGET_FCLOOP=3Dm, CONFIG_KASAN=3Dy,
-> CONFIG_FAULT_INJECTION=3Dy and CONFIG_FAILSLAB=3Dy.
->
-> Before the fix, faddr2line resolved the fail-nth=3D6 injection to the
-> rqstbuf kzalloc() at drivers/nvme/target/fc.c:542, and KASAN reported
-> an invalid free. After the fix, the same injection resolved to the same
-> allocation, the sysfs write returned -ENOMEM, fail-nth read back as 0,
-> and dmesg contained no KASAN, invalid-free, BAD_PAGE or Oops reports.
->
->  drivers/nvme/target/fc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-> index d16170755..1b557775e 100644
-> --- a/drivers/nvme/target/fc.c
-> +++ b/drivers/nvme/target/fc.c
-> @@ -566,7 +566,7 @@ nvmet_fc_alloc_ls_iodlist(struct nvmet_fc_tgtport *tg=
-tport)
->  		list_del(&iod->ls_rcv_list);
->  	}
-> =20
-> -	kfree(iod);
-> +	kfree(tgtport->iod);
-> =20
->  	return -EFAULT;
->  }
->
-> base-commit: f5098b6bae761e346ebcd9da7f95622c04733cff
+> If the target exposes many namespaces (>1000) and the host has many CPUs (>80),
+> it is trivial to trigger the allocation race condition in nvme_tcp_init_request
+> which results in the logs below:
 
-Reviewed-by: Maurizio Lombardi <mlombard@redhat.com>
+Any chance to move forward with this on?
 
