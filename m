@@ -4,117 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A2882C55ABA
-	for <linux-nvme@archiver.kernel.org>; Wed,  5 Aug 2026 15:17:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AA0E1C55ABA
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Aug 2026 02:45:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=sOeYLMfQNv5vTlVx2jnze1s3O3+mF0Gp+IT684Tk4z4=; b=yuFGSJ4RAFHlruXKleQnxcCmaB
-	rUPC3EyDFT2i6klaOetIcrqx/uuG0uCO6eUuNCMo5yCLw1ikU5xFJ6qIFJ/gDEjTwHfYUBsAgT6qW
-	EHcq09p1ljIL5CoRiYXnNLNlfhs7OZGzCBqyuPFv9MWnKhKDX4H6VjY7f8IcMvpAuToUtf5mVW+wX
-	RB5HwrdRrYLuougD5pC8lpBROTOVIaYQPAkkbw6dlgc7i0FVntvJ6BFCBMC1t87fiOjbcj33KcVgo
-	Xh09RbOGoT5o014b0Lsc4S00WpTITx2f5BLnrxCx54IkViW1FmoJw85IM2VUkzkYyxfRSRu6EGGHs
-	Yg+DlkuQ==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=rrnbZo5m/vorntLLsKb/28XiJcabwy2i4minOlLpbkA=; b=lSKf1/ofctKcC5rgn05cZyb0bP
+	ZIrlL22FT0dYCjK8FjSGVSjJoAStqaHxfKRpy5izIXbcHy90i+XOl3+U0rdlk8m2DIRTAQUoKCo+g
+	FFvcC0UQr9fLllb6e+rJ//ohHE3vuAch7Rd56ZGngm7RzgIpoR4Uzhhb99k+YMXIDAsXIO+lzkcTj
+	tl3AvWHtqPk+5uFS3QHmNFuD9KzWxdPpiYNxwBm8ECR41qcjvvQKJ1UBW7Ku+bXcg73R7FBVhzKu9
+	pd6QpbrShqmNApWCo+Yy2DYmp3bcZkqmCNOjmy3sbNUzIUt2mWucnhvk/l4AlodyOkKGQwBlJLv2+
+	pljGeNAg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wrdMe-000000049yu-0KQN;
-	Wed, 05 Aug 2026 15:17:04 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1wro6y-00000004pn3-2x9d;
+	Thu, 06 Aug 2026 02:45:36 +0000
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wrdMX-000000049yA-3YHo
+	id 1wro6v-00000004plk-2zKH
 	for linux-nvme@lists.infradead.org;
-	Wed, 05 Aug 2026 15:16:59 +0000
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 675CI56g3794934;
-	Wed, 5 Aug 2026 15:16:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=sOeYLM
-	fQNv5vTlVx2jnze1s3O3+mF0Gp+IT684Tk4z4=; b=VvJ51wdLzkXXSyGhhirt52
-	spoTEesrXHkCKT9mPfpvScOp8Ekn/IvJwRvjfC/ZQv/WjpI/GT5K31acco1POiFq
-	C9W+Yw4fyZPTptM/hmdSBVC60YWc437ESso6ppAr5+DTnpP+mi8aC5vCeOxuZk1Q
-	TNMEWyAFdvlftXUUcuiE3ku4Q4/HapR8kBvgFz6Q/IZwQAq1MUsNvA0gXwio37+P
-	Jdx555PnUmIoWXiqWKqDO+GfVz8Lq44XUErctUllOTIjN7O3q25JDoYxdapk/6rA
-	s0usqO/8/5DGmJzmWy6LgLvp/ujAbLxhcDx5IACosNs+sHacLWF4D4peRjustZmg
-	==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fs8a43qcf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 05 Aug 2026 15:16:43 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 675FBHwD032012;
-	Wed, 5 Aug 2026 15:16:42 GMT
-Received: from smtprelay06.wdc07v.mail.ibm.com ([172.16.1.73])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4fsu4qq7vy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 05 Aug 2026 15:16:42 +0000 (GMT)
-Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com [10.39.53.233])
-	by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 675FGfge21168734
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 5 Aug 2026 15:16:42 GMT
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id DD89658055;
-	Wed,  5 Aug 2026 15:16:41 +0000 (GMT)
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5F9A05803F;
-	Wed,  5 Aug 2026 15:16:38 +0000 (GMT)
-Received: from [9.43.98.178] (unknown [9.43.98.178])
-	by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Wed,  5 Aug 2026 15:16:38 +0000 (GMT)
-Message-ID: <00877570-486d-447b-97c5-6af6f08410e7@linux.ibm.com>
-Date: Wed, 5 Aug 2026 20:46:36 +0530
+	Thu, 06 Aug 2026 02:45:34 +0000
+Received: by mail-pj1-x102b.google.com with SMTP id 98e67ed59e1d1-38dfe910e9dso1722867a91.3
+        for <linux-nvme@lists.infradead.org>; Wed, 05 Aug 2026 19:45:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=crusoe.ai; s=google; t=1785984332; x=1786589132; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=rrnbZo5m/vorntLLsKb/28XiJcabwy2i4minOlLpbkA=;
+        b=I8Swfes8yWbkVi8FwFgcLRYqfNR7NDYiUQIsKyhGms2slkiwU0vyiV94RLv9l52Z16
+         m6U3dGqWUGjY/8XOhq/6LgtYotfVwFJaKlxLoRGXpXFM5QqCqFhmI3c6Ai8j5FYwx3pm
+         B5KlMjmC+ozbrwu+J7cwmaD0Z6GNUAKykF4lbbSITwqEDB7cSwzv1S82ceVU6oNdg5Fz
+         zcHM+uamQvmeAE4zODWEWUq13vjFqlXFaVhzGFYdhelemhvukTXD1sNIuN1G8vZwHMWo
+         wmtFJv6jeZvNVb09N2gqx+sCXutxCHyrivhPthDrhAImEXrCVD+Jz1kKEZ4I/VV3tEv9
+         fLzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785984332; x=1786589132;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=rrnbZo5m/vorntLLsKb/28XiJcabwy2i4minOlLpbkA=;
+        b=ITZ0fGfp6bo000tPXI4p4DceIYFLFKvl6av9jG4yzRfP5h0BVgFA2Iw1+NML39H3Jb
+         ye09B7RFBhpHnztBWhGoIorfKBPR1rpT5y7aSMyQ6CQojlRLpXeMEE4axZPd5hIgmXdc
+         yOib6p5r1ftMLgwEfhqA+klvi1QNIo9OmnszWWWUGUYWolPQt4zuno3TURY313CnhKAQ
+         PwZ1rV3CMsgmeFyLmtQnQIJ+HIOL1aWbx0R63iWLuEzLKpVLIrCwyqEaGW0NFZxWcrnA
+         rHr7KC2x9EAvu6R5/RYR9PhccD/TqXc7hvGXseHQc5Upjwo5Q+QCrxbRtUwKkEyFmd+C
+         bqbg==
+X-Gm-Message-State: AOJu0Yx4YNJ0x2u2eP55airbQNEFGfGMQk4nTibWvuoj3MgovmyTZf44
+	Zt6R+XvpQUcwscr3CKbgMQVRtz6tjG6BP4DijSc5+s4v9ytTUV5vPykHP3W4GUp5kCHnzb0JM4F
+	PY5GLJkko/A==
+X-Gm-Gg: AR+sD131CDV4zv6oQLCUJ8lXP4kULLYRNtRNd+CoYbAXbCUWUjzffNGUHYEyHjdF4Wa
+	xGXa2Zxuuu9/ooM0ce6xAk/inqiPj2TUyxWRwVlmS5FVxqi0pam5+Y0BhkdynWZCy8brdiWlhBp
+	KzHmG5nC6LGv7G2o+q3bL7AHHnF1FcTMuuqZ4uUqxyFRMuwIcZTLQ59KW2QvlEqKbqXOloAAVtm
+	GDLUNjWfEPDg2u1YqqW1P/BsyTox0p1lX30snc14pHyPRX0kvCRSCbqHpRR0gWGIhIrQUM8iD8X
+	JMEeo+14f1MAaZMjWd2weiqb+AATqsp47ZBPw0xzYSRSvPSM/sl31s5TySptOZOd8Kkxr0SuVOF
+	JwaWX04lq8xsBIMiB0rV2pODNO/9D0yGQstQileTDo61oUaQNtKtlA2i/THjtf2UqlLRSIMj4q/
+	6j3qE35XLo5gBE9JOJUw+tw23KpvEOfAY31dUHH5pxqbUYzf29ImAL75PQQg/YXdIZRzCdFSq4+
+	CaNmvR8JCEFT1vV6WS0mIMIGI+S26SBhA==
+X-Received: by 2002:a17:90b:5112:b0:38e:542:6485 with SMTP id 98e67ed59e1d1-3903c5919c4mr11891440a91.12.1785984332151;
+        Wed, 05 Aug 2026 19:45:32 -0700 (PDT)
+Received: from MBP-Saravanan-D.civet-hops.ts.net ([67.208.231.220])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-315a8179ee5sm2122066eec.18.2026.08.05.19.45.31
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 05 Aug 2026 19:45:31 -0700 (PDT)
+From: Saravanan D <saravanand@crusoe.ai>
+To: linux-nvme@lists.infradead.org
+Cc: Saravanan D <saravanand@crusoe.ai>,
+	Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Jens Axboe <axboe@kernel.dk>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] nvme-tcp: pin io_cpu to submitter cpu
+Date: Wed,  5 Aug 2026 19:39:44 -0700
+Message-ID: <20260806023947.94680-2-saravanand@crusoe.ai>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 5/5] nvme: raise FDP placement handle cap to U8_MAX and
- warn on overflow
-To: Guixin Liu <kanie@linux.alibaba.com>, Keith Busch <kbusch@kernel.org>,
-        Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-        Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
-        Chaitanya Kulkarni <kch@nvidia.com>,
-        Kanchan Joshi <joshi.k@samsung.com>
-Cc: linux-nvme@lists.infradead.org
-References: <20260804021901.3777326-1-kanie@linux.alibaba.com>
- <20260804021901.3777326-6-kanie@linux.alibaba.com>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <20260804021901.3777326-6-kanie@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=E6P9Y6dl c=1 sm=1 tr=0 ts=6a7353db cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=hD80L64hAAAA:8
- a=SRrdq9N9AAAA:8 a=VnNF1IyMAAAA:8 a=QwK8Kxzwo6IFX08B6Z8A:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: GmH8vi78KXO5dNunWQkYdU7UaUnpDoM9
-X-Proofpoint-GUID: I1WJeYI7poI7rev9QvpFyPMfXdx4SlnI
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODA1MDEyMCBTYWx0ZWRfX4d63L00Xxclg
- lWDZnSPpxIucCRiDf0v0ZL0fCQkoltgZoj8kAcezAf2JQQUu7MvIzDE4p3TtgtGRnlZXuajopoU
- oFgRpmgPQLkNpCT8twlJNFmNCxElgmE=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA1MDEyMCBTYWx0ZWRfX2d12s+d9u1f5
- 0TVgSxxKh2CcqwQ8M4QPiGlAkwNU0ZitdBmhjp1j4QX46mxDUy1T6cF/Qbif58okfQUDg1+0kBT
- MGjKF6l93a7VTAwPiLJRLdHm+rvGOnBMdcEEpaGLz9Jh7CusuaBpoTle9y3bb26ZWIVSPHv9Wvd
- E9cE056iQv5DsWZRMETdu/yk/WkdygB2SU32KTdKsP32sLRj3Em2NYJtKgc0vQZCm4g9JlSl3LU
- Cy5dChgsNl+jYoz0Iv4cOOVZT2zo0yKdRdA8zSEOV/Z00kBPefTp5aHMxq03dUL11lhhFdILQCu
- tsqud8JVqHFckYdHnp4qPRN88aAWAcK0e6ECdErsxkbjzVoe5iSNrQvg+GtZfoFVCeHHqp6RoIr
- 9JR47XD+VH66LzAGz5urZyNaqGMCNBc3p7Sw31DO5QgefkEdQ1zWnrlaUyjiNzOg40pjfcM5XwL
- sERYE8C8D5JdJc5F/Sg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-05_04,2026-08-04_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 clxscore=1015 lowpriorityscore=0 priorityscore=1501
- suspectscore=0 adultscore=0 spamscore=0 malwarescore=0 impostorscore=0
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2608050120
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260805_081657_922816_B9B5E3D6 
-X-CRM114-Status: GOOD (  13.23  )
+X-CRM114-CacheID: sfid-20260805_194533_802108_22322800 
+X-CRM114-Status: GOOD (  22.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -129,23 +100,152 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 8/4/26 7:49 AM, Guixin Liu wrote:
-> he RUH status buffer and the placement-handle clamp used S8_MAX - 1
-> (126) as the maximum descriptor count. That value was picked only so the
-> io-mgmt-receive result fit in a page, not because of any protocol or
-> driver restriction.
-> 
-> The meaningful upper bound is U8_MAX: write hints (bio->bi_write_stream)
-> are u8, so placement handles beyond U8_MAX can never be selected. Size
-> the buffer and clamp nr_plids to U8_MAX, and emit a dev_warn() when the
-> device reports more handles than the driver tracks so the truncation is
-> observable.
-> 
-> Suggested-by: Kanchan Joshi<joshi.k@samsung.com>
-> Signed-off-by: Guixin Liu<kanie@linux.alibaba.com>
-> Reviewed-by: Kanchan Joshi<joshi.k@samsung.com>
+nvme_tcp_set_queue_io_cpu() picks each queue's io_cpu at connect time,
+before any I/O exists, as the least loaded CPU in the queue's blk-mq
+map group, and all socket work then runs there for the connection's
+lifetime. On hosts that partition CPUs between pinned workloads a map
+group can straddle a partition boundary, so the pick can land one
+workload's socket processing on CPUs owned by another. On a 384 cpu
+multi tenant host with one VM driving ~1.1 GB/s of writes, 9% of
+nvme_tcp_io_work executions ran outside the submitting VM's cpuset,
+all on io_cpus of boundary straddling map groups, observed by the
+neighbor as steal time it did not cause.
 
-Looks good to me.
+Adopt the submitting CPU of non passthrough requests as io_cpu. The
+submitter is a member of the map group by construction, and the
+nvme_tcp_cpu_queues accounting moves with each adoption. Passthrough
+commands do not participate since the io queue Connect arrives from an
+arbitrary group CPU via blk_mq_alloc_request_hctx(), so the first real
+read or write decides.
 
-Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>
+Queues outlive the workloads that submit through them, so adoption
+re-arms after 30 seconds of queue quiet. An idle queue is reclaimed by
+its next submitter, while a busy queue keeps a stable io_cpu and
+cannot ping pong between two live submitters. Concurrent writers
+on different CPUs serialize on a cmpxchg on io_cpu.
+
+The behavior is opt in via the new wq_adopt module parameter, default
+off and runtime writable. wq_unbound takes precedence when both are
+set.
+
+Signed-off-by: Saravanan D <saravanand@crusoe.ai>
+---
+ drivers/nvme/host/tcp.c | 71 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 71 insertions(+)
+
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 87d8067f3283..6509273f478c 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -44,6 +44,10 @@ static bool wq_unbound;
+ module_param(wq_unbound, bool, 0644);
+ MODULE_PARM_DESC(wq_unbound, "Use unbound workqueue for nvme-tcp IO context (default false)");
+ 
++static bool wq_adopt;
++module_param(wq_adopt, bool, 0644);
++MODULE_PARM_DESC(wq_adopt, "Adopt the submitting cpu as queue io_cpu (default false)");
++
+ /*
+  * TLS handshake timeout
+  */
+@@ -92,6 +96,7 @@ enum nvme_tcp_queue_flags {
+ 	NVME_TCP_Q_LIVE		= 1,
+ 	NVME_TCP_Q_POLLING	= 2,
+ 	NVME_TCP_Q_IO_CPU_SET	= 3,
++	NVME_TCP_Q_IO_CPU_ADOPTED = 4,
+ };
+ 
+ enum nvme_tcp_recv_state {
+@@ -105,6 +110,7 @@ struct nvme_tcp_queue {
+ 	struct socket		*sock;
+ 	struct work_struct	io_work;
+ 	int			io_cpu;
++	unsigned long		last_data;
+ 
+ 	struct mutex		queue_lock;
+ 	struct mutex		send_mutex;
+@@ -2783,6 +2789,69 @@ static void nvme_tcp_commit_rqs(struct blk_mq_hw_ctx *hctx)
+ 		queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
+ }
+ 
++/* Re-adopt io_cpu on the first data request after this much queue idle time */
++#define NVME_TCP_READOPT_IDLE	(30 * HZ)
++
++/*
++ * Adopt the CPU of the current data submission as the queue's io_cpu.
++ *
++ * The connect time choice in nvme_tcp_set_queue_io_cpu() picks the least
++ * loaded CPU in the queue's mq_map group before any I/O exists, so it
++ * cannot know which side of the group the actual submitters live on. On
++ * hosts that partition CPUs between pinned workloads a group that
++ * straddles a partition boundary can get an io_cpu on CPUs the submitting
++ * workload does not own, and its network processing then preempts an
++ * unrelated workload. The submitting CPU is in the queue's mq_map group
++ * by construction, so adopting it preserves the spreading property while
++ * landing the work on the side that generates it.
++ *
++ * Queues belong to the controller connection and outlive the workloads
++ * that submit through them, so adoption re-arms after NVME_TCP_READOPT_IDLE
++ * of queue quiet. A successor workload reclaims an idle queue with its
++ * first data request, while a continuously busy queue keeps a stable
++ * io_cpu and cannot ping pong between two live submitters.
++ *
++ * Passthrough commands (the io queue Connect in particular) are submitted
++ * from an arbitrary group CPU by blk_mq_alloc_request_hctx() and do not
++ * represent the data path, so they are skipped and the first real read
++ * or write decides.
++ *
++ * Adoption is opt in via the wq_adopt module parameter and is bypassed
++ * when wq_unbound is set.
++ */
++static void nvme_tcp_adopt_io_cpu(struct nvme_tcp_queue *queue,
++		struct request *rq)
++{
++	int old, new;
++
++	if (!wq_adopt || wq_unbound || blk_rq_is_passthrough(rq))
++		return;
++	if (!nvme_tcp_queue_id(queue))
++		return;
++
++	if (test_bit(NVME_TCP_Q_IO_CPU_ADOPTED, &queue->flags) &&
++	    time_before(jiffies, READ_ONCE(queue->last_data) +
++				NVME_TCP_READOPT_IDLE)) {
++		WRITE_ONCE(queue->last_data, jiffies);
++		return;
++	}
++
++	WRITE_ONCE(queue->last_data, jiffies);
++	set_bit(NVME_TCP_Q_IO_CPU_ADOPTED, &queue->flags);
++
++	old = READ_ONCE(queue->io_cpu);
++	new = raw_smp_processor_id();
++	if (old == new || !try_cmpxchg(&queue->io_cpu, &old, new))
++		return;
++
++	if (test_bit(NVME_TCP_Q_IO_CPU_SET, &queue->flags)) {
++		atomic_dec(&nvme_tcp_cpu_queues[old]);
++		atomic_inc(&nvme_tcp_cpu_queues[new]);
++	}
++	dev_dbg(queue->ctrl->ctrl.device, "queue %d: adopted io_cpu %d\n",
++		nvme_tcp_queue_id(queue), new);
++}
++
+ static blk_status_t nvme_tcp_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 		const struct blk_mq_queue_data *bd)
+ {
+@@ -2802,6 +2871,8 @@ static blk_status_t nvme_tcp_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 
+ 	nvme_start_request(rq);
+ 
++	nvme_tcp_adopt_io_cpu(queue, rq);
++
+ 	nvme_tcp_queue_request(req, bd->last);
+ 
+ 	return BLK_STS_OK;
+
+base-commit: bf881dd20062db5e951a0d0703cb476df8c9fdee
+-- 
+2.53.0
+
 
