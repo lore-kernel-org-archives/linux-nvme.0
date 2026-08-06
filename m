@@ -4,57 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8583FC55ABA
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Aug 2026 03:09:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA028C55ABA
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Aug 2026 03:11:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Mime-Version:
-	Date:From:To:Cc:Content-Transfer-Encoding:Message-Id:Subject:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Mime-Version:Cc:Subject:From
+	:Content-Type:Message-Id:Date:Content-Transfer-Encoding:To:Reply-To:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=TTmCYAkcC8H3ZWOG0oEfkJZ2Kr2iYpJHR2d7gHY67SM=; b=iBMajI3Wb5NIC51Q6jUjn+d339
-	ulixCrh6xDdC1KhRF9PCdHl01CcQ9LpjR1dSycRHAxOjlfU4Jv3iN5eEJmiY3OVEoooLUIfpW67s2
-	+77ew7qofgp78FMK3ZRZyDDsj7UHB/MM6aE+jQZnK3vORgP5EESo1Qt97FsEKkNNh2kQDEMmKXJ0B
-	NSmlk6ft11ku+A6tFz1tZ4HWmwkftQdrZVst8tr7EVY8P8hwOkRNBRJ54UizCMoeOF5xCKLl/xstX
-	72839/tIGXlDVPkWAtFIomf1qo8Zg7uQY6A4E3fCzNVUVzhk2KHfma/9C9h9V9iowFrkvRWxlLOz1
-	u6j7cVLA==;
+	bh=TTmCYAkcC8H3ZWOG0oEfkJZ2Kr2iYpJHR2d7gHY67SM=; b=G6JtgJC31EFP1xw7rlrgB73BXu
+	3Y8uqyLREq70P7jdBmnX8c0AjsBgDowtvCw/cIF46uCWKFiVF92jc4EAZHtnBgUzg15xkpCYsBPj+
+	0GE8qVhHC11VM9Hiamoezy2/qRAZaf+MXKHrZH1LQ+NSpojG8zba6QicG2BoP5VHJXdoqcY5LOaa7
+	/bMYFQdn2W2eLYk+HHssqtevvmBRRwmJNiX67c+owZHu3oD+ypQcE0EWjQEvL6XXHp+qmCtBUKv6v
+	M7KL3AQisaGPshh9YGoYxtSAaQvO+L7QkV5AzvFpT+e0kYENgzj36gAN+FV0gc6u/WxCBCZFTxFPK
+	/JIth5iQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wroU6-00000004rBr-37Sw;
-	Thu, 06 Aug 2026 03:09:30 +0000
-Received: from va-1-113.ptr.blmpb.com ([209.127.230.113])
+	id 1wroWB-00000004rLV-12AF;
+	Thu, 06 Aug 2026 03:11:39 +0000
+Received: from va-1-112.ptr.blmpb.com ([209.127.230.112])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wroU3-00000004rBT-2v2m
+	id 1wroW8-00000004rL7-3IHG
 	for linux-nvme@lists.infradead.org;
-	Thu, 06 Aug 2026 03:09:30 +0000
+	Thu, 06 Aug 2026 03:11:38 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1785985758; h=from:subject:
+ s=2212171451; d=bytedance.com; t=1785985889; h=from:subject:
  mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
  mime-version:in-reply-to:message-id;
  bh=TTmCYAkcC8H3ZWOG0oEfkJZ2Kr2iYpJHR2d7gHY67SM=;
- b=cIKh5bAE5cDfFk9qhgdJdAXdveopY3avKS304bXzMExJjI/96kfRtTLMtuKQi5MqO5Te3n
- WQqDM9s7J0atuIkZONK7GGR7zqmFHQxUmxRR9nvcU+9/tVeaCTxsWBOSybAO5sMrbjObB2
- JVKjBjaotUXX6pulIVdolkslZtziCXUFFmchqRladZ5B8GDOXBD2FPfyMJy0b9rJRB5nwp
- +C0rkSNUBEehuHutHer3PIZ25kPb7uNq/uYll/FbQ4a60qzvHeWLmcb5DosxUei2jDz+xs
- spXcq+FYHqB9/w+TLj4xrA5PaMNh7RFtqEqNhMLgcLssrq+Ni6QbP2PmBJb4yQ==
-Subject: [RFC PATCH v2] nvme-pci: add adaptive interrupt polling
-Message-Id: <20260806030827.38653-1-changfengnan@bytedance.com>
-Content-Transfer-Encoding: quoted-printable
-Cc: <inux-kernel@vger.kernel.org>, 
-	"Fengnan Chang" <changfengnan@bytedance.com>, 
-	"Guzebing" <guzebing@bytedance.com>
-X-Lms-Return-Path: <lba+26a73fadc+08b2cd+lists.infradead.org+changfengnan@bytedance.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-X-Original-From: Fengnan Chang <changfengnan@bytedance.com>
+ b=gjTt+VI+dUC3S+22r4xWsnHzoz1fSrG1IugaiGE2E3stuNI+C7/2TQ6H21rh9WjB0ejMpo
+ yVN2s6tfaMs7Vo4m+x3jbzz2nFVbvZZP4C5KKS7daohM7MVsiajIl4ETL1bgaN1aSSJbzO
+ Gn+Jr199pgRthntfeVdMKcV4/LmsNMIwEPj8Ak0kABF1Un0akJbb8DPWafjLZ8+oSkk5sh
+ ski/5SLL/7d3bIGGEPKZVtzFX9Zvsn3HxF2OUHoILYZWtMo6DQEn1pklPdOoETCmTug2Uo
+ jO22EUkpIP+H8L1cgGV4KsTCpcF5DIYDXdUCJjtLeVv1qhubKwfX4ff69yHZFw==
 To: <kbusch@kernel.org>, <axboe@kernel.dk>, <hch@lst.de>, <sagi@grimberg.me>, 
 	<linux-nvme@lists.infradead.org>
-From: "Fengnan Chang" <changfengnan@bytedance.com>
-Date: Thu,  6 Aug 2026 11:08:27 +0800
-Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Date: Thu,  6 Aug 2026 11:10:58 +0800
+Message-Id: <20260806031058.40176-1-changfengnan@bytedance.com>
 Content-Type: text/plain; charset=UTF-8
+X-Lms-Return-Path: <lba+26a73fb5f+03eea0+lists.infradead.org+changfengnan@bytedance.com>
+From: "Fengnan Chang" <changfengnan@bytedance.com>
+Subject: [RESEND RFC PATCH v2] nvme-pci: add adaptive interrupt polling
+X-Original-From: Fengnan Chang <changfengnan@bytedance.com>
+Cc: <linux-kernel@vger.kernel.org>, 
+	"Fengnan Chang" <changfengnan@bytedance.com>, 
+	"Guzebing" <guzebing@bytedance.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260805_200927_880926_635F67ED 
-X-CRM114-Status: GOOD (  39.12  )
+X-CRM114-CacheID: sfid-20260805_201136_953265_2F8FB668 
+X-CRM114-Status: GOOD (  38.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
