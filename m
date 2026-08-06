@@ -4,92 +4,95 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 87649C56208
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Aug 2026 16:50:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 22088C5AC7C
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Aug 2026 17:37:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UpSZxsO2+OojqlTHRs9iVFREpITIpLS70LTpaRzcVr8=; b=bhEzOgLDYksp0aw2Fe3d9dbPB2
-	bT/esdsQtYCRText0/wFKV9lHzEynZKsil5maeZXI66yJpwN8GSheko44yPRUU7TO+jea7u1hsTK2
-	tHh4CuY1NJBQDYjmUSZB+3z0jBp1TypU9znR5ycbgX3oIODQ2OJXWtSUxc9UfIZCz70kL9+hgoA7E
-	c84VmBfUtLzQILNw4AxtYW8WZcKYZMmb/0YdoWLmzVwvwrGKvhuy0LIUBjn53Q+pj9hkPzPjZd9eg
-	3oCD2iiH33sRZEmaiyms17d2AxtQbj1/kbHEPeTU/X51jT3LviHG7O1c3R+vawdYQZ2IwvfGQjfUR
-	kFMZbbGw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=tHnqyOO1uDsuoF/xnUQI2mRzSuyrmk/rA7QZretz+bg=; b=X6YUpcwi6ADstS46KmmOqjhH7r
+	iFXUjM2aA3LDe5thtnfPYPHPrgkKg+U46ZqfCd7Tt7u5Kopw4QyzfITtSm6uwFMfJZ4WCdk5pvN9q
+	AHW3dHReFqs0ToMTnuQbgUMxFEJrbxKPaYik8hFkjDW/TruL6vYusfzw6dBhFVezfqoWZgItNTOrF
+	Mh0OLafrm6TrZMU7Nw83LmwmVlfXcse4Du8spqKZdryhNKPS46gjvDlD9VdMgIIMEQ/ql1JmiNDpR
+	5v1ScenIiO8ZyrUKAPON2D77Ndvig/+yH747Pa+DcR1Lx2bS69Sp1t146TwIdI4eByFmvx4lyAROA
+	DYif+GhQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1ws1It-00000006FxR-3Voq;
-	Thu, 06 Aug 2026 16:50:47 +0000
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
+	id 1ws22D-00000006OLy-1cWJ;
+	Thu, 06 Aug 2026 17:37:37 +0000
+Received: from fout-b8-smtp.messagingengine.com ([202.12.124.151])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1ws1Ir-00000006FvU-0H7S
-	for linux-nvme@lists.infradead.org;
-	Thu, 06 Aug 2026 16:50:46 +0000
-Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-2cc73e322dbso28431665ad.1
-        for <linux-nvme@lists.infradead.org>; Thu, 06 Aug 2026 09:50:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786035043; x=1786639843; darn=lists.infradead.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=UpSZxsO2+OojqlTHRs9iVFREpITIpLS70LTpaRzcVr8=;
-        b=B1MiSxaPBrkL0Go7jwBgRzVuZfJqpyMYbOPAUknSi8ciVNsEB6s/zpe/bc8lm6xTtV
-         S0+IsPfkLjIXPXko0sevl8cPNiwOxANp7pKXe/dFw2UUMruhgzuFz07mOKS41I5XVmeo
-         lDjbkr+G/kreOEjO6WM5cCND4E3WmNihY+QoM238GYBqeacV/yMx7z0KwB7RjbWnHyqu
-         gKtqIUoWBsmBEHV1rwqIRIh7M70MiELddRp69BKtx6V2syiUE829yWUWdm34ZCenChyS
-         XjfQarU78Rle2s5M9XTPw/05RKalMu3EB1mrBdKNRo2x5GYY9QdpI+hGLiHjHgShgt5D
-         6yxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786035043; x=1786639843;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=UpSZxsO2+OojqlTHRs9iVFREpITIpLS70LTpaRzcVr8=;
-        b=INN2s80CM3oLBTkpHuQfJJO8IcKfOOm60xnHfTEw/QRtbuPiXOH2JY+ZZ2ChydIxNX
-         T5PLCVUo4uUhgYzopMg/ubCHkmNYnY6/eFwx6iKlBMAEROmfLWDSb9x/Q1fAOxMf7KLi
-         6JH9KE4vGbbxZIwSkzEMrY6h0mExbemZVEJuPYIH35JsCn20CqnJIgl/7L1Lt2PGCx0S
-         St6nA4/tRWgpcxXmdBPPwF5zBWnFnL/srSGZ2uyUuq9NnPegMqyyMThYzoMP8xuT1sLz
-         URro809O/+E2zVtL5+0gIFaVEybmhFA6ON+BTwnYHY3dTHiWYPP18LsJlUyqF9y1ikib
-         uRPw==
-X-Forwarded-Encrypted: i=1; AHgh+RpJXxQUbr22urWEQBoa34RFxdFRYu5kvQuMrrEaLTBK/pezbX0IPE9NHY5o4ABB2gx3EdaCfD32yZnN@lists.infradead.org
-X-Gm-Message-State: AOJu0YwVjUPyn78SPLq/m/PH6w6xQp9jAw0hUsjMB4mSEIlnqrIgzKJO
-	fNreplGkcJjXy8NzynVbtWsULoXTwY/IAZgvhqcghVv2uMm02fzrIBL3
-X-Gm-Gg: AR+sD101eUYjVYcKyRR7oHrIgM4LkDY1SdY+vb3J+2zod6I20plm8naPxD/n9l+9dg/
-	PEmb7xREhsFAp6s48n8n/fsxb5JvE9d7g8Kjy4OHi4cA7XdhyySpRtj7OTjnxJQy+AGVftY8EEj
-	tiSj32NLN5O3zgQTRa67ag3CRG2bOanP9vKVBMaQISLRws8PkrpqwzaLf5phmmcoD+6f9bUyCiy
-	ELHOMDwHEl+KXzdoxRQbURyrNNld4XpHHAB4PSqoFgJy1V122KPO7tAG8oSwZnoxK/CmnteB4We
-	haKiqlONo0t5Z+1QdlysASei3dObqyC0mf684DZGYVGiHMTdXEyWcr4vliJP4CmqC2XfI7IJNFX
-	t/Moqlmk6y6IVdFEVM/g22nuNuVrBNYVxMouiM+GDFPclExwYnl/LUjv5KvSXFfs8t11TiaTe1D
-	qIcE3vPVoYZhMbsSHohIKJArFqk4VRp+BD/yxZz4ijhDJx5m7Do0KXhfoj6TdSLXmxUgTd
-X-Received: by 2002:a17:903:2ac5:b0:2c9:b8b7:5d27 with SMTP id d9443c01a7336-2d0ca712d8fmr201739305ad.1.1786035042793;
-        Thu, 06 Aug 2026 09:50:42 -0700 (PDT)
-Received: from [192.168.1.113] ([223.122.38.120])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d0aa4ec8c7sm34434975ad.80.2026.08.06.09.50.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Aug 2026 09:50:42 -0700 (PDT)
-Message-ID: <0ea8c38b-0230-4ef3-acac-e43208d7c9b2@gmail.com>
-Date: Fri, 7 Aug 2026 00:50:38 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+	id 1ws22A-00000006OKz-2VRO;
+	Thu, 06 Aug 2026 17:37:36 +0000
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfout.stl.internal (Postfix) with ESMTP id 06D6B1D000BD;
+	Thu,  6 Aug 2026 13:37:31 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Thu, 06 Aug 2026 13:37:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1786037850; x=1786124250; bh=tHnqyOO1uD
+	suoF/xnUQI2mRzSuyrmk/rA7QZretz+bg=; b=IUyxeOGlOih7TBAnxusRso1hWL
+	+YD1l8lbfLnHwA0Ufvz6nUguE6wwkFRDKrbNNYhXtEFBUpmukgRUgSdJk0Ln2sgw
+	xYvY8JiJKYPkRPDovyP31TrBfVNapNytvyr13BZVzjfbl1R5GRlqgHZgZ8PXX+us
+	bu8VG8QXT0lV/Hh4MVs0Dm3L90Ew05oiZxdWsZ1z+i9a8oF+TME47U4gM5bS/qfd
+	gaNCY2QiH8jhF7vaAQsQMokKtQC3t0L/OiSnnre23g2NUWte/GDVb3ZQo24NRze5
+	gGU4lrjdt3hHY8D84AifjhevQg0CjH+XlLGbOm3Onc8FMMIleaCdPdpmyuvQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1786037850; x=1786124250; bh=tHnqyOO1uDsuoF/xnUQI2mRzSuyrmk/rA7Q
+	Zretz+bg=; b=huILaywRzta094cghAmg/6V4TdtDqy2H/XXrwFKqf95sUihGqZ3
+	81y+lRl2fPzTG3A0Uk/nfvOdKcFG1lmiq8lkmReWqtIVnehpDYEFaAYiUAiasQ8z
+	IdC4ukU8TiqEK8ZM32l7isyoTeJNbGpPif3MGRbIsogQfuFvAAlCmQu4PPn0eWNm
+	ntyV4M4xr8Zpz+CUBIQzAUFcxTc3zhFuIs3AEvCQKdnldzQwLpyhRJY2ij4JZl0+
+	3BpMeWdSDXFlK6fH7iZhzxCZeQ+74BSEMz6xD1Rcejel7DvbcWKBDzYgkNmQyWnx
+	BNXU2mxZNfgbttuKZVXrFFPtVoCEg79Ufzg==
+X-ME-Sender: <xms:WsZ0asjitWyoR78JyGC827Km5p7ELDBt5EyTjboqKOA4kuPIDIxIDg>
+    <xme:WsZ0ag2qwvBL5raTTuIq3xNoKOEHT9QyPgo8gg30TEab1g71OdTSjrKIJhI7j4tJz
+    lNQ2deOwpyE6A6g72opBziBGDtESv7yE_L2gocK-QwagR61--HyIKw>
+X-ME-Received: <xmr:WsZ0avdO9znJLTTAKvHxJc1Y5JHT8XPOdEJZak_5utkTpDTwYG5XhAaDeuMPvUMYqSzO-vWDE-WukJwEL9FF7SysAt1VEI9yL7o>
+X-ME-Proxy-Cause: dmFkZTGwCXBcn4aLfwWdfO4trPZD1QJnLbrbvPnKiG1qC8XfJLrdxauf+uW9V1IadvHpNS
+    l5/Rx2MIiAcq66IRw6VMNUNmUS8TMak8AF662vYKZTkaUb9XRvR3Hq5ZAly3FQS82dOD/I
+    4+krjZ6PDY8zDg9K5QtufjuF7verAuoLHeGORs8+FMIAy6vf4TJevfTLkBahtqzGNudqIp
+    iIYMJZZHHEsfRL5babwzPWb74SeHSZPNEoaDGDsaEGPqXhdTAhVvEf3mcMgDTUfm01KbNe
+    3awc5mWY2/ljAsdLPc3I8Eji1uJDQFl78xVLs0EIksEuFDfEUFgdFbpIMbb/3lMTV/MroX
+    7vJLKhjVBRD9TNWGb4gVqNEBqgrqsBX1nLp2nlySFTGREb3kRF4FTj0wlVkEKHeYz1uhse
+    IAF0V7fJroKG015cX/hl+yIpMupTZq8aFUslwBqeHbSEAgsYz7zHWKWYfrOZvgpwrCoqpy
+    cQEXtyjVsn+xUvfLOx1SEUWntwSxS54UMqKz3IdDwJCNNJRH8FdCZXF/SEKkMqkPgDaYPw
+    RR14r5sUSe+UTd/GPp9Q03lcoLGMAGhR8wrOaqK0ILBlBjavlLbSa2DEkfSLJpL/KJQHOS
+    NidEGnsb2LJMV9HTmqZNDp2CTvQ9jBSni+FdQVBb9fvYn7agCX7VHpTNXUAA
+X-ME-Proxy: <xmx:WsZ0amzGoA_8Pqn4FLbFJQwVPwDUW5AVWeEYuRNjSvaez5uPnSRu6w>
+    <xmx:WsZ0anwa1PMy9xcRax62pV8WbhZYJ0_NT0h4qxZB8n3s9FSk9Ze96Q>
+    <xmx:WsZ0anaAaX4TbHmCUIdK_TtLIwNJ15EtoBrr0FRBzptOFUIhcg5B3w>
+    <xmx:WsZ0ag3EtiYRGPs7tq1OaBZaH0E2oHJl506hZtU7uFL86p-ayp2zCg>
+    <xmx:WsZ0an5YLg3nZukQbedDSXz2LgIABtNCffZm2HXNwIhwQZbZVGx0fze->
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 6 Aug 2026 13:37:29 -0400 (EDT)
+Date: Thu, 6 Aug 2026 19:37:28 +0200
+From: Janne Grunau <j@jannau.net>
+To: Sven Peter <sven@kernel.org>
+Cc: Neal Gompa <neal@gompa.dev>, Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>, Arnd Bergmann <arnd@arndb.de>,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 0/6] Apple NVMe fixes for macOS 15+ firmware / M4 support
-Content-Language: en-MW
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
- Neal Gompa <neal@gompa.dev>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Arnd Bergmann <arnd@arndb.de>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Message-ID: <20260806173728.GA682012@robin.jannau.net>
 References: <20260806-b4-nvme-fwabi-v1-0-bde19ce8db04@kernel.org>
-From: Nick Chan <towinchenmi@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 In-Reply-To: <20260806-b4-nvme-fwabi-v1-0-bde19ce8db04@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260806_095045_119344_E59C1290 
-X-CRM114-Status: GOOD (  20.43  )
+X-CRM114-CacheID: sfid-20260806_103735_019508_60BA48BD 
+X-CRM114-Status: GOOD (  13.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,9 +107,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-Sven Peter 於 2026/8/6 晚上11:27 寫道:
+On Thu, Aug 06, 2026 at 05:27:32PM +0200, Sven Peter wrote:
 > Hi,
 > 
 > This series fixes a bunch of bugs that were working fine with M1/M2 NVMe
@@ -119,38 +120,11 @@ Sven Peter 於 2026/8/6 晚上11:27 寫道:
 > to initialize, which now happens for the first time with the new
 > firmware. The other fixes then make it work again.
 
-For the whole series:
+Whole series tested on devices with pre macOS 15 system firmware, a M1
+with system firmware 13.2 (OS firmware 12.3) and M1 Max with system
+firmware 14.5 (OS firmware 13.5).
 
-Tested-by: Nick Chan <towinchenmi@gmail.com> # pre-M1 controllers
+Tested-by: Janne Grunau <j@jannau.net>
 
-> 
-> Best,
-> 
-> Sven
-> 
-> Signed-off-by: Sven Peter <sven@kernel.org>
-> ---
-> Sven Peter (6):
->       nvme-apple: Destroy the admin queue on removal
->       nvme-apple: Don't set a DMA direction for commands without a data transfer
->       nvme-apple: Never set the opcode in the NVMMU TCB
->       nvme: Add a quirk for page aligned admin queue buffers
->       nvme-apple: Require page aligned buffers on the admin queue
->       nvme-apple: Drop the PRP null check chicken bit
-> 
->  drivers/nvme/host/apple.c | 32 +++++++++++++++-----------------
->  drivers/nvme/host/core.c  |  5 ++++-
->  drivers/nvme/host/nvme.h  |  7 +++++++
->  3 files changed, 26 insertions(+), 18 deletions(-)
-> ---
-> base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
-> change-id: 20260806-b4-nvme-fwabi-000386148b21
-> 
-> Best regards,
-> --  
-> Sven Peter <sven@kernel.org>
-> 
-> 
-> 
-
+Janne
 
