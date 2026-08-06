@@ -4,56 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 21ED3C56208
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Aug 2026 13:26:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B35D1C5AC7A
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Aug 2026 13:26:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
 	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
 	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+IEWPhCSv0t8f4UbMWG8L9dSVBC2VuVF7EqC7EI2LnM=; b=ycUWUL6f2q3nvg0BX4stNZktKJ
-	/XQ9s6CTm0h3TB+53d2w/sI4XeIK/Abz26xXJD+cVJoASkCF4hv9eG3zBorf+I++ZCbcBtP89IZhl
-	JlNQQiWphC24Jr0V16xuGfeSYwSiFdHyI9dSV7QTjW/swo2hi7fGppyjaatejBLpNGwE3ip6ssUbM
-	6Pq3FvaxTqkw7EAiEkQKNMaAMQRr5zo3cVgoDQLk60oDF86xG4o5vL/rUnKTO0SAvis8Js7+hVerO
-	pAQ+Oo+ryjAGtMaV6pXNAWeZiaGK1+Ct96mt4i89Q5TiYO89Fso+LBeCrfbmznwLZ6TTwgtSBxcfk
-	mEsPja5Q==;
+	bh=2Qjx11DI63SXND0MN48iCUVVhUe2PqkhXolIVCSP95U=; b=QPX0ts2Vua5R/Byq0VYrHWFGox
+	XRPMdB5m4tiCaD9IOvrl6CgrP9ErNeU7mCiSvrXdVnxG3DX0MjaYAz/O7i8v/mOIG4V3YTGd+4Dxt
+	4hwls0wJCWy0BIaHkii3Hsc/NTOMeKwT07sHuhVndpXUFKRL7Yb0GPm0N21FYpvuRuldZW65koTVy
+	CCuYZTq7v4GdUzH8ATYyFrx25jQsk0/xZYDlaNm3l2TYAQvxU6YVw+BrXeWnDcQk7YmWqIrOfiqhv
+	gHsELV7lC4alML+whB5gMEr4l098+EaTYpruNfGxXd/1spQRb2/4/JE4W5Z3eFyzmthMQ1KypMrhX
+	xdwtsAfw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wry76-00000005tep-3JxK;
-	Thu, 06 Aug 2026 13:26:24 +0000
-Received: from mail-northcentralusazlp170120005.outbound.protection.outlook.com ([2a01:111:f403:c105::5] helo=CH5PR02CU005.outbound.protection.outlook.com)
+	id 1wry77-00000005tfA-0Ud7;
+	Thu, 06 Aug 2026 13:26:25 +0000
+Received: from mail-westus3azlp170100009.outbound.protection.outlook.com ([2a01:111:f403:c107::9] helo=PH7PR06CU001.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wrWys-00000003Wv6-3kcB
+	id 1wrsYH-000000058zU-0bGh
 	for linux-nvme@lists.infradead.org;
-	Wed, 05 Aug 2026 08:28:09 +0000
+	Thu, 06 Aug 2026 07:30:07 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YztHbbTbp4cD9x8/FB8Ajhl81yessIVzEPUgerHjQVuM0uYCrdw/4aiNwRLb6ghEP3VZQP/409jvBUwAfyeZeK4OXy+Z7XjrFh7GYtENWYP35+A9pgT7Twih2X+69QsaXdwBGzxqj7J9WGY8wzeFa+qiKtLMpPNxSzzQ+I+qTrC4E0smJ70L0CY2czBHAmYa+8vOu9tpl91Id0B6/NxLSIbrYIkrXALTkJboTfb+4FqIn/8ETrVINjyMKRLW0FU5t+tQ43mElzmvPd4/NYmtliaGmvp87POyQNNxkzys/kk2pbE5jbOESbLHB/QHvG13r6QFcaXsZ88S+3IbEAd5bg==
+ b=a/T3sXza7qZj4Z3keDUpip1lIb7/VE5CHRt3Ub+fmesZxo0ezAahf81poijajiEq19h+g97paMTKHluZyFZkPKx2tN5w5XRHRlwSJVVwy+ErYCS/R+nBnr6YOFHnDhJod/ML/dwWelnS64BeIZfb3t0g+o76nxhdEG8Gbx8LxmnmzCdum+W3pbDPI+MruCg64K32i2cbkqpnqldxKxQDI0fXL8T2lR4FoFao+0cpVFy+Hynlkh1zaracnZ3HK+5ntOXjufg5tyVybJLGZ+KM+RsoSZiZWEWRQWQ0KIjkL2G5hfHmnrjv6XwOp+5UwJamOS0Dneo1H94gcVPSGUUnfg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+IEWPhCSv0t8f4UbMWG8L9dSVBC2VuVF7EqC7EI2LnM=;
- b=aD/eJRcb9G5o2wZdhzPs7FBFnd3RiDUmhyINBu0aBHPQI0POx7n12OM7dwX40RpkxnJVKwD6nBl8hj2m0ZnE1XFZkeE400he6940wJltxKb39vKvFV3iI0WvD7fLDnJJZZe+hRySRrxdvicrSARYm1QG0WBjGlR+D14vYzkrCoe9GGuFudpKt287V4LsxRbOOi/rbk95iXWFMWT0q4S41aZAAsLss29TY9n+TuRxtD/37ZZJluXUHEEhke0IkVoErwTvIMaG99NdpkA9H9FL1lnWbeq9eoNUVtYml3bWsJgRYRRO821Jm+AW7+7bXIcgFUxF0kxrkvcJx16T3sHPtA==
+ bh=2Qjx11DI63SXND0MN48iCUVVhUe2PqkhXolIVCSP95U=;
+ b=UDGZX8mUyCMl8QrXBIr+WqENpo+Es4GEBVyJFEm42QCFGIMf2U8E88UmNubfulvEMadI84Grsv+Tly1OtEc/cJ12sEF7rbozLNrkgb7QsSRoNUmixWxVVSGtMi8x6jRE1X1XHdM0hQz4RTJrJo8cOIUdG5zzZ/UBUi4jzHPDW0SRu1Dwd+mCCICG9eBX4VR20RhBGCCLegO/xHAY8Dvu7LEqFzE6Nfvb5G7+sGv9rSJtc+eCtKqcnLoKHj4uEJQZC+amUF/QGbA3S5AUW8aJuHwdSvOFOKASmgT4l3SlTFc8FjL+uBWOiqZY3v/6Hsqt10jup5rB5r4ePE8Rzcs4/w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+IEWPhCSv0t8f4UbMWG8L9dSVBC2VuVF7EqC7EI2LnM=;
- b=Ok+CJhFY6F+g7uubgsv4y8xpIomxCr1DqUXdp49yqfTjq2O9yipUd1usHVhKtZIlBd4scJdadA1gfnsBCWDEtwGTM6TAddxR/PK9km6zpt0d1UsQcsuA4s7oZtPl4WjKyDXu6YUY1bYwEAA6Zvj5GZnSp6x7R7rAkYvzMnfpEfY=
+ bh=2Qjx11DI63SXND0MN48iCUVVhUe2PqkhXolIVCSP95U=;
+ b=1RY7idE2kt4H5eYA5aES2QQsQgIW2X1cB1usWgjr0aUnlBLzfOeU2n+WsIPGQrJn+QAwtbr2cX53i/Q59AEuZkX7u5DL+K5j5RygLSGO1Et6GYcMs/9UmI8YIGFPNP0UJQXY6yvVBgVHMT8kY4kPOQRLZuHk58TIdSVdQQcIh54=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SA1PR12MB6726.namprd12.prod.outlook.com (2603:10b6:806:255::13) with
+Received: from SJ0PR12MB5673.namprd12.prod.outlook.com (2603:10b6:a03:42b::13)
+ by SJ1PR12MB6051.namprd12.prod.outlook.com (2603:10b6:a03:48a::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.18; Wed, 5 Aug
- 2026 08:27:59 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.21.0270.017; Wed, 5 Aug 2026
- 08:27:58 +0000
-Message-ID: <181b08be-04bc-4ae9-bb88-15321a82440f@amd.com>
-Date: Wed, 5 Aug 2026 10:27:49 +0200
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.19; Thu, 6 Aug
+ 2026 07:29:54 +0000
+Received: from SJ0PR12MB5673.namprd12.prod.outlook.com
+ ([fe80::c3e5:48f8:beb6:ea68]) by SJ0PR12MB5673.namprd12.prod.outlook.com
+ ([fe80::c3e5:48f8:beb6:ea68%6]) with mapi id 15.21.0292.019; Thu, 6 Aug 2026
+ 07:29:54 +0000
+Message-ID: <0113c49a-a364-4df6-9ab4-681c789d9d3b@amd.com>
+Date: Thu, 6 Aug 2026 09:29:44 +0200
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v4 01/14] dma-buf: introduce initial file I/O
  infrastructure
@@ -81,77 +81,79 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
  ceph-devel@vger.kernel.org
 References: <cover.1785274111.git.asml.silence@gmail.com>
  <bc20381e8daf85ac58811c344325d8192cde9d1e.1785274111.git.asml.silence@gmail.com>
+ <181b08be-04bc-4ae9-bb88-15321a82440f@amd.com>
+ <8285ede8-bebb-403a-8a37-b9987cd37a8f@gmail.com>
 Content-Language: en-US
 From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <bc20381e8daf85ac58811c344325d8192cde9d1e.1785274111.git.asml.silence@gmail.com>
+In-Reply-To: <8285ede8-bebb-403a-8a37-b9987cd37a8f@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MN2PR20CA0052.namprd20.prod.outlook.com
- (2603:10b6:208:235::21) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR3P281CA0126.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:94::16) To SJ0PR12MB5673.namprd12.prod.outlook.com
+ (2603:10b6:a03:42b::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA1PR12MB6726:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1f93b8f1-d756-437c-adac-08def2cb74da
+X-MS-TrafficTypeDiagnostic: SJ0PR12MB5673:EE_|SJ1PR12MB6051:EE_
+X-MS-Office365-Filtering-Correlation-Id: 19859351-ec84-4a37-34c5-08def38c81f4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|366016|376014|7416014|1800799024|921020|6133799003|56012099006|11063799006|10067099003|4143699003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: NlI6l0j8r8SFGGyjC0EiOp6OJ0S4sz9jDfB+FqZc/Ie/MVMzKeHEFKKxw0W7y/7ho661lUpuqwNdkf1WFgJu0YI7bUd7sMVKuG5qd3TFvDiXDU4e1tnTzd+goNkB5Scg3Xq9fVIRCS3aNZ9ksY6GdMkbNnKuw5nAKdTrp+EA42nr/TKGgjAapuL/Pm3m1ULBhtcakkH9PDmumFIoqQFRJzRZ0xD/kGiXtCBBaLo9Ne/tE1Eia91KQQMLTyjGLghoK6JeiAUYYAwubPmpvzPZc8TvD5214NLpxdIg8PidzKWc9QSo15jiyuNXVs5RnAJPBb+Z8br5+0euYX9XSzEXXtwXHFpHuzjilS5zQvlzb1UyuRkbqRsd0ZlMboCqH5OG16LNQb/Sd4YoI/1ZS6BOvXSTonNgwEPSClKJZZxYEheJxqI0KtWr8zIa9YwV5GgJZa/m3PpA2aANO3UiaeIVimF/gts8+oXGdWpK+3Ft2Jrn3uHk+CMQrLER3B4x46iLr4Fbr9Y4/bbd9qVmjwWoVBJX7VUAPQrnB2nSeIhHd6V18PFMQRqcHi4Ux5IgGGdd4WFdA+zD4FqdmAqTAmWv1VAhQR1uNGq5ZQ+R+XyNhw8OJmnfz51KxSF7wXsXXaxgi6L8r5Q7XPvzHbmvDWozuPRo0rMLBGoEv1h5Y9dsi0l+hpuqpdWOuhISQB8bOuQvHFCvrDzhyX8urOAupav1OA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(7416014)(1800799024)(921020)(6133799003)(56012099006)(11063799006)(10067099003)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|376014|7416014|366016|1800799024|921020|6133799003|10067099003|11063799006|56012099006|4143699003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info: Yc3bxCpz0fVdIn4oqVkLPoXqYLnpztat74wkptBOCBJ2KvX811trvuyYRWPeLq2Ls7aMXOwOFhzr6QK7mif+HTXlhuUPorO6Hiuqm53miJJw8vysjDODMIrkTBJfF4GI1/g6ULmnOYjdu1dJcsjgTJJrbfDZRHzQJyLNpyYsdEhC6PIdhskriA1i7MyJt5dr+dnX1g3neMbUsNS0lth2XXFuKmxkLDupKhym9mC8lfCr5cBt+gaKWwUyM9CQH7e5hV8TnM0ykmHk8hbJmfy/xQNzfSv0wetWYfWgBEm7lvtQslmZx5REcfrD5mfJmIsv9jg5YC67bT8BTLM+aQNV1v65T/O31efZErD5S52YLurdMsq+QmzkrMhdwfGiyBypgy32MtteLYI9FUd7wJgeOGijXhL6pAl/q3gFeOPA4G0MJ07y2cIyjcaA1EQZrcDeKNeWxJVD+VcxDSKQPEff24IMq1dcN28vgFXv3ZC5y4dSjkyOO9YNK1H9oSP7UgU33R5ZMCITLQa8YcPupUxy4LQsCyODLRW5ZqFgshG9b11SE+wVpCv/B+5zclxHIbjvBrhUegFJOoGE4VPtskeiKswfLhY628C/jnHMucnUXdavUIKkRO8efuEmQXULgf9wEf+Yl1euYiPwNtnyQa5x2D+tFGOmuxurIfvcujW+0b2FCdi28VgI+irFG5Q8SSEoEZzLeHzHF2TNNK1fw/OvNg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR12MB5673.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(7416014)(366016)(1800799024)(921020)(6133799003)(10067099003)(11063799006)(56012099006)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eWlvWGRVeTBkd1Rab1NKRnRRQ2pEWFhvS2pLUUY3aUVIVjlxSGJIMTBtWmY4?=
- =?utf-8?B?ZTJkTDNtMkpQNFNpSVM2Tm4yVU1WQkN6S1Y0V2JKOXlOaWh5aWR5WFRnSGEr?=
- =?utf-8?B?TFNSU1g0WUhISTFxcG8vRTJTSytuR1hLd29raEZ3ajNCSWVFS0dRVEFuS0Uy?=
- =?utf-8?B?ZS9HTGQxVHd2SEcrZjF2TTZpVTJNUUx6WEo1WVpEWW51NUpZS3ZVYy9zczBN?=
- =?utf-8?B?bC9NZlkrYXlkeFF4VkNlbTZWR0EvZWhxY0JDZlZLYmxnRlBIa3J0L3YrRU1T?=
- =?utf-8?B?MWdXcTNjREQxYkFQczQyUUJPT28yRmZzOUdNMDlVb3VOSzhXaUsxY0MvWGQ1?=
- =?utf-8?B?ZzRtdUpYeG9ua1ZCYjY4eHk0NnRRWGFnSFpsSDBpK2daQTNJanMreVljeW5Y?=
- =?utf-8?B?Z0Y2N1dnck9yTDVBYjBGYUVvamptV21EeWIvRHFuTVJiUjZuK1pEanVnQ1hs?=
- =?utf-8?B?QnVRdy80S0lITzBadjY3ekNQMkRmYzlIUVZPUEc4MWJMWnZNMFdEbGlacDhG?=
- =?utf-8?B?b2ltU2xYMWh5T2VnamJ2d0haa2c3V3pQZWRqTW40MklNM1RpUjNXK2ZhZW9h?=
- =?utf-8?B?dExRVGtBSlg1MVlNMnA3anQvOHBTT0lnNDllQjFLSk9jMUVDTldseFBzcHNT?=
- =?utf-8?B?UkdiYXlrMnRKQ21jUU53ZjRXNkdQV1RBRlZqWHpoN3o5Y2hDUUVGb0JKRzE2?=
- =?utf-8?B?b0ZCalRvTHBCUUtjc2RxQU1mckhyMWpKYjl4ZkdaQmlYU0J0N2tLT2NtK25P?=
- =?utf-8?B?QkxvSlR4Ump4TVhRS00zd2wyUlZTOUZkSllOZ1pha25kSkdzcHpHaWowSFZ1?=
- =?utf-8?B?MEp2a0hsU3JSK1pHSkx2cFFkbGRUTTdPZkU0MVBPNWV3VU5abVBXVVBKSDNH?=
- =?utf-8?B?R3paRHpSWXRuS3lZWXFOV1dSR04wVTBEYjlibUpDdXRDQnJUQ0d0bExiR2xy?=
- =?utf-8?B?Q21lU1c3OFJFNng2VUR2Z3lKdlVJU3ZNTDg3VjgzMUM5RUlDUGlPZit3cTBh?=
- =?utf-8?B?YkRqSXZmNjVJT2ZnSGlPREYrSmZ3dGc1cmM4bk1hZWdrVEhxeHhEZk41MzFx?=
- =?utf-8?B?MEpaTXJ3R0pxeVUySXpYREhpVXlGcVVqbmN0eGx2ay8yV3MwYmlWaEM0cWY4?=
- =?utf-8?B?TC9HTTN4UVBYMmNObml5UlRYOGdWVzlpcVdKSlBicHE2a05xU2ErcWVMN2Y1?=
- =?utf-8?B?WTZXRVBiZDFESmhMVHVadmdOR2FYTFE5Si9FYkZLYTZYQXRFQnFmdTZid1Rk?=
- =?utf-8?B?dTJKR3gzWmQ4bi9ESW5vTmhDMDMzRHRZU1lLTGZsSjZCb3Z5VWlFSDJMNy9q?=
- =?utf-8?B?SE5MQ0IveWtSTTcySVJZOEE1RExYK29zaEtzUDFKZkd5MUVEajFnYTFoY0NF?=
- =?utf-8?B?SjFNd1YrOW9memRGZC9rNXZKNDBXMVdJc00xRjFic1NIemNPWlc4dE5iT3lw?=
- =?utf-8?B?ZU1kQld1elJWWXdRVGIrTVhxRzlzdWxyaXUwSmRFYk5qNWtwVWE0c3JncEpl?=
- =?utf-8?B?WUVTUHpZRDllQmZBVTJJUGRxT0NtNG04WDh3MWdEZHR6UDQ0ZWtBNFJlWXBw?=
- =?utf-8?B?WEVFUXJ4UEdjM1JmNmxpU0cvVlV5SllYbmg1Ym5KdytNZ09DL0djc0xSd2pz?=
- =?utf-8?B?ZUlXaVQ1NnJCNi94U2dFbFpXTnljUG9OWkk0MjI2OC9BUkhSNFlHS0ZqT25j?=
- =?utf-8?B?eisyMGxtQUU4SmNFNWtqMk5PaW9FYW93R2R2dkE5eFNSZ2thZThxaTRqVzRG?=
- =?utf-8?B?ZHI5MS9uNzAvOEs0YkxPbUxkeHZMdVN5Zk9nK1J4Lzg0d3ovYzFXWkpSRUxZ?=
- =?utf-8?B?bGY4Sy84VytBQ0JRWU83WkFZOTZ4MXh1TjFCK0t2dkNqTEpxWUFlUlM2Rzdh?=
- =?utf-8?B?bnlrcGc0R1hRRFNtK2o0dDhLMWEyeXh0YTZ3N2drVDFITkx4WU5xZHgxY2ww?=
- =?utf-8?B?YkQ5R0RIK1dUZUZpZUJ1eU5ob0czeWZzV3hvdHAvMGViby9WZ2wwelI4WTVn?=
- =?utf-8?B?cmVhVURTa2RocTdCaTdPMThhN0YwVW1YaElhcS90djVvekFpMG9aTDZFdExV?=
- =?utf-8?B?ZnBsOXArN2pybmlmRC9ESE4rQVd5NkJkNnZucXJyZS8yR1ZYSERYMzRMd21v?=
- =?utf-8?B?ajdFZmhFWkZIT0x3SXRaMFVOTFYyYm9QSEFmWm15N0lHbkR2TW5JYjllTDF2?=
- =?utf-8?B?blA5NEM4alZUWjdreEFpNWR0VktjVHhydDlQdTJuZXVNZUhKNUFxa2pLRDJk?=
- =?utf-8?B?N3hYcWNncUhGc3JiN1hpTCswMXV3eWZmQytCMUFKakMwd2FIdDJWbWdYRWVz?=
- =?utf-8?Q?OawAQnETBfZQBeViUm?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U3Z3WjZyM2lxeXUxQnplNVpJMm4xUjFxZmxKS2owSzdRZTZReHZuWStrVlAw?=
+ =?utf-8?B?bzhXM3ZRZGgzUG9mYjBXbmg0YUE5aTNWZDZWVEF4Q3l1eDJYcWlySTdGclV1?=
+ =?utf-8?B?T3NsY3NQMmp3aDl4L0dPak55M1pIYjl4NFJ6S0IzTTBmVHIwcmRFSmR5Yzk1?=
+ =?utf-8?B?elp3QWJkNk9RcXhQcXhpY0xKQXdRZ3BXUDR6eEkrVXlhaGFSOXlJQk9oZ2do?=
+ =?utf-8?B?SmhuZENYWWkwcWFiUzg0M3JSNjhWdEhiRFlyZWZMWk5ZTjkxeVMya2RKcWd6?=
+ =?utf-8?B?ZzA4S05DVVZGN09yN3AvRUZwdEgzUlQyanBsaGlLSHR5cmZTWFc2Nzg5ZXA5?=
+ =?utf-8?B?dnphYy9FS2hTSXhnMTJDL3FnNzk1eU5sOGdNRXROTDBoMCszc3FMcE44ZlFT?=
+ =?utf-8?B?OGo4WllTQThjbC8xQjBGVnBKTlRBM0hIVDlBN1k1Mi9jUmNZckIyVlVuVGpD?=
+ =?utf-8?B?OUhPdDROU2Z0Z0xmb0hKLzF0MlNNajZjQUtpWDlROUtsblBmalF6Q0ZiN2Fs?=
+ =?utf-8?B?V21HS0xxL0Npc2dXa3NoRUd6NGdJQ0VXUS9NaDdJekRvY1ZLaVEvRUxxMGgy?=
+ =?utf-8?B?cWt5dEhlaHRocklhWWY1cHc3c2lYRFlRbGg2aGc5Z2MwaG03ZkUvNldZYm9q?=
+ =?utf-8?B?MXFLY08xa2hlT1lRNGlWZEZMNkMyN1loaUQzWUk0WEExK3Y0K1VCUDduVE9E?=
+ =?utf-8?B?U1B1VTFib0hsSUhVMnhTU2lXTjlMS1hURzFucHZrT2VCaW9rZC9FNEFraS9u?=
+ =?utf-8?B?Q3ZKeHVHSWtHNGFGR3dyU0ErK0RXS20zK1JEYkhDL1dqdENhbytSUm5iRjl1?=
+ =?utf-8?B?MnZOZkJtWlZDVE9YaGpHSFVycDk4dm95MVkxMXY3dFlwaktPbG5oTDhLajJW?=
+ =?utf-8?B?bVIvQWFXMW04S3JsMDdPRXo3b1ZTWVBqSHdFM05rTnZuUGlOcmh0V2pjUXZM?=
+ =?utf-8?B?UnJjZjZsSnA5dmJIOFN1R3hpanVCQXhrSGhPYWcxNC8rYlIrd083SkRSUktV?=
+ =?utf-8?B?N3k1UytKajQ0OHZUQXc5SlRsUzNlNWJEYUV3MTFVT2wrWFUxam1SRnBmNVc3?=
+ =?utf-8?B?NTZnNHI0ZXBwczNsdG0rMFVWRWhvaWlzdlhYa2w3Y1dmaVk1Y212ZXRnMXlK?=
+ =?utf-8?B?YnpSR2NLTE45UDhZTE5RbnRPcnAvSVhCY2pHYkZMTjlETVFDV0JWd3IybXhE?=
+ =?utf-8?B?TlcrclFLVzVGYVdXRFh2a2ZibjMwQlBJL1pYd2kreExpQU9UYXJ0YTNRcU8x?=
+ =?utf-8?B?L0dRYXhrdmxlbUIxM0hyNVVhODNXWHY1aWVBRkd6ODJlVS9WMWozc09HRlh0?=
+ =?utf-8?B?NCtvdS9md1dsT2R2bXp0R0t1OUpVYyt1eGsxNE9Qa2ZYR0JXMkplRVQ2QmtC?=
+ =?utf-8?B?Y3BHVXBCb05FMXZGVUZjcU96S0ZDanpxQmxjVi9BcHg3STNwc3lpY1dVc2J2?=
+ =?utf-8?B?Y25OYmREeE9CSFplSC9aQ2VtY1FReXpXcWhSU1pxaHNEOVJhbXhuMG5oT0dG?=
+ =?utf-8?B?TUttUVZ2Q3ZuV25uYnhOdWtzWHJYcC8wdGRqMG83Ym1RUHplKzZOZnpzL0xT?=
+ =?utf-8?B?dFpqblZqbnRvNG00ZzZtbWh2MkNUQVVVOUxNYjhkeHRBTnQ2T2x1d2g1VnZz?=
+ =?utf-8?B?T3JrMkpYSGtYUXBnaUU4K2x1TmRXOFNrZ0NTcVhTZnRkT1VsblU1REFyWEQ0?=
+ =?utf-8?B?Z0JCUGYraVpGSkppcU5wQnRoYllvSm9ZengrK29kNnhBcXh5RmpORmZNRmtK?=
+ =?utf-8?B?TFMvaWRSUkdHNDFrbzZ0UU9Cb09lV1Zqc2UvejBqS0RUQmVidTlRMEVVY2Nw?=
+ =?utf-8?B?U3JZREZDT0ZvNGRTaHdwS242SEF3RFJMeW5mQjl1Q0pTL2lXRUxPSkRyQmJ2?=
+ =?utf-8?B?YnY3UXYxbkJBd3BtRlBnL25GUitoVTQ1VTBVUEhUbnR2Uk5TL1Vub0NjTklF?=
+ =?utf-8?B?dW15N1U3UWllR2N1OWVWdFVhYU1hMjJxSjFFVUdlcEN1UDd0TnR0SlpTRzEx?=
+ =?utf-8?B?dGt1Wkw1WFJ6NnZ2VW1BVVRHUVR0bC9mbjFXWGNRbS9PUzdqYjJKQ0RQZzBF?=
+ =?utf-8?B?aFBVYUcrOEVQL0U4RHlTRkhpUDVJRnBMQ24yQ0VFQ1BoVnNrVk5TVzVFV0FK?=
+ =?utf-8?B?bWE1SUVvcnU0Q2ZWeTFaVERNRThCUUpIWlFUbWsvV0pML3dLOTFJT1MzZXdi?=
+ =?utf-8?B?MllJTEtaazBOWFREZytrQzFMMFFXb1RHOG5zanBiSHUvTm4rMy9zM044VHN6?=
+ =?utf-8?B?d0c2WnRIak5yUEtxWnEvNmFia0NqbUtibXlTZHNQcUVCTGRZRHUxVU5VblVp?=
+ =?utf-8?Q?tqE63w0M2J9CRVI3oj?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1f93b8f1-d756-437c-adac-08def2cb74da
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 19859351-ec84-4a37-34c5-08def38c81f4
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR12MB5673.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2026 08:27:58.7722
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Aug 2026 07:29:54.0100
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xku7HjA4Bk+e0FzLW+Sqwl2taIhlR9rxULNdrx8vQl7oDqvoTCKcnG16x5DpSSyC
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6726
+X-MS-Exchange-CrossTenant-UserPrincipalName: HBzycDVwOvXe0w2rtRaOADja93Gpj5OkC5vGxsilDJLPhS+BpP/dABx7EuBeg697
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6051
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260805_012807_060462_2944440F 
-X-CRM114-Status: GOOD (  40.48  )
+X-CRM114-CacheID: sfid-20260806_003006_043268_4E2A1CD9 
+X-CRM114-Status: GOOD (  19.02  )
 X-Mailman-Approved-At: Thu, 06 Aug 2026 06:26:23 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -167,490 +169,69 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/28/26 23:29, Pavel Begunkov wrote:
-> The goal is to be able to natively use dma-buf in the read-write / IO
-> path. This patch adds basic building blocks serving as a glue and API
-> between drivers and upper layer subsystems providing the uAPI. Later
-> patches implement it for NVMe raw block devices and expose it to the
-> user space via io_uring.
+On 8/5/26 12:59, Pavel Begunkov wrote:
+> On 8/5/26 09:27, Christian König wrote:
+
+>>> +
+>>> +    dma_resv_lock(dmabuf->resv, NULL);
+>>> +    ctx->dev_ops->unmap(ctx, map);
+>>> +    dma_resv_unlock(dmabuf->resv);
+>>> +
+>>> +    dma_fence_put(&fence->base);
+>>
+>> You should probably set map->fence to NULL after that.
 > 
-> There are two main objects. struct dma_buf_io_ctx and struct
-> dma_buf_io_map. The ctx is used during initial registration and serves
-> as an interface between the upper layer user like io_uring and to the
-> importer subsystem / driver. The map represents the actual dma map
-> established for the target device[s] with dma_buf_map_attachment() and
-> stored in a device specific format. The context is created via a new
-> file operation ->init_dma_buf_io_ctx.
+> The map is freed two lines below, but I can add it as
+> a defensive measure.
+
+In that case it's ok, I've just haven't seen the kfree(map) below.
+
+> ...
+>>> +    ret = dma_resv_reserve_fences(dmabuf->resv, 1);
+>>> +    if (WARN_ON_ONCE(ret)) {
+>>> +        struct dma_fence *fence = &map->fence->base;
+>>> +
+>>> +        dma_fence_get(fence);
+>>> +        percpu_ref_kill(&map->refs);
+>>> +        dma_fence_wait(fence, false);
+>>> +        dma_fence_put(fence);
+>>> +        return;
+>>> +    }
+>>> +
+>>> +    dma_resv_add_fence(dmabuf->resv, &map->fence->base,
+>>> +               DMA_RESV_USAGE_KERNEL);
+>>
+>> That sequence is clearly incorrect!
+>>
+>> The fence must be created after dma_resv_reserve_fences(), otherwise you definately have an illegal memory operation here.
 > 
-> The ctx-map separation exists to support map invalidation (see
-> dma_buf_io_invalidate_mappings()). A ctx can create
-> multiple maps during its lifetime, but there can only be no more than
-> one (active) map attached to it. Invalidation drops the active map
-> if present, and the next map will only be attempted to be created
-> once there is a new request that wants to use the dma-buf IO ctx.
+> I'm not sure what you mean, can you elaborate? I only cared about
+> pre-allocating it to avoid allocations here. We add / signal the fence
+> only once, no reuse. The map is going to be killed here, and if we
+> create a new map, it'll have its own fence.
 > 
-> The primary task of the dma_buf_io_map object is to count requests
-> using it and to wait for their completion when we want to destroy the
-> DMA map. Invalidation is delayed by inserting a dma fence, which is
-> signaled when all flight requests are completed.
-> 
-> [un]mapping and any work with dma addresses is delegated to the
-> importer driver via an ops table stored in the ctx, see struct
-> dma_buf_io_ops. Only the target driver / subsystem knows about devices
-> it wants to use the dma-buf with, especially in case of multi-device
-> filesystems or stacking in the future.
-> 
-> Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
-> ---
->  drivers/dma-buf/Makefile     |   2 +-
->  drivers/dma-buf/dma-buf-io.c | 275 +++++++++++++++++++++++++++++++++++
->  include/linux/dma-buf-io.h   |  91 ++++++++++++
->  include/linux/fs.h           |   2 +
->  4 files changed, 369 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/dma-buf/dma-buf-io.c
->  create mode 100644 include/linux/dma-buf-io.h
-> 
-> diff --git a/drivers/dma-buf/Makefile b/drivers/dma-buf/Makefile
-> index b25d7550bacf..523731b0f83e 100644
-> --- a/drivers/dma-buf/Makefile
-> +++ b/drivers/dma-buf/Makefile
-> @@ -1,6 +1,6 @@
->  # SPDX-License-Identifier: GPL-2.0-only
->  obj-y := dma-buf.o dma-fence.o dma-fence-array.o dma-fence-chain.o \
-> -	 dma-fence-unwrap.o dma-resv.o dma-buf-mapping.o
-> +	 dma-fence-unwrap.o dma-resv.o dma-buf-mapping.o dma-buf-io.o
->  obj-$(CONFIG_DMABUF_HEAPS)	+= dma-heap.o
->  obj-$(CONFIG_DMABUF_HEAPS)	+= heaps/
->  obj-$(CONFIG_SYNC_FILE)		+= sync_file.o
-> diff --git a/drivers/dma-buf/dma-buf-io.c b/drivers/dma-buf/dma-buf-io.c
-> new file mode 100644
-> index 000000000000..5f545a1bcf32
-> --- /dev/null
-> +++ b/drivers/dma-buf/dma-buf-io.c
-> @@ -0,0 +1,275 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Common infrastructure for supporing dma-buf in the I/O path.
-> + *
-> + * Copyright (C) 2026 Pavel Begunkov <asml.silence@gmail.com>
-> + */
-> +#include <linux/dma-buf-io.h>
-> +#include <linux/dma-resv.h>
-> +
-> +struct dma_buf_io_fence {
-> +	struct dma_fence base;
-> +	spinlock_t lock;
-> +};
+> I can move the dma_fence_init() call here if that makes a difference?
 
-Upstream has change to allow embedding the spinlock into the dma_fence, so this structure here is most likely not necessary any more.
+Yeah that is a good start, but you might need a bit more.
 
-> +
-> +static const char *dma_buf_io_fence_drv_name(struct dma_fence *fence)
-> +{
-> +	/* default fence release kfree's the base pointer */
-> +	BUILD_BUG_ON(offsetof(struct dma_buf_io_fence, base));
-> +
-> +	return "dma-buf-io-ctx";
-> +}
-> +
-> +static const char *dma_buf_io_fence_timeline_name(struct dma_fence *fence)
-> +{
-> +	return "dma-buf-io-ctx";
-> +}
-> +
-> +const struct dma_fence_ops dma_buf_io_fence_ops = {
-> +	.get_driver_name = dma_buf_io_fence_drv_name,
-> +	.get_timeline_name = dma_buf_io_fence_timeline_name,
-> +};
-> +
-> +static void dma_buf_io_ctx_destroy_work(struct work_struct *work)
-> +{
-> +	struct dma_buf_io_ctx *ctx = container_of(work, struct dma_buf_io_ctx,
-> +						  release_work);
-> +
-> +	if (WARN_ON_ONCE(refcount_read(&ctx->refs)))
-> +		return;
-> +
-> +	ctx->dev_ops->release(ctx);
-> +	dma_buf_put(ctx->dmabuf);
-> +	kfree(ctx);
-> +}
-> +
-> +static void dma_buf_io_map_release_work(struct work_struct *work)
-> +{
-> +	struct dma_buf_io_map *map = container_of(work, struct dma_buf_io_map,
-> +						  release_work);
-> +	struct dma_buf_io_fence *fence = map->fence;
-> +	struct dma_buf_io_ctx *ctx = map->ctx;
-> +	struct dma_buf *dmabuf = ctx->dmabuf;
-> +
-> +	/* the release path must wait for fences */
-> +	if (WARN_ON_ONCE(refcount_read(&ctx->refs) == 0))
-> +		return;
+Here is a summary of the usual procedure you need to follow when implementing a dma_fence backend:
 
-Stuff like that is usually illegal.
+1. Allocate your operation object, in this case here it's your mapping I think.
+2. Prepare your operation, including all memory allocations.
+3. Call dma_resv_reserve_fences() to reserve a fence slot.
+4. Allocate and init your dma_fence object.
 
-And why are you using refcount directly instead of kref?
+After this step no memory allocation is allowed any more until your dma_fence object signals.
 
-> +
-> +	/* Prevent from destoying the ctx while unmapping */
-> +	refcount_inc(&ctx->refs);
+The only exception is optional logging or crash dumping using GFP_NOWAIT (can fail trivially!) or minimal allocations using GFP_ATOMIC if you absolutely have to.
 
-> +
-> +	/*
-> +	 * There are no more requests using the map, we can signal the fence.
-> +	 * It should be done before taking the resv lock as someone could be
-> +	 * waiting for the fence while holding the lock.
-> +	 */
-> +	dma_fence_signal(&fence->base);
+5. dma_resv_add_fence() to publish the fence.
+6. dma_resv_unlock().
 
-Signaling fences has a whole bunch of very strict rules associated with it. E.g. you can't alocate memory for example.
+Having a dma_fence is certainly nice to have, but the tricky part is that memory allocations using GFP_KERNEL (or GFP_IO, GFP_FS etc...) can cycle back and wait for your dma_fence to signal which essentially can cause a deadlock very deeply inside memory management.
 
-Are you sure you actually need and want a dma_fence here?
-
-> +
-> +	dma_resv_lock(dmabuf->resv, NULL);
-> +	ctx->dev_ops->unmap(ctx, map);
-> +	dma_resv_unlock(dmabuf->resv);
-> +
-> +	dma_fence_put(&fence->base);
-
-You should probably set map->fence to NULL after that.
-
-> +	percpu_ref_exit(&map->refs);
-> +	kfree(map);
-> +
-> +	if (refcount_dec_and_test(&ctx->refs)) {
-> +		/*
-> +		 * Destruction needs to wait for I/O and dma fences. Defer it to
-> +		 * simplify locking.
-> +		 */
-> +		INIT_WORK(&ctx->release_work, dma_buf_io_ctx_destroy_work);
-> +		queue_work(system_wq, &ctx->release_work);
-> +	}
-> +}
-> +
-> +static void dma_buf_io_map_refs_release(struct percpu_ref *ref)
-> +{
-> +	struct dma_buf_io_map *map = container_of(ref, struct dma_buf_io_map, refs);
-> +
-> +	/* might sleep, use a worker */
-> +	INIT_WORK(&map->release_work, dma_buf_io_map_release_work);
-> +	queue_work(system_wq, &map->release_work);
-> +}
-> +
-> +int dma_buf_io_init_map(struct dma_buf_io_ctx *ctx, struct dma_buf_io_map *map)
-> +{
-> +	struct dma_buf_io_fence *fence = NULL;
-> +	int ret;
-> +
-> +	fence = kzalloc(sizeof(*fence), GFP_KERNEL);
-> +	if (!fence)
-> +		return -ENOMEM;
-> +
-> +	ret = percpu_ref_init(&map->refs, dma_buf_io_map_refs_release, 0, GFP_KERNEL);
-> +	if (ret) {
-> +		kfree(fence);
-> +		return ret;
-> +	}
-> +
-> +	spin_lock_init(&fence->lock);
-> +	dma_fence_init(&fence->base, &dma_buf_io_fence_ops, &fence->lock,
-> +			ctx->fence_ctx, atomic_inc_return(&ctx->fence_seq));
-> +	map->fence = fence;
-> +	map->ctx = ctx;
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_NS_GPL(dma_buf_io_init_map, "DMA_BUF");
-> +
-> +struct dma_buf_io_map *dma_buf_io_create_map(struct dma_buf_io_ctx *ctx)
-> +{
-> +	struct dma_buf *dmabuf = ctx->dmabuf;
-> +	struct dma_buf_io_map *map;
-> +	long ret;
-> +
-> +retry:
-> +	/*
-> +	 * ->dmabuf_map() will be calling dma_buf_map_attachment(), for which
-> +	 * we'll need to wait for fences. Do a bit nicer and try to wait
-> +	 * without the resv lock first.
-> +	 */
-
-Clear NAK to that. Always wait while holding the resv lock if you can!
-
-It is absolutely not beneficial to do this outside of the lock and usually just hides problems instead and prevent fixing them.
-
-> +	ret = dma_resv_wait_timeout(dmabuf->resv, DMA_RESV_USAGE_KERNEL,
-> +				    true, MAX_SCHEDULE_TIMEOUT);
-> +	if (!ret)
-> +		ret = -EAGAIN;
-> +	if (ret < 0)
-> +		return ERR_PTR(ret);
-> +
-> +	ret = dma_resv_lock_interruptible(dmabuf->resv, NULL);
-> +	if (ret)
-> +		return ERR_PTR(ret);
-> +
-> +	map = dma_buf_io_get_map(ctx);
-> +	if (map) {
-> +		ret = 0;
-> +		goto out;
-> +	}
-> +
-> +	if (dma_resv_wait_timeout(dmabuf->resv, DMA_RESV_USAGE_KERNEL,
-> +				  true, 0) < 0) {
-> +		dma_resv_unlock(dmabuf->resv);
-> +		goto retry;
-> +	}
-> +
-> +	map = ctx->dev_ops->map(ctx);
-> +	if (IS_ERR(map)) {
-> +		ret = PTR_ERR(map);
-> +		goto out;
-> +	}
-> +
-> +	percpu_ref_get(&map->refs);
-> +	rcu_assign_pointer(ctx->map, map);
-> +out:
-> +	dma_resv_unlock(dmabuf->resv);
-> +	if (ret < 0)
-> +		return ERR_PTR(ret);
-> +	return map;
-> +}
-> +
-> +static void dma_buf_io_drop_map(struct dma_buf_io_ctx *ctx)
-> +{
-> +	struct dma_buf *dmabuf = ctx->dmabuf;
-> +	struct dma_buf_io_map *map;
-> +	int ret;
-> +
-> +	dma_resv_assert_held(dmabuf->resv);
-> +
-> +	map = rcu_dereference_protected(ctx->map,
-> +					dma_resv_held(dmabuf->resv));
-> +	if (!map)
-> +		return;
-> +	rcu_assign_pointer(ctx->map, NULL);
-> +
-
-
-> +	ret = dma_resv_reserve_fences(dmabuf->resv, 1);
-> +	if (WARN_ON_ONCE(ret)) {
-> +		struct dma_fence *fence = &map->fence->base;
-> +
-> +		dma_fence_get(fence);
-> +		percpu_ref_kill(&map->refs);
-> +		dma_fence_wait(fence, false);
-> +		dma_fence_put(fence);
-> +		return;
-> +	}
-> +
-> +	dma_resv_add_fence(dmabuf->resv, &map->fence->base,
-> +			   DMA_RESV_USAGE_KERNEL);
-
-That sequence is clearly incorrect!
-
-The fence must be created after dma_resv_reserve_fences(), otherwise you definately have an illegal memory operation here.
+Since those deadlocks happen only on memory contention situations they are usually just hard to reproduce but still totally break your neck if you manage to mess this up. So that needs to be super carefully implemented.
 
 Regards,
 Christian.
-
-> +	/*
-> +	 * Delay destruction until all inflight requests using the map arefence->
-> +	 * gone. It'll also signal the fence then.
-> +	 */
-> +	percpu_ref_kill(&map->refs);
-> +}
-> +
-> +void dma_buf_io_invalidate_mappings(struct dma_buf_io_ctx *ctx)
-> +{
-> +	dma_buf_io_drop_map(ctx);
-> +}
-> +EXPORT_SYMBOL_NS_GPL(dma_buf_io_invalidate_mappings, "DMA_BUF");
-> +
-> +static void dma_buf_io_ctx_release_work(struct work_struct *work)
-> +{
-> +	struct dma_buf_io_ctx *ctx = container_of(work, struct dma_buf_io_ctx,
-> +						  release_work);
-> +	struct dma_buf *dmabuf = ctx->dmabuf;
-> +	long ret;
-> +
-> +	dma_resv_lock(dmabuf->resv, NULL);
-> +	/* Remove the last map, there should be no new ones going forward. */
-> +	dma_buf_io_drop_map(ctx);
-> +	dma_resv_unlock(dmabuf->resv);
-> +
-> +	/* Wait until all maps are destroyed. */
-> +	ret = dma_resv_wait_timeout(dmabuf->resv, DMA_RESV_USAGE_KERNEL,
-> +				    false, MAX_SCHEDULE_TIMEOUT);
-> +
-> +	if (WARN_ON_ONCE(ret <= 0))
-> +		return;
-> +	if (WARN_ON_ONCE(rcu_dereference_protected(ctx->map, true)))
-> +		return;
-> +
-> +	if (refcount_dec_and_test(&ctx->refs))
-> +		dma_buf_io_ctx_destroy_work(&ctx->release_work);
-> +}
-> +
-> +void dma_buf_io_ctx_release(struct dma_buf_io_ctx *ctx)
-> +{
-> +	/*
-> +	 * Destruction needs to wait for I/O and dma fences. Defer it to
-> +	 * simplify locking.
-> +	 */
-> +	INIT_WORK(&ctx->release_work, dma_buf_io_ctx_release_work);
-> +	queue_work(system_wq, &ctx->release_work);
-> +}
-> +
-> +int dma_buf_io_ctx_create(struct file *file,
-> +			   struct dma_buf_io_ctx *ctx,
-> +			   struct dma_buf *dmabuf,
-> +			   enum dma_data_direction dir)
-> +{
-> +	int ret;
-> +
-> +	if (!file->f_op->init_dma_buf_io_ctx)
-> +		return -EOPNOTSUPP;
-> +
-> +	memset(ctx, 0, sizeof(*ctx));
-> +	ctx->fence_ctx = dma_fence_context_alloc(1);
-> +	ctx->dir = dir;
-> +	ctx->dmabuf = dmabuf;
-> +	refcount_set(&ctx->refs, 1);
-> +	get_dma_buf(dmabuf);
-> +
-> +	ret = file->f_op->init_dma_buf_io_ctx(file, ctx);
-> +	if (ret) {
-> +		memset(ctx, 0, sizeof(*ctx));
-> +		dma_buf_put(dmabuf);
-> +		return ret;
-> +	}
-> +
-> +	if (WARN_ON_ONCE(!ctx->dev_ops ||
-> +			 !ctx->dev_ops->map ||
-> +			 !ctx->dev_ops->unmap ||
-> +			 !ctx->dev_ops->release))
-> +		return -EINVAL;
-> +
-> +	return ret;
-> +}
-> diff --git a/include/linux/dma-buf-io.h b/include/linux/dma-buf-io.h
-> new file mode 100644
-> index 000000000000..bcffc6202556
-> --- /dev/null
-> +++ b/include/linux/dma-buf-io.h
-> @@ -0,0 +1,91 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#ifndef __DMA_BUF_IO_H__
-> +#define __DMA_BUF_IO_H__
-> +
-> +#include <linux/dma-buf.h>
-> +
-> +struct dma_buf_io_fence;
-> +struct dma_buf_io_ctx;
-> +struct dma_buf_io_map;
-> +
-> +struct dma_buf_io_ops {
-> +	/*
-> +	 * Create a new map for the given ctx. Called with the reservation
-> +	 * lock held.
-> +	 */
-> +	struct dma_buf_io_map *(*map)(struct dma_buf_io_ctx *ctx);
-> +
-> +	/*
-> +	 * Clean up device specific parts of the @map. Called with the
-> +	 * reservation lock held.
-> +	 */
-> +	void (*unmap)(struct dma_buf_io_ctx *ctx, struct dma_buf_io_map *map);
-> +
-> +	/*
-> +	 * The user tries to destroy the ctx. Release all device specific
-> +	 * parts of the token.
-> +	 */
-> +	void (*release)(struct dma_buf_io_ctx *);
-> +};
-> +
-> +struct dma_buf_io_map {
-> +	/*
-> +	 * Counts attached requests and other users. Device specific unmapping
-> +	 * is deferred until all refs are dropped.
-> +	 */
-> +	struct percpu_ref		refs;
-> +
-> +	struct work_struct		release_work;
-> +	struct dma_buf_io_fence		*fence;
-> +	struct dma_buf_io_ctx		*ctx;
-> +};
-> +
-> +struct dma_buf_io_ctx {
-> +	struct dma_buf_io_map __rcu		*map;
-> +	struct dma_buf				*dmabuf;
-> +	enum dma_data_direction			dir;
-> +
-> +	atomic_t				fence_seq;
-> +	u64					fence_ctx;
-> +	struct work_struct			release_work;
-> +	refcount_t				refs;
-> +
-> +	void					*dev_priv;
-> +	const struct dma_buf_io_ops		*dev_ops;
-> +};
-> +
-> +int dma_buf_io_ctx_create(struct file *file,
-> +			   struct dma_buf_io_ctx *ctx,
-> +			   struct dma_buf *dmabuf,
-> +			   enum dma_data_direction dir);
-> +void dma_buf_io_ctx_release(struct dma_buf_io_ctx *ctx);
-> +
-> +struct dma_buf_io_map *dma_buf_io_create_map(struct dma_buf_io_ctx *ctx);
-> +
-> +static inline struct dma_buf_io_map *
-> +dma_buf_io_get_map(struct dma_buf_io_ctx *ctx)
-> +{
-> +	struct dma_buf_io_map *map;
-> +
-> +	guard(rcu)();
-> +
-> +	map = rcu_dereference(ctx->map);
-> +	if (unlikely(!map || !percpu_ref_tryget_live_rcu(&map->refs)))
-> +		return NULL;
-> +
-> +	return map;
-> +}
-> +
-> +static inline void dma_buf_io_map_drop(struct dma_buf_io_map *map)
-> +{
-> +	percpu_ref_put(&map->refs);
-> +}
-> +
-> +/*
-> + * Device API
-> + */
-> +
-> +void dma_buf_io_invalidate_mappings(struct dma_buf_io_ctx *ctx);
-> +int dma_buf_io_init_map(struct dma_buf_io_ctx *ctx, struct dma_buf_io_map *map);
-> +
-> +#endif
-> diff --git a/include/linux/fs.h b/include/linux/fs.h
-> index d10897b3a1e3..9fe349a279c7 100644
-> --- a/include/linux/fs.h
-> +++ b/include/linux/fs.h
-> @@ -1914,6 +1914,7 @@ struct dir_context {
->  #define COPY_FILE_SPLICE		(1 << 0)
->  
->  struct io_uring_cmd;
-> +struct dma_buf_io_ctx;
->  struct offset_ctx;
->  
->  typedef unsigned int __bitwise fop_flags_t;
-> @@ -1962,6 +1963,7 @@ struct file_operations {
->  	int (*uring_cmd_iopoll)(struct io_uring_cmd *, struct io_comp_batch *,
->  				unsigned int poll_flags);
->  	int (*mmap_prepare)(struct vm_area_desc *);
-> +	int (*init_dma_buf_io_ctx)(struct file *, struct dma_buf_io_ctx *);
->  } __randomize_layout;
->  
->  /* Supports async buffered reads */
-
 
