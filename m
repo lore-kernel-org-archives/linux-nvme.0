@@ -4,95 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 22088C5AC7C
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Aug 2026 17:37:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 45D59C56208
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Aug 2026 21:18:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=tHnqyOO1uDsuoF/xnUQI2mRzSuyrmk/rA7QZretz+bg=; b=X6YUpcwi6ADstS46KmmOqjhH7r
-	iFXUjM2aA3LDe5thtnfPYPHPrgkKg+U46ZqfCd7Tt7u5Kopw4QyzfITtSm6uwFMfJZ4WCdk5pvN9q
-	AHW3dHReFqs0ToMTnuQbgUMxFEJrbxKPaYik8hFkjDW/TruL6vYusfzw6dBhFVezfqoWZgItNTOrF
-	Mh0OLafrm6TrZMU7Nw83LmwmVlfXcse4Du8spqKZdryhNKPS46gjvDlD9VdMgIIMEQ/ql1JmiNDpR
-	5v1ScenIiO8ZyrUKAPON2D77Ndvig/+yH747Pa+DcR1Lx2bS69Sp1t146TwIdI4eByFmvx4lyAROA
-	DYif+GhQ==;
+	bh=rEVLX+dD9pSW4h8SbXdVl5Bj+9c6JBlmAAihMNayCeo=; b=BPuQHXy7PZyUOieJd/Jqre03gY
+	+tXxe7E9UIwIj6Sxtf2MsbGzWSQgOCMZghC9BoypnfMipeMvO7Z1O9t+w/PNYPPhoVdEtGETYUYn+
+	fUk6tic2AzgvCk0br3afqBe/HmMLumB42hqUkV5aJb6BW1BFsPbw8o2D8jwyaEaTau7Alt9mnOnnf
+	gOc7qFOy/t8a6qPgr2KmLbkau5BECRVaFGq6lO1T/q9JF+0biBcjM2lDqjy9/C4c8Z3RpFgybunsZ
+	O2f/cXC02lJ+Cvw4ZMVKRljMa7WKtZl+IwY1GbIwzqjZI1FmSzkcLRptwHqm17accYrqL8t3bwTzY
+	4uIuzgAg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1ws22D-00000006OLy-1cWJ;
-	Thu, 06 Aug 2026 17:37:37 +0000
-Received: from fout-b8-smtp.messagingengine.com ([202.12.124.151])
+	id 1ws5Tv-00000006iDb-129H;
+	Thu, 06 Aug 2026 21:18:27 +0000
+Received: from mgamail.intel.com ([198.175.65.20])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1ws22A-00000006OKz-2VRO;
-	Thu, 06 Aug 2026 17:37:36 +0000
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfout.stl.internal (Postfix) with ESMTP id 06D6B1D000BD;
-	Thu,  6 Aug 2026 13:37:31 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Thu, 06 Aug 2026 13:37:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1786037850; x=1786124250; bh=tHnqyOO1uD
-	suoF/xnUQI2mRzSuyrmk/rA7QZretz+bg=; b=IUyxeOGlOih7TBAnxusRso1hWL
-	+YD1l8lbfLnHwA0Ufvz6nUguE6wwkFRDKrbNNYhXtEFBUpmukgRUgSdJk0Ln2sgw
-	xYvY8JiJKYPkRPDovyP31TrBfVNapNytvyr13BZVzjfbl1R5GRlqgHZgZ8PXX+us
-	bu8VG8QXT0lV/Hh4MVs0Dm3L90Ew05oiZxdWsZ1z+i9a8oF+TME47U4gM5bS/qfd
-	gaNCY2QiH8jhF7vaAQsQMokKtQC3t0L/OiSnnre23g2NUWte/GDVb3ZQo24NRze5
-	gGU4lrjdt3hHY8D84AifjhevQg0CjH+XlLGbOm3Onc8FMMIleaCdPdpmyuvQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1786037850; x=1786124250; bh=tHnqyOO1uDsuoF/xnUQI2mRzSuyrmk/rA7Q
-	Zretz+bg=; b=huILaywRzta094cghAmg/6V4TdtDqy2H/XXrwFKqf95sUihGqZ3
-	81y+lRl2fPzTG3A0Uk/nfvOdKcFG1lmiq8lkmReWqtIVnehpDYEFaAYiUAiasQ8z
-	IdC4ukU8TiqEK8ZM32l7isyoTeJNbGpPif3MGRbIsogQfuFvAAlCmQu4PPn0eWNm
-	ntyV4M4xr8Zpz+CUBIQzAUFcxTc3zhFuIs3AEvCQKdnldzQwLpyhRJY2ij4JZl0+
-	3BpMeWdSDXFlK6fH7iZhzxCZeQ+74BSEMz6xD1Rcejel7DvbcWKBDzYgkNmQyWnx
-	BNXU2mxZNfgbttuKZVXrFFPtVoCEg79Ufzg==
-X-ME-Sender: <xms:WsZ0asjitWyoR78JyGC827Km5p7ELDBt5EyTjboqKOA4kuPIDIxIDg>
-    <xme:WsZ0ag2qwvBL5raTTuIq3xNoKOEHT9QyPgo8gg30TEab1g71OdTSjrKIJhI7j4tJz
-    lNQ2deOwpyE6A6g72opBziBGDtESv7yE_L2gocK-QwagR61--HyIKw>
-X-ME-Received: <xmr:WsZ0avdO9znJLTTAKvHxJc1Y5JHT8XPOdEJZak_5utkTpDTwYG5XhAaDeuMPvUMYqSzO-vWDE-WukJwEL9FF7SysAt1VEI9yL7o>
-X-ME-Proxy-Cause: dmFkZTGwCXBcn4aLfwWdfO4trPZD1QJnLbrbvPnKiG1qC8XfJLrdxauf+uW9V1IadvHpNS
-    l5/Rx2MIiAcq66IRw6VMNUNmUS8TMak8AF662vYKZTkaUb9XRvR3Hq5ZAly3FQS82dOD/I
-    4+krjZ6PDY8zDg9K5QtufjuF7verAuoLHeGORs8+FMIAy6vf4TJevfTLkBahtqzGNudqIp
-    iIYMJZZHHEsfRL5babwzPWb74SeHSZPNEoaDGDsaEGPqXhdTAhVvEf3mcMgDTUfm01KbNe
-    3awc5mWY2/ljAsdLPc3I8Eji1uJDQFl78xVLs0EIksEuFDfEUFgdFbpIMbb/3lMTV/MroX
-    7vJLKhjVBRD9TNWGb4gVqNEBqgrqsBX1nLp2nlySFTGREb3kRF4FTj0wlVkEKHeYz1uhse
-    IAF0V7fJroKG015cX/hl+yIpMupTZq8aFUslwBqeHbSEAgsYz7zHWKWYfrOZvgpwrCoqpy
-    cQEXtyjVsn+xUvfLOx1SEUWntwSxS54UMqKz3IdDwJCNNJRH8FdCZXF/SEKkMqkPgDaYPw
-    RR14r5sUSe+UTd/GPp9Q03lcoLGMAGhR8wrOaqK0ILBlBjavlLbSa2DEkfSLJpL/KJQHOS
-    NidEGnsb2LJMV9HTmqZNDp2CTvQ9jBSni+FdQVBb9fvYn7agCX7VHpTNXUAA
-X-ME-Proxy: <xmx:WsZ0amzGoA_8Pqn4FLbFJQwVPwDUW5AVWeEYuRNjSvaez5uPnSRu6w>
-    <xmx:WsZ0anwa1PMy9xcRax62pV8WbhZYJ0_NT0h4qxZB8n3s9FSk9Ze96Q>
-    <xmx:WsZ0anaAaX4TbHmCUIdK_TtLIwNJ15EtoBrr0FRBzptOFUIhcg5B3w>
-    <xmx:WsZ0ag3EtiYRGPs7tq1OaBZaH0E2oHJl506hZtU7uFL86p-ayp2zCg>
-    <xmx:WsZ0an5YLg3nZukQbedDSXz2LgIABtNCffZm2HXNwIhwQZbZVGx0fze->
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 6 Aug 2026 13:37:29 -0400 (EDT)
-Date: Thu, 6 Aug 2026 19:37:28 +0200
-From: Janne Grunau <j@jannau.net>
-To: Sven Peter <sven@kernel.org>
-Cc: Neal Gompa <neal@gompa.dev>, Keith Busch <kbusch@kernel.org>,
+	id 1ws5Ts-00000006iCz-1xz3
+	for linux-nvme@lists.infradead.org;
+	Thu, 06 Aug 2026 21:18:25 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786051105; x=1817587105;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=B+3CZsZUdtppbI5i1SbA+c8iZ3CR4rp2wPMwmZUxf/4=;
+  b=jLTTJYl8ASRxg/U5fgzzzpmUNNC3swAUqJjBTQlmKLXlJKTutRQqo2m3
+   Ui+WhNjYbHGAQ0tJeOO33HnGmJVdn8FdMEDMligDr99IVlVvLqyeyIhP/
+   VquzwdzmILGaho5LF4k0FWchJeCFzuhBlmwGR4cOlznZNU2d5c7mAlITG
+   blIUoRn+I3FvqYxI1I2AVqo96fY+bkHByY8CYrwprs9sl/oPlyPtCnk5U
+   NQwzUXZ+VSCPLczUwPmo0dERrFFmO8uGJR8fJ0ISUGrkGdVrdWIKCy4sQ
+   RqEWRckImNSbC1RRC9Njz1LwTF9SIIXVundAa4B58/q+Sa/m5PS3KDj3n
+   w==;
+X-CSE-ConnectionGUID: vqBAqX1kSLKX1XiQys+OMg==
+X-CSE-MsgGUID: xlqNWaXeSzWmaNcYQex1Uw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="86425327"
+X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
+   d="scan'208";a="86425327"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 14:18:22 -0700
+X-CSE-ConnectionGUID: EQQ1tZQaRjOGm1+ipb2BEA==
+X-CSE-MsgGUID: EAhyCzXqQv+Tl6JaEY0Q6w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
+   d="scan'208";a="261697084"
+Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.50])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 14:18:19 -0700
+Date: Fri, 7 Aug 2026 00:18:16 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Fengnan Chang <changfengnan@bytedance.com>
+Cc: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
 	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, Arnd Bergmann <arnd@arndb.de>,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/6] Apple NVMe fixes for macOS 15+ firmware / M4 support
-Message-ID: <20260806173728.GA682012@robin.jannau.net>
-References: <20260806-b4-nvme-fwabi-v1-0-bde19ce8db04@kernel.org>
+	Sagi Grimberg <sagi@grimberg.me>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Thomas Gleixner <tglx@kernel.org>, Jun Zeng <jun1.zeng@intel.com>,
+	Gang Cao <gang.cao@intel.com>, Jun I Jin <jun.i.jin@intel.com>,
+	Liang A Fang <liang.a.fang@intel.com>, Yong Hu <yong.hu@intel.com>,
+	linux-kernel@vger.kernel.org, Guzebing <guzebing@bytedance.com>
+Subject: Re: [RFC PATCH] nvme-pci: adaptively poll completions on busy queues
+Message-ID: <anT6GLUy_o12Fiz4@ashevche-desk.local>
+References: <20260723120556.58670-1-changfengnan@bytedance.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260806-b4-nvme-fwabi-v1-0-bde19ce8db04@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260723120556.58670-1-changfengnan@bytedance.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260806_103735_019508_60BA48BD 
-X-CRM114-Status: GOOD (  13.95  )
+X-CRM114-CacheID: sfid-20260806_141824_551658_C0361C79 
+X-CRM114-Status: GOOD (  22.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,24 +92,104 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Aug 06, 2026 at 05:27:32PM +0200, Sven Peter wrote:
-> Hi,
+On Thu, Jul 23, 2026 at 08:05:56PM +0800, Fengnan Chang wrote:
+> In high-IOPS scenarios, relying on interrupts to handle I/O operations
+> can limit performance. This issue becomes particularly pronounced in
+> multi-disk environments, where performance is constrained by the CPU’s
+> interrupt-handling capacity.
 > 
-> This series fixes a bunch of bugs that were working fine with M1/M2 NVMe
-> controllers with older firmware but are now starting to bite us.
-> With macOS 15 a new firmware is installed for the controller and both
-> XNU and the controller are a bit more strict now. This firmware is
-> required once we add M4 support.
+> Each Solidigm SB5PH27X038T device used for testing can deliver about 3.2M
+> 4 KiB random-read IOPS.  Four devices therefore have about 12.8M IOPS of
+> aggregate capability, but interrupt-driven completion topped out at 7.81M
+> IOPS, or about 61% of that capability.
 > 
-> The first patch fixes a panic that can happen when the controller fails
-> to initialize, which now happens for the first time with the new
-> firmware. The other fixes then make it work again.
+> Add optional adaptive polling for busy interrupt-driven I/O queues.  After
+> an interrupt drains the CQ, use the ring distance between last_sq_tail and
+> cq_head as an approximate host-side inflight count.  If the count reaches
+> a per-controller high watermark, let the threaded handler keep draining
+> completions instead of returning to interrupt-driven completion right away.
+> 
+> The thread always checks for pending CQEs first.  When the CQ is empty, it
+> compares the inflight count with a per-controller low watermark and sleeps
+> for a configurable interval before checking again.  It returns to
+> interrupt-driven completion after three consecutive empty-CQ checks below
+> the low watermark or when the loop limit is reached.
+> 
+> The mode is disabled by default. It can be enabled at module load time.
+> The high and low watermarks, empty-CQ interval, and loop limit are
+> available through sysfs.  The defaults are 32 commands, 3 commands,
+> 30 us, and 1000 iterations.
+> 
+> Tested with the default settings and 4 KiB random reads on four Solidigm
+> SB5PH27X038T devices.  With adaptive polling off and on:
+> 
+>   - t/io_uring, depth 1024 and four workers per device:
+>     7.810M and 12.780M aggregate IOPS (+63.64%).
+>   - fio/libaio, iodepth 1024, numjobs 4 and completion batches of 32:
+>     7.699M and 12.785M aggregate IOPS (+66.05%).
+> 
+> In a paired libaio and io_uring boundary sweep, QD8, QD16, QD32, and
+> QD16/numjobs=4 changed by -0.15% to +0.48%.  QD64 improved by 28.61% to
+> 59.75%.
 
-Whole series tested on devices with pre macOS 15 system firmware, a M1
-with system firmware 13.2 (OS firmware 12.3) and M1 Max with system
-firmware 14.5 (OS firmware 13.5).
+...
 
-Tested-by: Janne Grunau <j@jannau.net>
+> +What:		/sys/class/nvme/nvmeX/adaptive_poll_inflight_high
+> +Date:		July 2026
 
-Janne
+Can't be July for v7.3. See crystal ball predictor for the dates (rc1 or release).
+
+> +KernelVersion:	7.3
+
+...
+
+> +static void nvme_adaptive_unmask_irq(struct nvme_queue *nvmeq, int irq)
+> +{
+> +	struct nvme_dev *dev = nvmeq->dev;
+> +	struct pci_dev *pdev = to_pci_dev(dev->dev);
+> +
+> +	clear_bit(NVMEQ_ADAPTIVE_POLLING, &nvmeq->flags);
+
+
+> +	if (pdev->msi_enabled) {
+
+Wondering if MSI-X also should be considered here.
+With that in mind, can we use pci_dev_msi_enabled()?
+
+> +		writel(BIT(nvmeq->cq_vector), dev->bar + NVME_REG_INTMC);
+> +		readl(dev->bar + NVME_REG_INTMS);
+> +	} else {
+> +		enable_irq(irq);
+> +	}
+> +}
+
+...
+
+> +static ssize_t adaptive_poll_interval_us_store(struct device *dev,
+> +					       struct device_attribute *attr,
+> +					       const char *buf, size_t count)
+> +{
+> +	struct nvme_dev *ndev = to_nvme_dev(dev_get_drvdata(dev));
+> +	unsigned int value;
+> +	int ret;
+> +
+> +	ret = kstrtouint(buf, 10, &value);
+> +	if (ret)
+> +		return ret;
+> +	if (!value)
+> +		return -EINVAL;
+
+ERANGE? EDOM?
+
+Ditto for other similar cases.
+
+> +	WRITE_ONCE(ndev->adaptive_poll_interval_us, value);
+> +	return count;
+> +}
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
 
