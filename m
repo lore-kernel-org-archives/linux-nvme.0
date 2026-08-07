@@ -4,65 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C10D3C5AC67
-	for <linux-nvme@archiver.kernel.org>; Fri,  7 Aug 2026 00:01:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D28CDC5AC7A
+	for <linux-nvme@archiver.kernel.org>; Fri,  7 Aug 2026 02:19:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:From:Subject
-	:Message-ID:Date:MIME-Version:Reply-To:Cc:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=DHl/omsnQZWAsLsuqjcopC+CiqjuXwfHPzn9WjLQBxs=; b=B551/C+i8k8vIl0SI9Na3mdFlb
-	lzilG446EcfyF7tVHv/p0Pd8lVLjxfo+wdwXzQf42rMQ5FvOyEVhARhRrQLAsswJ38CZ0J46wjUMC
-	Acq4FYaH3hUK/VXh8Bqid4Alm3jTL20/V43mZ6wBjmi6CAOiUBv/gfsvZHQEgyi3zvjy5B8cvKFEx
-	oshDLug+l0VXZto/L25dxdLp3ii75KfiEyR190OG0U9RpJt6NhBxRAHhOEWCKVykr0bwbfkYcVZMl
-	C5cYcjxn0RxMwiyCbGt7fV+xq/5UXzegVxJVFh7SMTvOM4R0u16Sr/04GI5uH4KkUI/D1EM+ysF25
-	8+3XGCxg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:
+	Content-Transfer-Encoding:In-Reply-To:References:Mime-Version:Subject:Cc:From
+	:To:Content-Type:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ujCjVQ+nPe0Ej/tTQNyGXHsmygvjx9xJqZt8YEAe5mI=; b=nMnpCxF/GsQsQ8NRaSEY6Uxqqa
+	baj03z515RaaDcJKOBNLmWADLAy+91Qau07LH2JHx8nwYuZePxbg2r8gtQZwov1RXiUnqDQAEMTjK
+	newm03NqKcdJbW64L53TII5MDT6UEZH3ldQAF1xH6HtI7tByRO/gMzEYOhtFuELOPkj35OzCX9e4p
+	52bGSz3og6FTdySmIeegJl1s95Kp+c1EWZfv+NO/VlEOnFRGLzd1dL0TuVpUqzZ6eQzZCy85M1WyE
+	COvR6Bz1gvXKWEEx1LneSLgM1xf52VTXTebjvGssQf8gQ5K6u1d/z+TWBLfwuUMc6BjbwUqQwOwJ6
+	h176SDCA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1ws81p-00000006skA-1sEV;
-	Fri, 07 Aug 2026 00:01:37 +0000
-Received: from mail-ot1-f79.google.com ([209.85.210.79])
+	id 1wsAAt-00000006yPl-1GR8;
+	Fri, 07 Aug 2026 02:19:07 +0000
+Received: from va-1-114.ptr.blmpb.com ([209.127.230.114])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1ws81m-00000006sjU-48cD
+	id 1wsAAp-00000006yPI-2efG
 	for linux-nvme@lists.infradead.org;
-	Fri, 07 Aug 2026 00:01:36 +0000
-Received: by mail-ot1-f79.google.com with SMTP id 46e09a7af769-7e9e741693bso1567213a34.0
-        for <linux-nvme@lists.infradead.org>; Thu, 06 Aug 2026 17:01:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786060893; x=1786665693;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=DHl/omsnQZWAsLsuqjcopC+CiqjuXwfHPzn9WjLQBxs=;
-        b=RIqbpG63bHhM5302hVpOy/XHrviwAYuAerhRhw56eLVzF6LH0QIncUk+NBxkNCTFOl
-         SUbAUeWe3RA/cemNCj0mT05wwHIi8f0W835T0HVgJzQxY5G+JzPF/UXGgn1Hne/d2wpz
-         t1h4FZQinSC56v4zsR/iymKHVnr+Y1DPcA9dFdxpVGMOVarhLpaNFeyoBrKidKn9KUko
-         vFsJ/4D5XvpqVsOXzuVL72bz97/D9/Ih4gaeJ8Vq+OEb9nO1vQqAnHmqfgtmdxVKHy9Q
-         V1Vog0zM/uPML10RKzAXcdRKiqdzmlGZ05St1t7FI4fiEOxFw5lRFm4tsKxXcB1iwUF2
-         8tmQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqOa6rKgqr3TwTxHRKUYE8W5W1a+/epgjZCzZ+tkNjefdI3NXS2+7F7DrN3FNIL9Mm59isqwp80sUTw@lists.infradead.org
-X-Gm-Message-State: AOJu0YzXMvzHkuMIhiLW7VaP+KTBzb5SAN4cVHKMAiHLWC2GJD1C7dDd
-	C3iBUuIMgWWAMo/UTVjRlOi/AVtmpL/ut/oQ5hpF8MdpJ+zT6NVmjZQClAyIPCCmWs8brUZNxjy
-	PI8ie4LcA8/QWv8jOYPj++CnCiNZZSRVvbBWGbYJJWOf4oStfydXghk9qd5M=
-MIME-Version: 1.0
-X-Received: by 2002:a05:6820:f024:b0:6af:f3a3:7f5d with SMTP id
- 006d021491bc7-6aff3a486f6mr4081871eaf.26.1786060892795; Thu, 06 Aug 2026
- 17:01:32 -0700 (PDT)
-Date: Thu, 06 Aug 2026 17:01:32 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a75205c.01d0871a.3a0d52.0033.GAE@google.com>
-Subject: [syzbot] [nvme?] KASAN: slab-out-of-bounds Read in nvmet_install_queue
-From: syzbot <syzbot+2626e846cd2585c9aa67@syzkaller.appspotmail.com>
-To: hch@lst.de, kch@nvidia.com, linux-kernel@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, sagi@grimberg.me, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+	Fri, 07 Aug 2026 02:19:06 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=2212171451; d=bytedance.com; t=1786069132; h=from:subject:
+ mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
+ mime-version:in-reply-to:message-id;
+ bh=ujCjVQ+nPe0Ej/tTQNyGXHsmygvjx9xJqZt8YEAe5mI=;
+ b=hIg9DhtSTROVSqGGn8bH/4aDWAmD6aMDa+QFCqxL5l+rNhww8EAxpMYsCrVHBawg9LNEsy
+ GByWUO5VrYSXO8YDds35Denp3wRqtkg/zyh/13H57pjcfuvv6bIJh2Dn2pH7HuM28ssPB6
+ j2pNGQnz3IOa7ixqtTFiRAu5TYhiDgz8aJ0uaK/SDC6a971+x/qDYDykZpinV1p0kISctF
+ Gq6SB7RmX7RR8zsDfpKy2KyG6k3NbMVBTPqX0Mv6NdwtTPF3fT0/DbMKgzsC3nrwKcznts
+ MeJFApJPPzeCRxLuJGdM9alblXMN6ukLt1pse3eqPCKDIpH6UoC/MgbpDISIMw==
+X-Lms-Return-Path: <lba+16a75408a+62b8e0+lists.infradead.org+changfengnan@bytedance.com>
+Content-Type: text/plain; charset=UTF-8
+To: "Andy Shevchenko" <andriy.shevchenko@intel.com>
+From: "changfengnan" <changfengnan@bytedance.com>
+Cc: <linux-nvme@lists.infradead.org>, "Keith Busch" <kbusch@kernel.org>, 
+	"Jens Axboe" <axboe@kernel.dk>, "Christoph Hellwig" <hch@lst.de>, 
+	"Sagi Grimberg" <sagi@grimberg.me>, 
+	"Bart Van Assche" <bvanassche@acm.org>, 
+	"Thomas Gleixner" <tglx@kernel.org>, "Jun Zeng" <jun1.zeng@intel.com>, 
+	"Gang Cao" <gang.cao@intel.com>, "Jun I Jin" <jun.i.jin@intel.com>, 
+	"Liang A Fang" <liang.a.fang@intel.com>, "Yong Hu" <yong.hu@intel.com>, 
+	<linux-kernel@vger.kernel.org>, "Guzebing" <guzebing@bytedance.com>
+Subject: Re: [RFC PATCH] nvme-pci: adaptively poll completions on busy queues
+Mime-Version: 1.0
+References: <20260723120556.58670-1-changfengnan@bytedance.com>
+	<anT6GLUy_o12Fiz4@ashevche-desk.local>
+In-Reply-To: <anT6GLUy_o12Fiz4@ashevche-desk.local>
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 07 Aug 2026 10:18:48 +0800
+Message-Id: <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.52232ae5.c88d.441c.9d7a.294537a77e7c@bytedance.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260806_170135_041465_BD0E2FD0 
-X-CRM114-Status: UNSURE (   7.70  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260806_191904_000307_A11F8D8B 
+X-CRM114-Status: GOOD (  23.35  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,138 +74,159 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello,
 
-syzbot found the following issue on:
+> From: "Andy Shevchenko"<andriy.shevchenko@intel.com>
+> Date:=C2=A0 Fri, Aug 7, 2026, 05:18
+> Subject:=C2=A0 Re: [RFC PATCH] nvme-pci: adaptively poll completions on b=
+usy queues
+> To: "Fengnan Chang"<changfengnan@bytedance.com>
+> Cc: <linux-nvme@lists.infradead.org>, "Keith Busch"<kbusch@kernel.org>, "=
+Jens Axboe"<axboe@kernel.dk>, "Christoph Hellwig"<hch@lst.de>, "Sagi Grimbe=
+rg"<sagi@grimberg.me>, "Bart Van Assche"<bvanassche@acm.org>, "Thomas Gleix=
+ner"<tglx@kernel.org>, "Jun Zeng"<jun1.zeng@intel.com>, "Gang Cao"<gang.cao=
+@intel.com>, "Jun I Jin"<jun.i.jin@intel.com>, "Liang A Fang"<liang.a.fang@=
+intel.com>, "Yong Hu"<yong.hu@intel.com>, <linux-kernel@vger.kernel.org>, "=
+Guzebing"<guzebing@bytedance.com>
+> On Thu, Jul 23, 2026 at 08:05:56PM +0800, Fengnan Chang wrote:
+> > In high-IOPS scenarios, relying on interrupts to handle I/O operations
+> > can limit performance. This issue becomes particularly pronounced in
+> > multi-disk environments, where performance is constrained by the CPU=E2=
+=80=99s
+> > interrupt-handling capacity.
+> >=C2=A0
+> > Each Solidigm SB5PH27X038T device used for testing can deliver about 3.=
+2M
+> > 4 KiB random-read IOPS. =C2=A0Four devices therefore have about 12.8M I=
+OPS of
+> > aggregate capability, but interrupt-driven completion topped out at 7.8=
+1M
+> > IOPS, or about 61% of that capability.
+> >=C2=A0
+> > Add optional adaptive polling for busy interrupt-driven I/O queues. =C2=
+=A0After
+> > an interrupt drains the CQ, use the ring distance between last_sq_tail =
+and
+> > cq_head as an approximate host-side inflight count. =C2=A0If the count =
+reaches
+> > a per-controller high watermark, let the threaded handler keep draining
+> > completions instead of returning to interrupt-driven completion right a=
+way.
+> >=C2=A0
+> > The thread always checks for pending CQEs first. =C2=A0When the CQ is e=
+mpty, it
+> > compares the inflight count with a per-controller low watermark and sle=
+eps
+> > for a configurable interval before checking again. =C2=A0It returns to
+> > interrupt-driven completion after three consecutive empty-CQ checks bel=
+ow
+> > the low watermark or when the loop limit is reached.
+> >=C2=A0
+> > The mode is disabled by default. It can be enabled at module load time.
+> > The high and low watermarks, empty-CQ interval, and loop limit are
+> > available through sysfs. =C2=A0The defaults are 32 commands, 3 commands=
+,
+> > 30 us, and 1000 iterations.
+> >=C2=A0
+> > Tested with the default settings and 4 KiB random reads on four Solidig=
+m
+> > SB5PH27X038T devices. =C2=A0With adaptive polling off and on:
+> >=C2=A0
+> > =C2=A0 - t/io_uring, depth 1024 and four workers per device:
+> > =C2=A0 =C2=A0 7.810M and 12.780M aggregate IOPS (+63.64%).
+> > =C2=A0 - fio/libaio, iodepth 1024, numjobs 4 and completion batches of =
+32:
+> > =C2=A0 =C2=A0 7.699M and 12.785M aggregate IOPS (+66.05%).
+> >=C2=A0
+> > In a paired libaio and io_uring boundary sweep, QD8, QD16, QD32, and
+> > QD16/numjobs=3D4 changed by -0.15% to +0.48%. =C2=A0QD64 improved by 28=
+.61% to
+> > 59.75%.
+>=C2=A0
+> ...
+>=C2=A0
+> > +What: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/sys/clas=
+s/nvme/nvmeX/adaptive_poll_inflight_high
+> > +Date: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0July 2026
+>=C2=A0
+> Can't be July for v7.3. See crystal ball predictor for the dates (rc1 or =
+release).
 
-HEAD commit:    848acc8ffe1b Merge tag 'fsverity-for-linus' of git://git.k..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=12cb8bb9580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=145fa60d73086782
-dashboard link: https://syzkaller.appspot.com/bug?extid=2626e846cd2585c9aa67
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+Thank you for taking the time to review this patch. I=E2=80=99ve decided to=
+ abandon
+the approach in this patch, as it has unavoidable regression issues.
+The number of in-flight I/O operations does not guarantee that CQEs will be
+completed at a high frequency, nor does it indicate that using poll would b=
+e
+more efficient. Therefore, I=E2=80=99ve proposed an alternative approach:
+https://lore.kernel.org/linux-nvme/20260806031058.40176-1-changfengnan@byte=
+dance.com/T/#u
 
-Unfortunately, I don't have any reproducer for this issue yet.
+I=E2=80=99d greatly appreciate it if you could review the new approach.
 
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-848acc8f.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/6fb497cc0c8d/vmlinux-848acc8f.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/663ccee34982/bzImage-848acc8f.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+2626e846cd2585c9aa67@syzkaller.appspotmail.com
-
-==================================================================
-BUG: KASAN: slab-out-of-bounds in nvmet_install_queue+0x522/0x590 drivers/nvme/target/fabrics-cmd.c:189
-Read of size 8 at addr ffff888058219a70 by task kworker/u33:8/1166
-
-CPU: 1 UID: 0 PID: 1166 Comm: kworker/u33:8 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-Workqueue: nvmet-wq nvme_loop_execute_work
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- print_address_description mm/kasan/report.c:378 [inline]
- print_report+0x13d/0x4b0 mm/kasan/report.c:482
- kasan_report+0xdf/0x1c0 mm/kasan/report.c:595
- nvmet_install_queue+0x522/0x590 drivers/nvme/target/fabrics-cmd.c:189
- nvmet_execute_io_connect+0x294/0x490 drivers/nvme/target/fabrics-cmd.c:380
- process_one_work+0xa23/0x1940 kernel/workqueue.c:3322
- process_scheduled_works kernel/workqueue.c:3405 [inline]
- worker_thread+0x5ef/0xe50 kernel/workqueue.c:3486
- kthread+0x370/0x450 kernel/kthread.c:436
- ret_from_fork+0x72b/0xd50 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-
-Allocated by task 1174:
- kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
- kasan_save_track+0x14/0x30 mm/kasan/common.c:78
- poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
- __kasan_kmalloc+0xaa/0xb0 mm/kasan/common.c:415
- kasan_kmalloc include/linux/kasan.h:263 [inline]
- __do_kmalloc_node mm/slub.c:5334 [inline]
- __kmalloc_noprof+0x322/0x820 mm/slub.c:5359
- _kmalloc_noprof include/linux/slab.h:992 [inline]
- _kzalloc_noprof include/linux/slab.h:1309 [inline]
- nvmet_alloc_ctrl+0x9c2/0x1560 drivers/nvme/target/core.c:1655
- nvmet_execute_admin_connect+0x3c3/0x5b0 drivers/nvme/target/fabrics-cmd.c:317
- process_one_work+0xa23/0x1940 kernel/workqueue.c:3322
- process_scheduled_works kernel/workqueue.c:3405 [inline]
- worker_thread+0x5ef/0xe50 kernel/workqueue.c:3486
- kthread+0x370/0x450 kernel/kthread.c:436
- ret_from_fork+0x72b/0xd50 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
-The buggy address belongs to the object at ffff888058219a60
- which belongs to the cache kmalloc-16 of size 16
-The buggy address is located 0 bytes to the right of
- allocated 16-byte region [ffff888058219a60, ffff888058219a70)
-
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff888058219f80 pfn:0x58219
-flags: 0xfff00000000200(workingset|node=0|zone=1|lastcpupid=0x7ff)
-page_type: f5(slab)
-raw: 00fff00000000200 ffff88801bc42640 ffffea000169a050 ffffea00015fa390
-raw: ffff888058219f80 000000080080007f 00000000f5000000 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 0, migratetype Unmovable, gfp_mask 0xd2cc0(GFP_KERNEL|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 5739, tgid 5739 (syz-executor), ts 50610714726, free_ts 49976327990
- create_dummy_stack mm/page_owner.c:103 [inline]
- register_dummy_stack+0x74/0xb0 mm/page_owner.c:109
- init_page_owner+0x42/0xa10 mm/page_owner.c:127
- invoke_init_callbacks mm/page_ext.c:152 [inline]
- page_ext_init+0x71d/0x780 mm/page_ext.c:490
- mm_core_init+0x229/0x270 mm/mm_init.c:2748
-page last free pid 33 tgid 33 stack trace:
- reset_page_owner include/linux/page_owner.h:25 [inline]
- __free_pages_prepare mm/page_alloc.c:1406 [inline]
- __free_frozen_pages+0x79f/0x1090 mm/page_alloc.c:2950
- __pagetable_free include/linux/mm.h:3695 [inline]
- pagetable_free include/linux/mm.h:3719 [inline]
- pagetable_dtor_free include/linux/mm.h:3818 [inline]
- __tlb_remove_table include/asm-generic/tlb.h:221 [inline]
- __tlb_remove_table_free mm/mmu_gather.c:228 [inline]
- tlb_remove_table_rcu+0x2cf/0x380 mm/mmu_gather.c:291
- rcu_do_batch kernel/rcu/tree.c:2645 [inline]
- rcu_core+0x5a2/0x10d0 kernel/rcu/tree.c:2897
- handle_softirqs+0x1ea/0x9b0 kernel/softirq.c:622
- run_ksoftirqd kernel/softirq.c:1076 [inline]
- run_ksoftirqd+0x38/0x60 kernel/softirq.c:1068
- smpboot_thread_fn+0x3d3/0xaa0 kernel/smpboot.c:160
- kthread+0x370/0x450 kernel/kthread.c:436
- ret_from_fork+0x72b/0xd50 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
-Memory state around the buggy address:
- ffff888058219900: fa fb fc fc fa fb fc fc fa fb fc fc fa fb fc fc
- ffff888058219980: fa fb fc fc fa fb fc fc fa fb fc fc 00 02 fc fc
->ffff888058219a00: 00 00 fc fc fa fb fc fc fa fb fc fc 00 00 fc fc
-                                                             ^
- ffff888058219a80: fa fb fc fc fa fb fc fc fa fb fc fc 00 00 fc fc
- ffff888058219b00: 00 00 fc fc 00 00 fc fc 00 00 fc fc 00 00 fc fc
-==================================================================
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+>=C2=A0
+> > +KernelVersion: =C2=A0 =C2=A0 =C2=A0 =C2=A07.3
+>=C2=A0
+> ...
+>=C2=A0
+> > +static void nvme_adaptive_unmask_irq(struct nvme_queue *nvmeq, int irq=
+)
+> > +{
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0struct nvme_dev *dev =3D nvmeq->dev;
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0struct pci_dev *pdev =3D to_pci_dev(dev->d=
+ev);
+> > +
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0clear_bit(NVMEQ_ADAPTIVE_POLLING, &nvmeq->=
+flags);
+>=C2=A0
+>=C2=A0
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (pdev->msi_enabled) {
+>=C2=A0
+> Wondering if MSI-X also should be considered here.
+> With that in mind, can we use pci_dev_msi_enabled()?
+>=C2=A0
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0writel(BIT(nvm=
+eq->cq_vector), dev->bar + NVME_REG_INTMC);
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0readl(dev->bar=
+ + NVME_REG_INTMS);
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0} else {
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0enable_irq(irq=
+);
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+> > +}
+>=C2=A0
+> ...
+>=C2=A0
+> > +static ssize_t adaptive_poll_interval_us_store(struct device *dev,
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 struct device_attribute *attr,
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 const char *buf, size_t count)
+> > +{
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0struct nvme_dev *ndev =3D to_nvme_dev(dev_=
+get_drvdata(dev));
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int value;
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0int ret;
+> > +
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D kstrtouint(buf, 10, &value);
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ret)
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!value)
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -EINVAL=
+;
+>=C2=A0
+> ERANGE? EDOM?
+>=C2=A0
+> Ditto for other similar cases.
+>=C2=A0
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0WRITE_ONCE(ndev->adaptive_poll_interval_us=
+, value);
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0return count;
+> > +}
+>=C2=A0
+> --=C2=A0
+> With Best Regards,
+> Andy Shevchenko
+>=C2=A0
 
