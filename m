@@ -4,63 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 86096C5AD2B
-	for <linux-nvme@archiver.kernel.org>; Fri,  7 Aug 2026 23:09:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1CD9AC5AD2C
+	for <linux-nvme@archiver.kernel.org>; Sat,  8 Aug 2026 06:56:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=a1VCoVGitUDKbUIrUKYflD+xbqueMVkN7giTuNUkzBI=; b=QMWWxaJ4DWrI62eNf3YO0sL+z6
-	jb0itSykHPZjaPtxvGo+5xWYDAvr/k7lfwYwTFJR2MdNlDoLUV6kWIjXSApav0D3DEMambpS8N5HX
-	wqkyUK3e8UCFFuWKF8zKaoTrpGzFhVinvWtLvOLMbfjmoivuKU10uocC3lb33hEHFOcYrgTpjewK0
-	xp0jHCczsFx578ZQxhggtC1qnLFq3QcV02POY4/c2UqfnJkfTjI88emIq/QBCzJ4n9oSiLSbY+GRF
-	0HdHFGRhIXvPhUljga5VLwL6au/1jdM1yTUzNADX/25HjoxhW8ADq/og9NrDnquqn0XsRMmwjXKgE
-	0e504SBg==;
+	bh=ypOrDttMwRDVN4cZ8OF0F/KPJUSC5NDL+vN1YYTZczA=; b=U3x+lQkq013RamQ8EwPmrVHEXh
+	mPvi4JlYe0xaifPKqLYr9JjIzdLOV+wSdTFGh19fAwPrt651x4Mee1CHiwR8mWk+Rpmk2vv8ZnW+t
+	fwF+qKfSgLatFR1nCrXFiG+nHXlEPjZiNmUhHaocuhkFrQSm9mbAcANKGTT/9vjhaCL9XfahzCWTH
+	bUafP+Fy4M4LPApUQuiQ0hqjKQxuinI1UDvt9jYhrFxT9uo8ujpCCbTWQI/75V7DNLWntlfvdd625
+	7bsgLsuElG2EOt/wFEK/hL9Tu+Rh7pC9CPxhvC37JKDSTwyZK/tZuHuZ01R8TkVJmK4po9BjPr2fn
+	kgi27R0Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wsTga-00000008r8v-2rTa;
-	Fri, 07 Aug 2026 23:09:08 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1wsayY-000000096yr-33vi;
+	Sat, 08 Aug 2026 06:56:10 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wsTgY-00000008r8e-2J6s
+	id 1wsayW-000000096y3-2R0V
 	for linux-nvme@lists.infradead.org;
-	Fri, 07 Aug 2026 23:09:06 +0000
+	Sat, 08 Aug 2026 06:56:08 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 077286001A;
-	Fri,  7 Aug 2026 23:09:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5098B1F000E9;
-	Fri,  7 Aug 2026 23:09:05 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 0B8D16187B;
+	Sat,  8 Aug 2026 06:56:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18CD61F00A3A;
+	Sat,  8 Aug 2026 06:56:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786144145;
-	bh=a1VCoVGitUDKbUIrUKYflD+xbqueMVkN7giTuNUkzBI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=gjnJpbBhXIUxCc4ccVrr9YkzMjrrmnkYgtdimIuMcbkeF6kwyg6G5b5UBWhfgmq3A
-	 EL1M5pvzed9WlZBrOS37sEcdLZcxnn5BqOU9Cn08MLVotA90SUufkZSoZUn8ABThDi
-	 1mozyPAMUVDKopmFLZddaU9kl87xAPujDPdSXK1ztbKSkTGrXtNU4dj0YncUIKeniv
-	 6Z3t900yUU6wCQ8ct0URM2U07KaOQ9dUOSK4YIpl698jtDktvbYE9EfH0xqGG63rao
-	 aVtwvc+dSqMHNmym5d0Qn0FQxvN6mPDrJuSRDNBnHL7J6moN1iDDvl+g/eODsYG5e8
-	 ntuX6ttZ0rkew==
-Date: Fri, 7 Aug 2026 16:09:04 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Nilay Shroff <nilay@linux.ibm.com>
-Cc: Stanislav Fomichev <sdf.kernel@gmail.com>, kbusch@kernel.org,
- hch@lst.de, hare@suse.de, sagi@grimberg.me, chaitanyak@nvidia.com,
- gjoyce@linux.ibm.com, davem@davemloft.net, edumazet@google.com,
- pabeni@redhat.com, horms@kernel.org, linux-nvme@lists.infradead.org,
- netdev@vger.kernel.org
-Subject: Re: [RESEND PATCH v2 2/4] nvme-tcp: limit I/O queue count based on
- NIC queue count
-Message-ID: <20260807160904.2eb1b3d1@kernel.org>
-In-Reply-To: <4d8c8d92-d39b-4721-a405-f03f01fbb95b@linux.ibm.com>
-References: <20260731073918.614014-1-nilay@linux.ibm.com>
-	<20260731073918.614014-3-nilay@linux.ibm.com>
-	<amzPvMWfzetiirw0@devvm7509.cco0.facebook.com>
-	<4d8c8d92-d39b-4721-a405-f03f01fbb95b@linux.ibm.com>
+	s=k20260515; t=1786172167;
+	bh=ypOrDttMwRDVN4cZ8OF0F/KPJUSC5NDL+vN1YYTZczA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=OxWbENzL8/t9ROL4iAURrGZ19ZdvtDa7J7tgtYzrNKosOEPh9KbfUpFJM/M2fPOJZ
+	 axkqvX8FFnoEHZlUOoWPiDnJwoWU0Q0dMmsqO6Dskj+PBWH9KYgsx6KjCJZPzmN4cR
+	 e1bA/PK5/YXvX9eQQIivitm9Vcts2yFOlf4Khm8KzNQh/cRcOF8Fv3iB+a6YStKXnO
+	 UwgQakDrCWnGIDIhcFJvUrnYf362GDHjMwjzBWQViOlc462ac+57xLOx880AByRxL+
+	 ajERHf6oa0o+TNuO7ASE6l5kGFY4WbSx4N7GBoSbS0UGAAE0N72ZT3Ai2JHFZN0S9S
+	 yx5hVAiHVKVVA==
+From: Geliang Tang <geliang@kernel.org>
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	David Ahern <dsahern@kernel.org>,
+	Ido Schimmel <idosch@nvidia.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Hannes Reinecke <hare@suse.de>
+Cc: Geliang Tang <tanggeliang@kylinos.cn>,
+	linux-nvme@lists.infradead.org,
+	netdev@vger.kernel.org,
+	mptcp@lists.linux.dev
+Subject: [PATCH v2 1/3] ipv6: extract and export ip6_sock_set_tclass helpers
+Date: Sat,  8 Aug 2026 14:54:59 +0800
+Message-ID: <d06402e4fa9e1c879296dfb8ca5a73e34d4b13d2.1786171863.git.tanggeliang@kylinos.cn>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <cover.1786171863.git.tanggeliang@kylinos.cn>
+References: <cover.1786171863.git.tanggeliang@kylinos.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,44 +82,90 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, 1 Aug 2026 19:08:05 +0530 Nilay Shroff wrote:
-> > Looks like the userspace can already pass the preferred number of queues,
-> > so in this case, why not do all this netdev resolution and queue
-> > estimation in the userspace? Presumably most or the users you care
-> > about always go through nvme-cli, right?  
-> 
-> Yes, userspace can already specify the preferred number of I/O queues, and nvme-cli
-> provides an option to do so when creating an NVMe/TCP connection. However, choosing
-> an appropriate value requires userspace to know both the number of online CPUs and
-> the number of active TX/RX queues on the NIC used for the connection. Determining
-> the latter also requires identifying the correct netdevice. That may involve a route
-> lookup to determine the egress interface, particularly when the NVMe/TCP host and
-> target are not on the same subnet.
-> 
-> So while this could be implemented in nvme-cli, it would require userspace to duplicate
-> the logic needed to determine the actual netdevice and its current queue configuration.
-> The intent of this change is to make the default queue selection automatic and avoid
-> requiring users to determine and specify this topology manually.
+From: Geliang Tang <tanggeliang@kylinos.cn>
 
-In another message you said you add ntuple filters. So you _are_ doing
-what you describe here as a problem. User space will know something we
-don't know sooner or later, so you should just add the uAPI instead of
-guessing in the kernel. BTW the queue count is likely to change after
-all of user space boots, so if you run before whatever configures
-queues for the machine in userspace you'll be using wrong counts.
+IPV6_TCLASS handling in do_ipv6_setsockopt() inlines the same ECN mask
+logic and inet6_sk(sk)->tclass write that callers need when propagating
+a tclass value onto a newly created socket.
 
-> An explicitly specified "nr_io_queues" would still take precedence, so userspace can
-> override the default when desired.
-> 
-> Just for the note, this change also follows the general approach used by nvme-pci, where
-> the default number of I/O queues is constrained by both the number of possible CPUs and the
-> queue resources available from the controller.
+Pull this into small helpers __ip6_sock_set_tclass()/ip6_sock_set_tclass()
+exported via <net/ipv6.h>, so external modules can apply IPV6_TCLASS
+without duplicating the ECN handling.
 
-Not sure that maps well to networking. For TCP at least there will be 
-a protocol stack that runs between the device queues and your queues. 
-I guess that will depend on the network and the details of the
-benchmark. But again, better to let the user tune to their workload
-and machine.
+__ip6_sock_set_tclass() will be used by MPTCP's sockopt implementation
+(similar to __ip_sock_set_tos), while ip6_sock_set_tclass() will be used
+by nvme-tcp (similar to ip_sock_set_tos).
 
-Consider patch 1 nacked.
+Signed-off-by: Geliang Tang <tanggeliang@kylinos.cn>
+---
+ include/net/ipv6.h       |  3 +++
+ net/ipv6/ipv6_sockglue.c | 31 +++++++++++++++++++++++--------
+ 2 files changed, 26 insertions(+), 8 deletions(-)
+
+diff --git a/include/net/ipv6.h b/include/net/ipv6.h
+index 3de07e738538..82e57b34ba57 100644
+--- a/include/net/ipv6.h
++++ b/include/net/ipv6.h
+@@ -1252,6 +1252,9 @@ static inline void ip6_sock_set_recverr(struct sock *sk)
+ 	inet6_set_bit(RECVERR6, sk);
+ }
+ 
++void __ip6_sock_set_tclass(struct sock *sk, int val);
++void ip6_sock_set_tclass(struct sock *sk, int val);
++
+ #define IPV6_PREFER_SRC_MASK (IPV6_PREFER_SRC_TMP | IPV6_PREFER_SRC_PUBLIC | \
+ 			      IPV6_PREFER_SRC_COA)
+ 
+diff --git a/net/ipv6/ipv6_sockglue.c b/net/ipv6/ipv6_sockglue.c
+index b4c977434c2e..c59f25fbb336 100644
+--- a/net/ipv6/ipv6_sockglue.c
++++ b/net/ipv6/ipv6_sockglue.c
+@@ -373,6 +373,28 @@ static int ipv6_set_opt_hdr(struct sock *sk, int optname, sockptr_t optval,
+ 	return err;
+ }
+ 
++void __ip6_sock_set_tclass(struct sock *sk, int val)
++{
++	u8 old_tclass = inet6_sk(sk)->tclass;
++
++	if (sk->sk_type == SOCK_STREAM) {
++		val &= ~INET_ECN_MASK;
++		val |= old_tclass & INET_ECN_MASK;
++	}
++	if (old_tclass != val) {
++		WRITE_ONCE(inet6_sk(sk)->tclass, val);
++		sk_dst_reset(sk);
++	}
++}
++
++void ip6_sock_set_tclass(struct sock *sk, int val)
++{
++	sockopt_lock_sock(sk);
++	__ip6_sock_set_tclass(sk, val);
++	sockopt_release_sock(sk);
++}
++EXPORT_SYMBOL(ip6_sock_set_tclass);
++
+ int do_ipv6_setsockopt(struct sock *sk, int level, int optname,
+ 		       sockptr_t optval, unsigned int optlen)
+ {
+@@ -713,14 +735,7 @@ int do_ipv6_setsockopt(struct sock *sk, int level, int optname,
+ 		/* RFC 3542, 6.5: default traffic class of 0x0 */
+ 		if (val == -1)
+ 			val = 0;
+-		if (sk->sk_type == SOCK_STREAM) {
+-			val &= ~INET_ECN_MASK;
+-			val |= np->tclass & INET_ECN_MASK;
+-		}
+-		if (np->tclass != val) {
+-			np->tclass = val;
+-			sk_dst_reset(sk);
+-		}
++		__ip6_sock_set_tclass(sk, val);
+ 		retv = 0;
+ 		break;
+ 
+-- 
+2.53.0
+
 
