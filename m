@@ -4,108 +4,120 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DDFE5C55174
-	for <linux-nvme@archiver.kernel.org>; Sat,  8 Aug 2026 07:43:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B3F36C5AD2B
+	for <linux-nvme@archiver.kernel.org>; Sat,  8 Aug 2026 10:42:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=TtyMmNLD5kYHkR25F4J0okBlAhxZuviH4rvHbsosVac=; b=Btu7HXy06RhurmavqiiqHL/Fis
-	rheZowYSnjsqIOf7Pe1eFbuBBgVB1Gjn5kzyGkr4OKklrQYVA153OKmmjIT7u6I7yKboxr50fZrGe
-	Zj84vKkJMdrKJL1XcEFXQizDpGqicKmur2RfOPxEG7EtzLJwK3yn0ct4NiOT/1kwp3nrLbwmLjTEH
-	h9qMgw1F/B+moybkFg1aUhxPQhWoser9b7yL/5/izHdiOkJZtIg6VY2RWD96TjzWVB+Kd3rA0pCGo
-	UyQKFEWfZhHziA7qFffs5BQ+s1RVn4YWBLfI1wWCXFHHLcIztpXbo6BIV4ItGl87kajDvbCo7WpO7
-	kNXyhzMA==;
+	bh=AsU0xms9gnkMr5Lagcr6PJPecuNccEY9PFtYr+V61D8=; b=dO+s7pJnp/C3yq9g7lWo7EvuhF
+	AW12X9azs6e848+O/I+/eZ/8rM8/pTPbv6ETTVyoY5VQTJut490BVqecS+/mLeNExJoDADrwRSWPR
+	0GCSuKBQccIgQg7Oh4LYNGvTSKnkxhg7jXNDj2AruWOCpOpkvqCb7op+7KI37mxA97NzXv0nbfAMw
+	rBGesdWGoH24SI12d1S2rVIzQHdpqJIvDBgdXdU8R7yMsEDBqbb3nLCOlHNU042yCbfyRKESlyCT/
+	/dgBfb5YGXC/njkx3C1iHryE3goZ6DdDlvuPMuCF62a/ikn2l4knUfvyqW1uC/e2p0mCuFTzSp4Jw
+	7VFey+Nw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wsbhz-000000098Vm-3PEY;
-	Sat, 08 Aug 2026 07:43:07 +0000
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
+	id 1wseVZ-00000009HmT-2BZ9;
+	Sat, 08 Aug 2026 10:42:29 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wsbhw-000000098VR-46U2
+	id 1wseVX-00000009Hm5-17f7
 	for linux-nvme@lists.infradead.org;
-	Sat, 08 Aug 2026 07:43:06 +0000
-Received: by mail-pj1-x1035.google.com with SMTP id 98e67ed59e1d1-38759bcd877so267005a91.2
-        for <linux-nvme@lists.infradead.org>; Sat, 08 Aug 2026 00:43:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=furiosa.ai; s=google; t=1786174983; x=1786779783; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=TtyMmNLD5kYHkR25F4J0okBlAhxZuviH4rvHbsosVac=;
-        b=ETLEuUg1ghFezi2WuLeIQPNmoctmtiT0TMpqua9hQiD7+O/gAQc750Y9IZ2j4Kuli0
-         8BlqtUHAlqu+FjS/TR2RhyR02CORJqv+cwhEDTip8Hj9v3JTsgCzqitcgJsLdekuknCX
-         y87Ch3T0kBGNuLbiXPxNgalv82ToqZ+0RzbqA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786174983; x=1786779783;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=TtyMmNLD5kYHkR25F4J0okBlAhxZuviH4rvHbsosVac=;
-        b=cS1tGUU6EVwCPteA0QPrNMvVTq1b+a+MD+JiEhD9Is/CSmgv9s/7zfP4sjAgt6IRHD
-         6dkhKfrfl5Jqo0qrmL+Ih9nlnu6o0+5r6t/bZKVXtakE7e7iLmv8kobe6lZXM1/zpKOF
-         DgilM9VNYg8Py+MQQw1cABajB0Tg8s6PxrFRbYGdtaFex1aznxStKbEqWgb0fbGaJyfe
-         vDIDTSIVcwLi8Z55nkgTQZwgi2GqboYTWrJvLFx4w1oggHApIJ5ZGDMw1BysaVgTpRdi
-         OvLpo0VGxnU0VYZXihkuFlHughTWYtdBNNrx6btJUryeIscUaFTyYmu4yy7TZc5ol5jG
-         knZw==
-X-Forwarded-Encrypted: i=1; AHgh+RoxXbcewY0HjdXDEFNXgPb3oS/SXC4/dn78aXHmulGlE80NNWt66qzwkidhrTowm/Xq80UfmQOSgSOH@lists.infradead.org
-X-Gm-Message-State: AOJu0YxxbrLVhMZHZOlWrq1wzsWAAwUjIrnDRxvDNuyd2o1ZcFm3bMag
-	Bp8NdGVG9sRDDQpaFUSn5xQ1l/K84fdFuXVV26vx/M6YYE55Puk46S0kJ1rW7KAg2cU=
-X-Gm-Gg: AR+sD125rW3ff0ixoU7ZS9tLiR6RmlshMGYcuKrYG0mAdtg7qGnZv7LKtB8ICvn9bsJ
-	gvSLR0dD1XiiI1kydxHtsP52J18tbqCJTGKBXD2iqksBqYEE8Nsq/TOLReZACKXfGZK9obOeqyz
-	Wq+okHmKlbaWUjoju8r+TbBqLGhjop/IcnCT1wLv2wBYLpoblwojP4rXvrDfn6zirFcEuPfnd8T
-	wp7pG5I+Y2t7Yls0G0che9/ffRTmNA2QYOpwOuTBx0MM0sAASoI6ZGaRV9GmWgSOQGvCZZQTRkX
-	nYCax+ZtmbsQU7Sywgx5zFSmlV50rnwtB5VB+f+fIVFboad9Tgy+KDXlP0PAzic8xRyzgNRBCJq
-	PLSY6/sNqCMIhlpHD/QcWJ7QQxElRibR3pp1R7/HcdpNmaWc6X8t3RxxbyolKlU6hVJKqTWvpob
-	KrPHWRx+b9VIttvdP2Vmd+s04qfjqxX2/aY8+tQUm6UQilfM5pHUiSO7KjakbBL9fquFcEyN17K
-	E/3KfcZVRRgfg5PkWs=
-X-Received: by 2002:a17:90b:4f4c:b0:380:540:d499 with SMTP id 98e67ed59e1d1-3903c5381e3mr26493795a91.6.1786174983338;
-        Sat, 08 Aug 2026 00:43:03 -0700 (PDT)
-Received: from localhost.localdomain ([61.83.209.48])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39086164982sm7523449a91.16.2026.08.08.00.42.58
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 08 Aug 2026 00:43:02 -0700 (PDT)
-From: Sidong Yang <sidong.yang@furiosa.ai>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: Sidong Yang <sidong.yang@furiosa.ai>,
-	axboe@kernel.dk,
-	kbusch@kernel.org,
-	hch@lst.de,
-	sagi@grimberg.me,
-	linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org,
-	io-uring@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	akpm@linux-foundation.org,
-	sumit.semwal@linaro.org,
-	christian.koenig@amd.com,
-	nj.shetty@samsung.com,
-	joshi.k@samsung.com,
-	anuj20.g@samsung.com,
-	tushar.gohad@intel.com,
-	william.power@intel.com,
-	phil.cayton@intel.com,
-	jgg@nvidia.com
-Subject: Re: [PATCH v5 01/16] dma-buf: introduce initial file I/O infrastructure
-Date: Sat,  8 Aug 2026 16:42:27 +0900
-Message-ID: <20260808074245.85757-1-sidong.yang@furiosa.ai>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <ff5dccf71e8c03d62797352c4bb5fbb7c6c759c8.1785596451.git.asml.silence@gmail.com>
-References: <cover.1785596451.git.asml.silence@gmail.com> <ff5dccf71e8c03d62797352c4bb5fbb7c6c759c8.1785596451.git.asml.silence@gmail.com>
+	Sat, 08 Aug 2026 10:42:28 +0000
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 678AVb3P4065866;
+	Sat, 8 Aug 2026 10:42:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=AsU0xm
+	s9gnkMr5Lagcr6PJPecuNccEY9PFtYr+V61D8=; b=EyOZ+IlUpFH3LVSh6G+eO9
+	e/3LThA0LxWd5V1sKlWYes70UyZ/cIlH9+A9fVmRSQG7EXnw3scYFyNPJz+kpX+1
+	4Xj/QZKTKtLWoLbkDFLzMIEHd/dTO7lg4+PgP1C0L+d3txg1AfO2G1M948gjd9kz
+	m7jcgZx0LxpQu9GoORr/pr8W4ifeYAD+WDQtYX7waIY2ZVcl7F7yGaoICB+CS2D2
+	9LFnkgTLaBW+vEpa9iyqJsFvSgaJhlt/Kk/KBvBhkpS9jxTQ4pTTwHFlX0f5wqPv
+	v+F7zbqEU0FlYZFtSt0imTL5F/DKmzsQR6cUfSoas4mZHCO9b/hfDZUQezaT5piA
+	==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fwvp2gup7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 08 Aug 2026 10:42:11 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 678AfL3I023162;
+	Sat, 8 Aug 2026 10:42:10 GMT
+Received: from smtprelay02.dal12v.mail.ibm.com ([172.16.1.4])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4fswbgu2g5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 08 Aug 2026 10:42:10 +0000 (GMT)
+Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
+	by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 678AgA4f17040044
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sat, 8 Aug 2026 10:42:10 GMT
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0CE8958058;
+	Sat,  8 Aug 2026 10:42:10 +0000 (GMT)
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3F19A58057;
+	Sat,  8 Aug 2026 10:42:05 +0000 (GMT)
+Received: from [9.43.73.254] (unknown [9.43.73.254])
+	by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Sat,  8 Aug 2026 10:42:04 +0000 (GMT)
+Message-ID: <0854be23-b0f1-4e4a-849e-fb063568a2b8@linux.ibm.com>
+Date: Sat, 8 Aug 2026 16:12:03 +0530
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RESEND PATCH v2 2/4] nvme-tcp: limit I/O queue count based on
+ NIC queue count
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Stanislav Fomichev <sdf.kernel@gmail.com>, kbusch@kernel.org, hch@lst.de,
+        hare@suse.de, sagi@grimberg.me, chaitanyak@nvidia.com,
+        gjoyce@linux.ibm.com, davem@davemloft.net, edumazet@google.com,
+        pabeni@redhat.com, horms@kernel.org, linux-nvme@lists.infradead.org,
+        netdev@vger.kernel.org
+References: <20260731073918.614014-1-nilay@linux.ibm.com>
+ <20260731073918.614014-3-nilay@linux.ibm.com>
+ <amzPvMWfzetiirw0@devvm7509.cco0.facebook.com>
+ <4d8c8d92-d39b-4721-a405-f03f01fbb95b@linux.ibm.com>
+ <20260807160904.2eb1b3d1@kernel.org>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <20260807160904.2eb1b3d1@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=AMtp2X5w c=1 sm=1 tr=0 ts=6a770803 cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=lCtdQaFTb8nA7LsVnqEA:9
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: _sF-0WFtf3DQxSYcwT38Ru9-b0G7G99A
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA4MDA4OCBTYWx0ZWRfX29VtNruy/AA6
+ qGtDw1iXeLQNbCiWt+DZIwQRn5erEL9P9o18MaANKuQEfmirCuJnxKaFXFwIsqoG466pJLKhiuz
+ unVW6oJ9HxZ7Y/c4MB7i3jbCzMIukk7TxMnuH3MqJpuazZUMPYlhF4JRAzvVkkwG6aRH3lJjl4n
+ w+0k0AztZTZaR/RZ4dVCjiDxcryy/WNpEaPm63TPFGyo17yhGvbxGK8ZICyc48uakqzpIdLPuox
+ afQEjpz13kDFWOi5Rgjxgkvet7oXecKMvtWFKz6GWQdO3BlwepbRO+63avVRPrP/6Ma0rp1iVLs
+ CqYdsrdezYPDQD1kLir6PQq0mZA+uz5/0PD3rDVfFU2BgnDHQBqfSdwu9Dumvh0zviLI8OczzhK
+ rt7FPOhCQcm8oTbht7lwTZDnxqD0Voz0OZwmqwyAF1JgfWe9bP4iDB7d0GLHa2l0E/p0yxbWfU+
+ 0T1oJxnpAiR+2+Ie98A==
+X-Proofpoint-ORIG-GUID: wHGT-tI6ZL2b7vm3lXmXFR8mYGI-VII_
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODA4MDA4OCBTYWx0ZWRfX4EBKXQhdO+Vr
+ MAPtCEn5+V9VhbB1sBMWxlruwX6gA5WBkpPLvmE7vkF0sL3ASkNZgLQyT+dujxOilCbC42nRApD
+ uli2yu8aAJEK76vCzWq+9N4UhiQyZsw=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-08_04,2026-08-07_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 adultscore=0 lowpriorityscore=0 clxscore=1015
+ priorityscore=1501 impostorscore=0 phishscore=0 spamscore=0 bulkscore=0
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2608080088
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260808_004305_033262_1379E84B 
-X-CRM114-Status: UNSURE (   7.14  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260808_034227_437634_1DD95B86 
+X-CRM114-Status: GOOD (  27.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -120,16 +132,61 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 8/1/26 16:46, Pavel Begunkov wrote:
-> +	if (dma_resv_wait_timeout(dmabuf->resv, DMA_RESV_USAGE_KERNEL,
-> +				  true, 0) < 0) {
-> +		dma_resv_unlock(dmabuf->resv);
-> +		goto retry;
-> +	}
+On 8/8/26 4:39 AM, Jakub Kicinski wrote:
+> On Sat, 1 Aug 2026 19:08:05 +0530 Nilay Shroff wrote:
+>>> Looks like the userspace can already pass the preferred number of queues,
+>>> so in this case, why not do all this netdev resolution and queue
+>>> estimation in the userspace? Presumably most or the users you care
+>>> about always go through nvme-cli, right?
+>>
+>> Yes, userspace can already specify the preferred number of I/O queues, and nvme-cli
+>> provides an option to do so when creating an NVMe/TCP connection. However, choosing
+>> an appropriate value requires userspace to know both the number of online CPUs and
+>> the number of active TX/RX queues on the NIC used for the connection. Determining
+>> the latter also requires identifying the correct netdevice. That may involve a route
+>> lookup to determine the egress interface, particularly when the NVMe/TCP host and
+>> target are not on the same subnet.
+>>
+>> So while this could be implemented in nvme-cli, it would require userspace to duplicate
+>> the logic needed to determine the actual netdevice and its current queue configuration.
+>> The intent of this change is to make the default queue selection automatic and avoid
+>> requiring users to determine and specify this topology manually.
+> 
+> In another message you said you add ntuple filters. So you _are_ doing
+> what you describe here as a problem. User space will know something we
+> don't know sooner or later, so you should just add the uAPI instead of
+> guessing in the kernel. BTW the queue count is likely to change after
+> all of user space boots, so if you run before whatever configures
+> queues for the machine in userspace you'll be using wrong counts.
+> 
+Well, that ntuple filter configuration was done looking at the debugfs
+output which is produced in patch 4/4. The debugfs generates the
+enough information including queue count and per queue flow information
+which is then programmed into ntuple filter.
 
-Shouldn't this be <= 0? With a zero timeout dma_resv_wait_timeout()
-returns 0 for a still pending fence; only -ERESTARTSYS is negative.
+>> An explicitly specified "nr_io_queues" would still take precedence, so userspace can
+>> override the default when desired.
+>>
+>> Just for the note, this change also follows the general approach used by nvme-pci, where
+>> the default number of I/O queues is constrained by both the number of possible CPUs and the
+>> queue resources available from the controller.
+> 
+> Not sure that maps well to networking. For TCP at least there will be
+> a protocol stack that runs between the device queues and your queues.
+> I guess that will depend on the network and the details of the
+> benchmark. But again, better to let the user tune to their workload
+> and machine.
+> 
+> Consider patch 1 nacked.
+
+My motivation here was to improve the default behavior for the common case
+where nr_io_queues is not explicitly specified. So if the preference is to
+keep this in userspace, would you be open to exposing the required information
+through a kernel interface (if something is still missing) and implementing
+the queue selection logic in nvme-cli instead? That would still allow us to
+automate the default queue selection without embedding this change in the kernel.
 
 Thanks,
-Sidong
+--Nilay
+
 
