@@ -4,111 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8B6B7C5AD4E
-	for <linux-nvme@archiver.kernel.org>; Sun,  9 Aug 2026 10:09:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 33201C5AD4E
+	for <linux-nvme@archiver.kernel.org>; Sun,  9 Aug 2026 17:36:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lWnNaFayhn3wE4L0m1Hw4a6/ZNOJzasM9erMdCrpD64=; b=nk1tnhUjA8XwwukzTDhk91JpY8
-	+Lnx1WAbojjosLcGoKBx4E88UzjqQE9xlgZVW4dK80XH2HXZDXpf2FETx+xeKEcnjK5w2SQyG5hug
-	NKQJ++HKKKhEZhiCJwPvygotwEMdyBrJsnAys83Phv1YnmxwIWPf2akPQgqmQdV/+Qo+0orCPvxSd
-	40G3i9H0OPr1NsKDHYLLbD//X+qkTqkc/dkBU1J62ZGSKnH6H+3LNuhbRUvI3lt1uB8UU1RK+Omnx
-	MXDNWps8/oWiKoG+9FNw2Ll0EuhUKJcb5MlTd5QuH840nn0xpl0ZeI7dIEt49rC5y2rBN3mUtRyzr
-	GZPrNSUA==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=2sYIrGP5hWBgTk9DPQ8uogsuV+ibpJpd2VlMxFMmIFw=; b=AYu7fXDCqF2K8IySQg/ZLU7sE7
+	Fj+4Nt1A0M3Xb5NvDHbRyEuY4MyTi1atgGsdgLW1DcT1dwdAA39/BFB9s+EFxzOfnIhlQg11IbjJ2
+	VCkbgjuv3/gIvMF0QhTJgo4wai9wfadO5KJdwABQ+UzqyOv7CHmiOidv4pyVI0ihx7tnRfP+BQQF0
+	ODBPNSUK4HFahylOGTxpIUujVw5XSwuxSu4Q87zUBqbht1OzU9Z16iVPCypgTfwjM0W9QXqg2Qe6I
+	/oOPNsIah3AgR8PAFTP77oVGIi63AVqDewLbosmhCismnnyxT1B/DYWatdLI5B7ldLdzNX+OlXaJm
+	vBvUiNag==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wt0TD-0000000AB2r-1kGe;
-	Sun, 09 Aug 2026 10:09:31 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1wt7RF-0000000AY1T-3cR4;
+	Sun, 09 Aug 2026 17:35:57 +0000
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wt0T8-0000000AAwR-1OgE
+	id 1wt7RD-0000000AY0o-2BRo
 	for linux-nvme@lists.infradead.org;
-	Sun, 09 Aug 2026 10:09:30 +0000
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67992w9O2445748;
-	Sun, 9 Aug 2026 10:09:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=lWnNaFayhn3wE4L0m
-	1Hw4a6/ZNOJzasM9erMdCrpD64=; b=tkmL7azrdQrfEIBxuVcisPj5ZXBBlNr69
-	ACcmMlYaGO9/cwSECAdieIJ0faAJ7yscgNx4t1KVHAmTXh3Lbcz/eGyhfCg2UnGK
-	ssWQCP5/okP66NiMyDa6jf8dGqD6CrtL3amOvA7PTcDkd5HWL2YiLkBhiBnhWo6W
-	gxKkJj5HRNBGg8xkVPrCvoenarDhDXKgeyYcNiKqJ/5qsS8kAydkQHoiPD659Axm
-	8zVoR9loRWeZwrmrK4OQ30x44P1e0An3ufNKDWXPSvv2LM3Opg4Ij6bD/BOFyGD0
-	HLqnfUrhVPg4qswBLDVpyw+bVCrbb7s5SBGl6fvMPU68kQL/4CXdg==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fwvkckmm2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 09 Aug 2026 10:09:20 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 6799uKjG030242;
-	Sun, 9 Aug 2026 10:09:19 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4fxf5vs47m-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 09 Aug 2026 10:09:19 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 679A9Fl437683510
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sun, 9 Aug 2026 10:09:15 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C302820043;
-	Sun,  9 Aug 2026 10:09:15 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C729A20040;
-	Sun,  9 Aug 2026 10:09:12 +0000 (GMT)
-Received: from li-a84c74cc-2b13-11b2-a85c-acdd023f0674.ibm.com.com (unknown [9.43.73.213])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Sun,  9 Aug 2026 10:09:12 +0000 (GMT)
-From: Nilay Shroff <nilay@linux.ibm.com>
+	Sun, 09 Aug 2026 17:35:56 +0000
+Received: by mail-pj1-x102d.google.com with SMTP id 98e67ed59e1d1-383cb94f742so1080879a91.3
+        for <linux-nvme@lists.infradead.org>; Sun, 09 Aug 2026 10:35:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786296954; x=1786901754; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=2sYIrGP5hWBgTk9DPQ8uogsuV+ibpJpd2VlMxFMmIFw=;
+        b=SU8mpUxcz50YRAoQBzX2a0bqu7Az1YHn2PW6bMZxxeHvvFqMgJaOXCFmXMZHkoNeL6
+         LgF8CU8Ba2jUVgfdDpk/ON9dQF4MHEs2XeJ05fQmXdaj1PvgVm7d1/kFGjePlJryS2mO
+         B3yNJvSNqHKuYvAZ3Y7T9B0hFP4ylC+iKSjjLKCw9X2RKsxsMeXCVS14KuOCwnMGSLIv
+         hrwrvdXj+rSwrFMNkiQLCNNrJwBMC0VV3jW3FOFz3YNsVbRQ9+wXkWfob12wlIyZqZP7
+         UL1iPA0o2aZ8shKOg6R9qfaFjGQvHqux8epNY+fQZSNIyXD7v9Le9yGa8UQ6N8bZh3sX
+         vnzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786296954; x=1786901754;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=2sYIrGP5hWBgTk9DPQ8uogsuV+ibpJpd2VlMxFMmIFw=;
+        b=LbpyvDFpqOOY9EZSGfhzxo8PKFaL9b0HIlFliZSnq79b/WRBRB5da3nJkhAoPRHjB5
+         FLdCQucDOPWMellg/dhQnEj+3xs+HaNLpZI3nIE13n7+QFuo/aSlLTpzOCPZx4hlRrTY
+         D4yCCi0IhdbG5EH5Ml8p9txFxndU1/kAM2Wet0/2kUZupYlNHm0EY5cRxATJ7S0UtO+F
+         7MpXrM74tQ/H9gMI1SujqDPFqfleaQXfLvVyDH2UApqxkojxNuggFSZF6FSLrLxl24Lb
+         1ZYZusiVzNZy3nfanC/w0WJO7nYZo+6E6Ry32v3AbeHPOcR2JFOXDF10bHcMIab2OQvz
+         CD7A==
+X-Gm-Message-State: AOJu0YxqVuVYE4GGMzWO8cfbUx5SMz8lP9y+3bBQLSR5eXXQwhQygIh+
+	uDgEW7AwpNriU+es+wAXSykRkH8fS+xuvThHphUlLrvmz7Rb8lF1JdUBHcxl8A==
+X-Gm-Gg: AR+sD11vxHFwWUVPhvVFs/Qrm2Q5TkDyaZOULFopQvexmPMcXkoWHxELbCxEhnW53Gh
+	l0aS2XJlg0AtsxvSW4aPL8v30yKYZCOMiRhHQpQzAYYboGefVPGWg4tMb8IuLemDK8QSdMh3BE+
+	6Tie3QEcsxsVJ++/Mck1lIHw8i3XVrkcfyYoHzHVP1CHumHGTajucihOd6z2nFfgCVuBibdRXjK
+	i/bnIYdRlLaECGzweDStL8dPJXVFFFklNFT6CQRUueLs6XR/x56NZ5BBkWdsEM9Kzv1wvTqKkR7
+	l19uRTQe43Mm3HlSUfLpUFzpCZd6cSX19HLom86K0+tmMSltXHdwNNuh+QhmQCnrkJAQoIDGpfy
+	78fiK3azvyPaRZIc9whi9Wv2FVTKGa+tucl+LMNQ9rVw4wn+SF+72AzTPS4m2y6bXVU7UsTI2an
+	60ivjTJTbNGMZtgpEu17xs/USgVrB8t7/atDQZCjWNehz9V2Jvb1niVDsRlhEeZsKhPBc7Edtl0
+	WwhUV3J+/FY
+X-Received: by 2002:a17:90b:1d4f:b0:38f:7f60:ba35 with SMTP id 98e67ed59e1d1-3903c5381d6mr36290230a91.5.1786296954274;
+        Sun, 09 Aug 2026 10:35:54 -0700 (PDT)
+Received: from tokunori-X570-Taichi ([240b:10:2720:5500:9610:4dcf:a256:479e])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3925fc6dab4sm9384112a91.3.2026.08.09.10.35.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 09 Aug 2026 10:35:53 -0700 (PDT)
+From: Tokunori Ikegami <ikegami.t@gmail.com>
 To: linux-nvme@lists.infradead.org
-Cc: hare@suse.de, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
-        dwagner@suse.de, kanie@linux.alibaba.com, jmeneghi@redhat.com,
-        randyj@purestorage.com, martin.petersen@oracle.com,
-        john.g.garry@oracle.com, gjoyce@linux.ibm.com,
-        Nilay Shroff <nilay@linux.ibm.com>
-Subject: [PATCH v7 9/9] nvme-multipath: add documentation for latency I/O policy
-Date: Sun,  9 Aug 2026 15:38:04 +0530
-Message-ID: <20260809100825.2014133-10-nilay@linux.ibm.com>
+Cc: Tokunori Ikegami <ikegami.t@gmail.com>
+Subject: [PATCH] nvme: add crd value to output error log
+Date: Mon, 10 Aug 2026 02:34:45 +0900
+Message-ID: <20260809173545.54749-1-ikegami.t@gmail.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260809100825.2014133-1-nilay@linux.ibm.com>
-References: <20260809100825.2014133-1-nilay@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-GUID: Lcm-k2kYRuATzgUoKjVDqYqLEqcLVHNo
-X-Authority-Analysis: v=2.4 cv=J86aKgnS c=1 sm=1 tr=0 ts=6a7851d1 cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
- a=V8glGbnc2Ofi9Qvn3v5h:22 a=SRrdq9N9AAAA:8 a=VnNF1IyMAAAA:8
- a=5c6VxMoH-_C0Ghh2t7EA:9
-X-Proofpoint-ORIG-GUID: 7h_j7NqabeqxugU0UMzotphPZHmv2Uu4
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA5MDA4OCBTYWx0ZWRfX8RbNj7PCRkDw
- Yoqq2g43dXxs/SDVkxniOd/PpScooY00zjfJY7kMf2Mw2ptDtLMJzCWo36FoSQNru6wxJHvseO2
- z/Lj515cWLoVUVkMxrwPtPw7jX84zNeqcZlxyv5G+UESATa92T4xpf4MvtMeXPxku688QVcjMw1
- 9RLUFI5IOM1ngBnk4pwMK1sItaPLpcIFnHCscUKUOPG/IOpwW9kBq7rAo6Kbmrag3kwEEDCHUW/
- /yGF9F1f0sog9ZGE7byUaGMIjsx5ztDvNWEbGIGc6/AuTUye57RHKYhndKVEXsQuv9EKKWaar2h
- TsWOR5s6vOYZswcxC7WkHn4GohzYEfB97mE/vn/nIZM1D0zpG/EbImsiv2ZE2/ECVZQZe/boPVR
- YxTrC80wWoGKJ9ibWW2F++wQ5OR1W3Ptek3DuCh0U6Szun5mrVFwfaD8bEcWiwa94RcpsJucMAt
- nkGM029SHpdURGPN5tQ==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODA5MDA4OCBTYWx0ZWRfX5OhB95yh5uod
- u9HxIfeJBU/fA63GPsu6Br0tJGvzJpfUv2jzD5s/NGQlVBwwPnCE0sX0V0abgLnNzx19FQrhS5I
- MP9AqR69lATAot2GX+yU/riAsMrfIDo=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-09_03,2026-08-07_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 priorityscore=1501 suspectscore=0 malwarescore=0 adultscore=0
- phishscore=0 impostorscore=0 lowpriorityscore=0 bulkscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608090088
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260809_030926_504384_5172DD7C 
-X-CRM114-Status: GOOD (  12.55  )
+X-CRM114-CacheID: sfid-20260809_103555_561207_357639E4 
+X-CRM114-Status: GOOD (  12.46  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -123,42 +94,90 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Update the nvme-multipath documentation to describe the latency I/O
-policy, its behavior, and when it is suitable for use.
+Also add NVME_CRD to get the status CRD value.
 
-Suggested-by: Guixin Liu <kanie@linux.alibaba.com>
-Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+Signed-off-by: Tokunori Ikegami <ikegami.t@gmail.com>
 ---
- Documentation/admin-guide/nvme-multipath.rst | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ drivers/nvme/host/core.c | 15 +++++++++------
+ include/linux/nvme.h     |  1 +
+ 2 files changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/admin-guide/nvme-multipath.rst b/Documentation/admin-guide/nvme-multipath.rst
-index 97ca1ccef459..41a8054638ff 100644
---- a/Documentation/admin-guide/nvme-multipath.rst
-+++ b/Documentation/admin-guide/nvme-multipath.rst
-@@ -70,3 +70,22 @@ When to use the queue-depth policy:
-   1. High load with small I/Os: Effectively balances load across paths when
-      the load is high, and I/O operations consist of small, relatively
-      fixed-sized requests.
-+
-+Latency
-+--------
-+
-+The latency policy manages I/O requests based on path latency. It periodically
-+calculates a weight for each path and distributes I/O accordingly. Paths with
-+higher latency receive lower weights, resulting in fewer I/O requests being sent
-+to them, while paths with lower latency handle a proportionally larger share of
-+the I/O load.
-+
-+When to use the latency policy
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+1. Homogeneous Path Performance: Utilizes all available paths efficiently when
-+   their performance characteristics (e.g., latency, bandwidth) are similar.
-+
-+2. Heterogeneous Path Performance: Dynamically distributes I/O based on per-path
-+   performance characteristics. Paths with lower latency receive a higher share
-+   of I/O compared to those with higher latency.
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 453c1f0b2dd0..0178de333ceb 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -326,7 +326,7 @@ static void nvme_retry_req(struct request *req)
+ 	struct nvme_ns *ns = req->q->queuedata;
+ 
+ 	/* The mask and shift result must be <= 3 */
+-	crd = (nvme_req(req)->status & NVME_STATUS_CRD) >> 11;
++	crd = NVME_CRD(nvme_req(req)->status);
+ 	if (crd)
+ 		delay = nvme_req(req)->ctrl->crdt[crd - 1] * 100;
+ 
+@@ -344,7 +344,7 @@ static void nvme_log_error(struct request *req)
+ 	struct nvme_request *nr = nvme_req(req);
+ 
+ 	if (ns) {
+-		pr_err_ratelimited("%s: %s(0x%x) @ LBA %llu, %u blocks, %s (sct 0x%x / sc 0x%x) %s%s\n",
++		pr_err_ratelimited("%s: %s(0x%x) @ LBA %llu, %u blocks, %s (sct 0x%x / sc 0x%x) %s%scrd=%u\n",
+ 		       ns->disk ? ns->disk->disk_name : "?",
+ 		       nvme_get_opcode_str(nr->cmd->common.opcode),
+ 		       nr->cmd->common.opcode,
+@@ -354,11 +354,12 @@ static void nvme_log_error(struct request *req)
+ 		       NVME_SCT(nr->status),		/* Status Code Type */
+ 		       nr->status & NVME_SC_MASK,	/* Status Code */
+ 		       nr->status & NVME_STATUS_MORE ? "MORE " : "",
+-		       nr->status & NVME_STATUS_DNR  ? "DNR "  : "");
++		       nr->status & NVME_STATUS_DNR  ? "DNR "  : "",
++		       NVME_CRD(nr->status));
+ 		return;
+ 	}
+ 
+-	pr_err_ratelimited("%s: %s(0x%x), %s (sct 0x%x / sc 0x%x) %s%s\n",
++	pr_err_ratelimited("%s: %s(0x%x), %s (sct 0x%x / sc 0x%x) %s%scrd=%u\n",
+ 			   dev_name(nr->ctrl->device),
+ 			   nvme_get_admin_opcode_str(nr->cmd->common.opcode),
+ 			   nr->cmd->common.opcode,
+@@ -366,7 +367,8 @@ static void nvme_log_error(struct request *req)
+ 			   NVME_SCT(nr->status),	/* Status Code Type */
+ 			   nr->status & NVME_SC_MASK,	/* Status Code */
+ 			   nr->status & NVME_STATUS_MORE ? "MORE " : "",
+-			   nr->status & NVME_STATUS_DNR  ? "DNR "  : "");
++			   nr->status & NVME_STATUS_DNR  ? "DNR "  : "",
++			   NVME_CRD(nr->status));
+ }
+ 
+ static void nvme_log_err_passthru(struct request *req)
+@@ -374,7 +376,7 @@ static void nvme_log_err_passthru(struct request *req)
+ 	struct nvme_ns *ns = req->q->queuedata;
+ 	struct nvme_request *nr = nvme_req(req);
+ 
+-	pr_err_ratelimited("%s: %s(0x%x), %s (sct 0x%x / sc 0x%x) %s%s"
++	pr_err_ratelimited("%s: %s(0x%x), %s (sct 0x%x / sc 0x%x) %s%scrd=%u "
+ 		"cdw10=0x%x cdw11=0x%x cdw12=0x%x cdw13=0x%x cdw14=0x%x cdw15=0x%x\n",
+ 		ns ? ns->disk->disk_name : dev_name(nr->ctrl->device),
+ 		ns ? nvme_get_opcode_str(nr->cmd->common.opcode) :
+@@ -385,6 +387,7 @@ static void nvme_log_err_passthru(struct request *req)
+ 		nr->status & NVME_SC_MASK,	/* Status Code */
+ 		nr->status & NVME_STATUS_MORE ? "MORE " : "",
+ 		nr->status & NVME_STATUS_DNR  ? "DNR "  : "",
++		NVME_CRD(nr->status),
+ 		le32_to_cpu(nr->cmd->common.cdw10),
+ 		le32_to_cpu(nr->cmd->common.cdw11),
+ 		le32_to_cpu(nr->cmd->common.cdw12),
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 041f30931a90..56b27c3ba909 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -2248,6 +2248,7 @@ enum {
+ };
+ 
+ #define NVME_SCT(status) ((status) >> 8 & 7)
++#define NVME_CRD(status) (((status) & NVME_STATUS_CRD) >> 11)
+ 
+ struct nvme_completion {
+ 	/*
 -- 
 2.53.0
 
