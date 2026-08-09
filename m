@@ -4,65 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8F31DC5AD4E
-	for <linux-nvme@archiver.kernel.org>; Sun,  9 Aug 2026 10:09:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DE943C5AD55
+	for <linux-nvme@archiver.kernel.org>; Sun,  9 Aug 2026 10:09:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rXbluvkMmqQ0sY+i4QYG1XV68XNczpFUBKTsvAJatTQ=; b=ynnwpuLi9hEOOWRuyqQ511dx2t
-	NQTRvwQmb85794VGrBVZD6mBY4pUOh7vc4KjPAOcz9PHgO6brhZaeOPfQJLlQtFw6t5yn0c1XJA/R
-	hDTZCz317M1VBLqENRhB4KRF2Ui8ceoQeIPg191IKiHAXxESVt6Teh3GuZY+t8FucofIuEYsPdJYB
-	Pxcw3Ubw2UWjaMfeXth0vCiP0wYF0TRSIxsrJGeFKXH5agHqmRMfrqdietFOgJJ5M+uOrFUOS504K
-	Cucf2GE1mK52HAn7s8/A4Lm8LZf9g+d6DCyRoSA4RBYRg2eoO+WXtnICC8fcdWl1O4TQgLbLxJRsW
-	eSV7BgOQ==;
+	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=KbfMjaQMIIgvb43xAKf83Eh2j1CGR8fIcW/TSD350Sg=; b=TkRyRRNC90eMLtiesT5LeUgOib
+	36AL3sW57o5597rMA2XeMiQyZhQjrroxXwHhjqfqbpWPwXzbDRzKO+zyCeuTVwEAXvlym/iZoOxnR
+	narNOXoYCov6/iCqB5oSaGTSQ3ZlNBMo+wniJ+YCxKjbE8E8mWGAABF6GJv3/jmW0lPdGFMR8t1Br
+	yJ6YWbsr75Ek0cle5VWeVxbBukJxJr24E/vnkqjF79sK8m9Cf/yZ2RPfQSARkZx2rqEGUja13oN0a
+	ZFWNMGLEJ8c1UBtrSDyZkzsRJliL9oj3km7/Jgjz+weIBIjKI479ThbPj/d0m25jXwdcynMzkKxT6
+	VVf15n7w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wt0Sk-0000000AAdy-47k8;
-	Sun, 09 Aug 2026 10:09:02 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1wt0Sp-0000000AAg5-14UV;
+	Sun, 09 Aug 2026 10:09:07 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wt0Sj-0000000AAd3-07IC
+	id 1wt0Sm-0000000AAeC-0WYi
 	for linux-nvme@lists.infradead.org;
-	Sun, 09 Aug 2026 10:09:02 +0000
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67992Bed2445086;
-	Sun, 9 Aug 2026 10:08:57 GMT
+	Sun, 09 Aug 2026 10:09:05 +0000
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67991ppp2526790;
+	Sun, 9 Aug 2026 10:08:45 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=rXbluvkMmqQ0sY+i4
-	QYG1XV68XNczpFUBKTsvAJatTQ=; b=FwtEJcE656OEwwyjss+By3b+jBS9lhE2j
-	4KrbUZe5d96ZnC+HZxDxbcR+bQB96Fr8seOm+3xQdiofc6jQreSzr1m43j8TElZ8
-	95nI/1EPm2oIEsXIZjyl7sl9683XcZhQ5BL9fKYqoni9I3gpvWOVID4Pt1HnVu8G
-	WW68xTwDju0frLBZYGst21pCwZ6+g+/3NV2dqweP+2QvFMWWSd7o5z2AR6JzJ/20
-	tVOTnbHaKyF2HlHNHSQjkXrFHjlHn6u2dVI4lQQHmwATldCcdRRuclX756NjDlxQ
-	NweFcT8/rF9UmFil4ACODGOLL8V82bYXgWZ6TUVColQ/GWWnLbJyg==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fwvkckmk6-1
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=pp1; bh=KbfMjaQMIIgvb43xAKf83Eh2j1CG
+	R8fIcW/TSD350Sg=; b=UhY+WIk4l/TRwj26Xa1XTfqfI3gpz2dIFrJG8KNd0utN
+	EvFR/ZBRkUh9qLkWmwJ8zxMpwIxCv+Iky93ZhLWDS0iLx2872JqTVku+cqSWcFgE
+	/8cT2/kw7REM0kzniI45BUSBACQr/kohisD540MY2YiQWAHDo0e8MeGY+7AQVAOz
+	XS35U6l0PPkhUYS+pZ7TciCuKRISfPZaodPed/LHIeIyAjAC2DUCZHlKBmw0QTMj
+	XWbsm1Lij+ii0pCE4GmHB37pQcmGR6WM1XSqXMwP9U3SpI2FUIcZkhkHC/LU2M5N
+	skEG0KmDsCcELZuifdbASWxQNTO4nrl8VcWPqSx7Ww==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fwvq93vnu-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 09 Aug 2026 10:08:57 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 6799uGmK003668;
-	Sun, 9 Aug 2026 10:08:56 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4fxg9grxwk-1
+	Sun, 09 Aug 2026 10:08:44 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 6799uIbG010891;
+	Sun, 9 Aug 2026 10:08:43 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4fxh0g0v0g-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 09 Aug 2026 10:08:56 +0000 (GMT)
+	Sun, 09 Aug 2026 10:08:43 +0000 (GMT)
 Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 679A8q6829229540
+	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 679A8eff36831618
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sun, 9 Aug 2026 10:08:52 GMT
+	Sun, 9 Aug 2026 10:08:40 GMT
 Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 549E520043;
-	Sun,  9 Aug 2026 10:08:52 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id EDCB920040;
+	Sun,  9 Aug 2026 10:08:39 +0000 (GMT)
 Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 50C7E20040;
-	Sun,  9 Aug 2026 10:08:49 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 064082004B;
+	Sun,  9 Aug 2026 10:08:37 +0000 (GMT)
 Received: from li-a84c74cc-2b13-11b2-a85c-acdd023f0674.ibm.com.com (unknown [9.43.73.213])
 	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Sun,  9 Aug 2026 10:08:49 +0000 (GMT)
+	Sun,  9 Aug 2026 10:08:36 +0000 (GMT)
 From: Nilay Shroff <nilay@linux.ibm.com>
 To: linux-nvme@lists.infradead.org
 Cc: hare@suse.de, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
@@ -70,44 +70,45 @@ Cc: hare@suse.de, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
         randyj@purestorage.com, martin.petersen@oracle.com,
         john.g.garry@oracle.com, gjoyce@linux.ibm.com,
         Nilay Shroff <nilay@linux.ibm.com>
-Subject: [PATCH v7 2/9] block: record I/O request start time for passthru request
-Date: Sun,  9 Aug 2026 15:37:57 +0530
-Message-ID: <20260809100825.2014133-3-nilay@linux.ibm.com>
+Subject: [PATCH v7 0/9] nvme-multipath: introduce latency I/O policy
+Date: Sun,  9 Aug 2026 15:37:55 +0530
+Message-ID: <20260809100825.2014133-1-nilay@linux.ibm.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260809100825.2014133-1-nilay@linux.ibm.com>
-References: <20260809100825.2014133-1-nilay@linux.ibm.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
 X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-GUID: IvmBCgIFaPzYoDptnTXRDF_M59emCIO5
-X-Authority-Analysis: v=2.4 cv=J86aKgnS c=1 sm=1 tr=0 ts=6a7851b9 cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
- a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
- a=V8glGbnc2Ofi9Qvn3v5h:22 a=VnNF1IyMAAAA:8 a=errQwHFKQF1M0CpB8HMA:9
-X-Proofpoint-ORIG-GUID: KBQezQmebJIe4OVLwD-4bL2cxqdzPfKn
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA5MDA4OCBTYWx0ZWRfX3HnnmtX8LFQW
- ypBods/7X7Hie97oYeO8vcukMMk4PZcFAhaiKR5cZBYBJiYidrRfQtA7pqK/fJ01cuwTngnqoPp
- SJ8G7SLNApTBX1Ue0rw+/Mg3dyaAc0iPHklpXJiefX/8BC9I+Kj766ecuH07HWuIGrV/ucpuQvK
- CSZZk5aTcPpHbZW8RO78z9lpWV1RFpCuem1xTqetJ/ioUrQYSS/5BEPheBeA05gXT/LgswaqYOE
- KpqhIQ7jj+m8fBU2FwwCZZrHYguaE7OSI73KEnKVVR92gS1wFanWKtPr+VDrmMSuX4n2qCRsfJR
- ztnHDnugjCsA/KDaa2gFAXTxhkFLvny013nJjC/Uo6htLtY7kL/j/wss39uTmwGY/PFMd4Yevwf
- 6ZkILXUgkix/V3CscRLsmvSrYH0KA1c7xlmSjoO6Gjyxa3s/SMLvK3TdpogbnsOdriUfoHQG7l8
- GSOV35g0U3UguWlpxJQ==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODA5MDA4OCBTYWx0ZWRfX3ri88l39cue2
- 93icAOIetJ6PQRPz4IYRB2CMUskJJPzzZW32b/hxIRbIAVkX9XgOf+Wq39x/TVmG/ogT0QGwNTC
- bUvRahSL5EjNoUNxwAQL8BVycTt0QRY=
+X-Proofpoint-GUID: aazBeIYW6pD8lqbiInMEm6D1q7g5CHEL
+X-Authority-Analysis: v=2.4 cv=PbDPQChd c=1 sm=1 tr=0 ts=6a7851ad cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=VwQbUJbxAAAA:8
+ a=VnNF1IyMAAAA:8 a=_zs8TyAAHTrT5RJFmqkA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA5MDA4OCBTYWx0ZWRfX5ZlmK4xwIhzV
+ bTVSxOItYTXqPeaGiB6HAqzZV7ckCCEub+JjgK9T2DhVZIWrGgx3C0X77GKI6snQP/T+sk5Coqw
+ AlxpxDl1FI/5W+fqlEHLoaYfS7qdk8EOtNlcNuS7H0CXl8KMBAmumJlo9usqJrposoSEmdxusXz
+ YfxejsHGXL0054T4WXh8B88lrnE0xsPERKId9cwrrx0KGimY/IPiZz8r2s0wmY3Wg49R15cdLvs
+ 3Fdi/Wgcvqus3H8BVbx1PuicUBH/peiR6VSiyalVUyY4nGph6IrqlSO4bdwL1wJyo8yHwkPlnC1
+ epJjH8IgZ6T144Fv20bM9800WYGRk52inWXMbtXF9g5kbXGmAhRP6njfdbr4KojTTLLlcPwRwHK
+ Z2rFtAAZzwyQBShnk36ITMTuwHPbPiaWGo6c6nyuDuZhVdgklJ/eOo44OY7ISRr0sL+GF0xwH7j
+ xU//2dw2NkJgzVCI8gQ==
+X-Proofpoint-ORIG-GUID: c-FELOvxissycWb3Jx4_RMHY__UPaxsT
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODA5MDA4OCBTYWx0ZWRfX7S9UF0UXFDce
+ +qKBj5EffxKwXQ/TWYGOkiVVycDK8ItJq2m6yr4l2f/isAuimWtZM1ac/n4DV0sbylYFUbANSCj
+ tRGJfEyjVcX8RM+5y2N19R14hXD8kTE=
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-08-09_03,2026-08-07_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 priorityscore=1501 suspectscore=0 malwarescore=0 adultscore=0
- phishscore=0 impostorscore=0 lowpriorityscore=0 bulkscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608090088
+ spamscore=0 bulkscore=0 impostorscore=0 malwarescore=0 adultscore=0
+ clxscore=1011 priorityscore=1501 suspectscore=0 phishscore=0
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2608090088
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260809_030901_181455_C87169E5 
-X-CRM114-Status: GOOD (  13.71  )
+X-CRM114-CacheID: sfid-20260809_030904_185175_54CE07E6 
+X-CRM114-Status: GOOD (  25.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -122,47 +123,187 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-While starting an I/O request, blk_mq_start_request() records the
-request start timestamp only for non-passthrough requests when
-QUEUE_FLAG_STATS is enabled.
+Hi,
 
-However, the latency based multipath policy uses request completion
-latency to evaluate path performance, and I/O is issued as passthrough
-requests. Since passthru requests never initialize rq->io_start_time_ns,
-their latency cannot be computed.
+This series introduces a new latency I/O policy for NVMe native
+multipath. Existing policies such as numa, round-robin, and queue-depth
+are static and do not adapt to real-time transport performance. The numa
+selects the path closest to the NUMA node of the current CPU, optimizing
+memory and path locality, but ignores actual path performance. The
+round-robin distributes I/O evenly across all paths, providing fairness
+but not performance awareness. The queue-depth reacts to instantaneous
+queue occupancy, avoiding heavily loaded paths, but does not account for
+actual latency, throughput, or link speed.
 
-Record io_start_time_ns for all requests whenever QUEUE_FLAG_STATS is
-enabled.
+The new latency policy addresses these gaps selecting paths dynamically
+based on measured I/O latency for both PCIe and fabrics. Latency is
+derived by passively sampling I/O completions. Each path is assigned a
+weight proportional to its latency score, and I/Os are then forwarded
+accordingly. As condition changes (e.g. latency spikes, bandwidth
+differences), path weights are updated, automatically steering traffic
+toward better-performing paths.
 
-Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
----
- block/blk-mq.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+Early results show reduced tail latency under mixed workloads and
+improved throughput by exploiting higher-speed links more effectively.
+For example, with NVMf/TCP using two paths (one throttled with ~30 ms
+delay), fio results with random read/write/rw workloads (direct I/O)
+showed:
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 2c850330a32b..38922209a24f 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -1340,12 +1340,14 @@ void blk_mq_start_request(struct request *rq)
- 
- 	trace_block_rq_issue(rq);
- 
--	if (test_bit(QUEUE_FLAG_STATS, &q->queue_flags) &&
--	    !blk_rq_is_passthrough(rq)) {
-+	if (test_bit(QUEUE_FLAG_STATS, &q->queue_flags)) {
- 		rq->io_start_time_ns = blk_time_get_ns();
--		rq->stats_sectors = blk_rq_sectors(rq);
--		rq->rq_flags |= RQF_STATS;
--		rq_qos_issue(q, rq);
-+
-+		if (!blk_rq_is_passthrough(rq)) {
-+			rq->stats_sectors = blk_rq_sectors(rq);
-+			rq->rq_flags |= RQF_STATS;
-+			rq_qos_issue(q, rq);
-+		}
- 	}
- 
- 	WARN_ON_ONCE(blk_mq_rq_state(rq) != MQ_RQ_IDLE);
+        numa         round-robin   queue-depth  adaptive
+        -----------  -----------   -----------  ---------
+READ:   50.0 MiB/s   105 MiB/s     230 MiB/s    350 MiB/s
+WRITE:  65.9 MiB/s   125 MiB/s     385 MiB/s    446 MiB/s
+RW:     R:30.6 MiB/s R:56.5 MiB/s  R:122 MiB/s  R:175 MiB/s
+        W:30.7 MiB/s W:56.5 MiB/s  W:122 MiB/s  W:175 MiB/s
+
+This pathcset includes totla 8 patches:
+[PATCH 1/9] block: expose blk_stat_{enable,disable}_accounting()
+  - Make blk_stat APIs available to block drivers.
+  - Needed for per-path latency measurement.
+
+[PATCH 2/9] block: record I/O request start time for passthru request
+  - Record I/O start time for I/O passthru requests
+  - This is prep patch which allows measuring I/O completion latency 
+    for passthru requests
+
+[PATCH 3/9] nvme-multipath: pass I/O type to nvme_find_path()
+  - This is the prep patch which updates nvme_find_path() signature
+    
+[PATCH 4/9] nvme-multipath: add latency I/O policy
+  - Implement path scoring based on latency (EWMA).
+  - Distribute I/O proportionally to per-path weights.
+
+[PATCH 5/9] nvme: add generic debugfs support
+  - Introduce generic debugfs support for NVMe module
+
+[PATCH 6/9] nvme-multipath: add debugfs attribute latency_ewma_shift
+  - Adds a debugfs attribute to control ewma shift
+
+[PATCH 7/9] nvme-multipath: add debugfs attribute latency_batch_timeout
+  - Adds a debugfs attribute to control latency batch window interval 
+
+[PATCH 8/9] nvme-multipath: add debugfs attribute latency_stat
+  - Add “latency_stat” under per-path and head debugfs directories to
+    expose latency policy state and statistics.
+
+[PATCH 9/9] nvme-multipath: add documentation for latency I/O policy
+  - Includes documentation for latency I/O multipath policy.
+
+LSFMM discussion:
+=================
+During lsfmm 2026, it was decided to rename this I/O policy from
+"adaptive" to "latency". This series reflects that rename.
+
+The discussion at lsfmm also focused extensively on the latency
+measurement model, including whether latency should be tracked
+per-CPU or per-NUMA, and whether separate I/O-size buckets should
+be maintained for different request sizes.
+
+After detailed discussion and evaluation of throughput results, the
+consensus was to initially measure I/O completion latency on a
+per-CPU basis. The available performance data showed that the
+per-CPU implementation already provides sufficient averaging across
+CPUs while keeping the design relatively simple.
+
+The use of additional I/O-size buckets did not demonstrate meaningful
+throughput improvement in the general case and would introduce extra
+complexity into the fast path and accounting logic. As a result, the
+consensus was to avoid I/O-size bucketing for now and keep the policy
+focused on per-CPU latency measurement.
+
+If future real-world workloads demonstrate a clear benefit from
+I/O-size-aware latency accounting, the policy can be extended later
+to support it.
+
+As ususal, feedback and suggestions are most welcome!
+
+Thanks!
+
+Changes from v6:
+  - Add patch 2/9, which records I/O start time for the passthru
+    requests (Guixin Liu)
+  - Correctly record the passthru I/O data direction (Guixin Liu)
+  - Clear NVME_NS_PATH_STAT before cancelling the latency weight work.
+    (Guixin Liu)
+    
+Link to v6: https://lore.kernel.org/all/20260520182112.863076-1-nilay@linux.ibm.com/
+
+Changes from v5:
+  - Rename the policy from "adaptive" to "latency". The entire series
+    updates policy names, function names, and variable names accordingly,
+    without introducing any functional changes. (lsfmm discussion)
+  - The second patch is now splitted into two patches:
+    Patch #2: prep patch where we pass op_type to nvme_find_path()
+    Patch #3: core patch which introduces latency I/O policy 
+    (Sagi)
+  - Rename ewma_update() to calc_ewma_update() (Sagi)
+Link to v5: https://lore.kernel.org/all/20251105103347.86059-1-nilay@linux.ibm.com/
+
+Changes from v4:
+  - Added patch #7 which includes the documentation for adaptive I/O
+    policy. (Guixin Liu)
+Link to v4: https://lore.kernel.org/all/20251104104533.138481-1-nilay@linux.ibm.com/    
+
+Changes from v3:
+  - Update the adaptive APIs name (which actually enable/disable
+    adaptive policy) to reflect the actual work it does. Also removed
+    the misleading use of "current_path" from the adaptive policy code
+    (Hannes Reinecke)
+  - Move adaptive_ewma_shift and adaptive_weight_timeout attributes from
+    sysfs to debugfs (Hannes Reinecke)
+Link to v3: https://lore.kernel.org/all/20251027092949.961287-1-nilay@linux.ibm.com/
+
+Changes from v2:
+  - Addede a new patch to allow user to configure EWMA shift
+    through sysfs (Hannes Reinecke)
+  - Added a new patch to allow user to configure path weight
+    calculation timeout (Hannes Reinecke)
+  - Distinguish between read/write and other commands (e.g.
+    admin comamnd) and calculate path weight for other commands
+    which is separate from read/write weight. (Hannes Reinecke)
+  - Normalize per-path weight in the range from 0-128 instead
+    of 0-100 (Hannes Reinecke)
+  - Restructure and optimize adaptive I/O forwarding code to use
+    one loop instead of two (Hannes Reinecke)
+Link to v2: https://lore.kernel.org/all/20251009100608.1699550-1-nilay@linux.ibm.com/
+
+Changes from v1:
+  - Ensure that the completion of I/O occurs on the same CPU as the
+    submitting I/O CPU (Hannes Reinecke)
+  - Remove adapter link speed from the path weight calculation
+    (Hannes Reinecke)
+  - Add adaptive I/O stat under debugfs instead of current sysfs
+    (Hannes Reinecke)
+  - Move path weight calculation to a workqueue from IO completion
+    code path
+Link to v1: https://lore.kernel.org/all/20250921111234.863853-1-nilay@linux.ibm.com/
+
+Nilay Shroff (9):
+  block: expose blk_stat_{enable,disable}_accounting() to drivers
+  block: record I/O request start time for passthru request
+  nvme-multipath: pass I/O type to nvme_find_path()
+  nvme-multipath: add support for latency I/O policy
+  nvme: add generic debugfs support
+  nvme-multipath: add debugfs attribute latency_ewma_shift
+  nvme-multipath: add debugfs attribute latency_batch_timeout
+  nvme-multipath: add debugfs attribute latency_stat
+  nvme-multipath: add documentation for latency I/O policy
+
+ Documentation/admin-guide/nvme-multipath.rst |  19 +
+ block/blk-mq.c                               |  12 +-
+ block/blk-stat.h                             |   4 -
+ drivers/nvme/host/Makefile                   |   2 +-
+ drivers/nvme/host/core.c                     |  18 +-
+ drivers/nvme/host/debugfs.c                  | 345 ++++++++++++++
+ drivers/nvme/host/ioctl.c                    |  38 +-
+ drivers/nvme/host/multipath.c                | 460 ++++++++++++++++++-
+ drivers/nvme/host/nvme.h                     | 105 ++++-
+ drivers/nvme/host/pr.c                       |   6 +-
+ drivers/nvme/host/sysfs.c                    |   2 +-
+ include/linux/blk-mq.h                       |   4 +
+ 12 files changed, 979 insertions(+), 36 deletions(-)
+ create mode 100644 drivers/nvme/host/debugfs.c
+
 -- 
 2.53.0
 
