@@ -4,65 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DE943C5AD55
-	for <linux-nvme@archiver.kernel.org>; Sun,  9 Aug 2026 10:09:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 26980C5AC80
+	for <linux-nvme@archiver.kernel.org>; Sun,  9 Aug 2026 10:09:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=KbfMjaQMIIgvb43xAKf83Eh2j1CGR8fIcW/TSD350Sg=; b=TkRyRRNC90eMLtiesT5LeUgOib
-	36AL3sW57o5597rMA2XeMiQyZhQjrroxXwHhjqfqbpWPwXzbDRzKO+zyCeuTVwEAXvlym/iZoOxnR
-	narNOXoYCov6/iCqB5oSaGTSQ3ZlNBMo+wniJ+YCxKjbE8E8mWGAABF6GJv3/jmW0lPdGFMR8t1Br
-	yJ6YWbsr75Ek0cle5VWeVxbBukJxJr24E/vnkqjF79sK8m9Cf/yZ2RPfQSARkZx2rqEGUja13oN0a
-	ZFWNMGLEJ8c1UBtrSDyZkzsRJliL9oj3km7/Jgjz+weIBIjKI479ThbPj/d0m25jXwdcynMzkKxT6
-	VVf15n7w==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=vHEWfg1oX4NIvwhZWwIWUWtHqXtlKChKW4q6i3yFANQ=; b=Ta7oOOpHNnnoNJ7n6vk3K1a8Iu
+	ka1l74+e4rrROxBtJM7qMstIcMTnufe3jOVwMylwn2cyow/0WQkbgN20s6bZOrL44S6OqceMWPoIv
+	y4h8T+yN1JWJEVFBURwhpzEmf/RtWpy1SIrcaE4Mft+FlFq01Ez21ovh/pK4iXkgwgyS2zpH/ygjV
+	aux+X3YpqIFJ9yzR/1yuxP4IzJ6ao/Yb64k0CX6V5GD3uZvnoE7ElYCbIYukFyW9XBLwmcW5GOWrh
+	1IDUaxtlIPPmJLiU3v0jXUqtJjlTHnOGUt3Wr92ih5Lj87srtBLd0zfwR2bxxOXFXhO2sj+EOEZt1
+	ufCH0c8w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wt0Sp-0000000AAg5-14UV;
-	Sun, 09 Aug 2026 10:09:07 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1wt0Sq-0000000AAgf-1cIf;
+	Sun, 09 Aug 2026 10:09:08 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wt0Sm-0000000AAeC-0WYi
+	id 1wt0Sm-0000000AAea-3QJ3
 	for linux-nvme@lists.infradead.org;
-	Sun, 09 Aug 2026 10:09:05 +0000
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67991ppp2526790;
-	Sun, 9 Aug 2026 10:08:45 GMT
+	Sun, 09 Aug 2026 10:09:06 +0000
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67991xBe2605374;
+	Sun, 9 Aug 2026 10:09:01 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=pp1; bh=KbfMjaQMIIgvb43xAKf83Eh2j1CG
-	R8fIcW/TSD350Sg=; b=UhY+WIk4l/TRwj26Xa1XTfqfI3gpz2dIFrJG8KNd0utN
-	EvFR/ZBRkUh9qLkWmwJ8zxMpwIxCv+Iky93ZhLWDS0iLx2872JqTVku+cqSWcFgE
-	/8cT2/kw7REM0kzniI45BUSBACQr/kohisD540MY2YiQWAHDo0e8MeGY+7AQVAOz
-	XS35U6l0PPkhUYS+pZ7TciCuKRISfPZaodPed/LHIeIyAjAC2DUCZHlKBmw0QTMj
-	XWbsm1Lij+ii0pCE4GmHB37pQcmGR6WM1XSqXMwP9U3SpI2FUIcZkhkHC/LU2M5N
-	skEG0KmDsCcELZuifdbASWxQNTO4nrl8VcWPqSx7Ww==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fwvq93vnu-1
+	:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=pp1; bh=vHEWfg1oX4NIvwhZW
+	wIWUWtHqXtlKChKW4q6i3yFANQ=; b=cXSFNAj+hf7xLCcVatBlezxVhOtS1+/6h
+	r5rhlBfknIB/PYXDZhwzhcn0Qwojx8h0UZ4CRWhQhE1ggJnAIQ5o7SNRxAYWbSvl
+	7pwiyWujoN5i/fgyjUDo2uhnRZ3L1cFS69bTgNNnW2SSYjFHiCxPMN90cVUAequ/
+	ZdN1q512Q0oADBRk8Gr7iYDHgQdqmjP/zdx1/oop/M8nYVy/4NtlrtFpU0Ev1SqL
+	/6DMPtFjC6YzsxrGsK+2XGmcCuksPfUBhZEI96I0D2qADhlaIwRWLV7nTS6iHFd1
+	nEQOs/Z2Qfs0N3QXGHN0twNAW4cipRQ4hGcfr0wZ1hGIsbS1ax6qw==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fwvnvumpg-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 09 Aug 2026 10:08:44 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 6799uIbG010891;
-	Sun, 9 Aug 2026 10:08:43 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4fxh0g0v0g-1
+	Sun, 09 Aug 2026 10:09:00 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 6799uOC4030458;
+	Sun, 9 Aug 2026 10:08:59 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4fxf5vs475-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 09 Aug 2026 10:08:43 +0000 (GMT)
+	Sun, 09 Aug 2026 10:08:59 +0000 (GMT)
 Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 679A8eff36831618
+	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 679A8twn39977234
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sun, 9 Aug 2026 10:08:40 GMT
+	Sun, 9 Aug 2026 10:08:55 GMT
 Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id EDCB920040;
-	Sun,  9 Aug 2026 10:08:39 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id A6C2C20043;
+	Sun,  9 Aug 2026 10:08:55 +0000 (GMT)
 Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 064082004B;
-	Sun,  9 Aug 2026 10:08:37 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id B00E620040;
+	Sun,  9 Aug 2026 10:08:52 +0000 (GMT)
 Received: from li-a84c74cc-2b13-11b2-a85c-acdd023f0674.ibm.com.com (unknown [9.43.73.213])
 	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Sun,  9 Aug 2026 10:08:36 +0000 (GMT)
+	Sun,  9 Aug 2026 10:08:52 +0000 (GMT)
 From: Nilay Shroff <nilay@linux.ibm.com>
 To: linux-nvme@lists.infradead.org
 Cc: hare@suse.de, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
@@ -70,45 +70,44 @@ Cc: hare@suse.de, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
         randyj@purestorage.com, martin.petersen@oracle.com,
         john.g.garry@oracle.com, gjoyce@linux.ibm.com,
         Nilay Shroff <nilay@linux.ibm.com>
-Subject: [PATCH v7 0/9] nvme-multipath: introduce latency I/O policy
-Date: Sun,  9 Aug 2026 15:37:55 +0530
-Message-ID: <20260809100825.2014133-1-nilay@linux.ibm.com>
+Subject: [PATCH v7 3/9] nvme-multipath: pass I/O type to nvme_find_path()
+Date: Sun,  9 Aug 2026 15:37:58 +0530
+Message-ID: <20260809100825.2014133-4-nilay@linux.ibm.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260809100825.2014133-1-nilay@linux.ibm.com>
+References: <20260809100825.2014133-1-nilay@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
 X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-GUID: aazBeIYW6pD8lqbiInMEm6D1q7g5CHEL
-X-Authority-Analysis: v=2.4 cv=PbDPQChd c=1 sm=1 tr=0 ts=6a7851ad cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=VwQbUJbxAAAA:8
- a=VnNF1IyMAAAA:8 a=_zs8TyAAHTrT5RJFmqkA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA5MDA4OCBTYWx0ZWRfX5ZlmK4xwIhzV
- bTVSxOItYTXqPeaGiB6HAqzZV7ckCCEub+JjgK9T2DhVZIWrGgx3C0X77GKI6snQP/T+sk5Coqw
- AlxpxDl1FI/5W+fqlEHLoaYfS7qdk8EOtNlcNuS7H0CXl8KMBAmumJlo9usqJrposoSEmdxusXz
- YfxejsHGXL0054T4WXh8B88lrnE0xsPERKId9cwrrx0KGimY/IPiZz8r2s0wmY3Wg49R15cdLvs
- 3Fdi/Wgcvqus3H8BVbx1PuicUBH/peiR6VSiyalVUyY4nGph6IrqlSO4bdwL1wJyo8yHwkPlnC1
- epJjH8IgZ6T144Fv20bM9800WYGRk52inWXMbtXF9g5kbXGmAhRP6njfdbr4KojTTLLlcPwRwHK
- Z2rFtAAZzwyQBShnk36ITMTuwHPbPiaWGo6c6nyuDuZhVdgklJ/eOo44OY7ISRr0sL+GF0xwH7j
- xU//2dw2NkJgzVCI8gQ==
-X-Proofpoint-ORIG-GUID: c-FELOvxissycWb3Jx4_RMHY__UPaxsT
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODA5MDA4OCBTYWx0ZWRfX7S9UF0UXFDce
- +qKBj5EffxKwXQ/TWYGOkiVVycDK8ItJq2m6yr4l2f/isAuimWtZM1ac/n4DV0sbylYFUbANSCj
- tRGJfEyjVcX8RM+5y2N19R14hXD8kTE=
+X-Authority-Analysis: v=2.4 cv=RsP16imK c=1 sm=1 tr=0 ts=6a7851bc cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
+ a=RzCfie-kr_QcCd8fBx8p:22 a=VnNF1IyMAAAA:8 a=5trHZi3AoRbtZWZe9cAA:9
+X-Proofpoint-GUID: gkoFdJxQ0GSjbFVFg_hgQABhYT-bCI3w
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA5MDA4OCBTYWx0ZWRfXw1HdD1SIl5wI
+ Nu0EdIfOdq15G3QUZPMTu/lMSbjK5Ntm/m57XEm4kNjw1T7bJtL2jU6K1QFILcjx9jXBvnFhBBU
+ /60cOwZhnqc0wmjrPOqmPBBa/wO/sDF+qYUmRdKlzjXWR0wIhe/MtHjkssrRFKipBuHgvJLz/mP
+ y9N6UZ2ZRMbD3BKsuHZUEgg5n4Mit6XDN6Gwc+emXDWxt8TQ0/fOiEyey70W6XLhTGkidjEjI8F
+ f1DbBAjYQxfCldoxBx9/AvDfSixtkpuhcgwQs6JARdb53FW8DKMxwanwslx6NS73nXD23fzpyYX
+ wqv+ghC+X2DdXVo9FZ9e2UvR3MYIS5VoPNkOZJLdm7blCCkJfZygnUaZ6BVX6FPwwahxpb4jB9J
+ 584S+yS3HOle0yiHQbesU+RMwXskX6YhPraxDFIcs9M5pmL/DPL4TZ6UQr3+UOQZZIe6sOEclbM
+ gXPPzcXYO7OrEeXV4Pw==
+X-Proofpoint-ORIG-GUID: BPgR_SSnXhLmx7l1oy4B0Nd2aPEI-acW
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODA5MDA4OCBTYWx0ZWRfX+ZT0bXSjVEk7
+ vadfYVuq9CINUJ7fOoy4PDfakxF4DskR7LIRlXFflS0+2xm7LlrbCKonV4j4LcJTFz24cmSisFF
+ odrrp7aQUCv8s2wG/wbmjodDarOGLYc=
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-08-09_03,2026-08-07_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 bulkscore=0 impostorscore=0 malwarescore=0 adultscore=0
- clxscore=1011 priorityscore=1501 suspectscore=0 phishscore=0
- lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2608090088
+ spamscore=0 impostorscore=0 suspectscore=0 clxscore=1011 malwarescore=0
+ phishscore=0 adultscore=0 lowpriorityscore=0 priorityscore=1501 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608090088
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260809_030904_185175_54CE07E6 
-X-CRM114-Status: GOOD (  25.31  )
+X-CRM114-CacheID: sfid-20260809_030904_993011_B2DB5DBD 
+X-CRM114-Status: GOOD (  23.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -123,187 +122,242 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+Currently, nvme_find_path() only accepts an nvme_ns_head argument.
+However, the upcoming latency-aware I/O policy also needs to know
+the I/O type (read/write/other) associated with the request in order
+to make path selection decisions.
 
-This series introduces a new latency I/O policy for NVMe native
-multipath. Existing policies such as numa, round-robin, and queue-depth
-are static and do not adapt to real-time transport performance. The numa
-selects the path closest to the NUMA node of the current CPU, optimizing
-memory and path locality, but ignores actual path performance. The
-round-robin distributes I/O evenly across all paths, providing fairness
-but not performance awareness. The queue-depth reacts to instantaneous
-queue occupancy, avoiding heavily loaded paths, but does not account for
-actual latency, throughput, or link speed.
+Update nvme_find_path() to accept an additional argument describing
+the I/O type. This patch does not introduce any functional change and
+only prepares the interface for subsequent latency-policy changes.
 
-The new latency policy addresses these gaps selecting paths dynamically
-based on measured I/O latency for both PCIe and fabrics. Latency is
-derived by passively sampling I/O completions. Each path is assigned a
-weight proportional to its latency score, and I/Os are then forwarded
-accordingly. As condition changes (e.g. latency spikes, bandwidth
-differences), path weights are updated, automatically steering traffic
-toward better-performing paths.
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+---
+ drivers/nvme/host/ioctl.c     | 38 +++++++++++++++++++++++++++++---
+ drivers/nvme/host/multipath.c |  9 ++++----
+ drivers/nvme/host/nvme.h      | 41 ++++++++++++++++++++++++++++++++++-
+ drivers/nvme/host/pr.c        |  6 +++--
+ drivers/nvme/host/sysfs.c     |  2 +-
+ 5 files changed, 85 insertions(+), 11 deletions(-)
 
-Early results show reduced tail latency under mixed workloads and
-improved throughput by exploiting higher-speed links more effectively.
-For example, with NVMf/TCP using two paths (one throttled with ~30 ms
-delay), fio results with random read/write/rw workloads (direct I/O)
-showed:
-
-        numa         round-robin   queue-depth  adaptive
-        -----------  -----------   -----------  ---------
-READ:   50.0 MiB/s   105 MiB/s     230 MiB/s    350 MiB/s
-WRITE:  65.9 MiB/s   125 MiB/s     385 MiB/s    446 MiB/s
-RW:     R:30.6 MiB/s R:56.5 MiB/s  R:122 MiB/s  R:175 MiB/s
-        W:30.7 MiB/s W:56.5 MiB/s  W:122 MiB/s  W:175 MiB/s
-
-This pathcset includes totla 8 patches:
-[PATCH 1/9] block: expose blk_stat_{enable,disable}_accounting()
-  - Make blk_stat APIs available to block drivers.
-  - Needed for per-path latency measurement.
-
-[PATCH 2/9] block: record I/O request start time for passthru request
-  - Record I/O start time for I/O passthru requests
-  - This is prep patch which allows measuring I/O completion latency 
-    for passthru requests
-
-[PATCH 3/9] nvme-multipath: pass I/O type to nvme_find_path()
-  - This is the prep patch which updates nvme_find_path() signature
-    
-[PATCH 4/9] nvme-multipath: add latency I/O policy
-  - Implement path scoring based on latency (EWMA).
-  - Distribute I/O proportionally to per-path weights.
-
-[PATCH 5/9] nvme: add generic debugfs support
-  - Introduce generic debugfs support for NVMe module
-
-[PATCH 6/9] nvme-multipath: add debugfs attribute latency_ewma_shift
-  - Adds a debugfs attribute to control ewma shift
-
-[PATCH 7/9] nvme-multipath: add debugfs attribute latency_batch_timeout
-  - Adds a debugfs attribute to control latency batch window interval 
-
-[PATCH 8/9] nvme-multipath: add debugfs attribute latency_stat
-  - Add “latency_stat” under per-path and head debugfs directories to
-    expose latency policy state and statistics.
-
-[PATCH 9/9] nvme-multipath: add documentation for latency I/O policy
-  - Includes documentation for latency I/O multipath policy.
-
-LSFMM discussion:
-=================
-During lsfmm 2026, it was decided to rename this I/O policy from
-"adaptive" to "latency". This series reflects that rename.
-
-The discussion at lsfmm also focused extensively on the latency
-measurement model, including whether latency should be tracked
-per-CPU or per-NUMA, and whether separate I/O-size buckets should
-be maintained for different request sizes.
-
-After detailed discussion and evaluation of throughput results, the
-consensus was to initially measure I/O completion latency on a
-per-CPU basis. The available performance data showed that the
-per-CPU implementation already provides sufficient averaging across
-CPUs while keeping the design relatively simple.
-
-The use of additional I/O-size buckets did not demonstrate meaningful
-throughput improvement in the general case and would introduce extra
-complexity into the fast path and accounting logic. As a result, the
-consensus was to avoid I/O-size bucketing for now and keep the policy
-focused on per-CPU latency measurement.
-
-If future real-world workloads demonstrate a clear benefit from
-I/O-size-aware latency accounting, the policy can be extended later
-to support it.
-
-As ususal, feedback and suggestions are most welcome!
-
-Thanks!
-
-Changes from v6:
-  - Add patch 2/9, which records I/O start time for the passthru
-    requests (Guixin Liu)
-  - Correctly record the passthru I/O data direction (Guixin Liu)
-  - Clear NVME_NS_PATH_STAT before cancelling the latency weight work.
-    (Guixin Liu)
-    
-Link to v6: https://lore.kernel.org/all/20260520182112.863076-1-nilay@linux.ibm.com/
-
-Changes from v5:
-  - Rename the policy from "adaptive" to "latency". The entire series
-    updates policy names, function names, and variable names accordingly,
-    without introducing any functional changes. (lsfmm discussion)
-  - The second patch is now splitted into two patches:
-    Patch #2: prep patch where we pass op_type to nvme_find_path()
-    Patch #3: core patch which introduces latency I/O policy 
-    (Sagi)
-  - Rename ewma_update() to calc_ewma_update() (Sagi)
-Link to v5: https://lore.kernel.org/all/20251105103347.86059-1-nilay@linux.ibm.com/
-
-Changes from v4:
-  - Added patch #7 which includes the documentation for adaptive I/O
-    policy. (Guixin Liu)
-Link to v4: https://lore.kernel.org/all/20251104104533.138481-1-nilay@linux.ibm.com/    
-
-Changes from v3:
-  - Update the adaptive APIs name (which actually enable/disable
-    adaptive policy) to reflect the actual work it does. Also removed
-    the misleading use of "current_path" from the adaptive policy code
-    (Hannes Reinecke)
-  - Move adaptive_ewma_shift and adaptive_weight_timeout attributes from
-    sysfs to debugfs (Hannes Reinecke)
-Link to v3: https://lore.kernel.org/all/20251027092949.961287-1-nilay@linux.ibm.com/
-
-Changes from v2:
-  - Addede a new patch to allow user to configure EWMA shift
-    through sysfs (Hannes Reinecke)
-  - Added a new patch to allow user to configure path weight
-    calculation timeout (Hannes Reinecke)
-  - Distinguish between read/write and other commands (e.g.
-    admin comamnd) and calculate path weight for other commands
-    which is separate from read/write weight. (Hannes Reinecke)
-  - Normalize per-path weight in the range from 0-128 instead
-    of 0-100 (Hannes Reinecke)
-  - Restructure and optimize adaptive I/O forwarding code to use
-    one loop instead of two (Hannes Reinecke)
-Link to v2: https://lore.kernel.org/all/20251009100608.1699550-1-nilay@linux.ibm.com/
-
-Changes from v1:
-  - Ensure that the completion of I/O occurs on the same CPU as the
-    submitting I/O CPU (Hannes Reinecke)
-  - Remove adapter link speed from the path weight calculation
-    (Hannes Reinecke)
-  - Add adaptive I/O stat under debugfs instead of current sysfs
-    (Hannes Reinecke)
-  - Move path weight calculation to a workqueue from IO completion
-    code path
-Link to v1: https://lore.kernel.org/all/20250921111234.863853-1-nilay@linux.ibm.com/
-
-Nilay Shroff (9):
-  block: expose blk_stat_{enable,disable}_accounting() to drivers
-  block: record I/O request start time for passthru request
-  nvme-multipath: pass I/O type to nvme_find_path()
-  nvme-multipath: add support for latency I/O policy
-  nvme: add generic debugfs support
-  nvme-multipath: add debugfs attribute latency_ewma_shift
-  nvme-multipath: add debugfs attribute latency_batch_timeout
-  nvme-multipath: add debugfs attribute latency_stat
-  nvme-multipath: add documentation for latency I/O policy
-
- Documentation/admin-guide/nvme-multipath.rst |  19 +
- block/blk-mq.c                               |  12 +-
- block/blk-stat.h                             |   4 -
- drivers/nvme/host/Makefile                   |   2 +-
- drivers/nvme/host/core.c                     |  18 +-
- drivers/nvme/host/debugfs.c                  | 345 ++++++++++++++
- drivers/nvme/host/ioctl.c                    |  38 +-
- drivers/nvme/host/multipath.c                | 460 ++++++++++++++++++-
- drivers/nvme/host/nvme.h                     | 105 ++++-
- drivers/nvme/host/pr.c                       |   6 +-
- drivers/nvme/host/sysfs.c                    |   2 +-
- include/linux/blk-mq.h                       |   4 +
- 12 files changed, 979 insertions(+), 36 deletions(-)
- create mode 100644 drivers/nvme/host/debugfs.c
-
+diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+index 664216eece4a..8a8ed132fab2 100644
+--- a/drivers/nvme/host/ioctl.c
++++ b/drivers/nvme/host/ioctl.c
+@@ -708,18 +708,29 @@ static int nvme_ns_head_ctrl_ioctl(struct nvme_ns *ns, unsigned int cmd,
+ int nvme_ns_head_ioctl(struct block_device *bdev, blk_mode_t mode,
+ 		unsigned int cmd, unsigned long arg)
+ {
++	u8 opcode;
+ 	struct nvme_ns_head *head = bdev->bd_disk->private_data;
+ 	bool open_for_write = mode & BLK_OPEN_WRITE;
+ 	void __user *argp = (void __user *)arg;
+ 	struct nvme_ns *ns;
+ 	int srcu_idx, ret = -EWOULDBLOCK;
+ 	unsigned int flags = 0;
++	unsigned int op_type = NVME_STAT_OTHER;
+ 
+ 	if (bdev_is_partition(bdev))
+ 		flags |= NVME_IOCTL_PARTITION;
+ 
++	if (cmd == NVME_IOCTL_SUBMIT_IO) {
++		if (get_user(opcode, (u8 *)argp))
++			return -EFAULT;
++		if (opcode == nvme_cmd_write)
++			op_type = NVME_STAT_WRITE;
++		else if (opcode == nvme_cmd_read)
++			op_type = NVME_STAT_READ;
++	}
++
+ 	srcu_idx = srcu_read_lock(&head->srcu);
+-	ns = nvme_find_path(head);
++	ns = nvme_find_path(head, op_type);
+ 	if (!ns)
+ 		goto out_unlock;
+ 
+@@ -741,6 +752,7 @@ int nvme_ns_head_ioctl(struct block_device *bdev, blk_mode_t mode,
+ long nvme_ns_head_chr_ioctl(struct file *file, unsigned int cmd,
+ 		unsigned long arg)
+ {
++	u8 opcode;
+ 	bool open_for_write = file->f_mode & FMODE_WRITE;
+ 	struct cdev *cdev = file_inode(file)->i_cdev;
+ 	struct nvme_ns_head *head =
+@@ -748,9 +760,19 @@ long nvme_ns_head_chr_ioctl(struct file *file, unsigned int cmd,
+ 	void __user *argp = (void __user *)arg;
+ 	struct nvme_ns *ns;
+ 	int srcu_idx, ret = -EWOULDBLOCK;
++	unsigned int op_type = NVME_STAT_OTHER;
++
++	if (cmd == NVME_IOCTL_SUBMIT_IO) {
++		if (get_user(opcode, (u8 *)argp))
++			return -EFAULT;
++		if (opcode == nvme_cmd_write)
++			op_type = NVME_STAT_WRITE;
++		else if (opcode == nvme_cmd_read)
++			op_type = NVME_STAT_READ;
++	}
+ 
+ 	srcu_idx = srcu_read_lock(&head->srcu);
+-	ns = nvme_find_path(head);
++	ns = nvme_find_path(head, op_type);
+ 	if (!ns)
+ 		goto out_unlock;
+ 
+@@ -770,9 +792,19 @@ int nvme_ns_head_chr_uring_cmd(struct io_uring_cmd *ioucmd,
+ 	struct cdev *cdev = file_inode(ioucmd->file)->i_cdev;
+ 	struct nvme_ns_head *head = container_of(cdev, struct nvme_ns_head, cdev);
+ 	int srcu_idx = srcu_read_lock(&head->srcu);
+-	struct nvme_ns *ns = nvme_find_path(head);
++	struct nvme_ns *ns;
+ 	int ret = -EINVAL;
++	const struct nvme_uring_cmd *cmd = io_uring_sqe128_cmd(ioucmd->sqe,
++						struct nvme_uring_cmd);
++	unsigned int op_type = NVME_STAT_OTHER;
++	__u8 opcode = READ_ONCE(cmd->opcode);
++
++	if (opcode == nvme_cmd_write)
++		op_type = NVME_STAT_WRITE;
++	else if (opcode == nvme_cmd_read)
++		op_type = NVME_STAT_READ;
+ 
++	ns = nvme_find_path(head, op_type);
+ 	if (ns)
+ 		ret = nvme_ns_uring_cmd(ns, ioucmd, issue_flags);
+ 	srcu_read_unlock(&head->srcu, srcu_idx);
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 9b9a657fa330..8c20ff516e61 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -460,7 +460,8 @@ static struct nvme_ns *nvme_numa_path(struct nvme_ns_head *head)
+ 	return ns;
+ }
+ 
+-inline struct nvme_ns *nvme_find_path(struct nvme_ns_head *head)
++inline struct nvme_ns *nvme_find_path(struct nvme_ns_head *head,
++		unsigned int op_type)
+ {
+ 	switch (READ_ONCE(head->subsys->iopolicy)) {
+ 	case NVME_IOPOLICY_QD:
+@@ -522,7 +523,7 @@ static void nvme_ns_head_submit_bio(struct bio *bio)
+ 		return;
+ 
+ 	srcu_idx = srcu_read_lock(&head->srcu);
+-	ns = nvme_find_path(head);
++	ns = nvme_find_path(head, __nvme_data_dir(bio_op(bio)));
+ 	if (likely(ns)) {
+ 		bio_set_dev(bio, ns->disk->part0);
+ 		/*
+@@ -572,7 +573,7 @@ static int nvme_ns_head_get_unique_id(struct gendisk *disk, u8 id[16],
+ 	int srcu_idx, ret = -EWOULDBLOCK;
+ 
+ 	srcu_idx = srcu_read_lock(&head->srcu);
+-	ns = nvme_find_path(head);
++	ns = nvme_find_path(head, NVME_STAT_OTHER);
+ 	if (ns)
+ 		ret = nvme_ns_get_unique_id(ns, id, type);
+ 	srcu_read_unlock(&head->srcu, srcu_idx);
+@@ -588,7 +589,7 @@ static int nvme_ns_head_report_zones(struct gendisk *disk, sector_t sector,
+ 	int srcu_idx, ret = -EWOULDBLOCK;
+ 
+ 	srcu_idx = srcu_read_lock(&head->srcu);
+-	ns = nvme_find_path(head);
++	ns = nvme_find_path(head, NVME_STAT_OTHER);
+ 	if (ns)
+ 		ret = nvme_ns_report_zones(ns, sector, nr_zones, args);
+ 	srcu_read_unlock(&head->srcu, srcu_idx);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 824651cc898d..8a9ec502912d 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -520,6 +520,13 @@ struct nvme_ns_ids {
+ 	u8	csi;
+ };
+ 
++enum nvme_stat_group {
++	NVME_STAT_READ,
++	NVME_STAT_WRITE,
++	NVME_STAT_OTHER,
++	NVME_NUM_STAT_GROUPS
++};
++
+ /*
+  * Anchor structure for namespaces.  There is one for each namespace in a
+  * NVMe subsystem that any of our controllers can see, and the namespace
+@@ -1032,7 +1039,39 @@ extern const struct attribute_group *nvme_dev_attr_groups[];
+ extern const struct block_device_operations nvme_bdev_ops;
+ 
+ void nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl);
+-struct nvme_ns *nvme_find_path(struct nvme_ns_head *head);
++struct nvme_ns *nvme_find_path(struct nvme_ns_head *head, unsigned int op_type);
++
++static inline int __nvme_data_dir(const enum req_op op)
++{
++	if (op == REQ_OP_READ)
++		return NVME_STAT_READ;
++	else if (op == REQ_OP_WRITE)
++		return NVME_STAT_WRITE;
++	else
++		return NVME_STAT_OTHER;
++}
++
++static inline int __nvme_data_dir_passthru(enum nvme_opcode op)
++{
++	if (op == nvme_cmd_read)
++		return NVME_STAT_READ;
++	else if (op == nvme_cmd_write)
++		return NVME_STAT_WRITE;
++	else
++		return NVME_STAT_OTHER;
++}
++
++static inline int nvme_data_dir(struct request *req)
++{
++	if (blk_rq_is_passthrough(req)) {
++		struct nvme_request *nr = nvme_req(req);
++
++		return __nvme_data_dir_passthru(nr->cmd->common.opcode);
++	}
++
++	return __nvme_data_dir(req_op(req));
++}
++
+ #ifdef CONFIG_NVME_MULTIPATH
+ static inline bool nvme_ctrl_use_ana(struct nvme_ctrl *ctrl)
+ {
+diff --git a/drivers/nvme/host/pr.c b/drivers/nvme/host/pr.c
+index fe7dbe264815..80e106f151d2 100644
+--- a/drivers/nvme/host/pr.c
++++ b/drivers/nvme/host/pr.c
+@@ -53,10 +53,12 @@ static int nvme_send_ns_head_pr_command(struct block_device *bdev,
+ 		struct nvme_command *c, void *data, unsigned int data_len)
+ {
+ 	struct nvme_ns_head *head = bdev->bd_disk->private_data;
+-	int srcu_idx = srcu_read_lock(&head->srcu);
+-	struct nvme_ns *ns = nvme_find_path(head);
++	int srcu_idx;
++	struct nvme_ns *ns;
+ 	int ret = -EWOULDBLOCK;
+ 
++	srcu_idx = srcu_read_lock(&head->srcu);
++	ns = nvme_find_path(head, NVME_STAT_OTHER);
+ 	if (ns) {
+ 		c->common.nsid = cpu_to_le32(ns->head->ns_id);
+ 		ret = nvme_submit_sync_cmd(ns->queue, c, data, data_len);
+diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+index 75b2d69b5957..b2034e033ac3 100644
+--- a/drivers/nvme/host/sysfs.c
++++ b/drivers/nvme/host/sysfs.c
+@@ -195,7 +195,7 @@ static int ns_head_update_nuse(struct nvme_ns_head *head)
+ 		return 0;
+ 
+ 	srcu_idx = srcu_read_lock(&head->srcu);
+-	ns = nvme_find_path(head);
++	ns = nvme_find_path(head, NVME_STAT_OTHER);
+ 	if (!ns)
+ 		goto out_unlock;
+ 
 -- 
 2.53.0
 
