@@ -4,59 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2156FC5AD7B
-	for <linux-nvme@archiver.kernel.org>; Mon, 10 Aug 2026 22:55:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BF09CC5AD7B
+	for <linux-nvme@archiver.kernel.org>; Mon, 10 Aug 2026 22:58:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=i+HOV1eEaaj5Xwzy6dQKpZWytvQwWK7C5huS7LM3iOA=; b=fPEY01TNpv6DrTkcnkXWl1sr8+
-	MSNhDeehGvOymM1o1My2KamTWdpLoTLkM6a4gz+YYnO0Kf6pFqy9siW+quzrS2fFRmetjLSZVC0Qw
-	uF6NGAfQn+EWZy6WKmWJT1bGfsJ18cSI0kXDm1i6cdsq5U038O/1U6mRirNZhqahJTzb9dHHteXwr
-	vnk+xEZAMBkVdZyfDdKOgznT+TxEP6EjI+pRJUSaxk9xcqeS88qP54vGNmEvlrbo+YwiczmdWD2Oz
-	s59cjwbr31BrsrN/nip90/wk1aG0/3cbmvbSzMlmFr52+RO5pJzhZUvkDwnSBwX8su60fu1ZOtBff
-	Dg88WmxA==;
+	bh=D8luZD/ETggNcgRGx5qEthGGSBDvYKh2Fm8hDcEdZrs=; b=Q1h3L1c65Bh1fSUKClzVB+W5hO
+	a5ns4f6B5/dZq8tRkgZM7AmPqj2q+8TKVqSgt+7x2vs1l7CJ5MH9G7pQPXse39E08nk5Vbr4tT/4X
+	TuvJVOzYv2+VjReWvC3LOGJOX7AZNlLTxlz0hl43bi1vQOfK1Z9vulWcd4H9w/FEiVYEPr8KvSL/C
+	CeOOef2fZgMGYunVd4M/zp1I2JpbuA2I49nXmscx3ilhuSJBQw7KdRjpLyLCTacal+A+aCAdBhdE3
+	WpO0XpAlpQaqrRMPAxhZo1YAqwaLiKw3wPhkUH4okGuGsIIR4A5DYFUTDiI9cEY1OJWUvWLBRXQ31
+	5gRPEiYg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wtYuA-0000000CzjQ-1GlZ;
-	Mon, 10 Aug 2026 22:55:38 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1wtYwy-0000000Cztc-3WUW;
+	Mon, 10 Aug 2026 22:58:32 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wtYu8-0000000CzjI-2QeN
+	id 1wtYwx-0000000Czso-2DHq
 	for linux-nvme@lists.infradead.org;
-	Mon, 10 Aug 2026 22:55:36 +0000
+	Mon, 10 Aug 2026 22:58:31 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id E85C040A81;
-	Mon, 10 Aug 2026 22:55:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92E791F000E9;
-	Mon, 10 Aug 2026 22:55:35 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id E9DAB4344B;
+	Mon, 10 Aug 2026 22:58:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 966151F000E9;
+	Mon, 10 Aug 2026 22:58:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786402535;
-	bh=i+HOV1eEaaj5Xwzy6dQKpZWytvQwWK7C5huS7LM3iOA=;
+	s=k20260515; t=1786402710;
+	bh=D8luZD/ETggNcgRGx5qEthGGSBDvYKh2Fm8hDcEdZrs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=WHrJnG1xQ8xt7H4vG9H/ZLbj9+U8ssXVWJ2hzkHbSIQhrA+ExeOiv2EfMWjEzuwuN
-	 YiZbn1Q2+DmSRt2/x8jrIbWCYttdYkBhLLEZknRO3KvDik2fVfxl8pzZ9Y6P8+BZ6x
-	 NIGL/zpZzS7AmL7UjCiwxrrkWAWlScS6AkO3r99SYYafOdBWTjkJgd1JP6OhEFdiXQ
-	 AFGu1cIss/WrFNrFgDVtAkw3ngABQtBtV8/caAo28TdBi6FJaF7tzUgXsF2IcwO/bC
-	 cRoRI6Uw/K/A4kAwXORFzI8umDb6FOKqBt7+qRD07DwJzc8r6Prl5qqjsbCLx50lbr
-	 pS6CGE0Dvo2WQ==
-Date: Mon, 10 Aug 2026 16:55:34 -0600
+	b=EnwgDpedJ2DRn6vh/beAilYrsIQAG5G2pby6JGEyXeCTguW3z6lv3EvU0IWvHizP7
+	 ok+TkqkgDxI08O9ehaZ4Wvq7dZCwudoR5thWQEG7XCWLuDcb9JkBjiD6b5YKgiltPy
+	 qr2SYeNQdLzETOEtexNHe5iQvwZ6k1BMEGkssyZQUdIl6w5qlfnXWpu79Rbl9XL5WZ
+	 kiRTzXBP2lq1ndCErEAZYU36YJjXgPVKK4/us8QTPXyQSBXSeHbvxQWrUD7B4uOCHn
+	 NOOzbLMfYVRHvgBct/041QFFEzsNaQthDGJwKF2XO2lwE5VsUrL3arh1J0IzpbW4Zc
+	 K0yVBgh22AQ9g==
+Date: Mon, 10 Aug 2026 16:58:29 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Guixin Liu <kanie@linux.alibaba.com>
-Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Damien Le Moal <damien.lemoal@wdc.com>,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] nvmet: fix NULL pointer dereference in
- nvmet_execute_identify_ns_zns()
-Message-ID: <anpW5hx_HZQaC0A5@kbusch-mbp>
-References: <20260804033605.3973127-1-kanie@linux.alibaba.com>
+To: Yehyeong Lee <yhlee@isslab.korea.ac.kr>
+Cc: linux-nvme@lists.infradead.org, axboe@kernel.dk, hch@lst.de,
+	sagi@grimberg.me, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/2] nvme-tcp: two checks on the C2HData receive path
+Message-ID: <anpXlaBxx6mhnw4C@kbusch-mbp>
+References: <20260801081818.1884199-1-yhlee@isslab.korea.ac.kr>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260804033605.3973127-1-kanie@linux.alibaba.com>
+In-Reply-To: <20260801081818.1884199-1-yhlee@isslab.korea.ac.kr>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,12 +68,19 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Aug 04, 2026 at 11:36:05AM +0800, Guixin Liu wrote:
-> When a host issues an Identify command with CNS 05h (I/O Command Set
-> specific Identify Namespace) and CSI 02h (ZNS) targeting a file-backed
-> namespace, nvmet_execute_identify_ns_zns() calls bdev_is_zoned() on
-> req->ns->bdev. A file-backed namespace has no block device, so
-> req->ns->bdev is NULL and bdev_is_zoned() dereferences it, oopsing.
+On Sat, Aug 01, 2026 at 05:18:16PM +0900, Yehyeong Lee wrote:
+> Two problems on the nvme-tcp host receive path, both reachable by a
+> controller sending a C2HData PDU that does not match the command.
+> 
+> 1/2: nothing compares the bytes actually received against the length the
+> command asked for, so a 4096-byte read answered with 512 bytes completes
+> as fully successful.
+> 
+> 2/2: the C2HData gate reads blk_rq_payload_bytes() without first
+> checking blk_rq_nr_phys_segments(), the rule commit 25e5cb780e62
+> ("nvme-tcp: fix possible crash in write_zeroes processing") established
+> for the send path.
 
-Thanks, applied to nvme-7.3.
+This looks good to me. I'll get this queued up if I don't hear any
+concerns.
 
