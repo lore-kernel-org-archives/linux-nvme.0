@@ -4,59 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 10667C5AD55
-	for <linux-nvme@archiver.kernel.org>; Mon, 10 Aug 2026 22:53:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2156FC5AD7B
+	for <linux-nvme@archiver.kernel.org>; Mon, 10 Aug 2026 22:55:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5OgkjKgLC7++bkYR5GWeiHzX6pB/0gt4D0jZIGYexck=; b=mXT8kvUUHQfMhFH1gIUScmk42r
-	iVjnIWeg9ZVBE/G15wUX2tEaZp40jznGVJjzVLz3DhXXlm8baEraSElOnGUVgueNh3ZQ8wbytv2/T
-	DChEOlIKfAbES5u4bXLaFIcymZSmKS1WMY8w4QmPLAxg6EsNH/n48AT+K/8ijeMH0PT5YYNcwBDw0
-	zC9RixaWNx2l4emVpFzvzPY6k8lOf4Fjrx/1xnRAhqGCIOOw7xVex47v62qJYmbjKy56BcMI5/qaY
-	QwTD3DwiCs1+ghHaUMzBANCIg190oakYaRMCzxjlId8OIfsDdXlIOuO3qvUGvoQbJ344gcxMvqbd3
-	EprXfUgg==;
+	bh=i+HOV1eEaaj5Xwzy6dQKpZWytvQwWK7C5huS7LM3iOA=; b=fPEY01TNpv6DrTkcnkXWl1sr8+
+	MSNhDeehGvOymM1o1My2KamTWdpLoTLkM6a4gz+YYnO0Kf6pFqy9siW+quzrS2fFRmetjLSZVC0Qw
+	uF6NGAfQn+EWZy6WKmWJT1bGfsJ18cSI0kXDm1i6cdsq5U038O/1U6mRirNZhqahJTzb9dHHteXwr
+	vnk+xEZAMBkVdZyfDdKOgznT+TxEP6EjI+pRJUSaxk9xcqeS88qP54vGNmEvlrbo+YwiczmdWD2Oz
+	s59cjwbr31BrsrN/nip90/wk1aG0/3cbmvbSzMlmFr52+RO5pJzhZUvkDwnSBwX8su60fu1ZOtBff
+	Dg88WmxA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wtYrk-0000000CzY5-408U;
-	Mon, 10 Aug 2026 22:53:08 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1wtYuA-0000000CzjQ-1GlZ;
+	Mon, 10 Aug 2026 22:55:38 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wtYrh-0000000CzXj-2V19
+	id 1wtYu8-0000000CzjI-2QeN
 	for linux-nvme@lists.infradead.org;
-	Mon, 10 Aug 2026 22:53:05 +0000
+	Mon, 10 Aug 2026 22:55:36 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id AADE9600AA;
-	Mon, 10 Aug 2026 22:53:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 281FA1F000E9;
-	Mon, 10 Aug 2026 22:53:04 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id E85C040A81;
+	Mon, 10 Aug 2026 22:55:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92E791F000E9;
+	Mon, 10 Aug 2026 22:55:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786402384;
-	bh=5OgkjKgLC7++bkYR5GWeiHzX6pB/0gt4D0jZIGYexck=;
+	s=k20260515; t=1786402535;
+	bh=i+HOV1eEaaj5Xwzy6dQKpZWytvQwWK7C5huS7LM3iOA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=OKgx3lqn3OoBpScVmie8EeWIbLuL4hOPfEyenQ9mJG2vQIvJJn7YepEzwsBg10vm9
-	 Aw2oUWf3ny3DWoJzr29QQh0S22UQDgoHpoGzGaEuwLDKaOq4aQM/xGHOwPCJrv6gs9
-	 XVaDblIUx3vE2wCIZOnvzWZivHH7xvn3X/wBsPk/cgn6xIcIRqQ/5wlKvYaDZGSMnE
-	 1owGIIfYS+WbW97e+k4fiQQSRZd3yy+z2FPu0fv68QoYtzSIWcGfLEUCvTwPEdXClr
-	 WLpRo/PzFI6nrmj+qWAZ0n+LrCjIgIZdy9SYp4yf9jygMl/YceHMD13ksVDAYyEGbf
-	 RKDf6ukFQxmmQ==
-Date: Mon, 10 Aug 2026 16:53:02 -0600
+	b=WHrJnG1xQ8xt7H4vG9H/ZLbj9+U8ssXVWJ2hzkHbSIQhrA+ExeOiv2EfMWjEzuwuN
+	 YiZbn1Q2+DmSRt2/x8jrIbWCYttdYkBhLLEZknRO3KvDik2fVfxl8pzZ9Y6P8+BZ6x
+	 NIGL/zpZzS7AmL7UjCiwxrrkWAWlScS6AkO3r99SYYafOdBWTjkJgd1JP6OhEFdiXQ
+	 AFGu1cIss/WrFNrFgDVtAkw3ngABQtBtV8/caAo28TdBi6FJaF7tzUgXsF2IcwO/bC
+	 cRoRI6Uw/K/A4kAwXORFzI8umDb6FOKqBt7+qRD07DwJzc8r6Prl5qqjsbCLx50lbr
+	 pS6CGE0Dvo2WQ==
+Date: Mon, 10 Aug 2026 16:55:34 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@infradead.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
+To: Guixin Liu <kanie@linux.alibaba.com>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
 	Chaitanya Kulkarni <kch@nvidia.com>,
-	Damien Le Moal <dlemoal@kernel.org>
-Subject: Re: [PATCH v3] nvmet: pci-epf: fix use-after-free in
- nvmet_pci_epf_exec_iod_work()
-Message-ID: <anpWThk0l_i0CpK4@kbusch-mbp>
-References: <20260730061839.75338-1-shinichiro.kawasaki@wdc.com>
+	Damien Le Moal <damien.lemoal@wdc.com>,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH] nvmet: fix NULL pointer dereference in
+ nvmet_execute_identify_ns_zns()
+Message-ID: <anpW5hx_HZQaC0A5@kbusch-mbp>
+References: <20260804033605.3973127-1-kanie@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260730061839.75338-1-shinichiro.kawasaki@wdc.com>
+In-Reply-To: <20260804033605.3973127-1-kanie@linux.alibaba.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,12 +71,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jul 30, 2026 at 03:18:39PM +0900, Shin'ichiro Kawasaki wrote:
-> nvmet_pci_epf_exec_iod_work() submits an I/O command with req->execute()
-> and then waits for the command to complete and transfers the data back
-> to the host. This wait is not needed for commands that do not transfer
-> data from the device to the host. To decide whether that wait is needed,
-> it reads iod->data_len and iod->dma_dir after calling req->execute().
+On Tue, Aug 04, 2026 at 11:36:05AM +0800, Guixin Liu wrote:
+> When a host issues an Identify command with CNS 05h (I/O Command Set
+> specific Identify Namespace) and CSI 02h (ZNS) targeting a file-backed
+> namespace, nvmet_execute_identify_ns_zns() calls bdev_is_zoned() on
+> req->ns->bdev. A file-backed namespace has no block device, so
+> req->ns->bdev is NULL and bdev_is_zoned() dereferences it, oopsing.
 
 Thanks, applied to nvme-7.3.
 
