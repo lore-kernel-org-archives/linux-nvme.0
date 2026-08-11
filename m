@@ -4,57 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BEEC9C5B572
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Aug 2026 16:46:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EB5E3C5B56A
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Aug 2026 17:07:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LS4JIlqraDcriC4bxlNxrEyn/0oBkj9oHbOV9Olu/ho=; b=GLfKp5yxxFVA6AaGJN4QEGp/58
-	+l/afw9ubD4HCoNDZGaMzeDqDlQWIGi39b3f5YxnhGa+L2OSE8zWo2dnG0/23iHFkcm8oXdNovY4S
-	pQqu4oH+hU44bYiKk79w1CpAIbEgEEBF4M5RB6nJuqbBZKtQvj89m8QyeQFvMWaTSxcSqpbBCsGyK
-	aANausilM2W6ST2FfFPKhwlNzmb/hzwx2fHf5r6nZ1HfgHWH8Qkj2CKq9NDMzTg+2vPhdW6pxMU7A
-	EnHIaqjsn9hnaaViivTQP9jLqClPGpODegc5CAiEwGzAUEFcmSLmzfN3hk92mOiYm7/fQK4KFhA+G
-	kbvYKW6g==;
+	bh=E08UpFHu5hxN+1hMKTZjWNxPsM8o+k329eLQADLj7n8=; b=TTW9D5Y7dN/fE3uvbgSmGlGMnp
+	t2mv21QP718Xqj766znmyCshg6tOU8Jp9LQ4MoZHiKS8I2DxLBge2uKj6VT5d6ijLZBU8gjyM+2pX
+	BMI6soiFRcgSLIn54vU0N1phRs/Mr+b+WwG/9mLdu2gx4RS03d5EhXqrMwtRzJIfumlNJyMK4qhtU
+	e0V5t6zynJo3k6E7KSHthdv1tKa/vETrCTVkyASDmplPW0z/oneTofxG7P1eDXORD0Vvqa29dtE9U
+	ApaCPw1UqlnpNOtTeqB+UXxnUaNVJW2GeNkx7wZx5ZEKkUVZM7IfxfljgRGsubr//azrRYC0+E1Aj
+	fF6PrxCw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wtpcM-0000000EXnl-1FGB;
-	Tue, 11 Aug 2026 16:46:22 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1wtpwN-0000000EbIT-1Fz8;
+	Tue, 11 Aug 2026 17:07:03 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wtpcL-0000000EXnW-2S8C
+	id 1wtpwL-0000000EbID-2Kt5
 	for linux-nvme@lists.infradead.org;
-	Tue, 11 Aug 2026 16:46:21 +0000
+	Tue, 11 Aug 2026 17:07:01 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id A904D600AE;
-	Tue, 11 Aug 2026 16:46:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 195BA1F00A3A;
-	Tue, 11 Aug 2026 16:46:20 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id E1888600AF;
+	Tue, 11 Aug 2026 17:07:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D7E61F00A3D;
+	Tue, 11 Aug 2026 17:07:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786466780;
-	bh=LS4JIlqraDcriC4bxlNxrEyn/0oBkj9oHbOV9Olu/ho=;
+	s=k20260515; t=1786468020;
+	bh=E08UpFHu5hxN+1hMKTZjWNxPsM8o+k329eLQADLj7n8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=S5Q6o6c+wz8vPAI8l7cwZFk2KzNNC7Uf0clYL2uSTvHSiAP6qsjlIpPhSrnOby9RS
-	 cmXSy840lJWb7uUpWEsGDgFl42KqweDF1QVQhNbL0fV27XpVoa7j4otNU+SfxSgLnM
-	 ZIBTqpH0gx6yXYPe0tUal335Duv/e6zPEw7m01HX6dIajPS1uUoXJUx3PLcKiujwlV
-	 hzLDL765c9Ga6btaIqbCtxUrGcwSlnFPYeVTa368ILK9P7B6fiX7lBKheFHkhvTxNc
-	 4AgJB27Z5WxrJZ/79q1IbOKW4NIs2KvULdOsYzaMlQ5xeOINzSd5Dh4VJBvSjzOA73
-	 oe2dJL7Ng0asQ==
-Date: Tue, 11 Aug 2026 10:46:18 -0600
+	b=gTb1Y+yRm4yxZejz1qKhXcxRERX6ulEq62BRGc5FlNYeItDtwXvhH6VXq9B8sKa/H
+	 zYtWJKIXLoFQjyPxlirwZX2dG3cx7Iz0+2aUvE5h4336QhJ4aMaPJinBTCyDBWzuEO
+	 CXYqhQCdxemlx3b5sPFtCwu7ODGVW8BaX3C8ci/z6tuog7PMBqLyknNzvjc/C0ccR9
+	 YTZa+10zFVBN7q30xyiQN0ZADj39SkZskcqaWXM66L8jQrOOF52dIHY8Uok+2UF0Lk
+	 O8vJqEBdYBfZ31ZimZ4dcYVl4x5/kJGoQ+kIwpURkKsN0DVKSt08zKoJwJ+Haa2oW2
+	 M0x4uXlgFr5VQ==
+Date: Tue, 11 Aug 2026 11:06:58 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: guzebing <guzebing1612@gmail.com>
-Cc: axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Guzebing <guzebing@bytedance.com>
-Subject: Re: [PATCH v4] nvme: reduce firmware activation poll interval
-Message-ID: <antR2u1eeBDCr0ux@kbusch-mbp>
-References: <20260728121735.1627370-1-guzebing1612@gmail.com>
+To: Chao Shi <coshi036@gmail.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nvme: ratelimit the completion-path messages driven by
+ device data
+Message-ID: <antWsjQGe_C7YEi0@kbusch-mbp>
+References: <20260810220258.1960208-1-coshi036@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260728121735.1627370-1-guzebing1612@gmail.com>
+In-Reply-To: <20260810220258.1960208-1-coshi036@gmail.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,28 +70,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jul 28, 2026 at 08:17:35PM +0800, guzebing wrote:
-> +static int nvme_wait_ready(struct nvme_ctrl *ctrl, u32 mask, u32 val,
-> +			   u32 timeout, const char *op)
-> +{
-> +	unsigned long timeout_jiffies = jiffies + timeout * HZ;
-> +	u32 csts;
-> +	int ret;
-> +
-> +	ret = nvme_wait_csts(ctrl, mask, val, timeout_jiffies, false, &csts);
-> +	if (ret != -ETIMEDOUT)
-> +		return ret;
-> +
-> +	dev_err(ctrl->device,
-> +		"Device not ready; aborting %s, CSTS=0x%x\n", op, csts);
-> +	return -ENODEV;
+On Mon, Aug 10, 2026 at 06:02:58PM -0400, Chao Shi wrote:
+> nvme_find_rq() and nvme_handle_cqe() print an unratelimited message for
+> every completion queue entry whose command id does not resolve to an
+> in-flight request.  Both are reached from the completion interrupt path
+> (nvme_irq() -> nvme_poll_cq() -> nvme_handle_cqe()) and the decision to
+> print is made entirely from device-supplied data, so a controller that
+> posts a stream of bogus command ids drives unbounded printk from hard
+> interrupt context.
 
-Actually, I'm to back this out for a moment to think about this. I like
-that you've changed the error to ETIMEDOUT for that condition, but I'm
-not sure we need to convert it to ENODEV. None of the callers seem to
-care about the specific error, and the user visible side effect of the
-condition is more informative than ENODEV.
-
-So if we can get rid of that legacy behavior, then this simplifies even
-more. Thoughts?
+Yeah, if a controller is so badly malfunctioning that only garbage is
+getting posted to the completion queues, then we don't really get any
+more information by dumping every single instance compared to rate
+limiting it. So applied to nvme-7.3, but with a minor fix to an overly
+long line.
 
