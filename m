@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BB5F8C5B572
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BB635C5DF64
 	for <linux-nvme@archiver.kernel.org>; Thu, 13 Aug 2026 15:01:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,78 +12,79 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=drS8nyfS/5n/9X4otzCRfuA2cT+uvRCf3SjirFiIRoo=; b=mGRe4TJZo4ukp0ElVdbtPlGw5c
-	w+m/eaHr4Lq8seJxIh3PbcbbeiYsA2JYVm17x131yG4i0z0HRNLOExLW6FTkwL0YRExmRsojXeUIl
-	ONc353lhh+ZLgTwNOH5QyyFmMqwiNHx2JgS/gnaptBLn/AISbQA1Dz4Q8UyEIZdmhO0aVd6fHXcO5
-	nFyB0/5+a3mze483M+m/+Knggj/5exGkXcqtQ0ZvF4YwbN7KmAijfZ1x2iBY06cfWLX6PGFBKMtra
-	E0mBpzWwzvlzLM/9ihuaNUKtyGic+yHOfYLIKOXMCTvyaOYOhZAj222rBf+WSee0gV9P0olFodOYE
-	GdM+8KCg==;
+	bh=3JSH/iI45wy3MD9zA4sQib4hD7ZbkdXLzpNiNtsaJcE=; b=S9VYWCc8eyd+F6T21UrjnbtIkk
+	aqPVklM/H612SRPFWjQz1jxlpX/gV/ymVsPc+9RHxD/C8S1qUyG5exDhSAf8REmH5XX37HvIfKST3
+	y7JGi8kjz8dEkKWsXczhiiPEiNlJpg0ckK60Sb7rIZLGH/Is2S2KrHzWaNBq2ijodU1QJXmyS26Bv
+	Z9BE+18G4SEA7+Ix/hAf8TXzPATU5Qu3W2LOKB9/9qv4RHp1Ut836cIIhFy1KTQYzqIRfYyUiz/2B
+	7qDlE/iADEIWL+d/X/rDjl3xuJ/XfUDPphBfxE8rKvuvIPjpuZ8qjJaeZWYzk4gTJbEAnVSX7QUEK
+	HMR2fmSQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wuWvY-00000000tBr-3DfH;
-	Thu, 13 Aug 2026 15:01:04 +0000
+	id 1wuWvZ-00000000tCG-1CQz;
+	Thu, 13 Aug 2026 15:01:05 +0000
 Received: from flow-b7-smtp.messagingengine.com ([202.12.124.142])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wtqfD-0000000EhQY-2wnc;
-	Tue, 11 Aug 2026 17:53:24 +0000
-Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
-	by mailflow.stl.internal (Postfix) with ESMTP id 6B744130016C;
-	Tue, 11 Aug 2026 13:53:21 -0400 (EDT)
+	id 1wtqfn-0000000Ehk0-1pty;
+	Tue, 11 Aug 2026 17:54:03 +0000
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailflow.stl.internal (Postfix) with ESMTP id 0645A1300397;
+	Tue, 11 Aug 2026 13:53:57 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-08.internal (MEProxy); Tue, 11 Aug 2026 13:53:22 -0400
+  by phl-compute-04.internal (MEProxy); Tue, 11 Aug 2026 13:53:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jaseg.de; h=cc
 	:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1786470801;
-	 x=1786478001; bh=drS8nyfS/5n/9X4otzCRfuA2cT+uvRCf3SjirFiIRoo=; b=
-	QkWk+O+IqbOXXrBukMGBQdbUdPA1KgNBvThM4OEZTKN8XpOagHUofAFG1d1GR0ao
-	/lYX1uSnQOpRvbvBo8VQVpXEd+yKNzZBvE641sl2Ttw5KCW90N1yb9Xc9aWTvJ+4
-	xvr5xnDrHDEAkJAPTfIN+w27hRJFgxz3k/73vpih+tg+BRUVzXl3xyjuCF9AKkX4
-	ui+Mo0rDMoxmZpHVqNTF0DmWMAdRdfhWu7pk5oTYovuv09/KgDB+MZdvbDavQSH7
-	rx6blAFkBeLVeUMUFKx5/AfC7mkG2ceQc6gSeO3jDjRn0c9F7A50k4X7JfQdp36W
-	DYaXkdMfmfOE5iyBgwWj7A==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1786470836;
+	 x=1786478036; bh=3JSH/iI45wy3MD9zA4sQib4hD7ZbkdXLzpNiNtsaJcE=; b=
+	CZJ+DP1ctATAeRR/KJYvTUIM3t8q9GDjhKCZJvatoQooWR6rVWNSly772PQ/TfUy
+	ENUwOmU25bKc8x8iO+5/ZiNSoxDpy65ZsBKcuwerOM0xJtAMRQlKbIA2r4+K7cpo
+	4bjjS9E5oRvoOp38MPHnL+07j7CKJyZfjvfarLFn9unjoYWs69bl7jCUKKr8Ndsa
+	JTNOUd8st5x+6dnD+tzTK+EJVuqdzDYdM5RKFtGLtt2fo6MdxoDxsQEmWWm+1h5h
+	9r0ieubu+uMTq53Onf1eIiRRGrIEDqzqRf1iGgAN3ZRTwO/3zZolwRXxQuwQVsSO
+	JLp/WAXW/e6HViLutxDuDA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1786470801; x=
-	1786478001; bh=drS8nyfS/5n/9X4otzCRfuA2cT+uvRCf3SjirFiIRoo=; b=J
-	DK0hyLPHLvx4qRVfCyhcGaY3Y1afb/Vr6BSxZ+SPEkbntfgaOn3F/kaQ55e/DxpY
-	MF4ppmUTtSC+i3NwhKwiUU8tVt5edI7hjrpkhlgm8jHHb/vnsiqQlbQmwKe2gElS
-	Yxt8h5eVOzzYCSAw9E8TNszM0vfl9lRNNiykjDUWSsSaaRdIdHpBElBkLvT+wo7h
-	LF/926SMCsrhNUHaIx06eCNigbGYwQwANiIXGVuTJEP2ET+U0v8jnyrTC/LaUMFm
-	3U6E0p1RUXgaQrWhipCy3DiU6Ztdr94fYDc7ollSUWH7sZHSzTojL3uivjRFAHCg
-	cTMFmqJEuklLuwg+uoKqw==
-X-ME-Sender: <xms:kWF7ahPL-vL3tF84f1TFR9W7IQw7kPkSUVz234bdzUjweCdAL6k4-g>
-    <xme:kWF7aqh25gYsUv1Slr7d0IyOkpYuU6WDllfNUjmUCT6qyUKRl-zshfE0yW7h9ZfmV
-    ZVd1FTHJXqI7KVbWSRN81HrjwJFURiy9FPpCGaD_fUsX16NC8CcmA>
-X-ME-Received: <xmr:kWF7atAKnwG_L1Az0VDKSMi6BdZRPeBv8cEo0ZDxj9uHgueAY6Z7Fe5AyeSiirFdNPrA7RsCuIiD-TCb3SZafg8>
-X-ME-Proxy-Cause: dmFkZTEJEGuCgn7zSteBDxNtSJjV76+V4CnevXg+/HpV8pBcUcuiCNODIEIDrvYJtfUig4
-    YbV/QY7F/5FmNh0pRZPVmKSRgYy7+KF1hyAgmaSBfjrBu1Tf17UBdgE0OKLaTkwTcf35M8
-    A3BG9gU1kUODTHqS0pdsippevO97iASgI9eCstdiieZcmNJMxjp+Dk/kb2yyT19QSKiq2/
-    PYmZLQclF7ZDW1mh1YN6ilSkOCjygxJsr5eR/wz7HE2fkmdnLW9InISWV9kR+irzxvtO9I
-    pnBZF98lSAmI852yZY0IsRjcC4lEqWDe/NVDMPZFCYAeAfD86idfVCQ6A0RRy8MpCwFrGi
-    JaamIhViNAMRkMCXjV9YL6sd6IHyq/tf2HlfDMjgIP2APCVaZFFwrE7zrV7ovbBban3Iu7
-    W/Uh5FMdKsGj5pZx7P6MCTneY76byI6K9C/6cbEqr5VdWRn4duFZrtBn2D1tYrI8NiPdWc
-    ppdDBXno6JjG1NA7VgMw1eNcNKfSPsYaWA1j2XBlxJK1+DKisAb9rbUMzR+NeEbFpeQxKg
-    w7AZvvx58bqYqiXZjVrLVsnJ4IKjr0WeLWQcsrUy/zeFdUPOGwdqK34r2DtI5AwmetFmPP
-    0W7aqfZ35Td15bHqKqCcppuR1Zm69cCvNfIMnYwrbZbhpOtGuGMgQK9/Qtsg
-X-ME-Proxy: <xmx:kWF7amVlkY6EEuDIyC0WoxRvqtGq5ILKX5as1F-XLFce9eQpdiS7uA>
-    <xmx:kWF7auOvnvXF8D31HFphofi61ah5tcQFkBu7TeKHgioHgv92EAB4_w>
-    <xmx:kWF7ashsgsVXibL7meABAHFLlo7CAUmBCG9_7nrRcUqZrWwBnbtGiw>
-    <xmx:kWF7artRJK5afcegwONALqXLII5e98jHTVHA6TFoouW-ondHQiaCzQ>
-    <xmx:kWF7avUG4Ti3NfPHjv73nO4mc1ldjlFs9gNabtv2uLpn8YPIE-JzZ_ON>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1786470836; x=
+	1786478036; bh=3JSH/iI45wy3MD9zA4sQib4hD7ZbkdXLzpNiNtsaJcE=; b=Y
+	to8vG2bwv0UUn+XNWPlW4HltiAZMSeXAls7xJHf405to9maLImvQ9bJiV7xuBJPt
+	xUIZWEgivpvjAZ/1QdoIo+b9/FKpN+LOU/6eXGlSokf48mJSnxOdoAhuJl9haavG
+	p1QQ0O5H31ulz2f1KK09UhIo4WQbcFU/ccZ7Ax2MFwad5tcauqP8cfc3flFLwxGe
+	Y75oecP+XNv5iwLqvldxhGrdvSZiAdo1RNEgog64rZDGoXYdeDr3/Tn4wnsVZDlr
+	v5P57anNA1u+0/KQAx/G2WWflCk6nIRdXxiG9tYHoiaBV0XQv8Cuv39dxLYqb4Hf
+	eNT7F4OO6XotcScVosu+Q==
+X-ME-Sender: <xms:tGF7aiJKno3z67rxtm3MwFWmSr1qq3YuYzcqq6y63Z8oTuM-n8nhVw>
+    <xme:tGF7ak8Hu_jhjkU4e82Xz7I9J6AizYJgLpYww1XpLix4ozUrHA2hHKre4tCCegENF
+    JKguZ2uOe7Yz-h17ITstcjZNXyrafTMgUbUcfzPTjfN-QuWyVja_w>
+X-ME-Received: <xmr:tGF7aoXciMDUTi6hA0_x7ZQsNOwlQ4EtBC8NLT6gl4HIwkC-AsF3-PTrFq6F3Ak_1-9hb2fTU-q8NQzKzWR_o4Q>
+X-ME-Proxy-Cause: dmFkZTFP5tmiXRyqpvhao8uWnDWsuVG58E3QcpY8nNF+TN3d4+2z3XaWQJ1+2uEKcUq9Jg
+    +xH/KDfBOi31TfxVE5vy2aZ5W5Eono+bvv7mBiiNvVW/C9tjIvrxCLzv7Tz6GJOSvAG1cd
+    t11+FzpQNbill+yp1ZC7JKPVzEaxQ4CH2HewKTU1gYEn0mNFldMXWgoBvZ/c5OhwLZogLW
+    sZeOMCUfQY9vOvCjGHA0ivpYn+5HBy3sK6RswFREIaUm9jlhbU7pV5ZXGDLpJAMlUAJ/Lo
+    y1vjaaTNNEiBF07QqH8YbZg0fsVTsE2lSAku2XiqZRlB3GAWdGnDFC/NxQNHJZjZwh0bM3
+    cLQaepUv4mccOXTYHSJClVmCRVjSn+gHGZSrZSr9AIOtFX696ePpwSJ3GivOeqzsZkLmTk
+    yyYQq6X2LYjRyPVZRsKI2XFbuaBY59zZqLm0Ubjaf2Up6v/CUhpiejbTg9OndalmiNo1NB
+    TgyZExpcvXKCRncIx0T/h5V17Yq+BBkt1Lp9C6cm0M6/7WFjIX6uj79fa7WzCqocBHAItx
+    lYJGO4yn0BYCEOUjuH4msbchVi4ZaVb/zXzuqFPnUz6EFLEG1rjqsToNrsNvdQ0zdS7Ksc
+    iAXcKrD3AR2kiGeCuPM2c70LXnp+ct6Uu0ATWnPyvkCwQAMtKo2ec5wQGj0w
+X-ME-Proxy: <xmx:tGF7asL5qDC481n5yJUehDCZHwRaJL4UwVQrDFm98jQ0hiVJMLyalw>
+    <xmx:tGF7ai30rrImeq9T90IIpB94BB1urAX1qiXxvs9BhUZjke5_4nNXEA>
+    <xmx:tGF7am4zJuXzY0djzripvWMbDrNrupcdCQQZTxKukPDBk7oCLv2Crg>
+    <xmx:tGF7aqDX5cdfqklMb2Ex7760XSkgmpeDBXmZI4o_6ZxqlfsL1Bb5ug>
+    <xmx:tGF7aroe6voaYG2F9rSNjt3fN3R27pPqoKVo5MIMqwC34HAnQgRdkqhC>
 Feedback-ID: i60a14417:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 11 Aug 2026 13:53:14 -0400 (EDT)
+ 11 Aug 2026 13:53:50 -0400 (EDT)
 From: =?utf-8?q?Jan_Sebastian_G=C3=B6tte?= <linux@jaseg.de>
-Date: Tue, 11 Aug 2026 19:52:51 +0200
-Subject: [PATCH v2 02/13] crash-core: Flush caches on CRASH_WIPE_SECRETS
+Date: Tue, 11 Aug 2026 19:52:55 +0200
+Subject: [PATCH v2 06/13] security/keys: implement wipe op for user-type
+ keys
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260811-crash-zeroize-rework-v2-2-9561d13c2340@jaseg.de>
+Message-Id: <20260811-crash-zeroize-rework-v2-6-9561d13c2340@jaseg.de>
 References: <20260811-crash-zeroize-rework-v2-0-9561d13c2340@jaseg.de>
 In-Reply-To: <20260811-crash-zeroize-rework-v2-0-9561d13c2340@jaseg.de>
 To: Andrew Morton <akpm@linux-foundation.org>,
@@ -126,8 +127,8 @@ Cc: kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
  =?utf-8?q?Jan_Sebastian_G=C3=B6tte?= <linux@jaseg.de>
 X-Mailer: b4 0.15.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260811_105323_808938_575AF55F 
-X-CRM114-Status: GOOD (  17.42  )
+X-CRM114-CacheID: sfid-20260811_105359_527781_1BAFEB48 
+X-CRM114-Status: GOOD (  13.66  )
 X-Mailman-Approved-At: Thu, 13 Aug 2026 08:01:01 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -143,150 +144,123 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Replace memzero_expclit with our custom wrapper that additionally
-flushes the target address ranges from CPU caches.
+Wipe the payload of "user" and "logon" keys, and of the key types reusing
+the user-type ops: s390 cert_store, NVMe TLS PSK, NFS idmap and PKCS#7.
 
-On ARM64, while memzero_explicit is already reasonably reliable for
-wiping secrets from memory during kdump, it can theoretically leave
-residue in DRAM when the last memzero_explicit writes are still in
-flight in caches when shutting down the caches in machine_kexec.
-
-We need to swap every memzero_explicit call because ARM64 do not have a
-wholesale "flush all caches" primitive and only support flushes targeted
-to a particular address range.
-
-Architectures other than ARM64, notably x86-64, are not affected by this
-cache flush issue.
+Used by CONFIG_CRASH_WIPE_SECRETS.
 
 Signed-off-by: Jan Sebastian Götte <linux@jaseg.de>
 ---
- arch/arm64/kernel/machine_kexec.c | 20 ++++++++++++++++++++
- include/linux/crash_core.h        | 21 +++++++++++++++++++++
- kernel/crash_core.c               | 23 +++++++++++++++++++++++
- 3 files changed, 64 insertions(+)
+ crypto/asymmetric_keys/pkcs7_key_type.c |  1 +
+ drivers/nvme/common/keyring.c           |  1 +
+ fs/nfs/nfs4idmap.c                      |  2 ++
+ include/keys/user-type.h                |  1 +
+ security/keys/user_defined.c            | 15 +++++++++++++++
+ 5 files changed, 20 insertions(+)
 
-diff --git a/arch/arm64/kernel/machine_kexec.c b/arch/arm64/kernel/machine_kexec.c
-index c5693a32e49b..12bf3c90f519 100644
---- a/arch/arm64/kernel/machine_kexec.c
-+++ b/arch/arm64/kernel/machine_kexec.c
+diff --git a/crypto/asymmetric_keys/pkcs7_key_type.c b/crypto/asymmetric_keys/pkcs7_key_type.c
+index b930d3bbf1af..663a246742f7 100644
+--- a/crypto/asymmetric_keys/pkcs7_key_type.c
++++ b/crypto/asymmetric_keys/pkcs7_key_type.c
+@@ -74,6 +74,7 @@ static struct key_type key_type_pkcs7 = {
+ 	.instantiate		= generic_key_instantiate,
+ 	.revoke			= user_revoke,
+ 	.destroy		= user_destroy,
++	.wipe			= user_wipe,
+ 	.describe		= user_describe,
+ 	.read			= user_read,
+ };
+diff --git a/drivers/nvme/common/keyring.c b/drivers/nvme/common/keyring.c
+index 32d16c53133b..33303f035fb1 100644
+--- a/drivers/nvme/common/keyring.c
++++ b/drivers/nvme/common/keyring.c
+@@ -84,6 +84,7 @@ static struct key_type nvme_tls_psk_key_type = {
+ 	.instantiate    = generic_key_instantiate,
+ 	.revoke         = user_revoke,
+ 	.destroy        = user_destroy,
++	.wipe		= user_wipe,
+ 	.describe       = nvme_tls_psk_describe,
+ 	.read           = user_read,
+ };
+diff --git a/fs/nfs/nfs4idmap.c b/fs/nfs/nfs4idmap.c
+index bc397110d977..26f579ae2c73 100644
+--- a/fs/nfs/nfs4idmap.c
++++ b/fs/nfs/nfs4idmap.c
+@@ -190,6 +190,7 @@ static struct key_type key_type_id_resolver = {
+ 	.instantiate	= generic_key_instantiate,
+ 	.revoke		= user_revoke,
+ 	.destroy	= user_destroy,
++	.wipe		= user_wipe,
+ 	.describe	= user_describe,
+ 	.read		= user_read,
+ };
+@@ -412,6 +413,7 @@ static struct key_type key_type_id_resolver_legacy = {
+ 	.instantiate	= generic_key_instantiate,
+ 	.revoke		= user_revoke,
+ 	.destroy	= user_destroy,
++	.wipe		= user_wipe,
+ 	.describe	= user_describe,
+ 	.read		= user_read,
+ 	.request_key	= nfs_idmap_legacy_upcall,
+diff --git a/include/keys/user-type.h b/include/keys/user-type.h
+index 386c31432789..685fa054b0ac 100644
+--- a/include/keys/user-type.h
++++ b/include/keys/user-type.h
+@@ -40,6 +40,7 @@ extern void user_free_preparse(struct key_preparsed_payload *prep);
+ extern int user_update(struct key *key, struct key_preparsed_payload *prep);
+ extern void user_revoke(struct key *key);
+ extern void user_destroy(struct key *key);
++extern void user_wipe(struct key *key);
+ extern void user_describe(const struct key *user, struct seq_file *m);
+ extern long user_read(const struct key *key, char *buffer, size_t buflen);
+ 
+diff --git a/security/keys/user_defined.c b/security/keys/user_defined.c
+index 6f88b507f927..f4897c19c2dd 100644
+--- a/security/keys/user_defined.c
++++ b/security/keys/user_defined.c
 @@ -6,6 +6,7 @@
-  * Copyright (C) Huawei Futurewei Technologies.
   */
  
+ #include <linux/export.h>
 +#include <linux/crash_core.h>
- #include <linux/interrupt.h>
- #include <linux/irq.h>
- #include <linux/kernel.h>
-@@ -15,6 +16,7 @@
- #include <linux/set_memory.h>
- #include <linux/smp.h>
- 
-+#include <asm/barrier.h>
- #include <asm/cacheflush.h>
- #include <asm/cpu_ops.h>
- #include <asm/daifflags.h>
-@@ -221,6 +223,24 @@ void machine_crash_shutdown(struct pt_regs *regs)
- 	pr_info("Starting crashdump kernel...\n");
- }
- 
-+#ifdef CONFIG_CRASH_WIPE_SECRETS
-+/*
-+ * Queue each wiped range for cleaning to the point of coherency.  Deferring
-+ * the barrier until the notifier chain is complete avoids one DSB per range.
-+ */
-+void arch_crash_wipe_range(void *addr, size_t size)
-+{
-+	unsigned long start = (unsigned long)addr;
-+
-+	dcache_clean_poc_nosync(start, start + size);
-+}
-+
-+void arch_crash_wipe_flush(void)
-+{
-+	dsb(sy);
-+}
-+#endif
-+
- #if defined(CONFIG_CRASH_DUMP) && defined(CONFIG_HIBERNATION)
- /*
-  * To preserve the crash dump kernel image, the relevant memory segments
-diff --git a/include/linux/crash_core.h b/include/linux/crash_core.h
-index 4230463f3faa..d3e4192b7e6d 100644
---- a/include/linux/crash_core.h
-+++ b/include/linux/crash_core.h
-@@ -6,6 +6,7 @@
- #include <linux/elfcore.h>
- #include <linux/elf.h>
- #include <linux/notifier.h>
-+#include <linux/string.h>
- 
- struct kimage;
- 
-@@ -15,6 +16,26 @@ struct crash_mem {
- 	struct range ranges[] __counted_by(max_nr_ranges);
+ #include <linux/init.h>
+ #include <linux/slab.h>
+ #include <linux/seq_file.h>
+@@ -28,6 +29,7 @@ struct key_type key_type_user = {
+ 	.update			= user_update,
+ 	.revoke			= user_revoke,
+ 	.destroy		= user_destroy,
++	.wipe			= user_wipe,
+ 	.describe		= user_describe,
+ 	.read			= user_read,
  };
+@@ -48,6 +50,7 @@ struct key_type key_type_logon = {
+ 	.update			= user_update,
+ 	.revoke			= user_revoke,
+ 	.destroy		= user_destroy,
++	.wipe			= user_wipe,
+ 	.describe		= user_describe,
+ 	.vet_description	= logon_vet_description,
+ };
+@@ -152,6 +155,18 @@ void user_destroy(struct key *key)
  
-+#ifdef CONFIG_CRASH_WIPE_SECRETS
-+/*
-+ * Record a range that has already been wiped, or wipe and record it in one
-+ * operation.  Architectures may use the ranges to push the wipes out to
-+ * memory before kexec disables the caches.
-+ */
-+void crash_wipe_cache_range(void *addr, size_t size);
-+void crash_wipe_memzero(void *addr, size_t size);
-+
-+void arch_crash_wipe_range(void *addr, size_t size);
-+void arch_crash_wipe_flush(void);
-+#else
-+static inline void crash_wipe_cache_range(void *addr, size_t size) { }
-+
-+static inline void crash_wipe_memzero(void *addr, size_t size)
-+{
-+	memzero_explicit(addr, size);
-+}
-+#endif
-+
- #ifdef CONFIG_CRASH_DUMP
+ EXPORT_SYMBOL_GPL(user_destroy);
  
- int crash_shrink_memory(unsigned long new_size);
-diff --git a/kernel/crash_core.c b/kernel/crash_core.c
-index 95f5c0415e60..42faf8d0a4c4 100644
---- a/kernel/crash_core.c
-+++ b/kernel/crash_core.c
-@@ -51,10 +51,33 @@ int crash_wipe_secrets_unregister(struct notifier_block *nb)
- }
- EXPORT_SYMBOL_GPL(crash_wipe_secrets_unregister);
- 
-+/*
-+ * Some kexec paths disable the data cache without first cleaning it.  Give
-+ * architectures valid virtual ranges for the wiped data, then let them defer
-+ * any completion barrier until all crash-wipe callbacks have run.
-+ */
-+void __weak arch_crash_wipe_range(void *addr, size_t size) { }
-+void __weak arch_crash_wipe_flush(void) { }
-+
-+void crash_wipe_cache_range(void *addr, size_t size)
++void user_wipe(struct key *key)
 +{
-+	if (size)
-+		arch_crash_wipe_range(addr, size);
-+}
-+EXPORT_SYMBOL_GPL(crash_wipe_cache_range);
++	struct user_key_payload *upayload = key->payload.data[0];
 +
-+void crash_wipe_memzero(void *addr, size_t size)
-+{
-+	memzero_explicit(addr, size);
-+	crash_wipe_cache_range(addr, size);
++	if (upayload)
++		crash_wipe_memzero(upayload->data, upayload->datalen);
++	key->payload.data[1] = NULL;
++	key->payload.data[2] = NULL;
++	key->payload.data[3] = NULL;
 +}
-+EXPORT_SYMBOL_GPL(crash_wipe_memzero);
++EXPORT_SYMBOL_GPL(user_wipe);
 +
- static void crash_wipe_secrets(void)
- {
- 	pr_info("Wiping sensitive secrets...\n");
- 	atomic_notifier_call_chain(&crash_wipe_secrets_notifier_list, 0, NULL);
-+	arch_crash_wipe_flush();
- 	pr_info("Done wiping secrets.\n");
- }
- #else
+ /*
+  * describe the user key
+  */
 
 -- 
 2.53.0
