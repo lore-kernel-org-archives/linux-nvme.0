@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DEBB0C5DF69
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0B34C5B572
 	for <linux-nvme@archiver.kernel.org>; Thu, 13 Aug 2026 15:01:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,78 +12,78 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jFYKhNM35RpDRZh/43hulCmfEJyGilMf3A0rl4qWOVM=; b=om0UwvjLYyIetAw5593ChPL3kw
-	ORtOxu/mgu/TO+9tvs9RdIoAIjj4dfPxedKufj5sojjjgDhCf38oqHmTNS6mB1Ukr29fQAhCuFplK
-	Cyz7hABuGkcy+t1qfjjppy6yp1vKHR8bIePj+lsKisfPgjXKvo6jJP2rEFMh0vnxjDTqY7gL1I1Wn
-	AgAK8fHq6ZOCu2AU9KXD+EYv/U+uQq25SeXATkdxCjEQBh06Hiysenk4yarhl/5MPTpBEjb6yikPG
-	fgqAacpgNDmOawY++Jh1e+gTn1yadU3zqjcTb7SBcRdoeLCFuVd4B3IdBfoPaaf+axlVO+tHjijKY
-	vAmx+wEw==;
+	bh=b3ArJhoaqsFvEuZHlfyWAtV6SGaCuVy7Av0qaKtOt1k=; b=unp7N7UUtncWldrPpmd9Y1s324
+	+H5QU10KcsL5N7SGyKah2V3aYdxntDWM2D7VC7BtJ1K15o2NZr+DwURwIFTWU9eWNYYTQ/tBcR3kf
+	qQE2ZG8YhMYlZ9oSCXUsGEsLnbdIpAhUAr4SXnJh+oDpzo4rdEfMDGESfDrEv1kSJv27Y6i0WaZFu
+	kE+9Vv3EG6rGy1LLjnJswkc1GhyyjJfyMRgYgeC5FfahA/N4AdrExFwMwtrpUorRHfFlAV4CidQov
+	4XI8NklRrQJ7ykzsondXHUqfM3lZGmpjHf/C7MVFgM1Gay635dyq9brv5FWA0/pVJ7B2l4KTjKe/8
+	vPReXh+A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wuWva-00000000tFn-2MR4;
-	Thu, 13 Aug 2026 15:01:06 +0000
+	id 1wuWvY-00000000tBx-3hYC;
+	Thu, 13 Aug 2026 15:01:04 +0000
 Received: from flow-b7-smtp.messagingengine.com ([202.12.124.142])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wtqgc-0000000EiAl-3gjK;
-	Tue, 11 Aug 2026 17:54:52 +0000
-Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
-	by mailflow.stl.internal (Postfix) with ESMTP id A131F130038D;
-	Tue, 11 Aug 2026 13:54:48 -0400 (EDT)
+	id 1wtqfM-0000000EhVN-19xg;
+	Tue, 11 Aug 2026 17:53:33 +0000
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailflow.stl.internal (Postfix) with ESMTP id 2036D1300386;
+	Tue, 11 Aug 2026 13:53:30 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-12.internal (MEProxy); Tue, 11 Aug 2026 13:54:50 -0400
+  by phl-compute-05.internal (MEProxy); Tue, 11 Aug 2026 13:53:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jaseg.de; h=cc
 	:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1786470888;
-	 x=1786478088; bh=jFYKhNM35RpDRZh/43hulCmfEJyGilMf3A0rl4qWOVM=; b=
-	bYeDYVhgtPE017gK8myw81IgEJUTe3W99CDML8CpqHp7fU6iAnzN86+mOx7pU8Z/
-	Xz25faE9dCrff2JgEY85A8il0GldVKWSWgOy4hiTb9CwSrAu1UA8ybprakhSKiLG
-	oIITSW+Nrjy2Sq/XXAbDUY1ZyI6YiBMXr9Yk2a9seCS5IMaaJ7N61dHXvoUtlz8j
-	3p4rf5eJtJC2ubYbpyEbWFEarW2qhkEHelWMe2AjTl6Xz3oyvWcBgxSp9m5mz04M
-	PiZPAArXKeBHB+U1EAtjh1PXTUxgcDuNYNeEWLP/jcovinleNGmuNB3spTKuDtdC
-	x6aphUNJ+Y8113Z0XSyupg==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1786470809;
+	 x=1786478009; bh=b3ArJhoaqsFvEuZHlfyWAtV6SGaCuVy7Av0qaKtOt1k=; b=
+	ijtaT8kDvWYfd3yO7OtyiAlRE0ZIplb3TPK1W2M6BA10SuK0UgAtjcGX0oE3nhdJ
+	PiZWC22o8wcjvWRNS/zjkaIimr0n9LVRM0tvbIy4UML1hZWjtYDZl+CiJ/g69qP2
+	ha+ZWvdrDWeVRbtW49NmTxjxwlmhD+g2G718CyihW1245v+yYuBiLqm81Xi8pn+i
+	lDW/+3bli1cJsp4GgqYBlW2dnGvdRyH5uazX0dA0QPmBy4llq+Ru3JmXd4W3Bfs1
+	ON6eS3YwR6pclmES5s264NOV2erZgIAUuR+AxbOS0JUZEPv1qD5oKKpQj6wQnekz
+	zP7bJ3Ky1wfC9BUlGo7URw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1786470888; x=
-	1786478088; bh=jFYKhNM35RpDRZh/43hulCmfEJyGilMf3A0rl4qWOVM=; b=G
-	I03wCRG7sUINfnlJx1HoFrWP/Blr/bsvRmMMtdVhY+z8ikl856vyYKiKSfxJk7TJ
-	+Du+2B8fdmMwoashdCtrBOjKrt7zkIVhzPJwU97BFtkm9yeBnyEW9wLTOSe9RXan
-	IF1LrphRdo4Uk3avywoso/2ZA+IcNlIwlF46V0biEWeEsORBdaR7O6+Kzp+FqjId
-	by1N2tuNRk4YQ/cm2z2zowmmSbKc+xqSKdOTtViGytJI12Acn61UHhiLYE0YFZ+l
-	o+fCUXptxoEXuPVdfPm34ZKvgqE/lbkjRsqBea+Ym0d7dKpsuXfQrUtlDEY+S3wi
-	JfrtqmZ9utgGiPwezfe5A==
-X-ME-Sender: <xms:6GF7ak2aeI67ME2whQjDRFEFUSap2dHoqV5gaRqdIpQaKczG27_ffg>
-    <xme:6GF7alrOHZkIbt809LfaVJrW_HTu4cTVBGd32Dlfo2aA52FhJgt1HcVDGGXEZ53Pd
-    ie9ejQQf-9bWsIntw6gRpVKcWOLFyyIJofloeBpzpVC4wR9gPSNBA>
-X-ME-Received: <xmr:6GF7appNETAxMOIJoMSSYEXVLzHtyEW4fHehW-qDFB4UzD9f0PJdzjffpHYSEDkJg7_lcX-JIFlYipUTyCzV-xQ>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1786470809; x=
+	1786478009; bh=b3ArJhoaqsFvEuZHlfyWAtV6SGaCuVy7Av0qaKtOt1k=; b=F
+	7n+tHYSFuWlN4o4SYZgF6PerK9cXZHzNOIbAIrxvG/Jw3R42BCKEUWgzv74DtCyw
+	rUcgXzQbXuFLrIutTWJ1kejWT9+CRwoJUT9aiVCyOBR/uPiZRKpdwLiSB7PM5+/H
+	BfnYe93/namBn1D+o63fBYUwZC/UaAvT2VSMRQLwopNnnawgjZ0iSlRNOa8tZqwO
+	RR2uHPELbcTiJi77bnhtXa5CfyUJ8inB8K20y/BcPQe9YbbLeDiFu9vS1GRwTVts
+	krh7NortTp/iCcQXgux/TCCZV620afOa+8s30z4mKCT0g8nwlQGQln4AY19Q6hjs
+	GQdHtxAcicxAkr+1jlmwQ==
+X-ME-Sender: <xms:mWF7ahBvdgF8epZoerAsdMmQKRY9NCiHXLY-iobD4PC7qsqhsgN0sA>
+    <xme:mWF7amGXHNobEqvw6CXL66lse6ZIj-mUZTYnUwZsc4tt2a8LmkkPi0ScpExFULbgl
+    Wf4JNbHgYmNYFzV7AmvfZn_wASXB3tZ8wNe-Zs5Yi0b-2rD7t2r>
+X-ME-Received: <xmr:mWF7apUvnSnecSShUC5ABb58WPvKqOgvN6WDuAu48TYhsYwpXuTFlyHSdxt0uIjyD3MLG5iU0GKAHEjItUvhCCw>
 X-ME-Proxy-Cause: dmFkZTFP5tmiXRyqpvhao8uWnDWsuVG58E3QcpY8nNF+TN3d4+2z3XaWQJ1+2uEKcUq9Jg
     +xH/KDfBOi31TfxVE5vy2aZ5W5Eono+bvv7mBiiNvVW/C9tjIvrxCLzv7Tz6GJOSvAG1cd
     t11+FzpQNbill+yp1ZC7JKPVzEaxQ4CH2HewKTU1gYEn0mNFldMXWgoBvZ/c5OhwLZogLW
     sZeOMCUfQY9vOvCjGHA0ivpYn+5HBy3sK6RswFREIaUm9jlhbU7pV5ZXGDLpJAMlUAJ/Lo
-    y1vjaaTNNEiBF07QqH8YbZg0fsVTsE2lSAku2XiqZRlB3GAWdGnDFC/NxQNHJZjZwh0bMi
-    3ropPtGEXwJYJAu285XzhREMMjarFs0U0qMD7zjrDHqt6fJ8xSO2sk61ZxfqGLG5LEahc7
-    vwAk5zUO0ZCCm9fM+L422IUoCWwqFOjz+0aNT0kFyZ0Q1Ln5ckpifI68KSJbkT7he4JGsz
-    gnYBtMLYaheT0cogeUK3622EJ3Z+e4Ukbofzl4+gPfWHBkTRbmKjtE6P4Ot7qNxDbkBV9f
-    6r8fT1r6KlUCPnqErm914p+GFvLXJ9n92U6RxanpRYnFHvVP6n6k2ggCnlgrXR6Uub55UK
-    uDCtbwOviWOwgtdaHKlTAzhxVcXj+aqh2aNk2mWVG/8eK7aDZGpVw69gy5wQ
-X-ME-Proxy: <xmx:6GF7amdRcbsx2qfRi8Cd7iqirsDyMVXLbbc0EFhgE-YV-qN-A-n8YA>
-    <xmx:6GF7ar3414zMwqGprCZiQmHYu9pyMRwm63XrVoSErX6qc-cgchR1Pg>
-    <xmx:6GF7appNUtXCAZ3BPwO2kwj0wrqDcwnqsypWPF3DoBa2ZTNBOw4Q1w>
-    <xmx:6GF7aiW3O4vSZ6P4QnlVVOEiR378mmPRjHDcwpHayiuZTg9-sqozcg>
-    <xmx:6GF7aq85EqVYPI90O7QDsJHYjnOV5PSwDC15fyrxlypXGHf1F3HESgUy>
+    y1vjaaTNNEiBF07QqH8YbZg0fsVTsE2lSAku2XiqZRlB3GAWdGnDFC/NxQNHJZjZwh0bAL
+    NFU+sk1NjKbEiriHkWskXNqpRyiqngUiDobuBKM0QHx4IectPTiNVC0LAnkIil116cieth
+    zlAJFqSExn0DMecmyqjTsWkD2ngU3mch+rJhp5ghpPvHYcUsU6CHEmiNL5gcm7pKojpoO8
+    fUnDVi8q2D+tB3RNg8+bAG4knndc4v8UKvQON5b1dgXr5OKaBku6F7yXG1GPPJwkfrL7jQ
+    EGcTagLVCnPlAjtfXZXy0P8J7sS0XyACESJHYYDdJ2OUni4Z+skjWf20Xpwr+zWL1ubmDC
+    Ll6gwazrEjfo6CiwO2x+aWpiJNWOBFsNaCTo8jTyf1t3R3yZMgHWANJia/Qw
+X-ME-Proxy: <xmx:mWF7akYLbKa4Ldqion9AVypKRG2td0FOiQT0IMdx4BEp4s2wNEAIiQ>
+    <xmx:mWF7arB2K5jQ7vH9tLL3KCSU8nMwn0AZVF2DZWl1CPCuZItwReOsKA>
+    <xmx:mWF7ahFAC4F5KSyCw9RpCBXNmmg4CQcvBQvPsk2Ct6QZdcB42lOoFw>
+    <xmx:mWF7atDdhYqdhtincgzKdDhXKGMZ16JSVedWEWvxbhg-Z7VjwfQr3g>
+    <xmx:mWF7arIkBDKrbmh1nTENBMBX06Dyq0TxrsND73UjyTyhqXlTGHTyLPQL>
 Feedback-ID: i60a14417:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 11 Aug 2026 13:54:41 -0400 (EDT)
+ 11 Aug 2026 13:53:23 -0400 (EDT)
 From: =?utf-8?q?Jan_Sebastian_G=C3=B6tte?= <linux@jaseg.de>
-Date: Tue, 11 Aug 2026 19:53:01 +0200
-Subject: [PATCH v2 12/13] crypto: api - wipe tfm contexts before kdump
+Date: Tue, 11 Aug 2026 19:52:52 +0200
+Subject: [PATCH v2 03/13] arm64/mm: add set_direct_map_default_nosplit()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260811-crash-zeroize-rework-v2-12-9561d13c2340@jaseg.de>
+Message-Id: <20260811-crash-zeroize-rework-v2-3-9561d13c2340@jaseg.de>
 References: <20260811-crash-zeroize-rework-v2-0-9561d13c2340@jaseg.de>
 In-Reply-To: <20260811-crash-zeroize-rework-v2-0-9561d13c2340@jaseg.de>
 To: Andrew Morton <akpm@linux-foundation.org>,
@@ -126,8 +126,8 @@ Cc: kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
  =?utf-8?q?Jan_Sebastian_G=C3=B6tte?= <linux@jaseg.de>
 X-Mailer: b4 0.15.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260811_105451_353753_C038E422 
-X-CRM114-Status: GOOD (  19.55  )
+X-CRM114-CacheID: sfid-20260811_105332_368642_8B273F49 
+X-CRM114-Status: GOOD (  16.74  )
 X-Mailman-Approved-At: Thu, 13 Aug 2026 08:01:01 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -143,202 +143,99 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tfm structs contain key material like expanded key schedules. Under
-CONFIG_CRASH_WIPE_SECRETS, wipe all tfms before kdump to prevent
-leakage. Copies outside the tfm context, e.g. on the stack or in
-hardware key registers, are not covered.
+set_direct_map_default_noflush() goes through split_kernel_leaf_mapping(),
+which takes pgtable_split_lock and may sleep. That makes it unusable from
+atomic contexts such as the panic path.
 
-Also change two kfree() calls to kfree_sensitive() for good measure.
+Add set_direct_map_default_nosplit(), which skips the split and only walks
+the page tables to apply the permission change. Callers must guarantee the
+page is already mapped at page granularity. This holds for any page that
+had set_direct_map_invalid_noflush() applied to it, as that call performed
+the split.
+
+Architectures that do not need to split the linear map get a generic
+fallback to set_direct_map_default_noflush().
 
 Signed-off-by: Jan Sebastian Götte <linux@jaseg.de>
 ---
- crypto/api.c           | 78 ++++++++++++++++++++++++++++++++++++++++++++------
- include/linux/crypto.h | 11 +++++++
- 2 files changed, 81 insertions(+), 8 deletions(-)
+ arch/arm64/include/asm/set_memory.h |  2 ++
+ arch/arm64/mm/pageattr.c            | 21 +++++++++++++++++++++
+ include/linux/set_memory.h          | 17 ++++++++++++++++-
+ 3 files changed, 39 insertions(+), 1 deletion(-)
 
-diff --git a/crypto/api.c b/crypto/api.c
-index 24227582cfcf..f919f52e8b5f 100644
---- a/crypto/api.c
-+++ b/crypto/api.c
-@@ -10,13 +10,16 @@
-  * and Nettle, by Niels Möller.
-  */
+diff --git a/arch/arm64/include/asm/set_memory.h b/arch/arm64/include/asm/set_memory.h
+index 90f61b17275e..cb5f44bb5a94 100644
+--- a/arch/arm64/include/asm/set_memory.h
++++ b/arch/arm64/include/asm/set_memory.h
+@@ -13,6 +13,8 @@ int set_memory_valid(unsigned long addr, int numpages, int enable);
  
-+#include <linux/crash_core.h>
- #include <linux/err.h>
- #include <linux/errno.h>
- #include <linux/jump_label.h>
- #include <linux/kernel.h>
- #include <linux/kmod.h>
- #include <linux/module.h>
-+#include <linux/notifier.h>
- #include <linux/param.h>
-+#include <linux/rculist.h>
- #include <linux/sched/signal.h>
- #include <linux/slab.h>
- #include <linux/string.h>
-@@ -397,6 +400,60 @@ static unsigned int crypto_ctxsize(struct crypto_alg *alg, u32 type, u32 mask)
- 	return len;
+ int set_direct_map_invalid_noflush(struct page *page);
+ int set_direct_map_default_noflush(struct page *page);
++int set_direct_map_default_nosplit(struct page *page);
++#define set_direct_map_default_nosplit set_direct_map_default_nosplit
+ int set_direct_map_valid_noflush(struct page *page, unsigned nr, bool valid);
+ bool kernel_page_present(struct page *page);
+ 
+diff --git a/arch/arm64/mm/pageattr.c b/arch/arm64/mm/pageattr.c
+index bbe98ac9ad8c..a7bb6bfa12ed 100644
+--- a/arch/arm64/mm/pageattr.c
++++ b/arch/arm64/mm/pageattr.c
+@@ -275,6 +275,27 @@ int set_direct_map_default_noflush(struct page *page)
+ 				 PAGE_SIZE, set_mask, clear_mask);
  }
  
-+#ifdef CONFIG_CRASH_WIPE_SECRETS
++/* Caller must guarantee @page is already mapped at page granularity. */
++int set_direct_map_default_nosplit(struct page *page)
++{
++	struct page_change_data data = {
++		.set_mask = __pgprot(PTE_PRESENT_VALID_KERNEL | PTE_WRITE),
++		.clear_mask = __pgprot(PTE_PRESENT_INVALID | PTE_RDONLY),
++	};
++	unsigned long addr = (unsigned long)page_address(page);
++	int ret;
++
++	if (!can_set_direct_map())
++		return 0;
++
++	lazy_mmu_mode_enable();
++	ret = walk_kernel_page_table_range_lockless(addr, addr + PAGE_SIZE,
++						    &pageattr_ops, NULL, &data);
++	lazy_mmu_mode_disable();
++
++	return ret;
++}
++
+ static int __set_memory_enc_dec(unsigned long addr,
+ 				int numpages,
+ 				bool encrypt)
+diff --git a/include/linux/set_memory.h b/include/linux/set_memory.h
+index 3030d9245f5a..65d0fa010368 100644
+--- a/include/linux/set_memory.h
++++ b/include/linux/set_memory.h
+@@ -44,7 +44,22 @@ static inline bool kernel_page_present(struct page *page)
+ {
+ 	return true;
+ }
+-#else /* CONFIG_ARCH_HAS_SET_DIRECT_MAP */
++#endif /* !CONFIG_ARCH_HAS_SET_DIRECT_MAP */
++
 +/*
-+ * tfm allocations are tracked on crypto_tfm_list so that they can be wiped
-+ * before kdump.
++ * Variant of set_direct_map_default_noflush() that is safe to call from atomic
++ * context, for pages the caller knows are already mapped at page granularity.
++ * Architectures that need to split the linear map, and can therefore sleep,
++ * override this.
 + */
-+static HLIST_HEAD(crypto_tfm_list);
-+static DEFINE_SPINLOCK(crypto_tfm_list_lock);
-+
-+static int crypto_crash_wipe(struct notifier_block *nb, unsigned long action,
-+		void *data)
++#ifndef set_direct_map_default_nosplit
++static inline int set_direct_map_default_nosplit(struct page *page)
 +{
-+	struct crypto_tfm *tfm;
-+
-+	rcu_read_lock();
-+	hlist_for_each_entry_rcu(tfm, &crypto_tfm_list, wipe_list)
-+		crash_wipe_memzero(tfm->__crt_ctx, tfm->wipe_size);
-+	rcu_read_unlock();
-+
-+	/* off to kexec()! */
-+	return NOTIFY_DONE;
++	return set_direct_map_default_noflush(page);
 +}
-+
-+static struct notifier_block crypto_wipe_nb = {
-+	.notifier_call = crypto_crash_wipe
-+};
-+
-+static int __init crypto_tfm_track_init(void)
-+{
-+	crash_wipe_secrets_register(&crypto_wipe_nb);
-+	return 0;
-+}
-+core_initcall(crypto_tfm_track_init);
-+
-+/* @size is the size of __crt_ctx */
-+static void crypto_track_tfm(struct crypto_tfm *tfm, size_t size)
-+{
-+	tfm->wipe_size = size;
-+
-+	spin_lock(&crypto_tfm_list_lock);
-+	hlist_add_head_rcu(&tfm->wipe_list, &crypto_tfm_list);
-+	spin_unlock(&crypto_tfm_list_lock);
-+}
-+
-+static void crypto_untrack_tfm(struct crypto_tfm *tfm)
-+{
-+	spin_lock(&crypto_tfm_list_lock);
-+	hlist_del_rcu(&tfm->wipe_list);
-+	spin_unlock(&crypto_tfm_list_lock);
-+}
-+#else
-+static void crypto_track_tfm(struct crypto_tfm *tfm, size_t size) { }
-+static void crypto_untrack_tfm(struct crypto_tfm *tfm) { }
-+#endif /* CONFIG_CRASH_WIPE_SECRETS */
-+
- void crypto_shoot_alg(struct crypto_alg *alg)
- {
- 	down_write(&crypto_alg_sem);
-@@ -409,15 +466,16 @@ struct crypto_tfm *__crypto_alloc_tfm(struct crypto_alg *alg, u32 type,
- 				      u32 mask)
- {
- 	struct crypto_tfm *tfm;
--	unsigned int tfm_size;
-+	unsigned int ctx_size;
- 	int err = -ENOMEM;
- 
--	tfm_size = sizeof(*tfm) + crypto_ctxsize(alg, type, mask);
--	tfm = kzalloc(tfm_size, GFP_KERNEL);
-+	ctx_size = crypto_ctxsize(alg, type, mask);
-+	tfm = kzalloc(sizeof(*tfm) + ctx_size, GFP_KERNEL);
- 	if (tfm == NULL)
- 		goto out_err;
- 
- 	tfm->__crt_alg = alg;
-+	crypto_track_tfm(tfm, ctx_size);
- 
- 	if (!tfm->exit && alg->cra_init && (err = alg->cra_init(tfm)))
- 		goto cra_init_failed;
-@@ -428,7 +486,8 @@ struct crypto_tfm *__crypto_alloc_tfm(struct crypto_alg *alg, u32 type,
- 	crypto_exit_ops(tfm);
- 	if (err == -EAGAIN)
- 		crypto_shoot_alg(alg);
--	kfree(tfm);
-+	crypto_untrack_tfm(tfm);
-+	kfree_sensitive(tfm);
- out_err:
- 	tfm = ERR_PTR(err);
- out:
-@@ -497,12 +556,12 @@ void *crypto_create_tfm_node(struct crypto_alg *alg,
- 			     int node)
- {
- 	struct crypto_tfm *tfm;
--	size_t size;
- 	char *mem;
- 	int err;
-+	size_t ctx_size = frontend->extsize(alg);
- 
--	size = frontend->tfmsize + sizeof(*tfm) + frontend->extsize(alg);
--	mem = kzalloc_node(size, GFP_KERNEL, node);
-+	mem = kzalloc_node(frontend->tfmsize + sizeof(*tfm) + ctx_size,
-+			GFP_KERNEL, node);
- 	if (!mem)
- 		return ERR_PTR(-ENOMEM);
- 
-@@ -510,6 +569,7 @@ void *crypto_create_tfm_node(struct crypto_alg *alg,
- 	tfm->__crt_alg = alg;
- 	tfm->node = node;
- 	tfm->fb = tfm;
-+	crypto_track_tfm(tfm, ctx_size);
- 
- 	err = frontend->init_tfm(tfm);
- 	if (err)
-@@ -525,7 +585,8 @@ void *crypto_create_tfm_node(struct crypto_alg *alg,
- out_free_tfm:
- 	if (err == -EAGAIN)
- 		crypto_shoot_alg(alg);
--	kfree(mem);
-+	crypto_untrack_tfm(tfm);
-+	kfree_sensitive(mem);
- 	mem = ERR_PTR(err);
- out:
- 	return mem;
-@@ -627,6 +688,7 @@ void crypto_destroy_tfm(void *mem, struct crypto_tfm *tfm)
- 		alg->cra_exit(tfm);
- 	crypto_exit_ops(tfm);
- 	crypto_mod_put(alg);
-+	crypto_untrack_tfm(tfm);
- 	kfree_sensitive(mem);
- }
- EXPORT_SYMBOL_GPL(crypto_destroy_tfm);
-diff --git a/include/linux/crypto.h b/include/linux/crypto.h
-index b7c97f1c47c9..59d6d62180fd 100644
---- a/include/linux/crypto.h
-+++ b/include/linux/crypto.h
-@@ -14,6 +14,7 @@
- 
- #include <linux/completion.h>
- #include <linux/errno.h>
-+#include <linux/list.h>
- #include <linux/refcount_types.h>
- #include <linux/slab.h>
- #include <linux/types.h>
-@@ -420,6 +421,16 @@ struct crypto_tfm {
- 
- 	struct crypto_alg *__crt_alg;
- 
-+#ifdef CONFIG_CRASH_WIPE_SECRETS
-+	/*
-+	 * Link on crypto_tfm_list, used to wipe the expanded key schedule in
-+	 * __crt_ctx before kdump. wipe_size covers __crt_ctx only, excluding
-+	 * this struct and any frontend preceding it.
-+	 */
-+	struct hlist_node wipe_list;
-+	size_t wipe_size;
 +#endif
 +
- 	void *__crt_ctx[] CRYPTO_MINALIGN_ATTR;
- };
- 
++#ifdef CONFIG_ARCH_HAS_SET_DIRECT_MAP
+ /*
+  * Some architectures, e.g. ARM64 can disable direct map modifications at
+  * boot time. Let them overrive this query.
 
 -- 
 2.53.0
