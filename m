@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 44E27C5CFEB
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BEF2CC5B572
 	for <linux-nvme@archiver.kernel.org>; Thu, 13 Aug 2026 15:01:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,79 +12,78 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FZBYWhL5n7JQ+WX8bMFfUS0qJovxuh7QkbRbWkvh2HQ=; b=q69IJwYsinG/Q+CGa/p0U8nqRh
-	vr/zjX/NX+K1Mo4ykYHA6Rq4RpNlRslmiOrPY96+PvkewN/Sz8BmF4tFygDB9kRAwFuAjsfVnbFAK
-	NRgCsrtQPmNtsVy8DMMYUSzGIPwX6Q0V2LllC9PtdU/Sz7felXbJa02+w5c8+zcDEdUbPpw/jcKOh
-	V/4RMghMORSiyccmL8/1C+/qaOA/SwhYjLVRbo1ofIg0q5Eg7QDBES+Q75kr08dglHGLI4NdGkI3y
-	Ze7d/W8o+r8aIhTH8kVt0A3WJL652XrNyKms5+15Eh0/GEhuesmJRDuzcHw+uMFIZSgRqASLXEBfA
-	VJcXmzyQ==;
+	bh=xAM3Q/HBwmz4JVRL14+ds0PYCfNcU1k9FDcBLO4TEyw=; b=bBFsSrV6cPUNzhGrRZtcgLFH8H
+	KBS7GivQ2wadUQo7mGmydGx57ACl0JXPJIulZLcRA/eu7OpSlsPIjAO2mY86c2vkLsk6jYboiHI3L
+	hOh4z1Sw2c4s2v3nD1mDfE+TtU9NwEmuWnedNJTNUZ+0C9/+Akbk81bg6UMwMIlCO/UQyc8pzmlS+
+	pbfQL7pRb4QcVrz8nq2uHDO7nHEvC9Cms7vUqB6Jqm7KeN7dhT2DktHFbz8Bs05Ogo2vfLjwvUMmu
+	+OQrX9NcuyYq9y2gET4iGq8UmZJc8chOXGu/Wvt0+FuvpxsOfUGyfHSBGsTduuAH6HBVbPU+1gkSz
+	yRwem9Ow==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wuWvZ-00000000tDz-3Gs0;
-	Thu, 13 Aug 2026 15:01:05 +0000
+	id 1wuWva-00000000tEn-0YEf;
+	Thu, 13 Aug 2026 15:01:06 +0000
 Received: from flow-b7-smtp.messagingengine.com ([202.12.124.142])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wtqg5-0000000EhuF-3tEq;
-	Tue, 11 Aug 2026 17:54:20 +0000
-Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
-	by mailflow.stl.internal (Postfix) with ESMTP id E7CC4130039C;
-	Tue, 11 Aug 2026 13:54:13 -0400 (EDT)
+	id 1wtqgM-0000000Ei27-1Buv;
+	Tue, 11 Aug 2026 17:54:35 +0000
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailflow.stl.internal (Postfix) with ESMTP id D650813003AD;
+	Tue, 11 Aug 2026 13:54:31 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-08.internal (MEProxy); Tue, 11 Aug 2026 13:54:15 -0400
+  by phl-compute-06.internal (MEProxy); Tue, 11 Aug 2026 13:54:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jaseg.de; h=cc
 	:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1786470853;
-	 x=1786478053; bh=FZBYWhL5n7JQ+WX8bMFfUS0qJovxuh7QkbRbWkvh2HQ=; b=
-	U3I428v4Xek0tSEHP9VEkmh84J7xFx2TdU9S8LG8Hnyrt9FFLS3afQgWc4pLxMUh
-	oDOB6G5O6t7bhE7LBdDe7Xd9k/LUDmytiRYGMYxaetH4N17pKTtDPgG3q1z6H0a3
-	n4bfRz3VifmOrPkTBoHURT9d88Xjb8ZNs4IcVbOStH++mstZ1HzzikSXnbDdM5AR
-	cmqQjmAR7Ht+lxSsR9pE6KZ0pEOwmVYwt5c9IWgrVHohtRzyTh+Q9pgb+T6Y8ggs
-	vZ56sq37RhJOa3ubp9HuVWHnMzWAeOzxc4Y5zb5Je1U7IWLAxVfnOXNOfayNvO5/
-	gbYudKk97aPgWYyIByBOOQ==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1786470871;
+	 x=1786478071; bh=xAM3Q/HBwmz4JVRL14+ds0PYCfNcU1k9FDcBLO4TEyw=; b=
+	hU63RqXYUX7dR3ti5JXHaOPEYLzV7fuN96eKtn8RUYFDvNMfAYH+xRYP8mUkO4Vr
+	bJAoEHBb4WkzdXQvxKfgNUa5V+iOXoY/WDKSx8UvHrDz8Nvv9CpbktshEpZwp9RC
+	TZ6Okhcxu45Mnblk92hN99ie9UvB6eAUgbIx8f71QKwTCsMRHIjgcAa53XGzZ3OE
+	z9D56yxEAng2g2B1NWyGEONfMAkTrinvBSTCVnlO0LER9KqdHu/GXWSRhGrxtRaW
+	dUU1BpVP67ufQHSXd4Wfwi8Mk2FtbOwNW1uVZmZR1PfwEHthRYgnK7oZLMBWdXXa
+	kQ+X/QJXfM/soI1Ayn6E4A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1786470853; x=
-	1786478053; bh=FZBYWhL5n7JQ+WX8bMFfUS0qJovxuh7QkbRbWkvh2HQ=; b=N
-	FVSFrFrsdHDuwX5bmwEFi+vfM4jbvPi1714oBu1Pe04LTQ4ur68y0wRIxq8PvQ/d
-	CK5ZGpzx+b0HGehJPn6zOIyrzHk/fGVB5FsDztbzGbCNFUuW3H0GhsS6WsR3vv6Z
-	BcB+8GzdZv2ZYrvwtzxpKcc6jVQrIpKkmaNznEjvmBPKa6D2QAMF1RqYLeKx/JPO
-	6FXrwSg7EIiA7UuparnXo61bTYDNTFy4zcXHHvvcPINcmkoilfMZj4hVTChqLkl7
-	mtUmU/6kAdq5UxKLWXnh2n2Q/VTAv/mlYQ4g00356aF5Px9u2TMDaBPeEvhaI8Pf
-	/0Wg9vZV7YHTADO1cCo0A==
-X-ME-Sender: <xms:xWF7agcUcHV810dBcwVWO-0wByEQ2xBhPXEwl2NknpB0F6K3NW67Mw>
-    <xme:xWF7arDfhYtv79rmwh-5DfRRdValYWTUL59GVlWFS3q7lnbndGfy1VmkjJRIP-hSF
-    RRPVTRDvknzlGjOPXU8GULe3UyNitYlp7cm-7yjQquxBeX46Yf6>
-X-ME-Received: <xmr:xWF7aoFLXxX4gYoHmQsdhuqDAgVmSvThwlCFyR3Y49qbILa9WSLPXbi_DlaluXse02X_vcyXa9c6ghT327XDOBA>
-X-ME-Proxy-Cause: dmFkZTFqRXkqeRY8YxPaiPG6bKtumQZ44ueOyE0ycsRtkYHYtMPeLw9KqkFTfoymoPXANQ
-    f8xIE59to9muOon1MQaYxt7DdSPzezKDm/5lwbw25fHysrcDraGpHHDQDBxbs7DNakPMfM
-    e6H9gUHyYw6Jnjx4Hrnr8P0aqcdlkP/OQCvkpK5i8nwVpDOUjiFIrGc2aHzhOHJwaTCmvE
-    SohzxPZY/BMExH4tATsvbW62+v/yi0C/jL+BZWLe9AwElVYGEpH8rm9jM3a5qxQfAZo+/L
-    Re7VHgx53z5HSeOGiZCoxmlFJwvoInomet06PrQYp2gmHd77fq1CpUHnH937B47mzUIvku
-    yUh4mUkbwyIu2ja7cJVK9b5XTWYB3dNvbtYJydefJ79hiiQApVeOYD7m1nli1tUKbs9WrY
-    rf6TqxumbHWQJhS9dRF7SycnMHQ6BSeUFwSC0Jc9Hnz+CpcUylmf2b4TB1iS15234kpK4m
-    awbwTHUT4h4bvy2Idl4MLcnpcyjQdT8Ab8gCmErQCN0e7s7wL39Q0j7anatprW32BrU2u5
-    COL6aNgtIPHavUk6F00gHusdEiFqlhHp0D1PYqraDFPTljJ+i0kxTOlnCQbqK1AkW0Osfk
-    J/vfxzuBWvaQmujMPvnwYblwydfhIlNC7DKYrx/NLuL6fNaINYhWN84Nk/Lg
-X-ME-Proxy: <xmx:xWF7ajWhWCACvP5bO-pmqXmBAmRXeF-U0U3przamkrmnRLj8AOCsvw>
-    <xmx:xWF7amYs0Zv_2aczeJOHicvIVvmoAn3YVBhfzpngMyYgZFoGtUyl7g>
-    <xmx:xWF7alBRfTlpL7kuASpGVnPd6eHEPUmnsKJ6PY5hfTOJ2mj8Lqkvgw>
-    <xmx:xWF7ajEW0QbI9MLp3s-6tY5Kr01DqRBB2uSkRGUl_9OjEvosCg4t9A>
-    <xmx:xWF7ag0IsNk0BBs9Q4B2iViJjlp5tI2fmcCO7rByHXbNsuc466shgXK0>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1786470871; x=
+	1786478071; bh=xAM3Q/HBwmz4JVRL14+ds0PYCfNcU1k9FDcBLO4TEyw=; b=S
+	PD0YyzAO3i0iPOSceA/VwD8y9HsrVhqBs81kDs44awp1UE25tBjzrQIjJ2X3hLIp
+	UqqsAD4FTBx4AaFBTdOq8UEOPJK2yCc8SKAHcfgUaHW7mjP5lRNMPN24kgBxQ3tD
+	pPlnFEKMSiWn1BanUYpHRtsoRaCaGU9eEc3H8tqDCtIPzeCzRk0qdxln/phxzvYH
+	1o0rhSNQPxowCccqdfuoj00u3AmmTD9WCN1qNEhSNY3SZl4u8IAUgJd/cDOuVH0g
+	1Wryg4mVjyqjY1NgzXhFwnbdF+O6PvwO6EPpKgayWnnl9hrWSUMXBA7wCjoExGY3
+	szwyCbvR2yQaY36T81Leg==
+X-ME-Sender: <xms:12F7auKHQfrqWZVMa9ODtgV7DOIB9GWd8oQzsULgrnNYN7xiwtdGew>
+    <xme:12F7au_1rv4vqQYKlz3p2iIwRPOSVf7FE9DFYTwOLTcRrNXFmASwAYPtHHMnUSErA
+    2YO7nPSNYqhi_vBEr_2iDK1GDq0PRUKFh6k3tEGwG0qG1Z4fvXNFw>
+X-ME-Received: <xmr:12F7alRe7itEE3naI48j9z3YSoRaaA9GcJyx6ETVwlHrT1e1AOm0rYAlUfPYOq3tIyi8Wkyue-Ohmurl0GbO8VM>
+X-ME-Proxy-Cause: dmFkZTFGa2nY7jnTk2Iw9v4bB0J0yF1ICaJd32/qXm98Bvn0uDADx+C3Kw/Flk6iixyPGu
+    72/phBwy47Kg8FJyFrGdC++k215U13L/0xFYZCpTa0z/w1NtK5dvlR08GndYlyZFvTP5gF
+    Dlk263KcILQ417hZPN5ksrl0Nvpbmk/SlilTO3h+HTntssEQr1ld/ICv8lLA9/v6l7Z51B
+    Ox2NlVVO9b906SW9ppu7yHcQtehxM0oDmo9WAr6dDp967nPaXzwEavIcDXzrIMh6NogcTT
+    QJsGa7BorA3mOK9lmdQq3QUA5wm6ullbc5aPHMSxvblIqqAHtDNqCX4Ur6Kq6Hz6embcdc
+    vYdRVb13nBNQZMEFR3UDwQKUUNDw/OfDBUUzUeypFz90S2GfV8DZBApkiCuQjPmksk3nWc
+    wCsKwOoVmEb4wZSE3HdwY+yNaBF/rm6bOSeuJtLdyT3FY6SAATvIkCdjNh2rdNEkIi+AwH
+    s1tX9R58abOkm3pxLdRrMBhxKEKfqdzDrrDOcup8QPmcON/iMcAk8BZWNh9KftZnP6dqXp
+    AX30EG1VB3mNP30/5c6IurQTvxF/NyGreDSbmjc+cGCYdq2ypAFzLTKOGh2gE9QHdT/XOF
+    4Qyzi+DQRPh2c/zeEebScgmFshMBa9nAjTvnIyZqJn5W80oSWHo8Yc23MYpw
+X-ME-Proxy: <xmx:12F7agw3sZqacIIp1XWtBuyhH5uhSkxY5F2qOLVKE1NiUoOA2akNtg>
+    <xmx:12F7avEiXN5Nj66bL5Va-K8JasSRGRn0dxVDl3K_ChPQViATU6U51A>
+    <xmx:12F7an8sTTo81NNrev7hlmg4qazhhN3Ty75VuPYofsR20GmNn3VMbg>
+    <xmx:12F7ajSjke9279DpulhV-A_ITXIM6r21C4cQeDBQwQRhvPzz_L32WQ>
+    <xmx:12F7arWmntqMmainny0jjaMu2_j-7GTbEeB5nJqzF9oKJTBsfCHSTosB>
 Feedback-ID: i60a14417:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 11 Aug 2026 13:54:07 -0400 (EDT)
+ 11 Aug 2026 13:54:24 -0400 (EDT)
 From: =?utf-8?q?Jan_Sebastian_G=C3=B6tte?= <linux@jaseg.de>
-Date: Tue, 11 Aug 2026 19:52:57 +0200
-Subject: [PATCH v2 08/13] security/keys: implement wipe op for trusted and
- encrypted keys
+Date: Tue, 11 Aug 2026 19:52:59 +0200
+Subject: [PATCH v2 10/13] rxrpc: implement wipe op for rxrpc keys
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260811-crash-zeroize-rework-v2-8-9561d13c2340@jaseg.de>
+Message-Id: <20260811-crash-zeroize-rework-v2-10-9561d13c2340@jaseg.de>
 References: <20260811-crash-zeroize-rework-v2-0-9561d13c2340@jaseg.de>
 In-Reply-To: <20260811-crash-zeroize-rework-v2-0-9561d13c2340@jaseg.de>
 To: Andrew Morton <akpm@linux-foundation.org>,
@@ -127,8 +126,8 @@ Cc: kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
  =?utf-8?q?Jan_Sebastian_G=C3=B6tte?= <linux@jaseg.de>
 X-Mailer: b4 0.15.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260811_105418_133700_19236242 
-X-CRM114-Status: GOOD (  12.28  )
+X-CRM114-CacheID: sfid-20260811_105434_427243_896C60CD 
+X-CRM114-Status: GOOD (  18.43  )
 X-Mailman-Approved-At: Thu, 13 Aug 2026 08:01:01 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -144,90 +143,220 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Wipe the decrypted key material and the sealed blob held in the payload.
+Wipe session keys and tickets of client key tokens, and add a server key
+wipe op implemented by rxkad and rxgk.
 
 Used by CONFIG_CRASH_WIPE_SECRETS.
 
 Signed-off-by: Jan Sebastian Götte <linux@jaseg.de>
 ---
- security/keys/encrypted-keys/encrypted.c  | 13 +++++++++++++
- security/keys/trusted-keys/trusted_core.c | 15 +++++++++++++++
- 2 files changed, 28 insertions(+)
+ net/rxrpc/ar-internal.h |  5 +++++
+ net/rxrpc/key.c         | 34 ++++++++++++++++++++++++++++++++++
+ net/rxrpc/rxgk.c        | 11 +++++++++++
+ net/rxrpc/rxkad.c       | 14 ++++++++++++++
+ net/rxrpc/server_key.c  | 11 +++++++++++
+ 5 files changed, 75 insertions(+)
 
-diff --git a/security/keys/encrypted-keys/encrypted.c b/security/keys/encrypted-keys/encrypted.c
-index 59cb77b237b3..9d6fe08ecb7a 100644
---- a/security/keys/encrypted-keys/encrypted.c
-+++ b/security/keys/encrypted-keys/encrypted.c
-@@ -12,6 +12,7 @@
-  */
+diff --git a/net/rxrpc/ar-internal.h b/net/rxrpc/ar-internal.h
+index 865f05fe37ab..6466eb5a9929 100644
+--- a/net/rxrpc/ar-internal.h
++++ b/net/rxrpc/ar-internal.h
+@@ -282,6 +282,11 @@ struct rxrpc_security {
+ 	/* Destroy the payload of a server key */
+ 	void (*destroy_server_key)(struct key *);
  
- #include <linux/uaccess.h>
-+#include <linux/crash_core.h>
++	/* Wipe the payload of a server key without freeing it.  Used by
++	 * CONFIG_CRASH_WIPE_SECRETS from the panic path.
++	 */
++	void (*wipe_server_key)(struct key *);
++
+ 	/* Describe a server key */
+ 	void (*describe_server_key)(const struct key *, struct seq_file *);
+ 
+diff --git a/net/rxrpc/key.c b/net/rxrpc/key.c
+index a0aa78d89289..e612b7a8df13 100644
+--- a/net/rxrpc/key.c
++++ b/net/rxrpc/key.c
+@@ -11,6 +11,7 @@
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ 
  #include <linux/module.h>
- #include <linux/hex.h>
- #include <linux/init.h>
-@@ -970,11 +971,23 @@ static void encrypted_destroy(struct key *key)
- 	kfree_sensitive(key->payload.data[0]);
- }
- 
-+static void encrypted_wipe(struct key *key)
-+{
-+	struct encrypted_key_payload *epayload = key->payload.data[0];
-+
-+	if (!epayload)
-+		return;
-+
-+	crash_wipe_memzero(epayload->payload_data,
-+			   epayload->payload_datalen + epayload->datablob_len);
-+}
-+
- struct key_type key_type_encrypted = {
- 	.name = "encrypted",
- 	.instantiate = encrypted_instantiate,
- 	.update = encrypted_update,
- 	.destroy = encrypted_destroy,
-+	.wipe = encrypted_wipe,
- 	.describe = user_describe,
- 	.read = encrypted_read,
- };
-diff --git a/security/keys/trusted-keys/trusted_core.c b/security/keys/trusted-keys/trusted_core.c
-index 0509d9955f2a..7b220c6381b5 100644
---- a/security/keys/trusted-keys/trusted_core.c
-+++ b/security/keys/trusted-keys/trusted_core.c
-@@ -14,6 +14,7 @@
- #include <keys/trusted_tpm.h>
- #include <keys/trusted_pkwm.h>
- #include <linux/capability.h>
 +#include <linux/crash_core.h>
- #include <linux/err.h>
- #include <linux/hex.h>
- #include <linux/init.h>
-@@ -325,11 +326,25 @@ static void trusted_destroy(struct key *key)
- 	kfree_sensitive(key->payload.data[0]);
+ #include <linux/net.h>
+ #include <linux/overflow.h>
+ #include <linux/skbuff.h>
+@@ -26,6 +27,7 @@
+ static int rxrpc_preparse(struct key_preparsed_payload *);
+ static void rxrpc_free_preparse(struct key_preparsed_payload *);
+ static void rxrpc_destroy(struct key *);
++static void rxrpc_wipe(struct key *);
+ static void rxrpc_describe(const struct key *, struct seq_file *);
+ static long rxrpc_read(const struct key *, char *, size_t);
+ 
+@@ -40,6 +42,7 @@ struct key_type key_type_rxrpc = {
+ 	.free_preparse	= rxrpc_free_preparse,
+ 	.instantiate	= generic_key_instantiate,
+ 	.destroy	= rxrpc_destroy,
++	.wipe		= rxrpc_wipe,
+ 	.describe	= rxrpc_describe,
+ 	.read		= rxrpc_read,
+ };
+@@ -570,6 +573,31 @@ static void rxrpc_free_token_list(struct rxrpc_key_token *token)
+ 	}
  }
  
-+static void trusted_wipe(struct key *key)
++static void rxrpc_wipe_token_list(struct rxrpc_key_token *token)
 +{
-+	struct trusted_key_payload *p = key->payload.data[0];
++	struct rxrpc_key_token *next;
 +
-+	if (!p)
-+		return;
-+
-+	crash_wipe_memzero(p->key, sizeof(p->key));
-+	crash_wipe_memzero(p->blob, sizeof(p->blob));
-+	p->key_len = 0;
-+	p->blob_len = 0;
++	for (; token; token = next) {
++		next = token->next;
++		switch (token->security_index) {
++		case RXRPC_SECURITY_RXKAD:
++			crash_wipe_memzero(token->kad->session_key,
++					   sizeof(token->kad->session_key));
++			crash_wipe_memzero(token->kad->ticket,
++					   token->kad->ticket_len);
++			break;
++		case RXRPC_SECURITY_YFS_RXGK:
++			crash_wipe_memzero(token->rxgk->key.data,
++					   token->rxgk->key.len);
++			crash_wipe_memzero(token->rxgk->ticket.data,
++					   token->rxgk->ticket.len);
++			break;
++		default:
++			break;
++		}
++	}
 +}
 +
- struct key_type key_type_trusted = {
- 	.name = "trusted",
- 	.instantiate = trusted_instantiate,
- 	.update = trusted_update,
- 	.destroy = trusted_destroy,
-+	.wipe = trusted_wipe,
- 	.describe = user_describe,
- 	.read = trusted_read,
+ /*
+  * Clean up preparse data.
+  */
+@@ -586,6 +614,12 @@ static void rxrpc_destroy(struct key *key)
+ 	rxrpc_free_token_list(key->payload.data[0]);
+ }
+ 
++/* wipe the key without freeing. used by CONFIG_CRASH_WIPE_SECRETS. */
++static void rxrpc_wipe(struct key *key)
++{
++	rxrpc_wipe_token_list(key->payload.data[0]);
++}
++
+ /*
+  * describe the rxrpc key
+  */
+diff --git a/net/rxrpc/rxgk.c b/net/rxrpc/rxgk.c
+index 77a67ace1d24..51c428fb3a60 100644
+--- a/net/rxrpc/rxgk.c
++++ b/net/rxrpc/rxgk.c
+@@ -8,6 +8,7 @@
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ 
+ #include <linux/net.h>
++#include <linux/crash_core.h>
+ #include <linux/skbuff.h>
+ #include <linux/slab.h>
+ #include <linux/key-type.h>
+@@ -68,6 +69,15 @@ static void rxgk_destroy_server_key(struct key *key)
+ 	rxgk_free_server_key(&key->payload);
+ }
+ 
++/* wipe the key without freeing. used by CONFIG_CRASH_WIPE_SECRETS. */
++static void rxgk_wipe_server_key(struct key *key)
++{
++	struct krb5_buffer *server_key = (void *)&key->payload.data[2];
++
++	if (server_key->data)
++		crash_wipe_memzero(server_key->data, server_key->len);
++}
++
+ static void rxgk_describe_server_key(const struct key *key, struct seq_file *m)
+ {
+ 	const struct krb5_enctype *krb5 = key->payload.data[0];
+@@ -1338,6 +1348,7 @@ const struct rxrpc_security rxgk_yfs = {
+ 	.preparse_server_key		= rxgk_preparse_server_key,
+ 	.free_preparse_server_key	= rxgk_free_preparse_server_key,
+ 	.destroy_server_key		= rxgk_destroy_server_key,
++	.wipe_server_key		= rxgk_wipe_server_key,
+ 	.describe_server_key		= rxgk_describe_server_key,
+ 	.init_connection_security	= rxgk_init_connection_security,
+ 	.alloc_txbuf			= rxgk_alloc_txbuf,
+diff --git a/net/rxrpc/rxkad.c b/net/rxrpc/rxkad.c
+index ca9f0e82cb9a..054ab67aca32 100644
+--- a/net/rxrpc/rxkad.c
++++ b/net/rxrpc/rxkad.c
+@@ -10,6 +10,7 @@
+ #include <crypto/des.h>
+ #include <kunit/visibility.h>
+ #include <linux/export.h>
++#include <linux/crash_core.h>
+ #include <linux/fips.h>
+ #include <linux/module.h>
+ #include <linux/net.h>
+@@ -91,6 +92,18 @@ static void rxkad_destroy_server_key(struct key *key)
+ 	key->payload.data[0] = NULL;
+ }
+ 
++/* wipe the key without freeing. used by CONFIG_CRASH_WIPE_SECRETS. */
++static void rxkad_wipe_server_key(struct key *key)
++{
++	struct des_ctx *des_key = key->payload.data[0];
++
++	if (des_key)
++		crash_wipe_memzero(des_key, sizeof(*des_key));
++
++	/* the raw 8-byte key is kept inline in the payload union */
++	crash_wipe_memzero(&key->payload.data[2], 8);
++}
++
+ /*
+  * initialise connection security
+  */
+@@ -1127,6 +1140,7 @@ const struct rxrpc_security rxkad = {
+ 	.preparse_server_key		= rxkad_preparse_server_key,
+ 	.free_preparse_server_key	= rxkad_free_preparse_server_key,
+ 	.destroy_server_key		= rxkad_destroy_server_key,
++	.wipe_server_key		= rxkad_wipe_server_key,
+ 	.init_connection_security	= rxkad_init_connection_security,
+ 	.alloc_txbuf			= rxkad_alloc_txbuf,
+ 	.secure_packet			= rxkad_secure_packet,
+diff --git a/net/rxrpc/server_key.c b/net/rxrpc/server_key.c
+index 3efe104b1930..a8e736d58793 100644
+--- a/net/rxrpc/server_key.c
++++ b/net/rxrpc/server_key.c
+@@ -26,6 +26,7 @@ static int rxrpc_vet_description_s(const char *);
+ static int rxrpc_preparse_s(struct key_preparsed_payload *);
+ static void rxrpc_free_preparse_s(struct key_preparsed_payload *);
+ static void rxrpc_destroy_s(struct key *);
++static void rxrpc_wipe_s(struct key *);
+ static void rxrpc_describe_s(const struct key *, struct seq_file *);
+ 
+ /*
+@@ -40,6 +41,7 @@ struct key_type key_type_rxrpc_s = {
+ 	.free_preparse	= rxrpc_free_preparse_s,
+ 	.instantiate	= generic_key_instantiate,
+ 	.destroy	= rxrpc_destroy_s,
++	.wipe		= rxrpc_wipe_s,
+ 	.describe	= rxrpc_describe_s,
  };
+ 
+@@ -105,6 +107,15 @@ static void rxrpc_destroy_s(struct key *key)
+ 		sec->destroy_server_key(key);
+ }
+ 
++/* wipe the key without freeing. used by CONFIG_CRASH_WIPE_SECRETS. */
++static void rxrpc_wipe_s(struct key *key)
++{
++	const struct rxrpc_security *sec = key->payload.data[1];
++
++	if (sec && sec->wipe_server_key)
++		sec->wipe_server_key(key);
++}
++
+ static void rxrpc_describe_s(const struct key *key, struct seq_file *m)
+ {
+ 	const struct rxrpc_security *sec = key->payload.data[1];
 
 -- 
 2.53.0
