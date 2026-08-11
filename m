@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 058D4C5DF6B
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 062A3C5DF6D
 	for <linux-nvme@archiver.kernel.org>; Thu, 13 Aug 2026 15:01:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,79 +12,78 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6GTy/7ZYnhxwkN3CoOvmK6vIIxg2qB1mjCGqyHajM1A=; b=lWHJo8gUpJ1kagAgJfI/68fLQS
-	AhUyKt6Y8elpeHerFbWQbmmivS+g1F5LFkzyTbUHfMsz2iHniYDIe86EP01Sop/VOqBYEMM8vqmQb
-	cpd8Cus7+Vn+LGI19wi9XRRFSUFPCbYN5slcZI5QyR6AWm0MsLwEZGKfQ4YKBQI6q1WPL+KJuVkcB
-	+JY4IR/XltID0VWuGH8rAhFZDG0TPtf4itLfYdEDP3KuSU6EBFy2GpoqgcF0etLpaEq6yOqOFTgF7
-	DvoYIIgpquDcoUL4Rjri3twxxZJ2Gri6cwTdmp85G8Js2fGnYtapeoFfgqlpfLB1SGlQxF+nzcCW5
-	UBMLbt3g==;
+	bh=qSx5jstEMxGImoS/91W19MHOeSaIonN8JmHYqcRdoo0=; b=0RFCLXu+CkFyPfxuC0rLIoMhx+
+	BV4G0DEmMvBud8UNeNk7XbWsgwPuQN8LQ45MQdreLc+wP5wJ+jOkYZYUxwThoUYRa86onckd8XexE
+	L+0OsobIU6Pcw43F0jNWxnlsXH/Km4rYIekDZrV73J3JabX9zwDq23GJlbQylgKl52tGT48M5jeAl
+	LHsBcOHekbY3UALKyk/kS75wT+ecDqt1rZTQvkAR0Y2I4G3vlaZOCl4O/EQoNeVmQH82PDYY7Eu1J
+	ZBb4z6cKQKhfdF7m4jfpEeRuzZpBnAkAJeq0MahZ92YI4MTy8UMxZZzusQyZiGGO1eBvXg9H8DKGa
+	OW4cEhvQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wuWvZ-00000000tEN-3tV6;
+	id 1wuWvZ-00000000tC9-0WjO;
 	Thu, 13 Aug 2026 15:01:05 +0000
 Received: from flow-b7-smtp.messagingengine.com ([202.12.124.142])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wtqgC-0000000Ehxy-3y7F;
-	Tue, 11 Aug 2026 17:54:28 +0000
+	id 1wtqfe-0000000EhfX-3wQ8;
+	Tue, 11 Aug 2026 17:53:53 +0000
 Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailflow.stl.internal (Postfix) with ESMTP id C358513003A6;
-	Tue, 11 Aug 2026 13:54:22 -0400 (EDT)
+	by mailflow.stl.internal (Postfix) with ESMTP id BF9781300395;
+	Tue, 11 Aug 2026 13:53:48 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Tue, 11 Aug 2026 13:54:24 -0400
+  by phl-compute-01.internal (MEProxy); Tue, 11 Aug 2026 13:53:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jaseg.de; h=cc
 	:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1786470862;
-	 x=1786478062; bh=6GTy/7ZYnhxwkN3CoOvmK6vIIxg2qB1mjCGqyHajM1A=; b=
-	qB2Jy7vX5C5g7HFTE11w3KW7iFGS08Hi2Z6fdKdbd+NH+vR4665E+YY32z+VrqHW
-	e8VqhnOhmjyMa+NhOcxYaLSFJm4O2aPGvq4PP0flRu/uCP3GXTHNw4uZQN9Jdn5m
-	iDDZ/byDI9F+wTQibuac57c6zH2r3wPapyRCaq71th2vwXrzwW1kJwv4/K+v10Xc
-	S/HsLRiVsm96zzjZc3hnudlFMXt4fH2Ygh4Y6AoAzx9jJsK9iJAN2YUhK9QqJCvd
-	mQzgHE16IfdSAAeBDmYhEdflm5INZlpdetbk6F4+XseJ8OSLrgHIidqZ7Tvl6149
-	gZM82j6UrZMR4gFcY37t3g==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1786470828;
+	 x=1786478028; bh=qSx5jstEMxGImoS/91W19MHOeSaIonN8JmHYqcRdoo0=; b=
+	Z8bwl0XjcJPZQLjW9pXCAUF5EWldkGiE9BEEdn2IuAMsXkmfOq3/dvpxmwnP2ZlY
+	8URUSWG/4y0tCxepJplqISoEiYwfVYK/s8vhmV3uUUrGk7zFTdPqMNIWZs+LJLOA
+	DyCqajFHL7DmdzdzkamxO9z9Wob/c73E7WLPk597ZlIvHS6jmRJcdG7aHu8F2dTW
+	imnXcLgJEGG44MAZQwOinFHlEgCrj6F0218t2fYyyxdt+sm7vHVsMLaS2sM+KzUd
+	IucUdBz7PmGhmm4mCSpIW5y7I3249h8Bo0TbSyj3VAlroAAslctclu3lTZEFlZsZ
+	2cMCxiZZ3x+umDldQ8whqg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1786470862; x=
-	1786478062; bh=6GTy/7ZYnhxwkN3CoOvmK6vIIxg2qB1mjCGqyHajM1A=; b=T
-	RxBuSxw+xYevsT25Hc1JPuxXZqY/uEsl8wSxfZhf/AnKlFUhLhxDA6OAGexc/MPq
-	yo4PqNgNydIVClSZ3ANQkB+z3UkR32qE7fBDOKJlV2ywY71eXlLfNkDQmBS75Caw
-	Gb5aPaFEYzA/RZqFwZZ7kP8Mj31loYQbhJfKe9D7873Xr2U0jy0m6K9ka6JILxIb
-	npR/zyq+eq6XNbfqaIWlAGkJucqyPYs4Y1Uw/X4bU1kkyrXwCZ0N8BcWdYyVXSI1
-	1/D5iiCrk0Ijt8TBdbCTi30INqZ8bShadFPJ4WPiTgAbfc52SukdVu0W4GMsCW+L
-	n5fdbrFiJ8s2Rm29o5wZw==
-X-ME-Sender: <xms:zmF7ai_Zs1u6hV2jKxhqrcmi2g4fPeq5mYeMVGalh6VRy0_rEPJ8SQ>
-    <xme:zmF7arjBYupbF0QtI3fQ6K3iDO3yXS_DD6X8uY5PNvKM_DZM7Oov2AUNLqc_vJb1_
-    XoRSZQyoiHQyvs0SSqbEnE7I9j2_yxhLuaETEs0R4seyWWRT0a__A>
-X-ME-Received: <xmr:zmF7aum43js_e2C7xRDlq-oNYfs2k3-LQyC7IMVMZzVMq_cQuDUY0kKQzQa0JnTQlIDv1EMq5DCMC4U1awBhRHg>
-X-ME-Proxy-Cause: dmFkZTFz4vgNe8oY8QyUL0mlPqEECv57Qi7HCBIaM0H0fEpf1xbY2+8hZG6UpCbiC57xgk
-    VavagF0YgIkokz9w1ZYP1FsIKkSgwmPUkWwZZopzEj1hsTumYxogfZ8LsE2lIsmrvQrzxe
-    DNsAmjkffjDdnK7Hikwb1PBijPzdc+/pLDsJWa/G9io4Zr2WihJBScLGTtc/AAEph99TK7
-    KMYjrfPBzTMOGahPoGoXnc0LQ7Z6pMXIRNlA+PEZw+HSeBor1z9UME1MTUTi3zab2cdg5l
-    S2ygLFXboS6erW/oqrZ0wC4vZEyPuJEZAHdMIjRfMGBWirnE5Gt0LHQJATpVfpt20aHeDl
-    XyB37WkgHmCL0bqV/gwYjrSWwACRVv3L2mFYMT6Mo8TeRqIhBfn+EZ+AprPeNbPdQGricJ
-    fO7wnskH9wB1YuqUpy/Yx4yIVrnrUMhSspS5ClTRyNPxGziAfpZ/o6pFI/pcdBeJrhWtVd
-    c/IPXtIPiAGqw8VslzaK5j2qHpjEI9MJdVRoNbyWuxPSNIqfN/6kAbwCFumcLChonGTjyx
-    H616czHqhxUWbir/Tq/u5KYre5BpB9QBmnbWNbZpMwYCQH7GlGObbgqRwGUDDtBN3ktFC5
-    fRYyjzm6ZZWpXmztHWaeJ2+3hyK7XjHM2TIVurBh/oB9ziDN7H8PBTB/+KCw
-X-ME-Proxy: <xmx:zmF7an2mxQxYibZJ0Vc8f-12U_TtbV1qjsbmxtvBc36oNvgma10L0w>
-    <xmx:zmF7ag4cW4egXWZhGkNKj4xWcwr0Qvhl0CDNsmZy2blqSXy7nPYpwA>
-    <xmx:zmF7athLaQ8JhBVZx4QUPOKI1_ZDgp0jQdH1181gcQnl8eeGhA0XBg>
-    <xmx:zmF7ahnywASeh6bXo1Y-9SkkriNPy8-KxFnJsTQ0daM8WYvknajE1Q>
-    <xmx:zmF7al3sbciruhHrY45Vzi7-LbLTUplldIvu9zOXsR3LZrVj5NfYvtVK>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1786470828; x=
+	1786478028; bh=qSx5jstEMxGImoS/91W19MHOeSaIonN8JmHYqcRdoo0=; b=a
+	YONY/pbby/jHIFWGCQYz+RGUa9FvXes2QTVlDwZtO0+s6y3GL7Z5zvn5OrsxGQO2
+	2CjUf18XoqUu7baCU6uNkr1s/KP55lhhgN6I1S5KKzcgSKi4I4ccbwwOkbop0hph
+	KrXZtXVQHK9BAjpJipdmlDKNbWmElQYO0/vPrhkYdaQ8FlfJg+CjWrk3WneBjwRg
+	pc+DdLurAGOzcoGOyySJWcadJMh5G3tKOlt3JRBZP/Nm7V58QJLsdxkMviUfgKSz
+	faob06Ye2Y6SZRYVO2pKJpjllwmXmNruMWGdOQU6jJuwND0RWOAx2Wp0dtqCg2ma
+	mGm/TdYa22Upi948CkHlA==
+X-ME-Sender: <xms:q2F7ag6rcMW7PiXU5aVJpGDMjV4y94oKSR98ceGllN2DVEqdO41whA>
+    <xme:q2F7aodWtq_UGq3M8P8T9aqgN8mqQTBDNAGndFFqhUm_HvSXiChe26yhBuoJs-LWV
+    FKzg3Q3CUg4vLxtFs9M4rLni7eZdMo12wZBq520sgFNd2w0dQP_KQ>
+X-ME-Received: <xmr:q2F7asO212iSnFyguVFX2i8LKazuh-gy3sRI-dv5M7tTiMrce552n4EusAmZ-Cefm6zvuGdbae04IA7lsGMs-mk>
+X-ME-Proxy-Cause: dmFkZTFP5tmiXRyqpvhao8uWnDWsuVG58E3QcpY8nNF+TN3d4+2z3XaWQJ1+2uEKcUq9Jg
+    +xH/KDfBOi31TfxVE5vy2aZ5W5Eono+bvv7mBiiNvVW/C9tjIvrxCLzv7Tz6GJOSvAG1cd
+    t11+FzpQNbill+yp1ZC7JKPVzEaxQ4CH2HewKTU1gYEn0mNFldMXWgoBvZ/c5OhwLZogLW
+    sZeOMCUfQY9vOvCjGHA0ivpYn+5HBy3sK6RswFREIaUm9jlhbU7pV5ZXGDLpJAMlUAJ/Lo
+    y1vjaaTNNEiBF07QqH8YbZg0fsVTsE2lSAku2XiqZRlB3GAWdGnDFC/NxQNHJZjZwh0bh8
+    kqbkKWELcjtAChbH2Wzn4QOL41OlbQEqlswqKr3P1+VpFR+XsiNX3rUaf5vdKXSnolPw5Q
+    /Ll/uLB1cldMhqyZbAiZQTCYwXiJkO7FdRZ/9Gqe2gvfTrCfAfdNHgTLVZMsAD+fn76T3x
+    gFGfQHvbVS8RM9muaXsf/hhgBhDP9KsibwWWSg2C80hHXEUnxirzCVePR8OTs9vajPnbRl
+    X6LpwU+UjkzYg6auPW6XF1a5W10elYx6W0MaLbP3aPYktTrXr0mX/LqhjI0xOv8F8rUXJl
+    m+CCx3AZq3TzeBvltaEQBfoUWTY6LYm9OAxOqDrHYgNL3v9VOvbb9AA+vdHQ
+X-ME-Proxy: <xmx:q2F7atztMqppu2lCJw-ae59-79OYTIhf_9RyZUK_28A5frxI4jADzw>
+    <xmx:q2F7ao60tNlXmCbxPM9_Vtf4u2b_FNL1_oEvj80sP9fbOVH7gyrr4A>
+    <xmx:q2F7apcLuELBIZJX3JNKD7FIGWcg6-VMv9HSb2EfWQYrubi0zhIlPw>
+    <xmx:q2F7at7pehO2MMvoObvrQcmAnnV-vM28a5gSPy_0kgEBunY_22OfOw>
+    <xmx:rGF7ajAHefbo5jnothnc_kPjagUMcTa_3pOxoBH00iCr7EwKCl7HBwFz>
 Feedback-ID: i60a14417:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 11 Aug 2026 13:54:15 -0400 (EDT)
+ 11 Aug 2026 13:53:41 -0400 (EDT)
 From: =?utf-8?q?Jan_Sebastian_G=C3=B6tte?= <linux@jaseg.de>
-Date: Tue, 11 Aug 2026 19:52:58 +0200
-Subject: [PATCH v2 09/13] security/keys: implement wipe op for asymmetric
- keys
+Date: Tue, 11 Aug 2026 19:52:54 +0200
+Subject: [PATCH v2 05/13] security/keys: wipe key payloads before kdump
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260811-crash-zeroize-rework-v2-9-9561d13c2340@jaseg.de>
+Message-Id: <20260811-crash-zeroize-rework-v2-5-9561d13c2340@jaseg.de>
 References: <20260811-crash-zeroize-rework-v2-0-9561d13c2340@jaseg.de>
 In-Reply-To: <20260811-crash-zeroize-rework-v2-0-9561d13c2340@jaseg.de>
 To: Andrew Morton <akpm@linux-foundation.org>,
@@ -127,8 +126,8 @@ Cc: kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
  =?utf-8?q?Jan_Sebastian_G=C3=B6tte?= <linux@jaseg.de>
 X-Mailer: b4 0.15.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260811_105425_030438_ED876F83 
-X-CRM114-Status: GOOD (  16.89  )
+X-CRM114-CacheID: sfid-20260811_105351_025643_07BFB1C1 
+X-CRM114-Status: GOOD (  23.15  )
 X-Mailman-Approved-At: Thu, 13 Aug 2026 08:01:01 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -144,102 +143,130 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add wipe op to the subtype and implement it for public_key.
+When CONFIG_CRASH_WIPE_SECRETS is set, try to erase key payloads on
+panic before jumping to the kdump kernel.
 
-Used by CONFIG_CRASH_WIPE_SECRETS.
+CRASH_WIPE_SECRETS notifiers run during panic() with other CPUs stopped
+and preemption disabled. In this state, we can't rely on free()'ing
+being safe, so we define a new `wipe` key op.
 
 Signed-off-by: Jan Sebastian Götte <linux@jaseg.de>
 ---
- crypto/asymmetric_keys/asymmetric_type.c | 11 +++++++++++
- crypto/asymmetric_keys/public_key.c      | 15 +++++++++++++++
- include/keys/asymmetric-subtype.h        |  5 +++++
- 3 files changed, 31 insertions(+)
+ Documentation/security/keys/core.rst | 13 +++++++++++
+ include/linux/key-type.h             |  9 ++++++++
+ security/keys/key.c                  | 43 ++++++++++++++++++++++++++++++++++++
+ 3 files changed, 65 insertions(+)
 
-diff --git a/crypto/asymmetric_keys/asymmetric_type.c b/crypto/asymmetric_keys/asymmetric_type.c
-index 16a7ae16593c..a0a68ebd0746 100644
---- a/crypto/asymmetric_keys/asymmetric_type.c
-+++ b/crypto/asymmetric_keys/asymmetric_type.c
-@@ -481,6 +481,16 @@ static void asymmetric_key_destroy(struct key *key)
- 	asymmetric_key_free_kids(kids);
- }
+diff --git a/Documentation/security/keys/core.rst b/Documentation/security/keys/core.rst
+index 326b8a973828..35cb00a87c46 100644
+--- a/Documentation/security/keys/core.rst
++++ b/Documentation/security/keys/core.rst
+@@ -1596,6 +1596,19 @@ The structure has a number of fields, some of which are mandatory:
+      It is not safe to sleep in this method; the caller may hold spinlocks.
  
-+/* wipe the key without freeing. used by CONFIG_CRASH_WIPE_SECRETS. */
-+static void asymmetric_key_wipe(struct key *key)
-+{
-+	struct asymmetric_key_subtype *subtype = asymmetric_key_subtype(key);
+ 
++  *  ``void (*wipe)(struct key *key);``
 +
-+	if (subtype && subtype->wipe)
-+		subtype->wipe(key->payload.data[asym_crypto],
-+				key->payload.data[asym_auth]);
-+}
++     This method is optional. It is called from the panic path when
++     CONFIG_CRASH_WIPE_SECRETS is enabled, to erase the key material from
++     memory before the kdump kernel is started, so that it does not end up in
++     the crash dump. Unlike destroy(), it must only clear the payload, not
++     free it.
 +
- static struct key_restriction *asymmetric_restriction_alloc(
- 	key_restrict_link_func_t check,
- 	struct key *key)
-@@ -612,6 +622,7 @@ struct key_type key_type_asymmetric = {
- 	.match_preparse		= asymmetric_key_match_preparse,
- 	.match_free		= asymmetric_key_match_free,
- 	.destroy		= asymmetric_key_destroy,
-+	.wipe			= asymmetric_key_wipe,
- 	.describe		= asymmetric_key_describe,
- 	.lookup_restriction	= asymmetric_lookup_restriction,
- 	.asym_query		= query_asymmetric_key,
-diff --git a/crypto/asymmetric_keys/public_key.c b/crypto/asymmetric_keys/public_key.c
-index 09a0b83d5d77..9931d56337e5 100644
---- a/crypto/asymmetric_keys/public_key.c
-+++ b/crypto/asymmetric_keys/public_key.c
-@@ -13,6 +13,7 @@
- #include <crypto/sig.h>
- #include <keys/asymmetric-subtype.h>
- #include <linux/asn1.h>
++     This method is called with all other CPUs stopped and preemption
++     disabled, and only for positively instantiated keys. It must not sleep,
++     allocate, free or take locks, as they will never be released.
++
++
+   *  ``void (*describe)(const struct key *key, struct seq_file *p);``
+ 
+      This method is optional. It is called during /proc/keys reading to
+diff --git a/include/linux/key-type.h b/include/linux/key-type.h
+index bb97bd3e5af4..21e07db0c5f2 100644
+--- a/include/linux/key-type.h
++++ b/include/linux/key-type.h
+@@ -122,6 +122,15 @@ struct key_type {
+ 	/* clear the data from a key (optional) */
+ 	void (*destroy)(struct key *key);
+ 
++	/* wipe the key material without free'ing (optional)
++	 * - used from CONFIG_CRASH_WIPE_SECRETS during panic to keep keys out
++	 *   of crash dumps
++	 * - called from the panic path with other CPUs stopped and preemption
++	 *   disabled
++	 * - must not sleep, allocate, free or take locks
++	 */
++	void (*wipe)(struct key *key);
++
+ 	/* describe a key */
+ 	void (*describe)(const struct key *key, struct seq_file *p);
+ 
+diff --git a/security/keys/key.c b/security/keys/key.c
+index b34a64d81d47..213e6f1d5d83 100644
+--- a/security/keys/key.c
++++ b/security/keys/key.c
+@@ -12,6 +12,7 @@
+ #include <linux/slab.h>
+ #include <linux/security.h>
+ #include <linux/workqueue.h>
 +#include <linux/crash_core.h>
+ #include <linux/random.h>
  #include <linux/err.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
-@@ -58,6 +59,19 @@ static void public_key_destroy(void *payload0, void *payload3)
- 	public_key_signature_free(payload3);
+ #include "internal.h"
+@@ -1268,6 +1269,47 @@ void unregister_key_type(struct key_type *ktype)
  }
+ EXPORT_SYMBOL(unregister_key_type);
  
-+/* wipe the key without freeing. used by CONFIG_CRASH_WIPE_SECRETS. */
-+static void public_key_wipe(void *payload0, void *payload3)
++/* Called far into vpanic from crash_core.c with other CPUs stopped and
++ * preemption disabled
++ */
++static int key_crash_wipe(struct notifier_block *nb, unsigned long action,
++		void *data)
 +{
-+	struct public_key *key = payload0;
++	struct rb_node *node;
 +
-+	if (key) {
-+		if (key->key)
-+			crash_wipe_memzero(key->key, key->keylen);
-+		if (key->params)
-+			crash_wipe_memzero(key->params, key->paramlen);
++	/* If we can't acquire the lock, the rbtree might be in an inconsistent
++	 * state. That's all we can do then, as there's no point to waiting
++	 * at this stage.
++	 */
++	if (!spin_trylock(&key_serial_lock)) {
++		pr_crit("crash_wipe_secrets: can't acquire key_serial_lock. skipping keyrings.\n");
++		return NOTIFY_DONE;
 +	}
++
++	for (node = rb_first(&key_serial_tree); node; node = rb_next(node)) {
++		struct key *key = rb_entry(node, struct key, serial_node);
++
++		/* Negatively instantiated keys have key->state < 0 and never
++		 * had a payload attached, so only wipe positive ones.
++		 */
++		if (key->type == &key_type_keyring || !key_is_positive(key))
++			continue;
++
++		/* We have a dedicated wipe callback for this since free'ing
++		 * isn't safe at this point
++		 */
++		if (key->type->wipe)
++			key->type->wipe(key);
++	}
++	spin_unlock(&key_serial_lock);
++	/* off to kexec()! */
++	return NOTIFY_DONE;
 +}
++
++static struct notifier_block key_crash_wipe_nb = {
++	.notifier_call = key_crash_wipe
++};
 +
  /*
-  * Given a public_key, and an encoding and hash_algo to be used for signing
-  * and/or verification with that key, determine the name of the corresponding
-@@ -464,6 +478,7 @@ struct asymmetric_key_subtype public_key_subtype = {
- 	.name_len		= sizeof("public_key") - 1,
- 	.describe		= public_key_describe,
- 	.destroy		= public_key_destroy,
-+	.wipe			= public_key_wipe,
- 	.query			= software_key_query,
- 	.eds_op			= software_key_eds_op,
- 	.verify_signature	= public_key_verify_signature_2,
-diff --git a/include/keys/asymmetric-subtype.h b/include/keys/asymmetric-subtype.h
-index d55171f640a0..17c74070c101 100644
---- a/include/keys/asymmetric-subtype.h
-+++ b/include/keys/asymmetric-subtype.h
-@@ -32,6 +32,11 @@ struct asymmetric_key_subtype {
- 	/* Destroy a key of this subtype */
- 	void (*destroy)(void *payload_crypto, void *payload_auth);
+  * Initialise the key management state.
+  */
+@@ -1290,4 +1332,5 @@ void __init key_init(void)
  
-+	/* Wipe a key of this subtype without freeing it (optional).  Used by
-+	 * CONFIG_CRASH_WIPE_SECRETS from the panic path.
-+	 */
-+	void (*wipe)(void *payload_crypto, void *payload_auth);
-+
- 	int (*query)(const struct kernel_pkey_params *params,
- 		     struct kernel_pkey_query *info);
- 
+ 	rb_insert_color(&root_key_user.node,
+ 			&key_user_tree);
++	crash_wipe_secrets_register(&key_crash_wipe_nb);
+ }
 
 -- 
 2.53.0
