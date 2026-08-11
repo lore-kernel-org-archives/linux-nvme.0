@@ -4,60 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DFA11C5B56A
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Aug 2026 15:29:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 64526C5B56A
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Aug 2026 15:47:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9mYHGQ2Q+YL+7Y+umND8aH8Znn1uhq2HGqzgJMKW+7g=; b=MIPwQyz+GN4GeTBraWvaew/LYP
-	FqhPMYvBEyTOZjv2fpbDxO1ZUA0ikKOa8eeI/aToHVzeEHJ8xI7QMjFnO+bVqi8XxfhQwndyT/HMM
-	VYqXRmVF2MssUP4sOlUdVk6zsNZjSlAHBhWh08VzhDvdefUPYOEiQRCiG1Mf8d0XBEGE0Xdlen3uL
-	lRSTpxnFFHsAThUIHfY8OH8fiaNqASz6Fsyuk2jASaE30+xzVrytcOC3G0WasevZcWklTBTCffBI7
-	UAKpcP3/jRnhMpn9PyCGYVPXgUCHOw9lMmJodeVIDGAJZXdioB4tZgv5y5ZStfcyjHOmTTTD3W3Gg
-	iGjeHi1Q==;
+	bh=P7BrtxDZSYqK7Ssz8XKfAJxDQOQOUT5KYjPUoFcQw4Y=; b=dS6H7Ok0HTkD1zxEmOCPLHqoQj
+	XhlnfcXrKBokHbkaX+lq30UkH3n3nmwP3Wq7IA56LGBSJCIuorUQaRa1lea5BgC2Y+cTg8ZA9I/I1
+	d7V9wawbw+hIiFaAwhxZMbArQSDa7H0Y8asq3iQjdkrBeHGKpRpax+J+7Oj3h/5tB37Ds22bcxlKZ
+	RNvfyOdHMG/KII2izS7NyD0ONEO9Kee4yTGNS3lPvZGsWqKS9c6eDvBJE70iSlfkA41oUwAfoZfKf
+	5mu2EtKGzeymrH1XKiibbcH092QDLHuHWK+r/xsxRqkdg+iz8oodhCUdEv70pJRsMbwf509aPiXBb
+	2SL2Wknw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wtoQA-0000000EK1H-3NBD;
-	Tue, 11 Aug 2026 15:29:42 +0000
+	id 1wtoh1-0000000EOJw-3YDo;
+	Tue, 11 Aug 2026 15:47:07 +0000
 Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wtoQ9-0000000EK1B-2q60
+	id 1wtoh0-0000000EOJp-34RQ
 	for linux-nvme@lists.infradead.org;
-	Tue, 11 Aug 2026 15:29:41 +0000
+	Tue, 11 Aug 2026 15:47:06 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id BCA97600AD;
-	Tue, 11 Aug 2026 15:29:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BE3F1F000E9;
-	Tue, 11 Aug 2026 15:29:40 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 09E68600AD;
+	Tue, 11 Aug 2026 15:47:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C73C1F000E9;
+	Tue, 11 Aug 2026 15:47:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786462180;
-	bh=9mYHGQ2Q+YL+7Y+umND8aH8Znn1uhq2HGqzgJMKW+7g=;
+	s=k20260515; t=1786463225;
+	bh=P7BrtxDZSYqK7Ssz8XKfAJxDQOQOUT5KYjPUoFcQw4Y=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=WMqrtZmaHZaL1+UdVsFI7tW8p58TgGA7yDsW+dotxkiR6ZeOdnv67Hi/htEiZh5Mt
-	 6oBvKZRQO9GwMJrLgjt9Ku0MXmbkUhtg9Ihj6xZ9S8uKqJpAnH1L6lGQqoObDEpSKv
-	 bJovCo0WVqId7bbPqoYgpzmJU17CK1C0ehfXKCj4XJzV9/Luniig5aFeBo7oMZnPgE
-	 56gudfAR60tjMACaShgNmRq/pnbNO9zZf8dQ+iCSnZ47fNzoP0UCy5cHZR8099gXQX
-	 z1HF73j72BxthFfFpAmLieIKSQEJLohuR3yVUouDTGXfr6CJH0lET2aH4xBpvM/tGX
-	 gv+1S2WyKXlgA==
-Date: Tue, 11 Aug 2026 09:29:38 -0600
+	b=MHFn8ocCeQOEhOGPaJ6jN8TKjft5g9fx20Amhhisl7KxwJSmlDqD80LYrTW2Ek9iV
+	 51j9q/peywZ9i2m6uvclhZlnKa2eAGdIVAdVeDvbyyBoKEDLh9hFIkGi1gOVU5BDkS
+	 cc6BnFyYIJ0Ffv90nrDtX+OkOqlb+ZstOCWcsMh0Xh5gl/pgvDbD7bg/+l2agHzqNp
+	 /iNsTagc69xUqUpY7/fFSSrTvljIUx4Gu9e9a77pQvOCqHCaHaH+3qqXmBDYnDkIVL
+	 iSuoUf8eoYOemo7cBamOpq6heDp/xdTIXZHlUPGPsPYPb9HTuernX8RCKAhP08zk1S
+	 ebw9qTpLfKmfA==
+Date: Tue, 11 Aug 2026 09:47:04 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Rihyeon Kim <rihyeon8648@gmail.com>
-Cc: hch@lst.de, sagi@grimberg.me, axboe@kernel.dk, justin.tee@broadcom.com,
-	nareshgottumukkala83@gmail.com, paul.ely@broadcom.com,
-	kch@nvidia.com, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] nvme-fc: fix double free of fabrics options when
- nvme_add_ctrl() fails
-Message-ID: <ans_4i0GcU2YAkKl@kbusch-mbp>
-References: <6a7a83ac.01d0871a.3a0d52.00bb.GAE@google.com>
- <20260811125310.165487-1-rihyeon8648@gmail.com>
+To: =?iso-8859-1?B?Suly6W15?= Jean <Jeremy.Jean@oss.cyber.gouv.fr>
+Cc: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] nvmet-auth: reject overlong negotiate identifier lists
+Message-ID: <antD-Av1yueclXkC@kbusch-mbp>
+References: <20260810155615.3269409-1-Jeremy.Jean@oss.cyber.gouv.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260811125310.165487-1-rihyeon8648@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260810155615.3269409-1-Jeremy.Jean@oss.cyber.gouv.fr>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,28 +71,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Aug 11, 2026 at 09:53:10PM +0900, Rihyeon Kim wrote:
-> It only does so on the fail_ctrl: path, though.  When nvme_add_ctrl()
-> fails, nvme_fc_init_ctrl() jumps to out_put_ctrl: instead, so
-> nvme_fc_ctrl_free() still sees ctrl->ctrl.opts set and frees opts, and
-> nvmf_create_ctrl() frees it again.
+On Mon, Aug 10, 2026 at 03:56:15PM +0000, Jérémy Jean wrote:
+> The DH-HMAC-CHAP NEGOTIATE descriptor carries separate lengths for the
+> hash and DH identifier lists, but each list occupies a fixed 30-byte half
+> of idlist[]. nvmet_auth_negotiate() uses halen and dhlen from the wire as
+> loop bounds without validating them, so a remote initiator can make the
+> target read past the 72-byte request buffer. KASAN reports a 
+> slab-out-of-bounds read in nvmet_execute_auth_send().
+> 
+> Reject list lengths above the protocol maxima before either loop
+> indexes idlist[].
 
-...
+This should already be fixed with the inclusion of this one:
 
-> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> index 04363b9c4489..e4d0eeccd846 100644
-> --- a/drivers/nvme/host/fc.c
-> +++ b/drivers/nvme/host/fc.c
-> @@ -3601,6 +3601,9 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
->  	nvme_uninit_ctrl(&ctrl->ctrl);
->  
->  out_put_ctrl:
-> +	/* nvme_add_ctrl() failures skip the clear in fail_ctrl: above */
-> +	ctrl->ctrl.opts = NULL;
-> +
->  	/* Remove core ctrl ref. */
->  	nvme_put_ctrl(&ctrl->ctrl);
-
-Can't you move the setting from the "fail_ctrl:" label to the
-"out_put_ctrl:" one instead of duplicating it for both?
+https://lore.kernel.org/linux-nvme/20260804033800.3975537-1-kanie@linux.alibaba.com/
 
