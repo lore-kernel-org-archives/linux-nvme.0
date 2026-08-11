@@ -4,65 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3A8D9C5AD7B
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Aug 2026 02:06:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 331C0C5AD7B
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Aug 2026 02:32:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:From:Subject
-	:Message-ID:Date:MIME-Version:Reply-To:Cc:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=ys4iNrLMN1lLcVcwA1rz6SIXJyiiK9AiRG0W1tcnzVw=; b=e+lUgpdGzMzjMc/5FYCmu0wZmO
-	WIcKJvLGkORlq7uQgiElWP8c3kycdaLxU1VW3YFp1L5IeOy47xEY9Qr9oTJkgWgMnjgkSBrB7ZAZ7
-	6ae2CdMH9rDUusL2gWFduW+VQa5overMxww/yvUXcGIVuxbRnP/UGzAE8/SdUqD1n/T1XFtZRzlNk
-	x892aBmMYgiff9x+jxsVn4vqWymWWdNr46QUZ115AP9KGxA7MdtORHDdOGOWAlBatStBmyR53jeVN
-	QW4/zf5dTXAohGpXZUPltzD+9IjCqH9jOpcSJLwXTLhKYSjW5ItqI64pdmLRHmtTw/NwYmBdp2se8
-	F3af3mbQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	In-Reply-To:From:To:Message-Id:Content-Type:References:Mime-Version:Subject:
+	Cc:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ouwZUqR+deFGVMalSFY6t9lp8fDo2G13gktF7uJp5CM=; b=sFjrA7Ae6cgwmYZZsqdjRoka3d
+	tfKJs5H2+KxFZ/pIIbNSQNghkjCldebLUPw5/mHidA+pyw3Pn+btRSQ25qaJUBFxYj8Pwu8i3XA5T
+	anbx+nj6oG9jq9IX+0y1m3E6izIjwf68jjVWpDwxHczqIFpeZ6zJyCfys5J0j7b4qey7/cKzJROYN
+	zLDqS4wDpJNO5UJ3+ZfpoKNYusOKY8HWFM+ivKFZiQKLaDcOhBhsdCU9rr8iOxQjaL6PxbzB9KK/4
+	j2odMc5ZhfoMO1QgtctIjj90IYXU2CLDp4zn5WOliY7B5zblZdx96JVNJNaDvASAliphZKtTM83JH
+	NYDwhSDQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wtbt4-0000000D8tU-44Dr;
-	Tue, 11 Aug 2026 02:06:42 +0000
-Received: from mail-oi1-f206.google.com ([209.85.167.206])
+	id 1wtcIP-0000000DAj1-0zdU;
+	Tue, 11 Aug 2026 02:32:53 +0000
+Received: from va-1-113.ptr.blmpb.com ([209.127.230.113])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wtbsz-0000000D8sK-3G5l
+	id 1wtcIL-0000000DAhU-1Ew9
 	for linux-nvme@lists.infradead.org;
-	Tue, 11 Aug 2026 02:06:39 +0000
-Received: by mail-oi1-f206.google.com with SMTP id 5614622812f47-4a485034d01so3833443b6e.3
-        for <linux-nvme@lists.infradead.org>; Mon, 10 Aug 2026 19:06:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786413996; x=1787018796;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ys4iNrLMN1lLcVcwA1rz6SIXJyiiK9AiRG0W1tcnzVw=;
-        b=Dfb4WmMRhlRSgUch4oekk9mpyVQBLDXp1X9qrcz8WY6mb1d2QHIqPozecpjdlLuVZs
-         D7G+9CprZBw0KZjjC+nfXFEymtHDGGGhjPCThqdYNq5RhYVn1R8pyNeiYWHYehlf1LH6
-         OScnjTG/b/2o2PLktGuOHBHCs73pYdo2bN5R65W6RVVEKjwjuj+TSvjgz8yk+XR5DCBC
-         s9M/G+wJzouOXYZkL00/ivfyBt3T6d32UCpkxOpVHEM5ZzQkcTNhtnEd83eou5FgZt+o
-         mTnAc6Qu/7wnEo3sPU6PgWc/Q4Tc3PntFvcTE3OIEeDhY9UJDojmgIF+zcC37JRw4rZT
-         I0vg==
-X-Forwarded-Encrypted: i=1; AHgh+Rq0KliBb+ueXSgR6DrcRQrTpe43YU5aM4EiI+G1FtqaZ44iqkkuSF2O1F3wvZH+MWiCzhUSjkJqzGnK@lists.infradead.org
-X-Gm-Message-State: AOJu0YzH/NX7XV7RwpG0RJpoNQqLDXI1RY53ka+p1U4zJs8INQ4ZyLw5
-	NrY48VeOMtct37PHq+Ntn0we/Gz7xCf+zXb0+QCTgv1GELNzX4OMK2JhWjoPdpQyihz2RVXopMM
-	p7pWhsoOcPyAH06aCWvQ31qAbkURkV4AOlqEbJWfNxKebaKqPtUMSB3bXa3c=
-MIME-Version: 1.0
-X-Received: by 2002:a05:6808:1512:b0:496:e0:a47b with SMTP id
- 5614622812f47-4b1aba7f07cmr12723779b6e.20.1786413996055; Mon, 10 Aug 2026
- 19:06:36 -0700 (PDT)
-Date: Mon, 10 Aug 2026 19:06:36 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a7a83ac.01d0871a.3a0d52.00bb.GAE@google.com>
-Subject: [syzbot] [nvme?] KASAN: slab-use-after-free Read in nvmf_free_options
-From: syzbot <syzbot+f58e57380a6083c4041d@syzkaller.appspotmail.com>
-To: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org, 
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	sagi@grimberg.me, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+	Tue, 11 Aug 2026 02:32:52 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=2212171451; d=bytedance.com; t=1786415559; h=from:subject:
+ mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
+ mime-version:in-reply-to:message-id;
+ bh=ouwZUqR+deFGVMalSFY6t9lp8fDo2G13gktF7uJp5CM=;
+ b=QC+sEzOegvxV3kDyXnr+BdjonlzIawyTXuooQuU0lLpCRnIw8S68/J2AftHTqpROn0WEXd
+ JSHVdALwuAcbOrmFte7MFPQ+Vil//ogVRN+HNZ2VbENd3vEte82Yhppz+HcSMcFlytzOvC
+ mLTyJ6Fmv7BFV+3lUsaBAuq3pDgLqnN00s+wpVBGHKNYjRqN6UQNKUDNOiKnRtJiClQfGD
+ 9SdH+vC7RlVdB+aHbKFVMbfnA6FBoiaxqoCIF89p/iQu+iqNBWvOHc85/h+KiiEML92sEr
+ Ax9rNMxvYmzb12N1KcZAlijxZmGcm7fNmk5eLjZmZrT6BYBogSzcPKMFJafuBw==
+Date: Tue, 11 Aug 2026 10:32:35 +0800
+Cc: <axboe@kernel.dk>, <hch@lst.de>, <sagi@grimberg.me>, 
+	<linux-nvme@lists.infradead.org>, <linux-kernel@vger.kernel.org>, 
+	"Guzebing" <guzebing@bytedance.com>
+Subject: Re: [RESEND RFC PATCH v2] nvme-pci: add adaptive interrupt polling
+Mime-Version: 1.0
+References: <20260806031058.40176-1-changfengnan@bytedance.com>
+	<ano6o6i4Yr2JfMgu@kbusch-mbp>
+Content-Type: text/plain; charset=UTF-8
+Message-Id: <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.9f189e7a.e65a.4eb9.b86b.c83b70bebfb9@bytedance.com>
+To: "Keith Busch" <kbusch@kernel.org>
+From: "changfengnan" <changfengnan@bytedance.com>
+X-Lms-Return-Path: <lba+16a7a89c6+847c19+lists.infradead.org+changfengnan@bytedance.com>
+In-Reply-To: <ano6o6i4Yr2JfMgu@kbusch-mbp>
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260810_190637_893621_68965E51 
-X-CRM114-Status: UNSURE (   8.69  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260810_193249_610812_FC00ABE8 
+X-CRM114-Status: GOOD (  34.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,231 +69,722 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello,
 
-syzbot found the following issue on:
+> From: "Keith Busch"<kbusch@kernel.org>
+> Date:=C2=A0 Tue, Aug 11, 2026, 04:55
+> Subject:=C2=A0 Re: [RESEND RFC PATCH v2] nvme-pci: add adaptive interrupt=
+ polling
+> To: "Fengnan Chang"<changfengnan@bytedance.com>
+> Cc: <axboe@kernel.dk>, <hch@lst.de>, <sagi@grimberg.me>, <linux-nvme@list=
+s.infradead.org>, <linux-kernel@vger.kernel.org>, "Guzebing"<guzebing@byted=
+ance.com>
+> On Thu, Aug 06, 2026 at 11:10:58AM +0800, Fengnan Chang wrote:
+> > The idea behind this approach is: Let each I/O queue switch itself betw=
+een
+> > interrupt and poll mode based on its own recent completion rate.
+> >=C2=A0
+> > This version is still in the testing phase, and there are still some is=
+sues
+> > with the code implementation. =C2=A0I releasing it now to see if the ap=
+proach
+> > is generally acceptable. =C2=A0If the approach looks good, I=C2=B4ll co=
+ntinue to
+> > refine it and conduct more extensive testing. =C2=A0The main implementa=
+tion
+> > logic is in `nvme_adaptive_sample` and `nvme_adaptive_irq_poll`; you sh=
+ould
+> > focus on reviewing the implementation of these two functions.
+>=C2=A0
+> Can we subscribe to the dynamic interrupt moderation (dim) library? I
+> know it's generally used in conjuction with a hardware interrupt
+> coalescing feature, but we can just do pure software with it too. The
+> library provides a hill climb to adapt the policy at run time.
+>=C2=A0
+> This is a quick PoC I put together. I haven't tested on fast devices, so
+> I'm not sure if I've dialed in the profiles, but it's start of what I
+> had in mind.
 
-HEAD commit:    0d8395707651 Merge tag 'soc-fixes-7.2-2' of git://git.kern..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=130897b9580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=c05be6c9b0d36cb9
-dashboard link: https://syzkaller.appspot.com/bug?extid=f58e57380a6083c4041d
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-
-Unfortunately, I don't have any reproducer for this issue yet.
-
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-0d839570.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/f71d0db84455/vmlinux-0d839570.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/9e4025aaafe2/bzImage-0d839570.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+f58e57380a6083c4041d@syzkaller.appspotmail.com
-
-FAULT_INJECTION: forcing a failure.
-name failslab, interval 1, probability 0, space 0, times 1
-CPU: 0 UID: 0 PID: 5326 Comm: syz.0.0 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- fail_dump lib/fault-inject.c:73 [inline]
- should_fail_ex+0x40c/0x560 lib/fault-inject.c:174
- should_failslab+0xa8/0x100 mm/failslab.c:46
- slab_pre_alloc_hook mm/slub.c:4539 [inline]
- slab_alloc_node mm/slub.c:4897 [inline]
- __do_kmalloc_node mm/slub.c:5333 [inline]
- __kmalloc_node_track_caller_noprof+0x100/0x730 mm/slub.c:5471
- kvasprintf+0xeb/0x1a0 lib/kasprintf.c:25
- kobject_set_name_vargs+0x61/0x110 lib/kobject.c:274
- dev_set_name+0xe2/0x140 drivers/base/core.c:3560
- nvme_add_ctrl+0x6e/0x270 drivers/nvme/host/core.c:5248
- nvme_fc_init_ctrl+0xcb0/0x1450 drivers/nvme/host/fc.c:3554
- nvme_fc_create_ctrl+0x4cd/0x520 drivers/nvme/host/fc.c:3723
- nvmf_create_ctrl drivers/nvme/host/fabrics.c:1359 [inline]
- nvmf_dev_write+0x24ca/0x2d90 drivers/nvme/host/fabrics.c:1406
- vfs_write+0x296/0xba0 fs/read_write.c:685
- ksys_write+0x150/0x270 fs/read_write.c:739
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fea9b39e0d9
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fea9c299fe8 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-RAX: ffffffffffffffda RBX: 00007fea9b625fa0 RCX: 00007fea9b39e0d9
-RDX: 000000000000007e RSI: 0000200000000a00 RDI: 0000000000000005
-RBP: 00007fea9c29a050 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000002
-R13: 00007fea9b626038 R14: 00007fea9b625fa0 R15: 00007ffe156ed1b8
- </TASK>
-==================================================================
-BUG: KASAN: slab-use-after-free in nvmf_free_options+0x30/0x190 drivers/nvme/host/fabrics.c:1284
-Read of size 8 at addr ffff88801f4a2550 by task syz.0.0/5326
-
-CPU: 0 UID: 0 PID: 5326 Comm: syz.0.0 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- print_address_description+0x55/0x1e0 mm/kasan/report.c:378
- print_report+0x58/0x70 mm/kasan/report.c:482
- kasan_report+0x117/0x150 mm/kasan/report.c:595
- nvmf_free_options+0x30/0x190 drivers/nvme/host/fabrics.c:1284
- nvmf_create_ctrl drivers/nvme/host/fabrics.c:1374 [inline]
- nvmf_dev_write+0x267f/0x2d90 drivers/nvme/host/fabrics.c:1406
- vfs_write+0x296/0xba0 fs/read_write.c:685
- ksys_write+0x150/0x270 fs/read_write.c:739
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fea9b39e0d9
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fea9c299fe8 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-RAX: ffffffffffffffda RBX: 00007fea9b625fa0 RCX: 00007fea9b39e0d9
-RDX: 000000000000007e RSI: 0000200000000a00 RDI: 0000000000000005
-RBP: 00007fea9c29a050 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000002
-R13: 00007fea9b626038 R14: 00007fea9b625fa0 R15: 00007ffe156ed1b8
- </TASK>
-
-Allocated by task 5326:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
- __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:415
- kasan_kmalloc include/linux/kasan.h:263 [inline]
- __kmalloc_cache_noprof+0x32d/0x660 mm/slub.c:5489
- _kmalloc_noprof include/linux/slab.h:988 [inline]
- _kzalloc_noprof include/linux/slab.h:1309 [inline]
- nvmf_create_ctrl drivers/nvme/host/fabrics.c:1315 [inline]
- nvmf_dev_write+0x243/0x2d90 drivers/nvme/host/fabrics.c:1406
- vfs_write+0x296/0xba0 fs/read_write.c:685
- ksys_write+0x150/0x270 fs/read_write.c:739
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-Freed by task 5326:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- kasan_save_free_info+0x40/0x50 mm/kasan/generic.c:584
- poison_slab_object mm/kasan/common.c:253 [inline]
- __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:285
- kasan_slab_free include/linux/kasan.h:235 [inline]
- slab_free_hook mm/slub.c:2677 [inline]
- slab_free mm/slub.c:6377 [inline]
- kfree+0x1c5/0x640 mm/slub.c:6692
- nvme_fc_ctrl_free drivers/nvme/host/fc.c:2374 [inline]
- kref_put include/linux/kref.h:65 [inline]
- nvme_fc_ctrl_put+0x2cc/0x340 drivers/nvme/host/fc.c:2381
- nvme_free_ctrl+0x38c/0x570 drivers/nvme/host/core.c:5146
- device_release+0xc4/0x1f0 drivers/base/core.c:-1
- kobject_cleanup lib/kobject.c:689 [inline]
- kobject_release lib/kobject.c:720 [inline]
- kref_put include/linux/kref.h:65 [inline]
- kobject_put+0x222/0x550 lib/kobject.c:737
- nvme_put_ctrl drivers/nvme/host/nvme.h:833 [inline]
- nvme_fc_init_ctrl+0xe17/0x1450 drivers/nvme/host/fc.c:3605
- nvme_fc_create_ctrl+0x4cd/0x520 drivers/nvme/host/fc.c:3723
- nvmf_create_ctrl drivers/nvme/host/fabrics.c:1359 [inline]
- nvmf_dev_write+0x24ca/0x2d90 drivers/nvme/host/fabrics.c:1406
- vfs_write+0x296/0xba0 fs/read_write.c:685
- ksys_write+0x150/0x270 fs/read_write.c:739
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-The buggy address belongs to the object at ffff88801f4a2500
- which belongs to the cache kmalloc-192 of size 192
-The buggy address is located 80 bytes inside of
- freed 192-byte region [ffff88801f4a2500, ffff88801f4a25c0)
-
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x1f4a2
-flags: 0xfff00000000000(node=0|zone=1|lastcpupid=0x7ff)
-page_type: f5(slab)
-raw: 00fff00000000000 ffff88801b0413c0 dead000000000122 0000000000000000
-raw: 0000000000000000 0000000800100010 00000000f5000000 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 0, migratetype Unmovable, gfp_mask 0xd2cc0(GFP_KERNEL|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 5289, tgid 5289 (syz-executor), ts 83703979346, free_ts 83087386547
- set_page_owner include/linux/page_owner.h:32 [inline]
- post_alloc_hook+0x1f9/0x250 mm/page_alloc.c:1859
- prep_new_page mm/page_alloc.c:1867 [inline]
- get_page_from_freelist+0x21fa/0x2270 mm/page_alloc.c:3946
- __alloc_frozen_pages_noprof+0x18d/0x380 mm/page_alloc.c:5304
- alloc_slab_page mm/slub.c:3266 [inline]
- allocate_slab+0x79/0x5e0 mm/slub.c:3380
- new_slab mm/slub.c:3426 [inline]
- refill_objects+0x2d5/0x350 mm/slub.c:7310
- refill_sheaf mm/slub.c:2804 [inline]
- __pcs_replace_empty_main+0x2bf/0x6b0 mm/slub.c:4675
- alloc_from_pcs mm/slub.c:4773 [inline]
- slab_alloc_node mm/slub.c:4905 [inline]
- __do_kmalloc_node mm/slub.c:5333 [inline]
- __kmalloc_node_track_caller_noprof+0x557/0x730 mm/slub.c:5471
- kmemdup_noprof+0x2b/0x70 mm/util.c:138
- kmemdup_noprof include/linux/fortify-string.h:715 [inline]
- ebt_register_table+0x18e/0x1190 net/bridge/netfilter/ebtables.c:1197
- find_inlist_lock_noload+0x171/0x260 net/bridge/netfilter/ebtables.c:344
- find_inlist_lock net/bridge/netfilter/ebtables.c:372 [inline]
- find_table_lock net/bridge/netfilter/ebtables.c:380 [inline]
- do_ebt_get_ctl+0x367/0x1f30 net/bridge/netfilter/ebtables.c:2512
- nf_getsockopt+0x26e/0x290 net/netfilter/nf_sockopt.c:116
- ip_getsockopt+0x19e/0x230 net/ipv4/ip_sockglue.c:1777
- do_sock_getsockopt+0x569/0xa70 net/socket.c:2474
- __sys_getsockopt net/socket.c:2505 [inline]
- __do_sys_getsockopt net/socket.c:2512 [inline]
- __se_sys_getsockopt net/socket.c:2509 [inline]
- __x64_sys_getsockopt+0x1a4/0x240 net/socket.c:2509
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
-page last free pid 75 tgid 75 stack trace:
- reset_page_owner include/linux/page_owner.h:25 [inline]
- __free_pages_prepare mm/page_alloc.c:1406 [inline]
- free_unref_folios+0xd84/0x14a0 mm/page_alloc.c:3011
- shrink_folio_list+0x4b16/0x5330 mm/vmscan.c:1582
- evict_folios+0x3821/0x49e0 mm/vmscan.c:4834
- try_to_shrink_lruvec+0xb4f/0xed0 mm/vmscan.c:4983
- shrink_one+0x233/0x730 mm/vmscan.c:5024
- shrink_many mm/vmscan.c:5087 [inline]
- lru_gen_shrink_node mm/vmscan.c:5165 [inline]
- shrink_node+0x3303/0x3b60 mm/vmscan.c:6154
- kswapd_shrink_node mm/vmscan.c:7008 [inline]
- balance_pgdat mm/vmscan.c:7186 [inline]
- kswapd+0x17b6/0x31c0 mm/vmscan.c:7462
- kthread+0x388/0x470 kernel/kthread.c:436
- ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
-Memory state around the buggy address:
- ffff88801f4a2400: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff88801f4a2480: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
->ffff88801f4a2500: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                                                 ^
- ffff88801f4a2580: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
- ffff88801f4a2600: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-==================================================================
+The code looks much cleaner when using dim, I'll see if I can replace the
+sample-and-poll logic I wrote myself with the dim library.=C2=A0
+I ran a quick test on the POC patch and didn't see any performance
+improvements; in fact, there were quite a few regressions. Maybe some
+parameters need to be adjusted.
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+>=C2=A0
+> ---
+> diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
+> index 31974c7dd20c9..9fad1c7b1f678 100644
+> --- a/drivers/nvme/host/Kconfig
+> +++ b/drivers/nvme/host/Kconfig
+> @@ -6,6 +6,7 @@ config BLK_DEV_NVME
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tristate "NVM Express block device"
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0depends on PCI && BLOCK
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0select NVME_CORE
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0select DIMLIB
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0help
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0The NVM Express driver is for so=
+lid state drives directly
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0connected to the PCI or PCI Expr=
+ess bus. =C2=A0If you know you
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 8438c904ec496..ff0c8d74fae08 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -9,6 +9,8 @@
+> =C2=A0#include <linux/blkdev.h>
+> =C2=A0#include <linux/blk-mq-dma.h>
+> =C2=A0#include <linux/blk-integrity.h>
+> +#include <linux/delay.h>
+> +#include <linux/dim.h>
+> =C2=A0#include <linux/dmi.h>
+> =C2=A0#include <linux/init.h>
+> =C2=A0#include <linux/interrupt.h>
+> @@ -82,6 +84,45 @@ struct quirk_entry {
+> =C2=A0static int use_threaded_interrupts;
+> =C2=A0module_param(use_threaded_interrupts, int, 0444);
+> =C2=A0
+> +static unsigned int irq_poll_thresh =3D 7;
+> +module_param(irq_poll_thresh, uint, 0644);
+> +MODULE_PARM_DESC(irq_poll_thresh,
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0"outstanding depth after which a queue switc=
+hes to threaded polling");
+> +
+> +static unsigned int irq_poll_spin =3D 7;
+> +module_param(irq_poll_spin, uint, 0644);
+> +MODULE_PARM_DESC(irq_poll_spin,
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0"poll iterations to spin (cpu_relax) before =
+sleeping in the poll loop (zero based)");
+> +
+> +static unsigned int irq_poll_sleep_us =3D 20;
+> +static unsigned int irq_poll_idle_us =3D 80;
+> +static unsigned int irq_poll_idle_rounds =3D DIV_ROUND_UP(80, 20);
+> +
+> +static int irq_poll_us_set(const char *val, const struct kernel_param *k=
+p)
+> +{
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0int ret =3D param_set_uint(val, kp);
+> +
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ret)
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;
+> +
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0irq_poll_idle_rounds =3D irq_poll_sleep_us ?
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DIV_ROUND_UP(irq=
+_poll_idle_us, irq_poll_sleep_us) : 1;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;
+> +}
+> +
+> +static const struct kernel_param_ops irq_poll_us_ops =3D {
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0.set =3D irq_poll_us_set,
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0.get =3D param_get_uint,
+> +};
+> +
+> +module_param_cb(irq_poll_sleep_us, &irq_poll_us_ops, &irq_poll_sleep_us,=
+ 0644);
+> +MODULE_PARM_DESC(irq_poll_sleep_us,
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0"microseconds to sleep between poll bursts (=
+<=3D10 busy-delays, does not yield)");
+> +
+> +module_param_cb(irq_poll_idle_us, &irq_poll_us_ops, &irq_poll_idle_us, 0=
+644);
+> +MODULE_PARM_DESC(irq_poll_idle_us,
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0"microseconds to wait for stragglers before =
+handing a queue back to the IRQ path");
+> +
+> =C2=A0static bool use_cmb_sqes =3D true;
+> =C2=A0module_param(use_cmb_sqes, bool, 0444);
+> =C2=A0MODULE_PARM_DESC(use_cmb_sqes, "use controller's memory buffer for =
+I/O SQes");
+> @@ -381,11 +422,21 @@ struct nvme_queue {
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u16 qid;
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u8 cq_phase;
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u8 sqes;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Adaptive polling knobs, seeded from the i=
+rq_poll_* module params. */
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int poll_thresh;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int poll_sleep_us;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int poll_idle_rounds;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int poll_budget;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Adaptive interrupt moderation (DIM) sampl=
+ing state. */
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0struct dim dim;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0u16 dim_events; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* cumulative interr=
+upts (BIT_GAP-safe) */
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 dim_comps; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* cumulative comple=
+tions */
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned long flags;
+> =C2=A0#define NVMEQ_ENABLED =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A00
+> =C2=A0#define NVMEQ_SQ_CMB =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A01
+> =C2=A0#define NVMEQ_DELETE_ERROR =C2=A0 =C2=A0 =C2=A0 =C2=A02
+> =C2=A0#define NVMEQ_POLLED =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A03
+> +#define NVMEQ_POLLING =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A04
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0__le32 *dbbuf_sq_db;
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0__le32 *dbbuf_cq_db;
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0__le32 *dbbuf_sq_ei;
+> @@ -1606,13 +1657,13 @@ static inline void nvme_update_cq_head(struct nvm=
+e_queue *nvmeq)
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+> =C2=A0}
+> =C2=A0
+> -static inline bool nvme_poll_cq(struct nvme_queue *nvmeq,
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct io_comp_batch *iob)
+> +static inline int __nvme_poll_cq(struct nvme_queue *nvmeq,
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct io_comp_batch *iob, =
+int budget)
+> =C2=A0{
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0bool found =3D false;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0int found =3D 0;
+> =C2=A0
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0while (nvme_cqe_pending(nvmeq)) {
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0found =3D true;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0found++;
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * load-loa=
+d control dependency between phase and the rest of
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * the cqe =
+requires a full read memory barrier
+> @@ -1620,6 +1671,8 @@ static inline bool nvme_poll_cq(struct nvme_queue *=
+nvmeq,
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dma_rmb();
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0nvme_handle=
+_cqe(nvmeq, iob, nvmeq->cq_head);
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0nvme_update=
+_cq_head(nvmeq);
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (budget && fo=
+und =3D=3D budget)
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0break;
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+> =C2=A0
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (found)
+> @@ -1627,26 +1680,253 @@ static inline bool nvme_poll_cq(struct nvme_queu=
+e *nvmeq,
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return found;
+> =C2=A0}
+> =C2=A0
+> +/* budget =3D=3D 0 means reap the whole queue. */
+> +static int nvme_poll_cq(struct nvme_queue *nvmeq, int budget)
+> +{
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0DEFINE_IO_COMP_BATCH(iob);
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0int found =3D __nvme_poll_cq(nvmeq, &iob, bu=
+dget);
+> +
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (found && !rq_list_empty(&iob.req_list))
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0nvme_pci_complet=
+e_batch(&iob);
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0return found;
+> +}
+> +
+> +static inline unsigned int nvmeq_outstanding(struct nvme_queue *nvmeq)
+> +{
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0u16 sq_tail =3D READ_ONCE(nvmeq->last_sq_tai=
+l);
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0u16 cq_head =3D nvmeq->cq_head;
+> +
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (sq_tail >=3D cq_head)
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return sq_tail -=
+ cq_head;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0return nvmeq->q_depth - cq_head + sq_tail;
+> +}
+> +
+> +static inline bool nvmeq_cq_continue(struct nvme_queue *nvmeq)
+> +{
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0return nvmeq_outstanding(nvmeq) > nvmeq->pol=
+l_thresh;
+> +}
+> +
+> +static inline bool nvmeq_cq_idle(struct nvme_queue *nvmeq)
+> +{
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0return nvmeq->cq_head =3D=3D READ_ONCE(nvmeq=
+->last_sq_tail);
+> +}
+> +
+> +/*
+> + * Interrupt-moderation profiles, ordered from least moderation (index 0=
+: enter
+> + * polling late, short sleep, brief linger -> lowest latency, most inter=
+rupts)
+> + * to most moderation (enter early, long sleep, long linger -> fewest
+> + * interrupts). =C2=A0The hill-climb walks this table to keep completion=
+s-per-
+> + * interrupt high, which is what bounds the interrupt rate.
+> + */
+> +static const struct nvme_poll_prof {
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0u16 thresh;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0u16 sleep_us;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0u16 idle_rounds;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0u16 budget; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0/* hard-IRQ initial poll cap; 0 =3D=3D reap all */
+> +} nvme_poll_prof[] =3D {
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0{ 31, =C2=A00, =C2=A01, =C2=A00 }, =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0/* drain inline: lowest latency, most interrupts */
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0{ 15, 10, =C2=A02, 16 },
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0{ =C2=A07, 20, =C2=A04, =C2=A08 }, =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0/* start profile; matches irq_poll_* defaults */
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0{ =C2=A03, 40, =C2=A08, =C2=A04 },
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0{ =C2=A01, 80, 16, =C2=A02 }, =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0/* reap a little, hand the bulk to the thread */
+> +};
+> +
+> +#define NVME_DIM_START_PROFILE 2
+> +
+> +static void nvme_apply_profile(struct nvme_queue *nvmeq)
+> +{
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0const struct nvme_poll_prof *p =3D &nvme_pol=
+l_prof[nvmeq->dim.profile_ix];
+> +
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0nvmeq->poll_thresh =3D p->thresh;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0nvmeq->poll_sleep_us =3D p->sleep_us;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0nvmeq->poll_idle_rounds =3D p->idle_rounds;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0nvmeq->poll_budget =3D p->budget;
+> +}
+> +
+> +/* Mirror of rdma_dim_step() bounded to our profile table. */
+> +static int nvme_dim_step(struct dim *dim)
+> +{
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (dim->tune_state =3D=3D DIM_GOING_RIGHT) =
+{
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (dim->profile=
+_ix =3D=3D ARRAY_SIZE(nvme_poll_prof) - 1)
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0return DIM_ON_EDGE;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dim->profile_ix+=
++;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dim->steps_right=
+++;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (dim->tune_state =3D=3D DIM_GOING_LEFT) {
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (dim->profile=
+_ix =3D=3D 0)
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0return DIM_ON_EDGE;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dim->profile_ix-=
+-;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dim->steps_left+=
++;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0return DIM_STEPPED;
+> +}
+> +
+> +/* Mirror of rdma_dim_stats_compare(): completion rate first, then batch=
+ing. */
+> +static int nvme_dim_stats_compare(struct dim_stats *curr, struct dim_sta=
+ts *prev)
+> +{
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!prev->cpms)
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return DIM_STATS=
+_SAME;
+> +
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (IS_SIGNIFICANT_DIFF(curr->cpms, prev->cp=
+ms))
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return curr->cpm=
+s > prev->cpms ? DIM_STATS_BETTER :
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 DIM_STATS_WORSE;
+> +
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (IS_SIGNIFICANT_DIFF(curr->cpe_ratio, pre=
+v->cpe_ratio))
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return curr->cpe=
+_ratio > prev->cpe_ratio ? DIM_STATS_BETTER :
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 DIM_STATS_WORSE=
+;
+> +
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0return DIM_STATS_SAME;
+> +}
+> +
+> +/* Mirror of rdma_dim_decision(); returns true if the profile changed. *=
+/
+> +static bool nvme_dim_decision(struct dim_stats *curr, struct dim *dim)
+> +{
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0int prev_ix =3D dim->profile_ix;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0int stats_res;
+> +
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0stats_res =3D nvme_dim_stats_compare(curr, &=
+dim->prev_stats);
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0switch (stats_res) {
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0case DIM_STATS_SAME:
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (curr->cpe_ra=
+tio <=3D 50 * prev_ix)
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0dim->profile_ix =3D 0;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0case DIM_STATS_WORSE:
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dim_turn(dim);
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fallthrough;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0case DIM_STATS_BETTER:
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (nvme_dim_ste=
+p(dim) =3D=3D DIM_ON_EDGE)
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0dim_turn(dim);
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+> +
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0dim->prev_stats =3D *curr;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0return dim->profile_ix !=3D prev_ix;
+> +}
+> +
+> +/*
+> + * Sample the completion/interrupt counters and, once per DIM_NEVENTS
+> + * interrupts, compute the load stats. =C2=A0Called only from the interr=
+upt owner
+> + * (never concurrently with the poll thread), so the counters have a sin=
+gle
+> + * writer. =C2=A0ktime_get() is taken only at a window boundary, not per=
+ interrupt.
+> + *
+> + * On each completed window the hill-climb picks a profile and, if it ch=
+anged,
+> + * applies it to nvmeq->poll_*.
+> + */
+> +static void nvme_dim(struct nvme_queue *nvmeq)
+> +{
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0struct dim *dim =3D &nvmeq->dim;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0struct dim_sample end;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0struct dim_stats stats;
+> +
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (dim->state =3D=3D DIM_START_MEASURE) {
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dim_update_sampl=
+e_with_comps(nvmeq->dim_events, 0, 0,
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 nvmeq->dim_comps, &dim->start_sample);
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dim->state =3D D=
+IM_MEASURE_IN_PROGRESS;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+> +
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Cheap gate: only recompute once a full wi=
+ndow of events accrues. */
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if ((u16)(nvmeq->dim_events - dim->start_sam=
+ple.event_ctr) < DIM_NEVENTS)
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;
+> +
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0dim_update_sample_with_comps(nvmeq->dim_even=
+ts, 0, 0, nvmeq->dim_comps,
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &end);
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (dim_calc_stats(&dim->start_sample, &end,=
+ &stats)) {
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (nvme_dim_dec=
+ision(&stats, dim))
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0nvme_apply_profile(nvmeq);
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0trace_nvme_dim(n=
+vmeq->qid, stats.cpms, stats.epms,
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 stats.cpe_ratio, dim->profile_ix);
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0dim->start_sample =3D end;
+> +}
+> +
+> =C2=A0static irqreturn_t nvme_irq(int irq, void *data)
+> =C2=A0{
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct nvme_queue *nvmeq =3D data;
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0DEFINE_IO_COMP_BATCH(iob);
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0struct nvme_dev *dev =3D nvmeq->dev;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0struct pci_dev *pdev =3D to_pci_dev(dev->dev=
+);
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0irqreturn_t ret =3D IRQ_NONE;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int idle =3D 0;
+> =C2=A0
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0if (nvme_poll_cq(nvmeq, &iob)) {
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!rq_list_emp=
+ty(&iob.req_list))
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0nvme_pci_complete_batch(&iob);
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return IRQ_HANDL=
+ED;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0for (;;) {
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bool worked =3D =
+false;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int i;
+> +
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for (i =3D 0; i =
+<=3D irq_poll_spin; i++) {
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0int n =3D nvme_poll_cq(nvmeq, 0);
+> +
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0if (n) {
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0nvmeq->dim_comps +=3D n;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D IRQ_HANDLED;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0worked =3D true;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0idle =3D 0;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0}
+> +
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0if (nvmeq_cq_idle(nvmeq))
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto done;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0else if (need_resched())
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cond_resched();
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0else
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cpu_relax();
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+> +
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (worked || ++=
+idle < nvmeq->poll_idle_rounds) {
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0fsleep(nvmeq->poll_sleep_us);
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0continue;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+> +done:
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0clear_bit(NVMEQ_=
+POLLING, &nvmeq->flags);
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!nvme_cqe_pe=
+nding(nvmeq) ||
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0te=
+st_and_set_bit(NVMEQ_POLLING, &nvmeq->flags))
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0break;
+> +
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (need_resched=
+())
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0cond_resched();
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0cpu_relax();
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0idle =3D 0;
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0return IRQ_NONE;
+> +
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (pdev->msi_enabled)
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0writel(BIT(nvmeq=
+->cq_vector), dev->bar + NVME_REG_INTMC);
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;
+> =C2=A0}
+> =C2=A0
+> =C2=A0static irqreturn_t nvme_irq_check(int irq, void *data)
+> =C2=A0{
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct nvme_queue *nvmeq =3D data;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0int found;
+> +
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0nvmeq->dim_events++;
+> =C2=A0
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0if (nvme_cqe_pending(nvmeq))
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (test_and_set_bit(NVMEQ_POLLING, &nvmeq->=
+flags))
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return IRQ_HANDL=
+ED;
+> +
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0found =3D nvme_poll_cq(nvmeq, nvmeq->poll_bu=
+dget);
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0nvmeq->dim_comps +=3D found;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0nvme_dim(nvmeq);
+> +
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!found) {
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0clear_bit(NVMEQ_=
+POLLING, &nvmeq->flags);
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return IRQ_NONE;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+> +
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0/*
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 * Hand off to the poll thread when the queu=
+e is still deep, or when the
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 * budgeted initial poll left CQEs behind: t=
+heir interrupt is already
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 * spent, so releasing here would strand the=
+m.
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 */
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (nvme_cqe_pending(nvmeq) || nvmeq_cq_cont=
+inue(nvmeq)) {
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct nvme_dev =
+*dev =3D nvmeq->dev;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct pci_dev *=
+pdev =3D to_pci_dev(dev->dev);
+> +
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (pdev->msi_en=
+abled)
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0writel(BIT(nvmeq->cq_vector), dev->bar + NVME_REG_INTMS);
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return IRQ_=
+WAKE_THREAD;
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0return IRQ_NONE;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+> +
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0clear_bit(NVMEQ_POLLING, &nvmeq->flags);
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0return IRQ_HANDLED;
+> =C2=A0}
+> =C2=A0
+> =C2=A0/*
+> @@ -1663,7 +1943,7 @@ static void nvme_poll_irqdisable(struct nvme_queue =
+*nvmeq)
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0irq =3D pci_irq_vector(pdev, nvmeq->cq_=
+vector);
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0disable_irq(irq);
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0spin_lock(&nvmeq->cq_poll_lock);
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0nvme_poll_cq(nvmeq, NULL);
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0__nvme_poll_cq(nvmeq, NULL, 0);
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0spin_unlock(&nvmeq->cq_poll_lock);
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0enable_irq(irq);
+> =C2=A0}
+> @@ -1671,14 +1951,14 @@ static void nvme_poll_irqdisable(struct nvme_queu=
+e *nvmeq)
+> =C2=A0static int nvme_poll(struct blk_mq_hw_ctx *hctx, struct io_comp_bat=
+ch *iob)
+> =C2=A0{
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct nvme_queue *nvmeq =3D hctx->driv=
+er_data;
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0bool found;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0int found;
+> =C2=A0
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!test_bit(NVMEQ_POLLED, &nvmeq->fla=
+gs) ||
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0!nvme_cqe_pending(nvmeq))
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;
+> =C2=A0
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0spin_lock(&nvmeq->cq_poll_lock);
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0found =3D nvme_poll_cq(nvmeq, iob);
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0found =3D __nvme_poll_cq(nvmeq, iob, 0);
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0spin_unlock(&nvmeq->cq_poll_lock);
+> =C2=A0
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return found;
+> @@ -2075,7 +2355,7 @@ static void nvme_reap_pending_cqes(struct nvme_dev =
+*dev)
+> =C2=A0
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for (i =3D dev->ctrl.queue_count - 1; i=
+ > 0; i--) {
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0spin_lock(&=
+dev->queues[i].cq_poll_lock);
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0nvme_poll_cq(&de=
+v->queues[i], NULL);
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0__nvme_poll_cq(&=
+dev->queues[i], NULL, 0);
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0spin_unlock=
+(&dev->queues[i].cq_poll_lock);
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+> =C2=A0}
+> @@ -2171,13 +2451,8 @@ static int queue_request_irq(struct nvme_queue *nv=
+meq)
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct pci_dev *pdev =3D to_pci_dev(nvm=
+eq->dev->dev);
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int nr =3D nvmeq->dev->ctrl.instance;
+> =C2=A0
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0if (use_threaded_interrupts) {
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return pci_reque=
+st_irq(pdev, nvmeq->cq_vector, nvme_irq_check,
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0nvme_irq, nvmeq, "nvme%dq%d", nr, =
+nvmeq->qid);
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0} else {
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return pci_reque=
+st_irq(pdev, nvmeq->cq_vector, nvme_irq,
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0NULL, nvmeq, "nvme%dq%d", nr, nvme=
+q->qid);
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0return pci_request_irq(pdev, nvmeq->cq_vecto=
+r, nvme_irq_check,
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0nvme_irq, nvmeq, "nvme%dq%d", nr, nvmeq->qid);
+> =C2=A0}
+> =C2=A0
+> =C2=A0static void nvme_init_queue(struct nvme_queue *nvmeq, u16 qid)
+> @@ -2188,6 +2463,17 @@ static void nvme_init_queue(struct nvme_queue *nvm=
+eq, u16 qid)
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0nvmeq->last_sq_tail =3D 0;
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0nvmeq->cq_head =3D 0;
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0nvmeq->cq_phase =3D 1;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0nvmeq->poll_thresh =3D irq_poll_thresh;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0nvmeq->poll_sleep_us =3D irq_poll_sleep_us;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0nvmeq->poll_idle_rounds =3D irq_poll_idle_ro=
+unds;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0nvmeq->poll_budget =3D nvme_poll_prof[NVME_D=
+IM_START_PROFILE].budget;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0memset(&nvmeq->dim, 0, sizeof(nvmeq->dim));
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0nvmeq->dim.priv =3D nvmeq;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0nvmeq->dim.profile_ix =3D NVME_DIM_START_PRO=
+FILE;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0nvmeq->dim.tune_state =3D DIM_GOING_RIGHT;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0nvmeq->dim_events =3D 0;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0nvmeq->dim_comps =3D 0;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0clear_bit(NVMEQ_POLLING, &nvmeq->flags);
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0nvmeq->q_db =3D &dev->dbs[qid * 2 * dev=
+->db_stride];
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0memset((void *)nvmeq->cqes, 0, CQ_SIZE(=
+nvmeq));
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0nvme_dbbuf_init(dev, nvmeq, qid);
+> diff --git a/drivers/nvme/host/trace.c b/drivers/nvme/host/trace.c
+> index ad25ad1e40412..4bdd5abc60880 100644
+> --- a/drivers/nvme/host/trace.c
+> +++ b/drivers/nvme/host/trace.c
+> @@ -498,3 +498,4 @@ const char *nvme_trace_disk_name(struct trace_seq *p,=
+ char *name)
+> =C2=A0}
+> =C2=A0
+> =C2=A0EXPORT_TRACEPOINT_SYMBOL_GPL(nvme_sq);
+> +EXPORT_TRACEPOINT_SYMBOL_GPL(nvme_dim);
+> diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
+> index 4fb5922ffdac5..b7099b3026079 100644
+> --- a/drivers/nvme/host/trace.h
+> +++ b/drivers/nvme/host/trace.h
+> @@ -161,6 +161,29 @@ TRACE_EVENT(nvme_sq,
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0)
+> =C2=A0);
+> =C2=A0
+> +TRACE_EVENT(nvme_dim,
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0TP_PROTO(u16 qid, int cpms, int epms, int cp=
+e_ratio, u8 profile),
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0TP_ARGS(qid, cpms, epms, cpe_ratio, profile)=
+,
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0TP_STRUCT__entry(
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0__field(u16, qid=
+)
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0__field(int, cpm=
+s)
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0__field(int, epm=
+s)
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0__field(int, cpe=
+_ratio)
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0__field(u8, prof=
+ile)
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0),
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0TP_fast_assign(
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0__entry->qid =3D=
+ qid;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0__entry->cpms =
+=3D cpms;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0__entry->epms =
+=3D epms;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0__entry->cpe_rat=
+io =3D cpe_ratio;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0__entry->profile=
+ =3D profile;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0),
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0TP_printk("qid=3D%u cpms=3D%d epms=3D%d cpe_=
+ratio=3D%d profile=3D%u",
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0__entry->qid, __=
+entry->cpms, __entry->epms,
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0__entry->cpe_rat=
+io, __entry->profile
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0)
+> +);
+> +
+> =C2=A0#endif /* _TRACE_NVME_H */
+> =C2=A0
+> =C2=A0#undef TRACE_INCLUDE_PATH
+> --
+>=C2=A0
 
