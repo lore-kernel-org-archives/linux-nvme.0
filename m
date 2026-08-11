@@ -4,62 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AD59EC5AC67
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Aug 2026 20:43:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 205A7C5AC67
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Aug 2026 20:49:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Q2cmqbvAu79K9Kh5ZQbzK7San2QVikfsoxkJansBbyA=; b=OvsXav/oJn1Xe5hsrKGl3yLbzM
-	sVumOZUWoeEen5jJxDUDZo1uC6XO8VMLQUiTLjGbf8+q5o3Is7r8u6uWlCHMH405+jYfVlD1PWgwJ
-	xXGnN3XYuBzvWXpLJsLkm+v4D86HIugg/5cIhGsp01I9HL4PX+UdWSKrToFiouh4CVMIoJczDaCws
-	GGNKRxHO54H82vJUfMUK+RFbZPN7LEK9omk4E8Wxy8B14x+Aq//n25GHD9+uVvl3VcbSkmJOTuyKt
-	DX0i4w8v8vd52Hol2EAhRWW6Iul4/ImqRs0dJrhr5MvThJciUq7BGTDNCMXv70otP3WBTm0kvm2nj
-	UYyiaaqA==;
+	bh=VQYLcpX0GTB99vS8l3chTrWS9/qj1MLg/Dw8k/7Olow=; b=mmYrOddbJenozQfyXP+ES7ZM3D
+	DMbVgJaJAXxlLI6sG40g9UuXjdX9FSzGUxVx72PKgiU7pXfKJj60n0dxOSdC3TLCzfsAIlhnj26pg
+	a5I9J3+UE8YIKHnJA2KL3YsYrvTdItjuu2LYpS4hutxpxN3xld3E9Isdmfii41+6zK8XnUpYTWMdF
+	fizGGvc03h+YoF7PTzDae8Y1NUWJVlS/KVm3wBYu8pCEX37qt6ZUn90e34a9YiDYkQ3THRd9p3EaX
+	teToxB1ydxHDpYknI+MpWeQIOLmhyIimysAu/885P8kvYOJtPiP/GgAqPr5OsDFGx2sjBDY2th9cz
+	MbkvgvMw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wttJL-0000000EwYk-0k5U;
-	Tue, 11 Aug 2026 20:42:59 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1wttQ0-0000000Ewvn-0fMa;
+	Tue, 11 Aug 2026 20:49:52 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wttJJ-0000000EwYd-1QDn
+	id 1wttPy-0000000Ewvh-3dAa
 	for linux-nvme@lists.infradead.org;
-	Tue, 11 Aug 2026 20:42:57 +0000
+	Tue, 11 Aug 2026 20:49:50 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id CA934439BF;
-	Tue, 11 Aug 2026 20:42:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 567121F000E9;
-	Tue, 11 Aug 2026 20:42:56 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 217B9600AF;
+	Tue, 11 Aug 2026 20:49:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A566F1F000E9;
+	Tue, 11 Aug 2026 20:49:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786480976;
-	bh=Q2cmqbvAu79K9Kh5ZQbzK7San2QVikfsoxkJansBbyA=;
+	s=k20260515; t=1786481389;
+	bh=VQYLcpX0GTB99vS8l3chTrWS9/qj1MLg/Dw8k/7Olow=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=YFbw3h+9VF05FaKzac6jPhVAB835l5JVJCUXwTuCJl9eBG9OxW5fKgFOyQF10rSIs
-	 Rgq6rp9K/wNatLZMxgnw+8SQTYxaj5qCHkPCVPj8jXdsouEZl9VaZRvXBw0dMIBa6x
-	 La/Vnqz6TyhYtdIgig7ILqO+Anbl8J7EAPvQoslguHUfQToKMag/6mr36B/Z5d5EFQ
-	 7Ei32ZvBOy+CXDbLKzIFn/cV4a89TQgxbRXxT4CmVrMwMNVTb22vZ5YVO7r7r+vSAM
-	 fnC6ojfziByZLUBR3ARp7EA9Ev2hTaKW9tHtHKRzruJ4TgVas53yW+1Vy++v8vy+cX
-	 1xJyovjvpNzyw==
-Date: Tue, 11 Aug 2026 14:42:54 -0600
+	b=JYDTWYpucU2yT0k/tmDG/xjbZyV5eUFuJslkdop2E0jMuChSlvFGB5iyp4oD0PkwK
+	 iHm0rl/kpf4ZnLMTvgsNvJV3A+oHP3WsBP23HXozCfBcsrYXlsy9Q/bA02rA+KV4rY
+	 Ii//Sm10ZXgK3qk7rwX3Gzo3uQhekyOA4P+v4qvsMxjMQXOMmZKgZqUtlx0mcvubMC
+	 DLUU/aV+tD9yR73eKYmr0e9yKUPTBsnUS2/+4zKSG5igA0KYvy/TymkT78hrHrK3Pc
+	 J6wRdBtKYfMnjIiJeooTawx65ieL/OJlRMlH5WGgz5H9lV3QJH231hQhAavVZ6xpYv
+	 tSuluCq0KrzUg==
+Date: Tue, 11 Aug 2026 14:49:48 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Chris S <coshi036@gmail.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	Weidong Zhu <weizhu@fiu.edu>, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] nvme: refuse an unsolicited format change on a
- namespace that is in use
-Message-ID: <anuJTi4sZiCBuMzb@kbusch-mbp>
-References: <20260811192111.2058140-1-coshi036@gmail.com>
- <ant4bioGLl4B35n_@kbusch-mbp>
- <CACd_6n1=oS_Jdq6s=u2jNmtP9n0Yc13BkKqJHSpsjbWHy=X5cA@mail.gmail.com>
+To: Wen Xiong <wenxiong@linux.ibm.com>
+Cc: linux-nvme@lists.infradead.org, gjoyce@linux.ibm.com,
+	wenxiong@us.ibm.com
+Subject: Re: [PATCH] nvme: Add module reference counting for multipath nvme
+ device
+Message-ID: <anuK7GONhd3scxb-@kbusch-mbp>
+References: <20260810235034.544797-1-wenxiong@linux.ibm.com>
+ <ant0I66BcAugTyGX@kbusch-mbp>
+ <07ba01ec9c9f54da7cf7b3b4096f1e7e@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CACd_6n1=oS_Jdq6s=u2jNmtP9n0Yc13BkKqJHSpsjbWHy=X5cA@mail.gmail.com>
+In-Reply-To: <07ba01ec9c9f54da7cf7b3b4096f1e7e@linux.ibm.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,38 +71,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Aug 11, 2026 at 04:29:51PM -0400, Chris S wrote:
-> On Tue, Aug 11, 2026 at 01:30:54PM -0600, Keith Busch wrote:
-> > Refusing to acknowledge the new format doesn't mean you get to continue
-> > using the old format. You're going to corrupt memory and data this way.
+On Tue, Aug 11, 2026 at 03:33:19PM -0500, Wen Xiong wrote:
+> On 2026-08-11 14:12, Keith Busch wrote:
 > 
-> You're right - the teardown is the problem, not the refusal.
 > 
-> nvme_ns_remove() never sets GD_DEAD, so del_gendisk() takes the
-> non-surprise path and asks the filesystem to write back.  Those bios
-> go through nvme_setup_rw() with the stale lba_shift.  set_capacity(0)
-> doesn't catch them on a partition, which keeps its own bd_nr_sectors.
-> 
-> So it should mark the disk dead first and drop the cache instead:
-> 
->         blk_mark_disk_dead(ns->disk);
->         ret = NVME_SC_INVALID_NS | NVME_STATUS_DNR;
-> 
-> Multipath needs more than that - the openers are on head->disk, and
-> only the path gets removed.
-> 
-> Is that the direction, or is refuse-and-remove wrong here to begin
-> with?
+> > The result of nvme_find_path() is just the current path at the moment,
+> > so I don't think this is right.
+> > 
+> I thought:
+> - if policy is NUMA, returns current caches path if optimized.
+> - Otherwise scans other paths to find a new optimal path.
 
-You need a nvme spec level change for this to work. There's nothing we
-can do today to close every race where the driver attempts to use a
-stale LBA shift when the format was changed externally.
+Let's say one path is rdma and the other is tcp. At the time you open,
+the RDMA is the current optimal path, so you take a reference on the
+nvme-rdma module. But while using this multipath device, the RDMA
+connection is lost, so we failover to the TCP path. When you close the
+multipath device, you find the TCP path, and then drop a reference on
+the nvme-tcp module, leaking the RDMA reference, and underflowing TCP.
+ 
+> > I think you need the head to hold a module reference on every path the
+> > head has, so the module_get/put should be in nvme_mpath_add_disk and
+> > nvme_mpath_remove_disk.
+> I will check this.
 
-What I proposed in the past was that the device has to return a new
-error code for all new IO until the host queries the appropriate
-Namespace identification to acknowledge the new LBA format. Kind of like
-a SCSI "Check Condition Parameters Changed". An enlightend host could
-trigger a queue freeze and namespace rescan after seeing this status,
-clearing the device's latch and resume IO after setting up the new queue
-limits.
+Just a note, unlike I initially thought, nvme_mpath_remove_disk() is not
+the mirror teardown function to nvme_mpath_add_disk(), so the path's
+module reference put will have to be somewhere else, like
+nvme_mpath_remove_sysfs_link().
 
