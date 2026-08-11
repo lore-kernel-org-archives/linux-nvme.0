@@ -4,131 +4,130 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8E3D2C5DF76
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Aug 2026 15:01:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DEBB0C5DF69
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Aug 2026 15:01:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
+	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EhHKwdKM1yc/CfVWe4UOIDuPAVGA3p3ZiR3TRLo68EY=; b=vzkgUHJEmQOgkDzvLNC6VaPN6U
-	d0iVvKjZmrCNRgLbqMkrjuhzcnQlt0d+rUAFlYWkv5u+N3ZCcT9Y5kf+hulEvyPMf3pjVbUlERKE1
-	8iRYIMNZA324wbeijLWerTaxB4+uWDPxNVYvVhJSijShrSmgAlro3cG5TUPxwcYBY61vDqA5SRdka
-	kdXWnE90iq27nilZy07E3Jf2bd858ATK9+Ij8KJEtwaeu0GJrBFF1vfY8SUy9GTGbdvEiK73Z+ppM
-	jpekuOTGhrGmj9oQwwqIqXuNkYxXBnjf5n5XJBn9VMYnBnoJTxnB4/69cHoZjEHwR177/rrOGFhXa
-	SGwDMNSg==;
+	bh=jFYKhNM35RpDRZh/43hulCmfEJyGilMf3A0rl4qWOVM=; b=om0UwvjLYyIetAw5593ChPL3kw
+	ORtOxu/mgu/TO+9tvs9RdIoAIjj4dfPxedKufj5sojjjgDhCf38oqHmTNS6mB1Ukr29fQAhCuFplK
+	Cyz7hABuGkcy+t1qfjjppy6yp1vKHR8bIePj+lsKisfPgjXKvo6jJP2rEFMh0vnxjDTqY7gL1I1Wn
+	AgAK8fHq6ZOCu2AU9KXD+EYv/U+uQq25SeXATkdxCjEQBh06Hiysenk4yarhl/5MPTpBEjb6yikPG
+	fgqAacpgNDmOawY++Jh1e+gTn1yadU3zqjcTb7SBcRdoeLCFuVd4B3IdBfoPaaf+axlVO+tHjijKY
+	vAmx+wEw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wuWvc-00000000tIz-0KWL;
-	Thu, 13 Aug 2026 15:01:08 +0000
-Received: from flow-a7-smtp.messagingengine.com ([103.168.172.142])
+	id 1wuWva-00000000tFn-2MR4;
+	Thu, 13 Aug 2026 15:01:06 +0000
+Received: from flow-b7-smtp.messagingengine.com ([202.12.124.142])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wu5hy-0000000FpLP-2IXF;
-	Wed, 12 Aug 2026 09:57:16 +0000
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailflow.phl.internal (Postfix) with ESMTP id 3C9FD1380188;
-	Wed, 12 Aug 2026 05:57:11 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Wed, 12 Aug 2026 05:57:11 -0400
+	id 1wtqgc-0000000EiAl-3gjK;
+	Tue, 11 Aug 2026 17:54:52 +0000
+Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
+	by mailflow.stl.internal (Postfix) with ESMTP id A131F130038D;
+	Tue, 11 Aug 2026 13:54:48 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-12.internal (MEProxy); Tue, 11 Aug 2026 13:54:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jaseg.de; h=cc
 	:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1786528631;
-	 x=1786535831; bh=EhHKwdKM1yc/CfVWe4UOIDuPAVGA3p3ZiR3TRLo68EY=; b=
-	ZWurAWcrO5oZdtEPmZtocYvy6AV01AahFXUyTdHsT0+DJwJJrfSK0XQBWf4CNmxi
-	JWHrdfN8DiWC8vUKb/jJzPWGzQDCPMGFjDPajtnKN3N1uLnVtYyIzllHAjBmmvYN
-	HdtTXSyy+6cgcE/GYna4jIGNzn0zTfnRmAeHvc/KSQhSF19nZAqT2Y0dGe0oRWJ8
-	OcJWO1LS1UCXQ7cvITgclieSIJAIPF6DK77jiuh9Upms/QmSAIMAwZ3+Tt/I4ltz
-	yiktEDVxZhTYHmU4USUsev3A4H+F4LGpGd1S+/3Cq/j3cD/WRZZwfGjyc3U1oTzf
-	WYZedHoU963WaJO2FqmTKg==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1786470888;
+	 x=1786478088; bh=jFYKhNM35RpDRZh/43hulCmfEJyGilMf3A0rl4qWOVM=; b=
+	bYeDYVhgtPE017gK8myw81IgEJUTe3W99CDML8CpqHp7fU6iAnzN86+mOx7pU8Z/
+	Xz25faE9dCrff2JgEY85A8il0GldVKWSWgOy4hiTb9CwSrAu1UA8ybprakhSKiLG
+	oIITSW+Nrjy2Sq/XXAbDUY1ZyI6YiBMXr9Yk2a9seCS5IMaaJ7N61dHXvoUtlz8j
+	3p4rf5eJtJC2ubYbpyEbWFEarW2qhkEHelWMe2AjTl6Xz3oyvWcBgxSp9m5mz04M
+	PiZPAArXKeBHB+U1EAtjh1PXTUxgcDuNYNeEWLP/jcovinleNGmuNB3spTKuDtdC
+	x6aphUNJ+Y8113Z0XSyupg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1786528631; x=
-	1786535831; bh=EhHKwdKM1yc/CfVWe4UOIDuPAVGA3p3ZiR3TRLo68EY=; b=j
-	nFJzftoUyOhx0iuIsp809iKT+Vl5BM7p4K21mivtVLaE0Q3O/axViMtkHhq0PNx8
-	fnPUPUqWOil5GNeG1qX5kc2x1H1y8SBNGuSMKphq6Cp+eI1jmXmFm5w11mlNLp/H
-	Q8WRc4xU5Sm5KdidKmAbs+cVZ6KKytmxd390MreUAK4+A9saBgdrOIcEhTcM9zma
-	ijVk3zVDSyLCkUR84HCt40x6MEsvtKO+Qjuwf2m/l8pQXK/JOCPfskJscMvc5vWH
-	4IBHN+wdv5DpzLz+V8C6hZ/ZAaLSDJUMjMKPr1Z0eRjBE3Bsp9Gyak+5RKR+uAMi
-	uMUgF60LOJws9qOdZMiyQ==
-X-ME-Sender: <xms:dUN8akp1LtgF57mkMifyjGWooDezmto2YOXMyfBugosGI-EhK6TgbQ>
-    <xme:dUN8ahW94MRFVaDZxI_WFQYULpafOYFTyR32ZrcMs3nz1ENZPkbGc1n9lm2XMvz9y
-    B60n1Bgd9BOjm4dSuxm7nWkB-eqYwDGyZVqV-ogZ4DjQEEJy-82BU0>
-X-ME-Received: <xmr:dUN8ajYuucSdJiCHU9oRJJINGse1tOWKmr52dSrvuX5E6UtoWaZ3vmNpz5gDeG8p6t2yL_k-csynv8K_Ty1VN6E>
-X-ME-Proxy-Cause: dmFkZTFnqHB+QAaKfDQjW9D4jGyVFcpA4ZfYq+XsdCheHQ1Cv+90Ot8B4MS4g5RXsHrbcY
-    gkt1BA1rw9cagEz/S0Ac2U7EsqF7DLCgLpCkDa3C3WCjc3GZUwmc8bAjltKjJg0QKxG+Ph
-    rCspg0M4YQ8Fy4cHxWZ/khO1XnIDW+6xK0bHpn2Lq6jz2nni7TmGeqVE1rgVRKTf1WXo85
-    MVmoAxHTC/Z1NGMQVl+rPEBclzLpstBKfZAeNsWOWqzlnZ+3zsPux/r2Jct9Z8fJu7q8WC
-    SulO5qzLxjLLfZSlQmmTNVxiMNXhFc6dPqOOXyoB3oNdktGtJaiAQoajvh6xJX5DSgT1bO
-    WUTjoUPf0j0DZZkAWs5IwNekrtaIiQmJ2dlG9RvXqn8bjfwwOq8hcbNNvw0LRe1efISe8I
-    15xJstyd7QgXtyqSN+1wHnSOBY141cLgwg0PgyvSXXSEBnPc9LzFoY+X5ZnH3CFu4XSvtp
-    KWPwMN9WL4yL8fZ8F0qzgZ29rFA1zMENVBaBghXUMQPRsQpFce2otNqARuI8aXSPMwx6/D
-    MeyBNNwe6M2Li4+tZoEpDORU338B8LESQJBvfQuokfJx6E2P6S3FSx4EnwYIA982P8d8+1
-    wcEuaRezgU4FT+SyMbJHMrw4hZ9cMBP0nlxhyvYbffJ267v7eqGfbxx+rO1A
-X-ME-Proxy: <xmx:dUN8ashOKqdbSREO4OhcBfuqehnSCJlMy2cq4ssM8S3OJkH7LfDiUw>
-    <xmx:dUN8anrEBBRoAoDpuO7jWY4FJMu9GcTvmXAzItNMPB5gWIPanbcZjQ>
-    <xmx:dUN8aoUVQT0F4EubYVwtGqEJg9AXbMVlPLQ3itWQ2HIHge51WBR2Ag>
-    <xmx:dUN8aor8VZw9gKb62idBD1DVFey6ThUyP4isRVDtfutcsNOAahB_aw>
-    <xmx:d0N8av6L8ecf0NiQyi07oEvZGVap3m5iH2aoSzwRsMwHVxu_ypMg_olu>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1786470888; x=
+	1786478088; bh=jFYKhNM35RpDRZh/43hulCmfEJyGilMf3A0rl4qWOVM=; b=G
+	I03wCRG7sUINfnlJx1HoFrWP/Blr/bsvRmMMtdVhY+z8ikl856vyYKiKSfxJk7TJ
+	+Du+2B8fdmMwoashdCtrBOjKrt7zkIVhzPJwU97BFtkm9yeBnyEW9wLTOSe9RXan
+	IF1LrphRdo4Uk3avywoso/2ZA+IcNlIwlF46V0biEWeEsORBdaR7O6+Kzp+FqjId
+	by1N2tuNRk4YQ/cm2z2zowmmSbKc+xqSKdOTtViGytJI12Acn61UHhiLYE0YFZ+l
+	o+fCUXptxoEXuPVdfPm34ZKvgqE/lbkjRsqBea+Ym0d7dKpsuXfQrUtlDEY+S3wi
+	JfrtqmZ9utgGiPwezfe5A==
+X-ME-Sender: <xms:6GF7ak2aeI67ME2whQjDRFEFUSap2dHoqV5gaRqdIpQaKczG27_ffg>
+    <xme:6GF7alrOHZkIbt809LfaVJrW_HTu4cTVBGd32Dlfo2aA52FhJgt1HcVDGGXEZ53Pd
+    ie9ejQQf-9bWsIntw6gRpVKcWOLFyyIJofloeBpzpVC4wR9gPSNBA>
+X-ME-Received: <xmr:6GF7appNETAxMOIJoMSSYEXVLzHtyEW4fHehW-qDFB4UzD9f0PJdzjffpHYSEDkJg7_lcX-JIFlYipUTyCzV-xQ>
+X-ME-Proxy-Cause: dmFkZTFP5tmiXRyqpvhao8uWnDWsuVG58E3QcpY8nNF+TN3d4+2z3XaWQJ1+2uEKcUq9Jg
+    +xH/KDfBOi31TfxVE5vy2aZ5W5Eono+bvv7mBiiNvVW/C9tjIvrxCLzv7Tz6GJOSvAG1cd
+    t11+FzpQNbill+yp1ZC7JKPVzEaxQ4CH2HewKTU1gYEn0mNFldMXWgoBvZ/c5OhwLZogLW
+    sZeOMCUfQY9vOvCjGHA0ivpYn+5HBy3sK6RswFREIaUm9jlhbU7pV5ZXGDLpJAMlUAJ/Lo
+    y1vjaaTNNEiBF07QqH8YbZg0fsVTsE2lSAku2XiqZRlB3GAWdGnDFC/NxQNHJZjZwh0bMi
+    3ropPtGEXwJYJAu285XzhREMMjarFs0U0qMD7zjrDHqt6fJ8xSO2sk61ZxfqGLG5LEahc7
+    vwAk5zUO0ZCCm9fM+L422IUoCWwqFOjz+0aNT0kFyZ0Q1Ln5ckpifI68KSJbkT7he4JGsz
+    gnYBtMLYaheT0cogeUK3622EJ3Z+e4Ukbofzl4+gPfWHBkTRbmKjtE6P4Ot7qNxDbkBV9f
+    6r8fT1r6KlUCPnqErm914p+GFvLXJ9n92U6RxanpRYnFHvVP6n6k2ggCnlgrXR6Uub55UK
+    uDCtbwOviWOwgtdaHKlTAzhxVcXj+aqh2aNk2mWVG/8eK7aDZGpVw69gy5wQ
+X-ME-Proxy: <xmx:6GF7amdRcbsx2qfRi8Cd7iqirsDyMVXLbbc0EFhgE-YV-qN-A-n8YA>
+    <xmx:6GF7ar3414zMwqGprCZiQmHYu9pyMRwm63XrVoSErX6qc-cgchR1Pg>
+    <xmx:6GF7appNUtXCAZ3BPwO2kwj0wrqDcwnqsypWPF3DoBa2ZTNBOw4Q1w>
+    <xmx:6GF7aiW3O4vSZ6P4QnlVVOEiR378mmPRjHDcwpHayiuZTg9-sqozcg>
+    <xmx:6GF7aq85EqVYPI90O7QDsJHYjnOV5PSwDC15fyrxlypXGHf1F3HESgUy>
 Feedback-ID: i60a14417:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 12 Aug 2026 05:57:01 -0400 (EDT)
-Message-ID: <c5376b88-cc68-420a-ad8f-d494db9c7b1b@jaseg.de>
-Date: Wed, 12 Aug 2026 11:56:59 +0200
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 11 Aug 2026 13:54:41 -0400 (EDT)
+From: =?utf-8?q?Jan_Sebastian_G=C3=B6tte?= <linux@jaseg.de>
+Date: Tue, 11 Aug 2026 19:53:01 +0200
+Subject: [PATCH v2 12/13] crypto: api - wipe tfm contexts before kdump
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 13/13] dm crypt: wipe key material before kdump
-To: Milan Broz <gmazyland@gmail.com>, =?UTF-8?Q?Jan_Sebastian_G=C3=B6tte?=
- <linux@jaseg.de>
-Cc: kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
- keyrings@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-security-module@vger.kernel.org, linux-crypto@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org,
- linux-integrity@vger.kernel.org, linux-afs@lists.infradead.org,
- netdev@vger.kernel.org, linux-fscrypt@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, dm-devel@lists.linux.dev,
- Andrew Morton <akpm@linux-foundation.org>,
- Baoquan He <baoquan.he@linux.dev>, Mike Rapoport <rppt@kernel.org>,
- Pasha Tatashin <pasha.tatashin@soleen.com>,
- Pratyush Yadav <pratyush@kernel.org>, Dave Young <ruirui.yang@linux.dev>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- David Howells <dhowells@redhat.com>, Jarkko Sakkinen <jarkko@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
- "Serge E. Hallyn" <serge@hallyn.com>, Lukas Wunner <lukas@wunner.de>,
- Ignat Korchagin <ignat@linux.win>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- "David S. Miller" <davem@davemloft.net>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Trond Myklebust <trondmy@kernel.org>,
- Anna Schumaker <anna@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
- James Bottomley <James.Bottomley@HansenPartnership.com>,
- Marc Dionne <marc.dionne@auristor.com>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Eric Biggers <ebiggers@kernel.org>, "Theodore Y. Ts'o" <tytso@mit.edu>,
- Jaegeuk Kim <jaegeuk@kernel.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
- Mikulas Patocka <mpatocka@redhat.com>,
- Benjamin Marzinski <bmarzins@redhat.com>
-References: <20260811-crash-zeroize-rework-v2-0-9561d13c2340@jaseg.de>
- <20260811-crash-zeroize-rework-v2-13-9561d13c2340@jaseg.de>
- <8654c2d4-8d9d-43f5-9256-adf2915209e9@gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Jan_Sebastian_G=C3=B6tte?= <contact@jaseg.de>
-In-Reply-To: <8654c2d4-8d9d-43f5-9256-adf2915209e9@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+Message-Id: <20260811-crash-zeroize-rework-v2-12-9561d13c2340@jaseg.de>
+References: <20260811-crash-zeroize-rework-v2-0-9561d13c2340@jaseg.de>
+In-Reply-To: <20260811-crash-zeroize-rework-v2-0-9561d13c2340@jaseg.de>
+To: Andrew Morton <akpm@linux-foundation.org>,
+  Baoquan He <baoquan.he@linux.dev>, Mike Rapoport <rppt@kernel.org>,
+  Pasha Tatashin <pasha.tatashin@soleen.com>,
+  Pratyush Yadav <pratyush@kernel.org>,
+ Dave Young <ruirui.yang@linux.dev>,
+  Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>,  David Howells <dhowells@redhat.com>,
+ Jarkko Sakkinen <jarkko@kernel.org>,  Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+  Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+  "Serge E. Hallyn" <serge@hallyn.com>, Lukas Wunner <lukas@wunner.de>,
+  Ignat Korchagin <ignat@linux.win>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+  "David S. Miller" <davem@davemloft.net>,
+ Keith Busch <kbusch@kernel.org>,  Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>,  Sagi Grimberg <sagi@grimberg.me>,
+ Trond Myklebust <trondmy@kernel.org>,  Anna Schumaker <anna@kernel.org>,
+ Mimi Zohar <zohar@linux.ibm.com>,
+  James Bottomley <James.Bottomley@HansenPartnership.com>,
+  Marc Dionne <marc.dionne@auristor.com>,
+ Eric Dumazet <edumazet@google.com>,  Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>,  Simon Horman <horms@kernel.org>,
+ Eric Biggers <ebiggers@kernel.org>,  "Theodore Y. Ts'o" <tytso@mit.edu>,
+ Jaegeuk Kim <jaegeuk@kernel.org>,
+  Alexander Viro <viro@zeniv.linux.org.uk>,
+  Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+  Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+  Mikulas Patocka <mpatocka@redhat.com>,
+  Benjamin Marzinski <bmarzins@redhat.com>
+Cc: kexec@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org, 
+ keyrings@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-security-module@vger.kernel.org, linux-crypto@vger.kernel.org, 
+ linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org, 
+ linux-integrity@vger.kernel.org, linux-afs@lists.infradead.org, 
+ netdev@vger.kernel.org, linux-fscrypt@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, dm-devel@lists.linux.dev, 
+ =?utf-8?q?Jan_Sebastian_G=C3=B6tte?= <linux@jaseg.de>
+X-Mailer: b4 0.15.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260812_025714_728928_291113DD 
-X-CRM114-Status: GOOD (  23.48  )
+X-CRM114-CacheID: sfid-20260811_105451_353753_C038E422 
+X-CRM114-Status: GOOD (  19.55  )
 X-Mailman-Approved-At: Thu, 13 Aug 2026 08:01:01 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -144,55 +143,204 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 8/11/26 22:18, Milan Broz wrote:
-> On 8/11/26 7:53 PM, Jan Sebastian GÃ¶tte wrote:
->> Wipe volume key/iv copies kept by dm-crypt with
->> CONFIG_CRASH_WIPE_SECRETS. The backend tfms are already handled
->> separately.
->>
->> Add a list tracking struct crypt_config instances when
->> CONFIG_CRASH_WIPE_SECRETS is set. Structs are tracked here to avoid
->> having to enumerate them through some roundabout way before kdump, when
->> we can't safely take locks anymore.
-> 
-> Well, dm-crypt has crypt_wipe_key(), which can be called through a 
-> device-mapper message.
-> It also sets keys to zero in the crypto API.
-> 
-> Why do we need yet another way to wipe keys here, reimplementing 
-> everything twice?
-> 
-> I can imagine an emergency wrapper callback that will suspend dm-crypt 
-> and call existing code.
+tfm structs contain key material like expanded key schedules. Under
+CONFIG_CRASH_WIPE_SECRETS, wipe all tfms before kdump to prevent
+leakage. Copies outside the tfm context, e.g. on the stack or in
+hardware key registers, are not covered.
 
-I originally decided I'd keep these function separate since you can't 
-rely on memory allocation/freeing to work during panic. crypt_wipe_key 
-currently calls kfree_sensitive, and inside crypto_*_setkey there's also 
-kalloc/kfree calls hiding.
+Also change two kfree() calls to kfree_sensitive() for good measure.
 
-I could rework the patch to call into crypt_wipe_key, but I'd have to 
-make that avoid memory allocation/freeing. The direct kfree_sensitive 
-call can be replaced with a memzero_explicit, but I think I'd have to 
-add a dedicated "wipe without allocations" function to the crypto 
-backends as an alternative to setkey with a zero key.
+Signed-off-by: Jan Sebastian Götte <linux@jaseg.de>
+---
+ crypto/api.c           | 78 ++++++++++++++++++++++++++++++++++++++++++++------
+ include/linux/crypto.h | 11 +++++++
+ 2 files changed, 81 insertions(+), 8 deletions(-)
 
->> Use custom wipe handlers even for things like ivs that have existing
->> wipe functions elsewhere because we need to use crash_wipe_memzero
->> instead of memzero_explicit. The crash_wipe helper memzero_explicit's
->> the target buffers and flushes data caches. On ARM64, missing that cache
->> flush could lead to the zeros not being written to DRAM before the kdump
->> code turns off the data caches moments later.
-> 
-> Please no. It looks to me like you are trying to fix this on the wrong 
-> layer.
-> This way everyone will need their own memzero...
+diff --git a/crypto/api.c b/crypto/api.c
+index 24227582cfcf..f919f52e8b5f 100644
+--- a/crypto/api.c
++++ b/crypto/api.c
+@@ -10,13 +10,16 @@
+  * and Nettle, by Niels Möller.
+  */
+ 
++#include <linux/crash_core.h>
+ #include <linux/err.h>
+ #include <linux/errno.h>
+ #include <linux/jump_label.h>
+ #include <linux/kernel.h>
+ #include <linux/kmod.h>
+ #include <linux/module.h>
++#include <linux/notifier.h>
+ #include <linux/param.h>
++#include <linux/rculist.h>
+ #include <linux/sched/signal.h>
+ #include <linux/slab.h>
+ #include <linux/string.h>
+@@ -397,6 +400,60 @@ static unsigned int crypto_ctxsize(struct crypto_alg *alg, u32 type, u32 mask)
+ 	return len;
+ }
+ 
++#ifdef CONFIG_CRASH_WIPE_SECRETS
++/*
++ * tfm allocations are tracked on crypto_tfm_list so that they can be wiped
++ * before kdump.
++ */
++static HLIST_HEAD(crypto_tfm_list);
++static DEFINE_SPINLOCK(crypto_tfm_list_lock);
++
++static int crypto_crash_wipe(struct notifier_block *nb, unsigned long action,
++		void *data)
++{
++	struct crypto_tfm *tfm;
++
++	rcu_read_lock();
++	hlist_for_each_entry_rcu(tfm, &crypto_tfm_list, wipe_list)
++		crash_wipe_memzero(tfm->__crt_ctx, tfm->wipe_size);
++	rcu_read_unlock();
++
++	/* off to kexec()! */
++	return NOTIFY_DONE;
++}
++
++static struct notifier_block crypto_wipe_nb = {
++	.notifier_call = crypto_crash_wipe
++};
++
++static int __init crypto_tfm_track_init(void)
++{
++	crash_wipe_secrets_register(&crypto_wipe_nb);
++	return 0;
++}
++core_initcall(crypto_tfm_track_init);
++
++/* @size is the size of __crt_ctx */
++static void crypto_track_tfm(struct crypto_tfm *tfm, size_t size)
++{
++	tfm->wipe_size = size;
++
++	spin_lock(&crypto_tfm_list_lock);
++	hlist_add_head_rcu(&tfm->wipe_list, &crypto_tfm_list);
++	spin_unlock(&crypto_tfm_list_lock);
++}
++
++static void crypto_untrack_tfm(struct crypto_tfm *tfm)
++{
++	spin_lock(&crypto_tfm_list_lock);
++	hlist_del_rcu(&tfm->wipe_list);
++	spin_unlock(&crypto_tfm_list_lock);
++}
++#else
++static void crypto_track_tfm(struct crypto_tfm *tfm, size_t size) { }
++static void crypto_untrack_tfm(struct crypto_tfm *tfm) { }
++#endif /* CONFIG_CRASH_WIPE_SECRETS */
++
+ void crypto_shoot_alg(struct crypto_alg *alg)
+ {
+ 	down_write(&crypto_alg_sem);
+@@ -409,15 +466,16 @@ struct crypto_tfm *__crypto_alloc_tfm(struct crypto_alg *alg, u32 type,
+ 				      u32 mask)
+ {
+ 	struct crypto_tfm *tfm;
+-	unsigned int tfm_size;
++	unsigned int ctx_size;
+ 	int err = -ENOMEM;
+ 
+-	tfm_size = sizeof(*tfm) + crypto_ctxsize(alg, type, mask);
+-	tfm = kzalloc(tfm_size, GFP_KERNEL);
++	ctx_size = crypto_ctxsize(alg, type, mask);
++	tfm = kzalloc(sizeof(*tfm) + ctx_size, GFP_KERNEL);
+ 	if (tfm == NULL)
+ 		goto out_err;
+ 
+ 	tfm->__crt_alg = alg;
++	crypto_track_tfm(tfm, ctx_size);
+ 
+ 	if (!tfm->exit && alg->cra_init && (err = alg->cra_init(tfm)))
+ 		goto cra_init_failed;
+@@ -428,7 +486,8 @@ struct crypto_tfm *__crypto_alloc_tfm(struct crypto_alg *alg, u32 type,
+ 	crypto_exit_ops(tfm);
+ 	if (err == -EAGAIN)
+ 		crypto_shoot_alg(alg);
+-	kfree(tfm);
++	crypto_untrack_tfm(tfm);
++	kfree_sensitive(tfm);
+ out_err:
+ 	tfm = ERR_PTR(err);
+ out:
+@@ -497,12 +556,12 @@ void *crypto_create_tfm_node(struct crypto_alg *alg,
+ 			     int node)
+ {
+ 	struct crypto_tfm *tfm;
+-	size_t size;
+ 	char *mem;
+ 	int err;
++	size_t ctx_size = frontend->extsize(alg);
+ 
+-	size = frontend->tfmsize + sizeof(*tfm) + frontend->extsize(alg);
+-	mem = kzalloc_node(size, GFP_KERNEL, node);
++	mem = kzalloc_node(frontend->tfmsize + sizeof(*tfm) + ctx_size,
++			GFP_KERNEL, node);
+ 	if (!mem)
+ 		return ERR_PTR(-ENOMEM);
+ 
+@@ -510,6 +569,7 @@ void *crypto_create_tfm_node(struct crypto_alg *alg,
+ 	tfm->__crt_alg = alg;
+ 	tfm->node = node;
+ 	tfm->fb = tfm;
++	crypto_track_tfm(tfm, ctx_size);
+ 
+ 	err = frontend->init_tfm(tfm);
+ 	if (err)
+@@ -525,7 +585,8 @@ void *crypto_create_tfm_node(struct crypto_alg *alg,
+ out_free_tfm:
+ 	if (err == -EAGAIN)
+ 		crypto_shoot_alg(alg);
+-	kfree(mem);
++	crypto_untrack_tfm(tfm);
++	kfree_sensitive(mem);
+ 	mem = ERR_PTR(err);
+ out:
+ 	return mem;
+@@ -627,6 +688,7 @@ void crypto_destroy_tfm(void *mem, struct crypto_tfm *tfm)
+ 		alg->cra_exit(tfm);
+ 	crypto_exit_ops(tfm);
+ 	crypto_mod_put(alg);
++	crypto_untrack_tfm(tfm);
+ 	kfree_sensitive(mem);
+ }
+ EXPORT_SYMBOL_GPL(crypto_destroy_tfm);
+diff --git a/include/linux/crypto.h b/include/linux/crypto.h
+index b7c97f1c47c9..59d6d62180fd 100644
+--- a/include/linux/crypto.h
++++ b/include/linux/crypto.h
+@@ -14,6 +14,7 @@
+ 
+ #include <linux/completion.h>
+ #include <linux/errno.h>
++#include <linux/list.h>
+ #include <linux/refcount_types.h>
+ #include <linux/slab.h>
+ #include <linux/types.h>
+@@ -420,6 +421,16 @@ struct crypto_tfm {
+ 
+ 	struct crypto_alg *__crt_alg;
+ 
++#ifdef CONFIG_CRASH_WIPE_SECRETS
++	/*
++	 * Link on crypto_tfm_list, used to wipe the expanded key schedule in
++	 * __crt_ctx before kdump. wipe_size covers __crt_ctx only, excluding
++	 * this struct and any frontend preceding it.
++	 */
++	struct hlist_node wipe_list;
++	size_t wipe_size;
++#endif
++
+ 	void *__crt_ctx[] CRYPTO_MINALIGN_ATTR;
+ };
+ 
 
-You're probably right. I'll remove this from the next version and make 
-sure the caches are flushed properly during kexec instead.
+-- 
+2.53.0
 
- > Dunno, but I really do not like dm-crypt becoming completely bloated 
- > with code
-> that has nothing to do with the original purpose of this driver.
-
-I feel like "delete key quick" is a pretty normal function for crypto code.
 
