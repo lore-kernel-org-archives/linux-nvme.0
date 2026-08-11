@@ -4,60 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 49201C5B56A
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Aug 2026 19:31:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 32643C5B56A
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Aug 2026 20:30:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ppaGrFDS/Cy0UamQGdFz0z/IJh45MV37F9M66+nhl3s=; b=wWlu88AUE8Fdd8ceY4Avhofs6/
-	p29A8ZEhRo/7ubUda/V3dTDr4MqCVktNifZUxZ6gFCvBcpJqIv8nydb24JfGuGjBehc/2MfRSYHuT
-	2V66mq2t2Cy2zNfmxCGnR/BkBsJqhgHtYcV3512lelILM0aXoOpNoxcpOPt+0+h/YOx39LD5ML6qm
-	gU3g0vm4b+wjDtGhttqvOnht+aUqLIgUG6QV//vuYPpg1d4U8ntU4bCTnH+fboUHe6Wv5S1cV7zlj
-	AvG24HqpcN6Fkflqcx8yCcfriBYzwuyZmgajEs6eD9hC7wvew2yJarpFEbGScis1UtcJfQgizT4FA
-	cd19ndWA==;
+	bh=hxGqZ8OqhiZUT9g5By3twhe2aIYif6OP6YW3nUAHHLw=; b=Km33FS6kODbZitzbl5aR95WfxN
+	mprb9KaW/1jojJEWelDXbHQfGTdP9CcCo8j+YUjw25/zIFLSQbfUrRREHRiflxx5Wuk8dquVEghyg
+	XtxOiTYeLH1Frfj+OrJ37hopAjd7Tm86py4KRySCqxGnOeBTf7pXbpf/AO/kzH0I683Q97g+4lhOW
+	rcAiKrh9WGjrcKNYbHnHF9I7ECn4YoCdI5Kmwyk9k4MXPAoZsy5WcMwrbTs4CvMv4RN9qDdyfixps
+	p5j8T2g97UhRDovT2HRBzdcUHyKBS6MYbowkND4/8CiPX378KNWtpJCqSKrZimSKi+j7eaTo/g8i9
+	v4+KAChA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wtsBf-0000000EqK2-3DbB;
-	Tue, 11 Aug 2026 19:30:59 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1wtt6n-0000000EvVx-272q;
+	Tue, 11 Aug 2026 20:30:01 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wtsBd-0000000EqJN-1LDj
+	id 1wtt6m-0000000EvVQ-0Ko5
 	for linux-nvme@lists.infradead.org;
-	Tue, 11 Aug 2026 19:30:58 +0000
+	Tue, 11 Aug 2026 20:30:00 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id B5A734361A;
-	Tue, 11 Aug 2026 19:30:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43D6C1F000E9;
-	Tue, 11 Aug 2026 19:30:56 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id A920840936;
+	Tue, 11 Aug 2026 20:29:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B1311F000E9;
+	Tue, 11 Aug 2026 20:29:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786476656;
-	bh=ppaGrFDS/Cy0UamQGdFz0z/IJh45MV37F9M66+nhl3s=;
+	s=k20260515; t=1786480198;
+	bh=hxGqZ8OqhiZUT9g5By3twhe2aIYif6OP6YW3nUAHHLw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=YV6JG+WX3r/IjhJAang6vp6b7f1+8gIIErN6LoJsfQQmDITFRFUhPktYm/8yppPfr
-	 hRsCLkUs+SPGEsE3GLRlV0pd7TQuNWhHjIxZrbD9Rb7Z/EpRLQFcTwyOnXmSQeTmQi
-	 ClxEj8C9RjZShX4785kZvI5WncwV2bRvFKN3fdKIUWrQ1ARSbCzAd7bi3VHAlVZjNX
-	 zWhJEW/FYCy1IWVrcQEjwktqyEYaPI2HEm6ZADH45VOn6WJprRv3D9ZUft+pJm1+gj
-	 ni9vPtH8AH76Pjnt+m4VETXLAq7KcADzXsIZZwVN0k598zBEN7tWelJA9UpYpGsSOi
-	 g39wcqnfU1xlw==
-Date: Tue, 11 Aug 2026 13:30:54 -0600
+	b=LqjKCUEYCrsXAD0qSJw/TY2MKEaRvqIkdosgZe54vDIXlmqJJ+3GhQpRnyLGiQsp4
+	 hCn4HL1vreO1yVzsLK56Y9fRaP4xbog6xxwr+g2C3NWL2HJHcwvkgKAc4+UGTS8RIP
+	 1+mtxq2q+RFOLIvlIST+TIPE0FxRcHFviiuI8NVbtKqH2t8Vy/2otW1uB0Idcs8N8o
+	 LUTv6rZMFd4HWVj/fV5OJKtB87mw3N4eChi0Ze54qtLO49lKHPCn3xtXSF3KRBZMCp
+	 h9Fcl60+E+0tvJkPPPJzexn4urjzs0BPiTwiIK/yj0kXJscbEBbzOUnlQjJMkiOwYm
+	 SbCUA9YDcF7JQ==
+Date: Tue, 11 Aug 2026 14:29:56 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Chao Shi <coshi036@gmail.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	Weidong Zhu <weizhu@fiu.edu>, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] nvme: refuse an unsolicited format change on a
- namespace that is in use
-Message-ID: <ant4bioGLl4B35n_@kbusch-mbp>
-References: <20260811192111.2058140-1-coshi036@gmail.com>
+To: changfengnan <changfengnan@bytedance.com>
+Cc: axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Guzebing <guzebing@bytedance.com>
+Subject: Re: [RESEND RFC PATCH v2] nvme-pci: add adaptive interrupt polling
+Message-ID: <anuGRKqdCFG9381L@kbusch-mbp>
+References: <20260806031058.40176-1-changfengnan@bytedance.com>
+ <ano6o6i4Yr2JfMgu@kbusch-mbp>
+ <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.9f189e7a.e65a.4eb9.b86b.c83b70bebfb9@bytedance.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260811192111.2058140-1-coshi036@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.9f189e7a.e65a.4eb9.b86b.c83b70bebfb9@bytedance.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,33 +72,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Aug 11, 2026 at 03:21:11PM -0400, Chao Shi wrote:
-> @@ -2436,6 +2454,28 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
->  		goto out;
->  	}
->  
-> +	/*
-> +	 * Changing the LBA format or the metadata size reinterprets everything
-> +	 * the host has already cached, queued or handed to the integrity code
-> +	 * for this namespace, and freezing the queue does not cover any of it:
-> +	 * page cache contents, bios batched on a plug and the deferred
-> +	 * integrity verify work all outlive the freeze.  If such a change
-> +	 * arrives unsolicited while the namespace is in use, refuse it and let
-> +	 * the caller take the namespace offline rather than adopt a geometry
-> +	 * that describes something else than what the host is holding.
-> +	 */
-> +	if (nvme_ns_openers(ns) &&
-> +	    !test_bit(NVME_CTRL_SELF_RESCAN, &ns->ctrl->flags) &&
-> +	    (ns->head->lba_shift != id->lbaf[lbaf].ds ||
-> +	     ns->head->ms != le16_to_cpu(id->lbaf[lbaf].ms))) {
-> +		dev_err(ns->ctrl->device,
-> +			"unsolicited format change on in-use nsid %u (lba_shift %u -> %u, ms %u -> %u)\n",
-> +			info->nsid, ns->head->lba_shift, id->lbaf[lbaf].ds,
-> +			ns->head->ms, le16_to_cpu(id->lbaf[lbaf].ms));
-> +		ret = NVME_SC_INVALID_NS | NVME_STATUS_DNR;
-> +		goto out;
-> +	}
+On Tue, Aug 11, 2026 at 10:32:35AM +0800, changfengnan wrote:
+> The code looks much cleaner when using dim, I'll see if I can replace the
+> sample-and-poll logic I wrote myself with the dim library. 
+> I ran a quick test on the POC patch and didn't see any performance
+> improvements; in fact, there were quite a few regressions. Maybe some
+> parameters need to be adjusted.
 
-Refusing to acknowledge the new format doesn't mean you get to continue
-using the old format. You're going to corrupt memory and data this way.
+Yeah, I'm just now testing mid-tier devices and it's also performing a
+bit worse for high throughput workloads. But I hadn't really tried to
+tune the settings here, and maybe my criteria is all wrong. I was mainly
+trying to see if we can utilize the dim library before honing in on the
+right implementation details.
 
