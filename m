@@ -4,86 +4,105 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F1BE5C5CFC1
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Aug 2026 23:12:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C428BC5CFCF
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Aug 2026 23:45:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=z4q6VLXN1W/AjdE0Kgnr8TrvBqnlevGmnuePCtTiNGw=; b=ZBw0vFmFaHGu37Tfw7ejxQn4l+
-	tMongkSXgHJ5RNTVi2AWfLq1ust8t6/JU6TbJ+cyBCyZNwJQPJR0CcSxU84WlM2yr4hyvduuWYeb+
-	C7t18f+rPJCApgPtx6MSF4t/rKjMtXbc0ali2HXb2Vw3UvR2kTDA0ch/ZSKY/8k05+T3m0sKkW4TE
-	uHi+MOKWb3NnuFWm4JDmvA/DhjOFnwF/JJqnf4DQozIL/eMrj9Q2eh3y0weDTUtNrbxUNnIYCOg7U
-	jrxJmUjfoXE2jgN3Q2w2Ird503IRXFWP+1vafkr88PvObpPx8tDNbKOcII0vOjmrMFWYcfnT+JM3c
-	5pCHOLgg==;
+	bh=j5XO0Ftejnu2x5mCX27AI7amocnEUZMn2SqbBK6AAi0=; b=J3674QjCm8/CrrZTep+MMeYjY5
+	jTw2DdgUE25nogvDTFfuZPgQCuVsh/Cz+j1WMPSBeItE4r5QTEiK+iUa4GB6gpgi6b3o0KUSvEEjz
+	dZFriTIkfE8U5hKNUq3BIuXI4A/frbeuW9UHH86A+C68BEqrSygUPtGXDbyaQyGmQXp1mIQsYVHZM
+	a8cLFiOX1aCxClxgTZo9a90/t60bj4jwdpUtUrRR7YA4GVEu4pSOsbC/gP0nuag4cHPxl0RpPKUTc
+	OL6b5UAVLP1rkkyRzDzF8aymaPCO9dKeihIEU7hl6dHJiRd8Hl28hT1/4XKktakT/sX8bAXXmahMb
+	smuddDnA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wtvdp-0000000F4NN-2Ik1;
-	Tue, 11 Aug 2026 23:12:17 +0000
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+	id 1wtwA6-0000000F6KA-08Jh;
+	Tue, 11 Aug 2026 23:45:38 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wtvdm-0000000F4M8-2UHb
+	id 1wtwA2-0000000F6Jp-3fVu
 	for linux-nvme@lists.infradead.org;
-	Tue, 11 Aug 2026 23:12:16 +0000
-Received: by mail-pj1-x102b.google.com with SMTP id 98e67ed59e1d1-38e42560ebcso364412a91.1
-        for <linux-nvme@lists.infradead.org>; Tue, 11 Aug 2026 16:12:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1786489932; x=1787094732; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=z4q6VLXN1W/AjdE0Kgnr8TrvBqnlevGmnuePCtTiNGw=;
-        b=HBiAYQOd+EnxOYw2peW3/dedEjRrgivTnttU+XNUOX779129d27+kAdUOnqEePP1ft
-         f3DCtsorUVPEAENWAvAI2RMuBHk0PMz1mYNP2lq7Se8m5hIoxHHGYw0u8Yq5rthIABn+
-         0+4BjTZzsFrrTgPzsZ4lhFs3JLPY6Gh92l4KBWPPmMr9CynDgc/SEy5OOFMhq9LSv8ND
-         MRGJ5HZfnSFhBAvwP8TbAnJ1D0SRc0V3husVumEoeO10uxu7/zXQWVzIj+vJ6lvO/PaX
-         Vj37RPGrwCjVGvldXlKLlIOea0TiPSoeP6KlHg7UzjOlbagOq+UPnozrci0JLe6Gn0cb
-         LI9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786489932; x=1787094732;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=z4q6VLXN1W/AjdE0Kgnr8TrvBqnlevGmnuePCtTiNGw=;
-        b=hhYPX54eWxJ3HcOkwF/MTplMXOVIumlfKghirB788TDt+dVsw9yJeyLxP8v6sN3hrH
-         4APOcVCFL0q/QkO29V6PgJF0YpxvTEs/+aSypPQR9hrC9clsmRzSvqpHDO3VgzJQTD+D
-         39fseDo9KpHGxzdP5p/aArdSXV15qbeD8QdOzspkGmmsHDwjfGqfq9YsdLbnFCq5Bc89
-         UgRDHDADvaIWU6j6ey3HC2sz6wK6vliEy6EWbO0hoUtkVHK9EEpnWgRpam0Vrc3CagXb
-         SDnUWUWo9BWuAOG/GxyPzJyZcyZzDBgaCJ6FVsGN+zS0oIL57ngcM6HMFEmL5tZbC6R2
-         iDJQ==
-X-Gm-Message-State: AOJu0YyR7w32f5XWdXtuzkP+bMczX8kN5zAuQzG8A7S/v0RYoWNoQYhN
-	65SYl6/ePdpYE2nrohjZYnThiuuBsqUaWujy/dUoJcv0P83G95xhfk41sPenBX+Jt9Q=
-X-Gm-Gg: AR+sD132pQN0UGnuAFxpmn3DmzfAXKT6hoKHeHP+9tJKemeLcI9gYU7jB2HY+UF0ewK
-	hvuJEGCV+pOBCc1t+0Ijb3Hdl8m46E08a8nq2d7uTCQdWhiMygapR/oROtEzJ0Xa8IjU28zOiOi
-	FD9Cn2GHoLItrhma1dm9p9HF2KCO8w36Z/P2HzR9MHvdalKSTyTu/b40zTYon2UjfSt+PwQ3HQU
-	eeRJ8rXCMGeyF9L5rsSD0fARWGdXsnzn7+3oLEXKaNOaJAhx71bieUzIVmylzfIY7oQZxvaFusw
-	/SVP8oJFnIbi7pZGDPaxLmtFkl+PTLtUM4O9TLxmOF+iWQv9Gw24AryfnM7h7NWtT4MCVxpVThX
-	sl1dul8+HqlmpJqs+nwYV9ohKHT0l054csSKvvnVRHhO+z0rfGMwmgZOMkhviN/r4JALi1NqOdh
-	eygD3B9SRHiYo630Y6AhvF5z82oAbZxPp6w9Iq+KCakFvndw==
-X-Received: by 2002:a17:90b:4a8f:b0:37f:df85:272f with SMTP id 98e67ed59e1d1-39301621e8fmr543940a91.19.1786489931363;
-        Tue, 11 Aug 2026 16:12:11 -0700 (PDT)
-Received: from ceto ([2607:fb90:9c20:7a99::791d])
-        by smtp.googlemail.com with ESMTPSA id 5a478bee46e88-31cf361d292sm5255273eec.3.2026.08.11.16.12.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Aug 2026 16:12:10 -0700 (PDT)
-From: Mohamed Khalfella <mkhalfella@purestorage.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Mohamed Khalfella <mkhalfella@purestorage.com>
-Subject: [PATCH] nvme: add opcode filtering for fault injection
-Date: Tue, 11 Aug 2026 16:11:52 -0700
-Message-ID: <20260811231152.1138761-1-mkhalfella@purestorage.com>
-X-Mailer: git-send-email 2.54.0
+	Tue, 11 Aug 2026 23:45:35 +0000
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67BNVSWM1797079;
+	Tue, 11 Aug 2026 23:45:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=pp1; bh=j5XO0Ftejnu2x5mCX27AI7amocnEUZMn2SqbBK6AA
+	i0=; b=NFv4MxTlRLXREW9scinwZm8BsN6xKunurhsidV/ZGhB/Z8cGYSvq83+sS
+	o75mIL7fm56SHIgyQwKF5yookzl21lyMXMSCzTzyqEfTPBF2TTWTp1p6OCn7kwHz
+	+wVB76RAL/6Rvj8hXaF2K36cSriot3SCBT0o+WQ9ZqZT3iwpvBZ38lhj7cykB92a
+	aP5FNho0D1GO0RxWip5yF2csPikIrWwon548cK9ZON5NuSuSU7egIjyGTy1NCuIo
+	t1T7jPMS+bsNpJ+Pi41zMuVQ7Qsl6o8p8PwS2hffrDapoz9BuHnGW7lciTlJnMFH
+	1OZW6gE2w5WHEM2g9T07TyKc0ycPg==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fwvq9frq5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 11 Aug 2026 23:45:32 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 67BNfqiJ014861;
+	Tue, 11 Aug 2026 23:45:31 GMT
+Received: from smtprelay04.dal12v.mail.ibm.com ([172.16.1.6])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4fxf5w3md8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 11 Aug 2026 23:45:31 +0000 (GMT)
+Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
+	by smtprelay04.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 67BNjT0m31326616
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 11 Aug 2026 23:45:29 GMT
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4EBC358056;
+	Tue, 11 Aug 2026 23:45:29 +0000 (GMT)
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id EB10458052;
+	Tue, 11 Aug 2026 23:45:28 +0000 (GMT)
+Received: from ltcrain119-lp2.ltc.tadn.ibm.com (unknown [9.5.7.39])
+	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 11 Aug 2026 23:45:28 +0000 (GMT)
+From: wenxiong@linux.ibm.com
+To: linux-nvme@lists.infradead.org, kbusch@kernel.org
+Cc: gjoyce@linux.ibm.com, wenxiong@us.ibm.com,
+        Wen Xiong <wenxiong@linux.ibm.com>
+Subject: [PATCH] DMA mapping leak in error path in __nvme_fc_init_requet()
+Date: Tue, 11 Aug 2026 19:44:51 -0400
+Message-ID: <20260811234451.633638-1-wenxiong@linux.ibm.com>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: SodGjVR1oHRkpJcomWrCNtpSYMjpfXC9
+X-Authority-Analysis: v=2.4 cv=PbDPQChd c=1 sm=1 tr=0 ts=6a7bb41c cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
+ a=iQ6ETzBq9ecOQQE5vZCe:22 a=VnNF1IyMAAAA:8 a=LX-qTxKwgSROWho_uCcA:9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODExMDE5NiBTYWx0ZWRfX7zsQAwlD7uc5
+ mqc/X7XnbBblFu6DLYLhDEuGASPV3s/EomcKwvclv/aMsYvPYbfneaQ0LoWIf1YDTJThJv+9/N+
+ /1QO63buccBmKuSyizxAp7VGZF/ck6Y8h+Kf0a5dS8uaZH7a3P+Kqtfp8j7WepJz/UjEHyirz8g
+ keP9TmUokCK2XJJle2/2SYd4EitiJkbBFs3bt1iewsesLYt8kXrbU+HOlbgr6wbJxSMX7CVdTu5
+ jLBuOBplrW2RfZh1ElljG7NTzfdl9/p7pR5h09Aunvfe3IpTngnpv5XnIPD4B6PdFZw+gdufgyV
+ 3gojxtAkjUbRcNjJSY4RxlXL3VmJi4Sfw9Tb0oz0o4Q14UX473tZ2pxXWhDDfmCXMEy3QS2iPM6
+ wgROPbR+vOHcqjGaaSUV1gi9F7StryMCSEyb6eQvOEmoPMtXxJw4go9Zcvz5yVi9afH0RzlXU3N
+ J2zScZj5klzEPAxFbBA==
+X-Proofpoint-ORIG-GUID: SodGjVR1oHRkpJcomWrCNtpSYMjpfXC9
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODExMDE5NiBTYWx0ZWRfX1Ds6oN0mzuiA
+ ZzVbuehJtxECmAnWTjMsUR5U7L65YCkUNtF+2Qyfh1iYZXzWQJoPM3yf9eo8vWdPCF4KnFvehW0
+ Di3kvMdGDxEt90NqujmHk0iS67etPrI=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-11_06,2026-08-10_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 bulkscore=0 impostorscore=0 malwarescore=0 adultscore=0
+ clxscore=1015 priorityscore=1501 suspectscore=0 phishscore=0
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2608110196
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260811_161214_793794_830D1CCF 
-X-CRM114-Status: GOOD (  19.62  )
+X-CRM114-CacheID: sfid-20260811_164534_924996_82B006B5 
+X-CRM114-Status: GOOD (  12.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,150 +117,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Currently NVMe fault injection applies to every command routed through
-nvme_should_fail(), which makes it hard to target a specific command
-type when reproducing an issue in error-handling paths.
+From: Wen Xiong <wenxiong@linux.ibm.com>
 
-Add an "opcode" debugfs attribute alongside the existing "status" and
-"dont_retry" knobs. It defaults to 0xffff, meaning "match any opcode"
-and preserving the previous behavior. When set to a valid opcode
-(<= 0xff), fault injection is only considered for commands whose opcode
-matches.
+In __nvme_fc_init_request(), if the first DMA mapping for cmddma succeeds
+but the second DMA mapping for rspdma fails, the function returns an error
+without unmapping the first successful DMA mapping. This causes a DMA
+resource leak.
 
-Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
+Fix this by unmapping cmddma before returning the error when rspdma
+mapping fails.
+
+Signed-off-by: Wen Xiong <wenxiong@linux.ibm.com>
 ---
- .../fault-injection/nvme-fault-injection.rst  | 65 +++++++++++++++++++
- drivers/nvme/host/fault_inject.c              | 14 +++-
- drivers/nvme/host/nvme.h                      |  1 +
- 3 files changed, 78 insertions(+), 2 deletions(-)
+ drivers/nvme/host/fc.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/fault-injection/nvme-fault-injection.rst b/Documentation/fault-injection/nvme-fault-injection.rst
-index 1d4427890d75..09730acf0163 100644
---- a/Documentation/fault-injection/nvme-fault-injection.rst
-+++ b/Documentation/fault-injection/nvme-fault-injection.rst
-@@ -176,3 +176,68 @@ Message from dmesg::
-    secondary_startup_64+0xa4/0xb0
-   nvme nvme0: Could not set queue count (16385)
-   nvme nvme0: IO queues not created
-+
-+Example 4: Inject an error into the first write command
-+-------------------------------------------------------
-+
-+::
-+
-+  echo 0x01 > /sys/kernel/debug/nvme0n1/fault_inject/opcode
-+  echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/times
-+  echo 100 > /sys/kernel/debug/nvme0n1/fault_inject/probability
-+  dd if=/dev/zero of=/dev/nvme0n1 oflag=direct bs=512 count=1
-+
-+Expected Result::
-+
-+  The first write command sent to nvme0n1 fails
-+
-+Message from dmesg::
-+
-+  FAULT_INJECTION: forcing a failure.
-+  name fault_inject, interval 1, probability 100, space 0, times 1
-+  CPU: 4 UID: 0 PID: 0 Comm: swapper/4 Not tainted 7.1.0+ #5 PREEMPT(full)
-+  Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-20240910_120124-localhost 04/01/2014
-+  Call Trace:
-+   <IRQ>
-+   dump_stack_lvl+0x6e/0xa0
-+   dump_stack+0x10/0x16
-+   should_fail_ex+0x461/0x510
-+   should_fail+0xb/0x20
-+   nvme_should_fail+0x11b/0x240 [nvme_core]
-+   nvme_poll_cq+0x6ad/0xb30 [nvme]
-+   nvme_irq+0x84/0xe0 [nvme]
-+   ? __pfx_nvme_irq+0x10/0x10 [nvme]
-+   ? rcu_core+0xa40/0xa90
-+   ? __pfx_sched_balance_softirq+0x10/0x10
-+   ? debug_smp_processor_id+0x17/0x20
-+   ? rcu_is_watching+0x13/0xa0
-+   __handle_irq_event_percpu+0x396/0x610
-+   handle_irq_event_percpu+0xf/0x90
-+   handle_irq_event+0xab/0x110
-+   handle_edge_irq+0x1a3/0x210
-+   __common_interrupt+0xff/0x170
-+   common_interrupt+0x90/0xc0
-+   </IRQ>
-+   <TASK>
-+   asm_common_interrupt+0x27/0x40
-+  RIP: 0010:pv_native_safe_halt+0x13/0x20
-+  Code: 1f 84 00 00 00 00 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 8b 05 0a 2a 58 01 85 c0 7e 07 0f 00 2d ff cc 0d 00 fb f4 <c3> cc 0
-+  RSP: 0018:ffff888100a67e40 EFLAGS: 00000242
-+  RAX: 0000000000000001 RBX: ffff888100a49c40 RCX: ffffed102b6c645b
-+  RDX: ffffed102b6c645b RSI: ffffffff82a0d3c0 RDI: ffffffff81428b9b
-+  RBP: ffff888100a67e48 R08: ffffed102b6c645b R09: 0000000000000004
-+  R10: ffffed102b6c645a R11: 0000000000000001 R12: 0000000000000000
-+  R13: 0000000000000000 R14: ffffed1020149388 R15: dffffc0000000000
-+   ? do_idle+0x19b/0x2c0
-+   ? default_idle+0x9/0x20
-+   arch_cpu_idle+0x9/0x10
-+   default_idle_call+0x6b/0xa0
-+   do_idle+0x19b/0x2c0
-+   ? __pfx_do_idle+0x10/0x10
-+   ? complete_with_flags+0x63/0x70
-+   cpu_startup_entry+0x55/0x60
-+   start_secondary+0x1df/0x1e0
-+   common_startup_64+0x13e/0x158
-+   </TASK>
-+  nvme0n1: Write(0x1) @ LBA 0, 1 blocks, Invalid Command Opcode (sct 0x0 / sc 0x1) DNR
-+  operation not supported error, dev nvme0n1, sector 0 op 0x1:(WRITE) flags 0x8800 phys_seg 1 prio class 2
-diff --git a/drivers/nvme/host/fault_inject.c b/drivers/nvme/host/fault_inject.c
-index 105d6cb41c72..783e1999fef4 100644
---- a/drivers/nvme/host/fault_inject.c
-+++ b/drivers/nvme/host/fault_inject.c
-@@ -42,9 +42,11 @@ void nvme_fault_inject_init(struct nvme_fault_inject *fault_inj,
- 	}
- 	fault_inj->parent = parent;
- 
--	/* create debugfs for status code and dont_retry */
-+	/* create debugfs for opcode, status code, and dont_retry */
-+	fault_inj->opcode = 0xffff;
- 	fault_inj->status = NVME_SC_INVALID_OPCODE;
- 	fault_inj->dont_retry = true;
-+	debugfs_create_x16("opcode", 0600, dir,	&fault_inj->opcode);
- 	debugfs_create_x16("status", 0600, dir,	&fault_inj->status);
- 	debugfs_create_bool("dont_retry", 0600, dir, &fault_inj->dont_retry);
- }
-@@ -59,6 +61,7 @@ void nvme_should_fail(struct request *req)
- {
- 	struct gendisk *disk = req->q->disk;
- 	struct nvme_fault_inject *fault_inject = NULL;
-+	struct nvme_command *cmd = nvme_req(req)->cmd;
- 	u16 status;
- 
- 	if (disk) {
-@@ -72,7 +75,14 @@ void nvme_should_fail(struct request *req)
- 		fault_inject = &nvme_req(req)->ctrl->fault_inject;
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 68a5d971657b..7684fb053963 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -2129,6 +2129,8 @@ __nvme_fc_init_request(struct nvme_fc_ctrl *ctrl,
+ 	if (fc_dma_mapping_error(ctrl->lport->dev, op->fcp_req.rspdma)) {
+ 		dev_err(ctrl->dev,
+ 			"FCP Op failed - rspiu dma mapping failed.\n");
++		fc_dma_unmap_single(ctrl->lport->dev, op->fcp_req.cmddma,
++				sizeof(op->cmd_iu), DMA_TO_DEVICE);
+ 		ret = -EFAULT;
  	}
  
--	if (fault_inject && should_fail(&fault_inject->attr, 1)) {
-+	if (!fault_inject)
-+		return;
-+
-+	if (fault_inject->opcode <= 0xff &&
-+	    fault_inject->opcode != cmd->common.opcode)
-+		return;
-+
-+	if (should_fail(&fault_inject->attr, 1)) {
- 		/* inject status code and DNR bit */
- 		status = fault_inject->status;
- 		if (fault_inject->dont_retry)
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 28cec87e4427..9a0fb1e35a5d 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -323,6 +323,7 @@ struct nvme_fault_inject {
- #ifdef CONFIG_FAULT_INJECTION_DEBUG_FS
- 	struct fault_attr attr;
- 	struct dentry *parent;
-+	u16 opcode;
- 	bool dont_retry;	/* DNR, do not retry */
- 	u16 status;		/* status code */
- #endif
 -- 
-2.54.0
+2.52.0
 
 
