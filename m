@@ -4,130 +4,165 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BEF2CC5B572
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Aug 2026 15:01:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E5B8DC5DF69
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Aug 2026 15:01:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
-	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xAM3Q/HBwmz4JVRL14+ds0PYCfNcU1k9FDcBLO4TEyw=; b=bBFsSrV6cPUNzhGrRZtcgLFH8H
-	KBS7GivQ2wadUQo7mGmydGx57ACl0JXPJIulZLcRA/eu7OpSlsPIjAO2mY86c2vkLsk6jYboiHI3L
-	hOh4z1Sw2c4s2v3nD1mDfE+TtU9NwEmuWnedNJTNUZ+0C9/+Akbk81bg6UMwMIlCO/UQyc8pzmlS+
-	pbfQL7pRb4QcVrz8nq2uHDO7nHEvC9Cms7vUqB6Jqm7KeN7dhT2DktHFbz8Bs05Ogo2vfLjwvUMmu
-	+OQrX9NcuyYq9y2gET4iGq8UmZJc8chOXGu/Wvt0+FuvpxsOfUGyfHSBGsTduuAH6HBVbPU+1gkSz
-	yRwem9Ow==;
+	bh=JFLe6tkLYuEC2gnEl/GsgjOSVqwPRw7abghLXfye9/g=; b=HUPKHxMtMZWvWyC1AUqTl9Mvq6
+	K8EM1c6y4xBnGdasyYAaQtPXEobiCmFVGzQKdZRQkEhIZxTCk78y2djnDozwMURJfTOeJvJ7tFFPb
+	9WvEVhbM5Pg5UGhtij+8qNRGCYF0xlah/PPjY8fmRSYkL0scjCqa/dpGMtbT2JiDk6OTs0DA4SEaG
+	DT6iuIUZ9pqRn6pGwCrlJL/cxoJh6dNyUp36zxiYgGDKI8aRtI5i4ThiFuxcDRUwiLralD3TPOrAF
+	i6ix+woTLLF2vIswOP10JgMWXJ7VeWMpjAfz2pj8KnxU6MyBEblt7yJs+bW86G8FIVffNd4dDjDOZ
+	iE8VtrTg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wuWva-00000000tEn-0YEf;
-	Thu, 13 Aug 2026 15:01:06 +0000
-Received: from flow-b7-smtp.messagingengine.com ([202.12.124.142])
+	id 1wuWvb-00000000tHY-2F4g;
+	Thu, 13 Aug 2026 15:01:07 +0000
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wtqgM-0000000Ei27-1Buv;
-	Tue, 11 Aug 2026 17:54:35 +0000
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailflow.stl.internal (Postfix) with ESMTP id D650813003AD;
-	Tue, 11 Aug 2026 13:54:31 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Tue, 11 Aug 2026 13:54:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jaseg.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1786470871;
-	 x=1786478071; bh=xAM3Q/HBwmz4JVRL14+ds0PYCfNcU1k9FDcBLO4TEyw=; b=
-	hU63RqXYUX7dR3ti5JXHaOPEYLzV7fuN96eKtn8RUYFDvNMfAYH+xRYP8mUkO4Vr
-	bJAoEHBb4WkzdXQvxKfgNUa5V+iOXoY/WDKSx8UvHrDz8Nvv9CpbktshEpZwp9RC
-	TZ6Okhcxu45Mnblk92hN99ie9UvB6eAUgbIx8f71QKwTCsMRHIjgcAa53XGzZ3OE
-	z9D56yxEAng2g2B1NWyGEONfMAkTrinvBSTCVnlO0LER9KqdHu/GXWSRhGrxtRaW
-	dUU1BpVP67ufQHSXd4Wfwi8Mk2FtbOwNW1uVZmZR1PfwEHthRYgnK7oZLMBWdXXa
-	kQ+X/QJXfM/soI1Ayn6E4A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1786470871; x=
-	1786478071; bh=xAM3Q/HBwmz4JVRL14+ds0PYCfNcU1k9FDcBLO4TEyw=; b=S
-	PD0YyzAO3i0iPOSceA/VwD8y9HsrVhqBs81kDs44awp1UE25tBjzrQIjJ2X3hLIp
-	UqqsAD4FTBx4AaFBTdOq8UEOPJK2yCc8SKAHcfgUaHW7mjP5lRNMPN24kgBxQ3tD
-	pPlnFEKMSiWn1BanUYpHRtsoRaCaGU9eEc3H8tqDCtIPzeCzRk0qdxln/phxzvYH
-	1o0rhSNQPxowCccqdfuoj00u3AmmTD9WCN1qNEhSNY3SZl4u8IAUgJd/cDOuVH0g
-	1Wryg4mVjyqjY1NgzXhFwnbdF+O6PvwO6EPpKgayWnnl9hrWSUMXBA7wCjoExGY3
-	szwyCbvR2yQaY36T81Leg==
-X-ME-Sender: <xms:12F7auKHQfrqWZVMa9ODtgV7DOIB9GWd8oQzsULgrnNYN7xiwtdGew>
-    <xme:12F7au_1rv4vqQYKlz3p2iIwRPOSVf7FE9DFYTwOLTcRrNXFmASwAYPtHHMnUSErA
-    2YO7nPSNYqhi_vBEr_2iDK1GDq0PRUKFh6k3tEGwG0qG1Z4fvXNFw>
-X-ME-Received: <xmr:12F7alRe7itEE3naI48j9z3YSoRaaA9GcJyx6ETVwlHrT1e1AOm0rYAlUfPYOq3tIyi8Wkyue-Ohmurl0GbO8VM>
-X-ME-Proxy-Cause: dmFkZTFGa2nY7jnTk2Iw9v4bB0J0yF1ICaJd32/qXm98Bvn0uDADx+C3Kw/Flk6iixyPGu
-    72/phBwy47Kg8FJyFrGdC++k215U13L/0xFYZCpTa0z/w1NtK5dvlR08GndYlyZFvTP5gF
-    Dlk263KcILQ417hZPN5ksrl0Nvpbmk/SlilTO3h+HTntssEQr1ld/ICv8lLA9/v6l7Z51B
-    Ox2NlVVO9b906SW9ppu7yHcQtehxM0oDmo9WAr6dDp967nPaXzwEavIcDXzrIMh6NogcTT
-    QJsGa7BorA3mOK9lmdQq3QUA5wm6ullbc5aPHMSxvblIqqAHtDNqCX4Ur6Kq6Hz6embcdc
-    vYdRVb13nBNQZMEFR3UDwQKUUNDw/OfDBUUzUeypFz90S2GfV8DZBApkiCuQjPmksk3nWc
-    wCsKwOoVmEb4wZSE3HdwY+yNaBF/rm6bOSeuJtLdyT3FY6SAATvIkCdjNh2rdNEkIi+AwH
-    s1tX9R58abOkm3pxLdRrMBhxKEKfqdzDrrDOcup8QPmcON/iMcAk8BZWNh9KftZnP6dqXp
-    AX30EG1VB3mNP30/5c6IurQTvxF/NyGreDSbmjc+cGCYdq2ypAFzLTKOGh2gE9QHdT/XOF
-    4Qyzi+DQRPh2c/zeEebScgmFshMBa9nAjTvnIyZqJn5W80oSWHo8Yc23MYpw
-X-ME-Proxy: <xmx:12F7agw3sZqacIIp1XWtBuyhH5uhSkxY5F2qOLVKE1NiUoOA2akNtg>
-    <xmx:12F7avEiXN5Nj66bL5Va-K8JasSRGRn0dxVDl3K_ChPQViATU6U51A>
-    <xmx:12F7an8sTTo81NNrev7hlmg4qazhhN3Ty75VuPYofsR20GmNn3VMbg>
-    <xmx:12F7ajSjke9279DpulhV-A_ITXIM6r21C4cQeDBQwQRhvPzz_L32WQ>
-    <xmx:12F7arWmntqMmainny0jjaMu2_j-7GTbEeB5nJqzF9oKJTBsfCHSTosB>
-Feedback-ID: i60a14417:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 11 Aug 2026 13:54:24 -0400 (EDT)
-From: =?utf-8?q?Jan_Sebastian_G=C3=B6tte?= <linux@jaseg.de>
-Date: Tue, 11 Aug 2026 19:52:59 +0200
-Subject: [PATCH v2 10/13] rxrpc: implement wipe op for rxrpc keys
+	id 1wtsvh-0000000EuWa-3kUW
+	for linux-nvme@lists.infradead.org;
+	Tue, 11 Aug 2026 20:18:36 +0000
+Received: by mail-wr1-x433.google.com with SMTP id ffacd0b85a97d-4813ea321cdso1024563f8f.1
+        for <linux-nvme@lists.infradead.org>; Tue, 11 Aug 2026 13:18:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786479511; x=1787084311; darn=lists.infradead.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=JFLe6tkLYuEC2gnEl/GsgjOSVqwPRw7abghLXfye9/g=;
+        b=r+0ET2fe4b8ac3qQp8GrDwnwtdL3/gQKq2Etd+/kCTpk0f+998uB/t0E8CPAxJOR2h
+         +G5sN167mbQiTBXYnO3XW99XOiXwf1pThFV+JtEDbgAE1AnTm6h3kQLSSGHYIeIiH3m5
+         VP0ObJ213Pb9u3OC3KKcMh/xX6LQAbYBefHw2IQxpddnnMlO7MepSb1ypEUgRmEVntPm
+         EAfMrEpt8X+Hx5TrVzpCvr0B/ES9gam6baMQqsUr15+UslsCy+JqgjOMNgqhhLR2jmcB
+         8ZsyGRquu6e0ffBgYU+sh19Sf37OymxihwaI1PDGcG/OncOI5AsGMYc8yKVrD7dZc1YB
+         iz5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786479511; x=1787084311;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=JFLe6tkLYuEC2gnEl/GsgjOSVqwPRw7abghLXfye9/g=;
+        b=JhWMxWFebP8TDG46fZNpHVLNXcxlnSvia5iVLNGZ0S2rq9nxynCeD16kHCMLxsLsow
+         zoXuKiyNPAI5StlnduXvErHKpgdZcFjMuEP13poRHEgtIoj2bQVe01ixyIQiOLGHITRu
+         70QV7oWEio2fTkPVXCH1atKl1FxsnkjWUm7SXyX5lBMsM/4A0D/IOyGTin3+VyB2AChU
+         TFAzHE5UznKQfhOsq4weTJFZS2WLmYJxOtPugTwf/hrjgAU017n000puAEg6q3K9pqhx
+         nBt0e+A1PT+klAUaivBwFknGO7tp1CHWBfBBKkbUj3/NmZd403PTndhCMlsU+SbKrmeX
+         +RAg==
+X-Forwarded-Encrypted: i=1; AHgh+RqBj/K5UmkN9xYxo3/TX/02ZfafRUEPj3YA5X0wlSWH688UG5BydLNhD7ve3ETz4iPmqhSntQW9voe7@lists.infradead.org
+X-Gm-Message-State: AOJu0Ywyd060bLEU8Axbc7AZwaj0LGYcm+oHoVxz+1635WQuQa0eavdj
+	xY9Inm6/6YPQRVfD/aVI9SW2cOJnxGK9zRVU0YWFYROX3p7sjfMtPCT1
+X-Gm-Gg: AR+sD10AJ0zTeRw9Gi6hzE2Uo4VCybHHp3/LqynnOoQS8bzttfYJdcZX4buLG7mlj2j
+	d9l+AOrpUaeqjGdIwC8MbqcLKN7gfQktptaK2UNpR61jve8q69TsUUlniKPKLrTglxzR3mhdXRF
+	CN0mPx59r3DAhQSOyB08gXUbeYXtEBLX0GnUa1g7HTMkGamQyQ/RFOPvo3EwCWuUJlXBbLtj0vV
+	f46mo5+FrrOUC4izFsyHck583Zus9cQVBP1y2ib4eK8fGSQfYYmfJqKrVeP6tqLaIQ+v6xFNJXC
+	zAY/NUfLMibqLnmUkvN1Ys8BH01SZdHhebbxWC4TT6RoQ0e3pnBDMNSzu4iEU7QjQ9W0bzoBSYu
+	KS5eCVSauchb9oPh4u8jElNULATgCkg7xt6TSewTPhfcN3Hs1L5HhSm+PiF6icKWhF4jvumM5Vm
+	oXw1AwWuLOEABFCB7PqFG1YDxoVvrSu8GQ88gBZ3Ct+ot4I41jhLA+q1iYJosap/3rrofxc3ptE
+	f8+jNOizTy8jA==
+X-Received: by 2002:a05:6000:430d:b0:47f:e7f9:5251 with SMTP id ffacd0b85a97d-4814ffe28b1mr3367485f8f.3.1786479511163;
+        Tue, 11 Aug 2026 13:18:31 -0700 (PDT)
+Received: from [192.168.2.14] (85-70-151-113.rcd.o2.cz. [85.70.151.113])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48150bf5c5fsm976683f8f.3.2026.08.11.13.18.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Aug 2026 13:18:30 -0700 (PDT)
+Message-ID: <8654c2d4-8d9d-43f5-9256-adf2915209e9@gmail.com>
+Date: Tue, 11 Aug 2026 22:18:27 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260811-crash-zeroize-rework-v2-10-9561d13c2340@jaseg.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 13/13] dm crypt: wipe key material before kdump
+To: =?UTF-8?Q?Jan_Sebastian_G=C3=B6tte?= <linux@jaseg.de>
+Cc: kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
+ keyrings@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-security-module@vger.kernel.org, linux-crypto@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org,
+ linux-integrity@vger.kernel.org, linux-afs@lists.infradead.org,
+ netdev@vger.kernel.org, linux-fscrypt@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, dm-devel@lists.linux.dev,
+ Andrew Morton <akpm@linux-foundation.org>, Baoquan He
+ <baoquan.he@linux.dev>, Mike Rapoport <rppt@kernel.org>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>,
+ Pratyush Yadav <pratyush@kernel.org>, Dave Young <ruirui.yang@linux.dev>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ David Howells <dhowells@redhat.com>, Jarkko Sakkinen <jarkko@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+ "Serge E. Hallyn" <serge@hallyn.com>, Lukas Wunner <lukas@wunner.de>,
+ Ignat Korchagin <ignat@linux.win>, Herbert Xu <herbert@gondor.apana.org.au>,
+ "David S. Miller" <davem@davemloft.net>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Trond Myklebust <trondmy@kernel.org>,
+ Anna Schumaker <anna@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
+ James Bottomley <James.Bottomley@HansenPartnership.com>,
+ Marc Dionne <marc.dionne@auristor.com>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Eric Biggers <ebiggers@kernel.org>,
+ "Theodore Y. Ts'o" <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+ Mikulas Patocka <mpatocka@redhat.com>,
+ Benjamin Marzinski <bmarzins@redhat.com>
 References: <20260811-crash-zeroize-rework-v2-0-9561d13c2340@jaseg.de>
-In-Reply-To: <20260811-crash-zeroize-rework-v2-0-9561d13c2340@jaseg.de>
-To: Andrew Morton <akpm@linux-foundation.org>,
-  Baoquan He <baoquan.he@linux.dev>, Mike Rapoport <rppt@kernel.org>,
-  Pasha Tatashin <pasha.tatashin@soleen.com>,
-  Pratyush Yadav <pratyush@kernel.org>,
- Dave Young <ruirui.yang@linux.dev>,
-  Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>,  David Howells <dhowells@redhat.com>,
- Jarkko Sakkinen <jarkko@kernel.org>,  Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
-  Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-  "Serge E. Hallyn" <serge@hallyn.com>, Lukas Wunner <lukas@wunner.de>,
-  Ignat Korchagin <ignat@linux.win>,
- Herbert Xu <herbert@gondor.apana.org.au>,
-  "David S. Miller" <davem@davemloft.net>,
- Keith Busch <kbusch@kernel.org>,  Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>,  Sagi Grimberg <sagi@grimberg.me>,
- Trond Myklebust <trondmy@kernel.org>,  Anna Schumaker <anna@kernel.org>,
- Mimi Zohar <zohar@linux.ibm.com>,
-  James Bottomley <James.Bottomley@HansenPartnership.com>,
-  Marc Dionne <marc.dionne@auristor.com>,
- Eric Dumazet <edumazet@google.com>,  Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>,  Simon Horman <horms@kernel.org>,
- Eric Biggers <ebiggers@kernel.org>,  "Theodore Y. Ts'o" <tytso@mit.edu>,
- Jaegeuk Kim <jaegeuk@kernel.org>,
-  Alexander Viro <viro@zeniv.linux.org.uk>,
-  Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-  Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
-  Mikulas Patocka <mpatocka@redhat.com>,
-  Benjamin Marzinski <bmarzins@redhat.com>
-Cc: kexec@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org, 
- keyrings@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-security-module@vger.kernel.org, linux-crypto@vger.kernel.org, 
- linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org, 
- linux-integrity@vger.kernel.org, linux-afs@lists.infradead.org, 
- netdev@vger.kernel.org, linux-fscrypt@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, dm-devel@lists.linux.dev, 
- =?utf-8?q?Jan_Sebastian_G=C3=B6tte?= <linux@jaseg.de>
-X-Mailer: b4 0.15.2
+ <20260811-crash-zeroize-rework-v2-13-9561d13c2340@jaseg.de>
+Content-Language: en-US
+From: Milan Broz <gmazyland@gmail.com>
+Autocrypt: addr=gmazyland@gmail.com; keydata=
+ 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
+In-Reply-To: <20260811-crash-zeroize-rework-v2-13-9561d13c2340@jaseg.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260811_105434_427243_896C60CD 
-X-CRM114-Status: GOOD (  18.43  )
+X-CRM114-CacheID: sfid-20260811_131833_971500_0D4472B3 
+X-CRM114-Status: GOOD (  19.67  )
 X-Mailman-Approved-At: Thu, 13 Aug 2026 08:01:01 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -143,222 +178,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Wipe session keys and tickets of client key tokens, and add a server key
-wipe op implemented by rxkad and rxgk.
+On 8/11/26 7:53 PM, Jan Sebastian GÃ¶tte wrote:
+> Wipe volume key/iv copies kept by dm-crypt with
+> CONFIG_CRASH_WIPE_SECRETS. The backend tfms are already handled
+> separately.
+> 
+> Add a list tracking struct crypt_config instances when
+> CONFIG_CRASH_WIPE_SECRETS is set. Structs are tracked here to avoid
+> having to enumerate them through some roundabout way before kdump, when
+> we can't safely take locks anymore.
 
-Used by CONFIG_CRASH_WIPE_SECRETS.
+Well, dm-crypt has crypt_wipe_key(), which can be called through a device-mapper message.
+It also sets keys to zero in the crypto API.
 
-Signed-off-by: Jan Sebastian Götte <linux@jaseg.de>
----
- net/rxrpc/ar-internal.h |  5 +++++
- net/rxrpc/key.c         | 34 ++++++++++++++++++++++++++++++++++
- net/rxrpc/rxgk.c        | 11 +++++++++++
- net/rxrpc/rxkad.c       | 14 ++++++++++++++
- net/rxrpc/server_key.c  | 11 +++++++++++
- 5 files changed, 75 insertions(+)
+Why do we need yet another way to wipe keys here, reimplementing everything twice?
 
-diff --git a/net/rxrpc/ar-internal.h b/net/rxrpc/ar-internal.h
-index 865f05fe37ab..6466eb5a9929 100644
---- a/net/rxrpc/ar-internal.h
-+++ b/net/rxrpc/ar-internal.h
-@@ -282,6 +282,11 @@ struct rxrpc_security {
- 	/* Destroy the payload of a server key */
- 	void (*destroy_server_key)(struct key *);
- 
-+	/* Wipe the payload of a server key without freeing it.  Used by
-+	 * CONFIG_CRASH_WIPE_SECRETS from the panic path.
-+	 */
-+	void (*wipe_server_key)(struct key *);
-+
- 	/* Describe a server key */
- 	void (*describe_server_key)(const struct key *, struct seq_file *);
- 
-diff --git a/net/rxrpc/key.c b/net/rxrpc/key.c
-index a0aa78d89289..e612b7a8df13 100644
---- a/net/rxrpc/key.c
-+++ b/net/rxrpc/key.c
-@@ -11,6 +11,7 @@
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
- 
- #include <linux/module.h>
-+#include <linux/crash_core.h>
- #include <linux/net.h>
- #include <linux/overflow.h>
- #include <linux/skbuff.h>
-@@ -26,6 +27,7 @@
- static int rxrpc_preparse(struct key_preparsed_payload *);
- static void rxrpc_free_preparse(struct key_preparsed_payload *);
- static void rxrpc_destroy(struct key *);
-+static void rxrpc_wipe(struct key *);
- static void rxrpc_describe(const struct key *, struct seq_file *);
- static long rxrpc_read(const struct key *, char *, size_t);
- 
-@@ -40,6 +42,7 @@ struct key_type key_type_rxrpc = {
- 	.free_preparse	= rxrpc_free_preparse,
- 	.instantiate	= generic_key_instantiate,
- 	.destroy	= rxrpc_destroy,
-+	.wipe		= rxrpc_wipe,
- 	.describe	= rxrpc_describe,
- 	.read		= rxrpc_read,
- };
-@@ -570,6 +573,31 @@ static void rxrpc_free_token_list(struct rxrpc_key_token *token)
- 	}
- }
- 
-+static void rxrpc_wipe_token_list(struct rxrpc_key_token *token)
-+{
-+	struct rxrpc_key_token *next;
-+
-+	for (; token; token = next) {
-+		next = token->next;
-+		switch (token->security_index) {
-+		case RXRPC_SECURITY_RXKAD:
-+			crash_wipe_memzero(token->kad->session_key,
-+					   sizeof(token->kad->session_key));
-+			crash_wipe_memzero(token->kad->ticket,
-+					   token->kad->ticket_len);
-+			break;
-+		case RXRPC_SECURITY_YFS_RXGK:
-+			crash_wipe_memzero(token->rxgk->key.data,
-+					   token->rxgk->key.len);
-+			crash_wipe_memzero(token->rxgk->ticket.data,
-+					   token->rxgk->ticket.len);
-+			break;
-+		default:
-+			break;
-+		}
-+	}
-+}
-+
- /*
-  * Clean up preparse data.
-  */
-@@ -586,6 +614,12 @@ static void rxrpc_destroy(struct key *key)
- 	rxrpc_free_token_list(key->payload.data[0]);
- }
- 
-+/* wipe the key without freeing. used by CONFIG_CRASH_WIPE_SECRETS. */
-+static void rxrpc_wipe(struct key *key)
-+{
-+	rxrpc_wipe_token_list(key->payload.data[0]);
-+}
-+
- /*
-  * describe the rxrpc key
-  */
-diff --git a/net/rxrpc/rxgk.c b/net/rxrpc/rxgk.c
-index 77a67ace1d24..51c428fb3a60 100644
---- a/net/rxrpc/rxgk.c
-+++ b/net/rxrpc/rxgk.c
-@@ -8,6 +8,7 @@
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
- 
- #include <linux/net.h>
-+#include <linux/crash_core.h>
- #include <linux/skbuff.h>
- #include <linux/slab.h>
- #include <linux/key-type.h>
-@@ -68,6 +69,15 @@ static void rxgk_destroy_server_key(struct key *key)
- 	rxgk_free_server_key(&key->payload);
- }
- 
-+/* wipe the key without freeing. used by CONFIG_CRASH_WIPE_SECRETS. */
-+static void rxgk_wipe_server_key(struct key *key)
-+{
-+	struct krb5_buffer *server_key = (void *)&key->payload.data[2];
-+
-+	if (server_key->data)
-+		crash_wipe_memzero(server_key->data, server_key->len);
-+}
-+
- static void rxgk_describe_server_key(const struct key *key, struct seq_file *m)
- {
- 	const struct krb5_enctype *krb5 = key->payload.data[0];
-@@ -1338,6 +1348,7 @@ const struct rxrpc_security rxgk_yfs = {
- 	.preparse_server_key		= rxgk_preparse_server_key,
- 	.free_preparse_server_key	= rxgk_free_preparse_server_key,
- 	.destroy_server_key		= rxgk_destroy_server_key,
-+	.wipe_server_key		= rxgk_wipe_server_key,
- 	.describe_server_key		= rxgk_describe_server_key,
- 	.init_connection_security	= rxgk_init_connection_security,
- 	.alloc_txbuf			= rxgk_alloc_txbuf,
-diff --git a/net/rxrpc/rxkad.c b/net/rxrpc/rxkad.c
-index ca9f0e82cb9a..054ab67aca32 100644
---- a/net/rxrpc/rxkad.c
-+++ b/net/rxrpc/rxkad.c
-@@ -10,6 +10,7 @@
- #include <crypto/des.h>
- #include <kunit/visibility.h>
- #include <linux/export.h>
-+#include <linux/crash_core.h>
- #include <linux/fips.h>
- #include <linux/module.h>
- #include <linux/net.h>
-@@ -91,6 +92,18 @@ static void rxkad_destroy_server_key(struct key *key)
- 	key->payload.data[0] = NULL;
- }
- 
-+/* wipe the key without freeing. used by CONFIG_CRASH_WIPE_SECRETS. */
-+static void rxkad_wipe_server_key(struct key *key)
-+{
-+	struct des_ctx *des_key = key->payload.data[0];
-+
-+	if (des_key)
-+		crash_wipe_memzero(des_key, sizeof(*des_key));
-+
-+	/* the raw 8-byte key is kept inline in the payload union */
-+	crash_wipe_memzero(&key->payload.data[2], 8);
-+}
-+
- /*
-  * initialise connection security
-  */
-@@ -1127,6 +1140,7 @@ const struct rxrpc_security rxkad = {
- 	.preparse_server_key		= rxkad_preparse_server_key,
- 	.free_preparse_server_key	= rxkad_free_preparse_server_key,
- 	.destroy_server_key		= rxkad_destroy_server_key,
-+	.wipe_server_key		= rxkad_wipe_server_key,
- 	.init_connection_security	= rxkad_init_connection_security,
- 	.alloc_txbuf			= rxkad_alloc_txbuf,
- 	.secure_packet			= rxkad_secure_packet,
-diff --git a/net/rxrpc/server_key.c b/net/rxrpc/server_key.c
-index 3efe104b1930..a8e736d58793 100644
---- a/net/rxrpc/server_key.c
-+++ b/net/rxrpc/server_key.c
-@@ -26,6 +26,7 @@ static int rxrpc_vet_description_s(const char *);
- static int rxrpc_preparse_s(struct key_preparsed_payload *);
- static void rxrpc_free_preparse_s(struct key_preparsed_payload *);
- static void rxrpc_destroy_s(struct key *);
-+static void rxrpc_wipe_s(struct key *);
- static void rxrpc_describe_s(const struct key *, struct seq_file *);
- 
- /*
-@@ -40,6 +41,7 @@ struct key_type key_type_rxrpc_s = {
- 	.free_preparse	= rxrpc_free_preparse_s,
- 	.instantiate	= generic_key_instantiate,
- 	.destroy	= rxrpc_destroy_s,
-+	.wipe		= rxrpc_wipe_s,
- 	.describe	= rxrpc_describe_s,
- };
- 
-@@ -105,6 +107,15 @@ static void rxrpc_destroy_s(struct key *key)
- 		sec->destroy_server_key(key);
- }
- 
-+/* wipe the key without freeing. used by CONFIG_CRASH_WIPE_SECRETS. */
-+static void rxrpc_wipe_s(struct key *key)
-+{
-+	const struct rxrpc_security *sec = key->payload.data[1];
-+
-+	if (sec && sec->wipe_server_key)
-+		sec->wipe_server_key(key);
-+}
-+
- static void rxrpc_describe_s(const struct key *key, struct seq_file *m)
- {
- 	const struct rxrpc_security *sec = key->payload.data[1];
+I can imagine an emergency wrapper callback that will suspend dm-crypt and call existing code.
 
--- 
-2.53.0
+> Use custom wipe handlers even for things like ivs that have existing
+> wipe functions elsewhere because we need to use crash_wipe_memzero
+> instead of memzero_explicit. The crash_wipe helper memzero_explicit's
+> the target buffers and flushes data caches. On ARM64, missing that cache
+> flush could lead to the zeros not being written to DRAM before the kdump
+> code turns off the data caches moments later.
 
+Please no. It looks to me like you are trying to fix this on the wrong layer.
+This way everyone will need their own memzero...
+
+Dunno, but I really do not like dm-crypt becoming completely bloated with code
+that has nothing to do with the original purpose of this driver.
+
+Milan
+
+
+> 
+> Signed-off-by: Jan Sebastian Götte <linux@jaseg.de>
+> ---
+>   drivers/md/dm-crypt.c | 151 ++++++++++++++++++++++++++++++++++++++++++++------
+>   1 file changed, 134 insertions(+), 17 deletions(-)
+> 
 
