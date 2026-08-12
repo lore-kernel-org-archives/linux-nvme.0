@@ -4,66 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 70E85C5AC67
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Aug 2026 00:13:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2EDE8C5B567
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 Aug 2026 03:24:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:From:Subject
-	:Message-ID:Date:MIME-Version:Reply-To:Cc:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=ALvRCc5w+8E9Jm2AZEz/0T3ZiCqnoqzvERWPEGTrbw4=; b=SQaDbrUWzKjEJfuKXwWgeu9nih
-	wBAQPnN71Ah4nUo4zaJdjwfcsEHJdyioQwCIC02a4/ajRIOOpvQJesEb/iX7U+HinJ6YqzOnttFhI
-	01kbFQaYtn9exyHzrgwXu3mG1bGLizi7bcAa4+7V3PNbRmDi6IXREY41I2nQPLz+m7hvq5kbbdAMJ
-	nVFxi9UxKGnAxM663SyMZMXFe2Dut8kgDnBQFUn7kPZB+dYgq3J30y4LAFhEywDa+o3xFa9cl8fee
-	mXB9IwYWnOb8NKXgyA0Hg7YfxeazDXtySzp6LmP7+a+Hec/lowdjGfTLiv1TEfA+ZDaZK3MspPWLW
-	sJVzrLjA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=hooElFR/UaAU2c03fOW+qzzmNPOvItQogFD/Qzn5hWs=; b=bDJJKjkby1caDUIFrqbGq/5/MW
+	dXN58tSeCiB53ctIKg0uRC9xs/F4uFgLZSLgrcrB7b5s/rRziGRbc3s3SYd8yPBYY48D6V/QTSLRa
+	rhwTNeKPRmFt1MhPLLDclNUeAwYj4BA6PLO7wkagQjlIpCHYzmN5g1pJD+zMppOUBW0uh6K5J/68S
+	90vE8JAB4wW74yW6HpyzFcKcZKtPxq6nrOZrq7fLPda73B1+N8L+7AC+VctB2MgK8LMhlZXPHErTM
+	SO6l8VYyylXxrByPxeeLaqucmOHxrM2fOHAHju2yaKWJMJssUmKmTaWOUi4LT9rxIEvy+qPZsb8f7
+	TpFxtFdw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wtwb2-0000000F89e-2ucG;
-	Wed, 12 Aug 2026 00:13:28 +0000
-Received: from mail-oa1-f77.google.com ([209.85.160.77])
+	id 1wtzZk-0000000FLX5-1QAH;
+	Wed, 12 Aug 2026 03:24:20 +0000
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wtwaz-0000000F892-32nV
+	id 1wtzZJ-0000000FLVg-20II
 	for linux-nvme@lists.infradead.org;
-	Wed, 12 Aug 2026 00:13:27 +0000
-Received: by mail-oa1-f77.google.com with SMTP id 586e51a60fabf-451ff8b9acbso1278313fac.0
-        for <linux-nvme@lists.infradead.org>; Tue, 11 Aug 2026 17:13:24 -0700 (PDT)
+	Wed, 12 Aug 2026 03:24:12 +0000
+Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-8487b7b3fc8so602447b3a.3
+        for <linux-nvme@lists.infradead.org>; Tue, 11 Aug 2026 20:23:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786505032; x=1787109832; darn=lists.infradead.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=hooElFR/UaAU2c03fOW+qzzmNPOvItQogFD/Qzn5hWs=;
+        b=oUw2pjkiYfvxLUDB96L+QiiLZCh0I2O8uCgU7pUCARmh4sTCp7z4Pxvsh5uatZcTC4
+         h0QtM7dQSlgJbzSBRp5mVk8DYJfdpRDZI8qU11AiRus1hcmDrupzyX3+qu3CXCa6tKUc
+         COKPk5xS3G+18nfftQorrKyLzCjas3kYf/7sWCxV/5YDI9w3Uxzy7KmvuGLhVFomNEq1
+         qBLHjeJgO9XwNDhkkcrHS+t5DaX/a8VWwKaV84g6HffT3aS3wJJiGMrQpJnCE0ELDeUf
+         OM4FSmo4Fu2DobuI4VmGgpYL03rnd0qfiuAdWYV/8NYcOIxMopOAhFsEDzx2yjeqAOQR
+         c8QA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786493604; x=1787098404;
-        h=content-type:to:from:subject:message-id:date:mime-version
+        d=1e100.net; s=20251104; t=1786505032; x=1787109832;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ALvRCc5w+8E9Jm2AZEz/0T3ZiCqnoqzvERWPEGTrbw4=;
-        b=oGU0izXQXviMfPsxE68uPqry+qWRkNca6YBG4XZIfjPZHr68AJTapZ9yLq/hwmDEJ4
-         lOV77y1I04j/SJILlySIwugSvrxTBqHi0J6x6afsEJ48rYCldxiRxiUN+TWvLm3dgMk2
-         AQwurrc9fQbzihgedVyqz4W7kHYlSkBwYp+L5agQg1ARk1di8O6QU0QRcluJwGVZvRes
-         tQb/siqlmpWo5nSeTV+cPZIrDWu09edaBaOZfUY0egq0y6AwQMtC9HHVFf20iuKRmkvr
-         SFClH+hjZaEkEQSL32HqdKHT/7sU6SBwUGBGY5MA/oVt+qvnAtWNRz4nELRhC5eS27O4
-         dYZg==
-X-Forwarded-Encrypted: i=1; AHgh+RrUl7oz0YFwulNw0SACmSPv0Yu6jmd8pWPP6BgCgQRstRJCDNP50A2CdNRqat8jb3BisPi0uNpLgc+T@lists.infradead.org
-X-Gm-Message-State: AOJu0Yx3MtkNdUStJT+wOCG6XsC7sRSe616QVUnhoTCeIyb+xJHJN7yk
-	Di/uK6oQzNewFiDeC+KR/mID48tR7SLmVHY/YnQlbuCnvMIm/0zVp9C/HDmIeoo2y6C1vRUR4gh
-	pyxEnOr+jzbUBWBpa99DTWhWfPlCt1CAIswWBGgbNjBjJ/TrZZQOtc8/bohI=
+        bh=hooElFR/UaAU2c03fOW+qzzmNPOvItQogFD/Qzn5hWs=;
+        b=Qsug0/08KON87QQHBpeHXW4p/mZ9DszShY551K61fIfQjX6VU97FSp+/oBmn0vUKn1
+         iXCXz3nZTBVT0VnLizMzPa1QVc3jG/CdtaHRNTbnjbNixyOBuSOA/KnB38TNo0g/8AFE
+         lyUDMv2p7zk6MA0uLZRPlwembeVlIxlBRidTMOBjSlWnLBn30gfXrsuJ1GCBejYdt9tn
+         T03NYf+MIjBvtEFWsnPau2sU6QLuSUsq/brtMe6d5q8uJupJjtI2B1UGlWaXYxe9WbTj
+         s49jIsya/xSyGh+zQ/sKbFCJdTB8R6+jc+dQRuozp+he2flzx0m2wIiqGcOpyrjpQsVa
+         YU1g==
+X-Forwarded-Encrypted: i=1; AHgh+RoD60tejDbY0f/EXEltiKVxaqF4CHO9StyZeDotEv6DYQMBWrM9qDQGTIA0l/Fj+U4IrfySYRTuJpOr@lists.infradead.org
+X-Gm-Message-State: AOJu0Yx78ZyP1FEigq27e3ruDpHKWQtLx0zx0Tfya7I6q7AxAHz8ytPm
+	5vAcEjwykp7j3e5S5z8mlzXP9xeV9OiBX76grEWQUS8DoWoG6GkOkLhUZRXHXg==
+X-Gm-Gg: AR+sD12dUc9bIuz/XAmIjQYOmXHQwaWA3kA+RdN4sgaH6hsJs+GeG7zBPVYUwKfcMGb
+	kc7hmDmO6BT2JaNq6anUG8izgscrh8aNYxGFD23Zi17uLTfv0I+b8wZkjpcMYpzDJ+5FP30ntXn
+	5M+N2Rh5OVmO6RbHpMdfmakix72D/OBXcDe4LHXsPdfiPz4XxU7AmL4xOiwOvjMPywZS8ZPo3KJ
+	caEeAboQtSa17BppHVDYsjmaxiNy7uCXkJGjzQUFOMI6cadcYdCTrezrKaxnHjj2yQKxzj2vwTt
+	FUMYmfnE9MoPdTH0NSPB8VOqKBEQHA2W49bb4H2S2DBiqMYN3DdtGCiZ3wkiwsJJXA32DmMdajx
+	UWAxyTyUaxki0TcNRAJvM+SVV9TdcbQxHSyeQM/1oghsXXUk7rs5EabKH7u5Gxq9sGHqp5NJ/p7
+	65i/KNKxOpucB4mJ6pimGKPNbMs/IoXr59wbS1KqXl8HQUYr4kcqjLsTQN6WH5MOVBbjpLiiST2
+	KNSjwcJDoRlvA==
+X-Received: by 2002:a05:6a21:4685:b0:3c3:a024:1360 with SMTP id adf61e73a8af0-3cc3f7393f4mr1884991637.28.1786505032199;
+        Tue, 11 Aug 2026 20:23:52 -0700 (PDT)
+Received: from [100.82.105.140] ([63.216.146.178])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14124542f10sm4520653c88.11.2026.08.11.20.23.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Aug 2026 20:23:51 -0700 (PDT)
+Message-ID: <52fad18e-9938-4cba-8145-aa88acb7e4b1@gmail.com>
+Date: Wed, 12 Aug 2026 11:23:47 +0800
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:3a06:b0:495:ca1b:7865 with SMTP id
- 5614622812f47-4b20900f206mr3554396b6e.11.1786493604057; Tue, 11 Aug 2026
- 17:13:24 -0700 (PDT)
-Date: Tue, 11 Aug 2026 17:13:24 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a7bbaa4.a2bb2777.31c27d.000b.GAE@google.com>
-Subject: [syzbot] [nvme?] WARNING in nvmet_fc_register_targetport
-From: syzbot <syzbot+18b6b27f58e98c240814@syzkaller.appspotmail.com>
-To: hch@lst.de, justin.tee@broadcom.com, kch@nvidia.com, 
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	nareshgottumukkala83@gmail.com, paul.ely@broadcom.com, sagi@grimberg.me, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] nvme: reduce firmware activation poll interval
+To: Keith Busch <kbusch@kernel.org>
+Cc: axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Guzebing <guzebing@bytedance.com>
+References: <20260728121735.1627370-1-guzebing1612@gmail.com>
+ <antR2u1eeBDCr0ux@kbusch-mbp>
+From: guzebing <guzebing1612@gmail.com>
+In-Reply-To: <antR2u1eeBDCr0ux@kbusch-mbp>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260811_171325_791871_60B675C2 
-X-CRM114-Status: UNSURE (   8.16  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260811_202353_558614_E63BB268 
+X-CRM114-Status: GOOD (  17.65  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,91 +103,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello,
-
-syzbot found the following issue on:
-
-HEAD commit:    f9a2394a2348 Merge tag 'mm-hotfixes-stable-2026-08-06-18-4..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=12e68fb9580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=e3f9a6906b632f9f
-dashboard link: https://syzkaller.appspot.com/bug?extid=18b6b27f58e98c240814
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-userspace arch: i386
-
-Unfortunately, I don't have any reproducer for this issue yet.
-
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-f9a2394a.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/969d729dd37f/vmlinux-f9a2394a.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/a948a2342c62/bzImage-f9a2394a.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+18b6b27f58e98c240814@syzkaller.appspotmail.com
-
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
- </TASK>
-------------[ cut here ]------------
-!PageLargeKmalloc(page)
-WARNING: mm/slub.c:6602 at free_large_kmalloc+0xbf/0x100 mm/slub.c:6602, CPU#0: syz.2.261/6867
-Modules linked in:
-CPU: 0 UID: 0 PID: 6867 Comm: syz.2.261 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-RIP: 0010:free_large_kmalloc+0xbf/0x100 mm/slub.c:6602
-Code: 28 90 0f 0b 90 80 3d e8 ab 9c 0e 00 0f 84 c7 6e b7 fe 48 8b 74 24 28 48 89 ef e8 7c 3a 0c 00 b8 00 f0 ff ff 45 31 ed eb 9d 90 <0f> 0b 90 48 83 c4 08 48 89 df 48 c7 c6 24 df 18 8e 5b 5d 41 5c 41
-RSP: 0018:ffffc9000735fa10 EFLAGS: 00010202
-RAX: 00000000000000ff RBX: ffffea00017e83c0 RCX: 000000000000002e
-RDX: 0000000000000000 RSI: ffff88805fa0ff20 RDI: ffffea00017e83c0
-RBP: ffff88805fa0ff20 R08: ffff888023ddfc00 R09: 00000000ffffffff
-R10: ffffffffffffffff R11: 0000000000000000 R12: 00000000ffffffff
-R13: 1ffff92000e6bf5b R14: dead000000000122 R15: ffff888023ddfc90
-FS:  0000000000000000(0000) GS:ffff888096bf4000(0063) knlGS:00000000f5456b40
-CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
-CR2: 0000000000000000 CR3: 0000000025d36000 CR4: 0000000000352ef0
-Call Trace:
- <TASK>
- nvmet_fc_alloc_ls_iodlist drivers/nvme/target/fc.c:569 [inline]
- nvmet_fc_register_targetport+0x114c/0x1c30 drivers/nvme/target/fc.c:1411
- fcloop_create_target_port+0x156/0x5a0 drivers/nvme/target/fcloop.c:1558
- dev_attr_store+0x58/0x80 drivers/base/core.c:2505
- sysfs_kf_write+0xf2/0x150 fs/sysfs/file.c:145
- kernfs_fop_write_iter+0x3e0/0x5f0 fs/kernfs/file.c:345
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x6ac/0x1050 fs/read_write.c:687
- ksys_write+0x12a/0x250 fs/read_write.c:739
- do_syscall_32_irqs_on arch/x86/entry/syscall_32.c:83 [inline]
- __do_fast_syscall_32+0xe7/0x970 arch/x86/entry/syscall_32.c:307
- do_fast_syscall_32+0x32/0x70 arch/x86/entry/syscall_32.c:332
- entry_SYSENTER_compat_after_hwframe+0x84/0x8e
-RIP: 0023:0xf7f96fec
-Code: Unable to access opcode bytes at 0xf7f96fc2.
-RSP: 002b:00000000f545650c EFLAGS: 00000292 ORIG_RAX: 0000000000000004
-RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 0000000080000200
-RDX: 000000000000002f RSI: 0000000000000000 RDI: 0000000000000000
-RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
- </TASK>
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+On 8/12/26 12:46 AM, Keith Busch wrote:
+> On Tue, Jul 28, 2026 at 08:17:35PM +0800, guzebing wrote:
+>> +static int nvme_wait_ready(struct nvme_ctrl *ctrl, u32 mask, u32 val,
+>> +			   u32 timeout, const char *op)
+>> +{
+>> +	unsigned long timeout_jiffies = jiffies + timeout * HZ;
+>> +	u32 csts;
+>> +	int ret;
+>> +
+>> +	ret = nvme_wait_csts(ctrl, mask, val, timeout_jiffies, false, &csts);
+>> +	if (ret != -ETIMEDOUT)
+>> +		return ret;
+>> +
+>> +	dev_err(ctrl->device,
+>> +		"Device not ready; aborting %s, CSTS=0x%x\n", op, csts);
+>> +	return -ENODEV;
+> 
+> Actually, I'm to back this out for a moment to think about this. I like
+> that you've changed the error to ETIMEDOUT for that condition, but I'm
+> not sure we need to convert it to ENODEV. None of the callers seem to
+> care about the specific error, and the user visible side effect of the
+> condition is more informative than ENODEV.
+> 
+> So if we can get rid of that legacy behavior, then this simplifies even
+> more. Thoughts?
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+When restructuring the polling loop, I tried to preserve the existing
+behavior and return values as much as possible. Converting -ETIMEDOUT
+to -ENODEV was part of that effort.
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+However, I agree that -ETIMEDOUT more accurately describes the actual
+failure. I checked the callers and confirmed that they do not
+distinguish between -ENODEV and -ETIMEDOUT, so propagating -ETIMEDOUT
+directly makes sense to me.
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+Please feel free to fold this change in, or let me know if you would
+prefer a v5.
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
+Thanks,
+Guzebing
 
-If you want to undo deduplication, reply with:
-#syz undup
 
