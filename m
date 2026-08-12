@@ -4,190 +4,109 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B1EE4C5CFDB
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Aug 2026 08:43:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0C839C5B56A
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 Aug 2026 08:46:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UfuP6iL7Za8di5XzzLq+WxpJgSZe1BikOaZkRR6fbG0=; b=okTFlMa8fNkKdUb0u97g0Uy5yZ
-	/XdgqtgVCU9IdPf8LdvzXZK5I7M0sofLG60CcJ7K4Stg9kvLTgZ287DPYldE/NtwCiAmLm6qc6xiX
-	WSpPnNSUR45FLl0Jk2L8pH6Njtc0Gy55ZlIt4gwisgUMR7VTpazdm7mu2T/d0cgKRA4WRxlM6CyJh
-	m38UI5nAc1XYMMZmyRiux7KDYDZDhz4OX9rbLoWN71I7cmrz2tpWl+FGC3mq5y75ODNP6e0JsS2Tp
-	lMo0pY8Gat/JVgo3xz8+tekh6esTYlkUOQ3S7W861HGyWHyeKGbxZicwB/tU4MJ+91UZAHpo5scyx
-	e4or7Ulw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=sGgknNej65T1XdsO0iwYbCCTsP79cLh9TzxklhVQmbk=; b=rcitf8boP3W62Skd8zi7s6DwKl
+	dPglWiEMsHSwN5Fpkv0usbl8mPvIfOLIPuhEfvozikxBgebX/k6rG/gF7AuF3pqRmYfrtCRkF7bLn
+	n4dSDhv2LHaHW0f8en/b5c6Rv0Ega4mxQTjGMoF9AJ/kf3Cra5qiMQRvRjEP5pTADfrFyvGtdjcnn
+	rHNKHKjRHXiPPwBZLwCgmvhOFIOA12fXXwA2/ivUUiDMs8tifVvtG5kp3UGAkUw7zYVNnJO/+eKzN
+	2yLkMabWIJOLNCq02R9mbNAJmuWfMNXLxHBub7g6x8qmEv2yT2rUNitgfB5bSRVas/Zm5hzs4nKm3
+	nha+pWNw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wu4Z0-0000000FfTX-3QK2;
-	Wed, 12 Aug 2026 08:43:54 +0000
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+	id 1wu4bt-0000000Ffk0-1xAl;
+	Wed, 12 Aug 2026 08:46:53 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wu4Yx-0000000FfSJ-1v7o
-	for linux-nvme@lists.infradead.org;
-	Wed, 12 Aug 2026 08:43:53 +0000
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67BLbIuY3328867;
-	Wed, 12 Aug 2026 08:43:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=UfuP6iL7Za8di5XzzLq+WxpJgSZe1BikOaZkRR6fbG0=; b=
-	Y7Mai4LdvOJKpr38lZ3yy3sLmUI8HDzCIpqL5cZIdyyAvQOtljeg4VeOKs4vmrSA
-	T7ha251QtRQ3UTiuDcF5LQtV2OjpLSxDS5u64l/u+eojHSqOimMrcx9f+CW1Dtu6
-	ereS1x3ZkQjHsSGrM4dXTehNTEILft1kBJnYOfAL2h+hzndbZjXtfC0FHrce8Mxe
-	W0GBm0fyalO0RYRpomLvMqw/pvg/xrgro79WEHDx9trg4DtChqeRXAH9LRqb2//U
-	XryswejFnLSf7GHRVGmHPqWtEYOHE1zo/DuocW1Q2HCa29WOScZJNomNrcoFVZUQ
-	fkzHkcXuq1sKFxRSe3NqiA==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4fwvfxxd4d-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 12 Aug 2026 08:43:46 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 67C8Z9nS022129;
-	Wed, 12 Aug 2026 08:43:45 GMT
-Received: from bn1pr04cu002.outbound.protection.outlook.com (mail-eastus2azon11010014.outbound.protection.outlook.com [52.101.56.14])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4fwtwet001-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 12 Aug 2026 08:43:45 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nDSgo2Ia99skLqA+KfzLWkPR/tiWp4wfK2Q9PD+t8SLuRslrw5vnoj9JGh58DXuX2TCuUv4aft+ZT8CdEN6nPbLp40wd1Oy3pFyiytLaLgIJepEURPfH8HoZm020/hBJNwFqu5YuwnfWFfd3Fi/lbhVqlEX8OoNprmaMd0tiz4wakjDBpakTgOVn77rDvQhvdjQtl66DfD09YSxTURjfo09YDbFGT6KwY9HVJxY5fIQtfZDD9faxAsDRPswj77meqZ8INyAr2PC5x4gGQVsg5V+/wK3xAYF92HKMxO8lu0zJ+eU6N3QgHSRT2i5mT5Bun3JvqGG4RHjruZT2sc4KpA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UfuP6iL7Za8di5XzzLq+WxpJgSZe1BikOaZkRR6fbG0=;
- b=nn2vWuzXcay+efEf/6Z841AeLaacPu0Id83kHlWoH4FsxiCUVGngDOPX1yBu+nJuG/l2cHALCr1YueoEvdibA+I9+FCBLefF0q3Lfora6aBc4cGvqumqyrnG5oEsUB3nU+1MN0VZPO5l/88bm5dTwJCE9EXfiUajjI+c2sKFhC4hgoVq9hyviHgxBbR1BOWrz91qGNt9mfJq3Uw0CtS/S38vrtJZKieiVKyK3kJYkODlsytCMtHQRfGCg0OHebGpECCk2k6iHI9Xbe3yMZYJ5HvtzNAzL1ajtyrvsB+qAJ8YY36lg4K3uW/k3PcDDIKS4Mu5JtTYPYlF3d5yyR9IaA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UfuP6iL7Za8di5XzzLq+WxpJgSZe1BikOaZkRR6fbG0=;
- b=rWEfhdSVLYgbQy/8iyJtRJc/bY1lTTlFDzLm57ZDw3zFMC1ttPhhgifpHvlv/3WATHd6XFymWd+IkHy8jd7eh+wf9g0qynxlMcHD5/ufm2xlqoNOJJMI2p7HxrPQ/ofusLFp//lix4uVM/VgUIw7Awto7W4caKz4AGCyFBXI2yk=
-Received: from DM4PR10MB6229.namprd10.prod.outlook.com (2603:10b6:8:8c::12) by
- BLAPR10MB5186.namprd10.prod.outlook.com (2603:10b6:208:321::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.23; Wed, 12 Aug
- 2026 08:43:42 +0000
-Received: from DM4PR10MB6229.namprd10.prod.outlook.com
- ([fe80::867:63e7:13fa:fa7d]) by DM4PR10MB6229.namprd10.prod.outlook.com
- ([fe80::867:63e7:13fa:fa7d%6]) with mapi id 15.21.0315.012; Wed, 12 Aug 2026
- 08:43:42 +0000
-Message-ID: <0c8b8a88-8f0c-40cc-b6ba-59b12b8f555f@oracle.com>
-Date: Wed, 12 Aug 2026 09:43:38 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme: Add module reference counting for multipath nvme
- device
-To: Wen Xiong <wenxiong@linux.ibm.com>
-Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, gjoyce@linux.ibm.com,
-        wenxiong@us.ibm.com
-References: <20260810235034.544797-1-wenxiong@linux.ibm.com>
- <92d55da9-2cb6-43aa-8fee-51f2c86101f8@oracle.com>
- <936b1d36a4292c9501eec5a5df3d7b47@linux.ibm.com>
-Content-Language: en-US
-From: John Garry <john.g.garry@oracle.com>
-Organization: Oracle Corporation
-In-Reply-To: <936b1d36a4292c9501eec5a5df3d7b47@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P123CA0118.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:192::15) To DM4PR10MB6229.namprd10.prod.outlook.com
- (2603:10b6:8:8c::12)
+	id 1wu4br-0000000Ffjd-1GTk;
+	Wed, 12 Aug 2026 08:46:51 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id 97EA340D56;
+	Wed, 12 Aug 2026 08:46:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDD011F000E9;
+	Wed, 12 Aug 2026 08:46:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786524410;
+	bh=sGgknNej65T1XdsO0iwYbCCTsP79cLh9TzxklhVQmbk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=ETUpMJ+KMNAq/sX3GCQqYtXMUqoyuCyxD83c7VmXmBWfszBIocr0oYuxtxXG9QeW+
+	 iu49pQy+Ykge5SlqJ2SEJvsAPzXr45teeJ3oIi0N9dH9V+20uA5GABnXO0bbOiR65n
+	 fD6SiebcUxJw7QwxpKDC9k7FbQhr9A/teDOoy6Hlhnev5nJut+0OqFh0bBtwsTsX5s
+	 zeGqzfQh710hIuHP2LOwIsrijkMdXzoAN+8YsncaeuC50hfBXvbmysiczSjDwzivJM
+	 LbtHfgRAwWeQu0sxoiZJdBlljXVqjTG96KhrpjSLqa6xR0hjoni0nlB9yHZ+brrQvy
+	 mbdrLZE14AZYg==
+Message-ID: <1e4b3f04-7367-4651-9cdd-5c95e92e5874@kernel.org>
+Date: Wed, 12 Aug 2026 10:46:42 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR10MB6229:EE_|BLAPR10MB5186:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6597d606-a869-4ad7-5dc5-08def84dd003
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|23010399003|366016|376014|22082099003|10067099003|18002099003|4143699003|5023799004|56012099006|3023799007;
-X-Microsoft-Antispam-Message-Info: P16+Q7dKWsohmqQki6gXW7fNK0uwQE4VfuibtoUTjFxKCRGQD1h6HBCsIrRR1mP3L8No4xYEbk04cCQJmy17BCSHf83pbPwxThKkF1vFuIwFCJISzSZxE0FDTx0oaPQmrNbLinQFTw9zY9r2OHcOW+OInpG+TII0jvcsBNM4oRm5dUFw3FphbnefkGfWEJi8TUWyKirtoekVzhQN+/v5VaQ5NCue0KIyLC4STE7ZtyAFWI6wdv9j2y15Y61ciVPtsc5EsbGqk63WGQTtQWZSD8baYzRJxEP/WThcGcBhLEBiC6WjP0rloCYPkDUk7v4aEGy5vlXuG3QEvZMZgq2Lt+KIdQhHU8G+EDsMWlVwWgXD8HeU7HIUUUbqHXJtlhYINJQtdYQc7y0JEt/mRUcD54f15RUUEcJmi0UCnUYKbu9A9YGpi/QnbD1YirS8kvI5U4xtH7kvKV1kuqxnTvssUsOASkK92Biwvq36I1DJ2smt2ejy0BWx7wx3wU3cDefUNoZQ4vMjMO7oxoc6A23zgBuj3NeEQTW2SiNdMT7aM+u+pZvRYdL+scGvc1pKkiGK3QHK72zjn0qOpmlqVRkGLhFE2FxKDhk8LWufj8TyvdD8ZDiuf71Zqu89E0ivb6Y4E+w3t/VebMBEKOxybob10PSnRY9ZQVR/JdhN9vPRGp8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB6229.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(376014)(22082099003)(10067099003)(18002099003)(4143699003)(5023799004)(56012099006)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y01LR1laUW9HZ2JEZ2p4d0hCalBRclA3a2hhNkFkSzh0UGNaTUxjVmhQeFhz?=
- =?utf-8?B?bjNiSmNNZ0J4NVU0ZWlOYjJicTMzWmFVVnFnUXBBWGp3b21vcHp2aWpxN1Bh?=
- =?utf-8?B?Y2cvOFQ4aVV6d2RCWFNGTFExdlZ4VHpmTnFnb0xCaVJ5a1dsQ2JoS3RIb1hm?=
- =?utf-8?B?TU9kcjJGTG9XRS9YY3RYSU1OeWRSWklqSHZMZmhUR09zYkZEWS9FdS9xRUM1?=
- =?utf-8?B?cSt5OFllcmFMRHkwUjQzWGx1RmhPbmJ0aE5HMjArZ1RtWjcwR0dvQUdVQi9F?=
- =?utf-8?B?YWhHSGFRKzlISGhHTUVLKzFtK08ybXo1d0oyRFdXK1JPajVUem1qSFdMZkpU?=
- =?utf-8?B?Q0FYeWRwT2tvaHVBNG5TeE1QVXhPU2lQWHQ5ZDNncVlYUHRlMkVubFZueFY1?=
- =?utf-8?B?S3BDK2J3ZkJreG1nenI5eElwaDFveFZ0V1BtcERnTm5FUG9sdnBnaVFtYkda?=
- =?utf-8?B?c0d0b2FKQWlUVkp0TXNjNHBvdCt4VWtCaW03R0xyNHVpYkNFd3FDUGNHUFcv?=
- =?utf-8?B?eHIzREU4djNhRDZRVEFhUStjRVlzUENWUk1kdXg1bFlkYWU4eU9xN0RnUGs3?=
- =?utf-8?B?LytXYzd4aFlFaldlWTNYVkc2UHZzeXBGeExBV01rdjBzVnBIcFZpU0dZZCtt?=
- =?utf-8?B?MVYyVmJoSE82NEFQQ01IdFRCSVdjeGtSRjF3NVRna1RnMDZEbVo3cEp3SmRs?=
- =?utf-8?B?R21zb1R3T2VhbWZySHBoNWNnajVIR1ZyUVgzeWFmM3haMXI0UjR5U2I2M1RK?=
- =?utf-8?B?cXVSSlRSNkRaUllSYlhCNXQyM1NxaUpmazdsQUYxMm8xbkNIWm13OXpTeVlB?=
- =?utf-8?B?SlNPMW1ZRnZQUWxXUHU4bG82VytUZWZyUWg2L0JXTmZsVXh1Ti8xTlVpN0l2?=
- =?utf-8?B?THFwdk40WTlLUWhxYTNKSkpDRGhHOGtRbmxuRkcvaXdWdUU3RFp4d1RZdXN4?=
- =?utf-8?B?MzZBTnUwV29rMDdzMEVLY1Nrc1lSalBSNm1vMWRpcDB0ejZCVUhkZVZzRjBN?=
- =?utf-8?B?UjFWTTRHRHc2eitrb3N3cnhXVU5kNFM0U1dYdFhJR0lpVGdtbUVpUnhRTkta?=
- =?utf-8?B?eGNWcitMdXd6TmEzdXN0cFMzQTNQS05YT2FSQmtreWRKVjAxQlU2L01EZksr?=
- =?utf-8?B?NFhRZjlUeE11Y01wcVp2VmV5NlVtUDMvcU82dy9KVFlrZ2Z4K3NBWUdZWVlN?=
- =?utf-8?B?a1JVR0U2YVBNOTM3cUJscmwxWHBvWWZ3TjUwV0VHTkhFRW9LbTJTc1d6eDJp?=
- =?utf-8?B?czJZeHlqWDc0aGxKNU1PZG5HT1JxK2xMSzBQcnpYNGhmK3k1OG5rb1hPSDJR?=
- =?utf-8?B?a3hnRUpzV1JraWR6Tlc2YWtNZVJoSTF0TExTZ0dHMTI5WHVoOEJtUTlYak1u?=
- =?utf-8?B?MmhHNlY4Q3JHOVpsYUl1MmM3eklZajc0eUZLeGY2Y0NMOVF0T0ZaQ0ZUdjQx?=
- =?utf-8?B?d016V2szTExzMUJ1eVN4cG5uUVpRSEdyZG1HSW9STWovNC9pTmc0MS9yNFRL?=
- =?utf-8?B?TUF5TWswdUJoY2dvckhqVURJdklnL0o1OHNOWjdmNjdTNm44VTdwVGwrUm0x?=
- =?utf-8?B?WFkwZVVYVXcyZFJjY3hrQ0FUb0tNT0tzVTIyUUMxaUZ5MDZXbGFWUGNyM2RM?=
- =?utf-8?B?K09wY3oxbzhDT3JZa21aaXkrZmloZUR3NWVuNVV6MUNsYUxSZzM4VG9zbFBy?=
- =?utf-8?B?eVBkbG4rSkN4Y3VreE8xcmxVdmVFZmJEcVZpNkJISlNFWHBmSjdxaEgzb3k4?=
- =?utf-8?B?Y0FHMW1YRUhUM1ZpT1YzcnRQVGpMQ1g4THZva1I3MmtKS0Y5Wjk2NmtiaDdF?=
- =?utf-8?B?QnJkcHpqM1VzY200MElLejVFRTRDM0o0ZFI5eWFIblpXNnplbXN0UzhucVFs?=
- =?utf-8?B?Y3dGQkliSWZicHRQZEwrd20rSXFSRi9lNDNMSUVXZUJyWFZLS09hZ2RxR0ZO?=
- =?utf-8?B?eldOcUtmeURWbEQxNjNNcG5Ib1FhZGNLMkVkMlRMMTNxSVZZNVRUcERJQ0pC?=
- =?utf-8?B?M0ZoQ21iQnBJeG9kSStOT2JXR2VIcXhSMG1zeWpqTWFUQ1d1bXpDeWhYQVlE?=
- =?utf-8?B?MzhsK2lxazBYUWZjZGtJVW1JK0NHTUFIakxUSFlGdmZiR0t0UnFQTm9mWEZx?=
- =?utf-8?B?TUI1REhqbHVxZEtwQmxpYVlxMnRkQzh4MWYyempEdjNmMjc2eS9pVmh6WjJU?=
- =?utf-8?B?ZnpSN0ZhemhTZncxTzNRRHhEaUNJQTBhQU4yTXM1Nm40cldnb29odDV6bGNl?=
- =?utf-8?B?UWpuUjN0RUZzK2djV2MvaXg0SklyV2RyTTIrOTRoRlhYbldqL3RWREhpa0JM?=
- =?utf-8?B?VC8zVTdBZ1dhOXhjT2FYbExqcmFYSmFMaUJEa3hJc3V3TkFrSUUyUT09?=
-X-Exchange-RoutingPolicyChecked: EjUuAZxO86MqYwDzmnmKAoz2eY4ZL30UBQt6Z1IOSMBlZBDspyPt4hqjxBJEbkT77pd1BuVfcG6hQDHck1qBKHg3jYnD/eh9bfu12kUVFVpFhzSWYJnxK0R55tQkNFPqaFo+IWsNGf5gonR6XSEP09ksDsS+o8bl3KI0lXSEEILc3o4K0pHlZOwO7wEUhF8lTPge68gLBGRnRQoNsmfky3iTI2YLKppUV69WLZfOhkZh6WfYPplWzDaIjLHOyNa8OjrP/BPD3HOqDqsyW4VO4sGdOWOXlAhx+pT1hiMshvG63SqiheiU6dEVXxttePHtwM20AX2yB9v657ZiXsO79A==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 6PiG95i2Ytvl7jvlNniskzRA+6FE/4yTuFsTbL1EIx85LhZSC2nRaTWVB3G35MGIyYyLdfrrBi0ZsGvvEQ991/O/ssK/lIGsP0jarhXxvlQCmLvil+WkWTRd1rzI06E365Y5pQ1mtQqBprnTlZqRg4bmyfyqmNRPoXrCqQ+agE9Rf92VcoIs4M+p5nnJNUkM5eIKAxh/O9W7hXPftPKKLVlY4y5gJRAm55v9ndLnnwbSVAD+0cnmqKD2YLcHWZlivGHQ6ZI4TcMRpfBUy8dhzMJNyEzwOdO8JEey9LPcFJuaqXo/rEMOOzyutvP1gAUc7+6DPFrkZWGtqfScqccJdwPmXmvSo+XHw+V3ZYPDicKJ/fQ+D0SmbcW/xgtaFdbwZqbUNSN/MyWGwFtmBLGGXN5i0e6SrMrItgkQzsdbpYelapxCc5q9mcrbTOr5c0JBaVP1gIWYEau1N3xxI55l9AHEF/7OB0WjxQtREfDefDZiUSueoQNyeVPkuW80nzW5YaJiK0Uwz1DMv+tL5U16GHt7j37yhRIDNUilByOy0n3LQmH6PJutBOQTuEhz03OGjdYs0QOWNanxj8ZMEUSFrQAgDHpCySqOVBvGPwrGqfM=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6597d606-a869-4ad7-5dc5-08def84dd003
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB6229.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2026 08:43:42.1765
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: M5kslU+/Cra1MQLSzKrabUwKPcYPUFcfcRBOKUmGgnWI9WTe0WPZnZbUzH4t5tAlDTvPoGd7c4kNLzPZK7Yqgw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB5186
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-12_02,2026-08-10_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- suspectscore=0 mlxlogscore=999 lowpriorityscore=0 adultscore=0 spamscore=0
- phishscore=0 mlxscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2606160000 definitions=main-2608120068
-X-Proofpoint-GUID: e5OFVmZo8G379aQKDbpYZ_BUOaeO2IoZ
-X-Authority-Analysis: v=2.4 cv=K/sS2SWI c=1 sm=1 tr=0 ts=6a7c3242 cx=c_pps
- a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=Sv0fKeRqtYgA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=jiCTI4zE5U7BLdzWsZGv:22 a=3I1J8UUJPc9JN9BFgKH3:22 a=RKy2cARTXwKJjOylwcMA:9
- a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: e5OFVmZo8G379aQKDbpYZ_BUOaeO2IoZ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODEyMDA2OSBTYWx0ZWRfX77ozvITtyU8/
- Or1c7LEgVXaiKnEVkAofZtvXE9oVsB1a+Jnzx2U+fTGuDNW/Ahnnk/tsRR8/z+9k66aGFgWEwoI
- XHdJarWRQWAxp3X12hnmALfE7F2LcltD67jllAbcwvoUbcF9ZXudg2hRBvoBgq8TxdxNANseZO6
- 3Oy7y0VzPnECh2/Oq/22ed4xg34yvMgMkXY2qvaUOchnuBh08G6bsTjMr/WCcQeAPhUplSEylxR
- yBh3xTXdF8PWG9DKIr6XycXM5IK8Yx/v1PKpJ54p0BMnp6VXzlRDD002dmjeugLeZmltiRewyvm
- rHYZJHqtcgxVdVd4BYfs6Ul9MLigk7ZkITd2w7KkpKQPcKOesk3B90ujTT5eKLeWmSlVEfmidW7
- NwNeMuMbgVncw973L9USiHW6QxUobTPt9gq22cckUa951V/C3vVVZP9rzEk6dFSi0qdKcpA9dwh
- Xnety4zKtF5Mm+gcqjQ==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODEyMDA2OSBTYWx0ZWRfX/BXgZVevB+mY
- +vw4dkL9dqdfjjF6nmJUdDoIqEMk1UG5DvimOarfVT67YUWZwPQFCl06X24SsIc3Kjv3X2weIVz
- JEUAMU1J6frMZlMgVG2LrrfO95Rdm5SMCEO0HHGhZleIVnJXXVqs
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260812_014352_040666_E8F7A5B1 
-X-CRM114-Status: GOOD (  19.31  )
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] dt-bindings: nvme: Add apple,t8132-nvme-ans2
+ compatible
+To: Yureka Lilian <yureka@cyberchaos.dev>, Rob Herring <robh@kernel.org>
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+ Neal Gompa <neal@gompa.dev>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
+References: <20260811-apple-nvme-t8132-v1-0-865be32e42c3@cyberchaos.dev>
+ <20260811-apple-nvme-t8132-v1-1-865be32e42c3@cyberchaos.dev>
+ <20260811231121.GA271810-robh@kernel.org>
+ <cf6f4732-1122-4381-962d-e18b32ac178d@cyberchaos.dev>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <cf6f4732-1122-4381-962d-e18b32ac178d@cyberchaos.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -202,64 +121,142 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/08/2026 19:54, Wen Xiong wrote:
->> Can you demonstrate that this is a problem?
->> 
-> For example, the Linux root filesystem is located on a multipath NVMe
-> device. During system boot, the reference count of the nvme module is
-> zero. As a result, the tester can run rmmod nvme, which causes the
-> system to become unstable or crash.
+On 12/08/2026 10:08, Yureka Lilian wrote:
+> Thank you for the quick feedback!
 > 
-
-Can't the tester also just unbind the device from the driver, which does 
-the same (as unloading the driver)?
-
-Example:
-echo 0000:00:04.0  > /sys/bus/pci/drivers/nvme/unbind
-
-For this PCI case, we call nvme_remove() -> nvme_remove_namespaces() -> 
-nvme_ns_remove(), which removes the NS path and deletes the gendisk if 
-the last path. Same effect, as I see.
-
-> linux was installed on /dev/nvme4n2.
-> #lsmod|grep nvme
-> nvme_fabrics          262144  0
-> nvme                  262144  0 ----> reference count = 0 for nvme
-> module.
-> nvme_core             458752  4 nvme,nvme_fabrics
-> nvme_keyring          262144  2 nvme_core,nvme_fabrics
-> nvme_auth             262144  1 nvme_core
-> #  rmmod nvme
-> [11312.100786][  T937] BTRFS error (device nvme4n1p2): bdev
-> /dev/nvme4n1p2 errs: wr 1, rd 0, flush 0, corrupt 0, gen 0
-> [11312.100855][  T937] BTRFS error (device nvme4n1p2): bdev
-> /dev/nvme4n1p2 errs: wr 2, rd 0, flush 0, corrupt 0, gen 0
-> [11338.724061][  T624] BTRFS error (device nvme4n1p2 state A):
-> Transaction aborted (error -5)
-> [11338.724075][  T624] BTRFS: error (device nvme4n1p2 state A) in
-> __btrfs_update_delayed_inode:1096: errno=-5 IO failure
-> # ls
-> ls: reading directory '.': Input/output error
+> On 8/12/26 01:11, Rob Herring wrote:
+>> On Tue, Aug 11, 2026 at 10:49:47PM +0200, Yureka Lilian wrote:
+>>> Add a new base compatible for the ANS2 NVMe on the Apple t8132 (M4) SoC,
+>>> which uses a separate MMIO base for its NVMMU.
+>>>
+>>> Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
+>>> ---
+>>>   .../devicetree/bindings/nvme/apple,nvme-ans.yaml   | 77 ++++++++++++++--------
+>>>   1 file changed, 48 insertions(+), 29 deletions(-)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml b/Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
+>>> index 4c0b1f90aff8..c8a41b268b9c 100644
+>>> --- a/Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
+>>> +++ b/Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
+>>> @@ -16,6 +16,7 @@ properties:
+>>>         - items:
+>>>             - const: apple,t6020-nvme-ans2
+>>>             - const: apple,t8103-nvme-ans2
+>>> +      - const: apple,t8132-nvme-ans2
+>>>         - items:
+>>>             - enum:
+>>>                 # Do not add additional SoC to this list.
+>>> @@ -24,16 +25,6 @@ properties:
+>>>                 - apple,t6000-nvme-ans2
+>>>             - const: apple,nvme-ans2
+>>>   
+>>> -  reg:
+>>> -    items:
+>>> -      - description: NVMe and NVMMU registers
+>>> -      - description: ANS2 co-processor control registers
+>>> -
+>>> -  reg-names:
+>>> -    items:
+>>> -      - const: nvme
+>>> -      - const: ans
+>>> -
+>> Keep properties defined at the top level. More below.
+>>
+>>>     resets:
+>>>       maxItems: 1
+>>>   
+>>> @@ -68,25 +59,53 @@ properties:
+>>>   
+>>>         The SART address filter is documented in iommu/apple,sart.yaml.
+>>>   
+>>> -if:
+>>> -  properties:
+>>> -    compatible:
+>>> -      contains:
+>>> -        enum:
+>>> -          - apple,t6000-nvme-ans2
+>>> -          - apple,t6020-nvme-ans2
+>>> -then:
+>>> -  properties:
+>>> -    power-domains:
+>>> -      minItems: 3
+>>> -    power-domain-names:
+>>> -      minItems: 3
+>>> -else:
+>>> -  properties:
+>>> -    power-domains:
+>>> -      maxItems: 2
+>>> -    power-domain-names:
+>>> -      maxItems: 2
+>>> +allOf:
+>>> +  - if:
+>>> +      properties:
+>>> +        compatible:
+>>> +          contains:
+>>> +            const: apple,t8132-nvme-ans2
+>>> +    then:
+>>> +      properties:
+>>> +        reg:
+>>> +          items:
+>>> +            - description: NVMMU registers
+>>> +            - description: NVMe registers
+>>> +            - description: ANS2 co-processor control registers
+>>> +        reg-names:
+>>> +          items:
+>>> +            - const: nvmmu
+>>> +            - const: nvme
+>>> +            - const: ans
+>> New entries go on the end.
+> Ack
+>> So nvmmu last and defined at the top level.
+> I did read the docs which said the properties should always be 
+> introduced at the top-level, however I couldn't figure out how to 
+> describe the intended constraints in this way.
+>> Then this is just 'minItems: 3'
+>>
+>>> +    else:
+>>> +      properties:
+>>> +        reg:
+>>> +          items:
+>>> +            - description: NVMe and NVMMU registers
+>>> +            - description: ANS2 co-processor control registers
+>>> +        reg-names:
+>>> +          items:
+>>> +            - const: nvme
+>>> +            - const: ans
+>> And 'maxItems: 2' on these 2.
 > 
-> In the current nvme module reference count increase/decrease logic, the
-> operation is skipped when the device is a multipath device. As a result,
-> the NVMe module reference count remains zero even though the NVMe device
-> is actively being used by the multipath stack.
+> When the three items are defined at the top-level, I can't seem to make 
+> the dtbs_check work:
 > 
-> static int nvme_ns_open(struct nvme_ns *ns)
-> {
+> [...]
+> arch/arm64/boot/dts/apple/t8112-j413.dtb: nvme@27bcc0000 
+> (apple,t8112-nvme-ans2): reg: [[2, 2076966912, 0, 262144], [2, 
+> 2000683008, 0, 16384]] is too short
+>      from schema $id: http://devicetree.org/schemas/nvme/apple,nvme-ans.yaml
+> arch/arm64/boot/dts/apple/t8112-j413.dtb: nvme@27bcc0000 
+> (apple,t8112-nvme-ans2): reg-names: ['nvme', 'ans'] is too short
+>      from schema $id: http://devicetree.org/schemas/nvme/apple,nvme-ans.yaml
+> [...]
 > 
->            /* should never be called due to GENHD_FL_HIDDEN */
->            if (WARN_ON_ONCE(nvme_ns_head_multipath(ns->head)))
->                    goto fail;
->            if (!nvme_get_ns(ns))
->                    goto fail;
->            if (!try_module_get(ns->ctrl->ops->module))
->                    goto fail_put_ns;
+> despite this compatible falling into the "... else ... maxItems: 2" branch
 > 
-> This patch adds module reference count increase/decrease logic in
-> nvme_ns_head_open() and nvme_ns_head_release() for the multipath head
-> device. This mirrors the behavior of nvme_ns_open() for non-multipath
-> devices.
+> Would it be acceptable to define the reg and reg-names with just 
+> minItems: 2, maxItems: 3, but without specific items or descriptions, 
+> and then add the compatible-specific items and descriptions in the 
+> conditional part below?
 
+No, because you do workaround for your own introduced problem. If you
+list the entries in top level in correct order, then everything will
+work fine with Rob's answer/comment.
+
+This is your case:
+https://elixir.bootlin.com/linux/v6.11-rc6/source/Documentation/devicetree/bindings/ufs/samsung,exynos-ufs.yaml#L39
+
+This is not your case:
+https://elixir.bootlin.com/linux/v6.11-rc6/source/Documentation/devicetree/bindings/ufs/qcom,ufs.yaml#L127
+Unless you provide arguments why it is.
+
+Best regards,
+Krzysztof
 
