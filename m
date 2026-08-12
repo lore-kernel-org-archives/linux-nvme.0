@@ -4,116 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7300C5AD5A
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Aug 2026 08:07:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7E912C5B56A
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 Aug 2026 08:08:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=L8+3JqwvjHyIvsLMJhbV9ntYiMz4wu1Nl1YYXFTJM78=; b=IF0qt1f0r/JMu2VcB3DMS15Vvg
-	xIDRjHs3h5SGfDexi5ChUJf3tNsVfydkFw1ysYcjVf4WSjuNZOn/xMkIPcPFONN76ykGW0SqVxJe0
-	Sy8pcgBqhrOcTpAtPb3W0PVx41+0oGNtxdIY9enstqAcWoGeWLpEljCdrdbH+z0tJKzOtjmbgm1k2
-	x0AqtiBNj60RinAGvdVtmFbsRUmfSD1/f50/HuXLUWJQabhXFpmt8SMYSOIvQsfR98lBaY3z+Gtn+
-	/ldBNStXLlGwNrAHGMBS2D/7lXE6KhXeN+gspGwf9prYjkZHro45gHs1pcwXsbPxrLRWwtNEYE1/W
-	I5JVzc2A==;
+	bh=g8o/j7j4w3KLWh32ubDeSN0JFxs0ZyyDKCxWJyyp8gQ=; b=DOp5EowodvZq2E/b5BPFWqQOl0
+	4muqFQW6RwctsAmJdP4Am8Qj6chng9r7Ou3aR+/HmpgJn5IOkfEeD7VhWpXZzbB5F6LUbSZLFyLo5
+	/1lwBzwa9scUR+1e/CLiZs7+LVZSBIuEvE6y84nttVvsdEHSC7147ZvG/QscKEQjuf6W1qLQY6Sz8
+	p5uwiA4vfIWg6HU5PRFQ4+DUUfrTU6mXXpWKUHmK6pTTpPwC3J3sw/TSDh97sn6/josoxjE6EXuFL
+	5G/QI5TtIPu7flHoZt0Qcg6GNEsPE7Z482twgiYvhoSq7lGsLCMMVxg4M0F04Ipmh/Hlr8nAsbtld
+	ovO02BOg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wu3zp-0000000FcRF-1aSL;
-	Wed, 12 Aug 2026 08:07:33 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1wu40z-0000000FcdG-0Lw7;
+	Wed, 12 Aug 2026 08:08:45 +0000
+Received: from mail.cyberchaos.dev ([195.39.247.168])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wu3zm-0000000FcQu-2WsX
-	for linux-nvme@lists.infradead.org;
-	Wed, 12 Aug 2026 08:07:31 +0000
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67C637SH2708701;
-	Wed, 12 Aug 2026 08:07:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=L8+3Jq
-	wvjHyIvsLMJhbV9ntYiMz4wu1Nl1YYXFTJM78=; b=hJxKK3NkvJsMce97z/3ptC
-	62yl51LtOQX6b/5xLFudf2fvHl55NF/0fwCrp/yH3KaoKc+iRx+6KcrglxPxdDS4
-	ZzNbmNp25Ydi8HvzbTgHO8xedHquDSHeSG9Dv6qgJKmkVc/QP4CuMDlX4vsvxF6W
-	7a4LwrkcGLahL03jewHIc+QRIH+3ey9V3cRYSp4YxUGSTS0C+xi8gIzI6hubdWtA
-	3SLHN+Yy4o1GCbzNpH0jwDtsmrhK4J4xltAx4wfiidN5b/AfN2OR4mKQIaZqNibA
-	cVxVO4ncVtc8yOuTBMumqw7bMVia/Eg4MbGvZg6hoQlwKxM3h7fHgh92NAZWxgPA
-	==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fwvnw8pn6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 12 Aug 2026 08:07:21 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 67C7uGKV019538;
-	Wed, 12 Aug 2026 08:07:20 GMT
-Received: from smtprelay06.dal12v.mail.ibm.com ([172.16.1.8])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4fxesq59vh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 12 Aug 2026 08:07:20 +0000 (GMT)
-Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
-	by smtprelay06.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 67C87Knq21889664
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 12 Aug 2026 08:07:20 GMT
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 67D1458062;
-	Wed, 12 Aug 2026 08:07:20 +0000 (GMT)
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4982A58052;
-	Wed, 12 Aug 2026 08:07:16 +0000 (GMT)
-Received: from [9.61.0.237] (unknown [9.61.0.237])
-	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 12 Aug 2026 08:07:15 +0000 (GMT)
-Message-ID: <f7279860-bdde-404d-bfaa-f41220848088@linux.ibm.com>
-Date: Wed, 12 Aug 2026 13:37:14 +0530
+	id 1wu40w-0000000Fcbd-1xHc;
+	Wed, 12 Aug 2026 08:08:44 +0000
+Message-ID: <cf6f4732-1122-4381-962d-e18b32ac178d@cyberchaos.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
+	s=mail; t=1786522118;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=g8o/j7j4w3KLWh32ubDeSN0JFxs0ZyyDKCxWJyyp8gQ=;
+	b=GEDyrtiYCcQ3apJP8ir4Ty/7Yf+NYe7qqakLArttAK2LHywzUmyCz+h6TozQyZlKsxx13T
+	akmN81Jlx7RH/mIrSpMhhZVScA5EjGX0PtUd9uYl2Lvgl6LE08iVdQwIycievawyYvPU/X
+	cKYrJo80sa72cBuy75AaZ0oCJiuNotY=
+Date: Wed, 12 Aug 2026 10:08:36 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 0/9] nvme-multipath: introduce latency I/O policy
-To: John Garry <john.g.garry@oracle.com>, linux-nvme@lists.infradead.org
-Cc: hare@suse.de, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
-        dwagner@suse.de, kanie@linux.alibaba.com, jmeneghi@redhat.com,
-        randyj@purestorage.com, martin.petersen@oracle.com,
-        gjoyce@linux.ibm.com
-References: <20260809100825.2014133-1-nilay@linux.ibm.com>
- <35c99788-ad97-420d-b16d-5ba8f6a28f82@oracle.com>
- <e229a15e-26d1-44e6-8cb6-fa59255d609e@linux.ibm.com>
- <52332d80-95b2-4aae-8dd7-313b6e76f5fc@oracle.com>
+Subject: Re: [PATCH 1/2] dt-bindings: nvme: Add apple,t8132-nvme-ans2
+ compatible
+To: Rob Herring <robh@kernel.org>, Yureka Lilian <yureka@cyberchaos.dev>
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+ Neal Gompa <neal@gompa.dev>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
+References: <20260811-apple-nvme-t8132-v1-0-865be32e42c3@cyberchaos.dev>
+ <20260811-apple-nvme-t8132-v1-1-865be32e42c3@cyberchaos.dev>
+ <20260811231121.GA271810-robh@kernel.org>
 Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <52332d80-95b2-4aae-8dd7-313b6e76f5fc@oracle.com>
+From: Yureka Lilian <yureka@cyberchaos.dev>
+In-Reply-To: <20260811231121.GA271810-robh@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=RsP16imK c=1 sm=1 tr=0 ts=6a7c29ba cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=NEAV23lmAAAA:8
- a=t34BQtHZ46P9W9PX5DYA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: YeD-0_nOeKWGZJaT_c3At7rn4d8P4q44
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODEyMDA2MyBTYWx0ZWRfX02Jr0VxYqEGQ
- mkTOQGj9nEuqHlMhDH1x0eqj8d4iPBVd+qBSxPIB5wqgSBh5q1atqj1VAWvtInkCEI74OKa0Biy
- APnfVaYF+QFlogGt9FnCQ9spQ2XS+cin0+p0IjPsRFeBqgWVnNdMEWnxNr2S1urXNDQqzk1jIE9
- vvpYnThIxQB1OyGiZalhF7ywijRL/eBTWQDelIQ7sgGLEc2AHjBBJ8R5kZQXlPI4NBq3ZCtT3Sd
- A8hmV3tdGC4+x1XOboejGjetwgzrDWIMAgJOoIgekPpMOh8MTUeEnuEkMLZ+eR1c5NEAEd18V/6
- m9+yGKOIU0bZvTB1CPrKJjPGkDq0HhoO1S46TPnfa2AA1lqgwqC3ZvSV+xs07RDHB2ypTYRxGj7
- aMyDAkAAemDv7z1uuIgAqeJ1Z5l+JZfNaqPsvHhB/7lsR9HDIRM371VEtzP9rmVywBjrUeTuder
- lGMD+3SJahTIzJsUo+w==
-X-Proofpoint-ORIG-GUID: KAtZUNnurAtFERdM_4m-jmU4fR8zw1db
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODEyMDA2MyBTYWx0ZWRfX4xdE5cbLbBRI
- +vlJbX5GOHJCD26V4td9v/XM5sQDTErgNACAQrbKxKm6lb2exy9jK7MXkiiyy2wogsoM91srZhz
- WoJHNfO6vF64xtrwFl2TdQ6P78AP79s=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-12_02,2026-08-10_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 impostorscore=0 suspectscore=0 clxscore=1015 malwarescore=0
- phishscore=0 adultscore=0 lowpriorityscore=0 priorityscore=1501 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608120063
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260812_010730_816564_5BA14ED0 
-X-CRM114-Status: GOOD (  10.17  )
+X-CRM114-CacheID: sfid-20260812_010842_759366_0706C5B8 
+X-CRM114-Status: GOOD (  18.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -128,15 +74,136 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 8/11/26 3:07 PM, John Garry wrote:
-> JFYI, on another topic, I did a quick port of this to libmultipath as a PoC:
-> 
-> https://github.com/johnpgarry/linux/commits/scsi-multipath-v7.2-v7-latency-v7/
-> 
-> It's really just a direct symbol-for-symbol change.
+Thank you for the quick feedback!
 
-This is great!
+On 8/12/26 01:11, Rob Herring wrote:
+> On Tue, Aug 11, 2026 at 10:49:47PM +0200, Yureka Lilian wrote:
+>> Add a new base compatible for the ANS2 NVMe on the Apple t8132 (M4) SoC,
+>> which uses a separate MMIO base for its NVMMU.
+>>
+>> Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
+>> ---
+>>   .../devicetree/bindings/nvme/apple,nvme-ans.yaml   | 77 ++++++++++++++--------
+>>   1 file changed, 48 insertions(+), 29 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml b/Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
+>> index 4c0b1f90aff8..c8a41b268b9c 100644
+>> --- a/Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
+>> +++ b/Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
+>> @@ -16,6 +16,7 @@ properties:
+>>         - items:
+>>             - const: apple,t6020-nvme-ans2
+>>             - const: apple,t8103-nvme-ans2
+>> +      - const: apple,t8132-nvme-ans2
+>>         - items:
+>>             - enum:
+>>                 # Do not add additional SoC to this list.
+>> @@ -24,16 +25,6 @@ properties:
+>>                 - apple,t6000-nvme-ans2
+>>             - const: apple,nvme-ans2
+>>   
+>> -  reg:
+>> -    items:
+>> -      - description: NVMe and NVMMU registers
+>> -      - description: ANS2 co-processor control registers
+>> -
+>> -  reg-names:
+>> -    items:
+>> -      - const: nvme
+>> -      - const: ans
+>> -
+> Keep properties defined at the top level. More below.
+>
+>>     resets:
+>>       maxItems: 1
+>>   
+>> @@ -68,25 +59,53 @@ properties:
+>>   
+>>         The SART address filter is documented in iommu/apple,sart.yaml.
+>>   
+>> -if:
+>> -  properties:
+>> -    compatible:
+>> -      contains:
+>> -        enum:
+>> -          - apple,t6000-nvme-ans2
+>> -          - apple,t6020-nvme-ans2
+>> -then:
+>> -  properties:
+>> -    power-domains:
+>> -      minItems: 3
+>> -    power-domain-names:
+>> -      minItems: 3
+>> -else:
+>> -  properties:
+>> -    power-domains:
+>> -      maxItems: 2
+>> -    power-domain-names:
+>> -      maxItems: 2
+>> +allOf:
+>> +  - if:
+>> +      properties:
+>> +        compatible:
+>> +          contains:
+>> +            const: apple,t8132-nvme-ans2
+>> +    then:
+>> +      properties:
+>> +        reg:
+>> +          items:
+>> +            - description: NVMMU registers
+>> +            - description: NVMe registers
+>> +            - description: ANS2 co-processor control registers
+>> +        reg-names:
+>> +          items:
+>> +            - const: nvmmu
+>> +            - const: nvme
+>> +            - const: ans
+> New entries go on the end.
+Ack
+> So nvmmu last and defined at the top level.
+I did read the docs which said the properties should always be 
+introduced at the top-level, however I couldn't figure out how to 
+describe the intended constraints in this way.
+> Then this is just 'minItems: 3'
+>
+>> +    else:
+>> +      properties:
+>> +        reg:
+>> +          items:
+>> +            - description: NVMe and NVMMU registers
+>> +            - description: ANS2 co-processor control registers
+>> +        reg-names:
+>> +          items:
+>> +            - const: nvme
+>> +            - const: ans
+> And 'maxItems: 2' on these 2.
+
+When the three items are defined at the top-level, I can't seem to make 
+the dtbs_check work:
+
+[...]
+arch/arm64/boot/dts/apple/t8112-j413.dtb: nvme@27bcc0000 
+(apple,t8112-nvme-ans2): reg: [[2, 2076966912, 0, 262144], [2, 
+2000683008, 0, 16384]] is too short
+     from schema $id: http://devicetree.org/schemas/nvme/apple,nvme-ans.yaml
+arch/arm64/boot/dts/apple/t8112-j413.dtb: nvme@27bcc0000 
+(apple,t8112-nvme-ans2): reg-names: ['nvme', 'ans'] is too short
+     from schema $id: http://devicetree.org/schemas/nvme/apple,nvme-ans.yaml
+[...]
+
+despite this compatible falling into the "... else ... maxItems: 2" branch
+
+Would it be acceptable to define the reg and reg-names with just 
+minItems: 2, maxItems: 3, but without specific items or descriptions, 
+and then add the compatible-specific items and descriptions in the 
+conditional part below?
+
+>
+> Rob
+
 
 Thanks,
---Nilay
+
+- Yureka
+
 
