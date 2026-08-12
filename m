@@ -4,105 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C428BC5CFCF
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Aug 2026 23:45:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 70E85C5AC67
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 Aug 2026 00:13:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:From:Subject
+	:Message-ID:Date:MIME-Version:Reply-To:Cc:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=j5XO0Ftejnu2x5mCX27AI7amocnEUZMn2SqbBK6AAi0=; b=J3674QjCm8/CrrZTep+MMeYjY5
-	jTw2DdgUE25nogvDTFfuZPgQCuVsh/Cz+j1WMPSBeItE4r5QTEiK+iUa4GB6gpgi6b3o0KUSvEEjz
-	dZFriTIkfE8U5hKNUq3BIuXI4A/frbeuW9UHH86A+C68BEqrSygUPtGXDbyaQyGmQXp1mIQsYVHZM
-	a8cLFiOX1aCxClxgTZo9a90/t60bj4jwdpUtUrRR7YA4GVEu4pSOsbC/gP0nuag4cHPxl0RpPKUTc
-	OL6b5UAVLP1rkkyRzDzF8aymaPCO9dKeihIEU7hl6dHJiRd8Hl28hT1/4XKktakT/sX8bAXXmahMb
-	smuddDnA==;
+	bh=ALvRCc5w+8E9Jm2AZEz/0T3ZiCqnoqzvERWPEGTrbw4=; b=SQaDbrUWzKjEJfuKXwWgeu9nih
+	wBAQPnN71Ah4nUo4zaJdjwfcsEHJdyioQwCIC02a4/ajRIOOpvQJesEb/iX7U+HinJ6YqzOnttFhI
+	01kbFQaYtn9exyHzrgwXu3mG1bGLizi7bcAa4+7V3PNbRmDi6IXREY41I2nQPLz+m7hvq5kbbdAMJ
+	nVFxi9UxKGnAxM663SyMZMXFe2Dut8kgDnBQFUn7kPZB+dYgq3J30y4LAFhEywDa+o3xFa9cl8fee
+	mXB9IwYWnOb8NKXgyA0Hg7YfxeazDXtySzp6LmP7+a+Hec/lowdjGfTLiv1TEfA+ZDaZK3MspPWLW
+	sJVzrLjA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wtwA6-0000000F6KA-08Jh;
-	Tue, 11 Aug 2026 23:45:38 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1wtwb2-0000000F89e-2ucG;
+	Wed, 12 Aug 2026 00:13:28 +0000
+Received: from mail-oa1-f77.google.com ([209.85.160.77])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wtwA2-0000000F6Jp-3fVu
+	id 1wtwaz-0000000F892-32nV
 	for linux-nvme@lists.infradead.org;
-	Tue, 11 Aug 2026 23:45:35 +0000
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67BNVSWM1797079;
-	Tue, 11 Aug 2026 23:45:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=pp1; bh=j5XO0Ftejnu2x5mCX27AI7amocnEUZMn2SqbBK6AA
-	i0=; b=NFv4MxTlRLXREW9scinwZm8BsN6xKunurhsidV/ZGhB/Z8cGYSvq83+sS
-	o75mIL7fm56SHIgyQwKF5yookzl21lyMXMSCzTzyqEfTPBF2TTWTp1p6OCn7kwHz
-	+wVB76RAL/6Rvj8hXaF2K36cSriot3SCBT0o+WQ9ZqZT3iwpvBZ38lhj7cykB92a
-	aP5FNho0D1GO0RxWip5yF2csPikIrWwon548cK9ZON5NuSuSU7egIjyGTy1NCuIo
-	t1T7jPMS+bsNpJ+Pi41zMuVQ7Qsl6o8p8PwS2hffrDapoz9BuHnGW7lciTlJnMFH
-	1OZW6gE2w5WHEM2g9T07TyKc0ycPg==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fwvq9frq5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 11 Aug 2026 23:45:32 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 67BNfqiJ014861;
-	Tue, 11 Aug 2026 23:45:31 GMT
-Received: from smtprelay04.dal12v.mail.ibm.com ([172.16.1.6])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4fxf5w3md8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 11 Aug 2026 23:45:31 +0000 (GMT)
-Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
-	by smtprelay04.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 67BNjT0m31326616
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 11 Aug 2026 23:45:29 GMT
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4EBC358056;
-	Tue, 11 Aug 2026 23:45:29 +0000 (GMT)
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id EB10458052;
-	Tue, 11 Aug 2026 23:45:28 +0000 (GMT)
-Received: from ltcrain119-lp2.ltc.tadn.ibm.com (unknown [9.5.7.39])
-	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 11 Aug 2026 23:45:28 +0000 (GMT)
-From: wenxiong@linux.ibm.com
-To: linux-nvme@lists.infradead.org, kbusch@kernel.org
-Cc: gjoyce@linux.ibm.com, wenxiong@us.ibm.com,
-        Wen Xiong <wenxiong@linux.ibm.com>
-Subject: [PATCH] DMA mapping leak in error path in __nvme_fc_init_requet()
-Date: Tue, 11 Aug 2026 19:44:51 -0400
-Message-ID: <20260811234451.633638-1-wenxiong@linux.ibm.com>
-X-Mailer: git-send-email 2.52.0
+	Wed, 12 Aug 2026 00:13:27 +0000
+Received: by mail-oa1-f77.google.com with SMTP id 586e51a60fabf-451ff8b9acbso1278313fac.0
+        for <linux-nvme@lists.infradead.org>; Tue, 11 Aug 2026 17:13:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786493604; x=1787098404;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ALvRCc5w+8E9Jm2AZEz/0T3ZiCqnoqzvERWPEGTrbw4=;
+        b=oGU0izXQXviMfPsxE68uPqry+qWRkNca6YBG4XZIfjPZHr68AJTapZ9yLq/hwmDEJ4
+         lOV77y1I04j/SJILlySIwugSvrxTBqHi0J6x6afsEJ48rYCldxiRxiUN+TWvLm3dgMk2
+         AQwurrc9fQbzihgedVyqz4W7kHYlSkBwYp+L5agQg1ARk1di8O6QU0QRcluJwGVZvRes
+         tQb/siqlmpWo5nSeTV+cPZIrDWu09edaBaOZfUY0egq0y6AwQMtC9HHVFf20iuKRmkvr
+         SFClH+hjZaEkEQSL32HqdKHT/7sU6SBwUGBGY5MA/oVt+qvnAtWNRz4nELRhC5eS27O4
+         dYZg==
+X-Forwarded-Encrypted: i=1; AHgh+RrUl7oz0YFwulNw0SACmSPv0Yu6jmd8pWPP6BgCgQRstRJCDNP50A2CdNRqat8jb3BisPi0uNpLgc+T@lists.infradead.org
+X-Gm-Message-State: AOJu0Yx3MtkNdUStJT+wOCG6XsC7sRSe616QVUnhoTCeIyb+xJHJN7yk
+	Di/uK6oQzNewFiDeC+KR/mID48tR7SLmVHY/YnQlbuCnvMIm/0zVp9C/HDmIeoo2y6C1vRUR4gh
+	pyxEnOr+jzbUBWBpa99DTWhWfPlCt1CAIswWBGgbNjBjJ/TrZZQOtc8/bohI=
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: SodGjVR1oHRkpJcomWrCNtpSYMjpfXC9
-X-Authority-Analysis: v=2.4 cv=PbDPQChd c=1 sm=1 tr=0 ts=6a7bb41c cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
- a=iQ6ETzBq9ecOQQE5vZCe:22 a=VnNF1IyMAAAA:8 a=LX-qTxKwgSROWho_uCcA:9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODExMDE5NiBTYWx0ZWRfX7zsQAwlD7uc5
- mqc/X7XnbBblFu6DLYLhDEuGASPV3s/EomcKwvclv/aMsYvPYbfneaQ0LoWIf1YDTJThJv+9/N+
- /1QO63buccBmKuSyizxAp7VGZF/ck6Y8h+Kf0a5dS8uaZH7a3P+Kqtfp8j7WepJz/UjEHyirz8g
- keP9TmUokCK2XJJle2/2SYd4EitiJkbBFs3bt1iewsesLYt8kXrbU+HOlbgr6wbJxSMX7CVdTu5
- jLBuOBplrW2RfZh1ElljG7NTzfdl9/p7pR5h09Aunvfe3IpTngnpv5XnIPD4B6PdFZw+gdufgyV
- 3gojxtAkjUbRcNjJSY4RxlXL3VmJi4Sfw9Tb0oz0o4Q14UX473tZ2pxXWhDDfmCXMEy3QS2iPM6
- wgROPbR+vOHcqjGaaSUV1gi9F7StryMCSEyb6eQvOEmoPMtXxJw4go9Zcvz5yVi9afH0RzlXU3N
- J2zScZj5klzEPAxFbBA==
-X-Proofpoint-ORIG-GUID: SodGjVR1oHRkpJcomWrCNtpSYMjpfXC9
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODExMDE5NiBTYWx0ZWRfX1Ds6oN0mzuiA
- ZzVbuehJtxECmAnWTjMsUR5U7L65YCkUNtF+2Qyfh1iYZXzWQJoPM3yf9eo8vWdPCF4KnFvehW0
- Di3kvMdGDxEt90NqujmHk0iS67etPrI=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-11_06,2026-08-10_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 bulkscore=0 impostorscore=0 malwarescore=0 adultscore=0
- clxscore=1015 priorityscore=1501 suspectscore=0 phishscore=0
- lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2608110196
+X-Received: by 2002:a05:6808:3a06:b0:495:ca1b:7865 with SMTP id
+ 5614622812f47-4b20900f206mr3554396b6e.11.1786493604057; Tue, 11 Aug 2026
+ 17:13:24 -0700 (PDT)
+Date: Tue, 11 Aug 2026 17:13:24 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a7bbaa4.a2bb2777.31c27d.000b.GAE@google.com>
+Subject: [syzbot] [nvme?] WARNING in nvmet_fc_register_targetport
+From: syzbot <syzbot+18b6b27f58e98c240814@syzkaller.appspotmail.com>
+To: hch@lst.de, justin.tee@broadcom.com, kch@nvidia.com, 
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	nareshgottumukkala83@gmail.com, paul.ely@broadcom.com, sagi@grimberg.me, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260811_164534_924996_82B006B5 
-X-CRM114-Status: GOOD (  12.00  )
+X-CRM114-CacheID: sfid-20260811_171325_791871_60B675C2 
+X-CRM114-Status: UNSURE (   8.16  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -117,35 +78,91 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Wen Xiong <wenxiong@linux.ibm.com>
+Hello,
 
-In __nvme_fc_init_request(), if the first DMA mapping for cmddma succeeds
-but the second DMA mapping for rspdma fails, the function returns an error
-without unmapping the first successful DMA mapping. This causes a DMA
-resource leak.
+syzbot found the following issue on:
 
-Fix this by unmapping cmddma before returning the error when rspdma
-mapping fails.
+HEAD commit:    f9a2394a2348 Merge tag 'mm-hotfixes-stable-2026-08-06-18-4..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=12e68fb9580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=e3f9a6906b632f9f
+dashboard link: https://syzkaller.appspot.com/bug?extid=18b6b27f58e98c240814
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+userspace arch: i386
 
-Signed-off-by: Wen Xiong <wenxiong@linux.ibm.com>
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-f9a2394a.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/969d729dd37f/vmlinux-f9a2394a.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/a948a2342c62/bzImage-f9a2394a.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+18b6b27f58e98c240814@syzkaller.appspotmail.com
+
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+ </TASK>
+------------[ cut here ]------------
+!PageLargeKmalloc(page)
+WARNING: mm/slub.c:6602 at free_large_kmalloc+0xbf/0x100 mm/slub.c:6602, CPU#0: syz.2.261/6867
+Modules linked in:
+CPU: 0 UID: 0 PID: 6867 Comm: syz.2.261 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+RIP: 0010:free_large_kmalloc+0xbf/0x100 mm/slub.c:6602
+Code: 28 90 0f 0b 90 80 3d e8 ab 9c 0e 00 0f 84 c7 6e b7 fe 48 8b 74 24 28 48 89 ef e8 7c 3a 0c 00 b8 00 f0 ff ff 45 31 ed eb 9d 90 <0f> 0b 90 48 83 c4 08 48 89 df 48 c7 c6 24 df 18 8e 5b 5d 41 5c 41
+RSP: 0018:ffffc9000735fa10 EFLAGS: 00010202
+RAX: 00000000000000ff RBX: ffffea00017e83c0 RCX: 000000000000002e
+RDX: 0000000000000000 RSI: ffff88805fa0ff20 RDI: ffffea00017e83c0
+RBP: ffff88805fa0ff20 R08: ffff888023ddfc00 R09: 00000000ffffffff
+R10: ffffffffffffffff R11: 0000000000000000 R12: 00000000ffffffff
+R13: 1ffff92000e6bf5b R14: dead000000000122 R15: ffff888023ddfc90
+FS:  0000000000000000(0000) GS:ffff888096bf4000(0063) knlGS:00000000f5456b40
+CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
+CR2: 0000000000000000 CR3: 0000000025d36000 CR4: 0000000000352ef0
+Call Trace:
+ <TASK>
+ nvmet_fc_alloc_ls_iodlist drivers/nvme/target/fc.c:569 [inline]
+ nvmet_fc_register_targetport+0x114c/0x1c30 drivers/nvme/target/fc.c:1411
+ fcloop_create_target_port+0x156/0x5a0 drivers/nvme/target/fcloop.c:1558
+ dev_attr_store+0x58/0x80 drivers/base/core.c:2505
+ sysfs_kf_write+0xf2/0x150 fs/sysfs/file.c:145
+ kernfs_fop_write_iter+0x3e0/0x5f0 fs/kernfs/file.c:345
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x6ac/0x1050 fs/read_write.c:687
+ ksys_write+0x12a/0x250 fs/read_write.c:739
+ do_syscall_32_irqs_on arch/x86/entry/syscall_32.c:83 [inline]
+ __do_fast_syscall_32+0xe7/0x970 arch/x86/entry/syscall_32.c:307
+ do_fast_syscall_32+0x32/0x70 arch/x86/entry/syscall_32.c:332
+ entry_SYSENTER_compat_after_hwframe+0x84/0x8e
+RIP: 0023:0xf7f96fec
+Code: Unable to access opcode bytes at 0xf7f96fc2.
+RSP: 002b:00000000f545650c EFLAGS: 00000292 ORIG_RAX: 0000000000000004
+RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 0000000080000200
+RDX: 000000000000002f RSI: 0000000000000000 RDI: 0000000000000000
+RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+ </TASK>
+
+
 ---
- drivers/nvme/host/fc.c | 2 ++
- 1 file changed, 2 insertions(+)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 68a5d971657b..7684fb053963 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2129,6 +2129,8 @@ __nvme_fc_init_request(struct nvme_fc_ctrl *ctrl,
- 	if (fc_dma_mapping_error(ctrl->lport->dev, op->fcp_req.rspdma)) {
- 		dev_err(ctrl->dev,
- 			"FCP Op failed - rspiu dma mapping failed.\n");
-+		fc_dma_unmap_single(ctrl->lport->dev, op->fcp_req.cmddma,
-+				sizeof(op->cmd_iu), DMA_TO_DEVICE);
- 		ret = -EFAULT;
- 	}
- 
--- 
-2.52.0
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
 
