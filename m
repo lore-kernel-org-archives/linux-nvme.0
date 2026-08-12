@@ -4,65 +4,93 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BA684C5AD5A
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Aug 2026 09:17:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B28A0C5CFDB
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 Aug 2026 10:55:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ON4yX+Syw+jUtr/PaTXfaOXt9C8DXWZkJkHSUgV/U1I=; b=AT/V8rOXBfsuQuY0b3TncMsSp7
-	ivR9Pf2cIITbqrlGJs/IvKxnuQ1remr65jYULyFDF82zDlxhrl5yx2qktqidYtb6MNeSDg6lYr309
-	1zNPGJIaxhMvew7TtLbN/6ch3RYYWc+V9NPKK47b2OUwTiyiJmMSP7lyIRH3Gg7tDmMyFCiJxvpVY
-	1ER63SWl5HkD1HH00sMFFWzqyJSZT2l5XcdtlqQ6bBTF1jdsfqxgS9KMlNmvGO94zIaQxkBrUA0/U
-	yN/bxMO/l/jssi+O/2yK6QAeb9sTpC3OsRAPQdRTXJPbJwRFcNcaC17uCTMduluoGMx1BdEiT4HHH
-	vnaXe/HA==;
+	bh=v1giYEEFDAdDWhpqNCDj5Oim4DUh+IAW8TxGs1lj9Po=; b=BwLg3G753p1GV79zdcX9i2Ip2t
+	uVl1znOtJy0bN5UYnxuz0Hjf0eXfbKafXhry0OVVeb+Ul4E/FHN2MvLNVFvrgTNTNBp1w9ZHkPq90
+	ak6tfrb8AZeZCZh1COL4fGmGFSQD1eqR7/6CWNZHIV4X6IL6tSYARjFxsfSMoILA7God1oLebLrRr
+	lbuEKtXk85g/3ccfuTapZYUHx/2tNr4T8DYOy7OYZxAliGBkOCGeZNSNyK0UzcYFU2Tlg+iNmgRxr
+	cMpyP5bOHvfBmUQqbAgHoppMv6exCJB2YFegLDFQoIhlamXKdCzztnPBQpmJ0PR3Vu8PaDrj2PncG
+	PGXgqfOA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wu55H-0000000Fj1e-2thR;
-	Wed, 12 Aug 2026 09:17:15 +0000
-Received: from [195.39.247.168] (helo=mail.cyberchaos.dev)
+	id 1wu6c7-0000000FyVT-2Dnq;
+	Wed, 12 Aug 2026 10:55:15 +0000
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wu55E-0000000Fizo-16nl;
-	Wed, 12 Aug 2026 09:17:13 +0000
-Message-ID: <87321252-e974-47be-8f93-2adccb0b136e@cyberchaos.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
-	s=mail; t=1786526215;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ON4yX+Syw+jUtr/PaTXfaOXt9C8DXWZkJkHSUgV/U1I=;
-	b=4D0qkhwQbpUK+GI/5Xv4UGBGxycC1R2eoVDXyp/KPpUAnNfxlwz2HOKzpH+cqBpywUyzYF
-	fcE4ROXvn9TAS+ZWGWuIylNRTghUhAfiXYbHogCxDiT8CijH1FRLyNfkhrHLBTOPNoLloy
-	NhQDA6knNs8wWPr8gtBb8keN48bZRuc=
-Date: Wed, 12 Aug 2026 11:16:51 +0200
+	id 1wu6c3-0000000FyUs-40Gp
+	for linux-nvme@lists.infradead.org;
+	Wed, 12 Aug 2026 10:55:13 +0000
+Received: by mail-pj1-x102d.google.com with SMTP id 98e67ed59e1d1-38a0c7e841fso1191095a91.2
+        for <linux-nvme@lists.infradead.org>; Wed, 12 Aug 2026 03:55:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786532111; x=1787136911; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=v1giYEEFDAdDWhpqNCDj5Oim4DUh+IAW8TxGs1lj9Po=;
+        b=rD4dfUjaoSc4bYsVFTfyE/bOv9/0Y+ibngBvs/B+HMlj58YxupLs3BEnEW+3NOerrD
+         RxP0N+8g24gb+/kTH559BuoqZAtn1npCCQY1VLaYK82dafwRbd84QqVQ/06Tlxwa98xL
+         ifofesUNYGyOD2oZzAAmdj3lg3lhGFQ961NN0ZdAKK+CRCUsecO3WYyUf7grRtWTF5HM
+         6PitEqRI9dzcUK8yqpx/oTWhxuVq6R6N1NCgrbGkVDaOvF1qz4YFsOIANTXXx6RZVhYu
+         q0g6bEqz1QN1rcAkJJcBpQ920atcc8WVTYQjgB/IGkNxq4C1i8+ikoxjbo9cILm1h2c5
+         SJKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786532111; x=1787136911;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=v1giYEEFDAdDWhpqNCDj5Oim4DUh+IAW8TxGs1lj9Po=;
+        b=pQUx1p1EHvJf8NsQ2mnDsUVQO/BBEMREuRIziq1xEBSWHFaO6m+Lbhl806LJGsZAwp
+         mx9H+kxZRacpQ/4iPLwtrQWpsOT1o6tr9hNH4qygrTX56YsevfNiXmVdqaRgGm3JA+ka
+         fu+JBPbYPrgIPIIDP0++P0FIy6GHU1o0qZUSsH4a6G8FN6tU3HDF6aDfABudm+3wYMbg
+         F5QJv4E1MXuyFGZerfSvfu6RfcMwgghMiz8gJ1Ihqm6I9pywJT1GY435cLUI4sYKOXaZ
+         ogePU3N7dVh4FsnvbXloE95OJAWFhDlOGu2mvk4ufDNTapBTVVrmOHa+JWrb1NSBY/rQ
+         S/4A==
+X-Forwarded-Encrypted: i=1; AHgh+RpdsWBWEONNMYmeLs7H0Jl1X2WwEiJL4T1TjXLgj3qRE/b5SqWMw7Jm38ZIRCargTS2VB20qwZLNl3E@lists.infradead.org
+X-Gm-Message-State: AOJu0Yx7fPjVUcDvVRBFY9jN/ycnNGW475Fuz2no+iAhGLAaAqzI/fnR
+	dBk4A1AWffdbb4W3qBfbvhplj0ooKu/BDhPOk6hvFBqSaIYm7gvLAs8X
+X-Gm-Gg: AR+sD13CwOgv5sPAonTvLexY7Wc5Q5ERH79dYxlYsBl2cWlNqaaNPGMkYE9Hxt7/nhV
+	z+Fb4pSoSnvJ7eUB6pqzrWa3FlHgHNQyvvn7Wi/bgJvpuAY3QLsW1lZV92L6/e6CwT4Ehy7Od+c
+	mv+dAM59/vxHhh8L/8r/l2XXmxTtldN0Ozaw3RxpI8lc/Hovj52O+/lrX3juiexL8kMc/nBiNb1
+	GBYZy8rgzhAEAsuFuIzAltIhR2DU2OmLvZVJjoXSqFTwan2Wv74vciKKGhWzZZAzBFsRSswjdux
+	IidgRdx1uIQlUZz8sxA1bxx/H/iItHzdrBIZO5/D0wdlqjDI1JfJmx5zirJuc9LhFZeXn6kgU3z
+	KMSnMGsLf/Ggf7ONDFu0HLZS40AGT3sVEIV6bRu6ktDeLoV6/rD8yUObQ9Gjx2wXD4MdeiF8ODP
+	oT9i/eJbXKdSUQeaqYgdmI5m4eX25khB73CkbWNTRx1K8Z6xd6CD6/uV4gytGP
+X-Received: by 2002:a17:90b:1c91:b0:38e:49c0:75a7 with SMTP id 98e67ed59e1d1-3930125aa9dmr4302769a91.8.1786532110400;
+        Wed, 12 Aug 2026 03:55:10 -0700 (PDT)
+Received: from ubuntu.. ([219.241.133.184])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-392f8cffe2csm3215244a91.10.2026.08.12.03.55.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Aug 2026 03:55:09 -0700 (PDT)
+From: Rihyeon Kim <rihyeon8648@gmail.com>
+To: kbusch@kernel.org
+Cc: hch@lst.de,
+	sagi@grimberg.me,
+	axboe@kernel.dk,
+	justin.tee@broadcom.com,
+	nareshgottumukkala83@gmail.com,
+	paul.ely@broadcom.com,
+	kch@nvidia.com,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nvme-fc: fix double free of fabrics options when nvme_add_ctrl() fails
+Date: Wed, 12 Aug 2026 19:55:04 +0900
+Message-ID: <20260812105504.53711-1-rihyeon8648@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <ans_4i0GcU2YAkKl@kbusch-mbp>
+References: <ans_4i0GcU2YAkKl@kbusch-mbp>
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/2] dt-bindings: nvme: Add apple,t8132-nvme-ans2
- compatible
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- Yureka Lilian <yureka@cyberchaos.dev>, Rob Herring <robh@kernel.org>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
- Neal Gompa <neal@gompa.dev>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
-References: <20260811-apple-nvme-t8132-v1-0-865be32e42c3@cyberchaos.dev>
- <20260811-apple-nvme-t8132-v1-1-865be32e42c3@cyberchaos.dev>
- <20260811231121.GA271810-robh@kernel.org>
- <cf6f4732-1122-4381-962d-e18b32ac178d@cyberchaos.dev>
- <1e4b3f04-7367-4651-9cdd-5c95e92e5874@kernel.org>
-Content-Language: en-US
-From: Yureka Lilian <yureka@cyberchaos.dev>
-In-Reply-To: <1e4b3f04-7367-4651-9cdd-5c95e92e5874@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260812_021712_555925_AB6C86FB 
-X-CRM114-Status: GOOD (  22.92  )
+X-CRM114-CacheID: sfid-20260812_035511_993135_2C383618 
+X-CRM114-Status: GOOD (  11.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,152 +105,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hello,
 
-On 8/12/26 10:46, Krzysztof Kozlowski wrote:
-> On 12/08/2026 10:08, Yureka Lilian wrote:
->> Thank you for the quick feedback!
->>
->> On 8/12/26 01:11, Rob Herring wrote:
->>> On Tue, Aug 11, 2026 at 10:49:47PM +0200, Yureka Lilian wrote:
->>>> Add a new base compatible for the ANS2 NVMe on the Apple t8132 (M4) SoC,
->>>> which uses a separate MMIO base for its NVMMU.
->>>>
->>>> Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
->>>> ---
->>>>    .../devicetree/bindings/nvme/apple,nvme-ans.yaml   | 77 ++++++++++++++--------
->>>>    1 file changed, 48 insertions(+), 29 deletions(-)
->>>>
->>>> diff --git a/Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml b/Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
->>>> index 4c0b1f90aff8..c8a41b268b9c 100644
->>>> --- a/Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
->>>> +++ b/Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
->>>> @@ -16,6 +16,7 @@ properties:
->>>>          - items:
->>>>              - const: apple,t6020-nvme-ans2
->>>>              - const: apple,t8103-nvme-ans2
->>>> +      - const: apple,t8132-nvme-ans2
->>>>          - items:
->>>>              - enum:
->>>>                  # Do not add additional SoC to this list.
->>>> @@ -24,16 +25,6 @@ properties:
->>>>                  - apple,t6000-nvme-ans2
->>>>              - const: apple,nvme-ans2
->>>>    
->>>> -  reg:
->>>> -    items:
->>>> -      - description: NVMe and NVMMU registers
->>>> -      - description: ANS2 co-processor control registers
->>>> -
->>>> -  reg-names:
->>>> -    items:
->>>> -      - const: nvme
->>>> -      - const: ans
->>>> -
->>> Keep properties defined at the top level. More below.
->>>
->>>>      resets:
->>>>        maxItems: 1
->>>>    
->>>> @@ -68,25 +59,53 @@ properties:
->>>>    
->>>>          The SART address filter is documented in iommu/apple,sart.yaml.
->>>>    
->>>> -if:
->>>> -  properties:
->>>> -    compatible:
->>>> -      contains:
->>>> -        enum:
->>>> -          - apple,t6000-nvme-ans2
->>>> -          - apple,t6020-nvme-ans2
->>>> -then:
->>>> -  properties:
->>>> -    power-domains:
->>>> -      minItems: 3
->>>> -    power-domain-names:
->>>> -      minItems: 3
->>>> -else:
->>>> -  properties:
->>>> -    power-domains:
->>>> -      maxItems: 2
->>>> -    power-domain-names:
->>>> -      maxItems: 2
->>>> +allOf:
->>>> +  - if:
->>>> +      properties:
->>>> +        compatible:
->>>> +          contains:
->>>> +            const: apple,t8132-nvme-ans2
->>>> +    then:
->>>> +      properties:
->>>> +        reg:
->>>> +          items:
->>>> +            - description: NVMMU registers
->>>> +            - description: NVMe registers
->>>> +            - description: ANS2 co-processor control registers
->>>> +        reg-names:
->>>> +          items:
->>>> +            - const: nvmmu
->>>> +            - const: nvme
->>>> +            - const: ans
->>> New entries go on the end.
->> Ack
->>> So nvmmu last and defined at the top level.
->> I did read the docs which said the properties should always be
->> introduced at the top-level, however I couldn't figure out how to
->> describe the intended constraints in this way.
->>> Then this is just 'minItems: 3'
->>>
->>>> +    else:
->>>> +      properties:
->>>> +        reg:
->>>> +          items:
->>>> +            - description: NVMe and NVMMU registers
->>>> +            - description: ANS2 co-processor control registers
->>>> +        reg-names:
->>>> +          items:
->>>> +            - const: nvme
->>>> +            - const: ans
->>> And 'maxItems: 2' on these 2.
->> When the three items are defined at the top-level, I can't seem to make
->> the dtbs_check work:
->>
->> [...]
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: nvme@27bcc0000
->> (apple,t8112-nvme-ans2): reg: [[2, 2076966912, 0, 262144], [2,
->> 2000683008, 0, 16384]] is too short
->>       from schema $id: http://devicetree.org/schemas/nvme/apple,nvme-ans.yaml
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: nvme@27bcc0000
->> (apple,t8112-nvme-ans2): reg-names: ['nvme', 'ans'] is too short
->>       from schema $id: http://devicetree.org/schemas/nvme/apple,nvme-ans.yaml
->> [...]
->>
->> despite this compatible falling into the "... else ... maxItems: 2" branch
->>
->> Would it be acceptable to define the reg and reg-names with just
->> minItems: 2, maxItems: 3, but without specific items or descriptions,
->> and then add the compatible-specific items and descriptions in the
->> conditional part below?
-> No, because you do workaround for your own introduced problem. If you
-> list the entries in top level in correct order, then everything will
-> work fine with Rob's answer/comment.
->
-> This is your case:
-> https://elixir.bootlin.com/linux/v6.11-rc6/source/Documentation/devicetree/bindings/ufs/samsung,exynos-ufs.yaml#L39
+Thanks for the review.
 
-I had them in the correct order (nvmmu last), but was missing the 
-minItems: 2 in the top-level. Problem solved.
+> Can't you move the setting from the "fail_ctrl:" label to the
+> "out_put_ctrl:" one instead of duplicating it for both?
 
->
-> This is not your case:
-> https://elixir.bootlin.com/linux/v6.11-rc6/source/Documentation/devicetree/bindings/ufs/qcom,ufs.yaml#L127
-> Unless you provide arguments why it is.
->
-> Best regards,
-> Krzysztof
+Yes.  I had kept both because I was not sure the put inside
+nvme_uninit_ctrl() could not be the last one, which would run
+nvme_fc_ctrl_free() before out_put_ctrl: cleared the pointer.  As far as
+I could tell nvme-tcp and nvme-rdma use the same uninit-then-put ladder,
+and testing does not show it either.
 
+I swept fail-nth 1..200 over the connect write with fcloop and failslab:
+unpatched hits the report at 17, and with the clear moved all 200 pass,
+21 of the injections landing in nvme_alloc_admin_tag_set(), so fail_ctrl:
+is covered as well.
 
-Thanks for the patience,
+It also looks like moving it drops the window where opts is already NULL
+while the fabrics sysfs attributes, which do not check it, are still
+there.
 
-- Yureka
+v2 on the way.
 
+Thanks,
+Rihyeon
 
