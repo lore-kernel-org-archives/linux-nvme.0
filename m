@@ -4,67 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B94C6C5CFDB
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Aug 2026 08:42:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1C730C5CFDB
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Aug 2026 10:08:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:From:Subject
-	:Message-ID:In-Reply-To:Date:MIME-Version:Reply-To:Cc:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-	List-Owner; bh=iaplxS5GhXCQwol88E64zD+uBbxKgP82FZ6K+TUTjrw=; b=Yt5VBmjjlgAAs9
-	Eagp4+yLRaoPil/x4A3b/fCtQc8TDm1kkr2FR99zBfTQ29wxABkEUb1jIJmLdoBWPyHgmflmE/c6+
-	TpDDE5R6F3m/a338T2RLDrUigCHuWDVZzRSqj2HXCFn1yH+nF67wfxku+5MmR/Q4Oqo+Con66NmJF
-	PDd+JABnh3T0I3fhnIV8810GfkjwFXQ+CM2qvLSQ1GnP2x98tZVje+BHBFRAd7f9tQ6vRXi1aLOOG
-	osasTI18yRt+I14pfG/Bm7uGUeWtFjXxBcZ+ZnHDj/1FXr+GXEU3WOFKvSs+oloda9nO8PLCVjB1o
-	aq1LnsvCQYwyK0fz/tnw==;
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=gnXqlixQHylh3L5CjO1pDDvJipuJC+KiyCtJ020LaBI=; b=nq6mVVIKUqRQazLwL9jhhKxGEX
+	Jsjs8AzGslkNxdzWKZlfgSQvI48PD8Lk4/Ivgxaeyu7p9ptPT7K4juHhNku86DixfmaPC9VFlhS1x
+	5dKO7+2OfdCcOC4beze0RYKcck56FNVtID1NkVdpk/+aXjyGu8KfjhxXenIFs1+8pkq+vhOcExuSn
+	abzPa6D6Txc5BmMArytMSQT4YZn6IZxAw1RxbBspGR3Nuni0IUKV5EV93njWnyk3iSZ1uShSLhGxv
+	vB5hg0zDxzfqrFnKHBOGJhbVuL2ilmRce0r5fIDZZmQn9VHyKWytGC7butWWf0S49Ivz7L9Z0coGi
+	TBf14iWQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wuR1O-00000000C3G-0jhO;
-	Thu, 13 Aug 2026 08:42:42 +0000
-Received: from mail-ot1-f72.google.com ([209.85.210.72])
+	id 1wuSLz-00000000QMQ-3Zyr;
+	Thu, 13 Aug 2026 10:08:03 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wuR1L-00000000C2R-2vlq
+	id 1wuSLy-00000000QMG-0bnX
 	for linux-nvme@lists.infradead.org;
-	Thu, 13 Aug 2026 08:42:41 +0000
-Received: by mail-ot1-f72.google.com with SMTP id 46e09a7af769-7f36427abfdso814504a34.3
-        for <linux-nvme@lists.infradead.org>; Thu, 13 Aug 2026 01:42:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786610558; x=1787215358;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=iaplxS5GhXCQwol88E64zD+uBbxKgP82FZ6K+TUTjrw=;
-        b=YzIRXyIAnSu67n6VFvshrndS27oWMhTvijhZJlnmO0Uo840vthULYzabPMcX2fYBf5
-         coyMQYHevkliVwH4BFQ14Ho6Io8auj/LAJOWeRu0Ch3ocVTBDqCIyjWc5NzZ67rgfdZn
-         vICc3vBtkyVM4ddWt1xzEsZ9gZeN+7FkT+dNNap5GMRPnOaJ3UhBeQaqqhMJY+FHLyP0
-         iETN5rKsWf0sP4QbsIwXqutAFe1J9w7auN5vu8lxNFL/64vNNoN5wKmTDqO8nP7bcW0e
-         t25k9ZD0QJ69l3ZTAcX7TK7zOg3X6PB8NSWBfyTr6Mh1NcPx7EAQCYSbcXzf5w2jeazc
-         /lkw==
-X-Forwarded-Encrypted: i=1; AHgh+RrGjRvvsoC8PMRvOGxwihf4nEb8TjzaUQmA1Wi7vG1Ud+l286cvikyqjZ0pH3N1+DpeVns+3mosruok@lists.infradead.org
-X-Gm-Message-State: AOJu0Ywt8DU/a13Qp9UBTbG1l6625ERDY5EP4prBuURYb/OnE3fYBQRZ
-	LlqRjemnOqtDOzSQ+YQ5jJhE9GsJJSTC2EuQV0i0dkwn9vDbH0vlXFxwFq9HZMyh+r/eGVm/Lv3
-	Nf1oSMW5PeIa31rdqMi7hs+eYSYAH5/jgHDcBdvTrH1X7UGHjm3wWcI3gpYk=
+	Thu, 13 Aug 2026 10:08:02 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id 52BAC600AF;
+	Thu, 13 Aug 2026 10:08:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA39B1F000E9;
+	Thu, 13 Aug 2026 10:07:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786615681;
+	bh=gnXqlixQHylh3L5CjO1pDDvJipuJC+KiyCtJ020LaBI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=E0KcB2z+/WRc2Lhls1F1Vl+JeDNo+jJDfimdiVK/eMqHYl63wihH9mS16+4QjPWra
+	 XhcGQzYH1ZpLYvSEtPf7tlRz5F3tXMbLs3w6DwnLdQIiEpfm9MyXFFIqMY13jBx9pD
+	 220z1VwdjMrPTxuR6Pbi3ZXW3OI6WDcD4zUIO4B+XwdyIBmnO627jCXbuZmAo60Yrz
+	 xApWdEDBmRXTvcUYMm4N+kRYuMyURl6ZyjhcJl+z4E3Mp+JXxP/lho2Ujdvzkg9rM2
+	 pGDFz7NjDaBqOy1rvZmEN5q4tbhX9k9mKiUn+ge6e2ZOfuYRHcScjnjhzSe4KgdzFr
+	 qYP6xYLIzcXlA==
+Date: Thu, 13 Aug 2026 13:07:53 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Casey Chen <cachen@purestorage.com>
+Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, hch@lst.de,
+	sagi@grimberg.me, axboe@kernel.dk, linux-rdma@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nvme-rdma: fix ib_device removal race that hangs PCI
+ unbind
+Message-ID: <20260813100753.GA79153@unreal>
+References: <20260806211822.317074-1-cachen@purestorage.com>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:995:b0:6ae:4d93:cdc2 with SMTP id
- 006d021491bc7-6b0c41b84f0mr4239106eaf.5.1786610557670; Thu, 13 Aug 2026
- 01:42:37 -0700 (PDT)
-Date: Thu, 13 Aug 2026 01:42:37 -0700
-In-Reply-To: <6a7bbaa4.a2bb2777.31c27d.000b.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a7d837d.c5ad36c8.12f49d.002c.GAE@google.com>
-Subject: Re: [syzbot] [nvme?] WARNING in nvmet_fc_register_targetport
-From: syzbot <syzbot+18b6b27f58e98c240814@syzkaller.appspotmail.com>
-To: cassel@kernel.org, hch@lst.de, justin.tee@broadcom.com, kch@nvidia.com, 
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	nareshgottumukkala83@gmail.com, paul.ely@broadcom.com, sagi@grimberg.me, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260813_014239_740479_EE74878D 
-X-CRM114-Status: UNSURE (   8.61  )
-X-CRM114-Notice: Please train this message.
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260806211822.317074-1-cachen@purestorage.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,66 +70,152 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-syzbot has found a reproducer for the following issue on:
+On Thu, Aug 06, 2026 at 03:18:22PM -0600, Casey Chen wrote:
+> nvme_rdma_remove_one() samples nvme_rdma_ctrl_list once, then blocks in
+> flush_workqueue(nvme_delete_wq). A connect can publish a controller on
+> the same ib_device during that window: nvme_rdma_find_get_device()
+> matches on node GUID in nvme_rdma's private device_list and never
+> consults ib_core unregistration state. Such a controller is never
+> deleted, so its rdma_cm_ids keep a reference on the cma_device.
+> 
+> ib_clients are removed LIFO, so nvme_rdma_remove_one() runs before
+> cma_remove_one(), which then waits for that reference forever. Removing
+> the RDMA interface underneath live NVMe-oF connections:
+> 
+>   echo 1 | sudo tee /sys/bus/pci/devices/0000:2a:00.1/remove
+> 
+> wedges the unbind permanently:
+> 
+>   INFO: task tee:164872 blocked for more than 200 seconds.
+>   task:tee             state:D stack:0     pid:164872 ppid:164870 flags:0x00004002
+>   Call Trace:
+>    <TASK>
+>    __schedule+0x4b4/0xf90
+>    schedule+0x5a/0xc0
+>    schedule_timeout+0x105/0x110
+>    ? cma_process_remove+0x1f9/0x240 [rdma_cm]
+>    __wait_for_common+0xc7/0x1f0
+>    ? usleep_range_state+0xb0/0xb0
+>    cma_remove_one+0x50/0xb0 [rdma_cm]
+>    remove_client_context+0x88/0xc0 [ib_core]
+>    disable_device+0x8a/0x160 [ib_core]
+>    __ib_unregister_device+0x42/0xa0 [ib_core]
+>    ib_unregister_device+0x22/0x30 [ib_core]
+>    mlx5r_remove+0x39/0x60 [mlx5_ib]
+>    auxiliary_bus_remove+0x18/0x30
+>    device_release_driver_internal+0x18f/0x1f0
+>    bus_remove_device+0xbc/0x120
+>    device_del+0x154/0x3d0
+>    ? devl_param_driverinit_value_get+0x29/0x90
+>    mlx5_rescan_drivers_locked.part.0+0x78/0x1c0 [mlx5_core]
+>    mlx5_unregister_device+0x34/0x50 [mlx5_core]
+>    mlx5_uninit_one+0x45/0x110 [mlx5_core]
+>    remove_one+0x4e/0xc0 [mlx5_core]
+>    pci_device_remove+0x39/0xa0
+>    device_release_driver_internal+0x18f/0x1f0
+>    pci_stop_bus_device+0x68/0x90
+>    pci_stop_and_remove_bus_device_locked+0x28/0x40
+>    remove_store+0x75/0x90
+>    kernfs_fop_write_iter+0x147/0x1d0
+>    vfs_write+0x2af/0x410
+>    ksys_write+0x5f/0xe0
+>    do_syscall_64+0x35/0x80
+>    entry_SYSCALL_64_after_hwframe+0x4b/0xb5
+>    </TASK>
+> 
+> Because the unbind stalls mid-teardown the netdev is never unregistered,
+> so userspace keeps reconnecting over the interface and loses the race
+> again.
+> 
+> Mark the nvme_rdma_device dying before sampling nvme_rdma_ctrl_list and
+> test it in two places:
+> 
+>  - nvme_rdma_find_get_device() refuses a dying device, so later connects
+>    fail early. A re-probed HCA (same GUID, new ib_device) gets a fresh
+>    nvme_rdma_device.
+> 
+>  - nvme_rdma_create_ctrl() re-tests it under nvme_rdma_ctrl_mutex before
+>    publishing and deletes the controller instead if set, covering a
+>    connect that obtained the device before the flag was stored.
+> 
+> ->dying is stored before nvme_rdma_remove_one() takes
+> nvme_rdma_ctrl_mutex and the publisher tests it under that same mutex,
+> so a publisher either lands on the list before the walk or observes
+> ->dying. One sweep remains sufficient.
+> 
+> Reproduced on a 6.6 based kernel by removing and rescanning the mlx5
+> interface carrying the NVMe-oF RDMA connections in a loop, with IO
+> running and a userspace daemon reconnecting the controllers throughout.
+> The hang is racy: most removals complete normally, and only one that
+> lands while a connect is in flight leaves the sysfs write stuck in D
+> state with the trace above. With this patch the loop ran clean: removals
+> complete and the controllers reconnect after the following PCI rescan.
+> 
+> Fixes: e87a911fed07 ("nvme-rdma: use ib_client API to detect device removal")
+> Signed-off-by: Casey Chen <cachen@purestorage.com>
+> ---
+>  drivers/nvme/host/core.c |  1 +
+>  drivers/nvme/host/rdma.c | 49 +++++++++++++++++++++++++++++++++++++++-
+>  2 files changed, 49 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index cb93ada4376a..374968145f56 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -277,6 +277,7 @@ void nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl)
+>  		nvme_do_delete_ctrl(ctrl);
+>  	nvme_put_ctrl(ctrl);
+>  }
+> +EXPORT_SYMBOL_GPL(nvme_delete_ctrl_sync);
+>  
+>  static blk_status_t nvme_error_status(u16 status)
+>  {
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 01743ae01466..b3ea54280e50 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -53,6 +53,8 @@ struct nvme_rdma_device {
+>  	struct list_head	entry
+>  		__guarded_by(&device_list_mutex);
+>  	unsigned int		num_inline_segments;
+> +	/* set under device_list_mutex when removal starts */
+> +	bool			dying;
+>  };
+>  
+>  struct nvme_rdma_qe {
+> @@ -378,6 +380,18 @@ nvme_rdma_find_get_device(struct rdma_cm_id *cm_id)
+>  
+>  	mutex_lock(&device_list_mutex);
+>  	list_for_each_entry(ndev, &device_list, entry) {
+> +		if (READ_ONCE(ndev->dying)) {
+> +			/*
+> +			 * Removal has already sampled nvme_rdma_ctrl_list, so
+> +			 * a controller created here would never be deleted.
+> +			 * A re-probed device with the same node GUID is a
+> +			 * distinct ib_device and gets a fresh
+> +			 * nvme_rdma_device below.
+> +			 */
+> +			if (ndev->dev == cm_id->device)
+> +				goto out_err;
+> +			continue;
+> +		}
+>  		if (ndev->dev->node_guid == cm_id->device->node_guid &&
+>  		    nvme_rdma_dev_get(ndev))
+>  			goto out_unlock;
+> @@ -2378,6 +2392,24 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
+>  		nvmf_ctrl_subsysnqn(&ctrl->ctrl), &ctrl->addr, opts->host->nqn);
+>  
+>  	mutex_lock(&nvme_rdma_ctrl_mutex);
+> +	if (READ_ONCE(ctrl->device->dying)) {
 
-HEAD commit:    3d6d817622b0 Merge tag 'scsi-fixes' of git://git.kernel.or..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=1119f479580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=c44651ea7dd2f307
-dashboard link: https://syzkaller.appspot.com/bug?extid=18b6b27f58e98c240814
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=174e8ac6580000
+"The write to ->dying is protected by &device_list_mutex, whereas
+this path relies on &nvme_rdma_ctrl_mutex.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+18b6b27f58e98c240814@syzkaller.appspotmail.com
+I did not look closely enough to suggest a complete fix for this
+function, but for the removal path it would be better to remove the
+dying IB device from the device list and move it to a local removal
+list. That would eliminate the need for ->dying, at least in this
+path.
 
-R10: 0000000000000000 R11: 0000000000000202 R12: 0000000000000003
-R13: 00007fe0eeb9c063 R14: 00007fe0eebc6cc0 R15: 0000000000000002
- </TASK>
-------------[ cut here ]------------
-!PageLargeKmalloc(page)
-WARNING: mm/slub.c:6602 at free_large_kmalloc+0xbf/0x100 mm/slub.c:6602, CPU#2: syz-executor838/6035
-Modules linked in:
-CPU: 2 UID: 0 PID: 6035 Comm: syz-executor838 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-RIP: 0010:free_large_kmalloc+0xbf/0x100 mm/slub.c:6602
-Code: 28 90 0f 0b 90 80 3d f7 c8 9a 0e 00 0f 84 87 b4 b5 fe 48 8b 74 24 28 48 89 ef e8 8c 3b 0c 00 b8 00 f0 ff ff 45 31 ed eb 9d 90 <0f> 0b 90 48 83 c4 08 48 89 df 48 c7 c6 53 4d 19 8e 5b 5d 41 5c 41
-RSP: 0018:ffffc9000347fa28 EFLAGS: 00010202
-RAX: 00000000000000ff RBX: ffffea00016377c0 RCX: 000000000000002e
-RDX: 0000000000000000 RSI: ffff888058ddff20 RDI: ffffea00016377c0
-RBP: ffff888058ddff20 R08: ffff888052911000 R09: 00000000ffffffff
-R10: ffffffffffffffff R11: 0000000000000000 R12: 00000000ffffffff
-R13: 1ffff9200068ff5e R14: dead000000000122 R15: ffff888058ddff30
-FS:  000055557f333400(0000) GS:ffff8880d5fec000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 000055557f335768 CR3: 0000000058747000 CR4: 0000000000352ef0
-Call Trace:
- <TASK>
- nvmet_fc_alloc_ls_iodlist drivers/nvme/target/fc.c:569 [inline]
- nvmet_fc_register_targetport+0x114c/0x1c30 drivers/nvme/target/fc.c:1411
- fcloop_create_target_port+0x156/0x5a0 drivers/nvme/target/fcloop.c:1558
- dev_attr_store+0x58/0x80 drivers/base/core.c:2505
- sysfs_kf_write+0xf2/0x150 fs/sysfs/file.c:145
- kernfs_fop_write_iter+0x3e0/0x5f0 fs/kernfs/file.c:345
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x6ac/0x1050 fs/read_write.c:687
- ksys_write+0x12a/0x250 fs/read_write.c:739
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fe0eeb63277
-Code: 48 89 fa 4c 89 df e8 98 1d 00 00 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 1a 5b c3 0f 1f 84 00 00 00 00 00 48 8b 44 24 10 0f 05 <5b> c3 0f 1f 80 00 00 00 00 83 e2 39 83 fa 08 75 de e8 23 ff ff ff
-RSP: 002b:00007fffdd23d920 EFLAGS: 00000202 ORIG_RAX: 0000000000000001
-RAX: ffffffffffffffda RBX: 000055557f333400 RCX: 00007fe0eeb63277
-RDX: 000000000000002f RSI: 00007fffdd23d970 RDI: 0000000000000003
-RBP: 00007fffdd23d970 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000202 R12: 0000000000000003
-R13: 00007fe0eeb9c063 R14: 00007fe0eebc6cc0 R15: 0000000000000002
- </TASK>
-
-
----
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+Thanks
 
