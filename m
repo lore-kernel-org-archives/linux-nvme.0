@@ -4,58 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1C730C5CFDB
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Aug 2026 10:08:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6CC5BC5CFEB
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Aug 2026 13:19:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gnXqlixQHylh3L5CjO1pDDvJipuJC+KiyCtJ020LaBI=; b=nq6mVVIKUqRQazLwL9jhhKxGEX
-	Jsjs8AzGslkNxdzWKZlfgSQvI48PD8Lk4/Ivgxaeyu7p9ptPT7K4juHhNku86DixfmaPC9VFlhS1x
-	5dKO7+2OfdCcOC4beze0RYKcck56FNVtID1NkVdpk/+aXjyGu8KfjhxXenIFs1+8pkq+vhOcExuSn
-	abzPa6D6Txc5BmMArytMSQT4YZn6IZxAw1RxbBspGR3Nuni0IUKV5EV93njWnyk3iSZ1uShSLhGxv
-	vB5hg0zDxzfqrFnKHBOGJhbVuL2ilmRce0r5fIDZZmQn9VHyKWytGC7butWWf0S49Ivz7L9Z0coGi
-	TBf14iWQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=0MyroQKa4OYjjtJkWeboPxN+7S9aSxzC1Bl91HDV7zQ=; b=VFjyChnVeb6zhO77WRqr2HpG7/
+	RKriRqfL1/+taTekuBlvz/R1DnGSmkd3z79HzLOIdF/R8qLwet6Z0CurSbYq1gDgLpoH/2pNdvkDv
+	YLRdQx8v2wnIj6voAMDoB11aD4fF2sc6/ZDiNWq+qx5EW7ZfG1blBzOwRNSz+1kTOHujgQkNj6cQ2
+	mgw2E1tYTO4/kUdRY6MoUje/yJasCEHfBBbdR5gaL3bKEB6LBT4Clk33XFE75acNO5UuLoZMsp/+i
+	+OSRAlvrZ9iXzb3TtvnhI4b3xaOzt0zrPuamAVQow+dpwzIoR/BVgL4zf2vlaw3fHvPPJB4pje3fi
+	+jDjduBA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wuSLz-00000000QMQ-3Zyr;
-	Thu, 13 Aug 2026 10:08:03 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1wuVKs-00000000jBH-1bsp;
+	Thu, 13 Aug 2026 13:19:06 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wuSLy-00000000QMG-0bnX
+	id 1wuVKq-00000000jAo-0O65
 	for linux-nvme@lists.infradead.org;
-	Thu, 13 Aug 2026 10:08:02 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 52BAC600AF;
-	Thu, 13 Aug 2026 10:08:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA39B1F000E9;
-	Thu, 13 Aug 2026 10:07:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786615681;
-	bh=gnXqlixQHylh3L5CjO1pDDvJipuJC+KiyCtJ020LaBI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=E0KcB2z+/WRc2Lhls1F1Vl+JeDNo+jJDfimdiVK/eMqHYl63wihH9mS16+4QjPWra
-	 XhcGQzYH1ZpLYvSEtPf7tlRz5F3tXMbLs3w6DwnLdQIiEpfm9MyXFFIqMY13jBx9pD
-	 220z1VwdjMrPTxuR6Pbi3ZXW3OI6WDcD4zUIO4B+XwdyIBmnO627jCXbuZmAo60Yrz
-	 xApWdEDBmRXTvcUYMm4N+kRYuMyURl6ZyjhcJl+z4E3Mp+JXxP/lho2Ujdvzkg9rM2
-	 pGDFz7NjDaBqOy1rvZmEN5q4tbhX9k9mKiUn+ge6e2ZOfuYRHcScjnjhzSe4KgdzFr
-	 qYP6xYLIzcXlA==
-Date: Thu, 13 Aug 2026 13:07:53 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Casey Chen <cachen@purestorage.com>
-Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, hch@lst.de,
-	sagi@grimberg.me, axboe@kernel.dk, linux-rdma@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] nvme-rdma: fix ib_device removal race that hangs PCI
- unbind
-Message-ID: <20260813100753.GA79153@unreal>
-References: <20260806211822.317074-1-cachen@purestorage.com>
+	Thu, 13 Aug 2026 13:19:05 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1786627142;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=0MyroQKa4OYjjtJkWeboPxN+7S9aSxzC1Bl91HDV7zQ=;
+	b=OWq/edMIqkAa+W0NsMT02t8Ct42qs1elsZq3j0VLIRPXbVwJWSr6JB0vqth9GRwQeodS5Q
+	5tYMMwf+4tUwETPtEW9n/uO54Vdshd2yrPBMn9PtNbng8ULPeweCOOy3CF4Mo4GbdnrG2c
+	gHnNWr/bnI2Ju9MBKc5OGaVF6uXfrH4=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-524-6g1-KIWLNb-GRv7scrkamg-1; Thu,
+ 13 Aug 2026 09:18:56 -0400
+X-MC-Unique: 6g1-KIWLNb-GRv7scrkamg-1
+X-Mimecast-MFC-AGG-ID: 6g1-KIWLNb-GRv7scrkamg_1786627134
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3115119560B4;
+	Thu, 13 Aug 2026 13:18:54 +0000 (UTC)
+Received: from mlombard-thinkpadt14gen4.redhat.corp (headnet03.pony-001.prod.iad2.dc.redhat.com [10.2.32.114])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id E749618005BC;
+	Thu, 13 Aug 2026 13:18:51 +0000 (UTC)
+From: Maurizio Lombardi <mlombard@redhat.com>
+To: kbusch@kernel.org
+Cc: hare@suse.de,
+	hch@lst.de,
+	dwagner@suse.de,
+	linux-nvme@lists.infradead.org,
+	mlombard@arkamax.eu
+Subject: [PATCH V2] nvmet: fix max_qid race between configfs and controller allocation
+Date: Thu, 13 Aug 2026 15:18:50 +0200
+Message-ID: <20260813131850.79899-1-mlombard@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260806211822.317074-1-cachen@purestorage.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: xNEcWjViBmVh6mk-uTlcMVgxAKytGq4e1EoQw334Q-U_1786627134
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260813_061904_235547_23B39DFA 
+X-CRM114-Status: GOOD (  19.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,152 +86,243 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Aug 06, 2026 at 03:18:22PM -0600, Casey Chen wrote:
-> nvme_rdma_remove_one() samples nvme_rdma_ctrl_list once, then blocks in
-> flush_workqueue(nvme_delete_wq). A connect can publish a controller on
-> the same ib_device during that window: nvme_rdma_find_get_device()
-> matches on node GUID in nvme_rdma's private device_list and never
-> consults ib_core unregistration state. Such a controller is never
-> deleted, so its rdma_cm_ids keep a reference on the cma_device.
-> 
-> ib_clients are removed LIFO, so nvme_rdma_remove_one() runs before
-> cma_remove_one(), which then waits for that reference forever. Removing
-> the RDMA interface underneath live NVMe-oF connections:
-> 
->   echo 1 | sudo tee /sys/bus/pci/devices/0000:2a:00.1/remove
-> 
-> wedges the unbind permanently:
-> 
->   INFO: task tee:164872 blocked for more than 200 seconds.
->   task:tee             state:D stack:0     pid:164872 ppid:164870 flags:0x00004002
->   Call Trace:
->    <TASK>
->    __schedule+0x4b4/0xf90
->    schedule+0x5a/0xc0
->    schedule_timeout+0x105/0x110
->    ? cma_process_remove+0x1f9/0x240 [rdma_cm]
->    __wait_for_common+0xc7/0x1f0
->    ? usleep_range_state+0xb0/0xb0
->    cma_remove_one+0x50/0xb0 [rdma_cm]
->    remove_client_context+0x88/0xc0 [ib_core]
->    disable_device+0x8a/0x160 [ib_core]
->    __ib_unregister_device+0x42/0xa0 [ib_core]
->    ib_unregister_device+0x22/0x30 [ib_core]
->    mlx5r_remove+0x39/0x60 [mlx5_ib]
->    auxiliary_bus_remove+0x18/0x30
->    device_release_driver_internal+0x18f/0x1f0
->    bus_remove_device+0xbc/0x120
->    device_del+0x154/0x3d0
->    ? devl_param_driverinit_value_get+0x29/0x90
->    mlx5_rescan_drivers_locked.part.0+0x78/0x1c0 [mlx5_core]
->    mlx5_unregister_device+0x34/0x50 [mlx5_core]
->    mlx5_uninit_one+0x45/0x110 [mlx5_core]
->    remove_one+0x4e/0xc0 [mlx5_core]
->    pci_device_remove+0x39/0xa0
->    device_release_driver_internal+0x18f/0x1f0
->    pci_stop_bus_device+0x68/0x90
->    pci_stop_and_remove_bus_device_locked+0x28/0x40
->    remove_store+0x75/0x90
->    kernfs_fop_write_iter+0x147/0x1d0
->    vfs_write+0x2af/0x410
->    ksys_write+0x5f/0xe0
->    do_syscall_64+0x35/0x80
->    entry_SYSCALL_64_after_hwframe+0x4b/0xb5
->    </TASK>
-> 
-> Because the unbind stalls mid-teardown the netdev is never unregistered,
-> so userspace keeps reconnecting over the interface and loses the race
-> again.
-> 
-> Mark the nvme_rdma_device dying before sampling nvme_rdma_ctrl_list and
-> test it in two places:
-> 
->  - nvme_rdma_find_get_device() refuses a dying device, so later connects
->    fail early. A re-probed HCA (same GUID, new ib_device) gets a fresh
->    nvme_rdma_device.
-> 
->  - nvme_rdma_create_ctrl() re-tests it under nvme_rdma_ctrl_mutex before
->    publishing and deletes the controller instead if set, covering a
->    connect that obtained the device before the flag was stored.
-> 
-> ->dying is stored before nvme_rdma_remove_one() takes
-> nvme_rdma_ctrl_mutex and the publisher tests it under that same mutex,
-> so a publisher either lands on the list before the walk or observes
-> ->dying. One sweep remains sufficient.
-> 
-> Reproduced on a 6.6 based kernel by removing and rescanning the mlx5
-> interface carrying the NVMe-oF RDMA connections in a loop, with IO
-> running and a userspace daemon reconnecting the controllers throughout.
-> The hang is racy: most removals complete normally, and only one that
-> lands while a connect is in flight leaves the sysfs write stuck in D
-> state with the trace above. With this patch the loop ran clean: removals
-> complete and the controllers reconnect after the following PCI rescan.
-> 
-> Fixes: e87a911fed07 ("nvme-rdma: use ib_client API to detect device removal")
-> Signed-off-by: Casey Chen <cachen@purestorage.com>
-> ---
->  drivers/nvme/host/core.c |  1 +
->  drivers/nvme/host/rdma.c | 49 +++++++++++++++++++++++++++++++++++++++-
->  2 files changed, 49 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index cb93ada4376a..374968145f56 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -277,6 +277,7 @@ void nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl)
->  		nvme_do_delete_ctrl(ctrl);
->  	nvme_put_ctrl(ctrl);
->  }
-> +EXPORT_SYMBOL_GPL(nvme_delete_ctrl_sync);
->  
->  static blk_status_t nvme_error_status(u16 status)
->  {
-> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index 01743ae01466..b3ea54280e50 100644
-> --- a/drivers/nvme/host/rdma.c
-> +++ b/drivers/nvme/host/rdma.c
-> @@ -53,6 +53,8 @@ struct nvme_rdma_device {
->  	struct list_head	entry
->  		__guarded_by(&device_list_mutex);
->  	unsigned int		num_inline_segments;
-> +	/* set under device_list_mutex when removal starts */
-> +	bool			dying;
->  };
->  
->  struct nvme_rdma_qe {
-> @@ -378,6 +380,18 @@ nvme_rdma_find_get_device(struct rdma_cm_id *cm_id)
->  
->  	mutex_lock(&device_list_mutex);
->  	list_for_each_entry(ndev, &device_list, entry) {
-> +		if (READ_ONCE(ndev->dying)) {
-> +			/*
-> +			 * Removal has already sampled nvme_rdma_ctrl_list, so
-> +			 * a controller created here would never be deleted.
-> +			 * A re-probed device with the same node GUID is a
-> +			 * distinct ib_device and gets a fresh
-> +			 * nvme_rdma_device below.
-> +			 */
-> +			if (ndev->dev == cm_id->device)
-> +				goto out_err;
-> +			continue;
-> +		}
->  		if (ndev->dev->node_guid == cm_id->device->node_guid &&
->  		    nvme_rdma_dev_get(ndev))
->  			goto out_unlock;
-> @@ -2378,6 +2392,24 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
->  		nvmf_ctrl_subsysnqn(&ctrl->ctrl), &ctrl->addr, opts->host->nqn);
->  
->  	mutex_lock(&nvme_rdma_ctrl_mutex);
-> +	if (READ_ONCE(ctrl->device->dying)) {
+The function nvmet_subsys_attr_qid_max_store() can race against
+nvmet_alloc_ctrl() when a subsystem's max_qid limit is modified.
 
-"The write to ->dying is protected by &device_list_mutex, whereas
-this path relies on &nvme_rdma_ctrl_mutex.
+Suppose max_qid is currently 64. If nvmet_alloc_ctrl() executes:
+ctrl->sqs = kzalloc_objs(struct nvmet_sq *, subsys->max_qid + 1);
+and at this exact point, a userspace process changes max_qid to 128,
+nvmet_subsys_attr_qid_max_store() will set the new max_qid value. It
+attempts to delete active controllers to force a reconnect, but the
+new controller won't be deleted because it hasn't been added to the
+subsys->ctrls list yet.
 
-I did not look closely enough to suggest a complete fix for this
-function, but for the removal path it would be better to remove the
-dying IB device from the device list and move it to a local removal
-list. That would eliminate the need for ->dying, at least in this
-path.
+nvmet_alloc_ctrl() then proceeds and adds the new controller to the
+subsys->ctrls list. Later, when nvmet_install_queue() is called, it
+will see max_qid set to 128, but the memory allocated for sqs is only
+sized for 64 entries. This results in a KASAN out-of-bounds warning
+and potential memory corruptions.
 
-Thanks
+Fix this by protecting the queue allocations and list insertion in
+nvmet_alloc_ctrl() with down_read(&nvmet_config_sem). Because
+nvmet_subsys_attr_qid_max_store() acquires down_write(&nvmet_config_sem)
+to modify the attribute, this safely prevents the configfs writer from
+modifying max_qid during controller creation.
+
+Copy the max_qid from the subsystem to the controller's structure
+during the allocation; ctrl->max_qid never changes as long as the
+controller remains in LIVE state, so this will prevent similar race
+conditions.
+
+Fixes: 3e980f5995e0 ("nvmet: expose max queues to configfs")
+Reported-by: syzbot+2626e846cd2585c9aa67@syzkaller.appspotmail.com
+Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
+---
+
+V2: copy the max_qid from the subsys's structure to controller's structure
+
+ drivers/nvme/target/admin-cmd.c   |  8 ++---
+ drivers/nvme/target/core.c        | 49 +++++++++++++++++--------------
+ drivers/nvme/target/fabrics-cmd.c |  2 +-
+ drivers/nvme/target/nvmet.h       |  6 ++++
+ drivers/nvme/target/pci-epf.c     |  2 +-
+ 5 files changed, 39 insertions(+), 28 deletions(-)
+
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 01b799e92ae6..d1176b45e8f2 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -1335,7 +1335,7 @@ static u16 nvmet_set_feat_arbitration(struct nvmet_req *req)
+ 
+ void nvmet_execute_set_features(struct nvmet_req *req)
+ {
+-	struct nvmet_subsys *subsys = nvmet_req_subsys(req);
++	struct nvmet_ctrl *ctrl = nvmet_req_ctrl(req);
+ 	u32 cdw10 = le32_to_cpu(req->cmd->common.cdw10);
+ 	u32 cdw11 = le32_to_cpu(req->cmd->common.cdw11);
+ 	u16 status = 0;
+@@ -1357,7 +1357,7 @@ void nvmet_execute_set_features(struct nvmet_req *req)
+ 			break;
+ 		}
+ 		nvmet_set_result(req,
+-			(subsys->max_qid - 1) | ((subsys->max_qid - 1) << 16));
++			(ctrl->max_qid - 1) | ((ctrl->max_qid - 1) << 16));
+ 		break;
+ 	case NVME_FEAT_IRQ_COALESCE:
+ 		status = nvmet_set_feat_irq_coalesce(req);
+@@ -1494,7 +1494,7 @@ void nvmet_get_feat_async_event(struct nvmet_req *req)
+ 
+ void nvmet_execute_get_features(struct nvmet_req *req)
+ {
+-	struct nvmet_subsys *subsys = nvmet_req_subsys(req);
++	struct nvmet_ctrl *ctrl = nvmet_req_ctrl(req);
+ 	u32 cdw10 = le32_to_cpu(req->cmd->common.cdw10);
+ 	u16 status = 0;
+ 
+@@ -1534,7 +1534,7 @@ void nvmet_execute_get_features(struct nvmet_req *req)
+ 		break;
+ 	case NVME_FEAT_NUM_QUEUES:
+ 		nvmet_set_result(req,
+-			(subsys->max_qid-1) | ((subsys->max_qid-1) << 16));
++			(ctrl->max_qid-1) | ((ctrl->max_qid-1) << 16));
+ 		break;
+ 	case NVME_FEAT_KATO:
+ 		nvmet_get_feat_kato(req);
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 4477c4d6b1ee..357848c8d6c1 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -875,7 +875,7 @@ u16 nvmet_check_cqid(struct nvmet_ctrl *ctrl, u16 cqid, bool create)
+ 	if (!ctrl->cqs)
+ 		return NVME_SC_INTERNAL | NVME_STATUS_DNR;
+ 
+-	if (cqid > ctrl->subsys->max_qid)
++	if (cqid > ctrl->max_qid)
+ 		return NVME_SC_QID_INVALID | NVME_STATUS_DNR;
+ 
+ 	if ((create && ctrl->cqs[cqid]) || (!create && !ctrl->cqs[cqid]))
+@@ -923,7 +923,7 @@ u16 nvmet_check_sqid(struct nvmet_ctrl *ctrl, u16 sqid,
+ 	if (!ctrl->sqs)
+ 		return NVME_SC_INTERNAL | NVME_STATUS_DNR;
+ 
+-	if (sqid > ctrl->subsys->max_qid)
++	if (sqid > ctrl->max_qid)
+ 		return NVME_SC_QID_INVALID | NVME_STATUS_DNR;
+ 
+ 	if ((create && ctrl->sqs[sqid]) ||
+@@ -1652,11 +1652,29 @@ struct nvmet_ctrl *nvmet_alloc_ctrl(struct nvmet_alloc_ctrl_args *args)
+ 	if (!ctrl->changed_ns_list)
+ 		goto out_free_ctrl;
+ 
+-	ctrl->sqs = kzalloc_objs(struct nvmet_sq *, subsys->max_qid + 1);
++	/*
++	 * Discovery controllers may use some arbitrary high value
++	 * in order to cleanup stale discovery sessions
++	 */
++	if (nvmet_is_disc_subsys(ctrl->subsys) && !kato)
++		kato = NVMET_DISC_KATO_MS;
++
++	/* keep-alive timeout in seconds */
++	ctrl->kato = DIV_ROUND_UP(kato, 1000);
++
++	ctrl->err_counter = 0;
++	spin_lock_init(&ctrl->error_lock);
++
++	down_read(&nvmet_config_sem);
++	mutex_lock(&subsys->lock);
++
++	ctrl->max_qid = subsys->max_qid;
++
++	ctrl->sqs = kzalloc_objs(struct nvmet_sq *, ctrl->max_qid + 1);
+ 	if (!ctrl->sqs)
+ 		goto out_free_changed_ns_list;
+ 
+-	ctrl->cqs = kzalloc_objs(struct nvmet_cq *, subsys->max_qid + 1);
++	ctrl->cqs = kzalloc_objs(struct nvmet_cq *, ctrl->max_qid + 1);
+ 	if (!ctrl->cqs)
+ 		goto out_free_sqs;
+ 
+@@ -1669,22 +1687,6 @@ struct nvmet_ctrl *nvmet_alloc_ctrl(struct nvmet_alloc_ctrl_args *args)
+ 	}
+ 	ctrl->cntlid = ret;
+ 
+-	/*
+-	 * Discovery controllers may use some arbitrary high value
+-	 * in order to cleanup stale discovery sessions
+-	 */
+-	if (nvmet_is_disc_subsys(ctrl->subsys) && !kato)
+-		kato = NVMET_DISC_KATO_MS;
+-
+-	/* keep-alive timeout in seconds */
+-	ctrl->kato = DIV_ROUND_UP(kato, 1000);
+-
+-	ctrl->err_counter = 0;
+-	spin_lock_init(&ctrl->error_lock);
+-
+-	nvmet_start_keep_alive_timer(ctrl);
+-
+-	mutex_lock(&subsys->lock);
+ 	ret = nvmet_ctrl_init_pr(ctrl);
+ 	if (ret)
+ 		goto init_pr_fail;
+@@ -1692,6 +1694,9 @@ struct nvmet_ctrl *nvmet_alloc_ctrl(struct nvmet_alloc_ctrl_args *args)
+ 	nvmet_setup_p2p_ns_map(ctrl, args->p2p_client);
+ 	nvmet_debugfs_ctrl_setup(ctrl);
+ 	mutex_unlock(&subsys->lock);
++	up_read(&nvmet_config_sem);
++
++	nvmet_start_keep_alive_timer(ctrl);
+ 
+ 	if (args->hostid)
+ 		uuid_copy(&ctrl->hostid, args->hostid);
+@@ -1721,14 +1726,14 @@ struct nvmet_ctrl *nvmet_alloc_ctrl(struct nvmet_alloc_ctrl_args *args)
+ 	return ctrl;
+ 
+ init_pr_fail:
+-	mutex_unlock(&subsys->lock);
+-	nvmet_stop_keep_alive_timer(ctrl);
+ 	ida_free(&cntlid_ida, ctrl->cntlid);
+ out_free_cqs:
+ 	kfree(ctrl->cqs);
+ out_free_sqs:
+ 	kfree(ctrl->sqs);
+ out_free_changed_ns_list:
++	mutex_unlock(&subsys->lock);
++	up_read(&nvmet_config_sem);
+ 	kfree(ctrl->changed_ns_list);
+ out_free_ctrl:
+ 	kfree(ctrl);
+diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-cmd.c
+index 7cadd1c9e44c..42d1d1811671 100644
+--- a/drivers/nvme/target/fabrics-cmd.c
++++ b/drivers/nvme/target/fabrics-cmd.c
+@@ -370,7 +370,7 @@ static void nvmet_execute_io_connect(struct nvmet_req *req)
+ 		goto out;
+ 	}
+ 
+-	if (unlikely(qid > ctrl->subsys->max_qid)) {
++	if (unlikely(qid > ctrl->max_qid)) {
+ 		pr_warn("invalid queue id (%d)\n", qid);
+ 		status = NVME_SC_CONNECT_INVALID_PARAM | NVME_STATUS_DNR;
+ 		req->cqe->result.u32 = IPO_IATTR_CONNECT_SQE(qid);
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index aaba745e3c21..ed5e9f1ce5b4 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -265,6 +265,7 @@ struct nvmet_ctrl {
+ 
+ 	uuid_t			hostid;
+ 	u16			cntlid;
++	u16			max_qid;
+ 	u32			kato;
+ 
+ 	struct nvmet_port	*port;
+@@ -753,6 +754,11 @@ static inline struct nvmet_subsys *nvmet_req_subsys(struct nvmet_req *req)
+ 	return req->sq->ctrl->subsys;
+ }
+ 
++static inline struct nvmet_ctrl *nvmet_req_ctrl(struct nvmet_req *req)
++{
++	return req->sq->ctrl;
++}
++
+ static inline bool nvmet_is_disc_subsys(struct nvmet_subsys *subsys)
+ {
+     return subsys->type != NVME_NQN_NVME;
+diff --git a/drivers/nvme/target/pci-epf.c b/drivers/nvme/target/pci-epf.c
+index 4e9db96ebfec..e97e71416d27 100644
+--- a/drivers/nvme/target/pci-epf.c
++++ b/drivers/nvme/target/pci-epf.c
+@@ -2077,7 +2077,7 @@ static int nvmet_pci_epf_create_ctrl(struct nvmet_pci_epf *nvme_epf,
+ 	}
+ 
+ 	/* Allocate our queues, up to the maximum number. */
+-	ctrl->nr_queues = min(ctrl->tctrl->subsys->max_qid + 1, max_nr_queues);
++	ctrl->nr_queues = min(ctrl->tctrl->max_qid + 1, max_nr_queues);
+ 	ret = nvmet_pci_epf_alloc_queues(ctrl);
+ 	if (ret)
+ 		goto out_put_ctrl;
+-- 
+2.55.0
+
 
