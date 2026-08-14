@@ -4,93 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C05C7C5CFCF
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2026 14:18:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1A082C5CFCF
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2026 14:38:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=NmU7z6OC249KBM2h0aoOKXqrafvecetknhvjJZj4jUg=; b=xvldlIzbdDhkPWPq8Gu8IhPUgk
-	N6V8hFnvCJXQeRSo0y1FtqJtsVaesqs/Mnc3PHhDMMwDAUndh04v0K8n86MiFa74UEPaN738jE09c
-	35YIuow9PRf8cK1pOE1BXo9m008l6pbYjPiVsLwjh886tWlg2LXSi+4egdoRZ6dHt17EUPKt5qNfi
-	KvVm1tZNrMhGz1/bCyimqABPI63bu/e0/M3Qf9VXx96egzBxOtTOOXq+sYX8q1KeZEeMYRBC7sQSu
-	u6/yKppdks+e1usoy+3otbV1IuS1tK3J6ePHRw9X4Blp4yYVcMo1fSgBpYqnhYq8VbrO7RFRq0Pca
-	occGfsqw==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=o1OJ/CkKReq4rbtHVjPHc5wLkujFnR3xVDAior4D7+0=; b=M5rwhOZSNp26LRrTTXRfNE21FU
+	A1MTrjBe2eyIxb15B6cTvr9L8+c9AZAD6EieAERj+rhb3rxgD2GPcsITqK0Hd4bXhFt3oZNtWVYi4
+	TYWstODndhM81SuedZlWnnMvHLP2uSLomQBj1EWEMKAu6SJ4NFiQUTjSr+TIwX0NXDCfQgeCE0xxH
+	gt72x3/5BPcvYJlxcf4CLifmCfLGT0ddM/V7JBoy2+lLz//EjheeiEdRlA0K4+xPZS9NUQadfxzD8
+	ih4qwe6tds6yXaXBV57g5E8/sVdR2bQlMJ5dQA/shETzmK8O2Vi2j2CdbZ4qGq2FujXjygy5te0r2
+	9pU4S0Fg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wuskK-00000002mPv-0dTr;
-	Fri, 14 Aug 2026 14:18:56 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1wut3U-00000002o4D-2t6c;
+	Fri, 14 Aug 2026 14:38:44 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wuskH-00000002mPa-1DU6
+	id 1wut3T-00000002o44-0AxL
 	for linux-nvme@lists.infradead.org;
-	Fri, 14 Aug 2026 14:18:54 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1786717131;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NmU7z6OC249KBM2h0aoOKXqrafvecetknhvjJZj4jUg=;
-	b=TBOeKH62RpdkVtiOmi2Fc0LjEuiXgzYbZhwVk3rjxTT7XjoOmHIyTieZcSNatNHI/+kxW+
-	1Fzr1x9D4MdDWB5VgttnSCVjcFnAX81hiL8mXckMMUQZaRBq2U5TARn82G+CbuFCXSZ3wT
-	bs1/DRAVpRj8RYoDEF++p2xyck7DybY=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-343-jVrkzFh-PNKKb7At53L7jA-1; Fri, 14 Aug 2026 10:18:43 -0400
-X-MC-Unique: jVrkzFh-PNKKb7At53L7jA-1
-X-Mimecast-MFC-AGG-ID: jVrkzFh-PNKKb7At53L7jA_1786717122
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-47fecbb7f88so710539f8f.0
-        for <linux-nvme@lists.infradead.org>; Fri, 14 Aug 2026 07:18:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786717122; x=1787321922;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=NmU7z6OC249KBM2h0aoOKXqrafvecetknhvjJZj4jUg=;
-        b=B8CslHXNELR6S8RsJyPXevbci8i+4cCfy8iu4Rt3SjaHaLkiMKJC7BDJ9sTAtjlhkA
-         QTct1TjNK7upyra99fivvZDIfAVTT1Jcnfhn6j3I3kT2gH2kiWPMtoWgZkaCfT9gnzAB
-         uK1uMW9ggU64vVAlTv3xsIdDcE/wu++in7v0A6FFOwMrSLC2uGMXJZSroi0nP6eb8FMd
-         2q6WVfj8jz0nV5jRwhdegyJrBdkmTqbslCb6+fm2xP/yHrX9UjiDhh7ff2/3T1bj1FAi
-         6kjYmObPrSzli+lCoGGk5I4l/ox2SWWLzmDDqpBjRFYFJgTWgdZc5cw130c2KxKRCiEr
-         IbjA==
-X-Forwarded-Encrypted: i=1; AHgh+RpyjydxAKBFylrNzBWniN15iec5qwpS9CzZ7c7Nl17flEF2j25HvYFUS4eX2DO1P8XTQFv7cHgiHrdi@lists.infradead.org
-X-Gm-Message-State: AOJu0YwfSJnKLixLnHSOHbYiw74+NLZbD+RplTSUTgdIUyDpctf4kepb
-	Q7/uNjJxPiiVOPJ3kU1/EmDrMHD7soexFP6vSJJLqrW16BNPilKzPzzaxiz0XVRRZTpyRGH2tBW
-	3HCshI/rmTtm127U2KgC6k9lGHIWXP4qSbv3HPLmSKA6g7VJa+wRjn8xWJkYauZC3EFi/CT9Bl7
-	p5cs10iZGUx8XmPZhTx8LQgSwOB1E7MAYo6DqIGODwkJE=
-X-Gm-Gg: AR+sD12+uDlg2ZN38OmAHmkz84KHBnMcVIAQ7FspsX84G3PJWbPD9N/nZx1GvnoOwq5
-	tkoZmxoUesKeYI2g3f8d62hQ/NWE/U6TKVUj/aVfB3IJUTVFbLdVk/Ys/YNXeO5+X+Q9QltLC9B
-	6uDkQcD0wkYNPYIuGCkR12U4eZ9BCc121bIV17D7P9p1zJJxeV7gc2+XIH7vziz9mV1Py32gICN
-	FWEP6DWeoPepQQu5w==
-X-Received: by 2002:a5d:588b:0:b0:47f:9568:ebf0 with SMTP id ffacd0b85a97d-4816076e5d6mr8567197f8f.23.1786717122035;
-        Fri, 14 Aug 2026 07:18:42 -0700 (PDT)
-X-Received: by 2002:a5d:588b:0:b0:47f:9568:ebf0 with SMTP id
- ffacd0b85a97d-4816076e5d6mr8567119f8f.23.1786717121682; Fri, 14 Aug 2026
- 07:18:41 -0700 (PDT)
+	Fri, 14 Aug 2026 14:38:43 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id 4A4E360120;
+	Fri, 14 Aug 2026 14:38:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AEDD1F000E9;
+	Fri, 14 Aug 2026 14:38:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786718322;
+	bh=o1OJ/CkKReq4rbtHVjPHc5wLkujFnR3xVDAior4D7+0=;
+	h=From:To:Cc:Subject:Date;
+	b=kT9Q3nvZCVd5sR/E6mayCabc8Z3lxG1MmRPnB/otJH8FRyiQKr9sjl1mfYoK2KA/u
+	 hWrOFmDo3UqaMl+k89hRC21RD/7AMt9TwwCtKjwDvHszMdP67GMU3Pn9mSaCUmWJAO
+	 tdLg1k8Ukk6bqS1kera5rLPwNlzufGJKDXy/vmTQ8XVrAmtFSL8cwBwRVzIe+p/9ED
+	 slDgrbIUC4BoKEPWcZWZIDHohQYIIogPCa/g5cj6CgBvJxZyv/RyIGbMabuej2tiiF
+	 puLku6ZZh0kVeucX9BMXhc/SEq86gz5SaeNDJ/Zn+f/kGn2cp9wUp4fJTw3KP0fYLP
+	 GH72xXldAgjCQ==
+From: Niklas Cassel <cassel@kernel.org>
+To: Justin Tee <justin.tee@broadcom.com>,
+	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
+	Paul Ely <paul.ely@broadcom.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Cc: Niklas Cassel <cassel@kernel.org>,
+	stable@vger.kernel.org,
+	syzbot+f58e57380a6083c4041d@syzkaller.appspotmail.com,
+	linux-nvme@lists.infradead.org
+Subject: [PATCH] nvme-fc: fix double free of fabrics options when nvme_add_ctrl() fails
+Date: Fri, 14 Aug 2026 16:38:34 +0200
+Message-ID: <20260814143833.1953415-2-cassel@kernel.org>
+X-Mailer: git-send-email 2.55.0
 MIME-Version: 1.0
-References: <20260812174503.3705830-1-jtaubepe@redhat.com> <an75bRJc8J6NexeH@shinmob>
-In-Reply-To: <an75bRJc8J6NexeH@shinmob>
-From: Jesse Taube <jtaubepe@redhat.com>
-Date: Fri, 14 Aug 2026 10:18:29 -0400
-X-Gm-Features: AcwNN1W-_eBVIwPeU4L2Msiij6dBncE2vb0x-B7AGUvsZOMgUKDIjjcSxeVZJZI
-Message-ID: <CADRr4beUeZo9ZA9TZVmWQ9Vegm2LvTXkW0wGNxYA6_7z_njMEA@mail.gmail.com>
-Subject: Re: [PATCH blktests 0/2] Test multipath and marginal ports
-To: "Shin'ichiro Kawasaki" <shinichiro.kawasaki@wdc.com>
-Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	John Meneghini <jmeneghi@redhat.com>, Daniel Wagner <dwagner@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: ujgt7HAsYU-QB08bHpZp76lJyR_7BVIXarx57sK8Rxk_1786717122
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260814_071853_403761_2FA2DA1E 
-X-CRM114-Status: GOOD (  16.21  )
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6059; i=cassel@kernel.org; h=from:subject; bh=3C3wfzjhBHsyvklz5qL5DnhR900kXN8729uVFerCtMw=; b=owGbwMvMwCV2MsVw8cxjvkWMp9WSGLLqNTIP/FrNvpXpsllf4OQvi8MPWJ2ZEKFf99BTYWu21 Izkpn0HO0pZGMS4GGTFFFl8f7jsL+52n3Jc8Y4NzBxWJpAhDFycAjCRA6cYGT4f4J/sm+kxS7BB UiZgWorid8Ud8ydY26vtK14dJPKmR4/hf9Gmx705z3N5Xy+22LTsgrfL8b9HD375IvmN70rO9fO v97EAAA==
+X-Developer-Key: i=cassel@kernel.org; a=openpgp; fpr=5ADE635C0E631CBBD5BE065A352FE6582ED9B5DA
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -105,57 +77,148 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Aug 14, 2026 at 7:25=E2=80=AFAM Shin'ichiro Kawasaki
-<shinichiro.kawasaki@wdc.com> wrote:
->
-> Hi Jesse, thanks for the patches.
->
-> On Aug 12, 2026 / 13:45, Jesse Taube wrote:
-> > Tests for the upcoming nvme-fc: FPIN link integrity handling set.
->
-> I assume that above refers to this kernel patch series.
->
->   https://lore.kernel.org/linux-nvme/20260812181300.3712426-1-jtaubepe@re=
-dhat.com/
+nvmf_create_ctrl() owns the fabrics options and frees them whenever
+->create_ctrl() returns an error, so a transport must not free them on
+its own error paths.  nvme-fc tracks this by testing ctrl->ctrl.opts in
+nvme_fc_ctrl_free(), which requires nvme_fc_init_ctrl() to clear that
+pointer on every error exit.
 
-Yes it does
+The coupling is implicit, and commit 1a9e218195a5 ("nvme: split device
+add from initialization") broke it by adding a second error exit.  When
+nvme_add_ctrl() fails, nvme_fc_init_ctrl() jumps to out_put_ctrl:, past
+the "ctrl->ctrl.opts = NULL" that only sits on the fail_ctrl: path, so
+nvme_fc_ctrl_free() frees the options and nvmf_create_ctrl() frees them
+a second time:
 
->
-> I applied the series on top of v7.2-rc7 kernel. Then I ran the test case =
-added
-> by this blktests series and observed the failurea below:
->
-> nvme/070 (tr=3Dfc) (test nvme-fc marginal path handling)       [failed]
->     runtime  33.581s  ...  33.028s
->     --- tests/nvme/070.out      2026-08-14 12:03:21.338000000 +0900
->     +++ /home/shin/Blktests/blktests/results/nodev_tr_fc/nvme/070.out.bad=
-       2026-08-14 20:17:04.731000000 +0900
->     @@ -2,7 +2,8 @@
->      Starting background I/O
->      Testing iopolicy: numa
->      Changing FC links to online
->     -Set all online: pass
->     +No FC ports are being used, expected atleast one in use when all are=
- online in numa mode.
->     +Set all online: fail
->      One host marginal: pass
->     ...
->     (Run 'diff -u tests/nvme/070.out /home/shin/Blktests/blktests/results=
-/nodev_tr_fc/nvme/070.out.bad' to see the entire diff)
->
-> Is this failure expected?
+  BUG: KASAN: slab-use-after-free in nvmf_free_options+0x30/0x190
+   nvmf_free_options+0x30/0x190 drivers/nvme/host/fabrics.c:1284
+   nvmf_create_ctrl drivers/nvme/host/fabrics.c:1374 [inline]
+  Freed by task 5534:
+   nvme_fc_ctrl_free drivers/nvme/host/fc.c:2374 [inline]
+   nvme_fc_init_ctrl+0xe17/0x1450 drivers/nvme/host/fc.c:3605
 
-No. I can't reproduce the issue either.
-Does this happen consistently?
-Maybe the links are still connecting?
+nvme_add_ctrl() fails when dev_set_name() cannot allocate, so this is
+reachable under memory pressure or fault injection.  Without KASAN the
+options are freed twice.
 
-Thanks for you review I will implement the changes you recomend.
+Rather than clear the pointer on the second exit as well, derive
+ownership the way nvme-tcp, nvme-rdma and nvme-loop do, from list
+membership: their free_ctrl leaves the options alone unless the
+controller made it onto the transport list.
 
-Thanks,
-Jesse Taube
+The list cannot simply be populated on the success path as it is there.
+nvme-fc runs the initial connect synchronously via flush_delayed_work(),
+and the controller has to be reachable on rport->ctrl_list for the whole
+of it: nvme_fc_unregister_remoteport() needs to find it to signal
+connectivity loss, nvme_fc_match_disconn_ls() matches an incoming
+Disconnect Association LS against ctrl->association_id, which is only
+assigned during that window, nvme_fc_resume_controller() needs it on
+remoteport re-registration, and nvme_fc_existing_controller() uses it to
+reject a duplicate connect racing the one in flight.
 
->
-> I will comment on each patch in line.
->
+Keep the insertion where it is and add a fail_unlist: label, falling
+into fail_ctrl:, for the error paths that run after it.  The earlier
+error paths never reach the insertion and keep using fail_ctrl:
+directly, so the list is only touched where the controller is actually
+on it.
+
+nvme_fc_ctrl_free() cannot use the plain "goto free_ctrl" the other
+transports use, because it still has to put_device(), release the rport
+reference and free the ida entry for resources taken before the
+insertion.  Sample list_empty() under rport->lock instead.
+
+ctrl->ctrl.opts also stays valid for the whole teardown now.  That is
+not the bug being fixed, but it removes some fragility around the old
+idiom: nvme_free_ctrl() calls nvme_auth_free() before ->free_ctrl(), and
+ctrl_max_dhchaps() dereferences ctrl->opts without a NULL check when
+ctrl->dhchap_ctxs is set, which nvme-fc permits since NVMF_ALLOWED_OPTS
+allows the dhchap options.  The nvme sysfs attributes that dereference
+ctrl->opts, such as hostnqn and address, evaluate their is_visible()
+test once at device_add() time and stay readable until
+cdev_device_del().
+
+Fixes: 1a9e218195a5 ("nvme: split device add from initialization")
+Cc: stable@vger.kernel.org
+Reported-by: syzbot+f58e57380a6083c4041d@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=f58e57380a6083c4041d
+Signed-off-by: Niklas Cassel <cassel@kernel.org>
+---
+ drivers/nvme/host/fc.c | 26 ++++++++++++++++++++------
+ 1 file changed, 20 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 04363b9c4489..7e1794f054d6 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -2358,9 +2358,15 @@ nvme_fc_ctrl_free(struct kref *ref)
+ 	struct nvme_fc_ctrl *ctrl =
+ 		container_of(ref, struct nvme_fc_ctrl, ref);
+ 	unsigned long flags;
++	bool owns_opts;
+ 
+-	/* remove from rport list */
++	/*
++	 * Presence on the rport list means nvme_fc_init_ctrl() completed,
++	 * and with it ownership of the fabrics options passed to it. If it
++	 * failed instead, the options still belong to nvmf_create_ctrl().
++	 */
+ 	spin_lock_irqsave(&ctrl->rport->lock, flags);
++	owns_opts = !list_empty(&ctrl->ctrl_list);
+ 	list_del(&ctrl->ctrl_list);
+ 	spin_unlock_irqrestore(&ctrl->rport->lock, flags);
+ 
+@@ -2370,7 +2376,7 @@ nvme_fc_ctrl_free(struct kref *ref)
+ 	nvme_fc_rport_put(ctrl->rport);
+ 
+ 	ida_free(&nvme_fc_ctrl_cnt, ctrl->cnum);
+-	if (ctrl->ctrl.opts)
++	if (owns_opts)
+ 		nvmf_free_options(ctrl->ctrl.opts);
+ 	kfree(ctrl);
+ }
+@@ -3569,14 +3575,14 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ 	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING)) {
+ 		dev_err(ctrl->ctrl.device,
+ 			"NVME-FC{%d}: failed to init ctrl state\n", ctrl->cnum);
+-		goto fail_ctrl;
++		goto fail_unlist;
+ 	}
+ 
+ 	if (!queue_delayed_work(nvme_wq, &ctrl->connect_work, 0)) {
+ 		dev_err(ctrl->ctrl.device,
+ 			"NVME-FC{%d}: failed to schedule initial connect\n",
+ 			ctrl->cnum);
+-		goto fail_ctrl;
++		goto fail_unlist;
+ 	}
+ 
+ 	flush_delayed_work(&ctrl->connect_work);
+@@ -3587,14 +3593,22 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ 
+ 	return &ctrl->ctrl;
+ 
++fail_unlist:
++	/*
++	 * Leaving the list hands the options back to nvmf_create_ctrl();
++	 * see nvme_fc_ctrl_free().  Re-init so that list_empty() there
++	 * reports the controller as unlisted.
++	 */
++	spin_lock_irqsave(&rport->lock, flags);
++	list_del_init(&ctrl->ctrl_list);
++	spin_unlock_irqrestore(&rport->lock, flags);
++
+ fail_ctrl:
+ 	nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_DELETING);
+ 	cancel_work_sync(&ctrl->ioerr_work);
+ 	cancel_work_sync(&ctrl->ctrl.reset_work);
+ 	cancel_delayed_work_sync(&ctrl->connect_work);
+ 
+-	ctrl->ctrl.opts = NULL;
+-
+ 	if (ctrl->ctrl.admin_tagset)
+ 		nvme_remove_admin_tag_set(&ctrl->ctrl);
+ 	/* initiate nvme ctrl ref counting teardown */
+-- 
+2.55.0
 
 
