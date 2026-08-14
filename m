@@ -4,90 +4,93 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99B9EC5CFDB
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2026 12:14:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C05C7C5CFCF
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2026 14:18:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=g57BPbBjVyFYadXJrMobD1BBS6GenGZ8fGUkvoQD0vk=; b=JrWCKhmTxgz17QfFb8kz8wVGfY
-	UMKfJtz/4kDQXIgsSW7Zl/UnZezMT7o4oOS597N81Fqfi9vi0b1b4uOaNVoVZkyJj8mdON7gRjNzR
-	nFdsfAOcfQYTybruESjhHcK/WQN6wySt5XC1m9LJYmFkMkZUPNLh9YClbBWWqaPwTJOCr5G5Jk+lJ
-	vAIOuNGJ4D1cPHaKXtR7xX4CswVmrzhdz9bjTCWHa/qLhEj14Tq8LgNsNnvP8uBuAgm7cxgbvDYNP
-	aNi1GZxk2v+tHL8NpQMpo8lu9e7UqjJNLa92SVeqYHRUwspu2GNePUXd0BTDt7AMZy+WiPNJbhUuw
-	+Gg0TUWw==;
+	bh=NmU7z6OC249KBM2h0aoOKXqrafvecetknhvjJZj4jUg=; b=xvldlIzbdDhkPWPq8Gu8IhPUgk
+	N6V8hFnvCJXQeRSo0y1FtqJtsVaesqs/Mnc3PHhDMMwDAUndh04v0K8n86MiFa74UEPaN738jE09c
+	35YIuow9PRf8cK1pOE1BXo9m008l6pbYjPiVsLwjh886tWlg2LXSi+4egdoRZ6dHt17EUPKt5qNfi
+	KvVm1tZNrMhGz1/bCyimqABPI63bu/e0/M3Qf9VXx96egzBxOtTOOXq+sYX8q1KeZEeMYRBC7sQSu
+	u6/yKppdks+e1usoy+3otbV1IuS1tK3J6ePHRw9X4Blp4yYVcMo1fSgBpYqnhYq8VbrO7RFRq0Pca
+	occGfsqw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wuqnz-00000002dWn-1um1;
-	Fri, 14 Aug 2026 12:14:35 +0000
-Received: from mail-oo2-x05.google.com ([2607:f8b0:4864:31::5])
+	id 1wuskK-00000002mPv-0dTr;
+	Fri, 14 Aug 2026 14:18:56 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wuqnw-00000002dVf-2rTW
+	id 1wuskH-00000002mPa-1DU6
 	for linux-nvme@lists.infradead.org;
-	Fri, 14 Aug 2026 12:14:34 +0000
-Received: by mail-oo2-x05.google.com with SMTP id 46e09a7af769-7edcd5f9e55so286938a34.1
-        for <linux-nvme@lists.infradead.org>; Fri, 14 Aug 2026 05:14:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1786709671; x=1787314471; darn=lists.infradead.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=g57BPbBjVyFYadXJrMobD1BBS6GenGZ8fGUkvoQD0vk=;
-        b=Sdr9Vtdjde5r9MvSKLgpYT5fxRGKje/uH9lmI+hGQ2LwCxocoBiVQunEfAq1HXwZLr
-         hPMzJqapxSqxHzRjn8AZJ2UhWOOXMOamqxgAu9F4m4iVFP/rtLd5q4bcKEVcbQVv0xZw
-         QEbrVUKADloWcRi+h71HOs8yowEjNyfnmx50vXWobNh3MW/Frc1bYyy+/k8Rwhakl9kO
-         Q9JdrsmTcQ7Qdutonqk004Glj483DdzhQOWvlSFz8+rFGlXl/D1CC2euiHJejumhvF+/
-         6WRl/39TAPC0kXAwgZSBkq1qVoInUAmM7zQS3zK6GcdtnUW77R/PXwMQA3OsgzJD7G+0
-         G2rg==
+	Fri, 14 Aug 2026 14:18:54 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1786717131;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NmU7z6OC249KBM2h0aoOKXqrafvecetknhvjJZj4jUg=;
+	b=TBOeKH62RpdkVtiOmi2Fc0LjEuiXgzYbZhwVk3rjxTT7XjoOmHIyTieZcSNatNHI/+kxW+
+	1Fzr1x9D4MdDWB5VgttnSCVjcFnAX81hiL8mXckMMUQZaRBq2U5TARn82G+CbuFCXSZ3wT
+	bs1/DRAVpRj8RYoDEF++p2xyck7DybY=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-343-jVrkzFh-PNKKb7At53L7jA-1; Fri, 14 Aug 2026 10:18:43 -0400
+X-MC-Unique: jVrkzFh-PNKKb7At53L7jA-1
+X-Mimecast-MFC-AGG-ID: jVrkzFh-PNKKb7At53L7jA_1786717122
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-47fecbb7f88so710539f8f.0
+        for <linux-nvme@lists.infradead.org>; Fri, 14 Aug 2026 07:18:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786709671; x=1787314471;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=g57BPbBjVyFYadXJrMobD1BBS6GenGZ8fGUkvoQD0vk=;
-        b=hHM0eqLMfMJMAOUPSFrxN0Ngeo2+Ov2zY0/7t2LeJFsBfn7CTyOo92Q+RHfmDj9Sh1
-         a4tDUC4Fh8X8b/YsXosqzjW32mxOjG231G+2741qLVvbb0C74iuxNPuX56Xvwj5rI4gG
-         CmL65zWFnfR/jycoX2Vd4JPp5ok9ZSR/G8utdl6PtS/t0E4GR0Z4TDI0CWeNbthEM8QD
-         4kCVuZkRW+KDlaOAsszWnsJvDUXJrRC5vaV2R+aAgJJCpNpXOMtMSfIHJVYCKqa3Mili
-         1LJkGo48dvq4tR7beg4zqqqK5JL2JKgtE6pzqF8o6geJRgmxQLskBRJoh92nwMctLE0U
-         UDhA==
-X-Gm-Message-State: AOJu0YxKja7ugj9ZnQ6nyMy8fyB/184qRMzFRzyOWUI2RwS6fdBGebzO
-	XH7fneMaPDznclT1gWjgSnaAaZ5gU7suoOjeoJm8k6md9L3GEzlzddCARVBDz9IbNDh9cU3ELsS
-	cvHZLa4tp3Vfs
-X-Gm-Gg: AR+sD117OkOjxuhFptQBg95WA3vw8stjeqgUMkKYho6B62pt4faDDPHKjtVgA8yqmRF
-	0yj7MBkifd1nM0HScnpuj+urf4PBuwyY3MW/JU33nCHBRtL0A4B8oZom4Foxq1m9iQVRgOgH9ln
-	EgUlof5sfHZV8soFPfKpdKetDAB0dgaNeqc6pMVA3ggVnYFhrlua1dibJiR+FIovuFyubPHW8jQ
-	a7R28ivwrRIPuSSfcv7klWrAxtKTnTICkATJ+yQuHK+KpUAHdA89VnbHAmLeuSvXFhBawl+2taE
-	xdwtBcTWiYo0k+3wTeCS7UqoO743kuZ6SEVruytdruL9CWoGsfmlnDlNBD3hR8MgC/MrwVSPZ0b
-	Q3TXi8P7DWG/w+hC1LPCYzekSN8ECSRYdKQdTLvj9muGkcjEm5we/zhkshf2IQI9OZfcxHiRwzh
-	hr+zAMKpV1p9o1KN/Xt3qosDxiSKMdjLy9UicOmJEutLelp49HAvveXXQTXNZ8BMC64yCv3zXme
-	1DGvfXVYpt0ZtSjFUCNODGmcHvrC+kVYsiEGcfLOHO3bok=
-X-Received: by 2002:a05:6830:2992:b0:7f1:deb5:5a5a with SMTP id 46e09a7af769-7f3de55432cmr4921749a34.9.1786709671361;
-        Fri, 14 Aug 2026 05:14:31 -0700 (PDT)
-Received: from [192.168.1.150] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7f3e8197905sm865606a34.0.2026.08.14.05.14.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Aug 2026 05:14:30 -0700 (PDT)
-Message-ID: <59c3dfa6-be4a-4b88-9c13-60541f0ac989@kernel.dk>
-Date: Fri, 14 Aug 2026 06:14:29 -0600
+        d=1e100.net; s=20251104; t=1786717122; x=1787321922;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=NmU7z6OC249KBM2h0aoOKXqrafvecetknhvjJZj4jUg=;
+        b=B8CslHXNELR6S8RsJyPXevbci8i+4cCfy8iu4Rt3SjaHaLkiMKJC7BDJ9sTAtjlhkA
+         QTct1TjNK7upyra99fivvZDIfAVTT1Jcnfhn6j3I3kT2gH2kiWPMtoWgZkaCfT9gnzAB
+         uK1uMW9ggU64vVAlTv3xsIdDcE/wu++in7v0A6FFOwMrSLC2uGMXJZSroi0nP6eb8FMd
+         2q6WVfj8jz0nV5jRwhdegyJrBdkmTqbslCb6+fm2xP/yHrX9UjiDhh7ff2/3T1bj1FAi
+         6kjYmObPrSzli+lCoGGk5I4l/ox2SWWLzmDDqpBjRFYFJgTWgdZc5cw130c2KxKRCiEr
+         IbjA==
+X-Forwarded-Encrypted: i=1; AHgh+RpyjydxAKBFylrNzBWniN15iec5qwpS9CzZ7c7Nl17flEF2j25HvYFUS4eX2DO1P8XTQFv7cHgiHrdi@lists.infradead.org
+X-Gm-Message-State: AOJu0YwfSJnKLixLnHSOHbYiw74+NLZbD+RplTSUTgdIUyDpctf4kepb
+	Q7/uNjJxPiiVOPJ3kU1/EmDrMHD7soexFP6vSJJLqrW16BNPilKzPzzaxiz0XVRRZTpyRGH2tBW
+	3HCshI/rmTtm127U2KgC6k9lGHIWXP4qSbv3HPLmSKA6g7VJa+wRjn8xWJkYauZC3EFi/CT9Bl7
+	p5cs10iZGUx8XmPZhTx8LQgSwOB1E7MAYo6DqIGODwkJE=
+X-Gm-Gg: AR+sD12+uDlg2ZN38OmAHmkz84KHBnMcVIAQ7FspsX84G3PJWbPD9N/nZx1GvnoOwq5
+	tkoZmxoUesKeYI2g3f8d62hQ/NWE/U6TKVUj/aVfB3IJUTVFbLdVk/Ys/YNXeO5+X+Q9QltLC9B
+	6uDkQcD0wkYNPYIuGCkR12U4eZ9BCc121bIV17D7P9p1zJJxeV7gc2+XIH7vziz9mV1Py32gICN
+	FWEP6DWeoPepQQu5w==
+X-Received: by 2002:a5d:588b:0:b0:47f:9568:ebf0 with SMTP id ffacd0b85a97d-4816076e5d6mr8567197f8f.23.1786717122035;
+        Fri, 14 Aug 2026 07:18:42 -0700 (PDT)
+X-Received: by 2002:a5d:588b:0:b0:47f:9568:ebf0 with SMTP id
+ ffacd0b85a97d-4816076e5d6mr8567119f8f.23.1786717121682; Fri, 14 Aug 2026
+ 07:18:41 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL v2] nvme updates for Linux 7.3
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de
-References: <an44rv4ZgsxxyFD8@kbusch-mbp>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <an44rv4ZgsxxyFD8@kbusch-mbp>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260812174503.3705830-1-jtaubepe@redhat.com> <an75bRJc8J6NexeH@shinmob>
+In-Reply-To: <an75bRJc8J6NexeH@shinmob>
+From: Jesse Taube <jtaubepe@redhat.com>
+Date: Fri, 14 Aug 2026 10:18:29 -0400
+X-Gm-Features: AcwNN1W-_eBVIwPeU4L2Msiij6dBncE2vb0x-B7AGUvsZOMgUKDIjjcSxeVZJZI
+Message-ID: <CADRr4beUeZo9ZA9TZVmWQ9Vegm2LvTXkW0wGNxYA6_7z_njMEA@mail.gmail.com>
+Subject: Re: [PATCH blktests 0/2] Test multipath and marginal ports
+To: "Shin'ichiro Kawasaki" <shinichiro.kawasaki@wdc.com>
+Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	John Meneghini <jmeneghi@redhat.com>, Daniel Wagner <dwagner@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: ujgt7HAsYU-QB08bHpZp76lJyR_7BVIXarx57sK8Rxk_1786717122
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260814_051432_988107_CEE18CEC 
-X-CRM114-Status: GOOD (  15.24  )
+X-CRM114-CacheID: sfid-20260814_071853_403761_2FA2DA1E 
+X-CRM114-Status: GOOD (  16.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,54 +105,57 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 8/13/26 3:35 PM, Keith Busch wrote:
-> This time with the summary in the tag.
-> 
-> The following changes since commit f01f5275feb77bac9fefbbf7cc584fe0b3850a92:
-> 
->   ublk: snapshot batch commands before preparing I/O (2026-07-02 06:25:21 -0600)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git tags/nvme-7.3-2026-08-13
-> 
-> for you to fetch changes up to f1a8846e06388113dfdbb89dee005083fa9afdf9:
-> 
->   nvmet: fix max_qid race between configfs and controller allocation (2026-08-13 09:26:44 -0700)
-> 
-> ----------------------------------------------------------------
-> nvme updates for Linux 7.3
-> 
->  - Enable context analysis for the nvme host driver, annotating the
->    subsystem's locks, along with the LIST_HEAD_GUARDED support it needs
->    (Nilay, Marco)
->  - Harden the tcp host and target against malformed PDUs and out of range
->    SGL lengths (Yehyeong, Ibrahim, Greg)
->  - Fix unserialized page_frag_cache use in nvme-tcp request setup (Dmitry)
->  - Bound identify, FDP and passthrough descriptor parsing to the allocated
->    buffers (Hari, Guixin)
->  - Zoned namespace fixes for host and the target (Xixin, Guixin, Yao)
->  - Apple controller fixes: page aligned admin queue buffers, NVMMU TCB
->    setup, DMA direction and admin queue teardown (Sven, Gui-Dong)
->  - Add a namespace level debugfs directory exposing reservation state, and
->    ABI documentation for the host sysfs and target configfs interfaces
->    (Guixin)
->  - Fix cdev and namespace lifetimes (John)
->  - Parallelize nvme-rdma I/O queue allocation and startup (Surabhi)
->  - Fix nvmet-rdma response resource leak on queue teardown (Shin'ichiro)
->  - Authentication fixes: AUTH_RECEIVE buffer and an out of bounds read in
->    negotiate (Xixin, Bryam, Guixin, Eric)
->  - Fix pci-epf use-after-free and CQ reference leak (Shin'ichiro, Yifei)
->  - Reject passthrough of driver managed Set Features (Chao)
->  - Various error path and teardown fixes across the host and target addressing
->    issues with use-after-free and leaking resources
->    (Guixin, Maurizio, Ewan, Zhengrong, Jiang HongHui, Myeonghun, Yang,
->    Geliang, Yehyeong)
->  - Various cleanups and typo fixes (Nilay, Guixin, Pan Chuang)
+On Fri, Aug 14, 2026 at 7:25=E2=80=AFAM Shin'ichiro Kawasaki
+<shinichiro.kawasaki@wdc.com> wrote:
+>
+> Hi Jesse, thanks for the patches.
+>
+> On Aug 12, 2026 / 13:45, Jesse Taube wrote:
+> > Tests for the upcoming nvme-fc: FPIN link integrity handling set.
+>
+> I assume that above refers to this kernel patch series.
+>
+>   https://lore.kernel.org/linux-nvme/20260812181300.3712426-1-jtaubepe@re=
+dhat.com/
 
-Pulled thanks
+Yes it does
 
--- 
-Jens Axboe
+>
+> I applied the series on top of v7.2-rc7 kernel. Then I ran the test case =
+added
+> by this blktests series and observed the failurea below:
+>
+> nvme/070 (tr=3Dfc) (test nvme-fc marginal path handling)       [failed]
+>     runtime  33.581s  ...  33.028s
+>     --- tests/nvme/070.out      2026-08-14 12:03:21.338000000 +0900
+>     +++ /home/shin/Blktests/blktests/results/nodev_tr_fc/nvme/070.out.bad=
+       2026-08-14 20:17:04.731000000 +0900
+>     @@ -2,7 +2,8 @@
+>      Starting background I/O
+>      Testing iopolicy: numa
+>      Changing FC links to online
+>     -Set all online: pass
+>     +No FC ports are being used, expected atleast one in use when all are=
+ online in numa mode.
+>     +Set all online: fail
+>      One host marginal: pass
+>     ...
+>     (Run 'diff -u tests/nvme/070.out /home/shin/Blktests/blktests/results=
+/nodev_tr_fc/nvme/070.out.bad' to see the entire diff)
+>
+> Is this failure expected?
+
+No. I can't reproduce the issue either.
+Does this happen consistently?
+Maybe the links are still connecting?
+
+Thanks for you review I will implement the changes you recomend.
+
+Thanks,
+Jesse Taube
+
+>
+> I will comment on each patch in line.
+>
 
 
