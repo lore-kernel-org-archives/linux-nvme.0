@@ -4,53 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52A95C5B572
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Aug 2026 21:35:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6B622C5CFC1
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2026 06:36:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=QZQGUBu2ibqiW9UP7faa/PlnhYCb9TyAFEsIbNgy/PA=; b=s3oVlOildHmupNp2eYcWZ2PQOW
-	b/5UymTyswkAUcrwkKbn3W69f8vUfsfc2oo6mEULWgd3zAZSiLEFYAXSZKfhOVW6zG3TYI+aeWCBy
-	KffYYGAMdgmPiP/O1m/SX6GwKBcw6zmQ1u/HeM4Aa2vsWvK9lEOLCTQH14UeUjPmUhrg0VmDJSzP1
-	sVCrTbFwc0a/qEr4CL8fdXfcChkTERgwkL2VslslgZ55feQm3f7Z5lz4mxP7SQ4oAp2tZokJkhLMD
-	YKUyUtwpojALpKON7itfN+d8JSaq9yPXn68DtESPYQDWUhHFFw3GRH/TEljutTpOkE3/ZsxH+m96y
-	2thRA6Pw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=BkCAaL0QgMjcDACJglHNIc+mPjJVSmhB9wgz/GcnVGU=; b=DhGmrACapAiZ1KfI0HGg0LbtQY
+	KfvQHKtitljG7mY1rK5qMBwZg2xLd/dw+jS0pIis4wZyR5KC3ECc3XtX5jsl9HG+beXB9fJoGRx8y
+	f4smgIvzWuG2HPNkqQ16KHMVNlm7qv/k4WbPWy1rjTRdbe38+3ubqD60AOX5pH9yQk65aRR2ndQlb
+	24ddltGwYLi6ErcoPDfpD29RvFOUcEXE1e4hqdqWySAc/tV659bwZgllmWpr61ecQzP+h1aDJGEVP
+	y5oh+udl/EnbuJTzzOlQWdy8tXPW8J0ASJqRbRLypsGN00eT3aHZ+PVwlBJOTEHrTLK1jxokxtNZV
+	WCQ2/MGw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wud5W-00000001eiG-0Ssp;
-	Thu, 13 Aug 2026 21:35:46 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1wulWt-000000022sg-0P3j;
+	Fri, 14 Aug 2026 06:36:35 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wud5U-00000001ehy-1p0b
+	id 1wulWl-000000022sG-2pJV
 	for linux-nvme@lists.infradead.org;
-	Thu, 13 Aug 2026 21:35:44 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id DAE13600AF;
-	Thu, 13 Aug 2026 21:35:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75A381F000E9;
-	Thu, 13 Aug 2026 21:35:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786656943;
-	bh=QZQGUBu2ibqiW9UP7faa/PlnhYCb9TyAFEsIbNgy/PA=;
-	h=Date:From:To:Cc:Subject;
-	b=mKFc/L+SxvlgDs3F2ZSqEOlsKyPzL7RfEd6lLG/SA+DvsAYKWn/6SKAUIoXYD/roR
-	 isBZKtdY0KJkD41DK2Zpe4YFcCXslbqRHvZMxaetPGa7r4DScxBKVdpR1eThOhXYIu
-	 D5jfXYnxZTLQvZoROhsJzI+RSpnzec245mWwkaYh1FemXJB8iPO5S2h5ljVgo8p73+
-	 yKJUh/YB7rQP2USaqB1HfryHVE3F8YCbIEFdu8bGj7zxc8lDJLbLqlx1Gon+RHKfeA
-	 180X1XivlUFu5pRmT4uSbBq8RCK/xd3TFj2zmEWrNmN6lcu43MlDhZyv08aB7IJT9j
-	 deWj5cR+YeEUA==
-Date: Thu, 13 Aug 2026 15:35:42 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: axboe@kernel.dk
-Cc: linux-nvme@lists.infradead.org, hch@lst.de
-Subject: [GIT PULL v2] nvme updates for Linux 7.3
-Message-ID: <an44rv4ZgsxxyFD8@kbusch-mbp>
+	Fri, 14 Aug 2026 06:36:29 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 461F168B05; Fri, 14 Aug 2026 08:36:16 +0200 (CEST)
+Date: Fri, 14 Aug 2026 08:36:16 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Jesse Taube <jtaubepe@redhat.com>
+Cc: linux-scsi@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Justin Tee <justin.tee@broadcom.com>,
+	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
+	Paul Ely <paul.ely@broadcom.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Nilesh Javali <njavali@marvell.com>,
+	GR-QLogic-Storage-Upstream@marvell.com,
+	Hannes Reinecke <hare@suse.de>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	John Meneghini <jmeneghi@redhat.com>,
+	Bryan Gurney <bgurney@redhat.com>, Chris Leech <cleech@redhat.com>,
+	"Ewan D . Milne" <emilne@redhat.com>, shinichiro.kawasaki@wdc.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org
+Subject: Re: [PATCH 00/13] nvme-fc: FPIN link integrity handling
+Message-ID: <20260814063616.GA9231@lst.de>
+References: <20260812181300.3712426-1-jtaubepe@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260812181300.3712426-1-jtaubepe@redhat.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260813_233627_862035_87DFD3DC 
+X-CRM114-Status: GOOD (  10.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,225 +76,9 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This time with the summary in the tag.
+This touched a lot of core code for a fringe feature for a transport
+that shouldn't even exist and is full of unmaintained and buggy code.
 
-The following changes since commit f01f5275feb77bac9fefbbf7cc584fe0b3850a92:
-
-  ublk: snapshot batch commands before preparing I/O (2026-07-02 06:25:21 -0600)
-
-are available in the Git repository at:
-
-  git://git.infradead.org/nvme.git tags/nvme-7.3-2026-08-13
-
-for you to fetch changes up to f1a8846e06388113dfdbb89dee005083fa9afdf9:
-
-  nvmet: fix max_qid race between configfs and controller allocation (2026-08-13 09:26:44 -0700)
-
-----------------------------------------------------------------
-nvme updates for Linux 7.3
-
- - Enable context analysis for the nvme host driver, annotating the
-   subsystem's locks, along with the LIST_HEAD_GUARDED support it needs
-   (Nilay, Marco)
- - Harden the tcp host and target against malformed PDUs and out of range
-   SGL lengths (Yehyeong, Ibrahim, Greg)
- - Fix unserialized page_frag_cache use in nvme-tcp request setup (Dmitry)
- - Bound identify, FDP and passthrough descriptor parsing to the allocated
-   buffers (Hari, Guixin)
- - Zoned namespace fixes for host and the target (Xixin, Guixin, Yao)
- - Apple controller fixes: page aligned admin queue buffers, NVMMU TCB
-   setup, DMA direction and admin queue teardown (Sven, Gui-Dong)
- - Add a namespace level debugfs directory exposing reservation state, and
-   ABI documentation for the host sysfs and target configfs interfaces
-   (Guixin)
- - Fix cdev and namespace lifetimes (John)
- - Parallelize nvme-rdma I/O queue allocation and startup (Surabhi)
- - Fix nvmet-rdma response resource leak on queue teardown (Shin'ichiro)
- - Authentication fixes: AUTH_RECEIVE buffer and an out of bounds read in
-   negotiate (Xixin, Bryam, Guixin, Eric)
- - Fix pci-epf use-after-free and CQ reference leak (Shin'ichiro, Yifei)
- - Reject passthrough of driver managed Set Features (Chao)
- - Various error path and teardown fixes across the host and target addressing
-   issues with use-after-free and leaking resources
-   (Guixin, Maurizio, Ewan, Zhengrong, Jiang HongHui, Myeonghun, Yang,
-   Geliang, Yehyeong)
- - Various cleanups and typo fixes (Nilay, Guixin, Pan Chuang)
-
-----------------------------------------------------------------
-Bryam Vargas (1):
-      nvmet-auth: zero the AUTH_RECEIVE response buffer
-
-Chao Shi (2):
-      nvme: reject passthrough of driver-managed Set Features
-      nvme: ratelimit the completion-path messages driven by device data
-
-Dmitry Bogdanov (1):
-      nvme-tcp: fix usage of page_frag_cache
-
-Eric Biggers (1):
-      nvme-auth: Avoid C=1 warning in nvme_auth_derive_tls_psk()
-
-Ewan D. Milne (1):
-      nvme: nvme-fc: Fix nvme_fc_create_hw_io_queues() queue deletion in error path
-
-Geliang Tang (1):
-      nvme-tcp: look up host_iface in the current netns
-
-Greg Kroah-Hartman (1):
-      nvmet-tcp: Do not WARN on remotely-controlled oversized SGL allocations
-
-Gui-Dong Han (1):
-      nvme-apple: Use acquire/release for queue enabled state
-
-Guixin Liu (16):
-      nvme: fix typos in reservation related constants
-      nvmet: add namespace-level debugfs directory
-      nvmet: expose reservation state through debugfs
-      nvme: add ABI documentation for host sysfs interfaces
-      nvmet: add ABI documentation for target configfs interfaces
-      MAINTAINERS: add missing NVMe documentation files
-      nvmet: fix return status of RMI log page on allocation failure
-      nvme-fc: unmap cmd_iu DMA on rsp_iu mapping failure in init_request
-      nvme-pci: return error when parsing a quirk string fails
-      nvmet: reject out-of-range mdts values in configfs store
-      nvmet: fix NULL pointer dereference in nvmet_execute_identify_nslist()
-      nvmet: propagate percpu_ref_init() failure in nvmet_ns_enable()
-      nvme-pci: release descriptor pools on probe failure
-      nvme: raise FDP placement handle cap to U8_MAX and warn on overflow
-      nvmet: fix heap out-of-bounds read in nvmet_auth_negotiate()
-      nvmet: fix NULL pointer dereference in nvmet_execute_identify_ns_zns()
-
-Hari Mishal (3):
-      nvme: bound ns descriptor header and body to identify buffer
-      nvme: clamp FDP nruhsd to allocated RUH status descriptor count
-      nvmet: passthru: fix OOB reads when parsing ns id descriptor list
-
-Ibrahim Hashimov (1):
-      nvmet-tcp: bound SGL data length before allocating command buffers
-
-Jiang HongHui (1):
-      nvmet-fc: fix invalid free in LS IOD error path
-
-John Garry (5):
-      nvme: handle positive error codes in nuse_show()
-      nvme: swap synchronization ordering in nvme_remove_head()
-      nvme: don't reference NS after unlocking in nvme_ns_head_ctrl_ioctl()
-      nvme: add nvme_get_ns_head()
-      nvme: fix cdev lifetime
-
-Marco Elver (1):
-      list: Permit context-unguarded access with list_empty_careful()
-
-Maurizio Lombardi (1):
-      nvmet: fix max_qid race between configfs and controller allocation
-
-Myeonghun Pak (1):
-      nvme-pci: disable controller on admin queue IRQ setup failure
-
-Nilay Shroff (19):
-      list: introduce LIST_HEAD_GUARDED
-      nvme: update nvme_passthru_end() signature
-      nvme: add context annotations for nvme_passthru_{start|stop}
-      nvme: add context annotations for nvme_ns_head::srcu
-      nvme: remove redundant initialization of nvme_ns_head::requeue_list
-      nvme: add context annotations for nvme_ns_head::requeue_list
-      nvme: add context annotations for nvme_ns_head::current_path
-      nvme: add context annotations for nvme_dev::shutdown_lock
-      nvme: remove redundant initialization of delayed_removal_secs
-      nvme: add context annotations for nvme_subsystem::lock
-      nvme: add context annotations for nvme_ctrl::ana_lock
-      nvme: add context annotations for nvme_subsystems_lock
-      nvme: add context annotations in fabric.c
-      nvme: add context annotations for nvme_queue::sq_lock
-      nvme: add context annotations in rdma.c
-      nvme: fix context analysis warning in rdma.c
-      nvme: add context annotations in tcp.c
-      nvme: fix context analysis warning in tcp.c
-      nvme: enable context analysis support for nvme host driver
-
-Pan Chuang (1):
-      nvme-apple: Remove redundant dev_err_probe()
-
-Shin'ichiro Kawasaki (3):
-      nvmet-rdma: factor out response resource cleanup
-      nvmet-rdma: fix response resource leak on queue teardown
-      nvmet: pci-epf: fix use-after-free in nvmet_pci_epf_exec_iod_work()
-
-Surabhi Gogte (2):
-      nvme-rdma: refactor nvme_rdma_alloc_queue() to take a queue pointer
-      nvme-rdma: parallelize I/O queue allocation and startup
-
-Sven Peter (6):
-      nvme-apple: Destroy the admin queue on removal
-      nvme-apple: Don't set a DMA direction for commands without a data transfer
-      nvme-apple: Never set the opcode in the NVMMU TCB
-      nvme: Add a quirk for page aligned admin queue buffers
-      nvme-apple: Require page aligned buffers on the admin queue
-      nvme-apple: Drop the PRP null check chicken bit
-
-Xixin Liu (4):
-      nvme: zns: cap zone report nr_zones by DMA buffer size
-      nvme: zns: include zone index in invalid zone type error
-      nvme-auth: use crypto_memneq for DH-HMAC-CHAP response comparison
-      nvmet: zns: reject full zone report when buffer is too small
-
-Yang Xiuwei (1):
-      nvme/ioctl: check SUBMIT_IO with nvme_cmd_allowed()
-
-Yao Sang (1):
-      nvme-multipath: revalidate zones for namespace heads
-
-Yehyeong Lee (4):
-      nvme: zero the discard fallback page
-      nvme-tcp: reject a read that transferred too few bytes
-      nvme-tcp: do not accept C2HData based on blk_rq_payload_bytes() alone
-      nvme-tcp: fix host memory disclosure on R2T for a read command
-
-Yifei Gao (1):
-      nvmet: pci-epf: put CQ ref on create_cq mapping failure
-
-Zhengrong Li (1):
-      nvmet: fix Reservation Register Replace for unregistered host with IEKEY
-
- Documentation/ABI/stable/configfs-nvmet | 352 +++++++++++++++++++++++++
- Documentation/ABI/stable/sysfs-nvme     | 453 ++++++++++++++++++++++++++++++++
- Documentation/ABI/testing/sysfs-nvme    |  13 -
- MAINTAINERS                             |   4 +
- drivers/nvme/common/auth.c              |  13 +-
- drivers/nvme/host/Makefile              |   1 +
- drivers/nvme/host/apple.c               |  66 +++--
- drivers/nvme/host/auth.c                |   3 +-
- drivers/nvme/host/core.c                |  52 +++-
- drivers/nvme/host/fabrics.c             |   4 +-
- drivers/nvme/host/fc.c                  |   8 +-
- drivers/nvme/host/ioctl.c               | 121 ++++++---
- drivers/nvme/host/multipath.c           |  64 ++---
- drivers/nvme/host/nvme.h                |  67 +++--
- drivers/nvme/host/pci.c                 |  31 ++-
- drivers/nvme/host/rdma.c                | 160 ++++++-----
- drivers/nvme/host/sysfs.c               |   4 +-
- drivers/nvme/host/tcp.c                 |  71 ++++-
- drivers/nvme/host/zns.c                 |  11 +-
- drivers/nvme/target/admin-cmd.c         |  14 +-
- drivers/nvme/target/configfs.c          |  10 +-
- drivers/nvme/target/core.c              |  54 ++--
- drivers/nvme/target/debugfs.c           | 103 ++++++++
- drivers/nvme/target/debugfs.h           |   5 +
- drivers/nvme/target/fabrics-cmd-auth.c  |  17 +-
- drivers/nvme/target/fabrics-cmd.c       |   2 +-
- drivers/nvme/target/fc.c                |   2 +-
- drivers/nvme/target/nvmet.h             |   9 +
- drivers/nvme/target/passthru.c          |   9 +
- drivers/nvme/target/pci-epf.c           |  12 +-
- drivers/nvme/target/pr.c                |  37 ++-
- drivers/nvme/target/rdma.c              |  31 ++-
- drivers/nvme/target/tcp.c               |  19 +-
- drivers/nvme/target/zns.c               |  15 +-
- include/linux/list.h                    |   9 +
- include/linux/nvme.h                    |   4 +-
- 36 files changed, 1561 insertions(+), 289 deletions(-)
- create mode 100644 Documentation/ABI/stable/configfs-nvmet
- create mode 100644 Documentation/ABI/stable/sysfs-nvme
- delete mode 100644 Documentation/ABI/testing/sysfs-nvme
+Why do you think we'd want to take it?
 
 
