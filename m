@@ -4,147 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DC1B2C5CFC1
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2026 11:48:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99B9EC5CFDB
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2026 12:14:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
-	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KkB4V12eTA821GdTJvZQBmdDFYbVNvj1BDpgM9Oyh6o=; b=0TfEszmBhuDeDyiPkP+pA7iyDO
-	Gvyvh6a8+hssVQwjm4Hz1fag/ozHPIvj2hSsg2FxsOccgdRYcoj7sVcWzRmhS8B4TCMROMwUWp8Y2
-	zRVKsAd2RoFoE94VJjg8uFoIcNBIb6FOuY9ljhtsnuwS+VEwskWwVqdWxD1hDwDRBMK+8eCzSe7GG
-	Lr6oMUePywwO6Lm9DXEADOfa0JPM7Ld0rIVyipL683sHpGwHlKEyHyzTtVD2aMzqvRHQKPkPQ5JwI
-	EnSVEKQNFEQC8RJHG5Kqsx1Bva4S2FMr/AYtSjA7Km64FxJP65QbRFKpR975ND4OjQjY6lBxmaMt9
-	AEym58rA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=g57BPbBjVyFYadXJrMobD1BBS6GenGZ8fGUkvoQD0vk=; b=JrWCKhmTxgz17QfFb8kz8wVGfY
+	UMKfJtz/4kDQXIgsSW7Zl/UnZezMT7o4oOS597N81Fqfi9vi0b1b4uOaNVoVZkyJj8mdON7gRjNzR
+	nFdsfAOcfQYTybruESjhHcK/WQN6wySt5XC1m9LJYmFkMkZUPNLh9YClbBWWqaPwTJOCr5G5Jk+lJ
+	vAIOuNGJ4D1cPHaKXtR7xX4CswVmrzhdz9bjTCWHa/qLhEj14Tq8LgNsNnvP8uBuAgm7cxgbvDYNP
+	aNi1GZxk2v+tHL8NpQMpo8lu9e7UqjJNLa92SVeqYHRUwspu2GNePUXd0BTDt7AMZy+WiPNJbhUuw
+	+Gg0TUWw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wuqOR-00000002cBR-3jBZ;
-	Fri, 14 Aug 2026 11:48:11 +0000
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+	id 1wuqnz-00000002dWn-1um1;
+	Fri, 14 Aug 2026 12:14:35 +0000
+Received: from mail-oo2-x05.google.com ([2607:f8b0:4864:31::5])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wuqOP-00000002cB7-2BKc
+	id 1wuqnw-00000002dVf-2rTW
 	for linux-nvme@lists.infradead.org;
-	Fri, 14 Aug 2026 11:48:10 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1786708089; x=1818244089;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=1XfZwbrTiriw/YYxnwWrqDRRvH/jTazbh1JeuAbjk1c=;
-  b=kNxevuH4wty5UciXaLM89WxYPT1AXVWvPaYfee1NhRf+7SUF0h4SdrYd
-   3AK+SaGbYSbYgZgn2h8xvPwS5MlhrcJ6MvIupKFQrbgY03HzZgTwG/Xt+
-   sWwZwMjzG7lf5LHvt7b15Sho/4fvTnvGWfRwp0mDWRj3dfxeBz1A4fWTU
-   Bs08lOnNiJ16LvK/ID9Rqpht2N1QxCjUDerB3JRvFS/3Y+aSUgjiH3xgz
-   P4L3XTb5+n/6sjHXSKrRWx6roenk3jeuTzNRu9CV17tdobaVhtC8qQyYm
-   9tuE2AwgqejENE7beXqIEuSvkaZbGLS6aaW6RXORWJQYR/0yniATD3Qw/
-   Q==;
-X-CSE-ConnectionGUID: i4pScHoHQu64wrHr+Zy/cA==
-X-CSE-MsgGUID: jCjTygZtTPyl5LtHgSP5PA==
-X-IronPort-AV: E=Sophos;i="6.25,222,1779120000"; 
-   d="scan'208";a="152909990"
-Received: from mail-eastusazon11012006.outbound.protection.outlook.com (HELO BL0PR03CU003.outbound.protection.outlook.com) ([52.101.53.6])
-  by ob1.hgst.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 14 Aug 2026 19:48:07 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MUshoZSW/jRNDA/d/KFSjyUHEbEwgNOK6KlWGZhXn44AoplCmSUysUB+TNw+RaNhUTaFNuGrh9weBt5qGoaC21LPX71VSK/1kvdFChPds9vt6P50xka8iOjqsgIKzmNhp2Kinq+d34zgZVvVpIolmQeF+NSeQSb1oZ6Z5RJBduPV2m/J/zvUOpf0czb/bDcJUlKKzzzew5QTYyqyGsyaz2PrcZ7nk4SuuAe6MEBw6AbZI5hQ6cWZG8imaJQKGIhPcnJGyVUKdeiQRmw0c3ui/KuFLz5wHW9uXMn0KizU9VS9yonr8Wmgrh7CWToGjp39dIbstDFAXw3/Uw80kzdryA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KkB4V12eTA821GdTJvZQBmdDFYbVNvj1BDpgM9Oyh6o=;
- b=k4CG4SB6bp52g3iADp64RccVds+ccCcZdzqyXHc41z9hAWe+xDvrVJ1DqX7IZNkUtxLPvMFa6jT4gCLUDq27EWZZ4uGeIqIOY2m8tDF8CIFjlNfIJeg57osWkTwqskrbK3udpWbV4wro3yd/vDm6wXGdqcCI3VunaRPGh+Wq6atkHRczksMK1YJJGplbbxt5kEL4IJTPPzmhLT+FwJDHFrVCqt/OGd930DoZeAfqaKogo+BA6YK8HGSXQhy03k4F5oIcGzjakwgEHgH5fgpVMe2IBfzv7mxN6nx/EJpm+RI0iQzcXYtXrTF8eMBR5KgbAm7nk5dyVp72R1R1anKNeQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
+	Fri, 14 Aug 2026 12:14:34 +0000
+Received: by mail-oo2-x05.google.com with SMTP id 46e09a7af769-7edcd5f9e55so286938a34.1
+        for <linux-nvme@lists.infradead.org>; Fri, 14 Aug 2026 05:14:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KkB4V12eTA821GdTJvZQBmdDFYbVNvj1BDpgM9Oyh6o=;
- b=V659wnHnT9u9Am7eet/3RWw5fjHveWE9e5WJAZx68ZSyZ2Pc4AdsLRltQgrjYTUGG/zlanOjp1Qbx+0PiJZVEeB2fiaf7ltA1BEKw4kXl1aIsDToZNcocZE1aV3c8mFEIq4jBhGPyLEYSjR2ugrd1jXOVofJAVmXtpDVnFP6GWo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-Received: from SA1PR04MB10065.namprd04.prod.outlook.com
- (2603:10b6:806:4dd::14) by BN0PR04MB8078.namprd04.prod.outlook.com
- (2603:10b6:408:15d::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.16; Fri, 14 Aug
- 2026 11:48:03 +0000
-Received: from SA1PR04MB10065.namprd04.prod.outlook.com
- ([fe80::9b98:bf8a:b0b1:ef85]) by SA1PR04MB10065.namprd04.prod.outlook.com
- ([fe80::9b98:bf8a:b0b1:ef85%4]) with mapi id 15.21.0315.011; Fri, 14 Aug 2026
- 11:48:01 +0000
-Date: Fri, 14 Aug 2026 20:47:56 +0900
-From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Jesse Taube <jtaubepe@redhat.com>
-Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	John Meneghini <jmeneghi@redhat.com>, Daniel Wagner <dwagner@suse.de>
-Subject: Re: [PATCH blktests 2/2] nvme/070: Test multipath and marginal ports
-Message-ID: <an78AkXI1SUHXBwg@shinmob>
-References: <20260812174503.3705830-1-jtaubepe@redhat.com>
- <20260812174503.3705830-3-jtaubepe@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260812174503.3705830-3-jtaubepe@redhat.com>
-X-ClientProxiedBy: TY4P286CA0111.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:380::6) To SA1PR04MB10065.namprd04.prod.outlook.com
- (2603:10b6:806:4dd::14)
+        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1786709671; x=1787314471; darn=lists.infradead.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=g57BPbBjVyFYadXJrMobD1BBS6GenGZ8fGUkvoQD0vk=;
+        b=Sdr9Vtdjde5r9MvSKLgpYT5fxRGKje/uH9lmI+hGQ2LwCxocoBiVQunEfAq1HXwZLr
+         hPMzJqapxSqxHzRjn8AZJ2UhWOOXMOamqxgAu9F4m4iVFP/rtLd5q4bcKEVcbQVv0xZw
+         QEbrVUKADloWcRi+h71HOs8yowEjNyfnmx50vXWobNh3MW/Frc1bYyy+/k8Rwhakl9kO
+         Q9JdrsmTcQ7Qdutonqk004Glj483DdzhQOWvlSFz8+rFGlXl/D1CC2euiHJejumhvF+/
+         6WRl/39TAPC0kXAwgZSBkq1qVoInUAmM7zQS3zK6GcdtnUW77R/PXwMQA3OsgzJD7G+0
+         G2rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786709671; x=1787314471;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=g57BPbBjVyFYadXJrMobD1BBS6GenGZ8fGUkvoQD0vk=;
+        b=hHM0eqLMfMJMAOUPSFrxN0Ngeo2+Ov2zY0/7t2LeJFsBfn7CTyOo92Q+RHfmDj9Sh1
+         a4tDUC4Fh8X8b/YsXosqzjW32mxOjG231G+2741qLVvbb0C74iuxNPuX56Xvwj5rI4gG
+         CmL65zWFnfR/jycoX2Vd4JPp5ok9ZSR/G8utdl6PtS/t0E4GR0Z4TDI0CWeNbthEM8QD
+         4kCVuZkRW+KDlaOAsszWnsJvDUXJrRC5vaV2R+aAgJJCpNpXOMtMSfIHJVYCKqa3Mili
+         1LJkGo48dvq4tR7beg4zqqqK5JL2JKgtE6pzqF8o6geJRgmxQLskBRJoh92nwMctLE0U
+         UDhA==
+X-Gm-Message-State: AOJu0YxKja7ugj9ZnQ6nyMy8fyB/184qRMzFRzyOWUI2RwS6fdBGebzO
+	XH7fneMaPDznclT1gWjgSnaAaZ5gU7suoOjeoJm8k6md9L3GEzlzddCARVBDz9IbNDh9cU3ELsS
+	cvHZLa4tp3Vfs
+X-Gm-Gg: AR+sD117OkOjxuhFptQBg95WA3vw8stjeqgUMkKYho6B62pt4faDDPHKjtVgA8yqmRF
+	0yj7MBkifd1nM0HScnpuj+urf4PBuwyY3MW/JU33nCHBRtL0A4B8oZom4Foxq1m9iQVRgOgH9ln
+	EgUlof5sfHZV8soFPfKpdKetDAB0dgaNeqc6pMVA3ggVnYFhrlua1dibJiR+FIovuFyubPHW8jQ
+	a7R28ivwrRIPuSSfcv7klWrAxtKTnTICkATJ+yQuHK+KpUAHdA89VnbHAmLeuSvXFhBawl+2taE
+	xdwtBcTWiYo0k+3wTeCS7UqoO743kuZ6SEVruytdruL9CWoGsfmlnDlNBD3hR8MgC/MrwVSPZ0b
+	Q3TXi8P7DWG/w+hC1LPCYzekSN8ECSRYdKQdTLvj9muGkcjEm5we/zhkshf2IQI9OZfcxHiRwzh
+	hr+zAMKpV1p9o1KN/Xt3qosDxiSKMdjLy9UicOmJEutLelp49HAvveXXQTXNZ8BMC64yCv3zXme
+	1DGvfXVYpt0ZtSjFUCNODGmcHvrC+kVYsiEGcfLOHO3bok=
+X-Received: by 2002:a05:6830:2992:b0:7f1:deb5:5a5a with SMTP id 46e09a7af769-7f3de55432cmr4921749a34.9.1786709671361;
+        Fri, 14 Aug 2026 05:14:31 -0700 (PDT)
+Received: from [192.168.1.150] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7f3e8197905sm865606a34.0.2026.08.14.05.14.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Aug 2026 05:14:30 -0700 (PDT)
+Message-ID: <59c3dfa6-be4a-4b88-9c13-60541f0ac989@kernel.dk>
+Date: Fri, 14 Aug 2026 06:14:29 -0600
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR04MB10065:EE_|BN0PR04MB8078:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3faadfee-f20f-4fbe-3d5e-08def9f9e502
-WDCIPOUTBOUND: EOP-TRUE
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|23010399003|19092799006|1800799024|22082099003|18002099003|56012099006|6133799003|11063799006|10067099003|4143699003;
-X-Microsoft-Antispam-Message-Info: ABk4qwF76Wqt4V97jqIweObXqeaJ8BASQaryJxqnNp3B5GnrAik0cIYJ4E/9cqHOxWDfMcU3IJQrDmK/BnpX6Ja4fIXCm+gCn0niCGfxaJMKv+ldWSIUhgkw6WN/E/DaRMAdloSmdMB+NTcHSumKUdLMEPdWa5HqBOmz/h+eC5CRjf6hjFAQzhxHGya64Q6C2eE8re0cOuhZBebrECWllOqsw+QuNSwUwUzRyxQeO7EVmem39VmNLOXo/QnjOKjlHYCO52DTpoz3g2Taz3yXf+8KA6MzDM/CfuMFooyN5fRq6L2+1narl03ZAJb9Duee/q+r5ETHeaSGLJFjZWlyPF8kG1YArxIQ6CPLUrmAnEBrVi2WeM8DZcZGkFc2+sSuXE/MUYuoIDsQyvTVbI4A+t3L4QG4pqo1hHXegzO2h9J+cL6bFs9Z7VGKGg6M00O/z3IYgglkew1P7mSj180SAU39YWp9zovmMyTyk0L9GRHEqBlJON4OWbCKCgV2qkeyUBpDPTwBZtv53y99peWXOV26B6eUlmCwshdM8hx8kUSUD2hZJ72IVRu7T+LlVGRd1Q9LKSc7BZp+9HHFS1xM9BXoILKEaYYAcnB7mDswc8AHo9SlZ0M/QPymxRevT0r3HcGtmDoMqSXH7r/CrnqpL30RT6ozLuyBNmp1ZorqM6E=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR04MB10065.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(23010399003)(19092799006)(1800799024)(22082099003)(18002099003)(56012099006)(6133799003)(11063799006)(10067099003)(4143699003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ZWV8agF9GWizAiUn78Q2HjQ2bZPj6n7J+6W+VCw2jDMDNzZhkBgCmm8sBls/?=
- =?us-ascii?Q?3u5PbzhV6SPv5bDLyLx1qQj31LG8d/1A3s7GsTA8+n31Q6euGWq8+dSXXiy6?=
- =?us-ascii?Q?wFreTFQxB1C0WbWphcAR6h9WtkUp0XyEG8vF0kR0GmWr2uYJfI1IOAQHJm3k?=
- =?us-ascii?Q?ZEp0DG8NKho3tlWVUqrXl4gk3Ui5AOeyoM1nF0iXSGBi+1eWDxnmA7O9JDhP?=
- =?us-ascii?Q?wLjHccWERsVAtAji5NCanMCeZLzRQay/9YKNgIb8i17bgEIL8w4yow3mo1gh?=
- =?us-ascii?Q?ZrUW38wWl2t5cdub6J+XRxxXkIGli3iM0zupTdsbX8qcqPTdb0VrcemoXmR9?=
- =?us-ascii?Q?S/QizvvQz92w1w0nvq9MyAY8YZcPdSR/liI7mXwiXqREzOubxISH/RpfRy02?=
- =?us-ascii?Q?VI5hnj/Amm/BmqvKng2clI+rjXsGUqDflf3nZ4Ael+hgIQvENvTQPNmSqPKW?=
- =?us-ascii?Q?7p0uDnqzhyI+d5FnKoYokF1Y+i3R/ka+IETFdH+bYig8EnqZ4oz9sfqYdNdk?=
- =?us-ascii?Q?DTdfCQgtA8hW8M6duTj8tgWZi4a6Isa2RMpng/TTsK3RdfjJEYFtwf/sPKN8?=
- =?us-ascii?Q?BM+z8S6QcNn2i4nBlokCc2KZek3ghBLAlXSG9YYSWQV/I6ttHyBL3ONi+75L?=
- =?us-ascii?Q?gUNs6Gk/PgRfvy7Vs+8VDmDIrQXyIbQIWrM9+tdvu2XrUQY+rJQzfeln1+WK?=
- =?us-ascii?Q?Cemyt3nsVmBEgxDTos/joeF2bbdV7QBjujjBBNS2aQj952QgSAdykNXcKjEF?=
- =?us-ascii?Q?Oe8KIn1n70fNnDdpgjP0Xf+zoQAAGluUsRTGFXgQlB5ZzfIr7OKBwE4ILmXF?=
- =?us-ascii?Q?M0RYrioxHHM8VYLFlxAc7olaEYSCyBK9iCOCyIolyZq4ya+jPCQi/uh8tctA?=
- =?us-ascii?Q?LgTIEvvZsS/Yu6DwRmAVB/hWbZW76cuigFcaVeCXLR8PzEID80MjfA20/rcV?=
- =?us-ascii?Q?dW4n+ISjVBHXLaDUmzFjAzBQmWqkYQCQaJcU3Wv3rR+oZaioKkhHFY9ZMRYj?=
- =?us-ascii?Q?HMliIbEMhUgPsR13CFdAvxxqySNDrAcpptYEsjVePf5cMSlJkF02sS09tH6J?=
- =?us-ascii?Q?gtQvd8PMj2K7D13+UwUjOG9w4HHAQKsLaYuMoFhE6usMuSrycikCPINOZyo9?=
- =?us-ascii?Q?g0BBMX/2RPYlWinfWDoaH52tigRNH7YNoYd85PThlfP9BsQ2Zd88hm9bJP4j?=
- =?us-ascii?Q?MYKzM4h9YqsKsLA99g4rqUQmDc6AB9RSSXzt39+9i5EcHgNlCJrjce0hMIHk?=
- =?us-ascii?Q?6DkHV0DBg149Q0CmbC0g8pxFDXIE8h1UsuRD+WbPQMZgyGRK/MM6bUhRvcec?=
- =?us-ascii?Q?Q+GUHBxPCEXnEaG3qVT+k4HofilUeO/5m+btNZZ07YapgWno3TBCQt8w2Afb?=
- =?us-ascii?Q?3XhMiOfL1arPOvR9EJ0DMs/cL3Ja63qvT703hRMtOtjuLpXQJ7sugWvDcDle?=
- =?us-ascii?Q?914VKgyNZlIov5o9Z+AU5qLJ9BwZd22VG7ZYg9YA66188oEsOZpigj4CI/tl?=
- =?us-ascii?Q?VbDWHJ93Y1sayZCTWutZyH6JnQxK22iNkCJ2ASFtYI/35vYveci9CqsF112o?=
- =?us-ascii?Q?q2bu9Dmuv0VzQCQTyYqGcpeNGS2FeWmoM0D8ck4QpmTUmmteVwbmQsmBG3eg?=
- =?us-ascii?Q?0qp2oI6ZtFydb7mRIXXCsN4PCag0x8+zP8j/nWUcQYv1gsX3D+6eXDpPlEL5?=
- =?us-ascii?Q?ZsPmUZ+ZaYnnuHLYhlXhIaF0EFgedQa7r2/d5KffkFdHsZkCDdJQZJwDtyNK?=
- =?us-ascii?Q?Gp3sJaGigLVrHZArlAiVqJ5OfBBL6EU=3D?=
-X-Exchange-RoutingPolicyChecked: I+mbrIFKZEZLmocMwlbmkk7q0+ZBWYM1Uwr3TMUyzgQKK1qTc9T1NrZCkMM9ZGcSjtKVHrjWubIK+k6HcroPzyTKWsJZEj4kuHx8oFcUzLpqrdc+QBNIPLtaj3gjpQa6zCB8Z0Cg6ZXiJSN/qwxL0LvPu3hEA1Az/DnHr0nohg2GdLR9QCmRltc4swJDKbBWR+9BN49YmeRR/DYxx8eclj4v6MtRBnvRfjHRPRJj4YDpUMfYJ3rXrQn+5Bb8Xyae0C4sNZmfHU8AelHRx5aPWQ7Bbx4S+D3827rbjP0m/TeiR6ZFNGW61RlPeJl94YfINbsL7tTw2XPQdRX6+Otj+A==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: eEiJvQ13tcCnjbXXs1gU3bM1DElc9McsDGUWuMgW1nHOLEm5BgXYp7KXmr+Kti2512B/C+u+qQItkd0fAkdyqS5fBC1eKlY8nqz9Ob7yy2EZ2jmvDks5BRHocDSlsrAjPEVKceeE+5Z+g0V6wFxHBJCvMBUPhCr01apQCVd+lyW8xcA8o0/zgdDGXii9AO5E9DBE9xjszLx8XD4Ds3QkbUZnWMqCybHFi+eCZRZelq+FWtDsMAOJGag0IlKaDpNuF4bBjbYFbEjEsFu/L8BQQT+wd9N2My8fEPqDPRaeiUrVx1gExlNihMqGumWM738+Yqq9A4xLxzsol7Rcr+uLnUewtWEZ5SBbRgNEQJxWi8p5wF35idzD2ZamYWILGXR5YT+gKQoOa9wZbcHNFgRfLjTgaYtUhdpdQQqDaUBpdtGvL/Q7AhdnubwjOI7c4BTAwbFUlfcRH7+zXl/JFtTDJGfpuSH+a6Sp9r+ifgDDK9q2IwVRsqHaTO1V03dDuGCep1bKB3Vl07llvMEGvSFnH2QPl/Kr3siMqlEhqLYfUnNOqmRbZe0XS0F7nmMl9YDx0YWYBRi4ecg/37F6+B6p54Wpf+ziCJyDi2qhryJuNOZgCv4q+DuSwhb0qXLdawFE
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3faadfee-f20f-4fbe-3d5e-08def9f9e502
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR04MB10065.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2026 11:48:01.8237
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rOCG2EKZ5ddOu3mTZKYNJz/OtacCxuKC0EVJX2Xkf/L+H32deWiKxQUZajd/FwomhUzgT6JVTNHm+y6hV0CXkbDJrpHNXZ5U+la9eKB7yBE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR04MB8078
+User-Agent: Mozilla Thunderbird
+Subject: Re: [GIT PULL v2] nvme updates for Linux 7.3
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de
+References: <an44rv4ZgsxxyFD8@kbusch-mbp>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <an44rv4ZgsxxyFD8@kbusch-mbp>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260814_044809_584208_BEADC281 
-X-CRM114-Status: GOOD (  26.81  )
+X-CRM114-CacheID: sfid-20260814_051432_988107_CEE18CEC 
+X-CRM114-Status: GOOD (  15.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -159,253 +102,54 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Aug 12, 2026 / 13:45, Jesse Taube wrote:
-> Add tests/nvme/070 to test various multipath and marginal port
-> scenarios, while confirming the port useage and state. This test is
-> intended to emulate receiving an FPIN event in a multipath environment.
-
-The test contents are comprehensive, which looks good to me.
-
+On 8/13/26 3:35 PM, Keith Busch wrote:
+> This time with the summary in the tag.
 > 
-> Suggested-by: John Meneghini <jmeneghi@redhat.com>
-> Signed-off-by: Jesse Taube <jtaubepe@redhat.com>
-> ---
->  tests/nvme/070     | 521 +++++++++++++++++++++++++++++++++++++++++++++
->  tests/nvme/070.out |  43 ++++
->  2 files changed, 564 insertions(+)
->  create mode 100755 tests/nvme/070
->  create mode 100644 tests/nvme/070.out
+> The following changes since commit f01f5275feb77bac9fefbbf7cc584fe0b3850a92:
 > 
-> diff --git a/tests/nvme/070 b/tests/nvme/070
-> new file mode 100755
-> index 0000000..a8002f8
-> --- /dev/null
-> +++ b/tests/nvme/070
-> @@ -0,0 +1,521 @@
-> +#!/bin/bash
-> +# SPDX-License-Identifier: GPL-3.0+
-> +# Copyright (C) 2024 John Meneghini <jmeneghi@redhat.com>
+>   ublk: snapshot batch commands before preparing I/O (2026-07-02 06:25:21 -0600)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.infradead.org/nvme.git tags/nvme-7.3-2026-08-13
+> 
+> for you to fetch changes up to f1a8846e06388113dfdbb89dee005083fa9afdf9:
+> 
+>   nvmet: fix max_qid race between configfs and controller allocation (2026-08-13 09:26:44 -0700)
+> 
+> ----------------------------------------------------------------
+> nvme updates for Linux 7.3
+> 
+>  - Enable context analysis for the nvme host driver, annotating the
+>    subsystem's locks, along with the LIST_HEAD_GUARDED support it needs
+>    (Nilay, Marco)
+>  - Harden the tcp host and target against malformed PDUs and out of range
+>    SGL lengths (Yehyeong, Ibrahim, Greg)
+>  - Fix unserialized page_frag_cache use in nvme-tcp request setup (Dmitry)
+>  - Bound identify, FDP and passthrough descriptor parsing to the allocated
+>    buffers (Hari, Guixin)
+>  - Zoned namespace fixes for host and the target (Xixin, Guixin, Yao)
+>  - Apple controller fixes: page aligned admin queue buffers, NVMMU TCB
+>    setup, DMA direction and admin queue teardown (Sven, Gui-Dong)
+>  - Add a namespace level debugfs directory exposing reservation state, and
+>    ABI documentation for the host sysfs and target configfs interfaces
+>    (Guixin)
+>  - Fix cdev and namespace lifetimes (John)
+>  - Parallelize nvme-rdma I/O queue allocation and startup (Surabhi)
+>  - Fix nvmet-rdma response resource leak on queue teardown (Shin'ichiro)
+>  - Authentication fixes: AUTH_RECEIVE buffer and an out of bounds read in
+>    negotiate (Xixin, Bryam, Guixin, Eric)
+>  - Fix pci-epf use-after-free and CQ reference leak (Shin'ichiro, Yifei)
+>  - Reject passthrough of driver managed Set Features (Chao)
+>  - Various error path and teardown fixes across the host and target addressing
+>    issues with use-after-free and leaking resources
+>    (Guixin, Maurizio, Ewan, Zhengrong, Jiang HongHui, Myeonghun, Yang,
+>    Geliang, Yehyeong)
+>  - Various cleanups and typo fixes (Nilay, Guixin, Pan Chuang)
 
-This patch's author is Jesse, which looks inconstent with the copyright above.
-Also, please reconfirm the copyright year 2024. Should it be "2026" or
-"2024-2026"?
+Pulled thanks
 
-> +#
-> +# Test nvme-fc marginal path handling with fcloop
-> +
-> +. tests/nvme/rc
-> +
-> +DESCRIPTION="test nvme-fc marginal path handling"
-> +
+-- 
+Jens Axboe
 
-...
-
-> +# check if all link is in state and use state if optimized
-> +_rport_check_opt() {
-> +	local RPORT=$1 # /sys/devices/virtual/nvme-subsystem/nvme-subsys3/nvme9
-> +	local STATE=$2 # "Online"
-> +
-> +	_rport_check_online "$RPORT" "$STATE"
-> +	# Only optimized paths will be in use
-> +	if _rport_optimized "$RPORT"; then
-> +		_rport_check_use "$RPORT" "$STATE"
-> +	else
-> +		_rport_check_use "$RPORT" Marginal
-> +	fi
-> +	# Returns Success or Fail
-> +}
-> +
-> +# check if all link is in state and use state
-> +_rport_check() {
-> +	local RPORT=$1 # /sys/devices/virtual/nvme-subsystem/nvme-subsys3/nvme9
-> +	local STATE=$2 # "Online"
-> +
-> +	_rport_check_online "$RPORT" "$STATE"
-> +	_rport_check_use "$RPORT" "$STATE"
-> +	# Returns Success or Fail
-> +}
-> +
-> +# Check if one of the marginal paths is in use
-> +_rport_check_one_use_online() {
-> +	local RPORTS_PATHS=("$@") #  /sys/devices/virtual/nvme-subsystem/nvme-subsys3/nvme9
-
-Nit: "local -a RPORTS_PATHS" is a bit better than "local RPORTS_PATHS" to
-     clarify that it is an array. There are some more local arrays in this patch
-     that are declared without -a.
-
-> +
-> +	# Check if one of the online paths is in use
-> +	for subsys_path in "${RPORTS_PATHS[@]}"; do
-> +		# If path is Marginal, continue to the next path
-> +		_rport_check_online "$subsys_path" Online || continue
-> +		# One of the online paths should be in use
-> +		# "!" inverts the return code, so returns false if path is in use,
-> +		# running the return statement
-> +		! _rport_in_use "$subsys_path" || return 0
-> +	done
-> +
-> +	echo No FC ports are being used, expected atleast one in use when all are online in numa mode.
-> +	# None of the online paths were in use
-> +	return 1
-> +
-> +	# Returns Success or Fail
-> +}
-> +
-> +test_set_all_online() {
-> +	local IOPOLICY=$1 # "numa" "queue-depth" "round-robin"
-> +	shift
-> +	local -a RPORTS_PATHS=("$@") # /sys/devices/virtual/nvme-subsystem/nvme-subsys3/nvme9
-> +
-> +	for subsys_path in "${RPORTS_PATHS[@]}"; do
-> +		_rport_set_online "$subsys_path" || return 1
-> +		_rport_check_online "$subsys_path" Online || return 1
-> +	done
-> +
-> +	if [ "$IOPOLICY" == "numa" ]; then
-> +		_rport_check_one_use_online "${RPORTS_PATHS[@]}" || return 1
-> +	else
-> +		for subsys_path in "${RPORTS_PATHS[@]}"; do
-> +			# Only optimized paths will be in use
-> +			_rport_check_opt "$subsys_path" Online || return 1
-> +		done
-> +	fi
-> +}
-
-...
-
-> +run_test() {
-> +	local IOPOLICY=$1 # "numa" "queue-depth" "round-robin"
-> +	shift
-> +	local ARGS=("$@")
-> +	local RPORTS_CNT="$(( $# / 2 ))"
-> +	local -a RPORTS_PATHS # /sys/devices/virtual/nvme-subsystem/nvme-subsys3/nvme9
-> +	local -a RPORTS_HOSTS # host1 host2
-> +	local PATHS_POS # /sys/devices/virtual/nvme-subsystem/nvme-subsys3/nvme9
-> +	local HOSTS_POS # host1 host2
-> +
-> +	# recrate the arrays
-> +	for (( PATHS_POS=0; PATHS_POS < RPORTS_CNT; PATHS_POS++ )); do
-> +		HOSTS_POS+="$(( RPORTS_CNT + PATHS_POS ))"
-> +		RPORTS_PATHS+=("${ARGS[$PATHS_POS]}")
-> +		RPORTS_HOSTS+=("${ARGS[$HOSTS_POS]}")
-> +	done
-> +
-> +
-> +	echo Changing FC links to online
-> +	# Initial check to see if FC is operational and set ports to online
-
-The lines below in this function have more than 80 characters and hard to read
-in small terminals. I suggest to fold each of them into multiple lines.
-
-> +	test_set_all_online "$IOPOLICY" "${RPORTS_PATHS[@]}" && echo "Set all online: pass" || echo "Set all online: fail"
-> +
-> +	test_set_one_host_marginal "${RPORTS_HOSTS[0]}" "${RPORTS_PATHS[@]}" "${RPORTS_HOSTS[@]}" && echo "One host marginal: pass" || echo "One host marginal: fail"
-> +	test_set_all_marginal "${RPORTS_PATHS[@]}" && echo "All marginal: pass" || echo "All marginal: fail"
-> +
-> +	test_set_one_non_optimized_online "${RPORTS_PATHS[@]}" && echo "One remote non-optimized online: pass" || echo "One remote non-optimized online: fail"
-> +	test_set_all_non_optimized_online "$IOPOLICY" "${RPORTS_PATHS[@]}" && echo "Two remote non-optimized online: pass" || echo "Two remote non-optimized online: fail"
-> +
-> +	test_set_all_non_one_optimized_online "${RPORTS_PATHS[@]}" && echo "Two remote non-optimized, One remote optimized: pass" || echo "Two remote non-optimized, One remote optimized: fail"
-> +	test_set_all_online "$IOPOLICY" "${RPORTS_PATHS[@]}" && echo "Set all online: pass" || echo "Set all online: fail"
-> +
-> +	test_set_all_marginal "${RPORTS_PATHS[@]}" && echo "All marginal: pass" || echo "All marginal: fail"
-> +
-> +	test_set_one_optimized_online "${RPORTS_PATHS[@]}" && echo "One remote optimized online: pass" || echo "One remote optimized online: fail"
-> +	test_set_two_optimized_online "$IOPOLICY" "${RPORTS_PATHS[@]}" && echo "Two remote optimized online: pass" || echo "Two remote optimized online: fail"
-> +	test_set_all_online "$IOPOLICY" "${RPORTS_PATHS[@]}" && echo "All online: pass" || echo "All online: fail"
-> +}
-> +
-> +_nvmet_get_rport() {
-> +	local PORT="$1"
-> +
-> +	local dev
-> +	for dev in /sys/class/nvme/nvme*; do
-> +		grep -q "io" "$dev/cntrltype" || continue
-
-Nit: I suggest long option --quiet instaed of short option -q.
-
-> +		[ -e "$dev" ] || continue
-> +		dev="$(basename "$dev")"
-> +		grep -q traddr="$(_fc_traddr "$PORT")" "/sys/class/nvme/$dev/address" && echo "$dev" || true
-
-Nit: same here, replacing -q with --quiet, and folding the long line
-     to multiple lines.
-
-> +	done
-> +	# nvme9
-> +}
-> +
-> +run_tests() {
-> +	local SUBSYS_PATH="$1"
-> +	shift
-> +	local PORTS=("$@")
-> +	local -a RPORTS_PATHS # /sys/devices/virtual/nvme-subsystem/nvme-subsys3/nvme9
-> +	local -a RPORTS_HOSTS # host1 host2
-> +	local rport
-> +
-> +	for port in "${PORTS[@]}"; do
-> +		RPORTS_HOSTS+=("$(_get_fc_host_port "$port")")
-> +		rport="$(_nvmet_get_rport "$port")"
-> +		if [ -z "$rport" ]; then
-> +			echo "Could not find rport for port $port"
-> +			return 1
-> +		fi
-> +		if [[ "$( echo "$rport" | sed -n '$=' )" -gt 1 ]]; then
-> +			# One traddr has multiple /sys/class/nvme/nvme devices
-> +			echo "Port $port has multiple rports with address"
-> +			grep  traddr="$(_fc_traddr "$port")" /sys/class/nvme/nvme*/address
-> +			return 1
-> +		fi
-> +		RPORTS_PATHS+=( "${SUBSYS_PATH}/$rport")
-> +	done
-> +
-> +	local IOPOLICYS="numa queue-depth round-robin"
-> +	for IOPOLICY in $IOPOLICYS; do
-> +		_rport_set_iopolicy "$SUBSYS_PATH" "$IOPOLICY"
-> +		echo "Testing iopolicy: $IOPOLICY"
-> +		run_test "$IOPOLICY" "${RPORTS_PATHS[@]}" "${RPORTS_HOSTS[@]}"
-> +	done
-> +}
-> +
-> +_find_nvme_subsys() {
-> +	local subsys=$1
-> +	local subsysnqn
-> +	local subsys_path
-> +	for subsys_path in /sys/class/nvme-subsystem/nvme-subsys*; do
-> +		[ -e "$subsys_path" ] || continue
-> +		subsysnqn="$(cat "${subsys_path}/subsysnqn" 2>/dev/null)"
-> +		if [[ "$subsysnqn" == "$subsys" ]]; then
-> +			echo "$subsys_path"
-> +			return
-> +		fi
-> +	done
-> +}
-> +
-> +test() {
-> +	local -a ports
-> +	local ns
-> +	local fio_pid
-> +
-> +	echo "Running ${TEST_NAME}"
-> +
-> +	_setup_nvmet 2
-
-When I ran this test case on the kernel without the patch series
-"nvme-fc: FPIN link integrity handling", this test case just failed.
-I think it should be skipped if the kernel does not have set_marginal_rport
-sysfs attribute. I suggest to add the check below:
-
-       if [[ ! -w /sys/class/fcloop/ctl/set_marginal_rport ]]; then
-               SKIP_REASONS+=("fcloop does not support set_marginal_rport")
-               return 1
-       fi
-
-> +
-> +	_nvmet_target_setup --ports 2
-> +	_nvmet_target_add_ports --host_port 1 --ports 2
-> +
-> +	_get_nvmet_ports "${def_subsysnqn}" ports
-> +
-
-...
 
