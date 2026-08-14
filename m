@@ -4,79 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 29C30C5CFC1
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2026 15:10:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DC822C5CFCF
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2026 16:10:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=v1GRrOlyN9nkOUdimeoCQpzY7og1lchpuM501N4iN80=; b=p9o2YWp4RiKxM4vC0oDMSZZEjc
-	WHXJcWXbeZ8ZvSyC4x4e1UCx7mqAhfkUVBa/pi8VRk5NYsxi5vG7rJvS3+pmJ+hTniecjfNmVIn3E
-	ecjr8Db8DOqJewRIkN2PLWKTCEFWedK2P8nkyC/WbQodmff3ALH3TBI4n6qIm+E6cR1111NVOQTM3
-	KTXPJOFugI6Qkm22nmuo15UYj5eoE2am2a/zeo9Q/JNe1fJ5JIDBlK955Ue3KNpiKYVVPXMTzBfYe
-	GWrCcSC42CEWYXenPr2C7pGPB+6bTCjVtXVc5lmN2kPa4GzDIFZqp4akDR3S2w6r8orYPB1jesBgf
-	mEWEsaCw==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=yxq818myupXhtwcrZIn4DVpAwIlvbEBii869YtzAJT8=; b=P4cqquRTrNpWyZvekC3P+kcRiM
+	pxsRlkojdir8ORhFT7Eb5+PB26GNR7VpOYZ1vq6ygVZNVn6Dff/feinfVCeHKDNwscJUuihci1Zyq
+	3uc2bj/plnib60TohpsGLf4UISvOzHqGDZksKbQRwbHTSMWxE8pEeny07ewc8QLiSyng3cGL3kvF2
+	rg85+1f5CJtyvEsdYuwe/iqEnqee1IP7UDhUAhojf/6Tbxgd9YFWrd5boDG9uoK+Qz68HD6F/RffA
+	nsv2U0b+VdX+hIHsKEuXPq3c86o5zsqKS/MxveFGiS6E/J7/r+9l59jyRjZoVQgbdRq6ehoDDxWLu
+	VBdX6HUA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wutYE-00000002q24-1I3y;
-	Fri, 14 Aug 2026 15:10:30 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1wuuTs-00000002txr-3Dwf;
+	Fri, 14 Aug 2026 16:10:04 +0000
+Received: from mail-yw1-x1133.google.com ([2607:f8b0:4864:20::1133])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wutYA-00000002q1U-2gnF
+	id 1wuuTp-00000002txQ-3s4w
 	for linux-nvme@lists.infradead.org;
-	Fri, 14 Aug 2026 15:10:29 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1786720223;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v1GRrOlyN9nkOUdimeoCQpzY7og1lchpuM501N4iN80=;
-	b=dl5j2vv9lxWTF6inBkZ4uVnCyxEtioBojZRH7jmCCOrmmf3n1PtbgetjBPLLtfPzArBu6k
-	7hR2h7mqztcdPgKhhCsfBDvo8Msxu/3mlS2ttVSYBtgxrgCwXbMHLhWsyM2amXPsst4rZg
-	EZvY7Qf3aG34b8HeyzzzHDLWJuIOvo8=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-36-DvatqclWMhiECNPA0A51Jg-1; Fri,
- 14 Aug 2026 11:10:13 -0400
-X-MC-Unique: DvatqclWMhiECNPA0A51Jg-1
-X-Mimecast-MFC-AGG-ID: DvatqclWMhiECNPA0A51Jg_1786720212
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 969F8195608D;
-	Fri, 14 Aug 2026 15:10:11 +0000 (UTC)
-Received: from [10.22.64.139] (unknown [10.22.64.139])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 62CE830001A2;
-	Fri, 14 Aug 2026 15:10:09 +0000 (UTC)
-Message-ID: <3ca229d2-aaa3-46e0-8714-21cd67810153@redhat.com>
-Date: Fri, 14 Aug 2026 11:10:08 -0400
+	Fri, 14 Aug 2026 16:10:03 +0000
+Received: by mail-yw1-x1133.google.com with SMTP id 00721157ae682-836c91bd782so18233907b3.0
+        for <linux-nvme@lists.infradead.org>; Fri, 14 Aug 2026 09:10:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786723800; x=1787328600; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=yxq818myupXhtwcrZIn4DVpAwIlvbEBii869YtzAJT8=;
+        b=WTpHrRZsmOwomWKrYWgKOCIBdQezOxS9D6ayAvJTmwXTTeUTK5P3vG4iFfUGaSmiOV
+         x91T+zuq39hvsaUGSwpt7+zwhXcMy9NEWaSJvFbX45B91NuDkDOPZuHRAo8+WvsaFzc2
+         mu5N4nlqEyeRe74UWuppk45UFewNM18TrBM/2IH6m8oYy7e1on4v9k4ZpB/YWYthLFUr
+         dzX+mkxLXZlKL5vnIvWALrxc+96jCN5MfL+RVEMG6HjNUM181InY7g+bjXMikxdG3GOx
+         2Nf+K+6YMahNdy6FsHkcznTuJSRQMM4CvGVlJxCb1kbzbKeRiea5U4dMx2Z/BQmY2JS7
+         mwSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786723800; x=1787328600;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=yxq818myupXhtwcrZIn4DVpAwIlvbEBii869YtzAJT8=;
+        b=A46nzLPS3mswLWxI3sn0EBJDEge5q/AOQDPjgVfCKKMcGo9yvGFc3nx/3cooJCRCRJ
+         YWk+L3xjtkbYGlAik2arGLb+fJX9FA7kRpHHB5nV2bs4tOdEk9oqOUylyJc1hZf1gCl7
+         gNM85S8QAwCS1s+tj4aXKjS9H7z79LJ4qTz96iUDRAfkLDYE4BxymSH4Ud8/uNGGmMd/
+         Wnvlf66hsz9RN/wSxyk36V1wEmwB3PmIXRfh9472CzX+Y5eU9I9KCiUX1vfcWrZ1DXw7
+         41P5IRvlQEqZp/VDyiKEBWtsK+fYwCQXbZjjvVSseelZUUF1evUkUm/hMld5n/ZzcL+r
+         darQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpszduTiA+k62/x9zz9odNHkL8rNMsCVlVu+NQKm3DCuYb+5EhUIq+E6C/HZqeht0NssoWcXvuNCHcY@lists.infradead.org
+X-Gm-Message-State: AOJu0YxyKhs8L/xgePFf/eMTtZ5I9EVtTa/rGalewXMNQkpc8r+S0Ag8
+	1acCewPqXDUSQR2bV6DwA86zxmDq1gRw2bzD653tQpPhO/QfSs+zps36
+X-Gm-Gg: AR+sD10aPE8p4K6sbFT9mmj8w3FdDUKGzuJ5GUj5aNNbVurJbfj4khlHRgXf4zfaX2t
+	zC5YBqTLLL4AJ3Yg6MJFJKYB3tJhx6LwvTEbM+j36Jrx6oDMnMkn7wCIpPHLDWMeXN7AK/bK+0E
+	QkgySzLc5dXimIpl4L/4aUxgUpQcb+4i7eD/luLRPbykh75EjJ5MwE/0fIVSzhRTKcWwiwomlCR
+	6mLYY72oFcTJ+ZlWzZcZsdWeRA3LfQELi+f871h0pFN8F4N2zNxpvy9Q1w45zbmA1dyJGjo52+m
+	Wnfmg1NKzz7GVXAJIfsv0G2bTcDjY2kMD2nj7ELZRYIvmym1Qcz531ccZXES30CEl5x1xy0GAr1
+	GhEDPD6pi3Ypk9rZKBxTipawFatdjW1TiGdmwh4dS9Ba3RM67w02oIt1nA5VvoJE99UYhYKEswn
+	gKO1vQ39TGf558BrY8/wWcsl+v23SxR0rshHi1GtpT+DdJ2tWql7VChYN4/R+0rPSKeeeD+I23h
+	pet8f/l8LbnJ/tYlw==
+X-Received: by 2002:a05:690c:6310:b0:7cf:d242:d94a with SMTP id 00721157ae682-8371431484fmr27885107b3.25.1786723800495;
+        Fri, 14 Aug 2026 09:10:00 -0700 (PDT)
+Received: from syssplab.cs.fiu.edu (nat1.cs.fiu.edu. [131.94.134.89])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-836c261a59csm15358717b3.36.2026.08.14.09.09.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Aug 2026 09:10:00 -0700 (PDT)
+From: Chao Shi <coshi036@gmail.com>
+To: kbusch@kernel.org
+Cc: hch@lst.de,
+	sagi@grimberg.me,
+	axboe@kernel.dk,
+	joshi.k@samsung.com,
+	weizhu@fiu.edu,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Chao Shi <coshi036@gmail.com>
+Subject: [PATCH] nvme: reject zoned namespaces whose zone info query failed
+Date: Fri, 14 Aug 2026 12:09:54 -0400
+Message-ID: <20260814160954.2839507-1-coshi036@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH blktests 2/2] nvme/070: Test multipath and marginal ports
-To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
- Jesse Taube <jtaubepe@redhat.com>
-Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
- Daniel Wagner <dwagner@suse.de>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>
-References: <20260812174503.3705830-1-jtaubepe@redhat.com>
- <20260812174503.3705830-3-jtaubepe@redhat.com> <an78AkXI1SUHXBwg@shinmob>
-From: John Meneghini <jmeneghi@redhat.com>
-Organization: RHEL Core Storge Team
-In-Reply-To: <an78AkXI1SUHXBwg@shinmob>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
-X-Mimecast-MFC-PROC-ID: sM1vgA72TqH67nLXXsn70GzMP5gjfoBqj0nIy7mxgDk_1786720212
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260814_081026_806116_06D30F3D 
-X-CRM114-Status: GOOD (  18.08  )
+X-CRM114-CacheID: sfid-20260814_091001_973251_7DC00214 
+X-CRM114-Status: GOOD (  14.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,64 +103,81 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 8/14/26 07:47, Shin'ichiro Kawasaki wrote:
-> On Aug 12, 2026 / 13:45, Jesse Taube wrote:
->> Add tests/nvme/070 to test various multipath and marginal port
->> scenarios, while confirming the port useage and state. This test is
->> intended to emulate receiving an FPIN event in a multipath environment.
-> 
-> The test contents are comprehensive, which looks good to me. 
->>
->> Suggested-by: John Meneghini <jmeneghi@redhat.com>
+nvme_query_zone_info() returns either a negative errno or a positive NVMe
+status code, but nvme_update_ns_info_block() only tests for the negative
+case:
 
-Please remove the above line.
+	ret = nvme_query_zone_info(ns, lbaf, &zi);
+	if (ret < 0)
+		goto out;
 
->> Signed-off-by: Jesse Taube <jtaubepe@redhat.com>
+If the Identify Namespace (I/O Command Set specific) command fails on the
+device, or if the Identify Controller command issued by
+nvme_set_max_append() fails, the positive status falls through and setup
+continues with the zero-initialized "struct nvme_zone_info zi = {}".
 
-Co-authored-by: John Menehgini <jmeneghi@redhat.com>
-Signed-off-by: John Meneghini <jmeneghi@redhat.com>
+nvme_update_zone_info() then configures the queue from those zeroes:
 
-I've tested these patches and they work.
+	lim->features |= BLK_FEAT_ZONED;
+	lim->max_open_zones = zi->max_open_zones;
+	lim->max_active_zones = zi->max_active_zones;
+	lim->chunk_sectors = ns->head->zsze =
+		nvme_lba_to_sect(ns->head, zi->zone_size);
 
-Tested-by: John Meneghini <jmeneghi@redhat.com>
+so the queue ends up marked zoned with a zone size of zero.  This is
+reachable by a malicious NVMe device, a buggy firmware, or an
+attacker-controlled NVMe-oF target that fails this one command.
 
-Note: These patches require the kernel changes introduced by the "FPIN Link integrity handling" patches[1],
-and they should not be merged until the kernel patches are merged.
+blk_validate_zoned_limits() does not look at chunk_sectors, so the limits
+commit succeeds.  blk_revalidate_disk_zones() does reject the zero zone
+size, but by then the limits are committed and the queue is unfrozen and
+nothing rolls them back, so block devices that are already open keep
+submitting I/O to a zoned queue whose zone size is zero.  disk_zone_no()
+then shifts by ilog2(0):
 
-[1] https://lore.kernel.org/linux-scsi/20260814063616.GA9231@lst.de/T/#m1e8c728cf2dcdfd70d1b50a2fc2f278ea0832c36
+  nvme0n1: Invalid non power of two zone size (0)
+  UBSAN: shift-out-of-bounds in include/linux/blkdev.h:747:16
+  shift exponent -1 is negative
+   disk_zone_no include/linux/blkdev.h:747 [inline]
+   bio_zone_no include/linux/blkdev.h:1052 [inline]
+   bio_straddles_zones include/linux/blkdev.h:1058 [inline]
+   blk_zone_wplug_handle_write block/blk-zoned.c:1423 [inline]
+   blk_zone_plug_bio.cold+0x25/0x1c8 block/blk-zoned.c:1605
+   blk_mq_submit_bio+0x18fb/0x2870 block/blk-mq.c:3196
+   __submit_bio+0x315/0xa70 block/blk-core.c:637
+   submit_bio_noacct_nocheck+0x488/0xba0 block/blk-core.c:755
+   submit_bh_wbc+0x575/0x740 fs/buffer.c:2824
+   __block_write_full_folio+0x728/0xdd0 fs/buffer.c:1933
+   wb_workfn+0x8c9/0xd50 fs/fs-writeback.c:2403
 
+Before commit c85c9ab926a5 ("nvme: split nvme_update_zone_info") the
+caller tested "if (ret)" and bailed out on any non-zero return.  Restore
+that behaviour.
 
->> diff --git a/tests/nvme/070 b/tests/nvme/070
->> new file mode 100755
->> index 0000000..a8002f8
->> --- /dev/null
->> +++ b/tests/nvme/070
->> @@ -0,0 +1,521 @@
->> +#!/bin/bash
->> +# SPDX-License-Identifier: GPL-3.0+
->> +# Copyright (C) 2024 John Meneghini <jmeneghi@redhat.com>
-> 
-> This patch's author is Jesse, which looks inconstent with the copyright above.
-> Also, please reconfirm the copyright year 2024. Should it be "2026" or
+Fixes: c85c9ab926a5 ("nvme: split nvme_update_zone_info")
+Cc: stable@vger.kernel.org
+Cc: Weidong Zhu <weizhu@fiu.edu>
+Found by FuzzNvme.
 
-Yes, this is because the original version of this script was authored by me.
+Signed-off-by: Chao Shi <coshi036@gmail.com>
+---
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Jesse took my first version and greatly improved it.  She got it working.
-> 
-> When I ran this test case on the kernel without the patch series
-> "nvme-fc: FPIN link integrity handling", this test case just failed.
-> I think it should be skipped if the kernel does not have set_marginal_rport
-> sysfs attribute. I suggest to add the check below:
-
-Good suggestion.
-
->         if [[ ! -w /sys/class/fcloop/ctl/set_marginal_rport ]]; then
->                 SKIP_REASONS+=("fcloop does not support set_marginal_rport")
->                 return 1
->         fi
-> 
-
-/John
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 453c1f0b2dd0..dd7859826d2b 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2417,7 +2417,7 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
+ 	if (IS_ENABLED(CONFIG_BLK_DEV_ZONED) &&
+ 	    ns->head->ids.csi == NVME_CSI_ZNS) {
+ 		ret = nvme_query_zone_info(ns, lbaf, &zi);
+-		if (ret < 0)
++		if (ret)
+ 			goto out;
+ 	}
+ 
+-- 
+2.43.0
 
 
