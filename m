@@ -4,58 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 14F2AC5CFC1
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2026 19:28:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8D3DCC5CFC1
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2026 19:48:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3KTA9pFWou7k4BD0I50OFBJZVGzJdeantpCxQ/xUzxg=; b=Bsxt88733loqMFmEkrFUVauUw3
-	Y/De4heJNZEunX6x8Y6e5IbQCUM2lF+HAB5gvoBuCcoAMA6SbIsgSiLQQNw9T2FGixeXy4BfPi/Me
-	ZV7FLcu09sJfjI7hewnFGY3XQPiZKCg169A7ZmW+RTPeyKA4+BYnVmDyoWbiGDJEAlm/Dpr359pmp
-	1hqLPtd4osAtvW7RgfU8h0F4hvGHFagiYpoEa9XG4FJEtC8sT1+FRuwu0V89qf7plIAa4AlW1x8r2
-	R09snZGp4Ck58ui7CWaxVIzs9rQJPRY1Tz1tD048U4OLrWUFBn67oasvr5nH03rd6a4CCpO7NBcXJ
-	txFtQcAg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=8qt39tWaDTPOV680UZL11ems19BuKoQqgDcx36aFXLs=; b=WuI4m7uAlwS4WKnU2eihHRvI9D
+	DOnrx8anPAHEJWawGToGR/87hhxMaMIuWZFuhqDwGXM3tv+ZOhiwlkR7R9Oe8Q/iyTNKliCTG95Eq
+	3roln2lQdxvMl3QvV7pkif+XqKMHy4JL4tsM9x7O6oZW9vhoCZQoeQtN9oTMd7awNIMMROSQWKCYf
+	BUc2Q72Rz9L5pqa/5aOTUevvPlJ9W7LgFh8IJFNMcZU8tCUbM9LwpkRn6hkXptdK4m49fcodAC1FJ
+	MLSCk4f9rQqAFYKBuKJd6swOojtvxLqzTlqTeDMua+TdmC7f/ZV8e9x1zUYUvEdfJH/DhT+i9en+H
+	hKW8NYlw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wuxaG-000000036GV-0GxP;
-	Fri, 14 Aug 2026 19:28:52 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1wuxtF-0000000378G-3tFk;
+	Fri, 14 Aug 2026 19:48:29 +0000
+Received: from mail-qt1-x836.google.com ([2607:f8b0:4864:20::836])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wuxaE-000000036GL-2uit
+	id 1wuxtD-0000000377c-19Il
 	for linux-nvme@lists.infradead.org;
-	Fri, 14 Aug 2026 19:28:50 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id D2FA960008;
-	Fri, 14 Aug 2026 19:28:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BB621F000E9;
-	Fri, 14 Aug 2026 19:28:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786735729;
-	bh=3KTA9pFWou7k4BD0I50OFBJZVGzJdeantpCxQ/xUzxg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=giLxFmsBcug+RdQiBSf1Z+HKoYe95INxef9uuB2zQ/dWbsPTNgEbAEZrxlBxezvBq
-	 J7AwYqBRiuZeRnd8cbT5byga7e458LHoqA20B5Uh4lY+ztLy/RNhKT8U7g40RBUcpo
-	 8W4jv+klCGsGoGKiXkplVOPsoXJgSmz10E/uNTuRXE7uUWYY5IaHAGdFIvClmB13z/
-	 PZ+oj+xygD6WJktOfulrOkaFSSa2LZ2C895mY38BcxXSEaIApM7kYc0ZAF1MtFYlCC
-	 +seMs0BNeqCgHfc6TyKtWNf6vZ9xSym+imKJ/0Ty88cj/s8QxC+IHAYudXjFRXx4nP
-	 wg37KIM/rtiUw==
-Date: Fri, 14 Aug 2026 13:28:47 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Chao Shi <coshi036@gmail.com>
-Cc: hch@lst.de, sagi@grimberg.me, axboe@kernel.dk, joshi.k@samsung.com,
-	weizhu@fiu.edu, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] nvme: reject zoned namespaces whose zone info query
- failed
-Message-ID: <an9sbzM52QqKdQuP@kbusch-mbp>
-References: <20260814160954.2839507-1-coshi036@gmail.com>
+	Fri, 14 Aug 2026 19:48:28 +0000
+Received: by mail-qt1-x836.google.com with SMTP id d75a77b69052e-526f963372aso9445681cf.1
+        for <linux-nvme@lists.infradead.org>; Fri, 14 Aug 2026 12:48:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786736906; x=1787341706; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=8qt39tWaDTPOV680UZL11ems19BuKoQqgDcx36aFXLs=;
+        b=l7wvt3q16ezQzK87VMCLWVTdBEkoSDK/tZ5tSA+xVj9eJCXpkWef4TAYPSAwi/lXem
+         w4WIv0ecd+dzgp4qQapUD+uo8YO3Zl8wyuyb3A/o1epuHpL7EidngMmPPHqtm+eC8pYv
+         wePACC0Fax9NRyn4hQv6tzmU0BOnMvngLKGkQKZobgX1MZk1zvJB/vLZno7xdhh1x6Zs
+         FEIePXWVXZSsPZtDUpuEjnpGJu2MrV7J9LbmpD7DANdjQG2Wh4FO+XP0OSwNJfGsMgpB
+         p/GuXyWUy3p4bVHCAfxySeWATCN8VnpJasEw84xo2Fg1nRvSvli3V0OsTfVtxM1o/K6m
+         kDpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786736906; x=1787341706;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=8qt39tWaDTPOV680UZL11ems19BuKoQqgDcx36aFXLs=;
+        b=lN7EYdK52CwICJ22TN7rmzY6CU8XQZVx0hvVIPBUFCnOTtMDSIHei0g8IL60i+fuhC
+         ljam2zOObpu37/yEFSyDEZDc/h8RPbJnJbIkxk3ozy2jb36NWZBefSKWEpxAMZNyKmwe
+         jIdTUraJMEd2AjlN4AO9CVtNytDKGtp/b+vqtaiiNzTEQ9+Wc7BrN+BcGAb1ehlhFV46
+         KwvpK4EDkoTfztdHW8onLLx6JeosnHaC39LqEiy4TgMtnN826jhiXIGr0I8iiWuUgfu7
+         vV5XBpiUxn9BnwchLEbVBu9sQG0vdtA8Kk/btG2/CG3fwIcg2KemxMLQoiR92vQtb4zN
+         uCTA==
+X-Forwarded-Encrypted: i=1; AHgh+Rq7IpA9BoUImJ/sqbGMakz7sGzFmnSBwGiGyFIINLCVxJUjcs+aXQsn9RUm2bDcOSFCIdHRaxMHWnM5@lists.infradead.org
+X-Gm-Message-State: AOJu0Yzh6KdAeTRSMd/+DpYhVJB36HmeRVtPwLLdLwvMlc13G7wbuTlo
+	V2Q9j4pPPJictzeHIfYVbYL7AD3sCB2Oa51HNdMpOJ8T2QEIOkmnbSaH
+X-Gm-Gg: AR+sD13Y8OYSPRKe170XPcAr9LMlKjAAcPJ1JvNprxfeHD3KC98le+8/ujhTCpnURKF
+	frdM1kzCFb+MxrmXSG9x7WQII/cGjic5YeCIFwCbFHQLwXUo1BpQLNRzliPTXc1UNLLbwDxm8zA
+	ti48n0VfS0a/vx7AMmvlfZ27NcGK858iR+DSK8+2fndEJzxpAyrrBclTh/VPQtAMUU9SMkjG33/
+	PalHLn43ybxRFsnuNBvE+XwMv4agZdHNhLoDqvq7AfQpCveIIoLgAvu7Ic5XUqiHe9v4O6CqnSX
+	AnJy9CZObzYoEgHmRLt6ANZRR+kaiYLmrY7KmHiNQCwcLhcb7lUMc7Veus4qDh2yuOpPtcZGKgm
+	QjoLvkNn6OuaxmzO96sTCvYUgbmrg+lB5ZTyLv7M8ctCNyAhoVx0OzIuESB29zjCF0FF1ibj3Is
+	A45BPOC4akRLCTr8gdO18qQXTIK7oJFicqTtGEkImo8t2qlJThg4pcG81oJ+D9nYK9Gvpzyb39g
+	jWj3uKHYMbxJ5OOGKZhDqht7A==
+X-Received: by 2002:ac8:5ccf:0:b0:528:22:8c61 with SMTP id d75a77b69052e-52d854f3ce2mr103561651cf.38.1786736905868;
+        Fri, 14 Aug 2026 12:48:25 -0700 (PDT)
+Received: from shivam-EliteMini-Series.syr.edu ([128.230.213.54])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-936ce1ea65fsm340247485a.30.2026.08.14.12.48.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Aug 2026 12:48:25 -0700 (PDT)
+From: Shivam Kumar <kumar.shivam43666@gmail.com>
+To: Greg KH <greg@kroah.com>
+Cc: security@kernel.org,
+	hch@lst.de,
+	sagi@grimberg.me,
+	kch@nvidia.com,
+	linux-nvme@lists.infradead.org,
+	kumar.shivam43666@gmail.com,
+	stable@vger.kernel.org
+Subject: [PATCH] nvmet-tcp: fix out-of-bounds write when receiving an over-long PDU
+Date: Fri, 14 Aug 2026 15:48:11 -0400
+Message-ID: <20260814194811.1581041-1-kumar.shivam43666@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <2026081459-handoff-wildly-eeb5@gregkh>
+References: <2026081459-handoff-wildly-eeb5@gregkh>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260814160954.2839507-1-coshi036@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260814_124827_326676_1D8A54A0 
+X-CRM114-Status: GOOD (  13.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,28 +104,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Aug 14, 2026 at 12:09:54PM -0400, Chao Shi wrote:
-> Before commit c85c9ab926a5 ("nvme: split nvme_update_zone_info") the
-> caller tested "if (ret)" and bailed out on any non-zero return.  Restore
-> that behaviour.
+nvmet_tcp_try_recv_pdu() reads a PDU header into the fixed 128-byte
+queue->pdu union, then computes the remaining payload length as
 
-I think the namespace is generally left up on purpose for controller
-reported errors so that we have a device handle for admin debugging
-purposes.
+	queue->left = hdr->hlen - queue->offset + hdgst;
 
-Can you just skip the zone limits update when you have a bad response?
-Something like:
+and reads that many more bytes into &queue->pdu + queue->offset, without
+ever bounding the result against sizeof(queue->pdu).
 
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2457,7 +2457,8 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
-                capacity = 0;
+A struct nvme_tcp_icreq_pdu is itself 128 bytes, exactly the size of the
+union. Once a header digest has been negotiated (hdgst = 4), a second
+ICReq passes the hlen == nvmet_tcp_pdu_size() check but yields
+queue->left = 128 - 8 + 4 = 124, so bytes 8..132 are written into the
+128-byte buffer -- 4 bytes past its end, over queue->hdr_digest and
+queue->data_digest. Those bytes are attacker-controlled (an ICReq
+carries no digest), and the duplicate ICReq is only rejected later,
+after the overflow. A remote unauthenticated host can thus corrupt
+kernel memory adjacent to the receive buffer.
 
-        if (IS_ENABLED(CONFIG_BLK_DEV_ZONED) &&
--           ns->head->ids.csi == NVME_CSI_ZNS)
-+           ns->head->ids.csi == NVME_CSI_ZNS &&
-+           zi.max_open_zones)
-                nvme_update_zone_info(ns, &lim, &zi);
+Reject any PDU whose declared length would read past the end of
+queue->pdu before the second recv.
 
-        if ((ns->ctrl->vwc & NVME_CTRL_VWC_PRESENT) && !info->no_vwc)
+Fixes: 872d26a391da ("nvmet-tcp: add NVMe over TCP target driver")
+Assisted-by: Claude:claude-opus-4-8
+Signed-off-by: Shivam Kumar <kumar.shivam43666@gmail.com>
+Cc: stable@vger.kernel.org
+---
+ drivers/nvme/target/tcp.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index 75a276d73be3..c9c98b8eb149 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -1229,6 +1229,8 @@ static int nvmet_tcp_try_recv_pdu(struct nvmet_tcp_queue *queue)
+ 		}
+ 
+ 		queue->left = hdr->hlen - queue->offset + hdgst;
++		if (queue->left > sizeof(queue->pdu) - queue->offset)
++			return -EPROTO;
+ 		goto recv;
+ 	}
+ 
+-- 
+2.53.0
+
 
