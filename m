@@ -4,71 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3B3FBC5CFC1
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2026 22:56:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1A49DC5CFC1
+	for <linux-nvme@archiver.kernel.org>; Sat, 15 Aug 2026 00:14:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=Q8yItw7tVPVwpfW3e4RiXaP9OW9tydpyEk9jvfND54k=; b=w7+V0dltdrC6aqeW++Cdg/7Dwk
-	jq9ETNcvN05wr+4nr5INArK8CHKZqi7quACG9dqPY8R9bFHGUNXRwmvmZaeZLw/Ls8OsxqT0DOCcB
-	1r/3yt4uk1etgNe6AUDhWMJIV2nTAIsD8NDtTnhqyUk1/lZtx9TEzGTka7p/zSlTvxxnvar/dep4D
-	X1iIieAHm0sb5NgLRN58fUEg4jCrVckX45ZzquK6g7gIoGMHgNqu6InkCanMsO8tmXF640y+k50tF
-	DsuvRG/iQUZTeF5WcR39y+ozKe4tEETa6xiiKeOOS0K8VlSRcAsXvKFbmtsJCvUqtGzTvoLMgWilc
-	V38rbtBA==;
+	bh=3FGO108lsW0Q2DmOOQyHg7JpVvYJd0aNzzzQnAbrcaw=; b=lhSINWIaK//EhA67k50A5Gqj4A
+	F7OqA4lGo41P4h5bWU2HC+KSKk6VWefR0My2020m6wkavaOyZn9UCsgRhi9UX1SpoQfnnfarM9VYY
+	X/MrK7F3clzqZxCYfRckpJHXU8lHpyFrBUlvCxCieBW9bAM2wcQfKMheKN7vy6uKYi7vrMZV5yinZ
+	tXpwK+K+89ircckNHQa1pNqV2Gea00KoVTJCzWC4s99mhhsvURluLSxT17V2Ata9dQprZpJktFMvn
+	95P/2WkF9jYjE/lIxacvKhOXTZzq6EMeHO41qrTKMa+L83ldOpO+EUfln8AZfDcYXHrmFKgm2rfzc
+	CR9ZZLZg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wv0pA-00000003HYl-3Lyh;
-	Fri, 14 Aug 2026 22:56:28 +0000
-Received: from mgamail.intel.com ([198.175.65.9])
+	id 1wv22m-00000003KlV-1VRW;
+	Sat, 15 Aug 2026 00:14:36 +0000
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wv0p7-00000003HYQ-34ms
+	id 1wv22j-00000003Kkl-2uKz
 	for linux-nvme@lists.infradead.org;
-	Fri, 14 Aug 2026 22:56:27 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786748186; x=1818284186;
-  h=date:from:to:cc:subject:message-id;
-  bh=Z9zRnw2hPmmakSFiJ+IxfdvsQNlQe3US79x2aTOoF20=;
-  b=G5bPGoCUBN62X2NmG2psx22/cFI58QD8smjBeFtlv00saBjdmRioQhq8
-   R05CeibnORyCfUudv6W2DipzAtlC+qXrAmNGY//oKbSfJg1AScu/BLV6P
-   bVe3mtQoJ8TfyoRkSJl2InPMx7c0BkFByVJfjVLvk1DUPBMqr72llfU8p
-   jnv7BukjzBZMbtUp0KFcLfMQBtjjATxER7KpZTlX0hKVywABWNLKQe81G
-   u2OJeDVnxotTz5o1yhQ/iqAieUgastu3rDQ0U5tCqkRUrNFqHVymeDRij
-   gaHJPfN/4NoxGamitUcgcUNrqN0pzee4YxgsWppGF8tmJTaTt6+XSRLSp
-   Q==;
-X-CSE-ConnectionGUID: 9GKi/HDKTOyLyBP1KsG/Gw==
-X-CSE-MsgGUID: XFB3+1A/SbeoNlVyLdoHGg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11875"; a="110115864"
-X-IronPort-AV: E=Sophos;i="6.25,224,1779174000"; 
-   d="scan'208";a="110115864"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2026 15:56:24 -0700
-X-CSE-ConnectionGUID: kGiugzNERWCYG6RAjn/vxw==
-X-CSE-MsgGUID: YaImckvSR7OfMU33Ha00xg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,224,1779174000"; 
-   d="scan'208";a="261702983"
-Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 14 Aug 2026 15:56:22 -0700
-Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wv0p2-00000000aQq-2Lvu;
-	Fri, 14 Aug 2026 22:56:20 +0000
-Date: Sat, 15 Aug 2026 06:55:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-7.3] BUILD SUCCESS WITH UNVERIFIED WARNING
- f1a8846e06388113dfdbb89dee005083fa9afdf9
-Message-ID: <202608150635.GSfpuhHl-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	Sat, 15 Aug 2026 00:14:35 +0000
+Received: by mail-wr1-x42c.google.com with SMTP id ffacd0b85a97d-47f84023916so1430123f8f.3
+        for <linux-nvme@lists.infradead.org>; Fri, 14 Aug 2026 17:14:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786752871; x=1787357671; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=3FGO108lsW0Q2DmOOQyHg7JpVvYJd0aNzzzQnAbrcaw=;
+        b=IKPR1Qu6Ndtf8SOmVKmf/MGAG6DKYdfLF7O/rFRS045xof5Lk0Fm+u/JpIYbQ6NtGz
+         TcqaYlRIfCWDfr1xzSAMbq6P40RbFoTghTcAfRIw1CDljselwdIjmCjbVEMDgs5wko3I
+         S63QA74hnBBvGcl5EFJBwXDVV4qZigPtIfkqbSbpT3/AyqbBkmC/cguYmNucbY6Gl/aY
+         w7R1hmSMpyBZJgs9WSkEwPjkAVucP2aYo1nrnyJg4/mKpaYPOpDrJj9vj+oxWB126ptF
+         8zCcwfKGYZt1GM49P0fWDwS5YXzGcyG2zvh0RJPbNZaUlMleagk0z8dZqaENQPXDmqkg
+         LNfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786752871; x=1787357671;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=3FGO108lsW0Q2DmOOQyHg7JpVvYJd0aNzzzQnAbrcaw=;
+        b=q/UhXzD4j+cbhB/SZ+ITug9TU2aPmm2iNy7ECfO19vzpa4oU3Rfl/qoeYnaLNv75z3
+         D52NjXX8AiyGxE8emQRJqBDDQTHsjjCRFQPYKpAcHTgtmR2HaJjNYa7g7Wf5VD7Xr02o
+         gmQiShOSrol9XDxMrhNq8X/7V1GNKn2ZayQnPqyl5cdtz/4q8+dCa6z2PwzjJa0gIugG
+         RpSS8x/E+T8oYW2IG4yDKI52AIm76w1gD3OXzG89ToTn8SG8jHp0R1VrFSxyQXTlQPqE
+         /T89Uw3Ii7M1XwjBPIbx0/py6indLMlmtxT2SKpmgp+EZ9HSbevDni5TrzHZxfg+8j3C
+         Plfw==
+X-Forwarded-Encrypted: i=1; AHgh+RrXrEX9Y9C7VENtfzx20GAtuUCv3n9fUoZ1Mi3mKIH9o9y+AR6bCxxBj79Y2C+2g8qmK0Q7C0PaYLsK@lists.infradead.org
+X-Gm-Message-State: AOJu0YzcGHVF7Xc2VPxgbIy1BYMTo3GyUGD8kiI/6ia0R2pZ2/mw9crL
+	MOyxjlFDAYeva+xQQjvWUKcYcdU9z4ZF2V1jfu+KyLwVcGdYteVwAZw=
+X-Gm-Gg: AR+sD13OV5mBznpb4Fdd1k/3rC6IwP6l5XER7sHVQYOo+K4kjYzBO3oBeA2M7h7yrS5
+	L2e6eGJWUMMBboQcOti52nlPR4yRjMcLu1c923e/DE9WpVaBiTEKiTJPSBi0JcPBCjeXVXYPyni
+	GoB9wELWqBI1zSxNeUW3Tz6wa4ofccHIczf2BaO/Qny0YLTvL2CNWc8LcZeXK4aj8y3lqkWEpDn
+	+bNc+qTVED0B5JgYKx9zpE3yk7XudKBU5dDhO06OvJ+w28ip43vjYRSGh6hLcBnHftnCa8yOKhl
+	jp63TVE9kt7Een+tNbjLy/eUqkuxHrLOT16P4J6AGeCQZQz1S6awYrvPR5xWcuko5IjWnjHck9N
+	CGA1cXg65/0ei/NxQlXMYdgBPc6J6NbyhCgwOaaM3bGNqJ/HSjTifrH9FSwURdjEEJhARSiif+8
+	bEWR4zYu9sYBT5nK70KuGBX/PjCoNWWAVl97EVj5kgvA==
+X-Received: by 2002:a05:6000:4917:b0:47f:8f8f:db74 with SMTP id ffacd0b85a97d-48160714b64mr15386018f8f.12.1786752871267;
+        Fri, 14 Aug 2026 17:14:31 -0700 (PDT)
+Received: from debian.. ([2001:41d0:303:db6b::])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4815f2b1a91sm11431444f8f.21.2026.08.14.17.14.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Aug 2026 17:14:28 -0700 (PDT)
+From: Tristan Madani <tristmd@gmail.com>
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+	Caleb Sander <csander@purestorage.com>,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Tristan Madani <tristan@talencesecurity.com>
+Subject: [PATCH] nvme: add missing SRCU grace period in error path
+Date: Sat, 15 Aug 2026 00:14:27 +0000
+Message-ID: <20260815001427.3148050-1-tristmd@gmail.com>
+X-Mailer: git-send-email 2.47.3
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260814_155625_812303_5F0C26BA 
-X-CRM114-Status: UNSURE (   3.84  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260814_171433_742568_D2FD5365 
+X-CRM114-Status: GOOD (  11.33  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,44 +101,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-7.3
-branch HEAD: f1a8846e06388113dfdbb89dee005083fa9afdf9  nvmet: fix max_qid race between configfs and controller allocation
+From: Tristan Madani <tristan@talencesecurity.com>
 
-Unverified Warning (likely false positive, kindly check if interested):
+nvme_alloc_ns() error path at out_unlink_ns removes ns from the
+namespace head siblings list with list_del_rcu(&ns->siblings) but
+does not wait for SRCU readers before freeing the namespace struct.
+Multipath code iterates the head->list under srcu_read_lock() in
+nvme_find_path() and nvme_mpath_revalidate_paths(), so a concurrent
+reader can still hold a reference to ns when kfree(ns) runs.
 
-    https://lore.kernel.org/oe-kbuild/202607291634.E5clnaLh-lkp@intel.com
+The normal removal path in nvme_ns_remove() correctly calls
+synchronize_srcu(&ns->head->srcu) after list_del_rcu() to wait for
+in-progress readers. Add the same grace period in the error path.
 
-    drivers/nvme/host/multipath.c:249:38: warning: reading variable 'current_path' requires holding __ctx_lock_RCU 'RCU' [-Wthread-safety-analysis]
+Fixes: ed754e5deeb1 ("nvme: track shared namespaces")
+Cc: stable@vger.kernel.org
+Signed-off-by: Tristan Madani <tristan@talencesecurity.com>
+---
+ drivers/nvme/host/core.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Warning ids grouped by kconfigs:
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 453c1f0b2dd09..0f5f13ce0b438 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4295,6 +4295,9 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
+ 			last_path = true;
+ 	}
+ 	mutex_unlock(&ctrl->subsys->lock);
++
++	/* guarantee not available in head->list */
++	synchronize_srcu(&ns->head->srcu);
+ 	if (last_path)
+ 		nvme_put_ns_head(ns->head);
+ 	nvme_put_ns_head(ns->head);
+-- 
+2.47.3
 
-recent_errors
-`-- loongarch-defconfig
-    `-- drivers-nvme-host-multipath.c:warning:reading-variable-current_path-requires-holding-__ctx_lock_RCU-RCU
-
-elapsed time: 802m
-
-configs tested: 15
-configs skipped: 1
-
-tested configs:
-alpha             allnoconfig    gcc-16.1.0
-alpha            allyesconfig    gcc-16.1.0
-alpha               defconfig    gcc-16.1.0
-arc              allmodconfig    gcc-16.1.0
-arc              allyesconfig    gcc-16.1.0
-csky             allmodconfig    gcc-16.1.0
-i386             allmodconfig    gcc-14
-loongarch           defconfig    clang-24
-nios2            allmodconfig    gcc-11.5.0
-nios2             allnoconfig    gcc-11.5.0
-parisc           allmodconfig    gcc-16.1.0
-parisc           allyesconfig    gcc-16.1.0
-parisc              defconfig    gcc-16.1.0
-powerpc    amigaone_defconfig    gcc-16.1.0
-sh                  defconfig    gcc-16.1.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
