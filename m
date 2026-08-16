@@ -4,106 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A0D1AC5B572
-	for <linux-nvme@archiver.kernel.org>; Sun, 16 Aug 2026 19:08:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 886DAC5DF66
+	for <linux-nvme@archiver.kernel.org>; Sun, 16 Aug 2026 19:17:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MJpiUaeSmSukMEiVdIJ7E+Eb4oTrVCSTLcJCR2loI3k=; b=qui40UrJclyIS0EeQXX3ts1C+0
-	zFiJhIpHeA/rAdXnxGbhSdosPQm2e6G/uisAMKjlv3pA79fmhYbsfJTkyrhYbl4CM6j2V0qXCpwN8
-	K3LJ6mhmaO1n0KgNrrBaRQCnE2vUXddb/ALWI9WMNIebLHRLJqedgPpwtSY12ahf8WVcOYOtczj4r
-	3XMhLMr5JL3sLCfosn7X8+gMpLE5icqiYHoCOWBgG+gCfDMOhuXQekynI6zHCxfdVON/ilGmZjU7Q
-	LbCSP/J+6c6/s8i8hAigBlIb/G8WSTQNoNjEh2/Twjk/t9vQp7YEUqiNDFfJ2L0hw63ceyDE8vko+
-	Fp6xwCCQ==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=AISqMB6CvA0Lb35Q0jRjNWDuiHxCP9fPg6wK9jXO2X8=; b=xfXqIE5XiJPsKBPgCZmgT3bsg3
+	MgzSYV0sFTruOGroRmH3rlfLyD+7Jct8HUDbZcPQK561glC38aba3WR5qvGKfzJb0XuwRJLyC0gv4
+	wRxEXOm2YqWJQf8aDa6pVDZKIp45WCjHAzWYduk6eDSVN+80l0sPA2OJX+TEdVXPU2ZrJWsdg/cjM
+	6MIeNaGa7srvSq8YNOjHi/oKiZVp6MYqCbSCd/oVvOW1bwFT7D05InFm0JisM+KqdEYuann/p/i7F
+	JwYQ7bkGPttxe5umC48bn3s1X6QGvoCHXxUecmYm88pSznmyrKDYbwfNFiYMZaNuIkSL6iiVClSoh
+	HuTkrLzA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wvgDR-000000050gz-2CEh;
-	Sun, 16 Aug 2026 19:08:17 +0000
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530])
+	id 1wvgMW-0000000517o-1lyV;
+	Sun, 16 Aug 2026 19:17:40 +0000
+Received: from mail-yw1-x112a.google.com ([2607:f8b0:4864:20::112a])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wvgDL-000000050gb-0X4k
+	id 1wvgMT-0000000517I-1idf
 	for linux-nvme@lists.infradead.org;
-	Sun, 16 Aug 2026 19:08:12 +0000
-Received: by mail-ed1-x530.google.com with SMTP id 4fb4d7f45d1cf-69c108fee7fso3571802a12.3
-        for <linux-nvme@lists.infradead.org>; Sun, 16 Aug 2026 12:08:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786907288; cv=none;
-        d=google.com; s=arc-20260327;
-        b=QZsZ1QgsvT9rZSVNG/vBi8YGdPod5WFEDf89PXIq38FnrW8t/4QCHvOu2DPlIZxbxN
-         fRC0jxaF7njw/ZbcTnOsr/XRTyP/fOzcLi3aVcjUBIxZCA4GvfHnVqiCdsig43R2QpyP
-         KjpMzxEmRQ5MAzXwRr5FJaMgaaHsDGmzmYUfrpSUVk57qJrWtxIKD51ObWuOG5zNA2PX
-         Zg4jhE598lz1zsXpMMLDa0/e5YT74ggG5lFvSswwDOwyWGppcj/25LbF/IqKfCegiC34
-         iJbqP9PQBlQecWh/J1ZvjZYHVJp9+j4wqG4LAa2PY6cyGkYUXfwhKMfnYNKZ0vnyCJ1C
-         ccTw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=MJpiUaeSmSukMEiVdIJ7E+Eb4oTrVCSTLcJCR2loI3k=;
-        fh=O0h+atCtIs0WQIWEIibVTghGVU0slS92u5K7rc3hBQA=;
-        b=MOHKc6Q1ksCSFHtvvXt2Wq2qBbyDeJBC7orQ2kF8coIZe8kqbHus/zMoE7ijNR6Cz+
-         ZY6E8v1Yn0LZ8jOmvLOIfgjhDlsaqIyqjeU0y2URV4sM4ae2G67+lMKmECVTxDGpsbWd
-         otuZvLL+TjkpQXtjytALuHsiDB+qLNCT08MHNIUs7PQwHGGjk+hMWdqtAaTCU4/Ce7nw
-         ulu3jr5yJjx2JVaTf5lKAABqWLNSK7tSM5/oPgSqkvck01yfdcUiXuzlemogLbCLaVmT
-         hckmdWbwV5Drzba4mYGVh6/aMSjOLGglCOVXqzEi07UJ2bozGElwGdMBUyJqZRAJr3+R
-         73bw==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	Sun, 16 Aug 2026 19:17:38 +0000
+Received: by mail-yw1-x112a.google.com with SMTP id 00721157ae682-836c436a6b3so37046657b3.0
+        for <linux-nvme@lists.infradead.org>; Sun, 16 Aug 2026 12:17:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786907288; x=1787512088; darn=lists.infradead.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=MJpiUaeSmSukMEiVdIJ7E+Eb4oTrVCSTLcJCR2loI3k=;
-        b=TSM/BIa2V5uIeuQ9fHxfvG1Mz57iN9u40XJa+xRhB89iCThrfLJz4YfdgQLzqV2LCn
-         ze6Iqxk+ACFjw13Ppur7VVFrtsm3vf2Pgj/bafmbrZp636bZNKp0aTtTqupx62uMR63k
-         tWp72B7XMinEHqhEXA2Jm113+pTJ8a6YBtBi73gSuTYyq5+l5m3enbz9B1/Tl9zBfV1b
-         yaqctzeyq17j+RXqj+cSHTS3OU1FfZGpv+Xk2CNOZ0ZEfta2E1r8WHuC4zwX8yFA9hzM
-         hTKMxtUzOh8JgEXlEVN0cv5MrMwkF87PLiIXq/l2FFk2OgDSyMkq8yEaR1iLkzVUJfy/
-         p9jw==
+        d=gmail.com; s=20251104; t=1786907856; x=1787512656; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=AISqMB6CvA0Lb35Q0jRjNWDuiHxCP9fPg6wK9jXO2X8=;
+        b=B3mC1JH09MBXSaMO1qTrICWCpA+sD2bwnBoxpe5R0B+nr6N68B/q6vJ1uosLFo/AVU
+         ri9DLGKZZk968EqmCb/+viGErtPIx5pguurVIHCdSi737XJInudqTA2Gd4VSVL+K9ZUq
+         +roG6gCwf9dfXycPniXoldbHeL75K2NMJBHLHFH81KhmlfIA9FvpdgOmcMKTiALEJxn+
+         zPufH0GCHSJUVl2wAVk3gb3qnuhxUso4fzNI9bdkcCKyfZP6pb8rtXPLV9CAugCxI44p
+         sZ97c8oQmlvzMe/ZJNMKsbsU4YwMM2XE/pw36H3ClWeIUiYMQXsWZ/1m6I3K4GJFjT16
+         BwHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786907288; x=1787512088;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=MJpiUaeSmSukMEiVdIJ7E+Eb4oTrVCSTLcJCR2loI3k=;
-        b=WqrJTo6XjaQ2VbNUkKULsRiEFKEHg89hyzp9TQAtSoZgrprDZn0iafcFMEcdAidp/p
-         MLqNN8WW+P91OdzGHIof01zs3UsFTZPokJFJE5OFOGkCG+oGERmXMqxIXv2dbqgk0JbS
-         8mfqlBgtR/wr5/i088nTkHuWH0ZPn1/mRN6VcmfqnHuKTMC/0CEQuyLxFRAEQi729FGD
-         5WwHRFMIKpMZ46zOkUNX4z8VSFKnahTVsvRjJk+SV+nTVHWtifXNbUdOxQu83K+hI0lc
-         G9DvEg0H4xXEMQu/cqtIahU1whWv3JFZQFyjPSNvW7OUK8aD3DcBJ7v5KM9nPu9tcy2P
-         Y/og==
-X-Forwarded-Encrypted: i=1; AHgh+Rr5A+Ny3d2oMjXedB1QfHna9Wx6p9d9ZD7UAA6ovdrdDlqD+1ZaadglNdo4LrGjqKuEExpsg7IW4xAX@lists.infradead.org
-X-Gm-Message-State: AOJu0Yz/onxx9nvOzSouHhlHyXjn7V7QXPpwaqCZQM6Ty36hxcFGl7Lf
-	SuTIDz/a/mJVhvL+GRvgH8OLg1Ug4eHWL+278R2Vl2rHHORCjaobdOgqbyfUW2oJKtRtJXIJxef
-	u8f8OvY0peQXCtO4FsmxAn0tDQmEYnCk=
-X-Gm-Gg: AR+sD10/G5OaiHiNxF/IG/pvNzfGO9PI3LAj8za/OCWayRjfQC7k9dHEMC7vUkrQbeY
-	S44A9oEaNWBOrr4UeQcxJSSNfQE9jtikjSuwiGSucpiKxj1iTywn215FJyDS/GNLpkhlg3widRS
-	qSLw3oWKeo3P8q6O3y67xg5HyFwM73BERPoeRg4Aaw/9otTxbJz0Wr5vi7o41nHyQdPEFbwVMwP
-	qwM/JJ+cDwvdfDTqvNMuxO35FABa6IbF9T813GjTrTd4kFt7SLJOHZObeVRj280ivKpyKl0zLjD
-	z+tT4oIUCqz0Bvwd/f7Gs0QIct0aFqQYADUgZIwFcUym
-X-Received: by 2002:a05:6402:530b:b0:6a0:567c:c2fe with SMTP id
- 4fb4d7f45d1cf-6a38a9a323dmr9308591a12.20.1786907288432; Sun, 16 Aug 2026
- 12:08:08 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1786907856; x=1787512656;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=AISqMB6CvA0Lb35Q0jRjNWDuiHxCP9fPg6wK9jXO2X8=;
+        b=GO4eZOBbV3Jsg0COPMGAP9TNkvgdd9R86EIn8bAF6KbicxLRRGkLFbMftLM7NrE2tR
+         PTgHW+U+ptG7LKMcXKnqUZV5oWhLQGFssf0/eamcelPn7dzn2F5jhCcGh9P12WiFFcGa
+         FuKvq61y2p6MJhze38GY2jdQGd1OUcb6kuRtKR3R+koI2dRw2xzj1de+3bDSR6MCZVZz
+         tkRfYS5pTZddvy2Zl1zFXs7iHzISv+CQGqBRWXYhAGySFAoiwsThjp/QRcH5Z8Pr+t27
+         wTFR464qxLJXbPQuS1sR+98r5bPsiYnkwtG+5YD3r4aAmZ+wxT3GkQJV361v21feWrzX
+         PybQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrEGqzToumwYOzrFEB2750cDb//7epweIW2O6XhfmNAUFnz/XHjyEx53b7E974y/bwfLEg1yWE0QTnt@lists.infradead.org
+X-Gm-Message-State: AOJu0YzTyxdOrzpN0WCGS6TTOh3CbHFDIpysKztuI7+CObWd74eTKkmf
+	X9uNbq3VD+dDPVbnB5bWc3f9iLK74s/ESBnibM/J6tB3dW9S8eaX3lnB
+X-Gm-Gg: AR+sD123l4SGJizWnfA81zFb71YdxcdL75MGBWcg/U0FQs9GYnilqeaVB4wOJ7DovBc
+	rQdBH45KpB9he4DD+mzGIFvVt6jsG8sJgf747oKABuBBduzjUgUvcQYFgKmKbK3OTh0yPsmS/RL
+	r82IxQDTZBHrYAvTNdosXuCg3MakEnMkT9LD7vX1Ca5y2yimMTPzQA+w3NCqYNRtdtE5ORdWad8
+	oZPqYsALlgCfhWazwHfgcBNTTpdyroVQ0Rg2FU6W48IuYiddg3IiDFvPjDGixj18Zl9rY46Qqjq
+	7K86pnretRagJ7FGezvoUOQhkl7nDuLeOKXEiiiGzZVWwneVPas20DfNu91V1gLM2mZ4dBR7xFm
+	imiNHWNhQHCpvEXi0lZOQH0D60BwPBbZonTiN/gZOAJQruN/rlomt7rR04I8WKKnGGJnDAzB/kk
+	0uh2DGR5oYKHSHZO79Ivv078z27VXF1hTBQOQy9sMtDvpkcdXin3Y+Nz7YOgsnopLtboxNebWMG
+	+wKzkg=
+X-Received: by 2002:a05:690c:e292:b0:827:b35:9d5e with SMTP id 00721157ae682-83714123a7fmr56142987b3.33.1786907855860;
+        Sun, 16 Aug 2026 12:17:35 -0700 (PDT)
+Received: from syssplab.cs.fiu.edu (nat1.cs.fiu.edu. [131.94.134.89])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-836c17784f2sm38580437b3.32.2026.08.16.12.17.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Aug 2026 12:17:34 -0700 (PDT)
+From: Chao Shi <coshi036@gmail.com>
+To: kbusch@kernel.org
+Cc: hch@lst.de,
+	sagi@grimberg.me,
+	axboe@kernel.dk,
+	joshi.k@samsung.com,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Chao Shi <coshi036@gmail.com>,
+	Weidong Zhu <weizhu@fiu.edu>
+Subject: [PATCH v2] nvme: skip the zoned limits update if the zone info query failed
+Date: Sun, 16 Aug 2026 15:17:29 -0400
+Message-ID: <20260816191729.2865523-1-coshi036@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20260814160954.2839507-1-coshi036@gmail.com> <an9sbzM52QqKdQuP@kbusch-mbp>
-In-Reply-To: <an9sbzM52QqKdQuP@kbusch-mbp>
-From: Chris S <coshi036@gmail.com>
-Date: Sun, 16 Aug 2026 15:07:57 -0400
-X-Gm-Features: AcwNN1UGmJA_m0q1P9tSBlDs0Z5V6pFvjJicpL-HIgO9xLhhaYThNptM0VyB1C8
-Message-ID: <CACd_6n1d9kdEYARkmf6bRzbt5SXwmf-8jk_Dd-xJ0gyQ1TcMMQ@mail.gmail.com>
-Subject: Re: [PATCH] nvme: reject zoned namespaces whose zone info query failed
-To: Keith Busch <kbusch@kernel.org>
-Cc: hch@lst.de, sagi@grimberg.me, axboe@kernel.dk, joshi.k@samsung.com, 
-	weizhu@fiu.edu, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260816_120811_207330_45554EF9 
-X-CRM114-Status: GOOD (  19.74  )
+X-CRM114-CacheID: sfid-20260816_121737_488732_084180D8 
+X-CRM114-Status: GOOD (  16.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -118,75 +103,89 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Aug 14, 2026 at 3:28=E2=80=AFPM Keith Busch <kbusch@kernel.org> wro=
-te:
->
-> On Fri, Aug 14, 2026 at 12:09:54PM -0400, Chao Shi wrote:
-> > Before commit c85c9ab926a5 ("nvme: split nvme_update_zone_info") the
-> > caller tested "if (ret)" and bailed out on any non-zero return.  Restor=
-e
-> > that behaviour.
->
-> I think the namespace is generally left up on purpose for controller
-> reported errors so that we have a device handle for admin debugging
-> purposes.
->
-> Can you just skip the zone limits update when you have a bad response?
-> Something like:
->
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -2457,7 +2457,8 @@ static int nvme_update_ns_info_block(struct nvme_ns=
- *ns,
->                 capacity =3D 0;
->
->         if (IS_ENABLED(CONFIG_BLK_DEV_ZONED) &&
-> -           ns->head->ids.csi =3D=3D NVME_CSI_ZNS)
-> +           ns->head->ids.csi =3D=3D NVME_CSI_ZNS &&
-> +           zi.max_open_zones)
->                 nvme_update_zone_info(ns, &lim, &zi);
->
->         if ((ns->ctrl->vwc & NVME_CTRL_VWC_PRESENT) && !info->no_vwc)
+nvme_query_zone_info() returns either a negative errno or a positive
+NVMe status code, but nvme_update_ns_info_block() only tests for the
+negative case:
 
-Thanks -- keeping the namespace around is clearly the right, I
-had not considered the admin handle.  v2 does that.
+	ret = nvme_query_zone_info(ns, lbaf, &zi);
+	if (ret < 0)
+		goto out;
 
-I did not use zi.max_open_zones as the condition though, because 0 is a
-legal value there.  MOR and MAR are 0's based and FFFFFFFFh means "no
-limit", so nvme_query_zone_info() does:
+If the device fails the Identify Namespace (I/O Command Set specific)
+command, or the Identify Controller command issued by
+nvme_set_max_append(), the positive status falls through and setup
+continues with the zero-initialized zone info.  nvme_update_zone_info()
+then marks the queue zoned with chunk_sectors and ns->head->zsze set to
+zero.
 
-zi->max_open_zones =3D le32_to_cpu(id->mor) + 1;
+blk_validate_zoned_limits() does not check chunk_sectors, so the limits
+commit succeeds.  blk_revalidate_disk_zones() does reject the zero zone
+size, but by then the limits are live and nothing rolls them back, so
+I/O keeps being submitted to a zoned queue with a zero zone size and
+disk_zone_no() shifts by ilog2(0):
 
-which deliberately wraps FFFFFFFFh to 0, matching the block layer where
-0 also means "no limit" -- blk_validate_zoned_limits() tests
-"if (lim->max_active_zones && ...)" for exactly that reason.  So a
-healthy device that reports no open resource limit has
-zi.max_open_zones =3D=3D 0, and gating on it would leave that device's
-namespace unzoned.  QEMU hits this with its defaults: hw/nvme/ns.c has
+  nvme0n1: Invalid non power of two zone size (0)
+  UBSAN: shift-out-of-bounds in include/linux/blkdev.h:747:16
+  shift exponent -1 is negative
+   disk_zone_no include/linux/blkdev.h:747 [inline]
+   bio_straddles_zones include/linux/blkdev.h:1058 [inline]
+   blk_zone_wplug_handle_write block/blk-zoned.c:1423 [inline]
+   blk_zone_plug_bio.cold+0x25/0x1c8 block/blk-zoned.c:1605
+   blk_mq_submit_bio+0x18fb/0x2870 block/blk-mq.c:3196
+   submit_bh_wbc+0x575/0x740 fs/buffer.c:2824
+   __block_write_full_folio+0x728/0xdd0 fs/buffer.c:1933
 
-id_ns_z->mor =3D cpu_to_le32(ns->params.max_open_zones - 1);
+Any device, firmware or NVMe-oF target that fails this one command
+reaches this.
 
-and zoned.max_open_zones defaults to 0.
+Skip the zoned limits update in that case.  The namespace stays
+registered and usable for admin commands, but the queue is not
+configured from zone info that was never read.
 
-zi.zone_size does not have that ambiguity.  Every path in
-nvme_query_zone_info() that returns a positive status returns before
-zone_size is assigned, and once it is assigned the only remaining
-failure is -ENODEV, which the caller already handles.  A successful
-query therefore always leaves it a non-zero power of two.  So v2 is:
+zi.zone_size is an exact indicator: every path that returns a positive
+status returns before it is assigned, and after that the only failure
+left is -ENODEV, which the caller already handles.
 
-if (IS_ENABLED(CONFIG_BLK_DEV_ZONED) &&
-   ns->head->ids.csi =3D=3D NVME_CSI_ZNS && zi.zone_size)
-nvme_update_zone_info(ns, &lim, &zi);
+Fixes: c85c9ab926a5 ("nvme: split nvme_update_zone_info")
+Cc: stable@vger.kernel.org
+Cc: Weidong Zhu <weizhu@fiu.edu>
+Suggested-by: Keith Busch <kbusch@kernel.org>
+Found by FuzzNvme.
 
-One open question in v2: on a first scan the namespace now comes up as
-a non-zoned block device.  Setting capacity =3D 0 there as well would
-match what this function already does for nvme_update_disk_info() and
-nvme_init_integrity() failures, and would still keep the handle.  I
-left it out to keep the change minimal -- happy to add it if you would
-rather have it.
+Signed-off-by: Chao Shi <coshi036@gmail.com>
+---
+Changes since v1:
+- Only skip the zoned limits instead of failing the update, as
+  suggested by Keith.
+- Gate on zi.zone_size, not zi.max_open_zones, where 0 is legal
+  (reasoning in my reply on v1).
+- Drop the "malicious device" wording.
 
-Sending v2 now.
+v1: https://lore.kernel.org/linux-nvme/20260814160954.2839507-1-coshi036@gmail.com/
 
-Thanks,
-Chao
+ drivers/nvme/host/core.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 453c1f0b2dd0..87e0534cde1c 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2447,8 +2447,13 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
+ 	if (!nvme_update_disk_info(ns, id, nvm, &lim))
+ 		capacity = 0;
+ 
++	/*
++	 * A failed zone info query leaves zi zero-initialized.  Leave the
++	 * namespace registered so that it can still be used as a device
++	 * handle, but do not configure the zoned limits from it.
++	 */
+ 	if (IS_ENABLED(CONFIG_BLK_DEV_ZONED) &&
+-	    ns->head->ids.csi == NVME_CSI_ZNS)
++	    ns->head->ids.csi == NVME_CSI_ZNS && zi.zone_size)
+ 		nvme_update_zone_info(ns, &lim, &zi);
+ 
+ 	if ((ns->ctrl->vwc & NVME_CTRL_VWC_PRESENT) && !info->no_vwc)
+-- 
+2.43.0
+
 
