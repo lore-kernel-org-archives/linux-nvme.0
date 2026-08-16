@@ -4,103 +4,108 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6BCFAC5CFC1
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 Aug 2026 08:26:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 51D81C5B572
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 Aug 2026 08:26:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9NtS90fRAe355xukfFtCNj/3OysLrTWOHdxxnVUAgf0=; b=gFtbr8/K+75uNLNTp3de+tMuPF
-	FohviSM3YEtNB+HuS77fn5n2xb2RleFv+Kms7i32tFvgAlzOGA4fZXB4HfzkD8Vzw2Z6rdm0XeNDZ
-	R2BOF2nzqh9iBYfzz4yScqz76WlzLpaEdlXamtVj+uh83A5tuWC8vtnJp3B8P6gmdygWVNlfrJVoG
-	hhlT3cu9sMgObm4APhb2oCYXRAVSavynJD4EZYFM9LE/qBTvL3zNNt6TZkO7Tqu2Dq2PRTStXc1Iw
-	b0dC44xMl46+2n4P0b2T1y9KGN40klGoy4Q/YsJgfU0HkmA0NPHI67cw7/5QxNREA7KIIo2d7CUv0
-	wLF76pAQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ZPPcb+6L1tSSLsANqwKI7loeM1EwHu96h0gKbDhNEvI=; b=QCGQAtx3LG3DR9Mtx8mWfLBAfz
+	FCAaoWFROpR0xWzDV/aWjAy4NB0YjsINIVs69y1IeoLuhfbOkrYr5kZN+EtA17cJv5jyIwLUdjKdR
+	jQe7l5xuWcf9JE7NDOjj/oAy9afLomlqCuyvXpJeQHzT/3H88Va6X5NjCSVZD77xy496QWGjsUxkH
+	1hBKKg7Z7SGfxEfZ1WHx4YTuIGHBb3WRAxKDswAexS1zsujw9leritez+hhYlAfupa/1qdEqbiKuI
+	QyyS7Lve4ufvP5IcjyYJCv3eA9jFywTCv3BzdFOvyddAHPy8laRwvNHRtD7jdChVavOVJ7pH9UyJk
+	/cqm+6ww==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wvsfU-00000005gLw-45fE;
+	id 1wvsfU-00000005gLW-1aY9;
 	Mon, 17 Aug 2026 08:26:04 +0000
-Received: from out-170.mta0.migadu.com ([2001:41d0:1004:224b::aa] helo=mta0.migadu.com)
+Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wvsem-00000005gCM-1oMt
+	id 1wvOJm-00000004K7e-0Aiy
 	for linux-nvme@lists.infradead.org;
-	Mon, 17 Aug 2026 08:25:25 +0000
-X-Envelope-To: linux-nvme@lists.infradead.org
-DKIM-Signature: a=rsa-sha256; bh=eYNadUi07A8AhvVYvTwlB5KEurgeLlJSPKo7wDdWLLE=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1786955118; v=1; x=1787559918;
- b=LjSgLYlyre7Bl9wzcfiwZnMLoGsyIYf9q8avtbrrLh4qRigtQGJCLkGEhRdOzNjEtR0FDJ2V
- wqeQAlf5nV6ZloadOxF0iTp92ncJJ7FcPM5OlPTDlNLFY02HJU5jaKQJRU/UIJzYS/uda5GT0qV
- xLqAy0diEUnzSweW7JvbwBgg=
-X-Envelope-To: linux-nvme@lists.infradead.org
-Received: from localhost (3.112.29.171)
-	by mta10.migadu.com with ESMTPS id 5d0fb72b720b7f63;
-	Mon, 17 Aug 2026 08:25:17 +0000
-X-Migadu-Flow: FLOW_OUT
-Date: Mon, 17 Aug 2026 16:25:14 +0800
-From: Baoquan He <baoquan.he@linux.dev>
-To: Lukas Wunner <lukas@wunner.de>,
-	Jan Sebastian =?iso-8859-1?Q?G=F6tte?= <contact@jaseg.de>
-Cc: Jan Sebastian =?iso-8859-1?Q?G=F6tte?= <linux@jaseg.de>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Dave Young <ruirui.yang@linux.dev>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, David Howells <dhowells@redhat.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Ignat Korchagin <ignat@linux.win>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
-	James Bottomley <James.Bottomley@hansenpartnership.com>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Eric Biggers <ebiggers@kernel.org>,
-	"Theodore Y. Ts'o" <tytso@mit.edu>,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Benjamin Marzinski <bmarzins@redhat.com>, kexec@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mm@kvack.org, keyrings@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
-	linux-crypto@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-nfs@vger.kernel.org, linux-integrity@vger.kernel.org,
-	linux-afs@lists.infradead.org, netdev@vger.kernel.org,
-	linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	dm-devel@lists.linux.dev
-Subject: Re: [PATCH v2 01/13] kexec: add CRASH_WIPE_SECRETS to wipe secrets
- before kdump
-Message-ID: <aoLFai0gzzH2bGgy@MiWiFi-R3L-srv>
-References: <20260811-crash-zeroize-rework-v2-0-9561d13c2340@jaseg.de>
- <20260811-crash-zeroize-rework-v2-1-9561d13c2340@jaseg.de>
- <anw9ILJiO5xIjP4f@MiWiFi-R3L-srv>
- <9765f7ea-36bb-4c7b-a19b-7facec97b762@jaseg.de>
- <aoGpcczo5GkBsPwt@wunner.de>
- <aoK6jXA-tF9qfKOZ@MiWiFi-R3L-srv>
+	Sun, 16 Aug 2026 00:01:39 +0000
+Received: by mail-oi1-x232.google.com with SMTP id 5614622812f47-4ab89cff9c7so623771b6e.2
+        for <linux-nvme@lists.infradead.org>; Sat, 15 Aug 2026 17:01:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1786838496; x=1787443296; darn=lists.infradead.org;
+        h=content-transfer-encoding:content-type:mime-version:date:message-id
+         :subject:references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ZPPcb+6L1tSSLsANqwKI7loeM1EwHu96h0gKbDhNEvI=;
+        b=w3hdih4nujt4amcbqCe3qHGL8228V743YNB1jDHBSLKV3UdKnb2m4VoKwfzyGhNQwy
+         5SWs7qR1FtLJtX4zilJls18IHzM/8Y8Tk+XxDZs6TZ7tY30DuoviVjFo2Qdl+TgCyOrW
+         KPE1AZFOxIgguHbH4A0mKyPBojLG+tytLx0YsF2WmaC9aPdnA4MIe/65faBHas8Qgrma
+         AZe5agajhgeXSwK/OJRS+kT4YapAPuTC7vLmSjvwrJoKWxdyWk9BYCoKe0yN9GywkR9c
+         in8OHl6L6U+YWoQ6yaV8itRhSBQK0vBXKpR4ZX9201mSl5AaURs9PW67xuqMgm+jN0hq
+         9TJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786838496; x=1787443296;
+        h=content-transfer-encoding:content-type:mime-version:date:message-id
+         :subject:references:in-reply-to:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ZPPcb+6L1tSSLsANqwKI7loeM1EwHu96h0gKbDhNEvI=;
+        b=ar8e0zxlw1V5tCvwq7a5XpksDmQAeofqQxm37HGcf+GEHHQ9PkUzo9oGm5JT2tjjxH
+         qaqjKkPDotaSj0Wok8+KYnRkzAZkFHz8B9lQ6QgcXmxluLtUcU7mFiHd0IYUq0iKa69G
+         XBgmXGIkCmlDN16aB6RoHD7zKxhTOz5rOc8nfifoGxCDqIgKu17R5klJF6qTPn12L5Yl
+         ep1DTERSSlH3b3Vykrwj9E2Wa1F/9KE3Q4dox2wkfjeKIlBSThkyn/8ai8PsWbQXmggE
+         JWlu+XwAJKiB0PBfhQ8AQRhu5WvwVnVQhvME7fPfKsL45rFRInPDnlaUxr032sR4OmMn
+         vXFQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rrn/Y/2PUphDowAvaqSaYcobJqCbgfJDW/gGji5G91+wNrqCOUVu9NVsH3mO63gZ3lH0IYRaN5IeDUb@lists.infradead.org
+X-Gm-Message-State: AOJu0YzG5VC+EtMIOkDkwLni9Io5Ew2exubFLzHQU2W9oz1tzRr/LzDQ
+	Fgn8fefTxMxgkv4wAT8JBI3JQ90+jp+x4yVJKCops8PDS7jNzD/bPIDniHd52Rliew0=
+X-Gm-Gg: AR+sD12TosAS3DBy1Qul9kCN3aYGFJOJJKWAYoyh0hRz3zpHqQ3f7MPP+JkjS7Yw7U4
+	hGBSYi4LTkbsY/RtvGE5Ntq2laIjk3AGKJunbcp02FKWxDYkUoNL9WDQeM6g1Sh97C7lg7BG1ng
+	BjQq5ouBEJJZf8v7Th2rRz7boX1ZF1n5H6Q40qvNeryGIiCGGABvbD2zqcXwr+3ToKFGjucjmUy
+	sE+RgTSAZQ8xdaUBE3jktHFwEsLP4xT5rxBpyAYY/244cxekTw7l6s0o2FqsKHrHAhDatVTix6w
+	BpoS90L4teEkc0iddA9ypZtm/aQe03ITyg5iLlsKpVpA10R9SqpLaJtSYzFIudtMryHunQGFdfu
+	t8mRGElurNd3gqi9r5BvxJsS84NTvfAOrbTwXxty1tXdL1UxU+UzzrgC9se7ij/hAydHHU6LSJ3
+	P0fczwhxjzyTIy8AWX1mj4hZucjFmhqm8DwT23t55TkWOR/guVtsUvOHF7dXbZTfcvM8uhlGsY6
+	FT8klSUI/vUQcLf4PPTdmGdfJROltPLUu5nafZXcQ==
+X-Received: by 2002:a05:6808:23d4:b0:4a4:ddde:5207 with SMTP id 5614622812f47-4b24198f27dmr12801839b6e.8.1786838496365;
+        Sat, 15 Aug 2026 17:01:36 -0700 (PDT)
+Received: from [127.0.0.1] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4b24d92462dsm4347729b6e.5.2026.08.15.17.01.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 15 Aug 2026 17:01:17 -0700 (PDT)
+From: Jens Axboe <axboe@kernel.dk>
+To: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
+ Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, 
+ linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, Pavel Begunkov <asml.silence@gmail.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>, 
+ Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>, 
+ William Power <william.power@intel.com>, 
+ Phil Cayton <phil.cayton@intel.com>, Damien Le Moal <dlemoal@kernel.org>, 
+ Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, 
+ Mikulas Patocka <mpatocka@redhat.com>, 
+ Benjamin Marzinski <bmarzins@redhat.com>, 
+ Vishal Verma <vishal.l.verma@intel.com>, David Sterba <dsterba@suse.com>, 
+ Ilya Dryomov <idryomov@gmail.com>, dm-devel@lists.linux.dev, 
+ nvdimm@lists.linux.dev, linux-btrfs@vger.kernel.org, 
+ ceph-devel@vger.kernel.org, Jason Gunthorpe <jgg@ziepe.ca>
+In-Reply-To: <cover.1785596451.git.asml.silence@gmail.com>
+References: <cover.1785596451.git.asml.silence@gmail.com>
+Subject: Re: (subset) [PATCH v5 00/16] Add dmabuf read/write via io_uring
+Message-Id: <178683847578.1984298.10059277109543676478.b4-ty@b4>
+Date: Sat, 15 Aug 2026 18:01:15 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aoK6jXA-tF9qfKOZ@MiWiFi-R3L-srv>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260817_012520_675340_DB7DE6FC 
-X-CRM114-Status: GOOD (  26.56  )
+X-CRM114-CacheID: sfid-20260815_170138_092563_D691430E 
+X-CRM114-Status: GOOD (  12.44  )
 X-Mailman-Approved-At: Mon, 17 Aug 2026 01:26:02 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -116,67 +121,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 08/17/26 at 03:38pm, Baoquan He wrote:
-> On 08/16/26 at 02:13pm, Lukas Wunner wrote:
-> > On Wed, Aug 12, 2026 at 12:08:39PM +0200, Jan Sebastian Götte wrote:
-> > > I can imagine one alternative way to approach this, tell me what you think:
-> > > Instead of registering wipe handlers that memzero places on panic, I could
-> > > put an optional registry of (addr, len) descriptors into crashkernel memory
-> > > that the original kernel populates with the PAs of buffers to clear ahead of
-> > > time. Then the kdump kernel could do the actual memzero. This would remove
-> > > all code from the actual kdump path here. The registry could be made
-> > > per-core to avoid locks.
 
-If this has to be done in kernel, your (addr, len) registry idea is a
-better direction, and we can make it a bit more general.
-
-Instead of a secrets-only wipe registry, consider a small "crash memory
-region" table with an action per entry:
-
-enum crash_region_action {
-    CRASH_REG_WIPE,   /* memzero, then dump normally (leave zeros) */
-    CRASH_REG_SKIP,   /* do not include in the vmcore at all */
-};
-
-struct crash_region {
-    phys_addr_t addr;
-    size_t      len;
-    enum crash_region_action action;
-};
-
-void crash_reg_add(phys_addr_t addr, size_t len,
-                   enum crash_region_action action);
-void crash_reg_del(phys_addr_t addr, size_t len);
-
-Two actions because the use cases differ:
-
-- WIPE is what you need: zero the secret, 
-- SKIP covers things people do not want in the dump at all
-   — Registering as SKIP reduce dump size. I have been considering how
-     to shrink vmcore size on some big system with huge memory, the
-     vmcore size usually is several or tens of GB.
-
-If this is OK to you, you can start a regiestry table
-infrastructure with wiping secrets, we can add SKIP later and plus some
-driver used memory.
-
-I am not sure if it's satisfactory, but you can give it a shot to show
-what it looks like.
-
-Thanks
-Baoquan
-
+On Sat, 01 Aug 2026 16:46:12 +0100, Pavel Begunkov wrote:
+> The patch set allows to register a dmabuf to an io_uring instance for
+> a specified file and use it with io_uring read / write requests. The
+> infrastructure is not tied to io_uring and there could be more users
+> in the future. A similar idea was attempted some years ago by Keith [1]
+> (from where I borrowed a good number of changes). Later it was brough
+> back up to life by Tushar and Vishal.
 > 
-> Since there are a lot of security expert in CC, I am wondering what's
-> the risk if we wipe secrets during dumping. System is located in
-> user's place, and vmcore is dumped and collected in user's place. If we
-> filter out secrets memory when we dumping, what could be leaked out?
-> 
-> > 
-> > Or create a dedicated mempool from which all sensitive data is allocated,
-> > then call mempool_free_bulk() on kexec to poison everything in that pool?
-> > 
-> > Thanks,
-> > 
-> > Lukas
+> [...]
+
+Applied, thanks!
+
+[05/16] block: move bvec init into __bio_clone
+        commit: e228404b05c8293f6a1286856e49ba3e55da1933
+[06/16] block: introduce bio_iov_iter_set()
+        commit: 8b8755e00847da1027fe6624277e43d289e2300e
+
+Best regards,
+-- 
+Jens Axboe
+
+
+
 
