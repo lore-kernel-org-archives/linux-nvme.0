@@ -4,110 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59115C5AD5A
-	for <linux-nvme@archiver.kernel.org>; Sat, 15 Aug 2026 17:36:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1FBABC5CFC1
+	for <linux-nvme@archiver.kernel.org>; Sun, 16 Aug 2026 01:00:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=IP1tUanOIgptNCza6W9geu0/e/cvU2f3mTkYrLVSCOI=; b=R6E9gu3hesno5jM+6IKKeQ0nrP
-	0RWtZxmjrhZkloguHwy2deesxT49jzQ+iBud1/HHj4Kn4U5c3yv7M6ms9TvY5EjrCDGK4UyRNvvzj
-	s1ddeaH12jxqpBdIkDgKziIHnMiuJplMH1FbMD2hCi3QmWzpMj8WsJbPphnpeqzK3T7KUmnM917JD
-	XnHiw9B0OzyqfjZ3cPczhewExNcKZMFLitR0Foss370iGtH8CfQIy5lWQEijoysxRtNzF1hvG0Ntt
-	B6nVeSupvOVRgxyAXXjpDgpITGkjzjzfC8bHs/vE3/XiYYWe+R+HvSyuz1UCS2rtIP6KouROhexgn
-	unkO5CZg==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=MY/sIL9Y1jnzsucHK8wlt+7uuZuywIJOs+Wptlau6mo=; b=pwsNl+uYTn31sy1ljNCtprlOuk
+	nijKG4OxpmMbqHQGUShFi8XQ4yytm+oZZpVV3RcMUhaBe5PCvHkHNCTKMLiPpuRgNy0UH8V5p7NNN
+	Iuo7iMSUwkcyNIlqNvM/tUXkzhhYNjsG0eOV1UGfWdyz8e8OEncq+RqThAAge8qOSESqIWsuAFLeD
+	y18KNavdhwbYB+ZylGXH6epJIhnqGvCVQMo+b8yYUGxzLA7EpI6vVillGKTdJaEn9Lqb8tHFvxzdU
+	nSzyvx03ezFycKGdqH8yDFynID3RbMSlRYTdeTywcFyErBGON5KigCcSWlpV+hk9Z+hzKzVTvZyNc
+	CCTvf/gg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wvIJ8-0000000404M-02Cg;
-	Sat, 15 Aug 2026 17:36:34 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1wvPEs-00000004MM3-3T1r;
+	Sun, 16 Aug 2026 01:00:38 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wvIJ5-0000000401J-0RiE
+	id 1wvPEq-00000004MLx-40oO
 	for linux-nvme@lists.infradead.org;
-	Sat, 15 Aug 2026 17:36:32 +0000
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67FGW3mf2640390;
-	Sat, 15 Aug 2026 17:36:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=IP1tUanOIgptNCza6
-	W9geu0/e/cvU2f3mTkYrLVSCOI=; b=CWayot5RfHYYYI0f7kirRBOG2H3WFrYHG
-	R2oUu2KZHJxAYo0Tlv5LGo1Ml2sLDoEi4NHNa6SnguYw3ARSRg+kyt43GyCEgboH
-	+JDgn1IzvlYIwSmBw/KdqdIBcYNGg/epiv1uQZWiBWHya2dkHCh543hoME/dF9KL
-	+cPmzSLvi2/h1yiwNns3wqIddvz9YfQTUMSpKFBTdBhRq7nFxcTceqNBz5znWe3n
-	JCdxJAEVl/L9t+j1FI+CjaMzeZWQnAZlvHxIpdfyCSCL+IqkIyfACtHpY1yIZefT
-	Orl/DgZVV+oW3XL/hyPr/1M4Nc9upv4Q9PFLDzvmE72Fyxo1S9afA==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4g2fsqa7k4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 15 Aug 2026 17:36:26 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 67FHQQXa005873;
-	Sat, 15 Aug 2026 17:36:25 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4g1rpvesrf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 15 Aug 2026 17:36:25 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 67FHaNSg45482454
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 15 Aug 2026 17:36:23 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 780F820040;
-	Sat, 15 Aug 2026 17:36:23 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 77EE520043;
-	Sat, 15 Aug 2026 17:36:18 +0000 (GMT)
-Received: from li-a84c74cc-2b13-11b2-a85c-acdd023f0674.ibm.com.com (unknown [9.61.9.204])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Sat, 15 Aug 2026 17:36:18 +0000 (GMT)
-From: Nilay Shroff <nilay@linux.ibm.com>
-To: linux-nvme@lists.infradead.org
-Cc: hare@suse.de, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
-        dwagner@suse.de, kanie@linux.alibaba.com, jmeneghi@redhat.com,
-        randyj@purestorage.com, martin.petersen@oracle.com,
-        john.g.garry@oracle.com, gjoyce@linux.ibm.com
-Subject: [PATCH v8 10/10] nvme-multipath: add documentation for latency I/O policy
-Date: Sat, 15 Aug 2026 23:04:32 +0530
-Message-ID: <20260815173502.1185929-11-nilay@linux.ibm.com>
+	Sun, 16 Aug 2026 01:00:37 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id 7ECBF6001A;
+	Sun, 16 Aug 2026 01:00:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DD571F000E9;
+	Sun, 16 Aug 2026 01:00:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786842034;
+	bh=MY/sIL9Y1jnzsucHK8wlt+7uuZuywIJOs+Wptlau6mo=;
+	h=From:To:Cc:Subject:Date;
+	b=P8WKgyc+GhEdG+N8ebNW/5hE6ZmuJmANuT6mzKa/UMhd3y1jRSKc4K8v9+5Ivewxt
+	 B9FqPl+MKYd4kTJtZwV31qir4dhd1UIWV4uokmYCRDFAzfE/u0u0xs09FdrJTbaOay
+	 +Vwd99dERCSDve1O9rKUrhP5+8NbuCH/OypgBUp6958ac6VVOtit236Fu/XdmioYMc
+	 pl3b8M9DSO7aCIjchdpv9Q/YcbyPalQ0E/u8+YbYGfbXYwi4Q+NmJUouDJC5EyXE4A
+	 KEEdWGf/w4jBEs3KOtfyPpLRugHLqXRYxnNhKENYFXcMfJZFCrhE+1OMMgjV5RkN0Z
+	 dgrYv2jv5kg0w==
+From: Geliang Tang <geliang@kernel.org>
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	David Ahern <dsahern@kernel.org>,
+	Ido Schimmel <idosch@nvidia.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Hannes Reinecke <hare@suse.de>,
+	Stanislav Fomichev <sdf@fomichev.me>
+Cc: Geliang Tang <tanggeliang@kylinos.cn>,
+	linux-nvme@lists.infradead.org,
+	netdev@vger.kernel.org,
+	mptcp@lists.linux.dev
+Subject: [PATCH v3 0/4] nvme-tcp: add IPv6 traffic class support
+Date: Sun, 16 Aug 2026 08:59:56 +0800
+Message-ID: <cover.1786841319.git.tanggeliang@kylinos.cn>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260815173502.1185929-1-nilay@linux.ibm.com>
-References: <20260815173502.1185929-1-nilay@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE1MDEzMCBTYWx0ZWRfX+tMN9Wx7/Yjh
- rUj7ZC05bQTPNx9IWgAMTbhpJPcI7lzUjA0QHhIEW0GqkPqbMJyfD8WoNDj+1jnOwBvkURJdD40
- RMTjIjaHU1KYLLklRybGWwvpbhtck3gUr2+vU9rof6Dbrfj2pw/qiLbeHbefwJD+U/9I4fw/WMh
- OjAAKyU8oPVEg//NKDU05u1h/3+XIrTkAvlFjKiZPcSZToPyrkUqaT9DVFSbPm7hJynh142HwIO
- 7uTHRyLVj85UUtD5dkpH1QO9iTBCXmZA+F+x357XJtCpvj1LbEGem8z4FqKTh7ImGWC6IU2PXQu
- qM+ePc2pPL6PF04cPJjG2H7k52oBcNbZkFtyQ5Qg/R/xXOYUEOGGKCI3F8VlsRsJd9NxH5fYDgj
- AFqMNrBtijN0dV+F2jULOg23byJSQGwCgrHoHMl6uhM7VImhjp7hXLgyGgoyC96bVLKbsGfuZx5
- qyKgEmgIJUVMCUcno+Q==
-X-Proofpoint-ORIG-GUID: PjirTeRtYnFURWknmAOUNHfeqohb15v1
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODE1MDEzMCBTYWx0ZWRfX8qwN3zseZkzW
- 4mX1NffphzRFA+IeqF4NdhetNeJQtqjp3P4ziP+8MNMlxA4ZUL60LJk1UrK0bcL4xgIH2L0kk3W
- nuJSEJW+gsWh56b7KIqXUlMT1q1NY2g=
-X-Authority-Analysis: v=2.4 cv=DJe/JSNb c=1 sm=1 tr=0 ts=6a80a39a cx=c_pps
- a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
- a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
- a=uAbxVGIbfxUO_5tXvNgY:22 a=SRrdq9N9AAAA:8 a=VnNF1IyMAAAA:8
- a=5c6VxMoH-_C0Ghh2t7EA:9
-X-Proofpoint-GUID: qa-lLIftvBr-qxiouW0Fbx_1CZ2eGN0I
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-15_05,2026-08-12_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 impostorscore=0 spamscore=0 clxscore=1015 bulkscore=0
- suspectscore=0 malwarescore=0 phishscore=0 adultscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608150130
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260815_103631_167734_D4C9FF1F 
-X-CRM114-Status: GOOD (  11.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -122,44 +81,64 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Update the nvme-multipath documentation to describe the latency I/O
-policy, its behavior, and when it is suitable for use.
+From: Geliang Tang <tanggeliang@kylinos.cn>
 
-Suggested-by: Guixin Liu <kanie@linux.alibaba.com>
-Reviewed-by: Guixin Liu <kanie@linux.alibaba.com>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
-Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
----
- Documentation/admin-guide/nvme-multipath.rst | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+This series adds IPv6 traffic class (tclass) support to the NVMe/TCP
+fabrics stack, mirroring the existing IPv4 TOS configuration.
 
-diff --git a/Documentation/admin-guide/nvme-multipath.rst b/Documentation/admin-guide/nvme-multipath.rst
-index 97ca1ccef459..41a8054638ff 100644
---- a/Documentation/admin-guide/nvme-multipath.rst
-+++ b/Documentation/admin-guide/nvme-multipath.rst
-@@ -70,3 +70,22 @@ When to use the queue-depth policy:
-   1. High load with small I/Os: Effectively balances load across paths when
-      the load is high, and I/O operations consist of small, relatively
-      fixed-sized requests.
-+
-+Latency
-+--------
-+
-+The latency policy manages I/O requests based on path latency. It periodically
-+calculates a weight for each path and distributes I/O accordingly. Paths with
-+higher latency receive lower weights, resulting in fewer I/O requests being sent
-+to them, while paths with lower latency handle a proportionally larger share of
-+the I/O load.
-+
-+When to use the latency policy
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+1. Homogeneous Path Performance: Utilizes all available paths efficiently when
-+   their performance characteristics (e.g., latency, bandwidth) are similar.
-+
-+2. Heterogeneous Path Performance: Dynamically distributes I/O based on per-path
-+   performance characteristics. Paths with lower latency receive a higher share
-+   of I/O compared to those with higher latency.
+The current code path only handles IPv4: nvme-fabrics exposes a 'tos'
+option, the host (nvme-tcp) applies IP_TOS to each queue socket, and
+the target (nvmet-tcp) reflects the value received on the wire. This
+leaves no way to control or observe the IPv6 traffic class for NVMe/TCP
+connections, which is a real gap for deployments running over IPv6 that
+need a non-default tclass.
+
+The series also refactors the socket option configuration on both host
+and target sides to use the generic do_sock_setsockopt() helper. This
+change eliminates the need for protocol-specific helpers and decouples
+the configuration from the underlying transport protocol, laying the
+groundwork for future protocol extensions such as MPTCP.
+
+The series is split into two logical parts: the do_sock_setsockopt
+refactoring (patches 1-2) and the IPv6 traffic class support (patches
+3-4), following the natural host/target layering.
+
+This was tested with the selftests mptcp_nvme.sh [1] to pass "--tos"
+on the host side and validate that the value is reflected on the wire
+by the target.
+
+[1]
+https://patchwork.kernel.org/project/linux-nvme/cover/cover.1779934709.git.tanggeliang@kylinos.cn/
+
+v3:
+ - add two patches to unify socket option configuration using
+   do_sock_setsockopt on both host and target sides.
+ - use do_sock_setsockopt for IPV6_TCLASS rather than exporting and
+   calling ip6_sock_set_tclass, as suggested by Jakub.
+ - reuse the existing NVMF_OPT_TOS for IPv6 sockets instead of adding
+   a new NVMF_OPT_TCLASS option, as suggested by Stanislav.
+
+v2:
+ - Export and use the ip6_sock_set_tclass() helper in both target and host
+   paths, aligning with the existing ip_sock_set_tos() usage.
+ - Add CONFIG_IPV6 and AF_INET6 guards to avoid build failures when IPv6
+   is disabled.
+ - Use rcv_flowinfo from the target socket instead of np->tclass.
+ - https://patchwork.kernel.org/project/linux-nvme/cover/cover.1786171863.git.tanggeliang@kylinos.cn/
+
+v1:
+ - https://patchwork.kernel.org/project/linux-nvme/cover/cover.1785122120.git.tanggeliang@kylinos.cn/
+
+Geliang Tang (4):
+  nvmet-tcp: unify sockopt with do_sock_setsockopt
+  nvme-tcp: unify sockopt with do_sock_setsockopt
+  nvmet-tcp: support IPv6 traffic class
+  nvme-tcp: support IPv6 traffic class
+
+ drivers/nvme/host/tcp.c   | 68 +++++++++++++++++++++++++++++++++------
+ drivers/nvme/target/tcp.c | 68 ++++++++++++++++++++++++++++++++++-----
+ 2 files changed, 119 insertions(+), 17 deletions(-)
+
 -- 
 2.53.0
 
