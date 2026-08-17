@@ -4,62 +4,192 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 84755C5B572
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 Aug 2026 17:04:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5567EC5DF70
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 Aug 2026 17:06:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ycTKNp0Izo0bzn+OyoNitSSIiYOPhFUfqoBSLIwytBk=; b=DtJLPgIG+jlaTsu2fo/dIQ3Bti
-	8TIBnBm3qL5rOVzX5zGgskie7WiBD8bT/w/x0PL8w2tq3aK7Q46IalR3I2RRRD5ox3NXF369uZWQD
-	MMUeMYqToc0FEIxheVxUZkLhXTHQyV9M9GZ5KQ41rQUh6ROFRQPfueEX9JrMqbS1ljXLUaxWuYLZv
-	wBfvbIJkMVzpGpRXxJEg7c8RqjEyroHx7eN/dBGqdpb/mcc0/CS5g3E+VUJeG2L6/Npxd0Jm4mUIo
-	v1XrAp9ISSL/kPM9jazgi0U76//GQG2Iev0Ohg4vLWVQo/t+o7DJhURlxy5dFdoU3eLoneoX9nHq/
-	dIggk3og==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=44ZQPqIfr2Ui84Aq5j2ISGlL9mPz1AJADI9Gr5/B8zU=; b=Fu9NTFPfjSmOSiJNHlY73rtn/F
+	2YSbRPzwFT9KbN86Tbf/lP7DmJFtovkjThlkTe00wQMTj1oU7JXyIlwAw9GORblSkZ2Ni86rtb4jf
+	XzBIiLBA2utrGsRByCeh9GZ7Pr73sAWzrsOyMz7K03dbVn36HXrbgNkjnBNXWXWqEoWCyVoPQXMYn
+	JhcOrMXrvhbudWNJBlxY/fE6ANdLh2Y5bGwi8/Ca4AVrmAuQY+mq6umaZOI8jl0Rijgxzq1MbGlTw
+	ARnKnZ693ccs1VFqfyTSdOe1N8By64ZPDrm+kTY8TdvruMQi/vcOCF5dqf605RBhUPJ4+0AXI9Y5S
+	NSYvEBrw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1ww0lF-00000006ZCf-21BR;
-	Mon, 17 Aug 2026 17:04:33 +0000
-Received: from foss.arm.com ([217.140.110.172])
-	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1ww0lC-00000006ZCE-2ObY
+	id 1ww0mn-00000006ZLL-32Er;
+	Mon, 17 Aug 2026 17:06:09 +0000
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1ww0mk-00000006ZKy-2tLs
 	for linux-nvme@lists.infradead.org;
-	Mon, 17 Aug 2026 17:04:32 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 20CD61655;
-	Mon, 17 Aug 2026 10:04:23 -0700 (PDT)
-Received: from [10.2.212.23] (e121345-lin.cambridge.arm.com [10.2.212.23])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F27A83F673;
-	Mon, 17 Aug 2026 10:04:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1786986267; bh=WwW3V4TMuE/pvFjy27YhAVXW50q82C9U1UO8+sDJCII=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=QeIkDyHWPZXIR5a5D54DOt0cXsS9HlN67HT5K8IyHeiL8l0UvaTFRQI2XmMvmJz2h
-	 6Z/ILoecouit7do9PzKQEAY+ruFx6BKZnsqTJFzHAw5FDmEAKixfAMMa/8jv8YUJPu
-	 hdFYOiIzxw6y9w4otrm/sEkl6Rh4yFuSPIayxcFE=
-Message-ID: <3ac5346a-485f-4c1a-8c3a-ad649f2c76f0@arm.com>
-Date: Mon, 17 Aug 2026 18:04:24 +0100
-MIME-Version: 1.0
+	Mon, 17 Aug 2026 17:06:08 +0000
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67HFhv6b1095705;
+	Mon, 17 Aug 2026 17:05:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=44ZQPqIfr2Ui84Aq5j2ISGlL9mPz1AJADI9Gr5/B8zU=; b=
+	SCjSPHKehSANLjWpbIocyDBN7KNJv3+SZvj3lABDSkdXvp30/Zuk+mWlZ+w5Tmi3
+	FeYPWGXUe+8PR22yetS4kSFLSmtdHyTXwcU2KZ9W5RjKCLiTzNg+s943QL71Ux1P
+	id7l5TxW67f9irZe2BHkDpOLpaI+thJek+onOQjkxyzsW90YY+A8byPogG03tJst
+	/ySCNDULxByxuUzHKBzcfr7HqvxBfEKDEbSMh9G0f6OrKEDIikZkUuocrtpnrg4N
+	pujy3rQNA1XxapcztVgp1fmiASZrn46xGjKHy3a2CFPCx+UI3b0b/pzTmSu8zwEH
+	e10vlVlhnjd0WZnUBjQ3Rg==
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4g2g07jnhc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 17 Aug 2026 17:05:50 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 67HH5ZiJ026588;
+	Mon, 17 Aug 2026 17:05:49 GMT
+Received: from ch1pr05cu001.outbound.protection.outlook.com (mail-northcentralusazon11010047.outbound.protection.outlook.com [52.101.193.47])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4g2ejpnjee-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 17 Aug 2026 17:05:48 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RJDV4jcuOVLxEAVu2CUwiBuFW9zFdz6ZkRBcksPGTM6EsDjTCS4ZMYPxZXdN7JGaPlu3ced66Gm/nCo3s69UQW9ictU3iYp/90eAoWHHBRPzad6cRGyhXqtpSTTXVlwuZLEGQf6d0edxKBSBN7LCmoe8md2XUoTO1bx31N8mhQEXzqso+bphmd0F+ym5Ru2NDShqoy1xVJgtS1YkrT3rxXDbM5OKZPlvtdr+j6jFiXsAZBPnCE0O/ilHGYcg5RDofqwA2twozYfvY7b24YZOWGe7PkNJy51dTHVNHNA9eJJW4un4LzHJIOdc/NJyb0v1JMHADn0UZL/9xXmXFonwxw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=44ZQPqIfr2Ui84Aq5j2ISGlL9mPz1AJADI9Gr5/B8zU=;
+ b=c0L/7JjJhd+oBYF0Uw/N46q85rMI1tpaPo93Mhsp0fxHyoDEV/ol03XOOL8ths7wccmfuFryhydalDjhCOaidw7UPHg/nRU93WJgBbHyMmWFoaOZyZ4bS/P6YhHVd0W4RRfcgECYJK+AUDLXKH7GSWOcvkHa5XVcaEFb2AlBVnyXFWSYjbWoXO9K5CPgGIqLEwn4kfHG/bj5zDx4doncpZsoMP0eZy5+f1SUhPeqOgMry+BA9LOnJTPqz7JpJRWmXcBBFO09sC+X+P3B+FSanRCNNzM3GOaSj2sA6HZvZvpJV3rtBPXTIGOEjdyHVSIFEkfhZz4zbDPZorQzgX8NJw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=44ZQPqIfr2Ui84Aq5j2ISGlL9mPz1AJADI9Gr5/B8zU=;
+ b=DuLJfVDvkQyr1HfBzojWacRQ0fUxZjyOoO6c7v6YGnAX/CCOYd6nh4sGiBOumyl7YC6cpFyAKnXSOXpE5POsLDhCO/D/G87hOF7NYoP3mqJeAQ3Ny7Q7gxu74zDXGx6KXog8bRLFsedkRk0B34Iic1FuGyb1ilXdaC9ur8yVfWw=
+Received: from DM4PR10MB6229.namprd10.prod.outlook.com (2603:10b6:8:8c::12) by
+ PH3PPFBE86117B9.namprd10.prod.outlook.com (2603:10b6:518:1::7c5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.17; Mon, 17 Aug
+ 2026 17:05:31 +0000
+Received: from DM4PR10MB6229.namprd10.prod.outlook.com
+ ([fe80::867:63e7:13fa:fa7d]) by DM4PR10MB6229.namprd10.prod.outlook.com
+ ([fe80::867:63e7:13fa:fa7d%6]) with mapi id 15.21.0315.016; Mon, 17 Aug 2026
+ 17:05:31 +0000
+Message-ID: <58358ff3-2c59-4ebb-bfa7-3ef22a7fb1a3@oracle.com>
+Date: Mon, 17 Aug 2026 18:05:28 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: dma_opt_mapping_size returns way too low sizes when using IOMMU
-To: John Garry <john.g.garry@oracle.com>, Christoph Hellwig <hch@lst.de>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- iommu@lists.linux.dev, linux-nvme@lists.infradead.org
-References: <20260817083654.GA23414@lst.de>
- <86f7fbdc-3c7f-4d84-871e-52ed3cfe8d58@oracle.com>
- <20260817091840.GA26843@lst.de>
- <8b7e86a7-6cb1-4007-bd99-1c4be8e6828e@oracle.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <8b7e86a7-6cb1-4007-bd99-1c4be8e6828e@oracle.com>
+Subject: Re: [PATCH v2 2/4] block: factor block size and alignment handling
+ out of blk_stack_limits
+To: Yao Sang <sangyao@kylinos.cn>, Jens Axboe <axboe@kernel.dk>,
+        Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+        Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
+References: <20260806024658.4193386-1-sangyao@kylinos.cn>
+ <20260806024658.4193386-3-sangyao@kylinos.cn>
+Content-Language: en-US
+From: John Garry <john.g.garry@oracle.com>
+Organization: Oracle Corporation
+In-Reply-To: <20260806024658.4193386-3-sangyao@kylinos.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO4P123CA0484.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:1a8::21) To DM4PR10MB6229.namprd10.prod.outlook.com
+ (2603:10b6:8:8c::12)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR10MB6229:EE_|PH3PPFBE86117B9:EE_
+X-MS-Office365-Filtering-Correlation-Id: 968d4a38-8923-487e-1c25-08defc81beb3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|23010399003|18002099003|22082099003|56012099006|6133799003|10067099003|4143699003;
+X-Microsoft-Antispam-Message-Info: YzY078NdpV7cnVr37yAziLWN8bea4BgZu3C9AxqTdSQ49p08HT9rOoJTcuS47i3k5Z5aJQhMEc08qcRqsPsKjHKBgA7m7l74ZC1rd6JzaveNZULYcuEu6b82aPmUddoORwe8pmE3pMRClyqCoJR3Iz0quyUTbhneo7wHWUSc4Ag371R6he62Xo+rKVq+MQnkAWRbEqjNvXXIC0j2NMzWkdTH8qMy9G27R5N7KdyuwfUjFdwCswaAClPILEYT+p+JpehGY0buEKM0Ulm34njUgkPT5johQXwf5nf2+98/Z4/EVlheFKf7CqmXT02k7hakse3mfLO6LDWrpoXgMDBOnGDqX4CSrzsardt0VTw9yjx+CtnufbCPOksF7z/Qfu+EiJOWmK/9sWC8nSUgykKEVQWAJGsu3nGPHt5Xg0QKT2NDkwNLSHf/7uomxaPArV4XPtkGploupqwW2pswbvcyndDKHYXxXYP3W/9lYWQZbzIGI6dXjv2uWdtC5638vhvdVIp+2dQ3ARMB6d1hwwsDVSRwCg1cZU2s3ngWmMS/1/7O1+kOTv72/QqI3uRzmHFkmJPY7Dl1t1unXibLulXFnUEVE8A1iG3ZGcoXhtB6tizZY3Umaw6MVr7J90QTGb27rAvWtuuSx0IKl8KHASs3y8olCNHS29QBIPdqAPcr9vc=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB6229.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(23010399003)(18002099003)(22082099003)(56012099006)(6133799003)(10067099003)(4143699003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UmRXbWs3VXFRMkNTYVpObkhqMVZSOFF3RzM1K0lwQ0hudFlBbUNlYVA4ZXFj?=
+ =?utf-8?B?enBtK2RtSTRUMVhvT2I2L1IyaXZiSVFmaVRDM1l2VEtvZXVJeHlOUU9tYjN6?=
+ =?utf-8?B?SU8wS0dsN3AwZWZEUnpLL0VMelhRVTBCOVovRkVEV0RBODdlbHhNa3M4TVlz?=
+ =?utf-8?B?eXhMTmRuamxERU1uNy8zZEtPWnhpdUFLNmdKYjVXVmtOSTJQUTVVQlpBTG1V?=
+ =?utf-8?B?Z3hTSVZBN0dVQ01nQ1pyZGQ5eTJvd2hISlQva0k5c2tVQytrQXV4VFlZem1C?=
+ =?utf-8?B?U2FnZ05mZlVBMVg0d0xUT3pXdHU4eVlyMzlVM1djeEJkTUJtanp3aEpsY2Ev?=
+ =?utf-8?B?ZG5OT0RiTXlOVTBHeDl5c1ZPbXRNWHNCNGxjRXl2cXJuTVRnVGxPMEkvYkVn?=
+ =?utf-8?B?MzlpSUlmS0wxM0xFbVh5aXg5NFFsdDNEOEdQZ3VQY1Q2d21XeUN6aXpibnYv?=
+ =?utf-8?B?Y0RZaVJXZjRKVEdpaTA1aDVvcFJWNVVtcHh0T3ZreFRLdDFBTEFNVDEyZ21j?=
+ =?utf-8?B?eXR3SFRqdXlydk5tVWl3cHowU2trNTNzUXIwQjEvZGpwQUJRS1FNRXFyODdj?=
+ =?utf-8?B?UHRtaE0yd2hoYnUybHhKbkNMbGJSMUNlUzdYbmx2SlZPaGk4eS9FNjFuT0pK?=
+ =?utf-8?B?NEhzQTBjYk5MRytXSFM4U2FYa25QeDMwTzhUZ3pTREY0dFBweGsybzZZemdU?=
+ =?utf-8?B?UXJ2MlJjNDVaZEYrOFJKUDh4VnVRbVp2TXNINTE4UDFqMUJ2SmkwMktFZ1Ny?=
+ =?utf-8?B?aklwV0pJK0hncTBhdHhZSDVWVjJkczFQVGxhR1FjK0dMK0E5VVZNVWlzL1ZZ?=
+ =?utf-8?B?NDF5b3RWZW5LeU1xeldQa3E5eXVBc0tqTklCYTRhOXM5L2haUWJKM0IrSU1x?=
+ =?utf-8?B?SGNwUW9qNDF2bFFlU2pIMkdidFVEQzIvRlZZblRsRHJIajNvM3Jod0FBTHV5?=
+ =?utf-8?B?N09DQmkwSHZsS2IyRU9YdzNJTEI1UmlhNzFMa3lJU1A2akpqTWxuMXMrUDNS?=
+ =?utf-8?B?QVE1NS83eU9OZjl4UFNlZHYxbVZmLzNXZFJzUnljTlIzQTR1dmZtc0EzYTYw?=
+ =?utf-8?B?VDA0amtjeUpvNFdNR1VWbHJkeUkzckRCQXl3M2JISWxoSWRMVzBBUUpEZ3dH?=
+ =?utf-8?B?ZE9FSHdPU21HalBVd0IzOG1yWis4T1BvdW9HTGppNnFaQkNhOU94WEFFVWR2?=
+ =?utf-8?B?ZXcydGtXenVZQ0lycktoYzVHYjk4RHlLT2oraWFPY1FpSjNrTC9XV0VLaE1G?=
+ =?utf-8?B?ckpTbUFlU3JLRlJtdzdTWGtpR2VTWG1PNU5uLzExRWdrc1J3cjRYZkw3a1Rp?=
+ =?utf-8?B?Q0ZqMW5yMTVlNjhNTzdpVmVaYk8ydmJzUjZ6akREbUVscXB3WTZHOUtFMkI2?=
+ =?utf-8?B?dzRGa0hlR2VLcFBJbWl0OWUxOGNaWEtZeWF2cEh3VzI1QUo3cW9maFF2RjF5?=
+ =?utf-8?B?Mm5QY0tnejN5SlRCY3YrL0xxMFZvQXdVN2h4N1ZjdTBWNEthaWFJS3Jhb204?=
+ =?utf-8?B?K0JJenlPZFdHaVlDWnpVWEFOZVovelNPUGY5Ym1vTjY1RDJGZTFUbFBOZ0JN?=
+ =?utf-8?B?TmpVdG5YS0RNaTRMemZoY1pFRlVKWFcwa2VKcXV3UlJ1SEtRaUVVOGIrTHVU?=
+ =?utf-8?B?Qnp4SlltakYrdXFFc1YwVmwzdldHZlJJSkVZbHJXTnIzcVFvM3NJQ0VsWEdV?=
+ =?utf-8?B?ZEsweDRucnByb0lmU3Vqc2pVWjJDVjh5azNrZFQ5WHpzbGt0Ni9VdlBZdlFJ?=
+ =?utf-8?B?WUJYRXhaczhTUC9RWkl5eU9LM3prcjR1R1NhOG81SW5jUHpEUE9BbVhBdVBX?=
+ =?utf-8?B?TDVFdVZUNDdNWkt3L0I5WHFORXF4VzZNNEI3SkZuREpmZ1F3Ly9ibnlHMFFZ?=
+ =?utf-8?B?d2c5MGd3blpPTFNJSXJDazNWalZqVmFZRlVKaGFmZDh6ZDU1eDQzTlREd2lr?=
+ =?utf-8?B?b0JwT0NYS2FkT1pmYi83dUorZjczMHBXMVBIYWJ5UHBsV2d4SkxHaGViblZD?=
+ =?utf-8?B?cTJLVnhOTmhaYjNmbVp0YmxlamtvV0lOYmk5TVF2VnZBb3hDakhyaEJVYk9l?=
+ =?utf-8?B?M3AzdlBUN2tnUjkxQmM2T094bXFzcTQzNXo3cXE4VzR5cHJlNTNSbFN0aWk0?=
+ =?utf-8?B?Nm9DV2NlMGZkRE5ZdzVpRFRtVmg3eWtNOHkyWG1vNjRqTkxtTXJyUFpVSVFv?=
+ =?utf-8?B?NlJNVXRUQithc08vMmRON3Ixb1NGZkk0NjJKTEpGNDVvQlFWYWt0MXYzWkpL?=
+ =?utf-8?B?QXhWaU9KNWNJbWNQQWFvSy9DZHBZOTEzeTlnaUtFN2RkNEdzekhaNnhxWFVy?=
+ =?utf-8?B?NytsTXhTYzJwYzRkdVNlSjZUbXk5c3NjMkNoTHBMeDI3Y3NxdE9yTVZBWGlk?=
+ =?utf-8?Q?wD0t8P1qYWqbEQlQ=3D?=
+X-Exchange-RoutingPolicyChecked: gTyAxXF6stWBF7ygHkI2RMMFyEvcFF2NEGQmmH+RiLfKiPSdKaWHQZD2KphcWmnv/YroXQqpLAVNxxi+PrXk77Wf3ahiGM7XnS54iXIOsaHkKLz1MWc/FtMukIWPZZWjxn3iKBpXA1BSm9vHmvEic1cBrs7ipYj1O0MFOTybgt5LrQ8dWKJKQ2UyH4ytFChPUIowwpdYpC5CSzGQuXsGCTv+yxdBGuOEZYSLZQv5L9AjTlFT5leGdiiqv85e3mMAcGlRIRCjcbIyaME6sVarQYBkYrwDga7AbpWI/K/1lHN0KJZxdkyqycmw80Y8lvMqwhKba7YYCosfjvwUQfh7EQ==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: kofCQH9xHN7dhruUN3AtNKmcbYP25WoaWZoax/eG1+NQIqdsOedbMi04XkD6mAzkWHduvgHlCKutiwqtxtP9dR+wJ0T4+c6TuP1qoWj9wxvtxDbGWl3Di57SwuxxOJZ1qDKS13KgDQR+lHsOKulrwS3iylhHzBHlT4kZ/cbpSiutHvYlTepXy7xU5b+b6Mthx68ZjiqcmCI1k9SrrQASuFXeLjUzzjZytahVQoxPEG1nyTMJ/tR7x1q4ZJIW4C7CYG2jM88qYTbP2UVFtX8mmDewEF3u7gw+bMgaYVNvym5G8nFIfZugCwvzf1Y6pkDKWb+2kUA9C+ANT8p8+/PEV3VOrSG2VDYOoS/IUMe2jLppqCU6EKeOtGsuDCdq492beeLzEeQbPYsytIrZPuU/lhSX1x+1B0NLD4OFWr89hZz8QQsgKEPEXLga+xxaKKEG58scl9iID2DL8wWFKOUD0DKS8Tc5Eo+j+eEQL8kUElK22KsG5ELTgTRFMTC3oKoSgrtvrXsuNNwkrrILLPX2Ae8gRPh7QLIDiz1/Z/cv5xS9W7anW+OgnK5nKiOho7oi2D1UHzlLKTxXKleEHS1L0WC7GtEnCSknrP4AGpZNAbU=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 968d4a38-8923-487e-1c25-08defc81beb3
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB6229.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2026 17:05:31.5782
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZnWaFgCvvX9XwrE4gbtSNY+1KuI1lOFmnF6UE/teozZ925or2SqWbpscrAVvGdLMlrFFQdhuHT0Mf0AnxZ+xrw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPFBE86117B9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-17_02,2026-08-12_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ bulkscore=0 malwarescore=0 lowpriorityscore=0 mlxscore=0 phishscore=0
+ suspectscore=0 mlxlogscore=999 spamscore=0 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2606160000 definitions=main-2608170131
+X-Proofpoint-GUID: vYXm_v-absF6buJ07gGFonzHxl8qtYL3
+X-Authority-Analysis: v=2.4 cv=Hu9G3UTS c=1 sm=1 tr=0 ts=6a833f6e b=1 cx=c_pps
+ a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Sv0fKeRqtYgA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=jiCTI4zE5U7BLdzWsZGv:22 a=EIcjfB9IiI4px24ztqRk:22 a=2Y1E1HC7-X-LOBB87MoA:9
+ a=QEXdDO2ut3YA:10 a=5yU3S35YU4bGjq-dph-N:22 a=Bho9c0fBagfJEIQBS7DQ:22 cc=ntf
+ awl=host:12098
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODE3MDEzMSBTYWx0ZWRfXymkYBBz+n00k
+ X5hscEO9REo1XQJRFDVF5fjiD+3DHVzes5+Ep273FQFg4CFUp7V8Uyrg9vBSOBu0EBp5ZO194en
+ 2BB5jLQDeXsNmGFcfcHlrRa1Fh6rvPoAwkK4ibRpmHk0g20vz5G2
+X-Proofpoint-ORIG-GUID: vYXm_v-absF6buJ07gGFonzHxl8qtYL3
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE3MDEzMSBTYWx0ZWRfXxQGtZIq1iZaL
+ XB21/3zNRo+UneUdxf+lmYKWknFCgHiQki+QZHcYZn+3CmT6H3xm0MdWoAMXDXCFtLZPyS2sgJ0
+ 1HqpIgu5HGoYDchurHDZtZFHHmaK+UXM5cd9Xo/JTH6ycz+CT4g2FyRnVPzLPOLWncAj6gubdrT
+ ydvN0EQ3apSa1vLKLBmmpJcf72Q4K3WoCpLI2wllEiXXMrbDIHWMmugZO8UPcccjUuT+X937pSA
+ H5GrX4S+6fX01VcDNNYIAO5FKkgc6yjf+akmUzh6/uhPUFrrScIUzZNoiRijtDP0UYTRN+kTwkJ
+ Auk9kt3Dg60dcdjCWo1vJ+TlYr9Lxj+Mv2qhlsExbmqLcZ88SL0NSMFfBj5hT5gIt+wXCjJWmdN
+ 4sjAKffjFd//zycAxKF2I+OQYjI6N7P6IsoYPQYgoENXbCLjv/PJOv/1FcwR1dqtBRcVo121L9B
+ 3Jbd+PyypDzhUGiX/vy9k3FMal5hsGR2niNMY41c=
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260817_100430_695041_EDB87389 
-X-CRM114-Status: GOOD (  28.41  )
+X-CRM114-CacheID: sfid-20260817_100606_750100_F419AA52 
+X-CRM114-Status: GOOD (  24.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,92 +204,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 17/08/2026 11:11 am, John Garry wrote:
-> On 17/08/2026 10:18, Christoph Hellwig wrote:
->> On Mon, Aug 17, 2026 at 10:12:25AM +0100, John Garry wrote:
->>> On 17/08/2026 09:36, Christoph Hellwig wrote:
->>>> Hi all,
->>>>
->>>> I got reports that NVMe devices were arbitrarily limited to 128kiB
->>>> transfers in recent kernel. 
->>>
->>> How recent a kernel? This NVMe and DMA mapping code has not changed 
->>> in years as far as I know.
->>
->> This was hardware QA moving from an old distro kernel to a "recent" (aka
->> still old) one.   But I've actually reproduced it locally on an
->> upstream kernel.  I guess most kernel developers or power users simply
->> do not run with IOMMU enabled.
+On 06/08/2026 03:46, Yao Sang wrote:
+> Topology limits are the block size and alignment limits that the top
+> device exposes after its data is placed at an offset on a bottom device.
+> blk_stack_limits() uses start, the first data sector in the bottom device
+> used by the top device, to calculate alignment_offset.
 > 
-> Yeah, they don't like any performance hit.
+> It then stacks logical_block_size, physical_block_size, io_min, io_opt and
+> chunk_sectors, checks that they are compatible, and rounds max_sectors,
+> max_hw_sectors and max_dev_sectors down to the final logical_block_size.
 > 
->>
->>>> Both the NVMe performance numbers and common sense suggest that this
->>>> is NOT the optimal DMA mapping granularity.  Can we pick a saner value
->>>> for iommu_dma_opt_mapping_size that does not restrict common I/O sizes?
->>>
->>> Note that SCSI does not use iommu_dma_opt_mapping_size() for clamping 
->>> max HW sectors, but instead sets opt size / max sectors from this 
->>> value (so it is not a hard limit there). Could we consider similar 
->>> for NVMe?
->>
->> We could consider that, but it would still reduce performane..
->  > >> The reason for which we have iommu_dma_opt_mapping_size() is that
->>> performance can go through the floor we can't use the rcache for 
->>> getting the IOVA, i.e. we need to always alloc and dealloc an IOVA 
->>> from the RB tree for each mapping, and this can greatly reduce 
->>> performance when the IOVA space fills.
->>>
->>> If we increase IOVA_RANGE_CACHE_MAX_SIZE, then we just get caching of 
->>> larger IOVAs and I am not sure that is a great idea.
->>
->> At least on the four different nvme devices I tested, the larger I/O
->> sizes made up for this.  But maybe the details depend on other
->> factors as well.
-> Are you saying that you tried increasing IOVA_RANGE_CACHE_MAX_SIZE and 
-> got better performance?
+> Keep these operations together because the checks and rounding must run
+> after the final logical and physical block sizes are known. Factor them
+> into a static blk_stack_topology_limits() helper.
+
+It still is not clear to me what is the criteria for a limit to be 
+evaluated in blk_stack_topology_limits() (and not in blk_stack_limits()).
+
+You seem to be just saying that some limits need to be calculated before 
+other dependent limits, so put them in a separate function.
+
 > 
-> As I remember, I was told that the value of 6 for 
-> IOVA_RANGE_CACHE_MAX_SIZE was originally chosen from the value then in 
-> max page order, i.e. the idea was that we should not be getting 
-> streaming IOs larger than that value. But in looking at lore, 8 was very 
-> originally proposed, but I can't see any discussion on why that changed 
-> or any relation to page max order.
-
- From a quick skim I can't spot any specific mention in the original 
-threads or accompanying paper, but I have a feeling it was as much about 
-just balancing memory consumption with observable performance 
-improvement, and larger sizes weren't significantly impactful to the 
-original testing, which did seem to be focused on networking rather than 
-storage.
-
-Since these days we have the flexibly-sized depot, and now even 
-lazy-allocation of the CPU magazines, we might be in a better position 
-to consider scaling IOVA_RANGE_CACHE_MAX_SIZE up without too much 
-inherent overhead (I guess the base cost per level will just be 
-2*NR_CPUS + 1 pointers now). The larger sizes we cache, though, the more 
-it's also going to blow up IOVA consumption if freeing/reallocation 
-isn't well balanced across CPUs, so for devices/systems with limited 
-IOVA space, at some point the flush_rcache case is liable to start 
-adding more overhead than the caching itself saves...
-
-FWIW, my understanding of the idea we settled on for opt_mapping_size 
-was that it was never meant to be an absolute target, just a boundary 
-between where callers can expect "ideal" mapping performance, and where 
-it may start scaling with size/contention/etc., and thus it's for the 
-callers to judge whether larger sizes are still worth it for their 
-particular use-case.
-
-Thanks,
-Robin.
-
-> Some time ago I did try some work to allow IOVA_RANGE_CACHE_MAX_SIZE be 
-> set per IOMMU domain, but it was not merged. We went with 
-> dma_opt_mapping_size() solution instead.
+> There is no behavior change.
+> > Signed-off-by: Yao Sang <sangyao@kylinos.cn>
+> ---
+>   block/blk-settings.c | 169 ++++++++++++++++++++++++-------------------
+>   1 file changed, 93 insertions(+), 76 deletions(-)
 > 
-> https://lore.kernel.org/linux-scsi/1620656249-68890-1-git-send-email- 
-> john.garry@huawei.com/
-> 
-> 
+> diff --git a/block/blk-settings.c b/block/blk-settings.c
+> index 8274631290db..1aff818aaaac 100644
+> --- a/block/blk-settings.c
+> +++ b/block/blk-settings.c
+> @@ -756,6 +756,96 @@ static void blk_stack_atomic_writes_limits(struct queue_limits *t,
+>   	t->atomic_write_hw_boundary = 0;
+>   }
+>   
+> +/*
+> + * Stack and check logical_block_size, physical_block_size, io_min, io_opt,
+> + * chunk_sectors and alignment_offset for a bottom-device range, then round
+> + * max_sectors, max_hw_sectors and max_dev_sectors to logical_block_size.
+> + */
 
+This just describes what the code does. Anyone can see that.
+
+> +static int blk_stack_topology_limits(struct queue_limits *t,
+> +		const struct queue_limits *b, sector_t start)
+> +{
+> +	unsigned int top, bottom, alignment;
+> +	int ret = 0;
 
