@@ -4,91 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 886DAC5DF66
-	for <linux-nvme@archiver.kernel.org>; Sun, 16 Aug 2026 19:17:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 34105C5B572
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 Aug 2026 06:17:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=AISqMB6CvA0Lb35Q0jRjNWDuiHxCP9fPg6wK9jXO2X8=; b=xfXqIE5XiJPsKBPgCZmgT3bsg3
-	MgzSYV0sFTruOGroRmH3rlfLyD+7Jct8HUDbZcPQK561glC38aba3WR5qvGKfzJb0XuwRJLyC0gv4
-	wRxEXOm2YqWJQf8aDa6pVDZKIp45WCjHAzWYduk6eDSVN+80l0sPA2OJX+TEdVXPU2ZrJWsdg/cjM
-	6MIeNaGa7srvSq8YNOjHi/oKiZVp6MYqCbSCd/oVvOW1bwFT7D05InFm0JisM+KqdEYuann/p/i7F
-	JwYQ7bkGPttxe5umC48bn3s1X6QGvoCHXxUecmYm88pSznmyrKDYbwfNFiYMZaNuIkSL6iiVClSoh
-	HuTkrLzA==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=/tX6CjSj8q7cMLClYhpuM83VN3AYnux1I392MajGFpI=; b=RrmbUpplrZ2nMSvbNgXx0MyWER
+	OVyba6zPxkQOQcoWa5RXgsSqnsSWznoJICcdWR6WMEr0qDon98d86cfw1vVrv5j32XwzzOnlZ/aDa
+	S/LsNIR9316Z61QZ9X1r56PIwEHRrwX8vehGusjx4NGxsuK0Tf7x5yQmD46BBAPjRxZ6r9rTBDeIc
+	a0fLEmULI24VhIKSVEp/YskFsn4TZHXo4nUnxvPFsdT5S6lcaUe2iJIWFtyOMHgV8zQyxauR3FMXc
+	LKwIDBDOCvzCFOG8UK2zZnYdrBfUA0ElK1P+ptsRVAf2bwkamuIyp1fUNtu6Q4eA3ciUPoYZOdNoR
+	MFGC99Ug==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wvgMW-0000000517o-1lyV;
-	Sun, 16 Aug 2026 19:17:40 +0000
-Received: from mail-yw1-x112a.google.com ([2607:f8b0:4864:20::112a])
+	id 1wvqfB-00000005TF2-1P8p;
+	Mon, 17 Aug 2026 06:17:37 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wvgMT-0000000517I-1idf
+	id 1wvqfA-00000005TEw-2NSD
 	for linux-nvme@lists.infradead.org;
-	Sun, 16 Aug 2026 19:17:38 +0000
-Received: by mail-yw1-x112a.google.com with SMTP id 00721157ae682-836c436a6b3so37046657b3.0
-        for <linux-nvme@lists.infradead.org>; Sun, 16 Aug 2026 12:17:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786907856; x=1787512656; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=AISqMB6CvA0Lb35Q0jRjNWDuiHxCP9fPg6wK9jXO2X8=;
-        b=B3mC1JH09MBXSaMO1qTrICWCpA+sD2bwnBoxpe5R0B+nr6N68B/q6vJ1uosLFo/AVU
-         ri9DLGKZZk968EqmCb/+viGErtPIx5pguurVIHCdSi737XJInudqTA2Gd4VSVL+K9ZUq
-         +roG6gCwf9dfXycPniXoldbHeL75K2NMJBHLHFH81KhmlfIA9FvpdgOmcMKTiALEJxn+
-         zPufH0GCHSJUVl2wAVk3gb3qnuhxUso4fzNI9bdkcCKyfZP6pb8rtXPLV9CAugCxI44p
-         sZ97c8oQmlvzMe/ZJNMKsbsU4YwMM2XE/pw36H3ClWeIUiYMQXsWZ/1m6I3K4GJFjT16
-         BwHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786907856; x=1787512656;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=AISqMB6CvA0Lb35Q0jRjNWDuiHxCP9fPg6wK9jXO2X8=;
-        b=GO4eZOBbV3Jsg0COPMGAP9TNkvgdd9R86EIn8bAF6KbicxLRRGkLFbMftLM7NrE2tR
-         PTgHW+U+ptG7LKMcXKnqUZV5oWhLQGFssf0/eamcelPn7dzn2F5jhCcGh9P12WiFFcGa
-         FuKvq61y2p6MJhze38GY2jdQGd1OUcb6kuRtKR3R+koI2dRw2xzj1de+3bDSR6MCZVZz
-         tkRfYS5pTZddvy2Zl1zFXs7iHzISv+CQGqBRWXYhAGySFAoiwsThjp/QRcH5Z8Pr+t27
-         wTFR464qxLJXbPQuS1sR+98r5bPsiYnkwtG+5YD3r4aAmZ+wxT3GkQJV361v21feWrzX
-         PybQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrEGqzToumwYOzrFEB2750cDb//7epweIW2O6XhfmNAUFnz/XHjyEx53b7E974y/bwfLEg1yWE0QTnt@lists.infradead.org
-X-Gm-Message-State: AOJu0YzTyxdOrzpN0WCGS6TTOh3CbHFDIpysKztuI7+CObWd74eTKkmf
-	X9uNbq3VD+dDPVbnB5bWc3f9iLK74s/ESBnibM/J6tB3dW9S8eaX3lnB
-X-Gm-Gg: AR+sD123l4SGJizWnfA81zFb71YdxcdL75MGBWcg/U0FQs9GYnilqeaVB4wOJ7DovBc
-	rQdBH45KpB9he4DD+mzGIFvVt6jsG8sJgf747oKABuBBduzjUgUvcQYFgKmKbK3OTh0yPsmS/RL
-	r82IxQDTZBHrYAvTNdosXuCg3MakEnMkT9LD7vX1Ca5y2yimMTPzQA+w3NCqYNRtdtE5ORdWad8
-	oZPqYsALlgCfhWazwHfgcBNTTpdyroVQ0Rg2FU6W48IuYiddg3IiDFvPjDGixj18Zl9rY46Qqjq
-	7K86pnretRagJ7FGezvoUOQhkl7nDuLeOKXEiiiGzZVWwneVPas20DfNu91V1gLM2mZ4dBR7xFm
-	imiNHWNhQHCpvEXi0lZOQH0D60BwPBbZonTiN/gZOAJQruN/rlomt7rR04I8WKKnGGJnDAzB/kk
-	0uh2DGR5oYKHSHZO79Ivv078z27VXF1hTBQOQy9sMtDvpkcdXin3Y+Nz7YOgsnopLtboxNebWMG
-	+wKzkg=
-X-Received: by 2002:a05:690c:e292:b0:827:b35:9d5e with SMTP id 00721157ae682-83714123a7fmr56142987b3.33.1786907855860;
-        Sun, 16 Aug 2026 12:17:35 -0700 (PDT)
-Received: from syssplab.cs.fiu.edu (nat1.cs.fiu.edu. [131.94.134.89])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-836c17784f2sm38580437b3.32.2026.08.16.12.17.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Aug 2026 12:17:34 -0700 (PDT)
-From: Chao Shi <coshi036@gmail.com>
-To: kbusch@kernel.org
-Cc: hch@lst.de,
-	sagi@grimberg.me,
-	axboe@kernel.dk,
-	joshi.k@samsung.com,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Chao Shi <coshi036@gmail.com>,
-	Weidong Zhu <weizhu@fiu.edu>
-Subject: [PATCH v2] nvme: skip the zoned limits update if the zone info query failed
-Date: Sun, 16 Aug 2026 15:17:29 -0400
-Message-ID: <20260816191729.2865523-1-coshi036@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	Mon, 17 Aug 2026 06:17:36 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id 93C70600AE;
+	Mon, 17 Aug 2026 06:17:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 214691F000E9;
+	Mon, 17 Aug 2026 06:17:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786947455;
+	bh=/tX6CjSj8q7cMLClYhpuM83VN3AYnux1I392MajGFpI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=hgjPYImyB+fMfiJ0PiGwG33VK9VcGFAHrEqHNnDEDnCEVRloSONm7mAtAN/Rn+6+o
+	 zTQ0UPMMIBNi1BBj2lR99jpeh4hbNW4x4tA2dCubiA1ifT4k8VocHLb8BM8rCvhhpr
+	 CywYPIx2SgEmaS7gXZX0p3u5XeqIAOu4aeFmXxDBiY+NO+JA4tp1C9DhKzbITelvD5
+	 3FDKOv+DAyR+yU+rHKZQ7q1Y0xRomXPksvZDCzAVk83KDJdhPhQI7DyhO03qXkIcU/
+	 iQ8K6j70RDX7nCcNSKfyIMLyPoUBtuoEgIBlexX0hrp7KXx3n0+RrMR0wdnFqza+VB
+	 McqlsAfmUuGtg==
+Message-ID: <9d0e59fc-392d-425c-bc9a-ee3d1510f95b@kernel.org>
+Date: Mon, 17 Aug 2026 15:17:22 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260816_121737_488732_084180D8 
-X-CRM114-Status: GOOD (  16.51  )
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] nvme: skip the zoned limits update if the zone info
+ query failed
+To: Chao Shi <coshi036@gmail.com>, kbusch@kernel.org
+Cc: hch@lst.de, sagi@grimberg.me, axboe@kernel.dk, joshi.k@samsung.com,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, Weidong Zhu <weizhu@fiu.edu>
+References: <20260816191729.2865523-1-coshi036@gmail.com>
+From: Damien Le Moal <dlemoal@kernel.org>
+Content-Language: en-US
+Organization: Western Digital Research
+In-Reply-To: <20260816191729.2865523-1-coshi036@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,89 +73,97 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvme_query_zone_info() returns either a negative errno or a positive
-NVMe status code, but nvme_update_ns_info_block() only tests for the
-negative case:
+On 8/17/26 04:17, Chao Shi wrote:
+> nvme_query_zone_info() returns either a negative errno or a positive
+> NVMe status code, but nvme_update_ns_info_block() only tests for the
 
-	ret = nvme_query_zone_info(ns, lbaf, &zi);
-	if (ret < 0)
-		goto out;
+That seems like a bad design of nvme_query_zone_info(). Why not fix it so that
+on error it returns either negative values OR NVMe status code? That would
+avoid the pitfall of the error check that you found.
 
-If the device fails the Identify Namespace (I/O Command Set specific)
-command, or the Identify Controller command issued by
-nvme_set_max_append(), the positive status falls through and setup
-continues with the zero-initialized zone info.  nvme_update_zone_info()
-then marks the queue zoned with chunk_sectors and ns->head->zsze set to
-zero.
+> negative case:
+> 
+> 	ret = nvme_query_zone_info(ns, lbaf, &zi);
+> 	if (ret < 0)
+> 		goto out;
+> 
+> If the device fails the Identify Namespace (I/O Command Set specific)
+> command, or the Identify Controller command issued by
+> nvme_set_max_append(), the positive status falls through and setup
+> continues with the zero-initialized zone info.  nvme_update_zone_info()
+> then marks the queue zoned with chunk_sectors and ns->head->zsze set to
+> zero.
+> 
+> blk_validate_zoned_limits() does not check chunk_sectors, so the limits
+> commit succeeds.  blk_revalidate_disk_zones() does reject the zero zone
+> size, but by then the limits are live and nothing rolls them back, so
+> I/O keeps being submitted to a zoned queue with a zero zone size and
+> disk_zone_no() shifts by ilog2(0):
+> 
+>   nvme0n1: Invalid non power of two zone size (0)
+>   UBSAN: shift-out-of-bounds in include/linux/blkdev.h:747:16
+>   shift exponent -1 is negative
+>    disk_zone_no include/linux/blkdev.h:747 [inline]
+>    bio_straddles_zones include/linux/blkdev.h:1058 [inline]
+>    blk_zone_wplug_handle_write block/blk-zoned.c:1423 [inline]
+>    blk_zone_plug_bio.cold+0x25/0x1c8 block/blk-zoned.c:1605
+>    blk_mq_submit_bio+0x18fb/0x2870 block/blk-mq.c:3196
+>    submit_bh_wbc+0x575/0x740 fs/buffer.c:2824
+>    __block_write_full_folio+0x728/0xdd0 fs/buffer.c:1933
+> 
+> Any device, firmware or NVMe-oF target that fails this one command
+> reaches this.
+> 
+> Skip the zoned limits update in that case.  The namespace stays
+> registered and usable for admin commands, but the queue is not
+> configured from zone info that was never read.
+> 
+> zi.zone_size is an exact indicator: every path that returns a positive
+> status returns before it is assigned, and after that the only failure
+> left is -ENODEV, which the caller already handles.
+> 
+> Fixes: c85c9ab926a5 ("nvme: split nvme_update_zone_info")
+> Cc: stable@vger.kernel.org
+> Cc: Weidong Zhu <weizhu@fiu.edu>
+> Suggested-by: Keith Busch <kbusch@kernel.org>
+> Found by FuzzNvme.
+> 
+> Signed-off-by: Chao Shi <coshi036@gmail.com>
+> ---
+> Changes since v1:
+> - Only skip the zoned limits instead of failing the update, as
+>   suggested by Keith.
+> - Gate on zi.zone_size, not zi.max_open_zones, where 0 is legal
+>   (reasoning in my reply on v1).
+> - Drop the "malicious device" wording.
+> 
+> v1: https://lore.kernel.org/linux-nvme/20260814160954.2839507-1-coshi036@gmail.com/
+> 
+>  drivers/nvme/host/core.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 453c1f0b2dd0..87e0534cde1c 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -2447,8 +2447,13 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
+>  	if (!nvme_update_disk_info(ns, id, nvm, &lim))
+>  		capacity = 0;
+>  
+> +	/*
+> +	 * A failed zone info query leaves zi zero-initialized.  Leave the
+> +	 * namespace registered so that it can still be used as a device
+> +	 * handle, but do not configure the zoned limits from it.
+> +	 */
+>  	if (IS_ENABLED(CONFIG_BLK_DEV_ZONED) &&
+> -	    ns->head->ids.csi == NVME_CSI_ZNS)
+> +	    ns->head->ids.csi == NVME_CSI_ZNS && zi.zone_size)
+>  		nvme_update_zone_info(ns, &lim, &zi);
+>  
+>  	if ((ns->ctrl->vwc & NVME_CTRL_VWC_PRESENT) && !info->no_vwc)
 
-blk_validate_zoned_limits() does not check chunk_sectors, so the limits
-commit succeeds.  blk_revalidate_disk_zones() does reject the zero zone
-size, but by then the limits are live and nothing rolls them back, so
-I/O keeps being submitted to a zoned queue with a zero zone size and
-disk_zone_no() shifts by ilog2(0):
 
-  nvme0n1: Invalid non power of two zone size (0)
-  UBSAN: shift-out-of-bounds in include/linux/blkdev.h:747:16
-  shift exponent -1 is negative
-   disk_zone_no include/linux/blkdev.h:747 [inline]
-   bio_straddles_zones include/linux/blkdev.h:1058 [inline]
-   blk_zone_wplug_handle_write block/blk-zoned.c:1423 [inline]
-   blk_zone_plug_bio.cold+0x25/0x1c8 block/blk-zoned.c:1605
-   blk_mq_submit_bio+0x18fb/0x2870 block/blk-mq.c:3196
-   submit_bh_wbc+0x575/0x740 fs/buffer.c:2824
-   __block_write_full_folio+0x728/0xdd0 fs/buffer.c:1933
-
-Any device, firmware or NVMe-oF target that fails this one command
-reaches this.
-
-Skip the zoned limits update in that case.  The namespace stays
-registered and usable for admin commands, but the queue is not
-configured from zone info that was never read.
-
-zi.zone_size is an exact indicator: every path that returns a positive
-status returns before it is assigned, and after that the only failure
-left is -ENODEV, which the caller already handles.
-
-Fixes: c85c9ab926a5 ("nvme: split nvme_update_zone_info")
-Cc: stable@vger.kernel.org
-Cc: Weidong Zhu <weizhu@fiu.edu>
-Suggested-by: Keith Busch <kbusch@kernel.org>
-Found by FuzzNvme.
-
-Signed-off-by: Chao Shi <coshi036@gmail.com>
----
-Changes since v1:
-- Only skip the zoned limits instead of failing the update, as
-  suggested by Keith.
-- Gate on zi.zone_size, not zi.max_open_zones, where 0 is legal
-  (reasoning in my reply on v1).
-- Drop the "malicious device" wording.
-
-v1: https://lore.kernel.org/linux-nvme/20260814160954.2839507-1-coshi036@gmail.com/
-
- drivers/nvme/host/core.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 453c1f0b2dd0..87e0534cde1c 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2447,8 +2447,13 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
- 	if (!nvme_update_disk_info(ns, id, nvm, &lim))
- 		capacity = 0;
- 
-+	/*
-+	 * A failed zone info query leaves zi zero-initialized.  Leave the
-+	 * namespace registered so that it can still be used as a device
-+	 * handle, but do not configure the zoned limits from it.
-+	 */
- 	if (IS_ENABLED(CONFIG_BLK_DEV_ZONED) &&
--	    ns->head->ids.csi == NVME_CSI_ZNS)
-+	    ns->head->ids.csi == NVME_CSI_ZNS && zi.zone_size)
- 		nvme_update_zone_info(ns, &lim, &zi);
- 
- 	if ((ns->ctrl->vwc & NVME_CTRL_VWC_PRESENT) && !info->no_vwc)
 -- 
-2.43.0
-
+Damien Le Moal
+Western Digital Research
 
