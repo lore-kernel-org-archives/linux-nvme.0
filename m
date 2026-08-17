@@ -4,193 +4,98 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1F301C5DF7A
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 Aug 2026 10:12:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 051D5C5DF66
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 Aug 2026 13:23:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
+	References:Cc:To:Subject:From:MIME-Version:Date:Message-ID:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FM7x/4I63Woe16DyLCdzgne4DPnFkuT1fwCdBZqa6Jw=; b=zkys4yFXRAVooF5R6j8qG6oh8I
-	urVpjS80Fd/apG0/oDWk/v7Mi3DDACnwvXptqZUVcyWO7nZvAab/Zqy62P0SZQqgsokeRUxpuZOAn
-	3YaYfHMtS9IZZFcNxEkFsrmxjbW9HMiO93Hn5ouDLpfoO3Ui3H4NdkMUtAQivdgmfoZEm+NwdpdMs
-	vawrt4MZUdFw5sGZEMy4EPvD4zKi3WA+XegA18CuE2Ngi9Huz88ebvZHeDdZqDc7ISafnfpoDQsfg
-	3ems9QeezaHTtjEkBkmEDIwtmQASEWx2+ijchqs8f7cUi13JDjTUXcblA5Prw5OtjvbqFutF8pDL+
-	evp7Ihww==;
+	bh=TQMo+LaXiMExWfUD2JBd89EULUd9CGxSsD/9ZCxdPqs=; b=cz483qVMv5siXbrJMdz8V5d97u
+	AY8JJkqvea6w61E/L0L/Pcf69MzvRBZwvSN8uRCquP49XJu8Nl+ekHs0JwCJzi5wTBRSixHIgx9Ni
+	3qPhPwJ+Xl6Qrv3xfXKZnt8mg3wKoJfs+k3UpJU+MRiCuBaCyX2tdWni2Z1FncbYSwx87PSXQDXnt
+	RYWHBYn2cOLtmv7c5dpzytl9JXtYLbjpto+p9Gi50Uld29H+KXfzYyoRGvbTG+OF2YA6d13h1S32W
+	o4G+97nMJRQ8pV7nHjykJ3L838oagvj27AOSeM7yL2Fo1FIJHkoTsnNkDBbVlwTDmJZalDqFyMD/c
+	OrUkyRlw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wvuK2-00000005si3-1vP9;
-	Mon, 17 Aug 2026 10:12:02 +0000
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	id 1wvxJR-00000006D4m-1f6u;
+	Mon, 17 Aug 2026 13:23:37 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wvuJz-00000005sgs-2DdJ
+	id 1wvxJN-00000006D48-3NM2
 	for linux-nvme@lists.infradead.org;
-	Mon, 17 Aug 2026 10:12:01 +0000
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67H0MXAt3909441;
-	Mon, 17 Aug 2026 10:11:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=FM7x/4I63Woe16DyLCdzgne4DPnFkuT1fwCdBZqa6Jw=; b=
-	iOzhgJoOrIJSh6bNGriKVbCRZz21JCaUT5PlS9RIKZOu+M1m1HZdLcJfDmj86QqW
-	EXzX3wdNI93alTB6+TQ4iSuV8KpiFAwXBDw7QKpZ5de/wc1QFBxhn8uGj8/pGGa4
-	93kF4rX/mcWTLIa8dQauZDUm/vwITdXYw49S/WAP/dJNx9HIh6eMX3qa2fSH5bfH
-	89g/s2/kLKjl/j7RFhJWkITCbuP/X9Si29Ybvfom6pMWnYXCx4nrD/cmJIX7uNO5
-	AXa4dxD7Rh4fI7sIiS2FKSVwPuNGY6tVPkNwUbIsv3hiedt1lAUK077ibLb3uzXR
-	ptTsljIPhVi/ER9TRqo8XA==
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4g2f1bt47f-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 17 Aug 2026 10:11:51 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 67HAA8HI002300;
-	Mon, 17 Aug 2026 10:11:50 GMT
-Received: from dm1pr04cu001.outbound.protection.outlook.com (mail-centralusazon11010002.outbound.protection.outlook.com [52.101.61.2])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4g2ejb37f8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Mon, 17 Aug 2026 10:11:50 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=psTVIkzlv8ftXMG93EiHooKknbjLXHbRalQqBoRnx5tMosfH01gS9Hg7npm/yod91W9VyxXJXUY2vdFW+UYKceF7pTaMIr3Ex2onoN7q+VcAk/pXUpdU6baqtrTtsdDGdeuHq0UbKXrUwoOsAGvd1A5eHV42DRkEounwj3YWAvqU0oMfuQT62+v06s5j2Hv1LWbB8evvOMUKfI8yQWVRIlWPCtZzkcOWDukhbmMnluFrbdF3NQ30hOccaP1GqIVLWV2jN5TPvubTudAOv2Uh1Dt2r/n6JMomDQCaBUUmYyW3pzdT3b8g0A7RuMr6K6ZsXGji3FXgMp8SMqK2n5aCkw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FM7x/4I63Woe16DyLCdzgne4DPnFkuT1fwCdBZqa6Jw=;
- b=xyU1hyumgM0m5F7phq5k08BXrNiq5bhuBv3o9z7tR5Hqj1BUqMb6BGMS4YkCwA4yW5ssynbGXroC1TSciuwlnGWw2yRGiM09CaaI3Ml/w6fAvLcJNyXM5uNvrjskdpsybko51O1K9hCVttbhfcLYHXm6XjpPTM3eJzoTLBpsFVzHQbZ9bbHcapLZTQPoKVH1skmaSoZN49avsY8s3qCeA+tfVFQnGi/gQBgSfB+Y/p3hKDtw7dO1Xa+Eec2dwlHfZaXTPLCcWDZZE8f41vWSk9Y2g2cA03cBXAVnzHMRewPW6nVyc6K3XKBnQq0KT5dsYtzgShDbwzj1Z5R92AvnoQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FM7x/4I63Woe16DyLCdzgne4DPnFkuT1fwCdBZqa6Jw=;
- b=Zf//2PhIZJWWleW3aHXozQxJnMLCd3qByv27jcnDqZkUH/fRwr1L3H7MVolQvlNwdK3r48SHuUOnIkNwPBsANpqPcHqWzm9sCodKMaiF7zWRJB5m9D1lEIiIOzqBU1SyRsYVl+PjErAdAobe8dbhA/4VyUaelCQ7KQ6Inqrfo5c=
-Received: from DM4PR10MB6229.namprd10.prod.outlook.com (2603:10b6:8:8c::12) by
- DS0PR10MB997602.namprd10.prod.outlook.com (2603:10b6:8:314::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.17; Mon, 17 Aug
- 2026 10:11:48 +0000
-Received: from DM4PR10MB6229.namprd10.prod.outlook.com
- ([fe80::867:63e7:13fa:fa7d]) by DM4PR10MB6229.namprd10.prod.outlook.com
- ([fe80::867:63e7:13fa:fa7d%6]) with mapi id 15.21.0315.016; Mon, 17 Aug 2026
- 10:11:48 +0000
-Message-ID: <8b7e86a7-6cb1-4007-bd99-1c4be8e6828e@oracle.com>
-Date: Mon, 17 Aug 2026 11:11:43 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: dma_opt_mapping_size returns way too low sizes when using IOMMU
-To: Christoph Hellwig <hch@lst.de>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-        Will Deacon <will@kernel.org>, iommu@lists.linux.dev,
-        linux-nvme@lists.infradead.org
-References: <20260817083654.GA23414@lst.de>
- <86f7fbdc-3c7f-4d84-871e-52ed3cfe8d58@oracle.com>
- <20260817091840.GA26843@lst.de>
-Content-Language: en-US
-From: John Garry <john.g.garry@oracle.com>
-Organization: Oracle Corporation
-In-Reply-To: <20260817091840.GA26843@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0397.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:cf::13) To DM4PR10MB6229.namprd10.prod.outlook.com
- (2603:10b6:8:8c::12)
+	Mon, 17 Aug 2026 13:23:35 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1786973012;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TQMo+LaXiMExWfUD2JBd89EULUd9CGxSsD/9ZCxdPqs=;
+	b=CJawj3SQ732MBKFvOgMvwtjrvMGEYWP0cdYOiRZicKSM+HCp11KWEdQdliHrSUtNoyVg7k
+	ORP7mDvqcVEKUtxVCBSod4AOYSXTUF45n6J+UmPfUz7TxuDMKLIOboX4738G++XgRrPy3R
+	wbT7k6admLqxCAGJZhrfUc+icphrm4U=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-14-0MKTmQxqNx2MKdcs14B8Ug-1; Mon, 17 Aug 2026 09:23:17 -0400
+X-MC-Unique: 0MKTmQxqNx2MKdcs14B8Ug-1
+X-Mimecast-MFC-AGG-ID: 0MKTmQxqNx2MKdcs14B8Ug_1786972997
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4954a93c565so17872295e9.2
+        for <linux-nvme@lists.infradead.org>; Mon, 17 Aug 2026 06:23:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786972996; x=1787577796;
+        h=in-reply-to:content-language:references:cc:to:subject:from
+         :user-agent:mime-version:date:message-id:content-type:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=MCS0C4w6z2feiQqFwp6dHkY/PSJTm+5CQIMULXMvb5Q=;
+        b=Rju9N1K9o5UpojO2ynvjId0tZINNf/hKPhycn/ryombIJR9puBiPiTpPmyQmGPjc8e
+         xpvvODGT+lfGbs3R/W6eCVFZOp24TK1laN4kp1onRMIMWcr2zh2PR0e3XelsZAJyTraS
+         QqPysD1CWbPQp1UOvmjxDQ24U9+hRXOFHIgBMY2LYwNdZSHTB2iaF3olwm9zgVP98OzI
+         WVTAfU9uuUZTim/u17Tt8b9ykdcQa7vCStjcPG6hnoJH/BBmUUmw/hhfeqN79Xuer9Y0
+         CTCZFNTxhp3DtfyCPhZzY4wNhLoq0CBK+nRYztCfKSrovjxv/3Q5hGyGhv/WbgdUjyZv
+         LguQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rp3cTy2K2//uUf1D+IxzuZx197a/i5Qhb/LBhccI8DluGKeyQWM0/2UHsYtLvFm3bj9mM5aqi9fRdXA@lists.infradead.org
+X-Gm-Message-State: AOJu0Yy+M6CRMxHR/xXar8/xFZe74nZ+vpSCzY4KB1N8oXKoqDgU0N1b
+	jfB0DPuffJtVPe0xUxtxJD3s9/EU40oFVHR9VTaAfsi2mj9m7Px3NNZM+gE+sT5Mhj/p3vh4pk4
+	KmLq/Wp7YdWWZZZ69BfJu2GTY4ie3I0FwgZ1aWDJz5tiooyErEZ6qCzwnjv/AZuqrleoO
+X-Gm-Gg: AR+sD12q7IpxVCT2VZqTFws0/fUlSlh2wd7gWPyj5m0AbyxvwYmDYbXjZFZZmiLQ40n
+	sGW8eFkprKD/1lkyrUSk5XO53chd1lDfTdSA1kOQILaInBXbKF/3HCZqO8NBVT/xHKrGW2rVIHm
+	mQhCJIjEru4pbXiCMwaX+lYS6PHbahMpay/e3gjs1LlLfDiQgfBsW16d+XkGFqXHXOhtOYa3Vx5
+	2eqSEbkQ+Wo9wXhbKnI1nXdUNq0fWQYI2Uh0MAWxJfAabvtW+GwUZ3pqnVIwiK7M6izTPJA0wsg
+	tPppkDSCWYX9zJm2B0udJ1jgeXDH3Z9v1i2JD2x8nBtxpD4VG3lO0cXc5VWUjR3XR0MVqb+skdR
+	iH2xW8XHu/8eI2fOiE7lwk9IjtQlhtEn3XSL9oMB1IiA=
+X-Received: by 2002:a05:600c:46d4:b0:499:8aff:59b6 with SMTP id 5b1f17b1804b1-4998aff59d6mr293102295e9.14.1786972996490;
+        Mon, 17 Aug 2026 06:23:16 -0700 (PDT)
+X-Received: by 2002:a05:600c:46d4:b0:499:8aff:59b6 with SMTP id 5b1f17b1804b1-4998aff59d6mr293101445e9.14.1786972995959;
+        Mon, 17 Aug 2026 06:23:15 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:f0e:9070:527b:9dff:feef:3874? ([2a01:e0a:f0e:9070:527b:9dff:feef:3874])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4999d0876b8sm57303745e9.8.2026.08.17.06.23.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Aug 2026 06:23:15 -0700 (PDT)
+Message-ID: <1805eed3-90ec-4f62-9d71-e3f898a464ad@redhat.com>
+Date: Mon, 17 Aug 2026 15:23:14 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR10MB6229:EE_|DS0PR10MB997602:EE_
-X-MS-Office365-Filtering-Correlation-Id: b383c117-bcc6-4bf1-3d5b-08defc47f2d6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|10067099003|4143699003|56012099006|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info: INZ4NbgT9SLngpa+WbTZW/Ib9MHQaV8FDP6r+sZ4NxlIEhj7fEHXUN1IJIlDUVuK+UDLj3eTi0kgkB24x8uHfAWkWmeD174/E1+R/0l74ppyAyOV6enkaRRPP6igYRAYj8YuNgtQTty+6iXsSCaxZSqQ3I9sj4Htd1onkAVNmSt/C/mytozyMvRIsFgxM7ze8UmX3MYthUviilD4mbyiVqwDWd0rZKjlIo/rqCuBf1tqaDkOcdNc5H6TZj/Evz4QceulvkIHUqZDKYevOWkfc0NuL9RL3lpISC9D4tu3luo5dmVoJr33QN4lVSK/kk+Iv5RYS8jHVHa5zYiws+16rNj7t3LbN77VWVVLeeP9JLoE1IBThhtJgmMabo07p3oWuvDr50Om4xVvhkIQxjVhMNX8kUxrOmqVOUHbFopPIBbMJTIlaK2zqoHEOkfA8bL6iZK/sBuHRaDJ9u1xa51ew0ka+KS+W2A8AugTBcPWACL0g/U0KtHUAVIqTkjW7Q2IqbeZL09YS7d5uyxslAjGZ+xM/7oYIc1doY908QN/xr4EZP9r0kCLK2RUIAHyU0cNPSPAd98LpU84V6aMPG5KE2eIwyhhAt7TDoxXsHaOcqDtwWyuyH0rWahKOTPu5xSF2uyxfE1JguxIwXfYmOjK3Or6QgeW81quluijnQfLD5E=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB6229.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(10067099003)(4143699003)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bkF5YXVkQlNQSkU3M3ZrNlJTYTJWVGtCNkZnSXFRM3cweHNib1FJN0ZUODR3?=
- =?utf-8?B?c3VGdFBaZXFlelM0b01mTk8vdTc5WGZHN29mODJsbVhtNlJXbDByZnJnaXpk?=
- =?utf-8?B?YUJBVm9uNHZRdjhrMTFEQzJGTmtJRjUrZkk3ekt3Mm5xTDJFKy9ZVkVld3dB?=
- =?utf-8?B?bFd3SHZOR2wvSENBSXp0TXk3cXg0NnoyNVMwSEQ3UURzZWV0Szh4bGxvSmRF?=
- =?utf-8?B?SzdYTVRWeGxScUZQTHpMUXZIUlNac3Uzb3owem9NaDZ5MEgwVkFFMk52Yk82?=
- =?utf-8?B?d01pR2QxNDQyVG5GQnNTcWt4TStuUzc0LzNXNzJ5dDFmRFRoZzIwUDNtTW1D?=
- =?utf-8?B?azNkVE9lWnJSNW1PcVo1VFlwdlBHTUJPbDI3SXdYblAyOXA1Q0c3Z0R2WXhY?=
- =?utf-8?B?eEgwczlwTUZmeXpOQzR0RnNVR2FCdDhyVXIrNTlmWFMwS3FQUms1RDNrOGtX?=
- =?utf-8?B?b0pFOFd5clZnS3hNN2JKRlpwaVZ5RGY4UjM4bjNDTUd1Y003RDRMVFZ4Zmpk?=
- =?utf-8?B?d3ltTDNsOFZFWkkrTEpHNzlGVW12NUNrZmVNYzhiaXJIK001ZEVUZDNXUEVU?=
- =?utf-8?B?NGxxdFJMVUZ5eUNmM1dWV2ExZDU5NUpOb21sdWlET01wRnErR0w4RjJvZkdH?=
- =?utf-8?B?cnlVOGtFYUZvWlZHN2JGSGYvbkZqamVqd0dNYkhPcjlRSlIyNmFadCtvTWlq?=
- =?utf-8?B?Zk9lcHlwQjFMTnpGVDdmZTBNOFdlQ2srUEw3MkdOR3M1TEx2ckowN3c2MHdU?=
- =?utf-8?B?NFBTSmc0S2c0U2U4SDhHRGF0M2NkQlBXZlNFZWMvODJOVWhobWpiL2tLdmpW?=
- =?utf-8?B?U0gwOWxJUkFCaHlzeDZTMlVjcFlxYWx5anIzaUpuSmZZejFyRmRubXE0NmNT?=
- =?utf-8?B?T1hBei9NOE1nOW1JODFoSzVaUWdWK3g5UFFLWG9aN2QzTU5VT0dnNGVCYW5Y?=
- =?utf-8?B?WWdueDBRd2tINTIwVUM2RFdtVklvbDVnWTVyK0VjZm00NUg5c2RFWGlqTWtJ?=
- =?utf-8?B?YTBTMUhRdEZHQnpRa3ZLRDUyTTEvTUd3d00zTUNJcWpxeVIyQ1YxTUw2U0dt?=
- =?utf-8?B?Z2RUZVdBWlNNWjlzYmhwajAyL2VaVkhZR1U2MWNadHp4bnBnVFFTMnoxK3VD?=
- =?utf-8?B?c0loeWJHeWlhZTdoYlNvWnNyMms2N2dRR1JuREo4WDFPTjRzUTJabWE2TytB?=
- =?utf-8?B?M1hZcVJBUFJEZUplV3RMT0E1RHNoOWNrZUJFdHJNcy9jcmdCelRvektyU0FS?=
- =?utf-8?B?ZDQvOEFCWUsvdE5QSksvak1XOGJBY0FnNWhHcTBQNnV3UEdhblBoZ0w4dnpx?=
- =?utf-8?B?K0xSYk1Fdk9qUnlCbW5SRTE3dDNNTFNLWnRZVmVzWFBaY3IwU2MwRXBKcUQ0?=
- =?utf-8?B?aVZFWWp0Q1QrZkRTQWxsblNlN2pRdWx6S055Y3dmdE9jMGIzM1FkS21PMHU4?=
- =?utf-8?B?dlJHWkx1US9PSm9qZU1uWUZnT1NZZmg4Y1VzTFg2Y1RjRzVOQ0VIeFZyeGVX?=
- =?utf-8?B?amxFR1ZPeUJMcHBnb1hsSkpOYlZkZWRHRG5wVEhSRkZoZWYzTkRuNEZta0dr?=
- =?utf-8?B?aTlYNUNoYlNEQmFaMkd3N3RmaHpDbHRaUGhNL2hhTE80OVpyQWU0Nkg1V1R0?=
- =?utf-8?B?S0QvTjhRakNkamsvY1FISERLSmZlY1ZGQXpmU0JHbTczUG52L0VKckJBekpj?=
- =?utf-8?B?d1g0U2JCMzVadGEvVUJ6dHJKNVNtZUQ3amZFcnUwYTBUQ1RaWTRibFQ4Vnd1?=
- =?utf-8?B?WE4zZTBjcVBYQ0wrNVRoMEl2cFh6RC9haTJHKy9aMlB6WVNHVVprWmk1Y0hq?=
- =?utf-8?B?NXJJdk5BaEx6aXMyZHhUK21TOGZBYnorTWZ2cDN3L0REOWl5WWg2aG52UnQx?=
- =?utf-8?B?LzY1blpQRlFSUVZwV2JIa2h5Qk1MeENkamMwcXNnbGg5TVZiVHlFYXRobmRV?=
- =?utf-8?B?aUNLSHU2dDl0Vi9QS0thT0p4OGdqSVZrdHorTXNDcmxtR1o2VEw5dFdnMnJw?=
- =?utf-8?B?ZlpXbVZ1ZE0zL0dYSVhueWZtZnFFdE9SS25BL0JVNFNsREY0UzBPa0dMQmpB?=
- =?utf-8?B?M0gxOGxRYnc1V0xrVXZKQlhyaE0ySXpmbUNIajBkY2ROV0JINEIwMlB0ZkVo?=
- =?utf-8?B?R2xvUElDd1JCaE9yNUIrQ3k3am9rLytvemlSb29YWExualMwZStYTTc2dnpu?=
- =?utf-8?B?Rlo2Q3A1TWZqWHNOM0ZFMVBBR1pCMW1PYnJuZXBVZ3kvSnE2d29BNUxEVDB1?=
- =?utf-8?B?YkY3eFBSSENSQWVDRWJMai9xTTRNQVpSMjFwVnFXQ0l5a0YxZFgzOHhpbGNh?=
- =?utf-8?B?MGhVcUZJc0czYm1KV0o0cXNJTHp5T1lzT3NVZ2U4VlhhL085RDJSbHdYZ0sz?=
- =?utf-8?Q?MBAUgnZ/JdhVPnGM=3D?=
-X-Exchange-RoutingPolicyChecked: NrFXd7LVBG6XhZk7pGZn7efh8rhBdkAioqeT11ELks9u0SELv0kiXArh3O69HqEFEl3gc0icQNMwWviKgQl5GGekiy+NO7PbQUold2oX/YMfFbcW8naNW3780V4ykXMRNCbnHzNeZy/RUQdcTNLZofOSApOwQXh76+zIQFxaKlvN4gKWjVcDSxOHLIv+nRzCNlpgX+GTaeA4bJ3AEliYF45cvelBMluIBLr5/ymYsGYgG4xFkkUP3TMpEfBH6XJ0+vPnS0zFCow5eowZM1cC5ZV14lFmJvg+eevrye6sv4zkWH9RrWn8p+F4LuKsJ3pvCUXOpGQ01mQP8e/V3xTkKg==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: wCBk6Y1TfUodnUeZUk1fg1euJl8gPVOPKlchVvi8bvJV2lBpuXHP1C3p8RAZHlc3FuX9Ljh2uXIGFVmV4GluMMjl/nmAwdw3Dr3+/9HssutLT+auWG2d7YDnpCYA2hZA27Uf3nFLZ7fGaa9JumbcMs8Bn8GOds8xzBEs+zQG8PCigYjxPyMSGXYXNEBXbTOdkiVEbwcP7BkTnoXo0+LXkpQK/WvV73Opjyf06QF4aC14+E7WFoBXps5KtDE/4w4wA92/5MmR0sQeoOrT2bET6Y+IDpPqr50me7Imz6t2q6vE3BRIjkeR1VkkdBWOUtz6SLOys1LFg1RV1lFvo3lpYjW11fk2oKlO0iwNC8SvpFnAl2/7kNBaeRjTv3N8jUVKXNAFVp7ZM8oiNkcXT/zC+eXwGv7vI0VhOO4+oyxF0t8vKbmrNHgWvEDbIqpwaUDsTBD8tbZN80YrvJBLg2Jki7jP9e8Pg6u/H+6T+FieRJxccxkvJ3k1vpH2qnlRd3wTFOH2rXNLnyUJxZafOMP0jq3z09G6u0koJemX/U/Zkg0rsStZUe1+mgyCZVD7Kot8+NfGnQPzT8T948vhYjWpxwvCT+ph5GrfKEDs9PW98aM=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b383c117-bcc6-4bf1-3d5b-08defc47f2d6
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB6229.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2026 10:11:48.2984
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cjaFjY/Hz089nRmJThW2wsQzSbnJsvMv4wKOZ0/tnnPSPsG9QhYq53HVhhCR8r5P7GqG3JMXZcjXPnjcArbiaQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB997602
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-16_06,2026-08-12_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- malwarescore=0 mlxscore=0 lowpriorityscore=0 suspectscore=0 spamscore=0
- phishscore=0 mlxlogscore=999 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2606160000 definitions=main-2608170075
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE3MDA3NSBTYWx0ZWRfXy5eI6jp/uCGp
- E3SKP1ushDtN5IyavOM6fb5/FvwcsT0TK9Lq5Xvf1irwPtXzNIeIwHylIAQivWEBUGGDAsPh2BH
- 3+XcClK7i0kJMc2Ku+w5T3+DTd0esoF5DfZbQ+gUz3oi5CRJ7/ItdO4XZE2btvxXYyS0n6qFKIq
- jvk0uGiKeccLtkCguVUD0mjwBC/zWpa0/O8mTiFmr+1HVrXgjG0+DH1cRvEK9F29807mec3p/9Y
- eUTedi5b4/emQXl7jmn/xHoiWqwzGu+MdX+IbYkXo2zeho7yauNq2gcskvMLAi/hSm00sA2HbUa
- 9bohgoZ9F7jllGY+KcXJi+5KpY/42veXjB7tuHUDQQYff3Pqwg6qFAlTGcrLW0YWbL+yVPSvYDL
- cU3rkDENRdvC1ijY7aKm8/wkFleGg0fYBKUMMdaaGSpdj4hsDr5IK+5W09pFso9smmrTi6aLlGY
- rSrGhsbYiiGqP3GPVtg==
-X-Authority-Analysis: v=2.4 cv=D/937PRj c=1 sm=1 tr=0 ts=6a82de67 b=1 cx=c_pps
- a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=Sv0fKeRqtYgA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=jiCTI4zE5U7BLdzWsZGv:22 a=x0eKOSpe3m1H3M0S9YoZ:22 a=VwQbUJbxAAAA:8
- a=i0EeH86SAAAA:8 a=bRcv_FBpQJmN_0Ok9L8A:9 a=QEXdDO2ut3YA:10
- a=WmVTiCyuxqgg3mnwYu6p:22
-X-Proofpoint-ORIG-GUID: hzQuFvUXjsQrapSPhtOnaDSpTCPqVn5t
-X-Proofpoint-GUID: hzQuFvUXjsQrapSPhtOnaDSpTCPqVn5t
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODE3MDA3NSBTYWx0ZWRfXxP7M033KhWmE
- gsMotU/F8HixkZ+aH67Q93M9Tz3qabNMZ0T0Dw2kmDVxJIwrPHk9d1fTrbsFZBXvwDIr2CCtX+J
- NvhIRFt9M6IhDFpfFcpOIHxju5DuVwSh0qfxDBujW+fjV6YIYM5A
+User-Agent: Mozilla Thunderbird
+From: Eric Auger <eauger@redhat.com>
+Subject: Re: [PATCHv5 1/2] block: accumulate memory segment gaps per bio
+To: Keith Busch <kbusch@meta.com>, hch@lst.de,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, axboe@kernel.dk
+Cc: Keith Busch <kbusch@kernel.org>, Jeff Moyer <jmoyer@redhat.com>,
+ Jerry Snitselaar <jsnitsel@redhat.com>
+References: <20251014150456.2219261-1-kbusch@meta.com>
+ <20251014150456.2219261-2-kbusch@meta.com>
+In-Reply-To: <20251014150456.2219261-2-kbusch@meta.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: wY-las2oMwneDp0fDFZuXqqIsz-c5PhcF3xxRz_Zo6E_1786972997
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/mixed; boundary="------------8CAmikxCf33xtcNkEMDTdIzg"
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260817_031159_595507_35F5FEFC 
-X-CRM114-Status: GOOD (  26.88  )
+X-CRM114-CacheID: sfid-20260817_062334_003589_4B2E422D 
+X-CRM114-Status: GOOD (  35.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -205,61 +110,412 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 17/08/2026 10:18, Christoph Hellwig wrote:
-> On Mon, Aug 17, 2026 at 10:12:25AM +0100, John Garry wrote:
->> On 17/08/2026 09:36, Christoph Hellwig wrote:
->>> Hi all,
->>>
->>> I got reports that NVMe devices were arbitrarily limited to 128kiB
->>> transfers in recent kernel. 
->>
->> How recent a kernel? This NVMe and DMA mapping code has not changed in 
->> years as far as I know.
+This is a multi-part message in MIME format.
+--------------8CAmikxCf33xtcNkEMDTdIzg
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+Hi Keith, Christoph,
+
+On 10/14/25 5:04 PM, Keith Busch wrote:
+> From: Keith Busch <kbusch@kernel.org>
 > 
-> This was hardware QA moving from an old distro kernel to a "recent" (aka
-> still old) one.   But I've actually reproduced it locally on an
-> upstream kernel.  I guess most kernel developers or power users simply
-> do not run with IOMMU enabled.
-
-Yeah, they don't like any performance hit.
-
+> The blk-mq dma iterator has an optimization for requests that align to
+> the device's iommu merge boundary. This boundary may be larger than the
+> device's virtual boundary, but the code had been depending on that queue
+> limit to know ahead of time if the request is guaranteed to align to
+> that optimization.
 > 
->>> Both the NVMe performance numbers and common sense suggest that this
->>> is NOT the optimal DMA mapping granularity.  Can we pick a saner value
->>> for iommu_dma_opt_mapping_size that does not restrict common I/O sizes?
->>
->> Note that SCSI does not use iommu_dma_opt_mapping_size() for clamping max 
->> HW sectors, but instead sets opt size / max sectors from this value (so it 
->> is not a hard limit there). Could we consider similar for NVMe?
+> Rather than rely on that queue limit, which many devices may not report,
+> save the lowest set bit of any boundary gap between each segment in the
+> bio while checking the segments. The request stores the value for
+> merging and quickly checking per io if the request can use iova
+> optimizations.
 > 
-> We could consider that, but it would still reduce performane..
- > >> The reason for which we have iommu_dma_opt_mapping_size() is that
->> performance can go through the floor we can't use the rcache for getting 
->> the IOVA, i.e. we need to always alloc and dealloc an IOVA from the RB tree 
->> for each mapping, and this can greatly reduce performance when the IOVA 
->> space fills.
->>
->> If we increase IOVA_RANGE_CACHE_MAX_SIZE, then we just get caching of 
->> larger IOVAs and I am not sure that is a great idea.
+> Signed-off-by: Keith Busch <kbusch@kernel.org>
+> ---
+>  block/bio.c               |  1 +
+>  block/blk-map.c           |  3 +++
+>  block/blk-merge.c         | 39 ++++++++++++++++++++++++++++++++++++---
+>  block/blk-mq-dma.c        |  3 +--
+>  block/blk-mq.c            |  6 ++++++
+>  include/linux/bio.h       |  2 ++
+>  include/linux/blk-mq.h    | 16 ++++++++++++++++
+>  include/linux/blk_types.h | 12 ++++++++++++
+>  8 files changed, 77 insertions(+), 5 deletions(-)
 > 
-> At least on the four different nvme devices I tested, the larger I/O
-> sizes made up for this.  But maybe the details depend on other
-> factors as well.
-Are you saying that you tried increasing IOVA_RANGE_CACHE_MAX_SIZE and 
-got better performance?
+> diff --git a/block/bio.c b/block/bio.c
+> index b3a79285c278d..7b13bdf72de09 100644
+> --- a/block/bio.c
+> +++ b/block/bio.c
+> @@ -253,6 +253,7 @@ void bio_init(struct bio *bio, struct block_device *bdev, struct bio_vec *table,
+>  	bio->bi_write_hint = 0;
+>  	bio->bi_write_stream = 0;
+>  	bio->bi_status = 0;
+> +	bio->bi_bvec_gap_bit = 0;
+>  	bio->bi_iter.bi_sector = 0;
+>  	bio->bi_iter.bi_size = 0;
+>  	bio->bi_iter.bi_idx = 0;
+> diff --git a/block/blk-map.c b/block/blk-map.c
+> index 60faf036fb6e4..17a1dc2886786 100644
+> --- a/block/blk-map.c
+> +++ b/block/blk-map.c
+> @@ -459,6 +459,8 @@ int blk_rq_append_bio(struct request *rq, struct bio *bio)
+>  	if (rq->bio) {
+>  		if (!ll_back_merge_fn(rq, bio, nr_segs))
+>  			return -EINVAL;
+> +		rq->phys_gap_bit = bio_seg_gap(rq->q, rq->biotail, bio,
+> +					       rq->phys_gap_bit);
+>  		rq->biotail->bi_next = bio;
+>  		rq->biotail = bio;
+>  		rq->__data_len += bio->bi_iter.bi_size;
+> @@ -469,6 +471,7 @@ int blk_rq_append_bio(struct request *rq, struct bio *bio)
+>  	rq->nr_phys_segments = nr_segs;
+>  	rq->bio = rq->biotail = bio;
+>  	rq->__data_len = bio->bi_iter.bi_size;
+> +	rq->phys_gap_bit = bio->bi_bvec_gap_bit;
+>  	return 0;
+>  }
+>  EXPORT_SYMBOL(blk_rq_append_bio);
+> diff --git a/block/blk-merge.c b/block/blk-merge.c
+> index 002c594798242..2a1da435462de 100644
+> --- a/block/blk-merge.c
+> +++ b/block/blk-merge.c
+> @@ -302,6 +302,12 @@ static unsigned int bio_split_alignment(struct bio *bio,
+>  	return lim->logical_block_size;
+>  }
+>  
+> +static inline unsigned int bvec_seg_gap(struct bio_vec *bvprv,
+> +					struct bio_vec *bv)
+> +{
+> +	return bv->bv_offset | (bvprv->bv_offset + bvprv->bv_len);
+> +}
+> +
+>  /**
+>   * bio_split_io_at - check if and where to split a bio
+>   * @bio:  [in] bio to be split
+> @@ -319,8 +325,8 @@ int bio_split_io_at(struct bio *bio, const struct queue_limits *lim,
+>  		unsigned *segs, unsigned max_bytes, unsigned len_align_mask)
+>  {
+>  	struct bio_vec bv, bvprv, *bvprvp = NULL;
+> +	unsigned nsegs = 0, bytes = 0, gaps = 0;
+>  	struct bvec_iter iter;
+> -	unsigned nsegs = 0, bytes = 0;
+>  
+>  	bio_for_each_bvec(bv, bio, iter) {
+>  		if (bv.bv_offset & lim->dma_alignment ||
+> @@ -331,8 +337,11 @@ int bio_split_io_at(struct bio *bio, const struct queue_limits *lim,
+>  		 * If the queue doesn't support SG gaps and adding this
+>  		 * offset would create a gap, disallow it.
+>  		 */
+> -		if (bvprvp && bvec_gap_to_prev(lim, bvprvp, bv.bv_offset))
+> -			goto split;
+> +		if (bvprvp) {
+> +			if (bvec_gap_to_prev(lim, bvprvp, bv.bv_offset))
+> +				goto split;
+> +			gaps |= bvec_seg_gap(bvprvp, &bv);
+> +		}
+>  
+>  		if (nsegs < lim->max_segments &&
+>  		    bytes + bv.bv_len <= max_bytes &&
+> @@ -350,6 +359,7 @@ int bio_split_io_at(struct bio *bio, const struct queue_limits *lim,
+>  	}
+>  
+>  	*segs = nsegs;
+> +	bio->bi_bvec_gap_bit = ffs(gaps);
+>  	return 0;
+>  split:
+>  	if (bio->bi_opf & REQ_ATOMIC)
+> @@ -385,6 +395,7 @@ int bio_split_io_at(struct bio *bio, const struct queue_limits *lim,
+>  	 * big IO can be trival, disable iopoll when split needed.
+>  	 */
+>  	bio_clear_polled(bio);
+> +	bio->bi_bvec_gap_bit = ffs(gaps);
+>  	return bytes >> SECTOR_SHIFT;
+>  }
+>  EXPORT_SYMBOL_GPL(bio_split_io_at);
+> @@ -721,6 +732,21 @@ static bool blk_atomic_write_mergeable_rqs(struct request *rq,
+>  	return (rq->cmd_flags & REQ_ATOMIC) == (next->cmd_flags & REQ_ATOMIC);
+>  }
+>  
+> +u8 bio_seg_gap(struct request_queue *q, struct bio *prev, struct bio *next,
+> +	       u8 gaps_bit)
+> +{
+> +	struct bio_vec pb, nb;
+> +
+> +	gaps_bit = min_not_zero(gaps_bit, prev->bi_bvec_gap_bit);
+> +	gaps_bit = min_not_zero(gaps_bit, next->bi_bvec_gap_bit);
+> +
+> +	bio_get_last_bvec(prev, &pb);
+> +	bio_get_first_bvec(next, &nb);
+> +	if (!biovec_phys_mergeable(q, &pb, &nb))
+> +		gaps_bit = min_not_zero(gaps_bit, ffs(bvec_seg_gap(&pb, &nb)));
+> +	return gaps_bit;
+> +}
+> +
+>  /*
+>   * For non-mq, this has to be called with the request spinlock acquired.
+>   * For mq with scheduling, the appropriate queue wide lock should be held.
+> @@ -785,6 +811,9 @@ static struct request *attempt_merge(struct request_queue *q,
+>  	if (next->start_time_ns < req->start_time_ns)
+>  		req->start_time_ns = next->start_time_ns;
+>  
+> +	req->phys_gap_bit = bio_seg_gap(req->q, req->biotail, next->bio,
+> +					min_not_zero(next->phys_gap_bit,
+> +						     req->phys_gap_bit));
+>  	req->biotail->bi_next = next->bio;
+>  	req->biotail = next->biotail;
+>  
+> @@ -908,6 +937,8 @@ enum bio_merge_status bio_attempt_back_merge(struct request *req,
+>  	if (req->rq_flags & RQF_ZONE_WRITE_PLUGGING)
+>  		blk_zone_write_plug_bio_merged(bio);
+>  
+> +	req->phys_gap_bit = bio_seg_gap(req->q, req->biotail, bio,
+> +					req->phys_gap_bit);
+>  	req->biotail->bi_next = bio;
+>  	req->biotail = bio;
+>  	req->__data_len += bio->bi_iter.bi_size;
+> @@ -942,6 +973,8 @@ static enum bio_merge_status bio_attempt_front_merge(struct request *req,
+>  
+>  	blk_update_mixed_merge(req, bio, true);
+>  
+> +	req->phys_gap_bit = bio_seg_gap(req->q, bio, req->bio,
+> +					req->phys_gap_bit);
+>  	bio->bi_next = req->bio;
+>  	req->bio = bio;
+>  
+> diff --git a/block/blk-mq-dma.c b/block/blk-mq-dma.c
+> index 449950029872a..94d3461b5bc8e 100644
+> --- a/block/blk-mq-dma.c
+> +++ b/block/blk-mq-dma.c
+> @@ -79,8 +79,7 @@ static bool blk_map_iter_next(struct request *req, struct blk_map_iter *iter,
+>  static inline bool blk_can_dma_map_iova(struct request *req,
+>  		struct device *dma_dev)
+>  {
+> -	return !((queue_virt_boundary(req->q) + 1) &
+> -		dma_get_merge_boundary(dma_dev));
+> +	return !(req_phys_gap_mask(req) & dma_get_merge_boundary(dma_dev));
 
-As I remember, I was told that the value of 6 for 
-IOVA_RANGE_CACHE_MAX_SIZE was originally chosen from the value then in 
-max page order, i.e. the idea was that we should not be getting 
-streaming IOs larger than that value. But in looking at lore, 8 was very 
-originally proposed, but I can't see any discussion on why that changed 
-or any relation to page max order.
+I observe a regression on RHEL due to that change in
+blk_can_dma_map_iova() with a 64kB host. This also occurs with upstream
+(7.2-rc7).
 
-Some time ago I did try some work to allow IOVA_RANGE_CACHE_MAX_SIZE be 
-set per IOMMU domain, but it was not merged. We went with 
-dma_opt_mapping_size() solution instead.
+For an NVME device blk_can_dma_map_iova() now returns trues while it did
+not before. And it seems it shouldn't because it then causes some errors
+on the dma_iova_link() path due to unaligned iova:
 
-https://lore.kernel.org/linux-scsi/1620656249-68890-1-git-send-email-john.garry@huawei.com/
+[ 4486.655564] iommu: unaligned: iova 0x14c34000 pa 0x000010764d790000
+size 0x1d0000 min_pagesz 0x10000
 
+It occurs when launching a 4kB guest with virtio-blk.
+
+I traced:
+nvme 0015:01:00.0: req_phys_gap_mask=0xffffffffffff0000,
+queue_virt_boundary+1=0x1, get_merge_boundary=0xffff
+
+See additional traces attached.
+
+Does that ring a bell for you?
+
+Thank you in advance
+
+Best Regards
+
+Eric
+
+
+>  }
+>  
+>  static bool blk_dma_map_bus(struct blk_dma_iter *iter, struct phys_vec *vec)
+> diff --git a/block/blk-mq.c b/block/blk-mq.c
+> index 09f5794141615..c12e5ee315fce 100644
+> --- a/block/blk-mq.c
+> +++ b/block/blk-mq.c
+> @@ -376,6 +376,7 @@ void blk_rq_init(struct request_queue *q, struct request *rq)
+>  	INIT_LIST_HEAD(&rq->queuelist);
+>  	rq->q = q;
+>  	rq->__sector = (sector_t) -1;
+> +	rq->phys_gap_bit = 0;
+>  	INIT_HLIST_NODE(&rq->hash);
+>  	RB_CLEAR_NODE(&rq->rb_node);
+>  	rq->tag = BLK_MQ_NO_TAG;
+> @@ -668,6 +669,7 @@ struct request *blk_mq_alloc_request(struct request_queue *q, blk_opf_t opf,
+>  			goto out_queue_exit;
+>  	}
+>  	rq->__data_len = 0;
+> +	rq->phys_gap_bit = 0;
+>  	rq->__sector = (sector_t) -1;
+>  	rq->bio = rq->biotail = NULL;
+>  	return rq;
+> @@ -748,6 +750,7 @@ struct request *blk_mq_alloc_request_hctx(struct request_queue *q,
+>  	rq = blk_mq_rq_ctx_init(&data, blk_mq_tags_from_data(&data), tag);
+>  	blk_mq_rq_time_init(rq, alloc_time_ns);
+>  	rq->__data_len = 0;
+> +	rq->phys_gap_bit = 0;
+>  	rq->__sector = (sector_t) -1;
+>  	rq->bio = rq->biotail = NULL;
+>  	return rq;
+> @@ -2674,6 +2677,8 @@ static void blk_mq_bio_to_request(struct request *rq, struct bio *bio,
+>  	rq->bio = rq->biotail = bio;
+>  	rq->__sector = bio->bi_iter.bi_sector;
+>  	rq->__data_len = bio->bi_iter.bi_size;
+> +	rq->phys_gap_bit = bio->bi_bvec_gap_bit;
+> +
+>  	rq->nr_phys_segments = nr_segs;
+>  	if (bio_integrity(bio))
+>  		rq->nr_integrity_segments = blk_rq_count_integrity_sg(rq->q,
+> @@ -3380,6 +3385,7 @@ int blk_rq_prep_clone(struct request *rq, struct request *rq_src,
+>  	}
+>  	rq->nr_phys_segments = rq_src->nr_phys_segments;
+>  	rq->nr_integrity_segments = rq_src->nr_integrity_segments;
+> +	rq->phys_gap_bit = rq_src->phys_gap_bit;
+>  
+>  	if (rq->bio && blk_crypto_rq_bio_prep(rq, rq->bio, gfp_mask) < 0)
+>  		goto free_and_out;
+> diff --git a/include/linux/bio.h b/include/linux/bio.h
+> index 16c1c85613b76..ad2d57908c1c0 100644
+> --- a/include/linux/bio.h
+> +++ b/include/linux/bio.h
+> @@ -324,6 +324,8 @@ extern struct bio *bio_split(struct bio *bio, int sectors,
+>  			     gfp_t gfp, struct bio_set *bs);
+>  int bio_split_io_at(struct bio *bio, const struct queue_limits *lim,
+>  		unsigned *segs, unsigned max_bytes, unsigned len_align);
+> +u8 bio_seg_gap(struct request_queue *q, struct bio *prev, struct bio *next,
+> +		u8 gaps_bit);
+>  
+>  /**
+>   * bio_next_split - get next @sectors from a bio, splitting if necessary
+> diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+> index b25d12545f46d..ddda00f07fae4 100644
+> --- a/include/linux/blk-mq.h
+> +++ b/include/linux/blk-mq.h
+> @@ -152,6 +152,14 @@ struct request {
+>  	unsigned short nr_phys_segments;
+>  	unsigned short nr_integrity_segments;
+>  
+> +	/*
+> +	 * The lowest set bit for address gaps between physical segments. This
+> +	 * provides information necessary for dma optimization opprotunities,
+> +	 * like for testing if the segments can be coalesced against the
+> +	 * device's iommu granule.
+> +	 */
+> +	unsigned char phys_gap_bit;
+> +
+>  #ifdef CONFIG_BLK_INLINE_ENCRYPTION
+>  	struct bio_crypt_ctx *crypt_ctx;
+>  	struct blk_crypto_keyslot *crypt_keyslot;
+> @@ -208,6 +216,14 @@ struct request {
+>  	void *end_io_data;
+>  };
+>  
+> +/*
+> + * Returns a mask with all bits starting at req->phys_gap_bit set to 1.
+> + */
+> +static inline unsigned long req_phys_gap_mask(const struct request *req)
+> +{
+> +	return ~(((1 << req->phys_gap_bit) >> 1) - 1);
+> +}
+> +
+>  static inline enum req_op req_op(const struct request *req)
+>  {
+>  	return req->cmd_flags & REQ_OP_MASK;
+> diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+> index 8e8d1cc8b06c4..53501ebb0623e 100644
+> --- a/include/linux/blk_types.h
+> +++ b/include/linux/blk_types.h
+> @@ -218,6 +218,18 @@ struct bio {
+>  	enum rw_hint		bi_write_hint;
+>  	u8			bi_write_stream;
+>  	blk_status_t		bi_status;
+> +
+> +	/*
+> +	 * The bvec gap bit indicates the lowest set bit in any address offset
+> +	 * between all bi_io_vecs. This field is initialized only after the bio
+> +	 * is split to the hardware limits (see bio_split_io_at()). The value
+> +	 * may be used to consider DMA optimization when performing that
+> +	 * mapping. The value is compared to a power of two mask where the
+> +	 * result depends on any bit set within the mask, so saving the lowest
+> +	 * bit is sufficient to know if any segment gap collides with the mask.
+> +	 */
+> +	u8			bi_bvec_gap_bit;
+> +
+>  	atomic_t		__bi_remaining;
+>  
+>  	struct bvec_iter	bi_iter;
+
+--------------8CAmikxCf33xtcNkEMDTdIzg
+Content-Type: text/plain; charset=UTF-8; name="IOerrors.txt"
+Content-Disposition: attachment; filename="IOerrors.txt"
+Content-Transfer-Encoding: base64
+
+WyA0NDgzLjU4ODg0M10gVGFpbnRlZDogW1ddPVdBUk4KWyA0NDgzLjU5MTg3Ml0gSGFyZHdhcmUg
+bmFtZTogRGVsbCBJbmMuIERlbGwgU2VydmVyIDk3MTJhL0RlbGwgOTcxMmEsIEJJT1MgMi4xNiAw
+Ni8xOS8yMDI1ClsgNDQ4My42MDAwNTddIHBzdGF0ZTogMjM0MDAwMDkgKG56Q3YgZGFpZiArUEFO
+IC1VQU8gK1RDTyArRElUIC1TU0JTIEJUWVBFPS0tKQpbIDQ0ODMuNjA3MTc1XSBwYyA6IGRtYV9p
+b3ZhX2xpbmsrMHgxYTAvMHgyMjAKWyA0NDgzLjYxMTM1OV0gbHIgOiBkbWFfaW92YV9saW5rKzB4
+NDgvMHgyMjAKWyA0NDgzLjYxNTQ1NF0gc3AgOiBmZmZmODAwMTkwMWVmNDYwClsgNDQ4My42MTg4
+MzddIHgyOTogZmZmZjgwMDE5MDFlZjQ2MCB4Mjg6IDAwMDAwMDAwMDAwMDAwMDAgeDI3OiBmZmZm
+MTAwMDQ4YTIyYjAwClsgNDQ4My42MjYxMzNdIHgyNjogZmZmZjEwMDRkNjYyODE3OCB4MjU6IDAw
+MDAwMDAwMDAwMDAwMDAgeDI0OiAwMDAwMDAwMDAwMDAwMDAyClsgNDQ4My42MzM0MjldIHgyMzog
+ZmZmZjEwMDAwZDUxZTBkMCB4MjI6IDAwMDAwMDAwMDAwMDQwMDAgeDIxOiAwMDAwMTA3ODI2Mzg0
+MDAwClsgNDQ4My42NDA3MjVdIHgyMDogMDAwMDAwMDAwMDAwNDAwMCB4MTk6IDAwMDAwMDAwMDAw
+MDQwMDAgeDE4OiAwMDAwMDAwMDAwMDAwMDAwClsgNDQ4My42NDgwMjFdIHgxNzogMDAwMDAwMDAw
+MDAwMDAwMCB4MTY6IDAwMDAwMDAwMDAwMDAwMDYgeDE1OiAwMDAwMTA3ODI2Mzg4MDAwClsgNDQ4
+My42NTUzMTZdIHgxNDogMDAwMDAwMDAwMDAwNDAwMCB4MTM6IDAwMDAwMDAwMDAwMDQwMDAgeDEy
+OiAwMDAwMDAwMGQ5YzdjMDAwClsgNDQ4My42NjI2MTJdIHgxMTogMDAwMDAwMDAwMDAwMDAwMiB4
+MTA6IDAwMDAwMDAwMDAxZjgwMDAgeDkgOiBmZmZmZDQ2OTc0Zjc5MWUwClsgNDQ4My42Njk5MDhd
+IHg4IDogMDAwMDEwNzgyNjM4NDAwMCB4NyA6IDAwMDAwMDAwMDAwMGZmZmYgeDYgOiAwMDAwMDAw
+MDAwMDAwMDAwClsgNDQ4My42NzcyMDRdIHg1IDogMDAwMDAwMDAwMDAwMDAwMiB4NCA6IDAwMDAw
+MDAwMDAwMDQwMDAgeDMgOiAwMDAwMDAwMDAwMDA0MDAwClsgNDQ4My42ODQ1MDBdIHgyIDogMDAw
+MDEwNzgyNjM4NDAwMCB4MSA6IGZmZmYxMDA0ZDY2MjgxNzggeDAgOiBmZmZmMTAwMDQ4YTJlZDIw
+ClsgNDQ4My42OTE3OThdIENhbGwgdHJhY2U6ClsgNDQ4My42OTg0ODBdICBibGtfZG1hX21hcF9p
+dGVyX3N0YXJ0KzB4MWUwLzB4MmM4ClsgNDQ4My43MDMxMTZdICBibGtfcnFfZG1hX21hcF9pdGVy
+X3N0YXJ0KzB4NDgvMHhjMApbIDQ0ODMuNzA3ODM0XSAgbnZtZV9tYXBfZGF0YSsweDk0LzB4MjE4
+IFtudm1lXQpbIDQ0ODMuNzEyMjA2XSAgbnZtZV9wcmVwX3JxLnBhcnQuMCsweDM0LzB4MWQwIFtu
+dm1lXQpbIDQ0ODMuNzE3MTAxXSAgbnZtZV9xdWV1ZV9ycXMrMHgxODQvMHgyYzggW252bWVdClsg
+NDQ4My43MjE2NDFdICBibGtfbXFfZGlzcGF0Y2hfcXVldWVfcmVxdWVzdHMrMHgxNzAvMHgxYTAK
+WyA0NDgzLjcyNjk4OF0gIGJsa19tcV9mbHVzaF9wbHVnX2xpc3QrMHhhNC8weDFhMApbIDQ0ODMu
+NzMxNTMwXSAgYmxrX2FkZF9ycV90b19wbHVnKzB4ZWMvMHgxZTAKWyA0NDgzLjczNTcxNV0gIGJs
+a19tcV9zdWJtaXRfYmlvKzB4NThjLzB4ODAwClsgNDQ4My43Mzk5MDBdICBfX3N1Ym1pdF9iaW8r
+MHg4Yy8weDIzOApbIDQ0ODMuNzQzNTU2XSAgX19zdWJtaXRfYmlvX25vYWNjdCsweDY4LzB4MWQ4
+ClsgNDQ4My43NDc4MjldICBzdWJtaXRfYmlvX25vYWNjdF9ub2NoZWNrKzB4MWE0LzB4MWUwClsg
+NDQ4My43NTI3MjZdICBzdWJtaXRfYmlvX25vYWNjdCsweDEwYy8weDQyOApbIDQ0ODMuNzU2OTEx
+XSAgc3VibWl0X2JpbysweGFjLzB4MjM4ClsgNDQ4My43NjAzODNdICBpb21hcF9kaW9fc3VibWl0
+X2JpbysweDk4LzB4ZDAKWyA0NDgzLjc2NDY2Nl0gIGlvbWFwX2Rpb19iaW9faXRlcisweDM0OC8w
+eDUxOApbIDQ0ODMuNzY4OTQwXSAgaW9tYXBfZGlvX2l0ZXIrMHhkMC8weDExOApbIDQ0ODMuNzcy
+NzY5XSAgX19pb21hcF9kaW9fcncrMHgxN2MvMHg1YzgKWyA0NDgzLjc3NjY4OF0gIGlvbWFwX2Rp
+b19ydysweDE4LzB4NTgKWyA0NDgzLjc4MDI1MV0gIHhmc19maWxlX2Rpb19yZWFkKzB4MTA0LzB4
+MTY4IFt4ZnNdClsgNDQ4My43ODUwNDVdICB4ZnNfZmlsZV9yZWFkX2l0ZXIrMHhlYy8weDEwOCBb
+eGZzXQpbIDQ0ODMuNzg5ODA3XSAgZG9faXRlcl9yZWFkdl93cml0ZXYrMHgxYjAvMHgyMDAKWyA0
+NDgzLjc5NDI2Ml0gIHZmc19yZWFkdisweDE5MC8weDI5MApbIDQ0ODMuNzk3NzM1XSAgX19hcm02
+NF9zeXNfcHJlYWR2KzB4ZTAvMHgxMjgKWyA0NDgzLjgwMTkyMl0gIGludm9rZV9zeXNjYWxsLmNv
+bnN0cHJvcC4wKzB4NzQvMHhkMApbIDQ0ODMuODA2NzMzXSAgZG9fZWwwX3N2YysweGI4LzB4ZDAK
+WyA0NDgzLjgxMDExN10gIGVsMF9zdmMrMHg0NC8weDFiOApbIDQ0ODMuODEzMzI5XSAgZWwwdF82
+NF9zeW5jX2hhbmRsZXIrMHhhMC8weGYwClsgNDQ4My44MTc2MDNdICBlbDB0XzY0X3N5bmMrMHgx
+YWMvMHgxYjAKWyA0NDgzLjgyMTM0Nl0gLS0tWyBlbmQgdHJhY2UgMDAwMDAwMDAwMDAwMDAwMCBd
+LS0tClsgNDQ4My44MjYxMTBdIEkvTyBlcnJvciwgZGV2IG52bWUxbjEsIHNlY3RvciA3NjQ0Nzgw
+MCBvcCAweDA6KFJFQUQpIGZsYWdzIDB4YzgwMCBwaHlzX3NlZyAyOCBwcmlvIGNsYXNzIDIKWyA0
+NDg0LjI0NzczMF0gSS9PIGVycm9yLCBkZXYgbnZtZTFuMSwgc2VjdG9yIDc5MDg1MTkyIG9wIDB4
+MDooUkVBRCkgZmxhZ3MgMHhjODAwIHBoeXNfc2VnIDMxIHByaW8gY2xhc3MgMgpbIDQ0ODQuMjY5
+NzM1XSBJL08gZXJyb3IsIGRldiBudm1lMW4xLCBzZWN0b3IgNzc0MDQwNDggb3AgMHgwOihSRUFE
+KSBmbGFncyAweGM4MDAgcGh5c19zZWcgMTggcHJpbyBjbGFzcyAyClsgNDQ4NC45Njk3MDddIEkv
+TyBlcnJvciwgZGV2IG52bWUxbjEsIHNlY3RvciA3NjQ2NTg2NCBvcCAweDA6KFJFQUQpIGZsYWdz
+IDB4YzgwMCBwaHlzX3NlZyAzMSBwcmlvIGNsYXNzIDIKWyA0NDg1LjA0MDMyN10gSS9PIGVycm9y
+LCBkZXYgbnZtZTFuMSwgc2VjdG9yIDgyMzM5MDQ4IG9wIDB4MDooUkVBRCkgZmxhZ3MgMHhjODAw
+IHBoeXNfc2VnIDIyIHByaW8gY2xhc3MgMgpbIDQ0ODUuNjA2Mzg1XSBJL08gZXJyb3IsIGRldiBu
+dm1lMW4xLCBzZWN0b3IgODY1MjkyOTYgb3AgMHgwOihSRUFEKSBmbGFncyAweGM4MDAgcGh5c19z
+ZWcgNCBwcmlvIGNsYXNzIDIKWyA0NDg2LjU2NDQ3Ml0gSS9PIGVycm9yLCBkZXYgbnZtZTFuMSwg
+c2VjdG9yIDgwMzg4MzkyIG9wIDB4MDooUkVBRCkgZmxhZ3MgMHhjODAwIHBoeXNfc2VnIDQgcHJp
+byBjbGFzcyAyClsgNDQ4Ni42NTU1NjRdIGlvbW11OiB1bmFsaWduZWQ6IGlvdmEgMHgxNGMzNDAw
+MCBwYSAweDAwMDAxMDc2NGQ3OTAwMDAgc2l6ZSAweDFkMDAwMCBtaW5fcGFnZXN6IDB4MTAwMDAK
+WyA0NDg2LjY2NDkxNV0gaW9tbXU6IHVuYWxpZ25lZDogaW92YSAweDE0ODM0MDAwIHBhIDB4MDAw
+MDEwNzY0ZDc5MDAwMCBzaXplIDB4MWQwMDAwIG1pbl9wYWdlc3ogMHgxMDAwMApbIDQ0ODYuNjc0
+MjYzXSBpbnZhbGlkIGVycm9yLCBkZXYgbnZtZTFuMSwgc2VjdG9yIDM3MTYwNDMzODQgb3AgMHgw
+OihSRUFEKSBmbGFncyAweGM4MDAgcGh5c19zZWcgMiBwcmlvIGNsYXNzIDIKWyA0NDg3LjMwNDI3
+Ml0gSS9PIGVycm9yLCBkZXYgbnZtZTFuMSwgc2VjdG9yIDg2MTAxNjE2IG9wIDB4MDooUkVBRCkg
+ZmxhZ3MgMHhjODAwIHBoeXNfc2VnIDMgcHJpbyBjbGFzcyAyClsgNDQ4Ny4zMDU4OTRdIEkvTyBl
+cnJvciwgZGV2IG52bWUxbjEsIHNlY3RvciA4NjEwOTgwOCBvcCAweDA6KFJFQUQpIGZsYWdzIDB4
+YzgwMCBwaHlzX3NlZyAzIHByaW8gY2xhc3MgMgoK
+--------------8CAmikxCf33xtcNkEMDTdIzg--
 
 
