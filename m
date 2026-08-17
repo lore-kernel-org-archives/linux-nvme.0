@@ -4,105 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 961D5C5DF66
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 Aug 2026 16:37:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 84755C5B572
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 Aug 2026 17:04:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=98pTz1wjWa3DC15z3yywDMfFCjc1xmvSAJlUL+hubU0=; b=GUNVLJJ889Op1Q8DrML9GS8fL4
-	+UrFVCiMR53mLEzNKHD/FBJSOjWEKyDjkDGlIG6hapvocG+0p6lNLHv44oc/s7807CziWQGAOliIq
-	igR4U18ER6/YF/WUE7hpw+Wk2sYM7K+YCtju0r1v0Izjj5HQSr2PbXG4xWlH10flHWOk6Hf3GuuEH
-	fnPu6QfFVmmJl1C9ofZ9xmgNteo/6wESD5790pHMPWhLuSpHROdMsFjgGcNGLiFZeOuunji3qdwH3
-	uI9cCviGvenJvHYPq3DSGNPmUXfY1IXcUm/wG5Ao02qBpzwz/ODYap7+Pl05cBiTF+FKOD1xzkTPt
-	j+9jt7sA==;
+	bh=ycTKNp0Izo0bzn+OyoNitSSIiYOPhFUfqoBSLIwytBk=; b=DtJLPgIG+jlaTsu2fo/dIQ3Bti
+	8TIBnBm3qL5rOVzX5zGgskie7WiBD8bT/w/x0PL8w2tq3aK7Q46IalR3I2RRRD5ox3NXF369uZWQD
+	MMUeMYqToc0FEIxheVxUZkLhXTHQyV9M9GZ5KQ41rQUh6ROFRQPfueEX9JrMqbS1ljXLUaxWuYLZv
+	wBfvbIJkMVzpGpRXxJEg7c8RqjEyroHx7eN/dBGqdpb/mcc0/CS5g3E+VUJeG2L6/Npxd0Jm4mUIo
+	v1XrAp9ISSL/kPM9jazgi0U76//GQG2Iev0Ohg4vLWVQo/t+o7DJhURlxy5dFdoU3eLoneoX9nHq/
+	dIggk3og==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1ww0LE-00000006Wv9-0ybX;
-	Mon, 17 Aug 2026 16:37:40 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
-	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1ww0LB-00000006Wuh-1PV5
+	id 1ww0lF-00000006ZCf-21BR;
+	Mon, 17 Aug 2026 17:04:33 +0000
+Received: from foss.arm.com ([217.140.110.172])
+	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1ww0lC-00000006ZCE-2ObY
 	for linux-nvme@lists.infradead.org;
-	Mon, 17 Aug 2026 16:37:38 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1786984655;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=98pTz1wjWa3DC15z3yywDMfFCjc1xmvSAJlUL+hubU0=;
-	b=GeYGVVGpx4mFHHtVG8Xo6dJ7PagFN0nMbgQP1hsmOKKl0PZO2UKktk9PMylG7BnqtGZW8d
-	LklsyE1YAb1RgHWONJhHof270zTvFg16E0NDQC4AKqV7xVf6NysU33ZQp5mfMc/l1aE6bf
-	sCKF2NoOI3novIMJJF2BMyLe7skr/E0=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-616-N2kfu-ugNPGlIHzVEBWZbQ-1; Mon, 17 Aug 2026 12:37:29 -0400
-X-MC-Unique: N2kfu-ugNPGlIHzVEBWZbQ-1
-X-Mimecast-MFC-AGG-ID: N2kfu-ugNPGlIHzVEBWZbQ_1786984648
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-47407691804so2179848f8f.1
-        for <linux-nvme@lists.infradead.org>; Mon, 17 Aug 2026 09:37:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786984648; x=1787589448;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=98pTz1wjWa3DC15z3yywDMfFCjc1xmvSAJlUL+hubU0=;
-        b=Hbnzwqzj47n0WB022/tizrpsiJJ9XPzlZTBwIOfl7BMDXjpcJlv6EylCH4nYw8dbOq
-         XztUSyDNgWYERfPTCpyRWAIk8HFNDyZ4b+ilw1DSLfymISA8KxGGzwPbF/WUvGqsePjH
-         i5JDX8J62VX9HJoTaBYdKuXIjFw9w75WF2LYmjAC5u8L8V1wqcoug9517ljty5VdRsen
-         p9lOWNN0ZQWX/9RVEXnJynh7Pp5e6lSGyD+3au3/RgTU6Iv1gRayafC2+sCYYq0tUu7o
-         YhVlpNoJ8PVON7GeZ6VWU6V+A4Y3xJ7nrqdgRR8NHPkq5ewp+miVX4eFlUscIz6tRXac
-         wByA==
-X-Forwarded-Encrypted: i=1; AHgh+RpZ7FzN/ywTveoMEruk1Y6OLjzaruNth7VndAGalfV3EzLRnV0a2crEwnh/yf31f3uJwGUZBs2J550u@lists.infradead.org
-X-Gm-Message-State: AOJu0Ywew7weM5OGaLb8EJ1h7ea/mJ6X3KZqNHiKYlfmZXhUTY8LHeoA
-	CrL6OPLl19pbf7C/X/ykb0tjKccJ7oZfgldGfYc207joVBCIiTSq+kdLwJZNzsSSdf+RSeg9wnQ
-	umdH2wAojsvLnMq78CrR0OM1kGPOHQ769n26rGO8NJ7re51dn4T0E5k5C9xu453qXAqR3
-X-Gm-Gg: AR+sD11eWULnqXry6uHH/KkTu10YrjuLwMrkND+xzHD37ULJdUtcYbXVh0Z/dlC5GsN
-	e4UAG02GXK4bnTCPsyHxinLVNhiuBoBMFQvHcRXaF+4+VOitz1eA+dF7nXaxT7iqELBqSzeicwm
-	8NM6QgiE8Ep0B1dAF45KucZMu4SlEUDssMul7auXbP8jGPgi16GFZjC5U6Zmeqiu7ATyG7O8CGK
-	xhqexgrgnhUPprheTgAjlddf1R9rZ0dodCkQf0ydgdm2XqFlVqOO6w4tCtTdmsrkT3RIAA3qhVZ
-	orm0Dfot+1SbM7KmPT0ewZsNOR6vimA5HhrYTC77Ov1nqwM4PZTU7iuqWUBohP77Z0psdsHRmsa
-	etEsZfjv2pC6krEAeLzzCTO+6MeZshSV6PnvwoxOzDv0=
-X-Received: by 2002:a5d:5f56:0:b0:481:5167:a9a4 with SMTP id ffacd0b85a97d-4816071c181mr42522372f8f.7.1786984647855;
-        Mon, 17 Aug 2026 09:37:27 -0700 (PDT)
-X-Received: by 2002:a5d:5f56:0:b0:481:5167:a9a4 with SMTP id ffacd0b85a97d-4816071c181mr42522299f8f.7.1786984647459;
-        Mon, 17 Aug 2026 09:37:27 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:f0e:9070:527b:9dff:feef:3874? ([2a01:e0a:f0e:9070:527b:9dff:feef:3874])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482a5a3b660sm5386882f8f.15.2026.08.17.09.37.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Aug 2026 09:37:26 -0700 (PDT)
-Message-ID: <e2da7cc1-3ab8-408c-b561-345de5a33963@redhat.com>
-Date: Mon, 17 Aug 2026 18:37:25 +0200
+	Mon, 17 Aug 2026 17:04:32 +0000
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 20CD61655;
+	Mon, 17 Aug 2026 10:04:23 -0700 (PDT)
+Received: from [10.2.212.23] (e121345-lin.cambridge.arm.com [10.2.212.23])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F27A83F673;
+	Mon, 17 Aug 2026 10:04:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1786986267; bh=WwW3V4TMuE/pvFjy27YhAVXW50q82C9U1UO8+sDJCII=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=QeIkDyHWPZXIR5a5D54DOt0cXsS9HlN67HT5K8IyHeiL8l0UvaTFRQI2XmMvmJz2h
+	 6Z/ILoecouit7do9PzKQEAY+ruFx6BKZnsqTJFzHAw5FDmEAKixfAMMa/8jv8YUJPu
+	 hdFYOiIzxw6y9w4otrm/sEkl6Rh4yFuSPIayxcFE=
+Message-ID: <3ac5346a-485f-4c1a-8c3a-ad649f2c76f0@arm.com>
+Date: Mon, 17 Aug 2026 18:04:24 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv5 1/2] block: accumulate memory segment gaps per bio
-To: Keith Busch <kbusch@kernel.org>
-Cc: Keith Busch <kbusch@meta.com>, hch@lst.de,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- axboe@kernel.dk, Jeff Moyer <jmoyer@redhat.com>,
- Jerry Snitselaar <jsnitsel@redhat.com>
-References: <20251014150456.2219261-1-kbusch@meta.com>
- <20251014150456.2219261-2-kbusch@meta.com>
- <1805eed3-90ec-4f62-9d71-e3f898a464ad@redhat.com>
- <aoMi6y2qsnRVembg@kbusch-mbp>
- <0023a895-7b04-44cd-a90f-c9d587a49519@redhat.com>
- <aoMxLBmKfFo_-i1u@kbusch-mbp>
-From: Eric Auger <eauger@redhat.com>
-In-Reply-To: <aoMxLBmKfFo_-i1u@kbusch-mbp>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: Ghb7Nm5kH2sv-q9L80_2QCZajaQKpzd7TJpbIdhJ0gk_1786984648
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: dma_opt_mapping_size returns way too low sizes when using IOMMU
+To: John Garry <john.g.garry@oracle.com>, Christoph Hellwig <hch@lst.de>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ iommu@lists.linux.dev, linux-nvme@lists.infradead.org
+References: <20260817083654.GA23414@lst.de>
+ <86f7fbdc-3c7f-4d84-871e-52ed3cfe8d58@oracle.com>
+ <20260817091840.GA26843@lst.de>
+ <8b7e86a7-6cb1-4007-bd99-1c4be8e6828e@oracle.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <8b7e86a7-6cb1-4007-bd99-1c4be8e6828e@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260817_093737_461497_C7FFF999 
-X-CRM114-Status: GOOD (  10.93  )
+X-CRM114-CacheID: sfid-20260817_100430_695041_EDB87389 
+X-CRM114-Status: GOOD (  28.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -117,35 +74,92 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Keith,
-On 8/17/26 6:05 PM, Keith Busch wrote:
-> ---
-> diff --git a/block/bio.c b/block/bio.c
-> index 4074a0496b93f..c343788e1f96e 100644
-> --- a/block/bio.c
-> +++ b/block/bio.c
-> @@ -859,6 +859,7 @@ static int __bio_clone(struct bio *bio, struct bio *bio_src, gfp_t gfp)
->  	bio->bi_ioprio = bio_src->bi_ioprio;
->  	bio->bi_write_hint = bio_src->bi_write_hint;
->  	bio->bi_write_stream = bio_src->bi_write_stream;
-> +	bio->bi_bvec_gap_bit = bio_src->bi_bvec_gap_bit;
->  	bio->bi_iter = bio_src->bi_iter;
->  
->  	if (bio->bi_bdev) {
-> @@ -1969,6 +1970,7 @@ struct bio *bio_split(struct bio *bio, int sectors,
->  		bio_integrity_trim(split);
->  
->  	bio_advance(bio, split->bi_iter.bi_size);
-> +	bio->bi_bvec_gap_bit = 0;
->  
->  	if (bio_flagged(bio, BIO_TRACE_COMPLETION))
->  		bio_set_flag(split, BIO_TRACE_COMPLETION);
-> --
-Many thanks for your quick investigations. With that patch I do not see
-the IO errors anymore so it seems it fixes my issues.
+On 17/08/2026 11:11 am, John Garry wrote:
+> On 17/08/2026 10:18, Christoph Hellwig wrote:
+>> On Mon, Aug 17, 2026 at 10:12:25AM +0100, John Garry wrote:
+>>> On 17/08/2026 09:36, Christoph Hellwig wrote:
+>>>> Hi all,
+>>>>
+>>>> I got reports that NVMe devices were arbitrarily limited to 128kiB
+>>>> transfers in recent kernel. 
+>>>
+>>> How recent a kernel? This NVMe and DMA mapping code has not changed 
+>>> in years as far as I know.
+>>
+>> This was hardware QA moving from an old distro kernel to a "recent" (aka
+>> still old) one.   But I've actually reproduced it locally on an
+>> upstream kernel.  I guess most kernel developers or power users simply
+>> do not run with IOMMU enabled.
+> 
+> Yeah, they don't like any performance hit.
+> 
+>>
+>>>> Both the NVMe performance numbers and common sense suggest that this
+>>>> is NOT the optimal DMA mapping granularity.  Can we pick a saner value
+>>>> for iommu_dma_opt_mapping_size that does not restrict common I/O sizes?
+>>>
+>>> Note that SCSI does not use iommu_dma_opt_mapping_size() for clamping 
+>>> max HW sectors, but instead sets opt size / max sectors from this 
+>>> value (so it is not a hard limit there). Could we consider similar 
+>>> for NVMe?
+>>
+>> We could consider that, but it would still reduce performane..
+>  > >> The reason for which we have iommu_dma_opt_mapping_size() is that
+>>> performance can go through the floor we can't use the rcache for 
+>>> getting the IOVA, i.e. we need to always alloc and dealloc an IOVA 
+>>> from the RB tree for each mapping, and this can greatly reduce 
+>>> performance when the IOVA space fills.
+>>>
+>>> If we increase IOVA_RANGE_CACHE_MAX_SIZE, then we just get caching of 
+>>> larger IOVAs and I am not sure that is a great idea.
+>>
+>> At least on the four different nvme devices I tested, the larger I/O
+>> sizes made up for this.  But maybe the details depend on other
+>> factors as well.
+> Are you saying that you tried increasing IOVA_RANGE_CACHE_MAX_SIZE and 
+> got better performance?
+> 
+> As I remember, I was told that the value of 6 for 
+> IOVA_RANGE_CACHE_MAX_SIZE was originally chosen from the value then in 
+> max page order, i.e. the idea was that we should not be getting 
+> streaming IOs larger than that value. But in looking at lore, 8 was very 
+> originally proposed, but I can't see any discussion on why that changed 
+> or any relation to page max order.
 
-Thanks
+ From a quick skim I can't spot any specific mention in the original 
+threads or accompanying paper, but I have a feeling it was as much about 
+just balancing memory consumption with observable performance 
+improvement, and larger sizes weren't significantly impactful to the 
+original testing, which did seem to be focused on networking rather than 
+storage.
 
-Eric
+Since these days we have the flexibly-sized depot, and now even 
+lazy-allocation of the CPU magazines, we might be in a better position 
+to consider scaling IOVA_RANGE_CACHE_MAX_SIZE up without too much 
+inherent overhead (I guess the base cost per level will just be 
+2*NR_CPUS + 1 pointers now). The larger sizes we cache, though, the more 
+it's also going to blow up IOVA consumption if freeing/reallocation 
+isn't well balanced across CPUs, so for devices/systems with limited 
+IOVA space, at some point the flush_rcache case is liable to start 
+adding more overhead than the caching itself saves...
+
+FWIW, my understanding of the idea we settled on for opt_mapping_size 
+was that it was never meant to be an absolute target, just a boundary 
+between where callers can expect "ideal" mapping performance, and where 
+it may start scaling with size/contention/etc., and thus it's for the 
+callers to judge whether larger sizes are still worth it for their 
+particular use-case.
+
+Thanks,
+Robin.
+
+> Some time ago I did try some work to allow IOVA_RANGE_CACHE_MAX_SIZE be 
+> set per IOMMU domain, but it was not merged. We went with 
+> dma_opt_mapping_size() solution instead.
+> 
+> https://lore.kernel.org/linux-scsi/1620656249-68890-1-git-send-email- 
+> john.garry@huawei.com/
+> 
+> 
 
 
