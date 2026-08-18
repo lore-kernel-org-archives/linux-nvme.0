@@ -4,78 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A9A72C5DF67
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2026 06:03:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ADE50C5DF67
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2026 06:03:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EsS2WpuQ78f1+PLmhLQx4yDIi+iJ4s+h13yCa0uKg0Q=; b=hpV+luPGT0Ezh9tsBmYZakjtTs
-	emPmEseiZNMeOlCM7bTZGDrgTEh6Q44cU4ZeTUPlmFrqDNBk3fKRRYvMCb9BwNrO36ZbtBdRW2/4Q
-	KVBZwWuRbeJQeURe4hMbYEpILhReNw97jt/hX8GwdrhufWcUmlRrQOp79CFRZV0UJxVn39cq47EEB
-	6pKtyBgeOTDlI3zjnFk7HHhUAn6iGBXuAfQc8IGvjG6eRRTzXJ5k5gmkFx3fZgtxX62VkFZDsm9Rt
-	x0du6z6kzEotns3mUrbC+5zCD2guncety5LLIyZfrtBKneDKhfWjE/jmbEr1S+WbjZp/byoVDtezN
-	fIBf5AiA==;
+	bh=Nis9dfnj0IQkbN06JcjcoUd3EWxyn7iXPcVuP3vmsVY=; b=hUybpo8mQZ5UzFpUQqWLBo65P/
+	HNFCHy9vjEnrWLsJfSyShzFW5yiuA4YpdUqyfGH3xbdy1+yo/GOQpRIWbbCVn6dfsvvVVgui+00NY
+	MuFvkgMNFyowO60/Vd6OYd+tNReTMmtJ+huyKHIf6isP2OOk27i9DdqE/0/asaNZpYyugaU8U3+Kg
+	GVn+7dxmFImMAhQB0iZHtNoRxif49w3Lxt7EzEMoW8/SOwRmJ8G5LpV+P5PSrc8q7kH8nvCdhotex
+	69iWnQSD414T+ivXLVUpBHyOAjBxrx03KtL0hgmiq+licnZCoS94lult37j/s4oDVI7bVARE3u8Nv
+	9gQWI3YA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwCvP-00000007NLp-0lZT;
-	Tue, 18 Aug 2026 06:03:51 +0000
-Received: from mailout3.samsung.com ([203.254.224.33])
+	id 1wwCvT-00000007NOb-1JJE;
+	Tue, 18 Aug 2026 06:03:55 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwCvK-00000007NFi-30ge
+	id 1wwCvS-00000007NNo-0gus
 	for linux-nvme@lists.infradead.org;
-	Tue, 18 Aug 2026 06:03:48 +0000
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20260818060335epoutp03602d8172cdd3041c3b29edea86457daf~M0Q8-z7h42951029510epoutp03K
-	for <linux-nvme@lists.infradead.org>; Tue, 18 Aug 2026 06:03:35 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20260818060335epoutp03602d8172cdd3041c3b29edea86457daf~M0Q8-z7h42951029510epoutp03K
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1787033015;
-	bh=EsS2WpuQ78f1+PLmhLQx4yDIi+iJ4s+h13yCa0uKg0Q=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=HlAS+CRi4Rn3tZMArb0eveMUxyWv/b6M4YcH1KRa3tgUAeSFl+FcZF3SzZAp2X/c4
-	 hDoz91oitjlmzUfDotPkIWhc/eib67fTEj1K11Fv/p7GvI7/dubxqMtHtUgSo8EWCy
-	 xh5jHVTLCD2PaDotO4/fL+Nhg3ula3m6hkIKK6/Q=
-Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPS id
-	20260818060335epcas5p2e9e5983ce7264bc238cc2dfda13d9924~M0Q8vLbKy1455214552epcas5p2W;
-	Tue, 18 Aug 2026 06:03:35 +0000 (GMT)
-Received: from epcas5p3.samsung.com (unknown [182.195.38.87]) by
-	epsnrtp01.localdomain (Postfix) with ESMTP id 4hPJzT5Hxdz6B9m6; Tue, 18 Aug
-	2026 06:03:33 +0000 (GMT)
-Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20260818060333epcas5p348cde01f8ce24cff3dd0de782f0bf48f~M0Q65cic82349123491epcas5p36;
-	Tue, 18 Aug 2026 06:03:33 +0000 (GMT)
-Received: from localhost.localdomain (unknown [107.99.41.245]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20260818060332epsmtip1e7ea88e708d29910e1288b3783efbfd0~M0Q50igMn3115631156epsmtip1G;
-	Tue, 18 Aug 2026 06:03:32 +0000 (GMT)
-From: Kanchan Joshi <joshi.k@samsung.com>
-To: kbusch@kernel.org, hch@lst.de, harimishal1@gmail.com, sagi@grimberg.me
-Cc: linux-nvme@lists.infradead.org, gregkh@linuxfoundation.org,
-	gost.dev@samsung.com, Kanchan Joshi <joshi.k@samsung.com>
-Subject: [PATCH v2 2/2] nvme: fix racy access to FDP placement id array
-Date: Tue, 18 Aug 2026 11:32:53 +0530
-Message-Id: <20260818060253.4104-3-joshi.k@samsung.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260818060253.4104-1-joshi.k@samsung.com>
+	Tue, 18 Aug 2026 06:03:54 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id E637940F83;
+	Tue, 18 Aug 2026 06:03:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56A441F000E9;
+	Tue, 18 Aug 2026 06:03:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787033033;
+	bh=Nis9dfnj0IQkbN06JcjcoUd3EWxyn7iXPcVuP3vmsVY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=A2UdzNx5HptTFp1gQu4gHG08W2f7E9uDmm+H84rYpZ/MMKbb035eG6R2U3tweQxiz
+	 bYwDEhkzx7I6kqFz+0t3tH2Xs74YWxY+uz00woRJt4BQTEtcfhzEfrncajoy6IN4/E
+	 1YxfoCTxEQVL0CDJeDaX/GRBHZL/xcpZK3RHLhkFuALkNJchkNObRyl6Ld0qj/Ip/A
+	 9tKkD2jh+sLGuWieQCxKqoZW2mbsOXDHEhvAFMPbD9zf4Y3m7efbMH1Bhma2GmlmI2
+	 4IH618bfievO8blR167r2NuPqm9yfl30vTAb7nA/F3YUjnARjMGOhjsURM7/ysvvB8
+	 IfiT8d1iQc6lg==
+From: Geliang Tang <geliang@kernel.org>
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	David Ahern <dsahern@kernel.org>,
+	Ido Schimmel <idosch@nvidia.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Hannes Reinecke <hare@suse.de>,
+	Stanislav Fomichev <sdf@fomichev.me>
+Cc: Geliang Tang <tanggeliang@kylinos.cn>,
+	linux-nvme@lists.infradead.org,
+	netdev@vger.kernel.org,
+	mptcp@lists.linux.dev
+Subject: [PATCH v4 3/4] nvmet-tcp: support IPv6 traffic class
+Date: Tue, 18 Aug 2026 14:03:02 +0800
+Message-ID: <bb4e028580bd0198f1dfd63dbd5608c5656cbe26.1786947923.git.tanggeliang@kylinos.cn>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <cover.1786947923.git.tanggeliang@kylinos.cn>
+References: <cover.1786947923.git.tanggeliang@kylinos.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20260818060333epcas5p348cde01f8ce24cff3dd0de782f0bf48f
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-cpgsPolicy: CPGSC10-542,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20260818060333epcas5p348cde01f8ce24cff3dd0de782f0bf48f
-References: <20260818060253.4104-1-joshi.k@samsung.com>
-	<CGME20260818060333epcas5p348cde01f8ce24cff3dd0de782f0bf48f@epcas5p3.samsung.com>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260817_230347_100542_2BEA474D 
-X-CRM114-Status: GOOD (  19.29  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,114 +83,59 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvme_query_fdp_info() is called per-path and therefore prone to races.
+From: Geliang Tang <tanggeliang@kylinos.cn>
 
-It populates head->nr_plids/head->plids for fdp registration.
-But nothing protects that pair from concurrent access - two paths scanning
-the same namespace can race to populate it.
+Currently, nvmet-tcp only applies the received IPv4 TOS value when setting
+up a queue socket, but does not handle the IPv6 traffic class.
 
-Avoid the race by moving this initialization work to nvme_alloc_ns_head()
-which is called once per shared namespace.
+Extend the queue socket setup to handle AF_INET6 sockets. Obtain the
+traffic class from the IPv6 socket's rcv_flowinfo and apply it through
+IPV6_TCLASS using do_sock_setsockopt().
 
-Fixes: 30b5f20bb2dd ("nvme: register fdp parameters with the block layer")
-Reported-by: Hari Mishal <harimishal1@gmail.com>
-Link: https://lore.kernel.org/linux-nvme/20260725135111.14041-2-harimishal1@gmail.com/
-Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+Signed-off-by: Geliang Tang <tanggeliang@kylinos.cn>
 ---
- drivers/nvme/host/core.c | 30 +++++++++++-------------------
- drivers/nvme/host/nvme.h |  1 +
- 2 files changed, 12 insertions(+), 19 deletions(-)
+ drivers/nvme/target/tcp.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index a2e0abf0ea8a..aa3c3b7d5544 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2341,14 +2341,6 @@ static int nvme_query_fdp_info(struct nvme_ns *ns, struct nvme_ns_info *info)
- 	size_t size;
- 	int i, ret;
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index 38b0c446ae89..ed413aa5601c 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -1737,6 +1737,22 @@ static int nvmet_tcp_sock_set_tos(struct sock *sk)
+ 	return 0;
+ }
  
--	/*
--	 * The FDP configuration is static for the lifetime of the namespace,
--	 * so return immediately if we've already registered this namespace's
--	 * streams.
--	 */
--	if (head->nr_plids)
--		return 0;
--
- 	ret = nvme_get_features(ctrl, NVME_FEAT_FDP, info->endgid, NULL, 0,
- 				&fdp);
- 	if (ret) {
-@@ -2395,6 +2387,7 @@ static int nvme_query_fdp_info(struct nvme_ns *ns, struct nvme_ns_info *info)
- 
- 	for (i = 0; i < head->nr_plids; i++)
- 		head->plids[i] = le16_to_cpu(ruhs->ruhsd[i].pid);
-+	head->write_stream_granularity = min(info->runs, U32_MAX);
- free:
- 	kfree(ruhs);
- 	return ret;
-@@ -2442,12 +2435,6 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
- 			goto out;
- 	}
- 
--	if (ns->ctrl->ctratt & NVME_CTRL_ATTR_FDPS) {
--		ret = nvme_query_fdp_info(ns, info);
--		if (ret < 0)
--			goto out;
--	}
--
- 	if (nvme_invalid_lba_sz(le64_to_cpu(id->nsze),
- 			id->lbaf[lbaf].ds - SECTOR_SHIFT, &capacity)) {
- 		dev_warn_once(ns->ctrl->device,
-@@ -2490,10 +2477,7 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
- 		capacity = 0;
- 
- 	lim.max_write_streams = ns->head->nr_plids;
--	if (lim.max_write_streams)
--		lim.write_stream_granularity = min(info->runs, U32_MAX);
--	else
--		lim.write_stream_granularity = 0;
-+	lim.write_stream_granularity = ns->head->write_stream_granularity;
- 
- 	/*
- 	 * Only set the DEAC bit if the device guarantees that reads from
-@@ -4042,15 +4026,23 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ns *ns,
- 	} else
- 		head->effects = ctrl->effects;
- 
-+	if (ctrl->ctratt & NVME_CTRL_ATTR_FDPS) {
-+		ret = nvme_query_fdp_info(ns, info);
-+		if (ret < 0)
-+			goto out_cleanup_srcu;
-+	}
++static int nvmet_tcp_sock_set_tclass(struct sock *sk)
++{
++#if IS_ENABLED(CONFIG_IPV6)
++	if (sk->sk_family == AF_INET6) {
++		int tclass = ip6_tclass(inet6_sk(sk)->rcv_flowinfo);
 +
- 	ret = nvme_mpath_alloc_disk(ctrl, head);
++		if (tclass > 0)
++			return do_sock_setsockopt(sk->sk_socket, false,
++						  SOL_IPV6, IPV6_TCLASS,
++						  KERNEL_SOCKPTR(&tclass),
++						  sizeof(tclass));
++	}
++#endif
++	return 0;
++}
++
+ static int nvmet_tcp_set_queue_sock(struct nvmet_tcp_queue *queue)
+ {
+ 	struct socket *sock = queue->sock;
+@@ -1772,6 +1788,10 @@ static int nvmet_tcp_set_queue_sock(struct nvmet_tcp_queue *queue)
  	if (ret)
--		goto out_cleanup_srcu;
-+		goto out_cleanup_fdp;
+ 		return ret;
  
- 	list_add_tail(&head->entry, &ctrl->subsys->nsheads);
- 
- 	kref_get(&ctrl->subsys->ref);
- 
- 	return head;
-+out_cleanup_fdp:
-+	kfree(head->plids);
- out_cleanup_srcu:
- 	cleanup_srcu_struct(&head->srcu);
- out_ida_remove:
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 75e5d5a8a77c..c20e8ef8baa0 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -571,6 +571,7 @@ struct nvme_ns_head {
- 
- 	u16			nr_plids;
- 	u16			*plids;
-+	u32			write_stream_granularity;
- #ifdef CONFIG_NVME_MULTIPATH
- 	struct bio_list		requeue_list
- 		__guarded_by(&requeue_lock);
++	ret = nvmet_tcp_sock_set_tclass(sock->sk);
++	if (ret)
++		return ret;
++
+ 	ret = 0;
+ 	write_lock_bh(&sock->sk->sk_callback_lock);
+ 	if (sock->sk->sk_state != TCP_ESTABLISHED) {
 -- 
-2.25.1
+2.53.0
 
 
