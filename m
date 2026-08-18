@@ -4,49 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D2EF6C5DF7D
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2026 16:30:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 97F73C5DF7D
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2026 16:31:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
 	Content-Transfer-Encoding:Content-Type:Message-ID:Date:Subject:To:From:
 	Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=rjgW8LwK6mEJwA83Y/FDojebuJigf9Ue9Khgrnv6kbE=; b=3dgcxDmTDxxpbl
-	/0NBSTgE/BVOSmhhHJCCblY6pGxS0pIQu5vBRCS2tFfxuIrg5n7Wedxk+eSiG0FdhM7S1YWdhxAVt
-	zvm8QC51F/exMebJvvGIXSZPLycOWJzWJpT7aV4Ukmk4V6/De6i7qX8DSPFRF5KX8Acr4JGi1gJ66
-	RQqSGejgvxIpLvp+61qoNaSejCxwi0w7T8DqiYo42ZqIapkPDtZqYvezIOjtobVSUf9DGRp9OgnF/
-	RWbtb87c+1Bo1fn9wNLFQhJn5HJAvnQbr6J58kXM61U98QEnG6/1tFPIOzkmuBA0nO6HXY9OKqmQw
-	Fv7urgOe97uqRB0nhFkQ==;
+	List-Owner; bh=G88Ko5HBVTHhFRR2TE2Youz5qooeeU01EKul632rERw=; b=D3jHb/OK5XKYsM
+	+xOLv4QU8DpuBniLEb+Cf+LMLFSGRZO6euWf57Qw6ZLmKNcxt7EMy95akHQmmNXpm1MXZ0ouG1Fw8
+	QsTSA2dcnUN3ZLO9QYKJ27uUQKG911j+0u51na+hd+DESR/heJovdrZvvSmTdKrdgP3PeAyqjdfKy
+	RPWbLmPpnpJ+FYxhNjo3q5hKkVqKkCWcnltsPYhe8MxJd19M4PH5zqtkqpeKeeyr1JMg21PGeQR58
+	oIitV3S78lRf2Xyglp0JtMSNXljkG9rT0ovtDO8D4NDPSEAS2RPLPJIh7hzBkR6OuKGabRxY9PMfV
+	+ECCINqbaTMhtm+ErIjg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwMi4-00000008Lk2-3zvp;
-	Tue, 18 Aug 2026 16:30:44 +0000
-Received: from out30-124.freemail.mail.aliyun.com ([115.124.30.124])
+	id 1wwMiS-00000008Lmz-0RYh;
+	Tue, 18 Aug 2026 16:31:08 +0000
+Received: from out30-112.freemail.mail.aliyun.com ([115.124.30.112])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwMi2-00000008Lj9-1XB3
+	id 1wwMiQ-00000008LmV-00YW
 	for linux-nvme@lists.infradead.org;
-	Tue, 18 Aug 2026 16:30:43 +0000
+	Tue, 18 Aug 2026 16:31:07 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1787070639; h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version;
-	bh=rjgW8LwK6mEJwA83Y/FDojebuJigf9Ue9Khgrnv6kbE=;
-	b=yE73pbX57Inl8Hat+HvNB2V3QhWXc3/j/ct710fgHKj+oeAWZIm2qYhcb3/M19wnMHJucYWwpia7mLsKgUsaZkoi52lBKSsaifyXPYToXSipAXA30x0wVW05ONmC6FWVZrUT8HsAb224Z2T7bIefnBxBLLOcrXGGrhDyEsjGQHw=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=chuyf26@linux.alibaba.com;NM=1;PH=DS;RN=1;SR=0;TI=SMTPD_---0X9E5Cas_1787070638;
-Received: from x31j07255.sqa.na131(mailfrom:Chuyf26@linux.alibaba.com fp:SMTPD_---0X9E5Cas_1787070638 cluster:ay36)
+	t=1787070663; h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version;
+	bh=G88Ko5HBVTHhFRR2TE2Youz5qooeeU01EKul632rERw=;
+	b=hAHFmrbOmS2PEx/ISI+4kqqVOLVbL659RCUQwg3xrr8LAHFUo33oRnX29PPSaDinyAaPdc6fOEHbTjWPE5geWRGw4nxcO/W6jA9z6nEX5NBEGDCHqEWlOO/PvOX6Kg/kR0bOwaIoZnKl3+WqT8IvXBMC9EcmkBxMATjQtFzTR0I=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037033178;MF=chuyf26@linux.alibaba.com;NM=1;PH=DS;RN=1;SR=0;TI=SMTPD_---0X9E4qry_1787070662;
+Received: from x31j07255.sqa.na131(mailfrom:Chuyf26@linux.alibaba.com fp:SMTPD_---0X9E4qry_1787070662 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Wed, 19 Aug 2026 00:30:39 +0800
+          Wed, 19 Aug 2026 00:31:03 +0800
 From: Chuyf26 <Chuyf26@linux.alibaba.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH] nvmet: verify the hostid when looking up a controller
-Date: Wed, 19 Aug 2026 00:29:09 +0800
-Message-ID: <178707054946.2644927.16076495238405774277@linux.alibaba.com>
+Subject: [PATCH] nvmet-auth: validate NEGOTIATE message length against the
+ transfer length
+Date: Wed, 19 Aug 2026 00:29:38 +0800
+Message-ID: <178707057800.2645263.18339408043463141529@linux.alibaba.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260818_093042_563066_5AF6EA8C 
-X-CRM114-Status: GOOD (  15.18  )
+X-CRM114-CacheID: sfid-20260818_093106_195123_A239F2A4 
+X-CRM114-Status: GOOD (  13.55  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,95 +62,98 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvmet_ctrl_find_get() matches controllers by cntlid and hostnqn only.
-The hostnqn is not a secret: any host that can reach the subsystem can
-put an arbitrary NQN into its connect data.  A malicious host knowing
-or guessing the NQN and controller ID of another host (controller IDs
-are allocated sequentially) can therefore attach its queues to that
-host's controller, issue commands on its behalf, or disturb its I/O by
-tearing down the shared controller state.
+nvmet_auth_negotiate() reads the protocol descriptor and then iterates
+over the hash and DH group id lists using the halen and dhlen counts
+from the received NEGOTIATE message, without checking that the lists
+fit into the buffer that was actually received.  The buffer is
+allocated with the transfer length from the AUTH_SEND command, which
+the host controls.  An unauthenticated host can therefore send a
+NEGOTIATE message with a small transfer length and large halen/dhlen
+values and read out of bounds from the heap buffer before
+authentication completes.
 
-The path is: an unauthenticated host sends a fabrics CONNECT command,
-nvmet_execute_fabrics_connect() parses the connect data capsule and
-hands subsysnqn, hostnqn and cntlid to nvmet_ctrl_find_get(), which
-returns the first matching controller.  The connect data also carries
-the host's hostid, but it is never compared.
+The path is: the host issues an AUTH_SEND command with the DH-HMAC-CHAP
+protocol identifier, nvmet_execute_auth_send() allocates a buffer of
+the transfer length tl from the command, copies the message into it and
+dispatches the NEGOTIATE message to nvmet_auth_negotiate().  halen and
+dhlen are single bytes, so the id list loops can read up to about 300
+bytes past the end of the kmalloc(tl) buffer.  The buffer is a heap
+object, so KASAN reports the over-read.
 
-Also require the hostid from the connect data to match the controller's
-hostid.  The hostid identifies the host installation and is generated
-locally, so it cannot be chosen by an attacker to impersonate another
-host.  Controllers that were created without a hostid keep the old
-behaviour.
+The REPLY and other received messages are already validated against
+the transfer length; do the same for NEGOTIATE by checking that the
+protocol descriptor and both id lists fit into the transfer length
+before reading them.
 
-Fixes: a07b4970f464 ("nvmet: add a generic NVMe target")
+Fixes: db1312dd9548 ("nvmet: implement basic In-Band Authentication")
 Reported-by: Abaci <abaci@linux.alibaba.com>
 Assisted-by: abaci:qwen3.8-max
 Signed-off-by: Chuyf26 <Chuyf26@linux.alibaba.com>
 ---
- drivers/nvme/target/core.c        | 12 ++++++++++++
- drivers/nvme/target/fabrics-cmd.c |  2 +-
- drivers/nvme/target/nvmet.h       |  1 +
- 3 files changed, 14 insertions(+), 1 deletion(-)
+ drivers/nvme/target/fabrics-cmd-auth.c | 21 +++++++++++++++++++--
+ 1 file changed, 19 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 7b6309d866be..64a5fa951bca 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -1287,6 +1287,7 @@ static void nvmet_init_cap(struct nvmet_ctrl *ctrl)
+diff --git a/drivers/nvme/target/fabrics-cmd-auth.c b/drivers/nvme/target/fab=
+rics-cmd-auth.c
+index ccd5dd3dac85..61a36724bae8 100644
+--- a/drivers/nvme/target/fabrics-cmd-auth.c
++++ b/drivers/nvme/target/fabrics-cmd-auth.c
+@@ -31,11 +31,19 @@ void nvmet_auth_sq_init(struct nvmet_sq *sq)
+ 	sq->dhchap_step =3D NVME_AUTH_DHCHAP_MESSAGE_NEGOTIATE;
+ }
 =20
- struct nvmet_ctrl *nvmet_ctrl_find_get(const char *subsysnqn,
- 				       const char *hostnqn, u16 cntlid,
-+				       const uuid_t *hostid,
- 				       struct nvmet_req *req)
+-static u8 nvmet_auth_negotiate(struct nvmet_req *req, void *d)
++static u8 nvmet_auth_negotiate(struct nvmet_req *req, void *d, u32 tl)
  {
- 	struct nvmet_ctrl *ctrl =3D NULL;
-@@ -1307,6 +1308,17 @@ struct nvmet_ctrl *nvmet_ctrl_find_get(const char *sub=
-sysnqn,
- 				pr_warn("hostnqn mismatch.\n");
- 				continue;
- 			}
-+			/* hostnqn alone does not identify a host: any host
-+			 * able to connect to the subsystem can claim it.
-+			 * Also require the hostid, which identifies the host
-+			 * installation, to match.  Accept a nil hostid only
-+			 * if the controller was created without one.
-+			 */
-+			if (!uuid_is_null(&ctrl->hostid) &&
-+			    !uuid_equal(&ctrl->hostid, hostid)) {
-+				pr_warn("hostid mismatch.\n");
-+				continue;
-+			}
- 			if (!kref_get_unless_zero(&ctrl->ref))
- 				continue;
+ 	struct nvmet_ctrl *ctrl =3D req->sq->ctrl;
+ 	struct nvmf_auth_dhchap_negotiate_data *data =3D d;
+ 	int i, hash_id =3D 0, fallback_hash_id =3D 0, dhgid, fallback_dhgid;
++	size_t proto_off =3D offsetof(struct nvmf_auth_dhchap_negotiate_data,
++				    auth_protocol);
++	size_t idlist_off =3D proto_off +
++		offsetof(struct nvmf_auth_dhchap_protocol_descriptor, idlist);
++
++	/* Validate that the protocol descriptor fits the transfer length */
++	if (tl < proto_off + sizeof(union nvmf_auth_protocol))
++		return NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD;
 =20
-diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-=
-cmd.c
-index e008f162ce68..9e0573b2aec9 100644
---- a/drivers/nvme/target/fabrics-cmd.c
-+++ b/drivers/nvme/target/fabrics-cmd.c
-@@ -311,7 +311,7 @@ static void nvmet_execute_io_connect(struct nvmet_req *re=
-q)
- 	d->subsysnqn[NVMF_NQN_FIELD_LEN - 1] =3D '\0';
- 	d->hostnqn[NVMF_NQN_FIELD_LEN - 1] =3D '\0';
- 	ctrl =3D nvmet_ctrl_find_get(d->subsysnqn, d->hostnqn,
--				   le16_to_cpu(d->cntlid), req);
-+				   le16_to_cpu(d->cntlid), &d->hostid, req);
- 	if (!ctrl) {
- 		status =3D NVME_SC_CONNECT_INVALID_PARAM | NVME_SC_DNR;
- 		goto out;
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 9aef41c26415..137860ec4b28 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -532,6 +532,7 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *h=
-ostnqn,
- 		uuid_t *hostid);
- struct nvmet_ctrl *nvmet_ctrl_find_get(const char *subsysnqn,
- 				       const char *hostnqn, u16 cntlid,
-+				       const uuid_t *hostid,
- 				       struct nvmet_req *req);
- void nvmet_ctrl_put(struct nvmet_ctrl *ctrl);
- u16 nvmet_check_ctrl_status(struct nvmet_req *req);
+ 	pr_debug("%s: ctrl %d qid %d: data sc_d %d napd %d authid %d halen %d dhlen=
+ %d\n",
+ 		 __func__, ctrl->cntlid, req->sq->qid,
+@@ -53,6 +61,10 @@ static u8 nvmet_auth_negotiate(struct nvmet_req *req, void=
+ *d)
+ 	    NVME_AUTH_DHCHAP_AUTH_ID)
+ 		return NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD;
+=20
++	/* Validate that the hash id list fits the transfer length */
++	if (tl < idlist_off + data->auth_protocol[0].dhchap.halen)
++		return NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD;
++
+ 	for (i =3D 0; i < data->auth_protocol[0].dhchap.halen; i++) {
+ 		u8 host_hmac_id =3D data->auth_protocol[0].dhchap.idlist[i];
+=20
+@@ -78,6 +90,11 @@ static u8 nvmet_auth_negotiate(struct nvmet_req *req, void=
+ *d)
+=20
+ 	dhgid =3D -1;
+ 	fallback_dhgid =3D -1;
++
++	/* The DH group id list starts at idlist offset 30 */
++	if (tl < idlist_off + 30 + data->auth_protocol[0].dhchap.dhlen)
++		return NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD;
++
+ 	for (i =3D 0; i < data->auth_protocol[0].dhchap.dhlen; i++) {
+ 		int tmp_dhgid =3D data->auth_protocol[0].dhchap.idlist[i + 30];
+=20
+@@ -265,7 +282,7 @@ void nvmet_execute_auth_send(struct nvmet_req *req)
+ 		} else if (data->auth_id !=3D req->sq->dhchap_step)
+ 			goto done_failure1;
+ 		/* Validate negotiation parameters */
+-		dhchap_status =3D nvmet_auth_negotiate(req, d);
++		dhchap_status =3D nvmet_auth_negotiate(req, d, tl);
+ 		if (dhchap_status =3D=3D 0)
+ 			req->sq->dhchap_step =3D
+ 				NVME_AUTH_DHCHAP_MESSAGE_CHALLENGE;
 --=20
 2.43.5
 
