@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DBA0AC5DF70
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2026 06:03:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 71B0FC5DF70
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2026 06:03:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=V9Szkgv2uln62JPBOa1EuVKyOTJ9UGVh4SfukLg25ME=; b=4YNVqeJw/Rl4jBxgGiPeFEghLu
-	ah3LccUQ2ymycRQ/DbEbaCuJ3kXqOAoCCGwn9iWKs+Dms2zTIPUgiXBs3Fu3vaKgMkTJxGuMLWq4P
-	PZQsM59Xovu2joaiKZmmAHqDKgHs6Yf4/VqIXc3J6rkqH5aZMfZXbz6Tcp+qSEMMWp+cjgOCaQve5
-	wtTJKRQGGtyQ55saYvVxgS4zFwqfmAZjPggQMZQF8CC4Wa1lxN6llEYrLzG1KGy2/b8awJijH2ozv
-	AuV4kFsmWL6Bba05yP35DO/ZM7qDApGu7Q1FUAAPskp5a1gA4T7502+i5rMWdmAxlpL+KpYcKwpo1
-	s7ig+m4g==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=7e86Qnm6H9Lggduhxe1ZAqQOUAeMCD6ncoq8Z1k+VhA=; b=lJrQeS65OQbnBoBf6oGqOGW8Uo
+	Z5zip7yAlYI1gIShVYdK9tgFRnlQbtERQQHoPwM7fVgE0vyqpLGi6Qr6r/rs6uE+UbLs4WZC6j8I5
+	6XdvZWacaXig0yqyNCd6Y3+FVKaPZ/yecNzwu3ekCgrVfRYWmLhsaX+KzwJm/9fLHDVFr0d8pbF9P
+	cyrGYHT1M+10kxP1eBf7Kesgp9PnfMKOcZJBxKqf65bNhrzIPKuH+kI2/9bryrh7TbF5Jg7X855xD
+	zAV8FrNK2sk80LthWiEvxgreV5/L6uQOcHqBP3bWr1sQ50bb+i55/JZq6jykkoiHh5yM7C9oojAKc
+	Q8276J8A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwCv7-00000007NEY-1i6M;
-	Tue, 18 Aug 2026 06:03:33 +0000
+	id 1wwCvE-00000007NFp-2CiI;
+	Tue, 18 Aug 2026 06:03:40 +0000
 Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwCv6-00000007NEQ-0jlp
+	id 1wwCvD-00000007NFb-1A4Q
 	for linux-nvme@lists.infradead.org;
-	Tue, 18 Aug 2026 06:03:32 +0000
+	Tue, 18 Aug 2026 06:03:39 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id EB457600AB;
-	Tue, 18 Aug 2026 06:03:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9E591F000E9;
-	Tue, 18 Aug 2026 06:03:23 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id B53EA600C8;
+	Tue, 18 Aug 2026 06:03:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB9A91F00A3D;
+	Tue, 18 Aug 2026 06:03:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787033010;
-	bh=V9Szkgv2uln62JPBOa1EuVKyOTJ9UGVh4SfukLg25ME=;
-	h=From:To:Cc:Subject:Date;
-	b=c65zJeqhLZzEwBgVwv4bwA7V93TKpjb35hfmmLWpuz84ipg0v1C1K4tqPdN4M7004
-	 z78ca1fP+OslMgHGPWsb7bBM3dL4WOpi2fc+QKx7nnDCST1mcOFm6WwL8WWYUvCOLf
-	 YLe3IvPB5EpPeUsqN5TuUwpIUu2nY3FdL9jq7fcG4DBslll3uLQf7XmnbpGJl93piw
-	 w+HVvYUd/S28wR9R3mBEOtmLdCa3TQwnR371QBKi8LnFWHzh2nRduV3zKFWCMZ8Fui
-	 reYd3xtHPuJHVYq7v4iKX5AnIzDxma9Ua9Q+QX+kzwgwEicXN6e8ZqqdLT9bvL+hhr
-	 5R7XUYvxFw/VA==
+	s=k20260515; t=1787033018;
+	bh=7e86Qnm6H9Lggduhxe1ZAqQOUAeMCD6ncoq8Z1k+VhA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=YQvaLOa5c6oxVX8Pxnmnc1HtrWESrl48NVxshGoB0SIcZRdBB9I4jTfDm12HPRFrI
+	 zD5SgOpN0Sm0+1uH16MG9WTcXlJIJkIFUuMWaVBdMOTDF8W5SgVlpV8+kJp9e6kHhG
+	 TLffkfBScnLSk3gBjUSdFRQpuQbQ9n+HaHJ9T14HkVCSUg+2enysOsved6Agbb87IF
+	 PVLqrgDciWnfsPPS1eYKKKkSMcx2VJP8C0m1+BbLGrReqr2bwbSqcPOcVE0xoRYw9S
+	 b1UFQ8+iaMqAmXrd0rtnhnEX+xzEMksHEdGasugGoM+T1cnuhCF5SKvmGMflI36j1A
+	 6rTS4wCfkLHww==
 From: Geliang Tang <geliang@kernel.org>
 To: Keith Busch <kbusch@kernel.org>,
 	Jens Axboe <axboe@kernel.dk>,
@@ -61,10 +61,12 @@ Cc: Geliang Tang <tanggeliang@kylinos.cn>,
 	linux-nvme@lists.infradead.org,
 	netdev@vger.kernel.org,
 	mptcp@lists.linux.dev
-Subject: [PATCH v4 0/4] nvme-tcp: add IPv6 traffic class support
-Date: Tue, 18 Aug 2026 14:02:59 +0800
-Message-ID: <cover.1786947923.git.tanggeliang@kylinos.cn>
+Subject: [PATCH v4 1/4] nvmet-tcp: unify sockopt with do_sock_setsockopt
+Date: Tue, 18 Aug 2026 14:03:00 +0800
+Message-ID: <010e6810cc4c10b30237c964b2bb9dfa7a3c740c.1786947923.git.tanggeliang@kylinos.cn>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <cover.1786947923.git.tanggeliang@kylinos.cn>
+References: <cover.1786947923.git.tanggeliang@kylinos.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -83,69 +85,136 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Geliang Tang <tanggeliang@kylinos.cn>
 
-This series adds IPv6 traffic class (tclass) support to the NVMe/TCP
-fabrics stack, mirroring the existing IPv4 TOS configuration.
+This patch consolidates socket option settings in nvmet-tcp by utilizing
+the generic do_sock_setsockopt() helper for options including SO_LINGER,
+SO_PRIORITY, SO_REUSEADDR, TCP_NODELAY, and IP_TOS. This change eliminates
+the need to export and use specialized helpers for each individual socket
+option.
 
-The current code path only handles IPv4: nvme-fabrics exposes a 'tos'
-option, the host (nvme-tcp) applies IP_TOS to each queue socket, and
-the target (nvmet-tcp) reflects the value received on the wire. This
-leaves no way to control or observe the IPv6 traffic class for NVMe/TCP
-connections, which is a real gap for deployments running over IPv6 that
-need a non-default tclass.
+A key benefit of this refactoring is that it decouples the socket option
+configuration from the underlying transport protocol. This makes it
+easier to extend nvmet-tcp to support other protocols, such as MPTCP, in
+the future, as do_sock_setsockopt() abstracts away protocol-specific
+differences without requiring per-option protocol-specific wrappers.
 
-The series also refactors the socket option configuration on both host
-and target sides to use the generic do_sock_setsockopt() helper. This
-change eliminates the need for protocol-specific helpers and decouples
-the configuration from the underlying transport protocol, laying the
-groundwork for future protocol extensions such as MPTCP.
+Signed-off-by: Geliang Tang <tanggeliang@kylinos.cn>
+---
+ drivers/nvme/target/tcp.c | 82 ++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 72 insertions(+), 10 deletions(-)
 
-The series is split into two logical parts: the do_sock_setsockopt
-refactoring (patches 1-2) and the IPv6 traffic class support (patches
-3-4), following the natural host/target layering.
-
-This was tested with the selftests mptcp_nvme.sh [1] to pass "--tos"
-on the host side and validate that the value is reflected on the wire
-by the target.
-
-[1]
-https://patchwork.kernel.org/project/linux-nvme/cover/cover.1779934709.git.tanggeliang@kylinos.cn/
-
-v4:
- - check return values of do_sock_setsockopt, as suggested by Sashiko.
- - change "u8 tclass" to "int tclass" in nvmet_tcp_sock_set_tclass,
-   as suggested by Sashiko.
- - change "u8 tos" to "int tos" in nvmet_tcp_sock_set_tos.
-
-v3:
- - add two patches to unify socket option configuration using
-   do_sock_setsockopt on both host and target sides.
- - use do_sock_setsockopt for IPV6_TCLASS rather than exporting and
-   calling ip6_sock_set_tclass, as suggested by Jakub.
- - reuse the existing NVMF_OPT_TOS for IPv6 sockets instead of adding
-   a new NVMF_OPT_TCLASS option, as suggested by Stanislav.
- - https://patchwork.kernel.org/project/linux-nvme/cover/cover.1786841319.git.tanggeliang@kylinos.cn/
-
-v2:
- - Export and use the ip6_sock_set_tclass() helper in both target and host
-   paths, aligning with the existing ip_sock_set_tos() usage.
- - Add CONFIG_IPV6 and AF_INET6 guards to avoid build failures when IPv6
-   is disabled.
- - Use rcv_flowinfo from the target socket instead of np->tclass.
- - https://patchwork.kernel.org/project/linux-nvme/cover/cover.1786171863.git.tanggeliang@kylinos.cn/
-
-v1:
- - https://patchwork.kernel.org/project/linux-nvme/cover/cover.1785122120.git.tanggeliang@kylinos.cn/
-
-Geliang Tang (4):
-  nvmet-tcp: unify sockopt with do_sock_setsockopt
-  nvme-tcp: unify sockopt with do_sock_setsockopt
-  nvmet-tcp: support IPv6 traffic class
-  nvme-tcp: support IPv6 traffic class
-
- drivers/nvme/host/tcp.c   | 111 ++++++++++++++++++++++++++++++++++----
- drivers/nvme/target/tcp.c | 102 +++++++++++++++++++++++++++++++----
- 2 files changed, 193 insertions(+), 20 deletions(-)
-
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index 75a276d73be3..38b0c446ae89 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -1696,10 +1696,50 @@ static void nvmet_tcp_state_change(struct sock *sk)
+ 	read_unlock_bh(&sk->sk_callback_lock);
+ }
+ 
++static int nvmet_tcp_sock_no_linger(struct sock *sk)
++{
++	struct linger ling = { .l_onoff = 1, .l_linger = 0 };
++
++	return do_sock_setsockopt(sk->sk_socket, false, SOL_SOCKET, SO_LINGER,
++				  KERNEL_SOCKPTR(&ling), sizeof(ling));
++}
++
++static int nvmet_tcp_sock_set_priority(struct sock *sk, u32 priority)
++{
++	return do_sock_setsockopt(sk->sk_socket, false, SOL_SOCKET, SO_PRIORITY,
++				  KERNEL_SOCKPTR(&priority), sizeof(priority));
++}
++
++static int nvmet_tcp_sock_set_reuseaddr(struct sock *sk)
++{
++	int val = SK_CAN_REUSE;
++
++	return do_sock_setsockopt(sk->sk_socket, false, SOL_SOCKET,
++				  SO_REUSEADDR, KERNEL_SOCKPTR(&val),
++				  sizeof(val));
++}
++
++static int nvmet_tcp_sock_set_nodelay(struct sock *sk)
++{
++	int val = 1;
++
++	return do_sock_setsockopt(sk->sk_socket, false, SOL_TCP, TCP_NODELAY,
++				  KERNEL_SOCKPTR(&val), sizeof(val));
++}
++
++static int nvmet_tcp_sock_set_tos(struct sock *sk)
++{
++	int tos = inet_sk(sk)->rcv_tos;
++
++	if (tos > 0)
++		return do_sock_setsockopt(sk->sk_socket, false, SOL_IP, IP_TOS,
++					  KERNEL_SOCKPTR(&tos), sizeof(tos));
++	return 0;
++}
++
+ static int nvmet_tcp_set_queue_sock(struct nvmet_tcp_queue *queue)
+ {
+ 	struct socket *sock = queue->sock;
+-	struct inet_sock *inet = inet_sk(sock->sk);
+ 	int ret;
+ 
+ 	ret = kernel_getsockname(sock,
+@@ -1717,14 +1757,20 @@ static int nvmet_tcp_set_queue_sock(struct nvmet_tcp_queue *queue)
+ 	 * close. This is done to prevent stale data from being sent should
+ 	 * the network connection be restored before TCP times out.
+ 	 */
+-	sock_no_linger(sock->sk);
++	ret = nvmet_tcp_sock_no_linger(sock->sk);
++	if (ret)
++		return ret;
+ 
+-	if (so_priority > 0)
+-		sock_set_priority(sock->sk, so_priority);
++	if (so_priority > 0) {
++		ret = nvmet_tcp_sock_set_priority(sock->sk, so_priority);
++		if (ret)
++			return ret;
++	}
+ 
+ 	/* Set socket type of service */
+-	if (inet->rcv_tos > 0)
+-		ip_sock_set_tos(sock->sk, inet->rcv_tos);
++	ret = nvmet_tcp_sock_set_tos(sock->sk);
++	if (ret)
++		return ret;
+ 
+ 	ret = 0;
+ 	write_lock_bh(&sock->sk->sk_callback_lock);
+@@ -2098,10 +2144,26 @@ static int nvmet_tcp_add_port(struct nvmet_port *nport)
+ 	port->sock->sk->sk_user_data = port;
+ 	port->data_ready = port->sock->sk->sk_data_ready;
+ 	port->sock->sk->sk_data_ready = nvmet_tcp_listen_data_ready;
+-	sock_set_reuseaddr(port->sock->sk);
+-	tcp_sock_set_nodelay(port->sock->sk);
+-	if (so_priority > 0)
+-		sock_set_priority(port->sock->sk, so_priority);
++	ret = nvmet_tcp_sock_set_reuseaddr(port->sock->sk);
++	if (ret) {
++		pr_err("failed to set SO_REUSEADDR on port socket %d\n", ret);
++		goto err_sock;
++	}
++
++	ret = nvmet_tcp_sock_set_nodelay(port->sock->sk);
++	if (ret) {
++		pr_err("failed to set TCP_NODELAY on port socket %d\n", ret);
++		goto err_sock;
++	}
++
++	if (so_priority > 0) {
++		ret = nvmet_tcp_sock_set_priority(port->sock->sk, so_priority);
++		if (ret) {
++			pr_err("failed to set SO_PRIORITY on port socket %d\n",
++			       ret);
++			goto err_sock;
++		}
++	}
+ 
+ 	ret = kernel_bind(port->sock, (struct sockaddr_unsized *)&port->addr,
+ 			sizeof(port->addr));
 -- 
 2.53.0
 
