@@ -4,121 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 29C28C5DF7D
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2026 09:59:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4BE14C5DF7E
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2026 11:05:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/wbL1+SE+ksHe5t9mse0VA4gf4msWrjpt/QHOCY2mhg=; b=XTb+HUpnwq5uGJ9o9WOGA1gqSq
-	IzJbCaYpa7DSFBiTcK7ili8zAF9haYKsVbYlCJjfG+hRrpD2qmM1fJG16feFn7nLh/PffFRwCj1pa
-	+uJbN9ZHUyjMb6YTQeiLoMlwiCVwj+vuMEmX35/aHCJondQNqyQO1uP+/P88g0wMIg41544tVeSnN
-	kr3bFiBg+zC0JDbNAeQpXGfZIExV67KQeG9KkjgvjDZ5l/2X/cihge97ANOHxoshyupnre2xli8ty
-	ci7JhDOSBf1MX7EEXNcs5p1og3t6bagK/f1x+DTs8uflCD7Owp03ht0PE8Wdg3zHe7jgzzwCDO9+t
-	dSsvPOTg==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=F00tHSyJsJ6CzdE6v/TT1V5MB6XClnKFlQNlIPg7vzw=; b=eMW+uOqlNb63Lh7JCjUVOhV3g3
+	X3ZWXpXD2alxwxr2vJSuOTU2BAgDPVZ75K2Gg6w7AtGHBBSKs9SHLsfvAAKUdUpfVrsMX0VU5n6sZ
+	OB1DS3KemGyJZS/TQEwM30wYIEgaZwxqQ8tGbfY8+TdHUdAFJfjGRMTAUzgwkM0FuBrTh58oS2z4G
+	+nGetW4vU9/vmCrWiQODQGuUVqsTUDDuxiJTiasXrguWsU2bnxg+plZ2pg7XBktv6YVy0XpSA/uG1
+	ynE4XlW3wFHGpv88nnn7IGe7OTOsTTD+Oik/ADhrmVCLgAECLuiY5QYnCyUdGDtFeZ3ONcVkNj80I
+	TaAD1l7Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwGb6-00000007gdn-2hht;
-	Tue, 18 Aug 2026 09:59:08 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1wwHdI-00000007oEZ-3Sdb;
+	Tue, 18 Aug 2026 11:05:28 +0000
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwGb4-00000007gd0-2rWS
+	id 1wwHdG-00000007oDo-0Ghs
 	for linux-nvme@lists.infradead.org;
-	Tue, 18 Aug 2026 09:59:08 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 05A233E48;
-	Tue, 18 Aug 2026 09:58:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1787047140; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/wbL1+SE+ksHe5t9mse0VA4gf4msWrjpt/QHOCY2mhg=;
-	b=zCY/k+GgLoBOHb3UGVxa4vSjyCDqrPDk1CRoPUiblOFPwQVHolPuaGig1Ku/iTXMGI4mtu
-	J4vVMbs/oAysUW3aJ5rwLhSmOA3m/vaAwjq5Te2cqqyaNVgc6cxCl9Owe0D7ZYC+EIfBTh
-	xO+o3NIfkmLNbUncQGMJACJDPod5h4Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1787047140;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/wbL1+SE+ksHe5t9mse0VA4gf4msWrjpt/QHOCY2mhg=;
-	b=bFpegPRycb0cuHXjw553+5hM4eWXNt1eqogD42G6/cuWshkjE9cMnk+xtInfNxblDBYR4q
-	iacg2f1ssYpzNxDA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1787047136; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/wbL1+SE+ksHe5t9mse0VA4gf4msWrjpt/QHOCY2mhg=;
-	b=naOBDlcF22sqNkJv1THOrzJdpWw7JHr8JQqn6GtoGg/6rKdfxLVXnMXQXaNg+jWUu5TOMb
-	rdw0Bxa9MZra6oxOuNIenctdAgi0/eepWP6rvv+QuQmS3J9EGviZuj4NYyPLCGkyAnLfLd
-	T9C3cQCitNjtWwxASNUKDf5xjZI169w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1787047136;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/wbL1+SE+ksHe5t9mse0VA4gf4msWrjpt/QHOCY2mhg=;
-	b=B3Ir3s47y1lu855PobnpqXFA1V79iF1I1/lMQPbHK797ihoF+nD9CK487ubizl1W2CHi4x
-	3wIHQzezV8A1WJCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D526022BA;
-	Tue, 18 Aug 2026 09:58:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id XOJxM98shGqNdgAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 18 Aug 2026 09:58:55 +0000
-Message-ID: <d11d3377-a4b3-45dc-b812-9dd06c8a2a38@suse.de>
-Date: Tue, 18 Aug 2026 11:58:55 +0200
+	Tue, 18 Aug 2026 11:05:28 +0000
+Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-2cedda2ce6fso29376765ad.1
+        for <linux-nvme@lists.infradead.org>; Tue, 18 Aug 2026 04:05:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=isslab-korea-ac-kr.20251104.gappssmtp.com; s=20251104; t=1787051124; x=1787655924; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=F00tHSyJsJ6CzdE6v/TT1V5MB6XClnKFlQNlIPg7vzw=;
+        b=BkGvJk9ma7snUynbxkX3BUrGDqghGvTIv4h27W/WrgCMEclsOxfK2GoAd+YG0IzufP
+         3XOJWi/6RFEUEUkjmG9DSdsaArOYQPTD0CrYwXcxVCHM6N/u/BMsosuXaol2RVOKKsIb
+         S5z1yCYY3WaxJKf7vKskPh4GPvnRZKSfk/zc6E19q2Ds3gaws/hggH+bNfhwXJLjKhOj
+         +5IO2khiwlelsg6n3hQE4vmSmqGN65wg2fEHZjwP2B2hUjFrB/mrB0Q5WFL7QpdyI30/
+         1NuGYTUVDlcGFsFJviLgt8RGyAEl4AOcsjV+JHbSknK0NXyndmwNsKijAFA6glHzCZTT
+         EH1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787051124; x=1787655924;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=F00tHSyJsJ6CzdE6v/TT1V5MB6XClnKFlQNlIPg7vzw=;
+        b=dnYv4hO0jirXyS+WzOeNoLnBTiFvTw/sDMSchNi1jwDKMNRm+WqYymVyGVETS2EZq/
+         6QBoyIhNjc1Br1nHRPTJHq5mx0vbA33abxTfNOzzoNiHNxOu5tbyrIJgezpbri8/p3dn
+         a6VgZTQn/cfWmcgfRLaeQEPuD6GGpGXaWvicsSQe7u4aTCYjVY+gfWZdgr+5939If5gz
+         DzLaDnPTfWTw5WxotDfpcwtDyT0f2X1F3DjAEnadQ7Hq1KcuxPtwO9gV/bLmHWSfMeGO
+         2jm7amm4lUktMilDNzPaUUSoEJkFAYkaQD1IrmycLNFKGd6g4KEiTvI+57/vDxRCLdZT
+         qztQ==
+X-Gm-Message-State: AOJu0Ywazk4r6qcx7hmLCIYRqzOqDPabi3KihC9FljP4Q0OlbJrV9P4r
+	EZoz/O7VnjZhgwW7gDcwu4TY3wVBLKF80KI+uarKUChicgNAobh61T/3FI0scpf2WFbzPR+ZLwH
+	pR92Wuno=
+X-Gm-Gg: AR+sD12MUyaeNkcapkG9yRLn1+gI2C86lEV0mGP7cwckHnuXbqlq5SrNGn5c5Vh272x
+	gRV7f4yijDRMsk6JxjH9tus5Lu/LefFnhwkqQI4AnWgPsmW2B0UGOLdZV27tTr9x6gAcpta+4vV
+	rBWhnY3uCuPeRVUSPDj1+JbqmKAZXyuJnqAL+68ToN4/ID9XniHm2tN0O4J0LlyztslBZogT+Qr
+	pEac9Crk2fArka0e1GRi9hrP/3j/Wvo5uIOsOpr2LWQzQPl5eoQDWB1SIzN2v+V8o4L0rkMgBaA
+	jWv3TSElcxvp70Dl6RTJRsLK0ZFNpenDR1ydCC0QRp28gJv/YON225B3GkLlU08kEn6K89h/4sb
+	0AO1VsEo/JS17Dt2xvoa/zNAfFw3boLPlqA6xTHlEhDegjylu8ShSdcBBLDQMO6Ri1Kqy9gvB+r
+	ZP+H5VM6/tqodtApAmlaRDEAC91n2A36zCfitcWStlpwjK9nsD4tpHlEVlCkQ8LYnC2R4R
+X-Received: by 2002:a17:903:2311:b0:2cf:afe8:b722 with SMTP id d9443c01a7336-2d5c5149013mr98394785ad.11.1787051123928;
+        Tue, 18 Aug 2026 04:05:23 -0700 (PDT)
+Received: from yhlee-960QFG.. ([125.131.91.97])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d5bcf36500sm15298765ad.5.2026.08.18.04.05.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Aug 2026 04:05:23 -0700 (PDT)
+From: Yehyeong Lee <yhlee@isslab.korea.ac.kr>
+To: linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me,
+	linux-kernel@vger.kernel.org,
+	Yehyeong Lee <yhlee@isslab.korea.ac.kr>,
+	stable@vger.kernel.org
+Subject: [PATCH] nvme-tcp: check the data direction of a C2HData PDU
+Date: Tue, 18 Aug 2026 20:04:05 +0900
+Message-ID: <20260818110405.590548-1-yhlee@isslab.korea.ac.kr>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 03/10] block: support nesting for blk-mq flag
- QUEUE_FLAG_SAME_FORCE
-To: Nilay Shroff <nilay@linux.ibm.com>, linux-nvme@lists.infradead.org
-Cc: kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, dwagner@suse.de,
- kanie@linux.alibaba.com, jmeneghi@redhat.com, randyj@purestorage.com,
- martin.petersen@oracle.com, john.g.garry@oracle.com, gjoyce@linux.ibm.com
-References: <20260815173502.1185929-1-nilay@linux.ibm.com>
- <20260815173502.1185929-4-nilay@linux.ibm.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20260815173502.1185929-4-nilay@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.992];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260818_025906_879340_0BB4CE45 
-X-CRM114-Status: GOOD (  18.47  )
+X-CRM114-CacheID: sfid-20260818_040526_261736_125317DA 
+X-CRM114-Status: GOOD (  21.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -133,54 +100,86 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 8/15/26 7:34 PM, Nilay Shroff wrote:
-> QUEUE_FLAG_SAME_FORCE is currently used when setting rq_affinity
-> through sysfs as well as by UFS mediatek driver while configuring scsi
-> parameters. A subsequent patch adding a latency-based I/O policy
-> for NVMe multipath will also use this flag.
-> 
-> With multiple users able to set and clear QUEUE_FLAG_SAME_FORCE, the
-> flag needs to support nesting so that one user clearing the flag does
-> not inadvertently disable it for another user.
-> 
-> Add a nesting counter, q->same_force_depth, for QUEUE_FLAG_SAME_FORCE.
-> The flag is set when the first user acquires it and the nesting counter
-> is incremented for each subsequent user. Similarly, each user releases
-> its reference by decrementing the counter. The flag is cleared only
-> when the last user releases it and the counter reaches zero.
-> 
-> Preserve the existing sysfs rq_affinity semantics with a new
-> q->same_force_sysfs flag. When userspace enables QUEUE_FLAG_SAME_FORCE
-> by writing 2 to rq_affinity, mark q->same_force_sysfs as set and
-> increment q->same_force_depth by one. Subsequent writes of 2 to
-> rq_affinity while q->same_force_sysfs is already set are ignored, so
-> repeated writes of 2 from userspace do not increase q->same_force_depth.
-> Similarly, writing 0 or 1 decrements the q->same_force_depth and if
-> nesting counter reached to 0 then clears the QUEUE_FLAG_SAME_FORCE.
-> This ensures that multiple writes of 2 to rq_affinity do not require
-> multiple writes of 0 or 1.
-> 
-> This change ensures that sysfs interface retains its existing set/clear
-> semantics while also allowing other kernel users to hold or release
-> QUEUE_FLAG_SAME_FORCE.
-> 
-> Added two new APIs blk_mq_same_force_set() and blk_mq_same_force_clear()
-> to set and clear QUEUE_FLAG_SAME_FORCE respectively. Also, updated
-> existing call paths using these new APIs which toggles
-> QUEUE_FLAG_SAME_FORCE.
-> 
-Yikes. Is this really necessary?
-The flag can be set by different subsystems/drivers, sure, but from
-what I've seen each user is mutually exclusive.
-I'd rather disallow modifying this flag if the driver sets it, to
-avoid upper layers or sysfs modifying it.
+nvme_tcp_handle_c2h_data() finds the request by command id and checks
+that it has a payload, but it does not check that the command asked for
+data to be read.  A controller that answers a write command with C2HData
+therefore reaches nvme_tcp_recv_data(), where _copy_to_iter() hits
+WARN_ON_ONCE(i->data_source) and returns 0.  The receive path turns that
+into -EFAULT and resets the controller.
 
-Cheers,
+No data is copied, so this is not memory corruption.  What a controller
+gets is a kernel warning it can raise at will, which is fatal on a host
+booted with panic_on_warn.
 
-Hannes
+The send path already knows the direction - it consults rq_data_dir()
+when it builds a command - and nvme_tcp_handle_r2t() checks the length
+and the offset of the request it names.  The C2HData path does not check
+the direction at all.
+
+Reject a C2HData PDU whose command is not a read.  Rejecting it fails
+the command and resets the controller, as the neighbouring check in this
+function does; what goes away is the warning.
+
+  [    6.885580] ------------[ cut here ]------------
+  [    6.886457] WARNING: lib/iov_iter.c:193 at _copy_to_iter+0x289/0x1330, CPU#0: kworker/0:1H/71
+  [    6.888137] CPU: 0 UID: 0 PID: 71 Comm: kworker/0:1H Not tainted 7.2.0-rc5-NVMETCP-gf5098b6bae76 #1 PREEMPT(lazy) 
+  [    6.891165] Workqueue: nvme_tcp_wq nvme_tcp_io_work
+  [    6.891875] RIP: 0010:_copy_to_iter+0x289/0x1330
+  [    6.903739] Call Trace:
+  [    6.904085]  <TASK>
+  [    6.909254]  __skb_datagram_iter+0x433/0x820
+  [    6.911026]  skb_copy_datagram_iter+0x37/0x120
+  [    6.911622]  nvme_tcp_recv_skb+0xa07/0x4320
+  [    6.913378]  __tcp_read_sock+0x1ab/0x810
+  [    6.915788]  nvme_tcp_try_recv+0x152/0x1e0
+  [    6.918222]  nvme_tcp_io_work+0x1e4/0x6c0
+  [    6.926906]  </TASK>
+  [    6.927226] ---[ end trace 0000000000000000 ]---
+  [    6.927878] nvme nvme0: queue 1 failed to copy request 0x71 data
+  [    6.928709] nvme nvme0: receive failed:  -14
+
+Fixes: 3f2304f8c6d6 ("nvme-tcp: add NVMe over TCP host driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Yehyeong Lee <yhlee@isslab.korea.ac.kr>
+---
+Applies on top of "nvme-tcp: do not accept C2HData based on
+blk_rq_payload_bytes() alone".
+
+Measured over a user-space target that answers every write with C2HData.
+The warning appeared in 5 of 5 runs without this patch and in none of 5
+with it, in each of three shapes: a buffered 8 KiB write, a 4 KiB write
+carried in the command capsule, and a discard.  In every run the command
+ids the target answered matched the ones the kernel named.  A conforming
+target is unaffected over 5 runs each way, including writes and a
+passthrough read, which rq_data_dir() classifies as a read.
+
+Those runs were on 7.2-rc5 with this patch as the only change.  Repeating
+the write, the in-capsule write and the conforming-target arms three
+times each on the base this patch applies to - 7.2-rc5 plus that patch
+and its predecessor - gave the same counts.
+
+ drivers/nvme/host/tcp.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 85a87ed6df936..a62d6e48f7190 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -679,6 +679,13 @@ static int nvme_tcp_handle_c2h_data(struct nvme_tcp_queue *queue,
+ 		return -ENOENT;
+ 	}
+ 
++	if (rq_data_dir(rq) != READ) {
++		dev_err(queue->ctrl->ctrl.device,
++			"queue %d tag %#x unexpected data for a write\n",
++			nvme_tcp_queue_id(queue), rq->tag);
++		return -EIO;
++	}
++
+ 	req = blk_mq_rq_to_pdu(rq);
+ 	if (!blk_rq_payload_bytes(rq) || !req->curr_bio || !req->data_len) {
+ 		dev_err(queue->ctrl->ctrl.device,
 -- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+2.43.0
+
 
