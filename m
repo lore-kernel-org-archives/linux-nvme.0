@@ -4,78 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6BD68C5DF67
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2026 06:03:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E5AC1C5DF7E
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2026 06:03:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=t/QJWPw35/AAixeiEIeMqbhqMVLL51SJWl0xi9TgVBg=; b=LBuf6SWu9N56v8U1liHm9l961n
-	2f56GLCYB7G85Td83bi9J4a0Zpl6NWIQxfeQCFDcfSJ8Q8ZDzf3c6CI8rXESbUGpXnHCXymciGYYu
-	ZjG1G1T5lfJFyCj5//xf1Qcp4vSaQa4TII1J4P3nohbP3wJv8ex11eWzquDUxI/qFXtVuTSAtVFUz
-	Tx9wnDi/ug8ctowgMCLo8yC9NIGjO2qvONyKMWtltrnJ99cMm0xzGvSvgDeU6zEa3MiDLNTVaAGgz
-	aYLeizHzTAVYuMCy89HZho4jWdEXRNny7kEgs1oqGifYKs+AEVl75iHhQ19mrMcVgB2tyd1fB5c3i
-	acz1W7CQ==;
+	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	bh=le080tCpWjl8pQtZtpKzmCVQuUUYFbGDmRNelF7gzqc=; b=pI9g8LI9K6d+rzIVkFkGpvtw2T
+	AZ7rRk6kDT+VanD/CXe4PDY9AKUpt/8YIGjhhA6OYLgNgWeaYsNiKHXKgtgzqCoxDdLXihBMY+fiF
+	gsMUsP9PJEGDbqv78cqAZ2aGc73IfOwMk7H21aYHXXmjq2YtsyD+FisWwnSf6Myd3WViGQZ7YjLEp
+	dlK4B3wRXpgdBr1iwbbidL+L0sYUWrlawv60ECYV+gG99+mFz9ELY5SxEun7WZVefXdARhpltgatF
+	UD1FpddfDQv35J++JK9BabN819vSZ1e0YQvGZGKxKNr1V6m7hH1PQnA8+zU3txjr7R5tGLYWWl76i
+	ch7LdbDQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwCvN-00000007NKJ-03i6;
-	Tue, 18 Aug 2026 06:03:49 +0000
+	id 1wwCvM-00000007NJd-3UJ7;
+	Tue, 18 Aug 2026 06:03:48 +0000
 Received: from mailout2.samsung.com ([203.254.224.25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwCvE-00000007NEv-3hP9
+	id 1wwCvE-00000007NEt-3jVj
 	for linux-nvme@lists.infradead.org;
 	Tue, 18 Aug 2026 06:03:47 +0000
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20260818060333epoutp028a8e4ede71e0621649a0114fdf0910a9~M0Q7QAW-82204522045epoutp02s
-	for <linux-nvme@lists.infradead.org>; Tue, 18 Aug 2026 06:03:33 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20260818060333epoutp028a8e4ede71e0621649a0114fdf0910a9~M0Q7QAW-82204522045epoutp02s
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20260818060332epoutp0203eae1af241b0545383f4cee5f4b73ad~M0Q52N7PV2205622056epoutp02y
+	for <linux-nvme@lists.infradead.org>; Tue, 18 Aug 2026 06:03:32 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20260818060332epoutp0203eae1af241b0545383f4cee5f4b73ad~M0Q52N7PV2205622056epoutp02y
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1787033013;
-	bh=t/QJWPw35/AAixeiEIeMqbhqMVLL51SJWl0xi9TgVBg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KKuI5Ufi+t8uE5lP7ksoRku3qQbsMnH1ybwkCUX3T2wT46TLB0uyzWKAcRRFG2s/X
-	 3xUGUbS7Yq34KyiPAdbilqrRLYtgaEbU9f68aMXUEkgKkw0GcNAcftlAmbUurjLoD8
-	 NePnAavUoNHAyGltP3hdxyF7Y/2Dq1mecTFnKUe4=
-Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPS id
-	20260818060333epcas5p2d05ef339aa8474c4bd21b8c65869c265~M0Q7Ab3yD1455214552epcas5p2S;
-	Tue, 18 Aug 2026 06:03:33 +0000 (GMT)
-Received: from epcas5p1.samsung.com (unknown [182.195.38.91]) by
-	epsnrtp01.localdomain (Postfix) with ESMTP id 4hPJzS3Szfz6B9m6; Tue, 18 Aug
-	2026 06:03:32 +0000 (GMT)
+	s=mail20170921; t=1787033012;
+	bh=le080tCpWjl8pQtZtpKzmCVQuUUYFbGDmRNelF7gzqc=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=sDruqpKuUf86EWN4vTeXHii3NGerFZPJIWOYPAM3A/q/8r2TKifLUVfB6VdB5t4dj
+	 h4IedkbGMvQrmBbD3HQYKiaoVjADZYz+6mIYYUnh4vY5wxgZciVl0fLsi2tXK6JkVo
+	 2M9Ej28kcjT6XPdwZZDqe3CO7dRhKjOJzDBu5Ez4=
+Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPS id
+	20260818060331epcas5p1064b1e13aed6261b519fcd8a686ab685~M0Q5hdCMD3082530825epcas5p1n;
+	Tue, 18 Aug 2026 06:03:31 +0000 (GMT)
+Received: from epcas5p2.samsung.com (unknown [182.195.38.86]) by
+	epsnrtp02.localdomain (Postfix) with ESMTP id 4hPJzQ6kF5z2SSKg; Tue, 18 Aug
+	2026 06:03:30 +0000 (GMT)
 Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
 	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20260818060331epcas5p4bc873288ed9b92b5e2c4546e5ceaa053~M0Q5ov2lz0738707387epcas5p41;
-	Tue, 18 Aug 2026 06:03:31 +0000 (GMT)
+	20260818060330epcas5p4556a447149a5c2cd1e9aadd64952c01d~M0Q4JmhJc1655316553epcas5p40;
+	Tue, 18 Aug 2026 06:03:30 +0000 (GMT)
 Received: from localhost.localdomain (unknown [107.99.41.245]) by
 	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20260818060330epsmtip1c009161652358f26a4b0372790b0d21d~M0Q4dL0lV3115631156epsmtip1F;
-	Tue, 18 Aug 2026 06:03:30 +0000 (GMT)
+	20260818060329epsmtip19f5ec456c909c00f1fbf3e32a84769f6~M0Q2-tR4A3114431144epsmtip1G;
+	Tue, 18 Aug 2026 06:03:29 +0000 (GMT)
 From: Kanchan Joshi <joshi.k@samsung.com>
 To: kbusch@kernel.org, hch@lst.de, harimishal1@gmail.com, sagi@grimberg.me
 Cc: linux-nvme@lists.infradead.org, gregkh@linuxfoundation.org,
 	gost.dev@samsung.com, Kanchan Joshi <joshi.k@samsung.com>
-Subject: [PATCH v2 1/2] nvme: set ns->head in nvme_alloc_ns_head
-Date: Tue, 18 Aug 2026 11:32:52 +0530
-Message-Id: <20260818060253.4104-2-joshi.k@samsung.com>
+Subject: [PATCH v2 0/2] fix racy access to FDP placement id array
+Date: Tue, 18 Aug 2026 11:32:51 +0530
+Message-Id: <20260818060253.4104-1-joshi.k@samsung.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260818060253.4104-1-joshi.k@samsung.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20260818060331epcas5p4bc873288ed9b92b5e2c4546e5ceaa053
+X-CMS-MailID: 20260818060330epcas5p4556a447149a5c2cd1e9aadd64952c01d
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 CMS-TYPE: 105P
 cpgsPolicy: CPGSC10-542,Y
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20260818060331epcas5p4bc873288ed9b92b5e2c4546e5ceaa053
-References: <20260818060253.4104-1-joshi.k@samsung.com>
-	<CGME20260818060331epcas5p4bc873288ed9b92b5e2c4546e5ceaa053@epcas5p4.samsung.com>
+X-CMS-RootMailID: 20260818060330epcas5p4556a447149a5c2cd1e9aadd64952c01d
+References: <CGME20260818060330epcas5p4556a447149a5c2cd1e9aadd64952c01d@epcas5p4.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260817_230343_028984_0746E868 
-X-CRM114-Status: GOOD (  14.23  )
+X-CRM114-CacheID: sfid-20260817_230343_031233_5D579178 
+X-CRM114-Status: UNSURE (   9.40  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,57 +89,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-so that it becomes possible to submit non-admin commands.
-This is a prep patch with no functional changes.
+Patch 1: prep to send non-admin commands from nvme_alloc_ns_head
+Patch 2: avoid the race by moving fdp registration to nvme_alloc_ns_head
 
-Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
----
- drivers/nvme/host/core.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+Changes since v1:
+- Add a prep patch to unconditionally set ns->head (christoph)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 1322c678f4eb..a2e0abf0ea8a 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -4001,10 +4001,11 @@ static void nvme_add_ns_cdev(struct nvme_ns *ns)
- 	set_bit(NVME_NS_CDEV_LIVE, &ns->flags);
- }
- 
--static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
-+static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ns *ns,
- 		struct nvme_ns_info *info)
--	__must_hold(&ctrl->subsys->lock)
-+	__must_hold(&ns->ctrl->subsys->lock)
- {
-+	struct nvme_ctrl *ctrl = ns->ctrl;
- 	struct nvme_ns_head *head;
- 	size_t size = sizeof(*head);
- 	int ret = -ENOMEM;
-@@ -4032,6 +4033,7 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
- 	ratelimit_state_init(&head->rs_nuse, 5 * HZ, 1);
- 	ratelimit_set_flags(&head->rs_nuse, RATELIMIT_MSG_ON_RELEASE);
- 	kref_init(&head->ref);
-+	ns->head = head;
- 
- 	if (head->ids.csi) {
- 		ret = nvme_get_effects_log(ctrl, head->ids.csi, &head->effects);
-@@ -4055,6 +4057,7 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
- 	ida_free(&ctrl->subsys->ns_ida, head->instance);
- out_free_head:
- 	kfree(head);
-+	ns->head = NULL;
- out:
- 	if (ret > 0)
- 		ret = blk_status_to_errno(nvme_error_status(ret));
-@@ -4141,7 +4144,7 @@ static int nvme_init_ns_head(struct nvme_ns *ns, struct nvme_ns_info *info)
- 				info->nsid);
- 			goto out_unlock;
- 		}
--		head = nvme_alloc_ns_head(ctrl, info);
-+		head = nvme_alloc_ns_head(ns, info);
- 		if (IS_ERR(head)) {
- 			ret = PTR_ERR(head);
- 			goto out_unlock;
+Kanchan Joshi (2):
+  nvme: set ns->head in nvme_alloc_ns_head
+  nvme: fix racy access to FDP placement id array
+
+ drivers/nvme/host/core.c | 39 +++++++++++++++++----------------------
+ drivers/nvme/host/nvme.h |  1 +
+ 2 files changed, 18 insertions(+), 22 deletions(-)
+
 -- 
 2.25.1
 
