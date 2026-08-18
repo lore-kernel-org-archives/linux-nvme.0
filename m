@@ -4,71 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 900E6C5DF70
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2026 06:03:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6BD68C5DF67
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2026 06:03:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bVkuvMHFLexS/2qWy9M58HdBBKwviyPo8XyjkbRCihA=; b=neRhmSiyix9Vr5D2S2eVZQCj9t
-	4szg5YzdK+pw8l6UyViBYF9rW3liUJ2VyCHYXwgs07oqlazPcKxwvUAncW11KvEYPlJash0+MhtUf
-	aPIH39fed3xNyS2qOqiJ6L7syO+Qx1X7MnydZl52P4qyV/CAg6t3gTCNAAzX8PtC0i/luYUuOkqlN
-	+FdHctGffP1DJEMy17PlLjVV7Q/IteKkGqnu6gTfIOi7drc0KSNA/zn+6tjS60UhbCUZbg7zzc0MH
-	6zOcoghjaRgepp5o0mqUAvbi2ufEUAtpaAKO2BlCUKvQpQQrPi/Y+6yhKA1NXqdBu7YYlweHMFn2D
-	LKpMMoEg==;
+	bh=t/QJWPw35/AAixeiEIeMqbhqMVLL51SJWl0xi9TgVBg=; b=LBuf6SWu9N56v8U1liHm9l961n
+	2f56GLCYB7G85Td83bi9J4a0Zpl6NWIQxfeQCFDcfSJ8Q8ZDzf3c6CI8rXESbUGpXnHCXymciGYYu
+	ZjG1G1T5lfJFyCj5//xf1Qcp4vSaQa4TII1J4P3nohbP3wJv8ex11eWzquDUxI/qFXtVuTSAtVFUz
+	Tx9wnDi/ug8ctowgMCLo8yC9NIGjO2qvONyKMWtltrnJ99cMm0xzGvSvgDeU6zEa3MiDLNTVaAGgz
+	aYLeizHzTAVYuMCy89HZho4jWdEXRNny7kEgs1oqGifYKs+AEVl75iHhQ19mrMcVgB2tyd1fB5c3i
+	acz1W7CQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwCvK-00000007NIB-2cvN;
-	Tue, 18 Aug 2026 06:03:46 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1wwCvN-00000007NKJ-03i6;
+	Tue, 18 Aug 2026 06:03:49 +0000
+Received: from mailout2.samsung.com ([203.254.224.25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwCvJ-00000007NHM-1wl4
+	id 1wwCvE-00000007NEv-3hP9
 	for linux-nvme@lists.infradead.org;
-	Tue, 18 Aug 2026 06:03:45 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id DD50243AAC;
-	Tue, 18 Aug 2026 06:03:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 191A01F00A3E;
-	Tue, 18 Aug 2026 06:03:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787033024;
-	bh=bVkuvMHFLexS/2qWy9M58HdBBKwviyPo8XyjkbRCihA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=a5xYytDTVyISZUZxjM7M60SlySDlqJoHK1wUwvYsbsWMK/COfvRZ1ttlp+V9lutq7
-	 Aijd9f7eNt/QWOUR27Y3VdTj3L9ivz2O9umGUipBouRt6qGlmcVbKU48G0PHGbEryu
-	 uHIltNQySmPYbCugrygpF6UhyZQAmb622M1mTrTUYvYR33zOa0dvdHVm+OmdwB0roN
-	 5legOzmGFKhJYZlNjvn2uhsEsvSq0uBZEculz9GvYASUVOoehe9pQFq/pmrOtIcmuy
-	 mF9xaF44zNRLR/0U6H1FNuVQcuS846xSg5FW4sLxo4VOA/5ovqDYTlXvV0kWJM/Hkh
-	 aL24FIA84z+pQ==
-From: Geliang Tang <geliang@kernel.org>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	David Ahern <dsahern@kernel.org>,
-	Ido Schimmel <idosch@nvidia.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Hannes Reinecke <hare@suse.de>,
-	Stanislav Fomichev <sdf@fomichev.me>
-Cc: Geliang Tang <tanggeliang@kylinos.cn>,
-	linux-nvme@lists.infradead.org,
-	netdev@vger.kernel.org,
-	mptcp@lists.linux.dev
-Subject: [PATCH v4 2/4] nvme-tcp: unify sockopt with do_sock_setsockopt
-Date: Tue, 18 Aug 2026 14:03:01 +0800
-Message-ID: <5d77334ae43750d8c12923148d71077301242c89.1786947923.git.tanggeliang@kylinos.cn>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <cover.1786947923.git.tanggeliang@kylinos.cn>
-References: <cover.1786947923.git.tanggeliang@kylinos.cn>
+	Tue, 18 Aug 2026 06:03:47 +0000
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20260818060333epoutp028a8e4ede71e0621649a0114fdf0910a9~M0Q7QAW-82204522045epoutp02s
+	for <linux-nvme@lists.infradead.org>; Tue, 18 Aug 2026 06:03:33 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20260818060333epoutp028a8e4ede71e0621649a0114fdf0910a9~M0Q7QAW-82204522045epoutp02s
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1787033013;
+	bh=t/QJWPw35/AAixeiEIeMqbhqMVLL51SJWl0xi9TgVBg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=KKuI5Ufi+t8uE5lP7ksoRku3qQbsMnH1ybwkCUX3T2wT46TLB0uyzWKAcRRFG2s/X
+	 3xUGUbS7Yq34KyiPAdbilqrRLYtgaEbU9f68aMXUEkgKkw0GcNAcftlAmbUurjLoD8
+	 NePnAavUoNHAyGltP3hdxyF7Y/2Dq1mecTFnKUe4=
+Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPS id
+	20260818060333epcas5p2d05ef339aa8474c4bd21b8c65869c265~M0Q7Ab3yD1455214552epcas5p2S;
+	Tue, 18 Aug 2026 06:03:33 +0000 (GMT)
+Received: from epcas5p1.samsung.com (unknown [182.195.38.91]) by
+	epsnrtp01.localdomain (Postfix) with ESMTP id 4hPJzS3Szfz6B9m6; Tue, 18 Aug
+	2026 06:03:32 +0000 (GMT)
+Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20260818060331epcas5p4bc873288ed9b92b5e2c4546e5ceaa053~M0Q5ov2lz0738707387epcas5p41;
+	Tue, 18 Aug 2026 06:03:31 +0000 (GMT)
+Received: from localhost.localdomain (unknown [107.99.41.245]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20260818060330epsmtip1c009161652358f26a4b0372790b0d21d~M0Q4dL0lV3115631156epsmtip1F;
+	Tue, 18 Aug 2026 06:03:30 +0000 (GMT)
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: kbusch@kernel.org, hch@lst.de, harimishal1@gmail.com, sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org, gregkh@linuxfoundation.org,
+	gost.dev@samsung.com, Kanchan Joshi <joshi.k@samsung.com>
+Subject: [PATCH v2 1/2] nvme: set ns->head in nvme_alloc_ns_head
+Date: Tue, 18 Aug 2026 11:32:52 +0530
+Message-Id: <20260818060253.4104-2-joshi.k@samsung.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20260818060253.4104-1-joshi.k@samsung.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CMS-MailID: 20260818060331epcas5p4bc873288ed9b92b5e2c4546e5ceaa053
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20260818060331epcas5p4bc873288ed9b92b5e2c4546e5ceaa053
+References: <20260818060253.4104-1-joshi.k@samsung.com>
+	<CGME20260818060331epcas5p4bc873288ed9b92b5e2c4546e5ceaa053@epcas5p4.samsung.com>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260817_230343_028984_0746E868 
+X-CRM114-Status: GOOD (  14.23  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,151 +90,58 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Geliang Tang <tanggeliang@kylinos.cn>
+so that it becomes possible to submit non-admin commands.
+This is a prep patch with no functional changes.
 
-This patch consolidates socket option settings in nvme-tcp by utilizing
-the generic do_sock_setsockopt() helper for options including SO_LINGER,
-SO_PRIORITY, TCP_NODELAY, IP_TOS, SO_BINDTODEVICE, and TCP_SYNCNT.
-
-Compared to the target-side implementation, this patch additionally
-converts SO_BINDTODEVICE and TCP_SYNCNT to use the same unified mechanism.
-This change eliminates the need to export and use specialized helpers for
-each individual socket option.
-
-Signed-off-by: Geliang Tang <tanggeliang@kylinos.cn>
+Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
 ---
- drivers/nvme/host/tcp.c | 91 ++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 81 insertions(+), 10 deletions(-)
+ drivers/nvme/host/core.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index ba5c7b3e2a7c..025cade370b2 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1774,6 +1774,47 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
- 	return ret;
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 1322c678f4eb..a2e0abf0ea8a 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4001,10 +4001,11 @@ static void nvme_add_ns_cdev(struct nvme_ns *ns)
+ 	set_bit(NVME_NS_CDEV_LIVE, &ns->flags);
  }
  
-+static int nvme_tcp_sock_no_linger(struct sock *sk)
-+{
-+	struct linger ling = { .l_onoff = 1, .l_linger = 0 };
-+
-+	return do_sock_setsockopt(sk->sk_socket, false, SOL_SOCKET, SO_LINGER,
-+				  KERNEL_SOCKPTR(&ling), sizeof(ling));
-+}
-+
-+static int nvme_tcp_sock_set_priority(struct sock *sk, u32 priority)
-+{
-+	return do_sock_setsockopt(sk->sk_socket, false, SOL_SOCKET, SO_PRIORITY,
-+				  KERNEL_SOCKPTR(&priority), sizeof(priority));
-+}
-+
-+static int nvme_tcp_sock_set_bindtodevice(struct sock *sk, char *iface)
-+{
-+	return do_sock_setsockopt(sk->sk_socket, false, SOL_SOCKET,
-+				  SO_BINDTODEVICE, KERNEL_SOCKPTR(iface),
-+				  strlen(iface));
-+}
-+
-+static int nvme_tcp_sock_set_nodelay(struct sock *sk)
-+{
-+	int val = 1;
-+
-+	return do_sock_setsockopt(sk->sk_socket, false, SOL_TCP, TCP_NODELAY,
-+				  KERNEL_SOCKPTR(&val), sizeof(val));
-+}
-+
-+static int nvme_tcp_sock_set_syncnt(struct sock *sk, int val)
-+{
-+	return do_sock_setsockopt(sk->sk_socket, false, SOL_TCP, TCP_SYNCNT,
-+				  KERNEL_SOCKPTR(&val), sizeof(val));
-+}
-+
-+static int nvme_tcp_sock_set_tos(struct sock *sk, int tos)
-+{
-+	return do_sock_setsockopt(sk->sk_socket, false, SOL_IP, IP_TOS,
-+				  KERNEL_SOCKPTR(&tos), sizeof(tos));
-+}
-+
- static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
- 				key_serial_t pskid)
+-static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
++static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ns *ns,
+ 		struct nvme_ns_info *info)
+-	__must_hold(&ctrl->subsys->lock)
++	__must_hold(&ns->ctrl->subsys->lock)
  {
-@@ -1819,24 +1860,56 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
- #endif
++	struct nvme_ctrl *ctrl = ns->ctrl;
+ 	struct nvme_ns_head *head;
+ 	size_t size = sizeof(*head);
+ 	int ret = -ENOMEM;
+@@ -4032,6 +4033,7 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
+ 	ratelimit_state_init(&head->rs_nuse, 5 * HZ, 1);
+ 	ratelimit_set_flags(&head->rs_nuse, RATELIMIT_MSG_ON_RELEASE);
+ 	kref_init(&head->ref);
++	ns->head = head;
  
- 	/* Single syn retry */
--	tcp_sock_set_syncnt(queue->sock->sk, 1);
-+	ret = nvme_tcp_sock_set_syncnt(queue->sock->sk, 1);
-+	if (ret) {
-+		dev_err(nctrl->device,
-+			"failed to set TCP_SYNCNT on queue %d err %d\n",
-+			qid, ret);
-+		goto err_sock;
-+	}
- 
- 	/* Set TCP no delay */
--	tcp_sock_set_nodelay(queue->sock->sk);
-+	ret = nvme_tcp_sock_set_nodelay(queue->sock->sk);
-+	if (ret) {
-+		dev_err(nctrl->device,
-+			"failed to set TCP_NODELAY on queue %d err %d\n",
-+			qid, ret);
-+		goto err_sock;
-+	}
- 
- 	/*
- 	 * Cleanup whatever is sitting in the TCP transmit queue on socket
- 	 * close. This is done to prevent stale data from being sent should
- 	 * the network connection be restored before TCP times out.
- 	 */
--	sock_no_linger(queue->sock->sk);
-+	ret = nvme_tcp_sock_no_linger(queue->sock->sk);
-+	if (ret) {
-+		dev_err(nctrl->device,
-+			"failed to set SO_LINGER on queue %d err %d\n",
-+			qid, ret);
-+		goto err_sock;
-+	}
- 
--	if (so_priority > 0)
--		sock_set_priority(queue->sock->sk, so_priority);
-+	if (so_priority > 0) {
-+		ret = nvme_tcp_sock_set_priority(queue->sock->sk, so_priority);
-+		if (ret) {
-+			dev_err(nctrl->device,
-+				"failed to set SO_PRIORITY on queue %d err %d\n",
-+				qid, ret);
-+			goto err_sock;
-+		}
-+	}
- 
- 	/* Set socket type of service */
--	if (nctrl->opts->tos >= 0)
--		ip_sock_set_tos(queue->sock->sk, nctrl->opts->tos);
-+	if (nctrl->opts->tos >= 0) {
-+		ret = nvme_tcp_sock_set_tos(queue->sock->sk, nctrl->opts->tos);
-+		if (ret) {
-+			dev_err(nctrl->device,
-+				"failed to set IP_TOS on queue %d err %d\n",
-+				qid, ret);
-+			goto err_sock;
-+		}
-+	}
- 
- 	/* Set 10 seconds timeout for icresp recvmsg */
- 	queue->sock->sk->sk_rcvtimeo = 10 * HZ;
-@@ -1864,10 +1937,8 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
- 
- 	if (nctrl->opts->mask & NVMF_OPT_HOST_IFACE) {
- 		char *iface = nctrl->opts->host_iface;
--		sockptr_t optval = KERNEL_SOCKPTR(iface);
- 
--		ret = sock_setsockopt(queue->sock, SOL_SOCKET, SO_BINDTODEVICE,
--				      optval, strlen(iface));
-+		ret = nvme_tcp_sock_set_bindtodevice(queue->sock->sk, iface);
- 		if (ret) {
- 			dev_err(nctrl->device,
- 			  "failed to bind to interface %s queue %d err %d\n",
+ 	if (head->ids.csi) {
+ 		ret = nvme_get_effects_log(ctrl, head->ids.csi, &head->effects);
+@@ -4055,6 +4057,7 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
+ 	ida_free(&ctrl->subsys->ns_ida, head->instance);
+ out_free_head:
+ 	kfree(head);
++	ns->head = NULL;
+ out:
+ 	if (ret > 0)
+ 		ret = blk_status_to_errno(nvme_error_status(ret));
+@@ -4141,7 +4144,7 @@ static int nvme_init_ns_head(struct nvme_ns *ns, struct nvme_ns_info *info)
+ 				info->nsid);
+ 			goto out_unlock;
+ 		}
+-		head = nvme_alloc_ns_head(ctrl, info);
++		head = nvme_alloc_ns_head(ns, info);
+ 		if (IS_ERR(head)) {
+ 			ret = PTR_ERR(head);
+ 			goto out_unlock;
 -- 
-2.53.0
+2.25.1
 
 
