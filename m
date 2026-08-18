@@ -4,143 +4,117 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5F95DC5DF7D
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2026 11:50:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 42AFBC5DF7D
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2026 11:59:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Message-ID:Subject:To:From:Date:Reply-To:Cc:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=KizE1bCne7yp/rt69UfQpZUXJdgSTz0n3V2Kqaj9adQ=; b=RlBUw+lVf/y8BDTzx+wAn98RPk
-	m8YxJtybhhnOBwGQF5YQpZkrpUahnXoEbSZs1fOxdE+24SQIUv7GRRTvO5YSfb+5MAHVMES/X9Vzj
-	0PFEliaXGy5OKYBCKQsH/QRxt1Q2rgvrECyXE57BQNiR5xnz+YwW0VSJTqo7sVrfQRW4IBXLtaETs
-	Zzs/8DbuGMlsyJfLSQhcdLvKsbHDjLHgFcJkxYidcTSvX2L3aDvNWWLm1jhGF8mHDltRrYR8BVlo2
-	pCDE/K+nTtu8ZtNX7dyYUlRqHYpic5m4vQo45XULSxOYjZ/dpkOyTaBy47EulZNkCvPgrznoazC8Q
-	2aXZSzBA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=M7CYMEYAUtaaYWYsNGYIieqaAYOTR05OAHupk2LnubI=; b=yKHvalZZjCVR6lEQTU5Kok8h8z
+	tRY/2dZK5gwBbby0tLZ8uSP8C0piH3NEOe0wMAX4lQSQDzbUQn+SndOtV5mnXJi/7tSlbJo46erUk
+	7LhSE8QxkTg85P5ypox3InLAP8WFrLAchjTaWn3fOeBhuRwggDVnvE7JtxenSEN1VwD2NcrjYlnZr
+	/ac2VrrL1wHPGT7oqHmHImNS/IELs5H5pEGhIVQ9etr713SEqukJMkjt9JnxFdr+GjDXH3tmUKBGr
+	rZUwZmwhgUQKObIiN1r8JAq/huOewjk1JD6G2lBFrgiO0FjI/M/lvzAZHVLksBTs6/ghvVp866evc
+	c6YNXYjg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwIKx-00000007sVu-20Vy;
-	Tue, 18 Aug 2026 11:50:35 +0000
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+	id 1wwIU0-00000007tGX-46QU;
+	Tue, 18 Aug 2026 11:59:56 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwIKu-00000007sVU-1VlB
+	id 1wwITy-00000007tFi-2LHW
 	for linux-nvme@lists.infradead.org;
-	Tue, 18 Aug 2026 11:50:33 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1787053832; x=1818589832;
-  h=date:from:to:subject:message-id:mime-version;
-  bh=beM3YvChpJR127E5gs8TQgg1AssCZ9fb8zqjcJ0pFaw=;
-  b=SgzZInRyqB9N2+bdNqe9a+iRyjQO8DTFfcIFoWIUyg6gRJRPzod4lpBx
-   vEWn42+SylDQzoy7kUMt4/W+6AW6YOgJHtj1hUjm5Xxz+G1IsQ9yly4sK
-   6drd5CX9FSbbvdNVTeMJbta/ulOE1aUAtNvdnLbfLHXTwbX1cXvKL+fFO
-   mjQNR5kyvRMMYJZk7uZAvy+0aSazKpShIqvap0th3XyX3m3eDfg+et+DF
-   UVMxUVhSreOuh9AJYV/upZwMYBqVyYHmQ15uYNxwp+U9Lg9s4CtefNkbZ
-   SsYjwi/6NXvLwfnw2YNl1wjcUfpry7qjJV00ZSd17DnL6FxpuqckeD2mZ
-   w==;
-X-CSE-ConnectionGUID: srxIxemvThyVVPAGs95nOQ==
-X-CSE-MsgGUID: wZObdZbERZORdVLQLPRhbA==
-X-IronPort-AV: E=Sophos;i="6.25,230,1779120000"; 
-   d="scan'208";a="153302062"
-Received: from mail-northcentralusazon11013005.outbound.protection.outlook.com (HELO CH4PR04CU002.outbound.protection.outlook.com) ([40.107.201.5])
-  by ob1.hgst.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 18 Aug 2026 19:50:22 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gL3zZXLx9J6Gv0ntpgOcVgghsLiuP8IdJt4yr+FqnTg7LNXTFz8EBAkOt9qpBdFXbdDKIBe0nQiAIxcvkXwYJ8zawtg3QlIT+D1LHhRG5aubostG7L7q9VWv4cyl2KBUbxdnG/Zi44B/RJVq4qikPfauSAlchxqiKlAOKRUGpknLsRr5J3IsXjSAifer/qvxod2L5Ejg5+QvzDoNBkGuXoZxopPDmYfKJOjLOnyPy4K04jGOzLAJG5WZNyXJcdN9SDyCRznUmxV0ca4KzdWuTtUYcdh0NnkO0ouBcMirZ/WaOanm5dBLZ36bVqnAvGz2bVgFxxiVqMGixg9W7N1hxw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KizE1bCne7yp/rt69UfQpZUXJdgSTz0n3V2Kqaj9adQ=;
- b=sTiHGSuH4rfbRMopE2VnD/BtTRdkNr8pIHrlWRXVPiG7sgiCl+yXE0t4UVDH3OlOMpUgdZVoObeI1G4lXjUw1q4/dmlZDdTqOX8loxR3vxAECVJJ5V0FEbnUjMqvFSGielq6+lhKqCplEML9mBhrfgFLVBTpQCu4L2T1g0tErdA1I27w08zUgPrDt3gjXKxmt/JdilYPZ0bWYkOR4Esvm2fvhR2Tyc4FkFWNU4ekgsRELEEFlXyNdcs8x/zBJ3xgnAy9Fv9p7pEUD6BRRbL879lvCsWVkTnC87vPzME6Am2oFzpWNdSpJzhxt9klqnsXWhk14V0PPrMs17ngpjwoEQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KizE1bCne7yp/rt69UfQpZUXJdgSTz0n3V2Kqaj9adQ=;
- b=gNoi5UXwXo1A1zF+tGlXcLL7g/yMVMjHcRpOvOxxGJ+xxi1+swcoTnoAztogAD2wUAe0910uIFl4HCa5Hp8pfK4MIhVzmQr03R658YTqf8uDOnt1vNQ6XjmTnWcL61yzzAQNLXJtPXsRXRmYi5ndSPxzdGDt69aw32o3cMLvN9o=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-Received: from SA1PR04MB10065.namprd04.prod.outlook.com
- (2603:10b6:806:4dd::14) by BY5PR04MB7042.namprd04.prod.outlook.com
- (2603:10b6:a03:22f::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.8; Tue, 18 Aug
- 2026 11:50:19 +0000
-Received: from SA1PR04MB10065.namprd04.prod.outlook.com
- ([fe80::9b98:bf8a:b0b1:ef85]) by SA1PR04MB10065.namprd04.prod.outlook.com
- ([fe80::9b98:bf8a:b0b1:ef85%4]) with mapi id 15.21.0315.016; Tue, 18 Aug 2026
- 11:50:19 +0000
-Date: Tue, 18 Aug 2026 20:50:14 +0900
-From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>, 
-	nbd@other.debian.org, linux-rdma@vger.kernel.org
-Subject: blktests failures with v7.2 kernel
-Message-ID: <aoRGbVB70YCcxoxF@shinhome>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-ClientProxiedBy: TY4P301CA0050.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:405:36b::9) To SA1PR04MB10065.namprd04.prod.outlook.com
- (2603:10b6:806:4dd::14)
+	Tue, 18 Aug 2026 11:59:55 +0000
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67IAVXwJ4173507;
+	Tue, 18 Aug 2026 11:59:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=M7CYME
+	YAUtaaYWYsNGYIieqaAYOTR05OAHupk2LnubI=; b=pZ8BtxoCfwi4/ZNeijDt5A
+	TJmbV0Rh2TuI1tJo7/vKbmd5X6qCvwtMAaEPhA/Z53uaJ+MUb5WbkT6OjSFOuy5c
+	qmQjYCEesk5XByQXO8TDvaZFatPx98Yoog9LrdeY+g8Y0P55BLyJ8mKjT6aCVdmT
+	JTX6EgOjeTzhOD02mPYwgMYuK6xtkQ7gpwx2dF8YXQmZpHJk7iX34FB+2YygIvHL
+	zUZ9VRgeK7+BYWpOTCtOarYQ5vMpRQDp2S7nKXVdeX2lk3d3HsTlVWONfiTB1ZEp
+	SNbx/9lvlugdyDmQ1tlued5bMO6YKg20yczSVFNXajq3vMhQS+FZwnwLIFtZv9DA
+	==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4g2fm3qy67-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 18 Aug 2026 11:59:41 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 67IBuL2e013640;
+	Tue, 18 Aug 2026 11:59:39 GMT
+Received: from smtprelay04.wdc07v.mail.ibm.com ([172.16.1.71])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4g32tw357k-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 18 Aug 2026 11:59:39 +0000 (GMT)
+Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
+	by smtprelay04.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 67IBxd9k41026240
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 18 Aug 2026 11:59:39 GMT
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2AE2C58059;
+	Tue, 18 Aug 2026 11:59:39 +0000 (GMT)
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5251D58058;
+	Tue, 18 Aug 2026 11:59:33 +0000 (GMT)
+Received: from [9.61.24.21] (unknown [9.61.24.21])
+	by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 18 Aug 2026 11:59:32 +0000 (GMT)
+Message-ID: <ebfdc6e5-36ef-43ee-bd19-53b40e4682a2@linux.ibm.com>
+Date: Tue, 18 Aug 2026 17:29:30 +0530
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR04MB10065:EE_|BY5PR04MB7042:EE_
-X-MS-Office365-Filtering-Correlation-Id: d2460821-a0ba-4d6b-14a4-08defd1ee082
-WDCIPOUTBOUND: EOP-TRUE
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|19092799006|1800799024|376014|366016|23010399003|10067099003|56012099006|6133799003|3023799007|11063799006|18002099003;
-X-Microsoft-Antispam-Message-Info: feC6SuUZUIuCaGC5jXGxVfArZ5x7pongxYWvpsRcuhN7IAzjU5hpneA/fmBSW1SH+LdjXbp0BA8S3nwic6g2Zh+cIJ4r7A0Hz/j5Sxw9SooBCTWjhTZqF8867F/Ot3N6Y5pONqiNKSwKPC2QhTA87dhoTJIC3JrKJKkCIW4FxKzjor62ZBDPEZ+Zk4pRRyxCCf0cZRcngYO8luIBf5MhpeUdWarfHhGXrfLWTBkUI7HA/OHDg+Cr0zi8CKgT4IM8gVjwBELuevNwDwKNQXosXVbwakjpgaYJBrEBOhQFYdk6uoe0wZ37Z+KC80PxZ1YAELFIITLYKCg+3yeMERbdxChluRiIR58sK8ngBEIQyV5GxRXB7vhsxykpv1PdaLxHpeL1MuFZG3ryoihdB6rgg7uhh9LUQJ6G9MoWj+fcZlf+6HcFuXGbbyHbXLizoL2tjk3bR842i1zEJBOOM9gHRvzsPwSs6pImjmX0v7yaV/jeRgIIdmy+1M1/5JGk/psRJhZslBpUMHq0I8fOl+wARRk2U/uu/UPMdOPmS51wWEpx4L1F0paI6gEJqXx0mzOSUJ2IQ4q7y36WZAEENllvNtMrAsW6XK0aLN/2oTyasT6hF4uLUMsRNcEMs0Y4zyTRrwuA968EbQmR7WT/Vn7yzAaknAUw+fHbnH7NKPSQzDk=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR04MB10065.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(1800799024)(376014)(366016)(23010399003)(10067099003)(56012099006)(6133799003)(3023799007)(11063799006)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?oJ/5SWLu2oGDGC53YEwER/m2N5qBz9JBvxQU0twXzXe23O3tpSbAxghRvdF/?=
- =?us-ascii?Q?2cRDxcucDozIE/aSqsArdkm9wuNZsaC01czmd6hGsjVcB7aMF2NVEzvQYpNG?=
- =?us-ascii?Q?KWU+dyiGJQRntIVxIf4QLkcbTU5VUiXQorGGrrYp7ec/70OruHtAiV+dH2r8?=
- =?us-ascii?Q?aLd5ovqz090lk9R6REr+V8SEdkhj1RqMZ7Xmc9qHQBVouxaPpaD3K2T+qJiy?=
- =?us-ascii?Q?Ubq3wpm3C5qtFXS8UQ1frx+2GtHeL8mKAtbcBdaTBGk19vspFdLbXEp7LNhn?=
- =?us-ascii?Q?Xt+hP5afDqPHB3sxgQk9RnNtm+syT00ylCl1npnl6S0hBGdHeH3lylRmijHx?=
- =?us-ascii?Q?DdaS+O3MqXdgbdXPU7rNDAXci/UqeYg/2ItYJOpp4Wl9JONOkb8PnVjtiewW?=
- =?us-ascii?Q?57c0qdRawbpkwj8HBsHfVWew88LLCEAVkAlSp2oWt6f3rY7ZgXhOI9rJqP2o?=
- =?us-ascii?Q?oofb3Falb8JC6TOCsOsuN36h8onbqo6HtJBjaAxNso3nZ8SBTqJfhzG8Jsuq?=
- =?us-ascii?Q?8Vd323WONf9pbN1D6t811KyhwuqW4zuExfc3dkhLXQlZqiRgKL9U/dApWCQP?=
- =?us-ascii?Q?fGm+lSgbysY0tceGflMda3OjGIyOSlUvypPRcq+uWw7hlfTWEYkb2stntslO?=
- =?us-ascii?Q?ifiwnp2HGRYR+RoBT8Bd/2Odcj+Ds5CUSB2GQamUIgupvxTdXfqsNlD+BfH8?=
- =?us-ascii?Q?m3DW95OW/6P/BZGzKhNh8XgAXE6Ltw55njH5dJOKAqSAJfH9vNbgbQOzLFGN?=
- =?us-ascii?Q?rjMZYzUDyu04XfJlZGFtMyHQGTQmZZiEWVuOFlO+OjpR6/k/i3pDqFhEH7sM?=
- =?us-ascii?Q?VCGdRvlwmP6SJiKewoqN41M5QjQM4i0z5x6/CqcPEfddGzV9Dtn+Csi7Xrya?=
- =?us-ascii?Q?A48sh5BPUOqhhYid61s6dDvtZ3GxqbnS3I3IedPkGKAzkzMOW7N95LnMvCKy?=
- =?us-ascii?Q?5QOGPQJUQPLpuIc51XwENxFCajIhXCESjed3MA6zbPhx1AoDPpN/WtAxmRs/?=
- =?us-ascii?Q?NRfjtRl+q1y/FZAvSzAMQXlvGISULCF3oLF7G06Hz7v9itlXuYb7vqoAPfzP?=
- =?us-ascii?Q?57yo6oizJou8+NHDjrhPZQr0BThEyYIq3tvlFfEiy6QhUZKK8vxVebx4agGS?=
- =?us-ascii?Q?yiKJfHMS1aeNwY7OAtEM7OH5eAhXNP2M4iSHtDUbYV7zW1lyWPOppitSxubC?=
- =?us-ascii?Q?PfiHCmaSEQxvMr5fDCvaSaVYU9xTPMfcR9M29l+ZmCp9za+IWSiWO/NICjSQ?=
- =?us-ascii?Q?PaxLoLT0RLUpjWbule7oBk014eddWmXRBHMtDsp7ncgLn2WihUheUt+li3yV?=
- =?us-ascii?Q?Sswo9cVCBB9UB/GggY+5tlNb/J0PnS3sTsPWVR4TBdK89cXvhjBR9tZnZNi8?=
- =?us-ascii?Q?VBjYHDazaHhFaZmjSz6pqqyTmxhn+5+It26Z1PArjxAl+gFXuuzfkMSMTh3Q?=
- =?us-ascii?Q?dT375NhL6H5tvXCuSVQZgHWLGrn/v33ELyyq+12H4J6RlksmdZvf/qTt8nMD?=
- =?us-ascii?Q?RZtnJlgBONbClnOHg//h/xS5PsFynYPCj/xAxZi65ZsroOis9PKL5GzzKMbo?=
- =?us-ascii?Q?GAIps85KZk15qImMGQCbJRb9WlGiHWOY3EvQ00wT7q+GP9VkQLNFfiH17mxW?=
- =?us-ascii?Q?1bnGGYFBt0fj9BRzGlWXMlGVTbqcW9Pw+Bsk5iNO+Cp4H2PasNf7GsN9Tz7M?=
- =?us-ascii?Q?ycpLmrFB/TBgab/6a6rKEK1ZRh81kIAzE1vPdd8Bw6Auw2AW3cujW9Lx5uVm?=
- =?us-ascii?Q?9jQBJukkkqFG8Gyy0s44+nanvdI2EHw=3D?=
-X-Exchange-RoutingPolicyChecked: jF6SebQF0rEdlMCz3YMMUlJQDqRlGe5BPLzm0zmTiQSQ7Zih9/HPy/cY1DCxxQ+/16emKwZLuUsck9Bd6ufGwOKBlOK9M2xrkw3XnFFABUrlFlymymjVVh73HNivdjHysXcWwo3kX8w5aaVkcE4mqnaJ6OeZe8oMIer/vKcRT485yT3QgSQEqYUg/l8yD4th2UsBmT1u/nQ0rZ3q12hazJf5TjEaBH8HlnFrkeS59AY7jdecaPD6WZ4qRNoH259Wm4PybBgRI2QYaD4I61e7MHmKlDigSONvEw84bYCKKNM2YYYu8hS3qReZy/H3dq7k0cwEzQA1QUJqv8LbEhN5bA==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: ZfWiFkmZwy9DQif0TDd2h00naeWlNabvFBhy4Yv6YgCISFoG9HBhpk4sQ/7KTNepmtCU6qdfxh7zqUxTU2vyYFTiWStZM+8RTC2gMi3jZQYC2p7NSkLomwQEhlCIoEM48q38uL0AQ/wBqcOdzJi7KOEOMDjwN/8Cx8Ba4h2rj4OuMmrT+ALAXRjOeEn28ClDuFf46uZ0RqrzmXB0t7a8+CgOe3hTLZg1ZfywdfVfRi9oJqAQPRAzCsnOmUtfn88wLyb7B3hgL3w3Un1O4q1qlG8P2/dSlx+ECS0T1kcBLpdvmXBPtb7yotEqgv9UzvBKr3FJEZKjlOy8+7zXhIhS9O4WzsL18/OiZ1phoY1N4bLcbLTodryS4QC/SD7Y8vZH+HChTkK/QLgIHhsQI5HpXOSC7bEA9ywrPb9pO+PdL4Cu0rBjtfiBoMoD372fqkFY1pYWNhsa4bIoYcVoil4XQQ1/M17wT2NGSMajOJyCReMZczrpiqhbiaILDkC43nGF+/J2Xim+t1lMxuQbfl3UG3mVtCWz8gwHoW9ONB/1Bk4V2230TB8xRXtW1JNtkemLSghl+EA2EAdaDH41LbOZp40CAaNwsrLVVugR30zmEtpn0ZK/Lky+NRdwmlz+PGS1
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d2460821-a0ba-4d6b-14a4-08defd1ee082
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR04MB10065.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2026 11:50:19.1665
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dI+2lO92QsvRzbQ+lXYjKOVY8g6CR7igFjccF07gZZ2/60SIARubdNf5Mwk/8/7TTUw/EkG/HVVq79iZrZPLD/HTkB8bgPuwxqbqcIVscxQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR04MB7042
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 03/10] block: support nesting for blk-mq flag
+ QUEUE_FLAG_SAME_FORCE
+To: Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, dwagner@suse.de,
+        kanie@linux.alibaba.com, jmeneghi@redhat.com, randyj@purestorage.com,
+        martin.petersen@oracle.com, john.g.garry@oracle.com,
+        gjoyce@linux.ibm.com
+References: <20260815173502.1185929-1-nilay@linux.ibm.com>
+ <20260815173502.1185929-4-nilay@linux.ibm.com>
+ <d11d3377-a4b3-45dc-b812-9dd06c8a2a38@suse.de>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <d11d3377-a4b3-45dc-b812-9dd06c8a2a38@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-GUID: mJ0pFx7PZuGRyOwi0AMpoH0u_GvIwYMC
+X-Proofpoint-ORIG-GUID: aCdsOEsnWemEpkPvizlTUggw-xsD_Cjv
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODE4MDA4NSBTYWx0ZWRfX0lCux8YXIc2g
+ FnI8pA3Q2lB0dCfrTHJyyPX/5O4Zqu9QjW9IqgTMC6O/04ELlazytAE5NCFb9g0syLSisy7Qjtn
+ nlejwHL0iAER8wjAJRcEX06qnAMx+ys=
+X-Authority-Analysis: v=2.4 cv=WtQb99fv c=1 sm=1 tr=0 ts=6a84492d cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=x2F-CqR5pgbWWvvpmiwA:9
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE4MDA4NSBTYWx0ZWRfX3DV28FlH7Xwt
+ 58cbjwnFHYngpgBNldOWo+MeH42Jt0SMJR2RdqJcbLMBP+H45etXrDIiTj9+bit9c/I+v+cqQcG
+ VLnBZgyQVWaDYFOf6Ey2nISIjMshKNbFjdZQbQMOgKCA4OIqatDDUTGn9habmmgXhiYVh9FmOeE
+ DBMooL0VRlf7MDbDdvWPT1KN6Suwt7cVyM/H5EFjz2a19UkxqNxJF605/w0YJeti6oNFqXwIv+l
+ XrSDejOjUYqTum59Z/6AE3z4NaMLRb9mWHeLdUpoK4pCtKMKoY+uTu6E9THbElD7W0Nx4qLcof8
+ nkfotT/epZRHlg8nY+vMcuekb7J4r7BIt8xRjgTK/DIXTnVTtIXWVQEcCVg2c/BpFV6iJHPPY8P
+ NB7IPMMShF9W3NVoqBVMHBBTTM+r+SIjC+Mxc3vZlLZh0omcw7WCCJk7ivCDgcLi8kjTRcVgqgk
+ OdvcP7VR61xtZkU+EHQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-18_01,2026-08-12_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 spamscore=0 malwarescore=0 suspectscore=0 phishscore=0
+ lowpriorityscore=0 clxscore=1015 adultscore=0 priorityscore=1501
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2608180085
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260818_045032_440167_C1ADE205 
-X-CRM114-Status: GOOD (  15.58  )
+X-CRM114-CacheID: sfid-20260818_045954_610854_86733160 
+X-CRM114-Status: GOOD (  20.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -155,232 +129,68 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
+On 8/18/26 3:28 PM, Hannes Reinecke wrote:
+> On 8/15/26 7:34 PM, Nilay Shroff wrote:
+>> QUEUE_FLAG_SAME_FORCE is currently used when setting rq_affinity
+>> through sysfs as well as by UFS mediatek driver while configuring scsi
+>> parameters. A subsequent patch adding a latency-based I/O policy
+>> for NVMe multipath will also use this flag.
+>>
+>> With multiple users able to set and clear QUEUE_FLAG_SAME_FORCE, the
+>> flag needs to support nesting so that one user clearing the flag does
+>> not inadvertently disable it for another user.
+>>
+>> Add a nesting counter, q->same_force_depth, for QUEUE_FLAG_SAME_FORCE.
+>> The flag is set when the first user acquires it and the nesting counter
+>> is incremented for each subsequent user. Similarly, each user releases
+>> its reference by decrementing the counter. The flag is cleared only
+>> when the last user releases it and the counter reaches zero.
+>>
+>> Preserve the existing sysfs rq_affinity semantics with a new
+>> q->same_force_sysfs flag. When userspace enables QUEUE_FLAG_SAME_FORCE
+>> by writing 2 to rq_affinity, mark q->same_force_sysfs as set and
+>> increment q->same_force_depth by one. Subsequent writes of 2 to
+>> rq_affinity while q->same_force_sysfs is already set are ignored, so
+>> repeated writes of 2 from userspace do not increase q->same_force_depth.
+>> Similarly, writing 0 or 1 decrements the q->same_force_depth and if
+>> nesting counter reached to 0 then clears the QUEUE_FLAG_SAME_FORCE.
+>> This ensures that multiple writes of 2 to rq_affinity do not require
+>> multiple writes of 0 or 1.
+>>
+>> This change ensures that sysfs interface retains its existing set/clear
+>> semantics while also allowing other kernel users to hold or release
+>> QUEUE_FLAG_SAME_FORCE.
+>>
+>> Added two new APIs blk_mq_same_force_set() and blk_mq_same_force_clear()
+>> to set and clear QUEUE_FLAG_SAME_FORCE respectively. Also, updated
+>> existing call paths using these new APIs which toggles
+>> QUEUE_FLAG_SAME_FORCE.
+>>
+> Yikes. Is this really necessary?
+> The flag can be set by different subsystems/drivers, sure, but from
+> what I've seen each user is mutually exclusive.
+> I'd rather disallow modifying this flag if the driver sets it, to
+> avoid upper layers or sysfs modifying it.
+> 
 
-I ran the latest blktests (git hash: ddc0babaccc4) with the v7.2 kernel. I
-observed 4 failures listed below. Comparing with the previous report for the
-v7.2-rc1 kernel [1], 4 failures are no longer observed (block/005,
-nvme/033,036,037, nvme/058 fc transport and nvme/063 tcp transport), and 2
-failures are new (nvme/068 and nvme/069).
+If we want to disallow userspace from modifying QUEUE_FLAG_SAME_FORCE
+while a driver owns it, then a userspace write to rq_affinity would have
+to either fail (e.g. with -EINVAL) or be silently ignored. In either case,
+that changes the existing userspace/sysfs semantics and may break userspace
+that expects the write to succeed.
 
-[1] https://lore.kernel.org/linux-block/akryKgCjof_7d9na@shinmob/
+Or are you suggesting that a write to rq_affinity to enable QUEUE_FLAG_SAME_FORCE
+should succeed when the driver has already set it? If so, what should happen when
+the driver subsequently releases QUEUE_FLAG_SAME_FORCE? In that case, we would
+clear QUEUE_FLAG_SAME_FORCE when the driver releases it, even though userspace may
+have previously written 2 to rq_affinity. That would effectively reset the state
+requested by userspace without informing userspace.
 
+This seems to require keeping track of the userspace request separately from
+the driver's ownership of the flag, which is one of the reasons I introduced
+same_force_sysfs along with the nesting counter.
 
-List of failures
-================
-#1: nvme/061 (rdma transport, siw driver)(kmemleak)
-#2: nvme/062 (tcp transport)
-#3: nvme/068 (new)
-#4: nvme/069 (new)
+Thanks,
+--Nilay
 
-
-Failure description
-===================
-
-#1: nvme/061 (rdma transport, siw driver)(kmemleak)
-
-    When the test case nvme/061 is repeated twice for the rdma transport and the
-    siw driver on the kernel with CONFIG_DEBUG_KMEMLEAK enabled, it causes
-    kmemleak that is detected at the beginning of the 2nd run. A fix patch is
-    queued for v7.3-rc1 kernel [2].
-
-    [2] https://lore.kernel.org/linux-nvme/20260629051529.810925-1-shinichiro.kawasaki@wdc.com/
-
-#2: nvme/062 (tcp transport)
-
-    The test case nvme/062 fails for tcp transport due to the lockdep WARN
-    related to the three locks root->kernfs_rwsem, sparse_irq_lock and
-    root->kernfs_supers_rwsem [1]. Fix discussion is ongoing [3] (Thank goes to
-    Xixin Liu).
-
-    [3] https://lore.kernel.org/linux-nvme/cover.1782436781.git.liuxixin@kylinos.cn/
-
-
-#3: nvme/068 (new)
-
-    When it is repeated several times, the test case nvme/068 fails with the
-    message below:
-
-    nvme/068 (tr=rdma) (NVMe multipath delayed removal test)     [failed]
-        runtime  10.979s  ...  10.975s
-        --- tests/nvme/068.out      2026-05-21 11:44:28.070959369 +0900
-        +++ /home/shin/Blktests/blktests/results/nodev_tr_rdma/nvme/068.out.bad     2026-08-18 17:51:30.262228567 +0900
-        @@ -1,3 +1,4 @@
-         Running nvme/068
-         pwrite: Input/output error
-        +module refcount not as original
-         Test complete
-
-    The failure is spoladic. I'm not sure if recent kernel changes triggered
-    the failure or not.
-
-    The failure looks dependent on test nodes. It was observed with loop
-    transport and rdma transport, but was not observed with tcp transport.
-    This needs further debug.
-
-#4: nvme/069 (new)
-
-    The test case nvme/069 fails with the KASAN slab-use-after-free in
-    cdev_put() regardless of transport types [4]. This failure is expected since
-    the test case was added to confirm the kernel side fix [5] for the failure.
-    The fix is queued for v7.3-rc1 kernel.
-
-    [5] https://lore.kernel.org/linux-nvme/20260713104238.3034640-1-john.g.garry@oracle.com/
-
-
-[4] dmesg during nvme/069
-
-Aug 18 15:18:43 testnode2 unknown: run blktests nvme/069 at 2026-08-18 15:18:43
-Aug 18 15:18:43 testnode2 kernel: loop0: detected capacity change from 0 to 2097152
-Aug 18 15:18:43 testnode2 kernel: nvmet: adding nsid 1 to subsystem blktests-subsystem-1
-Aug 18 15:18:43 testnode2 kernel: nvmet: Created nvm controller 1 for subsystem blktests-subsystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
-Aug 18 15:18:43 testnode2 kernel: nvme nvme5: creating 4 I/O queues.
-Aug 18 15:18:43 testnode2 kernel: nvme nvme5: new ctrl: "blktests-subsystem-1"
-Aug 18 15:18:44 testnode2 kernel: nvme nvme5: Removing ctrl: NQN "blktests-subsystem-1"
-Aug 18 15:18:45 testnode2 kernel: ==================================================================
-Aug 18 15:18:45 testnode2 kernel: BUG: KASAN: slab-use-after-free in cdev_put+0x54/0x60
-Aug 18 15:18:45 testnode2 kernel: Read of size 8 at addr ffff888128968170 by task nvme-delay-ioct/1178
-Aug 18 15:18:45 testnode2 kernel: 
-Aug 18 15:18:45 testnode2 kernel: CPU: 2 UID: 0 PID: 1178 Comm: nvme-delay-ioct Not tainted 7.2.0 #660 PREEMPT(full) 
-Aug 18 15:18:45 testnode2 kernel: Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.17.0-10.fc44 06/10/2025
-Aug 18 15:18:45 testnode2 kernel: Call Trace:
-Aug 18 15:18:45 testnode2 kernel:  <TASK>
-Aug 18 15:18:45 testnode2 kernel:  dump_stack_lvl+0x6a/0x90
-Aug 18 15:18:45 testnode2 kernel:  print_report+0x14b/0x4b0
-Aug 18 15:18:45 testnode2 kernel:  ? __virt_addr_valid+0x150/0x4d0
-Aug 18 15:18:45 testnode2 kernel:  ? __virt_addr_valid+0x228/0x4d0
-Aug 18 15:18:45 testnode2 kernel:  kasan_report+0xd5/0x100
-Aug 18 15:18:45 testnode2 kernel:  ? cdev_put+0x54/0x60
-Aug 18 15:18:45 testnode2 kernel:  ? cdev_put+0x54/0x60
-Aug 18 15:18:45 testnode2 kernel:  cdev_put+0x54/0x60
-Aug 18 15:18:45 testnode2 kernel:  __fput+0x749/0xae0
-Aug 18 15:18:45 testnode2 kernel:  fput_close_sync+0xda/0x1b0
-Aug 18 15:18:45 testnode2 kernel:  ? __pfx_fput_close_sync+0x10/0x10
-Aug 18 15:18:45 testnode2 kernel:  ? do_raw_spin_unlock+0x55/0x230
-Aug 18 15:18:45 testnode2 kernel:  __x64_sys_close+0x87/0xf0
-Aug 18 15:18:45 testnode2 kernel:  do_syscall_64+0xdf/0x790
-Aug 18 15:18:45 testnode2 kernel:  ? lock_acquire+0x199/0x320
-Aug 18 15:18:45 testnode2 kernel:  ? lock_acquire+0x1a9/0x320
-Aug 18 15:18:45 testnode2 kernel:  ? find_held_lock+0x2b/0x80
-Aug 18 15:18:45 testnode2 kernel:  ? nvme_ns_head_chr_ioctl+0x142/0x2e0 [nvme_core]
-Aug 18 15:18:45 testnode2 kernel:  ? lock_release+0x1b5/0x340
-Aug 18 15:18:45 testnode2 kernel:  ? nvme_numa_path+0xd5/0x190 [nvme_core]
-Aug 18 15:18:45 testnode2 kernel:  ? nvme_ns_head_chr_ioctl+0x152/0x2e0 [nvme_core]
-Aug 18 15:18:45 testnode2 kernel:  ? rcu_is_watching+0x11/0xb0
-Aug 18 15:18:45 testnode2 kernel:  ? do_syscall_64+0x1ec/0x790
-Aug 18 15:18:45 testnode2 kernel:  ? trace_hardirqs_on_prepare+0x139/0x180
-Aug 18 15:18:45 testnode2 kernel:  ? lockdep_hardirqs_on+0x8c/0x130
-Aug 18 15:18:45 testnode2 kernel:  ? entry_SYSCALL_64_after_hwframe+0x76/0x7e
-Aug 18 15:18:45 testnode2 kernel:  ? do_syscall_64+0x20a/0x790
-Aug 18 15:18:45 testnode2 kernel:  ? rcu_read_unlock+0x17/0x60
-Aug 18 15:18:45 testnode2 kernel:  ? lock_release+0x1b5/0x340
-Aug 18 15:18:45 testnode2 kernel:  ? find_held_lock+0x2b/0x80
-Aug 18 15:18:45 testnode2 kernel:  ? exc_page_fault+0x94/0x140
-Aug 18 15:18:45 testnode2 kernel:  ? lock_release+0x1b5/0x340
-Aug 18 15:18:45 testnode2 kernel:  ? rcu_is_watching+0x11/0xb0
-Aug 18 15:18:45 testnode2 kernel:  ? trace_hardirqs_on+0x14/0x190
-Aug 18 15:18:45 testnode2 kernel:  ? preempt_count_add+0x7f/0x190
-Aug 18 15:18:45 testnode2 kernel:  ? do_syscall_64+0x5d/0x790
-Aug 18 15:18:45 testnode2 kernel:  ? do_syscall_64+0x8d/0x790
-Aug 18 15:18:45 testnode2 kernel:  ? irqentry_exit+0xfc/0x810
-Aug 18 15:18:45 testnode2 kernel:  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-Aug 18 15:18:45 testnode2 kernel: RIP: 0033:0x7fa5379ab08e
-Aug 18 15:18:45 testnode2 kernel: Code: 4d 89 d8 e8 94 bd 00 00 4c 8b 5d f8 41 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 11 c9 c3 0f 1f 80 00 00 00 00 48 8b 45 10 0f 05 <c9> c3 83 e2 39 83 fa 08 75 e7 e8 03 ff ff ff 0f 1f 00 f3 0f 1e fa
-Aug 18 15:18:45 testnode2 kernel: RSP: 002b:00007fffd32959b0 EFLAGS: 00000202 ORIG_RAX: 0000000000000003
-Aug 18 15:18:45 testnode2 kernel: RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007fa5379ab08e
-Aug 18 15:18:45 testnode2 kernel: RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000003
-Aug 18 15:18:45 testnode2 kernel: RBP: 00007fffd32959c0 R08: 0000000000000000 R09: 0000000000000000
-Aug 18 15:18:45 testnode2 kernel: R10: 0000000000000000 R11: 0000000000000202 R12: 0000000000000001
-Aug 18 15:18:45 testnode2 kernel: R13: 0000000000000002 R14: 00007fa537b87000 R15: 0000000000402e00
-Aug 18 15:18:45 testnode2 kernel:  </TASK>
-Aug 18 15:18:45 testnode2 kernel: 
-Aug 18 15:18:45 testnode2 kernel: Allocated by task 88:
-Aug 18 15:18:45 testnode2 kernel:  kasan_save_stack+0x2b/0x50
-Aug 18 15:18:45 testnode2 kernel:  kasan_save_track+0x10/0x30
-Aug 18 15:18:45 testnode2 kernel:  __kasan_kmalloc+0x96/0xb0
-Aug 18 15:18:45 testnode2 kernel:  __kmalloc_noprof+0x2fa/0x870
-Aug 18 15:18:45 testnode2 kernel:  nvme_alloc_ns+0x8af/0x2ce0 [nvme_core]
-Aug 18 15:18:45 testnode2 kernel:  nvme_scan_ns+0x647/0x7b0 [nvme_core]
-Aug 18 15:18:45 testnode2 kernel:  async_run_entry_fn+0x93/0x550
-Aug 18 15:18:45 testnode2 kernel:  process_one_work+0x8b2/0x15e0
-Aug 18 15:18:45 testnode2 kernel:  worker_thread+0x5fd/0xfe0
-Aug 18 15:18:45 testnode2 kernel:  kthread+0x367/0x460
-Aug 18 15:18:45 testnode2 kernel:  ret_from_fork+0x655/0x9d0
-Aug 18 15:18:45 testnode2 kernel:  ret_from_fork_asm+0x1a/0x30
-Aug 18 15:18:45 testnode2 kernel: 
-Aug 18 15:18:45 testnode2 kernel: Freed by task 1178:
-Aug 18 15:18:45 testnode2 kernel:  kasan_save_stack+0x2b/0x50
-Aug 18 15:18:45 testnode2 kernel:  kasan_save_track+0x10/0x30
-Aug 18 15:18:45 testnode2 kernel:  kasan_save_free_info+0x37/0x60
-Aug 18 15:18:45 testnode2 kernel:  __kasan_slab_free+0x68/0x90
-Aug 18 15:18:45 testnode2 kernel:  kfree+0x273/0x6e0
-Aug 18 15:18:45 testnode2 kernel:  nvme_ns_head_chr_release+0x3d/0x60 [nvme_core]
-Aug 18 15:18:45 testnode2 kernel:  __fput+0x36f/0xae0
-Aug 18 15:18:45 testnode2 kernel:  fput_close_sync+0xda/0x1b0
-Aug 18 15:18:45 testnode2 kernel:  __x64_sys_close+0x87/0xf0
-Aug 18 15:18:45 testnode2 kernel:  do_syscall_64+0xdf/0x790
-Aug 18 15:18:45 testnode2 kernel:  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-Aug 18 15:18:45 testnode2 kernel: 
-Aug 18 15:18:45 testnode2 kernel: Last potentially related work creation:
-Aug 18 15:18:45 testnode2 kernel:  kasan_save_stack+0x2b/0x50
-Aug 18 15:18:45 testnode2 kernel:  kasan_record_aux_stack+0xbb/0xf0
-Aug 18 15:18:45 testnode2 kernel:  insert_work+0x3c/0x2f0
-Aug 18 15:18:45 testnode2 kernel:  __queue_work+0x9e6/0xf50
-Aug 18 15:18:45 testnode2 kernel:  queue_work_on+0xc8/0xd0
-Aug 18 15:18:45 testnode2 kernel:  kblockd_schedule_work+0x19/0x30
-Aug 18 15:18:45 testnode2 kernel:  nvme_mpath_put_disk+0x46/0xb0 [nvme_core]
-Aug 18 15:18:45 testnode2 kernel:  nvme_free_ns_head+0x22/0x170 [nvme_core]
-Aug 18 15:18:45 testnode2 kernel:  nvme_ns_head_chr_release+0x3d/0x60 [nvme_core]
-Aug 18 15:18:45 testnode2 kernel:  __fput+0x36f/0xae0
-Aug 18 15:18:45 testnode2 kernel:  fput_close_sync+0xda/0x1b0
-Aug 18 15:18:45 testnode2 kernel:  __x64_sys_close+0x87/0xf0
-Aug 18 15:18:45 testnode2 kernel:  do_syscall_64+0xdf/0x790
-Aug 18 15:18:45 testnode2 kernel:  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-Aug 18 15:18:45 testnode2 kernel: 
-Aug 18 15:18:45 testnode2 kernel: Second to last potentially related work creation:
-Aug 18 15:18:45 testnode2 kernel:  kasan_save_stack+0x2b/0x50
-Aug 18 15:18:45 testnode2 kernel:  kasan_record_aux_stack+0xbb/0xf0
-Aug 18 15:18:45 testnode2 kernel:  insert_work+0x3c/0x2f0
-Aug 18 15:18:45 testnode2 kernel:  __queue_work+0x9e6/0xf50
-Aug 18 15:18:45 testnode2 kernel:  queue_work_on+0xc8/0xd0
-Aug 18 15:18:45 testnode2 kernel:  kblockd_schedule_work+0x19/0x30
-Aug 18 15:18:45 testnode2 kernel:  nvme_remove_head+0x40/0xc0 [nvme_core]
-Aug 18 15:18:45 testnode2 kernel:  nvme_ns_remove+0x50c/0x9e0 [nvme_core]
-Aug 18 15:18:45 testnode2 kernel:  nvme_remove_namespaces+0x289/0x3f0 [nvme_core]
-Aug 18 15:18:45 testnode2 kernel:  nvme_do_delete_ctrl+0xf6/0x160 [nvme_core]
-Aug 18 15:18:45 testnode2 kernel:  nvme_delete_ctrl_sync.cold+0x8/0xd [nvme_core]
-Aug 18 15:18:45 testnode2 kernel:  nvme_sysfs_delete+0xb7/0xe0 [nvme_core]
-Aug 18 15:18:45 testnode2 kernel:  kernfs_fop_write_iter+0x3d6/0x5e0
-Aug 18 15:18:45 testnode2 kernel:  vfs_write+0x4b3/0xf40
-Aug 18 15:18:45 testnode2 kernel:  ksys_write+0x112/0x250
-Aug 18 15:18:45 testnode2 kernel:  do_syscall_64+0xdf/0x790
-Aug 18 15:18:45 testnode2 kernel:  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-Aug 18 15:18:45 testnode2 kernel: 
-Aug 18 15:18:45 testnode2 kernel: The buggy address belongs to the object at ffff888128968000
-                                   which belongs to the cache kmalloc-4k of size 4096
-Aug 18 15:18:45 testnode2 kernel: The buggy address is located 368 bytes inside of
-                                   freed 4096-byte region [ffff888128968000, ffff888128969000)
-Aug 18 15:18:45 testnode2 kernel: 
-Aug 18 15:18:45 testnode2 kernel: The buggy address belongs to the physical page:
-Aug 18 15:18:45 testnode2 kernel: page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x128968
-Aug 18 15:18:45 testnode2 kernel: head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-Aug 18 15:18:45 testnode2 kernel: flags: 0x17ffffc0000040(head|node=0|zone=2|lastcpupid=0x1fffff)
-Aug 18 15:18:45 testnode2 kernel: page_type: f5(slab)
-Aug 18 15:18:45 testnode2 kernel: raw: 0017ffffc0000040 ffff888100043040 dead000000000100 dead000000000122
-Aug 18 15:18:45 testnode2 kernel: raw: 0000000000000000 0000000800040004 00000000f5000000 0000000000000000
-Aug 18 15:18:45 testnode2 kernel: head: 0017ffffc0000040 ffff888100043040 dead000000000100 dead000000000122
-Aug 18 15:18:45 testnode2 kernel: head: 0000000000000000 0000000800040004 00000000f5000000 0000000000000000
-Aug 18 15:18:45 testnode2 kernel: head: 0017ffffc0000003 fffffffffffffe01 00000000ffffffff 00000000ffffffff
-Aug 18 15:18:45 testnode2 kernel: head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000008
-Aug 18 15:18:45 testnode2 kernel: page dumped because: kasan: bad access detected
-Aug 18 15:18:45 testnode2 kernel: 
-Aug 18 15:18:45 testnode2 kernel: Memory state around the buggy address:
-Aug 18 15:18:45 testnode2 kernel:  ffff888128968000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-Aug 18 15:18:45 testnode2 kernel:  ffff888128968080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-Aug 18 15:18:45 testnode2 kernel: >ffff888128968100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-Aug 18 15:18:45 testnode2 kernel:                                                              ^
-Aug 18 15:18:45 testnode2 kernel:  ffff888128968180: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-Aug 18 15:18:45 testnode2 kernel:  ffff888128968200: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-Aug 18 15:18:45 testnode2 kernel: ==================================================================
-Aug 18 15:18:45 testnode2 kernel: Disabling lock debugging due to kernel taint
 
