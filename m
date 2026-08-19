@@ -4,58 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7722CC5DF6D
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Aug 2026 06:34:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A35C2C5DF6D
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Aug 2026 06:45:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:To:Date:
-	Content-Transfer-Encoding:In-Reply-To:References:Mime-Version:From:Cc:
-	Message-Id:Content-Type:Subject:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=rqCVnzS/NPfiWjrhbZkLQ3VkJuSaz5Zu2kIHduRdAKg=; b=MZ80XdiQsytkCu
-	xdefhJBs1xeXs/3iQixUfZ+25oj8/u0Wm+zWmejo28PjwqidaNhpq84M3vDQiuQIyH/2dVVPYLcPX
-	yuWc8jwtBXfRj81gc5xg7XHnP304nAVnicCSGZLkpQoNy0tLvWBuZ3tBElxokIZjdpE1UWLPLKjR9
-	9YQ+KJd/7TuhQgbyqL5AoGsJ52CwlpmQrmqzKRfCMYqKl38kZ001lxlYmcfupm8R2y8f0yJnVs8ic
-	wOapNGZHN29YoFnW3DKF4/4b1a9el9DC1SURKLH7FwPm73VixM1crAuUqLJL3ZS+IAWmoHxN8cmnn
-	lEw4a1QLGGo393Q0E8RQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=9djQu0T9n91GdufdgQ7vKT8VOZoi1LzDFFjF74vNil8=; b=zdiWY2Yu+yMVYTXLagWi9+MxzW
+	OJueI7rFPSL3zlyREGGMtZzZQZ5U2l9ovtD2QquIhEiNV/bqFKGWNTq6DSDGOhH44/q7OH8XQwq1z
+	1sDiWavE9rSURoPKLkHMVdRmMtcGTJM+zu6W5Axm3Z0ulxDfKY6PMyDDGILOqTe48R4qt/U4ge4Pk
+	nhm8D6Q6BrvPgxLNI90NnF1waWFw7eDAxZTIv3r1NuiU+svLhCfuFqy5I4TIL75covEHHxNcRYZL8
+	0ftMPRxmLY6CKe5xC0C4xN0UDgqr3niPZ4geWzpWs+E/Ho0cqEhkxWHo6Ed3ZkF9bIPy68LB51KkH
+	XZ3N5tZg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwZsO-000000096a0-1BvO;
-	Wed, 19 Aug 2026 06:34:16 +0000
-Received: from va-1-112.ptr.blmpb.com ([209.127.230.112])
+	id 1wwa2o-0000000979E-1uP6;
+	Wed, 19 Aug 2026 06:45:02 +0000
+Received: from mailgw.kylinos.cn ([124.126.103.232])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwZsJ-000000096Z9-3zvP
+	id 1wwa2m-0000000978F-0vPy
 	for linux-nvme@lists.infradead.org;
-	Wed, 19 Aug 2026 06:34:14 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1787121242; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=rqCVnzS/NPfiWjrhbZkLQ3VkJuSaz5Zu2kIHduRdAKg=;
- b=OmPJfq6YtvXUlii1glvo+sIXx2zblXqs73BvD/nGza1iqzU8l+czq0JIUA6DT6OV6k3AdZ
- nA+qMHHbmQQ9NKcIO0uAmeYBdnnvmCL1nl84QmIdqZyJ/zvRJ2QwgBxG1rAAFU6Tm+aAi3
- yz4A+q02W3tNJPvD3OPIMyWGORqM4cHsBGEJOAMzQ+fR2YcXKULVAMsFnvTYagL6zMpf/R
- 4AT6zX4M2ourmUOxzYRD4LyALt0hG8AZ3RknCCLXF4G2y0TNoyC9Ja+tX9QzycQPbPUl6Z
- PmW+yzLHemiiyWWBzRpQTe0ZcgIhMWK7Gc0FnKy9pNumvExo/kwD0GWDXTYvEg==
-Subject: Re: [PATCH] nvme-pci: add adaptive interrupt polling
-X-Lms-Return-Path: <lba+16a854e58+dd0286+lists.infradead.org+changfengnan@bytedance.com>
+	Wed, 19 Aug 2026 06:45:02 +0000
+X-UUID: 7a4a47449b9911f19a56ed5b684f684d-20260819
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:9d47f9ec-f4eb-49b9-a9aa-63616eada200,IP:0,U
+	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:-5
+X-CID-META: VersionHash:7db8b62,CLOUDID:8680156d63706c8edac0203147788cea,BulkI
+	D:nil,BulkQuantity:0,SF:81|82|102|136|865|898,TC:nil,Content:0|15|50,EDM:-
+	3|-100,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OS
+	A:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 7a4a47449b9911f19a56ed5b684f684d-20260819
+X-User: liuxixin@kylinos.cn
+Received: from [127.0.1.1] [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <liuxixin@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 636558454; Wed, 19 Aug 2026 14:44:50 +0800
+From: Xixin Liu <liuxixin@kylinos.cn>
+To: linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, linux-kernel@vger.kernel.org, liuxixin@kylinos.cn
+Subject: [PATCH v2 0/1] nvme-rdma: fix -EIO cleanup order in queue_rq
+Date: Wed, 19 Aug 2026 14:30:00 +0800
+Message-ID: <cover.v2.1787121041.git.liuxixin@kylinos.cn>
+In-Reply-To: <nvme-rdma-queue-rq-eio-unmap.v1.git.liuxixin@kylinos.cn>
+References: <nvme-rdma-queue-rq-eio-unmap.v1.git.liuxixin@kylinos.cn>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Message-Id: <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.24f615b7.8a6c.4015.8a82.6921eb95e609@bytedance.com>
-Cc: "Keith Busch" <kbusch@kernel.org>, "Jens Axboe" <axboe@kernel.dk>, 
-	"Christoph Hellwig" <hch@lst.de>, "Sagi Grimberg" <sagi@grimberg.me>, 
-	<linux-nvme@lists.infradead.org>, <linux-kernel@vger.kernel.org>, 
-	<jun1.zeng@intel.com>, "Guzebing" <guzebing@bytedance.com>
-From: "changfengnan" <changfengnan@bytedance.com>
-Mime-Version: 1.0
-References: <20260818033846.53790-1-changfengnan@bytedance.com> <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.c71e295f.cf49.450b.ad13.ed0e27cd481a@bytedance.com>
-	<20260819052517.GB32364@lst.de>
-In-Reply-To: <20260819052517.GB32364@lst.de>
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 19 Aug 2026 14:33:57 +0800
-To: "Christoph Hellwig" <hch@lst.de>
+Content-Transfer-Encoding: 8bit
+X-Mailer: patches/scripts/send-local.py
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260818_233412_332186_43221ECB 
-X-CRM114-Status: GOOD (  13.56  )
+X-CRM114-CacheID: sfid-20260818_234500_973537_AADDE24B 
+X-CRM114-Status: UNSURE (   6.41  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,45 +76,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hi,
 
-> From: "Christoph Hellwig"<hch@lst.de>
-> Date:=C2=A0 Wed, Aug 19, 2026, 13:25
-> Subject:=C2=A0 Re: [PATCH] nvme-pci: add adaptive interrupt polling
-> To: "changfengnan"<changfengnan@bytedance.com>
-> Cc: "Keith Busch"<kbusch@kernel.org>, "Jens Axboe"<axboe@kernel.dk>, "Chr=
-istoph Hellwig"<hch@lst.de>, "Sagi Grimberg"<sagi@grimberg.me>, <linux-nvme=
-@lists.infradead.org>, <linux-kernel@vger.kernel.org>, <jun1.zeng@intel.com=
->, "Guzebing"<guzebing@bytedance.com>
-> On Tue, Aug 18, 2026 at 11:53:55AM +0800, changfengnan wrote:
-> > 1. Regarding the NVME_ADAPTIVE_POLL_PERIOD_NS parameter, is it necessar=
-y to make it a configurable setting? Perhaps Gen6 SSDs require a smaller va=
-lue? I currently do not have a testing environment for this, but the defaul=
-t value of 10 us appears to be sufficient for Gen4 and Gen5.=C2=A0
->=C2=A0
-> The most important thing to consider in the short term is not the fastest
-> possible devices, but the worst. =C2=A0I.e. consider what this does on re=
-ally
-> crappy older cusomer drives, as that is probably the biggest install base
-> using the Linux nvme driver.
-That makes sense, we also need to see how it performs with consumer-grade
-NVMe drives. I only have an old Samsung 970 NVMe here, so I don=E2=80=99t h=
-ave
-much of a testing environment for consumer-grade NVMe drives.=C2=A0
-I hope someone can help me test it out :)
+Thanks Christoph for the if/else readability suggestion on the
+RESOURCE versus IOERR branch.
 
->=C2=A0
-> > 2. Should MSI be supported? I do not have a similar environment, so I a=
-m unsure how it would perform in such scenarios.=C2=A0
->=C2=A0
-> Or legacy interrupts :) =C2=A0I don't think we have to support them as lo=
-ng
-> as we cleanly disable the feature.
->=C2=A0
-> > 3. Should it be enabled by default? Although current tests show only a =
-minor performance hit, I still lean toward disabling it by default and wait=
-ing to gather more test feedback.
->=C2=A0
-> I think it should eventually enabled by default, but I'd also be happy
-> to merge it fist and then flip the bit later.
->=C2=A0
+Changes since v1:
+- use if/else for RESOURCE versus IOERR as suggested by Christoph
+- initialize err to 0 for the shared unmap_qe path
+
+Thanks,
+Xixin Liu
+
+---
+
+Xixin Liu (1):
+  nvme-rdma: fix -EIO cleanup order in queue_rq
+
+ drivers/nvme/host/rdma.c | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
+
+-- 
+2.53.0
+
 
