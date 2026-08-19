@@ -4,87 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 842A2C5DF86
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Aug 2026 11:58:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 10CE2C5DF6D
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Aug 2026 12:05:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
 	Message-ID:Subject:To:From:Date:Reply-To:Cc:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=FUbOFNxHUTC7V8JQSoLDqtKrp+gj9YqDk+TO38MWE6I=; b=tBKIFB01pvZinUEM/bPxzV3pZO
-	jYyiKwLPrFr3MsyzWPXO8LEJAEI5y0EnonazhTzD1fwI/SJktEAkV7V8HUQ7X22No/+brVGyWPZxp
-	Btq09vTESRXg8oi2MfD/GxQ1RDc7bPAyid52Zzmaa7gYA2aIF3UXJlYiOZ6rN5qbTWJLIOuAfCT4j
-	cfD2wpjymCCFOBWk2bp7G7/+ycORRwVZE1663LfsQfmlSqOZTN93qof4Fo4/rEF6dLAx9kh3BMlqY
-	A+6kvmf2Tpo+ZVuWdHzotU/mVfUKsLJmMitXWEjrSf3OAU47ufQDYcWezvaVhljj4O5MnOsPTpSgh
-	os4G/xgg==;
+	bh=X5pIZW1lJTTGeXnIu2W0ab3cX3cmVhHVzaspBtaFF/s=; b=Wb1OA/hOT/tV9+lXOz8luAtzZX
+	dXXnzE2v2tgehCF7bFv69sm8/VM7ivEYuldU9mmuITbccbU8WXQ132fegnCYePpzxc2ediJC3YInJ
+	/SQXixKQjHcb74lSJoT4ukmv13QtTWdChag83UBtGC6CwMtwbmtnf1G6LiRymc608d17FXqgAVmYw
+	QgeLzVYXa1wcA4Tgu50tJHwooQxfTFS4Kwx5n/gz93m5as5uwA3XK04q9nkubr2ONsfsg1RynFNHY
+	KOQsT+71GzvM3rFhLrxME1sL2flmw4Li/5HbWO5EiwM5gZc2fb+E6Jn9zBlgUGpDrK5EGwpHHW57Z
+	S5eVtyKA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwevh-00000009iMT-1sQW;
-	Wed, 19 Aug 2026 11:58:01 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1wwf3E-00000009iq0-2TgB;
+	Wed, 19 Aug 2026 12:05:48 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwevf-00000009iLx-1lSe
+	id 1wwf3B-00000009ipi-47IU
 	for linux-nvme@lists.infradead.org;
-	Wed, 19 Aug 2026 11:58:00 +0000
+	Wed, 19 Aug 2026 12:05:47 +0000
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 0A63684AFA
-	for <linux-nvme@lists.infradead.org>; Wed, 19 Aug 2026 11:57:48 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1473884AEF
+	for <linux-nvme@lists.infradead.org>; Wed, 19 Aug 2026 12:05:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1787140672; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1787141140; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:content-type:content-type;
-	bh=FUbOFNxHUTC7V8JQSoLDqtKrp+gj9YqDk+TO38MWE6I=;
-	b=vpD/fIERkr9dA9wLQkU1wrQzScCphDy/NbCl66vM0kztnncjTn7RKVrEvf6qC3HGWlOxfe
-	gDm2guwwfgd2Zk6WYJJDXDYgVLKwNNCBJjND15MdYgxXXeP1lf3McD3T4m+uspO7HqKgPq
-	FXsQ2wI/5JLJ/TzBjlL8sW+RQyx4dfA=
+	bh=X5pIZW1lJTTGeXnIu2W0ab3cX3cmVhHVzaspBtaFF/s=;
+	b=nepJLdEc8y/okJL9nHCe5JxPqTCvXbjchdZHPZCi9dQ/pxDann0pfjE1J45wplSxWxdnyf
+	9r5Ef3ZVCr6X8n5OmPZvpEEs+y3soGQgvMOwX8X9MG4a8Id/GXIXD01A4eG6lrhKk7mksK
+	Lqda8HQgo1tU+hjHQ5/eJ6yEA066wXI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1787140672;
+	s=susede2_ed25519; t=1787141140;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:content-type:content-type;
-	bh=FUbOFNxHUTC7V8JQSoLDqtKrp+gj9YqDk+TO38MWE6I=;
-	b=VP4t1xzx/GafjCs2Tkwz1aPKKcvmDKp3fqaL9/e3ClJTk9ZDa32LPXxuDcpceblBcSyLlL
-	S//ks8Va4xiuxIBQ==
+	bh=X5pIZW1lJTTGeXnIu2W0ab3cX3cmVhHVzaspBtaFF/s=;
+	b=NBmUqPFXd3ZbSFGbO7tvGet2LXYw8YCMA7X02pkXTAuWx+K5vT/cGU2wGASxPhaczacOCl
+	UnHw9TuV3ItDrvDg==
 Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1787140668; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1787141136; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:content-type:content-type;
-	bh=FUbOFNxHUTC7V8JQSoLDqtKrp+gj9YqDk+TO38MWE6I=;
-	b=t0DBx7d3YBJmgCMOqCUscsv12rwfY2AHtq7y4vEKZMBqo7T8x5FZ+VfppJnDxWdxxuy7Pj
-	obf6aa9/w6UZIjOpsl7uUGL3HN+OiHRfejy9rCbuXVlnPZfXx/48EsVVgjt0QGEVTm9q8q
-	EebeM01HKSy93GOgrlaaqnLaB+1nzuo=
+	bh=X5pIZW1lJTTGeXnIu2W0ab3cX3cmVhHVzaspBtaFF/s=;
+	b=K0+/y73ko0ecsnXzxu/Tctz7Y8SQjn+u5F5Q/73XaYhbEFNjEisTQ8INkrKX6vjp7lidr2
+	PoDolLZJL20cejxjy5BTkYpYqlQPJAKoRMNKJFkB/DfNhIf4ECAP8fY7LgCJNSi7eGmFoP
+	HI77s6UUddk1ePeTtxdQagqgc03PiKY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1787140668;
+	s=susede2_ed25519; t=1787141136;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:content-type:content-type;
-	bh=FUbOFNxHUTC7V8JQSoLDqtKrp+gj9YqDk+TO38MWE6I=;
-	b=1s7/r45G/fWJPbx2px7IYPqtNvKyASgi8fYSgVnAelGcZQ2y4V6c6V4xKTLr78nbSb2QrF
-	Ip+XNDMuaGQKUcBA==
+	bh=X5pIZW1lJTTGeXnIu2W0ab3cX3cmVhHVzaspBtaFF/s=;
+	b=lnQaSmgS9O7D+wcflWbAaLe4Tkl0WOZTfvJ5a7POtr6cp33ZsfEPiN7+1QeKZPMZ5PT3TV
+	Sv1s1MZrekmubCDg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EAE3E2F81
-	for <linux-nvme@lists.infradead.org>; Wed, 19 Aug 2026 11:57:47 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ECCBE2F81
+	for <linux-nvme@lists.infradead.org>; Wed, 19 Aug 2026 12:05:35 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 8g+rNzuahWo8bwAAD6G6ig
+	id Tts1OA+chWrJdgAAD6G6ig
 	(envelope-from <dwagner@suse.de>)
-	for <linux-nvme@lists.infradead.org>; Wed, 19 Aug 2026 11:57:47 +0000
-Date: Wed, 19 Aug 2026 13:57:43 +0200
+	for <linux-nvme@lists.infradead.org>; Wed, 19 Aug 2026 12:05:35 +0000
+Date: Wed, 19 Aug 2026 14:05:31 +0200
 From: Daniel Wagner <dwagner@suse.de>
 To: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: [ANNOUNCE] nvmetcli v0.9
-Message-ID: <dcbb3a2f-98be-4506-9b98-45e764c78620@flourine.local>
+Subject: [ANNOUNCE] nvme-cli 3.0 release candicate cycles has started
+Message-ID: <286dcd0d-d94a-4dd9-aef0-46f46f642b41@flourine.local>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Spamd-Result: default: False [-1.89 / 50.00];
+X-Spamd-Result: default: False [-4.21 / 50.00];
+	BAYES_HAM(-2.91)[99.62%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	BAYES_HAM(-0.59)[81.62%];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
@@ -100,10 +100,11 @@ X-Spamd-Result: default: False [-1.89 / 50.00];
 	FROM_EQ_ENVFROM(0.00)[];
 	TO_DN_EQ_ADDR_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,flourine.local:mid]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260819_045759_609080_B347B8A7 
-X-CRM114-Status: GOOD (  10.30  )
+X-CRM114-CacheID: sfid-20260819_050546_207709_2B21AB63 
+X-CRM114-Status: UNSURE (   8.62  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -118,62 +119,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-A new release of nvmetcli v0.9 is available.
+The nvme-cli 3.0 release candidate cycle started last Monday. But there
+were still a few larger changes since then. But now I think we reached
+the point where things can finally calm down for the upcoming 3.0. I
+plan to release end of August.
 
- New features
-  - NVMe passthru target support
+FWIW, I'm also sending out soon some more patches for blktests, so it
+works nicely with nvme-cli 2.x and 3.x. 
 
-    Configure passthru targets via configshell (Nilay Shroff)
- 
-  - Reservation configuration support
-
-    Persistent reservation settings can be saved/restored (Guixin Liu)
-
-  - DHCHAP attribute persistence
-
-    Host DHCHAP authentication values (dhchap_*) are now correctly
-    saved and restored under hosts/ (Hannes Reinecke)
-    
-  - discovery_nqn configfs attribute
-
-    read/modify the persistent discovery NQN (Hannes Reinecke)
-
-  - Non-interactive command execution
-
-    nvmetcli can now run an arbitrary shell command directly from the
-    command line instead of requiring the interactive shell
-    (Maurizio Lombardi)
-
-  Build & packaging
-  - Migrated from setup.py to PEP 517/518 packaging (pyproject.toml)
-
-  - Removed the python-kmod dependency; falls back to invoking the kmod
-    binary directly when kmodpy is unavailable
-
-  - Removed use of the six compatibility package (Python 2 support fully
-    dropped) (Ales Novak)
-
-  - Added a GitHub Actions CI workflow for build/test, plus linting
-    (flake8, pylint) and mypy type-checking gates
-
-  Code quality / maintenance
-  - Added type annotations across nvmet/nvmetcli
-
-  - Converted %-style string formatting to f-strings (Ales Novak)
-
-  - Added docstrings to modules, classes, and methods (Ales Novak)
-
-  - Tightened exception handling (narrower except clauses, proper raise
-     ... from)
-     
-  - Reorganized imports and kernel-module loading logic (Ales Novak)
-  
-  - Tests now fall back to temporary sparse files as backing devices
-    when real block devices aren't available
-    
-Naturally, right after cutting the release, I discovered a bug in the
-Makefile for running tests on Debian. The fix is already in the tree if
-you need it.
+If you happen to find a time to test or review it, it would be highly
+appreciated.
 
 Daniel
 
