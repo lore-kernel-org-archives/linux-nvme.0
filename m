@@ -4,57 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 23CAEC5B572
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Aug 2026 15:33:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A6346C5B572
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Aug 2026 15:33:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pQCYldpdidsXXOH3YCXLuw/VRa5qzRh67OUMoesUWwE=; b=03YSnvv84uz1asatip7Xy+Kvnc
-	fjNxJp55NyJIPJMc94ltjLWPpEvnOmR5b9ifrkhopqsAGQzV6NFnSYEofpgD5jmKU1oOekcVjN8pP
-	EHls1d1d11hwf57393WdgkR6KSv029JQjUN5kBOAF7dU/k0GzFU8VRzTKAwK9RyCzQGV8RMkF/YWP
-	y2a/hIzzlTnKksnFMRiw5yFM6kvAYNF5g5UcBNUyRjErG10b8vpCW5a2BIEYyVE8l5+jwGmNQrXQl
-	n6IACiJ234zcvNzADN3Ph8cMNYzI4KE5T0LhONRIsh0CwD/0JZHRRMulipfrE3tcVfbItTZ4as5S/
-	hFsCV2Ng==;
+	bh=Z+obtHm7hXT2S6sFzgSpj2nG/aYMzx8Fys0Tl+mZ748=; b=SSDnE4vyshViBPlEeIGTbkfUQ3
+	l0F8v6XuCt350eCu/MyjtazIeicZe391pafAEyuVledNfkHm7BytqEv0Jo6wXNkhj1AQW6USPlG9d
+	PGyikjwUZANb9zDjYvgu1ctrC4/F28v0iRREzMOWf0szjZFiuGd4iVH7+esUp/nV0eijvSz1EpQPE
+	NN7gU+i409J0G7Xc96RC17VryJMPL2ndueudLRcGwKIHuYPbfDdppMIjxH/ye+JlpaByyt0J2/kvy
+	cRTaTU22ttlvlLvB4Jj0IU+6rmP1WT515GM3C+CcXgLVFSRrvjc8HF3PiztPL3P/bpYp/QjOGTpqB
+	2mIzYgcg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwiIB-0000000A690-0AM1;
-	Wed, 19 Aug 2026 15:33:27 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1wwiIU-0000000A6Db-0pwn;
+	Wed, 19 Aug 2026 15:33:46 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwiI9-0000000A68U-2WsV
+	id 1wwiIS-0000000A6DB-1AQ0
 	for linux-nvme@lists.infradead.org;
-	Wed, 19 Aug 2026 15:33:25 +0000
+	Wed, 19 Aug 2026 15:33:44 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 5C233417B2;
-	Wed, 19 Aug 2026 15:33:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13C2E1F00A3A;
-	Wed, 19 Aug 2026 15:33:25 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 90A1660A92;
+	Wed, 19 Aug 2026 15:33:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 018311F000E9;
+	Wed, 19 Aug 2026 15:33:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787153605;
-	bh=pQCYldpdidsXXOH3YCXLuw/VRa5qzRh67OUMoesUWwE=;
+	s=k20260515; t=1787153623;
+	bh=Z+obtHm7hXT2S6sFzgSpj2nG/aYMzx8Fys0Tl+mZ748=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=mpcQJS/h/s66BxR7H38UX6GA0nB0tRtuhQ/u/3TLWcdXkWW+ncI0rZ1FBS+CDR/Ni
-	 031ygE/vDq2sImrUAdISSDmASSqZmo0oHlgMHXEm3mnM3gNdbZ7VU0iFAkxkJJIlaH
-	 zvk5+E5u0FD5YZMAcYNCXZhdJFktnz9mVCeestzE7tOA1m8qcHY3CVSQ/NDWhkv+GC
-	 0ZPGsRe/jBufWFUJHDAKjuRPksEZ4nkSIDNTXYrOAacuY/qBm0slP1ClQYsWVzbdP8
-	 wozvzqRF37gWhXwXtvQmJoiXx308KcWLg/8c6DGpHkTj4BwFURA+yBxG7j7/r+SHbY
-	 n5M9bNhtJfmZA==
-Date: Wed, 19 Aug 2026 09:33:23 -0600
+	b=EVFcE+w+O6j6/iZZ5X4XUExFXLr3WzFK07KrUCHYgWlOl9cz5/w4Adm9f9lVwvSob
+	 U4JukQOiHztjfMdAkmv9PXPiLaGDaIs4J0yQQrILoUSAoodFtAz33fTp2Sb2aOJwF8
+	 y0dravcyKqq6x73s8Gq/mSnW1I+bejM+CRfCE6jxHrs8sAy3kmhS62Swlmo2uv+5Js
+	 fxE7vQuqPRWHQ5bTfqXMYFqYWb2xxlj3RrdCqhzw08MKGyhzi6JV8etvwJjCw2fI0a
+	 bB6p7qSV6ac/N4XevKVTprrOpG9hVkptGtEXVhlqLh1Z2Ttx/y6MLVVsETAay3zfK8
+	 zt6c08Wmv7LKA==
+Date: Wed, 19 Aug 2026 09:33:41 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Mohamed Khalfella <mkhalfella@purestorage.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] nvme: add opcode filtering for fault injection
-Message-ID: <aoXMw1CKFlecrXU0@kbusch-mbp>
-References: <20260811231152.1138761-1-mkhalfella@purestorage.com>
+To: Xixin Liu <liuxixin@kylinos.cn>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me,
+	kch@nvidia.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nvmet-rdma: fix queue leak when connect backlog is
+ exceeded
+Message-ID: <aoXM1U0IP1of5l8q@kbusch-mbp>
+References: <nvmet-rdma-backlog-leak.v1.git.liuxixin@kylinos.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260811231152.1138761-1-mkhalfella@purestorage.com>
+In-Reply-To: <nvmet-rdma-backlog-leak.v1.git.liuxixin@kylinos.cn>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,16 +69,10 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Aug 11, 2026 at 04:11:52PM -0700, Mohamed Khalfella wrote:
-> Currently NVMe fault injection applies to every command routed through
-> nvme_should_fail(), which makes it hard to target a specific command
-> type when reproducing an issue in error-handling paths.
-> 
-> Add an "opcode" debugfs attribute alongside the existing "status" and
-> "dont_retry" knobs. It defaults to 0xffff, meaning "match any opcode"
-> and preserving the previous behavior. When set to a valid opcode
-> (<= 0xff), fault injection is only considered for commands whose opcode
-> matches.
+On Thu, Aug 13, 2026 at 02:42:01PM +0800, Xixin Liu wrote:
+> When pending disconnecting queues exceed the backlog limit, the
+> connect path only drops the device reference and leaks the newly
+> allocated queue and its IB resources.
 
 Thanks, applied to nvme-7.3.
 
