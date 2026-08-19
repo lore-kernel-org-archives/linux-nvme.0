@@ -4,73 +4,106 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6DABDC5DF88
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Aug 2026 11:43:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 842A2C5DF86
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Aug 2026 11:58:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UgQ0/LJ6jHTbmKzscRj3cHZVZJvzjwADSR/yIePBg00=; b=bYTP/YQ3/M508mbsedm7iTbCVr
-	7hdl5o2Hl6Uaa/5v4mG3LLQuMxj0FRpytB9XWHTvD/FSxvP3Q6hYAqsoXZR+KWcpmymTm09vemUjL
-	CIA6vL57eMWGZ6HN6vYfG3TOoZwGYDXnw/kaj7+sT3yXhYCmkclYZ/EoKU0bUDsSQbiM75dPvv9+N
-	mSLNEm/bG7cXLEqwzrWTV0KVugYsLKfSYvxGXsbElKE3Z0XZipVVT+l/NkSyYDNE03CWu2jlwyZKN
-	kjGdnwjfXWwU1eiDwUYd7k1hMRO+DL44KKQrspbaTy0ybOhtWTjWpasF0FI4FEk2P6AVhneH2eU2j
-	t8SWAIAw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:To:From:Date:Reply-To:Cc:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=FUbOFNxHUTC7V8JQSoLDqtKrp+gj9YqDk+TO38MWE6I=; b=tBKIFB01pvZinUEM/bPxzV3pZO
+	jYyiKwLPrFr3MsyzWPXO8LEJAEI5y0EnonazhTzD1fwI/SJktEAkV7V8HUQ7X22No/+brVGyWPZxp
+	Btq09vTESRXg8oi2MfD/GxQ1RDc7bPAyid52Zzmaa7gYA2aIF3UXJlYiOZ6rN5qbTWJLIOuAfCT4j
+	cfD2wpjymCCFOBWk2bp7G7/+ycORRwVZE1663LfsQfmlSqOZTN93qof4Fo4/rEF6dLAx9kh3BMlqY
+	A+6kvmf2Tpo+ZVuWdHzotU/mVfUKsLJmMitXWEjrSf3OAU47ufQDYcWezvaVhljj4O5MnOsPTpSgh
+	os4G/xgg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwehG-00000009gnz-1oOM;
-	Wed, 19 Aug 2026 11:43:06 +0000
-Received: from mailgw.kylinos.cn ([124.126.103.232])
+	id 1wwevh-00000009iMT-1sQW;
+	Wed, 19 Aug 2026 11:58:01 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwehA-00000009gkf-3SPE
+	id 1wwevf-00000009iLx-1lSe
 	for linux-nvme@lists.infradead.org;
-	Wed, 19 Aug 2026 11:43:02 +0000
-X-UUID: 1aa251ea9bc311f19a56ed5b684f684d-20260819
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:cb4c916c-2845-4fd9-b128-f341a4cdf898,IP:0,U
-	RL:0,TC:0,Content:0,EDM:-25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:-25
-X-CID-META: VersionHash:7db8b62,CLOUDID:66d5c9c2b9fe0ec957e78ccb3bca61a6,BulkI
-	D:nil,BulkQuantity:0,SF:81|82|102|850|865|898,TC:nil,Content:0|15|50,EDM:2
-	,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
-	:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 1aa251ea9bc311f19a56ed5b684f684d-20260819
-X-User: lilinmao@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <lilinmao@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1992757633; Wed, 19 Aug 2026 19:42:49 +0800
-From: Linmao Li <lilinmao@kylinos.cn>
-To: Satish Kharat <satishkh@cisco.com>,
-	Sesidhar Baddela <sebaddel@cisco.com>,
-	Karan Tilak Kumar <kartilak@cisco.com>,
-	"Martin K . Petersen" <martin.petersen@oracle.com>
-Cc: "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
-	Hannes Reinecke <hare@kernel.org>,
-	Justin Tee <justin.tee@broadcom.com>,
-	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
-	Paul Ely <paul.ely@broadcom.com>,
-	linux-nvme@lists.infradead.org,
-	linux-scsi@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Linmao Li <lilinmao@kylinos.cn>
-Subject: [PATCH 1/2] scsi: fnic: initialize the NVMe local port info before registering
-Date: Wed, 19 Aug 2026 19:42:41 +0800
-Message-Id: <20260819114242.3598034-2-lilinmao@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260819114242.3598034-1-lilinmao@kylinos.cn>
-References: <20260819114242.3598034-1-lilinmao@kylinos.cn>
+	Wed, 19 Aug 2026 11:58:00 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0A63684AFA
+	for <linux-nvme@lists.infradead.org>; Wed, 19 Aug 2026 11:57:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1787140672; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=FUbOFNxHUTC7V8JQSoLDqtKrp+gj9YqDk+TO38MWE6I=;
+	b=vpD/fIERkr9dA9wLQkU1wrQzScCphDy/NbCl66vM0kztnncjTn7RKVrEvf6qC3HGWlOxfe
+	gDm2guwwfgd2Zk6WYJJDXDYgVLKwNNCBJjND15MdYgxXXeP1lf3McD3T4m+uspO7HqKgPq
+	FXsQ2wI/5JLJ/TzBjlL8sW+RQyx4dfA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1787140672;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=FUbOFNxHUTC7V8JQSoLDqtKrp+gj9YqDk+TO38MWE6I=;
+	b=VP4t1xzx/GafjCs2Tkwz1aPKKcvmDKp3fqaL9/e3ClJTk9ZDa32LPXxuDcpceblBcSyLlL
+	S//ks8Va4xiuxIBQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1787140668; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=FUbOFNxHUTC7V8JQSoLDqtKrp+gj9YqDk+TO38MWE6I=;
+	b=t0DBx7d3YBJmgCMOqCUscsv12rwfY2AHtq7y4vEKZMBqo7T8x5FZ+VfppJnDxWdxxuy7Pj
+	obf6aa9/w6UZIjOpsl7uUGL3HN+OiHRfejy9rCbuXVlnPZfXx/48EsVVgjt0QGEVTm9q8q
+	EebeM01HKSy93GOgrlaaqnLaB+1nzuo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1787140668;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=FUbOFNxHUTC7V8JQSoLDqtKrp+gj9YqDk+TO38MWE6I=;
+	b=1s7/r45G/fWJPbx2px7IYPqtNvKyASgi8fYSgVnAelGcZQ2y4V6c6V4xKTLr78nbSb2QrF
+	Ip+XNDMuaGQKUcBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EAE3E2F81
+	for <linux-nvme@lists.infradead.org>; Wed, 19 Aug 2026 11:57:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 8g+rNzuahWo8bwAAD6G6ig
+	(envelope-from <dwagner@suse.de>)
+	for <linux-nvme@lists.infradead.org>; Wed, 19 Aug 2026 11:57:47 +0000
+Date: Wed, 19 Aug 2026 13:57:43 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: [ANNOUNCE] nvmetcli v0.9
+Message-ID: <dcbb3a2f-98be-4506-9b98-45e764c78620@flourine.local>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spamd-Result: default: False [-1.89 / 50.00];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	BAYES_HAM(-0.59)[81.62%];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[linux-nvme@lists.infradead.org];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_EQ_ADDR_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260819_044301_739607_58435696 
-X-CRM114-Status: GOOD (  11.87  )
+X-CRM114-CacheID: sfid-20260819_045759_609080_B347B8A7 
+X-CRM114-Status: GOOD (  10.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,41 +118,62 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvfnic_add_lport() declares struct nvme_fc_port_info on the stack and
-fills in four of its five members, leaving dev_loss_tmo holding whatever
-the stack happened to contain before the call.  The structure is then
-handed to nvme_fc_register_localport().
+A new release of nvmetcli v0.9 is available.
 
-nvfnic_add_tport(), which registers the remote port a few lines further
-down, memsets its own struct nvme_fc_port_info first, so only the local
-port path passes uninitialized data across the transport interface.
+ New features
+  - NVMe passthru target support
 
-The NVMe/FC transport documents dev_loss_tmo as "Used only on a
-remoteport" and does not read it in nvme_fc_register_localport(), so
-there is no behavioural change today.  Initialize the structure anyway:
-the driver must not depend on which members the transport happens to
-consume, and any member added to struct nvme_fc_port_info later would
-silently start out as stack garbage.
-
-Signed-off-by: Linmao Li <lilinmao@kylinos.cn>
----
- drivers/scsi/fnic/fnic_nvme.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/scsi/fnic/fnic_nvme.c b/drivers/scsi/fnic/fnic_nvme.c
-index b237948dcafdc..00d9d5d439a38 100644
---- a/drivers/scsi/fnic/fnic_nvme.c
-+++ b/drivers/scsi/fnic/fnic_nvme.c
-@@ -2216,7 +2216,7 @@ int nvfnic_add_tport(struct fnic *fnic, struct fnic_tport_s *tport,
+    Configure passthru targets via configshell (Nilay Shroff)
  
- int nvfnic_add_lport(struct fnic *fnic)
- {
--	struct nvme_fc_port_info pinfo;
-+	struct nvme_fc_port_info pinfo = {};
- 	struct fnic_iport_s *iport = &fnic->iport;
- 	int ret = 0;
- 
--- 
-2.25.1
+  - Reservation configuration support
 
+    Persistent reservation settings can be saved/restored (Guixin Liu)
+
+  - DHCHAP attribute persistence
+
+    Host DHCHAP authentication values (dhchap_*) are now correctly
+    saved and restored under hosts/ (Hannes Reinecke)
+    
+  - discovery_nqn configfs attribute
+
+    read/modify the persistent discovery NQN (Hannes Reinecke)
+
+  - Non-interactive command execution
+
+    nvmetcli can now run an arbitrary shell command directly from the
+    command line instead of requiring the interactive shell
+    (Maurizio Lombardi)
+
+  Build & packaging
+  - Migrated from setup.py to PEP 517/518 packaging (pyproject.toml)
+
+  - Removed the python-kmod dependency; falls back to invoking the kmod
+    binary directly when kmodpy is unavailable
+
+  - Removed use of the six compatibility package (Python 2 support fully
+    dropped) (Ales Novak)
+
+  - Added a GitHub Actions CI workflow for build/test, plus linting
+    (flake8, pylint) and mypy type-checking gates
+
+  Code quality / maintenance
+  - Added type annotations across nvmet/nvmetcli
+
+  - Converted %-style string formatting to f-strings (Ales Novak)
+
+  - Added docstrings to modules, classes, and methods (Ales Novak)
+
+  - Tightened exception handling (narrower except clauses, proper raise
+     ... from)
+     
+  - Reorganized imports and kernel-module loading logic (Ales Novak)
+  
+  - Tests now fall back to temporary sparse files as backing devices
+    when real block devices aren't available
+    
+Naturally, right after cutting the release, I discovered a bug in the
+Makefile for running tests on Debian. The fix is already in the tree if
+you need it.
+
+Daniel
 
