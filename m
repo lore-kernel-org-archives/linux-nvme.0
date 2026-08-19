@@ -4,50 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3AC82C5B572
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Aug 2026 05:25:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 77378C5DF6D
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Aug 2026 05:35:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6IJBYrqIQXoNLsayeb3J6fl0kokCNKUk+3exnauEa9U=; b=bb/yCEYehZDcYpVCeR4hFMQEFE
-	u0i8siv9JauQ6rNBgavXT2rYAwgTCtpVTDiNQkaX5cTVlhXdaIzzikre7BcziuHR3Thv1CsMG/YPh
-	/oW2vNp0YLd5zDIzQofoaM8LSIxrHEgiFiyCF8P9mR3VgA5CRIx8cgkGlD9fw7GVP7GEAxGFKDzBN
-	DxYef6+BTuqWw63bmIud2cDvK8jelPTgnkfUt+fdq5LMNtPvPmwLOwAqk7u5nlCQ5FA1GSmarlmCi
-	IK+7ZcI2mn1sBRg4Xolq4KXgo0osvqk8kePzgf9dX6Y4IFbF2lj8qH/M2s8dc1kUbDpA2429ViPjH
-	fF9QW61w==;
+	bh=8Jd95jnfIFi3jDinna8ZnPEfwvk94yj/FLwvMLSUxwE=; b=fkqL1pRi15i0PSQCPVQjTnqtWC
+	K54qwwQj3aGu7GaWaRfSgqL8TYN/+phGJwrHnrNxw/AidNsWlATB0iOiFaLgqCHZ8I2oYgRW1W1wN
+	Nta7mRt9AMaATYn5BTtpwBV66nThXyfMM9tDbBvNztp8C0tN0vgMF6YtHs738hilrlDzANuyvqk0V
+	eXQh5Uw5I+ZftWTBcuqn6g0lrM2zdNXMw3DIDC0b2+E7SgH4twI6fIZ78XV5x1GvOSZoLDV96DcvY
+	30kXdQsvefcOFy8z2eHk7Uhqnxvthsl7q6ShM7yvCDcwynrVWa+jN8nQkxQP1t1EGOralXUUo3Fmx
+	vadrDcww==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwYo0-000000090nb-1Czt;
-	Wed, 19 Aug 2026 05:25:40 +0000
+	id 1wwYxp-000000091zP-0x64;
+	Wed, 19 Aug 2026 05:35:49 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwYnm-000000090n4-28M0
+	id 1wwYxm-000000091yx-2hei
 	for linux-nvme@lists.infradead.org;
-	Wed, 19 Aug 2026 05:25:29 +0000
+	Wed, 19 Aug 2026 05:35:48 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 1687E68C7B; Wed, 19 Aug 2026 07:25:18 +0200 (CEST)
-Date: Wed, 19 Aug 2026 07:25:17 +0200
+	id 5052968C7B; Wed, 19 Aug 2026 07:35:41 +0200 (CEST)
+Date: Wed, 19 Aug 2026 07:35:41 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: changfengnan <changfengnan@bytedance.com>
+To: Fengnan Chang <changfengnan@bytedance.com>
 Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
 	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
 	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
 	jun1.zeng@intel.com, Guzebing <guzebing@bytedance.com>
 Subject: Re: [PATCH] nvme-pci: add adaptive interrupt polling
-Message-ID: <20260819052517.GB32364@lst.de>
-References: <20260818033846.53790-1-changfengnan@bytedance.com> <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.c71e295f.cf49.450b.ad13.ed0e27cd481a@bytedance.com>
+Message-ID: <20260819053541.GC32364@lst.de>
+References: <20260818033846.53790-1-changfengnan@bytedance.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.c71e295f.cf49.450b.ad13.ed0e27cd481a@bytedance.com>
+In-Reply-To: <20260818033846.53790-1-changfengnan@bytedance.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260818_222527_827116_A699F14D 
-X-CRM114-Status: GOOD (  16.97  )
+X-CRM114-CacheID: sfid-20260818_223547_005598_91AFA18E 
+X-CRM114-Status: GOOD (  26.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -62,22 +61,149 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Aug 18, 2026 at 11:53:55AM +0800, changfengnan wrote:
-> 1. Regarding the NVME_ADAPTIVE_POLL_PERIOD_NS parameter, is it necessary to make it a configurable setting? Perhaps Gen6 SSDs require a smaller value? I currently do not have a testing environment for this, but the default value of 10 us appears to be sufficient for Gen4 and Gen5. 
+On Tue, Aug 18, 2026 at 11:38:46AM +0800, Fengnan Chang wrote:
+> +#define NVME_ADAPTIVE_POLL_PERIOD_NS	(10U * NSEC_PER_USEC)
+> +#define NVME_ADAPTIVE_EPISODE_CQES	8192U
+> +#define NVME_ADAPTIVE_REEVAL_CQES	(64U * NVME_ADAPTIVE_EPISODE_CQES)
+> +#define NVME_ADAPTIVE_POLL_RETRIES	2U
 
-The most important thing to consider in the short term is not the fastest
-possible devices, but the worst.  I.e. consider what this does on really
-crappy older cusomer drives, as that is probably the biggest install base
-using the Linux nvme driver.
+It would be good to describe these paramters and how we picked the
+constants here.
 
-> 2. Should MSI be supported? I do not have a similar environment, so I am unsure how it would perform in such scenarios. 
+> +struct nvme_adaptive_poll {
+> +	struct hrtimer timer;		/* fires the next poll drain */
+> +	struct irq_poll iopoll;		/* softirq context for the drain */
+> +	struct nvme_queue *nvmeq;
+> +	u64 start_ns;			/* when the current sample/episode started */
+> +	u32 retry_completions;		/* completions until retry or IRQ rebaseline */
+> +	u32 interval_ns;		/* sampled average gap between completions */
+> +	u32 completions;		/* completions seen so far this sample/episode */
+> +	int irq;
+> +	u8 poll_failures;		/* consecutive rejected polling trials */
 
-Or legacy interrupts :)  I don't think we have to support them as long
-as we cleanly disable the feature.
+Lots of overly long lines.  Just move the comments above the fields.
 
-> 3. Should it be enabled by default? Although current tests show only a minor performance hit, I still lean toward disabling it by default and waiting to gather more test feedback.
+> -	 /* only used for poll queues: */
+> +	struct nvme_adaptive_poll *adaptive;
+> +	/* Used for both poll queues and adaptive interrupt polling. */
 
-I think it should eventually enabled by default, but I'd also be happy
-to merge it fist and then flip the bit later.
+s/both //
+
+> +static inline unsigned int nvme_poll_cq(struct nvme_queue *nvmeq,
+> +					struct io_comp_batch *iob)
+
+Two-tab indents please.  Also for various other spots later on.
+
+>  {
+> -	bool found = false;
+> +	unsigned int found = 0;
+>  
+>  	while (nvme_cqe_pending(nvmeq)) {
+> -		found = true;
+>  		/*
+>  		 * load-load control dependency between phase and the rest of
+>  		 * the cqe requires a full read memory barrier
+> @@ -1620,6 +1649,7 @@ static inline bool nvme_poll_cq(struct nvme_queue *nvmeq,
+>  		dma_rmb();
+>  		nvme_handle_cqe(nvmeq, iob, nvmeq->cq_head);
+>  		nvme_update_cq_head(nvmeq);
+> +		found++;
+>  	}
+>  
+>  	if (found)
+> @@ -1627,17 +1657,22 @@ static inline bool nvme_poll_cq(struct nvme_queue *nvmeq,
+>  	return found;
+>  }
+
+And maybe split this into a prep patch?
+
+> +/* Keep the normal completion loop branch-free. */
+
+That is a rather terse comment.  I also don't really see what is
+branch free here.
+
+> +static enum hrtimer_restart nvme_adaptive_poll_timer(struct hrtimer *timer)
+> +{
+> +	struct nvme_adaptive_poll *adaptive = container_of(timer,
+> +					struct nvme_adaptive_poll, timer);
+
+container_of statements tend to read a lot nicer like:
+(same for the next one)
+
+	struct nvme_adaptive_poll *adaptive =
+		container_of(timer, struct nvme_adaptive_poll, timer);
+
+
+> +
+> +static irqreturn_t nvme_irq(int irq, void *data);
+
+Please add the new interrupt handlers below nvme_irq to remove the need
+for this forward declaration.
+
+> +	unsigned int completions;
+> +	unsigned long flags;
+> +	DEFINE_IO_COMP_BATCH(iob);
+> +
+> +	spin_lock_irqsave(&nvmeq->cq_poll_lock, flags);
+> +	if (unlikely(test_bit(NVMEQ_ADAPTIVE_POLLING, &nvmeq->flags))) {
+> +		spin_unlock_irqrestore(&nvmeq->cq_poll_lock, flags);
+> +		return IRQ_HANDLED;
+> +	}
+> +	completions = nvme_poll_cq(nvmeq, &iob);
+> +	if (completions)
+> +		nvme_adaptive_sample(nvmeq, completions);
+> +	spin_unlock_irqrestore(&nvmeq->cq_poll_lock, flags);
+> +	if (!completions)
+> +		return test_and_clear_bit(NVMEQ_ADAPTIVE_STALE_IRQ,
+> +					  &nvmeq->flags) ? IRQ_HANDLED : IRQ_NONE;
+> +	if (!rq_list_empty(&iob.req_list))
+> +		nvme_pci_complete_batch(&iob);
+> +	return IRQ_HANDLED;
+
+This reads a bit weird, I'd reflow the end to:
+
+	if (completions) {
+		if (!rq_list_empty(&iob.req_list))
+			nvme_pci_complete_batch(&iob);
+	} else {
+		if (!test_and_clear_bit(NVMEQ_ADAPTIVE_STALE_IRQ,
+				&nvmeq->flags))
+			return IRQ_NONE;
+	}
+	return IRQ_HANDLED;
+
+
+
+> +}
+> +
+> +static irqreturn_t nvme_irq_adaptive(int irq, void *data)
+> +{
+> +	struct nvme_queue *nvmeq = data;
+> +	irqreturn_t ret;
+> +
+> +	if (!test_bit(NVMEQ_ADAPTIVE_ENABLED, &nvmeq->flags)) {
+> +		ret = nvme_irq(irq, data);
+> +		if (ret == IRQ_NONE &&
+> +		    test_and_clear_bit(NVMEQ_ADAPTIVE_STALE_IRQ, &nvmeq->flags))
+> +			return IRQ_HANDLED;
+> +		return ret;
+> +	}
+> +	return nvme_irq_adaptive_enabled(irq, data);
+> +}
+> +
+> +static irqreturn_t nvme_irq(int irq, void *data)
+> +{
+> +	struct nvme_queue *nvmeq = data;
+> +	DEFINE_IO_COMP_BATCH(iob);
+> +
+> +	if (nvme_poll_cq(nvmeq, &iob)) {
+> +		if (!rq_list_empty(&iob.req_list))
+> +			nvme_pci_complete_batch(&iob);
+> +		return IRQ_HANDLED;
+> +	}
+> +	return IRQ_NONE;
+
+A lot of this irq handler code is repetitive.  Could there be a way
+to share the code to remove the duplication?
 
 
