@@ -4,64 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5D5CDC5DF81
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Aug 2026 18:32:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2DA27C5DF85
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Aug 2026 20:04:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XuK/2TYFRr/k7ksufLToFfpbpuUiwIVt1IGE+TxZcFY=; b=R4+C+D3itveFnyZmddpI6sSiaA
-	zBG9Wbjbw8CsN7r5tiX5GqymvtporVV0b1pEyDZvlXFVkZ0fJeg+8G5/yOkS2X/madkH7dLWKY96V
-	3YJRJOWr4A0eHhHUwrlrGB6QikQnCBYAK6+j1d+VGeet/wVoxxRA+PVom1WjBoNYm6RGStQTz08hM
-	x3RDqdgIOahdW1eUeSI+oGp4wrv4qL2N2aRj6dTsGAplvn5f2TquFnghD1351RgbhUEpR7tTNh3iR
-	d7+kkxdyN0uuF7dvx3e7bZl4nGMRIbMAlzTT2cKokShEMuxGsYBeZKU1oo8avN8N2HTShg3krP0Ki
-	1pQ46u7w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=DVprECuFqi5/25eTasTEjoxbRyEm7VP4LBrO4h9TFwY=; b=2bclrYskoZvnv7uKkp4240h8lH
+	R63TbzBpzUiHr5jlGisWHppqDUIgnavfPWAA//M9Gi2650MF373aTnyyBKFwBuRFNfRQhQi1FpvOZ
+	0bocLmus2tZClhnhXUudrKAxot96L5Q2z+93vOZs99sBKphyi7SoqWcMvBLIuZXNIJ43VUb0rI1qE
+	qgiYbG6TLFK5qDgWkD/r3MZwnw66O4N7myNmJpJ3O9j+3nccM4/rdqxvqtm1FhR1+nkvyPX/XTDKa
+	dQXbIF5JeFgkfxabQjuVLb1fSdZ1DaaF9Dr+OEoAQ0XY3HZFs0Ko26+SDPPDsbTQjTy14GTfxL7RI
+	KoiXoHSQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwl5d-0000000ANWR-36Pc;
-	Wed, 19 Aug 2026 18:32:41 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1wwmWg-0000000AUnb-2KrW;
+	Wed, 19 Aug 2026 20:04:42 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwl5c-0000000ANW8-2gY5
+	id 1wwmWd-0000000AUmc-31vo
 	for linux-nvme@lists.infradead.org;
-	Wed, 19 Aug 2026 18:32:40 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 8AD3C60AAA;
-	Wed, 19 Aug 2026 18:32:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D12F1F000E9;
-	Wed, 19 Aug 2026 18:32:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787164359;
-	bh=XuK/2TYFRr/k7ksufLToFfpbpuUiwIVt1IGE+TxZcFY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=RPHry27Y8+JRRcJnXao4ZDp90QM6dkopKJFvp57UKfDjTm7QHgBVDYlrOqMfij/c2
-	 Y2ONY6lRoY9CJw6fuQzgU5GuMhBY6AJA9MmX7SzU68qMn1ayw73E5sCgyTMLCm5fC5
-	 b47XzumAQ/loI9U+o/pwiax9IgsU0xoHb8GtgiaxwBcuADMItbqLOUGyhC7WDI+o8s
-	 pvL9EEE3xn6GSngNOQdBnuS0pwq2TKdEMUYOWC9bthMBsh769nZi4oFkmgbiIMaxlE
-	 dTHnnwXdhhHq4by+Ctf2vmGmbjXYaYr0vGSaZLo879k8lK7AMA3rAUXkbysCJ7MIlF
-	 SPD/pI2PObnSw==
-Date: Wed, 19 Aug 2026 20:32:33 +0200
-From: Niklas Cassel <cassel@kernel.org>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Rihyeon Kim <rihyeon8648@gmail.com>, justin.tee@broadcom.com,
-	nareshgottumukkala83@gmail.com, paul.ely@broadcom.com,
-	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
-	stable@vger.kernel.org,
-	syzbot+f58e57380a6083c4041d@syzkaller.appspotmail.com,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] nvme-fc: fix double free of fabrics options when
- nvme_add_ctrl() fails
-Message-ID: <aoX2wcyhpakryWHX@ryzen>
-References: <20260814143833.1953415-2-cassel@kernel.org>
- <20260817061815.154794-1-rihyeon8648@gmail.com>
- <aoMkX_davK7TWlaj@ryzen>
- <aoXLiFruG5s1nKch@kbusch-mbp>
+	Wed, 19 Aug 2026 20:04:41 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1787169876;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=DVprECuFqi5/25eTasTEjoxbRyEm7VP4LBrO4h9TFwY=;
+	b=W1w5oXXOebs6JRCK6K0xibu7g1mzE04RGAOuv/BwICt4hXShJPRqz0of4s3OuYaWTCK0l6
+	AJP1RIAGF73Pwm8lxlEuL4/Io3sHPSXU13QpAqTSDa72v4tsGczyLZ/JZ/lSafP/8jWqt2
+	GIOHX+URnjN/438A+BPmsOC9jtbaTxI=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-132-K4lxCDZvMwiK5YpEUdT2bw-1; Wed,
+ 19 Aug 2026 16:04:32 -0400
+X-MC-Unique: K4lxCDZvMwiK5YpEUdT2bw-1
+X-Mimecast-MFC-AGG-ID: K4lxCDZvMwiK5YpEUdT2bw_1787169870
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5992B180035C;
+	Wed, 19 Aug 2026 20:04:29 +0000 (UTC)
+Received: from jtaubepe-thinkpadx1carbongen12.ibmlowe.csb (unknown [10.17.17.11])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D8AF2180049F;
+	Wed, 19 Aug 2026 20:04:27 +0000 (UTC)
+From: Jesse Taube <jtaubepe@redhat.com>
+To: linux-block@vger.kernel.org
+Cc: linux-nvme@lists.infradead.org,
+	shinichiro.kawasaki@wdc.com,
+	John Meneghini <jmeneghi@redhat.com>,
+	Daniel Wagner <dwagner@suse.de>,
+	Jesse Taube <jtaubepe@redhat.com>
+Subject: [PATCH v2 0/2] Test multipath and marginal ports
+Date: Wed, 19 Aug 2026 16:04:23 -0400
+Message-ID: <20260819200425.194743-1-jtaubepe@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aoXLiFruG5s1nKch@kbusch-mbp>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+X-Mimecast-MFC-PROC-ID: MIVr0L6eLrpX796O8YEph_2sEave1PdZTwTeWI7FKY0_1787169870
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260819_130439_846530_D5A7EB32 
+X-CRM114-Status: UNSURE (   8.09  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,44 +86,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello Keith,
+Tests for the upcoming nvme-fc: FPIN link integrity handling set.
+It tests for various multipath and marginal port
+scenarios, while confirming the port usage and state. The test is
+intended to emulate receiving an FPIN event in a multipath environment.
 
-On Wed, Aug 19, 2026 at 09:28:08AM -0600, Keith Busch wrote:
-> On Mon, Aug 17, 2026 at 05:10:23PM +0200, Niklas Cassel wrote:
-> > It seems like Keith did prefer your patch, but as you said, your patch does
-> > not avoid a NULL pointer dereference in nvme_auth_free().
-> 
-> But you're replacing a NULL pointer dereference to a derefence to freed
-> memory. That should be fixed too, and I'm just saying checking a pointer
-> for NULL before dereferencing it is more clear than checking if a list
-> is empty.
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=220329
+Link: https://github.com/linux-blktests/blktests/pull/264
 
-I am not following.
+Jesse Taube (2):
+  nvme: Add _setup_nvmet_port_marginal
+  nvme/070: Test multipath and marginal ports
 
-The options is freed in two different places, depending on if the
-ops->create_ctrl(dev, opts) call in fabrics.c:nvmf_create_ctrl() was
-successful or not.
+ common/nvme        |  31 +++
+ tests/nvme/070     | 613 +++++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/070.out |  43 ++++
+ 3 files changed, 687 insertions(+)
+ create mode 100755 tests/nvme/070
+ create mode 100644 tests/nvme/070.out
 
-If the ops->create_ctrl(dev, opts) call in fabrics.c:nvmf_create_ctrl() was
-successful, the teardown path will be:
-core.c:nvme_free_ctrl(), which calls nvme_auth_free() (which will use
-the options), nvme_free_ctrl() will then call ctrl->ops->free_ctrl(ctrl)
-which will free the options (since the ops->create_ctrl() call was successful,
-the ctrl will be on the linked-list).
+-- 
+2.54.0
 
-If the ops->create_ctrl(dev, opts) call in fabrics.c:nvmf_create_ctrl()
-fails, the teardown path will be:
-core.c:nvme_free_ctrl(), which calls nvme_auth_free() (which will use
-the options), nvme_free_ctrl() will then call ctrl->ops->free_ctrl(ctrl)
-which will not free the options (since the ops->create_ctrl() call failed,
-the ctrl will not be on the linked-list), fabrics.c:nvmf_create_ctrl() will
-thus goto out_module_put, which then does a goto out_free_opts, which
-calls nvmf_free_options().
-
-In both cases, nvme_auth_free() will access memory that has not yet been
-freed. So I don't see us dereferencing freed memory.
-
-
-Kind regards,
-Niklas
 
