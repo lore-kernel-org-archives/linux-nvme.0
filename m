@@ -4,107 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 745CAC5DF81
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Aug 2026 07:35:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AF11CC5DF82
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 Aug 2026 08:37:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0D9OImnE1uHUsNiu3Pu4ZFSdM4f7iPTa/B6nclfiM+Y=; b=oxyG4hkPV5iZiFLJoAcWuIbAMD
-	8dvGDKlmb8BtWuW+q25EQhqScKWNQyY81NjiSFSlRwWt3rZRaeXi4wh/DFHHSbzfj2mJC+k7TedRt
-	M6elTBBg6Q4RPiGLg5LMbm3wCFOq8J0GnO8fRrGbf71RNWccl6ma5SOo8dPuCdlLPDkvmm51JWh/W
-	3BCDMDOR2Ox+rMY72/ILDV0X6RpqR4fIAZ6m+01TDpg+HSaL2wpEG6ZDH2W2f6jqz/UgvYDmMSUMf
-	tbJGsIQ3S5D5cYg7qeZWiJoUtyhu29dHU4oy7zM4PzHthyhfavMktZpwcNBSPXloQMXBjtjKfaBF/
-	xjYQz9/A==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=wuk/ok0Lrf0FihiMk3ElwPh6gTvSMLX5JskS22+aaRY=; b=u6wLyk0YjUFR5qfILcDxCofjD8
+	+d/GPu9aeHDEDqcrut4i6FypVEUnrCUXPVy2cOjQ44qo1ot01MNZK4VM/mz7nQGeyby+UGgTgdGs6
+	A6c67zr27IWim1wOXYCC0x1S6fjmgJ3W/faTM2CURJrDnhif/C6ujkeMLsW71aRk0ZaFT73L3mREw
+	4hROyq1wlCheKtzwo/F91+zMgnVykQ1keUyFwI98Y4aBkBWF4CRDCfjLwaxSnRHZ4dawDiLcvsOv2
+	PMS4Yd3/eZNRU38Xoi0o2KRQ7nmT+weD62swoLe5OcS1wx7dv5+Pcwt+PR7oR1PzEGRZqjpv9MzR1
+	/HzDdV1w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwxJM-0000000B4jK-2Jr8;
-	Thu, 20 Aug 2026 07:35:40 +0000
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
+	id 1wwyGh-0000000BAnT-0TfN;
+	Thu, 20 Aug 2026 08:36:59 +0000
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwxJK-0000000B4ip-0wge
+	id 1wwyGd-0000000BAmm-3FHP
 	for linux-nvme@lists.infradead.org;
-	Thu, 20 Aug 2026 07:35:39 +0000
-Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-2cede6375caso44165ad.0
-        for <linux-nvme@lists.infradead.org>; Thu, 20 Aug 2026 00:35:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787211336; cv=none;
-        d=google.com; s=arc-20260327;
-        b=OKCcwhwMKJQmCYulKZFX5RvStUeF3l1VQBLx1fXkLF9CtYjeUJw11s1aDzK/fG8G5n
-         RrjxL7DEQ2o5WmhhlOkGlvfbPpAKj5sjRZhZAsJFEpiKpLh5sTKYcKCZYHwff8Hq4sr8
-         X84+Dvv179FRCVW8YuP8++5/+ZYGgTrHQYOmBE4C83GScE9x0O1TO7VGGpGxfP2fqnJP
-         GFxQ06EgOkKqNh23nuT2nUy50jfDDsgPpzJ/1RBi6r1GLRyKH2GqPF8P1ciQwEJHtSaI
-         ZD9j6GB5QEtwGGrNQFpNuCU9t5cINXzCJm7xym9qhqvNcHT++JBGSHKXRhIYlKk9kbxq
-         PUYg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=0D9OImnE1uHUsNiu3Pu4ZFSdM4f7iPTa/B6nclfiM+Y=;
-        fh=ZhjazfILHzZgaXjV8IyEwPsUcqfKegp2TOS7BbH24cY=;
-        b=gsJ27pfjusmsYolOVCs6NFWY6v1PQuAz01q5mWCacfeXqunJSZQAz47z12JzQP7J1m
-         /9VUz1uVgaznM2Prb3V0rn98ojEL9kZruy+HeK55O6910qCx8CCJhbKzH3m/mljVVDyY
-         +Tpv/yY6I7VGofOf/Wo7rO0E2SJ29PejSwGEm1oPLLp7tPrCYi4KwZoFuk4AAabyUGrh
-         Gll89y1bwSlxMkuPLYPaMuwAb/2ryrbir0+bPEGuipxs2gfdBOKBWg4MNoKEKOWTy/O0
-         5EgyNKyz+7WMleVQ0iYVAeWj8dcVGAs0kYH6oGhFw3K38Z9/7GDo8sLPJoLa46+wH3u2
-         +Jdw==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	Thu, 20 Aug 2026 08:36:57 +0000
+Received: by mail-pj1-x1035.google.com with SMTP id 98e67ed59e1d1-38dfe910e9dso2214967a91.3
+        for <linux-nvme@lists.infradead.org>; Thu, 20 Aug 2026 01:36:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787211336; x=1787816136; darn=lists.infradead.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=0D9OImnE1uHUsNiu3Pu4ZFSdM4f7iPTa/B6nclfiM+Y=;
-        b=ZrAt3kmd/kUwlmMyY50G4Zqrs+BxjVmD+zaNvuJ14bSKibFaFlpEryJWeL7oB7DWpR
-         6fEb7Xik5skScyQjJq2u3HsjHVx0ZS7fR/mdsNlqKsR8iLZvDLPOKiMDYglHhVuz7CAM
-         3zdjpldaq6kXo7MeAdku+kDBkmHXCItVryoC4rX2wAUzFxtChElYglgRQMZRMlyw1UEK
-         YY948qbvR/CHKWWtmDLB9t5oHGkuLyGF4Jft2gqspZAmGgurbRZ0sn2w6YccC+rh5rSk
-         fWSL51koHp6jUrxRTQfPH8CItQkaIMfa19l5S04VYNhdqR/MrTs52V2Tg9lNtXINk0A8
-         99yg==
+        d=crusoe.ai; s=google; t=1787215014; x=1787819814; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=wuk/ok0Lrf0FihiMk3ElwPh6gTvSMLX5JskS22+aaRY=;
+        b=WqAn2ydZsInSy6I9DTx0V4SwVpQKcAl5SvpaRd5wIGkUJ+gTTdvU8b/ub1SXwX8WsW
+         S/eQEA9SxSR0fU2kwH8pWhjSELQ9bzYC7XgHAUEPTOSo6jOfqoqduF8UR7WXkpYXWslN
+         6cVVqc7jq8oB4H/B7MKPvaf1i5XXJ8obVa3eCFvoCbz+E39KpTy6XVSNfIbZxO5dcUsJ
+         XgjEpYacUUVMqr39qRvASM8isqlTcW+5/W/TuDmpL/RCsW64g6BFtgtF5XYV07cMDg4B
+         bLShj12UAHYYDzyVdvMMmAusMxK/82pWRqZmNyRy9L7aDfUucmd3KiNTrppxmOPkyGNP
+         Xp5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787211336; x=1787816136;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=0D9OImnE1uHUsNiu3Pu4ZFSdM4f7iPTa/B6nclfiM+Y=;
-        b=ArLJTvQUJxCeNh/jPShcsU99ANrTq5w78a5O5eskcSJU2kHMNJDUjczeDMNs/KJD+W
-         4Oi+hJTpL90ECTHmTI///IZe8Iy5wGV6SPsQw5ia4B50hrAfqMDZ3P9iuIlOG2qDMbRm
-         4Vw3mx0UFXDMU7dcZSXNRMzmdsJg33nAaNnUf7IP1/dHu+ww8XOpENr/Wj0mFSCdpe/U
-         LkdKjDCmoIpzEFRTfVwkRXQPmbRfLF+2sPiuzsIZ3JUf/AmjejkcPDSuE429rNot0Rtj
-         4jBsJoEowb9M5DP1EpaJi9I6JLiAPWPllfkPPlv2OGSlWckcc2KfEvI8OY/EUZdWCeWk
-         vNTg==
-X-Forwarded-Encrypted: i=1; AHgh+RpAYZA98Yu5ncSiLpzQoRWrzKpLita/YRHf24SEYgII5Q7gwMrMCLcO9MLxiMr0NAicU9xK+G1J9HR2@lists.infradead.org
-X-Gm-Message-State: AFuF++lM5/Stwon1n9An3Ut3AneHKCuxKrbtwirtWeiwgH3J/KXgClvj
-	2sldj+1XwD4l+80sDbXHRRr2L6GhSEvbeg8/oN2GyIraL3OfczdDergNiqCshYKVDrfptrpOwdI
-	O8tT6r29y4k3XSXazfeuE4Qk3Ms6M1H84hF7DXQvO
-X-Gm-Gg: AR+sD13dx7EVEBAzDmLH8iCyBasGqsYfIFt9BpgUJ+VBJgQJ1jRkGmSLVMJAQeMlu/0
-	pFSCWvuTH3ypEaIh6EzzfRJzmT/0coPvavlHpQW1KzHa1plJD3V4B2wrYCCl/4kYKMVHLqtlytK
-	LkXgj/MsodIYPnK4djCYgxh/IeUtXXfk+gCyocXFoLKX76RkOFJqKkbKMfNyem0mq1e1O7iMduK
-	9COMgus+ncPyWdf6isrpbpVfW5YHLGRXycBpyjsziTZgc/r4W0hx/j1Idoc+bEBkjFV8nXza9gX
-	ytsgyYn46I88Oqkx48kTzLlwNXXmnHgb2Wdgy3hChevTFQ==
-X-Received: by 2002:a17:903:26c4:b0:2d5:db3d:1a43 with SMTP id
- d9443c01a7336-2d61eaf2a00mr5392465ad.16.1787211335900; Thu, 20 Aug 2026
- 00:35:35 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1787215014; x=1787819814;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=wuk/ok0Lrf0FihiMk3ElwPh6gTvSMLX5JskS22+aaRY=;
+        b=ooz/tBKYYyce+4QCxocZJ5MPzQ4gCA5biklsFYopctvXTCzCBwo5PIzYeYsbyf9Ra/
+         JDnvSHNRAq/8Oc0lmPWb5j6QnNo7sOUnCk85ZejzGMEXEwmFp5jMBqfrSLcxus84EGGF
+         acJB6KzfLHbHvd3qYEuqwKcvCzp3rZ5ifjxlMSOSUrCzb3HY25X2wVxhP4FjoTIgcjoR
+         y3UJ/R+ubJ1EcbU6X4SHQelO2DzttDdGG4lCeab+MxxiQrZs+CKHkPZbFA7/+BNrH70t
+         Uog5gQe4gQ/sDUeZ6/ggN6zBW7srsNUtNs+J7w6WyoskTZc5tiX2g1UH7MUQin7DIxID
+         Urcg==
+X-Gm-Message-State: AFuF++lca0ddKxyMhMFKvzeOwf5dTlpcibsaS9e4rdxhVreKWyUa1JWS
+	tjpQA6rcviQx4qMQZ42jyBN1XlMUDEqC4GXQAeIfXXWfuMqQNcJepyPGABWru8wMOhMhBE5h4+l
+	ZcB0QHRg=
+X-Gm-Gg: AR+sD11pF3905RaVMK0yqq7biaZgf7nRsydx0T/kEixbVYRerip2POKJqSn/7U6GtWy
+	i9KbveuvtDrMvVvSgwuw64tYodC2Qilt/3d2KFEzZ2MfPJOo5tVoYlQxetg3QPpQE5CP7DWM0QU
+	ZxJtD6k2aYU4Ru6Xud6q7skMN78cNxZ2b8msY6oJUo0u2JiAs+9/u8co+k0IGTGjnJ/CMvMZWpx
+	n5cLXb27a/MxoYNLfrS48D+4F4Rkmghm/7bYIp9L265s3LMabR9pQD75+gzE3lqg0MCvQAblT1B
+	QlKrcmnnwoT+4+vj33NEke8SzXlDMlHVw3jn8xEQ2oAZ+k5EoQjqV+bQBx97etIrPFjfCiqD/bB
+	t4IBreBKgWHyDJSg/10WmzP0ONGXTaYjetjLMppRpRS5yaflTz1HJGecGjBjCWheZbCjWftD3QK
+	iRU9bj+c9/yQS9mjAs9Hz5HsUAWZRMe6nIbsdw5U8PcaTG3MZNfyrvFbQjjr5+bDEj2ndetF9Xy
+	oCxfzjbe/g6E7rd+5KKjh6cFVnPeuKtKgT0x5XTTH5xNpEhfGtCZw==
+X-Received: by 2002:a17:90b:2b8e:b0:395:4de4:92be with SMTP id 98e67ed59e1d1-395810c60ffmr22022815a91.13.1787215013774;
+        Thu, 20 Aug 2026 01:36:53 -0700 (PDT)
+Received: from MBP-Saravanan-D.civet-hops.ts.net ([2601:647:4380:3400:c90a:ce07:3842:3642])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1416aea2429sm13877076c88.15.2026.08.20.01.36.50
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 20 Aug 2026 01:36:52 -0700 (PDT)
+From: Saravanan D <saravanand@crusoe.ai>
+To: linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org,
+	hch@lst.de,
+	sagi@grimberg.me,
+	axboe@kernel.dk,
+	linux-kernel@vger.kernel.org,
+	Saravanan D <saravanand@crusoe.ai>
+Subject: [PATCH v2] nvme-tcp: pin io_cpu to submitter cpu
+Date: Thu, 20 Aug 2026 01:36:34 -0700
+Message-ID: <20260820083634.71689-1-saravanand@crusoe.ai>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-References: <20260819124341.4185621-1-lrizzo@google.com> <aoaoERD5m1MNvMWd@infradead.org>
-In-Reply-To: <aoaoERD5m1MNvMWd@infradead.org>
-From: Luigi Rizzo <lrizzo@google.com>
-Date: Thu, 20 Aug 2026 09:34:59 +0200
-X-Gm-Features: AcwNN1UEas5zzKqBrgfMq8L346ulYCSqqrdVmLWHWX-HHf-jbZz6J4McJCDiFEU
-Message-ID: <CAMOZA0JrLia8NU1-4JEJAe+p65C19HsRGU6VK7sLAjNFKm8G3w@mail.gmail.com>
-Subject: Re: [PATCH v5 0/7] Global Software Interrupt Moderation (GSIM)
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>, 
-	Luigi Rizzo <rizzo.unipi@gmail.com>, Paolo Abeni <pabeni@redhat.com>, linux-kernel@vger.kernel.org, 
-	linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>, netdev@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, Fengnan Chang <changfengnan@bytedance.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260820_003538_266152_2CEF9F5C 
-X-CRM114-Status: GOOD (  21.35  )
+X-CRM114-CacheID: sfid-20260820_013655_832026_3709FC18 
+X-CRM114-Status: GOOD (  28.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -119,63 +100,212 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Aug 20, 2026 at 9:09=E2=80=AFAM Christoph Hellwig <hch@infradead.or=
-g> wrote:
->
-> On Wed, Aug 19, 2026 at 12:43:34PM +0000, Luigi Rizzo wrote:
-> > Configuration is easy and robust. System administrators specify the
-> > maximum targets (moderation delay; interrupt rate; percentage of time
-> > spent in hardirq), and which interrupt sources should be moderated.
-> > Independent per-CPU control loops adjust actual delays to try and keep
-> > metrics within the targets.
->
-> Can we find a way to autodetect and autoenable this?  A magic go faster
-> mode that needs very specific tuning is annoying compare to sensible
-> defaults.
+nvme_tcp_set_queue_io_cpu() picks each queue's io_cpu at connect time,
+before any I/O exists, as the least loaded CPU in the queue's blk-mq
+map group, and all socket work then runs there for the connection's
+lifetime. On hosts that partition CPUs between pinned workloads a map
+group can straddle a partition boundary, so the pick can land one
+workload's socket processing on CPUs owned by another. On a 384 cpu
+multi tenant host with one VM driving ~1.1 GB/s of writes, 9% of
+nvme_tcp_io_work executions ran outside the submitting VM's cpuset,
+all on io_cpus of boundary straddling map groups, observed by the
+neighbor as steal time it did not cause.
 
-As mentioned later, the tunings do not need to be specific,
-because the control loop adjusts the delay to stay within the target,
-and the target is generally just a "don't overload me" value with little
-impact on performance.
+Adopt the submitting CPU as io_cpu for every command except the
+fabrics Connect. The submitter is a member of the map group by
+construction, and the nvme_tcp_cpu_queues accounting moves with each
+adoption. Connect is the only command on an I/O queue that does not
+represent the data path, since it is injected on an arbitrary CPU by
+blk_mq_alloc_request_hctx(), so it is skipped and the first real read
+or write decides. User passthrough is submitted from a real task on
+the submitting CPU and adopts like any other command.
 
-Of course there are many cases (eg small systems with little I/O) where
-moderation is not needed at all so at least one bit of user input is necess=
-ary.
+Queues outlive the workloads that submit through them, so adoption
+re-arms after 30 seconds of queue quiet. An idle queue is reclaimed by
+its next submitter, while a busy queue keeps a stable io_cpu and
+cannot ping pong between two live submitters. Concurrent writers on
+different CPUs serialize on a cmpxchg on io_cpu.
 
-What I normally do is use another small patch to pass the initial settings =
-via
-module parameters, using values similar to those below
-(enable on all interrupts, delay_us=3D100, target_intr_rate=3D1000000,
-hardirq_percent=3D70)
+The behavior is opt in per controller via the io_cpu_adopt fabrics
+option at connect time. wq_unbound takes precedence when set.
 
-> Also how does this interact with adaptive polling code inside drivers
-> like NAPI or the upcoming nvme variant?
+Signed-off-by: Saravanan D <saravanand@crusoe.ai>
+---
+Changes since v1 [1]:
+- Special case the fabrics Connect command instead of skipping all
+  passthrough commands, so user passthrough I/O adopts too.
+- Make it a per-controller io_cpu_adopt fabrics option instead of a
+  global wq_adopt module parameter, set once at connect time rather
+  than flipped under a live connection.
 
-GSIM acts at hardirq level (so below NAPI, and above device moderation e.g.
-the one in ethtool -C ...) and is completely orthogonal to those other
-mechanisms.
+Both per Christoph Hellwig's review.
 
-If NAPI etc manage to keep the interrupt rate/load below the targets,
-then the adaptive controller in GSIM ends up using zero additional delay.
-Otherwise, it gently adjusts the moderation delay so the combination suffic=
-es
-to stay within the target.
+[1] https://lore.kernel.org/linux-nvme/20260806023947.94680-2-saravanand@crusoe.ai/
 
-All the above assumes the parameters are sensible.
-GSIM or any HW moderation allows up to 1/delay_us interrupts per second, so
-setting delay_us=3D10 allows up to 100Kintr/s per CPU handling interrupts,
-so there is no way we can throttle interrupts below 100K/s)
+ drivers/nvme/host/fabrics.c |  4 ++
+ drivers/nvme/host/fabrics.h |  2 +
+ drivers/nvme/host/tcp.c     | 75 ++++++++++++++++++++++++++++++++++++-
+ 3 files changed, 80 insertions(+), 1 deletion(-)
 
->
-> >
-> > The system is adaptive. Moderation affects only latency and only in
-> > high load scenarios.  Throughput and CPU efficiencly generally benefits
-> > significantly.  Targets don't need to match precisely the platform
-> > limits, and one can make conservative and robust choices. Values like
-> > delay_us=3D100, target_intr_rate=3D1000000, hardirq_percent=3D70 are a =
-very
-> > good starting point.
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index fd5abd04e080..26f8703744de 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -695,6 +695,7 @@ static const match_table_t opt_tokens = {
+ 	{ NVMF_OPT_NR_WRITE_QUEUES,	"nr_write_queues=%d"	},
+ 	{ NVMF_OPT_NR_POLL_QUEUES,	"nr_poll_queues=%d"	},
+ 	{ NVMF_OPT_TOS,			"tos=%d"		},
++	{ NVMF_OPT_IO_CPU_ADOPT,	"io_cpu_adopt"		},
+ #ifdef CONFIG_NVME_TCP_TLS
+ 	{ NVMF_OPT_KEYRING,		"keyring=%d"		},
+ 	{ NVMF_OPT_TLS_KEY,		"tls_key=%d"		},
+@@ -951,6 +952,9 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 		case NVMF_OPT_DATA_DIGEST:
+ 			opts->data_digest = true;
+ 			break;
++		case NVMF_OPT_IO_CPU_ADOPT:
++			opts->io_cpu_adopt = true;
++			break;
+ 		case NVMF_OPT_NR_WRITE_QUEUES:
+ 			if (match_int(args, &token)) {
+ 				ret = -EINVAL;
+diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+index caf5503d0833..3ecac041a628 100644
+--- a/drivers/nvme/host/fabrics.h
++++ b/drivers/nvme/host/fabrics.h
+@@ -67,6 +67,7 @@ enum {
+ 	NVMF_OPT_KEYRING	= 1 << 26,
+ 	NVMF_OPT_TLS_KEY	= 1 << 27,
+ 	NVMF_OPT_CONCAT		= 1 << 28,
++	NVMF_OPT_IO_CPU_ADOPT	= 1 << 29,
+ };
+ 
+ /**
+@@ -140,6 +141,7 @@ struct nvmf_ctrl_options {
+ 	unsigned int		nr_poll_queues;
+ 	int			tos;
+ 	int			fast_io_fail_tmo;
++	bool			io_cpu_adopt;
+ };
+ 
+ /*
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 87d8067f3283..530e38695257 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -92,6 +92,7 @@ enum nvme_tcp_queue_flags {
+ 	NVME_TCP_Q_LIVE		= 1,
+ 	NVME_TCP_Q_POLLING	= 2,
+ 	NVME_TCP_Q_IO_CPU_SET	= 3,
++	NVME_TCP_Q_IO_CPU_ADOPTED = 4,
+ };
+ 
+ enum nvme_tcp_recv_state {
+@@ -105,6 +106,7 @@ struct nvme_tcp_queue {
+ 	struct socket		*sock;
+ 	struct work_struct	io_work;
+ 	int			io_cpu;
++	unsigned long		last_data;
+ 
+ 	struct mutex		queue_lock;
+ 	struct mutex		send_mutex;
+@@ -2783,6 +2785,74 @@ static void nvme_tcp_commit_rqs(struct blk_mq_hw_ctx *hctx)
+ 		queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
+ }
+ 
++/* Re-adopt io_cpu on the first data request after this much queue idle time */
++#define NVME_TCP_READOPT_IDLE	(30 * HZ)
++
++/*
++ * Adopt the CPU of the current data submission as the queue's io_cpu.
++ *
++ * The connect time choice in nvme_tcp_set_queue_io_cpu() picks the least
++ * loaded CPU in the queue's mq_map group before any I/O exists, so it
++ * cannot know which side of the group the actual submitters live on. On
++ * hosts that partition CPUs between pinned workloads a group that
++ * straddles a partition boundary can get an io_cpu on CPUs the submitting
++ * workload does not own, and its network processing then preempts an
++ * unrelated workload. The submitting CPU is in the queue's mq_map group
++ * by construction, so adopting it preserves the spreading property while
++ * landing the work on the side that generates it.
++ *
++ * Queues belong to the controller connection and outlive the workloads
++ * that submit through them, so adoption re-arms after NVME_TCP_READOPT_IDLE
++ * of queue quiet. A successor workload reclaims an idle queue with its
++ * first data request, while a continuously busy queue keeps a stable
++ * io_cpu and cannot ping pong between two live submitters.
++ *
++ * The fabrics Connect command targets a specific queue via
++ * blk_mq_alloc_request_hctx() and so runs on an arbitrary CPU that does
++ * not represent the data path, so it is skipped and the first real read
++ * or write decides. All other commands, including user passthrough,
++ * carry a real submitting CPU and adopt.
++ *
++ * Adoption is opt in per controller via the io_cpu_adopt connect option
++ * and is bypassed when wq_unbound is set.
++ */
++static void nvme_tcp_adopt_io_cpu(struct nvme_tcp_queue *queue,
++		struct request *rq)
++{
++	struct nvme_command *cmd = nvme_req(rq)->cmd;
++	int old, new;
++
++	if (!queue->ctrl->ctrl.opts->io_cpu_adopt || wq_unbound)
++		return;
++	if (!nvme_tcp_queue_id(queue))
++		return;
++	if (nvme_is_fabrics(cmd) &&
++	    cmd->fabrics.fctype == nvme_fabrics_type_connect)
++		return;
++
++	if (test_bit(NVME_TCP_Q_IO_CPU_ADOPTED, &queue->flags) &&
++	    time_before(jiffies, READ_ONCE(queue->last_data) +
++				NVME_TCP_READOPT_IDLE)) {
++		WRITE_ONCE(queue->last_data, jiffies);
++		return;
++	}
++
++	WRITE_ONCE(queue->last_data, jiffies);
++	set_bit(NVME_TCP_Q_IO_CPU_ADOPTED, &queue->flags);
++
++	old = READ_ONCE(queue->io_cpu);
++	new = raw_smp_processor_id();
++	if (old == new || !try_cmpxchg(&queue->io_cpu, &old, new))
++		return;
++
++	if (test_bit(NVME_TCP_Q_IO_CPU_SET, &queue->flags)) {
++		atomic_dec(&nvme_tcp_cpu_queues[old]);
++		atomic_inc(&nvme_tcp_cpu_queues[new]);
++	}
++	dev_dbg(queue->ctrl->ctrl.device, "queue %d: adopted io_cpu %d\n",
++		nvme_tcp_queue_id(queue), new);
++}
++
+ static blk_status_t nvme_tcp_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 		const struct blk_mq_queue_data *bd)
+ {
+@@ -2802,6 +2872,8 @@ static blk_status_t nvme_tcp_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 
+ 	nvme_start_request(rq);
+ 
++	nvme_tcp_adopt_io_cpu(queue, rq);
++
+ 	nvme_tcp_queue_request(req, bd->last);
+ 
+ 	return BLK_STS_OK;
+@@ -3047,7 +3119,8 @@ static struct nvmf_transport_ops nvme_tcp_transport = {
+ 			  NVMF_OPT_HDR_DIGEST | NVMF_OPT_DATA_DIGEST |
+ 			  NVMF_OPT_NR_WRITE_QUEUES | NVMF_OPT_NR_POLL_QUEUES |
+ 			  NVMF_OPT_TOS | NVMF_OPT_HOST_IFACE | NVMF_OPT_TLS |
+-			  NVMF_OPT_KEYRING | NVMF_OPT_TLS_KEY | NVMF_OPT_CONCAT,
++			  NVMF_OPT_KEYRING | NVMF_OPT_TLS_KEY | NVMF_OPT_CONCAT |
++			  NVMF_OPT_IO_CPU_ADOPT,
+ 	.create_ctrl	= nvme_tcp_create_ctrl,
+ };
+ 
 
-cheers
-luigi
+base-commit: bf881dd20062db5e951a0d0703cb476df8c9fdee
+-- 
+2.53.0
+
 
