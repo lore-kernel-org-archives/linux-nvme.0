@@ -4,96 +4,149 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CEDA8C5DF87
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Aug 2026 11:48:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E1FACC5DF87
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 Aug 2026 14:01:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:
-	Cc:To:From:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=sjZ6o2B4u5+ODMneCLOWQXXYoRKfP63ZeuV0QIVzkkY=; b=CJoIw3eEfLGbrC
-	hqhPlkwBZk7Lkkwo1JWtUYOA/iVmmZ0AZ3PgYGMzWvkUWUx77qns64h0R29NXxC9Ew7242NmcPaTW
-	AH+GtqfrX0BbT3oCSF3laFDFvnmf3P9w75GNulTxs6ErVFN62Lq2D+Yyto7Ld6wOJc7Ddx7PR6qET
-	Rv6M0UPKRmx5dmu1YvhQ9lx/lcg+AB57pXW8eVIYY7+Efo8kDDEWH915qwIMHn8nq/t0FFf5XY942
-	06Nk79+uBjPckMPDWAWxJy44DJ3xr1wiCLz1hMvcaGIia/4rz/cJEhLXHAFJ+C1B5W36eBUDXbe7z
-	sAmWKH1lbdGj7Ocl6sgQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=WSfTg+Kn4w/LraGKCTqKYGhsFX4dk/YuJ/fgLaYgRWQ=; b=AJ7vdxputXmSjHZWlqWuGPqfA7
+	PJsSklEg08I3K50w0Jos0q71lmsLDMroHwzszfyOvMTKYUS3ldlEahNJAUgxFGwhEwfTgKCSjiojN
+	88kuSOj5N75sHWerr83lR1WT6C4SCx4cYuJpztY7fOZKt365Ub6uX51gQzB0GdDH70I9M8koYDIfR
+	YmT0uR7u0ogcGcYpBZqn5R8Rv/w2SfgHThyYl4aZ0QzO3Bw2JH1aLDm9ANtTDpt0onFCXR1l4tSDu
+	Y0kiGmZZF/YeW20HNE0BOkZ7Rk6a0g/h2A4t9sMyBnJzMRtUh193EAPw04q7eT7HUYHXkwUfqUEUv
+	f2yESpTw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wx1Ft-0000000BU9b-1Jee;
-	Thu, 20 Aug 2026 11:48:21 +0000
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+	id 1wx3L5-0000000BekN-0IFU;
+	Thu, 20 Aug 2026 14:01:51 +0000
+Received: from esa4.hgst.iphmx.com ([216.71.154.42])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wx1Fq-0000000BU7a-2TOo
+	id 1wx3L2-0000000BegP-0wnE
 	for linux-nvme@lists.infradead.org;
-	Thu, 20 Aug 2026 11:48:20 +0000
-Received: by mail-wm1-x331.google.com with SMTP id 5b1f17b1804b1-495590dde14so24661775e9.0
-        for <linux-nvme@lists.infradead.org>; Thu, 20 Aug 2026 04:48:17 -0700 (PDT)
+	Thu, 20 Aug 2026 14:01:50 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1787234508; x=1818770508;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=kFYxltX2lc/P5pgXELXf9H23ME9Aa1/U/AXTKnAYSPM=;
+  b=qEUHrCLV2hjrYoqTYCI6UVktyJd1gTva7g6KAYMDl9k3co4fLIQFWRbm
+   GGOCtD2yPEqu5b2xB4M9CWL4uaULl7q2x50c1mQ9QhhPiK0VHFTipMXLo
+   uvduqYBGnpoDtYgrkjYlCoc2N+SjV0oeYQlGc59nrESsjIUPYhdugDgew
+   id9CYrLNmV1jSfj28AIH5E6BwVVXUilBKz0Lc7b5VzljwVG8mNhluc2GZ
+   IMsWTH8FWyuAyR6mtXon+RAEE9/q+Jckiot9pYTXcWCusVA1hvBVvx+aZ
+   PzK893hxUjwruGJyMiXEvC0kSg0IXDC6CkZPZ8E9I56YVFyVFA8FkW+m0
+   Q==;
+X-CSE-ConnectionGUID: qsa14hTAQPKENTsfIzqoWw==
+X-CSE-MsgGUID: XcvHxMzoQraHiOOxCNEwTQ==
+X-IronPort-AV: E=Sophos;i="6.25,233,1779120000"; 
+   d="scan'208";a="149734539"
+Received: from mail-centralusazon11010061.outbound.protection.outlook.com (HELO DM1PR04CU001.outbound.protection.outlook.com) ([52.101.61.61])
+  by ob1.hgst.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 20 Aug 2026 22:01:46 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MIEs+px87RdiSom6iWIDWBbA5VWB+XOWzdIC4+IrdZCxCfa1eRwekJR30FKCpVIzEAKDSHxRwCe0kNK6Ud3fBAGCfuFlM0FkQK2Lo/n6whBU0UiEDKEK+aJB4HAHfTgaaEAbG/FTQtL9Rut12hgiVSjY4GZJBdISaHeO3pBl7wogGd7eEM+qPzlKvQ2LltU3LhAh0SyyUK3WgXThexAA4BsaGx8uUBZpI5sFIVknT4jrIMoRRunPhZuTyRRc7JuWt3gyZTGo4VkILzQQIuEWW9PlMlpsAekRQjOnVg5gvD459wduuBmXiDUiBOqMifm4sCo7USiT/1o31Ijq9uWynA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WSfTg+Kn4w/LraGKCTqKYGhsFX4dk/YuJ/fgLaYgRWQ=;
+ b=B4LDKmIIuuGkw3r1woIB54Ox5EqVG3mPw918Il8OZUtqmuKc469ALfSbaTNsAvNCRk1t2D2ihEcUPIWQbcZbQH/PNFJRMVED63GS992CkDh71LPBziA/FyDbiY0zxGAjrsr7gWWXPtufc10LJ02UrYlOLt7NnMawjVn/nTRP/N1V1vkPzBx1Vcp715LTgMyOjS359ELOJjJtOEo62Vn+V6bq0WNdTkuYKnr0djF/4b/p0JwOnJOR+yysf21Bxzn/tO4YL6XJEY0d8KBVIAq4iVfk4Di5qfv3+7l9gV0aDwXb2GwPT7F3cB2sHPz406OfpF9Mn21knTjtNFfmBxvfEQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=zadarastorage.com; s=google; t=1787226496; x=1787831296; darn=lists.infradead.org;
-        h=content-language:thread-index:content-transfer-encoding
-         :content-type:mime-version:message-id:organization:date:subject:cc
-         :to:from:reply-to:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=sjZ6o2B4u5+ODMneCLOWQXXYoRKfP63ZeuV0QIVzkkY=;
-        b=QkqvQbBSEbXvTaXFQBO6GgQJFra7fcTBjRxMg0MthJp6+FE56Auz1Noz3ot0CC/H5y
-         OZ+s3/Q5AfEEoGJU9ExFo8b9SbV9e/JggIS9asn62uHhTk044Fgjjmo73apqHLjGAREK
-         THfsxA0gCcyAkpgEnQnQhFjZ434OIUxBz/3EWABuOfi4f5hXqHHd/w7DJoAb6+cGrAKP
-         DxKkj1VUjH4oi+lqyqH6MdeZJ71y2WalKDQS49/OUZyaP5MfRFTrJX/p2ULHLNrlLgu0
-         QDCQRyI96hR9O1G5jYgnW/Nt6CGH+4izOyxXIXcOHDCjqvtL2bqkJOqMXGjAs2YV1Teo
-         fPFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787226496; x=1787831296;
-        h=content-language:thread-index:content-transfer-encoding
-         :content-type:mime-version:message-id:organization:date:subject:cc
-         :to:from:reply-to:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=sjZ6o2B4u5+ODMneCLOWQXXYoRKfP63ZeuV0QIVzkkY=;
-        b=G3sgJoWFHrqKI4Jn01HQyhGSktc0abJ6gzKJ0sz6mjJiWcqllFs0ZGNvFW7ZheoE6v
-         NoDoyaF0vgIPmb7DBWo5QZUy/MYO3eXQW+bYy3t35+iHPPJJ6T0MvG3N9/C4h7N6J+yD
-         l0zSwINxKvptsrWRgJBDP7YmgaKh2bdzw4aKf+uwp6NG5nwkyy1BR4gfP2cQBV2ANsIv
-         jO8bEP6/AMtnCwHQQRkm/SMyGD1EU0Z42J2C7uXFkr/o3QtSU615KT9NMdcKz2ZWjQGF
-         k9TKJjlJihIsSPOzEQW1e+/0Bb8GXeA9uDCWJgojH8wIXDr6qcwP9dx+AeoEgvRsi66E
-         s4Ow==
-X-Forwarded-Encrypted: i=1; AHgh+RptNgf+Vt9rf7jYwpOayj558Tcp357MfxNHLPb8YH+lCbP2nNUXhkloWGjBK3HTEU0uxY/JK+8SBLhF@lists.infradead.org
-X-Gm-Message-State: AOJu0Yy9PmN+AiKvWDDqRaJWLcE4UILayhUPJhqxgn0e3idcR3BGQ7ZM
-	Gb5/dQ91xWGwfU6ZSXW3A0wS61q7krK1U9FGL3D6IfaNAnid+Fpm2gZqEPTBUbadPkA=
-X-Gm-Gg: AR+sD100uYWRvu3mW33FILrY0bnTM1OlynRuRvXhIoAK7cFSkvZwYwBfdtihstV4CUF
-	hsLDPX81rk0PTOdR4sxNILsl51NG5QpGEYWJnuM+xqwNOY0zP5/TST4ickWfnR0lpwF+9yvPTTb
-	H49Ec+ewTOxzn6Jmgsy7XVPF1e+p7piy8jLrjHPKX/pWFPWvJAfbkj6Ihn6Lp7bLlbDcVE9ioHv
-	K378R4Cp/d4gCb+8zZ9O3IReqBZ19wNVGXWbS3pGWrvSJnSkcSfiiQqYeEkUwvMB4diulysOFj1
-	rzsVPCVcgs2xnZ804ICygKzXC1PB0OvQZaXCsAwdVua9RPXj099KUWjlXl4KjaYxX5o+8LUk8Nc
-	Y7LlEGYzPwEDI0xvtFYqVwm7D6U+ArJlLVwpMuQPmsZUlIyNqo0dl6+2/iws8Jn7f8QJXE5QioJ
-	rNWCJd4N8PxyNnueQJANlYAZsMJrbo3wtQLVtmaCYS/WG6XLwHqYGpuD8OXb+tj4X5h/E=
-X-Received: by 2002:a05:600c:c167:b0:495:4d00:2fda with SMTP id 5b1f17b1804b1-499aa143546mr227118585e9.2.1787226495784;
-        Thu, 20 Aug 2026 04:48:15 -0700 (PDT)
-Received: from levpc4 ([82.166.81.77])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499aa0d6721sm181074585e9.11.2026.08.20.04.48.13
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 20 Aug 2026 04:48:14 -0700 (PDT)
-From: <lev@zadarastorage.com>
-To: <linux-block@vger.kernel.org>
-Cc: "'Jens Axboe'" <axboe@kernel.dk>,
-	<linux-kernel@vger.kernel.org>,
-	<regressions@lists.linux.dev>,
-	"'Ming Lei'" <tom.leiming@gmail.com>,
-	"'Yu Kuai'" <yukuai@fygo.io>,
-	"'Keith Busch'" <kbusch@kernel.org>,
-	<linux-nvme@lists.infradead.org>
-Subject: [REGRESSION] blk-mq: hctx loses BLK_MQ_F_TAG_QUEUE_SHARED across blk_mq_update_nr_hw_queues()
-Date: Thu, 20 Aug 2026 14:48:10 +0300
-Organization: Zadara
-Message-ID: <00cb01dd3099$c82b66c0$58823440$@zadarastorage.com>
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WSfTg+Kn4w/LraGKCTqKYGhsFX4dk/YuJ/fgLaYgRWQ=;
+ b=GpsTW/xlI+ghhWEaceBBThORDS9dfu3RR2kEJU/GzmjLvcPDqUclEWWzHBpu1chnEqJFx97NJ0zdD6lMfruZvFTJbItiUt0h3xfVJNtoNvDcx+sGbvBVDwLQbAgqsXA8ChUofFWsXFpVXZB7/ievVyf6PrsxvIV9ixX41dPQQ6w=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+Received: from SA1PR04MB10065.namprd04.prod.outlook.com
+ (2603:10b6:806:4dd::14) by CH4PR04MB9082.namprd04.prod.outlook.com
+ (2603:10b6:610:227::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.10; Thu, 20 Aug
+ 2026 14:01:39 +0000
+Received: from SA1PR04MB10065.namprd04.prod.outlook.com
+ ([fe80::9b98:bf8a:b0b1:ef85]) by SA1PR04MB10065.namprd04.prod.outlook.com
+ ([fe80::9b98:bf8a:b0b1:ef85%4]) with mapi id 15.21.0339.007; Thu, 20 Aug 2026
+ 14:01:39 +0000
+Date: Thu, 20 Aug 2026 23:01:34 +0900
+From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: John Garry <john.garry@linux.dev>
+Cc: John Garry <john.g.garry@oracle.com>, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH blktests v2] nvme/068: check module reference count with
+ patience
+Message-ID: <aocGphZ8C5r94O_i@shinhome>
+References: <20260806033146.2067433-1-shinichiro.kawasaki@wdc.com>
+ <57644cf9-ecce-4829-b7eb-82375960946e@oracle.com>
+ <anRtGO3CBTh8Sjxj@shinmob>
+ <a6c21f02-da8c-42bb-a6b8-4c20d14b2197@linux.dev>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a6c21f02-da8c-42bb-a6b8-4c20d14b2197@linux.dev>
+X-ClientProxiedBy: TYWPR01CA0041.jpnprd01.prod.outlook.com
+ (2603:1096:400:17f::16) To SA1PR04MB10065.namprd04.prod.outlook.com
+ (2603:10b6:806:4dd::14)
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: Ad0v5ziZbJoftdS9SsWisTfxJtxmzQ==
-Content-Language: en-il
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR04MB10065:EE_|CH4PR04MB9082:EE_
+X-MS-Office365-Filtering-Correlation-Id: 172da011-d6b5-4945-e448-08defec38e89
+WDCIPOUTBOUND: EOP-TRUE
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|19092799006|23010399003|22082099003|18002099003|3023799007|6133799003|56012099006|10067099003|4143699003|11063799006|5023799004;
+X-Microsoft-Antispam-Message-Info: O3SOc4k5SR7hL8msDopuy7P35hoV2SOgGH0Pcpg18+f+HuAgaLXNxv/YkN5AKm0I+rH7sfSu5E17R2SgzR79UOyXmslTWlFyjxNCxYeakg0uwgA8LJydtr5iQLPajwApdSXq8hjMUbVl6h4oCcyw+VAuYTNdmxXblLso4aTaaCSxkqczhRR3aq4HXc0rJVrZo7BnGveU0WTASOn2ZENVm30182gqwOgE24qnZD8s+GJyaSsfTkKLc4JFzXe62Cm8E2p/wZgTIyGDHG0t2RroeaM4ODMTfG27ZDYNKXeb8ISJZ9dMwyaj5pqmBor/BY03NRpX59WteRUc9ajHoi8yl/K0dyENvEvWhf9v5HmTVwJKklw25AdJR7H47e23pfIqVrIzXq9w8yhh+ArzSkZjSvZtjnNM2MCoL1UErjzbpmavpNKR/jWi+h9LGrQIjAdthd4ynxIUEtyhCGcK6iu/P6q5CUK0nt8TIvlI/PhyXABzbJiyhgCSBp0H3SmZDHy6aU7c7YzvT3fsXgNCFOVhFt4xB6ECG/cukRTG2djZaEOOiIdvkV3eFB1NMedDmOuo6wDShIZQ7e3cyNmk3AzF9ZHIyFvoiyMQTLb+zc8QDtviT4uDe1MX8jm9tPBujt81ylh67HBoWdLMuQ2Q9CV/ojhZy8TIC+Z9peoGuuAANGU=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR04MB10065.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(19092799006)(23010399003)(22082099003)(18002099003)(3023799007)(6133799003)(56012099006)(10067099003)(4143699003)(11063799006)(5023799004);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?8daB1wiFARACy32YP11VNnEN/KrMsAtYENKcJKoQ4+IyI32rNeKUjxOZfkXE?=
+ =?us-ascii?Q?95ZzYBa8UhToJh9idLIajvC1AWwvk82ujMjbKDbe6Kc8IL28ralT5noX2DIo?=
+ =?us-ascii?Q?rWMy5VN0wtlMzdzh2ObtcJH9umJemkKqnS2PYf0LCCcHlrmIahIOuLQN7/xl?=
+ =?us-ascii?Q?XV23qReqigUt3dSr53KUuU2U/yGOWUIuonjLMLGsWYd+lIeLHtXLegGJgw6+?=
+ =?us-ascii?Q?3deDhqVXlfa3r9KUCN5tbg0t69yHc8YLoXBDjsBEBTYSqtQbIxEzbbmqn2EX?=
+ =?us-ascii?Q?P0G7gL0uuSTnfGYXY+zgk0rr7BMMHsLYIltj9PvlSuVc5Y3/aYZrNqInfGYU?=
+ =?us-ascii?Q?I4l+ujIE/XNE94M5c2meOlUpIanMkSTiw6lgk0QWAALcC93lrdhXv4PwbxPW?=
+ =?us-ascii?Q?Z2fydITuAwzQpP7WtVkByJ+pRzfIyQuNDzfE3x59GQYWZ6Dr2lYirpPnVfCp?=
+ =?us-ascii?Q?SRGhHD/FS78ckl8+BraF55pl7nbfg+ZzDhh4mRcxin3sCwK98E7V3TMl/sTZ?=
+ =?us-ascii?Q?tvuckPEw/Dbo61jPizDq+u1+mQCuiGinwMlsntSgW5TCd0WGqZ4x8gdTVSjS?=
+ =?us-ascii?Q?aiNWHTaOUv/ADXcsCx70+SDYGFDThlg5NULgGO95CJtsiIAN0+XuXSiwM6nq?=
+ =?us-ascii?Q?btm0nrqe5xfQTFhumBxkJaH0uIOhTNp5L4B8OfzoFM7T8XAoubW023nWYLfg?=
+ =?us-ascii?Q?H7FZ+BEsC/97jRgwXarvGlUfg5z0DWuP/AKyiUoxH51MW7qGLHoFY2Yb9FaI?=
+ =?us-ascii?Q?2l37joUTVXiAc9V9S8GA5PkFMJFkMNtLCAiHTO+Y6S+o0z3WanHt1WAGH9J/?=
+ =?us-ascii?Q?GB7V17ZoNhtRc3OrMi9E8dsc3rrwU8GEU8kam+010T+2bqDqSkL1OeP6l7dO?=
+ =?us-ascii?Q?r5W4Ou8ZWuTwudB+lEpHET45Glrvn8JmsyeWGwZJM4bOVpbO5vZ/6IktMxy6?=
+ =?us-ascii?Q?HXG7sUE5i/s3CRjfR+HiRLvdO2t3f5zMhuEFeMSKTag7XK/GGXGuL8wm/rDM?=
+ =?us-ascii?Q?ZXWWATnkMmyO/fmmm9GsUc/BQivs9FSwAUBIIIekKIjCZ5MPEDN1VDWafw80?=
+ =?us-ascii?Q?/bfVVgsvIChLpDs3Oyo36udUfnLwvC3skSnjiBxOnMTmNmRaGF5+8kBIwGFE?=
+ =?us-ascii?Q?WNTZla2HtFjYGX45yrf2sGwSpdnZFoMmdazaSh5gqlHtZg2sf1+hyNjTk7Sa?=
+ =?us-ascii?Q?67UnhYJF1XhQXCKsWZCF/lws8svziixS4Uja9yahUzP1xrLo2YbfPsTcWk33?=
+ =?us-ascii?Q?MC+6ZpwPL9ccqMOcvPw9NkwNe7y+FNhjTbn3IgEXyWOQhXpMs4T4n4LzGGmg?=
+ =?us-ascii?Q?GiqQELLVqC/LqMJg1Z9XlFeTCKMNBdx9Wm0YkffCloCkP9YWwKX1gk8SdWp2?=
+ =?us-ascii?Q?dMRMOwokpMXqOHMl40AskC6koRcKk958KyHaL2E86tuOmkRtD9heEmJ12Uun?=
+ =?us-ascii?Q?TqVEDdLRCN8TL4mq39O1S1guR8nf1CJe+exlQ79fQO2t8sYgudt/jQPa318N?=
+ =?us-ascii?Q?tuCAmeOd57/qzEGRZybOkXP3azxF0T7U07MBLroEKY1TvzU3kQNz//M2MABR?=
+ =?us-ascii?Q?R5lKA1TR6076nIVzr8/FMpAHGlD81AkTBMUgzOAzzNbEV6ylowFvz9XolqJr?=
+ =?us-ascii?Q?VRQwPgQ/1sfpgJBbENXV8NkDF650WZ96Q1+eIC6Iw55XUbEqwS7gPIJ0hDKs?=
+ =?us-ascii?Q?HkzXVv9vOgmug/AHzWYGZF1Ap+rt24sHCgwBHEUPZGzr5jPZUOJ2dk41iBjm?=
+ =?us-ascii?Q?1jI4A9Hl8cRwmUFewvDe1NodeAoUsok=3D?=
+X-Exchange-RoutingPolicyChecked: lYNdQoHvFwYNdcZUqz6uxF3CfVNOcAtBRweueWRSneKxYptR4M49FgOwIiC6ysDP7N1fX+IEUbofj8HzxNjGrPPiV5e9L3VMYVIwFzpbVKctj4/rijugfhB8xmVY7jJ7cj+c0FWr24oMNA7EbKmbk8HwNJpzks3JHWoL+PME7kkAndGTKy9NKQqQE1yTZc1rCdCTMpRxSprKskXZ9KfMIYLdS4Ti29CN6Cd3b5iggk7tC862MkHuo+O45JPgrw/jGCUdVvEFjuwXwKGEnbru5ooPUcWOi77eBo41ave04AQ9EpaXc/MPm24RS1x5t3agYNis0tGCxQHJhLVU2PaXJQ==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: Hkes6LqgJ1po+UPdy0/VfA8T9BISnSMTl3xVyfu2dVvxu1rrZ28WU8mlIxmWSwCcb0geVvt/42R9p63ZJqTMBvA2CC0yoP9NqYeqy0QRaG20TCetPiHApz5yt40oWXocX1cAbGpi4FMvt6/D+Bs2FyLKY0cK55bR4wtW3+t3v1FqdYXqacM6XnC8TKSbFsbzokkc7IjX9YnMoJVflgBuPbuK86PHgExdGGA4Jk1gTM3MBr65MHWWQqIHCQlQ+5nTddJaYxuRwWEZkg18fpH+5kGGPnMLdOJM66lTWsGZmPn3LXd5MFEHHhvgLQz5P7ZpMyMEmr9lzXTe5pkxqEhg00BOwaTLVZiJG4L3GMXruM9bRc9VVCCWnm2PVPWeNgbtPFdCZmwi2sEsDZruOYrzvzq8yz5z4Cgw1dlJe+N7nz/fyFAZgbLY2KKWYhN63tyFTe3c3cmPdOywuj0ceI8LJgjEbuNfFhqlOLBo3P6GNNYy6OtVo0IFx8Mk7PAdB7751YyyFxSxv6FDGyF7vRh5mHaUO72DEbZNidP6Bb2vA28r6VfjBpNcF+uzo7v5Q2Frb6JPkgqDKZYzLb4k9wF3wWWf6kTv3AaoTgwmdsOhYTKAo8VjgtjAfIVaouU1i64a
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 172da011-d6b5-4945-e448-08defec38e89
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR04MB10065.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2026 14:01:39.7877
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8JKfzneAEwW6YUA6t6yM8nR1FSP1jmt4+isr8jlLkIL2wqagCzU5tqwDLRKuXTXPg6v0Cg7nItHJrM1lg7ucC5mH41XTXDFyZhItCAhCCTI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH4PR04MB9082
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260820_044818_691515_F0177187 
-X-CRM114-Status: GOOD (  31.45  )
+X-CRM114-CacheID: sfid-20260820_070148_330968_39F7DB2E 
+X-CRM114-Status: GOOD (  28.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -105,214 +158,92 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: lev.vainblat@zadara.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+On Aug 07, 2026 / 09:32, John Garry wrote:
+> On 8/6/26 12:30, Shin'ichiro Kawasaki wrote:
+> > > > +_check_nvme_core_ref_count() {
+> > > > +	local refcnt i
+> > > > +
+> > > > +	for ((i = 0; i < 10; i++)); do
+> > > > +		refcnt=$(_module_use_count nvme_core)
+> > > > +		if [ "$refcnt" == "" ] || [ "$refcnt" -eq "$refcnt_orig" ]; then
+> > > I thought that refcnt_orig was local to test(), so I am unsure how it is
+> > > accessible in this function...but it seems to work.
+> > This is a bash uniqueness. Here I quote a relevant paragraph from the Bash
+> > manual [*]. Some paragraphs follow and explain how bash handles local variable
+> > scope.
+> > 
+> >    Variables local to the function are declared with the local builtin (local
+> >    variables). Ordinarily, variables and their values are shared between a
+> >    function and its caller. These variables are visible only to the function and
+> >    the commands it invokes. This is particularly important when a shell function
+> >    calls other functions.
+> > 
+> > refcnt_orig was declared as a local variable by the caller of
+> > _check_nvme_core_ref_count(), then it is visible in _check_nvme_core_ref_count()
+> > also. I used this feature intentionally, but I understand it looks weird. If you
+> > like, I will update the patch to pass refcnt_orig as a function argument
+> > instead.
+> > 
+> > [*]https://www.gnu.org/software/bash/manual/bash.html#Shell-Functions
+> 
+> Understood, thanks for the info.
 
-After blk_mq_update_nr_hw_queues(), every hctx on the tag set can end
-up with BLK_MQ_F_TAG_QUEUE_SHARED cleared while set->flags still has
-it (it alternates - see below).
+FYI, I applied the patch in the current form.
 
-blk_mq_alloc_hctx() deliberately masks the bit off:
+> 
+> BTW, on another topic, it seems to be a common pattern to loop waiting for a
+> condition to be true in the blktests codebase, like:
+> 
+> +_check_nvme_core_ref_count() {
+> +	local refcnt i
+> +
+> +	for ((i = 0; i < 10; i++)); do
+> +		refcnt=$(_module_use_count nvme_core)
+> +		if [ "$refcnt" == "" ] || [ "$refcnt" -eq "$refcnt_orig" ]; then
+> +			return 0
+> +		fi
+> +		sleep 1
+> +	done
+> +	return 1
+> +}
+> 
+> In the kernel, we have functions like wait_event_timeout(wq_head, condition,
+> timeout), which calls @condition and checks the result to break the loop and
+> determine success. Could it be possible to have such a helper in blktests? I
+> don't know how...
 
-  hctx->flags = set->flags & ~BLK_MQ_F_TAG_QUEUE_SHARED;
+Thanks, it sounds a good idea to me. I guess we can use bash "eval" feature. I
+guess the helper function like below will do the trick:
 
-which is right at initial queue creation, because the queue is not yet
-on set->tag_list and blk_mq_add_queue_tag_set() applies the bit
-immediately afterwards. But __blk_mq_realloc_hw_ctxs() exits and
-re-inits every hctx even when nr_hw_queues is unchanged, and
-__blk_mq_update_nr_hw_queues() does that for every queue on the tag
-set without re-applying the bit. On that path the queue is already on
-set->tag_list, so nothing calls queue_set_hctx_shared().
+	_wait_event_timeout() {
+		local timeout_in_seconds=${1}
+		local condition_str=${2}
+		local i
 
-The strip alternates, which is likely why this has gone unnoticed.
-blk_mq_init_hctx() never assigns hctx->flags, blk_mq_exit_hctx()
-pushes the old hctx to the head of q->unused_hctx_list, and
-blk_mq_remove_hw_queues_cpuhp() runs only after every queue on the tag
-set has been realloc'd. So the just-exited hctx is refused by
-blk_mq_hctx_is_reusable() - still cpuhp hashed - while the hctx exited
-during the *previous* update has since been unhashed and is reused
-carrying its stale flags:
+		for ((i = 0; i < timeout_in_seconds; i++)); do
+			if eval "$condition_str"; then
+				return 0
+			fi
+			sleep 1
+		done
+		return 1
+	}
 
-  after 0 resets: alloc_policy=FIFO SHOULD_MERGE|TAG_QUEUE_SHARED|BLOCKING
-  after 1 reset:  alloc_policy=FIFO SHOULD_MERGE|BLOCKING
-  after 2 resets: alloc_policy=FIFO SHOULD_MERGE|TAG_QUEUE_SHARED|BLOCKING
+With this, _check_nvme_core_ref_count() can be reimplemented as follows:
 
-Within one update it is uniform: every hctx of every queue on the tag
-set goes the same way, with no partial mix.
+	nvme_core_refcnt_is_orig() {
+		local refcnt_orig=${1}
+		local refcnt=$(_module_use_count nvme_core)
 
-One namespace is enough for the tag set to be shared, since
-nvme_alloc_io_tag_set() puts ctrl->connect_q on the same tag set for
-fabrics, so the set is shared from the first connect.
-nvme_tcp_configure_io_queues() and nvme_rdma_configure_io_queues() reach
-blk_mq_update_nr_hw_queues() unconditionally on the !new path, so every
-reconnect and every controller reset does it. nvme_fc_recreate_io_queues()
-only calls it when the queue count actually changes across reconnect
-(prior_ioq_cnt != nr_io_queues); nvme-pci calls it unconditionally on
-reset.
+		[[ "$refcnt" == "" || "$refcnt" -eq "$refcnt_orig" ]]
+	}
 
-__blk_mq_update_nr_hw_queues() does return early when the queue count
-is unchanged and set->nr_maps == 1, which might look like it should
-cover a same-count reset - but tcp and rdma pass nr_maps = 2 (or
-HCTX_MAX_TYPES with poll queues), so that early return never triggers
-for them. It does apply to fc, which passes nr_maps = 1 and is
-filtered twice: once by its own prior_ioq_cnt check, once by this.
+	_check_nvme_core_ref_count() {
+		_wait_event_timeout 10 "nvme_core_refcnt_is_orig $refcnt_orig"
+	}
 
-This is directly observable with no I/O scheduler and no load at all:
-
-  # sized small for the stall reproducer below
-  nvme connect -t tcp -a $ADDR -s $PORT -n $NQN \
-       --nr-io-queues=1 --queue-size=16
-
-  grep -H . /sys/kernel/debug/block/nvme0n1/hctx0/flags
-  # alloc_policy=FIFO SHOULD_MERGE|TAG_QUEUE_SHARED|BLOCKING
-
-  echo 1 > /sys/class/nvme/nvme0/reset_controller
-  grep -H . /sys/kernel/debug/block/nvme0n1/hctx0/flags
-  # alloc_policy=FIFO SHOULD_MERGE|BLOCKING   <- TAG_QUEUE_SHARED gone
-  # set->flags still has it (retry the reset if not - see the
-  # alternation above)
-
-The general impact, independent of any I/O scheduler: hctx_may_queue()
-opens with
-
-  if (!hctx || !(hctx->flags & BLK_MQ_F_TAG_QUEUE_SHARED))
-    return true;
-
-so an affected hctx skips the fair-share depth division entirely and can
-draw more than its share of the shared pool, starving sibling namespaces
-of driver tags. This is not scheduler-specific: with no elevator,
-__blk_mq_get_tag() applies hctx_may_queue() to every unreserved allocation
-at request-allocation time, and with one attached,
-__blk_mq_alloc_driver_tag() applies it when dispatch takes the driver tag.
-Either way the stripped bit skips the check. Separately, blk_mq_tag_busy()
-and blk_mq_inc_active_requests() are also gated on the same bit and become
-no-ops, so tags->active_queues and hctx->nr_active read 0 regardless of
-load - the exact diagnostic an operator would reach for to see the
-contention above is blind. Both of these apply on every affected system,
-with or without a scheduler, and with or without a request ever getting
-stuck.
-
-This is separate from the in-flight work to drop shared-tag fairness
-throttling entirely - that would remove hctx_may_queue()'s fair share and
-the active_queues symptom by design, but the flag itself would still be
-mistracked, and the hang described below gates on the same bit through
-code the fairness removal does not touch.
-
-Presumably the fix is to re-apply the bit per queue after the realloc
-loop. Dropping the mask in blk_mq_alloc_hctx() instead would not fix
-this: the reuse path never goes through blk_mq_alloc_hctx() at all, so
-a reused hctx keeps whatever flags it had in its previous life either
-way, which is the actual bug (see the alternation above). I have not
-tested a fix - I have no mainline test rig - but I can test patches on
-6.6.y, and the reproducer below turns one around in about a minute.
-
-I have not established when this started, and I do not have the resources
-to bisect it. By inspection, 85672ca9ceea ("block: avoid to reuse `hctx`
-not removed from cpuhp callback list") looks like the point where it
-became reachable on the ordinary same-count reset path: before it the
-reuse test was numa_node only, so the just-exited hctx at the head of
-q->unused_hctx_list was reused and its flags carried over intact; after it
-that candidate is refused while still cpuhp hashed. I could not test a
-kernel without that commit, so please treat that as a hypothesis and not a
-bisect result. The asymmetry in blk_mq_alloc_hctx() is older than that
-commit either way, and the code path is unchanged in master as of
-d58772d8520c.
-
-I searched the linux-block archive for BLK_MQ_F_TAG_QUEUE_SHARED and
-found no existing report of this, but I may well have missed one -
-please point me at it if so.
-
-Worst case: with an I/O scheduler attached, this can hang a request
-forever, and it did in production.
-
-With the bit clear, blk_mq_mark_tag_wait() takes the non-shared branch,
-sets BLK_MQ_S_SCHED_RESTART and registers no waiter on the tag waitqueue,
-and the dispatch tail schedules no re-run because no_tag is gated on the
-same flag. The comment on that gate - "For non-shared tags, the RESTART
-check will suffice" - is precisely the invariant a wrongly-cleared bit
-breaks: the check does not suffice, because the tags really are shared.
-Recovery then rests solely on a request completing on this hctx - but the
-tags are shared, so they are freed by the sibling queues, whose
-completions restart only their own hctx. Two or more namespaces actually
-carrying I/O are needed for this part, because the tags have to be freed
-by a different queue's hctx - the flag loss above needs only the one.
-
-Reproducer. Continuing from the connection above, now with an I/O
-scheduler and load across all four namespaces on the controller.
-Reproduced on 6.6.146 and on stock Ubuntu 6.8.0-137-generic:
-
-  # with a scheduler, driver tags are acquired at dispatch time
-  for d in /sys/block/nvme0n*; do
-      echo mq-deadline > $d/queue/scheduler
-  done
-
-  # confirm the flag is gone on every namespace, not just n1
-  grep -H . /sys/kernel/debug/block/nvme0n*/hctx0/flags
-  # alloc_policy=FIFO SHOULD_MERGE|BLOCKING   <- TAG_QUEUE_SHARED gone
-
-  # moderate load now stalls the whole controller within a second
-  fio --name=hammer --ioengine=libaio --direct=1 --rw=randread --bs=4k \
-      --iodepth=64 --numjobs=8 \
-      --filename=/dev/nvme0n1 --filename=/dev/nvme0n2 \
-      --filename=/dev/nvme0n3 --filename=/dev/nvme0n4
-
-All I/O stops permanently. Every fio task:
-
-  io_schedule+0x46/0x70
-  blk_mq_get_tag+0x155/0x2f0
-  __blk_mq_alloc_requests+0xc4/0x290
-  blk_mq_submit_bio+0x190/0x6b0
-  submit_bio_noacct+0x162/0x5c0
-  blkdev_direct_IO.part.0+0x40/0x90
-
-Three of the four namespaces end up with parked requests - one alone
-accumulates four. From one of the namespaces holding a single parked
-request:
-
-  hctx0/dispatch: {.op=READ, .state=idle, .tag=-1, .internal_tag=10,
-                   .rq_flags=STARTED|SCHED_TAGS|USE_SCHED|IO_STAT}
-  hctx0/state:    SCHED_RESTART
-  hctx0/flags:    alloc_policy=FIFO SHOULD_MERGE|BLOCKING
-  hctx0/tags:     nr_tags=15 nr_reserved_tags=1 active_queues=0
-                  bitmap_tags: depth=14 busy=0 cleared=14 ws_active=0
-                  ws={ all 8 .wait=inactive }
-
-The empty namespace shows the identical tags line - same shared pool -
-with no dispatch entry. All 14 non-reserved driver tags are in the
-cleared word awaiting the deferred merge, none allocated, and no
-waiter is registered anywhere.
-
-While the shared pool is still busy with the sibling queues' inflight I/O,
-every run of such an hctx - including runs triggered by later submissions
-- fails to get a driver tag, re-parks what it pulled, and parks the new
-requests behind it. Once every fio thread is blocked on scheduler tags and
-the inflight I/O has drained via the sibling queues, nothing runs the hctx
-again: the hctx has SCHED_RESTART set with no waiter registered, and
-blk_mq_sched_restart() is only called by a completion on the same hctx.
-Those parked requests, and the requests queued behind them in the
-elevator, hold the *scheduler* tags the blocked tasks are waiting for. The
-fourth namespace stays empty only because every fio thread was already
-stuck by the time it was captured.
-
-Once stalled there is no reliable way out from userspace - every
-teardown path (elevator switch, reset_controller, nvme disconnect)
-freezes the queue and waits on the same stuck request. Anyone
-reproducing this should expect to reboot sometimes. Attaching no
-scheduler beforehand prevents it (driver tags are then taken at
-request-allocation time, where waiting works correctly) but won't
-rescue an already-stalled queue.
-
-We hit this in production as a 20 minute md/raid1 hang and hung_task
-panic on nvme-rdma - same signature: sole entry on hctx->dispatch, all
-126 driver tags free, and set->flags still carrying
-BLK_MQ_F_TAG_QUEUE_SHARED while every hctx of the reconnected
-controller had lost it; a second controller on the same host that
-never reconnected retains it on every hctx.
-
-Thanks,
-Lev
-
+This looks a bit simpler.
 
