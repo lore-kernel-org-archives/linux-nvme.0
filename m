@@ -4,149 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E1FACC5DF87
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Aug 2026 14:01:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47F7EC5DF81
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 Aug 2026 14:09:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
-	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WSfTg+Kn4w/LraGKCTqKYGhsFX4dk/YuJ/fgLaYgRWQ=; b=AJ7vdxputXmSjHZWlqWuGPqfA7
-	PJsSklEg08I3K50w0Jos0q71lmsLDMroHwzszfyOvMTKYUS3ldlEahNJAUgxFGwhEwfTgKCSjiojN
-	88kuSOj5N75sHWerr83lR1WT6C4SCx4cYuJpztY7fOZKt365Ub6uX51gQzB0GdDH70I9M8koYDIfR
-	YmT0uR7u0ogcGcYpBZqn5R8Rv/w2SfgHThyYl4aZ0QzO3Bw2JH1aLDm9ANtTDpt0onFCXR1l4tSDu
-	Y0kiGmZZF/YeW20HNE0BOkZ7Rk6a0g/h2A4t9sMyBnJzMRtUh193EAPw04q7eT7HUYHXkwUfqUEUv
-	f2yESpTw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=vkje+WcI90XXZJszwfsZINqXivEVUz5h4rfXYkDZQcQ=; b=ABg5CuDrBcWmaRrIg/OLa3NrVd
+	s5Ba2Gilkd1Bvz6+nCm9ZI2K7O330JIlBOTeV2c6qoBuz4/m7SbYXkrLUSuK7XdJKUXJ7hgSTyPkr
+	9QOlk9LcK8Bpiqhb3pyDjzezJXW68aLG+D2IqQ9No+FV4JmI5pRE4Ew0jMq7r/lAw65QWvbmMdEEN
+	KyvknkE0Q4PnrPjOfW95CIuesgXPHirS3n3Qy+Ag4nuWPddlVGht0qHy/glZxppWynCUnTRyKprp5
+	G6AOQtuj1yt+fay+fTRCScBFQETHVbHoSN5Sp69CNFpPEiLcd7TPwArNyTll0ATmszsNM1w6jTfFx
+	53GoARZw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wx3L5-0000000BekN-0IFU;
-	Thu, 20 Aug 2026 14:01:51 +0000
-Received: from esa4.hgst.iphmx.com ([216.71.154.42])
+	id 1wx3Se-0000000Bg3K-4AYE;
+	Thu, 20 Aug 2026 14:09:40 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wx3L2-0000000BegP-0wnE
+	id 1wx3Sa-0000000Bg2H-3Zwt
 	for linux-nvme@lists.infradead.org;
-	Thu, 20 Aug 2026 14:01:50 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1787234508; x=1818770508;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=kFYxltX2lc/P5pgXELXf9H23ME9Aa1/U/AXTKnAYSPM=;
-  b=qEUHrCLV2hjrYoqTYCI6UVktyJd1gTva7g6KAYMDl9k3co4fLIQFWRbm
-   GGOCtD2yPEqu5b2xB4M9CWL4uaULl7q2x50c1mQ9QhhPiK0VHFTipMXLo
-   uvduqYBGnpoDtYgrkjYlCoc2N+SjV0oeYQlGc59nrESsjIUPYhdugDgew
-   id9CYrLNmV1jSfj28AIH5E6BwVVXUilBKz0Lc7b5VzljwVG8mNhluc2GZ
-   IMsWTH8FWyuAyR6mtXon+RAEE9/q+Jckiot9pYTXcWCusVA1hvBVvx+aZ
-   PzK893hxUjwruGJyMiXEvC0kSg0IXDC6CkZPZ8E9I56YVFyVFA8FkW+m0
-   Q==;
-X-CSE-ConnectionGUID: qsa14hTAQPKENTsfIzqoWw==
-X-CSE-MsgGUID: XcvHxMzoQraHiOOxCNEwTQ==
-X-IronPort-AV: E=Sophos;i="6.25,233,1779120000"; 
-   d="scan'208";a="149734539"
-Received: from mail-centralusazon11010061.outbound.protection.outlook.com (HELO DM1PR04CU001.outbound.protection.outlook.com) ([52.101.61.61])
-  by ob1.hgst.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 20 Aug 2026 22:01:46 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MIEs+px87RdiSom6iWIDWBbA5VWB+XOWzdIC4+IrdZCxCfa1eRwekJR30FKCpVIzEAKDSHxRwCe0kNK6Ud3fBAGCfuFlM0FkQK2Lo/n6whBU0UiEDKEK+aJB4HAHfTgaaEAbG/FTQtL9Rut12hgiVSjY4GZJBdISaHeO3pBl7wogGd7eEM+qPzlKvQ2LltU3LhAh0SyyUK3WgXThexAA4BsaGx8uUBZpI5sFIVknT4jrIMoRRunPhZuTyRRc7JuWt3gyZTGo4VkILzQQIuEWW9PlMlpsAekRQjOnVg5gvD459wduuBmXiDUiBOqMifm4sCo7USiT/1o31Ijq9uWynA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WSfTg+Kn4w/LraGKCTqKYGhsFX4dk/YuJ/fgLaYgRWQ=;
- b=B4LDKmIIuuGkw3r1woIB54Ox5EqVG3mPw918Il8OZUtqmuKc469ALfSbaTNsAvNCRk1t2D2ihEcUPIWQbcZbQH/PNFJRMVED63GS992CkDh71LPBziA/FyDbiY0zxGAjrsr7gWWXPtufc10LJ02UrYlOLt7NnMawjVn/nTRP/N1V1vkPzBx1Vcp715LTgMyOjS359ELOJjJtOEo62Vn+V6bq0WNdTkuYKnr0djF/4b/p0JwOnJOR+yysf21Bxzn/tO4YL6XJEY0d8KBVIAq4iVfk4Di5qfv3+7l9gV0aDwXb2GwPT7F3cB2sHPz406OfpF9Mn21knTjtNFfmBxvfEQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WSfTg+Kn4w/LraGKCTqKYGhsFX4dk/YuJ/fgLaYgRWQ=;
- b=GpsTW/xlI+ghhWEaceBBThORDS9dfu3RR2kEJU/GzmjLvcPDqUclEWWzHBpu1chnEqJFx97NJ0zdD6lMfruZvFTJbItiUt0h3xfVJNtoNvDcx+sGbvBVDwLQbAgqsXA8ChUofFWsXFpVXZB7/ievVyf6PrsxvIV9ixX41dPQQ6w=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-Received: from SA1PR04MB10065.namprd04.prod.outlook.com
- (2603:10b6:806:4dd::14) by CH4PR04MB9082.namprd04.prod.outlook.com
- (2603:10b6:610:227::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.10; Thu, 20 Aug
- 2026 14:01:39 +0000
-Received: from SA1PR04MB10065.namprd04.prod.outlook.com
- ([fe80::9b98:bf8a:b0b1:ef85]) by SA1PR04MB10065.namprd04.prod.outlook.com
- ([fe80::9b98:bf8a:b0b1:ef85%4]) with mapi id 15.21.0339.007; Thu, 20 Aug 2026
- 14:01:39 +0000
-Date: Thu, 20 Aug 2026 23:01:34 +0900
-From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: John Garry <john.garry@linux.dev>
-Cc: John Garry <john.g.garry@oracle.com>, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH blktests v2] nvme/068: check module reference count with
- patience
-Message-ID: <aocGphZ8C5r94O_i@shinhome>
-References: <20260806033146.2067433-1-shinichiro.kawasaki@wdc.com>
- <57644cf9-ecce-4829-b7eb-82375960946e@oracle.com>
- <anRtGO3CBTh8Sjxj@shinmob>
- <a6c21f02-da8c-42bb-a6b8-4c20d14b2197@linux.dev>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a6c21f02-da8c-42bb-a6b8-4c20d14b2197@linux.dev>
-X-ClientProxiedBy: TYWPR01CA0041.jpnprd01.prod.outlook.com
- (2603:1096:400:17f::16) To SA1PR04MB10065.namprd04.prod.outlook.com
- (2603:10b6:806:4dd::14)
+	Thu, 20 Aug 2026 14:09:40 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1787234975;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vkje+WcI90XXZJszwfsZINqXivEVUz5h4rfXYkDZQcQ=;
+	b=FzTnplHSezEKp/bzfxubf8x7q5gjWYDR46Y0a3wVd/HfC6cnYddpxrAMO2i8YXLOS+qoAk
+	mp0ey6SvfLYwPOcfXkJvHqDhPnZlW047xiKNFsWNhAdqHJVrEsn0G/3MCTi1mGdCJtfuDf
+	ErhvVHdh6Ajtd0MXLgFXiZ+PgEsPmGA=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-194-h6NxSlZrP_OWweTNUzZLzw-1; Thu,
+ 20 Aug 2026 10:09:33 -0400
+X-MC-Unique: h6NxSlZrP_OWweTNUzZLzw-1
+X-Mimecast-MFC-AGG-ID: h6NxSlZrP_OWweTNUzZLzw_1787234972
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id AF4AC18007FB;
+	Thu, 20 Aug 2026 14:09:31 +0000 (UTC)
+Received: from [10.22.80.117] (unknown [10.22.80.117])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id DC3193001DAF;
+	Thu, 20 Aug 2026 14:09:29 +0000 (UTC)
+Message-ID: <94eaddfb-36a0-4ac6-9ea4-6eaad46aaf61@redhat.com>
+Date: Thu, 20 Aug 2026 10:09:28 -0400
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR04MB10065:EE_|CH4PR04MB9082:EE_
-X-MS-Office365-Filtering-Correlation-Id: 172da011-d6b5-4945-e448-08defec38e89
-WDCIPOUTBOUND: EOP-TRUE
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|19092799006|23010399003|22082099003|18002099003|3023799007|6133799003|56012099006|10067099003|4143699003|11063799006|5023799004;
-X-Microsoft-Antispam-Message-Info: O3SOc4k5SR7hL8msDopuy7P35hoV2SOgGH0Pcpg18+f+HuAgaLXNxv/YkN5AKm0I+rH7sfSu5E17R2SgzR79UOyXmslTWlFyjxNCxYeakg0uwgA8LJydtr5iQLPajwApdSXq8hjMUbVl6h4oCcyw+VAuYTNdmxXblLso4aTaaCSxkqczhRR3aq4HXc0rJVrZo7BnGveU0WTASOn2ZENVm30182gqwOgE24qnZD8s+GJyaSsfTkKLc4JFzXe62Cm8E2p/wZgTIyGDHG0t2RroeaM4ODMTfG27ZDYNKXeb8ISJZ9dMwyaj5pqmBor/BY03NRpX59WteRUc9ajHoi8yl/K0dyENvEvWhf9v5HmTVwJKklw25AdJR7H47e23pfIqVrIzXq9w8yhh+ArzSkZjSvZtjnNM2MCoL1UErjzbpmavpNKR/jWi+h9LGrQIjAdthd4ynxIUEtyhCGcK6iu/P6q5CUK0nt8TIvlI/PhyXABzbJiyhgCSBp0H3SmZDHy6aU7c7YzvT3fsXgNCFOVhFt4xB6ECG/cukRTG2djZaEOOiIdvkV3eFB1NMedDmOuo6wDShIZQ7e3cyNmk3AzF9ZHIyFvoiyMQTLb+zc8QDtviT4uDe1MX8jm9tPBujt81ylh67HBoWdLMuQ2Q9CV/ojhZy8TIC+Z9peoGuuAANGU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR04MB10065.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(19092799006)(23010399003)(22082099003)(18002099003)(3023799007)(6133799003)(56012099006)(10067099003)(4143699003)(11063799006)(5023799004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?8daB1wiFARACy32YP11VNnEN/KrMsAtYENKcJKoQ4+IyI32rNeKUjxOZfkXE?=
- =?us-ascii?Q?95ZzYBa8UhToJh9idLIajvC1AWwvk82ujMjbKDbe6Kc8IL28ralT5noX2DIo?=
- =?us-ascii?Q?rWMy5VN0wtlMzdzh2ObtcJH9umJemkKqnS2PYf0LCCcHlrmIahIOuLQN7/xl?=
- =?us-ascii?Q?XV23qReqigUt3dSr53KUuU2U/yGOWUIuonjLMLGsWYd+lIeLHtXLegGJgw6+?=
- =?us-ascii?Q?3deDhqVXlfa3r9KUCN5tbg0t69yHc8YLoXBDjsBEBTYSqtQbIxEzbbmqn2EX?=
- =?us-ascii?Q?P0G7gL0uuSTnfGYXY+zgk0rr7BMMHsLYIltj9PvlSuVc5Y3/aYZrNqInfGYU?=
- =?us-ascii?Q?I4l+ujIE/XNE94M5c2meOlUpIanMkSTiw6lgk0QWAALcC93lrdhXv4PwbxPW?=
- =?us-ascii?Q?Z2fydITuAwzQpP7WtVkByJ+pRzfIyQuNDzfE3x59GQYWZ6Dr2lYirpPnVfCp?=
- =?us-ascii?Q?SRGhHD/FS78ckl8+BraF55pl7nbfg+ZzDhh4mRcxin3sCwK98E7V3TMl/sTZ?=
- =?us-ascii?Q?tvuckPEw/Dbo61jPizDq+u1+mQCuiGinwMlsntSgW5TCd0WGqZ4x8gdTVSjS?=
- =?us-ascii?Q?aiNWHTaOUv/ADXcsCx70+SDYGFDThlg5NULgGO95CJtsiIAN0+XuXSiwM6nq?=
- =?us-ascii?Q?btm0nrqe5xfQTFhumBxkJaH0uIOhTNp5L4B8OfzoFM7T8XAoubW023nWYLfg?=
- =?us-ascii?Q?H7FZ+BEsC/97jRgwXarvGlUfg5z0DWuP/AKyiUoxH51MW7qGLHoFY2Yb9FaI?=
- =?us-ascii?Q?2l37joUTVXiAc9V9S8GA5PkFMJFkMNtLCAiHTO+Y6S+o0z3WanHt1WAGH9J/?=
- =?us-ascii?Q?GB7V17ZoNhtRc3OrMi9E8dsc3rrwU8GEU8kam+010T+2bqDqSkL1OeP6l7dO?=
- =?us-ascii?Q?r5W4Ou8ZWuTwudB+lEpHET45Glrvn8JmsyeWGwZJM4bOVpbO5vZ/6IktMxy6?=
- =?us-ascii?Q?HXG7sUE5i/s3CRjfR+HiRLvdO2t3f5zMhuEFeMSKTag7XK/GGXGuL8wm/rDM?=
- =?us-ascii?Q?ZXWWATnkMmyO/fmmm9GsUc/BQivs9FSwAUBIIIekKIjCZ5MPEDN1VDWafw80?=
- =?us-ascii?Q?/bfVVgsvIChLpDs3Oyo36udUfnLwvC3skSnjiBxOnMTmNmRaGF5+8kBIwGFE?=
- =?us-ascii?Q?WNTZla2HtFjYGX45yrf2sGwSpdnZFoMmdazaSh5gqlHtZg2sf1+hyNjTk7Sa?=
- =?us-ascii?Q?67UnhYJF1XhQXCKsWZCF/lws8svziixS4Uja9yahUzP1xrLo2YbfPsTcWk33?=
- =?us-ascii?Q?MC+6ZpwPL9ccqMOcvPw9NkwNe7y+FNhjTbn3IgEXyWOQhXpMs4T4n4LzGGmg?=
- =?us-ascii?Q?GiqQELLVqC/LqMJg1Z9XlFeTCKMNBdx9Wm0YkffCloCkP9YWwKX1gk8SdWp2?=
- =?us-ascii?Q?dMRMOwokpMXqOHMl40AskC6koRcKk958KyHaL2E86tuOmkRtD9heEmJ12Uun?=
- =?us-ascii?Q?TqVEDdLRCN8TL4mq39O1S1guR8nf1CJe+exlQ79fQO2t8sYgudt/jQPa318N?=
- =?us-ascii?Q?tuCAmeOd57/qzEGRZybOkXP3azxF0T7U07MBLroEKY1TvzU3kQNz//M2MABR?=
- =?us-ascii?Q?R5lKA1TR6076nIVzr8/FMpAHGlD81AkTBMUgzOAzzNbEV6ylowFvz9XolqJr?=
- =?us-ascii?Q?VRQwPgQ/1sfpgJBbENXV8NkDF650WZ96Q1+eIC6Iw55XUbEqwS7gPIJ0hDKs?=
- =?us-ascii?Q?HkzXVv9vOgmug/AHzWYGZF1Ap+rt24sHCgwBHEUPZGzr5jPZUOJ2dk41iBjm?=
- =?us-ascii?Q?1jI4A9Hl8cRwmUFewvDe1NodeAoUsok=3D?=
-X-Exchange-RoutingPolicyChecked: lYNdQoHvFwYNdcZUqz6uxF3CfVNOcAtBRweueWRSneKxYptR4M49FgOwIiC6ysDP7N1fX+IEUbofj8HzxNjGrPPiV5e9L3VMYVIwFzpbVKctj4/rijugfhB8xmVY7jJ7cj+c0FWr24oMNA7EbKmbk8HwNJpzks3JHWoL+PME7kkAndGTKy9NKQqQE1yTZc1rCdCTMpRxSprKskXZ9KfMIYLdS4Ti29CN6Cd3b5iggk7tC862MkHuo+O45JPgrw/jGCUdVvEFjuwXwKGEnbru5ooPUcWOi77eBo41ave04AQ9EpaXc/MPm24RS1x5t3agYNis0tGCxQHJhLVU2PaXJQ==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: Hkes6LqgJ1po+UPdy0/VfA8T9BISnSMTl3xVyfu2dVvxu1rrZ28WU8mlIxmWSwCcb0geVvt/42R9p63ZJqTMBvA2CC0yoP9NqYeqy0QRaG20TCetPiHApz5yt40oWXocX1cAbGpi4FMvt6/D+Bs2FyLKY0cK55bR4wtW3+t3v1FqdYXqacM6XnC8TKSbFsbzokkc7IjX9YnMoJVflgBuPbuK86PHgExdGGA4Jk1gTM3MBr65MHWWQqIHCQlQ+5nTddJaYxuRwWEZkg18fpH+5kGGPnMLdOJM66lTWsGZmPn3LXd5MFEHHhvgLQz5P7ZpMyMEmr9lzXTe5pkxqEhg00BOwaTLVZiJG4L3GMXruM9bRc9VVCCWnm2PVPWeNgbtPFdCZmwi2sEsDZruOYrzvzq8yz5z4Cgw1dlJe+N7nz/fyFAZgbLY2KKWYhN63tyFTe3c3cmPdOywuj0ceI8LJgjEbuNfFhqlOLBo3P6GNNYy6OtVo0IFx8Mk7PAdB7751YyyFxSxv6FDGyF7vRh5mHaUO72DEbZNidP6Bb2vA28r6VfjBpNcF+uzo7v5Q2Frb6JPkgqDKZYzLb4k9wF3wWWf6kTv3AaoTgwmdsOhYTKAo8VjgtjAfIVaouU1i64a
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 172da011-d6b5-4945-e448-08defec38e89
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR04MB10065.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2026 14:01:39.7877
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8JKfzneAEwW6YUA6t6yM8nR1FSP1jmt4+isr8jlLkIL2wqagCzU5tqwDLRKuXTXPg6v0Cg7nItHJrM1lg7ucC5mH41XTXDFyZhItCAhCCTI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH4PR04MB9082
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/2] Test multipath and marginal ports
+From: John Meneghini <jmeneghi@redhat.com>
+To: Jesse Taube <jtaubepe@redhat.com>, linux-block@vger.kernel.org
+Cc: linux-nvme@lists.infradead.org, shinichiro.kawasaki@wdc.com,
+ Daniel Wagner <dwagner@suse.de>
+References: <20260819200425.194743-1-jtaubepe@redhat.com>
+ <0d3cb83e-a4b6-414d-8756-fafd4a8238bc@redhat.com>
+Organization: RHEL Core Storge Team
+In-Reply-To: <0d3cb83e-a4b6-414d-8756-fafd4a8238bc@redhat.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+X-Mimecast-MFC-PROC-ID: uvF_JFXhjeEXs3KAfwBa4J1DfOuNPigl1jr1VtOWab8_1787234972
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260820_070148_330968_39F7DB2E 
-X-CRM114-Status: GOOD (  28.63  )
+X-CRM114-CacheID: sfid-20260820_070936_971031_1A8A1188 
+X-CRM114-Status: GOOD (  31.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -161,89 +89,112 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Aug 07, 2026 / 09:32, John Garry wrote:
-> On 8/6/26 12:30, Shin'ichiro Kawasaki wrote:
-> > > > +_check_nvme_core_ref_count() {
-> > > > +	local refcnt i
-> > > > +
-> > > > +	for ((i = 0; i < 10; i++)); do
-> > > > +		refcnt=$(_module_use_count nvme_core)
-> > > > +		if [ "$refcnt" == "" ] || [ "$refcnt" -eq "$refcnt_orig" ]; then
-> > > I thought that refcnt_orig was local to test(), so I am unsure how it is
-> > > accessible in this function...but it seems to work.
-> > This is a bash uniqueness. Here I quote a relevant paragraph from the Bash
-> > manual [*]. Some paragraphs follow and explain how bash handles local variable
-> > scope.
-> > 
-> >    Variables local to the function are declared with the local builtin (local
-> >    variables). Ordinarily, variables and their values are shared between a
-> >    function and its caller. These variables are visible only to the function and
-> >    the commands it invokes. This is particularly important when a shell function
-> >    calls other functions.
-> > 
-> > refcnt_orig was declared as a local variable by the caller of
-> > _check_nvme_core_ref_count(), then it is visible in _check_nvme_core_ref_count()
-> > also. I used this feature intentionally, but I understand it looks weird. If you
-> > like, I will update the patch to pass refcnt_orig as a function argument
-> > instead.
-> > 
-> > [*]https://www.gnu.org/software/bash/manual/bash.html#Shell-Functions
+Further analysis shows that this is a preexisting issue with test/nvme/057.  So I will be trying to fix that test before I combine it with test/nvme/070.
+
+target-vm:blktests(fpin_tests10) > sudo NVMET_TRTYPES=fc ./check tests/nvme/057
+nvme/057 (tr=fc) (test nvme fabrics controller ANA failover during I/O) [passed]
+     runtime  25.421s  ...  25.411s
+[Thu Aug 20 10:06:04 2026] nvme nvme5: NVME-FC{3}: io failed due to bad NVMe_ERSP: iu len 8, xfr len 4096 vs 0, status code 0, cmdid 8210 vs 8210
+[Thu Aug 20 10:06:04 2026] nvme nvme5: NVME-FC{3}: io failed due to bad NVMe_ERSP: iu len 8, xfr len 4096 vs 0, status code 0, cmdid 49169 vs 49169
+[Thu Aug 20 10:06:04 2026] nvme nvme5: NVME-FC{3}: io failed due to bad NVMe_ERSP: iu len 8, xfr len 4096 vs 0, status code 0, cmdid 45075 vs 45075
+[Thu Aug 20 10:06:04 2026] nvme nvme5: NVME-FC{3}: io failed due to bad NVMe_ERSP: iu len 8, xfr len 4096 vs 0, status code 0, cmdid 16404 vs 16404
+[Thu Aug 20 10:06:04 2026] nvme nvme5: NVME-FC{3}: io failed due to bad NVMe_ERSP: iu len 8, xfr len 4096 vs 0, status code 0, cmdid 28693 vs 28693
+[Thu Aug 20 10:06:04 2026] nvme nvme5: NVME-FC{3}: io failed due to bad NVMe_ERSP: iu len 8, xfr len 4096 vs 0, status code 0, cmdid 32790 vs 32790
+[Thu Aug 20 10:06:04 2026] nvme nvme5: NVME-FC{3}: io failed due to bad NVMe_ERSP: iu len 8, xfr len 4096 vs 0, status code 0, cmdid 28695 vs 28695
+[Thu Aug 20 10:06:04 2026] nvme nvme5: NVME-FC{3}: transport association event: transport detected io error
+[Thu Aug 20 10:06:04 2026] nvme nvme5: NVME-FC{3}: resetting controller
+[Thu Aug 20 10:06:04 2026] nvme nvme5: NVME-FC{3}: create association : host wwpn 0x20001100aa000001  rport wwpn 0x20001100ab000003: NQN "blktests-subsystem-1"
+[Thu Aug 20 10:06:04 2026] (NULL device *): {2:1} Association created
+[Thu Aug 20 10:06:04 2026] nvmet: Created nvm controller 1 for subsystem blktests-subsystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
+[Thu Aug 20 10:06:04 2026] nvme nvme5: NVME-FC{3}: controller connect complete
+[Thu Aug 20 10:06:04 2026] (NULL device *): {2:0} Association deleted
+[Thu Aug 20 10:06:04 2026] (NULL device *): {2:0} Association freed
+[Thu Aug 20 10:06:04 2026] (NULL device *): Disconnect LS failed: No Association
+[Thu Aug 20 10:06:16 2026] nvme nvme2: NVME-FC{0}: io failed due to bad NVMe_ERSP: iu len 8, xfr len 4096 vs 0, status code 0, cmdid 45084 vs 45084
+[Thu Aug 20 10:06:16 2026] nvme nvme2: NVME-FC{0}: io failed due to bad NVMe_ERSP: iu len 8, xfr len 4096 vs 0, status code 0, cmdid 16413 vs 16413
+[Thu Aug 20 10:06:16 2026] nvme nvme2: NVME-FC{0}: io failed due to bad NVMe_ERSP: iu len 8, xfr len 4096 vs 0, status code 0, cmdid 8222 vs 8222
+[Thu Aug 20 10:06:16 2026] nvme nvme2: NVME-FC{0}: transport association event: transport detected io error
+[Thu Aug 20 10:06:16 2026] nvme nvme2: NVME-FC{0}: resetting controller
+[Thu Aug 20 10:06:16 2026] nvme nvme2: NVME-FC{0}: io failed due to bad NVMe_ERSP: iu len 8, xfr len 4096 vs 0, status code 0, cmdid 45087 vs 45087
+[Thu Aug 20 10:06:16 2026] nvme nvme2: NVME-FC{0}: io failed due to bad NVMe_ERSP: iu len 8, xfr len 4096 vs 0, status code 0, cmdid 24608 vs 24608
+[Thu Aug 20 10:06:16 2026] nvme nvme2: NVME-FC{0}: io failed due to bad NVMe_ERSP: iu len 8, xfr len 4096 vs 0, status code 0, cmdid 4113 vs 4113
+[Thu Aug 20 10:06:16 2026] nvme nvme2: NVME-FC{0}: io failed due to bad NVMe_ERSP: iu len 8, xfr len 4096 vs 0, status code 0, cmdid 40978 vs 40978
+[Thu Aug 20 10:06:16 2026] nvme nvme2: NVME-FC{0}: io failed due to bad NVMe_ERSP: iu len 8, xfr len 4096 vs 0, status code 0, cmdid 53267 vs 53267
+[Thu Aug 20 10:06:16 2026] nvme nvme2: NVME-FC{0}: io failed due to bad NVMe_ERSP: iu len 8, xfr len 4096 vs 0, status code 0, cmdid 24596 vs 24596
+[Thu Aug 20 10:06:16 2026] nvme nvme2: NVME-FC{0}: io failed due to bad NVMe_ERSP: iu len 8, xfr len 4096 vs 0, status code 0, cmdid 53269 vs 53269
+[Thu Aug 20 10:06:16 2026] nvme nvme2: NVME-FC{0}: io failed due to bad NVMe_ERSP: iu len 8, xfr len 4096 vs 0, status code 0, cmdid 8214 vs 8214
+[Thu Aug 20 10:06:16 2026] block nvme2n1: no usable path - requeuing I/O
+[Thu Aug 20 10:06:16 2026] block nvme2n1: no usable path - requeuing I/O
+[Thu Aug 20 10:06:16 2026] block nvme2n1: no usable path - requeuing I/O
+[Thu Aug 20 10:06:16 2026] block nvme2n1: no usable path - requeuing I/O
+[Thu Aug 20 10:06:16 2026] block nvme2n1: no usable path - requeuing I/O
+[Thu Aug 20 10:06:16 2026] block nvme2n1: no usable path - requeuing I/O
+[Thu Aug 20 10:06:16 2026] block nvme2n1: no usable path - requeuing I/O
+[Thu Aug 20 10:06:16 2026] block nvme2n1: no usable path - requeuing I/O
+[Thu Aug 20 10:06:16 2026] block nvme2n1: no usable path - requeuing I/O
+[Thu Aug 20 10:06:16 2026] block nvme2n1: no usable path - requeuing I/O
+
+On 8/19/26 17:49, John Meneghini wrote:
+> This is a great improvement and we now have a functioning blkstest 070 to test the FPIN LI kernel patches.
 > 
-> Understood, thanks for the info.
-
-FYI, I applied the patch in the current form.
-
+> The problem is: I don't think we are done yet.  In my own private testing and development with these patches I've been working on a next-version test that combines the ANA states from test/nvme/057 with test/nvme/070. So I am working on a test 071.
 > 
-> BTW, on another topic, it seems to be a common pattern to loop waiting for a
-> condition to be true in the blktests codebase, like:
+> The good news is: everything now works with test/nvme/070.  The bad news is: the kernel patches are not done.
 > 
-> +_check_nvme_core_ref_count() {
-> +	local refcnt i
-> +
-> +	for ((i = 0; i < 10; i++)); do
-> +		refcnt=$(_module_use_count nvme_core)
-> +		if [ "$refcnt" == "" ] || [ "$refcnt" -eq "$refcnt_orig" ]; then
-> +			return 0
-> +		fi
-> +		sleep 1
-> +	done
-> +	return 1
-> +}
+> What I've found is: a long as the ANA states are all optimized or non-optimized everything works.  However, once we throw in an inaccessible state to the mix, we run into serious problems.
 > 
-> In the kernel, we have functions like wait_event_timeout(wq_head, condition,
-> timeout), which calls @condition and checks the result to break the loop and
-> determine success. Could it be possible to have such a helper in blktests? I
-> don't know how...
+> At this point in development I don't care about the test failures in my test/nvme/071 script. I expect the script to bug out because it doesn't understand the inaccessible state. The test sill continues flipping rports in and out of the marginal state and keeps going. That's what it is designed to do. That means it is testing all of the code paths in the kernel patches.
+> 
+> The problem is: when turning marginal paths on and off with controllers that are in the inaccessible state, the path selection algorithm in the kernel fails and we end up with the following:
+> 
+> [Wed Aug 19 16:25:42 2026] nvme_ns_head_submit_bio: 6 callbacks suppressed
+> [Wed Aug 19 16:25:42 2026] block nvme2n1: no usable path - requeuing I/O
+> [Wed Aug 19 16:25:42 2026] block nvme2n1: no usable path - requeuing I/O
+> [Wed Aug 19 16:25:42 2026] block nvme2n1: no usable path - requeuing I/O
+> [Wed Aug 19 16:25:42 2026] block nvme2n1: no usable path - requeuing I/O
+> [Wed Aug 19 16:25:42 2026] block nvme2n1: no usable path - requeuing I/O
+> [Wed Aug 19 16:25:42 2026] block nvme2n1: no usable path - requeuing I/O
+> [Wed Aug 19 16:25:42 2026] block nvme2n1: no usable path - requeuing I/O
+> [Wed Aug 19 16:25:42 2026] block nvme2n1: no usable path - requeuing I/O
+> [Wed Aug 19 16:25:42 2026] block nvme2n1: no usable path - requeuing I/O
+> [Wed Aug 19 16:25:42 2026] block nvme2n1: no usable path - requeuing I/O
+> 
+> At this point the fio jobs are still running but there is no progress.  This means no path was found and ALL of the IOs got re-queued. And if we flip the marginal state off on all of the controllers IO continues to be hung.  The IO scheduler is hung and there is no possibility of getting it restarted again.
+> 
+> So this is a really serious bug in the kernel patches and we can't ship this stuff until we fix the problem.
+> 
+> This IO re-requeing problem should NEVER happen - no matter what the state of the marginal paths.
+> 
+> So I can recommend that Shinichiro test these patches with the current upstream kernel patches:
+> 
+>    https://lore.kernel.org/linux-nvme/20260812181300.3712426-1-jtaubepe@redhat.com/
+> But there will be another version of Kernel patches and a V3 of this patch set will be forth coming.
+> 
+> John A. Meneghini
+> Senior Principal Platform Storage Engineer
+> RHEL SST - Platform Storage Group
+> jmeneghi@redhat.com
+> 
+> On 8/19/26 16:04, Jesse Taube wrote:
+>> Tests for the upcoming nvme-fc: FPIN link integrity handling set.
+>> It tests for various multipath and marginal port
+>> scenarios, while confirming the port usage and state. The test is
+>> intended to emulate receiving an FPIN event in a multipath environment.
+>>
+>> Link: https://bugzilla.kernel.org/show_bug.cgi?id=220329
+>> Link: https://github.com/linux-blktests/blktests/pull/264
+>>
+>> Jesse Taube (2):
+>>    nvme: Add _setup_nvmet_port_marginal
+>>    nvme/070: Test multipath and marginal ports
+>>
+>>   common/nvme        |  31 +++
+>>   tests/nvme/070     | 613 +++++++++++++++++++++++++++++++++++++++++++++
+>>   tests/nvme/070.out |  43 ++++
+>>   3 files changed, 687 insertions(+)
+>>   create mode 100755 tests/nvme/070
+>>   create mode 100644 tests/nvme/070.out
+>>
+> 
 
-Thanks, it sounds a good idea to me. I guess we can use bash "eval" feature. I
-guess the helper function like below will do the trick:
-
-	_wait_event_timeout() {
-		local timeout_in_seconds=${1}
-		local condition_str=${2}
-		local i
-
-		for ((i = 0; i < timeout_in_seconds; i++)); do
-			if eval "$condition_str"; then
-				return 0
-			fi
-			sleep 1
-		done
-		return 1
-	}
-
-With this, _check_nvme_core_ref_count() can be reimplemented as follows:
-
-	nvme_core_refcnt_is_orig() {
-		local refcnt_orig=${1}
-		local refcnt=$(_module_use_count nvme_core)
-
-		[[ "$refcnt" == "" || "$refcnt" -eq "$refcnt_orig" ]]
-	}
-
-	_check_nvme_core_ref_count() {
-		_wait_event_timeout 10 "nvme_core_refcnt_is_orig $refcnt_orig"
-	}
-
-This looks a bit simpler.
 
