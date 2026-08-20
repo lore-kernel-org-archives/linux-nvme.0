@@ -4,110 +4,118 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 56EAEC5DF8C
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Aug 2026 04:19:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4978EC5DF81
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 Aug 2026 06:15:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LudEY7oTjatYQtv0F3kl7pUuQIEnxxfWZVr8tOIRACQ=; b=X8F/puNj8HrlKb6Z2V8YnXsOfs
-	ytw0OCa1bxkYaniu+feWXicsKd312FQzgF4dJ0aL6I6KKWsKoxGDHhURx7Rx4Cy8BDCJci2UOUKNE
-	CEUrZWlDU9FsPVJkjaMCmi4C8mCEfTAhW3f+Di8v50Nb9sWiYj3QShxyzMRXTworIs2oZZh53hWw+
-	Uns5FnUb3fM3/XOrVsamD9BEuSywbWokQ2igscts0wdyoQi6/EyHhVNGr/sNfJqQ1IZlgwL5zbIip
-	XvR7kQmsp7PwmhbpA/JMafhJnXjXId2Ay9I7jvZ1K6nMFImhCt/w+f55OblNx7qcdjxmqd4fQZiWI
-	lIGAE3pA==;
+	bh=H1zCBLm8ye0SHQziY+V9WqtdrwBu9qwqvhxptopeel4=; b=vVfG7Y2Bzp7pPjL9TW0qKVswoP
+	jae/pJjOQTtFL58DWUwmQvMJCe9jgh/gtnJEs60SRdpEgZKedNWC91HLUDKx+HhSrAkufKA7iH/kV
+	6C6VFyKXeX0vdmSgK5v/ClGsbVzl5AqU0PxRekHPWleixOxX8PR4g2ayVROK3juf1lgH0LWKg/aEs
+	PqU7Y96/Hpoiqpy0eLc0OK2/hxWhDGex9trCM8mNkmpQ6TL2l9dBpPHYjg/9om7yZjmKr/3gc1Whb
+	KDah8qhPx+dDwIS8kByhzVONaLl6HRjZcobn9JQNwhszoM9r+GN7sCbzSktXdvH++ifXaDyDmEiID
+	kxQvgKDA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwuFW-0000000AoCa-40ov;
-	Thu, 20 Aug 2026 04:19:30 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1www3m-0000000AvLI-134E;
+	Thu, 20 Aug 2026 06:15:30 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwuFU-0000000AoBo-1YK6
+	id 1www3f-0000000AvKO-2o8k
 	for linux-nvme@lists.infradead.org;
-	Thu, 20 Aug 2026 04:19:29 +0000
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67JLWOAP363674;
-	Thu, 20 Aug 2026 04:19:24 GMT
+	Thu, 20 Aug 2026 06:15:24 +0000
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67JLVeQs471650;
+	Thu, 20 Aug 2026 06:15:10 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=LudEY7
-	oTjatYQtv0F3kl7pUuQIEnxxfWZVr8tOIRACQ=; b=JkezHklPAqcxXjGkTAm35j
-	LT/ISMfqKJZLg+AaF7e1PDMzXUuxj3/A/nmTURHvRpd9nnvEV1MJLO+mvY0A3kAJ
-	w8LVUfayosM5B7FOkInpRvUXormfOV3YWv0WZy8wUzcLGF/SxF1/eYDouTj207BW
-	xGcjFAI/eQj2j/NOacMfyGx29BH5aY8fTDo+km3JMDH2vpI1qv9WyGJyahukT7Je
-	ioz+semQ5/mukhApt7di57NrAYsHj2kPyvEpkYjlExoGzR2ezDcbOINpV65KqbqT
-	ELABCRjUOsUH0NQpIM1fVZKtGV1aS4z42M7Sj4xXTgFagenl4ppBO6kxW0/KHI7Q
+	:message-id:mime-version:references:subject:to; s=pp1; bh=H1zCBL
+	m8ye0SHQziY+V9WqtdrwBu9qwqvhxptopeel4=; b=ITL6eBCSbXYffoxbXyXLXp
+	QRDTXm0heN3gcFK8F4NSMSJCzyOQ4G6FCTrd6+93I41nf9UcoNcy9SSzxIQlIfSj
+	HiT5Jsgy5tFRvAzWpGqxS4NL6sHt2o+TZCTpnNFTCbyo8WJ7ue0fMSgghqT7d5FF
+	gdAY1lPGV0B16dphCkrjidKXIhWHAzehL9nONRuPhEQ37IjnMxmeICnwG0QdPjMn
+	fYbUx+S/IZ9QDyn5VcOzAN2AfWKx6FYXhoQimq+0LPMnAtTYrbi6PrTe2owXn2Wf
+	yNpTNTfUM6fJy7Tk6EHGVFx/RAph4S1aHOJvfOcfZeJPxhMySY8twC0yd1ElOu1Q
 	==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4g4yu47sag-1
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4g4yu0gdrh-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 20 Aug 2026 04:19:23 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 67K4BLFH020700;
-	Thu, 20 Aug 2026 04:19:22 GMT
-Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4g354ym77s-1
+	Thu, 20 Aug 2026 06:15:09 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 67K5uQkE021691;
+	Thu, 20 Aug 2026 06:15:08 GMT
+Received: from smtprelay03.wdc07v.mail.ibm.com ([172.16.1.70])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4g32eqd26g-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 20 Aug 2026 04:19:22 +0000 (GMT)
-Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
-	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 67K4JJD827525704
+	Thu, 20 Aug 2026 06:15:08 +0000 (GMT)
+Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
+	by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 67K6ESaV66847168
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 20 Aug 2026 04:19:19 GMT
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7798B58250;
-	Thu, 20 Aug 2026 04:19:19 +0000 (GMT)
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 503F85824C;
-	Thu, 20 Aug 2026 04:19:17 +0000 (GMT)
-Received: from [9.124.210.219] (unknown [9.124.210.219])
-	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTPS;
-	Thu, 20 Aug 2026 04:19:16 +0000 (GMT)
-Message-ID: <4311bf7d-3f88-4a99-8ce3-5b435f90b48e@linux.ibm.com>
-Date: Thu, 20 Aug 2026 09:49:14 +0530
+	Thu, 20 Aug 2026 06:14:29 GMT
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D19A758065;
+	Thu, 20 Aug 2026 06:15:07 +0000 (GMT)
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 974A558052;
+	Thu, 20 Aug 2026 06:15:03 +0000 (GMT)
+Received: from [9.123.7.57] (unknown [9.123.7.57])
+	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Thu, 20 Aug 2026 06:15:03 +0000 (GMT)
+Message-ID: <ec1e55e1-aa84-4fe3-a56f-4caf40080e58@linux.ibm.com>
+Date: Thu, 20 Aug 2026 11:45:01 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2] nvme: Add module reference counting for multipath
- devices
-To: wenxiong@linux.ibm.com, linux-nvme@lists.infradead.org, kbusch@kernel.org
-Cc: gjoyce@linux.ibm.com, wenxiong@us.ibm.com, venkat88@linux.ibm.com
-References: <20260812223206.720363-1-wenxiong@linux.ibm.com>
+Subject: Re: [PATCH v8 03/10] block: support nesting for blk-mq flag
+ QUEUE_FLAG_SAME_FORCE
+To: Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, dwagner@suse.de,
+        kanie@linux.alibaba.com, jmeneghi@redhat.com, randyj@purestorage.com,
+        martin.petersen@oracle.com, john.g.garry@oracle.com,
+        gjoyce@linux.ibm.com
+References: <20260815173502.1185929-1-nilay@linux.ibm.com>
+ <20260815173502.1185929-4-nilay@linux.ibm.com>
+ <d11d3377-a4b3-45dc-b812-9dd06c8a2a38@suse.de>
+ <ebfdc6e5-36ef-43ee-bd19-53b40e4682a2@linux.ibm.com>
+ <59a3afbf-421a-40fd-a90d-521004f7de2e@suse.de>
 Content-Language: en-US
-From: Nares Bannoth <nbannoth@linux.ibm.com>
-In-Reply-To: <20260812223206.720363-1-wenxiong@linux.ibm.com>
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <59a3afbf-421a-40fd-a90d-521004f7de2e@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODIwMDAyNiBTYWx0ZWRfX036WX62sL3ZK
- 2mVSY3vIkSCyjproDk29KafpANdSUFEhXTEmbFxB2g6pwyNqIFJsB25eRNj7ICgFwFJoeEkst7f
- iwkHF2I26RxjT/nCdeWHLAkcYhArMwA=
-X-Proofpoint-GUID: IushSPgtRST3AFJvgd6B1e3X_M9rFhCk
-X-Proofpoint-ORIG-GUID: IushSPgtRST3AFJvgd6B1e3X_M9rFhCk
-X-Authority-Analysis: v=2.4 cv=RPmD2Yi+ c=1 sm=1 tr=0 ts=6a86804b cx=c_pps
- a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=MthiLWae c=1 sm=1 tr=0 ts=6a869b6e cx=c_pps
+ a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
  a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=VnNF1IyMAAAA:8
- a=jSn5H0uHzrZjK6-VJCMA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODIwMDAyNiBTYWx0ZWRfX7M6wG5aJIVUY
- C8zHUoY/QezjC9Cp2PLiBDxDu8CnhXLA4+7PGadcl6LzDt3YaCoLRqz86TveAHXxElF34sQ2lnf
- iCc/wT4QRSJib1RPFzPY/HBZPzUBJMxtOa2J9yYf1NYpfcSN/laFsYia0T/mjQmvE4yDTT/fEz2
- p4VmXADafhZ42xbIOjqjFDGCJsc62zXsLlMJStbe09ztPTlb7hNdAr/NalME04evN3dsQF+5KVS
- 6C4H2yvuXISfuZwqrwwz0GmYsscMMtayxGb26jMNuo3PcRFH1/bZd+oyQIm9qDDaJUw+ZvDfXmh
- cmbWks+VUbaLZTzIysU50QJQ1IHgWXCAy/1LRf2+L31barTS57w7TllmCqZc2ZSeHwLh+oKezGz
- l7wO1E9W1pANIubWHd+CH+QRAS098nYXf5ZJ/UFZ14vPGxxIBPhcd14NdizxaZy6TV/LhaAUKhq
- fETFdJ94rX2Gt/1yRGw==
+ a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=x5vVg43ROtBy5dRk_ZkA:9
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: HCHP8l4bU9uI3xMuVJh8CPRNK9NvgKY1
+X-Proofpoint-GUID: DqZjXSBfr_3nVyvKK75TwFGMc0sWDrKE
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODIwMDA0MiBTYWx0ZWRfX3zcw2IjDqQ2H
+ z8c+Z3RuyXmI/8nbq5+stqWMRYzEnuEfyRfskSfVC8tY2SAhpdpSsr/8NcrGYBb1yoLMi/QeW4X
+ Bb0+Hr739dr1hAPo2OQ3apzE6sTym2s=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODIwMDA0MiBTYWx0ZWRfX0mxO88YPNvtF
+ iHMlbD4yx7s/GL5iU4C29xZpZflZTYQMMrxCPdAF+doFjOQOHYLdVjYPTgvknYies3W15MB19tw
+ VWQXrJ0OcgXrOkyFBsyH23LDz/Ba0lIsCVbaMKF8o8oQoPrdxJeBAHkKTkwokXXYPNa0OpsJ73r
+ zDt5CLrIxscwVc0ZzPkxPxWVX0PNQhxdfV8QczL3I10NciwzQ7PbwBq5RbO6C/G4pClO1j5QLiI
+ jKt7H0Tu0oEMVTxv2P5M2vLmeDos2VJn63ix4gka7qvl0tRz1NBoLFORL+t1kKav9afbhEzH5Ka
+ 5/ohu6Tcg/+zI8hVC2OFXqJAftYQpLhoh+XkibushO2OTTUVGfqi+oBTjNzX2NBq5yzfD/mFYWU
+ LJPK/wp5auUADd0gPGPP/8osKa4XFFpALhwLpV6sPpqmRzbjrxI5APrJFLnTS9dn/ZoOaobaIxM
+ eUJuAm3ijB+6LgPR0IA==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-08-19_06,2026-08-19_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 phishscore=0 adultscore=0 spamscore=0 priorityscore=1501
- bulkscore=0 impostorscore=0 malwarescore=0 lowpriorityscore=0 suspectscore=0
+ malwarescore=0 impostorscore=0 bulkscore=0 phishscore=0 clxscore=1015
+ spamscore=0 adultscore=0 lowpriorityscore=0 priorityscore=1501 suspectscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608200026
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608200042
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260819_211928_533272_42721339 
-X-CRM114-Status: GOOD (  21.73  )
+X-CRM114-CacheID: sfid-20260819_231523_725380_B7C2235B 
+X-CRM114-Status: GOOD (  23.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -122,98 +130,109 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On 8/19/26 7:21 PM, Hannes Reinecke wrote:
+> On 8/18/26 1:59 PM, Nilay Shroff wrote:
+>> On 8/18/26 3:28 PM, Hannes Reinecke wrote:
+>>> On 8/15/26 7:34 PM, Nilay Shroff wrote:
+>>>> QUEUE_FLAG_SAME_FORCE is currently used when setting rq_affinity
+>>>> through sysfs as well as by UFS mediatek driver while configuring scsi
+>>>> parameters. A subsequent patch adding a latency-based I/O policy
+>>>> for NVMe multipath will also use this flag.
+>>>>
+>>>> With multiple users able to set and clear QUEUE_FLAG_SAME_FORCE, the
+>>>> flag needs to support nesting so that one user clearing the flag does
+>>>> not inadvertently disable it for another user.
+>>>>
+>>>> Add a nesting counter, q->same_force_depth, for QUEUE_FLAG_SAME_FORCE.
+>>>> The flag is set when the first user acquires it and the nesting counter
+>>>> is incremented for each subsequent user. Similarly, each user releases
+>>>> its reference by decrementing the counter. The flag is cleared only
+>>>> when the last user releases it and the counter reaches zero.
+>>>>
+>>>> Preserve the existing sysfs rq_affinity semantics with a new
+>>>> q->same_force_sysfs flag. When userspace enables QUEUE_FLAG_SAME_FORCE
+>>>> by writing 2 to rq_affinity, mark q->same_force_sysfs as set and
+>>>> increment q->same_force_depth by one. Subsequent writes of 2 to
+>>>> rq_affinity while q->same_force_sysfs is already set are ignored, so
+>>>> repeated writes of 2 from userspace do not increase q->same_force_depth.
+>>>> Similarly, writing 0 or 1 decrements the q->same_force_depth and if
+>>>> nesting counter reached to 0 then clears the QUEUE_FLAG_SAME_FORCE.
+>>>> This ensures that multiple writes of 2 to rq_affinity do not require
+>>>> multiple writes of 0 or 1.
+>>>>
+>>>> This change ensures that sysfs interface retains its existing set/clear
+>>>> semantics while also allowing other kernel users to hold or release
+>>>> QUEUE_FLAG_SAME_FORCE.
+>>>>
+>>>> Added two new APIs blk_mq_same_force_set() and blk_mq_same_force_clear()
+>>>> to set and clear QUEUE_FLAG_SAME_FORCE respectively. Also, updated
+>>>> existing call paths using these new APIs which toggles
+>>>> QUEUE_FLAG_SAME_FORCE.
+>>>>
+>>> Yikes. Is this really necessary?
+>>> The flag can be set by different subsystems/drivers, sure, but from
+>>> what I've seen each user is mutually exclusive.
+>>> I'd rather disallow modifying this flag if the driver sets it, to
+>>> avoid upper layers or sysfs modifying it.
+>>>
+>>
+>> If we want to disallow userspace from modifying QUEUE_FLAG_SAME_FORCE
+>> while a driver owns it, then a userspace write to rq_affinity would have
+>> to either fail (e.g. with -EINVAL) or be silently ignored. In either case,
+>> that changes the existing userspace/sysfs semantics and may break userspace
+>> that expects the write to succeed.
+>>
+> But _allowing_ userspace to modify it for drivers which requires it to
+> be set will break the drivers.
+> Similar for the upcoming latency-based I/O scheduler; disabling
+> QUEUE_FLAG_SAME_FORCE there will cause misaccounting and the scheduler
+> will not work properly.
+> 
+> So I would argue to have a flag for making QUEUE_FLAG_SAME_FORCE driver owned, and reject any attempts to change it via sysfs with EINVAL.
+> 
 
-On 13/08/26 4:02 am, wenxiong@linux.ibm.com wrote:
-> From: Wen Xiong <wenxiong@linux.ibm.com>
->
-> Add proper module reference counting to prevent premature unloading of
-> NVMe transport modules while multipath namespaces are still active.
->
-> When a namespace is added to a multipath device via nvme_mpath_add_disk(),
-> the underlying transport module (PCIe, FC, RDMA, TCP, etc.) must remain
-> loaded as long as the multipath device references that namespace. Without
-> proper reference counting, the transport module could be unloaded while
-> the multipath device is still using resources from that module, leading
-> to the potential system crashes.
->
-> This ensures the transport module remains loaded for the entire lifetime
-> of the multipath namespace association.
->
-> Signed-off-by: Wen Xiong <wenxiong@linux.ibm.com>
-> ---
+I understand your concern. However, with the nesting counter, a userspace
+clear cannot disable QUEUE_FLAG_SAME_FORCE while another user, such as a
+driver or the latency-based I/O policy, still holds a reference to it.
 
-Hi Wen,
+For example, starting with:
+q->same_force_depth = 0;
+q->same_force_sysfs = false;
 
-I tested this patch and it is working as expected.
+The sequence would be:
 
-Patch Validation Results
---------------------------------
-# lsmod | grep -i nvme
-nvme_tcp              262144  0
-nvme                  262144  9
-nvme_fabrics          262144  1 nvme_tcp
-nvme_core             458752  8 nvme_tcp,nvme,nvme_fabrics
-nvme_keyring          262144  3 nvme_tcp,nvme_core,nvme_fabrics
-nvme_auth             262144  1 nvme_core
-# rmmod nvme
-rmmod: ERROR: Module nvme is in use.
-#
-# rmmod nvme_tcp
-#
-# lsmod | grep -i nvme
-nvme                  262144  9
-nvme_fabrics          262144  0
-nvme_core             458752  7 nvme,nvme_fabrics
-nvme_keyring          262144  2 nvme_core,nvme_fabrics
-nvme_auth             262144  1 nvme_core
-# rmmod nvme_core
-rmmod: ERROR: Module nvme_core is in use by: nvme nvme_fabrics
-#
-# rmmod nvme_fabrics
-#
-# rmmod nvme_core
-rmmod: ERROR: Module nvme_core is in use by: nvme
-#
-# lsmod | grep -i nvme
-nvme                  262144  9
-nvme_core             458752  6 nvme
-nvme_keyring          262144  1 nvme_core
-nvme_auth             262144  1 nvme_core
-#
+1. Userspace enables QUEUE_FLAG_SAME_FORCE by writing 2 to rq_affinity:
+    q->same_force_depth = 1;
+    q->same_force_sysfs = true;
+    QUEUE_FLAG_SAME_FORCE = set;
 
-Please add below tag :
+2. The driver then enables QUEUE_FLAG_SAME_FORCE:
+    q->same_force_depth = 2;
+    QUEUE_FLAG_SAME_FORCE = set;
 
-Tested-by: Naresh Bannoth <nbannoth@linux.ibm.com>
+3. Userspace disables it by writing 0 or 1 to rq_affinity:
+    q->same_force_depth = 1;
+    q->same_force_sysfs = false;
+    QUEUE_FLAG_SAME_FORCE = still set; 4. The driver subsequently releases its reference:
+    q->same_force_depth = 0;
+    QUEUE_FLAG_SAME_FORCE = clear;
 
+Thus, the userspace clear only releases the sysfs reference; it does not
+actually clear QUEUE_FLAG_SAME_FORCE while the driver still holds its
+reference.
 
-Thanks and Regards,
+The same applies to the upcoming latency-based I/O policy. As long as the
+policy holds a reference, a userspace write to rq_affinity cannot disable
+QUEUE_FLAG_SAME_FORCE underneath it.
 
-Naresh.
+This is the motivation for the nesting support: it allows multiple users
+to independently acquire and release the flag without one user
+inadvertently affecting another user's requirement for the flag.
 
->   drivers/nvme/host/multipath.c | 5 +++++
->   1 file changed, 5 insertions(+)
->
-> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-> index 9b9a657fa330..707b8f95727d 100644
-> --- a/drivers/nvme/host/multipath.c
-> +++ b/drivers/nvme/host/multipath.c
-> @@ -1348,6 +1348,8 @@ void nvme_mpath_remove_sysfs_link(struct nvme_ns *ns)
->   	sysfs_remove_link_from_group(kobj, nvme_ns_mpath_attr_group.name,
->   			dev_name(target));
->   	clear_bit(NVME_NS_SYSFS_ATTR_LINK, &ns->flags);
-> +
-> +	module_put(ns->ctrl->ops->module);
->   }
->   
->   void nvme_mpath_add_disk(struct nvme_ns *ns, __le32 anagrpid)
-> @@ -1379,6 +1381,9 @@ void nvme_mpath_add_disk(struct nvme_ns *ns, __le32 anagrpid)
->   	if (blk_queue_is_zoned(ns->queue) && ns->head->disk)
->   		ns->head->disk->nr_zones = ns->disk->nr_zones;
->   #endif
-> +	if (!try_module_get(ns->ctrl->ops->module))
-> +		dev_err(disk_to_dev(ns->disk),
-> +				"Failed to get module reference\n");
->   }
->   
->   void nvme_mpath_remove_disk(struct nvme_ns_head *head)
+Does the above explanation help address your concern, or do you have any
+further concern?
+
+Thanks,
+--Nilay
+
 
