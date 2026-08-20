@@ -4,38 +4,38 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8169BC5DF81
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Aug 2026 19:54:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EF18BC5DF81
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 Aug 2026 20:04:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=2O/2dv3vAMW5OP3cGNIdUoe9lfLCfo93pjtBUDdPVAY=; b=WEQh6u94mCvCbaUiv5qSu+ud6b
-	SUwndxCuZ9wS4T/G/ENB25QwWr4+6crEW5ScJJv8yM7qD2sAQQOO00fBD05ReGEsCdwbACKfSSFL/
-	fGt9txFfR1Aec5aMeZH/3Q06WcrAJmoeZ9fp7hyWcxrAQtTEly9FvTixgP+/GEIElghMQqVAL4noa
-	kRBqjpHUT83y+Wa4tUYab+yS/QNOSfCT+zDEGMDxMYnksJMefjGENjEsV2CQdaIIP9/rZa0RClMmq
-	kBEw4ug9oOktjllia8ONLbf8CvO6uiVS9dXRvnmLwI1iiMYGhEMRohhiRInjcNA+kr/LA6GbVtYmE
-	ju4sbzYw==;
+	bh=2O/2dv3vAMW5OP3cGNIdUoe9lfLCfo93pjtBUDdPVAY=; b=ByBEfF07Mccqml1+DALh7fdzco
+	LvvnHcSdyg2mkFUKOaj4vEZoZC4cVYCLst+PstLr4y2wSIlDzq3WEWApWRqWGwvAWOQD5KLQqDicA
+	u0gGz8xfm0TqWaiqtUlP0VD+3qLSBPQaSJPwoWcfn9396rJT/LngGKT9kwR81nz5OaHB516eeaQHN
+	0IK51/fyBEhgMAe3BuMQ0Bk5YWLkxziws6kGTUXidX4gY8O/BcnP1rKZg1WoADTntqVy9LLdA+JfB
+	0b80XRwrEbbRA3Yc/bV7s2+geqSsoHt3UbUieie4Sjflu5B/wQXMJQLQ8Xc8qr+oB84i1njF/c/jx
+	IhJ+Jzcg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wx8qJ-0000000C97i-0cFA;
-	Thu, 20 Aug 2026 19:54:27 +0000
-Received: from mr-2005k-snip6-11.eps.apple.com ([2a01:b747:3000:206::6f] helo=outbound.mr.icloud.com)
+	id 1wx90G-0000000C9UF-0Erv;
+	Thu, 20 Aug 2026 20:04:44 +0000
+Received: from mr-2002b-snip6-5.eps.apple.com ([2a01:b747:3000:201::1c] helo=outbound.mr.icloud.com)
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wx8qG-0000000C97M-2tZt
+	id 1wx90D-0000000C9Tu-3P6L
 	for linux-nvme@lists.infradead.org;
-	Thu, 20 Aug 2026 19:54:25 +0000
+	Thu, 20 Aug 2026 20:04:42 +0000
 Received: from outbound.mr.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-west-2a-20-percent-0 (Postfix) with ESMTPS id 795BA180016E;
-	Thu, 20 Aug 2026 19:54:21 +0000 (UTC)
-X-ICL-RepId: 01a020bd-2393-7420-9098-b511cb4e69cc
-X-ICL-Out-Info: HUtFAUMHWwJACUgBTUQeDx5WFlZNRAJCTQhABkMAWBxBDkkdXwZfEhVdRVUIRRlTHhccRgxFGVswVB0dDlgGEhZdRV4IGQhdHRkKUFAAS1oVVRcOAkIfUB9MFldDWhkcGVoUXBhTRVEfVFhDGUVWaUELTx1dGVscQmRYVwkKBldeWhdeTVoCVk0FSgNfAVsKQglJClgDWgdeC08GWwdTH0EUHlYfRQpcXl0NUh9FAnIdXFZQAlpVEgRACFZQXgheH0wc
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai; t=1787255663; x=1789847663; bh=2O/2dv3vAMW5OP3cGNIdUoe9lfLCfo93pjtBUDdPVAY=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=1ZNNyawkYLV8UofTOQDia9XddhfaFtGBBx7eroZsrL856vDEEJFsou5E+W4ZOtDKe7aegjbUIP2rlROrvHK4RsR8FbkXi5TOqSQabI6wg36nslEgVUKk+JmkbTp6pEffT/hDM4nKTxtsr1Dp5g3Tm2aj/bWq/EcE5mo/HgwEvb7YcExZWM1FhooNSWm0C8J0UWUsDzDWWm9Y97Yb+vJuUi1H1wzqbh6kNZk6t4HwSg27s/iFTxNX4LSa05oE4RFpCsDtRJWWgoXdhURgzKSraJCeyP5VuNkxnTQF5cqQuidlW2km/c+dLmeeWC+9ixMXvgKa5YJItWoMB1VbfnWncw==
+	by p00-icloudmta-asmtp-us-west-2a-20-percent-1 (Postfix) with ESMTPS id DA99518002A7;
+	Thu, 20 Aug 2026 20:04:38 +0000 (UTC)
+X-ICL-RepId: 01a020c6-8f18-73bf-8661-7521b6b172c3
+X-ICL-Out-Info: HUtFAUMHWwJACUgBTUQeDx5WFlZNRAJCTQhABkMAWBxBDkkdXwZfEhVdRVUIRRlTHhccRgxFGVswVB0dDlgGEhZdRV4IGQhdHRkKUFAAS1oVVRcOAkIfUB9MFldDWhkcGVoUXBhTRVEfVFhDGUVWaUELTx1dGVscQmRYVwkKBldeWhdeTVoCVk0FSgNfAVsKQglKA10DWAFeC0AAWANfH0EUHlYfRQpcXl0NUh9FAnIdXFZQAlpVEgRACFZQXgheH0wc
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai; t=1787256280; x=1789848280; bh=2O/2dv3vAMW5OP3cGNIdUoe9lfLCfo93pjtBUDdPVAY=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=VDncuMDDgprV5M/TsJLfg5//Z8mymeycgbeGIsCu45RzEEVLtxRdmrak7dshy/1bwarJ1n1jH9a+yHYc1wjlVSQgM2As+vK76wLxH6X2Bs83z8r2O5f219BfnIoVPnzQtxyQUCD9bvHQXZf6OFp9wMsPjM/z81Y/giTawtufT5IeDBKt2An2YTzhuYuUu4+MZHi0C/F74RZm+KuB6MIxaW7uOTC+9V61/zDqal8go7IAzTK/MJXtjAIfJr+sU9i9iSS8RDBgORNglgf28vv+3pYrB3z0uLlsM5CYePWTY38H/6HVWQ6ETmfpporK+FvXcpc/gL7Om90ioPzMegqpfQ==
 Received: from ncore (unknown [17.156.200.36])
-	by p00-icloudmta-asmtp-us-west-2a-20-percent-0 (Postfix) with ESMTPSA id 9707118008F5;
-	Thu, 20 Aug 2026 19:54:19 +0000 (UTC)
+	by p00-icloudmta-asmtp-us-west-2a-20-percent-1 (Postfix) with ESMTPSA id A22C618007CF;
+	Thu, 20 Aug 2026 20:04:36 +0000 (UTC)
 From: Ferran Duarri <ferran.duarri@me.com>
 To: Keith Busch <kbusch@kernel.org>,
 	Jens Axboe <axboe@kernel.dk>,
@@ -45,29 +45,29 @@ Cc: linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Ferran Duarri <ferran.duarri@me.com>
 Subject: [PATCH] nvme: lower default APST max latency to 25ms
-Date: Thu, 20 Aug 2026 21:54:14 +0200
-Message-ID: <20260820195415.275608-1-ferran.duarri@me.com>
+Date: Thu, 20 Aug 2026 22:04:28 +0200
+Message-ID: <20260820200433.283544-1-ferran.duarri@me.com>
 X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: 93jMXTaZdV7aa5fQdYil3maPDQrrLgh8
-X-Authority-Info-Out: v=2.4 cv=Wp8m8Nfv c=1 sm=1 tr=0 ts=6a875b6e
+X-Authority-Info-Out: v=2.4 cv=a/Y9NESF c=1 sm=1 tr=0 ts=6a875dd7
  cx=c_apl:c_pps:t_out a=9mRn2PO/+PIrVdEbaIuMPg==:117
  a=9mRn2PO/+PIrVdEbaIuMPg==:17 a=Sv0fKeRqtYgA:10 a=x7bEGLp0ZPQA:10
  a=B9nqV3Rn1-QA:10 a=VkNPw1HP01LnGYTKEx00:22 a=HHGDD-5mAAAA:8
  a=8uIbJeaS8xPCM5DfPzYA:9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODIwMDE1MCBTYWx0ZWRfX3fh5XLjCE4mn
- fg2K3buaU8PfE+snEV/gYjp2MsksquT9SxarSQAvRm6i4dEqM2gPdFbImIJ09K5H3uZSlSnQ3P6
- rTi5Cx7TrTuqZ0bR7goGu5RgfHvq42+aod+aKAGGkxstprW+5zHyeKOpjkdz8r33EBjguGKBUWD
- Liu6phWPB6t5wJkjuVrh/AHQU7CHkHtzC4jxk6CyLCFLJE+53nCo54aSjFHSaZs+7PR8mEQujnv
- 43etjw74q/Uq1kCmq1r0Cj36Kv3c5LA6gJXWWkMlBUmmy8dwmbTfW3kIiG4tqVGZeXjX25x1VfV
- wKMANZCNDSc8ZESlQEXkksha2zcD8GgZrC+f2C3d+Wny0dBLGKubujukC9LFkE=
-X-Proofpoint-ORIG-GUID: 93jMXTaZdV7aa5fQdYil3maPDQrrLgh8
-X-JNJ: AAAAAAABLCdK8t+hGldUUxRP2zxcgHZtZ69go/8nnQXTQxeQRvAzs8SQTsNIcFVhsn3a58DOAZ6fsWoNserjfJ6vl5AFzA9tMFakcpWlGeK5+HQGOcI4+Jn/aoEzUGaGmK5Yy6rXtmOBOVqEZ3TnqzaRl85shGHVn1NZWDvYogboDN6+rQ17IyIJ7sf48b4sjhGWP5Ig4k70hoBOHH7tzw4w4p6I/ZjAF+5FgqM1glBiTnPm5EC8rlTS4n+43UqLdKhvpMsKOwTTjN6eWanYCbM4X47lkVWvLBrqogo7DwFtH8O68fy5xUHZ3FL/LfmG1oMW8J8yfXiwzdV8H3ymUBzB/9746fT2P0mYR1/CKcEzZURzK+uWagxbQx95f65Ilq4xrYD9GGCuUcR5i/FPtWfamlqAdBTQVIhiZwCKfVPYKhJt2YwuQ3ceDSS+F1r/1j+gy6rgkxO364BLIFs3y4k3FLuyV+GCq776hM+2b1EfR94CugkmpBTZZJMQeuhW+zYOj8ZRuvo1F6GQtrVfyEUIOG7FuqpH85JgMvFylYs/subANvlP/Uz/G4wk0M7syws6hZgBE5pLUhhNN8KONFVA2Uk2uEkYyqxPjt0ZY5Ile6z1nsHKbkTJig1F/RmOWQmSRTUPIsYCheRw2F1JeKSH8KD6XlYmC6MLDRcMluojCpZ9QicrYi7lsBrkIwRToe59QLWxOSkYlnoIVy2JKPbf3lvij0GiJKCiRJwG5sebmIPiIgfs89ZuK1MqF6NLRdGp2waDbgCZBB3Xq/NNzz4pWq6QPqvn+vvpVtvrwyuwFz1WcEbXAFKe9Zvozjq/juTw/wGXnkeDnlUaOXw6o9l0rCM8l8w4vevIOe50F0tMPMGM3hVrlBwHVawzs+Pd5jSeg45wEh5SvuXaaKPtvs9/5bJ4tPWkhZ68B5uZdtUv10bx35SX0ttTKiYdk0F+S4aXFHamY47leqNa29hvpZLfrqjC8cL
- +dZB4GjzRe5HxvtfYgdBlpqiOQ7mTVolbad1/26c1rq7CMl89v2VwYfp4J/ODCdJmaSO7MP9x8M9GsmKzM/OrRIuFqY/0onznalBQXWLM4bT+mGi0HhZ/jMm0g/NuZOhNqu1hPEcBGpqe7Y2MJKXO6fMknW6FENPuXGnKWookn2Iii3xASj/TbTB0tQF7Bn1Qz2SnERlBdWfakUGIZ8pNWxQwEkOAg8bK8dKw48qW9mlVgUzp
+X-Proofpoint-GUID: KSz-5MDIAtnjx_UfxVki10qov14QZ4ib
+X-Proofpoint-ORIG-GUID: KSz-5MDIAtnjx_UfxVki10qov14QZ4ib
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODIwMDE1MSBTYWx0ZWRfX7Q9Rg00vn3TL
+ 3YNuF0DwvA5BU0EGMPbD1ASfit7cRO4dMYF8gvZdxX4RfAHxJtzLZ6pnz4sO+Ma+63esNd2NNun
+ NmseaM2RrcQRY8yqq6Wq9UQQONXlR0oeDAb+3gs5+BOvUBU9pe/mLcHpR1o7CIRz2upZ3+hW6fI
+ BQMsBBj0/JfjqkEDppsHMbJdF0CIjw2aiNXiD7FUMlVkRYdkewo8FMw/0I4uwt4lt4qqekywWj0
+ xVqCS6QavyKMAUEyoSUcmJdBZJzJdjCJn0h+Y3WSQSYSMDweJDawXnRvYd/3bSKTk0LJWA5U9E1
+ qJVGVXGaHT5mo46wEc7L0+EC8pN4bIgvhcvvA3Mt6WU6+4GuwteJEox6Fyxhx4=
+X-JNJ: AAAAAAABdqaCaZ/+/FQ0v/eobQ8WrZQ26sv7tiygf4+fCgbDke9hUIpVCKQJzXAOZzhq33XoDP7jtH+0wSt5KUSSvXTcFtMyrdpXSlvljJNCqDPME43hTTcuUxj2ch5/+7/1RGRhhDZfg/GeOObulcnJBltIaistOU4GkhR9KhWta09tk1/19VKjOJ5srDZsH9r4j0RfaaHykzBtWg191D5yUDTufXASwo2knMEdv+Q3DGztv4u+80Fm4Ydb4D5UeHM6DGtFbnRdaQ6QZJn3DdriWUqjcuzSk6hHtoo8LmUNdJOUJ9PQm14fbuD8lEslnZeSX+iLhZo5iMHSr3dMDHaRyAUPUlIXv1vTYiqe8YUDK+gJeJ1QDtaAhSstzBGtrNb7uREMbsTvqGy6OY0XJW84zMsp940TVTn8qwyFwypk/qWQkuczbBEcojHk33vGGruxJGF5Drl4RUo4l1NriIv4Za33x9pg1lTH3wWrQ8/Fz2TRGj79I/BJGYXmqtwoSikN4L/51HzlzLHvz2EjqoCGUcfdOAjLrEIjL+bQvmxJo3FsnQ5atfiqQ0CnQIje+V6dgT1jGiQxSa8fLS3s+k1g/DDqmyQ86theYVnVTFSzow2PqAz3HqiZYAfzPwH0gsGaSv4jE525mTjwVHXPuxFzUiiGqOzlVmqSIvE7fD8Hk0dVaW6M6j+JdigmJWMGW3Pw8A1AanfPpJ59VuWlCJvD8ic+3XRI/QOIUcXXU3Fxgc4Eo7emVuWUt5+zbpIxBrbmI9Tp/bC22ksheHyiG8kUZqcUI7+vlsB2F6xW1IQJxbodNsiIYRFjt6Ts7sHLKK/zkmKnYzRAw8FLQwTWaMmtMAYCtznl1v46Fj9PwN1oFQB00xDW4YyvalroX42Pmt96kvNYs7sM4WMn0upSHuL3TDPNVNGhMqQTY0nCrkQDuDfQDz5UdYrkanHuR/Ye+JtxQqfz153Vvw21b/pDzD7nSazuwMw
+ /jLAHqIjFsMWD7O12HVXgIJKAN18EhIYQ+0kib3A0DSDlEbgbFz2JEIBV/vlrCYBvqe8iRYC0b+KaPAn+Iy1yhnGZ1j8Pt7Qz57ocTug0GH4IafuCDZ9wWnYehgUrCW0Gdw7OQi3RHkfzHdhBiehvhFD46zKDxORI7G2dB4gjY3V+KDq1An7K7ceppiIALwgoGiaISs/xBXR292r3EKztT7lZ8Zmo0lkIMTuThteqnRvOYn3n5Il0ZZ/o
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260820_125424_731718_1FD95D76 
-X-CRM114-Status: GOOD (  18.77  )
+X-CRM114-CacheID: sfid-20260820_130441_873495_0F0571BD 
+X-CRM114-Status: GOOD (  18.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
