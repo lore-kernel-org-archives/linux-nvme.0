@@ -4,30 +4,30 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 553F4C5DF7D
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Aug 2026 10:13:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B7FBBC5DF7D
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Aug 2026 10:13:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hquGvxMNhUE6luQ0i8xotPnpcTM0M5DVn0iPlWy2uqU=; b=nF6sL25g/77eoSRQ7BPp72zScn
-	LywWkygpog0L1gQ0r0yIhj0hDNnFHKVyRWf/85TzW6JkL2875DAdaI2QjrVQcut5t3AZAERcpAhEb
-	o98lWb60+2Eow8MB1ku75ywbuduw0+tahnwor0xVOIQHzycDMX/jleBL3HEy/gIV0YXIPFxhikUdE
-	uAT9Kw2zh5IsN22qXkRFHR+kajSn5UFmaykqU3z6A19LqLcGw43lp/Re86dAbTfH9oNFfwDQ8fWyN
-	jRN48ml3p3VImK90RnyWdCcKm9GdLJJupGK+w1vBgLcUTDCX8mIjRkRDX4K5NOqinVwiYwSyQa0H4
-	rI3lJSkA==;
+	bh=N2sbBFr4EjfRnr8imZeoWXYxMcK8OZ8HJgP1xWXBZwc=; b=r8Uy0GPoI8RcQRC3/vWr80xX3K
+	Y9CLjQpg9Ixs1AgCRhM5zd/BhW8GL+ph8/IhOQiPKuEr7BJGQv78jeU3SBq5XhS3kvCBX3cy52vK6
+	6sdGLFwrAFpvnZ/GgcgUk/WM7luFxH5A6SGTQ16nbgUaZK1d3IADmtf5zq2Hbj25Q8l6gXTC53Mvw
+	A6IoQ0iPSBHF+Imh1jMqVp/aHbEfdFb7zbflZtjDZlegfP/kQfUV3//ulNE0nyvfxajy1V7YoImD/
+	3L1/sTF4C1vw43Rby3hDPvVa8BuNOC6ne5pFuugLdYvgt1qZdJ2GSS1UupR8OAM07TF467Qf8Bo5n
+	i82X2XIQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wxMFD-0000000D3qU-2wOd;
-	Fri, 21 Aug 2026 10:13:03 +0000
+	id 1wxMFM-0000000D3vl-06DA;
+	Fri, 21 Aug 2026 10:13:12 +0000
 Received: from mailgw.kylinos.cn ([124.126.103.232])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wxMFB-0000000D3nG-07yF
+	id 1wxMFD-0000000D3p3-0O2Y
 	for linux-nvme@lists.infradead.org;
-	Fri, 21 Aug 2026 10:13:02 +0000
-X-UUID: dc356f289d4811f19a56ed5b684f684d-20260821
+	Fri, 21 Aug 2026 10:13:07 +0000
+X-UUID: e02595369d4811f19a56ed5b684f684d-20260821
 X-CTIC-Tags: HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
 	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
 	HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
@@ -37,14 +37,14 @@ X-CTIC-Tags: HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_
 	DMARC_NOPASS, CIE_BAD, CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS
 	GTI_RG_INFO, GTI_C_BU, AMN_GOOD, ABX_MISS_RDNS
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:4f6659f8-d4d9-401c-9355-0e7532027461,IP:10,
+X-CID-O-INFO: VERSION:1.3.19,REQID:03e0e475-b79d-45cc-9eca-cd22afba690a,IP:10,
 	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
 	:release,TS:10
-X-CID-INFO: VERSION:1.3.19,REQID:4f6659f8-d4d9-401c-9355-0e7532027461,IP:10,UR
+X-CID-INFO: VERSION:1.3.19,REQID:03e0e475-b79d-45cc-9eca-cd22afba690a,IP:10,UR
 	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
 	elease,TS:10
-X-CID-META: VersionHash:7db8b62,CLOUDID:6f31db393d643e16dc98306b3e1f8e82,BulkI
-	D:260821181255UZQH3ITJ,BulkQuantity:0,SF:10|38|66|78|81|82|102|127|850|865
+X-CID-META: VersionHash:7db8b62,CLOUDID:df5cc0341e5d0c6d6e9f7283223e139b,BulkI
+	D:260821181258VGCIJP3I,BulkQuantity:0,SF:10|38|66|78|81|82|102|127|850|865
 	|898,TC:nil,Content:0|15|50,EDM:-3,IP:-2,URL:0,File:nil,RT:nil,Bulk:nil,QS
 	:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,A
 	RC:0
@@ -52,12 +52,12 @@ X-CID-BVR: 2,SSN|SDN
 X-CID-BAS: 2,SSN|SDN,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: dc356f289d4811f19a56ed5b684f684d-20260821
+X-UUID: e02595369d4811f19a56ed5b684f684d-20260821
 X-User: sangyao@kylinos.cn
 Received: from localhost.localdomain [(223.70.159.239)] by mailgw.kylinos.cn
 	(envelope-from <sangyao@kylinos.cn>)
 	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1660134943; Fri, 21 Aug 2026 18:12:48 +0800
+	with ESMTP id 382005632; Fri, 21 Aug 2026 18:12:54 +0800
 From: Yao Sang <sangyao@kylinos.cn>
 To: axboe@kernel.dk,
 	kbusch@kernel.org,
@@ -67,17 +67,17 @@ Cc: john.g.garry@oracle.com,
 	linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
 	Yao Sang <sangyao@kylinos.cn>
-Subject: [PATCH v3 3/5] block: factor path limits out of blk_stack_limits
-Date: Fri, 21 Aug 2026 18:10:48 +0800
-Message-Id: <20260821101050.1464087-4-sangyao@kylinos.cn>
+Subject: [PATCH v3 5/5] block, nvme: add same-LBA multipath limit helpers
+Date: Fri, 21 Aug 2026 18:10:50 +0800
+Message-Id: <20260821101050.1464087-6-sangyao@kylinos.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20260821101050.1464087-1-sangyao@kylinos.cn>
 References: <20260821101050.1464087-1-sangyao@kylinos.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260821_031301_373258_0E6C0743 
-X-CRM114-Status: GOOD (  12.12  )
+X-CRM114-CacheID: sfid-20260821_031303_466642_F3E93D73 
+X-CRM114-Status: GOOD (  19.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,129 +92,178 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Same-LBA multipath needs to stack path limits without applying
-mapped-range topology calculations.
+A same-LBA multipath head and its paths address the same logical block
+space, so they do not need mapped-range topology calculations.
 
-Factor this path limit stacking into blk_stack_path_limits(). It covers
-execution features, sector and segment limits, write zeroes, discard
-segments, zone append and DMA alignment.
+Add blk_stack_mpath_limits() to stack limits that may differ between
+paths, and blk_set_mpath_head_limits() to set head limits that are
+expected to be identical across paths. Export both helpers and use them
+for NVMe namespace heads.
 
-There is no behavior change for existing callers.
+Initialize max_hw_discard_sectors to UINT_MAX before stacking the first
+path. A zero limit means that a path does not support discard, so it
+disables discard for the head.
 
 Signed-off-by: Yao Sang <sangyao@kylinos.cn>
 ---
- block/blk-settings.c | 77 +++++++++++++++++++++-----------------------
- 1 file changed, 37 insertions(+), 40 deletions(-)
+ block/blk-settings.c          | 58 +++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/core.c      | 34 ++-------------------
+ drivers/nvme/host/multipath.c |  2 ++
+ include/linux/blkdev.h        |  3 ++
+ 4 files changed, 65 insertions(+), 32 deletions(-)
 
 diff --git a/block/blk-settings.c b/block/blk-settings.c
-index 9e7cdaaefbca..f1a2e4fe4e77 100644
+index eaba38370657..8f70bab0a814 100644
 --- a/block/blk-settings.c
 +++ b/block/blk-settings.c
-@@ -756,6 +756,39 @@ static void blk_stack_atomic_writes_limits(struct queue_limits *t,
- 	t->atomic_write_hw_boundary = 0;
+@@ -800,6 +800,64 @@ static void blk_stack_path_limits(struct queue_limits *t,
+ 	t->dma_alignment = max(t->dma_alignment, b->dma_alignment);
  }
  
-+#define STACK_MIN_NOT_ZERO(t, b, field) \
-+	((t)->field = min_not_zero((t)->field, (b)->field))
-+#define STACK_MIN(t, b, field) \
-+	((t)->field = min((t)->field, (b)->field))
-+
-+static void blk_stack_path_limits(struct queue_limits *t,
-+		const struct queue_limits *b)
++/**
++ * blk_set_mpath_head_limits - set head limits common to all paths
++ * @t: limits for the multipath head
++ * @b: limits for one path
++ *
++ * Set head limits that are expected to be identical across paths. Stack
++ * limits that may differ between paths with blk_stack_mpath_limits().
++ */
++void blk_set_mpath_head_limits(struct queue_limits *t,
++			       struct queue_limits *b)
 +{
-+	/*
-+	 * These features must be supported by the top queue and every path that
-+	 * can execute I/O. Clear them when a path does not support them.
-+	 */
-+	if (!(b->features & BLK_FEAT_NOWAIT))
-+		t->features &= ~BLK_FEAT_NOWAIT;
-+	if (!(b->features & BLK_FEAT_POLL))
-+		t->features &= ~BLK_FEAT_POLL;
-+	if (!(b->features & BLK_FEAT_PCI_P2PDMA))
-+		t->features &= ~BLK_FEAT_PCI_P2PDMA;
-+
-+	STACK_MIN_NOT_ZERO(t, b, max_hw_sectors);
-+	STACK_MIN_NOT_ZERO(t, b, max_dev_sectors);
-+	STACK_MIN_NOT_ZERO(t, b, seg_boundary_mask);
-+	STACK_MIN_NOT_ZERO(t, b, virt_boundary_mask);
-+	STACK_MIN_NOT_ZERO(t, b, max_segments);
-+	STACK_MIN_NOT_ZERO(t, b, max_integrity_segments);
-+	STACK_MIN_NOT_ZERO(t, b, max_segment_size);
-+	STACK_MIN(t, b, max_write_zeroes_sectors);
-+	STACK_MIN(t, b, max_hw_wzeroes_unmap_sectors);
-+	STACK_MIN_NOT_ZERO(t, b, max_discard_segments);
-+	STACK_MIN(t, b, max_hw_zone_append_sectors);
-+	t->dma_alignment = max(t->dma_alignment, b->dma_alignment);
++	t->logical_block_size = b->logical_block_size;
++	t->physical_block_size = b->physical_block_size;
++	t->alignment_offset = b->alignment_offset;
++	t->io_min = b->io_min;
++	t->io_opt = b->io_opt;
++	t->discard_granularity = b->discard_granularity;
++	t->discard_alignment = b->discard_alignment;
++	t->zone_write_granularity = b->zone_write_granularity;
++	t->max_write_streams = b->max_write_streams;
++	t->write_stream_granularity = b->write_stream_granularity;
 +}
++EXPORT_SYMBOL_GPL(blk_set_mpath_head_limits);
++
++/**
++ * blk_stack_mpath_limits - stack limits across same-LBA multipath paths
++ * @t: limits for the multipath head
++ * @b: limits for one path
++ *
++ * Stack limits in @b that may differ between paths. Unlike
++ * blk_stack_limits(), this does not apply mapped-range topology or a mapping
++ * offset. Set limits that are expected to be identical across paths with
++ * blk_set_mpath_head_limits().
++ *
++ * Initialize @t with blk_set_stacking_limits() and set features that require
++ * support from every path before the first call. Set
++ * @t->max_hw_discard_sectors to UINT_MAX and call once for each path. A zero
++ * discard limit disables discard for the head.
++ */
++void blk_stack_mpath_limits(struct queue_limits *t, struct queue_limits *b)
++{
++	if (b->chunk_sectors)
++		t->chunk_sectors = gcd(t->chunk_sectors, b->chunk_sectors);
++
++	t->features |= b->features &
++		(BLK_FEAT_WRITE_CACHE | BLK_FEAT_FUA |
++		 BLK_FEAT_ROTATIONAL | BLK_FEAT_STABLE_WRITES);
++	blk_stack_path_limits(t, b);
++	STACK_MIN(t, b, max_hw_discard_sectors);
++	blk_stack_atomic_writes_hw_limits(t, b);
++
++	if (t->features & BLK_FEAT_ZONED) {
++		STACK_MIN_NOT_ZERO(t, b, max_open_zones);
++		STACK_MIN_NOT_ZERO(t, b, max_active_zones);
++	}
++}
++EXPORT_SYMBOL_GPL(blk_stack_mpath_limits);
 +
  /*
   * Stack block sizes, I/O granularities, chunk boundaries and alignment for a
   * bottom-device range mapped at @start. Round maximum sector limits after the
-@@ -873,51 +906,14 @@ int blk_stack_limits(struct queue_limits *t, struct queue_limits *b,
- 	int ret;
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 8e2b44ed4366..a16986ec1c8e 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2530,14 +2530,6 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
+ 	return ret;
+ }
  
- 	t->features |= (b->features & BLK_FEAT_INHERIT_MASK);
+-static void nvme_stack_zone_resources(struct queue_limits *t,
+-				      const struct queue_limits *b)
+-{
+-	t->max_open_zones = min_not_zero(t->max_open_zones, b->max_open_zones);
+-	t->max_active_zones =
+-		min_not_zero(t->max_active_zones, b->max_active_zones);
+-}
 -
+ static int nvme_update_ns_head_limits(struct nvme_ns *ns,
+ 		struct nvme_ns_info *info, bool unsupported)
+ {
+@@ -2549,34 +2541,12 @@ static int nvme_update_ns_head_limits(struct nvme_ns *ns,
+ 
+ 	lim = queue_limits_start_update(head_q);
+ 	memflags = blk_mq_freeze_queue(head_q);
 -	/*
--	 * Some feaures need to be supported both by the stacking driver and all
--	 * underlying devices.  The stacking driver sets these flags before
--	 * stacking the limits, and this will clear the flags if any of the
--	 * underlying devices does not support it.
+-	 * queue_limits mixes hardware limitations for bio splitting with device
+-	 * configuration.
+-	 *
+-	 * For NVMe the device configuration can change after e.g. a Format
+-	 * command, and we really want to pick up the new format value here. But
+-	 * we must still stack the queue limits to the least common denominator
+-	 * for multipathing to split the bios properly.
+-	 *
+-	 * To work around this, we explicitly set the device configuration to
+-	 * those that we just queried, but only stack the splitting limits in to
+-	 * make sure we still obey possibly lower limitations of other
+-	 * controllers.
 -	 */
--	if (!(b->features & BLK_FEAT_NOWAIT))
--		t->features &= ~BLK_FEAT_NOWAIT;
--	if (!(b->features & BLK_FEAT_POLL))
--		t->features &= ~BLK_FEAT_POLL;
--	if (!(b->features & BLK_FEAT_PCI_P2PDMA))
--		t->features &= ~BLK_FEAT_PCI_P2PDMA;
-+	blk_stack_path_limits(t, b);
+-	lim.logical_block_size = ns_lim->logical_block_size;
+-	lim.physical_block_size = ns_lim->physical_block_size;
+-	lim.io_min = ns_lim->io_min;
+-	lim.io_opt = ns_lim->io_opt;
+-	queue_limits_stack_bdev(&lim, ns->disk->part0, 0,
+-				ns->head->disk->disk_name);
+-	if (lim.features & BLK_FEAT_ZONED)
+-		nvme_stack_zone_resources(&lim, ns_lim);
++	blk_set_mpath_head_limits(&lim, ns_lim);
++	blk_stack_mpath_limits(&lim, ns_lim);
+ 	if (unsupported)
+ 		ns->head->disk->flags |= GENHD_FL_HIDDEN;
+ 	else
+ 		nvme_init_integrity(ns->head, &lim, info);
+-	lim.max_write_streams = ns_lim->max_write_streams;
+-	lim.write_stream_granularity = ns_lim->write_stream_granularity;
+ 	ret = queue_limits_commit_update(head_q, &lim);
+ 	if (ret)
+ 		goto unfreeze_head_queue;
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 75dbb58286a3..448c7f33c687 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -760,6 +760,8 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
+ 		return 0;
  
- 	t->max_sectors = min_not_zero(t->max_sectors, b->max_sectors);
- 	t->max_user_sectors = min_not_zero(t->max_user_sectors,
- 			b->max_user_sectors);
--	t->max_hw_sectors = min_not_zero(t->max_hw_sectors, b->max_hw_sectors);
--	t->max_dev_sectors = min_not_zero(t->max_dev_sectors, b->max_dev_sectors);
--	t->max_write_zeroes_sectors = min(t->max_write_zeroes_sectors,
--					b->max_write_zeroes_sectors);
- 	t->max_user_wzeroes_unmap_sectors =
- 			min(t->max_user_wzeroes_unmap_sectors,
- 			    b->max_user_wzeroes_unmap_sectors);
--	t->max_hw_wzeroes_unmap_sectors =
--			min(t->max_hw_wzeroes_unmap_sectors,
--			    b->max_hw_wzeroes_unmap_sectors);
--
--	t->max_hw_zone_append_sectors = min(t->max_hw_zone_append_sectors,
--					b->max_hw_zone_append_sectors);
--
--	t->seg_boundary_mask = min_not_zero(t->seg_boundary_mask,
--					    b->seg_boundary_mask);
--	t->virt_boundary_mask = min_not_zero(t->virt_boundary_mask,
--					    b->virt_boundary_mask);
--
--	t->max_segments = min_not_zero(t->max_segments, b->max_segments);
--	t->max_discard_segments = min_not_zero(t->max_discard_segments,
--					       b->max_discard_segments);
--	t->max_integrity_segments = min_not_zero(t->max_integrity_segments,
--						 b->max_integrity_segments);
--
--	t->max_segment_size = min_not_zero(t->max_segment_size,
--					   b->max_segment_size);
--	t->dma_alignment = max(t->dma_alignment, b->dma_alignment);
- 
- 	ret = blk_stack_topology_limits(t, b, start);
- 
-@@ -927,8 +923,9 @@ int blk_stack_limits(struct queue_limits *t, struct queue_limits *b,
- 
- 		t->max_discard_sectors = min_not_zero(t->max_discard_sectors,
- 						      b->max_discard_sectors);
--		t->max_hw_discard_sectors = min_not_zero(t->max_hw_discard_sectors,
--							 b->max_hw_discard_sectors);
-+		t->max_hw_discard_sectors =
-+			min_not_zero(t->max_hw_discard_sectors,
-+				     b->max_hw_discard_sectors);
- 		t->discard_granularity = max(t->discard_granularity,
- 					     b->discard_granularity);
- 		t->discard_alignment = lcm_not_zero(t->discard_alignment, alignment) %
+ 	blk_set_stacking_limits(&lim);
++	/* No path discard limit has been stacked yet. */
++	lim.max_hw_discard_sectors = UINT_MAX;
+ 	lim.dma_alignment = 3;
+ 	lim.features |= BLK_FEAT_IO_STAT | BLK_FEAT_NOWAIT |
+ 		BLK_FEAT_POLL | BLK_FEAT_ATOMIC_WRITES | BLK_FEAT_PCI_P2PDMA;
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 9213a5716f95..2fe711c196c9 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -1153,6 +1153,9 @@ static inline void blk_queue_disable_write_zeroes(struct request_queue *q)
+  */
+ extern void blk_set_queue_depth(struct request_queue *q, unsigned int depth);
+ extern void blk_set_stacking_limits(struct queue_limits *lim);
++void blk_set_mpath_head_limits(struct queue_limits *t,
++			       struct queue_limits *b);
++void blk_stack_mpath_limits(struct queue_limits *t, struct queue_limits *b);
+ extern int blk_stack_limits(struct queue_limits *t, struct queue_limits *b,
+ 			    sector_t offset);
+ void queue_limits_stack_bdev(struct queue_limits *t, struct block_device *bdev,
 -- 
 2.25.1
 
