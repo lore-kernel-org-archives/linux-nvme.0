@@ -4,70 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EF18BC5DF81
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Aug 2026 20:04:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 19276C5DF88
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Aug 2026 06:23:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=2O/2dv3vAMW5OP3cGNIdUoe9lfLCfo93pjtBUDdPVAY=; b=ByBEfF07Mccqml1+DALh7fdzco
-	LvvnHcSdyg2mkFUKOaj4vEZoZC4cVYCLst+PstLr4y2wSIlDzq3WEWApWRqWGwvAWOQD5KLQqDicA
-	u0gGz8xfm0TqWaiqtUlP0VD+3qLSBPQaSJPwoWcfn9396rJT/LngGKT9kwR81nz5OaHB516eeaQHN
-	0IK51/fyBEhgMAe3BuMQ0Bk5YWLkxziws6kGTUXidX4gY8O/BcnP1rKZg1WoADTntqVy9LLdA+JfB
-	0b80XRwrEbbRA3Yc/bV7s2+geqSsoHt3UbUieie4Sjflu5B/wQXMJQLQ8Xc8qr+oB84i1njF/c/jx
-	IhJ+Jzcg==;
+	bh=r0hhbG0RgTFZ04CU2rRbzpIntu+XxhW4ECNqU2drBj4=; b=xoBlflBNcPEE4FsnW/uq6A0eej
+	Lghcjn5eri7bmsz0/ioVrNUGg5TVdZIAIvKosdxm0dZidFVOc0jUxvaM8HrHiLNeVkh1u0oewNlKa
+	CYUHqsV9XLAMnpq+TNIVVlXVKmgH/ho3DEC9K5H2PrA8GasdaMvhSBQtUo7AMXet5X/0afBItxzIn
+	mz2XWci9O405YbbNB9kE1Hj2XLo4sx4lTxvzkIDE2lPt8b7aySmzL976DSNYzNbdE2qCa4U0ngMaO
+	jP9nROguRokffNafcM1bFuOKriVlsqrd1aC28U4BQ4WVCSm/PDcFXCAABeiB3cSOhxZMfO9y84npd
+	WAXIfNpA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wx90G-0000000C9UF-0Erv;
-	Thu, 20 Aug 2026 20:04:44 +0000
-Received: from mr-2002b-snip6-5.eps.apple.com ([2a01:b747:3000:201::1c] helo=outbound.mr.icloud.com)
+	id 1wxIec-0000000CbMV-1SL5;
+	Fri, 21 Aug 2026 06:23:02 +0000
+Received: from smtpbgsg2.qq.com ([54.254.200.128])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wx90D-0000000C9Tu-3P6L
+	id 1wxIeU-0000000CbLG-2oRG
 	for linux-nvme@lists.infradead.org;
-	Thu, 20 Aug 2026 20:04:42 +0000
-Received: from outbound.mr.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-west-2a-20-percent-1 (Postfix) with ESMTPS id DA99518002A7;
-	Thu, 20 Aug 2026 20:04:38 +0000 (UTC)
-X-ICL-RepId: 01a020c6-8f18-73bf-8661-7521b6b172c3
-X-ICL-Out-Info: HUtFAUMHWwJACUgBTUQeDx5WFlZNRAJCTQhABkMAWBxBDkkdXwZfEhVdRVUIRRlTHhccRgxFGVswVB0dDlgGEhZdRV4IGQhdHRkKUFAAS1oVVRcOAkIfUB9MFldDWhkcGVoUXBhTRVEfVFhDGUVWaUELTx1dGVscQmRYVwkKBldeWhdeTVoCVk0FSgNfAVsKQglKA10DWAFeC0AAWANfH0EUHlYfRQpcXl0NUh9FAnIdXFZQAlpVEgRACFZQXgheH0wc
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai; t=1787256280; x=1789848280; bh=2O/2dv3vAMW5OP3cGNIdUoe9lfLCfo93pjtBUDdPVAY=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=VDncuMDDgprV5M/TsJLfg5//Z8mymeycgbeGIsCu45RzEEVLtxRdmrak7dshy/1bwarJ1n1jH9a+yHYc1wjlVSQgM2As+vK76wLxH6X2Bs83z8r2O5f219BfnIoVPnzQtxyQUCD9bvHQXZf6OFp9wMsPjM/z81Y/giTawtufT5IeDBKt2An2YTzhuYuUu4+MZHi0C/F74RZm+KuB6MIxaW7uOTC+9V61/zDqal8go7IAzTK/MJXtjAIfJr+sU9i9iSS8RDBgORNglgf28vv+3pYrB3z0uLlsM5CYePWTY38H/6HVWQ6ETmfpporK+FvXcpc/gL7Om90ioPzMegqpfQ==
-Received: from ncore (unknown [17.156.200.36])
-	by p00-icloudmta-asmtp-us-west-2a-20-percent-1 (Postfix) with ESMTPSA id A22C618007CF;
-	Thu, 20 Aug 2026 20:04:36 +0000 (UTC)
-From: Ferran Duarri <ferran.duarri@me.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org,
+	Fri, 21 Aug 2026 06:22:56 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1787293325;
+	bh=r0hhbG0RgTFZ04CU2rRbzpIntu+XxhW4ECNqU2drBj4=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=Ais11P1tLDZURytZoNJD016N6a9h5BNNM0+EchIljKHZCCT7hcw0CHc8U3weCDB0l
+	 6nEAikVrO8bKbJDxUF670BO9TCza7WuQDrTJlvUHkWlN4F4tfB0R0LxoWYJSdKe8I8
+	 RHneVgTzYu/JHjV+q8QGzXT9LJaX0a1CNTp3aMoc=
+X-QQ-mid: zesmtpsz6t1787293306te0aedb42
+X-QQ-Originating-IP: RHTXhY/KuAhUN3OhrNXVlzf1LI/cjGhzDmQ2+OFWxMc=
+Received: from PEN202512010004 ( [113.57.152.160])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Fri, 21 Aug 2026 14:21:44 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 14185790749122321215
+EX-QQ-RecipientCnt: 7
+From: raoxu <raoxu@uniontech.com>
+To: kbusch@kernel.org
+Cc: axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me,
+	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	Ferran Duarri <ferran.duarri@me.com>
-Subject: [PATCH] nvme: lower default APST max latency to 25ms
-Date: Thu, 20 Aug 2026 22:04:28 +0200
-Message-ID: <20260820200433.283544-1-ferran.duarri@me.com>
-X-Mailer: git-send-email 2.53.0
+	raoxu@uniontech.com
+Subject: [PATCH nvme-7.3 0/4] nvme-fabrics: localize string option parsing
+Date: Fri, 21 Aug 2026 14:21:41 +0800
+Message-ID: <29BB44C32FF06823+20260821062142.1932160-1-raoxu@uniontech.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Authority-Info-Out: v=2.4 cv=a/Y9NESF c=1 sm=1 tr=0 ts=6a875dd7
- cx=c_apl:c_pps:t_out a=9mRn2PO/+PIrVdEbaIuMPg==:117
- a=9mRn2PO/+PIrVdEbaIuMPg==:17 a=Sv0fKeRqtYgA:10 a=x7bEGLp0ZPQA:10
- a=B9nqV3Rn1-QA:10 a=VkNPw1HP01LnGYTKEx00:22 a=HHGDD-5mAAAA:8
- a=8uIbJeaS8xPCM5DfPzYA:9
-X-Proofpoint-GUID: KSz-5MDIAtnjx_UfxVki10qov14QZ4ib
-X-Proofpoint-ORIG-GUID: KSz-5MDIAtnjx_UfxVki10qov14QZ4ib
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODIwMDE1MSBTYWx0ZWRfX7Q9Rg00vn3TL
- 3YNuF0DwvA5BU0EGMPbD1ASfit7cRO4dMYF8gvZdxX4RfAHxJtzLZ6pnz4sO+Ma+63esNd2NNun
- NmseaM2RrcQRY8yqq6Wq9UQQONXlR0oeDAb+3gs5+BOvUBU9pe/mLcHpR1o7CIRz2upZ3+hW6fI
- BQMsBBj0/JfjqkEDppsHMbJdF0CIjw2aiNXiD7FUMlVkRYdkewo8FMw/0I4uwt4lt4qqekywWj0
- xVqCS6QavyKMAUEyoSUcmJdBZJzJdjCJn0h+Y3WSQSYSMDweJDawXnRvYd/3bSKTk0LJWA5U9E1
- qJVGVXGaHT5mo46wEc7L0+EC8pN4bIgvhcvvA3Mt6WU6+4GuwteJEox6Fyxhx4=
-X-JNJ: AAAAAAABdqaCaZ/+/FQ0v/eobQ8WrZQ26sv7tiygf4+fCgbDke9hUIpVCKQJzXAOZzhq33XoDP7jtH+0wSt5KUSSvXTcFtMyrdpXSlvljJNCqDPME43hTTcuUxj2ch5/+7/1RGRhhDZfg/GeOObulcnJBltIaistOU4GkhR9KhWta09tk1/19VKjOJ5srDZsH9r4j0RfaaHykzBtWg191D5yUDTufXASwo2knMEdv+Q3DGztv4u+80Fm4Ydb4D5UeHM6DGtFbnRdaQ6QZJn3DdriWUqjcuzSk6hHtoo8LmUNdJOUJ9PQm14fbuD8lEslnZeSX+iLhZo5iMHSr3dMDHaRyAUPUlIXv1vTYiqe8YUDK+gJeJ1QDtaAhSstzBGtrNb7uREMbsTvqGy6OY0XJW84zMsp940TVTn8qwyFwypk/qWQkuczbBEcojHk33vGGruxJGF5Drl4RUo4l1NriIv4Za33x9pg1lTH3wWrQ8/Fz2TRGj79I/BJGYXmqtwoSikN4L/51HzlzLHvz2EjqoCGUcfdOAjLrEIjL+bQvmxJo3FsnQ5atfiqQ0CnQIje+V6dgT1jGiQxSa8fLS3s+k1g/DDqmyQ86theYVnVTFSzow2PqAz3HqiZYAfzPwH0gsGaSv4jE525mTjwVHXPuxFzUiiGqOzlVmqSIvE7fD8Hk0dVaW6M6j+JdigmJWMGW3Pw8A1AanfPpJ59VuWlCJvD8ic+3XRI/QOIUcXXU3Fxgc4Eo7emVuWUt5+zbpIxBrbmI9Tp/bC22ksheHyiG8kUZqcUI7+vlsB2F6xW1IQJxbodNsiIYRFjt6Ts7sHLKK/zkmKnYzRAw8FLQwTWaMmtMAYCtznl1v46Fj9PwN1oFQB00xDW4YyvalroX42Pmt96kvNYs7sM4WMn0upSHuL3TDPNVNGhMqQTY0nCrkQDuDfQDz5UdYrkanHuR/Ye+JtxQqfz153Vvw21b/pDzD7nSazuwMw
- /jLAHqIjFsMWD7O12HVXgIJKAN18EhIYQ+0kib3A0DSDlEbgbFz2JEIBV/vlrCYBvqe8iRYC0b+KaPAn+Iy1yhnGZ1j8Pt7Qz57ocTug0GH4IafuCDZ9wWnYehgUrCW0Gdw7OQi3RHkfzHdhBiehvhFD46zKDxORI7G2dB4gjY3V+KDq1An7K7ceppiIALwgoGiaISs/xBXR292r3EKztT7lZ8Zmo0lkIMTuThteqnRvOYn3n5Il0ZZ/o
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpsz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
+X-QQ-XMAILINFO: NKgbhy6RFl+Ac4l8L8SI7FaVrSamHCHKQGf10s+tlFWXfOyB7VPEkN3S
+	nM7gRun8crERNG3jwnS9krAClLs5jg5GfmZ5QU++oAv3YPpfJGnOOuMKFcBwYvrlKZ9bChe
+	yY8KZeXiBWhLE/HCOs0RaPf+U0ftxnlq2G6WP6nCcj5hEePvsAwL8raoXfjmdO7JU5yPXv9
+	m66UYtEH1G1sioAtfng254LIkRIkkD3zLxI5Zk+pZ+jSO1iNIVmU5rweUJNluvc3lHSMLX7
+	tD50Ucp5Al9bnX8Xgx+v/jk8WgylUr8hSCKElWV6I4BIxzQd0njCTyEsO2ectITzPZ3WGoa
+	NWORBr0DjEsggHsagP7/RzmfbQU/guwxrCCQDem1q3ZLmsPhj6rbfCgFSLeTFslMVZqE3Xn
+	C9hhortcE6ofr4/GwBYgi7Fbi9E7w7f9j4Gatd07yj3UdUdOt9iji+PyOFJjlpF3p2r8RTV
+	WA6FFJ3QZ6msPUZKwN9a8uXysU20AURJsPpNkyHlrx7o/eFSpWWmcmkeZsK2wp6rhpcAotk
+	wCT8hrx6XspKNzM9cdw6bCaNW/p83KOi/ajlF2OOQijTmiq42CsQgPudcaEFDHS8T2FsJp0
+	ZPgkyQwAyfp81vc+p/JDGxpzQV/7hVCL0YLzC8Fm/r1IQR2MGZsbhzywJJHLHK1YOWEm/XX
+	GpqgQq54+ASJZx0z8tb9YYQF2tis8rKC7TjF9G0a5hw7V515FXGbiDqhXalvUvBlUIwXrZ5
+	ci4AGcUKAaAZc4hTWikg8L72SP7zQzhFrDvQvQFlXM4FJQQG598YzLWiP3b4qAHQpvhEvIT
+	Delm1kp5f8Te9JmMtFK7P9++IPUBlffgzey4cR4hLpvJSdDMmAFxom0g4VOaJR4j9x9YQOF
+	w5ZvsmPutxJAbOTp8ywQ3jHpnruj2Hurd9+cnaE5vnmxMjP+EVMWKRbIq/RZqtenjlf2wtx
+	Kor15usb9mkik0r9jPqX5iD6K+UnDVCf0k2ERAVopvjJcyemGmJKmN/oc6L7gEtwIHuEwpj
+	lwL8BoLmZ2lEdMTfTF3AJehJfSjcpOL0qbnh7i5UohkBqoXnGu6Bt3pNA12Yg=
+X-QQ-XMRINFO: MPJ6Tf5t3I/ylTmHUqvI8+Wpn+Gzalws3A==
+X-QQ-RECHKSPAM: 0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260820_130441_873495_0F0571BD 
-X-CRM114-Status: GOOD (  18.66  )
+X-CRM114-CacheID: sfid-20260820_232255_325852_84DBEB69 
+X-CRM114-Status: GOOD (  12.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,76 +94,82 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-That one bound decides how deep a device may sleep. On a device that
-advertises a non-operational state an order of magnitude slower than the
-next one up, the 100ms default silently selects the slow one, and the
-first read after an idle period pays that wake in full. It shows up as a
-stall rather than as reduced throughput, being a one-shot cost on a cold
-access rather than a steady-state penalty. The workload that prompted
-this is staging large model weights from NVMe, where a cold mmap fault
-on a multi-gigabyte checkpoint is exactly that access.
+From: Xu Rao <raoxu@uniontech.com>
 
-Measured on a Samsung SSD 990 EVO Plus 4TB (fw 2B2QKXG7), which
-advertises two non-operational states:
+nvmf_parse_options() currently combines option tokenization with string
+allocation, validation, conversion, ownership transfer and error cleanup in
+one large switch.  The DH-CHAP parse-failure leak showed how easy it is for
+a match_strdup() allocation to escape cleanup when those lifetime rules are
+spread across the main parser.
 
-  ps 3   exit  4.6ms   0.0800W
-  ps 4   exit 43.0ms   0.0070W
+This series follows Christoph's suggestion to keep strdup allocations in
+the scope that parses the corresponding option and to stop reusing the
+pointer used for the option token.  It deliberately does not introduce a
+generic parser framework and leaves integer, key and flag options alone.
+The goal is only to make the existing string lifetimes local and easy to
+audit without changing option semantics.
 
-At 100000 the APST table targets ps 4; at 25000 it targets ps 3. Cold
-4KiB O_DIRECT reads after an idle period, 60 trials per setting, the two
-settings interleaved trial by trial:
+The series is split by parsing and lifetime semantics:
 
-                     p50      p90      p99      max
-  100000 (ps 4)     3.3ms   33.0ms   33.5ms   33.5ms
-  25000  (ps 3)     3.2ms    3.6ms    3.7ms    4.2ms
-  warm, no idle     0.2ms    0.3ms    1.7ms    3.6ms
+  1/4 separates tokenization from allocated string storage.  option is the
+      current entry returned by strsep() and passed to match_token(); the
+      existing p is left only as the temporary match_strdup() pointer and
+      disappears as the following helpers are introduced.  Keeping this
+      patch mechanical avoids renaming the same temporary variable only to
+      delete it again later in the series.
 
-Observed worst case falls from 33.5ms to 4.2ms. Both states measured 78%
-of their advertised exit latency, which is the cross-check that the two
-figures measure the same thing at two magnitudes.
+  2/4 adds nvmf_parse_string_option() for the five direct owned-string
+      replacements: transport, traddr, trsvcid, host_traddr and host_iface.
+      Their complete lifetime is duplicate -> replace old value -> transfer
+      ownership, so sharing one helper removes identical code without
+      mixing in validation policy.
 
-The p50 at 100000 needs reading carefully: roughly five trials in six did
-not finish descending to ps 4 inside the idle window and were sampled at
-ps 3 depth, which pulls that row's median down to the 25000 row's value.
-The ps 4 column therefore rests on the remaining sixth, where it was
-tightly reproducible, 32.9ms to 33.5ms. That effect can only understate
-the cost of the current default, never overstate it.
+  3/4 handles non-sensitive identity strings that need additional parsing.
+      nvmf_parse_subsysnqn() owns subsystem-NQN replacement, length checking
+      and discovery-NQN state; nvmf_parse_hostnqn() validates a temporary
+      host NQN and copies it to the host buffer; nvmf_parse_hostid()
+      converts the temporary string to uuid_t and frees it on every exit
+      path.
 
-25ms is not derived from this device. It is a bound on latency an
-interactive reader notices; any value between 4.6ms and 43ms behaves
-identically here. The device is an existence proof that the 100ms
-default admits a state far slower than the next available one, not the
-source of the constant. On a device whose deepest non-operational state
-exits well under 25ms this changes nothing, which is correct for a bound.
+  4/4 adds nvmf_parse_dhchap_secret() for dhchap_secret and
+      dhchap_ctrl_secret.  These values share DHHC-1 validation and
+      sensitive cleanup on rejection, so their resource rules stay out of
+      the generic string helper.
 
-The cost is idle power. Excluding ps 4 leaves ps 3 as the deepest state
-the device reaches autonomously, 0.0800W rather than 0.0070W, so roughly
-73mW more on an idle drive.
+The resulting five helpers are intentionally small and self-describing:
 
-This changes only the compiled-in default. default_ps_max_latency_us is
-consumed once per controller in nvme_add_ctrl(), so it applies from the
-kernel command line as nvme_core.default_ps_max_latency_us=. A running
-controller instead follows its per-device PM QOS value
-(pm_qos_latency_tolerance_us), which is how the two settings above were
-compared without a reboot. Any system preferring deeper idle states can
-restore the old behaviour without a rebuild.
+  nvmf_parse_string_option()
+  nvmf_parse_subsysnqn()
+  nvmf_parse_hostnqn()
+  nvmf_parse_hostid()
+  nvmf_parse_dhchap_secret()
 
-Signed-off-by: Ferran Duarri <ferran.duarri@me.com>
----
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The first helper represents one common ownership operation; the remaining
+helpers are named after the exact protocol/identity value they parse.  A
+future string option can reuse nvmf_parse_string_option() only if it has the
+same direct replacement semantics.  A value with new validation or
+conversion rules should get a dedicated helper rather than adding flags to
+a generic parser.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index c3032d6ad6b1..e3038b880e8b 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -66,7 +66,7 @@ static u8 nvme_max_retries = 5;
- module_param_named(max_retries, nvme_max_retries, byte, 0644);
- MODULE_PARM_DESC(max_retries, "max number of retries a command may have");
- 
--static unsigned long default_ps_max_latency_us = 100000;
-+static unsigned long default_ps_max_latency_us = 25000;
- module_param(default_ps_max_latency_us, ulong, 0644);
- MODULE_PARM_DESC(default_ps_max_latency_us,
- 		 "max power saving latency for new devices; use PM QOS to change per device");
+This keeps the helpers grouped by ownership and validation semantics rather
+than adding one helper per token, avoiding duplication for identical direct
+string replacement while still keeping validation and sensitive cleanup local
+to the options that need them.
+
+This series is intended to be applied after the recently accepted
+"nvme-fabrics: fix DHCHAP secret leak on parse failure" change.
+
+No functional changes are intended.
+
+Xu Rao (4):
+  nvme-fabrics: separate option tokenizer pointer
+  nvme-fabrics: add helper for owned string options
+  nvme-fabrics: add helpers for subsystem and host identity options
+  nvme-fabrics: add helper for DH-CHAP secret options
+
+ drivers/nvme/host/fabrics.c | 229 +++++++++++++++++++-----------------
+ 1 file changed, 121 insertions(+), 108 deletions(-)
+
+-- 
+2.50.1
 
