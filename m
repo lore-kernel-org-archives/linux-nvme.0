@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D462BC5DF7D
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Aug 2026 06:26:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5F4DFC5DF7D
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Aug 2026 06:26:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=oc0tsd/qnr+dthL6cOQcW19IpqD6NfIrrZqh8QhIXEg=; b=lL1JrUXwX338umxVldWuqQIgfk
-	9GE8L48s/FWMAnlq2GCluDqkyaOeG8ASCiXx5/K8+yh7iuHL5jl6TqUUKbNetl9iQr3T1wxWreNM5
-	P3MdfEdFqtp9nmKP42OHfn4DA8pYOGe/NNymEjERVGNU/rCVElVxRY6qFvt2wqpp6Sl2D4tsYujwo
-	ZgjuQhBa8WrLbIETR0DuEJnb2XuuADTzL3UWkQTlj741uy0+PGRYAMxg+qgNaScyFcPTESXk2rjuK
-	xa2goDYVbi5U7QvPTh2r4+M/8uL4p45X+ChtCwGQXC2QAq5Wz8f+vg5UIBCyZPVk+6n05S8HVIqSP
-	dHDLqpRQ==;
+	bh=RWzGCrm7qwozn+BjRtmwbFoze9nSI/1rSh5OULkuuDM=; b=1togdOzp9gt+yn+sSw1umuJwDX
+	yyH5kUtL8BYpnyPcYCfEQdSTjscJ296uZ9bpv9g2j4cV/dpLRwPiwefNd3px1y7RXuHV42wA8mYPx
+	xHCDCpa6eUMQvGJX+gF4jaW9Yl2ubFp8DOgEKF4rd+V2o+iU81aiykQkdsKQIp4xf963Zeh6i5upd
+	QGvMLgCX282vgXBZpA2FFmo9fKHuRPCbZUZvujvbct/dzddDnOxvtZBab7CNeuKxzVJzLDj3TTME8
+	jbFt6VKhagBqenkAFAWwiu24GKeltALYZk9G0oluwy0gifPFzwy3G8r23zLm1wzj9vxCYouDCitg+
+	FBL7Me1Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wxIi1-0000000Cbhz-0OGX;
-	Fri, 21 Aug 2026 06:26:33 +0000
-Received: from smtpbguseast1.qq.com ([54.204.34.129])
+	id 1wxIiK-0000000Cbqh-3dEq;
+	Fri, 21 Aug 2026 06:26:52 +0000
+Received: from smtpbgau2.qq.com ([54.206.34.216])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wxIhw-0000000Cbdy-1QHW
+	id 1wxIiH-0000000CbjF-0ULj
 	for linux-nvme@lists.infradead.org;
-	Fri, 21 Aug 2026 06:26:32 +0000
+	Fri, 21 Aug 2026 06:26:50 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1787293550;
-	bh=oc0tsd/qnr+dthL6cOQcW19IpqD6NfIrrZqh8QhIXEg=;
+	s=onoh2408; t=1787293567;
+	bh=RWzGCrm7qwozn+BjRtmwbFoze9nSI/1rSh5OULkuuDM=;
 	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=h/F6nGTTnDlRfSwT99NSzb9mdHHCk5lGBw49aidB01WnkGJd2hGYRQOQAsT4gMkjp
-	 KO2D3toBpnZ4PMYGYY9cgaFIH7FWLOVbp487du1VZH/cMS5+AwBpebqdYat6nYNIVc
-	 l6FvQDgG5t2TRbqcoGX8MUB/OatzVlQU/2l4jmJ0=
-X-QQ-mid: zesmtpgz1t1787293533ta406d61f
-X-QQ-Originating-IP: uwIlmkkzJUjEBE79/V03SyRLT8QgDw41hxHM3xRMWb4=
+	b=UR+izRl7DBxkX4TvjHt+ozvUrECNTSfSB49sF9lhCaisHxOxxHkyDy8mgNYRPVdP7
+	 x58pnsqamk5ia3bT0WhElAXvwLNwk5Un3sPJu6rIrjQztfN43zgREEPUNCu0kLe/X9
+	 F1Qyo2MS6eDd2oKLJLA85S/aq65tVeOcMyzQd4oY=
+X-QQ-mid: esmtpsz11t1787293550t274c0705
+X-QQ-Originating-IP: H9GmbDhSKjY/GbPN1KK9g9t4qWjKdRaBzchfeG9HLao=
 Received: from PEN202512010004 ( [113.57.152.160])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Fri, 21 Aug 2026 14:25:31 +0800 (CST)
+	id ; Fri, 21 Aug 2026 14:25:48 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 1572066740897638065
+X-BIZMAIL-ID: 3144338888302720829
 EX-QQ-RecipientCnt: 7
 From: raoxu <raoxu@uniontech.com>
 To: raoxu@uniontech.com
@@ -51,38 +51,37 @@ Cc: axboe@kernel.dk,
 	linux-kernel@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
 	sagi@grimberg.me
-Subject: [PATCH nvme-7.3 3/4] nvme-fabrics: add helpers for subsystem and host identity options
-Date: Fri, 21 Aug 2026 14:25:28 +0800
-Message-ID: <450E21059686C852+20260821062529.1936914-1-raoxu@uniontech.com>
+Subject: [PATCH nvme-7.3 4/4] nvme-fabrics: add helper for DH-CHAP secret options
+Date: Fri, 21 Aug 2026 14:25:45 +0800
+Message-ID: <A5B62A1BF62A33C2+20260821062545.1937266-1-raoxu@uniontech.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <29BB44C32FF06823+20260821062142.1932160-1-raoxu@uniontech.com>
 References: <29BB44C32FF06823+20260821062142.1932160-1-raoxu@uniontech.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: NG63YEgwc4yzgqZn6HjyULnIgTGCKrRz7kjDzRkiN6Yw5Sg0YOGv6qGn
-	6rNill24PE1rocqkyceZrABwv7jS5mWZk638dAZpUZY75yunsDV06yFMr5NF4KePNCnKgaU
-	p31z4+3YFRAjGR/53iY96Hi2uISL9QbdRA083164+NdXTXB1N0VuuR+8FwvvK0ah8AgKTyZ
-	H/O576DExy1hiTnvouWXWXWwLcb2opNgvyELpGB3AiGnLLWxE7ocNMX1KM/XBUtwFTuMBoQ
-	uswVgBUkBRN2VdGHsLC18BpsMn6HJ6WfnmELABSDcV43s9/1yDiSL3EGGqKIzR/hmQido1s
-	46sGvgSeoZFzcxhCJ2KYIF4JjPry6ujI17ycv3TW/kGEjuvyGH0qAVU1Ga4dhG4dNZ/Cqs4
-	I2YTWLecvpXFh/x+EFsuWnSuCOCCsdaSvnj0UdFZLGMcVGImv4TF29ZT+GAEDCUdF+en4hr
-	q1AbJDEl8vbhOrKl2jI8KxV+NRSN9dcSbzqgOtyVxmNJND3RjJTEvl3XBR3wMueLwIhNNK8
-	IvwmQn4mrHS3JewuIs262/wr7z0Cf+khjLmAjaF5c4rN4Kbh/nkIB+gFsR8vLazxnC4/0QT
-	NeIY+muW5k57pwzgVwWz9Nw8vW3MJuRxixUaimlgU/6QCveRUpQnb12Yvc7HhrD99MKMIce
-	hgguQ5UF/iT/V5OKvgQlaRkL7h75LxGbmdrkJz3VlNHml/y33OHUWvhQlzbfgvd7Io1FH3U
-	kYVzA+fvp1UB9XEVHxbYdN7/Vt3qNzKV3cwt+8hFoGJJoi/+N7IPooiRQflZLJ7Wl6aXHli
-	S6WyXpd3DhW4lN7AbbOovRGmZOtMrhjtJtWmv68x7dj9wAnxEfp65RybjQAcgOxm0e5nJwz
-	KedXnW4eLanuHWUVDsunCYcKdJIR7OD5AIvbwxaN0nDCYZIUBb8x8fmkbNgd0m4J8Afgw6p
-	c8FMWo89IaUsVK95gC+Kc3aC1FX0DjAmg752qM+O1qogBpOuQ4dcvMVCZ7g27irYvAnrLzb
-	LPhB6zt4r/NYilqSNkWRvEj3RmhjRO4Oce/lJKMrwccIxZIs590yci3MjEt8FXER93TrF+E
-	g==
-X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
+Feedback-ID: esmtpsz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
+X-QQ-XMAILINFO: Mf+wQkWJ2TuY2H5GETP/gumjVOYOp/YPMvZ8+rPjXgQQ2Q0zlouit7CP
+	HANefwQq8sHM4ug/0ZeY7+Ll7p5ebOHvlCboGywndXnQLWBgyC8w9XFDYAXpKBsHSEIum5e
+	pnIPCp+WUf7Lcu+fj8fhRa7Sj5ku8AP+eAa4kh3YVUm1Gm6WdRJpqSSRFF200+MdOvTcHXF
+	sOWe9os8hJ/k3Rexm4O6PtRaAqG6fjVBpRq2jfbCxM88dxex3n2mDQ5a39AQV1S7nE1Ttly
+	8btlm8t6paeesG8Fx+JZlybice+yctMMw8ZTII4KyCxFjYZ/arpYMjGgNyrAPPDmEhDpScB
+	t5ZIWyzL69NhGDMghyPGD6GrHu9XcMjots/8zMWxq2DmKU6v6Sal+gQzPvD3NFVn4GNZfFd
+	GuEzuUxrFVvfzxUxLaHI/6qRggAU729HQewzNjBPUrxAsq871h1d9rdLujl1qxa5rwGGD76
+	3h9+TGITMecNWCvf56f8d2XpnWlQOzXm+IfsePvKeQXgRB4Oq/Bc39fJhb7754aRcYvpH3P
+	2yKyxF3o/XTZRcoj91YjeYsMmzwRMbgUC3EjIhCrLMf98oW5W1KQ2oRSgDWURFM0DyMM1Q4
+	VFJTHKpw2hGa0mPGRcG03iYXM0jvZe/X6knMzu3SLefYfFE8Sw6X5ovi3iRNIHg9ikDjFm0
+	n9XnIFQLQt7FYJT4868OuJli9CSDh/3bqKXPHHZxlNQLY+uAzXJVsDpS4d/Bz+W0Z/LyCSD
+	8ByRCDbipCQCVS07skVWxF9b+bIoXn01bVcd7GB+pdd8JIj/ekaiQXNAh62hmXWYKHyHL3/
+	bZGoSnK2IjPrXsX+pJZX3P5QffEiVULgBfD4XP6G1msp4EgDFBCPt4Dt/ybRApCPcUPmsa8
+	QxDB7CEeuMqCj/Vaq1UlpLmOWR6+W6DEx8n5DJoscwr8E8YiITPk7RLGbLUzh6geUNydgUd
+	jO8IWZdCFNOsjwCIJkHar45d6w89PYrrUBhZ9s07WN3+spQd1CKC61fXpZlQqXxaWm1kb+j
+	B166q9SdpgvN5GuoOATjGxm/pwPrLL2+4EikVJyQlU19PyU5+Oh4SkNxGsn20=
+X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
 X-QQ-RECHKSPAM: 0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260820_232628_923384_EDDE46D3 
-X-CRM114-Status: GOOD (  13.70  )
+X-CRM114-CacheID: sfid-20260820_232649_680259_52DC7C1C 
+X-CRM114-Status: GOOD (  12.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,199 +98,104 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Xu Rao <raoxu@uniontech.com>
 
-The nqn, hostnqn and hostid options also start with match_strdup(), but
-unlike the direct string replacements handled by nvmf_parse_string_option()
-they perform option-specific validation or conversion before parsing is
-complete.
+The dhchap_secret and dhchap_ctrl_secret options have a distinct string
+lifetime because their values are authentication material.  The temporary
+string must be checked for the DHHC-1 representation and discarded with
+kfree_sensitive() when validation fails before ownership is transferred.
 
-Move each lifetime into a helper whose name identifies the value being
-parsed:
+Add nvmf_parse_dhchap_secret() to keep match_strdup(), DHHC-1 validation,
+failure cleanup, replacement of the old value and successful ownership
+transfer in one scope.  Both secret options use the same helper because
+their parsing and ownership rules are identical.
 
-  nvmf_parse_subsysnqn() handles NVMF_OPT_NQN.  It replaces
-  opts->subsysnqn, checks NVMF_NQN_SIZE and updates discovery_nqn.  Using
-  subsysnqn in the helper name distinguishes the subsystem NQN from the
-  host NQN at the call site.
-
-  nvmf_parse_hostnqn() handles the hostnqn option.  It keeps the existing
-  host-assignment check, validates the temporary NQN, copies it to the
-  hostnqn buffer and frees the temporary allocation before returning.
-
-  nvmf_parse_hostid() handles the hostid option.  It converts the temporary
-  string to uuid_t and frees the duplicated string on both success and
-  failure paths.
-
-These three helpers are grouped because they parse non-sensitive identity
-values that require validation or conversion rather than a simple owned
-string replacement.  Preserve the existing validation and ownership
-ordering while moving the code.
+Keep the existing replacement semantics for an already stored valid secret;
+this patch only moves the parsing and temporary allocation lifetime into
+the helper.
 
 No functional change is intended.
 
 Suggested-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Xu Rao <raoxu@uniontech.com>
 ---
- drivers/nvme/host/fabrics.c | 118 +++++++++++++++++++++---------------
- 1 file changed, 69 insertions(+), 49 deletions(-)
+ drivers/nvme/host/fabrics.c | 50 ++++++++++++++++++-------------------
+ 1 file changed, 25 insertions(+), 25 deletions(-)
 
 diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index aab3fd279d0e..120e57964cdd 100644
+index 120e57964cdd..c5ff03ab9e36 100644
 --- a/drivers/nvme/host/fabrics.c
 +++ b/drivers/nvme/host/fabrics.c
-@@ -725,13 +725,75 @@ static int nvmf_parse_string_option(substring_t *args, char **dst)
- 	return 0;
+@@ -788,11 +788,30 @@ static int nvmf_parse_hostid(substring_t *args, uuid_t *hostid)
+ 	return ret;
  }
  
-+static int nvmf_parse_subsysnqn(struct nvmf_ctrl_options *opts, substring_t *args)
++static int nvmf_parse_dhchap_secret(substring_t *args, char **secret)
 +{
-+	char *nqn;
++	char *value;
 +
-+	nqn = match_strdup(args);
-+	if (!nqn)
++	value = match_strdup(args);
++	if (!value)
 +		return -ENOMEM;
 +
-+	kfree(opts->subsysnqn);
-+	opts->subsysnqn = nqn;
-+	if (strlen(opts->subsysnqn) >= NVMF_NQN_SIZE) {
-+		pr_err("%s needs to be < %d bytes\n",
-+		       opts->subsysnqn, NVMF_NQN_SIZE);
++	if (strlen(value) < 11 || strncmp(value, "DHHC-1:", 7)) {
++		pr_err("Invalid DH-CHAP secret %s\n", value);
++		kfree_sensitive(value);
 +		return -EINVAL;
 +	}
 +
-+	opts->discovery_nqn = !strcmp(opts->subsysnqn, NVME_DISC_SUBSYS_NAME);
++	kfree(*secret);
++	*secret = value;
 +	return 0;
-+}
-+
-+static int nvmf_parse_hostnqn(struct nvmf_ctrl_options *opts,
-+			      substring_t *args, char *hostnqn)
-+{
-+	char *nqn;
-+
-+	if (opts->host) {
-+		pr_err("hostnqn already user-assigned: %s\n", opts->host->nqn);
-+		return -EADDRINUSE;
-+	}
-+
-+	nqn = match_strdup(args);
-+	if (!nqn)
-+		return -ENOMEM;
-+
-+	if (strlen(nqn) >= NVMF_NQN_SIZE) {
-+		pr_err("%s needs to be < %d bytes\n", nqn, NVMF_NQN_SIZE);
-+		kfree(nqn);
-+		return -EINVAL;
-+	}
-+
-+	strscpy(hostnqn, nqn, NVMF_NQN_SIZE);
-+	kfree(nqn);
-+	return 0;
-+}
-+
-+static int nvmf_parse_hostid(substring_t *args, uuid_t *hostid)
-+{
-+	char *id;
-+	int ret;
-+
-+	id = match_strdup(args);
-+	if (!id)
-+		return -ENOMEM;
-+
-+	ret = uuid_parse(id, hostid);
-+	if (ret) {
-+		pr_err("Invalid hostid %s\n", id);
-+		ret = -EINVAL;
-+	}
-+	kfree(id);
-+	return ret;
 +}
 +
  static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
  		const char *buf)
  {
  	substring_t args[MAX_OPT_ARGS];
- 	char *options, *o, *option, *p;
+-	char *options, *o, *option, *p;
++	char *options, *o, *option;
  	int token, ret = 0;
--	size_t nqnlen  = 0;
  	int ctrl_loss_tmo = NVMF_DEF_CTRL_LOSS_TMO, key_id;
  	uuid_t hostid;
- 	char hostnqn[NVMF_NQN_SIZE];
-@@ -773,23 +835,9 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 				goto out;
+@@ -1034,34 +1053,15 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 			opts->discovery_nqn = true;
  			break;
- 		case NVMF_OPT_NQN:
+ 		case NVMF_OPT_DHCHAP_SECRET:
 -			p = match_strdup(args);
 -			if (!p) {
 -				ret = -ENOMEM;
 -				goto out;
 -			}
--			kfree(opts->subsysnqn);
--			opts->subsysnqn = p;
--			nqnlen = strlen(opts->subsysnqn);
--			if (nqnlen >= NVMF_NQN_SIZE) {
--				pr_err("%s needs to be < %d bytes\n",
--					opts->subsysnqn, NVMF_NQN_SIZE);
+-			if (strlen(p) < 11 || strncmp(p, "DHHC-1:", 7)) {
+-				pr_err("Invalid DH-CHAP secret %s\n", p);
+-				kfree_sensitive(p);
 -				ret = -EINVAL;
-+			ret = nvmf_parse_subsysnqn(opts, args);
++			ret = nvmf_parse_dhchap_secret(args, &opts->dhchap_secret);
 +			if (ret)
  				goto out;
 -			}
--			opts->discovery_nqn =
--				!(strcmp(opts->subsysnqn,
--					 NVME_DISC_SUBSYS_NAME));
+-			kfree(opts->dhchap_secret);
+-			opts->dhchap_secret = p;
  			break;
- 		case NVMF_OPT_TRADDR:
- 			ret = nvmf_parse_string_option(args, &opts->traddr);
-@@ -873,27 +921,9 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 			opts->fast_io_fail_tmo = token;
- 			break;
- 		case NVMF_OPT_HOSTNQN:
--			if (opts->host) {
--				pr_err("hostnqn already user-assigned: %s\n",
--				       opts->host->nqn);
--				ret = -EADDRINUSE;
--				goto out;
--			}
+ 		case NVMF_OPT_DHCHAP_CTRL_SECRET:
 -			p = match_strdup(args);
 -			if (!p) {
 -				ret = -ENOMEM;
 -				goto out;
 -			}
--			nqnlen = strlen(p);
--			if (nqnlen >= NVMF_NQN_SIZE) {
--				pr_err("%s needs to be < %d bytes\n",
--					p, NVMF_NQN_SIZE);
--				kfree(p);
+-			if (strlen(p) < 11 || strncmp(p, "DHHC-1:", 7)) {
+-				pr_err("Invalid DH-CHAP secret %s\n", p);
+-				kfree_sensitive(p);
 -				ret = -EINVAL;
-+			ret = nvmf_parse_hostnqn(opts, args, hostnqn);
++			ret = nvmf_parse_dhchap_secret(args,
++						       &opts->dhchap_ctrl_secret);
 +			if (ret)
  				goto out;
 -			}
--			strscpy(hostnqn, p, NVMF_NQN_SIZE);
--			kfree(p);
+-			kfree(opts->dhchap_ctrl_secret);
+-			opts->dhchap_ctrl_secret = p;
  			break;
- 		case NVMF_OPT_RECONNECT_DELAY:
- 			if (match_int(args, &token)) {
-@@ -918,19 +948,9 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 				goto out;
- 			break;
- 		case NVMF_OPT_HOST_ID:
--			p = match_strdup(args);
--			if (!p) {
--				ret = -ENOMEM;
--				goto out;
--			}
--			ret = uuid_parse(p, &hostid);
--			if (ret) {
--				pr_err("Invalid hostid %s\n", p);
--				ret = -EINVAL;
--				kfree(p);
-+			ret = nvmf_parse_hostid(args, &hostid);
-+			if (ret)
- 				goto out;
--			}
--			kfree(p);
- 			break;
- 		case NVMF_OPT_DUP_CONNECT:
- 			opts->duplicate_connect = true;
+ 		case NVMF_OPT_TLS:
+ 			if (!IS_ENABLED(CONFIG_NVME_TCP_TLS)) {
 -- 
 2.50.1
 
