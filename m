@@ -4,52 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 026F5C5DF8C
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Aug 2026 09:30:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 53D93C5DF87
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Aug 2026 10:11:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=HZnYtRurIbr7fGwafUtO6fhUxr1c5+/a2CN0wLnLomU=; b=EddtKYCykFxYImXcPoTw8lii6w
-	qjXemOntbgKpr/Vphy5Y/0AarElOZq0v2CNpJTUZ/zA74nPTHIO5P5DkMfB5bRu7DCklUi3qWotuc
-	OTFwfzuU0aQTuWl2JXm77eKyr6UAJ8Jf3SXikBwjcd7kcM+DTR8sK4zDFBY3X27qY8Ut5VevvJuNz
-	YA9z/gFXAuTXv0osXJs3Y7cLTXwhz2CpbTEihMyNQt+A0jcY4qWA9gNZ4ZqwAGXB4l/gffJ/MbyvW
-	Mme16np/m/2gWJDYICfwe8sYdhaeuZLcdcysXBnvTx7sqUCpeROp10J5SV9rFh4Wb/5YnHCqlFDTG
-	m0KuXM7w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=P0ufWGdWa+PETzbLKdwFDxUNPhNI0Vo9Wcvqc0amaSs=; b=qbB95Jo2zv9aeAOhFgRNlg27ZV
+	CNcRYk5bp5KgXAOvrGh1f7rl5HAcL+J13+vnceUhbBHc3vQrD82MyMQxg/iNXiDVolBtoMXM72jb5
+	42q0Ex5VbpZCmuHTqBX39tqnViYC0boJV5KGz/j57258ekaYBuma1wjXAsdtVIWua7E6Tj0AR541I
+	UhDHFO1K+c20NuqO2ro5Rr3uxbw469tMh8ELkNVf3/AtnUY7jW3L8LhDkdIPVVHeHPtw3E8vRh8/I
+	85Pn3gckMISXBI1LCh5lb34ZFFegbvFLwISAU6P5eh5cADC1Fa1Dki5/nl/3PVzHcNo4PsqFM01+i
+	v9AUc+AA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wxLZw-0000000CvTB-0OOU;
-	Fri, 21 Aug 2026 09:30:24 +0000
-Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132])
+	id 1wxMDj-0000000D2zP-07m3;
+	Fri, 21 Aug 2026 10:11:31 +0000
+Received: from mailgw.kylinos.cn ([124.126.103.232])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wxLZt-0000000CvQw-1GUc
+	id 1wxMDf-0000000D2ud-0nnf
 	for linux-nvme@lists.infradead.org;
-	Fri, 21 Aug 2026 09:30:22 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1787304614; h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version;
-	bh=HZnYtRurIbr7fGwafUtO6fhUxr1c5+/a2CN0wLnLomU=;
-	b=gjuFnYhd5Q2UOyf6yO1DzmyRf7kdThyvXRFN1cNbz49bVov65nMzes5pZvgE4GASEm8UODE00BR/MRExDkvV8oQu57kjmwon8vEomZ3AvKfM5GTbLLAltkYzpLKearWBB5NX40vK3mkb+ENI0eX7VLARny+sF/ecV3ccdbNsjdU=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R901e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=chuyf26@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0X9LqlpK_1787304610;
-Received: from x31j07255.sqa.na131(mailfrom:Chuyf26@linux.alibaba.com fp:SMTPD_---0X9LqlpK_1787304610 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Fri, 21 Aug 2026 17:30:11 +0800
-From: Chuyf26 <Chuyf26@linux.alibaba.com>
-To: kbusch@kernel.org
-Cc: axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, roys@lightbitslabs.com,
- sashas@lightbitslabs.com, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] nvme-tcp: reject C2HData for a non-read command
-Date: Fri, 21 Aug 2026 17:28:32 +0800
-Message-ID: <178730451245.442148.11684394617763960186@linux.alibaba.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	Fri, 21 Aug 2026 10:11:29 +0000
+X-UUID: a573f5369d4811f19a56ed5b684f684d-20260821
+X-CTIC-Tags: HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
+	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
+	HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
+	HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT
+	HR_TO_NO_NAME, IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_TRUSTED
+	SA_EXISTED, SN_TRUSTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS
+	DMARC_NOPASS, CIE_BAD, CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS
+	GTI_RG_INFO, GTI_C_BU, AMN_T1, AMN_GOOD, ABX_MISS_RDNS
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:3191121b-e5cf-414d-ab40-8319822d0955,IP:10,
+	URL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTI
+	ON:release,TS:-15
+X-CID-INFO: VERSION:1.3.19,REQID:3191121b-e5cf-414d-ab40-8319822d0955,IP:10,UR
+	L:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:-15
+X-CID-META: VersionHash:7db8b62,CLOUDID:377b769edb134166019e45e59a75be90,BulkI
+	D:26082118111975IEJGT1,BulkQuantity:0,SF:10|38|66|78|102|127|136|850|865|8
+	98,TC:nil,Content:0|15|50,EDM:-3|-100,IP:-2,URL:99|1,File:nil,RT:nil,Bulk:
+	nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,B
+	RE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: a573f5369d4811f19a56ed5b684f684d-20260821
+X-User: sangyao@kylinos.cn
+Received: from localhost.localdomain [(223.70.159.239)] by mailgw.kylinos.cn
+	(envelope-from <sangyao@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1683432199; Fri, 21 Aug 2026 18:11:16 +0800
+From: Yao Sang <sangyao@kylinos.cn>
+To: axboe@kernel.dk,
+	kbusch@kernel.org,
+	hch@lst.de,
+	sagi@grimberg.me
+Cc: john.g.garry@oracle.com,
+	linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	Yao Sang <sangyao@kylinos.cn>
+Subject: [PATCH v3 0/5] block, nvme: support same-LBA multipath limit stacking
+Date: Fri, 21 Aug 2026 18:10:45 +0800
+Message-Id: <20260821101050.1464087-1-sangyao@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260821_023021_512301_7E131817 
-X-CRM114-Status: UNSURE (   9.82  )
+X-CRM114-CacheID: sfid-20260821_031127_525899_A836C225 
+X-CRM114-Status: UNSURE (   7.07  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -65,62 +91,54 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-A malicious or buggy controller can send C2HData PDUs in response to a
-WRITE command.  nvme_tcp_handle_c2h_data() accepts them as long as the
-request has payload bytes and a current bio, which is true for writes,
-so the receive path ends up copying the incoming data into the
-request's iterator.  That iterator was initialized from rq_data_dir(rq)
-in nvme_tcp_init_iter(), i.e. ITER_SOURCE for a write, and
-_copy_to_iter() refuses to copy into a source iterator: it triggers its
-WARN_ON_ONCE() and returns 0, the short copy fails with -EFAULT, and
-the connection is torn down into error recovery.  The write never
-completes: every reconnect reissues it and a malicious target answers
-with C2HData again, keeping the controller in a permanent
-reset/reconnect loop.  With panic_on_warn this is an outright crash.
+blk_stack_limits() stacks limits for a top-device range mapped onto a
+bottom device. Same-LBA multipath instead needs to stack limits across
+paths without applying mapped-range topology calculations.
 
-C2HData carries data transferred from the controller to the host and
-is only valid for commands that read data from the device; write data
-travels host to controller in H2CData PDUs solicited by R2T.  This was
-reproduced against a target modified to reply to a WRITE with C2HData:
-the host logs
+Factor the common topology, path and atomic write code into helpers. Add
+block helpers for same-LBA multipath and use them for NVMe namespace heads.
+SCSI multipath can use the same helpers.
 
-    WARNING: CPU: 0 PID: ... at lib/iov_iter.c _copy_to_iter
-    Workqueue: nvme_tcp_wq nvme_tcp_io_work [nvme_tcp]
+Changes since v2:
+- replace the exported low-level helpers with block helpers for same-LBA
+  multipath;
+- keep mapped-range and start-dependent checks inside blk_stack_limits().
 
-and the controller cycles through reset/reconnect without the write
-ever completing.
+Review of v2 noted that fixed namespace limits should not be updated for
+each path. V3 separates these limits from path limit stacking, but keeps
+the existing NVMe update behavior.
 
-Reject C2HData for any non-read command.  This is the symmetric case
-of commit 6efbc52237fa ("nvme-tcp: fix host memory disclosure on R2T
-for a read command"), which added the mirror-image direction check to
-nvme_tcp_handle_r2t().
+Changing this also requires explicit namespace-head revalidation after
+events such as Format NVM. That work is left for a follow-up.
 
-Fixes: 3f2304f8c6d6 ("nvme-tcp: add NVMe over TCP host driver")
-Cc: stable@vger.kernel.org
-Reported-by: Abaci <abaci@linux.alibaba.com>
-Assisted-by: abaci:qwen3.8-max
-Signed-off-by: Chuyf26 <Chuyf26@linux.alibaba.com>
----
- drivers/nvme/host/tcp.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+Tests:
+- blktests nvme/004, 005, 006, 008, 010, 012, 014, 016, 017, 018,
+  019, 021, 022, 023, 025, 026, 027, 028, 029, 030, 031, 040, 041,
+  042, 043, 044, 045, 049, 051, 052, 053, 054, 057, 058, 059, 065,
+  067 and 068 passed.
+- blktests zbd/001, 003, 004, 005, 006, 008, 009, 011, 012 and 013
+  passed.
+- blktests block/003, 004 and 012, and scsi/009 and 010 passed.
+- xfstests xfs/643, xfs/646, generic/765 and generic/773 passed.
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -685,6 +685,13 @@
- 	}
- 
- 	req = blk_mq_rq_to_pdu(rq);
-+	if (unlikely(rq_data_dir(rq) != READ)) {
-+		dev_err(queue->ctrl->ctrl.device,
-+			"req %d unexpected c2hdata for a non-read command\n",
-+			rq->tag);
-+		return -EPROTO;
-+	}
-+
- 	if (!blk_rq_payload_bytes(rq) || !req->curr_bio || !req->data_len) {
- 		dev_err(queue->ctrl->ctrl.device,
- 			"queue %d tag %#x unexpected data\n",
+Link to v2:
+https://lore.kernel.org/r/20260806024658.4193386-1-sangyao@kylinos.cn
+
+Yao Sang (5):
+  nvme: factor namespace-head queue-limit update
+  block: factor mapped-range topology out of blk_stack_limits
+  block: factor path limits out of blk_stack_limits
+  block: factor atomic write hardware limit stacking
+  block, nvme: add same-LBA multipath limit helpers
+
+ block/blk-settings.c          | 252 ++++++++++++++++++++++------------
+ drivers/nvme/host/core.c      |  83 ++++-------
+ drivers/nvme/host/multipath.c |   2 +
+ include/linux/blkdev.h        |   3 +
+ 4 files changed, 202 insertions(+), 138 deletions(-)
+
+
+base-commit: f1a8846e06388113dfdbb89dee005083fa9afdf9
 -- 
-2.43.5
+2.25.1
 
