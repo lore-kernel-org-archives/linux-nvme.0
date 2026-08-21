@@ -4,80 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B7FBBC5DF7D
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Aug 2026 10:13:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 027A4C5DF89
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Aug 2026 13:22:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=N2sbBFr4EjfRnr8imZeoWXYxMcK8OZ8HJgP1xWXBZwc=; b=r8Uy0GPoI8RcQRC3/vWr80xX3K
-	Y9CLjQpg9Ixs1AgCRhM5zd/BhW8GL+ph8/IhOQiPKuEr7BJGQv78jeU3SBq5XhS3kvCBX3cy52vK6
-	6sdGLFwrAFpvnZ/GgcgUk/WM7luFxH5A6SGTQ16nbgUaZK1d3IADmtf5zq2Hbj25Q8l6gXTC53Mvw
-	A6IoQ0iPSBHF+Imh1jMqVp/aHbEfdFb7zbflZtjDZlegfP/kQfUV3//ulNE0nyvfxajy1V7YoImD/
-	3L1/sTF4C1vw43Rby3hDPvVa8BuNOC6ne5pFuugLdYvgt1qZdJ2GSS1UupR8OAM07TF467Qf8Bo5n
-	i82X2XIQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=0GDzKsrHgVhSxZzd+pFpFNj20qNgk+pfXZJaooIhNe8=; b=pC87y/jwqheuh8/bk0c3HwEOlH
+	Hc2vTeztc3ZA7g/oxPr1WjOzaUjTmBnZoI0sTycZuCRxjW3f32iJHV0ODl/Njl6+8iot1LSHgEwAx
+	tWppI8Q5eD3cGrBNq/xb2NOux/+rC08gTFxk6J6GVWIqvAY8zC8GaHB2dqOc3rAIxX1XZnR0yT1CC
+	HYlsDHu/dUGAMrYecei10oI1tKYuFr8B7Cf5tjVd1knE7VAejnz50IDtMQK68XQY0RSlqeoQ3ZtYj
+	LJ+krcFYW2cOLV9HHa7N5ITo5tTxA3W/rONHJe2J+B6WP516ya4u4FKI7MUDVgkHeNcuo7e95z8u8
+	YVdirebQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wxMFM-0000000D3vl-06DA;
-	Fri, 21 Aug 2026 10:13:12 +0000
-Received: from mailgw.kylinos.cn ([124.126.103.232])
+	id 1wxPC9-0000000DOC6-3LNT;
+	Fri, 21 Aug 2026 13:22:05 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wxMFD-0000000D3p3-0O2Y
+	id 1wxPC6-0000000DOBy-3rqX
 	for linux-nvme@lists.infradead.org;
-	Fri, 21 Aug 2026 10:13:07 +0000
-X-UUID: e02595369d4811f19a56ed5b684f684d-20260821
-X-CTIC-Tags: HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
-	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
-	HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
-	HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT
-	HR_TO_NO_NAME, IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_TRUSTED
-	SA_EXISTED, SN_TRUSTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS
-	DMARC_NOPASS, CIE_BAD, CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS
-	GTI_RG_INFO, GTI_C_BU, AMN_GOOD, ABX_MISS_RDNS
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:03e0e475-b79d-45cc-9eca-cd22afba690a,IP:10,
-	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:10
-X-CID-INFO: VERSION:1.3.19,REQID:03e0e475-b79d-45cc-9eca-cd22afba690a,IP:10,UR
-	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
-	elease,TS:10
-X-CID-META: VersionHash:7db8b62,CLOUDID:df5cc0341e5d0c6d6e9f7283223e139b,BulkI
-	D:260821181258VGCIJP3I,BulkQuantity:0,SF:10|38|66|78|81|82|102|127|850|865
-	|898,TC:nil,Content:0|15|50,EDM:-3,IP:-2,URL:0,File:nil,RT:nil,Bulk:nil,QS
-	:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,A
-	RC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: e02595369d4811f19a56ed5b684f684d-20260821
-X-User: sangyao@kylinos.cn
-Received: from localhost.localdomain [(223.70.159.239)] by mailgw.kylinos.cn
-	(envelope-from <sangyao@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 382005632; Fri, 21 Aug 2026 18:12:54 +0800
-From: Yao Sang <sangyao@kylinos.cn>
-To: axboe@kernel.dk,
-	kbusch@kernel.org,
-	hch@lst.de,
-	sagi@grimberg.me
-Cc: john.g.garry@oracle.com,
-	linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	Yao Sang <sangyao@kylinos.cn>
-Subject: [PATCH v3 5/5] block, nvme: add same-LBA multipath limit helpers
-Date: Fri, 21 Aug 2026 18:10:50 +0800
-Message-Id: <20260821101050.1464087-6-sangyao@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260821101050.1464087-1-sangyao@kylinos.cn>
-References: <20260821101050.1464087-1-sangyao@kylinos.cn>
+	Fri, 21 Aug 2026 13:22:04 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id 46C7160008;
+	Fri, 21 Aug 2026 13:22:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4539E1F000E9;
+	Fri, 21 Aug 2026 13:21:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787318522;
+	bh=0GDzKsrHgVhSxZzd+pFpFNj20qNgk+pfXZJaooIhNe8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=RY619KRcLC6fpCuc6d72jrD8/WBTmvGmXXJwKWnv79acxt+7w85JLwyv/rU6xFcNT
+	 Y2w8qQS8fqDS0XleD6h+XqyO+Kk8XffY0AUzEFcTiNhDC1/DA55rJa8enmPJsWl7sG
+	 1einMkdT1EfpTld8bW1zq37CPhEnQkmAC4CjRcOWST15F+Vemzk7Hu4JFskCRWq/2R
+	 U16J5ws/D4GqYwmSzz+kgQfjQM/r4XAZ1q+MTCeque86a+1PI6DGKs0321tCvzQMHI
+	 7mEAB4q3C6CSoR+MFWsdEfEXyQmhxSWwAQC5zAng5TcqAyfjW6cMpx/y4oGdu+zcPu
+	 H/sSt0t9VY1Hw==
+Date: Fri, 21 Aug 2026 15:21:56 +0200
+From: Niklas Cassel <cassel@kernel.org>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Rihyeon Kim <rihyeon8648@gmail.com>, justin.tee@broadcom.com,
+	nareshgottumukkala83@gmail.com, paul.ely@broadcom.com,
+	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
+	stable@vger.kernel.org,
+	syzbot+f58e57380a6083c4041d@syzkaller.appspotmail.com,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH] nvme-fc: fix double free of fabrics options when
+ nvme_add_ctrl() fails
+Message-ID: <aohQ9NcuMtSqWvvd@ryzen>
+References: <20260814143833.1953415-2-cassel@kernel.org>
+ <20260817061815.154794-1-rihyeon8648@gmail.com>
+ <aoMkX_davK7TWlaj@ryzen>
+ <aoXLiFruG5s1nKch@kbusch-mbp>
+ <aoX2wcyhpakryWHX@ryzen>
+ <aocb3ogg34WWtRSB@kbusch-mbp>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260821_031303_466642_F3E93D73 
-X-CRM114-Status: GOOD (  19.57  )
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aocb3ogg34WWtRSB@kbusch-mbp>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,178 +78,60 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-A same-LBA multipath head and its paths address the same logical block
-space, so they do not need mapped-range topology calculations.
+On Thu, Aug 20, 2026 at 09:23:10AM -0600, Keith Busch wrote:
+> On Wed, Aug 19, 2026 at 08:32:33PM +0200, Niklas Cassel wrote:
+> > 
+> > I am not following.
+> > 
+> > The options is freed in two different places, depending on if the
+> > ops->create_ctrl(dev, opts) call in fabrics.c:nvmf_create_ctrl() was
+> > successful or not.
+> 
+> Oh, not that path. You mentioned previously that ctrl->ops is
+> dereferenced in other places. I thought this means we can successfully
+> add the controller, which means the attributes are visible, but then
+> fail something else later that causes the opts to free. Since the
+> attribute was visible, something can open it before the device exporting
+> is torn down, and access it after the opts were freed.
 
-Add blk_stack_mpath_limits() to stack limits that may differ between
-paths, and blk_set_mpath_head_limits() to set head limits that are
-expected to be identical across paths. Export both helpers and use them
-for NVMe namespace heads.
+Sashiko flagged another NULL pointer defererence from the sysfs attributes:
 
-Initialize max_hw_discard_sectors to UINT_MAX before stacking the first
-path. A zero limit means that a path does not support discard, so it
-disables discard for the head.
+"While the sysfs attributes are still fully accessible, an unprivileged user
+could concurrently read an attribute like hostnqn, causing a NULL pointer
+dereference.":
+https://sashiko.dev/#/patchset/20260811125310.165487-1-rihyeon8648%40gmail.com
 
-Signed-off-by: Yao Sang <sangyao@kylinos.cn>
----
- block/blk-settings.c          | 58 +++++++++++++++++++++++++++++++++++
- drivers/nvme/host/core.c      | 34 ++-------------------
- drivers/nvme/host/multipath.c |  2 ++
- include/linux/blkdev.h        |  3 ++
- 4 files changed, 65 insertions(+), 32 deletions(-)
+This comment was on Rihyeon Kim's patch proposal.
 
-diff --git a/block/blk-settings.c b/block/blk-settings.c
-index eaba38370657..8f70bab0a814 100644
---- a/block/blk-settings.c
-+++ b/block/blk-settings.c
-@@ -800,6 +800,64 @@ static void blk_stack_path_limits(struct queue_limits *t,
- 	t->dma_alignment = max(t->dma_alignment, b->dma_alignment);
- }
- 
-+/**
-+ * blk_set_mpath_head_limits - set head limits common to all paths
-+ * @t: limits for the multipath head
-+ * @b: limits for one path
-+ *
-+ * Set head limits that are expected to be identical across paths. Stack
-+ * limits that may differ between paths with blk_stack_mpath_limits().
-+ */
-+void blk_set_mpath_head_limits(struct queue_limits *t,
-+			       struct queue_limits *b)
-+{
-+	t->logical_block_size = b->logical_block_size;
-+	t->physical_block_size = b->physical_block_size;
-+	t->alignment_offset = b->alignment_offset;
-+	t->io_min = b->io_min;
-+	t->io_opt = b->io_opt;
-+	t->discard_granularity = b->discard_granularity;
-+	t->discard_alignment = b->discard_alignment;
-+	t->zone_write_granularity = b->zone_write_granularity;
-+	t->max_write_streams = b->max_write_streams;
-+	t->write_stream_granularity = b->write_stream_granularity;
-+}
-+EXPORT_SYMBOL_GPL(blk_set_mpath_head_limits);
-+
-+/**
-+ * blk_stack_mpath_limits - stack limits across same-LBA multipath paths
-+ * @t: limits for the multipath head
-+ * @b: limits for one path
-+ *
-+ * Stack limits in @b that may differ between paths. Unlike
-+ * blk_stack_limits(), this does not apply mapped-range topology or a mapping
-+ * offset. Set limits that are expected to be identical across paths with
-+ * blk_set_mpath_head_limits().
-+ *
-+ * Initialize @t with blk_set_stacking_limits() and set features that require
-+ * support from every path before the first call. Set
-+ * @t->max_hw_discard_sectors to UINT_MAX and call once for each path. A zero
-+ * discard limit disables discard for the head.
-+ */
-+void blk_stack_mpath_limits(struct queue_limits *t, struct queue_limits *b)
-+{
-+	if (b->chunk_sectors)
-+		t->chunk_sectors = gcd(t->chunk_sectors, b->chunk_sectors);
-+
-+	t->features |= b->features &
-+		(BLK_FEAT_WRITE_CACHE | BLK_FEAT_FUA |
-+		 BLK_FEAT_ROTATIONAL | BLK_FEAT_STABLE_WRITES);
-+	blk_stack_path_limits(t, b);
-+	STACK_MIN(t, b, max_hw_discard_sectors);
-+	blk_stack_atomic_writes_hw_limits(t, b);
-+
-+	if (t->features & BLK_FEAT_ZONED) {
-+		STACK_MIN_NOT_ZERO(t, b, max_open_zones);
-+		STACK_MIN_NOT_ZERO(t, b, max_active_zones);
-+	}
-+}
-+EXPORT_SYMBOL_GPL(blk_stack_mpath_limits);
-+
- /*
-  * Stack block sizes, I/O granularities, chunk boundaries and alignment for a
-  * bottom-device range mapped at @start. Round maximum sector limits after the
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 8e2b44ed4366..a16986ec1c8e 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2530,14 +2530,6 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
- 	return ret;
- }
- 
--static void nvme_stack_zone_resources(struct queue_limits *t,
--				      const struct queue_limits *b)
--{
--	t->max_open_zones = min_not_zero(t->max_open_zones, b->max_open_zones);
--	t->max_active_zones =
--		min_not_zero(t->max_active_zones, b->max_active_zones);
--}
--
- static int nvme_update_ns_head_limits(struct nvme_ns *ns,
- 		struct nvme_ns_info *info, bool unsupported)
- {
-@@ -2549,34 +2541,12 @@ static int nvme_update_ns_head_limits(struct nvme_ns *ns,
- 
- 	lim = queue_limits_start_update(head_q);
- 	memflags = blk_mq_freeze_queue(head_q);
--	/*
--	 * queue_limits mixes hardware limitations for bio splitting with device
--	 * configuration.
--	 *
--	 * For NVMe the device configuration can change after e.g. a Format
--	 * command, and we really want to pick up the new format value here. But
--	 * we must still stack the queue limits to the least common denominator
--	 * for multipathing to split the bios properly.
--	 *
--	 * To work around this, we explicitly set the device configuration to
--	 * those that we just queried, but only stack the splitting limits in to
--	 * make sure we still obey possibly lower limitations of other
--	 * controllers.
--	 */
--	lim.logical_block_size = ns_lim->logical_block_size;
--	lim.physical_block_size = ns_lim->physical_block_size;
--	lim.io_min = ns_lim->io_min;
--	lim.io_opt = ns_lim->io_opt;
--	queue_limits_stack_bdev(&lim, ns->disk->part0, 0,
--				ns->head->disk->disk_name);
--	if (lim.features & BLK_FEAT_ZONED)
--		nvme_stack_zone_resources(&lim, ns_lim);
-+	blk_set_mpath_head_limits(&lim, ns_lim);
-+	blk_stack_mpath_limits(&lim, ns_lim);
- 	if (unsupported)
- 		ns->head->disk->flags |= GENHD_FL_HIDDEN;
- 	else
- 		nvme_init_integrity(ns->head, &lim, info);
--	lim.max_write_streams = ns_lim->max_write_streams;
--	lim.write_stream_granularity = ns_lim->write_stream_granularity;
- 	ret = queue_limits_commit_update(head_q, &lim);
- 	if (ret)
- 		goto unfreeze_head_queue;
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 75dbb58286a3..448c7f33c687 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -760,6 +760,8 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
- 		return 0;
- 
- 	blk_set_stacking_limits(&lim);
-+	/* No path discard limit has been stacked yet. */
-+	lim.max_hw_discard_sectors = UINT_MAX;
- 	lim.dma_alignment = 3;
- 	lim.features |= BLK_FEAT_IO_STAT | BLK_FEAT_NOWAIT |
- 		BLK_FEAT_POLL | BLK_FEAT_ATOMIC_WRITES | BLK_FEAT_PCI_P2PDMA;
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 9213a5716f95..2fe711c196c9 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -1153,6 +1153,9 @@ static inline void blk_queue_disable_write_zeroes(struct request_queue *q)
-  */
- extern void blk_set_queue_depth(struct request_queue *q, unsigned int depth);
- extern void blk_set_stacking_limits(struct queue_limits *lim);
-+void blk_set_mpath_head_limits(struct queue_limits *t,
-+			       struct queue_limits *b);
-+void blk_stack_mpath_limits(struct queue_limits *t, struct queue_limits *b);
- extern int blk_stack_limits(struct queue_limits *t, struct queue_limits *b,
- 			    sector_t offset);
- void queue_limits_stack_bdev(struct queue_limits *t, struct block_device *bdev,
--- 
-2.25.1
+I assume that this is because the fc.c driver (both before and after
+Rihyeon patch) force set ctrl->ops = NULL before nvme_free_ctrl() was
+called, so a user reading the sysfs attributes at the same time as the
+controller was tearing down, could most likely crash the kernel.
+(Note that neither rdma.c,tcp.c,loop.c does this, so this problem does
+not exist for them.)
+
+sysfs_remove_link() is called before ctrl->ops->free_ctrl(ctrl);
+
+
+My proposal removes the "force set ctrl->ops = NULL", i.e. makes fc.c
+look more like rdma.c,tcp.c,loop.c, so AFAICT these NULL pointer
+dereferences in the sysfs accessors are no longer possible.
+
+I assume that the sysfs accessors can be accessed until
+sysfs_remove_link() has been called, and that they can be accessed
+as long as the ctrl object has been created (i.e. the sysfs attributes
+do not care if the ctrl object is on the linked list or not).
+
+In both the success case and the failure case, the options are always
+freed after sysfs_remove_link().
+
+I hope that explains why we are not accessing freed memory.
+
+Removing the ugly force setting of "ctrl->ops = NULL" that existed in fc.c
+(and fc.c only) was a big motivation why I wrote this patch in the first
+place.
+
+
+Kind regards,
+Niklas
 
