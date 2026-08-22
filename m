@@ -4,78 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1A2A2C5B572
-	for <linux-nvme@archiver.kernel.org>; Sat, 22 Aug 2026 21:20:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 26833C5B572
+	for <linux-nvme@archiver.kernel.org>; Sat, 22 Aug 2026 21:26:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8sGKGuKLvEa85XtEXyLwT7tNfMYb9gssTc/hnkukbrA=; b=H7XaDvZBPkKnKclWIDxHJdb+nF
-	zRryRohS8MAziZOUWDHacXmqXLiLwJ/nKFsFfLVBAHXzX9pSqIzuHHYRJnqsY/88UBsLFxSyIpSkW
-	TEqp7VYqYrPLjmag3hgD6liVK1PI+Gh/pQvJKIcrD0giez/NqLlLlaMSPUE4EZWtnamsLryyciZd0
-	cEjLu2TqLcLPAjbM9YLdUX+xvBcWjJgF6MsHTs9FcdMR//05RgQq8ijW3SgjvyAy63T9iiAybR6u+
-	jVz9XQdLR/+inqYteZUo42mKYEY4ZVrsLwR8bwjauvkdpNz/A2GYSwfOmmpCofvLw8FKbFnptTDKP
-	/BST2/bA==;
+	bh=j0yGAPqaU3H1oRpnbPH7lrF5a+r8y54Cf4QZJfDQUV4=; b=ajMDODWo1onJG1XOse80b/8By+
+	LV6dDclENS1llZmCkQhALbq4RwDeX0/MVosFnZfKLjMaOT2ypA6PWUacL7dObMERqbOexCFAHcMFN
+	pmD+066I5JuwF/xCBoL72iEGvOnw+LVwyG4ADuOzctkIV3YWZBAxEXEEyic6hsoRqDS9Fgjf8TVUt
+	3K90EYwdSG3g5VDYqKsFdv7m/nbZ8ZvG7uRZ3kKQFhOhObtdk9J5h22u4Iai/Lx571KkOvt/M2Qrv
+	OoSmMFDBRbLqLEdlunJsp7rK89/4xUEjJuudFV531tTrcc60SV6wK2piJYFQLlR9TS0vU61HPX5lZ
+	xiEILdvg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wxt8f-0000000Eo22-1H6T;
-	Sat, 22 Aug 2026 21:20:29 +0000
+	id 1wxtDy-0000000EoB3-2MRG;
+	Sat, 22 Aug 2026 21:25:58 +0000
 Received: from mail-ed1-f50.google.com ([209.85.208.50])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wxt8c-0000000Eo1R-3gBX
+	id 1wxtDs-0000000EoAT-2IQg
 	for linux-nvme@lists.infradead.org;
-	Sat, 22 Aug 2026 21:20:28 +0000
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-6a0a4a28cbdso3982521a12.3
-        for <linux-nvme@lists.infradead.org>; Sat, 22 Aug 2026 14:20:25 -0700 (PDT)
+	Sat, 22 Aug 2026 21:25:53 +0000
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-6a0c8283146so3916976a12.0
+        for <linux-nvme@lists.infradead.org>; Sat, 22 Aug 2026 14:25:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787433624; x=1788038424;
+        d=1e100.net; s=20251104; t=1787433950; x=1788038750;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=8sGKGuKLvEa85XtEXyLwT7tNfMYb9gssTc/hnkukbrA=;
-        b=GfWe0p0X4d/9kVAIGbUx6ZQM0xq0jv5klR75dQx/yGtF3PVaCspDBPwHjdLObFzHhK
-         GDBXiCBduzjwIYfiPMVDYpbeSlkwSGrDjltCYWS8uUfUt300Xy2oGXfcnjEyio/ROKkw
-         1pL8PfpepWnsd0Ksek4G/DVAs/rgoNE05eArI1YkCaDIa6efHRye+8FGzeK7u7Bs1pAP
-         8cBa3EKwFjtbjc1b4KssFAMVcJqbvvPEcm2QpNA2Psdy9ynBSpG55Z7czPFzz7SV6POR
-         oBXGEn9S3vhvo6HWLkVjNCLv+F1q9KOsgLCtFW+9Qb8Jif2brFTtZTq1yxiBke4vEyfq
-         Hh7A==
-X-Forwarded-Encrypted: i=1; AHgh+Rqvv7jMjtxwXeZreuZ11M0hqbeQ9Fz9v5GwFEThQLsIPz02mf75Fp2Aja/e+Jnb4x1vkOWrUDPyTLik@lists.infradead.org
-X-Gm-Message-State: AFuF++myoaBiH4FxhilP8+w0t/FVr8JkNr9Pr89Rhny7G+zFyjIqTw23
-	csvmh2TxbYUH//OaihtWhZ1NPXX8ZLD2jXmxSLxhiurR6HU/P9n/D6HA
-X-Gm-Gg: AR+sD13hSkNqMWTNeUGKkJzupTOcQDlesHRB0i1BzqDsscevx0K6R/oX6RO3O9QLYuh
-	URcvseQw4n6AfCkCIvRAAepToIPDhGTK6sD5Kuuw8CXsglIYaava5il6Rs9BD/lOIHQT6JZ2DUe
-	1jgccBOAXKaF14QOr0pPHRb4Q5I5Nqf3gQcsqLClw2OpPx52bs+WTdxsKnzRmQvmwNi3tIkNcpN
-	qMWI+zP60su2EKy+FyW0ja9t/TdhDjKCkjGwnpzrAkQYOVGQjHJeHwWWoKqmdNKMDJlEGMO58dR
-	6pytXICBxCp2da6k3HbxM7XuM0POmbyrdHa4xmxnbidrmrfUUTum/CzcKuOOUsUnJoRWxfNADs8
-	XzfJj3QhgbkPQHahkU/QzKkomKCKlaRD8lD9ByN9vnDMlAJwPh0so6Sc7QH7W3YXou+C6qGgTb8
-	Q7XLn+LUH63PNHbctNA9JOSzPUu8OlrNAdLfkDkqzHORSjU9P7CKNUy2ziAYmYAmvvEz56ZBauc
-	FsmhYTtXDX1a/8KQqWyloI=
-X-Received: by 2002:a17:907:7254:b0:c20:af9d:4533 with SMTP id a640c23a62f3a-c2492625c49mr888091966b.19.1787433623644;
-        Sat, 22 Aug 2026 14:20:23 -0700 (PDT)
+        bh=j0yGAPqaU3H1oRpnbPH7lrF5a+r8y54Cf4QZJfDQUV4=;
+        b=AIzVH7EKkPm0LWW7U1ISF5Ag3R/aRpM2umhgPw2BEOMtAFVZ37ad4jIoefjdM4otdW
+         X8dw5+WCLsAbbshGKMoAIcIjuQ0mYvBrDINazTyiBJm95kEpmzDJ9voeI0MZYxuxCAcJ
+         9ThVOW9AV/3q89PFO7USormZUQxe0KOwWoGlhIRgPROLhig5rcFzfrdmArFt1eF2jPgs
+         cFryYJS7CxpoocvEIKhKXWeP1usvEZ9yQJrqH5PZjBazNPvIcH4E31ifQ+jP2TTycLK5
+         3/UX+JCfhMs7kt3iiv27/5HOwlx3xKUXez6Vn8fqvjdf3+PFvp+WEg+BomjWDJkTOGwN
+         Dj5A==
+X-Forwarded-Encrypted: i=1; AHgh+RppQF+C0MfefKgC2pxWZT/PeoCZuj/+6ZrNYqdOfKHVY9RRP1VzcdZG2+YLva7A/4mwwdrQU0JiWgII@lists.infradead.org
+X-Gm-Message-State: AFuF++liHx2kBW50emA4hD0Xz0UEaQEbG/4EAIOXwq8LJlfw0cKyuuw5
+	h4Z1SWPeYfY6yOtsDxbw+wblVmiXT+8Pj+Gbqv0W1x0MDY8mtHIGZ5yZ
+X-Gm-Gg: AR+sD10JS21gwIq7LpQWX2ktnC+0b7RSI22ZtePNPwEnUSzcc0Ucs/OA7iiaLu1Jyrh
+	Z6AHU9Eb6W3NEux/88ZmadSxSypCCaiQxAwgzebz7aw+Hsi+vSqiZobsg7gAUCxE3rwGP7bWC1U
+	5wKmMML7+NVECp3vfASWbSFgStXZ2aOELUD4x7JcAoXMuOkVwyc9V5q/mjd9/4qn17NPmSmcZlq
+	t8buw+qbTcwXO/r5W6MjsR7rwi18L2bSVxBQRKBvaKjXS2Ra86GEZaylwiRKSqzoPQl3iMOzXdh
+	6d9TbT2KbUsu7lelYZZNOK0rH8uQjAGPe7HIJZZnhaRFQzl5uKf/okqEH2efQnhIa1/nAZyOcS8
+	lOLZlsM1bo7CfSzq+YEjYiYO7w+pGuOabNMxyEt7rGGj8ob425djEfStjUWvvq50u3ywZfvs7X8
+	jwe81v5Iov9s5cem0toyisW1zUIVXlC27XVORLTD05a6o4RCiHZgwJ4/Bvm6UwjQsXhPOl02m3Z
+	xyypVApekb+rQ2VJBpfpLM=
+X-Received: by 2002:a05:6402:321a:b0:69a:a4cb:2882 with SMTP id 4fb4d7f45d1cf-6a42f216beamr19273125a12.9.1787433950109;
+        Sat, 22 Aug 2026 14:25:50 -0700 (PDT)
 Received: from [10.100.102.74] (89-138-65-240.bb.netvision.net.il. [89.138.65.240])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2496296b8bsm456672566b.16.2026.08.22.14.20.21
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a3ff177b1esm14319878a12.29.2026.08.22.14.25.48
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 22 Aug 2026 14:20:22 -0700 (PDT)
-Message-ID: <56829bb7-2067-4794-88ec-7ddac2d3f250@grimberg.me>
-Date: Sun, 23 Aug 2026 00:20:21 +0300
+        Sat, 22 Aug 2026 14:25:49 -0700 (PDT)
+Message-ID: <0a6b07e8-3ea6-4458-95eb-4a63b6108823@grimberg.me>
+Date: Sun, 23 Aug 2026 00:25:48 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] nvme-tcp: pin io_cpu to submitter cpu
-To: Saravanan D <saravanand@crusoe.ai>, linux-nvme@lists.infradead.org
-Cc: kbusch@kernel.org, hch@lst.de, axboe@kernel.dk,
+Subject: Re: [PATCH] nvme-tcp: reject C2HData for a non-read command
+To: Chuyf26 <Chuyf26@linux.alibaba.com>, kbusch@kernel.org
+Cc: axboe@kernel.dk, hch@lst.de, roys@lightbitslabs.com,
+ sashas@lightbitslabs.com, linux-nvme@lists.infradead.org,
  linux-kernel@vger.kernel.org
-References: <20260820083634.71689-1-saravanand@crusoe.ai>
+References: <178730451245.442148.11684394617763960186@linux.alibaba.com>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20260820083634.71689-1-saravanand@crusoe.ai>
+In-Reply-To: <178730451245.442148.11684394617763960186@linux.alibaba.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260822_142026_940511_E3086446 
-X-CRM114-Status: GOOD (  20.57  )
+X-CRM114-CacheID: sfid-20260822_142552_611058_235BC610 
+X-CRM114-Status: GOOD (  21.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,85 +91,64 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hey Saravanan,
 
-On 20/08/2026 11:36, Saravanan D wrote:
-> nvme_tcp_set_queue_io_cpu() picks each queue's io_cpu at connect time,
-> before any I/O exists, as the least loaded CPU in the queue's blk-mq
-> map group, and all socket work then runs there for the connection's
-> lifetime.
 
-That is true. It effectively takes a sane heuristics given that there are
-multiple factors it is not aware of.
-
->   On hosts that partition CPUs between pinned workloads a map
-> group can straddle a partition boundary, so the pick can land one
-> workload's socket processing on CPUs owned by another. On a 384 cpu
-> multi tenant host with one VM driving ~1.1 GB/s of writes, 9% of
-> nvme_tcp_io_work executions ran outside the submitting VM's cpuset,
-> all on io_cpus of boundary straddling map groups, observed by the
-> neighbor as steal time it did not cause.
-
-Can you share a concrete example?
-What is the output of:
-1. lscpu
-2. grep -r ''  /sys/block/nvmeXnY/mq/*/cpu_list
-
-Also, what would be the VMs cpusets on such a server?
-
-In an ideal setting, the nvme controller would support $NR_CPUS worth of
-io queues, and both nvme_tcp_set_queue_io_cpu() and blk_mq_map_queues() 
-would
-map cpu-queue with perfect alignment.
-
-FWIW, I don't think this is an nvme-tcp specific problem, other than the 
-fact that TCP
-is more CPU consuming than other transports (doing stuff that is not 
-offloaded by
-the HW...)
-
+On 21/08/2026 12:28, Chuyf26 wrote:
+> A malicious or buggy controller can send C2HData PDUs in response to a
+> WRITE command.  nvme_tcp_handle_c2h_data() accepts them as long as the
+> request has payload bytes and a current bio, which is true for writes,
+> so the receive path ends up copying the incoming data into the
+> request's iterator.  That iterator was initialized from rq_data_dir(rq)
+> in nvme_tcp_init_iter(), i.e. ITER_SOURCE for a write, and
+> _copy_to_iter() refuses to copy into a source iterator: it triggers its
+> WARN_ON_ONCE() and returns 0, the short copy fails with -EFAULT, and
+> the connection is torn down into error recovery.  The write never
+> completes: every reconnect reissues it and a malicious target answers
+> with C2HData again, keeping the controller in a permanent
+> reset/reconnect loop.  With panic_on_warn this is an outright crash.
 >
-> Adopt the submitting CPU as io_cpu for every command except the
-> fabrics Connect. The submitter is a member of the map group by
-> construction, and the nvme_tcp_cpu_queues accounting moves with each
-> adoption. Connect is the only command on an I/O queue that does not
-> represent the data path, since it is injected on an arbitrary CPU by
-> blk_mq_alloc_request_hctx(), so it is skipped and the first real read
-> or write decides. User passthrough is submitted from a real task on
-> the submitting CPU and adopts like any other command.
+> C2HData carries data transferred from the controller to the host and
+> is only valid for commands that read data from the device; write data
+> travels host to controller in H2CData PDUs solicited by R2T.  This was
+> reproduced against a target modified to reply to a WRITE with C2HData:
+> the host logs
 >
-> Queues outlive the workloads that submit through them, so adoption
-> re-arms after 30 seconds of queue quiet. An idle queue is reclaimed by
-> its next submitter, while a busy queue keeps a stable io_cpu and
-> cannot ping pong between two live submitters. Concurrent writers on
-> different CPUs serialize on a cmpxchg on io_cpu.
+>      WARNING: CPU: 0 PID: ... at lib/iov_iter.c _copy_to_iter
+>      Workqueue: nvme_tcp_wq nvme_tcp_io_work [nvme_tcp]
 >
-> The behavior is opt in per controller via the io_cpu_adopt fabrics
-> option at connect time. wq_unbound takes precedence when set.
+> and the controller cycles through reset/reconnect without the write
+> ever completing.
+>
+> Reject C2HData for any non-read command.  This is the symmetric case
+> of commit 6efbc52237fa ("nvme-tcp: fix host memory disclosure on R2T
+> for a read command"), which added the mirror-image direction check to
+> nvme_tcp_handle_r2t().
+>
+> Fixes: 3f2304f8c6d6 ("nvme-tcp: add NVMe over TCP host driver")
+> Cc: stable@vger.kernel.org
+> Reported-by: Abaci <abaci@linux.alibaba.com>
+> Assisted-by: abaci:qwen3.8-max
+> Signed-off-by: Chuyf26 <Chuyf26@linux.alibaba.com>
+> ---
+>   drivers/nvme/host/tcp.c | 7 +++++++
+>   1 file changed, 7 insertions(+)
+>
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -685,6 +685,13 @@
+>   	}
+>   
+>   	req = blk_mq_rq_to_pdu(rq);
+> +	if (unlikely(rq_data_dir(rq) != READ)) {
+> +		dev_err(queue->ctrl->ctrl.device,
+> +			"req %d unexpected c2hdata for a non-read command\n",
+> +			rq->tag);
+> +		return -EPROTO;
+> +	}
+> +
 
-I think that for controllers with low queue count this approach would not
-work very well. Plus the cpu<->queue mapping by the block layer is not
-guaranteed to align with how workloads/VMs are scheduled on the host...
+It'd be better to check this before the req assignment.
 
-To me the problem statement sounds to me like you are looking to get a 
-"private"
-controller (set of IO queues) for each VM. Wouldn't a better approach 
-would be to pass
-a "private controller" connect-param which would for TCP mean that the 
-driver would
-create a dedicated UNBOUND workqueue which allows setting its cpumask?
-
-Something like: nvme connect -t tcp -a <traddr> --queues_scope=private ?
-Then you'd set its IO queues to something like:
-echo [cpumask] > /sys/devices/virtual/workqueue/nvmeX-unb-wq/cpumask
-
-Even explicit cpu-groups would be a better approach IMO. This would make
-nvme-tcp to override blk_mq_map_queues() and adhere to the passed groups and
-try to divide queues between them.
-
-Something like the below example:
-nvme connect -t tcp -a <traddr> --cpu-groups=0-63,64-127,128-191,192-255
-
-In this case, nvme-tcp would try to both assign queue->io_cpu within these
-ranges, and also assign the cpu<->mapping according to these groups.
+Other than that, this looks good.
 
