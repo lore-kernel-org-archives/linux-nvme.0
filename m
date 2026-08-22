@@ -4,77 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6E347C5B572
-	for <linux-nvme@archiver.kernel.org>; Sat, 22 Aug 2026 22:56:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 306A1C5B572
+	for <linux-nvme@archiver.kernel.org>; Sat, 22 Aug 2026 23:02:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=sQsSKY4RFDWiAl51ZPA2gsNgt+U60A4Xp/sjmbBBAKE=; b=Zk5A74EtsjMIYWfBeq1YH3cjRO
-	QJeeHfNxXLrf1g3Gmam2hLCG1UJ9SdQ08lSfyPuDXA0PVh+YVZCSNoob00THIee3TQr2fL+7OKiS9
-	wAIiONq87GsT1z4sniKFT4cagluUa1wrvpnI1EC7reIa5XpSJFnetMCxI43E5LX4cgBaPQIlMT7mZ
-	Gjc7PH8UhaDoveNmR9Bo1QZdNcDKjdJCscS/wWF/ISokDl8WH7jxI9AnX07FpqL1NWOTEXqak2HBs
-	REXk4hXvthFM5/CSmpP4gl8Fbhra2Ukg3t6faKJmpzjrX8WhGRUZkdIFjKSVdglY2ctjD8OB2VmgW
-	bbykcyvA==;
+	bh=GToWNBYdWtqZihyp7bYRxbSGzt40gaMzEtJBxEsD0ec=; b=DH9ZFTTFv8VZgTI4+QnyvDVE1i
+	MKYXSfzr9+kfO0sPpOM4zrcrIo4m051CxF0h9S6Mx9U03BudumEXkPhN6kkDvJlaXU4W4xC55hhta
+	iFrr+YzOsxiZZWJR2Ui58Lcdyi7+80VdoGL+3N8PlgiF/OzC0LgMMP2dcmooc0h0quIUoCKxW8WWW
+	1f3yL0Y6C8QOuALq3CIwyA7NNl3DNngP2f+XM4OW8ne874J328uQUSAW/MmhqAl35ULpgJhJMhZiK
+	66KtjUwh0w8IxtqMkJVMZYYMNOZJJn6vlOyA7MZTK7G7mZ2T4OmphiBQuveJJY//LSsov70moRmYd
+	HkrAfhEg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wxudv-0000000EsWr-3rsu;
-	Sat, 22 Aug 2026 22:56:51 +0000
-Received: from mail-ej1-f54.google.com ([209.85.218.54])
+	id 1wxujV-0000000Eseu-2HbI;
+	Sat, 22 Aug 2026 23:02:37 +0000
+Received: from mail-ej1-f50.google.com ([209.85.218.50])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wxudt-0000000EsWV-3Rm2
+	id 1wxujS-0000000Eseb-3vJH
 	for linux-nvme@lists.infradead.org;
-	Sat, 22 Aug 2026 22:56:50 +0000
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c15e592da74so316526466b.1
-        for <linux-nvme@lists.infradead.org>; Sat, 22 Aug 2026 15:56:49 -0700 (PDT)
+	Sat, 22 Aug 2026 23:02:35 +0000
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c2022323c37so349334366b.0
+        for <linux-nvme@lists.infradead.org>; Sat, 22 Aug 2026 16:02:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787439408; x=1788044208;
+        d=1e100.net; s=20251104; t=1787439752; x=1788044552;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=sQsSKY4RFDWiAl51ZPA2gsNgt+U60A4Xp/sjmbBBAKE=;
-        b=L2ugvxN+vGWrQZw0C26eovAzPMTGXMTt8qhrZOsg5FsBkMS7fpTnIiiC3jplK5BBLW
-         CVMjbVakC2GNzs8gjcpEbIPY9IMdHX2dO4LAZozzI3EEdK7QrYIeGLltXzQ2msV5EtZO
-         xuLZSuQ/tAY+EFPUqGYqTElG0wA32koO0riyxUx54+Gb7V+LNZY6YNJRBGGqyN78oScA
-         +zDBx6rLz5Jt9WGLe+pzI9+YR2O3byVhSvaMm2frFgLrqydWww67+JBSyNt//+OAqND0
-         ImteTzqiAeNgcpkhfd74C9C+knmUy6rB1L4V3HLLQSuKSJVeBEA0IY/XIlsKdBmLys9+
-         tDQg==
-X-Forwarded-Encrypted: i=1; AHgh+RoejckIBbdn7YRKvpWIcdd9T2eE5/6rtOS4Y7832sEIF+5BCVLYey0ff5SYag9q+6OaWg6Me5fikaRY@lists.infradead.org
-X-Gm-Message-State: AFuF++mEPUpdGDbHr75a7UzAOp+ZHoWIjEs3PzR2AgXrefCSL5avoNUh
-	sNTkaHdOqaDH9SVyMNsvGER6d4it8kigBi8bhg3/ysSjQNCO5F/gQR5j
-X-Gm-Gg: AR+sD12SqU9qPfHPwd86p4pKg91/D3BH0oT9BoqJpo3qnV896YGC6rjBo8PV7EzUqun
-	Cj4fRKIVlU2dwIN/TXHyu9f1yRkycarsgqLzrhGdl8PKkjEadoXykNAsE3OQ2j4oXrFSFwcw19V
-	u4H9AnM//P1gadqo1pzjLoaZMBo0LMjSB9DtarQAH+p6YzlORpDNxQqnd1azZ4Lr4/O6rHbuYC1
-	GR8A7j1VWUiSiDCU00NCB/henIHf8grTltR7M7bBdcepMewWl7wst3NXEmuxXu4XG7x5/11IxJm
-	e4DF054kLxi/WuV3GMTOAim8p9Hi78ECqYJ3BWq84CceiSAZJnLnKBr8CVABNK19SpSTlbQf2Rb
-	phKCKjbUoWc0shN2B87EFexIKK82AYWR+vdaDjZL6vAzZWnvxXqcmOh5YuncgCVTUDL1VyV71gk
-	Uh/Df2oC3uKHbw7ezpCZiMHylzfPIwxcicOA5REZQp3+NYE7bV++BR9u8sRz1oz0ZSJO4y2qKdp
-	zgxbb5fHmlgIR+ZDK5ct38=
-X-Received: by 2002:a17:906:730e:b0:c24:7cb5:d617 with SMTP id a640c23a62f3a-c249238c369mr947885566b.1.1787439407495;
-        Sat, 22 Aug 2026 15:56:47 -0700 (PDT)
+        bh=GToWNBYdWtqZihyp7bYRxbSGzt40gaMzEtJBxEsD0ec=;
+        b=DvE7RFNGederREPs6g07tPy+7ddPPnqLihOEPUwW47R4qwhacoJgTS2LB30w6y6Lyh
+         zKZN6q5/MQoFuW/bJdpV0eD7HmApTLelComQKPYJzVI0o4wNRgqRDBxpBs9N0KsqQlVo
+         BI4Ziu7iE/21hM2P6pdHjZsh7heHLjYgXg40HO8JmbgDl4X43O24L34uFkRtVE6DEtd+
+         +FPkjTVCVPv/fuNpresJ6/TShd1fdOcwfp/olUxUo0zDnTW5K0B+5RgiXEAqAHG9vrt5
+         3ZGkNSkF7AI0qvJqFEDEr7Lcpm8+LD4I44hl3UP2v1AwM6+/F75WHHGlkfSoJx7q9upj
+         sOmg==
+X-Forwarded-Encrypted: i=1; AHgh+Rou9BgxBlj8TCziQaM+dH3nFEvpmeTGSHGpvISlcMCWySXs2prJ0hJoLIUYQWaTAvV1/GjG3ppypEZV@lists.infradead.org
+X-Gm-Message-State: AFuF++lFY6IbSmRjiXNp386CDlLkvPa8KGFkeTsJ00odJwP/FFm/7TYV
+	e+sWexlM/YWDClf5zDvcmYXrO6kJJ42IX0MresQQtKJXzB0WT+9Z39Hv
+X-Gm-Gg: AR+sD10/cXs+igElaV6tXoBkdjxAHvjo5ccAsy5j0+wndzxPGuVuIBscr40PmV2QIc0
+	Z6EVQOG/B2KkXbiysfFfIFCcDVD4gk0/euo7KTlyYmbzLffk0ygzSQculbwFxrQtUYsQIGXshEk
+	ecMTvY5eXGnFaZ2VMHwhGlAwhhP5HUfKlF9F0eqda8OZYo0zEHi+A9TQeYjhHxLWzk/KU0SmlJw
+	z0m+86LIpPtJZKu7OpthQYsid9tPeOKk/SKwmY0ivzbGSdooVvkrxmzR/gOLEcZ0mXN51Tkaj7U
+	ofngAWWgBLQ9GDvb0zOlNygpyGN/BYskCivDRIRivnbP2GRL4RlEqU43uczM/iIxr+d4XcVG/Az
+	Ztfw2XTF6KFU9UyEWma8PMW82AUVxtcPflHpU6C5PlLN8clwNYmsbsEni20oUaSPivygDBpJMEp
+	lAeqK+HEGrjRQkE6aURwayHaoxnKDFloYQywd7Yhx9BNhGrIqCjqsrWy+BLB4n8jOv5bnb7tpXx
+	tBzcWMIMcMaEVO7yrntW+IPDy9RE2UpiQ==
+X-Received: by 2002:a17:907:97d5:b0:c20:21be:ea75 with SMTP id a640c23a62f3a-c246a33ea8bmr1656712766b.8.1787439752499;
+        Sat, 22 Aug 2026 16:02:32 -0700 (PDT)
 Received: from [10.100.102.74] (89-138-65-240.bb.netvision.net.il. [89.138.65.240])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a59e1abfa0sm66898a12.20.2026.08.22.15.56.46
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c24966f6adfsm483205866b.31.2026.08.22.16.02.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 22 Aug 2026 15:56:46 -0700 (PDT)
-Message-ID: <f6ac3bea-c224-423c-a85f-3501da5ce21a@grimberg.me>
-Date: Sun, 23 Aug 2026 01:56:46 +0300
+        Sat, 22 Aug 2026 16:02:32 -0700 (PDT)
+Message-ID: <cb6890a5-81d3-49a1-9179-08a453f5bd4d@grimberg.me>
+Date: Sun, 23 Aug 2026 02:02:30 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvmet: verify the hostid when looking up a controller
-To: Chuyf26 <Chuyf26@linux.alibaba.com>, Keith Busch <kbusch@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org
-References: <4hPZnl4QzqzC89J7@eforward.registrar-servers.com>
+Subject: =?UTF-8?Q?Re=3A_blktests_nvme/062_lockdep_=E2=80=94_defer_TLS_inlin?=
+ =?UTF-8?Q?e_send_to_io=5Fwork=3F?=
+To: Hannes Reinecke <hare@suse.de>,
+ Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+ Xixin Liu <liuxixin@kylinos.cn>
+Cc: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org,
+ linux-nvme@lists.infradead.org
+References: <ajtk1CaN1pBreS4O@shinmob>
+ <cover.1782436781.git.liuxixin@kylinos.cn>
+ <8803a2bf-3f8e-4ee9-b6d7-5467bfc1b1ce@suse.de>
+ <reply-hannes.062lockdep.20260629.liuxixin@kylinos.cn>
+ <reply-hannes.062lockdep.20260701.liuxixin@kylinos.cn>
+ <aoPuIUSQvZxujmv7@shinhome> <ee0225fa-6a0b-4933-9a4d-5c77792eb94b@suse.de>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <4hPZnl4QzqzC89J7@eforward.registrar-servers.com>
+In-Reply-To: <ee0225fa-6a0b-4933-9a4d-5c77792eb94b@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260822_155649_874059_A02C8B38 
-X-CRM114-Status: GOOD (  15.67  )
+X-CRM114-CacheID: sfid-20260822_160234_986629_93EEF31B 
+X-CRM114-Status: UNSURE (   6.11  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,34 +99,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 18/08/2026 19:26, Chuyf26 wrote:
-> nvmet_ctrl_find_get() matches controllers by cntlid and hostnqn only.
-> The hostnqn is not a secret: any host that can reach the subsystem can
-> put an arbitrary NQN into its connect data.  A malicious host knowing
-> or guessing the NQN and controller ID of another host (controller IDs
-> are allocated sequentially) can therefore attach its queues to that
-> host's controller, issue commands on its behalf, or disturb its I/O by
-> tearing down the shared controller state.
-
-The hostid is not a secret either.
-
 >
-> The path is: an unauthenticated host sends a fabrics CONNECT command,
-> nvmet_execute_fabrics_connect() parses the connect data capsule and
-> hands subsysnqn, hostnqn and cntlid to nvmet_ctrl_find_get(), which
-> returns the first matching controller.  The connect data also carries
-> the host's hostid, but it is never compared.
+> I actually thought we could do away with this 'if' condition completely.
+> But that I guess requires more analysis. So for now:
 >
-> Also require the hostid from the connect data to match the controller's
-> hostid.  The hostid identifies the host installation and is generated
-> locally, so it cannot be chosen by an attacker to impersonate another
-> host.  Controllers that were created without a hostid keep the old
-> behaviour.
+> Reviewed-by: Hannes Reinecke <hare@kernel.org>
+>
+> Can you send a formal patch?
 
-I don't have a problem with the change, but I don't think that this
-should be positioned as a security fix, its more a correctness fix. So I 
-would
-suggest to change the commit msg body.
+Yes please, and feel free to add my:
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+
+[its possible that this came out already and I haven't got to it yet...]
 
