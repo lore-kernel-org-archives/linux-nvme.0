@@ -4,78 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8A611C5B572
-	for <linux-nvme@archiver.kernel.org>; Sat, 22 Aug 2026 21:43:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D4AB0C5DF97
+	for <linux-nvme@archiver.kernel.org>; Sat, 22 Aug 2026 21:53:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=b8t/px/iYF1UTrlzuJVPSp6pbb7fjo4rnXnHt8soXe8=; b=G66SmfwLpET+hzH41OiRQY9j2C
-	V2Nhwr5A2fq8CNmjGWtb26bLQ6CntcOFjYjV9JKL8kFmt+7vUKq8MtXiQ/zoV5aNUgbv0leyVp8vS
-	4ROFC14yQMPrU2eZz/HaG5YwyAmWhUePYGz9asgjskAK1O/Jibt72149chPgJrTN9gnT3WFXwtZKc
-	nZ2Sp5cd92MPQc2ENJrBqT0DsWsUdgg5QMOQHJpM+V/XR3NTDM6cTQgKtgu47nWWUcZEQwpxoIjAa
-	RPSuz8YEEGhfPxKokLjvrS8dq5XgV/V+3QXl6fs7MR79cqGAJWw/5e5CK6obPdtmw0xBpPSYJCAKl
-	+/rEp1bA==;
+	bh=iW/Ek6Y2MPl84IGt7gfwNPvcZhF260WSBSWevUoFsBo=; b=U5QnyvKKXcT5LfpQsV/PKXYHLf
+	+EbpMBcObXcNd82rWCPr76KvMh0q+QlvumZR8+J8kf6nQACw+50mE8gOGu2jKvxK8tud3egMi81PH
+	4vzkv1Kitn9fFNzQcMyOuwJq1gKDeh0UgEFMEXk16TGbBNZODEsJlaCwckIsi//qa/h1DlUHxXt8E
+	yfTLRUvWYxJVCZ0iqeUdEYvqkA61nSLA3vj9ZdtMAc+HgDVoRUDeLQjzfCL6g1794kY8oVJnbZXD5
+	ziH3r17y71rwoKo1sDBHC+pOlx+RyrqcaXvQbwiHJ6Qkd4kv8K12Hp4s8M6cfGNK3Ydc2r3YdsKU4
+	uR93wylA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wxtVG-0000000EouL-2qew;
-	Sat, 22 Aug 2026 21:43:50 +0000
-Received: from mail-ej1-f42.google.com ([209.85.218.42])
+	id 1wxteJ-0000000EpGx-3N83;
+	Sat, 22 Aug 2026 21:53:11 +0000
+Received: from mail-ed1-f52.google.com ([209.85.208.52])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wxtVE-0000000Eoti-0sF6
+	id 1wxteH-0000000EpGc-1ZI3
 	for linux-nvme@lists.infradead.org;
-	Sat, 22 Aug 2026 21:43:49 +0000
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-c1600d040e4so335586466b.1
-        for <linux-nvme@lists.infradead.org>; Sat, 22 Aug 2026 14:43:47 -0700 (PDT)
+	Sat, 22 Aug 2026 21:53:10 +0000
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6a0a4aa99bdso3897497a12.1
+        for <linux-nvme@lists.infradead.org>; Sat, 22 Aug 2026 14:53:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787435026; x=1788039826;
+        d=1e100.net; s=20251104; t=1787435587; x=1788040387;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=b8t/px/iYF1UTrlzuJVPSp6pbb7fjo4rnXnHt8soXe8=;
-        b=pXF7vr9SCjwF7XMngn0cQIwX4UC+QopMX4TOHZvl+bixSpjB40VMvwbUusPasT3moV
-         SJ8pAMxcTQ8xLfH8cfH08mUXrnMr81dOn3J24bsA5ygeUfaOUharqXeges0VjewJU3U8
-         HGDWynLfrSVZRJz/+etlELxFM4ViyoRvxHIMUas/gTz8MX2w5iwnXn2ozC3vilD5IN0L
-         AnavRGel43KKyfbPzjPzwi3ekO3cuKGwSy0mvmWRDV/cxnSHvCg80+wRmwCkTz609H4X
-         vVqGvyYas95FRRQ1TbRO+LwIWzTRii2ehg2SfZI+s0fRPEEwkfogDQTqfMnzAnC7D7UJ
-         zp1g==
-X-Forwarded-Encrypted: i=1; AHgh+RpeoYFShqoZOxHifhU+hBQjw7KV6B9PZcVm82AJqmoy5hk25Lj9STN/ElFv/iH221ULDuY8iQSLvKB/@lists.infradead.org
-X-Gm-Message-State: AFuF++lGh1av4/h32ivw5YjukY1DSpSpPrLg0623h57z00Nw84XNGzK7
-	jZDWY7m8k9LEct8kPeqhjxVgjBJKoRIojVEmvqLfkc31Ysiwcf1KZEk2yNrz6w==
-X-Gm-Gg: AR+sD12LqhJjzHP5QX6WmeH2TqSers7k145T5JbBXRIo94IbGf9bSKRhGRv4CLkHGSU
-	8lUTP31ybvyYFQtsL1RwpP3HoSH0D1fN8Ha5PrIHik3tZxQsdzvBxUqRQ2x38tcm28/RPRF0/EZ
-	8PS9Oo/tsGImMelQobKYXZTYvaL7gBewJQwGrcxGTIusXT4Fs3V9Dv1XPqAM+CHTyQOy8NLeBle
-	yu3COUEG9u16pQSZ+9aRBJWBVWn91zQPFYw70rLHdzzCK4ag7lmqCtSPzvcYdWeb0fS3hM5fcVX
-	bONFOjgUhCFn8YIV6UUpKGfn4e9GamBaEXglTx7LyGZtJXPLp5zMFoyn9VDEXEH7poa3iuiM690
-	P+j7dsXOxvE0vfvdfGmHrXVk1537yRZVGOP6qDnmVqKaGbCm5ySJjhlPr4qW4UEkDX+wFDla3NS
-	H6DS3bqEDvzvEVW7gwE85S//ycEf/QRRHveXRAxDWjSCuEFQOGmES6Osux+AybIcW2Z6yAyEahW
-	oNP7l7+wvlExrvx+V8ubmA=
-X-Received: by 2002:a17:907:8d8e:b0:c20:61e0:e3ab with SMTP id a640c23a62f3a-c244d45a6b4mr2130732266b.3.1787435026182;
-        Sat, 22 Aug 2026 14:43:46 -0700 (PDT)
+        bh=iW/Ek6Y2MPl84IGt7gfwNPvcZhF260WSBSWevUoFsBo=;
+        b=MFaJoTeiAW4i97j0PxTbyRLMti07UclaH6vXs/FdqojwQBNj++irjXWzitF4xQghk0
+         c3mpeLq//svOGsOsVOnh4nxNINCilF+EVxyQw/9QJWhycFOxLyHrZawL9gvAykApD4qb
+         BWjpU8h8f3HN2cGC2mM/jwfatRiwbC9+sYXQzKgPlhtqYmzagNm23TNQyIcJwSt9wdPG
+         nvt6JXU1pcPZ2/NB5maOC+fosYyBHAKCioIpg6BIYAhzDQ57C8HjbjYl1KxSIpjScenm
+         s7Zwx3av/b9Dyb3WqUL4FV8mpZh5QL2QOFoSwf6YCBdCflagks0bTVDBWExB9LRmNUp3
+         nFBw==
+X-Gm-Message-State: AFuF++l8Ce28nnozd1Qpeakw0W4N2eiUp7H3KcFgu8dEcut4Vg+3btGx
+	jhMnw1VStLhsPIiSD68FwM7BcMNxXPnGK523Fr6QSURpyLMdR0MqO+0tRa75Dw==
+X-Gm-Gg: AR+sD13A+qfq/ds3yvWlZEKGPnlJXopnfCOThY5FYJYfZzmdunU0u6PpdDzk2TYjdeV
+	+C3LgSDeC+TMpfH1JQuDD7+Ry7H3LLcMMptv7klzXSIf0cLUvfZOM/+4hcWZr0iTojndHBFN4Nj
+	+PklDIJ5yjaL/YQruv0ZS6uYoOxYAAmbcDXksypO7SO3UlSLWYOZ+QyiYbxyC3lImdESZGpEmnE
+	kzcMTQ+V2ki05DhEPA/JqS7SATjwbLW3ABffZExDfEH39ND35y868wX3Nq+GoYOVyTxbojGCI+p
+	qQxfNAVbMdRnwlpCRSLkhlX65k/4wPXmXTlI/PTlsg2nj81V08lKoal6dFo3BQsPm7r+YR0JL4Z
+	1ThHmMPnMIBtmvItcfEb/QjuQaiAtub+u9ha7bXKqPKO+MZqdDqjJMKrdw48JCICXGKBVoY+Jql
+	QhyxBcWQHtdv9TcLabAfN+PRi1ljkS1jr5EssbUYrjFlC+Ckg3fbcA8sdsxS8MNpW6uLQsLKZTo
+	srjdEn6o/AXYUcha+KY0VoVW4z85sjO7A==
+X-Received: by 2002:a05:6402:a50a:10b0:6a4:cc9:e32b with SMTP id 4fb4d7f45d1cf-6a582b608b0mr5720111a12.9.1787435586932;
+        Sat, 22 Aug 2026 14:53:06 -0700 (PDT)
 Received: from [10.100.102.74] (89-138-65-240.bb.netvision.net.il. [89.138.65.240])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c24966f58dfsm467900066b.38.2026.08.22.14.43.44
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a3ff170601sm13411347a12.25.2026.08.22.14.53.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 22 Aug 2026 14:43:45 -0700 (PDT)
-Message-ID: <4a80220a-2cba-4a4a-85c2-7c3d3ae8a20a@grimberg.me>
-Date: Sun, 23 Aug 2026 00:43:44 +0300
+        Sat, 22 Aug 2026 14:53:06 -0700 (PDT)
+Message-ID: <4aa2e0d5-e519-4125-b537-e4b035d07847@grimberg.me>
+Date: Sun, 23 Aug 2026 00:53:05 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] nvme-cli: NIC topology aware I/O queue scaling
-To: Nilay Shroff <nilay@linux.ibm.com>, linux-nvme@lists.infradead.org
-Cc: dwagner@suse.de, hare@suse.de, kbusch@kernel.org, hch@lst.de,
- gjoyce@linux.ibm.com, chaitanyak@nvidia.com
-References: <20260821144329.3620389-1-nilay@linux.ibm.com>
+Subject: Re: [RFC PATCH] nvmet: passthru: use Invalid Field, not Invalid
+ Opcode, for unhandled Get/Set Features FIDs
+To: Marko Ahvenainen <marko.ahvenainen@helsinkimemorytech.com>,
+ "hch@lst.de" <hch@lst.de>, "kch@nvidia.com" <kch@nvidia.com>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <IA4P221MB1623401F07A6952EFC9895FDF4A32@IA4P221MB1623.NAMP221.PROD.OUTLOOK.COM>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20260821144329.3620389-1-nilay@linux.ibm.com>
+In-Reply-To: <IA4P221MB1623401F07A6952EFC9895FDF4A32@IA4P221MB1623.NAMP221.PROD.OUTLOOK.COM>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260822_144348_256811_852E8BA2 
-X-CRM114-Status: GOOD (  13.64  )
+X-CRM114-CacheID: sfid-20260822_145309_477958_2BAE11C5 
+X-CRM114-Status: GOOD (  27.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,54 +91,74 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hey Marko,
 
+> Hello all,
+>
+> My first kernel patch, be gentle ;)
+>
+> nvmet_passthru_get_set_features() rejects any FID that reaches its
+> default case - whether intentionally blocked (IRQ_COALESCE,
+> IRQ_CONFIG, HOST_MEM_BUF, SW_PROGRESS, RESV_MASK, RESV_PERSIST) or
+> simply unlisted (e.g. FID 0, unassigned by the spec) - with
+> NVME_SC_INVALID_OPCODE | NVME_STATUS_DNR. That's the wrong class: the
+> Get/Set Features opcode is always valid here, it's the FID that's
+> rejected, so NVME_SC_INVALID_FIELD is correct.
+>
+> This surfaced while debugging why nvme-cli's "dump all known
+> features" mode (get-feature -f 0) completes against a native
+> controller but aborts over nvmet passthru: natively, FID 0 gets a
+> plain Invalid Field rejection (no DNR) that nvme-cli tolerates and
+> continues past; nvmet's Invalid Opcode + DNR is not tolerated the
+> same way.
+>
+> Verified with this fix applied: get-feature -f 0 now enumerates every
+> FID over nvmet passthru (NVMe/TCP) without aborting early. The DNR
+> flag was not the obstacle - only the status class was.
+>
+> This is a status-code fix only, not a policy change: Get/Set Features
+> FIDs are still intercepted at more than one layer before reaching
+> this function (nvmet_parse_admin_cmd()/nvmet_parse_passthru_admin_cmd()
+> already service ASYNC_EVENT, KATO, NUM_QUEUES, HOST_ID and FDP with
+> nvmet's own emulation), so native and passthru queries still won't
+> return identical results for every FID - only this early-abort
+> failure mode is fixed. I'd rather leave any broader forwarding-policy
+> change to a separate discussion.
+>
+> Unrelated aside noticed while reading this code: the
+> NVME_FEAT_ASYNC_EVENT case (and propably some other) inside this
+> function is dead code, since the callers above already intercept
+> that FID before it can be reached.
+>
+> Signed-off-by: Marko Ahvenainen <marko.ahvenainen@helsinkimemorytech.com>
+> ---
+>   drivers/nvme/target/passthru.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
+> index e27f84e3cf2b..df1396081f87 100644
+> --- a/drivers/nvme/target/passthru.c
+> +++ b/drivers/nvme/target/passthru.c
+> @@ -483,7 +483,7 @@ static u16 nvmet_passthru_get_set_features(struct nvmet_req *req)
+>          case NVME_FEAT_RESV_PERSIST:
+>                  /* No reservations, see nvmet_parse_passthru_io_cmd() */
+>          default:
+> -               return NVME_SC_INVALID_OPCODE | NVME_STATUS_DNR;
+> +               return NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
 
-On 21/08/2026 17:43, Nilay Shroff wrote:
-> Hi,
->
-> This series is a rework of the earlier patchset[1]. The main
-> difference is that --nr-io-queues is now calculated in nvme-cli
-> instead of in the kernel when establishing an NVMe/TCP connection.
->
-> This rework is based on the feedback received[2] from the netdev
-> maintainers.
->
-> The original patchset determined the number of NVMe/TCP I/O queues
-> based on the number of online CPUs and the number of hardware queues
-> available on the NIC in kernel driver. This series moves that logic
-> to nvme-cli.
->
-> When --nr-io-queues is not explicitly specified, nvme-cli determines
-> the egress netdev for the NVMe/TCP connection, retrieves its current
-> hardware queue count, and calculates the default as:
->
-> 	min(nr_hw_queues, num_online_cpus)
+I think you want to set the error_loc such that it can be viewed from 
+the error log page.
 
-This looks reasonable Nilay.
+>          }
+>   }
+>
+> --
+> 2.43.0
 
-I am wandering tho if we want to place some lower limit here.
-For example, my laptop has a virtio device with 4 cpu cores and
-a single combined ring:
---
-$ lscpu | grep NUMA
-NUMA node(s):                            1
-NUMA node0 CPU(s):                       0-3
-$ ethtool -l enp7s0
-Channel parameters for enp7s0:
-Pre-set maximums:
-RX:        n/a
-TX:        n/a
-Other:        n/a
-Combined:    1
-Current hardware settings:
-RX:        n/a
-TX:        n/a
-Other:        n/a
-Combined:    1
---
+You should make it a proper (non-rfc) patch and send it.
+The below should be removed from the actual submission.
 
-It would be kinda annoying for me to now explicitly pass the nr-io-queues...
-I am wandering if some sort of threshold make sense as what you are 
-aiming for
-is reducing the amount of queues for large cpu counts...
+>
+> This e-mail and any attachments may contain privileged or confidential information and is for the sole use of the intended recipient(s). Any unauthorized use or disclosure of this communication is prohibited. If you believe that you have received this e-mail in error, please notify the sender immediately and destroy all copies.
+
 
