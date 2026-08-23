@@ -4,87 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8F3DBC5DF8C
-	for <linux-nvme@archiver.kernel.org>; Sun, 23 Aug 2026 07:46:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 923F2C5DF81
+	for <linux-nvme@archiver.kernel.org>; Sun, 23 Aug 2026 08:04:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=WrN8kvP4uI4qFBhv531gRNlNE0CxVZhsWI0O8HK66AI=; b=qCObrUM/HwHuHA4yME2RFVf6IR
-	z1KOoDy+IXHCkMsSMniCaPz2AvU1/+sG78P0XBGcHzNCMqTETvba65JOxazht9mGW2wI5r/dDmJJQ
-	P3s7Q5S1XmWnLHGLGibhYp+dxRfuyLqw8pN4DGMLhF3PGHC56CPqvRdc1JkJgQ3/YmwRLwZqHFBaL
-	uBJ3Q4aNerL5EPtLFEg9AS5nG6ipU3ibuvPp4FM+QSokXlNo+JSuOtmBndvvyzxBEYV2u9e3Zuv93
-	vJDlAvIPy2Rxk1qotBRiHfnRtZyV96RiLZgw5nqH4mQWsVccRocIINI39JzwWdq1nDLdhdwFR8raP
-	pJDSAU+Q==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=onJ0mUzCgIMwdFF6be/0q1xRUG
+	IWm46hf+1N/2MGGj4+M63UpuwEF0VNrQcAC1hNMgASmaKR/b0Fm7hwhpIRXeopexwn+Ea9hQfOJre
+	MuxsEitjw23nvz244Xki3t/1kU2eBExe5yRT4DuFA5IJyF/A46ucSogDcZ2REt4TjvapYnDrHBlZL
+	hI3yiwwYaQXm/TNak/hk+YUsd1DxA+15kAke24m68zDPNCoBKnSTfv43bnR0JTy0S+sTT2/uQ0Mje
+	eiv0Rm4BmzQPrmqx/Au4DaIy4BEO9RGNC9PDoCcmpXKs0YTC1ono/z9QyyJu1UKAmQDYLXaEyy/sT
+	PJIcEEjQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wy2uZ-0000000F9kh-3EJh;
-	Sun, 23 Aug 2026 07:46:35 +0000
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
+	id 1wy3BY-0000000FASi-3Yjq;
+	Sun, 23 Aug 2026 08:04:08 +0000
+Received: from mail-ed1-f49.google.com ([209.85.208.49])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wy2uV-0000000F9kD-2R43
+	id 1wy3BW-0000000FASL-1tSs
 	for linux-nvme@lists.infradead.org;
-	Sun, 23 Aug 2026 07:46:33 +0000
-Received: by mail-pj1-x102d.google.com with SMTP id 98e67ed59e1d1-38125cebfdaso3481123a91.1
-        for <linux-nvme@lists.infradead.org>; Sun, 23 Aug 2026 00:46:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=isslab-korea-ac-kr.20251104.gappssmtp.com; s=20251104; t=1787471189; x=1788075989; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=WrN8kvP4uI4qFBhv531gRNlNE0CxVZhsWI0O8HK66AI=;
-        b=kJcoanXJqs+kKX7qHw3XuoB1qXa/qLl236SuS6sLRrAt9Syjtq/vUD4ZHHVsAcl/YW
-         /8CuuIzL4MubxuEfzZIlZz5vIXqx3nXJ+odknED4GjwhBsGHvDRsyE8jbG10CZLBHZ6Y
-         tVburmzeuFXqcYN9jjhLpfb3y5grPdKTq3Go5K0zwkS3P4ZkdPCIv7CEz4daELO6FPLn
-         1k6h2hMSYhsn6HjgksHDIZOAkYqKJLip66qhpoShgGhEZDofLOO027pGR7cLOLlwbxIc
-         15owADyu6fSirWgiv5yQFPb6IRoMacVm9WVEWmKxlTbC+RURkwXpqsofQmASfXlaZ/kT
-         LUjA==
+	Sun, 23 Aug 2026 08:04:07 +0000
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6a157f90752so4092580a12.3
+        for <linux-nvme@lists.infradead.org>; Sun, 23 Aug 2026 01:04:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787471189; x=1788075989;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1787472244; x=1788077044;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=WrN8kvP4uI4qFBhv531gRNlNE0CxVZhsWI0O8HK66AI=;
-        b=VxmytJ9qYOvzFFV2vJtrnecL1NAyd9QRHdb6gUyokzZdDYPqwjXXKnYGoZbkNzoW9Z
-         YriE6zEUoWVgVvUk0ea+KjwghAiDYVUAZ4DNLBEtEqaxpemiyo6nXSQmeFc+O+3WP546
-         viuONLiBzferfzr34B4NVzedkS9sZk1Wqvzy7oPo6SYVIn6ci8L8D7I9Z8qRSFqZ2OqU
-         OHsDPxKcdHs6oj/5BFoZiZ6NmLuGSgBPmqS0GZauSwgG4uSKO8ix2SthibHbDr4nDv3s
-         GZBp5nVzJsrpDyvo3WkdB/DrMrIDiMxyt1pTcdEJOPK0LrmKYLe08xJOXVp6zw+Af7g2
-         plQA==
-X-Forwarded-Encrypted: i=1; AHgh+Rp4ttMGox4GJ3ykwQudlCg5dsQsTToFSS/pNRlN+m2QBGn++sf0ESH9oe1aF000M/9wkiWB55zKLRt9@lists.infradead.org
-X-Gm-Message-State: AFuF++kH2Qntv/vwYlfEYwlqz064Gz3kz6R++2VqvhYbDaaKeZbmrbdB
-	vre7TmUSMa+j2/MF/LSlsnba5PNKPQ45kwSYz1enncuHT5Eep0QXqKsalSOQNIbgEK4=
-X-Gm-Gg: AR+sD12OTClzhZpIT1bJObmkTZLv9UGec9JIpqOkQSUoNk/yCIWJVq9sTyuXHXBaNdL
-	AYBueWPCgx15TLk1Atb6sypEwQmUOkitK86EElx7LYSNLYM13olit6vFkE/r+UZewa4qXLjUSRT
-	bRi25OfjVQJfxOORaVVTrl7xZeQLtpO92O4fhaXc9P49G0YsUARIXZgTe8AgFe5aDM8WyE6CXN3
-	Gapc8XhGahH+K9Xp0SzRE70m0YkIogYldIEcHEtzHwlbTei/8aWOr/qjyl3TbLL5X1Gb9L/gTrr
-	k0Fkh8BSmKdXQbm3vIzgz07vstCNpR5+4p24cl/Te69b7e66HS8/M05TPrUlRr4/IkwrCd4n1CF
-	DaXOTkMYBotkwcpBQ7mI6AC8smONCEXii0qz1rF69X6LIfcVE15/VbvVk4fnoLuH4qxSl67Wujg
-	AysIV5XTJHiNfwc27ugORFClYUDrVnI0Yvr6ZFPnSH+jVoaCw4JtCC7ll9pY1iYuiP3NvPG7L7y
-	3p4seq9kz8=
-X-Received: by 2002:a17:90b:1d49:b0:38e:70d5:b12d with SMTP id 98e67ed59e1d1-395c3566ba6mr36471978a91.6.1787471189598;
-        Sun, 23 Aug 2026 00:46:29 -0700 (PDT)
-Received: from yhlee-960QFG.Davolink ([2406:5900:1044:110c:4705:b458:47f4:d2e7])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-395e494fa73sm5358247a91.4.2026.08.23.00.46.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Aug 2026 00:46:29 -0700 (PDT)
-From: Yehyeong Lee <yhlee@isslab.korea.ac.kr>
-To: kbusch@kernel.org
-Cc: sagi@grimberg.me,
-	hch@lst.de,
-	axboe@kernel.dk,
-	linux-nvme@lists.infradead.org,
-	Yehyeong Lee <yhlee@isslab.korea.ac.kr>
-Subject: [PATCH] nvme-tcp: return -EPROTO for a C2HData on a write
-Date: Sun, 23 Aug 2026 16:46:16 +0900
-Message-ID: <20260823074616.1996509-1-yhlee@isslab.korea.ac.kr>
-X-Mailer: git-send-email 2.43.0
+        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
+        b=SdmtwihM3VZOiHW3pN5b8y9hO7pgtlqYufcuDUHWMQhzro3j1sVVRUYDCsWYvh1uLB
+         PI9n8ZExkUDxwv8O8aBDPAByI2dwT6IU0NEK9geXIh8pxu/GBL3+fxokcJ4H/n6ZUP7y
+         pEuMsx7j3S9qAjirkk+QgqVUo5i619sat29IMKo0AD/8E2VI+lXaRVWer07Ds28j6PmW
+         1m85PuNQaLTQuaGR/sEzUd2O9em50L8avRi3m8O8Iqul/uzb5IFlCtU20m92zbECUBf2
+         oouHI6gVt19SV/5SGC5tXszjKuZVC1Efh5Gr3OKp1u3a/CweP2uCUg5dpwcViiib6XDx
+         V8GQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rqz4L2Ow3rscrVSrpsYdKE9D+6Y+ICvBEzszBq5DiVIGkvesc3cBhFn8b5sL0CpzhNvgyYHUXG8+7xY@lists.infradead.org
+X-Gm-Message-State: AFuF++nt44WIPqgKyhSP0kOnk3VjREW1ch6QrP2HHQcc/Ucj/KFcGNRM
+	OasdpWcOxRVIm3TPbTwef0yZOFcB3mlpyxdqfsOO/iTlibhyhmyEQ4y2
+X-Gm-Gg: AR+sD11RSYg2gA/1nKPoZ63JC1UvocQaANZMR0VQ9fv22JzqKJwJ03V0j7yb0MY3Z50
+	XnIuiJo7dtThKwB9AXu1N5jeqcesiEd0zgq0mNr/yTM75q17xhVYgRcWAB7qc36y9Oi5abmbWsp
+	wHMhqXnJIKl5DCnQvA6oqUrZ9tje4YHE1wLGLuZwlY8QmHqx9+3Z7HKSUn5Hm4w6HWeMj2413VZ
+	j9TjfQznwXBe+O/w5oCDFUvVldFR8dFKKA8Dmole9KV7PdBfQdTozlgzFmEMI+N5YPT94f0E4su
+	gpr/0nSL2TF39KsmM8iVc8rkdhzExAuH17qKytAdMOX05Olu0Kr/O6PvrK3+LYQarYww+G1yf1A
+	e2QeCXP1F9MTRtt5BkJZesmIDOZg3u38WmjZQtBgaJ85af6Jj2+Ce8aAluq4J94noCcTWZK60hE
+	wpc1bDCAv2gCD6udh9bNfqYMVXiFmBw+lDZQGRlBqSR/LezRqmuHGrdo4Wb4C2L2G4odEGrf5Z0
+	/LTrrOvzVGgOWQjIXtpwsESF/vDKQ==
+X-Received: by 2002:a17:907:3c83:b0:c21:7584:fc58 with SMTP id a640c23a62f3a-c246a60cd41mr2001879566b.12.1787472243950;
+        Sun, 23 Aug 2026 01:04:03 -0700 (PDT)
+Received: from [10.50.4.207] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2496738e7esm748737066b.46.2026.08.23.01.04.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 23 Aug 2026 01:04:02 -0700 (PDT)
+Message-ID: <647bf669-c03c-4bc1-945b-36b65cf00bf9@grimberg.me>
+Date: Sun, 23 Aug 2026 11:04:01 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvme-tcp: return -EPROTO for a C2HData on a write
+To: Yehyeong Lee <yhlee@isslab.korea.ac.kr>, kbusch@kernel.org
+Cc: hch@lst.de, axboe@kernel.dk, linux-nvme@lists.infradead.org
+References: <20260823074616.1996509-1-yhlee@isslab.korea.ac.kr>
+Content-Language: en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20260823074616.1996509-1-yhlee@isslab.korea.ac.kr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260823_004631_893603_CF78EEBC 
-X-CRM114-Status: GOOD (  13.02  )
+X-CRM114-CacheID: sfid-20260823_010406_494528_C521565E 
+X-CRM114-Status: UNSURE (   4.42  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,41 +90,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The direction check in nvme_tcp_handle_c2h_data() returns -EIO.  A
-C2HData PDU naming a command that did not ask for data is a protocol
-violation, and the check that rejects a PDU on those grounds a few
-lines below it - SUCCESS set without LAST - returns -EPROTO.
-
-No caller distinguishes the two, so this changes the error code alone.
-
-Suggested-by: Sagi Grimberg <sagi@grimberg.me>
-Signed-off-by: Yehyeong Lee <yhlee@isslab.korea.ac.kr>
----
-Measured on the test target: a write answered with C2HData changes the
-log line from "receive failed:  -5" to "-71", and the neighbouring
-payload check still reports -5.  Three runs each way.
-
-Applies on top of "nvme-tcp: check the data direction of a C2HData PDU"
-in nvme-7.3; squash into it if you prefer.  No Fixes: tag because that
-commit has no upstream hash yet.
-
- drivers/nvme/host/tcp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index a62d6e48f7190..a865bd0688543 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -683,7 +683,7 @@ static int nvme_tcp_handle_c2h_data(struct nvme_tcp_queue *queue,
- 		dev_err(queue->ctrl->ctrl.device,
- 			"queue %d tag %#x unexpected data for a write\n",
- 			nvme_tcp_queue_id(queue), rq->tag);
--		return -EIO;
-+		return -EPROTO;
- 	}
- 
- 	req = blk_mq_rq_to_pdu(rq);
--- 
-2.43.0
-
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
