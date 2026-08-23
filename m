@@ -4,60 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3638EC5DF8C
-	for <linux-nvme@archiver.kernel.org>; Sun, 23 Aug 2026 08:49:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 91D39C5DF97
+	for <linux-nvme@archiver.kernel.org>; Sun, 23 Aug 2026 08:49:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
 	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
 	:Subject:Cc:To:From:Content-Type:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+DK7ON2bBB4lEgwL/cBWaPsHtk3R3CgMcEtSwNcvmH4=; b=BEBBrwubmJqY6pbWYzMGeRfGFW
-	Qu1q3eg3nLNZtMAHvoQHZ0B+zugy8Lk7ZJiqqOKonKQgjPMkKP8NJZoquIrbPbqO++hs/UTvq+avB
-	uvlV4f4aldB9ljfxn3xkDdz6vYYCerEiSyK0YzUz8BOba7zmn+VbN9sE8R39XTEut0HnohJLiaz9h
-	IA02fg7TlZwKUrNi/isguh9PRpCNHSotV5cIMjzkQ7NQ1CxhmjIYgrvDnE8/LrSSOqiK0UR/Kua46
-	GfeJbtL+1COBDE3bcfG+Kht0bzB75ocTZ5B1oobBs5qlPyAY5XMIq+h7yAgYR6SNqdngn0Ri72GYe
-	u69cfYUQ==;
+	bh=mdmN3wMWTcsanPcaJmNKQ1gOjeyw7tg6jisvRkDUOfI=; b=RykGeVurkSWhoaZADNAntmCd9C
+	vZDJpS4FNSOd8BZwuHqjBmL1DoER0vysHcRoqGouexltPRqcFZBeun8UVIGsayvz1UsbUNIim7GK/
+	G5gb+o+6/DOQcvEC9haecXXlWpHahJ4FAlmF55nI9Jj+27XyeKchjPHhnFJazYMqhs2xcZ0La4vcu
+	XroVoMy0nhPnG5LdmY+gBOX7vtPI/8HH3btL/aZMtwqN0DoE1mn+voOwvdwAfzT5dzegNrTE2gx6R
+	yy16aeJoNHhqug38RfNT7aBWtwSsmxFsl8e1LfWdm9zGgjdOUCpyKe3bhVWwClWgYcVBglHfEP807
+	SCmyxE0g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wy3tE-0000000FBXW-2vaF;
-	Sun, 23 Aug 2026 08:49:16 +0000
-Received: from mail-ed1-f46.google.com ([209.85.208.46])
+	id 1wy3tI-0000000FBZr-0jfg;
+	Sun, 23 Aug 2026 08:49:20 +0000
+Received: from mail-ed1-f54.google.com ([209.85.208.54])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wy3tC-0000000FBUs-2x14
+	id 1wy3tE-0000000FBW9-0Nml
 	for linux-nvme@lists.infradead.org;
-	Sun, 23 Aug 2026 08:49:15 +0000
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6a0c8283146so4330995a12.0
-        for <linux-nvme@lists.infradead.org>; Sun, 23 Aug 2026 01:49:14 -0700 (PDT)
+	Sun, 23 Aug 2026 08:49:17 +0000
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6a422090b2fso3716530a12.0
+        for <linux-nvme@lists.infradead.org>; Sun, 23 Aug 2026 01:49:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787474953; x=1788079753;
+        d=1e100.net; s=20251104; t=1787474954; x=1788079754;
         h=content-transfer-encoding:mime-version:reply-to:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=+DK7ON2bBB4lEgwL/cBWaPsHtk3R3CgMcEtSwNcvmH4=;
-        b=FhM6GNTjGjZCYQdlKjOoeskBxA9GX38rtR77S3iT4tXrRzw90m9TZFOsVm4Rz6AOko
-         BtcEaO8Mf064+48ZaRlV68A2UIo6XV/x4/pc2qz44WJawulVo+mt4dI9jbmB9xRCctg3
-         QGGzuo3UJgGYNGPQSQUb8gasQaxkv62ExNFzt4V7RF6PwvCVHeyhR5T09B6fSkCDmAIM
-         53w5yRVXXBEMa+wXAT1HYuE3Mp7y8LfFZ2skjcQRfTM7ZGXGcnQKZioukbRadLChYnsE
-         xK63YCMpC1LWLic/vwRB1z4j4tWzejUNIUVlgsFO2IyYUhxGKSP5ZhOPPXlepUP/he7J
-         /YKw==
-X-Gm-Message-State: AFuF++kpINuanaCxCKUC9p25d+p2He5xAFIl/KYX58rebaGO+wkBHbR8
-	RJUuuMn6y/iIrYgbD+yw+1Y4TcYMGwcr7KhmKrHYFrhnjyBe8/K8v3GDz4+ROA==
-X-Gm-Gg: AR+sD13x+bvvWelKZOcLKgHcuB2LjVED6X7aRhJnwrFMHOyVm3YCWX4TowAjKc2kM9j
-	8t93MBv9L1GFEUcPRVktzTqmBZLygTYK7S1o4T8fZnjuMuH4S5hEeBvvnkgw3pzbAVWJV0S10w7
-	zYQcRCoNv/PTjXn29N/m1YPAHH/o+O22cm+sra9mMyuqZP3DJcVRLka59H1HtLqt981JiInmqQd
-	S9vdYHmmz3LBagKdAfMt2c6wQA7UoOAaE2QbxyYe4TCaKOcrZ6nJM5xorHkxd5qk8Fsmm/0D8re
-	z7O9MBNHtg9CkTezBXY+ENef7o7wl517vpAkQ57rnsUzEieZXnCu/I6rpiAxc4MddLh+2qTPiVa
-	F8lkVNpJ+G3YqoFanmlNhMlm8spsPqJjvLfAe9A7Jxbjd+xRzMZ8FlSCIke38VetLBGL3TFWJjT
-	IwEAnxf79+nvy21lE6VuGZkbUOmL+IW08TUfdqL9L9nOao7d7EnPIupXxehPQrF2bhjrwtHSgk6
-	+LxN+NH4KxGhZytM+fwCOQXEYr9/brscXo8lY2HYOkRdtXI16M=
-X-Received: by 2002:a05:6402:2187:b0:6a3:905b:3c40 with SMTP id 4fb4d7f45d1cf-6a42f1d0649mr21101117a12.8.1787474952787;
-        Sun, 23 Aug 2026 01:49:12 -0700 (PDT)
+        bh=mdmN3wMWTcsanPcaJmNKQ1gOjeyw7tg6jisvRkDUOfI=;
+        b=irp60YS8BgXdmL6E6l3G9NgHa+In57sOLpPQjoOuhK8hHcLLMYUL8jidFKH/Xy+fFU
+         /QrtYSRLzLTaBY/bhqDgOjC+SicMJR9Ai7msx2GsrxqtKrLtZbavcumpPLXMZnaEYnlN
+         iV3QRzxy1CWCpacoRJ+LAXUpsxs5XmFnmUYdJQphUF7Kdpti6ZhDpvM8bKEqrsaVEq4P
+         hkW78Y3as3grMaOaFoaijF58sTZ6WUdhKnBj/OR1xbve//h8IQlDovs7jKx/QOnHTJtI
+         aMg0GCXcsKAt3CM/n6YpMYYtmW1MFL5i8jXfRgawZRikxzKduZmTYqcX12RmsMMycJKu
+         ca8Q==
+X-Gm-Message-State: AFuF++kEQFy4m+PU6iG8lhlfx7SonNWxoJmG4cs+f4rzf/8uDBoP0i6w
+	86DR8wLWvPpsx7njN/SIXJZQ6s+IVewT/+TXccfyLnuZddCPyyck5+whStdGMA==
+X-Gm-Gg: AR+sD1018V64BJVkS2whJn7q4vLqoBqiPHh079Eu8yGHSdg2bH285Fbfvy7oICmMhQc
+	PkzMecEJl7rWizQmvrV1VxXP8QwDSVVr/sSt9aKEb7GG6E5SURJqm/hdpncH1nooD40K9PJBVii
+	Hzp9SRubPzJ8G9nJfY4q6KzM+dOyYvtnLnklCedNupwNePe13URFlzN+wNt5lCcqxFid9zf+vvK
+	ucnm2enUOMQ4mkHbomKX3iJFEguxpB/d+pwsP2MtrSsMjJERj9Z1Nexfsk3oyaYFmwknMAZ9Mde
+	FMscK9Nb6+VrAeAXLWzpBtBvZsMrbDl2DRvj/NjoGL53/AfXlUR8b+eHb3NAOXD1aSM43tYAf/Q
+	HCY73eYgEhnQNtm1XFjoMgBDw2syz7PR+XlcNYO9pvO2KYMojTU0T7CKTLkipmEjoIza4gkHXx+
+	P10POJQz8Fetx1ZCNE2XqYYffB4VOkHxqIZ4yCo5cHubNUPjaXJZZWVPuUW3pcwxImJ04vVF6tR
+	wpkbG6FTuI8hk76tIGW8sLnYpa6UAaD+PM+tETp529zx7N5V/nBT6/6aewvng==
+X-Received: by 2002:a05:6402:4498:b0:6a1:44c8:edc4 with SMTP id 4fb4d7f45d1cf-6a42f21ee3amr1358469a12.12.1787474954210;
+        Sun, 23 Aug 2026 01:49:14 -0700 (PDT)
 Received: from vastdata-ubuntu2.vastdata.com (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a59e00129fsm2566761a12.1.2026.08.23.01.49.11
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a59e00129fsm2566761a12.1.2026.08.23.01.49.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Aug 2026 01:49:12 -0700 (PDT)
+        Sun, 23 Aug 2026 01:49:13 -0700 (PDT)
 From: Sagi Grimberg <sagi@grimberg.me>
 To: linux-nvme@lists.infradead.org,
 	Christoph Hellwig <hch@lst.de>,
@@ -66,17 +66,17 @@ To: linux-nvme@lists.infradead.org,
 Cc: Daniel Wagner <dwagner@suse.de>,
 	Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
 	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 4/6] nvme-mpath: support controller crd when failing over request
-Date: Sun, 23 Aug 2026 11:49:00 +0300
-Message-ID: <20260823084903.193188-5-sagi@grimberg.me>
+Subject: [PATCH 5/6] nvmet: Add support for configurable crdt (command retry delay) attributes
+Date: Sun, 23 Aug 2026 11:49:01 +0300
+Message-ID: <20260823084903.193188-6-sagi@grimberg.me>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260823084903.193188-1-sagi@grimberg.me>
 References: <20260823084903.193188-1-sagi@grimberg.me>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260823_014914_769207_C010435C 
-X-CRM114-Status: GOOD (  20.55  )
+X-CRM114-CacheID: sfid-20260823_014916_147233_665BED16 
+X-CRM114-Status: GOOD (  12.77  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,194 +92,123 @@ Reply-To: sagi@grimberg.me
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When failing over a request (due to a path based status) we should
-repect controller crd returned in the nvme completion as much as
-possible. Hence we want to delay the failover command execution by
-the controller crdt.
-
-We allocate a new nvme_mpath_failover_timer referencing the request
-stolen bios in a staging list, and when the command retry delay expires,
-and only then the bios are moved to the mpath head requeue list which is
-immediately kicked to re-submit these bios. If we failed to allocate
-a fot, we fallback to the existing behavior.
-
-Given that we now have a new staging list for mpath devices, we drain
-them when removing the device.
+Paired with host side error injection, allows us to exercise host retry delay
+behavior.
 
 Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/host/multipath.c | 96 +++++++++++++++++++++++++++++++++--
- drivers/nvme/host/nvme.h      |  1 +
- 2 files changed, 93 insertions(+), 4 deletions(-)
+ drivers/nvme/target/admin-cmd.c |  4 +++
+ drivers/nvme/target/configfs.c  | 62 +++++++++++++++++++++++++++++++++
+ drivers/nvme/target/nvmet.h     |  1 +
+ 3 files changed, 67 insertions(+)
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index b5501217303c..959dd1e05a2d 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -9,6 +9,13 @@
- #include <trace/events/block.h>
- #include "nvme.h"
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 01b799e92ae6..c1a343e9a58a 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -786,6 +786,10 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
  
-+struct nvme_mpath_failover_timer {
-+	struct list_head	entry;
-+	struct nvme_ns_head	*head;
-+	struct bio_list		bios;
-+	struct timer_list	timer;
-+};
+ 	id->nwpc = 1 << 0; /* write protect and no write protect */
+ 
++	id->crdt1 = cpu_to_le16(subsys->crdt[0]);
++	id->crdt2 = cpu_to_le16(subsys->crdt[1]);
++	id->crdt3 = cpu_to_le16(subsys->crdt[2]);
 +
- bool multipath = true;
- static bool multipath_always_on;
+ 	status = nvmet_copy_to_sgl(req, 0, id, sizeof(*id));
  
-@@ -144,10 +151,48 @@ void nvme_mpath_start_freeze(struct nvme_subsystem *subsys)
- 			blk_freeze_queue_start(h->disk->queue);
+ 	kfree(id);
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index 2b69ffcfc8df..7bd51f176da0 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -1470,6 +1470,65 @@ static ssize_t nvmet_subsys_attr_subsys_vendor_id_store(struct config_item *item
  }
+ CONFIGFS_ATTR(nvmet_subsys_, attr_subsys_vendor_id);
  
-+static void nvme_mpath_failover_timer_fn(struct timer_list *t)
++static ssize_t nvmet_subsys_attr_crdt_show(struct config_item *item,
++		char *page, unsigned int idx)
 +{
-+	struct nvme_mpath_failover_timer *fot = timer_container_of(fot, t, timer);
-+	struct nvme_ns_head *head = fot->head;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&head->requeue_lock, flags);
-+	if (list_empty(&fot->entry)) {
-+		spin_unlock_irqrestore(&head->requeue_lock, flags);
-+		return;
-+	}
-+
-+	list_del_init(&fot->entry);
-+	if (fot->bios.head)
-+		bio_list_merge(&head->requeue_list, &fot->bios);
-+	spin_unlock_irqrestore(&head->requeue_lock, flags);
-+	kblockd_schedule_work(&head->requeue_work);
-+	kfree(fot);
++	return sysfs_emit(page, "%u\n", to_subsys(item)->crdt[idx]);
 +}
 +
-+static struct nvme_mpath_failover_timer *
-+nvme_mpath_alloc_failover_timer(struct nvme_ns_head *head)
++static ssize_t nvmet_subsys_attr_crdt_store(struct config_item *item,
++		const char *page, size_t count, unsigned int idx)
 +{
-+	struct nvme_mpath_failover_timer *fot;
++	u16 crdt;
 +
-+	fot = kzalloc(sizeof(*fot), GFP_ATOMIC);
-+	if (!fot)
-+		goto out;
-+	fot->head = head;
-+	bio_list_init(&fot->bios);
-+	INIT_LIST_HEAD(&fot->entry);
-+	timer_setup(&fot->timer, nvme_mpath_failover_timer_fn, 0);
-+out:
-+	return fot;
++	if (kstrtou16(page, 0, &crdt))
++		return -EINVAL;
++
++	down_write(&nvmet_config_sem);
++	to_subsys(item)->crdt[idx] = crdt;
++	up_write(&nvmet_config_sem);
++	return count;
 +}
 +
- void nvme_failover_req(struct request *req)
++static ssize_t nvmet_subsys_attr_crdt1_show(struct config_item *item,
++		char *page)
++{
++	return nvmet_subsys_attr_crdt_show(item, page, 0);
++}
++
++static ssize_t nvmet_subsys_attr_crdt1_store(struct config_item *item,
++		const char *page, size_t count)
++{
++	return nvmet_subsys_attr_crdt_store(item, page, count, 0);
++}
++CONFIGFS_ATTR(nvmet_subsys_, attr_crdt1);
++
++static ssize_t nvmet_subsys_attr_crdt2_show(struct config_item *item,
++		char *page)
++{
++	return nvmet_subsys_attr_crdt_show(item, page, 1);
++}
++
++static ssize_t nvmet_subsys_attr_crdt2_store(struct config_item *item,
++		const char *page, size_t count)
++{
++	return nvmet_subsys_attr_crdt_store(item, page, count, 1);
++}
++CONFIGFS_ATTR(nvmet_subsys_, attr_crdt2);
++
++static ssize_t nvmet_subsys_attr_crdt3_show(struct config_item *item,
++		char *page)
++{
++	return nvmet_subsys_attr_crdt_show(item, page, 2);
++}
++
++static ssize_t nvmet_subsys_attr_crdt3_store(struct config_item *item,
++		const char *page, size_t count)
++{
++	return nvmet_subsys_attr_crdt_store(item, page, count, 2);
++}
++CONFIGFS_ATTR(nvmet_subsys_, attr_crdt3);
++
+ static ssize_t nvmet_subsys_attr_model_show(struct config_item *item,
+ 					    char *page)
  {
- 	struct nvme_ns *ns = req->q->queuedata;
- 	u16 status = nvme_req(req)->status & NVME_SCT_SC_MASK;
-+	struct nvme_mpath_failover_timer *fot = NULL;
-+	unsigned int delay;
- 	unsigned long flags;
- 	struct bio *bio;
+@@ -1700,6 +1759,9 @@ static struct configfs_attribute *nvmet_subsys_attrs[] = {
+ 	&nvmet_subsys_attr_attr_cntlid_max,
+ 	&nvmet_subsys_attr_attr_vendor_id,
+ 	&nvmet_subsys_attr_attr_subsys_vendor_id,
++	&nvmet_subsys_attr_attr_crdt1,
++	&nvmet_subsys_attr_attr_crdt2,
++	&nvmet_subsys_attr_attr_crdt3,
+ 	&nvmet_subsys_attr_attr_model,
+ 	&nvmet_subsys_attr_attr_qid_max,
+ 	&nvmet_subsys_attr_attr_ieee_oui,
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index aaba745e3c21..2650c5e101f3 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -347,6 +347,7 @@ struct nvmet_subsys {
  
-@@ -167,13 +212,27 @@ void nvme_failover_req(struct request *req)
- 	for (bio = req->bio; bio; bio = bio->bi_next)
- 		bio_set_dev(bio, ns->head->disk->part0);
- 
--	spin_lock_irqsave(&ns->head->requeue_lock, flags);
--	blk_steal_bios(&ns->head->requeue_list, req);
--	spin_unlock_irqrestore(&ns->head->requeue_lock, flags);
-+	delay = nvme_crd_msecs(nvme_req(req));
-+	if (delay) {
-+		fot = nvme_mpath_alloc_failover_timer(ns->head);
-+		if (fot) {
-+			blk_steal_bios(&fot->bios, req);
-+			spin_lock_irqsave(&ns->head->requeue_lock, flags);
-+			list_add_tail(&fot->entry, &ns->head->fots);
-+			spin_unlock_irqrestore(&ns->head->requeue_lock, flags);
-+			mod_timer(&fot->timer, jiffies + msecs_to_jiffies(delay));
-+		}
-+	}
-+	/* no CRD or timer allocation failed, fallback to immediate failover */
-+	if (!fot) {
-+		spin_lock_irqsave(&ns->head->requeue_lock, flags);
-+		blk_steal_bios(&ns->head->requeue_list, req);
-+		spin_unlock_irqrestore(&ns->head->requeue_lock, flags);
-+		kblockd_schedule_work(&ns->head->requeue_work);
-+	}
- 
- 	nvme_req(req)->status = 0;
- 	nvme_end_req(req);
--	kblockd_schedule_work(&ns->head->requeue_work);
- }
- 
- void nvme_mpath_start_request(struct request *rq)
-@@ -689,6 +748,32 @@ static void nvme_requeue_work(struct work_struct *work)
- 	}
- }
- 
-+static void nvme_mpath_drain_failover_timers(struct nvme_ns_head *head)
-+{
-+	struct nvme_mpath_failover_timer *fot;
-+	unsigned long flags;
-+
-+	while (true) {
-+		spin_lock_irqsave(&head->requeue_lock, flags);
-+		fot = list_first_entry_or_null(&head->fots,
-+			struct nvme_mpath_failover_timer, entry);
-+		if (!fot) {
-+			spin_unlock_irqrestore(&head->requeue_lock, flags);
-+			return;
-+		}
-+		list_del_init(&fot->entry);
-+		spin_unlock_irqrestore(&head->requeue_lock, flags);
-+
-+		timer_delete_sync(&fot->timer);
-+
-+		spin_lock_irqsave(&head->requeue_lock, flags);
-+		if (fot->bios.head)
-+			bio_list_merge(&head->requeue_list, &fot->bios);
-+		spin_unlock_irqrestore(&head->requeue_lock, flags);
-+		kfree(fot);
-+	}
-+}
-+
- static void nvme_remove_head(struct nvme_ns_head *head)
- {
- 	if (test_and_clear_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
-@@ -696,6 +781,7 @@ static void nvme_remove_head(struct nvme_ns_head *head)
- 		 * requeue I/O after NVME_NSHEAD_DISK_LIVE has been cleared
- 		 * to allow multipath to fail all I/O.
- 		 */
-+		nvme_mpath_drain_failover_timers(head);
- 		kblockd_schedule_work(&head->requeue_work);
- 
- 		if (test_and_clear_bit(NVME_NSHEAD_CDEV_LIVE, &head->flags))
-@@ -731,6 +817,7 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
- 	mutex_init(&head->lock);
- 	bio_list_init(&head->requeue_list);
- 	spin_lock_init(&head->requeue_lock);
-+	INIT_LIST_HEAD(&head->fots);
- 	INIT_WORK(&head->requeue_work, nvme_requeue_work);
- 	INIT_WORK(&head->partition_scan_work, nvme_partition_scan_work);
- 	INIT_DELAYED_WORK(&head->remove_work, nvme_remove_head_work);
-@@ -1424,6 +1511,7 @@ void nvme_mpath_put_disk(struct nvme_ns_head *head)
- 	if (!head->disk)
- 		return;
- 	/* make sure all pending bios are cleaned up */
-+	nvme_mpath_drain_failover_timers(head);
- 	kblockd_schedule_work(&head->requeue_work);
- 	flush_work(&head->requeue_work);
- 	flush_work(&head->partition_scan_work);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 944462e912f6..e63f21b3110c 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -565,6 +565,7 @@ struct nvme_ns_head {
- 	struct bio_list		requeue_list;
- 	spinlock_t		requeue_lock;
- 	struct work_struct	requeue_work;
-+	struct list_head	fots;
- 	struct work_struct	partition_scan_work;
- 	struct mutex		lock;
- 	unsigned long		flags;
+ 	u16			vendor_id;
+ 	u16			subsys_vendor_id;
++	u16			crdt[3];
+ 	char			*model_number;
+ 	u32			ieee_oui;
+ 	char			*firmware_rev;
 -- 
 2.43.0
 
