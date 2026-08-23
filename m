@@ -4,91 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B2208C5B572
-	for <linux-nvme@archiver.kernel.org>; Sun, 23 Aug 2026 00:46:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1EC13C5DF8C
+	for <linux-nvme@archiver.kernel.org>; Sun, 23 Aug 2026 00:46:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fnVHc/zwuTwEzErE3/5V7sgRDub5dTEGaolXbQieiF4=; b=zAnUPB+2KnE3cYVz00tHL3MwdI
-	WFAQ+pdjhTtWnzQcS4qgPR7T5DSqVq+XbjAItCEOcC1q4rxzbP9Qm7xFIyemdq5lf++LszhrxD9ZQ
-	yJwYaPYuJHcfrDR0SRCqHBbz9XiodFQZABFHJ2cHTibbbF3gzT7fqSNRRAMli4NXEewhp7VsVN9tO
-	ReqdRIk5b2ovkDhMswU2aVIThNpaE546L5vBjI6oAkSMT0Y2E1lWDti1DArCx6W3y2pdvF8quK6X/
-	WnHPqD0Cq1cAzkrIvCrb8n7pe794F5F6ZA7XEbgeGbjnI/bhwRLm4eOCA0vvYRFYknD03nwiZ/0B7
-	iayu/MIg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=AVEWFdwq8Xwpq8Wv8Dp7YZqXKLEzexdEFR7B5DRQc1w=; b=3eaedfa+blYpNHhEXLqtThr+5t
+	m8a7B70EJ79h5/kxoaYZFVVlZQnvmTK5ozsHoUsl4mgL62ShAXKuuAN05TvoWx3JexEoulSEKgAXA
+	r8iNj51WFcOG8zeLymj/YQfszrP+K81IkznoeKFIICz+vc5vdYFuHE/vTGS7LjKfYVsQrep58U2x3
+	ZTY44WWoZ3Cw9ySmjKGHI4tGEwFGOzX8WopUWJTPbe948QWex+88kfO+/rnsAtF8oMRcWmNx8UigP
+	rHlZZmkkB11WYTzVe9mwVbB54lc9ubIqExO3CNCCdPnwMpJQPLuaMRP+qONfmbuLIJBBIPTq4jDHW
+	eup+49gg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wxwLp-0000000Evzk-2Y31;
-	Sun, 23 Aug 2026 00:46:17 +0000
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534])
+	id 1wxwML-0000000Ew3J-3Atk;
+	Sun, 23 Aug 2026 00:46:49 +0000
+Received: from mail-ed1-f46.google.com ([209.85.208.46])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wxwLm-0000000EvzP-131j
+	id 1wxwMI-0000000Ew2U-2bO5
 	for linux-nvme@lists.infradead.org;
-	Sun, 23 Aug 2026 00:46:15 +0000
-Received: by mail-pg1-x534.google.com with SMTP id 41be03b00d2f7-cc11a30a259so2289519a12.3
-        for <linux-nvme@lists.infradead.org>; Sat, 22 Aug 2026 17:46:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1787445973; x=1788050773; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=fnVHc/zwuTwEzErE3/5V7sgRDub5dTEGaolXbQieiF4=;
-        b=FGtXEcvFx+O3Sy3TwvjFt7t9sCj0a3TL+0akijfwYqI3l9rRYH4bXA8//BYkIAO8An
-         wAwUutu39HVt9OyWicS/FgEIpPRK6/Lx8Yq6rZ4aW+otY/XgEhs9BwSkXZuglHPIpUEU
-         zDABIrtlJR7klWpE5CJLZhHEtB8T5WA7C5kHXHfcL9IKLz+OkO3PRSWrMomNMzZWnOkn
-         Mzu+669Gw8uCEmyXB4I79fefE3sRmheSMJJkzRwZVDr9mP1ES/f8z17H5FPQs8mDG7Ub
-         3qsI/RdWiu12YSVrIimsYMgacKFj0wdNDPHMqhbQzVRm+O1htEdgURliWkOgh5Qan+nr
-         drhA==
+	Sun, 23 Aug 2026 00:46:47 +0000
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6a0a4a28cbdso4122685a12.3
+        for <linux-nvme@lists.infradead.org>; Sat, 22 Aug 2026 17:46:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787445973; x=1788050773;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=fnVHc/zwuTwEzErE3/5V7sgRDub5dTEGaolXbQieiF4=;
-        b=Dw623Ph7ilHfRcNXNqnNcqA9JimCBDbPyHh0gUB9qSYGneLBrNR1IblxCjsmHHCC85
-         o7w5LzJGYdLZ+lFISefvE5dUIDj/8685Eu4uoykNl0ueCxtDIZO9Z/dHThxeB01qRpRT
-         0yneHcvar+VmeyL6+M8oqImTwH0xTdNLnUyVJ1Nm4mU/ybNrEjuvxIyO47VbYwBkHabB
-         8gm6VZENn/PQUUUPK1Mwc7jX7ofSqUH3tugGg+LPVfRzGiodIwvOEvX9D13akisXErqL
-         7Mn5JqopVDm+Tt/z6v9uPOwFgOa7B7OVMQUAar5vV1UCub7PxLT6653QpdHVopqbq2aU
-         qxyQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpHfXZ56vJ7P28ZmXxzmNZFDtFNCj3qHN7j/59d4t+lXgSeHY92wZJqKZcnReyQjBCGyl1X1NZmGmaC@lists.infradead.org
-X-Gm-Message-State: AFuF++n0CIAwePd6HA/useEgDNGr9kDjxOrUyNTjG38vLvaav0nBF66b
-	qoqJybRIqb42KPWpopxHAN1RVL88Qk2L1wrdu+0TTCTSQx4aNOU+G0FLIC3/cAcqZ6A=
-X-Gm-Gg: AR+sD13siV8vW3SE8yP7KXyDfV8czNv4R0//qE+Ma5lzEvOEkHU1aZPHRzqO6FjdRiY
-	BSF7T24qsBnCC0MKOwjxeZXQ/SNq0HD+Iq1vnTF0/EZWTFN67Q9AfSj9g0z5vsPExWxiE++cU6N
-	dM+lORYVuoWEMPoC/dgXqhGzb93LwVOPnXtPwRjdHNS1shO6cBiBzqA4zpURO811MWtvdgdzYu7
-	0MYDWykOj1hlk799YK/Uf1ULCgsNfmlIFkCCrBA3P35BHsLXXNbGfxBkBd3aZj0x0Dp9LJ31auN
-	CTOjj5I1ZlvVAPL1FzQDkecuYckhl61aL51LAIvdNnTVmRnOWQWosw8Rixs6q6rEDoMsJKZFKJ/
-	czmzQK/FaclvGEAqS6ku+FP8oqN8scAt/Yy676UyrttwSifvSXFxFkjBo8Fajsxzw18vLqDrgtl
-	gVqa7pi5iSTExDA4jCOjX3Mhz01gKkwgBKvhzovHy7t9W6/RHGbP8LnGOPcJZf87gsq4I=
-X-Received: by 2002:a17:90a:fc47:b0:380:105f:8ffd with SMTP id 98e67ed59e1d1-395df5e76b5mr16161366a91.16.1787445972541;
-        Sat, 22 Aug 2026 17:46:12 -0700 (PDT)
-Received: from medusa.lab.kspace.sh ([2607:fb90:9c20:7a99::791d])
-        by smtp.googlemail.com with ESMTPSA id a92af1059eb24-1418619d6e1sm12928109c88.15.2026.08.22.17.46.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Aug 2026 17:46:12 -0700 (PDT)
-Date: Sat, 22 Aug 2026 17:46:10 -0700
-From: Mohamed Khalfella <mkhalfella@purestorage.com>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Subject: [PATCH] nvme: remove stale namespaces by NSID
- range during scan
-Message-ID: <20260823004610.GA1842415-mkhalfella@purestorage.com>
-References: <20260821203854.3897938-1-mkhalfella@purestorage.com>
- <5e602a4c-082d-4b7a-a594-acdaf7bca9e0@grimberg.me>
+        d=1e100.net; s=20251104; t=1787446005; x=1788050805;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=AVEWFdwq8Xwpq8Wv8Dp7YZqXKLEzexdEFR7B5DRQc1w=;
+        b=V63BqlikQJoCc6CVJB/ZzRnwJzW+1SRDOZi6mSX87M0nLhQNg7DLeiJ54o19F8Bhmd
+         FynnhLp2oDZWp/U1ki/RktMxHXFx6vrO8IszsVrDBp2J7T9tZ9sCMBNV1UVNJ6UvIPU7
+         DEHQelZrBUXcir7uji6HigcPYJOjgmdU6hJpVPrjNt8jXKXJGg/5FZwkbL694Vtd5eyj
+         YMjP7Ri0sQ8Leqtdq6EVOZt+cGiZCnrlHGOIRXhAb+8d8ye5B1Ni5Hip2zVCP22V3sZO
+         rSpzWTDZZtcnB/osoCalxuZP4Ye3B2Rm2f25gU/eWTnuvV2Ll3yoH+piM911S1Sud6ug
+         ffhg==
+X-Forwarded-Encrypted: i=1; AHgh+RqO4U9EEnb4kcFGBnZ0zzoqg43ii7zQoFwCO2EiaT9l0OLdXMI+VjzDxyW6IBQUmq9u7kLn6UmAyp+L@lists.infradead.org
+X-Gm-Message-State: AFuF++mCpJtz1p9GisYq5/xiOsQAGFbAdwDNHojju3jKWrMhgE/xzfQD
+	tNrLCR9TNbLsW58yDpBaiuA+csagam2O6h5MyObM29dZ3ZZbKsM9GhTA
+X-Gm-Gg: AR+sD113Mkpr8ZBraqcnqnMoGAgX0cqt2DXbIP3TNJGYhK/77wjRV1p9Ay8hlMiqr8E
+	n8RHrBPIadWCk+l180iGLuq1PFdM840H7W06xoacpoS2hi3pd0PZl4t8yy1hRwRlZQ0n2i2AADj
+	+qqEGJnA4PonS9O8+4NToEbLiHHxErO6Zr48s+CrTNnWutZa8Tu/C07P9aMNsDILio7kMqNkQSQ
+	ceFyXT2QhYy8LPjOi+xLl+iTExB505GzhoCgmLjUoK3F9AagGeT/z6dE2eaKHX95YOy/QMDMWNP
+	LJHw6A6d7DzaYJMv0C4wP/beSjE6Ni8PIDn9pAK7kfQSFEUIwNczeEjG9R0OoAetgTXKrt2VKxn
+	6iu69butS879930vMgJGFNFYgI0I52U/AtNN23l8kOLK157glzkajzsYcjQ/HOHEiDL7FrTPM30
+	R/JFlIdzWGTAzCXGtmFlv0R/WJXVteilEeJlnxC4+E0kJGBOQMTrgfwe7altZg4x4CY5qjx+cB9
+	XnWChVbBCFUW5E0UBev6+Gt
+X-Received: by 2002:a05:6402:2109:b0:69e:8ad:5162 with SMTP id 4fb4d7f45d1cf-6a582af9528mr9856294a12.1.1787446004611;
+        Sat, 22 Aug 2026 17:46:44 -0700 (PDT)
+Received: from [10.100.102.74] (89-138-65-240.bb.netvision.net.il. [89.138.65.240])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a59e012f84sm635292a12.8.2026.08.22.17.46.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 22 Aug 2026 17:46:44 -0700 (PDT)
+Message-ID: <d58d0c4f-0789-4c99-94bc-e2e2121e7b7a@grimberg.me>
+Date: Sun, 23 Aug 2026 03:46:43 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5e602a4c-082d-4b7a-a594-acdaf7bca9e0@grimberg.me>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2] nvme: Add module reference counting for multipath
+ devices
+From: Sagi Grimberg <sagi@grimberg.me>
+To: wenxiong@linux.ibm.com, linux-nvme@lists.infradead.org, kbusch@kernel.org
+Cc: gjoyce@linux.ibm.com, wenxiong@us.ibm.com
+References: <20260812223206.720363-1-wenxiong@linux.ibm.com>
+ <a9d90f41-1493-4efa-abd1-a7071046414a@grimberg.me>
+Content-Language: en-US
+In-Reply-To: <a9d90f41-1493-4efa-abd1-a7071046414a@grimberg.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260822_174614_459360_EFFB4F99 
-X-CRM114-Status: UNSURE (   9.64  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260822_174646_673186_5683291C 
+X-CRM114-Status: GOOD (  11.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,14 +91,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun 2026-08-23 00:31:49 +0300, Sagi Grimberg wrote:
-> Remove the 'Subject: [PATCH]' from the patch title, other than that 
-> looks good
 
-Oops, looks like I messed up the subject line. I will send v2 shortly.
 
-> 
-> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+On 23/08/2026 3:20, Sagi Grimberg wrote:
+>
+>
+> On 13/08/2026 1:32, wenxiong@linux.ibm.com wrote:
+>> From: Wen Xiong <wenxiong@linux.ibm.com>
+>>
+>> Add proper module reference counting to prevent premature unloading of
+>> NVMe transport modules while multipath namespaces are still active.
+>>
+>> When a namespace is added to a multipath device via 
+>> nvme_mpath_add_disk(),
+>> the underlying transport module (PCIe, FC, RDMA, TCP, etc.) must remain
+>> loaded as long as the multipath device references that namespace. 
+>> Without
+>> proper reference counting, the transport module could be unloaded while
+>> the multipath device is still using resources from that module, leading
+>> to the potential system crashes.
+>>
+>> This ensures the transport module remains loaded for the entire lifetime
+>> of the multipath namespace association.
+>
+> Can you provide details about the issue that this patch is supposed to 
+> address?
+> (e.g. potential system crashes). The driver unload should be able to 
+> disconnect all of the connected controllers when tearing down...
 
-Thanks!
+OK, I now read the original report regarding nvme root device. please 
+disregard.
 
