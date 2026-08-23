@@ -4,86 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 506F7C5B572
-	for <linux-nvme@archiver.kernel.org>; Sun, 23 Aug 2026 00:47:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6BA5DC5DF8C
+	for <linux-nvme@archiver.kernel.org>; Sun, 23 Aug 2026 00:49:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=+Jc12zKSf8mmT3ZniJisN3BvVvP0RfZaq/VsQ1cAOq4=; b=HytMhFxfRJvrWp/0lAVH7jqj+F
-	8riHe7aJxiOaAoIz4BXAVXhpqoqjgju7GXALZ7UZLr+6MgxBRRCpJiJHGm+6bS7PCZwWvoZWYrcFe
-	ZtwkM1BB/y6eQ7IRJFYQiCQTvtlZ+0uVCCR8mGAUwsBZaF5m5yRKEM2GdAuYdydh3ImlDrcEvSFJV
-	9J8HnyQFA7xjDU7jXttXGlWe7hm5pJn99kpvgVjTfsstPU5hnYfRcB0iTPABWd7s9ytsedzSOnMoR
-	Mb2ixBQ7JkNZG3pRwf+1zogbwRpe9WqiIrxXNGpkZCQ/OZYaA6G4M+eMkXKmFLKBoHUmkv5qScC8b
-	r4oLQwfg==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=4CSsALpHk5cmsT8mPoSqumpZLL
+	Auv3Gi14zEoAVEpDtIYz5PsX/FRcIqJ9p3J04UlROMvhtADmUsYAiv+I2bhIXo96Jnjl4cKfU/DpV
+	JXDfQz2McbT0cE9L/nH6L3PrfAKfDIwZpHQBoJg8Yo2am9/QsuxAr14HWdBKZ7r2tV9CKDhVnow2Y
+	OryWprKYwSWYodf0JJ+eRay+j3bdKKnikDJIIuUeS3/necsRGYV7kp8h4bAauINx0/Ui4zKmwJlqh
+	5rZ8H9GZhjdH0l//Y/KFpbVT5ARpfp7ScC0m1pwbMIrslbbGEzwVusAC+BsU4BEzTtaEio13jsBQ7
+	G3OGXHcg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wxwMe-0000000Ew7s-48uy;
-	Sun, 23 Aug 2026 00:47:08 +0000
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
+	id 1wxwPJ-0000000EwGr-1S9T;
+	Sun, 23 Aug 2026 00:49:53 +0000
+Received: from mail-ej1-f52.google.com ([209.85.218.52])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wxwMd-0000000Ew7Y-1p8P
+	id 1wxwPH-0000000EwGE-0Vjh
 	for linux-nvme@lists.infradead.org;
-	Sun, 23 Aug 2026 00:47:08 +0000
-Received: by mail-pl1-x62f.google.com with SMTP id d9443c01a7336-2ccf2360620so19446685ad.3
-        for <linux-nvme@lists.infradead.org>; Sat, 22 Aug 2026 17:47:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1787446026; x=1788050826; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=+Jc12zKSf8mmT3ZniJisN3BvVvP0RfZaq/VsQ1cAOq4=;
-        b=DBSniuuRPKM0t95KDhWUb9QDL4ZCwSIjpcE7UZPML24FzytDrNQV8nMu8V+asqkUCl
-         +eEGujZFwlcc2tAznB0Dc/goLTaCXko8qqc4glCezeINhfn07Y2uTPAmr9iJtmcEkEin
-         Yw31NkkFMk3AOKIkDIMU+3WGKvQFycFoe3a0FAPhQVnUTiyKFMCvZEO0Aet6j7sit0BA
-         p3s05w1VLBJdyvH6fH0wF8OrUFlW/uxBWC6TEnAh6qOUeRSZhurcfS8bDTT7db90cxqW
-         F4aFKEqQH+q4knN1+GNceM6dyhrvSGEqv1rJArRxwd9E/lw0fTKb5Ek6wb5oPnBCkyHb
-         LGyg==
+	Sun, 23 Aug 2026 00:49:52 +0000
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c20e70a0962so341908366b.2
+        for <linux-nvme@lists.infradead.org>; Sat, 22 Aug 2026 17:49:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787446026; x=1788050826;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1787446189; x=1788050989;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=+Jc12zKSf8mmT3ZniJisN3BvVvP0RfZaq/VsQ1cAOq4=;
-        b=d/4TfRX1x2mO1yib0FKywpnUVKwIWuLEkPQYasLHHSaULXq0nXtx0sZ3ofH6ZBJrg9
-         Djxrw2UvxFryevJjqrCXBLxPCAgo3+V3E8JGXeH0Y0hw2vpullheKorYySbFYHDvB/4C
-         Dk9Sn5MJDEjPs2jCumA2tIbCaaEAWLne0tKEiaOBBS7yi917bFssePBj7ELIJLhmddQo
-         dQ6VW3M6alvySXjq8tTJn+RHqT7o85O98ZUjD0KotN57wOMzSisVbOYz05ftR5RvPJ9z
-         4ouHsKc/fpeajFOB7/dyiPGgJPNw2OGal4ctph+vMvcJCwRpxeY+z5lGAEkU6xrV25fz
-         9s0A==
-X-Gm-Message-State: AFuF++nPXI8IQN1PY2waqwqk/JRRvKjOWZS1sUx4/NYjcEtZyZv/3hY0
-	svtoQC4sxtwAwMTywabaWNY3gCGMWNColl1FVgUk3r7I6ScsBG1siI5KqhOeiGH0/gA=
-X-Gm-Gg: AR+sD12ncQVVYljtGFd4exyqH464jd1byg+7G04F23G/Hc4E9asRBwcTX/nEW/mZN5S
-	+sQ65iuHHoalw0fzqf4wftaYuq6lSy5We6/0DdetOR+VuGFmwTULPDHQLaQWSmo1A5fASrR0KD+
-	aNfjbqFTD/9LYQsVi4RJVZAfXCgqFA4soeJVxhIepA8SW2Dj/keaFG2QXYM7seMiJDkzE8IZ0Iw
-	kleenv3IwDHQWJBtZbgsPQXqceyaALi/2xmZl6W1d188GFt6Nk+xQiS3GPEO9SJgUMhuVXZzD04
-	igy0cmrrH4D/lrtwzs1JGMj10MN1Kx9SN/ob0u4vC91aDjJTehJlRj8jChf24vGBQzoH9FHsIlw
-	CLUFJFvNuhRxQ5T20PIp2zbnYHE8qXToaSBHoOJ/OpzI32d5sxNSxV6AEAusnCbbKSjpRAvQS2+
-	saNqAjVZjshlWDl0XBGvxPB+GNSaBYHneeOggjdUkxrkr81g==
-X-Received: by 2002:a17:903:3804:b0:2cc:777f:d67c with SMTP id d9443c01a7336-2d64b0c5704mr320127395ad.13.1787446026282;
-        Sat, 22 Aug 2026 17:47:06 -0700 (PDT)
-Received: from ceto ([2607:fb90:9c20:7a99::791d])
-        by smtp.googlemail.com with ESMTPSA id 5a478bee46e88-32801d7f812sm5767957eec.1.2026.08.22.17.47.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Aug 2026 17:47:05 -0700 (PDT)
-From: Mohamed Khalfella <mkhalfella@purestorage.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Mohamed Khalfella <mkhalfella@purestorage.com>
-Subject: [PATCH v2] nvme: remove stale namespaces by NSID range during scan
-Date: Sat, 22 Aug 2026 17:46:41 -0700
-Message-ID: <20260823004641.1369895-1-mkhalfella@purestorage.com>
-X-Mailer: git-send-email 2.54.0
+        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
+        b=TvX6O4Ba9HXrtY6a0FwBG6JBLJMThqTEOVQM7UVgBHak3dG38nUnI3z4AvvAyeeegw
+         KQUv2gpjgyByaNbdMfdAArSflp108QxQnzFNN9E1RLYBBLqq0ij1coIKcOnjygJii/CS
+         E147MpdHPd2FUiyxEqcwa3ws4lujJBs7wDUwxtlE/ap0VJhNdeY/6HAi2oXx5LJ0HZNB
+         990V7EFjTD0mlel8SaXHfeCqpuM/Zh4ruk3SzC7CnJzGcYKrJ85OJouMRFMzw/5fr+T8
+         Ax3ClFPFtdWCAbfNBy6rMdFPprejR9m+84w30tAoucpHJswwA4maY4+2eMgMYGJm/+pY
+         cd0A==
+X-Forwarded-Encrypted: i=1; AHgh+RovouK0TT5qoKSMf9rRQepQ4nUd4QM67lvaJeQH3iZvdLeIdAKpM+DZt1VdqL6SuHctZKC+wz+HkwXK@lists.infradead.org
+X-Gm-Message-State: AFuF++lzyzFMNN4wEBGFe4GWRzKWJprmhLa9qEFCiROsN1qP0/eR6cqk
+	2KTBc1oQt27GD7Fw4UtQZQQOMcX6E/gx6OKj7JoUtdc0B+lPDS1mLLJI
+X-Gm-Gg: AR+sD12OVOudKIs7JP+IkY/gKnLd4i8hszvBrgeZtQL/bqCCwbNcXi7vD5JgUMzTloK
+	oEWTMJ6p1J9k5ob1oIi5I51fAu+Rczo9mqowi29Nu7mg6ziwFu54t4YmLTZYpbP59+PQN1wJdUC
+	Hj8Pxqp2rMPEaopZNxVGYNgzwGX8DcTWg83RTgkcTjlZK98nkYkiKVxK5q4RJkAYaM6MNg/zU0W
+	OxZpwFg8D7ZVgMg79eELk67yVCKpwKUpxOklKUumWg60baKAljTu9tSYVgsD/JQZ95LWh7CxvUz
+	VphlxLvZTK7Qh/UZYWFqudp7cp9nzwJVxaa3GsCTuBB3UA4etx10TOgTix7IP78hj6MYSK04BND
+	0dNfozbYUqBmFYuB8kjBBNgmVDsQR5FLGiWSS6rTWBJe2JaX8TAP0nfVYEGL23GjOIjVcJnobUg
+	NQlikvU68OreYdjcWZQDzID8lnlkISF/DtRuR143RzHkJgvVUBN2jYPOD8VPNmo8VSA4P8ahvGP
+	axAdpkp6anY/fsXAX5B6ng=
+X-Received: by 2002:a17:906:6a25:b0:c16:12ff:dc8d with SMTP id a640c23a62f3a-c246a69a22fmr1846083866b.14.1787446189092;
+        Sat, 22 Aug 2026 17:49:49 -0700 (PDT)
+Received: from [10.100.102.74] (89-138-65-240.bb.netvision.net.il. [89.138.65.240])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c24968a2183sm531706266b.58.2026.08.22.17.49.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 22 Aug 2026 17:49:48 -0700 (PDT)
+Message-ID: <236e66a1-2883-4d10-9b08-045ba0662760@grimberg.me>
+Date: Sun, 23 Aug 2026 03:49:46 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 01/16] nvmet: Rapid Path Failure Recovery set
+ controller identify fields
+To: Mohamed Khalfella <mkhalfella@purestorage.com>,
+ Justin Tee <justin.tee@broadcom.com>,
+ Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
+ Paul Ely <paul.ely@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+ Keith Busch <kbusch@kernel.org>, James Smart <jsmart833426@gmail.com>,
+ Hannes Reinecke <hare@suse.de>, Randy Jennings <randyj@purestorage.com>,
+ Dhaval Giani <dgiani@purestorage.com>
+Cc: Aaron Dailey <adailey@purestorage.com>, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20260712022437.3743117-1-mkhalfella@purestorage.com>
+ <20260712022437.3743117-2-mkhalfella@purestorage.com>
+Content-Language: en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20260712022437.3743117-2-mkhalfella@purestorage.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260822_174707_472929_D95ACA71 
-X-CRM114-Status: GOOD (  16.75  )
+X-CRM114-CacheID: sfid-20260822_174951_169104_AA19B973 
+X-CRM114-Status: UNSURE (   4.78  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,100 +100,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvme_scan_ns_list() drops the stale namespaces in each gap in the
-reported NSID list one NSID at a time. Every iteration calls
-nvme_find_get_ns() to look the namespace up and removes it if it is
-present. The loop runs once per NSID in the gap rather than once per
-namespace actually present.
-
-NSIDs are 32-bit, so a target with a sparse NSID space can make a
-single gap spin the loop billions of times with nothing to remove.
-
-  watchdog: BUG: soft lockup - CPU#4 stuck for 26s!
-  Workqueue: nvme-wq nvme_scan_work [nvme_core]
-  RIP: 0010:__srcu_read_unlock+0xb/0x20
-  Call Trace:
-   nvme_find_get_ns+0x7d/0xb0 [nvme_core]
-   nvme_scan_ns_list+0xe8/0x280 [nvme_core]
-   nvme_scan_work+0x18a/0x280 [nvme_core]
-   process_one_work+0x197/0x380
-   worker_thread+0x2fe/0x410
-   kthread+0xe0/0x100
-
-Rename nvme_remove_invalid_namespaces() to nvme_remove_nsid_range()
-and give it an open (start, end) NSID range. ctrl->namespaces is
-sorted by NSID, so the whole gap is dropped in a single walk that
-stops once end is reached. This bounds the work by the namespaces
-that are present instead of by the size of the gap.
-
-Fixes: 540c801c65eb ("NVMe: Implement namespace list scanning")
-Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
 Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
----
- drivers/nvme/host/core.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 5f2744be7388..cc014cdc72ff 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -155,8 +155,6 @@ static const struct class nvme_ns_chr_class = {
- };
- 
- static void nvme_put_subsystem(struct nvme_subsystem *subsys);
--static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
--					   unsigned nsid);
- static void nvme_update_keep_alive(struct nvme_ctrl *ctrl,
- 				   struct nvme_command *cmd);
- static int nvme_get_log_lsi(struct nvme_ctrl *ctrl, u32 nsid, u8 log_page,
-@@ -4513,15 +4511,16 @@ static void nvme_scan_ns_async(void *data, async_cookie_t cookie)
- 	nvme_scan_ns(scan_info->ctrl, nsid);
- }
- 
--static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
--					unsigned nsid)
-+static void nvme_remove_nsid_range(struct nvme_ctrl *ctrl, u32 start, u32 end)
- {
- 	struct nvme_ns *ns, *next;
- 	LIST_HEAD(rm_list);
- 
- 	mutex_lock(&ctrl->namespaces_lock);
- 	list_for_each_entry_safe(ns, next, &ctrl->namespaces, list) {
--		if (ns->head->ns_id > nsid) {
-+		if (ns->head->ns_id >= end)
-+			break;
-+		if (ns->head->ns_id > start) {
- 			list_del_rcu(&ns->list);
- 			synchronize_srcu(&ctrl->srcu);
- 			list_add_tail_rcu(&ns->list, &rm_list);
-@@ -4571,13 +4570,14 @@ static int nvme_scan_ns_list(struct nvme_ctrl *ctrl)
- 				goto out;
- 			async_schedule_domain(nvme_scan_ns_async, &scan_info,
- 						&domain);
--			while (++prev < nsid)
--				nvme_ns_remove_by_nsid(ctrl, prev);
-+			if (prev + 1 < nsid)
-+				nvme_remove_nsid_range(ctrl, prev, nsid);
-+			prev = max(prev + 1, nsid);
- 		}
- 		async_synchronize_full_domain(&domain);
- 	}
-  out:
--	nvme_remove_invalid_namespaces(ctrl, prev);
-+	nvme_remove_nsid_range(ctrl, prev, UINT_MAX);
-  free:
- 	async_synchronize_full_domain(&domain);
- 	kfree(ns_list);
-@@ -4597,7 +4597,7 @@ static void nvme_scan_ns_sequential(struct nvme_ctrl *ctrl)
- 	for (i = 1; i <= nn; i++)
- 		nvme_scan_ns(ctrl, i);
- 
--	nvme_remove_invalid_namespaces(ctrl, nn);
-+	nvme_remove_nsid_range(ctrl, nn, UINT_MAX);
- }
- 
- static void nvme_clear_changed_ns_log(struct nvme_ctrl *ctrl)
--- 
-2.54.0
-
 
