@@ -4,147 +4,93 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 53DE4C5DF8C
-	for <linux-nvme@archiver.kernel.org>; Sun, 23 Aug 2026 12:25:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 353A9C5DF8C
+	for <linux-nvme@archiver.kernel.org>; Sun, 23 Aug 2026 17:43:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
-	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Ddm+zVnUj8q9yCBEROwNy5uJPy/o8rQ2ZZQxDAqnxv0=; b=OigivFo1ZBGivBACn1iZmDNqWA
-	dFxTJ/tJt1mwIshZWrAAkm3FdzqxsjpIs2Hb1poKeR0tmsAe+jYYcobQhirrXzmHnSluOjbqJVdwf
-	u8vwzeyUVJj7haD8Yk7h2IwyfsnNN25zWrekVxoAmdrNnhSvwGvKTcG2MVy0qrPkGs1HyycNEf9/U
-	LXrnryy69fUQimNpwRj2IYu0EKyXtJYBuJMe18oAsQlX7N+8GaSi4SISqW00eLpii057DFU/1VgV/
-	DfQPeb707aD3XBctUaVPoixashZnOLNrp3IKkWkGH3vzwaGRBkLYjyjbl03TJfxmIy6h5jWlQbz6g
-	h3YLXWBg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=UJ2aHnzQI1Mta2slSMNw3vLT4xRrVbqhBIO3z2Qh3c4=; b=a43R0r2TU/G3CLKBr78OFf44Xf
+	ZAESD7ldAUHdpjKG46kv3GTA4ZxMH39+qVd9HL1Jgwg7R/Aoy9P2wl9+o4jXx04SmtP2Vzb7T0vJO
+	0dacWaSVhV9e98MwHbIhUvtsyrF8nuTWDuiZxve2q4HHMEg+sYYCkGhFibBUAUV/K8dNwNXiJJX2H
+	bhp1Fhb2H+gFxpE+9bZG1sEeTTUjbmDVzzrjhppmOtBvof7PabfLRnxvlBhQVje1+UchRZyLsSRex
+	Oil12P83VlQjMuajOestb5qGQ7jySgNPYLwI8mkUKAHdGYHEGQoIiN0h2fI5npxyz+XMAKV6MoCoE
+	1BdVlisw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wy7GD-0000000FKna-344U;
-	Sun, 23 Aug 2026 12:25:13 +0000
-Received: from esa6.hgst.iphmx.com ([216.71.154.45])
+	id 1wyCEd-0000000FVsC-0syb;
+	Sun, 23 Aug 2026 17:43:55 +0000
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wy7GA-0000000FKn9-3A31
+	id 1wyCEb-0000000FVrm-0DtD
 	for linux-nvme@lists.infradead.org;
-	Sun, 23 Aug 2026 12:25:12 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1787487910; x=1819023910;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=MfaNou+R/JKiCBHPX4MCmSXwL9Gas7QYC4nHlhQ2giA=;
-  b=LdhsGCNTPvrRmzIEJHJG6aWQD9P9V7Fr7qgXrK+60LCaoLcIpPuwMDID
-   asx+aIglZcpQVJiX1uuqipvUNs00f95orRykuZDhW13qGXM1yDjyGL3sk
-   /OgHQR5lE3R4IihK4KJ7sup+pJdIZphBdu+1N4sY2itQx81/HIMqXWBe8
-   zo51RRGzzjqY4A6gpbPE1oOqFpt9byfAYeaBPv1StT3TLd8cZxjIHAq0c
-   a9PZGyqMfWZr6Y14yg7gnra+sNhe9/N+VAtZks7tI3D6OfqK/7dY5CnoL
-   dyHvHpwWdZ2r4HPt4NjyRX1f80jc6OnqySvhTWdHX8tPceezop/UBgOCF
-   Q==;
-X-CSE-ConnectionGUID: RsWZbcb1TSKngWvf+BgEYA==
-X-CSE-MsgGUID: /leYNcekRw62zWcqeNbY7A==
-X-IronPort-AV: E=Sophos;i="6.25,238,1779120000"; 
-   d="scan'208";a="152522237"
-Received: from mail-eastusazon11012001.outbound.protection.outlook.com (HELO BL0PR03CU003.outbound.protection.outlook.com) ([52.101.53.1])
-  by ob1.hgst.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 23 Aug 2026 20:25:07 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AMor05qqOqJMonn0+6cFTJ8Id4yJceqCChgYJJWJ6LKQZ35zn1F8Qn2pS4IARPRLCIhgEBMIplb5T2zUpMV5rszpk/eQMu8fYjm3mtfr9AkDPjGjdT1hIvtLwnY+jIFqN2kBPGQTxxcY4mVtJZgadH8OzOedayACFLJANsXG5WEUMxxVuInriBKcsfeXZ+4qVV4rYtuPqu/RrK33PVZHnQRgZ0GJLzVelxBbST0p9XiScuH4Gok61MPZ0UoVf96s5+qh9x4V4nc1M9hURxa45emENjaG9rIKg7yKStbMwCYG8YodsCmEjeDS+P4FUHT5lCmJePUc2XLgqSmDFAkcYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ddm+zVnUj8q9yCBEROwNy5uJPy/o8rQ2ZZQxDAqnxv0=;
- b=EpwPjOtBJwB6CznMtDmU77SpJhDTRU/HUEZMzMae8vlWApK5P2zPmz/RZef9eW7KBV87l/jLCj78X0QFczuQaKsruIsfdy2EbCfuzhpU5xkqW4MVtXZOTPdtYf+HKN6PLQGv1B3Ttfikkl2gnvnI4RjW3spRY/4Qyl12xZuDXVYdogWvPDqRrB9Inc8CXRL1N9iZAiozRtPeO38gBjaMq8W3Z2/sFVHEw/urY+PXatpDM46tF61plQtHLCsTm6T9NDKy1ABFzQweFSsY+aUE3t5vtPXxioX9lnN6rMFzz790BzVW6ISBG9zUp1PYiFNUDgMRT8ZnP4xY5Xou1e+9xg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
+	Sun, 23 Aug 2026 17:43:54 +0000
+Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-2cace91f112so29650095ad.0
+        for <linux-nvme@lists.infradead.org>; Sun, 23 Aug 2026 10:43:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ddm+zVnUj8q9yCBEROwNy5uJPy/o8rQ2ZZQxDAqnxv0=;
- b=XLlbm7jqIPi6MafabGlsdqaRA3pHg5sXwT4IyLjwVn0NxGmQcYcm+a8hQGJ4Mf41Y5ukVROsygbCc6F/myPjCuU268PXL2dKlzcj2kpKCt5M0PF6b1VkVBRNkJPrijExvzHX0jfN3Ld1k2eQ8tq1sN4LUxS1JU43rsl8IQPCc4o=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-Received: from SA1PR04MB10065.namprd04.prod.outlook.com
- (2603:10b6:806:4dd::14) by MW4PR04MB7395.namprd04.prod.outlook.com
- (2603:10b6:303:77::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.12; Sun, 23 Aug
- 2026 12:25:04 +0000
-Received: from SA1PR04MB10065.namprd04.prod.outlook.com
- ([fe80::9b98:bf8a:b0b1:ef85]) by SA1PR04MB10065.namprd04.prod.outlook.com
- ([fe80::9b98:bf8a:b0b1:ef85%4]) with mapi id 15.21.0339.012; Sun, 23 Aug 2026
- 12:25:03 +0000
-Date: Sun, 23 Aug 2026 21:24:57 +0900
-From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: John Meneghini <jmeneghi@redhat.com>
-Cc: Jesse Taube <jtaubepe@redhat.com>, linux-block@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, Daniel Wagner <dwagner@suse.de>
-Subject: Re: [PATCH v2 0/2] Test multipath and marginal ports
-Message-ID: <aorlybK-WA8TEVUP@shinhome>
-References: <20260819200425.194743-1-jtaubepe@redhat.com>
- <0d3cb83e-a4b6-414d-8756-fafd4a8238bc@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0d3cb83e-a4b6-414d-8756-fafd4a8238bc@redhat.com>
-X-ClientProxiedBy: TY4P301CA0001.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:405:26f::12) To SA1PR04MB10065.namprd04.prod.outlook.com
- (2603:10b6:806:4dd::14)
+        d=crusoe.ai; s=google; t=1787507031; x=1788111831; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=UJ2aHnzQI1Mta2slSMNw3vLT4xRrVbqhBIO3z2Qh3c4=;
+        b=Vdvs6VllnEZQFdzjZFVdSTShBVIAyPY7fM2tI4NZ73cyE26SmONak6PMUT5eDWMn1a
+         CwzyJcokacgDcIK2bYrJ/ePLgTxI49gAwvhPyeZahTOqfom4lGpV+E4nBvzAGL5/VnAD
+         IlixUu67jsloOgaE7QlfOz0yN3rcFvLBPvUWzK2TY2JxosHGhYaByowDrUmAhf8b1Tax
+         dmhYdH3ZAq7Bdm+XopHYNK/0LCmhb1AjyakKDIyC9Iv84a1wukvBbjqFcqoNtlXkuJrv
+         BiC/8ChE0uBVxqlUr9Tqgm0rIk1iK+1bVj+R09GZZ0Kv5IhMmfriBc9GS21ViaXY1N+/
+         qMKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787507031; x=1788111831;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=UJ2aHnzQI1Mta2slSMNw3vLT4xRrVbqhBIO3z2Qh3c4=;
+        b=tMOyA4HRxhjsz8TBdax9MpKW2Q+LJX5ExU5hT6S7Ogi+5zKYYyWMoujuA4zHdKxh8s
+         99UbVL0fXBtPOIzi2YDn3fpniyFsmDHjgLAGOnnWuPlv2FWAWYhxL6t1l2Vm02ppZWZB
+         NBb824vLpB0fjtgueXpOp8cr/uia5KI4KC1XjYquF1gchyqwcmp2vpLi8txvDO07c5MY
+         YswaI+Wdrifuc8/4ZuWk1Nkc219oKI1CSSmOQtNQTaSNK7bh7l6fRHO4d1all5dm9ojS
+         d7vJY7F1u6D3DMF/25TMXDI6jR7VqB+yA5yfR2VevaH+qBUhvig8/wQ2rMdscCZ+A7Hp
+         fsgQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoBEkESmcIl4hFtLwZXvswWJMxTkzYZqQWe70NvTA2yFRHWWQlpr0mynD6eacr2pJAqwAekMH7HGd6i@lists.infradead.org
+X-Gm-Message-State: AFuF++nXeAmwhc81NZ2gjsrQQkIGedgvaPoGOw6eVDvYjyCdhde+YQJs
+	u/7UVz16Pzv00i+GjSMgXsCITL7bIQEwVtXK5K3z15LIxYR1ihesT7TfQDe3KlqvTpY=
+X-Gm-Gg: AR+sD103pvuiL0HGqB8WfymE63U8/zv2gUiUJ7pOW6wNigrihxzdsq0lW8BRQy2yQSe
+	yxHzyN4kHoen+T35tN7vOWksuznJ7kDVGrSsLxRK9fQcYJ0javeu/2IHFOopqn2LwFPmgg5nAxU
+	tsNWqCo2razORxR/kRiUQpUeDPAQ/2at9uJSU9sm4RKaf1p0NTOQXeIr2uF7KvGnk3UpgfIEkWh
+	+Ox6Odb9qkpLsuXlw6jIDz9kvrsWG1uteJ1iidUrlB3wGzgOfg/WM+L1Gp7DwrUB1GfLQp5pm1s
+	W79z7a2DaDbmXIW/bS6X3ZkrM97+zN+BnHgqu0AtifjHSrd6mRMS02VVz5gGj6eABB/kwIpUMMl
+	7+UTRtuVcSj6bEpBLPfsjhTcNdft2A0TyUAdOSGyIM+RRxOUh/CImy+FgZ5Y/jO+/MjP1YYR3tZ
+	gR633gBS9/4WjY+DPTpuaQ2bVqBpIws8znk0wHxRm1Q63/3OYYTEt4oBs3LBMaUsanHkkjEpyZW
+	9xIz9YBIjE8XEeIejKGukdxkZJ8Gvp1Qu71Fq7dViw=
+X-Received: by 2002:a05:6a21:600b:b0:3c3:bbe6:95de with SMTP id adf61e73a8af0-3cd4ba451c0mr25107304637.6.1787507031467;
+        Sun, 23 Aug 2026 10:43:51 -0700 (PDT)
+Received: from MBP-Saravanan-D.civet-hops.ts.net ([2601:647:4380:3400:41a8:82b2:de7f:e948])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1418617378bsm16691759c88.11.2026.08.23.10.43.49
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sun, 23 Aug 2026 10:43:50 -0700 (PDT)
+From: Saravanan D <saravanand@crusoe.ai>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Saravanan D <saravanand@crusoe.ai>,
+	linux-nvme@lists.infradead.org,
+	Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Jens Axboe <axboe@kernel.dk>,
+	linux-kernel@vger.kernel.org,
+	Nilay Shroff <nilay@linux.ibm.com>,
+	Daniel Wagner <dwagner@suse.de>
+Subject: Re: [PATCH v2] nvme-tcp: pin io_cpu to submitter cpu
+Date: Sun, 23 Aug 2026 10:43:28 -0700
+Message-ID: <20260823174348.40236-1-saravanand@crusoe.ai>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <56829bb7-2067-4794-88ec-7ddac2d3f250@grimberg.me>
+References: <20260820083634.71689-1-saravanand@crusoe.ai> <56829bb7-2067-4794-88ec-7ddac2d3f250@grimberg.me>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR04MB10065:EE_|MW4PR04MB7395:EE_
-X-MS-Office365-Filtering-Correlation-Id: d3583916-286e-4fb1-afb0-08df01118ee6
-WDCIPOUTBOUND: EOP-TRUE
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|23010399003|19092799006|1800799024|366016|56012099006|10067099003|4143699003|11063799006|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: qQJDR4SswBhsxe+r9L2utATGfNIhlobC9BNejMGfFsu/eDFUn8RP85qXrxjvM1lXusBHJ7Lbm0NeDmUqx1DQeMmDYua6uiV2RDwYklHux8EGYvE9BIm1k1lEYp6LVVNgxjHJL9SvV3WPGrP26psyPWj/9l5t5ZN5n0WlQCaapb2TMnyzePewsx3cgPRVICrNwXYnLj68SoXF/OLHKdmQpcwisj1r/WFYMdrFLomNAANlwwTjbell9eTkxXOvB2tifmyTosm9Vv9zofBCD66BO8zln3f7DdLftlMAQMve8DAHxf75M3NZOx3I1WYPWIRlvmnKKWw8kXKTVe3TpAjWQl5G84psTYOhZnEkAvex5SDQawi9FkXe/8whwleLyP+DRQ11rZw8NC6CrRrsXbejCV/7aMAHklHOJHXb95p1CYToY5A+DIJJfCJM2JDiswI6R8P/CdlNz2h6TZNcc8Abg6Np5vPCtAtXPOXG1cOZZvIrvEqcD61kNk0BbwxnsxMJOi5TNwJOzyc52PNC6SvuwCRzch5DedDGSeZlmk3uP8wVbmmk3L+SE7d999yR2bOzyTzqU5rs4bOn62dlX/ks2cyMt5e/CG8PryFU/toGLWi/OZPBZ5AqYov1zmSDKMeS9hWmuhmzIPySXY2YXxcR88W1Tjk7VJtLi2ttK6aveao=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR04MB10065.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(19092799006)(1800799024)(366016)(56012099006)(10067099003)(4143699003)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?8YAWCJmWtV8OV/VMYhYYK6Q/uBl4ffpaR3haTchR0BwAsP1qJES5cNHKpiav?=
- =?us-ascii?Q?OVEifLuOonLM56xdfGQjsyrktiLX8gSX3CSdQcYVmkdmwkiWc8oBIXTf6xfP?=
- =?us-ascii?Q?Vt4rEAoRM45jg/evy314OOZQVb7OzHECedA9/CeF2KRP3Sl5/2BfJQ2MwIDe?=
- =?us-ascii?Q?dbHRfC9k0I1gaBiAacaDJCbwRcbXcE3GM4lQ4KZV5BbnrZRRaIK4JnVTKUJ9?=
- =?us-ascii?Q?FAsrLTVaPcV63nH13Op8O2wPHuMcPzF+CckDEQ6bsuY9OhjGKkHQhvU9rHDs?=
- =?us-ascii?Q?tUTQy4tPE6e9+lXMhvXIOCVidv4t00I7Ru2B+SPSDwrA199TbbRhGAw88nZO?=
- =?us-ascii?Q?gjkxZ/HVXm8c7kwj7iES4lkFwKCO3gij08S26JbxL8Pn26hu+08A/TAJewYB?=
- =?us-ascii?Q?2bSRNXkCLQHLZALujZNcJlJbAkntWTrhHKgAitvBVBlWoagjnoMTOkn4SbvU?=
- =?us-ascii?Q?B436d7O2icOIFNvEewrJPbeBHqCHYFak2BcYu5ryx5pWMwTqOuh1nDCuC7oD?=
- =?us-ascii?Q?8TMeiHmaKjwgMxzFtc4PPubQR4Ai8ogpNoK6ra66b3xyG0c8t9yOriRvHQzG?=
- =?us-ascii?Q?e/z5fxRFDiie2gEi3oE2yeUf+aqm/9EEyXN3HKF9RKdeGS3xWzI4jrdkteLT?=
- =?us-ascii?Q?i7SaU3CaY1YJg05TL2jWqr9KQRdFe7Qc+aFZWVap9wBKWKIn1DjQ7Z7J6SBc?=
- =?us-ascii?Q?tKJOeAHy2l7QGsI8I+4Ds4O3cUaFuFHRvg2YDTLlQYWeJvEWSvxAo0ad27WB?=
- =?us-ascii?Q?yKKo95a+MP3vd1t4T9Ft38eotGBSN7PS2BxBKScsKOONAM7MhrFpcZXG7dHX?=
- =?us-ascii?Q?RknSgYloswtz1VBqNfLmsdke/8a9nKl/xJCME0hAKiskqYqGwp2jr13UlJc9?=
- =?us-ascii?Q?+U00XD4Rom9hsUp+r8HHTLL7Vs0KRCftEAEVTnd0OQTWPNMMu7AcecyyP9Ek?=
- =?us-ascii?Q?pkc+25ookGFhCcxyQkfBSWdPZe+9NXF8c69qDTeu+tLhOxlXfNiPv7f1vmAd?=
- =?us-ascii?Q?DUaqJWP4urGOeAlxmH5yy/92f21m/u6wV0FmQ9oax1PNfBtL+q7+wqJRKDOX?=
- =?us-ascii?Q?OxKrYl6ganul1dRm07/hEujb+j6KtIt7R+gfjQeIfRxrGAiYMqvxCl1GKDDa?=
- =?us-ascii?Q?16My3g/tt32OMy1erWL3LmjCsnuNaUNnsLWuDLB5I5OQH1RgbsDgrK5NZqGW?=
- =?us-ascii?Q?iELYW63uux1vRc3/97mAcK/UF0YuTzmDarERn0xQ37ZDAlf8V/tazv3l05Cc?=
- =?us-ascii?Q?DUcZPguPXEIk5LIV9Vb/34iDX6RCH/gQAqaawIEADUxMe58nHQcWgmkeZJjm?=
- =?us-ascii?Q?NsKcJyLaQTWtePvU5Gx9gya8PumtnN8c8QpQT1VkSOL/ik9pJpbeQdpkmBlz?=
- =?us-ascii?Q?qOTtlrIrcVDzCkAQQ8C4jbKYl2jjlcQCPfNsr6LBwLFAc9lEnyzCx2CsDtSi?=
- =?us-ascii?Q?UdH4DAxHhuzC2LMlE+gSelYjfGpF08sYkkfCFeNjrKwW9o1ZE9ebXMyqtsab?=
- =?us-ascii?Q?ab9hMes0AbAtMS5ATkR96KkrpWxRdIERncgWmKAldlgj1IDwyCKCDPVDkV+D?=
- =?us-ascii?Q?SjwcrV0k/OXY1eTiv6MA9V5NI8NIKzc04w1Nm6oRK4dxSYjBAVFdvbsa6B5T?=
- =?us-ascii?Q?3GN0PZAmWNpJ/EMEHWfHW3vjBLxUGS1B/kE1/HZXjfEgEWDOmqrd//MjBlFB?=
- =?us-ascii?Q?Ufgm+4g0g2U3FVxPUNrg72mR9wR5/L5rMrJ0j51iHsWNF9UTw/He1IG03Txx?=
- =?us-ascii?Q?YcBt3OBBe3jzcA1ybCA5wgzlc2Fd/bc=3D?=
-X-Exchange-RoutingPolicyChecked: xWzEWAJuaz2LkTRd2A44WW+CV6HfnowbA6hhXYD9EIY9BKmaIOSs6hFJRQQWKwDtcV6KDVzkkae/84K129f5unGkqTP4IwQdkUnw8PatdkEdZLAFzGPRLpLhZGX2rW1XARMLBzukzgGXuwajG7DKSsr/IX71/UDrmqlLMSqEvs+s3iQan9BqhOZqKgK5m/OSB4nvUNxVzLkgzEEHuD/YlV52YX3o9NtwcMW+8aXla4OiZsnT1cjFDBwiqxJzRZMRBR/NeQtWtF5VL9zaUKc2I7tgE44MDkSR2efIL81EaeU3FfHLmDFmRrXnQe5uyc1E0YQ0Z47NYQuJILM9DG2o3w==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: Sn+U/QYDPw3AjR8aMY08KB2BoZCVjgJ5hKIRTcWOnGW38fnGaq+9shWHqFB1T8VHvL9j39RxHT+xbvGx3vZRUcstoJMe+KmvbRlTwXuO4b1i6CRpDTKvmUmcd15IKm03DXWpbrlnH0JcShbkBj22SNbKm/yRpIiXHMsPmYj0gUD12VsWpqvnmCdhAMQlMw+w0bHwO3NpF+UggvgQYsxa6fYjAHM1dHGuklpdAywGVWmtDwWqM1t+bNl3GY2Xd444DH0sHJdmFvd5M3Z07EHh3EtdOvITRZSJwu1ALiEzosEyhX9VC7DSNXOI4jLRuEih6w/64M+r7H8C1yscjKIHd6bJQ4eogaGMqp/d5gOIsShsdevYcZhqSq2XJToItdM0Bi49m8/GwyWgqUJ1KgjGW7ZNHdvmg8AfeI3bg9XtkN8CO+1zLu9yKV40DjXkvWP4N9jVQr9zhGaXLqDzakban7Yg4gH4ENoU54R2WoVAEHKDwh7t9LrrbhNCR+qB3MHY25OaQeR2fiKt7APcu+m3Qfc54uRhba4w9Mh0wmo16i0uJ/Zdr9c5U7KnZ+zazSbr9iPbhJLQa/CMiFQBGD15HYw3thzCbcKvHUvAZ0Rb9TuCsM4rDDf4laBjehZEDTsb
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d3583916-286e-4fb1-afb0-08df01118ee6
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR04MB10065.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2026 12:25:03.4802
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kPlGEK24Yi4lWxiod8j8rRmtsvjLNcKJQLsggu6PTJ0YgPQhWTljsQpmOvs3Z3DKLMRkS1jh3UrPUMCJ4MOztw70OmLOm7AGGCq9/etkwug=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR04MB7395
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260823_052510_876391_9058B99E 
-X-CRM114-Status: GOOD (  14.30  )
+X-CRM114-CacheID: sfid-20260823_104353_111647_82D6373D 
+X-CRM114-Status: GOOD (  19.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -159,15 +105,89 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Aug 19, 2026 / 17:49, John Meneghini wrote:
-[...]
-> So I can recommend that Shinichiro test these patches with the current upstream kernel patches:
-> 
->   https://lore.kernel.org/linux-nvme/20260812181300.3712426-1-jtaubepe@redhat.com/
-> But there will be another version of Kernel patches and a V3 of this patch set will be forth coming.
+On Sun, 23 Aug 2026 00:20:21 +0300 Sagi Grimberg <sagi@grimberg.me> wrote:
+> Can you share a concrete example?
+> 1. lscpu
+> 2. grep -r ''  /sys/block/nvmeXnY/mq/*/cpu_list
+> Also, what would be the VMs cpusets on such a server?
 
-Jesse, thanks for this v2 series. The blktests side patches look good to me.
-Also I ran the new test case with the kernel side patches on top of v7.2 kernel,
-and the test case passed. Good. I think the last piece is the kernel side
-patches. I will wait the series get settled.
+Very grateful for your review and suggestions.
+
+Concrete example from one of these hosts, where there are more cpus than
+the io queues NVMe-oF targets offer.
+
+lscpu (trimmed): AMD EPYC 9654, 2 sockets, 2 threads/core, 384 CPUs
+  NUMA node0 CPUs: 0-95,192-287
+  NUMA node1 CPUs: 96-191,288-383
+
+Each nvme-tcp controller exposes 128 io queues (queue_count 129) against
+384 CPUs, so blk_mq_map_queues() folds three CPUs into every hctx. cpu_list for the namespace's path device, around one tenant's boundary:
+
+  hctx67:  6, 7, 198
+  hctx68:  8, 9, 200
+  hctx69:  10, 11, 202
+  hctx75:  22, 23, 214
+  hctx76:  24, 25, 216
+  hctx113: 199, 201, 203
+  hctx114: 205, 207, 209
+  hctx115: 211, 213, 215
+
+Two VMs are live on this same shared controller:
+  VM A cpuset: 8-23,200-215
+  VM B cpuset: 104-191,296-383
+
+VM A owns 200-215, so hctx113's group {199,201,203} has 201 and 203 inside
+VM A and 199 outside it. The connect time pick can select 199 as that
+queue's io_cpu, so VM A's I/O through hctx113 runs its socket work on 199,
+outside its cpuset for its entire lifetime. Adoption will pull it back 
+to 201 or 203 when VM A submits I/O.
+
+> In an ideal setting, the nvme controller would support $NR_CPUS worth of
+> io queues [...] map cpu-queue with perfect alignment.
+
+Right, and that is the case we cannot reach here. The controller tops out
+at 128 io queues while the host has 384 CPUs, so the three to one folding
+is unavoidable and some groups end up straddling a tenant boundary.
+
+> I think that for controllers with low queue count this approach would not
+> work very well. Plus the cpu<->queue mapping by the block layer is not
+> guaranteed to align with how workloads/VMs are scheduled on the host...
+
+Agreed on both. A queue whose cpu group straddles two busy tenants is only
+partially addressed, since adoption then selects which tenant hosts that
+shared queue rather than removing the sharing. It fixes the common case
+where cpu group sits within one VM's cpuset and the case where only one
+tenant on the queue is active, and it is strictly better than the connect
+time pick, which chooses that queue's io_cpu before any I/O and can land on
+any member. Solving the common case also lets the control plane, which owns
+the VM cpusets, affinitize each VM's virtio-blk submitter threads away from
+CPUs whose mapped queue would land socket work on a neighbor.
+
+> To me the problem statement sounds to me like you are looking to get a
+> "private" controller (set of IO queues) for each VM. [...]
+> nvme connect -t tcp -a <traddr> --cpu-groups=0-63,64-127,128-191,192-255
+
+A private controller or a cpu-groups partition fits workloads where the CPU
+partition is known and stable at connect time. Our production constraint 
+does not afford us that luxury. The nvme-tcp controllers are host wide and
+shared, the tenant VMs are namespaces under one multipath subsystem, and the
+control plane creates, destroys and bin packs VMs continuously on these core
+dense compute hosts. A cpu-groups mask fixed at connect would be stale as
+soon as the tenant mix changes, and re-partitioning would mean reconnecting
+a controller that many live tenants depend on. We also cannot give each
+tenant its own controller, because the overhead on the host adds up and we
+run the risk of exceeding the target's connection limits. Adopting the
+submitting CPU needs no per tenant configuration and follows the tenant
+churn on its own, which is why it fits a long lived shared connection whose
+tenant set is not known at connect time.
+
+Next the fleet operators who care about VM steal time already steer NIC IRQs,
+NAPI to a dedicated housekeeping CPU pool outside the tenant cpusets, so the
+common network processing overhead Nilay raised does not run on tenant CPUs.
+With that in place the remaining contributor that still lands on a
+tenant's CPU is nvme_tcp_io_work, which this patch pins to the submitting
+cpu and keeps within the tenant's cpuset.
+
+Thanks,
+Saravanan D.
 
