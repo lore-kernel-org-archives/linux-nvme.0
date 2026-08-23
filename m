@@ -4,67 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CECD2C5B572
-	for <linux-nvme@archiver.kernel.org>; Sun, 23 Aug 2026 00:50:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E0422C5B572
+	for <linux-nvme@archiver.kernel.org>; Sun, 23 Aug 2026 00:53:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=eF1tUMPQ5km75hzoGlP6DddnK+
-	w3NAT6qEwX1uRWLIJnv5Hsi8cZx7bGtV3Im97DdDInNgVmKE760NBkdqIACKsoGZf++z71ueU6+TF
-	O9Robl3rpb7bjWoSNM2mQy6AAzH35rab0iuV92qfpCZRgl8WTFzeKQJEyGZbYwzOAwONH8kO082Z5
-	UQiDfEnh+3qWHTPf0KKET5JHvUaaS+3aUVObWWdQu24QRmA5ZU7GG1y5bS5Dk2CXoasTVS/A3gXB1
-	lUkdM2ymp5TljKbjZuRlbTTSCKtCsYgsbirefSJzFUcfgQSftXhirZ4IjrlTNE3OQvelNyHJYtW03
-	TlOKJyZw==;
+	bh=MVufe+rG+M5z7KhaToqCxTOVwgom3Qp1/8NNcDgkxd8=; b=A4+BekF4gkXz/v0n7F6Wlke8WM
+	CNnC+yV7i+fa8zDeX26xU69CbEjge7SyAkmIa7J7Vm7vh0v3f3y1dgz+PFxNEVD8Yw6yzptEYiNJH
+	csgeg8J4jRNnFsvmq6NKH7z1qLzKZFtauXfW4svCV21F4xLDIUSmlN84vfJvJFS3AI/gmfU4S4NFa
+	y1bNxMXdvc3ZcWbGiCtOeyprjXxvqExHHywjCWoA8GPsuKqgv9Ft2e3Sf9EtP9mIZxjoiOkSQ9+0W
+	JrJJLSojLiagAnO+TrNtMUSogvoe0rjOsmogA3Wj5hIZ9HTQquk45cmx4fjMic/j3zxAMubGv74oK
+	bKWQ2ghg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wxwPZ-0000000EwJD-1xTh;
-	Sun, 23 Aug 2026 00:50:09 +0000
-Received: from mail-ed1-f47.google.com ([209.85.208.47])
+	id 1wxwSV-0000000EwQx-3mYi;
+	Sun, 23 Aug 2026 00:53:11 +0000
+Received: from mail-ed1-f46.google.com ([209.85.208.46])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wxwPX-0000000EwIc-2z6W
+	id 1wxwSS-0000000EwQZ-3yjG
 	for linux-nvme@lists.infradead.org;
-	Sun, 23 Aug 2026 00:50:08 +0000
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6a1a546a6bbso4054439a12.1
-        for <linux-nvme@lists.infradead.org>; Sat, 22 Aug 2026 17:50:07 -0700 (PDT)
+	Sun, 23 Aug 2026 00:53:10 +0000
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6a156627e22so6119986a12.1
+        for <linux-nvme@lists.infradead.org>; Sat, 22 Aug 2026 17:53:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787446206; x=1788051006;
+        d=1e100.net; s=20251104; t=1787446386; x=1788051186;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
-        b=rWkm2Ymf0NuE+T9FHPGo//G4kPX/3042Ocykt3jRwLZEqvlGznI1JHqyMW1OBYWa0A
-         i1chYs3ASQLqTUOE7+GML81MTERwfZK+Y55vP0TBHe2L8/8MEwn6c5RcRhFKdgiJCMtX
-         EscWPj0laPuspsMfZBY0P1ycyLTVZ/vEPUwDF/0cL6E93KGx+iC1i4U04RIguIP/cnXM
-         qMEmkpZ5qKIzxzFuFCeL9a17MHW4W3u4qSotHfbP+qvep7CzQJghl4mMNgPaaUARCJyE
-         AsRJBgdy6pZi0Ir+beqm+7cOTflUfofE416x74Eq25Rcw5u+V5G69QUhtpyhZR8w0gDn
-         /Dww==
-X-Forwarded-Encrypted: i=1; AHgh+Ro2a8RUYUNc21VzERur1KjFFHHMXqe9WKkdp4tGHQxcKijA8I+PV4zx2FrFX6ijnKLA2S3GP/mihjVu@lists.infradead.org
-X-Gm-Message-State: AFuF++m+zQNaDG0IuVNE8/2GzsXZGGyO+CCgv9tJrZhUy3sbQq5TDA8R
-	k9gbHCI9oK0mZHHkP+GEb1+c/n2A85TTSeqK9aNhjqf78nDpLcOuQM2x
-X-Gm-Gg: AR+sD11amLZge5LijcpoU1e7fDzVn1r6xQ/oIqiQ3fKD1ijkB6pDDUNN1Cswdbqw6KM
-	7N947iQjdmPzZNxlM7usQlb26S/EB/ivvtD7XlKLBgioMad4XOCIe/gmsH44Rx3MdtDazpo/hS6
-	qguvklIlwoyNS1ySLTEVrO3jRBHlBPntknYuMeeKJQbqGY3tWojImuYTwg4P3ngkGXBo64qatU8
-	MOhljRDrg0oiibZpheKpa1+0FevJMH9Ivvf1RISOUAtKTk37+xqlQigAKw3A7RV4BSn3cucygOT
-	ENOcQ15GJoOptWYVmEzLeSwItzySbNZGoNhk3a62gPlbEFILw1+KmVQ9/m0FB7PyBKvv+6Shads
-	tgpkw2VBSivclgzY5Uu2y40IowF9aPsFxC8nhcyiQeSJ6TCxyALG0wQI0mosK9wbZkgUTfg6BpC
-	AFySn9ghutoJzHyGY7atwxZ+YohEcR8e/EnuBUbvGEsT6NV4Wv8PbOJTxn+jXtNt4knJ8hn2jbo
-	vQNYZcHVLeeNfM+QkPEx/hxeCfX1JuEGw==
-X-Received: by 2002:a05:6402:2186:b0:6a1:2400:baea with SMTP id 4fb4d7f45d1cf-6a42f18a70cmr15544172a12.10.1787446205842;
-        Sat, 22 Aug 2026 17:50:05 -0700 (PDT)
+        bh=MVufe+rG+M5z7KhaToqCxTOVwgom3Qp1/8NNcDgkxd8=;
+        b=aZwFBRdkJGsilirQGoyZAe0q92kdieliDKO5d3ukJxK45go33G/3EgHcjh4pFscuSg
+         Oli8AkMfQt85/Gy7WaYOn6dBP/WaYx3jIgWaezscljamnSQPuy24ssaY7+TIsbtx/5iE
+         G5kToIUR3KHl8C4tQrHrv7dzd7w7aVyS6L2ZfCaLAdU/NtmGZKbE0ay6ODPi1tVuFTQb
+         WXWXkkRJHZ0zQFSli2JJhwKihukcEDO0A2ov9vm9uOkWUhTXnVUX6MaT77XP0nrpqTFZ
+         UwsQpBjffl52Oj68H1qf84rNyMaIjbSgzLdW9xavJsS8AUNKoVaIhXxbz14RAuTvDyfi
+         pgzQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqZxDlbTXbaPxge93ImLrGlT6kuk5K3XSNx1OhvpumcZ2pbX8CrSX8TjA3UW2HnJ0ZIibZS+mBsKjyh@lists.infradead.org
+X-Gm-Message-State: AFuF++m62BU4joHa/bzfIGg/JPIQ4fIpfBePghQ03B34/tnV4eoxwjFC
+	8WQsPRn1bfgGPqJxDEAlX4TMiLxPqJTnM56eqn/yZUzsKGaBvn5ehn/9
+X-Gm-Gg: AR+sD13O+WiiuxiY5jpZrVDvgdoK4Y3Yju5+lLVOAdEi3vACsSbhDEtkjRqgVJqMqNf
+	t645rXiluC/qHKhYPhwtZOJeRBaa7mJMFOOGNjOa7P4rQVvTEwRmvGxG503hEPsH7e4rTLuLzHr
+	qosVl6JkLe4X4WP+m0LwqNL8SfwCzHS2OH8SqNBoL7IiDposmywYo5A9Bv6Zlwd0boPRSBMhCnJ
+	7V2Bnq6hM2dY3xRVgA46t2c2CaEScFixmQBfK3CL3l1TLJjFgQrZ1DmoX9W1l4CoHmVh3/Y7V2r
+	WvM+jy/1CV65V3aZIUGi4R6K068dStJUvpfkVeHAHhvzfyJE0nlK3kDveUY27HwzPUjFpf4O49L
+	/BZ1SN7YOedD7wDypbcbpwc0mgfCmtkGaeWjKsC9DRev9dhKZKnaYfeD9DvQA+4riLlOiKpH6JE
+	92yWKNJu/4NI7Cr4DPmihrZyXOmCyyPKTrqjfneoAR8BZbz9e/LzeEEWvtYILzKw/8lw0dqCAuk
+	+wkTRgiQgctFx5Cm3h16A7G57kX06s0OQ==
+X-Received: by 2002:a17:907:9481:b0:c0d:7c31:26a9 with SMTP id a640c23a62f3a-c246d58210bmr1522650766b.2.1787446386151;
+        Sat, 22 Aug 2026 17:53:06 -0700 (PDT)
 Received: from [10.100.102.74] (89-138-65-240.bb.netvision.net.il. [89.138.65.240])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a59e02a8fbsm622238a12.13.2026.08.22.17.50.04
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c249606b431sm450519966b.1.2026.08.22.17.53.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 22 Aug 2026 17:50:05 -0700 (PDT)
-Message-ID: <802c59ac-a1f1-4250-aa33-d5c717315cb3@grimberg.me>
-Date: Sun, 23 Aug 2026 03:50:03 +0300
+        Sat, 22 Aug 2026 17:53:05 -0700 (PDT)
+Message-ID: <6562686c-1a38-45da-9d99-bfa9a9736fc8@grimberg.me>
+Date: Sun, 23 Aug 2026 03:53:03 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 02/16] nvmet/debugfs: Export controller CIU and CIRN
- via debugfs
+Subject: Re: [PATCH v5 03/16] nvmet: Implement CCR nvme command
 To: Mohamed Khalfella <mkhalfella@purestorage.com>,
  Justin Tee <justin.tee@broadcom.com>,
  Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
@@ -76,15 +75,15 @@ To: Mohamed Khalfella <mkhalfella@purestorage.com>,
 Cc: Aaron Dailey <adailey@purestorage.com>, linux-nvme@lists.infradead.org,
  linux-kernel@vger.kernel.org
 References: <20260712022437.3743117-1-mkhalfella@purestorage.com>
- <20260712022437.3743117-3-mkhalfella@purestorage.com>
+ <20260712022437.3743117-4-mkhalfella@purestorage.com>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20260712022437.3743117-3-mkhalfella@purestorage.com>
+In-Reply-To: <20260712022437.3743117-4-mkhalfella@purestorage.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260822_175007_755945_694EF118 
-X-CRM114-Status: UNSURE (   4.90  )
+X-CRM114-CacheID: sfid-20260822_175309_865276_0C765A27 
+X-CRM114-Status: UNSURE (   5.44  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -100,5 +99,9 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Would still like to have it simple where nvmet allows a single ccr command
+per ctrl such that we don't need to build a list of waiters.
+
+Otherwise,
 Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
