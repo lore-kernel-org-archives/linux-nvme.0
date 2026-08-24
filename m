@@ -4,113 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 94B7BC5DF81
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Aug 2026 20:23:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2CEC4C5DF9C
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Aug 2026 22:30:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Message-ID:References:In-Reply-To:Subject:Cc:To:From:Date:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=T2UuD3eSgcHvY/KsgJOfximiozWBdtw4e1vlrx/urLs=; b=uGWdGQJIPze428ggFRDd0Fj6Ul
-	kAGXvvCZZRzQgFAxGOI/WfStOLNKDUkQYAX5KkL064OkhEzwezDT685UOeH7otWU7kEIdIHMi6Vs0
-	qtKu9aS3aTY2TI3etpS76p024WFQiu+bPJjPbCfr/V5x1laf18RAUXgVlHepvqoFKz3z5EQT7qTWU
-	6wjUH8/Vr3CXnBEwFrJnv9kyLZSxcNJ7UJFm7L8OZEIXrL9qxN2IFJ3QS6TOCeQ0f7nXQ3eATNyhq
-	h6EGqCUPcb3hcIDaMtex/mW1LnLDCYE+K6yQGaPfV7W3pDSFVK9HK67oigQp4mQmIKF+aniuIefQy
-	hghWDAiw==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=FXqUmYfP/1VeF9LNUTb+thDcnPb5yvMtvt49VD63p88=; b=H5Jf2WhZq9wZ/stSB8UcL1T2WK
+	0cM2EDngHPaaDDjU3Lfwbyi4zeruOyqoSkd9mjzkAzp2z3kpwnfyL+DlYO4EnMxkzWwM8JglCLPra
+	soaLGh02KZxcHEyPpkBA1AtZX5WnXaLurqpO0Eo+V9GrYq6wAzX/bTAH/q7Z6oIz8K+2OjCSREInX
+	sbvxLYd+CSF2tDR0AZheyo1dkKzPHFI8/g9l2/3JxwMyqN02fcJFE0Mstdf85tbzZPBbMc2qxeBpY
+	Ok9Rt64eQmtX94uT0vX364D7uFPX5JUVz9EuGdm+zr7kp18lapPlSo/EbHEoVHGsIHrlUKe+kj6y3
+	QFbxGRZA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wybCf-0000000HMQ1-2pIv;
-	Mon, 24 Aug 2026 20:23:33 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1wydAz-0000000HSA5-28L2;
+	Mon, 24 Aug 2026 22:29:57 +0000
+Received: from mail-ot1-x361.google.com ([2607:f8b0:4864:20::361])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wybCb-0000000HMPf-3BM7
+	id 1wydAv-0000000HS9b-0sc8
 	for linux-nvme@lists.infradead.org;
-	Mon, 24 Aug 2026 20:23:30 +0000
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67OJVnVS2744644;
-	Mon, 24 Aug 2026 20:23:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=T2UuD3
-	eSgcHvY/KsgJOfximiozWBdtw4e1vlrx/urLs=; b=La3OtirEyBVp7nR9ErjtRf
-	FR7TXvLdIVZNzYMrg8UBoGo64DxGvdWctINu8wOI/BYetqA+5UUIiWFR8YMJIObl
-	kjLd2oblOo5fUiWm1C/nmjcgP1uZTHMcWSyCjSXLXnQ2jw+rcsNXN9M/drPa32Z0
-	XCb4GfypGksOOJupy1SNQ8seUNs29kamsUewB16kyt/tIr3sIgwaJ6nvTkVMNbi9
-	p6T5MgKGNhNcwG0k8jM/BO+42L6Lh6xVAcJVWx+qBeB4PLJpQbra863Ery3letKl
-	dbN7dv3id+AnmJYY7NB8hAIY2l/hgZSvQ6wG1iykdcc2HZbmAusrL+rNqTugt9xA
-	==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4g716hm6h6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 24 Aug 2026 20:23:15 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 67OKBMkt004598;
-	Mon, 24 Aug 2026 20:23:14 GMT
-Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4g7p3q0hcy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 24 Aug 2026 20:23:14 +0000 (GMT)
-Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
-	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 67OKNBQ328246706
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 24 Aug 2026 20:23:11 GMT
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 3B4D358056;
-	Mon, 24 Aug 2026 20:23:11 +0000 (GMT)
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id DD4D958052;
-	Mon, 24 Aug 2026 20:23:10 +0000 (GMT)
-Received: from ltc.linux.ibm.com (unknown [9.5.196.140])
-	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 24 Aug 2026 20:23:10 +0000 (GMT)
+	Mon, 24 Aug 2026 22:29:56 +0000
+Received: by mail-ot1-x361.google.com with SMTP id 46e09a7af769-7ee4399c3abso3766377a34.2
+        for <linux-nvme@lists.infradead.org>; Mon, 24 Aug 2026 15:29:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1787610591; x=1788215391; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=FXqUmYfP/1VeF9LNUTb+thDcnPb5yvMtvt49VD63p88=;
+        b=SufpE9qb0Jmmk2gJFiz2pB8/Y+s2+tvxv082V80xTRmekBaCxucfyhxc77vjaRjmLG
+         Cj/Ti7JodRqB/T1NB9GYSgg+vBQvFHbz2bWwWqtWKy8bGNvAOxHTsIRWZZyaVxnHMUtS
+         jrQpI8FnuqcI9yiVuTWT3Fx3+KDTQXoLJQAy4SwRlUVhULCghdA1kK+SZqFXVbTH63aj
+         EcoMmHyhttg317ZqespBbLids1d5SsYyYt6T8QAErBV6HRweDzt8XcnP5JR9OmvqMrVo
+         ofgCYWWX12ZllUX+xYarQx6hdDGMnUEzjAxSSgqnQfRa8RKUtywslV13qCSjkZl9LDln
+         Wg2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787610591; x=1788215391;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=FXqUmYfP/1VeF9LNUTb+thDcnPb5yvMtvt49VD63p88=;
+        b=Pjnm66/tmc8M1TZc7xyIOqkEArCvoqGWgJmwfEDEsHwP/iB/11YTpbTxNczbGie4Co
+         4Nvb6YTconD2RFgu4qjx+Nx2BrsWx3/M4JuXO5LCNSP+RPghBlA9RCsvmIEbsYqYtVAM
+         ncrI/sapXPBZVblBm1PhKns3xnIGO8Xx6pOL1DiAnjUXGZ0xO5t/160Ck3uZJIdH51pn
+         RkV4Zf8PK12uVv1SvfaMzoILLVlFg456OKE3S1o7i04RuQlgUFc8Hl1asoWhsp4bH3Jx
+         5jo0au+w0GN1XXW5hR4FUFbWqTx5a13NacNAwO3vSQZJgrR5aikszCPOcsXscWTfLBaS
+         nQqw==
+X-Gm-Message-State: AFuF++kn57Dh0SqhA2iGdYIAtLPiaD9BxPeW6Kip9b9THs6482pJNmtB
+	U4PfNVPnoqjTzc+FJqvoT4d/mAWvhx1zQg+ON0oqrEipwUEzhBbxytBJUT/D4M5OzY+eb/3h5wp
+	sUKY942qw8c4e109FW0YKSHgUel1CDWxUz5HS
+X-Gm-Gg: AR+sD10qKCA0k8qlvtY3USwKce3OrD9tlj6UPqLn/o9ywiK9E78cv3FtqLm4BU3KQC9
+	P6t+nmsgc7DsdmKTR++Lr0OkohV8V0spUHg6HaEovxULLr03nIorZC3QCD+VkJ7fq0acHgMrV67
+	mkdfZBmPkYZpBf6UUrxbGz3xMgyrqftvDHs0E6fi+hjhTXY5KPe9/bKlFtxayR3Nm8Kd+LwJ/Js
+	b15E381ts3oe1WYLznuMzfnhibIe7CJZBqiufWzmqxjsWcx8UOYun3ea+jH+v8yWn+IAmsmxSNq
+	SYi8LRSV7i9erQnJY/kwWN6vPLYYP2eQW9XsXrqYC4F78AYUBynsA3h2q4prJ1fubKlyPw5v6KX
+	vmNmu4S7vhuHsD6BqXnpKq6puUhrldmM=
+X-Received: by 2002:a05:6830:6111:b0:7e6:e162:915 with SMTP id 46e09a7af769-7f4af75f1dcmr2252155a34.5.1787610591507;
+        Mon, 24 Aug 2026 15:29:51 -0700 (PDT)
+Received: from c7-smtp-2026.dev.purestorage.com ([208.88.159.128])
+        by smtp-relay.gmail.com with ESMTPS id 46e09a7af769-7f48fc4ba4bsm827273a34.6.2026.08.24.15.29.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Aug 2026 15:29:51 -0700 (PDT)
+X-Relaying-Domain: purestorage.com
+Received: from dev-sgogte.dev.purestorage.com (dev-sgogte.dev.purestorage.com [10.112.19.91])
+	by c7-smtp-2026.dev.purestorage.com (Postfix) with ESMTP id 139BE402B2;
+	Mon, 24 Aug 2026 16:29:51 -0600 (MDT)
+Received: by dev-sgogte.dev.purestorage.com (Postfix, from userid 1557734945)
+	id 0E12651D15; Mon, 24 Aug 2026 16:29:51 -0600 (MDT)
+From: Surabhi Gogte <sgogte@purestorage.com>
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	mkhalfella@purestorage.com,
+	randyj@purestorage.com,
+	adailey@purestorage.com,
+	Surabhi Gogte <sgogte@purestorage.com>
+Subject: [PATCH 0/2] nvme-tcp: parallelize I/O queue connect
+Date: Mon, 24 Aug 2026 16:29:37 -0600
+Message-ID: <20260824222939.301887-1-sgogte@purestorage.com>
+X-Mailer: git-send-email 2.55.0
 MIME-Version: 1.0
-Date: Mon, 24 Aug 2026 15:23:10 -0500
-From: Wen Xiong <wenxiong@linux.ibm.com>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, gjoyce@linux.ibm.com,
-        wenxiong@us.ibm.com
-Subject: Re: [PATCH V2] nvme: Add module reference counting for multipath
- devices
-In-Reply-To: <d58d0c4f-0789-4c99-94bc-e2e2121e7b7a@grimberg.me>
-References: <20260812223206.720363-1-wenxiong@linux.ibm.com>
- <a9d90f41-1493-4efa-abd1-a7071046414a@grimberg.me>
- <d58d0c4f-0789-4c99-94bc-e2e2121e7b7a@grimberg.me>
-Message-ID: <af79f498b1287a3304db97477452537f@linux.ibm.com>
-X-Sender: wenxiong@linux.ibm.com
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODI0MDE2OSBTYWx0ZWRfX6pQjrYwpe+Y1
- saDp80+VYPfXyyfci+pAjwY6HRsB2MUrX2rWY9od6l8+yImCSzp5q0S4R8Ys/0KZGSWUOqNjmiO
- ypE2D92ixSgaCACzrratIxOcg82qIqU=
-X-Proofpoint-GUID: hRexQk6KRtpF-2iryVWx76wUvya_O1zs
-X-Proofpoint-ORIG-GUID: hRexQk6KRtpF-2iryVWx76wUvya_O1zs
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI0MDE2OSBTYWx0ZWRfX0ITef+LtbVKP
- 3eD5KHu1T4CMK2X/n/5ATxeAliOeDUPjtunLljPaLWWHeL1Aljk4ztfHen6am/ZPe3xC0Vj/q8t
- Y913F6sxbq3iTzKmOMLA0ANwG8FUJPM9L0Zlqy3RdtBNfRbn/PrYDCm3b3Xskf4TjoV26tgeXY+
- RGlhH+Z5cvLyLnTI1OmveBIEPC/CiBuSA+hcY6Mts2ekCQ6C3f2GkydRGqh4qMx2/CBubisX8J7
- jcW4ERW8ykEEMcbjhBtDVTTTasgTgCzQp0S/cKFvsnkmCR/DF4dTPoAM/3AYJRXoVqYEje6i+Gc
- ZW62wsXZp3w19b72gF2/tt2+mMEg9l3wSWyW/huyGVe31oW3t0X11g67hrXh/qtA7GuBIril6L5
- 3LyMoKNeP7zg1mKNo+8KDBJjxZGbMpAGqy0DDu+TSJeIRuX7F/o2uhbkuu4uegM2z2t5BHxHEln
- /Krwse/Vb6aUjHdoiMQ==
-X-Authority-Analysis: v=2.4 cv=H7brBeYi c=1 sm=1 tr=0 ts=6a8ca833 cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=2MR6PaJL-F8Ac8TQl58A:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-24_06,2026-08-24_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 malwarescore=0 lowpriorityscore=0 impostorscore=0 spamscore=0
- bulkscore=0 adultscore=0 priorityscore=1501 clxscore=1011 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608240169
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260824_132329_915916_C2D38DA9 
-X-CRM114-Status: GOOD (  19.83  )
+X-CRM114-CacheID: sfid-20260824_152953_409797_7B20A213 
+X-CRM114-Status: UNSURE (   8.93  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -125,110 +108,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2026-08-22 19:46, Sagi Grimberg wrote:
+Similar to commit 2a8513091d2f ("nvme-rdma: parallelize I/O queue
+allocation and startup"), I/O queue allocation and start steps
+(including authentication) can be parallelized for nvme-tcp as well.
 
-> OK, I now read the original report regarding nvme root device. please 
-> disregard.
-Hi Sagi,
+Patch 1 is a preparatory refactor: it splits the queue-count
+negotiation and TLS PSK checks into helpers so that the individual
+steps can be called directly from nvme_tcp_configure_io_queues(). No
+functional change.
 
-Thanks for taking the time to review this!
+Patch 2 has the async implementation: it fans the per-queue alloc and
+start out over an async domain, serializes the per-cpu queue-count in
+nvme_tcp_set_queue_io_cpu() that can now run concurrently, and
+switches sock_create_kern() to init_net.
 
-If multipath NVMe is the root device and there is no single NVMe device 
-in the system, the tester can still rmmod nvme because the NVMe module's 
-reference count is 0 (PCIe).
+Testing on a 64-core host with 64 IO-queues shows nvme-tcp connection
+time reduced from 61ms to 11ms.
 
-For example,
-System has 2 multipath nvme devices(nvme0 has 1 NS and nvme1 has 2 NS).
-# nvme list
-Node                  Generic               SN                   Model   
-                                  Namespace  Usage                      
-Format           FW Rev
---------------------- --------------------- -------------------- 
----------------------------------------- ---------- 
--------------------------- ---------------- --------
-/dev/nvme0n1          /dev/ng0n1            S6RUNE0R900042       1.6TB 
-NVMe Gen4 U.2 SSD III              0x1        400.08  GB / 400.08  GB    
-   4 KiB +  0 B   REV.SN66
-/dev/nvme1n1          /dev/ng1n1            S6KZNE0RA00056       800GB 
-NVMe Gen4 U.2 SSD                  0x1        400.08  GB / 400.08  GB    
-   4 KiB +  0 B   REV.SN4B
-/dev/nvme1n2          /dev/ng1n2            S6KZNE0RA00056       800GB 
-NVMe Gen4 U.2 SSD
+Surabhi Gogte (2):
+  nvme-tcp: refactor I/O queue setup path
+  nvme-tcp: parallelize I/O queue allocation and startup
 
-Without patch, reference count of nvme module is 0, "rmmod nvme" causes 
-system crashing.
-#lsmod|grep nvme
-  nvme_tcp              262144  0
-nvme                  262144  0
-nvme_fabrics          262144  1 nvme_tcp
-nvme_core             458752  7 nvme_tcp,nvme,nvme_fabrics
-nvme_keyring          262144  3 nvme_tcp,nvme_core,nvme_fabrics
-nvme_auth             262144  1 nvme_core
+ drivers/nvme/host/tcp.c | 143 +++++++++++++++++++++++++++-------------
+ 1 file changed, 96 insertions(+), 47 deletions(-)
 
-static int nvme_ns_open(struct nvme_ns *ns)
-{
+--
+2.55.0
 
-         /* should never be called due to GENHD_FL_HIDDEN */
-         if (WARN_ON_ONCE(nvme_ns_head_multipath(ns->head))) ---------> 
-skip multipath devs
-                 goto fail;
-         if (!nvme_get_ns(ns))
-                 goto fail;
-         if (!try_module_get(ns->ctrl->ops->module))
-                 goto fail_put_ns;
-
-}
-
-#rmmod nvme
-[  434.859171] block nvme2n1: no available path - failing I/O
-[  434.859204] XFS (nvme2n1p2): log I/O error -5
-[  434.859211] XFS (nvme2n1p2): Filesystem has been shut down due to log 
-error (0x2).
-[  434.859215] XFS (nvme2n1p2): Please unmount the filesystem and 
-rectify the problem(s).
-[root@ltcrain119-lp4 nvme_upstream]# [  439.349490] XFS (dm-0): metadata 
-I/O error in "xfs_imap_to_bp+0x74/0x108 [xfs]" at daddr 0x73d4ca0 len 32 
-error 5
-[  439.349651] XFS (dm-0): metadata I/O error in 
-"xfs_imap_to_bp+0x74/0x108 [xfs]" at daddr 0x73d4ca0 len 32 error 5
-[  439.353244] coredump: 26799(fwupd): 
-|/usr/lib/systemd/systemd-coredump pipe failed
-[  457.438961] XFS (dm-0): log I/O error -5
-[  457.438998] XFS (dm-0): Filesystem has been shut down due to log 
-error (0x2).
-[  457.439005] XFS (dm-0): Please unmount the filesystem and rectify the 
-problem(s).
-
-With patch, reference count of nvme is 6 after system boots up.
-2 paths for nvme0 and 4 paths for nvme1:
-Can't do "rmmod nvme" command now.
-
-#lsmod|grep nvme
-# lsmod|grep nvme
-nvme_tcp              262144  0
-nvme                  262144  6
-nvme_fabrics          262144  1 nvme_tcp
-nvme_core             458752  7 nvme_tcp,nvme,nvme_fabrics
-nvme_keyring          262144  3 nvme_tcp,nvme_core,nvme_fabrics
-nvme_auth             262144  1 nvme_core
-
-# rmmod nvme
-rmmod: ERROR: Module nvme is in use
-
-If I remove 1 NS nvme device, reference count decreases 6 – 2 = 4 paths 
-in total.
-# lsmod|grep nvme
-nvme_tcp              262144  0
-nvme                  262144  4
-nvme_fabrics          262144  1 nvme_tcp
-nvme_core             458752  7 nvme_tcp,nvme,nvme_fabrics
-nvme_keyring          262144  3 nvme_tcp,nvme_core,nvme_fabrics
-nvme_auth             262144  1 nvme_core
-
-If you need any additional information or have any other considerations, 
-please let me know.
-Could you please help review the patch and share any feedback?
-
-Thanks,
-Wen
 
