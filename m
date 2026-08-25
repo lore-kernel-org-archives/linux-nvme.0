@@ -4,107 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C19BC5DF81
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Aug 2026 00:21:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 50C16C5DF81
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Aug 2026 00:54:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mbM6YJjwg5HWZh1D5mfQrLhKRwcyWyJHCXub5R5k3vQ=; b=xy/YzOwTEjcPqB1MpHDJw0yjWz
-	WBTddjim/9kzqjZfCaTds15L8GPVYc7A1fej9WbyTfWo+cDv8ghuEUcF7XQwUJAhK/vb1TxYQPE6Z
-	MIBSgTcjtCaHZiBZAM4DTviDUdoM8PGAKixtboYe3rGyj6yGbXHgRYhhAQob1dzspD+MGhgfF8Oc2
-	r1OqsAc2i/xu73VZyyHd3y9iZdSfarqrDGsAgPRVlBffj+oxzV4Lyu7eDYuAjfH/UeO1I5b/Xm+ef
-	w3CRbRZ50NrgAaOI0XU3Y05TV8oW4HULfnJvbuJU1J1qImmw2a4r6kKtBI2XsMVbUvwn0L+Ai7MVE
-	oGIx/5wQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=DoRjtfqDYasI1Rj/OxHe/CkU7sDiOoID0tyV4HOchxQ=; b=pWzPDshv3SbGWO0Uxsgob6u07w
+	DB7cI6MSsR9a470I3sHtXn/5F6Vpr0gL4PUxG68xLftEcOox04hQhawIAip41z16PeK3Cot+6OX6i
+	lOnqIDOe4l9AoR2wKD6eCF7esC9FZkY3miZwSgPtUWucxx90rAdI5Y3XjQ17ZMydAfrZQZZK8Hglb
+	6EcQXPZg7UNJg6r5KjdQh2Xvr/9XdnD/9KUgPCkuRLrvFdeaJVnTp6IeKibLU42o6KnntfSXckn8e
+	XSXYKrW+O0n2o27tKr7uhnKO4mPAwpPeCOUWQXlDtvCqX37jrqTCbGOfOmU6zbpeI4eOwEMl5frtA
+	CPFAoj4A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wyev8-0000000HXNb-36HE;
-	Tue, 25 Aug 2026 00:21:42 +0000
-Received: from mail-vs1-xe2e.google.com ([2607:f8b0:4864:20::e2e])
+	id 1wyfQW-0000000HaEU-3yUT;
+	Tue, 25 Aug 2026 00:54:08 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wyev6-0000000HXMg-0Lb3
+	id 1wyfQT-0000000HaEM-3qJr
 	for linux-nvme@lists.infradead.org;
-	Tue, 25 Aug 2026 00:21:41 +0000
-Received: by mail-vs1-xe2e.google.com with SMTP id ada2fe7eead31-77e354fa83aso491476137.3
-        for <linux-nvme@lists.infradead.org>; Mon, 24 Aug 2026 17:21:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787617298; cv=none;
-        d=google.com; s=arc-20260327;
-        b=d3Vw3kqlgW5avPy0qjCebUuDqgr/GKUEumycoQulj8YCHcwPjOjWqKgs8y478nSp4I
-         +0oA1hqxAK7G135al21tIT4OfYbVy14/J5R9kG0zVc/SlbdaKkwk0bMFVYFbZ+kSt0QM
-         1bjAntvk6O3ch4IGbdpAhWDb1SwmM8UamNSs+kP1NVjlVRlIjo0Ho3A/GOOaCeVXB1k5
-         RhIKrYQrJggV6AIDQ/wyLq+VmuZ4XT4ziR4ZqvgjHfDQTOMIpoCOdm6Dh8IZZ8crpewh
-         VPY3413o73CQdYsyJvXYi2qOMs8QTcTTLV8zB+g9XEutKcjEnw7Wl8w82Cwf9bGMdI+Q
-         hA7g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=mbM6YJjwg5HWZh1D5mfQrLhKRwcyWyJHCXub5R5k3vQ=;
-        fh=UbiK1hkua2tD6YCQzOhKTdUxBffBGJ6SSPhmb0t1p5g=;
-        b=oQSnCC10EAW0UaNEviWYAWFVHmkEES9uv371UAWOaPY2e1djizhHvOgCTspQvEBXXF
-         90lmvWfGgChwAjjOwLyomkQcpzdSW6i2lTV5ZulrReCjuA8Wf7K6J9JRGBmY273vEo2l
-         sdQKMEQBSLccVo0AXcGd+Szvx2WZiG9lxqu0nRMRRXzRwQvwWryE6KdNsqXUa5FawXY6
-         /sNwpDEA2ue8wTerglDwI+2PxGAOERKWg4no1cnAzg48oyHdTgVM0zIqMk2HhQ/VO/8m
-         Wu/kRtmUwrRqCvS7ar1NNMYGzvtq0G8F3K+awXS0vSylMM1ILHrTG1H8scpHdp9D22ac
-         K3dg==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1787617298; x=1788222098; darn=lists.infradead.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=mbM6YJjwg5HWZh1D5mfQrLhKRwcyWyJHCXub5R5k3vQ=;
-        b=J/m1O9DoWcPF0HNFJohN40haBuDXWE4OCanPoGPBTo1KZ5zGxFp036vm3744ftxbO9
-         flTkUusrSz8Gw7mn+YjjxKe2PO7hr23S6PGv1IDWEBWDbDoao3/ImJI6B/BLqTHM9b5K
-         llifmZ6JYlhDfSUf8UzsamKUcSPfe0l4u48K7GQvCmrvF+TW8UrBlS9W8Xl+vRN0Yf2n
-         gttp3nMA9x3UQ9ax3jzDpQPSl5eAl2EKwpBPTsnJd+wIBVs6yXHVs59DnEfP1NGt/cRQ
-         k8H5nkvJktD8uRHyJJfM7B00ZkT/M4DKTeTZS3wVQpEpuP1+YcefBrOR5qwGfQZOL4Je
-         0ZKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787617298; x=1788222098;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=mbM6YJjwg5HWZh1D5mfQrLhKRwcyWyJHCXub5R5k3vQ=;
-        b=AwdHtzTFwi7q4zY803borRAg1SeVaqAeKqRampMPQsVlhBEDeeLTgkdKTnhyhPeg9R
-         AMcvAtuq8bEMju+IMNVKiDwMNVaCrGx4ulX/jolKOaXKEXFNn7jlWYpeZ4qmTSAbI0Da
-         gVmDthIvig7BSZJlMb8EsZ0ZEc2YgNKrN1NBdcIYh4u14/q3B5ucA+2UHz0FshW1DLzF
-         3aXJ1mXBffbP84dekNB70n6YC7nMm/dJwkBoCYG0wEfZEsVGKl07eSMy5SVO6ZVgw1F3
-         a3zZJB04ibUBgtQ5t1ucyTBEb5klbWm++lXDGGC3MXc8nJYAYUnQRjtkN3c9xYLGSrNb
-         kBCA==
-X-Forwarded-Encrypted: i=1; AHgh+RpRWiIvArxK3agQjvHihfko0sC2TJIqhuuLyHa/Tk5PKMpId6WNrl3icy6YZWNerR3YzJxVWioVwhgv@lists.infradead.org
-X-Gm-Message-State: AFuF++kTPee2XqurQnv70daJw2P6DBxpKAeynIOsKqKibRiDZjbw2a4G
-	0WHwEJ4nX5+g8SV+fG1T6DR4Foiui8FRrv2xC/+3x78no8bd8fp8Cc3E3PXx42kfDFxdtK+UNEV
-	5nG4e7SsdladtJUsfIx/45wVv2e/lmJr6JSuPBO5qhQ==
-X-Gm-Gg: AR+sD12d3RIepcTgTv2cWCjfIZfs61JnSEm8Y7zVLZVGsfbVJ2umLxIV4pENoe3yhK7
-	QE1jMcs0W+teawFJ0sn3vB5HBXb+oNs/qCu/OlTA+IJBXsat2ENO9a9ydBer8DJvwtSgo6IX0sr
-	2ZIyRe/eJ14mzrdjOcgVLeVWtISYK1/yi4L0Rc2m/kx/8YJYZxoPqp/K7b6HdJsCzimYzYNkRDk
-	4aQLC1NruCaoZ1qbV2BYkZVywKbUw+lSFa7KUumUjEtBZhV19SYj9woTPb0U3FMJK+SQjvzWtAr
-	HVL2wSkgqp+Ww9bDYU9jKGxiPiNXyMoT1Uv/af1Ra7xEh7OGMq83Uft71XoPMEMq5KjIamNxJfW
-	yf6yvT4gScjh9lpbksv1/SLC4FTvX3Eg=
-X-Received: by 2002:a05:6102:4b14:b0:77e:6f90:4aad with SMTP id
- ada2fe7eead31-77e6f90535amr3213086137.2.1787617298472; Mon, 24 Aug 2026
- 17:21:38 -0700 (PDT)
+	Tue, 25 Aug 2026 00:54:05 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id ECD1741692;
+	Tue, 25 Aug 2026 00:54:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E9711F000E9;
+	Tue, 25 Aug 2026 00:54:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787619243;
+	bh=DoRjtfqDYasI1Rj/OxHe/CkU7sDiOoID0tyV4HOchxQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=j1y8xfgqqk1mkjZ5HxVS4hMkg/mabEwXB5KEkYmrryvmLpbQhwByDZ0/y6wmoQIjj
+	 lz70aMgmr/Xt/9WbwPNqw0tOeSS+TookcaJn+dLxG9Fa10IWoReNll3jfZAlz5C3ez
+	 K+SczZV3a4kHJsP0BVIijg2mPAt8qgOxfHZ0AHBxMsE1reFJa3ZUuAZrYd8/dNN85s
+	 gDPlfcGd845ymPvM5vMEKW7A+BoAl3jbgbjgVHgTTw9v9ZEgiQliep2Ppmu8S31AdJ
+	 er7JaqOcjX/jtVFEqcuDepaW5vXPptnOPIzQibeKvykhjOPj0P5ZbDXOAg+VkROxfF
+	 vFfxA4H3Tsz4Q==
+Date: Mon, 24 Aug 2026 18:54:01 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Tristan Madani <tristmd@gmail.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Caleb Sander <csander@purestorage.com>,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Tristan Madani <tristan@talencesecurity.com>
+Subject: Re: [PATCH] nvme: add missing SRCU grace period in error path
+Message-ID: <aoznqfUpR3t-GpgE@kbusch-mbp>
+References: <20260815001427.3148050-1-tristmd@gmail.com>
 MIME-Version: 1.0
-References: <20260823004641.1369895-1-mkhalfella@purestorage.com>
-In-Reply-To: <20260823004641.1369895-1-mkhalfella@purestorage.com>
-From: Randy Jennings <randyj@purestorage.com>
-Date: Mon, 24 Aug 2026 17:21:26 -0700
-X-Gm-Features: AcwNN1Wtc5w2YkliLi5LprD8Jgv2ZD7DLTAvMtO9X1z4qsD2A6UASXPO1XEZqh8
-Message-ID: <CAPpK+O0e5HhDHEnu6uUw5AgtJfFoXjCmB2Q+13QDz1HtSdgDUQ@mail.gmail.com>
-Subject: Re: [PATCH v2] nvme: remove stale namespaces by NSID range during scan
-To: Mohamed Khalfella <mkhalfella@purestorage.com>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260824_172140_129059_6A51CEF5 
-X-CRM114-Status: GOOD (  19.67  )
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260815001427.3148050-1-tristmd@gmail.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -119,59 +72,19 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Aug 22, 2026 at 5:47=E2=80=AFPM Mohamed Khalfella
-<mkhalfella@purestorage.com> wrote:
->
-> nvme_scan_ns_list() drops the stale namespaces in each gap in the
-> reported NSID list one NSID at a time. Every iteration calls
-> nvme_find_get_ns() to look the namespace up and removes it if it is
-> present. The loop runs once per NSID in the gap rather than once per
-> namespace actually present.
->
-> NSIDs are 32-bit, so a target with a sparse NSID space can make a
-> single gap spin the loop billions of times with nothing to remove.
->
->   watchdog: BUG: soft lockup - CPU#4 stuck for 26s!
->   Workqueue: nvme-wq nvme_scan_work [nvme_core]
->   RIP: 0010:__srcu_read_unlock+0xb/0x20
->   Call Trace:
->    nvme_find_get_ns+0x7d/0xb0 [nvme_core]
->    nvme_scan_ns_list+0xe8/0x280 [nvme_core]
->    nvme_scan_work+0x18a/0x280 [nvme_core]
->    process_one_work+0x197/0x380
->    worker_thread+0x2fe/0x410
->    kthread+0xe0/0x100
->
-> Rename nvme_remove_invalid_namespaces() to nvme_remove_nsid_range()
-> and give it an open (start, end) NSID range. ctrl->namespaces is
-> sorted by NSID, so the whole gap is dropped in a single walk that
-> stops once end is reached. This bounds the work by the namespaces
-> that are present instead of by the size of the gap.
->
-> Fixes: 540c801c65eb ("NVMe: Implement namespace list scanning")
-> Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
-> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-Reviewed-by: Randy Jennings <randyj@purestorage.com>
+On Sat, Aug 15, 2026 at 12:14:27AM +0000, Tristan Madani wrote:
+> From: Tristan Madani <tristan@talencesecurity.com>
+> 
+> nvme_alloc_ns() error path at out_unlink_ns removes ns from the
+> namespace head siblings list with list_del_rcu(&ns->siblings) but
+> does not wait for SRCU readers before freeing the namespace struct.
+> Multipath code iterates the head->list under srcu_read_lock() in
+> nvme_find_path() and nvme_mpath_revalidate_paths(), so a concurrent
+> reader can still hold a reference to ns when kfree(ns) runs.
+> 
+> The normal removal path in nvme_ns_remove() correctly calls
+> synchronize_srcu(&ns->head->srcu) after list_del_rcu() to wait for
+> in-progress readers. Add the same grace period in the error path.
 
-> ---
->  drivers/nvme/host/core.c | 18 +++++++++---------
-
-> -static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
-> -                                       unsigned nsid)
-> +static void nvme_remove_nsid_range(struct nvme_ctrl *ctrl, u32 start, u3=
-2 end)
-It is not intuitive to me that start is non-inclusive.  May we add
-a comment to that effect?
-
->  {
->         struct nvme_ns *ns, *next;
->         LIST_HEAD(rm_list);
->
->         mutex_lock(&ctrl->namespaces_lock);
->         list_for_each_entry_safe(ns, next, &ctrl->namespaces, list) {
-> -               if (ns->head->ns_id > nsid) {
-> +               if (ns->head->ns_id >=3D end)
-> +                       break;
-> +               if (ns->head->ns_id > start) {
->                         list_del_rcu(&ns->list);
+Thanks, applied to nvme-7.3.
 
