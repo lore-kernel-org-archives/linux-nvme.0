@@ -4,58 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C00ABC5DF81
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Aug 2026 00:55:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B1C62C5DF81
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Aug 2026 00:56:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ymhGeasTra0VT+6Ztf7PndU10djbi5IDK4lv3hjVh7o=; b=lGDYLV5S0hGnX/ekTsqRwXoeJe
-	erfeHK0uiyTHHHoX9pRHqiR/G+qjipauTorwjmJyZJSpc2rJ2re24uPpYQNFVeIj2J3sxauSvBTjx
-	sjJ3xLavjoaBvTbWFE77TWh/MudKSorwluzgX36wX0SKnKs8HJLipB5lxMes7I9BUyDs5LuA5RQyM
-	MdnnaYbLx7nUvZPBsdr2l1wh5T5pFyudaja+zjrgaTPAQlZNQgN14dpfzLSHzR6lzRTu7rHBDFtIP
-	tIdGUEujSEJjHwOPVoutzugiD9rHGsWH7mJWb6vBjs9we2kE68xkhoMaJalUMTh/krz6w0sxXsxlt
-	9tq6PSBQ==;
+	bh=9mrOq5pNWRQKbPuwbSb5LK9W7IPmqYibvjgO/RM65Q4=; b=PvH4U+SAh3TTa6C+DklcnGXk+N
+	Cs2Y+0gK+1y64khzcLnJL6zN+tLwaCv38i+ZPEk3+ErSHf3vyTZRMuwuf5qb3+qndw6oYM9DxIlLa
+	R8MuPOouEmsPMeqcPHqXCgjkj05Eq7Va0Y2LI1sBstQSRqAlha4IrkW93OKOLw9xP0AMTG+Ajop+A
+	RScuucWateiPP/P3Ykmyu4p7WkleK3Pj9lkNfMf8ijNL6Y4eQ6A+6Xx4Sa/1BDD1wDmne9GNHTCX5
+	roUPymcm8bpVfUhNFIcWuh2un+gXsW54HXntnEmtOsB16zWdeYDdSEdJwIaZ2L900pAZxhlCCbLmb
+	uCMF5gVA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wyfS8-0000000HaPj-175q;
-	Tue, 25 Aug 2026 00:55:48 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1wyfSX-0000000HaSx-1h1d;
+	Tue, 25 Aug 2026 00:56:13 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wyfS5-0000000HaPW-3GCf
+	id 1wyfSV-0000000HaSm-3ky6
 	for linux-nvme@lists.infradead.org;
-	Tue, 25 Aug 2026 00:55:46 +0000
+	Tue, 25 Aug 2026 00:56:11 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 1F97E40DC3;
-	Tue, 25 Aug 2026 00:55:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEA951F000E9;
-	Tue, 25 Aug 2026 00:55:44 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id A617B41968;
+	Tue, 25 Aug 2026 00:56:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A40B1F000E9;
+	Tue, 25 Aug 2026 00:56:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787619345;
-	bh=ymhGeasTra0VT+6Ztf7PndU10djbi5IDK4lv3hjVh7o=;
+	s=k20260515; t=1787619371;
+	bh=9mrOq5pNWRQKbPuwbSb5LK9W7IPmqYibvjgO/RM65Q4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=AUA30opfEo3pvPMtNC9RUzOY9VBDLvGtgYCqICq+jNKNYcqpIk8IiFgmaG6DW7ZD1
-	 waE1t9j0J4QLdPcfoCiixqe+mGLl2A8g+hlNNwhBkp9o5OKzSOmCtuhvA+PGWruKrD
-	 Imk6LASBNub9knucPXGFBdRc+pSaQrjeu6u0z+dP7KdBnztIwDYOxF9K7yjQRFEmGU
-	 rUtL51b0fFavUBaIEXHPAN5NS222Xce90C1d7TVwY9wW+oN9hYs3Qtq0arkeIsBIIE
-	 cY2TJqcuwaTbX8OIuCWfD/otbYZ1CyM7hsw15B5mSrQaNrVI01PgMuINCV09JXU7NO
-	 3Ogz8LsmUKvtA==
-Date: Mon, 24 Aug 2026 18:55:43 -0600
+	b=NPLfckCLQaXfHbqkRFWFAiTnDhqLS9akLW7M3/LDalnh+j3XMUJcxvtCaZEzIP6wz
+	 7c4UcXCbA3nswl4Aby/5I1esorynKja7DmodMICZBymVQN8eW0+7wi2zOifBemXfa3
+	 wBjzWgTc5Lhx0vTWMwpvr2kwn5r1+0bD8JYoKE6WuXluayZGI8UAUdNTlFRkm0QInn
+	 JrV0+w3/yxr4uy5dO4dcYrLvXacVeCw9XsAZ39Qo7Sw5xjDT8tyVtTVT8MyapsSNP1
+	 InHDyAnQzXkfe2NTZTAMTQnBbHkdSO04lNQ1/N/m506F1c+Qr37dH7EyzroInKhYSu
+	 WX/2nNoPrzHzQ==
+Date: Mon, 24 Aug 2026 18:56:09 -0600
 From: Keith Busch <kbusch@kernel.org>
 To: Mohamed Khalfella <mkhalfella@purestorage.com>
 Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] nvme: remove stale namespaces by NSID range during
- scan
-Message-ID: <aozoD-9LXxA6SE4C@kbusch-mbp>
-References: <20260823004641.1369895-1-mkhalfella@purestorage.com>
+Subject: Re: [PATCH 1/2] nvme: print namespace IDs as unsigned 32bit value
+Message-ID: <aozoKQQDkNaEOhre@kbusch-mbp>
+References: <20260821230310.3937527-1-mkhalfella@purestorage.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260823004641.1369895-1-mkhalfella@purestorage.com>
+In-Reply-To: <20260821230310.3937527-1-mkhalfella@purestorage.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,15 +70,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Aug 22, 2026 at 05:46:41PM -0700, Mohamed Khalfella wrote:
-> nvme_scan_ns_list() drops the stale namespaces in each gap in the
-> reported NSID list one NSID at a time. Every iteration calls
-> nvme_find_get_ns() to look the namespace up and removes it if it is
-> present. The loop runs once per NSID in the gap rather than once per
-> namespace actually present.
+On Fri, Aug 21, 2026 at 04:03:09PM -0700, Mohamed Khalfella wrote:
+> NSIDs are 32-bit unsigned values, but a number of log messages print
+> them with %d. An NSID larger than 0x7fffffff is rendered as a negative
+> number, which is confusing in the kernel log and makes the message hard
+> to correlate with the namespace it talks about. Sparse NSID spaces
+> where high NSIDs are common are the most likely to hit this.
 > 
-> NSIDs are 32-bit, so a target with a sparse NSID space can make a
-> single gap spin the loop billions of times with nothing to remove.
+> The nsid sysfs attribute has the same problem, and there it is worse
+> because userspace parses the value.
 
 Thanks, applied to nvme-7.3.
 
