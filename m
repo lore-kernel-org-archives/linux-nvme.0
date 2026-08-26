@@ -4,62 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3945AC61DBD
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A62F2C61DB9
 	for <linux-nvme@archiver.kernel.org>; Wed, 26 Aug 2026 02:40:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=xLCheLjG9F/EP8loAps9XPSc04PPekeCu+0cjI0/ZsE=; b=Z+Mi/UMGd2FIiE6vjaFuomDzd8
-	++odNK2VYVWVAFa8D6Bf5f+JeOQMzfHl+0wi9TV+g6RHnUSmFrPElI7VnB3Ip1x4Zdda11DyC9xrq
-	VGaNsJ4hTIC6iC2n0g8QHfnlTw0jr3ZmGOmAfMyrd2pnika4sIHqYKZwBzmukpDBSI9R/5pBmoI3M
-	p3AKFa4Lt9jaQyU8vOeHsEW0jn4lIumXWkzzhdwcSSHMHSiRk2dTmTejtbRN845YdLdJGin0N/kgv
-	bv5h6fUPtUu+1K/qOy0Wdsi3x4IpflglAiOQZcPjuxMTRLQPZftsytkBFzRUzI/cIHQNhg4ZfaD8v
-	q3QQlnaw==;
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Eo0TyiLRQ09vI7MoizEuPRiGNQ+an+iHwdlzXwtm1Mc=; b=xZ9skG60ZKnfQilnQtcGZzwMnZ
+	ZoERu4EeZ5FWtgYlr2uKBIiY5iAlrZ8AtbQ1kbUmHT43+WPgn61Ipmb28vlAcfpHE+dQHOatJT9qZ
+	0cYjz04I5JKW6l4DF1H95VYwp1s+Q8nFXd39ReK3Z3IhDHeeOdDXNbt6ayN3N8ffYhFNUVW1TQtLA
+	l10YFBk++WfJDH2zpX05CdW0ENRovCaxLeHTK7/cEEk1MC8n3UO2WcwLIvi3WnGw731grOHY62k8q
+	H3qfvL3dD5DNG9NiZv/xvxliRaEw323QtIv2LsZmRFuHuJnM64UTR+SdGVjbUBSqNbG+7i6FoEVob
+	zzzpwWwA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wz3YU-00000001nrq-0Zkh;
-	Wed, 26 Aug 2026 02:39:58 +0000
+	id 1wz3YW-00000001nsd-1Z2J;
+	Wed, 26 Aug 2026 02:40:00 +0000
 Received: from mailgw.kylinos.cn ([124.126.103.232])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wz3YR-00000001nrL-08jH
+	id 1wz3YT-00000001nra-2V58
 	for linux-nvme@lists.infradead.org;
-	Wed, 26 Aug 2026 02:39:56 +0000
-X-UUID: 68ddaf7ea0f711f19a56ed5b684f684d-20260826
+	Wed, 26 Aug 2026 02:39:59 +0000
+X-UUID: 6a384244a0f711f19a56ed5b684f684d-20260826
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:2c452175-38b1-4e27-911a-106137048327,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:7db8b62,CLOUDID:d184f2d287596130b25f736e7f823e22,BulkI
-	D:nil,BulkQuantity:0,SF:102|865|898,TC:nil,Content:0|15|50,EDM:-3,IP:nil,U
-	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
-	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-O-INFO: VERSION:1.3.19,REQID:503eab99-a663-407b-99e0-98ec1f88c197,IP:0,U
+	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:-25
+X-CID-META: VersionHash:7db8b62,CLOUDID:89da1cd6a5f991a5a628ca4ea9752b2c,BulkI
+	D:nil,BulkQuantity:0,SF:81|82|102|865|898,TC:nil,Content:0|15|50,EDM:-3,IP
+	:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,
+	LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
 X-CID-BVR: 2,SSN|SDN
 X-CID-BAS: 2,SSN|SDN,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 68ddaf7ea0f711f19a56ed5b684f684d-20260826
+X-UUID: 6a384244a0f711f19a56ed5b684f684d-20260826
 X-User: liuxixin@kylinos.cn
 Received: from [127.0.1.1] [(10.44.16.150)] by mailgw.kylinos.cn
 	(envelope-from <liuxixin@kylinos.cn>)
 	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1218028887; Wed, 26 Aug 2026 10:39:50 +0800
+	with ESMTP id 229579736; Wed, 26 Aug 2026 10:39:52 +0800
 From: Xixin Liu <liuxixin@kylinos.cn>
 To: linux-nvme@lists.infradead.org
 Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, hare@suse.de, dwagner@suse.de, linux-kernel@vger.kernel.org, liuxixin@kylinos.cn
-Subject: [PATCH v1 0/1] nvme-tcp: fix wrong status on deferred digest error
-Date: Wed, 26 Aug 2026 10:15:00 +0800
-Message-ID: <cover.nvme-tcp-req-status.v1.git.liuxixin@kylinos.cn>
+Subject: [PATCH v1 1/1] nvme-tcp: fix wrong status on deferred digest error
+Date: Wed, 26 Aug 2026 09:30:00 +0800
+Message-ID: <1.nvme-tcp-req-status.v1.git.liuxixin@kylinos.cn>
+In-Reply-To: <cover.nvme-tcp-req-status.v1.git.liuxixin@kylinos.cn>
+References: <cover.nvme-tcp-req-status.v1.git.liuxixin@kylinos.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Mailer: patches/scripts/send-local.py
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260825_193955_392853_DBAD0463 
-X-CRM114-Status: UNSURE (   8.48  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260825_193957_943216_670DD341 
+X-CRM114-Status: GOOD (  10.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,56 +75,93 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+A C2HData digest error stores a host status code in req status. Without
+DATA_SUCCESS the request is completed later from the rsp path, which
+passed that value straight into complete and could report the wrong
+status code.
 
-A C2HData digest error stores a host status code in the per-request
-status field. Without DATA_SUCCESS the request is completed later from
-the rsp path. That path used to pass the stored value straight into
-complete, which expects CQE status field encoding and shifts right, so
-DATA_XFER_ERROR could be reported as INVALID_FIELD.
+Keep req status as a host status code. On the rsp path, shift left when
+a host error was already stored, otherwise use the completion status
+field.
 
-This series keeps the per-request status as a host status code. On the
-rsp path, shift left when a host error was already stored, otherwise use
-the completion status field.
-
-To hit the TCP DATA_XFER_ERROR path without DATA_SUCCESS, enable data
-digest and temporarily change the target in
-drivers/nvme/target/tcp.c, nvmet_setup_c2h_data_pdu, after the digest
-is calculated:
-
-  if (queue->data_digest) {
-          pdu->hdr.flags |= NVME_TCP_F_DDGST;
-          nvmet_tcp_calc_ddgst(cmd);
-          cmd->exp_ddgst ^= cpu_to_le32(1);
-  }
-
-The default target path does not set DATA_SUCCESS on C2HData, so the
-host stores the digest error and completes from the later rsp.
-
-Verified on linux-next with an nvmet-tcp loopback target. Unpatched:
-
-  nvme nvme0: data digest error: recv 0x2542708 expected 0x2542709
-  nvme nvme0: Identify Controller failed (2)
-
-Patched:
-
-  nvme nvme0: data digest error: recv 0x7ebd5719 expected 0x7ebd5718
-  nvme nvme0: Identify Controller failed (4)
-
-Status code 0x2 is INVALID_FIELD. Status code 0x4 is DATA_XFER_ERROR.
-recv and expected differ by one in both runs.
-
-Thanks,
-Xixin Liu
-
+Fixes: 1ba2e507f55c ("nvme-tcp: Do not reset transport on data digest errors")
+Signed-off-by: Xixin Liu <liuxixin@kylinos.cn>
 ---
-
-Xixin Liu (1):
-  nvme-tcp: fix wrong status on deferred digest error
-
  drivers/nvme/host/tcp.c | 20 +++++++++++---------
  1 file changed, 11 insertions(+), 9 deletions(-)
 
+--- a/drivers/nvme/host/tcp.c	2026-08-26 09:24:50.988099281 +0800
++++ b/drivers/nvme/host/tcp.c	2026-08-26 09:25:12.474510519 +0800
+@@ -73,7 +73,7 @@
+ 	u32			h2cdata_left;
+ 	u32			h2cdata_offset;
+ 	u16			ttag;
+-	__le16			status;
++	u16			status;
+ 	struct list_head	entry;
+ 	struct llist_node	lentry;
+ 	__le32			ddgst;
+@@ -617,6 +617,7 @@
+ {
+ 	struct nvme_tcp_request *req;
+ 	struct request *rq;
++	__le16 status;
+ 
+ 	rq = nvme_find_rq(nvme_tcp_tagset(queue), cqe->command_id);
+ 	if (!rq) {
+@@ -628,10 +629,12 @@
+ 	}
+ 
+ 	req = blk_mq_rq_to_pdu(rq);
+-	if (req->status == cpu_to_le16(NVME_SC_SUCCESS))
+-		req->status = cqe->status;
++	if (req->status != NVME_SC_SUCCESS)
++		status = cpu_to_le16(req->status << 1);
++	else
++		status = cqe->status;
+ 
+-	if (!nvme_try_complete_req(rq, req->status, cqe->result))
++	if (!nvme_try_complete_req(rq, status, cqe->result))
+ 		nvme_complete_rq(rq);
+ 	queue->nr_cqe++;
+ 
+@@ -961,8 +964,7 @@
+ 			queue->ddgst_remaining = NVME_TCP_DIGEST_LENGTH;
+ 		} else {
+ 			if (pdu->hdr.flags & NVME_TCP_F_DATA_SUCCESS) {
+-				nvme_tcp_end_request(rq,
+-						le16_to_cpu(req->status));
++				nvme_tcp_end_request(rq, req->status);
+ 				queue->nr_cqe++;
+ 			}
+ 			nvme_tcp_init_recv_ctx(queue);
+@@ -996,7 +998,7 @@
+ 					pdu->command_id);
+ 		struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
+ 
+-		req->status = cpu_to_le16(NVME_SC_DATA_XFER_ERROR);
++		req->status = NVME_SC_DATA_XFER_ERROR;
+ 
+ 		dev_err(queue->ctrl->ctrl.device,
+ 			"data digest error: recv %#x expected %#x\n",
+@@ -1009,7 +1011,7 @@
+ 					pdu->command_id);
+ 		struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
+ 
+-		nvme_tcp_end_request(rq, le16_to_cpu(req->status));
++		nvme_tcp_end_request(rq, req->status);
+ 		queue->nr_cqe++;
+ 	}
+ 
+@@ -2733,7 +2735,7 @@
+ 		return ret;
+ 
+ 	req->state = NVME_TCP_SEND_CMD_PDU;
+-	req->status = cpu_to_le16(NVME_SC_SUCCESS);
++	req->status = NVME_SC_SUCCESS;
+ 	req->offset = 0;
+ 	req->data_sent = 0;
+ 	req->pdu_len = 0;
 -- 
 2.53.0
 
