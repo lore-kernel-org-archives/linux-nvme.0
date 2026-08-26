@@ -4,63 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 459ECC61DBD
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Aug 2026 00:47:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 957BFC61DBD
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Aug 2026 01:18:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4SEoTJB+4ttKK4dOWvXeDh8E5LQD7YrsSdgnAQ50kC0=; b=A0FMDuQwa1uqYy3K7Lf0cSFEgt
-	r74Rov4WSE07R0GiUoEjlJRyu/Evu+tvYexqMGZ/zH7/nZ25GY693kkuQHVcl8H7QbL2qbDbxFv08
-	oxvVSXabYWYtqv5rdvNyBsrKbzfr/P6hPmDB2TQcI6YVBTAkqyhuybIK9iIYtdYEcYDqmU2riGKsi
-	LkBraH2D2eQeNsEBUzpbHX/Y75Hms+/Uae7Tsu+jhv0+WiSlCL9e2DhlVBGih3c9Oh76S/ep5Qq2f
-	Lpo16KHX+GMGNWga6wsPbPKkRTu83bdUPWh/ujFum6/u6tQDkAcfSSClnO5SeXrqg/Mx66ERmnxMq
-	wj211iLw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=H1W3NAUQIRAEiD8X3+kPOV22mKF8BCuyBiZZaEMRvYk=; b=HMrgG9mIqFmviFvna41Q8Fdika
+	NCC+A06CPCq3RdDlLMiZSuUIkBw2qIvsXSEtbXnD2OHhJq7UUtu1jJ8xYcwjlq2W2+4w19MSks4wN
+	gfEdtuV3U4nopo8zg4I78FJ/Viq7Cs7xZ0Qk0PR+XcWbfmV2Zr6A6MiDPbTWSLwCO6th7KcfrqWK+
+	aA0AtM16vj+zhdkztyF/fDnxigLDnomwP4H2SFC3VNYmAOuInbM+MTR6hNvcbSHBo8iWQgzSRxDSO
+	k+M91L4akO+oRWMqMDA85hulnQBjEFPw2SyV+p3Zs6boVuSCkGW+4E+jZPwKax1J1WPsVNRBNEOqL
+	GfGb8gtQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wz1no-00000001jQM-1BLw;
-	Wed, 26 Aug 2026 00:47:40 +0000
-Received: from mailgw.kylinos.cn ([124.126.103.232])
+	id 1wz2H7-00000001kTn-2hfj;
+	Wed, 26 Aug 2026 01:17:57 +0000
+Received: from mgamail.intel.com ([198.175.65.21])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wz1nk-00000001jQ1-1WSo
+	id 1wz2H5-00000001kT0-1smq
 	for linux-nvme@lists.infradead.org;
-	Wed, 26 Aug 2026 00:47:38 +0000
-X-UUID: b417f3d8a0e711f19a56ed5b684f684d-20260826
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:68209700-d274-4f8c-a419-b5b5f5aed446,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:7db8b62,CLOUDID:5340f1cb8357bc15272fbcfa7cf66164,BulkI
-	D:nil,BulkQuantity:0,SF:81|82|83|102|865|898,TC:nil,Content:0|15|50,EDM:-3
-	,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
-	:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: b417f3d8a0e711f19a56ed5b684f684d-20260826
-X-User: liuxixin@kylinos.cn
-Received: from [127.0.1.1] [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <liuxixin@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1414228066; Wed, 26 Aug 2026 08:47:24 +0800
-From: Xixin Liu <liuxixin@kylinos.cn>
-To: kbusch@kernel.org
-Cc: axboe@kernel.dk, hch@lst.de, hare@kernel.org, linux-nvme@lists.infradead.org, liuxixin@kylinos.cn, sagi@grimberg.me, shinichiro.kawasaki@wdc.com
-Subject: Re: [PATCH] nvme-tcp: defer TLS inline send to io_work
-Date: Wed, 26 Aug 2026 08:45:00 +0800
-Message-ID: <reply-keith.062lockdep.applied.20260826.liuxixin@kylinos.cn>
-In-Reply-To: <ao0ErlDKMbvwAoGx@kbusch-mbp>
-References: <ajtk1CaN1pBreS4O@shinmob> <cover.1782436781.git.liuxixin@kylinos.cn> <8803a2bf-3f8e-4ee9-b6d7-5467bfc1b1ce@suse.de> <reply-hannes.062lockdep.20260629.liuxixin@kylinos.cn> <reply-hannes.062lockdep.20260701.liuxixin@kylinos.cn> <aoPuIUSQvZxujmv7@shinhome> <ee0225fa-6a0b-4933-9a4d-5c77792eb94b@suse.de> <c6e2a91f0b62.1787100300.git.liuxixin@kylinos.cn> <ao0ErlDKMbvwAoGx@kbusch-mbp>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Mailer: patches/scripts/send-local.py
+	Wed, 26 Aug 2026 01:17:56 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1787707075; x=1819243075;
+  h=date:from:to:cc:subject:message-id;
+  bh=oPNnkHQ3O+KulTm6Blj2nY2SkwC2NnhUJW5Dt9VqPhA=;
+  b=VphMF24bcEjVso/7F8rOokLcVrDK3D7b9lCUb+L+8PVNU5Sr0BgY81GH
+   Y1x1fGKaWlPurqf4kFFQ4ihg8bMfbmK1jSeovKGFwO6oUfwnZoqfwRvbw
+   T2krHCHkid2E/C+0rm/znpvT4JzQriFiDjix68kiagFWnmbTjoDRxOvqd
+   6Lpii7tjmxamx/2obE4V3qnwASIgaCon3a7ygnRTMGySUl3tAKussmc1D
+   m2h2SPKjipmSmPcHBPF2279wSMe0PgLiI9taCKLgIzhf9LsGaGPamfYva
+   YrCZztRwT0BUADc61Hvn3fCKi3FrCegg0ub0RAgC5dLrjfyrhppfBNkzH
+   w==;
+X-CSE-ConnectionGUID: pcIhPd5pSlaZDw1Ui0n+xA==
+X-CSE-MsgGUID: X4YlJjjcRE61MZtjAxYJiQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11886"; a="88042139"
+X-IronPort-AV: E=Sophos;i="6.25,243,1779174000"; 
+   d="scan'208";a="88042139"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2026 18:17:52 -0700
+X-CSE-ConnectionGUID: cJbhsZkfSQCC8kS58qrKtw==
+X-CSE-MsgGUID: YTDtnUifRVq6KdYCZgxWEw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,243,1779174000"; 
+   d="scan'208";a="297339780"
+Received: from lkp-server01.sh.intel.com (HELO 3532383e6126) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 25 Aug 2026 18:17:52 -0700
+Received: from kbuild by 3532383e6126 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wz2Gz-000000006ix-293B;
+	Wed, 26 Aug 2026 01:17:49 +0000
+Date: Wed, 26 Aug 2026 09:16:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-7.3] BUILD SUCCESS WITH UNVERIFIED WARNING
+ 9eabc91952f9821824ca0288a76b3aba57961c6b
+Message-ID: <202608260939.hLatahW3-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260825_174736_723276_8EC6A6C1 
-X-CRM114-Status: UNSURE (   2.95  )
+X-CRM114-CacheID: sfid-20260825_181755_526524_1821CCE5 
+X-CRM114-Status: UNSURE (   4.12  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -76,13 +83,46 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Keith,
+tree/branch: git://git.infradead.org/nvme.git nvme-7.3
+branch HEAD: 9eabc91952f9821824ca0288a76b3aba57961c6b  nvme-tcp: defer TLS inline send to io_work
 
-Thanks for applying.
+Unverified Warning (likely false positive, kindly check if interested):
 
-I will use new threads and Link tags next time.
+    https://lore.kernel.org/oe-kbuild/202607291634.E5clnaLh-lkp@intel.com
 
-Thanks,
-Xixin Liu
+    drivers/nvme/host/multipath.c:249:38: warning: reading variable 'current_path' requires holding __ctx_lock_RCU 'RCU' [-Wthread-safety-analysis]
 
+Warning ids grouped by kconfigs:
+
+recent_errors
+`-- loongarch-defconfig
+    `-- drivers-nvme-host-multipath.c:warning:reading-variable-current_path-requires-holding-__ctx_lock_RCU-RCU
+
+elapsed time: 810m
+
+configs tested: 17
+configs skipped: 1
+
+tested configs:
+alpha         allnoconfig    gcc-16.1.0
+alpha        allyesconfig    gcc-16.1.0
+alpha           defconfig    gcc-16.1.0
+arc          allmodconfig    gcc-16.1.0
+arc          allyesconfig    gcc-16.1.0
+arm        mps2_defconfig    clang-24
+csky         allmodconfig    gcc-16.1.0
+i386         allmodconfig    gcc-14
+loongarch       defconfig    clang-24
+nios2        allmodconfig    gcc-11.5.0
+nios2         allnoconfig    gcc-11.5.0
+parisc       allmodconfig    gcc-16.1.0
+parisc       allyesconfig    gcc-16.1.0
+parisc          defconfig    gcc-16.1.0
+sh              defconfig    gcc-16.1.0
+x86_64              kexec    clang-22
+x86_64       rhel-9.4-bpf    gcc-14
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
