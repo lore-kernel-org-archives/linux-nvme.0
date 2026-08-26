@@ -4,66 +4,130 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 00D0BC61DC2
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Aug 2026 07:56:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CA3CFC5DF97
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Aug 2026 09:39:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5bIYvwo5siDkIg9xFrX9qeaZqIsZePDXqcRN7YuUPPI=; b=pcV39kSERf6FqOatYqWrUALaPi
-	awYtj7keLCAgYbE5Lzt/7GD4nffoyZZBlGirG+guODLYWLMVMYWu8M+HebzztpzcHS1DVnyNy4QSy
-	Lrz2S7aLrN62YxBgvB6KUMX2huQVTXxvPgdQYsD+JnBCPbRXg4RJw6MnqDgGQF3XESDhn022Bnav1
-	dmXHRxQHgKb3GUYuQ/5onUxG7zh65/VKdYdkXDZakBBlXF/dLhnqEC+81yI8VjX/tFpL2dW+X/z4Y
-	T2oyF0HnmWNsu6D6doORI40UHVRrvvOv2xkohipN4RvuAlxIT/J7vdQ2S9G/q+/YgqYjfA/zH6964
-	onBpKhVQ==;
+	bh=pNxMjLPO76h5bxoa30u6dOxMm1uZchy18/VFt56AInQ=; b=AlW7Wq1NthDl33KdugkYIX5Xqn
+	+aJA5s1iRMaDYVNfLQtJNbcJDUC9GGWdTqOdJHctvXnNvStVQCunx1mTjAUuk0rZ3V4WDEpHi4/Va
+	esTR5wtV17b97C7YGUbXRrRidf4/L1rDkeFD7nbhDK0mPiP4T9454n6Wd6I7KQBUKcc/nsLup8dTQ
+	ys3vDkbIoVQtZIPw3uk/upQZMWChrjWkmXstIN0qY5rAAhyHg1Lgc3XTHA30MjqOV6TkBFkw8Tgyx
+	SEh7ZrxXzUtHITAk6KIRCoLdEjRH8Z2iE50BxPrM86hsEaj8lNVw5G9bWW7GYxHIHjQvxe/c0iigi
+	97VXFs5w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wz8UQ-000000022P3-1vX5;
-	Wed, 26 Aug 2026 07:56:06 +0000
-Received: from mailgw.kylinos.cn ([124.126.103.232])
+	id 1wzA6l-00000002Djw-3ySH;
+	Wed, 26 Aug 2026 09:39:47 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wz8UM-000000022OY-2Mfi
+	id 1wzA6i-00000002Di9-2mZg
 	for linux-nvme@lists.infradead.org;
-	Wed, 26 Aug 2026 07:56:05 +0000
-X-UUID: 8ec1a084a12311f19a56ed5b684f684d-20260826
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:a68d62f1-261e-466f-b8cd-05506db8bef8,IP:20,
-	URL:0,TC:0,Content:-5,EDM:-25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACT
-	ION:release,TS:-10
-X-CID-INFO: VERSION:1.3.19,REQID:a68d62f1-261e-466f-b8cd-05506db8bef8,IP:20,UR
-	L:0,TC:0,Content:-5,EDM:-25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:-10
-X-CID-META: VersionHash:7db8b62,CLOUDID:d0ab9b679382b80bb0c602ce5dcfffa5,BulkI
-	D:2608251723390WV7H2C5,BulkQuantity:2,SF:10|66|78|81|82|83|102|127|850|865
-	|898,TC:nil,Content:0|15|50,EDM:2,IP:-2,URL:0,File:nil,RT:nil,Bulk:40,QS:n
-	il,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC
-	:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 8ec1a084a12311f19a56ed5b684f684d-20260826
-X-User: sangyao@kylinos.cn
-Received: from localhost.localdomain [(223.70.159.239)] by mailgw.kylinos.cn
-	(envelope-from <sangyao@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 523850905; Wed, 26 Aug 2026 15:55:51 +0800
-From: Yao Sang <sangyao@kylinos.cn>
-To: kbusch@kernel.org
-Cc: linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] nvme: fix command effects log lifetime for multipath heads
-Date: Wed, 26 Aug 2026 15:55:43 +0800
-Message-Id: <20260826075543.2654816-1-sangyao@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <ao3mNp35Hg_0MDlR@kbusch-mbp>
-References: <ao3mNp35Hg_0MDlR@kbusch-mbp>
+	Wed, 26 Aug 2026 09:39:46 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 69F4E872CF;
+	Wed, 26 Aug 2026 09:39:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1787737178; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pNxMjLPO76h5bxoa30u6dOxMm1uZchy18/VFt56AInQ=;
+	b=YWZUviugy2nuAZ8BwC9mjjmc9/xBGgcmC9roWIqbThj9R5YjcOMkTDPQ0TcOXlBiR0ixJ6
+	ZWBLxvTLJ9QNA46y5oogNqAXuzJyXDJnl81aCIH73ckd2rtxWSRa4rdE9FJeQOf1t1uB0x
+	xns5eh6PwK+WdfFXciQAAKOIGBDI3kc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1787737178;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pNxMjLPO76h5bxoa30u6dOxMm1uZchy18/VFt56AInQ=;
+	b=F8ezkbx/L8b9O517C9taZ5IT04pFFlIe5sUA/BzytcZmuCSxZ4tYSjR622Lhb09A3o28sF
+	RC+FHwzjrEX8/SAA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Xs+kaB8r;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=veP9+mOX
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1787737174; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pNxMjLPO76h5bxoa30u6dOxMm1uZchy18/VFt56AInQ=;
+	b=Xs+kaB8rF8fs/b+eoaN0pSKFXrcrUvNbHtv8kXeo0iVJDOXiSUIMrL/Ja26ECFiK7Mi8jW
+	WuOKvWaLgxqFWd1SFQHVE6hPiHIKLvdKLGQwrYcGlm8bInXRUuXy5olgnB0t4RNpQumL1d
+	MEGSUAsboH2fil+kdUirIaKqVZ9lzK8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1787737174;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pNxMjLPO76h5bxoa30u6dOxMm1uZchy18/VFt56AInQ=;
+	b=veP9+mOXEZ0f4I8vBphhGfzdyGUHebJD+Crf2BHvM0W1zh3DHuSJxieb9wApDh8f3Vxjga
+	8I9pq1RHftyranBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 567001361C;
+	Wed, 26 Aug 2026 09:39:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id d4uyFFa0jmreegAAD6G6ig
+	(envelope-from <hare@suse.de>); Wed, 26 Aug 2026 09:39:34 +0000
+Message-ID: <22ddb116-840d-4d6b-ae2a-5bdb755273df@suse.de>
+Date: Wed, 26 Aug 2026 11:39:34 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/1] nvme-tcp: fix wrong status on deferred digest
+ error
+To: Xixin Liu <liuxixin@kylinos.cn>, linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+ dwagner@suse.de, linux-kernel@vger.kernel.org
+References: <cover.nvme-tcp-req-status.v1.git.liuxixin@kylinos.cn>
+ <1.nvme-tcp-req-status.v1.git.liuxixin@kylinos.cn>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <1.nvme-tcp-req-status.v1.git.liuxixin@kylinos.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-5.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid,suse.de:dkim];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Queue-Id: 69F4E872CF
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260826_005603_632724_1CFABA1B 
-X-CRM114-Status: UNSURE (   6.54  )
+X-CRM114-CacheID: sfid-20260826_023944_893345_C478378B 
+X-CRM114-Status: UNSURE (   9.96  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -79,21 +143,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Keith,
+On 8/26/26 3:30 AM, Xixin Liu wrote:
+> A C2HData digest error stores a host status code in req status. Without
+> DATA_SUCCESS the request is completed later from the rsp path, which
+> passed that value straight into complete and could report the wrong
+> status code.
+> 
+> Keep req status as a host status code. On the rsp path, shift left when
+> a host error was already stored, otherwise use the completion status
+> field.
+> 
+I really don't see it. Where is the issue?
+AFAICS we're just changing the type of 'status' from holding the
+wire-value to the host value.
 
-Thanks for the review.
+Can you make the patch simpler by just keeping 'status' as __le16?
 
-Do you mean the whole IOCS entry should be shared, including CSUPP?
+Cheers,
 
-The Commands Supported and Effects log is controller scoped (NVMe Base
-Specification 2.3, Figure 206), and CSUPP reports command support for that
-controller (Figure 214). Zone Append, for example, is optional per I/O
-controller (ZNS 1.4, Figure 9). That seems to allow different paths to the
-same shared namespace to report different CSUPP values.
-
-Should CSUPP remain per-controller, or do you expect the full IOCS entries,
-including CSUPP, to match across paths?
-
-Thanks,
-Yao
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
