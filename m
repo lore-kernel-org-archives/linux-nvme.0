@@ -4,71 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 957BFC61DBD
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Aug 2026 01:18:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C2DFDC61DB9
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Aug 2026 02:18:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=H1W3NAUQIRAEiD8X3+kPOV22mKF8BCuyBiZZaEMRvYk=; b=HMrgG9mIqFmviFvna41Q8Fdika
-	NCC+A06CPCq3RdDlLMiZSuUIkBw2qIvsXSEtbXnD2OHhJq7UUtu1jJ8xYcwjlq2W2+4w19MSks4wN
-	gfEdtuV3U4nopo8zg4I78FJ/Viq7Cs7xZ0Qk0PR+XcWbfmV2Zr6A6MiDPbTWSLwCO6th7KcfrqWK+
-	aA0AtM16vj+zhdkztyF/fDnxigLDnomwP4H2SFC3VNYmAOuInbM+MTR6hNvcbSHBo8iWQgzSRxDSO
-	k+M91L4akO+oRWMqMDA85hulnQBjEFPw2SyV+p3Zs6boVuSCkGW+4E+jZPwKax1J1WPsVNRBNEOqL
-	GfGb8gtQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Mime-Version:From
+	:Cc:Content-Transfer-Encoding:Content-Type:In-Reply-To:Subject:To:Message-Id:
+	Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=VOkRe+DKMqDIbmcqWSS8PPey78AMHMi/nTaNf07YYZ8=; b=CLFcisLiZfzf6wUFook99JP5gW
+	YDyxv2ur16BLzk7QqiCWq9phwM+76yVTDQa5SoVcpJijAsp6YtNgHSX6F8kxR6lak7bB+OQA5CPe/
+	zK0VBm8m3yMPhqRiAZNwBsS/OubFULmr5yZpMRrpvpFkOPUMwNE/3TmSBtYJ1jtA1cs6iC9gdYF8X
+	PRRp2gcvLhwFt2h5DLAqPYCtG+MWbKaXVNromagPVF7l8HziNFBJ2pvgIja6qnz/oAiJ98U5n/t3C
+	mjnWmZN5El0B7qSt6AD34rQ6KgTJwSDwvRcN6wT5CwCciC1Rj171PCtZX1cxTTrGVxTPGAwU4pX/q
+	A8EzPWdA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wz2H7-00000001kTn-2hfj;
-	Wed, 26 Aug 2026 01:17:57 +0000
-Received: from mgamail.intel.com ([198.175.65.21])
+	id 1wz3E3-00000001n26-0SeE;
+	Wed, 26 Aug 2026 02:18:51 +0000
+Received: from va-1-115.ptr.blmpb.com ([209.127.230.115])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wz2H5-00000001kT0-1smq
+	id 1wz3Dz-00000001n1S-0bbb
 	for linux-nvme@lists.infradead.org;
-	Wed, 26 Aug 2026 01:17:56 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787707075; x=1819243075;
-  h=date:from:to:cc:subject:message-id;
-  bh=oPNnkHQ3O+KulTm6Blj2nY2SkwC2NnhUJW5Dt9VqPhA=;
-  b=VphMF24bcEjVso/7F8rOokLcVrDK3D7b9lCUb+L+8PVNU5Sr0BgY81GH
-   Y1x1fGKaWlPurqf4kFFQ4ihg8bMfbmK1jSeovKGFwO6oUfwnZoqfwRvbw
-   T2krHCHkid2E/C+0rm/znpvT4JzQriFiDjix68kiagFWnmbTjoDRxOvqd
-   6Lpii7tjmxamx/2obE4V3qnwASIgaCon3a7ygnRTMGySUl3tAKussmc1D
-   m2h2SPKjipmSmPcHBPF2279wSMe0PgLiI9taCKLgIzhf9LsGaGPamfYva
-   YrCZztRwT0BUADc61Hvn3fCKi3FrCegg0ub0RAgC5dLrjfyrhppfBNkzH
-   w==;
-X-CSE-ConnectionGUID: pcIhPd5pSlaZDw1Ui0n+xA==
-X-CSE-MsgGUID: X4YlJjjcRE61MZtjAxYJiQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11886"; a="88042139"
-X-IronPort-AV: E=Sophos;i="6.25,243,1779174000"; 
-   d="scan'208";a="88042139"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2026 18:17:52 -0700
-X-CSE-ConnectionGUID: cJbhsZkfSQCC8kS58qrKtw==
-X-CSE-MsgGUID: YTDtnUifRVq6KdYCZgxWEw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,243,1779174000"; 
-   d="scan'208";a="297339780"
-Received: from lkp-server01.sh.intel.com (HELO 3532383e6126) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 25 Aug 2026 18:17:52 -0700
-Received: from kbuild by 3532383e6126 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wz2Gz-000000006ix-293B;
-	Wed, 26 Aug 2026 01:17:49 +0000
-Date: Wed, 26 Aug 2026 09:16:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-7.3] BUILD SUCCESS WITH UNVERIFIED WARNING
- 9eabc91952f9821824ca0288a76b3aba57961c6b
-Message-ID: <202608260939.hLatahW3-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	Wed, 26 Aug 2026 02:18:48 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=2212171451; d=bytedance.com; t=1787710718; h=from:subject:
+ mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
+ mime-version:in-reply-to:message-id;
+ bh=VOkRe+DKMqDIbmcqWSS8PPey78AMHMi/nTaNf07YYZ8=;
+ b=eFHJe6WVANhgfemGtu/h1DSeZgi4oayvziH0ag7nNCsJjORRzKRZp56SJOCNGdx3pjXLfh
+ guDUI7y9cJPwsCpE58axjSNmUlnntGFE3rat8BdGJ2pDlt9w7ROtbdxCT3GQDL6oIe0fPZ
+ KN1ylp/ctcSYs8p0BDg1VQDi835SUAletspZJZ0pX4BUj5wprOnre/nawPwVGkz99p05EE
+ eX4kQk7WeA0M1gu9FzpSMkqfUNudAQPzWqkLpXhct0kbXHKEtJI9sOmtpzLWWvv3dmQo+7
+ XbNDWc4IX8w9J51yh3zIeWyC034oik6kzyXv06aRABiY61MCSpu69C0DiCMKSw==
+X-Lms-Return-Path: <lba+16a8e4cfc+6568fc+lists.infradead.org+changfengnan@bytedance.com>
+Date: Wed, 26 Aug 2026 10:18:33 +0800
+Message-Id: <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.f73839cb.7360.4530.9912.75608111828b@bytedance.com>
+To: "Anuj Gupta" <anuj1072538@gmail.com>
+Subject: Re: [PATCH] nvme-pci: add adaptive interrupt polling
+In-Reply-To: <rf622zppbkxqcydbuwfifpyeyem3mjc6ris6zjutvzil2p3f5b@33tczg6j52ge>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Cc: "Keith Busch" <kbusch@kernel.org>, "Jens Axboe" <axboe@kernel.dk>, 
+	"Christoph Hellwig" <hch@lst.de>, "Sagi Grimberg" <sagi@grimberg.me>, 
+	<linux-nvme@lists.infradead.org>, <linux-kernel@vger.kernel.org>, 
+	<jun1.zeng@intel.com>, "Guzebing" <guzebing@bytedance.com>, 
+	<anuj20.g@samsung.com>
+From: "changfengnan" <changfengnan@bytedance.com>
+Mime-Version: 1.0
+References: <20260818033846.53790-1-changfengnan@bytedance.com>
+	<rf622zppbkxqcydbuwfifpyeyem3mjc6ris6zjutvzil2p3f5b@33tczg6j52ge>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260825_181755_526524_1821CCE5 
-X-CRM114-Status: UNSURE (   4.12  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260825_191847_260985_05060D7D 
+X-CRM114-Status: GOOD (  11.20  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,46 +71,85 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-7.3
-branch HEAD: 9eabc91952f9821824ca0288a76b3aba57961c6b  nvme-tcp: defer TLS inline send to io_work
 
-Unverified Warning (likely false positive, kindly check if interested):
+> From: "Anuj Gupta"<anuj1072538@gmail.com>
+> Date:=C2=A0 Tue, Aug 25, 2026, 10:59
+> Subject:=C2=A0 Re: [PATCH] nvme-pci: add adaptive interrupt polling
+> To: "Fengnan Chang"<changfengnan@bytedance.com>
+> Cc: "Keith Busch"<kbusch@kernel.org>, "Jens Axboe"<axboe@kernel.dk>, "Chr=
+istoph Hellwig"<hch@lst.de>, "Sagi Grimberg"<sagi@grimberg.me>, <linux-nvme=
+@lists.infradead.org>, <linux-kernel@vger.kernel.org>, <jun1.zeng@intel.com=
+>, "Guzebing"<guzebing@bytedance.com>, <anuj20.g@samsung.com>
+> > +/*
+> > + * Drain CQEs from IRQ_POLL_SOFTIRQ and compare completion progress wi=
+th the
+> > + * IRQ baseline. =C2=A0Re-arm while within the allowed lag; leave poll=
+ mode on lag
+> > + * or teardown, and start another window only after a faster full wind=
+ow.
+> > + */
+> > +static int nvme_adaptive_irq_poll(struct irq_poll *iop, int budget)
+> > +{
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0struct nvme_adaptive_poll *adaptive =3D co=
+ntainer_of(iop,
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struc=
+t nvme_adaptive_poll, iopoll);
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0struct nvme_queue *nvmeq =3D adaptive->nvm=
+eq;
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int completions, limit;
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned long flags;
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0u64 deadline, elapsed, now;
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0DEFINE_IO_COMP_BATCH(iob);
+> > +
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0spin_lock_irqsave(&nvmeq->cq_poll_lock, fl=
+ags);
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (unlikely(!test_bit(NVMEQ_ADAPTIVE_POLL=
+ING, &nvmeq->flags))) {
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0completions =
+=3D 0;
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0irq_poll_compl=
+ete(iop);
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto out;
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!test_bit(NVMEQ_ENABLED, &nvmeq->flags=
+)) {
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0completions =
+=3D 0;
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0irq_poll_compl=
+ete(iop);
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0nvme_adaptive_=
+poll_end(nvmeq, false);
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto out;
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+> > +
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0limit =3D min_t(unsigned int,
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0budget,
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0NVME_ADAPTIVE_EPISODE_CQES - adaptive->completions);
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0completions =3D nvme_poll_cq_bounded(nvmeq=
+, &iob, limit);
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0adaptive->completions +=3D completions;
+> > +
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (completions >=3D budget &&
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0adaptive->completions < NVME=
+_ADAPTIVE_EPISODE_CQES)
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto out;
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0irq_poll_complete(iop);
+>=C2=A0
+> If the last drain reaches NVME_ADAPTIVE_EPISODE_CQES with
+> completions =3D=3D budget, this calls irq_poll_complete() but still retur=
+ns
+> budget. irq_poll_softirq() will then call list_move_tail() on an entry
+> that has already been removed.
 
-    https://lore.kernel.org/oe-kbuild/202607291634.E5clnaLh-lkp@intel.com
+Thanks, you are right, I also noticed this issue during testing.
+In next version, irq_poll_complete() is called only when
+completions < budget, so a full-budget return leaves the iopoll state untou=
+ched.
 
-    drivers/nvme/host/multipath.c:249:38: warning: reading variable 'current_path' requires holding __ctx_lock_RCU 'RCU' [-Wthread-safety-analysis]
-
-Warning ids grouped by kconfigs:
-
-recent_errors
-`-- loongarch-defconfig
-    `-- drivers-nvme-host-multipath.c:warning:reading-variable-current_path-requires-holding-__ctx_lock_RCU-RCU
-
-elapsed time: 810m
-
-configs tested: 17
-configs skipped: 1
-
-tested configs:
-alpha         allnoconfig    gcc-16.1.0
-alpha        allyesconfig    gcc-16.1.0
-alpha           defconfig    gcc-16.1.0
-arc          allmodconfig    gcc-16.1.0
-arc          allyesconfig    gcc-16.1.0
-arm        mps2_defconfig    clang-24
-csky         allmodconfig    gcc-16.1.0
-i386         allmodconfig    gcc-14
-loongarch       defconfig    clang-24
-nios2        allmodconfig    gcc-11.5.0
-nios2         allnoconfig    gcc-11.5.0
-parisc       allmodconfig    gcc-16.1.0
-parisc       allyesconfig    gcc-16.1.0
-parisc          defconfig    gcc-16.1.0
-sh              defconfig    gcc-16.1.0
-x86_64              kexec    clang-22
-x86_64       rhel-9.4-bpf    gcc-14
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> Should the full-budget case always goto out and let the next invocation
+> complete and evaluate the episode?
+>=C2=A0
 
