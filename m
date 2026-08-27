@@ -4,66 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 946B5C61DC7
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 Aug 2026 10:01:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 87450C61DB9
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 Aug 2026 10:14:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:From:Subject
-	:Message-ID:In-Reply-To:Date:MIME-Version:Reply-To:Cc:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-	List-Owner; bh=R6UFQvd1bT1vBA63lRimBceODwUNnha0O+AxBrpYclw=; b=t6ygfsjwqRINQT
-	wzwVSszCvtQVrLXJClEO6T0q/ADW4x4IxkbF2M1bQUaC4fDqy1hhQYZ8zci8kG7kJ+9cpQNNPF+Eg
-	aYjf04fXQd5TNOomkRPFvGG3nMBRaptl3ApPUcmOU/HH6L6lDYdKP4KZI4DrhOPhb17adl2PLkgIo
-	I7Eg7ScyJudTXxZ0rmW4ftlsPFtjVBVT1S2n3o9qZOg5p3iCVbTUVIg2qKxS2aPGJkWlbbTavPtvP
-	/CJFHjGuu0pvfm/K2+KpBwoOMGUDSFVMukAKXG6c6PnlEfoG6IZdRf+VzUoQpxQXccHtYNbDzqJr4
-	083eoO6EfooQJ+FTSoFg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=HwZef8uP2UTUP7F0y7cm1P/PWSmNKyGYhqNY1iNiwGw=; b=ERZPPvIoksOCQloYDM0rOodspV
+	XElYtq687Sd2juaTe2fnwW9YARRBNBBoLDH7MnevxhQErYJOLQ2IoFs8UgXX+lckIYccJ1i36SGix
+	Ae8PB5uNm5hXYmJP+5iDbNMdAgH+HliJXOcSC5OA1BqmtO7+86o4noc07SLketO2pOd/mxc3ZFDSk
+	I101YjqMwDAKuygjUtqKd6J3GOjYNj2ncUOOjxhd6R/t3Z7ZQCW2a6BCUjYdTBXiaDCwyztNFLQvg
+	+GkhsF4X4bbR8ps7m2BY5chs1zMvcpxIsBuCHLBLWckrpjMtsNyJ5DUEw7e9vEcPPEAy4SPwds9Vf
+	fYqPboeA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wzWvU-00000003nTV-0jx6;
-	Thu, 27 Aug 2026 10:01:40 +0000
-Received: from mail-oi1-f200.google.com ([209.85.167.200])
+	id 1wzX7a-00000003oBk-2hpK;
+	Thu, 27 Aug 2026 10:14:10 +0000
+Received: from out30-101.freemail.mail.aliyun.com ([115.124.30.101])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wzWvS-00000003nT6-1y2z
+	id 1wzX7X-00000003o9l-0CDn
 	for linux-nvme@lists.infradead.org;
-	Thu, 27 Aug 2026 10:01:39 +0000
-Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-4b2f2b8d88fso929109b6e.2
-        for <linux-nvme@lists.infradead.org>; Thu, 27 Aug 2026 03:01:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787824897; x=1788429697;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=R6UFQvd1bT1vBA63lRimBceODwUNnha0O+AxBrpYclw=;
-        b=KO00z8jXUXDKs+s1XcYA7ueUFzJbq7F7Y+TOUvFgBBG/N4Fog4idh/IGPcWicdraWD
-         vr1FJmVAD0XQ9X1m0cwi2K5QjhYU6du1REkZxYND8YLOwP4jrBctWNpLl+3tuS8szicA
-         k/uZdAWGMWDL4UlErzpLgpZKvbP3QbcYLBZZuXkON3ColAU4adgvF72UJLHAQCsEU5rW
-         W0gRSqrJ4VldX37QWbYQZgQMea+Ctz9w+Qvy+peJpIH1gI4NNwaMBwjMmfocNZUqTmnW
-         ICSZXanvdBSXbmHgWANBl+5Dv7ycK9HHN3l0xTPKE0zDx+0oALe7yAeq73g4nC2Jt877
-         TVpQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrWop5N9Ydu2ds/k4mq01yPEnPZdYfd0UT/4tI2xwXMtiLo9ZjfULTOsCSEeIVopfllfFD7oBdrGK5m@lists.infradead.org
-X-Gm-Message-State: AFuF++lCkDFPRRxuZJDwsGwhDfo9++K8i8r0bdmq4bCcwugUkNakxk3y
-	AYjshilAINNndGMIHLDi/KNVl7by7LqGpwCy63UBaZNJ3dBAYdmm7tnfILWxJYJrEuH7Ux3ASWk
-	08RSCB5ZncrHr+xldlrK7xaRNIRpyC/+v4YUVSkOPyBNLt9zfsRv57e970Ew=
+	Thu, 27 Aug 2026 10:14:09 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1787825641; h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version;
+	bh=HwZef8uP2UTUP7F0y7cm1P/PWSmNKyGYhqNY1iNiwGw=;
+	b=JDvdav4q7CJgTy2NyrNvB3bCJHYDp9E5b11GTuw83ZZd8nI+ilkwdUDM8JvBiVEsp+LpHhqk2PGkQcQYl8G/a2fxeflE1C59br0D1G4zlcR8EYeYeA+Ulg2xl6HcCoH0dSl1R5lA8qJEbaRnaWKjYWdcN9ktqPq3aU3bRdbsbAg=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R161e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=chuyf26@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0X9jIJuB_1787825640;
+Received: from x31j07255.sqa.na131(mailfrom:Chuyf26@linux.alibaba.com fp:SMTPD_---0X9jIJuB_1787825640 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Thu, 27 Aug 2026 18:14:00 +0800
+From: Yifei Chu <Chuyf26@linux.alibaba.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
+ linux-nvme@lists.infradead.org
+Subject: [PATCH v2] nvmet: verify the hostid when looking up a controller
+Date: Thu, 27 Aug 2026 18:12:12 +0800
+Message-ID: <178782553270.1581249.13595405857993482779@linux.alibaba.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:17a4:b0:4b2:8dbe:b596 with SMTP id
- 5614622812f47-4b3668b9b23mr13234696b6e.2.1787824896768; Thu, 27 Aug 2026
- 03:01:36 -0700 (PDT)
-Date: Thu, 27 Aug 2026 03:01:36 -0700
-In-Reply-To: <6a8faf18.4d659fcc.734b4.0009.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a900b00.1d9ded08.62e62.00cf.GAE@google.com>
-Subject: Re: [syzbot] [nvme?] KASAN: slab-use-after-free Read in nvmet_port_subsys_allow_link
-From: syzbot <syzbot+b0996ac2197dd7420c3e@syzkaller.appspotmail.com>
-To: hch@lst.de, kch@nvidia.com, linux-kernel@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, sagi@grimberg.me, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260827_030138_514322_BDFFC492 
-X-CRM114-Status: UNSURE (   8.00  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260827_031407_249175_A080745F 
+X-CRM114-Status: GOOD (  15.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,92 +63,95 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-syzbot has found a reproducer for the following issue on:
+nvmet_ctrl_find_get() matches controllers by cntlid and hostnqn only.
+The connect data also carries the connecting host's hostid, but it is
+never compared against the hostid the controller was created with, so
+the lookup can return a controller whose recorded hostid differs.
 
-HEAD commit:    818bebeb63dd drm/xe: Don't hand out the flat CCS storage a..
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-console output: https://syzkaller.appspot.com/x/log.txt?x=1458e579580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=ccca94d2c01b9e78
-dashboard link: https://syzkaller.appspot.com/bug?extid=b0996ac2197dd7420c3e
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11ab6d49580000
+Controller IDs are allocated sequentially and easy to guess, and
+nothing prevents two hosts from using the same hostnqn (misconfigured
+clones, or a reinstalled host whose controller still exists). Such a
+host currently attaches its queues to the other host's controller and
+shares its controller state with it. Also require the hostid from the
+connect data to match the controller's hostid so that the lookup is
+bound to the identity the controller was created with.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+b0996ac2197dd7420c3e@syzkaller.appspotmail.com
+Controllers that were created without a hostid keep the old behaviour.
 
-Oops: general protection fault, probably for non-canonical address 0xdffffc0000000022: 0000 [#1] SMP KASAN NOPTI
-KASAN: null-ptr-deref in range [0x0000000000000110-0x0000000000000117]
-CPU: 2 UID: 0 PID: 6022 Comm: syz-executor823 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-RIP: 0010:nvmet_port_subsys_allow_link+0x108/0x390 drivers/nvme/target/configfs.c:1076
-Code: 00 00 4d 89 66 10 48 c7 c7 e0 d9 f3 8f 4d 8d af 10 01 00 00 e8 29 aa 1f 05 4c 89 ea 48 b8 00 00 00 00 00 fc ff df 48 c1 ea 03 <80> 3c 02 00 0f 85 f0 01 00 00 49 8b 9f 10 01 00 00 4c 39 eb 0f 84
-RSP: 0018:ffffc9000283fc88 EFLAGS: 00010206
-
-RAX: dffffc0000000000 RBX: ffff8880271f8498 RCX: 0000000000000000
-RDX: 0000000000000022 RSI: 0000000000000008 RDI: 0000000000000001
-RBP: ffffffff8ff44260 R08: 0000000000000001 R09: fffffbfff1fe7b3d
-R10: ffffffff8ff3d9ef R11: 0000000000000000 R12: ffff88802c543000
-R13: 0000000000000110 R14: ffff88803dc39b80 R15: 0000000000000000
-FS:  00007f53b85796c0(0000) GS:ffff8880d5da2000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f53b5572ff8 CR3: 0000000055990000 CR4: 0000000000352ef0
-Call Trace:
- <TASK>
- configfs_symlink+0x540/0x11f0 fs/configfs/symlink.c:196
- vfs_symlink fs/namei.c:5794 [inline]
- vfs_symlink+0x178/0x4d0 fs/namei.c:5773
- filename_symlinkat+0x2a6/0x560 fs/namei.c:5819
- __do_sys_symlinkat fs/namei.c:5839 [inline]
- __se_sys_symlinkat fs/namei.c:5834 [inline]
- __x64_sys_symlinkat+0x9c/0xe0 fs/namei.c:5834
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f53b85ae459
-Code: c0 79 93 eb d5 48 8d 7c 1d 00 eb 99 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 d0 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f53b85791f8 EFLAGS: 00000246
- ORIG_RAX: 000000000000010a
-RAX: ffffffffffffffda RBX: 00007f53b861b028 RCX: 00007f53b85ae459
-RDX: 00007f53b861b028 RSI: 00000000ffffff9c RDI: 00007f53b861b060
-RBP: 00007f53b861b060 R08: 00007f53b85796c0 R09: 00007f53b85796c0
-R10: 00007f53b85796c0 R11: 0000000000000246 R12: ffffffffffffffd0
-R13: 0000000000000010 R14: 00007ffff5cb1e50 R15: 00007ffff5cb1f38
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:nvmet_port_subsys_allow_link+0x108/0x390 drivers/nvme/target/configfs.c:1076
-Code: 00 00 4d 89 66 10 48 c7 c7 e0 d9 f3 8f 4d 8d af 10 01 00 00 e8 29 aa 1f 05 4c 89 ea 48 b8 00 00 00 00 00 fc ff df 48 c1 ea 03 <80> 3c 02 00 0f 85 f0 01 00 00 49 8b 9f 10 01 00 00 4c 39 eb 0f 84
-RSP: 0018:ffffc9000283fc88 EFLAGS: 00010206
-
-RAX: dffffc0000000000 RBX: ffff8880271f8498 RCX: 0000000000000000
-RDX: 0000000000000022 RSI: 0000000000000008 RDI: 0000000000000001
-RBP: ffffffff8ff44260 R08: 0000000000000001 R09: fffffbfff1fe7b3d
-R10: ffffffff8ff3d9ef R11: 0000000000000000 R12: ffff88802c543000
-R13: 0000000000000110 R14: ffff88803dc39b80 R15: 0000000000000000
-FS:  00007f53b85796c0(0000) GS:ffff8880d5da2000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f53b5572ff8 CR3: 0000000055990000 CR4: 0000000000352ef0
-----------------
-Code disassembly (best guess):
-   0:	00 00                	add    %al,(%rax)
-   2:	4d 89 66 10          	mov    %r12,0x10(%r14)
-   6:	48 c7 c7 e0 d9 f3 8f 	mov    $0xffffffff8ff3d9e0,%rdi
-   d:	4d 8d af 10 01 00 00 	lea    0x110(%r15),%r13
-  14:	e8 29 aa 1f 05       	call   0x51faa42
-  19:	4c 89 ea             	mov    %r13,%rdx
-  1c:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
-  23:	fc ff df
-  26:	48 c1 ea 03          	shr    $0x3,%rdx
-* 2a:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1) <-- trapping instruction
-  2e:	0f 85 f0 01 00 00    	jne    0x224
-  34:	49 8b 9f 10 01 00 00 	mov    0x110(%r15),%rbx
-  3b:	4c 39 eb             	cmp    %r13,%rbx
-  3e:	0f                   	.byte 0xf
-  3f:	84                   	.byte 0x84
-
-
+Fixes: a07b4970f464 ("nvmet: add a generic NVMe target")
+Reported-by: Abaci <abaci@linux.alibaba.com>
+Assisted-by: abaci:qwen3.8-max
+Signed-off-by: Yifei Chu <Chuyf26@linux.alibaba.com>
 ---
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+v2: reword the changelog as a correctness fix instead of a security
+    fix, the hostid is not a secret either (Sagi).
+    Previous thread:
+    https://lore.kernel.org/all/178707054946.2644927.16076495238405774277@lin=
+ux.alibaba.com/
+
+ drivers/nvme/target/core.c        | 12 ++++++++++++
+ drivers/nvme/target/fabrics-cmd.c |  2 +-
+ drivers/nvme/target/nvmet.h       |  1 +
+ 3 files changed, 14 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index d74c01c..f1eb5cc 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -1471,6 +1471,7 @@ static void nvmet_init_cap(struct nvmet_ctrl *ctrl)
+=20
+ struct nvmet_ctrl *nvmet_ctrl_find_get(const char *subsysnqn,
+ 				       const char *hostnqn, u16 cntlid,
++				       const uuid_t *hostid,
+ 				       struct nvmet_req *req)
+ {
+ 	struct nvmet_ctrl *ctrl =3D NULL;
+@@ -1491,6 +1492,17 @@ struct nvmet_ctrl *nvmet_ctrl_find_get(const char *sub=
+sysnqn,
+ 				pr_warn("hostnqn mismatch.\n");
+ 				continue;
+ 			}
++			/*
++			 * Also require the hostid from the connect data to
++			 * match the hostid the controller was created with.
++			 * Accept a nil hostid only if the controller was
++			 * created without one.
++			 */
++			if (!uuid_is_null(&ctrl->hostid) &&
++			    !uuid_equal(&ctrl->hostid, hostid)) {
++				pr_warn("hostid mismatch.\n");
++				continue;
++			}
+ 			if (!kref_get_unless_zero(&ctrl->ref))
+ 				continue;
+=20
+diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-=
+cmd.c
+index 42d1d18..5e2487d 100644
+--- a/drivers/nvme/target/fabrics-cmd.c
++++ b/drivers/nvme/target/fabrics-cmd.c
+@@ -364,7 +364,7 @@ static void nvmet_execute_io_connect(struct nvmet_req *re=
+q)
+ 	d->subsysnqn[NVMF_NQN_FIELD_LEN - 1] =3D '\0';
+ 	d->hostnqn[NVMF_NQN_FIELD_LEN - 1] =3D '\0';
+ 	ctrl =3D nvmet_ctrl_find_get(d->subsysnqn, d->hostnqn,
+-				   le16_to_cpu(d->cntlid), req);
++				   le16_to_cpu(d->cntlid), &d->hostid, req);
+ 	if (!ctrl) {
+ 		status =3D NVME_SC_CONNECT_INVALID_PARAM | NVME_STATUS_DNR;
+ 		goto out;
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index e362d79..52ea4c7 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -623,6 +623,7 @@ struct nvmet_alloc_ctrl_args {
+ struct nvmet_ctrl *nvmet_alloc_ctrl(struct nvmet_alloc_ctrl_args *args);
+ struct nvmet_ctrl *nvmet_ctrl_find_get(const char *subsysnqn,
+ 				       const char *hostnqn, u16 cntlid,
++				       const uuid_t *hostid,
+ 				       struct nvmet_req *req);
+ void nvmet_ctrl_put(struct nvmet_ctrl *ctrl);
+ u16 nvmet_check_ctrl_status(struct nvmet_req *req);
+--=20
+2.43.5
 
