@@ -4,88 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2AA27C61DC2
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 Aug 2026 08:00:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 946B5C61DC7
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 Aug 2026 10:01:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=xtynvZadmT9n7iXGBfDWjegw1818rbUL1ZR1absKuqg=; b=YGPpjiOX8tygsSFLqZdeexwisG
-	rdzbpCXGeGR+9BkQzn8uw13IVWx/y1CGg2SDSZARDZI+VaaHEjb4TSRfQ7oVLwt36Zq4rbevN6ruo
-	t0Ga7J/dzq8GvASCVIWZqKEwiXWGrEeJ6prcdg/sRQ4I6tXayMzydntwkiNi4rOTpUT1yBao2YyIe
-	NHUYvs7pPm37vAUMaAiyU3u5nOtTUp+6oRH/IK5dqKAleqrheIklDLdheBNqjRGlJ8PXBqxr1/EBI
-	kuGyN74kKxQvdGD/PNGbC+yMYWZaRpjFeazpzDbLpvlomy1aCOKc73s/SeHUnAs2J9j+4oryX9Wjm
-	PS9nY9Kg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:From:Subject
+	:Message-ID:In-Reply-To:Date:MIME-Version:Reply-To:Cc:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+	List-Owner; bh=R6UFQvd1bT1vBA63lRimBceODwUNnha0O+AxBrpYclw=; b=t6ygfsjwqRINQT
+	wzwVSszCvtQVrLXJClEO6T0q/ADW4x4IxkbF2M1bQUaC4fDqy1hhQYZ8zci8kG7kJ+9cpQNNPF+Eg
+	aYjf04fXQd5TNOomkRPFvGG3nMBRaptl3ApPUcmOU/HH6L6lDYdKP4KZI4DrhOPhb17adl2PLkgIo
+	I7Eg7ScyJudTXxZ0rmW4ftlsPFtjVBVT1S2n3o9qZOg5p3iCVbTUVIg2qKxS2aPGJkWlbbTavPtvP
+	/CJFHjGuu0pvfm/K2+KpBwoOMGUDSFVMukAKXG6c6PnlEfoG6IZdRf+VzUoQpxQXccHtYNbDzqJr4
+	083eoO6EfooQJ+FTSoFg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wzV1u-00000003al5-0bUn;
-	Thu, 27 Aug 2026 08:00:10 +0000
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+	id 1wzWvU-00000003nTV-0jx6;
+	Thu, 27 Aug 2026 10:01:40 +0000
+Received: from mail-oi1-f200.google.com ([209.85.167.200])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wzV1r-00000003akl-12yJ
+	id 1wzWvS-00000003nT6-1y2z
 	for linux-nvme@lists.infradead.org;
-	Thu, 27 Aug 2026 08:00:08 +0000
-Received: by mail-pj1-x1034.google.com with SMTP id 98e67ed59e1d1-396b3d0df94so301019a91.1
-        for <linux-nvme@lists.infradead.org>; Thu, 27 Aug 2026 01:00:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787817605; x=1788422405; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=xtynvZadmT9n7iXGBfDWjegw1818rbUL1ZR1absKuqg=;
-        b=m/TMsw0vJibSXQ3X4eIxGVQhMsvTmKTW0kBdmGaEPYaESVnP/vI7+5DAt3MQIPHWbD
-         NTSus0K7XXB6dW2eYd/oES1+E1jjVpAcDobDmKaqVZlD25Vi+loiuGGXc/wqvZBEaNXl
-         hTQYRVG1EMeKC5GDVcgI294+ob/q5KNEQEvOExafsH4kRiWgUQEDB6ACZBlPc6y6ek9N
-         b0O75DGu1KpTV/qRHfzy9XhhyNofO3k2z4OVQBUS/u0EpmK4SnM5qsX/+2brs7aUSFvA
-         mHXLp193agAE4DjEhDXyLguMbHsvfELTxgU+A3PvtC6VzMMSBMvaC1OuVUybe2deLpaz
-         7wIQ==
+	Thu, 27 Aug 2026 10:01:39 +0000
+Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-4b2f2b8d88fso929109b6e.2
+        for <linux-nvme@lists.infradead.org>; Thu, 27 Aug 2026 03:01:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787817605; x=1788422405;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=xtynvZadmT9n7iXGBfDWjegw1818rbUL1ZR1absKuqg=;
-        b=Y/sMeLUrbrzomTPwmigiNaS0crwUzbTtVEUmBkfsJOqNjm8L/GuVVeUfh9BLGP0mI9
-         bauLJ7BU3kQbQdhWxNo+9Z6I/zC0zEV8MV3axU570X+OpsX2FkIqENwDjOe7/RbRJqQL
-         Ip14H1Kd7ZdBpREXvkZRAg4ni6IdJrR/UH4OKHx085dtAJ2mxbDDIjEsLKZh7dVG+4vR
-         nXijCWZzhyVefpodLL+KV2udiBuMYh033DW30FC+ksdW8hEdR+mUKqJ2qS6ocRGcHKwT
-         RexjLolI/cPCACEyifRP7BzjAhq44lvTlyFw9O6NT+JB3jSMASzgTm+yPnxWCQB5smHc
-         nzkA==
-X-Gm-Message-State: AFuF++nSUuAVIQYKHWv5w6RhPSel6wWSmfyDd6dhYQZJwnDdGniVw9Jg
-	BzFV9cVcMTkV4x2z+4yRu3RG7/VRCHg1XN7D7mJVuW18NuJhHLQJUUrkFbAO7iiGxZQC+Q==
-X-Gm-Gg: AR+sD13k3rfJTC1rlHouSHSkQeXHpBJYEYZ/7PqAbH/125Hlm9eHKcNFcW9hXCRBOQz
-	O24zie6QpYkmMzkTZ44N0apkoNyHiUGH0b2V6p1pyDl7OVvZecKLfAkwpjb0H6RAfoZZSUGsQEz
-	QZ0N3RYApeFFEzVMov2POcnUKddDJdnr51WUCqdIrDArqrO3conuSDfQwXGiUSzVaSyeLnjrItN
-	2/b35l6MAWEv7oC4Zk2zql4kzf5pwg9YFVlx51HrkThpoqxtgqYplGv/PXjtXQwKQKVXxc5srCX
-	DAnKRX0UrP0EsvBo1XSp/1V1U8KxjGCqjsl0OdD10nSylPEHJP7ZdnJ1M/hdLZQDEdcXYgr0TZO
-	bjWE4Fe+iCP51bCuftgKL79+tfe9ro/1xyIRes/tmU9Ape/G8BgZ/HDK4+uqt75ByUEBkza/HW9
-	IeEwHz9AwDBU0BJiQR1g7BeV6mKtM/2THsxwqzzU8H7xOav4K9oQqgv0YwWfh2vBPLVE2gjivYI
-	Y68N8EwShLM5XURmPcez5pru8+HCLcGKEZc8eZs9iPqmckwMOKL35Coe4PUUbBw2USCrjrIBgcf
-	t8DO53OzNYv+kAKh2QbdJVMI
-X-Received: by 2002:a17:90b:3890:b0:395:bbfe:fc6f with SMTP id 98e67ed59e1d1-3966d401db6mr25766414a91.3.1787817605188;
-        Thu, 27 Aug 2026 01:00:05 -0700 (PDT)
-Received: from myserver ([14.51.250.42])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-396b0fd9085sm1678619a91.12.2026.08.27.01.00.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Aug 2026 01:00:04 -0700 (PDT)
-From: Seokgyu Choi <tjrrb0313@gmail.com>
-To: Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Cc: linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+f613f9f010ec98eb9d86@syzkaller.appspotmail.com,
-	Seokgyu Choi <tjrrb0313@gmail.com>
-Subject: [PATCH] nvmet: reject namespace enable without device path
-Date: Thu, 27 Aug 2026 07:52:21 +0000
-Message-ID: <20260827075221.312935-1-tjrrb0313@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        d=1e100.net; s=20251104; t=1787824897; x=1788429697;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=R6UFQvd1bT1vBA63lRimBceODwUNnha0O+AxBrpYclw=;
+        b=KO00z8jXUXDKs+s1XcYA7ueUFzJbq7F7Y+TOUvFgBBG/N4Fog4idh/IGPcWicdraWD
+         vr1FJmVAD0XQ9X1m0cwi2K5QjhYU6du1REkZxYND8YLOwP4jrBctWNpLl+3tuS8szicA
+         k/uZdAWGMWDL4UlErzpLgpZKvbP3QbcYLBZZuXkON3ColAU4adgvF72UJLHAQCsEU5rW
+         W0gRSqrJ4VldX37QWbYQZgQMea+Ctz9w+Qvy+peJpIH1gI4NNwaMBwjMmfocNZUqTmnW
+         ICSZXanvdBSXbmHgWANBl+5Dv7ycK9HHN3l0xTPKE0zDx+0oALe7yAeq73g4nC2Jt877
+         TVpQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrWop5N9Ydu2ds/k4mq01yPEnPZdYfd0UT/4tI2xwXMtiLo9ZjfULTOsCSEeIVopfllfFD7oBdrGK5m@lists.infradead.org
+X-Gm-Message-State: AFuF++lCkDFPRRxuZJDwsGwhDfo9++K8i8r0bdmq4bCcwugUkNakxk3y
+	AYjshilAINNndGMIHLDi/KNVl7by7LqGpwCy63UBaZNJ3dBAYdmm7tnfILWxJYJrEuH7Ux3ASWk
+	08RSCB5ZncrHr+xldlrK7xaRNIRpyC/+v4YUVSkOPyBNLt9zfsRv57e970Ew=
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6808:17a4:b0:4b2:8dbe:b596 with SMTP id
+ 5614622812f47-4b3668b9b23mr13234696b6e.2.1787824896768; Thu, 27 Aug 2026
+ 03:01:36 -0700 (PDT)
+Date: Thu, 27 Aug 2026 03:01:36 -0700
+In-Reply-To: <6a8faf18.4d659fcc.734b4.0009.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a900b00.1d9ded08.62e62.00cf.GAE@google.com>
+Subject: Re: [syzbot] [nvme?] KASAN: slab-use-after-free Read in nvmet_port_subsys_allow_link
+From: syzbot <syzbot+b0996ac2197dd7420c3e@syzkaller.appspotmail.com>
+To: hch@lst.de, kch@nvidia.com, linux-kernel@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, sagi@grimberg.me, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260827_010007_355808_9689D04F 
-X-CRM114-Status: GOOD (  10.58  )
+X-CRM114-CacheID: sfid-20260827_030138_514322_BDFFC492 
+X-CRM114-Status: UNSURE (   8.00  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,41 +78,92 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-A newly allocated namespace has a NULL device_path until userspace
-configures the device_path attribute.
+syzbot has found a reproducer for the following issue on:
 
-If buffered_io is enabled before device_path is configured,
-nvmet_bdev_ns_enable() returns -ENOTBLK and nvmet_ns_enable() falls
-back to nvmet_file_ns_enable(). The latter passes the NULL
-device_path to filp_open(), causing a NULL pointer dereference in
-getname_kernel().
+HEAD commit:    818bebeb63dd drm/xe: Don't hand out the flat CCS storage a..
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+console output: https://syzkaller.appspot.com/x/log.txt?x=1458e579580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=ccca94d2c01b9e78
+dashboard link: https://syzkaller.appspot.com/bug?extid=b0996ac2197dd7420c3e
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11ab6d49580000
 
-Reject namespace enable when device_path has not been configured.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+b0996ac2197dd7420c3e@syzkaller.appspotmail.com
 
-Reported-by: syzbot+f613f9f010ec98eb9d86@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=f613f9f010ec98eb9d86
-Signed-off-by: Seokgyu Choi <tjrrb0313@gmail.com>
+Oops: general protection fault, probably for non-canonical address 0xdffffc0000000022: 0000 [#1] SMP KASAN NOPTI
+KASAN: null-ptr-deref in range [0x0000000000000110-0x0000000000000117]
+CPU: 2 UID: 0 PID: 6022 Comm: syz-executor823 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+RIP: 0010:nvmet_port_subsys_allow_link+0x108/0x390 drivers/nvme/target/configfs.c:1076
+Code: 00 00 4d 89 66 10 48 c7 c7 e0 d9 f3 8f 4d 8d af 10 01 00 00 e8 29 aa 1f 05 4c 89 ea 48 b8 00 00 00 00 00 fc ff df 48 c1 ea 03 <80> 3c 02 00 0f 85 f0 01 00 00 49 8b 9f 10 01 00 00 4c 39 eb 0f 84
+RSP: 0018:ffffc9000283fc88 EFLAGS: 00010206
+
+RAX: dffffc0000000000 RBX: ffff8880271f8498 RCX: 0000000000000000
+RDX: 0000000000000022 RSI: 0000000000000008 RDI: 0000000000000001
+RBP: ffffffff8ff44260 R08: 0000000000000001 R09: fffffbfff1fe7b3d
+R10: ffffffff8ff3d9ef R11: 0000000000000000 R12: ffff88802c543000
+R13: 0000000000000110 R14: ffff88803dc39b80 R15: 0000000000000000
+FS:  00007f53b85796c0(0000) GS:ffff8880d5da2000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f53b5572ff8 CR3: 0000000055990000 CR4: 0000000000352ef0
+Call Trace:
+ <TASK>
+ configfs_symlink+0x540/0x11f0 fs/configfs/symlink.c:196
+ vfs_symlink fs/namei.c:5794 [inline]
+ vfs_symlink+0x178/0x4d0 fs/namei.c:5773
+ filename_symlinkat+0x2a6/0x560 fs/namei.c:5819
+ __do_sys_symlinkat fs/namei.c:5839 [inline]
+ __se_sys_symlinkat fs/namei.c:5834 [inline]
+ __x64_sys_symlinkat+0x9c/0xe0 fs/namei.c:5834
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f53b85ae459
+Code: c0 79 93 eb d5 48 8d 7c 1d 00 eb 99 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 d0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f53b85791f8 EFLAGS: 00000246
+ ORIG_RAX: 000000000000010a
+RAX: ffffffffffffffda RBX: 00007f53b861b028 RCX: 00007f53b85ae459
+RDX: 00007f53b861b028 RSI: 00000000ffffff9c RDI: 00007f53b861b060
+RBP: 00007f53b861b060 R08: 00007f53b85796c0 R09: 00007f53b85796c0
+R10: 00007f53b85796c0 R11: 0000000000000246 R12: ffffffffffffffd0
+R13: 0000000000000010 R14: 00007ffff5cb1e50 R15: 00007ffff5cb1f38
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:nvmet_port_subsys_allow_link+0x108/0x390 drivers/nvme/target/configfs.c:1076
+Code: 00 00 4d 89 66 10 48 c7 c7 e0 d9 f3 8f 4d 8d af 10 01 00 00 e8 29 aa 1f 05 4c 89 ea 48 b8 00 00 00 00 00 fc ff df 48 c1 ea 03 <80> 3c 02 00 0f 85 f0 01 00 00 49 8b 9f 10 01 00 00 4c 39 eb 0f 84
+RSP: 0018:ffffc9000283fc88 EFLAGS: 00010206
+
+RAX: dffffc0000000000 RBX: ffff8880271f8498 RCX: 0000000000000000
+RDX: 0000000000000022 RSI: 0000000000000008 RDI: 0000000000000001
+RBP: ffffffff8ff44260 R08: 0000000000000001 R09: fffffbfff1fe7b3d
+R10: ffffffff8ff3d9ef R11: 0000000000000000 R12: ffff88802c543000
+R13: 0000000000000110 R14: ffff88803dc39b80 R15: 0000000000000000
+FS:  00007f53b85796c0(0000) GS:ffff8880d5da2000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f53b5572ff8 CR3: 0000000055990000 CR4: 0000000000352ef0
+----------------
+Code disassembly (best guess):
+   0:	00 00                	add    %al,(%rax)
+   2:	4d 89 66 10          	mov    %r12,0x10(%r14)
+   6:	48 c7 c7 e0 d9 f3 8f 	mov    $0xffffffff8ff3d9e0,%rdi
+   d:	4d 8d af 10 01 00 00 	lea    0x110(%r15),%r13
+  14:	e8 29 aa 1f 05       	call   0x51faa42
+  19:	4c 89 ea             	mov    %r13,%rdx
+  1c:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
+  23:	fc ff df
+  26:	48 c1 ea 03          	shr    $0x3,%rdx
+* 2a:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1) <-- trapping instruction
+  2e:	0f 85 f0 01 00 00    	jne    0x224
+  34:	49 8b 9f 10 01 00 00 	mov    0x110(%r15),%rbx
+  3b:	4c 39 eb             	cmp    %r13,%rbx
+  3e:	0f                   	.byte 0xf
+  3f:	84                   	.byte 0x84
+
+
 ---
- drivers/nvme/target/core.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index d74c01c98f19..336013139ef6 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -591,6 +591,11 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
- 	if (ns->enabled)
- 		goto out_unlock;
- 
-+	if (!ns->device_path) {
-+		ret = -EINVAL;
-+		goto out_unlock;
-+	}
-+
- 	ret = nvmet_bdev_ns_enable(ns);
- 	if (ret == -ENOTBLK)
- 		ret = nvmet_file_ns_enable(ns);
--- 
-2.53.0
-
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
 
