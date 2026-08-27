@@ -4,58 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2C85FC61DC4
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 Aug 2026 21:51:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2132EC61DC4
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 Aug 2026 22:20:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=sVyT6SJ1XC4Ev63As2WkQ7SvZcqntdNVSI/mm6dpXks=; b=cmufFUZoDyzR9tfuGVAqkGKWo4
-	FzFPJ5e0fHF3pc+VFDZxmzKfNWlIRgVkEIy1FruCABlaU4vS8QAxwXlxvh5eM0Aglq4rwyeJysUow
-	D++ZXSeti9zhumGcHyieSCmBKFMYX9bcJMSnFZBehPpgs0kubBV9G4ndi8Zewmk3/RfT/C2gt94Q1
-	l0nMM7W70bRr/cEhC+keTw92esF/+pUBv3ENOmc2OkWk+e21xVUn25Sd2hHaJpW3p3xZZr86VYIdd
-	Me881riYau6cyUkAN3pAS72hyTSHhtY+Wc9rt1LGmyZa9ZHP6ca0mG0TixNo5rzvNT6eFQDqj4T4G
-	CseLuOXw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=EvtJJsw7v4EROBNhwu+vSqrIh4k0LdD47fdLJjTypVM=; b=lA4aLMIDfS579UKMmANk8msFhh
+	TRhA+hjDpSOkb3yyYXICACERc+CN+eXy34FZkgOBhx96+q8Y6oFMJWBnUA7gvHhouFT6kQc95Ns0S
+	8zWB0HtfSP7+Uj/HfviUBM+rvvaEFtxhCfiJQ6tmx+F2lDfmOOAcxEW89kswPUwa/2wSnI3qR38db
+	OrfuXDbWrFld/N1gRtkHBpML/c7dM/cmpz+OMuW9x8EEjquM4qW9DcYuxm55ciQbxNGQLJZByQynt
+	M/h/ve6j2DCk1WuOjNt1IqkRH2RvsylK9dhf/Lylrql8Re0th9g+Cq3VHaGIFDIiySilcwIUYnh+w
+	S1yVL/xQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wzi0k-00000004puL-0s0k;
-	Thu, 27 Aug 2026 21:51:50 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1wziSR-00000004qnf-3wva;
+	Thu, 27 Aug 2026 22:20:27 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wzi0j-00000004puD-0oMF
+	id 1wziSP-00000004qnR-1Fog
 	for linux-nvme@lists.infradead.org;
-	Thu, 27 Aug 2026 21:51:49 +0000
+	Thu, 27 Aug 2026 22:20:25 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 8654942D89;
-	Thu, 27 Aug 2026 21:51:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CA371F000E9;
-	Thu, 27 Aug 2026 21:51:48 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 5755D601F0;
+	Thu, 27 Aug 2026 22:20:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BD581F00A3A;
+	Thu, 27 Aug 2026 22:20:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787867508;
-	bh=sVyT6SJ1XC4Ev63As2WkQ7SvZcqntdNVSI/mm6dpXks=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ebPY/f1N2Ot4aeFQ9gH6FxknSvSgg4u7RXPUnffmi2GQALy7b9YmntZ/yE+N+9I2e
-	 xk8RIqUhNCm2mdICjFcLzYocPnvyxTIMweKntjKcE8rPbfQ2YRzRfrDYIW+uk/PuIa
-	 LNgTufCqhQx2v2UCNwVsVi/w2j/a4TXwG5od5gPVxKOTDyE9E3Re78r/vd2wC0Icvz
-	 Xn26+vzhlkvdpvke/t4UHt+zUixDUimi437H6noqXqUZovJUK1lTihveZn5+IGrMC+
-	 5Flm71feo5qFdiQET2D8TRNNkN/a2m4xP3icidZXA2+f+XfuSXudGQqSvruid8zu3A
-	 9u/PvlyE65pLw==
-Date: Thu, 27 Aug 2026 15:51:46 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Shivam Kumar <kumar.shivam43666@gmail.com>
-Cc: Greg KH <greg@kroah.com>, security@kernel.org, hch@lst.de,
-	sagi@grimberg.me, kch@nvidia.com, linux-nvme@lists.infradead.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] nvmet-tcp: reject unsolicited H2CData PDUs
-Message-ID: <apCxcvW33xppjCf_@kbusch-mbp>
-References: <2026082755-stucco-champion-2bb9@gregkh>
- <20260827192455.1849385-1-kumar.shivam43666@gmail.com>
+	s=k20260515; t=1787869224;
+	bh=EvtJJsw7v4EROBNhwu+vSqrIh4k0LdD47fdLJjTypVM=;
+	h=From:To:Cc:Subject:Date;
+	b=l2GOT9nHlYXVch/YAJNnf3oZ1wMkmcs9hO8HmB0amVJpHUYP1MT3uF1EGwajv3TWc
+	 piaiw/TjRVsMF85KK+reKkOEww7gnWgnnPP7VVnCrhYAs+iB+rPg/6WN8LaGxGZZ9T
+	 V4Mm9GXqTceI5bKXuFtfiTtSVCLwLEvf7gO7N4A0x21f60L5NiDpJCf6rmACbP1SS6
+	 9Sp2QeBw8hYm8z18ArjB7sigqRJYrT7zlHBxsjnMzYLpllRuCMpBMfGf3e4nJZauY4
+	 o5+VCumxG7DqsNpDALHLl9jwqN9Pq91t4fYtsejQPw+dka+YR9GXnUfi06vFGeUOkJ
+	 eDY7VbdL+96bA==
+From: "Carlos Bilbao (Lambda)" <carlos.bilbao@kernel.org>
+To: stable@vger.kernel.org
+Cc: kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me,
+	d.bogdanov@yadro.com,
+	wagi@kernel.org,
+	linux-nvme@lists.infradead.org,
+	bilbao@vt.edu,
+	ryan.arnold@lambdal.com,
+	krishna.mohan@lambdal.com,
+	christian.jones@lambdal.com,
+	eduardo.habkost@lambdal.com,
+	brian.kopp@lambdal.com,
+	Carlos Bilbao <carlos.bilbao@kernel.org>
+Subject: [PATCH 6.18.y] nvme-tcp: fix usage of page_frag_cache
+Date: Thu, 27 Aug 2026 15:20:22 -0700
+Message-ID: <20260827222022.45428-1-carlos.bilbao@kernel.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260827192455.1849385-1-kumar.shivam43666@gmail.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,11 +78,106 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Aug 27, 2026 at 03:24:55PM -0400, Shivam Kumar wrote:
-> nvmet_tcp_handle_h2c_data_pdu() accepts an H2CData PDU after only checking
-> that its TTAG is a valid in-range command index and that the command's
-> data buffers are mapped. It never checks that the target has actually
-> solicited that data by sending an R2T for the command.
+From: Dmitry Bogdanov <d.bogdanov@yadro.com>
 
-Thanks, looks correct. Applied to nvme-7.3.
+commit 36ac05f7cfd59d90c597071304b14e98090d5dd1 upstream.
+
+nvme uses page_frag_cache to preallocate PDU for each preallocated request
+of block device. Block devices are created in parallel threads,
+consequently page_frag_cache is used in not thread-safe manner.
+That leads to incorrect refcounting of backstore pages and premature free.
+
+That can be catched by !sendpage_ok inside network stack:
+
+WARNING: CPU: 7 PID: 467 at ../net/core/skbuff.c:6931 skb_splice_from_iter+0xfa/0x310.
+	tcp_sendmsg_locked+0x782/0xce0
+	tcp_sendmsg+0x27/0x40
+	sock_sendmsg+0x8b/0xa0
+	nvme_tcp_try_send_cmd_pdu+0x149/0x2a0
+Then random panic may occur.
+
+Fix that by serializing the usage of page_frag_cache.
+
+Fixes: 4e893ca81170 ("nvme_core: scan namespaces asynchronously")
+Signed-off-by: Dmitry Bogdanov <d.bogdanov@yadro.com>
+Signed-off-by: Daniel Wagner <wagi@kernel.org>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+[carlos.bilbao: adjust context in nvme_tcp_free_queue; branch predates
+19bdb70c77d3 ("nvme-tcp: lockdep: use dynamic lockdep keys per socket
+instance")]
+Signed-off-by: Carlos Bilbao (Lambda) <carlos.bilbao@kernel.org>
+---
+Context conflict in nvme_tcp_free_queue due to 19bdb70c77d3; context-only
+adjustment, no functional change.
+
+Build-tested: 6.18.47 (x86_64 defconfig + CONFIG_NVME_TCP=m).
+Also needed in 6.12.y, 7.1.y (backports submitted separately); 7.2.y
+takes the upstream commit cleanly.
+
+ drivers/nvme/host/tcp.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index afdbcff..04c074a 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -145,6 +145,7 @@ struct nvme_tcp_queue {
+ 
+ 	struct mutex		queue_lock;
+ 	struct mutex		send_mutex;
++	struct mutex		pf_cache_lock;
+ 	struct llist_head	req_list;
+ 	struct list_head	send_list;
+ 
+@@ -556,9 +557,11 @@ static int nvme_tcp_init_request(struct blk_mq_tag_set *set,
+ 	struct nvme_tcp_queue *queue = &ctrl->queues[queue_idx];
+ 	u8 hdgst = nvme_tcp_hdgst_len(queue);
+ 
++	mutex_lock(&queue->pf_cache_lock);
+ 	req->pdu = page_frag_alloc(&queue->pf_cache,
+ 		sizeof(struct nvme_tcp_cmd_pdu) + hdgst,
+ 		GFP_KERNEL | __GFP_ZERO);
++	mutex_unlock(&queue->pf_cache_lock);
+ 	if (!req->pdu)
+ 		return -ENOMEM;
+ 
+@@ -1423,9 +1426,11 @@ static int nvme_tcp_alloc_async_req(struct nvme_tcp_ctrl *ctrl)
+ 	struct nvme_tcp_request *async = &ctrl->async_req;
+ 	u8 hdgst = nvme_tcp_hdgst_len(queue);
+ 
++	mutex_lock(&queue->pf_cache_lock);
+ 	async->pdu = page_frag_alloc(&queue->pf_cache,
+ 		sizeof(struct nvme_tcp_cmd_pdu) + hdgst,
+ 		GFP_KERNEL | __GFP_ZERO);
++	mutex_unlock(&queue->pf_cache_lock);
+ 	if (!async->pdu)
+ 		return -ENOMEM;
+ 
+@@ -1453,6 +1458,7 @@ static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
+ 	kfree(queue->pdu);
+ 	mutex_destroy(&queue->send_mutex);
+ 	mutex_destroy(&queue->queue_lock);
++	mutex_destroy(&queue->pf_cache_lock);
+ }
+ 
+ static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
+@@ -1775,6 +1781,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
+ 	INIT_LIST_HEAD(&queue->send_list);
+ 	mutex_init(&queue->send_mutex);
+ 	INIT_WORK(&queue->io_work, nvme_tcp_io_work);
++	mutex_init(&queue->pf_cache_lock);
+ 
+ 	if (qid > 0)
+ 		queue->cmnd_capsule_len = nctrl->ioccsz * 16;
+@@ -1906,6 +1913,7 @@ err_sock:
+ err_destroy_mutex:
+ 	mutex_destroy(&queue->send_mutex);
+ 	mutex_destroy(&queue->queue_lock);
++	mutex_destroy(&queue->pf_cache_lock);
+ 	return ret;
+ }
+ 
+-- 
+2.50.1 (Apple Git-155)
+
 
