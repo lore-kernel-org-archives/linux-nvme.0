@@ -4,113 +4,144 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7D51DC61DC6
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 Aug 2026 13:21:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AF6A9C61DB9
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 Aug 2026 18:20:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DWpPd40fgTQnygQ4jQFKBmnT1n2A/aO+zUtfPoK7iAE=; b=nbNb0DROy2NJnbzrKc1Zy4XA0L
-	XHuXLFdLq/2d4MV7iZzSJFdeQjU+YpvBrXonP/54huorIXq+k8XQKYdSoZWfCq0+07pWr8k6Xdpg6
-	LN34L4kLFIwxCx8HkpGsUUuHwuHucJUto48cvYkeeKyJ3dChX6k5HDlkEav3SxYyR6ap1YefkJ28D
-	DHB16E2yarQ0lgFx0HNgjyWxxBKNJKnDGXjMStYhjw5sw/BQFxFT10Jz5S3jWqRvcJgeZe+oi3p0L
-	TXCZCXyVTe+drh+miQHemnB1DO7w6IjxHTGDEKaMhYcWcNI7E1WWZ6ZPQohXkwV/cMLCYr/dCA2Fg
-	z+MHs8Tw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Message-ID:Date:Subject:Cc:To:From:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Amk/g69dKSZ62AmVoLw01upQSeTzbEdoBFyVAy4PZG8=; b=wiNVDjmg/Mj29NOD+RREIwEiFa
+	ulag1a7QoFkC7O3e5UYTHARpIjrcxX/EQ5xdZ15teHmkiXGx9i6fS5NXT9xAFp+qiJ7c45iyhumA/
+	CY9FItCpz+s6kneLfsUrQb+vXNPTIjObJwrZWhe1Frq2YYUPElw7pReVKZTinWDy/iBbpSdmMO3jj
+	MqUN3WR4yhlOuJsA90ZbzxhiWFgZvJI7tU388mls5sixd/JJULNR0nyeqMhf4XldkMuAfz7TiJ4uA
+	JUp2y5gi4COCht7wMVbJ1eJlwsABR2rUgtEXVKxnA5ucpinU8lLqgDEe926tfXIYjJwiXlZlQxiHX
+	/wLfzkJA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wza2s-000000042hO-2V5Y;
-	Thu, 27 Aug 2026 13:21:30 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1wzeiG-00000004ala-3iHR;
+	Thu, 27 Aug 2026 18:20:32 +0000
+Received: from mail-japanwestazon11021073.outbound.protection.outlook.com ([40.107.74.73] helo=OS0P286CU010.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wza2r-000000042gP-02xK
-	for linux-nvme@lists.infradead.org;
-	Thu, 27 Aug 2026 13:21:30 +0000
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67RCVhKO2891965;
-	Thu, 27 Aug 2026 13:21:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=DWpPd4
-	0fgTQnygQ4jQFKBmnT1n2A/aO+zUtfPoK7iAE=; b=LD22CU+gbSgWaPNIZ9S4WJ
-	XKaY8SgoeljDG0uhUjb7a8qOjNViJgUV29wzPUvDCt3S5bv6o7Vatl5eY3gYEMFZ
-	Ulv9RnNIGpjRQmKN1V257qrUfnFct2zb1el17HFm9VuQzOb81UDO8sd/+n61HK5N
-	n83ean9uWZeFRoO80f05WYUH1iqQHJ/EaeP+ZtbVa1j6pPENP+JnAYv7+tAi+jut
-	YDGWhcvN+nEHeLfWH0/PWGSZtRsIH/VYtoNnL9FVpWaRYpRnH3q066FXUaAh7n/T
-	8kzui2rPka982TGdUSTxdNY+OjcKNaT9OW9M6oV1N9cK1t04Akc9bIpsioThfC6w
-	==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4g716j5mec-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 27 Aug 2026 13:21:25 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 67RDBHuj007484;
-	Thu, 27 Aug 2026 13:21:25 GMT
-Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4g7rsyfysw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 27 Aug 2026 13:21:24 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
-	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 67RDLLOp26804746
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 27 Aug 2026 13:21:21 GMT
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 3BA4F58043;
-	Thu, 27 Aug 2026 13:21:21 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7A8005805F;
-	Thu, 27 Aug 2026 13:21:19 +0000 (GMT)
-Received: from [9.61.79.117] (unknown [9.61.79.117])
-	by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Thu, 27 Aug 2026 13:21:19 +0000 (GMT)
-Message-ID: <e09f539f-a6f8-40ec-aac6-0722289e5591@linux.ibm.com>
-Date: Thu, 27 Aug 2026 18:51:17 +0530
+	id 1wzeiD-00000004ak3-2ETk;
+	Thu, 27 Aug 2026 18:20:31 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Yxd6xJ1yV4iPey3i8JWgDZwzvJ+0tatUd4hirVvhDBzQv0MtW9JTCRP84lDbHd55ENbcZMKLWCNVm9kZ9G8go0+rcDZc4zADakDdRavBYuB1bLNWTyvEsQH5LGas2eOIQDY8EWdPLZkVqQJEe5PF9dXQSh9ESPVMTiVITYa99EdCQ44OvJkt5SEovjF5xKtX+b7h4KjUpGkSy6jo9CVoouj/siR+hmM/nY5KRsgc5wVnRwB1luvsaoxQNzvTuSFvD0NlhFRefBA3f3J7bTwEtHCv9WkI9lzO6NoUIbxk3H0s+chtIiCOC8Eq/B+o/ylUL1bchDpa+aY2RWQSn5yaVw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Amk/g69dKSZ62AmVoLw01upQSeTzbEdoBFyVAy4PZG8=;
+ b=nVZ8Sj1qJol8cvF5+yFKPvnM2FyrQ7OWvaks6WkU7nrAIJAS0l5PjKR1ss8LsT5D1XLB0c4WbsLykIgd2nO8x29F0PnN+TtlqvNeT5498nG1nsGGs9fuB43dKGXd5v/LvDPPUBJHqnmd0t0EaoK5W6r5H/v6W9ERHM6Ap6FRTX0q5ZZeHi4CJ3LKiPNY9LlX6q4hjwu1m9MzMSd2EQ5O7nsi02GKegDMMW4h2qr27LgieoKvl4asF7jB0PHGf7D6IXI/uZE5sU9P/i/h1OOtmUeh6P9LgzrCXXqaO8kAsXiYHUmpZ0yquocE0Y687C26o5zb3etI/Rk1Tu7R6fSJqA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=valinux.co.jp; dmarc=pass action=none
+ header.from=valinux.co.jp; dkim=pass header.d=valinux.co.jp; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valinux.co.jp;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Amk/g69dKSZ62AmVoLw01upQSeTzbEdoBFyVAy4PZG8=;
+ b=cTufV9/keon3UgciQgOHLFYO4DrvlFThJnO83bS1eLzgxp1AiYtqBMKSkbENZ0IvOW1FAxemoVSa77tzmena0RxLKdzqdv9/bnXGCP4kmHqct3aWzdiNxkY+FXqc3ULVtf/JMyJ43kadSq4AFwfObdltYDFivmXj6si5zlXf0Eg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=valinux.co.jp;
+Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:38f::10)
+ by TY7P286MB7058.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:31d::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.10; Thu, 27 Aug
+ 2026 18:20:17 +0000
+Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::2305:327c:28ec:9b32]) by TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::2305:327c:28ec:9b32%4]) with mapi id 15.21.0360.008; Thu, 27 Aug 2026
+ 18:20:17 +0000
+From: Koichiro Den <den@valinux.co.jp>
+To: Manivannan Sadhasivam <mani@kernel.org>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Frank Li <Frank.Li@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Jingoo Han <jingoohan1@gmail.com>,
+	Niklas Cassel <cassel@kernel.org>
+Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Aksh Garg <a-garg7@ti.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Jon Mason <jdmason@kudzu.us>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Allen Hubbe <allenbh@gmail.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Shawn Lin <shawn.lin@rock-chips.com>,
+	Manikanta Maddireddy <mmaddireddy@nvidia.com>,
+	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+	linux-pci@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	ntb@lists.linux.dev,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] PCI: endpoint: Support hardware-owned MSI-X table and PBA
+Date: Fri, 28 Aug 2026 03:20:09 +0900
+Message-ID: <20260827182012.1984960-1-den@valinux.co.jp>
+X-Mailer: git-send-email 2.51.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TYCP286CA0245.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:456::13) To TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:38f::10)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2] nvme: Add module reference counting for multipath
- devices
-To: Keith Busch <kbusch@kernel.org>, Wen Xiong <wenxiong@linux.ibm.com>
-Cc: linux-nvme@lists.infradead.org, gjoyce@linux.ibm.com, wenxiong@us.ibm.com
-References: <20260812223206.720363-1-wenxiong@linux.ibm.com>
- <d3cb6438-f1b6-4b46-9f96-56819052bc02@linux.ibm.com>
- <dc9af96205cfff939f96d7465a50eef1@linux.ibm.com>
- <ao8WB4Ywz_akBEdR@kbusch-mbp>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <ao8WB4Ywz_akBEdR@kbusch-mbp>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODI3MDEwOSBTYWx0ZWRfXxGTADwzUW/BE
- zQLF1ixEtgwmECDomPnO4yZpE3QwjMIp0zKq8FNHk73s15QQ06VdR9srHafzyE2lRAems+gWMA+
- kIav78DVSNVI/yN/YdQzZZon9KK35Ug=
-X-Proofpoint-GUID: bwyJ3C8L7PjVkmLaizkkfO2yLMyCyxGA
-X-Proofpoint-ORIG-GUID: bwyJ3C8L7PjVkmLaizkkfO2yLMyCyxGA
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI3MDEwOSBTYWx0ZWRfX6tFxS+vQcIkL
- XC3k1EgjoBP3ib8YhNsfGS0RXsrQo0zxfSOeur/d1bR/tl2lKWXE5kTK3qRWc0jlRQia9F0WZ3X
- A4vsdB/XiASEVHDkg/JSeJRS07o7hIhvqBh8VJAv7XJu4k8QfJyIIvChbdqmJFlu/pzSAOlrrmS
- vstbzg4CWCOy6UKdUpAEPwFe4/YEAEc2RlwOpHUshneV5ZXES6IQZVsfxxUIUf3Z3ugfdEUue6m
- Av2pil/I9rT4/ANYk9ydAVqX9umX/5YFYD/nByz+O9Agm2B+IvdF5dp0sXTUTYd0jI47nhH/ddV
- yDj886X5JRxJQLrqgWbTSwjArKd1yGFOqUXHy1YwsjmLq32YnfBFyaIwmeA23vQY0J8I7/xFojL
- ffiKf3nfexldkK6C/vSm+QWZZrH9MD0eI1Wi1GvEndbd0kgYVl+2Ai1Of4vBLQyqghH+yJM2uUd
- 1HKx/8ZH3rpfeDurlCg==
-X-Authority-Analysis: v=2.4 cv=H7brBeYi c=1 sm=1 tr=0 ts=6a9039d5 cx=c_pps
- a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
- a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=vjNg84M93zLaNEDguKAA:9
- a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-27_05,2026-08-26_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 malwarescore=0 lowpriorityscore=0 impostorscore=0 spamscore=0
- bulkscore=0 adultscore=0 priorityscore=1501 clxscore=1015 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608270109
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY7P286MB7722:EE_|TY7P286MB7058:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9a3e38cd-fcb2-41ac-773a-08df0467d89d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|23010399003|10070799003|366016|6133799003|10067099003|56012099006|5023799004|18002099003;
+X-Microsoft-Antispam-Message-Info: PrQ/CiwxFRII8a5kSZ3FcPbbMcPfFwS0Q7mj44quei+mNyb+D+M0m0Fbz8l/ZU4lqNEP1t+Hk/4ySk0MZgzVh11D7e49MVCc31tGx65481UGxLELlunJUdPVJqu7MY82vSHki85jZSP+VB/iuiOrRlJ3QPn+ytvWtvLiwmsKzBbAAb4t1VcUY/5DLZU4kzFsURUYOLwPx66OV86Vkq40QXLy4E54m0auJlcKwGDs3mPpUY+l0aIfZe/XNUUVIu63eGsFfm49KUzWilzzXcwm1eMKjWZ4cZkM33u9r7Y2Qmcuoq2oHGB+ln8gzn2dTdNDPbgSCCbSCV58hVpx/0mhrTRpg1m88SE8dIPsq7XzZZyxLkrkf+C6/3hoJaZ9zfMgILd+MQaebW+VG+xPfAfioOpz9GjUTD9YtbUicFQT7wCM+P2HP1HpTTedGh92gcbB4rFxDDB4qN3kQ1MafzbmCDFxAop5NKp+1LTH03tqWzTHhwOW9ldocOLk0Gy1Z64MTgyY/whPuqO2E/vCbn0YGB3nwR+URt9JTubc0uXWlpIOHtXe1a67bSnw+IYDfiENidHa1ma9RX1IowrhYRkwM3hkKy1RGEDXuJbneE8B7YQARDyXz7K46xmCg/Eem3lHEaU1svZ4wegckQbFhF1tf9Xh0Z05WlqXo4kiXpt4644=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(23010399003)(10070799003)(366016)(6133799003)(10067099003)(56012099006)(5023799004)(18002099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?pMX7YSbnpc++CMHWmq+gCL8ZItYZ2yIuSk/0UmebCQdgofo2W3stNn9EU4Z5?=
+ =?us-ascii?Q?n7Rh/bvKMpneCKwejSME96zt7Mh0dY1hw/NzhnnXl20OkTf9kOZHZkdxbIpp?=
+ =?us-ascii?Q?0qboLy/8XGVTjg1hvueEgPQO7ZJ9jXAiTQsSRI2pzXVJ81FI+L0AkKb+IfH8?=
+ =?us-ascii?Q?CuZrv45ghUkG4AREn3rDHLnurDxNXFY0PsC99cRKn4oYMj6PgH0k3N8A2Qsj?=
+ =?us-ascii?Q?YsKNGrOzwRPsJM3wU9FzeUlBMgsWH/WREWoY5+94gIt7uG8tHD6FcwXZQzen?=
+ =?us-ascii?Q?OujsAotR6hjiMlIdse6XVw1OZbgVwlxjWXdiCJn1R7fLJPgj5cHUHmIN1fOp?=
+ =?us-ascii?Q?rppb7hY/SvN4aWp5rkAEiBlVX2vCXqHxBUGaUwQWJbq3x7JQIdbavLViUnSs?=
+ =?us-ascii?Q?VlYzsVyiT5GyqXQwkWMC9Y1w6tUDI7/CFr5kfdWEfia7n6+EYt/F7ByHGoaw?=
+ =?us-ascii?Q?eAroKAAXX1IoktQjgKgPnjgUbjydABCqDz7khYsU6q2Q6DOJQT88xx04ba+p?=
+ =?us-ascii?Q?xxXIZ7jllJh5XM+EemXgllwoSPr86dznrFkWMB7j8yhTlRsDX5bneyN5l1WI?=
+ =?us-ascii?Q?5JDBAMfUMtHdZWnqzzmDhCrvX+MZ2fo4vhbbDyNc/zHD7YczA+k8BUOKbOAX?=
+ =?us-ascii?Q?1wL1fuwa+J2qJ3/gJ0Vq7CxgAtwdjgj4yHaS2R1CbcTeblmcPoOZcmxy2r2+?=
+ =?us-ascii?Q?hmAls791JIcvsDt8VkbnvQp/HqAXIoyzOBIlzMKNuXTTaww1EWDY/pBSSYey?=
+ =?us-ascii?Q?HTLCnRvPMQd7y1JCfS73im1E1rDNOld8fJgHMWYSea/irJzJXVzES2G4XSDu?=
+ =?us-ascii?Q?mdMPjxe2231t+NhhnLIe9fJTfGjdR5WVQLVnKBBfA07fqyUL1fTrI7EgBf3l?=
+ =?us-ascii?Q?ewOEoSqhesTWKy1By9GeCFrHnVuisxcqcWSOAXcvhKt4NhQWisTuwOBhp2Bw?=
+ =?us-ascii?Q?U7hRdwp84Zhw8wJFKt0983jNyK9/Pa4y3kKtHqKgtf8pTnZ9DyekdCIUJqQq?=
+ =?us-ascii?Q?yLyASprkdSgbyyWMziBLQwshhBAJNKe/CKfFPw8LK4cnnaARnqFq77Gz6jVI?=
+ =?us-ascii?Q?G+5VZ1TVNwIu9zw+vVInUaVH9wFbgAhLkbTlXLtHEiFy+FVsGG4ALnaK7U3b?=
+ =?us-ascii?Q?pwhE8QZjb+zb88ETzLSziC5FwnNqpyNap38HuHOh+iC2kSKOF3aF1OTSLDmS?=
+ =?us-ascii?Q?y1y4iuAXJkfSfEej4rGc0N4egpnJJ1usMhra29PZ/J2q5Ha7NGhcg76qnwXK?=
+ =?us-ascii?Q?ebwzKbfP7rkyA+fclLP+M3/cl8vx53j+rkhrM07ySylW40lesvUxeSeMUHu4?=
+ =?us-ascii?Q?Nv5NRyS/oJEJ1a5gzR/W7dJrpiSJ03KVOvBsVjwHCbElzwH4hICcEnpLTBXu?=
+ =?us-ascii?Q?tho8Y+OOZYLNM5sw5psWWdovMJCn6kFDK2FdJX5F4C8c1KyXfpsqUPhQ+w52?=
+ =?us-ascii?Q?DH5Vpk2ZfKSP6+oBo9njAS29dqIAuBKiWQKCam2v0Ty5T12xghkS1lXKtcIM?=
+ =?us-ascii?Q?gM63wFOmvDSUuNgqJfF6Ts9WUzicD3yvmMkcZDguAx3OSxJDbg1oawpfOc+0?=
+ =?us-ascii?Q?EbyWmP+I4K2zxMocsC14kG4FwDkvLceuMUnUSRDZpxsWXKL+8Akaa/kSep/C?=
+ =?us-ascii?Q?agFIqiu6n1Zn2VxVNQ09dtZzS9GwZcEgdXOnVEyk5nlzqjcoR5H9n73QUtBA?=
+ =?us-ascii?Q?kzPoaowqEtHpefwrpSB8loUZtUbLYusnz+lhSxRthjFlBZ2wcN7e74pPM3sa?=
+ =?us-ascii?Q?hCVl65DMh8pBOKJBs7Oa4fLn78Jyelnx6ki9e5+lmIacT8fxcmZJ?=
+X-OriginatorOrg: valinux.co.jp
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9a3e38cd-fcb2-41ac-773a-08df0467d89d
+X-MS-Exchange-CrossTenant-AuthSource: TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2026 18:20:17.3159
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 7a57bee8-f73d-4c5f-a4f7-d72c91c8c111
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VAmSSqjsnD4+IOuXqIUSTTXxBeIklR3zkK6HucBWxs+7uCmc/eGH0K4/mIhi4jhImVMnfzA7fKaYhY39BnvhLQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY7P286MB7058
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260827_062129_196639_CC91A68A 
-X-CRM114-Status: GOOD (  20.05  )
+X-CRM114-CacheID: sfid-20260827_112029_800137_3DB24A06 
+X-CRM114-Status: GOOD (  10.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -125,84 +156,64 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 8/26/26 10:06 PM, Keith Busch wrote:
-> On Wed, Aug 26, 2026 at 11:18:16AM -0500, Wen Xiong wrote:
->> On 2026-08-26 07:40, Nilay Shroff wrote:
->>
->>> Also, since a multipath head can have paths through different transports
->>> , we should not take a reference only to the transport of one
->>> namespace/path
->>> found through nvme_find_path(), as was done in v1. Instead, when opening
->>> the
->>> head, take a module reference iterating through each controller
->>> reachable
->>> from the corresponding NVMe subsystem. This ensures that every transport
->>> that can service I/O for the active multipath namespace remains loaded
->>> for
->>> the duration of its use.
->>>
->> I will look into iterating though each controller/each namespace from nvme
->> subsystem.
-> 
-> This is not viable. You can add and remove paths to a namespace at any
-> time such that the transports counted on open are not the namespace's
-> transports on close.
+Hi,
 
-Yes correct, and I think we need some additional change in the code to
-handle this gracefully. I though about it have some initial idea to
-address this:
+Some DWC endpoint controllers keep the MSI-X Table and PBA at fixed
+locations in a reserved BAR. On RK3588, the MSI-X doorbell uses this
+hardware-owned layout, as discussed in e.g. [1].
 
-1. Add nr_openers to struct nvme_ns_head.
+The reserved-region types for the Table and PBA were added with the
+Tegra194 description. The MSI-X setup API, however, still takes only the
+Table BAR and offset and assumes that the PBA immediately follows it in
+the same BAR.
 
-2. When the ns head is opened, iterate through each namespace associated
-    with the head and increment the reference count of its underlying
-    transport module. Then increment nr_openers.
+This series passes the complete layout to pci_epc_set_msix() and adds
+pci_epc_get_hw_msix_layout() to expose a hardware-owned layout. The core
+does not select it automatically. The choice stays with the EPF.
 
-3. If a new ns/path is added while the head is open, check nr_openers and,
-    if it is non-zero, increment the reference count of the corresponding
-    transport module nr_openers times.
+A hardware-owned layout is not a direct replacement for every caller.
+pci-epf-ntb, for example, reads host-programmed Table entries from its
+own BAR to set up peer outbound mappings.
 
-4. If an existing ns/path is removed while the head is open, check nr_openers
-    and decrement the reference count of the corresponding transport module
-    nr_openers times.
+The series also fixes an interrupt-type mismatch in vNTB. ntb_hw_epf can
+select MSI-X, while pci-epf-vntb currently configures and raises only
+MSI. On RK3588, selecting the fixed BAR4 layout also selects the DWC
+MSI-X doorbell. EPF-owned layouts continue to use the regular path.
 
-5. When the ns head is closed, iterate through the namespaces associated
-    with the head and decrement the reference count of each underlying
-    transport module. Then decrement nr_openers.
+In short:
 
-The above operations are serialized by subsys->lock, so nr_openers serves
-as the number of users that have actually opened the head node.
+- pci-epf-vntb gains MSI-X support and uses the hardware-owned layout
+  when available.
+- pci-epf-test, pci-epf-ntb, and the NVMe PCI EPF keep their EPF-owned
+  layouts. This avoids unnecessary changes and reduces regression risk.
+  They can use a hardware-owned layout later if/when needed.
 
-For example, suppose we have a shared namespace reachable through
-TCP and RDMA paths:
+[1] https://lore.kernel.org/r/aY2q80zeRKSRO21H@fedora
 
-1. User opens the head node:
-    head->nr_openers = 1; tcp_module_ref_count = 1; rdma_module_ref_count = 1
-2. The RDMA path is removed:
-    head->nr_openers = 1; tcp_module_ref_count = 1; rdma_module_ref_count = 0
-3. User closes the head node:
-    head->nr_openers = 0; tcp_module_ref_count = 0; rdma_module_ref_count = 0
+Best regards,
+Koichiro
 
-Another example with multiple openers:
 
-1. User A opens the head node:
-    head->nr_openers = 1; tcp_module_ref_count = 1; rdma_module_ref_count = 1
-2. A new TCP path is added and linked to the head:
-    head->nr_openers = 1; tcp_module_ref_count = 2; rdma_module_ref_count = 1
-3. User B opens the head node:
-    head->nr_openers = 2; tcp_module_ref_count = 4; rdma_module_ref_count = 2
-4. User A closes the head node:
-    head->nr_openers = 1; tcp_module_ref_count = 2; rdma_module_ref_count = 1
-5. The RDMA path is removed:
-    head->nr_openers = 1; tcp_module_ref_count = 2; rdma_module_ref_count = 0
-6. User B closes the head node:
-    head->nr_openers = 0; tcp_module_ref_count = 0; rdma_module_ref_count = 0
+Koichiro Den (3):
+  PCI: endpoint: Support hardware-owned MSI-X table and PBA
+  PCI: dw-rockchip: Support fixed MSI-X table and PBA on RK3588
+  PCI: endpoint: pci-epf-vntb: Honor MSI-X selection
 
-This way, the transport module references track the actual number of openers
-and the set of paths associated with the head, even when paths are dynamically
-added or removed while the head remains open.
+ drivers/nvme/target/pci-epf.c                 |  16 ++-
+ .../pci/controller/cadence/pcie-cadence-ep.c  |   9 +-
+ .../pci/controller/dwc/pcie-designware-ep.c   |  28 ++++-
+ drivers/pci/controller/dwc/pcie-designware.h  |   1 +
+ drivers/pci/controller/dwc/pcie-dw-rockchip.c |  28 ++++-
+ drivers/pci/endpoint/functions/pci-epf-ntb.c  |  30 +++---
+ drivers/pci/endpoint/functions/pci-epf-test.c |  17 +--
+ drivers/pci/endpoint/functions/pci-epf-vntb.c |  67 +++++++++---
+ drivers/pci/endpoint/pci-epc-core.c           | 102 +++++++++++++++++-
+ include/linux/pci-epc.h                       |  25 ++++-
+ 10 files changed, 266 insertions(+), 57 deletions(-)
 
-Thanks,
---Nilay
+
+base-commit: 0a6f72eda328c773324555491e1ad7f0b0153155
+-- 
+2.51.0
 
 
