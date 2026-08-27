@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2132EC61DC4
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E6DE9C61DCD
 	for <linux-nvme@archiver.kernel.org>; Thu, 27 Aug 2026 22:20:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,36 +12,36 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=EvtJJsw7v4EROBNhwu+vSqrIh4k0LdD47fdLJjTypVM=; b=lA4aLMIDfS579UKMmANk8msFhh
-	TRhA+hjDpSOkb3yyYXICACERc+CN+eXy34FZkgOBhx96+q8Y6oFMJWBnUA7gvHhouFT6kQc95Ns0S
-	8zWB0HtfSP7+Uj/HfviUBM+rvvaEFtxhCfiJQ6tmx+F2lDfmOOAcxEW89kswPUwa/2wSnI3qR38db
-	OrfuXDbWrFld/N1gRtkHBpML/c7dM/cmpz+OMuW9x8EEjquM4qW9DcYuxm55ciQbxNGQLJZByQynt
-	M/h/ve6j2DCk1WuOjNt1IqkRH2RvsylK9dhf/Lylrql8Re0th9g+Cq3VHaGIFDIiySilcwIUYnh+w
-	S1yVL/xQ==;
+	bh=SS0ynuIrGmem4mBhJbEvUL85Mkzd/B/SVmok/JajQps=; b=UyFLRz2sakJ+wapyL8CzpBScMh
+	fzkffB+Z9QUt4yWiadbHKr+1n1WqiAkShA4XuY+5ergO3Ht+5kh8d8yZ1Ki2oLU8BxZ1ZS2JJzMCi
+	i3pruyxVWtc18Vcf2c1GtXP7BhTEp9+cNkPC/l2iEuA1ERgoWB3i5WoDldNff8UfhymwwisDY3ZlV
+	c+XN/NgPTu/MkookLnsi1Cupm7HhjPKxk59cfJqYm+fklHdpkIjSrWEl8jtj1rJtQRA1/Mzqh4qQD
+	IJ3wJDW9JqzrY5MgoVtX4Sk/OsyHSHqKpncoHw0Ad0TP1EZKp2dsQ2LhnaXKUx3eXqRdLgGnuGGsK
+	OHOu3Zcg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wziSR-00000004qnf-3wva;
-	Thu, 27 Aug 2026 22:20:27 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1wziSW-00000004qor-0J47;
+	Thu, 27 Aug 2026 22:20:32 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wziSP-00000004qnR-1Fog
+	id 1wziSR-00000004qnX-3iF3
 	for linux-nvme@lists.infradead.org;
-	Thu, 27 Aug 2026 22:20:25 +0000
+	Thu, 27 Aug 2026 22:20:27 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 5755D601F0;
-	Thu, 27 Aug 2026 22:20:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BD581F00A3A;
-	Thu, 27 Aug 2026 22:20:23 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 496DB601EF;
+	Thu, 27 Aug 2026 22:20:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85B8C1F00A3D;
+	Thu, 27 Aug 2026 22:20:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787869224;
-	bh=EvtJJsw7v4EROBNhwu+vSqrIh4k0LdD47fdLJjTypVM=;
+	s=k20260515; t=1787869227;
+	bh=SS0ynuIrGmem4mBhJbEvUL85Mkzd/B/SVmok/JajQps=;
 	h=From:To:Cc:Subject:Date;
-	b=l2GOT9nHlYXVch/YAJNnf3oZ1wMkmcs9hO8HmB0amVJpHUYP1MT3uF1EGwajv3TWc
-	 piaiw/TjRVsMF85KK+reKkOEww7gnWgnnPP7VVnCrhYAs+iB+rPg/6WN8LaGxGZZ9T
-	 V4Mm9GXqTceI5bKXuFtfiTtSVCLwLEvf7gO7N4A0x21f60L5NiDpJCf6rmACbP1SS6
-	 9Sp2QeBw8hYm8z18ArjB7sigqRJYrT7zlHBxsjnMzYLpllRuCMpBMfGf3e4nJZauY4
-	 o5+VCumxG7DqsNpDALHLl9jwqN9Pq91t4fYtsejQPw+dka+YR9GXnUfi06vFGeUOkJ
-	 eDY7VbdL+96bA==
+	b=d1ikjFfBQ8oQfL2cpDYjuZHBWMUbRdyPFGkyJOx5FR4A+LO/oxZeHz1dRa+qVGrXh
+	 WqMhEchkAS5g/T20ph4eX2zL3Skwo88SBe7wlfiB6/QMc946WyMbjewPeQJYnby85C
+	 yLPxD6NzhxPDrYsQDPzuSCdaMkLmFpdvfjrBkE7Kj6KpEsm/B5ikzFZDH/PDtPNF1G
+	 muVSKTQzeCfwmaij7kcmPy2UDCIa+cSjVARY19ZaETk3IsOvgQTVogBOQZarzufNcS
+	 yVOdmbnKuyrxs+QwRgqWMR6CNPPjDwxaXC6tn/WKNTgOP2b7svv+NaP4p3JH9RJOLZ
+	 OJpKcPycgCIYg==
 From: "Carlos Bilbao (Lambda)" <carlos.bilbao@kernel.org>
 To: stable@vger.kernel.org
 Cc: kbusch@kernel.org,
@@ -58,9 +58,9 @@ Cc: kbusch@kernel.org,
 	eduardo.habkost@lambdal.com,
 	brian.kopp@lambdal.com,
 	Carlos Bilbao <carlos.bilbao@kernel.org>
-Subject: [PATCH 6.18.y] nvme-tcp: fix usage of page_frag_cache
-Date: Thu, 27 Aug 2026 15:20:22 -0700
-Message-ID: <20260827222022.45428-1-carlos.bilbao@kernel.org>
+Subject: [PATCH 7.1.y] nvme-tcp: fix usage of page_frag_cache
+Date: Thu, 27 Aug 2026 15:20:24 -0700
+Message-ID: <20260827222024.45443-1-carlos.bilbao@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -110,18 +110,18 @@ Signed-off-by: Carlos Bilbao (Lambda) <carlos.bilbao@kernel.org>
 Context conflict in nvme_tcp_free_queue due to 19bdb70c77d3; context-only
 adjustment, no functional change.
 
-Build-tested: 6.18.47 (x86_64 defconfig + CONFIG_NVME_TCP=m).
-Also needed in 6.12.y, 7.1.y (backports submitted separately); 7.2.y
+Build-tested: 7.1.11 (x86_64 defconfig + CONFIG_NVME_TCP=m).
+Also needed in 6.12.y, 6.18.y (backports submitted separately); 7.2.y
 takes the upstream commit cleanly.
 
  drivers/nvme/host/tcp.c | 8 ++++++++
  1 file changed, 8 insertions(+)
 
 diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index afdbcff..04c074a 100644
+index 68a1d76..bd53ee5 100644
 --- a/drivers/nvme/host/tcp.c
 +++ b/drivers/nvme/host/tcp.c
-@@ -145,6 +145,7 @@ struct nvme_tcp_queue {
+@@ -146,6 +146,7 @@ struct nvme_tcp_queue {
  
  	struct mutex		queue_lock;
  	struct mutex		send_mutex;
@@ -129,7 +129,7 @@ index afdbcff..04c074a 100644
  	struct llist_head	req_list;
  	struct list_head	send_list;
  
-@@ -556,9 +557,11 @@ static int nvme_tcp_init_request(struct blk_mq_tag_set *set,
+@@ -557,9 +558,11 @@ static int nvme_tcp_init_request(struct blk_mq_tag_set *set,
  	struct nvme_tcp_queue *queue = &ctrl->queues[queue_idx];
  	u8 hdgst = nvme_tcp_hdgst_len(queue);
  
@@ -141,7 +141,7 @@ index afdbcff..04c074a 100644
  	if (!req->pdu)
  		return -ENOMEM;
  
-@@ -1423,9 +1426,11 @@ static int nvme_tcp_alloc_async_req(struct nvme_tcp_ctrl *ctrl)
+@@ -1424,9 +1427,11 @@ static int nvme_tcp_alloc_async_req(struct nvme_tcp_ctrl *ctrl)
  	struct nvme_tcp_request *async = &ctrl->async_req;
  	u8 hdgst = nvme_tcp_hdgst_len(queue);
  
@@ -153,7 +153,7 @@ index afdbcff..04c074a 100644
  	if (!async->pdu)
  		return -ENOMEM;
  
-@@ -1453,6 +1458,7 @@ static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
+@@ -1468,6 +1473,7 @@ static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
  	kfree(queue->pdu);
  	mutex_destroy(&queue->send_mutex);
  	mutex_destroy(&queue->queue_lock);
@@ -161,7 +161,7 @@ index afdbcff..04c074a 100644
  }
  
  static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
-@@ -1775,6 +1781,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
+@@ -1790,6 +1796,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
  	INIT_LIST_HEAD(&queue->send_list);
  	mutex_init(&queue->send_mutex);
  	INIT_WORK(&queue->io_work, nvme_tcp_io_work);
@@ -169,7 +169,7 @@ index afdbcff..04c074a 100644
  
  	if (qid > 0)
  		queue->cmnd_capsule_len = nctrl->ioccsz * 16;
-@@ -1906,6 +1913,7 @@ err_sock:
+@@ -1921,6 +1928,7 @@ err_sock:
  err_destroy_mutex:
  	mutex_destroy(&queue->send_mutex);
  	mutex_destroy(&queue->queue_lock);
