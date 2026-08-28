@@ -4,66 +4,114 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0D143C61DC4
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 Aug 2026 22:20:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B640C61DBD
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Aug 2026 03:34:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=+83/0PiMldbSoZ2zfBwj9o6WmDNxUA+kO11sfip3qvQ=; b=0vpyfAC5eNOgu3h1sSV6cYD8k4
-	o8jxFjQs6hI6+osM0+EzHKpo9U4haoozpiEimFQLfuxdBDKQV5J9ttj7zlwF7VZHwE++nS17uPhH+
-	DGohBuEeqwZ7GcXDz8t0B4AsRt0jgfdDWBRZ8aNMf7QUdswgvSyKD9S6eyC0APCpdA0ob6xEhc7E0
-	R6LqF6oYRf6BV5Qk3wmkY1ZpX8DwVbwDBxbcx/eyhxhK5XFdyjVBq1olzBtLxQ5AgzZmw9+dXGCIQ
-	lwBgvs8XjcJj3yXYYz7RUigalz9+Ka9xLipSiALVAtfxAn4WttIDXfL3X4ADc6qekGnLDF3wLbSVK
-	bxODY4nA==;
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=tJ6GRA/2LwQW6/jDEIjrj/TZS2ZKHOJ3XYsZbyYACDw=; b=212yGYRv5GBGtiFlzgBv4HXx+f
+	ZgSu+oFd9XShMtVPPnbCmbE3B/u4CxnWKhuetxBOM6fA0SO5sjFsHZmPZq6x8mfpaIkXa8IGxiMxh
+	xCbk7Rb36HSTe1kB39OQ80IY+2umTRTkAKImPvxKblcV0mU8pduayXeE7vwolgIiYB6KCNotY9c6s
+	v95SMZ+6SqR39vref4S8MbSANXg3XqshLkXIOitNfdwb60VdISSxxiwIAJ99nNqdO5PT0BMcMOYgd
+	lu5KddMma7lUF6GS/SLaHGvZ2Or//IpgNJykJQN/P/K0g9aaK2TrSsDyjUFebscFJ0KCHvrDbey0z
+	DT6qqlgQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wziSR-00000004qnY-3WaJ;
-	Thu, 27 Aug 2026 22:20:27 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1wznLy-000000054A5-46m4;
+	Fri, 28 Aug 2026 03:34:06 +0000
+Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wziSN-00000004qnL-0Vbe
+	id 1wznLs-00000005496-1T06
 	for linux-nvme@lists.infradead.org;
-	Thu, 27 Aug 2026 22:20:23 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 3C69F601F1;
-	Thu, 27 Aug 2026 22:20:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 793F11F000E9;
-	Thu, 27 Aug 2026 22:20:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787869221;
-	bh=+83/0PiMldbSoZ2zfBwj9o6WmDNxUA+kO11sfip3qvQ=;
-	h=From:To:Cc:Subject:Date;
-	b=HO63WuWraL4Vvt9RGjcapfPVtVaKT8rekjljQBHAXOSgpud95A73xskPjxcmX0wve
-	 bbTyVTzTwZTtqZOrykQY8M6WX1BYH+px/EDoOtfB4kXqbgS+xYd+IUIDsHHDRg1Knk
-	 EbixeNCBuCgIRPt0uxIJKOkfjQEnnUnYoX4p/tVgjjctaW7cFXMozQdN6Ik42sOk6p
-	 Ed7ITQhPNcvVrL4Jv0DIT1a47hjlfGe1vTOKhJYRlj+wQCWf2ynYC+nXT8QraL/F9f
-	 +ykxg0L2/wsh9nBGcNaT7oUPcdrquTIh3z0gmytVqcDIQaxzSKNHEShXeVSjjRoAB8
-	 ndIXO7nQOI/1w==
-From: "Carlos Bilbao (Lambda)" <carlos.bilbao@kernel.org>
-To: stable@vger.kernel.org
-Cc: kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me,
-	d.bogdanov@yadro.com,
-	wagi@kernel.org,
-	linux-nvme@lists.infradead.org,
-	bilbao@vt.edu,
-	ryan.arnold@lambdal.com,
-	krishna.mohan@lambdal.com,
-	christian.jones@lambdal.com,
-	eduardo.habkost@lambdal.com,
-	brian.kopp@lambdal.com,
-	Carlos Bilbao <carlos.bilbao@kernel.org>
-Subject: [PATCH 6.12.y] nvme-tcp: fix usage of page_frag_cache
-Date: Thu, 27 Aug 2026 15:20:15 -0700
-Message-ID: <20260827222015.45415-1-carlos.bilbao@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	Fri, 28 Aug 2026 03:34:01 +0000
+Received: by mail-ot1-x32f.google.com with SMTP id 46e09a7af769-7e9fc3de7ceso192996a34.1
+        for <linux-nvme@lists.infradead.org>; Thu, 27 Aug 2026 20:33:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787888039; cv=none;
+        d=google.com; s=arc-20260327;
+        b=c7KAgSfnlrQ1e0vm8zEoy54d9M4fzA74KJRotuaI0lFKMZv1+IFoyN+jE8cHIyl49g
+         plPPQVROrFPqRs9A9sVsdKcssgBPyexAfSsg7CA9vpDAhErPm4Aahc94laEYVRd4tKtf
+         JFzM5I56MbsV2ZJIscmZCYCZ2a45O1I0SQeBFmlWQeLMf1kp7ZygaVeO085An9HdVqEG
+         IXSRXGFRh8qaCjly1DadfihMWcWvegk11OLADii8REt4ZOqvQZU3GCp0Rd9hSrS18MTd
+         lCEgF//KWOupRTydh4Uev+DGSHlXbxDEN0XRJwuk0pNywCjIWAgImTnjpnaSZlhrW4kG
+         79QQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=tJ6GRA/2LwQW6/jDEIjrj/TZS2ZKHOJ3XYsZbyYACDw=;
+        fh=nqTudy4fQYf8aOU3WAW5wUUPC2UV72dhW8ktwApPMBw=;
+        b=HYHxOO3BCTxq7omcOO+qhEqNMpSpz7hNIBbeVnEmVRMtXCnmiK5vuC6RmBzwzWRXHD
+         zjTHdD2xinXXTMgnKifEN4VT4PdnwahQ13P312c6b5H9YWDzLve3JxKxWijIAdfoJtEF
+         TIAZTB7781mQrLu7+ksBFUwWart5AT+9tpaUc1FkLGEf4jUVly1aFLO8pLaqBI/8hOv4
+         NJfw7IOS/gid/HjXMwEOWUAvl5UPtMA32CzWAGDS7nJ4KV7DvAeXIWGEYNWSnQoO9pk/
+         4FobLb/Mh/OizWKJrZ9D4HB5h+SFV0JjpRT6ARRIjSM+mcCtQPLNQUkjhqdxYVa88ahl
+         i+iw==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787888039; x=1788492839; darn=lists.infradead.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=tJ6GRA/2LwQW6/jDEIjrj/TZS2ZKHOJ3XYsZbyYACDw=;
+        b=lkp9Yow1BNnC6SXaNvJpLgFxLzyGdC0P7IqpLDCJ/VQE6vbL7UZKO/CLLEijbtYiXx
+         mw9WbnXw52UWrnyh34ZKpbs5rxdgYfdY16YV4bGduWG2LVYInslt3qt4dMkKljcZkgzH
+         2CKvj/6LZc23882C+/q5x2DEu/aZTIzofp5dVBQ6wXM6LgKVx+LtRlHk6qf6hnHCz/ug
+         wHePznnmBAqA8mscMiGtE8SjyMkXGQYt8HKvZJu//MQ19zbcxDWPyir9v2zTvHXH0mOw
+         i3mF0o3vFIRpJXvct5AcBii6RMbdCyycXH55ZmcJR0L4Qz/ujomipp52nbIAWcNOyIKi
+         +1ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787888039; x=1788492839;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=tJ6GRA/2LwQW6/jDEIjrj/TZS2ZKHOJ3XYsZbyYACDw=;
+        b=mgX+yLGTqqvUxwQAf+yqogTK9HTQ1v9GtCJYGhyuI4gfQIIVsrkHj7JRt4MzNpzz9+
+         7VTWoEZYvk1G0+W/xyLbIjt0RMuMBrgzUoqBsvxQ9kcwsyUVWlBBsiTGRIiavl0UASkC
+         BIBdSOo8691GILYL01atrSrJ8196aXld+IriPifHlDxq2Ge77ABHRulJyDSwkO1WghDP
+         70T0FFPVpt3vBqxaqkcfaNz2qUy2lVVZaXyuShn3pxa7QaExtPf2SfMi6emVZe+xKv4c
+         Q2fniiQExWVUjiYpKT+GrTly9UG50rHTGngAL6GVfDysSsvwyJZkSOTwA5/fuhJ26Hae
+         baug==
+X-Forwarded-Encrypted: i=1; AHgh+Rr/XdMK90SprbhiXLewfnjtZNqvbCeZINUFpRkvuiV4EG8rKCp7PJCCu6jPltM+0xoqcI6aDdnp+zHb@lists.infradead.org
+X-Gm-Message-State: AFuF++naE8mpFpLJxXbYi+ZvyONDKP8qyWigyQ8M2V/Yg+O8Zru5ROHe
+	3tyWVacLNxGwGwjved/VC31EuYzSTbD4OZ16B2rju/QhJCEpEUzaLDc6+1t7sRgPs2T51giwVrW
+	j9N6SMLdcrMYwPVSUGz9mkrDqRxM2dsE=
+X-Gm-Gg: AR+sD12L4+1nSjvcK5fshNuf7TUX+scfD4KjGylTZhk0YK+Fz0GIIz71c4wIpB/5+Vs
+	rtJLajbwvDsgce7+UcYjbISGqhXyZWMm5cfVeqvmYvNKNe/08zftOOjIsJyrckSAOgJdacivRqp
+	LM2VTBsVi69hbe2hZsBRN8JmO0zRRvN7bL4MVxOKZFhhpoOZ9z51vSGaogN03b9ghtKdtyItGYv
+	hPLtUedEFQ6t3KxiPcYCewzbheZ1Xpldtm2LWDByteaOAEU0Y/mXHkvcVhX+FoO8O8ZGFbFtjCZ
+	kqsethdcHnKKoN1Op3526gY8whIN9lGgJvGX4+KABlWHeC3X6IYuLprIou0JyIPeGOEuu4AkKT5
+	xWYcY0viBIuRyAa804VwjO8gC6zfixw468p3LTUfK8HxE
+X-Received: by 2002:a05:6820:340e:10b0:6b1:67e1:fc8e with SMTP id
+ 006d021491bc7-6b1c66e6ce5mr2559540eaf.25.1787888038951; Thu, 27 Aug 2026
+ 20:33:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260827185722.3234622-1-csander@purestorage.com>
+ <20260827185722.3234622-2-csander@purestorage.com> <CAJnrk1YfTg-Lz+TmM+c=Asc8N4QGuY9_g8zUXtaNr4O7hG1Djw@mail.gmail.com>
+ <CADUfDZoEosgMMQ47BDWBskTOZrYZpg6VUT5c4kwczDLRLXYk=Q@mail.gmail.com>
+In-Reply-To: <CADUfDZoEosgMMQ47BDWBskTOZrYZpg6VUT5c4kwczDLRLXYk=Q@mail.gmail.com>
+From: Ming Lei <tom.leiming@gmail.com>
+Date: Thu, 27 Aug 2026 22:33:46 -0500
+X-Gm-Features: AcwNN1V96G10EnqkMmlBEbQoJ8ihVOlJhML3SIuW3TsrH3jrmu0CBU7aGovmtII
+Message-ID: <CACVXFVOLBVVGwfo+mbn+4jnGKZS66dL_2ghsKiaT6buscWJg6w@mail.gmail.com>
+Subject: Re: [PATCH 1/2] io_uring/cmd: split io_uring_cmd_set_res() from io_uring_cmd_done()
+To: Caleb Sander Mateos <csander@purestorage.com>
+Cc: Joanne Koong <joannelkoong@gmail.com>, Jens Axboe <axboe@kernel.dk>, 
+	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
+	"Martin K. Petersen" <martin.petersen@oracle.com>, Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>, 
+	Bernd Schubert <bernd@bsbernd.com>, Miklos Szeredi <miklos@szeredi.hu>, linux-block@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, 
+	linux-btrfs@vger.kernel.org, fuse-devel@lists.linux.dev, 
+	io-uring@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260827_203400_394938_1C9B5576 
+X-CRM114-Status: GOOD (  22.46  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,106 +126,50 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Dmitry Bogdanov <d.bogdanov@yadro.com>
+On Thu, Aug 27, 2026 at 4:44=E2=80=AFPM Caleb Sander Mateos
+<csander@purestorage.com> wrote:
+>
+> On Thu, Aug 27, 2026 at 1:05=E2=80=AFPM Joanne Koong <joannelkoong@gmail.=
+com> wrote:
+> >
+> > Hi Caleb,
+> >
+> > On Thu, Aug 27, 2026 at 11:57=E2=80=AFAM Caleb Sander Mateos
+> > <csander@purestorage.com> wrote:
+> > >
+> > > In preparation for setting the io_uring NVMe passthru CQE results fro=
+m
+> > > the blk-mq request completion rather than the task work callback, spl=
+it
+> > > out functions io_uring_cmd_set_res{,32}() from io_uring_cmd_done{,32}=
+().
+> > > This allows io_uring_cmd_done{,32}() and __io_uring_cmd_done() to be
+> > > consolidated into a single CQE-size-agnostic function with 3 fewer
+> > > arguments than __io_uring_cmd_done().
+> > >
+> >
+> > The conversion looks logically correct to me but the interface feels a
+> > bit annoying / fragile on the caller side.
+> >
+> > Is there a way nvme can get what it needs without changing the other
+> > callers? Would it work to just keep the existing
+> > io_uring_cmd_done{,32}() as is and add a separate API for special
+> > callers like nvme, eg:
+> >
+> >   void io_uring_cmd_set_res32(struct io_uring_cmd *cmd, s32 ret, u64 re=
+s2);
+> >   void __io_uring_cmd_done(struct io_uring_cmd *cmd, unsigned issue_fla=
+gs);
+> >
+> > where io_uring_cmd_done{,32} would then just be inline wrappers over
+> > those? afaict, then only the nvme callsite would have to change and
+> > fuse, btrfs, block, ublk, and scsi_bsg could just stay as is. Do you
+> > think something like that makes sense to do?
 
-commit 36ac05f7cfd59d90c597071304b14e98090d5dd1 upstream.
+Yeah, this way is definitely much better from a driver viewpoint.
 
-nvme uses page_frag_cache to preallocate PDU for each preallocated request
-of block device. Block devices are created in parallel threads,
-consequently page_frag_cache is used in not thread-safe manner.
-That leads to incorrect refcounting of backstore pages and premature free.
 
-That can be catched by !sendpage_ok inside network stack:
 
-WARNING: CPU: 7 PID: 467 at ../net/core/skbuff.c:6931 skb_splice_from_iter+0xfa/0x310.
-	tcp_sendmsg_locked+0x782/0xce0
-	tcp_sendmsg+0x27/0x40
-	sock_sendmsg+0x8b/0xa0
-	nvme_tcp_try_send_cmd_pdu+0x149/0x2a0
-Then random panic may occur.
-
-Fix that by serializing the usage of page_frag_cache.
-
-Fixes: 4e893ca81170 ("nvme_core: scan namespaces asynchronously")
-Signed-off-by: Dmitry Bogdanov <d.bogdanov@yadro.com>
-Signed-off-by: Daniel Wagner <wagi@kernel.org>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
-[carlos.bilbao: adjust context in nvme_tcp_free_queue; branch predates
-19bdb70c77d3 ("nvme-tcp: lockdep: use dynamic lockdep keys per socket
-instance")]
-Signed-off-by: Carlos Bilbao (Lambda) <carlos.bilbao@kernel.org>
----
-Context conflict in nvme_tcp_free_queue due to 19bdb70c77d3; context-only
-adjustment, no functional change.
-
-Build-tested: 6.12.106 (x86_64 defconfig + CONFIG_NVME_TCP=m).
-Also needed in 6.18.y, 7.1.y (backports submitted separately); 7.2.y
-takes the upstream commit cleanly.
-
- drivers/nvme/host/tcp.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 3140643..dc91706 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -146,6 +146,7 @@ struct nvme_tcp_queue {
- 
- 	struct mutex		queue_lock;
- 	struct mutex		send_mutex;
-+	struct mutex		pf_cache_lock;
- 	struct llist_head	req_list;
- 	struct list_head	send_list;
- 
-@@ -552,9 +553,11 @@ static int nvme_tcp_init_request(struct blk_mq_tag_set *set,
- 	struct nvme_tcp_queue *queue = &ctrl->queues[queue_idx];
- 	u8 hdgst = nvme_tcp_hdgst_len(queue);
- 
-+	mutex_lock(&queue->pf_cache_lock);
- 	req->pdu = page_frag_alloc(&queue->pf_cache,
- 		sizeof(struct nvme_tcp_cmd_pdu) + hdgst,
- 		GFP_KERNEL | __GFP_ZERO);
-+	mutex_unlock(&queue->pf_cache_lock);
- 	if (!req->pdu)
- 		return -ENOMEM;
- 
-@@ -1452,9 +1455,11 @@ static int nvme_tcp_alloc_async_req(struct nvme_tcp_ctrl *ctrl)
- 	struct nvme_tcp_request *async = &ctrl->async_req;
- 	u8 hdgst = nvme_tcp_hdgst_len(queue);
- 
-+	mutex_lock(&queue->pf_cache_lock);
- 	async->pdu = page_frag_alloc(&queue->pf_cache,
- 		sizeof(struct nvme_tcp_cmd_pdu) + hdgst,
- 		GFP_KERNEL | __GFP_ZERO);
-+	mutex_unlock(&queue->pf_cache_lock);
- 	if (!async->pdu)
- 		return -ENOMEM;
- 
-@@ -1485,6 +1490,7 @@ static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
- 	kfree(queue->pdu);
- 	mutex_destroy(&queue->send_mutex);
- 	mutex_destroy(&queue->queue_lock);
-+	mutex_destroy(&queue->pf_cache_lock);
- }
- 
- static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
-@@ -1807,6 +1813,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
- 	INIT_LIST_HEAD(&queue->send_list);
- 	mutex_init(&queue->send_mutex);
- 	INIT_WORK(&queue->io_work, nvme_tcp_io_work);
-+	mutex_init(&queue->pf_cache_lock);
- 
- 	if (qid > 0)
- 		queue->cmnd_capsule_len = nctrl->ioccsz * 16;
-@@ -1946,6 +1953,7 @@ err_sock:
- err_destroy_mutex:
- 	mutex_destroy(&queue->send_mutex);
- 	mutex_destroy(&queue->queue_lock);
-+	mutex_destroy(&queue->pf_cache_lock);
- 	return ret;
- }
- 
--- 
-2.50.1 (Apple Git-155)
-
+Thanks,
+Ming Lei
 
