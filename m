@@ -4,114 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B640C61DBD
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 Aug 2026 03:34:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 95857C61DC6
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Aug 2026 08:27:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=tJ6GRA/2LwQW6/jDEIjrj/TZS2ZKHOJ3XYsZbyYACDw=; b=212yGYRv5GBGtiFlzgBv4HXx+f
-	ZgSu+oFd9XShMtVPPnbCmbE3B/u4CxnWKhuetxBOM6fA0SO5sjFsHZmPZq6x8mfpaIkXa8IGxiMxh
-	xCbk7Rb36HSTe1kB39OQ80IY+2umTRTkAKImPvxKblcV0mU8pduayXeE7vwolgIiYB6KCNotY9c6s
-	v95SMZ+6SqR39vref4S8MbSANXg3XqshLkXIOitNfdwb60VdISSxxiwIAJ99nNqdO5PT0BMcMOYgd
-	lu5KddMma7lUF6GS/SLaHGvZ2Or//IpgNJykJQN/P/K0g9aaK2TrSsDyjUFebscFJ0KCHvrDbey0z
-	DT6qqlgQ==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=iB8sFr9oXNS8vMudei/AQbqeBIj7gdLa8Z+LDBqSItI=; b=pRelCQ0hdKA2LIAJbT7fZOIXUA
+	fuwf9nEG/RO+7np7nhtPIiHVfJq7MmwvWQYTGLUMTGQE4f2AIU7Sn18GaZbMv4bJELq63V2zbNhwQ
+	vgxfea/+zDTknB9REjfiFEf23we1pa7x0GV5ojRHkOukZynzzQ70P1I/USMWeG43IL6P2F0IqMnqr
+	lIs5o2nBVwbf+TqTNEXY9J+7xTdWlOeMotJLuvktTuJ8kw8fdwlUfmZY4f/xPYOdhJyeQgMIz3AhZ
+	alJWk6D28V3Q4qCZBnxLnDlb8nHp//n+T2B6KQCRuLSb6B89oYqjjWLasn7hGD+LG3mPMERtoGrRT
+	ruGZoxig==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wznLy-000000054A5-46m4;
-	Fri, 28 Aug 2026 03:34:06 +0000
-Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f])
+	id 1wzrwA-00000005K3z-1bKu;
+	Fri, 28 Aug 2026 08:27:46 +0000
+Received: from esa5.hgst.iphmx.com ([216.71.153.144])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wznLs-00000005496-1T06
+	id 1wzrw8-00000005K3e-1xnG
 	for linux-nvme@lists.infradead.org;
-	Fri, 28 Aug 2026 03:34:01 +0000
-Received: by mail-ot1-x32f.google.com with SMTP id 46e09a7af769-7e9fc3de7ceso192996a34.1
-        for <linux-nvme@lists.infradead.org>; Thu, 27 Aug 2026 20:33:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787888039; cv=none;
-        d=google.com; s=arc-20260327;
-        b=c7KAgSfnlrQ1e0vm8zEoy54d9M4fzA74KJRotuaI0lFKMZv1+IFoyN+jE8cHIyl49g
-         plPPQVROrFPqRs9A9sVsdKcssgBPyexAfSsg7CA9vpDAhErPm4Aahc94laEYVRd4tKtf
-         JFzM5I56MbsV2ZJIscmZCYCZ2a45O1I0SQeBFmlWQeLMf1kp7ZygaVeO085An9HdVqEG
-         IXSRXGFRh8qaCjly1DadfihMWcWvegk11OLADii8REt4ZOqvQZU3GCp0Rd9hSrS18MTd
-         lCEgF//KWOupRTydh4Uev+DGSHlXbxDEN0XRJwuk0pNywCjIWAgImTnjpnaSZlhrW4kG
-         79QQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=tJ6GRA/2LwQW6/jDEIjrj/TZS2ZKHOJ3XYsZbyYACDw=;
-        fh=nqTudy4fQYf8aOU3WAW5wUUPC2UV72dhW8ktwApPMBw=;
-        b=HYHxOO3BCTxq7omcOO+qhEqNMpSpz7hNIBbeVnEmVRMtXCnmiK5vuC6RmBzwzWRXHD
-         zjTHdD2xinXXTMgnKifEN4VT4PdnwahQ13P312c6b5H9YWDzLve3JxKxWijIAdfoJtEF
-         TIAZTB7781mQrLu7+ksBFUwWart5AT+9tpaUc1FkLGEf4jUVly1aFLO8pLaqBI/8hOv4
-         NJfw7IOS/gid/HjXMwEOWUAvl5UPtMA32CzWAGDS7nJ4KV7DvAeXIWGEYNWSnQoO9pk/
-         4FobLb/Mh/OizWKJrZ9D4HB5h+SFV0JjpRT6ARRIjSM+mcCtQPLNQUkjhqdxYVa88ahl
-         i+iw==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787888039; x=1788492839; darn=lists.infradead.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=tJ6GRA/2LwQW6/jDEIjrj/TZS2ZKHOJ3XYsZbyYACDw=;
-        b=lkp9Yow1BNnC6SXaNvJpLgFxLzyGdC0P7IqpLDCJ/VQE6vbL7UZKO/CLLEijbtYiXx
-         mw9WbnXw52UWrnyh34ZKpbs5rxdgYfdY16YV4bGduWG2LVYInslt3qt4dMkKljcZkgzH
-         2CKvj/6LZc23882C+/q5x2DEu/aZTIzofp5dVBQ6wXM6LgKVx+LtRlHk6qf6hnHCz/ug
-         wHePznnmBAqA8mscMiGtE8SjyMkXGQYt8HKvZJu//MQ19zbcxDWPyir9v2zTvHXH0mOw
-         i3mF0o3vFIRpJXvct5AcBii6RMbdCyycXH55ZmcJR0L4Qz/ujomipp52nbIAWcNOyIKi
-         +1ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787888039; x=1788492839;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=tJ6GRA/2LwQW6/jDEIjrj/TZS2ZKHOJ3XYsZbyYACDw=;
-        b=mgX+yLGTqqvUxwQAf+yqogTK9HTQ1v9GtCJYGhyuI4gfQIIVsrkHj7JRt4MzNpzz9+
-         7VTWoEZYvk1G0+W/xyLbIjt0RMuMBrgzUoqBsvxQ9kcwsyUVWlBBsiTGRIiavl0UASkC
-         BIBdSOo8691GILYL01atrSrJ8196aXld+IriPifHlDxq2Ge77ABHRulJyDSwkO1WghDP
-         70T0FFPVpt3vBqxaqkcfaNz2qUy2lVVZaXyuShn3pxa7QaExtPf2SfMi6emVZe+xKv4c
-         Q2fniiQExWVUjiYpKT+GrTly9UG50rHTGngAL6GVfDysSsvwyJZkSOTwA5/fuhJ26Hae
-         baug==
-X-Forwarded-Encrypted: i=1; AHgh+Rr/XdMK90SprbhiXLewfnjtZNqvbCeZINUFpRkvuiV4EG8rKCp7PJCCu6jPltM+0xoqcI6aDdnp+zHb@lists.infradead.org
-X-Gm-Message-State: AFuF++naE8mpFpLJxXbYi+ZvyONDKP8qyWigyQ8M2V/Yg+O8Zru5ROHe
-	3tyWVacLNxGwGwjved/VC31EuYzSTbD4OZ16B2rju/QhJCEpEUzaLDc6+1t7sRgPs2T51giwVrW
-	j9N6SMLdcrMYwPVSUGz9mkrDqRxM2dsE=
-X-Gm-Gg: AR+sD12L4+1nSjvcK5fshNuf7TUX+scfD4KjGylTZhk0YK+Fz0GIIz71c4wIpB/5+Vs
-	rtJLajbwvDsgce7+UcYjbISGqhXyZWMm5cfVeqvmYvNKNe/08zftOOjIsJyrckSAOgJdacivRqp
-	LM2VTBsVi69hbe2hZsBRN8JmO0zRRvN7bL4MVxOKZFhhpoOZ9z51vSGaogN03b9ghtKdtyItGYv
-	hPLtUedEFQ6t3KxiPcYCewzbheZ1Xpldtm2LWDByteaOAEU0Y/mXHkvcVhX+FoO8O8ZGFbFtjCZ
-	kqsethdcHnKKoN1Op3526gY8whIN9lGgJvGX4+KABlWHeC3X6IYuLprIou0JyIPeGOEuu4AkKT5
-	xWYcY0viBIuRyAa804VwjO8gC6zfixw468p3LTUfK8HxE
-X-Received: by 2002:a05:6820:340e:10b0:6b1:67e1:fc8e with SMTP id
- 006d021491bc7-6b1c66e6ce5mr2559540eaf.25.1787888038951; Thu, 27 Aug 2026
- 20:33:58 -0700 (PDT)
+	Fri, 28 Aug 2026 08:27:45 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1787905668; x=1819441668;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=D3Oj0C08VUfUSusSfHmqAfxIcLoD0+h9XAxWMxwtGy8=;
+  b=X5imppYBRFEYvJuVut0I1cVVLDeqFYZlLiQXQ3T4Legx4lHOyeMOYUXx
+   fxw+fMKruB2DFrkVU+iyi3mEYk96355ySjFP65NP092wMK1GZsSn533e3
+   t++QyCgh2BekuAgGJNJimbSvugilXNnPmuC2HzXFk3rAsu3kTqleC+/0i
+   4OVJOFpXL2eeg+4ib7oxEzElkKCBbZkgyZyg9IShuKul7X2sg8zB7dm6R
+   BKyz9/r0wl3mzD65fUkQ1JZmz91/RBWyMF6RWNsR1g8T15/uYcbE5ekAm
+   RUQosxlVDLgDL5KKCP2izh0VmOj1A80DoxQp7ccGchvZ3r4tUCnqNzEmh
+   A==;
+X-CSE-ConnectionGUID: txGzO8LlSfa1hcd6Fk5fZQ==
+X-CSE-MsgGUID: 0OX6/JlMQ7aO6/TS62PE5A==
+X-IronPort-AV: E=Sophos;i="6.25,248,1779120000"; 
+   d="scan'208";a="153491446"
+Received: from unknown (HELO uls-op-esad1-o.wdc.com) ([199.255.45.14])
+  by ob1.hgst.iphmx.com with ESMTP; 28 Aug 2026 16:27:47 +0800
+X-CSE-ConnectionGUID: PQY72C+LQjmqazBoqRYtzg==
+X-CSE-MsgGUID: nAgIlXgQTYyjFSb8wBniCw==
+IronPort-SDR: 6a91466a_FlxPjzk3kMzptx6hBTwezx2vdORe72WjN3zUw0OWD4Iehtk
+ /fRoGVp9TAatt9XgLrFYlcWt8pyMncniFRr9Djw==
+Received: from uls-op-esai3-o.wdc.com ([10.248.3.41])
+  by uls-op-esad1-o.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 28 Aug 2026 01:27:22 -0700
+X-CSE-ConnectionGUID: +e37ZBb4Qayiso+aPSEI7w==
+X-CSE-MsgGUID: 9HxVegiETziQkQVAVfPa1A==
+WDCIronportException: Internal
+Received: from unknown (HELO shindev.ssa.fujisawa.hgst.com) ([10.149.67.30])
+  by uls-op-esai3-o.wdc.com with ESMTP; 28 Aug 2026 01:27:21 -0700
+From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: linux-nvme@lists.infradead.org
+Cc: Daniel Wagner <dwagner@suse.de>,
+	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Subject: [PATCH blktests] common/nvme: do not truncate FULL file at nvme disconnect
+Date: Fri, 28 Aug 2026 17:27:21 +0900
+Message-ID: <20260828082721.2828731-1-shinichiro.kawasaki@wdc.com>
+X-Mailer: git-send-email 2.54.0
 MIME-Version: 1.0
-References: <20260827185722.3234622-1-csander@purestorage.com>
- <20260827185722.3234622-2-csander@purestorage.com> <CAJnrk1YfTg-Lz+TmM+c=Asc8N4QGuY9_g8zUXtaNr4O7hG1Djw@mail.gmail.com>
- <CADUfDZoEosgMMQ47BDWBskTOZrYZpg6VUT5c4kwczDLRLXYk=Q@mail.gmail.com>
-In-Reply-To: <CADUfDZoEosgMMQ47BDWBskTOZrYZpg6VUT5c4kwczDLRLXYk=Q@mail.gmail.com>
-From: Ming Lei <tom.leiming@gmail.com>
-Date: Thu, 27 Aug 2026 22:33:46 -0500
-X-Gm-Features: AcwNN1V96G10EnqkMmlBEbQoJ8ihVOlJhML3SIuW3TsrH3jrmu0CBU7aGovmtII
-Message-ID: <CACVXFVOLBVVGwfo+mbn+4jnGKZS66dL_2ghsKiaT6buscWJg6w@mail.gmail.com>
-Subject: Re: [PATCH 1/2] io_uring/cmd: split io_uring_cmd_set_res() from io_uring_cmd_done()
-To: Caleb Sander Mateos <csander@purestorage.com>
-Cc: Joanne Koong <joannelkoong@gmail.com>, Jens Axboe <axboe@kernel.dk>, 
-	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>, 
-	Bernd Schubert <bernd@bsbernd.com>, Miklos Szeredi <miklos@szeredi.hu>, linux-block@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, 
-	linux-btrfs@vger.kernel.org, fuse-devel@lists.linux.dev, 
-	io-uring@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260827_203400_394938_1C9B5576 
-X-CRM114-Status: GOOD (  22.46  )
+X-CRM114-CacheID: sfid-20260828_012744_525894_9DCD96B6 
+X-CRM114-Status: GOOD (  11.56  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -126,50 +84,46 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Aug 27, 2026 at 4:44=E2=80=AFPM Caleb Sander Mateos
-<csander@purestorage.com> wrote:
->
-> On Thu, Aug 27, 2026 at 1:05=E2=80=AFPM Joanne Koong <joannelkoong@gmail.=
-com> wrote:
-> >
-> > Hi Caleb,
-> >
-> > On Thu, Aug 27, 2026 at 11:57=E2=80=AFAM Caleb Sander Mateos
-> > <csander@purestorage.com> wrote:
-> > >
-> > > In preparation for setting the io_uring NVMe passthru CQE results fro=
-m
-> > > the blk-mq request completion rather than the task work callback, spl=
-it
-> > > out functions io_uring_cmd_set_res{,32}() from io_uring_cmd_done{,32}=
-().
-> > > This allows io_uring_cmd_done{,32}() and __io_uring_cmd_done() to be
-> > > consolidated into a single CQE-size-agnostic function with 3 fewer
-> > > arguments than __io_uring_cmd_done().
-> > >
-> >
-> > The conversion looks logically correct to me but the interface feels a
-> > bit annoying / fragile on the caller side.
-> >
-> > Is there a way nvme can get what it needs without changing the other
-> > callers? Would it work to just keep the existing
-> > io_uring_cmd_done{,32}() as is and add a separate API for special
-> > callers like nvme, eg:
-> >
-> >   void io_uring_cmd_set_res32(struct io_uring_cmd *cmd, s32 ret, u64 re=
-s2);
-> >   void __io_uring_cmd_done(struct io_uring_cmd *cmd, unsigned issue_fla=
-gs);
-> >
-> > where io_uring_cmd_done{,32} would then just be inline wrappers over
-> > those? afaict, then only the nvme callsite would have to change and
-> > fuse, btrfs, block, ublk, and scsi_bsg could just stay as is. Do you
-> > think something like that makes sense to do?
+Commit df7cf50409ce ("nvme: rely on nvme-cli status code") reworked the
+nvme-cli command error handling. As part of that change, the 'nvme
+disconnect' commands in _nvme_disconnect_ctrl() and
+_nvme_disconnect_subsys() were made to record their output in the FULL
+file using the '&>' redirect operator. However, '&>' truncates the file
+and so overwrites its existing content, wiping out the logs that each
+test case had already left in the FULL file.
 
-Yeah, this way is definitely much better from a driver viewpoint.
+Use the '&>>' operator instead, which appends the command output while
+preserving the existing FULL file content.
 
+Fixes: df7cf50409ce ("nvme: rely on nvme-cli status code")
+Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+---
+ common/nvme | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/common/nvme b/common/nvme
+index f399937..a11401c 100644
+--- a/common/nvme
++++ b/common/nvme
+@@ -354,7 +354,7 @@ _nvme_disconnect_ctrl() {
+ 	if [[ -d "${ctrl_dir}" ]]; then
+ 		local ret
+ 
+-		nvme disconnect --device "${ctrl}" &> "${FULL}"
++		nvme disconnect --device "${ctrl}" &>> "${FULL}"
+ 		ret=$?
+ 		if [[ ${ret} -ne 0 ]]; then
+ 			echo "FAIL: nvme disconnect returned error code: ${ret}"
+@@ -638,7 +638,7 @@ _nvme_disconnect_subsys() {
+ 		esac
+ 	done
+ 
+-	nvme disconnect --nqn "${subsysnqn}" &> "${FULL}"
++	nvme disconnect --nqn "${subsysnqn}" &>> "${FULL}"
+ 	ret=$?
+ 	if [[ ${ret} -ne 0 ]]; then
+ 		echo "FAIL: nvme disconnect returned error code: ${ret}"
+-- 
+2.54.0
 
-Thanks,
-Ming Lei
 
