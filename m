@@ -4,92 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3BEEDC61DD9
-	for <linux-nvme@archiver.kernel.org>; Sun, 30 Aug 2026 22:26:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 130A9C61DE8
+	for <linux-nvme@archiver.kernel.org>; Sun, 30 Aug 2026 22:30:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=N4VOB7vN3OvwV+J8iiBrOpYZoSx95jWtG3qG4ojcuCY=; b=TO8nbf+Wseykan3f7tvWxk4JMh
-	14XIVuoab/CJNh9sJ+2FKtvgFTxWLZuCdOeq3dWUByg8rA4XS1WuZtgpZeC7ty9GZKVeI8/0vJxKW
-	Sr+sc9pzs2W8QxvnKqKFJmwxJSo8nRUB6wo7L6kud9VntTWw3x3wdE2z+C9emXtRMhvWwCqV/as6J
-	PCB+QjuqS3KoVYWmLvIxqIW+nDxg6MpLx8+bOoiUP5AdZR5KRrEwx2HsYOA+YTHJOolDwGRwCTwkU
-	wUmh9pEPB0M0Xftzia/NXa1DYc0sJbbxcj4DeCQ13wn2wHEnOy0GZU+HB3JRUKAclszfNFX3m6Mhf
-	PjkbXppA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=IDJve5c7BbhYquX3/va28qHfs9qVxgaGxAO1E5yp37M=; b=Hc2f4SSaUbSFUn9IQNeoaiTluc
+	Bo+h38hzkYp1yAebgRU7j8FPdY7jJjMDecrprW8WTUJoXZiNaDh568pHAGyrEb/u8+AjhWam299nm
+	Cg61i2chHPV1hsmzb0PhuhD3D3vj1qTPzlazzo8QArnyd+pKNuPnOeDML10Y25YqG3oGzMOqGyCFy
+	oXUlSqWz3r6v42V7aWnwH7K2zBxiqpX+OuHnv+4q1E8dMyYxUdXtxUzXvgYAFp7evJgxY5iN1rtcn
+	J1dZC48kvYJwdISPfLXDqSblxUrgZjOlmErV7uoZpFDjDJlCsohCf+fFfRT65c6aDAOUtgtEZaX9X
+	35ke2gxw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x0nyW-00000008AmD-0v1C;
-	Sun, 30 Aug 2026 22:26:04 +0000
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+	id 1x0o2Y-00000008BZo-2wIk;
+	Sun, 30 Aug 2026 22:30:14 +0000
+Received: from mail-wm1-f54.google.com ([209.85.128.54])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x0nyT-00000008Alf-3l9v
+	id 1x0o2W-00000008BZK-2z06
 	for linux-nvme@lists.infradead.org;
-	Sun, 30 Aug 2026 22:26:03 +0000
-Received: by mail-pj1-x1032.google.com with SMTP id 98e67ed59e1d1-398c1101c1bso930045a91.1
-        for <linux-nvme@lists.infradead.org>; Sun, 30 Aug 2026 15:26:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1788128761; x=1788733561; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=N4VOB7vN3OvwV+J8iiBrOpYZoSx95jWtG3qG4ojcuCY=;
-        b=Bafrs/uOFitxdNtbzS4IuW36XywMvOyxaWco0h1eOXK13muGNlRVPVgDI/pcyEggM0
-         Xx7dPQ5YNecKRsJWZ1DtjlW0PXIpu3SU5PfQhdlXZ0gELHyt4B6gcsiERmuez1EvmEu2
-         jKqWFso2FXMpU1y2ehlQs7Mi+z3Wag1UzmatiCoAo2PDbIqPMEHuuahPz8usIHAB/qUs
-         kXwXJAe2voZ5pGQrWEB+AHxZTc5Eqbuxu+m6LQrmBr4DQUnCok1aP39k6QXbHeqnMcb1
-         Nuo0E3+JOcHxEYvps7g0zalRh4YgrYobOgiltUtceKmqQoVyH77GHJ8CeiSFqOh4q/EB
-         7l2A==
+	Sun, 30 Aug 2026 22:30:13 +0000
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-49557167508so29769835e9.1
+        for <linux-nvme@lists.infradead.org>; Sun, 30 Aug 2026 15:30:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788128761; x=1788733561;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=N4VOB7vN3OvwV+J8iiBrOpYZoSx95jWtG3qG4ojcuCY=;
-        b=tMw+i9ko8RtqqdiR18e9s7WOLqQzGx2l7iq7icWtD8rZjqxTgWz2ynFKW02MOyw29j
-         duwTHawXCeWixOcyVNo2DPPVhh8HoTqy/SRjhqN50KszbVnrp4CzDky8VhlAnXsLonAp
-         eBrLJnQFV1vORxn2MfwJrWE45umhBhCfpPEJouVp50oSb3XlGv6PWQ3QSgP0a2mBRuW+
-         dLgoSI1LddFaBjVei+bYiDAruBLoryOSD8l92CgEt1RsZfYaAMpDnB1U02wk2xy2K/lx
-         nJduDsn5tMBwsWHpfLXXa8bNxS0JJ6O3NLu77EzDbi0QXcxIvDQX99SLOjhE4WX2tZua
-         TTGg==
-X-Forwarded-Encrypted: i=1; AKwUvByXiKn9mYw1d+JtXgONw8VLdcsoLN8qMRqOKlgrcT17MoY77WjEVP9RX5QgusGg9ZbsEQM7eYX1MLPV@lists.infradead.org
-X-Gm-Message-State: AFuF++l0tokKRJDmTap3R2bf/+3jOygONzC7HvS36+e2Wgfj9UbtT3sM
-	sHON4ClkmGhDVcEFkNO7gznj215m4Wl0tzoeyRKVYVuQZ8AH1Vhoi0iS1J02mzkbRvo=
-X-Gm-Gg: AYBFou3MUxtwiIopQoM8/NoWUmeJbmGo9XMo6xLUcP+2LIRQlATkirKPzh2sm4r3z1A
-	9AFbRYPX4bM5c7fkYJ/d4Nfe5urqmS+ThKRmPLYPwpwL0d9AN98xW7u0Ok1kZGurz+gGbo0G2F0
-	wE1xYhC8RmmOvlk1S/+CsYchOyy0fr37J7eqXP4Qzpu6Dzg7OSTMMjPZzDKalL9AENBIuekC6ct
-	apBJXXLza1Lo1KT99R2rhrywnh6v01SvRtzWH+xUgcqlY+y+xkeD+jZc/PvO19nGFihp1q0zpCH
-	Z3+68poL07vR+uBjBHzhILAeaiV0Yt9wZ5K3J8znD+uUzCXjFhfdV9NTxUsivGOCVtPebOroKcw
-	UCxLx8ryriUlPscBvSHfbeT0+rJOEQ3972jAQQMyS/tmlfHKkgTwQtm163C0m5i6Ky5KWKBMhpg
-	SS3kAVy0t6iiGAeqGTK2Y4esZMk286mDRY3jXKpS7LZCDygCNuIiySJsE5QiKb9XcL0V0=
-X-Received: by 2002:a17:90b:5188:b0:396:5fce:8e24 with SMTP id 98e67ed59e1d1-396d0ea530emr38854825a91.4.1788128760664;
-        Sun, 30 Aug 2026 15:26:00 -0700 (PDT)
-Received: from medusa.lab.kspace.sh ([2607:fb90:9c20:7a99::791d])
-        by smtp.googlemail.com with ESMTPSA id a92af1059eb24-142e0d40ac7sm22831103c88.7.2026.08.30.15.26.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Aug 2026 15:26:00 -0700 (PDT)
-Date: Sun, 30 Aug 2026 15:25:58 -0700
-From: Mohamed Khalfella <mkhalfella@purestorage.com>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Surabhi Gogte <sgogte@purestorage.com>, Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	randyj@purestorage.com, adailey@purestorage.com
-Subject: Re: [PATCH v2 2/2] nvme-tcp: parallelize I/O queue allocation and
- startup
-Message-ID: <20260830222558.GB1842415-mkhalfella@purestorage.com>
-References: <20260824225648.316962-1-sgogte@purestorage.com>
- <20260824225648.316962-3-sgogte@purestorage.com>
- <c98fe50c-172a-4e53-a30c-5416c40cb23f@grimberg.me>
+        d=1e100.net; s=20251104; t=1788129011; x=1788733811;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=IDJve5c7BbhYquX3/va28qHfs9qVxgaGxAO1E5yp37M=;
+        b=V029iPF14LRmJdHGic0HGphYWp1MdpeX+B6kTeOHsXW7j4MyzaIu7bit1wPESfMYRZ
+         yFAmZqU052XB8W00rh1Gc44oS9/feK3ibHv94xZz+etZmSRXnJzKRCGSUHndv5B3dqZ6
+         M+WH2tHYYRqrSXhZlR1nTnPuAodUJ9UTKSfzkPf6DoIQixA/9+9u0RELzx2xUjc+gPA0
+         L1FPEbRt1m8XK1lQuJVrMxSZNbmeLLjwaGr4T0GdC4AMF/aBvMDtj3CmZFDqiwYuc2nN
+         pC45DlSluth7Xllgs1zw3myqmgIRCHjZIxa3vQsJOp3J3RL4xCwFERxIN7QxIbnMGIst
+         fgcQ==
+X-Gm-Message-State: AFuF++nFEKIx3CFLqtkLU9RKdZfuzhTQ1jZ/kn0cHThiiO9haGkjtxCM
+	firLsLI5JQFdK4W8IMf9PQkO9tgr9F7lH6iIF3ILthNf31pVrNSO4qhs
+X-Gm-Gg: AR+sD10MGyk1YCSggagC+pJrVDswaWxrgbGa4tJH7LbXok2CQIHVBInUxO2w620r0fz
+	89nvJ9qdg0JVYtFPZR04gTiV7EQfUNLvhp4AjKIGlYUB/9tHqT2/TmjJ8AFwEnoDPMIbafrhQL1
+	YmarMPb9p/92f0gt0qhv6yg3a7VBDs67WjriaQjsnazvYYDH8k0d55kRW+HW47Zb/jM0n/xbVdQ
+	XL41n9J87U8PiEeuZNzhMpFruaXDEuDcuGmJftrGJdTVrKyG0C4Cu6dnAIT2Rz5sy1CvvzNOigh
+	GRdgD1ZlpE7e545vfnKs261zOFLqRl7bnVddMKBfm0dZJ0KupQ9Bom0ShttcHTE/kjEw7Xbamhz
+	wN5R5gHkWiqnlJ5XQtyByb8wihMVwJhJIcl4Hnm3iBF85dXGJL0valFTFGhUmbUFdTQ989c7tEK
+	YDIpW3yk4Rax2IR9Vk5tEQEuyC57iGGAFq2wAfxRvFisgxExN1AL4gBaYDJg+i1l2gW3QDG4S1l
+	RoQekdtFfMdAesc7LDq5g==
+X-Received: by 2002:a05:600c:468e:b0:499:b65e:49c9 with SMTP id 5b1f17b1804b1-49cd88f6b91mr769105e9.10.1788129010620;
+        Sun, 30 Aug 2026 15:30:10 -0700 (PDT)
+Received: from [10.100.102.74] (89-138-77-243.bb.netvision.net.il. [89.138.77.243])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cd8148fbdsm9351575e9.3.2026.08.30.15.30.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 30 Aug 2026 15:30:10 -0700 (PDT)
+Message-ID: <1d56144d-6987-40c1-ac02-b15333db121e@grimberg.me>
+Date: Mon, 31 Aug 2026 01:30:08 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c98fe50c-172a-4e53-a30c-5416c40cb23f@grimberg.me>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] nvme-tcp: pin io_cpu to submitter cpu
+To: Saravanan D <saravanand@crusoe.ai>
+Cc: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+ linux-kernel@vger.kernel.org, Nilay Shroff <nilay@linux.ibm.com>,
+ Daniel Wagner <dwagner@suse.de>
+References: <20260820083634.71689-1-saravanand@crusoe.ai>
+ <56829bb7-2067-4794-88ec-7ddac2d3f250@grimberg.me>
+ <20260823174348.40236-1-saravanand@crusoe.ai>
+Content-Language: en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20260823174348.40236-1-saravanand@crusoe.ai>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260830_152602_110937_00F3C153 
-X-CRM114-Status: GOOD (  11.42  )
+X-CRM114-CacheID: sfid-20260830_153012_786630_FFC3EDDC 
+X-CRM114-Status: GOOD (  28.56  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,15 +93,112 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon 2026-08-31 01:00:52 +0300, Sagi Grimberg wrote:
-> 
-> 
-> On 25/08/2026 1:56, Surabhi Gogte wrote:
-> > -	ret = sock_create_kern(current->nsproxy->net_ns,
-> > +	ret = sock_create_kern(&init_net,
-> 
-> I don't think we can just change this...
 
-Why we can not change it? Today the error recovery code running in
-worker thread will be using init_net anyway, no?
+
+On 23/08/2026 20:43, Saravanan D wrote:
+> On Sun, 23 Aug 2026 00:20:21 +0300 Sagi Grimberg <sagi@grimberg.me> wrote:
+>> Can you share a concrete example?
+>> 1. lscpu
+>> 2. grep -r ''  /sys/block/nvmeXnY/mq/*/cpu_list
+>> Also, what would be the VMs cpusets on such a server?
+> Very grateful for your review and suggestions.
+>
+> Concrete example from one of these hosts, where there are more cpus than
+> the io queues NVMe-oF targets offer.
+>
+> lscpu (trimmed): AMD EPYC 9654, 2 sockets, 2 threads/core, 384 CPUs
+>    NUMA node0 CPUs: 0-95,192-287
+>    NUMA node1 CPUs: 96-191,288-383
+>
+> Each nvme-tcp controller exposes 128 io queues (queue_count 129) against
+> 384 CPUs, so blk_mq_map_queues() folds three CPUs into every hctx. cpu_list for the namespace's path device, around one tenant's boundary:
+>
+>    hctx67:  6, 7, 198
+>    hctx68:  8, 9, 200
+>    hctx69:  10, 11, 202
+>    hctx75:  22, 23, 214
+>    hctx76:  24, 25, 216
+>    hctx113: 199, 201, 203
+>    hctx114: 205, 207, 209
+>    hctx115: 211, 213, 215
+>
+> Two VMs are live on this same shared controller:
+>    VM A cpuset: 8-23,200-215
+>    VM B cpuset: 104-191,296-383
+>
+> VM A owns 200-215, so hctx113's group {199,201,203} has 201 and 203 inside
+> VM A and 199 outside it. The connect time pick can select 199 as that
+> queue's io_cpu, so VM A's I/O through hctx113 runs its socket work on 199,
+> outside its cpuset for its entire lifetime. Adoption will pull it back
+> to 201 or 203 when VM A submits I/O.
+>
+>> In an ideal setting, the nvme controller would support $NR_CPUS worth of
+>> io queues [...] map cpu-queue with perfect alignment.
+> Right, and that is the case we cannot reach here. The controller tops out
+> at 128 io queues while the host has 384 CPUs, so the three to one folding
+> is unavoidable and some groups end up straddling a tenant boundary.
+
+Yes, most if not all nvme-of subsystems won't let the host open so many 
+queues.
+
+>
+>> I think that for controllers with low queue count this approach would not
+>> work very well. Plus the cpu<->queue mapping by the block layer is not
+>> guaranteed to align with how workloads/VMs are scheduled on the host...
+> Agreed on both. A queue whose cpu group straddles two busy tenants is only
+> partially addressed, since adoption then selects which tenant hosts that
+> shared queue rather than removing the sharing. It fixes the common case
+> where cpu group sits within one VM's cpuset and the case where only one
+> tenant on the queue is active, and it is strictly better than the connect
+> time pick, which chooses that queue's io_cpu before any I/O and can land on
+> any member. Solving the common case also lets the control plane, which owns
+> the VM cpusets, affinitize each VM's virtio-blk submitter threads away from
+> CPUs whose mapped queue would land socket work on a neighbor.
+
+I just think that the adoption approach has downsides in many other 
+workloads.
+I wouldn't categorize your use-case as the common use-case. Not to say 
+that it
+shouldn't be solved.
+
+>
+>> To me the problem statement sounds to me like you are looking to get a
+>> "private" controller (set of IO queues) for each VM. [...]
+>> nvme connect -t tcp -a <traddr> --cpu-groups=0-63,64-127,128-191,192-255
+> A private controller or a cpu-groups partition fits workloads where the CPU
+> partition is known and stable at connect time. Our production constraint
+> does not afford us that luxury. The nvme-tcp controllers are host wide and
+> shared, the tenant VMs are namespaces under one multipath subsystem, and the
+> control plane creates, destroys and bin packs VMs continuously on these core
+> dense compute hosts. A cpu-groups mask fixed at connect would be stale as
+> soon as the tenant mix changes, and re-partitioning would mean reconnecting
+> a controller that many live tenants depend on. We also cannot give each
+> tenant its own controller, because the overhead on the host adds up and we
+> run the risk of exceeding the target's connection limits. Adopting the
+> submitting CPU needs no per tenant configuration and follows the tenant
+> churn on its own, which is why it fits a long lived shared connection whose
+> tenant set is not known at connect time.
+>
+> Next the fleet operators who care about VM steal time already steer NIC IRQs,
+> NAPI to a dedicated housekeeping CPU pool outside the tenant cpusets, so the
+> common network processing overhead Nilay raised does not run on tenant CPUs.
+> With that in place the remaining contributor that still lands on a
+> tenant's CPU is nvme_tcp_io_work, which this patch pins to the submitting
+> cpu and keeps within the tenant's cpuset.
+
+I agree with you that queue io_cpu selection at connection time is too 
+limiting.
+Perhaps we can have each nvme-tcp queue expose a sysfs entry to set the 
+io_cpu?
+
+This way, its up to a control-plane to mangle with the queue io_cpu 
+setting at
+any point it would like.
+
+Something like:
+echo $CPU > /sys/class/nvme/nvme0/tcp_queues/$QUEUE/io_cpu
+
+I am just trying to think of a way that will allow some control plane to 
+set it exactly
+as it wants, without the guessing part...
 
