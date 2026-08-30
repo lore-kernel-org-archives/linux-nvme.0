@@ -4,80 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 186B8C61DE8
-	for <linux-nvme@archiver.kernel.org>; Sun, 30 Aug 2026 22:01:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8CEF2C61DD9
+	for <linux-nvme@archiver.kernel.org>; Sun, 30 Aug 2026 22:06:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VP9Zagw5VoD6qq7csm1mPz96FCjjD0yXgAUiYmmOORQ=; b=3pRhFLfyljJKsfna82jZaIJm3D
-	CgVhQLuNIxrnf1CYA+iPsHibcZ1sEABz9/IJIZ1+D1MVFpu7gleW2mUxWEuO0O5ceC/1fUj7qCqpx
-	CbHW97dGyp+dCJDbMyCIuVmHH633JgMziRH0elnfTJWD9iXOXUi2LdeWzgzgod0naVsCMfhBIyBfc
-	6Mcy2YluGAyh4LDHd1/u8zAV6YleQYYI8NmIt3GY0+sbetwbKTE3i9guUGH3/cA4A1Mve/cuadMhm
-	rZ2rTkumddL+rEGdaoygthTCkTEQRcITJqG3nrYQzBEKuPPRIUXyV75jX4zxf8DZPod7eZCl2VmZu
-	bWoI870Q==;
+	bh=BPTYWB1156EFu+SymVVIBsNov2ioaQbk2iJPnHim86U=; b=ZER9xTDeGvNhkQ6QyVNLVZt3+9
+	CN/Foc59vKh69HG1F1Tjyyuot30P4ng3hguo3LK7bLlkdkAK/QVUMBZODTbkwOAT8eGQAiJu9t11f
+	7WfXY/tW+wA5Sf2SawHnUPFE8gN0zZIBFBgg4JtGdPpEkik0SYY21QTaiL2F2P2CMSFsvbdRnQ20l
+	2Bs2xciYCHVLpszI+TVlzqimhq71BoRUgzJicO6ZtK+Rd8Gw94x0DbY2zSVhaKUBLFXEroIfcpEoe
+	itY+XxNmYBxlMlXoiUd+6qcxRGB632ywAiCap1v3a/Vo2ankWqJIUB756gwSxD1h3Wfy6SUqVh7h4
+	yqa/CqHw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x0naF-000000089Mg-3dvn;
-	Sun, 30 Aug 2026 22:00:59 +0000
-Received: from mail-wm1-f52.google.com ([209.85.128.52])
+	id 1x0nfM-000000089jc-32PW;
+	Sun, 30 Aug 2026 22:06:16 +0000
+Received: from mail-wr1-f50.google.com ([209.85.221.50])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x0naD-000000089MM-11xx
+	id 1x0nfJ-000000089jE-3RPK
 	for linux-nvme@lists.infradead.org;
-	Sun, 30 Aug 2026 22:00:58 +0000
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-49cca4ffdcfso12656625e9.0
-        for <linux-nvme@lists.infradead.org>; Sun, 30 Aug 2026 15:00:56 -0700 (PDT)
+	Sun, 30 Aug 2026 22:06:14 +0000
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-482fc2b44a7so2258390f8f.2
+        for <linux-nvme@lists.infradead.org>; Sun, 30 Aug 2026 15:06:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788127255; x=1788732055;
+        d=1e100.net; s=20251104; t=1788127572; x=1788732372;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=VP9Zagw5VoD6qq7csm1mPz96FCjjD0yXgAUiYmmOORQ=;
-        b=HnSBAr1SjGDjU6F+r8kI3u+S4c1aQcXG9cV13JcekYLah75e1oVRtQstY75ieV6UaA
-         y5Re/eAnJJXRfnMfA8ZtuE0zJB5neZXuHeQskGnr743CIT6OOGB4PHt1YOBuhfyyPuyw
-         Ytz0/zH811zqQpYCWtrLbmr9NeizS8w9B13IamK0O0S1xeJDRna2/LXwDoeERjjkoz9l
-         HtLPfrHT6BMz5t+eLcVKXDrZtSuT6RuPqfWrvvKwe+D9CZJFY4K77Or7CVdUl04tupjL
-         CciZQ+s9br+Z6YT3bP5bIR8rwBzDKMJRcRkk/2RJhQZe8391+KQ9S+KmhRN1pmYOyqvR
-         W1BA==
-X-Gm-Message-State: AFuF++mcuuN4FHTuKD8q7/K9lSSY0lP6vSKdiTws37T0KHQtEP30Shjm
-	DQVrbu+WzbFwZ2KJ4jN/5bgtYNWcQ/OA2SdamUyL4v7pKpCknq/zJlWY
-X-Gm-Gg: AR+sD10ymVxkRNRK71Ueu6beOsqVBOOXXujC9NqUHjd1X6M0ocrBHEpJzETLlnO1lXB
-	kn8cEQuweq0FhvCcUhYk1kvX2/xvi7Rz+O1txtfoHr/AdIsR9WNWn0Q1mD0RIeGRvkqoDhNuB35
-	VT2YpT3z3H8boe3VaCEKvRUYLV1taUk/o1hGqCoNQ9oCdkbjxD9NxRV3kVxo7BflSWtfvw9OpOs
-	YnHrrEt5YhPR7hur5d4vxe4BLs3KIQ0L9vSOiJMdKT347Ja6h9+u+3psd3DU6MPiZ2CgwLrWVsu
-	Bu2Pfmf8hbnMhVfRtfJTi9MGO+Ddp37QCRSrG/tq+9C4hWucWckZfzmmivi0siwxvw0l1EU0TP7
-	9FzJrxRK3f+ayHmTiMCrIXCI+bdpaU4YNsWnD3w6KMU8WCn9oSc30zdprByrUM1hqo1jRXI5eLv
-	QA9J755ngFCI1ygIBzWl7QJk0ApFLcsHqUGvmvRiQmH4jjXCouIeAsw/R4nvTA0g8OXv4tm2Dvb
-	1OzghoAuF8t9kU/gcXB+l9UhOx2UAOh
-X-Received: by 2002:a05:600c:6088:b0:49b:2796:be30 with SMTP id 5b1f17b1804b1-49b91c433a4mr343856725e9.11.1788127255220;
-        Sun, 30 Aug 2026 15:00:55 -0700 (PDT)
+        bh=BPTYWB1156EFu+SymVVIBsNov2ioaQbk2iJPnHim86U=;
+        b=fG8h/pcOa3kmT8S8c4MEOo66IzI0GDLjl6JF166DDaSpel6LFDFdlLYy5XQHlJSYUm
+         U/vxq4oKZXaQDSzGY4eyleJJ9KzLqpYae9fGIDtjurmQKBiBQHR0Nod+/yMGqpmv0KMw
+         8CihkRhIK95ls7aq/3MUIxZnNvgk7M6euye64tLWP3Z+6GHPOjxBJSIKl5WWSFsZNhKI
+         A9Th69huz/laDBkpHZKJUnGcK8aHW5ycL4sym3H1fm6eaSKjTxjHOVFfI8WtLSKr1Eyw
+         CU6RKs0WFpobjl/iugLoAS3HvZAA5ozWtnwbVBjBDbPhMzB1Zl04nIQCANeeX5Db0DmG
+         NKwA==
+X-Forwarded-Encrypted: i=1; AKwUvBw2ZUqB6Q6BYNM33uOJnLERvX547LSKsGXG5z2ffX0SLhG40HlKxLkMmPBu6pHDW6BEYSYoknlSqj60@lists.infradead.org
+X-Gm-Message-State: AFuF++mDv4OdBYd6AEjBK7K2kUPS0IR+Gq5HHSF7jdRjJAM2OSooh6+N
+	PcPLUz8E49wL0wPBbgGLOpXl0w8fVpOIAisu4/01H0DzKhC9aaLIUkz1I7/GyHdbVHM=
+X-Gm-Gg: AYBFou0Woq5rGOoALp83TN+nEfxsnjuSJjzWbG+L3MH3J4/e1NZTc6WPYpp+m4gNfzU
+	2BjSCC41pQyIPY4Ao5cEd0wGlN7mbo+hUtThIUJCLyTqjPuuj4p2hPKN684CSOJwvnZbnAgEYR/
+	4jwpRe9pBKm/XerSkcXklnfcI40d2jwyesHTt1V0y4oKL5cL56TeVxcjwnGekZozwc/BoNrzvl7
+	X52cayJP+EueEPNk+12Kd/nCkUo6b/NzAdZLLN8wVLK0QZoIOP9QW95vnFElTEPqLOHHbU6IRkh
+	DNwcbSXxxdYzR6Sxxg4NfT/BDGh5kXcW68VPlR1EvDAEnyJGspQEPhINQw2c8g6VqJe4G+Yw1+W
+	X22ejRdM59E/lSxa/F9ynUaP3tROOQnRz0MKoM3052MRtmpTUrp8GJdnk+jYXwy3TujTIU+OztK
+	qCVIup7VO5xeS1/2LxTNMG0tMnhyW/okFSAUryiE9SLVbncfvkUwPxvEH3mdNfORqltva5/RM2p
+	Pg01d+YJFCRNs/DAFuyNPE=
+X-Received: by 2002:a5d:5e02:0:b0:482:e2f2:19c1 with SMTP id ffacd0b85a97d-482f7975f7emr33713885f8f.2.1788127571691;
+        Sun, 30 Aug 2026 15:06:11 -0700 (PDT)
 Received: from [10.100.102.74] (89-138-77-243.bb.netvision.net.il. [89.138.77.243])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cd2e9d9fcsm136655095e9.1.2026.08.30.15.00.52
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482fbb284cbsm18333397f8f.30.2026.08.30.15.06.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 30 Aug 2026 15:00:53 -0700 (PDT)
-Message-ID: <c98fe50c-172a-4e53-a30c-5416c40cb23f@grimberg.me>
-Date: Mon, 31 Aug 2026 01:00:52 +0300
+        Sun, 30 Aug 2026 15:06:10 -0700 (PDT)
+Message-ID: <9271266f-3d7e-426e-93b6-6f1f28bc9b0f@grimberg.me>
+Date: Mon, 31 Aug 2026 01:06:07 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] nvme-tcp: parallelize I/O queue allocation and
- startup
-To: Surabhi Gogte <sgogte@purestorage.com>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- mkhalfella@purestorage.com, randyj@purestorage.com, adailey@purestorage.com
-References: <20260824225648.316962-1-sgogte@purestorage.com>
- <20260824225648.316962-3-sgogte@purestorage.com>
+Subject: Re: [PATCH 0/3] nvme-cli: NIC topology aware I/O queue scaling
+To: Nilay Shroff <nilay@linux.ibm.com>, linux-nvme@lists.infradead.org
+Cc: dwagner@suse.de, hare@suse.de, kbusch@kernel.org, hch@lst.de,
+ gjoyce@linux.ibm.com, chaitanyak@nvidia.com
+References: <20260821144329.3620389-1-nilay@linux.ibm.com>
+ <4a80220a-2cba-4a4a-85c2-7c3d3ae8a20a@grimberg.me>
+ <32bcaf68-a142-4612-9967-815dd28ee2a0@linux.ibm.com>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20260824225648.316962-3-sgogte@purestorage.com>
+In-Reply-To: <32bcaf68-a142-4612-9967-815dd28ee2a0@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260830_150057_330726_DB062592 
-X-CRM114-Status: GOOD (  29.45  )
+X-CRM114-CacheID: sfid-20260830_150613_902238_7F836325 
+X-CRM114-Status: GOOD (  20.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,111 +94,88 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 25/08/2026 1:56, Surabhi Gogte wrote:
-> Similar to commit 2a8513091d2f ("nvme-rdma: parallelize I/O queue
-> allocation and startup"), refactor nvme tcp I/O queue setup to use async
-> API, combining allocation and startup into a single parallel operation
-> per queue. This reduces connection and reconnection setup time when
-> there are delays in establishing connections, which is especially
-> important for high-core-count hosts.
+On 24/08/2026 11:48, Nilay Shroff wrote:
+> On 8/23/26 3:13 AM, Sagi Grimberg wrote:
+>>
+>>
+>> On 21/08/2026 17:43, Nilay Shroff wrote:
+>>> Hi,
+>>>
+>>> This series is a rework of the earlier patchset[1]. The main
+>>> difference is that --nr-io-queues is now calculated in nvme-cli
+>>> instead of in the kernel when establishing an NVMe/TCP connection.
+>>>
+>>> This rework is based on the feedback received[2] from the netdev
+>>> maintainers.
+>>>
+>>> The original patchset determined the number of NVMe/TCP I/O queues
+>>> based on the number of online CPUs and the number of hardware queues
+>>> available on the NIC in kernel driver. This series moves that logic
+>>> to nvme-cli.
+>>>
+>>> When --nr-io-queues is not explicitly specified, nvme-cli determines
+>>> the egress netdev for the NVMe/TCP connection, retrieves its current
+>>> hardware queue count, and calculates the default as:
+>>>
+>>>     min(nr_hw_queues, num_online_cpus)
+>>
+>> This looks reasonable Nilay.
+>>
+> Thank you...
 >
-> Key changes:
-> - Use async API to facilitate parallel calls for io queue setup.
-> - Add nvme_tcp_setup_ctx for propagating errors from async workers.
-> - Remove nvme_tcp_start_io_queues() and __nvme_tcp_alloc_io_queues();
->    their logic is folded into nvme_tcp_setup_io_queues() and
->    nvme_tcp_configure_io_queues().
-> - Allocate the io tag set before the queues so that the queue range is
->    known, and only set up the reconnect grow case if the queue count
->    actually increased.
-> - Serialize the cpu scan and claim in nvme_tcp_set_queue_io_cpu() with a
->    spinlock, as concurrent callers would otherwise select the same cpu.
->    The per-cpu counters no longer need to be atomics.
-> - Use init_net in nvme_tcp_alloc_queue() instead of the namespace of
->    current, which is no longer the connecting task once the allocation
->    runs from a worker. A controller is not guaranteed to be tied to a
->    namespace, as the reconnect and error recovery paths already run from
->    a workqueue in init_net.
-
-Well, I think this is breaking 1be52169c3488ef98582ed553ab35cefa3978817
-
+>> I am wandering tho if we want to place some lower limit here.
+>> For example, my laptop has a virtio device with 4 cpu cores and
+>> a single combined ring:
+>> -- 
+>> $ lscpu | grep NUMA
+>> NUMA node(s):                            1
+>> NUMA node0 CPU(s):                       0-3
+>> $ ethtool -l enp7s0
+>> Channel parameters for enp7s0:
+>> Pre-set maximums:
+>> RX:        n/a
+>> TX:        n/a
+>> Other:        n/a
+>> Combined:    1
+>> Current hardware settings:
+>> RX:        n/a
+>> TX:        n/a
+>> Other:        n/a
+>> Combined:    1
+>> -- 
+>>
+>> It would be kinda annoying for me to now explicitly pass the 
+>> nr-io-queues...
+>> I am wandering if some sort of threshold make sense as what you are 
+>> aiming for
+>> is reducing the amount of queues for large cpu counts...
 >
-> Testing on a 64-core host with 64 IO-queues shows nvme-tcp connection
-> time reduced from 61ms to 11ms.
+> I think you're running a QEMU guest using user-mode (SLIRP) 
+> networking, so having
+> a combined queue count of 1 is expected.
 >
-> Signed-off-by: Surabhi Gogte <sgogte@purestorage.com>
-> ---
->   drivers/nvme/host/tcp.c | 126 +++++++++++++++++++++++++---------------
->   1 file changed, 80 insertions(+), 46 deletions(-)
+> I also tested this setup before posting the change. With QEMU 
+> user-mode networking,
+> increasing --nr-io-queues beyond 1 (I tried 4 and 8 with vCPU set to 
+> match those
+> numbers) did not improve performance. In fact, limiting --nr-io-queues 
+> to 1, which
+> matches the netdev's single combined queue, gave slightly better 
+> performance.
 >
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 354668ad29ac..30fe4c5abe0b 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -7,6 +7,7 @@
->   #include <linux/module.h>
->   #include <linux/init.h>
->   #include <linux/slab.h>
-> +#include <linux/async.h>
->   #include <linux/err.h>
->   #include <linux/crc32.h>
->   #include <linux/nvme-tcp.h>
-> @@ -54,7 +55,8 @@ MODULE_PARM_DESC(tls_handshake_timeout,
->   		 "nvme TLS handshake timeout in seconds (default 10)");
->   #endif
->   
-> -static atomic_t nvme_tcp_cpu_queues[NR_CPUS];
-> +static int nvme_tcp_cpu_queues[NR_CPUS];
-> +static DEFINE_SPINLOCK(nvme_tcp_cpu_queues_lock);
->   
->   enum nvme_tcp_send_state {
->   	NVME_TCP_SEND_CMD_PDU = 0,
-> @@ -154,6 +156,12 @@ struct nvme_tcp_queue {
->   static DEFINE_MUTEX(nvme_tcp_ctrl_mutex);
->   static LIST_HEAD_GUARDED(nvme_tcp_ctrl_list, nvme_tcp_ctrl_mutex);
->   
-> +struct nvme_tcp_setup_ctx {
+> My understanding is that in this topology there is only a single 
+> underlying
+> virtqueue/network queue, so creating multiple NVMe/TCP I/O queues does 
+> not provide
+> additional network parallelism. Instead, those NVMe/TCP queues end up 
+> contending
+> on the same virtqueue/network queue, which can add overhead without 
+> providing additional
+> throughput.
 
-nvme_tcp_queue_setup_ctx?
+I don't care about performance. I care that if I am testing stuff, I 
+want more than a single
+queue. And it is annoying to explicitly change the queue count...
 
-> +	struct nvme_ctrl	*ctrl;
-> +	int			qid;
-> +	int			*err;
-> +};
-> +
->   struct nvme_tcp_ctrl {
->   	/* read only in the hot path */
->   	struct nvme_tcp_queue	*queues;
-> @@ -1718,9 +1726,10 @@ static void nvme_tcp_set_queue_io_cpu(struct nvme_tcp_queue *queue)
->   		goto out;
->   
->   	/* Search for the least used cpu from the mq_map */
-> +	spin_lock(&nvme_tcp_cpu_queues_lock);
->   	io_cpu = WORK_CPU_UNBOUND;
->   	for_each_online_cpu(cpu) {
-> -		int num_queues = atomic_read(&nvme_tcp_cpu_queues[cpu]);
-> +		int num_queues = nvme_tcp_cpu_queues[cpu];
->   
->   		if (mq_map[cpu] != qid)
->   			continue;
-> @@ -1731,9 +1740,10 @@ static void nvme_tcp_set_queue_io_cpu(struct nvme_tcp_queue *queue)
->   	}
->   	if (io_cpu != WORK_CPU_UNBOUND) {
->   		queue->io_cpu = io_cpu;
-> -		atomic_inc(&nvme_tcp_cpu_queues[io_cpu]);
-> +		nvme_tcp_cpu_queues[io_cpu]++;
->   		set_bit(NVME_TCP_Q_IO_CPU_SET, &queue->flags);
->   	}
-> +	spin_unlock(&nvme_tcp_cpu_queues_lock);
->   out:
->   	dev_dbg(ctrl->ctrl.device, "queue %d: using cpu %d\n",
->   		qid, queue->io_cpu);
-> @@ -1846,7 +1856,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
->   		queue->cmnd_capsule_len = sizeof(struct nvme_command) +
->   						NVME_TCP_ADMIN_CCSZ;
->   
-> -	ret = sock_create_kern(current->nsproxy->net_ns,
-> +	ret = sock_create_kern(&init_net,
-
-I don't think we can just change this...
+Also, I don't know if your performance statements are correct for TLS.
 
