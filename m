@@ -4,56 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7E60EC624A4
-	for <linux-nvme@archiver.kernel.org>; Mon, 31 Aug 2026 13:50:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 46EADC624A4
+	for <linux-nvme@archiver.kernel.org>; Mon, 31 Aug 2026 13:52:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ISmieA3cxTn7s+iQaLcJUsGULmiOIEuwAETcU4gkNw0=; b=GfaISp7K7PfxRplXmUGguxdUrp
-	u0QNoy6HCM3PMTJSvBWbaXdbtQOUxd5HvPbp5huhBkLnbkxPNeBqoBi+Oc69aEWGNdSP3TgQID6W0
-	bbc5UmmE76qTMw6f9hgbkftmUIeGIah4qQMvFTy8dUbyE38q4j2Z/Wu/ZVaEqZvHQLTPkogVT/pyl
-	fREQs+zhdxHy9fLwWhVSUQX903rx5jm3JU2wddjknJNCmztctpVPjd5kN9Db97gLjpLh36A7W1aev
-	v47yJKd28CuQxF2sA6IPjKj1W2JCeoA6+igs4NFO5K2pDHQARLAezEvortJgS4ubZZvWQ/81ZHsxC
-	qG8KaEPw==;
+	bh=ya+pZcZsROeTq92EOwS98qoDIqV0o6/MQn2Vl568B18=; b=KIsPJO0YjNdOCH0YABCE5yHl/z
+	MOZE3Qxoso48UGk46Ex15vOLEejJo1/kylBtIYsloqanEYXYNk3afGn3z+Xv059WTFUSc2zLtHaqB
+	h5CdhFq4sbTVLGihuEblg2MMllKkNdHLWjYJyW0NTqkGmouvHGac/R/b4LTpxR5+qsdD3DYigZx/P
+	2MhlDagw8Lh8ma+E+uUnSiJfhFZSl+F4yWSZRRyF8S2L3L1ZgirMcr7cJJB2WYzpEHoLHNYx71cjE
+	5zkaqs/F/UhrZ8x21Mc3jELWvL2XxU8OILz2GcK+w5p/dmYMSxEJsZnZS7N1tQvD7xOdZ7vIociy0
+	FFjiCxbw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x12PE-00000009Xy0-0RQt;
-	Mon, 31 Aug 2026 13:50:36 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1x12R2-00000009YqQ-3oK4;
+	Mon, 31 Aug 2026 13:52:28 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x12PC-00000009XxY-24Nj
+	id 1x12R2-00000009Yph-0TBB
 	for linux-nvme@lists.infradead.org;
-	Mon, 31 Aug 2026 13:50:34 +0000
+	Mon, 31 Aug 2026 13:52:28 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id DB05360207;
-	Mon, 31 Aug 2026 13:50:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EEB51F00A3F;
-	Mon, 31 Aug 2026 13:50:32 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id D5BE141468;
+	Mon, 31 Aug 2026 13:52:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3041B1F00ACF;
+	Mon, 31 Aug 2026 13:52:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788184233;
-	bh=ISmieA3cxTn7s+iQaLcJUsGULmiOIEuwAETcU4gkNw0=;
+	s=k20260515; t=1788184347;
+	bh=ya+pZcZsROeTq92EOwS98qoDIqV0o6/MQn2Vl568B18=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Q6+rNSiuTEd6B51itj0Okth1HGST6KL9CmL5eIB/t6qD5H3nBHGnO4Je+PhyPBFHT
-	 O60rYv8bBpL9claTyoWfXKp5FgOTTX2H7fBbJ78wScqXKQSmg7Ku1LJoRkPSTWzIih
-	 NwVL9lp6BPZ/3rHKL5shzj7ZWUZMjzjdFcVPBD3eE5hhnFwKXAZZ6x46d/Ibn4uhec
-	 /oXvdBkPIskDP0UM/eHced33eq/GeannBcItwHFx6aRQ/v0QHHU0FAJ3pEM7w8rIuO
-	 zDNcO2rvTDXdtWhjf1umpqzRzp+yiiE8N+R3nsROBvqlcmexfu/c43vSSDjUOBgstH
-	 HfTp/YkGj+gmA==
+	b=O7Ei3aLC2BScX+NGekhVIO5inX8FQ09cRULy8Edki1T+EMtN4ZPDOuFf4bTl7y+tD
+	 yedW3e8jD6OWxMQCYOm7zplDx/AJPulXLOEZUb22FgQX4frHSaB522IiCB8u05rUxY
+	 BAxxuWi3f5yTmwfMqM52IDzI0Q5166qb/qbcS/RnmJh9qi448gQeMMQ3LJcNTEpc5Q
+	 1IsmyEnno028pc2waX41M8dIjebSR7SIG9B9zQIrYa9ux5+LS0HQffyrPkPbKxSqkY
+	 2ytQqXhCW83pS3BCRxkTRGSaTd8NswUil/qX4VAB10Kv+rmoIdrx1Iq2M7Mwh7R7QG
+	 Y9JFrNqU6YChQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Maurizio Lombardi <mlombard@redhat.com>,
+Cc: liuxixin <gliuxen@gmail.com>,
+	Nitesh Shetty <nj.shetty@samsung.com>,
+	Christoph Hellwig <hch@lst.de>,
 	Keith Busch <kbusch@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	sagi@grimberg.me,
 	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18] nvme: fix crash and memory leak during invalid cdev teardown
-Date: Mon, 31 Aug 2026 09:29:59 -0400
-Message-ID: <20260831133314.4125787-571-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18] nvme: validate FDP configuration descriptor sizes
+Date: Mon, 31 Aug 2026 09:31:08 -0400
+Message-ID: <20260831133314.4125787-640-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260831133314.4125787-1-sashal@kernel.org>
 References: <20260831133314.4125787-1-sashal@kernel.org>
@@ -77,98 +79,66 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Maurizio Lombardi <mlombard@redhat.com>
+From: liuxixin <gliuxen@gmail.com>
 
-[ Upstream commit 26acdaa357cded33a37f575cd5f6bae1033b3a5d ]
+[ Upstream commit 0ef4daa6534a510d61ea67c8ad9bb5097b0dd5f8 ]
 
-In the NVMe multipath code, if nvme_add_ns_head_cdev() fails during
-nvme_mpath_set_live(), the error is ignored. However, during teardown,
-nvme_remove_head() unconditionally calls nvme_cdev_del(). This teardown
-asymmetry leads to a kernel panic if the character device was never
-successfully initialized.
+Validate descriptor sizes while walking the FDP configurations log so
+dsze == 0 or a descriptor past the log end cannot cause unbounded
+iteration or reads past the buffer.
 
-BUG: kernel NULL pointer dereference, address: 00000000000000d0
- device_del+0x39/0x3c0
- cdev_device_del+0x15/0x50
- nvme_cdev_del+0xe/0x20 [nvme_core]
- nvme_mpath_shutdown_disk+0x38/0x60 [nvme_core]
- nvme_ns_remove+0x177/0x1f0 [nvme_core]
- nvme_remove_namespaces+0xdc/0x130 [nvme_core]
- nvme_do_delete_ctrl+0x71/0xd0 [nvme_core]
-
-Additionally, a memory leak exists in the nvme_cdev_add() failure path.
-Previously, dev_set_name() was called before ida_alloc(). If ida_alloc()
-subsequently failed, device_initialize() was never called, meaning
-put_device() could not be used to clean up the kobject, leaking the
-memory allocated by dev_set_name().
-
-*  Introduces the NVME_NSHEAD_CDEV_LIVE and NVME_NS_CDEV_LIVE bits to track
-   the successful creation of the character devices. Teardown routines now
-   check these bits before attempting deletion.
-*  Refactor nvme_cdev_add() to accept the formatted device name as a
-   parameter, moving dev_set_name() after the IDA allocation and
-   immediately before device_initialize(). This ensures any internally
-   allocated strings are safely cleaned up by put_device() upon failure.
-
-Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
+Reviewed-by: Nitesh Shetty <nj.shetty@samsung.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: liuxixin <gliuxen@gmail.com>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-# Stable Backport Analysis: `nvme: fix crash and memory leak during
-invalid cdev teardown`
+# Stable Backport Analysis: `nvme: validate FDP configuration descriptor
+sizes`
 
 **Local tree:** Linux **6.18.44** (`stable/linux-6.18.y`, `HEAD`
-detached at `1efe5d048a391`)
-
-**Commit under review:** `26acdaa357cde` (on `master`, **not** in this
-tree)
+detached at `v6.18.44`)
+**Mainline commit:** `0ef4daa6534a5` — **not present** in this tree;
+buggy code **is present**
 
 ---
 
 ## PHASE 1: COMMIT MESSAGE FORENSICS
 
-### Step 1.1: Subject Line
-**Record:** `[nvme]` `[fix]` — crash and memory leak during invalid
-character-device teardown in NVMe namespace cdev paths.
+### Step 1.1: Subject line
+**Record:** `[nvme]` `[validate]` — Validate FDP configuration
+descriptor sizes while walking the FDP configurations log.
 
 ### Step 1.2: Tags
 **Record:**
-- **Fixes:** — none
-- **Reported-by:** — none
-- **Tested-by:** — none
-- **Reviewed-by:** — none
-- **Acked-by:** — none
-- **Link:** — none
-- **Cc: stable:** — none (expected for manual review)
-- **Signed-off-by:** Maurizio Lombardi, Keith Busch (NVMe maintainer)
+- **Reviewed-by:** Nitesh Shetty `<nj.shetty@samsung.com>`
+- **Reviewed-by:** Christoph Hellwig `<hch@lst.de>`
+- **Signed-off-by:** liuxixin `<gliuxen@gmail.com>`
+- **Signed-off-by:** Keith Busch `<kbusch@kernel.org>`
+- No `Fixes:`, `Reported-by:`, `Link:`, `Cc: stable@vger.kernel.org`, or
+  `Tested-by:` tags
+- Notable: reviewed by NVMe/block maintainers; no syzbot report
 
-Notable: commit includes a concrete **BUG:** stack trace (NULL pointer
-dereference). No syzbot report.
-
-### Step 1.3: Body Analysis
+### Step 1.3: Body analysis
 **Record:**
-- **Bug:** Teardown asymmetry in NVMe multipath — if
-  `nvme_add_ns_head_cdev()` fails during `nvme_mpath_set_live()`, the
-  error is ignored, but `nvme_remove_head()` unconditionally calls
-  `nvme_cdev_del()`.
-- **Symptom:** Kernel panic — NULL pointer dereference in `device_del()`
-  during controller/namespace removal (`nvme_do_delete_ctrl` →
-  `nvme_remove_namespaces` → `nvme_ns_remove` → multipath head removal).
-- **Secondary bug:** Memory leak when `dev_set_name()` runs before
-  `ida_alloc()` in the cdev-add path; if `ida_alloc()` fails,
-  `device_initialize()` never runs and `put_device()` cannot free the
-  kobject name.
-- **Root cause:** No tracking of whether cdev creation actually
-  succeeded; teardown assumes it did.
-- **Version info:** None explicit in message.
+- **Bug:** Walking FDP configuration descriptors uses `dsze` from
+  device-provided log data without validating each descriptor size
+  before advancing.
+- **Symptoms:** `dsze == 0` or a descriptor extending past the log end
+  can cause invalid iteration over the log buffer and reads past the
+  allocated buffer.
+- **Root cause:** Size is applied (`log += dsze`) before bounds are
+  checked; zero-sized descriptors are not rejected.
+- **Version info:** None in commit message.
 
-### Step 1.4: Hidden Bug Fix Detection
-**Record:** Not disguised — explicitly labeled as crash + memory leak
-fix. The `nvme_cdev_add()` refactor is a real resource-management fix,
-not cosmetic cleanup.
+### Step 1.4: Hidden bug fix?
+**Record:** Yes — this is a defensive parsing fix for malformed or
+malicious device log data, not cosmetic cleanup. It prevents out-of-
+bounds reads and incorrect descriptor traversal during namespace setup
+on FDP-capable NVMe controllers.
 
 ---
 
@@ -176,478 +146,345 @@ not cosmetic cleanup.
 
 ### Step 2.1: Inventory
 **Record:**
-| File | Changes |
-|------|---------|
-| `drivers/nvme/host/core.c` | ~33 lines changed |
-| `drivers/nvme/host/multipath.c` | ~19 lines changed |
-| `drivers/nvme/host/nvme.h` | ~5 lines changed |
+- **Files:** `drivers/nvme/host/core.c` (+6/−4 lines)
+- **Function:** `nvme_query_fdp_granularity()`
+- **Scope:** Single-file, surgical fix in one loop
 
-**Functions modified:** `nvme_cdev_add()`, `nvme_add_ns_cdev()`,
-`nvme_ns_remove()`, `nvme_add_ns_head_cdev()`, `nvme_remove_head()`
-
-**Scope:** Single-subsystem, surgical fix across 3 files (~57 lines
-total). Not a refactor.
-
-### Step 2.2: Code Flow Changes
+### Step 2.2: Code flow change
 **Record:**
 
 | Hunk | Before | After |
 |------|--------|-------|
-| `nvme_cdev_add()` | `ida_alloc` only; callers set name separately |
-Accepts `name`, calls `dev_set_name()` after `ida_alloc`, before
-`device_initialize()` |
-| `nvme_add_ns_cdev()` / `nvme_add_ns_head_cdev()` | `dev_set_name()`
-then `nvme_cdev_add()`; no success tracking | `snprintf` name, call
-refactored `nvme_cdev_add()`, set `NVME_NS_CDEV_LIVE` /
-`NVME_NSHEAD_CDEV_LIVE` on success |
-| `nvme_ns_remove()` | Unconditionally `nvme_cdev_del()` for non-
-multipath | Only if `NVME_NS_CDEV_LIVE` bit set |
-| `nvme_remove_head()` | Unconditionally `nvme_cdev_del()` | Only if
-`NVME_NSHEAD_CDEV_LIVE` bit set |
+| Descriptor walk loop | Advance `log` by `desc->dsze`, then check `log
+>= end` | Read `dsze`, reject `!dsze` or `log + dsze > end`, then
+advance |
+| Error message | Generic `"FDP invalid config descriptor list"` |
+Specific `"FDP invalid config descriptor at index %d"` |
 
-### Step 2.3: Bug Mechanism
+**Path affected:** Error/validation path during FDP granularity query at
+namespace enumeration.
+
+### Step 2.3: Bug mechanism
 **Record:**
-- **Category (a):** Resource leak on error path — `dev_set_name()`
-  before `ida_alloc()`/`device_initialize()`.
-- **Category (d):** NULL pointer dereference — `nvme_cdev_del()` →
-  `cdev_device_del()` → `device_del()` on uninitialized/failed cdev.
-- **Category (g):** Logic/correctness — teardown does not match setup;
-  success bit flags align init and teardown.
+- **Category:** Buffer overflow / out-of-bounds read (memory safety);
+  logic error on malformed descriptors
+- **Mechanism:**
+  1. **`dsze == 0`:** Pointer never advances; walk does not reach the
+     intended `fdp_idx` descriptor; subsequent reads of `desc->nrg` and
+     `desc->runs` use wrong data.
+  2. **`log + dsze > end`:** Old code advanced first, then checked. A
+     large `dsze` sets `desc` past the buffer before the check;
+     depending on iteration count and layout, subsequent field reads
+     (`nrg` at offset 4, `runs` at offset 12 in `struct
+     nvme_fdp_config_desc`) can access memory beyond the `kvmalloc`'d
+     log buffer.
+  3. New code validates **before** advancing, rejecting zero or over-
+     length descriptors.
 
-**Specific mechanism:** In current 6.18.44 code at
-`multipath.c:794-801`, `NVME_NSHEAD_DISK_LIVE` is set after
-`device_add_disk()` succeeds, then `nvme_add_ns_head_cdev(head)` is
-called with **return value ignored**. On failure, `nvme_remove_head()`
-at line 698 still calls `nvme_cdev_del()`.
-
-### Step 2.4: Fix Quality
+### Step 2.4: Fix quality
 **Record:**
-- Fix is obviously correct: only delete cdev when creation succeeded.
-- Minimal, surgical; uses existing `flags` bitfields with free bit
-  positions (2 and 6).
-- Low regression risk: adds guards on teardown paths only; does not
-  change successful init behavior.
-- `nvme_cdev_add()` signature change is internal to `nvme_core` (no new
-  userspace API).
+- Fix is minimal, obviously correct, and matches standard kernel parsing
+  practice.
+- Reviewed by Christoph Hellwig and Keith Busch (applied to `nvme-7.2`).
+- **Regression risk:** Very low — only affects the error path for
+  invalid FDP log data; valid devices unchanged.
+- v5 cover letter notes removal of redundant `log >= end` check per
+  maintainer feedback.
 
 ---
 
 ## PHASE 3: GIT HISTORY INVESTIGATION
 
 ### Step 3.1: Blame
+**Record:** Buggy loop introduced in `30b5f20bb2dda` ("nvme: register
+fdp parameters with the block layer", Keith Busch, 2025-05-06). First
+appeared in **v6.16**. Present in this 6.18.44 tree.
+
+### Step 3.2: Fixes: tag
+**Record:** N/A — no `Fixes:` tag. Introducing commit `30b5f20bb2dda` is
+in this tree.
+
+### Step 3.3: Related file history
 **Record:**
-- `nvme_cdev_add()` / `nvme_add_ns_head_cdev()`: introduced in
-  `2637baed7801` (Apr 2021, "introduce generic per-namespace chardev") —
-  **present in this tree**.
-- `nvme_remove_head()` unconditional `nvme_cdev_del`: `62188639ec160`
-  (May 2025, delayed multipath head removal) — **present in this tree**.
-- Stack trace references `nvme_mpath_shutdown_disk`; renamed to
-  `nvme_mpath_remove_disk` in `9e221d8cf90b8` — **this tree uses
-  `nvme_mpath_remove_disk`**.
+- `5e406928404d6` — "nvme: fix FDP fdpcidx bounds check" (same author) —
+  **already in 6.18.y**
+- `0ef4daa6534a5` — this descriptor-size validation — **not in 6.18.y**
+  (only on `master`)
+- Companion fix from v4 series; v5 split out descriptor validation
+  separately per maintainer feedback
 
-### Step 3.2: Fixes: Tag
-**Record:** N/A — no `Fixes:` tag. Bug latent since cdev introduction
-(2021); exposed by multipath head lifecycle code (2025).
-
-### Step 3.3: Related File History
-**Record:**
-- Recent related fix: `3d8f35e182c80` "nvme-multipath: fix leak on
-  try_module_get failure" — separate issue.
-- Follow-up on master: `869567bcbe2dc` makes cdev-add functions return
-  `void` (cleanup after this fix; **not a prerequisite**).
-- Standalone fix; not part of a multi-patch dependency series.
-
-### Step 3.4: Author Context
-**Record:** Maurizio Lombardi — active NVMe contributor (nvme-tcp, nvme-
-pci fixes). Keith Busch committed as NVMe maintainer. No indication this
-is experimental.
+### Step 3.4: Author context
+**Record:** liuxixin contributed the related fdpcidx bounds fix already
+backported to 6.18.y. Keith Busch (NVMe maintainer) committed both
+fixes.
 
 ### Step 3.5: Dependencies
-**Record:** No prerequisites. All touched code exists in 6.18.44. `git
-apply --check --3way` succeeds on this tree. Plain `git apply --check`
-fails on `nvme.h` line offsets only (struct layout drift vs. mainline);
-3-way merge applies cleanly.
+**Record:** Standalone — no series dependencies. Requires FDP code from
+`30b5f20bb2dda`, which is present. `git apply --check` confirms clean
+apply to current tree.
 
 ---
 
 ## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 
-### Step 4.1: Original Discussion
+### Step 4.1: Original discussion
 **Record:**
-- `b4 dig -c 26acdaa357cde`:
-  https://patch.msgid.link/20260608155357.256966-1-mlombard@redhat.com
-- Series: v1 (Jun 5) → v2 (Jun 8) → v3 (Jun 8); committed version
-  matches v3.
-- Lore thread content could not be fetched (Anubis bot protection on
-  lore.kernel.org and patch.msgid.link).
+- **b4 dig URL:** https://patch.msgid.link/e6f7a8b9c0d1e2f3a4b5c6d7e8f9a
+  0b1c2d3e4f.1748841600.git.gliuxen@gmail.com
+- **Series:** v1→v2 (combined parsing fix) → v4 (split: fdpcidx +
+  descriptor validation) → v5 (descriptor validation only)
+- Keith Busch applied v5 to `nvme-7.2`; no NAKs found in thread
 
 ### Step 4.2: Reviewers
-**Record:** `b4 dig -w`: CC'd `kbusch@kernel.org`, `hch@lst.de`, `linux-
-nvme@lists.infradead.org`, `dwagner@suse.de`. Keith Busch committed the
-patch.
+**Record:** CC'd: `linux-nvme@lists.infradead.org`, `kbusch@kernel.org`,
+`axboe@kernel.dk`, `hch@lst.de`, `nj.shetty@samsung.com`, `linux-
+kernel@vger.kernel.org`
 
-### Step 4.3: Bug Report
-**Record:** Stack trace in commit message only. No external
-bugzilla/syzbot link. Reproducible via cdev-add failure during multipath
-namespace bring-up followed by controller removal.
+### Step 4.3: Bug report
+**Record:** No external bug report or syzbot link. v5 cover letter
+documents testing with **fdp-lab**: `dsze==0` and walk-past-end cases
+produce `"FDP invalid config descriptor at index %d"`.
 
-### Step 4.4: Related Patches
-**Record:** `869567bcbe2dc` on master is optional follow-up cleanup, not
-required for correctness.
+### Step 4.4: Related patches
+**Record:** Descriptor validation was originally v4 2/2; split to v5
+after fdpcidx fix (v4 1/2) was applied separately. fdpcidx fix is
+already in 6.18.y; this patch is the remaining half.
 
-### Step 4.5: Stable List History
-**Record:** UNVERIFIED — could not search lore stable archive due to
-fetch blocking. No evidence in this tree that the fix was already
-backported.
+### Step 4.5: Stable list
+**Record:** No `Cc: stable` discussion found in mbox thread.
 
 ---
 
 ## PHASE 5: CODE SEMANTIC ANALYSIS
 
-### Step 5.1: Key Functions
-**Record:** `nvme_mpath_set_live()`, `nvme_add_ns_head_cdev()`,
-`nvme_remove_head()`, `nvme_mpath_remove_disk()`, `nvme_ns_remove()`,
-`nvme_add_ns_cdev()`, `nvme_cdev_add()`, `nvme_cdev_del()`.
+### Step 5.1: Key functions
+**Record:** `nvme_query_fdp_granularity()` (modified); callers via
+`nvme_query_fdp_info()`.
 
 ### Step 5.2: Callers
 **Record:**
-- `nvme_mpath_set_live()` ← `nvme_mpath_add_disk()` ← namespace
-  scan/alloc path (`core.c:4186`)
-- `nvme_remove_head()` ← `nvme_mpath_remove_disk()` ← `nvme_ns_remove()`
-  when last path removed (`core.c:4275-4276`)
-- `nvme_ns_remove()` ← `nvme_remove_namespaces()` ←
-  `nvme_do_delete_ctrl()` (controller delete/hot-unplug)
-- `nvme_add_ns_cdev()` ← namespace alloc when not multipath
-  (`core.c:4183-4184`)
+- `nvme_query_fdp_info()` ← `nvme_update_ns_info_block()` (line 2373)
+- `nvme_update_ns_info()` ← `nvme_alloc_ns()` (line 4163),
+  `nvme_validate_ns()` (line 4300)
+- `nvme_scan_ns()` → `nvme_alloc_ns()` / `nvme_validate_ns()` during
+  namespace scan
 
 ### Step 5.3: Callees
-**Record:** `device_add_disk()`, `dev_set_name()`, `ida_alloc()`,
-`device_initialize()`, `cdev_device_add()`, `cdev_device_del()`,
-`put_device()`, `del_gendisk()`.
+**Record:** `nvme_get_log_lsi()`, `kvmalloc()`, `kvfree()`,
+`le16_to_cpu()`, `le32_to_cpu()`, `le64_to_cpu()`, `dev_warn()`.
 
 ### Step 5.4: Reachability
 **Record:**
-- **Crash path:** Controller removal / namespace teardown — common
-  during driver unload, device hot-unplug, reset, or error recovery.
-- Trigger requires `nvme_add_ns_head_cdev()` or `nvme_add_ns_cdev()`
-  failure (memory pressure, `ida_alloc` exhaustion, `cdev_device_add`
-  failure).
-- Multipath crash path: `CONFIG_NVME_MULTIPATH=y`.
-- Memory-leak fix: all configs using NVMe namespace cdevs.
+- Triggered when `ns->ctrl->ctratt & NVME_CTRL_ATTR_FDPS` and FDP
+  feature enabled (`FDPCFG_FDPE`)
+- Runs during NVMe namespace enumeration (probe/rescan/AEN paths)
+- Device-controlled log data from PCIe NVMe hardware — reachable
+  whenever an FDP-capable controller is attached
+- Not a general syscall path, but attacker with physical PCIe access or
+  VFIO passthrough of a malicious device can supply crafted log data
 
-### Step 5.5: Similar Patterns
-**Record:** Same asymmetry in both multipath head cdev (`multipath.c`)
-and per-namespace cdev (`core.c`). Fix addresses both consistently.
+### Step 5.5: Similar patterns
+**Record:** Related fdpcidx bounds fix (`5e406928404d6`, already in
+tree) addresses a separate off-by-one in the same function. This patch
+completes FDP log parsing hardening.
 
 ---
 
 ## PHASE 6: CROSS-REFERENCE WITH LOCAL TREE (6.18.44)
 
-### Step 6.1: Buggy Code Present?
-**Record:** **YES.** Verified in checkout:
-- `multipath.c:801` — `nvme_add_ns_head_cdev(head)` with ignored return
-- `multipath.c:698` — unconditional `nvme_cdev_del()`
-- `core.c:4184` — `nvme_add_ns_cdev(ns)` with ignored return
-- `core.c:4264` — unconditional `nvme_cdev_del()` for non-multipath
-- `core.c:3876-3877` — `dev_set_name()` before `nvme_cdev_add()` (which
-  does `ida_alloc` first internally, but caller already set name)
+### Step 6.1: Buggy code present?
+**Record:** **Yes.** Current tree at lines 2243–2251 still has the pre-
+fix loop:
 
-Bug introduced with cdev code in 2021; present throughout 6.18.y.
+```2243:2251:drivers/nvme/host/core.c
+        for (i = 0; i < fdp_idx; i++) {
+                log += le16_to_cpu(desc->dsze);
+                desc = log;
+                if (log >= end) {
+                        dev_warn(ctrl->device,
+                                 "FDP invalid config descriptor
+list\n");
+                        ret = 0;
+                        goto out;
+                }
+        }
+```
 
-### Step 6.2: Backport Complications
-**Record:** Minor line-offset drift in `nvme.h` vs. mainline (missing
-`io_requeue_*` counters in 6.18). `git apply --check --3way` applies
-cleanly. Expected difficulty: **clean apply with minor context
-adjustment** if needed.
+FDP support landed in v6.16; present throughout 6.18.y.
 
-### Step 6.3: Fix Already Present?
-**Record:** **NO.** `git merge-base --is-ancestor 26acdaa357cde HEAD`
-returns exit code 1. No grep hits for `NVME_NSHEAD_CDEV_LIVE` or
-`NVME_NS_CDEV_LIVE` in tree.
+### Step 6.2: Backport complications
+**Record:** **Clean apply** — `git apply --check` succeeds with no
+conflicts. No rework needed.
+
+### Step 6.3: Related fixes already present?
+**Record:** `5e406928404d6` (fdpcidx bounds check) is in 6.18.y.
+Descriptor-size validation (`0ef4daa6534a5`) is **not**.
 
 ---
 
 ## PHASE 7: SUBSYSTEM CONTEXT
 
-### Step 7.1: Subsystem Criticality
-**Record:** `drivers/nvme/` — **IMPORTANT** (block storage, widely
-deployed; multipath used in enterprise/high-availability setups).
+### Step 7.1: Subsystem criticality
+**Record:** `drivers/nvme/host/` — **IMPORTANT** (block storage, widely
+deployed; niche FDP subset)
 
 ### Step 7.2: Activity
-**Record:** Actively maintained in 6.18.y (recent multipath fixes in
-2025–2026). Mature subsystem with ongoing lifecycle bug fixes.
+**Record:** NVMe/FDP code is actively maintained; FDP registration added
+in 6.16, with follow-up fixes in 2026.
 
 ---
 
-## PHASE 8: IMPACT AND RISK
+## PHASE 8: IMPACT AND RISK ASSESSMENT
 
-### Step 8.1: Who Is Affected
-**Record:**
-- **Crash:** Users with `CONFIG_NVME_MULTIPATH` who hit cdev creation
-  failure during namespace bring-up, then remove controller/namespace.
-- **Leak:** Any NVMe user where `dev_set_name` succeeds but subsequent
-  `ida_alloc` or `cdev_device_add` fails.
-- Population: storage/multipath deployments (RHEL, SLES, cloud block
-  storage with multipath).
+### Step 8.1: Who is affected
+**Record:** Users of NVMe controllers reporting `NVME_CTRL_ATTR_FDPS`
+with FDP enabled. Growing but still limited hardware base (datacenter
+SSDs with Flexible Data Placement). All such users on 6.18.y without
+this fix.
 
-### Step 8.2: Trigger Conditions
+### Step 8.2: Trigger conditions
 **Record:**
-- `ida_alloc()` failure under memory pressure (realistic).
-- `cdev_device_add()` failure (less common but possible).
-- Followed by controller delete / namespace removal (normal admin or
-  error-recovery path).
-- Unprivileged direct trigger: **no** (requires device admin/removal),
-  but failure during init can be triggered by kernel memory pressure.
+- Controller advertises FDPS; namespace scan queries FDP configuration
+  log
+- Malformed firmware response or malicious device provides `dsze == 0`
+  or oversized `dsze`
+- Triggered at device attach/rescan — not everyday, but automatic on
+  enumeration
+- Physical attacker or compromised passthrough device can trigger
 
-### Step 8.3: Failure Severity
+### Step 8.3: Failure mode severity
 **Record:**
-- **Crash:** NULL pointer dereference → kernel oops/panic during
-  teardown — **CRITICAL**
-- **Leak:** kmemleak-reported kobject name leak on error path — **HIGH**
-  (contributes to memory pressure)
+- **Out-of-bounds read** of kernel heap buffer → potential oops/crash or
+  information leak — **HIGH**
+- **Incorrect parsing** with zero `dsze` → wrong granularity registered
+  — **MEDIUM**
+- Not a typical soft-lockup (loop bounded by `u8 fdp_idx`, max 255),
+  despite "unbounded iteration" wording referring to buffer traversal
+- **Overall severity: HIGH** (memory safety on device-driven kernel
+  parsing)
 
-### Step 8.4: Risk-Benefit
+### Step 8.4: Risk-benefit
 **Record:**
-- **Benefit:** HIGH — prevents kernel panic on realistic error+teardown
-  path; fixes resource leak.
-- **Risk:** LOW — ~57 lines, guarded teardown only, no API changes,
-  applies cleanly with 3-way merge.
-- **Ratio:** Strongly favors backport.
+- **Benefit:** HIGH for FDP users; prevents OOB reads from device-
+  controlled data
+- **Risk:** VERY LOW — 6-line validation in error path, reviewed by
+  maintainers, tested with fdp-lab
+- **Ratio:** Strong benefit, minimal risk
 
 ---
 
 ## PHASE 9: FINAL SYNTHESIS
 
-### Step 9.1: Evidence Summary
+### Step 9.1: Evidence summary
 
 **FOR backport:**
-- Fixes verified kernel panic (NULL deref) with stack trace
-- Fixes memory leak on cdev-add error path
-- Small, contained, obviously correct
-- Buggy code confirmed present in 6.18.44
-- Patch applies cleanly (3-way) to this tree
-- NVMe maintainer (Keith Busch) committed
-- Longstanding latent bug in production cdev/multipath code
+- Real memory-safety bug in kernel parsing of device-provided data
+- Buggy code present in 6.18.44; fix not yet applied
+- Small, surgical, maintainer-reviewed fix
+- Clean apply to current tree
+- Companion fdpcidx fix already backported — this is the natural follow-
+  up
+- fdp-lab test coverage documented
 
 **AGAINST backport:**
-- Requires `CONFIG_NVME_MULTIPATH` for the primary crash scenario (but
-  leak fix is broader)
-- Trigger needs cdev-add failure (not everyday, but realistic under
-  memory pressure)
-- No explicit stable nomination found (UNVERIFIED due to lore fetch
-  failure)
+- Only affects FDP-capable NVMe hardware (limited audience)
+- No syzbot/CVE report
+- No explicit stable nomination on mailing list
 
-**Unresolved:** Full lore review thread content; whether distros already
-carry an equivalent private fix.
+**Unresolved:** None blocking decision.
 
-### Step 9.2: Stable Rules Checklist
-| Criterion | Result |
-|-----------|--------|
-| 1. Obviously correct and tested? | **PASS** — logic is clear; v1→v3
-review series; maintainer commit |
-| 2. Fixes real bug affecting users? | **PASS** — panic + leak on NVMe
-teardown |
-| 3. Important issue? | **PASS** — CRITICAL crash, HIGH leak |
-| 4. Small and contained? | **PASS** — 3 files, ~57 lines |
-| 5. No new features/APIs? | **PASS** — internal flags + error-path fix
-only |
-| 6. Can apply to local tree? | **PASS** — 3-way apply clean |
+### Step 9.2: Stable rules checklist
+1. Obviously correct and tested? **PASS** — reviewed by Hellwig/Shetty;
+   fdp-lab tested
+2. Fixes a real bug? **PASS** — OOB read / invalid descriptor walk on
+   malformed FDP log
+3. Important issue? **PASS** — memory safety, potential crash/info leak
+   from device data
+4. Small and contained? **PASS** — ~6 lines, one function
+5. No new features/APIs? **PASS** — validation only
+6. Can apply to local tree? **PASS** — clean apply verified
 
-### Step 9.3: Exception Categories
-**Record:** None (standard bug fix, not device ID/quirk/DT/docs).
+### Step 9.3: Exception categories
+**Record:** None (not device ID, quirk, DT, build, or docs). Standard
+bug-fix category.
 
-### Step 9.4: Decision Rationale
-This commit fixes a real teardown asymmetry in NVMe multipath cdev
-handling that causes a **kernel panic** when cdev creation fails but the
-namespace head disk is live, plus a **memory leak** in the cdev-add
-error path. The buggy code is present in Linux 6.18.44, the fix is small
-and surgical, and it meets all stable-kernel criteria. The follow-up
-commit making cdev functions return `void` is optional cleanup and not
-required.
+### Step 9.4: Decision rationale
+For **Linux 6.18.y** specifically: FDP support and the buggy descriptor-
+walk code are both present; the fix is absent; the patch applies
+cleanly; and it closes a real memory-safety hole in device log parsing
+during namespace enumeration. The limited hardware scope lowers urgency
+slightly, but stable rules favor small, correct fixes for crash/OOB-read
+bugs in production drivers — especially when a related fix from the same
+series is already in the tree.
 
 ---
 
 ## Verification
 
-- **[Phase 1]** Parsed subject, tags, body; no Fixes/Reported-
-  by/Cc:stable tags
-- **[Phase 1]** Identified explicit BUG stack trace in commit message
-- **[Phase 2]** Diff: 3 files, ~57 lines; flag bits + guarded teardown +
-  `nvme_cdev_add()` refactor
-- **[Phase 2]** Read current `multipath.c:689-703`,
-  `multipath.c:794-801`, `core.c:3829-3883`, `core.c:4183-4184`,
-  `core.c:4263-4264`
-- **[Phase 3]** `git describe HEAD`: v6.18.44
-- **[Phase 3]** `git blame`: cdev code from `2637baed7801` (2021);
-  `nvme_remove_head` from `62188639ec160` (2025)
-- **[Phase 3]** `git log`: `9e221d8cf90b8` renamed
-  `nvme_mpath_shutdown_disk` → `nvme_mpath_remove_disk`
-- **[Phase 3]** `git merge-base --is-ancestor 26acdaa357cde HEAD`: exit
-  1 (fix NOT in tree)
-- **[Phase 3]** Related commit `3596a06583a16` (2021 put_device leak
-  fix) is separate/prior issue
-- **[Phase 3]** Follow-up `869567bcbe2dc` on master is optional, not
-  prerequisite
-- **[Phase 4]** `b4 dig -c 26acdaa357cde`: lore URL found
-- **[Phase 4]** `b4 dig -a`: v1/v2/v3 series; v3 committed
-- **[Phase 4]** `b4 dig -w`: NVMe maintainers CC'd
-- **[Phase 4]** UNVERIFIED: lore thread content (Anubis blocked fetch)
-- **[Phase 5]** Traced call chain: `nvme_mpath_set_live` → ignored
-  failure → `nvme_ns_remove` → `nvme_mpath_remove_disk` →
-  `nvme_remove_head` → `nvme_cdev_del`
-- **[Phase 6]** Buggy code confirmed present in 6.18.44 checkout
-- **[Phase 6]** `git apply --check --3way` on `26acdaa357cde`: applies
-  cleanly
-- **[Phase 6]** No `NVME_NSHEAD_CDEV_LIVE` / `NVME_NS_CDEV_LIVE` in
-  current tree
-- **[Phase 8]** Failure mode: NULL deref panic — CRITICAL; memory leak —
-  HIGH
+- **[Phase 1]** Parsed commit message and tags from `git show
+  0ef4daa6534a5`
+- **[Phase 2]** Diff analysis: 6 lines changed in
+  `nvme_query_fdp_granularity()` loop
+- **[Phase 3]** `git blame -L 2240,2252`: buggy code from
+  `30b5f20bb2dda` (2025-05-06)
+- **[Phase 3]** `git merge-base --is-ancestor 30b5f20bb2dda HEAD`: FDP
+  code in 6.18.y
+- **[Phase 3]** `git merge-base --is-ancestor 0ef4daa6534a5 HEAD`: fix
+  **not** in tree
+- **[Phase 3]** `git tag -l 'v6.16*' --contains 30b5f20bb2dda`: FDP
+  introduced in v6.16
+- **[Phase 3]** `git apply --check`: patch applies cleanly
+- **[Phase 3]** `5e406928404d6` already in 6.18.y (related fdpcidx fix)
+- **[Phase 4]** `b4 dig -c 0ef4daa6534a5`: lore URL found
+- **[Phase 4]** `b4 dig -a`: v1→v5 series evolution documented
+- **[Phase 4]** `b4 dig -w`: maintainers CC'd (Busch, Axboe, Hellwig,
+  Shetty)
+- **[Phase 4]** `b4 dig -m /tmp/fdp_validate.mbox`: v5 cover letter with
+  fdp-lab test plan
+- **[Phase 4]** No stable-list nomination in mbox
+- **[Phase 5]** `grep nvme_query_fdp_info`: call chain through
+  `nvme_update_ns_info_block` → `nvme_scan_ns`
+- **[Phase 5]** Read `struct nvme_fdp_config_desc` in
+  `include/linux/nvme.h` (lines 705–717)
+- **[Phase 6]** `git describe HEAD` / `make kernelversion`: **6.18.44**
+- **[Phase 6]** Read current `core.c` lines 2243–2251: pre-fix code
+  confirmed
+- **[Phase 6]** `git merge-base --is-ancestor 30b5f20bb2dda
+  stable/linux-6.12.y`: FDP **not** in 6.12.y (noted; verdict is for
+  6.18.y only)
+- **[Phase 8]** Failure mode: OOB read from device-controlled FDP log →
+  HIGH severity
 
 **YES**
 
- drivers/nvme/host/core.c      | 33 ++++++++++++++++++++++++---------
- drivers/nvme/host/multipath.c | 19 +++++++++++++------
- drivers/nvme/host/nvme.h      |  5 ++++-
- 3 files changed, 41 insertions(+), 16 deletions(-)
+ drivers/nvme/host/core.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 5ea331e933c55..de2f47d7ffd3d 100644
+index 43cbbcd3796b1..5ea331e933c55 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -3838,7 +3838,8 @@ void nvme_cdev_del(struct cdev *cdev, struct device *cdev_device)
- 	put_device(cdev_device);
- }
- 
--int nvme_cdev_add(struct cdev *cdev, struct device *cdev_device,
-+int nvme_cdev_add(const char *name, struct cdev *cdev,
-+		struct device *cdev_device,
- 		const struct file_operations *fops, struct module *owner)
- {
- 	int minor, ret;
-@@ -3846,6 +3847,12 @@ int nvme_cdev_add(struct cdev *cdev, struct device *cdev_device,
- 	minor = ida_alloc(&nvme_ns_chr_minor_ida, GFP_KERNEL);
- 	if (minor < 0)
- 		return minor;
+@@ -2241,14 +2241,16 @@ static int nvme_query_fdp_granularity(struct nvme_ctrl *ctrl,
+ 	desc = log;
+ 	end = log + size - sizeof(*h);
+ 	for (i = 0; i < fdp_idx; i++) {
+-		log += le16_to_cpu(desc->dsze);
+-		desc = log;
+-		if (log >= end) {
++		u16 dsze = le16_to_cpu(desc->dsze);
 +
-+	ret = dev_set_name(cdev_device, name);
-+	if (ret) {
-+		ida_free(&nvme_ns_chr_minor_ida, minor);
-+		return ret;
-+	}
- 	cdev_device->devt = MKDEV(MAJOR(nvme_ns_chr_devt), minor);
- 	cdev_device->class = &nvme_ns_chr_class;
- 	cdev_device->release = nvme_cdev_rel;
-@@ -3883,15 +3890,21 @@ static const struct file_operations nvme_ns_chr_fops = {
- static int nvme_add_ns_cdev(struct nvme_ns *ns)
- {
- 	int ret;
-+	char name[32];
- 
- 	ns->cdev_device.parent = ns->ctrl->device;
--	ret = dev_set_name(&ns->cdev_device, "ng%dn%d",
--			   ns->ctrl->instance, ns->head->instance);
--	if (ret)
--		return ret;
-+	snprintf(name, sizeof(name), "ng%dn%d", ns->ctrl->instance,
-+		 ns->head->instance);
- 
--	return nvme_cdev_add(&ns->cdev, &ns->cdev_device, &nvme_ns_chr_fops,
--			     ns->ctrl->ops->module);
-+	ret = nvme_cdev_add(name, &ns->cdev, &ns->cdev_device,
-+			    &nvme_ns_chr_fops, ns->ctrl->ops->module);
-+	if (ret) {
-+		dev_err(ns->ctrl->device, "Unable to create the %s device\n",
-+			name);
-+	} else {
-+		set_bit(NVME_NS_CDEV_LIVE, &ns->flags);
-+	}
-+	return ret;
- }
- 
- static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
-@@ -4272,8 +4285,10 @@ static void nvme_ns_remove(struct nvme_ns *ns)
- 	/* guarantee not available in head->list */
- 	synchronize_srcu(&ns->head->srcu);
- 
--	if (!nvme_ns_head_multipath(ns->head))
--		nvme_cdev_del(&ns->cdev, &ns->cdev_device);
-+	if (!nvme_ns_head_multipath(ns->head)) {
-+		if (test_and_clear_bit(NVME_NS_CDEV_LIVE, &ns->flags))
-+			nvme_cdev_del(&ns->cdev, &ns->cdev_device);
-+	}
- 
- 	nvme_mpath_remove_sysfs_link(ns);
- 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 616d1ce6b8e5c..d61c4e9543040 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -643,14 +643,20 @@ static const struct file_operations nvme_ns_head_chr_fops = {
- static int nvme_add_ns_head_cdev(struct nvme_ns_head *head)
- {
- 	int ret;
-+	char name[32];
- 
- 	head->cdev_device.parent = &head->subsys->dev;
--	ret = dev_set_name(&head->cdev_device, "ng%dn%d",
--			   head->subsys->instance, head->instance);
--	if (ret)
--		return ret;
--	ret = nvme_cdev_add(&head->cdev, &head->cdev_device,
-+	snprintf(name, sizeof(name), "ng%dn%d", head->subsys->instance,
-+		 head->instance);
-+
-+	ret = nvme_cdev_add(name, &head->cdev, &head->cdev_device,
- 			    &nvme_ns_head_chr_fops, THIS_MODULE);
-+	if (ret) {
-+		dev_err(disk_to_dev(head->disk),
-+			"Unable to create the %s device\n", name);
-+	} else {
-+		set_bit(NVME_NSHEAD_CDEV_LIVE, &head->flags);
-+	}
- 	return ret;
- }
- 
-@@ -695,7 +701,8 @@ static void nvme_remove_head(struct nvme_ns_head *head)
- 		 */
- 		kblockd_schedule_work(&head->requeue_work);
- 
--		nvme_cdev_del(&head->cdev, &head->cdev_device);
-+		if (test_and_clear_bit(NVME_NSHEAD_CDEV_LIVE, &head->flags))
-+			nvme_cdev_del(&head->cdev, &head->cdev_device);
- 		synchronize_srcu(&head->srcu);
- 		del_gendisk(head->disk);
++		if (!dsze || log + dsze > end) {
+ 			dev_warn(ctrl->device,
+-				 "FDP invalid config descriptor list\n");
++				 "FDP invalid config descriptor at index %d\n", i);
+ 			ret = 0;
+ 			goto out;
+ 		}
++		log += dsze;
++		desc = log;
  	}
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 102fae6a231c5..2708003e5b40f 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -510,6 +510,7 @@ struct nvme_ns_head {
- 	unsigned int		delayed_removal_secs;
- #define NVME_NSHEAD_DISK_LIVE		0
- #define NVME_NSHEAD_QUEUE_IF_NO_PATH	1
-+#define NVME_NSHEAD_CDEV_LIVE		2
- 	struct nvme_ns __rcu	*current_path[];
- #endif
- };
-@@ -545,6 +546,7 @@ struct nvme_ns {
- #define NVME_NS_FORCE_RO		3
- #define NVME_NS_READY			4
- #define NVME_NS_SYSFS_ATTR_LINK	5
-+#define NVME_NS_CDEV_LIVE		6
  
- 	struct cdev		cdev;
- 	struct device		cdev_device;
-@@ -916,7 +918,8 @@ int nvme_get_log(struct nvme_ctrl *ctrl, u32 nsid, u8 log_page, u8 lsp, u8 csi,
- 		void *log, size_t size, u64 offset);
- bool nvme_tryget_ns_head(struct nvme_ns_head *head);
- void nvme_put_ns_head(struct nvme_ns_head *head);
--int nvme_cdev_add(struct cdev *cdev, struct device *cdev_device,
-+int nvme_cdev_add(const char *name, struct cdev *cdev,
-+		struct device *cdev_device,
- 		const struct file_operations *fops, struct module *owner);
- void nvme_cdev_del(struct cdev *cdev, struct device *cdev_device);
- int nvme_ioctl(struct block_device *bdev, blk_mode_t mode,
+ 	if (le32_to_cpu(desc->nrg) > 1) {
 -- 
 2.53.0
 
