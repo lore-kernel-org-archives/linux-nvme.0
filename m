@@ -4,82 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 204BCC61DE2
-	for <linux-nvme@archiver.kernel.org>; Mon, 31 Aug 2026 07:07:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A4C5DC624A5
+	for <linux-nvme@archiver.kernel.org>; Mon, 31 Aug 2026 07:11:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=bVN6+vAPEntPcr/oEsNmeIHM3CBsQ+uoFdKHsFRDluE=; b=lzqeFuQk2+kyX2NOrk6Geijzgu
-	TLEV+YMXFc2aF8Jjhs/egptz8CiBthE2Ym3TMsUah+g5P4UQlw6A/GhhKwRiELdBo03++nZS5cQhM
-	+w4HnoBo31pI69Sx1ImRKgl22tLKVXiMcvCfc6NpZJn9AIh8keFgLroKynB9Bgf/l6Po0I9ORDHfp
-	AXrXPCO2lKkZXRYGuoBojyjHL9qb+KBLLdqUuussFp7p8x0LXj5WA30jge9sbPuVwwnXFhdKJROXA
-	H5dmEFFD1zDNzJsIHcYVla5RJNX1muoWxYHWdvF/GGjOdpc7dnHLEEfOwe7N3kXs5HAYot3MHxfvr
-	FHVg2zqw==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=m2C6iY+uu0tPZzhXdnPEQUIgtzuD2N/br4GdpKmMyFg=; b=NqZ8csLPDRoe9/mROYk3IqD9W3
+	tEM0eC23Gj0+Dejz3A5aCcJDaV8SuMoGUBBKf8yCK+W0Cj1cvFFfKF++qoGiTp1u7cFyPnZj7LKKH
+	QAr3FsYb0HSFu0Z9iOp/2fVi0hiw/dScDXnidZgYJphn/jpOhXi7U8vdgI7zLFKk3/CYpBpCEE6qw
+	x3xAC6gBJM66M1wPNS2yk4C7W3rrtHDprzhd5DpLxMZkrRhF4Tys9O4VMUt1ZZ1p7VfupStH57WyC
+	u7fHoC1hdhanC4oOaxZjIeWhngAVd79uFgHeJFwepa3FuKwilAqsVJ6Y7Lfl4wbiOqJ2A3mEKqlj5
+	czgk6F1A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x0w6x-00000008gNY-1azw;
-	Mon, 31 Aug 2026 07:07:19 +0000
-Received: from smtpbgsg2.qq.com ([54.254.200.128])
+	id 1x0wBP-00000008gwN-1Nvd;
+	Mon, 31 Aug 2026 07:11:55 +0000
+Received: from smtpbg150.qq.com ([18.132.163.193])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x0w6u-00000008gMB-2uoH
+	id 1x0wBM-00000008guk-1g3H
 	for linux-nvme@lists.infradead.org;
-	Mon, 31 Aug 2026 07:07:18 +0000
+	Mon, 31 Aug 2026 07:11:54 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1788159988;
-	bh=bVN6+vAPEntPcr/oEsNmeIHM3CBsQ+uoFdKHsFRDluE=;
+	s=onoh2408; t=1788160272;
+	bh=m2C6iY+uu0tPZzhXdnPEQUIgtzuD2N/br4GdpKmMyFg=;
 	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=gBIsAIJsRzcWlcR+bNVe406HJ9U5Qm1xMcrznfZ5w0KWX06daLtV90PZlyCfYKgbo
-	 itgdSutcrppor/EvPBeisg1cyzIfYMXntdLP8AJPknhs81zBOQzwge58XusISekNd2
-	 tkvEQ1z9Ld5uawBFH4hoPVOzLdIFkL88fHro7Tsc=
-X-QQ-mid: zesmtpgz5t1788159971t0d1b109f
-X-QQ-Originating-IP: XkutmRoJ6ENtaICfmLISyhILV8ElYC4xMS9UAx5bXKk=
+	b=VDOp5hm4fTt5VNkfR0Vq6QJkyPJxA3UYxWKwFV+DhxLiDvOVn83mzHm9DNybLK9GY
+	 LNCzsDYmO4TF+QQjiLjiF2QUtoTG6b83c3D5wiKmoBmcHuDDKDSK2IlfWHlexTdBHh
+	 QDYPIPGWp8VM+DfUQTZkBAIHyeQtGuH5S27Njly4=
+X-QQ-mid: esmtpsz16t1788160254t808e05e5
+X-QQ-Originating-IP: 2ePWxfxItYJfnyvk1iKRgQ8bRqgDbU+9Hh256R00M6A=
 Received: from PEN202512010004 ( [113.57.152.160])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Mon, 31 Aug 2026 15:06:09 +0800 (CST)
+	id ; Mon, 31 Aug 2026 15:10:52 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 8175077080020183118
+X-BIZMAIL-ID: 15215064244287525615
 EX-QQ-RecipientCnt: 7
 From: raoxu <raoxu@uniontech.com>
-To: kbusch@kernel.org
+To: raoxu@uniontech.com
 Cc: axboe@kernel.dk,
 	hch@lst.de,
-	sagi@grimberg.me,
-	linux-nvme@lists.infradead.org,
+	kbusch@kernel.org,
 	linux-kernel@vger.kernel.org,
-	raoxu@uniontech.com
-Subject: [PATCH nvme-7.3 v3 0/4] nvme-fabrics: localize string option parsing
-Date: Mon, 31 Aug 2026 15:05:56 +0800
-Message-ID: <B1A2864319EA3B6C+20260831070557.631487-1-raoxu@uniontech.com>
+	linux-nvme@lists.infradead.org,
+	sagi@grimberg.me
+Subject: [PATCH nvme-7.3 v3 1/4] nvme-fabrics: separate option tokenizer pointer
+Date: Mon, 31 Aug 2026 15:10:50 +0800
+Message-ID: <67C2BD21B4A592D4+20260831071050.637726-1-raoxu@uniontech.com>
 X-Mailer: git-send-email 2.50.1
+In-Reply-To: <B1A2864319EA3B6C+20260831070557.631487-1-raoxu@uniontech.com>
+References: <B1A2864319EA3B6C+20260831070557.631487-1-raoxu@uniontech.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: Ma+A2HZKKIKo5WBb2lDidWRimF1cdzMO7A1IVG+udjj5slPpPg1hjask
-	wEmNRnKI+XgFlPNphFhn0SymH2fXONowfadbwUPd1cbT1VlGAMfHfnmMmNwqTiSVlcNjagO
-	BjoA1hPp2lksnV4ibJ1LQzGKKPgwpVaxNECBMWxiNbVzU0drEvn+yZX6Bip2u41t68imXuY
-	rSzB7tA10aurcxi8V8mmQIac0ROEwpEhmIi3MU5qQ7e8DGtEOcKCv+sVJcoD7w1YPS28M7p
-	A1Dc5LB4ov57JhJ0JEU38BQ+OZGMh4wEEJO35bSE3d2FfHfOo1A2D122iyRUvTRwHjQ4WZ0
-	7LjRS11zAGgMR+q02ZWoBOySkzdwdsjAs9/dov2eRImVJNJF01+b+OYtq6Id30r3FGAeYir
-	O6N3btDt6THDAsmaDW8rLVGUAkXm+k/QIcpJlKaPv6A32ETleaRCNszd7KvPfAPsgIeCJTj
-	aCxc87SYar/bzs1AKZ0hUbcKye40j2Q6mdpFmt5jCH2xCuf525iDq5ldNUKpTtifJPUWHWn
-	bFja23tNzyaFe9QaOFZw/+k5QEpU3LLTJltyDQk3DnXBFx51cjxTfezOcZPwXg9cZbHS+J/
-	TvmHV1Ex1jNSanBUoyb7Ih9SfS/xPS+GGWTa6V4igKSqSAm6ujz6+UVxPIdyJM0zM7A+1TP
-	4P2H2avSGLyN4WmxAvC1pIVim2EW5NWuqaxEg2Z5X/CdZwLHO3OAh/DpyNOFDdHKwadKyyt
-	xbNGgjpa24vFffH43nbF0eLV1Wf2HMThApJYEt+Cdh259H9sHsZ+pRXPNt/gwC1/gGIJtio
-	39HDzYClMUyxs1t9Cv7jZ3p73jKQxtNLyyKMDrceoZZswyRZxsZfUPkIUK9l/VnEoFkZiMQ
-	RqHwcK73Gy0/1cfNlgcPYs3L4Ybd94XF7COokTE8IMmVxnTDudz0tQfViZp0GhZpuUCU71k
-	94OM8I2GcQxGlY6QsJ41LxDjvECQCvzmCXsDAu4IirmfXMExoC5rCKQaTKqyRL4faFunc6S
-	VHkKPnpF3sVAY3Cs89PSC20JYsvBKDrU6qQDbJ3w==
-X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
+Feedback-ID: esmtpsz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
+X-QQ-XMAILINFO: MD5lytsRYqTqSwcRsMIAS+4i85X8qyoUwhZwQlwXC/mAarma/44KGNXI
+	ZCYlpezMUTaDUJYXyn0cjl+v3uvyEpBBNjB6Ih+xsDG7z0dh2WXRWioTeiUktTRWlq04b6w
+	OYt2fr6USt237UMq5JUjmRZ5tkCwD7PQW0vi0gXaPm5Lt3XLvufA1WCiheYys4wLJztvmAn
+	P2ykhtlAwcJZinkGWf6Xtp8WBD6cRNvhsMs7fYTCFvctZPobF7j1pRmTIFYta6DAzmYmBN9
+	trqqcMwIe2RZ3JDT8mG7PcQsMh/Dtx9d8E9gY8+ZhTHUrQFjP9O59+ggfSuuXNt0wwAQTYZ
+	1kTR7iZZonSi5qad8kgMgJMqUMkbuqXEA2V65MqByJsS/U5IEMWUAzIvY6dQWrv8ZHhUjgo
+	o3GJNzHaqBzu+ibYiAgS1e7bemWMFJfdPV0AVz1b6jzU4pE1WdacUchOR5AJSCj6tPZtz2P
+	rldkFGSsvDpP/1s4ktdDPBkvgBGXdxg44tQ8a5WTrHDHlZ7+vW0/gHhLVr5PaNp9EOa80ts
+	sq5WEuI648LbpsZOWfRbDnFJkSj6wXHo8Cv5bznULnHWBSurv8PifHfIXTjEPuCNYrl/dWJ
+	LudEacz0tLdzwpHWm7BmbO1u8Rz/juKginypKY90vxInuoQpYvYEIAJDGwFb8Dr6WwNGOvn
+	vcgpqiWklVPr8uRm/yXk93IKTa9zUO1AvrRjrTLkn/3krhO1tiTlyMOAh+GPIbJiVZ7eEM2
+	EO7JtgAqxzNgj1bqoYc5fBB1PZ0Fyw2KwMtRqc555jgt3rGB9KnFLkSzO5ObS1oiBqlDObL
+	rvgqDkWTc3Z3HXhwRW4wnvHEiQsO1XvUMdv7VdkGcRXOEz3I+p4C7Nu+N7CCFikLEHvACU6
+	F8MneK9JYo2y+KiKTxMkCT2GMt1Gu3V0aQBmtaA8czByqzgbX8yOXV6iKSmqpWXOYikAWuO
+	EWvd8+wPZyEdp+/Fhu6FdauoOTtNIHOR9kQztY8MBCrs9Awkt+dbHyo59gc/7AgqKBhlwQI
+	u5B8/B+wMAhloWzhHTKrr7/ihjQQdpvoXt8SHQWcqf2Lw7PKyTI4DiXTQPfVrGPh+1BFkIf
+	sjlwg+kKv6w
+X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
 X-QQ-RECHKSPAM: 0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260831_000717_127362_AAD7FA2E 
-X-CRM114-Status: GOOD (  10.18  )
+X-CRM114-CacheID: sfid-20260831_001152_909357_E287132A 
+X-CRM114-Status: GOOD (  14.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,64 +99,67 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Xu Rao <raoxu@uniontech.com>
 
-nvmf_parse_options() currently uses the same temporary pointer for option
-tokenization and for strings returned by match_strdup().  It also contains
-several copies of the same string replacement and DH-CHAP parsing logic.
+nvmf_parse_options() currently uses p both for the option returned by
+strsep() and for strings allocated by match_strdup().  The former points
+into the temporary options buffer while the latter owns a separate
+allocation, so the same variable represents two different lifetimes.
 
-This series keeps the changes deliberately small.  It separates the option
-tokenizer pointer from allocated strings, factors only parsing operations
-that are actually shared, and otherwise leaves option-specific code in
-place.
+Introduce option for the current string token passed to match_token().
+Leave p for temporary strings returned by match_strdup(), giving option
+tokenization and allocated string storage distinct variables without
+changing the parsing logic.
 
-The series is split as follows:
+The name option is intentional: options remains the backing buffer for the
+full request, option is one comma/newline-delimited entry, and token names
+the integer result returned by match_token().
 
-  1/4 separates the option tokenizer pointer from the temporary pointer
-      used for match_strdup() results.
+This is a mechanical preparation with no functional change.
 
-  2/4 adds nvmf_parse_string_option() for the five direct owned-string
-      replacements: transport, traddr, trsvcid, host_traddr and host_iface.
+Suggested-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Signed-off-by: Xu Rao <raoxu@uniontech.com>
+---
+ drivers/nvme/host/fabrics.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-  3/4 reuses that helper for the subsystem NQN replacement only.  The
-      existing NQN length check and discovery-NQN update are left
-      unchanged, and hostnqn and hostid are not modified.
-
-  4/4 adds nvmf_parse_dhchap_secret() for dhchap_secret and
-      dhchap_ctrl_secret.  It reuses nvmf_parse_string_option() for the
-      common replacement step and keeps only DHHC-1 validation and
-      sensitive rejection cleanup in the DH-CHAP helper.
-
-This series is based on nvme-7.3 after the accepted
-"nvme-fabrics: fix DHCHAP secret leak on parse failure" change.
-
-Changes in v3:
-  - Rework 4/4 in response to Sagi's feedback.  Reuse
-    nvmf_parse_string_option() for the common allocation and ownership
-    transfer in nvmf_parse_dhchap_secret().
-  - On DH-CHAP validation failure, free the installed value with
-    kfree_sensitive() and clear the pointer before returning an error so
-    normal option cleanup can run safely.
-  - Keep Sagi's Reviewed-by tags on 1/4, 2/4 and 3/4.  Do not carry the
-    old 4/4 Reviewed-by because the helper implementation changed.
-
-Changes in v2:
-  - Rework 3/4 in response to Sagi's feedback.  Drop the dedicated
-    identity helpers and limit the patch to reusing
-    nvmf_parse_string_option() for the subsystem NQN replacement.
-  - Leave hostnqn, hostid, nqnlen and the discovery-NQN code unchanged.
-  - Keep p for the remaining option-specific match_strdup() users.
-  - Keep the reviewed DH-CHAP helper logic unchanged; p remains declared
-    because hostnqn and hostid still use it.
-  - Add Sagi's Reviewed-by tags to 2/4 and 4/4.
-
-Xu Rao (4):
-  nvme-fabrics: separate option tokenizer pointer
-  nvme-fabrics: add helper for owned string options
-  nvme-fabrics: reuse string helper for subsystem NQN
-  nvme-fabrics: add helper for DH-CHAP secret options
-
- drivers/nvme/host/fabrics.c | 118 ++++++++++++++++--------------------
- 1 file changed, 53 insertions(+), 65 deletions(-)
-
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 59f823dfbbcc..1ec6da49167d 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -716,7 +716,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 		const char *buf)
+ {
+ 	substring_t args[MAX_OPT_ARGS];
+-	char *options, *o, *p;
++	char *options, *o, *option, *p;
+ 	int token, ret = 0;
+ 	size_t nqnlen  = 0;
+ 	int ctrl_loss_tmo = NVMF_DEF_CTRL_LOSS_TMO, key_id;
+@@ -747,11 +747,11 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 	uuid_copy(&hostid, &nvmf_default_host->id);
+ 	strscpy(hostnqn, nvmf_default_host->nqn, NVMF_NQN_SIZE);
+ 
+-	while ((p = strsep(&o, ",\n")) != NULL) {
+-		if (!*p)
++	while ((option = strsep(&o, ",\n")) != NULL) {
++		if (!*option)
+ 			continue;
+ 
+-		token = match_token(p, opt_tokens, args);
++		token = match_token(option, opt_tokens, args);
+ 		opts->mask |= token;
+ 		switch (token) {
+ 		case NVMF_OPT_TRANSPORT:
+@@ -1068,7 +1068,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 			break;
+ 		default:
+ 			pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
+-				p);
++				option);
+ 			ret = -EINVAL;
+ 			goto out;
+ 		}
 -- 
 2.50.1
+
 
