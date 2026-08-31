@@ -4,73 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 89CE0C624A4
-	for <linux-nvme@archiver.kernel.org>; Mon, 31 Aug 2026 13:17:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 82377C624A4
+	for <linux-nvme@archiver.kernel.org>; Mon, 31 Aug 2026 13:38:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3/beUJx10Bu3Pcl/YQ29DbawiaU1Aszo14MSQ9bHoho=; b=S7AfpnPo2WsV5CRbdq2C4d19j/
-	rAKV4iz9O+3TI2k4jePXAgFN43ON0wsSwaNleg8OSdhr24mr/lwACNbzXG6gsOmqHF+zPi7dhMBf7
-	cTrvdmVVpASf5D+W2O5AeHWCYBZUI0DbtIY5USXna6FFYo4Q3ybz5MvzaIcVYBzITz65jBG2j464q
-	sn7rWpdpJWVJaf27uhDEPZ8Tm7CyWAwAxo3a/5hviLExrMviDetysSafLmFxcycBeS4SH/EoZEQdf
-	kROiCHyI+bfcXIG+Knd1VlqRvGP3iH7mTHWel4I+L8/4rydSIyvbf4TFsbKL2t+y8fynh8pWDQ/J9
-	bqHXUFqg==;
+	bh=BEa31oEK8chBTBa5hgT2yutVrQ4YqkstTuvOGNMi48Y=; b=4x8OvLHELoYjxtwPCpB78smjCo
+	ZE6cMB27qIxgy8qqe2MIlGsZW8PdmBtLjFdh2nMBBIgv2Nrr2FjZvWDOpAbUY9I8OnNajzdvKn5cB
+	1n/Rq3/UownkVAXjPmvbquTG+2oaKcLFPI+tGSOIbLFJ/e2mf4ZuG+7HunKB2q4gQwtcH39L95cx6
+	UphqGMRNjzNtsg5Qr6E0wRpX54YKF12S6LGFPAN/wivkmZKq5mmvwzQsKu9zBwjYJUsHEMWabn7We
+	GMmHPycpO373Xnl6Z01ap/8xormDY0+i/LY+CgpveRCDKCjhLp/OOXImfoQh8Wpzanvg3GnjjXhE5
+	zEMcKqeQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x11t0-00000009NSA-2LbZ;
-	Mon, 31 Aug 2026 13:17:18 +0000
-Received: from st-2002l-snip6-3.eps.apple.com ([2a01:b747:3001:205::7b] helo=outbound.st.icloud.com)
+	id 1x12Dj-00000009RrK-3ryZ;
+	Mon, 31 Aug 2026 13:38:43 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x11sy-00000009NRd-14JT
+	id 1x12Di-00000009Rpq-27u2
 	for linux-nvme@lists.infradead.org;
-	Mon, 31 Aug 2026 13:17:17 +0000
-Received: from outbound.st.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-east-1a-60-percent-11 (Postfix) with ESMTPS id 3B7A818025D0;
-	Mon, 31 Aug 2026 13:17:08 +0000 (UTC)
-X-ICL-RepId: 01a057f7-7073-7381-af7e-142f9edda47e
-X-ICL-Out-Info: HUtFAUMHWwJACUgATUQeDx5WFlZNRAJCTQhABkMAWBxBDkkdXwVaEhVdRVUIRRlTHhccRgxFGVswVB0dDlgGEhZdRV4IGQhdHRkKUFAOS1oVVRcOAkIfUB9MFldDRB8cGVoUXBhTRVEfVFhDGUVWaUELTx1dGVscQmRYVwkKBldeWhdeTVoCVk0FSgNfAVsKQwhJAFwAWwNeC0gDWg5YH0EUHlYfRQpcXl0NUh9FAnIdXFZQAlpVEgRACFZQXgheH0wc
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai; t=1788182232; x=1790774232; bh=3/beUJx10Bu3Pcl/YQ29DbawiaU1Aszo14MSQ9bHoho=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=jxg2K/yBbZQvuLhmLnRZ2jIt4eWLI9AuPsUCubAMyQhPPdzdvgiyCOhmOgLXJoWXoMpZqOGZFjSo1UBReqmOp2lUkXwzvMvghsxtQSz//8h6iog5Qr9oaMnagYyv7eygCAhHLfhLTbnbuXYyNSRhxXKRvpjR5fpRjgUp8i697871oP+n8LHM8hF7K80Sd/RXal2ANeSm6N1CaY3kJ1FqSyKda4hVTYFaPwyUpsAZoWxQi2ADVU9+PXevsJ9IgvI1gaLhwEGdDAdug4aCLNAR8jKwHWfLntDmAYwgkrruX9G3dWIIlL3S7kqB8NWQo57q12R9zD3WUdnHtbAsKKvQvw==
-Received: from ncore (unknown [17.156.216.30])
-	by p00-icloudmta-asmtp-us-east-1a-60-percent-11 (Postfix) with ESMTPSA id AB56E1800CE1;
-	Mon, 31 Aug 2026 13:17:06 +0000 (UTC)
-From: Ferran Duarri <ferran.duarri@me.com>
-To: Alexey Bogoslavsky <Alexey.Bogoslavsky@sandisk.com>,
-	Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
+	Mon, 31 Aug 2026 13:38:42 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id EAD4F6013A;
+	Mon, 31 Aug 2026 13:38:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC0D51F00ACA;
+	Mon, 31 Aug 2026 13:38:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788183521;
+	bh=BEa31oEK8chBTBa5hgT2yutVrQ4YqkstTuvOGNMi48Y=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=QkrNs2jUsRz/RqcsWoEFt/iU0NEOKJEjVLdaAe/WtyeVFhp1qr1G1D5bDLucDNKDM
+	 ejSiuOKii/xp633xJ5GfXeMAK36hw+eZat0zICcCdQMi1uVtAUQT6FI9yaMTEUaX5W
+	 Zn74pmBeUbB6NUksmkmbyXNZx2q9ShAdnLv/JUupOMwlcFvU7maDcRAc0hXBzzRXHu
+	 vKuRQovqTxAg29fEOq5r7xfHMV+uV9lUQzDp+BTlp0ANmGU+qvLaMRYQxY4CH2RVFp
+	 NRGDsMtDknGAGfpWAzkav7N0ORTIDpsMcfxVBj2KVh+MkQXh8/MmEn6thK0iapD1Ol
+	 p1C3l57CYEjKA==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Yao Sang <sangyao@kylinos.cn>,
 	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: Yehuda Hahn <Yehuda.Hahn@sandisk.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	sagi@grimberg.me,
 	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Ferran Duarri <ferran.duarri@me.com>
-Subject: Re: [PATCH] nvme: lower default APST max latency to 25ms
-Date: Mon, 31 Aug 2026 15:17:00 +0200
-Message-ID: <20260831131701.200793-1-ferran.duarri@me.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.18-6.12] nvme: refresh multipath head zoned limits from path limits
+Date: Mon, 31 Aug 2026 09:22:54 -0400
+Message-ID: <20260831133314.4125787-146-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <DS4PR16MB692456B5425BE0974054C45692AD2@DS4PR16MB6924.namprd16.prod.outlook.com>
-References: <DS4PR16MB692456B5425BE0974054C45692AD2@DS4PR16MB6924.namprd16.prod.outlook.com>
+In-Reply-To: <20260831133314.4125787-1-sashal@kernel.org>
+References: <20260831133314.4125787-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.18.48
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: igq9J5bSi09HSGx-EJA4bRPLqKQmF-UR
-X-Proofpoint-ORIG-GUID: igq9J5bSi09HSGx-EJA4bRPLqKQmF-UR
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODMxMDExNSBTYWx0ZWRfX4gGzkpFdGDMY
- SKIeY3Dst9/b6aGFqncbjSKvKoImrcKN3jGyRG2rNdoldF3yanlskXHNcl2MyEAQW/j4ON3eynu
- oluXRes6Gjc0GcifZj8hB+lLdrMuLlSDHhnxx8wEiqqH4PBUFXgU7AVQmdRMN7bRDqQfQsNZm+v
- T9uLyJoJ5nY2ZnB/TcPAbrgVky5KHeodIOAEqHrDvv0xC0aFNnUpcB5X5x2Py9SIdQoKrH74+hC
- zQUYiCrAMiuXirHnTdXRPtgGn/x50U9kS6o2shUtfCeBCEbimRzFr6wihAxtpxKPE5nX4XF9cWk
- VivjI42Eyr1tZ7X1tSqULsMFCUdwUG97wcYdCyto4YKobuGwP6/S8B4HVbNfZA=
-X-Authority-Info-Out: v=2.4 cv=HfsZjyE8 c=1 sm=1 tr=0 ts=6a957ed6
- cx=c_apl:c_pps:t_out a=oyWFxbOnq+dmhQrAPgaJYA==:117
- a=oyWFxbOnq+dmhQrAPgaJYA==:17 a=Sv0fKeRqtYgA:10 a=x7bEGLp0ZPQA:10
- a=B9nqV3Rn1-QA:10 a=VkNPw1HP01LnGYTKEx00:22 a=8FC1iW-_3rLwuDBYcQIA:9
-X-JNJ: AAAAAAABX2WitX9bonD7lzXzpyC5bRJULoSSFQlXF5akb8mbhTUPNDnYIdVxfgzlfHruFdQkMvWbknx3FZdaoiGqApkOX3pKj66u1dq2NUXKC0jkKtuIiBLohLk31IK4jaEzVLy+j5x6Fz8pW672JFQ5OI14ybLglwSeyypV6lqUE1kPFpO/dc6XsXOKtehepMkwTIji8pn0VguKwpjhE1xzs+kk1VXtNphogfICeagE2csGT3pJnP34DmxUE7jZUrnJG9pfJXHE7RDycK1u+LvyfvHPNODypqjeEoesT5xghVVUXgSLKAgKa9Ngo1Su5erX3/rAfw9s66ynjTJu7CE5U+SNITgY2TanzMdNMgYf+mXmPVb4/yX4IoH3YNGpwr/l02sr9QbS1JqWi+58GSrRc1kRBT4YvBF54aqeJ33ZQ98HkJzyzzUBdsYPkjw6zbJXlSDMHrcqLsTLAN5Hw5rLQHAaCHu9VrflV+wm4UhNHfOj9tW/+HI8XiZnlVHx5w8YRY17vcc0i/jBDfMc/CCi6R0q2esD/XkueMeFn9KqxjNF+PMlVZtuVyX7JVLAgTIUORsjQ7Bj9jh8JPxAfkskwBMfic4zGgxpqKJwLlYUzPFpBDF60asNbNAKZPrdnKc0HivDvTabConwN+KJhwiVtRo9YeqI1RgY6kTHMwP75YKAdZAo+2Q4Up4tTGLyb4kqKrDYlACsqLj6c6gS7ETdAC5eN0jm0OLTn52F7wo0y48+YIBWt8q2K5vFtGLZ4oajxijZm/TcnHMZQfo+Abm1DR97DzGNNK9eucWDvEdCL3nGXrJQgYNYCzVxwuLzhiXdwXRQo1B9M9WjcedNXtv7GD9yztMH4btdCSrYGrVEfj53mFsV3xFjbvU3OYPJuEtZth+hIueggk0RQTqVr7hhK0StdFuJYeiOQRn1OX0MeZ/0bTCzWMfhueRJNhvUm8MRqOO+Owd8B+5qKTAqecJtYvWuBEb
- QXIO54y1kmICSsYLcmKYjTPH6N53UJSyxxSQwnpwhYxIDweictnG7/CKfWWhbgvHsYQF65rVdZOgdCVFJoCncSdpzjWncWI6drOXiwAXwEi5+e5U+rtcdaDH6Yw9CkpbqSWXR5yBjO8pMaTrX0i2/0Mkyl2/YSNXKlT74JUr8ktFzrJiuZXyvZ6p+Wk42l32ysDGlA4hDwk4JMgOnXMmktZqiyg/3ShJnTyhuBOosd3OYNjjuJ6/DB3Ekd67PItrF98xeJUNo2s6jqj14eGSCzltTGeDsPYwN3PHZq08=
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260831_061716_365118_27F29CA9 
-X-CRM114-Status: GOOD (  11.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,25 +78,77 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Alexey - thanks, that's a real point I hadn't considered: if EXLAT is
-deliberately inflated to keep Windows on ps3, the 100ms default isn't a bug,
-it's aligned with what vendors actually tuned for.
+From: Yao Sang <sangyao@kylinos.cn>
 
-The measurement itself I think still holds - it's reading what the drive's
-live APST table targets, not just trusting the label, and the wake cost at
-ps4 was real regardless of why 43ms is the number on the tin. But that's a
-different question from whether Linux should default away from it.
+[ Upstream commit 59c0517123f2757c41d7795f841bc4c836577d17 ]
 
-What's the OEM precedent you mentioned - did lowering the bound before break
-something specific, or was it more general pushback? Trying to understand if
-this needs to stay a boot-time opt-in (which it already is via
-default_ps_max_latency_us) rather than ever being a compiled default, on any
-hardware.
+queue_limits_stack_bdev() updates the multipath head limits from the
+path queue, but it does not propagate max_open_zones or
+max_active_zones. As a result, a zoned multipath namespace head can
+keep stale 0/0 values even after a ready path reports finite zoned
+resource limits.
 
-Also - sorry for the fourth copy of this patch landing in your inbox on the
-28th. That was a bookkeeping failure on my end, not a deliberate re-post; it
-went out after your reply had already arrived and should not have.
+When refreshing the head limits in nvme_update_ns_info(), stack the
+zoned resource limits directly after stacking the path queue limits.
+Use min_not_zero() so the block layer's 0 value keeps its "no limit"
+meaning while finite limits are combined conservatively.
 
-Cheers,
-Ferran
+This avoids advertising "no limit" on the multipath head while keeping
+the zoned-limit handling local to the NVMe multipath update path.
+
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Yao Sang <sangyao@kylinos.cn>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+
+LLM Generated explanations, may be completely bogus:
+
+The background searches finished:
+
+- **Local tree search** (`git log --grep=...`): No match for this patch
+  in the checked-out **6.18.44** tree — expected, since
+  `nvme_stack_zone_resources()` isn’t there yet.
+- **Mainline search** (`build/master`): Timed out after ~3 minutes.
+  Partial output only showed unrelated zoned-limit commits; no sign of
+  this NVMe multipath fix on the fetched `master` tip.
+
+That lines up with the earlier analysis: the bug is present in
+**6.18.y**, the fix is small and correct, and the backport
+recommendation remains **YES**.
+
+ drivers/nvme/host/core.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 8feb774616029..43cbbcd3796b1 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2450,6 +2450,14 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
+ 	return ret;
+ }
+ 
++static void nvme_stack_zone_resources(struct queue_limits *t,
++				      const struct queue_limits *b)
++{
++	t->max_open_zones = min_not_zero(t->max_open_zones, b->max_open_zones);
++	t->max_active_zones =
++		min_not_zero(t->max_active_zones, b->max_active_zones);
++}
++
+ static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_ns_info *info)
+ {
+ 	bool unsupported = false;
+@@ -2516,6 +2524,8 @@ static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_ns_info *info)
+ 		lim.io_opt = ns_lim->io_opt;
+ 		queue_limits_stack_bdev(&lim, ns->disk->part0, 0,
+ 					ns->head->disk->disk_name);
++		if (lim.features & BLK_FEAT_ZONED)
++			nvme_stack_zone_resources(&lim, ns_lim);
+ 		if (unsupported)
+ 			ns->head->disk->flags |= GENHD_FL_HIDDEN;
+ 		else
+-- 
+2.53.0
+
 
