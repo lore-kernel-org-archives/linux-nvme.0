@@ -4,65 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 82955C624C6
-	for <linux-nvme@archiver.kernel.org>; Mon, 31 Aug 2026 13:49:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7E60EC624A4
+	for <linux-nvme@archiver.kernel.org>; Mon, 31 Aug 2026 13:50:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KlSvKAY/kIXka37cbjpcQ5QVOoWOuQkNVF54QeykQFg=; b=cygcOsUpe3c4vY1l+9ac4EGDTx
-	DFuOMT+JnmDOwrM0Or59roim++dVrDrdaTf71jQplG3aFsYCCdOCkF5LIRPX3MYhULyAo6JFgyD0z
-	jk348LBMQpXrJaeqSGdPo8GC2Et5EJBe8OkjvJ9s8oK9kWyq7Dq1qEa/fnn94metVigEU3bzLcky2
-	6JvAZvQQrGpz66NDhsU284ysaSX4tBQP/aZg3a2jwwiCCpX/gTrP96QOajLx5nV1BFET7kFY0BPQH
-	IIZv5ZfwWfYpzI90YXIGZIeotd/FarchgL6tjuPN3tlyRHKixjPHywLernHMdLtvc3PrmXCj1zaSj
-	scvFF6/A==;
+	bh=ISmieA3cxTn7s+iQaLcJUsGULmiOIEuwAETcU4gkNw0=; b=GfaISp7K7PfxRplXmUGguxdUrp
+	u0QNoy6HCM3PMTJSvBWbaXdbtQOUxd5HvPbp5huhBkLnbkxPNeBqoBi+Oc69aEWGNdSP3TgQID6W0
+	bbc5UmmE76qTMw6f9hgbkftmUIeGIah4qQMvFTy8dUbyE38q4j2Z/Wu/ZVaEqZvHQLTPkogVT/pyl
+	fREQs+zhdxHy9fLwWhVSUQX903rx5jm3JU2wddjknJNCmztctpVPjd5kN9Db97gLjpLh36A7W1aev
+	v47yJKd28CuQxF2sA6IPjKj1W2JCeoA6+igs4NFO5K2pDHQARLAezEvortJgS4ubZZvWQ/81ZHsxC
+	qG8KaEPw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x12No-00000009XHs-3nkA;
-	Mon, 31 Aug 2026 13:49:08 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1x12PE-00000009Xy0-0RQt;
+	Mon, 31 Aug 2026 13:50:36 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x12Nn-00000009XGk-3SaZ
+	id 1x12PC-00000009XxY-24Nj
 	for linux-nvme@lists.infradead.org;
-	Mon, 31 Aug 2026 13:49:07 +0000
+	Mon, 31 Aug 2026 13:50:34 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 35DD560215;
-	Mon, 31 Aug 2026 13:49:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B28C51F000E9;
-	Mon, 31 Aug 2026 13:49:04 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id DB05360207;
+	Mon, 31 Aug 2026 13:50:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EEB51F00A3F;
+	Mon, 31 Aug 2026 13:50:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788184146;
-	bh=KlSvKAY/kIXka37cbjpcQ5QVOoWOuQkNVF54QeykQFg=;
+	s=k20260515; t=1788184233;
+	bh=ISmieA3cxTn7s+iQaLcJUsGULmiOIEuwAETcU4gkNw0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Q68yedK20Mqs2QJoHCbSyfQAqvLtW/UNzCLvN7LtcdmL4TPOw4ngMTxzDe8PiumNM
-	 Wzk1coqmH1XBFzJzN19jKUPDPMeNVntYEAOdJSvuAnzpSkreSO7tHOC4POSHkdSXws
-	 ID9jkH7qFUYQM+btudL0y0bPP0LTm9bgjDKYyUIBDEYuuasYkxykcGvcoomTLSt4ea
-	 jy3aA8XFT6MTC3qNqHVy8edtdTR5245fX/H51Uci6Ua/wfn3dDkFanAYJ5kxxxFuzz
-	 nUoZgQdRxdDVgW8F1tvJBgGvWC/WbUCXroHtAfJ7ScYm08jJjaXIftPE9UvETmu6Yk
-	 sp0UnyhkUrpKw==
+	b=Q6+rNSiuTEd6B51itj0Okth1HGST6KL9CmL5eIB/t6qD5H3nBHGnO4Je+PhyPBFHT
+	 O60rYv8bBpL9claTyoWfXKp5FgOTTX2H7fBbJ78wScqXKQSmg7Ku1LJoRkPSTWzIih
+	 NwVL9lp6BPZ/3rHKL5shzj7ZWUZMjzjdFcVPBD3eE5hhnFwKXAZZ6x46d/Ibn4uhec
+	 /oXvdBkPIskDP0UM/eHced33eq/GeannBcItwHFx6aRQ/v0QHHU0FAJ3pEM7w8rIuO
+	 zDNcO2rvTDXdtWhjf1umpqzRzp+yiiE8N+R3nsROBvqlcmexfu/c43vSSDjUOBgstH
+	 HfTp/YkGj+gmA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Mohamed Khalfella <mkhalfella@purestorage.com>,
-	Randy Jennings <randyj@purestorage.com>,
-	Hannes Reinecke <hare@kernel.org>,
-	Daniel Wagner <dwagner@suse.de>,
-	Christoph Hellwig <hch@lst.de>,
-	James Smart <jsmart833426@gmail.com>,
-	Maurizio Lombardi <mlombard@redhat.com>,
+Cc: Maurizio Lombardi <mlombard@redhat.com>,
 	Keith Busch <kbusch@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	justin.tee@broadcom.com,
-	nareshgottumukkala83@gmail.com,
-	paul.ely@broadcom.com,
 	sagi@grimberg.me,
 	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-6.6] nvme-fc: Do not cancel requests in io target before it is initialized
-Date: Mon, 31 Aug 2026 09:29:07 -0400
-Message-ID: <20260831133314.4125787-519-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18] nvme: fix crash and memory leak during invalid cdev teardown
+Date: Mon, 31 Aug 2026 09:29:59 -0400
+Message-ID: <20260831133314.4125787-571-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260831133314.4125787-1-sashal@kernel.org>
 References: <20260831133314.4125787-1-sashal@kernel.org>
@@ -86,50 +77,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Mohamed Khalfella <mkhalfella@purestorage.com>
+From: Maurizio Lombardi <mlombard@redhat.com>
 
-[ Upstream commit ee38469f88492df99e1d97f03aa40ecfd218934f ]
+[ Upstream commit 26acdaa357cded33a37f575cd5f6bae1033b3a5d ]
 
-A new nvme-fc controller in CONNECTING state sees admin request timeout
-schedules ctrl->ioerr_work to abort inflight requests. This ends up
-calling __nvme_fc_abort_outstanding_ios() which aborts requests in both
-admin and io tagsets. In case fc_ctrl->tag_set was not initialized we
-see the warning below. This is because ctrl.queue_count is initialized
-early in nvme_fc_alloc_ctrl().
+In the NVMe multipath code, if nvme_add_ns_head_cdev() fails during
+nvme_mpath_set_live(), the error is ignored. However, during teardown,
+nvme_remove_head() unconditionally calls nvme_cdev_del(). This teardown
+asymmetry leads to a kernel panic if the character device was never
+successfully initialized.
 
-nvme nvme0: NVME-FC{0}: starting error recovery Connectivity Loss
-INFO: trying to register non-static key.
-The code is fine but needs lockdep annotation, or maybe
-lpfc 0000:ab:00.0: queue 0 connect admin queue failed (-6).
-you didn't initialize this object before use?
-turning off the locking correctness validator.
-Workqueue: nvme-reset-wq nvme_fc_ctrl_ioerr_work [nvme_fc]
-Call Trace:
- <TASK>
- dump_stack_lvl+0x57/0x80
- register_lock_class+0x567/0x580
- __lock_acquire+0x330/0xb90
- lock_acquire.part.0+0xad/0x210
- blk_mq_tagset_busy_iter+0xf9/0xc00
- __nvme_fc_abort_outstanding_ios+0x23f/0x320 [nvme_fc]
- nvme_fc_ctrl_ioerr_work+0x172/0x210 [nvme_fc]
- process_one_work+0x82c/0x1450
- worker_thread+0x5ee/0xfd0
- kthread+0x3a0/0x750
- ret_from_fork+0x439/0x670
- ret_from_fork_asm+0x1a/0x30
- </TASK>
+BUG: kernel NULL pointer dereference, address: 00000000000000d0
+ device_del+0x39/0x3c0
+ cdev_device_del+0x15/0x50
+ nvme_cdev_del+0xe/0x20 [nvme_core]
+ nvme_mpath_shutdown_disk+0x38/0x60 [nvme_core]
+ nvme_ns_remove+0x177/0x1f0 [nvme_core]
+ nvme_remove_namespaces+0xdc/0x130 [nvme_core]
+ nvme_do_delete_ctrl+0x71/0xd0 [nvme_core]
 
-Update the check in __nvme_fc_abort_outstanding_ios() confirm that io
-tagset was created before iterating over busy requests. Also make sure
-to cancel ctrl->ioerr_work before removing io tagset.
+Additionally, a memory leak exists in the nvme_cdev_add() failure path.
+Previously, dev_set_name() was called before ida_alloc(). If ida_alloc()
+subsequently failed, device_initialize() was never called, meaning
+put_device() could not be used to clean up the kobject, leaking the
+memory allocated by dev_set_name().
 
-Reviewed-by: Randy Jennings <randyj@purestorage.com>
-Reviewed-by: Hannes Reinecke <hare@kernel.org>
-Reviewed-by: Daniel Wagner <dwagner@suse.de>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
-Signed-off-by: James Smart <jsmart833426@gmail.com>
+*  Introduces the NVME_NSHEAD_CDEV_LIVE and NVME_NS_CDEV_LIVE bits to track
+   the successful creation of the character devices. Teardown routines now
+   check these bits before attempting deletion.
+*  Refactor nvme_cdev_add() to accept the formatted device name as a
+   parameter, moving dev_set_name() after the IDA allocation and
+   immediately before device_initialize(). This ensures any internally
+   allocated strings are safely cleaned up by put_device() upon failure.
+
 Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
@@ -137,369 +117,537 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
 
 LLM Generated explanations, may be completely bogus:
 
-# Stable Backport Analysis: `nvme-fc: Do not cancel requests in io
-target before it is initialized`
+# Stable Backport Analysis: `nvme: fix crash and memory leak during
+invalid cdev teardown`
 
-**Local tree:** `v6.18.44` (Linux 6.18.y stable)
-**Upstream commit:** `ee38469f88492` (2026-06-10)
-**Candidate stable commit:** `7e1a5ff60479b` (exists in repo, **not**
-merged into HEAD)
+**Local tree:** Linux **6.18.44** (`stable/linux-6.18.y`, `HEAD`
+detached at `1efe5d048a391`)
+
+**Commit under review:** `26acdaa357cde` (on `master`, **not** in this
+tree)
 
 ---
 
 ## PHASE 1: COMMIT MESSAGE FORENSICS
 
-**Step 1.1 – Subject line**
-Record: `[nvme-fc] [prevent/ensure] Do not cancel requests in io tagset
-before it is initialized`
+### Step 1.1: Subject Line
+**Record:** `[nvme]` `[fix]` — crash and memory leak during invalid
+character-device teardown in NVMe namespace cdev paths.
 
-**Step 1.2 – Tags**
-Record:
-- **Reviewed-by:** Randy Jennings, Hannes Reinecke, Daniel Wagner,
-  Christoph Hellwig (four NVMe/FC reviewers)
-- **Signed-off-by:** Mohamed Khalfella, James Smart, Maurizio Lombardi,
-  Keith Busch
-- No `Fixes:`, `Reported-by:`, `Cc: stable@vger.kernel.org`, `Link:`, or
-  `Tested-by:` tags
-- Absence of stable tags is expected for manual review candidates
+### Step 1.2: Tags
+**Record:**
+- **Fixes:** — none
+- **Reported-by:** — none
+- **Tested-by:** — none
+- **Reviewed-by:** — none
+- **Acked-by:** — none
+- **Link:** — none
+- **Cc: stable:** — none (expected for manual review)
+- **Signed-off-by:** Maurizio Lombardi, Keith Busch (NVMe maintainer)
 
-**Step 1.3 – Body analysis**
-Record:
-- **Bug:** During `NVME_CTRL_CONNECTING`, an admin request timeout
-  schedules `ctrl->ioerr_work`, which calls
-  `__nvme_fc_abort_outstanding_ios()`. That function aborts both admin
-  and IO tagsets when `queue_count > 1`, but `fc_ctrl->tag_set` may not
-  yet be initialized.
-- **Symptom:** lockdep warning `"you didn't initialize this object
-  before use?"` in `blk_mq_tagset_busy_iter()`; lockdep validator
-  disabled; observed with lpfc during admin queue connect failure
-  (`-6`).
-- **Root cause:** `ctrl->queue_count` is set early in
-  `nvme_fc_alloc_ctrl()`, while IO tagset creation is deferred to the
-  connect path.
-- **Version info:** Not specified; bug is structural in existing init
-  ordering.
+Notable: commit includes a concrete **BUG:** stack trace (NULL pointer
+dereference). No syzbot report.
 
-**Step 1.4 – Hidden bug fix?**
-Record: **Yes.** Subject uses "Do not cancel" rather than "fix", but the
-body and stack trace describe a real uninitialized-lock / premature
-tagset iteration bug, plus a teardown race fixed by
-`cancel_work_sync()`.
+### Step 1.3: Body Analysis
+**Record:**
+- **Bug:** Teardown asymmetry in NVMe multipath — if
+  `nvme_add_ns_head_cdev()` fails during `nvme_mpath_set_live()`, the
+  error is ignored, but `nvme_remove_head()` unconditionally calls
+  `nvme_cdev_del()`.
+- **Symptom:** Kernel panic — NULL pointer dereference in `device_del()`
+  during controller/namespace removal (`nvme_do_delete_ctrl` →
+  `nvme_remove_namespaces` → `nvme_ns_remove` → multipath head removal).
+- **Secondary bug:** Memory leak when `dev_set_name()` runs before
+  `ida_alloc()` in the cdev-add path; if `ida_alloc()` fails,
+  `device_initialize()` never runs and `put_device()` cannot free the
+  kobject name.
+- **Root cause:** No tracking of whether cdev creation actually
+  succeeded; teardown assumes it did.
+- **Version info:** None explicit in message.
+
+### Step 1.4: Hidden Bug Fix Detection
+**Record:** Not disguised — explicitly labeled as crash + memory leak
+fix. The `nvme_cdev_add()` refactor is a real resource-management fix,
+not cosmetic cleanup.
 
 ---
 
 ## PHASE 2: DIFF ANALYSIS
 
-**Step 2.1 – Inventory**
-Record:
-- **File:** `drivers/nvme/host/fc.c` (+6, −1)
-- **Functions:** `__nvme_fc_abort_outstanding_ios()`,
-  `nvme_fc_create_io_queues()` error path (`out_cleanup_tagset`)
-- **Scope:** Single-file, surgical fix
+### Step 2.1: Inventory
+**Record:**
+| File | Changes |
+|------|---------|
+| `drivers/nvme/host/core.c` | ~33 lines changed |
+| `drivers/nvme/host/multipath.c` | ~19 lines changed |
+| `drivers/nvme/host/nvme.h` | ~5 lines changed |
 
-**Step 2.2 – Code flow changes**
-Record:
-- **Hunk 1 (line 2462):** Before: abort IO tagset whenever `queue_count
-  > 1`. After: also require `ctrl->ctrl.tagset` (set by
-  `nvme_alloc_io_tag_set()`).
-- **Hunk 2 (`out_cleanup_tagset`):** Before: directly remove IO tagset
-  on create failure. After: `cancel_work_sync(&ctrl->ioerr_work)` first,
-  preventing `ioerr_work` from iterating a tagset being torn down.
+**Functions modified:** `nvme_cdev_add()`, `nvme_add_ns_cdev()`,
+`nvme_ns_remove()`, `nvme_add_ns_head_cdev()`, `nvme_remove_head()`
 
-**Step 2.3 – Bug mechanism**
-Record:
-- **Category:** Uninitialized data / memory safety (uninitialized
-  spinlock in `blk_mq_tag_set`)
-- **Mechanism:** `queue_count > 1` is true from allocation, but
-  `tag_set` is zero-initialized until `nvme_fc_create_io_queues()`
-  succeeds in `nvme_alloc_io_tag_set()`. Error recovery during
-  CONNECTING calls `blk_mq_tagset_busy_iter()` on an uninitialized
-  tagset.
+**Scope:** Single-subsystem, surgical fix across 3 files (~57 lines
+total). Not a refactor.
 
-**Step 2.4 – Fix quality**
-Record:
-- Fix is minimal and follows existing patterns (`ctrl->ctrl.tagset` is
-  already checked at lines 3236 and 3267 in the same file).
-- Low regression risk: only skips IO abort when no tagset exists; admin
-  queue abort still proceeds.
-- `cancel_work_sync()` in the error path mirrors the pattern from
-  `0a2c5495b6d1e` (already in this tree for `nvme_fc_delete_ctrl()`).
+### Step 2.2: Code Flow Changes
+**Record:**
+
+| Hunk | Before | After |
+|------|--------|-------|
+| `nvme_cdev_add()` | `ida_alloc` only; callers set name separately |
+Accepts `name`, calls `dev_set_name()` after `ida_alloc`, before
+`device_initialize()` |
+| `nvme_add_ns_cdev()` / `nvme_add_ns_head_cdev()` | `dev_set_name()`
+then `nvme_cdev_add()`; no success tracking | `snprintf` name, call
+refactored `nvme_cdev_add()`, set `NVME_NS_CDEV_LIVE` /
+`NVME_NSHEAD_CDEV_LIVE` on success |
+| `nvme_ns_remove()` | Unconditionally `nvme_cdev_del()` for non-
+multipath | Only if `NVME_NS_CDEV_LIVE` bit set |
+| `nvme_remove_head()` | Unconditionally `nvme_cdev_del()` | Only if
+`NVME_NSHEAD_CDEV_LIVE` bit set |
+
+### Step 2.3: Bug Mechanism
+**Record:**
+- **Category (a):** Resource leak on error path — `dev_set_name()`
+  before `ida_alloc()`/`device_initialize()`.
+- **Category (d):** NULL pointer dereference — `nvme_cdev_del()` →
+  `cdev_device_del()` → `device_del()` on uninitialized/failed cdev.
+- **Category (g):** Logic/correctness — teardown does not match setup;
+  success bit flags align init and teardown.
+
+**Specific mechanism:** In current 6.18.44 code at
+`multipath.c:794-801`, `NVME_NSHEAD_DISK_LIVE` is set after
+`device_add_disk()` succeeds, then `nvme_add_ns_head_cdev(head)` is
+called with **return value ignored**. On failure, `nvme_remove_head()`
+at line 698 still calls `nvme_cdev_del()`.
+
+### Step 2.4: Fix Quality
+**Record:**
+- Fix is obviously correct: only delete cdev when creation succeeded.
+- Minimal, surgical; uses existing `flags` bitfields with free bit
+  positions (2 and 6).
+- Low regression risk: adds guards on teardown paths only; does not
+  change successful init behavior.
+- `nvme_cdev_add()` signature change is internal to `nvme_core` (no new
+  userspace API).
 
 ---
 
 ## PHASE 3: GIT HISTORY INVESTIGATION
 
-**Step 3.1 – Blame**
-Record:
-- Buggy `if (ctrl->ctrl.queue_count > 1)` at line 2462 introduced by
-  `95ced8a2c72d` (James Smart, 2020-10-27): "nvme-fc: eliminate
-  terminate_io use by nvme_fc_error_recovery"
-- Early `queue_count` init dates to 2016–2017 (`e399441de9115`,
-  `d858e5f04e58a4`)
-- Tagset deferral comment at lines 3504–3508 confirms intentional late
-  IO tagset init
+### Step 3.1: Blame
+**Record:**
+- `nvme_cdev_add()` / `nvme_add_ns_head_cdev()`: introduced in
+  `2637baed7801` (Apr 2021, "introduce generic per-namespace chardev") —
+  **present in this tree**.
+- `nvme_remove_head()` unconditional `nvme_cdev_del`: `62188639ec160`
+  (May 2025, delayed multipath head removal) — **present in this tree**.
+- Stack trace references `nvme_mpath_shutdown_disk`; renamed to
+  `nvme_mpath_remove_disk` in `9e221d8cf90b8` — **this tree uses
+  `nvme_mpath_remove_disk`**.
 
-**Step 3.2 – Fixes: tag**
-Record: Not applicable (no `Fixes:` tag in commit message).
+### Step 3.2: Fixes: Tag
+**Record:** N/A — no `Fixes:` tag. Bug latent since cdev introduction
+(2021); exposed by multipath head lifecycle code (2025).
 
-**Step 3.3 – Related file history**
-Record:
-- `ee59e3820ca92` (2025-01): "do not ignore connectivity loss during
-  connecting" — increases CONNECTING-state error handling
-- `f13409bb3f914` (2025-02): connectivity loss state machine changes —
-  present in this tree
-- `0a2c5495b6d1e`: related `ioerr_work` cancellation fix in delete path
-  — already in HEAD
-- `e810b290922c5`: admin tagset release on init failure — recent related
-  work
-- Standalone 1/1 patch, not part of a multi-patch dependency series
+### Step 3.3: Related File History
+**Record:**
+- Recent related fix: `3d8f35e182c80` "nvme-multipath: fix leak on
+  try_module_get failure" — separate issue.
+- Follow-up on master: `869567bcbe2dc` makes cdev-add functions return
+  `void` (cleanup after this fix; **not a prerequisite**).
+- Standalone fix; not part of a multi-patch dependency series.
 
-**Step 3.4 – Author context**
-Record: Mohamed Khalfella (Pure Storage); patch submitted by Maurizio
-Lombardi; reviewed by NVMe maintainers (Hellwig, Busch chain). Author is
-an active NVMe-FC contributor.
+### Step 3.4: Author Context
+**Record:** Maurizio Lombardi — active NVMe contributor (nvme-tcp, nvme-
+pci fixes). Keith Busch committed as NVMe maintainer. No indication this
+is experimental.
 
-**Step 3.5 – Prerequisites**
-Record: No prerequisite commits required. Patch applies cleanly (`git
-apply --check` passed). Uses only existing symbols (`ctrl->ctrl.tagset`,
-`cancel_work_sync`).
+### Step 3.5: Dependencies
+**Record:** No prerequisites. All touched code exists in 6.18.44. `git
+apply --check --3way` succeeds on this tree. Plain `git apply --check`
+fails on `nvme.h` line offsets only (struct layout drift vs. mainline);
+3-way merge applies cleanly.
 
 ---
 
 ## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 
-**Step 4.1 – Original discussion**
-Record:
-- `b4 dig -c 7e1a5ff60479b`:
-  https://patch.msgid.link/20260528092734.258899-2-mlombard@redhat.com
-- Standalone v1 patch (2026-05-28), not part of the larger Rapid Path
-  Failure Recovery series
-- Lore page blocked by bot protection; could not read inline review text
+### Step 4.1: Original Discussion
+**Record:**
+- `b4 dig -c 26acdaa357cde`:
+  https://patch.msgid.link/20260608155357.256966-1-mlombard@redhat.com
+- Series: v1 (Jun 5) → v2 (Jun 8) → v3 (Jun 8); committed version
+  matches v3.
+- Lore thread content could not be fetched (Anubis bot protection on
+  lore.kernel.org and patch.msgid.link).
 
-**Step 4.2 – Reviewers**
-Record: `b4 dig -w` shows CC to `kbusch@kernel.org`, `hch@lst.de`,
-`linux-nvme@lists.infradead.org`, `dwagner@suse.de`,
-`randyj@purestorage.com`, `mkhalfella@purestorage.com`
+### Step 4.2: Reviewers
+**Record:** `b4 dig -w`: CC'd `kbusch@kernel.org`, `hch@lst.de`, `linux-
+nvme@lists.infradead.org`, `dwagner@suse.de`. Keith Busch committed the
+patch.
 
-**Step 4.3 – Bug report**
-Record: Stack trace embedded in commit message; lpfc admin queue connect
-failure (`-6`); no external bugzilla/syzbot link.
+### Step 4.3: Bug Report
+**Record:** Stack trace in commit message only. No external
+bugzilla/syzbot link. Reproducible via cdev-add failure during multipath
+namespace bring-up followed by controller removal.
 
-**Step 4.4 – Series context**
-Record: `b4 dig -a` shows unrelated RFR series revisions; this fix was
-submitted separately as `[PATCH 1/1]`.
+### Step 4.4: Related Patches
+**Record:** `869567bcbe2dc` on master is optional follow-up cleanup, not
+required for correctness.
 
-**Step 4.5 – Stable list**
-Record: UNVERIFIED — could not search lore stable archive due to fetch
-restrictions; no stable nomination found in commit metadata.
+### Step 4.5: Stable List History
+**Record:** UNVERIFIED — could not search lore stable archive due to
+fetch blocking. No evidence in this tree that the fix was already
+backported.
 
 ---
 
 ## PHASE 5: CODE SEMANTIC ANALYSIS
 
-**Step 5.1 – Key functions**
-Record: `__nvme_fc_abort_outstanding_ios()`, `nvme_fc_error_recovery()`,
-`nvme_fc_ctrl_ioerr_work()`, `nvme_fc_create_io_queues()`
+### Step 5.1: Key Functions
+**Record:** `nvme_mpath_set_live()`, `nvme_add_ns_head_cdev()`,
+`nvme_remove_head()`, `nvme_mpath_remove_disk()`, `nvme_ns_remove()`,
+`nvme_add_ns_cdev()`, `nvme_cdev_add()`, `nvme_cdev_del()`.
 
-**Step 5.2 – Callers**
-Record:
-- `nvme_fc_ctrl_ioerr_work()` → `nvme_fc_error_recovery()` →
-  `__nvme_fc_abort_outstanding_ios()` (CONNECTING path)
-- `nvme_fc_delete_association()` →
-  `__nvme_fc_abort_outstanding_ios(ctrl, false)`
-- `ioerr_work` queued from `nvme_fc_fcpio_done()` (`check_error` at line
-  2052) on transport errors
-- Triggered during controller connect/reconnect — common enterprise FC
-  storage path
+### Step 5.2: Callers
+**Record:**
+- `nvme_mpath_set_live()` ← `nvme_mpath_add_disk()` ← namespace
+  scan/alloc path (`core.c:4186`)
+- `nvme_remove_head()` ← `nvme_mpath_remove_disk()` ← `nvme_ns_remove()`
+  when last path removed (`core.c:4275-4276`)
+- `nvme_ns_remove()` ← `nvme_remove_namespaces()` ←
+  `nvme_do_delete_ctrl()` (controller delete/hot-unplug)
+- `nvme_add_ns_cdev()` ← namespace alloc when not multipath
+  (`core.c:4183-4184`)
 
-**Step 5.3 – Callees**
-Record: `blk_mq_tagset_busy_iter()`, `nvme_quiesce_io_queues()`,
-`nvme_sync_io_queues()`, `nvme_remove_io_tag_set()`,
-`cancel_work_sync()`
+### Step 5.3: Callees
+**Record:** `device_add_disk()`, `dev_set_name()`, `ida_alloc()`,
+`device_initialize()`, `cdev_device_add()`, `cdev_device_del()`,
+`put_device()`, `del_gendisk()`.
 
-**Step 5.4 – Reachability**
-Record:
-- Userspace triggers NVMe-FC device discovery/connect via sysfs/fc
-  transport
-- Connectivity loss or admin timeout during CONNECTING is a realistic
-  failure mode (documented in commit message with lpfc)
-- **Reachable from normal device operation**, not obscure debug-only
-  path
+### Step 5.4: Reachability
+**Record:**
+- **Crash path:** Controller removal / namespace teardown — common
+  during driver unload, device hot-unplug, reset, or error recovery.
+- Trigger requires `nvme_add_ns_head_cdev()` or `nvme_add_ns_cdev()`
+  failure (memory pressure, `ida_alloc` exhaustion, `cdev_device_add`
+  failure).
+- Multipath crash path: `CONFIG_NVME_MULTIPATH=y`.
+- Memory-leak fix: all configs using NVMe namespace cdevs.
 
-**Step 5.5 – Similar patterns**
-Record: File already guards `ctrl->ctrl.tagset` before IO queue teardown
-at lines 3236 and 3267; this fix aligns abort path with existing
-teardown guards.
-
----
-
-## PHASE 6: CROSS-REFERENCING AGAINST LOCAL TREE (6.18.44)
-
-**Step 6.1 – Buggy code present?**
-Record: **Yes.** HEAD at `drivers/nvme/host/fc.c:2462` still has `if
-(ctrl->ctrl.queue_count > 1)` without tagset check. `out_cleanup_tagset`
-at line 2900 lacks `cancel_work_sync()`. Upstream fix `ee38469f88492` is
-**not** an ancestor of HEAD.
-
-**Step 6.2 – Backport complications**
-Record: **Clean apply** — `git show 7e1a5ff60479b | git apply --check`
-succeeded with no conflicts.
-
-**Step 6.3 – Related fixes already present?**
-Record: `0a2c5495b6d1e` fixes `ioerr_work` cancellation ordering in
-`nvme_fc_delete_ctrl()` but does not cover the
-`nvme_fc_create_io_queues()` failure path or the uninitialized tagset
-abort. No duplicate fix found.
+### Step 5.5: Similar Patterns
+**Record:** Same asymmetry in both multipath head cdev (`multipath.c`)
+and per-namespace cdev (`core.c`). Fix addresses both consistently.
 
 ---
 
-## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+## PHASE 6: CROSS-REFERENCE WITH LOCAL TREE (6.18.44)
 
-**Step 7.1 – Subsystem**
-Record: `drivers/nvme/host/fc.c` — NVMe over Fibre Channel host driver.
-**Criticality: IMPORTANT** (enterprise storage; not core kernel, but
-stability-critical for FC deployments).
+### Step 6.1: Buggy Code Present?
+**Record:** **YES.** Verified in checkout:
+- `multipath.c:801` — `nvme_add_ns_head_cdev(head)` with ignored return
+- `multipath.c:698` — unconditional `nvme_cdev_del()`
+- `core.c:4184` — `nvme_add_ns_cdev(ns)` with ignored return
+- `core.c:4264` — unconditional `nvme_cdev_del()` for non-multipath
+- `core.c:3876-3877` — `dev_set_name()` before `nvme_cdev_add()` (which
+  does `ida_alloc` first internally, but caller already set name)
 
-**Step 7.2 – Activity**
-Record: 14 commits to `fc.c` since `ee59e3820ca92`; actively maintained
-with recent connectivity/error-recovery work.
+Bug introduced with cdev code in 2021; present throughout 6.18.y.
+
+### Step 6.2: Backport Complications
+**Record:** Minor line-offset drift in `nvme.h` vs. mainline (missing
+`io_requeue_*` counters in 6.18). `git apply --check --3way` applies
+cleanly. Expected difficulty: **clean apply with minor context
+adjustment** if needed.
+
+### Step 6.3: Fix Already Present?
+**Record:** **NO.** `git merge-base --is-ancestor 26acdaa357cde HEAD`
+returns exit code 1. No grep hits for `NVME_NSHEAD_CDEV_LIVE` or
+`NVME_NS_CDEV_LIVE` in tree.
 
 ---
 
-## PHASE 8: IMPACT AND RISK ASSESSMENT
+## PHASE 7: SUBSYSTEM CONTEXT
 
-**Step 8.1 – Who is affected**
-Record: Users with `CONFIG_NVME_FC` and FC HBAs (lpfc, etc.) during
-controller connect, reconnect, or connectivity-loss scenarios.
+### Step 7.1: Subsystem Criticality
+**Record:** `drivers/nvme/` — **IMPORTANT** (block storage, widely
+deployed; multipath used in enterprise/high-availability setups).
 
-**Step 8.2 – Trigger conditions**
-Record:
-- Controller in `NVME_CTRL_CONNECTING`
-- `queue_count > 1` (normal when IO queues configured)
-- IO tagset not yet created (admin connect in progress or IO queue setup
-  failed)
-- Admin timeout or connectivity loss schedules `ioerr_work`
-- **Likelihood:** Moderate during link/target issues — exactly when
-  error recovery runs
+### Step 7.2: Activity
+**Record:** Actively maintained in 6.18.y (recent multipath fixes in
+2025–2026). Mature subsystem with ongoing lifecycle bug fixes.
 
-**Step 8.3 – Failure severity**
-Record:
-- lockdep: `"you didn't initialize this object before use?"` — disables
-  lock validator
-- Without lockdep: use of uninitialized spinlock in
-  `blk_mq_tagset_busy_iter()` — unpredictable behavior, potential
-  oops/panic
-- **Severity: HIGH** (kernel instability during error recovery)
+---
 
-**Step 8.4 – Risk vs benefit**
-Record:
-- **Benefit: HIGH** — prevents crash/warning during connect-failure
-  error recovery on production FC storage
-- **Risk: LOW** — 7-line change, matches existing tagset guards, four
-  maintainer reviews
-- **Ratio:** Strong benefit, minimal risk
+## PHASE 8: IMPACT AND RISK
+
+### Step 8.1: Who Is Affected
+**Record:**
+- **Crash:** Users with `CONFIG_NVME_MULTIPATH` who hit cdev creation
+  failure during namespace bring-up, then remove controller/namespace.
+- **Leak:** Any NVMe user where `dev_set_name` succeeds but subsequent
+  `ida_alloc` or `cdev_device_add` fails.
+- Population: storage/multipath deployments (RHEL, SLES, cloud block
+  storage with multipath).
+
+### Step 8.2: Trigger Conditions
+**Record:**
+- `ida_alloc()` failure under memory pressure (realistic).
+- `cdev_device_add()` failure (less common but possible).
+- Followed by controller delete / namespace removal (normal admin or
+  error-recovery path).
+- Unprivileged direct trigger: **no** (requires device admin/removal),
+  but failure during init can be triggered by kernel memory pressure.
+
+### Step 8.3: Failure Severity
+**Record:**
+- **Crash:** NULL pointer dereference → kernel oops/panic during
+  teardown — **CRITICAL**
+- **Leak:** kmemleak-reported kobject name leak on error path — **HIGH**
+  (contributes to memory pressure)
+
+### Step 8.4: Risk-Benefit
+**Record:**
+- **Benefit:** HIGH — prevents kernel panic on realistic error+teardown
+  path; fixes resource leak.
+- **Risk:** LOW — ~57 lines, guarded teardown only, no API changes,
+  applies cleanly with 3-way merge.
+- **Ratio:** Strongly favors backport.
 
 ---
 
 ## PHASE 9: FINAL SYNTHESIS
 
-**Step 9.1 – Evidence summary**
+### Step 9.1: Evidence Summary
 
-| FOR backport | AGAINST backport |
-|---|---|
-| Real bug with reproduced stack trace | Only affects NVMe-FC users (not
-all kernels) |
-| Uninitialized lock use — HIGH severity | No syzbot/CVE, but real lpfc
-scenario |
-| Small, surgical, 4 Reviewed-by | Lore review text UNVERIFIED |
-| Applies cleanly to 6.18.44 | — |
-| Buggy code confirmed in HEAD | — |
-| Complements existing `ioerr_work` fix | — |
+**FOR backport:**
+- Fixes verified kernel panic (NULL deref) with stack trace
+- Fixes memory leak on cdev-add error path
+- Small, contained, obviously correct
+- Buggy code confirmed present in 6.18.44
+- Patch applies cleanly (3-way) to this tree
+- NVMe maintainer (Keith Busch) committed
+- Longstanding latent bug in production cdev/multipath code
 
-**Step 9.2 – Stable rules checklist**
+**AGAINST backport:**
+- Requires `CONFIG_NVME_MULTIPATH` for the primary crash scenario (but
+  leak fix is broader)
+- Trigger needs cdev-add failure (not everyday, but realistic under
+  memory pressure)
+- No explicit stable nomination found (UNVERIFIED due to lore fetch
+  failure)
 
-1. Obviously correct and tested? **PASS** — logic matches existing
-   `ctrl->ctrl.tagset` guards; four subsystem reviewers
-2. Fixes a real bug affecting users? **PASS** — lpfc connect failure
-   scenario with stack trace
-3. Important issue? **PASS** — kernel instability during error recovery
-   (HIGH)
-4. Small and contained? **PASS** — 1 file, 7 lines
-5. No new features/APIs? **PASS** — error-path guard only
-6. Can apply to local tree? **PASS** — clean apply verified
+**Unresolved:** Full lore review thread content; whether distros already
+carry an equivalent private fix.
 
-**Step 9.3 – Exception categories**
-Record: Not a device-ID/quirk/DT/docs/build fix; qualifies as a straight
-bug fix.
+### Step 9.2: Stable Rules Checklist
+| Criterion | Result |
+|-----------|--------|
+| 1. Obviously correct and tested? | **PASS** — logic is clear; v1→v3
+review series; maintainer commit |
+| 2. Fixes real bug affecting users? | **PASS** — panic + leak on NVMe
+teardown |
+| 3. Important issue? | **PASS** — CRITICAL crash, HIGH leak |
+| 4. Small and contained? | **PASS** — 3 files, ~57 lines |
+| 5. No new features/APIs? | **PASS** — internal flags + error-path fix
+only |
+| 6. Can apply to local tree? | **PASS** — 3-way apply clean |
 
-**Step 9.4 – Decision rationale**
-This is a longstanding init-order bug: `queue_count` is set at
-allocation time but the IO tagset is created later. Error recovery
-during CONNECTING can call `blk_mq_tagset_busy_iter()` on an
-uninitialized tagset. The fix is minimal, reviewed by NVMe maintainers,
-applies cleanly to 6.18.44, and prevents kernel instability during
-exactly the failure scenarios stable users encounter (connectivity loss,
-admin queue connect failure). The complementary `cancel_work_sync()`
-prevents a race when IO queue creation fails partway through.
+### Step 9.3: Exception Categories
+**Record:** None (standard bug fix, not device ID/quirk/DT/docs).
+
+### Step 9.4: Decision Rationale
+This commit fixes a real teardown asymmetry in NVMe multipath cdev
+handling that causes a **kernel panic** when cdev creation fails but the
+namespace head disk is live, plus a **memory leak** in the cdev-add
+error path. The buggy code is present in Linux 6.18.44, the fix is small
+and surgical, and it meets all stable-kernel criteria. The follow-up
+commit making cdev functions return `void` is optional cleanup and not
+required.
 
 ---
 
 ## Verification
 
-- [Phase 1] Parsed subject, tags, body; identified hidden bug fix
-- [Phase 2] Read diff: tagset guard + `cancel_work_sync()` in error path
-- [Phase 3] `git blame -L 2462`: buggy check from `95ced8a2c72d` (2020);
-  early `queue_count` from 2016–2017
-- [Phase 3] `git log --oneline -20 -- drivers/nvme/host/fc.c`: related
-  commits identified; no duplicate fix
-- [Phase 3] `git merge-base --is-ancestor ee38469f88492 HEAD`: upstream
-  fix **NOT** in HEAD
-- [Phase 3] `git show 7e1a5ff60479b | git apply --check`: applies
+- **[Phase 1]** Parsed subject, tags, body; no Fixes/Reported-
+  by/Cc:stable tags
+- **[Phase 1]** Identified explicit BUG stack trace in commit message
+- **[Phase 2]** Diff: 3 files, ~57 lines; flag bits + guarded teardown +
+  `nvme_cdev_add()` refactor
+- **[Phase 2]** Read current `multipath.c:689-703`,
+  `multipath.c:794-801`, `core.c:3829-3883`, `core.c:4183-4184`,
+  `core.c:4263-4264`
+- **[Phase 3]** `git describe HEAD`: v6.18.44
+- **[Phase 3]** `git blame`: cdev code from `2637baed7801` (2021);
+  `nvme_remove_head` from `62188639ec160` (2025)
+- **[Phase 3]** `git log`: `9e221d8cf90b8` renamed
+  `nvme_mpath_shutdown_disk` → `nvme_mpath_remove_disk`
+- **[Phase 3]** `git merge-base --is-ancestor 26acdaa357cde HEAD`: exit
+  1 (fix NOT in tree)
+- **[Phase 3]** Related commit `3596a06583a16` (2021 put_device leak
+  fix) is separate/prior issue
+- **[Phase 3]** Follow-up `869567bcbe2dc` on master is optional, not
+  prerequisite
+- **[Phase 4]** `b4 dig -c 26acdaa357cde`: lore URL found
+- **[Phase 4]** `b4 dig -a`: v1/v2/v3 series; v3 committed
+- **[Phase 4]** `b4 dig -w`: NVMe maintainers CC'd
+- **[Phase 4]** UNVERIFIED: lore thread content (Anubis blocked fetch)
+- **[Phase 5]** Traced call chain: `nvme_mpath_set_live` → ignored
+  failure → `nvme_ns_remove` → `nvme_mpath_remove_disk` →
+  `nvme_remove_head` → `nvme_cdev_del`
+- **[Phase 6]** Buggy code confirmed present in 6.18.44 checkout
+- **[Phase 6]** `git apply --check --3way` on `26acdaa357cde`: applies
   cleanly
-- [Phase 4] `b4 dig -c 7e1a5ff60479b`: lore URL found
-- [Phase 4] `b4 dig -a`: standalone 1/1 patch confirmed
-- [Phase 4] `b4 dig -w`: maintainers CC'd
-- [Phase 4] UNVERIFIED: lore thread content (bot protection)
-- [Phase 5] Traced call chain: `ioerr_work` → `nvme_fc_error_recovery` →
-  `__nvme_fc_abort_outstanding_ios`
-- [Phase 5] Verified `nvme_alloc_io_tag_set()` sets `ctrl->tagset` at
-  `core.c:4961`
-- [Phase 6] `git describe HEAD`: v6.18.44
-- [Phase 6] Read HEAD `fc.c:2462,2900`: buggy code present
-- [Phase 6] `0a2c5495b6d1e` in tree: related but incomplete coverage
-- [Phase 8] Failure mode: uninitialized lock in
-  `blk_mq_tagset_busy_iter`, severity HIGH
+- **[Phase 6]** No `NVME_NSHEAD_CDEV_LIVE` / `NVME_NS_CDEV_LIVE` in
+  current tree
+- **[Phase 8]** Failure mode: NULL deref panic — CRITICAL; memory leak —
+  HIGH
 
 **YES**
 
- drivers/nvme/host/fc.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/nvme/host/core.c      | 33 ++++++++++++++++++++++++---------
+ drivers/nvme/host/multipath.c | 19 +++++++++++++------
+ drivers/nvme/host/nvme.h      |  5 ++++-
+ 3 files changed, 41 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index bf78faf1a4ffa..2e8cba91a853e 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2459,7 +2459,7 @@ __nvme_fc_abort_outstanding_ios(struct nvme_fc_ctrl *ctrl, bool start_queues)
- 	 * io requests back to the block layer as part of normal completions
- 	 * (but with error status).
- 	 */
--	if (ctrl->ctrl.queue_count > 1) {
-+	if (ctrl->ctrl.queue_count > 1 && ctrl->ctrl.tagset) {
- 		nvme_quiesce_io_queues(&ctrl->ctrl);
- 		nvme_sync_io_queues(&ctrl->ctrl);
- 		blk_mq_tagset_busy_iter(&ctrl->tag_set,
-@@ -2898,6 +2898,11 @@ nvme_fc_create_io_queues(struct nvme_fc_ctrl *ctrl)
- out_delete_hw_queues:
- 	nvme_fc_delete_hw_io_queues(ctrl);
- out_cleanup_tagset:
-+	/*
-+	 * In CONNECTING state ctrl->ioerr_work will abort both admin
-+	 * and io tagsets. Cancel it first before removing io tagset.
-+	 */
-+	cancel_work_sync(&ctrl->ioerr_work);
- 	nvme_remove_io_tag_set(&ctrl->ctrl);
- 	nvme_fc_free_io_queues(ctrl);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 5ea331e933c55..de2f47d7ffd3d 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3838,7 +3838,8 @@ void nvme_cdev_del(struct cdev *cdev, struct device *cdev_device)
+ 	put_device(cdev_device);
+ }
  
+-int nvme_cdev_add(struct cdev *cdev, struct device *cdev_device,
++int nvme_cdev_add(const char *name, struct cdev *cdev,
++		struct device *cdev_device,
+ 		const struct file_operations *fops, struct module *owner)
+ {
+ 	int minor, ret;
+@@ -3846,6 +3847,12 @@ int nvme_cdev_add(struct cdev *cdev, struct device *cdev_device,
+ 	minor = ida_alloc(&nvme_ns_chr_minor_ida, GFP_KERNEL);
+ 	if (minor < 0)
+ 		return minor;
++
++	ret = dev_set_name(cdev_device, name);
++	if (ret) {
++		ida_free(&nvme_ns_chr_minor_ida, minor);
++		return ret;
++	}
+ 	cdev_device->devt = MKDEV(MAJOR(nvme_ns_chr_devt), minor);
+ 	cdev_device->class = &nvme_ns_chr_class;
+ 	cdev_device->release = nvme_cdev_rel;
+@@ -3883,15 +3890,21 @@ static const struct file_operations nvme_ns_chr_fops = {
+ static int nvme_add_ns_cdev(struct nvme_ns *ns)
+ {
+ 	int ret;
++	char name[32];
+ 
+ 	ns->cdev_device.parent = ns->ctrl->device;
+-	ret = dev_set_name(&ns->cdev_device, "ng%dn%d",
+-			   ns->ctrl->instance, ns->head->instance);
+-	if (ret)
+-		return ret;
++	snprintf(name, sizeof(name), "ng%dn%d", ns->ctrl->instance,
++		 ns->head->instance);
+ 
+-	return nvme_cdev_add(&ns->cdev, &ns->cdev_device, &nvme_ns_chr_fops,
+-			     ns->ctrl->ops->module);
++	ret = nvme_cdev_add(name, &ns->cdev, &ns->cdev_device,
++			    &nvme_ns_chr_fops, ns->ctrl->ops->module);
++	if (ret) {
++		dev_err(ns->ctrl->device, "Unable to create the %s device\n",
++			name);
++	} else {
++		set_bit(NVME_NS_CDEV_LIVE, &ns->flags);
++	}
++	return ret;
+ }
+ 
+ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
+@@ -4272,8 +4285,10 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+ 	/* guarantee not available in head->list */
+ 	synchronize_srcu(&ns->head->srcu);
+ 
+-	if (!nvme_ns_head_multipath(ns->head))
+-		nvme_cdev_del(&ns->cdev, &ns->cdev_device);
++	if (!nvme_ns_head_multipath(ns->head)) {
++		if (test_and_clear_bit(NVME_NS_CDEV_LIVE, &ns->flags))
++			nvme_cdev_del(&ns->cdev, &ns->cdev_device);
++	}
+ 
+ 	nvme_mpath_remove_sysfs_link(ns);
+ 
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 616d1ce6b8e5c..d61c4e9543040 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -643,14 +643,20 @@ static const struct file_operations nvme_ns_head_chr_fops = {
+ static int nvme_add_ns_head_cdev(struct nvme_ns_head *head)
+ {
+ 	int ret;
++	char name[32];
+ 
+ 	head->cdev_device.parent = &head->subsys->dev;
+-	ret = dev_set_name(&head->cdev_device, "ng%dn%d",
+-			   head->subsys->instance, head->instance);
+-	if (ret)
+-		return ret;
+-	ret = nvme_cdev_add(&head->cdev, &head->cdev_device,
++	snprintf(name, sizeof(name), "ng%dn%d", head->subsys->instance,
++		 head->instance);
++
++	ret = nvme_cdev_add(name, &head->cdev, &head->cdev_device,
+ 			    &nvme_ns_head_chr_fops, THIS_MODULE);
++	if (ret) {
++		dev_err(disk_to_dev(head->disk),
++			"Unable to create the %s device\n", name);
++	} else {
++		set_bit(NVME_NSHEAD_CDEV_LIVE, &head->flags);
++	}
+ 	return ret;
+ }
+ 
+@@ -695,7 +701,8 @@ static void nvme_remove_head(struct nvme_ns_head *head)
+ 		 */
+ 		kblockd_schedule_work(&head->requeue_work);
+ 
+-		nvme_cdev_del(&head->cdev, &head->cdev_device);
++		if (test_and_clear_bit(NVME_NSHEAD_CDEV_LIVE, &head->flags))
++			nvme_cdev_del(&head->cdev, &head->cdev_device);
+ 		synchronize_srcu(&head->srcu);
+ 		del_gendisk(head->disk);
+ 	}
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 102fae6a231c5..2708003e5b40f 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -510,6 +510,7 @@ struct nvme_ns_head {
+ 	unsigned int		delayed_removal_secs;
+ #define NVME_NSHEAD_DISK_LIVE		0
+ #define NVME_NSHEAD_QUEUE_IF_NO_PATH	1
++#define NVME_NSHEAD_CDEV_LIVE		2
+ 	struct nvme_ns __rcu	*current_path[];
+ #endif
+ };
+@@ -545,6 +546,7 @@ struct nvme_ns {
+ #define NVME_NS_FORCE_RO		3
+ #define NVME_NS_READY			4
+ #define NVME_NS_SYSFS_ATTR_LINK	5
++#define NVME_NS_CDEV_LIVE		6
+ 
+ 	struct cdev		cdev;
+ 	struct device		cdev_device;
+@@ -916,7 +918,8 @@ int nvme_get_log(struct nvme_ctrl *ctrl, u32 nsid, u8 log_page, u8 lsp, u8 csi,
+ 		void *log, size_t size, u64 offset);
+ bool nvme_tryget_ns_head(struct nvme_ns_head *head);
+ void nvme_put_ns_head(struct nvme_ns_head *head);
+-int nvme_cdev_add(struct cdev *cdev, struct device *cdev_device,
++int nvme_cdev_add(const char *name, struct cdev *cdev,
++		struct device *cdev_device,
+ 		const struct file_operations *fops, struct module *owner);
+ void nvme_cdev_del(struct cdev *cdev, struct device *cdev_device);
+ int nvme_ioctl(struct block_device *bdev, blk_mode_t mode,
 -- 
 2.53.0
 
