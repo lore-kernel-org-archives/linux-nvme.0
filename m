@@ -4,94 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 609E1C61DE8
-	for <linux-nvme@archiver.kernel.org>; Sun, 30 Aug 2026 22:59:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B3214C61DE2
+	for <linux-nvme@archiver.kernel.org>; Mon, 31 Aug 2026 00:51:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Kdi3DSPc/O+C8A9e2zv3rCFIPzltKhrlzZn7ufqHIaM=; b=VQi2meTnTBEejRwL8Im/MdRe5U
-	D/6TNItUl4lcU2Rk+W9T7N7kdlrFKXo6g0fJWH9tFzzHLD/fIiSuUn/N4ZWOJ9gn8YMK5RClQgj1l
-	2i9f4ag0jv/d2jrPCj8hxMzyQ3ujsbsBMIxB5enwRBMgzrWmNPITmM+JClSRwiGseR0lyPyN+B9yl
-	2/hhaSdGa6JyHj386ej3KmOj5ytSYntvrEeCnsCnBnxq0zcWDCLECfEWvFxo2Oe1mc9nWRuyeWKxs
-	oUTNel9/9OAF5NObhOyj5YUPjMxOwmTD5jTybqyYrLlw2ZvBIcoVCid7tJIcLB6/YG7Jah2F7MPbg
-	IaS6IsSA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ba4TYNQwJkIIEP9Ptfm6U3S+ptJAfpuHjbRlL4XIV28=; b=BtWQ9V4s2J/K/+8vIyr5fllkmD
+	aNP/Ysl5zDUgZFTRyDt4MHZhVto9tVhJR9hfm3GGUq5gZOep97bb75goVudhJ0BVpc4UOpEzUw+AN
+	mApp+dGvKTuiJkQOgBJ3D0O3+jsN3INkcBQ53T9+Fg/v6ilG/l8Nn7Ne/BaZ/20pDdYYKwmjhMZx0
+	7IWT4mBf1jsRQPjGp4dU1p8u4p4WsXncl1WPZczE0AtcWP7kRagDqzF2mUrxPnfoOgcPELQaJZG5r
+	dwy5pcUKny27IMp8/qNwtzNvSnTwOxVSbsf1mrfXtHoROy3/g425EXIYMYr2JTOoVB2pY08jr875I
+	O1aksGfg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x0oV7-00000008CUR-1mHH;
-	Sun, 30 Aug 2026 22:59:45 +0000
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c])
+	id 1x0qFM-00000008Inc-0D9C;
+	Mon, 31 Aug 2026 00:51:36 +0000
+Received: from mail-ua1-x936.google.com ([2607:f8b0:4864:20::936])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x0oV5-00000008CU5-1W1G
+	id 1x0qFI-00000008InH-3o6X
 	for linux-nvme@lists.infradead.org;
-	Sun, 30 Aug 2026 22:59:44 +0000
-Received: by mail-pg1-x52c.google.com with SMTP id 41be03b00d2f7-cc1d57602e8so2559723a12.3
-        for <linux-nvme@lists.infradead.org>; Sun, 30 Aug 2026 15:59:42 -0700 (PDT)
+	Mon, 31 Aug 2026 00:51:34 +0000
+Received: by mail-ua1-x936.google.com with SMTP id a1e0cc1a2514c-97ea7f0d417so152817241.2
+        for <linux-nvme@lists.infradead.org>; Sun, 30 Aug 2026 17:51:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1788130782; x=1788735582; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Kdi3DSPc/O+C8A9e2zv3rCFIPzltKhrlzZn7ufqHIaM=;
-        b=abbz2e7mxAkBLx1cJWXfM3X4DsF49v5OnjI6QUDT2B0xzQHI9eNEirautS+fXDOvmx
-         AmEYc403J/I1cGODNuRbrq6pZFKyk0rMIHI7VURV3M984Nmz09cSOQ+n9pByGff4soRt
-         yyHz8C5i6tZ2lv/Dz6OdBxBldTlJ5UTxt9R4rzKRkuXrPsrOfYDUm1eDu+rVg2K8PIFu
-         yMJEKus34NugpRFaafwBSXlj1Qu9uvHOIXpA7IRAfHFgcMHUKUaDxKXdCB91I4NjwCKR
-         MMvnATd7bIqHcAqMcyhUrlNEZiJofY8qbym5b8+6KQerivk2vQ7czVMh/kvckwF26jyJ
-         VNYQ==
+        d=idkmanager.com; s=google; t=1788137491; x=1788742291; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ba4TYNQwJkIIEP9Ptfm6U3S+ptJAfpuHjbRlL4XIV28=;
+        b=HWqHv8V7JJ6ZqvJY+HBla0kzXTlrfPIAIqIbamt8Vg8QQ60a8mGhkqd+1DydJhKA90
+         K7ho97MLszuNBw0DdUXGb7pEovHU4iYEP4dm1PaR8G8dvVj59p7FqYNWLsAa26y/hqm3
+         Vy8paj/8P81MOtNQeNzZ3P6+DuZYmVyV3NAx6Qooiy0IEBKGV+HB/sxDfIzgnb5P/K6g
+         Hr7EiCvR5zCRcIRzVwY82hIhu3l4MucqNblOJpvI/PwltVX5hL93Hfy4wxJL+XmHePLx
+         vA6if54jQVAa4fuMH5FL697zQ9JQd6Zqne8LNsZgW+O9pNnF3b5l3CdLXqHIxVISE2HC
+         Gw8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788130782; x=1788735582;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Kdi3DSPc/O+C8A9e2zv3rCFIPzltKhrlzZn7ufqHIaM=;
-        b=IsWm+BbD4uwwt5ldlB5n4LPnmPNaq9yX7OJohXTrNkKJYDP9ecAVPPDlZtsvNuxaYI
-         Axqh5e9L9kKCG64fe5Eb909JaCIE+PsiTmO9WzBNYZhD5eCrE7LF0OwylBa0jSSnxvGO
-         1CfdMC69dIQlQq0h0fKejbw+lRpqWW7xyScIFNznQgXhfAaX91LfWINU0zTuZJyHsSKN
-         VzOIPYOLUDh+ojwTjvYnsqezBeoZdUR1fZW2Vvr66ZdZcvbZOQEoNE6OjsLa/JOqAv6B
-         O2lD1UYpt5F9JYCrgsZGkHxyvKPC9Q00CXw7HSonqKI42X/IBiq/X4KO5DwyAdElcyeA
-         Y6Cw==
-X-Forwarded-Encrypted: i=1; AHgh+RqUftquf4forZU+fem/bkvYz1isYY+6nMnfWBnk+XcE/dWE74TRRpH4YwzUHbw06k0sui0/Zbeg4G65@lists.infradead.org
-X-Gm-Message-State: AFuF++kFruCAFRG0uCfnjNgGGhQGysNCyfSLTv4rfXnfN2XPxB7nRN93
-	wXjQQI0JpG1d45J0uJdunicV/Jr6RBkVOaeLHvJAjS9cgpPCTI3lcAFMUZeIYTeCCHk=
-X-Gm-Gg: AR+sD112nI0W/1cFUIdUDrmqGcY1R0hKSVOczCmJLbNWRE3m7liU18NSGGm3s39Zaxf
-	cjyO9U6NFl+dmdz83bg65bgQm7xhbEQCvux8MXhGa9k1bLAqjmuua4+pBHTaz/lQUgNbqQnjaYR
-	eFtiLuKivcsTn+93PUBTWAKVhScVGZleYDfXNHnnfuwx+Trtjg8I9MHs7zwvWGfKi0qVTMZdCKD
-	SDdxotju+09RO8Hsk1WbT/6JULuY/deYT5+2M59yvcze6RIvlOi7+x8CC5dKx4d+bgs3yexKULq
-	Ke0xZQ8SMCnrnImFSuCgo959T5xxG43ykaLSxQRYz8UVYUjDOhTHN2bMSoY957CJHJWqVynfnRN
-	81Fja9zzpqH8qXpvODz2M4z51cdiDLC9/7v2NwZ0M8cOHvMCLzIFwfi8fpu+oy8LZppY21slwTT
-	m4jhL7eYrxqyo/NcbZWjlxT1dUR/P7GbSCR2RiJCvoIgTF6JzPmbV+94M9F0GkizfDL9qm
-X-Received: by 2002:a05:6a20:748b:b0:3d1:3c2:85b6 with SMTP id adf61e73a8af0-3d266570c5dmr31298068637.5.1788130782138;
-        Sun, 30 Aug 2026 15:59:42 -0700 (PDT)
-Received: from medusa.lab.kspace.sh ([2607:fb90:9c20:7a99::791d])
-        by smtp.googlemail.com with ESMTPSA id 5a478bee46e88-3286f7be440sm28921366eec.7.2026.08.30.15.59.40
+        d=1e100.net; s=20251104; t=1788137491; x=1788742291;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ba4TYNQwJkIIEP9Ptfm6U3S+ptJAfpuHjbRlL4XIV28=;
+        b=CU3X1Davx66ZhGCy6oFaQQboQnfme30XY3nYIGocND2Jpj2GX42nKkGRRhDT2eG+bh
+         m8HPqiGZVWT3Jh/FjYVamBnR9xI+rPdXgEHo8nSvn9yEvpoeiocx1xUj3IhjcaMWCukZ
+         S1gZQ5NZGL8nHEY680lTMF0f4b0VLJw6D5ixpW/Y4V3KgoGnpxyPcbSq4xvJBVXLuurU
+         3Wjfthn08TyWWjLuwlR0mzGuDBgb6Qg/xV1Mr5rBtptc7uUDSa4XG0bY8Hp7NOsXtBOw
+         iw/h7vQRdtT4A949HvqPmrS2F5RTqFLRI5CYs1ZCLdCsR93JCRs5VDEL3CqMWXJLHxcr
+         5vJg==
+X-Gm-Message-State: AFuF++lQ4o6rkY7UVEEIPf86bRlPlrJN6aaFoOndk4qWgNvQSoO6B4dM
+	XB6LCf7a07nmga000pJP2sQMQljzlmbpn0Gdwry2ll2MzbMJB58L3PnoGOsrWcrugj4=
+X-Gm-Gg: AR+sD106/MHErYGzbeztcW0lixRY6Cjg5Bn9HGazqmuLAkP1kETepUS3BSEKmI1iQ1R
+	mciMTjYZm/YvBx9vWAjwbZavmnxLdZ8JjAv9WOdqHSLTUd6C++l3DZAZ/Xckf9GrIZAhNm1KPAR
+	D3R54GKNZUKigD/S8ojzXA37O2k2DCkcJr2Mj/+N4UMYZPEJmMuyLNJzklO8NQV4Cf1kVZRqbW+
+	Iu7xFibPFXeihsMc5EaEGYY3ePnq3mtWTyLRxeK+Wb4RsBX8imkhjE7c3Wx0nQuDhLh2oLpysTi
+	vNHFjmjqb6RA8akkxJCXOmwjJmbIMvqfunskuRXL5PS1ZgAudOntX+tGsP3H6qtBBcgYEpcK71C
+	uZBn/LCSW3JZhUGMHpOI9f1ccFRXtBzSecihfrqNJFq5SHFabdTyVbzGhiuOxofOuzgELtUGd0i
+	Y1EDyvoCTdKBOHuH/2svgpCdb/+s7jMFSAUu5+B1c10S6iXNeg/Ay3t+NlCYRUkefaXtP5xaka+
+	7SxlelZmJ2xYUQnceBqnEmju6zff6ClOjrQdaNwzi65WLz3LJYtC32Z
+X-Received: by 2002:a05:6102:80a3:b0:789:3f43:645b with SMTP id ada2fe7eead31-789ef7277f6mr175545137.2.1788137490503;
+        Sun, 30 Aug 2026 17:51:30 -0700 (PDT)
+Received: from localhost.localdomain (corp-190-12-36-222.uio.puntonet.ec. [190.12.36.222])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-785f247e397sm5757890137.0.2026.08.30.17.51.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Aug 2026 15:59:41 -0700 (PDT)
-Date: Sun, 30 Aug 2026 15:59:39 -0700
-From: Mohamed Khalfella <mkhalfella@purestorage.com>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Surabhi Gogte <sgogte@purestorage.com>, Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	randyj@purestorage.com, adailey@purestorage.com
-Subject: Re: [PATCH v2 2/2] nvme-tcp: parallelize I/O queue allocation and
- startup
-Message-ID: <20260830225939.GC1842415-mkhalfella@purestorage.com>
-References: <20260824225648.316962-1-sgogte@purestorage.com>
- <20260824225648.316962-3-sgogte@purestorage.com>
- <c98fe50c-172a-4e53-a30c-5416c40cb23f@grimberg.me>
- <20260830222558.GB1842415-mkhalfella@purestorage.com>
- <4f2d2b60-56f9-4ae3-b38f-bba9754011df@grimberg.me>
+        Sun, 30 Aug 2026 17:51:30 -0700 (PDT)
+From: Alfonso Kuen <gerencia@idkmanager.com>
+To: hch@lst.de,
+	sagi@grimberg.me,
+	kch@nvidia.com
+Cc: linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Alfonso Kuen <gerencia@idkmanager.com>
+Subject: [PATCH v3] nvmet-tcp: report a bounded MDTS instead of "no limit"
+Date: Sun, 30 Aug 2026 19:51:16 -0500
+Message-ID: <20260831005117.142713-1-gerencia@idkmanager.com>
+X-Mailer: git-send-email 2.53.0.windows.1
+In-Reply-To: <20260829013900.10392-1-gerencia@idkmanager.com>
+References: <20260829013900.10392-1-gerencia@idkmanager.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4f2d2b60-56f9-4ae3-b38f-bba9754011df@grimberg.me>
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260830_155943_428677_83DC2970 
-X-CRM114-Status: GOOD (  14.37  )
+X-CRM114-CacheID: sfid-20260830_175132_990574_66862556 
+X-CRM114-Status: GOOD (  19.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,24 +101,103 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon 2026-08-31 01:44:32 +0300, Sagi Grimberg wrote:
-> 
-> 
-> On 31/08/2026 1:25, Mohamed Khalfella wrote:
-> > On Mon 2026-08-31 01:00:52 +0300, Sagi Grimberg wrote:
-> >>
-> >> On 25/08/2026 1:56, Surabhi Gogte wrote:
-> >>> -	ret = sock_create_kern(current->nsproxy->net_ns,
-> >>> +	ret = sock_create_kern(&init_net,
-> >> I don't think we can just change this...
-> > Why we can not change it? Today the error recovery code running in
-> > worker thread will be using init_net anyway, no?
-> See commit: 1be52169c3488ef98582ed553ab35cefa3978817
+nvmet-tcp does not implement .get_mdts, so nvmet_ctrl_mdts() falls back
+to the port value (0 by default) and identify-controller advertises "no
+maximum data transfer size". The initiator believes it:
+nvme_init_ctrl_finish() sets max_hw_sectors to UINT_MAX.
 
-Thanks for the pointer. I was not aware of that. What about error
-recovery case? I _think_ it will be using init_net, no?
+What the initiator then issues is decided by the block layer. The
+generic cap is 4 MiB (BLK_DEF_MAX_SECTORS_CAP), but a namespace that
+advertises a large NOWS raises it: blk_validate_limits() takes
+max_sectors from io_opt once io_opt exceeds that cap. On the array we
+measured, NOWS is 65535, so io_opt is 32 MiB and the initiator emitted
+32 MiB commands -- from a controller that advertised no MDTS at all.
 
-Also, Will the change to sock_create_kern(&init_net) break the fix in
-commit 1be52169c348 ("nvme-tcp: fix selinux denied when calling
-sock_sendmsg")?
+The target cannot serve those, in one of two ways depending on the
+kernel.
+
+Since commit 4a3f00262a04 ("nvmet-tcp: bound SGL data length before
+allocating command buffers"), nvmet_tcp_map_data() rejects any len above
+NVMET_TCP_MAXH2CDATA (4 MiB) with NVME_SC_SGL_INVALID_DATA | DNR, so the
+command fails hard and deterministically. That is the right response to
+an oversized command, but the initiator had no way to avoid sending it:
+nothing advertised the limit it was exceeding.
+
+Before that commit the command reached sgl_alloc(), which for 32 MiB
+needs 8192 scatterlist entries -- 256 KiB, an order-6 kmalloc. Under
+fragmentation that fails, and it surfaces as NVME_SC_INTERNAL, a generic
+status, so NVMe multipath does not fail the command over to another
+path. A 1 MiB command needs 256 entries, 8 KiB, served from the
+kmalloc-8k slab, which does not fail. That failure mode is intermittent
+and load-dependent rather than deterministic; on a vendor kernel
+predating the bound it cost us roughly 98 GiB of a 2 TiB image copy,
+with the copy tool exiting 0.
+
+Commit ec6d20e16c2d ("nvmet-rdma: Implement get_mdts controller op")
+left the other transports untouched. Do the same for TCP, using the
+same 1 MiB value, so initiators size their commands to something the
+target accepts instead of discovering the limit by failing.
+
+Signed-off-by: Alfonso Kuen <gerencia@idkmanager.com>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+---
+Changes in v3:
+- Cite the RDMA change as commit ec6d20e16c2d ("nvmet-rdma: Implement
+  get_mdts controller op") rather than by patch title, per Sagi's review.
+- Pick up Sagi's Reviewed-by.
+- No functional change: the diff is byte-identical to v1 and v2.
+
+Changes in v2:
+- Rewrite the rationale. v1 described the sgl_alloc() order-6 failure as
+  current behaviour; since 4a3f00262a04 that path is unreachable and an
+  oversized command is rejected earlier with SGL_INVALID_DATA | DNR. Both
+  failure modes are now described, and which kernels see which.
+- v1 attributed the 32 MiB command size to a "generic 32 MiB ceiling" in
+  the block layer. The generic cap is 4 MiB; the 32 MiB came from the
+  target's own NOWS raising io_opt. Corrected -- and it sharpens the
+  point, since the same controller advertises an optimal I/O size it
+  cannot serve.
+- v1 called the 1 MiB SGL an order-0 allocation; it is 8 KiB.
+- No functional change: the diff is byte-identical to v1.
+
+ drivers/nvme/target/tcp.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index e4f603b2a..414ba896e 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -23,6 +23,9 @@
+ #include "nvmet.h"
+ 
+ #define NVMET_TCP_DEF_INLINE_DATA_SIZE	(4 * PAGE_SIZE)
++
++/* Assume mpsmin == device_page_size == 4KB */
++#define NVMET_TCP_MAX_MDTS		8
+ #define NVMET_TCP_MAXH2CDATA		0x400000 /* 16M arbitrary limit */
+ #define NVMET_TCP_BACKLOG 128
+ 
+@@ -2243,6 +2246,11 @@ static ssize_t nvmet_tcp_host_port_addr(struct nvmet_ctrl *ctrl,
+ 			(struct sockaddr *)&queue->sockaddr_peer);
+ }
+ 
++static u8 nvmet_tcp_get_mdts(const struct nvmet_ctrl *ctrl)
++{
++	return NVMET_TCP_MAX_MDTS;
++}
++
+ static const struct nvmet_fabrics_ops nvmet_tcp_ops = {
+ 	.owner			= THIS_MODULE,
+ 	.type			= NVMF_TRTYPE_TCP,
+@@ -2254,6 +2262,7 @@ static const struct nvmet_fabrics_ops nvmet_tcp_ops = {
+ 	.install_queue		= nvmet_tcp_install_queue,
+ 	.disc_traddr		= nvmet_tcp_disc_port_addr,
+ 	.host_traddr		= nvmet_tcp_host_port_addr,
++	.get_mdts		= nvmet_tcp_get_mdts,
+ };
+ 
+ static int __init nvmet_tcp_init(void)
+-- 
+2.47.3
+
 
