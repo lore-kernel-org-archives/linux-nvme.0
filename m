@@ -4,58 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4A522C61DD3
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Sep 2026 14:06:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 053B5C61DD3
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Sep 2026 16:40:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:
-	Subject:Cc:To:From:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
-	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GndmvzAx0896K1HCNrpHO2E+R4DOWmOhmH9ExQNzXUc=; b=z9a366rnxtSj9VDQ0SRT3Abb7D
-	93urVJVH2DBFCRUYrqb+ei3VTbeBuiWCJcYdNWYHht7aiTu1u0XrCOx+p3vATxDsGLiKcCALCPR5m
-	eavf4fe+mWEJsm8bWm8hL23pZlBma538juWyDazsPBdSACC3qSEjNJy1dG+5hmKm1T2Ga0Xqs/2Qt
-	7lco7DgD62mSPN9HwVOX5EUzsuRNF7/7XThFsiUjFcfb0FfC0C1sHlaQ+pWvS7TFemAJlXgab59zN
-	znvvTt0EDgkehwgeqfYFmwCJ22dVfQP/psvae42kZidz4t9s1HT/LedHJgHMguz+UiEvGeksb5T7F
-	6+uTdBhA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=T/YOOseWj7d0aPZofk1RZEGl9B3QOfC7x7pcs6/yHNc=; b=vqkHN1jbTXEHD3aP2Iv49IB+gp
+	shrlKRW+0RDkVFRhqeYtG6DyIX0krx2exmlS6drJ+t2wjTjsvSBcT41P7issH/iNa+UQiRXI5NzJz
+	uY6uHYmaZyNBdgusOeFENXMk7TRoTM9+3+DjBDsFt7rg9lUzA3eVLFxVq17WKqMmEjFQRxXNLh1fw
+	eJQ864+JmRBwuFo+izEmF4ari2KLnY3qOwKv28c/WKyTulG5hcS/fOweB9dS3yic5015AydLYXicD
+	dRleDasp8ESu20Vd/+tuA0FXMNMsIRvDIx9k0aH26otHUo6pK0Vkc3Y1odte8A1OKAlhUDIkyPUzl
+	/TdzdL+Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x1P7u-0000000CIHD-2omx;
-	Tue, 01 Sep 2026 14:06:14 +0000
-Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=arkamax.eu)
+	id 1x1RWm-0000000CgnR-1SNp;
+	Tue, 01 Sep 2026 16:40:04 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x1P7p-0000000CIFO-3GRs
+	id 1x1RWj-0000000CgmP-3pw3
 	for linux-nvme@lists.infradead.org;
-	Tue, 01 Sep 2026 14:06:13 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; s=mail1; bh=FNAWafCY3dOFra
-	hjM8Pl2Iw/GIp0doPYp+ItWu+gbXE=; h=in-reply-to:references:subject:cc:
-	to:from:date; d=arkamax.eu; b=KVJGccIRMy1ikmV86deRGvy1slgxAwTq0o0RJjIw
-	ijmgyNY68xSAP2iWRyFMyTYE2mqgoqNkvqWPQdpAXRjPzoZtlzvlr0chD66huFsjikTkI+
-	TfPx0Uy9bpAybWUFK9Rwcy/0si2w5PuptltN0dbzaP8GRzDZ20L0IKbpyzIFTeNVDjxUAs
-	2pwSfU/zQyOJIM7Uy5f9kztOA5UfF1aGut8SG/ZIBPjG30/+QDpiF9cp0xpxp/0fKfDPQO
-	T25Cw40SNEgdq9eGisAak44HgRBKxgZhk5DiYXKyZDqPgFwPO3HAfFKIoHU1M/nPl2P6uY
-	HlPJtaZBWfi/4Z/nuLK7Jw==
-Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
-	by arkamax.eu (OpenSMTPD) with ESMTPSA id 814b2cdb (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Tue, 1 Sep 2026 16:06:02 +0200 (CEST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 01 Sep 2026 16:06:02 +0200
-Message-Id: <DL41D2NGEUHW.2UUHTZ6LLM9X7@arkamax.eu>
-From: "Maurizio Lombardi" <mlombard@arkamax.eu>
-To: "Alfonso Kuen" <gerencia@idkmanager.com>, <hch@lst.de>,
- <sagi@grimberg.me>, <kch@nvidia.com>
-Cc: <linux-nvme@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3] nvmet-tcp: report a bounded MDTS instead of "no
- limit"
-X-Mailer: aerc 0.22.0
-References: <20260829013900.10392-1-gerencia@idkmanager.com>
- <20260831005117.142713-1-gerencia@idkmanager.com>
-In-Reply-To: <20260831005117.142713-1-gerencia@idkmanager.com>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260901_070611_871761_80DB55E5 
-X-CRM114-Status: GOOD (  13.16  )
+	Tue, 01 Sep 2026 16:40:01 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id 48AC740D93;
+	Tue,  1 Sep 2026 16:40:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D134C1F000E9;
+	Tue,  1 Sep 2026 16:40:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788280801;
+	bh=T/YOOseWj7d0aPZofk1RZEGl9B3QOfC7x7pcs6/yHNc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=J2aLdI52wl6RtUX3HFGllzgTaOhLVSaVXlgxNYo6cgS+uTD1iTGNLv5EhVnkRp1OW
+	 NFwUy/XhE8sgJBCDi7YioQIOXB5jbArNtzbIggmZ02xMH7YsQE2kNzGpExtfSbMjMU
+	 43pwQLbGYsiT7BaNSKhzdiNpreLfyRTSzIcNSLoz4YndUDeX8am2vMfoHYAyA97WYW
+	 ZfrrdWdje+oxZizicJfvlzMRG5rp05OYXiYZirxjv9VSvwL8d9Ahx1+6p3623R0gT0
+	 lwmdKu+T6N4F+8nD1tSjTxR7TLW+U0aRk5Xe89FFxidrmOt1vARU7xOVX78b6jETZN
+	 qtuA3GmwuRr6Q==
+Date: Tue, 1 Sep 2026 10:39:59 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Nilay Shroff <nilay@linux.ibm.com>
+Cc: linux-nvme@lists.infradead.org, sagi@grimberg.me, hch@lst.de,
+	axboe@fb.com, john.g.garry@oracle.com, wenxiong@linux.ibm.com,
+	gjoyce@linux.ibm.com
+Subject: Re: [PATCH 1/2] nvme: keep transport module referenced while head
+ node is open
+Message-ID: <apb_3yu6G0dx_rWe@kbusch-mbp>
+References: <20260831152006.819471-1-nilay@linux.ibm.com>
+ <20260831152006.819471-2-nilay@linux.ibm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260831152006.819471-2-nilay@linux.ibm.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,37 +71,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon Aug 31, 2026 at 2:51 AM CEST, Alfonso Kuen wrote:
-> nvmet-tcp does not implement .get_mdts, so nvmet_ctrl_mdts() falls back
-> to the port value (0 by default) and identify-controller advertises "no
-> maximum data transfer size". The initiator believes it:
-> nvme_init_ctrl_finish() sets max_hw_sectors to UINT_MAX.
->
-> What the initiator then issues is decided by the block layer. The
-> generic cap is 4 MiB (BLK_DEF_MAX_SECTORS_CAP), but a namespace that
-> advertises a large NOWS raises it: blk_validate_limits() takes
-> max_sectors from io_opt once io_opt exceeds that cap. On the array we
-> measured, NOWS is 65535, so io_opt is 32 MiB and the initiator emitted
-> 32 MiB commands -- from a controller that advertised no MDTS at all.
->
-> The target cannot serve those, in one of two ways depending on the
-> kernel.
->
-> Since commit 4a3f00262a04 ("nvmet-tcp: bound SGL data length before
-> allocating command buffers"), nvmet_tcp_map_data() rejects any len above
-> NVMET_TCP_MAXH2CDATA (4 MiB) with NVME_SC_SGL_INVALID_DATA | DNR, so the
-> command fails hard and deterministically. That is the right response to
-> an oversized command, but the initiator had no way to avoid sending it:
-> nothing advertised the limit it was exceeding.
+On Mon, Aug 31, 2026 at 08:49:54PM +0530, Nilay Shroff wrote:
+> +static inline int nvme_module_get(struct nvme_ns *ns, unsigned int count)
+> +{
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < count; i++) {
+> +		if (!try_module_get(ns->ctrl->ops->module))
+> +			goto out_unwind;
+> +	}
+> +
+> +	return 0;
+> +out_unwind:
+> +	while (i--)
+> +		module_put(ns->ctrl->ops->module);
+> +	return -ENXIO;
+> +}
+> +
+> +static inline void nvme_module_put(struct nvme_ns *ns, unsigned int count)
+> +{
+> +	while (count--)
+> +		module_put(ns->ctrl->ops->module);
+> +}
 
-#define NVMET_TCP_MAXH2CDATA  0x400000 /* 16M arbitrary limit */
+Thanks, looks correct to me.
 
-So the comment should be fixed, it says NVMET_TCP_MAXH2CDATA is 16M.
-
-Also, it's not entirely clear to me how the target enforces this. Suppose a=
-n
-host sends a 2 MiB command, violating the MDTS setting, what happens?
-
-Maurizio
-
+I don't like the looping though. This could be done in a single
+atomic_sub instead of multiple atomic_dec calls if the module api
+provided something to get/put many references.
 
