@@ -4,136 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 973CFC624D0
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Sep 2026 02:14:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3FAFFC61DFD
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Sep 2026 04:53:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
-	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=yuJfd/AHXAEt+yEGlnUS3imaLMOXGbBnlCHdm9yJGhw=; b=qdv0POnlsRwggs8iL01GwnZONi
-	HOSizJIdFhNYV/Ucg+ewAjvTiQtPBW4txPZpFgbzayhpgysKzVXhGamR1ShYacWamgSMkapCiuHup
-	cPIyOuZQZxX3rjrjr3YdIxRx+awtiTbYBt8NSs9vV3iVLnz+NRTr0LgJhD6GllU+cKQsBCmSX+OJ+
-	CjMXzAPSw76dO29qp8e1f69HrsDqVqc96FSVFzJejJ35p2/8GQSwX3dgCyEE60khSQUKXJBQaxFoJ
-	KntETkgeFPInQURxIfPJ9eyei/cchk/pJH3ALm6JI+oSZKUnyqoTLXu/Q0GMZczLgWQW1jjE5MBf8
-	DQOSU0bQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=1/WJv6ORXpJMYtngGoOZ+CIauw4y5AKxPgY6cDe49jc=; b=2bkF2eg86CX50ws7mmqGgO2qaD
+	aHHPLhJ+WEjusi54UcwsAHD9n+ViBdVgYFblfnOwDnOI0j6QN6+164BKeYiZBdgEkLDrTr4d70s10
+	tRrXmDW/mPHGlaOU87eFEzB8l3Mchu1lFeF3uPrA5iaeHYzJivw1mZ/RhnSAJe1/kshtbutxtj7w/
+	JasaDZD/ovymnckPoRqXwodAPWh7e8ffx2JvUEHaNy8mJrJZ0+ng6KFa+MnX+F1Ze0ehbmz19KRly
+	jGt4aPdft7tC+SxDqTzA6AjSaFgc5JeoS+H8eaeSTTrD0kJO05cN8jdnCme3aOp4Tw+Zr090uNwQL
+	WDEoy/Zg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x1aUW-0000000DfCe-0XzV;
-	Wed, 02 Sep 2026 02:14:20 +0000
-Received: from mail-japanwestazon11020136.outbound.protection.outlook.com ([52.101.228.136] helo=OS0P286CU011.outbound.protection.outlook.com)
+	id 1x1cyf-0000000DmiJ-27rV;
+	Wed, 02 Sep 2026 04:53:37 +0000
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x1aUT-0000000DfBN-2Laq;
-	Wed, 02 Sep 2026 02:14:19 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NE9oiQtXK/4n8Qopjpc8xHeZeee3/uDWmdMadzxRpJZgfLOg2vVtIxmunmKxPmlwlmPyZ4ujIo3EN9a4JLmQLiisLZ92pHBrDqJOWomKgCJNrhgu9Tdjp3a1HIZWJnqXLJ31YcV7CjI2jJ3eTZ7l2/wQJv/ro9WcplRCdW2kYOUS90t9jk4M2gy+EMkHUHnvCkeOxxkyTrj2yqzEpveQZPmzTye+2QjIhJMMrFG2KCCyozZPXpaOKkghPnnDGnNavLB+MAL8VKQHR8cOcRNGaDKvEM8eLcUq5xYY4cbKIYF9b0kspdwZx6Yjf0dVrlKu9go6dF7VwPB7zq+kIV0UlQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yuJfd/AHXAEt+yEGlnUS3imaLMOXGbBnlCHdm9yJGhw=;
- b=GyFQ6txMgwEYiwQKHuUerv9axyHWk3uWyuiqgbOQPEI0TDg1onf1m0asmZwgmAHk4kn3HKDL4Us3uQyyU2tbWtAOn4tPr4fSWb71B/2rlA21R2SHrQmaqczoPRb/VkiO4OzJqes5meN76eOc/Bsy8WDPLnSioQfrU3t7wO2tpPTniPsTkCvMloJzQwGf/eji77WgmiPdlF7hYIvFmOKtYPbpvVl33ZUOXGGYw92vxCu9UJKlOrSQSrkgKnlwT19OJPTdKd2YiBsUOqlvSk8Rm9tbciIMywnB9ZgPjXGZxgMA+6xNdggeQsR8DnR8/ll4r+Mii7Ca3NppiLyG0lR3xg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=valinux.co.jp; dmarc=pass action=none
- header.from=valinux.co.jp; dkim=pass header.d=valinux.co.jp; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valinux.co.jp;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yuJfd/AHXAEt+yEGlnUS3imaLMOXGbBnlCHdm9yJGhw=;
- b=KhX+JLQD/qX2/6okIci3jiN+ove5PujTqXiogQ/nf5kzf44zS9L1/aeBdDXz3T8SGlTopTbwWHOfQ0EONdiIr9miFZnINTmRnM0S2CNNtYVbuwOnwBJHtH8fjTRxz+MD8rdmVJjq3/9lOhw0xl0IoEjlK6JegB9YVgmj0AKuIG8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=valinux.co.jp;
-Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:38f::10)
- by OS3P286MB2567.JPNP286.PROD.OUTLOOK.COM (2603:1096:604:1fa::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Wed, 2 Sep
- 2026 02:14:02 +0000
-Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- ([fe80::2305:327c:28ec:9b32]) by TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- ([fe80::2305:327c:28ec:9b32%4]) with mapi id 15.21.0360.008; Wed, 2 Sep 2026
- 02:14:02 +0000
-Date: Wed, 2 Sep 2026 11:14:00 +0900
-From: Koichiro Den <den@valinux.co.jp>
-To: Niklas Cassel <cassel@kernel.org>
-Cc: Manivannan Sadhasivam <mani@kernel.org>, 
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
-	Frank Li <Frank.Li@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Jingoo Han <jingoohan1@gmail.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Aksh Garg <a-garg7@ti.com>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, 
-	Jon Mason <jdmason@kudzu.us>, Dave Jiang <dave.jiang@intel.com>, 
-	Allen Hubbe <allenbh@gmail.com>, Heiko Stuebner <heiko@sntech.de>, 
-	Shawn Lin <shawn.lin@rock-chips.com>, Manikanta Maddireddy <mmaddireddy@nvidia.com>, 
-	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>, linux-pci@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	ntb@lists.linux.dev, linux-rockchip@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] PCI: endpoint: Support hardware-owned MSI-X table
- and PBA
-Message-ID: <sor2mm4jzgeprhn3fjw4jmcaowwkhhuus6exi4k5kum6frqvug@gatkk7r4qyxd>
-References: <20260830151948.3547577-1-den@valinux.co.jp>
- <apVWd1u9JjTKQczu@ryzen>
- <pj5vpwwd5tr5tuvhdq3bcpefnq27r6ljvwoysguz2o4tglcqx5@l7zmb6wjnhla>
- <apXdm2I33edo8kpZ@ryzen>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <apXdm2I33edo8kpZ@ryzen>
-X-ClientProxiedBy: TY4PR01CA0125.jpnprd01.prod.outlook.com
- (2603:1096:405:379::7) To TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:38f::10)
+	id 1x1cyb-0000000Dmhe-37jN
+	for linux-nvme@lists.infradead.org;
+	Wed, 02 Sep 2026 04:53:37 +0000
+Received: by mail-pj1-x1034.google.com with SMTP id 98e67ed59e1d1-3969e82ff8fso748219a91.0
+        for <linux-nvme@lists.infradead.org>; Tue, 01 Sep 2026 21:53:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1788324812; x=1788929612; darn=lists.infradead.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=1/WJv6ORXpJMYtngGoOZ+CIauw4y5AKxPgY6cDe49jc=;
+        b=PzGEjNpuTIqdefBy+5s7DJbvxRxt78BY5s1t92qW87tvvTtE+frfTCVR0iKiCI4Je9
+         ODnuFQhNhC+xWjMXF8VcCMtGokcZwEhtcIUfS2XaEXkzM87DUun3B58G9sE5cFA/SpIg
+         iR/JBJwNxBT2O8Ksc05xf1MJJ97oYEEnAL/m5V4XEZiaZnJnaPV97iX/L1S1tIdn5DCn
+         UgqB0yF93zl6mJr7hkm2NNIh5cSWZqp//ZYCxow93PmJmwaAs5qtWF0ZTbdc4vFScIQs
+         3G5MlbzCh9X0xSDSLfqGeZZySjl7/mEr3+aCbLKY0Y9JmhYICWvpYwoA31gmBXrt21xr
+         GfQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788324812; x=1788929612;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=1/WJv6ORXpJMYtngGoOZ+CIauw4y5AKxPgY6cDe49jc=;
+        b=fD57d8y6zAAZsqpLChJ4xpZDnD2a3MfCQQGS9rSSxFeiBRBmbmXB/r0ygJ5OOlZ7M/
+         l8VxLHuvyXHtD19wdxt3vEGsn80k5pK+/B2fNXwZGhERmpCl5uCVtxcVzRMqoOs7RWn4
+         /69JHigHmVlPccxz8t9I7G3EYirHkiMN5++QB0mFYxQp89n7xVZDEsT/B2WHjIQcJMz+
+         dagnqDdWT93ubEK2/d9TI3syW2bjtmM1/O5N96sfRInIXtFIcse0OGkQwRQSYpSMcgdS
+         l4yPswg8u6MSzBx+CdTE+cEISIXmk07fsD1yMYbMSWlOcez7VLD+P8zxETEqgmlhRZ+V
+         IElQ==
+X-Forwarded-Encrypted: i=1; AKwUvByNgFN2QCowson8DNpSXNN0MnQVz98H9cX6GpKruS1qi4GEDz9VxSHSnM6hQgF3D1jQV+/9qChEg35R@lists.infradead.org
+X-Gm-Message-State: AFuF++kQDUZtozg22ILMZNudNE8oGtr4KeckoSNX2hdzkBpnL1mFOvQP
+	ryC/9/DumZ6Rap29id+NpDoNTj8QfBgOEPZuirqTGpEbZCFI7iNWO0+ZQUaleThTJggC1jU/z0z
+	O+3TRAOk=
+X-Gm-Gg: AYBFou2S+9b5Dn113M542b8uYru3rziR3xTHFUwwDb2rW5MrXQIjYg3vlMl0lG4W9II
+	lewd88VcLs6H+ahiHVKysjgh+qWV9iGgqBFbCDJ74U/hsb957uOSVNak+I4zJhE1kskdkdpeabn
+	9QvHdJDRSAlarnTIECRFz5GTcSyxm9bszsc0u44911JwjghwmeFzVvLt8zqf6hPS3MxW/hDTwWX
+	Tcht9eHZJuRyRvfLFA3B1N6bOXH3uMseIgeOSrMh2EnTaP6pvoyNYI6DgHJzHweIX5lp4SxNNx0
+	NIXvvEv/oc6HhmL+xVftsxWIO66MyufgNqo7dlrk3wEm6yjETzlJNPltInSnXp1CxRjpHU704co
+	P9kbatawmZ8weLjZCtHjztYnt+ElEG1OrZSPa/Uz3nEfyFsF9c1tlqyOecM99ScQCzTBAjbasmy
+	rve036SyyMHaeSq7veJmWJ6aQxRY6g/1JhG/KosN+apUvy38NCinlJRHvbLJ4OynnuxbkzE6efq
+	wq1/xA7GBEVftJJiclouZHLN4pZjP0ytNN1f7JnzPL/iGQ=
+X-Received: by 2002:a17:90b:548c:b0:395:4de0:b78f with SMTP id 98e67ed59e1d1-39aede9368amr3441324a91.1.1788324812196;
+        Tue, 01 Sep 2026 21:53:32 -0700 (PDT)
+Received: from [172.20.4.188] ([192.77.111.15])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-32f07ba5a51sm2793041eec.21.2026.09.01.21.53.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 01 Sep 2026 21:53:31 -0700 (PDT)
+Message-ID: <a76b8cd5-8042-46ed-a9cd-620a0c4f56f3@kernel.dk>
+Date: Tue, 1 Sep 2026 22:53:30 -0600
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY7P286MB7722:EE_|OS3P286MB2567:EE_
-X-MS-Office365-Filtering-Correlation-Id: 27b115b9-873e-4d7a-6fd0-08df0897db48
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|23010399003|1800799024|10070799003|366016|6133799003|10067099003|5023799004|4143699003|56012099006|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info: 0HW/uwv9xu881hY6b5vuz32lI8eyot8LbqIXTuWRd+mQB6ysQQA8oGiF+viuzwloAQZnmXUB4RQfxDMXYcYE2NdlAYvqjNPTUC/hsz3ccGywJvunBv54FARAwxZCvLztQU8CRSNSuUl2TXCzF9vdM/mYM4IRi+EPJ1IftUlO2XeFnHCrCa+W5AzrUpnkNoXrOvP+TeRXh6tbOCRKubrMm5pXITGepxd8JnaZWg02QnWrMgvd7ZQOxDgtm6xtu3zLE1oBOiFXJJCw+xOJqLMxSJOj12XUR4A0NA2+SZLByb/XIPcj3DxcebnayiUTroY6ymOzlhD6ErnBg8IwtWhq2ge9mfKERv3RUMgyFyuMNcxEfwibwq1ovHgk2BOe95tU4KBrwUsmY1Vyov9V+v/KXzDYtGu6uW8GdcWl9p2RobdKeSkJfcslBz/0YFFascdl6Mo5aHMH9FqaiI6Sg1qBrwFXXLaObKAYap8x94bDBKFewjW9k9p1uRRKRJtAtBho1D+uOB4TSV1vZgJVRzPZBo4s6UgnWCKqMHRM0PoKPn9e7DTjVKkOV9kpEEnJGbYz6Lxp2abaHVY7h2ateySRYdEsa0YaQQZZT6iTvHfkvDROh+OZjml4wT8JK8PjjaKstHx+gsQSnYlYlpg1uMPs3Nnq3Z9XUmNcZrpQRlFjZuQ=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(23010399003)(1800799024)(10070799003)(366016)(6133799003)(10067099003)(5023799004)(4143699003)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?H5Df1WgN6NxNdJQMzqTrEGO76/aDUBtDum/FVnjqKVSlT4TtM0s2fYxpgakt?=
- =?us-ascii?Q?w3SoiToprjvN6wlZQfzFBHCrbOvOegz8oX+18f8qevFpNWWATtpLvkFyBPxR?=
- =?us-ascii?Q?lqnDuhJjtVG3sYGXGAmTM8wVIl+WH3+CoHjqYJ4ElpL8RdKyNlbDPyKZCpjB?=
- =?us-ascii?Q?+0PKPxtpBE031kp75cydEe2aEpH0VjVd+7pm3Cbg4CZV3sM0aFtX+41HqKnS?=
- =?us-ascii?Q?sCkBv+CwI05AaWfI4w74thdJmOvHcbNM5UVQrIn4+f7qx1OzjftV1e/vlGT7?=
- =?us-ascii?Q?vkTW/U7W/J9sWcWl6rfFjuOhB4cPzJRL1qJNvBX9Y6i5LCqHsI6dsxamH7zt?=
- =?us-ascii?Q?tJQJisnXEYURUZZHZoOP7KcmGqdgEbNzH8zKSlocsqDeXIHSx+i8NQRcBKhJ?=
- =?us-ascii?Q?OZPcU1w38TTGJMycDCKbCq9c+CxO9p73MOLIaAD/pFrFyM2WIRyjfb+MRU4A?=
- =?us-ascii?Q?zHxfDZlNZ5LzrC8YD8ZjHA1tIckZAfWhCGGvwuWxd3bA3NMLpUMR7etshd9L?=
- =?us-ascii?Q?FZ3u98e9Zg7zdSIU5IINIP/qZdAUPLpvpLsHE5yPhu2Ru8EYGq6y0Z+mmS35?=
- =?us-ascii?Q?euNF5y3dTd9xVBRxUWLPHQlEezr8wAnbXaXbslSyIYdWUQpnSLQYKBftmPJR?=
- =?us-ascii?Q?4Po/2OS3IHPB2cmkAo7IlPfOkrZ6agVlWxacmroFzStdlMZXmGmGkLK2OdzM?=
- =?us-ascii?Q?i28VAf0/xi6tK4vpssVBOT76R82/1Ivf2hI9H8mHB8uH6ShukU1lxCndjGPy?=
- =?us-ascii?Q?47wdtHKkHTSsXpH+MGstJYAB2uOa60uv+RhlbO0EkQvm7rNKekWzGDx3JAGt?=
- =?us-ascii?Q?3eT+7VhnvicjHo/JD2ytDPAqPhtGgSi8KNT9lpBFw/WUl2Q0DXV9IY0BQsqm?=
- =?us-ascii?Q?8oDGqinh4qNDKmwF8jZnTf+pJHJiVM7PVwDYAaJfLYEBAXR1ppSqv21l61Kj?=
- =?us-ascii?Q?SUJLeeaL0PFf3cVVWt/pujmaK81G9L08NFIQsJjhB5e/yqsUJM6bs9iFRNIJ?=
- =?us-ascii?Q?qulGQ/XdcH2FPIy2BGlzssztpAQrGqnNjrKsz+1MAZ6aRYUs2+aHLkCmBIPP?=
- =?us-ascii?Q?Me+gE9YxQNNUBwVE04WfbJXLr4cj59b1oMqENJDfFlX1cCBZDXbHWIitLFcz?=
- =?us-ascii?Q?P/vabjfXWI7l4WRCby7tWuUVYBhpWLeUfui9i9bUW2bJRJpoVkWeAg3QuRzk?=
- =?us-ascii?Q?WrrOjajzL0anc31KfLARMjgLzy7ncmI+Xq3DMyEm674L/WFf4pi8wn0p68tb?=
- =?us-ascii?Q?8ZMUsPiQolvdDXHoSRoy9Q7v1Sn/bunBQlf8J0E4pT7gHOXUaj+DQzcbX/c8?=
- =?us-ascii?Q?dGO1eO5EmN6ZE+rdq9f15ttdlLSzqMOPTAtfu72Gl/cgcgrWo9P3ugRT1KqO?=
- =?us-ascii?Q?6uB1Q5JOeQHcWE/3EON3vX9Mr0smU942gEHARgBq7YPsczgsWOAoCIdJklkf?=
- =?us-ascii?Q?5rJNbXlvqc3hgG3QFJ1blQKhzrsEGJcao9qKv2i3fSgXteXc5df/BSFl5B2n?=
- =?us-ascii?Q?99GlXt8beat0WcM57PQUzK1xt3Qyyw9xKmd3oGczYgmTswGLWY28xhqmdk0t?=
- =?us-ascii?Q?qdJHIarYjzZDU9WUHLb2phFHB4FTkxZhJje9zbIMAK9iKN1Ygk5uhilHkrRI?=
- =?us-ascii?Q?dwSZYkaaN3h8rC5vgRcO0mcbwWD/U+XoGSbm52Nj2uzaOrLC3qvrB2zKXYFI?=
- =?us-ascii?Q?OCyuU8x/GbkSqfjqiyLbhdWg0oCnp7HNJkHkEzs8HKbGM2n21T0nRMoCwTC9?=
- =?us-ascii?Q?cy34X6H1FGeTLz2zTuD+bCRv75K85Q/Xq9xLafKPaFdlYEfL+GH0?=
-X-OriginatorOrg: valinux.co.jp
-X-MS-Exchange-CrossTenant-Network-Message-Id: 27b115b9-873e-4d7a-6fd0-08df0897db48
-X-MS-Exchange-CrossTenant-AuthSource: TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2026 02:14:02.3209
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 7a57bee8-f73d-4c5f-a4f7-d72c91c8c111
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: USLp0emGf6a9PJE7usGvwyc2i6Yc9fDesSyErp+vtZDwo9K7zhZxuHeJHzKB4F45iNVEvN9rld56FB+Z6XZYtQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3P286MB2567
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] MAINTAINERS: update nvme entry
+To: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org
+Cc: Keith Busch <kbusch@kernel.org>
+References: <20260901164935.2464374-1-kbusch@meta.com>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20260901164935.2464374-1-kbusch@meta.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260901_191417_840108_4B12CE0B 
-X-CRM114-Status: GOOD (  54.37  )
+X-CRM114-CacheID: sfid-20260901_215334_041805_A1025A3E 
+X-CRM114-Status: UNSURE (   8.42  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -148,150 +104,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Aug 31, 2026 at 10:01:31PM +0200, Niklas Cassel wrote:
-> Hello Koichiro,
+On 9/1/26 10:49 AM, Keith Busch wrote:
+> From: Keith Busch <kbusch@kernel.org>
 > 
-> On Tue, Sep 01, 2026 at 01:11:09AM +0900, Koichiro Den wrote:
-> > This is not driven by a performance target, so I do not have numbers. The
-> > immediate issue is correctness. ntb_hw_epf can select MSI-X, but pci-epf-vntb
-> > currently configures and raises MSI. I want that MSI-X path to work on RK3588
-> > with the controller doorbell. I will make it clear in the next cover letter
-> > that, with this series, a doorbell sent from ntb_tool on the pci-epf-vntb side
-> > of RK3588 reaches ntb_tool on the ntb_hw_epf host side when MSI-X is selected.
-> > I believe that is the simplest E2E test showing what this series fixes.
-> 
-> Okay, if the main issue is that pci-epf-vntb does not raise MSI-X, even when
-> ntb_hw_epf host side has requested MSI-X, then I think that the first patch
-> in the series should fix this, so that the fix can easily be backported.
-> 
-> (Right now you fix this in patch 3/3, and the fix in patch 3/3 depends on
-> both patches 1/3 and 2/3.)
-> 
-> I think that pci-epf-vntb actually respecting the configured IRQ type by the
-> host is a separate logical change from adding support for HW defined layout.
+> Update Jens' entry to match the mail address of his other entries.
 
-Sure. It can be a separate patch, first making pci-epf-vntb use an EPF-owned
-MSI-X Table/PBA like the other in-tree EPF drivers with MSI-X support.
+Acked-by: Jens Axboe <axboe@kernel.dk>
 
-> 
-> 
-> > I initially considered making the hardware-owned layout automatic for every EPF.
-> > pci-epf-ntb (not vNTB!) is the reason I did not. It currently reads
-> > host-programmed MSI-X entries through epf_bar[] backing and uses them to set up
-> > peer outbound mappings. A hardware-owned Table has no such backing, and the
-> > current EPC API has no generic way to read those entries. I suspect that
-> > supporting it there would require a broader design change. Also, I do not have
-> > hardware for the pci-epf-ntb bridge configuration.
-> > 
-> > pci-epf-test and nvmet-pci-epf should be easier to convert. However, converting
-> > only those would not remove the per-layout handling while pci-epf-ntb still uses
-> > an EPF-owned Table. I would prefer to handle those separately when they can be
-> > properly tested. This is what I meant by this part of the cover letter:
-> > 
-> >      [...]
-> > 
-> >      layouts. This avoids unnecessary changes and reduces regression risk.
-> >      They can use a hardware-owned layout later if/when needed.
-> 
-> Okay, if pci-epf-ntb is special, perhaps we should add a comment in
-> pci-epf-ntb which explains why it cannot support HW defined layout.
-> 
-> But for consistency, if we modify pci-epf-vntb, I think it would make sense
-> to also modify pci-epf-test and nvmet-pci-epf as well in the same series.
-> 
-> pci-epf-test should be easy to test, just run the pci endpoint selftest.
-> 
-> nvmet-pci-epf should be quite easy to test too, just run the normal fio based
-> testing that we usually run, and unless you see worse performance, I think we
-> are good. (If we see worse performance, that could be an indication that one
-> of the MSI-X for the different completion queues are not being correctly
-> triggered. By default, the host side nvme driver creates one completion queue
-> (and one submission queue) per host CPU.
+-- 
+Jens Axboe
 
-Fair enough. As an experiment, I converted nvmet-pci-epf and tries to test it. I
-could not get as far as running fio because host-side NVMe initialization timed
-out.
-
-I found that on RK3588, host writes through BAR4 to the Message Address field
-(the first 8 bytes) of entry #0 do not seem to show up in the internal iMSIX-TX
-Table RAM. The rest of entry #0 and the entries from entry #1 onward that I
-tested seem fine. The same two DWORDs can be written through direct DBI Table
-RAM access, and the doorbell for entry #0 then works.
-
-I'm not sure but one thing I wondered is whether this could be related to the
-boundary between the BAR4-mapped unrolled iATU registers and the MSI-X Table. On
-RK3588, the iATU register window starts at 0x2000 and the MSI-X Table
-immediately follows at 0x4000. If there somehow is an address decoding issue at
-that boundary, with the first part of the Table being taken as an iATU access, I
-would like to know.
-
-This still sounds really odd, and it does not obviously explain why both DWORDs
-at 0x4000 and 0x4004 are affected. I may be missing something important. If
-anything similar involving iMSIX-TX Table RAM entry #0 has been discussed
-before, please point me to the relevant thread.
-
-(Also, I can share my current WIP v3 series, which makes pci-epf-test and
-nvmet-pci-epf use the hardware-owned layout when available, while leaving
-pci-epf-ntb with its EPF-owned layout. If you have any setup where you could
-test it, please let me know.)
-
-> 
-> 
-> What I suggest that you instead do something like:
-> Patch 1/7: pci-epf-vntb: Fix to actually use MSI-X when requested.
->            This probably includes adding the code that is inside the
-> 	   if (ret == -ENOENT) { }.
-> Patch 2/7: PCI: endpoint: Support hardware-owned MSI-X table and PBA
-> Patch 3/7: PCI: dw-rockchip: Support fixed MSI-X table and PBA on RK3588
-> Patch 4/7: pci-epf-vntb: Add code that calls pci_epc_get_hw_msix_layout()
->            and uses that layout, if the function returned success.
-> Patch 5/7: pci-epf-test: Add code that calls pci_epc_get_hw_msix_layout()
->            and uses that layout, if the function returned success.
-> Patch 6/7: nvmet-pci-epf: Add code that calls pci_epc_get_hw_msix_layout()
->            and uses that layout, if the function returned success.
-> Patch 7/7: pci-epf-ntb: Add comment that explains why it cannot call
->            pci_epc_get_hw_msix_layout() like all other EPF drivers that
-> 	   support MSI-X.
-> 
-> 
-> This way, patch 1/7 can be backported, and will help all users vNTB users,
-> even the users that do not use RK3588 as an EPC.
-
-That split makes sense. However, given the issue I described above, perhaps I
-should send patch 1/7 as a standalone fix and hold off on the rest until the
-issue is understood and resolved.
-
-Testing vNTB alone (ie. this v2 way) did not expose it because its first data
-doorbell uses MSI-X Table entry #2. I only found the issue because your
-suggestion led me to convert and test nvmet-pci-epf, thank you!
-
-> 
-> 
-> > > I understand that you introduce dw_pcie_ep_msix_layout_is_hw_owned()
-> > > because you want an EPF driver optionally use the HW defined table.
-> > > But if all EPF drivers always use the HW defined table if available, I think
-> > > you can avoid introducing this helper, and let rockchip_pcie_raise_irq()
-> > > unconditionally call dw_pcie_ep_raise_msix_irq_doorbell() for case PCI_IRQ_MSIX.
-> > 
-> > Yes, under that assumption I agree. With the current mix, however, the Rockchip
-> > callback still has to choose the helper according to the selected layout. That
-> > is why the DWC code records which layout was selected.
-> > 
-> > I will update the cover letter to state the motivation and this boundary more
-> > directly. Does keeping the layout choice with each EPF for this reason sound
-> > reasonable?
-> 
-> Yes, since pci-epf-ntb apparently is special, I can see why you need
-> both ep_func->msix_hw_owned and dw_pcie_ep_msix_layout_is_hw_owned().
-
-Sounds good.
-Thanks for taking a look!
-
-Best regards,
-Koichiro
-
-> 
-> 
-> Kind regards,
-> Niklas
 
