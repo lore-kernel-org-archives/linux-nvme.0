@@ -4,54 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2BE38C624D4
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Sep 2026 20:06:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C8112C624DA
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Sep 2026 20:06:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=eBQcSElaZkcEckJKB+BTczHiIJy9qDtRsMfhC/jg6FM=; b=gdDOoeCrXk6RXK1y0pp5wLtyzI
-	ixYZevuhovyxzR2nvrVtftqQYfrpLgmWjlHx6LsxBW1tKw1FhfFY+3rkCxaT6svfO5DSRA/2fYVAz
-	R96mHBEWT4yOJoE4sR60K17i5nAERYr9zF/YIDz/oXJCH/3R5Z3lYfcriaqq+8sANMOPCNiKxAc7C
-	nEz14eIVQysOzZpvSiE3rWQTUPCcI19W3VZZwSAmqk3O/rq/KhS69NyZPbJy9Sh3o0Y58VgG/NyqU
-	yPMQKIsAvaLVPSOinO8Vql1jLtbqAa5O3Qw0LeUpZc/N7vi/A4lvH6gbX43Pj9gPQQgz8OhrBSYBX
-	OAxZJXDA==;
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=B4SOQVx6UDmhZ26lSu1cCcYqEQXYt2vou3jNd344Y+M=; b=Szvmz8ZuEzmgnB9HMEtZX0LhEH
+	4HK/rKowsjWbQ4QvGfbetkP+NIs0kKCr4fjIY+UbR08TEn8QvqYnFSZvx+471+XCYPNWjYujnQEHB
+	cRVTHueFuKSt84yv2AnT2UrY16JbIArwOnTkcHKNANYqkhOTXp7FUmB9kN3AS7YdO4WQID4M7Y7IG
+	VYfmKSPj8gaP2KdswqQiQpm4km5FHTpx49Zw1ysV1BrtS3O9dy7jLHEvenZEEThFuigg2xrBPrkER
+	Jpyl67x2/tIo18GM8CJQiWOBYviM3tv/6iLBxkSm1iGUVu37KxmXbwptmgoP6+718CIdSjJqV1Qul
+	pe7q5P0Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x1rDj-0000000FoOU-0Uwv;
-	Wed, 02 Sep 2026 20:06:07 +0000
+	id 1x1rDs-0000000FoR5-21A7;
+	Wed, 02 Sep 2026 20:06:16 +0000
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x1rDg-0000000FoNs-0hSQ
+	id 1x1rDq-0000000FoQ0-2A3t
 	for linux-nvme@lists.infradead.org;
-	Wed, 02 Sep 2026 20:06:05 +0000
+	Wed, 02 Sep 2026 20:06:15 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1788379560;
+	s=mimecast20190719; t=1788379573;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=eBQcSElaZkcEckJKB+BTczHiIJy9qDtRsMfhC/jg6FM=;
-	b=Od3AL5QZtGrBQBkyX4xdBRj9tBV4Moloc1qOb3kYG5atPy/HVFPTT/Jc9fpTFtxUOLz7EM
-	CItpEg6tBSRxBP3DmuQajlDZLIUxdDvFaMYgyEcAJAHFfs2P1dfjZaPWKzAcPkuOj5PKo9
-	qQeTngTnGjTMnzQw+7DKyhGkKuvhFeU=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=B4SOQVx6UDmhZ26lSu1cCcYqEQXYt2vou3jNd344Y+M=;
+	b=VeA+7WkM8AfRcRn0mmtbiatRG+adlidrwZRlIR8W+XvPr8VHRDrwJnyqJzMG+hfusU7IC7
+	Lx82CM8btT4dMPh60chHlGhUxheuR1dIgMaCBJw0VQFovfokKTfKAX5+2sDeDHDVBbZnjR
+	pEn8HtacZ1RqMpvgba/T/3uq/Q6WEZA=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-356-rlCn2vM5P46IzC_R91aRCw-1; Wed,
- 02 Sep 2026 16:05:56 -0400
-X-MC-Unique: rlCn2vM5P46IzC_R91aRCw-1
-X-Mimecast-MFC-AGG-ID: rlCn2vM5P46IzC_R91aRCw_1788379553
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-296-wFa_C8tYM3y7FXo3Jv1X2Q-1; Wed,
+ 02 Sep 2026 16:06:11 -0400
+X-MC-Unique: wFa_C8tYM3y7FXo3Jv1X2Q-1
+X-Mimecast-MFC-AGG-ID: wFa_C8tYM3y7FXo3Jv1X2Q_1788379565
 Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DC14C1926B6E;
-	Wed,  2 Sep 2026 20:05:52 +0000 (UTC)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 74E081808898;
+	Wed,  2 Sep 2026 20:06:04 +0000 (UTC)
 Received: from jtaubepe-thinkpadx1carbongen12.ibmlowe.csb (unknown [10.17.16.153])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1649D1955F02;
-	Wed,  2 Sep 2026 20:05:48 +0000 (UTC)
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 2AF5D1955F03;
+	Wed,  2 Sep 2026 20:06:01 +0000 (UTC)
 From: Jesse Taube <jtaubepe@redhat.com>
 To: linux-nvme@lists.infradead.org
 Cc: linux-scsi@vger.kernel.org,
@@ -80,18 +81,20 @@ Cc: linux-scsi@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-block@vger.kernel.org
-Subject: [PATCH v2 0/7] nvme-fc: FPIN link integrity handling
-Date: Wed,  2 Sep 2026 16:05:40 -0400
-Message-ID: <20260902200547.184734-1-jtaubepe@redhat.com>
+Subject: [PATCH v2 3/7] nvme-multipath: queue-depth support for marginal paths
+Date: Wed,  2 Sep 2026 16:05:43 -0400
+Message-ID: <20260902200547.184734-4-jtaubepe@redhat.com>
+In-Reply-To: <20260902200547.184734-1-jtaubepe@redhat.com>
+References: <20260902200547.184734-1-jtaubepe@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
-X-Mimecast-MFC-PROC-ID: xiiNnHZMxJkNLpzoFyVOSaMfLyQfewKJK0uaj6wZgIY_1788379553
+X-Mimecast-MFC-PROC-ID: loOoUlXVwF-KQbsBP1CKDi1_rJJgAAAf-nHGypvpI3E_1788379565
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 content-type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260902_130604_285964_21AFE2B2 
-X-CRM114-Status: GOOD (  23.34  )
+X-CRM114-CacheID: sfid-20260902_130614_630590_67CDE413 
+X-CRM114-Status: GOOD (  15.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,143 +109,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This set has been split into an NVMe set which adds marginal path
-handling and a SCSI set which handles decoding FPIN LI events and
-setting the marginal flag. The NVMe set, this one, can be tested and
-used independently of the SCSI set.
+From: John Meneghini <jmeneghi@redhat.com>
 
-FPIN LI (link integrity) messages are received when the attached fabric
-detects hardware errors. In response, I/O should be directed away from
-the affected ports. This series adds a new controller flag
-'NVME_CTRL_MARGINAL' which is checked during multipath path selection,
-causing the path to be de-prioritized. If no other paths are available
-the marginal paths are still used.
+Exclude marginal paths from queue-depth io policy. In the case where all
+paths are marginal and no optimized or non-optimized path is found, we
+fall back and select the best marginal path.
 
-Testing was performed by Jesse Taube and John Meneghini using blktests
-with the fcloop driver.
-
-Controllers on the affected port show the NVME_CTRL_MARGINAL flag:
-
-   \
-    +- nvme4 fc traddr=c,host_traddr=e live optimized
-    +- nvme5 fc traddr=8,host_traddr=e live non-optimized
-    +- nvme8 fc traddr=e,host_traddr=f marginal optimized
-    +- nvme9 fc traddr=a,host_traddr=f marginal non-optimized
-
-All multipath io-policies were verified: numa, round-robin, and
-queue-depth. Scenarios included optimized, non-optimized, and
-inaccessible, and marginal paths. When all paths are
-marginal, I/O continues based on the multipath policy.
-
-Original work on this set was presented at the LSFMM 2024 conference:
-Link: https://people.redhat.com/jmeneghi/LSFMM_2024/LSFMM_2024_NVMe_Cancel_and_FPIN.pdf
-
-To test path handling use:
-https://github.com/linux-blktests/blktests/pull/264
-or
-https://lore.kernel.org/linux-nvme/20260828153029.853768-1-jtaubepe@redhat.com/T/
-
-Closes: https://bugzilla.kernel.org/show_bug.cgi?id=220329
-
-Previously posted as a combined NVMe+SCSI series (v1-v11).
-
-V1 -> V2:
-- Changed flag name to 'marginal'
-- Do not block marginal path; influence path selection instead
-  to de-prioritize marginal paths
-
-V2 -> V3:
-- Split off driver-specific modifications
-- Introduce 'union fc_tlv_desc' to avoid casts
-
-V3 -> V4:
-- Include reviews from Justin Tee
-- Split marginal path handling patch
-
-V4 -> V5:
-- Change 'u8' to '__u8' on fc_tlv_desc to fix a failure to build
-- Print 'marginal' instead of 'live' in the state of controllers
-  when they are marginal
-
-V5 -> V6:
-- Minor spelling corrections to patch descriptions
-
-V6 -> V7:
-- No code changes; added note about additional testing
-
-V7 -> V8:
-- Split nvme core marginal flag addition into its own patch
-- Add patch for queue_depth marginal path support
-
-V8 -> V9:
-- Rebased patch series to nvme-6.17.
-- Added patch from Gustavo Silva, "scsi: qla2xxx: Fix memcpy field-spanning
-  write issue", which resolves the field-spanning write issue
-- We decided to leave the "marginal" state as is, because the transport
-  driver uses the term "marginal".
-
-V9 -> V10:
-- Rebased patch series to nvme-6.18.
-- Refactor and fix a patch from Gustavo Silva, "scsi: qla2xxx: Fix 2 memcpy
-  field-spanning write issue", which resolves the field-spanning write
-  issue.
-  This new version of Gustavo's patch fixes a bug found in testing.
-- Refactored original implementation
-  New functions added:
-    nvme_fc_lport_from_wwpn() - Find local port by WWPN
-    nvme_fc_fpin_set_state() - Set marginal state on controllers
-    nvme_fc_modify_rport_fpin_state() - Main API function
-  Functions removed:
-    nvme_fc_fpin_li_lport_update() - FPIN processing logic
-    nvme_fc_fpin_rcv() - Direct FPIN message processing
-  Functions modified:
-    fc_rport_set_marginal_state - allows administrative control
-
+Signed-off-by: Jesse Taube <jtaubepe@redhat.com>
+Signed-off-by: John Meneghini <jmeneghi@redhat.com>
+---
 V10 -> V1:
- - Rebase onto 7.2-rc1
- - Add marginal support to fcloop driver (new patch)
- - Rewrite multipath handling ("nvme-fc: marginal path handling") and
-     ("nvme-multipath: queue-depth support for marginal paths") replacing
-     them with ("nvme-multipath: round-robin...")
-     ("nvme-fc: marginal path handling...") and
-     ("nvme-multipath: queue-depth support")
- - New patch ("scsi: scsi_transport_fc: Add set_rport_marginal to ")
-     replaces ("scsi: scsi_transport_fc: add fc_host_fpin_set_nvme").
-     Uses existing function template to add a new callback for setting
-     the marginal state on a remote port, similar to the existing
-     set_rport_dev_loss_tmo() callback.
- - Replace `nvme_fc_modify_rport_fpin_state` with
-     `nvme_fc_set_remoteport_fpin` which takes
-     `struct nvme_fc_remote_port` instead of wwpn and wwnn
- - Rewrite the "enable FPIN notification for NVMe" patches
-      to use the new callback methods.
+ - New commit
+V1 -> V2:
+ - Rewrite
+---
+ drivers/nvme/host/multipath.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-V1 -> V2 (split):
- - Split SCSI and NVME parts.
- - Rewrite path handling code.
-
-Bryan Gurney (2):
-  nvme: add NVME_CTRL_MARGINAL flag
-  nvme: sysfs: emit the marginal path state in show_state()
-
-Jesse Taube (4):
-  nvme-multipath: numa support for marginal paths
-  nvme-multipath: round-robin support for marginal paths
-  nvme-fc: add nvme_fc_set_remoteport_fpin()
-  nvme: fcloop: Add set_marginal_rport to sysfs
-
-John Meneghini (1):
-  nvme-multipath: queue-depth support for marginal paths
-
- drivers/nvme/host/core.c       |  1 +
- drivers/nvme/host/fc.c         | 17 +++++++++
- drivers/nvme/host/multipath.c  | 70 ++++++++++++++++++++++++++++++----
- drivers/nvme/host/nvme.h       | 11 ++++++
- drivers/nvme/host/sysfs.c      |  3 ++
- drivers/nvme/target/fcloop.c   | 50 ++++++++++++++++++++++++
- include/linux/nvme-fc-driver.h |  2 +
- 7 files changed, 146 insertions(+), 8 deletions(-)
-
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index dbf09cdda815..f28797deab68 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -439,12 +439,17 @@ static struct nvme_ns *nvme_queue_depth_path(struct nvme_ns_head *head)
+ 	struct nvme_ns *best_opt = NULL, *best_nonopt = NULL, *ns;
+ 	unsigned int min_depth_opt = UINT_MAX, min_depth_nonopt = UINT_MAX;
+ 	unsigned int depth;
++	bool need_marginal = nvme_all_paths_marginal(head);
+ 
+ 	list_for_each_entry_srcu(ns, &head->list, siblings,
+ 				 srcu_read_lock_held(&head->srcu)) {
+ 		if (nvme_path_is_disabled(ns))
+ 			continue;
+ 
++		/* Skip marginal paths unless we need to use them */
++		if (!need_marginal && nvme_ctrl_is_marginal(ns->ctrl))
++			continue;
++
+ 		depth = atomic_read(&ns->ctrl->nr_active);
+ 
+ 		switch (ns->ana_state) {
 -- 
 2.55.0
 
