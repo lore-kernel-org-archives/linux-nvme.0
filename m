@@ -4,112 +4,93 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3A84BC624D0
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Sep 2026 04:56:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1E297C61DFD
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Sep 2026 06:24:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=sLY6q+TPIJg/NWeZ12QMP+NrY9M0JxuIc/0tzu9PAA4=; b=jF23nj/UC0dpgVgpEFoJ6YvK1J
-	UTNWd7xFNZnaoE7rsW6GpSG+d0WLHxpAcYu0veUPOe7uOmaZtw/jahVMvrV/JHokfv6gAsy6iFziO
-	kOepwJNAEkwd41yMWAshaWBnmN8i5wZb3VLvyeHH1IpFwh1ACYycZbwJ6nhM7ajpTNOlCgS7AjJO5
-	i+zVnZRMAAQJvkOuuntO20pq/CYl4Hy3fHlRWYQ+4mJesnPnzO7hCcbTBiGhWtzQUEkZBjSsxbE1m
-	8acJNApXBZHWpsz4wzYnyd1kbgeCfassFyNxlabmpiNnjgllhgW0/8k3HV9y9Ah+L9chYM7PZs0JP
-	WFSnu+UA==;
+	bh=yrhr596mnK2dbjRLnW2TpPyTsU+lz2ODEABE+FOq7JI=; b=2OdCK28IHHez3xZVDUK/rcPCGu
+	/DYib7/mNF+KamrgQE1Da7RjWmAsloqZY7kh1PrqnWOcx3p5qLqdj9bD9xRf9VchrmelYZhiod60r
+	VbOiXzsFrwkZv+FAEs3DtDf2tPA7uRrxTygmWCDDC0aOV1OP6v2asHBKY2UCNgB/5/fQW4daAzSYv
+	V+amFYjCJepJ9HU8EIN+KDGeT2k5RRdywRQkxZhV3ALLvcUhwG99VPI54gQEC6N63qR2eJbptJoa/
+	vunwMsLxVAn8L/OVcN+O3jDFN+YHQIMSGGHAAsT5BDEC5kcNZAqsLeK6V+KB2YTzvLH7ImQsFk7iA
+	2k43T6OA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x1d1H-0000000Dmte-20rV;
-	Wed, 02 Sep 2026 04:56:19 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1x1eOl-0000000DrF6-21JH;
+	Wed, 02 Sep 2026 06:24:39 +0000
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x1d14-0000000Dmrs-0Epo
+	id 1x1eOi-0000000DrE4-3zKX
 	for linux-nvme@lists.infradead.org;
-	Wed, 02 Sep 2026 04:56:17 +0000
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 681KWQRF354682;
-	Wed, 2 Sep 2026 04:55:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=sLY6q+
-	TPIJg/NWeZ12QMP+NrY9M0JxuIc/0tzu9PAA4=; b=UXKrKLytc6+C4G3Nr7mCqq
-	bp2ZRK1odwJWZLLk8sqzEGViXGyK46W8+INrHja+BAf+RdTFMWyGrtA21+aroLPF
-	rYlusB0bGg/fgnb7CHBVi4JtUPDY14421+SC5XyjIcp8x0KJj7wlcsCZE7q0pAbf
-	5g64ErDBybJw0CavMeoX9khH/30S7hWaaw0UYvrRDgZAQMQ6bqcOt8NEic3krkVa
-	RU7H02BJGJeRiQzkucC4d1HTfyzZabYxFHK3bvYdLRWTkQCAIvek4GaudBX3Ri6v
-	RXydfQohFtN9N8jQBvdvm2L0IADfEgDiaxzFv/wasKLGaYX1dYm1DeFi7dtSqO3A
-	==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4gbq3rca4v-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 02 Sep 2026 04:55:55 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 6824feht005789;
-	Wed, 2 Sep 2026 04:55:54 GMT
-Received: from smtprelay05.dal12v.mail.ibm.com ([172.16.1.7])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4gcark7sbp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 02 Sep 2026 04:55:54 +0000 (GMT)
-Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
-	by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6824trDn52101470
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 2 Sep 2026 04:55:53 GMT
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 098995805D;
-	Wed,  2 Sep 2026 04:55:53 +0000 (GMT)
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4EDAC58057;
-	Wed,  2 Sep 2026 04:55:50 +0000 (GMT)
-Received: from [9.61.83.86] (unknown [9.61.83.86])
-	by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Wed,  2 Sep 2026 04:55:49 +0000 (GMT)
-Message-ID: <94c6ccbb-0b76-43e1-b3a2-ef2fcb485ca5@linux.ibm.com>
-Date: Wed, 2 Sep 2026 10:25:48 +0530
+	Wed, 02 Sep 2026 06:24:38 +0000
+Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-8518b3ff3e9so647349b3a.2
+        for <linux-nvme@lists.infradead.org>; Tue, 01 Sep 2026 23:24:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=crusoe.ai; s=google; t=1788330275; x=1788935075; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=yrhr596mnK2dbjRLnW2TpPyTsU+lz2ODEABE+FOq7JI=;
+        b=AIQU2b58RXdN9W5QIgMB3YycRNOtBUREdW+33eoBABTO1pNvja6D08byyI2TyYtqt5
+         Wj5xXByrCA51/ujy5CnvIDEXNPhLvPb5bV7v2yHcBWjFViqMQHpTxwt2Mb88/FuoNZzC
+         0cxPMygB4BbaCw11DzrD5bLnkK8opd+c0l3IOAl95jcZ3TgXnn6JAPSFi0QvTNHbOwLR
+         xGEx2sMf0JQ0yeaZv/EfweivwORHLp0hkgEHubYZQMjT0kdZtkAeyDk4j5QLVTx9rtoO
+         0bcTjMnxH0zfyN263GXpodcnCfT4EC5p/AcZFYbR2ny2xtCOYQh3gwFums/9wvTGctih
+         a6Kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788330275; x=1788935075;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=yrhr596mnK2dbjRLnW2TpPyTsU+lz2ODEABE+FOq7JI=;
+        b=rSkAoo8VgKOkSJO58iV3qnLxobFyzsDZtIYNesToDhT7uPGEw646pflvRjBdUFGggD
+         t7TKqdjnnM9hDFWVX40/z8M2xUCOWrzGS/meKgAJJPL9Yy9MjXW3X51FFJDrrdqZptM7
+         iQURKhu7321x0/zdieWMfP4f3aIgWrfJQHZJuvcvsmVNK/2SPNSUp5r04kAjksyjrFUV
+         NAORbQ4aaE9Uyj2JG7UvePxHxAwaqFihxME9ILgOiRhVZJ+ThkiSEg1Cq4c29NBq6vXr
+         q6HRyQOWwnkC/AqxpLPXb0Pp1MrvXFSCs/mgF/CmxEQz6ygkC2yO3cXrwU/VP6pT/wzw
+         hiLg==
+X-Forwarded-Encrypted: i=1; AHgh+RoG7QwjPnxggJ6+gnVGG1cKFINp3nMfE0aVSH4c35pIBliLmoQQ8K2xUNPdMbtal/ZUhSpLXKouG07x@lists.infradead.org
+X-Gm-Message-State: AFuF++lQE4/hymHfdG1IzVD8B2FDQgADY18oE+moxM+a6tl6hDGjexGX
+	UW2gdwVZ7EnZIcuXH53GgQIReVJDCELLonEv8kXWeD7tCQqHmXYawuiT9JSCE7tRwfg=
+X-Gm-Gg: AR+sD11QeYiAmATske1CBjF099+YJs24HDgMfd5gpyJ5vsewV8xFRi2YdrW0vijXP2w
+	bLJLcmnGe6nDacXjYRlgtCzaFewTAqvLwQfV+ecq764TjUYRPjDC5rpEN53vpzBMpk1V5uSb39Z
+	x/C8zeV9ny3MnTVqxRKWdG2rc+CMn2Zd/xd2h9IKDr8gSLgwu3Fyfn6nUL5n7rj4xA3TycOXAmz
+	7IYfNeBxYg4PayhqwGpdeEReuuWthRp6vEmS3MNV9pTBby7z0uwHOH5il9jzN5Or5LAo2R6WE+Y
+	WtCviWUREZfloLsX4Hh3fCzk2f5pUVJOLkXy6cM+FttIcdbM4OXATnfKstC4vfwyIaflaDpab11
+	F0rxhj/naUq+CMID+VMPACV7K0ekmGGYRLB+Tt7dYdLEKMtjal5Hcz/kbGVJW/hDNjUV2ppZmP4
+	MfxscPW20lOGJ9cW579lyRcKVTIWzaggzMcIpjnHp+tw8zk5FVvFNCWnix78xdAmsBxnL+EPH7E
+	3Z2t1jNIthhj2TYyf7O2E1RWteW0NuPMYP/EbhTLP6h70s61mZn0A==
+X-Received: by 2002:a05:6a20:2cf:b0:3bf:b182:94e with SMTP id adf61e73a8af0-3d9acb3e963mr4580612637.5.1788330275276;
+        Tue, 01 Sep 2026 23:24:35 -0700 (PDT)
+Received: from MBP-Saravanan-D.civet-hops.ts.net ([2601:647:4380:3400:3036:5ac8:3cef:cf51])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-32f079f7d77sm3390670eec.12.2026.09.01.23.24.33
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Tue, 01 Sep 2026 23:24:34 -0700 (PDT)
+From: Saravanan D <saravanand@crusoe.ai>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Saravanan D <saravanand@crusoe.ai>,
+	linux-nvme@lists.infradead.org,
+	Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Jens Axboe <axboe@kernel.dk>,
+	linux-kernel@vger.kernel.org,
+	Nilay Shroff <nilay@linux.ibm.com>,
+	Daniel Wagner <dwagner@suse.de>
+Subject: Re: [PATCH v2] nvme-tcp: pin io_cpu to submitter cpu
+Date: Tue,  1 Sep 2026 23:24:28 -0700
+Message-ID: <20260902062431.61412-1-saravanand@crusoe.ai>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <1d56144d-6987-40c1-ac02-b15333db121e@grimberg.me>
+References: <20260820083634.71689-1-saravanand@crusoe.ai> <20260823174348.40236-1-saravanand@crusoe.ai> <1d56144d-6987-40c1-ac02-b15333db121e@grimberg.me>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] nvme: keep transport module referenced while head
- node is open
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org, sagi@grimberg.me, hch@lst.de, axboe@fb.com,
-        john.g.garry@oracle.com, wenxiong@linux.ibm.com, gjoyce@linux.ibm.com
-References: <20260831152006.819471-1-nilay@linux.ibm.com>
- <20260831152006.819471-2-nilay@linux.ibm.com> <apb_3yu6G0dx_rWe@kbusch-mbp>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <apb_3yu6G0dx_rWe@kbusch-mbp>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=EIc2FVZC c=1 sm=1 tr=0 ts=6a97ac5b cx=c_pps
- a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=pGKkRDS4hbavg4qZ3psA:9
- a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTAyMDAzOCBTYWx0ZWRfX2aBXm3dgyRxy
- bssQaRUzXwPwQUP6h/ALqH5MRWs7mQe9YGvORbc66ii6SxULb41rfEPIrr1hp9d1B9bOy1D9DwC
- Rj6LuRdfuGGKl/r53aKfUMzgLXmmPSJzn7ACpYMYfU6KJzZt2RZys4b62DnDqKf98qiKc/ibC9L
- gQdde9eWxpJMx3r2fhTUlOPifB90lU6StGowR8flkSRk3wVeLxjvusuPwhyDZljktSqafuPFbBg
- 5IMXS764J8jAG6RJZ/6iUNUDjypzgViHUk9VqhpvOfSG2GT5we4bRbfxFQvTiO9d1E+QLDBZ92v
- t1kKfCNusnXviKBsgz1dz1ZFOoAxG1U4BIXu60dTfKAsvaAF64lokCTaGUw81Tx+N8FOjETvKIS
- yIp+Tt2SHNxwFhS5EJTSZrOYv0supdsXNW7kWvoC5BoaaRbM2GDqMh5rSKCrKCnJwl98vN9NEUN
- Kcp6LJvBvJH5ySR02OA==
-X-Proofpoint-GUID: mJ5H6RYYSoP6u5PXemNkKI_3GDCXG5I1
-X-Proofpoint-ORIG-GUID: mJ5H6RYYSoP6u5PXemNkKI_3GDCXG5I1
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTAyMDAzOCBTYWx0ZWRfX13X0HJqNWRXk
- wg5YLMZFENIVR+eAWf7fjOcFnaNIhfjp8H7KnnNRSMmnWUnVH8q7J+AJHcgkwW/2lCCFsiezjVd
- 7NRXWmPAR6H5hWCpw4TMxvROhkzIFP8=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-01_06,2026-09-01_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 impostorscore=0 suspectscore=0 priorityscore=1501 clxscore=1015
- phishscore=0 spamscore=0 adultscore=0 lowpriorityscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2609020038
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260901_215607_624310_9A4C9E39 
-X-CRM114-Status: GOOD (  18.64  )
+X-CRM114-CacheID: sfid-20260901_232437_000869_30200404 
+X-CRM114-Status: GOOD (  18.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -124,40 +105,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/1/26 10:09 PM, Keith Busch wrote:
-> On Mon, Aug 31, 2026 at 08:49:54PM +0530, Nilay Shroff wrote:
->> +static inline int nvme_module_get(struct nvme_ns *ns, unsigned int count)
->> +{
->> +	unsigned int i;
->> +
->> +	for (i = 0; i < count; i++) {
->> +		if (!try_module_get(ns->ctrl->ops->module))
->> +			goto out_unwind;
->> +	}
->> +
->> +	return 0;
->> +out_unwind:
->> +	while (i--)
->> +		module_put(ns->ctrl->ops->module);
->> +	return -ENXIO;
->> +}
->> +
->> +static inline void nvme_module_put(struct nvme_ns *ns, unsigned int count)
->> +{
->> +	while (count--)
->> +		module_put(ns->ctrl->ops->module);
->> +}
-> 
-> Thanks, looks correct to me.
-> 
-> I don't like the looping though. This could be done in a single
-> atomic_sub instead of multiple atomic_dec calls if the module api
-> provided something to get/put many references.
+On Mon, 31 Aug 2026 01:30:08 +0300 Sagi Grimberg <sagi@grimberg.me> wrote:
+> I just think that the adoption approach has downsides in many other
+> workloads. I wouldn't categorize your use-case as the common use-case.
+> Not to say that it shouldn't be solved.
 
-Yeah I though of the same however unfortunately module APIs don't
-provide something using which we could atomically get/put more than
-one references.
+Adoption in v2 is opt in per controller through the io_cpu_adopt
+connect option, so every workload that does not enable it
+keeps today's behavior unchanged. The downsides would only be borne by
+deployments that choose it. I concur with the broader point. Adoption
+makes the driver itself decide where socket work belongs, through a
+fixed rule that cannot fit every deployment, while a writable io_cpu
+is very flexible and leaves the decision to the control plane.
+
+> I agree with you that queue io_cpu selection at connection time is too
+> limiting. Perhaps we can have each nvme-tcp queue expose a sysfs entry
+> to set the io_cpu?
+>
+> Something like:
+> echo $CPU > /sys/class/nvme/nvme0/tcp_queues/$QUEUE/io_cpu
+>
+> I am just trying to think of a way that will allow some control plane
+> to set it exactly as it wants, without the guessing part...
+
+The per queue sysfs io_cpu works for us, and in one respect it works
+better than a connect option because a sysfs attribute can be set after
+the fact on any existing connection. The control plane already knows each
+VM's cpuset and can read the queue to cpu grouping from mq/*/cpu_list,
+so it can nail the socket work placement.
+
+Two questions before I spin the next version around this.
+
+1. On reconnect the queues come back with the connect time io_cpu, so
+the control plane has to notice and reapply its placement. Is relying
+on the existing nvme udev events for controller state the intended
+signal, or would you want a dedicated notification ?
+
+2. What should the write path enforce ? I would validate the cpu is
+online, rebalance the nvme_tcp_cpu_queues accounting, and let the new
+value take effect from the next queued io_work. I intend to restrict the
+value to the queue's map group.
+
+If this direction sounds right I will drop the adoption heuristic and
+send the next version v3 exposing each queue's io_cpu as a writeable
+sysfs attribute.
 
 Thanks,
---Nilay
+Saravanan D.
 
