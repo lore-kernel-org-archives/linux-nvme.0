@@ -4,49 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6EF29C624D3
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Sep 2026 13:31:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 65AF7C624D3
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Sep 2026 13:32:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ug5DRSiuwcvphkzISJgKVkViXapq6RtvUaKRTqCOjNM=; b=bpdiQERRfGEvdgVLUv7ykQ7kF0
-	UolduJusAL/V+ndecPojHHyK1qw+gCdQZWuugOjc30k8OtaQKURcnMjWCXhQLiCP03GAo7QNixZD5
-	dWkWc4O4mw0D3hcxBqZXrnsB8ngEjE7736/gTyLKr/RkS02NdvUt+po/FQwv5eoD1r1bDpaIJytrn
-	P3/K0oeAS+fCWAGupTbDeh0BRBgrpZZRPRygcWMSRCcsnKTXi1qRfpS6HXAWhqPVM+d90yom6e/2i
-	T3EpZQ6xz5e4IhxtN51U7ZEDemaFOHAJj/ImIVnVTdHT3zdtMAvmgY87dd6u50ofPDlLhEJy+QQSh
-	DFDeJsEA==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=QQpHac2gvXafZ51sZs3MvBvfYi
+	z8iw8+vDKm2xGsk6/ZJTPDobEXRX+d+qCgZggv+PcjRu5jOTWvYao6hfDmSuCp+WkAgTepEbmIVpR
+	cqF6n6sKHTVtOh+iIpSHtqLnNuQhPIp7VohBxtON6lPaTEgWzMMp5BQzXpHj4/Mmdo7vG4FNVJQ6X
+	IEQmtJIfPDEI9P/dFLCElwqTmoj93t16BEtDMHtRmeJa6oi8Q9//c4h35SxSwJ04udojT4ZWRr+Nl
+	PbpDuyiGkRwPn2aQ59uE0SoA70dl4P2XU3INRiN17AS+T2jxUa5auYOpKZAoK/Sw312H6+SbhoziR
+	BHb7RP5Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x1l3g-0000000EoRq-2LQa;
-	Wed, 02 Sep 2026 13:31:20 +0000
+	id 1x1l5G-0000000EogW-46cY;
+	Wed, 02 Sep 2026 13:32:58 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x1l3Z-0000000EoPL-3cUi
+	id 1x1l5E-0000000Eofl-1MXc
 	for linux-nvme@lists.infradead.org;
-	Wed, 02 Sep 2026 13:31:19 +0000
+	Wed, 02 Sep 2026 13:32:57 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 004466732A; Wed,  2 Sep 2026 15:31:04 +0200 (CEST)
-Date: Wed, 2 Sep 2026 15:31:04 +0200
+	id CE8806732A; Wed,  2 Sep 2026 15:32:51 +0200 (CEST)
+Date: Wed, 2 Sep 2026 15:32:51 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Nilay Shroff <nilay@linux.ibm.com>
-Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, sagi@grimberg.me,
-	hch@lst.de, axboe@fb.com, john.g.garry@oracle.com,
-	wenxiong@linux.ibm.com, gjoyce@linux.ibm.com
-Subject: Re: [PATCH 1/2] nvme: keep transport module referenced while head
- node is open
-Message-ID: <20260902133104.GA20945@lst.de>
-References: <20260831152006.819471-1-nilay@linux.ibm.com> <20260831152006.819471-2-nilay@linux.ibm.com>
+To: raoxu <raoxu@uniontech.com>
+Cc: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	sagi@grimberg.me
+Subject: Re: [PATCH nvme-7.3 v3 1/4] nvme-fabrics: separate option
+ tokenizer pointer
+Message-ID: <20260902133251.GA21167@lst.de>
+References: <B1A2864319EA3B6C+20260831070557.631487-1-raoxu@uniontech.com> <67C2BD21B4A592D4+20260831071050.637726-1-raoxu@uniontech.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260831152006.819471-2-nilay@linux.ibm.com>
+In-Reply-To: <67C2BD21B4A592D4+20260831071050.637726-1-raoxu@uniontech.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260902_063114_048578_5FF2D2B9 
-X-CRM114-Status: GOOD (  15.22  )
+X-CRM114-CacheID: sfid-20260902_063256_510262_4DA38893 
+X-CRM114-Status: UNSURE (   9.45  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,23 +62,8 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Aug 31, 2026 at 08:49:54PM +0530, Nilay Shroff wrote:
-> When a user opens an NVMe multipath head node, we take a reference to
-> the head node, but this does not prevent the transport module backing
-> its paths from being unloaded. This can result in the multipath head
-> remaining open while its underlying transport module is unloaded.
+Looks good:
 
-Which makes sense.  Different paths can use different transports, but
-even when all paths go away, the head can stick around.
-
-> Fix this by taking a reference to the transport module for each active
-> path when the multipath head node is opened. Keep track of the number
-> of active head node openers so that dynamically added paths acquire the
-> same number of transport module references.
-
-I'm not sure this is correct.  Unloading the layer below should be
-just fine.
-
-What practical problem do you want to solve with this?
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
 
