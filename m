@@ -4,92 +4,112 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3FAFFC61DFD
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Sep 2026 04:53:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3A84BC624D0
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Sep 2026 04:56:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1/WJv6ORXpJMYtngGoOZ+CIauw4y5AKxPgY6cDe49jc=; b=2bkF2eg86CX50ws7mmqGgO2qaD
-	aHHPLhJ+WEjusi54UcwsAHD9n+ViBdVgYFblfnOwDnOI0j6QN6+164BKeYiZBdgEkLDrTr4d70s10
-	tRrXmDW/mPHGlaOU87eFEzB8l3Mchu1lFeF3uPrA5iaeHYzJivw1mZ/RhnSAJe1/kshtbutxtj7w/
-	JasaDZD/ovymnckPoRqXwodAPWh7e8ffx2JvUEHaNy8mJrJZ0+ng6KFa+MnX+F1Ze0ehbmz19KRly
-	jGt4aPdft7tC+SxDqTzA6AjSaFgc5JeoS+H8eaeSTTrD0kJO05cN8jdnCme3aOp4Tw+Zr090uNwQL
-	WDEoy/Zg==;
+	bh=sLY6q+TPIJg/NWeZ12QMP+NrY9M0JxuIc/0tzu9PAA4=; b=jF23nj/UC0dpgVgpEFoJ6YvK1J
+	UTNWd7xFNZnaoE7rsW6GpSG+d0WLHxpAcYu0veUPOe7uOmaZtw/jahVMvrV/JHokfv6gAsy6iFziO
+	kOepwJNAEkwd41yMWAshaWBnmN8i5wZb3VLvyeHH1IpFwh1ACYycZbwJ6nhM7ajpTNOlCgS7AjJO5
+	i+zVnZRMAAQJvkOuuntO20pq/CYl4Hy3fHlRWYQ+4mJesnPnzO7hCcbTBiGhWtzQUEkZBjSsxbE1m
+	8acJNApXBZHWpsz4wzYnyd1kbgeCfassFyNxlabmpiNnjgllhgW0/8k3HV9y9Ah+L9chYM7PZs0JP
+	WFSnu+UA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x1cyf-0000000DmiJ-27rV;
-	Wed, 02 Sep 2026 04:53:37 +0000
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+	id 1x1d1H-0000000Dmte-20rV;
+	Wed, 02 Sep 2026 04:56:19 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x1cyb-0000000Dmhe-37jN
+	id 1x1d14-0000000Dmrs-0Epo
 	for linux-nvme@lists.infradead.org;
-	Wed, 02 Sep 2026 04:53:37 +0000
-Received: by mail-pj1-x1034.google.com with SMTP id 98e67ed59e1d1-3969e82ff8fso748219a91.0
-        for <linux-nvme@lists.infradead.org>; Tue, 01 Sep 2026 21:53:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1788324812; x=1788929612; darn=lists.infradead.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=1/WJv6ORXpJMYtngGoOZ+CIauw4y5AKxPgY6cDe49jc=;
-        b=PzGEjNpuTIqdefBy+5s7DJbvxRxt78BY5s1t92qW87tvvTtE+frfTCVR0iKiCI4Je9
-         ODnuFQhNhC+xWjMXF8VcCMtGokcZwEhtcIUfS2XaEXkzM87DUun3B58G9sE5cFA/SpIg
-         iR/JBJwNxBT2O8Ksc05xf1MJJ97oYEEnAL/m5V4XEZiaZnJnaPV97iX/L1S1tIdn5DCn
-         UgqB0yF93zl6mJr7hkm2NNIh5cSWZqp//ZYCxow93PmJmwaAs5qtWF0ZTbdc4vFScIQs
-         3G5MlbzCh9X0xSDSLfqGeZZySjl7/mEr3+aCbLKY0Y9JmhYICWvpYwoA31gmBXrt21xr
-         GfQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788324812; x=1788929612;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=1/WJv6ORXpJMYtngGoOZ+CIauw4y5AKxPgY6cDe49jc=;
-        b=fD57d8y6zAAZsqpLChJ4xpZDnD2a3MfCQQGS9rSSxFeiBRBmbmXB/r0ygJ5OOlZ7M/
-         l8VxLHuvyXHtD19wdxt3vEGsn80k5pK+/B2fNXwZGhERmpCl5uCVtxcVzRMqoOs7RWn4
-         /69JHigHmVlPccxz8t9I7G3EYirHkiMN5++QB0mFYxQp89n7xVZDEsT/B2WHjIQcJMz+
-         dagnqDdWT93ubEK2/d9TI3syW2bjtmM1/O5N96sfRInIXtFIcse0OGkQwRQSYpSMcgdS
-         l4yPswg8u6MSzBx+CdTE+cEISIXmk07fsD1yMYbMSWlOcez7VLD+P8zxETEqgmlhRZ+V
-         IElQ==
-X-Forwarded-Encrypted: i=1; AKwUvByNgFN2QCowson8DNpSXNN0MnQVz98H9cX6GpKruS1qi4GEDz9VxSHSnM6hQgF3D1jQV+/9qChEg35R@lists.infradead.org
-X-Gm-Message-State: AFuF++kQDUZtozg22ILMZNudNE8oGtr4KeckoSNX2hdzkBpnL1mFOvQP
-	ryC/9/DumZ6Rap29id+NpDoNTj8QfBgOEPZuirqTGpEbZCFI7iNWO0+ZQUaleThTJggC1jU/z0z
-	O+3TRAOk=
-X-Gm-Gg: AYBFou2S+9b5Dn113M542b8uYru3rziR3xTHFUwwDb2rW5MrXQIjYg3vlMl0lG4W9II
-	lewd88VcLs6H+ahiHVKysjgh+qWV9iGgqBFbCDJ74U/hsb957uOSVNak+I4zJhE1kskdkdpeabn
-	9QvHdJDRSAlarnTIECRFz5GTcSyxm9bszsc0u44911JwjghwmeFzVvLt8zqf6hPS3MxW/hDTwWX
-	Tcht9eHZJuRyRvfLFA3B1N6bOXH3uMseIgeOSrMh2EnTaP6pvoyNYI6DgHJzHweIX5lp4SxNNx0
-	NIXvvEv/oc6HhmL+xVftsxWIO66MyufgNqo7dlrk3wEm6yjETzlJNPltInSnXp1CxRjpHU704co
-	P9kbatawmZ8weLjZCtHjztYnt+ElEG1OrZSPa/Uz3nEfyFsF9c1tlqyOecM99ScQCzTBAjbasmy
-	rve036SyyMHaeSq7veJmWJ6aQxRY6g/1JhG/KosN+apUvy38NCinlJRHvbLJ4OynnuxbkzE6efq
-	wq1/xA7GBEVftJJiclouZHLN4pZjP0ytNN1f7JnzPL/iGQ=
-X-Received: by 2002:a17:90b:548c:b0:395:4de0:b78f with SMTP id 98e67ed59e1d1-39aede9368amr3441324a91.1.1788324812196;
-        Tue, 01 Sep 2026 21:53:32 -0700 (PDT)
-Received: from [172.20.4.188] ([192.77.111.15])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-32f07ba5a51sm2793041eec.21.2026.09.01.21.53.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Sep 2026 21:53:31 -0700 (PDT)
-Message-ID: <a76b8cd5-8042-46ed-a9cd-620a0c4f56f3@kernel.dk>
-Date: Tue, 1 Sep 2026 22:53:30 -0600
+	Wed, 02 Sep 2026 04:56:17 +0000
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 681KWQRF354682;
+	Wed, 2 Sep 2026 04:55:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=sLY6q+
+	TPIJg/NWeZ12QMP+NrY9M0JxuIc/0tzu9PAA4=; b=UXKrKLytc6+C4G3Nr7mCqq
+	bp2ZRK1odwJWZLLk8sqzEGViXGyK46W8+INrHja+BAf+RdTFMWyGrtA21+aroLPF
+	rYlusB0bGg/fgnb7CHBVi4JtUPDY14421+SC5XyjIcp8x0KJj7wlcsCZE7q0pAbf
+	5g64ErDBybJw0CavMeoX9khH/30S7hWaaw0UYvrRDgZAQMQ6bqcOt8NEic3krkVa
+	RU7H02BJGJeRiQzkucC4d1HTfyzZabYxFHK3bvYdLRWTkQCAIvek4GaudBX3Ri6v
+	RXydfQohFtN9N8jQBvdvm2L0IADfEgDiaxzFv/wasKLGaYX1dYm1DeFi7dtSqO3A
+	==
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4gbq3rca4v-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 02 Sep 2026 04:55:55 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 6824feht005789;
+	Wed, 2 Sep 2026 04:55:54 GMT
+Received: from smtprelay05.dal12v.mail.ibm.com ([172.16.1.7])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4gcark7sbp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 02 Sep 2026 04:55:54 +0000 (GMT)
+Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
+	by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6824trDn52101470
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 2 Sep 2026 04:55:53 GMT
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 098995805D;
+	Wed,  2 Sep 2026 04:55:53 +0000 (GMT)
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4EDAC58057;
+	Wed,  2 Sep 2026 04:55:50 +0000 (GMT)
+Received: from [9.61.83.86] (unknown [9.61.83.86])
+	by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Wed,  2 Sep 2026 04:55:49 +0000 (GMT)
+Message-ID: <94c6ccbb-0b76-43e1-b3a2-ef2fcb485ca5@linux.ibm.com>
+Date: Wed, 2 Sep 2026 10:25:48 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] MAINTAINERS: update nvme entry
-To: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org
-Cc: Keith Busch <kbusch@kernel.org>
-References: <20260901164935.2464374-1-kbusch@meta.com>
+Subject: Re: [PATCH 1/2] nvme: keep transport module referenced while head
+ node is open
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org, sagi@grimberg.me, hch@lst.de, axboe@fb.com,
+        john.g.garry@oracle.com, wenxiong@linux.ibm.com, gjoyce@linux.ibm.com
+References: <20260831152006.819471-1-nilay@linux.ibm.com>
+ <20260831152006.819471-2-nilay@linux.ibm.com> <apb_3yu6G0dx_rWe@kbusch-mbp>
 Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20260901164935.2464374-1-kbusch@meta.com>
-Content-Type: text/plain; charset=UTF-8
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <apb_3yu6G0dx_rWe@kbusch-mbp>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Authority-Analysis: v=2.4 cv=EIc2FVZC c=1 sm=1 tr=0 ts=6a97ac5b cx=c_pps
+ a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=pGKkRDS4hbavg4qZ3psA:9
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTAyMDAzOCBTYWx0ZWRfX2aBXm3dgyRxy
+ bssQaRUzXwPwQUP6h/ALqH5MRWs7mQe9YGvORbc66ii6SxULb41rfEPIrr1hp9d1B9bOy1D9DwC
+ Rj6LuRdfuGGKl/r53aKfUMzgLXmmPSJzn7ACpYMYfU6KJzZt2RZys4b62DnDqKf98qiKc/ibC9L
+ gQdde9eWxpJMx3r2fhTUlOPifB90lU6StGowR8flkSRk3wVeLxjvusuPwhyDZljktSqafuPFbBg
+ 5IMXS764J8jAG6RJZ/6iUNUDjypzgViHUk9VqhpvOfSG2GT5we4bRbfxFQvTiO9d1E+QLDBZ92v
+ t1kKfCNusnXviKBsgz1dz1ZFOoAxG1U4BIXu60dTfKAsvaAF64lokCTaGUw81Tx+N8FOjETvKIS
+ yIp+Tt2SHNxwFhS5EJTSZrOYv0supdsXNW7kWvoC5BoaaRbM2GDqMh5rSKCrKCnJwl98vN9NEUN
+ Kcp6LJvBvJH5ySR02OA==
+X-Proofpoint-GUID: mJ5H6RYYSoP6u5PXemNkKI_3GDCXG5I1
+X-Proofpoint-ORIG-GUID: mJ5H6RYYSoP6u5PXemNkKI_3GDCXG5I1
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTAyMDAzOCBTYWx0ZWRfX13X0HJqNWRXk
+ wg5YLMZFENIVR+eAWf7fjOcFnaNIhfjp8H7KnnNRSMmnWUnVH8q7J+AJHcgkwW/2lCCFsiezjVd
+ 7NRXWmPAR6H5hWCpw4TMxvROhkzIFP8=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-01_06,2026-09-01_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 impostorscore=0 suspectscore=0 priorityscore=1501 clxscore=1015
+ phishscore=0 spamscore=0 adultscore=0 lowpriorityscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2609020038
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260901_215334_041805_A1025A3E 
-X-CRM114-Status: UNSURE (   8.42  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260901_215607_624310_9A4C9E39 
+X-CRM114-Status: GOOD (  18.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,14 +124,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/1/26 10:49 AM, Keith Busch wrote:
-> From: Keith Busch <kbusch@kernel.org>
+On 9/1/26 10:09 PM, Keith Busch wrote:
+> On Mon, Aug 31, 2026 at 08:49:54PM +0530, Nilay Shroff wrote:
+>> +static inline int nvme_module_get(struct nvme_ns *ns, unsigned int count)
+>> +{
+>> +	unsigned int i;
+>> +
+>> +	for (i = 0; i < count; i++) {
+>> +		if (!try_module_get(ns->ctrl->ops->module))
+>> +			goto out_unwind;
+>> +	}
+>> +
+>> +	return 0;
+>> +out_unwind:
+>> +	while (i--)
+>> +		module_put(ns->ctrl->ops->module);
+>> +	return -ENXIO;
+>> +}
+>> +
+>> +static inline void nvme_module_put(struct nvme_ns *ns, unsigned int count)
+>> +{
+>> +	while (count--)
+>> +		module_put(ns->ctrl->ops->module);
+>> +}
 > 
-> Update Jens' entry to match the mail address of his other entries.
+> Thanks, looks correct to me.
+> 
+> I don't like the looping though. This could be done in a single
+> atomic_sub instead of multiple atomic_dec calls if the module api
+> provided something to get/put many references.
 
-Acked-by: Jens Axboe <axboe@kernel.dk>
+Yeah I though of the same however unfortunately module APIs don't
+provide something using which we could atomically get/put more than
+one references.
 
--- 
-Jens Axboe
-
+Thanks,
+--Nilay
 
