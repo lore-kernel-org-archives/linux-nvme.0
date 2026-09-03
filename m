@@ -4,143 +4,129 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E42A0C61DD3
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Sep 2026 06:50:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 004A2C624A4
+	for <linux-nvme@archiver.kernel.org>; Thu,  3 Sep 2026 07:56:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Message-ID:Subject:To:From:Date:Reply-To:Cc:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=X52vrYfHStrpvMf5IQF6+ZBe2M7ZIq6qhT3Tx8qEzJE=; b=RPdYbvHudswbWjryQjHTN944Pp
-	ApnLOqgdTwZOCDCNbMWzdKkzFST5fmTrTS5gWLUxiseVLFPlUPZ3/xGzK/fwhLuuZmCwsMPTp1YOC
-	1c7Fh2vPXGy2aN4T2bvuFfJbfCM6o6Lf/PupenaaooldQJfRd6Tm1X5A+Eg90ykT7SdOYu7BUtuvJ
-	2V265CiasZOY++8CBLrPKgQI0/uIVWmwZzcrqs8J4GWrdUfISjXM4sqvBQUd3shfD8ZjFNn+Gd1f3
-	XXVw9AUqIj0/W2Z7fa9LrzMKE+96IvEB5hnRKjUzYKL8jL/fpm8xnwWYPeOEpFkkwsvK0QgzmxW0q
-	O6yQXIDw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=hxP0GxFFLsg1tFuYbZ1cc/lchMAQboP8ZrAqbn0ycns=; b=M6KdcQ0ScoisyvSFLd/2c5/hSK
+	g21RlQnKm40pJubwWPmP790PaEkoQjxf2uBlSSY+35IgOstZrQbD/L+N5CUUKN2WYbsg+i3PB8nDc
+	j1HVVVHZJV8nllMKI1MOayBX/yQpcILZ95dx2eeSGF5OcgPi4WVtX/tCHm77Yqa47+OzYrrcByZQm
+	sfEmDnfKpDC7yb0ulRsDlDtRs7ODuztchlNSBHc1ttqG9+RvIMF8G9/792baWaLWqG9wkbnaYLgyd
+	p9yRSPyY2MLGIDQMMKa7oDhhLg78SyFPWdm+f/7t16cr/veOGxiM5riKa5Xv9YO9rHAYDoBBYW+tR
+	EH2QI+0A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x21Gq-0000000GVax-0cXO;
-	Thu, 03 Sep 2026 06:50:00 +0000
-Received: from esa5.hgst.iphmx.com ([216.71.153.144])
+	id 1x22JI-0000000Gi9w-2xXX;
+	Thu, 03 Sep 2026 07:56:38 +0000
+Received: from mail-japanwestazlp170110001.outbound.protection.outlook.com ([2a01:111:f403:c407::1] helo=OS0P286CU010.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x21Gn-0000000GVaZ-2fC2
-	for linux-nvme@lists.infradead.org;
-	Thu, 03 Sep 2026 06:49:59 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1788418202; x=1819954202;
-  h=date:from:to:subject:message-id:mime-version;
-  bh=fyeoK5EHWRFFtKjIiTIWkMiO1hLIpHtqLydSG4IYgNk=;
-  b=oZuY6Gc5KkZLOdWNlFVPBEP/1aVUiSjkh0vH1RecAExvbPSipjcS89WQ
-   K7hoanWjj1NqFb8ql8lICXU2qcMobMgFzvv1aze5pOFhCfdqUczkjun/g
-   aYvMcX88us5kDwja03ZgRPAyI7o0nOFaIDgXMUO/P/gVcImCw8tAajrUn
-   j9/1sUpw0Ru3dTkoSMAXYKPoiWGfZGyRxG9r4SaShlJta60sSt7ac2gFd
-   wQfT/eq42/7NGzyk7MOugTEUf9gQf8HDchubL6xIL1I78Gv0nrkgoZFfe
-   MuvtxMrTuvXICFmDKvJreweNvb2J3vAMk+I2HJ0ddQ5YEevGq/BCeHJcc
-   A==;
-X-CSE-ConnectionGUID: j5EEZjxYTdqKrWG9p1U1Qw==
-X-CSE-MsgGUID: QcAVHwnrTaiD8cHDq2Qoew==
-X-IronPort-AV: E=Sophos;i="6.25,258,1779120000"; 
-   d="scan'208";a="153893382"
-Received: from mail-southcentralusazon11011034.outbound.protection.outlook.com (HELO SN4PR0501CU005.outbound.protection.outlook.com) ([40.93.194.34])
-  by ob1.hgst.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 03 Sep 2026 14:50:00 +0800
+	id 1x22JC-0000000Gi7i-0ESd;
+	Thu, 03 Sep 2026 07:56:34 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UR8LRZZFWKR2yGe8i4ZNThtrie26Bs3yebg2YAH5KfqWW4uuAevfrVJ8Jf1IeS0u32SxQdauoWpSjtpa0xhzUCdXWt5mi8ToeQTv1OFdEvLQltAwf+g+F0eCysEAOEud/VLzlzMDvpso6iyRzDbD6pd4/WV+uSmfWqgFRgEGkoVmrL6RX3z8MQgdVz9pI5Hqj4+nmkOkm4iEJXbnnHfB/GUo2GppanObYd41iRCQbiR9QkgPtYAAd9x++UAtXHhehhQmwQ0J7J+qEOxYTY1z3nV+mlW/GSXM+wELlNnPcwsU67yUdkmUhBdqi3X3l66GXuUG4qGV1NCEnIanXiFsYg==
+ b=LwsFK0Oc6y/8Algcz/W1PCBvBRDz+BZq7b4SkM8ivUwPuAb3RHCrk/V4nNttpBM3H7GJ95+ANHLKH5nKct3B59kRxaCK1hJCptR8W2lhXhQ8EBC6brIqFS0+VAgo7K8l7EfByNdZkpYkBfTw5SvmAHWiHbZxhtliyR41pEVbV6MebcQ/VmHGKxKS0E0sqHoJHMnjQE58II3YXUkFNvrrhdkQ2gbv5H5mwoP63Wg1AHrzUl4WFr7zhXNeyu+gpIl2DSjNksy9nkgwZlgGztPP/fQGDeBlHa7R8Ynfz0qDOPAoUE1+vW+jJuuZOO08YLsCAcH6AHQZKq/yOZM+njjmiA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=X52vrYfHStrpvMf5IQF6+ZBe2M7ZIq6qhT3Tx8qEzJE=;
- b=YtAIgloY9IlHqVvlD0gwiblt6WcKPKWh1EJGcSTHRcAMCY9eIhKFxx/Y4cDO7ZyuVE6vCEdGlXE3aGHRnd0OvMhI9tKj4OOS6qbUd++7/CxdFIyrJbESjQCBnVWG0fYSKJCP3y08cPbRel7WHE/FMm7rOiJiAdlKZ9aXzUAJAFatIuL2yaqcLNOKW/quAYHZ0mNIVvr+RVso0OTSDJLA2RLcuLmcmcL1+vdlNBecUQFutD1paWZFi3RyFpSaCi5O8p3FbThgE+theLrGhU3E/THFzzV4Vk4LhiFAcltA7dbFatefvssoc5PAE2CL5QbMNtbk0INQfNM758B5KpaoHA==
+ bh=hxP0GxFFLsg1tFuYbZ1cc/lchMAQboP8ZrAqbn0ycns=;
+ b=Hs4cOiK7Um3vAuILBZ2ISgPxBdt4N4K2qWhrUFL03/YYm2/SwJBaIbbk+bcJ6FSgcG3iZ8hZskcbXFLewRK2g8YVktXuEZ7lqlf2GpJKH1POn4q0IrAiYmcEUiFDSkaatUva6H6ZA9nEpIdFvIApc1A6s2NlChafDhY+pYeZGxYGgXr3du4KnN+MDZE5ArVuuYE1yhL/G1laPFnGtOMN7bVA12a7oaYqkCTcAXzPMO2ju9/JoH2HgQUAkIdVUuLFtTLDiBHlAdgJtF1fexM8+MYOi+6gznvlbQ14RIAGCurtEDUsxnKz3XwXoufpLFKKjeTYPfoObHZwjLDofIG19w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ smtp.mailfrom=valinux.co.jp; dmarc=pass action=none
+ header.from=valinux.co.jp; dkim=pass header.d=valinux.co.jp; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valinux.co.jp;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=X52vrYfHStrpvMf5IQF6+ZBe2M7ZIq6qhT3Tx8qEzJE=;
- b=aJf192SG3tAhfjwI7a7M0PxpHLYuIxsjccdP+Wc0cuqjafIAFIh0A7dziF/XHJyGAgp1B0lL+2a4Cc8ddRNTP1xujj7WLqxI7rXraUT4+CjO3RqN/rB+6Jtc8SuutGpYwDz9z46OqgkV7E/g+HP5+ECaHjaFtRhIMSTO3rcA1kQ=
+ bh=hxP0GxFFLsg1tFuYbZ1cc/lchMAQboP8ZrAqbn0ycns=;
+ b=P4IObDVPxp7PjmyMvddH3dZo2rQiL5iDNaYvv7O7mc4ROEKUQzRBnHoXElsVkuP/DYR6Tk8EvqHkLUNQEjl0IifDw20C9tS3Nw82n7zHY/BzpCVti516lB7dmG1q/FEYR+pMojH3Sg1bLenUWHHjNB9ypEUHBNOv/5cdc3QTMGA=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-Received: from SA1PR04MB10065.namprd04.prod.outlook.com
- (2603:10b6:806:4dd::14) by DS2PR04MB993869.namprd04.prod.outlook.com
- (2603:10b6:8:336::5) with Microsoft SMTP Server (version=TLS1_2,
+ header.d=none;dmarc=none action=none header.from=valinux.co.jp;
+Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:38f::10)
+ by OSZP286MB1558.JPNP286.PROD.OUTLOOK.COM (2603:1096:604:1b3::5) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Thu, 3 Sep
- 2026 06:49:53 +0000
-Received: from SA1PR04MB10065.namprd04.prod.outlook.com
- ([fe80::9b98:bf8a:b0b1:ef85]) by SA1PR04MB10065.namprd04.prod.outlook.com
- ([fe80::9b98:bf8a:b0b1:ef85%4]) with mapi id 15.21.0360.008; Thu, 3 Sep 2026
- 06:49:53 +0000
-Date: Thu, 3 Sep 2026 15:49:48 +0900
-From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>, 
-	nbd@other.debian.org, linux-rdma@vger.kernel.org
-Subject: blktests failures with v7.3-rc1 kernel
-Message-ID: <apkYN8Os5A6VXqS6@shinhome>
+ 2026 07:56:20 +0000
+Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::2305:327c:28ec:9b32]) by TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::2305:327c:28ec:9b32%4]) with mapi id 15.21.0360.008; Thu, 3 Sep 2026
+ 07:56:20 +0000
+Date: Thu, 3 Sep 2026 16:56:18 +0900
+From: Koichiro Den <den@valinux.co.jp>
+To: Niklas Cassel <cassel@kernel.org>
+Cc: Manivannan Sadhasivam <mani@kernel.org>, 
+	Frank Li <Frank.Li@kernel.org>, linux-pci@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/3] PCI: endpoint: Support hardware-owned MSI-X table
+ and PBA
+Message-ID: <zxyr55h6s3tjc6pe23wzwb77dxppsljxcagpqhp4u24cqka2ne@fesick6sneto>
+References: <20260830151948.3547577-1-den@valinux.co.jp>
+ <apVWd1u9JjTKQczu@ryzen>
+ <pj5vpwwd5tr5tuvhdq3bcpefnq27r6ljvwoysguz2o4tglcqx5@l7zmb6wjnhla>
+ <apXdm2I33edo8kpZ@ryzen>
+ <sor2mm4jzgeprhn3fjw4jmcaowwkhhuus6exi4k5kum6frqvug@gatkk7r4qyxd>
+ <apfPWc09CY2o-P5s@ryzen>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-ClientProxiedBy: TY4PR01CA0018.jpnprd01.prod.outlook.com
- (2603:1096:405:2bf::7) To SA1PR04MB10065.namprd04.prod.outlook.com
- (2603:10b6:806:4dd::14)
+In-Reply-To: <apfPWc09CY2o-P5s@ryzen>
+X-ClientProxiedBy: TY6P301CA0040.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:3ba::15) To TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:38f::10)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR04MB10065:EE_|DS2PR04MB993869:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0664bc71-7ea7-4fda-7756-08df09878f1f
-WDCIPOUTBOUND: EOP-TRUE
+X-MS-TrafficTypeDiagnostic: TY7P286MB7722:EE_|OSZP286MB1558:EE_
+X-MS-Office365-Filtering-Correlation-Id: 68814a73-b372-425d-7213-08df0990d743
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|23010399003|366016|19092799006|10067099003|11063799006|56012099006|18002099003;
-X-Microsoft-Antispam-Message-Info: uDeSai+8KBUBXUi9KgaUIknDaolzjmt/+lgnHLGCYp6hVb+Za2moPj6qLPYUyzpxUrl0UEpFkd5WIjzpkiXehO22mzU80ShG+TSbfh0wGQzY/LQfHcIVve/Wqjrcfwb/O2opQSjj2vI77pqdkjp9oe9k+8MajrsKOjQ9gaIzGEhiVULv2dUR568iB3K2SRz+PjWA/YQK64I3RSxv69xs/dWau2bYZp/iqHkBby7vwzv5ERLTTvRFDUoetTiLZjUECMmHNKBwK7+vZC9RpdBKrPfidzBuHt2g8nkj3aXgm5YzauYKFCK8ejyu7/tc1EkSKEkjpy1U1WyRskXl6V18ICFkSFn8k7tII1y5lwQth4TClTVQJXUrMGlYKhJqUnZAsyDDhISYsxkKTCwUXZnaJ7AyYAYX14W7CbCDqG6gONlpxS0hdbrBZsRdnwe3KWUgAZJSFywxf0p2GYw0WxG5wO2gfHB6VRpH0bQGwNd+o0JRJM6RyVlGHqJy2f6ZlIKQSP2WRQchBQcoiqPUXW09GRmhHDYJVrdV5aRqHz0oB2cZ4MScB+nwwIAIEyPyRF/G1EgL3XHBWsrzgORjMlHt38y9uhAVc+ve4p+RzvWm37aqsWXocMpLw/DG+fHOLnTOqnHNVbDCX/9tNSLW/SrYoJiXnAeGCZkefqDPK0aciow=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR04MB10065.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(23010399003)(366016)(19092799006)(10067099003)(11063799006)(56012099006)(18002099003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|1800799024|10070799003|366016|376014|18002099003|22082099003|56012099006|6133799003|4143699003|10067099003|5023799004;
+X-Microsoft-Antispam-Message-Info: 0cov+rzSyN84mphtQlxowkgkOC7PjrDYv0jqLGZAl4PLlq3MCKzQC011EVoMAZhh6qxlUk6+agSAsSbmh8zBMYvzTJYEQPznI107/CRA0vdG4a0gFtBzbiBgPc+Ak2PAsVBvS4F3I6HRcTmlyF4ClAwxQfyJVg0sZ1vNGKDH9AO/tLkGXf/0WA9Ia39ArXLMaGYOetqeevWpGn08SYNS1jtaMwodteCQ32DMikD+zL2Ftor0n30XslF7inRxloxQRk9TdhhgcDF8eh9fJ14fBYbjE6WJezfrPZHAavjUzzvsaAeIEoBbjYY7zI27xGqkc7CPP71M/LYoDpEnBeuog1h7RAtrFluyLJ+/dEusOfj/H96tpRosECkvrQqSU4yD/SnPdatv06kLIhSetCcvi5N5fXEWIaJqfLDOu6f7gA2V+MpLxZcp860FmmAL8aqaoazLeFLaefroWGRPnlyzT86OtHbm2f/wpbuSfNV60d/owWKjOG0xKL7CzHAkCT/zO4rdpofc51S+74dvuNbo3AMTxCPMVp6cSSOwRuU4K/ndRcXRCznf0L8BkZH9qVyTnHpEzR59S+83JJ4eCA4oVlUROJjjGeVmNaKfeO5ODeDP68W6AEk2yH4L/hLBXRX++sKmV5Mne0JATuVhKS0TyiRwR3cj2/gjpF8J8/VRMaI=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(10070799003)(366016)(376014)(18002099003)(22082099003)(56012099006)(6133799003)(4143699003)(10067099003)(5023799004);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?v+ZkXlOMgMdimF49HCzSpJVx6sPDfezrsBpbS62KAENRL3icLoxvLxav+4VT?=
- =?us-ascii?Q?qaPN9YPvx/hT3AjMf/QJ0L1XhwX3F4eybU+ZEZbvPzmWap25CYXSmmBjZI4Q?=
- =?us-ascii?Q?EYRvsVCPt7uHy5Y1PCM2J9eOdLoIjgYpitFXUnLQv7Vi2+JBSubRHgiR4DJi?=
- =?us-ascii?Q?XeOOoE6MhIIx8wd5qT7g5trm84OyW3Lp6tUuuwFx7zWb3xICO7J3v00DAW+G?=
- =?us-ascii?Q?cYiuTVrJ+FBdJI2nN7f8daoP5vaQX1kfuXESwdp1iUyGsDKj5GGCqBb/JNsH?=
- =?us-ascii?Q?GpW/GuRh/THrgqIu/8DWRF9Azr2Do+7X1S7Kf3eHRGjm/TMCujMyR7tjCFdm?=
- =?us-ascii?Q?6BVfceQxUQtq7Y/vGaWRJ2rVr1882+iSzveUM3OxgmDGq7J0vylHrBvS439a?=
- =?us-ascii?Q?1fduIrnAZHdu7abLky+/YX0kLjNHKOC4d1G3ficngNfEnT+vgkpO+oDr6MtP?=
- =?us-ascii?Q?KMjtS6C5U9RSCLFY6bj3ALv6YI5KwDGs9XstuItxmEwuZX6/1ZEe2t+4oohx?=
- =?us-ascii?Q?x0EzY6c3tH2zKWHPUY+rDjR4Nn4+UvCliW8nJdZmfApsXdCBWk0tLaHPXxlG?=
- =?us-ascii?Q?y5JHsXe/vr+9bGYzEpy1Y4SWfmElIDX1+EokZxHb6wYIQ5GcXdaOjFulJRRZ?=
- =?us-ascii?Q?adPtPPyDH1cQMukrRVNtHGsrMjqIC5Ay5AJgBOkQSjsj8dNZaUUzdK2pI6sJ?=
- =?us-ascii?Q?lnP/yoFtiXJ4NXydmfgwHVrsDZItuuqvH6Q5qRwUctASNlwEQY1HwKnZRRJA?=
- =?us-ascii?Q?0V/u0F/kCCgqfVNF3tK6h97qgXGLgA6WHiflXD8lm+E5XipLf3dTmbo4HO9W?=
- =?us-ascii?Q?fnERMqyT1kf0MooBCgnqKp0QZ3a9MDTMDFZHR6EWNxZBffTIYi4xg9qd1KIV?=
- =?us-ascii?Q?2sx4ZFEsaLWBsFa0C43DAJq1aaTNxen0yCTchoXNSnW7e+xQPGZ2NI995Fqn?=
- =?us-ascii?Q?2L863lMyVlSNOyBr9rcKHEWXcE48EHtg2rN3xKkITD7aaE4Ij3nukiWgiXoU?=
- =?us-ascii?Q?66+yNj2auGWkL08xGhTbhhuHZzq6EleiL2YnTdTkLx6M+NGyTbYlmc0MQuxc?=
- =?us-ascii?Q?/2R0bNN9Go9abWZ+wBjewH2++UIHrlAeHhQQwdXO57WOQqcWgm1ykCGmjg4w?=
- =?us-ascii?Q?bJv+me7LwkXQfKePcH/fvcwJMGHTd1o0CNBwYaTuN96o11Et1pFfmZLZRshw?=
- =?us-ascii?Q?KWt3vzhmIScYzRvww3dTVwEO0u7rq/rIyiYE2dF/hCwzIa4c9a3dWucD0vRf?=
- =?us-ascii?Q?QTWM9K8TU0WxCXLfqTeltG2HiA/9hcurwn4w5/lU0T18EOT48j1fZSpRzcox?=
- =?us-ascii?Q?K1pnOCia3NjFYevYj1cCseoNnBZuXnUh3dIdPX4Q+SSMmm9l6f9WfOoiLoyZ?=
- =?us-ascii?Q?S++yhQqXx7GB5JNB3c7TIjcM81bYyt/RrI9EXdMS0iv+nIUlnOL9DulH6bCm?=
- =?us-ascii?Q?ugNiZFrge5iGVMKXvAJRUFY83btJRTcFEbHXV6ul/yH4R9w9aIyG/2cBYI1J?=
- =?us-ascii?Q?D2SRs922fNFfekuAwP+rbqr5Qmroay+wz0S/BVVrioN9wusVCUbZ3GE4S3rh?=
- =?us-ascii?Q?wENxXbUVqHA0B+LpsVAMdpdEPCLACjqxP4CVfuxcuNa9M9erL+vi5FAR5Ulg?=
- =?us-ascii?Q?yZOrsnWRmZ38jmpHyjbzsiMhD6nvT2b49fRJE23SOt9Ph9hmhz04kBp/KDBP?=
- =?us-ascii?Q?TzdPcoRuUeK5R3JJG/to+SGmforbBd9BA66KHn7lG9xW5mt+pPB2skuA9/CS?=
- =?us-ascii?Q?4dQmuUGNHzP7ILwLQiyXHuf4WWqf/RE=3D?=
-X-Exchange-RoutingPolicyChecked: vzqs9raFqNzmR5+euqADp8AaFLYf6o3MWzQROfVfBcqebnOCknwDnEISyqbikLKzEDlIAq5mV4QQf/MmjCBIj6OH0KMcPRqjryGaOumPO/KTvOVHO7laEdiHlOY4UBa60BP4yABygLEdWIkudBclXD/lIReQvvXrFYb97jmJfy17AA5IyYZp29EeUz8iqxQEVJVaywPqQWcJsECicBKNXD5Cghs2S8o6hSwoDqQPB68Cui6sbcMwMo3uIP0SRjMuH+17V0r/u/rDlxnVZhWS5NAWfSz6Zdhv5C2ZEry3Agj8TYnSBlj+GU0uEur7f2N6MihhG2wd44W9bWYoHP4AaA==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: L41/DuYodj53jCDfIeN6wRbAVGZqkkuMjk46V8jhxBOZWE3YGOd8MIOhzeoSuqqgQdaP4cnT2V+TRWTP2DZPaVKzxQ2Ve+SwRQIFn4EUwed5bPx/pNvNvpsO3dMY2Fqb8379umZXDB8oIebQjnq8/3fydTwekTGztFVWDDeOpXNhOHa7rxEeSjyv25+Vswwr2pzw/r6BmOQn7goHE28DxWpd4lPsA1pXrLxN8EF0XeiL7MPWNxFG3E+qalTs7/Tmkc+RrtNI7/6fMf2iyVAvyvKCXn0ZYNRPFiyb5hBx7nZJg2dPjTHuRUGF7dWxR+s9br3DHrSaxifxpq0TrvKX/OCSgz91taV9Kr0fYI2XiVc//cgbh+JY9bd7eLSANa1Vauwi/ssWn8bcMWRWTsJk4RZsn74ZFmLCqQbPiOlknaAKuLbcg3Uwfq4g38cau2BvmIOwaLMy9CuNly7ZT9JQMQuyBCc1fLljeUTK1ocdNW+Ki6WqGtcuP1fEibIsLGLPF1jPiNEcQnzv8pJb+aq3bHtdsBRHP3lCLtIgEZGWLm0zZH+DO27pT0bXjkWvNM2eH2fH7J18CZCp7LBjKoEAJ7Kc2tU2Ty9mqJOrOhq6Aw1LKaWX3jKNGhdV6cuEHMCd
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0664bc71-7ea7-4fda-7756-08df09878f1f
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR04MB10065.namprd04.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ArB+pe3Q5yGj20blE7ndaar0jL4GP1QcmKeARhV7UGq9oOpgxGnLm7xvhFig?=
+ =?us-ascii?Q?Am8nfJIn+AgUlAjcfvJbdNl5NFgaaYTgYiWjkrbcSfbOYjePYiWHR4AH4yDj?=
+ =?us-ascii?Q?+k1eC758VwUvdfaDQTeuNSt3v3roj4dAyHL/XWt0jdiFFZn+eCVcEcKAAMnU?=
+ =?us-ascii?Q?qEgZNMoRsqU64oBu7CnT/Hgno+s/JdF+U+lf6zOFd4vdiov0ZiHYebBYFYII?=
+ =?us-ascii?Q?8OqSbK4jI7eqgG6D2m0TWVQ643uJPa9EyGBc0BJ0b0Qws60JpbeU2ZsQ665H?=
+ =?us-ascii?Q?xB8oAhXmxSnmMS0lbCqsiqioLR7amclCDI/c096pZk0sLO0ZOtjL+b1r9V9A?=
+ =?us-ascii?Q?v7NEKTk/53kbEEDklzlo6tv4MYCdEpZFh873AorWzKLIIy1JmayidG3A/iW4?=
+ =?us-ascii?Q?+1dobOUziDGviTQoekJqgfd3A+A/fZxunrM4ZEnQCPcz3SKn0X9siJWzYAo4?=
+ =?us-ascii?Q?y71SVzgua/bJ8oeWsnG0up0GOx6kVdl7OaTAwOSH+nJFQc90hm6Xdp8+H8vV?=
+ =?us-ascii?Q?WuJD37waaERmQwM0uXHw1F7R8Wqxv62K/fIP+25Wt6Z/zu++02D4A+rEAr1j?=
+ =?us-ascii?Q?UKwKFgAjVzmKq9wnkICAxtbfdNuUI7rA3cN55y2/UnbPRWfQ35+waDo95VUP?=
+ =?us-ascii?Q?N0hgdurrP7AHvAJRwvXfo66qer7R+8X5WIM8lrTEak2DXGMcIaYbIxZKTIgV?=
+ =?us-ascii?Q?OVoDsnmkiP9uO0yVLv/wFBqDmqB9E5d+Bhul6zerjTqEHL8FUWrpuYOU8E+9?=
+ =?us-ascii?Q?n4Q0qJIB4O9vKDBneE+8KXavIqBQLAGbL7Lcc1JJJDj0ZMqCcK5ebGXmG/th?=
+ =?us-ascii?Q?DFad25XRZ0CM1aQbMn1g1Q9Crfjk5T45KNsDhOCQP+bfVXAfmfRpRTnFKNCI?=
+ =?us-ascii?Q?Mh6ls6S7jTzNPMjDRr8DIEYy4yC8F/p/YZJAv4H5FFkyFvhXobh60Oi+S05r?=
+ =?us-ascii?Q?fzt7sAzXkwC3BasvCGDM3PCKmJQ6PlKVF0wUO+v/mdgXayDa9IcFCJ0K0XAK?=
+ =?us-ascii?Q?peajBXti3diSoLqzbwyrG57V4qf6AlmgcbEVzNA282Sh6j2+2IKW4ixu7m8M?=
+ =?us-ascii?Q?GRcbqi7dC7eArEkJS4gJGKGA/8iPguevz5z9HD7Ysii7aAK7x5l18LcinSm5?=
+ =?us-ascii?Q?wKYI3gTb2IK1el8ySGaUt7bskUkbutN33/kT3eMR6wE4sLrwUJsbMPBDx7tR?=
+ =?us-ascii?Q?CrU72NhUptqJPZIrAL4X3Q4rEDp0Oz5r0C0xbI6OBK+fROnFIu5hgv4iZj42?=
+ =?us-ascii?Q?3GaOLgTrEUEViAx2qVb/SdhbBtIlmk+EYZKFbXX2w0HRTHPLZAmDZBgT4jys?=
+ =?us-ascii?Q?4uRoc2XtT0ku7QX8FueFE3DV4BrWRqY6bcslqT/rJUNZxjWAH/PoKUpYHYge?=
+ =?us-ascii?Q?9w4BsJEXGL7EeP5LL3mPagDtczs9A6Um2XKQJJeq1kG8UBsTRTZXpdi9o0C+?=
+ =?us-ascii?Q?GBpgfgaNEfxraPd4q92LNifUpX4k1SC8qkMlbI54KORckyLmFGz+6xqmcC1J?=
+ =?us-ascii?Q?vVYCdua3dBWIPiFRVCicr4Lq690ur4jW+c4Eg/ENbHNBRtcqlFYXkeT1xfG6?=
+ =?us-ascii?Q?uPrmsFLN0U8gdC9OzQ3kyquJ28ejGufqwstBeqgRTHFNO4OlxvBH/vHF8f+p?=
+ =?us-ascii?Q?PV988l2piEq4nYmzguqFdJZmXepHYfOlzINwaPyIsARMwQuI7Uagph5nsrBz?=
+ =?us-ascii?Q?zkmJR+KVl8FWs/E+iRWmycc6cjrJ8Gu9VW4DieceZzTVueN57KjSoK2ryP4e?=
+ =?us-ascii?Q?68FpxnJr5hXgEgxwceDTKZJV7a5C76i7Mwm0TpXTJv8hmsGUwGIA?=
+X-OriginatorOrg: valinux.co.jp
+X-MS-Exchange-CrossTenant-Network-Message-Id: 68814a73-b372-425d-7213-08df0990d743
+X-MS-Exchange-CrossTenant-AuthSource: TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2026 06:49:53.7994
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2026 07:56:20.2675
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-Id: 7a57bee8-f73d-4c5f-a4f7-d72c91c8c111
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pBJOu8zI8xyOS4lrrlBs8G5MD/j7Juwa1jGYm80/Grs2j34bJBUW02694Tn5MgWz6GCcLOJGxnfhJdZs+hTCC2XDUplCAcn+7uMSWpNKxVI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR04MB993869
+X-MS-Exchange-CrossTenant-UserPrincipalName: //85/2r8oa5RUcTUKv/VXBPTGPYfl5GxYWgCZrJnR6nlFSPqD19M9s2QeNotoR32auplRo3gLuOYFFbd6PF87g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZP286MB1558
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260902_234957_709377_1C1D5D28 
-X-CRM114-Status: GOOD (  12.77  )
+X-CRM114-CacheID: sfid-20260903_005630_392354_2369E3DB 
+X-CRM114-Status: GOOD (  45.82  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -155,134 +141,1238 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
+On Wed, Sep 02, 2026 at 09:25:13AM +0200, Niklas Cassel wrote:
+> On Wed, Sep 02, 2026 at 11:14:00AM +0900, Koichiro Den wrote:
+> > 
+> > This still sounds really odd, and it does not obviously explain why both DWORDs
+> > at 0x4000 and 0x4004 are affected. I may be missing something important. If
+> > anything similar involving iMSIX-TX Table RAM entry #0 has been discussed
+> > before, please point me to the relevant thread.
+> > 
+> > (Also, I can share my current WIP v3 series, which makes pci-epf-test and
+> > nvmet-pci-epf use the hardware-owned layout when available, while leaving
+> > pci-epf-ntb with its EPF-owned layout. If you have any setup where you could
+> > test it, please let me know.)
+> 
+> Some time ago, I did verify that I could raise an IRQ using
+> dw_pcie_ep_raise_msix_irq_doorbell(). If I remember correctly, I did so using
+> pci-epf-test and not nvmet-pci-epf.
+> 
+> Did pci-epf-test work? (From what you explain, it seems to be related to if
+> MSI-X Table entry #0 is used or not.)
+> 
+> Please share your branch. I should have time to do a quick test.
+> 
+> 
+> > 
+> > > 
+> > > 
+> > > What I suggest that you instead do something like:
+> > > Patch 1/7: pci-epf-vntb: Fix to actually use MSI-X when requested.
+> > >            This probably includes adding the code that is inside the
+> > > 	   if (ret == -ENOENT) { }.
+> > > Patch 2/7: PCI: endpoint: Support hardware-owned MSI-X table and PBA
+> > > Patch 3/7: PCI: dw-rockchip: Support fixed MSI-X table and PBA on RK3588
+> > > Patch 4/7: pci-epf-vntb: Add code that calls pci_epc_get_hw_msix_layout()
+> > >            and uses that layout, if the function returned success.
+> > > Patch 5/7: pci-epf-test: Add code that calls pci_epc_get_hw_msix_layout()
+> > >            and uses that layout, if the function returned success.
+> > > Patch 6/7: nvmet-pci-epf: Add code that calls pci_epc_get_hw_msix_layout()
+> > >            and uses that layout, if the function returned success.
+> > > Patch 7/7: pci-epf-ntb: Add comment that explains why it cannot call
+> > >            pci_epc_get_hw_msix_layout() like all other EPF drivers that
+> > > 	   support MSI-X.
+> > > 
+> > > 
+> > > This way, patch 1/7 can be backported, and will help all users vNTB users,
+> > > even the users that do not use RK3588 as an EPC.
+> > 
+> > That split makes sense. However, given the issue I described above, perhaps I
+> > should send patch 1/7 as a standalone fix and hold off on the rest until the
+> > issue is understood and resolved.
+> 
+> Agreed, a standalone 1/7 patch could be picked up without the need to wait for
+> any other changes.
+> 
+> 
+> > 
+> > Testing vNTB alone (ie. this v2 way) did not expose it because its first data
+> > doorbell uses MSI-X Table entry #2. I only found the issue because your
+> > suggestion led me to convert and test nvmet-pci-epf, thank you!
+> 
+> I'm sorry that we have a problem.
+> At least it is better to discover it now, rather than discovering it after
+> the patches had been merged.
 
-I ran the latest blktests (git hash: ed675852b012) with the v7.3-rc1 kernel. I
-observed 2 failure classes listed below. Compared with the previous report for
-v7.2 kernel [1], 3 failures are no longer observed (nvme/061, nvme/068 and
-nvme/069), while 1 new failure class was observed: Sporadic
-cleanup_srcu_struct() WARNs.
+Hello Niklas,
 
-[1] https://lore.kernel.org/linux-block/aoRGbVB70YCcxoxF@shinhome/
+Thanks. Better safe than sorry.
+
+For context, this series is not directly part of the NTB transport direct TX/RX
+work I'm working on. Now that we've chosen vNTB-DMA instead of PCI DMA EPF, as
+you know, its test coverage can naturally extend beyond my main target, R-Car
+S4, to other platforms. Which includes RK3588, that I am sure you know really
+well and which I can test on my Rock 5B. That is what led me to look at the
+RK3588 MSI-X path now. In short, even if v3 path 1 or patch 2-7 take time to
+land, that will not block the direct TX/RX work.
+
+Please save the text between the markers as an mbox and apply it with git am.
+
+------------8<----(from here)------8<-------------
+
+From 26455413434d6cce0aae6562364d971271be729c Mon Sep 17 00:00:00 2001
+From: Koichiro Den <den@valinux.co.jp>
+Date: Tue, 1 Sep 2026 16:02:45 +0900
+Subject: [WIP PATCH v3 1/7] PCI: endpoint: pci-epf-vntb: Honor MSI-X selection
+
+ntb_hw_epf tries MSI-X first and falls back to MSI. It reports the
+result in COMMAND_CONFIGURE_DOORBELL. pci-epf-vntb ignores MSIX_ENABLE,
+configures only MSI, and always raises peer doorbells with PCI_IRQ_MSI.
+When MSI-X is selected, the host does not program MSI, so raising it can
+issue a write to an invalid address. This was observed with an IOMMU
+enabled on the RC.
+
+Configure MSI-X when supported and use the selected type for peer
+doorbells. Allocate the MSI-X Table and PBA in the config BAR and
+configure db_count entries to cover the link event, the reserved slot,
+and the doorbell slots.
+
+Fixes: e35f56bb0330 ("PCI: endpoint: Support NTB transfer between RC and EP")
+Signed-off-by: Koichiro Den <den@valinux.co.jp>
+---
+Changes in v3:
+  - Split the vNTB MSI-X fix from hardware-owned layout support. (Niklas)
+
+@Frank, I did not carry over your R-b tag due to the change. Would
+appreciate another look when you have cycles. Thank you in advance.
+---
+ drivers/pci/endpoint/functions/pci-epf-vntb.c | 55 +++++++++++++------
+ 1 file changed, 38 insertions(+), 17 deletions(-)
+
+diff --git a/drivers/pci/endpoint/functions/pci-epf-vntb.c b/drivers/pci/endpoint/functions/pci-epf-vntb.c
+index c3caec927d74..fe44ca35462c 100644
+--- a/drivers/pci/endpoint/functions/pci-epf-vntb.c
++++ b/drivers/pci/endpoint/functions/pci-epf-vntb.c
+@@ -148,6 +148,7 @@ struct epf_ntb {
+ 	u16 vntb_vid;
+ 
+ 	bool linkup;
++	bool peer_msix;
+ 
+ 	/*
+ 	 * True when doorbells are interrupt-driven (MSI or embedded), false
+@@ -155,6 +156,7 @@ struct epf_ntb {
+ 	 */
+ 	bool msi_doorbell;
+ 	u32 spad_size;
++	u32 msix_table_offset;
+ 
+ 	enum pci_barno epf_ntb_bar[VNTB_BAR_NUM];
+ 
+@@ -303,6 +305,7 @@ static void epf_ntb_cmd_handler(struct work_struct *work)
+ 
+ 	switch (command) {
+ 	case COMMAND_CONFIGURE_DOORBELL:
++		WRITE_ONCE(ntb->peer_msix, argument & MSIX_ENABLE);
+ 		ctrl->command_status = COMMAND_STATUS_OK;
+ 		break;
+ 	case COMMAND_TEARDOWN_DOORBELL:
+@@ -439,9 +442,9 @@ static void epf_ntb_config_spad_bar_free(struct epf_ntb *ntb)
+  *   region
+  * @ntb: NTB device that facilitates communication between HOST and VHOST
+  *
+- * Allocate the Local Memory mentioned in the above diagram. The size of
+- * CONFIG REGION is sizeof(struct epf_ntb_ctrl) and size of SCRATCHPAD REGION
+- * is obtained from "spad-count" configfs entry.
++ * Allocate the control and scratchpad regions described in the above diagram.
++ * If the EPC supports MSI-X, allocate space for its Table and PBA between the
++ * control and scratchpad regions.
+  *
+  * Returns: Zero for success, or an error code in case of failure
+  */
+@@ -462,6 +465,12 @@ static int epf_ntb_config_spad_bar_alloc(struct epf_ntb *ntb)
+ 	spad_count = ntb->spad_count;
+ 
+ 	ctrl_size = ALIGN(sizeof(struct epf_ntb_ctrl), sizeof(u32));
++	if (epc_features->msix_capable) {
++		ntb->msix_table_offset = ALIGN(ctrl_size, 8);
++		ctrl_size = ntb->msix_table_offset +
++			    ntb->db_count * PCI_MSIX_ENTRY_SIZE +
++			    BITS_TO_U64(ntb->db_count) * sizeof(u64);
++	}
+ 	spad_size = 2 * spad_count * sizeof(u32);
+ 
+ 	base = pci_epf_alloc_space(epf, ctrl_size + spad_size,
+@@ -502,12 +511,14 @@ static int epf_ntb_config_spad_bar_alloc(struct epf_ntb *ntb)
+ static int epf_ntb_configure_interrupt(struct epf_ntb *ntb)
+ {
+ 	const struct pci_epc_features *epc_features;
++	struct pci_epf *epf = ntb->epf;
+ 	struct device *dev;
+ 	int ret;
+ 
+-	dev = &ntb->epf->dev;
++	dev = &epf->dev;
+ 
+-	epc_features = pci_epc_get_features(ntb->epf->epc, ntb->epf->func_no, ntb->epf->vfunc_no);
++	epc_features = pci_epc_get_features(epf->epc, epf->func_no,
++					    epf->vfunc_no);
+ 
+ 	if (!(epc_features->msix_capable || epc_features->msi_capable)) {
+ 		dev_err(dev, "MSI or MSI-X is required for doorbell\n");
+@@ -521,16 +532,24 @@ static int epf_ntb_configure_interrupt(struct epf_ntb *ntb)
+ 	}
+ 
+ 	if (epc_features->msi_capable) {
+-		ret = pci_epc_set_msi(ntb->epf->epc,
+-				      ntb->epf->func_no,
+-				      ntb->epf->vfunc_no,
+-				      16);
++		ret = pci_epc_set_msi(epf->epc, epf->func_no, epf->vfunc_no, 16);
+ 		if (ret) {
+ 			dev_err(dev, "MSI configuration failed\n");
+ 			return ret;
+ 		}
+ 	}
+ 
++	if (epc_features->msix_capable) {
++		ret = pci_epc_set_msix(epf->epc, epf->func_no, epf->vfunc_no,
++				       ntb->db_count,
++				       ntb->epf_ntb_bar[BAR_CONFIG],
++				       ntb->msix_table_offset);
++		if (ret) {
++			dev_err(dev, "MSI-X configuration failed\n");
++			return ret;
++		}
++	}
++
+ 	return 0;
+ }
+ 
+@@ -1512,6 +1531,7 @@ static void vntb_epf_peer_db_work(struct work_struct *work)
+ 	struct epf_ntb *ntb = container_of(work, struct epf_ntb, peer_db_work);
+ 	struct pci_epf *epf = ntb->epf;
+ 	unsigned int budget = VNTB_PEER_DB_WORK_BUDGET;
++	unsigned int irq_type;
+ 	u8 func_no, vfunc_no;
+ 	unsigned int db_bit;
+ 	u32 interrupt_num;
+@@ -1523,6 +1543,7 @@ static void vntb_epf_peer_db_work(struct work_struct *work)
+ 
+ 	func_no = epf->func_no;
+ 	vfunc_no = epf->vfunc_no;
++	irq_type = READ_ONCE(ntb->peer_msix) ? PCI_IRQ_MSIX : PCI_IRQ_MSI;
+ 
+ 	/*
+ 	 * Drain doorbells from peer_db_pending in snapshots (atomic64_xchg()).
+@@ -1536,16 +1557,16 @@ static void vntb_epf_peer_db_work(struct work_struct *work)
+ 
+ 		while (db_bits) {
+ 			/*
+-			 * pci_epc_raise_irq() for MSI expects a 1-based
+-			 * interrupt number. The first usable doorbell starts
+-			 * at EPF_IRQ_DB_START in the legacy slot layout.
++			 * pci_epc_raise_irq() expects a 1-based interrupt
++			 * number for MSI and MSI-X. The first usable doorbell
++			 * starts at EPF_IRQ_DB_START in the legacy slot layout.
+ 			 *
+ 			 * Legacy mapping (kept for compatibility):
+ 			 *
+-			 *   MSI #1 : link event (reserved)
+-			 *   MSI #2 : unused (historical offset)
+-			 *   MSI #3 : doorbell bit 0 (DB#0)
+-			 *   MSI #4 : doorbell bit 1 (DB#1)
++			 *   IRQ #1 : link event (reserved)
++			 *   IRQ #2 : unused (historical offset)
++			 *   IRQ #3 : doorbell bit 0 (DB#0)
++			 *   IRQ #4 : doorbell bit 1 (DB#1)
+ 			 *   ...
+ 			 *
+ 			 * Do not change this mapping to avoid breaking
+@@ -1556,7 +1577,7 @@ static void vntb_epf_peer_db_work(struct work_struct *work)
+ 			db_bits &= ~BIT_ULL(db_bit);
+ 
+ 			ret = pci_epc_raise_irq(epf->epc, func_no, vfunc_no,
+-						PCI_IRQ_MSI, interrupt_num);
++						irq_type, interrupt_num);
+ 			if (ret)
+ 				dev_err(&ntb->ntb.dev,
+ 					"Failed to raise IRQ for interrupt_num %u: %d\n",
+-- 
+2.51.0
 
 
-List of failures
-================
-#1: nvme/062 (tcp transport)
-#2: Sporadic cleanup_srcu_struct() WARNs (rdma transport and siw driver)
+From 03561be00c5ba5df597c4ae86ba659c8b00d8f78 Mon Sep 17 00:00:00 2001
+From: Koichiro Den <den@valinux.co.jp>
+Date: Thu, 27 Aug 2026 18:12:02 +0900
+Subject: [WIP PATCH v3 2/7] PCI: endpoint: Support hardware-owned MSI-X table
+ and PBA
+
+Some endpoint controllers expose the MSI-X table and Pending Bit Array
+(PBA) in fixed, hardware-owned BAR regions. The EPC set_msix() callback
+currently receives only the table BAR and offset and assumes that the PBA
+immediately follows the table in the same BAR. It cannot describe a fixed
+layout whose table and PBA have independent locations.
+
+Add struct pci_epc_msix_layout and pass the full layout to
+pci_epc_set_msix(). Leave layout selection to EPF implementations. For
+instance, pci-epf-ntb reads the MSI-X Table from its own BAR. Using a
+fixed layout there would require a way to read hardware-owned Table
+entries. Add pci_epc_get_hw_msix_layout() for EPFs that want the fixed
+layout. Update the existing callers and validate the supplied layout.
+
+Signed-off-by: Koichiro Den <den@valinux.co.jp>
+---
+Changes in v3:
+  - Convert the new pci-epf-vntb MSI-X caller to the layout API. (Niklas)
+---
+ drivers/nvme/target/pci-epf.c                 |  16 ++-
+ .../pci/controller/cadence/pcie-cadence-ep.c  |   9 +-
+ .../pci/controller/dwc/pcie-designware-ep.c   |   7 +-
+ drivers/pci/endpoint/functions/pci-epf-ntb.c  |  30 +++---
+ drivers/pci/endpoint/functions/pci-epf-test.c |  17 +--
+ drivers/pci/endpoint/functions/pci-epf-vntb.c |  22 ++--
+ drivers/pci/endpoint/pci-epc-core.c           | 102 +++++++++++++++++-
+ include/linux/pci-epc.h                       |  25 ++++-
+ 8 files changed, 182 insertions(+), 46 deletions(-)
+
+diff --git a/drivers/nvme/target/pci-epf.c b/drivers/nvme/target/pci-epf.c
+index 9c28367435a5..39f2f3066deb 100644
+--- a/drivers/nvme/target/pci-epf.c
++++ b/drivers/nvme/target/pci-epf.c
+@@ -201,7 +201,7 @@ struct nvmet_pci_epf {
+ 	const struct pci_epc_features	*epc_features;
+ 
+ 	void				*reg_bar;
+-	size_t				msix_table_offset;
++	struct pci_epc_msix_layout	msix_layout;
+ 
+ 	unsigned int			irq_type;
+ 	unsigned int			nr_vectors;
+@@ -2168,8 +2168,14 @@ static int nvmet_pci_epf_configure_bar(struct nvmet_pci_epf *nvme_epf)
+ 		size_t pba_size;
+ 
+ 		msix_table_size = PCI_MSIX_ENTRY_SIZE * epf->msix_interrupts;
+-		nvme_epf->msix_table_offset = reg_size;
+-		pba_size = ALIGN(DIV_ROUND_UP(epf->msix_interrupts, 8), 8);
++		pba_size = BITS_TO_U64(epf->msix_interrupts) * sizeof(u64);
++
++		nvme_epf->msix_layout.table_bar = BAR_0;
++		nvme_epf->msix_layout.table_offset = reg_size;
++		nvme_epf->msix_layout.table_size = msix_table_size;
++		nvme_epf->msix_layout.pba_bar = BAR_0;
++		nvme_epf->msix_layout.pba_offset = reg_size + msix_table_size;
++		nvme_epf->msix_layout.pba_size = pba_size;
+ 
+ 		reg_size += msix_table_size + pba_size;
+ 	}
+@@ -2226,8 +2232,8 @@ static int nvmet_pci_epf_init_irq(struct nvmet_pci_epf *nvme_epf)
+ 	/* Enable MSI-X if supported, otherwise, use MSI. */
+ 	if (epc_features->msix_capable && epf->msix_interrupts) {
+ 		ret = pci_epc_set_msix(epf->epc, epf->func_no, epf->vfunc_no,
+-				       epf->msix_interrupts, BAR_0,
+-				       nvme_epf->msix_table_offset);
++				       epf->msix_interrupts,
++				       &nvme_epf->msix_layout);
+ 		if (ret) {
+ 			dev_err(&epf->dev, "Failed to configure MSI-X\n");
+ 			return ret;
+diff --git a/drivers/pci/controller/cadence/pcie-cadence-ep.c b/drivers/pci/controller/cadence/pcie-cadence-ep.c
+index 370b19f4d38f..3e7c6d0acb3b 100644
+--- a/drivers/pci/controller/cadence/pcie-cadence-ep.c
++++ b/drivers/pci/controller/cadence/pcie-cadence-ep.c
+@@ -293,7 +293,8 @@ static int cdns_pcie_ep_get_msix(struct pci_epc *epc, u8 func_no, u8 vfunc_no)
+ }
+ 
+ static int cdns_pcie_ep_set_msix(struct pci_epc *epc, u8 fn, u8 vfn,
+-				 u16 nr_irqs, enum pci_barno bir, u32 offset)
++				 u16 nr_irqs,
++				 const struct pci_epc_msix_layout *layout)
+ {
+ 	struct cdns_pcie_ep *ep = epc_get_drvdata(epc);
+ 	struct cdns_pcie *pcie = &ep->pcie;
+@@ -311,12 +312,12 @@ static int cdns_pcie_ep_set_msix(struct pci_epc *epc, u8 fn, u8 vfn,
+ 
+ 	/* Set MSI-X BAR and offset */
+ 	reg = cap + PCI_MSIX_TABLE;
+-	val = offset | bir;
++	val = layout->table_offset | layout->table_bar;
+ 	cdns_pcie_ep_fn_writel(pcie, fn, reg, val);
+ 
+-	/* Set PBA BAR and offset.  BAR must match MSI-X BAR */
++	/* Set PBA BAR and offset */
+ 	reg = cap + PCI_MSIX_PBA;
+-	val = (offset + (nr_irqs * PCI_MSIX_ENTRY_SIZE)) | bir;
++	val = layout->pba_offset | layout->pba_bar;
+ 	cdns_pcie_ep_fn_writel(pcie, fn, reg, val);
+ 
+ 	return 0;
+diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
+index de8ee3db4360..5f4c4cf1ffb9 100644
+--- a/drivers/pci/controller/dwc/pcie-designware-ep.c
++++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
+@@ -737,7 +737,8 @@ static int dw_pcie_ep_get_msix(struct pci_epc *epc, u8 func_no, u8 vfunc_no)
+ }
+ 
+ static int dw_pcie_ep_set_msix(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+-			       u16 nr_irqs, enum pci_barno bir, u32 offset)
++			       u16 nr_irqs,
++			       const struct pci_epc_msix_layout *layout)
+ {
+ 	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
+ 	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+@@ -757,11 +758,11 @@ static int dw_pcie_ep_set_msix(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+ 	dw_pcie_ep_writew_dbi(ep, func_no, reg, val);
+ 
+ 	reg = ep_func->msix_cap + PCI_MSIX_TABLE;
+-	val = offset | bir;
++	val = layout->table_offset | layout->table_bar;
+ 	dw_pcie_ep_writel_dbi(ep, func_no, reg, val);
+ 
+ 	reg = ep_func->msix_cap + PCI_MSIX_PBA;
+-	val = (offset + (nr_irqs * PCI_MSIX_ENTRY_SIZE)) | bir;
++	val = layout->pba_offset | layout->pba_bar;
+ 	dw_pcie_ep_writel_dbi(ep, func_no, reg, val);
+ 
+ 	dw_pcie_dbi_ro_wr_dis(pci);
+diff --git a/drivers/pci/endpoint/functions/pci-epf-ntb.c b/drivers/pci/endpoint/functions/pci-epf-ntb.c
+index 5314aca2188a..f3e0e1b3ffb9 100644
+--- a/drivers/pci/endpoint/functions/pci-epf-ntb.c
++++ b/drivers/pci/endpoint/functions/pci-epf-ntb.c
+@@ -90,12 +90,11 @@ struct epf_ntb_epc {
+ 	u8 vfunc_no;
+ 	bool linkup;
+ 	bool is_msix;
+-	int msix_bar;
+ 	u32 spad_size;
+ 	struct pci_epc *epc;
+ 	struct epf_ntb *epf_ntb;
+ 	void __iomem *mw_addr[6];
+-	size_t msix_table_offset;
++	struct pci_epc_msix_layout msix_layout;
+ 	struct epf_ntb_ctrl *reg;
+ 	struct pci_epf_bar *epf_bar;
+ 	enum pci_barno epf_ntb_bar[6];
+@@ -475,9 +474,9 @@ static int epf_ntb_configure_msi(struct epf_ntb *ntb,
+  *
+  * The MSI-X address is in the MSI-X table of EP CONTROLLER 2 and
+  * the count of doorbell is in ctrl->argument of epf_ntb_epc that is connected
+- * to HOST2. MSI-X table is stored memory mapped to ntb_epc->msix_bar and the
+- * offset is in ntb_epc->msix_table_offset. From this epf_ntb_configure_msix()
+- * gets the MSI-X address and data.
++ * to HOST2. The location of the memory-mapped MSI-X table is described by
++ * ntb_epc->msix_layout. From this epf_ntb_configure_msix() gets the MSI-X
++ * address and data.
+  *
+  * epf_ntb_configure_msix() also stores the MSI-X data to raise each interrupt
+  * in db_data of the peer's control region. This helps the peer to raise
+@@ -505,8 +504,8 @@ static int epf_ntb_configure_msix(struct epf_ntb *ntb,
+ 	ntb_epc = ntb->epc[type];
+ 	epc = ntb_epc->epc;
+ 
+-	epf_bar = &ntb_epc->epf_bar[ntb_epc->msix_bar];
+-	msix_tbl = epf_bar->addr + ntb_epc->msix_table_offset;
++	epf_bar = &ntb_epc->epf_bar[ntb_epc->msix_layout.table_bar];
++	msix_tbl = epf_bar->addr + ntb_epc->msix_layout.table_offset;
+ 
+ 	peer_ntb_epc = ntb->epc[!type];
+ 	peer_barno = peer_ntb_epc->epf_ntb_bar[BAR_DB_MW1];
+@@ -1036,10 +1035,14 @@ static int epf_ntb_config_spad_bar_alloc(struct epf_ntb *ntb,
+ 	if (msix_capable) {
+ 		msix_table_size = PCI_MSIX_ENTRY_SIZE * ntb->db_count;
+ 		ctrl_size = ALIGN(ctrl_size, 8);
+-		ntb_epc->msix_table_offset = ctrl_size;
+-		ntb_epc->msix_bar = barno;
+-		/* Align to QWORD or 8 Bytes */
+-		pba_size = ALIGN(DIV_ROUND_UP(ntb->db_count, 8), 8);
++		pba_size = BITS_TO_U64(ntb->db_count) * sizeof(u64);
++
++		ntb_epc->msix_layout.table_bar = barno;
++		ntb_epc->msix_layout.table_offset = ctrl_size;
++		ntb_epc->msix_layout.table_size = msix_table_size;
++		ntb_epc->msix_layout.pba_bar = barno;
++		ntb_epc->msix_layout.pba_offset = ctrl_size + msix_table_size;
++		ntb_epc->msix_layout.pba_size = pba_size;
+ 		ctrl_size = ctrl_size + msix_table_size + pba_size;
+ 	}
+ 
+@@ -1317,10 +1320,9 @@ static int epf_ntb_configure_interrupt(struct epf_ntb *ntb,
+ 
+ 	if (msix_capable) {
+ 		ret = pci_epc_set_msix(epc, func_no, vfunc_no, ntb->db_count,
+-				       ntb_epc->msix_bar,
+-				       ntb_epc->msix_table_offset);
++				       &ntb_epc->msix_layout);
+ 		if (ret) {
+-			dev_err(dev, "MSI configuration failed\n");
++			dev_err(dev, "MSI-X configuration failed\n");
+ 			return ret;
+ 		}
+ 	}
+diff --git a/drivers/pci/endpoint/functions/pci-epf-test.c b/drivers/pci/endpoint/functions/pci-epf-test.c
+index d4905aa8e4c0..360df7775110 100644
+--- a/drivers/pci/endpoint/functions/pci-epf-test.c
++++ b/drivers/pci/endpoint/functions/pci-epf-test.c
+@@ -82,7 +82,7 @@ struct pci_epf_test {
+ 	struct pci_epf		*epf;
+ 	struct config_group	group;
+ 	enum pci_barno		test_reg_bar;
+-	size_t			msix_table_offset;
++	struct pci_epc_msix_layout msix_layout;
+ 	struct delayed_work	cmd_handler;
+ 	struct dma_chan		*dma_chan_tx;
+ 	struct dma_chan		*dma_chan_rx;
+@@ -1217,8 +1217,7 @@ static int pci_epf_test_epc_init(struct pci_epf *epf)
+ 	if (epc_features->msix_capable) {
+ 		ret = pci_epc_set_msix(epc, epf->func_no, epf->vfunc_no,
+ 				       epf->msix_interrupts,
+-				       epf_test->test_reg_bar,
+-				       epf_test->msix_table_offset);
++				       &epf_test->msix_layout);
+ 		if (ret) {
+ 			dev_err(dev, "MSI-X configuration failed\n");
+ 			return ret;
+@@ -1284,9 +1283,15 @@ static int pci_epf_test_alloc_space(struct pci_epf *epf)
+ 
+ 	if (epc_features->msix_capable) {
+ 		msix_table_size = PCI_MSIX_ENTRY_SIZE * epf->msix_interrupts;
+-		epf_test->msix_table_offset = test_reg_bar_size;
+-		/* Align to QWORD or 8 Bytes */
+-		pba_size = ALIGN(DIV_ROUND_UP(epf->msix_interrupts, 8), 8);
++		pba_size = BITS_TO_U64(epf->msix_interrupts) * sizeof(u64);
++
++		epf_test->msix_layout.table_bar = test_reg_bar;
++		epf_test->msix_layout.table_offset = test_reg_bar_size;
++		epf_test->msix_layout.table_size = msix_table_size;
++		epf_test->msix_layout.pba_bar = test_reg_bar;
++		epf_test->msix_layout.pba_offset = test_reg_bar_size +
++						   msix_table_size;
++		epf_test->msix_layout.pba_size = pba_size;
+ 	}
+ 	test_reg_size = test_reg_bar_size + msix_table_size + pba_size;
+ 
+diff --git a/drivers/pci/endpoint/functions/pci-epf-vntb.c b/drivers/pci/endpoint/functions/pci-epf-vntb.c
+index fe44ca35462c..e019d6e1ba69 100644
+--- a/drivers/pci/endpoint/functions/pci-epf-vntb.c
++++ b/drivers/pci/endpoint/functions/pci-epf-vntb.c
+@@ -156,7 +156,7 @@ struct epf_ntb {
+ 	 */
+ 	bool msi_doorbell;
+ 	u32 spad_size;
+-	u32 msix_table_offset;
++	struct pci_epc_msix_layout msix_layout;
+ 
+ 	enum pci_barno epf_ntb_bar[VNTB_BAR_NUM];
+ 
+@@ -466,10 +466,18 @@ static int epf_ntb_config_spad_bar_alloc(struct epf_ntb *ntb)
+ 
+ 	ctrl_size = ALIGN(sizeof(struct epf_ntb_ctrl), sizeof(u32));
+ 	if (epc_features->msix_capable) {
+-		ntb->msix_table_offset = ALIGN(ctrl_size, 8);
+-		ctrl_size = ntb->msix_table_offset +
+-			    ntb->db_count * PCI_MSIX_ENTRY_SIZE +
+-			    BITS_TO_U64(ntb->db_count) * sizeof(u64);
++		ntb->msix_layout.table_bar = barno;
++		ntb->msix_layout.table_offset = ALIGN(ctrl_size, 8);
++		ntb->msix_layout.table_size =
++			ntb->db_count * PCI_MSIX_ENTRY_SIZE;
++		ntb->msix_layout.pba_bar = barno;
++		ntb->msix_layout.pba_offset =
++			ntb->msix_layout.table_offset +
++			ntb->msix_layout.table_size;
++		ntb->msix_layout.pba_size =
++			BITS_TO_U64(ntb->db_count) * sizeof(u64);
++		ctrl_size = ntb->msix_layout.pba_offset +
++			    ntb->msix_layout.pba_size;
+ 	}
+ 	spad_size = 2 * spad_count * sizeof(u32);
+ 
+@@ -541,9 +549,7 @@ static int epf_ntb_configure_interrupt(struct epf_ntb *ntb)
+ 
+ 	if (epc_features->msix_capable) {
+ 		ret = pci_epc_set_msix(epf->epc, epf->func_no, epf->vfunc_no,
+-				       ntb->db_count,
+-				       ntb->epf_ntb_bar[BAR_CONFIG],
+-				       ntb->msix_table_offset);
++				       ntb->db_count, &ntb->msix_layout);
+ 		if (ret) {
+ 			dev_err(dev, "MSI-X configuration failed\n");
+ 			return ret;
+diff --git a/drivers/pci/endpoint/pci-epc-core.c b/drivers/pci/endpoint/pci-epc-core.c
+index 831b40458dcd..4a0ceb62f38f 100644
+--- a/drivers/pci/endpoint/pci-epc-core.c
++++ b/drivers/pci/endpoint/pci-epc-core.c
+@@ -6,6 +6,7 @@
+  * Author: Kishon Vijay Abraham I <kishon@ti.com>
+  */
+ 
++#include <linux/bitops.h>
+ #include <linux/device.h>
+ #include <linux/slab.h>
+ #include <linux/module.h>
+@@ -113,6 +114,84 @@ enum pci_barno pci_epc_get_next_free_bar(const struct pci_epc_features
+ }
+ EXPORT_SYMBOL_GPL(pci_epc_get_next_free_bar);
+ 
++static int pci_epc_get_msix_region(const struct pci_epc_features *epc_features,
++				   enum pci_epc_bar_rsvd_region_type type,
++				   enum pci_barno *bar, u32 *offset,
++				   resource_size_t *size)
++{
++	const struct pci_epc_bar_rsvd_region *region;
++	const struct pci_epc_bar_desc *bar_desc;
++	bool found = false;
++	int i, j;
++
++	if (!epc_features)
++		return -ENOENT;
++
++	for (i = BAR_0; i < PCI_STD_NUM_BARS; i++) {
++		bar_desc = &epc_features->bar[i];
++		if (bar_desc->nr_rsvd_regions && !bar_desc->rsvd_regions)
++			return -EINVAL;
++
++		for (j = 0; j < bar_desc->nr_rsvd_regions; j++) {
++			region = &bar_desc->rsvd_regions[j];
++			if (region->type != type)
++				continue;
++
++			if (found || bar_desc->type != BAR_RESERVED || !region->size ||
++			    region->offset > PCI_MSIX_TABLE_OFFSET ||
++			    !IS_ALIGNED(region->offset, 8))
++				return -EINVAL;
++
++			found = true;
++			*bar = i;
++			*offset = region->offset;
++			*size = region->size;
++		}
++	}
++
++	return found ? 0 : -ENOENT;
++}
++
++/**
++ * pci_epc_get_hw_msix_layout() - get a hardware-owned MSI-X table and PBA layout
++ * @epc_features: features provided by an EPC for an endpoint function
++ * @layout: layout to populate
++ *
++ * Return: 0 if the EPC describes both hardware-owned MSI-X regions, -ENOENT if
++ * neither region is described, or an error if the description is invalid.
++ */
++int pci_epc_get_hw_msix_layout(const struct pci_epc_features *epc_features,
++			       struct pci_epc_msix_layout *layout)
++{
++	struct pci_epc_msix_layout hw_layout;
++	int table_ret, pba_ret;
++
++	if (!layout)
++		return -EINVAL;
++
++	table_ret = pci_epc_get_msix_region(epc_features,
++					    PCI_EPC_BAR_RSVD_MSIX_TBL_RAM,
++					    &hw_layout.table_bar,
++					    &hw_layout.table_offset,
++					    &hw_layout.table_size);
++	pba_ret = pci_epc_get_msix_region(epc_features,
++					  PCI_EPC_BAR_RSVD_MSIX_PBA_RAM,
++					  &hw_layout.pba_bar,
++					  &hw_layout.pba_offset,
++					  &hw_layout.pba_size);
++
++	if (table_ret == -ENOENT && pba_ret == -ENOENT)
++		return -ENOENT;
++
++	if (table_ret || pba_ret)
++		return -EINVAL;
++
++	*layout = hw_layout;
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(pci_epc_get_hw_msix_layout);
++
+ static bool pci_epc_function_is_valid(struct pci_epc *epc,
+ 				      u8 func_no, u8 vfunc_no)
+ {
+@@ -443,14 +522,14 @@ EXPORT_SYMBOL_GPL(pci_epc_get_msix);
+  * @func_no: the physical endpoint function number in the EPC device
+  * @vfunc_no: the virtual endpoint function number in the physical function
+  * @nr_irqs: number of MSI-X interrupts required by the EPF
+- * @bir: BAR where the MSI-X table resides
+- * @offset: Offset pointing to the start of MSI-X table
++ * @layout: MSI-X table and PBA layout selected by the EPF
+  *
+  * Invoke to set the required number of MSI-X interrupts.
+  */
+ int pci_epc_set_msix(struct pci_epc *epc, u8 func_no, u8 vfunc_no, u16 nr_irqs,
+-		     enum pci_barno bir, u32 offset)
++		     const struct pci_epc_msix_layout *layout)
+ {
++	size_t table_size, pba_size;
+ 	int ret;
+ 
+ 	if (!pci_epc_function_is_valid(epc, func_no, vfunc_no))
+@@ -459,11 +538,26 @@ int pci_epc_set_msix(struct pci_epc *epc, u8 func_no, u8 vfunc_no, u16 nr_irqs,
+ 	if (nr_irqs < 1 || nr_irqs > 2048)
+ 		return -EINVAL;
+ 
++	if (!layout || layout->table_bar < BAR_0 ||
++	    layout->table_bar >= PCI_STD_NUM_BARS ||
++	    layout->pba_bar < BAR_0 || layout->pba_bar >= PCI_STD_NUM_BARS ||
++	    !IS_ALIGNED(layout->table_offset, 8) ||
++	    !IS_ALIGNED(layout->pba_offset, 8) ||
++	    layout->table_offset > PCI_MSIX_TABLE_OFFSET ||
++	    layout->pba_offset > PCI_MSIX_PBA_OFFSET)
++		return -EINVAL;
++
++	table_size = nr_irqs * PCI_MSIX_ENTRY_SIZE;
++	pba_size = BITS_TO_U64(nr_irqs) * sizeof(u64);
++
++	if (layout->table_size < table_size || layout->pba_size < pba_size)
++		return -ENOSPC;
++
+ 	if (!epc->ops->set_msix)
+ 		return 0;
+ 
+ 	mutex_lock(&epc->lock);
+-	ret = epc->ops->set_msix(epc, func_no, vfunc_no, nr_irqs, bir, offset);
++	ret = epc->ops->set_msix(epc, func_no, vfunc_no, nr_irqs, layout);
+ 	mutex_unlock(&epc->lock);
+ 
+ 	return ret;
+diff --git a/include/linux/pci-epc.h b/include/linux/pci-epc.h
+index f247cf9bcf1a..3d28231f092a 100644
+--- a/include/linux/pci-epc.h
++++ b/include/linux/pci-epc.h
+@@ -102,6 +102,24 @@ struct pci_epc_aux_resource {
+ 	} u;
+ };
+ 
++/**
++ * struct pci_epc_msix_layout - layout of an MSI-X table and PBA
++ * @table_bar: BAR containing the MSI-X table
++ * @table_offset: offset of the MSI-X table within @table_bar
++ * @table_size: size of the MSI-X table region
++ * @pba_bar: BAR containing the MSI-X Pending Bit Array (PBA)
++ * @pba_offset: offset of the MSI-X PBA within @pba_bar
++ * @pba_size: size of the MSI-X PBA region
++ */
++struct pci_epc_msix_layout {
++	enum pci_barno		table_bar;
++	u32			table_offset;
++	resource_size_t		table_size;
++	enum pci_barno		pba_bar;
++	u32			pba_offset;
++	resource_size_t		pba_size;
++};
++
+ /**
+  * struct pci_epc_ops - set of function pointers for performing EPC operations
+  * @write_header: ops to populate configuration space header
+@@ -147,7 +165,8 @@ struct pci_epc_ops {
+ 			   u8 nr_irqs);
+ 	int	(*get_msi)(struct pci_epc *epc, u8 func_no, u8 vfunc_no);
+ 	int	(*set_msix)(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+-			    u16 nr_irqs, enum pci_barno, u32 offset);
++			    u16 nr_irqs,
++			    const struct pci_epc_msix_layout *layout);
+ 	int	(*get_msix)(struct pci_epc *epc, u8 func_no, u8 vfunc_no);
+ 	int	(*raise_irq)(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+ 			     unsigned int type, u16 interrupt_num);
+@@ -381,8 +400,10 @@ void pci_epc_unmap_addr(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+ int pci_epc_set_msi(struct pci_epc *epc, u8 func_no, u8 vfunc_no, u8 nr_irqs);
+ int pci_epc_get_msi(struct pci_epc *epc, u8 func_no, u8 vfunc_no);
+ int pci_epc_set_msix(struct pci_epc *epc, u8 func_no, u8 vfunc_no, u16 nr_irqs,
+-		     enum pci_barno, u32 offset);
++		     const struct pci_epc_msix_layout *layout);
+ int pci_epc_get_msix(struct pci_epc *epc, u8 func_no, u8 vfunc_no);
++int pci_epc_get_hw_msix_layout(const struct pci_epc_features *epc_features,
++			       struct pci_epc_msix_layout *layout);
+ int pci_epc_map_msi_irq(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+ 			phys_addr_t phys_addr, u8 interrupt_num,
+ 			u32 entry_size, u32 *msi_data, u32 *msi_addr_offset);
+-- 
+2.51.0
 
 
-Failure description
-===================
+From 2fe621b05e345eece00569203da88bebab14632e Mon Sep 17 00:00:00 2001
+From: Koichiro Den <den@valinux.co.jp>
+Date: Thu, 27 Aug 2026 18:12:24 +0900
+Subject: [WIP PATCH v3 3/7] PCI: dw-rockchip: Support fixed MSI-X table and
+ PBA on RK3588
 
-#1: nvme/062 (tcp transport)
+The RK3588 PCIe endpoint controller exposes its MSI-X table at
+BAR4+0x4000 and its PBA at BAR4+0x5000. Describe both as reserved regions
+so EPF drivers can select the hardware-owned layout.
 
-    The test case nvme/062 fails for tcp transport due to the lockdep WARN
-    related to the three locks root->kernfs_rwsem, sparse_irq_lock and
-    root->kernfs_supers_rwsem [2]. A fix patch from Liu Xixin is queued for
-    v7.3-rcX kernel [3].
+The regular DesignWare MSI-X interrupt path reads an EPF-owned table
+through epf_bar[]. A reserved, hardware-owned table has no such backing.
+Record whether the layout selected for each function matches the
+hardware-owned layout, and use the controller MSI-X doorbell on RK3588
+only in that case. Continue to use the regular path for EPF-owned
+layouts.
 
-    [2] https://lore.kernel.org/linux-block/akryKgCjof_7d9na@shinmob/
-    [3] https://lore.kernel.org/linux-nvme/c6e2a91f0b62.1787100300.git.liuxixin@kylinos.cn/
+Signed-off-by: Koichiro Den <den@valinux.co.jp>
+---
+Changes in v3:
+  - No changes.
+---
+ .../pci/controller/dwc/pcie-designware-ep.c   | 23 +++++++++++++++
+ drivers/pci/controller/dwc/pcie-designware.h  |  1 +
+ drivers/pci/controller/dwc/pcie-dw-rockchip.c | 28 +++++++++++++++++--
+ 3 files changed, 49 insertions(+), 3 deletions(-)
 
-#2: Sporadic cleanup_srcu_struct() WARNs
-    (observed with rdma transport and siw driver)
+diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
+index 5f4c4cf1ffb9..afdbc62fbb17 100644
+--- a/drivers/pci/controller/dwc/pcie-designware-ep.c
++++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
+@@ -736,6 +736,26 @@ static int dw_pcie_ep_get_msix(struct pci_epc *epc, u8 func_no, u8 vfunc_no)
+ 	return val + 1;
+ }
+ 
++static bool
++dw_pcie_ep_msix_layout_is_hw_owned(struct dw_pcie_ep *ep,
++				   const struct pci_epc_msix_layout *layout)
++{
++	const struct pci_epc_features *features;
++	struct pci_epc_msix_layout hw_layout;
++
++	if (!ep->ops->get_features)
++		return false;
++
++	features = ep->ops->get_features(ep);
++	if (pci_epc_get_hw_msix_layout(features, &hw_layout))
++		return false;
++
++	return layout->table_bar == hw_layout.table_bar &&
++	       layout->table_offset == hw_layout.table_offset &&
++	       layout->pba_bar == hw_layout.pba_bar &&
++	       layout->pba_offset == hw_layout.pba_offset;
++}
++
+ static int dw_pcie_ep_set_msix(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+ 			       u16 nr_irqs,
+ 			       const struct pci_epc_msix_layout *layout)
+@@ -764,6 +784,7 @@ static int dw_pcie_ep_set_msix(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+ 	reg = ep_func->msix_cap + PCI_MSIX_PBA;
+ 	val = layout->pba_offset | layout->pba_bar;
+ 	dw_pcie_ep_writel_dbi(ep, func_no, reg, val);
++	ep_func->msix_hw_owned = dw_pcie_ep_msix_layout_is_hw_owned(ep, layout);
+ 
+ 	dw_pcie_dbi_ro_wr_dis(pci);
+ 
+@@ -1112,6 +1133,8 @@ int dw_pcie_ep_raise_msix_irq(struct dw_pcie_ep *ep, u8 func_no,
+ 	ep_func = dw_pcie_ep_get_func_from_ep(ep, func_no);
+ 	if (!ep_func || !ep_func->msix_cap)
+ 		return -EINVAL;
++	if (ep_func->msix_hw_owned)
++		return -EOPNOTSUPP;
+ 
+ 	reg = ep_func->msix_cap + PCI_MSIX_TABLE;
+ 	tbl_offset = dw_pcie_ep_readl_dbi(ep, func_no, reg);
+diff --git a/drivers/pci/controller/dwc/pcie-designware.h b/drivers/pci/controller/dwc/pcie-designware.h
+index 0735ae940924..d5fd29e42aa7 100644
+--- a/drivers/pci/controller/dwc/pcie-designware.h
++++ b/drivers/pci/controller/dwc/pcie-designware.h
+@@ -495,6 +495,7 @@ struct dw_pcie_ep_func {
+ 	u8			func_no;
+ 	u8			msi_cap;	/* MSI capability offset */
+ 	u8			msix_cap;	/* MSI-X capability offset */
++	bool			msix_hw_owned;
+ 	u8			bar_to_atu[PCI_STD_NUM_BARS];
+ 	struct pci_epf_bar	*epf_bar[PCI_STD_NUM_BARS];
+ 
+diff --git a/drivers/pci/controller/dwc/pcie-dw-rockchip.c b/drivers/pci/controller/dwc/pcie-dw-rockchip.c
+index af26a07c0c9e..f674411d4d04 100644
+--- a/drivers/pci/controller/dwc/pcie-dw-rockchip.c
++++ b/drivers/pci/controller/dwc/pcie-dw-rockchip.c
+@@ -121,6 +121,7 @@ struct rockchip_pcie {
+ struct rockchip_pcie_of_data {
+ 	enum dw_pcie_device_mode mode;
+ 	const struct pci_epc_features *epc_features;
++	bool msix_doorbell;
+ };
+ 
+ static int rockchip_pcie_rc_reset_root_port(struct pci_host_bridge *bridge,
+@@ -488,6 +489,8 @@ static int rockchip_pcie_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
+ 				   unsigned int type, u16 interrupt_num)
+ {
+ 	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
++	struct rockchip_pcie *rockchip = to_rockchip_pcie(pci);
++	struct dw_pcie_ep_func *ep_func;
+ 
+ 	switch (type) {
+ 	case PCI_IRQ_INTX:
+@@ -495,6 +498,12 @@ static int rockchip_pcie_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
+ 	case PCI_IRQ_MSI:
+ 		return dw_pcie_ep_raise_msi_irq(ep, func_no, interrupt_num);
+ 	case PCI_IRQ_MSIX:
++		ep_func = dw_pcie_ep_get_func_from_ep(ep, func_no);
++		if (rockchip->data->msix_doorbell && ep_func &&
++		    ep_func->msix_hw_owned)
++			return dw_pcie_ep_raise_msix_irq_doorbell(ep, func_no,
++							      interrupt_num);
++
+ 		return dw_pcie_ep_raise_msix_irq(ep, func_no, interrupt_num);
+ 	default:
+ 		dev_err(pci->dev, "UNKNOWN IRQ type\n");
+@@ -524,12 +533,24 @@ static const struct pci_epc_bar_rsvd_region rk3588_bar4_rsvd[] = {
+ 		.offset = 0x0,
+ 		.size = 0x2000,
+ 	},
++	{
++		/* MSI-X Table (BAR4: MSI-X Table) */
++		.type = PCI_EPC_BAR_RSVD_MSIX_TBL_RAM,
++		.offset = 0x4000,
++		.size = SZ_4K,
++	},
++	{
++		/* MSI-X PBA (BAR4: MSI-X PBA) */
++		.type = PCI_EPC_BAR_RSVD_MSIX_PBA_RAM,
++		.offset = 0x5000,
++		.size = SZ_4K,
++	},
+ };
+ 
+ /*
+- * BAR4 on rk3588 exposes the ATU Port Logic Structure to the host regardless of
+- * iATU settings for BAR4. This means that BAR4 cannot be used by an EPF driver,
+- * so mark it as RESERVED.
++ * BAR4 on RK3588 exposes the DMA and ATU Port Logic Structures and the MSI-X
++ * table and PBA to the host regardless of iATU settings for BAR4. This means
++ * that BAR4 cannot be used by an EPF driver, so mark it as RESERVED.
+  */
+ static const struct pci_epc_features rockchip_pcie_epc_features_rk3588 = {
+ 	DWC_EPC_COMMON_FEATURES,
+@@ -971,6 +992,7 @@ static const struct rockchip_pcie_of_data rockchip_pcie_ep_of_data_rk3568 = {
+ static const struct rockchip_pcie_of_data rockchip_pcie_ep_of_data_rk3588 = {
+ 	.mode = DW_PCIE_EP_TYPE,
+ 	.epc_features = &rockchip_pcie_epc_features_rk3588,
++	.msix_doorbell = true,
+ };
+ 
+ static const struct of_device_id rockchip_pcie_of_match[] = {
+-- 
+2.51.0
 
-    Test cases in the nvme test group fail sporadically with the same WARN in
-    cleanup_srcu_struct() [4]. I observed the WARN at nvme/025, nvme/031,
-    nvme/043 and nvme/060. A fix patch for the WARN has been posted [5]. With
-    this patch applied, I no longer observe the failure.
 
-    [5] https://lore.kernel.org/lkml/20260830095605.3560267-1-shpark061104@gmail.com/
+From c1ca5bf342605f38f95c9162ac449c2648e08eb1 Mon Sep 17 00:00:00 2001
+From: Koichiro Den <den@valinux.co.jp>
+Date: Tue, 1 Sep 2026 16:06:56 +0900
+Subject: [WIP PATCH v3 4/7] PCI: endpoint: pci-epf-vntb: Use hardware-owned
+ MSI-X layout
+
+pci-epf-vntb allocates an MSI-X Table and PBA in its config BAR when the
+EPC supports MSI-X. Some endpoint controllers instead provide fixed,
+hardware-owned regions for them.
+
+Use the hardware-owned layout when it can hold the configured MSI-X
+entries. Keep allocating an EPF-owned Table and PBA when no suitable
+hardware-owned layout is available.
+
+Signed-off-by: Koichiro Den <den@valinux.co.jp>
+---
+Changes in v3:
+  - Split hardware-owned layout selection from the vNTB MSI-X fix. (Niklas)
+  - Fall back to an EPF-owned layout if the fixed regions are too small.
+---
+ drivers/pci/endpoint/functions/pci-epf-vntb.c | 43 ++++++++++++-------
+ 1 file changed, 28 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/pci/endpoint/functions/pci-epf-vntb.c b/drivers/pci/endpoint/functions/pci-epf-vntb.c
+index e019d6e1ba69..53ccbbb0ba4b 100644
+--- a/drivers/pci/endpoint/functions/pci-epf-vntb.c
++++ b/drivers/pci/endpoint/functions/pci-epf-vntb.c
+@@ -443,8 +443,8 @@ static void epf_ntb_config_spad_bar_free(struct epf_ntb *ntb)
+  * @ntb: NTB device that facilitates communication between HOST and VHOST
+  *
+  * Allocate the control and scratchpad regions described in the above diagram.
+- * If the EPC supports MSI-X, allocate space for its Table and PBA between the
+- * control and scratchpad regions.
++ * If the EPC does not provide a hardware-owned MSI-X Table and PBA, allocate
++ * space for them between the control and scratchpad regions.
+  *
+  * Returns: Zero for success, or an error code in case of failure
+  */
+@@ -457,7 +457,7 @@ static int epf_ntb_config_spad_bar_alloc(struct epf_ntb *ntb)
+ 	struct device *dev = &epf->dev;
+ 	u32 spad_count;
+ 	void *base;
+-	int i;
++	int i, ret;
+ 	const struct pci_epc_features *epc_features = pci_epc_get_features(epf->epc,
+ 								epf->func_no,
+ 								epf->vfunc_no);
+@@ -466,18 +466,31 @@ static int epf_ntb_config_spad_bar_alloc(struct epf_ntb *ntb)
+ 
+ 	ctrl_size = ALIGN(sizeof(struct epf_ntb_ctrl), sizeof(u32));
+ 	if (epc_features->msix_capable) {
+-		ntb->msix_layout.table_bar = barno;
+-		ntb->msix_layout.table_offset = ALIGN(ctrl_size, 8);
+-		ntb->msix_layout.table_size =
+-			ntb->db_count * PCI_MSIX_ENTRY_SIZE;
+-		ntb->msix_layout.pba_bar = barno;
+-		ntb->msix_layout.pba_offset =
+-			ntb->msix_layout.table_offset +
+-			ntb->msix_layout.table_size;
+-		ntb->msix_layout.pba_size =
+-			BITS_TO_U64(ntb->db_count) * sizeof(u64);
+-		ctrl_size = ntb->msix_layout.pba_offset +
+-			    ntb->msix_layout.pba_size;
++		ret = pci_epc_get_hw_msix_layout(epc_features,
++						 &ntb->msix_layout);
++		if (ret && ret != -ENOENT) {
++			dev_err(dev, "Invalid hardware-owned MSI-X layout\n");
++			return ret;
++		}
++
++		if (ret == -ENOENT ||
++		    ntb->msix_layout.table_size <
++			    ntb->db_count * PCI_MSIX_ENTRY_SIZE ||
++		    ntb->msix_layout.pba_size <
++			    BITS_TO_U64(ntb->db_count) * sizeof(u64)) {
++			ntb->msix_layout.table_bar = barno;
++			ntb->msix_layout.table_offset = ALIGN(ctrl_size, 8);
++			ntb->msix_layout.table_size =
++				ntb->db_count * PCI_MSIX_ENTRY_SIZE;
++			ntb->msix_layout.pba_bar = barno;
++			ntb->msix_layout.pba_offset =
++				ntb->msix_layout.table_offset +
++				ntb->msix_layout.table_size;
++			ntb->msix_layout.pba_size =
++				BITS_TO_U64(ntb->db_count) * sizeof(u64);
++			ctrl_size = ntb->msix_layout.pba_offset +
++				    ntb->msix_layout.pba_size;
++		}
+ 	}
+ 	spad_size = 2 * spad_count * sizeof(u32);
+ 
+-- 
+2.51.0
 
 
-[4] example dmesg of the nvme test group failure with rdma transport
+From 37012c2e462072056376f2e47e7835fa3a434451 Mon Sep 17 00:00:00 2001
+From: Koichiro Den <den@valinux.co.jp>
+Date: Tue, 1 Sep 2026 16:07:59 +0900
+Subject: [WIP PATCH v3 5/7] PCI: endpoint: pci-epf-test: Use hardware-owned
+ MSI-X layout
 
-Sep 01 10:13:02 testnode2 unknown: run blktests nvme/025 at 2026-09-01 10:13:02
-Sep 01 10:13:02 testnode2 kernel: loop0: detected capacity change from 0 to 2097152
-Sep 01 10:13:02 testnode2 kernel: nvmet: adding nsid 1 to subsystem blktests-subsystem-1
-Sep 01 10:13:02 testnode2 kernel: nvmet: Created nvm controller 1 for subsystem blktests-subsystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
-Sep 01 10:13:02 testnode2 kernel: nvme nvme5: creating 4 I/O queues.
-Sep 01 10:13:02 testnode2 kernel: nvme nvme5: new ctrl: "blktests-subsystem-1"
-Sep 01 10:13:03 testnode2 kernel: nvme nvme5: Removing ctrl: NQN "blktests-subsystem-1"
-Sep 01 10:13:10 testnode2 kernel: SoftiWARP attached
-Sep 01 10:13:10 testnode2 unknown: run blktests nvme/025 at 2026-09-01 10:13:10
-Sep 01 10:13:10 testnode2 kernel: loop0: detected capacity change from 0 to 2097152
-Sep 01 10:13:10 testnode2 kernel: nvmet: adding nsid 1 to subsystem blktests-subsystem-1
-Sep 01 10:13:10 testnode2 kernel: nvmet_rdma: enabling port 0 (10.0.2.15:4420)
-Sep 01 10:13:10 testnode2 kernel: nvmet: Created nvm controller 1 for subsystem blktests-subsystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
-Sep 01 10:13:10 testnode2 kernel: nvme nvme5: creating 4 I/O queues.
-Sep 01 10:13:10 testnode2 kernel: nvme nvme5: mapped 4/0/0 default/read/poll queues.
-Sep 01 10:13:10 testnode2 kernel: nvme nvme5: new ctrl: NQN "blktests-subsystem-1", addr 10.0.2.15:4420, hostnqn: nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349
-Sep 01 10:13:11 testnode2 kernel: nvme nvme5: Removing ctrl: NQN "blktests-subsystem-1"
-Sep 01 10:13:11 testnode2 kernel: ------------[ cut here ]------------
-Sep 01 10:13:11 testnode2 kernel: WARNING: kernel/rcu/srcutree.c:706 at cleanup_srcu_struct+0x3e4/0xb00, CPU#1: nvme/55536
-Sep 01 10:13:11 testnode2 kernel: Modules linked in: siw nvmet_rdma nvmet nvme_rdma nvme_fabrics rdma_cm loop iw_cm ib_cm ib_core nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 nf_tables qrtr sunrpc 9pnet_virtio pcspkr 9pnet i2c_piix4 netfs i2c_smbus zram vmw_vsock_virtio_transport vmw_vsock_virtio_transport_common vsock bochs drm_client_lib drm_shmem_helper xfs drm_kms_helper nvme sym53c8xx nvme_core drm e1000 nvme_keyring scsi_transport_spi nvme_auth floppy serio_raw ata_generic pata_acpi dm_multipath i2c_dev qemu_fw_cfg virtiofs fuse virtio_console [last unloaded: nvmet]
-Sep 01 10:13:11 testnode2 kernel: CPU: 1 UID: 0 PID: 55536 Comm: nvme Not tainted 7.3.0-rc1 #675 PREEMPT(full) 
-Sep 01 10:13:11 testnode2 kernel: Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.17.0-10.fc44 06/10/2025
-Sep 01 10:13:11 testnode2 kernel: RIP: 0010:cleanup_srcu_struct+0x3e4/0xb00
-Sep 01 10:13:11 testnode2 kernel: Code: e8 31 d9 90 00 48 89 e8 48 8b 54 24 18 48 c1 e8 03 42 80 3c 20 00 0f 85 0e 06 00 00 49 83 be e8 00 00 00 00 0f 84 e6 fe ff ff <0f> 0b 49 8d 8e 00 02 00 00 48 b8 00 00 00 00 00 fc ff df 48 89 cf
-Sep 01 10:13:11 testnode2 kernel: RSP: 0018:ffff8881aca77a68 EFLAGS: 00010202
-Sep 01 10:13:11 testnode2 kernel: RAX: 1ffffd1ffff89c3d RBX: 0000000000000000 RCX: 0000000000000001
-Sep 01 10:13:11 testnode2 kernel: RDX: ffffe8ffffc4e280 RSI: 0000000000000008 RDI: ffffe8ffffc4e1e8
-Sep 01 10:13:11 testnode2 kernel: RBP: ffffe8ffffc4e1e8 R08: ffffffffa078a1df R09: 1ffffd1ffff89c3d
-Sep 01 10:13:11 testnode2 kernel: R10: fffff91ffff89c3e R11: fffff91ffff89c3e R12: dffffc0000000000
-Sep 01 10:13:11 testnode2 kernel: R13: fffffbfff4a57cf7 R14: ffffe8ffffc4e100 R15: ffff88818c174118
-Sep 01 10:13:11 testnode2 kernel: FS:  00007f5041375780(0000) GS:ffff8883ea987000(0000) knlGS:0000000000000000
-Sep 01 10:13:11 testnode2 kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-Sep 01 10:13:11 testnode2 kernel: CR2: 0000558b7967fd5c CR3: 0000000127690000 CR4: 00000000000006f0
-Sep 01 10:13:11 testnode2 kernel: Call Trace:
-Sep 01 10:13:11 testnode2 kernel:  <TASK>
-Sep 01 10:13:11 testnode2 kernel:  blk_mq_free_tag_set+0x2ec/0x4d0
-Sep 01 10:13:11 testnode2 kernel:  nvme_rdma_shutdown_ctrl+0x169/0x1a0 [nvme_rdma]
-Sep 01 10:13:11 testnode2 kernel:  nvme_do_delete_ctrl+0x14a/0x160 [nvme_core]
-Sep 01 10:13:11 testnode2 kernel:  nvme_delete_ctrl_sync.cold+0x8/0xd [nvme_core]
-Sep 01 10:13:11 testnode2 kernel:  nvme_sysfs_delete+0xb7/0xe0 [nvme_core]
-Sep 01 10:13:11 testnode2 kernel:  ? __pfx_sysfs_kf_write+0x10/0x10
-Sep 01 10:13:11 testnode2 kernel:  kernfs_fop_write_iter+0x3d6/0x5e0
-Sep 01 10:13:11 testnode2 kernel:  ? __pfx_kernfs_fop_write_iter+0x10/0x10
-Sep 01 10:13:11 testnode2 kernel:  vfs_write+0x4b3/0xf40
-Sep 01 10:13:11 testnode2 kernel:  ? __pfx_vfs_write+0x10/0x10
-Sep 01 10:13:11 testnode2 kernel:  ? trace_hardirqs_on+0x14/0x190
-Sep 01 10:13:11 testnode2 kernel:  ? do_sys_openat2+0xff/0x170
-Sep 01 10:13:11 testnode2 kernel:  ksys_write+0x112/0x250
-Sep 01 10:13:11 testnode2 kernel:  ? __pfx_ksys_write+0x10/0x10
-Sep 01 10:13:11 testnode2 kernel:  ? rcu_is_watching+0x12/0xb0
-Sep 01 10:13:11 testnode2 kernel:  do_syscall_64+0xf2/0x690
-Sep 01 10:13:11 testnode2 kernel:  ? __pfx___x64_sys_openat+0x10/0x10
-Sep 01 10:13:11 testnode2 kernel:  ? rcu_is_watching+0x12/0xb0
-Sep 01 10:13:11 testnode2 kernel:  ? do_syscall_64+0x1ff/0x690
-Sep 01 10:13:11 testnode2 kernel:  ? trace_hardirqs_on_prepare+0x139/0x180
-Sep 01 10:13:11 testnode2 kernel:  ? lockdep_hardirqs_on+0x91/0x140
-Sep 01 10:13:11 testnode2 kernel:  ? entry_SYSCALL_64_after_hwframe+0x76/0x7e
-Sep 01 10:13:11 testnode2 kernel:  ? do_syscall_64+0x21d/0x690
-Sep 01 10:13:11 testnode2 kernel:  ? rcu_is_watching+0x12/0xb0
-Sep 01 10:13:11 testnode2 kernel:  ? do_syscall_64+0x1ff/0x690
-Sep 01 10:13:11 testnode2 kernel:  ? trace_hardirqs_on_prepare+0x139/0x180
-Sep 01 10:13:11 testnode2 kernel:  ? lockdep_hardirqs_on+0x91/0x140
-Sep 01 10:13:11 testnode2 kernel:  ? entry_SYSCALL_64_after_hwframe+0x76/0x7e
-Sep 01 10:13:11 testnode2 kernel:  ? do_syscall_64+0x21d/0x690
-Sep 01 10:13:11 testnode2 kernel:  ? do_syscall_64+0x1ff/0x690
-Sep 01 10:13:11 testnode2 kernel:  ? rcu_is_watching+0x12/0xb0
-Sep 01 10:13:11 testnode2 kernel:  ? do_syscall_64+0x2d/0x690
-Sep 01 10:13:11 testnode2 kernel:  ? trace_hardirqs_off_finish+0x139/0x180
-Sep 01 10:13:11 testnode2 kernel:  ? lockdep_hardirqs_off+0xaf/0xf0
-Sep 01 10:13:11 testnode2 kernel:  ? do_syscall_64+0x60/0x690
-Sep 01 10:13:11 testnode2 kernel:  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-Sep 01 10:13:11 testnode2 kernel: RIP: 0033:0x7f504141a08e
-Sep 01 10:13:11 testnode2 kernel: Code: 4d 89 d8 e8 94 bd 00 00 4c 8b 5d f8 41 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 11 c9 c3 0f 1f 80 00 00 00 00 48 8b 45 10 0f 05 <c9> c3 83 e2 39 83 fa 08 75 e7 e8 03 ff ff ff 0f 1f 00 f3 0f 1e fa
-Sep 01 10:13:11 testnode2 kernel: RSP: 002b:00007ffec0901290 EFLAGS: 00000202 ORIG_RAX: 0000000000000001
-Sep 01 10:13:11 testnode2 kernel: RAX: ffffffffffffffda RBX: 00007f50415ef006 RCX: 00007f504141a08e
-Sep 01 10:13:11 testnode2 kernel: RDX: 0000000000000001 RSI: 00007f50415ef006 RDI: 0000000000000003
-Sep 01 10:13:11 testnode2 kernel: RBP: 00007ffec09012a0 R08: 0000000000000000 R09: 0000000000000000
-Sep 01 10:13:11 testnode2 kernel: R10: 0000000000000000 R11: 0000000000000202 R12: 0000000024b2a770
-Sep 01 10:13:11 testnode2 kernel: R13: 0000000024b28590 R14: 0000000024b2a970 R15: 0000000024b28590
-Sep 01 10:13:11 testnode2 kernel:  </TASK>
-Sep 01 10:13:11 testnode2 kernel: irq event stamp: 67201
-Sep 01 10:13:11 testnode2 kernel: hardirqs last  enabled at (67213): [<ffffffffa072b20e>] __up_console_sem+0x5e/0x70
-Sep 01 10:13:11 testnode2 kernel: hardirqs last disabled at (67226): [<ffffffffa072b1f3>] __up_console_sem+0x43/0x70
-Sep 01 10:13:11 testnode2 kernel: softirqs last  enabled at (66794): [<ffffffffa0545c4c>] __irq_exit_rcu+0x24c/0x300
-Sep 01 10:13:11 testnode2 kernel: softirqs last disabled at (66789): [<ffffffffa0545c4c>] __irq_exit_rcu+0x24c/0x300
-Sep 01 10:13:11 testnode2 kernel: ---[ end trace 0000000000000000 ]---
-Sep 01 10:13:12 testnode2 kernel: SoftiWARP detached
+pci-epf-test always allocates an MSI-X Table and PBA in its test register
+BAR. This duplicates fixed regions provided by endpoint controllers that
+own the MSI-X layout.
+
+Use the hardware-owned layout when it can hold the configured MSI-X
+entries and omit the duplicate regions from the test register BAR. Keep
+the existing EPF-owned layout as the fallback.
+
+Signed-off-by: Koichiro Den <den@valinux.co.jp>
+---
+Changes in v3:
+  - New patch.
+---
+ drivers/pci/endpoint/functions/pci-epf-test.c | 36 +++++++++++++------
+ 1 file changed, 26 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/pci/endpoint/functions/pci-epf-test.c b/drivers/pci/endpoint/functions/pci-epf-test.c
+index 360df7775110..02505f7ca6c8 100644
+--- a/drivers/pci/endpoint/functions/pci-epf-test.c
++++ b/drivers/pci/endpoint/functions/pci-epf-test.c
+@@ -1278,20 +1278,36 @@ static int pci_epf_test_alloc_space(struct pci_epf *epf)
+ 	enum pci_barno bar;
+ 	const struct pci_epc_features *epc_features = epf_test->epc_features;
+ 	size_t test_reg_size;
++	int ret;
+ 
+ 	test_reg_bar_size = ALIGN(sizeof(struct pci_epf_test_reg), 128);
+ 
+ 	if (epc_features->msix_capable) {
+-		msix_table_size = PCI_MSIX_ENTRY_SIZE * epf->msix_interrupts;
+-		pba_size = BITS_TO_U64(epf->msix_interrupts) * sizeof(u64);
+-
+-		epf_test->msix_layout.table_bar = test_reg_bar;
+-		epf_test->msix_layout.table_offset = test_reg_bar_size;
+-		epf_test->msix_layout.table_size = msix_table_size;
+-		epf_test->msix_layout.pba_bar = test_reg_bar;
+-		epf_test->msix_layout.pba_offset = test_reg_bar_size +
+-						   msix_table_size;
+-		epf_test->msix_layout.pba_size = pba_size;
++		ret = pci_epc_get_hw_msix_layout(epc_features,
++						 &epf_test->msix_layout);
++		if (ret && ret != -ENOENT) {
++			dev_err(dev, "Invalid hardware-owned MSI-X layout\n");
++			return ret;
++		}
++
++		if (ret == -ENOENT ||
++		    epf_test->msix_layout.table_size <
++			    PCI_MSIX_ENTRY_SIZE * epf->msix_interrupts ||
++		    epf_test->msix_layout.pba_size <
++			    BITS_TO_U64(epf->msix_interrupts) * sizeof(u64)) {
++			msix_table_size =
++				PCI_MSIX_ENTRY_SIZE * epf->msix_interrupts;
++			pba_size = BITS_TO_U64(epf->msix_interrupts) *
++				   sizeof(u64);
++
++			epf_test->msix_layout.table_bar = test_reg_bar;
++			epf_test->msix_layout.table_offset = test_reg_bar_size;
++			epf_test->msix_layout.table_size = msix_table_size;
++			epf_test->msix_layout.pba_bar = test_reg_bar;
++			epf_test->msix_layout.pba_offset =
++				test_reg_bar_size + msix_table_size;
++			epf_test->msix_layout.pba_size = pba_size;
++		}
+ 	}
+ 	test_reg_size = test_reg_bar_size + msix_table_size + pba_size;
+ 
+-- 
+2.51.0
+
+
+From a12222a044dcba8d08af7eeee45a12c9e985f502 Mon Sep 17 00:00:00 2001
+From: Koichiro Den <den@valinux.co.jp>
+Date: Tue, 1 Sep 2026 16:08:57 +0900
+Subject: [WIP PATCH v3 6/7] nvmet: pci-epf: Use hardware-owned MSI-X layout
+
+The NVMe PCI endpoint function always allocates an MSI-X Table and PBA in
+BAR0. This duplicates fixed regions provided by endpoint controllers that
+own the MSI-X layout.
+
+Use the hardware-owned layout when it can hold the configured MSI-X
+entries and omit the duplicate regions from BAR0. Keep the existing
+EPF-owned layout as the fallback.
+
+Signed-off-by: Koichiro Den <den@valinux.co.jp>
+---
+Changes in v3:
+  - New patch.
+---
+ drivers/nvme/target/pci-epf.c | 45 ++++++++++++++++++++++++-----------
+ 1 file changed, 31 insertions(+), 14 deletions(-)
+
+diff --git a/drivers/nvme/target/pci-epf.c b/drivers/nvme/target/pci-epf.c
+index 39f2f3066deb..b0b74486faa3 100644
+--- a/drivers/nvme/target/pci-epf.c
++++ b/drivers/nvme/target/pci-epf.c
+@@ -2135,7 +2135,7 @@ static int nvmet_pci_epf_configure_bar(struct nvmet_pci_epf *nvme_epf)
+ 	struct pci_epf *epf = nvme_epf->epf;
+ 	const struct pci_epc_features *epc_features = nvme_epf->epc_features;
+ 	size_t reg_size, reg_bar_size;
+-	size_t msix_table_size = 0;
++	int ret;
+ 
+ 	/*
+ 	 * The first free BAR will be our register BAR and per NVMe
+@@ -2158,26 +2158,43 @@ static int nvmet_pci_epf_configure_bar(struct nvmet_pci_epf *nvme_epf)
+ 
+ 	/*
+ 	 * Calculate the size of the register bar: NVMe registers first with
+-	 * enough space for the doorbells, followed by the MSI-X table
+-	 * if supported.
++	 * enough space for the doorbells, followed by the MSI-X table if
++	 * supported and not provided by the EPC.
+ 	 */
+ 	reg_size = NVME_REG_DBS + (NVMET_NR_QUEUES * 2 * sizeof(u32));
+ 	reg_size = ALIGN(reg_size, 8);
+ 
+ 	if (epc_features->msix_capable) {
+-		size_t pba_size;
+-
+-		msix_table_size = PCI_MSIX_ENTRY_SIZE * epf->msix_interrupts;
+-		pba_size = BITS_TO_U64(epf->msix_interrupts) * sizeof(u64);
++		size_t msix_table_size, pba_size;
+ 
+-		nvme_epf->msix_layout.table_bar = BAR_0;
+-		nvme_epf->msix_layout.table_offset = reg_size;
+-		nvme_epf->msix_layout.table_size = msix_table_size;
+-		nvme_epf->msix_layout.pba_bar = BAR_0;
+-		nvme_epf->msix_layout.pba_offset = reg_size + msix_table_size;
+-		nvme_epf->msix_layout.pba_size = pba_size;
++		ret = pci_epc_get_hw_msix_layout(epc_features,
++						 &nvme_epf->msix_layout);
++		if (ret && ret != -ENOENT) {
++			dev_err(&epf->dev,
++				"Invalid hardware-owned MSI-X layout\n");
++			return ret;
++		}
+ 
+-		reg_size += msix_table_size + pba_size;
++		if (ret == -ENOENT ||
++		    nvme_epf->msix_layout.table_size <
++			    PCI_MSIX_ENTRY_SIZE * epf->msix_interrupts ||
++		    nvme_epf->msix_layout.pba_size <
++			    BITS_TO_U64(epf->msix_interrupts) * sizeof(u64)) {
++			msix_table_size =
++				PCI_MSIX_ENTRY_SIZE * epf->msix_interrupts;
++			pba_size = BITS_TO_U64(epf->msix_interrupts) *
++				   sizeof(u64);
++
++			nvme_epf->msix_layout.table_bar = BAR_0;
++			nvme_epf->msix_layout.table_offset = reg_size;
++			nvme_epf->msix_layout.table_size = msix_table_size;
++			nvme_epf->msix_layout.pba_bar = BAR_0;
++			nvme_epf->msix_layout.pba_offset =
++				reg_size + msix_table_size;
++			nvme_epf->msix_layout.pba_size = pba_size;
++
++			reg_size += msix_table_size + pba_size;
++		}
+ 	}
+ 
+ 	if (epc_features->bar[BAR_0].type == BAR_FIXED) {
+-- 
+2.51.0
+
+
+From a803e5b9b57f36a88d313646336e802845ac1cfe Mon Sep 17 00:00:00 2001
+From: Koichiro Den <den@valinux.co.jp>
+Date: Tue, 1 Sep 2026 16:09:34 +0900
+Subject: [WIP PATCH v3 7/7] PCI: endpoint: pci-epf-ntb: Document EPF-owned
+ MSI-X layout
+
+pci-epf-ntb reads host-programmed MSI-X Table entries through epf_bar[]
+to set up peer outbound mappings. A hardware-owned Table does not have
+that backing.
+
+Document why pci-epf-ntb keeps its Table and PBA in EPF-owned memory
+instead of selecting a hardware-owned layout like the other converted
+EPF drivers.
+
+Signed-off-by: Koichiro Den <den@valinux.co.jp>
+---
+Changes in v3:
+  - New patch.
+---
+ drivers/pci/endpoint/functions/pci-epf-ntb.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/pci/endpoint/functions/pci-epf-ntb.c b/drivers/pci/endpoint/functions/pci-epf-ntb.c
+index f3e0e1b3ffb9..adef3b9dc2fc 100644
+--- a/drivers/pci/endpoint/functions/pci-epf-ntb.c
++++ b/drivers/pci/endpoint/functions/pci-epf-ntb.c
+@@ -1031,6 +1031,12 @@ static int epf_ntb_config_spad_bar_alloc(struct epf_ntb *ntb,
+ 	ctrl_size = sizeof(struct epf_ntb_ctrl);
+ 	spad_size = spad_count * 4;
+ 
++	/*
++	 * Keep the MSI-X Table and PBA in EPF-owned memory.
++	 * epf_ntb_configure_msix() reads host-programmed Table entries through
++	 * epf_bar[] to set up peer outbound mappings. A hardware-owned Table has
++	 * no such backing.
++	 */
+ 	msix_capable = epc_features->msix_capable;
+ 	if (msix_capable) {
+ 		msix_table_size = PCI_MSIX_ENTRY_SIZE * ntb->db_count;
+-- 
+2.51.0
+
+------------8<-----(end here)------8<-------------
+
+Best regards,
+Koichiro
+
+> 
+> 
+> Kind regards,
+> Niklas
 
