@@ -4,53 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DDE6DC624D7
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Sep 2026 21:06:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 859D2C624D7
+	for <linux-nvme@archiver.kernel.org>; Thu,  3 Sep 2026 21:22:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=geaXj1No+1QnHDQx1YM9u9i2kHWjwITnyxDj6HMkO68=; b=osnNnW0tDu5Ioy/Kl5PGZ1a1xz
-	xVVFyj2UfMNIKscI+WXtla8bq0uNqh38Nr6DXllTPbOsDmWe2GaPkyX/CwNSTrtcwc794ljvMSoZ1
-	m/J+gqtQFYbaWyfay+OA44wgXGZmK9TLG9Vo64ac8ZVTxXliN/jdo3vIrxf8R46Hn38Xvcfjx5BOR
-	LyNaE6Zwr0sQbeWen4jc6Nx8eeKGvuaByjZuG2xmj3g5BNLg+GwIBwCwbbPzEBdRuQ/seeYtVOfcf
-	eUKH2btVhcSsoI99jS3WlkZ4tESXDF1n4EI4/U9KerJDU3DoZtnvItDHyOSFtrcicnwSO5BEnIJ1R
-	Ic1u9MIw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=qEXHsnDDmMxBXafY5cPR9R/uN2Ql07/wOBZdMfvH8eo=; b=bumPndMw826asoGpnBrfyWgcJV
+	oM8AGY3t4D8n1DG+j+DDRdZ6gg5Znv8CY6GDbrEsx6Z2i1Kuq66V8KafFeKm66WJ7UYNEi/OyaUoD
+	mvjii0JP+lWEyXlHdty+zT3pXZS/FhXP/+5brnCqZ8UeJZ39VlYFcK4bOQXatvSOrDTxIsGd76XUy
+	bG+5LKnnRYCXIbUaHXR9BfIGRMtBVkhyOIh4ABrSa0upJFfkMOrAxYq+k55PT0UUnYomeA4kXepX6
+	zJUP0CSGZzsDF6QHxep+8hYK1u37U/9cmJhwaucsM6fjuka3ERSL2wayx8v0mwEbfPg/iSKTEvath
+	fGQh/HTQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x2Edu-00000000bjR-28lY;
-	Thu, 03 Sep 2026 21:06:42 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1x2Esi-00000000d4Q-32ta;
+	Thu, 03 Sep 2026 21:22:00 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x2Eds-00000000bjL-3xZP
+	id 1x2Esi-00000000d4J-0WWM
 	for linux-nvme@lists.infradead.org;
-	Thu, 03 Sep 2026 21:06:40 +0000
+	Thu, 03 Sep 2026 21:22:00 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 72F9E405FC;
-	Thu,  3 Sep 2026 21:06:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3006A1F000E9;
-	Thu,  3 Sep 2026 21:06:40 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 0EBE941880;
+	Thu,  3 Sep 2026 21:21:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF5221F000E9;
+	Thu,  3 Sep 2026 21:21:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788469600;
-	bh=geaXj1No+1QnHDQx1YM9u9i2kHWjwITnyxDj6HMkO68=;
-	h=Date:From:To:Cc:Subject;
-	b=TkjPDevFyYbQf7NcwX4CEeFV0yyo3+LeQANafFpOLsY+ZWN+8kz683+xpfwd2P4y7
-	 iyHDkWwKL0/6d7kuHiemVQ2uzGcdXRtSqYoneyVQojK5QJrh44XsO+rug7ESDwZQHK
-	 qkLbVJOaQ8pfZLEnVzIu6R36jON4Uej2M4CFFEXW5DdFo9YTL/Z7VWBxx2OmyNlO9Y
-	 ipCFN6oPn2GFX4GINMhdSKXjp9XzT90UtFbxs78/21bkWmgk2V+KYX9JP2TM8UWKta
-	 iIEvxJ4UW2qKVs/FKqi/vwItHtTnujnu9jmHdF6rsMtuoa9rtdAfmU7lG7lpoUgS1l
-	 nlcinAVRvGOJA==
-Date: Thu, 3 Sep 2026 15:06:38 -0600
+	s=k20260515; t=1788470518;
+	bh=qEXHsnDDmMxBXafY5cPR9R/uN2Ql07/wOBZdMfvH8eo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Go7538VkqZffgXnLqInFETkbtzzEjUumhmTfr7lciUfxbLJU9lq+03ybYX5uqI9/v
+	 IoGyF3jqicNY1yBIKBINgpeaeBan50GpsWuP2KrXmKipri9r4POJRDGZYQTQ644Lix
+	 Gg0ySNv8V7d7pJzb4lnXnpXmCjfeLtU7fNT8ADPvpR3WKRx+QTUl13TyO8nl+BWw5d
+	 CMJ1aQDN3IonGup3rn45ZGj3YHQ8iBYyckzonayAVUnh45XX3WPfs8aEy3xGa9WAwJ
+	 twf2wDNu1Gv6ysgMeoyo/e0Q+Hn7Fa6KDtleI2daDlfHZ7IU5T/WQrKLg1iCKGMnlc
+	 AUNKgFbafo/mA==
+Date: Thu, 3 Sep 2026 15:21:57 -0600
 From: Keith Busch <kbusch@kernel.org>
 To: axboe@kernel.dk
 Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
-Subject: [GIT PULL] nvme fixes for Linux 7.3
-Message-ID: <apnhXnr8bFqNl-o6@kbusch-mbp>
+Subject: Re: [GIT PULL] nvme fixes for Linux 7.3
+Message-ID: <apnk9Uoj1X3PKM-k@kbusch-mbp>
+References: <apnhXnr8bFqNl-o6@kbusch-mbp>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <apnhXnr8bFqNl-o6@kbusch-mbp>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,6 +67,9 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Terribly sorry, the previous message was from a stale tree with the
+wrong SHAs. This is the intended pull request:
+
 The following changes since commit 326d49039c10b65522ac7277b19b9b5c42ed1aeb:
 
   nbd: add pre_defined_connections module parameter for pre-created devices (2026-08-15 20:01:20 -0600)
@@ -73,9 +78,9 @@ are available in the Git repository at:
 
   git://git.infradead.org/nvme.git tags/nvme-7.3-2026-09-03
 
-for you to fetch changes up to f46566780a5f7e00a9026868e45421de61afcf22:
+for you to fetch changes up to fd9beb8870736e1c6a0b2351d88a161aaeb2b326:
 
-  nvme-tcp.h: drop kernel-doc comments, fix a few descriptions (2026-09-02 15:45:10 -0700)
+  nvme-tcp.h: drop kernel-doc comments, fix a few descriptions (2026-09-03 14:15:11 -0700)
 
 ----------------------------------------------------------------
 nvme fixes for Linux 7.3
@@ -167,5 +172,4 @@ Yehyeong Lee (2):
  drivers/nvme/target/tcp.c                          | 10 +++
  include/linux/nvme-tcp.h                           | 18 ++--
  19 files changed, 228 insertions(+), 84 deletions(-)
-
 
