@@ -4,56 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F1C48C61DD6
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Sep 2026 02:39:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AAD2EC624DA
+	for <linux-nvme@archiver.kernel.org>; Thu,  3 Sep 2026 03:10:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Message-ID:Date
-	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=F613iBUD69DqNXoihipCxglkR5WnMC1Q0NRfWEdTXAs=; b=BxeubZ09o0Yvq22ogICMBQWmbL
-	SEBQQrCv+awwZwtM4t/fk2z/MIRfOZ9I8EE6GLLL2V4uWbNtn1aEbPTusKliuoVJDKxr/ObHuHA2j
-	Oy1yuMQkXrh35OIKkDwkyx1mlwyTE9wLIhqlKQERqip/Q17UFtjpSbWSDdV1QKJA1hdlUymcD5+Zr
-	8e8exzaBZ80l0BqcsMtOmM9CipdgqdFigExvthuNn1zuLUWS9G9UyGqzQu89TDA4fSBZeWiQ68D9e
-	BT+d45XyluWrxl0DbF3Wa2rtKKGrbNk3seBJ8uWqe3BkwwwzWsBKe8yJULnlwYLeErIEMwA8ziLha
-	jFZC+0OA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=caX7x7i80gxUKHQCtZGsBvZac/QLQkNHPvkqj51y0dw=; b=h/S0nynQ4G8e1Y/2P9GETJCClI
+	CtJy7Kc0Qa8vcZJrXFYLPLGOqfSxzZ6G/L0965+RwjCs8TYEPaCTvuu0wKyspvLrtUdxG8FNzxe6A
+	3UE5cB0RLuob5PIE192umhUTSKpFmoZjuQlefkQGgF3Fl2aCV4ZqhsfeKj2U1JZPf/1olPgCIvnHs
+	c14juHXzZKpMAxF/uibWj3ys2DHHB7WTLcFBfBuoo+KdjWljuW3iFfVL6DbQOd83yKYFj5eJMzolA
+	cxFDUZAlRx5ppR2At+B2v/ne+yJvzKpe0ZbZM2Qpr1UuCs4Vk+I1+m5L1Aie38bYLkLr6wk6YfBAO
+	EwDqfwBA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x1xMB-0000000GEVs-3uqT;
-	Thu, 03 Sep 2026 02:39:15 +0000
-Received: from out30-111.freemail.mail.aliyun.com ([115.124.30.111])
+	id 1x1xqQ-0000000GGBn-4AH6;
+	Thu, 03 Sep 2026 03:10:30 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x1xM9-0000000GEVW-0baf
+	id 1x1xqQ-0000000GGBh-0eX3
 	for linux-nvme@lists.infradead.org;
-	Thu, 03 Sep 2026 02:39:14 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1788403147; h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version;
-	bh=F613iBUD69DqNXoihipCxglkR5WnMC1Q0NRfWEdTXAs=;
-	b=oejVgia1C7FmFEAYrEp1YYYxMWGi8xeRI1a0FzyX2qGADYD5TMiCi+O398KXxPa5OsM6HP3U4DHlb8ge4TP7fhiJcEEvui7R9qaxLblFP0+uIFkRLdM9aaBv9+ht9JNmd0iWCSC21gA09Fd4c0WecRd/WRwkIEgs1MFJZyGMgFg=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=chuyf26@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0XAEVlOI_1788403145;
-Received: from x31j07255.sqa.na131(mailfrom:Chuyf26@linux.alibaba.com fp:SMTPD_---0XAEVlOI_1788403145 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Thu, 03 Sep 2026 10:39:06 +0800
-From: Yifei Chu <Chuyf26@linux.alibaba.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v3] nvmet: verify the hostid when looking up a controller
-Date: Thu, 03 Sep 2026 10:37:14 +0800
-Message-ID: <178840303415.121937.10499065434948720286@linux.alibaba.com>
-In-Reply-To: <20260902140400.GB23598@lst.de>
-References: <178782553270.1581249.13595405857993482779@linux.alibaba.com>
- <5fb6acc2-4ac1-4f1a-861f-13c88b3b9239@grimberg.me>
- <178814381141.3422569.11201888645559295686@linux.alibaba.com>
- <20260902140400.GB23598@lst.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	Thu, 03 Sep 2026 03:10:30 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id 9A8B441A42;
+	Thu,  3 Sep 2026 03:10:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2535D1F00A3A;
+	Thu,  3 Sep 2026 03:10:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788405028;
+	bh=caX7x7i80gxUKHQCtZGsBvZac/QLQkNHPvkqj51y0dw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=G6OjU7wjxVazV3ru3gGUnKIkWmYVS+gdbMQdhxxOErXRfEDA1B6RK+7v3exoF91Kf
+	 HRuxTQpPiXgAG99eC2WTC3zhgfrqWaB50z1ctQ4em2YOcQFOhZfOsoasCrije79IH6
+	 r2jKhRk3jl/ro5ECfP8eN2s1G6lTgwrE6gjix3ofwfFR3goxbiWiJ0HpQ4yxosSjOi
+	 PnOTCm0e/JBbkXWfGr4YnjnxQKFZE9ikDNu+3jVD8XZ2FWytO+seOA/kH2iOoVUvj9
+	 x01fZMe9e+LpkYHUr/rhVK0xO4952YJJuMbrxxhodD2emqFyyzw5G/yoHW8SlfPEJF
+	 Gom9TjSXFAT5w==
+From: "Martin K. Petersen (Oracle)" <mkp@kernel.org>
+To: Satish Kharat <satishkh@cisco.com>,
+	Sesidhar Baddela <sebaddel@cisco.com>,
+	Karan Tilak Kumar <kartilak@cisco.com>,
+	"Martin K. Petersen" <mkp@kernel.org>,
+	Linmao Li <lilinmao@kylinos.cn>
+Cc: "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+	Hannes Reinecke <hare@kernel.org>,
+	Justin Tee <justin.tee@broadcom.com>,
+	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
+	Paul Ely <paul.ely@broadcom.com>,
+	linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: (subset) [PATCH 0/2] scsi: fnic: fix NVMe/FC local port setup and teardown
+Date: Wed,  2 Sep 2026 23:10:07 -0400
+Message-ID: <178840472579.670675.9863331512584936736.b4-ty@b4>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260819114242.3598034-1-lilinmao@kylinos.cn>
+References: <20260819114242.3598034-1-lilinmao@kylinos.cn>
 MIME-Version: 1.0
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260902_193913_864018_DE7FED9E 
-X-CRM114-Status: GOOD (  11.51  )
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,36 +79,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Sep 02, 2026 at 04:04:00PM +0200, Christoph Hellwig wrote:
-> So?  The hostid does not identify a controller.
+On Wed, 19 Aug 2026 19:42:40 +0800, Linmao Li wrote:
 
-Agreed, the controller is identified by cntlid and hostnqn. The
-check is not about identifying the controller; it is about the host
-identity bound to the controller at creation time:
+> Two small fixes to the NVMe/FC transport path added in commit 5efdd5cf9281
+> ("scsi: fnic: Add the NVMe/FC transport path"), both found by reading the
+> code rather than by hitting them on hardware.  They apply to
+> scsi/for-next, since that code is not in mainline yet.
+> 
+> Patch 1 initializes struct nvme_fc_port_info in nvfnic_add_lport().
+> dev_loss_tmo is currently left uninitialized on the stack.  The transport
+> does not read it for a local port, so this is hygiene rather than a
+> behaviour fix, and it carries no Fixes tag; nvfnic_add_tport() right below
+> already memsets its own copy.
+> 
+> [...]
 
-- The fabrics connect path has a dedicated status for rejecting a
-  connect because of the host identity: NVME_SC_CONNECT_INVALID_HOST
-  (include/linux/nvme.h). nvmet already returns it from
-  nvmet_alloc_ctrl() when the hostnqn is not allowed, but the hostid
-  half of the host identity is never compared when io queues attach
-  to an existing controller.
+Applied to 7.3/scsi-fixes, thanks!
 
-- The Linux host fills the same hostid into every connect capsule
-  (nvmf_connect_data_prep() copies ctrl->opts->host->id, used by
-  both the admin and the io connect path), and it refuses locally to
-  pair one hostnqn with a different hostid ("maintain unambiguous
-  host identification"). A conforming host therefore can never fail
-  this check.
+[1/2] scsi: fnic: initialize the NVMe local port info before registering
+      https://git.kernel.org/mkp/scsi/c/98f0a1422e28
 
-- nvmet consumes ctrl->hostid as the host identity: persistent
-  reservation registrants and holders are keyed by it
-  (drivers/nvme/target/pr.c). Letting an io connect with a different
-  hostid attach its queues to the controller attributes those queues
-  to a host the controller was not created for.
-
-Comparing both halves of the host identity in the lookup is the
-symmetric counterpart of the existing hostnqn comparison. If the
-nvme maintainers disagree, I will drop the patch.
-
-Yifei Chu
+-- 
+Martin K. Petersen
 
