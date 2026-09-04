@@ -4,107 +4,109 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 79B16C624DE
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Sep 2026 15:02:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D778EC79F80
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Sep 2026 16:05:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
 	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WIcM0Ila/fL0qXdyT+6C5ZW2M8LEsnOQ1TQjy3IHFIY=; b=HIx6vUlIDo0pnryV6hxs7d1OYb
-	BImO2c8bJjjqFjuX25BJ/C15DioikngEhuKGKOOnfm3CpEnw3WSPFpNiXNSz7qv/tU5Esrlt+yRSh
-	OfekpZAvxBePUiKAeDQKgVpvXDVw7uBFcW9F9jZgNO+Qwp+jIaLxA8WuEMCa+AIGKK+6kzIz2eFea
-	GYnJ+teYvLjlHURhbkZVQ8wPq4l5jV92ky0McwkMTzgCjiHQfC1B4wyrTreQRpqR8y6193B2HlkDa
-	tKglz27ytY3/nE70XD4FcfTje3YIjFYEDsNdowELMW3wnfKas9ZFtCdlttSmDYMKjag+XoXRsH1Ar
-	lL9qQCig==;
+	bh=3vcqoHjxbkKU29odZ/MlbhZ2L7DAS/GwMPMBrrZSUiY=; b=lvbkC5ZsCWxn0+OQ/j4jA90wBp
+	7zZhUWX6JTr+6oW/ahlczUKU2MOsg58MmLK9iW/K8FtA8gIX2eXRSZs58Mjy6zDViya4a/Gown5jY
+	TTip2IXT+ZYDI6BW/v6pqslWYGkmA4nrhSHHu1A+F3fANI2PlMmwoGr10QPkb75fhoVk+K4YHxjyT
+	Xby3+VkvbB3/8BuDq77FdwkJeI4WMOr/bnbXpZVVr6unc00XGS53I9k1h1tICFIUFpWXWwyXCP2aT
+	tPBuZIeidZzWpm8q8cDk2a8XUtfCP3h2/v5EvN830ilXU3Zu+zrx74sf3765ZnafqUok6oRtRES6G
+	71kGhclA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x2VQc-00000002SnC-03MN;
-	Fri, 04 Sep 2026 15:02:06 +0000
-Received: from mail-oo2-x0f.google.com ([2607:f8b0:4864:31::f])
+	id 1x2WPf-00000002fkd-3Zpa;
+	Fri, 04 Sep 2026 16:05:11 +0000
+Received: from mail-qt1-x82d.google.com ([2607:f8b0:4864:20::82d])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x2VQR-00000002Smc-0uL9
+	id 1x2WPd-00000002fjP-20oN
 	for linux-nvme@lists.infradead.org;
-	Fri, 04 Sep 2026 15:01:59 +0000
-Received: by mail-oo2-x0f.google.com with SMTP id 46e09a7af769-7f4bdf26365so53105a34.3
-        for <linux-nvme@lists.infradead.org>; Fri, 04 Sep 2026 08:01:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788534113; cv=none;
+	Fri, 04 Sep 2026 16:05:11 +0000
+Received: by mail-qt1-x82d.google.com with SMTP id d75a77b69052e-517dc520840so14894521cf.3
+        for <linux-nvme@lists.infradead.org>; Fri, 04 Sep 2026 09:05:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788537907; cv=none;
         d=google.com; s=arc-20260327;
-        b=A3aFk/3OaHjkgmmipyoi8wN3cgLo8UqvjqQw+P6vSPS7fis/9+2uB+kBT4lyLUfExc
-         coIcvoCLKzLwCM7SOrZY/o7tMITbd6WA+g25FRjkemYHo8b/hDKAOeTMbY7J8vhITqzA
-         Bx8AxIap9I41LbVtwOJW02Jh9JO0+V0GutO9NZ93V2e9GBD5IjUm60ukYbRlNmqulLi6
-         GAjr2FuvpjT1OdHmeSgccA/boBJM5C0gd3eiuu//JedW9NxnIFqAy/HXRTghVAjudKLT
-         RcbpAi8L0qf4nrbskKhgp6PHIg6tt8WaByUC1nAUHkSeiuB8jDKEnAOParTaCuM/4oPu
-         0qsw==
+        b=ik4Fovel+qnUP79ebo5O2DvF7XAr5Fklc9fizhsJlJ3DfFG3LW9jvZBX8iuoiSZKAk
+         z3038CJsu2oSxX9vbEZ7OrmB532qsUot2ZDEOf2a1QU1tv121t7tKNOZFnT5jiDaDAp4
+         m8ZLN4+DGewtsJaCVA+16mgQyAT5PQbHUbvb61ix9cCvIRvwViyL8PnQHa+zfyB6niPf
+         wSW7p/qhg57T4BBLnyEiISwiSRmATVaKQurcu9fP++aQn7xblPR6FFmjKRHSW0hEZtbY
+         H181vmkWO/EpC9xmuMPAqY+UCP7LS4dzFfTxoVMOk92Q1+c5VXirMNZl94LyAvIXaFWm
+         d7lQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=WIcM0Ila/fL0qXdyT+6C5ZW2M8LEsnOQ1TQjy3IHFIY=;
-        fh=gbuudIPwmKD+y+1JKRFQbQA8KOlUc/neqen3Rp4+Nhc=;
-        b=Q9uxrr/RchyFKwBVPOPCXvqGAxZndA1bm+sqTLiZO+EWsmHI1MA1LMqXBVkfL+eMST
-         sUVUJoiG8p17RGEW/L4U4tg60fVKcD0MH430haK0D5OcNHvY97k9PTsGYh4MUDvRAjVW
-         D3VY+87aFwcRf+O0x+k6PjXzLeVGYyRTFbFM9u8kWqjX97lEoSslmBDliV+wEVZLNFjA
-         skKtE9UKYEpFY/+GsHoXvJrbT8ZECS4E6AEFfeimqhRVyAk8PHcKwyEY+ph37J2F5BCR
-         PKACReDgWFgIgTyadwMtJ6+95LPJWJZJOSFH7kePqTgfMkPnE+o9zNdSzC5IDznbS4Ph
-         HEMQ==;
+        bh=3vcqoHjxbkKU29odZ/MlbhZ2L7DAS/GwMPMBrrZSUiY=;
+        fh=CYenh+SXh4HYcalqn40NWyT/xEOI14lW7hvU1KOVHNE=;
+        b=FhqaLQHY9+10YLjpezBUvZeW6GozZjbrrP7eKOR4IsBt1GESffvbi/ehBUaoLSCdXR
+         n5/MqTZdUtM2TYMDV2KtMrjVm52rebB3VjnA4QyOoEV9bU/GgdpInttYztLDwKiJ1E7o
+         Ra4mwIdum1NKJnu1g3j/+GG6Y1NZlKoCgTXMHPqtVJGUpUEHiJJTDn0mUNnFWf3u1MNE
+         SJArQZTiIBSiWzMiQIJIbqNZXXEniQpHa6lyRONezRZRBXPVqnzwq12HqOlUeZ2anwDS
+         wUMRaEe5LngXnu05u1L49diB5NY38xAjNdj2qYLJu5SYOj4YawQ4Ub8CdF0HRs2RDMgA
+         3xog==;
         darn=lists.infradead.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1788534113; x=1789138913; darn=lists.infradead.org;
+        d=purestorage.com; s=google2022; t=1788537907; x=1789142707; darn=lists.infradead.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=WIcM0Ila/fL0qXdyT+6C5ZW2M8LEsnOQ1TQjy3IHFIY=;
-        b=TE8JSQqGwcVczJ5pola6R/Z9IzPGurK/mbWcnnY52MAxYYKc2GH/BQ3p6BTeXQpQ0s
-         Vgqevu6JRiGr6LMaiB9TG6InNeNe8Tob4E4uZfeJcITgRUaxiWvD6KyYOwbce+wBclaD
-         arg9jTNp42it8O3vc2QAwr7CscDf5Gxv4H4t/OlZqJWO4gOMhVHPQGfvcdGR+GPxgY6Y
-         SWSMRJBIhQ0qITx2LKcjUNYnrbr8f8tyRbZq6Fofpssabb1akUIxUbIGJEJeZhLjAxth
-         uuIyeqvjQkKj5MFQlRl3yBXP96eZMb6vN8/xy9E6b8krbL9WqVGzR611tF8qeJF7Wxv7
-         CK7A==
+        bh=3vcqoHjxbkKU29odZ/MlbhZ2L7DAS/GwMPMBrrZSUiY=;
+        b=TX5bCh+VpBP6+YEdlOFrWqRKip47Vpm98mpOmT0ibF72P0Q9Z/Su9YAJrGm6bWTHh5
+         5eYKBCsBQPyCutiUEbEBggiHkiozdQJi1EJ/d25y/C+1iDsHtgf5+svdzhfm1r+H96Mq
+         BMKuPUVonxH5A8BR6ti6MXfv4BqQSepZMBvmEJMEZsn9359YYZMnUC5vZK6dSGSq866I
+         RTQWSh+/3YKhfLTVpUItoHLfdfVnENmNSflI6uhdkoJSIQoEe3y7pk4bie9+ddjS5fwf
+         F4tFsxjqsoTapKyWdKN0CRwbQ1zwkCBpJNlwMqf43CHljJs3EgDhvbJzU6wGlML7JbJV
+         ehfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788534113; x=1789138913;
+        d=1e100.net; s=20251104; t=1788537907; x=1789142707;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=WIcM0Ila/fL0qXdyT+6C5ZW2M8LEsnOQ1TQjy3IHFIY=;
-        b=GPaXFrsJOxr2pDQpoUsrY2gqSvT1N7Vf2k0L4duJkNtGGZ1bvT6A/ubRklKZ2seicB
-         e38T43oRFEZMOrNHR9t0tnsP9/s9A2VgKNvBUGwPknhinlPrCIe39UEJ/gHv197g1EsI
-         cUbzTSmEIwsIolqoXSb/qURZYG7aJiq2JcjRIRdxSRmRFxg+wFe8qvx9Nzg3mn6CC9UJ
-         EKmaH8ke/p3+/vWFgCANwiFL6E8Y0L5tXuZlHrrwwLssxxXJBYwTozR/kjkF5Sa5I9NJ
-         x5o5hD6CQsFGoB7v4Qh8fmXS9eTAAcKZxwCoGpLUpHEBOE4qZF235SXSl4p10ZCIt+t0
-         y2tQ==
-X-Forwarded-Encrypted: i=1; AKwUvBy2olo8/ARzduWE0qhtrq5pz2ABVmIo+nKedrWeva7XolKN/HG+Oz0oJaW6OfcPAbid0R3g79rYAsxH@lists.infradead.org
-X-Gm-Message-State: AFuF++k7sG4dLtoZptrVFvGgoZfcVlXrGBN7hAc19IsBgvAaqO9WMkGR
-	UWh4zOrQw/Xb8XqFwRNNWhXcZ6Oi7XoR4MAYIOB5G+w4I8xQp+9/W4EMu2pGdBgRkVcmB8Pz80X
-	BjAg5mRVFa9SlhPnipCbXrrZfaTuZkE+tAaN9Z77PcnnAVAv6JXlg+KQ=
-X-Gm-Gg: AYBFou213S3czZSSjyh9Yh531h8j5ZEHJxLn//DbudLxj87EMQMVTiu2SjQlTesSnWm
-	xOu7kNKPyBpal/Xgj0gsDR+Qt/OkH7D1Fu3l8ZUIzDdQN0Dd2UjuIPo0fNZDsmuJkEQ7/YyDRjn
-	bRuYeebNaJoeQiB412SSZwC51bEKrgyqkp0NSKXE/pr8XN3+jWoH/dp0W4uk3yiNd96nI3TpYiH
-	htFjhtsmO+Y++gptcy4lc6v3VlDp1U5qqUXOJYt8HOycU2AFmpBcWvs6pPUTFHUV31HKqy09c9/
-	TM/OykilSIkrsfb4oYy6VBUq8jB0ILL89y9zd0j4qVUK
-X-Received: by 2002:a05:6830:668c:b0:7e6:6f9f:7445 with SMTP id
- 46e09a7af769-7fa438c3fb7mr2967139a34.3.1788534113297; Fri, 04 Sep 2026
- 08:01:53 -0700 (PDT)
+        bh=3vcqoHjxbkKU29odZ/MlbhZ2L7DAS/GwMPMBrrZSUiY=;
+        b=YIM+BxjZyc+ci2SvgdZEhxLiAAQLFCund4kDVeC/uzzS/JxFQ89ZlrqmfpcREkPQIM
+         TCtat/UX/7ED1pVwkasjYqpIk7qQ47ZJS4n72KJORckoYj9jb620fGfptfrDQ9jNEuIw
+         OvINfBISy2DIg0Xgup9hSUkOu/Y4yMY8kAzMbvWtFGrbdhjFampZv9yssLOn6MBBv2f5
+         BZGMmMjRX+Xa2hOvBUgkKHvpWHUY4V0FvS+5bKm/5ppySbne1qFfmYrsteAZaw8S9fQs
+         Jlc5jRZYszLwROhBatVczWCS4uJi178ziUT22hXR7jASqApoFovOKpgW4XCfUqKvhRdM
+         0ZSg==
+X-Forwarded-Encrypted: i=1; AKwUvByTisSpSlajMwm0IMvQDMT2EY6KZrxljBoW2JMhXCJpYhdeJcGINRmTMTg4U/5KcdUTAZ1OodOshzqY@lists.infradead.org
+X-Gm-Message-State: AFuF++nXPkJzymaB71Rst1/3wrh61nQHc99iwdwMqhY4klEKuaSFerCf
+	N7LNL5VoGfU2JB4b2AtUSjHlMj2bmMDpIJI+or5QZTdjKgqftUUbx/sThGUxPwa94P++wN/LcJe
+	5jdWHVyUIBVxI+9cT6eSJU+/HGBl0FhyqVO9FZrPaZQ==
+X-Gm-Gg: AYBFou02WSMvBBwnYDsiT1WA5eI8bj4XHjXKLttULN4op0RgH8Us2mcqvzhJo17uiMj
+	8LY+EFLBny3/fK99FBzFlrktjWQIDX7i75E6ePGHuvrZCktx1JI8bHLg5YP63s7Yk5vnK9xB4iF
+	N8Y4H+jtAPiZzL8BkJq3obzPhpdx7DBLFWznEloZhRT4NEBVKXv1NZET8ovWhf8MkKJyzJdmj9b
+	U07V46Ej417F0aEzTTpMJAIOS4p+dzgmXqwWSgrMi42Mdf7sgCsV0vxzguUJroOplAeAosFsFGh
+	pTf4ovl7URFmoQWpWxY/Pz6IsSuBNpzGgDiIkYxxmqkK
+X-Received: by 2002:a05:622a:4c14:b0:530:3855:e8cf with SMTP id
+ d75a77b69052e-53054674fccmr81819351cf.1.1788537907041; Fri, 04 Sep 2026
+ 09:05:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20260902225708.2379840-1-csander@purestorage.com>
- <20260902225708.2379840-2-csander@purestorage.com> <CAJnrk1Z=JgOGH3m8aMRcK0fBRtnHLQutHGc5aqht3OU3uMQ_qw@mail.gmail.com>
-In-Reply-To: <CAJnrk1Z=JgOGH3m8aMRcK0fBRtnHLQutHGc5aqht3OU3uMQ_qw@mail.gmail.com>
-From: Caleb Sander Mateos <csander@purestorage.com>
-Date: Fri, 4 Sep 2026 08:01:42 -0700
-X-Gm-Features: AcwNN1Xah8sd8LB6WNip_SsEfqly8NYatZhdOo3fb9Luj2iVfa_QtBKTXyBpkbU
-Message-ID: <CADUfDZp2K5_E=PZ6rcyOzRPmRWSboKvTADmNT_L4W5mqoguX_A@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] io_uring/cmd: split io_uring_cmd_set_res() from io_uring_cmd_done()
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org, io-uring@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+References: <20260824225648.316962-1-sgogte@purestorage.com>
+ <20260824225648.316962-3-sgogte@purestorage.com> <c98fe50c-172a-4e53-a30c-5416c40cb23f@grimberg.me>
+ <20260830222558.GB1842415-mkhalfella@purestorage.com> <4f2d2b60-56f9-4ae3-b38f-bba9754011df@grimberg.me>
+ <20260830225939.GC1842415-mkhalfella@purestorage.com>
+In-Reply-To: <20260830225939.GC1842415-mkhalfella@purestorage.com>
+From: "Surabhi Gogte (she/her)" <sgogte@purestorage.com>
+Date: Fri, 4 Sep 2026 09:04:30 -0700
+X-Gm-Features: AcwNN1Ww7ukPMIsSf3t5NTJ9ZuKHOtbeoPChRBk62ipDmvtM36xAVG2ICigmM2A
+Message-ID: <CAMof9cW8JFu3XG+BZc-ejG-fvsodQ9ygYbV_ttgvX=Kc_JjXJA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] nvme-tcp: parallelize I/O queue allocation and startup
+To: Mohamed Khalfella <mkhalfella@purestorage.com>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+	Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	randyj@purestorage.com, adailey@purestorage.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260904_080155_458923_5500D538 
-X-CRM114-Status: GOOD (  23.70  )
+X-CRM114-CacheID: sfid-20260904_090509_692125_65F7CE16 
+X-CRM114-Status: GOOD (  18.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -119,70 +121,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Sep 3, 2026 at 11:11=E2=80=AFAM Joanne Koong <joannelkoong@gmail.co=
-m> wrote:
+On Sun, Aug 30, 2026 at 3:59=E2=80=AFPM Mohamed Khalfella
+<mkhalfella@purestorage.com> wrote:
 >
-> On Wed, Sep 2, 2026 at 3:57=E2=80=AFPM Caleb Sander Mateos
-> <csander@purestorage.com> wrote:
+> On Mon 2026-08-31 01:44:32 +0300, Sagi Grimberg wrote:
 > >
-> > In preparation for setting the io_uring NVMe passthru CQE results from
-> > the blk-mq request completion rather than the task work callback, split
-> > out functions io_uring_cmd_set_res{,32}() from __io_uring_cmd_done().
-> > io_uring_cmd_done{,32}() now call io_uring_cmd_set_res{,32}() and then
-> > __io_uring_cmd_done(). This allows __io_uring_cmd_done() to be made
-> > CQE-size-agnostic, with 3 fewer arguments.
 > >
-> > Signed-off-by: Caleb Sander Mateos <csander@purestorage.com>
+> > On 31/08/2026 1:25, Mohamed Khalfella wrote:
+> > > On Mon 2026-08-31 01:00:52 +0300, Sagi Grimberg wrote:
+> > >>
+> > >> On 25/08/2026 1:56, Surabhi Gogte wrote:
+> > >>> - ret =3D sock_create_kern(current->nsproxy->net_ns,
+> > >>> + ret =3D sock_create_kern(&init_net,
+> > >> I don't think we can just change this...
+> > > Why we can not change it? Today the error recovery code running in
+> > > worker thread will be using init_net anyway, no?
+> > See commit: 1be52169c3488ef98582ed553ab35cefa3978817
 >
-> Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
+> Thanks for the pointer. I was not aware of that. What about error
+> recovery case? I _think_ it will be using init_net, no?
 >
-> > ---
-> >  include/linux/io_uring/cmd.h | 23 +++++++++++++++++------
-> >  io_uring/uring_cmd.c         | 33 ++++++++++++++++++---------------
-> >  2 files changed, 35 insertions(+), 21 deletions(-)
-> >
-> > diff --git a/include/linux/io_uring/cmd.h b/include/linux/io_uring/cmd.=
-h
-> > index 331dcbefe72f..67f2ef700c43 100644
-> > --- a/include/linux/io_uring/cmd.h
-> > +++ b/include/linux/io_uring/cmd.h
-> > @@ -50,19 +50,21 @@ int io_uring_cmd_import_fixed_vec(struct io_uring_c=
-md *ioucmd,
-> >                                   const struct iovec __user *uvec,
-> >                                   size_t uvec_segs,
-> >                                   int ddir, struct iov_iter *iter,
-> >                                   unsigned issue_flags);
-> >
-> > +void io_uring_cmd_set_res(struct io_uring_cmd *, s32 ret);
-> > +void io_uring_cmd_set_res32(struct io_uring_cmd *, s32 ret, u64 res2);
->
-> nit: it doesn't look like anywhere else in the header omits the param
-> name for the cmd, so maybe worth also having it here (and below) for
-> consistency?
 
-IMO the name "cmd" or "ioucmd" doesn't add anything on top of the
-argument type. But I can include it if people prefer it.
+From what I gathered, reconnect and error recovery run on kworkers,
+so those paths were already resolving to init_net even before this change.
+If we pin the caller's netns to the ctrl, we can keep netns consistent
+throughout,
+if that is desired.
 
->
-> > +
-> >  /*
-> >   * Completes the request, i.e. posts an io_uring CQE and deallocates @=
-ioucmd
-> >   * and the corresponding io_uring request.
-> >   *
-> >   * Note: the caller should never hard code @issue_flags and is only al=
-lowed
-> >   * to pass the mask provided by the core io_uring code.
-> >   */
-> > -void __io_uring_cmd_done(struct io_uring_cmd *cmd, s32 ret, u64 res2,
-> > -                        unsigned issue_flags, bool is_cqe32);
-> > +void __io_uring_cmd_done(struct io_uring_cmd *, unsigned issue_flags);
->
-> Maybe worth adding a comment that any caller using this api needs to
-> set the res themselves before calling this?
-
-Sure, that's a good idea.
-
-Thanks,
-Caleb
+> Also, Will the change to sock_create_kern(&init_net) break the fix in
+> commit 1be52169c348 ("nvme-tcp: fix selinux denied when calling
+> sock_sendmsg")?
 
