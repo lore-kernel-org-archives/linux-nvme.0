@@ -4,73 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 264CCC624D3
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Sep 2026 23:01:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1A81BC624D3
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Sep 2026 23:05:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
 	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DWqZGlZlOXVkVFEw7jqJALzgTnRow1syDq0/rhbvtyU=; b=GSq0C8p5idxJyO8wSxOhGj3jX4
-	2sLlxAGwhj/tny6yI/DYdxXMvSEW4OjaNFAb/RiQhwqGvJUBQDxjbemgzjkf4qSYvNOlReW2o5zZK
-	v2c8SU/2QPx5D54Pxe333zeuMvUVV1wVqcM1lOdW3fzFBPcHUeCIu97Ou7MmB3UxzTR9TjNVnFhRB
-	QiR8tlyEZL/Z3eXLPuNz6ecUP3hw+SCu3MHctYcVIqMwJWZt87umWjR7Q0uQyUAhTHxTGRQV5Mje6
-	/GO46ZNNtDUmh4goGh8UxGCmDW/Hjf0Yp4sk423lOguOcOvEU3VBp4h/tSkY/wajhAb+ZimE3U8W6
-	XvetbwSw==;
+	bh=GqfexXcPB0MjW1WCKBzg0IktuOs6wgXBjjXnxHW8muU=; b=lgZ4Jh7lHLazRUv+9qdyX+JUGH
+	rVkms/9v/5+cmndLnEg/Sf9xXrhSrsCi4R3IpuzPmVqzDeVonIkjXlhNrDAEODKk+epyxEktNkhvJ
+	oJ7TNsGvflGxxhCcX53g+KRzqcci3zGH2t3J8rhsR1bWibyfV6aBXX+s4VvjKzHKrhZ1lb8IX8308
+	TYR6cFc0qQ3rejdiZ9WYKTo3C5WfUbWBx0f5kSPEJThkDKq7UC4LVDmX4C9cJaZ+63vIPrTkDuNon
+	b4YFeFgPnESpWXHs0yahGnDuQs0QvaOyvM9yPn32tNn3bm+MihYFeucSpkO1rzFBeYkU14Lw9pnYp
+	I2SzJI1g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x2cuK-00000003Ryu-1tgJ;
-	Fri, 04 Sep 2026 23:01:16 +0000
-Received: from mail-oo1-xc30.google.com ([2607:f8b0:4864:20::c30])
+	id 1x2cxr-00000003SDq-1D4m;
+	Fri, 04 Sep 2026 23:04:55 +0000
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x2cuI-00000003RyU-1Jax
+	id 1x2cxo-00000003SDT-1rZj
 	for linux-nvme@lists.infradead.org;
-	Fri, 04 Sep 2026 23:01:15 +0000
-Received: by mail-oo1-xc30.google.com with SMTP id 006d021491bc7-6b1b1cb72d0so873847eaf.1
-        for <linux-nvme@lists.infradead.org>; Fri, 04 Sep 2026 16:01:13 -0700 (PDT)
+	Fri, 04 Sep 2026 23:04:53 +0000
+Received: by mail-pj1-x1032.google.com with SMTP id 98e67ed59e1d1-3969e82ff8fso1667592a91.0
+        for <linux-nvme@lists.infradead.org>; Fri, 04 Sep 2026 16:04:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1788562873; x=1789167673; darn=lists.infradead.org;
+        d=purestorage.com; s=google2022; t=1788563091; x=1789167891; darn=lists.infradead.org;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :content-type:mime-version:references:message-id:subject:cc:to:from
          :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=DWqZGlZlOXVkVFEw7jqJALzgTnRow1syDq0/rhbvtyU=;
-        b=EfZltwHfIqAQWwG5glchIZY5jT36Dn8ORebAUSLMOZknIulVmeQGUdwAh7CMIusZmk
-         7raGv88FtN/ZNCx9bzAeA6/wcR9XNQcsL6sBmNn5KWGoB6YbEVQdzD8X3XfntU4HN+/k
-         r6tVl9JNGw8edevxoysm6EfH1x9ZtCV+opOPFFIGHh+BcIkXUXIK9p5V93dLAhDApLeV
-         6I8JlNYJS1s54mw5aKVIuJ6NSqppqDewQbVd/xei+uhD9mh5tajrLB04VSwyd68i07Ae
-         N3HXe5jWvhx1N/IuoAkXunlamo4eDUWQY1hzhNwyP9qqZEKD4GGlKCOF4PICjMXabp0t
-         fWjA==
+        bh=GqfexXcPB0MjW1WCKBzg0IktuOs6wgXBjjXnxHW8muU=;
+        b=YD7tLNDufRByrz/BuVzLyjQVKDCTnZ6qWRfPxTgGN3+cBV7v0DgKIm6QEFi6G0I1mS
+         3Xw09yijD7WarYJlbv3J/Od4ehxj/ZRDz1r8IsoJ1JJ890rmYgXBpPszw0EPMg6Olpox
+         pD/DULFjo9ZzmTE4kto/hExFMtZ06FYqvCFbAHdUodLbp6iERX72xhiNvITl99v8ac3b
+         cza+TawNCyAg2HA7wkMa1chEW7/nUxyA14DGa/0OISWate7pdUgDCX0XhSCx3LjJJSJQ
+         63B1YumnUNcneYq8CJyEGl40F2oqxO4GjdYp4HfGXtFsm0Qd7UslE/BUC36mCbR9l4Oo
+         9ezw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788562873; x=1789167673;
+        d=1e100.net; s=20251104; t=1788563091; x=1789167891;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :content-type:mime-version:references:message-id:subject:cc:to:from
          :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=DWqZGlZlOXVkVFEw7jqJALzgTnRow1syDq0/rhbvtyU=;
-        b=PM/w0Rm1e58s4m8rTfu2Rm7RUwsM77pnAbaRyfdgBomb7dXbaCiLCDINAYZgxQhSRw
-         y+/gfdfcZEMGnMavrh2tGzK0zv2GOeGj0uBiaHMB8RgkwVXqaeGwaEKMHAuoMVwYC2/3
-         y9xXZ+rM2yAdzgMgOAIruSb2vHOfDRKB84rNtbLUPKSNHUchZKr0V1D34gu2OFkyhFPv
-         XzN9rkSaSSPgS43ZvjWkMZOvdFUDnrvlVQGAaDDQBFaqeBvHEV/4sjrzt5qZxHBmPIL/
-         jG3ccP18bBEBPhApjQXsnpfQruHH06pgAYAyeNGOjz1nLpPQc7lgeHyj7l05wsvIM/py
-         6opQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzq9DR22nj1A2klGJH6lBRPz0FCNLQuFD2rqYPzBUJAAqYm6HJXZ44aWh3aWYcNQwQ5OoUZMjAbhAoD@lists.infradead.org
-X-Gm-Message-State: AFuF++lRqRhhuULdnTXxHcASTq/GYF2ivuH9wOo0O6Uuvw0h1qkCvexr
-	ShYwOGvL2lCBzNs6UBqlsAGPRdtwXcvQKK0KBkTjzkTwl0ql8JRDzP2ElMUqqLtS4LM=
-X-Gm-Gg: AYBFou1F+ZPDHT+uvLsK0yqgk1bmXFTPsrfe4Qx7qYmKv7K/1n4dKKLYXVfNA+LCmtp
-	RzKhwu6GWGeEdmmakkSxuRym60mDHyayofrXq8vAWu4V1cFLhyNpGTIYyDnw2WOLbo4PtChsObl
-	qUWNMTEAEvn0BrW106xr/pSIakhR98bZZAhImk/yk0Rcz3nFBF5KfvkImtpkiusZGz61+DwdGKI
-	4K6A5z9y7jEdwMCynIEQ2fTzidlKTBLhwaqntVKyCgSNN5dJo/I8tEfRetkuEBFKojHaZVQ2X2X
-	4PjpQnifcr/8njuZjv7D9VIX4ZxYLxUNK1+BYUIIPdPspXQQU9X2jdhzODghPaUEIleaN+053LS
-	XmvDyAbEnNncZmilQOsjiY8PMqmkI6JE6jzPACx0pZMXyrcCY7uxSdsKunu7wrLXa9ULniBfkdA
-	g8AWjsiPoYUXMJMrSbL/fEiPi+IWZv5tBihXkP9100Y4hsJnPiI2W0xFucESrpICddDNM=
-X-Received: by 2002:a05:6820:810a:b0:6b7:46e9:96ff with SMTP id 006d021491bc7-6b746e9a376mr4834977eaf.47.1788562872859;
-        Fri, 04 Sep 2026 16:01:12 -0700 (PDT)
+        bh=GqfexXcPB0MjW1WCKBzg0IktuOs6wgXBjjXnxHW8muU=;
+        b=BS8rYcCFuTi7IkCsY/V6bLpd1OfWI6mtlWTVS3ZU9lPBPbdgMeYTncKEP07JyzV59n
+         tW25gPgCUxdUaWwWUlaGF3KJmuDf9r3n6w0ynqV16gNcrgXt38fqZ+XL95LqCak+USzI
+         gRd25P9neLFXQsGr61IaBPzMvLsfKs0rJQ3FvZeo5O79Qk1N7caTOJNai0x9sPvmS5f+
+         WjiLhz5pUWmJEEj+OD9+mH4Qw0EDvPgwRKDKH6GUnn0KS75wxihKaZojiHy+5tmcPYWx
+         na7G82ZvNr4xt1DlQDw+gTUz3mfCfJBQYwk9sxFqKetDlZPMjOCs17l7Ah9990hNaIZ1
+         zK2w==
+X-Forwarded-Encrypted: i=1; AKwUvBy2YKhBM83BrINxYvq43VbTt4d2ejiP0erJG2orOwcX1GuWUDsSko2l4zthkkxA4aTy9ZP6142cwDfC@lists.infradead.org
+X-Gm-Message-State: AFuF++ltuDM2jcSBYeCcEdTHCrcoK3x0UtvCJ5CJUhDR4q0ZRf9JS/Ks
+	Ff/B/COLND/DfsiC0IElDulZAx+wOnd1zwBPM7xVzseP1/YduPCH22vMSLyb8nzIuwg=
+X-Gm-Gg: AYBFou1fShV3Mf9H7EughqFhe3TAIkXflWMIPG/PjK6TyuPZLSALn8d7tgH6XNimNtH
+	meS7/+7J0nYJj2y71ePnloxlqPrRbYAzX0P8uJNM44HGwrpNWyeg2JrA09NdR54d0FhgrzXyG2h
+	SsZ7sHeRGiGuGgzdX6h6089vUY+BzKP4FUrf4UVS+TD40NuZXJulKNvhDWslV5aP4aU3LXAeO9N
+	FaIzbkiSrbf5OjpV6J1TLNgM+SFtu2sfvq9GuuqQQJ+KY7tZLkRY4h7eAErPoINB+/GWZM8L2Ny
+	XP/AP8ySb7wTDa43KmmnmfHLJSqFerrAbN2JKksG1s8bhpezJEsSpVZtXSZZWrtHYp/3FuawYo7
+	8WMgWnBCRdZQXFl96Gzn/Yk+y6RexjxrEEBBuuS3FlX9hCk5visidsJaQRy5HRUJZCr/jLwnTO6
+	zNzDCl+mTtU8nzx+O810JUhRpUoimqaxfEnxbDzI+9X9vFAnDdRBiIcK0VJCz2q7+oyoE=
+X-Received: by 2002:a17:90b:3c42:b0:38e:fea2:df53 with SMTP id 98e67ed59e1d1-39b260d2977mr12813287a91.4.1788563091144;
+        Fri, 04 Sep 2026 16:04:51 -0700 (PDT)
 Received: from medusa.lab.kspace.sh ([2607:fb90:9c20:7a99::791d])
-        by smtp.googlemail.com with ESMTPSA id 5a478bee46e88-3339bbf1feesm9376783eec.26.2026.09.04.16.01.11
+        by smtp.googlemail.com with ESMTPSA id 5a478bee46e88-33450e140d3sm5699767eec.4.2026.09.04.16.04.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 16:01:11 -0700 (PDT)
-Date: Fri, 4 Sep 2026 16:01:10 -0700
+        Fri, 04 Sep 2026 16:04:50 -0700 (PDT)
+Date: Fri, 4 Sep 2026 16:04:48 -0700
 From: Mohamed Khalfella <mkhalfella@purestorage.com>
 To: Hannes Reinecke <hare@suse.de>
 Cc: Justin Tee <justin.tee@broadcom.com>,
@@ -84,20 +84,19 @@ Cc: Justin Tee <justin.tee@broadcom.com>,
 	Dhaval Giani <dgiani@purestorage.com>,
 	Aaron Dailey <adailey@purestorage.com>,
 	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 10/16] nvme-tcp: Use CCR to recover controller that
- hits an error
-Message-ID: <20260904230110.GC5552-mkhalfella@purestorage.com>
+Subject: Re: [PATCH v5 08/16] nvme: Implement cross-controller reset recovery
+Message-ID: <20260904230448.GD5552-mkhalfella@purestorage.com>
 References: <20260712022437.3743117-1-mkhalfella@purestorage.com>
- <20260712022437.3743117-11-mkhalfella@purestorage.com>
- <f27fdc8d-9aea-42d1-8f55-04d8355a50c4@suse.de>
+ <20260712022437.3743117-9-mkhalfella@purestorage.com>
+ <30475d09-bba2-460b-bf05-869f355ef106@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <f27fdc8d-9aea-42d1-8f55-04d8355a50c4@suse.de>
+In-Reply-To: <30475d09-bba2-460b-bf05-869f355ef106@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260904_160114_371942_39D52FD3 
-X-CRM114-Status: GOOD (  31.35  )
+X-CRM114-CacheID: sfid-20260904_160452_521378_AB57483E 
+X-CRM114-Status: GOOD (  40.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -112,139 +111,269 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon 2026-07-13 09:17:33 +0200, Hannes Reinecke wrote:
+On Mon 2026-07-13 09:04:14 +0200, Hannes Reinecke wrote:
 > On 7/12/26 4:23 AM, Mohamed Khalfella wrote:
-> > An alive nvme controller that hits an error now will move to FENCING
-> > state instead of RESETTING state. ctrl->fencing_work attempts CCR to
-> > terminate inflight IOs. Regardless of the success or failure of CCR
-> > operation the controller is transitioned to RESETTING state to continue
-> > error recovery process.
+> > A host that has more than one path connecting to an nvme subsystem
+> > typically has an nvme controller associated with every path. This is
+> > mostly applicable to nvmeof. If one path goes down, inflight IOs on that
+> > path should not be retried immediately on another path because this
+> > could lead to data corruption as described in TP4129. TP8028 defines
+> > cross-controller reset mechanism that can be used by host to terminate
+> > IOs on the failed path using one of the remaining healthy paths. Only
+> > after IOs are terminated, or long enough time passes as defined by
+> > TP4129, inflight IOs should be retried on another path. Implement core
+> > cross-controller reset shared logic to be used by the transports.
 > > 
 > > Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
 > > ---
-> >   drivers/nvme/host/tcp.c | 30 +++++++++++++++++++++++++++++-
-> >   1 file changed, 29 insertions(+), 1 deletion(-)
+> >   drivers/nvme/host/constants.c |   1 +
+> >   drivers/nvme/host/core.c      | 152 ++++++++++++++++++++++++++++++++++
+> >   drivers/nvme/host/nvme.h      |  10 +++
+> >   3 files changed, 163 insertions(+)
 > > 
-> > diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> > index ba5c7b3e2a7c..a1711dd1d3c2 100644
-> > --- a/drivers/nvme/host/tcp.c
-> > +++ b/drivers/nvme/host/tcp.c
-> > @@ -161,6 +161,7 @@ struct nvme_tcp_ctrl {
-> >   	struct sockaddr_storage src_addr;
-> >   	struct nvme_ctrl	ctrl;
-> >   
-> > +	struct work_struct	fencing_work;
-> >   	struct work_struct	err_work;
-> >   	struct delayed_work	connect_work;
-> >   	struct nvme_tcp_request async_req;
-> > @@ -605,6 +606,12 @@ static void nvme_tcp_init_recv_ctx(struct nvme_tcp_queue *queue)
-> >   
-> >   static void nvme_tcp_error_recovery(struct nvme_ctrl *ctrl)
-> >   {
-> > +	if (nvme_change_ctrl_state(ctrl, NVME_CTRL_FENCING)) {
-> > +		dev_warn(ctrl->device, "starting controller fencing\n");
-> > +		queue_work(nvme_wq, &to_tcp_ctrl(ctrl)->fencing_work);
-> > +		return;
-> > +	}
-> > +
-> >   	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
-> >   		return;
-> >   
-> > @@ -2494,12 +2501,29 @@ static void nvme_tcp_reconnect_ctrl_work(struct work_struct *work)
-> >   	nvme_tcp_reconnect_or_remove(ctrl, ret);
+> > diff --git a/drivers/nvme/host/constants.c b/drivers/nvme/host/constants.c
+> > index dc90df9e13a2..f679efd5110e 100644
+> > --- a/drivers/nvme/host/constants.c
+> > +++ b/drivers/nvme/host/constants.c
+> > @@ -46,6 +46,7 @@ static const char * const nvme_admin_ops[] = {
+> >   	[nvme_admin_virtual_mgmt] = "Virtual Management",
+> >   	[nvme_admin_nvme_mi_send] = "NVMe Send MI",
+> >   	[nvme_admin_nvme_mi_recv] = "NVMe Receive MI",
+> > +	[nvme_admin_cross_ctrl_reset] = "Cross Controller Reset",
+> >   	[nvme_admin_dbbuf] = "Doorbell Buffer Config",
+> >   	[nvme_admin_format_nvm] = "Format NVM",
+> >   	[nvme_admin_security_send] = "Security Send",
+> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> > index 1ef4dc38f755..a1deffc3cc00 100644
+> > --- a/drivers/nvme/host/core.c
+> > +++ b/drivers/nvme/host/core.c
+> > @@ -571,6 +571,157 @@ void nvme_cancel_admin_tagset(struct nvme_ctrl *ctrl)
 > >   }
+> >   EXPORT_SYMBOL_GPL(nvme_cancel_admin_tagset);
 > >   
-> > +static void nvme_tcp_fencing_work(struct work_struct *work)
+> > +static struct nvme_ctrl *nvme_find_ctrl_ccr(struct nvme_ctrl *ictrl,
+> > +					    u32 min_cntlid)
 > > +{
-> > +	struct nvme_tcp_ctrl *tcp_ctrl = container_of(work,
-> > +			struct nvme_tcp_ctrl, fencing_work);
-> > +	struct nvme_ctrl *ctrl = &tcp_ctrl->ctrl;
-> > +	unsigned long rem;
+> > +	struct nvme_subsystem *subsys = ictrl->subsys;
+> > +	struct nvme_ctrl *ctrl, *sctrl = NULL;
+> > +	unsigned long flags;
+> > +	int ccr_used;
 > > +
-> > +	rem = nvme_fence_ctrl(ctrl);
-> > +	if (rem)
-> > +		dev_info(ctrl->device, "CCR failed, starting error recovery\n");
+> > +	mutex_lock(&nvme_subsystems_lock);
+> > +	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
+> > +		if (ctrl->cntlid < min_cntlid)
+> > +			continue;
 > > +
-> > +	nvme_change_ctrl_state(ctrl, NVME_CTRL_FENCED);
-> 
-> This needs to be before nvme_fence_ctrl(). Otherwise the state is 
-> meaningless are we're moving to RESETTING directly afterwards.
-
-The transition to FENCED signals that we are done with the fencing
-process. Only then FENCED -> RESETTING can happen. Yes, we are switching
-directly to RESETTING after that because we want to run error recovery
-to teardown and bring the controller back.
-
-The only reason FENCED exist is to prevent a controller in FENCING state
-from being reset or deleted.
-> 
-> > +	if (nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
-> > +		queue_work(nvme_reset_wq, &tcp_ctrl->err_work);
+> > +		spin_lock_irqsave(&ctrl->lock, flags);
+> > +		if (nvme_ctrl_state(ctrl) != NVME_CTRL_LIVE) {
+> > +			spin_unlock_irqrestore(&ctrl->lock, flags);
+> > +			continue;
+> > +		}
+> > +
+> > +		ccr_used = atomic_inc_return(&ctrl->ccr_used);
+> > +		if (ccr_used > ctrl->ccrl) {
+> > +			atomic_dec(&ctrl->ccr_used);
+> > +			spin_unlock_irqrestore(&ctrl->lock, flags);
+> > +			continue;
+> > +		}
+> > +
+> > +		/*
+> > +		 * We got a good candidate source controller that is locked and
+> > +		 * LIVE. However, no guarantee ctrl will not be deleted after
+> > +		 * ctrl->lock is released. Get a ref of both ctrl and admin_q
+> > +		 * so they do not disappear until we are done with them.
+> > +		 */
+> > +		WARN_ON_ONCE(!blk_get_queue(ctrl->admin_q));
+> > +		nvme_get_ctrl(ctrl);
+> > +		spin_unlock_irqrestore(&ctrl->lock, flags);
+> > +		sctrl = ctrl;
+> > +		break;
+> > +	}
+> > +	mutex_unlock(&nvme_subsystems_lock);
+> > +	return sctrl;
 > > +}
 > > +
-> >   static void nvme_tcp_error_recovery_work(struct work_struct *work)
+> > +static void nvme_put_ctrl_ccr(struct nvme_ctrl *sctrl)
+> > +{
+> > +	atomic_dec(&sctrl->ccr_used);
+> > +	blk_put_queue(sctrl->admin_q);
+> > +	nvme_put_ctrl(sctrl);
+> > +}
+> > +
+> > +static int nvme_issue_wait_ccr(struct nvme_ctrl *sctrl, struct nvme_ctrl *ictrl,
+> > +			       unsigned long deadline)
+> > +{
+> > +	struct nvme_ccr_entry ccr = { };
+> > +	union nvme_result res = { 0 };
+> > +	struct nvme_command c = { };
+> > +	unsigned long flags, now, tmo = 0;
+> > +	bool completed = false;
+> > +	int ret = 0;
+> > +	u32 result;
+> > +
+> > +	init_completion(&ccr.complete);
+> > +	ccr.ictrl = ictrl;
+> > +
+> > +	spin_lock_irqsave(&sctrl->lock, flags);
+> > +	list_add_tail(&ccr.list, &sctrl->ccr_list);
+> > +	spin_unlock_irqrestore(&sctrl->lock, flags);
+> > +
+> > +	c.ccr.opcode = nvme_admin_cross_ctrl_reset;
+> > +	c.ccr.ciu = ictrl->ciu;
+> > +	c.ccr.icid = cpu_to_le16(ictrl->cntlid);
+> > +	c.ccr.cirn = cpu_to_le64(ictrl->cirn);
+> > +	ret = __nvme_submit_sync_cmd(sctrl->admin_q, &c, &res,
+> > +				     NULL, 0, NVME_QID_ANY, 0);
+> > +	if (ret) {
+> > +		ret = -EIO;
+> > +		goto out;
+> > +	}
+> > +
+> > +	result = le32_to_cpu(res.u32);
+> > +	if (result & 0x01) /* Immediate Reset Successful */
+> > +		goto out;
+> > +
+> Do we care about any other values of 'result' ?
+
+No we do not. It just makes the code easier to read IMO.
+
+> 
+> > +	now = jiffies;
+> > +	if (time_before(now, deadline))
+> > +		tmo = min_t(unsigned long,
+> > +			    secs_to_jiffies(ictrl->kato), deadline - now);
+> > +
+> 
+> Ideally we would check the request timeout for the CCR to not
+> exceed 'deadline'.
+> But as __nvme_submit_sync_cmd() doesn't allow to specify the timeout
+> I guess it'll be good enough for now.
+> (And if all goes to plan the CCR command should've been aborted in that
+> case anyway).
+
+Right, as a follow up work I would like to extend
+__nvme_submit_sync_cmd() to take timeout, not in this patchset.
+
+> 
+> > +	if (!wait_for_completion_timeout(&ccr.complete, tmo)) {
+> > +		ret = -ETIMEDOUT;
+> > +		goto out;
+> > +	}
+> > +
+> > +	completed = true;
+> > +
+> > +out:
+> > +	spin_lock_irqsave(&sctrl->lock, flags);
+> > +	list_del(&ccr.list);
+> > +	spin_unlock_irqrestore(&sctrl->lock, flags);
+> > +	if (completed) {
+> > +		if (ccr.ccrs == NVME_CCR_STATUS_SUCCESS)
+> > +			return 0;
+> > +		return -EREMOTEIO;
+> > +	}
+> > +	return ret;
+> > +}
+> > +
+> > +unsigned long nvme_fence_ctrl(struct nvme_ctrl *ictrl)
+> > +{
+> > +	unsigned long now, deadline, timeout;
+> > +	struct nvme_ctrl *sctrl;
+> > +	u32 min_cntlid = 0;
+> > +	int ret;
+> > +
+> > +	timeout = nvme_fence_timeout_ms(ictrl);
+> > +	dev_info(ictrl->device, "attempting CCR, timeout %lums\n", timeout);
+> > +
+> > +	now = jiffies;
+> > +	deadline = jiffies + msecs_to_jiffies(timeout);
+> > +	while (time_before(now, deadline)) {
+> > +		sctrl = nvme_find_ctrl_ccr(ictrl, min_cntlid);
+> > +		if (!sctrl) {
+> > +			dev_dbg(ictrl->device,
+> > +				"failed to find source controller\n");
+> > +			return deadline - now;
+> > +		}
+> > +
+> > +		ret = nvme_issue_wait_ccr(sctrl, ictrl, deadline);
+> > +		if (!ret) {
+> > +			dev_info(ictrl->device, "CCR succeeded using %s\n",
+> > +				 dev_name(sctrl->device));
+> > +			nvme_put_ctrl_ccr(sctrl);
+> > +			return 0;
+> > +		}
+> > +
+> > +		/*
+> > +		 * CCR command or CCR operation failed on this path.
+> > +		 * Try another path as long as we have time.
+> > +		 */
+> > +		dev_err(ictrl->device, "CCR failed using %s, ret = %d\n",
+> > +			dev_name(sctrl->device), ret);
+> > +		min_cntlid = sctrl->cntlid + 1;
+> > +		nvme_put_ctrl_ccr(sctrl);
+> > +		now = jiffies;
+> > +	}
+> > +
+> > +	/* Fencing timed out call it done */
+> > +	dev_info(ictrl->device, "fencing timeout\n");
+> > +	return 0;
+> > +}
+> > +EXPORT_SYMBOL_GPL(nvme_fence_ctrl);
+> > +
+> >   bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+> >   		enum nvme_ctrl_state new_state)
 > >   {
-> >   	struct nvme_tcp_ctrl *tcp_ctrl = container_of(work,
-> >   				struct nvme_tcp_ctrl, err_work);
-> >   	struct nvme_ctrl *ctrl = &tcp_ctrl->ctrl;
+> > @@ -5205,6 +5356,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
 > >   
-> > +	flush_work(&to_tcp_ctrl(ctrl)->fencing_work);
+> >   	mutex_init(&ctrl->scan_lock);
+> >   	INIT_LIST_HEAD(&ctrl->namespaces);
+> > +	INIT_LIST_HEAD(&ctrl->ccr_list);
+> >   	xa_init(&ctrl->cels);
+> >   	ctrl->dev = dev;
+> >   	ctrl->ops = ops;
+> > diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> > index e558a19781bd..90b989302e21 100644
+> > --- a/drivers/nvme/host/nvme.h
+> > +++ b/drivers/nvme/host/nvme.h
+> > @@ -333,6 +333,13 @@ enum nvme_ctrl_flags {
+> >   	NVME_CTRL_FROZEN		= 6,
+> >   };
+> >   
+> > +struct nvme_ccr_entry {
+> > +	struct list_head list;
+> > +	struct completion complete;
+> > +	struct nvme_ctrl *ictrl;
+> > +	u8 ccrs;
+> > +};
+> > +
+> >   struct nvme_ctrl {
+> >   	bool comp_seen;
+> >   	bool identified;
+> > @@ -350,6 +357,7 @@ struct nvme_ctrl {
+> >   	struct blk_mq_tag_set *tagset;
+> >   	struct blk_mq_tag_set *admin_tagset;
+> >   	struct list_head namespaces;
+> > +	struct list_head ccr_list;
+> >   	struct mutex namespaces_lock;
+> >   	struct srcu_struct srcu;
+> >   	struct device ctrl_device;
+> > @@ -393,6 +401,7 @@ struct nvme_ctrl {
+> >   	u16 sqsize;
+> >   	u32 max_namespaces;
+> >   	atomic_t abort_limit;
+> > +	atomic_t ccr_used;
+> >   	u8 ccrl;
+> >   	u8 vwc;
+> >   	u32 vs;
+> > @@ -887,6 +896,7 @@ blk_status_t nvme_host_path_error(struct request *req);
+> >   bool nvme_cancel_request(struct request *req, void *data);
+> >   void nvme_cancel_tagset(struct nvme_ctrl *ctrl);
+> >   void nvme_cancel_admin_tagset(struct nvme_ctrl *ctrl);
+> > +unsigned long nvme_fence_ctrl(struct nvme_ctrl *ctrl);
+> >   bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+> >   		enum nvme_ctrl_state new_state);
+> >   int nvme_disable_ctrl(struct nvme_ctrl *ctrl, bool shutdown);
 > 
-> Not so happy with this one here.
-> _If_ fencing is still running we really should not be entering here.
-> And If fencing is not running we won't need to call it.
-> I'd prefer some sort of WARN_ON() here if fencing is still running.
-
-fencing_work should not be running. It should be exiting after it queued
-err_work. However, it does that asynchronously. It means it could still
-be running. flush_work() just makes sure it is 100% done because we are
-not expecting it in the middle doing any useful work at this time.
-
-> 
-> >   	if (nvme_tcp_key_revoke_needed(ctrl))
-> >   		nvme_auth_revoke_tls_key(ctrl);
-> >   	nvme_stop_keep_alive(ctrl);
-> > @@ -2542,6 +2566,7 @@ static void nvme_reset_ctrl_work(struct work_struct *work)
-> >   		container_of(work, struct nvme_ctrl, reset_work);
-> >   	int ret;
-> >   
-> > +	flush_work(&to_tcp_ctrl(ctrl)->fencing_work);
-> 
-> Same here.
-
-This is needed in case nvme_tcp_fencing_work() loses the race as. Now
-reset_work needs to flush fencing_work because it took over instead of
-err_work.
-
-> 
-> >   	if (nvme_tcp_key_revoke_needed(ctrl))
-> >   		nvme_auth_revoke_tls_key(ctrl);
-> >   	nvme_stop_ctrl(ctrl);
-> > @@ -2667,13 +2692,15 @@ static enum blk_eh_timer_return nvme_tcp_timeout(struct request *rq)
-> >   	struct nvme_tcp_cmd_pdu *pdu = nvme_tcp_req_cmd_pdu(req);
-> >   	struct nvme_command *cmd = &pdu->cmd;
-> >   	int qid = nvme_tcp_queue_id(req->queue);
-> > +	enum nvme_ctrl_state state;
-> >   
-> >   	dev_warn(ctrl->device,
-> >   		 "I/O tag %d (%04x) type %d opcode %#x (%s) QID %d timeout\n",
-> >   		 rq->tag, nvme_cid(rq), pdu->hdr.type, cmd->common.opcode,
-> >   		 nvme_fabrics_opcode_str(qid, cmd), qid);
-> >   
-> > -	if (nvme_ctrl_state(ctrl) != NVME_CTRL_LIVE) {
-> > +	state = nvme_ctrl_state(ctrl);
-> > +	if (state != NVME_CTRL_LIVE && state != NVME_CTRL_FENCING) {
-> >   		/*
-> >   		 * If we are resetting, connecting or deleting we should
-> >   		 * complete immediately because we may block controller
-> > @@ -2928,6 +2955,7 @@ static struct nvme_tcp_ctrl *nvme_tcp_alloc_ctrl(struct device *dev,
-> >   
-> >   	INIT_DELAYED_WORK(&ctrl->connect_work,
-> >   			nvme_tcp_reconnect_ctrl_work);
-> > +	INIT_WORK(&ctrl->fencing_work, nvme_tcp_fencing_work);
-> >   	INIT_WORK(&ctrl->err_work, nvme_tcp_error_recovery_work);
-> >   	INIT_WORK(&ctrl->ctrl.reset_work, nvme_reset_ctrl_work);
-> >   
+> Otherwise looks good.
 > 
 > Cheers,
 > 
