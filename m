@@ -4,87 +4,107 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 13578C624D3
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Sep 2026 11:27:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 79B16C624DE
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Sep 2026 15:02:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=LMuldKzRZKnRRVnCUZ2I1QR7ouYQcPdcuex/lnXCBdk=; b=25iDi/DHXTLuO1BILLthmyvmJ2
-	QVfnP42HoC1+om+t6L9cHkQDm5RK9w1fXB6yP3lcoyCoFvusRKf7NIDCci9TLxYjJTuljsUTHslMg
-	wbHXDSTK64St6I7fCsyA0Rj0SC5G1ehCjNN7MEYXJBZLVk7ZH9EmkP4fhzel0cy5O5Fu37B2EaV7x
-	lBUl9PTsPRtL268jbQW4l34OcjTCqzoSafHo8AFJM9K9nrStQVBRiBHZCH0F9bFii2TDTXWTa3UV5
-	1R82ErMHfrBYvkP21TqB8Vp+HaB8nzSvNtXwtLLop7octfuP0jVAdnlfxHJjUN6RSFqMGzT0alsLY
-	Lgmi8f0Q==;
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=WIcM0Ila/fL0qXdyT+6C5ZW2M8LEsnOQ1TQjy3IHFIY=; b=HIx6vUlIDo0pnryV6hxs7d1OYb
+	BImO2c8bJjjqFjuX25BJ/C15DioikngEhuKGKOOnfm3CpEnw3WSPFpNiXNSz7qv/tU5Esrlt+yRSh
+	OfekpZAvxBePUiKAeDQKgVpvXDVw7uBFcW9F9jZgNO+Qwp+jIaLxA8WuEMCa+AIGKK+6kzIz2eFea
+	GYnJ+teYvLjlHURhbkZVQ8wPq4l5jV92ky0McwkMTzgCjiHQfC1B4wyrTreQRpqR8y6193B2HlkDa
+	tKglz27ytY3/nE70XD4FcfTje3YIjFYEDsNdowELMW3wnfKas9ZFtCdlttSmDYMKjag+XoXRsH1Ar
+	lL9qQCig==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x2S4x-00000001ood-1952;
-	Fri, 04 Sep 2026 11:27:31 +0000
-Received: from mail-oo1-xc29.google.com ([2607:f8b0:4864:20::c29])
+	id 1x2VQc-00000002SnC-03MN;
+	Fri, 04 Sep 2026 15:02:06 +0000
+Received: from mail-oo2-x0f.google.com ([2607:f8b0:4864:31::f])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x2S4v-00000001ons-0Fpp
+	id 1x2VQR-00000002Smc-0uL9
 	for linux-nvme@lists.infradead.org;
-	Fri, 04 Sep 2026 11:27:30 +0000
-Received: by mail-oo1-xc29.google.com with SMTP id 006d021491bc7-6b1b881a8e9so345120eaf.1
-        for <linux-nvme@lists.infradead.org>; Fri, 04 Sep 2026 04:27:28 -0700 (PDT)
+	Fri, 04 Sep 2026 15:01:59 +0000
+Received: by mail-oo2-x0f.google.com with SMTP id 46e09a7af769-7f4bdf26365so53105a34.3
+        for <linux-nvme@lists.infradead.org>; Fri, 04 Sep 2026 08:01:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788534113; cv=none;
+        d=google.com; s=arc-20260327;
+        b=A3aFk/3OaHjkgmmipyoi8wN3cgLo8UqvjqQw+P6vSPS7fis/9+2uB+kBT4lyLUfExc
+         coIcvoCLKzLwCM7SOrZY/o7tMITbd6WA+g25FRjkemYHo8b/hDKAOeTMbY7J8vhITqzA
+         Bx8AxIap9I41LbVtwOJW02Jh9JO0+V0GutO9NZ93V2e9GBD5IjUm60ukYbRlNmqulLi6
+         GAjr2FuvpjT1OdHmeSgccA/boBJM5C0gd3eiuu//JedW9NxnIFqAy/HXRTghVAjudKLT
+         RcbpAi8L0qf4nrbskKhgp6PHIg6tt8WaByUC1nAUHkSeiuB8jDKEnAOParTaCuM/4oPu
+         0qsw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=WIcM0Ila/fL0qXdyT+6C5ZW2M8LEsnOQ1TQjy3IHFIY=;
+        fh=gbuudIPwmKD+y+1JKRFQbQA8KOlUc/neqen3Rp4+Nhc=;
+        b=Q9uxrr/RchyFKwBVPOPCXvqGAxZndA1bm+sqTLiZO+EWsmHI1MA1LMqXBVkfL+eMST
+         sUVUJoiG8p17RGEW/L4U4tg60fVKcD0MH430haK0D5OcNHvY97k9PTsGYh4MUDvRAjVW
+         D3VY+87aFwcRf+O0x+k6PjXzLeVGYyRTFbFM9u8kWqjX97lEoSslmBDliV+wEVZLNFjA
+         skKtE9UKYEpFY/+GsHoXvJrbT8ZECS4E6AEFfeimqhRVyAk8PHcKwyEY+ph37J2F5BCR
+         PKACReDgWFgIgTyadwMtJ6+95LPJWJZJOSFH7kePqTgfMkPnE+o9zNdSzC5IDznbS4Ph
+         HEMQ==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788521248; x=1789126048; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=LMuldKzRZKnRRVnCUZ2I1QR7ouYQcPdcuex/lnXCBdk=;
-        b=CQiBBOHhYVoDZhS0UMtMQ9JG7zuoedhor0Z+Ck8JyEca+1mrwsIdEAPYef4GOER100
-         Mxm+OVOpBCvn+nlt8Uyto9/PX56byo5KfZRHi3vUPeM/DEUMM4+oIlC5cCskqsUQsK1M
-         iPYWxrVrrPBfq9Zt1hKztMnPTSgwucGq1dPuqas2FbpKj5qhXCfwwWjrF9qnjpD8Hdz/
-         sm8+KUFQmuU8j7NhQ4MIy4DjKj7CgeSaGdoGYWRmWwe1TTE85fBkh/vzDDpgjywTDlrs
-         CdKa3xk4zNfcGOPtvGFs/aA2URo0r9Kb8ExX3RmmfhDibYPFBnbYdlDk/z9pVx6O4Sb/
-         UNQA==
+        d=purestorage.com; s=google2022; t=1788534113; x=1789138913; darn=lists.infradead.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=WIcM0Ila/fL0qXdyT+6C5ZW2M8LEsnOQ1TQjy3IHFIY=;
+        b=TE8JSQqGwcVczJ5pola6R/Z9IzPGurK/mbWcnnY52MAxYYKc2GH/BQ3p6BTeXQpQ0s
+         Vgqevu6JRiGr6LMaiB9TG6InNeNe8Tob4E4uZfeJcITgRUaxiWvD6KyYOwbce+wBclaD
+         arg9jTNp42it8O3vc2QAwr7CscDf5Gxv4H4t/OlZqJWO4gOMhVHPQGfvcdGR+GPxgY6Y
+         SWSMRJBIhQ0qITx2LKcjUNYnrbr8f8tyRbZq6Fofpssabb1akUIxUbIGJEJeZhLjAxth
+         uuIyeqvjQkKj5MFQlRl3yBXP96eZMb6vN8/xy9E6b8krbL9WqVGzR611tF8qeJF7Wxv7
+         CK7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788521248; x=1789126048;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=LMuldKzRZKnRRVnCUZ2I1QR7ouYQcPdcuex/lnXCBdk=;
-        b=N+7zF2huAbhtqN935Sp7nMslbWiDvYvB0rZqLl4tzZNkyjA4POpqJCNYZciXvv1BRW
-         CNa/lghME2U5B5wbqCAORoACIUI2zvwe78eTP7KqVdptChmOry9LZGgrZHoMaa16ID0g
-         liP8eblcX5qMLWP52lEIqNdWaoCr+brZK5dmcHX+5Xgdn0s3x1/668mwPbbRT2ai2jtW
-         yPW59RaRNtWtgqBOF+ScrsBnU7/YbYm1LY2ZrNGkV3srpyHutAdyvL7SXJy+s1qOFLGT
-         w1pIDoErkE9xLhEWkzTwofJm9AKDw6QJhhCZk/R7UU8wcx7OTCSMntRbm6KVwDbqvMK6
-         NiGQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwAMqptEFux4sVzt6yYC7dbWwi+ZHhGVdsEgfSum1TE2lfZct9uDG3Kat7FVcZTC9JTidzsS1F2V+WH@lists.infradead.org
-X-Gm-Message-State: AFuF++nVSHEIFVbllpGVbejCmfOzR37BZCby2sQKTA0P9vdwHgjppdWE
-	KqBYFlOmM50Il0cCoAf1ZiAnLQNguyC4nifOrvrMmDFQt+2giMsoieLb
-X-Gm-Gg: AYBFou15seztgre7c30dzX+sbJ/dS6rya+RBpzVWrfkQgKBWW9vNC0vEa3EmgoOjvXr
-	h1AuwMvn1zsi1UCCPyg4WkLASZuA0HwLfXeSu6XeZk98Arp8lQbEA9vsRUUdBjDN+mDzkYyNQaa
-	tEsGT08GBfe3SrgHPyzE/ZBT/8cGUhAGnY6KvmsomIfudcaPBItXRMoWOFByYOqR5vlv+zDgkTq
-	QD9VRjswycEv9LYlfMjnzA9ORgu8ZZGFM6fbUZN3EJ0ktiNioNv2lXbSoNe8O5risuXPXNR3ckJ
-	tDWM0uY6rLOgs1s238jOd1fCLhdbKtWReoi+rMl0CVgxFChejr6qfGDclLWvQpjwKBrf/HnU9tM
-	nuRtml+z/Xb7A9KeXDC+Ddj1sSYt6C0UXvPSWPuat6kw4NWbNN8InjR0ly+n0p4ad9tL1/Iyeyv
-	lJsnPsaGT4iRQXoMdcRe7aA+xZ8tPnInzZeYpaK0PyjoCmcPMFrOl/zaMhsUcsYXLOfH3ho+aI0
-	CN82/SKHxV6nBuHcGPaTgxhcw==
-X-Received: by 2002:a05:6820:2217:b0:6b7:8396:f3c3 with SMTP id 006d021491bc7-6b78396f8dcmr1217555eaf.37.1788521247704;
-        Fri, 04 Sep 2026 04:27:27 -0700 (PDT)
-Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339a534df1sm7037586eec.7.2026.09.04.04.27.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 04:27:27 -0700 (PDT)
-From: Hemanth Selam <hemanth.selam@gmail.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH] nvme: fix typo "occuring" in comment
-Date: Fri,  4 Sep 2026 16:57:21 +0530
-Message-ID: <20260904112722.5618-1-hemanth.selam@gmail.com>
-X-Mailer: git-send-email 2.48.1
+        d=1e100.net; s=20251104; t=1788534113; x=1789138913;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=WIcM0Ila/fL0qXdyT+6C5ZW2M8LEsnOQ1TQjy3IHFIY=;
+        b=GPaXFrsJOxr2pDQpoUsrY2gqSvT1N7Vf2k0L4duJkNtGGZ1bvT6A/ubRklKZ2seicB
+         e38T43oRFEZMOrNHR9t0tnsP9/s9A2VgKNvBUGwPknhinlPrCIe39UEJ/gHv197g1EsI
+         cUbzTSmEIwsIolqoXSb/qURZYG7aJiq2JcjRIRdxSRmRFxg+wFe8qvx9Nzg3mn6CC9UJ
+         EKmaH8ke/p3+/vWFgCANwiFL6E8Y0L5tXuZlHrrwwLssxxXJBYwTozR/kjkF5Sa5I9NJ
+         x5o5hD6CQsFGoB7v4Qh8fmXS9eTAAcKZxwCoGpLUpHEBOE4qZF235SXSl4p10ZCIt+t0
+         y2tQ==
+X-Forwarded-Encrypted: i=1; AKwUvBy2olo8/ARzduWE0qhtrq5pz2ABVmIo+nKedrWeva7XolKN/HG+Oz0oJaW6OfcPAbid0R3g79rYAsxH@lists.infradead.org
+X-Gm-Message-State: AFuF++k7sG4dLtoZptrVFvGgoZfcVlXrGBN7hAc19IsBgvAaqO9WMkGR
+	UWh4zOrQw/Xb8XqFwRNNWhXcZ6Oi7XoR4MAYIOB5G+w4I8xQp+9/W4EMu2pGdBgRkVcmB8Pz80X
+	BjAg5mRVFa9SlhPnipCbXrrZfaTuZkE+tAaN9Z77PcnnAVAv6JXlg+KQ=
+X-Gm-Gg: AYBFou213S3czZSSjyh9Yh531h8j5ZEHJxLn//DbudLxj87EMQMVTiu2SjQlTesSnWm
+	xOu7kNKPyBpal/Xgj0gsDR+Qt/OkH7D1Fu3l8ZUIzDdQN0Dd2UjuIPo0fNZDsmuJkEQ7/YyDRjn
+	bRuYeebNaJoeQiB412SSZwC51bEKrgyqkp0NSKXE/pr8XN3+jWoH/dp0W4uk3yiNd96nI3TpYiH
+	htFjhtsmO+Y++gptcy4lc6v3VlDp1U5qqUXOJYt8HOycU2AFmpBcWvs6pPUTFHUV31HKqy09c9/
+	TM/OykilSIkrsfb4oYy6VBUq8jB0ILL89y9zd0j4qVUK
+X-Received: by 2002:a05:6830:668c:b0:7e6:6f9f:7445 with SMTP id
+ 46e09a7af769-7fa438c3fb7mr2967139a34.3.1788534113297; Fri, 04 Sep 2026
+ 08:01:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260902225708.2379840-1-csander@purestorage.com>
+ <20260902225708.2379840-2-csander@purestorage.com> <CAJnrk1Z=JgOGH3m8aMRcK0fBRtnHLQutHGc5aqht3OU3uMQ_qw@mail.gmail.com>
+In-Reply-To: <CAJnrk1Z=JgOGH3m8aMRcK0fBRtnHLQutHGc5aqht3OU3uMQ_qw@mail.gmail.com>
+From: Caleb Sander Mateos <csander@purestorage.com>
+Date: Fri, 4 Sep 2026 08:01:42 -0700
+X-Gm-Features: AcwNN1Xah8sd8LB6WNip_SsEfqly8NYatZhdOo3fb9Luj2iVfa_QtBKTXyBpkbU
+Message-ID: <CADUfDZp2K5_E=PZ6rcyOzRPmRWSboKvTADmNT_L4W5mqoguX_A@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] io_uring/cmd: split io_uring_cmd_set_res() from io_uring_cmd_done()
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
+	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org, io-uring@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260904_042729_117514_FBDFE8A1 
-X-CRM114-Status: GOOD (  14.22  )
+X-CRM114-CacheID: sfid-20260904_080155_458923_5500D538 
+X-CRM114-Status: GOOD (  23.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,30 +119,70 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Correct "occuring" to "occurring", reported by scripts/checkpatch.pl using
-the misspelling list in scripts/spelling.txt.  Only touches comments, no
-code changes.
+On Thu, Sep 3, 2026 at 11:11=E2=80=AFAM Joanne Koong <joannelkoong@gmail.co=
+m> wrote:
+>
+> On Wed, Sep 2, 2026 at 3:57=E2=80=AFPM Caleb Sander Mateos
+> <csander@purestorage.com> wrote:
+> >
+> > In preparation for setting the io_uring NVMe passthru CQE results from
+> > the blk-mq request completion rather than the task work callback, split
+> > out functions io_uring_cmd_set_res{,32}() from __io_uring_cmd_done().
+> > io_uring_cmd_done{,32}() now call io_uring_cmd_set_res{,32}() and then
+> > __io_uring_cmd_done(). This allows __io_uring_cmd_done() to be made
+> > CQE-size-agnostic, with 3 fewer arguments.
+> >
+> > Signed-off-by: Caleb Sander Mateos <csander@purestorage.com>
+>
+> Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
+>
+> > ---
+> >  include/linux/io_uring/cmd.h | 23 +++++++++++++++++------
+> >  io_uring/uring_cmd.c         | 33 ++++++++++++++++++---------------
+> >  2 files changed, 35 insertions(+), 21 deletions(-)
+> >
+> > diff --git a/include/linux/io_uring/cmd.h b/include/linux/io_uring/cmd.=
+h
+> > index 331dcbefe72f..67f2ef700c43 100644
+> > --- a/include/linux/io_uring/cmd.h
+> > +++ b/include/linux/io_uring/cmd.h
+> > @@ -50,19 +50,21 @@ int io_uring_cmd_import_fixed_vec(struct io_uring_c=
+md *ioucmd,
+> >                                   const struct iovec __user *uvec,
+> >                                   size_t uvec_segs,
+> >                                   int ddir, struct iov_iter *iter,
+> >                                   unsigned issue_flags);
+> >
+> > +void io_uring_cmd_set_res(struct io_uring_cmd *, s32 ret);
+> > +void io_uring_cmd_set_res32(struct io_uring_cmd *, s32 ret, u64 res2);
+>
+> nit: it doesn't look like anywhere else in the header omits the param
+> name for the cmd, so maybe worth also having it here (and below) for
+> consistency?
 
-Assisted-by: Cursor:claude-opus-5
-Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
----
- drivers/nvme/host/multipath.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+IMO the name "cmd" or "ioucmd" doesn't add anything on top of the
+argument type. But I can include it if people prefer it.
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 75dbb58286a3..4d931cb1162f 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -773,7 +773,7 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
- 	head->disk->private_data = head;
- 
- 	/*
--	 * We need to suppress the partition scan from occuring within the
-+	 * We need to suppress the partition scan from occurring within the
- 	 * controller's scan_work context. If a path error occurs here, the IO
- 	 * will wait until a path becomes available or all paths are torn down,
- 	 * but that action also occurs within scan_work, so it would deadlock.
--- 
-2.48.1
+>
+> > +
+> >  /*
+> >   * Completes the request, i.e. posts an io_uring CQE and deallocates @=
+ioucmd
+> >   * and the corresponding io_uring request.
+> >   *
+> >   * Note: the caller should never hard code @issue_flags and is only al=
+lowed
+> >   * to pass the mask provided by the core io_uring code.
+> >   */
+> > -void __io_uring_cmd_done(struct io_uring_cmd *cmd, s32 ret, u64 res2,
+> > -                        unsigned issue_flags, bool is_cqe32);
+> > +void __io_uring_cmd_done(struct io_uring_cmd *, unsigned issue_flags);
+>
+> Maybe worth adding a comment that any caller using this api needs to
+> set the res themselves before calling this?
 
+Sure, that's a good idea.
+
+Thanks,
+Caleb
 
