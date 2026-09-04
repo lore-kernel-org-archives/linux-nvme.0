@@ -4,55 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 859D2C624D7
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Sep 2026 21:22:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3D3E8C624D3
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Sep 2026 03:26:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qEXHsnDDmMxBXafY5cPR9R/uN2Ql07/wOBZdMfvH8eo=; b=bumPndMw826asoGpnBrfyWgcJV
-	oM8AGY3t4D8n1DG+j+DDRdZ6gg5Znv8CY6GDbrEsx6Z2i1Kuq66V8KafFeKm66WJ7UYNEi/OyaUoD
-	mvjii0JP+lWEyXlHdty+zT3pXZS/FhXP/+5brnCqZ8UeJZ39VlYFcK4bOQXatvSOrDTxIsGd76XUy
-	bG+5LKnnRYCXIbUaHXR9BfIGRMtBVkhyOIh4ABrSa0upJFfkMOrAxYq+k55PT0UUnYomeA4kXepX6
-	zJUP0CSGZzsDF6QHxep+8hYK1u37U/9cmJhwaucsM6fjuka3ERSL2wayx8v0mwEbfPg/iSKTEvath
-	fGQh/HTQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=ftGOifR/mSp8VWj3mAkVMyqRorEnxyKaHinJK42TVjo=; b=pFEcCUFaSrpYHVHzN6/nQ365q4
+	jqyUEczVZ0IwMFZBnn0TA+WLvKfT2Y6oQLLDuvi/zoCE7Aw1VGXDqU56ic36Zsd5qHZBeMrzXL9Kn
+	pVdb1dAzvpLIIiHghA361E+uqFhomL4w5zyU5eGK98IJAxFYeKfuLxoyEioZlcgFRP+SfJM2SNB56
+	3pXh1zimdP68niieCvaS4rS5QvoxJkThsX4ugI6Z0/h6PLXXh6Fy+oAZWoJklNRPzS6mcg6sDwhre
+	b+WWv7D6Hn4dQNVuUPeMbgInp9F25Jrm+wfOq3VmdEqhrhsBrNbkDexkS7gve0LHbZ4vTaXgJag2O
+	7BND74pA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x2Esi-00000000d4Q-32ta;
-	Thu, 03 Sep 2026 21:22:00 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1x2KZA-00000000vTx-39tf;
+	Fri, 04 Sep 2026 03:26:12 +0000
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x2Esi-00000000d4J-0WWM
+	id 1x2KZ9-00000000vTZ-04S2
 	for linux-nvme@lists.infradead.org;
-	Thu, 03 Sep 2026 21:22:00 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 0EBE941880;
-	Thu,  3 Sep 2026 21:21:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF5221F000E9;
-	Thu,  3 Sep 2026 21:21:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788470518;
-	bh=qEXHsnDDmMxBXafY5cPR9R/uN2Ql07/wOBZdMfvH8eo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Go7538VkqZffgXnLqInFETkbtzzEjUumhmTfr7lciUfxbLJU9lq+03ybYX5uqI9/v
-	 IoGyF3jqicNY1yBIKBINgpeaeBan50GpsWuP2KrXmKipri9r4POJRDGZYQTQ644Lix
-	 Gg0ySNv8V7d7pJzb4lnXnpXmCjfeLtU7fNT8ADPvpR3WKRx+QTUl13TyO8nl+BWw5d
-	 CMJ1aQDN3IonGup3rn45ZGj3YHQ8iBYyckzonayAVUnh45XX3WPfs8aEy3xGa9WAwJ
-	 twf2wDNu1Gv6ysgMeoyo/e0Q+Hn7Fa6KDtleI2daDlfHZ7IU5T/WQrKLg1iCKGMnlc
-	 AUNKgFbafo/mA==
-Date: Thu, 3 Sep 2026 15:21:57 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: axboe@kernel.dk
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
-Subject: Re: [GIT PULL] nvme fixes for Linux 7.3
-Message-ID: <apnk9Uoj1X3PKM-k@kbusch-mbp>
-References: <apnhXnr8bFqNl-o6@kbusch-mbp>
+	Fri, 04 Sep 2026 03:26:12 +0000
+Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-2d9201076b3so6769325ad.0
+        for <linux-nvme@lists.infradead.org>; Thu, 03 Sep 2026 20:26:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=crusoe.ai; s=google; t=1788492368; x=1789097168; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ftGOifR/mSp8VWj3mAkVMyqRorEnxyKaHinJK42TVjo=;
+        b=VkqJHnmMzesUTzpEoBCUPB3VAH1s5cCHCPlLZWZoUzx4DOFBfvSH1qaF+I7W+spySN
+         FVHGp8uKpqPZbtIwjTpIQ4s3E2uWVLfhsBb1Ox+/HCKsbh8ptjdDvItuhpE91uGFkKel
+         5PAsjDmh6P8MY9YqqrOQjyyNyImySYTYQt0VqYj7KhV6jdjZAp6aGYIMAgZeZMP/EpPf
+         kz0Kayd6YkRrT0BNEjG9ZGUzeIGdVQvcgu+DilEm3VnnCufq8R74x66b3fiDVwdnYVfF
+         mNHUJ/dC8Fr9IIj9orm0tlqWVc82eEgiZSS74RUXlCwJ3ftFeJpRcaYKxdl6p+BchhG0
+         e7LQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788492368; x=1789097168;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ftGOifR/mSp8VWj3mAkVMyqRorEnxyKaHinJK42TVjo=;
+        b=kT/0TfOOLy6IgQ8JfVAydwsrekaQAEUxEm2LyrShJ1oi3GrKHycCKteNqxhw7IeBFm
+         W6TsXmndX7NmRclBM/7QtLXDgTsZWuc04Fhldy0/wp3a39nB9Qtf9klKRR+LVOqxmOgw
+         fwU9+lHh+6Qp+njO8dLPKxfs1SWh+sfgfVRI2XZ96eXYnTcAkz86K+TXwVPVhbcXIco8
+         Na5AaeFClqawYOQgiXlTwP9afyG59wzKA55a08LaLuH+jyKAoxf2esOuTqH6dH9Na94Q
+         urQCskR7coJQiD2zcS9WZxbiXLYUV240aSp7bKX9fVep2RDrmxh2vV1rc3X3XEtuAjEY
+         YIKA==
+X-Gm-Message-State: AFuF++l1miTCd5Qd9Pt+drWHSXIo04gh4L+38JMTvCnTZaQcDwX61/+A
+	T/4SZuuIUkpLpQq/gemrHjedlfCeCM6P4Qq3+doNl0lYbUUBUsELJ+lkFfijGl1RACM=
+X-Gm-Gg: AYBFou0sRFYVQISNLCPNx9mVn0zbO15zegPpiOD9b14zvH1QvwRVF+7+fdTssCR/DnR
+	+87LuTK6FBhzlMUovtIqR6ftVU62wlSeECTYXuMXwDTvxTv+ILslERYMjF6FXGrbUlPT7PPfdBw
+	aOo0F8g96mwYrSaSIBOI7GEkjie013HugHLtkxakPxb7j9zxasTsvRZlmXIrWV3oyNOOajn59QT
+	t3XcYkjGd6+a17un92gEwcqspn7UxZwCLcoyFby9IZ+J/WCjXaTEVxOSaPPtAnOl53e06Lpw7se
+	cnEyfQ+ZHemx4JNnRE8BHJ8FtX82KT/uVQDCFQt1c+GoOxSH1kXr/6hVt1NZ4sDsoCbEO4tVYH6
+	bF6pFJTJcvXPw31yv1ZsxMUnTK7mafVUV/bSbXbMrBc2qfTrsAhWCc6z0Tt2ug5r0KO305PLD8a
+	HOZ9do3t/hXmiUzr6P/Fv2enxhGyr5aiqdhybeovhnZVYvHfmWRPSb2BKjVxxkDuxZR7zfX3aPo
+	FxAB+CxietOUVagJGvsZTqvwLo+4tRTMfae2EIq3r3jl34s
+X-Received: by 2002:a17:902:e948:b0:2d9:51b7:c0bc with SMTP id d9443c01a7336-2db125a3452mr51306755ad.12.1788492367938;
+        Thu, 03 Sep 2026 20:26:07 -0700 (PDT)
+Received: from MBP-Krishna-Iyer.civet-hops.ts.net ([2601:645:c68a:b830:ac00:830e:a5a6:34cd])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339885ca07sm3145397eec.1.2026.09.03.20.26.06
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 03 Sep 2026 20:26:07 -0700 (PDT)
+From: Krishna Iyer <kiyer@crusoe.ai>
+To: kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	sj@kernel.org,
+	saravanand@crusoe.ai,
+	Krishna Iyer <kiyer@crusoe.ai>
+Subject: [PATCH] nvme-multipath: add fail_io_now sysfs attribute to fail queued I/O
+Date: Thu,  3 Sep 2026 20:26:05 -0700
+Message-ID: <20260904032605.65758-1-kiyer@crusoe.ai>
+X-Mailer: git-send-email 2.54.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <apnhXnr8bFqNl-o6@kbusch-mbp>
+Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260903_202611_096601_603C1BE0 
+X-CRM114-Status: GOOD (  24.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -67,109 +101,192 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Terribly sorry, the previous message was from a stale tree with the
-wrong SHAs. This is the intended pull request:
+When all paths to a multipath namespace are down, I/O is held on the
+head requeue list until a path returns. With ctrl_loss_tmo=-1 the
+controllers reconnect forever, so during a long fabric outage the I/O
+is held indefinitely and any process waiting on it sleeps in D state
+until the fabric heals or the host is rebooted. We hit this on
+virtualization hosts, where a SIGKILLed VM process cannot exit because
+it is still draining I/O to an unreachable NVMe/TCP target.
 
-The following changes since commit 326d49039c10b65522ac7277b19b9b5c42ed1aeb:
+There is currently no way to fail this I/O without tearing something
+down. Deleting the controller (or letting ctrl_loss_tmo expire) works
+but takes every namespace on the controller with it and requires a
+manual reconnect afterwards. fast_io_fail_tmo only arms on the
+RESETTING -> CONNECTING transition, so it cannot be set once the
+outage has started. delayed_removal_secs only matters after all
+controllers are gone, which never happens with ctrl_loss_tmo=-1.
+dm-multipath has had "dmsetup message <dev> 0 fail_if_no_path" for
+this for decades; nvme multipath has no equivalent.
 
-  nbd: add pre_defined_connections module parameter for pre-created devices (2026-08-15 20:01:20 -0600)
+Add a fail_io_now attribute on the ns-head disk. Writing a true value
+sets NVME_NSHEAD_FAIL_IO_NOW, synchronizes SRCU so submitters see it,
+and kicks the requeue work. nvme_available_path() treats the flag as
+no path available, so the existing bio_io_error() branch fails the
+parked and any newly arriving I/O, for that namespace only. Controller
+state is not touched: reconnect attempts continue and other namespaces
+on the controller keep queueing. The flag is cleared in
+nvme_mpath_set_live() when a path comes back, like
+NVME_CTRL_FAILFAST_EXPIRED.
 
-are available in the Git repository at:
+Locking, SRCU usage and sysfs visibility follow the neighboring
+delayed_removal_secs attribute; input parsing follows
+io_passthru_err_log_enabled (kstrtobool, shows on/off). Validated on
+real hardware with a 6.17 backport of this change.
 
-  git://git.infradead.org/nvme.git tags/nvme-7.3-2026-09-03
+Assisted-by: Claude:claude-fable-5
+Signed-off-by: Krishna Iyer <kiyer@crusoe.ai>
+---
+Testing notes: the 6.17 backport was exercised on a virtualization
+host with a two-path NVMe/TCP namespace connected with
+ctrl_loss_tmo=-1. With both target portals firewalled off and a
+SIGKILLed VM process stuck in D state on the parked I/O, the process
+stayed unreapable for over six minutes; delayed_removal_secs=60,
+armed before the outage, never triggered since the controllers were
+CONNECTING throughout. Writing fail_io_now released the process in
+about two seconds, the reconnect loop was undisturbed, and once the
+firewall was removed the paths came back live and the attribute read
+back off on its own. A namespace on a second subsystem kept the
+default queueing behavior throughout. This posting is compile-tested
+(including W=1) on nvme-next.
 
-for you to fetch changes up to fd9beb8870736e1c6a0b2351d88a161aaeb2b326:
+ drivers/nvme/host/multipath.c | 62 +++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/nvme.h      |  2 ++
+ drivers/nvme/host/sysfs.c     |  4 ++-
+ 3 files changed, 67 insertions(+), 1 deletion(-)
 
-  nvme-tcp.h: drop kernel-doc comments, fix a few descriptions (2026-09-03 14:15:11 -0700)
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index fc6800a9f7f9..a026bdfb9d7f 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -482,6 +482,15 @@ static bool nvme_available_path(struct nvme_ns_head *head)
+ 	if (!test_bit(NVME_NSHEAD_DISK_LIVE, &head->flags))
+ 		return false;
+ 
++	/*
++	 * The user requested any I/O queued or arriving while no path is
++	 * usable to be failed immediately (e.g. to release I/O held for a
++	 * fabric that retries reconnection indefinitely). The flag is
++	 * cleared when a path becomes live again.
++	 */
++	if (test_bit(NVME_NSHEAD_FAIL_IO_NOW, &head->flags))
++		return false;
++
+ 	list_for_each_entry_srcu(ns, &head->list, siblings,
+ 				 srcu_read_lock_held(&head->srcu)) {
+ 		if (test_bit(NVME_CTRL_FAILFAST_EXPIRED, &ns->ctrl->flags))
+@@ -780,6 +789,12 @@ static void nvme_mpath_set_live(struct nvme_ns *ns)
+ 	if (!head->disk)
+ 		return;
+ 
++	/*
++	 * A path is usable again, restore the default queue-if-no-path
++	 * behavior in case fail_io_now was set during a fabric outage.
++	 */
++	clear_bit(NVME_NSHEAD_FAIL_IO_NOW, &head->flags);
++
+ 	/*
+ 	 * test_and_set_bit() is used because it is protecting against two nvme
+ 	 * paths simultaneously calling device_add_disk() on the same namespace
+@@ -1168,6 +1183,53 @@ static ssize_t delayed_removal_secs_store(struct device *dev,
+ 
+ DEVICE_ATTR_RW(delayed_removal_secs);
+ 
++static ssize_t fail_io_now_show(struct device *dev,
++		struct device_attribute *attr, char *buf)
++{
++	struct gendisk *disk = dev_to_disk(dev);
++	struct nvme_ns_head *head = disk->private_data;
++
++	return sysfs_emit(buf, test_bit(NVME_NSHEAD_FAIL_IO_NOW,
++			&head->flags) ? "on\n" : "off\n");
++}
++
++static ssize_t fail_io_now_store(struct device *dev,
++		struct device_attribute *attr, const char *buf, size_t count)
++{
++	struct gendisk *disk = dev_to_disk(dev);
++	struct nvme_ns_head *head = disk->private_data;
++	bool enable;
++	int ret;
++
++	ret = kstrtobool(buf, &enable);
++	if (ret < 0)
++		return ret;
++
++	mutex_lock(&head->subsys->lock);
++	if (enable)
++		set_bit(NVME_NSHEAD_FAIL_IO_NOW, &head->flags);
++	else
++		clear_bit(NVME_NSHEAD_FAIL_IO_NOW, &head->flags);
++	mutex_unlock(&head->subsys->lock);
++
++	/*
++	 * Ensure that update to NVME_NSHEAD_FAIL_IO_NOW is seen
++	 * by its reader.
++	 */
++	synchronize_srcu(&head->srcu);
++
++	/*
++	 * Kick the requeue list so already-queued I/O re-evaluates path
++	 * availability and fails immediately.
++	 */
++	if (enable)
++		kblockd_schedule_work(&head->requeue_work);
++
++	return count;
++}
++
++DEVICE_ATTR_RW(fail_io_now);
++
+ static int nvme_lookup_ana_group_desc(struct nvme_ctrl *ctrl,
+ 		struct nvme_ana_group_desc *desc, void *data)
+ {
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index eeabc72863d8..ca93a8934123 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -566,6 +566,7 @@ struct nvme_ns_head {
+ 	unsigned int		delayed_removal_secs;
+ #define NVME_NSHEAD_DISK_LIVE		0
+ #define NVME_NSHEAD_QUEUE_IF_NO_PATH	1
++#define NVME_NSHEAD_FAIL_IO_NOW		2
+ 	struct nvme_ns __rcu	*current_path[];
+ #endif
+ };
+@@ -1067,6 +1068,7 @@ extern struct device_attribute dev_attr_ana_state;
+ extern struct device_attribute dev_attr_queue_depth;
+ extern struct device_attribute dev_attr_numa_nodes;
+ extern struct device_attribute dev_attr_delayed_removal_secs;
++extern struct device_attribute dev_attr_fail_io_now;
+ extern struct device_attribute subsys_attr_iopolicy;
+ 
+ static inline bool nvme_disk_is_ns_head(struct gendisk *disk)
+diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+index 93513c17ad5f..c154cc78c290 100644
+--- a/drivers/nvme/host/sysfs.c
++++ b/drivers/nvme/host/sysfs.c
+@@ -261,6 +261,7 @@ static struct attribute *nvme_ns_attrs[] = {
+ 	&dev_attr_queue_depth.attr,
+ 	&dev_attr_numa_nodes.attr,
+ 	&dev_attr_delayed_removal_secs.attr,
++	&dev_attr_fail_io_now.attr,
+ #endif
+ 	&dev_attr_io_passthru_err_log_enabled.attr,
+ 	NULL,
+@@ -297,7 +298,8 @@ static umode_t nvme_ns_attrs_are_visible(struct kobject *kobj,
+ 		if (nvme_disk_is_ns_head(dev_to_disk(dev)))
+ 			return 0;
+ 	}
+-	if (a == &dev_attr_delayed_removal_secs.attr) {
++	if (a == &dev_attr_delayed_removal_secs.attr ||
++	    a == &dev_attr_fail_io_now.attr) {
+ 		struct gendisk *disk = dev_to_disk(dev);
+ 
+ 		if (!nvme_disk_is_ns_head(disk))
 
-----------------------------------------------------------------
-nvme fixes for Linux 7.3
+base-commit: 011e0880d366be065d273c22ad1638934748d3e0
+-- 
+2.54.0
 
- - Harden the tcp host and target against malformed PDUs: reject C2HData
-   for a non-read command, bound an over-long PDU before copying it, and
-   reject unsolicited H2CData (Yehyeong, Shivam)
- - Fix circular locking on TLS queues (Xixin)
- - Fix a soft lockup when scanning sparse namespace ID space (Mohamed)
- - Fix racy access to the FDP placement id array (Kanchan)
- - RDMA host and target fixes for a double cleanup on the queue_rq
-   error path and a queue leak when the connect backlog is exceeded
-   (Xixin)
- - Authentication fixes: drain the target's expiry work before the SQ
-   is freed, and release the DH-CHAP secret when parsing fails (Kazuki,
-   Xu Rao)
- - Fix nvme-fc options double free when nvme_add_ctrl() fails (Niklas)
- - Add missing SRCU grace period to nvme_alloc_ns() error path (Tristan)
- - Skip zoned limits update when the zone info query failed (Chao)
- - Reject enabling a target namespace with no device path (Seokgyu)
- - Add opcode filtering for fault injection (Mohamed)
- - Drop the kernel-doc comments from nvme-tcp.h (Randy)
-
-----------------------------------------------------------------
-Chao Shi (1):
-      nvme: skip the zoned limits update if the zone info query failed
-
-Kanchan Joshi (2):
-      nvme: set ns->head in nvme_alloc_ns_head
-      nvme: fix racy access to FDP placement id array
-
-Kazuki Hanai (1):
-      nvmet-auth: Synchronize timeout work during SQ teardown
-
-Keith Busch (1):
-      MAINTAINERS: update nvme entry
-
-Mohamed Khalfella (4):
-      nvme: add opcode filtering for fault injection
-      nvme: remove stale namespaces by NSID range during scan
-      nvme: print namespace IDs as unsigned 32bit value
-      nvmet: print namespace IDs as unsigned 32bit value
-
-Niklas Cassel (1):
-      nvme-fc: fix double free of fabrics options when nvme_add_ctrl() fails
-
-Randy Dunlap (1):
-      nvme-tcp.h: drop kernel-doc comments, fix a few descriptions
-
-Seokgyu Choi (1):
-      nvmet: reject namespace enable without device path
-
-Shivam Kumar (2):
-      nvmet-tcp: fix out-of-bounds write when receiving an over-long PDU
-      nvmet-tcp: reject unsolicited H2CData PDUs
-
-Tristan Madani (1):
-      nvme: add missing SRCU grace period in error path
-
-Xixin Liu (3):
-      nvme-rdma: fix -EIO cleanup order in queue_rq
-      nvmet-rdma: fix queue leak when connect backlog is exceeded
-      nvme-tcp: defer TLS inline send to io_work
-
-Xu Rao (1):
-      nvme-fabrics: fix DHCHAP secret leak on parse failure
-
-Yehyeong Lee (2):
-      nvme-tcp: check the data direction of a C2HData PDU
-      nvme-tcp: return -EPROTO for a C2HData on a write
-
- .../fault-injection/nvme-fault-injection.rst       | 65 ++++++++++++++
- MAINTAINERS                                        |  2 +-
- drivers/nvme/host/core.c                           | 99 +++++++++++++---------
- drivers/nvme/host/fabrics.c                        |  2 +
- drivers/nvme/host/fault_inject.c                   | 14 ++-
- drivers/nvme/host/fc.c                             | 26 ++++--
- drivers/nvme/host/nvme.h                           |  2 +
- drivers/nvme/host/rdma.c                           | 18 ++--
- drivers/nvme/host/sysfs.c                          |  2 +-
- drivers/nvme/host/tcp.c                            | 12 +++
- drivers/nvme/host/zns.c                            |  4 +-
- drivers/nvme/target/auth.c                         |  6 ++
- drivers/nvme/target/configfs.c                     |  4 +-
- drivers/nvme/target/core.c                         |  9 +-
- drivers/nvme/target/nvmet.h                        |  2 +
- drivers/nvme/target/pr.c                           |  2 +-
- drivers/nvme/target/rdma.c                         | 15 ++--
- drivers/nvme/target/tcp.c                          | 10 +++
- include/linux/nvme-tcp.h                           | 18 ++--
- 19 files changed, 228 insertions(+), 84 deletions(-)
 
