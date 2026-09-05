@@ -4,71 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E25FAC79F8B
-	for <linux-nvme@archiver.kernel.org>; Sat,  5 Sep 2026 20:30:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 180E8C624DB
+	for <linux-nvme@archiver.kernel.org>; Sat,  5 Sep 2026 22:29:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hwgSr9LF1AaQKstntdYXF4tsMbm8X5Lx15fwX+9hr5k=; b=ABBi6vPPCHcx7s/A6ir5sAwrsm
-	WcILWJIkNxA2SkZal7Bwym/sGnI+jNUYBVLMkbbEFtxl7vNItsGxvZpaQBQgEVlEOwCLlsRu02BK6
-	gefb90EtpFsSaLyUm5A3DRBrSGLti8xmcDs5P5QPvknDS8JCTtXSABhHoRF7qtb4+A9agZL5ktLd0
-	fGL/MVFfk+EMv9NUmEi78NSIQXXsb2e3N87n5ORAYFgi8/MN7zaOOlMzIFLxsxSiW/tFvWKdZ6prj
-	MSAKCOImjwsvIzG6bo+kHbEQ1iSnkH6rhAlAT/yTampR4uSnZpYbWqL+t83W4S35i/acVnhwrw5K8
-	oNvXmpkQ==;
+	bh=jgqZxXmflp7+ufkovP28Gc9sksCc0hIZ5y20+xl/r48=; b=Ox1RaSSZqdcI6CVl8byxlMv9px
+	YJti1O+15UTG5Byfg8LIKrZUrI3ljCeG2OeGLdQ4+QAcFDXVVTZ9rhkGEPtJHPFI2ozuy+exbL8Qk
+	AsY3LARb8JIYEWfIQ7s6ffIobe/pW5GgMruHUslgTR/gmCbLd5UwPgAlF5IifTuKh/IWD0xxX/N8h
+	2E7lma03UYwNWAFCDP0nDrcsy4QWWjaWNmcI0fiAndKTn1vH1aqky7Nb4jkIhTD3t66OcqnfUe44z
+	F1R18lMwrceB2S0tkvHXJG1Hg4PA0RqL/Dqg/LON7MZz66tr12jNA9zoDdzULHp5UMfXdAWiI9i8K
+	d391WE5A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x2x21-00000004OoU-1yEs;
-	Sat, 05 Sep 2026 20:30:33 +0000
-Received: from galois.linutronix.de ([193.142.43.55])
+	id 1x2ytA-00000004S8i-1H3a;
+	Sat, 05 Sep 2026 22:29:32 +0000
+Received: from mail-wm1-f47.google.com ([209.85.128.47])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x2x1v-00000004Oo2-1cx9
+	id 1x2yt6-00000004S8C-3zEm
 	for linux-nvme@lists.infradead.org;
-	Sat, 05 Sep 2026 20:30:28 +0000
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1788640223;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hwgSr9LF1AaQKstntdYXF4tsMbm8X5Lx15fwX+9hr5k=;
-	b=skPCZuyWro0VW6391LtWlzrr/B1W1w/re6wD9oT3npVcauGo05kkwL78ny2VUxbQ4h4nbp
-	cj5IQ+1A4obQd3tT2NMZcEwGhi0c5VkXgIW/swYV/fKuOcb60G6nAD8BMfDY97pE5EUxdz
-	N+J4pmuFMOZgRS3xtYHK/ZLzjFjp1dz85hlulDsMZKKwBjhzlReZuhzkcRzKmSkLjNUSNz
-	p/+UYHaNiWMKrbJoxMk+kuMyrENVwuJh78/3RcXtrncBlBwN8CAy2nzvj42sWOKRkXJG8U
-	2zmQrWEee/uqKDmY/58HJDUl+wCj1r8M31dMqCCj0QvWtKV3vswOf73AZpTpNA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1788640223;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hwgSr9LF1AaQKstntdYXF4tsMbm8X5Lx15fwX+9hr5k=;
-	b=xClnT4gxHr/HnwlWOjClcB0G5DjEE+jqWtE0d0pRDLr92cUPXaH+71Z+zm3v2cOwKwImZi
-	iqdeo1gS0rmQ50CQ==
-To: changfengnan <changfengnan@bytedance.com>, Luigi Rizzo <lrizzo@google.com>
-Cc: Christoph Hellwig <hch@infradead.org>, Marc Zyngier <maz@kernel.org>,
- Luigi Rizzo <rizzo.unipi@gmail.com>, Paolo Abeni <pabeni@redhat.com>,
- linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, Bjorn Helgaas
- <bhelgaas@google.com>, netdev@vger.kernel.org,
- linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v5 0/7] Global Software Interrupt Moderation (GSIM)
-In-Reply-To: <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.65629680.37f4.46ab.be84.09ae39446f28@bytedance.com>
-References: <20260819124341.4185621-1-lrizzo@google.com>
- <aoaoERD5m1MNvMWd@infradead.org>
- <CAMOZA0JrLia8NU1-4JEJAe+p65C19HsRGU6VK7sLAjNFKm8G3w@mail.gmail.com>
- <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.65629680.37f4.46ab.be84.09ae39446f28@bytedance.com>
-Date: Sat, 05 Sep 2026 22:30:22 +0200
-Message-ID: <878q5f5tlt.ffs@fw13>
+	Sat, 05 Sep 2026 22:29:30 +0000
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-49d036e0e99so4272195e9.1
+        for <linux-nvme@lists.infradead.org>; Sat, 05 Sep 2026 15:29:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788647366; x=1789252166;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=jgqZxXmflp7+ufkovP28Gc9sksCc0hIZ5y20+xl/r48=;
+        b=eiBLCvafgr2tVldV+MMmHJz1oyjqLIBOSxmyIx+zQC4Z3/zM1+UXr5XDCcXQHGYxXV
+         kd4k1L6VohvZm291wQZW+mQmlb//tG7/UFB6undsA0XHUQgHOsL5aH3URSj2obl5e0kU
+         sRuOMO/no9lGgB+aEaPb7KRGJ+Z+9o4NC5NKirWHzvc7b3rVTjj9ufW7vocLEfNL/4s8
+         AW/ZpTMvuX8tyT9/9EdAuvUgBSKqWcdlj1ukIYeWOXBB2N+xE1f1mAsZ13CofLOQK0Y8
+         Uam/aoBTfoFiLB3hMgdJRrQpfreyE7yLlOIJgY6hgtwdFUCdqv8anuCmCVY13qwwCOQO
+         uCVQ==
+X-Forwarded-Encrypted: i=1; AKwUvByCEaFcOWeQ/j/xdAnaUmAvRY4oLcl52CDxt+n0ryJIO6Rd8TaAOaf6PzAlhL0UeQnKKTdKtihrBb4e@lists.infradead.org
+X-Gm-Message-State: AFuF++lIa7lTbYyaC3my5QZJAAcB25O6ogdYSr515iqUvUkjU6gU8kTP
+	BtMF5LBbthMaxszFbkHSZ0XAHc+LfFuihmpY6ew/1ywrh7goZq3RWmwQ
+X-Gm-Gg: AYBFou3YBMo7oUYVOqtRFzzQ6K2QP03vM49u2CuxJOlvEFu8kXvDRQob5mP6X/34P/k
+	YKkPQZjJ3vcZVMtGsM+odlDrxvVpnEsE2LLuFB+GSUX05Fr79kkntGp1UITuga6u3M2gHWK2EP2
+	cQrucNx/4Bf9fh9E53teAe2W07TfPKhwBnMZrbS7UkEVqLaXIkuVognLJWZTMpVxUAlKxh9ug0F
+	KAM9288iBEL27Ge33dpKC4ubmAt33tIfeGVc4gxz5TxgPeRXeK9ymgfMU8XqG7mLuNtB6AvVZKl
+	qWBAXsGlCsMet13iT/mv09aVhKyKTHfeNr/MrL06SOPlNjXs6Pho0OQ3miQEOLFRNSEotnLLDnR
+	mUCW+LEIb5Q0CueEDsx39EOfyp7/LWLj2LCXyvsNjwpAjeoI9nr3ghtgY+R3vpT8S/wNElZllDL
+	L7GZHpJBcfVPwZW/bkhgJUFEG0ATdPtFkfSNMsB3TRSFZunc5Y6nU6LcVUK8JhhcDUr7BnKewmH
+	+AjLLe+Mn6wTUgQQr3oBg==
+X-Received: by 2002:a05:600c:190d:b0:49d:72d:9ba3 with SMTP id 5b1f17b1804b1-49d072d9bccmr43376595e9.14.1788647365653;
+        Sat, 05 Sep 2026 15:29:25 -0700 (PDT)
+Received: from [10.100.102.74] (89-138-77-243.bb.netvision.net.il. [89.138.77.243])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cee80eda4sm260558705e9.15.2026.09.05.15.29.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 05 Sep 2026 15:29:23 -0700 (PDT)
+Message-ID: <7d73e7e1-bf22-49cc-a943-17b78b430651@grimberg.me>
+Date: Sun, 6 Sep 2026 01:29:22 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird Beta
+Subject: Re: [PATCH v2 2/2] nvme-tcp: parallelize I/O queue allocation and
+ startup
+To: "Surabhi Gogte (she/her)" <sgogte@purestorage.com>,
+ Mohamed Khalfella <mkhalfella@purestorage.com>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org, randyj@purestorage.com, adailey@purestorage.com
+References: <20260824225648.316962-1-sgogte@purestorage.com>
+ <20260824225648.316962-3-sgogte@purestorage.com>
+ <c98fe50c-172a-4e53-a30c-5416c40cb23f@grimberg.me>
+ <20260830222558.GB1842415-mkhalfella@purestorage.com>
+ <4f2d2b60-56f9-4ae3-b38f-bba9754011df@grimberg.me>
+ <20260830225939.GC1842415-mkhalfella@purestorage.com>
+ <CAMof9cW8JFu3XG+BZc-ejG-fvsodQ9ygYbV_ttgvX=Kc_JjXJA@mail.gmail.com>
+Content-Language: en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <CAMof9cW8JFu3XG+BZc-ejG-fvsodQ9ygYbV_ttgvX=Kc_JjXJA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260905_133027_576851_7CE134E2 
-X-CRM114-Status: GOOD (  15.36  )
+X-CRM114-CacheID: sfid-20260905_152929_000048_FF423088 
+X-CRM114-Status: GOOD (  13.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,67 +99,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Aug 20 2026 at 19:46, changfengnan@bytedance.com wrote:
->> From: "Luigi Rizzo"<lrizzo@google.com>
->> Date:=C2=A0 Thu, Aug 20, 2026, 15:35
->> Subject:=C2=A0 Re: [PATCH v5 0/7] Global Software Interrupt Moderation (=
-GSIM)
->> To: "Christoph Hellwig"<hch@infradead.org>
->> Cc: "Thomas Gleixner"<tglx@linutronix.de>, "Marc Zyngier"<maz@kernel.org=
->, "Luigi Rizzo"<rizzo.unipi@gmail.com>, "Paolo Abeni"<pabeni@redhat.com>, =
-<linux-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>, "Bjorn Helgaas=
-"<bhelgaas@google.com>, <netdev@vger.kernel.org>, <linux-nvme@lists.infrade=
-ad.org>, "Fengnan Chang"<changfengnan@bytedance.com>
->> On Thu, Aug 20, 2026 at 9:09=E2=80=AFAM Christoph Hellwig <hch@infradead=
-.org> wrote:
 
-Can you please fix yuur mail client so it does not copy all that
-redundant headers into your reply?
 
->> > Also how does this interact with adaptive polling code inside drivers
->> > like NAPI or the upcoming nvme variant?
->>=C2=A0
->> GSIM acts at hardirq level (so below NAPI, and above device moderation e=
-.g.
->> the one in ethtool -C ...) and is completely orthogonal to those other
->> mechanisms.
->
-> Hi Luigi:
-> The NVMe variant that Christoph mentioned is this patch of mine.
-> https://lore.kernel.org/linux-nvme/d9210bcdf73fbe1ac8b6ec132865609a3ed686=
-88.99d43a8b.dfff.41d1.b07d.0592a12473d2@bytedance.com/T/#m561d1366119620556=
-41f331e600e719de1e7c573
-> I took a quick look at your implementation, and I wouldn't say our two
-> approaches are completely independent.
-> I=E2=80=99ve run some tests, the test methods, environment, and data are =
-detailed in
-> this document:
-> https://docs.google.com/spreadsheets/d/1p3XqVpKgx18QhqTFb0KlJfEW9giWDGSUu=
-oKqCZzdZLg/edit?gid=3D1100001004#gid=3D1100001004
->
-> it appears that GSIM is only effective in scenarios where multi disks at =
-very high
-> IOPS; in some cases, there was a noticeable performance regression.=C2=A0
-> If there=E2=80=99s something wrong with my configuration, please correct =
-me.
+On 04/09/2026 19:04, Surabhi Gogte (she/her) wrote:
+> On Sun, Aug 30, 2026 at 3:59 PM Mohamed Khalfella
+> <mkhalfella@purestorage.com> wrote:
+>> On Mon 2026-08-31 01:44:32 +0300, Sagi Grimberg wrote:
+>>>
+>>> On 31/08/2026 1:25, Mohamed Khalfella wrote:
+>>>> On Mon 2026-08-31 01:00:52 +0300, Sagi Grimberg wrote:
+>>>>> On 25/08/2026 1:56, Surabhi Gogte wrote:
+>>>>>> - ret = sock_create_kern(current->nsproxy->net_ns,
+>>>>>> + ret = sock_create_kern(&init_net,
+>>>>> I don't think we can just change this...
+>>>> Why we can not change it? Today the error recovery code running in
+>>>> worker thread will be using init_net anyway, no?
+>>> See commit: 1be52169c3488ef98582ed553ab35cefa3978817
+>> Thanks for the pointer. I was not aware of that. What about error
+>> recovery case? I _think_ it will be using init_net, no?
+>>
+>  From what I gathered, reconnect and error recovery run on kworkers,
+> so those paths were already resolving to init_net even before this change.
+> If we pin the caller's netns to the ctrl, we can keep netns consistent
+> throughout,
+> if that is desired.
 
-So we have a NVME specific mechanism to tackle the same problem and a
-more generic version which is subsystem "independent".
-
-Can you folks please coordinate and get your act together so that we
-don't end up with two competing mechanisms which make things worse than
-they are now.
-
-TBH. I despise the NVME is special approach because it's fricking
-obvious that this is _NOT_ a NVME specific issue. But sure NVME is
-special as all other subsystems are special.
-
-Q: When do driver folks actually start to look beyond the brim of their
-   tea cup?
-
-A: Probably never ...
-
-Thanks,
-
-        tglx
+We probably should.
 
