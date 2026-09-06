@@ -4,47 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B55CFC79F9E
-	for <linux-nvme@archiver.kernel.org>; Sun,  6 Sep 2026 20:16:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5C628C79F99
+	for <linux-nvme@archiver.kernel.org>; Sun,  6 Sep 2026 20:16:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
-	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:Date:Subject:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JYrYFU5rbVzPv6FFpTGXsSRcBGtTs53y69QSHyJzaYg=; b=XDczkvsbExxf5AGZv5Di2PKQZv
-	5AyVsMUE2FIkz/GI/wMRuF148PjdHrh4vwcoidxkfoCcuRFgBrClLlzIiCDy6tTv8d0EPGc053vVg
-	Hi1zSgnZm1EvY4t7ntEXJ8X5XG4aQtsvF4qAq/xIOnQYZZo1ybscCrNlL4aoSdQ5SpDgHfSApF7qz
-	N+3N5SAePHD0Ck9xzAkmVNubTzoTJMUB4voCzCNzCQPwXxczfbCYvBeAOq8DLUOgK/HlxCFeFFguE
-	k448xaxjpr9Jy0U6tSFQvadm15Zv5A6JWpSJoyThV6tUit0iIs+b+h8OLG34JxGlsxcMEYLHh5V03
-	6AYxJauw==;
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=/GbIwS69Z+7EmfwRnslAiweTO6LWu4/b5K4KmWKEcGk=; b=vBpmYVKDp7aZKc
+	XMkiB0BUyV1af/oVsHu5+rp70fugPE8UF99dlyhWEQWs9bIZy6le3JcTUkG8x4P0iOvoaZrk5nWM0
+	L3Xj3+wnIFVyLz4Pq4NRQRhMfr+ckI6cwyJc3kQBLNKUb7yy+0BJvec2IhlI3DYjVO62+jRY6T3JM
+	cQaSVCD97lptwNpGBVOerNTNmT3gknAlPOR6zC9tzdfl85blEqyABeKSYikDkAOhYUFevCSo6E2VB
+	EEXa5VeNs2vypwWyrgIG/t0a0zGovEUZpYiE3626R3bhEDQZfHt31e59F3/sQ46f1HPWegS0n23Cr
+	yqxdF4nJdQBzoYBXJFDQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x3JHT-00000005Xaw-1cOI;
-	Sun, 06 Sep 2026 20:15:59 +0000
-Received: from mail.cyberchaos.dev ([195.39.247.168])
+	id 1x3JHZ-00000005XeR-3wUS;
+	Sun, 06 Sep 2026 20:16:05 +0000
+Received: from [2a0f:4ac0::3a11] (helo=mail.cyberchaos.dev)
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x3JHO-00000005XaS-0rHr;
-	Sun, 06 Sep 2026 20:15:58 +0000
+	id 1x3JHU-00000005XaQ-31LR;
+	Sun, 06 Sep 2026 20:16:04 +0000
 From: Yureka Lilian <yureka@cyberchaos.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
-	s=mail; t=1788725748;
+	s=mail; t=1788725745;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JYrYFU5rbVzPv6FFpTGXsSRcBGtTs53y69QSHyJzaYg=;
-	b=Fe/NIKlyE98soY7EGX/LVxVGmt7l2LHNfQeT/X8r01ydJvBHkgc999ERpy6V8q5e9X8AFh
-	0fMd5zH8LqzK8Rs4A5pB4gkc3l97yCQz/Bl3e/tLfw+YIfqp5DanAZJoYAnlMMS0ukiXP5
-	J86gk1rV7Bv/Kb9hcJelIS58U0g28PU=
-Date: Sun, 06 Sep 2026 22:15:30 +0200
-Subject: [PATCH v2 2/2] nvme: apple: add t8132 (M4) ANS2 NVMe support
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=/GbIwS69Z+7EmfwRnslAiweTO6LWu4/b5K4KmWKEcGk=;
+	b=fD3ba7N2rfFxisDxO0mPhyFUZiCVuiw/kLXpRuVxj6fsS8ZgLrItrERf2cCYfcQcg6wZTr
+	PTlI+9hliSfvoJnaGLWLNXTwNjJi1aGDB+7Tq6fBl9WrlgFQ/nhnJ/7onSxCZpiKujxtFu
+	lTfR2xwfz3jCkrTY+fVBsVZR2+xMu58=
+Subject: [PATCH v2 0/2] nvme: apple: add t8132 (M4) ANS2 NVMe support
+Date: Sun, 06 Sep 2026 22:15:28 +0200
+Message-Id: <20260906-apple-nvme-t8132-v2-0-ac0328590823@cyberchaos.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260906-apple-nvme-t8132-v2-2-ac0328590823@cyberchaos.dev>
-References: <20260906-apple-nvme-t8132-v2-0-ac0328590823@cyberchaos.dev>
-In-Reply-To: <20260906-apple-nvme-t8132-v2-0-ac0328590823@cyberchaos.dev>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3WPyw6CMBBFf4XM2iG0VQRW/odhUcogNfKwLY2E8
+ O8WcOvyJOfeubOAJaPJQhEtYMhrq4c+AD9FoFrZPwh1HRh4wtMkYwzlOL4Ie98RuowJjoKJPK/
+ TJmNSQoiNhhr92Svv5cF2qp6k3NbzMwy9p3DLHRpU0hKqoeu0KyJ/jQUaxWBLt9q6wcz7Ps92+
+ f8UzzDBLL1UJDiduRI3NVdkwiODjWvyUK7r+gVsUeG08wAAAA==
+X-Change-ID: 20260811-apple-nvme-t8132-31399d6f81aa
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
  Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>, 
  Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -55,8 +57,8 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-nvme@lists.infradead.org, Yureka Lilian <yureka@cyberchaos.dev>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260906_131554_502666_05BCC726 
-X-CRM114-Status: GOOD (  17.02  )
+X-CRM114-CacheID: sfid-20260906_131602_924901_34C6C3E7 
+X-CRM114-Status: GOOD (  13.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,109 +73,54 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add support for ANS2 NVMe on the Apple t8132 (M4) SoC.
+This patch series adds dt-bindings and driver support for ANS2 NVMe on
+the Apple t8132 (M4) SoC.
 
 This variant requires the IO queues to be registered using additional
-MMIO writes. The qsize of the create_{cq,sq} command is now ignored, and
-instead a write to mmio_nvme+0x1210 (which was previously known as
-APPLE_ANS_MAX_PEND_CMDS_CTRL) sets the IO queue sizes.
+MMIO writes. Otherwise it is largerly the same as the ANS2 NVMe variants
+present on Apple M1-M3 SoCs.
 
 Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
 ---
- drivers/nvme/host/apple.c | 39 +++++++++++++++++++++++++++++++++++----
- 1 file changed, 35 insertions(+), 4 deletions(-)
+Changes in v2:
+- Reverted the separate_nvmmu_base part, since reg[9] from the Apple
+  device tree works for both nvme and nvmmu regs.
+- Differentiate the meaning of mmio_nvme+0x1210 between t8103 and t8132
+  resolves an ANS crash caused by the IO completion queue size mismatching
+  between our data structures (64) and the ANS (65).
+- Link to v1: https://patch.msgid.link/20260811-apple-nvme-t8132-v1-0-865be32e42c3@cyberchaos.dev
 
-diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
-index c63e28c75766..4621584b1b6f 100644
---- a/drivers/nvme/host/apple.c
-+++ b/drivers/nvme/host/apple.c
-@@ -42,7 +42,11 @@
- #define APPLE_ANS_ACQ_DB  0x1004
- #define APPLE_ANS_IOCQ_DB 0x100c
- 
--#define APPLE_ANS_MAX_PEND_CMDS_CTRL 0x1210
-+#define APPLE_ANS_T8132_IOQ_CMDS 0x1200
-+#define APPLE_ANS_T8132_IOQ_CQES 0x1208
-+#define APPLE_ANS_T8132_IOQ_SIZE 0x1210
-+
-+#define APPLE_ANS_T8103_MAX_PEND_CMDS_CTRL 0x1210
- 
- #define APPLE_ANS_BOOT_STATUS	 0x1300
- #define APPLE_ANS_BOOT_STATUS_OK 0xde71ce55
-@@ -184,6 +188,7 @@ struct apple_nvme_iod {
- 
- struct apple_nvme_hw {
- 	bool has_lsq_nvmmu;
-+	bool needs_ioq_register;
- 	u32 max_queue_depth;
- };
- 
-@@ -1133,9 +1138,16 @@ static void apple_nvme_reset_work(struct work_struct *work)
- 			anv->mmio_nvme + APPLE_ANS_LINEAR_SQ_CTRL);
- 
- 		/* Allow as many pending command as possible for both queues */
--		writel(anv->hw->max_queue_depth
--			| (anv->hw->max_queue_depth << 16), anv->mmio_nvme
--			+ APPLE_ANS_MAX_PEND_CMDS_CTRL);
-+		if (!anv->hw->needs_ioq_register) {
-+			/*
-+			 * Since T8132, this is replaced by IOQ_SIZE which is
-+			 * located at the same offset and is handled with the
-+			 * IO queue setup further below.
-+			 */
-+			writel(anv->hw->max_queue_depth
-+				| (anv->hw->max_queue_depth << 16), anv->mmio_nvme
-+				+ APPLE_ANS_T8103_MAX_PEND_CMDS_CTRL);
-+		}
- 
- 		/* Setup the NVMMU for the maximum admin and IO queue depth */
- 		writel(anv->hw->max_queue_depth - 1,
-@@ -1190,6 +1202,16 @@ static void apple_nvme_reset_work(struct work_struct *work)
- 	if (ret)
- 		goto out_remove_cq;
- 
-+	if (anv->hw->needs_ioq_register) {
-+		writeq(anv->ioq.cq_dma_addr,
-+			anv->mmio_nvme + APPLE_ANS_T8132_IOQ_CQES);
-+		writeq(anv->ioq.sq_dma_addr,
-+			anv->mmio_nvme + APPLE_ANS_T8132_IOQ_CMDS);
-+		writel((anv->hw->max_queue_depth - 1)
-+			| ((anv->hw->max_queue_depth - 1) << 16), anv->mmio_nvme
-+			+ APPLE_ANS_T8132_IOQ_SIZE);
-+	}
-+
- 	apple_nvme_init_queue(&anv->ioq);
- 	nr_io_queues = 1;
- 	ret = nvme_set_queue_count(&anv->ctrl, &nr_io_queues);
-@@ -1699,17 +1721,26 @@ static DEFINE_SIMPLE_DEV_PM_OPS(apple_nvme_pm_ops, apple_nvme_suspend,
- 
- static const struct apple_nvme_hw apple_nvme_t8015_hw = {
- 	.has_lsq_nvmmu = false,
-+	.needs_ioq_register = false,
- 	.max_queue_depth = 16,
- };
- 
- static const struct apple_nvme_hw apple_nvme_t8103_hw = {
- 	.has_lsq_nvmmu = true,
-+	.needs_ioq_register = false,
-+	.max_queue_depth = 64,
-+};
-+
-+static const struct apple_nvme_hw apple_nvme_t8132_hw = {
-+	.has_lsq_nvmmu = true,
-+	.needs_ioq_register = true,
- 	.max_queue_depth = 64,
- };
- 
- static const struct of_device_id apple_nvme_of_match[] = {
- 	{ .compatible = "apple,t8015-nvme-ans2", .data = &apple_nvme_t8015_hw },
- 	{ .compatible = "apple,t8103-nvme-ans2", .data = &apple_nvme_t8103_hw },
-+	{ .compatible = "apple,t8132-nvme-ans2", .data = &apple_nvme_t8132_hw },
- 	{ .compatible = "apple,nvme-ans2", .data = &apple_nvme_t8103_hw },
- 	{},
- };
+To: Sven Peter <sven@kernel.org>
+To: Janne Grunau <j@jannau.net>
+To: Neal Gompa <neal@gompa.dev>
+To: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Keith Busch <kbusch@kernel.org>
+To: Jens Axboe <axboe@kernel.dk>
+To: Christoph Hellwig <hch@lst.de>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: asahi@lists.linux.dev
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-nvme@lists.infradead.org
+models: On t8132 this now sets the IO queue sizes and is 0-based. This
 
--- 
-2.55.0
+---
+Yureka Lilian (2):
+      dt-bindings: nvme: Add apple,t8132-nvme-ans2 compatible
+      nvme: apple: add t8132 (M4) ANS2 NVMe support
+
+ .../devicetree/bindings/nvme/apple,nvme-ans.yaml   |  1 +
+ drivers/nvme/host/apple.c                          | 39 +++++++++++++++++++---
+ 2 files changed, 36 insertions(+), 4 deletions(-)
+---
+base-commit: e5e04726cdd043e309677071ab1b65a4b18f422b
+change-id: 20260811-apple-nvme-t8132-31399d6f81aa
+
+Best regards,
+--  
+Yureka Lilian <yureka@cyberchaos.dev>
 
 
