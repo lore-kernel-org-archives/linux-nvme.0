@@ -4,82 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D5645C624DB
-	for <linux-nvme@archiver.kernel.org>; Sun,  6 Sep 2026 00:27:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D3EE2C79F8B
+	for <linux-nvme@archiver.kernel.org>; Sun,  6 Sep 2026 03:15:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fF/vXxPLfH/LP55Q3picOAVcc+78Hi+CViiQRqbY41A=; b=UpQgKUmI9FXUYlS2GyFtZlVO70
-	pfRcXBd8CVLAvg7VMbHes7Nuf6WqrRW1RGxhNJeBCqKKM2cy4EzereXcvsbnffN+zqr+Han12oI0x
-	3/dsDOdbVLEHd3gJXmjR0T1Ufq2N1VTKHXf39cxuOuIlHGQH+4TnCH643vP61kTyLuo7ateizf3Jk
-	Up5ZgNPDwWWBQy12zH+/N88QOQDChHztPx0UyeK+v7UAHR4RzA+c2WDNdin6RiZ4nB3QMzI38ViDV
-	qHV1VI9w5dBo4OkzQaPSkQslU9RAs+kvZCCfu/1nrp1Z8Q90eATyWPuNOR8RbbQmHN0vkuAVAGtS9
-	PcVA3/tg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Date:Content-Transfer-Encoding:Message-ID:Subject:To:From:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=dE2V1aiEnm6keVvh2TaGTEeLg2wqlTumAQnOBpftMTc=; b=UKAC/nj4iOQViQo+xHW6yJ9m6P
+	k4sYdZ+6VSubbaVSCVLWMWagX8aGEaatrlNvt+v5tEZ8Abzmp/8VAgMV0gKCZ1yvGDNyaJKxEXJWd
+	X6/u3vCzJfxoqQi2lq79fADwkpmaPAeon0tV9k3kGezFBDruBXvzQmQR7+9gQSqg/rQhzLHT8Pf2P
+	og2XMprbGrz/2cV6kGj4PYcd3DmWSkNrCmsmV6JT947+9CU5bD403XUIalLKab+EKnhr+wAGv48y7
+	7GKS3OqdiXCkfWuVq1s1enyyF9d6+td4gken7rXZ13LC9vxh4fEGUy5Q0B+0j8icmsVJVgtispb72
+	W3Wu1NGQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x30jk-00000004Vr1-0hqe;
-	Sun, 06 Sep 2026 00:27:56 +0000
-Received: from mail-wm1-f41.google.com ([209.85.128.41])
+	id 1x33LN-00000004bkm-1pLI;
+	Sun, 06 Sep 2026 03:14:57 +0000
+Received: from a11-161.smtp-out.amazonses.com ([54.240.11.161])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x30jh-00000004VqJ-3q8J
+	id 1x33LK-00000004bk0-2I6o
 	for linux-nvme@lists.infradead.org;
-	Sun, 06 Sep 2026 00:27:55 +0000
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-49d0d2d37ceso43155e9.0
-        for <linux-nvme@lists.infradead.org>; Sat, 05 Sep 2026 17:27:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788654472; x=1789259272;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=fF/vXxPLfH/LP55Q3picOAVcc+78Hi+CViiQRqbY41A=;
-        b=QcNRVcZhf8P1gx/RMizJ9q8z1+Px1L78pMbM1KfzWB3OGwaol2zhZkKS7xZO9E2TsX
-         mRg/j29LVOJ7ywGKELnvbf2z21Su/MupONIIhp8wdf0c1TLthtHiWWhK8MadeEl9zhQ3
-         68ZP8iekH/YNkPRHbISBiUQB64yyeptpb0daGaU7CGUseQ13w9CAqbDPpIYzN1royeOx
-         05u4h14GQ735ZwxBWHev/RupXBcroKT1a/OJJiQY1nmKxCkd6iM5vGwt9RFjlb8kxzWF
-         ukGsIsmdL9ouDVU/71NpUWgpsgRsIahoOfwYKiB2xGgU5ZuomxAYX7KC2k2esX/yV/Em
-         sXlg==
-X-Gm-Message-State: AFuF++kAac5QjlZX3AhIKRgjw9l0HJzg9Wfbu9jPz6ZuMqjleX58mdRD
-	AR0O31y3KckbRAPxWDc6YjksLqm8kAw/zpTFHcFN3+BGspCRLAdh7j2b
-X-Gm-Gg: AYBFou3NxjKBLziXkBiPNx4lj4/QPyKlCAmS6lkyaBj78tejRRKGWzRWblKuUuvTSZK
-	eu9SLS9+7Ds92kIzxPCOWQeWQrr5tTgW0IxCizt8rUMsI+ayF585M9LSL9JmOKOefg0xyjcqE17
-	z2+Dvidab5lL7HHwjq0VGpmLKYZ52hSb8i5Dr3R2lgwExTmfjo6doZ4V/ll3X8JXrJ44F8kysEJ
-	+w+YVVxx98ji7lr37Ru17bsrX7YyHn8uH7sfO78jfc4HAe8HQ3YUPjW/tSI7dgzB8YG4tCwynq5
-	GifdH0DfuW33ERiq6rAx9E/qup3VP5Yr/q3xJP8gTmm8GDVpSRJaM95H8DjcyKD8ixdbtbAYrFR
-	xdVedOEn+4g2ePkOBUVPlRzIDRQESU+FO5uheR0hN25YKwJ6+7LXsJcbZmyNWrh8DHhEH7dEvLF
-	pFJ5FqvbMYrBSCLroM3RUhun9W9iAuNUVGGiROjHNKffz+aDq0WUChZVISDq386eSy/qicpw9vv
-	dxWBcgHODwQ+5LjPFBo/kA=
-X-Received: by 2002:a05:600c:1986:b0:49c:fa21:e744 with SMTP id 5b1f17b1804b1-49cfa21e906mr115713335e9.26.1788654471726;
-        Sat, 05 Sep 2026 17:27:51 -0700 (PDT)
-Received: from [10.100.102.74] (89-138-77-243.bb.netvision.net.il. [89.138.77.243])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ce831af89sm198027065e9.1.2026.09.05.17.27.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 05 Sep 2026 17:27:51 -0700 (PDT)
-Message-ID: <220e9da3-f756-4a16-8de1-d4b171f15009@grimberg.me>
-Date: Sun, 6 Sep 2026 03:27:50 +0300
+	Sun, 06 Sep 2026 03:14:56 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple; s=resend;
+	d=willyv3.com; t=1788664489;
+	h=From:To:Subject:Message-ID:Content-Transfer-Encoding:Date:MIME-Version:Content-Type;
+	bh=IDyTIaqjPwcdbzGwtw1+rh5VfNagu3gGzzLV8NV7Wh4=;
+	b=J1zNA45KuPDX2fdHSC0gGbT7lsDjesIa3uV+75YmZEMMwAzJMIl+5/LLwEE8Uj/7
+	LF5jpBtBRGCvzF0w9mpWSYuCPY/eYmDUIRUobKTH57IGSYTGv87Ny5qEKqpVPCRw32z
+	85lJL6zkXoxKiriuu/wMckuNFIfDrA54GmKtVtIU=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1788664489;
+	h=From:To:Subject:Message-ID:Content-Transfer-Encoding:Date:MIME-Version:Content-Type:Feedback-ID;
+	bh=IDyTIaqjPwcdbzGwtw1+rh5VfNagu3gGzzLV8NV7Wh4=;
+	b=S/HrD7R0dqaaBXiYjaurFJIuS52nseN0knPjgQozhktxuJGUHrIfM7M8wz66D1CY
+	t2wtLgobmYXas9NV+yZE897ZlquNK8Jam535NqJGLMvDCZeJAdNXQKlUeh7Do1NqXk2
+	szWUGi4h5w1j5kH/IsurwW9QOpOtERF3jLPXc3zo=
+From: willy@willyv3.com
+To: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, 
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] nvme-pci: use simple suspend for the Apple T2 ANS2
+ controller
+Message-ID: <010001a074b62726-69686506-a02a-4058-9ebc-5f8125eae0f3-000000@email.amazonses.com>
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 6 Sep 2026 03:14:49 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] nvme-tcp: pin io_cpu to submitter cpu
-To: Saravanan D <saravanand@crusoe.ai>
-Cc: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
- linux-kernel@vger.kernel.org, Nilay Shroff <nilay@linux.ibm.com>,
- Daniel Wagner <dwagner@suse.de>
-References: <20260820083634.71689-1-saravanand@crusoe.ai>
- <20260823174348.40236-1-saravanand@crusoe.ai>
- <1d56144d-6987-40c1-ac02-b15333db121e@grimberg.me>
- <20260902062431.61412-1-saravanand@crusoe.ai>
-Content-Language: en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20260902062431.61412-1-saravanand@crusoe.ai>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Feedback-ID: :1.us-east-1.tVoVnBTusQKwEv3FXsafng3gwgTXiveIP8uCFN696SRuTdSqJLPWcLHhZMGYqGEWfSP3N+is2iSOKdmX/9ngsLeiTVoJkakNxJEB+yEN1ZJPtwlO53LLRiFsTHXrFviVUeKFV0/4bko6iGjXsDtchIeimK+HIEYE/SJqJKFonco=:1.us-east-1.pAEstvQcjyhQNKGKcgSlzI7SVR8ZSG5wSmKwiz/A8Dg=:AmazonSES
+X-SES-Outgoing: 2026.09.06-54.240.11.161
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260905_172753_978850_6AAE3D9F 
-X-CRM114-Status: GOOD (  25.54  )
+X-CRM114-CacheID: sfid-20260905_201454_665715_92A2F690 
+X-CRM114-Status: UNSURE (   6.82  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,61 +71,48 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+From: Willy VanSickle <vansicklewilly@gmail.com>
+Subject: [PATCH] nvme-pci:=
+ use simple suspend for the Apple T2 ANS2 controller
 
+On T2 Macs the ANS2 NVMe controller (106b:2005) is owned by the T2
+coprocessor. With suspend-to-idle the driver keeps the controller in an
+NVMe power state across sleep instead of shutting it down, because
+pm_suspend_via_firmware() is false. The T2 does not preserve that state:
+after the first resume the controller stops completing I/O, and the next
+suspend hangs in ksys_sync_helper() before it can even freeze processes
+(MacBookPro15,3, 7.2.2 + t2linux patches; the machine then drains its
+battery while hung).
 
-On 02/09/2026 9:24, Saravanan D wrote:
-> On Mon, 31 Aug 2026 01:30:08 +0300 Sagi Grimberg <sagi@grimberg.me> wrote:
->> I just think that the adoption approach has downsides in many other
->> workloads. I wouldn't categorize your use-case as the common use-case.
->> Not to say that it shouldn't be solved.
-> Adoption in v2 is opt in per controller through the io_cpu_adopt
-> connect option, so every workload that does not enable it
-> keeps today's behavior unchanged. The downsides would only be borne by
-> deployments that choose it. I concur with the broader point. Adoption
-> makes the driver itself decide where socket work belongs, through a
-> fixed rule that cannot fit every deployment, while a writable io_cpu
-> is very flexible and leaves the decision to the control plane.
->
->> I agree with you that queue io_cpu selection at connection time is too
->> limiting. Perhaps we can have each nvme-tcp queue expose a sysfs entry
->> to set the io_cpu?
->>
->> Something like:
->> echo $CPU > /sys/class/nvme/nvme0/tcp_queues/$QUEUE/io_cpu
->>
->> I am just trying to think of a way that will allow some control plane
->> to set it exactly as it wants, without the guessing part...
-> The per queue sysfs io_cpu works for us, and in one respect it works
-> better than a connect option because a sysfs attribute can be set after
-> the fact on any existing connection. The control plane already knows each
-> VM's cpuset and can read the queue to cpu grouping from mq/*/cpu_list,
-> so it can nail the socket work placement.
->
-> Two questions before I spin the next version around this.
->
-> 1. On reconnect the queues come back with the connect time io_cpu, so
-> the control plane has to notice and reapply its placement. Is relying
-> on the existing nvme udev events for controller state the intended
-> signal, or would you want a dedicated notification ?
+Give the ANS2 NVME_QUIRK_SIMPLE_SUSPEND so suspend =
+always goes through
+nvme_disable_prepare_reset() and resume brings the =
+controller back with a
+full reset, which is what the T2 expects.
 
-I think that io_cpu should not change in reconnect. We can use a
-NVME_TCP_Q_ flag for it.
+Signed-off-by: Willy VanSickle <vansicklewilly@gmail.com>
+---
+Tested on a MacBookPro15,3 (ANS2 106b:2005) running 7.2.2 with the t2linux
+patch set. Without the quirk the second suspend hangs in =
+ksys_sync_helper();
+with it suspend/resume completes and the controller =
+keeps serving I/O.
 
->
-> 2. What should the write path enforce ? I would validate the cpu is
-> online, rebalance the nvme_tcp_cpu_queues accounting, and let the new
-> value take effect from the next queued io_work. I intend to restrict the
-> value to the queue's map group.
+ drivers/nvme/host/pci.c | 1 +
+ 1 file changed, 1 =
+insertion(+)
 
-I'd just do basic validation that override the queue io_cpu.. perhaps
-xchg(queue->io_cpu, cpu).
-
->
-> If this direction sounds right I will drop the adoption heuristic and
-> send the next version v3 exposing each queue's io_cpu as a writeable
-> sysfs attribute.
->
-> Thanks,
-> Saravanan D.
-
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.=
+c
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -4283,6 +4283,7 @@
+ 		.driver_data =3D NVME_QUIRK_SINGLE_VECTOR |
+ 				NVME_QUIRK_128_BYTES_SQES |
+ 				NVME_QUIRK_SHARED_TAGS |
++				NVME_QUIRK_SIMPLE_SUSPEND |
+ 				NVME_QUIRK_SKIP_CID_GEN |
+ 				NVME_QUIRK_IDENTIFY_CNS },
+ 	{ PCI_DEVICE_CLASS(PCI_CLASS_STORAGE_EXPR=
+ESS, 0xffffff) },
 
