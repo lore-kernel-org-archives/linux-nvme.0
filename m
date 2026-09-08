@@ -4,57 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 38D43C79F99
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Sep 2026 14:21:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B713EC79F82
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Sep 2026 14:34:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7Z0sV5yEZfXxbq5XFXORvmjuRtMcL+je7hRA7PVMl+0=; b=nvdm7AD4AObkpYJW6qdiMNIsMs
-	g4zAu+JJLIRF0jTnDmoJ5gSl0srlxGeGVtphwfpiIscL5X1Nz7r/1TTV4ywGUbc6nt1LXaSOL3wxo
-	L0N13GX0RNQCjUeDsr75xAbhPGrOwX2W5Vf9z9v5vKtFmSLgzVmbACJ3A0mQp1SF7UW0WqrL7LaTK
-	m1cofMzjP655SzguR5ONoUQfYwP5iE4g0KpyW5ZyWurN91w62lYRLhHuZt3urJ2WtuolfTF+g/CwQ
-	6CSkCq77mrp2uWw1i8CdWig96QXG3eeKXcArhN/rXTAAce4ow/wbuB//beGcv6nwkXz6YN4jW7yq2
-	Ycbvl+Xg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=hcG/JNsYG4XlM/F44l1BRu/e1s4p2porjzayn+O62Bw=; b=0tiXA86MzM05OogH9Z6J4iO3Yt
+	L1s+cSTg2kcigQyx9Gs/SZE6kccRST83MOFV8fL7TLw+/Zx6ErJqoekHfDzcSuZuhiSXVLZo2Z3HN
+	JpDEJ2XcdbLd+26zPXLlBbZwciUnySOA/VpHnm3j5Y9nbyFsvvmwYI+E7IUNmuzdY00uYXG3c1Kn/
+	q0cJTIbUjEhU3RKLrNljyH09ceLTDPq6n0ro8WSjSkStviDe7ZPbU/X547wYXBw5bIEOAmUvYTZ/D
+	wRt0/VdXQ1/p48OGuiamheUQZ1zGFvbn/bhc1NeCixlRfVw4dZOYt777Kco6O+Y0o3N+8U5vwR3NC
+	oQcNEJ7w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x3whZ-00000009GEw-0uW3;
-	Tue, 08 Sep 2026 14:21:33 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1x3wuP-00000009HuG-1JIR;
+	Tue, 08 Sep 2026 14:34:49 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x3whY-00000009GEh-062W
+	id 1x3wuM-00000009HtY-2zli
 	for linux-nvme@lists.infradead.org;
-	Tue, 08 Sep 2026 14:21:32 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 46EBF601DE;
-	Tue,  8 Sep 2026 14:21:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C46991F00A3A;
-	Tue,  8 Sep 2026 14:21:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788877291;
-	bh=7Z0sV5yEZfXxbq5XFXORvmjuRtMcL+je7hRA7PVMl+0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=X95DiLYTvApuILj+RRg1lTABhnXjtD7lpZumRZOXPB1l+CUJpfHKgBLuPDGGUuOEZ
-	 sMeihCXpxVu4CEJ8LJ5ftR859lzgxzbzJEPmTq07Ko/vRRXlqKkSBNSRsYdoNN3gVK
-	 n64rbJ0MrgUjsvGvkxiKQodxfMKJoJFeWeYb1q8MtI4Mutg5CsIqeSxd++xyuncOwF
-	 jIK7QjVpK3JiCLJwpZ5Fp0s9kdLoCVUusmT4ptOVF1cf9aTEe+NTHwNY4uin1Jh01V
-	 cmo3P/Bb9GctAyC+RL7hMoe81WH2Eam++qJLpDWOYEB5igalapOY2UcEhamD5RQLyH
-	 Qvf2JeruipMHA==
-Date: Tue, 8 Sep 2026 08:21:29 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
-	hch@lst.de, axboe@kernel.dk
-Subject: Re: [PATCH RFC] nvme-tcp: allow multiple queues per hctx
-Message-ID: <aqAZ6S6lBILltRwq@kbusch-mbp>
-References: <20260903152623.614951-1-kbusch@meta.com>
- <e940ccd7-3e7c-4118-a66c-1c17c33d2417@grimberg.me>
+	Tue, 08 Sep 2026 14:34:48 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1788878083;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=hcG/JNsYG4XlM/F44l1BRu/e1s4p2porjzayn+O62Bw=;
+	b=BrzptRC9sV0CFawcbodMJ0qQ7azXWvRMC2bhzcKCqhGTh8d+Nd+5wBoNqCLm3obOO2Y5R1
+	cr++KwAlNYmF3h2qxvTa1JVhPkkZ3ZBZFHcIcbRcGrOCAScDdQHcYI8JTZFR1QHfsFifR9
+	wVUlk12EV/z+MWxdeLiaAgsgTAhWRtI=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-689-xV6-EpDgNCyDRczbG5H7vQ-1; Tue,
+ 08 Sep 2026 10:34:40 -0400
+X-MC-Unique: xV6-EpDgNCyDRczbG5H7vQ-1
+X-Mimecast-MFC-AGG-ID: xV6-EpDgNCyDRczbG5H7vQ_1788878079
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DC8BF184B3A7;
+	Tue,  8 Sep 2026 14:34:38 +0000 (UTC)
+Received: from mlombard-thinkpadt14gen4.redhat.corp (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 5428D18005AA;
+	Tue,  8 Sep 2026 14:34:36 +0000 (UTC)
+From: Maurizio Lombardi <mlombard@redhat.com>
+To: kbusch@kernel.org
+Cc: mlombard@arkamax.eu,
+	dwagner@suse.de,
+	linux-nvme@lists.infradead.org
+Subject: [PATCH] nvme-fc: do not warn on controller removal race
+Date: Tue,  8 Sep 2026 16:34:34 +0200
+Message-ID: <20260908143434.105513-1-mlombard@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e940ccd7-3e7c-4118-a66c-1c17c33d2417@grimberg.me>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: dS34oBfzAJF4bbXg3i9PkAPknP2kqtms6Bs2s8qKF1M_1788878079
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260908_073446_822634_4E31144C 
+X-CRM114-Status: GOOD (  13.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,29 +84,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Sep 06, 2026 at 03:04:42AM +0300, Sagi Grimberg wrote:
-> I'm wandering if you guys can do the same --duplicate-connect and setting
-> mpath with round-robin/queue-depth would get you the same result? Perhaps
-> we can add this flag to nvme discover/connect-all for simplicity?
+In nvme_fc_reconnect_or_delete(), the system attempts to remove
+the controller when reconnect limits are reached by calling
+nvme_delete_ctrl(). This call is currently wrapped in a WARN_ON().
 
-Thanks, I'll give that suggestion a try. I think I also need to tie the
-"duplicate_connect" option to the module's wq_unbound option too.
+If a user concurrently deletes the controller via sysfs, the
+controller's state may have already transitioned out of the
+CONNECTING state. When this happens, nvme_delete_ctrl() correctly
+rejects the operation and returns -EBUSY. Because of the WARN_ON()
+wrapper, this race condition triggers an unnecessary kernel warning
+stack trace.
+
+Remove the WARN_ON() macro around nvme_delete_ctrl();
+this allows the system to safely ignore the -EBUSY return value
+if the controller is already being deleted.
+
+Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
+---
+ drivers/nvme/host/fc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 48454cb7a0fc..3a4030bcfab7 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -3338,7 +3338,7 @@ nvme_fc_reconnect_or_delete(struct nvme_fc_ctrl *ctrl, int status)
+ 				ctrl->cnum, min_t(int, portptr->dev_loss_tmo,
+ 					(ctrl->ctrl.opts->max_reconnects *
+ 					 ctrl->ctrl.opts->reconnect_delay)));
+-		WARN_ON(nvme_delete_ctrl(&ctrl->ctrl));
++		nvme_delete_ctrl(&ctrl->ctrl);
+ 	}
+ }
  
-> BTW, how many cpus/queues do you have in your test keith?
+-- 
+2.55.0
 
-This experiment had 144 aarch64 CPUs (both host and target) and 128 IO
-queues. I don't think I'll get to use those machines again anytime soon,
-so any future experiments I run will be on less capable hardware.
-
-> Moreover, I suspect that this is not a problem that is specific for
-> nvme-tcp...
-
-Yeah, that's a good thought. Generally I can saturate a link with one
-IO queue on PCIe and RDMA transports, but I've tested some DPU vended
-NVMe devices that need similar spreading to hit peak throughput.
-
-If we need to make such things generic to support multiple users, I can
-get a proposal ready to handle this in blk-mq. But if the multipath
-duplicate connection option works out for the tcp transport, then I'm
-not sure we'd have multiple users anymore.
 
