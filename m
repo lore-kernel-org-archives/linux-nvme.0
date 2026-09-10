@@ -4,91 +4,111 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B978C79FB7
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Sep 2026 05:47:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8D78AC79F9F
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Sep 2026 08:26:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vZ0h9Lijn7HXAqX9b+lmGKqsZXvcLGZp1gaUS0v8TAw=; b=UGPyywZOgBNmxozXcmlCWsfj/P
-	3kYwRFpY2UDlAHvtsB8RcLHxqW8BeFNB00AQv1Ewc2nLneMd2Pl0PGt1fy/l9JIr0d98v5mEtmshk
-	os0aIlPGZUhOQ9w1XPrld7siMf6P0GDr6EClIakisnoChfK3ZCG/8F+Q/Gf2qoluc4LwwtPQ9Tdpl
-	J/WBgco8MAXmYrbkMd79jlpeHKZZQsGFnjMlChMtBp1zDLhPjSfaXcb6z+zoW0JQnI7zJYqASo1cD
-	6RWIyAxWJ863EBK2qWU9yhOarn4gYy55qAv2SoTSltaVpI7xCX494QmopDInQqTIIAQ/aYodMa50l
-	yTS8EkKw==;
+	bh=+yz3BRkdAokO04A7Rf20m/zglgAa8AOrj9pXzNWBaLw=; b=BZ0usv8iGvLVYk0v4kjfNUegBe
+	tAE288FkpheF+Ipqu22Y9GvXMLgyWNRfSFKnQzaZ/T3SkEv9vRmR8walZgRA36gprgjSM7dGRkbTP
+	dgaXrNYjrBh3F6CqnCDdXQpMRJOBWYwJq/LIp46KEgoC9fhyGmDutBed6onIIoqFjouM+2dhPKAPx
+	2px9SpmQ1YW87ejrJEGpuGS7absLVlOqmtuHnAnsv1Nuojjv+L6OC8lh9jBn5SKFJ/wXkSBVFHeso
+	aD6qzs08A+CJhqHTb05TJG2FokfCfvcEw+W4fK75GWn/lk06uqq/ZhBzfUEb0a/nwWmGyDy1BneE3
+	mcR3IK2g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x4XdN-0000000DTes-0SZv;
-	Thu, 10 Sep 2026 05:47:41 +0000
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
+	id 1x4a6v-0000000Djlr-264l;
+	Thu, 10 Sep 2026 08:26:21 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x4XdK-0000000DTeT-44Bg
+	id 1x4a6t-0000000DjlG-1GyB
 	for linux-nvme@lists.infradead.org;
-	Thu, 10 Sep 2026 05:47:40 +0000
-Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-2ceab75934dso64643735ad.2
-        for <linux-nvme@lists.infradead.org>; Wed, 09 Sep 2026 22:47:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1789019258; x=1789624058; darn=lists.infradead.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=vZ0h9Lijn7HXAqX9b+lmGKqsZXvcLGZp1gaUS0v8TAw=;
-        b=j5keDtBOctfPiO5xWJAVCds7fRVaHW+DlXcFQ6fZslHyV2/ItiuQH3V28UOEHRU4E5
-         ozUUEWCIxWQrie577PmpF2cwk77H2J0ZiCIVtuphwDHMAvi6dVdiBl2+2JgpuqXlLntS
-         h9X+M3ywMVLkU8gEWIccmWhUaDlEeCoO0dOGB4cjIphoXuIeNNhrAnP2yTtsg3Tl5epZ
-         DauRuvuoVGnCHn8k8DYbNZ/MV8+BDeHiAUeEhmf0WDCcY2ajHYbhC+RaUJCs5K0aJcRs
-         nCqRtJ7/yKe2OceMC4WdI2nlZZolQDEOcUpyAqPirdVcTARicFQmpoHPAjyKNRrTYlT1
-         FVOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789019258; x=1789624058;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=vZ0h9Lijn7HXAqX9b+lmGKqsZXvcLGZp1gaUS0v8TAw=;
-        b=G/E3DgysBf1LtWKEQWQ2hiAM3zVoW0mo1x19puTxbMOwOSEhTVKDIVr6+ihVgWYh4B
-         4L86Qf2vSe09s7j14w9LaXx7KuHFEhmVdAM+bvIF5P382x5AelE5SG68IunZ5v1aj+oO
-         6MXqIJtZ5R8aeR0kwvz2tNB7D6t1Pw6z1vsLLPxrN6vmKJ0LN8Kl1bxR2GN4/jCXqwNM
-         NohZkqv0zkjclvFK10JJLhJwVitiI+Q7Tbriu4d3yWWAQpmWzmaPSIfhL+gRL6KteZvO
-         o5DpEeChYCDHdyOwyv4NnXaD/hAsvMHLhytwr1GnWBF4zVH/qqOOqFh6v0cXOvyJURds
-         Y7Xw==
-X-Gm-Message-State: AFuF++lCjEOqH62Qq8qLtUt3T63Scxts0MDwe6+BWtB17+sxQEEi0D4e
-	BlBtg44Vhpe4yJx7CTLC8T0BVln/yXAnfhN+iCf9kN8ODQHS3UXB+14cLQaGOF/rGYU=
-X-Gm-Gg: AYBFou2p2iWP/4/028bLASROYYS66Xo4BJH/ZfGTsM/SzVn1EvcJmEoNhnkriWAYD+R
-	Xh4KKziqKq77fKm0f/NboMnnrNUxeqSr2ZGPDnnwcJy28w7CrHmu7TFq+H0JQDRLdivZTzKKu2n
-	oMmdRC+dVTv1Q8TPzycSNK1wxCGU9ZmOy+K0RY48UEnZj8rwvQjsupFaYiGXV86MiH+P/pfsBsq
-	1foAjGG6iSS/5KMAEA8IRwv/1SEhC0oXw64Xf+ljsZ5/WXxeZCjOEIxbhduDRfltjcUYONg0IEN
-	pCzMliQQ76q8J21pu7UjDUSWFQwanZYkPB0gdQXx+sRCACwN1HuCRnDBxS6HCmMgqdwavTceq82
-	mj0/piJVsYuzkgPr2xxqyrf/b1tXe8mbqurhzerlfq6gvFwvvYHwDXhw/MQZO2NyYLbmtjLFQbv
-	TtZiKZCUB/Z65PmwKshpuaIhCpYZC5r7Lh5vB45tEmmATQNg12rfWKlvBhhUWi0wf2n/kecG8vx
-	1y6nO5xDAZbq/zfQjLfOsPFBqWCAZVZv1hQo/TkKms=
-X-Received: by 2002:a17:902:d587:b0:2c8:248a:5dbb with SMTP id d9443c01a7336-2db1265add0mr601825635ad.7.1789019257016;
-        Wed, 09 Sep 2026 22:47:37 -0700 (PDT)
-Received: from [100.81.12.150] ([61.213.176.57])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2db149cb603sm82805375ad.68.2026.09.09.22.47.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Sep 2026 22:47:36 -0700 (PDT)
-Message-ID: <0d28ee2b-f1ba-4c36-a738-cab2342e1b68@bytedance.com>
-Date: Thu, 10 Sep 2026 13:47:34 +0800
+	Thu, 10 Sep 2026 08:26:20 +0000
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68A5VMbX103872;
+	Thu, 10 Sep 2026 08:26:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=+yz3BR
+	kdAokO04A7Rf20m/zglgAa8AOrj9pXzNWBaLw=; b=TIw2R9QFXjVwmpcPTajDnn
+	jQ6/0/OmX9mdxFSNi1SFY7ybA6E0KJq4T5CTaEb/L3lqOVLl9uS8/l9OHUl6+HQ4
+	rWGA5NXZfQCfmlQrT/0rtJu+58zI021YhHSouX3yimxftJsR9EFHifrdnevj1+49
+	TU/WRkplMM/FjIrPFTTTfOvJAgt1gYANjDuHqPZeeWQkpYlUoxZIidPpuAZCoGL3
+	u0MUZGsVZH0HHcGzVGtrzBWVbWaptidyCZWQID/R3YTS1d3ACnKq6EzpdDLmdfSA
+	yjeprC0HMQbaSgOSeFgMFVBXVMGGWAuaJa/YGX7XEPNMlLEa+YfSb1/VW0PUzCPA
+	==
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4gkd8n3axs-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 10 Sep 2026 08:26:09 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 68A7uYKa014691;
+	Thu, 10 Sep 2026 08:26:08 GMT
+Received: from smtprelay05.wdc07v.mail.ibm.com ([172.16.1.72])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4gkcr3bc7m-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 10 Sep 2026 08:26:08 +0000 (GMT)
+Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
+	by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 68A8Q8Pw27329124
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 10 Sep 2026 08:26:08 GMT
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 021D058064;
+	Thu, 10 Sep 2026 08:26:08 +0000 (GMT)
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8B2BF58057;
+	Thu, 10 Sep 2026 08:26:03 +0000 (GMT)
+Received: from [9.123.7.57] (unknown [9.123.7.57])
+	by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Thu, 10 Sep 2026 08:26:03 +0000 (GMT)
+Message-ID: <8dfee10f-89f3-463b-8d16-587873c3394c@linux.ibm.com>
+Date: Thu, 10 Sep 2026 13:55:59 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] nvmet: reject enabling a namespace without a device
- path
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org, sagi@grimberg.me, kch@nvidia.com,
- ming.l@ssi.samsung.com
-References: <20260908033519.2721210-1-sunjunchao@bytedance.com>
- <20260908033519.2721210-2-sunjunchao@bytedance.com>
- <20260910054235.GC27511@lst.de>
-From: Julian Sun <sunjunchao@bytedance.com>
-In-Reply-To: <20260910054235.GC27511@lst.de>
+Subject: Re: [PATCH v3] nvme-tcp: allow setting per-queue io_cpu through sysfs
+To: Saravanan D <saravanand@crusoe.ai>, linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, axboe@kernel.dk,
+        dwagner@suse.de, linux-kernel@vger.kernel.org, iyamahata@crusoe.ai,
+        kiyer@crusoe.ai, ganbalagane@crusoe.ai, sj@kernel.org
+References: <20260909211432.6741-1-saravanand@crusoe.ai>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <20260909211432.6741-1-saravanand@crusoe.ai>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Authority-Analysis: v=2.4 cv=NMVAaE6g c=1 sm=1 tr=0 ts=6aa269a1 cx=c_pps
+ a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=Swr8LgwRl-hf65YLT7AA:9
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: 6STJJ1tSbV-_Y0TuKoKFzaTZDU2Ok3hB
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTEwMDA4OCBTYWx0ZWRfX44tSxnh+IqVE
+ BFONQ/dKxJyiFqCqJgv9YBSEaaP6GTbAVn6vkwof/e0bgVpqEE8nVaNVPCTsVPxW9a+n1RH6I0C
+ sQreAMkP21KtDrchVu/TfV7evM2xgx8FMxmiq2PNDQA4zCtzTHUw6JTBR5fK7TbrZG/vrGq+APV
+ KB6+2Gx3PjAV+WnpB3GR32FjCBM3PPThjxp0NptNsZAZ+87IUc6VvXxQ9ocQvpmZM0UniOXD/S0
+ VCluIT0hGgVB3PodfFifrd+i2XvIlre/muvQx77a2+9lh6ky1KsLVJvbeV5N6HhzKlJ+waJS2P1
+ rCNhuCOvl8AEYX19dutkeV9PILD55o5W1eq0kTp3ORyiUPm7nbj5JA9eyBnpVz+4kI7DYgok0re
+ 5P8uZQT6L892Rg+Jol9gg0WRlhpJRxR5cOgwCu32zw2kWbvcK+57CA3T7xd5ZDiT3qHmIuL6rgf
+ txogfu+/Kzz6k7YDUAQ==
+X-Proofpoint-ORIG-GUID: 6STJJ1tSbV-_Y0TuKoKFzaTZDU2Ok3hB
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTEwMDA4OCBTYWx0ZWRfX2b2TRnGyEZYi
+ 1dvtNks1l7xasafxzJgDOyTuBN/zw29lJGKOyZvipZwHe+LrE+lzc5xGuPcvAQmy5gu1Dim8Nn2
+ gdzpkQ4txZ7C/rdycFRQvkWwt3PN6x0=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-10_02,2026-09-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 bulkscore=0 clxscore=1011 malwarescore=0 lowpriorityscore=0
+ priorityscore=1501 adultscore=0 suspectscore=0 impostorscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609100088
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260909_224739_020367_80FB8B52 
-X-CRM114-Status: GOOD (  11.81  )
+X-CRM114-CacheID: sfid-20260910_012619_366196_09D4334E 
+X-CRM114-Status: GOOD (  19.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,27 +123,60 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/10/26 1:42 PM, Christoph Hellwig wrote:
-> On Tue, Sep 08, 2026 at 11:35:19AM +0800, Julian Sun wrote:
->> With buffered I/O enabled, nvmet_bdev_ns_enable() returns -ENOTBLK
->> before validating the device path. Enabling a namespace without setting
->> device_path therefore passes NULL to filp_open() and crashes in
->> getname_kernel().
->>
->> Reject enabling a namespace if no device path has been configured.
+On 9/10/26 2:44 AM, Saravanan D wrote:
+> nvme_tcp_set_queue_io_cpu() picks each queue's io_cpu at connect time
+> as the least loaded CPU in the queue's blk-mq map group, and all socket
+> work runs there for the connection's lifetime. This decision falls
+> short when the host partitions its CPUs after connect time. On a 384
+> cpu multi tenant host with 128 queue controllers, blk-mq folds three
+> CPUs into every map group, some groups straddle two tenants' cpusets,
+> and 9% of nvme_tcp_io_work executions ran outside the submitting VM's
+> cpuset, seen by the neighbor as steal time.
 > 
-> Looks good:
+> Expose each I/O queue's io_cpu as a writable sysfs attribute
 > 
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
+>    /sys/class/nvme/nvmeX/tcp_queues/<qid>/io_cpu
 > 
-> Can you add test for this to blktests?
 
-I noticed that this has already been fixed:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?id=09d0c07bd9ce3b2f2d993f672698d32a17543c32
+I wonder if we should avoid introducing a transport-specific tcp_queues hierarchy
+here. io_cpu describes CPU placement of an NVMe I/O queue rather than something
+inherently specific to TCP, and other transports may have similar queue-level
+attributes in the future. Could we instead introduce a generic "queues/<qid>/"
+hierarchy under each NVMe controller, e.g.
 
-But sure, I'll add a test to blktests.
+      /sys/class/nvme/nvmeX/queues/<qid>/
+
+and have transports expose queue-specific attributes there? The "queues/<qid>"
+object could be created for every controller, while transports that need queue-
+specific sysfs attributes can populate the corresponding <qid> objects. This
+would give us a transport-independent ABI and avoid introducing separate
+tcp_queues, rdma_queues, etc. hierarchies.
+
+> so a control plane that owns CPU placement can set it directly instead
+> of relying on the driver's heuristic. A written value persists across
+> reconnects, marked by NVME_TCP_Q_IO_CPU_USER. Writing -1 clears the
+> mark and re-runs the connect time selection. Reading returns the CPU,
+> or -1 when the queue is unbound.
+> 
+> The store, the connect time selection and queue stop serialize their
+> accounting of nvme_tcp_cpu_queues under the queue lock.
+> 
+Also, based on the current design, it seems possible to have some queues whose
+io_cpu is driver-managed while other queues are explicitly managed by the
+control plane. This gives useful flexibility for the tenant use case. However,
+looking at the io_cpu sysfs attribute alone, it is not possible to determine
+whether the current CPU was selected by the driver or explicitly assigned by
+the control plane. So could we expose this state through an additional read-only
+attribute alongside io_cpu, for example:
+
+     /sys/class/nvme/nvmeX/queues/<qid>/io_cpu
+     /sys/class/nvme/nvmeX/queues/<qid>/managed
+
+where "managed" indicates who currently owns the CPU placement. For example, "1"
+could indicate that io_cpu is driver-managed and "0" indicates it is managed by
+the control plane or user. This would make the current ownership state observable
+without making any wild guess.
 
 Thanks,
--- 
-Julian Sun <sunjunchao@bytedance.com>
+--Nilay
 
