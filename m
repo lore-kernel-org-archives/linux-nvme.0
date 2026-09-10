@@ -4,93 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0B6CC88E41
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Sep 2026 20:55:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C458FC88E41
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Sep 2026 22:32:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7BgPIv1ZQw0ml091p4qej1j/5Et1QAUdr/a/BWY2itQ=; b=cZM1N5fHY8ZwJrVh5Tr3kV6ZZz
-	PICPXKKpPt9XSy3xXpperKFrYcqRadX9PzV7jc6UVyowaccvaPwDZnCrq7xNWjj7iKCZrSclf9BtG
-	70oLaBdKGKduayBmo46NXeM686ZmJzVAeLpSrYJqFdjrPrH81yMhFlnQ70So9+LDkqRyajdXztdlo
-	v4USYinn/QSOtzIZIKgPk7wqlxC/+X8HpFs3b/BY9MpcFLQETwMtrcTxCZf7yTRUNz9+/gInW1Z2p
-	N/jm6SIHvnpZJGTTIC/LdGMhyu137/wq3IssvGZb8KfMikBQIIh+nZ5VRbRUmTT2ns8ow3mrRg/ac
-	WKHt2vsA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=AvaXwx2LcNRb7aleMdEJjUSF+MigurOCyRurKBuzJ8I=; b=oVmdBZrATFuG85ulLdTo+ebuEr
+	qH3xPzet1LJ9hfEawgqgZFk1o/vUhF0ntpe1rqdH6NydPvnrsfNLprLDIDghinNrEuw7lMxv7w5yd
+	29IFv65FEoTwORlyxTfiqk6qQbiEdLsgZl3HrZGc41gR0jRnNK3CUuTyFIVPhZLcP10dj8DY8eQqU
+	NRVsKHL/0zTVO5bIC89ZbvEHa4fZFQzCw4go4dREspzZ/kzyHax/MaizqDArXxDppmIldtB7Z3Jj3
+	RR5q54L46REHT5f+Lz/O1Tn+l/YfioZD+0tM3Eb6VjMHSJdw7wbOjukUQJJND3RFM0A9pDA5wctnP
+	Yda8LS9w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x4lny-0000000FNYK-1DLD;
-	Thu, 10 Sep 2026 20:55:34 +0000
-Received: from mail-oo2-x0f.google.com ([2607:f8b0:4864:31::f])
+	id 1x4nJr-0000000FUNW-2z58;
+	Thu, 10 Sep 2026 22:32:35 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x4lnw-0000000FNXV-2Lv7
+	id 1x4nJp-0000000FUN9-3fmC
 	for linux-nvme@lists.infradead.org;
-	Thu, 10 Sep 2026 20:55:33 +0000
-Received: by mail-oo2-x0f.google.com with SMTP id 46e09a7af769-7f4f0c89e34so170393a34.1
-        for <linux-nvme@lists.infradead.org>; Thu, 10 Sep 2026 13:55:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1789073731; x=1789678531; darn=lists.infradead.org;
-        h=content-transfer-encoding:content-type:mime-version:date:message-id
-         :subject:references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=7BgPIv1ZQw0ml091p4qej1j/5Et1QAUdr/a/BWY2itQ=;
-        b=GERfgXyVJungJ2p23rcISn97PdSKSVMWq9DoZw3yezw+WLWkcPbHLbP9w7aPCxPzI4
-         xVND5emFdQYoL4xorFRpHlTYw96ah0suA+WRVYf6tyH7aMzJ6wVP2ko/Tj85Fv8P+qHF
-         s83son9Pa4zUbU12qKkqDDZcJut+kjF40T7M321aixQ3B0aUAFNmpGfT1fv8tObtw9EW
-         1aFWPG/BjVbmlTBlczvhKpVsP63N1NzWNFZyjAMP2fBUCO19UuwaL0eCWX+ACvCmN75M
-         0Dj3WBWVvlt1qb1SPmVsrkUhcs4iwdO13yqWR/e7Zul5cP0Wky3clX6ZlPsGU8BIYTFa
-         ipzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789073731; x=1789678531;
-        h=content-transfer-encoding:content-type:mime-version:date:message-id
-         :subject:references:in-reply-to:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=7BgPIv1ZQw0ml091p4qej1j/5Et1QAUdr/a/BWY2itQ=;
-        b=W4q3h+bn+juhceqEmRoOvA7dPAWo0qs4ecAix22nXc6iKvgRsdRLrL1aKE29OvmfJO
-         Khvqhuurnom8R9a4q/AJ0hLXqMEONnYYy1Gjna4Fi7AMKYjWRpkOru3g9ihMc9Ep1XsQ
-         FVySlSq0DV5kSHwbZOeYpHKXiaLWiMnXlneN7Mw8DnVe2CyWzk+iFOZo51Vd4aR2+yii
-         lVnSsSeGAFroEtS6EtP4mk0feZdT5PRQkfKxnHz8p/OvKJ5e4BFAIxsxndsDjmuGXl5t
-         qDJZX2Mr6d1iEfpuTZpNH1ICvN1WMp1wkRDd2MFhwo9DbWJUEeb28dDUiuyLBLAZABbe
-         BvOA==
-X-Forwarded-Encrypted: i=1; AKwUvBztySQIFivuDJCTLw1T6gBUtb0f+Y6YY1AbGSBXiryREqrVOygGtkXyqGSHExtIKEUX8Lx1E+E1lyWZ@lists.infradead.org
-X-Gm-Message-State: AFuF++l93lONMzyWMxd8/uXegoof2b8fz9WkWZcNnMsrUsJRPumFBkfU
-	7ImqGwVD4M/o5mcMuAP99jpT7wb2K0RYJjMCUb+0Tz7khbOBnJpEwdnpDcXgp83RL7k=
-X-Gm-Gg: AYBFou1gXqdeEGrn5wSRDTUj1prwPtWR3PGg2gNLrLZjY6sQb8PAzI43osd5doPk7Xx
-	+1V7S4ATLeHTT3Yn1fkfFHE3p/opwxlRRpEdMCv8PAXjPOS5RSwIWE2NCO/P8tZWBg9Ly9LtLLX
-	GZHJuxzqEoTlM3IP35mbJqxOUd30MvPF0Sfv87CpnKBMpz//FMhdIImNXtVP7MHsZs8gJypHoGo
-	4iinCvs7Kn5xEFhyBxyv2YYDGTvYEL84R7OwyJWojv2wpBWAQAvGpSu9Btg3QmVaGk/YxdMOpyg
-	Ky0lBEeQ/orIIeFl31aNYoPvVDxpiVaThkjc8Os5VZ9zwTZdMEV+OjmgcuVxGgN8DpCiByXeQ10
-	izEBZyQ4Sec+wKyEoOxu5WFBI7EFXuD2B+9P1Pqd0MwF1l4Lq2ntLiyZKpV94g3C38Zriabz2e8
-	z+XWqSA/k22jRffdGRWsjPNUm/dSzvTplPmvn6M+nRU+cKFdoE5v07jWHVJ1amgxb0mRkEZXzy5
-	j9j4h0/YC+lbp5qKRN2L7GKA8gqBV3n4hID3xkIhpYGNWoJ6RM=
-X-Received: by 2002:a05:6830:67d1:b0:803:3878:bf59 with SMTP id 46e09a7af769-804001c3c9fmr433555a34.13.1789073731594;
-        Thu, 10 Sep 2026 13:55:31 -0700 (PDT)
-Received: from [127.0.0.1] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-803f60fe54asm635779a34.15.2026.09.10.13.55.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2026 13:55:30 -0700 (PDT)
-From: Jens Axboe <axboe@kernel.dk>
-To: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
- Sagi Grimberg <sagi@grimberg.me>, 
- Caleb Sander Mateos <csander@purestorage.com>
-Cc: Joanne Koong <joannelkoong@gmail.com>, Ming Lei <tom.leiming@gmail.com>, 
- io-uring@vger.kernel.org, linux-nvme@lists.infradead.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260909155848.2069290-1-csander@purestorage.com>
-References: <20260909155848.2069290-1-csander@purestorage.com>
-Subject: Re: [PATCH v3 0/3] io_uring passthru: set result on blk-mq request
- completion
-Message-Id: <178907373014.484803.6342081621851413599.b4-ty@b4>
-Date: Thu, 10 Sep 2026 14:55:30 -0600
+	Thu, 10 Sep 2026 22:32:33 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id 3A16C436A2;
+	Thu, 10 Sep 2026 22:32:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C425C1F000FF;
+	Thu, 10 Sep 2026 22:32:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789079553;
+	bh=AvaXwx2LcNRb7aleMdEJjUSF+MigurOCyRurKBuzJ8I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=gW3tTTD7xAgWUf3poPvahx39VxXOsCnnGGymP4z3rdxXzvuHYr1cd/ysJqDKY0Ify
+	 +o8/qUIVV8jS2UCrfSlgH+afQbeZESOlvsfFghCqyN4bkflGgKnYBYHud3oV5UL5FN
+	 EN5m5fbSzbDWj2Pok4JIErgF4Rq79ZLXZ7ypSpvAVjORdUFxlrvJYhzvanVG9kjK+r
+	 IzFD//vk/zxWs/CkWESmhXx7CFOI8D9gmd4yk586iIBk85SjBZJe5u+xJ/K8fobfIT
+	 zp1aVZT7PqMwuno+sf6IX6zCcdFvzAYbKDYWJNXLBa3ZYHIMfOBhsDFGWoKZcYbjnp
+	 uHxrFEW7vgYhA==
+Date: Thu, 10 Sep 2026 16:32:31 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Shivam Kumar <kumar.shivam43666@gmail.com>
+Cc: linux-nvme@lists.infradead.org, Greg KH <greg@kroah.com>,
+	security@kernel.org, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>, stable@vger.kernel.org
+Subject: Re: [PATCH] nvmet-tcp: fix a hang on queue teardown with data digest
+Message-ID: <aqMv_5u8KclzrGym@kbusch-mbp>
+References: <20260901014718.2835558-1-kumar.shivam43666@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15.2
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260910_135532_630021_EEE16FBE 
-X-CRM114-Status: GOOD (  11.32  )
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260901014718.2835558-1-kumar.shivam43666@gmail.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -105,33 +70,48 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-On Wed, 09 Sep 2026 09:58:45 -0600, Caleb Sander Mateos wrote:
-> io_uring NVMe passthru currently receives the NVMe status and result in
-> the blk-mq request completion callback nvme_uring_cmd_end_io() but
-> doesn't post the io_uring CQE until the io_uring task work callback
-> nvme_uring_task_cb(). The status and result must be plumbed through
-> struct nvme_uring_cmd_pdu, taking up 16 bytes of the 32 available.
+On Mon, Aug 31, 2026 at 09:47:18PM -0400, Shivam Kumar wrote:
+> With data digest on, a command that has received all its data waits for
+> the digest in NVMET_TCP_RECV_DDGST. has_data_in() is already false there,
+> so need_data_in() is too, and nvmet_tcp_uninit_data_in_cmds() skips it on
+> teardown even though it still holds the nvmet_req_init() reference. The SQ
+> percpu_ref never drains, nvmet_sq_destroy() blocks forever in
+> wait_for_completion(), and the nvmet-wq release worker is stuck.
 > 
-> Store the status and result on the io_uring request in
-> nvme_uring_cmd_end_io() instead of nvme_uring_task_cb() so it doesn't
-> need to be passed through struct nvme_uring_cmd_pdu.
+> An unauthenticated host on an allow_any_host subsystem hits this by
+> negotiating data digest, sending a write's data but not the trailing
+> digest, and closing the connection. Each leaked command wedges a release
+> worker; a few stall queue teardown entirely, and with hung_task_panic the
+> box goes down.
 > 
-> [...]
+> Drop the reference for a command left in RECV_DDGST from
+> nvmet_tcp_release_queue_work(), before rcv_state is cleared. A command
+> that failed nvmet_req_init() never took one, so skip it.
 
-Applied, thanks!
+"I have made this letter longer than usual because I lack the time to
+make it shorter." - Blaise Pascal
 
-[1/3] io_uring: move req_set_*() to public header
-      commit: 7acb6aa7916023e072eadb9e45e34a4b3f5801bb
-[2/3] io_uring/cmd: split io_uring_cmd_set_res() from io_uring_cmd_done()
-      commit: c54cf3476674a6a01c61da85fa32aee9f07c0741
-[3/3] nvme/ioctl: call io_uring_cmd_set_res32() in ->end_io()
-      commit: 11773ae6da9c9d92f5d1def78f7e70a9f1fa7b1c
+Take some time to actually write your own (and hopefully more concise)
+message to demonstrate you understand what you're changing. AI messages
+are overly verbose.
 
-Best regards,
--- 
-Jens Axboe
+> +	/*
+> +	 * A command that has received all of its data and is only waiting
+> +	 * for the data digest sits in RECV_DDGST: need_data_in() is already
+> +	 * false, so nvmet_tcp_uninit_data_in_cmds() below skips it, yet it
+> +	 * still holds the reference from nvmet_req_init(). Drop it here,
+> +	 * while rcv_state still reflects it, so the SQ percpu_ref can drain
+> +	 * and nvmet_sq_destroy() can complete. INIT_FAILED took no ref.
+> +	 */
 
+Same here.
 
+> +	if (queue->rcv_state == NVMET_TCP_RECV_DDGST && queue->cmd &&
+> +	    !(queue->cmd->flags & NVMET_TCP_F_INIT_FAILED))
+> +		nvmet_req_uninit(&queue->cmd->req);
 
+I don't think this criteria is even correct. RECV_DDGST doesn't mean the
+command has all its data since that state is per-PDU.
+nvmet_tcp_try_recv_data() enters that state at every H2C boundary, not
+just the last one.
 
