@@ -4,94 +4,111 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5EF72C88E4D
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Sep 2026 23:21:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A4CD1C88E45
+	for <linux-nvme@archiver.kernel.org>; Sat, 12 Sep 2026 04:44:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JDE3O54+uPB/NIAVVl/ufko6s1c+5dSjdyfyemrkrrc=; b=Rw3o/uqpKEY43L41uVkYp9erl/
-	yFk+lXWDHmzHnPhJJxJ82QiDCZfRoww1ibCwnxk8F9psZD0e1MxDuc051LPzPWa2NXG3mQHC3WNAO
-	aFI4g5CHhagQPEA3eF/9gS6XKGn7ex1ZNzc2oCdkmAxfzk4UNxEfGPixNBeMS4yW9WoiBBUUFxNsM
-	X6ivtwdXjyF35Lb69hye0sV91OLRhOcrC/GzdTZF25Q3lqUBOR+8E/QSxzoIzaFhKUwC0LEjt7Nd/
-	E4TeFck1NAwiPrQvVraSL9nNzeAJxxpmXpERAnTe9rUHm7KX09Qx2a5Sk+msSblT61Q8ox9/6m/7U
-	2VVJ45gQ==;
+	bh=227EuAsNywH5Ru6uyjfcvigTr1soLZnaZRqqI+5pgxA=; b=29d6IdFExqxnmCJ0+2dXDxVRLX
+	0Rx+KkQnVGAXyunxfurjh1Xoms/ed7L2wkaACvWcm0ziDHTydJB9+P8BWXkDZ4fkkPW6XoNTXHc3l
+	FoxPColvRge8ZXaGOLBVpwQ/2aro6ueQJyn+W3CaoUw5Ur6Kvkdi/m1UBFsJ2+/ZoYvyEB/I/GQUA
+	YXeDpO75eqHK5g4U4eCJXO+Y+N6zxPoq09unu50xYCXbhlNlLmUlksZh/tdGPecN4aXe30RYBndZk
+	vEXFdM6GxZjqq6tcW059ELvtkePYlSZcgmIhhgUM6Nw5xeiBxgikBW2CADNk8RqKNlXFJbgWeNA+R
+	YlE5xuyg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x5AYL-00000000Lxa-30cG;
-	Fri, 11 Sep 2026 23:21:05 +0000
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
+	id 1x5FbP-00000000X6w-1Fce;
+	Sat, 12 Sep 2026 04:44:35 +0000
+Received: from mail-oo1-xc36.google.com ([2607:f8b0:4864:20::c36])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x5AYJ-00000000LxC-2Uhl
+	id 1x4lqy-0000000FNlw-3FBR
 	for linux-nvme@lists.infradead.org;
-	Fri, 11 Sep 2026 23:21:04 +0000
-Received: by mail-pj1-x1033.google.com with SMTP id 98e67ed59e1d1-38ea87caafeso1555472a91.3
-        for <linux-nvme@lists.infradead.org>; Fri, 11 Sep 2026 16:21:02 -0700 (PDT)
+	Thu, 10 Sep 2026 20:58:41 +0000
+Received: by mail-oo1-xc36.google.com with SMTP id 006d021491bc7-6b1b766bf01so199931eaf.0
+        for <linux-nvme@lists.infradead.org>; Thu, 10 Sep 2026 13:58:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=crusoe.ai; s=google; t=1789168862; x=1789773662; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=JDE3O54+uPB/NIAVVl/ufko6s1c+5dSjdyfyemrkrrc=;
-        b=W5ZfoOE9W0ot/I6IG+khCKI3cwZjznqnUGpXzXGt/DMga0WjH0iIdT1cKCR3X9Wtzq
-         LaoON1jyR0WYkwUc+SOj15AmHrXrwYORfBTdh36sxU6dl33qxY7vIWKstuzO5OffSkqv
-         qpyMmvNUcIdMUcie2Qt+ArD1fLVEgHJtQHUkVpyWyY0oQCjpO5pHn11XWabWEbhVmiRd
-         UEkxUzQ8nAvSw0cRBBDSedaZ36iLSWjo/mYVScoLzf8xLb4JTPl/eVruPGHjcIXyzNAu
-         Saxr4Nvd4rjwZa+L9lACzb+6MEKbt5PM+D+TVZkjc6AsohrDoMWqoHjLkL1GS8ARdaN1
-         9haw==
+        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1789073919; x=1789678719; darn=lists.infradead.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=227EuAsNywH5Ru6uyjfcvigTr1soLZnaZRqqI+5pgxA=;
+        b=iAaD+zpQiPtHXi81k2777BnljqhRtrNgIQFKBX5y/TUpTmLxR2SL3xl1SGqE7+mrbQ
+         QwQ3dG9nAXqcqy8DfCzRKMIUS7O6snn0zw6Kd9FK1fcuFxVkCo6Caeivg9sxoFKmg7mZ
+         PXRtmXI4Z38WYq4xF6Sej0iLPmSVgAdse1l9pOSKsUbkgIVbDw9aITzxOYGX0ZEsB70c
+         eFqU0VxshMtgtNHg+3HevDA/ypwvX4smS6O7DF1KFf1GyI3yb+SXrTerCnY9j1IThOCn
+         8F7XoaVf+CHreYzZc1g/h4uPKfxDgOuzaOMF/D2SjDbHwplXwUERNQ8cSB8SsciQoOr8
+         fBIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789168862; x=1789773662;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=JDE3O54+uPB/NIAVVl/ufko6s1c+5dSjdyfyemrkrrc=;
-        b=bNIcDVuzuteCJejnUE6nFTCXlv+Q2rRKJ+RwzGJHaaOZ8BiLF1s2bClGcgs0qa7pCn
-         3ppLxjuK7vszK1PG7DYFV+OFTy735+lvFY9+aY12KOOGalThcNbARLlpoSXBFhbmoPyZ
-         gXnU8NUTqNAKnnaVVY1xyr4B+QDdAZIvf51HG166tibyQponQj7XyDmBVA+thXrIuyqA
-         quXnf8SQ4IsWizkf4+u2XQmjiqJA4iK3Fi4UMLi0mH2x02hB/neM/WU2hApz07+XLrZn
-         QbB093UuDqoHAxfxf4dFdTL9QltpSP2Kanx2hGxWlCTrGNEKUKSFqAYtrAC2j+PZY5hs
-         rtbA==
-X-Forwarded-Encrypted: i=1; AKwUvBwzyfIZ4Iyqbk364kK1PuuuwdrTycqQQgGIfQ/fgERJnAjTIxxbOMKRdTONbMfl9EbiV63N73JtDQ04@lists.infradead.org
-X-Gm-Message-State: AFuF++n8xXpdzkbwbxbgKQ783jwso7p6MOH1gaV1s0/O/3HUatG388Lg
-	gKkHBlK7BUHNass5NIw5ylfjLZMFDiQ+1RUs1vj0l+V/9bOpNRUlnyK7nZ/NwnA96Eo=
-X-Gm-Gg: AYBFou2BuffpMAgNW5TfRR8RCeuHajClsvHJymxBIFoiwuvZ9TstlNlnaNdQ9lrcOki
-	qXZJI7W8J/rmm6TZfTole+YkdhhNAgl5K9qiCpxHvYdVmmB7u+BYRYHBbO2O2h9t0R0cN3GO6+/
-	SMG+S6fc1X6axGYHoKx2Nn7ym5g0QXRktU6jFo+FptbyYsR4nDnIzHmdpqjezJUCz06cCv1YkMO
-	/Yak9I+pOYi8Tu2LAh4XaIsAL8UapWqqZqM8JwAQ1UivMH8rtDmICDL5Mj39lwhEyhJ73DM5ou9
-	tReF4Hu52fV0yIKsCDWGJtwl89WYju0CEkswmyNZNQmXYlM5IPEd/g4Jp9T6MHMZQFWcVzdTdoE
-	8j5Q6s8042E23TLIWF+NiL/XeArnzx/jjEHa+RdadKHuWZKqwgikW+BkVmCki1fTiNW7zlMLatV
-	p2LCD06ShPsHrOujsNJihu9KbrCoPBwBlcch0PowQqU+qqjtFN3GaObUpJ7OoskIKR1lR5PeT3g
-	nXHf7mxTHDm+litCift9yYFgq4CFYlsn/FrG/lMQrfq
-X-Received: by 2002:a17:90b:384d:b0:38e:250b:122f with SMTP id 98e67ed59e1d1-39d9c1b4a9dmr9730828a91.16.1789168862074;
-        Fri, 11 Sep 2026 16:21:02 -0700 (PDT)
-Received: from MBP-Krishna-Iyer.civet-hops.ts.net ([4.7.95.218])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33ba4e5193dsm8886173eec.10.2026.09.11.16.21.01
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 11 Sep 2026 16:21:01 -0700 (PDT)
-From: Krishna Iyer <kiyer@crusoe.ai>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Krishna Iyer <kiyer@crusoe.ai>,
-	kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	nilay@linux.ibm.com,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	sj@kernel.org,
-	saravanand@crusoe.ai
-Subject: Re: [PATCH] nvme-multipath: add fail_io_now sysfs attribute to fail queued I/O
-Date: Fri, 11 Sep 2026 16:20:59 -0700
-Message-ID: <20260911232059.98122-1-kiyer@crusoe.ai>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <8d06416e-a0be-4a0a-b1fe-f5b7831f8574@grimberg.me>
-References: <20260904032605.65758-1-kiyer@crusoe.ai> <6b8ff0b7-c606-471d-b3be-12df3dac350b@grimberg.me> <20260906042235.71778-1-kiyer@crusoe.ai> <8d06416e-a0be-4a0a-b1fe-f5b7831f8574@grimberg.me>
+        d=1e100.net; s=20251104; t=1789073919; x=1789678719;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=227EuAsNywH5Ru6uyjfcvigTr1soLZnaZRqqI+5pgxA=;
+        b=JtbUWtxdVqq8/7owBTGQsoLUT+/ONu7+bJlVX3S3vXvSrJRk07D4p9rtjzzWfjCOY/
+         NoyH3h69wzT4DkLKrXda5uBgc9L8eL21my1QsnIHJRJB5y92sK3X7o6Pc/jcTWvg0e0E
+         rBW1dumIujAJwz9dhTaF4HFXzVLonGayhetqkSJ92Cbb4SamB/kU2Qv9AJ1iM8KZCKin
+         oAz43FWU6SOraA+WNCVncmY7cnQ7srtF844pCtdFtXDWe8NmJ9UQz7bsgXOJACLQ43Sv
+         WrH5vgojrAYFxWYqWxcG3idigVCSjK3HaZYVwAQFG9PcCGoXRIph49jTbmEIEtIQGEXr
+         gjHA==
+X-Forwarded-Encrypted: i=1; AKwUvBzHqV8W/LPKRZqbdboSOeuFcbeJ1sqUOb8KABkWHXX6rE7PADGsP37itv07goIgIoMg664DBWeZ0i50@lists.infradead.org
+X-Gm-Message-State: AFuF++natjJscGJapvIfgLrSPuDzAUvynpIm3qy+hr2k9vN/uoFg65Hd
+	Es/Mh+Bvx+VmTIGjKNXdSYsXU/X7DIRFnh6QWTNdZYAAkZoyfLvemDfq4qHE0kPRpBQ=
+X-Gm-Gg: AYBFou1Dbgzvi7+/JkTVHhtqgqMw2HoRkEFId1ZW9SkNh0un1jo00VqSYZQ9YXGAZxh
+	z9HG6UX4iUJTOmw8tezHV+Csx1suod0Z9RvGMKW8/o5aI0XOskYVyAU0vJg6FYS4swLRrQOro8S
+	BXgJyjYfD9jzAsbs7+KEB5/ritZlFIjmjt0v5Yk7P4Kpv2n7GWFPxmDoFF5XLpgDKddCzm0kc4S
+	HkYLxW0khfxNQEzKpajR7T5A2Vb6HL7+1tsqaHo/XZn0+ZvMjGlwYX1+9KxqyvoOPpOdQcmtKyP
+	T60p7l/GTfXKrZlhENHYITr/acEwQ1dTsJY1I/IwHiP8t29lzlKxkoRH5RGzRBF9dUlGsfGgKTq
+	/yGGWvUJlhBxb8G1O99Hr9J4w76TalEibxZCakEY1CEUfhgtbTBGnZRGMdNUOi5NNkwRW2QObBf
+	E1OK2M+EA4g03VMEf1aPpKs+aBvVM+NBFRc/VT3eM3ek+JdnYzb31qk1ayr4I/mZJK8xsAbcxxy
+	8mDH26J1M8yptpAW/EcnuFzxmBr6fGVLXfSW6qGcFoVW85Eg+M/2Sim
+X-Received: by 2002:a05:6820:3411:20b0:6c0:5630:bdef with SMTP id 006d021491bc7-6c0bd97850emr353461eaf.67.1789073919642;
+        Thu, 10 Sep 2026 13:58:39 -0700 (PDT)
+Received: from [192.168.1.102] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6c09a122443sm1108879eaf.9.2026.09.10.13.58.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Sep 2026 13:58:38 -0700 (PDT)
+Message-ID: <eb469580-509a-4895-a819-e7f3e4fa0b0a@kernel.dk>
+Date: Thu, 10 Sep 2026 14:58:36 -0600
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 00/16] Add dmabuf read/write via io_uring
+From: Jens Axboe <axboe@kernel.dk>
+To: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Pavel Begunkov <asml.silence@gmail.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
+ Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
+ William Power <william.power@intel.com>, Phil Cayton
+ <phil.cayton@intel.com>, Damien Le Moal <dlemoal@kernel.org>,
+ Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+ Mikulas Patocka <mpatocka@redhat.com>,
+ Benjamin Marzinski <bmarzins@redhat.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, David Sterba <dsterba@suse.com>,
+ Ilya Dryomov <idryomov@gmail.com>, dm-devel@lists.linux.dev,
+ nvdimm@lists.linux.dev, linux-btrfs@vger.kernel.org,
+ ceph-devel@vger.kernel.org, Jason Gunthorpe <jgg@ziepe.ca>
+References: <cover.1785596451.git.asml.silence@gmail.com>
+ <178907372259.484803.15807864431748251506.b4-ty@b4>
+Content-Language: en-US
+In-Reply-To: <178907372259.484803.15807864431748251506.b4-ty@b4>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260911_162103_670907_8AFAC111 
-X-CRM114-Status: GOOD (  15.53  )
+X-CRM114-CacheID: sfid-20260910_135840_828703_64DEC243 
+X-CRM114-Status: GOOD (  16.42  )
+X-Mailman-Approved-At: Fri, 11 Sep 2026 21:44:34 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,43 +123,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/11/26 2:37 PM, Sagi Grimberg wrote:
+On 9/10/26 2:55 PM, Jens Axboe wrote:
+> 
+> On Sat, 01 Aug 2026 16:46:12 +0100, Pavel Begunkov wrote:
+>> The patch set allows to register a dmabuf to an io_uring instance for
+>> a specified file and use it with io_uring read / write requests. The
+>> infrastructure is not tied to io_uring and there could be more users
+>> in the future. A similar idea was attempted some years ago by Keith [1]
+>> (from where I borrowed a good number of changes). Later it was brough
+>> back up to life by Tushar and Vishal.
+>>
+>> [...]
+> 
+> Applied, thanks!
 
-> At that point you can disconnect the controllers, which will teardown
-> the inflight blocked IO.
+Eh no it is not applied, was just looking at the series locally and I
+guess it got added to the b4 ty pile.
 
-That works, but it tears down every namespace on the controller and
-someone has to reconnect afterwards. Our controllers back multiple
-namespaces and we only want to fail I/O for one of them.
+I am, however, wondering if we'll see a v6 of this soon? I had some
+comments on the nvme dma mapping, that can be improved, but I'd rather
+defer that to post getting this included.
 
-> If you have a namespace that is attached to controllers say X,Y,Z,W
-> Now all of these controllers are unavailable, aren't all of the namespaces
-> on these paths also unavailable?
+If the series is dormant, just let us know, and we can pick up the bits
+and pieces.
 
-Yes, they are all pathless. The difference between them is what to do
-with the queued I/O. Holding it until a path returns is right for a
-namespace whose user is still around, and wrong for one whose user is
-gone. In our case a SIGKILLed VMM will never collect its completions,
-while the neighboring namespaces belong to running VMs that should
-keep queueing and resume once the fabric heals. The kernel cannot tell
-these apart, only host software knows. That is why this needs to be a
-per-namespace policy set by the admin, the same model as
-fail_if_no_path in dm-multipath.
-
-> Or is it that the paths are online, but the ANA group got into a state where
-> there is no optimized path?
-
-In our case no, the controllers sit in CONNECTING for the whole
-outage, so there is no LIVE path. But v2 will cover that ANA case too:
-with the policy set, a LIVE path with ANA inaccessible or
-persistent-loss also does not count as usable.
-
-Either way the no-path condition may be controller-wide, but the
-remedy is not: anything controller-scoped releases I/O for every
-namespace behind it, and we only want to release one. Hence a
-per-namespace policy, which per Nilay's review v2 will rename to
-fail_if_no_path and make persistent instead of self-clearing.
-
-Thanks,
-Krishna
+-- 
+Jens Axboe
 
