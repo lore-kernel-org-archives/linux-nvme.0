@@ -4,114 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 29C76C88E41
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Sep 2026 09:00:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 38350C79FB9
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Sep 2026 10:09:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MsWl47GwyHeZ8bg2dcGk1gk0f4DjVU7QhB2I2ptenhE=; b=mHdIGs6w9fNhE4CCE/v6ahnDHn
-	UmvauR4LzlaZusdGfCn+I4Ls7Ph7wdVQZzNMCwAUtBl/P/PMCqiNSBujEqknbKFwsgvo9GbtPQRKx
-	Me/5hYVf3r20ZNCYoc5262anb1xHesYCxCD6IURhaqZMMaRnAiZ8I5KkGr4xe6CUHEASE44WudzGe
-	SHZ/yQqh267zSGV6xdEFiA3JeVaKwd2tRzzJQOwbmojUxUK1cznO0Fz0cIVe2jhkNA+c3eOGvZJqZ
-	GWbElSOHkDJRlQYvopLZbN0Ca329BNq3CXVrrrhmmjjvhJWui3wBl48Tu9VH79x/9sQRY+FsUpiP/
-	aSiCLBEg==;
+	bh=FDh0DW4FreAXgSlDFmbyju9lTtz4hVwzfOzm+e6qy+M=; b=f/54QljuYT3mTC3WU+hrrLxtR6
+	YOS/6EkX8pySfac/Ciz/pV2N5eZ4Pn2BByrgFt3K+50XtQ5kmZf9rFyFZ8kzOdWV5HVuozxnm/3jJ
+	GGnMESuMx+ZusHnJVrfhUQ0MFmfIm5/1ER3dtbMn8LySCQ3l9ImfV5EjgNOL45crIxH2+7VhuOC7o
+	JewmdROpW2ve6yYji/yLP/wFyuObjbb3+7+eIAEktdXKW8J9stI31+QsX42PBY0TonnsOB6lcc/zC
+	G3yn0t0wjtNIR/V1l1/unwe6DsRlehGHmGbDevPXqRNNL3klvQdQabfmcgvwioZd8Rx6noyoh2VRN
+	STGrdD7g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x4aeM-0000000Doi0-39vu;
-	Thu, 10 Sep 2026 09:00:54 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1x4bil-0000000E0LV-2BAg;
+	Thu, 10 Sep 2026 10:09:31 +0000
+Received: from mailgw.kylinos.cn ([124.126.103.232])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x4aeK-0000000DohQ-2oA5
+	id 1x4big-0000000E0KV-0SB8
 	for linux-nvme@lists.infradead.org;
-	Thu, 10 Sep 2026 09:00:53 +0000
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68A5VNaq103898;
-	Thu, 10 Sep 2026 09:00:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=MsWl47
-	GwyHeZ8bg2dcGk1gk0f4DjVU7QhB2I2ptenhE=; b=r0FjHl0YQu5Bv56Jt/UAj1
-	MaCBBTuK3g82YeM8vGg2QEF+Mfd3R36+m35ISkt/AQhRvgCD2pRpY7qNEnGdk2vx
-	Qtpy5QLD/+AwGK0PARCCTFo2CAdpme6oG299vEeXLps8TxBfwMP7ddaL2tmoTzV7
-	B7vtcxvJ1HnMrWGtxJ+RRwZQYf+9+2AFJFe/EB2Q3UKASIUQ/Oa61pxHssaZ1diw
-	q+DG/OS42N+F4ALOwhi+Bu7wFCtSbpmCz4stVX194G2b0Sb9iWPcoL2iiAuXEBIY
-	y4A8KPDa78r8fsGnMzq4w1jtM5+N/FtpQuB9P7xUgEL7sLvEib7enf1tiiV/MaLQ
-	==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4gkd8n3fvu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 10 Sep 2026 09:00:31 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 68A8uZAP015750;
-	Thu, 10 Sep 2026 09:00:30 GMT
-Received: from smtprelay07.dal12v.mail.ibm.com ([172.16.1.9])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4gkcr3bfx1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 10 Sep 2026 09:00:30 +0000 (GMT)
-Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
-	by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 68A90TCI42992000
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 10 Sep 2026 09:00:29 GMT
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B0BFB58067;
-	Thu, 10 Sep 2026 09:00:29 +0000 (GMT)
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A353C58061;
-	Thu, 10 Sep 2026 09:00:26 +0000 (GMT)
-Received: from [9.123.7.57] (unknown [9.123.7.57])
-	by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Thu, 10 Sep 2026 09:00:26 +0000 (GMT)
-Message-ID: <361d1726-ae09-4d21-a507-a792989e9f44@linux.ibm.com>
-Date: Thu, 10 Sep 2026 14:30:24 +0530
+	Thu, 10 Sep 2026 10:09:30 +0000
+X-UUID: aafcedfcacff11f19a56ed5b684f684d-20260910
+X-CTIC-Tags: HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NO_NAME, HR_CTE_8B, HR_CTT_MISS
+	HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME, HR_SJ_DIGIT_LEN
+	HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE
+	HR_SJ_PHRASE_LEN, HR_SJ_PRE_RE, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT
+	HR_TO_NO_NAME, IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_TRUSTED
+	SA_EXISTED, SN_TRUSTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS
+	DMARC_NOPASS, CIE_BAD, CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS
+	GTI_RG_INFO, GTI_C_BU, AMN_GOOD, ABX_MISS_RDNS
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:a6cd0f10-e723-4c87-8165-18430586c298,IP:10,
+	URL:0,TC:0,Content:-5,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTI
+	ON:release,TS:30
+X-CID-INFO: VERSION:1.3.19,REQID:a6cd0f10-e723-4c87-8165-18430586c298,IP:10,UR
+	L:0,TC:0,Content:-5,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:30
+X-CID-META: VersionHash:7db8b62,CLOUDID:6a195ccaa05e1996a283e674f5ff424d,BulkI
+	D:26083116041099FKK443,BulkQuantity:2,SF:10|66|78|81|82|83|102|127|136|850
+	|865|898,TC:nil,Content:0|15|50|99,EDM:5|-100,IP:-2,URL:0,File:nil,RT:nil,
+	Bulk:40,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR
+	:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: aafcedfcacff11f19a56ed5b684f684d-20260910
+X-User: sangyao@kylinos.cn
+Received: from localhost.localdomain [(223.70.159.239)] by mailgw.kylinos.cn
+	(envelope-from <sangyao@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1445208291; Thu, 10 Sep 2026 18:09:11 +0800
+From: Yao Sang <sangyao@kylinos.cn>
+To: john.g.garry@oracle.com
+Cc: axboe@kernel.dk,
+	hch@lst.de,
+	john.garry@linux.dev,
+	kbusch@kernel.org,
+	linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	sagi@grimberg.me,
+	sangyao@kylinos.cn
+Subject: Re: [PATCH v3 0/5] block, nvme: support same-LBA multipath limit stacking
+Date: Thu, 10 Sep 2026 18:08:48 +0800
+Message-Id: <20260910100848.1248846-1-sangyao@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <b6372900-7be4-4e6e-94ae-f816341e4c07@oracle.com>
+References: <b6372900-7be4-4e6e-94ae-f816341e4c07@oracle.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme-multipath: add fail_io_now sysfs attribute to fail
- queued I/O
-To: Krishna Iyer <kiyer@crusoe.ai>
-Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
-        linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-        sj@kernel.org, saravanand@crusoe.ai
-References: <20260904032605.65758-1-kiyer@crusoe.ai>
- <84112f53-5c05-46ca-97d0-550565fb941c@linux.ibm.com>
- <20260910015457.77845-1-kiyer@crusoe.ai>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <20260910015457.77845-1-kiyer@crusoe.ai>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=NMVAaE6g c=1 sm=1 tr=0 ts=6aa271af cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=i6_9AHJ4UYTudbWR4IAA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: RSW1OUnAXn4DsJ59X6uBH7YRScl-18t_
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTEwMDA5NSBTYWx0ZWRfX25lgJoU1g+AJ
- Wu2XXJkGH7DaP6YHkRU5PJvP06s2Rtwn5970byXQtNExXoJLYgtpZTfDat/EtY49zvrynrOobZQ
- /0HArF/NYahPshsY5pBOAuLzsrkwdmSjWTXMU5q55Qo71aFFq2aZuA1lwZThYQJA4ltFG95y/M9
- Q8lerC9fTwOCZoG1MysBPRw35DzuZtIdUr4h4fp3QR55SQDBY4Jec6XsTyoA1xv4waBKzVZUIlL
- fYl+SU2hDXYzWib9oz6GWd1P+5oKXbbErJ654T1AuWz8aDI34SC5nkSsuEwbEGz7L8A3UbfL2+x
- WPBcT6atT0ni3Qu4vOOlutSQb3MmqjXkJJkTtueBvEuPV59oxAMd19rn1sTvrVt18cFxJCPrBsN
- AypPq0BhgmtwUHP7SX6KeLmvb74YW8GMhApFZFAi3O8L1vUyNcrLhiBVg9SZNKWWBEB7VEjuxW3
- u1n/WxXnivYsnwYgE1Q==
-X-Proofpoint-ORIG-GUID: RSW1OUnAXn4DsJ59X6uBH7YRScl-18t_
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTEwMDA5NSBTYWx0ZWRfX3CTmzJEQWLGr
- 3wQ1q/cZzvfb6AUQQx/EFHUX38THN+qSsLFIWDRZkBn09KOITVU+PlYa5k3AWy3nmwoviLOufAU
- +EM8JZtL2r5pGLynXCJ9z4zaQgAeykg=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-10_02,2026-09-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 bulkscore=0 clxscore=1015 malwarescore=0 lowpriorityscore=0
- priorityscore=1501 adultscore=0 suspectscore=0 impostorscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609100095
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260910_020052_719805_B0F8A315 
-X-CRM114-Status: GOOD (  23.57  )
+X-CRM114-CacheID: sfid-20260910_030926_449768_0E4DB506 
+X-CRM114-Status: UNSURE (   5.61  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -126,56 +94,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/10/26 7:24 AM, Krishna Iyer wrote:
-> On 9/7/26 6:15 AM, Nilay Shroff wrote:
-> 
->> Does the intention here is to force I/O to fail irrespective of the
->> controller state, or the intention here's to fail I/O only when no
->> usable path exist? If it's latter then I believe this is not the right
->> place to enforce this policy as since this check makes nvme_available_path()
->> return false unconditionally when NVME_NSHEAD_FAIL_IO_NOW is set, without
->> considering whether a usable path exists.
-> 
-> The latter. nvme_available_path() is only called once nvme_find_path()
-> has come up empty, so the flag only decides whether pathless I/O is
-> queued (default) or failed.
-> 
-Not always, nvme_available_path() could be also called in case
-controller is resetting or controller is live but the ns/path ana
-state is neither optimized nor non-optimized. So I think the policy
-would be better enforced at the point where we have actually
-determined that there is no usable path, rather than making
-nvme_available_path() return false unconditionally when
-fail_if_no_path is set.
+Hi John,
 
-> Agreed on the rename. For v2 I'll make fail_if_no_path a plain
-> per-namespace policy: admin-set, no self-clearing, toggleable at any
-> time including mid-outage.
-> 
->> This attribute should be only exposed for fabric controller.
->> It looks this is being exported for non-fabric controller
->> as well. Moreover, I like attribute fail_if_no_path better
->> than fail_io_now, since it describes the actual policy being
->> enabled: when no usable path exists, fail I/O instead of
->> queueing it.
-> 
-> Right, v1 exposes it everywhere. Since v2 makes this a plain
-> fail_if_no_path policy though, is fabric-only still what you'd want?
-> The queue-vs-fail choice isn't fabric-specific: a PCIe head kept
-> alive by delayed_removal_secs parks pathless I/O the same way, and
-> dm's fail_if_no_path is transport-agnostic. If you'd still prefer
-> fabric-only, I'll have the visibility callback check a sibling for
-> NVME_F_FABRICS under head->srcu.
-> 
-For PCIe controllers, we don't have the same ctrl_loss_tmo/max_reconnects
-semantics as fabrics, so initially I thought supporting fail_if_no_path only
-for fabric controllers might make sense. However, looking at this again,
-we already queue I/O when no usable path is available irrespective of the
-transport. So I'm okay with keeping fail_if_no_path generic and transport-
-agnostic. The policy is essentially about what to do when there is no
-usable path i.e. fail the I/O or queue it— and that behavior isn't inherently
-specific to fabrics.
+Sorry for the late reply, and thanks for the review.
+
+Initializing the head limits only once needs some care, as we still
+need to refresh them after Format NVM and namespace changes.
+I'm working on this and will send v4 once it's ready.
 
 Thanks,
---Nilay
+Yao
 
