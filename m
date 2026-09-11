@@ -4,98 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D3342C88E45
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Sep 2026 15:05:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C1697C88E45
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Sep 2026 15:07:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Date:Cc:To:From
-	:Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UhPkzIwpcyRo7Ohgbz2mRN/hsyMqyZdNpG0dP+/Xjs8=; b=WihnupYDHneheFBffNysd00/Dz
-	pKEDLKpeThH35BNhb4hTxiqMjMVctObZv/VvG04u+hzPB34LncpqUcFmM2zTu3vGROOTQnB1i0S5/
-	oq7GOK87xQxpPQ/kZ06WVLz4LiI/fprZ2NrtAbL414ySs4YZq5xcwNEG/kDgOnKV1TrLLE6fe4gFM
-	EPW+jqwrIbZPlqKrgGZKKINDWvPASEE+DRGGuR/0vlVeRaJYD9z2i1FF6mZylkWcBJ89VodtiK22k
-	75JY4A88GiBcZx4yLMiG+c1Vif0w+spygtn/QYRki3n7NlRaCciXlVBIutIe8w4vQ8PdceCydMkQr
-	FQbzmEUA==;
+	bh=kN5VDR9z03jd/obUeKnZsdviPLlwfqOhB0m2w3WOXPY=; b=xpF9V17oAzgwxYukJ1RMiZplLd
+	DcXEPK8jCn+RRTsw42dqqOJ9eJ4EMyZKNA6b3VVyqOKg918mnFR8XdPS3/0f4TYzRsPQiCaN8QH90
+	+MlsrTinDJ5u8HX6GTY0QGP8KEjo3xzf0SbGCVnu+1ubmRCneyxzdzjHh/boPcA6zEbbfmM+w41iO
+	KaugqcyCj7BUzMRkIorEXxSxYJ42yUQqGeqs9z1ur7vAXdNV2YOuqV33fKOb7KWphXCmx+gYNPbL4
+	kR4JfY/HNLV094YsoIx7fK1jBUHPreo2DJ7UTlY6qG3+L+hJoSXPErV1x/hviPtVrp8lLTHAmpwY8
+	hI/7+gsg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x52p4-0000000Gzzr-2473;
-	Fri, 11 Sep 2026 15:05:50 +0000
-Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.53])
+	id 1x52qy-0000000H0IG-1aaS;
+	Fri, 11 Sep 2026 15:07:48 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x52p1-0000000Gzz7-4AXx
+	id 1x52qw-0000000H0I8-2rqP
 	for linux-nvme@lists.infradead.org;
-	Fri, 11 Sep 2026 15:05:49 +0000
-ARC-Seal: i=1; a=rsa-sha256; t=1789139119; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=R7lcf5afbXLOaiJSse/4TpvIY41wwWb6uc/jGaAI8x4YP1389UY+u+5GL9rnSgTXzJ
-    NV5FluByMTQkAhBW1t2yvE8bPMMQvn6Stl0eMkqVln40OLgRm7MuA1upBc6iJrH0WnhK
-    7IiQkUdLSgkyeI3SAU/v2VoOAU/SJ7ccdP/nLHZbVVgEiv6q7+tngGfHGpybjI7kR6az
-    ORKaZHkXsIWoXB35aJCHtuUOnU0xj6tGSeptGAlwXOksUNvoJZ2YEDS/BtQsFlHWPaD5
-    HytlQboPxP5UHhSkS88U1PY16TudsOJurbWAY4f1JvFXDNBJha5ecRnuAFTPcw4y9W0T
-    3jCA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1789139119;
-    s=strato-dkim-0002; d=strato.com;
-    h=References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Cc:Date:
-    From:Subject:Sender;
-    bh=UhPkzIwpcyRo7Ohgbz2mRN/hsyMqyZdNpG0dP+/Xjs8=;
-    b=PyDrl4AKmyF2PnWdL5BD5I4zNl4O0Gsj2SFUo4EkSgRImhskRSUEMb5YN6VLCgj2ae
-    EJyLEk2xxW08FBbcv2ySKnvOSk98o4V9AJcXEtgdb674XM6a5MrbqtYNKWG9TlNEIBK3
-    OtiD+yUSw9CX/VWQW2GlhAWeIhn/X+7HZ+68qTciIzNzS6lqTL/TlvtL9+iCxrkkwGRi
-    pfXP5YsnR9TiifzN0PNs7WqZLjgGE5+OGLbtSoNIoVv3RcWaAINtXoEGFlVZdGFPpGx/
-    sO2UwCojwrgbx6Gs0rb9qzY0YvR6ZIFC1YH8mD1MGET8x155nvqXyfbVoV9QXO0RrcJE
-    Bjuw==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo01
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1789139119;
-    s=strato-dkim-0002; d=iokpp.de;
-    h=References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Cc:Date:
-    From:Subject:Sender;
-    bh=UhPkzIwpcyRo7Ohgbz2mRN/hsyMqyZdNpG0dP+/Xjs8=;
-    b=YmNfACgE2w4HN80jUoBcVhWXlZ4ji2OxyeyV6sdy8cRmUJUSEOD3MInthxQjcQSkfQ
-    MxE5NTs/6NcTHjrfXvbX++eYpSuVaY5jODbGu527/aAURW/gBqqDFOlm0UB0SdbRZjnz
-    U3GJWb8l9e+pry1+Rd/xPA2i37SrZ7Nlb14z4Fr4FEtTJ979i6SgY5CUHFNnwYGm3md4
-    LSrCPsKlHHgJ2pT+yNWljXQ6OEbdeZYsJHbJoQUKhnxOoy/gmWGAFskhVxa1Ul5CI7UA
-    ReExzlNNQpkGqKfQDXhhBmq3pSzH98oBimfDB1CdlptURmfHxqXDv5X9DFdxakoXZfCz
-    EjmA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1789139119;
-    s=strato-dkim-0003; d=iokpp.de;
-    h=References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Cc:Date:
-    From:Subject:Sender;
-    bh=UhPkzIwpcyRo7Ohgbz2mRN/hsyMqyZdNpG0dP+/Xjs8=;
-    b=MwFCa9ZIKYTfh4A59EINXjLEP3O9OUU613PU4VnHUfCHG+CJ8U4EFcgEpAnHat+2P9
-    buUKG/NrmD0TkX5K/+CQ==
-X-RZG-AUTH: ":LmkFe0i9dN8c2t4QQyGBB/NDXvjDB6pBSe9tgBDSDt0V0zNriHg+YfT0rGaZpI+/63exJG3nKe+1cCDsnKpsYY+u4Ll0RlE="
-Received: from p200300c58729681c3f3e4b76edf8c1cb.dip0.t-ipconnect.de
-    by smtp.strato.de (RZmta 55.6.2 AUTH)
-    with ESMTPSA id ze37e128BF5JUAD
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-	(Client did not present a certificate);
-    Fri, 11 Sep 2026 17:05:19 +0200 (CEST)
-Message-ID: <fbbc0c280c004dbc2c4029f1c216143a0a5d6b04.camel@iokpp.de>
-Subject: Re: [PATCH] nvme-pci: add NVME_QUIRK_DMAPOOL_ALIGN_512 for Micron
- 4100AT
-From: Bean Huo <beanhuo@iokpp.de>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, axboe@kernel.dk,
- sagi@grimberg.me,  linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- bob.beckett@collabora.com,  Bean Huo <beanhuo@micron.com>, Gaurav Sinha
- <gsinha@micron.com>
-Date: Fri, 11 Sep 2026 17:05:18 +0200
-In-Reply-To: <aqQYMR2uaKcHosYD@kbusch-mbp>
-References: <20260904105155.1402065-1-beanhuo@iokpp.de>
-	 <aqQYMR2uaKcHosYD@kbusch-mbp>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu2.1 
+	Fri, 11 Sep 2026 15:07:46 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id 3B5A94044B;
+	Fri, 11 Sep 2026 15:07:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8BC81F000FF;
+	Fri, 11 Sep 2026 15:07:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789139266;
+	bh=kN5VDR9z03jd/obUeKnZsdviPLlwfqOhB0m2w3WOXPY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ei/sFMGKPP0Cqs0z+JFHPh/FDL7fYY6AgSPostXr7NEyO4ZOhoO4m9OhP2+4HUXHb
+	 SnXtQOIa/eiFVCZ27chz5KV/etqOnVZESz4BkzG6FIVSy4mJVqRj0yVwVVV1NggGDq
+	 OskdxKMBshv4Jqc5Vzj4r999BJDN0j9JMAQDmvQ0/C0AqX0TQIRS+mar/eH724ZEqu
+	 IuM75HyM9Z5VuVPiJvzBxUpgAMmw32j2s/eLVDkSHN3cvYhtY9ij8QoYJdifWL+MR2
+	 7ohe8XwpIbaPSmSc1uGsKkkoCZ8+MHJodiVdvPpAN8c0OO7GrjEzCM8eW01fbrozMx
+	 osBIabDrqZ+NQ==
+Date: Fri, 11 Sep 2026 09:07:44 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Andrew Stellman <astellman@stellman-greene.com>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nvmet: derive the CRTO property from CAP, not CSTS
+Message-ID: <aqQZQPs7KzBUVbgw@kbusch-mbp>
+References: <20260910180056.81257-1-astellman@stellman-greene.com>
 MIME-Version: 1.0
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260911_080548_287245_F5485401 
-X-CRM114-Status: UNSURE (   9.92  )
-X-CRM114-Notice: Please train this message.
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260910180056.81257-1-astellman@stellman-greene.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,19 +69,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, 2026-09-11 at 09:03 -0600, Keith Busch wrote:
-> On Fri, Sep 04, 2026 at 12:51:55PM +0200, Bean Huo wrote:
-> > From: Bean Huo <beanhuo@micron.com>
->=20
-> ...
->=20
-> > Signed-off-by: Gaurav Sinha <gsinha@micron.com>
-> > Signed-off-by: Bean Huo <beanhuo@micron.com>
->=20
-> I've applied the patch as-is, however usually the first "Signed-off-by"
-> is who the patch is attributed to as being "from".
->=20
-> Thanks, applied to nvme-7.3.
+On Thu, Sep 10, 2026 at 02:00:56PM -0400, Andrew Stellman wrote:
+> nvmet_execute_prop_get() answers a Property Get of CRTO with
+> NVME_CAP_TIMEOUT(ctrl->csts).  NVME_CAP_TIMEOUT() extracts bits 31:24,
+> which is the TO field of CAP.  CSTS defines only bits 6:0 and nvmet
+> writes only RDY, CFS and SHST into it, so the result is always 0.  The
+> same controller sets CAP.TO to 15 in nvmet_init_cap().
+> 
+> NVMe Base Specification 2.4, Figure 36 (CAP), says that when CC.CRIME
+> is '0' the TO field "shall be set to: a) the value in the Controller
+> Ready With Media Timeout (CRTO.CRWMT) field; or b) FFh if the value in
+> the CRTO.CRWMT field is greater than FFh."  nvmet reports 15 in CAP.TO
+> and 0 in CRTO.CRWMT.
+> 
+> Take the value from ctrl->cap, where the timeout is actually stored.
+> 
+> The Linux host reads CRTO only when CAP.CRMS.CRWMS is set, which nvmet
+> does not advertise, so Linux initiators have not seen the wrong value.
+> A host that reads the property directly does, for example nvme-cli's
+> get-property.  Advertising CRWMS is a separate change.
+> 
+> Tested on 7.3.0-rc1-qpb-cc-crto-base+ (unpatched) and
+> 7.3.0-rc1-qpb-cc-crto+ (patched) in an arm64 QEMU guest with nvmet over
+> NVMe/TCP to 127.0.0.1, reading the properties with nvme get-property.
+> Before: CAP reads 0x8200f0003ff (TO = 15) and CRTO reads 0.  After: CAP
+> is unchanged and CRTO reads 0xf, so CRWMT = 15 = CAP.TO.
+> 
+> The issue was found by Claude Opus 5 running Quality Playbook, an
+> LLM-driven code review tool:
+> https://github.com/andrewstellman/quality-playbook
 
-thanks!
+This is a very long explanation for a simple protocol fix. Just say
+something like "The NVME_CAP_TIMEOUT requires the value from the CAP
+register, not CSTS." Short and to the point.
 
