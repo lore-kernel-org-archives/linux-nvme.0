@@ -4,61 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8812BC88E45
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Sep 2026 15:22:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 34676C88E53
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Sep 2026 20:59:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=q+v1gtFzTVZ9q73cE4Nq8oqrnGDKcy3JKZg27z2WKH8=; b=eJqRlU88YxIQf7kkMsmAMSLYQn
-	esVKQdY/3bxUJUA+JgLh6LpKz/PP6BO9kJsCH0Xm4ERmgQDle+OTBR/jv1Qo6D8qTyENRJzvpdzrt
-	CaChsEhYXVONwc14Qc/Aons2aVG5isG7/BcbIWjMFkedTZrckN8Im34/FBe4WEumJqmS7Jwuogz/J
-	7HGSupOUFwWcA4Et+5z4S3YHX2GPa3lQOVJTUDT68sJKs6oiQvkcIVVTGt/f9WmmAIPP8txoYpcMI
-	5TXdSxp/bupLLI0qpoELHS038nfix6WLWSo2AP6DdaNnka+LWcCt6UfWgFhj0gdQsh0HwNBsW+YRF
-	0/OJCN8w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=jeYHidnwyFLGOcwUOYUy3OdpNurO7rwFcsY8EorS7Z0=; b=Kv0HVYLQRtKTD6/g+ScnXMFi8C
+	Ue9AbsXx/gwF+0Q1NN8hazvqyoghIsmZxwnfhmOdXgyJeou1Wc5j1S7edqQdeXNfAJZE0y4usAnsl
+	AdgMTMVPmriJg8shMVgsq90xK5HLSzLk6UBTXjbmQ5OsWybOxn8EGaSDk13FRRlWjOIonBQlWUVgb
+	Lr1YlgRLDix+Z9w0cheX4JZ6QwAMv4CmB7iBvoLN/9rov9QTOY31VMsh3qtB+KJvFKgYF+JxD9q2O
+	hfFR9RHQLy6e1trdKoxLSU91QOt8ZuYHg7+W55q9qMP1nkJ7EEgbYbLgjlJwxm6M1ySL3sI725uGz
+	+mODeFvQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x535N-0000000H21F-3PkO;
-	Fri, 11 Sep 2026 15:22:41 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1x58Kp-000000008BM-0yqA;
+	Fri, 11 Sep 2026 20:58:59 +0000
+Received: from mail-wm2-f13.google.com ([74.125.225.141])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x535M-0000000H20Q-2DhW;
-	Fri, 11 Sep 2026 15:22:41 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 050D341883;
-	Fri, 11 Sep 2026 15:22:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E8EF1F000FF;
-	Fri, 11 Sep 2026 15:22:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789140159;
-	bh=q+v1gtFzTVZ9q73cE4Nq8oqrnGDKcy3JKZg27z2WKH8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=DKZRuG22tMKiaV1cnpgF9/BNc3PHSh2tuhVG69RHesvJPA4iTQhpuyG1IqYuHAcTq
-	 YoT2RrTEiZd2GD9q0OBK63mTsteCW/akfGzq3yI4Gv93AAeeSqspopySPQMb0txPXG
-	 7BIWuQMcyigy/44YksoFS6d21BdEnZeOeVd3GsK+7O1bK3aGCOm5eXz/HihjZ6iDma
-	 7qJtC8Z+L32JpDW3aiDV7ApiyzZAT85Y96Zu8cRCDgEiKP4MqUFz1qSOq+H70hmJgx
-	 4NTbatYQyAM8cdYhDHa2ODijPAGY8z83k0frGa4UExCM/LMfz3XSd3J786uLF6UwgO
-	 bHwpY3iIPBnjA==
-Date: Fri, 11 Sep 2026 09:22:37 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Yureka Lilian <yureka@cyberchaos.dev>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v2 0/2] nvme: apple: add t8132 (M4) ANS2 NVMe support
-Message-ID: <aqQcvdAl0FA4wslB@kbusch-mbp>
-References: <20260906-apple-nvme-t8132-v2-0-ac0328590823@cyberchaos.dev>
+	id 1x58Kn-000000008Ao-1rRY
+	for linux-nvme@lists.infradead.org;
+	Fri, 11 Sep 2026 20:58:58 +0000
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e6b885ef8so919295e9.1
+        for <linux-nvme@lists.infradead.org>; Fri, 11 Sep 2026 13:58:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789160335; x=1789765135;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=jeYHidnwyFLGOcwUOYUy3OdpNurO7rwFcsY8EorS7Z0=;
+        b=f16aHbMBO14D7nlNlTPJySqD+gTGD6YSSzC69Uj4bOKAuEUOYGZpNQ8LzMWSi5j3Vd
+         ZP/jNiPNnlslle0vQVF8xjTrukmimAxf+Qn01E+lL5P/XTJSF3LWRKMYKZAkm5PzIbe3
+         a0otjREgZXrDQ1441xvSOZFfL3bhaUIvPyVFDU6npVCrukLUBVt8QoDFRQQPS5Wke/A0
+         JtwY73721x4fct+UCxa71SzmQGAfBspS/4PWxt0Hql4E4BeV9SfTL4+2fAP07BpOfvTf
+         ySA0FIyz81Jx4s//Fm3Uagn/7M11IdBnbChBkBxnAyF+ydO/WQgsREY1WCa253KUWAuY
+         9s2g==
+X-Gm-Message-State: AFuF++k7g+2kRGtqFh4RG1I6t9jOy8wSF91IDcLwMiaeqjFvKqDUYVyF
+	9hZAqD/ePOxIYFGVCQd4NYIsh9abecHS6AFC1wXT/kO53sklWjl0OO0u
+X-Gm-Gg: AYBFou3H0eHZwYYhPWqflLHgG1sM5KvfdlyCmIqbiaQUWKOmGrfWPC0dwxX+j1JgvIr
+	+xeYXoUTnqUQ85/Eg0qvjWQSNn5/igLQYXa/WATP5cSvibKgux8Nu2d1JNZBPIvnWJh4yDL+wYp
+	qclT4NovjBokEn6kBpxd0fJKKcl5MRFbCEm7Wr2+i1MkM6zwc2EueMbg8FSEucDFQqZAc8TmetG
+	107MUO9DC1l139LAdHXRDhXFiDtv+qq/NWoSCZjylyGQLxHHoZDy9bjz5v0xwngyoiX2EYsPQpF
+	a7OyTDBoyGeyOSNLApMtjv60+OhpogC+QcKjsqeftsI2kCckkhdQ0uCMvYNf00HyNvRv1Jdk+xX
+	70E8zRbq5U6YfUejVlh+4mpYqn/kMSlPcRnaKOW7vvpwW2mXhsh5x37OJFl/ME0QB3deAK+MQSk
+	jQ22Z/PqfJKmVK1gRLmmDIU2YiXwJrbLM1Xf72BuexBqKK8lW/FVA+tV7+AiY/dn5ZmKM4OLcmc
+	toXbx2ikjE31pfe9nm2wE+agIYqTZMGLw==
+X-Received: by 2002:a05:600c:1385:b0:49d:243a:e4f9 with SMTP id 5b1f17b1804b1-49e6198bf39mr57198085e9.10.1789160334640;
+        Fri, 11 Sep 2026 13:58:54 -0700 (PDT)
+Received: from [10.100.102.74] (89-138-77-243.bb.netvision.net.il. [89.138.77.243])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e62227071sm63494375e9.3.2026.09.11.13.58.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Sep 2026 13:58:53 -0700 (PDT)
+Message-ID: <8510cbc8-9dfc-415a-949e-c0f5f3f4e8b5@grimberg.me>
+Date: Fri, 11 Sep 2026 23:58:52 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260906-apple-nvme-t8132-v2-0-ac0328590823@cyberchaos.dev>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] nvme-tcp: allow setting per-queue io_cpu through sysfs
+To: Saravanan D <saravanand@crusoe.ai>, Nilay Shroff <nilay@linux.ibm.com>
+Cc: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+ Daniel Wagner <dwagner@suse.de>, linux-kernel@vger.kernel.org
+References: <20260909211432.6741-1-saravanand@crusoe.ai>
+ <8dfee10f-89f3-463b-8d16-587873c3394c@linux.ibm.com>
+ <20260911060330.59998-1-saravanand@crusoe.ai>
+Content-Language: en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20260911060330.59998-1-saravanand@crusoe.ai>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260911_135857_490937_693194B8 
+X-CRM114-Status: GOOD (  18.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,13 +92,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Sep 06, 2026 at 10:15:28PM +0200, Yureka Lilian wrote:
-> This patch series adds dt-bindings and driver support for ANS2 NVMe on
-> the Apple t8132 (M4) SoC.
-> 
-> This variant requires the IO queues to be registered using additional
-> MMIO writes. Otherwise it is largerly the same as the ANS2 NVMe variants
-> present on Apple M1-M3 SoCs.
 
-Thanks, applied to nvme-7.3.
+
+On 11/09/2026 9:03, Saravanan D wrote:
+> On Thu, 10 Sep 2026 13:55:59 +0530 Nilay Shroff <nilay@linux.ibm.com> wrote:
+>> I wonder if we should avoid introducing a transport-specific tcp_queues
+>> hierarchy here. io_cpu describes CPU placement of an NVMe I/O queue
+>> rather than something inherently specific to TCP, and other transports
+>> may have similar queue-level attributes in the future. Could we instead
+>> introduce a generic "queues/<qid>/" hierarchy under each NVMe
+>> controller, e.g.
+>>
+>>        /sys/class/nvme/nvmeX/queues/<qid>/
+>>
+>> and have transports expose queue-specific attributes there?
+> Thanks for your review.
+>
+> A controller is backed by exactly one transport, so we can adopt the
+> transport-neutral /sys/class/nvme/nvmeX/queues/<qid>/ path with the
+> creation staying outside of core in nvme-tcp, which owns the queue
+> lifecycle. The core only knows ctrl->queue_count and never sees
+> individual queue lifecycle.
+>
+> No other transport has queue attributes today, so a controller backed
+> by rdma will have no queues directory at all. The path appears only
+> where a transport populates it, and if another transport grows queue
+> attributes later, the creation can move into the core without any
+> ABI change.
+>
+>> So could we expose this state through an additional read-only
+>> attribute alongside io_cpu, for example:
+>>
+>>       /sys/class/nvme/nvmeX/queues/<qid>/io_cpu
+>>       /sys/class/nvme/nvmeX/queues/<qid>/managed
+>>
+>> where "managed" indicates who currently owns the CPU placement. For
+>> example, "1" could indicate that io_cpu is driver-managed and "0"
+>> indicates it is managed by the control plane or user.
+> Agreed, I can add the read-only managed attribute, 1 when the io_cpu is
+> driver managed and 0 when the user assigned it in the next version.
+>
+> Both suggestions look good to me. I will wait for Sagi or Keith to
+> weigh in before spinning v4.
+
+I agree with this approach.
+
+I think that making nvme-core more "aware" of individual controller queues
+is a good thing.
 
