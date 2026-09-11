@@ -4,57 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 48372C88E45
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Sep 2026 14:46:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3DB0BC88E50
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Sep 2026 15:03:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mFcP+msEndaEluKtP821wQ6ElXTJ5PN1JPySFto66po=; b=aitxNCszauPcnNwDEi6VWYGcuL
-	u1+NMIu3WqNjuWZO8I0s++zOqVArv4kucT8WeHvjs2zeyRJ6S9qlt6JWhXMrsy9d1B2Bb/cxMhiIK
-	qU4B6eyGyhtwksIvcqYABFsBWfjN8nJFshA06DLJFfSOrFJaLUU+YnMAJtEJFD47kvr4+5VdFAAgD
-	A/cT09NNTjgCtbXpFeymFxlMbAxilwI/yPjOjSqLFQQj2Mpl5BWIXijGkLeRN7b9r+U3+3F6nhD9S
-	22DcwPiCe8pMVLxwOaxO30iuAnD/CA2j92lB3S/Xf35J3V52m3VGFxE2pqSR6gIXPoAFv4wpWK8JW
-	sJzoDNiA==;
+	bh=NtWTVquGIF6A3jVgsjHgY3Sb9j0F5MYubIQ9/EHOvQ4=; b=DQSG0GoeS/8JNGux9y006ZKRYN
+	8fO0ApJ2j6CJDlr2ojp8kF6n0Jz2ZD89vhWHb+25zIilpT2mgytGiGzUDtHaWjdLxNI0tZhOi3mtL
+	41nMHQRKlYE+/dDMYE81qOlK0OckneeXN187pUiQ4r3XydBgs9uvTzoGw7wLjZLzm6BFq7GmLtU0W
+	d93mg0fJLo1Rxr/yo2JeCUskdJh1ToPb+vYPK6ohbFBdRqKakmrPqWeAjpf498EGG5unvpCIlDgQy
+	Vdt0yzjZqU1h6Rty9T69HC6sGDiPJJSieb+Qi0LUwyqzEhCIObwJJTAh0pQvC6neZhPIUk240EyZ3
+	uTzZJRkg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x52Vu-0000000Gx2L-1dLI;
-	Fri, 11 Sep 2026 14:46:02 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1x52me-0000000Gzcg-0uRL;
+	Fri, 11 Sep 2026 15:03:20 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x52Vs-0000000Gx2F-49iW
+	id 1x52ma-0000000GzcB-222l
 	for linux-nvme@lists.infradead.org;
-	Fri, 11 Sep 2026 14:46:01 +0000
+	Fri, 11 Sep 2026 15:03:18 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 6605340950;
-	Fri, 11 Sep 2026 14:46:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA84A1F000FF;
-	Fri, 11 Sep 2026 14:45:59 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 9A4506020C;
+	Fri, 11 Sep 2026 15:03:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E05841F000FF;
+	Fri, 11 Sep 2026 15:03:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789137960;
-	bh=mFcP+msEndaEluKtP821wQ6ElXTJ5PN1JPySFto66po=;
+	s=k20260515; t=1789138995;
+	bh=NtWTVquGIF6A3jVgsjHgY3Sb9j0F5MYubIQ9/EHOvQ4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Fkhhj7ACqa8z2Q8pjPFjzBPAfZE3LEXQT0RJp4M1YO5I6P5NVPXdxG6o3GVMKhxxY
-	 stazg7i8T8V77rOH7bh5IH4diI7duSCK4VyFPc2IZ0icORgoPPcSbApAK+b8leZYAj
-	 7dQ5gYZtSqgA7n061h/bcn2VYdv34RaRaTB2c/G4fd+F6BBDAKfiAcGpYXQ7amZ2DM
-	 mF7TLwClqLs8QcYm1MCXkcSyzH2BKm785kYOCcDgQby4OKxyq98k/z9vWEFz0xKAII
-	 RA2cKz/Dlti+LA36KRv9SYiNkCk07XqkKy/bX7DR7iY0QlTLWhovz+a78jTsck4cHo
-	 QHFQpD/t6ojcw==
-Date: Fri, 11 Sep 2026 08:45:58 -0600
+	b=LbeM/JGDab4DkMoCpxVqado8u3MP6yLSvHpLbQ4FUMItpdQcRqigTnx8wo6TiVOZd
+	 ThLZCyAvqZ3luvs/fQjZ2d91xu1grVyRt06tGtKGGnM0DGmNMW7Cucdl2mMse3ZprU
+	 AO7BrUZ3/cl5ZIJ2ZT6amT3b5eWeV7CbuB2EamKsPAtMxSmKUPYDFebRTlupM3q4GN
+	 ZF0dPrA4RRdB27/PhV0QsAxoEdq2NIcEuLqf1PBM+iPQ9k81nf+pRfPIvLQSMThdiJ
+	 CyTi0jFugvJnKME8Ia1W1T1QeFvr+9U86Co11at3jOQfyl2ZiOn7U+yeqtCyZeRtG4
+	 2qj8UZPVIMtlA==
+Date: Fri, 11 Sep 2026 09:03:13 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Julian Sun <sunjunchao@bytedance.com>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me,
-	kch@nvidia.com, armenx.baloyan@intel.com,
-	james.p.freyensee@intel.com, ming.l@ssi.samsung.com
-Subject: Re: [PATCH 1/2] nvmet: preserve device path on allocation failure.
-Message-ID: <aqQUJtsY9JdGoVgb@kbusch-mbp>
-References: <20260908033519.2721210-1-sunjunchao@bytedance.com>
+To: Bean Huo <beanhuo@iokpp.de>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, axboe@kernel.dk,
+	sagi@grimberg.me, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org, bob.beckett@collabora.com,
+	Bean Huo <beanhuo@micron.com>, Gaurav Sinha <gsinha@micron.com>
+Subject: Re: [PATCH] nvme-pci: add NVME_QUIRK_DMAPOOL_ALIGN_512 for Micron
+ 4100AT
+Message-ID: <aqQYMR2uaKcHosYD@kbusch-mbp>
+References: <20260904105155.1402065-1-beanhuo@iokpp.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260908033519.2721210-1-sunjunchao@bytedance.com>
+In-Reply-To: <20260904105155.1402065-1-beanhuo@iokpp.de>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,10 +71,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Sep 08, 2026 at 11:35:18AM +0800, Julian Sun wrote:
-> nvmet_ns_device_path_store() frees the old path before allocating its
-> replacement, losing the existing configuration if allocation fails.
-> Allocate the new path before freeing the old one.
+On Fri, Sep 04, 2026 at 12:51:55PM +0200, Bean Huo wrote:
+> From: Bean Huo <beanhuo@micron.com>
+
+...
+
+> Signed-off-by: Gaurav Sinha <gsinha@micron.com>
+> Signed-off-by: Bean Huo <beanhuo@micron.com>
+
+I've applied the patch as-is, however usually the first "Signed-off-by"
+is who the patch is attributed to as being "from".
 
 Thanks, applied to nvme-7.3.
 
