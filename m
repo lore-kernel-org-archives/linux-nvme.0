@@ -4,58 +4,93 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C458FC88E41
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Sep 2026 22:32:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 13EACC88E41
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Sep 2026 06:03:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=AvaXwx2LcNRb7aleMdEJjUSF+MigurOCyRurKBuzJ8I=; b=oVmdBZrATFuG85ulLdTo+ebuEr
-	qH3xPzet1LJ9hfEawgqgZFk1o/vUhF0ntpe1rqdH6NydPvnrsfNLprLDIDghinNrEuw7lMxv7w5yd
-	29IFv65FEoTwORlyxTfiqk6qQbiEdLsgZl3HrZGc41gR0jRnNK3CUuTyFIVPhZLcP10dj8DY8eQqU
-	NRVsKHL/0zTVO5bIC89ZbvEHa4fZFQzCw4go4dREspzZ/kzyHax/MaizqDArXxDppmIldtB7Z3Jj3
-	RR5q54L46REHT5f+Lz/O1Tn+l/YfioZD+0tM3Eb6VjMHSJdw7wbOjukUQJJND3RFM0A9pDA5wctnP
-	Yda8LS9w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=+BjoqHo0QynWJyv+c8A4+PUEN5brhXPIQlpmzw83mcU=; b=42a9nk9YmoMPQBcKLWx4J0mftp
+	qGPf8cESLTmnuim7i3+yhnYMZ/yuashUpVSvpNZa3P59QVfcw0j4cm9TGxvR1bIzGKETNk2yoR+7W
+	np2InoV6NuLEb74xUww7+LqpLOhEfIQgtIn27fIynZAV5nz4shxxtJmvikbnSOc7LnyatYbzc8Idh
+	xCE21OFV+O71kExWw0uiq9Td9C07VT5JczqBz11nJ2/JVL9JIxyK0pC9lBKww+j30oXOKcCmEGBVj
+	iWDZD26PBKpWYp3hmikItokjKwKKjmetf16NWtJ0AmXQmYdba8Fl2wfGjZr/sU6RKSRhVVHRJ6vVK
+	BrFYESkw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x4nJr-0000000FUNW-2z58;
-	Thu, 10 Sep 2026 22:32:35 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1x4uMQ-0000000Fuga-0Zqj;
+	Fri, 11 Sep 2026 06:03:42 +0000
+Received: from mail-oo1-xc32.google.com ([2607:f8b0:4864:20::c32])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x4nJp-0000000FUN9-3fmC
+	id 1x4uMJ-0000000FugC-37Qd
 	for linux-nvme@lists.infradead.org;
-	Thu, 10 Sep 2026 22:32:33 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 3A16C436A2;
-	Thu, 10 Sep 2026 22:32:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C425C1F000FF;
-	Thu, 10 Sep 2026 22:32:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789079553;
-	bh=AvaXwx2LcNRb7aleMdEJjUSF+MigurOCyRurKBuzJ8I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=gW3tTTD7xAgWUf3poPvahx39VxXOsCnnGGymP4z3rdxXzvuHYr1cd/ysJqDKY0Ify
-	 +o8/qUIVV8jS2UCrfSlgH+afQbeZESOlvsfFghCqyN4bkflGgKnYBYHud3oV5UL5FN
-	 EN5m5fbSzbDWj2Pok4JIErgF4Rq79ZLXZ7ypSpvAVjORdUFxlrvJYhzvanVG9kjK+r
-	 IzFD//vk/zxWs/CkWESmhXx7CFOI8D9gmd4yk586iIBk85SjBZJe5u+xJ/K8fobfIT
-	 zp1aVZT7PqMwuno+sf6IX6zCcdFvzAYbKDYWJNXLBa3ZYHIMfOBhsDFGWoKZcYbjnp
-	 uHxrFEW7vgYhA==
-Date: Thu, 10 Sep 2026 16:32:31 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Shivam Kumar <kumar.shivam43666@gmail.com>
-Cc: linux-nvme@lists.infradead.org, Greg KH <greg@kroah.com>,
-	security@kernel.org, Christoph Hellwig <hch@lst.de>,
+	Fri, 11 Sep 2026 06:03:36 +0000
+Received: by mail-oo1-xc32.google.com with SMTP id 006d021491bc7-6b35cc0a8c3so598720eaf.0
+        for <linux-nvme@lists.infradead.org>; Thu, 10 Sep 2026 23:03:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=crusoe.ai; s=google; t=1789106614; x=1789711414; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=+BjoqHo0QynWJyv+c8A4+PUEN5brhXPIQlpmzw83mcU=;
+        b=W/fd/YiuP3m2Q1RU4+Q/5HsPGmbyIcSWlmYWL6U6dkVMxSTYOrKj//wuaUHN2WLf9o
+         FjZFqELAno7RPkVwLMx8pHZzSzybShACiZCZt+2xlnsyZfOUdjiDUd2XkGEpArU21Z0R
+         vUmrUtEVQrZro07shncUsadEx9kZyZpFSeUU6LhljL/gIhbkgxHtvI/oIFmA6gEgJESO
+         uS/DAPMZHC1S7naIhQ1G/aQYxono1cTLKN1IZfsg0UIrNTlg2Ddw3cjoMjiKiXtQo1cb
+         OVdSNCqHiU+6NWpCNLWbW7aIHfQLLtVpm9Ni9i15Sm3i1GgyX0BUlatn1eyzR/L0PeMU
+         2H7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789106614; x=1789711414;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=+BjoqHo0QynWJyv+c8A4+PUEN5brhXPIQlpmzw83mcU=;
+        b=gqqhYuMG6j3gO4NVstF2YnCXAFVpIcTLyKtO1LFnzVOdjKLcuqDgR3qv/aPvXgSPe3
+         kOkJyDeUeLjzu9XAMDHSyP19Xgn2h0T1YALeN12D8hwqgXe84ZgISzj0D67MvF2Fl8Yq
+         wKo9N3Oq10rZ0dCkaGg+NdCEPhPg8Nu/U/0/o6I5yQcM8IKMrM49LBqty0hiDtxFmN0W
+         0kW+9koZbfIps1HbCFog+tUY7vVchKh+OBW8+44vVJPVsq+RYrJ2F8aTJdsHE4qGjnno
+         TShIjqOJxqHdlx8KcB28z1JkCQizQxT8afpegm598g4Mlei22STu7xO3fGJ2CQ2P04ON
+         muhQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxd2MBE4fNlAdoVZW9uJR9x8YS0cRglS2ckIQ+0g4CpDgfIgIXEb9l16UgrKnoEySbj59yPb7wzp0Gz@lists.infradead.org
+X-Gm-Message-State: AFuF++kC4icIVxkWGeiB+edJW8JBT/VSZqjlwp7rUmw38tu/+we/6DT7
+	58bQTBH3GW5VPR3RRIn6t88nsVnXRXsLVfUu+Ik6jlD8vlWwVcIlEhh+42A6tNfo5LY=
+X-Gm-Gg: AYBFou0lUBKPpJvLZCVBUTLhDk3AzZtJsLXquxXfLVoIGRUMWPLTtXCUYh/+v13dhzE
+	ad2WIyAdtaw4H8/5RAGy7EamRThyNYh9hr/pKxT3wAX/LKBbPsuKJxA+daEFQ/+c/AsIPScfJ2j
+	eIsJ08SVcWEW5o2gNFxyq81NcwBHisQCmgncj7KYOKoiaLUP3LmZNAhJ0Dm9dX5c1MOJ5LZmOXm
+	XqGh7KDBdW6eWdxl5+V10RlRiyw10H0KSTqgCO2r+YD20ZXUnv49fXeh0fcXBXZ8EHjbPBYGp66
+	Oyp3Et3w+QkvI2JI/ZjC4uu4bCwaRiSOjwr4tF9fgx7Ogod4C5oXL47GjZGmnXfyvYO3RvBLop6
+	vN6/am+9nkzBCTaBTwIk4Kny//TUSRw5r/rutEOJYBHwEw8PUaOHO8a01aJeMrQBAU5yqGEz8uO
+	Mzmxlt4ZuRIDLg9HtvuAEqqh2wvCi0jbSFuYC9Kz4Jf9+ZqdkxWxkEcTt8p/V1Tc9yuDVNdO2qB
+	HVqqDsP6tkDSOn2z+ZsXAkaGPJxjUbdxahGQzBEYuzwDdcqk68rOA==
+X-Received: by 2002:a05:6820:c3c8:b0:6b1:535a:eb8 with SMTP id 006d021491bc7-6c0ba245822mr1214669eaf.2.1789106613729;
+        Thu, 10 Sep 2026 23:03:33 -0700 (PDT)
+Received: from MBP-Saravanan-D.civet-hops.ts.net ([2601:647:4380:3400:61fa:b5a6:b380:6ce0])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33ba4fb3ddasm2965890eec.30.2026.09.10.23.03.32
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 10 Sep 2026 23:03:33 -0700 (PDT)
+From: Saravanan D <saravanand@crusoe.ai>
+To: Nilay Shroff <nilay@linux.ibm.com>
+Cc: Saravanan D <saravanand@crusoe.ai>,
+	linux-nvme@lists.infradead.org,
+	Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>, stable@vger.kernel.org
-Subject: Re: [PATCH] nvmet-tcp: fix a hang on queue teardown with data digest
-Message-ID: <aqMv_5u8KclzrGym@kbusch-mbp>
-References: <20260901014718.2835558-1-kumar.shivam43666@gmail.com>
+	Jens Axboe <axboe@kernel.dk>,
+	Daniel Wagner <dwagner@suse.de>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] nvme-tcp: allow setting per-queue io_cpu through sysfs
+Date: Thu, 10 Sep 2026 23:03:28 -0700
+Message-ID: <20260911060330.59998-1-saravanand@crusoe.ai>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <8dfee10f-89f3-463b-8d16-587873c3394c@linux.ibm.com>
+References: <20260909211432.6741-1-saravanand@crusoe.ai> <8dfee10f-89f3-463b-8d16-587873c3394c@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260901014718.2835558-1-kumar.shivam43666@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260910_230335_828638_C943AA12 
+X-CRM114-Status: GOOD (  14.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,48 +105,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Aug 31, 2026 at 09:47:18PM -0400, Shivam Kumar wrote:
-> With data digest on, a command that has received all its data waits for
-> the digest in NVMET_TCP_RECV_DDGST. has_data_in() is already false there,
-> so need_data_in() is too, and nvmet_tcp_uninit_data_in_cmds() skips it on
-> teardown even though it still holds the nvmet_req_init() reference. The SQ
-> percpu_ref never drains, nvmet_sq_destroy() blocks forever in
-> wait_for_completion(), and the nvmet-wq release worker is stuck.
-> 
-> An unauthenticated host on an allow_any_host subsystem hits this by
-> negotiating data digest, sending a write's data but not the trailing
-> digest, and closing the connection. Each leaked command wedges a release
-> worker; a few stall queue teardown entirely, and with hung_task_panic the
-> box goes down.
-> 
-> Drop the reference for a command left in RECV_DDGST from
-> nvmet_tcp_release_queue_work(), before rcv_state is cleared. A command
-> that failed nvmet_req_init() never took one, so skip it.
+On Thu, 10 Sep 2026 13:55:59 +0530 Nilay Shroff <nilay@linux.ibm.com> wrote:
+> I wonder if we should avoid introducing a transport-specific tcp_queues
+> hierarchy here. io_cpu describes CPU placement of an NVMe I/O queue
+> rather than something inherently specific to TCP, and other transports
+> may have similar queue-level attributes in the future. Could we instead
+> introduce a generic "queues/<qid>/" hierarchy under each NVMe
+> controller, e.g.
+>
+>       /sys/class/nvme/nvmeX/queues/<qid>/
+>
+> and have transports expose queue-specific attributes there?
 
-"I have made this letter longer than usual because I lack the time to
-make it shorter." - Blaise Pascal
+Thanks for your review.
 
-Take some time to actually write your own (and hopefully more concise)
-message to demonstrate you understand what you're changing. AI messages
-are overly verbose.
+A controller is backed by exactly one transport, so we can adopt the
+transport-neutral /sys/class/nvme/nvmeX/queues/<qid>/ path with the
+creation staying outside of core in nvme-tcp, which owns the queue
+lifecycle. The core only knows ctrl->queue_count and never sees
+individual queue lifecycle.
 
-> +	/*
-> +	 * A command that has received all of its data and is only waiting
-> +	 * for the data digest sits in RECV_DDGST: need_data_in() is already
-> +	 * false, so nvmet_tcp_uninit_data_in_cmds() below skips it, yet it
-> +	 * still holds the reference from nvmet_req_init(). Drop it here,
-> +	 * while rcv_state still reflects it, so the SQ percpu_ref can drain
-> +	 * and nvmet_sq_destroy() can complete. INIT_FAILED took no ref.
-> +	 */
+No other transport has queue attributes today, so a controller backed
+by rdma will have no queues directory at all. The path appears only
+where a transport populates it, and if another transport grows queue
+attributes later, the creation can move into the core without any
+ABI change.
 
-Same here.
+> So could we expose this state through an additional read-only
+> attribute alongside io_cpu, for example:
+>
+>      /sys/class/nvme/nvmeX/queues/<qid>/io_cpu
+>      /sys/class/nvme/nvmeX/queues/<qid>/managed
+>
+> where "managed" indicates who currently owns the CPU placement. For
+> example, "1" could indicate that io_cpu is driver-managed and "0"
+> indicates it is managed by the control plane or user.
 
-> +	if (queue->rcv_state == NVMET_TCP_RECV_DDGST && queue->cmd &&
-> +	    !(queue->cmd->flags & NVMET_TCP_F_INIT_FAILED))
-> +		nvmet_req_uninit(&queue->cmd->req);
+Agreed, I can add the read-only managed attribute, 1 when the io_cpu is
+driver managed and 0 when the user assigned it in the next version.
 
-I don't think this criteria is even correct. RECV_DDGST doesn't mean the
-command has all its data since that state is per-PDU.
-nvmet_tcp_try_recv_data() enters that state at every H2C boundary, not
-just the last one.
+Both suggestions look good to me. I will wait for Sagi or Keith to
+weigh in before spinning v4.
+
+Saravanan D.
 
