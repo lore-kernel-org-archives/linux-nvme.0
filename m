@@ -4,66 +4,114 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 94ACBC88E5C
-	for <linux-nvme@archiver.kernel.org>; Sun, 13 Sep 2026 15:34:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3980AC88E5C
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Sep 2026 03:15:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:From:Subject
-	:Message-ID:In-Reply-To:Date:MIME-Version:Reply-To:Cc:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-	List-Owner; bh=FkmW/KE1CGkFtTZ0aRXS/creYAddRQ91ghlXWYCbS8I=; b=CI9wHOD2R1btxm
-	FuIqq8Rg8ivvr1B7Caw5a/9zU9c4l+BEMIgFGa/vxjbe/j0zIU7Arcgc+BpkNaT8brHk+K2r28Ujy
-	DTWiPL8ikqxihUl7z4AY/UlHg9O70bX/dpFjO4RnjFu0VWpnG1OQcfJtitAOE7idj4kV1irGTaNDG
-	JJJKkQkBIfoOLWuKiuh2lXtx+L7HlEkmt0NWZvGgY/dM6WkTY0oPBTxAn2B/ytc4C0gcmXz9eSmj0
-	MAvceX2xLoytvnKPe4gaTOXynLfDZJgqgvi0e8g6W2pqE8dlZ7G6c/rBLfK+hVN4nYhPkO/4RD/4h
-	1/xTYumusRcOf1gWxd0w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=fAOw7eoVc0zYvL/f6e+XZRwdegk97u7KcjQYPN92otE=; b=j8y4Bi0Uopvp5cxDAWeyfBw9Cm
+	MMKbSER+T+r1QBr+T6b0mifbElfbIq4HgWYf+gdUq2Xp+0DTcDAi0qcL9p9J4NjM/+/zADWh2g1hF
+	6vkf/6SW6Eq58ueoYVLfG9vJrRq+lbEQwQ1jaYt0aWsUyPNMkv+TrcTPqZbXYEZ3VrB5gZYIdVaIu
+	vB7AZU+dZOq+ZTfF5HMeSUEwRaaz7RoHKEm6eh8ewHkIZnQWkKMC3J3hJJIg6C9XkvE8MKj647B94
+	XUYlpSztEzeE9z1cIFthzyALHs+6I/14D2nssdC4WC3SEgyXvTj3c07aIsIANKqdWFAtiYgZs8Cqk
+	IjMQy9vA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x5mDv-00000001mb4-2JhP;
-	Sun, 13 Sep 2026 15:34:31 +0000
-Received: from mail-ot1-f71.google.com ([209.85.210.71])
+	id 1x5xAg-00000002Fg3-0pqs;
+	Mon, 14 Sep 2026 03:15:54 +0000
+Received: from mail-wr2-x10.google.com ([2a00:1450:4864:30::10])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x5mDt-00000001mad-14A0
+	id 1x5NIf-00000000tEK-25uO
 	for linux-nvme@lists.infradead.org;
-	Sun, 13 Sep 2026 15:34:30 +0000
-Received: by mail-ot1-f71.google.com with SMTP id 46e09a7af769-80621978fddso344201a34.2
-        for <linux-nvme@lists.infradead.org>; Sun, 13 Sep 2026 08:34:27 -0700 (PDT)
+	Sat, 12 Sep 2026 12:57:46 +0000
+Received: by mail-wr2-x10.google.com with SMTP id ffacd0b85a97d-482f6350f88so229098f8f.2
+        for <linux-nvme@lists.infradead.org>; Sat, 12 Sep 2026 05:57:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789217863; x=1789822663; darn=lists.infradead.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=fAOw7eoVc0zYvL/f6e+XZRwdegk97u7KcjQYPN92otE=;
+        b=JtdLo6XvrmBmhuHfJdtfCC+V30+Nha4OP33NKmOqyd9TsbM6/CyeFu9udaUMs71V5p
+         vtOE5m6uSb4ous7snrZMdNjGKohtluED9ZwBASmVteN/rT4Twq2qWWfQ7cuPX3P83OuC
+         QmUPOyltbMLrFNPVFGBHcSLV0JIZPxHwwotsgyUG1oOEKEXojGcFBkHav7wtnFw0XoJY
+         /2s4aMIH7v7/lubXz4rviZoaqw0hdowS1/RytuZ3x5QyLDuwM6VUKFaMN6/Cv/lfc2zE
+         JK9DvN5X/S0vmepvY4CY3bvxwola+TvAwKaem3UwI6MBHYoOZMkfYnpMFp3gRXkcnM0B
+         ZBFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789313667; x=1789918467;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=FkmW/KE1CGkFtTZ0aRXS/creYAddRQ91ghlXWYCbS8I=;
-        b=M1f0mP0UyQuLKPmN31DhFGxcwOb3+rCRGBfyB2fsKSAC/8YntVhYtWaJiFzTEpGJU8
-         hrOn2L9ONAh6uMugEwxDscVRMAQTcOzOyhrfVW5QE51LB5ZE/XoVb30OITX8cAEEXBV9
-         2Tc4aolgFN1XlmX7vA8AB4MqeR4nruPvjPzB3p+UJRj/n7IzumE9y6WBOhFcfi+2iOC9
-         +MfaWiHzjPa79ku/TB4+Y1HSr7XLvkONrjHAXZRm+mTZMg83uxXgrujudgi+dH/1SDE8
-         ac7yw/uso3MOEd40t+ymqmDCukFudX3noFfPk4U2lUjICjrLNg8zMFon6rjFrvqgwt9s
-         RUnA==
-X-Forwarded-Encrypted: i=1; AKwUvBzsHuFQl9x6lxcMrbNWognChzZx6VXnUK9F+s1bpX1N51iFe8L5osCvhqBq6I6jQR2AQBzGr00yrQE5@lists.infradead.org
-X-Gm-Message-State: AFuF++mPFQ6VWB/KufxMAPVBHw8qX74lnQIZ/MM513/WBb97WQp+u3Ej
-	b8ga23outjZp4t4LDQSe2lhd4yn1k37GVXdhEJl+ilDN5iOLvcWi8DCldq0x48plY0ooUBdvVJW
-	oEVFstap+6Jbfj8jdrUeWGoMuCoCoNa1ew1VwM7rOleeTKiTEi2RRNQjT+xw=
+        d=1e100.net; s=20251104; t=1789217863; x=1789822663;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=fAOw7eoVc0zYvL/f6e+XZRwdegk97u7KcjQYPN92otE=;
+        b=eAQHXITLcufzVsBdm70mJz5HxEFQ4wQ/HCrgN6aj613ldHSY14x1xkIFFY8mttzqNF
+         B0fZUXcuTGgMhiKSgXWQPVaHjHS6oGRHWqBFDYHUyLV//Rsn2OtaZh2Yuup4LVqrOyso
+         jIped62Ihq6txUHMiNXlAUTgBGuZp/a1bz1hVi0Yc88x3V5ivSm/679QhEaWL0gkVU/H
+         M6G/dme4HlFVPf38pt2zFDiUO3e0SjLn5qNPK3rnb0jvrQ0HuwJk5HJ2xOZO5P9UokAX
+         2uT886IqiZsCQO/rMleCftBRBEgG52dpyd/gKoZTOQHuPtzENdtQrjJM/h3U2umFMU5Y
+         8A5A==
+X-Forwarded-Encrypted: i=1; AKwUvBwfnyZtsoLJlb0kvB5KJLOn3cr5tLsacau5pyenN47+xJoF/1D2/jnNdS/nGK+RY4Abc7XnVLxvcLqF@lists.infradead.org
+X-Gm-Message-State: AFuF++l6/c9zEkdOkdlEHOOoRsaZhmGeHFHjr6S+JTbUZkhe1Bn3+tWm
+	GJI/RAu3yV4P8ilwUXAGS802jgXLtPMUlYARwuM++188fiHez+N8g4a9
+X-Gm-Gg: AYBFou0LVnc+aN7kpHJAqW93PLxqPjXYUwDnX7iRN+ZMHB8h1KrABMyfYpwMWkkziSR
+	45HQxG2B2wKwZr6auG131gU6AU1UbiNbTKAQGzViO8Ix7NbtT+Z5OBuSnK7ZFuorXHUoqmBaC0o
+	dmZnn18eoFe+ig2Kz2iB83gMDi7FWrCBgrpKeMGafEuVFn/0Wbx5dBWjzYVBn404CFk5p/Ty0kp
+	B4PyO7dKN7ZQ43hfbqooYiZxprqxF/ft6huhSRGwrgRqxqh2NRzfQ0VkaPobsZ/1aCtgqLB78BB
+	JHtkTqE2sDBe7kuqlJH7UfNc5a2JLeoM1r96Sg1KfjlCdWlhHaGgiK+OoS/apUNeJA+9MIOhdI8
+	o1VR4YqHhCktWoLRhRvbrksp1cB6AvSp/EQKb8IsOw2Ytt8tt2JPKnrJIydWU7JGOeYhU91zVlr
+	E7AD30k57L8jPzi0FCtE9gDX9Z00WUEX7M4NnXwh66EWmXmKmd13LBXPoryQHW/HiW3gMozqEnI
+	XAv0LQjIrJTnjMZuYm74+Su3492vnLUJlBbiB6elAWSJ9Vw6BhOdH2xo4NysQi34OCJJ6Uj4ii3
+	4YW6AcSrxyJtTz3SBRjgj+KvwEw=
+X-Received: by 2002:a05:600c:6812:b0:49d:1d7e:4085 with SMTP id 5b1f17b1804b1-49e6cbec30dmr21535245e9.22.1789217862965;
+        Sat, 12 Sep 2026 05:57:42 -0700 (PDT)
+Received: from [10.192.161.217] (82-132-213-27.dab.02.net. [82.132.213.27])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb32e7f5sm12751635f8f.9.2026.09.12.05.57.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 12 Sep 2026 05:57:42 -0700 (PDT)
+Message-ID: <0c787163-dd07-4389-b9d5-916b8753f388@gmail.com>
+Date: Sat, 12 Sep 2026 13:57:37 +0100
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:f012:b0:6c1:b8a5:cbed with SMTP id
- 006d021491bc7-6c24f6527a5mr4222634eaf.55.1789313666919; Sun, 13 Sep 2026
- 08:34:26 -0700 (PDT)
-Date: Sun, 13 Sep 2026 08:34:26 -0700
-In-Reply-To: <6a9ed559.6e6c5f9e.240462.0003.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6aa6c282.4c28b7d0.c1bba.000d.GAE@google.com>
-Subject: Re: [syzbot] [nvme?] WARNING in nvme_loop_reset_ctrl_work
-From: syzbot <syzbot+4a1d521d19d6321f5aad@syzkaller.appspotmail.com>
-To: hch@lst.de, kch@nvidia.com, linux-kernel@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, sagi@grimberg.me, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 00/16] Add dmabuf read/write via io_uring
+To: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ io-uring@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
+ Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
+ William Power <william.power@intel.com>, Phil Cayton
+ <phil.cayton@intel.com>, Damien Le Moal <dlemoal@kernel.org>,
+ Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+ Mikulas Patocka <mpatocka@redhat.com>,
+ Benjamin Marzinski <bmarzins@redhat.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, David Sterba <dsterba@suse.com>,
+ Ilya Dryomov <idryomov@gmail.com>, dm-devel@lists.linux.dev,
+ nvdimm@lists.linux.dev, linux-btrfs@vger.kernel.org,
+ ceph-devel@vger.kernel.org, Jason Gunthorpe <jgg@ziepe.ca>
+References: <cover.1785596451.git.asml.silence@gmail.com>
+ <178907372259.484803.15807864431748251506.b4-ty@b4>
+ <eb469580-509a-4895-a819-e7f3e4fa0b0a@kernel.dk>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <eb469580-509a-4895-a819-e7f3e4fa0b0a@kernel.dk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260913_083429_306392_07AFB0BC 
-X-CRM114-Status: UNSURE (   7.11  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260912_055745_563546_B7907A64 
+X-CRM114-Status: GOOD (  16.15  )
+X-Mailman-Approved-At: Sun, 13 Sep 2026 20:15:53 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,50 +126,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-syzbot has found a reproducer for the following issue on:
+On 9/10/26 21:58, Jens Axboe wrote:
+> On 9/10/26 2:55 PM, Jens Axboe wrote:
+>>
+>> On Sat, 01 Aug 2026 16:46:12 +0100, Pavel Begunkov wrote:
+>>> The patch set allows to register a dmabuf to an io_uring instance for
+>>> a specified file and use it with io_uring read / write requests. The
+>>> infrastructure is not tied to io_uring and there could be more users
+>>> in the future. A similar idea was attempted some years ago by Keith [1]
+>>> (from where I borrowed a good number of changes). Later it was brough
+>>> back up to life by Tushar and Vishal.
+>>>
+>>> [...]
+>>
+>> Applied, thanks!
+> 
+> Eh no it is not applied, was just looking at the series locally and I
+> guess it got added to the b4 ty pile.
+> 
+> I am, however, wondering if we'll see a v6 of this soon? I had some
+> comments on the nvme dma mapping, that can be improved, but I'd rather
+> defer that to post getting this included.
 
-HEAD commit:    2f0c1cf72f46 Merge tag 's390-7.3-3' of git://git.kernel.or..
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-console output: https://syzkaller.appspot.com/x/log.txt?x=159b19f9580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=8c5c3949d762a91f
-dashboard link: https://syzkaller.appspot.com/bug?extid=4a1d521d19d6321f5aad
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1074f615580000
+Working on it
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+4a1d521d19d6321f5aad@syzkaller.appspotmail.com
+-- 
+Pavel Begunkov
 
-------------[ cut here ]------------
-1
-WARNING: drivers/nvme/target/loop.c:455 at nvme_loop_reset_ctrl_work+0x1ad/0x5d0 drivers/nvme/target/loop.c:455, CPU#2: kworker/u33:1/38
-Modules linked in:
-CPU: 2 UID: 0 PID: 38 Comm: kworker/u33:1 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-Workqueue: nvme-reset-wq nvme_loop_reset_ctrl_work
-RIP: 0010:nvme_loop_reset_ctrl_work+0x1ad/0x5d0 drivers/nvme/target/loop.c:455
-Code: 7c 08 84 d2 0f 85 85 03 00 00 8b 9d dc f8 ff ff bf 01 00 00 00 83 eb 04 89 de e8 5e 1e 58 fb 83 fb 01 76 09 e8 e4 23 58 fb 90 <0f> 0b 90 e8 db 23 58 fb 48 83 c4 18 5b 5d 41 5c 41 5d 41 5e 41 5f
-RSP: 0018:ffffc90000727bd8 EFLAGS: 00010293
-RAX: 0000000000000000 RBX: 00000000fffffffd RCX: 0000000000000000
-RDX: ffff88801c78cb00 RSI: ffffffff86b3f22c RDI: ffff88801c78cb00
-RBP: ffff888028d84b10 R08: 0000000000000005 R09: 0000000000000001
-R10: 00000000fffffffd R11: 0000000000000000 R12: ffff888028d843e8
-R13: ffff888028d843ec R14: 0000000000000000 R15: ffff888027346800
-FS:  0000000000000000(0000) GS:ffff8880d5d59000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007fde19ca5e9c CR3: 000000002206a000 CR4: 0000000000352ef0
-Call Trace:
- <TASK>
- process_one_work+0xac7/0x1b10 kernel/workqueue.c:3396
- process_scheduled_works kernel/workqueue.c:3479 [inline]
- worker_thread+0x5ef/0xe50 kernel/workqueue.c:3560
- kthread+0x373/0x450 kernel/kthread.c:436
- ret_from_fork+0x730/0xd60 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-
-
----
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
 
