@@ -4,82 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BC645C88E59
-	for <linux-nvme@archiver.kernel.org>; Sat, 12 Sep 2026 17:29:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 48D0CC88E65
+	for <linux-nvme@archiver.kernel.org>; Sun, 13 Sep 2026 12:41:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=0DeWI7yWKMhOTA8L1o8/gSta/I0gOo2/cgp9qNzVlGE=; b=xmVJAvHB/BZV19ot6e+KRxzyh9
-	hZfpvoPsW64OdYcsyneXe4U9C452dNWnEA/4KX0RJOQsUNTQQ/koSTduaEYCrv42UW2IdtCsEBeaG
-	Ilt2Iq4USsVLC9Nlas7JOw8+d9Al5KNAdB/Zo4WjuNKRWhSkBkxVHUA2vgm1aKdJA1qv8wjRY+X/m
-	t9lXid/4VURGPoCGe+ZGVnDS6Vp4GFKhqdtu0E9KyEa/3O8ZKsG/ETJwpL7z2YVBrVfO9egiOj6IN
-	6pEWQGAoyTm5G//vqVq8sDRJz5TFJLFFaz9jzdWEfKLWm02M+GzHgmCacmyNMOr9KyIGtmjj9oMTi
-	3028ITPA==;
+	bh=1T1xM7WvsaSnz4vjGfPeE2GotheQaGRQND+mjnN9Juw=; b=xHj8eTZPYPNJ64aAfnIaZ69YRP
+	FFsqLtVzYAr/klPaZBCbtBFCVMvMYjkp+sXyrtdlt1SPKl6XXsh1Ro0Z6m9gHXF5pSPDc9nnCSvd9
+	RdFCckixOi2XuKcF0QHjY9EgSri6qub0P5p+xeFa1uf9g+WHgMR6auY1WSJ9gzPX0cuizDzS8AZtT
+	JdDoY0FtxR/CUwANLWVpXYWcRBK4dzKXWMM/wc8OBJwaLymxSWeY3+BfFgLSm4wOn5ioivfN49cur
+	ZYXqQBY6bm92Sx3glD7zdApO8KyNsEV1AUc/aiVf9jyBgdR/yiX2Z/z/3q1Pjd51et0Hlu1Fh/don
+	hT5U8GMA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x5RXO-000000012Sa-2VxL;
-	Sat, 12 Sep 2026 17:29:14 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1x5jWH-00000001fZz-0Dix;
+	Sun, 13 Sep 2026 12:41:17 +0000
+Received: from mout01.posteo.de ([185.67.36.65])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x5RXN-000000012SA-15kH
-	for linux-nvme@bombadil.infradead.org;
-	Sat, 12 Sep 2026 17:29:13 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=0DeWI7yWKMhOTA8L1o8/gSta/I0gOo2/cgp9qNzVlGE=; b=j+jUWAecAteZG6WGbMEYkjKAql
-	qWTXzSjCGk/BHnjwp6k+07i0zAoYX0x2+dj99Tbpz66xhBLVjWKUto85gUBOVYdaQiRyd4VPvdfNh
-	M68WTGgeGQnHHvj8Dk/mvcr8zbdLZThUMg63Ul7vyxL6U9x4p9BYbPot5sjAl+Uhw/ywIZ2Pplt3s
-	/EdCqv/bhI53/8ibCkTJ4IUHyBkwQ2WaXoWQx7EjxSoyL+ucWqQ9isThmiYNnNsdEEqbCauS4SSCg
-	P7iuS4UruQNlE4eZSdzqZbWULwgo4p3Wh8yDf3zrQS5RZGR3pPRO7l/xGknFfaTDhulPy3YopRjEq
-	b9Z+jOlw==;
-Received: from smtp-22.smtpout.orange.fr ([80.12.242.22] helo=smtp.smtpout.orange.fr)
-	by desiato.infradead.org with esmtps (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1x5RXJ-00000004WPG-2FMv
+	id 1x5jW9-00000001fZV-3Lnz
 	for linux-nvme@lists.infradead.org;
-	Sat, 12 Sep 2026 17:29:11 +0000
-Received: from device-106.home ([10.64.95.107])
-	by smtp.orange.fr with ESMTP
-	id 5IA7x4bYF4WOc5IA7xIMj7; Sat, 12 Sep 2026 09:28:35 +0200
-Received: from device-106.home ([IPv6:2a01:cb10:785:b00:26fb:aefb:6cd2:db0e])
-	by smtp.orange.fr with ESMTPSA
-	id 5IA4xBPdCDGip5IA4xOT8z; Sat, 12 Sep 2026 09:28:35 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1789198115;
-	bh=0DeWI7yWKMhOTA8L1o8/gSta/I0gOo2/cgp9qNzVlGE=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=Dcex9FWgzImdvlzB7ZppOwQ3EHL+OnskH8uEkAulWNMVQWxDx8uZ0iKaFXE17XrB+
-	 2Ph9GPtw+Oso5DQDqq8p2kBZqrLHEM0MTAEjuuas+Ca1fdv8jitgXJzobNDVLA6aXh
-	 rAppp5M22QF7boY3ilP6FZ7GqBbM5KLQ7i96IicRCGN7C8C/RSDo+cnqO6FH0VrC2F
-	 otBqa2L8oQWYR+P57k2038cCDAhOuiw0IpOTDwtvqxyEjwjLKNxM5xzgJKChgRLCSa
-	 O9pwXjW09nt10BT7N4SsT856vFoZWGjtBhtfo7QjtmDweBxtKPFwzw76JEtP1Jbz3J
-	 Ctfl0jThtjKWA==
-X-ME-Helo: device-106.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sat, 12 Sep 2026 09:28:35 +0200
-X-ME-IP: 2a01:cb10:785:b00:26fb:aefb:6cd2:db0e
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH] nvme-keyring: Constify struct nvme_tls_psk_priority_list
-Date: Sat, 12 Sep 2026 09:28:25 +0200
-Message-ID: <303d4eff4cd1095ed248e64a7d4c799a49027394.1789198083.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.55.0
+	Sun, 13 Sep 2026 12:41:11 +0000
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id 2D89D240028
+	for <linux-nvme@lists.infradead.org>; Sun, 13 Sep 2026 14:41:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.net;
+	s=1984.8680eb; t=1789303262;
+	bh=1T1xM7WvsaSnz4vjGfPeE2GotheQaGRQND+mjnN9Juw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:From;
+	b=mgWMC8jWqV1KQJBg3F+NNXzy66cZ5aXATPlecKHCMLbZ051CkVZaP3CQ3icr7NnXd
+	 f4snslPG9QIMMw41nhPoKrWQchHlp3l+rNeDS/zd4pvvx1zpA5AjB7h0vWVDdwivJo
+	 1yotGpb/aEeV/maPNek+JPUXMYV+VaQa+bKpFd4iKoF5wjnrMS6zABbMcqxhc5Bb1g
+	 /7MbH6U6sbNviAVpd+GoJ9PBHG/RYyE/FpZg4HFHuxKPJPsu/o2giIvsRokeOHprh5
+	 L3GdYsk8OQA1cDuiLt5woxRs2pSbLryjy/j68beA2I4NOsu7sHj3qmLw8N/oA7fBCC
+	 vrj1tCW/dbaRQ==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4hjSZ44614z6tw8;
+	Sun, 13 Sep 2026 14:41:00 +0200 (CEST)
+From: Mateusz Nowicki <mateusz.nowicki@posteo.net>
+To: kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Mateusz Nowicki <mateusz.nowicki@posteo.net>
+Subject: [PATCH] nvme: bump genctr when cancelling a request
+Date: Sun, 13 Sep 2026 12:41:01 +0000
+Message-ID: <20260913124053.86565-1-mateusz.nowicki@posteo.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260912_182909_747240_899756D1 
-X-CRM114-Status: GOOD (  12.21  )
+X-CRM114-CacheID: sfid-20260913_054110_160928_AEBCCC83 
+X-CRM114-Status: UNSURE (   8.75  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,43 +75,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-'struct nvme_tls_psk_priority_list' is not modified in this driver.
+nvme_find_rq() rejects a completion whose genctr does not match the
+request, so a command completed once cannot be completed again by a
+stale CQE. nvme_try_complete_req() bumps genctr for that reason.
+nvme_cancel_request() completes the command too, but leaves genctr
+alone. A CQE the controller posts for the cancelled command later still
+matches and gets applied.
 
-Constifying this structure moves some data to a read-only section, so
-increases overall security.
+The cancel path is taken when the host stopped waiting for the
+controller: CSTS.CFS set (dead path in nvme_dev_disable(), no CC.EN=0,
+no wait), or CSTS.RDY not cleared within CAP.TO. Nothing stops the
+controller from posting completions after that, and the second
+nvme_dev_disable() from nvme_reset_work() reaps them in
+nvme_reap_pending_cqes().
 
-On a x86_64, with allmodconfig:
-Before:
-======
-   text	   data	    bss	    dec	    hex	filename
-   7097	   4296	     64	  11457	   2cc1	drivers/nvme/common/keyring.o
+The cancelled request sits on the requeue list after the RETRY
+disposition. The late CQE ends and frees it from there, and the next
+dispatch hits req->mq_hctx == NULL:
 
-After:
-=====
-   text	   data	    bss	    dec	    hex	filename
-   7193	   4200	     64	  11457	   2cc1	drivers/nvme/common/keyring.o
+  BUG: kernel NULL pointer dereference, address: 0000000000000158
+  RIP: nvme_prep_rq+0x1a6
+  nvme_queue_rq
+  blk_mq_dispatch_rq_list
+  __blk_mq_sched_dispatch_requests
+  blk_mq_run_work_fn
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Bump genctr in nvme_cancel_request() like a real completion does.
+
+Reproduced with vnvme (https://github.com/Mateusz-Nowicki-Embedded/vnvme),
+a virtual NVMe endpoint that holds completions back under I/O, sets
+CSTS.CFS, and releases them after the tagset was cancelled.
+
+Signed-off-by: Mateusz Nowicki <mateusz.nowicki@posteo.net>
 ---
-Compile tested only.
----
- drivers/nvme/common/keyring.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/nvme/common/keyring.c b/drivers/nvme/common/keyring.c
-index 32d16c53133b..43624d7713de 100644
---- a/drivers/nvme/common/keyring.c
-+++ b/drivers/nvme/common/keyring.c
-@@ -194,7 +194,7 @@ EXPORT_SYMBOL_GPL(nvme_tls_psk_refresh);
-  * PSKs, PSKs with hash (psk_ver 1) should be preferred to PSKs without hash
-  * (psk_ver 0), and SHA-384 should be preferred to SHA-256.
-  */
--static struct nvme_tls_psk_priority_list {
-+static const struct nvme_tls_psk_priority_list {
- 	bool generated;
- 	u8 psk_ver;
- 	enum nvme_tcp_tls_cipher cipher;
--- 
-2.55.0
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -532,6 +532,8 @@ bool nvme_cancel_request(struct request *req, void *data)
+ 	if (blk_mq_rq_state(req) != MQ_RQ_IN_FLIGHT)
+ 		return true;
+ 
++	if (!(nvme_req(req)->ctrl->quirks & NVME_QUIRK_SKIP_CID_GEN))
++		nvme_req(req)->genctr++;
+ 	nvme_req(req)->status = NVME_SC_HOST_ABORTED_CMD;
+ 	nvme_req(req)->flags |= NVME_REQ_CANCELLED;
+ 	blk_mq_complete_request(req);
 
