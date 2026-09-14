@@ -4,84 +4,107 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 62893C88E64
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Sep 2026 10:34:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 166FEC88E65
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Sep 2026 10:35:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=bzA4Ev9bFl4S+BlvHkgaYE+G7jqrAFXbwzypM6V761A=; b=dXnCQ/1deRRry6Noq8fuiBvWLr
-	aO2ZYOLDl7Yjm9ksBQS4uKzAI/JVa78/SRkGF5Z4p23WAJhuk/T5QNUBSjR31+eyg/9Dn2CgayXE5
-	jSnsb6YhAxiRVjO9tBPMoQXai6/iZPNMCfMeazCjfv7De/vcEP0xwPQIviCrAU0i2xqcJzkA5MC1p
-	e8t0GXAxTB4OHDE2FhGuFza92iRXJQbQriy8d+w0An69t5L7Iqtsrqfe+7W28u5Udb1htKrSEzfwu
-	3cKNcSewArJhGZDDsEnGdDWvCk37xyZRKkz5hJctf8IivKnicpFzfvwBifhk7IQaAmEYma5zx1/3q
-	MtSspOjw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=U+sUmciWj0yzSnLv1yabd8sN7RcxhV1A4bUUsO7WokE=; b=1SfxIroHq2qKcEc7OJ/PwdNrgW
+	GmQ9SVzrnisVSweeBzViPweJrbGYIY9Q6RAvuIZYVC6oG86qqeh2dY4nXh0pMBnbLtAxtlWn0Nose
+	cOSwdNMXkohjHGP6reOhLPk0xrunnFcrz93sFdMT0a0iXNlBVAhxkCIRzN00nt0NaoJyV+13eCFc3
+	tuDFHW/sguEpQsbCEn0ntd6AxAGVrxFAByDNmSWVus7XQECg45NEMgl4H8+ZczFrJp/WgvqJuL+2+
+	jHTdnoM3MzYtM8JsKnTwbviDUkVTIPfvkYbw70D9CHNa243bR0jR+9hCbOp4e/ZPXdNer6ODRBiaE
+	xiHwPmmQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x641X-00000003A5i-2ddI;
-	Mon, 14 Sep 2026 10:34:55 +0000
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+	id 1x641o-00000003A9E-37uz;
+	Mon, 14 Sep 2026 10:35:12 +0000
+Received: from mail-qk2-x10.google.com ([2607:f8b0:4864:34::10])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x641V-00000003A4n-0WB8
+	id 1x641l-00000003A8H-1mUU
 	for linux-nvme@lists.infradead.org;
-	Mon, 14 Sep 2026 10:34:54 +0000
-Received: by mail-wr1-x42d.google.com with SMTP id ffacd0b85a97d-486fa798933so1204596f8f.0
-        for <linux-nvme@lists.infradead.org>; Mon, 14 Sep 2026 03:34:52 -0700 (PDT)
+	Mon, 14 Sep 2026 10:35:11 +0000
+Received: by mail-qk2-x10.google.com with SMTP id d75a77b69052e-52fb76bcb1eso23169891cf.3
+        for <linux-nvme@lists.infradead.org>; Mon, 14 Sep 2026 03:35:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789382107; cv=none;
+        d=google.com; s=arc-20260327;
+        b=FJSZthcYKSYPDbG6tByicm3kUdXCTe1dkxVlbSbCu1U6igyJgLdJXNoLcJvvO8HXiS
+         SKlI+XLV1yumo3fmDg0Ghb+kkwAOeZh2Kvmd+nP+i+oFc7AJr7UXNdotGJKmrKBo1aZB
+         Aim2dUqc33aUHQfhNGI4UAyoAMppVvAXrsYqHJWXNkBSXX/17Sqpy4OpDMSu+3Z+Rh6v
+         Qj0V5AUVr4kCge5gW/S33WE9visG1SUDIYWoIoa5JNzif0DPNwRgB0dDV3Ok+hUTj1o8
+         eR3cMKOIzfOUK5wgilZqnrh87spbr3X8m8pqFDKIpUeqj/q6VuafYsEgSzA23jaV8eX6
+         j8Yw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=U+sUmciWj0yzSnLv1yabd8sN7RcxhV1A4bUUsO7WokE=;
+        fh=TKLYri8Y1NfR9szdbKfi8nWdqYOu0RnGILxpEXCIdRk=;
+        b=PkCNypijdFPRPBwbW4hb8Oywa02WnS839jt+dDEArvfW6snpJSwGnBPoqBgvQeGj2n
+         wwlbUqCk5rA9Qg3LNQzBt9fpfl/m3zG6KmoMIdqpn3FgPX111AQz71au/PNU0zFW5oEC
+         MkO9mAI02PE8FpSCWO9ycgJGEmNDYn70Z9wg7O+89/jZQlfxNlRS7xUWMrLeNQn1rozX
+         BTzUL1v1FXKG/K0woYHpW0PFJ0YJOOdVE0FsfI/QqCi3gBxvzL6EWBua0EXBjVrFsgIP
+         U6Tn4gzGzM0XDuPPtBPKufqqrSV9FO34hPtyXiWfBANe5HlOK8VkdBCSgmE+FApFCuTJ
+         u9Yg==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789382090; x=1789986890; darn=lists.infradead.org;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=bzA4Ev9bFl4S+BlvHkgaYE+G7jqrAFXbwzypM6V761A=;
-        b=LHUkKMTlziYvE5VIm+LYacMGN3EB4pzMXaPEZN0quGC8L8aTtxrWUiaiYsifOXCTsD
-         WuRXyMLi20jTKQOl9LKz+aXDTxQbPsA2jLAQy+BNaQZjtCHB/ryy1P1BB+o0aLPDvNW9
-         wKQpHAEkfIQ3Lq+6pztt9CYyzByqc/VSkCSSt+LLziwA+Thk49pakfLdO5A0Pd5dkdAY
-         UgaJjm9Sx6TT7hNCr3cbcCeTiaP5E6+fr5EI90m7AFoxcAitmYsW2drOaLacTqO3poUW
-         7ojUs9M3oVKLJHCaYvNI9snjgsVa5KuAtGDWOZtFVrzCr2RxSk3bJ/iCuFKT+w+xUSxu
-         QQKA==
+        d=google.com; s=20251104; t=1789382107; x=1789986907; darn=lists.infradead.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=U+sUmciWj0yzSnLv1yabd8sN7RcxhV1A4bUUsO7WokE=;
+        b=hhPXFn+Y1TNjf1ex92eqZTU3axKe/aDKiPQXQij3OS7qbM3rsQCK8MTxm0tBkAj6sT
+         3I5AuvRxYVcTOTk5FAGbETw/DboGDnHUDwY2MMscWXnS5O+/npkpwvqAtnSYFM7Yk6yX
+         4FidQhkCaVWH7H+Faf0YBSiCz643L46Y3y6wLpo14B0KnovIjXqVCMOV0JyGPSgFq/7V
+         fN8iG1AB+/na90JM/fcW3Sy3+yd7ASPfJWz9z0HTgIudc3iG6Xh3bgRZC1sLlwf4x8jh
+         1KOyFQ1tJv5fwlMMIkY/s7iiFbivWV6y85BxA7mgQDYIyQWN7hr0xFHQ2E5TClh8YMZW
+         Afrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789382090; x=1789986890;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=bzA4Ev9bFl4S+BlvHkgaYE+G7jqrAFXbwzypM6V761A=;
-        b=F+R/qKhkekmqjoNAe7eXRIDLzC6g4axdRYyLkPakVKrf3P3wxvLO9Qh1wuoiGXbiQM
-         9lTdKPoVCobGkeKrr0OxEY2vOzzmdCtB0H38FVk7X4WrXFC9/dVzTxflokndBQqj00mU
-         kTrIGbnvMhAOkxqtZrFdCtCGAMNNPl8Cd7uBRSFfS1b+jV5diYsviklOPQ58p6k5ly5x
-         4oWKwosxZyDylazbR+a4ygYOGyJah50oQqB5t6TFKTxf9mnBPUBKWD3jhjhhs1YgFFCm
-         6v3O8pQ++ykLprqEAJ0FXPGWnU+OwCFP8Gb6BZMeu6Jm+pjP8eS3EMFV+PS2Zajnya16
-         RbWA==
-X-Forwarded-Encrypted: i=1; AKwUvBwr/57OE0++RrlWSbNoLsaaHKuIuk32pWM2sgC/9+M/6H601232gYeZ2KkVzSLwep2Obk7PmeVzHU4l@lists.infradead.org
-X-Gm-Message-State: AFuF++mNyMsVdhTbvD45Bh++QoPvskNyfEJxkLnz5GTv55+gUdqiu/aG
-	z/N5mj6MVP2sMT8VCF/zcbqnAcV/ZeK8wfDDg5b1ZE575S+Uxo4M0lEqpcZ9IMGPJAxu7Q==
-X-Gm-Gg: AYBFou23+JAR2EvKK5/zr7bieUECJcq3sGI7aYUWo8Ku9LUvZXqVLqqFVUuJubm0bKT
-	pyq4emey2ap3eoeSA7hl3vED9Jf51VKgyIggo0JRc3j4nKI+Zu9ghynsfs9eurgVmuAO8P9KeHf
-	1E+PeZU7Jfcg628qVy+pqxOzyK3oB3R6qqAqrrjQyZy4FqKW7hZDH/5X11iuG2QXVHjLQz85f/G
-	xZjAYzxFQOwyNmdioVsND1A9VuQjPBKfvmvsYj9Wqub1MEmk19lwVwat/0EuI1k8e2sffZfWbad
-	nB4uBAQj2sBLBRpQySnUrZrKKbw1klOkSvj5dcSqSNhPngOioXwnQAj04VdSRqq4U5H0cnMw3Tt
-	EqHMm3lVORlGwFm2tHNHqjZ5ooBwxs+xVwU26eub+AtOT4lCrrNoINtkFRjB3H29bQ4Ada9Ph69
-	WQCuWA/GLkUl7I4LfXm04q7MCh0t+2c4GS9cfiEImwdakvGG41oeNPra+0lvEjiwQRAm8=
-X-Received: by 2002:a5d:6f16:0:b0:487:37f:9ea7 with SMTP id ffacd0b85a97d-487037fa075mr1474421f8f.32.1789382090414;
-        Mon, 14 Sep 2026 03:34:50 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb2ed106sm25223409f8f.1.2026.09.14.03.34.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2026 03:34:49 -0700 (PDT)
-Date: Mon, 14 Sep 2026 13:34:46 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Sven Peter <sven@kernel.org>
-Cc: asahi@lists.linux.dev, linux-nvme@lists.infradead.org
-Subject: [bug report] nvme-apple: Destroy the admin queue on removal
-Message-ID: <aqfNxqqlIRbClbOk@stanley.mountain>
+        d=1e100.net; s=20251104; t=1789382107; x=1789986907;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=U+sUmciWj0yzSnLv1yabd8sN7RcxhV1A4bUUsO7WokE=;
+        b=EmJCV74MGZwin8XMBsK9RBzPhQp6H9fMQs+RMFJyzMjg17wQylF+CxTYoVTZPYLjnN
+         Xzecs726nU6pFbQ1XJ6JTbBaF5nZ/nzAjcYTR1O2ioacVy5lGw60O5CnCW4XlDUZdokN
+         T17zHh8RjwU/NbxyXB6d0HT0NR5hntqO/XfrnzOYGSPC1IngG8GBYppV4Ht0dgoKP0gk
+         JyXsUf5wACT1ReehZtFdpEUqX6dLeZaFwPCm1R9KXnC9IzUUcekUuRITqDDj6TLfFji7
+         DrQs7L/iLwDNil903pHGClp7on+45sc0/JzYeI8lD8XrKJ2mFJGa34cl59Ath0lLtKKn
+         2nXQ==
+X-Gm-Message-State: AFuF++nDD7mf/BJSenqHapItWIlYCwEfDhIbY0hTsOYIOph/gjk53OGe
+	6QrkP01I9lFnvuB+KVvz8H36SIe+W1ApZgBK/3TM1l2CCL6a7/73PtSlVbdQ8cRmOGbEHNa59rY
+	l3p6GCBNo+WGryym0dBwi91MtkwWgOJ5TyWbt8EbQiJHlqPiU48zW/rd0kCM=
+X-Gm-Gg: AYBFou3uLAozgaKdI9qGVY8s+520oTcpuscaqH+IqFHu5ANcm3+cBOlIsPfg+mpTq6+
+	9L5IBjyvkpyeei0wyvJsOJWRamXeRldKiQo91/eWNzWx0eVbi+jL6AAVEnX7nZKAIupJh1ELTK0
+	h+VMkH6aAwJa8hfM12FrlRIlR6ZHhheqhyIlIWC4drKj4szsNnqZ2JBsH/nTLUBSDrkytZCktl+
+	woRSm6t5vHdG9vO3k08co8repDpQVbvXUDG9X5yAgeqSVTfgo3d0cOAOP/GqJreyKOFcI3DQtN7
+	iCCxX8DeqG0sCXNTwc+yyn/9WpEQIJJxitDwH5LInRMLH9nd4o3258yhVOpy/bnItygBiHVUBaK
+	3Zp6Q3lBkMydl1siDUMPKAgz0UTmRcz4mf3qo5mJeitJ6Gol/wLyNWuY/+Dk/HZqXnY0=
+X-Received: by 2002:a05:622a:6f0b:20b0:531:3de:7d7 with SMTP id
+ d75a77b69052e-5310d000294mr17451491cf.39.1789382106314; Mon, 14 Sep 2026
+ 03:35:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20260914074853.3990397-1-shinichiro.kawasaki@opensource.wdc.com> <20260914074853.3990397-2-shinichiro.kawasaki@opensource.wdc.com>
+In-Reply-To: <20260914074853.3990397-2-shinichiro.kawasaki@opensource.wdc.com>
+From: Eric Dumazet <edumazet@google.com>
+Date: Mon, 14 Sep 2026 03:34:54 -0700
+X-Gm-Features: AcwNN1W-AZyD5N3ZoQtOFQXXq11qlIV2aytHyNwrPDtBOpTt-jIkIaetNkgJ0Bw
+Message-ID: <CANn89iJMVXEPKOCn5PRwf+viCZJraMrE3v0XBaD-ZmNKaEYQTg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] Revert "nvme-tcp: lockdep: use dynamic lockdep keys
+ per socket instance"
+To: "Shin'ichiro Kawasaki" <shinichiro.kawasaki@opensource.wdc.com>
+Cc: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>, 
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@infradead.org>, Sagi Grimberg <sagi@grimberg.me>, 
+	Nilay Shroff <nilay@linux.ibm.com>, "Shin'ichiro Kawasaki" <shinichiro.kawasaki@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260914_033453_168043_36CB2F53 
-X-CRM114-Status: UNSURE (   6.93  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260914_033509_478594_C932CC69 
+X-CRM114-Status: GOOD (  15.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,29 +119,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello Sven Peter,
+On Mon, Sep 14, 2026 at 12:49=E2=80=AFAM Shin'ichiro Kawasaki
+<shinichiro.kawasaki@opensource.wdc.com> wrote:
+>
+> From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+>
+> This reverts commit 19bdb70c77d3b24239a453291299b64040bdba86.
+>
+> The commit 19bdb70c77d3 ("nvme-tcp: lockdep: use dynamic lockdep keys
+> per socket instance") addressed the lockdep WARN caused by the circular
+> lock dependency among six locks:
+>
+>   set->srcu -> sk_lock -> cpu_hotplug_lock -> fs_reclaim -> q_usage_count=
+er -> elevator_lock -> set->srcu
+>
+> As its title says, the commit cut the dependency by introducing the
+> dynamic lockdep keys per socket instance. However, as described in the
+> Link tag URL, the commit made a wrong assumption: it assumed that
+> __fput_sync(queue->sock->file) in nvme_tcp_free_queue() would
+> synchronously destroy the socket. This is wrong: when in-flight packets
+> cause delayed free of the socket, the prematurely freed lockdep key is
+> referred to and causes another WARN. The commit is an imperfect fix.
+> Hence revert it.
+>
+> To address the circular dependency among the six locks, another solution
+> is required. It is provided by the commit 0ba6912f7e97 ("Revert "once:
+> don't use a work queue to reset sleepable static key""). It cuts the
+> dependency between sk_lock and cpu_hotplug_lock. This solution is
+> simpler, and reduces the complexity in nvme-tcp.
+>
+> Link: https://lore.kernel.org/lkml/CANn89i+wnTLC=3D=3DUnXCpjsS4YxvEfhe5oK=
+0N7fttbqr1zKyqdug@mail.gmail.com/
+> Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 
-Commit 87d5b9864c81 ("nvme-apple: Destroy the admin queue on
-removal") from Aug 6, 2026, leads to the following Smatch complaint:
+Reviewed-by: Eric Dumazet <edumazet@google.com>
 
-    drivers/nvme/host/apple.c:1642 apple_nvme_remove()
-    warn: variable dereferenced before check 'anv->ctrl.admin_q' (see line 1641)
-
-drivers/nvme/host/apple.c
-  1640		nvme_remove_namespaces(&anv->ctrl);
-  1641		apple_nvme_disable(anv, true);
-                                   ^^^
-This dereferences anv->ctrl.admin_q
-
-  1642		if (anv->ctrl.admin_q && !blk_queue_dying(anv->ctrl.admin_q)) {
-                    ^^^^^^^^^^^^^^^^^
-So this NULL check is pointless and can be removed.
-
-  1643			/*
-  1644			 * If the controller was reset during removal, it's possible
-
-This email is a free service from the Smatch-CI project [smatch.sf.net].
-
-regards,
-dan carpenter
+Thanks!
 
