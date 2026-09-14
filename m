@@ -4,61 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F011FC88E72
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Sep 2026 15:20:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A34EDC88E72
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Sep 2026 15:26:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=IDiF85frZeJEZAOsgR1xXVkqQfoqGin6i1WTRB+Jd8U=; b=BLWlMVNey4Od9cJJgtblMSIe0N
-	nmJ7qw1YUXcIKIeCvM6RjgmTN5REP28ZQJw1DUFFATQaEZoO9tQetNi4DOpprkdbr0GqW+fy+VyaH
-	jn7YDY3V1x2+S+sV65bm/6zCa4FRkGEpnSBmlXqJIlsO0OqQ1vk97geqp01DrjUVLWtLS1qST/aSp
-	XJqnGnCASkmgtGaF6l61DxJw1RD/hCwRlt8Ejo4bNWJnV12QpHc8txQFsNLVIJsOPmQfGC9EPfcVG
-	6Ep8H4zzxUV5R0ay36ipL0SuJHAlXmwDE6ZmKjJL38nqvzMATeUideO2FZmgnwYW2FsOqPi+i2udo
-	hU36p17w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:From:
+	Subject:Cc:To:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
+	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=LLVhb726Wd6VctkKYcfyvFb50durPjk31wXuFNm8ji4=; b=4Dv7KUXE8zre3qhhwEsjUyFTLW
+	9yuundMVqT2FiOCSw83FLCxmdrC5n+z2OT+5wOV7hl0SDK4VeK9ewR5BC3PMm+pVuZTq82OSpsh85
+	7LzhhmJN6NlL14eoVoRnWT4lY+SBc921HTMri+q3zhXJiEZwX8byy4n1MglzYNKtCGnbGpWhHZpUA
+	Umt7Wujz8/bial9XQOsORb+UmrDWvHP6cEg/tDPB6hUXBbte89ggVLi7kFm668J1DNhx095MBTNhh
+	jynY/PskjqCwQF/BxQhIUs9R1+Eui4kip84QRnal1SdCjGlRM/bJz7GxcR2v2ntidlovFJDXx0LNV
+	suByC+sQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x68Ty-000000048zW-0B1L;
-	Mon, 14 Sep 2026 15:20:34 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1x68ZG-000000049XJ-2xH2;
+	Mon, 14 Sep 2026 15:26:02 +0000
+Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=arkamax.eu)
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x68Tv-000000048zF-3kax
+	id 1x68ZE-000000049WT-1mdM
 	for linux-nvme@lists.infradead.org;
-	Mon, 14 Sep 2026 15:20:31 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 4BF2E60261;
-	Mon, 14 Sep 2026 15:20:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71FF11F000FF;
-	Mon, 14 Sep 2026 15:20:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789399231;
-	bh=IDiF85frZeJEZAOsgR1xXVkqQfoqGin6i1WTRB+Jd8U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ZkPnyJhLoy4Rrr8wztJFIKP4HSL3lWn9MOsjCvcfmrQuLoTH9Pca40ZLYnysE0Lvb
-	 5NuLoo43VyLjv49t8PPWQlxTwDzB7kyz28b75bf4vY2GeKB3Mml3b5IR7Pncq0HbGY
-	 XwnH0KLurBNnplxzSJKTifyXTCiq/LbqPupTb0XIhw+fSMe6K3gz9/Qzx283x5CNv4
-	 XZq+Fe78RdFXrQ7OVk+sA+6ZY2AoTR5skLuxFXBXMCYSbTNWk1NJmQJuHFveZbcprn
-	 6qC0l93atwe2m+AXTZgz3Qe7jR35hYjpw28/ALfbeD86ECl7g8fJkKYyeparxyWvNm
-	 QzvHSelJfSRxA==
-Date: Mon, 14 Sep 2026 09:20:28 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Maurizio Lombardi <mlombard@arkamax.eu>
-Cc: syzbot <syzbot+4a1d521d19d6321f5aad@syzkaller.appspotmail.com>,
-	hch@lst.de, kch@nvidia.com, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org, sagi@grimberg.me,
-	syzkaller-bugs@googlegroups.com
+	Mon, 14 Sep 2026 15:26:01 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; s=mail1; bh=LLVhb726Wd6Vct
+	kKYcfyvFb50durPjk31wXuFNm8ji4=; h=in-reply-to:references:from:subject:
+	cc:to:date; d=arkamax.eu; b=FDLkArDkHUwCtOM/m7r3cFF7UhZKwVUsF4n+bOpX+0
+	qG2yMKlc7cID72h3LvC0Mb6EjYfc5uN4kQQfZMVMjdTG1hYLaJjjEoLpZvugyTUGTFMHXz
+	Xs51WHTLa3q7mXzy5zrAEFAmKixNPwh/PAKCT6dasn5Sr8sSuv3BuqTGdizgGm0mW9SUWm
+	XhcoMGqoGybMtueU63tatps/agcz2ROypwGc+uY8I828LFRohFNABkUBcAiQMtd5cgVujT
+	dVEBSQS+6/mljzeXDW4TkVDqQvkKaspj7YcRfitH8sqrr4ThSczXGT0KkrbyVP0FAr6Byb
+	LND6dzYTXmjuftVpmTzQ==
+Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
+	by arkamax.eu (OpenSMTPD) with ESMTPSA id 3fef3a6a (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Mon, 14 Sep 2026 17:25:57 +0200 (CEST)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 14 Sep 2026 17:25:57 +0200
+Message-Id: <DLF57C50HQ3U.2IK671IPAW179@arkamax.eu>
+To: "Keith Busch" <kbusch@kernel.org>, "Maurizio Lombardi"
+ <mlombard@arkamax.eu>
+Cc: "syzbot" <syzbot+4a1d521d19d6321f5aad@syzkaller.appspotmail.com>,
+ <hch@lst.de>, <kch@nvidia.com>, <linux-kernel@vger.kernel.org>,
+ <linux-nvme@lists.infradead.org>, <sagi@grimberg.me>,
+ <syzkaller-bugs@googlegroups.com>
 Subject: Re: [syzbot] [nvme?] WARNING in nvme_loop_reset_ctrl_work
-Message-ID: <aqgQvIG17WgKKoFs@kbusch-mbp>
+From: "Maurizio Lombardi" <mlombard@arkamax.eu>
+X-Mailer: aerc 0.22.0
 References: <6a9ed559.6e6c5f9e.240462.0003.GAE@google.com>
  <6aa6c282.4c28b7d0.c1bba.000d.GAE@google.com>
  <DLEXGM8VZOW9.1J9A20FEP43RM@arkamax.eu>
- <DLEYMPA5WF42.2GHC28RDZX90E@arkamax.eu>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DLEYMPA5WF42.2GHC28RDZX90E@arkamax.eu>
+ <DLEYMPA5WF42.2GHC28RDZX90E@arkamax.eu> <aqgQvIG17WgKKoFs@kbusch-mbp>
+In-Reply-To: <aqgQvIG17WgKKoFs@kbusch-mbp>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260914_082600_804914_22074F0D 
+X-CRM114-Status: GOOD (  10.93  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,12 +74,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Sep 14, 2026 at 12:16:53PM +0200, Maurizio Lombardi wrote:
-> Maybe moving the controller to CONNECTING state before exposing it to
-> sysfs will prevent the warning:
+On Mon Sep 14, 2026 at 5:20 PM CEST, Keith Busch wrote:
+> On Mon, Sep 14, 2026 at 12:16:53PM +0200, Maurizio Lombardi wrote:
+>> Maybe moving the controller to CONNECTING state before exposing it to
+>> sysfs will prevent the warning:
+>
+> I think all the transports set CONNECTING after adding the controller,
+> so this would have to be duplicated for all of them, right? But why do
+> we allow going from NEW to RESETTING? I don't think any of the
+> transports do that anymore, so we can remove that transition instead.
 
-I think all the transports set CONNECTING after adding the controller,
-so this would have to be duplicated for all of them, right? But why do
-we allow going from NEW to RESETTING? I don't think any of the
-transports do that anymore, so we can remove that transition instead.
+Yeah, this is indeed what I was preparing to submit.
+The diff I sent earlier today was just a bad idea.
+
+Maurizio
 
