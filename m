@@ -4,79 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 19D5FC88E75
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Sep 2026 03:30:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 824E4C88E75
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Sep 2026 03:51:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8SRRdOHvGVWlfHYjcNoslgmSDHrKecE+Ub2ys19p5so=; b=s48HZPck2DaLi76UiMsK9B7tED
-	rYV+PvzZenFvq1BMygiVFKnanT1awPWKcm3l41624SSmEsCuQf8XIfvVCqZ+6RX98xpcrpSODAHTz
-	7Uode1Di8C1hMfnFAUYwP1uHWUSOrGNYGXixFyqSceLYocw7d5p72414MB+47NK0HdYpLC2o5RQwj
-	wUNAfwlYY0NXJt9X0ycmFVA4sTrBJFN/55XnMeZ57A662rNJSQCbKAra36lrhcBFKA+Po9Q+ZYnyx
-	tWw/hOGz6/sh94MqQrEx29IJMvDay2DnjbfIWPCIUNlIPtsLfL1UDdB7GDdnUNKLaw6TBFXO57LuF
-	6JPMKMiw==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=t89rpHiNw/rNyrb5GPmXpT24rGMM1iH3V/Eh470//LU=; b=ASL5iJ3NV4OVJrqm+6qLRJwNOd
+	jlEHKR3ikJ1QFwiNuD/ncW0/0yRkca86UI/lY4vJzoO49C/inCa0RVvxw5sS2rLTw3PlkhYQGDY83
+	xUmLjHUpRjM+yxiGXH1Xgc//6qAVkght1G9C50KWVZQOi7gtv68oacVcidNJq5X50sekrm/uQtZU+
+	sjNKvC3m2oFfihFlwp3Qo/rSWCDSplQSV4ZhU4uoiVRFXMYwzJqc7Nf5TqKt3es290ZtSPdnOiVEE
+	PTUfGGeFIdVRGZf8vT2y6MW0KayOcIE76ujb5RCM1IxvWewrdCpG8v75rWzDRxruyzdduk7XVxf37
+	7hFG/dwQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x6JsI-000000058Hr-0CdN;
-	Tue, 15 Sep 2026 03:30:26 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1x6KCq-000000059gB-3s9G;
+	Tue, 15 Sep 2026 03:51:40 +0000
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x6JsF-000000058H2-1jRS
-	for linux-nvme@bombadil.infradead.org;
-	Tue, 15 Sep 2026 03:30:25 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=8SRRdOHvGVWlfHYjcNoslgmSDHrKecE+Ub2ys19p5so=; b=SLIGYSh3DipUZmEEThCnqAMYpe
-	vxUFy18AlcRHb5VRUx0/TC+ONBX491tARXDTYOBHyD+KC5OryxoHeP4bET/D9GHS3bLdC+OSS9gi6
-	40w9CtFqzG4zYyXukI6OcF2KQ3aRfs+T9U+Fu4Ccp/o579lUl42GFx5q2/ns6KGAJSWYOAu+JPzK5
-	jKkHFOnYaEbxhmsTgHnsgf1LzZzuhwAPZDkOJPr0ZXXVZwM/iiSlY3s/2CIzt2/QGoTXlneFzEbs/
-	W+F15NIvIMwQaXsBrHp0Z6Y+U2E0Ard2LAueSrGDh17ivj3NMEFYtOct9+4D7wYGGxk1y2FqJMCpR
-	+H86Y/hQ==;
-Received: from mailgw.kylinos.cn ([124.126.103.232])
-	by desiato.infradead.org with esmtps (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1x6Jrl-00000006EdC-13jU
+	id 1x6KCn-000000059fe-3N2h
 	for linux-nvme@lists.infradead.org;
-	Tue, 15 Sep 2026 03:30:19 +0000
-X-UUID: aac04a3cb0b511f19a56ed5b684f684d-20260915
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:eb3d3894-82e9-443d-91fc-bec10bb22076,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:7db8b62,CLOUDID:242077cd59a1502f77935d0990a33437,BulkI
-	D:nil,BulkQuantity:0,SF:81|82|83|102|865|898,TC:nil,Content:0|15|50|99,EDM
-	:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0
-	,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: aac04a3cb0b511f19a56ed5b684f684d-20260915
-X-User: liuxixin@kylinos.cn
-Received: from [127.0.1.1] [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <liuxixin@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 667585345; Tue, 15 Sep 2026 11:29:32 +0800
-From: Xixin Liu <liuxixin@kylinos.cn>
-To: kbusch@kernel.org
-Cc: hare@suse.de, hch@lst.de, axboe@kernel.dk, sagi@grimberg.me, kch@nvidia.com, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, liuxixin@kylinos.cn
-Subject: Re: [PATCH v1 0/1] nvme-auth: constant-time DH-HMAC-CHAP response comparison
-Date: Tue, 15 Sep 2026 11:30:00 +0800
-Message-ID: <reply-nvme-auth-memneq-ping.20260915.liuxixin@kylinos.cn>
-In-Reply-To: <cover.nvme-auth-memneq.1781751816.git.liuxixin@kylinos.cn>
-References: <cover.nvme-auth-memneq.1781751816.git.liuxixin@kylinos.cn> <0001.nvme-auth-memneq.1781751816.git.liuxixin@kylinos.cn> <20260702141317.GA23046@lst.de> <df336dde-f70b-4ddf-b77d-b9b910d2c10e@suse.de>
+	Tue, 15 Sep 2026 03:51:38 +0000
+Received: by mail-pj1-x102b.google.com with SMTP id 98e67ed59e1d1-38a0c7e841fso5864447a91.2
+        for <linux-nvme@lists.infradead.org>; Mon, 14 Sep 2026 20:51:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789444297; x=1790049097; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=t89rpHiNw/rNyrb5GPmXpT24rGMM1iH3V/Eh470//LU=;
+        b=ldAhIOfp6qP1s9wDy5hIDvHHEVzQ4+v/YCzMu2SBHtnuATaW2Q/M9iH+LNn3hgY9ic
+         lHdB3ACVwXGc+WPaFum7uxtWAHB/ECvemTHf44s3puPtuD8bG+6FCY9FmbayK1fAGlgV
+         gXDgNqHAMQHb1NvJoo09nsV/Ys/yAnXITp4x/Uq61/ddEPGuVxsKgW3sLAN+u1CJlqFr
+         ERPtZ8skgXP9AMnvfL8TfEga9YdbrQsqtCOgbFX73DDwR2T7Q6K0nUMTyMZcPi89khXj
+         iHAaBiBH20PCDdlk52KCBgKXDtQRYUox2XZDOC9UE6zxf1vrn8ENkItoIugTv43ueroT
+         GcLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789444297; x=1790049097;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=t89rpHiNw/rNyrb5GPmXpT24rGMM1iH3V/Eh470//LU=;
+        b=T7lGFqklHycoPBnEHmXKpgepJyHevz+ypx5vnHjHArjS+iUEQe4dgUWHHtsqJteMbu
+         KVJ7Tay3MmX2pZZgXR2v222jmulfbw5qD4vzUf3cbEpaTVCJL1iiQFOr4p374MdE+zPF
+         66m+WkQYYfqefRDfpIv8gyauY0i1CnLuwpvUqq9SsMQNy7aKdVlAmN9bg51ZZBiE1RsY
+         3Af5T4IJqcw2Vd5Buf42Rm43g2gg1HUGFYSMWpwz23BwZPMOD9kP827QaQLSg8WsoEuE
+         1kT0lYddCzVjzkvP+LIIj+maxiYaf1/TAlhk1EQH08CRTeGNZ35Yi7PGUSREKS3MJC4A
+         xp8w==
+X-Gm-Message-State: AFuF++mT6ihIOheBUuICpfB+Pk27249tIYrqh7e2H6C4bbKnSrUC5nDD
+	TLyANzXmBV9ej9ySucknoc1jeDieFDLT9hnA9ZfBscXFXx9mkF+tUdEO
+X-Gm-Gg: AYBFou2FtAuybl9787zQqxyhMSP1SDH1w3y7bngGHQMjs8taDG47RkIP0fh2Olp68hv
+	oiaDrvM4dR5VSEEOSOfwJjYZmh7XPtIqaMoTlo/epGISIB0DlKXLca1affqBqe3nYALnW2LpQoP
+	8DySngoJrLVolxeoEFMo6B5/a4OkdPv0p3wgUGwlx77sP0l+EUeNS0spfPmT4DrEr+xQmFsa8qP
+	0qyOnwgjqvcXJfPY4e5Pt8pPzH/oHbAnMNG2Q1ZT7e2ClUf7vYFKA5+il1SHxfCqJOugffstabf
+	uEMCpQ9JHg10T3vhi4iJ7iiuuodycx7nDMmVa51MrkQLIC6M4/UdxdzrNs4TBQNYHO9qKjgTRKA
+	Xosc+I13UMX8VpJNj72SYf83FHhdbNrCHvICyT/luBiikuifnTNW5eUyZtiPgynn4YNg05g3NeX
+	vRafeiQ6a0diTAi6WS6dbDI0NjKnO8qII+KFNK/ST4ravB3MGdrLJuN2td1+VIkqSQE/qMsIAqN
+	6y0jw1jQkY=
+X-Received: by 2002:a17:90a:d888:b0:39d:f5b1:e365 with SMTP id 98e67ed59e1d1-39df5b1e47amr8246438a91.25.1789444296846;
+        Mon, 14 Sep 2026 20:51:36 -0700 (PDT)
+Received: from ancienth-X870E-Nova-WiFi ([125.186.72.2])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39dfdd7545asm2389935a91.14.2026.09.14.20.51.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Sep 2026 20:51:35 -0700 (PDT)
+From: Daehyeon Ko <4ncienth@gmail.com>
+To: Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Cc: linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] nvmet: pci-epf: reject too-short SGL segments
+Date: Tue, 15 Sep 2026 12:51:23 +0900
+Message-ID: <20260915035123.3792935-1-4ncienth@gmail.com>
+X-Mailer: git-send-email 2.55.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Mailer: patches/scripts/send-local.py
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260915_042959_490952_09A550A0 
-X-CRM114-Status: UNSURE (   3.45  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260914_205137_865987_C2173C9F 
+X-CRM114-Status: GOOD (  12.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,11 +97,58 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Keith,
+The host controls an SGL segment's length. A nonzero length smaller than
+one SGL descriptor makes nr_descs zero, so
+nvmet_pci_epf_get_sgl_segment() reads the type byte of sgls[-1] outside
+the allocated buffer. If that byte contains a segment descriptor type,
+the function also copies the preceding 16 bytes and returns a negative
+descriptor count.
 
-Gentle ping: this v1 still has Reviewed-by from Christoph and Hannes, please apply when you have a chance.
+The read was reproduced in 3/3 KASAN boots with only the host transfer
+mocked by a KUnit test:
 
-Thanks,
-Xixin Liu
+  BUG: KASAN: slab-out-of-bounds in nvmet_pci_epf_get_sgl_segment
+  Read of size 1 by task kunit_try_catch
+  Call Trace:
+   nvmet_pci_epf_get_sgl_segment
+   nvmet_pci_epf_short_sgl_test
+  Kernel panic - not syncing: KASAN: panic_on_warn set ...
 
+Reject segments that cannot hold one descriptor before allocating or
+transferring their contents.
+
+Fixes: 0faa0fe6f90e ("nvmet: New NVMe PCI endpoint function target driver")
+Cc: stable@vger.kernel.org
+Assisted-by: LLM
+Signed-off-by: Daehyeon Ko <4ncienth@gmail.com>
+---
+Affected since v6.14-rc1; verified in current mainline 587858367581,
+Linux 7.2.6, and Linux 6.18.52. Triggering requires
+CONFIG_NVME_TARGET_PCI_EPF and CONFIG_PCI_ENDPOINT, with a PCI host
+supplying an SGL segment length from 1 through 15.
+
+No PCI endpoint hardware was available. The fixed KASAN kernel passed
+the same test in 3/3 fresh boots. Reproducer source is available privately
+on request and is intentionally omitted from this public AI-assisted
+submission.
+
+ drivers/nvme/target/pci-epf.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/nvme/target/pci-epf.c b/drivers/nvme/target/pci-epf.c
+index 9c28367435a5..c683450df422 100644
+--- a/drivers/nvme/target/pci-epf.c
++++ b/drivers/nvme/target/pci-epf.c
+@@ -978,6 +978,9 @@ nvmet_pci_epf_get_sgl_segment(struct nvmet_pci_epf_ctrl *ctrl,
+ 	int nr_descs, ret;
+ 	void *buf;
+ 
++	if (length < sizeof(struct nvme_sgl_desc))
++		return NULL;
++
+ 	buf = kmalloc(length, GFP_KERNEL);
+ 	if (!buf)
+ 		return NULL;
+
+base-commit: 587858367581b9c55c3690f4e63382ad622719d4
 
