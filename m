@@ -4,71 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 95FD5C88E77
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Sep 2026 11:41:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1DB44C982C3
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Sep 2026 11:43:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=rPN2ms+81rPO6mO5sutVo3A1s7aZ+f58T9vQgz20bJM=; b=W8zCpXoXEhjUnp4Y+L7r2ZMYN8
-	pFHvHGz7D36Kh/5YlHHWGK0s37gixcoUCuUQOzaF0rvGqyrSMZUFeaaxDJTu7DBJJV9TvX6yaZJGr
-	3wkfmFqxf41h15Vx0UZUnUsXeAtp8U5DnebQYqYABZT3g9fH07hdJ2GdIxBdAYddljidhH5BY2Odp
-	mN/pbTrntr16PCK5mrHIWotviGFq8wvMtTlT4NJEBHKKL7008XcoO7wfPaioi0nbRcgDpPdTngOAs
-	B+JPum/FOMp5y4j+6CYWt6B8oOfgeT95XJsNUj9yWCFzTAgYbWxj8BT4rUHOn2wp+5GXxatkam/B9
-	YlODNLDw==;
+	bh=O+y/Q9mdt9PnTTtST4xQER5OnK2laopva58JNzfhxRc=; b=tVdhYzXECSTe4DbGT3svLtvz2O
+	T00MGznWsollgFgQVTL7VAC20lgVLem3sNOr0aTHbDhAAojHI6uWudKCnQRbO/6ki2EdNgWRgMsEY
+	AbvnEa0BLC7nu1fNTmRUPVyCUPQuY9TcSb3YSYpB11tNTiTk4vU/3mDUeuIwdBzdqvpvqqOOoEfQ1
+	7f5zQky5Nb9upU6uVL/EXD9l19ybAUmT2Z3raq6MSb8o6cb+LoDNPNmSImZyU3nZbqGVIq1VbEoOJ
+	QKt6o/4WSK4jvN/IsTLhGyrFxT+BWOXuMpz+4yulmYQciLqhC4uAhd/kOs4AUEAtCt+1IaOd52z+p
+	5fA2Ndpg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x6o13-0000000967r-0k5t;
-	Wed, 16 Sep 2026 11:41:29 +0000
-Received: from mgamail.intel.com ([192.198.163.17])
+	id 1x6o2c-000000096Nx-27zl;
+	Wed, 16 Sep 2026 11:43:06 +0000
+Received: from out30-101.freemail.mail.aliyun.com ([115.124.30.101])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x6o10-0000000967G-3Ykk
+	id 1x6o2Z-000000096LM-02kL
 	for linux-nvme@lists.infradead.org;
-	Wed, 16 Sep 2026 11:41:28 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789558887; x=1821094887;
-  h=date:from:to:cc:subject:message-id;
-  bh=3EyA0vaMzttETdc5x3X4wIkMW89FXrbfLfE4IKR8OMs=;
-  b=J80zZ/Y8m3F3qYUh9udMSiVk43snuDtJifg6yQ7kGOm+JCgabFOPuWBg
-   qGpwl5QLLOpc6+nL4Sy6PR45ja200GsWVYFHU16A05g2mBGItbahbTqd3
-   F928TqBnhz1pALKhECYkaY6NymlJ936Luqx0XmKi9p4daoBMjQQmbQ1Py
-   l9Pbpq83zCfkVlGT3DN7zZYO0O50IQp41gIATxi7z6oxw+t+6tKHgPXuy
-   KcMTcVM7s+d1irBUauwqgiBRcmuRERm0dfUVIcS8JuIE08XBlvVR2NqRH
-   799txyLNIO+bWH3IPQW1FeCa+aM6RRX4TbLIvsOcuvDr9kQPWZGWGqybc
-   Q==;
-X-CSE-ConnectionGUID: AMvYgS5NSNK+XipEOumJmg==
-X-CSE-MsgGUID: ZDSCSRXCR/mgaIS3KN7IIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="89802709"
-X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="89802709"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 04:41:25 -0700
-X-CSE-ConnectionGUID: Wuw5mxMgStGmvuRldiXodg==
-X-CSE-MsgGUID: QTD5Atw8QZyN0D6Lcdv81g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="303203013"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 16 Sep 2026 04:41:23 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x6o0v-000000005wz-01w9;
-	Wed, 16 Sep 2026 11:41:21 +0000
-Date: Wed, 16 Sep 2026 19:40:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
+	Wed, 16 Sep 2026 11:43:04 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1789558980; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=O+y/Q9mdt9PnTTtST4xQER5OnK2laopva58JNzfhxRc=;
+	b=w6ybGUJB/xlXoIaVZ8oRb0d4YsLvDrY9UMWaaClTYXpvy6S9cmR1/qhULoEejjXDnnOL0rb9Qo7FlWH792EE+z1RY3a1TEYRfIQc4+PastNi1bcIdlhR7s/6mFYb5RVTwY9FrdoKKKHuPY/SUxNvNhDDJ9tlo2K+G5F9dCBmmVg=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R891e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0XB4wRQK_1789558979;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XB4wRQK_1789558979 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Wed, 16 Sep 2026 19:42:59 +0800
+From: Guixin Liu <kanie@linux.alibaba.com>
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Nilay Shroff <nilay@linux.ibm.com>,
+	Daniel Wagner <dwagner@suse.de>,
+	John Garry <john.g.garry@oracle.com>,
+	Hannes Reinecke <hare@suse.de>
 Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-7.3] BUILD SUCCESS
- d2d7acf786afba1bf87b82dbad2d7708268af929
-Message-ID: <202609161939.Ab6epJNV-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: [PATCH] nvmet: copy the hostid into the ctrl before creating PR pc_refs
+Date: Wed, 16 Sep 2026 19:42:54 +0800
+Message-ID: <20260916114254.335277-1-kanie@linux.alibaba.com>
+X-Mailer: git-send-email 2.43.7
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260916_044127_000720_67F2F68D 
-X-CRM114-Status: UNSURE (   5.04  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260916_044303_267899_9683089C 
+X-CRM114-Status: GOOD (  11.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,215 +69,62 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-7.3
-branch HEAD: d2d7acf786afba1bf87b82dbad2d7708268af929  nvme-tcp: delay nvme_tcp_reclassify_socket()
+Commit 6202783184bf ("nvmet: Improve nvmet_alloc_ctrl() interface and
+implementation") added a second uuid_copy() of args->hostid near the end
+of nvmet_alloc_ctrl(), and commit 7b658153f1b8 ("nvmet: Remove duplicate
+uuid_copy") removed the original copy that sat before
+nvmet_ctrl_init_pr() instead of the new one.
 
-elapsed time: 1395m
+Since then nvmet_ctrl_init_pr() snapshots ctrl->hostid into the
+per-controller per-namespace reservation refs while the uuid_copy()
+from the connect data runs later, after the controller is published.
+The ctrl is allocated with kzalloc(), so every pc_ref created on this
+path stores the nil UUID.
 
-configs tested: 195
-configs skipped: 4
+pc_ref->hostid has a single consumer: nvmet_pr_set_ctrl_to_abort()
+matches it against the preempted registrant's hostid to kill and drain
+the victim's in-flight I/O for Preempt and Abort.  The match can never
+hit with the nil UUID, so whenever a namespace with reservations
+enabled exists before a host connects, which includes every reconnect,
+Preempt and Abort silently degrades into a plain Preempt: the
+preempting host sees success while the victim's in-flight I/O is still
+in the air.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Copy the hostid where the rest of the connect data is consumed, before
+the controller is published and before nvmet_ctrl_init_pr() takes its
+snapshot.
 
-tested configs:
-alpha                             allnoconfig    gcc-16.1.0
-alpha                            allyesconfig    gcc-16.1.0
-alpha                               defconfig    gcc-16.1.0
-arc                              allmodconfig    clang-24
-arc                               allnoconfig    gcc-16.1.0
-arc                              allyesconfig    clang-24
-arc                                 defconfig    gcc-16.1.0
-arc                 nsimosci_hs_smp_defconfig    clang-20
-arc                   randconfig-001-20260916    clang-24
-arc                   randconfig-002-20260916    clang-24
-arm                               allnoconfig    gcc-16.1.0
-arm                              allyesconfig    clang-24
-arm                                 defconfig    gcc-16.1.0
-arm                           h3600_defconfig    gcc-16.1.0
-arm                   randconfig-001-20260916    clang-24
-arm                   randconfig-002-20260916    clang-24
-arm                   randconfig-003-20260916    clang-24
-arm                   randconfig-004-20260916    clang-24
-arm                  randconfig-r133-20260916    gcc-16.1.0 sparse
-arm                           tegra_defconfig    clang-20
-arm64                            allmodconfig    clang-24
-arm64                             allnoconfig    gcc-16.1.0
-arm64                               defconfig    gcc-16.1.0
-arm64                 randconfig-001-20260916    gcc-16.1.0
-arm64                 randconfig-002-20260916    gcc-16.1.0
-arm64                 randconfig-003-20260916    gcc-16.1.0
-arm64                 randconfig-004-20260916    gcc-16.1.0
-csky                             allmodconfig    gcc-16.1.0
-csky                              allnoconfig    gcc-16.1.0
-csky                                defconfig    gcc-16.1.0
-csky                  randconfig-001-20260916    gcc-16.1.0
-csky                  randconfig-002-20260916    gcc-16.1.0
-csky                 randconfig-r111-20260916    clang-24 sparse
-hexagon                          allmodconfig    gcc-16.1.0
-hexagon                           allnoconfig    gcc-16.1.0
-hexagon                             defconfig    gcc-16.1.0
-hexagon               randconfig-001-20260916    gcc-16.1.0
-hexagon               randconfig-002-20260916    gcc-16.1.0
-i386                             allmodconfig    clang-22
-i386                              allnoconfig    gcc-16.1.0
-i386                             allyesconfig    clang-22
-i386        buildonly-randconfig-001-20260916    clang-22
-i386        buildonly-randconfig-002-20260916    clang-22
-i386        buildonly-randconfig-003-20260916    clang-22
-i386        buildonly-randconfig-004-20260916    clang-22
-i386        buildonly-randconfig-005-20260916    clang-22
-i386        buildonly-randconfig-006-20260916    clang-22
-i386                                defconfig    gcc-16.1.0
-i386                  randconfig-001-20260916    gcc-14
-i386                  randconfig-002-20260916    gcc-14
-i386                  randconfig-003-20260916    gcc-14
-i386                  randconfig-004-20260916    gcc-14
-i386                  randconfig-005-20260916    gcc-14
-i386                  randconfig-006-20260916    gcc-14
-i386                  randconfig-007-20260916    gcc-14
-i386                  randconfig-011-20260916    clang-22
-i386                  randconfig-012-20260916    clang-22
-i386                  randconfig-013-20260916    clang-22
-i386                  randconfig-014-20260916    clang-22
-i386                  randconfig-015-20260916    clang-22
-i386                  randconfig-016-20260916    clang-22
-i386                  randconfig-017-20260916    clang-22
-i386                 randconfig-r131-20260916    gcc-16.1.0 sparse
-loongarch                        allmodconfig    clang-24
-loongarch                         allnoconfig    gcc-16.1.0
-loongarch                           defconfig    clang-24
-loongarch             randconfig-001-20260916    gcc-16.1.0
-loongarch             randconfig-002-20260916    gcc-16.1.0
-loongarch            randconfig-r111-20260916    gcc-12.5.0 sparse
-loongarch            randconfig-r121-20260916    gcc-12.5.0 sparse
-m68k                             allmodconfig    gcc-16.1.0
-m68k                              allnoconfig    gcc-16.1.0
-m68k                             allyesconfig    clang-24
-m68k                                defconfig    clang-24
-m68k                       m5329evb_defconfig    clang-20
-microblaze                        allnoconfig    gcc-16.1.0
-microblaze                       allyesconfig    gcc-16.1.0
-microblaze                          defconfig    clang-24
-mips                             allmodconfig    gcc-16.1.0
-mips                              allnoconfig    gcc-16.1.0
-mips                             allyesconfig    gcc-16.1.0
-mips                           ip22_defconfig    gcc-16.1.0
-mips                 randconfig-r113-20260916    clang-24 sparse
-mips                 randconfig-r123-20260916    gcc-12.5.0 sparse
-mips                           rs90_defconfig    gcc-16.1.0
-mips                        vocore2_defconfig    clang-20
-nios2                            allmodconfig    clang-20
-nios2                             allnoconfig    clang-24
-nios2                               defconfig    clang-24
-nios2                 randconfig-001-20260916    gcc-16.1.0
-nios2                 randconfig-002-20260916    gcc-16.1.0
-openrisc                         allmodconfig    clang-20
-openrisc                          allnoconfig    clang-24
-openrisc                            defconfig    gcc-16.1.0
-openrisc             randconfig-r134-20260916    gcc-16.1.0 sparse
-parisc                           allmodconfig    gcc-16.1.0
-parisc                            allnoconfig    clang-24
-parisc                           allyesconfig    clang-17
-parisc                              defconfig    gcc-16.1.0
-parisc                randconfig-001-20260916    clang-24
-parisc                randconfig-002-20260916    clang-24
-parisc               randconfig-r122-20260916    gcc-12.5.0 sparse
-parisc               randconfig-r132-20260916    gcc-11.5.0 sparse
-parisc64                         alldefconfig    clang-20
-parisc64                            defconfig    clang-24
-powerpc                          allmodconfig    gcc-16.1.0
-powerpc                           allnoconfig    clang-24
-powerpc                        cell_defconfig    gcc-16.1.0
-powerpc                   currituck_defconfig    clang-20
-powerpc                 linkstation_defconfig    gcc-16.1.0
-powerpc                     mpc512x_defconfig    clang-20
-powerpc               randconfig-001-20260916    clang-24
-powerpc               randconfig-002-20260916    clang-24
-powerpc              randconfig-r113-20260916    gcc-12.5.0 sparse
-powerpc              randconfig-r122-20260916    clang-24 sparse
-powerpc                         wii_defconfig    gcc-16.1.0
-powerpc64             randconfig-001-20260916    clang-24
-powerpc64             randconfig-002-20260916    clang-24
-powerpc64            randconfig-r112-20260916    gcc-12.5.0 sparse
-riscv                            allmodconfig    clang-24
-riscv                             allnoconfig    clang-24
-riscv                            allyesconfig    clang-24
-riscv                               defconfig    gcc-16.1.0
-riscv                 randconfig-001-20260916    gcc-16.1.0
-riscv                 randconfig-002-20260916    gcc-16.1.0
-s390                             allmodconfig    clang-17
-s390                              allnoconfig    clang-24
-s390                             allyesconfig    gcc-16.1.0
-s390                                defconfig    gcc-16.1.0
-s390                  randconfig-001-20260916    gcc-16.1.0
-s390                  randconfig-002-20260916    gcc-16.1.0
-s390                 randconfig-r133-20260916    gcc-11.5.0 sparse
-sh                               allmodconfig    gcc-16.1.0
-sh                                allnoconfig    clang-24
-sh                               allyesconfig    clang-17
-sh                                  defconfig    gcc-14
-sh                          lboxre2_defconfig    gcc-16.1.0
-sh                    randconfig-001-20260916    gcc-16.1.0
-sh                    randconfig-002-20260916    gcc-16.1.0
-sh                   randconfig-r123-20260916    clang-24 sparse
-sh                          sdk7786_defconfig    clang-20
-sh                           se7751_defconfig    gcc-16.1.0
-sparc                             allnoconfig    clang-24
-sparc                               defconfig    gcc-16.1.0
-sparc                 randconfig-001-20260916    gcc-14.3.0
-sparc                 randconfig-002-20260916    gcc-14.3.0
-sparc64                          allmodconfig    clang-20
-sparc64                             defconfig    gcc-14
-sparc64               randconfig-001-20260916    gcc-14.3.0
-sparc64               randconfig-002-20260916    gcc-14.3.0
-sparc64              randconfig-r112-20260916    clang-24 sparse
-sparc64              randconfig-r134-20260916    gcc-11.5.0 sparse
-um                               allmodconfig    clang-17
-um                                allnoconfig    clang-24
-um                               allyesconfig    gcc-16.1.0
-um                                  defconfig    gcc-14
-um                             i386_defconfig    gcc-14
-um                    randconfig-001-20260916    gcc-14.3.0
-um                    randconfig-002-20260916    gcc-14.3.0
-um                   randconfig-r121-20260916    clang-24 sparse
-um                   randconfig-r132-20260916    gcc-16.1.0 sparse
-um                           x86_64_defconfig    gcc-14
-x86_64                            allnoconfig    clang-24
-x86_64                              defconfig    gcc-14
-x86_64                                  kexec    clang-22
-x86_64                randconfig-001-20260916    clang-22
-x86_64                randconfig-002-20260916    clang-22
-x86_64                randconfig-003-20260916    clang-22
-x86_64                randconfig-004-20260916    clang-22
-x86_64                randconfig-005-20260916    clang-22
-x86_64                randconfig-006-20260916    clang-22
-x86_64                randconfig-011-20260916    gcc-14
-x86_64                randconfig-012-20260916    gcc-14
-x86_64                randconfig-013-20260916    gcc-14
-x86_64                randconfig-014-20260916    gcc-14
-x86_64                randconfig-015-20260916    gcc-14
-x86_64                randconfig-016-20260916    gcc-14
-x86_64                randconfig-071-20260916    gcc-14
-x86_64                randconfig-072-20260916    gcc-14
-x86_64                randconfig-073-20260916    gcc-14
-x86_64                randconfig-074-20260916    gcc-14
-x86_64                randconfig-075-20260916    gcc-14
-x86_64                randconfig-076-20260916    gcc-14
-x86_64                               rhel-9.4    clang-22
-x86_64                           rhel-9.4-bpf    gcc-14
-x86_64                          rhel-9.4-func    clang-22
-x86_64                    rhel-9.4-kselftests    clang-22
-x86_64                         rhel-9.4-kunit    gcc-14
-x86_64                           rhel-9.4-ltp    gcc-14
-x86_64                          rhel-9.4-rust    clang-22
-xtensa                            allnoconfig    clang-24
-xtensa                           allyesconfig    clang-20
-xtensa                randconfig-001-20260916    gcc-14.3.0
-xtensa                randconfig-002-20260916    gcc-14.3.0
-xtensa               randconfig-r131-20260916    gcc-11.5.0 sparse
+Fixes: 7b658153f1b8 ("nvmet: Remove duplicate uuid_copy")
+Cc: stable@vger.kernel.org
+Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+---
+ drivers/nvme/target/core.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 43871a8f56ca..8c8c8627871f 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -1648,6 +1648,8 @@ struct nvmet_ctrl *nvmet_alloc_ctrl(struct nvmet_alloc_ctrl_args *args)
+ 	INIT_DELAYED_WORK(&ctrl->ka_work, nvmet_keep_alive_timer);
+ 
+ 	memcpy(ctrl->hostnqn, args->hostnqn, NVMF_NQN_SIZE);
++	if (args->hostid)
++		uuid_copy(&ctrl->hostid, args->hostid);
+ 
+ 	kref_init(&ctrl->ref);
+ 	ctrl->subsys = subsys;
+@@ -1706,9 +1708,6 @@ struct nvmet_ctrl *nvmet_alloc_ctrl(struct nvmet_alloc_ctrl_args *args)
+ 
+ 	nvmet_start_keep_alive_timer(ctrl);
+ 
+-	if (args->hostid)
+-		uuid_copy(&ctrl->hostid, args->hostid);
+-
+ 	dhchap_status = nvmet_setup_auth(ctrl, args->sq, false);
+ 	if (dhchap_status) {
+ 		pr_err("Failed to setup authentication, dhchap status %u\n",
+-- 
+2.43.7
+
 
