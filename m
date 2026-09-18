@@ -4,38 +4,38 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D2C36C88E75
-	for <linux-nvme@archiver.kernel.org>; Fri, 18 Sep 2026 03:37:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8CAE4C88E75
+	for <linux-nvme@archiver.kernel.org>; Fri, 18 Sep 2026 03:38:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=jwjTDpXRLKwSG5jQ/T+xkPxqn2gUzROn+dUGeCLEO1s=; b=IiDCym1kcw4EZnIqVOp01HObn8
-	lm9GtMuZSBzRR5eVwzIximj+vq6e1xiPl7fFw+xiRWsaUE7f5pNnlJt6+/vD73TavIfB1evwymjUu
-	p74MB05LI3Dua4zAmpPkl0S42i6+GtOC5D/tN7qHtq+nKQuFhCT06TquQIxofVvTzj0tvctPOJCnp
-	ru5fCheuf1JsuIMUtvuysxnHe4DpRoXqD4GQ58CrMwoLQ9NcRQbGV9fo61y0DHK9zNuCf6NRBIZ2v
-	P56RahzRPdbwWgPruBSFrOlGOyIf0uYaAE0eAY501E+4Evfr5BjjRC2QK2dtrOMdbo1ywJ2Mk/Rmd
-	7kO1qNvA==;
+	bh=jwjTDpXRLKwSG5jQ/T+xkPxqn2gUzROn+dUGeCLEO1s=; b=3R1R7xOYijK6+wrimEF4uc4DP6
+	KF0niHJWwngnj9HAOwVYMJk3Dpxz3cAM1oHg9iPl3kjUkWU2hLn78Gf+nGAFt9MrlkTDB2gM/2vj+
+	WaUS3JqD+0jPLF9OE2+JDtSfUAwxcdE5jVIf8eqDQb+/no/TNeQvRTI2kJp77H3nJrl5zWvJXKe+B
+	YZJyH4U83Sa5CyCBtLRYlyegyklHcdgcYa1/AtkIaU3O41eoUBfcW+qkPAYyOLCbe67QeXDst0KA0
+	xQEmnupokbhe+ZqKzSZbT1GAhsURkLJSBdduylaQHtxAmVDe+f0hnPmoSkD6/Os4Tm+PORlIlleVG
+	hzlpSFMQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x7PPz-0000000DOfz-3ts5;
-	Fri, 18 Sep 2026 03:37:43 +0000
-Received: from out30-119.freemail.mail.aliyun.com ([115.124.30.119])
+	id 1x7PQm-0000000DOok-0R5m;
+	Fri, 18 Sep 2026 03:38:32 +0000
+Received: from out30-98.freemail.mail.aliyun.com ([115.124.30.98])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x7PPx-0000000DOer-2Pct
+	id 1x7PQk-0000000DOo3-266i
 	for linux-nvme@lists.infradead.org;
-	Fri, 18 Sep 2026 03:37:43 +0000
+	Fri, 18 Sep 2026 03:38:31 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1789702655; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	t=1789702708; h=From:To:Subject:Date:Message-ID:MIME-Version;
 	bh=jwjTDpXRLKwSG5jQ/T+xkPxqn2gUzROn+dUGeCLEO1s=;
-	b=TwRoZAas80HrHzXN+Je9eysA6lLSxtxYd+8yVfael4Y1L3kooUdiZh4kynb6jmorGrNU3S57zIZ3tUGp4fM169tF0LuzSJutVbFXJHe96CKgQ9qXISccMsOlQKRDd24CQ3I15BW8drGqYq+BXOpTN+C9wJwrFMOJRRBhk4H2W5I=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R541e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0XB9nYfU_1789702653;
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XB9nYfU_1789702653 cluster:ay36)
+	b=gTCzktzbgBfcHjDjknckAsm4Ccq4zc7jIMs2x8hWZwzZJSe6GPWWKz06vi4Ip35BzYoDJmdMaY8XVV6MXbc/++/pqvDO6lsFn1KHcAkieJpXkmTxVZiSExEdq0Pdi7F+H8H4+RczOMi++SJeUz+dY1TK30eE0oCJxjuze4l655o=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0XB9nYzH_1789702707;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XB9nYzH_1789702707 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Fri, 18 Sep 2026 11:37:34 +0800
+          Fri, 18 Sep 2026 11:38:27 +0800
 From: Guixin Liu <kanie@linux.alibaba.com>
 To: Keith Busch <kbusch@kernel.org>,
 	Jens Axboe <axboe@kernel.dk>,
@@ -47,13 +47,13 @@ To: Keith Busch <kbusch@kernel.org>,
 	Hannes Reinecke <hare@suse.de>
 Cc: linux-nvme@lists.infradead.org
 Subject: [PATCH 0/2] nvmet: fix FID 82h status codes for invalid NSIDs
-Date: Fri, 18 Sep 2026 11:37:29 +0800
-Message-ID: <20260918033729.3862037-1-kanie@linux.alibaba.com>
+Date: Fri, 18 Sep 2026 11:38:26 +0800
+Message-ID: <20260918033826.3863309-1-kanie@linux.alibaba.com>
 X-Mailer: git-send-email 2.43.7
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260917_203741_908586_D31CDB18 
+X-CRM114-CacheID: sfid-20260917_203830_673897_14F035A5 
 X-CRM114-Status: UNSURE (   8.34  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
