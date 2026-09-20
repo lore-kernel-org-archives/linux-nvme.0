@@ -4,92 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7E7DCC982DA
-	for <linux-nvme@archiver.kernel.org>; Sun, 20 Sep 2026 16:38:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 994EBC982D8
+	for <linux-nvme@archiver.kernel.org>; Sun, 20 Sep 2026 16:43:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=ocH8X1s2HOFa2KmE9/zFLWAAzVth74Tekaym0qewjiE=; b=hoRpElgmFTNXWabFCatqQSgsZj
-	avetf7IW1HsmsjP5AF0gV1Sq7BXYPJBoh2hKXrM61hBfl8klWxjRzSboUyvGZuAt7P91Z8uxTzDCK
-	vCx+mMVqDVnuQTMuhtFcKLFxtVWc5cumeaH4VVN1w6N3BxUkToGnzYmLoR7jmkmum7E566vvhH3vz
-	/Znlw2iW/7Wh7Y4+vFl5INF7IBxPhWDasHiOv+8NFHa6P+VDNdJDIhbkn7W3csoOFAtDWLYmFVxoq
-	wkW7k/qmdKZbpsiKnVVHRhGKkzUBd2sj+JAXy4gROruj+7Nbn7rFPgri1kIQlTZBiJVcot2F+F4iT
-	4MqW0chQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=oHLJgKdjMbeA8Gx0aw9TYsz24zksWrj34XmWCSbyaEs=; b=YVJbWjD0S3O3S8Z5OCjXJIAwS3
+	x6AkxMJRZ+Bb/qDh3xxXINcwGCJAZgpyKmik0U/iAN31w1+VHvuGps4RiqdSKDzt3l6CgoPUUxDA4
+	Gax+C9nRUkO/uOhnGawd2z9hbukHD5An2C/rAw44WuV02ZMMpAnnRdfvh/flYRJMb7cNaJ4Fhvim+
+	2NjHEk3IC3cxZUosmL74coEaE7aTbR0XFfHuhblXfdb1o61p1O3cqxv9h56uMkKv1Iw/duVGVBJes
+	QPWF1t7jsvFyxl6ZhHntbc66fBZEzhLzWzTBW58p+IuwArn1p22vPwJjesF25Ch26rzVMOJQV9kmV
+	AdpUrqtw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x8KYS-000000007dt-2gQy;
-	Sun, 20 Sep 2026 16:38:16 +0000
-Received: from mail-pj2-x0f.google.com ([2607:f8b0:4864:39::f])
+	id 1x8KdA-000000007wA-0aj5;
+	Sun, 20 Sep 2026 16:43:08 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x8KYP-000000007d1-0SLh
+	id 1x8Kd6-000000007uZ-0Rp8
 	for linux-nvme@lists.infradead.org;
-	Sun, 20 Sep 2026 16:38:15 +0000
-Received: by mail-pj2-x0f.google.com with SMTP id 98e67ed59e1d1-396cccbba92so2029067a91.0
-        for <linux-nvme@lists.infradead.org>; Sun, 20 Sep 2026 09:38:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789922292; x=1790527092; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ocH8X1s2HOFa2KmE9/zFLWAAzVth74Tekaym0qewjiE=;
-        b=dpUKxui+GvrC/vzJYOdCrRdw+7KFDK1gpjY/iu9js4Vuyb8zwe9Viqi/yFN6QMwt3n
-         SuW+xVgv7cwmO+GvXEg6POiCGcEA8+wCBE/WMWeKz/Mhlqq0/Qk0ycZuq3cJy6OwoqcP
-         KCNQrjqPBKdGuyqv2ex9amErxrrgloCbyJCHDbP8D59Dyrl5khJUtAimOxIB5fyY4uTl
-         GSRKlrysqzpqMmcs7WH4fIZPd1xNrl/80s+kekppkcJErtqybS2CDEeWCBN9HYk/1wAZ
-         kcB1YnBtn00QtZ3en9sO3VqM7H2jTIpDBHQfj5VrmVnWdWfauvBjcznTpDG6E7DYT5l/
-         NROQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789922292; x=1790527092;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ocH8X1s2HOFa2KmE9/zFLWAAzVth74Tekaym0qewjiE=;
-        b=UnjeUKvr5P8KQzWSh8VXZ31KRVA4ATatJEYDsENns+47WZcf+XZCqMDafASGdp5kcN
-         qxKZd093HtSf3gs0U/f+yCvUveohHUIpRhCGnMF+eWVYNFn9CuzrHcoXxZEZiOAB3MG+
-         H/JFiAesRbkyquICT5c8uVuW/V5IICHWddDjsA24/duWzBbmFOK6lw8C8Ros2jZTqaBm
-         O4pmofldrRZRGXoz1NKu236qwFRUJ8JYq032rHpTRp5ioSrcKRnACArteUqLpiz9WvzM
-         zPMFJMT9UhtsfaIEfgMS5Lm/FpxT2Q8ZaR+iI4J0pAGgmZ7NLcnEzk+IFdCR+yvp4Er1
-         nS9Q==
-X-Forwarded-Encrypted: i=1; AKwUvBzWFQLP6cazWp6er4nDXCn729EV9iqObP69rxjxS5ZFcq7Qh9MHYnrmMaasTgt8TBqWqzr2KHHtGf2f@lists.infradead.org
-X-Gm-Message-State: AFuF++msoWzJL6iBZZ5kRIjb5pSovNAWRAf2IwagdjCulHcQaagmiEeQ
-	fgCu6q/kpGkABAzZHNWSxs8q0UEbuVg9PMyopuAY/8Shb9EtuymCU1tY
-X-Gm-Gg: AYBFou08zJK1hHA/n1Vvm4SxXSjHYFZVbphIl1/oKVb96tZIBCre98WjodWeNJMWKC7
-	pxEP380f/8/LRbuH+ueDTvkNOPHs1KEd8KMaZh7Xs76zsuB0+vsKVeeZulMlwN9FbAWa1UorLwY
-	2Wh4I/N4B7Wh4lGRDChtcJka48zCbERHgt9kfPFtGXpYB4Z+NA9zz55Ly3pNuHGFD4/+IQzjids
-	6DLh2eXt4xKigLgORmjl1UHAJjySU3U+bj2oVokKBq/+w8S2maYIzzYed6alyzMUIxqCkRheTXy
-	Xy+yG8lsmzI9xh23RseV/gVWj8Ogew8X6MxKFlY2K11u2HLP0VVpTx0ATh7Nv6iUEvtHov6TKsy
-	KS/wtOw/1/kgJtY6+G/I5Oqd+yXd09C02XLWGBw+QoWRiiehvXaMjGhfXosAQlzYMMbh4VBZOzB
-	ycjtBbSj9ki8mCIGUeYMyFahATUAy1KdfdFrlLxQXlhjyboLEJ34McCvrNyIYtPCr/4+FpFiDK2
-	OUpuYN1aYf+lPE=
-X-Received: by 2002:a17:90b:17cc:b0:39e:135e:130e with SMTP id 98e67ed59e1d1-39e54af6a0emr13628763a91.3.1789922291762;
-        Sun, 20 Sep 2026 09:38:11 -0700 (PDT)
-Received: from thangnn-ASUS.. ([2405:4802:1d4a:e90:2022:c2a9:de8:d005])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39e5647c151sm5267536a91.4.2026.09.20.09.38.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Sep 2026 09:38:10 -0700 (PDT)
-From: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
-To: Justin Tee <justin.tee@broadcom.com>,
-	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
-	Paul Ely <paul.ely@broadcom.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Cc: Daniel Wagner <wagi@kernel.org>,
-	Hannes Reinecke <hare@suse.de>,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+77955102efac681ec73b@syzkaller.appspotmail.com
-Subject: [PATCH] nvmet-fcloop: fail LS request synchronously when remote port is gone
-Date: Sun, 20 Sep 2026 23:38:04 +0700
-Message-ID: <20260920163804.67858-1-ngocthang2710.1999@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	Sun, 20 Sep 2026 16:43:07 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1789922582;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=oHLJgKdjMbeA8Gx0aw9TYsz24zksWrj34XmWCSbyaEs=;
+	b=NI2h0EHWaCcX4ff1AeEaWD2VcQnQYmR2waYvd57oqZbgWzUxOQmw9IUh1GcUxeTkLEXd9i
+	+SKGivQngSc4K5SVn6BYeoDGB8uS53XlQipgqky9LGUXvmIt5Yrp7G5EGZpa7qt79Anw6e
+	d/tZ+2Z/QJWiFQBUOBROL/pJV4jBp1E=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-37-StQakqoYOWar88RSt0NyIw-1; Sun,
+ 20 Sep 2026 12:41:23 -0400
+X-MC-Unique: StQakqoYOWar88RSt0NyIw-1
+X-Mimecast-MFC-AGG-ID: StQakqoYOWar88RSt0NyIw_1789922482
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 01C491956096;
+	Sun, 20 Sep 2026 16:41:22 +0000 (UTC)
+Received: from loberman-thinkpadp1gen5.redhat.corp (headnet05.pony-001.prod.iad2.dc.redhat.com [10.2.32.117])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 64E0330001A2;
+	Sun, 20 Sep 2026 16:41:20 +0000 (UTC)
+From: loberman@redhat.com
+To: loberman@redhat.com
+Cc: kbusch@kernel.org,
+	hch@lst.de,
+	sagi@grimberg.me,
+	linux-nvme@lists.infradead.org
+Subject: [PATCH] nvme-multipath: add iopolicies sysfs attribute
+Date: Sun, 20 Sep 2026 12:40:00 -0400
+Message-ID: <20260920164000.45508-1-loberman@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: gOtmMXkCIl5bG6bdM4_Yl4bvAWKmWmsS7F4Ae7Kfrxo_1789922482
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260920_093813_146375_BBBA3D67 
-X-CRM114-Status: GOOD (  10.99  )
+X-CRM114-CacheID: sfid-20260920_094304_213653_E1E73392 
+X-CRM114-Status: GOOD (  16.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,68 +85,90 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-fcloop_t2h_ls_req() handles a missing remoteport by queueing the request
-on tport->ls_list and completing it with -ECONNREFUSED from a work item.
+From: Laurence Oberman <loberman@redhat.com>
 
-nvmet_fc_delete_assoc_work() sends the Disconnect Association LS this
-way. When it runs during nvmet_fc_unregister_targetport(), the work is
-queued after flush_workqueue() has started, so it is not waited for.
-nvmet_fc_free_pending_reqs() then frees the still-pending lsop and the
-late work item calls lsreq->done() on freed memory:
+The subsystem iopolicy attribute only shows the active policy, so
+there is no way to see which policies are available. The block layer
+solves this for I/O schedulers by listing all options with the
+active one in brackets in queue/scheduler.
 
-  BUG: KASAN: slab-use-after-free in fcloop_rport_lsrqst_work+0x242/0x2e0
-  Workqueue: nvmet-wq fcloop_tport_lsrqst_work
-  Allocated by nvmet_fc_xmt_disconnect_assoc
-  Freed by nvmet_fc_free_pending_reqs
-           nvmet_fc_unregister_targetport
-           fcloop_delete_target_port
+Changing the output of iopolicy the same way would break existing
+userspace, since nvme-cli compares the value against a bare policy
+name. Leave iopolicy unchanged and add a read-only iopolicies
+attribute that gives equivalent visibility:
 
-Return -ECONNREFUSED directly instead. __nvmet_fc_send_ls_req() unwinds
-and nvmet_fc_xmt_disconnect_assoc() frees the lsop, so no completion is
-left outstanding.
+  # cat iopolicies
+  [numa] round-robin queue-depth
 
-Reported-by: syzbot+77955102efac681ec73b@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=77955102efac681ec73b
-Fixes: bbccbf791e6f ("nvmet-fc: free pending reqs on tgtport unregister")
-Signed-off-by: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+Signed-off-by: Laurence Oberman <loberman@redhat.com>
+Assisted-by: LLM
 ---
- drivers/nvme/target/fcloop.c | 17 +++++++----------
- 1 file changed, 7 insertions(+), 10 deletions(-)
+ drivers/nvme/host/multipath.c | 25 +++++++++++++++++++++++++
+ drivers/nvme/host/nvme.h      |  1 +
+ drivers/nvme/host/sysfs.c     |  1 +
+ 3 files changed, 27 insertions(+)
 
-diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
-index b63af3b643a6..9f9fb40f8a97 100644
---- a/drivers/nvme/target/fcloop.c
-+++ b/drivers/nvme/target/fcloop.c
-@@ -456,21 +456,18 @@ fcloop_t2h_ls_req(struct nvmet_fc_target_port *targetport, void *hosthandle,
- 	 * 1:1 tgtport vs remoteport
- 	 */
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 75dbb58286a3..7b282ab05dab 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -1085,6 +1085,31 @@ static ssize_t nvme_subsys_iopolicy_store(struct device *dev,
+ SUBSYS_ATTR_RW(iopolicy, S_IRUGO | S_IWUSR,
+ 		      nvme_subsys_iopolicy_show, nvme_subsys_iopolicy_store);
  
-+	/*
-+	 * Fail synchronously: an async completion can run after
-+	 * nvmet_fc_unregister_targetport() has freed the pending lsreq.
-+	 */
-+	if (!tport->remoteport)
-+		return -ECONNREFUSED;
++static ssize_t iopolicies_show(struct device *dev,
++			       struct device_attribute *attr, char *buf)
++{
++	struct nvme_subsystem *subsys =
++		container_of(dev, struct nvme_subsystem, dev);
++	int cur = READ_ONCE(subsys->iopolicy);
++	int i, len = 0;
 +
- 	tls_req = kmem_cache_alloc(lsreq_cache, GFP_KERNEL);
- 	if (!tls_req)
- 		return -ENOMEM;
- 	tls_req->lsreq = lsreq;
- 	INIT_LIST_HEAD(&tls_req->ls_list);
--
--	if (!tport->remoteport) {
--		tls_req->status = -ECONNREFUSED;
--		spin_lock(&tport->lock);
--		list_add_tail(&tls_req->ls_list, &tport->ls_list);
--		spin_unlock(&tport->lock);
--		queue_work(nvmet_wq, &tport->ls_work);
--		return ret;
--	}
--
- 	tls_req->status = 0;
- 	ret = nvme_fc_rcv_ls_req(tport->remoteport, &tls_req->ls_rsp,
- 				 lsreq->rqstaddr, lsreq->rqstlen);
++	/*
++	 * List all available policies with the active one in brackets,
++	 * matching the format of the block layer's "scheduler" attribute.
++	 */
++	for (i = 0; i < ARRAY_SIZE(nvme_iopolicy_names); i++)
++		len += sysfs_emit_at(buf, len, "%s%s%s%s",
++				     i ? " " : "",
++				     i == cur ? "[" : "",
++				     nvme_iopolicy_names[i],
++				     i == cur ? "]" : "");
++
++	len += sysfs_emit_at(buf, len, "\n");
++	return len;
++}
++
++struct device_attribute subsys_attr_iopolicies = __ATTR_RO(iopolicies);
++
+ static ssize_t ana_grpid_show(struct device *dev, struct device_attribute *attr,
+ 		char *buf)
+ {
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 75e5d5a8a77c..b419c6fc6081 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -1098,6 +1098,7 @@ extern struct device_attribute dev_attr_multipath_failover_count;
+ extern struct device_attribute dev_attr_io_requeue_no_usable_path_count;
+ extern struct device_attribute dev_attr_io_fail_no_available_path_count;
+ extern struct device_attribute subsys_attr_iopolicy;
++extern struct device_attribute subsys_attr_iopolicies;
+ 
+ static inline bool nvme_disk_is_ns_head(struct gendisk *disk)
+ {
+diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+index abf8edaae371..4c4518b6b7d5 100644
+--- a/drivers/nvme/host/sysfs.c
++++ b/drivers/nvme/host/sysfs.c
+@@ -1298,6 +1298,7 @@ static struct attribute *nvme_subsys_attrs[] = {
+ 	&subsys_attr_subsystype.attr,
+ #ifdef CONFIG_NVME_MULTIPATH
+ 	&subsys_attr_iopolicy.attr,
++	&subsys_attr_iopolicies.attr,
+ #endif
+ 	NULL,
+ };
 -- 
-2.43.0
+2.55.0
 
 
