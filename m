@@ -4,57 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DEAF3C982E6
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2026 14:29:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 83092C982ED
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2026 14:44:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8yzJ/PKyn3nO+ZYEl64j2VwgYC+Vk7U0Xda7c30jz40=; b=vdFPclCRhvNB6Y8+e8VF7MqdcX
-	snXd4e5K6x9x3h9Nu2ZioPpgSefqRHLrCtpWW0RHAbnyWD0I1XX6dS/omxvTiJJXd2szjzecoPtXh
-	9MTznsSl/qEm0/MxlFhAB2xQHIy9R9a5VZG34B9N5fDyTVj5jMRDdJNC7cGy8//vnHsHvjje0nqgd
-	4+woNiEwJq+H76ldWSbFfNA4oEc5wH+DMlCd+ryTZxKvP1vUGW3ygT0//Smy8GY6HG35xJ8VlA6sG
-	R+Aue2SKMyfzMsXouyNJ23iSaJw95JOv8beWw0p1Z58OyBMwJa8D83OvK88NKnlG43UKBKiKAydsx
-	CYocKl4Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=HspPAkUWPJYUnFk1Gelq9h29eoIKCRNbV1dk3dGm5fw=; b=2k7CR6ZOYPLD6IBTanXlQOQ6uo
+	9iokRrJVT3ybGTQjA3EYGURf1He35XGTgsNOnW+ZjyaYiFMhvOyD9sO3gJRYCusXvoNrtP6EUKqr0
+	qHhW5xkhQsNwcM+5+nV6IPQJXsYiMvETFVe8T6th8hfS4kes1TfSnoC8YEYT76vg7i3nF1IhjRLhJ
+	S++nu7C358ww2wcc0owyRBCw14uy+svxYVNUTTOvoojk6XUGylHiCogRHULOTsRhgfSAAVZLUbjmp
+	xy1zCrE5ta7doQzfymCa9JCF5ZsixGqRcKxWo78fk5gMzlZ1ndj64Qg+wwSNj44MqisVfRPc7VivA
+	MsrnH0hA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x8f0x-00000002Oct-2DWk;
-	Mon, 21 Sep 2026 14:29:03 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1x8fFS-00000002R3a-1axn;
+	Mon, 21 Sep 2026 14:44:02 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x8f0w-00000002OcB-3gxr
+	id 1x8fFP-00000002R2d-1f7N
 	for linux-nvme@lists.infradead.org;
-	Mon, 21 Sep 2026 14:29:02 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 3942343C58;
-	Mon, 21 Sep 2026 14:29:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D28CC1F00893;
-	Mon, 21 Sep 2026 14:29:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790000942;
-	bh=8yzJ/PKyn3nO+ZYEl64j2VwgYC+Vk7U0Xda7c30jz40=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=L9iRD0Iz3HLe3yjrwXJRPXJc4xv04URetHGoEL6DIWUX2sUchjRRvt3KEuXkm9Kl+
-	 P9HnR+H1tRkNj6KdG3Qs87mWH9zZwlCOXHVO17A1ekMnaY/3m1u4zgJB5wRvpte4V0
-	 Fw0gIkDFrmfL7BArVkVHqvAx0ULU4f7F88pDabvGbn++1LbgowExeqfhNs8AXVZ0i/
-	 2PD9HXD1iE/1Ii8qBT8Slg+RabTKhfnQHiwGpLhL+0xRun1O7yZYcopA6EqYTZoV9R
-	 PgutdDNA+Uo5nqe8+xzW6Utsnt6BiguXpvkQD6JKzShBT4GDXopqIPYezPOJbC9YYj
-	 Vo+1XhcJn6oiA==
-Date: Mon, 21 Sep 2026 08:29:00 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Haowen Bai <calvin.bai@ugreen.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] nvme-pci: skip FLR after a failed controller reset
-Message-ID: <arE_LD-uSB49gU0j@kbusch-mbp>
-References: <20260921140732.2942207-1-calvin.bai@ugreen.com>
+	Mon, 21 Sep 2026 14:44:01 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1790001837;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=HspPAkUWPJYUnFk1Gelq9h29eoIKCRNbV1dk3dGm5fw=;
+	b=a1h4Lg7+PjuMGcx7M1htOCVWBRXdPUNMqREPOxs39mX5FpMJLmsx1zHfMHFxU7RwvZpVe7
+	+DcrzcO9wUtW4aWSP2YbguHVlGWXuDaWo0ma9/wYSQRtwUY7GfQMKqUY8rbkV3EC4jNnbi
+	HR/M3HC3XTsdsXvST28n0MFJlyjq4UQ=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-650-ecAmiN-BOd6xxrVz_ZphJQ-1; Mon,
+ 21 Sep 2026 10:43:53 -0400
+X-MC-Unique: ecAmiN-BOd6xxrVz_ZphJQ-1
+X-Mimecast-MFC-AGG-ID: ecAmiN-BOd6xxrVz_ZphJQ_1790001832
+Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6DAF8193533A;
+	Mon, 21 Sep 2026 14:43:52 +0000 (UTC)
+Received: from loberman-thinkpadp1gen5.redhat.corp (headnet05.pony-001.prod.iad2.dc.redhat.com [10.2.32.117])
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 3AF3A214;
+	Mon, 21 Sep 2026 14:43:50 +0000 (UTC)
+From: loberman@redhat.com
+To: linux-nvme@lists.infradead.org
+Cc: hch@lst.de,
+	kbusch@kernel.org,
+	sagi@grimberg.me,
+	Laurence Oberman <loberman@redhat.com>
+Subject: [PATCH v2] nvme-multipath: add iopolicies sysfs attribute
+Date: Mon, 21 Sep 2026 10:43:47 -0400
+Message-ID: <20260921144347.49620-1-loberman@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260921140732.2942207-1-calvin.bai@ugreen.com>
+X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: zl0dZ0TpV6u9CJ12ud7JMAbf25VOe2W8ixk1R3mVwWU_1790001832
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260921_074359_955013_FE5A374D 
+X-CRM114-Status: GOOD (  13.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,48 +85,83 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Sep 21, 2026 at 10:07:32PM +0800, Haowen Bai wrote:
-> nvme_disable_ctrl() already waits up to CAP.TO for CSTS.RDY to clear.
-> If that times out, nvme_pci_configure_admin_queue() currently issues a
-> PCIe Function Level Reset and retries.
-> 
-> FLR is performed with PCI config cycles. Those cycles take
-> pci_config_lock, a raw spinlock, and wait for the endpoint to complete
-> the transaction. A wedged NVMe function can stall that completion.
+From: Laurence Oberman <loberman@redhat.com>
 
-Shouldn't PCIe CTO have kicked in to fail the transaction? Do you know
-which transaction is failing? Is the stall specific to FLR or could any
-config access stall in your setup?
+The subsystem iopolicy attribute only shows the active policy, so
+there is no way to see which policies are available.
 
-> Other CPUs then spin in pci_conf1_read() -- including ACPI PCI config
-> from an unrelated device -- and the NMI watchdog reports a hard lockup.
-> 
-> This was observed on an x86_64 UGREEN DXP4800 (kernel 6.18.15) with two
-> ZHITAI Ti600 NVMe devices used as bcache. Each disk independently:
+Changing the output of iopolicy would break existing userspace,
+since nvme-cli compares the value against a bare policy name. Leave
+iopolicy unchanged and add a read-only iopolicies attribute that
+lists the available policies:
 
-Are you able to fix the device instead? Maybe add your device to the
-"quirk_no_flr" list if you can't fix it. This sounds like a pretty nasty
-bug on that side that forces driver to remove one of its recovery
-options.
+  # cat iopolicies
+  numa round-robin queue-depth
+
+The current policy is still read from iopolicy.
+
+Signed-off-by: Laurence Oberman <loberman@redhat.com>
+Assisted-by: Claude:claude-sonnet-5
+---
+v2:
+  - Drop the [ ] notation and list plain policy names (Christoph)
+
+ drivers/nvme/host/multipath.c | 15 +++++++++++++++
+ drivers/nvme/host/nvme.h      |  1 +
+ drivers/nvme/host/sysfs.c     |  1 +
+ 3 files changed, 17 insertions(+)
+
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 75dbb58286a3..ea7d0c59587b 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -1085,6 +1085,21 @@ static ssize_t nvme_subsys_iopolicy_store(struct device *dev,
+ SUBSYS_ATTR_RW(iopolicy, S_IRUGO | S_IWUSR,
+ 		      nvme_subsys_iopolicy_show, nvme_subsys_iopolicy_store);
  
->   nvme: I/O timeout, reset controller
->   nvme: Device not ready; aborting reset, CSTS=0x1
->   nvme: Device not ready; aborting reset, CSTS=0x1
->   watchdog: Watchdog detected hard LOCKUP
->   RIP: native_queued_spin_lock_slowpath
->   pci_conf1_read -> acpi_pci_set_power_state -> mmc runtime resume
-> 
-> The two "aborting reset" messages are nvme_wait_ready() timeouts, 128s
-> apart, matching (CAP.TO+1)/2. The lockup is ~11s after the second
-> timeout, i.e. on the post-FLR cleanup path, not in the wait loop.
-> Linux 6.12 has no FLR fallback here; 6.18 and 7.3 still do.
-> 
-> Skip FLR when the controller is already in NVME_CTRL_RESETTING (I/O
-> timeout recovery). Keep the FLR hammer for initial probe, where the
-> device may simply have been left enabled by firmware. Reset work then
-> marks namespaces dead instead of hard-locking the host.
++static ssize_t iopolicies_show(struct device *dev,
++			       struct device_attribute *attr, char *buf)
++{
++	int i, len = 0;
++
++	for (i = 0; i < ARRAY_SIZE(nvme_iopolicy_names); i++)
++		len += sysfs_emit_at(buf, len, "%s%s", i ? " " : "",
++				     nvme_iopolicy_names[i]);
++
++	len += sysfs_emit_at(buf, len, "\n");
++	return len;
++}
++
++struct device_attribute subsys_attr_iopolicies = __ATTR_RO(iopolicies);
++
+ static ssize_t ana_grpid_show(struct device *dev, struct device_attribute *attr,
+ 		char *buf)
+ {
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 75e5d5a8a77c..b419c6fc6081 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -1098,6 +1098,7 @@ extern struct device_attribute dev_attr_multipath_failover_count;
+ extern struct device_attribute dev_attr_io_requeue_no_usable_path_count;
+ extern struct device_attribute dev_attr_io_fail_no_available_path_count;
+ extern struct device_attribute subsys_attr_iopolicy;
++extern struct device_attribute subsys_attr_iopolicies;
+ 
+ static inline bool nvme_disk_is_ns_head(struct gendisk *disk)
+ {
+diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+index abf8edaae371..4c4518b6b7d5 100644
+--- a/drivers/nvme/host/sysfs.c
++++ b/drivers/nvme/host/sysfs.c
+@@ -1298,6 +1298,7 @@ static struct attribute *nvme_subsys_attrs[] = {
+ 	&subsys_attr_subsystype.attr,
+ #ifdef CONFIG_NVME_MULTIPATH
+ 	&subsys_attr_iopolicy.attr,
++	&subsys_attr_iopolicies.attr,
+ #endif
+ 	NULL,
+ };
+-- 
+2.55.0
 
-While I don't see this happen very often, I've seen FLR recover devices
-both on first probe and IO timeout, so skipping for RESETTING will miss
-recovering when it was possible for some conditions.
 
