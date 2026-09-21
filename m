@@ -4,116 +4,116 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 32030C98305
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2026 15:01:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1C97BC982EE
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2026 15:01:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/FMRvm1BaZ6kTlzIVu1IAGTERBBcZPL0byDe3SvrYcY=; b=tub9OWBN1R8an7WmK9uCrWmKh2
-	y4lksgNXf5FvGYJqulJPCOc7pp5qIrQldiz4DEd7bhJv1X3VianmdffR623WeiwXXEJoMOzY6UFol
-	CHpR/jP9JwGTuUX1NtWyHZMn7KVM1xzPqGV42Jyg4v1XgmQ1G7UuhKXtYJHkSrzlGc9GeYh1bQQMH
-	Pk+5tpVIc2TIT72EXNb/QyzDUo/q94qLChwWu4AkxXW3eX9Iw+4lYhQmcswiUFS4nhPMuMEBP9xRa
-	ZOe+Tb80Y9YTrI9hL93byEoiIUUn/nGyaIkAZIMKMQv0yKIeAAs7yZvDJEhX0ZKqQkd+/qMJ4hufG
-	/QDeDvmg==;
+	bh=ofpT4h/xZOk97T1LnY16xox+YwsLCtjUsNXPXQGc7Q0=; b=X3T9hp4sDPAkm/qJCHL4flNUZe
+	pCL5ukK15Fqaj6lI5cDGNhJjNYrmc+0H/Y9jqgO7ZucPQiC73MTmaHQY4g/Ff/w/6xpThsTM5QY2/
+	tUni+JVruvJsf2wBReWDXtGv4Tu29j48ziXcjxTl1UunXc3T/Dke6YTyiJi4zu7eucjLc4XyN4X8F
+	baDUvReIugXpk8oQaY4c8nFxUr4ecPLMhZvakW/kV/duh5NmQG7WpmR5Hf5hOtC+soeocil+0DbHD
+	c5SOBdGkHvNKH/dUun2BNUE4JymoUb2WdAKOaE/xKFpegNlcfiXp/aICUJsl7qgDW5EX7UFJFCs1V
+	otVxlizA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x8fWH-00000002Vl4-1Omm;
-	Mon, 21 Sep 2026 15:01:25 +0000
-Received: from mail-wm2-x11.google.com ([2a00:1450:4864:31::11])
+	id 1x8fWI-00000002VmF-0RSt;
+	Mon, 21 Sep 2026 15:01:26 +0000
+Received: from mail-ed2-x0f.google.com ([2a00:1450:4864:33::f])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x8eFX-00000002GdQ-2ydw
+	id 1x8eWE-00000002JJD-3jWh
 	for linux-nvme@lists.infradead.org;
-	Mon, 21 Sep 2026 13:40:04 +0000
-Received: by mail-wm2-x11.google.com with SMTP id 5b1f17b1804b1-49e71cdb22bso22408455e9.2
-        for <linux-nvme@lists.infradead.org>; Mon, 21 Sep 2026 06:40:03 -0700 (PDT)
+	Mon, 21 Sep 2026 13:57:20 +0000
+Received: by mail-ed2-x0f.google.com with SMTP id 4fb4d7f45d1cf-6aa13e194easo4685494a12.1
+        for <linux-nvme@lists.infradead.org>; Mon, 21 Sep 2026 06:57:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789998002; x=1790602802; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=/FMRvm1BaZ6kTlzIVu1IAGTERBBcZPL0byDe3SvrYcY=;
-        b=BCi3AuQvv1Co9JWJC5FnhLWUjnVONZQGLtZ7r7IAF8KlkiAG4buQcMJfW1fT+RB0S4
-         sLizKNyJsav4oj0kno3oIHpvVY8fAxfxU09Gv7p0gQAUY1/ljFjZzlUgMlXeidDFFLFk
-         x1oXVRLOgU732G/8WEnjy2kMxjEB1fH+tl7mQGVst0zXG4VcyWaOijLo1RjQ54Fnp/wy
-         eW1IncadsEy/S4q6JGyJLivGUxFIczAF/K6eFky7F4U80VVYUd3Sf/u0fSx32eTrlJx3
-         MgUm6fAcI1p7bOuMvRFR4tw4ENVwI3zZSGLjk9OpqJdLauhKk8w64PizL+iiZXBeGHpT
-         MhsQ==
+        d=gmail.com; s=20251104; t=1789999037; x=1790603837; darn=lists.infradead.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ofpT4h/xZOk97T1LnY16xox+YwsLCtjUsNXPXQGc7Q0=;
+        b=kXZakYsBaJU40kdRJ2zq8kXmSHuyqNmRZI5odglBj8PinaIKrrU4eog1otYQ9vvgq7
+         uY2UYTXHbfNng+ucDAXMMD3MwkyW0151+ZNxG0QZ9QNZt7DSNKiwsSwKsV3GeV1rz+DF
+         jwnwbL/UhdvXFV8CYbAdEx32MN/AtDFV43cymKysWi8dFTfrSVHaOkxPz2RUoGd0Z8DO
+         CcC2Fbgj1cKfXKswiX3c2hZLcyJYlOHhFXK/SZ2/C9C9HB6IH26DaHcPtf0DT5kuu+oF
+         mYodx7qJfrD03PAtXnyXQqfWaLH1M+cCT4DUv6lBdXErZZ5SxpWVcVLw7av6N7aVyi8x
+         hEpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789998002; x=1790602802;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/FMRvm1BaZ6kTlzIVu1IAGTERBBcZPL0byDe3SvrYcY=;
-        b=egRoIu31yDwVHtm4WPVL9FqqMPnqQHhwYhyt2E+bObOx+51hDk14LpHfSPs9BzsGGY
-         nzQrj4C+dwztHfgGKTNMp3Ane+O43LxfS6yJS/aBGBDKmT7EakLqCT2yuDEmLnID/t3M
-         rKEljjAq2Ce3uTK+TS3adZ32EDd6YKf2uvQ8MeqNmbHK1CrX9wDu9NVb4ickbyInOpl+
-         fvhu+tpmH0VuTUz0BMc3kNBKyIN9wH8q4bwHDjjf1/DQ9V+rpcSvDo4594krpV+9g+Fu
-         GkdXIaOZtDEchWpA67+6cFkb0SzPLcAdVeNOQVHmuglVPqxqsLUZhp06mVJgaftevBsT
-         W42Q==
-X-Forwarded-Encrypted: i=1; AKwUvBwV7MRmjTLRDizQ4nqcMIzZPPbh+NMP2CcNDQ5ETKZS8d+usTQ+V7Fy8MU1Defk9zlYjLbUXEyEzAWg@lists.infradead.org
-X-Gm-Message-State: AFuF++kbXom7E99IfA12JSkhUbbiHj4EiZ0+uaemqsIgKbh4q1S3hTUS
-	7yuavCXIKmG86A7HwSeDEJ52+//pcjZDQo42g0Ce7EuapunWLde1gC5W
-X-Gm-Gg: AYBFou1/QxeGaPNCYIlzPTbK+IQEKWkQ9eI1+eQ/uem3STdmtrsCxChgr4oUXKha42G
-	1OGx0k993HT0yZO5qwu7R8x8YPLsvXXj6G2n35+yfIMGcpPbuq1fa+IQxlU8cVUTt0JDxP06/GH
-	L+2ASo6hTFqCF8BupGOZUcva2LeqjXwdvVb/9BuDIPq0bnGg3msjueC3z8HatFkuzVsjB2wF4jL
-	6pqE5hmtoRTbuoJrHX8uGIYiRSd2aTFou7MH1Rtsiz5GaEQAxfL2vl4ie3wodv8qLVuErIRerp7
-	VLDpKmVMd+7hAZiOvS+grpYv8WIalAms4jG0t6v1rAiAKfOmsWcRf3V/fwNJpuEtD9L93wGSAzP
-	jNQTj4tHRK/K4HjwREVWfk8ve0JoV/hs9OYCLMzcnrZH3UxZm6NGNNvXeEDFAU6Ep3uHdUlHwNm
-	9kLpHa37hGVjAxPLEBBLRnI9Sd3Ae9IZBkhBH3ai0+JPHX1uZ0bu878WblGoQTfjzfpeUWitf7j
-	KUXVneTu+Jw7oqWpRWZQ5gBYxmEdLdbMzvKoRMW70s0oX796qsGDsKRItpq+gRnkUMpnf/YCPO+
-	99at9CbtWXjFQOpt7XPmxhA2g6xkjw==
-X-Received: by 2002:a05:600c:3107:b0:49c:ff9f:f6b6 with SMTP id 5b1f17b1804b1-49fc5669346mr153997265e9.6.1789998002057;
-        Mon, 21 Sep 2026 06:40:02 -0700 (PDT)
-Received: from 127.0.0.1localhost (82-132-213-26.dab.02.net. [82.132.213.26])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fc585920fsm617171605e9.4.2026.09.21.06.39.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2026 06:40:01 -0700 (PDT)
-From: Pavel Begunkov <asml.silence@gmail.com>
-To: linux-block@vger.kernel.org
-Cc: asml.silence@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org,
-	io-uring@vger.kernel.org,
-	Christoph Hellwig <hch@lst.de>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Nitesh Shetty <nj.shetty@samsung.com>,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	Anuj Gupta <anuj20.g@samsung.com>,
-	Tushar Gohad <tushar.gohad@intel.com>,
-	William Power <william.power@intel.com>,
-	Phil Cayton <phil.cayton@intel.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Alasdair Kergon <agk@redhat.com>,
-	Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Benjamin Marzinski <bmarzins@redhat.com>,
-	dm-devel@lists.linux.dev
-Subject: [PATCH v6 12/13] io_uring/rsrc: add regbuf import flags
-Date: Mon, 21 Sep 2026 14:38:56 +0100
-Message-ID: <a7b154185897c7cd23de143f5bd834ef73cd7723.1789997898.git.asml.silence@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <cover.1789997898.git.asml.silence@gmail.com>
-References: <cover.1789997898.git.asml.silence@gmail.com>
+        d=1e100.net; s=20260707; t=1789999037; x=1790603837;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ofpT4h/xZOk97T1LnY16xox+YwsLCtjUsNXPXQGc7Q0=;
+        b=Z8fu09MqDQgEEocgJlKQjM66FZyEz10hBL/pvsbwCGfl+6eIy0cDfd3/bmye+MuTcO
+         mhj3eadBQ59zKeRg03LaJm1u5O2tq8uJEGgJ+Nlnr9CbjL3bEkshdyDmxpRv6eb53H+E
+         Hu1+DQQI1ZugoUwFI3HEZ1UQDfY7jl8RiJesRJ40Ix8HJj9xCTAM5zFlrOHfpd23kjWE
+         1d6icjZxTj1FoDW9dF8JMn9Q77dm029QbpY6vdAPeIz8byHvaDGWVnJ+njCkiGqymyZ/
+         AhHfpiLWEQA/Ee8+lTaX5yfHgJd80GyK65w3DJ2q/qU8fFuJu+aC5L+rXLeIWSwhcNJr
+         1nQQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwBw7q3CeavU2Uad7u5kuKMbcQOWO+ohhB007B5+EIznRLz0ZUNVOeRU5A+1UmQYklAy/N9OsWa37Lm@lists.infradead.org
+X-Gm-Message-State: AFuF++mrRuIaSfTF1ug6m0j9nbaNIvqQWHQmm5cQSvKZ+aYc4mK4F5rk
+	4vTeOI8SfwGBNpQJWvG5sl77j6l3qoPAvKZNecbquFInv3lwNz37v5sq
+X-Gm-Gg: AYBFou0jUxJolBHpYAGL1h34hAXPDNc1r8aJYS4qoBCQCfeQfOQNexHPnuyAIB90ZFj
+	ClbWnkB3X5x2M8ZuLI+wwhf0GiemXlm72LoZAA5TR5ovjX3sI0VJuVEUVZoeWDFIBbDGB/jGTh8
+	/XHRIDTNoHFifOLUuaOPzxKeXvFkVq/AjRp4Ui3mDh68Nc+pBSkNiNRpbsoZEXshGRD120ldsjq
+	Ct0jRHMjNLwhz5oSjwj23ylXsj3oKm4Y0g6y9UXMSX9xWFIK7TtGaJJfxIAqSofW/Lo9ls/Vc6f
+	B1PNuA7LIFyhB/2rZVG9KveshcPz3TcCCKfVKAR1ZaGizAjusDa6MgiYqFBPCVC9vPZfCYBNpg8
+	c0WLhL5bVJv+uN+zl5/kuXDH1y+R8n9j9bZ2KclZC2U9SbFNbG1nmv+g7bwGQhGw4Q/GFXXXwax
+	8g6fOimfRpyR60Kwgn2nRLm6NCm8C8p4fcCxUfNAVRCZR1bAVoP/heeEeUk+2S8iQ7eaqh6Z0YP
+	DorD+x05exVsVX3sKwNg0Pul1fENMinEyAEzE3p/ebJkg3hT+9T+Pu4Hevo/2s+RuEQhnyOir8f
+	qyv+IAO+6sIh0YSQ1UlLu2JON+Dg4hcB+Z1l
+X-Received: by 2002:a05:6402:210f:b0:6a9:aead:4e98 with SMTP id 4fb4d7f45d1cf-6aa577f5cfdmr8215865a12.1.1789999036894;
+        Mon, 21 Sep 2026 06:57:16 -0700 (PDT)
+Received: from [10.54.182.141] (82-132-213-26.dab.02.net. [82.132.213.26])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6aa67e0d3c5sm4446691a12.22.2026.09.21.06.57.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Sep 2026 06:57:14 -0700 (PDT)
+Message-ID: <a8b01e56-bc86-412b-862c-d6a3efef2e6d@gmail.com>
+Date: Mon, 21 Sep 2026 14:57:05 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 01/14] dma-buf: introduce initial file I/O
+ infrastructure
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ io-uring@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Nitesh Shetty
+ <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
+ Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
+ William Power <william.power@intel.com>, Phil Cayton
+ <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Damien Le Moal <dlemoal@kernel.org>, Alasdair Kergon <agk@redhat.com>,
+ Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
+ Benjamin Marzinski <bmarzins@redhat.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, David Sterba <dsterba@suse.com>,
+ Ilya Dryomov <idryomov@gmail.com>, dm-devel@lists.linux.dev,
+ nvdimm@lists.linux.dev, linux-btrfs@vger.kernel.org,
+ ceph-devel@vger.kernel.org
+References: <cover.1785274111.git.asml.silence@gmail.com>
+ <bc20381e8daf85ac58811c344325d8192cde9d1e.1785274111.git.asml.silence@gmail.com>
+ <181b08be-04bc-4ae9-bb88-15321a82440f@amd.com>
+ <8285ede8-bebb-403a-8a37-b9987cd37a8f@gmail.com>
+ <0113c49a-a364-4df6-9ab4-681c789d9d3b@amd.com>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <0113c49a-a364-4df6-9ab4-681c789d9d3b@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260921_064003_775811_1533CB0D 
-X-CRM114-Status: GOOD (  13.90  )
+X-CRM114-CacheID: sfid-20260921_065718_955044_F2DB0D7E 
+X-CRM114-Status: GOOD (  18.43  )
 X-Mailman-Approved-At: Mon, 21 Sep 2026 08:01:23 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -129,83 +129,65 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-We'll have special registered buffer types that can't be used with all
-opcodes and need special handling. Add separate flags to control
-registered buffer import, which will be used to specify what kind of
-buffers the caller can handle.
+On 8/6/26 08:29, Christian König wrote:
+> On 8/5/26 12:59, Pavel Begunkov wrote:
+>> On 8/5/26 09:27, Christian König wrote:
+> 
+>>>> +
+>>>> +    dma_resv_lock(dmabuf->resv, NULL);
+>>>> +    ctx->dev_ops->unmap(ctx, map);
+>>>> +    dma_resv_unlock(dmabuf->resv);
+>>>> +
+>>>> +    dma_fence_put(&fence->base);
+>>>
+>>> You should probably set map->fence to NULL after that.
+>>
+>> The map is freed two lines below, but I can add it as
+>> a defensive measure.
+> 
+> In that case it's ok, I've just haven't seen the kfree(map) below.
+> 
+>> ...
+>>>> +    ret = dma_resv_reserve_fences(dmabuf->resv, 1);
+>>>> +    if (WARN_ON_ONCE(ret)) {
+>>>> +        struct dma_fence *fence = &map->fence->base;
+>>>> +
+>>>> +        dma_fence_get(fence);
+>>>> +        percpu_ref_kill(&map->refs);
+>>>> +        dma_fence_wait(fence, false);
+>>>> +        dma_fence_put(fence);
+>>>> +        return;
+>>>> +    }
+>>>> +
+>>>> +    dma_resv_add_fence(dmabuf->resv, &map->fence->base,
+>>>> +               DMA_RESV_USAGE_KERNEL);
+>>>
+>>> That sequence is clearly incorrect!
+>>>
+>>> The fence must be created after dma_resv_reserve_fences(), otherwise you definately have an illegal memory operation here.
+>>
+>> I'm not sure what you mean, can you elaborate? I only cared about
+>> pre-allocating it to avoid allocations here. We add / signal the fence
+>> only once, no reuse. The map is going to be killed here, and if we
+>> create a new map, it'll have its own fence.
+>>
+>> I can move the dma_fence_init() call here if that makes a difference?
+> 
+> Yeah that is a good start, but you might need a bit more.
+> 
+> Here is a summary of the usual procedure you need to follow when implementing a dma_fence backend:
+> 
+> 1. Allocate your operation object, in this case here it's your mapping I think.
+> 2. Prepare your operation, including all memory allocations.
+> 3. Call dma_resv_reserve_fences() to reserve a fence slot.
+> 4. Allocate and init your dma_fence object.
 
-Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
----
- io_uring/rsrc.c |  8 ++++----
- io_uring/rsrc.h | 24 ++++++++++++++++++++----
- 2 files changed, 24 insertions(+), 8 deletions(-)
+Looks I forgot it reply here, sorry for that. I killed dma fences in
+v6 in favour of synchronous waiting, it turned to be less trouble even
+outside of these fencing rules as I can rely on dma-resv lock less in
+the code.
 
-diff --git a/io_uring/rsrc.c b/io_uring/rsrc.c
-index 0b526b094dc9..79e3c686ecc1 100644
---- a/io_uring/rsrc.c
-+++ b/io_uring/rsrc.c
-@@ -1298,9 +1298,9 @@ inline struct io_rsrc_node *io_find_buf_node(struct io_kiocb *req,
- 	return NULL;
- }
- 
--int io_import_reg_buf(struct io_kiocb *req, struct iov_iter *iter,
-+int __io_import_reg_buf(struct io_kiocb *req, struct iov_iter *iter,
- 			u64 buf_addr, size_t len, int ddir,
--			unsigned issue_flags)
-+			unsigned issue_flags, unsigned import_flags)
- {
- 	struct io_rsrc_node *node;
- 
-@@ -1709,9 +1709,9 @@ static int io_kern_bvec_size(struct iovec *iov, unsigned nr_iovs,
- 	return 0;
- }
- 
--int io_import_reg_vec(int ddir, struct iov_iter *iter,
-+int __io_import_reg_vec(int ddir, struct iov_iter *iter,
- 			struct io_kiocb *req, struct iou_vec *vec,
--			unsigned nr_iovs, unsigned issue_flags)
-+			unsigned nr_iovs, unsigned issue_flags, unsigned import_flags)
- {
- 	struct io_rsrc_node *node;
- 	struct io_mapped_ubuf *imu;
-diff --git a/io_uring/rsrc.h b/io_uring/rsrc.h
-index 73d7b1ebf0b6..351995b61e68 100644
---- a/io_uring/rsrc.h
-+++ b/io_uring/rsrc.h
-@@ -62,12 +62,28 @@ int io_rsrc_data_alloc(struct io_rsrc_data *data, unsigned nr);
- 
- struct io_rsrc_node *io_find_buf_node(struct io_kiocb *req,
- 				      unsigned issue_flags);
--int io_import_reg_buf(struct io_kiocb *req, struct iov_iter *iter,
-+int __io_import_reg_buf(struct io_kiocb *req, struct iov_iter *iter,
- 			u64 buf_addr, size_t len, int ddir,
--			unsigned issue_flags);
--int io_import_reg_vec(int ddir, struct iov_iter *iter,
-+			unsigned issue_flags, unsigned import_flags);
-+int __io_import_reg_vec(int ddir, struct iov_iter *iter,
- 			struct io_kiocb *req, struct iou_vec *vec,
--			unsigned nr_iovs, unsigned issue_flags);
-+			unsigned nr_iovs, unsigned issue_flags,
-+			unsigned import_flags);
-+
-+static inline int io_import_reg_buf(struct io_kiocb *req, struct iov_iter *iter,
-+				    u64 buf_addr, size_t len, int ddir,
-+				    unsigned issue_flags)
-+{
-+	return __io_import_reg_buf(req, iter, buf_addr, len, ddir, issue_flags, 0);
-+}
-+
-+static inline int io_import_reg_vec(int ddir, struct iov_iter *iter,
-+				    struct io_kiocb *req, struct iou_vec *vec,
-+				    unsigned nr_iovs, unsigned issue_flags)
-+{
-+	return __io_import_reg_vec(ddir, iter, req, vec, nr_iovs, issue_flags, 0);
-+}
-+
- int io_prep_reg_iovec(struct io_kiocb *req, struct iou_vec *iv,
- 			const struct iovec __user *uvec, size_t uvec_segs);
- 
 -- 
-2.54.0
+Pavel Begunkov
 
 
