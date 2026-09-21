@@ -4,95 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 38F55C982E6
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2026 14:57:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 77976C982E6
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2026 14:57:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DTm9qtAB3DCle9T5B2fg9qNOu3yAbfmq4DScnsd7fVg=; b=PPfzrq4K5cHLtltwgU1ZuebhLj
-	4JYyFGJdegKj64ZzK7dKw56tg+5ttQK8QbMdYwS90XH1iF5LsacJLC5hpj41bziFNBOLi/Y5r1ggN
-	m2xTYBFpTQnzPg4mV3Uoqda1UWQ2vNlcB0Uzh/Owvkiu4m1kYLEMLqrYYiulorfrjbJU96ivygfEl
-	1B58s+kSvxZ4hUd+6GJ/y6KRLnZ03jKG3UXKU/NKkAR3dq1LT1XZjAIwpKVe5fJzMwowABOaJhJXr
-	RZFuA2ZwcyN/nFAWerE/XtT8o82D/1g3GLnQNWWW2xt/6KTfD9plcl14daXcRoacbbTP4IXxDVKbP
-	fCI8cgxg==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=vFAWgbQv1qSO+/rKdk0siS4WLAN6WSkmRl7OdK/9TVE=; b=toL8OvS8K3KddLP9MYy9Qmzs/m
+	BQCcxuQREVwhjV+t9eUuE/uyhDBg+SnfJL1V5Xk76huAPSxH1SgfozQwJK0bavLPO4gfkU8dClj1Q
+	zF7hD+JiWPelfD5HtsnlxGiwJhLfPLoPuEZcwI3tBrH7hiJZtVfUKaBoo+0ClXzK7DP5mFdVFdhu8
+	x3QSfCoSSsR7B0KEiWPxrcWy6Ic3mtHmy8dcd0xOa8M2jwlsigMLG2VTU3uWiIE1R33NRaM7svATW
+	s/caIBGBCvpq4+WVnDA1y37AweqjHkeVXuYZzYFqv4y5wilZOmPuusri0L/IyMIGS3nSmly7OSann
+	QhwpK1uw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x8fS1-00000002Ux5-3i5f;
-	Mon, 21 Sep 2026 14:57:01 +0000
-Received: from mail-pz2-x10.google.com ([2607:f8b0:4864:3b::10])
+	id 1x8fS7-00000002Uyy-4BRH;
+	Mon, 21 Sep 2026 14:57:08 +0000
+Received: from mail-pj2-x0e.google.com ([2607:f8b0:4864:39::e])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x8fS0-00000002UwZ-0AZj
+	id 1x8fS5-00000002Uxo-2TP0
 	for linux-nvme@lists.infradead.org;
-	Mon, 21 Sep 2026 14:57:01 +0000
-Received: by mail-pz2-x10.google.com with SMTP id 41be03b00d2f7-cc4c08393b0so2651163a12.0
-        for <linux-nvme@lists.infradead.org>; Mon, 21 Sep 2026 07:56:59 -0700 (PDT)
+	Mon, 21 Sep 2026 14:57:07 +0000
+Received: by mail-pj2-x0e.google.com with SMTP id 98e67ed59e1d1-396ccafb74fso3004807a91.3
+        for <linux-nvme@lists.infradead.org>; Mon, 21 Sep 2026 07:57:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790002619; x=1790607419; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=DTm9qtAB3DCle9T5B2fg9qNOu3yAbfmq4DScnsd7fVg=;
-        b=HohlVE9cAGLDJHA/Sv309/U3gZ51qkfuWAQodHi83OXbLAgtCU3dhU2XAcku+FU5yZ
-         YZa/g0rQgQo8RbgHWbNa4/mnEzmxGYM3dQcKg9LWIgnhDoenOrJtRBkdYgQp4pZ4ASKU
-         An8BvORinVDv6YgNDWXLtJaF92re2iLJ/ZZYETBl/QvOh00oTc5nsExSx3vZPQqBNXDa
-         p9IHf7NkNZcUkxhUgxCu1BGWgrartM0H2qHgFgJwumrC6oob+Aye3MLu7aTN6gKsyAfp
-         u6TGzg+nzrwbiZtWXkAiiO9a/XvAdxqzewz7shGFLVP/CYId13tzfttObAUXhWCFYDYo
-         HiqA==
+        d=gmail.com; s=20251104; t=1790002625; x=1790607425; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=vFAWgbQv1qSO+/rKdk0siS4WLAN6WSkmRl7OdK/9TVE=;
+        b=kIIgSuADvNjCAEdqv1Uptoa01X+Xl28kNtBbEiVzK3xHw6rcvIf8rhiICFbrGsVvQc
+         RLFUJzGDO3nMRSZp+JT9BlkR5IsaF4ArX0urgD0hnNaqoJVo81gkIqDxmJywUW098+Jh
+         N2mzE26CnmHN5vwf5BBtrL2XjiajFPut5oDy70dl5VXiq2+QltKveJ/Y7R1qlFWSgeXV
+         7ELHimMmo0az+t5orRf8BvVq5nVB0CsnfX4Dp2zLsMylQak189qPp1xlXwMK9Ef3TTJk
+         4fZkCMRcBvozov4+uCLa1e3KcnenScZlczriDpESzadVLoCBCHF+QGB/irFx8I6UuBHY
+         jAmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790002619; x=1790607419;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=DTm9qtAB3DCle9T5B2fg9qNOu3yAbfmq4DScnsd7fVg=;
-        b=SdRzufmyKi41swhwE1FvNoPszaiekI1eVmZ+kNhFKUXt2BwSVCAmYpyHJ+MoyGPf10
-         cNDyNuc4gKir8YJVcegPe1ITaO7PZyNZpCJV2ia4vM0/rE10U01tQrDnNlRNENQdLw2T
-         BCOXl0kgDQRHRfwyzlLZcnH+NaeObH1L3U4WbeYMdRKIxFphOXx4XHRs9QmmiXbu5kom
-         Go2FCl89NqVoMTaW3HQ7Ka+yraFo1EByeZ9GSKX0eXr9H6DL2E6muBg/EEeGUbXZ6o9u
-         8ZcNHfCdsdwbTp8RPaJ5JLE5xpDKBV9pFRYegBjBvftvPv+qTpMnNf+mt9uwhXwARZni
-         5ENg==
-X-Forwarded-Encrypted: i=1; AKwUvByec7hWkM/ViBSdYnY9JTXuvV8C4vlTY8xUkLIxw73Htbr++KUlIBz/tIsEiILcC1ckIYjpgzsp2prm@lists.infradead.org
-X-Gm-Message-State: AFuF++neTeOXEoq3C9/Qzwqekb/DOtdvYjypsughto0db8w+D9WrVKRE
-	haWowYCSPJYHOMnZ6+USfM3MOxxbhmHCJ/4j5vt8ndz8X9Mu1L5XXlwD
-X-Gm-Gg: AYBFou3u7g5naFRTPsnEXEKa1CWOkpSjld6/6ckKuqKlEmTC/sLR+NwrRbk4+e8Ppr9
-	ukiwdOo6p8jaWyzavMWBJr4GljUgU+LW36NQlTFlDUVlQ7iQhGaeWa3iWzOdwG9C2DxUAsL5hUf
-	jMdSWyRbbVzCTa8OU2s95rmO9sNNkIug0vWBCtlKqNEDo5BPM7L6vEJLjwx+ehNdoLBt+sU7WgR
-	xE1Bj4+hXTkZutIlwZJi8pmA/hCmr8Gm30VMOOz4SH+pneEwLf7aPvJmFgjwgDFAkK2w25oAPLN
-	wr9V4ofqmpXSY2nDrlr/TyeSBxXeMMjRbqoTKIT2/EnKZQtZA0cgzh5iy/Cu7R04EFAnAG6goxd
-	9tglkTrYm71oV03gzT3lCLBiO/EP3AlMqeW09KiL/5hdfJXv5Jb9Y9OsHxeZv4wygIfv2LUt08S
-	Pxzag4y+qn0D9IP79NSZKbM7xF+AH8+1F+TlWjOWBA4itUCK74AFHSrvKcX8Nls0uc3DaNeXbDa
-	30tIbsQSfBgBlhT3RhUAaNmfdQ=
-X-Received: by 2002:a17:90a:f947:b0:39e:6c69:34ce with SMTP id 98e67ed59e1d1-39e6c693606mr10046392a91.50.1790002618688;
-        Mon, 21 Sep 2026 07:56:58 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1790002625; x=1790607425;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=vFAWgbQv1qSO+/rKdk0siS4WLAN6WSkmRl7OdK/9TVE=;
+        b=bfNjVp9EMq2bGL7rJ5BuoNrEh7HHk8FZiklEhA256qeIArWGaJZ6P1yEQvpf5qxqA2
+         YaeDCtHlE3nyiGRZEsccVNIFDxS5s+/ORDOzmQtOWUxT3aLWVw/xQ1RPzkq4wwXQntHj
+         nFJbUFH3W6/KYuWGlS/ZGIfh89XCXcQh2k8hO/KKUGCGjwPkOsxPpn7jA761BeCYAq0I
+         oeUHYKrTAwNOEuvyKovq5B1QHC0igDinsxkhGoMoq60X24Gr94xl9xe8b14x5Rp6pVg+
+         QDy9w4ZVwVHoAvnxU/UkiXsfQYs6naQVMZCkamy8gFkegmMOzS5XGj7lzbeYo3M9HPZu
+         s/Kw==
+X-Forwarded-Encrypted: i=1; AKwUvBwEJpfTbp8at/8W0v1CLLvFSh6Ca29oqV1GAbbjqaK+Os/64WyzVaupaSTmmSCLqpgg1mTx8su5n4B1@lists.infradead.org
+X-Gm-Message-State: AFuF++k3SkTvnF6eR++MBedN5RyMiSyb1Uwgd7s+pRInSeFm506M9rwN
+	OqNUJd1+PkibJBdps8GNh+xOvcfFHcO22Y7DvtKCbyehyoMxg6TDFmqKOeTeqQ==
+X-Gm-Gg: AYBFou2G7giZ8M9ir2RFGx1set28aOX36vaqiU3dc6QONftUKNsi0W1lmKFnwhNxpuW
+	rAjz+UQ1n22/8fMG9JV59HlDVJwgmxEigYUGDKymhtc+ryR9bSWq6ZFO8X1Rg0/sJPXIfBuWBg7
+	Kb/W5ZzSpABYIaRqmsJyVBVSvvS8AmXwZ8zdmrX17zBHxmfuIbNTLkEvtt0WP6htUM1J1Nx1xTT
+	QLE0QLLoI17XGYYphISzIC6AjrAcGqhjZVly0mc6b1O/CVKkqMgiJIkJY6bwci7N1oCN3VEA0U/
+	rIWQ6A5gVsxUJeY1r0BH+saGswAautohglD1bdqROCiCiCbyKiDU2ksdeokSMsxy5o65OsGVtg+
+	cRtwL7GGHJOmSdqGjxqJuTHsPkbKfY3WeBRiL32P6dR7HSG8Vv02Hgpzib9lOB0SarwP7YAGmdy
+	p2N/OMTrYFpaZSCfxTNBjoHfsCZfEGnenp+U6gsa35t6+eeHWVvU22K4hGbhMx4ApYAjZ4iEOMy
+	pI1spdXnvhw1EU=
+X-Received: by 2002:a17:90b:53d0:b0:398:c150:e7b3 with SMTP id 98e67ed59e1d1-39e54d8ece9mr21218146a91.4.1790002624613;
+        Mon, 21 Sep 2026 07:57:04 -0700 (PDT)
 Received: from thangnn-ASUS.. ([2405:4802:1d4a:e90:70bd:a3d:dfa4:3859])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a063b86538sm468175a91.9.2026.09.21.07.56.55
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a063a41b25sm505372a91.5.2026.09.21.07.57.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2026 07:56:57 -0700 (PDT)
+        Mon, 21 Sep 2026 07:57:03 -0700 (PDT)
 From: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
-To: Justin Tee <justin.tee@broadcom.com>,
-	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
-	Paul Ely <paul.ely@broadcom.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Cc: Daniel Wagner <dwagner@suse.de>,
+To: linux-block@vger.kernel.org
+Cc: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+	Daniel Wagner <dwagner@suse.de>,
 	Hannes Reinecke <hare@suse.de>,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+77955102efac681ec73b@syzkaller.appspotmail.com
-Subject: [PATCH v2] nvmet-fc: flush nvmet_wq twice on targetport unregister
-Date: Mon, 21 Sep 2026 21:56:51 +0700
-Message-ID: <20260921145651.17131-1-ngocthang2710.1999@gmail.com>
+	linux-nvme@lists.infradead.org
+Subject: [PATCH blktests] nvme/071: add a test for fcloop LS request use-after-free
+Date: Mon, 21 Sep 2026 21:56:59 +0700
+Message-ID: <20260921145659.17151-1-ngocthang2710.1999@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260920163804.67858-1-ngocthang2710.1999@gmail.com>
-References: <20260920163804.67858-1-ngocthang2710.1999@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260921_075700_084992_002275A4 
-X-CRM114-Status: GOOD (  10.16  )
+X-CRM114-CacheID: sfid-20260921_075706_013627_680724E4 
+X-CRM114-Status: GOOD (  14.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,54 +98,104 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvmet_fc_delete_assoc_work() sends a Disconnect Association LS. If the
-LLDD completes it asynchronously, e.g. fcloop failing it with
--ECONNREFUSED from a work item once the remote port is gone, the
-completion is queued from within nvmet_fc_unregister_targetport()'s
-flush_workqueue(). flush_workqueue() does not wait for work queued
-while it runs, so nvmet_fc_free_pending_reqs() frees the pending lsop
-before the completion runs, which then calls lsreq->done() on freed
-memory:
+Delete the fcloop remote port and then the target port while an
+association is being deleted. The Disconnect Association LS is completed
+from a work item that can run after nvmet_fc_unregister_targetport() freed
+the pending request, which KASAN reports as a use-after-free in
+fcloop_tport_lsrqst_work().
 
-  BUG: KASAN: slab-use-after-free in fcloop_rport_lsrqst_work+0x242/0x2e0
-  Workqueue: nvmet-wq fcloop_tport_lsrqst_work
-  Allocated by nvmet_fc_xmt_disconnect_assoc
-  Freed by nvmet_fc_free_pending_reqs
-           nvmet_fc_unregister_targetport
-           fcloop_delete_target_port
-
-Flush a second time so such completions have run before the remaining
-pending requests are freed.
-
-Reported-by: syzbot+77955102efac681ec73b@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=77955102efac681ec73b
-Fixes: bbccbf791e6f ("nvmet-fc: free pending reqs on tgtport unregister")
 Signed-off-by: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
 ---
-Changes in v2:
-- Drop the fcloop change; the async -ECONNREFUSED completion mimics what
-  an HBA does (Daniel). Instead flush nvmet_wq a second time in
-  nvmet_fc_unregister_targetport() so the LS completion queued by
-  nvmet_fc_delete_assoc_work() runs before the pending requests are freed.
-- A blktest reproducing this is sent separately (nvme/071) (Hannes).
-- v1: https://lore.kernel.org/all/20260920163804.67858-1-ngocthang2710.1999@gmail.com/
+ tests/nvme/071     | 70 ++++++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/071.out |  2 ++
+ 2 files changed, 72 insertions(+)
+ create mode 100755 tests/nvme/071
+ create mode 100644 tests/nvme/071.out
 
- drivers/nvme/target/fc.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index 1b557775e033..cf9fd304a2b5 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -1646,6 +1646,8 @@ nvmet_fc_unregister_targetport(struct nvmet_fc_target_port *target_port)
- 	/* terminate any outstanding associations */
- 	__nvmet_fc_free_assocs(tgtport);
- 
-+	flush_workqueue(nvmet_wq);
-+	/* assoc deletion sends an LS whose completion is queued while flushing */
- 	flush_workqueue(nvmet_wq);
- 
- 	nvmet_fc_free_pending_reqs(tgtport);
+diff --git a/tests/nvme/071 b/tests/nvme/071
+new file mode 100755
+index 0000000..d17ef18
+--- /dev/null
++++ b/tests/nvme/071
+@@ -0,0 +1,70 @@
++#!/bin/bash
++# SPDX-License-Identifier: GPL-3.0+
++# Copyright (C) 2026 Nguyen Ngoc Thang
++#
++# Regression test for a use-after-free in fcloop when the target port is
++# deleted right after the remote port. Deleting the association sends a
++# Disconnect Association LS whose completion is queued while
++# nvmet_fc_unregister_targetport() is flushing nvmet_wq. The pending LS request
++# was freed before that completion ran.
++
++. tests/nvme/rc
++
++DESCRIPTION="delete fcloop target port right after remote port"
++QUICK=1
++
++requires() {
++	_nvme_requires
++	_have_loop
++	_require_nvme_trtype fc
++}
++
++set_conditions() {
++	_set_nvme_trtype "$@"
++}
++
++test() {
++	echo "Running ${TEST_NAME}"
++
++	_setup_nvmet
++
++	local i ports port host_port
++
++	_nvmet_target_setup
++
++	_get_nvmet_ports "${def_subsysnqn}" ports
++	port="${ports[0]}"
++	host_port="${ports_to_hosts[${port}]}"
++
++	for ((i = 0; i < 20; i++)); do
++		_nvme_connect_subsys
++		sleep 0.05
++
++		# Deleting the association sends a Disconnect Association LS.
++		_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
++		sleep "0.00$(printf "%02d" "${i}")"
++
++		# Remote port first, so the LS can't reach the host anymore.
++		_nvme_fcloop_del_rport "$(_host_wwnn "${host_port}")" \
++				       "$(_host_wwpn "${host_port}")" \
++				       "$(_remote_wwnn "${port}")" \
++				       "$(_remote_wwpn "${port}")"
++		_nvme_fcloop_del_tport "$(_remote_wwnn "${port}")" \
++				       "$(_remote_wwpn "${port}")"
++
++		# The host keeps trying to reconnect, drop the controller.
++		_nvme_disconnect_subsys >> "${FULL}" 2>&1
++
++		_nvme_fcloop_add_tport "$(_remote_wwnn "${port}")" \
++				       "$(_remote_wwpn "${port}")"
++		_nvme_fcloop_add_rport "$(_host_wwnn "${host_port}")" \
++				       "$(_host_wwpn "${host_port}")" \
++				       "$(_remote_wwnn "${port}")" \
++				       "$(_remote_wwpn "${port}")"
++		_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
++	done
++
++	_nvmet_target_cleanup
++
++	echo "Test complete"
++}
+diff --git a/tests/nvme/071.out b/tests/nvme/071.out
+new file mode 100644
+index 0000000..146809b
+--- /dev/null
++++ b/tests/nvme/071.out
+@@ -0,0 +1,2 @@
++Running nvme/071
++Test complete
 -- 
 2.43.0
 
