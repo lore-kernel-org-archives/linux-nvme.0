@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8E36FC982FE
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3865C982FF
 	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2026 15:01:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,65 +12,65 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=dxtQQDz5ZZ2oYc2awZZ8esOC2pl4iP5YFfGRHxTLRW8=; b=IUa6t7xQjGUnGlB517MpXcik7p
-	CAwbeQSq2HgYrUrGaQhWTR0VcS1DJLmHvsP09MiwX1QdDMxsXaCZG+jRkjyu0ivmLZF7Rz2iBB5ny
-	b36TO9KWftsynn2bVH5EzYzkR49PWGhDSeTsqREH3srcLDZNfdzS8q64m1vHQjuehidVozsROdBnb
-	3HKSsce1th7h6dXB6OxG8ygnIUUTDLFRPH0hb5dvdRfgXQxxFZgD0hcpoyHFAmUSbkvCDCdF/EWfr
-	hA15+Oz+vJ+LAMKwAMABeXegphOjOYhFSSrhWia0nLOVXH4Gfjp22kkb5Y08ND1QvLdXjcks0xKLg
-	AwkcTDFg==;
+	bh=0usqXOyq3o4rQ+AIVUUfsp1gP3m25NdfBnNXnNuf6eU=; b=ilTqFuFvjoUbTi/J5rwwxqclQ1
+	hWaweW87YLn0QWBILrFcfLe8aq3lxlGcdg+RnecaBK6up2aUbvv0K5UCuuE5nswR6SAgdo+acIE+m
+	qugqYoXvzkM+kj9A5EfgGhJBGAP/V+VyFwaZzxq+rMt6SReQ1xBJEPSo+br7Ezsk15GqwvfRV1gtD
+	aQNdupCDPiAQ1SciVPFygiEu4tD6gsUKnpKA+fZa2GNIRSAtkg1g+lIjVNKGPSPwA0SL13U4KtSA1
+	fEMRhepK6cJ5oY9pNRW4GUC9Yp+7Rw0x/z6iWt+a9kOzqBlTUS6fT80PJg8qYHy+IIJVH4PX5LYCI
+	Z/8IoICw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x8fWF-00000002Vhg-3kQj;
-	Mon, 21 Sep 2026 15:01:23 +0000
+	id 1x8fWH-00000002Vkd-0PU6;
+	Mon, 21 Sep 2026 15:01:25 +0000
 Received: from mail-wm2-x11.google.com ([2a00:1450:4864:31::11])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x8eF5-00000002GTy-1PUl
+	id 1x8eFT-00000002GcB-3PQw
 	for linux-nvme@lists.infradead.org;
-	Mon, 21 Sep 2026 13:39:38 +0000
-Received: by mail-wm2-x11.google.com with SMTP id 5b1f17b1804b1-49ccfd61ecaso26279975e9.3
-        for <linux-nvme@lists.infradead.org>; Mon, 21 Sep 2026 06:39:34 -0700 (PDT)
+	Mon, 21 Sep 2026 13:40:02 +0000
+Received: by mail-wm2-x11.google.com with SMTP id 5b1f17b1804b1-49e7bcb94d3so20695405e9.2
+        for <linux-nvme@lists.infradead.org>; Mon, 21 Sep 2026 06:39:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789997974; x=1790602774; darn=lists.infradead.org;
+        d=gmail.com; s=20251104; t=1789997998; x=1790602798; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=dxtQQDz5ZZ2oYc2awZZ8esOC2pl4iP5YFfGRHxTLRW8=;
-        b=ZKymFCKSJ+oQIkh0Tr7VQH8SixAVE3u+KKmgz/AYSr3ih55T1P7zgOl9GM3ydFyxLE
-         vvkdo4uwogioTg+abT+mow7wvhBA2aKhs11b4m9ZIVBIzAXlFQaHYV41yFrHb4xt0Asz
-         KDeOFKbzKVvgim3QL1yGbNwkph/gyc2uLeFmrX2GoDUiFcIZmmVNzgiDGgvKI5Mbv7Tj
-         Cl1tcln89PjJLUU6Xv+y7EUncGtNm8rRHLi4fWFtDPSRqGaaDc/jSQojfgeuya0B1pNw
-         Xigf6g0u7n5N+h+X0W73IlBnyTrwHoGl9nEeyUhqId+XCZZFLfATV/mA939BeFB517gO
-         RTrQ==
+        bh=0usqXOyq3o4rQ+AIVUUfsp1gP3m25NdfBnNXnNuf6eU=;
+        b=oCkSJ86nOdh6+v583F+2iz85MSi7t2w3owmWGO+DDNCMyI/2nhItmyyPmHl+Melyc9
+         lghx2ztwdAHXM6MA/Wo0CZb4Zig9VwFulJbpWbgU4oPr5Mj1d8tQgxWc65BL+kIsMaHU
+         z3/WHE6i/8QiKa0J7ca8LzdYf/N8E7ar0uFeuE9GwMgnXVel/sGJMDdf1qFaCPUUkITQ
+         T8taC3KUUpx/ogUhz0KNVY4t1HdBODoq7R2Nrz2G7KNX2N5l33/AfJMGydjLf6ufkwjZ
+         UDKDA2AIiBzkGgF884Ob5/1A1hcHYVF/rdxpmZgEgpDWEIU7RiWAYG/7wyuc9rNU/e4E
+         PJ6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789997974; x=1790602774;
+        d=1e100.net; s=20260707; t=1789997998; x=1790602798;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=dxtQQDz5ZZ2oYc2awZZ8esOC2pl4iP5YFfGRHxTLRW8=;
-        b=2cf4w73J6qSGaJz/UFZSnxf/9AaZqjXc7JqYICQQ5HA4EyIopsy19APnpA52dfp8X5
-         JIYANzL9o+5/Ka6G2z6Zfl9Rd/ePHlNK5GW9Ju7GtX9D+SDvXnJGpojlsvrjSS3vQVgr
-         eznC0eELp8odQgaUKfr0OqYvXuumjcY0VY/ZweUPReqh7gkriW4jjLNuw+K/OQpOz6U8
-         deAHJe4JHf04D0szmvnxtulC738ZBVowhzZjPdv6aOsBkmNTMxhfk274bQvBWY8xuFOb
-         G1v8sX/feHdaDzLK6uMEI1L743N+5qFGrSYKU4Vqb0gMKv0tBw85k8Yi9dLblTudrmr5
-         iOYg==
-X-Forwarded-Encrypted: i=1; AKwUvBwmriPIi0TZdI2JpnZ3pthJ6ZUumm8f6D4+HQcxG5umZEumIxo0BVeiAf2q7ZgRWi/Aq+V6ZNxs4zdO@lists.infradead.org
-X-Gm-Message-State: AFuF++l8M1K3MlGpaNp30vzr+ItHbTdRoDrOA21ZZJjS91wrBPmtQB+l
-	zOA4idX04EqCPQpVYuxKP0ilLr/dfR7BBo+7UFHSMqWFhSTkAlssGXuh
-X-Gm-Gg: AYBFou0AFUVXwUPcsWyDxpV5LBIdCJon+bHYwOuNgNU+VoEGKwpW4LSgz66uk5ysmte
-	FIc1sH9+OAEi0Oi0M3s6glnQx7ZJ9eLP4MKfWQ0CDg7bhQ53OAmk8NjSFmFTmxrA5TTw+LjVqzy
-	ej99SS/aVbVztQ/EY3frooeuRP/P2OpyTZiqqUFHle+gYwQ1HqmU8cFr3CALW1JlOxxrIt6AYVn
-	to1B01P6nrSFq8YKO+wBY99GdeagePI0FV+wfj6XyW5Imm+YmuYegXF4tnH9VrdgIesVd7t6ntE
-	joyTxJCfvqdtJwqezarYIK2zLL81d+FS04VF8NJtOw1BYKxlWMRghoqXmKu6ttrAqhrE3fcO/9V
-	0cqJ57nfbfK4/KN4vAlC+TwrIU2xxgWxbDd8dGVDBCfaftudBtlJ784ZLeacW5JCNpPvaPOmstD
-	Y3SzfkpwLdX+aCjFXUEEb2g/fgR7LqwcbPBjFYR/gMqZlbzPACsuevj8l1mOXXTgS0lLXpKfKJB
-	AX92xDMZzUMzraw+RhWADgTw17UJlX1KDE9GuOuiQaKLmLXAK4T5keUW6XwrjcWxBDgpoeCn2b8
-	i+UA4v5gbnh8mqHTJHP096Au+alicg==
-X-Received: by 2002:a05:600d:1a:b0:49e:6778:c2bd with SMTP id 5b1f17b1804b1-49fc5a10c99mr131242505e9.6.1789997973654;
-        Mon, 21 Sep 2026 06:39:33 -0700 (PDT)
+        bh=0usqXOyq3o4rQ+AIVUUfsp1gP3m25NdfBnNXnNuf6eU=;
+        b=DBnoofLVgCS+ugkLfkaYNYvgcRCknVZyHd3Ggkf1enNiOb6ovyR2Q2ix5xpdrcxW6g
+         NnYXAcBuEkFYfa0rgbVXkn9fg9sDVi1+QETdczNwGdLpcevwBXZchatSpuUVrqltCy/+
+         0/o/lLqvDLoSPCfMlUpJw449dVriQryVTbsAq9/dMsa3De2hi73xNe06VSZVoRbXTg4H
+         6JqlXMLc2ffqf62O/grw8yrue1eEN//0QmxAwMe0wu3vOPzGt5hrNF+ml79jHjJPuv+O
+         +mU8ALBM8fBkR0lc9Eco9UjW07poO73D/+KL243m8hUURiif353n2Ss/Guymj2ebosb5
+         VE4A==
+X-Forwarded-Encrypted: i=1; AKwUvBy1T1GD+2bwNqwmCzCSIPXeIIHiLBetYhYil92xl705SbCZcCxau6pHOLz9PVdBU62FlC2mU5rYvD/X@lists.infradead.org
+X-Gm-Message-State: AFuF++k/ZBzK6srp4rtAzU0IkhXWqFDTOuLclarQkh0Q6Ps/iBOgr9l9
+	ttLooXyxGTQLGE6k6N+xRoT7mo9FNT88bBCI6mJwC+sTMDjBoct+v9ns
+X-Gm-Gg: AYBFou2B158wdCh0qoVHX3arESNnDWjujJEaOmypDGIGh3SnD8KL0s7ot9ufQ1Ho8gm
+	NT6uGe4Dq9dgOPa5K1a/uTD4AU7ckp+ZYI5an06/NJmDiyt5jRSNbM3PQvnDIl0Cu0CT8qkciCC
+	YNHALkuvE701N42aESuDa2DY3xkeWVhBwP0eMYwJ9zH714m+MlEgpe9h9nWysB0hgqHuefZX73F
+	JJRHIXv9/a+5MgtvW6Nyr9xStmS5CKCefo50dB8UbMpFhibRtqXU85Xm4wycvqrHwBhfCg5rJta
+	uSuxVqCnH6N2hkd4tyxVsKZp58PPbQluJ4Eh70cVtpJd1lsfKUkZ8LyCOM4A8H1Q6ytc7oDpYWv
+	j/pYV6912xKQSv8/KulnB4ph7OH9g12lBk4JbRwwTWQYdnwZ2Ug+PsEhDUedJuX9aAkOVEUc1LQ
+	yjBYzICSQ0KRH2cXUzeisY95Prmt4iHlu+zQMQ54KiLdZMYXq508Z3qlna6NqDJ3+d2EuwK4rz/
+	H/TcpyX+tGeyMXjdaJvIG25TuKf7Wk1orgOP8QXJlJ1f7tJgIQbMMwTdxVPYtx7wH7rW9JF2lfH
+	jXwYOv/eSdj9dAdwNe1DenLVEiQSO6LQUQNjAsGi
+X-Received: by 2002:a05:600c:34c8:b0:49e:732e:6b79 with SMTP id 5b1f17b1804b1-49fc574eff6mr149861745e9.32.1789997998153;
+        Mon, 21 Sep 2026 06:39:58 -0700 (PDT)
 Received: from 127.0.0.1localhost (82-132-213-26.dab.02.net. [82.132.213.26])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fc585920fsm617171605e9.4.2026.09.21.06.39.30
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fc585920fsm617171605e9.4.2026.09.21.06.39.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2026 06:39:32 -0700 (PDT)
+        Mon, 21 Sep 2026 06:39:57 -0700 (PDT)
 From: Pavel Begunkov <asml.silence@gmail.com>
 To: linux-block@vger.kernel.org
 Cc: asml.silence@gmail.com,
@@ -103,17 +103,17 @@ Cc: asml.silence@gmail.com,
 	Mikulas Patocka <mpatocka@redhat.com>,
 	Benjamin Marzinski <bmarzins@redhat.com>,
 	dm-devel@lists.linux.dev
-Subject: [PATCH v6 04/13] block: introduce dma map backed bio type
-Date: Mon, 21 Sep 2026 14:38:48 +0100
-Message-ID: <a3ee719abc440ca139f1a945fdaf43a45f0c6b57.1789997898.git.asml.silence@gmail.com>
+Subject: [PATCH v6 11/13] io_uring/rsrc: add uncloneable regbuf flag
+Date: Mon, 21 Sep 2026 14:38:55 +0100
+Message-ID: <9b71636a03f2345bcc09127d77eb6b294a1d0938.1789997898.git.asml.silence@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <cover.1789997898.git.asml.silence@gmail.com>
 References: <cover.1789997898.git.asml.silence@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260921_063935_927158_CB7E8A46 
-X-CRM114-Status: GOOD (  27.76  )
+X-CRM114-CacheID: sfid-20260921_063959_867240_32796319 
+X-CRM114-Status: GOOD (  16.49  )
 X-Mailman-Approved-At: Mon, 21 Sep 2026 08:01:20 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -129,262 +129,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Premapped buffers don't require a generic bio_vec since these have
-already been dma mapped. Repurpose the bi_io_vec space to strore dmabuf
-maps as they are mutually exclusive.
+It's hard to implement cloning if the internal structure needs to be
+mutable and/or relies on other ring resources. In preparation to such
+buffer types, add a flag indicating that the buffer can't be cloned. It
+might be possible to add cloning in the future for them, but that would
+likely need reallocating the structure and reacquiring resources in case
+by case manner.
 
-Suggested-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
 ---
- block/bio.c               | 15 +++++++++++--
- block/blk-merge.c         | 45 +++++++++++++++++++++++++++++++++++++++
- block/fops.c              |  2 +-
- include/linux/bio.h       |  9 ++++----
- include/linux/blk-mq.h    |  7 ++++++
- include/linux/blk_types.h | 14 +++++++++++-
- include/linux/bvec.h      |  3 ++-
- 7 files changed, 86 insertions(+), 9 deletions(-)
+ io_uring/rsrc.c | 5 +++++
+ io_uring/rsrc.h | 3 ++-
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/block/bio.c b/block/bio.c
-index b48091c7663f..1e0d9714c541 100644
---- a/block/bio.c
-+++ b/block/bio.c
-@@ -881,7 +881,11 @@ static int __bio_clone(struct bio *bio, struct bio *bio_src, gfp_t gfp)
- 	bio->bi_write_stream = bio_src->bi_write_stream;
- 	bio->bi_bvec_gap_bit = bio_src->bi_bvec_gap_bit;
- 	bio->bi_iter = bio_src->bi_iter;
--	bio->bi_io_vec = bio_src->bi_io_vec;
+diff --git a/io_uring/rsrc.c b/io_uring/rsrc.c
+index 83a7ad9f5bc7..0b526b094dc9 100644
+--- a/io_uring/rsrc.c
++++ b/io_uring/rsrc.c
+@@ -1434,6 +1434,11 @@ static int io_clone_buffers(struct io_ring_ctx *ctx, struct io_ring_ctx *src_ctx
+ 		if (!src_node) {
+ 			dst_node = NULL;
+ 		} else {
++			if (src_node->buf->flags & IO_REGBUF_F_UNCLONEABLE) {
++				io_rsrc_data_free(ctx, &data);
++				return -ENOMEM;
++			}
 +
-+	if (op_is_dmabuf(bio->bi_opf))
-+		bio->bi_dmabuf_map = bio_src->bi_dmabuf_map;
-+	else
-+		bio->bi_io_vec = bio_src->bi_io_vec;
+ 			dst_node = io_rsrc_node_alloc(ctx, IORING_RSRC_BUFFER);
+ 			if (!dst_node) {
+ 				io_rsrc_data_free(ctx, &data);
+diff --git a/io_uring/rsrc.h b/io_uring/rsrc.h
+index 9ef88383b363..73d7b1ebf0b6 100644
+--- a/io_uring/rsrc.h
++++ b/io_uring/rsrc.h
+@@ -26,7 +26,8 @@ struct io_rsrc_node {
+ };
  
- 	if (bio->bi_bdev) {
- 		if (bio->bi_bdev == bio_src->bi_bdev &&
-@@ -1204,16 +1208,23 @@ EXPORT_SYMBOL_GPL(__bio_release_pages);
+ enum {
+-	IO_REGBUF_F_KBUF		= 1,
++	IO_REGBUF_F_KBUF		= 1 << 0,
++	IO_REGBUF_F_UNCLONEABLE		= 1 << 1,
+ };
  
- bool bio_iov_iter_set(struct bio *bio, const struct iov_iter *iter)
- {
--	if (!iov_iter_is_bvec(iter))
-+	if (!iov_iter_is_bvec(iter) && !iov_iter_is_dmabuf_map(iter))
- 		return false;
- 
- 	WARN_ON_ONCE(bio->bi_max_vecs);
- 
-+	static_assert(offsetof(struct bio, bi_io_vec) ==
-+		      offsetof(struct bio, bi_dmabuf_map));
-+	static_assert(offsetof(struct iov_iter, bvec) ==
-+		      offsetof(struct iov_iter, dmabuf_map));
-+
- 	bio->bi_io_vec = (struct bio_vec *)iter->bvec;
- 	bio->bi_iter.bi_idx = 0;
- 	bio->bi_iter.bi_offset = iter->iov_offset;
- 	bio->bi_iter.bi_size = iov_iter_count(iter);
- 	bio_set_flag(bio, BIO_CLONED);
-+	if (iov_iter_is_dmabuf_map(iter))
-+		bio->bi_opf |= REQ_NOMERGE | REQ_DMABUF;
- 	return true;
- }
- 
-diff --git a/block/blk-merge.c b/block/blk-merge.c
-index 258a726071d1..f0ece378c2d1 100644
---- a/block/blk-merge.c
-+++ b/block/blk-merge.c
-@@ -9,6 +9,7 @@
- #include <linux/blk-integrity.h>
- #include <linux/part_stat.h>
- #include <linux/blk-cgroup.h>
-+#include <linux/dma-buf-io.h>
- 
- #include <trace/events/block.h>
- 
-@@ -319,6 +320,36 @@ static inline unsigned int bvec_seg_gap(struct bio_vec *bvprv,
- 	return bv->bv_offset | (bvprv->bv_offset + bvprv->bv_len);
- }
- 
-+static inline int bio_split_io_at_dmabuf(struct bio *bio,
-+		const struct queue_limits *lim, unsigned *segs,
-+		unsigned max_bytes, unsigned len_align_mask,
-+		unsigned start_align_mask)
-+{
-+	unsigned bytes = min(bio->bi_iter.bi_size, max_bytes);
-+	unsigned seg_shift = bio->bi_dmabuf_map->min_seg_shift;
-+	unsigned offset = bio->bi_iter.bi_offset & ((1U << seg_shift) - 1);
-+	u64 max_segs_bytes;
-+
-+	if ((bio->bi_iter.bi_offset & start_align_mask) ||
-+	    (bio->bi_iter.bi_size & len_align_mask))
-+		return -EINVAL;
-+
-+	/* single contiguous range into the dma-buf */
-+	*segs = 1;
-+
-+	/*
-+	 * Limit by the number of segments. We don't expose the underlying
-+	 * mapping layout, but with a known minimum segment size, any I/O
-+	 * consisting of N full segments should be able to cover at least
-+	 * this much.
-+	 */
-+	max_segs_bytes = (u64)lim->max_segments << seg_shift;
-+	bytes = min_t(u64, bytes, max_segs_bytes - offset);
-+	if (bytes != bio->bi_iter.bi_size)
-+		return bytes;
-+	return 0;
-+}
-+
- /**
-  * bio_split_io_at - check if and where to split a bio
-  * @bio:  [in] bio to be split
-@@ -346,6 +377,19 @@ int bio_split_io_at(struct bio *bio, const struct queue_limits *lim,
- 		len_align_mask |= (bc->bc_key->crypto_cfg.data_unit_size - 1);
- 	}
- 
-+	if (op_is_dmabuf(bio->bi_opf)) {
-+		int ret;
-+
-+		ret = bio_split_io_at_dmabuf(bio, lim, &nsegs, max_bytes,
-+					     len_align_mask, start_align_mask);
-+		if (ret < 0)
-+			return ret;
-+		if (!ret)
-+			goto out;
-+		bytes = ret;
-+		goto split;
-+	}
-+
- 	bio_for_each_bvec(bv, bio, iter) {
- 		if (bv.bv_offset & start_align_mask ||
- 		    bv.bv_len & len_align_mask)
-@@ -376,6 +420,7 @@ int bio_split_io_at(struct bio *bio, const struct queue_limits *lim,
- 		bvprvp = &bvprv;
- 	}
- 
-+out:
- 	*segs = nsegs;
- 	bio->bi_bvec_gap_bit = ffs(gaps);
- 	return 0;
-diff --git a/block/fops.c b/block/fops.c
-index b182d0b30748..09fa42f8d8fa 100644
---- a/block/fops.c
-+++ b/block/fops.c
-@@ -362,7 +362,7 @@ static ssize_t __blkdev_direct_IO_async(struct kiocb *iocb,
- 	 * Users don't rely on the iterator being in any particular
- 	 * state for async I/O returning -EIOCBQUEUED, hence we can
- 	 * avoid expensive iov_iter_advance(). Bypass
--	 * bio_iov_iter_get_pages() and set the bvec directly.
-+	 * bio_iov_iter_get_pages() and set the bvec/dmabuf directly.
- 	 */
- 	if (!bio_iov_iter_set(bio, iter)) {
- 		ret = blkdev_iov_iter_get_pages(bio, iter, bdev);
-diff --git a/include/linux/bio.h b/include/linux/bio.h
-index 892ca469c570..7a794ce723b8 100644
---- a/include/linux/bio.h
-+++ b/include/linux/bio.h
-@@ -80,7 +80,8 @@ static inline bool bio_no_advance_iter(const struct bio *bio)
- {
- 	return bio_op(bio) == REQ_OP_DISCARD ||
- 	       bio_op(bio) == REQ_OP_SECURE_ERASE ||
--	       bio_op(bio) == REQ_OP_WRITE_ZEROES;
-+	       bio_op(bio) == REQ_OP_WRITE_ZEROES ||
-+	       op_is_dmabuf(bio->bi_opf);
- }
- 
- static inline void *bio_data(struct bio *bio)
-@@ -438,12 +439,12 @@ static inline void bio_wouldblock_error(struct bio *bio)
- 
- /*
-  * Calculate number of bvec segments that should be allocated to fit data
-- * pointed by @iter. If @iter is backed by bvec it's going to be reused
-- * instead of allocating a new one.
-+ * pointed by @iter. If @iter is backed by a bvec or a dmabuf, the bvec array /
-+ * the dma map are going to be reused, and so no extra allocation is required.
-  */
- static inline int bio_iov_vecs_to_alloc(struct iov_iter *iter, int max_segs)
- {
--	if (iov_iter_is_bvec(iter))
-+	if (iov_iter_is_bvec(iter) || iov_iter_is_dmabuf_map(iter))
- 		return 0;
- 	return iov_iter_npages(iter, max_segs);
- }
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index af878597afb8..7c7504c84e09 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -1017,6 +1017,13 @@ static inline void *blk_mq_rq_to_pdu(struct request *rq)
- 	return rq + 1;
- }
- 
-+static inline bool blk_mq_rq_is_dmabuf(struct request *rq)
-+{
-+	if (!IS_ENABLED(CONFIG_DMA_SHARED_BUFFER))
-+		return false;
-+	return rq->bio && op_is_dmabuf(rq->bio->bi_opf);
-+}
-+
- static inline struct blk_mq_hw_ctx *queue_hctx(struct request_queue *q, int id)
- {
- 	struct blk_mq_hw_ctx *hctx;
-diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-index 98e21b4cbf32..0cc09b975d8f 100644
---- a/include/linux/blk_types.h
-+++ b/include/linux/blk_types.h
-@@ -233,7 +233,12 @@ struct bio {
- 	atomic_t		__bi_remaining;
- 
- 	/* The actual vec list, preserved by bio_reset() */
--	struct bio_vec		*bi_io_vec;
-+	union {
-+		struct bio_vec		*bi_io_vec;
-+		/* Driver specific dma map, valid IFF REQ_DMABUF is set */
-+		struct dma_buf_io_map	*bi_dmabuf_map;
-+	};
-+
- 	struct bvec_iter	bi_iter;
- 
- 	union {
-@@ -402,6 +407,7 @@ enum req_flag_bits {
- 	__REQ_DRV,		/* for driver use */
- 	__REQ_FS_PRIVATE,	/* for file system (submitter) use */
- 	__REQ_ATOMIC,		/* for atomic write operations */
-+	__REQ_DMABUF,		/* Using premmaped dma buffers */
- 	/*
- 	 * Command specific flags, keep last:
- 	 */
-@@ -434,6 +440,7 @@ enum req_flag_bits {
- #define REQ_DRV		(__force blk_opf_t)(1ULL << __REQ_DRV)
- #define REQ_FS_PRIVATE	(__force blk_opf_t)(1ULL << __REQ_FS_PRIVATE)
- #define REQ_ATOMIC	(__force blk_opf_t)(1ULL << __REQ_ATOMIC)
-+#define REQ_DMABUF	(__force blk_opf_t)(1ULL << __REQ_DMABUF)
- 
- #define REQ_NOUNMAP	(__force blk_opf_t)(1ULL << __REQ_NOUNMAP)
- 
-@@ -487,6 +494,11 @@ static inline bool op_is_discard(blk_opf_t op)
- 	return (op & REQ_OP_MASK) == REQ_OP_DISCARD;
- }
- 
-+static inline bool op_is_dmabuf(blk_opf_t op)
-+{
-+	return op & REQ_DMABUF;
-+}
-+
- /*
-  * Check if a bio or request operation is a zone management operation.
-  */
-diff --git a/include/linux/bvec.h b/include/linux/bvec.h
-index fc566ee1c1ff..b63914ff56e3 100644
---- a/include/linux/bvec.h
-+++ b/include/linux/bvec.h
-@@ -108,7 +108,8 @@ struct bvec_iter {
- 	unsigned int		bi_idx;
- 
- 	/*
--	 * Current offset in the bvec entry pointed to by `bi_idx`.
-+	 * Current offset in the bvec entry pointed to by `bi_idx` or into
-+	 * a dma-buf map.
- 	 */
- 	unsigned int		bi_offset;
- } __packed __aligned(4);
+ struct io_mapped_ubuf {
 -- 
 2.54.0
 
