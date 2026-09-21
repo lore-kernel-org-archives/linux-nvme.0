@@ -4,66 +4,137 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A46FEC982E6
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2026 07:07:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D8D3BC982DE
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2026 07:07:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=x0Hkx8RpGLaQaJHJtSRwkB0ErUErAnbumg8XlDmlRmI=; b=Aivz8/W623Z9d1OHltOwkTojmC
-	d9FkikxjQ/ZsAb7dlzJCl+06+NjYqY3YWLJgEK7vCu+E01QJHHoy3zgiHGRbg3joY8beSrnnsASl7
-	88z/RfS6JtGnxVcv83/n5/qi5KZ9GZH6Zvd+Cur87CwJk13jsVekqp6HJnNtwD8sNFysvEDjPmS55
-	dSmQ2lx6apC3nbIzOamO78uM1kqymbnngvZOf+9rV6qgBGL8U+Sz/B9EhpAnrwcJwaaVVAmwmVGJl
-	HmtTfNr6Pz4/0z7bFjo0KWMrnZXEYAz9+ca6twwi/0kopLniKSuGmPYqrbEDQVEI0jHz++yKrcW8T
-	zLsU3FZw==;
+	bh=c5oINzfdj0Aaw8N3SdtMc2I3Ojy8YxehYDPbjFveq0k=; b=XNH/g0hfvbDrsJK6BrxNQd2mv9
+	FgQFJpTBkxaCt/U4bxPF//eoGVS9PI/VVB/gHJtX89IJ1BLuqvfSY5o4nHETxoKbFezuJK3cS/K0e
+	l3wK7kVlilHCQd2NEDN/M1lA8PreZ+9yE9AmbCA3dSDyurEAQFywxqWdHcxUzt9D1U4/o9MDOIeo4
+	hvpKzySnUXPANARjtGaUEPt8uLhea1l1ERyx8jS6jnOefU3NAQ46hAkx4tzRM5HwwutgQxknTI24+
+	kU6VyLKJo4aDqoO0tBkYkHc0PLaZU6ydwCSZ6JQEOIC7xqltMopjhvwej+qcX3FxjtkamcBg5i4QI
+	CocsHAew==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x8Y7G-000000019vu-40ub;
-	Mon, 21 Sep 2026 07:07:06 +0000
-Received: from out-74.mta1.migadu.com ([95.215.58.74] helo=mta1.migadu.com)
+	id 1x8Y7n-00000001AAe-1NPV;
+	Mon, 21 Sep 2026 07:07:39 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x8Y7E-000000019u8-1Oso
+	id 1x8Y7k-00000001A8f-2N5u
 	for linux-nvme@lists.infradead.org;
-	Mon, 21 Sep 2026 07:07:05 +0000
-X-Envelope-To: linux-nvme@lists.infradead.org
-DKIM-Signature: a=rsa-sha256; bh=P/yCX0dnYM3gWr3ZFgRoRyEBmvke2naC9owtFoJ45zE=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1789974422; v=1; x=1790579222;
- b=fMYQKYLpjl/c4Xo3IXfhaHQrM+E68NgEk6PDAyOr4u81BIi5mga7X3y01IKNEd9d9yrYNLxT
- 9ALIQEVE6RMmp5/06esVLjt0MWhNHVW0aRWVZLeMOLmf8kbimNakHikYSdDaDCbbzbTrIPJzgz6
- ijjW5D8hp88useNC0rwJrmFM=
-X-Envelope-To: linux-nvme@lists.infradead.org
-Received: by smtp.migadu.com with ESMTPS id 53a3e59b4fe32a04;
-	Mon, 21 Sep 2026 07:07:02 +0000
-X-Mizu-Trace-ID: 53a3e59b4fe32a04
-X-Migadu-Flow: FLOW_OUT
-From: Tao Cui <cui.tao@linux.dev>
-To: axboe@kernel.dk,
-	kbusch@kernel.org,
-	tj@kernel.org,
-	hch@lst.de,
-	sagi@grimberg.me,
-	yukuai@fygo.io
-Cc: linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	cgroups@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	cui.tao@linux.dev,
-	cuitao@kylinos.cn
-Subject: [RFC PATCH 1/1] block: charge passthrough requests to the submitter's cgroup
-Date: Mon, 21 Sep 2026 15:06:47 +0800
-Message-ID: <20260921070647.1928289-2-cui.tao@linux.dev>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260921070647.1928289-1-cui.tao@linux.dev>
-References: <20260921070647.1928289-1-cui.tao@linux.dev>
+	Mon, 21 Sep 2026 07:07:37 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A2D751F795;
+	Mon, 21 Sep 2026 07:07:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1789974448; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=c5oINzfdj0Aaw8N3SdtMc2I3Ojy8YxehYDPbjFveq0k=;
+	b=rQ0So+yMPkLnZaEK8cpF4OiNKm+PCIcBVZI7UwonedMkUc1tYQkDqZFi2/bJh9RcLWf26K
+	tY4igW1F99Rs7oBpEK4PwWdKeHVDpjOexWwdmfU7kHtnEWmXQRX78fBkF8CRvB/wQXp2ta
+	Swq4OMPMdy4kk2iU3qBfrqvn1fsj3ys=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1789974448;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=c5oINzfdj0Aaw8N3SdtMc2I3Ojy8YxehYDPbjFveq0k=;
+	b=f7WfZG8ulHnttr70BfGo/FlnCVXAoczi7jHehw+4sSa52SB60bE3expBSwvpojq5Cv980I
+	M8mjkEGyl8JNw9AQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=eEhQrdn1;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=94rUgrK9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1789974444; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=c5oINzfdj0Aaw8N3SdtMc2I3Ojy8YxehYDPbjFveq0k=;
+	b=eEhQrdn1LaqU979j1KGC54j2TGz3ufhTs35+xEtquUv/PwXFHvfN4+HN4Z8gjUHYSgr1NL
+	4RZPVsHcZXdVPgqIoSWlPcEjOhb0VPI7BY0RqlbiwZKqpuG7TLdNk2joFu4FQhHXnX59EU
+	B+JbFoFGaXpMa77nCpK9beWVx/muXRg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1789974444;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=c5oINzfdj0Aaw8N3SdtMc2I3Ojy8YxehYDPbjFveq0k=;
+	b=94rUgrK9fo4qhr9Qw/ZvCjoWEVo/roT3M0Om4vM+W6T7f8gYyPZruLgkMXsu7CMapJAB4Y
+	yd4PpBcheQecBlAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 273CA13793;
+	Mon, 21 Sep 2026 07:07:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id FyhCAKzXsGrPWQAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 21 Sep 2026 07:07:24 +0000
+Message-ID: <0d787bb1-33c4-46ba-a246-208b1e0ea865@suse.de>
+Date: Mon, 21 Sep 2026 09:07:23 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 10/18] nvme-tcp: Use CCR to recover controller that hits
+ an error
+To: Mohamed Khalfella <mkhalfella@purestorage.com>,
+ Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+Cc: Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
+ Paul Ely <paul.ely@broadcom.com>, Hannes Reinecke <hare@kernel.org>,
+ Chaitanya Kulkarni <kch@nvidia.com>, James Smart <jsmart833426@gmail.com>,
+ Randy Jennings <randyj@purestorage.com>, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20260918181614.3947933-1-mkhalfella@purestorage.com>
+ <20260918181614.3947933-11-mkhalfella@purestorage.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20260918181614.3947933-11-mkhalfella@purestorage.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: A2D751F795
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,broadcom.com,kernel.org,nvidia.com,purestorage.com,lists.infradead.org,vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,purestorage.com:email];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_TRACE(0.00)[suse.de:+]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260921_000704_528313_8BABC426 
-X-CRM114-Status: GOOD (  19.23  )
+X-CRM114-CacheID: sfid-20260921_000736_752146_EEB8B6B5 
+X-CRM114-Status: GOOD (  10.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,172 +149,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Tao Cui <cuitao@kylinos.cn>
+On 9/18/26 8:14 PM, Mohamed Khalfella wrote:
+> An alive nvme controller that hits an error now will move to FENCING
+> state instead of RESETTING state. ctrl->fencing_work attempts CCR to
+> terminate inflight IOs. Regardless of the success or failure of CCR
+> operation the controller is transitioned to RESETTING state to continue
+> error recovery process.
+> 
+> Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
+> ---
+>   drivers/nvme/host/tcp.c | 29 ++++++++++++++++++++++++++++-
+>   1 file changed, 28 insertions(+), 1 deletion(-)
+> 
+Reviewed-by: Hannes Reinecke <hare@kernel.org>
 
-Passthrough requests (SG_IO, bsg, nvme passthrough ioctls and uring
-commands) are dispatched via blk_execute_rq{,_nowait}() without ever
-passing through submit_bio(), so the bio mapped by blk_rq_map_user()
-carries no blkcg association: the transferred bytes never show up in
-cgroup io.stat, and every rq_qos policy on the queue (iocost,
-iolatency, wbt) is bypassed, as is blk-throttle, which hooks
-submit_bio_noacct() directly rather than going through rq_qos.
+Cheers,
 
-A quick demonstration on a scsi_debug device with iocost enabled and
-vrate pinned to its 1% floor: a direct fio writer was throttled ~10x
-while the same cgroup issuing sg_dd writes ran at full device speed
-with zero io.stat accounting.
-
-Associate the mapped bio with the submitter's blkcg at dispatch time
-and run the regular bio accounting (blk_cgroup_bio_start()) and
-rq_qos throttle paths with it.  DRV_IN/DRV_OUT commands are mapped to
-READ/WRITE so io.stat classifies their bytes normally; request
-completion already pairs with the throttle through bio_endio() ->
-rq_qos_done_bio().
-
-The charge is gated by opcode (READ/WRITE/DRV_IN/DRV_OUT) and to
-queues that already have a gendisk: commands issued during device
-probing (SCSI INQUIRY etc.) have no gendisk yet and stay exempt,
-following the same probe-exemption reasoning as the passthrough
-iostats support.
-
-RFC notes:
- - validated on linux-next with scsi_debug + sg_dd (SG_IO) and qemu
-   emulated nvme + a NVME_IOCTL_IO64_CMD loop: in both cases the
-   transferred bytes are fully accounted (wbytes/wios) in the issuing
-   cgroup, and the issuing task is observed waiting on the iocost
-   waitqueue with vrate clamped;
- - iolatency gains the same coverage for free, and so does wbt:
-   passthrough writes now pass through wbt_wait() like bio-path
-   writes, a behavior change worth calling out even though wbt
-   targets buffered writeback and direct passthrough rarely hits it;
-   blk-throttle does not: it hooks
-   submit_bio_noacct() directly and is not an rq_qos policy, so
-   io.max stays unenforced for passthrough (measured).  Its
-   queue-and-resubmit throttling model would also need a synchronous
-   variant for request-bound bios;
- - nvme uring commands share the same blk_execute_rq_nowait()
-   dispatch as the validated ioctl path;
- - the charge runs in the submitter's context and may sleep in
-   rq_qos throttling; all data-op callers found run in sleepable
-   context, but this deserves reviewer attention.
-
-Signed-off-by: Tao Cui <cuitao@kylinos.cn>
----
- block/blk-mq.c | 72 ++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 72 insertions(+)
-
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index a26a11c73ee3..2dd59f6df321 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -10,6 +10,7 @@
- #include <linux/backing-dev.h>
- #include <linux/bio.h>
- #include <linux/blkdev.h>
-+#include "blk-cgroup.h"
- #include <linux/blk-integrity.h>
- #include <linux/kmemleak.h>
- #include <linux/mm.h>
-@@ -1400,6 +1401,73 @@ static void blk_add_rq_to_plug(struct blk_plug *plug, struct request *rq)
- 	plug->rq_count++;
- }
- 
-+/*
-+ * Passthrough bios are mapped directly onto requests via
-+ * blk_rq_map_user() and never pass through submit_bio(), so they carry
-+ * no blkcg association and are invisible to cgroup io.stat and to every
-+ * rq_qos policy (iocost, blk-throttle, iolatency).  Charge the ones that
-+ * carry data to the submitter's blkcg at dispatch time and run the
-+ * regular bio accounting and rq_qos throttle paths with the associated
-+ * bio.
-+ *
-+ * Gated by opcode (READ/WRITE/DRV_IN/DRV_OUT, the latter two mapped
-+ * to READ/WRITE for io.stat classification) and to queues that
-+ * already have a gendisk: commands issued during device probing (SCSI
-+ * INQUIRY and friends) have no gendisk yet and stay exempt.  The
-+ * request bios may carry a stale ->bi_blkg from the mempool; the
-+ * association helper drops the old reference and re-associates.
-+ */
-+static void blk_mq_pt_charge(struct request *rq)
-+{
-+	struct bio *bio = rq->bio;
-+	enum req_op op = req_op(rq);
-+
-+	if (!bio || !rq->q->disk)
-+		return;
-+
-+	switch (op) {
-+	case REQ_OP_READ:
-+	case REQ_OP_WRITE:
-+	case REQ_OP_DRV_IN:
-+	case REQ_OP_DRV_OUT:
-+		break;
-+	default:
-+		return;
-+	}
-+	if (op == REQ_OP_DRV_IN)
-+		op = REQ_OP_READ;
-+	else if (op == REQ_OP_DRV_OUT)
-+		op = REQ_OP_WRITE;
-+
-+	if (!bio->bi_bdev)
-+		bio->bi_bdev = rq->q->disk->part0;
-+	bio->bi_opf &= ~REQ_OP_MASK;
-+	bio->bi_opf |= op;
-+#ifdef CONFIG_BLK_CGROUP
-+	/*
-+	 * Issued from kthreads the css is root and the charge is a
-+	 * no-op through the root exemptions; data-op issuers that
-+	 * matter run in the submitter's task context.
-+	 */
-+	{
-+		struct cgroup_subsys_state *css;
-+
-+		rcu_read_lock();
-+		css = task_css(current, io_cgrp_id);
-+		bio_associate_blkg_from_css(bio, css);
-+		rcu_read_unlock();
-+	}
-+#endif
-+	blk_cgroup_bio_start(bio);
-+
-+	/*
-+	 * The rq_qos throttle path may sleep on the waitqueues like any
-+	 * bio submitter; all callers found (ioctl / uring_cmd submit,
-+	 * target and error handling kthreads) run in sleepable context.
-+	 */
-+	rq_qos_throttle(rq->q, bio);
-+}
-+
- /**
-  * blk_execute_rq_nowait - insert a request to I/O scheduler for execution
-  * @rq:		request to insert
-@@ -1412,6 +1480,7 @@ static void blk_add_rq_to_plug(struct blk_plug *plug, struct request *rq)
-  * Note:
-  *    This function will invoke @done directly if the queue is dead.
-  */
-+
- void blk_execute_rq_nowait(struct request *rq, bool at_head)
- {
- 	struct blk_mq_hw_ctx *hctx = rq->mq_hctx;
-@@ -1419,6 +1488,7 @@ void blk_execute_rq_nowait(struct request *rq, bool at_head)
- 	WARN_ON(irqs_disabled());
- 	WARN_ON(!blk_rq_is_passthrough(rq));
- 
-+	blk_mq_pt_charge(rq);
- 	blk_account_io_start(rq);
- 
- 	if (current->plug && !at_head) {
-@@ -1484,6 +1554,8 @@ blk_status_t blk_execute_rq(struct request *rq, bool at_head)
- 	WARN_ON(irqs_disabled());
- 	WARN_ON(!blk_rq_is_passthrough(rq));
- 
-+	blk_mq_pt_charge(rq);
-+
- 	rq->end_io_data = &wait;
- 	rq->end_io = blk_end_sync_rq;
- 
+Hannes
 -- 
-2.43.0
-
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
