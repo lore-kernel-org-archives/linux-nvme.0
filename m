@@ -4,60 +4,104 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 411F5C982ED
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2026 16:51:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 27B58C982ED
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2026 17:06:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0Rk95nbCHvSDXKzKHRytip9QY2TC4q23JnFsZN3gYMM=; b=QMdoownQ78XsQ6Yf1/hF8mbWWP
-	Qu2TSbESa8lIHmSeRkia+ObRpoYsXTItil2nzH2tEqlHh4ByRY9BPJA4bDWTS3yRWj6roEDLOoWl6
-	NjtQsHeaxJ56M00F8b+Tt8Y14kg83uqD5D9z5vc7HE5MGL+tfuQc08dMkiKWUHHOOv59V8QF2NXt+
-	y68cWyLNEsfTTw5VW2tioaGzI0p0TfI15+UJKwDydyISXoUGAM/6waHJdRTBIzaBx5WAe6rgXPL43
-	TpnDYX+KS5YvrnUKRALSQKoh6j2imRwJfCnuy2TH9UXjmHm+Af9QPdZibLAfJtqXAeFHtpsdmfYC2
-	jiyH34Lw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=RiS0d1CtQKQd+kk9HZnyknOslzVRUF82l9lMpasjrIs=; b=vF4cMFOZSEpmK4g41DhLG63UY5
+	f3ZPWS9sJAuLjHa2cKXPLBVdgS5yMYHOKE4QBV3nfvHD9rTRxEllB3V+dgceuD4ny+3SJOW2L4HuO
+	VAjFNDjdIs0Cpxo6pC0LlH4v0lexOxkE5oR59625luBnV1ZjhY05bwPlvgoapJBNpfWHmOzjEWHhG
+	oomL9d+pUArAaq2K3JrPkuoXFRpEnPD/t3i2c99HNfK5wFG2u9HU4F+y3MxWdN8IQZnP0OgxhCbF2
+	P5weWPtORlcr1WscKUX8KrmgC7xiqXWC9UiCXrQfNkLD+nlSvBNLW5kdi+7p9ZWo0no1p6l89sbnp
+	VM3lvBkw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x8hEo-00000002t5E-2C8R;
-	Mon, 21 Sep 2026 16:51:30 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1x8hTP-00000002wKm-3S9D;
+	Mon, 21 Sep 2026 17:06:35 +0000
+Received: from mail-wr2-x0f.google.com ([2a00:1450:4864:30::f])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x8hEm-00000002t4c-2jvh
+	id 1x8hTN-00000002wJt-2DbE
 	for linux-nvme@lists.infradead.org;
-	Mon, 21 Sep 2026 16:51:28 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 072F041743;
-	Mon, 21 Sep 2026 16:51:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3BBF1F000FF;
-	Mon, 21 Sep 2026 16:51:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790009487;
-	bh=0Rk95nbCHvSDXKzKHRytip9QY2TC4q23JnFsZN3gYMM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=W0LEWUPAXKQ99l86x5srS05ioOguB9WT4+1+Fuc7Mx837xB1LILUehGNoa2FnUqtf
-	 9b4lnVH/yvjvQXRt6J6fxi4mZtn4KGLZHMGFUYfYG/WIzCzVEtgHuGcOIRMEpbtozj
-	 EyzS4WnrUdOIPqJl5fKHBLBgEa55c0b/RcDmmxFkCz7EGl31zZJESinWWym4pm7t8J
-	 sWYuaLXA68wN1g93BResBXSlhfFvSBDZmk3hBFcbjes9I5yIvZscIc8wa8Tx43Byur
-	 wqwqwb7yBjVLIu0dINTpY91/4khzJwPihi2i4GEDx+z0M5z16TJE+1UleT+kBG2q9D
-	 7rVbTJCi7NMjw==
-Date: Mon, 21 Sep 2026 06:51:26 -1000
-From: Tejun Heo <tj@kernel.org>
-To: Tao Cui <cui.tao@linux.dev>
-Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
-	yukuai@fygo.io, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org, cgroups@vger.kernel.org,
-	linux-kernel@vger.kernel.org, cuitao@kylinos.cn
-Subject: Re: [RFC PATCH 1/1] block: charge passthrough requests to the
- submitter's cgroup
-Message-ID: <arFgjkKUwYGWbV8H@slm.duckdns.org>
-References: <20260921070647.1928289-1-cui.tao@linux.dev>
- <20260921070647.1928289-2-cui.tao@linux.dev>
+	Mon, 21 Sep 2026 17:06:34 +0000
+Received: by mail-wr2-x0f.google.com with SMTP id ffacd0b85a97d-482f63546c5so2547706f8f.2
+        for <linux-nvme@lists.infradead.org>; Mon, 21 Sep 2026 10:06:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790010390; cv=none;
+        d=google.com; s=arc-20260327;
+        b=jVM0R8m37q5GWGhcgz+BvfbRnED5fwSRaTkxxShNA4NF2QlLYo+rU6SBnKnJJ1O7Yc
+         Ba9jnc8kVO58t7KbanaAcofIM5B7w/vmxvm/McnJ+4Kscq7jm02nUX38m30TXHSfwuaC
+         K7sNGDnspuiBqA0vIiJOGqZbFG2tKeObiU2kDD+DlS1ahHgIYWwVfqegXGTyAG1To0Fl
+         EXOFIe1bJlONLDP17VPmVww4fD7gsMJQ9rAFZAzaC5mE0YXzpePwZqFJ0oIlSdsT4qCo
+         3JqyMrHHU7mA6citVTz8lfl9/2SPuMZyKvfOibr6BMrPt9HJnyCcmpcDRG/4hOyAsx2R
+         mLCg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=RiS0d1CtQKQd+kk9HZnyknOslzVRUF82l9lMpasjrIs=;
+        fh=r7A5AxANwBAZ0HrtQ23RS7cJsJ/3yOL2WufubmUuUHo=;
+        b=NoNW24FKDVicaeyPlr6WdW2uFwxYnbdQODR8b3zxdVDPZ1uHFGTX/nK8qi19BXGMB7
+         54sASwWKpG3gkK3orTgzwD88p8SxdovrDtf7sQPbIgzqpNzhyaA+2eH0c9d0iM70oqFi
+         orerCGTsKE+o63mcewI0nl2ES6Gv5sQZDK3NVj7J9fFWtINvKjMI6wshKL4MjfLKzjrr
+         2w6scaOcBE8kW63Dpqv7A27AP60uWwKxzxxoyqRNSvClDIaqH1YcJTAEUmvwW11wJPPA
+         WLT9HoYkJQbtkM5GNS4SeKZv2ol6Fswm/6wm19io0CQADk4t84aDIjr+YPnpsndUMpGU
+         Xv5w==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790010390; x=1790615190; darn=lists.infradead.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=RiS0d1CtQKQd+kk9HZnyknOslzVRUF82l9lMpasjrIs=;
+        b=luuD6L6NSlptYmesmcwmrWPsk4SZDUF73jV6zhNvrIDKj47xHy81jrNl0Ox5LjGnUh
+         YkyCCQbvj6Krjke/MhIg+IzxQnpv1F9DQqdXYJNbChoYL+XstDkeWdFq2lSE3bGMzXj5
+         yd/YWBxIxRVPU67M+J2cQ0Lg1o+w0odJzrStycpQvgEbTJTo9jnr08+6eScmleujluDb
+         84ziqU5saXl7lEDoYFXTePolLAkyuD/jCDsY+Dbu6jzNm5xfi0chXe2gUtFTA6YUxIGQ
+         NWevTyNc4WOt/oSTXco6LorY86u3WPPKwmbcB1SrMnOW0XbMxMvGtRTdXGioL9e3XXOG
+         euLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790010390; x=1790615190;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=RiS0d1CtQKQd+kk9HZnyknOslzVRUF82l9lMpasjrIs=;
+        b=B9+Yi8NwhlC2nBg13r8Ho20RcmGQPxxzPIFqHGvAfGpPRxmtBhl2Mhzt40BAaNvree
+         W7fDBZkzbfd4mKWiYpKezGyymxWK3oOD7cv0LnZ+tuJaK8K9SboQwIkSPiYgIEi4334n
+         Y82/APmYjbYNrVGVEgoLFbLiFWTSM+VBtV0OzXtQH5+azoiMN9s9mOLOwAx9ZswYCmuP
+         7XU8oE6GeDLomS25+2K3D+dJRiAbSLhCnUT8VMfc3ziagN0JqGtXF/P/OmkiFl9Vh5If
+         II98R1uwZqXg+CUtLBngVPeih0KeYDvwnESPm9HoOIIDaqtmaiuugsjxPIvYGCOKGzwh
+         CrTA==
+X-Gm-Message-State: AFuF++lZhZ+zsx6YSuPZuvwoM324jVxHY1yXO3bvztzMGJz+hb5jWkuN
+	k2h0PXnIVIhM3YSU0Z28oHcMLz/z/f8+aICDpxnoOXNd+rnVoSpqO3qE/jrUFPWGyInRnDEfbZ2
+	5uqj7f4q7VUWL+F83eYzWFvs3uZRAQOxILHK4D68=
+X-Gm-Gg: AYBFou1ojgyq6U3cyven/egyp0Msu9l3osB534nms+Dibkgodl/S5r0ck4zbSbxsBYD
+	dH3RtQkZSu69MUlyFfX0SM6tGK+LAj3eRI+LURMVqQTxzVnWtX1XW7f10pZcNPcTqLi0+r1LxQl
+	TrO5V8eX3T7a03FOWGquVnlVYVMx/S9CSdIJipNh0jzO7rtFUZcbvxMVx7CitNDqSitrZjD0byo
+	82RZgyHkPpJ0qXXpIyPWL8vSNZ/gJ64WpzIUvVq9NfEX/zo2ZCZ6Kjo1gqghil08tQTWpifUMq8
+	cq2DH67aJM1JBZFfIzWiz8g/AG+DsrHJgMr6YcJOVmUuKGIb5XfxG5sfXw==
+X-Received: by 2002:a05:6000:288a:b0:487:b44:a561 with SMTP id
+ ffacd0b85a97d-4871e21231fmr16437625f8f.10.1790010390061; Mon, 21 Sep 2026
+ 10:06:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260921070647.1928289-2-cui.tao@linux.dev>
+References: <d040bea9-711d-4638-9d64-50516709b41b@grimberg.me> <20260912053921.49151-1-kumar.shivam43666@gmail.com>
+In-Reply-To: <20260912053921.49151-1-kumar.shivam43666@gmail.com>
+From: Shivam Kumar <kumar.shivam43666@gmail.com>
+Date: Mon, 21 Sep 2026 13:06:19 -0400
+X-Gm-Features: AcwNN1UxlKOlhAl4RVco_AYxwNupTP3xOjulgztmGStoHgdH5AIdgx-VsINsQOk
+Message-ID: <CA+ysrS+a_fsst35-V0YDD00LWT9NaHkO0A9Zrko9EQ8NEwzRBQ@mail.gmail.com>
+Subject: Re: [PATCH v2] nvmet-tcp: fix a hang on queue teardown with data digest
+To: linux-nvme@lists.infradead.org, Sagi Grimberg <sagi@grimberg.me>, 
+	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Chaitanya Kulkarni <kch@nvidia.com>
+Cc: Greg KH <greg@kroah.com>, security@kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260921_100633_585877_198342A2 
+X-CRM114-Status: GOOD (  20.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,39 +116,60 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Sep 21, 2026 at 03:06:47PM +0800, Tao Cui wrote:
-> From: Tao Cui <cuitao@kylinos.cn>
-> 
-> Passthrough requests (SG_IO, bsg, nvme passthrough ioctls and uring
-> commands) are dispatched via blk_execute_rq{,_nowait}() without ever
-> passing through submit_bio(), so the bio mapped by blk_rq_map_user()
-> carries no blkcg association: the transferred bytes never show up in
-> cgroup io.stat, and every rq_qos policy on the queue (iocost,
-> iolatency, wbt) is bypassed, as is blk-throttle, which hooks
-> submit_bio_noacct() directly rather than going through rq_qos.
-> 
-> A quick demonstration on a scsi_debug device with iocost enabled and
-> vrate pinned to its 1% floor: a direct fio writer was throttled ~10x
-> while the same cgroup issuing sg_dd writes ran at full device speed
-> with zero io.stat accounting.
-> 
-> Associate the mapped bio with the submitter's blkcg at dispatch time
-> and run the regular bio accounting (blk_cgroup_bio_start()) and
-> rq_qos throttle paths with it.  DRV_IN/DRV_OUT commands are mapped to
-> READ/WRITE so io.stat classifies their bytes normally; request
-> completion already pairs with the throttle through bio_endio() ->
-> rq_qos_done_bio().
-> 
-> The charge is gated by opcode (READ/WRITE/DRV_IN/DRV_OUT) and to
-> queues that already have a gendisk: commands issued during device
-> probing (SCSI INQUIRY etc.) have no gendisk yet and stay exempt,
-> following the same probe-exemption reasoning as the passthrough
-> iostats support.
-
-Do you have an actual use case where this matters?
-
-Thanks.
-
--- 
-tejun
+On Sat, Sep 12, 2026 at 1:39=E2=80=AFAM Shivam Kumar
+<kumar.shivam43666@gmail.com> wrote:
+>
+> A command that has received all its data but whose data digest is still
+> outstanding is stalled in NVMET_TCP_RECV_DDGST, where
+> nvmet_tcp_need_data_in() is false. nvmet_tcp_uninit_data_in_cmds()
+> therefore skips it during teardown, leaking its submission queue
+> reference, and nvmet_sq_destroy() then blocks forever waiting on it.
+>
+> Release such a command in nvmet_tcp_uninit_data_in_cmds(), and reset
+> rcv_state after that call.
+>
+> Fixes: 872d26a391da ("nvmet-tcp: add NVMe over TCP target driver")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Shivam Kumar <kumar.shivam43666@gmail.com>
+> ---
+>  drivers/nvme/target/tcp.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+> index e59810175262..3bf344b184e8 100644
+> --- a/drivers/nvme/target/tcp.c
+> +++ b/drivers/nvme/target/tcp.c
+> @@ -1608,6 +1608,11 @@ static void nvmet_tcp_uninit_data_in_cmds(struct n=
+vmet_tcp_queue *queue)
+>                         nvmet_req_uninit(&cmd->req);
+>         }
+>
+> +       if (queue->rcv_state =3D=3D NVMET_TCP_RECV_DDGST && queue->cmd &&
+> +           !nvmet_tcp_need_data_in(queue->cmd) &&
+> +           !(queue->cmd->flags & NVMET_TCP_F_INIT_FAILED))
+> +               nvmet_req_uninit(&queue->cmd->req);
+> +
+>         if (!queue->nr_cmds && nvmet_tcp_need_data_in(&queue->connect)) {
+>                 /* failed in connect */
+>                 nvmet_req_uninit(&queue->connect.req);
+> @@ -1636,11 +1641,12 @@ static void nvmet_tcp_release_queue_work(struct w=
+ork_struct *w)
+>         nvmet_tcp_restore_socket_callbacks(queue);
+>         cancel_delayed_work_sync(&queue->tls_handshake_tmo_work);
+>         cancel_work_sync(&queue->io_work);
+> -       /* stop accepting incoming data */
+> -       queue->rcv_state =3D NVMET_TCP_RECV_ERR;
+>
+>         nvmet_sq_put_tls_key(&queue->nvme_sq);
+>         nvmet_tcp_uninit_data_in_cmds(queue);
+> +       /* stop accepting incoming data */
+> +       queue->rcv_state =3D NVMET_TCP_RECV_ERR;
+> +
+>         nvmet_sq_destroy(&queue->nvme_sq);
+>         nvmet_cq_put(&queue->nvme_cq);
+>         cancel_work_sync(&queue->io_work);
+> --
+> 2.53.0
+>
+Gentle ping on this one.
 
