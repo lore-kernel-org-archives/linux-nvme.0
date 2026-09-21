@@ -4,103 +4,121 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 557E2C982EE
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2026 13:44:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D6683C982ED
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2026 13:50:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=NkeBIcnXDbJI7xttPPj+BDZba0zlv1qCEuppUmdh2T8=; b=KppJSVu1IKc9gu4+z/mOu8HCmK
-	FOu7Gorpo1k8+5Wy1Z6ZtFx68DmlXYnjgkZylDtFb5Q1/IgsTcZX94nXuEKI0KbqfhxzgmsqaEHMg
-	b9JoPk1OMJWl+Iyn16XQiLEPz8r/aCdrstIvCv9ll1Zow8a+p6IoAHmBfYl2m3wLTX7dLfaKcFx/T
-	YjxTA1MFl8dPYajZ/JrPZWeMVFiNmJqry+ac2ZOtLO7HlRJmCzbUDBD9Iig73Vk5szfPQv+eV68OE
-	xiyKdfY40zxxLGDiuUo6y49bQOSaK1VWv9ef66y9g5SUxjE7MaxxgCNOeEjFnCImBQe3N6Lqdt1et
-	285JnBFg==;
+	bh=oZtLm53IUi/1m5pz1oVSVhLTNUB+FHDnKY+yq6LJ+jw=; b=SJh7UR5uKD+YWJHqsT4jUh7cMe
+	qmL7s82/02ds5FrhchL4MkF7YPFzhThbLmBjiDHrMZLR/v3UD36jG+D3bbZCQs9BtMfKVthca8GWl
+	UzhzhwV9vkly824QUkAN2bvTJmGmYORgnUhPkCssEaY07xcB+v2IgPL1HNT8K3MmUU5auHEfEmUL0
+	gpFVL9OZRzrfWPPywGc3+EYKTmkoLYA/GgClh1CYi1I0DcoehQvqk3L0caOMhc4BVb3ZQZ2b+399e
+	ldMsuXAKs87wr+blsqj53AX/EPlS3LSv+uOZjFa400RpqQNOqIj1TSABlpb4k+4EfNaazUnW5Irgu
+	g7VLAp0Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x8eJW-00000002H5M-1qkg;
-	Mon, 21 Sep 2026 13:44:10 +0000
-Received: from mail-ed2-x10.google.com ([2a00:1450:4864:33::10])
+	id 1x8ePL-00000002IKa-3ZHE;
+	Mon, 21 Sep 2026 13:50:11 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x8eJT-00000002H4s-1yGA
+	id 1x8ePI-00000002IJH-339R
 	for linux-nvme@lists.infradead.org;
-	Mon, 21 Sep 2026 13:44:08 +0000
-Received: by mail-ed2-x10.google.com with SMTP id 4fb4d7f45d1cf-6a985fba28bso3536311a12.3
-        for <linux-nvme@lists.infradead.org>; Mon, 21 Sep 2026 06:44:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789998245; x=1790603045; darn=lists.infradead.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=NkeBIcnXDbJI7xttPPj+BDZba0zlv1qCEuppUmdh2T8=;
-        b=rstUnvUOC5bNka3OGsV1emn7cs98oUoQ89Yp5conz20kK71tVXJ2i9kcKa77RQrNNx
-         Jf+lfooktF+ed/V9wuTAwBcEQbGA1mObcryuVxU5pG4sQVETCPuHojmlgRh5RImtNjQM
-         hpV0ny3TQzdjJBneNqKtX4CmgzvW8HqBGVTRcYgmvmLaxdq+yY/PwRMAkt5/4OKnj/FJ
-         mydbhz52XIMqflKFkPwkau6wVvuHxW4EamQGH14A0+eWLHFjfIHeaqLiJQ92YT9oKGmS
-         XZN7NQobSTn/ebZPuOKNGCHgaDA7AfwDEHV+/skBOatbEsJhr7/1kJrruttX7gL969d7
-         TEBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789998245; x=1790603045;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=NkeBIcnXDbJI7xttPPj+BDZba0zlv1qCEuppUmdh2T8=;
-        b=FqWBpOafUkJ6Qr/B0twTXWloP0p5CWREnJtf4ucS9dH02HPhBWMjw3Uuh6FbO8ptPU
-         pd0vZ1SBVZaBlt+fXenKWObPboyV7B/zRZBcdgz8b3Dxq3GC4KLH4aXvBhz6AAcZpLho
-         ZV9bZxI4D18/a2fCJFRtnyBDjHSNqH2hMpIwEbR80BpipkL/2TtDQhnEAVqydB28SbaL
-         SSfgT9LUKsRMbdmzrbZo4dfwkio+rASIZryri5ti4KVXYX6NbktnuwZXpx/8i7OMsNdd
-         uCAZ5EISzMUzZxhyo9gm8HMw2U5GvJ760oOCZxQgzczHGYAmOTNO+3o83P+p/MabermT
-         DjWA==
-X-Forwarded-Encrypted: i=1; AKwUvBzGkzo6JmWN3J+In0awXDR6AFf050YHr84XgynQxJn20BRHs1LosQtkunxeX7EaxVLKqZneoqTlYDdd@lists.infradead.org
-X-Gm-Message-State: AFuF++lik8NGKiWCGI1SELd/l6W3ib27UBXtDwFYhvBwx6j+pVCUaVk/
-	mQvSuBVEH2tT7SU6WS/DZFUTs2cDC0RxtpdiOJ2In+LFZaybkZkcd767
-X-Gm-Gg: AYBFou0eul9/a68wQcd0pwwF0myOFxbn/tbHXIbPxPYn8JpINXD3hXU/oL5qHC1QdAL
-	ccvcT8Vz5SCwA6jymzMvB4AEEysYgwMYk3pgjX6LPt3FH0BrOS3DVP64MZQERvJYmJFNdGIaXw+
-	3EsFmcFhtJJOyGyFfajCEmvX6eZQ+D3+9vDfrKU+sN/tIjhH/sVqrh54PKuWMCK46L7IhHTFEni
-	Ef0A3MgwSJbdt3osXR9xFHfWsYEuby/0EITdcxZ/tdx32Ba0Zh9MQJqdbmQ5lsgdYxYK/X41kjK
-	L5nNKgmm2YrmmuTPYGgTPq8/uPT+NT2oxOfiy6/Cge2uyW8asDUPs3lOghb2ZPxURIv3PCocsLl
-	4en+5FGm/3LXU8K7uwkIwrX/xYk7I4qMYzwt131UeRiGqqMJgcMioJFlCFhg4H/X5VZdDChlBl8
-	K2/tm+d/dZEKxNQ6I6WUhW6dvkGA8vRkJrGv6qoNeV22Z+7ayf1q74RfGIDjFZwlurrv73AAtxT
-	KsykkIcQX6zMg4M2FdMBulzFnPONLyN8K3YjrhjrSvugNwLXqn7C/sdJOiGZr7S7QVvfn2mfYfe
-	cDWy7hl0Z3itNe0wg3WS4gKuAp93HFPRSp9rNg==
-X-Received: by 2002:a05:6402:2355:b0:6a1:4458:7f2d with SMTP id 4fb4d7f45d1cf-6aa53104448mr8100478a12.5.1789998245342;
-        Mon, 21 Sep 2026 06:44:05 -0700 (PDT)
-Received: from [10.54.182.141] (82-132-213-26.dab.02.net. [82.132.213.26])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6aa67e0d3c5sm4417232a12.22.2026.09.21.06.44.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Sep 2026 06:44:04 -0700 (PDT)
-Message-ID: <b3e1db34-45c8-4723-8d09-eabc28bb0988@gmail.com>
-Date: Mon, 21 Sep 2026 14:44:00 +0100
+	Mon, 21 Sep 2026 13:50:09 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 52F141F7FC;
+	Mon, 21 Sep 2026 13:49:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1789998602; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oZtLm53IUi/1m5pz1oVSVhLTNUB+FHDnKY+yq6LJ+jw=;
+	b=wzR+B/eyoMlXOt+h98DfGlNkWDGAe1zaRxV9kcz4mXqB47rR7muH3qr00nxHXmlXaLo/bh
+	MrJUGLJx2HOJmEO5SdUXQIXEE4/QOhgy+RE2gr6ae2avtCPsD1nFeyP6d9P0QGgkBCnPgE
+	BVg3g9sTcR9rWRLyje8aWanQ0Ob0b44=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1789998602;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oZtLm53IUi/1m5pz1oVSVhLTNUB+FHDnKY+yq6LJ+jw=;
+	b=4CEvNcIBoElL9BSZ4vaiwwO1elvbcrORHKE2UZ918R0dbelLjzsTomk3CCvA+yhFEOr/Q6
+	HsuqTZDEOFQdGWBA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1789998598; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oZtLm53IUi/1m5pz1oVSVhLTNUB+FHDnKY+yq6LJ+jw=;
+	b=Big9oNgJ182TctBerFOzSFaTXh4in5GT/qpul/k+e72OEt2KPMYjYsdEmPlrISZdDu4P/a
+	My3BSPUx1y23IHPBbewbm/ZgTvjLAmhHSC1VKXdVG1WDWzFnWIsz9SIqMJLcNAteFCnIm3
+	joe1g0lkQrCo2uujzBNpFw+ntXysfug=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1789998598;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oZtLm53IUi/1m5pz1oVSVhLTNUB+FHDnKY+yq6LJ+jw=;
+	b=Pmel4JnPeXiH5JU1k3XexMG4Q9wmdqJuFeweYZndV1K3Afj/fksVqHPQ+BTTlfL5a1n4Jz
+	sSas7hmw1RWL5DCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E02851368D;
+	Mon, 21 Sep 2026 13:49:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id GHJvKAU2sWrqFwAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 21 Sep 2026 13:49:57 +0000
+Message-ID: <0602191a-81ce-4f8a-90d0-b47ba2bc36ac@suse.de>
+Date: Mon, 21 Sep 2026 15:49:57 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 01/16] dma-buf: introduce initial file I/O
- infrastructure
-To: Sidong Yang <sidong.yang@furiosa.ai>
-Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- io-uring@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- viro@zeniv.linux.org.uk, brauner@kernel.org, akpm@linux-foundation.org,
- sumit.semwal@linaro.org, christian.koenig@amd.com, nj.shetty@samsung.com,
- joshi.k@samsung.com, anuj20.g@samsung.com, tushar.gohad@intel.com,
- william.power@intel.com, phil.cayton@intel.com, jgg@nvidia.com
-References: <cover.1785596451.git.asml.silence@gmail.com>
- <ff5dccf71e8c03d62797352c4bb5fbb7c6c759c8.1785596451.git.asml.silence@gmail.com>
- <20260808074245.85757-1-sidong.yang@furiosa.ai>
+Subject: Re: [PATCH] nvme: auth: validate DHCHAP secret before stopping
+ authentication
+To: Sreeraj S Kurup <sreekuttan2156239@gmail.com>, kbusch@kernel.org,
+ axboe@kernel.dk, hch@lst.de, sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20260917080424.3544-1-sreekuttan2156239@gmail.com>
 Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <20260808074245.85757-1-sidong.yang@furiosa.ai>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20260917080424.3544-1-sreekuttan2156239@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org,kernel.dk,lst.de,grimberg.me];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	MIME_TRACE(0.00)[0:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260921_064407_811766_E1C95CEF 
-X-CRM114-Status: UNSURE (   8.49  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260921_065008_927151_037C8DD0 
+X-CRM114-Status: GOOD (  10.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -115,20 +133,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 8/8/26 08:42, Sidong Yang wrote:
-> On 8/1/26 16:46, Pavel Begunkov wrote:
->> +	if (dma_resv_wait_timeout(dmabuf->resv, DMA_RESV_USAGE_KERNEL,
->> +				  true, 0) < 0) {
->> +		dma_resv_unlock(dmabuf->resv);
->> +		goto retry;
->> +	}
+On 9/17/26 10:04 AM, Sreeraj S Kurup wrote:
+> The driver currently calls nvme_auth_stop() before checking if the new
+> secret key is valid. If a bad key is passed through sysfs, the key
+> parser fails and exits early.
 > 
-> Shouldn't this be <= 0? With a zero timeout dma_resv_wait_timeout()
-> returns 0 for a still pending fence; only -ERESTARTSYS is negative.
+> Since nvme_auth_stop() was already called, the current authentication
+> session gets stopped. However, because the parser failed, the work
+> thread is never restarted. This leaves the NVMe controller stuck in a
+> stopped state until someone writes a valid key.
+> 
+Are you sure?
+All what 'nvme_auth_stop()' does is stopping a currently running
+authentication. And if someone writes an invalid key it certainly
+was his intention to _start_ authentication.
+I find it kinda weird to allow an pre-existing authentication to
+run while the admin indicates that he wants to start a new one.
+So not really sure if this fixes anything.
 
-You're right, and this chunk is gone in v6
+Cheers,
 
+Hannes
 -- 
-Pavel Begunkov
-
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
