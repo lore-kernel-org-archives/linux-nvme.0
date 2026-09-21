@@ -4,142 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BD65BC982DE
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2026 07:05:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52D8EC982DE
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2026 07:07:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gxKOYiwnSGccIXUUVnXis4FJuJJCk61rKpucnc5dxhU=; b=fhyXygSxByL0Zjtm/ByKiewac2
-	0FSGfC0fSlFQwuL1re/WLB/CtMReH/T5ln8jl7GOlJIfWvJO6X0t3DTq45bY7Mv6h5mCzbFo65oFy
-	DFURMwGBKDZvRUGrAxVK9Tdfx9DNMeduARIhbmxutHdwNqNwKB0P9aYUkGhZ/+dzAW/2ZS+JaH1xc
-	RWywjCWtpDopOD140JFMXHht3Hkq8SevOufm00Ir+OSo0Xx0j+s1cdU/evHeHKmiTX8xZ0lcX5+56
-	beQyKZm/0DPiUJWdCtG1dehXYKv0a6qmgQGtqOPUGymEgsZVD9LtHF22BO52ufCV+QI6r7qKsWLWb
-	whQdn/aQ==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=cCfbmU01andLlshsBeZO/qeNdT/gnl71w3ewSjpN/uo=; b=sH1g8NVpBjhAYOwNrmJ5MlMs5c
+	DSqwg9xjLmorBhdFt06nDuFd1QurBXXxgdfen5WUkJwERjTMuziVfuyAS14UglexKQPgKyTOITH5f
+	xvGwKsRixoFZi27ErCRuGMzSieLCEqg1BehG1Dwjy8FDtFk23u1+/91LI3chIjIJMkAxJPJafgqkO
+	pUkcAByP3AqdiN862nQHH0hWe5eYUQU5PHuA7shcI42MfLavCQW7kN70aQyP4vxUAVAYCdMymD6F4
+	YDxblvXkMDLVV1forBTvYOpyau80C+0wIJ1o2jo9r3b2m3ralz9CYMkDKNOTt5JyIfrGW9xlnultt
+	zkHhw2ig==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x8Y5c-000000019V4-1Pg0;
-	Mon, 21 Sep 2026 07:05:24 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1x8Y7F-000000019vD-30Hl;
+	Mon, 21 Sep 2026 07:07:05 +0000
+Received: from out-68.mta1.migadu.com ([95.215.58.68] helo=mta1.migadu.com)
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x8Y5b-000000019Uw-1GbN
-	for linux-nvme@bombadil.infradead.org;
-	Mon, 21 Sep 2026 07:05:23 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=gxKOYiwnSGccIXUUVnXis4FJuJJCk61rKpucnc5dxhU=; b=eInpMJqIGUY8/CXBoS3G2SN6jE
-	l7zy97b/EzAe+riGfp91CUw4/K48d+9PzMBZU7zxuZ5D57ocnP3d53IIkUVSQq6vHo881AoTjqW5z
-	wmawvnfhZQ78WdgsKvyQeWQDAtk780LDVDBk9kCxYZAnlLOWuCZfiVOyfHR1HATaF3+HEueVpiJki
-	a3SQ8Go2s855l57wGm2geF4w4SoY5e/tnygOVQ/kOIzAP244h9+wxCbFdifkX+CL2pCuLNF9IVb3T
-	uHr3fHMln/esgwfOgTSdnI1whZpWwTWqPaDGBUXMvlZpxHNFqfoBD4A/CbhEFwHZfAcurGlj/sf9u
-	UzpNsvBg==;
-Received: from smtp-out1.suse.de ([195.135.223.130])
-	by desiato.infradead.org with esmtps (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1x8Y5N-0000000BuvG-44KC
+	id 1x8Y7C-000000019ta-3lVJ
 	for linux-nvme@lists.infradead.org;
-	Mon, 21 Sep 2026 07:05:15 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6E25221BB2;
-	Mon, 21 Sep 2026 07:04:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789974301; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gxKOYiwnSGccIXUUVnXis4FJuJJCk61rKpucnc5dxhU=;
-	b=NmatIp+/fBnuk7Pe7A+/d9hlhCjv9vAunkYLJSbuw1mtOz46g2r79qYApD1o4URjlaVRhv
-	3NTJN/rDo5DmXLix0ujtfNsof+ooMgMlKSzZXC4VR3FMg1BnxYJlbmR9qy0Bh5l5Fs3mv6
-	rTERMNnTsIgi+Rff1jKea6YzX45Tc9c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789974301;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gxKOYiwnSGccIXUUVnXis4FJuJJCk61rKpucnc5dxhU=;
-	b=DyJLhsADhOAIO8d7AdjSDYeP6cxrNaY7GYMNFJwvCoogVBNkpnFp4z0TcxTKLcVcf3iTU4
-	tLOdLbXsTaUREoCQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789974297; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gxKOYiwnSGccIXUUVnXis4FJuJJCk61rKpucnc5dxhU=;
-	b=O1S/kZZE8fE7L6g5NJi8rmvHG7uo0xQm8izAC37+lyHiWeSCEnKugHZByVxxlF1QxtBexJ
-	ebgJx41s4teK15kqXvI1VVALdpIssCNHFJzLgGZCBqp7yJF5MorRIxv1XIvdS26GiH7uUG
-	9ZEvGJA7w+U9fR78Aquy4jjv4ivaEP4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789974297;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gxKOYiwnSGccIXUUVnXis4FJuJJCk61rKpucnc5dxhU=;
-	b=rIbE3XUPT/NYRlfmYy+CCNaAzmb+tbdNiovE8NSpmsCtZhDzrxQBMVJZPCX4H6V3ohOPEz
-	wYkdVwzbWtXekiDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D461013793;
-	Mon, 21 Sep 2026 07:04:56 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Qb3sIxjXsGp7VwAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 21 Sep 2026 07:04:56 +0000
-Message-ID: <88046cf7-8c6c-45a2-aabe-68a8c9fff6a8@suse.de>
-Date: Mon, 21 Sep 2026 09:04:56 +0200
+	Mon, 21 Sep 2026 07:07:04 +0000
+X-Envelope-To: linux-nvme@lists.infradead.org
+DKIM-Signature: a=rsa-sha256; bh=uDT0ATYSKthF666srJ0UipySpgzzQDPQH/7dLSLIUMw=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1789974419; v=1; x=1790579219;
+ b=H2iU+pMb+Q8nDOrleSC/ZtQil13XSkISiu+GdZGKtiZ7au90SJw/Rl5l1PCPtyXpJbHyzwVX
+ T6rWuEa0B4GECs2zdLIBfi7FsKwI61bzAJf13XGF7ANfTXfYFmwoq2S8rzTE0r9Ab8zvVEAo4ph
+ l0ESaoWyxz55/HLy0FLxnyTE=
+X-Envelope-To: linux-nvme@lists.infradead.org
+Received: by smtp.migadu.com with ESMTPS id 0634c950bb179c52;
+	Mon, 21 Sep 2026 07:06:59 +0000
+X-Mizu-Trace-ID: 0634c950bb179c52
+X-Migadu-Flow: FLOW_OUT
+From: Tao Cui <cui.tao@linux.dev>
+To: axboe@kernel.dk,
+	kbusch@kernel.org,
+	tj@kernel.org,
+	hch@lst.de,
+	sagi@grimberg.me,
+	yukuai@fygo.io
+Cc: linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	cgroups@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	cui.tao@linux.dev,
+	cuitao@kylinos.cn
+Subject: [RFC PATCH 0/1] block: charge passthrough requests to the submitter's cgroup
+Date: Mon, 21 Sep 2026 15:06:46 +0800
+Message-ID: <20260921070647.1928289-1-cui.tao@linux.dev>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/18] nvme: Implement cross-controller reset recovery
-To: Mohamed Khalfella <mkhalfella@purestorage.com>,
- Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-Cc: Justin Tee <justin.tee@broadcom.com>,
- Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
- Paul Ely <paul.ely@broadcom.com>, Hannes Reinecke <hare@kernel.org>,
- Chaitanya Kulkarni <kch@nvidia.com>, James Smart <jsmart833426@gmail.com>,
- Randy Jennings <randyj@purestorage.com>, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20260918181614.3947933-1-mkhalfella@purestorage.com>
- <20260918181614.3947933-9-mkhalfella@purestorage.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20260918181614.3947933-9-mkhalfella@purestorage.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FREEMAIL_CC(0.00)[broadcom.com,gmail.com,kernel.org,nvidia.com,purestorage.com,lists.infradead.org,vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260921_080511_870973_EED8E02E 
-X-CRM114-Status: GOOD (  15.35  )
+X-CRM114-CacheID: sfid-20260921_000703_260076_B4479E69 
+X-CRM114-Status: GOOD (  13.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -154,34 +76,71 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/18/26 8:14 PM, Mohamed Khalfella wrote:
-> A host that has more than one path connecting to an nvme subsystem
-> typically has an nvme controller associated with every path. This is
-> mostly applicable to nvmeof. If one path goes down, inflight IOs on that
-> path should not be retried immediately on another path because this
-> could lead to data corruption as described in TP4129. TP8028 defines
-> cross-controller reset mechanism that can be used by host to terminate
-> IOs on the failed path using one of the remaining healthy paths. Only
-> after IOs are terminated, or long enough time passes as defined by
-> TP4129, inflight IOs should be retried on another path. Implement core
-> cross-controller reset shared logic to be used by the transports.
-> 
-> Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
-> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-> ---
->   drivers/nvme/host/constants.c |   1 +
->   drivers/nvme/host/core.c      | 152 ++++++++++++++++++++++++++++++++++
->   drivers/nvme/host/nvme.h      |  10 +++
->   3 files changed, 163 insertions(+)
-> 
-Reviewed-by: Hannes Reinecke <hare@kernel.org>
+From: Tao Cui <cuitao@kylinos.cn>
 
-Cheers,
+While looking at cgroup IO control coverage, I stumbled into a hole
+that is probably familiar to people who have worked on passthrough:
+SG_IO, bsg, and the NVMe ioctl / uring command paths build requests
+directly and dispatch them through blk_execute_rq{,_nowait}(),
+never passing through submit_bio().  The mapped bio carries no blkcg
+association, so the bytes never show up in cgroup io.stat, and none
+of the rq_qos policies (iocost, iolatency, wbt) see these commands;
+blk-throttle, hooking submit_bio_noacct() directly, is equally
+blind.  On a scsi_debug device with iocost enabled and vrate pinned
+to its 1% floor, a direct writer in a cgroup is throttled ~10x while
+the same cgroup issuing sg_dd writes runs at full device speed with
+io.stat staying at zero.
 
-Hannes
+This RFC is a prototype asking for feedback on one possible
+direction, not a proposal I am attached to: is charging passthrough
+at dispatch time the right layer and the right semantics at all?
+
+The patch associates the mapped bio with the submitter's blkcg in
+blk_execute_rq{,_nowait}(), runs the regular bio accounting
+(blk_cgroup_bio_start()) and the rq_qos throttle path with it, and
+gates by opcode (READ/WRITE/DRV_IN/DRV_OUT, mapping the latter two
+to READ/WRITE for io.stat classification) and to queues that already
+have a gendisk so probing stays exempt.  On linux-next, with
+scsi_debug + sg_dd and qemu emulated nvme + an NVME_IOCTL_IO64_CMD
+loop, the transferred bytes are fully accounted in the issuing
+cgroup, and with vrate clamped the pacing bites: the same 128MB
+SG_IO run takes 0.025s unthrottled and 31.7s at the 1% floor, with
+the issuing task sleeping on the iocost waitqueue like any bio
+submitter.
+
+Questions I am unsure about:
+
+ 1. Is always-on the right default, or should this hide behind the
+    queue/iostats_passthrough opt-in from the passthrough iostats
+    series, keeping default behavior unchanged?
+ 2. The throttle may sleep; all callers I found (ioctl / uring_cmd
+    submit, target and error handling kthreads) are sleepable, and
+    kthread-issued charges land on root and turn into no-ops - but
+    I may have missed paths, and I'd rather ask than assume.
+ 3. What should happen on nvme multipath failover, where the bio is
+    re-routed to another queue but carries the original queue's
+    blkg?  Untested; guidance welcome.
+ 4. wbt also gains passthrough throttling through the same rq_qos
+    walk - probably benign since wbt targets buffered writeback,
+    but it is a behavior change I did not set out to make.
+ 5. blk-throttle does not benefit (it is not an rq_qos policy, and
+    its queue-and-resubmit model does not fit bios already bound to
+    a dispatched request); would a synchronous wait variant there
+    be welcome as follow-up work, or is leaving it alone preferred?
+
+Reproduction notes in case anyone tries: sg_dd coalesces into very
+large single commands by default (use bpt=1), and a short burst from
+a single cgroup rides the initial budget, so sustained transfers
+are what show the pacing.
+
+
+Tao Cui (1):
+  block: charge passthrough requests to the submitter's cgroup
+
+ block/blk-mq.c | 72 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 72 insertions(+)
+
 -- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+2.43.0
+
 
