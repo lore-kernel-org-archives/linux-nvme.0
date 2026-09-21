@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C1EA4C982ED
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6051CC982F8
 	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2026 15:01:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,65 +12,65 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EHTjFNHsfPkUevAeFTZNd93AhuEIP81I0y/DmV6dihY=; b=NwxRFZqEJmlA8PdaHMufQLaQH7
-	anBkwZ3Fzfj6uuTyRIff/HEz297goFvUY1MQU+CmA0DrVP3dY6IojekWruEIxbX7G/Lauv2vpP+Xr
-	zzH21fIl+FKzEXmO5nAwcSaCS78vxQPdY9GBxnxvfBJvOYWbQveTlq0fC07zskG8smpWNcPZVQv/P
-	TyAc5QE/6gvz7Sd1WMwaa3Hh5m3F4lyn6JfAzWvVtBCB9Nn16hDsRw2+i7Ro89pnbnSu3/6bJJNGH
-	S6kcJfSX63UUVI6pSnP5hmj1BBP4QMceT8nmmjOTEMby2zTT4DltuiOTljyjVJOY84lvyDiK4+4w1
-	CybrLfVA==;
+	bh=BooWm7URUcyrH2E2qkRWxlx7KQoz7GWFpr53v56Fl9k=; b=cD+PPT7k2MTIKbif5eqZMozMwn
+	S29gs/jPg5bAWQarm/6AQy6tI7GN+39r2m9bg0I0lL8VQazyogAcuK0Rt5ULBleWhWu8CgBvrfLM4
+	F7wEY13I2giqqNpZwfChNjtUN71hRC2YVpUtfsNHj5oITjU4Cwdzlgjrg+/H2eKOqVA/8kD+nfT2a
+	Uvkb1jLs0SsKK7/fuGIHyQxLy4yJxIlSJZBBcDZ19AXexMHWgfXEsJmEr2df0byodWGAvgQRwLu+m
+	utKX3ZK5rBzznEVuEKRCq36DIUGYwwKOWj7iPCqyEOqAkWTcXFSAAnttj4/NNBAI7RNpWCPxmIeBU
+	XvFl6lqA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x8fWG-00000002Vic-1DXC;
-	Mon, 21 Sep 2026 15:01:24 +0000
-Received: from mail-wm2-x10.google.com ([2a00:1450:4864:31::10])
+	id 1x8fWF-00000002VhL-3Fjg;
+	Mon, 21 Sep 2026 15:01:23 +0000
+Received: from mail-wm2-x11.google.com ([2a00:1450:4864:31::11])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x8eFF-00000002GXN-2vEc
+	id 1x8eF2-00000002GSl-0osl
 	for linux-nvme@lists.infradead.org;
-	Mon, 21 Sep 2026 13:39:47 +0000
-Received: by mail-wm2-x10.google.com with SMTP id 5b1f17b1804b1-49e620fa473so17788225e9.1
-        for <linux-nvme@lists.infradead.org>; Mon, 21 Sep 2026 06:39:45 -0700 (PDT)
+	Mon, 21 Sep 2026 13:39:33 +0000
+Received: by mail-wm2-x11.google.com with SMTP id 5b1f17b1804b1-49b912d37b5so17497555e9.2
+        for <linux-nvme@lists.infradead.org>; Mon, 21 Sep 2026 06:39:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789997984; x=1790602784; darn=lists.infradead.org;
+        d=gmail.com; s=20251104; t=1789997970; x=1790602770; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=EHTjFNHsfPkUevAeFTZNd93AhuEIP81I0y/DmV6dihY=;
-        b=KLU6qLitLwKK2LH9CVjPgOUv4CJuKWZSFv7q6UUC4IaVgckTsRVXD8nGWa3ghz9ikm
-         zytsiaz8r0ERdN25U6LQRzRBqKP1ScvptTYn3sMpHUYe1tegnOzzEPY5V5bYZa4bTXIG
-         9oXD3+PwHmfo326GRnPKIzek0uCXpvJ2ivv1tOH7MIzGTJsu1FIND673CnlbN2HClZMu
-         uGHdvGxxGWitLCrLb8WuganOmktEH0pOlAw5GU64w3HnG6e7TEcbHFfiQR3k+xvvYpAq
-         AkB2v4JVpiOuGkHLsxD7myl+EGXc3AI3hMwwUry2Mr/1Pd1RBAwWfKToMyNeFUDxCx2q
-         4apw==
+        bh=BooWm7URUcyrH2E2qkRWxlx7KQoz7GWFpr53v56Fl9k=;
+        b=QeVFpmVNOfi2U/v+3BOuW+Oq4Wmck9sPJMJXQPxeD3X0HOPRUlDLaTFqOJMqtC/Cwl
+         YgY04Kfo+CX41ruDq05DZVY5SKOKHEsUWk2ej8tkpNKfuJ0PbV+4ZbiCoQlodYtgR4KX
+         u6kUeCWGP6Xh3xh8dfN4I0aJWfpfr/77MUpS4Ly/UzoNP/T7iUvMq4l+GanEMf2UR5Pf
+         DYoIj2Qy3WL536WD9+u9XNwctr9UK1W/EwwNJbCkxxFJc8N6YI3GxKzajFjTsfTZrFc2
+         3xKCMbycUUaKmkZ3GnH4Mk3WJfMJxWFEvf0r4Mg88feEPkuuM6sGHZQs1JQJRFLht2+W
+         8XtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789997984; x=1790602784;
+        d=1e100.net; s=20260707; t=1789997970; x=1790602770;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=EHTjFNHsfPkUevAeFTZNd93AhuEIP81I0y/DmV6dihY=;
-        b=XNOUUn20u815p3qzk2FtQ4F7BfiME+lezhPx9XbbjWYA0G1LJqFSrObti4apUrYhn1
-         v2Q91lTJGXoOMwBHW1MjekNVQsaT2CPXCBtx8GjNw+9rT9V8LmRBliZw7Toj71fA26bI
-         5IoO5KLxg+UFEQUwTRDe64m34MtBC1Eo58PnGI5jKHibX5Qu83IpTNGlaE631tlenZtu
-         BPoeIneSS8F3ZrUAPVHAWCJnhSOaNO635O1lr27VFl3oJw0iHyyzjweMr9Ey8jAtWayZ
-         ImZgCK8pQ4iuWiClftXPvC3ggiawS8gUG0riRYERiFwlARMsMV9grX464wCIJKF7BPgI
-         RiNQ==
-X-Forwarded-Encrypted: i=1; AKwUvByOWenxzapqbHiKKbcPjK8BsUFe8BQ6JwPsCutEgRS+9Q+ZQWka4BIqopVMgZHtyueVZWA//nnipnPP@lists.infradead.org
-X-Gm-Message-State: AFuF++mIqXmYTW+agN9vKTLH+n+Ne5OchEd/1y4+Tc3MjWycvPzwB6QO
-	18hMHVNneYNmnsF89+I4+wJH2KJa8ktiu63le8ycubeDD7G5E2rv9E3F
-X-Gm-Gg: AYBFou1insUuleBpRkVAip5+ZvY6nOpGwV5h8OEy7a2qn3dNY+TzYnyI923aso6gA+s
-	dhRXS80sJRmRSrUf4kdUr899iwMKyAnMtJKGt4gtMCIII3e74mY8XbxaR1CHdj6Y8H003WjQ/nt
-	9/dRaiHqw9qJKW7pbmMECxXSeogbNiANiv4F1L79ejKoUAkZG1rU5NdcDb+RvBNRH5mMAwLV5Pi
-	LM9MVqOkaok/+YN5LDfPsuSi2JaHNe3rFX8+VHVgMHNeW6TzG9FW9TevYC/JTSngrDdSsHcUXzG
-	zvyQx4XCZqkr519fMjxTy7T7BpFRwGnAGl5ubPr4Kcfjrj1CXf55B41Q6A23dloDM0E8zwxwKpu
-	d+TAfT7O7Yoct1I67DdyPdiSvxGaDFb2AilV/9X5EpRht8P3272TzR/6rUF02Pvcuau/YWChLPc
-	ioCnH4ZF9RVEELiwqELEiHpbxCG0lqXIfXO9HYRFPab/Cwfhp+S9D4pl9owBSVvA/EZW7EM+kip
-	k/P4d936V1YkHSVbxHG9XXbLakPBDyXbsKxMwLaH8PRTtTcTKe7FlJ0OBJZYGpjkjiPsc4y/po2
-	j7oq62a2f4hptH2XCnDekgcmMc+bZQ==
-X-Received: by 2002:a05:600c:4505:b0:49a:a101:4157 with SMTP id 5b1f17b1804b1-49fc56db92fmr154368075e9.7.1789997983642;
-        Mon, 21 Sep 2026 06:39:43 -0700 (PDT)
+        bh=BooWm7URUcyrH2E2qkRWxlx7KQoz7GWFpr53v56Fl9k=;
+        b=0ZzW8ffInceZFdyVHjpamK8Mc6l3YZp8T0NvtrwdtZY2wOIzfAimJ0uIEpeWmCaJ14
+         Tl3x5ZBqMzsumsKFgGmEkLlrHmuKSvafsLMsareAh9MtzZDvwEGxb/TO2xjGVDJWGyFw
+         4RStJv65smxTBMRWWzqoyfoXDA/fTl1mH4dIhVA/RH81Nc3BfG+OEeLzcyF7jLdG97bk
+         HKsBW3OPW0ONGBCh9QrfYGKvVrkDNzScaJGiC6Tqd6YSPlBMRUfQKkhGxiOBhnEvLemV
+         Ugp4mgnvcfI3TXmsAyCW5fWleCtuwkbRUcJ0LgVVJxgIyOcgYMAlkjVZnh3xiJsVXMVi
+         CfXw==
+X-Forwarded-Encrypted: i=1; AKwUvBzyQwky7aW/C+YjxMwhcDqXIVF5yW/YG3WmaBzfRjyQG1I9QRo7Ear47w4cDiJha57FTEsLjo+xLQ7Z@lists.infradead.org
+X-Gm-Message-State: AFuF++lGEb76/7vPHmmA5833SffZJCzVGq/wwO8Z9lqmhyZu/q9Xv9xd
+	QU67gFwkyrrPf1m0/MM5+yPHkJ6EZRr8zC9fELfNldJMnQe1PUcFnIc7
+X-Gm-Gg: AYBFou2OdBJDoarDMZt7WMeL8OoSt2OJXhd8mqqPMDrFkUhuHzfnTutUTpIQJWwV8GB
+	+D1or/Nn5CeulUvAjzQpBBnK/zEfXof0rQCHfLF+l5RtU2W/pEOnx0CbYBNjKOcvYSblZKZWUiC
+	bEzQtsmronhDpc0vS4QEyz1zLFt4JXSorCZD4LEoonBpB55NHDmQYdd0th2aXgu+Ncb5wWgHaR6
+	2D3rcdafuC/pKftzhU/jVE7fRHcifGEaw+Ds7+vA6S4wFJR9H4ANgv0wu9NIuFt5N2f5ZGG1z6S
+	SvfW9aGw3SYXIYMW3tSrV/NynASK3sKk6AMly6KSFt5O4LO3jjznq9WbPnov/UAwu3VAYK4ayp9
+	prn3b4461tgEsKXsdrxbuL/huitMmEDT9+lXvxyyIAjoAAZ2jQgzmiNdU0cWGgeCLkMoFJfCkKU
+	YLBrxX1hnKEh35M3uFc5ceS6FvbR/3wWlite1C4MbZ2eDVrMdufoerT9CVH+bRsDRb3PlH80BwR
+	cea/MnQC6NIg57nMhQmtWzABrQM3g5VruAI63zSEYJhwAq3m1lgt0pzvA5rWhG1iASS65SbeP7s
+	nWgnrhbAtaQeoa2LdwuXrHBtzdo6DA==
+X-Received: by 2002:a05:600c:c0c3:10b0:49e:823a:9dec with SMTP id 5b1f17b1804b1-49fc5a10b5fmr145292005e9.3.1789997970323;
+        Mon, 21 Sep 2026 06:39:30 -0700 (PDT)
 Received: from 127.0.0.1localhost (82-132-213-26.dab.02.net. [82.132.213.26])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fc585920fsm617171605e9.4.2026.09.21.06.39.40
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fc585920fsm617171605e9.4.2026.09.21.06.39.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2026 06:39:43 -0700 (PDT)
+        Mon, 21 Sep 2026 06:39:29 -0700 (PDT)
 From: Pavel Begunkov <asml.silence@gmail.com>
 To: linux-block@vger.kernel.org
 Cc: asml.silence@gmail.com,
@@ -103,17 +103,17 @@ Cc: asml.silence@gmail.com,
 	Mikulas Patocka <mpatocka@redhat.com>,
 	Benjamin Marzinski <bmarzins@redhat.com>,
 	dm-devel@lists.linux.dev
-Subject: [PATCH v6 07/13] nvme-pci: rename nvme_pci_sgl_set_data to nvme_pci_dma_iter_set_sgl
-Date: Mon, 21 Sep 2026 14:38:51 +0100
-Message-ID: <114bc2087c7811c849fafbf1392abd7edfb24471.1789997898.git.asml.silence@gmail.com>
+Subject: [PATCH v6 03/13] block: always adjust bi_offset on bio_advance_iter
+Date: Mon, 21 Sep 2026 14:38:47 +0100
+Message-ID: <f3c6132b313e7bc6e237e1a16ae8750be5988a40.1789997898.git.asml.silence@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <cover.1789997898.git.asml.silence@gmail.com>
 References: <cover.1789997898.git.asml.silence@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260921_063946_334158_EFF16E0F 
-X-CRM114-Status: GOOD (  13.46  )
+X-CRM114-CacheID: sfid-20260921_063932_249629_15C1D015 
+X-CRM114-Status: GOOD (  15.41  )
 X-Mailman-Approved-At: Mon, 21 Sep 2026 08:01:20 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -129,66 +129,73 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Anuj Gupta <anuj20.g@samsung.com>
-
-Rename the blk_dma_iter based nvme_pci_sgl_set_data() to
-nvme_pci_dma_iter_set_sgl().
+Extend bio_no_advance_iter() iteration to also increment the offset.
+It's not currently needed because the currently listed request types
+don't have a buffer, but will be useful once we add bios backed by
+dma-buf, which don't have a bvec but work with a single range.
 
 Suggested-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
 Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
 ---
- drivers/nvme/host/pci.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/md/dm-io-rewind.c |  6 ++++--
+ include/linux/bio.h       | 12 ++++++++----
+ 2 files changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 3d645324f04e..8dc4002fa696 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1297,7 +1297,7 @@ static blk_status_t nvme_pci_setup_data_prp(struct request *req,
- 	return BLK_STS_IOERR;
+diff --git a/drivers/md/dm-io-rewind.c b/drivers/md/dm-io-rewind.c
+index 04f3fc8aeb6f..b22719c6411c 100644
+--- a/drivers/md/dm-io-rewind.c
++++ b/drivers/md/dm-io-rewind.c
+@@ -113,10 +113,12 @@ static inline void dm_bio_rewind_iter(const struct bio *bio,
+ 	iter->bi_sector -= bytes >> 9;
+ 
+ 	/* No advance means no rewind */
+-	if (bio_no_advance_iter(bio))
++	if (bio_no_advance_iter(bio)) {
+ 		iter->bi_size += bytes;
+-	else
++		iter->bi_offset -= bytes;
++	} else {
+ 		dm_bvec_iter_rewind(bio->bi_io_vec, iter, bytes);
++	}
  }
  
--static void nvme_pci_sgl_set_data(struct nvme_sgl_desc *sge,
-+static void nvme_pci_dma_iter_set_sgl(struct nvme_sgl_desc *sge,
- 		struct blk_dma_iter *iter)
+ /**
+diff --git a/include/linux/bio.h b/include/linux/bio.h
+index 17944e44b584..892ca469c570 100644
+--- a/include/linux/bio.h
++++ b/include/linux/bio.h
+@@ -113,11 +113,13 @@ static inline void bio_advance_iter(const struct bio *bio,
  {
- 	sge->addr = cpu_to_le64(iter->addr);
-@@ -1327,7 +1327,7 @@ static blk_status_t nvme_pci_setup_data_sgl(struct request *req,
- 	iod->cmd.common.flags = NVME_CMD_SGL_METABUF;
+ 	iter->bi_sector += bytes >> 9;
  
- 	if (entries == 1 || blk_rq_dma_map_coalesce(&iod->dma_state)) {
--		nvme_pci_sgl_set_data(&iod->cmd.common.dptr.sgl, iter);
-+		nvme_pci_dma_iter_set_sgl(&iod->cmd.common.dptr.sgl, iter);
- 		iod->total_len += iter->len;
- 		return BLK_STS_OK;
- 	}
-@@ -1349,7 +1349,7 @@ static blk_status_t nvme_pci_setup_data_sgl(struct request *req,
- 			iter->status = BLK_STS_IOERR;
- 			break;
- 		}
--		nvme_pci_sgl_set_data(&sg_list[mapped++], iter);
-+		nvme_pci_dma_iter_set_sgl(&sg_list[mapped++], iter);
- 		iod->total_len += iter->len;
- 	} while (blk_rq_dma_map_iter_next(req, nvmeq->dev->dev, iter));
+-	if (bio_no_advance_iter(bio))
++	if (bio_no_advance_iter(bio)) {
+ 		iter->bi_size -= bytes;
+-	else
++		iter->bi_offset += bytes;
++	} else {
+ 		bvec_iter_advance(bio->bi_io_vec, iter, bytes);
+ 		/* TODO: It is reasonable to complete bio with error here. */
++	}
+ }
  
-@@ -1512,13 +1512,13 @@ static blk_status_t nvme_pci_setup_meta_iter(struct request *req)
- 	iod->cmd.common.metadata = cpu_to_le64(sgl_dma);
- 	if (entries == 1) {
- 		iod->meta_total_len = iter.len;
--		nvme_pci_sgl_set_data(sg_list, &iter);
-+		nvme_pci_dma_iter_set_sgl(sg_list, &iter);
- 		return BLK_STS_OK;
- 	}
+ /* @bytes should be less or equal to bvec[i->bi_idx].bv_len */
+@@ -127,10 +129,12 @@ static inline void bio_advance_iter_single(const struct bio *bio,
+ {
+ 	iter->bi_sector += bytes >> 9;
  
- 	sgl_dma += sizeof(*sg_list);
- 	do {
--		nvme_pci_sgl_set_data(&sg_list[++i], &iter);
-+		nvme_pci_dma_iter_set_sgl(&sg_list[++i], &iter);
- 		iod->meta_total_len += iter.len;
- 	} while (blk_rq_integrity_dma_map_iter_next(req, dev->dev, &iter));
+-	if (bio_no_advance_iter(bio))
++	if (bio_no_advance_iter(bio)) {
+ 		iter->bi_size -= bytes;
+-	else
++		iter->bi_offset += bytes;
++	} else {
+ 		bvec_iter_advance_single(bio->bi_io_vec, iter, bytes);
++	}
+ }
  
+ void __bio_advance(struct bio *, unsigned bytes);
 -- 
 2.54.0
 
