@@ -4,88 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 830FBC982EE
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2026 13:34:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B368C982ED
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2026 13:34:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KnOYyWOU5yOdklOhBtAmRV2izjT0ZXv7OgmfJqZjZVM=; b=ni72fnLojbyafBHfAh9fvkN6+3
-	51GtahoeDy2gaJroxsTFw+XyxV/fVasebyNBeEkXkaROTpY86lnatWao6m1HBEY2AHZDkLlk8Owm9
-	bPpNSb9aJrDfSDDB1IptB4IpVwAFUz4RcrWlc/vN1DkanueTyZ01KkGfR8nE/fCVQDsVyDu9ePBCp
-	SNh41dnP/JQrih3qxCi0r6Wb5dBm/KoODlWGJ0UbwamRLj/nKnRdN9b7cojjE5xPCTjfQaTibt3/P
-	EEoOFO9L8ZAxQNljsMyywMkWhJ4+e7XKmiJ4Zs039aE+87hjeYCfWPNbRxmZTfddm/RFWlHFKf10T
-	wj+fg3EQ==;
+	bh=J1dL6rLBvXC4CJFioHkXsIRtNedvKcDXmdtDMyAul38=; b=tZnyrUldVrYzMTohqleNZ4iNdd
+	0z2oJ6tasKFwQGl1MltNdoyELbDnRDu25agXyQzaia3C5B+Yt07uCQNakLT13BFrKLmcIK0SCQrlK
+	2jA91QF4XMritwjpbqAxnBFabr2hu0fFvdx+BaFS6kAHNuSMIiiMhnnSmGBMbj713Dhha4ASQyyuf
+	LW80jaCn/5JGe87e79tjb7FfoqioGv3hr1ucNyZo4/q2aDPqxMZOswqg2lTJ0vFw4QCN0+EU6Dhlb
+	Vww6WsAZv1Mbz1mo7z9bougJJQe44Jyirt9xBwneTOJD8GgDM3a/lDj0rTQ5tlD7SMtrcuEkMD8tv
+	l/aSF7+Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x8e9g-00000002Fil-3xZe;
-	Mon, 21 Sep 2026 13:34:00 +0000
+	id 1x8eA7-00000002Fq5-0nyw;
+	Mon, 21 Sep 2026 13:34:27 +0000
 Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x8e9b-00000002Fhj-12jv
+	id 1x8eA3-00000002FoG-3LwJ
 	for linux-nvme@lists.infradead.org;
-	Mon, 21 Sep 2026 13:33:57 +0000
+	Mon, 21 Sep 2026 13:34:25 +0000
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4C36A21A8D;
-	Mon, 21 Sep 2026 13:33:45 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 086D421AD2;
+	Mon, 21 Sep 2026 13:34:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789997629; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1789997658; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=KnOYyWOU5yOdklOhBtAmRV2izjT0ZXv7OgmfJqZjZVM=;
-	b=nIfXaJkFVUoX/weHmZQrQKo1NF8eYVWHgR/D7HMkt4n+L50fvKxUTj2nMvm8cBI6Fgi1yt
-	LA9WU64wetZO3RfibeXH4z2vn7wo+jCL2rBesCJVkk8NBVXcFqxQU/QyHfMMir0X7mBO2Q
-	6GKkiNnUqjlhFGdUkbnj08alAm+b4CI=
+	bh=J1dL6rLBvXC4CJFioHkXsIRtNedvKcDXmdtDMyAul38=;
+	b=i3+8R1FaTSF1s7KDw0oM+mkJBjqyszwnh3OdSeuo+cWM27eJF6lxf8fOu5tvMEsdnFW7ZS
+	IOugL+82i58n0knkrDfH1vMndKTngjJhw6C+qSr9KfnW1MCgb7H3KtbSED4NISq1vzlGEP
+	FG5f0dMJUODmJ48+lAI1PzY3Kh8sfI4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789997629;
+	s=susede2_ed25519; t=1789997658;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=KnOYyWOU5yOdklOhBtAmRV2izjT0ZXv7OgmfJqZjZVM=;
-	b=jWkle4BWaqpMFSqm2X9lUPishedxAoWRgFxzxlQp88/SFgSOuUADkyO88YZW5he1GLigYc
-	9SloNoNZB3dRIGBA==
+	bh=J1dL6rLBvXC4CJFioHkXsIRtNedvKcDXmdtDMyAul38=;
+	b=AkeSNClQSTtkB6AwWIotm+uzhkOnFkjYg2Wk6t8iJ++lroUOPbH6MszVxg93S0fYEATCpR
+	5+Q1KyMBQYFLJfDw==
 Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789997625; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1789997654; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=KnOYyWOU5yOdklOhBtAmRV2izjT0ZXv7OgmfJqZjZVM=;
-	b=yc1SL0skQlO9CQ3iEbOf8t9FCnOjExQ4XFNtlc2bkBVIP++3cZCLQkOsj/UyI+9NQJHb9r
-	1eETgmik8XfE8JJdxr/N2QYbr9b52RjuZhakPLPOx/6M8LPIZK3lS0F+57zwEC7xQpE1sI
-	aA2Schch//YEobPysOkvpaGCKFnZbV0=
+	bh=J1dL6rLBvXC4CJFioHkXsIRtNedvKcDXmdtDMyAul38=;
+	b=i/cLHPVEs8s9pdOWz7CfjOknBV0yOkKh9Nb0fsS2Z//mlYnV2tzDI2flcZllrfP28HmWhS
+	cgZB6t/46OqXScaWXDWEXFUu5IShAc9oK+Me1rfzbFqrO5HyiSc67TL1CCbvGrlq2WhDWH
+	sCzliDfIzG8R1ycu4VixixLUzIV2SWw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789997625;
+	s=susede2_ed25519; t=1789997654;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=KnOYyWOU5yOdklOhBtAmRV2izjT0ZXv7OgmfJqZjZVM=;
-	b=xpuWKbQiLde8vRdWfJWt+lT+gSIqMlJ66UFOj5r7ly/05MMj6szgcBfoE8qM3Cgu+JIjeO
-	SUdzNmVDiDvjPBCA==
+	bh=J1dL6rLBvXC4CJFioHkXsIRtNedvKcDXmdtDMyAul38=;
+	b=0Ahz4v1IcEvdDbSVYlGfSTVuJIclLJYg39UHN2IsFc7INnAH6TPgLiRMJUAJHtzLd4/k7Q
+	CGkbHFCrWjTiAGCw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D34891368D;
-	Mon, 21 Sep 2026 13:33:43 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0583513793;
+	Mon, 21 Sep 2026 13:34:12 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id XTn4KTcysWr5BgAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 21 Sep 2026 13:33:43 +0000
-Message-ID: <cd68821d-e7d6-4294-8ea7-68b64d4915d3@suse.de>
-Date: Mon, 21 Sep 2026 15:33:43 +0200
+	id Ew7UMVQysWojBwAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 21 Sep 2026 13:34:12 +0000
+Message-ID: <7054e555-258d-459f-97e0-4ffe99b8d4f9@suse.de>
+Date: Mon, 21 Sep 2026 15:34:11 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/4] nvme-tcp: unify sockopt with do_sock_setsockopt
+Subject: Re: [PATCH v3 3/4] nvmet-tcp: support IPv6 traffic class
 To: Geliang Tang <geliang@kernel.org>, Keith Busch <kbusch@kernel.org>,
  Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
  Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
@@ -96,33 +96,34 @@ To: Geliang Tang <geliang@kernel.org>, Keith Busch <kbusch@kernel.org>,
 Cc: Geliang Tang <tanggeliang@kylinos.cn>, linux-nvme@lists.infradead.org,
  netdev@vger.kernel.org, mptcp@lists.linux.dev
 References: <cover.1786841319.git.tanggeliang@kylinos.cn>
- <97e667df6c3755d1f9e2e709dfa1dc64903317e1.1786841319.git.tanggeliang@kylinos.cn>
+ <7d09c3211dfa76d536c7a30505cea6da626ee5e6.1786841319.git.tanggeliang@kylinos.cn>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <97e667df6c3755d1f9e2e709dfa1dc64903317e1.1786841319.git.tanggeliang@kylinos.cn>
+In-Reply-To: <7d09c3211dfa76d536c7a30505cea6da626ee5e6.1786841319.git.tanggeliang@kylinos.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
+	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	NEURAL_HAM_SHORT(-0.20)[-0.996];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[18];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RLhpsi56b8wki6rd8p6oz1itgg)];
 	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo,kylinos.cn:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260921_063356_815033_96955944 
-X-CRM114-Status: GOOD (  12.05  )
+X-CRM114-CacheID: sfid-20260921_063423_996333_BAFF919D 
+X-CRM114-Status: GOOD (  11.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -140,19 +141,17 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 On 8/16/26 2:59 AM, Geliang Tang wrote:
 > From: Geliang Tang <tanggeliang@kylinos.cn>
 > 
-> This patch consolidates socket option settings in nvme-tcp by utilizing
-> the generic do_sock_setsockopt() helper for options including SO_LINGER,
-> SO_PRIORITY, TCP_NODELAY, IP_TOS, SO_BINDTODEVICE, and TCP_SYNCNT.
+> Currently, nvmet-tcp only applies the received IPv4 TOS value when setting
+> up a queue socket, but does not handle the IPv6 traffic class.
 > 
-> Compared to the target-side implementation, this patch additionally
-> converts SO_BINDTODEVICE and TCP_SYNCNT to use the same unified mechanism.
-> This change eliminates the need to export and use specialized helpers for
-> each individual socket option.
+> Extend the queue socket setup to handle AF_INET6 sockets. Obtain the
+> traffic class from the IPv6 socket's rcv_flowinfo and apply it through
+> IPV6_TCLASS using do_sock_setsockopt().
 > 
 > Signed-off-by: Geliang Tang <tanggeliang@kylinos.cn>
 > ---
->   drivers/nvme/host/tcp.c | 55 +++++++++++++++++++++++++++++++++++------
->   1 file changed, 47 insertions(+), 8 deletions(-)
+>   drivers/nvme/target/tcp.c | 15 +++++++++++++++
+>   1 file changed, 15 insertions(+)
 > 
 Reviewed-by: Hannes Reinecke <hare@kernel.org>
 
