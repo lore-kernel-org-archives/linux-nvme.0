@@ -4,90 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5249CC982EE
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2026 12:32:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4DE3BC982EE
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2026 12:34:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Q0Y+8RS1Mt/cACqt4MgQkaT1I2r0pKJbCajMwEK33DQ=; b=3r083+jHWv2BtLuWdS7L736rYy
-	GVobPRfeRbzW/EGVash6UoMYiqVB2h+wnPMD04V8WcePx2/X/vheH7mSbGnIy0x7JSceFxGBSMkvk
-	hb0XNpDFqfvKCRzRVLD2SDKakiNg7PSx4ZyQ73BKbCJN1CEXmw8wBHWO6bH5Mb0Qm+Gz1OHBkg6Ba
-	YpIznBq96uwRIEK/SRKYEPTc92tD5YyOwL+8fygx4zS8YK91oOCgjm1lh3pcN6uXCUOaJwJLzfYFN
-	jEJE4euqyNgKaUSJTkciYvq7Kj+p8E7f6UtTRPX68bqSJWVuERUBSAwMTwuPglFCWjYzajgrZ+FZx
-	nygK5jsQ==;
+	bh=VIec8Ew0yYm4cW66xxG7DDJvDI4mJ/N1qm7mNg0vcPk=; b=sROLwHGrFYE+C2OiM7Wn/Kyc+H
+	Yirm1b5l6nJb0LUBig0jTuW5JeaHJeca1Etc0ovLgNsd1fUZilAH1LF0VWXDT75VJJz/ytMDpVVFq
+	w8KZuBbfNq4a69TsgC+ib3OnBFzChxs+zyT9Q9NSx7ZdN0yawkWqveoaYByS5zw8f9llgEfNk0z2Q
+	5tORQYBeRn3IrAb/maqVTl5AQJy3ATzSiwS/lOwpDmPWpG0fZMXwkj/LUfEzWEhqA7naSXTBP/tHa
+	gTV0qBGCnZhgdD1AZpM3BLeJ2+ZdTzoJqVdcp7c9hh+zie6Zu4V/PGUd0SVxol+k7zxTBQRv7TaUP
+	e30Un9lA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x8dBu-000000024Y1-4331;
-	Mon, 21 Sep 2026 12:32:14 +0000
+	id 1x8dED-000000024n0-1LCN;
+	Mon, 21 Sep 2026 12:34:37 +0000
 Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x8dBs-000000024XY-2Srm
+	id 1x8dEB-000000024mN-1lhz
 	for linux-nvme@lists.infradead.org;
-	Mon, 21 Sep 2026 12:32:13 +0000
+	Mon, 21 Sep 2026 12:34:36 +0000
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 60A541F461;
-	Mon, 21 Sep 2026 12:32:02 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7D80F1FA79;
+	Mon, 21 Sep 2026 12:34:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789993926; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1789994069; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Q0Y+8RS1Mt/cACqt4MgQkaT1I2r0pKJbCajMwEK33DQ=;
-	b=jQ5vbXzp2ejkwvTT+sYwkgWsj3lOa14gLxZhToMrpWaeAxtGO4JSYbpHYxkdJje7iBny2X
-	du6V7YDCSJ4/i9fWikJojhMGCLsATV0i1u2WtdCIwvOhLWbcje/Q3b7hlH5OTvR1r3m8hY
-	hA//AHcHFPPmgoI1OP+wY2tFca5VSb0=
+	bh=VIec8Ew0yYm4cW66xxG7DDJvDI4mJ/N1qm7mNg0vcPk=;
+	b=SPYcqaThIVoxRz6i8TLq1Mrjjc8Gy/aa6j/GcpEeMm7U+ljbLnFReX2VdlhTIHwXKwZmUq
+	dX4zvsiUOFsVUnzh0NfHFH9HzbcgIi23tmfy8i1r5TBmypFSc5H8PRO8jU1P3IaY1XXZDg
+	qXb4kOgwwDmOkeFVhL7svRDljqGKd08=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789993926;
+	s=susede2_ed25519; t=1789994069;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Q0Y+8RS1Mt/cACqt4MgQkaT1I2r0pKJbCajMwEK33DQ=;
-	b=IWjygoxqmh+m/s1v31YGONtimtZImxX+iTpF6JGYVgD7A49bOyzSJ2mdfqVxm8LhjCmuI6
-	2L3Pk/5iN9/pnZCg==
+	bh=VIec8Ew0yYm4cW66xxG7DDJvDI4mJ/N1qm7mNg0vcPk=;
+	b=je1B7qUhMSNIkTxlvFqtwhTuR2hCGZ8++J7FC3t7n/wHQvcDOZNMpGvxDR9EjFDNRKEXs9
+	ZjXGIg3JV+BgJZCQ==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=COody+hK;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=g+PVfw31
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=qFcA9A2A;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="RT/JqhDj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789993922; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1789994065; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Q0Y+8RS1Mt/cACqt4MgQkaT1I2r0pKJbCajMwEK33DQ=;
-	b=COody+hKxxtyVuW13xiXyoHHtrc0IjCLSLsqdi/F9oZj4BXc61x13+RNXFRdXnCTaVKU6O
-	4pelxsN35bYBE90kIuXSdedFscfzBWSoG1+ujaAO/2QVIcy3ufMCWHxSAqNB68/f85VgJv
-	lvnIgfRJ+ZYRYpPk6cLBHalsuk5K9I0=
+	bh=VIec8Ew0yYm4cW66xxG7DDJvDI4mJ/N1qm7mNg0vcPk=;
+	b=qFcA9A2AjTfyUsTzzH8FrKYw2hpMbwk+8egF2Tdex2tm+MTNzzBdL9qlml1H8OM5DVhe9M
+	EgEGlr0SHYWXdD15Q5FeH9Zpi8c7ztmQNlTwyUeIQPzPw8uqamQms0HQYw+KJxokAjZRYl
+	sq9NQnyVSRDfzVTAyD3S3wqFkuW7b2Y=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789993922;
+	s=susede2_ed25519; t=1789994065;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Q0Y+8RS1Mt/cACqt4MgQkaT1I2r0pKJbCajMwEK33DQ=;
-	b=g+PVfw313Gu55NfblWgyKA/iKpaMss171rCHt3B49AFjpJFqfHCihPG9KPlynIQBYBkfWt
-	sEsSfxUsETZLFECg==
+	bh=VIec8Ew0yYm4cW66xxG7DDJvDI4mJ/N1qm7mNg0vcPk=;
+	b=RT/JqhDjjvbpYr9hJY4FgnARZkNhNWQOvS2b7VJgGO4CMxtI/XANOuePsLbD5pY6ihrNC9
+	YU/+H7lh41rwufAA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D68CF13793;
-	Mon, 21 Sep 2026 12:32:01 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A3B2813793;
+	Mon, 21 Sep 2026 12:34:24 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id fx05JsEjsWqxQwAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 21 Sep 2026 12:32:01 +0000
-Message-ID: <30f9337b-a4b3-4e5c-a6ff-19977d039447@suse.de>
-Date: Mon, 21 Sep 2026 14:32:00 +0200
+	id k8CkHFAksWr+RQAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 21 Sep 2026 12:34:24 +0000
+Message-ID: <ead0bdd9-8f0f-4deb-ba1b-e078262c5164@suse.de>
+Date: Mon, 21 Sep 2026 14:34:24 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/3] nvme-tcp: store and use the caller's network
- namespace
+Subject: Re: [PATCH v3 2/3] nvme-tcp: refactor I/O queue setup path
 To: Surabhi Gogte <sgogte@purestorage.com>, Keith Busch <kbusch@kernel.org>,
  Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
  Sagi Grimberg <sagi@grimberg.me>
@@ -96,15 +95,15 @@ Cc: Solganik Alexander <sashas@lightbitslabs.com>,
  linux-kernel@vger.kernel.org, mkhalfella@purestorage.com,
  randyj@purestorage.com, adailey@purestorage.com
 References: <20260910202812.1642832-1-sgogte@purestorage.com>
- <20260910202812.1642832-2-sgogte@purestorage.com>
+ <20260910202812.1642832-3-sgogte@purestorage.com>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20260910202812.1642832-2-sgogte@purestorage.com>
+In-Reply-To: <20260910202812.1642832-3-sgogte@purestorage.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 7D80F1FA79
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 60A541F461
 X-Spamd-Result: default: False [-4.51 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
@@ -112,25 +111,24 @@ X-Spamd-Result: default: False [-4.51 / 50.00];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[12];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,suse.de:mid,purestorage.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
 	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:email,suse.de:mid];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	DKIM_TRACE(0.00)[suse.de:+]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260921_053212_782499_4DE346ED 
-X-CRM114-Status: GOOD (  22.49  )
+X-CRM114-CacheID: sfid-20260921_053435_635970_68308CD9 
+X-CRM114-Status: GOOD (  22.84  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -146,71 +144,89 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 9/10/26 10:28 PM, Surabhi Gogte wrote:
-> nvme_tcp_alloc_queue() creates each socket using
-> current->nsproxy->net_ns, which is correct for the initial connect that
-> runs in userspace context. However, the reconnect and error recovery
-> paths run from a workqueue where current netns is a kernel thread in
-> init_net, so sockets created during reconnect end up in a different
-> namespace than the one the controller was originally connected from.
+> Split the I/O queue setup helpers apart so that the individual steps can
+> be called directly from nvme_tcp_configure_io_queues():
 > 
-> Fix this by capturing the caller's network namespace at controller
-> allocation time. Use ctrl->net for all socket creation so that every
-> queue, on initial connect, reset, or reconnect, is created in the same
-> namespace.
+> - Queue count negotiation moves out of nvme_tcp_alloc_io_queues() into a
+>    new nvme_tcp_set_io_queue_count(), leaving the allocator with just the
+>    per-queue allocation loop.
+> - TLS PSK validation moves out of __nvme_tcp_alloc_io_queues() into a
+>    new nvme_tcp_tls_check_psk().
+> - nvme_tcp_configure_io_queues() now calls the three steps directly in
+>    the same order as before.
 > 
-> Fixes: 3f2304f8c6d6 ("nvme-tcp: add NVMe over TCP host driver")
 > Signed-off-by: Surabhi Gogte <sgogte@purestorage.com>
 > ---
->   drivers/nvme/host/tcp.c | 7 ++++++-
->   1 file changed, 6 insertions(+), 1 deletion(-)
+>   drivers/nvme/host/tcp.c | 25 +++++++++++++++++++------
+>   1 file changed, 19 insertions(+), 6 deletions(-)
 > 
 > diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 5fda9661bdb7..8e5e22febe2a 100644
+> index 8e5e22febe2a..fe0e581608b4 100644
 > --- a/drivers/nvme/host/tcp.c
 > +++ b/drivers/nvme/host/tcp.c
-> @@ -171,6 +171,7 @@ struct nvme_tcp_ctrl {
->   	struct delayed_work	connect_work;
->   	struct nvme_tcp_request async_req;
->   	u32			io_queues[HCTX_MAX_TYPES];
-> +	struct net		*net;
->   };
->   
->   static struct workqueue_struct *nvme_tcp_wq;
-> @@ -1846,7 +1847,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
->   		queue->cmnd_capsule_len = sizeof(struct nvme_command) +
->   						NVME_TCP_ADMIN_CCSZ;
->   
-> -	ret = sock_create_kern(current->nsproxy->net_ns,
-> +	ret = sock_create_kern(ctrl->net,
->   			ctrl->addr.ss_family, SOCK_STREAM,
->   			IPPROTO_TCP, &queue->sock);
->   	if (ret) {
-> @@ -2638,6 +2639,7 @@ static void nvme_tcp_free_ctrl(struct nvme_ctrl *nctrl)
->   
->   	nvmf_free_options(nctrl->opts);
->   free_ctrl:
-> +	put_net(ctrl->net);
->   	kfree(ctrl->queues);
->   	kfree(ctrl);
+> @@ -2172,10 +2172,8 @@ static int nvme_tcp_alloc_admin_queue(struct nvme_ctrl *ctrl)
+>   	return ret;
 >   }
-> @@ -3036,12 +3038,15 @@ static struct nvme_tcp_ctrl *nvme_tcp_alloc_ctrl(struct device *dev,
->   		goto out_free_ctrl;
+>   
+> -static int __nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
+> +static int nvme_tcp_tls_check_psk(struct nvme_ctrl *ctrl)
+>   {
+> -	int i, ret;
+> -
+>   	if (nvme_tcp_tls_configured(ctrl)) {
+>   		if (ctrl->opts->concat) {
+>   			/*
+> @@ -2197,6 +2195,13 @@ static int __nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
+>   		}
 >   	}
 >   
-> +	ctrl->net = get_net(current->nsproxy->net_ns);
+> +	return 0;
+> +}
 > +
->   	ret = nvme_init_ctrl(&ctrl->ctrl, dev, &nvme_tcp_ctrl_ops, 0);
->   	if (ret)
->   		goto out_kfree_queues;
+> +static int __nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
+> +{
+> +	int i, ret;
+> +
+>   	for (i = 1; i < ctrl->queue_count; i++) {
+>   		ret = nvme_tcp_alloc_queue(ctrl, i,
+>   				ctrl->tls_pskid);
+> @@ -2213,7 +2218,7 @@ static int __nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
+>   	return ret;
+>   }
 >   
->   	return ctrl;
->   out_kfree_queues:
-> +	put_net(ctrl->net);
->   	kfree(ctrl->queues);
->   out_free_ctrl:
->   	kfree(ctrl);
+> -static int nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
+> +static int nvme_tcp_set_io_queue_count(struct nvme_ctrl *ctrl)
+>   {
+>   	unsigned int nr_io_queues;
+>   	int ret;
+We are not only set the queue count, but also allocating the queues
+themselves. Why not keep the original name?
 
-Reviewed-by: Hannes Reinecke <hare@kernel.org>
+> @@ -2235,14 +2240,22 @@ static int nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
+>   
+>   	nvmf_set_io_queues(ctrl->opts, nr_io_queues,
+>   			   to_tcp_ctrl(ctrl)->io_queues);
+> -	return __nvme_tcp_alloc_io_queues(ctrl);
+> +	return 0;
+>   }
+>   
+>   static int nvme_tcp_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
+>   {
+>   	int ret, nr_queues;
+>   
+> -	ret = nvme_tcp_alloc_io_queues(ctrl);
+> +	ret = nvme_tcp_set_io_queue_count(ctrl);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = nvme_tcp_tls_check_psk(ctrl);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = __nvme_tcp_alloc_io_queues(ctrl);
+>   	if (ret)
+>   		return ret;
+>   
 
 Cheers,
 
