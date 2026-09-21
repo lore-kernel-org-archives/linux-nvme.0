@@ -4,88 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E4CADC982ED
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2026 14:00:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0F391C982ED
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2026 14:03:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=dXLyIitXIRXihEvVH2hDTFHNE6dERQ29Aq4FyRubbak=; b=aVa8o56bKMu8PoXbrbWvvOuPed
-	m9qKWxZtiXpYfWvvmOd44b9zuhJ9+uC8AeoZDulbUTPL8ay3JeoGe+MsTFA6PfkeT6SL61cIWfsHY
-	qvNzR5ok9l1Rs1ys9vavspJovdM1kZVQodmqJT/OzGNuYI7LAFIFVIMLWPGTKopyl2dBoRDUJiCgv
-	rWeazjrLIBvQr+XZpDAyJadqcm5CTntP1V0T/7vfRNw7F4wmMAhzdsMQhqaQiCu4YqWi8SwPhTdDE
-	hRK6LpW6iaQqu1PWFrNO6FIQ4jkNPHhZhv9w1lGGZ8lX7wmDBSZfuDPbsfPclvKPb8N30HZXfxmj6
-	qEta6f5w==;
+	bh=TYnLpBD6VChvMLhsnFkWnEOep75Cg9uT1zXGo8tzMGE=; b=4vBBpH5NjtQrOS5oi9diTeqZEm
+	hhM4sxCDzy95uH5sK2lgtRlLeXoo9EfcLEC9s0KHtG/E9oNa4VLyXIZytWfOBSRDii4r9Hb6UAIjN
+	QqYOc0Fr/vL4piY0jWMyc1/0Nee68X+s8dpT5dlXNViKkzgeXcJDdja+RH/8O0sqs3ITI+IuOqACU
+	FwSdmrSFisHvdsgcaEop+TIa2nsbGhceBcPGeCC9dBR2WK4qejySzvNp6mfNE7+RZKm4/3DcOTlpQ
+	OXyUXGapMIzPBxqB/MqqP3BipSi0QxVIsn3yNoj2DUd+LA5SkkOFKO925VrFQjMs3HufKZHzoVNFr
+	WU5kknGA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x8eYq-00000002JeZ-1RMG;
-	Mon, 21 Sep 2026 14:00:00 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1x8ebq-00000002KFV-2eq0;
+	Mon, 21 Sep 2026 14:03:06 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x8eYm-00000002Jdx-48mQ
+	id 1x8ebo-00000002KEj-2Z88
 	for linux-nvme@lists.infradead.org;
-	Mon, 21 Sep 2026 13:59:58 +0000
+	Mon, 21 Sep 2026 14:03:05 +0000
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 28FBF1F385;
-	Mon, 21 Sep 2026 13:59:47 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8381A21CBF;
+	Mon, 21 Sep 2026 14:02:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789999191; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1789999378; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=dXLyIitXIRXihEvVH2hDTFHNE6dERQ29Aq4FyRubbak=;
-	b=liQ7xanluPqChOfUvxWbwQSGm6HBzYL1k8ptPIuoP9PgXNwCSHg3BdyGBdOOd9K4v2ZdxG
-	X2dOA76qUOdeYQPHH8LGF2gjng5YpFGb3tcOPlpTj4vpQwCVe/ANJc0a9/UcoKKv6Qsgoj
-	j7bSKaZLE7Hvmd9LAtjH0BYD8/v0Z7g=
+	bh=TYnLpBD6VChvMLhsnFkWnEOep75Cg9uT1zXGo8tzMGE=;
+	b=PH18mTLDEuT+4jA3Dl5h3ire/PKuFISKuNdcAS15WL3ddw+w1gsaIjnnN46NlN32x0X2jk
+	7MS3dmTP2fQEkgVEKFvRGUPnjJSzgMVuVGv0ACsaGTKcP3bbqjBOyznYfBWda5ItbkOTDk
+	97MYbwxoEJL05+xZgJ7WvLHWqIweCn4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789999191;
+	s=susede2_ed25519; t=1789999378;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=dXLyIitXIRXihEvVH2hDTFHNE6dERQ29Aq4FyRubbak=;
-	b=ucPrQT75DSJgN0N8qaefccNRLO9kSTlB/8A8wne+ftwb3I/8S2tMfB0Q2le2B/w9kncFbo
-	mUkk1l6JTuR+b3Aw==
-Authentication-Results: smtp-out2.suse.de;
+	bh=TYnLpBD6VChvMLhsnFkWnEOep75Cg9uT1zXGo8tzMGE=;
+	b=GgqVZvP96goz2cebgwE/jL2gcKygLAvc/5QYuGVTSZOA4wJU2JgDb5QS0C3RjLQ8rB5QRy
+	AtTJsEYEjamXucDg==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789999187; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1789999374; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=dXLyIitXIRXihEvVH2hDTFHNE6dERQ29Aq4FyRubbak=;
-	b=tMYeHUNQG1kAn5C2cAjWDYegazwSO0BbuTT0wYYnL2K4VFkWRVfDR/SsfDsurpSiSQst+u
-	XOcZJbmUIqnTwWvSc/bJBghqLhInC25LUSBKGxDjpGCHpj++gmbljDgqz/KJ9c+xrRm7my
-	xVWIBImYkzjOuBzzu4iKZvVPlRl/+w0=
+	bh=TYnLpBD6VChvMLhsnFkWnEOep75Cg9uT1zXGo8tzMGE=;
+	b=rzufyGvIKnIDNJuR5oz617+wG9bsFIHx/C2XRInCCCce10uF/5C+0eJF919s4X0QZU9YQv
+	tbbF3DDSz1AtIUFHM/o4KS0Cc6yz6jvsN1KLGabNMnQM4pxpJJy8BuHMhx+8f8tnC28V3C
+	5cOJJIhMT6ZHRzJ/yeX26ooqoA3whwE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789999187;
+	s=susede2_ed25519; t=1789999374;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=dXLyIitXIRXihEvVH2hDTFHNE6dERQ29Aq4FyRubbak=;
-	b=uDU0Ky2RlO3l6dJYTYv3jrzqnxq5vhFAQjFkGzgpje3Q8ySW/fSBzmaednVCW5JNp5Yacq
-	iIGietpj/vcnnnAA==
+	bh=TYnLpBD6VChvMLhsnFkWnEOep75Cg9uT1zXGo8tzMGE=;
+	b=TZexhXNdyI06936j9G2ay4FWZ6UHFU/v2Add6yvw9gJbA0Dyy55IWxjjEXzi0kWm4KxrZO
+	HDHSaORw0dkLX0Bg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1F2091368D;
-	Mon, 21 Sep 2026 13:59:46 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 22903139E7;
+	Mon, 21 Sep 2026 14:02:53 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id zqTwN1E4sWqSIgAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 21 Sep 2026 13:59:46 +0000
-Message-ID: <16cda566-f798-427d-bc51-a069b4195c28@suse.de>
-Date: Mon, 21 Sep 2026 15:59:45 +0200
+	id JmiHOgw5sWrjJQAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 21 Sep 2026 14:02:53 +0000
+Message-ID: <ab97f32b-31dd-4975-a8b2-b445110ae3a9@suse.de>
+Date: Mon, 21 Sep 2026 16:02:52 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/7] nvme: add NVME_CTRL_MARGINAL flag
+Subject: Re: [PATCH v2 7/7] nvme: fcloop: Add set_marginal_rport to sysfs
 To: Jesse Taube <jtaubepe@redhat.com>, linux-nvme@lists.infradead.org
 Cc: linux-scsi@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
  Shuah Khan <skhan@linuxfoundation.org>, Keith Busch <kbusch@kernel.org>,
@@ -102,10 +102,10 @@ Cc: linux-scsi@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
  shinichiro.kawasaki@wdc.com, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-block@vger.kernel.org
 References: <20260902200547.184734-1-jtaubepe@redhat.com>
- <20260902200547.184734-2-jtaubepe@redhat.com>
+ <20260902200547.184734-8-jtaubepe@redhat.com>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20260902200547.184734-2-jtaubepe@redhat.com>
+In-Reply-To: <20260902200547.184734-8-jtaubepe@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-4.30 / 50.00];
@@ -113,15 +113,14 @@ X-Spamd-Result: default: False [-4.30 / 50.00];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	NEURAL_HAM_SHORT(-0.20)[-0.999];
 	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[26];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[26];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
 	FROM_HAS_DN(0.00)[];
 	FREEMAIL_CC(0.00)[vger.kernel.org,lwn.net,linuxfoundation.org,kernel.org,kernel.dk,lst.de,grimberg.me,broadcom.com,gmail.com,nvidia.com,hansenpartnership.com,oracle.com,marvell.com,redhat.com,wdc.com];
 	TO_DN_SOME(0.00)[];
@@ -130,8 +129,8 @@ X-Spamd-Result: default: False [-4.30 / 50.00];
 	RCVD_COUNT_TWO(0.00)[2];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260921_065957_499130_DD1002F9 
-X-CRM114-Status: GOOD (  15.61  )
+X-CRM114-CacheID: sfid-20260921_070304_827304_B5B52317 
+X-CRM114-Status: GOOD (  26.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -147,35 +146,148 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 9/2/26 10:05 PM, Jesse Taube wrote:
-> From: Bryan Gurney <bgurney@redhat.com>
+> To allow testing of multipath failover, add a sysfs attribute to set a
+> remote port as marginal. This will allow the fcloop LLDD to set the
+> marginal flag on a remote port, simulating a marginal link.
 > 
-> Add a new controller flag, NVME_CTRL_MARGINAL, to help multipath I/O
-> policies to react to a path that is set to a "marginal" state.
+> Example:
+> Turn on marginal for a remote port matching wwnn and wwpn:
+> `echo 'wwnn=0x200000109b5f2956,wwpn=0x100000109b5f2956,marginal=1' >
+> /sys/class/fcloop/ctl/set_marginal_rport`
 > 
-> The "marginal" flag is initialized to false in `nvme_init_ctrl` and
-> cleared in `nvme_fc_ctrl_connectivity_loss` before re-association.
-> It is only cleared there, not in the generic `nvme_reset_ctrl` path,
-> because the marginal condition reflects a physical link problem.
-> An arbitrary controller reset does not signal that a hardware fault has
-> been resolved. Calling `nvme_fc_ctrl_connectivity_loss` means the FC
-> association has failed and will be re-established, so the prior link
-> quality state is no longer meaningful.
+> Turn off marginal for a remote port matching wwnn and wwpn:
+> `echo 'wwnn=0x200000109b5f2956,wwpn=0x100000109b5f2956,marginal=0' >
+> /sys/class/fcloop/ctl/set_marginal_rport`
 > 
-> Signed-off-by: Bryan Gurney <bgurney@redhat.com>
-> ---
+> Suggested-by: John Meneghini <jmeneghi@redhat.com>
+> Signed-off-by: Jesse Taube <jtaubepe@redhat.com>
 > V10 -> V1:
->   - No change
+>   - New patch
 > V1 -> V2:
->   - Add nvme_ctrl_assign_marginal
->   - Fix nvme_fc_ctrl_connectivity_loss clearing wrong bit.
->   - Update commit message
+>   - Fix reference count leak in error path
 > ---
->   drivers/nvme/host/core.c |  1 +
->   drivers/nvme/host/fc.c   |  4 ++++
->   drivers/nvme/host/nvme.h | 11 +++++++++++
->   3 files changed, 16 insertions(+)
+>   drivers/nvme/target/fcloop.c | 50 ++++++++++++++++++++++++++++++++++++
+>   1 file changed, 50 insertions(+)
 > 
-Reviewed-by: Hannes Reinecke <hare@kernel.org>
+> diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
+> index b63af3b643a6..9977c2a71bd5 100644
+> --- a/drivers/nvme/target/fcloop.c
+> +++ b/drivers/nvme/target/fcloop.c
+> @@ -6,6 +6,7 @@
+>   #include <linux/module.h>
+>   #include <linux/parser.h>
+>   #include <uapi/scsi/fc/fc_fs.h>
+> +#include <uapi/scsi/fc/fc_els.h>
+>   
+>   #include "../host/nvme.h"
+>   #include "../target/nvmet.h"
+> @@ -21,6 +22,7 @@ enum {
+>   	NVMF_OPT_FCADDR		= 1 << 3,
+>   	NVMF_OPT_LPWWNN		= 1 << 4,
+>   	NVMF_OPT_LPWWPN		= 1 << 5,
+> +	NVMF_OPT_MARGINAL	= 1 << 6,
+>   };
+>   
+>   struct fcloop_ctrl_options {
+> @@ -31,6 +33,7 @@ struct fcloop_ctrl_options {
+>   	u32			fcaddr;
+>   	u64			lpwwnn;
+>   	u64			lpwwpn;
+> +	u32			marginal;
+>   };
+>   
+>   static const match_table_t opt_tokens = {
+> @@ -40,6 +43,7 @@ static const match_table_t opt_tokens = {
+>   	{ NVMF_OPT_FCADDR,	"fcaddr=%x"	},
+>   	{ NVMF_OPT_LPWWNN,	"lpwwnn=%s"	},
+>   	{ NVMF_OPT_LPWWPN,	"lpwwpn=%s"	},
+> +	{ NVMF_OPT_MARGINAL,	"marginal=%d"	},
+>   	{ NVMF_OPT_ERR,		NULL		}
+>   };
+>   
+> @@ -120,6 +124,13 @@ fcloop_parse_options(struct fcloop_ctrl_options *opts,
+>   			}
+>   			opts->lpwwpn = token64;
+>   			break;
+> +		case NVMF_OPT_MARGINAL:
+> +			if (match_int(args, &token)) {
+> +				ret = -EINVAL;
+> +				goto out_free_options;
+> +			}
+> +			opts->marginal = token;
+> +			break;
+>   		default:
+>   			pr_warn("unknown parameter or missing value '%s'\n", p);
+>   			ret = -EINVAL;
+> @@ -199,6 +210,9 @@ fcloop_parse_nm_options(struct device *dev, u64 *nname, u64 *pname,
+>   
+>   #define TGTPORT_OPTS	(NVMF_OPT_WWNN | NVMF_OPT_WWPN)
+>   
+> +#define MARGINAL_OPTS	(NVMF_OPT_WWNN | NVMF_OPT_WWPN | \
+> +			 NVMF_OPT_MARGINAL)
+> +
+>   
+>   static DEFINE_SPINLOCK(fcloop_lock);
+>   static LIST_HEAD(fcloop_lports);
+> @@ -1663,6 +1677,40 @@ fcloop_set_cmd_drop(struct device *dev, struct device_attribute *attr,
+>   	return count;
+>   }
+>   
+> +static ssize_t
+> +fcloop_set_marginal_rport(struct device *dev, struct device_attribute *attr,
+> +		const char *buf, size_t count)
+> +{
+> +	struct fcloop_nport *nport;
+> +	struct fcloop_ctrl_options opts = {};
+> +	unsigned long flags;
+> +	int ret;
+> +
+> +	ret = fcloop_parse_options(&opts, buf);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* everything there ? */
+> +	if ((opts.mask & MARGINAL_OPTS) != MARGINAL_OPTS)
+> +		return -EINVAL;
+> +
+> +	nport = fcloop_nport_lookup(opts.wwnn, opts.wwpn);
+> +	if (!nport)
+> +		return -ENOENT;
+> +
+> +	spin_lock_irqsave(&fcloop_lock, flags);
+> +	if (!nport->rport || !nport->rport->remoteport) {
+> +		spin_unlock_irqrestore(&fcloop_lock, flags);
+> +		fcloop_nport_put(nport);
+> +		return -ENOENT;
+> +	}
+> +
+> +	nvme_fc_set_remoteport_fpin(nport->rport->remoteport, opts.marginal);
+> +	spin_unlock_irqrestore(&fcloop_lock, flags);
+> +	fcloop_nport_put(nport);
+> +
+> +	return count;
+> +}
+>   
+>   static DEVICE_ATTR(add_local_port, 0200, NULL, fcloop_create_local_port);
+>   static DEVICE_ATTR(del_local_port, 0200, NULL, fcloop_delete_local_port);
+> @@ -1671,6 +1719,7 @@ static DEVICE_ATTR(del_remote_port, 0200, NULL, fcloop_delete_remote_port);
+>   static DEVICE_ATTR(add_target_port, 0200, NULL, fcloop_create_target_port);
+>   static DEVICE_ATTR(del_target_port, 0200, NULL, fcloop_delete_target_port);
+>   static DEVICE_ATTR(set_cmd_drop, 0200, NULL, fcloop_set_cmd_drop);
+> +static DEVICE_ATTR(set_marginal_rport, 0200, NULL, fcloop_set_marginal_rport);
+>   
+>   static struct attribute *fcloop_dev_attrs[] = {
+>   	&dev_attr_add_local_port.attr,
+> @@ -1680,6 +1729,7 @@ static struct attribute *fcloop_dev_attrs[] = {
+>   	&dev_attr_add_target_port.attr,
+>   	&dev_attr_del_target_port.attr,
+>   	&dev_attr_set_cmd_drop.attr,
+> +	&dev_attr_set_marginal_rport.attr,
+>   	NULL
+>   };
+>   
+Please don't make it a fabrics option. Setting is via sysfs is 
+sufficient seeing it's for testing only.
 
 Cheers,
 
