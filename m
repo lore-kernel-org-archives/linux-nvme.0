@@ -4,41 +4,41 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3CAF9C982DE
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2026 08:38:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 86DB6C982E1
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2026 08:38:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=YF+QnJSI2IRYLX+BBvh35LbXmYpd77dILkjsHttGPm8=; b=Brj5fBUT0owGrTdVeIhiAY6T5K
-	npaSmd39FmalP0wEVtE3O1DYCa1If260g51/dcumg3eG8HXCEYSNvqdQltTTpnPv5Jk+VXSCTa+oW
-	z82V4OI6nqf3FyUbhYJOMDSNZkYm3Q1WKbocY9hvNpa3TL7YTBAXnd9wDQoE78sxUHUISN0Ex7QYC
-	IxNFNDrWW7qN8ULRZUJcwGhjLNZ7uMTfcQ4F1mEuixqgxK569Khi0Y1ToH0MwXiZvHWpY6v31rvJf
-	6FH5AhBYr4aBzxpXNDcZ3PdTBJoyMiMIn7wcHiWNkhnyaSLpMTgjTp9jNcyUiI4taWwBIREearacM
-	5u0nZW0Q==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=wifUEhlXIzQK+gLNq4FmLgjlqIAakAFwgoz354bZC2c=; b=W3mAdreqLNLy3FyNz6JYvV59Ng
+	H1u9BrsSEQHB4VLigkxF+pawQygLyIv4p/VzkhpukGGdXhJYCp8HkwAJL9uRlpzF/rTSzmD3LVkXR
+	GBErkGMtj+N6v3Ou7tUH0ihlvBaQsPfXd5a/qn6kB1I79YOTN4UYI5Qp+VUSlppZWYRNDjxthVLyF
+	Yh5NAqT5NaPLFy3BwVoWyUzt1WRO3UN9PRKhYxtbsao5T1hqmlU/zx9ozNrLFmhRDizg/Slx83Mwm
+	sBAIol7mZh1pp0nx/67PK8QZz7wq7sqR8YbVI82v0z+eMP1Sd3FvZwx164PH7kkgWJ40ZbMTlyISJ
+	GDLaTW9A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x8ZXW-00000001MRt-1dC5;
-	Mon, 21 Sep 2026 08:38:18 +0000
-Received: from out-37.mta1.migadu.com ([2001:41d0:203:375::25] helo=mta1.migadu.com)
+	id 1x8ZXd-00000001MWu-3Jhk;
+	Mon, 21 Sep 2026 08:38:25 +0000
+Received: from out-130.mta0.migadu.com ([2001:41d0:1004:224b::82] helo=mta0.migadu.com)
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x8ZXT-00000001MP1-1Umm
+	id 1x8ZXU-00000001MPH-0UJP
 	for linux-nvme@lists.infradead.org;
-	Mon, 21 Sep 2026 08:38:17 +0000
+	Mon, 21 Sep 2026 08:38:19 +0000
 X-Envelope-To: linux-nvme@lists.infradead.org
-DKIM-Signature: a=rsa-sha256; bh=DIJ7cgApn0K70wpDhKxctu+FTAf8hiJPt+G9sqtwaG4=;
+DKIM-Signature: a=rsa-sha256; bh=suPrxEreYmxdYHqtvnEA6/1wSOD5fNyBvN6FM+CZl9E=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1789979891; v=1; x=1790584691;
- b=pRoccNxkS2OUoRDeN0e29rvPMV+Sj1w56a3tNWcQFuWgiYpeIkNRoLjeTJ6ns1E8s0cG05JM
- kPjN/uvFfkAZyrcFHIDrXpM2jVdH4tScPanwb3pIE6KPf2nyutwX1PCvcgRz6Whgj2oG/TyFosO
- 8wi2NArAEh290CQgb7zdTY4Q=
+ t=1789979892; v=1; x=1790584692;
+ b=r49dz3hUJOFrbvDfG4O72lr2XigicRnDMXRnwFTubbqA73UeZY8Dxqn+wbZM5CsVyXZQth02
+ Ru/vVJnKMabypQq163DaPAq+o44Kl/D/ZuEx/hVKtDb5iczy6iNZypN1lSdC8GRY6YGXdva4JJr
+ EunputfAHNfPSqvu2waX9SpQ=
 X-Envelope-To: linux-nvme@lists.infradead.org
-Received: by mta11.migadu.com with ESMTPS id 5dd44f618b7d12b2;
-	Mon, 21 Sep 2026 08:38:11 +0000
-X-Mizu-Trace-ID: 5dd44f618b7d12b2
+Received: by mta11.migadu.com with ESMTPS id 96719b6f531fda21;
+	Mon, 21 Sep 2026 08:38:12 +0000
+X-Mizu-Trace-ID: 96719b6f531fda21
 X-Migadu-Flow: FLOW_OUT
 From: John Garry <john.garry@linux.dev>
 To: axboe@kernel.dk,
@@ -48,15 +48,17 @@ To: axboe@kernel.dk,
 Cc: linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
 	John Garry <john.garry@linux.dev>
-Subject: [PATCH v4 0/4] fix NVMe multipath partition diskstats
-Date: Mon, 21 Sep 2026 09:37:48 +0100
-Message-ID: <20260921083752.1154316-1-john.garry@linux.dev>
+Subject: [PATCH v4 1/4] block: support cloning partitions
+Date: Mon, 21 Sep 2026 09:37:49 +0100
+Message-ID: <20260921083752.1154316-2-john.garry@linux.dev>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260921083752.1154316-1-john.garry@linux.dev>
+References: <20260921083752.1154316-1-john.garry@linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260921_013815_624955_FA317717 
-X-CRM114-Status: GOOD (  10.24  )
+X-CRM114-CacheID: sfid-20260921_013816_308091_738B11E5 
+X-CRM114-Status: GOOD (  15.84  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,49 +73,108 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+For NVMe multipath support, per-path gendisks have flag GENHD_FL_HIDDEN
+set. This means that no partition scan will be run for those disks.
+However the head disk will still have its partitions scanned.
 
-Currently the NVMe multipath partition diskstats are not maintained.
-This is because the functionality to update the diskstats only updates
-for the whole disk (and not per partition).
+Even though for hidden disks there is no partition scan, it can be useful
+to have the partition table available. Such is a case for NVMe multipath
+when we want to send bios to specific partitions.
 
-As an example:
-$ ./fio_read nvme1n1p1 # run traffic on /dev/nvme1n1p1
-...
-$ more /proc/diskstats | grep nvme1
- 259       2 nvme1c1n1 49857 0 400344 768565 0 0 0 0 0 2334 768565 0 0 0 0 0 0
- 259       3 nvme1n1 99710 0 800680 1599285 0 0 0 0 0 2346 1599285 0 0 0 0 0 0
- 259       5 nvme1n1p1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
- 259       4 nvme1c2n1 49853 0 400336 831472 0 0 0 0 0 2315 831472 0 0 0 0 0 0
+Support allowing a disk to clone the partitions from a multipath head disk.
 
-Notice how all values are 0 for nvme1n1p1.
+Add struct block_device_operations.disk_changed_notify callback to allow
+block drivers be notified of when partition layout may have changed. In
+the NVMe multipath case, the head disk would use this callback to re-clone
+the partitions onto the per-path disks.
 
-This series addresses that problem by first updating the gendisk code to
-create the partition table for hidden disks, as suggested by Keith.
+Signed-off-by: John Garry <john.garry@linux.dev>
+---
+ block/partitions/core.c | 43 +++++++++++++++++++++++++++++++++++++++++
+ include/linux/blkdev.h  |  2 ++
+ 2 files changed, 45 insertions(+)
 
-This is done by cloning the partition table from the multipath disk.
-
-Secondly the NVMe multipath functionality to handle the diskstats is
-modified to handle the gendisk partition, by looking up this partition
-from the per-path disk partition.
-
-Difference to v3:
-- Add block device operation disk changed CB
-
-Difference to v2:
-- don't scan per-path disk, and clone from multipath disk instead
-
-John Garry (4):
-  block: support cloning partitions
-  block: don't show partition diskstats for GENHD_FL_HIDDEN
-  nvme-multipath: clone head disk partitions to per-path disks
-  nvme-multipath: fix diskstats for partitions
-
- block/genhd.c                 |  3 +-
- block/partitions/core.c       | 43 ++++++++++++++++++
- drivers/nvme/host/multipath.c | 83 ++++++++++++++++++++++++++++++-----
- include/linux/blkdev.h        |  2 +
- 4 files changed, 120 insertions(+), 11 deletions(-)
-
+diff --git a/block/partitions/core.c b/block/partitions/core.c
+index b5c59b79ca7c..b03b206bc050 100644
+--- a/block/partitions/core.c
++++ b/block/partitions/core.c
+@@ -703,6 +703,9 @@ int bdev_disk_changed(struct gendisk *disk, bool invalidate)
+ 		kobject_uevent(&disk_to_dev(disk)->kobj, KOBJ_CHANGE);
+ 	}
+ 
++	if (disk->fops->disk_changed_notify)
++		disk->fops->disk_changed_notify(disk);
++
+ 	return ret;
+ }
+ /*
+@@ -711,6 +714,46 @@ int bdev_disk_changed(struct gendisk *disk, bool invalidate)
+  */
+ EXPORT_SYMBOL_GPL(bdev_disk_changed);
+ 
++int bdev_clone_partitions(struct gendisk *disk, struct gendisk *mirror)
++{
++	struct block_device *part;
++	unsigned long idx;
++
++	if (disk_has_partscan(mirror))
++		return -EINVAL;
++
++	lockdep_assert_held(&disk->open_mutex);
++	mutex_lock_nested(&mirror->open_mutex, SINGLE_DEPTH_NESTING);
++
++	xa_for_each_start(&mirror->part_tbl, idx, part, 1) {
++		/* Same as bdev_disk_changed() */
++		bdev_unhash(part);
++		WARN_ON_ONCE(atomic_read(&part->bd_openers));
++		invalidate_bdev(part);
++		drop_partition(part);
++	}
++
++	xa_for_each_start(&disk->part_tbl, idx, part, 1) {
++		struct block_device *part_added;
++
++		part_added = add_partition(mirror, idx, part->bd_start_sect,
++					part->bd_nr_sectors, ADDPART_FLAG_NONE,
++					part->bd_meta_info);
++		if (IS_ERR(part_added)) {
++			if (PTR_ERR(part_added) != -ENXIO) {
++				dev_err(disk_to_dev(mirror), "p%ld could not be added: %pe\n",
++				       idx, part_added);
++			}
++			mutex_unlock(&mirror->open_mutex);
++			return PTR_ERR(part_added);
++		}
++	}
++	mutex_unlock(&mirror->open_mutex);
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(bdev_clone_partitions);
++
+ void *read_part_sector(struct parsed_partitions *state, sector_t n, Sector *p)
+ {
+ 	struct address_space *mapping = state->disk->part0->bd_mapping;
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index d003a9d2d1f6..249a4250a56d 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -978,6 +978,7 @@ static inline unsigned int bdev_nr_zones(struct block_device *bdev)
+ }
+ 
+ int bdev_disk_changed(struct gendisk *disk, bool invalidate);
++int bdev_clone_partitions(struct gendisk *disk, struct gendisk *mirror);
+ 
+ void put_disk(struct gendisk *disk);
+ struct gendisk *__blk_alloc_disk(struct queue_limits *lim, int node,
+@@ -1599,6 +1600,7 @@ struct block_device_operations {
+ 	/* returns the length of the identifier or a negative errno: */
+ 	int (*get_unique_id)(struct gendisk *disk, u8 id[16],
+ 			enum blk_unique_id id_type);
++	void (*disk_changed_notify)(struct gendisk *disk);
+ 	struct module *owner;
+ 	const struct pr_ops *pr_ops;
+ 
 -- 
 2.43.0
 
