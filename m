@@ -4,61 +4,128 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DE995C982EE
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2026 08:38:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 57A45C982E1
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2026 09:00:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=J9/U5YsTQDbEtLCS+m4OMu/MI0ucvMA3OS3vtvMVO/M=; b=HN9IlZ2RqvFpqq7uVqeDqBPMdg
-	2FQRWaliQSGSiS6a3B6JcdNP3ER0lv8zHUCAeS8AEw2XYf3xgcgHm4lvlmWP3+/Kac5WKmNVJ9ATa
-	gh230jD6nuBt0xlj9IBmdUllzxuMUepm14UFLO1rzb80tt0N244An6fXqSMQu1o3KxytcPLhJC2zF
-	Hq8Vt6qZtk53MBhiXt//qQozZztC++rpelK+mLEdO4M0wJDvoGkkEZ8npMi1z34gKaLUd4FkVkSTg
-	tjG4IJnWJVb6qmJ3bw2Ocepvi1UBQmVFbsAErphN7cJnmxqfTu5GIz5f/Jo0xHjTi5n6nzqZRBtOC
-	FmYFtlhw==;
+	bh=wDGbpQhbAoKwstdbxO3RxACQhKS6WnNQ72Q4Vsx1hGw=; b=X1y91QGQcvHjp8gLtJKYtBJCD4
+	yJ9qcAqWGd+lfC5edxLgYbGkXMd4BfXCVQUKEjxFxCUbmdRzH86EtcNEtqZUrftNv8PT+C8y7M0rr
+	EeUEYpJLfyB6RFiYThUmtF1y89sD72gHcj+G9nirmDYg5bT2dvZIJXrnWO66u8nYh9m6YKRpPjCLk
+	hUlE1ljqPNS0VBaP7ijL2AqwuQMuhXtxbxcSZD32vt89igsqvbouRyqaofTuflhCJ9KqAZVyITRtn
+	QEdYc2FXBsLimzLEPV0V+lIuFxhzOmj4caJWu8yhoqVJog5/EiUgIVcbVonctwcCAPUgqoVhS2sP/
+	NgonZa0w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x8ZXk-00000001McQ-1jd2;
-	Mon, 21 Sep 2026 08:38:32 +0000
-Received: from out-41.mta1.migadu.com ([2001:41d0:203:375::29] helo=mta1.migadu.com)
+	id 1x8ZtM-00000001QZw-1rIR;
+	Mon, 21 Sep 2026 09:00:52 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x8ZXX-00000001MRb-0hbe
+	id 1x8ZtJ-00000001QYB-10Ed
 	for linux-nvme@lists.infradead.org;
-	Mon, 21 Sep 2026 08:38:22 +0000
-X-Envelope-To: linux-nvme@lists.infradead.org
-DKIM-Signature: a=rsa-sha256; bh=lo+3hYrHbOxtP+yhhzev+iunFmIbTKcxkOK8eO47HeM=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1789979897; v=1; x=1790584697;
- b=lSXdiOQUnmMvl/VHbFJgzutIS1h8AXdoxa1RXyfLS2I2/jK2YRNtzW9DQV2sq/Qval3XEyfC
- +MMKWmGEmTpvf9cnczjdIbSDdSJkRXMHDsbhMkAV+wk/J7x9bzVneyfWm94M4AcDp3YxNT1ZbHd
- h1ilfnvY667FrgteW/qFAssk=
-X-Envelope-To: linux-nvme@lists.infradead.org
-Received: by mta11.migadu.com with ESMTPS id 9969d023204782c0;
-	Mon, 21 Sep 2026 08:38:17 +0000
-X-Mizu-Trace-ID: 9969d023204782c0
-X-Migadu-Flow: FLOW_OUT
-From: John Garry <john.garry@linux.dev>
-To: axboe@kernel.dk,
-	kbusch@kernel.org,
-	sagi@grimberg.me,
-	hch@lst.de
-Cc: linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	John Garry <john.garry@linux.dev>
-Subject: [PATCH v4 3/4] nvme-multipath: clone head disk partitions to per-path disks
-Date: Mon, 21 Sep 2026 09:37:51 +0100
-Message-ID: <20260921083752.1154316-4-john.garry@linux.dev>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260921083752.1154316-1-john.garry@linux.dev>
-References: <20260921083752.1154316-1-john.garry@linux.dev>
+	Mon, 21 Sep 2026 09:00:50 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 1FBDF1FDD9;
+	Mon, 21 Sep 2026 09:00:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1789981243; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wDGbpQhbAoKwstdbxO3RxACQhKS6WnNQ72Q4Vsx1hGw=;
+	b=vq9jwxVdh9kk5ZZmt+wiSahm2Q49vq+PISt+bMI2PMlcoCls4ofx7VkN5v9hrFvGhAwy1/
+	J0pjfyYMwxqN7fw68ei5Zan5e1dJ2Qq64GT8XAQvoKnDJ/Z9/PEN+/4b3tYm1c0s3xPAZo
+	xrvRTkrLuWgzuyjdf0NBi2zhrSg0iNw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1789981243;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wDGbpQhbAoKwstdbxO3RxACQhKS6WnNQ72Q4Vsx1hGw=;
+	b=tjwD4GPQb17Btr1PRqdQT006cAUyxUjKW6HfguordmXaIGo827H66F8TFECkl+Z8+1zcTG
+	ho8QQuJBQG2VluBg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1789981239; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wDGbpQhbAoKwstdbxO3RxACQhKS6WnNQ72Q4Vsx1hGw=;
+	b=RpGGXtJPJk4rwLwWmr6I6oQQVbQ/ed4LxZ9KEmlyFynD2rt0CCY/UgsB7BrGWF2NbqgZjd
+	DONqmB0Y4j9kY9b2YcZksDeWLEI7PHiZHhI0XYrKYr3TWTxTxNpYBLzLvgzbqKFD7RqLA1
+	GxiQqh29dRx7L2RLox4UZogzR+AiAZ0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1789981239;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wDGbpQhbAoKwstdbxO3RxACQhKS6WnNQ72Q4Vsx1hGw=;
+	b=2jZkD7JeljcfGXWg3Ta19v2pWuTptmd8PMev6YC/lT0sw/I8eG9yAOnH117fCmcL17NGJL
+	vam4RF7VPjmmN/Cg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9E01E1368D;
+	Mon, 21 Sep 2026 09:00:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id JExEHDbysGqjWgAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 21 Sep 2026 09:00:38 +0000
+Message-ID: <0d816796-3641-4982-9b28-484b226021f5@suse.de>
+Date: Mon, 21 Sep 2026 11:00:38 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvmet-fcloop: fail LS request synchronously when remote
+ port is gone
+To: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>,
+ Justin Tee <justin.tee@broadcom.com>,
+ Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
+ Paul Ely <paul.ely@broadcom.com>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>
+Cc: Daniel Wagner <wagi@kernel.org>, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org,
+ syzbot+77955102efac681ec73b@syzkaller.appspotmail.com
+References: <20260920163804.67858-1-ngocthang2710.1999@gmail.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20260920163804.67858-1-ngocthang2710.1999@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	FREEMAIL_TO(0.00)[gmail.com,broadcom.com,lst.de,grimberg.me,nvidia.com];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[77955102efac681ec73b];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[syzkaller.appspot.com:url,suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo,appspotmail.com:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260921_013819_424969_05A659CF 
-X-CRM114-Status: GOOD (  14.30  )
+X-CRM114-CacheID: sfid-20260921_020049_433212_1050C6EF 
+X-CRM114-Status: GOOD (  18.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,79 +140,78 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-To fix diskstats per partition, it is required that the per-path disk
-actually has an up-to-date partition table. This partition table would be
-a clone of the head disk partition table.
+On 9/20/26 6:38 PM, Nguyen Ngoc Thang wrote:
+> fcloop_t2h_ls_req() handles a missing remoteport by queueing the request
+> on tport->ls_list and completing it with -ECONNREFUSED from a work item.
+> 
+> nvmet_fc_delete_assoc_work() sends the Disconnect Association LS this
+> way. When it runs during nvmet_fc_unregister_targetport(), the work is
+> queued after flush_workqueue() has started, so it is not waited for.
+> nvmet_fc_free_pending_reqs() then frees the still-pending lsop and the
+> late work item calls lsreq->done() on freed memory:
+> 
+>    BUG: KASAN: slab-use-after-free in fcloop_rport_lsrqst_work+0x242/0x2e0
+>    Workqueue: nvmet-wq fcloop_tport_lsrqst_work
+>    Allocated by nvmet_fc_xmt_disconnect_assoc
+>    Freed by nvmet_fc_free_pending_reqs
+>             nvmet_fc_unregister_targetport
+>             fcloop_delete_target_port
+> 
+> Return -ECONNREFUSED directly instead. __nvmet_fc_send_ls_req() unwinds
+> and nvmet_fc_xmt_disconnect_assoc() frees the lsop, so no completion is
+> left outstanding.
+> 
+> Reported-by: syzbot+77955102efac681ec73b@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=77955102efac681ec73b
+> Fixes: bbccbf791e6f ("nvmet-fc: free pending reqs on tgtport unregister")
+> Signed-off-by: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+> ---
+>   drivers/nvme/target/fcloop.c | 17 +++++++----------
+>   1 file changed, 7 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
+> index b63af3b643a6..9f9fb40f8a97 100644
+> --- a/drivers/nvme/target/fcloop.c
+> +++ b/drivers/nvme/target/fcloop.c
+> @@ -456,21 +456,18 @@ fcloop_t2h_ls_req(struct nvmet_fc_target_port *targetport, void *hosthandle,
+>   	 * 1:1 tgtport vs remoteport
+>   	 */
+>   
+> +	/*
+> +	 * Fail synchronously: an async completion can run after
+> +	 * nvmet_fc_unregister_targetport() has freed the pending lsreq.
+> +	 */
+> +	if (!tport->remoteport)
+> +		return -ECONNREFUSED;
+> +
+>   	tls_req = kmem_cache_alloc(lsreq_cache, GFP_KERNEL);
+>   	if (!tls_req)
+>   		return -ENOMEM;
+>   	tls_req->lsreq = lsreq;
+>   	INIT_LIST_HEAD(&tls_req->ls_list);
+> -
+> -	if (!tport->remoteport) {
+> -		tls_req->status = -ECONNREFUSED;
+> -		spin_lock(&tport->lock);
+> -		list_add_tail(&tls_req->ls_list, &tport->ls_list);
+> -		spin_unlock(&tport->lock);
+> -		queue_work(nvmet_wq, &tport->ls_work);
+> -		return ret;
+> -	}
+> -
+>   	tls_req->status = 0;
+>   	ret = nvme_fc_rcv_ls_req(tport->remoteport, &tls_req->ls_rsp,
+>   				 lsreq->rqstaddr, lsreq->rqstlen);
 
-At two points the partition table needs to be updated:
-- when the per-path disk is added in nvme_mpath_add_disk()
-- for partition table updates to the head disk, add
-  nvme_ns_head_disk_changed() to clone the partition table to per-path
-  disks
+Can you create a blktest for this?
+Otherwise look good.
 
-Signed-off-by: John Garry <john.garry@linux.dev>
----
- drivers/nvme/host/multipath.c | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+Cheers,
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 75dbb58286a3..e871ad40d893 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -623,6 +623,23 @@ static int nvme_ns_head_report_zones(struct gendisk *disk, sector_t sector,
- #define nvme_ns_head_report_zones	NULL
- #endif /* CONFIG_BLK_DEV_ZONED */
- 
-+static void nvme_ns_head_disk_changed(struct gendisk *disk)
-+{
-+	struct nvme_ns_head *head = disk->private_data;
-+	struct nvme_ns *ns;
-+	int srcu_idx;
-+
-+	lockdep_assert_held(&disk->open_mutex);
-+
-+	srcu_idx = srcu_read_lock(&head->srcu);
-+	list_for_each_entry_srcu(ns, &head->list, siblings,
-+				 srcu_read_lock_held(&head->srcu)) {
-+		if (bdev_clone_partitions(head->disk, ns->disk))
-+			clear_bit(NVME_NS_READY, &ns->flags);
-+	}
-+	srcu_read_unlock(&head->srcu, srcu_idx);
-+}
-+
- const struct block_device_operations nvme_ns_head_ops = {
- 	.owner		= THIS_MODULE,
- 	.submit_bio	= nvme_ns_head_submit_bio,
-@@ -634,6 +651,7 @@ const struct block_device_operations nvme_ns_head_ops = {
- 	.get_unique_id	= nvme_ns_head_get_unique_id,
- 	.report_zones	= nvme_ns_head_report_zones,
- 	.pr_ops		= &nvme_pr_ops,
-+	.disk_changed_notify	= nvme_ns_head_disk_changed,
- };
- 
- static const struct file_operations nvme_ns_head_chr_fops = {
-@@ -1360,6 +1378,20 @@ void nvme_mpath_remove_sysfs_link(struct nvme_ns *ns)
- 
- void nvme_mpath_add_disk(struct nvme_ns *ns, __le32 anagrpid)
- {
-+	struct nvme_ns_head *head = ns->head;
-+	int ret;
-+
-+	if (!head->disk)
-+		return;
-+
-+	mutex_lock(&head->disk->open_mutex);
-+	ret = bdev_clone_partitions(head->disk, ns->disk);
-+	mutex_unlock(&head->disk->open_mutex);
-+	if (ret) {
-+		clear_bit(NVME_NS_READY, &ns->flags);
-+		return;
-+	}
-+
- 	if (nvme_ctrl_use_ana(ns->ctrl)) {
- 		struct nvme_ana_group_desc desc = {
- 			.grpid = anagrpid,
+Hannes
 -- 
-2.43.0
-
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
