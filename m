@@ -4,128 +4,98 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C4807C982ED
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2026 12:21:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DDCC0C982EE
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2026 12:28:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/N2j+TpzdH5fYChgBVVWU81IYom7qAkVZBKFMILG6e8=; b=YQcyQ9erLc84+udaVVkDsELh3v
-	5clASQV7pPppp8tPfeE792hNWcdWMrFlLihMEAkMmr1+enYgM+Lvf6ir8gboDMSzWoysRMuZUJ1sz
-	p/680RwuY08AdmzQZl1nqKhx355I2vp8N7JVCrigNAF9xOm7MOychuiD5c/qePoUpvOvCTz9zrSqD
-	XRiOjiUHHIadWvVjmofs4u7WfTECLEPl9fg3MAcMTRgwNY0SIxf8WULDIPEf5ninSKvr0xAvPQ3/k
-	hX1UFONA+qb2Qz7Vw5+aPr8pFucpo+xbM8+3imznmWCoz5Sv7FeA77LKaeJOduxaZcJwNvGj71Srz
-	SZxJjDyQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:To:Cc:Date:Message-Id:
+	Subject:Mime-Version:Content-Transfer-Encoding:Content-Type:From:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=uPYvypMqdqu5ySj/BDtWhRNavQC5x3b93Y8UO91/lfk=; b=0k76C0Io1H4DPtPtnvwluWXnbm
+	tCzIuKaMNPWu1AkTjki4UiepRF+O8f1eeWTu9jEXnBA+7VJf9+zfN99KzzCu+X32HoABW6577SUR9
+	F0FxM3VPFs++eBAb5SKvBbHyyB2QyU1+4Yl8wfpdRprMRxwJSP/pqKzhsahW4xnrNFoxD8JPnKYdj
+	nqs9hus+3mng+U5XsEkz+R2OeWm4ppYvIRF/Owl8hUj9uKrhrZ5bzAAWfcJ1PjIO7GeG/7w4OOyVP
+	6246Mr7ujfwly98/fotxd3v1X/W88mV/s3TK3dNVBwh3OCbYHpGlO5fc0Kl4/ZVAAgxmx42mAdf4I
+	CMJSWszw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x8d1k-000000022jq-1ENx;
-	Mon, 21 Sep 2026 12:21:44 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1x8d8c-00000002496-26W3;
+	Mon, 21 Sep 2026 12:28:50 +0000
+Received: from mo4-p00-ob.smtp.rzone.de ([85.215.255.25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x8d1g-000000022ik-1aJS
+	id 1x8d8Z-0000000247K-0Azg
 	for linux-nvme@lists.infradead.org;
-	Mon, 21 Sep 2026 12:21:42 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0F2401F88D;
-	Mon, 21 Sep 2026 12:21:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789993294; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/N2j+TpzdH5fYChgBVVWU81IYom7qAkVZBKFMILG6e8=;
-	b=vMcD5NsrqTImu+Fqgoosse5gO6i+RTvkRV9beOsFtIzOwF7xu5RGhn58gUFtR1a9b7j0Qr
-	mvjf4CuIZ2zeGVYHP7tps2AnfZwiinH/r/cXRRKHbHlKXog87cEImdSd7qAa9ItTBUrR6V
-	CA9R6XgqnXH1XTI8VjFuKKEUj/moRvE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789993294;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/N2j+TpzdH5fYChgBVVWU81IYom7qAkVZBKFMILG6e8=;
-	b=FzMpx8b53VFqBtTNqm8R+StpzG3XE38SDhJrlssrV7jcVeyqW80nIXSYInDaivcXy2fanH
-	zj5mnR4RuAe5+BAw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=wbGEu34E;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=CphzqfRh
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789993290; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/N2j+TpzdH5fYChgBVVWU81IYom7qAkVZBKFMILG6e8=;
-	b=wbGEu34EThcTu2JOHqQgjzOusC+x0Wg0QKklo2qFk86kFEPiB70CNv1BYdVCIZMPFUBj3m
-	yqBS4jRtjMmxUF+g/fPFea0vjipHuH/nSB+gUdckk7Je0DVq7SVOS1d38xwc7Y7RPO2qZY
-	EkDQlhHnC9jF2Merg4eN390kpzqfSWY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789993290;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/N2j+TpzdH5fYChgBVVWU81IYom7qAkVZBKFMILG6e8=;
-	b=CphzqfRhsBZpzu3UsK8btmaGpjW3EQ4MmUxDo3deuccjjwBUfMEWdf6fJmMQlzmUaWmksg
-	Bn1zkAgIrREH7pCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9E31513793;
-	Mon, 21 Sep 2026 12:21:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id YJ42G0khsWp0NwAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 21 Sep 2026 12:21:29 +0000
-Message-ID: <db8c19f8-d087-4e3c-8424-6a90760cdf16@suse.de>
-Date: Mon, 21 Sep 2026 14:21:28 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC] nvme-tcp: allow multiple queues per hctx
-To: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org
-Cc: sagi@grimberg.me, hch@lst.de, axboe@kernel.dk,
- Keith Busch <kbusch@kernel.org>
-References: <20260903152623.614951-1-kbusch@meta.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20260903152623.614951-1-kbusch@meta.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 0F2401F88D
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:email,suse.de:mid];
-	DKIM_TRACE(0.00)[suse.de:+]
+	Mon, 21 Sep 2026 12:28:49 +0000
+ARC-Seal: i=1; a=rsa-sha256; t=1789993707; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=Y+rq4wYeqVEElB/+rBDPcuAVH3/ROlO0+wkixHT9KiAf18HTi68fBsw3HH4fYE7HVY
+    p2wOOnqyxbbH5viBH6VtShxdmfFdbuNw4oRmjAMnDtDnhuTZ2dElEDuKBTB8J/92ErDm
+    +m1HFiuTX1tt7yKrytIiNGTnSGfeUqcAx90HEBjrtv220JTeCfhWPixPVY/+Pj7mcrHv
+    HB9wEetDe1yVO6nEYaUptxH99LZfUhSxVilf9efsbIasznGI0dgKJLB93XSujuLXsV00
+    zDYMhoXGezAIksCmWKlnB79ZvidwTzBKA4DAjGqk5zjItJZ0YxkFJUxsuHAOq/m54p3K
+    36Wg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1789993707;
+    s=strato-dkim-0002; d=strato.com;
+    h=To:Cc:Date:Message-Id:Subject:From:Cc:Date:From:Subject:Sender;
+    bh=uPYvypMqdqu5ySj/BDtWhRNavQC5x3b93Y8UO91/lfk=;
+    b=fvP4VVc5KX+sxhXDkGEDPgqcPVKAx24rI4RKvIsEEW041VHghiWXHgOZwlbjxTMjcA
+    jIBR/G4KBMKl4ggcxw6d1HG84Ytv2UjPQwMIYM1z8TA+R7ccxwPrbVxVjBrlr8fziOT6
+    kuHJLg+1CkZv8I5VQaaCVdKQvVEW8tq8dHaHhWXYEY/IozdtL1PirE7HFi93rxAtFkf7
+    0V/UpbwZcgv4zrBxnSF6UzhoDxD6Rjfd6YayxFXHDNIRfdKy1KD4mSVigMWdEAUN01jW
+    IMLl6G6rNl36s77Fk2eTi9sGSemN9tuYsU8To54gKSMtxZK5B+qTYvkWzKJLp52/1MgK
+    NfrQ==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo00
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1789993707;
+    s=strato-dkim-0002; d=donnerluetjen.de;
+    h=To:Cc:Date:Message-Id:Subject:From:Cc:Date:From:Subject:Sender;
+    bh=uPYvypMqdqu5ySj/BDtWhRNavQC5x3b93Y8UO91/lfk=;
+    b=KyqXkw9dCSVgd4TWSzro3nIik2X9fnDKJSuvKNn1E/jKHABwesXQB41NDDNEVzoJtr
+    KB38OdEUjAyt72j/ySfvJAhWIvjrEuLwvVOCzCbL0X67eAm/xmlwH4QROXDrCIMmDQ/A
+    hFQT7LavlY087EzsdDbo5EgNVfJDTziWybb/0QaY/pah+WYgHpOAenIlvTmweQa8j1ci
+    6WFPHFAp1nwE7xLylT4y3kW9YQ4YaNzUjfeUX4Bnq2+3rFvFkchbCo7vaPJXXbJzbofc
+    4XOQpX0VARquBRaQv6QDnMlmgMApKymFgdlty3CwboDoTmsAf+UZ6mhix/vJbQkirb8e
+    5yVw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1789993707;
+    s=strato-dkim-0003; d=donnerluetjen.de;
+    h=To:Cc:Date:Message-Id:Subject:From:Cc:Date:From:Subject:Sender;
+    bh=uPYvypMqdqu5ySj/BDtWhRNavQC5x3b93Y8UO91/lfk=;
+    b=MP6iKqYgUvZIWy5KbtJjaAbLl/F4DZRmV1tn92gjRAQw7f/H65Vg1cjvA7nxy6kfa+
+    AVsPdwbmzyWxaOqrZPDw==
+X-RZG-AUTH: ":KGkSdEGIf/B+T6RgFsN+Ar29fQb+E4Px3RvhcXP0WHkIUo95nzS1OdWHCOUHAjwE10j9ZqMxyIrYVYpwwWg9T4oGeaTsw50op0iKRg=="
+Received: from smtpclient.apple
+    by smtp.strato.de (RZmta 55.6.2 AUTH)
+    with ESMTPSA id 4046de28LCSRFkg
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
+	(Client did not present a certificate);
+    Mon, 21 Sep 2026 14:28:27 +0200 (CEST)
+From: Ansgar Asseburg <devaa@donnerluetjen.de>
+Content-Type: text/plain;
+	charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.100.1.1.11\))
+Subject: nvme: Apple S3X (106b:2003) unresponsive after resume on MacBook10,1,
+ fixed by pcie_port_pm=off
+Message-Id: <FB73E91E-BD39-4EB5-9914-9B63D769E490@donnerluetjen.de>
+Date: Mon, 21 Sep 2026 14:28:17 +0200
+Cc: Len Brown <lenb@kernel.org>,
+ linux-nvme@lists.infradead.org,
+ linux-pci@vger.kernel.org,
+ linux-acpi@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+To: Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>
+X-Mailer: Apple Mail (2.3901.100.1.1.11)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260921_052140_736082_45CDEC08 
-X-CRM114-Status: GOOD (  42.75  )
+X-CRM114-CacheID: sfid-20260921_052848_263314_4E117069 
+X-CRM114-Status: GOOD (  21.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -140,788 +110,375 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/3/26 5:26 PM, Keith Busch wrote:
-> From: Keith Busch <kbusch@kernel.org>
-> 
-> We've observed many workloads may burst large amounts of IO from a one
-> thread, which has the nvme tcp driver queue all the work onto a single
-> socket and serialized by a single CPU. We can hit a CPU bottleneck
-> before saturating the link when this happens.
-> 
-> Provide an option to ask for more queues for each blk-mq hctx. The
-> option is provided in the nvme-fabrics connection string by appending
-> "queues_per_hctx=N", where N is the number of queues you want to share
-> each hctx. The nvme tcp driver will group those queues under that hctx
-> and perform a simple round-robin to dispatch the requests and subsequent
-> work. The workqueue provided for this is always unbounded, and we
-> provide the CPU hint from the original dispatching CPU in order to
-> maintain locality for the completion side.
-> 
-> The default is the pre-existing 1 queue per hctx, so this patch should
-> be a no-op if you don't explicitly opt into this feature.
-> 
-> Testing with a very capable NIC, a high bandwith workload of QD16 1MB
-> reads improved from 7GB/s on the default settings to 24GB/s with 4
-> queues per hctx.
-> 
-> For a more IOPs intensive workload, a QD64 4k random read test improved
-> from 184k to 252k.
-> 
-> This also gets a tighter grouping on application observed latency,
-> significantly bringing in the P99 outliers.
-> 
-> On the down side, there is a minor regression on low depth workloads.
-> 
-> Signed-off-by: Keith Busch <kbusch@kernel.org>
-> ---
-> One potential subtlety here, this relies on the tcp queue connection's
-> existing behavior today, which serializes the sequence. There is a
-> proposal to parallelize that process and would break this.
-> 
->   drivers/nvme/host/core.c    |  13 +-
->   drivers/nvme/host/fabrics.c |  15 ++
->   drivers/nvme/host/fabrics.h |  11 +-
->   drivers/nvme/host/nvme.h    |   2 +
->   drivers/nvme/host/tcp.c     | 267 ++++++++++++++++++++++++++++--------
->   5 files changed, 248 insertions(+), 60 deletions(-)
-> 
-Interesting.
-We have so far refrained from similar attempts as the idea was that
-one CPU would be able to saturate the available bandwidth; additionally
-nvme_tcp_io_work() would be gobbling up any available data, so 
-scheduling between two instances on the same queue would be pointless.
 
-So question would be: where does the speed up come from?
-I do seen that using polling for performance testing would explain the
-differences, but do we see an improvement without polling?
-If we do then it means that we gain performance by adding more 
-connections _on the same CPU_, ie that our implementation
-is creating a bottleneck (obviously the block layer is able
-to drive more I/O, and equally obvious the physical connection
-is able to driver more I/O, too).
 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 758245c799a10..e5e8e4609003d 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -1194,11 +1194,15 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
->   		blk_flags |= BLK_MQ_REQ_NOWAIT;
->   	if (flags & NVME_SUBMIT_RESERVED)
->   		blk_flags |= BLK_MQ_REQ_RESERVED;
-> -	if (qid == NVME_QID_ANY)
-> +	if (qid == NVME_QID_ANY) {
->   		req = blk_mq_alloc_request(q, nvme_req_op(cmd), blk_flags);
-> -	else
-> +	} else {
-> +		struct nvme_ctrl *ctrl = q->tag_set->driver_data;
-> +
-> +		/* the command names a transport queue, not a blk-mq hctx */
->   		req = blk_mq_alloc_request_hctx(q, nvme_req_op(cmd), blk_flags,
-> -						qid - 1);
-> +				(qid - 1) / ctrl->queues_per_hctx);
-> +	}
->   
->   	if (IS_ERR(req))
->   		return PTR_ERR(req);
-> @@ -5063,7 +5067,7 @@ int nvme_alloc_io_tag_set(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set,
->   		set->flags |= BLK_MQ_F_BLOCKING;
->   	set->cmd_size = cmd_size;
->   	set->driver_data = ctrl;
-> -	set->nr_hw_queues = ctrl->queue_count - 1;
-> +	set->nr_hw_queues = (ctrl->queue_count - 1) / ctrl->queues_per_hctx;
->   	set->timeout = NVME_IO_TIMEOUT;
->   	set->nr_maps = nr_maps;
->   	ret = blk_mq_alloc_tag_set(set);
-> @@ -5232,6 +5236,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
->   	ctrl->ops = ops;
->   	ctrl->quirks = quirks;
->   	ctrl->numa_node = NUMA_NO_NODE;
-> +	ctrl->queues_per_hctx = 1;
->   	INIT_WORK(&ctrl->scan_work, nvme_scan_work);
->   	INIT_WORK(&ctrl->async_event_work, nvme_async_event_work);
->   	INIT_WORK(&ctrl->fw_act_work, nvme_fw_act_work);
-> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-> index 59f823dfbbccb..43ad240586ec8 100644
-> --- a/drivers/nvme/host/fabrics.c
-> +++ b/drivers/nvme/host/fabrics.c
-> @@ -694,6 +694,7 @@ static const match_table_t opt_tokens = {
->   	{ NVMF_OPT_DATA_DIGEST,		"data_digest"		},
->   	{ NVMF_OPT_NR_WRITE_QUEUES,	"nr_write_queues=%d"	},
->   	{ NVMF_OPT_NR_POLL_QUEUES,	"nr_poll_queues=%d"	},
-> +	{ NVMF_OPT_QUEUES_PER_HCTX,	"queues_per_hctx=%d"	},
->   	{ NVMF_OPT_TOS,			"tos=%d"		},
->   #ifdef CONFIG_NVME_TCP_TLS
->   	{ NVMF_OPT_KEYRING,		"keyring=%d"		},
-> @@ -727,6 +728,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
->   	/* Set defaults */
->   	opts->queue_size = NVMF_DEF_QUEUE_SIZE;
->   	opts->nr_io_queues = num_online_cpus();
-> +	opts->queues_per_hctx = 1;
->   	opts->reconnect_delay = NVMF_DEF_RECONNECT_DELAY;
->   	opts->kato = 0;
->   	opts->duplicate_connect = false;
-> @@ -975,6 +977,18 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
->   			}
->   			opts->nr_poll_queues = token;
->   			break;
-> +		case NVMF_OPT_QUEUES_PER_HCTX:
-> +			if (match_int(args, &token)) {
-> +				ret = -EINVAL;
-> +				goto out;
-> +			}
-> +			if (token <= 0 || token > NVMF_MAX_QUEUES_PER_HCTX) {
-> +				pr_err("Invalid queues_per_hctx %d\n", token);
-> +				ret = -EINVAL;
-> +				goto out;
-> +			}
-> +			opts->queues_per_hctx = token;
-> +			break;
->   		case NVMF_OPT_TOS:
->   			if (match_int(args, &token)) {
->   				ret = -EINVAL;
-> @@ -1078,6 +1092,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
->   		opts->nr_io_queues = 0;
->   		opts->nr_write_queues = 0;
->   		opts->nr_poll_queues = 0;
-> +		opts->queues_per_hctx = 1;
->   		opts->duplicate_connect = true;
->   	} else {
->   		if (!opts->kato)
-> diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-> index caf5503d08332..69fccecd4901b 100644
-> --- a/drivers/nvme/host/fabrics.h
-> +++ b/drivers/nvme/host/fabrics.h
-> @@ -67,8 +67,12 @@ enum {
->   	NVMF_OPT_KEYRING	= 1 << 26,
->   	NVMF_OPT_TLS_KEY	= 1 << 27,
->   	NVMF_OPT_CONCAT		= 1 << 28,
-> +	NVMF_OPT_QUEUES_PER_HCTX = 1 << 29,
->   };
->   
-> +/* Upper bound on transport queues backing a single blk-mq hctx. */
-> +#define NVMF_MAX_QUEUES_PER_HCTX	16
-> +
->   /**
->    * struct nvmf_ctrl_options - Used to hold the options specified
->    *			      with the parsing opts enum.
-> @@ -109,6 +113,7 @@ enum {
->    * @nr_write_queues: number of queues for write I/O
->    * @nr_poll_queues: number of queues for polling I/O
->    * @tos: type of service
-> + * @queues_per_hctx: transport queues backing each blk-mq hctx
->    * @fast_io_fail_tmo: Fast I/O fail timeout in seconds
->    */
->   struct nvmf_ctrl_options {
-> @@ -138,6 +143,7 @@ struct nvmf_ctrl_options {
->   	bool			data_digest;
->   	unsigned int		nr_write_queues;
->   	unsigned int		nr_poll_queues;
-> +	unsigned int		queues_per_hctx;
->   	int			tos;
->   	int			fast_io_fail_tmo;
->   };
-> @@ -212,9 +218,10 @@ static inline void nvmf_complete_timed_out_request(struct request *rq)
->   
->   static inline unsigned int nvmf_nr_io_queues(struct nvmf_ctrl_options *opts)
->   {
-> -	return min(opts->nr_io_queues, num_online_cpus()) +
-> +	return (min(opts->nr_io_queues, num_online_cpus()) +
->   		min(opts->nr_write_queues, num_online_cpus()) +
-> -		min(opts->nr_poll_queues, num_online_cpus());
-> +		min(opts->nr_poll_queues, num_online_cpus())) *
-> +		opts->queues_per_hctx;
->   }
->   
->   static inline unsigned long nvmf_get_virt_boundary(struct nvme_ctrl *ctrl,
-> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index 2cff9fcbf7404..5f92dba7aeca9 100644
-> --- a/drivers/nvme/host/nvme.h
-> +++ b/drivers/nvme/host/nvme.h
-> @@ -355,6 +355,8 @@ struct nvme_ctrl {
->   	int numa_node;
->   	struct blk_mq_tag_set *tagset;
->   	struct blk_mq_tag_set *admin_tagset;
-> +	/* transport queues per hctx; set before nvme_alloc_io_tag_set() */
-> +	unsigned int queues_per_hctx;
->   	struct list_head namespaces;
->   	struct mutex namespaces_lock;
->   	struct srcu_struct srcu;
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 921934028e0b2..6b36fe9445466 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -105,7 +105,10 @@ struct nvme_tcp_ctrl;
->   struct nvme_tcp_queue {
->   	struct socket		*sock;
->   	struct work_struct	io_work;
-> +	struct workqueue_struct	*wq;
->   	int			io_cpu;
-> +	/* queue_work_on() cpu; only a pod hint on the unbound workqueue */
-> +	int			wq_cpu;
->   
->   	struct mutex		queue_lock;
->   	struct mutex		send_mutex;
-> @@ -151,6 +154,13 @@ struct nvme_tcp_queue {
->   #endif
->   };
->   
-> +/* the transport queues backing one blk-mq hctx, and their rotor */
-> +struct nvme_tcp_hctx {
-> +	struct nvme_tcp_queue	*queues;
-> +	unsigned int		nr;
-> +	atomic_t		rotor;
-> +};
-> +
->   static DEFINE_MUTEX(nvme_tcp_ctrl_mutex);
->   static LIST_HEAD_GUARDED(nvme_tcp_ctrl_list, nvme_tcp_ctrl_mutex);
->   
-> @@ -167,6 +177,9 @@ struct nvme_tcp_ctrl {
->   	struct sockaddr_storage src_addr;
->   	struct nvme_ctrl	ctrl;
->   
-> +	/* connection being established; relies on connects being serialized */
-> +	struct nvme_tcp_queue	*connect_queue;
-> +
->   	struct work_struct	err_work;
->   	struct delayed_work	connect_work;
->   	struct nvme_tcp_request async_req;
-> @@ -174,6 +187,12 @@ struct nvme_tcp_ctrl {
->   };
->   
->   static struct workqueue_struct *nvme_tcp_wq;
-> +/*
-> + * Grouped queues must run concurrently, so they go on an unbound workqueue and
-> + * let the scheduler place them within the pod.  Retunable via sysfs
-> + * affinity_scope.
-> + */
-> +static struct workqueue_struct *nvme_tcp_unbound_wq;
->   static const struct blk_mq_ops nvme_tcp_mq_ops;
->   static const struct blk_mq_ops nvme_tcp_admin_mq_ops;
->   static int nvme_tcp_try_send(struct nvme_tcp_queue *queue);
-> @@ -256,13 +275,15 @@ static inline bool nvme_tcp_tls_configured(struct nvme_ctrl *ctrl)
->   	return ctrl->opts->tls || ctrl->opts->concat;
->   }
->   
-> +/* A group shares one tag set, so a command id is unique across its queues. */
->   static inline struct blk_mq_tags *nvme_tcp_tagset(struct nvme_tcp_queue *queue)
->   {
->   	u32 queue_idx = nvme_tcp_queue_id(queue);
->   
->   	if (queue_idx == 0)
->   		return queue->ctrl->admin_tag_set.tags[queue_idx];
-> -	return queue->ctrl->tag_set.tags[queue_idx - 1];
-> +	return queue->ctrl->tag_set.tags[(queue_idx - 1) /
-> +					 queue->ctrl->ctrl.queues_per_hctx];
->   }
->   
->   static inline u8 nvme_tcp_hdgst_len(struct nvme_tcp_queue *queue)
-> @@ -400,6 +421,17 @@ static inline bool nvme_tcp_queue_more(struct nvme_tcp_queue *queue)
->   		nvme_tcp_queue_has_pending(queue);
->   }
->   
-> +/*
-> + * A grouped queue never sends inline: contending for send_mutex and the socket
-> + * lock against every sibling io_work costs more than the handoff it saves.
-> + */
-> +static inline bool nvme_tcp_send_from_submitter(struct nvme_tcp_queue *queue)
-> +{
-> +	if (nvme_tcp_queue_id(queue) && queue->ctrl->ctrl.queues_per_hctx > 1)
-> +		return false;
-> +	return queue->io_cpu == raw_smp_processor_id();
-> +}
-> +
->   static inline void nvme_tcp_queue_request(struct nvme_tcp_request *req,
->   		bool last)
->   {
-> @@ -411,14 +443,14 @@ static inline void nvme_tcp_queue_request(struct nvme_tcp_request *req,
->   
->   	/*
->   	 * if we're the first on the send_list and we can try to send
-> -	 * directly, otherwise queue io_work. Also, only do that if we
-> -	 * are on the same cpu, so we don't introduce contention.
-> +	 * directly, otherwise queue io_work. Also, only do that if this
-> +	 * context may send, so we don't introduce contention.
->   	 *
->   	 * TLS kTLS send takes ctx->tx_lock while blk_mq holds set->srcu.
->   	 * lockdep reports circular locking via elevator_lock.  Defer TLS
->   	 * sends to the io workqueue instead of inline from this path.
->   	 */
-> -	if (queue->io_cpu == raw_smp_processor_id() &&
-> +	if (nvme_tcp_send_from_submitter(queue) &&
->   	    !nvme_tcp_queue_tls(queue) &&
->   	    empty && mutex_trylock(&queue->send_mutex)) {
->   		nvme_tcp_send_all(queue);\
-We already have indication from TLS that this check really doesn't buy 
-us anything. Can't we just drop it completely?
+Hello,
 
-> @@ -426,7 +458,7 @@ static inline void nvme_tcp_queue_request(struct nvme_tcp_request *req,
->   	}
->   
->   	if (last && nvme_tcp_queue_has_pending(queue))
-> -		queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
-> +		queue_work_on(queue->wq_cpu, queue->wq, &queue->io_work);
->   }
->   
->   static void nvme_tcp_process_req_list(struct nvme_tcp_queue *queue)
-> @@ -555,7 +587,8 @@ static int nvme_tcp_init_request(struct blk_mq_tag_set *set,
->   	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(set->driver_data);
->   	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
->   	struct nvme_tcp_cmd_pdu *pdu;
-> -	int queue_idx = (set == &ctrl->tag_set) ? hctx_idx + 1 : 0;
-> +	int queue_idx = (set == &ctrl->tag_set) ?
-> +		hctx_idx * ctrl->ctrl.queues_per_hctx + 1 : 0;
->   	struct nvme_tcp_queue *queue = &ctrl->queues[queue_idx];
->   	u8 hdgst = nvme_tcp_hdgst_len(queue);
->   
-> @@ -577,24 +610,87 @@ static int nvme_tcp_init_request(struct blk_mq_tag_set *set,
->   	return 0;
->   }
->   
-> +static int nvme_tcp_alloc_hctx(struct blk_mq_hw_ctx *hctx,
-> +		struct nvme_tcp_queue *queues, unsigned int nr)
-> +{
-> +	struct nvme_tcp_hctx *qg;
-> +
-> +	qg = kzalloc_obj(*qg);
-> +	if (!qg)
-> +		return -ENOMEM;
-> +
-> +	qg->queues = queues;
-> +	qg->nr = nr;
-> +	hctx->driver_data = qg;
-> +	return 0;
-> +}
-> +
-> +/* The queues of a group are contiguous, starting at hctx_idx * nr + 1. */
->   static int nvme_tcp_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
->   		unsigned int hctx_idx)
->   {
->   	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(data);
-> -	struct nvme_tcp_queue *queue = &ctrl->queues[hctx_idx + 1];
-> +	unsigned int nr = ctrl->ctrl.queues_per_hctx;
->   
-> -	hctx->driver_data = queue;
-> -	return 0;
-> +	return nvme_tcp_alloc_hctx(hctx, &ctrl->queues[hctx_idx * nr + 1], nr);
->   }
->   
-> +/* Only the I/O tag set groups queues; the admin queue is always alone. */
->   static int nvme_tcp_init_admin_hctx(struct blk_mq_hw_ctx *hctx, void *data,
->   		unsigned int hctx_idx)
->   {
->   	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(data);
-> -	struct nvme_tcp_queue *queue = &ctrl->queues[0];
->   
-> -	hctx->driver_data = queue;
-> -	return 0;
-> +	return nvme_tcp_alloc_hctx(hctx, &ctrl->queues[0], 1);
-> +}
-> +
-> +static void nvme_tcp_exit_hctx(struct blk_mq_hw_ctx *hctx, unsigned int hctx_idx)
-> +{
-> +	kfree(hctx->driver_data);
-> +	hctx->driver_data = NULL;
-> +}
-> +
-> +/* Pick the queue of this hctx that the next request goes to. */
-> +static struct nvme_tcp_queue *nvme_tcp_hctx_queue(struct blk_mq_hw_ctx *hctx)
-> +{
-> +	struct nvme_tcp_hctx *qg = hctx->driver_data;
-> +	struct nvme_tcp_queue *queue;
-> +	unsigned int slot;
-> +
-> +	if (qg->nr == 1)
-> +		return qg->queues;
-> +
-> +	/* connect_q fabrics commands belong to the connection coming up */
-> +	if (unlikely(!hctx->queue->queuedata)) {
-> +		struct nvme_tcp_queue *connect =
-> +			READ_ONCE(qg->queues->ctrl->connect_queue);
-> +
-> +		if (connect)
-> +			return connect;
-> +	}
-> +
-> +	slot = (unsigned int)atomic_inc_return_relaxed(&qg->rotor) % qg->nr;
-> +	queue = &qg->queues[slot];
-> +	queue->wq_cpu = raw_smp_processor_id();
-> +
-> +	return queue;
-> +}
-> +
-> +/*
-> + * Kick every queue of the group with work pending: a batch is spread across all
-> + * of them, so kicking only the last request's queue leaves the others sitting.
-> + */
-> +static void nvme_tcp_kick_hctx_queues(struct blk_mq_hw_ctx *hctx)
-> +{
-> +	struct nvme_tcp_hctx *qg = hctx->driver_data;
-> +	struct nvme_tcp_queue *queue = qg->queues;
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < qg->nr; i++, queue++) {
-> +		if (nvme_tcp_queue_has_pending(queue))
-> +			queue_work_on(queue->wq_cpu, queue->wq,
-> +				      &queue->io_work);
-> +	}
->   }
->   
->   static enum nvme_tcp_recv_state
-> @@ -835,7 +931,7 @@ static int nvme_tcp_handle_r2t(struct nvme_tcp_queue *queue,
->   	nvme_tcp_setup_h2c_data_pdu(req);
->   
->   	llist_add(&req->lentry, &queue->req_list);
-> -	queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
-> +	queue_work_on(queue->wq_cpu, queue->wq, &queue->io_work);
->   
->   	return 0;
->   }
-> @@ -1122,7 +1218,7 @@ static void nvme_tcp_data_ready(struct sock *sk)
->   	queue = sk->sk_user_data;
->   	if (likely(queue && queue->rd_enabled) &&
->   	    !test_bit(NVME_TCP_Q_POLLING, &queue->flags))
-> -		queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
-> +		queue_work_on(queue->wq_cpu, queue->wq, &queue->io_work);
->   	read_unlock_bh(&sk->sk_callback_lock);
->   }
->   
-> @@ -1137,7 +1233,7 @@ static void nvme_tcp_write_space(struct sock *sk)
->   		/* Ensure pending TLS partial records are retried */
->   		if (nvme_tcp_queue_tls(queue))
->   			queue->write_space(sk);
-> -		queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
-> +		queue_work_on(queue->wq_cpu, queue->wq, &queue->io_work);
->   	}
->   	read_unlock_bh(&sk->sk_callback_lock);
->   }
-> @@ -1460,7 +1556,7 @@ static void nvme_tcp_io_work(struct work_struct *w)
->   
->   	} while (!time_after(jiffies, deadline)); /* quota is exhausted */
->   
-> -	queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
-> +	queue_work_on(queue->wq_cpu, queue->wq, &queue->io_work);
->   }
->   
->   static void nvme_tcp_free_async_req(struct nvme_tcp_ctrl *ctrl)
-> @@ -1712,9 +1808,11 @@ static void nvme_tcp_set_queue_io_cpu(struct nvme_tcp_queue *queue)
->   {
->   	struct nvme_tcp_ctrl *ctrl = queue->ctrl;
->   	struct blk_mq_tag_set *set = &ctrl->tag_set;
-> +	unsigned int qph = ctrl->ctrl.queues_per_hctx;
->   	int qid = nvme_tcp_queue_id(queue) - 1;
->   	unsigned int *mq_map = NULL;
->   	int cpu, min_queues = INT_MAX, io_cpu;
-> +	int hctx_idx;
->   
->   	if (wq_unbound)
->   		goto out;
-> @@ -1729,20 +1827,34 @@ static void nvme_tcp_set_queue_io_cpu(struct nvme_tcp_queue *queue)
->   	if (WARN_ON(!mq_map))
->   		goto out;
->   
-> -	/* Search for the least used cpu from the mq_map */
-> +	hctx_idx = qid / qph;
->   	io_cpu = WORK_CPU_UNBOUND;
-> -	for_each_online_cpu(cpu) {
-> -		int num_queues = atomic_read(&nvme_tcp_cpu_queues[cpu]);
->   
-> -		if (mq_map[cpu] != qid)
-> -			continue;
-> -		if (num_queues < min_queues) {
-> -			io_cpu = cpu;
-> -			min_queues = num_queues;
-> +	if (qph > 1) {
-> +		/* the group names the hctx's cpu, only a pod hint */
-> +		for_each_online_cpu(cpu) {
-> +			if (mq_map[cpu] == hctx_idx) {
-> +				io_cpu = cpu;
-> +				break;
-> +			}
-> +		}
-> +	} else {
-> +		/* Search for the least used cpu from the mq_map */
-> +		for_each_online_cpu(cpu) {
-> +			int num_queues = atomic_read(&nvme_tcp_cpu_queues[cpu]);
-> +
-> +			if (mq_map[cpu] != hctx_idx)
-> +				continue;
-> +			if (num_queues < min_queues) {
-> +				io_cpu = cpu;
-> +				min_queues = num_queues;
-> +			}
->   		}
->   	}
-> +
->   	if (io_cpu != WORK_CPU_UNBOUND) {
->   		queue->io_cpu = io_cpu;
-> +		queue->wq_cpu = io_cpu;
->   		atomic_inc(&nvme_tcp_cpu_queues[io_cpu]);
->   		set_bit(NVME_TCP_Q_IO_CPU_SET, &queue->flags);
->   	}
-> @@ -1850,6 +1962,8 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
->   	INIT_LIST_HEAD(&queue->send_list);
->   	mutex_init(&queue->send_mutex);
->   	INIT_WORK(&queue->io_work, nvme_tcp_io_work);
-> +	queue->wq = (qid && nctrl->queues_per_hctx > 1) ? nvme_tcp_unbound_wq :
-> +							  nvme_tcp_wq;
->   	mutex_init(&queue->pf_cache_lock);
->   
->   	if (qid > 0)
-> @@ -1907,6 +2021,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
->   	queue->sock->sk->sk_allocation = GFP_ATOMIC;
->   	queue->sock->sk->sk_use_task_frag = false;
->   	queue->io_cpu = WORK_CPU_UNBOUND;
-> +	queue->wq_cpu = WORK_CPU_UNBOUND;
->   	queue->request = NULL;
->   	queue->data_remaining = 0;
->   	queue->ddgst_remaining = 0;
-> @@ -2086,7 +2201,9 @@ static int nvme_tcp_start_queue(struct nvme_ctrl *nctrl, int idx)
->   
->   	if (idx) {
->   		nvme_tcp_set_queue_io_cpu(queue);
-> +		WRITE_ONCE(ctrl->connect_queue, queue);
->   		ret = nvmf_connect_io_queue(nctrl, idx);
-> +		WRITE_ONCE(ctrl->connect_queue, NULL);
->   	} else
->   		ret = nvmf_connect_admin_queue(nctrl);
->   
-> @@ -2226,8 +2343,9 @@ static int __nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
->   
->   static int nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
->   {
-> -	unsigned int nr_io_queues;
-> -	int ret;
-> +	u32 hctxs[HCTX_MAX_TYPES] = { };
-> +	unsigned int nr_io_queues, qph;
-> +	int ret, i;
->   
->   	nr_io_queues = nvmf_nr_io_queues(ctrl->opts);
->   	ret = nvme_set_queue_count(ctrl, &nr_io_queues);
-> @@ -2240,12 +2358,21 @@ static int nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
->   		return -ENOMEM;
->   	}
->   
-> +	/* the controller may grant fewer, so keep whole groups only */
-> +	qph = ctrl->opts->queues_per_hctx;
-> +	if (nr_io_queues < qph)
-> +		qph = 1;
-> +	nr_io_queues -= nr_io_queues % qph;
-> +	ctrl->queues_per_hctx = qph;
-> +
->   	ctrl->queue_count = nr_io_queues + 1;
-> -	dev_info(ctrl->device,
-> -		"creating %d I/O queues.\n", nr_io_queues);
-> +	dev_info(ctrl->device, "creating %d I/O queues, %u per hctx.\n",
-> +		nr_io_queues, qph);
-> +
-> +	nvmf_set_io_queues(ctrl->opts, nr_io_queues / qph, hctxs);
-> +	for (i = 0; i < HCTX_MAX_TYPES; i++)
-> +		to_tcp_ctrl(ctrl)->io_queues[i] = hctxs[i] * qph;
->   
-> -	nvmf_set_io_queues(ctrl->opts, nr_io_queues,
-> -			   to_tcp_ctrl(ctrl)->io_queues);
->   	return __nvme_tcp_alloc_io_queues(ctrl);
->   }
->   
-> @@ -2271,7 +2398,8 @@ static int nvme_tcp_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
->   	 * and limited it to the available queues. On reconnects, the
->   	 * queue number might have changed.
->   	 */
-> -	nr_queues = min(ctrl->tagset->nr_hw_queues + 1, ctrl->queue_count);
-> +	nr_queues = min(ctrl->tagset->nr_hw_queues * ctrl->queues_per_hctx + 1,
-> +			ctrl->queue_count);
->   	ret = nvme_tcp_start_io_queues(ctrl, 1, nr_queues);
->   	if (ret)
->   		goto out_cleanup_connect_q;
-> @@ -2290,7 +2418,7 @@ static int nvme_tcp_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
->   			goto out_wait_freeze_timed_out;
->   		}
->   		blk_mq_update_nr_hw_queues(ctrl->tagset,
-> -			ctrl->queue_count - 1);
-> +			(ctrl->queue_count - 1) / ctrl->queues_per_hctx);
->   		nvme_unfreeze(ctrl);
->   	}
->   
-> @@ -2299,7 +2427,7 @@ static int nvme_tcp_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
->   	 * start all new queues now.
->   	 */
->   	ret = nvme_tcp_start_io_queues(ctrl, nr_queues,
-> -				       ctrl->tagset->nr_hw_queues + 1);
-> +			ctrl->tagset->nr_hw_queues * ctrl->queues_per_hctx + 1);
->   	if (ret)
->   		goto out_wait_freeze_timed_out;
->   
-> @@ -2840,17 +2968,14 @@ static blk_status_t nvme_tcp_setup_cmd_pdu(struct nvme_ns *ns,
->   
->   static void nvme_tcp_commit_rqs(struct blk_mq_hw_ctx *hctx)
->   {
-> -	struct nvme_tcp_queue *queue = hctx->driver_data;
-> -
-> -	if (!llist_empty(&queue->req_list))
-> -		queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
-> +	nvme_tcp_kick_hctx_queues(hctx);
->   }
->   
->   static blk_status_t nvme_tcp_queue_rq(struct blk_mq_hw_ctx *hctx,
->   		const struct blk_mq_queue_data *bd)
->   {
->   	struct nvme_ns *ns = hctx->queue->queuedata;
-> -	struct nvme_tcp_queue *queue = hctx->driver_data;
-> +	struct nvme_tcp_queue *queue = nvme_tcp_hctx_queue(hctx);
->   	struct request *rq = bd->rq;
->   	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
->   	bool queue_ready = test_bit(NVME_TCP_Q_LIVE, &queue->flags);
-> @@ -2859,13 +2984,18 @@ static blk_status_t nvme_tcp_queue_rq(struct blk_mq_hw_ctx *hctx,
->   	if (!nvme_check_ready(&queue->ctrl->ctrl, rq, queue_ready))
->   		return nvme_fail_nonready_command(&queue->ctrl->ctrl, rq);
->   
-> +	/* the queue is chosen per dispatch, everything below follows it */
-> +	req->queue = queue;
-> +
->   	ret = nvme_tcp_setup_cmd_pdu(ns, rq);
->   	if (unlikely(ret))
->   		return ret;
->   
->   	nvme_start_request(rq);
->   
-> -	nvme_tcp_queue_request(req, bd->last);
-> +	nvme_tcp_queue_request(req, false);
-> +	if (bd->last)
-> +		nvme_tcp_kick_hctx_queues(hctx);
->   
->   	return BLK_STS_OK;
->   }
-> @@ -2873,25 +3003,42 @@ static blk_status_t nvme_tcp_queue_rq(struct blk_mq_hw_ctx *hctx,
->   static void nvme_tcp_map_queues(struct blk_mq_tag_set *set)
->   {
->   	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(set->driver_data);
-> +	unsigned int qph = ctrl->ctrl.queues_per_hctx;
-> +	u32 hctxs[HCTX_MAX_TYPES];
-> +	int i;
-> +
-> +	/* ctrl->io_queues counts transport queues, the maps count hctxs */
-> +	for (i = 0; i < HCTX_MAX_TYPES; i++)
-> +		hctxs[i] = ctrl->io_queues[i] / qph;
->   
-> -	nvmf_map_queues(set, &ctrl->ctrl, ctrl->io_queues);
-> +	nvmf_map_queues(set, &ctrl->ctrl, hctxs);
->   }
->   
->   static int nvme_tcp_poll(struct blk_mq_hw_ctx *hctx, struct io_comp_batch *iob)
->   {
-> -	struct nvme_tcp_queue *queue = hctx->driver_data;
-> -	struct sock *sk = queue->sock->sk;
-> -	int ret;
-> +	struct nvme_tcp_hctx *qg = hctx->driver_data;
-> +	struct nvme_tcp_queue *queue = qg->queues;
-> +	unsigned int i;
-> +	int ret, nr_cqe = 0;
->   
-> -	if (!test_bit(NVME_TCP_Q_LIVE, &queue->flags))
-> -		return 0;
-> +	for (i = 0; i < qg->nr; i++, queue++) {
-> +		struct sock *sk = queue->sock->sk;
->   
-> -	set_bit(NVME_TCP_Q_POLLING, &queue->flags);
-> -	if (sk_can_busy_loop(sk) && skb_queue_empty_lockless(&sk->sk_receive_queue))
-> -		sk_busy_loop(sk, true);
-> -	ret = nvme_tcp_try_recv(queue);
-> -	clear_bit(NVME_TCP_Q_POLLING, &queue->flags);
-> -	return ret < 0 ? ret : queue->nr_cqe;
-> +		if (!test_bit(NVME_TCP_Q_LIVE, &queue->flags))
-> +			continue;
-> +
-> +		set_bit(NVME_TCP_Q_POLLING, &queue->flags);
-> +		if (sk_can_busy_loop(sk) &&
-> +		    skb_queue_empty_lockless(&sk->sk_receive_queue))
-> +			sk_busy_loop(sk, true);
-> +		ret = nvme_tcp_try_recv(queue);
-> +		clear_bit(NVME_TCP_Q_POLLING, &queue->flags);
-> +		if (ret < 0)
-> +			return ret;
-> +		nr_cqe += queue->nr_cqe;
-> +	}
-> +
-> +	return nr_cqe;
->   }
->   
->   static int nvme_tcp_get_address(struct nvme_ctrl *ctrl, char *buf, int size)
-> @@ -2927,6 +3074,7 @@ static const struct blk_mq_ops nvme_tcp_mq_ops = {
->   	.init_request	= nvme_tcp_init_request,
->   	.exit_request	= nvme_tcp_exit_request,
->   	.init_hctx	= nvme_tcp_init_hctx,
-> +	.exit_hctx	= nvme_tcp_exit_hctx,
->   	.timeout	= nvme_tcp_timeout,
->   	.map_queues	= nvme_tcp_map_queues,
->   	.poll		= nvme_tcp_poll,
-> @@ -2938,6 +3086,7 @@ static const struct blk_mq_ops nvme_tcp_admin_mq_ops = {
->   	.init_request	= nvme_tcp_init_request,
->   	.exit_request	= nvme_tcp_exit_request,
->   	.init_hctx	= nvme_tcp_init_admin_hctx,
-> +	.exit_hctx	= nvme_tcp_exit_hctx,
->   	.timeout	= nvme_tcp_timeout,
->   };
->   
-> @@ -2989,8 +3138,9 @@ static struct nvme_tcp_ctrl *nvme_tcp_alloc_ctrl(struct device *dev,
->   	 */
->   	context_unsafe(INIT_LIST_HEAD(&ctrl->list));
->   	ctrl->ctrl.opts = opts;
-> -	ctrl->ctrl.queue_count = opts->nr_io_queues + opts->nr_write_queues +
-> -				opts->nr_poll_queues + 1;
-> +	ctrl->ctrl.queue_count = (opts->nr_io_queues + opts->nr_write_queues +
-> +				  opts->nr_poll_queues) *
-> +				 opts->queues_per_hctx + 1;
->   	ctrl->ctrl.sqsize = opts->queue_size - 1;
->   	ctrl->ctrl.kato = opts->kato;
->   
-> @@ -3111,7 +3261,8 @@ static struct nvmf_transport_ops nvme_tcp_transport = {
->   			  NVMF_OPT_HDR_DIGEST | NVMF_OPT_DATA_DIGEST |
->   			  NVMF_OPT_NR_WRITE_QUEUES | NVMF_OPT_NR_POLL_QUEUES |
->   			  NVMF_OPT_TOS | NVMF_OPT_HOST_IFACE | NVMF_OPT_TLS |
-> -			  NVMF_OPT_KEYRING | NVMF_OPT_TLS_KEY | NVMF_OPT_CONCAT,
-> +			  NVMF_OPT_KEYRING | NVMF_OPT_TLS_KEY | NVMF_OPT_CONCAT |
-> +			  NVMF_OPT_QUEUES_PER_HCTX,
->   	.create_ctrl	= nvme_tcp_create_ctrl,
->   };
->   
-> @@ -3138,6 +3289,13 @@ static int __init nvme_tcp_init_module(void)
->   	if (!nvme_tcp_wq)
->   		return -ENOMEM;
->   
-> +	nvme_tcp_unbound_wq = alloc_workqueue("nvme_tcp_unbound_wq",
-> +			WQ_MEM_RECLAIM | WQ_HIGHPRI | WQ_SYSFS | WQ_UNBOUND, 0);
-> +	if (!nvme_tcp_unbound_wq) {
-> +		destroy_workqueue(nvme_tcp_wq);
-> +		return -ENOMEM;
-> +	}
-> +
->   	for_each_possible_cpu(cpu)
->   		atomic_set(&nvme_tcp_cpu_queues[cpu], 0);
->   
-> @@ -3157,6 +3315,7 @@ static void __exit nvme_tcp_cleanup_module(void)
->   	mutex_unlock(&nvme_tcp_ctrl_mutex);
->   	flush_workqueue(nvme_delete_wq);
->   
-> +	destroy_workqueue(nvme_tcp_unbound_wq);
->   	destroy_workqueue(nvme_tcp_wq);
->   }
->   
+on a MacBook10,1 (12" Retina, 2017) the Apple S3X NVMe controller stops
+responding after every S3 or s2idle resume. About 60 seconds later the
+root filesystem goes read-only. Booting with pcie_port_pm=3Doff fixes =
+it:
+all pm_test levels, a real suspend and a lid close/open then resume
+cleanly. pcie_aspm=3Doff and nvme_core.default_ps_max_latency_us=3D0
+nvme.noacpi=3D1 did not help. This suggests that power management of the
+PCH root port above the SSD (00:1c.0) leaves the device unreachable
+after resume, but I do not know the root cause.
 
-In general not a bad idea. Especially if it helps to up our performance.
-But this really points to the same problem we're having with HW RAID
-HBAs: we have an issue if the per-queue I/O performance is below what
-the cpu can drive. Then it _does_ make sense to have more queues than\ 
-CPUs, but the layout of which is beyond what blk-mq can handle.
-Ideally we should be able to handle that via blk-mq, too.
+Environment
+-----------
+Machine:      Apple MacBook10,1 (Retina 12", 2017), UEFI, GRUB
+CPU/GPU:      Kaby Lake, i915 (device ID 591e)
+SSD:          APPLE SSD AP0512J, firmware 16.14.01
+Controller:   Apple S3X NVMe Controller [106b:2003] rev 12, 0000:01:00.0
+Root port:    Intel Sunrise Point-LP PCH root port 0000:00:1c.0
+Namespaces:   nvme0n1 (p1-p3); nvme0n2 (partition table unreadable)
+Kernel:       7.0.0-31-generic (Ubuntu 26.04 LTS), tainted by an
+              out-of-tree audio DKMS module (snd_hda_codec_cs420x)
+mem_sleep:    s2idle [deep]; both modes fail without the workaround
 
-Nice topic for ALPSS ...
+The audio module is not involved: the failure persists with the codec
+unloaded and the HDA controller unbound.
 
-Cheers,
+Steps to reproduce
+------------------
+Shortest reproducer, no real sleep and no wake source needed:
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+  1. Boot without the workaround parameter.
+  2. echo platform | sudo tee /sys/power/pm_test
+  3. echo mem | sudo tee /sys/power/state
+  4. The command does not return normally. Wait about 60 seconds.
+
+The same happens with a real "systemctl suspend" (deep) and with
+mem_sleep set to s2idle. pm_test levels freezer and devices pass; the
+failure starts at platform (ACPI prepare, suspend_late, suspend_noirq).
+
+Observed behavior (without the workaround)
+------------------------------------------
+The controller never answers its first admin command after resume. The
+60 s admin timeout expires and the driver gives up. Excerpt from one
+failing run (pm_test=3Dplatform, deep, without pcie_port_pm=3Doff; the
+suspend started at 191.4 s, times are seconds since boot):
+
+  [  191.420305] PM: suspend entry (deep)
+  [  259.218334] nvme nvme0: I/O tag 4 (0004) QID 0 timeout, disable =
+controller
+  [  259.226716] nvme nvme0: Identify Controller failed (-4)
+  [  259.226736] nvme nvme0: Disabling device after reset failure: -5
+
+Ext4 then reports I/O errors, aborts its journal and remounts
+read-only:
+
+  [  259.236424] Buffer I/O error on device nvme0n1p3, logical block =
+23403156
+  [  259.238445] Aborting journal on device nvme0n1p3-8.
+  [  259.238612] EXT4-fs (nvme0n1p3): I/O error while writing superblock
+  [  259.238622] EXT4-fs (nvme0n1p3): Remounting filesystem read-only
+
+The desktop crashes, the lock screen no longer accepts the password and
+sshd is unusable. After a hard reset the filesystem recovers through
+journal replay. The failing runs with the other parameters listed below
+(pcie_aspm=3Doff, the nvme parameters, s2idle) look the same.
+
+With pcie_port_pm=3Doff
+---------------------
+  nvme 0000:01:00.0: PM: pci_pm_resume_noirq returned 0 after 82 usecs
+  nvme nvme0: 1/0/0 default/read/poll queues
+  PM: suspend exit
+
+A direct read (dd if=3D/dev/nvme0n1 iflag=3Ddirect) 75 seconds later
+succeeds, and dmesg has no NVMe or I/O errors.
+
+What was tested
+---------------
+  pm_test=3Dfreezer, devices                        pass
+  pm_test=3Dplatform, default parameters            SSD dies after =
+resume
+  mem_sleep=3Ds2idle                                same failure
+  audio codec unloaded, HDA controller unbound    same failure
+  nvme_core.default_ps_max_latency_us=3D0
+    nvme.noacpi=3D1                                 same failure
+  pcie_aspm=3Doff                                   same failure
+  pcie_port_pm=3Doff: pm_test platform, processors,
+    core                                          pass, disk alive
+  pcie_port_pm=3Doff: real suspend (deep), lid
+    close/open                                    pass, lock screen
+                                                  and SSH work
+
+pm_trace gave the same result with serial and async device suspend
+and points at a memory device, so I consider it uninformative.
+
+Workaround
+----------
+Kernel parameter pcie_port_pm=3Doff. It disables runtime power =
+management
+of all PCIe root ports, so it probably costs some battery life; I have
+not measured that.
+
+Questions
+---------
+- Is the root cause in the PCH root port handling (D3 entry/exit of
+  00:1c.0 around the platform phase), or in the S3X controller's own
+  resume?
+- Can the fix be narrowed to root port 00:1c.0 (for example with a PCI
+  quirk) instead of disabling the feature globally? I have not tried
+  this.
+- Is this a known issue for other MacBooks with Apple S3X SSDs?
+
+What I could not do: I have no patch and no root cause, only the
+workaround above. I did not test other kernels or measure the power
+cost. Limits of my testing: one machine, one kernel (7.0.0-31-generic),
+and real suspends of only a few seconds.
+
+Disclosure: I ran all tests on my own machine, and all logs and
+measurements above are unmodified output from it. I used Claude (an AI
+assistant) to plan the bisection steps, help interpret the logs and
+draft the text of this report. I have reviewed the content and can
+answer questions about it.
+
+I can provide full dmesg and journalctl output of the failing and the
+working runs, and I can test patches or additional kernel parameters
+on this machine.
+
+
+
+$ sudo lspci -vvv -s 01:00.0
+01:00.0 Mass storage controller: Apple Inc. S3X NVMe Controller (rev 12) =
+(prog-if 02)
+	Subsystem: Apple Inc. S3X NVMe Controller
+	Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- =
+ParErr- Stepping- SERR- FastB2B- DisINTx+
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=3Dfast >TAbort- =
+<TAbort- <MAbort- >SERR- <PERR- INTx-
+	Latency: 0, Cache Line Size: 256 bytes
+	Interrupt: pin A routed to IRQ 32
+	IOMMU group: 10
+	Region 0: Memory at 92700000 (64-bit, non-prefetchable) =
+[size=3D16K]
+	Capabilities: [40] Power Management version 3
+		Flags: PMEClk- DSI- D1- D2- AuxCurrent=3D0mA =
+PME(D0-,D1-,D2-,D3hot-,D3cold-)
+		Status: D0 NoSoftRst+ PME-Enable- DSel=3D0 DScale=3D0 =
+PME-
+	Capabilities: [50] MSI: Enable+ Count=3D2/8 Maskable- 64bit+
+		Address: 00000000fee00418  Data: 0000
+	Capabilities: [70] Express (v2) Endpoint, IntMsgNum 0
+		DevCap:	MaxPayload 512 bytes, PhantFunc 0, Latency L0s =
+<4us, L1 <32us
+			ExtTag- AttnBtn- AttnInd- PwrInd- RBE+ FLReset+ =
+SlotPowerLimit 25W TEE-IO-
+		DevCtl:	CorrErr+ NonFatalErr+ FatalErr+ UnsupReq+
+			RlxdOrd+ ExtTag- PhantFunc- AuxPwr- NoSnoop+ =
+FLReset-
+			MaxPayload 256 bytes, MaxReadReq 512 bytes
+		DevSta:	CorrErr+ NonFatalErr- FatalErr- UnsupReq+ =
+AuxPwr+ TransPend-
+		LnkCap:	Port #0, Speed 8GT/s, Width x2, ASPM L0s L1, =
+Exit Latency L0s <1us, L1 <8us
+			ClockPM+ Surprise- LLActRep- BwNot- ASPMOptComp+
+		LnkCtl:	ASPM L1 Enabled; RCB 64 bytes, LnkDisable- =
+CommClk+
+			ExtSynch- ClockPM+ AutWidDis- BWInt- AutBWInt- =
+FltModeDis-
+		LnkSta:	Speed 8GT/s, Width x2
+			TrErr- Train- SlotClk+ DLActive- BWMgmt- =
+ABWMgmt-
+		DevCap2: Completion Timeout: Not Supported, TimeoutDis+ =
+NROPrPrP- LTR+
+			 10BitTagComp- 10BitTagReq- OBFF Not Supported, =
+ExtFmt- EETLPPrefix-
+			 EmergencyPowerReduction Not Supported, =
+EmergencyPowerReductionInit-
+			 FRS- TPHComp- ExtTPHComp-
+			 AtomicOpsCap: 32bit- 64bit- 128bitCAS-
+		DevCtl2: Completion Timeout: 50us to 50ms, TimeoutDis-
+			 AtomicOpsCtl: ReqEn-
+			 IDOReq- IDOCompl- LTR+ =
+EmergencyPowerReductionReq-
+			 10BitTagReq- OBFF Disabled, EETLPPrefixBlk-
+		LnkCap2: Supported Link Speeds: 2.5-8GT/s, Crosslink- =
+Retimer- 2Retimers- DRS-
+		LnkCtl2: Target Link Speed: 8GT/s, EnterCompliance- =
+SpeedDis-
+			 Transmit Margin: Normal Operating Range, =
+EnterModifiedCompliance- ComplianceSOS-
+			 Compliance Preset/De-emphasis: -6dB =
+de-emphasis, 0dB preshoot
+		LnkSta2: Current De-emphasis Level: -6dB, =
+EqualizationComplete+ EqualizationPhase1+
+			 EqualizationPhase2+ EqualizationPhase3+ =
+LinkEqualizationRequest-
+			 Retimer- 2Retimers- CrosslinkRes: unsupported, =
+FltMode-
+	Capabilities: [100 v2] Advanced Error Reporting
+		UESta:	DLP- SDES- TLP- FCP- CmpltTO- CmpltAbrt- =
+UnxCmplt- RxOF- MalfTLP-
+			ECRC- UnsupReq- ACSViol- UncorrIntErr- =
+BlockedTLP- AtomicOpBlocked- TLPBlockedErr-
+			PoisonTLPBlocked- DMWrReqBlocked- IDECheck- =
+MisIDETLP- PCRC_CHECK- TLPXlatBlocked-
+		UEMsk:	DLP- SDES- TLP- FCP- CmpltTO- CmpltAbrt- =
+UnxCmplt- RxOF- MalfTLP-
+			ECRC- UnsupReq- ACSViol- UncorrIntErr+ =
+BlockedTLP- AtomicOpBlocked- TLPBlockedErr-
+			PoisonTLPBlocked- DMWrReqBlocked- IDECheck- =
+MisIDETLP- PCRC_CHECK- TLPXlatBlocked-
+		UESvrt:	DLP+ SDES+ TLP- FCP+ CmpltTO- CmpltAbrt- =
+UnxCmplt- RxOF+ MalfTLP+
+			ECRC- UnsupReq- ACSViol- UncorrIntErr+ =
+BlockedTLP- AtomicOpBlocked- TLPBlockedErr-
+			PoisonTLPBlocked- DMWrReqBlocked- IDECheck- =
+MisIDETLP- PCRC_CHECK- TLPXlatBlocked-
+		CESta:	RxErr- BadTLP- BadDLLP- Rollover- Timeout- =
+AdvNonFatalErr- CorrIntErr- HeaderOF-
+		CEMsk:	RxErr- BadTLP- BadDLLP- Rollover- Timeout- =
+AdvNonFatalErr+ CorrIntErr+ HeaderOF-
+		AERCap:	First Error Pointer: 00, ECRCGenCap- ECRCGenEn- =
+ECRCChkCap- ECRCChkEn-
+			MultHdrRecCap- MultHdrRecEn- TLPPfxPres- =
+HdrLogCap-
+		HeaderLog: 00000000 00000000 00000000 00000000
+	Capabilities: [148 v1] Virtual Channel
+		Caps:	LPEVC=3D0 RefClk=3D100ns PATEntryBits=3D1
+		Arb:	Fixed- WRR32- WRR64- WRR128-
+		Ctrl:	ArbSelect=3DFixed
+		Status:	InProgress-
+		VC0:	Caps:	PATOffset=3D00 MaxTimeSlots=3D1 =
+RejSnoopTrans-
+			Arb:	Fixed- WRR32- WRR64- WRR128- TWRR128- =
+WRR256-
+			Ctrl:	Enable+ ID=3D0 ArbSelect=3DFixed =
+TC/VC=3Dff
+			Status:	NegoPending- InProgress-
+	Capabilities: [168 v1] Secondary PCI Express
+		LnkCtl3: LnkEquIntrruptEn- PerformEqu-
+		LaneErrStat: 0
+	Capabilities: [188 v1] Latency Tolerance Reporting
+		Max snoop latency: 3145728ns
+		Max no snoop latency: 3145728ns
+	Capabilities: [190 v1] L1 PM Substates
+		L1SubCap: PCI-PM_L1.2+ PCI-PM_L1.1+ ASPM_L1.2+ =
+ASPM_L1.1+ L1_PM_Substates+
+			  PortCommonModeRestoreTime=3D25us =
+PortTPowerOnTime=3D10us
+		L1SubCtl1: PCI-PM_L1.2+ PCI-PM_L1.1+ ASPM_L1.2+ =
+ASPM_L1.1+
+			   T_CommonMode=3D0us LTR1.2_Threshold=3D90112ns
+		L1SubCtl2: T_PwrOn=3D44us
+	Kernel driver in use: nvme
+	Kernel modules: nvme
+
+$ sudo lspci -vvv -s 00:1c.0
+00:1c.0 PCI bridge: Intel Corporation Sunrise Point-LP PCI Express Root =
+Port #1 (rev f1) (prog-if 00 [Normal decode])
+	Subsystem: Intel Corporation Device 7270
+	Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- =
+ParErr- Stepping- SERR- FastB2B- DisINTx+
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=3Dfast >TAbort- =
+<TAbort- <MAbort- >SERR- <PERR- INTx-
+	Latency: 0, Cache Line Size: 256 bytes
+	Interrupt: pin A routed to IRQ 25
+	IOMMU group: 5
+	Bus: primary=3D00, secondary=3D01, subordinate=3D01, =
+sec-latency=3D0
+	I/O behind bridge: f000-0fff [disabled] [16-bit]
+	Memory behind bridge: 92700000-927fffff [size=3D1M] [32-bit]
+	Prefetchable memory behind bridge: =
+00000000fff00000-00000000000fffff [disabled] [64-bit]
+	Secondary status: 66MHz- FastB2B- ParErr- DEVSEL=3Dfast >TAbort- =
+<TAbort- <MAbort- <SERR- <PERR-
+	BridgeCtl: Parity- SERR+ NoISA- VGA- VGA16- MAbort- >Reset- =
+FastB2B-
+		PriDiscTmr- SecDiscTmr- DiscTmrStat- DiscTmrSERREn-
+	Capabilities: [40] Express (v2) Root Port (Slot+), IntMsgNum 0
+		DevCap:	MaxPayload 256 bytes, PhantFunc 0
+			ExtTag- RBE+ TEE-IO-
+		DevCtl:	CorrErr- NonFatalErr- FatalErr- UnsupReq-
+			RlxdOrd- ExtTag- PhantFunc- AuxPwr- NoSnoop-
+			MaxPayload 256 bytes, MaxReadReq 128 bytes
+		DevSta:	CorrErr- NonFatalErr- FatalErr- UnsupReq- =
+AuxPwr+ TransPend-
+		LnkCap:	Port #1, Speed 8GT/s, Width x4, ASPM L1, Exit =
+Latency L1 <16us
+			ClockPM- Surprise- LLActRep+ BwNot+ ASPMOptComp+
+		LnkCtl:	ASPM L1 Enabled; RCB 64 bytes, LnkDisable- =
+CommClk+
+			ExtSynch- ClockPM- AutWidDis- BWInt+ AutBWInt+ =
+FltModeDis-
+		LnkSta:	Speed 8GT/s, Width x2
+			TrErr- Train- SlotClk+ DLActive+ BWMgmt- =
+ABWMgmt-
+		SltCap:	AttnBtn- PwrCtrl- MRL- AttnInd- PwrInd- HotPlug- =
+Surprise-
+			Slot #0, PowerLimit 25W; Interlock- NoCompl+
+		SltCtl:	Enable: AttnBtn- PwrFlt- MRL- PresDet- CmdCplt- =
+HPIrq- LinkChg-
+			Control: AttnInd Unknown, PwrInd Unknown, Power- =
+Interlock-
+		SltSta:	Status: AttnBtn- PowerFlt- MRL- CmdCplt- =
+PresDet+ Interlock-
+			Changed: MRL- PresDet+ LinkState-
+		RootCap: CRSVisible-
+		RootCtl: ErrCorrectable- ErrNon-Fatal- ErrFatal- =
+PMEIntEna- CRSVisible-
+		RootSta: PME ReqID 0000, PMEStatus- PMEPending-
+		DevCap2: Completion Timeout: Range ABC, TimeoutDis+ =
+NROPrPrP- LTR+
+			 10BitTagComp- 10BitTagReq- OBFF Not Supported, =
+ExtFmt- EETLPPrefix-
+			 EmergencyPowerReduction Not Supported, =
+EmergencyPowerReductionInit-
+			 FRS- LN System CLS Not Supported, TPHComp- =
+ExtTPHComp- ARIFwd+
+			 AtomicOpsCap: Routing- 32bit- 64bit- 128bitCAS-
+		DevCtl2: Completion Timeout: 50us to 50ms, TimeoutDis- =
+ARIFwd-
+			 AtomicOpsCtl: ReqEn- EgressBlck-
+			 IDOReq- IDOCompl- LTR+ =
+EmergencyPowerReductionReq-
+			 10BitTagReq- OBFF Disabled, EETLPPrefixBlk-
+		LnkCap2: Supported Link Speeds: 2.5-8GT/s, Crosslink- =
+Retimer- 2Retimers- DRS-
+		LnkCtl2: Target Link Speed: 8GT/s, EnterCompliance- =
+SpeedDis-
+			 Transmit Margin: Normal Operating Range, =
+EnterModifiedCompliance- ComplianceSOS-
+			 Compliance Preset/De-emphasis: -6dB =
+de-emphasis, 0dB preshoot
+		LnkSta2: Current De-emphasis Level: -3.5dB, =
+EqualizationComplete+ EqualizationPhase1+
+			 EqualizationPhase2+ EqualizationPhase3+ =
+LinkEqualizationRequest-
+			 Retimer- 2Retimers- CrosslinkRes: unsupported, =
+FltMode-
+	Capabilities: [80] MSI: Enable+ Count=3D1/1 Maskable- 64bit-
+		Address: fee00218  Data: 0000
+	Capabilities: [90] Subsystem: Intel Corporation Device 7270
+	Capabilities: [a0] Power Management version 3
+		Flags: PMEClk- DSI- D1- D2- AuxCurrent=3D0mA =
+PME(D0+,D1-,D2-,D3hot+,D3cold+)
+		Status: D0 NoSoftRst- PME-Enable- DSel=3D0 DScale=3D0 =
+PME-
+	Capabilities: [100 v0] Null
+	Capabilities: [140 v1] Access Control Services
+		ACSCap:	SrcValid+ TransBlk+ ReqRedir+ CmpltRedir+ =
+UpstreamFwd- EgressCtrl- DirectTrans-
+		ACSCtl:	SrcValid- TransBlk- ReqRedir- CmpltRedir- =
+UpstreamFwd- EgressCtrl- DirectTrans-
+	Capabilities: [200 v1] L1 PM Substates
+		L1SubCap: PCI-PM_L1.2+ PCI-PM_L1.1+ ASPM_L1.2+ =
+ASPM_L1.1+ L1_PM_Substates+
+			  PortCommonModeRestoreTime=3D40us =
+PortTPowerOnTime=3D44us
+		L1SubCtl1: PCI-PM_L1.2+ PCI-PM_L1.1+ ASPM_L1.2+ =
+ASPM_L1.1+
+			   T_CommonMode=3D40us LTR1.2_Threshold=3D90112ns
+		L1SubCtl2: T_PwrOn=3D44us
+	Capabilities: [220 v1] Secondary PCI Express
+		LnkCtl3: LnkEquIntrruptEn- PerformEqu-
+		LaneErrStat: 0
+	Kernel driver in use: pcieport
+	Kernel modules: shpchp
+
+Best regards,
+Ansgar=
 
