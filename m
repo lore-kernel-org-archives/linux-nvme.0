@@ -4,76 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0A81DC98302
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Sep 2026 20:07:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2A65EC98302
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Sep 2026 20:07:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9DHOT2PMGUFhuByMTJSr3B57dIXKaBHqTAzfX9zwMX8=; b=jJGQf7/joxjYTw4J+sHc2Eslcc
-	6FJPdR3zYpFJPoHnOkPUdxEpZTTM/hGRIqeEHOxCniykRdMdXlnlAjcT8VYXt9RDGM1qylWSzMfMN
-	63tjpEynNtQTPFSrUVFjD2F95e265TI/3tvHYyXx0MgQzniWcmOO+M+yZj/pkOTHU2gH7j5GCPcAn
-	yDWS7jmXDR9HC6jhlvZeNW7iogQUttc8Rh1VJwK7p8/mE7zPTEQDd54k+RU4CEp9bY8GkzNn3yoY3
-	WHwgAcuAacx2USYecO5tMLhXqqKVqL1PkpfxVZVf6Kx1lLxoFK1pbXUL9nid2qDVvHCSRDIL/G5j7
-	vlsd0thw==;
+	bh=jKj3QXNJc64ZYZOzUkze7Bi+QP/5m/9g84NFc6owjQw=; b=005JUt7HCTypULzTtEFMzJQ9HP
+	PaEUM0vKwCXaYf8a5qSArM2UM2QFmngwn/+Ix8c3d+B+k2sJytbgNKgA9iMQLxhn9NKRmqoz2pxgw
+	Npt2dOsK+DlPAVOOydYa+3VugZ0udw+0NZaYsDpmXfQbfXM5hA1tS34RH1FIXcGWKZx4d6IYIj6pZ
+	vKrDovOACPA2f0WAjykjoF+bg/dfUwe0p6DxOU+zUa4U3cCZoHNR4/TGeNtN5H0xGAw1nDQDSRoNu
+	a/BPijZEZlJDjI7jGXiMLLiSDbc3Z7MOHRLSHg+yBdWYN7UHqhyDpsXUnmH3NwvlXamuMrEbYHhyB
+	vS3SLAMA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x96mH-00000006Vbz-2uM1;
-	Tue, 22 Sep 2026 20:07:45 +0000
-Received: from mail-pj1-x1062.google.com ([2607:f8b0:4864:20::1062])
+	id 1x96mO-00000006Vf9-3P51;
+	Tue, 22 Sep 2026 20:07:52 +0000
+Received: from mail-pl1-x661.google.com ([2607:f8b0:4864:20::661])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x96mE-00000006VZs-3LLp
+	id 1x96mM-00000006Vdf-0lrC
 	for linux-nvme@lists.infradead.org;
-	Tue, 22 Sep 2026 20:07:44 +0000
-Received: by mail-pj1-x1062.google.com with SMTP id 98e67ed59e1d1-3a02551822eso193257a91.1
-        for <linux-nvme@lists.infradead.org>; Tue, 22 Sep 2026 13:07:42 -0700 (PDT)
+	Tue, 22 Sep 2026 20:07:51 +0000
+Received: by mail-pl1-x661.google.com with SMTP id d9443c01a7336-2dd9ec41bc4so837665ad.2
+        for <linux-nvme@lists.infradead.org>; Tue, 22 Sep 2026 13:07:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1790107662; x=1790712462; darn=lists.infradead.org;
+        d=purestorage.com; s=google2022; t=1790107669; x=1790712469; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=9DHOT2PMGUFhuByMTJSr3B57dIXKaBHqTAzfX9zwMX8=;
-        b=JyumqZmnOkPRqX/lR4lzjcFG4fKuWIQs0bu6qx/6q7jcvuAv++N3yq2DEDbhd/XWZ3
-         wL2tWWk1jwpf0X0bd67h0c2EcHvTrv+gPfzbocfx5fCUU7DGRLKHV4g0BKQ89IR1E99K
-         7cRFYIxExuvXD/0x0eT1Hfk6+3a6QcUuIALn0QE9YrWWeS3+y5aOqbDbjvIErTr9Gw3S
-         S7hj5pTNzTF/0E0RB15oF++uJFXlYcs+rukM6mOKLH943xJbMoxN31KRkEcQIO7CflpZ
-         /lcVd0Kujz7jHih7GHaqp8gEl/AfftajdzeA2drgfmd++I8f2naZY3gkrYejpdc/eSlC
-         nRyQ==
+        bh=jKj3QXNJc64ZYZOzUkze7Bi+QP/5m/9g84NFc6owjQw=;
+        b=LG3o5HFlyk9ijJj67k0s487Zh+qHw80WXlTxuYGUUyscoDpzLd6tL+rAn2bqLxugoI
+         n3/y0nmMoI1BSEOtriUnUrGU6p4COrFNBhfA+MhvDTLJH7Ypf5cMkmAQJHJbfjAaZy+u
+         cQ+gdeHzvOId0oZff8gborLs77xxKRGfsZHYsfCJSgvG/mFkGEVM9rbVln6Ayx2tfc8Q
+         1U7KKCGldbCAxZQoJUJkDVzDvn+Zm43ryGBgdf+VbkPRs3XOpCGHdoh9QgBHiPyUZHE9
+         KinQPM5xRmpaU5F2fA7WmfcnVqJ8cFv2JqMF7mck+M13tK8s+PhK3p4risI7YQkonjJS
+         wEXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790107662; x=1790712462;
+        d=1e100.net; s=20260707; t=1790107669; x=1790712469;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=9DHOT2PMGUFhuByMTJSr3B57dIXKaBHqTAzfX9zwMX8=;
-        b=s/8aiStdei3cmDJWifWEpyNHx9kQzbHk2BQwo8RXirh6Cxn+NqDB7AzczWitYOOKvi
-         Jryq/CBzytnMNia5a7gJMVpmJIcquQl545zeI/WZmdxclNxAIJotZeUIFLdlEkEkqDfP
-         hF6c1q5nfrbSBWGYR2wNdpx0JhE1VdY6KhDotKs5jxAVPaYygkrwDhG40sW1FU4QPpd3
-         MjFTc3lBYKoWrfnbp6Zs6kPC9KShRtittUOzgf3B3MzWb7T1ydsr5SzC/ZK2sxczO1T5
-         ag3wO14TsQzymcJrri+LhiKJOriyq2RB4s6pVMV3TeoQtiv9zMVz+V7TVeGAmRBroJ+5
-         c8Qg==
-X-Gm-Message-State: AFuF++kF1EBmNaY75flvsdjh046sShLcMYtJ5q1rKeBH9Sq+i0Q4DNlw
-	uLKaSgidONpnH42w02K2OxYif9d/EN4crHh972Pa0fmdE2NCwGpsHnG/DlmfQID+A8/wihS52G+
-	RRo2zsx7jNChwZ16UqfHdtBCpGnpO/qGiA1b7z+1jO/NcFiq4aLHw
-X-Gm-Gg: AYBFou2SmgzAl0a/UC40n6hPZ2rpxzEa2WqbIVHatNUPNds+NIuTHAO0QeEVpQgvLLu
-	9bla+5nkcrrfyrZhxZJzKV4gapVpJ0qVtXAdkdlfDboWAzvzDjkaSXA8akNdurl5zdRDUK62kab
-	cmQjg0Zio856IPG8Af7vb5mLxcmbH+8YmX7v41OHKm8Yrw7emetDf0sBaO2wbaSzHnHp7RoOw0X
-	D0zhqYT/+j4flQydGCcDin16p3WJXAxMd0CR9G6bWr9oNsZePl8Ze4U7+N9zzy7ZWSA8MeJajAg
-	o4pE/ffRFv9tiGklFqFLNbiL4GzPlZQgaxIsx5ddNJ+tBl3F+aV122UJFKanbQcFjqqWCdhO6Vg
-	HQiZvcIghDf/8N10=
-X-Received: by 2002:a17:90b:5648:b0:3a0:78b6:588e with SMTP id 98e67ed59e1d1-3a07e5957dbmr300750a91.23.1790107661882;
-        Tue, 22 Sep 2026 13:07:41 -0700 (PDT)
+        bh=jKj3QXNJc64ZYZOzUkze7Bi+QP/5m/9g84NFc6owjQw=;
+        b=N2EBsrUf+YUVF7nYzLcPeVVqQ3a/zG9lRXXz16+yPK0ywjq5MbXJyh64x/g5U55z79
+         pTyOPTXc9GDaZp4YccyJnUos21eBAjpr+l8F+w4DnuXT0ukG6xaTdN8BDdzCrfpH6bQQ
+         ljlrBHOfpWEH2XgAeOHma/nhaGuU6gK/CVv4NbP1Jq+O0el4J1KbfGvjmM64zH3kidSg
+         +SkAk06Xl0MhxSF4d9ZubsXWSXTQ9c25aK0abv2AEEn1YjFIMVj2vRMPIi8lJYMp9Gvg
+         YsdgGGt/FLsIP77DrJmZYhgKvseT+ggQaApzRjiuK7+mzWR1o+rmlBNNbuUQRHwCZdVg
+         sRpg==
+X-Gm-Message-State: AFuF++lRYbXxJ+s4Fh4PDMzsZorCDu4EveNq7mfQQ4/ODKIDpwryh/AU
+	qvLb9s/jgnZfasOb5rl5mp7YsHIJ8icBO4MMCkbSdRpH3DV0dPBeroVdV0TO6iGqHQk0LDePxN2
+	ue4NXx+O8dH229fAMzSPb9ImVC1QipPPpTqNtUopNXPmum1Hzs7tH
+X-Gm-Gg: AYBFou3B2PyzeOKPa1LldxMPDspL0Ppwc5b1IwJDLqbY+2y1Y1/qiTp8AsfZw0Bwjoq
+	Vyjbsjzb2HKz1iCnKqgbBvEXrQwOVP0roe3tgUEpUKhcU5Izbe5Knw6TYAzK4WpMHJXKTEr16Hw
+	rzu7znR6Mu5MBr/3hkRurMqQXavk8RWZAIpn9M1aRv8fLjwNv0fDFSEQH+5ug47FmJlR3Tbx3p3
+	oWUqP2qDlXUP4EqTcq150NEHQ4Ge6OYaEN22Tkts6y67Wo3To+M6Mp4IVrUVqgLNN1pDhPrRG4E
+	x8VP646vCBSMQH93j0bOYe98fayV/5oua1fv4vo+xZ3SxXLWW+jVzka2HJ5aYIjHy7XEvohGtPN
+	mqYFwxv3Z7iSI3qg=
+X-Received: by 2002:a17:90b:2e83:b0:3a0:348a:5118 with SMTP id 98e67ed59e1d1-3a07e7555c3mr451315a91.47.1790107669177;
+        Tue, 22 Sep 2026 13:07:49 -0700 (PDT)
 Received: from c7-smtp-2026.dev.purestorage.com ([2620:125:9017:12:36:3:6:0])
-        by smtp-relay.gmail.com with ESMTPS id 98e67ed59e1d1-3a07dcc1b89sm311270a91.3.2026.09.22.13.07.41
+        by smtp-relay.gmail.com with ESMTPS id 98e67ed59e1d1-3a07dd381f4sm306951a91.7.2026.09.22.13.07.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2026 13:07:41 -0700 (PDT)
+        Tue, 22 Sep 2026 13:07:49 -0700 (PDT)
 X-Relaying-Domain: purestorage.com
-Received: from dev-sgogte.dev.purestorage.com (dev-sgogte.dev.purestorage.com [10.112.19.91])
-	by c7-smtp-2026.dev.purestorage.com (Postfix) with ESMTP id 45CC94014B;
-	Tue, 22 Sep 2026 14:07:41 -0600 (MDT)
+Received: from dev-sgogte.dev.purestorage.com (bond0.slc5-n22m24-k8s.dev.purestorage.com [IPv6:2620:125:9025:20::a31:429])
+	by c7-smtp-2026.dev.purestorage.com (Postfix) with ESMTP id F0E694014B;
+	Tue, 22 Sep 2026 14:07:47 -0600 (MDT)
 Received: by dev-sgogte.dev.purestorage.com (Postfix, from userid 1557734945)
-	id 4334D3F9F5; Tue, 22 Sep 2026 14:07:41 -0600 (MDT)
+	id EE52B3F9F5; Tue, 22 Sep 2026 14:07:47 -0600 (MDT)
 From: Surabhi Gogte <sgogte@purestorage.com>
 To: Keith Busch <kbusch@kernel.org>,
 	Jens Axboe <axboe@kernel.dk>,
@@ -86,17 +86,17 @@ Cc: linux-nvme@lists.infradead.org,
 	adailey@purestorage.com,
 	Surabhi Gogte <sgogte@purestorage.com>,
 	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH v4 2/3] nvme-tcp: refactor I/O queue setup path
-Date: Tue, 22 Sep 2026 14:07:17 -0600
-Message-ID: <20260922200718.3941465-3-sgogte@purestorage.com>
+Subject: [PATCH v4 3/3] nvme-tcp: parallelize I/O queue allocation and startup
+Date: Tue, 22 Sep 2026 14:07:18 -0600
+Message-ID: <20260922200718.3941465-4-sgogte@purestorage.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260922200718.3941465-1-sgogte@purestorage.com>
 References: <20260922200718.3941465-1-sgogte@purestorage.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260922_130742_863382_F0403A76 
-X-CRM114-Status: GOOD (  16.86  )
+X-CRM114-CacheID: sfid-20260922_130750_236113_FE772237 
+X-CRM114-Status: GOOD (  28.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,88 +111,259 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Split the I/O queue setup helpers apart so that the individual steps can
-be called directly from nvme_tcp_configure_io_queues():
+Similar to commit 2a8513091d2f ("nvme-rdma: parallelize I/O queue
+allocation and startup"), refactor nvme tcp I/O queue setup to use async
+API, combining allocation and startup into a single parallel operation
+per queue. This reduces connection and reconnection setup time when
+there are delays in establishing connections, which is especially
+important for high-core-count hosts.
 
-- Queue count negotiation moves out of nvme_tcp_alloc_io_queues() into a
-  new nvme_tcp_set_io_queue_count(), leaving the allocator with just the
-  per-queue allocation loop.
-- TLS PSK validation moves out of __nvme_tcp_alloc_io_queues() into a
-  new nvme_tcp_tls_check_psk().
-- nvme_tcp_configure_io_queues() now calls the three steps directly in
-  the same order as before.
+Key changes:
+- Use async API to facilitate parallel calls for io queue setup.
+- Add nvme_tcp_queue_setup_ctx for propagating errors from async
+  workers.
+- Remove nvme_tcp_start_io_queues() and __nvme_tcp_alloc_io_queues();
+  their logic is folded into nvme_tcp_setup_io_queues() and
+  nvme_tcp_configure_io_queues().
+- Allocate the io tag set before the queues so that the queue range is
+  known, and only set up the reconnect grow case if the queue count
+  actually increased.
+- Serialize the cpu scan and claim in nvme_tcp_set_queue_io_cpu() with a
+  spinlock, as concurrent callers would otherwise select the same cpu.
+  The per-cpu counters no longer need to be atomics.
+
+Testing on a 64-core host with 64 IO-queues shows nvme-tcp connection
+time reduced from 61ms to 11ms.
 
 Signed-off-by: Surabhi Gogte <sgogte@purestorage.com>
 Reviewed-by: Hannes Reinecke <hare@kernel.org>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/host/tcp.c | 25 +++++++++++++++++++------
- 1 file changed, 19 insertions(+), 6 deletions(-)
+ drivers/nvme/host/tcp.c | 119 ++++++++++++++++++++++++++--------------
+ 1 file changed, 77 insertions(+), 42 deletions(-)
 
 diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index f916bcca304f..9308feba8a74 100644
+index 9308feba8a74..ec678ed07af8 100644
 --- a/drivers/nvme/host/tcp.c
 +++ b/drivers/nvme/host/tcp.c
-@@ -2184,10 +2184,8 @@ static int nvme_tcp_alloc_admin_queue(struct nvme_ctrl *ctrl)
- 	return ret;
+@@ -7,6 +7,7 @@
+ #include <linux/module.h>
+ #include <linux/init.h>
+ #include <linux/slab.h>
++#include <linux/async.h>
+ #include <linux/err.h>
+ #include <linux/crc32.h>
+ #include <linux/nvme-tcp.h>
+@@ -54,7 +55,8 @@ MODULE_PARM_DESC(tls_handshake_timeout,
+ 		 "nvme TLS handshake timeout in seconds (default 10)");
+ #endif
+ 
+-static atomic_t nvme_tcp_cpu_queues[NR_CPUS];
++static int nvme_tcp_cpu_queues[NR_CPUS];
++static DEFINE_SPINLOCK(nvme_tcp_cpu_queues_lock);
+ 
+ enum nvme_tcp_send_state {
+ 	NVME_TCP_SEND_CMD_PDU = 0,
+@@ -154,6 +156,12 @@ struct nvme_tcp_queue {
+ static DEFINE_MUTEX(nvme_tcp_ctrl_mutex);
+ static LIST_HEAD_GUARDED(nvme_tcp_ctrl_list, nvme_tcp_ctrl_mutex);
+ 
++struct nvme_tcp_queue_setup_ctx {
++	struct nvme_ctrl	*ctrl;
++	int			qid;
++	int			*err;
++};
++
+ struct nvme_tcp_ctrl {
+ 	/* read only in the hot path */
+ 	struct nvme_tcp_queue	*queues;
+@@ -1731,9 +1739,10 @@ static void nvme_tcp_set_queue_io_cpu(struct nvme_tcp_queue *queue)
+ 		goto out;
+ 
+ 	/* Search for the least used cpu from the mq_map */
++	spin_lock(&nvme_tcp_cpu_queues_lock);
+ 	io_cpu = WORK_CPU_UNBOUND;
+ 	for_each_online_cpu(cpu) {
+-		int num_queues = atomic_read(&nvme_tcp_cpu_queues[cpu]);
++		int num_queues = nvme_tcp_cpu_queues[cpu];
+ 
+ 		if (mq_map[cpu] != qid)
+ 			continue;
+@@ -1744,9 +1753,10 @@ static void nvme_tcp_set_queue_io_cpu(struct nvme_tcp_queue *queue)
+ 	}
+ 	if (io_cpu != WORK_CPU_UNBOUND) {
+ 		queue->io_cpu = io_cpu;
+-		atomic_inc(&nvme_tcp_cpu_queues[io_cpu]);
++		nvme_tcp_cpu_queues[io_cpu]++;
+ 		set_bit(NVME_TCP_Q_IO_CPU_SET, &queue->flags);
+ 	}
++	spin_unlock(&nvme_tcp_cpu_queues_lock);
+ out:
+ 	dev_dbg(ctrl->ctrl.device, "queue %d: using cpu %d\n",
+ 		qid, queue->io_cpu);
+@@ -2023,8 +2033,11 @@ static void nvme_tcp_stop_queue_nowait(struct nvme_ctrl *nctrl, int qid)
+ 	if (!test_bit(NVME_TCP_Q_ALLOCATED, &queue->flags))
+ 		return;
+ 
+-	if (test_and_clear_bit(NVME_TCP_Q_IO_CPU_SET, &queue->flags))
+-		atomic_dec(&nvme_tcp_cpu_queues[queue->io_cpu]);
++	if (test_and_clear_bit(NVME_TCP_Q_IO_CPU_SET, &queue->flags)) {
++		spin_lock(&nvme_tcp_cpu_queues_lock);
++		nvme_tcp_cpu_queues[queue->io_cpu]--;
++		spin_unlock(&nvme_tcp_cpu_queues_lock);
++	}
+ 
+ 	mutex_lock(&queue->queue_lock);
+ 	if (test_and_clear_bit(NVME_TCP_Q_LIVE, &queue->flags))
+@@ -2131,25 +2144,6 @@ static void nvme_tcp_stop_io_queues(struct nvme_ctrl *ctrl)
+ 		nvme_tcp_wait_queue(ctrl, i);
+ }
+ 
+-static int nvme_tcp_start_io_queues(struct nvme_ctrl *ctrl,
+-				    int first, int last)
+-{
+-	int i, ret;
+-
+-	for (i = first; i < last; i++) {
+-		ret = nvme_tcp_start_queue(ctrl, i);
+-		if (ret)
+-			goto out_stop_queues;
+-	}
+-
+-	return 0;
+-
+-out_stop_queues:
+-	for (i--; i >= first; i--)
+-		nvme_tcp_stop_queue(ctrl, i);
+-	return ret;
+-}
+-
+ static int nvme_tcp_alloc_admin_queue(struct nvme_ctrl *ctrl)
+ {
+ 	int ret;
+@@ -2210,22 +2204,67 @@ static int nvme_tcp_tls_check_psk(struct nvme_ctrl *ctrl)
+ 	return 0;
  }
  
 -static int __nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
-+static int nvme_tcp_tls_check_psk(struct nvme_ctrl *ctrl)
++static void nvme_tcp_setup_queue_async(void *data, async_cookie_t cookie)
  {
 -	int i, ret;
--
- 	if (nvme_tcp_tls_configured(ctrl)) {
- 		if (ctrl->opts->concat) {
- 			/*
-@@ -2209,6 +2207,13 @@ static int __nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
- 		}
- 	}
++	struct nvme_tcp_queue_setup_ctx *ctx = data;
++	struct nvme_ctrl *ctrl = ctx->ctrl;
++	int ret;
  
-+	return 0;
+-	for (i = 1; i < ctrl->queue_count; i++) {
+-		ret = nvme_tcp_alloc_queue(ctrl, i,
+-				ctrl->tls_pskid);
+-		if (ret)
+-			goto out_free_queues;
++	ret = nvme_tcp_alloc_queue(ctrl, ctx->qid, ctrl->tls_pskid);
++	if (ret)
++		goto out_err;
++
++	ret = nvme_tcp_start_queue(ctrl, ctx->qid);
++	if (ret)
++		goto out_err;
++
++	return;
++
++out_err:
++	WRITE_ONCE(*ctx->err, ret);
 +}
 +
-+static int __nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
++static int nvme_tcp_setup_io_queues(struct nvme_ctrl *ctrl, unsigned int first,
++		unsigned int last)
 +{
-+	int i, ret;
++	ASYNC_DOMAIN_EXCLUSIVE(queue_domain);
++	struct nvme_tcp_queue_setup_ctx *ctxs;
++	int nr_queues = last - first;
++	int err = 0, i, ret;
 +
- 	for (i = 1; i < ctrl->queue_count; i++) {
- 		ret = nvme_tcp_alloc_queue(ctrl, i,
- 				ctrl->tls_pskid);
-@@ -2225,7 +2230,7 @@ static int __nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
++	if (first >= last)
++		return 0;
++
++	ctxs = kmalloc_objs(*ctxs, nr_queues);
++	if (!ctxs)
++		return -ENOMEM;
++
++	for (i = 0; i < nr_queues; i++) {
++		ctxs[i].ctrl = ctrl;
++		ctxs[i].qid = first + i;
++		ctxs[i].err = &err;
++		async_schedule_domain(nvme_tcp_setup_queue_async, &ctxs[i],
++				&queue_domain);
+ 	}
+ 
++	async_synchronize_full_domain(&queue_domain);
++	kfree(ctxs);
++
++	ret = READ_ONCE(err);
++	if (ret)
++		goto out_free_queues;
++
+ 	return 0;
+ 
+ out_free_queues:
+-	for (i--; i >= 1; i--)
+-		nvme_tcp_free_queue(ctrl, i);
++	for (i = first; i < last; i++) {
++		struct nvme_tcp_queue *queue = &to_tcp_ctrl(ctrl)->queues[i];
++
++		if (test_bit(NVME_TCP_Q_LIVE, &queue->flags))
++			nvme_tcp_stop_queue(ctrl, i);
++		if (test_bit(NVME_TCP_Q_ALLOCATED, &queue->flags))
++			nvme_tcp_free_queue(ctrl, i);
++	}
+ 
  	return ret;
  }
- 
--static int nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
-+static int nvme_tcp_set_io_queue_count(struct nvme_ctrl *ctrl)
- {
- 	unsigned int nr_io_queues;
- 	int ret;
-@@ -2247,14 +2252,22 @@ static int nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
- 
- 	nvmf_set_io_queues(ctrl->opts, nr_io_queues,
- 			   to_tcp_ctrl(ctrl)->io_queues);
--	return __nvme_tcp_alloc_io_queues(ctrl);
-+	return 0;
- }
- 
- static int nvme_tcp_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
- {
- 	int ret, nr_queues;
- 
--	ret = nvme_tcp_alloc_io_queues(ctrl);
-+	ret = nvme_tcp_set_io_queue_count(ctrl);
-+	if (ret)
-+		return ret;
-+
-+	ret = nvme_tcp_tls_check_psk(ctrl);
-+	if (ret)
-+		return ret;
-+
-+	ret = __nvme_tcp_alloc_io_queues(ctrl);
+@@ -2267,10 +2306,6 @@ static int nvme_tcp_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
  	if (ret)
  		return ret;
  
+-	ret = __nvme_tcp_alloc_io_queues(ctrl);
+-	if (ret)
+-		return ret;
+-
+ 	if (new) {
+ 		ret = nvme_alloc_io_tag_set(ctrl, &to_tcp_ctrl(ctrl)->tag_set,
+ 				&nvme_tcp_mq_ops,
+@@ -2281,12 +2316,12 @@ static int nvme_tcp_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
+ 	}
+ 
+ 	/*
+-	 * Only start IO queues for which we have allocated the tagset
++	 * Only setup IO queues for which we have allocated the tagset
+ 	 * and limited it to the available queues. On reconnects, the
+ 	 * queue number might have changed.
+ 	 */
+ 	nr_queues = min(ctrl->tagset->nr_hw_queues + 1, ctrl->queue_count);
+-	ret = nvme_tcp_start_io_queues(ctrl, 1, nr_queues);
++	ret = nvme_tcp_setup_io_queues(ctrl, 1, nr_queues);
+ 	if (ret)
+ 		goto out_cleanup_connect_q;
+ 
+@@ -2310,9 +2345,9 @@ static int nvme_tcp_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
+ 
+ 	/*
+ 	 * If the number of queues has increased (reconnect case)
+-	 * start all new queues now.
++	 * setup all new queues now.
+ 	 */
+-	ret = nvme_tcp_start_io_queues(ctrl, nr_queues,
++	ret = nvme_tcp_setup_io_queues(ctrl, nr_queues,
+ 				       ctrl->tagset->nr_hw_queues + 1);
+ 	if (ret)
+ 		goto out_wait_freeze_timed_out;
+@@ -3157,7 +3192,7 @@ static int __init nvme_tcp_init_module(void)
+ 		return -ENOMEM;
+ 
+ 	for_each_possible_cpu(cpu)
+-		atomic_set(&nvme_tcp_cpu_queues[cpu], 0);
++		nvme_tcp_cpu_queues[cpu] = 0;
+ 
+ 	nvmf_register_transport(&nvme_tcp_transport);
+ 	return 0;
 -- 
 2.55.0
 
