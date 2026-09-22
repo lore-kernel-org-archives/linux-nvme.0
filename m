@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4F095C982FF
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Sep 2026 13:37:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 64F86C982FA
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Sep 2026 13:37:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=jxWRejUtIeE3d2ZGmdL1cYpY91i/eT87f2tDvql+EHA=; b=0a65mBekV9CLgjVEd5v5noLqKU
-	fp53+6FvrdSMNPMieenUdhLxM3yGOuac7tL3+iNNlM1wjMye3b17Ma7qeJlu44vyKM5cvtcIEvSdP
-	nCPLMYGyqmiX9xmc1rRM/8mSheqT2QOACSDD1Cm8L7INFdmS9bVA0F5tvCu5sqUCdJGO7LTg/Qc42
-	4Y5mx/2RVSg3vrAOHTb730/SfFDLtBYhaOP/WRw7OHOJ86M8yludLPVt4RCvDiUfh/ybxJqN3/3jO
-	F2ExRgOuXPxMmrZ6M54NtGszyR9UEp4Of3cqE5TtI3trwaE5nzbfg5KSZTaBylnlCkDbusInALUDS
-	3ha1Nnxg==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=PCJLpRfxtct7DbafgSfwq4uII75Mlz+xgFX95QdMSj8=; b=geNBi+sGq82JZRGd1RxrR6jP8N
+	XSZR5Y7XM8X3gM1b7VUEaP5wse5kqD/pnrnW2SliKEXnm0INp7kiOwuh95z/wqX8r+qVCK/0FIDXW
+	nqs/zF9L2F/fEHtGvq7Vyo/66Q6qOS0ledznQiBdKY70bsZOwurrInmJAJCMMXTFFVUHQLrcnTdNY
+	eqs4KuNe+sNv6IT7Hr3luKu654VonH7PXk2HbCREYjCqoO9pGI758B/C1zmQX/Y++Y0IvqMSvq1cH
+	haQdoswBpSU7s/+W5pm7KMhpgP71Cj8J55SsMRV8LTPWdjr3GKSfgHgvq0dSnYhu1q7CSNUvKLZ6D
+	Lj2Vk33g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x90gS-00000005Y87-3mX1;
-	Tue, 22 Sep 2026 13:37:20 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1x90gW-00000005YA1-0ATM;
+	Tue, 22 Sep 2026 13:37:24 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x90gR-00000005Y7G-30lF
+	id 1x90gU-00000005Y8c-1Ckj
 	for linux-nvme@lists.infradead.org;
-	Tue, 22 Sep 2026 13:37:19 +0000
+	Tue, 22 Sep 2026 13:37:22 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 245F84058F;
+	by tor.source.kernel.org (Postfix) with ESMTP id B63CA60E19;
+	Tue, 22 Sep 2026 13:37:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77D941F00898;
 	Tue, 22 Sep 2026 13:37:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39F431F0089B;
-	Tue, 22 Sep 2026 13:37:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790084239;
-	bh=jxWRejUtIeE3d2ZGmdL1cYpY91i/eT87f2tDvql+EHA=;
-	h=From:To:Cc:Subject:Date;
-	b=VNNfRyc5joEAXYeJwbqwjw8L9JBBgRwf2wQP05yrmtvU298gSro14zLmqdx3drB0x
-	 5XZSPbtziOxuaJ1vhSUNJVbTleJC5AXH/R3W7i8cAL731a6/HgBns9c1AjhKO5cZaC
-	 W3NdS01r440A3V3Swu54hu2XmBDn9c6vo+XTUfDiNE5wlvSo5PSrOczx5MEgpexT9q
-	 aGkIaeE3k34jI2YwIHt20d0kmgVj6PbvoyFsLIGfWcr1HH151iZkJZNp1wOZvY8wUK
-	 rrnS3zKI/SYtMHLrG6Gb1WmQvSmbnKqIKRu/k+q+7wpXnjqv0d7j2s7V7AaV093z6O
-	 3Q9cf7FtWp0iQ==
+	s=k20260515; t=1790084241;
+	bh=PCJLpRfxtct7DbafgSfwq4uII75Mlz+xgFX95QdMSj8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=UHYQDAeaZmEPkGZUIYDYbz8ItZVCEMU1kf5ewfwNr7Pr4kAtXOIY89sTbMDNDKmEs
+	 dke1qMWCtITm+rq4aIBUT9OZi7gsQAmUEeCQYjYA8VqcW46LlkagFpSx+3oJKW82T7
+	 PvhTSq2So11dmhiNu6bGA+03Dg6TcWfykM/IghSA0qUw+RIy9WXH6QxiONhJ6gOPUL
+	 S5nIU/cwaBK13Y24a6LVBGg8xFzzZT3iQBnfj5TtEa60seHq4H6vgsTidLRmUdsEGZ
+	 L6Y/WXAek8A++k5uQfo4BKTdxOOUb4HSzWkMDJguYzc82Ms920eDtLAnpijHL9nnAJ
+	 tkhfjrkvV8OzA==
 From: Hannes Reinecke <hare@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>,
@@ -50,11 +50,14 @@ Cc: Keith Busch <kbusch@kernel.org>,
 	Jakub Kicinski <kuba@kernel.org>,
 	Sabrina Dubroca <sd@queasysnail.net>,
 	netdev@vger.kernel.org,
+	Martin Belanger <martin.belanger@dell.com>,
 	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH 0/2] nvme,tls: minimal handling for TLS records
-Date: Tue, 22 Sep 2026 15:37:06 +0200
-Message-ID: <20260922133708.84522-1-hare@kernel.org>
+Subject: [PATCH 1/2] nvme-tcp: start error recovery when read_sock fails
+Date: Tue, 22 Sep 2026 15:37:07 +0200
+Message-ID: <20260922133708.84522-2-hare@kernel.org>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260922133708.84522-1-hare@kernel.org>
+References: <20260922133708.84522-1-hare@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -71,34 +74,53 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
+From: Martin Belanger <martin.belanger@dell.com>
 
-TLS 1.3 can send additional TLS records while the connection is established,
-and typically one would evaluate these records with passing in a control message
-buffer for recvmsg(). But nvme-tcp is using the read_sock() interface which
-does not allow for handling of control messages.
-So as the lazy way out I opted for resetting the queue on any non-data TLS records
-as this would be the default action anyway for most non-data TLS records.
-But turns out that this does not work as planned, as the TLS records are evaluated
-(and errors generated) before ->read_sock() is called, so nvme-tcp would receive
-the error but not start error recovery.
+nvme_tcp_recv_skb() disables the queue and starts error recovery on any
+errors. But if the transport encounters an error before ->read_sock()
+is called (and hence before nvme_tcp_recv_skb() is called) no further
+action is taken. This causes nvme_tcp_io_work() to stall until a command
+times out.
 
-This patchset is the minimal fix to handle it, start error recovery when a non-data
-TLS record is received and also return a distinct error code from tls to indicate
-the situation.
+This patch checks for any error returned from ->read_sock(), and starts
+error recovery when the queue is still enabled (ie if nvme_tcp_recv_skb()
+has not detected the error).
 
-The 'real' fix will of course involve actually reading the control message and take
-action based on the type, but that is a rather involved operation which will be addressed
-later. So for now this simple fix should be sufficient.
-
-Martin Belanger (2):
-  nvme-tcp: start error recovery when read_sock fails
-  tls: return a distinct error for control records from read_sock
-
+Signed-off-by: Martin Belanger <martin.belanger@dell.com>
+Signed-off-by: Hannes Reinecke <hare@kernel.org>
+---
  drivers/nvme/host/tcp.c | 18 +++++++++++++++++-
- net/tls/tls_sw.c        |  4 ++--
- 2 files changed, 19 insertions(+), 3 deletions(-)
+ 1 file changed, 17 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 7eec983c0ead..2f1ae3968678 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1422,7 +1422,23 @@ static int nvme_tcp_try_recv(struct nvme_tcp_queue *queue)
+ 	queue->nr_cqe = 0;
+ 	consumed = sock->ops->read_sock(sk, &rd_desc, nvme_tcp_recv_skb);
+ 	release_sock(sk);
+-	return consumed == -EAGAIN ? 0 : consumed;
++	if (consumed == -EAGAIN)
++		return 0;
++
++	/*
++	 * read_sock() might encounter an error before calling
++	 * nvme_tcp_recv_skb(), so we need to check if we need
++	 * to start error recovery here.
++	 */
++	if (unlikely(consumed < 0 && queue->rd_enabled)) {
++		dev_err(queue->ctrl->ctrl.device,
++			"queue %d: receive failed: %d\n",
++			nvme_tcp_queue_id(queue), consumed);
++		queue->rd_enabled = false;
++		nvme_tcp_error_recovery(&queue->ctrl->ctrl);
++	}
++
++	return consumed;
+ }
+ 
+ static void nvme_tcp_io_work(struct work_struct *w)
 -- 
 2.51.0
 
