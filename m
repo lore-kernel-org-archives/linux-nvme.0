@@ -4,58 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6A473C982FE
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Sep 2026 14:24:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DE722C982FE
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Sep 2026 15:00:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9cUCkPdas2kfxE+efO9Wme9qFZiBsh0bAukmbBJvexM=; b=uAXrNVhsCsXVqtoA1OZaTS0I7I
-	P1qxr1adPKE2ieXNsNlJGa9u7JIH1O63RLDnubBXl1yDkDQECHvXNG+1LibebID/53bXrb6KvFvcz
-	Qc4+EXjIZT47latsHK4K+X24wtl88F20GR3MOkW6U93f/mRH0lnU9L/9BZKdF1XpVyUGFNd+kNmDL
-	dMXlIzq4woHQ6M/NE8xmvpWJhgZWgmx1G6BgsDgk3YQgkPqKiLcTPamhYz1oY8W0fFTnNAuWe8Xxp
-	Gn+Vag9hAOngTNoUW7chcJAocf+waahugXx3aLuOHJeYIAc+D6F5Ks5msnw5wzTevTl8Umx+ywAEr
-	wAJsxZdA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=mfvUSx3nWzsWME0SMo6zV+P5ZEdJjsHo/ZxJ+7G2kQw=; b=lbYiWgvl407dcbzq+YOegCPmEK
+	pxcI6HBPHRLLz1hwAHtw9xvpFp8TGpwe1U0jWRc2G+wVD5HILRhJyq3TLGSCJn49kOo2g4kR9LWgR
+	ngiBKwB9hSlhUCSjbOac1eBZbuHR+80zVeY7E22yo2cF1jfklCRLu984LQqV9x9wikU5Mjv9AWIym
+	4y1l/kd40jiXRrWH8pnIG7h1nbHaeCUlQfR0XRADFmsWxLBZYO4wc1Bek4r9bPbW8gdB9G9gxl5BW
+	rrJpuVt4r1hGzWPO25SbmS8gWgNmmNU/+FzIXnUCzEPob0BqJYBOrFipKOH1LLgE3vH/HoOg5YXQz
+	2B+2BPRw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x91Pp-00000005fon-2nZz;
-	Tue, 22 Sep 2026 14:24:13 +0000
-Received: from out-235.mta1.migadu.com ([2001:41d0:203:375::eb] helo=mta1.migadu.com)
+	id 1x91yQ-00000005las-2Hsd;
+	Tue, 22 Sep 2026 14:59:58 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x91Pm-00000005fmR-3l0c
+	id 1x91yP-00000005lag-1U1U
 	for linux-nvme@lists.infradead.org;
-	Tue, 22 Sep 2026 14:24:12 +0000
-X-Envelope-To: linux-nvme@lists.infradead.org
-DKIM-Signature: a=rsa-sha256; bh=dyuVfc8TH6PwmQ1IqSWziBs4ILig01qq98JwDOm0/eg=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790087047; v=1; x=1790691847;
- b=CCa013Bi6cPYGPbLFc3CABMyfvD4t5fp7TpJpd6ladWkv8crWojzTw6uG8Uk/ODQXZ1P+9v+
- m6xQ2NOxOTG8ZyAd/uApGTH5USaGdGosu1D+nFiATcYkU17pofXm0mP4SqPSZs0WfOO2XCmJOXb
- fFSpQrwMLunyElAKLIfg5Y4U=
-X-Envelope-To: linux-nvme@lists.infradead.org
-Received: by mta12.migadu.com with ESMTPS id 0719151c0f307984;
-	Tue, 22 Sep 2026 14:24:07 +0000
-X-Mizu-Trace-ID: 0719151c0f307984
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <1adea898-454f-4029-b8ea-d6f557f59087@linux.dev>
-Date: Tue, 22 Sep 2026 15:24:06 +0100
+	Tue, 22 Sep 2026 14:59:57 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id D285E404DD;
+	Tue, 22 Sep 2026 14:59:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7577F1F00893;
+	Tue, 22 Sep 2026 14:59:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790089196;
+	bh=mfvUSx3nWzsWME0SMo6zV+P5ZEdJjsHo/ZxJ+7G2kQw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=NlzzuqzHeWanEbM6v4mV6hqSpZssW2vgN3ZR60wT+emilQBA5XlMQSyq0yj7QLNWd
+	 JtlWH8dNTU0UESgg6+snD2SpjIUJO0+UNYClJUJjbt88ODutrSDCpw7skmJMNvRYko
+	 mD/0BlnKnOR14BPz5GXvJzDW7BRQYvbvPHD1LZ0A8QxKQVi4vxKvnKg2MNvr18Xv0K
+	 z6cU5Ua4ucOw5YDCY8amhcSY1bzXMB4EEQlp+7aDMZKy1LbYGZVpBM49jyEDTp27ay
+	 azwPOIsDqy5s1P+J5A2b/75Tn6Nwse0ZHun0jeVrfmAjDyjwl+hvvw8JFMTVUJtY/y
+	 B/5HVY3ONmiPw==
+Date: Tue, 22 Sep 2026 08:59:54 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Nilay Shroff <nilay@linux.ibm.com>
+Cc: hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	gjoyce@linux.ibm.com
+Subject: Re: [PATCH v2 0/2] nvmet: fix subtle race in I/O processing and ns
+ configuration
+Message-ID: <arKX6rZq_CLz05X5@kbusch-mbp>
+References: <20260918162736.802665-1-nilay@linux.ibm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] nvme-multipath: add iopolicies sysfs attribute
-To: loberman@redhat.com, linux-nvme@lists.infradead.org
-Cc: hch@lst.de, kbusch@kernel.org, sagi@grimberg.me
-References: <20260921144347.49620-1-loberman@redhat.com>
-Content-Language: en-US
-From: John Garry <john.garry@linux.dev>
-In-Reply-To: <20260921144347.49620-1-loberman@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260922_072411_154558_1AD808CE 
-X-CRM114-Status: GOOD (  20.45  )
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260918162736.802665-1-nilay@linux.ibm.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,90 +70,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/21/26 15:43, loberman@redhat.com wrote:
-> From: Laurence Oberman <loberman@redhat.com>
+On Fri, Sep 18, 2026 at 09:57:29PM +0530, Nilay Shroff wrote:
+> Hi,
 > 
-> The subsystem iopolicy attribute only shows the active policy, so
-> there is no way to see which policies are available.
+> This series addresses two race conditions in the nvmet core code that
+> handles I/O submission and namespace configuration.
 > 
-> Changing the output of iopolicy would break existing userspace,
-> since nvme-cli compares the value against a bare policy name. Leave
-> iopolicy unchanged and add a read-only iopolicies attribute that
-> lists the available policies:
-> 
->    # cat iopolicies
->    numa round-robin queue-depth
-> 
-> The current policy is still read from iopolicy.
-> 
-> Signed-off-by: Laurence Oberman <loberman@redhat.com>
+> The first patch addresses a race where target namespace attributes
+> could be changed while I/O is in progress. The second patch addresses
+> a subtle race that could allow I/O to be admitted even after the
+> percpu reference count has been killed or marked dead.
 
-Apart from comment below:
-
-Reviewed-by: John Garry <john.garry@linux.dev>
-
-> Assisted-by: Claude:claude-sonnet-5
-> ---
-> v2:
->    - Drop the [ ] notation and list plain policy names (Christoph)
-> 
->   drivers/nvme/host/multipath.c | 15 +++++++++++++++
->   drivers/nvme/host/nvme.h      |  1 +
->   drivers/nvme/host/sysfs.c     |  1 +
->   3 files changed, 17 insertions(+)
-> 
-> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-> index 75dbb58286a3..ea7d0c59587b 100644
-> --- a/drivers/nvme/host/multipath.c
-> +++ b/drivers/nvme/host/multipath.c
-> @@ -1085,6 +1085,21 @@ static ssize_t nvme_subsys_iopolicy_store(struct device *dev,
->   SUBSYS_ATTR_RW(iopolicy, S_IRUGO | S_IWUSR,
->   		      nvme_subsys_iopolicy_show, nvme_subsys_iopolicy_store);
->   
-> +static ssize_t iopolicies_show(struct device *dev,
-> +			       struct device_attribute *attr, char *buf)
-> +{
-> +	int i, len = 0;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(nvme_iopolicy_names); i++)
- > +		len += sysfs_emit_at(buf, len, "%s%s", i ? " " : "",> +				 
-nvme_iopolicy_names[i]);
-> +
-> +	len += sysfs_emit_at(buf, len, "\n");
-> +	return len;
-> +}
-> +
-> +struct device_attribute subsys_attr_iopolicies = __ATTR_RO(iopolicies);
-
-SUBSYS_ATTR_RO already exists for this, right?
-
-> +
->   static ssize_t ana_grpid_show(struct device *dev, struct device_attribute *attr,
->   		char *buf)
->   {
-> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index 75e5d5a8a77c..b419c6fc6081 100644
-> --- a/drivers/nvme/host/nvme.h
-> +++ b/drivers/nvme/host/nvme.h
-> @@ -1098,6 +1098,7 @@ extern struct device_attribute dev_attr_multipath_failover_count;
->   extern struct device_attribute dev_attr_io_requeue_no_usable_path_count;
->   extern struct device_attribute dev_attr_io_fail_no_available_path_count;
->   extern struct device_attribute subsys_attr_iopolicy;
-> +extern struct device_attribute subsys_attr_iopolicies;
->   
->   static inline bool nvme_disk_is_ns_head(struct gendisk *disk)
->   {
-> diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-> index abf8edaae371..4c4518b6b7d5 100644
-> --- a/drivers/nvme/host/sysfs.c
-> +++ b/drivers/nvme/host/sysfs.c
-> @@ -1298,6 +1298,7 @@ static struct attribute *nvme_subsys_attrs[] = {
->   	&subsys_attr_subsystype.attr,
->   #ifdef CONFIG_NVME_MULTIPATH
->   	&subsys_attr_iopolicy.attr,
-> +	&subsys_attr_iopolicies.attr,
->   #endif
->   	NULL,
->   };
-
+Thanks, series applied to nvme-7.4.
 
