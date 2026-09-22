@@ -4,58 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DE722C982FE
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Sep 2026 15:00:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59D5AC982FA
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Sep 2026 15:00:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mfvUSx3nWzsWME0SMo6zV+P5ZEdJjsHo/ZxJ+7G2kQw=; b=lbYiWgvl407dcbzq+YOegCPmEK
-	pxcI6HBPHRLLz1hwAHtw9xvpFp8TGpwe1U0jWRc2G+wVD5HILRhJyq3TLGSCJn49kOo2g4kR9LWgR
-	ngiBKwB9hSlhUCSjbOac1eBZbuHR+80zVeY7E22yo2cF1jfklCRLu984LQqV9x9wikU5Mjv9AWIym
-	4y1l/kd40jiXRrWH8pnIG7h1nbHaeCUlQfR0XRADFmsWxLBZYO4wc1Bek4r9bPbW8gdB9G9gxl5BW
-	rrJpuVt4r1hGzWPO25SbmS8gWgNmmNU/+FzIXnUCzEPob0BqJYBOrFipKOH1LLgE3vH/HoOg5YXQz
-	2B+2BPRw==;
+	bh=6/ulMLDed3d1q+qJ0gHbFLUtp0vu0z6ZIMPO4QTXBw8=; b=P+n92P5ixdBnEIiTKh1tt9d1Zc
+	GTmeT1c/oZzMzZQo8Bu/LY99XawU9Rua+kTN+Z/XUsYtyJvgCpzHG1qz4vPgFfOLadahxZrevTtae
+	oMQhSw0agvMe9sRj2kSutag+ZUIFpQvrsop0zUWakv4L0UJgPqddnccB7HU4gOF+5kn7Oabt/sKH3
+	nBMZiNu2ofeyFKbrAQLpQL7UQZrPP6dht0RcPOo5CBt8rwDur6tCMHgGjASG5ktukrKv0ksrayw6D
+	I+Wt7vIVWObn4kIj4/xCTBFNQ1lp2Lf19UiTPpcnz3xmjLW4wL+z+/8ygagUuy4a4pJtpwJgYLs9x
+	i0FP67NQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x91yQ-00000005las-2Hsd;
-	Tue, 22 Sep 2026 14:59:58 +0000
+	id 1x91yk-00000005lrp-3Idf;
+	Tue, 22 Sep 2026 15:00:18 +0000
 Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x91yP-00000005lag-1U1U
+	id 1x91yj-00000005lqg-1qZc
 	for linux-nvme@lists.infradead.org;
-	Tue, 22 Sep 2026 14:59:57 +0000
+	Tue, 22 Sep 2026 15:00:17 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id D285E404DD;
-	Tue, 22 Sep 2026 14:59:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7577F1F00893;
-	Tue, 22 Sep 2026 14:59:56 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 3600D42E6E;
+	Tue, 22 Sep 2026 15:00:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C502C1F00899;
+	Tue, 22 Sep 2026 15:00:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790089196;
-	bh=mfvUSx3nWzsWME0SMo6zV+P5ZEdJjsHo/ZxJ+7G2kQw=;
+	s=k20260515; t=1790089217;
+	bh=6/ulMLDed3d1q+qJ0gHbFLUtp0vu0z6ZIMPO4QTXBw8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=NlzzuqzHeWanEbM6v4mV6hqSpZssW2vgN3ZR60wT+emilQBA5XlMQSyq0yj7QLNWd
-	 JtlWH8dNTU0UESgg6+snD2SpjIUJO0+UNYClJUJjbt88ODutrSDCpw7skmJMNvRYko
-	 mD/0BlnKnOR14BPz5GXvJzDW7BRQYvbvPHD1LZ0A8QxKQVi4vxKvnKg2MNvr18Xv0K
-	 z6cU5Ua4ucOw5YDCY8amhcSY1bzXMB4EEQlp+7aDMZKy1LbYGZVpBM49jyEDTp27ay
-	 azwPOIsDqy5s1P+J5A2b/75Tn6Nwse0ZHun0jeVrfmAjDyjwl+hvvw8JFMTVUJtY/y
-	 B/5HVY3ONmiPw==
-Date: Tue, 22 Sep 2026 08:59:54 -0600
+	b=l5vRei9RLwM4CMde2xjRQYbWZsFTvvBeZEC/Cz48tc35YWD7QJpHmIVyCYkeWO+RH
+	 YklUsz5v/T41ArPMtxUruOfTYx1ClRMB3Hr9ZdOKFckqpwo5Kn8egyEHt/fvyeL3BI
+	 8re7ILAV63/huwzmVWhZpifVLY1HPwAr9Uxdjk94iYXClKF+N0yyveKMEPDKkCugdR
+	 Lv1SuZmCIPQa65/Llf2SwsN/4TbrGxg00Ktpgf3fYUp3rYJOJYHcnqMFXbjiyaNPG+
+	 oecwByfqkUTLPVluNi0lTMCXcA00VSrZpXFZ8ampHWdqh8Jd2s/WICRBn1GCmxUeCz
+	 ObD3U0MLfjshg==
+Date: Tue, 22 Sep 2026 09:00:15 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Nilay Shroff <nilay@linux.ibm.com>
-Cc: hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	gjoyce@linux.ibm.com
-Subject: Re: [PATCH v2 0/2] nvmet: fix subtle race in I/O processing and ns
- configuration
-Message-ID: <arKX6rZq_CLz05X5@kbusch-mbp>
-References: <20260918162736.802665-1-nilay@linux.ibm.com>
+To: Yao Sang <sangyao@kylinos.cn>
+Cc: hch@lst.de, axboe@kernel.dk, sagi@grimberg.me,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v3] nvme: fix command effects log lifetime for multipath
+ heads
+Message-ID: <arKX_yKn2RpbSoee@kbusch-mbp>
+References: <20260922073730.352203-1-sangyao@kylinos.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260918162736.802665-1-nilay@linux.ibm.com>
+In-Reply-To: <20260922073730.352203-1-sangyao@kylinos.cn>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,16 +69,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Sep 18, 2026 at 09:57:29PM +0530, Nilay Shroff wrote:
-> Hi,
+On Tue, Sep 22, 2026 at 03:37:30PM +0800, Yao Sang wrote:
+> KASAN reported a use-after-free when an I/O passthrough command was sent
+> through a multipath namespace head after the controller path that first
+> created the head had been removed:
 > 
-> This series addresses two race conditions in the nvmet core code that
-> handles I/O submission and namespace configuration.
+>   BUG: KASAN: slab-use-after-free in nvme_command_effects+0x192/0x200 [nvme_core]
+>   Read of size 4 at addr ffff888141b14400 by task nvme/19811
+>   nvme_command_effects+0x192/0x200 [nvme_core]
+>   nvme_cmd_allowed+0x7e/0x1b0 [nvme_core]
+>   nvme_user_cmd.constprop.0+0x1b5/0x450 [nvme_core]
+>   nvme_ns_head_chr_ioctl+0xf4/0x2a0 [nvme_core]
 > 
-> The first patch addresses a race where target namespace attributes
-> could be changed while I/O is in progress. The second patch addresses
-> a subtle race that could allow I/O to be admitted even after the
-> percpu reference count has been killed or marked dead.
+> Move the log cache to the subsystem, with one entry per command set. Both
+> controllers and namespace heads hold subsystem references, keeping their
+> log pointers valid until subsystem release.
 
-Thanks, series applied to nvme-7.4.
+Thanks, applied to nvme-7.3.
 
