@@ -4,67 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D2B2AC982FA
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Sep 2026 13:23:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D500AC982FF
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Sep 2026 13:29:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=AnhlRlntuCOOQ0ioYwE6+BbEmASXZbGplo3IMB2V950=; b=zjFTygG09sRX6+/Uo3P40vrMq2
-	K03+avq7Lt33Z0kmlRXh8AF1hl6zlRakA2z18KDeBDQ46kV0bEYNO+1uXhebUkgXHiBe2st9W0lLg
-	64l5rwHbpBtFzXTJMltnWZjvZnOKC5fope4Vt25E3fJWFutnTqOep6ANPaE43YjQEUykxYggyC+7W
-	ejueGKCWpIaxCBcuF7kypjoDFfRmKUWwhTa4Pef4laMJ/kSBB+5ygxmUSiqIGFm5fP/iROaXMCI5f
-	MSevSr6/dADeqMBgTujshdYkoHtJRiWaqVyw8as8Awtjlr1Pfjk8xeYQdyz/U0wnBn/mQBiXgWq1J
-	Z4p/iUjw==;
+	bh=0RmySBKlGGBq9L/ggLiFGvuzoukeCd8HUiktQ+sgSpQ=; b=uK+2ZbM4T2r56Zpf5UIlxGmXCm
+	u/Xe+9A0hbaZQBWvA8GiUtr5kZP6dskYPwFfBbgRgp9Ic2T+sqnC+BnA8p3sZgrM3bF5c02zXpDh6
+	t6zHQa3XsrmlJ4g7GMvfyBY3zaeJmYXBJiidQ/N3aUlLZGmEJ3eVawPwllmsVoOQ7O5crzQuEUjqV
+	ZmcFZD7aDxYB7IYA2dzzndDXG8XLn+IfzRIitKzkhEe+CBMy21X2RI6uvjSkBq6GDi5HvP3sFZ3gk
+	ebRx54xAqbwpvNjCpnVItptVFGcgNOBQ07kgiYbJhPykwygUy3H0MvmseBfj3Ngh3RVmxoAOt/z7c
+	9LQWe6pg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x90Sv-00000005VTS-2Unb;
-	Tue, 22 Sep 2026 13:23:21 +0000
+	id 1x90YX-00000005WiJ-3uCo;
+	Tue, 22 Sep 2026 13:29:09 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x90MC-00000005UKI-2wNq
+	id 1x90YV-00000005Wha-3Aq3
 	for linux-nvme@lists.infradead.org;
-	Tue, 22 Sep 2026 13:16:26 +0000
+	Tue, 22 Sep 2026 13:29:08 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id A774668C4E; Tue, 22 Sep 2026 15:16:11 +0200 (CEST)
-Date: Tue, 22 Sep 2026 15:16:10 +0200
+	id 301FD68BFE; Tue, 22 Sep 2026 15:29:03 +0200 (CEST)
+Date: Tue, 22 Sep 2026 15:29:03 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
-	Christoph Hellwig <hch@lst.de>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jens Axboe <axboe@kernel.dk>, Nitesh Shetty <nj.shetty@samsung.com>,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	Anuj Gupta <anuj20.g@samsung.com>,
-	Tushar Gohad <tushar.gohad@intel.com>,
-	William Power <william.power@intel.com>,
-	Phil Cayton <phil.cayton@intel.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Benjamin Marzinski <bmarzins@redhat.com>, dm-devel@lists.linux.dev
-Subject: Re: [PATCH v6 04/13] block: introduce dma map backed bio type
-Message-ID: <20260922131610.GA30468@lst.de>
-References: <cover.1789997898.git.asml.silence@gmail.com> <a3ee719abc440ca139f1a945fdaf43a45f0c6b57.1789997898.git.asml.silence@gmail.com>
+To: Runyu Xiao <runyu.xiao@seu.edu.cn>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Breno Leitao <leitao@debian.org>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Jianhao Xu <jianhao.xu@seu.edu.cn>
+Subject: Re: [PATCH v4 1/3] fs: configfs: add helpers for opening
+ non-configfs paths
+Message-ID: <20260922132903.GA31642@lst.de>
+References: <20260921090559.41364-1-runyu.xiao@seu.edu.cn> <20260921090559.41364-2-runyu.xiao@seu.edu.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a3ee719abc440ca139f1a945fdaf43a45f0c6b57.1789997898.git.asml.silence@gmail.com>
+In-Reply-To: <20260921090559.41364-2-runyu.xiao@seu.edu.cn>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260922_061624_895639_A8948894 
-X-CRM114-Status: GOOD (  13.10  )
-X-Mailman-Approved-At: Tue, 22 Sep 2026 06:23:21 -0700
+X-CRM114-CacheID: sfid-20260922_062907_941606_510D487C 
+X-CRM114-Status: GOOD (  14.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,16 +64,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Sep 21, 2026 at 02:38:48PM +0100, Pavel Begunkov wrote:
-> Premapped buffers don't require a generic bio_vec since these have
-> already been dma mapped. Repurpose the bi_io_vec space to strore dmabuf
+On Mon, Sep 21, 2026 at 05:05:57PM +0800, Runyu Xiao wrote:
+> +bool configfs_path_is_configfs(const struct path *path)
+> +{
+> +	return path->dentry->d_sb->s_type == &configfs_fs_type;
+> +}
+> +EXPORT_SYMBOL_GPL(configfs_path_is_configfs);
+> +
+> +struct file *configfs_open_root(const struct path *root, const char *name,
+> +				int flags, umode_t mode)
+> +{
+> +	if (configfs_path_is_configfs(root))
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	return file_open_root(root, name, flags, mode);
+> +}
+> +EXPORT_SYMBOL_GPL(configfs_open_root);
 
-s/strore/store/
+These two aren't used outside this file, so they could be static,
+or in case of configfs_path_is_configfs even be folded into the
+only caller.  Or do you plan to have other users?
 
-Can you please expland on the splitting considerations a bit?  Preferably
-both in a comment for the details, and in the commit log for how we
-arrived at them and why they are fine for now?
+> +struct file *configfs_file_open(const char *filename, int flags, umode_t mode)
 
-Otherwise looks good.
+Can you add a kerneldoc comment explaining how/why this should be used?
 
 
