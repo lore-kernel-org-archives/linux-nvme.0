@@ -4,147 +4,119 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 161D8C982EA
-	for <linux-nvme@archiver.kernel.org>; Wed, 23 Sep 2026 08:33:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0AE44C982FA
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Sep 2026 12:06:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
-	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0te6YEJnt7N7ZPqe/eP2BU6lNF2owCskNv7f0BKmLOY=; b=4Ba38SI2YFVKVGoTUSD7b65Piv
-	yfhSbljjbLMNq3bGZLSXyhmN/eDyvSBSpCNjUyFPGa43axFwU1Xn0Cr6lzU/OCWgagJ8dX5EfAtJB
-	nugewoc8GUmFIfPJBDz4Wj48ZhmukTw0jvtQ30qO060zwJCH7xFndc7JYMiKAkSZY5+tLIkp9XbVH
-	rcJxNm9svszBMUOtXJH1UV1JSNQ/mCMklwLKrPocmLav/1Cztxtu2UtZy+XZtBqP5AiAGg1QQSPIg
-	4YLp/T6EGxdRy+E9OOevv1Ka0ed48iOeO/LSTLbXs2XH4MMJ2t+SdY/F8giA46vGGlb/TBTX/QDoI
-	U8HrmL1A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=X82AAFYdz7Dx5o1mkGUIY0w831FriM7mT4TbrllzsBI=; b=mR2gpRYlJVH+ObP73mkU8dQzge
+	RLD5/LbugNR7U+0DxjHm8/qEdazENZe1T6q5SEWurnELA3Ny7RzGkSKXQcRqFIPqzCs/Afu3hpLJm
+	qEFDEi72U+iXopzrrnAbWc0v0XeRitJY6eVXfV4dYe1XoYtzuqnaBsHS3jDNEXUUQNjQumEhbqEUp
+	JkpQqzRJ9to1ntVMZVn43Yd3i7rBsjEUTWSpeLfpB48+54lZXvixctKtc/niw9s1FZAToF3JG7/Nl
+	+P9ky5WWW68J3iYjVOilq28uTC6VS1dwFMBXYIDCTUosNSgccIv29KNY6kctiC6BbPP2lTCkeRuAC
+	CLWUXChA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x9IQ7-00000007Xag-3tt1;
-	Wed, 23 Sep 2026 08:33:39 +0000
-Received: from esa6.hgst.iphmx.com ([216.71.154.45])
+	id 1x9Lk8-00000008CLY-1Yyl;
+	Wed, 23 Sep 2026 12:06:32 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x9IQ5-00000007XZv-0UB0
+	id 1x9Lk4-00000008CIb-2yqu
 	for linux-nvme@lists.infradead.org;
-	Wed, 23 Sep 2026 08:33:38 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1790152416; x=1821688416;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=HoeclieoPsjafIaEca7rtlN2bo5wwHI5e94macaj6L0=;
-  b=O6RP+v6eFkTjlz9rOvwMR/pWOgKbw8qveUe9skj132o6IX7oJVuAz+KT
-   tKrui2XJVlBN4ibnnnSwYj+FCwBIcpdl2R4jL3QNQ8sVhnB7M9Wk7tgqF
-   SnWFzVcQSEPcDF5dfvVBDXE8QMqwTtPnmDjEfy1WXY7sf+rzsssgUBxfP
-   k3SAJiYXhMia38s+IcBnQRf0htFfxOie4f+HuFqfic5ellFpvC9jgnUYy
-   r7/+BHLRIP04uTBCy62hE8iVy09Ixw+joFDCpmaZvfCrtgEO6+q3WXCVf
-   f85rZ9JBKter2Clz9tBuaWq3RfprDH6xFZPgscXs3ocYHi+rd7rHWI0ep
-   g==;
-X-CSE-ConnectionGUID: d+tYiVbYR72vXtmEZMxl9A==
-X-CSE-MsgGUID: +3VjjleBQ26eS9QjWI6vFA==
-X-IronPort-AV: E=Sophos;i="6.27,118,1786982400"; 
-   d="scan'208";a="154749766"
-Received: from mail-southcentralusazon11011000.outbound.protection.outlook.com (HELO SN4PR0501CU005.outbound.protection.outlook.com) ([40.93.194.0])
-  by ob1.hgst.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 23 Sep 2026 16:33:35 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cgKrI5bN/a51K3cJfXSXJm0KE8PBAZPqa4jjSP2LVlV+/xTKHl2h8bAPBwAC8vTbVKYmG2Di5/gNkrXov3mVB7ui8Thg5J2YFBE80nfDGwpBtRC7Rw9iI6bGkr/FNZtVo1VVPkCPR52CAfFqB7L/0pR0ceRgZkwlqN9imw+aIgo5FVJaW4qtDv0FCoRloeLKiOQQPRpYRDPGOsUiB1LHg/4/rG9TZEfoGNe3gqwXI0ndBn3cu81Ci+KhJba++MF1OqmHTUCohVsD02t+9/asEEy4Zlv3uFVXBM/l/NEjU7Jwl3V1HiDRoTHB/7Puckim/NGFgShuvNI6XWvxjhsTeg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0te6YEJnt7N7ZPqe/eP2BU6lNF2owCskNv7f0BKmLOY=;
- b=xyxcrI/emckUj3ug/nVrRsszt+vtxXSXeIGuhmZ29rgvIXsG/GpEg1H454oXOTBfcKmbCqBmxee68C8K4xv0akx3bE3lkwHn0b2R9wFF5STk4RVEiGXIMObJCqjufeIxE7rXfvR2pFWNs+CWDLYRuPOUkqpfotfSXLbEMJLQIQ31UwVqZoc9otB+yfuC4K0CsqSRe7PmiSETdZMqS5QCb+coF4yYq/SAMQsdgibpvS2k+eAsL6PJpnwPPlra4b5jqWPPklOGK8XnKEsDph/F0cl3VPlxtyMfTPa56ehG4aZ5x0all34kxVSLATzOLm4jXrZY58S8GXmWniYYunsLsQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0te6YEJnt7N7ZPqe/eP2BU6lNF2owCskNv7f0BKmLOY=;
- b=u3brwLT8lURiUBOjhtIV+U4fbfvrlqgkgHIHngh+MsnF7k/kjD0/IYaWXsDzshtt1AsKiqIj2926S5HSnt26PDUByQk/ikZ95AEeuWBOUPhZqo61R/P23rX9LMSCUkUQ/8ZCqkRzKVCoEgvpshoL06WmUtWKCJYhrN9ZEx4Dwcg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-Received: from SA1PR04MB10065.namprd04.prod.outlook.com
- (2603:10b6:806:4dd::14) by CH2PR04MB6556.namprd04.prod.outlook.com
- (2603:10b6:610:6b::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.14; Wed, 23 Sep
- 2026 08:33:33 +0000
-Received: from SA1PR04MB10065.namprd04.prod.outlook.com
- ([fe80::9b98:bf8a:b0b1:ef85]) by SA1PR04MB10065.namprd04.prod.outlook.com
- ([fe80::9b98:bf8a:b0b1:ef85%5]) with mapi id 15.21.0451.014; Wed, 23 Sep 2026
- 08:33:33 +0000
-Date: Wed, 23 Sep 2026 17:33:26 +0900
-From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
-Cc: linux-block@vger.kernel.org, Daniel Wagner <dwagner@suse.de>, 
-	Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH blktests] nvme/071: add a test for fcloop LS request
- use-after-free
-Message-ID: <arOLaz8NSnz6bqL2@shinmob>
-References: <20260921145659.17151-1-ngocthang2710.1999@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260921145659.17151-1-ngocthang2710.1999@gmail.com>
-X-ClientProxiedBy: TYCP286CA0201.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:385::15) To SA1PR04MB10065.namprd04.prod.outlook.com
- (2603:10b6:806:4dd::14)
+	Wed, 23 Sep 2026 12:06:30 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B912421DE7;
+	Wed, 23 Sep 2026 12:06:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1790165178; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=X82AAFYdz7Dx5o1mkGUIY0w831FriM7mT4TbrllzsBI=;
+	b=zxFC4SOvXEZr/dgW2G3gocXpVxLhsERcKHHoRkDfnotK2ckLg4EnGKKwVEsvqmAgV0B/Pt
+	1T+90p7VHqFvwicUaepkKZVRWpERr7Y51VBFmiEYEa7gwM9S7ZoR14169ko0ZtamZynSaj
+	CnMMgs7g0IW/exSwWlCUg9YSwV6YkDg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1790165178;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=X82AAFYdz7Dx5o1mkGUIY0w831FriM7mT4TbrllzsBI=;
+	b=Cd8laXDbA2AkPm1I2qSHWWWU/vUe4+EbORJH5XOVmdXnPlJPkoqYaA38Bomapifdg0AStc
+	bCqZFqkfoeT28LAg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1790165174; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=X82AAFYdz7Dx5o1mkGUIY0w831FriM7mT4TbrllzsBI=;
+	b=NJWYRt8XKFyvwbU5+oYaJCzqdos8uFNTyJY9kNbmu6qwFbkIJiBwdj1/tOEfkl7eqn6KCI
+	v/Cf8rYBiWOjX5xbqXOOwfHxivbeFCh5e6v18wq6rmNx3W8xoq57MPL2NBHPOOE/ScfAfs
+	ozbn9ilGO1XZGIQelxuU6taxb6MVNbs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1790165174;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=X82AAFYdz7Dx5o1mkGUIY0w831FriM7mT4TbrllzsBI=;
+	b=LoGAYKbW43VUgpukAc0fQwFbMsW9C5qohQrKe6o/miyDzNMvF8rJE3NvZccAjOhyXVOm2c
+	PwabhdXr1AfcjCBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 49D1313A6A;
+	Wed, 23 Sep 2026 12:06:14 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ShFKB7bAs2qfSAAAD6G6ig
+	(envelope-from <hare@suse.de>); Wed, 23 Sep 2026 12:06:14 +0000
+Message-ID: <0fef5f65-55dd-493b-935a-d54c10030046@suse.de>
+Date: Wed, 23 Sep 2026 14:06:13 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR04MB10065:EE_|CH2PR04MB6556:EE_
-X-MS-Office365-Filtering-Correlation-Id: 73c7a92f-dd36-45a0-fd91-08df194d5a87
-WDCIPOUTBOUND: EOP-TRUE
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|23010399003|1800799024|19092799006|376014|10067099003|11063799006|56012099006|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: LshjcWy4qrlnpscPmTsDyI5Zc6zTC93XUbvLUOP1FMiTyxfCGRmw1kFKeJiGqR4S0I7Penp5Iuue+ZDrDlfPdUIUmiDqQocn4GIemL59pxkNifbEiIlIPA8Tpwp5vCt/zgnMq5/PwFb7blcPB7cD2dbcXecGy7fACpibQQxOWK10NfuUZD0lTxswxK972wJw4sm6RupPBdVWFzfvyuKb4dT20wmfe7BPU8Reh0sLsu0V2pU+ZJ7FKm+YrLVEe3uPJb6JOjsx1BXvm30GrUj/g/97rZAqKcwJMg35PlCY0lovG3jZMG77B53277yAsRGafohHoBVH45tIjr30uNE409duwKVL3wFp8phMZT9eYGAXL0V1ODM2E7nR3Pz0asfdVWlJAQ0jo3ZL0Ev45DgDIQZour233uLTQ/eYt7DaD8FCE630jvc131+Z3tTyd/24bzZgO7N0xOZVmfZS/6JT+RSGzZcAgCZN6kNHUK+AkGOv2fHD2ufIltkqKitKY9DcDVIdgpNXXvt+jTcHJASUDJOTIheXt89D0G/SG1s0zPZca5HDbqRuz5vtix9/oDnS/SQ4oE3unGH3D9BwWPOk3JkA75mm6uiFd8TaDxC7dKsQ/iAViC5hj05BbiLr0CEX
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR04MB10065.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(19092799006)(376014)(10067099003)(11063799006)(56012099006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?fev3jGJP7icCsnj5ejbwIQbEUeVWmCTO2u/UKeXprAPSLCrwCesxxX9S68bp?=
- =?us-ascii?Q?X/7uswBsp3hQwmAkPzG4+WB6KPDtOBrGsXInuk41R4EULQwUdnZFdKwfw3Pw?=
- =?us-ascii?Q?HVSFqA2AHE0orlO/AcOgV/usX3tptiwp5AGc1pznxve1y/OUkjaCyoiDG9SN?=
- =?us-ascii?Q?xqsi5PkWPnwAHKvXpUVzMup6VSDm8CK15oqXannfhsi/f5FL7C5HPNuIlXLY?=
- =?us-ascii?Q?ZIFxuK8w2GOey9+otfTZ6MPx6NIBI6SZArnHEVtG+rkyNVL2XSxUEB3PNvQU?=
- =?us-ascii?Q?J9o/d3rjbvqdHawsEGlwzpZ+FSTkOwEpmKbG0tOv2Vd8ytKd3IMwWDd3QCBh?=
- =?us-ascii?Q?S0c7EkTyQ06OIGswyCEhiG/PKE7YtZJZ/9slrIwT3uC0XcitpW4XVBsEczY2?=
- =?us-ascii?Q?Oy2yb8MTmYg6D2/0j7wPW4umBnzOnVgrDmtzD5JfGKcCEaujscLxbpvHsqV4?=
- =?us-ascii?Q?b4/eq16W0zAE38lkOhqwQB3crgug3GnVZ/WCNMyiK8mRFSq4NG2wwQmRtJrF?=
- =?us-ascii?Q?ghTtbQGGObAUbKbE6rBPzXabhOTb9yKeCgzyJpsg0DxMUpKFK9D00nbY02g2?=
- =?us-ascii?Q?tGfEr2Rst0gzdQYUN9dwHB30hsB1kWYG4xgcHUUUWrn1yUdTvarv25a/XVQC?=
- =?us-ascii?Q?p/jquUklqkV2Wk8pVueq3T7EJucYwXan5Tf1RfkbxvTawEPoQT9a9T0Hirx7?=
- =?us-ascii?Q?V64Y+79mIHzEOGLS07clXy/v/dvNGWaPzCARaBFNpc/oNUMPon2E2mcnk5Y7?=
- =?us-ascii?Q?vYn84jm/v7S8mW8/SgoleiezI7v4PZUeID01G+YjXnYN7W/T5mkFloeI1ZPP?=
- =?us-ascii?Q?9x1WH/lj+tFEIiJVhE8pvR8oY/cbcUz7w8G8cIWt61mSXO1sz8zoY7O5FWhk?=
- =?us-ascii?Q?kvjUdlos5Rlkh1HaZwH1Nd6YlA9Ma0sBi/FsCe4GSs5nkfT0FSemsNVkSzA8?=
- =?us-ascii?Q?5WI0lj5WHDMaSS0ScU3THOm1HWDiLM0L+CVxfM3N8u80XPmHAgoALBC8yxUP?=
- =?us-ascii?Q?HRpeSrWJXagY/KXPyjRZSU2EEzPaRnkmWurfXtQKrUwceuAynmCEgVdoaMC9?=
- =?us-ascii?Q?qf4deDibyJRyuEdM9IC2rfqaHfHVL4EDvhOUE8Oe4h70vqjKAL3pd1X81rT/?=
- =?us-ascii?Q?dDkk+yvNCy45XwNgJxvIcg4hvAqK5+WNPfNLOp10o9Dtz/AAgbU3ICkOVr9q?=
- =?us-ascii?Q?ME/kpr8Gjc+i/s968YyLMG4ErP80DksiMc5z93kfeiMkc03ikknQtLdS3eYM?=
- =?us-ascii?Q?xygt2X31lTAslrry/7Lkho6eSgtu4lMb9Kkax/IIXtXJOJklyPfg+TMCGuQN?=
- =?us-ascii?Q?Px/R1rrF5fcAofgBmwFoB5GNPrUNbahz1yA3JZIabLM78SJAagvORv62GS2X?=
- =?us-ascii?Q?N0UlCT09m+6AsMgW405aawMPhAPEy9VFh5AZ2vGGTvRjBYgjOEs82KXkSzIc?=
- =?us-ascii?Q?ret0qiIX5EeBW97EbTOGZJyFGCQsKvm9TqvvoBCFetP94J+Uj3KgYEke5krB?=
- =?us-ascii?Q?SK3bvJgNvn9AozKb1AFjKh2p0hl+6qYzhgWt58yNoQxSBFYB4rGnKAlo3SDh?=
- =?us-ascii?Q?gCisxypaxmWMxDG/rC6V7TVpMiR3VLjJ3QFX9B3r+CtWHooYVPGcJWttQ61M?=
- =?us-ascii?Q?wFVUdhtF8JYWk9f9Ony5mNYOuobDYefm6JnlEbCFccYDs2+Ett2gTQHmRBhi?=
- =?us-ascii?Q?khE39fhOR8yzcZc7ju2+nGZAcp+H6n+t6CxkC7oT/tTH2fCGHhdXYMncQZQu?=
- =?us-ascii?Q?hMPUkWX3WDdLuMvsHZmpnTXUfHuDBnU=3D?=
-X-Exchange-RoutingPolicyChecked: 2jbWGEqiyayPphILXT1jmwkBCce2GueIyKbCLBpU8PL21oF0/F1/KBhQlAXZpvheMKoTAhq+Nv9+6Zclua6rZ4baudz/C+9SYJCmifR+Sake4V2hI64Js0qB4DK4Hl3nmNLqest7VZgGu5ni3aDXbhCQgAtaawVLv18GptFx41Ow+00pRzQanxXvO6iS50ZjJv963nTFlTd4pro7EyxmugwbfQDJ6ZHzB9Bi1atBv/27b0xDlxyE9oQsX0r4Y4qtPH+WbD0DRTPQvyFTwWhWRwkpfYob8+M27QgdNoa1EcdUp/rsHLL33u3ccKALmLeO2sChgCY5RGjqH1BLROz+Lg==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: qbzL+ZZ3jO6UZmmHdcAXzuyNDb4S8cv29y4QzyrmVCGxlqAqGgqtzm6vE9znU6fGAeNtaFe1pnXyMiePHEPYgHxIlTmr/yncexY090NRfcS74QtCNLHBGcGsBjz4tVPEUYNHEXZUS5NLdGjXyrgDn+cO3UE4JD8wzdFxpbIf/x105sCTH4Hf748QFSN39auF5/BOosi/Jf++eXNX9TeX72Ie4mzIHUglJQRyvoPrOM01kndGSqj0fOiaNmAA0n89OTwoVTNsCz0UtHs1rQQckHt/t9R9J3frE7Ernx9Z9u8ECP6Q4tGcTr8NYM2fTutloM/Vk+ZLv9dnS2Ovl7HCawj0BLHVke99kSZoTGfQxAuKLlNq4vTzPjpRIHGEBU3jqttCSrsseJnES5Dl/cAxQjugXq/mr18AMx1FtcNSNpE2ZbuHNcxb+NxeQePwhqAERStra5lmB0E1tOujc2PWgvh1SgSLZ6D6/KbpHJ8lLZhJU21W/NszOnKtVmdZwDpUc0Cgcn/8UzzCkfjjfoc9eaOjr6W31YW8Q3f4Ov6ZFUPu2LAqp/TGYD9o/S9vYb0++HBGsRg5Ufqy+IyVTbIUcymPfy6QvS508U7w4GVlnU+oC3yT8yMUDWI0V3Tz/WLL
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 73c7a92f-dd36-45a0-fd91-08df194d5a87
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR04MB10065.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2026 08:33:33.3929
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iEB6cAOFePF0+uzJm4oUk4OnzcmWulRBKcNmWKvumvBEodH5TiiQ02qjq1oINKx/LDH79GNPYUbGYWkEXuZb9sVx8dNBg1Et5/4b8w7S/QY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR04MB6556
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] nvme-multipath: add fail_if_no_path sysfs attribute
+To: Krishna Iyer <kiyer@crusoe.ai>, kbusch@kernel.org, axboe@kernel.dk,
+ hch@lst.de, sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ nilay@linux.ibm.com, sjpark@crusoe.ai, saravanand@crusoe.ai
+References: <20260923004959.88440-1-kiyer@crusoe.ai>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20260923004959.88440-1-kiyer@crusoe.ai>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.996];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260923_013337_221303_09CCE336 
-X-CRM114-Status: GOOD (  29.48  )
+X-CRM114-CacheID: sfid-20260923_050628_901907_37B19BD9 
+X-CRM114-Status: GOOD (  18.88  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -159,106 +131,66 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sep 21, 2026 / 21:56, Nguyen Ngoc Thang wrote:
-> Delete the fcloop remote port and then the target port while an
-> association is being deleted. The Disconnect Association LS is completed
-> from a work item that can run after nvmet_fc_unregister_targetport() freed
-> the pending request, which KASAN reports as a use-after-free in
-> fcloop_tport_lsrqst_work().
-
-It is the better to note which kernel side fix is related to this test case.
-I suggest to note the commit title of the kernel fix here.
-
-  If its git hash could be noted, it would be the best, but the fix is not
-  yet applied, so we can not do that yet.
-
-
-When I tried to run this test case, I often observed the test run hanged.
-The hang was observed with v7.3-rc4 kernel. It was observed even with the
-v2 fix patch [*]. Do you observe hangs on your test systems?
-
-[*] https://lore.kernel.org/linux-nvme/20260921145651.17131-1-ngocthang2710.1999@gmail.com/
-
-Also, please find my comments in line. Thanks!
-
+On 9/23/26 2:49 AM, Krishna Iyer wrote:
+> When no usable path exists, I/O on a multipath namespace is queued
+> until a path returns. With ctrl_loss_tmo=-1 that can be forever:
+> during a long fabric outage any process waiting on the I/O is stuck in
+> D state. We hit this on virtualization hosts, where a SIGKILLed VM
+> process cannot exit while draining I/O to an unreachable NVMe/TCP
+> target.
 > 
-> Signed-off-by: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+> Nothing can fail this I/O without tearing something down: controller
+> deletion takes every namespace on the controller with it.
+> 
+> Add a fail_if_no_path attribute on the ns-head disk: a persistent
+> per-namespace policy to fail parked and newly arriving I/O instead of
+> queueing it when no usable path exists. It is enforced where a path is
+> known to be unusable: CONNECTING controllers and LIVE controllers with
+> the path ANA inaccessible or persistent-loss stop counting as
+> available, RESETTING and ANA change keep queueing, and with no
+> controllers left the policy overrides the delayed_removal_secs
+> queueing window. Controller state is untouched and reconnects
+> continue. Like dm's fail_if_no_path, the policy is transport agnostic.
+> 
+> Assisted-by: Claude:claude-fable-5
+> Signed-off-by: Krishna Iyer <kiyer@crusoe.ai>
 > ---
->  tests/nvme/071     | 70 ++++++++++++++++++++++++++++++++++++++++++++++
->  tests/nvme/071.out |  2 ++
->  2 files changed, 72 insertions(+)
->  create mode 100755 tests/nvme/071
->  create mode 100644 tests/nvme/071.out
+> Changes since v2 [1]:
+> - use the nvme_state_is_live() helper for the ANA state check, keeping
+>    the explicit NVME_ANA_CHANGE carve-out so transient ANA transitions
+>    still queue (Nilay)
+> - return early when the stored value matches the current setting,
+>    skipping synchronize_srcu() and the requeue kick (Nilay)
 > 
-> diff --git a/tests/nvme/071 b/tests/nvme/071
-> new file mode 100755
-> index 0000000..d17ef18
-> --- /dev/null
-> +++ b/tests/nvme/071
-> @@ -0,0 +1,70 @@
-> +#!/bin/bash
-> +# SPDX-License-Identifier: GPL-3.0+
-> +# Copyright (C) 2026 Nguyen Ngoc Thang
-> +#
-> +# Regression test for a use-after-free in fcloop when the target port is
-> +# deleted right after the remote port. Deleting the association sends a
-> +# Disconnect Association LS whose completion is queued while
-> +# nvmet_fc_unregister_targetport() is flushing nvmet_wq. The pending LS request
-> +# was freed before that completion ran.
+[ .. ]
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index a643c4723a69..9773538101ca 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -590,6 +590,7 @@ struct nvme_ns_head {
+>   #define NVME_NSHEAD_DISK_LIVE		0
+>   #define NVME_NSHEAD_QUEUE_IF_NO_PATH	1
+>   #define NVME_NSHEAD_CDEV_LIVE		2
+> +#define NVME_NSHEAD_FAIL_IF_NO_PATH	3
+>   	struct nvme_ns __rcu_guarded	*current_path[];
+>   #endif
+>   };
 
-I suggest to the note the kernel side fix commit here too.
+Remind me again: what is the meaning of 'NVME_NSHEAD_QUEUE_IF_NO_PATH'?
+Isn't this the exact opposite of the proposed
+'NVME_NSHEAD_FAIL_IF_NO_PATH'?
+IOW can't you rewrite this patch to use the existing 
+'NVME_NSHEAD_QUEUE_IF_NO_PATH' flag instead of adding another?
+(And if you have to introduce 'FAIL_IF_NO_PATH' you'd have to explain
+what exactly should happen if QUEUE_IF_NO_PATH _and_ FAIL_IF_NO_PATH
+are set ...)
 
-> +
-> +. tests/nvme/rc
-> +
-> +DESCRIPTION="delete fcloop target port right after remote port"
-> +QUICK=1
-> +
-> +requires() {
-> +	_nvme_requires
-> +	_have_loop
-> +	_require_nvme_trtype fc
-> +}
-> +
-> +set_conditions() {
-> +	_set_nvme_trtype "$@"
-> +}
-> +
-> +test() {
-> +	echo "Running ${TEST_NAME}"
-> +
-> +	_setup_nvmet
-> +
-> +	local i ports port host_port
+Cheers,
 
-Nit: ports is an array, so I suggest to seprarte it from other variables and
-declare it as an array:
-
-        local -a ports
-
-> +
-> +	_nvmet_target_setup
-> +
-> +	_get_nvmet_ports "${def_subsysnqn}" ports
-> +	port="${ports[0]}"
-> +	host_port="${ports_to_hosts[${port}]}"
-
-common/nvme provides _get_fc_host_port(). Let's use it to avoid the
-reference to the global variable.
-
-> +
-> +	for ((i = 0; i < 20; i++)); do
-> +		_nvme_connect_subsys
-> +		sleep 0.05
-> +
-> +		# Deleting the association sends a Disconnect Association LS.
-> +		_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
-> +		sleep "0.00$(printf "%02d" "${i}")"
-
-Is there any reason to variate the sleep time here?
-
-I tried to recreate the KASAN use-after-free using v7.3-rc4 kernel, but I was
-not able to do it on my test node. I modified the above line to "sleep 0", then
-I was able to recreate the failure. I guess the sleep lengths f
-r KASAN recreation could be test system dependent.
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
