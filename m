@@ -4,32 +4,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3616AC98302
-	for <linux-nvme@archiver.kernel.org>; Wed, 23 Sep 2026 03:17:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 34C3CC982FA
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Sep 2026 03:17:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=C7RRtsNWLeNcIF2K/Vpd4E+BXgF+UtHFYZksle4q9+E=; b=SN+C0gpGw74SgkesRkKpqJUgd7
-	bvqCLWJnmmxhJEPZp9EUxtkqdKEf6d2TJ0B8AT+0lhJ/SiEeFUzl8JPNadBSs9RH4ykeNgBXkR/JB
-	5wBTepH7xpyf6dDoQKat5CxH5W4HQrh4UiHsnMNt7GD0c09QuuJIC1jcKiBh3xCjgSamOgNrjioJo
-	61J79OXX+9NuoiReFlHqdkBx0vAOAcp8BxX+ENKLNpKzb9hBaAmBJL1jDjMcSvzcpCzBN5Mx4nz4p
-	QpulHgmBaDxEb+x0WGDJFOb2oZ9AS/omwU8gUYoF/wowvjJvZ727EFGu90hyzk3yTnpX/iofADIT2
-	8cvKyjVw==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Tcbi5MYjrLiwUZJP1iBOkaEwqrphN9t9A1anWrBn1xQ=; b=PpB1ihi0O8qOf2H/KCYYb6x5lK
+	g3N1+maPVlveVP7SDCevo31U8Fgdj55MOKpQDc/BRoKHw9EDMi3g18XUxkoapt1++e3bP+hqtXHFr
+	bR65zE04TSlAoTyK+QIGJc2PPf6Hus2mWAM5TXrMLStxojrRmnG4uYNvI9ZXD794T+QgJLzXvdYRS
+	GK+PvG7qQgxIxvtyxcKA+seep4am3KAkHWKULpa2wGmE/MiLSonv3+XY+w+8coj7vEVI3COF1i7cY
+	ctmLVhRedKn/BztseWtHsWoAGQddYZRvQuzVMLbdZfdtRT1ii4DqRG7JnuaF2BRV2PYko50Ves6Lt
+	0Dw1RfXA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x9DTl-000000071QT-2CNU;
-	Wed, 23 Sep 2026 03:17:05 +0000
-Received: from mail-m49197.qiye.163.com ([45.254.49.197])
+	id 1x9DTo-000000071R5-2zPY;
+	Wed, 23 Sep 2026 03:17:08 +0000
+Received: from mail-m155101.qiye.163.com ([101.71.155.101])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x9DTh-000000071Pf-2lBP
+	id 1x9DTi-000000071Pl-2Zal
 	for linux-nvme@lists.infradead.org;
-	Wed, 23 Sep 2026 03:17:04 +0000
+	Wed, 23 Sep 2026 03:17:06 +0000
 Received: from PC-202605011814.localdomain (unknown [221.228.238.82])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 4eceabcf1;
-	Wed, 23 Sep 2026 11:16:56 +0800 (GMT+08:00)
+	by smtp.qiye.163.com (Hmail) with ESMTP id 4eceabcf6;
+	Wed, 23 Sep 2026 11:16:59 +0800 (GMT+08:00)
 From: Runyu Xiao <runyu.xiao@seu.edu.cn>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
@@ -41,26 +41,27 @@ Cc: Sagi Grimberg <sagi@grimberg.me>,
 	stable@vger.kernel.org,
 	Runyu Xiao <runyu.xiao@seu.edu.cn>,
 	Jianhao Xu <jianhao.xu@seu.edu.cn>
-Subject: [PATCH v5 0/3] nvmet: avoid recursive configfs open
-Date: Wed, 23 Sep 2026 11:16:38 +0800
-Message-Id: <20260923031641.2016406-1-runyu.xiao@seu.edu.cn>
+Subject: [PATCH v5 2/3] nvmet: avoid recursive configfs open for file-backed namespaces
+Date: Wed, 23 Sep 2026 11:16:40 +0800
+Message-Id: <20260923031641.2016406-3-runyu.xiao@seu.edu.cn>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260923031641.2016406-1-runyu.xiao@seu.edu.cn>
+References: <20260923031641.2016406-1-runyu.xiao@seu.edu.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0aa0cc44336203a1kunmae5dc6a4b63be
+X-HM-Tid: 0aa0cc443f7903a1kunmae5dc6a4b63d0
 X-HM-MType: 10
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlDTx9MVktKHUtOQx9IGkhKQlYeHw
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZGkoaVkJLGBhJSU4aSBpPGlYeHw
 	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUpVSUlDVUlIQ1VDSVlXWRYaDxIVHRRZQVlPS0hVSktISk
 	9ITFVKS0tVSkJLS1kG
 DKIM-Signature: a=rsa-sha256;
-	b=Uhrspv5Go3edRSJCakrVJ8Ct/hJu2mXJsft565oXrjZwu349un2wQlVxjjeicJFymJCLpnOaL3hdIiS6qQrURQiglQgJ+C3HwXVbkqTlZvTom7+eHdH0m7aqOxwYWTzLCwZHO+p4jCaWtBhz1obdGnKSgvPfXZsq/eDPXdrCRbI=; c=relaxed/relaxed; s=default; d=seu.edu.cn; v=1;
-	bh=C7RRtsNWLeNcIF2K/Vpd4E+BXgF+UtHFYZksle4q9+E=;
+	b=BwYb6Gc8YZO9ie5MNryXP7j36pNofo90dkrWO7H1yStiU3h7yX1q42MdtevTXGIroHI2GQCJ30+pp1D/qQ2PolQwtn5ntY0nlX1AUy/b0+1prOQ2Vk1oMd2PmlZ/zrQ5mHjh7PselsanUkJJmRY6mACPqcml2EPTcoY+GZyECdo=; c=relaxed/relaxed; s=default; d=seu.edu.cn; v=1;
+	bh=Tcbi5MYjrLiwUZJP1iBOkaEwqrphN9t9A1anWrBn1xQ=;
 	h=date:mime-version:subject:message-id:from;
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260922_201702_775350_037189AE 
-X-CRM114-Status: UNSURE (   8.85  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260922_201702_822520_A79485D4 
+X-CRM114-Status: GOOD (  10.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,36 +76,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The nvmet configfs store callbacks hold the item's frag_sem while they
-enable file-backed namespaces or passthru controllers.  Both paths open a
-user-configured pathname.  If it resolves into configfs, the open path can
-re-enter __configfs_open_file() and try to acquire that same non-recursive
-semaphore again, which deadlocks the task.
+nvmet_ns_enable_store() runs as a configfs store callback while configfs
+holds the item frag_sem. File-backed namespace enable used filp_open() on
+the configured device_path, so a path into configfs could re-enter
+__configfs_open_file() and try to acquire the same semaphore again.
 
-Add configfs helpers that reject configfs-backed roots or paths and open
-the resulting path with file_open_root().  This keeps the normal open-time
-permission and security checks while preventing the recursive configfs
-open.
+Use configfs_file_open() so the path is resolved before opening,
+configfs-backed paths are rejected, and the resolved path is opened with
+file_open_root() while retaining the normal open-time permission and
+security checks.
 
-Changes since v4:
-- Make the filesystem-type check local to configfs_open_root() in
-  fs/configfs/mount.c instead of exporting a one-line predicate, since
-  there is no user outside configfs for it.
-- Add kerneldoc for both helpers, documenting how they are meant to be
-  used by configfs store callbacks.
-- Keep the Reviewed-by tags on 2/3 and 3/3: those patches are unchanged.
+Fixes: d5eff33ee6f8 ("nvmet: add simple file backed ns support")
+Cc: stable@vger.kernel.org
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Assisted-by: LLM Codex
+Signed-off-by: Runyu Xiao <runyu.xiao@seu.edu.cn>
+---
+ drivers/nvme/target/io-cmd-file.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Runyu Xiao (3):
-  fs: configfs: add helpers for opening non-configfs paths
-  nvmet: avoid recursive configfs open for file-backed namespaces
-  nvmet: avoid recursive configfs open for passthru
+diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
+index 0b22d183f9279..2a4f25de94ba1 100644
+--- a/drivers/nvme/target/io-cmd-file.c
++++ b/drivers/nvme/target/io-cmd-file.c
+@@ -8,6 +8,7 @@
+ #include <linux/uio.h>
+ #include <linux/falloc.h>
+ #include <linux/file.h>
++#include <linux/configfs.h>
+ #include <linux/fs.h>
+ #include "nvmet.h"
+ 
+@@ -38,7 +39,7 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
+ 	if (!ns->buffered_io)
+ 		flags |= O_DIRECT;
+ 
+-	ns->file = filp_open(ns->device_path, flags, 0);
++	ns->file = configfs_file_open(ns->device_path, flags, 0);
+ 	if (IS_ERR(ns->file)) {
+ 		ret = PTR_ERR(ns->file);
+ 		pr_err("failed to open file %s: (%d)\n",
+-- 
+2.34.1
 
- drivers/nvme/target/io-cmd-file.c |  3 +-
- drivers/nvme/target/passthru.c    |  3 +-
- fs/configfs/mount.c               | 67 +++++++++++++++++++++++++++++++
- include/linux/configfs.h          |  5 +++
- 4 files changed, 76 insertions(+), 2 deletions(-)
-
-
-base-commit: df2908090cda368b01ff43709f51890076c56157
 
