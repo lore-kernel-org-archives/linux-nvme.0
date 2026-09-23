@@ -4,62 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 744A4C9830B
-	for <linux-nvme@archiver.kernel.org>; Wed, 23 Sep 2026 17:16:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 04684C9830B
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Sep 2026 20:20:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pLGvgm3PsyY+WmKwLfgB4vcYNmc2zjElBJdVNB/upEE=; b=3wDSRBIBvlrNLXy6pgOdPDU+Hm
-	wBus8dTh+o64QlRueumA7pZzB1GYtwS/nYmmVWq06976Ss0T8+nX9LSWHiae+v4JnZzkttoukkmHI
-	7t31U9IUSztgH1TUEh0Rmk/EXlY0Um9GW4tcn6KWvM8km2ZRMSEWIYfDw0iKLbd7F5zApQH7NpIiM
-	lkZa104ErbJI5RANYvKRRmf5t6fnqDvU7RrPc/XdlLAfT1myZTj7LVxutMH2UtiFMKZPILlpFj6ed
-	e0dkgICRC3w4KEGfK8tE9KbDZdm1gVykY98pEnVCqsIZxFWUYx0Bs3M4LItw9hkymLSNK9YFEXDPx
-	b7id8Z0w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=DmWiMwtjUNhE7pDI46zh3hWGMwkIrcVg32ax/z+GaCQ=; b=qQu9wrLP5AUPjFkAeJkPL7iJ84
+	0AOq2H95Bf3iq7HzlyUcHSY9dgASC7MawfBvo6bfrQa32tLbxv98xvN8ztBRdvScH3Qg/r7VByg7n
+	NXI1rdRkHMSAQ93OAk6YLQgeSLxp1GBvgvyvqZneKI+7HEcBlA6MpZeqLSx3EibQwbssOs7vy4BId
+	vXssBxZG/N13rHzhImYORLcI2frbzos57YbNQMGRU8pNAqrlcbegbgzrrt6NWv0vUK89CU+183o/O
+	nkONit7FK4nsw6AWNHM4kkueMllaz6lYEfM2EwGD/eqwu8DL+u+qvGVIBJYnvkl9Lv69j+lKTt+JD
+	ysGqw6YA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x9Qa5-00000008zKU-3IjA;
-	Wed, 23 Sep 2026 17:16:29 +0000
-Received: from out-28.mta1.migadu.com ([95.215.58.28] helo=mta1.migadu.com)
+	id 1x9TRw-00000009RSc-2n9C;
+	Wed, 23 Sep 2026 20:20:16 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x9Qa3-00000008zIl-09MF
+	id 1x9TRu-00000009RSD-2JWT
 	for linux-nvme@lists.infradead.org;
-	Wed, 23 Sep 2026 17:16:29 +0000
-X-Envelope-To: linux-nvme@lists.infradead.org
-DKIM-Signature: a=rsa-sha256; bh=OZWCIjfQvJGYe9SmrpS0lHhTXSEFx29Lz36+6DEDDE0=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790183782; v=1; x=1790788582;
- b=mEVpYq7JfIO4M7uITxOlV07VaTfOaVUvZCqPtIZs2xxryTm5vzXc+w4UNOGcfhr7aOLHE/W1
- VZVThdJIThxN9yDTiv+4YJQh7lRrYxmjmufa5Epfc2EKK4+5bsWHvgWlLGfNkdHT4z5Y4woX8VA
- wWQxGS42ms6XyxxqK14Vu7WU=
-X-Envelope-To: linux-nvme@lists.infradead.org
-Received: by mta11.migadu.com with ESMTPS id 12e675c5567fe32c;
-	Wed, 23 Sep 2026 17:16:21 +0000
-X-Mizu-Trace-ID: 12e675c5567fe32c
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <94253b72-0c93-4560-8a96-b2ec1e8b1fa3@linux.dev>
-Date: Wed, 23 Sep 2026 18:16:17 +0100
+	Wed, 23 Sep 2026 20:20:15 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1790194813;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=DmWiMwtjUNhE7pDI46zh3hWGMwkIrcVg32ax/z+GaCQ=;
+	b=OJ8/tTlRBnCMNzBxAqaqsz7xs+oLgVqLujTZwE7AzJtGVA/nT1JLbZ3xPNBy/98O1O9WG1
+	OD07PlYJnGhiuiJANayXbRObD34Ney/UrAuezioNm+XPRbo6O8+Egcb0eLwTAook3Cq1YJ
+	x1scJIjiXPcwNjgL3DQg0vQrxdXych4=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-26-M_l4EBVtMFOSErBqp6mH1Q-1; Wed,
+ 23 Sep 2026 16:20:10 -0400
+X-MC-Unique: M_l4EBVtMFOSErBqp6mH1Q-1
+X-Mimecast-MFC-AGG-ID: M_l4EBVtMFOSErBqp6mH1Q_1790194808
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id F0CDE1954236;
+	Wed, 23 Sep 2026 20:20:07 +0000 (UTC)
+Received: from jtaubepe-thinkpadx1carbongen12.ibmlowe.csb (unknown [10.17.16.153])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 10F1D1953948;
+	Wed, 23 Sep 2026 20:20:05 +0000 (UTC)
+From: Jesse Taube <jtaubepe@redhat.com>
+To: linux-nvme@lists.infradead.org
+Cc: Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	John Meneghini <jmeneghi@redhat.com>,
+	Chris Leech <cleech@redhat.com>,
+	linux-kernel@vger.kernel.org,
+	Mohamed Khalfella <mkhalfella@purestorage.com>,
+	Jesse Taube <jtaubepe@redhat.com>
+Subject: [PATCH v2] nvmet: Add traffic based keep alive support to configfs
+Date: Wed, 23 Sep 2026 16:20:03 -0400
+Message-ID: <20260923202003.1776271-1-jtaubepe@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 00/27] Native SCSI Multipath support
-To: John Garry <john.g.garry@oracle.com>,
- james.bottomley@hansenpartnership.com, hare@suse.com, mkp@kernel.org
-Cc: jmeneghi@redhat.com, linux-nvme@lists.infradead.org,
- linux-scsi@vger.kernel.org, michael.christie@oracle.com, snitzer@kernel.org,
- bmarzins@redhat.com, dm-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
- nilay@linux.ibm.com, hch@lst.de, kbusch@kernel.org, sagi@grimberg.me
-References: <20260907105021.1763236-1-john.g.garry@oracle.com>
-Content-Language: en-US
-From: John Garry <john.garry@linux.dev>
-In-Reply-To: <20260907105021.1763236-1-john.g.garry@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+X-Mimecast-MFC-PROC-ID: ZubjlwrXgzN_D13ACTp2mu_Rhrx6vYs90xg_3S1qlaw_1790194808
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260923_101627_550435_CC12B584 
-X-CRM114-Status: GOOD (  28.08  )
+X-CRM114-CacheID: sfid-20260923_132014_696016_57D5EC86 
+X-CRM114-Status: GOOD (  17.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,191 +89,133 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/7/26 11:49, John Garry wrote:
-> NATIVE SCSI MULTIPATH:
-> 
+Add the ability to turn on and off tbkas (traffic based keep alive
+support) via configfs. This is useful for testing and debugging.
 
-JFYI, this passes a sanity test on mkp scsi 7.4 queue after all the 
-recent sense codes changes, as would be expected.
+Signed-off-by: Jesse Taube <jtaubepe@redhat.com>
+V1 -> V2:
+ - Add tbkas to nvmet_ctrl
+ - Force reconnect controllers when tbkas is set
+ - Use ctrl->tbkas in nvmet_execute_identify_ctrl and nvmet_req_init
+---
+ drivers/nvme/target/admin-cmd.c |  4 +++-
+ drivers/nvme/target/configfs.c  | 29 +++++++++++++++++++++++++++++
+ drivers/nvme/target/core.c      |  4 +++-
+ drivers/nvme/target/nvmet.h     |  2 ++
+ 4 files changed, 37 insertions(+), 2 deletions(-)
 
-> This series introduces native SCSI multipath support. It is intended as
-> an alternative to dm-mpath.
-> 
-> This support aims to provide a multipath-enabled SCSI block device/
-> gendisk.
-> 
-> For a SCSI device to support native multipath, either of the following
-> conditions must be satisfied:
-> a. unique ID in VPD page 83 and ALUA support and scsi_multipath modparam
->     enabled
-> b. unique ID in VPD page 83 and scsi_multipath_always modparam enabled
-> 
-> This series relies on reading sdev->access_state to get path information.
-> This path information would be provided by ALUA. ALUA support which does
-> not rely on device handlers has already been discussed at
-> https://lore.kernel.org/linux-scsi/7755e98f-5619-48ba-bcfc-b64eec930c40@oracle.com/
-> and support will be added in the next phase.
-> 
-> New classes of devices are added:
-> - scsi_mpath_device
-> - scsi_mpath_disk
-> 
-> These are required since a multipath scsi_device has no common scsi host.
-> An example of the sysfs files and directories for these new classes is as
-> follows:
-> 
-> $ ls -l /sys/class/scsi_mpath_device/scsi_mpath_device0/
-> total 0
-> -rw-r--r--    1 root     root          4096 Feb 25 11:59 iopolicy
-> drwxr-xr-x    2 root     root             0 Feb 25 11:59 multipath
-> drwxr-xr-x    2 root     root             0 Feb 25 11:59 power
-> lrwxrwxrwx    1 root     root             0 Feb 25 11:59 subsystem ->
-> ../../../../class/scsi_mpath_device
-> -rw-r--r--    1 root     root          4096 Feb 25 11:58 uevent
-> -r--r--r--    1 root     root          4096 Feb 25 11:59 vpd_id
-> $ ls -l /sys/class/scsi_mpath_device/scsi_mpath_device0/multipath/
-> total 0
-> lrwxrwxrwx    1 root     root             0 Feb 25 11:59 8:0:0:0 ->
-> ../../../../platform/host8/session1/target8:0:0/8:0:0:0
-> lrwxrwxrwx    1 root     root             0 Feb 25 11:59 9:0:0:0 ->
-> ../../../../platform/host9/session2/target9:0:0/9:0:0:0
-> $ cat /sys/class/scsi_mpath_device/scsi_mpath_device0/vpd_id
-> naa.600140505200a986f0043c9afa1fd077
-> $ cat /sys/class/scsi_mpath_device/scsi_mpath_device0/iopolicy
-> numa
-> $
-> 
-> $ ls -l /sys/class/scsi_mpath_disk/scsi_mpath_disk0/
-> total 0
-> drwxr-xr-x    2 root     root             0 Feb 25 12:00 power
-> drwxr-xr-x   11 root     root             0 Feb 25 11:58 sdc
-> lrwxrwxrwx    1 root     root             0 Feb 25 11:58 subsystem ->
-> ../../../../class/scsi_mpath_disk
-> -rw-r--r--    1 root     root          4096 Feb 25 11:58 uevent
-> $ ls -l /sys/class/scsi_mpath_disk/scsi_mpath_disk0/sdc/multipath/
-> total 0
-> lrwxrwxrwx    1 root     root             0 Feb 25 12:00 sdc:0 ->
-> ../../../../../platform/host8/session1/target8:0:0/8:0:0:0/block/sdc:0
-> lrwxrwxrwx    1 root     root             0 Feb 25 12:00 sdc:1 ->
-> ../../../../../platform/host9/session2/target9:0:0/9:0:0:0/block/sdc:1
-> 
-> $ ls -l /dev/sdc
-> brw-rw----    1 root     disk        8,  32 Feb 25 11:58 /dev/sdc
-> 
-> The scsi_device and scsi_disk classes otherwise remain unmodified.
-> However, the per-path block device is hidden in /dev/. Furthermore,
-> multipathed block devices have a new naming scheme, sdX:Y, where
-> X is the scsi multipath device index and Y is the path index.
-> 
-> No multipath sg support is added. We still have a per-path sg device.
-> Since the SCSI block device is multipath enabled, we can access
-> multipathed scsi_ioctl() through that block device.
-> 
-> For failover, we take the approach of cloning bio's and re-submitting them
-> in full (for failover errors).
-> 
-> LIBMULTIPATH:
-> 
-> This series introduces also libmultipath. It is essentially a refactoring
-> of NVME multipath support, so we can have a common library to also support
-> native SCSI multipath.
-> 
-> Much of the code is taken directly from the NVMe multipath code. However,
-> NVMe specifics are removed. A template structure is provided so the driver
-> -may provide callbacks for driver specifics, like ANA support for NVMe.
-> 
-> Important new structures introduced include:
-> 
-> - mpath_head
-> These contain much of the multipath-specific functionality from
-> nvme_ns_head, including a pointer to the gendisk structure and
-> a path SRCU-based array.
-> 
-> - mpath_device
-> This is the per-path structure, and contains much the same
-> multipath-specific functionality in nvme_ns
-> 
-> libmultipath provides functionality for path management, path selection,
-> data path, and failover handling.
-> 
-> Full series also available at
-> https://github.com/johnpgarry/linux/commits/scsi-multipath-v7.3-v8/
-> 
-> Differences to v7:
-> - rebase
-> - simplify scsi_mpath_clone_end_io() (sashiko)
-> - rename bio_list_add_clone() -> bio_list_add_master()
-> - rework checks in mpath_alloc_disk_head() (sashiko)
-> 
-> Differences to v6:
-> - rebase
-> - add scsi_mpath_get_head()
-> 
-> Differences to v5:
-> - deal with issues sashiko found in libmultipath:
->   - include wait_bit.h
->   - don't store error in mpath_head->disk
->   - use check_mul_overflow() in mpath_can_remove_head()
->   - use -ENOTTY in mpath_bdev_ioctl()
-> - deal with issues sashiko found in scsi mpath support:
->   - check 0 returned from scsi_vpd_lun_id()
->   - call flush_work() in scsi_mpath_device_iopolicy_store()
->   - clear SCMD_MPATH_IO_STATS for !bio in scsi_mpath_start_request()
->   - add checks for calling scsi_mpath_{start,end}_request()
->   - tweak sd_mpath_dev_show()
-> 
-> John Garry (27):
->    libmultipath: Add initial framework
->    libmultipath: Add basic gendisk support
->    libmultipath: Add path selection support
->    libmultipath: Add bio handling
->    libmultipath: Add support for mpath_device management
->    libmultipath: Add delayed removal support
->    libmultipath: Add sysfs helpers
->    libmultipath: Add support for block device IOCTL
->    libmultipath: Add mpath_bdev_getgeo()
->    libmultipath: Add mpath_bdev_get_unique_id()
->    scsi-multipath: introduce basic SCSI device support
->    scsi-multipath: introduce scsi_device head structure
->    scsi-multipath: provide sysfs link from to scsi_device
->    scsi-multipath: support iopolicy
->    scsi-multipath: clone each bio
->    scsi-multipath: clear path when device is blocked
->    scsi-multipath: revalidate paths upon device unblock
->    scsi-multipath: failover handling
->    scsi-multipath: provide callbacks for path state
->    scsi-multipath: add scsi_mpath_{start,end}_request()
->    scsi-multipath: add delayed disk removal support
->    scsi: sd: add multipath disk class
->    scsi: sd: add multipath disk attr groups
->    scsi: sd: support multipath disk
->    scsi: sd: add mpath_dev file
->    scsi: sd: add mpath_numa_nodes dev attribute
->    scsi: sd: add mpath_queue_depth dev attribute
-> 
->   drivers/scsi/Kconfig          |  10 +
->   drivers/scsi/Makefile         |   1 +
->   drivers/scsi/scsi.c           |   8 +-
->   drivers/scsi/scsi_lib.c       |  13 +-
->   drivers/scsi/scsi_multipath.c | 664 ++++++++++++++++++++++++
->   drivers/scsi/scsi_scan.c      |   4 +
->   drivers/scsi/scsi_sysfs.c     |  10 +
->   drivers/scsi/sd.c             | 611 +++++++++++++++++++++-
->   drivers/scsi/sd.h             |   3 +
->   include/linux/multipath.h     | 156 ++++++
->   include/scsi/scsi_cmnd.h      |   9 +-
->   include/scsi/scsi_device.h    |   2 +
->   include/scsi/scsi_driver.h    |   4 +
->   include/scsi/scsi_host.h      |   4 +
->   include/scsi/scsi_multipath.h | 124 +++++
->   lib/Kconfig                   |   6 +
->   lib/Makefile                  |   2 +
->   lib/multipath.c               | 947 ++++++++++++++++++++++++++++++++++
->   18 files changed, 2554 insertions(+), 24 deletions(-)
->   create mode 100644 drivers/scsi/scsi_multipath.c
->   create mode 100644 include/linux/multipath.h
->   create mode 100644 include/scsi/scsi_multipath.h
->   create mode 100644 lib/multipath.c
-> 
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 7764a3c0195c..26028be8fe4d 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -696,7 +696,9 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
+ 
+ 	/* XXX: figure out what to do about RTD3R/RTD3 */
+ 	id->oaes = cpu_to_le32(NVMET_AEN_CFG_OPTIONAL);
+-	ctratt = NVME_CTRL_ATTR_HID_128_BIT | NVME_CTRL_ATTR_TBKAS;
++	ctratt = NVME_CTRL_ATTR_HID_128_BIT;
++	if (ctrl->tbkas)
++		ctratt |= NVME_CTRL_ATTR_TBKAS;
+ 	if (nvmet_is_pci_ctrl(ctrl))
+ 		ctratt |= NVME_CTRL_ATTR_RHII;
+ 	id->ctratt = cpu_to_le32(ctratt);
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index 6286e38436dd..2b879b1d4c3c 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -1369,6 +1369,34 @@ static ssize_t nvmet_subsys_attr_serial_store(struct config_item *item,
+ }
+ CONFIGFS_ATTR(nvmet_subsys_, attr_serial);
+ 
++static ssize_t nvmet_subsys_attr_tbkas_show(struct config_item *item,
++					     char *page)
++{
++	return snprintf(page, PAGE_SIZE, "%d\n", to_subsys(item)->tbkas);
++}
++
++static ssize_t nvmet_subsys_attr_tbkas_store(struct config_item *item,
++					      const char *page, size_t count)
++{
++	struct nvmet_subsys *subsys = to_subsys(item);
++	struct nvmet_ctrl *ctrl;
++	bool tbkas;
++
++	if (kstrtobool(page, &tbkas))
++		return -EINVAL;
++
++	down_write(&nvmet_config_sem);
++	subsys->tbkas = tbkas;
++
++	/* Force reconnect */
++	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry)
++		ctrl->ops->delete_ctrl(ctrl);
++	up_write(&nvmet_config_sem);
++
++	return count;
++}
++CONFIGFS_ATTR(nvmet_subsys_, attr_tbkas);
++
+ static ssize_t nvmet_subsys_attr_cntlid_min_show(struct config_item *item,
+ 						 char *page)
+ {
+@@ -1706,6 +1734,7 @@ static struct configfs_attribute *nvmet_subsys_attrs[] = {
+ 	&nvmet_subsys_attr_attr_qid_max,
+ 	&nvmet_subsys_attr_attr_ieee_oui,
+ 	&nvmet_subsys_attr_attr_firmware,
++	&nvmet_subsys_attr_attr_tbkas,
+ #ifdef CONFIG_BLK_DEV_INTEGRITY
+ 	&nvmet_subsys_attr_attr_pi_enable,
+ #endif
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 43871a8f56ca..6b4bda231bd9 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -1227,7 +1227,7 @@ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_sq *sq,
+ 		goto fail;
+ 	}
+ 
+-	if (sq->ctrl)
++	if (sq->ctrl && sq->ctrl->tbkas)
+ 		sq->ctrl->reset_tbkas = true;
+ 
+ 	return true;
+@@ -1677,6 +1677,7 @@ struct nvmet_ctrl *nvmet_alloc_ctrl(struct nvmet_alloc_ctrl_args *args)
+ 	mutex_lock(&subsys->lock);
+ 
+ 	ctrl->max_qid = subsys->max_qid;
++	ctrl->tbkas = subsys->tbkas;
+ 
+ 	ctrl->sqs = kzalloc_objs(struct nvmet_sq *, ctrl->max_qid + 1);
+ 	if (!ctrl->sqs)
+@@ -1865,6 +1866,7 @@ struct nvmet_subsys *nvmet_subsys_alloc(const char *subsysnqn,
+ 	}
+ 
+ 	subsys->ieee_oui = 0;
++	subsys->tbkas = true;
+ 
+ 	subsys->firmware_rev = kstrndup(UTS_RELEASE, NVMET_FR_MAX_SIZE, GFP_KERNEL);
+ 	if (!subsys->firmware_rev) {
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index dbda55895f4f..2bc0e87ea981 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -270,6 +270,7 @@ struct nvmet_ctrl {
+ 	u16			cntlid;
+ 	u16			max_qid;
+ 	u32			kato;
++	bool			tbkas;
+ 
+ 	struct nvmet_port	*port;
+ 
+@@ -343,6 +344,7 @@ struct nvmet_subsys {
+ 	bool			subsys_discovered;
+ 	char			*subsysnqn;
+ 	bool			pi_support;
++	bool			tbkas;
+ 
+ 	struct config_group	group;
+ 
+-- 
+2.55.0
 
 
