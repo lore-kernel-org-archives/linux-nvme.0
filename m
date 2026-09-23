@@ -4,65 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 090F3C98306
-	for <linux-nvme@archiver.kernel.org>; Wed, 23 Sep 2026 03:22:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B981C982EA
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Sep 2026 04:20:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/H/LFwbci3Eh6MNU8eJOEho61nt5VkkYkF/xMDqVmas=; b=dM646NafcktlINkq/LI2WB6JXo
-	PZfmhUMqEn3CjjWaAbNIKop4r/ZfgKscs6+uYR/PWlsIg7QhEVzYvcuJ8iM6yHEphCUmElNPVbF78
-	IO9XQqU2dSLFdmTZ299pGpYo2Mk5lx36ICIxg9huuABGwx4KgASfdt/bqrjU0egzBtRokxzbu0cIW
-	hX+NsFskjfVqxSRE+28Hwg92RDE+ffEW+hiQh3k3HWYvIoTIT6G7XljsLVg/7/eQTyaLW0W8uUTer
-	O+0CYE9LF5wyOOrIIDdyXuXgPqZaWKEecqoOS4JEqEZJtFWNGio5dYxMsY/DnS2IWM3zT3ZrgmDD4
-	JCXrXRbQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=bXIaa9lwQNszVQiM2fHG7rFajy+6MFlPqqteMlpXrzc=; b=wGP66ZWoXP82Uec9hPnPkmgZL3
+	wovaQfb01H81lcvS6nj0aecF6+Jw3OLGYHEOrcBnPytnnlQlCXWO+zjN3hmZdFsi/Cul156IveiSK
+	ncoHafPKbF/OMadyas3C/NgCLLwU/oPVIwqqlm6YjrKH7resW4eF9++cvxXyhX9rplEgB0vKmby6C
+	xp+5KsjZoSxd1+E2pqnFjZIeEMwjmTbD4ghZyotyTOLAd8CiV7yhDzF+72tSHAMYG+SnSCTZcOS6j
+	MvcqGzRCd5UTGQfYt8nadLB8bHnXy0lYfRvqPYjJgAkdIkzJ6ZlP/0+Zhd/Aez5OCwvTPl/jukn/3
+	Lyf84eBA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x9DYc-000000071kJ-3GUA;
-	Wed, 23 Sep 2026 03:22:06 +0000
-Received: from mail-m49198.qiye.163.com ([45.254.49.198])
+	id 1x9ESo-000000076W0-21Qs;
+	Wed, 23 Sep 2026 04:20:10 +0000
+Received: from mail-vk1-f179.google.com ([209.85.221.179])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x9DYa-000000071jJ-0l78
+	id 1x9ESl-000000076Ul-0rTK
 	for linux-nvme@lists.infradead.org;
-	Wed, 23 Sep 2026 03:22:05 +0000
-Received: from PC-202605011814.localdomain (unknown [221.228.238.82])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 4eceabcf7;
-	Wed, 23 Sep 2026 11:17:01 +0800 (GMT+08:00)
-From: Runyu Xiao <runyu.xiao@seu.edu.cn>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Breno Leitao <leitao@debian.org>,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Runyu Xiao <runyu.xiao@seu.edu.cn>,
-	Jianhao Xu <jianhao.xu@seu.edu.cn>
-Subject: [PATCH v5 3/3] nvmet: avoid recursive configfs open for passthru
-Date: Wed, 23 Sep 2026 11:16:41 +0800
-Message-Id: <20260923031641.2016406-4-runyu.xiao@seu.edu.cn>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260923031641.2016406-1-runyu.xiao@seu.edu.cn>
-References: <20260923031641.2016406-1-runyu.xiao@seu.edu.cn>
+	Wed, 23 Sep 2026 04:20:09 +0000
+Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-5c675e64ffcso1332003e0c.0
+        for <linux-nvme@lists.infradead.org>; Tue, 22 Sep 2026 21:20:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790137205; x=1790742005;
+        h=mime-version:content-transfer-encoding:content-type:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=bXIaa9lwQNszVQiM2fHG7rFajy+6MFlPqqteMlpXrzc=;
+        b=y2UXebcPFkqnLgbQ1x4tixfwZZcivWGwOGJLgHI1+vz8PNNWM+cKkrasZBtuVXmSDw
+         0SRvy1rFDjP23dqWrX7PN5H82XKW1+bqHdsXcandiPOVzA+hDEmSofdCAL9T8GWC23WO
+         0xtJWvp43/FymDWI5URhdMnuQXRPI0pcFBmqfyq3nkmWmkVJLSBydOl7q0fnVavPtjad
+         1osW2Oov6iHeZW7Q9LSY+nreXe5bdJdfb5FrubFdmASmFJ+iDbp+wri2DPQkOTHxKMML
+         IIBWnztlUVnQb9s96Rv1v4d7SKqNJq+I+uYohOuFyMyydAzIbZbj2E4N4fyTmgYnSxlm
+         RB+Q==
+X-Gm-Message-State: AFuF++nx8uEbDidy3ZXF7y6zaZ23Y87xwT/7iGhjB2sG/OYjBER8cNX+
+	Qsh0jhztQM81KZqWobnMn0PVjp+bo6ruAl6BRYTtoY4fL9aVx9KWxxg6/cCTpT7hB9Q=
+X-Gm-Gg: AYBFou2tmR1RbCtG/fTS2Gc0kf4Orlpqmf+pUEIknvduDIwSHEGdvP0UIUsqVXKXNUw
+	vHPOefu78jV67h9dWTSxNctHkmXXC7B5U0wMDv+s56x/hDiasrFdW9BPTBDd7ONjHX56EMFgbeL
+	Y6shJBKfZGPxmBZlsugucRe6tG+cTUBY4T/andWEA5BqcbBa08+1tlRLK9jggr5TDsxtvHREiRQ
+	nvOCJijIwHz/wbm/ERNPKO5X/PCgCQn7OBAR79zKpbNRlo8u029Zm2mnEnaVHsYuErE7g5YxXrK
+	hykhufk7HolvKR+G+2iKabZxG1AOD/oONnUn314Wu2eAHiNXMpk8v5fQtvIHXF0i0yre1K1hjLJ
+	PQPIV/0dv2GV0N/9s+NNo4TYSEEiVGhCNPhP35Er9GGqBRRtojlGyppqd8JBr/TmV3JxvRyVOpx
+	B86FHF4ORvqxD/CsMqtRU6KWoDZ97RTTCOIS5dEBILYzpDjrDOe1firhxPifyi4TMQNR1CEKewn
+	95JpuykCG5Sz0t/yoRB+t52b0CLAeKgpF5Oc/tHvL581pPdtJIUrFs=
+X-Received: by 2002:a05:6102:6212:10b0:7aa:f842:e3fe with SMTP id ada2fe7eead31-7aaf842e599mr3275105137.21.1790137205381;
+        Tue, 22 Sep 2026 21:20:05 -0700 (PDT)
+Received: from [100.96.0.25] (corp-190-12-36-222.uio.puntonet.ec. [190.12.36.222])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c9f053a418sm1839977e0c.13.2026.09.22.21.20.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Sep 2026 21:20:04 -0700 (PDT)
+From: Ing. Alfonso Kuen Arroyo <gerencia@idkmanager.com>
+To: hch@lst.de, sagi@grimberg.me, kch@nvidia.com
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ mlombard@arkamax.eu
+Subject: [PATCH v2] nvmet-tcp: fix stale comment on NVMET_TCP_MAXH2CDATA
+Date: Tue, 22 Sep 2026 23:20:03 -0500
+Message-ID: <179013720383.9364.11263428288753603011@idkmanager.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0aa0cc4443f703a1kunmae5dc6a4b63d6
-X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZTUoeVktPT0seTElKGRpPTVYeHw
-	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUpVSUlDVUlIQ1VDSVlXWRYaDxIVHRRZQVlPS0hVSktISk
-	9ITFVKS0tVSkJLS1kG
-DKIM-Signature: a=rsa-sha256;
-	b=BPRNp5/rOowzhJB5OAAhZuwfO1z6RQuh+iMqN8GyCGNByo/B7ULXU+iUCSTfu2mU0Qw9NhJfVoTz3xUQ0Lq299GElYruh3IKuhU776IUND8LbDYJxAj+VAEM0zs5xGZXsQ87Ry4jtwvhs1F1XQTbAHtA2hCgNhPzO6Sq9E8uC20=; c=relaxed/relaxed; s=default; d=seu.edu.cn; v=1;
-	bh=/H/LFwbci3Eh6MNU8eJOEho61nt5VkkYkF/xMDqVmas=;
-	h=date:mime-version:subject:message-id:from;
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260922_202204_408052_C061FC44 
-X-CRM114-Status: UNSURE (   9.86  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260922_212007_254263_8CF9C5E4 
+X-CRM114-Status: GOOD (  11.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,47 +84,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvmet_passthru_enable_store() runs as a configfs store callback while
-configfs holds the item frag_sem. Passthru enable used filp_open() on the
-configured controller path, so a path into configfs could re-enter
-__configfs_open_file() and try to acquire the same semaphore again.
+The constant is 0x400000, 4 MiB, but the comment next to it said 16M.
+Use SZ_4M instead of a value and a comment that can drift out of sync
+with each other, as suggested by Christoph Hellwig.
 
-Use configfs_file_open() so the path is resolved before opening,
-configfs-backed paths are rejected, and the resolved path is opened with
-file_open_root() while retaining the normal open-time permission and
-security checks.
+Noticed by Maurizio Lombardi while reviewing "nvmet-tcp: report a
+bounded MDTS instead of "no limit"".
 
-Fixes: cae5b01a2afc ("nvmet: introduce the passthru configfs interface")
-Cc: stable@vger.kernel.org
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Assisted-by: LLM Codex
-Signed-off-by: Runyu Xiao <runyu.xiao@seu.edu.cn>
+v2: use SZ_4M instead of the raw hex value + comment (Christoph
+    Hellwig). The file did not pull in linux/sizes.h yet and had no
+    other SZ_ user, so the include is added.
+
+Signed-off-by: Alfonso Kuen
 ---
- drivers/nvme/target/passthru.c | 3 ++-
+ drivers/nvme/target/tcp.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
-index fa6527c537e26..d60256004e6cf 100644
---- a/drivers/nvme/target/passthru.c
-+++ b/drivers/nvme/target/passthru.c
-@@ -9,6 +9,7 @@
-  */
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
- #include <linux/module.h>
-+#include <linux/configfs.h>
- 
- #include "../host/nvme.h"
- #include "nvmet.h"
-@@ -602,7 +603,7 @@ int nvmet_passthru_ctrl_enable(struct nvmet_subsys *subsys)
- 		goto out_unlock;
- 	}
- 
--	file = filp_open(subsys->passthru_ctrl_path, O_RDWR, 0);
-+	file = configfs_file_open(subsys->passthru_ctrl_path, O_RDWR, 0);
- 	if (IS_ERR(file)) {
- 		ret = PTR_ERR(file);
- 		goto out_unlock;
--- 
-2.34.1
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index e598101..000000 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -18,12 +18,13 @@
+ #include <net/handshake.h>
+ #include <linux/inet.h>
+ #include <linux/llist.h>
++#include <linux/sizes.h>
+ #include <trace/events/sock.h>
 
+ #include "nvmet.h"
+
+ #define NVMET_TCP_DEF_INLINE_DATA_SIZE	(4 * PAGE_SIZE)
+-#define NVMET_TCP_MAXH2CDATA		0x400000 /* 16M arbitrary limit */
++#define NVMET_TCP_MAXH2CDATA		SZ_4M
+ #define NVMET_TCP_BACKLOG 128
+
+ static int param_store_val(const char *str, int *val, int min, int max)
+--
+2.53.0
 
