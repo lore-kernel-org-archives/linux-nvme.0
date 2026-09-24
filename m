@@ -4,55 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 78F13C98315
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Sep 2026 06:15:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5834BC98314
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Sep 2026 06:35:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ERb2hJa+8ozVVgfpIwst1MFmKzkTFHh5CF001HTdKvg=; b=cKhWyQgsmE9o0X/wOOSkPhIxNG
-	o7t5g2Zq0S7how7uLW0kqzciCfNwy9FnkPrJ3U7KPXDTq/NmnrJF4LoddIN0FQ0AUuxllkGpQsyXJ
-	vrayzlQsN0a/onh6oR60YgF1J2LWttmZRyIq4fVS1Uy+XxpFDUv3HNHAfh6tZzYS/5KYombI9q+Qr
-	gDQVqA8FdpN3y6v4YD2OJLcjdFg0PGl6Kb289hi1xRUpMvh/VAYpyobWWaS9+W8yk38ZoJNowQDq3
-	DtRO+EvWNnMq7yjWYMRKtKTAhRkuc7OQvwSE4lSu2HOhYYzrq+E5gwb3mfKxXdDSYlDgOh7/wsHFU
-	2X33Vvpw==;
+	bh=tJPZ6HTxNtNeAlRQ89jXZdruOuXjbaVPhr0XhYWbXqI=; b=y95CRYtX5e+TGzQLeLA4bQaUrY
+	MIuWOP7ogN4VXcvIQmjQqAu9bwJz4ZWw1Jv7Ovp9QDjQUyC1Gcisvh2O+sf6AV2tPunWnEpEiYtK3
+	gdfw6wPvwIaqQgA52/7TRnvLX5PTA3fxX2XQbj3G1g8bvWiSf/2fpsr0KIYtsqAKwEUZYtNf1BnYY
+	beqJU4Hu+f89rZjcEHRANwcJZDIsrMUZLI1RGKbqW/gUHCE486NKbyUa9vqYSXhjsRo7kTY91g8ts
+	NsZ3pwYNpYUoo1CN7mICzv36SdDjHwCeAqZhWEvlL8bUuzWJIf+bZlmQ/QMmC59TAgBBAUeGspNxV
+	E/WObQQw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x9ckF-0000000A8Qd-2GAn;
-	Thu, 24 Sep 2026 06:15:47 +0000
-Received: from out28-194.mail.aliyun.com ([115.124.28.194])
+	id 1x9d3K-0000000AAOh-2TaR;
+	Thu, 24 Sep 2026 06:35:30 +0000
+Received: from mail-dl2-x0e.google.com ([2607:f8b0:4864:38::e])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x9ckD-0000000A8Oh-1luR
+	id 1x9d3I-0000000AAOJ-3EZr
 	for linux-nvme@lists.infradead.org;
-	Thu, 24 Sep 2026 06:15:47 +0000
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.9243626|0.8991501;CH=green;DM=|SPAM|false|;DS=CONTINUE|ham_system_inform|0.0183685-0.000289767-0.981342;FP=5974062528137348283|4|2|2|0|-1|-1|-1;HT=maildocker-contentspam033032053168;MF=liaoxuan@open-hieco.net;NM=1;PH=DS;RN=10;RT=10;SR=0;TI=SMTPD_---.jLtpcA7_1790230539;
-Received: from Ubuntu2404-XLH.hygon.cn(mailfrom:liaoxuan@open-hieco.net fp:SMTPD_---.jLtpcA7_1790230539 cluster:ay29)
-          by smtp.aliyun-inc.com;
-          Thu, 24 Sep 2026 14:15:42 +0800
-From: Liao Xuan <liaoxuan@open-hieco.net>
-To: kbusch@kernel.org,
+	Thu, 24 Sep 2026 06:35:29 +0000
+Received: by mail-dl2-x0e.google.com with SMTP id a92af1059eb24-144f47a9b57so1836760c88.2
+        for <linux-nvme@lists.infradead.org>; Wed, 23 Sep 2026 23:35:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=crusoe.ai; s=google; t=1790231727; x=1790836527; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=tJPZ6HTxNtNeAlRQ89jXZdruOuXjbaVPhr0XhYWbXqI=;
+        b=Tfo6lbNiK5H9L9bCT4QL+Tavu1HdoATx3Gaf3jZ5bnC1WV1fpX0Up/O00j+PGIljRb
+         2Jdcr0GGloHmNuG7dEzWgNDkhVsNgbavlGMF7UsHV71Y2t7U8vODdi7Y5Kz2uoMRG3wh
+         tqdbo8cx02ufYwMkmnoAeGo+RR9q23oZYkrhAvCO3DzY6vx6DsyZbWO9CndJKmie5epC
+         Y0cSuc/TZev5yz7nB22IvrT5Eeb0rpj8HYYs0LjNOTTpsgmL1GT1L46tQnXAdi1ziqRa
+         Qcx0oguvH5I19UfwRptayYTjjlHmxMk31ormCDqIjbVD7dlAF3nrvY5678asXjrbXs+R
+         /tUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790231727; x=1790836527;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=tJPZ6HTxNtNeAlRQ89jXZdruOuXjbaVPhr0XhYWbXqI=;
+        b=LBrgPZcQwxjb7v/vG0laOl3gyvLe1o0SE8EzNVf/T+0EelUerU9+eNXXDxF115tg8D
+         bdI3ode5FOIekT3S+CvnochnnTmx8MmMlnPT9P8euS4adoGwS5bh5vLC91wvykuOs8nm
+         8dhzWEOhptHcuRun7BFNs8HLnGTix17MFd9KpEtEEIli+18geSojBr3APTlysWs/VEVS
+         HlSIQ/AkGLCbQ3DxCIobusanvVtT6TM+aCE7SoWPzDsMNzc9CjqM4/qc7mXkOlPMzTvV
+         +t7geF/O4gQVKdEMRiDNr6NQCKD6UjMWpqgFIHzLfCdBlpfLB9mRX9GnNr5wBotOObM2
+         7wRQ==
+X-Forwarded-Encrypted: i=1; AKwUvBw2iEJ7z15PkPyD9737T3XecAl7+IF+f2yRpW87Z9pDnQ7rse3cr1GQAuTXgpeGY0hiFPj5JQXJhFk1@lists.infradead.org
+X-Gm-Message-State: AFuF++kSCxrjKMq0zDkkvaK+ZF7q//M0ngVCArewSRxW2LTxoUlLU+sI
+	xXDCufFs9VIPO3lUoChBWw3DWFQ3dFtlDk6VK4TdymCsqfY9aNEaGYuX+b3y1sb1Cb4=
+X-Gm-Gg: AYBFou1RD/rm19MS38ss2oRvJGb+NhPWU00hWQI1M53PjluczaoSHy/zKy6TNXKPhn4
+	RpwIzZz6HiLuuLvR0VmVB0jgBTVhY8lCZhAD3jPUG4dnI7aV3rYEWyOdl3PYlsQZRS4jTznOslL
+	IbS+eJLFitYRUW100tjRwcGyVAJZnLzty9mb385pq9w1PSSFRz2gWTWocpcWyjmOo3t3UHM0Chr
+	z/zkb+yELJbCIzYPTMXJ4TvK87Y3zegW8VtZ1VNbnt4F46YCuXO3mzlPUpiKWcekI0fGJAjFZQq
+	O8hDmuCnGm//PxSr8kNmEa6LC07ZpJSoCXVaBD7iAxS0hnvCXZKgZhLPB+Tum/G92rFRr7nWp4N
+	6QffleBUp5uzrHFoOsR/PzBzy4hoX+EKi/0oNEZFbaELKO1VhuOX6TrRgEHxSoeobWLkMEIxDgy
+	7Xt2Ov9og/x63NhrWVWth/e7J9HZm9hHi5mdkSpRYpMAdQbsky3lvs1JvcV2zsVx+YI+IGAoPI2
+	hqU4Q13IDKj5docjU4qIOefmHEtu0kWUaGjrNgHSrCKpUXf
+X-Received: by 2002:a05:7301:7bc9:b0:33b:e77f:8a3c with SMTP id 5a478bee46e88-34000d3600amr1526565eec.33.1790231727245;
+        Wed, 23 Sep 2026 23:35:27 -0700 (PDT)
+Received: from MBP-Krishna-Iyer.civet-hops.ts.net ([2601:645:c68a:b830:3831:92c7:8375:9edb])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33e95c7d003sm10291658eec.9.2026.09.23.23.35.26
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 23 Sep 2026 23:35:26 -0700 (PDT)
+From: Krishna Iyer <kiyer@crusoe.ai>
+To: kbusch@kernel.org
+Cc: hare@suse.de,
 	axboe@kernel.dk,
 	hch@lst.de,
 	sagi@grimberg.me,
-	ilpo.jarvinen@linux.intel.com,
-	bhelgaas@google.com
-Cc: linux-kernel@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
-	linux-pci@vger.kernel.org,
-	Liao Xuan <liaoxuan@open-hieco.net>
-Subject: [PATCH 3/3] nvme: Expose link rate switching tunables via sysfs
-Date: Thu, 24 Sep 2026 14:15:13 +0800
-Message-ID: <be224cd8385a5c28a20db65d635000a7be4da91a.1790222172.git.liaoxuan@hygon.cn>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1790222172.git.liaoxuan@hygon.cn>
-References: <cover.1790222172.git.liaoxuan@hygon.cn>
+	linux-kernel@vger.kernel.org,
+	nilay@linux.ibm.com,
+	sjpark@crusoe.ai,
+	saravanand@crusoe.ai
+Subject: Re: [PATCH v3] nvme-multipath: add fail_if_no_path sysfs attribute
+Date: Wed, 23 Sep 2026 23:35:24 -0700
+Message-ID: <20260924063524.26807-1-kiyer@crusoe.ai>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <arR3zlpx3Xm2mRt-@kbusch-mbp>
+References: <20260923004959.88440-1-kiyer@crusoe.ai> <arRJLL4ki-sVQnHf@kbusch-mbp> <20260923225753.49224-1-kiyer@crusoe.ai> <arR3zlpx3Xm2mRt-@kbusch-mbp>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260923_231545_795806_7035D504 
-X-CRM114-Status: GOOD (  14.44  )
+X-CRM114-CacheID: sfid-20260923_233528_826575_71D432D4 
+X-CRM114-Status: GOOD (  15.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -67,231 +106,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add a speed attribute group under /sys/class/nvme/nvmeX/ that
-exposes the adaptive link rate switching parameters for runtime tuning:
+On 9/23/26 6:07 PM, Keith Busch wrote:
+> I get that failfast is at the controller scope, but that seems okay:
+> when the transport is down, every namespace behind that controller is
+> equally without a path. When the controller is live, the per-namespace
+> inaccessible case is handled separately by the ANA state, so namespace
+> heads that lose access bail and the rest can carry on.
+>
+> Is your intention to have some namespaces wait for reconnect longer than
+> others?
 
-  enable           - toggle the feature on/off (0/1)
-  monitor_interval - I/O monitoring window in milliseconds (>= 100)
-  min_speed        - minimum PCIe generation to downgrade to (1-5)
-  up_threshold     - windows above the threshold needed to upgrade
-  down_threshold   - windows below the threshold needed to downgrade
+Yes, exactly. Some namespaces should keep waiting out the reconnect
+while others should stop waiting and fail their parked I/O, decided
+by a condition only userspace can see. Here that condition is a
+killed process stuck in D state on parked I/O that nothing will ever
+consume (for us a SIGKILLed VM the host must reap), and it could be
+any consumer known to be gone. Failing that namespace lets the
+process exit, while namespaces with live users behind the same
+controllers keep queueing and carry on when paths return. A
+controller wide timeout cannot separate the two, and there is no
+duration to pick up front since the trigger is userspace observing
+the event. Reconnect itself is untouched either way. So the kernel
+provides the per namespace switch and the decision stays in
+userspace.
 
-The attributes are read/write and are removed when the controller is
-torn down.
-
-Signed-off-by: Liao Xuan <liaoxuan@open-hieco.net>
----
- drivers/nvme/host/nvme.h         |   3 +
- drivers/nvme/host/speed_switch.c |  15 +++-
- drivers/nvme/host/sysfs.c        | 143 +++++++++++++++++++++++++++++++
- 3 files changed, 160 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 5d5034601..fb958ff13 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -1076,6 +1076,9 @@ extern const struct attribute_group nvme_dev_attrs_group;
- extern const struct attribute_group nvme_dev_diag_attrs_group;
- extern const struct attribute_group *nvme_subsys_attrs_groups[];
- extern const struct attribute_group *nvme_dev_attr_groups[];
-+#ifdef CONFIG_NVME_SPEED_SWITCH
-+extern const struct attribute_group nvme_speed_attr_group;
-+#endif
- extern const struct block_device_operations nvme_bdev_ops;
- 
- void nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl);
-diff --git a/drivers/nvme/host/speed_switch.c b/drivers/nvme/host/speed_switch.c
-index 22f180c81..fce426845 100644
---- a/drivers/nvme/host/speed_switch.c
-+++ b/drivers/nvme/host/speed_switch.c
-@@ -325,7 +325,7 @@ void nvme_speed_switch_init(struct nvme_ctrl *ctrl)
- {
- 	struct nvme_speed_switch *sw = &ctrl->speed_switch;
- 	struct pci_dev *pdev;
--	int max_speed;
-+	int max_speed, ret;
- 
- 	if (boot_cpu_data.x86_vendor != X86_VENDOR_HYGON) {
- 		dev_dbg(ctrl->device,
-@@ -376,6 +376,18 @@ void nvme_speed_switch_init(struct nvme_ctrl *ctrl)
- 	timer_setup(&sw->timer, nvme_speed_switch_timer_fn, 0);
- 	atomic_set(&sw->timer_active, NVME_SPEED_TIMER_INACTIVE);
- 	WRITE_ONCE(sw->enabled, true);
-+
-+	ret = sysfs_create_group(&ctrl->device->kobj, &nvme_speed_attr_group);
-+	if (ret) {
-+		dev_err(ctrl->device,
-+			"failed to create link rate switching sysfs group (%d)\n",
-+			ret);
-+		timer_delete_sync(&sw->timer);
-+		free_percpu(sw->stats);
-+		sw->stats = NULL;
-+		WRITE_ONCE(sw->enabled, false);
-+		return;
-+	}
- 	sw->initialized = true;
- 
- 	dev_info(ctrl->device,
-@@ -405,6 +417,7 @@ void nvme_speed_switch_exit(struct nvme_ctrl *ctrl)
- 	WRITE_ONCE(sw->enabled, false);
- 	timer_delete_sync(&sw->timer);
- 	cancel_work_sync(&sw->work);
-+	sysfs_remove_group(&ctrl->device->kobj, &nvme_speed_attr_group);
- 
- 	free_percpu(sw->stats);
- 	sw->stats = NULL;
-diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-index 75b2d69b5..cd899b87b 100644
---- a/drivers/nvme/host/sysfs.c
-+++ b/drivers/nvme/host/sysfs.c
-@@ -1308,3 +1308,146 @@ const struct attribute_group *nvme_subsys_attrs_groups[] = {
- 	&nvme_subsys_attrs_group,
- 	NULL,
- };
-+
-+#ifdef CONFIG_NVME_SPEED_SWITCH
-+enum nvme_speed_attr_id {
-+	NVME_SPEED_ATTR_ENABLE,
-+	NVME_SPEED_ATTR_MONITOR_INTERVAL,
-+	NVME_SPEED_ATTR_MIN_SPEED,
-+	NVME_SPEED_ATTR_UP_THRESHOLD,
-+	NVME_SPEED_ATTR_DOWN_THRESHOLD,
-+};
-+
-+struct nvme_speed_attr {
-+	struct device_attribute attr;
-+	enum nvme_speed_attr_id id;
-+};
-+
-+static ssize_t nvme_speed_attr_show(struct device *dev,
-+				    struct device_attribute *attr, char *buf)
-+{
-+	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-+	struct nvme_speed_switch *sw = &ctrl->speed_switch;
-+	struct nvme_speed_attr *sa =
-+		container_of(attr, struct nvme_speed_attr, attr);
-+	u32 val;
-+
-+	switch (sa->id) {
-+	case NVME_SPEED_ATTR_ENABLE:
-+		val = READ_ONCE(sw->enabled);
-+		break;
-+	case NVME_SPEED_ATTR_MONITOR_INTERVAL:
-+		val = READ_ONCE(sw->monitor_interval);
-+		break;
-+	case NVME_SPEED_ATTR_MIN_SPEED:
-+		val = READ_ONCE(sw->min_speed);
-+		break;
-+	case NVME_SPEED_ATTR_UP_THRESHOLD:
-+		val = READ_ONCE(sw->up_threshold);
-+		break;
-+	case NVME_SPEED_ATTR_DOWN_THRESHOLD:
-+		val = READ_ONCE(sw->down_threshold);
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return sysfs_emit(buf, "%u\n", val);
-+}
-+
-+static ssize_t nvme_speed_attr_store(struct device *dev,
-+				     struct device_attribute *attr,
-+				     const char *buf, size_t count)
-+{
-+	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-+	struct nvme_speed_switch *sw = &ctrl->speed_switch;
-+	struct nvme_speed_attr *sa =
-+		container_of(attr, struct nvme_speed_attr, attr);
-+	u32 val;
-+	int ret;
-+
-+	ret = kstrtou32(buf, 10, &val);
-+	if (ret)
-+		return ret;
-+
-+	switch (sa->id) {
-+	case NVME_SPEED_ATTR_ENABLE:
-+		if (val > 1)
-+			return -EINVAL;
-+		if (!val && READ_ONCE(sw->enabled)) {
-+			WRITE_ONCE(sw->enabled, false);
-+			timer_delete_sync(&sw->timer);
-+			cancel_work_sync(&sw->work);
-+			atomic_set(&sw->timer_active, NVME_SPEED_TIMER_INACTIVE);
-+		} else
-+			WRITE_ONCE(sw->enabled, val);
-+		break;
-+	case NVME_SPEED_ATTR_MONITOR_INTERVAL:
-+		if (val < 100)
-+			return -EINVAL;
-+		WRITE_ONCE(sw->monitor_interval, val);
-+		break;
-+	case NVME_SPEED_ATTR_MIN_SPEED:
-+		if (val < 1 || val > 5)
-+			return -EINVAL;
-+		if (val > sw->max_speed)
-+			val = sw->max_speed;
-+		WRITE_ONCE(sw->min_speed, val);
-+		break;
-+	case NVME_SPEED_ATTR_UP_THRESHOLD:
-+		WRITE_ONCE(sw->up_threshold, val);
-+		break;
-+	case NVME_SPEED_ATTR_DOWN_THRESHOLD:
-+		WRITE_ONCE(sw->down_threshold, val);
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return count;
-+}
-+
-+static struct nvme_speed_attr nvme_speed_attr_enable = {
-+	.attr = __ATTR(enable, 0644,
-+		       nvme_speed_attr_show, nvme_speed_attr_store),
-+	.id = NVME_SPEED_ATTR_ENABLE,
-+};
-+
-+static struct nvme_speed_attr nvme_speed_attr_monitor_interval = {
-+	.attr = __ATTR(monitor_interval, 0644,
-+		       nvme_speed_attr_show, nvme_speed_attr_store),
-+	.id = NVME_SPEED_ATTR_MONITOR_INTERVAL,
-+};
-+
-+static struct nvme_speed_attr nvme_speed_attr_min_speed = {
-+	.attr = __ATTR(min_speed, 0644,
-+		       nvme_speed_attr_show, nvme_speed_attr_store),
-+	.id = NVME_SPEED_ATTR_MIN_SPEED,
-+};
-+
-+static struct nvme_speed_attr nvme_speed_attr_up_threshold = {
-+	.attr = __ATTR(up_threshold, 0644,
-+		       nvme_speed_attr_show, nvme_speed_attr_store),
-+	.id = NVME_SPEED_ATTR_UP_THRESHOLD,
-+};
-+
-+static struct nvme_speed_attr nvme_speed_attr_down_threshold = {
-+	.attr = __ATTR(down_threshold, 0644,
-+		       nvme_speed_attr_show, nvme_speed_attr_store),
-+	.id = NVME_SPEED_ATTR_DOWN_THRESHOLD,
-+};
-+
-+static struct attribute *nvme_speed_attrs[] = {
-+	&nvme_speed_attr_enable.attr.attr,
-+	&nvme_speed_attr_monitor_interval.attr.attr,
-+	&nvme_speed_attr_min_speed.attr.attr,
-+	&nvme_speed_attr_up_threshold.attr.attr,
-+	&nvme_speed_attr_down_threshold.attr.attr,
-+	NULL,
-+};
-+
-+const struct attribute_group nvme_speed_attr_group = {
-+	.name = "speed",
-+	.attrs = nvme_speed_attrs,
-+};
-+#endif /* CONFIG_NVME_SPEED_SWITCH */
--- 
-2.43.0
-
+Thanks,
+Krishna
 
