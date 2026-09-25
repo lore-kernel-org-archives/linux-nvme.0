@@ -4,115 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5329EC98321
-	for <linux-nvme@archiver.kernel.org>; Fri, 25 Sep 2026 11:25:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3FCF4C98321
+	for <linux-nvme@archiver.kernel.org>; Fri, 25 Sep 2026 14:22:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fdfR8kZ6pdKMhQG10IVoMmg6ADasUtzgAjEjiMrrxkQ=; b=gG+Yb/pig0nA7FT3wgn3mKaeXl
-	s8WASI274HJ0S2nN0efcumMs0cfUgLsd0J/yzbp/DrZdw4Af17iB8ljQkxRdHMUAatj6fKRx3YBT/
-	0qRpvFCXJDIgd19mVMAkQBEsRMn2ASfGVBrpW67WGjLYiKlmKIGHVXrLHQ2iOdAeF8on8o880lq68
-	JZqQtfSPTt5JDdH6FJ4VR1I5TSUJgjMyTlfy0OqWeHXcaPa0mRkOr4Td72wXyzrQ+cmBxqf87/uiv
-	ovKPuK/NmTrQ/L+wY2IrQXHbgOhL4RS7IUetj5yFkHtIZuKeCaAJzPmdf4AML1mqurXpAb938uLjl
-	wlCSrKdQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:From:
+	Subject:To:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
+	Mime-Version:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=RaaxGx7n/K5DAzGN9rDyMLhHInRN0POj9j7UDsiqwrI=; b=Ysyg+3noVigsuX09UaIZhYcjzt
+	j4CybmBZbRBqETD0dRjZF263kHbGKjLWHo0mCfcI4QNHh0q7A3sJf2OIFb4O3v0NNKXjlliTWz4Zw
+	/F6J6EcNBQM376MIRO2Irc7nYsrG9VfKEswVZurBQlzQnY0ZDXTyOBoUgApwwJvqsOFCj64JQZkPb
+	yO/Bxhel4eZVaytma/2LfMfteK66V3/ayDw55Bx2po68l7s26IncGk2t0ce0uctae5Cx5sdfq8g1a
+	39YuIdSRgyKrK3JYLQtblZgLzNrueKHPruIeFlgHr8NT7Rz+39gMInU3qT/4COmc2Lp6Ph054/Wlq
+	knz+gG9g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xA437-0000000DBq3-3URf;
-	Fri, 25 Sep 2026 11:25:05 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1xA6oc-0000000DZGg-0SK2;
+	Fri, 25 Sep 2026 14:22:18 +0000
+Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=arkamax.eu)
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xA435-0000000DBpC-05EH
+	id 1xA6oY-0000000DZG2-4BUh
 	for linux-nvme@lists.infradead.org;
-	Fri, 25 Sep 2026 11:25:04 +0000
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68P4aKvQ074996;
-	Fri, 25 Sep 2026 11:24:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=fdfR8k
-	Z6pdKMhQG10IVoMmg6ADasUtzgAjEjiMrrxkQ=; b=AyHU2WW/3/aUTV1dAcmjCX
-	GNE80Ec6LSFZod4anONbj5tJECPskUhjIQUadgpnIrWhI22Ne70aK8TjGX711qH8
-	SMT/3DxEtiUr5r2eL7J38CgFO//IQ7dLqqtyqVXKm4I39DhkSRyMXUYUBksoKsrn
-	JSCYMNnzqhf1fMniYJ8cwrpyee+B6QPWwch6CkEY3wPdciVihbv+QvTrxpsoHgvm
-	k9sNjq8E84vIKWCXqvEXza5sEavFH0Lh/413Po0xLKi8hqn8DHs6IPo3HA1ZiojH
-	shmsG4D+A3/6S2NOxyEkNn0IBOTOph6XmkciwhsWm8Foc+veiSwe+vrO7b/jnKBA
-	==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4gskg2xubs-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 25 Sep 2026 11:24:57 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 68P9xaLj1959492;
-	Fri, 25 Sep 2026 11:24:56 GMT
-Received: from smtprelay03.dal12v.mail.ibm.com ([172.16.1.5])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4gvu7eee49-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 25 Sep 2026 11:24:56 +0000 (GMT)
-Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com [10.39.53.229])
-	by smtprelay03.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 68PBOuQO30933688
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 25 Sep 2026 11:24:56 GMT
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id EC9815805B;
-	Fri, 25 Sep 2026 11:24:55 +0000 (GMT)
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C1A3458059;
-	Fri, 25 Sep 2026 11:24:52 +0000 (GMT)
-Received: from [9.123.7.57] (unknown [9.123.7.57])
-	by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 25 Sep 2026 11:24:52 +0000 (GMT)
-Message-ID: <6cd61a1c-d585-4b5c-b72e-2dd11ce07279@linux.ibm.com>
-Date: Fri, 25 Sep 2026 16:54:51 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] nvmet: return Invalid Field for invalid NSIDs in
- Get Features 82h
-To: Guixin Liu <kanie@linux.alibaba.com>, Keith Busch <kbusch@kernel.org>,
-        Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-        Sagi Grimberg <sagi@grimberg.me>, Daniel Wagner <dwagner@suse.de>,
-        John Garry <john.g.garry@oracle.com>, Hannes Reinecke <hare@suse.de>
-Cc: linux-nvme@lists.infradead.org
-References: <20260920033500.3209138-1-kanie@linux.alibaba.com>
- <20260920033500.3209138-3-kanie@linux.alibaba.com>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <20260920033500.3209138-3-kanie@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: 8omGjIShvTtIQVwB4bLIAak9-5yL8Zih
-X-Authority-Analysis: v=2.4 cv=I43w19gg c=1 sm=1 tr=0 ts=6ab65a09 cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=SRrdq9N9AAAA:8
- a=VnNF1IyMAAAA:8 a=7c2VuN2EFasamBEkFFEA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI1MDA0NCBTYWx0ZWRfX9ItsA6pQpVfq
- ss8YvNguzj59z+UIVfG/X4B+9kP4k7U6GXP5Pnazp8Wfz33M2vJ/YBIwvXz2Lh2gONSRX3z+wNL
- TdsztXCQL1K0MRTWqsoSc3P66+zCOb/kdVrgJZ1FazzDDxvgf1DAOCxUeNSyvy5wq5ySexaCCa0
- ExzzmTF3/5n9DZCeGHYBRhrLd7MYVca1NEE8imRNkEhk4VIsZaUso2zxwvGXAa6kj/iBMO3FQdO
- hSGv2EUzHKWFqS1BZoo8rLMhUml4WM71scAB4FihX0M9BHAFYHyUYIhIu5nHNg17e2I/HJRMS8r
- hsU4xd48eFGcnxHaj5qwqaOFEJ9u2Q83P3+97JkYojeude/sTIzZ4JrT5HAbqN42ApHIsv4YeHC
- tLZL8tBi+P6Kbx8l5Y/Pn38ZlTl8Nuw8Jc34QrgnpXmbfxkUOqEtykNP1azO5lQl0MLcffOZUvU
- CFD7MlTuY6OqaxSFb2g==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI1MDA0NCBTYWx0ZWRfX43rIOXPo3sR8
- sil8nDJWviZq3lAjKLdD4J0kVbPAAkbJKvgKYnyDATcjaPiJa8bUXyOBccI0BhHORo7ZL7tdUGU
- dFX2NUxOjmLi+qLae3urwxhDfgOluAA=
-X-Proofpoint-GUID: AQTfGsolmLIFX6DiVystCqt42acv3yED
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-25_02,2026-09-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 clxscore=1015 adultscore=0 suspectscore=0 impostorscore=0
- lowpriorityscore=0 bulkscore=0 phishscore=0 priorityscore=1501 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609250044
+	Fri, 25 Sep 2026 14:22:17 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; s=mail1; bh=9VVzFBx6Tf2YT8
+	G1GrH/MXV8G27fwMnpbgNIj3OFWO4=; h=in-reply-to:references:from:subject:
+	to:date; d=arkamax.eu; b=PjaNIY8tRvZPZlr5hGpNJmGCuxrwRqMMrQoYmdYqjqizb
+	4+DnP5K5ZJ2MbUYAK1PLFkC17TlPXTNDwvu7/V+uYSIncZM39H5lowz+n5l95E/mgn2RMr
+	o6JlPv6cHZOlO000SupX9o/ZNEuzYHhjXS5NogccQp4IDLOSJwwdg2fCcKYy6URlygVAwP
+	+3U2z1sWQGPLKGhtty75dMH32o7cVdftxnm+ha0IzASZKZ0eaP/LK7Ar4M6+I6ik0HCEXM
+	VfmQ1jG/7ROjrFLG5pq9s2JI9THLo/7TafsmJER4AMeOMoPGaB5Nag27R6bQsV3zbRJAvk
+	bPAsZ1a/JXjTWi0Ew==
+Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
+	by arkamax.eu (OpenSMTPD) with ESMTPSA id 4e614d45 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Fri, 25 Sep 2026 16:22:07 +0200 (CEST)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 25 Sep 2026 16:22:06 +0200
+Message-Id: <DLOGQG9GZC3X.1UZ2MY7S3T5N2@arkamax.eu>
+To: "syzbot" <syzbot+list003bd56f9e8b27f9d049@syzkaller.appspotmail.com>,
+ <hch@lst.de>, <linux-kernel@vger.kernel.org>,
+ <linux-nvme@lists.infradead.org>, <sagi@grimberg.me>,
+ <syzkaller-bugs@googlegroups.com>
+Subject: Re: [syzbot] Monthly nvme report (Sep 2026)
+From: "Maurizio Lombardi" <mlombard@arkamax.eu>
+X-Mailer: aerc 0.22.0
+References: <6ab3569c.514bccd6.255447.0023.GAE@google.com>
+In-Reply-To: <6ab3569c.514bccd6.255447.0023.GAE@google.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260925_042503_073768_B601261D 
-X-CRM114-Status: GOOD (  16.12  )
+X-CRM114-CacheID: sfid-20260925_072215_709141_B1F264F0 
+X-CRM114-Status: GOOD (  19.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -127,34 +69,244 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/20/26 9:05 AM, Guixin Liu wrote:
-> The Reservation Notification Mask feature (FID 82h) rejects the same
-> NSIDs for Get Features as for Set Features, plus the broadcast NSID:
-> 
->    "A Get Features command that uses a namespace ID of FFFFFFFFh
->    shall be aborted with status code of Invalid Field in Command.
->    If a Set Features command or a Get Features command attempts to
->    access the Reservation Notification Mask on a namespace that does
->    not support reservations or is invalid, then that command is
->    aborted with status code of Invalid Field in Command."
-> 
->    -- NVMe Base Specification, section 5.2.26.1.33
-> 
-> The Get Features handler routes the namespace lookup through
-> nvmet_req_find_ns(), which returns Invalid Namespace or Format for an
-> unknown NSID.  Both rejected cases land there: a nonexistent NSID
-> fails the lookup, and so does the broadcast NSID, which never names a
-> namespace.  Both are aborted with Invalid Namespace or Format instead
-> of Invalid Field in Command.
-> 
-> Translate the lookup failure to Invalid Field in Command, as was done
-> for Set Features.
-> 
-> Fixes: 5a47c2080a73 ("nvmet: support reservation feature")
-> Signed-off-by: Guixin Liu<kanie@linux.alibaba.com>
+On Wed Sep 23, 2026 at 6:33 AM CEST, syzbot wrote:
+> Hello nvme maintainers/developers,
+>
+> Ref Crashes Repro Title
+> <2> 2       Yes   KASAN: slab-use-after-free Read in nvmet_port_subsys_al=
+low_link
+>                   https://syzkaller.appspot.com/bug?extid=3Db0996ac2197dd=
+7420c3e
+
+I have a patch that fixes this one, but I still have to carefully test
+it with blktests before submitting it:
 
 
-Looks good to me.
+----------
 
-Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>
+nvmet: fix null-ptr-deref and use-after-free in port configfs
+ lifecycle
+
+When concurrent threads execute rmdir on an NVMe-oF port directory
+and symlink or unlink on the port's subsystems directory, a race
+condition leads to kernel crashes because of NULL pointer dereferences
+and UAF bugs.
+
+There are two flaws in how the port's configfs default groups are handled
+during the teardown.
+
+The first one is a NULL pointer dereference via ci_parent: When rmdir is
+called on the port, configfs sets parent->ci_parent to NULL.
+If a concurrent symlink operation executes nvmet_port_subsys_allow_link()
+or drop_link(), the to_nvmet_port(parent->ci_parent) calculation
+subtracts the structure offset from NULL, resulting in a bogus negative
+memory address and a kernel panic.
+
+The second one is due to the configfs groups (subsystems, referrals,
+ana_groups and ana_default directories) being embedded within the
+nvmet_port memory allocation.
+During rmdir, nvmet_port_release() executes kfree(port) immediately.
+However, concurrent operations like symlinkat might still hold
+active configfs references to the embedded groups. When the system
+subsequently drops these references, configfs writes to the already
+freed nvmet_port memory block, triggering a UAF.
+
+Fix those bugs by decoupling the port's memory lifecycle from its
+primary configfs item lifecycle and by replacing the ci_parent pointer
+dereferencing:
+
+Introduces a kref to struct nvmet_port. The kref is initialized to 5
+in nvmet_ports_make() (1 for the port itself, plus 4 for its embedded
+default groups). release() callbacks are added for the embedded groups
+to drop their references via kref_put(). The nvmet_port memory block is
+now only freed via nvmet_port_free() when all activity across all nested
+directories has completely concluded.
+
+Replaces volatile ci_parent dereferencing in nvmet_port_subsys_allow_link()
+and drop_link() by using container_of() on the embedded subsys_group.
+
+Serializes visibility of the port by moving list_add() to the very end of
+port creation and list_del() to the very beginning of port teardown and
+protecting it with the semaphore.
+
+Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
+---
+ drivers/nvme/target/configfs.c | 64 ++++++++++++++++++++++++++++++----
+ drivers/nvme/target/nvmet.h    |  1 +
+ 2 files changed, 58 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.=
+c
+index 6286e38436dd..363cb800b8cd 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -1056,7 +1056,8 @@ static void nvmet_add_passthru_group(struct nvmet_sub=
+sys *subsys)
+ static int nvmet_port_subsys_allow_link(struct config_item *parent,
+ 		struct config_item *target)
+ {
+-	struct nvmet_port *port =3D to_nvmet_port(parent->ci_parent);
++	struct nvmet_port *port =3D container_of(to_config_group(parent),
++					struct nvmet_port, subsys_group);
+ 	struct nvmet_subsys *subsys;
+ 	struct nvmet_subsys_link *link, *p;
+ 	int ret;
+@@ -1099,7 +1100,8 @@ static int nvmet_port_subsys_allow_link(struct config=
+_item *parent,
+ static void nvmet_port_subsys_drop_link(struct config_item *parent,
+ 		struct config_item *target)
+ {
+-	struct nvmet_port *port =3D to_nvmet_port(parent->ci_parent);
++	struct nvmet_port *port =3D container_of(to_config_group(parent),
++					struct nvmet_port, subsys_group);
+ 	struct nvmet_subsys *subsys =3D to_subsys(target);
+ 	struct nvmet_subsys_link *p;
+=20
+@@ -1122,9 +1124,23 @@ static void nvmet_port_subsys_drop_link(struct confi=
+g_item *parent,
+ 	kfree(p);
+ }
+=20
++static void nvmet_port_free(struct kref *ref)
++{
++	struct nvmet_port *port =3D container_of(ref, struct nvmet_port, ref);
++	key_put(port->keyring);
++	kfree(port);
++}
++
++static void nvmet_port_subsys_release(struct config_item *item)
++{
++	struct nvmet_port *port =3D container_of(to_config_group(item), struct nv=
+met_port, subsys_group);
++	kref_put(&port->ref, nvmet_port_free);
++}
++
+ static struct configfs_item_operations nvmet_port_subsys_item_ops =3D {
+ 	.allow_link		=3D nvmet_port_subsys_allow_link,
+ 	.drop_link		=3D nvmet_port_subsys_drop_link,
++	.release		=3D nvmet_port_subsys_release,
+ };
+=20
+ static const struct config_item_type nvmet_port_subsys_type =3D {
+@@ -1862,6 +1878,16 @@ static struct config_group *nvmet_referral_make(
+ 	return &port->group;
+ }
+=20
++static void nvmet_referrals_group_release(struct config_item *item)
++{
++	struct nvmet_port *port =3D container_of(to_config_group(item), struct nv=
+met_port, referrals_group);
++	kref_put(&port->ref, nvmet_port_free);
++}
++
++static struct configfs_item_operations nvmet_referrals_item_ops =3D {
++	.release	=3D nvmet_referrals_group_release,
++};
++
+ static struct configfs_group_operations nvmet_referral_group_ops =3D {
+ 	.make_group		=3D nvmet_referral_make,
+ 	.disconnect_notify	=3D nvmet_referral_notify,
+@@ -1870,6 +1896,7 @@ static struct configfs_group_operations nvmet_referra=
+l_group_ops =3D {
+ static const struct config_item_type nvmet_referrals_type =3D {
+ 	.ct_owner	=3D THIS_MODULE,
+ 	.ct_group_ops	=3D &nvmet_referral_group_ops,
++	.ct_item_ops	=3D &nvmet_referrals_item_ops,
+ };
+=20
+ static struct nvmet_type_name_map nvmet_ana_state[] =3D {
+@@ -1930,8 +1957,10 @@ static void nvmet_ana_group_release(struct config_it=
+em *item)
+ {
+ 	struct nvmet_ana_group *grp =3D to_ana_group(item);
+=20
+-	if (grp =3D=3D &grp->port->ana_default_group)
++	if (grp =3D=3D &grp->port->ana_default_group) {
++		kref_put(&grp->port->ref, nvmet_port_free);
+ 		return;
++	}
+=20
+ 	down_write(&nvmet_ana_sem);
+ 	grp->port->ana_state[grp->grpid] =3D NVME_ANA_INACCESSIBLE;
+@@ -1992,8 +2021,19 @@ static struct configfs_group_operations nvmet_ana_gr=
+oups_group_ops =3D {
+ 	.make_group		=3D nvmet_ana_groups_make_group,
+ };
+=20
++static void nvmet_ana_groups_release(struct config_item *item)
++{
++	struct nvmet_port *port =3D container_of(to_config_group(item), struct nv=
+met_port, ana_groups_group);
++	kref_put(&port->ref, nvmet_port_free);
++}
++
++static struct configfs_item_operations nvmet_ana_groups_item_ops =3D {
++	.release	=3D nvmet_ana_groups_release,
++};
++
+ static const struct config_item_type nvmet_ana_groups_type =3D {
+ 	.ct_group_ops		=3D &nvmet_ana_groups_group_ops,
++	.ct_item_ops		=3D &nvmet_ana_groups_item_ops,
+ 	.ct_owner		=3D THIS_MODULE,
+ };
+=20
+@@ -2004,12 +2044,13 @@ static void nvmet_port_release(struct config_item *=
+item)
+ {
+ 	struct nvmet_port *port =3D to_nvmet_port(item);
+=20
++	down_write(&nvmet_config_sem);
++	list_del(&port->global_entry);
++	up_write(&nvmet_config_sem);
+ 	/* Let inflight controllers teardown complete */
+ 	flush_workqueue(nvmet_wq);
+-	list_del(&port->global_entry);
+=20
+-	key_put(port->keyring);
+-	kfree(port);
++	kref_put(&port->ref, nvmet_port_free);
+ }
+=20
+ static struct configfs_attribute *nvmet_port_attrs[] =3D {
+@@ -2067,7 +2108,12 @@ static struct config_group *nvmet_ports_make(struct =
+config_group *group,
+ 			port->ana_state[i] =3D NVME_ANA_INACCESSIBLE;
+ 	}
+=20
+-	list_add(&port->global_entry, &nvmet_ports_list);
++	/* 1 for the port itself, plus 4 for embedded default groups */
++	kref_init(&port->ref);
++	kref_get(&port->ref); /* Referrals */
++	kref_get(&port->ref); /* Subsystems */
++	kref_get(&port->ref); /* ana_grous */
++	kref_get(&port->ref); /* ana_default */
+=20
+ 	INIT_LIST_HEAD(&port->entry);
+ 	INIT_LIST_HEAD(&port->subsystems);
+@@ -2102,6 +2148,10 @@ static struct config_group *nvmet_ports_make(struct =
+config_group *group,
+ 	configfs_add_default_group(&port->ana_default_group.group,
+ 			&port->ana_groups_group);
+=20
++	down_write(&nvmet_config_sem);
++	list_add(&port->global_entry, &nvmet_ports_list);
++	up_write(&nvmet_config_sem);
++
+ 	return &port->group;
+ }
+=20
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index dbda55895f4f..1c8a5e2275af 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -219,6 +219,7 @@ struct nvmet_port {
+ 	int				mdts;
+ 	const struct nvmet_fabrics_ops	*tr_ops;
+ 	bool				pi_enable;
++	struct kref			ref;
+ 	enum nvme_ana_state		ana_state[];
+ };
+=20
+--=20
+2.55.0
 
