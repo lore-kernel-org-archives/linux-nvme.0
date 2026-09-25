@@ -4,112 +4,95 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B6480C9830E
-	for <linux-nvme@archiver.kernel.org>; Fri, 25 Sep 2026 09:48:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C90E8C9830E
+	for <linux-nvme@archiver.kernel.org>; Fri, 25 Sep 2026 09:59:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
-	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FKrsPM1b2jKe3kZvS/DYTtfcN8visrVVzc3p9LNJVVg=; b=YPd5aAxKbKM4w6p/9f6vErkkOB
-	H1mC8sI0E1ZO7kBrHKYNQNsPFMv+bC9kXFnxv77kZfi8xzk4zARlw1Xy45P0K9YW4xURpIO5XduYV
-	mE5O8C0JMFVPAHIp39QCNubbFtC4BjDEQRt8Go/Lb/mVIco2SmPkOM7m8f2tFSdsT2iqkdUpXo83Y
-	OlQpFWwpH5CplTbg0ZRQeGkZ6oCa0OqEPd8/dhpj+reN15oyw01FyseiKvfPXnWTDgtxwT/nZSr2u
-	ACu8y/5+w/3s2H37u8VVa0O8+OjxjRzztUetGWWHKb17ltDzApLcNWJD9/9QJ2RNSIQqjiXfHIcVJ
-	XyavdyEQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=GrJoJ2ytny91PPyFUjjfr4sdS6p1y6Xpxf8VbUCYFbo=; b=BlzBIyuSduW1UPB1pPdYbRRhzr
+	GTsuDbhTLtY/fZpObStneBiqvgY5YZnBNJmin5l+sal1EMww2sFnIevhQpkMUdzyDq45Dsn49L14X
+	wpS39RU0CD1v7/Ydw8IffsjMxDroM8mCdwQwiPj4mNBqETu9Tzs14eqRQRaIuaK+4G1GRZ0OBZfq0
+	eNCtQy0eus9JAzhAQx7pj/Dw9pcWaqlyBjiISrcH7q0FvpOhuPnbBXEeNv2XepKInCJABS8zWlFbu
+	2LRJTwzT1436n73zYMndG4nF8CoLFt2PEpxfalyvhJz0R9H/k8qNXYb6YIP3Q7gg4m49Dr0vftmDI
+	2spjb/RQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xA2XE-0000000D1qe-3wop;
-	Fri, 25 Sep 2026 09:48:04 +0000
-Received: from fout-a3-smtp.messagingengine.com ([103.168.172.146])
+	id 1xA2iV-0000000D4W2-12Kp;
+	Fri, 25 Sep 2026 09:59:43 +0000
+Received: from mail-wr2-x10.google.com ([2a00:1450:4864:30::10])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xA2X6-0000000D1eS-0jaQ;
-	Fri, 25 Sep 2026 09:47:57 +0000
-Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
-	by mailfout.phl.internal (Postfix) with ESMTP id 56DE0EC01A7;
-	Fri, 25 Sep 2026 05:47:55 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-09.internal (MEProxy); Fri, 25 Sep 2026 05:47:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1790329675;
-	 x=1790416075; bh=FKrsPM1b2jKe3kZvS/DYTtfcN8visrVVzc3p9LNJVVg=; b=
-	RR6lrjD0+xjZKyP8BpgxpLM3qfVxKob83DDQzZS2NqWW9DE2U1D4vTddAszuVqQA
-	RTB3apLGkzlUfj+EfXWJsWVMX39sx9Fr6sg2MP9d4vaN/BIMNjlWSaFntNkZ6sHf
-	niYdJ2JU44NB/fe5MrWXOFdWbRqI3vMie9F+0yt3lfOnHQqoArsTKWUrKLp9UxL6
-	CjaDULPowIyEVhLyGU2NhCbJSDv3jhW+AbePjPLsLMUyNFtSB5Uzym7C0n/FddyU
-	wS9jdes0RjNlHjaArFuidmJ7AYcSwMtOPJmfjTWrbih8ikVImyE3LnGyONjMkTWF
-	dcpVlCXXGGd8rMDaG7W1fg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1790329675; x=
-	1790416075; bh=FKrsPM1b2jKe3kZvS/DYTtfcN8visrVVzc3p9LNJVVg=; b=p
-	848kTUYf3OebsyBDwiks8mXpXyZSwggJUFkUahqKUvaauaGOwCkjyQEzlAclvZPT
-	Ao3OkmPVcPt64M8SUxm+vlqN6WToTPQjK0fCD70xn47sK3D4X1Tkmlw/Um/WShrl
-	oTkLNyEYOprUIoTZYVOk27XPR5oGF9g3tg9JoLmddSuwHrDh7Ohdrxvlnj4S+ow/
-	E6Ok4OlGSycO9XqKYZi9Pe35X0JnNWIBBz0ZslOR86F9XXy4IXpCyBFA48hVkQDB
-	vHTLHevpllSLDYCTnsf8PievWuoSzy0TaFWtQineFChbUtDj/+3uXpm8Nps83w2C
-	KYV4QbeBi63WM/xQQhtgg==
-X-ME-Sender: <xms:SkO2arQ1FmfITNakwmBA9jTDtU7_flYhV3YNf2h44jidR3sMQiW66Q>
-    <xme:SkO2atNcEY52XO2yaxPog2fO_hnu3hWV0dRL4YsJFPZku9WDkfwggJ0_7sOQtvkot
-    pcHh-HilsmCokDdzNwgFoPGCTQOMjEmT6jlZRr56F3m0cAOz96Y0ZI_>
-X-ME-Received: <xmr:SkO2amRbDHgysunKxK7edd37caWTiG8uI1y2vegaPSU12Wt7EsT3n036g3wT1tEpoPk9wwA>
-X-ME-Proxy-Cause: dmFkZTEwps/QxAWSkagPSHBbcYwuI37XW4DvirwdiYOGwq9AEZKxmSwYz63+coJ7wZHluP
-    jgjVctfghm5b5XWz2n07A9q1QaNev+5azhP7D1mIEnWcc7GyMeAKCOuAf09Zm6QFlhMejE
-    gEXz+W+bKMz+kccVLYaqKBvNoAlmwe4qHn6j33++Tfk8NkCZ/4YxJmJFnYYt6bNYB5JyX7
-    wU1UqpqLmMC5vJwj6KME23vX03QIuAPw+2Jxt7R/8XYigoV9KzDK+UG3MNfCxO5B75MboJ
-    lkHYESZxGP1e30qhetVcIgSKr1zAlGTH0xqrbEx7tCd6z8+Rraubfup+2SsfcRLuC6VyDj
-    vah13dLsEtIh2kbwx38xLkiiz77plwhH8qDYtUShkJw0slpRyOxJZBpaxrgH8I4aeiEJnU
-    SGvJkV4mEIGTId9wutnvsH5srs9LG1RLEOQnkBxunfGnBgX8kwqYfl668bbItCE6VrIZEj
-    hqK19htMTraOfEljILtswA2Ix9Ln+XlSWJN0kgQtLMocFLGv3itHoft+z1ByP8QIGM1RXA
-    1KhvX0aOQg1G1vxqN2NXoId/GcxUTDBM53sdQTTrt3MXnOxNpxGv3HXRS6+51hzyosIUn8
-    CuB2kYos3kacOjB6zpyGV4or9C1aZmVJhxGcoeczY5f4H8ntOoOoRehgwCnQ
-X-ME-Proxy: <xmx:SkO2ao8Yx0UqWR76YWTlAG56S721sZD0hx49iOMK6ac4-xCvDEFdLQ>
-    <xmx:S0O2aoVnYTNYWKGAyxDEQhXMnhHzrExWZaQBO5IxFBjRZYaUMTTFBw>
-    <xmx:S0O2auOY3z1l43c9cZm7zPGbl5WrkH009GP2XxBpM51b4utqqgddMw>
-    <xmx:S0O2agfwlW2sJJa5jpIgnbMG-BlDKq9jcBsOURBwjZAmf_jV_YC4Vg>
-    <xmx:S0O2aqMNQtx_YHc1j1RCxRmM4lZAcmE4YEyoHjERFcT3_d5IXL94hfZx>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 25 Sep 2026 05:47:54 -0400 (EDT)
-From: Janne Grunau <j@jannau.net>
-Date: Fri, 25 Sep 2026 10:22:54 +0200
-Subject: [PATCH 7/7] arm64: dts: apple: t8122: Add NVMe device nodes
+	id 1xA2iS-0000000D4VH-2AR2
+	for linux-nvme@lists.infradead.org;
+	Fri, 25 Sep 2026 09:59:41 +0000
+Received: by mail-wr2-x10.google.com with SMTP id ffacd0b85a97d-486e1a044c5so542790f8f.3
+        for <linux-nvme@lists.infradead.org>; Fri, 25 Sep 2026 02:59:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1790330377; x=1790935177; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=GrJoJ2ytny91PPyFUjjfr4sdS6p1y6Xpxf8VbUCYFbo=;
+        b=ApPO2noTr7jVqI/JgnSfBnc6FXzjfScQUexEen7jiBeQUKd6f5uKZR4ZY9mlpJ4Lyg
+         +k/9UFZUkpxKBbfcTINRgYnyMbDORIKf61ohF7F+dcco3s7ldl8x3aEeUSVNLYbrzp9v
+         GjZACn0zTG1dqiAdQihjPwl9eipDJBcoCO9qJ+/YYl9VWRGN31kvVx5UzvJGoD4uIDx2
+         +1NBHjMrpo98zdI6xBljsYmpUGYMaDDrQZzNnf7+26Zkh0tCacOkwp8Rr0ggsnApPbyM
+         Cv88crk0ZLE2PwWFdJOa2p8gF3snYyAdvydADpiQYmOpwutVEb6k37nqpXaxVl3BgZ85
+         nU1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790330377; x=1790935177;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=GrJoJ2ytny91PPyFUjjfr4sdS6p1y6Xpxf8VbUCYFbo=;
+        b=iW1RdIVnpT1IQuMymU/EdQpCUZbUkV5NZ6dy/95tZgO33Gf+erFkGJpxw5zHs4Nqtv
+         3ju7LV1v9iiBJyxSdO7p4kEUcVOAoHlxnAe+o3g/3mkELZybs+n3ELhyXwERBqQQzhHO
+         wEbNoXJ2c7+6tK8lKlBwa9c2nBkAX/wNAubyfMo8GysIaWwZZvWUR+a8us/whDC3HDco
+         WGhRrMnq/7xvrVFspKx0nEiHGzUPy4v9row2GBHzGQ3L2Mmy+X1qG6A3TePKB09LaB7o
+         vDotqIvqK+wF7dTI2itO72NlBNwS/pJI6WL2VWbvTMgaeXNntzqeF4lO8qSj0PIOB7Uc
+         1QJw==
+X-Forwarded-Encrypted: i=1; AKwUvBytM3KhfNsEodvdfcOdTMXsl6SZWHmSh8JIngtWSXmJQCUJw6PT9LhUbVeFDKjebqMmPyxBR+BuPVZN@lists.infradead.org
+X-Gm-Message-State: AFuF++l+LsoiIU/UfP7t/jgqGkkJJ27Sfk4Skk6XqTbbFUCLujOOJBee
+	Ae8FpIIUW7+NlWiaeFzrOvLTBqXMMMInq8BtnyqKwQEPRftlb6rmpGI3Aw6TGNqkyFY=
+X-Gm-Gg: AYBFou1pQi1fdxwF2uInEV0PCX1VdITTJDJzsr5mHagxZWvIymx2qWKPvdZ255HOLF/
+	smBDLy5gsZeXYefosdHZ1GVfxb8/AiBP0aJ3DzHR3/Q+AhD9GjjW4ZNWDApb4nBs9uwkNkc8fwr
+	Uug/mcCsJZFbs6j4nF0FpcJXUrh8r5PNvHWDoAzI8a0hgFKeTpQnvC0KXsrt9IT4svQC0lgz8ki
+	WUnAfqkr5vbBTy0vM6STVo8fDfbp72lyaHGEu0uINiOeROu14IeenJf9vLg1uNsnhH/+71Bbdie
+	+NmybEagF3L7J8hga8SfDcSkWFDYlgisUvkv2Gb60JWmTgIKBPro+O20A0NO/WQjytjz0/T5R4M
+	E5/7vgyvy1gdcMEjpMxevbMMah/HdEOwikD/0IWw8OXugQ7M1dGG30HQ1zs/RAAhurnBN4olsx2
+	FwFC4aOO4LccXSU3poEKS0+atORMqi+yJMMOMcjM1XouwvYUnc5UEJKkZZjdxjVE/Lc4407DwJA
+	xyiFnwvzQsYfg==
+X-Received: by 2002:a05:6000:26d2:b0:488:5af8:eabc with SMTP id ffacd0b85a97d-4887175d8a4mr10728228f8f.26.1790330376886;
+        Fri, 25 Sep 2026 02:59:36 -0700 (PDT)
+Received: from localhost.localdomain ([2001:af0:8000:1409:193:86:92:181])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4887a2acb4dsm5878334f8f.0.2026.09.25.02.59.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Sep 2026 02:59:36 -0700 (PDT)
+Date: Fri, 25 Sep 2026 11:59:34 +0200
+From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To: peng yu <yupeng0921@gmail.com>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	Chaitanya Kulkarni <kch@nvidia.com>, Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Josef Bacik <josef@toxicpanda.com>, Jens Axboe <axboe@kernel.dk>, 
+	Maurizio Lombardi <mlombard@arkamax.eu>, cgroups@vger.kernel.org, linux-block@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] nvmet: add cgroup_path to charge namespace I/O to a
+ cgroup
+Message-ID: <arZFtIkV0vg_aQR7@localhost.localdomain>
+References: <20260923152653.40953-1-yupeng0921@gmail.com>
+ <arP0TmdK3FnNfbwH@localhost.localdomain>
+ <CAG3TDc0bQJATmJR5dF5j9RoDp1ti-tbAiUkLRGq4zX2CYD3unQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260925-apple-m3-nvme-v1-7-5e832e2f4aa9@jannau.net>
-References: <20260925-apple-m3-nvme-v1-0-5e832e2f4aa9@jannau.net>
-In-Reply-To: <20260925-apple-m3-nvme-v1-0-5e832e2f4aa9@jannau.net>
-To: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, "Joerg Roedel (AMD)" <joro@8bytes.org>, 
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
- Jassi Brar <jassisinghbrar@gmail.com>, Keith Busch <kbusch@kernel.org>, 
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
- Jens Axboe <axboe@kernel.dk>, Jens Axboe <axboe@kernel.dk>
-Cc: linux-nvme@lists.infradead.org, asahi@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, iommu@lists.linux.dev, 
- Janne Grunau <j@jannau.net>, Michael Reeves <michael.reeves077@gmail.com>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2081; i=j@jannau.net;
- h=from:subject:message-id; bh=19Hv0hKKWlJhIfvihHJebyj8UmWVLiDDYFirA9GLXFI=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhqxtzjqW7xsXa0VMlPM6UiDvHpzcXhOg9v5XuLKOpVHly
- gThPLWOiSwMYlwMlmKKLEnaLzsYVtcoxtQ+CIOZw8oEMkRapIEBCFgY+HIT80qNdIz0TLUN9QyN
- dIx1jBi4OAVgqlNkGP6HTU/elDZH//rL9eGJm2evt39hfYvt0D6x2yENz27LSs1QZmRYq+90bIX
- F6d6CWZECe1yDY+R6w4V2/X3/rUbMU3pa2SEOAA==
-X-Developer-Key: i=j@jannau.net; a=openpgp;
- fpr=8B336A6BE4E5695E89B8532B81E806F586338419
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="4zjvtwofog4yq6f5"
+Content-Disposition: inline
+In-Reply-To: <CAG3TDc0bQJATmJR5dF5j9RoDp1ti-tbAiUkLRGq4zX2CYD3unQ@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260925_024756_294462_60C2CDC7 
-X-CRM114-Status: UNSURE (   9.48  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260925_025940_573349_00E81428 
+X-CRM114-Status: GOOD (  23.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -124,76 +107,66 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Michael Reeves <michael.reeves077@gmail.com>
 
-On Apple Silicon, NVMe communication is mediated by a
-coprocessor known as the ANS, and protected by its own
-IOMMU known as the SART.
+--4zjvtwofog4yq6f5
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3] nvmet: add cgroup_path to charge namespace I/O to a
+ cgroup
+MIME-Version: 1.0
 
-Add the following nodes to the M3 (t8122) device tree:
-- Mailbox for the ANS coprocessor
-- SART (IOMMU for the ANS coprocessor)
-- The NVMe / ANS coprocessor itself
+On Wed, Sep 23, 2026 at 09:34:48PM -0700, peng yu <yupeng0921@gmail.com> wr=
+ote:
+> The LVMs are close to my real use case, so I mentioned them to explain why
+> I need this feature.
+> When I write the testing code, I try to demonstrate the usage in a
+> simpler way, so
+> I use RAM devices.
+> Sorry for the inconsistency.
 
-Signed-off-by: Michael Reeves <michael.reeves077@gmail.com>
-Signed-off-by: Janne Grunau <j@jannau.net>
----
- arch/arm64/boot/dts/apple/t8122.dtsi | 40 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
+Understood.
 
-diff --git a/arch/arm64/boot/dts/apple/t8122.dtsi b/arch/arm64/boot/dts/apple/t8122.dtsi
-index 52257fa22631..959ddf36efa1 100644
---- a/arch/arm64/boot/dts/apple/t8122.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8122.dtsi
-@@ -454,6 +454,46 @@ pinctrl_aop: pinctrl@2f4824000 {
- 
- 			apple,npins = <54>;
- 		};
-+
-+		ans_mbox: mbox@309408000 {
-+			compatible = "apple,t8122-asc-mailbox",
-+				     "apple,asc-mailbox-v4";
-+			reg = <0x3 0x09408000 0x0 0x4000>;
-+
-+			interrupt-parent = <&aic>;
-+			interrupts = <AIC_IRQ 730 IRQ_TYPE_LEVEL_HIGH>,
-+				     <AIC_IRQ 731 IRQ_TYPE_LEVEL_HIGH>,
-+				     <AIC_IRQ 732 IRQ_TYPE_LEVEL_HIGH>,
-+				     <AIC_IRQ 733 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "send-empty", "send-not-empty",
-+					  "recv-empty", "recv-not-empty";
-+
-+			#mbox-cells = <0>;
-+			power-domains = <&ps_ans>;
-+		};
-+
-+		sart: sart@30dc50000 {
-+			compatible = "apple,t8122-sart", "apple,t6000-sart";
-+			reg = <0x3 0x0dc50000 0x0 0x10000>;
-+			power-domains = <&ps_ans>;
-+		};
-+
-+		nvme: nvme@30dcc0000 {
-+			compatible = "apple,t8122-nvme-ans2",
-+				     "apple,t8103-nvme-ans2";
-+			reg = <0x3 0x0dcc0000 0x0 0x60000>,
-+			      <0x3 0x09400000 0x0 0x4000>;
-+			reg-names = "nvme", "ans";
-+
-+			interrupt-parent = <&aic>;
-+			interrupts = <AIC_IRQ 742 IRQ_TYPE_LEVEL_HIGH>;
-+			mboxes = <&ans_mbox>;
-+			power-domains = <&ps_ans>, <&ps_apcie_st>;
-+			power-domain-names = "ans", "apcie0";
-+			resets = <&ps_ans>;
-+
-+			apple,sart = <&sart>;
-+		};
- 	};
- 
- 	timer {
+> > > * The subsystems are exported to different users.
+> > > * We should provide each user a specific iops/bps quota, thus a noisy
+> > >   neighbor won't impact the performance of other logical volumes.
+> >
+> > Why cannot you place users into respective cgroups and configure
+> > appropriate per-device limits?
+>=20
+> I export the devices to nvme target. Per my understanding, the IOs are
+> controlled by kernel threads. The users are remote users, so I can't find
+> a way to put them in a local cgroup.
 
--- 
-2.55.0
+I see, so the core of the issue is that local storage is exported
+remotely as NVME (over TCP) and you want to regulate IO on the local
+storage.
 
+1) resembles loopback devices where original task's blkcg is transferred
+   to the kthread issuing actual IO. Is there any userspace component
+   fronting the clients? (whose cgroup the IO could be associated with.)
+
+2) it also resembles FC app ids (blkcg_set_fc_appid()/blkcg_get_fc_appid())
+   Could you look at that whether a common concept could be used? (I
+   haven't looked into detail how the client side is handled [*].)
+
+Thanks,
+Michal
+
+[*] And now when I'm thinking about it, I'm not sure one can trust any
+    app ID that is sent over...
+
+--4zjvtwofog4yq6f5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJEEABYKADkWIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCarZGARsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMiwyLDIACgkQfj0C55Tb+AjBEAD/RgvrgWqx1vN7nwvnz6LZ
+kUdSY5YucNYWhEz/l2B6FdIA+wdvKZi11fYFtWArfARj5k2swH2W5L9SKaCFbKx9
+EhsJ
+=C5Iy
+-----END PGP SIGNATURE-----
+
+--4zjvtwofog4yq6f5--
 
