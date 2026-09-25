@@ -4,53 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 29849C98321
-	for <linux-nvme@archiver.kernel.org>; Fri, 25 Sep 2026 07:37:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7CCEC9830E
+	for <linux-nvme@archiver.kernel.org>; Fri, 25 Sep 2026 07:38:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=qNJ0Ua+FDRh3qcM/6jfuGa5uPQ
-	zwyQWpHwTOcTCKfxjpCGZZ2HMKSyvlZxmAMwcNRK1s8hA4HLBF04hYhc8ornNty1TvcnUBq73A2dE
-	ETCHB2m02HsWMVoCSpBuQqMDLmpvg2LlPHB7XXv48D4EBBTecKxJj1WlYljNqmSM+cfn+Jm3AZphj
-	uwtCCkTqe1GRDJbhJLSYd0N8WvTr1V0SrTDX5o8HJGTKhpFr9icvezNg270eIJfzF6smUfr+DkR/J
-	Am7PpJWqI/MUg/C0Y6hS7rv3yvcQL8/eIc3ExCL23+UTtUPEnFI3kYRzGfNUYY1cmlWC9Xo0UDhWs
-	LjbfT14Q==;
+	bh=2qyMn93MLArveMJYlKmMICSJihx3xi2DTJFGQbj9cFU=; b=k5mjep+3o2Pz8FRjIA3/i8LFf8
+	+MnkuEr/1KzM3wwAewnat/vUe+VKURRQRWEAvAbQIMGfr6MbLDxpXoNoe3Rs1BQDbUO7P4aCJ8X5z
+	TJSg8QFpiMkiLNKFbEd/+Ol4R5aCZhIe02fMZWHqIs3rBBLWoW2g762LMhEkdaWmKat5QVr0yqiQ+
+	5/7iYUhReQYSFcCFAMnct1WYWX8+otqIzJe+PzEKepyQQURvWIoIAxggFwTU/0X+1MIVnq6veZ322
+	iSDc/xFZL9jN3Lhkn5IabsYl9JYjx0PRj79umcH06W4004odZT6fW4knIoHXInIq0ovc5Bb4HLABe
+	ot9DTCOQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xA0V9-0000000CozM-0T27;
-	Fri, 25 Sep 2026 07:37:47 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1xA0W3-0000000Cp9x-2EsX;
+	Fri, 25 Sep 2026 07:38:43 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xA0V6-0000000Coyf-2rqa
+	id 1xA0W2-0000000Cp9r-17It
+	for linux-nvme@bombadil.infradead.org;
+	Fri, 25 Sep 2026 07:38:42 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=2qyMn93MLArveMJYlKmMICSJihx3xi2DTJFGQbj9cFU=; b=Bw7YvqMRmTWkkz4LYZuqn/ZV31
+	WzUfW7ej659gtYJtPe6p0SI6MlfgzmtppmzpA9uxy8rWTiwkFt5xHWtVmvKTnXEEBabw2u/Dwcxwl
+	6L+6HpKUznd2ckZXvgkcwEVQv/CHdqRedirAUIbmvdYHuIINahtZPlhFa9okMy2V+1Xhz7PFVHQ81
+	0nReovRBnf4AS4b4w1G3pOGzZJCdGap5fb9MBf4R5eId3CyD2QCac29n69BrGXqjYJDZGuwiCHJGh
+	H2JErv8E520eHqPdr51pH1pHYSKZXcTZLH6uXAaO9+hSmxNOFnWOTWj5IZdy9Oacn5yHbrc0fLDZV
+	ib+pdrPw==;
+Received: from verein.lst.de ([213.95.11.211])
+	by desiato.infradead.org with esmtps (Exim 4.99.2 #2 (Red Hat Linux))
+	id 1xA0Vz-0000000GhM6-0POI
 	for linux-nvme@lists.infradead.org;
-	Fri, 25 Sep 2026 07:37:45 +0000
+	Fri, 25 Sep 2026 07:38:41 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 6A5FF68C4E; Fri, 25 Sep 2026 09:37:40 +0200 (CEST)
-Date: Fri, 25 Sep 2026 09:37:40 +0200
+	id CACD768C7B; Fri, 25 Sep 2026 09:38:35 +0200 (CEST)
+Date: Fri, 25 Sep 2026 09:38:35 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Jesse Taube <jtaubepe@redhat.com>
-Cc: linux-nvme@lists.infradead.org, Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	John Meneghini <jmeneghi@redhat.com>,
-	Chris Leech <cleech@redhat.com>, linux-kernel@vger.kernel.org,
-	Mohamed Khalfella <mkhalfella@purestorage.com>
-Subject: Re: [PATCH v2] nvmet: Add traffic based keep alive support to
- configfs
-Message-ID: <20260925073740.GA5533@lst.de>
-References: <20260923202003.1776271-1-jtaubepe@redhat.com>
+To: Nilay Shroff <nilay@linux.ibm.com>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org, sagi@grimberg.me,
+	Jens Axboe <axboe@kernel.dk>, john.g.garry@oracle.com,
+	wenxiong@linux.ibm.com, gjoyce@linux.ibm.com
+Subject: Re: [PATCH 1/2] nvme: keep transport module referenced while head
+ node is open
+Message-ID: <20260925073835.GA5608@lst.de>
+References: <20260831152006.819471-1-nilay@linux.ibm.com> <20260831152006.819471-2-nilay@linux.ibm.com> <20260902133104.GA20945@lst.de> <c725f90c-b119-4669-afb7-6aeb6c4a308b@linux.ibm.com> <20260902141347.GA24385@lst.de> <61165430-a724-40d3-a00d-2cbe1ea656b0@linux.ibm.com> <57629796-d346-4cc4-8c9c-b153a60e1709@linux.ibm.com> <fe4e7f28-14ec-4b8f-81f8-d230569cbdad@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260923202003.1776271-1-jtaubepe@redhat.com>
+In-Reply-To: <fe4e7f28-14ec-4b8f-81f8-d230569cbdad@linux.ibm.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260925_003744_861991_9C3DC3DA 
-X-CRM114-Status: UNSURE (   9.70  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260925_083839_632395_D29CB602 
+X-CRM114-Status: GOOD (  12.44  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,7 +77,13 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Looks good:
+On Tue, Sep 22, 2026 at 09:03:38PM +0530, Nilay Shroff wrote:
+> Hi Christoph, Keith
+>
+> A gent ping on this one...
+> Do you have any further comment/feedback on this one?
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+I still don't think this is a good idea.  Removing the transport is
+valid, and allows to create a valid condition (multipath gendisk without
+paths).
 
