@@ -4,148 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 93DD6C98306
-	for <linux-nvme@archiver.kernel.org>; Fri, 25 Sep 2026 05:10:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A9C78C9830D
+	for <linux-nvme@archiver.kernel.org>; Fri, 25 Sep 2026 06:41:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=D0JZfVv9Tl9PjTrtkqmBRz5s6KPc27+JXH6tHdZHZWM=; b=1JbMIicFxMsotlF4oPiIY3AnzF
-	PTn0yQQoyJD6nGwzE23yHFe7+DSA78e2+KzjoRGS+R0SvthhHkkNBIMY8Cbnz3KcuUcmp7ULlkEeG
-	Jcb20/Kj33DXW70j3DpQ7uSSuA+um7sjyymF0rcSRTkinSeAGO0fBQ20J1RkMw41h3o5dbc5fjzUO
-	RP/J8B5BCpNODfr1B357fyUyQPGk99MV7qaa6bYaRB3164iPsXWDe9O7mF2LiM1OeOTruRhPY/Y8/
-	ZCGlip3oNY+ZmC7cDrqE5z37kuKxnjCiufCIl4qFQOYgazRjdfC1w7cA1KJ7bKEaUzTXAWIEDS1R9
-	AeIOnXXw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=YGEj3pk3f9w2EK3J51qdT6ybyq1ME1h4zMKqxj/KJz4=; b=KIK7H1knCb12pyGvvX2zq3JTOz
+	GN9idREVw061JFdE1uUWKSopkdB63fFf8NYWcOgWoLssutTMVrAzr4gac5WzlPmDlSR+CR8i3tsv9
+	DPZLtooED6IaDvmuZGv4Vt3It7+7KxwCmf6ycGNgIiwfg41FbNFRrfTzMi4qRCk4N8Er36JWO+EmE
+	Xa/6oldHGjz4hFwF+2Dnc3JVa3e7g3fKKcWZ44g7awXae+KclUYxsTDze2YE4eK+c9F7uPAv+7utD
+	xvEuhmfogq8yefhabpWRtSz97ZZYsI6QHPgJKPIcwsO5h4chdqkUazmVreFOGIUW/kCgOQyxw2x0J
+	0U9wyOWQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x9yCG-0000000Cfgf-1Zry;
-	Fri, 25 Sep 2026 05:10:08 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1x9zc9-0000000ClZf-2xBD;
+	Fri, 25 Sep 2026 06:40:57 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x9yCD-0000000CfgG-2hSA
+	id 1x9zc7-0000000ClZQ-1jvw
+	for linux-nvme@bombadil.infradead.org;
+	Fri, 25 Sep 2026 06:40:55 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=YGEj3pk3f9w2EK3J51qdT6ybyq1ME1h4zMKqxj/KJz4=; b=QW2OBnPC0A26kqEuotxCLvu2lk
+	dmD1QPG+qsQai76YTT23889yClyawi0EBuV/e1DZFGfuK4d5bYBGj4lRQR0M2Bwg/rvVrHJxPnlBR
+	YwrqzS14k+DdBJVlWkXMkuML/iIRxeY89UdHjLUYdWWK3ZXhI/0x+3SxPssvW2Zy4ICuj5Hf/FW/2
+	+jnopJTntdS8zHxxReXH/kscicHGghRdOYiru81BxSB/1FNN93IlPIVBm1trZyfQ1D0v8hL+8yk7o
+	olwBv1eLOJQphMslFYe1cb/qqMQYfHRRJDwloxmbNXPlUIxpWtQK8XGtFM2kb/ItNxLaXjgSO10zq
+	/jBuKrfw==;
+Received: from verein.lst.de ([213.95.11.211])
+	by desiato.infradead.org with esmtps (Exim 4.99.2 #2 (Red Hat Linux))
+	id 1x9zbz-0000000Geop-40Vg
 	for linux-nvme@lists.infradead.org;
-	Fri, 25 Sep 2026 05:10:07 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3C5B91FFE6;
-	Fri, 25 Sep 2026 05:09:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790312998; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=D0JZfVv9Tl9PjTrtkqmBRz5s6KPc27+JXH6tHdZHZWM=;
-	b=JwW8oDJfti+pnwyHBiaSGR2i9WEMTlMCPgUBJPEtQRmn98TFYJkP9QHY3axB5igt/nc6cU
-	QNzq/BXKm1oXbisMy52S0F1We+V/GNBTeI8Iprhw2ss2pa1qKioxDgSfP/FTJU6fhUa8eA
-	cgTTPjA8jJQTsscRIVgQbjd5rAAjiAk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790312998;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=D0JZfVv9Tl9PjTrtkqmBRz5s6KPc27+JXH6tHdZHZWM=;
-	b=HGIU1CznmJQAKQX6+atRx85T/TOA2c4IsX4xZcfB0KUp3MvPUxBTojBuTzXFhN/xdKc3yI
-	j1a1yzOQ/OG4KRAw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Hd6qNjaJ;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="+AAfL/Lm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790312994; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=D0JZfVv9Tl9PjTrtkqmBRz5s6KPc27+JXH6tHdZHZWM=;
-	b=Hd6qNjaJKmc+6UAmoTxECGTheOO76ZwWUYZ4HFrJWd0587kQ6fyKdlmm3FLxCYt1Fx/XJc
-	kjMerftAaJu4nmy/xaYSf06eNXzketD43kxtzyGIemw5Qt2Alh0AGBnb1NsC1t49q42Mp5
-	S7uQSXJ7bzhSzcsF1DThg6Vm51G4BSI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790312994;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=D0JZfVv9Tl9PjTrtkqmBRz5s6KPc27+JXH6tHdZHZWM=;
-	b=+AAfL/LmruMK41qlVoULgHUAU3gUxuJHtOPPJqLntUGI/EDUvvRBUc2XTGRJgcI6IyP/Dl
-	6ckMS71us+i9gDCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6205213432;
-	Fri, 25 Sep 2026 05:09:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id aDteBSECtmqTfgAAD6G6ig
-	(envelope-from <hare@suse.de>); Fri, 25 Sep 2026 05:09:53 +0000
-Message-ID: <a7a60b61-24b4-429b-8ccb-ee5b6f06a5ed@suse.de>
-Date: Fri, 25 Sep 2026 07:09:52 +0200
+	Fri, 25 Sep 2026 06:40:53 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 0E45068BFE; Fri, 25 Sep 2026 08:40:39 +0200 (CEST)
+Date: Fri, 25 Sep 2026 08:40:38 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Runyu Xiao <runyu.xiao@seu.edu.cn>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Breno Leitao <leitao@debian.org>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Jianhao Xu <jianhao.xu@seu.edu.cn>
+Subject: Re: [PATCH v4 1/3] fs: configfs: add helpers for opening
+ non-configfs paths
+Message-ID: <20260925064038.GA4025@lst.de>
+References: <20260921090559.41364-1-runyu.xiao@seu.edu.cn> <20260921090559.41364-2-runyu.xiao@seu.edu.cn> <20260922132903.GA31642@lst.de> <20260923023923.2002144-1-runyu.xiao@seu.edu.cn>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 7/7] nvme: fcloop: Add set_marginal_rport to sysfs
-To: Jesse Taube <jtaubepe@redhat.com>
-Cc: linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Justin Tee <justin.tee@broadcom.com>,
- Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
- Paul Ely <paul.ely@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Nilesh Javali <njavali@marvell.com>, GR-QLogic-Storage-Upstream@marvell.com,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- John Meneghini <jmeneghi@redhat.com>, Bryan Gurney <bgurney@redhat.com>,
- Chris Leech <cleech@redhat.com>, "Ewan D . Milne" <emilne@redhat.com>,
- shinichiro.kawasaki@wdc.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-block@vger.kernel.org
-References: <20260902200547.184734-1-jtaubepe@redhat.com>
- <20260902200547.184734-8-jtaubepe@redhat.com>
- <ab97f32b-31dd-4975-a8b2-b445110ae3a9@suse.de>
- <CADRr4bePoiDnWX_XrMWtQe=1g4Yrw1_dK86EV2k9XZR0HnL+UQ@mail.gmail.com>
- <d4879e78-2735-4f86-beab-8aa319e9162c@suse.de>
- <CADRr4bcSvLwzfSiV0LTxnhZR7oo3F1b2XEo+wwqi668Gr2BBQA@mail.gmail.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <CADRr4bcSvLwzfSiV0LTxnhZR7oo3F1b2XEo+wwqi668Gr2BBQA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 3C5B91FFE6
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[26];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[lists.infradead.org,vger.kernel.org,lwn.net,linuxfoundation.org,kernel.org,kernel.dk,lst.de,grimberg.me,broadcom.com,gmail.com,nvidia.com,hansenpartnership.com,oracle.com,marvell.com,redhat.com,wdc.com];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_TRACE(0.00)[suse.de:+]
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260923023923.2002144-1-runyu.xiao@seu.edu.cn>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260924_221005_979263_F41ED75C 
-X-CRM114-Status: GOOD (  15.37  )
+X-CRM114-CacheID: sfid-20260925_074048_191081_161E81A2 
+X-CRM114-Status: GOOD (  22.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -160,49 +79,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/23/26 6:16 PM, Jesse Taube wrote:
-> On Wed, Sep 23, 2026 at 11:34 AM Hannes Reinecke <hare@suse.de> wrote:
->>
->> On 9/23/26 4:56 PM, Jesse Taube wrote:
->>> On Mon, Sep 21, 2026 at 10:03 AM Hannes Reinecke <hare@suse.de> wrote:
->>>>
-[ .. ]
->>>>> @@ -1671,6 +1719,7 @@ static DEVICE_ATTR(del_remote_port, 0200, NULL, fcloop_delete_remote_port);
->>>>>     static DEVICE_ATTR(add_target_port, 0200, NULL, fcloop_create_target_port);
->>>>>     static DEVICE_ATTR(del_target_port, 0200, NULL, fcloop_delete_target_port);
->>>>>     static DEVICE_ATTR(set_cmd_drop, 0200, NULL, fcloop_set_cmd_drop);
->>>>> +static DEVICE_ATTR(set_marginal_rport, 0200, NULL, fcloop_set_marginal_rport);
->>>>>
->>>>>     static struct attribute *fcloop_dev_attrs[] = {
->>>>>         &dev_attr_add_local_port.attr,
->>>>> @@ -1680,6 +1729,7 @@ static struct attribute *fcloop_dev_attrs[] = {
->>>>>         &dev_attr_add_target_port.attr,
->>>>>         &dev_attr_del_target_port.attr,
->>>>>         &dev_attr_set_cmd_drop.attr,
->>>>> +     &dev_attr_set_marginal_rport.attr,
->>>>>         NULL
->>>>>     };
->>>>>
->>>> Please don't make it a fabrics option.
->>>
->>> What do you mean by fabrics option? How should I fix this?
->>>
->> Your patch does two things; one is to modify the parser in
->> fcloop_parse_options, and the other is to implement a new
->> sysfs rport attribute 'set_marginal_rport()'.
->> My suggestion is to drop the first part;
+On Wed, Sep 23, 2026 at 10:39:23AM +0800, Runyu Xiao wrote:
+> > > +EXPORT_SYMBOL_GPL(configfs_open_root);
+> >
+> > These two aren't used outside this file, so they could be static,
+> > or in case of configfs_path_is_configfs even be folded into the
+> > only caller.  Or do you plan to have other users?
 > 
-> You want to drop the parser?
+> I folded the filesystem-type check into configfs_open_root() and dropped
+> the predicate entirely.  configfs_file_open() is for callers that have a
+> pathname, while configfs_open_root() is for callers that keep a resolved
+> root and open files below it.
+
+Which callers are those?  There are none in this series, so right now
+this is just adding dead code.  If you have other callers, please send
+everything in one series, as it needs to go together.
+
 > 
-Yes. 'set_marginal_rport()' sets a boolean value.
-You don't really need a parser for that.
+> > > +struct file *configfs_file_open(const char *filename, int flags, umode_t mode)
+> >
+> > Can you add a kerneldoc comment explaining how/why this should be used?
+> 
+> I will add kerneldoc comments for both helpers in v5.
 
-Cheers,
+The versions added look like extremely verbose AI generated text.
+Please use your own brains and your own voice to write a concise
+description.
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+> 
+> > Didn't you also have patches for drivers/target/ that should use
+> > the new helper?
+> 
+> Yes.  The target-core patch titled "scsi: target: pin db_root for metadata
+> writes" is another consumer of configfs_open_root().  I will rebase that
+> patch on this series and drop its duplicate configfs changes.
+
+Please merge everything into one series.
+
 
