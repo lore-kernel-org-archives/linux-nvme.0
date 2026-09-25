@@ -4,57 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3FCF4C98321
-	for <linux-nvme@archiver.kernel.org>; Fri, 25 Sep 2026 14:22:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6A06FC98321
+	for <linux-nvme@archiver.kernel.org>; Fri, 25 Sep 2026 15:21:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:From:
-	Subject:To:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
-	Mime-Version:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=RaaxGx7n/K5DAzGN9rDyMLhHInRN0POj9j7UDsiqwrI=; b=Ysyg+3noVigsuX09UaIZhYcjzt
-	j4CybmBZbRBqETD0dRjZF263kHbGKjLWHo0mCfcI4QNHh0q7A3sJf2OIFb4O3v0NNKXjlliTWz4Zw
-	/F6J6EcNBQM376MIRO2Irc7nYsrG9VfKEswVZurBQlzQnY0ZDXTyOBoUgApwwJvqsOFCj64JQZkPb
-	yO/Bxhel4eZVaytma/2LfMfteK66V3/ayDw55Bx2po68l7s26IncGk2t0ce0uctae5Cx5sdfq8g1a
-	39YuIdSRgyKrK3JYLQtblZgLzNrueKHPruIeFlgHr8NT7Rz+39gMInU3qT/4COmc2Lp6Ph054/Wlq
-	knz+gG9g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=W4sbofbV0Vp/e+ibflMz4Gbn9twO9I95w5NKpZpnM/s=; b=z1LOsEwBIpwbw2CXHJU/bBkOX/
+	8QKfoaVNzBvf1kuuU0tCdezzTIlo/mPQj9ZE2QXN35NRdI+UHNJM6W02Co7S99Xcme09kF7lDDzKw
+	iOddLRr+SEGjO9cWU59WcVV5+uiZ3xOnbZkFJXeTy9wa1eXLm9yHqp/UWGAiux+6qxmGntWQ3Hr+t
+	cXBNB/43eESVWu/e+Cr2ILQ3qOpPoB/sINfmVPh/tSmECXsiFg1bilwzZbpLZ39jYzvYC6Jm3Ce4n
+	+eeye6Kqw8DXkPkEdMCEov1AHiNZTbMaBiaMuQ/e8BG38Cyyu6u5qdEuUQNNDtGZus/5m8cFDN2z4
+	kznKh5yw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xA6oc-0000000DZGg-0SK2;
-	Fri, 25 Sep 2026 14:22:18 +0000
-Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=arkamax.eu)
+	id 1xA7kC-0000000Dlh9-2PbP;
+	Fri, 25 Sep 2026 15:21:48 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xA6oY-0000000DZG2-4BUh
+	id 1xA7kB-0000000Dlgs-2QvC
 	for linux-nvme@lists.infradead.org;
-	Fri, 25 Sep 2026 14:22:17 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; s=mail1; bh=9VVzFBx6Tf2YT8
-	G1GrH/MXV8G27fwMnpbgNIj3OFWO4=; h=in-reply-to:references:from:subject:
-	to:date; d=arkamax.eu; b=PjaNIY8tRvZPZlr5hGpNJmGCuxrwRqMMrQoYmdYqjqizb
-	4+DnP5K5ZJ2MbUYAK1PLFkC17TlPXTNDwvu7/V+uYSIncZM39H5lowz+n5l95E/mgn2RMr
-	o6JlPv6cHZOlO000SupX9o/ZNEuzYHhjXS5NogccQp4IDLOSJwwdg2fCcKYy6URlygVAwP
-	+3U2z1sWQGPLKGhtty75dMH32o7cVdftxnm+ha0IzASZKZ0eaP/LK7Ar4M6+I6ik0HCEXM
-	VfmQ1jG/7ROjrFLG5pq9s2JI9THLo/7TafsmJER4AMeOMoPGaB5Nag27R6bQsV3zbRJAvk
-	bPAsZ1a/JXjTWi0Ew==
-Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
-	by arkamax.eu (OpenSMTPD) with ESMTPSA id 4e614d45 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Fri, 25 Sep 2026 16:22:07 +0200 (CEST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 25 Sep 2026 16:22:06 +0200
-Message-Id: <DLOGQG9GZC3X.1UZ2MY7S3T5N2@arkamax.eu>
-To: "syzbot" <syzbot+list003bd56f9e8b27f9d049@syzkaller.appspotmail.com>,
- <hch@lst.de>, <linux-kernel@vger.kernel.org>,
- <linux-nvme@lists.infradead.org>, <sagi@grimberg.me>,
- <syzkaller-bugs@googlegroups.com>
-Subject: Re: [syzbot] Monthly nvme report (Sep 2026)
-From: "Maurizio Lombardi" <mlombard@arkamax.eu>
-X-Mailer: aerc 0.22.0
-References: <6ab3569c.514bccd6.255447.0023.GAE@google.com>
-In-Reply-To: <6ab3569c.514bccd6.255447.0023.GAE@google.com>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260925_072215_709141_B1F264F0 
-X-CRM114-Status: GOOD (  19.67  )
+	Fri, 25 Sep 2026 15:21:47 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id E6F8B60136;
+	Fri, 25 Sep 2026 15:21:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 756001F000FF;
+	Fri, 25 Sep 2026 15:21:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790349706;
+	bh=W4sbofbV0Vp/e+ibflMz4Gbn9twO9I95w5NKpZpnM/s=;
+	h=Date:From:To:Cc:Subject;
+	b=JMA8NxZ3dIz8WFjZNQ0pTnUUoqUmCLebfxw0NTfgiY3jR/CtS2DSDfPC9ekw9aW3f
+	 KTaqS4QQUe2b241cCe+S+4pYQbVpeOH2kD05DSkVE4Uy55+WF0VGO28Z/Rh972QIDF
+	 5GSgqjf9cQtA0UFcLvsFmQyzEZA1t3RfhLfAZsNfJG5FQWCk2DwA8qearc5mx478Eb
+	 FYcTg1LjsJQcu68EQNWobLI1mA8m+bdbB4y2ByuKksbKFUq59OEnwsLsdHxRie/VyB
+	 67dCOOY1cogTsOfBWq6M6L2B2tznxEO4yzxgRAF91rO8+BPHRi572v3bIWj4lhfJ0w
+	 dD9sQnC44VkjA==
+Date: Fri, 25 Sep 2026 09:21:44 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: axboe@kernel.dk
+Cc: hch@lst.de, sagi@grimberg.me, linux-nvme@lists.infradead.org
+Subject: [GIT PULL] nvme fixes for Linux 7.3
+Message-ID: <araRiDRUWyvJBca4@kbusch-mbp>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,244 +65,86 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed Sep 23, 2026 at 6:33 AM CEST, syzbot wrote:
-> Hello nvme maintainers/developers,
->
-> Ref Crashes Repro Title
-> <2> 2       Yes   KASAN: slab-use-after-free Read in nvmet_port_subsys_al=
-low_link
->                   https://syzkaller.appspot.com/bug?extid=3Db0996ac2197dd=
-7420c3e
+The following changes since commit 5067d4ba713961d8ccea1e06cd4c453793f3121e:
 
-I have a patch that fixes this one, but I still have to carefully test
-it with blktests before submitting it:
+  sunvdc: fix -EIO issue due to lack of retries (2026-09-10 14:45:59 -0600)
 
+are available in the Git repository at:
 
-----------
+  git://git.infradead.org/nvme.git tags/nvme-7.3-2026-09-25
 
-nvmet: fix null-ptr-deref and use-after-free in port configfs
- lifecycle
+for you to fetch changes up to 4a5e49ba0abb8b4328d6318c9aef0c0121f95507:
 
-When concurrent threads execute rmdir on an NVMe-oF port directory
-and symlink or unlink on the port's subsystems directory, a race
-condition leads to kernel crashes because of NULL pointer dereferences
-and UAF bugs.
+  nvme-multipath: set BLK_FEAT_ZONED only after the zone info is known (2026-09-25 08:06:22 -0700)
 
-There are two flaws in how the port's configfs default groups are handled
-during the teardown.
+----------------------------------------------------------------
+nvme fixes for Linux 7.3
 
-The first one is a NULL pointer dereference via ci_parent: When rmdir is
-called on the port, configfs sets parent->ci_parent to NULL.
-If a concurrent symlink operation executes nvmet_port_subsys_allow_link()
-or drop_link(), the to_nvmet_port(parent->ci_parent) calculation
-subtracts the structure offset from NULL, resulting in a bogus negative
-memory address and a kernel panic.
+ - Fix use-after-free of the command effects log on multipath heads
+ - Fix target namespace disable race with in-flight I/O and attribute
+   changes
+ - Fix out-of-bounds write in in-band authentication
+ - Fix out-of-bounds reads parsing SGL segments and ANA logs
+ - Fix zoned limits on multipath heads when the zone info query fails
+ - Fix reservation preempt and abort matching against a nil host id
+ - Fix lockdep key lifetime by reverting the per-socket dynamic keys and
+   delaying socket reclassification past the TLS handshake
+ - Fix controller reset and delete races that trigger spurious warnings
+ - Add a dma pool alignment quirk for the Micron 4100AT
+ - Preserve the target namespace device path on allocation failure
+ - Fix -Wformat-security build warnings
 
-The second one is due to the configfs groups (subsystems, referrals,
-ana_groups and ana_default directories) being embedded within the
-nvmet_port memory allocation.
-During rmdir, nvmet_port_release() executes kfree(port) immediately.
-However, concurrent operations like symlinkat might still hold
-active configfs references to the embedded groups. When the system
-subsequently drops these references, configfs writes to the already
-freed nvmet_port memory block, triggering a UAF.
+----------------------------------------------------------------
+Arnd Bergmann (2):
+      nvme: work around -Wformat-security warning
+      nvme: work around all -Wformat-security warnings
 
-Fix those bugs by decoupling the port's memory lifecycle from its
-primary configfs item lifecycle and by replacing the ci_parent pointer
-dereferencing:
+Bean Huo (1):
+      nvme-pci: add NVME_QUIRK_DMAPOOL_ALIGN_512 for Micron 4100AT
 
-Introduces a kref to struct nvmet_port. The kref is initialized to 5
-in nvmet_ports_make() (1 for the port itself, plus 4 for its embedded
-default groups). release() callbacks are added for the embedded groups
-to drop their references via kref_put(). The nvmet_port memory block is
-now only freed via nvmet_port_free() when all activity across all nested
-directories has completely concluded.
+Daehyeon Ko (2):
+      nvme-multipath: fix underflow in ANA log bounds checks
+      nvmet: pci-epf: reject too-short SGL segments
 
-Replaces volatile ci_parent dereferencing in nvmet_port_subsys_allow_link()
-and drop_link() by using container_of() on the embedded subsys_group.
+Eric Dumazet (1):
+      nvme-tcp: delay nvme_tcp_reclassify_socket()
 
-Serializes visibility of the port by moving list_add() to the very end of
-port creation and list_del() to the very beginning of port teardown and
-protecting it with the semaphore.
+Guixin Liu (2):
+      nvmet: copy the hostid into the ctrl before creating PR pc_refs
+      nvme-multipath: set BLK_FEAT_ZONED only after the zone info is known
 
-Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
----
- drivers/nvme/target/configfs.c | 64 ++++++++++++++++++++++++++++++----
- drivers/nvme/target/nvmet.h    |  1 +
- 2 files changed, 58 insertions(+), 7 deletions(-)
+Julian Sun (1):
+      nvmet: preserve device path on allocation failure
 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.=
-c
-index 6286e38436dd..363cb800b8cd 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -1056,7 +1056,8 @@ static void nvmet_add_passthru_group(struct nvmet_sub=
-sys *subsys)
- static int nvmet_port_subsys_allow_link(struct config_item *parent,
- 		struct config_item *target)
- {
--	struct nvmet_port *port =3D to_nvmet_port(parent->ci_parent);
-+	struct nvmet_port *port =3D container_of(to_config_group(parent),
-+					struct nvmet_port, subsys_group);
- 	struct nvmet_subsys *subsys;
- 	struct nvmet_subsys_link *link, *p;
- 	int ret;
-@@ -1099,7 +1100,8 @@ static int nvmet_port_subsys_allow_link(struct config=
-_item *parent,
- static void nvmet_port_subsys_drop_link(struct config_item *parent,
- 		struct config_item *target)
- {
--	struct nvmet_port *port =3D to_nvmet_port(parent->ci_parent);
-+	struct nvmet_port *port =3D container_of(to_config_group(parent),
-+					struct nvmet_port, subsys_group);
- 	struct nvmet_subsys *subsys =3D to_subsys(target);
- 	struct nvmet_subsys_link *p;
-=20
-@@ -1122,9 +1124,23 @@ static void nvmet_port_subsys_drop_link(struct confi=
-g_item *parent,
- 	kfree(p);
- }
-=20
-+static void nvmet_port_free(struct kref *ref)
-+{
-+	struct nvmet_port *port =3D container_of(ref, struct nvmet_port, ref);
-+	key_put(port->keyring);
-+	kfree(port);
-+}
-+
-+static void nvmet_port_subsys_release(struct config_item *item)
-+{
-+	struct nvmet_port *port =3D container_of(to_config_group(item), struct nv=
-met_port, subsys_group);
-+	kref_put(&port->ref, nvmet_port_free);
-+}
-+
- static struct configfs_item_operations nvmet_port_subsys_item_ops =3D {
- 	.allow_link		=3D nvmet_port_subsys_allow_link,
- 	.drop_link		=3D nvmet_port_subsys_drop_link,
-+	.release		=3D nvmet_port_subsys_release,
- };
-=20
- static const struct config_item_type nvmet_port_subsys_type =3D {
-@@ -1862,6 +1878,16 @@ static struct config_group *nvmet_referral_make(
- 	return &port->group;
- }
-=20
-+static void nvmet_referrals_group_release(struct config_item *item)
-+{
-+	struct nvmet_port *port =3D container_of(to_config_group(item), struct nv=
-met_port, referrals_group);
-+	kref_put(&port->ref, nvmet_port_free);
-+}
-+
-+static struct configfs_item_operations nvmet_referrals_item_ops =3D {
-+	.release	=3D nvmet_referrals_group_release,
-+};
-+
- static struct configfs_group_operations nvmet_referral_group_ops =3D {
- 	.make_group		=3D nvmet_referral_make,
- 	.disconnect_notify	=3D nvmet_referral_notify,
-@@ -1870,6 +1896,7 @@ static struct configfs_group_operations nvmet_referra=
-l_group_ops =3D {
- static const struct config_item_type nvmet_referrals_type =3D {
- 	.ct_owner	=3D THIS_MODULE,
- 	.ct_group_ops	=3D &nvmet_referral_group_ops,
-+	.ct_item_ops	=3D &nvmet_referrals_item_ops,
- };
-=20
- static struct nvmet_type_name_map nvmet_ana_state[] =3D {
-@@ -1930,8 +1957,10 @@ static void nvmet_ana_group_release(struct config_it=
-em *item)
- {
- 	struct nvmet_ana_group *grp =3D to_ana_group(item);
-=20
--	if (grp =3D=3D &grp->port->ana_default_group)
-+	if (grp =3D=3D &grp->port->ana_default_group) {
-+		kref_put(&grp->port->ref, nvmet_port_free);
- 		return;
-+	}
-=20
- 	down_write(&nvmet_ana_sem);
- 	grp->port->ana_state[grp->grpid] =3D NVME_ANA_INACCESSIBLE;
-@@ -1992,8 +2021,19 @@ static struct configfs_group_operations nvmet_ana_gr=
-oups_group_ops =3D {
- 	.make_group		=3D nvmet_ana_groups_make_group,
- };
-=20
-+static void nvmet_ana_groups_release(struct config_item *item)
-+{
-+	struct nvmet_port *port =3D container_of(to_config_group(item), struct nv=
-met_port, ana_groups_group);
-+	kref_put(&port->ref, nvmet_port_free);
-+}
-+
-+static struct configfs_item_operations nvmet_ana_groups_item_ops =3D {
-+	.release	=3D nvmet_ana_groups_release,
-+};
-+
- static const struct config_item_type nvmet_ana_groups_type =3D {
- 	.ct_group_ops		=3D &nvmet_ana_groups_group_ops,
-+	.ct_item_ops		=3D &nvmet_ana_groups_item_ops,
- 	.ct_owner		=3D THIS_MODULE,
- };
-=20
-@@ -2004,12 +2044,13 @@ static void nvmet_port_release(struct config_item *=
-item)
- {
- 	struct nvmet_port *port =3D to_nvmet_port(item);
-=20
-+	down_write(&nvmet_config_sem);
-+	list_del(&port->global_entry);
-+	up_write(&nvmet_config_sem);
- 	/* Let inflight controllers teardown complete */
- 	flush_workqueue(nvmet_wq);
--	list_del(&port->global_entry);
-=20
--	key_put(port->keyring);
--	kfree(port);
-+	kref_put(&port->ref, nvmet_port_free);
- }
-=20
- static struct configfs_attribute *nvmet_port_attrs[] =3D {
-@@ -2067,7 +2108,12 @@ static struct config_group *nvmet_ports_make(struct =
-config_group *group,
- 			port->ana_state[i] =3D NVME_ANA_INACCESSIBLE;
- 	}
-=20
--	list_add(&port->global_entry, &nvmet_ports_list);
-+	/* 1 for the port itself, plus 4 for embedded default groups */
-+	kref_init(&port->ref);
-+	kref_get(&port->ref); /* Referrals */
-+	kref_get(&port->ref); /* Subsystems */
-+	kref_get(&port->ref); /* ana_grous */
-+	kref_get(&port->ref); /* ana_default */
-=20
- 	INIT_LIST_HEAD(&port->entry);
- 	INIT_LIST_HEAD(&port->subsystems);
-@@ -2102,6 +2148,10 @@ static struct config_group *nvmet_ports_make(struct =
-config_group *group,
- 	configfs_add_default_group(&port->ana_default_group.group,
- 			&port->ana_groups_group);
-=20
-+	down_write(&nvmet_config_sem);
-+	list_add(&port->global_entry, &nvmet_ports_list);
-+	up_write(&nvmet_config_sem);
-+
- 	return &port->group;
- }
-=20
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index dbda55895f4f..1c8a5e2275af 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -219,6 +219,7 @@ struct nvmet_port {
- 	int				mdts;
- 	const struct nvmet_fabrics_ops	*tr_ops;
- 	bool				pi_enable;
-+	struct kref			ref;
- 	enum nvme_ana_state		ana_state[];
- };
-=20
---=20
-2.55.0
+Maurizio Lombardi (2):
+      nvme-fc: do not warn on controller removal race
+      nvme: do not reset controllers in NVME_CTRL_NEW state
+
+Nilay Shroff (2):
+      nvmet: defer setting ns->enabled to false in nvmet_ns_disable()
+      nvmet: don't allow I/O admission after percpu ns reference is killed
+
+Shin'ichiro Kawasaki (1):
+      Revert "nvme-tcp: lockdep: use dynamic lockdep keys per socket instance"
+
+Weiming Shi (1):
+      nvmet-auth: fix out-of-bounds write in nvmet_auth_challenge()
+
+Yao Sang (1):
+      nvme: fix command effects log lifetime for multipath heads
+
+ drivers/nvme/host/core.c               | 63 +++++++++++++++-------------------
+ drivers/nvme/host/fc.c                 |  2 +-
+ drivers/nvme/host/multipath.c          | 19 +++++-----
+ drivers/nvme/host/nvme.h               |  9 ++---
+ drivers/nvme/host/pci.c                |  2 ++
+ drivers/nvme/host/sysfs.c              |  4 +--
+ drivers/nvme/host/tcp.c                | 39 +++++++--------------
+ drivers/nvme/target/configfs.c         |  9 +++--
+ drivers/nvme/target/core.c             | 33 +++++++++++-------
+ drivers/nvme/target/fabrics-cmd-auth.c |  2 +-
+ drivers/nvme/target/nvmet.h            |  2 ++
+ drivers/nvme/target/pci-epf.c          |  3 ++
+ 12 files changed, 91 insertions(+), 96 deletions(-)
+
 
