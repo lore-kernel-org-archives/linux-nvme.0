@@ -4,90 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 84430C9830D
-	for <linux-nvme@archiver.kernel.org>; Fri, 25 Sep 2026 09:47:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0C995C9830D
+	for <linux-nvme@archiver.kernel.org>; Fri, 25 Sep 2026 09:47:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:Date:Subject:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
+	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=uihSC9KjAUldcdli/RyIuTfjwESydH7W1hKdMi/92G8=; b=T08BwjSEqGVrqK
-	fKxfAKkNNw1Eab4a4f3wsmxjL4wrEepDQxngyBZ31Q8mGrsVPtMFxJYZbvhYvdDkrzu1/5CVqaEMD
-	7xL9QOZq8ch/TCVeeH2SvuKkMY9qH1OzXz0lyyKENxAMIdtTg0Q2qdUU8OR5jp7BEuUtp34L9QTfM
-	3AUv5VY9RJ0ZNPtSFQAhaa0u3/yJj1a1b0/qwz2ZCc1IQJ6iB3Vmv5YLUIvNELUbHeWhpWUIWZb9a
-	jsBdAMKSxY7knbO0BIc8JF3kv9o6LBZyhz3kH8Ysl/5ec+JcZAoNiXVK2Ga31AoWJTL4t4a/B3cPH
-	Dgeyzh78lj3w1KPAZVeg==;
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=9stiKh1brdV60JVlc1BIK4a4T0baaaOuIAMUuT70TzA=; b=ukbknKOY8mu0/sGeReRMgJuV73
+	UFwU/TNEMDT8ZjyESeV3S6im6R09f1TOdZipokoDbKOU/KCTNCoK5S7UH2i6BpRJENjqm3GkjN8S6
+	Hjx/II/m3AUkTMBJqDoSQDrXl/e8H1ohYeLVtetf3HvvDBDXPb/F+auzQ6okvYIUVfOR/YNezMzcC
+	+BqMojBG1je2tagoCZa0GThYk9lddqTBSLhxlzTmXN6F1tAroleJV5/zIhPWlwUE3i99L+4U/cAm+
+	zi0FNztBMKSVdt5/igQoN5G7w3CoNvew3c3X3fzG4xFVBrVC0BSAIt/Biaptz3BLFMD9UnMDOPYns
+	97WY3NiQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xA2Wn-0000000D1Tq-2ael;
-	Fri, 25 Sep 2026 09:47:37 +0000
+	id 1xA2Wv-0000000D1XO-25vv;
+	Fri, 25 Sep 2026 09:47:45 +0000
 Received: from fout-a3-smtp.messagingengine.com ([103.168.172.146])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xA2Wj-0000000D1Ra-44fN;
-	Fri, 25 Sep 2026 09:47:35 +0000
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.phl.internal (Postfix) with ESMTP id 7682EEC0120;
-	Fri, 25 Sep 2026 05:47:30 -0400 (EDT)
+	id 1xA2Wl-0000000D1Sa-1hPM;
+	Fri, 25 Sep 2026 09:47:37 +0000
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfout.phl.internal (Postfix) with ESMTP id 95CFAEC00FA;
+	Fri, 25 Sep 2026 05:47:34 -0400 (EDT)
 Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Fri, 25 Sep 2026 05:47:30 -0400
+  by phl-compute-02.internal (MEProxy); Fri, 25 Sep 2026 05:47:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
 	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm3; t=1790329650; x=1790416050; bh=ui
-	hSC9KjAUldcdli/RyIuTfjwESydH7W1hKdMi/92G8=; b=iWXrTGRUyPXXY6unNx
-	w3qONh2k4xK99Z7j+wqvXooIRr/H7AZs5zjzs6qzNX5HgD3cv1JVjHeN3z2GmSw1
-	hSeXABdPBYezxyP+o3nIC9TAWUk3vC+b1I3j3EWQdIuggbq1xyrYl787M8BVz1Fe
-	r2iYIgbbtpt46xCpwZ5Y5aMHvHRE2TCeCdLsxhiCew3oMUzuQ6CIRR03Q8E4zQ6X
-	2kxkbk+7eTBp20VxCVlbqRYvgLGTy/LY4MR42h79INZBGnNnZ8zGRkwbLc3I5HGA
-	8AjZy4PtXqBTyCokcnrSPAaKWfAQv9Rf9iDA/y3DCG4pEdl9SOOj1WD1YKAFMm3M
-	t3lQ==
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1790329654;
+	 x=1790416054; bh=9stiKh1brdV60JVlc1BIK4a4T0baaaOuIAMUuT70TzA=; b=
+	oHj1bDvk46mUBU6x+4WR1Nyhdvgf6bF/VSONFU2uPuChjW+9tnzHlfvkx5CuoT2G
+	qtTvmeclziPXDvbl+6mz7PYSg/KzTWfS917pU/jhRC9bf2YytHdgpjV/5VgSaLwV
+	JtXM2tlwxQ2Lyn6U9T2nyfa2P8S2v4qDDgDBR9WKeaRSqnCQgJTaw8/3V0Z0w25z
+	3oDFDsD2HxBb+jBbpnBxOIr7H8QjHrnjXEJYwKsl5Bu3MNWtXru++HqQV/NSDpQ+
+	z3z2qQlXabpinP/3HLo8Dkj0qgxUHidBrJwL2Mzrx0Bir5viWxmccBQXbFHK9hTY
+	5MRBe5/dWza4WVnLgm1/7A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1790329650; x=1790416050; bh=uihSC9KjAUldcdli/RyIuTfjwESy
-	dH7W1hKdMi/92G8=; b=w8p7OO6JUEglT4qr4p4nIn+1nr9uF2NBCGDkJkRGVP79
-	fkePKF8nw/68b8c7+aTK/kSBe3Nr8KkKh6HkHzXbebphnyhZxi2DlzoJwB8abUoO
-	bxN9DTF2seRNS6piTZhm42otQIKStC5M4plAkMlIStmhHV5xr3vJAWz2RqaTqEUs
-	c5Sq6a18BBSuqRB0p24pLJMtAd/xVUZCprqAnJePSI51qwjS9ZT0QyWnTzteXyaH
-	Oht6N5oHS05qrObyQTi0tWPHuqwhtiqzDQQVwly6J36e9B31de964czJ/7FxR9R0
-	qRqPjsW++HsCvZp0ZVCTrFnjRjV6zlXWGkfvuEXXzg==
-X-ME-Sender: <xms:MUO2auVh9cAnVWmYik05PNQl48Qx-pftx_Hl8uBZW_9N6izyxvEnkg>
-    <xme:MUO2arAz945oOI5a96KmbxDXfL0t5ePxOa2U_LWc0S6LJHE0rP0zi0x1ireuZ9tZ0
-    x-u9O_gQiyFvvQLoGvq_qM7Rtq9RJmeetiExX7E5v_bFMFDIs7IBDXY>
-X-ME-Received: <xmr:MUO2an1lrxIUyqF_sf-7ICjD8WNi_pUx3btY56STnkxOYTc11T7LoRKVzIgqsqcyc0h0G0E>
-X-ME-Proxy-Cause: dmFkZTGjYHlpCg9LU5Jn3J5FgSvlVX/173/IVUVYMWwQr/+tJlQQ44eJp+vnUs9/+BFyT6
-    ssREUNEo38vlQcl5fgvUKIXjtCp7Q7cCLjiDHehEfZ9S5lM1RKRi0KJLvYHSIosL2Jh8W7
-    lbrCK9IlAw7h6eRFn9HSKeNdjNZIVWpRGTgUUxXXK2abyqIqpE2sO2wahuV7J79feIjE59
-    Zp1wE5Ak2knYps3/NAGcxC7QpoFOIoA1V+o3foVvgy0Yqc7UxzbImNicvhxs6QsWOQZoyA
-    XozFFyfxAgeYCZlNlOAP9+nO0BuPbV+J7JwHdsiTvJTy9cwlwoiDHQUG9HZJPQCaw52MQ9
-    HIvi8qUWRJ8nfHaADc/WSajaQzChQGP7zhj/mYV/ZMv3g+LPTbsJjkI9i8z9Qknzd4dFmf
-    HacFesobtlzNYgYmZJQ+ro/LizzLROIRsM2k+RGJRMAEeRnKzC33HAh6dsm0LUBBYxkpt1
-    hSXL2IjQNMkPTmejFyVnMgi+Sz6Pob7mG8asUqOlM5+cn/lZkgGARrv3S4MZRy2Do1dZwc
-    5d6CfMn7sCb/ermoec1j6rKtD1EEmFTcee3BrD3dId/FIsxyH0zpsSB7PApZkk/BLQfcu9
-    47tvMsvvM3lKGEa/nT7f2mpCi2BmxYQteOv7p1gERWjkeicyAuccgFDra/JA
-X-ME-Proxy: <xmx:MUO2ajTbUJUj8YkkZEEhHk02QLx11DVCsZcRUfC7Ksa9bCwCuf1-iw>
-    <xmx:MUO2asaFBVwcTkSo9fmNbuBZ1k7N1U-IKotwiuhIenbhoQBiRlf-lw>
-    <xmx:MUO2apDg2kAj6AVGGHhEUjJQ5KNIk_MCy53B2XXTRJjSByeOVQ7ddg>
-    <xmx:MUO2arDidI69AOdKwssovOpVSX72VwEIb9k2JJulqrEuIPluFN5uEw>
-    <xmx:MkO2asiNNChrS3nfi2lyidMdzVwt33pwhBfTwG6_b_DWAYD_VpmFC9GF>
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1790329654; x=
+	1790416054; bh=9stiKh1brdV60JVlc1BIK4a4T0baaaOuIAMUuT70TzA=; b=t
+	UZScL9w4sSeDxZSrPOwUTzKm3VobXD337ZIlxF1FTPKNYc1GYtpYgc6bcxDMksLp
+	vdhL8vTLdywfTr1/EdaeteHEETDz/wXZ/lS/bmUs14JSdySxLXvTJBMy+k7GXgfI
+	DHBcnQlA6Y776rB+h6Y3BxYXMj3ahwlT3W1HGBaI/tJ4zOYGSc++kYz7lsEuMiMN
+	avRFQXyRvETS7QZP+F3UfmtBjVAIEkoR1Vhl3OLKEY/8/utKj22+cXH9jNiaVNHm
+	JqMDOKDigTSHEZgXIMtg4T8cIE5OyNHRr4eiPPlrJp/cYsYY3GafHZoTjsQ5dtmi
+	mrHA01kF3E8UUqTDne0Eg==
+X-ME-Sender: <xms:NkO2aqLlFonORfrdvC9m7y9w4wlBQbpA-UmmjPBkguxS2A0FvvSBjw>
+    <xme:NkO2apPowt666ieOH5Fm0m9VyeST7TvN9NjNmMOwlK_9NhJxNeDGla8KS8Kw6I4FQ
+    Bt7CDyOEeekPqupUq9KFW7qtIIB78LOGt9DT9MkAcBQfPCV6jp98fA8>
+X-ME-Received: <xmr:NkO2aiY6P-Gz-cdAUifIjdomIbgHuTWf6nzvWwztPhVBdAiEFABGxrRiPQZ7FIpG8ShWlDU>
+X-ME-Proxy-Cause: dmFkZTFP6PUo/lQVBZRAGilmAGunRANLi0uAHVA7y830k3rqWSjaVEvNWERJzKXbwZtlHZ
+    cNlbIhyYTFvbD3jYp4cfBOyrpBVbT87licp/ieW8Afo5PXSWzMDa8OIQd96+i3cCvYUlpy
+    Fj2u5DH+gQH3jpAcQkTCzbltLGM+VMCyCVriIFDxshBqP5zeUlbX9SoDT9JaBfv2geLJ9I
+    ia0XFJLhrXj3dpkh7HszhcCg+xW4ggcTlMs1zLlLZH7ZoL632UfjMH3EotcWgGACQ+mmgG
+    wC5+aKbORdLMszbjsaq0yIkqzFGBRGKV1mDBeTD8j1pwg06s37eLF3mslkTfoHMbWd2dkk
+    nxEIjtvqpxL1ABD0bgmfQZ6McyUj7kjAnHNKp884PmyeBh1LJ+mQZ46R6HseFCMPWp7wJ3
+    sGfYPKrI/f3jv1o0OQ1clEE/1ae/regCrnjn4Oho3ZKkhnMG+kIrJJy5MoIhVmSOKjwTdt
+    VLDhsP9gzkbG6KseMxoBzNxt7koJf5V0D97p/g5TDDQdJ+zCptg0p0db2DvzrgBJ3FXQhR
+    mXTXyrr/EfLEO4q3YTMD0qW3jMFc/t/2hy2KghwtC+Dz1o6X4Qz0UqO6+lqibVLMoFzsZR
+    b9NKz0DSsZxwLpQALlxauh/Kunzmltj1HmkAxX8ZKsZ6D7yNaIqrnzDtA33Q
+X-ME-Proxy: <xmx:NkO2alyaQA9J2smTVDc5F6aZ1hsHGmCHPAwdQTKgTQ37sP8cJq1SfA>
+    <xmx:NkO2auFuuhxHFw80jm8Ja5f6qRbReX2eZ9fhlEadt2nfZ3rLQrFRCQ>
+    <xmx:NkO2agoNPa5q2IvLu17ape_f-XK7gKQffXEaRHue5ON_mDyR62Pt2g>
+    <xmx:NkO2asyNHFbHF01aMdPw1TiFU1pgC5uyTyiic36oDs_H2HY2SMN2ow>
+    <xmx:NkO2aiBJuJIaWbscqpB6RIWmZQo8dmIg1MXy_1jesNkJHWgLLBtvX9Pq>
 Feedback-ID: i47b949f6:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 25 Sep 2026 05:47:28 -0400 (EDT)
+ 25 Sep 2026 05:47:33 -0400 (EDT)
 From: Janne Grunau <j@jannau.net>
-Subject: [PATCH 0/7] NVMe support for Apple M3, M3 Pro and M3 Max/Ultra
- devices
-Date: Fri, 25 Sep 2026 10:22:47 +0200
-Message-Id: <20260925-apple-m3-nvme-v1-0-5e832e2f4aa9@jannau.net>
+Date: Fri, 25 Sep 2026 10:22:48 +0200
+Subject: [PATCH 1/7] MAINTAINERS: Add NVMe devicetree bindings
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDSyMT3cSCgpxU3Vxj3byy3FRdC/MUi0SDRPPUFEtDJaCegqLUtMwKsHn
- RsRB+cWlSVmpyCcgQpdpaABKh39NxAAAA
-X-Change-ID: 20260924-apple-m3-nvme-87d8a0a7ed91
+Message-Id: <20260925-apple-m3-nvme-v1-1-5e832e2f4aa9@jannau.net>
+References: <20260925-apple-m3-nvme-v1-0-5e832e2f4aa9@jannau.net>
+In-Reply-To: <20260925-apple-m3-nvme-v1-0-5e832e2f4aa9@jannau.net>
 To: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, "Joerg Roedel (AMD)" <joro@8bytes.org>, 
@@ -98,19 +96,19 @@ To: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>,
 Cc: linux-nvme@lists.infradead.org, asahi@lists.linux.dev, 
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
  devicetree@vger.kernel.org, iommu@lists.linux.dev, 
- Janne Grunau <j@jannau.net>, Michael Reeves <michael.reeves077@gmail.com>
+ Janne Grunau <j@jannau.net>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2678; i=j@jannau.net;
- h=from:subject:message-id; bh=4ypi7wfhWyu9nXF1ipHoM2VNkSkHsmWohYy1wS85fpI=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhqxtzpr7und9kT9plc1tp+Fs+bVrkq3Yf82CRUfjLHTOP
- NjldrmwYyILgxgXg6WYIkuS9ssOhtU1ijG1D8Jg5rAygQyRFmlgAAIWBr7cxLxSIx0jPVNtQz1D
- Ix1jHSMGLk4BmOqOa4wM/y2O5XPlW7gbN+Rf4XjsFKijvNz1TKrV9NNOOi9DDj95w/C/YP2bLbc
- PPN/wJa7E/feOnbP2p+8uObllKt+kHQ9+e9dnsAEA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=910; i=j@jannau.net;
+ h=from:subject:message-id; bh=Dc1QaOYmmuNE63L7xcIpm4eSBgJtkgeoCe4TL84F//s=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhqxtzlr9UX8Pfn3v8+ff5YfFDstl1VauOyXzc6tLR6/+7
+ Letz5cWdUxkYRDjYrAUU2RJ0n7ZwbC6RjGm9kEYzBxWJpAh0iINDEDAwsCXm5hXaqRjpGeqbahn
+ aKRjrGPEwMUpAFPdIcrIsFfT0GGHcaeWw9Z3PooLpnKe21+ueZNN20l6y9kU46DQlQz/nSQ9v/b
+ JlCy+ttp951dfYe5+o2vzHFyFl2VdeHKJMXc7GwA=
 X-Developer-Key: i=j@jannau.net; a=openpgp;
  fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260925_024734_467694_C213F193 
-X-CRM114-Status: GOOD (  14.36  )
+X-CRM114-CacheID: sfid-20260925_024735_515269_594513E5 
+X-CRM114-Status: GOOD (  10.48  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -125,63 +123,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hej,
-
-this series adds NVMe support to all M3, M3 Pro and M3 Max/Ultra
-devices. The hardware works the same way as T602x (M2 Pro/Max/Ultra). If
-there were changes they don't affect the way the existing Linux drivers
-use the hardware. So this series adds new per-SoC compatible strings to
-the mailbox, SART (IOMMU) and ANS (NVMe host controller) bindings and
-the device nodes.
-
-Merge strategy:
-The nvme tree has "dt-bindings: nvme: Add apple,t8132-nvme-ans2
-compatible" [1] queued for apple,nvme-ans.yaml so "dt-bindings:
-nvme: apple: Add Apple M3 compatibles" should go through the nvme tree
-as well. The MAINTAINERS update can go with it.
-The other dt-binding changes are trivial so there is a slight preference
-to take them to the apple-soc tree with Acked-by: by their maintainers.
-This keeps the number of `make dtbs_check` warnings in the apple-soc
-tree low. Merging them through their maintainer's trees is not a
-problem either.
-The apple device tree changes are based on / depend on commit
-eea4f3b5e9e1 ("Merge patch series "dt-check-style strict fixes for Apple
-M3, M3 Pro/Max/Ultra"") apple-soc/dt-7.4.
-
-I intentionally omitted the Fixes: in the MAINTAINERS update as I don't
-see any value in adding this change to stable releases.
-
-Link: https://lore.kernel.org/asahi/20260906-apple-nvme-t8132-v2-0-ac0328590823@cyberchaos.dev/ [1]
+Commit 82b96552f15a ("dt-bindings: nvme: Add Apple ANS NVMe") added only
+the Apple bindings file to the apple-soc MAINTAINERS entry but did not
+add the directory to the NVMe driver entry.
+The apple driver is the only driver requiring dt-bindings and might
+remain the only one so this shouldn't have caused issues.
 
 Signed-off-by: Janne Grunau <j@jannau.net>
 ---
-Janne Grunau (5):
-      MAINTAINERS: Add NVMe devicetree bindings
-      dt-bindings: mailbox: Add Apple M3 compatibles
-      dt-bindings: nvme: apple,nvme-ans: Add Apple M3 compatibles
-      arm64: dts: apple: t6030: Add NVMe device nodes
-      arm64: dts: apple: t6031: Add NVMe device nodes
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-Michael Reeves (2):
-      dt-bindings: iommu: apple,sart: Add Apple M3 compatibles
-      arm64: dts: apple: t8122: Add NVMe device nodes
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 3a19da74d00c..6f9d1736d13f 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -19578,6 +19578,7 @@ W:	http://git.infradead.org/nvme.git
+ T:	git git://git.infradead.org/nvme.git
+ F:	Documentation/ABI/stable/sysfs-nvme
+ F:	Documentation/admin-guide/nvme-multipath.rst
++F:	Documentation/devicetree/bindings/nvme/
+ F:	Documentation/fault-injection/nvme-fault-injection.rst
+ F:	Documentation/nvme/
+ F:	drivers/nvme/common/
 
- .../devicetree/bindings/iommu/apple,sart.yaml      |  3 ++
- .../devicetree/bindings/mailbox/apple,mailbox.yaml |  3 ++
- .../devicetree/bindings/nvme/apple,nvme-ans.yaml   |  7 +++-
- MAINTAINERS                                        |  1 +
- arch/arm64/boot/dts/apple/t6030.dtsi               | 42 ++++++++++++++++++++
- arch/arm64/boot/dts/apple/t6031-nvme.dtsi          | 46 ++++++++++++++++++++++
- arch/arm64/boot/dts/apple/t6031.dtsi               |  1 +
- arch/arm64/boot/dts/apple/t6032.dtsi               |  1 +
- arch/arm64/boot/dts/apple/t8122.dtsi               | 40 +++++++++++++++++++
- 9 files changed, 143 insertions(+), 1 deletion(-)
----
-base-commit: eea4f3b5e9e19389af3b99af64cdf7352b67c298
-change-id: 20260924-apple-m3-nvme-87d8a0a7ed91
-
-Best regards,
---  
-Janne Grunau <j@jannau.net>
+-- 
+2.55.0
 
 
