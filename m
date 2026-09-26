@@ -4,53 +4,110 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6A06FC98321
-	for <linux-nvme@archiver.kernel.org>; Fri, 25 Sep 2026 15:21:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A8ABDC98318
+	for <linux-nvme@archiver.kernel.org>; Sat, 26 Sep 2026 05:24:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=W4sbofbV0Vp/e+ibflMz4Gbn9twO9I95w5NKpZpnM/s=; b=z1LOsEwBIpwbw2CXHJU/bBkOX/
-	8QKfoaVNzBvf1kuuU0tCdezzTIlo/mPQj9ZE2QXN35NRdI+UHNJM6W02Co7S99Xcme09kF7lDDzKw
-	iOddLRr+SEGjO9cWU59WcVV5+uiZ3xOnbZkFJXeTy9wa1eXLm9yHqp/UWGAiux+6qxmGntWQ3Hr+t
-	cXBNB/43eESVWu/e+Cr2ILQ3qOpPoB/sINfmVPh/tSmECXsiFg1bilwzZbpLZ39jYzvYC6Jm3Ce4n
-	+eeye6Kqw8DXkPkEdMCEov1AHiNZTbMaBiaMuQ/e8BG38Cyyu6u5qdEuUQNNDtGZus/5m8cFDN2z4
-	kznKh5yw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=pVIiyRqhME2rfVYUFjEtU86And7QcpxR5cM22u9g16Y=; b=VDv2sZqdVP2Ki7yiZtKywUdvSV
+	tXmOWstTqdwC9E3lMEPy6DbzaIXPW3jp+D6dMvij7zVdDr0TKMYJBJASCjDOr2AkvskJpSJRmw3s1
+	zAS9jPz1+LjBhHLGaJQtSPS6DiC9pDEwjtxMqzFf8y/+6inXtzWMF37aiiOGyTrqmav6aWUfqqbX6
+	WUhIzLVYhRWBZP5h99Cn/Z+FCReb/BsmN58lUvNb//VDXpdPB6yJFLh7nOFTeoru/uQMxBp1TjdxS
+	9SvwFcxjzK4hO3a+YRe37sH7exSAmhievrMXcuXuUF8Cw/E60vdBw2PaNioWMNnG/j/4k7P3iPvT0
+	KdNMn/Aw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xA7kC-0000000Dlh9-2PbP;
-	Fri, 25 Sep 2026 15:21:48 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1xAKtq-0000000F1N6-3Wqb;
+	Sat, 26 Sep 2026 05:24:38 +0000
+Received: from mail-oi2-x11.google.com ([2607:f8b0:4864:32::11])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xA7kB-0000000Dlgs-2QvC
+	id 1xAKtj-0000000F1Md-3bQf
 	for linux-nvme@lists.infradead.org;
-	Fri, 25 Sep 2026 15:21:47 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id E6F8B60136;
-	Fri, 25 Sep 2026 15:21:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 756001F000FF;
-	Fri, 25 Sep 2026 15:21:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790349706;
-	bh=W4sbofbV0Vp/e+ibflMz4Gbn9twO9I95w5NKpZpnM/s=;
-	h=Date:From:To:Cc:Subject;
-	b=JMA8NxZ3dIz8WFjZNQ0pTnUUoqUmCLebfxw0NTfgiY3jR/CtS2DSDfPC9ekw9aW3f
-	 KTaqS4QQUe2b241cCe+S+4pYQbVpeOH2kD05DSkVE4Uy55+WF0VGO28Z/Rh972QIDF
-	 5GSgqjf9cQtA0UFcLvsFmQyzEZA1t3RfhLfAZsNfJG5FQWCk2DwA8qearc5mx478Eb
-	 FYcTg1LjsJQcu68EQNWobLI1mA8m+bdbB4y2ByuKksbKFUq59OEnwsLsdHxRie/VyB
-	 67dCOOY1cogTsOfBWq6M6L2B2tznxEO4yzxgRAF91rO8+BPHRi572v3bIWj4lhfJ0w
-	 dD9sQnC44VkjA==
-Date: Fri, 25 Sep 2026 09:21:44 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: axboe@kernel.dk
-Cc: hch@lst.de, sagi@grimberg.me, linux-nvme@lists.infradead.org
-Subject: [GIT PULL] nvme fixes for Linux 7.3
-Message-ID: <araRiDRUWyvJBca4@kbusch-mbp>
+	Sat, 26 Sep 2026 05:24:32 +0000
+Received: by mail-oi2-x11.google.com with SMTP id 5614622812f47-4c206dc8b0dso1238458b6e.0
+        for <linux-nvme@lists.infradead.org>; Fri, 25 Sep 2026 22:24:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790400271; cv=none;
+        d=google.com; s=arc-20260327;
+        b=mRzUKrC6O0gW+gtUctCSOzveCUKvpvMSpZF4sVEBkoa0LOinx5EOXwtDb0wkmMBP4l
+         FYfpUWjEWnjroBLlUQZzQIgf8aVdjGN9aA/wRB2+ZACjJyvH0YdVixt3yOs/3K85tT47
+         GgvB83aRZnTI++KGqqWaMR9mBinuAa1CDRLkhOo+fkza0b/Wz+o1ipr0qDRdmJMfoc35
+         8E2SDj0GnxNhvvSKTbND7lw4bd+SKso1C+Lgg8kFnoRp8h2FFoaq72uGYXD+/UW+Fmsp
+         NxPqeoOnEwZDFV4q5xaqMQLEH3EZ/08ZMClRGhUx6ndyclX1Mvevd6/beBbJm+5zeoRt
+         iJ/g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=pVIiyRqhME2rfVYUFjEtU86And7QcpxR5cM22u9g16Y=;
+        fh=iumGe3dNxWrEuduJG6ICvSbzWC24f1Wa9kHzsgxE9Lw=;
+        b=OqvAJJp/y9KfBFZgpbfjhhpp5ThNheb0/R1zMUw3FXuLk3gbn/Q0AUPenqMOgWbTJ/
+         6tqxh2nO/URNIvbf/avBsvl8dlUAJFWnLHJ2+6ouoHfqJyuDdWze0kaM0dr/bFA6unMR
+         dEuTJdc6WgmapKxILt4dbFMqcApLrzFt16BezsJ2NtmavIPX9x1vOCRWhTAHXVzzMBGM
+         LEAFCB/14pngpmaBQJU7qlaIuKMdgUVpUcYm1mqnqf1QEFD0oPPL/vq30SNwxoKZV1KP
+         gmeCzVK515T2Wat4U+2cm9B/e9RV7iDfXlI54I1oDHxXXABiFmT6SY05xJeQs6yphiom
+         YpCA==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790400271; x=1791005071; darn=lists.infradead.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=pVIiyRqhME2rfVYUFjEtU86And7QcpxR5cM22u9g16Y=;
+        b=oVB6JQ26z85SkNRqnKfNNHk3qxHdgqH9dCLyOJU0ZsB7CUHOUuOmz2+J6GdfrGXx75
+         EZOHF8xML+L6czV7L+yNTwnVePYh+Rz65GvPSv8zWQF7zIDV8XIzyrU1MegB8nVGC99y
+         M22+yhD8UdnVLV6O/0uYqtxZ/w4QZ+GJL04O0QAQCsXfdIsV/52ezPQFLNHJajqMe/+u
+         VA6cJkJVOKUqw9OhM1rWJX5qrM5Z0g/p3/Tqh+xGxKGemClF9gQIoUdF3Xa1xwLeVkIi
+         mN9bFfG0eaIAIg2xOEO4TejnvR/W3QsbqU39GU3eg1VKOB8FS07lrixha6YsX4Q9yArI
+         AvDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790400271; x=1791005071;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=pVIiyRqhME2rfVYUFjEtU86And7QcpxR5cM22u9g16Y=;
+        b=yzQ6Li/fHzjUcHUVXs2WMMthBY+HWFQUMpP3QdxJA5m5xZYmrYmCo6qTMZvAGV8jWP
+         BILmy4XfjPYxXYkCeTGX8IrmjiujKRbnYB0GIQnvP7DLv5uPSKEQaaiYiOF/F9YD1ppd
+         U4+MCxW0OZLPEF+2XetqUpeuaym+m18LMMoFRBNC/ked9MVvtnIMtZsktTRTjYSu74+E
+         CvM+/0enk59UynRCz40SWSstvGSUf4+OMs09aKCahhK9VIqSpMym4no3/Sa9wr7utl0x
+         1CnQtXrDwNu/KTQ1Vjm1iBw6ogdo3yyqnD33ypjAMunDigGJ0sC64PwwiLAGjK/L2V93
+         7ZUQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwgLB+uEzZMjcaWrW4AG8pLr1xTanwMBpJplf6OIbnRlf4xjEgNay02aQUjG6rhvRrrTJjQdVz8ki3I@lists.infradead.org
+X-Gm-Message-State: AFuF++naDfP98NObzRYb+p+GBuU5jQyRuJx+Pl0NmUHmsa8tOWtnYrwj
+	J0Jq9pmDRAcpNDYRyEd/CuPIm4K/4rMV4NgLhXCldJP9z3ZjGuIDReI8LZTqWu3VswI5d05PNI5
+	3JivOdAwr2+fQOYqrzrdEQ4rqLwCi6uw=
+X-Gm-Gg: AYBFou21sSR9ThOHkpoqNWtLKjBAVOpdutqPBoqJSMYL1MEw9Bprn1o2F/NRkQ+BU6m
+	NH6D5vTwjTobJoXnPnLNqiv8PNAb9EXkGTXUm5xQOkzGg9YgBz2n2fTz/Ikr44m8JsFxhe8Wdcm
+	nntFRDqZiT26kIsTX9mMm1oL2ieJe2dB0gRc+c2oLkOVByP2hM5OArUFlkOV7eYxr2fzlMqpoAo
+	oSa/ZvJOcgEvLI57gURJeSww+MNsKZSo+9O1o3t+7l5cO7dVN0hqTg2ikt8aXfjnWRSoDAkcmOf
+	TRy/bNs66JzCt3wO/ns4nr7uIsDCr3/zrL7wFpXYUknbLVmVeQemZB5E90/TFSmjzM2mmjbmwAx
+	wRp1E2fydGtKxQm5O7acBL+s=
+X-Received: by 2002:a05:6808:1782:b0:4d6:92d4:c806 with SMTP id
+ 5614622812f47-4d72be3a1f7mr8385532b6e.62.1790400270638; Fri, 25 Sep 2026
+ 22:24:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20260923152653.40953-1-yupeng0921@gmail.com> <arP0TmdK3FnNfbwH@localhost.localdomain>
+ <CAG3TDc0bQJATmJR5dF5j9RoDp1ti-tbAiUkLRGq4zX2CYD3unQ@mail.gmail.com> <arZFtIkV0vg_aQR7@localhost.localdomain>
+In-Reply-To: <arZFtIkV0vg_aQR7@localhost.localdomain>
+From: peng yu <yupeng0921@gmail.com>
+Date: Fri, 25 Sep 2026 22:24:19 -0700
+X-Gm-Features: AclHuK_i4TetM7wyRpEb-4NCnm73C_jTw7zDqMN5n0xOhknlW_0BTd0EVzLx3Ao
+Message-ID: <CAG3TDc0zdhUaTYy1tk39VcSE6PipiTLDMXU0cUZ04yOijOgWOw@mail.gmail.com>
+Subject: Re: [PATCH v3] nvmet: add cgroup_path to charge namespace I/O to a cgroup
+To: =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, 
+	Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, Josef Bacik <josef@toxicpanda.com>, 
+	Jens Axboe <axboe@kernel.dk>, Maurizio Lombardi <mlombard@arkamax.eu>, cgroups@vger.kernel.org, 
+	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260925_222431_906602_844CBA47 
+X-CRM114-Status: GOOD (  31.53  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,86 +122,61 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The following changes since commit 5067d4ba713961d8ccea1e06cd4c453793f3121e:
+On Fri, Sep 25, 2026 at 2:59=E2=80=AFAM Michal Koutn=C3=BD <mkoutny@suse.co=
+m> wrote:
+>
+> On Wed, Sep 23, 2026 at 09:34:48PM -0700, peng yu <yupeng0921@gmail.com> =
+wrote:
+> > The LVMs are close to my real use case, so I mentioned them to explain =
+why
+> > I need this feature.
+> > When I write the testing code, I try to demonstrate the usage in a
+> > simpler way, so
+> > I use RAM devices.
+> > Sorry for the inconsistency.
+>
+> Understood.
+>
+> > > > * The subsystems are exported to different users.
+> > > > * We should provide each user a specific iops/bps quota, thus a noi=
+sy
+> > > >   neighbor won't impact the performance of other logical volumes.
+> > >
+> > > Why cannot you place users into respective cgroups and configure
+> > > appropriate per-device limits?
+> >
+> > I export the devices to nvme target. Per my understanding, the IOs are
+> > controlled by kernel threads. The users are remote users, so I can't fi=
+nd
+> > a way to put them in a local cgroup.
+>
+> I see, so the core of the issue is that local storage is exported
+> remotely as NVME (over TCP) and you want to regulate IO on the local
+> storage.
+>
+> 1) resembles loopback devices where original task's blkcg is transferred
+>    to the kthread issuing actual IO. Is there any userspace component
+>    fronting the clients? (whose cgroup the IO could be associated with.)
 
-  sunvdc: fix -EIO issue due to lack of retries (2026-09-10 14:45:59 -0600)
+I'm using tcp-nvmeof. Per my understanding, there is no local userspace
+component. The tcp-nvmeof listens on a tcp port in kernel space and
+sends the IOs to the kernel block layer. So I can't find a userspace proces=
+s
+and assign a cgroup to it.
 
-are available in the Git repository at:
 
-  git://git.infradead.org/nvme.git tags/nvme-7.3-2026-09-25
+> 2) it also resembles FC app ids (blkcg_set_fc_appid()/blkcg_get_fc_appid(=
+))
+>    Could you look at that whether a common concept could be used? (I
+>    haven't looked into detail how the client side is handled [*].)
 
-for you to fetch changes up to 4a5e49ba0abb8b4328d6318c9aef0c0121f95507:
+The FC app ids export the host side cgroup. But I want to not rely on the
+host side information, limit the iops/bps on the target side. I'm not sure
+what I can use about it. If I miss-understand anything, please let me know.
 
-  nvme-multipath: set BLK_FEAT_ZONED only after the zone info is known (2026-09-25 08:06:22 -0700)
-
-----------------------------------------------------------------
-nvme fixes for Linux 7.3
-
- - Fix use-after-free of the command effects log on multipath heads
- - Fix target namespace disable race with in-flight I/O and attribute
-   changes
- - Fix out-of-bounds write in in-band authentication
- - Fix out-of-bounds reads parsing SGL segments and ANA logs
- - Fix zoned limits on multipath heads when the zone info query fails
- - Fix reservation preempt and abort matching against a nil host id
- - Fix lockdep key lifetime by reverting the per-socket dynamic keys and
-   delaying socket reclassification past the TLS handshake
- - Fix controller reset and delete races that trigger spurious warnings
- - Add a dma pool alignment quirk for the Micron 4100AT
- - Preserve the target namespace device path on allocation failure
- - Fix -Wformat-security build warnings
-
-----------------------------------------------------------------
-Arnd Bergmann (2):
-      nvme: work around -Wformat-security warning
-      nvme: work around all -Wformat-security warnings
-
-Bean Huo (1):
-      nvme-pci: add NVME_QUIRK_DMAPOOL_ALIGN_512 for Micron 4100AT
-
-Daehyeon Ko (2):
-      nvme-multipath: fix underflow in ANA log bounds checks
-      nvmet: pci-epf: reject too-short SGL segments
-
-Eric Dumazet (1):
-      nvme-tcp: delay nvme_tcp_reclassify_socket()
-
-Guixin Liu (2):
-      nvmet: copy the hostid into the ctrl before creating PR pc_refs
-      nvme-multipath: set BLK_FEAT_ZONED only after the zone info is known
-
-Julian Sun (1):
-      nvmet: preserve device path on allocation failure
-
-Maurizio Lombardi (2):
-      nvme-fc: do not warn on controller removal race
-      nvme: do not reset controllers in NVME_CTRL_NEW state
-
-Nilay Shroff (2):
-      nvmet: defer setting ns->enabled to false in nvmet_ns_disable()
-      nvmet: don't allow I/O admission after percpu ns reference is killed
-
-Shin'ichiro Kawasaki (1):
-      Revert "nvme-tcp: lockdep: use dynamic lockdep keys per socket instance"
-
-Weiming Shi (1):
-      nvmet-auth: fix out-of-bounds write in nvmet_auth_challenge()
-
-Yao Sang (1):
-      nvme: fix command effects log lifetime for multipath heads
-
- drivers/nvme/host/core.c               | 63 +++++++++++++++-------------------
- drivers/nvme/host/fc.c                 |  2 +-
- drivers/nvme/host/multipath.c          | 19 +++++-----
- drivers/nvme/host/nvme.h               |  9 ++---
- drivers/nvme/host/pci.c                |  2 ++
- drivers/nvme/host/sysfs.c              |  4 +--
- drivers/nvme/host/tcp.c                | 39 +++++++--------------
- drivers/nvme/target/configfs.c         |  9 +++--
- drivers/nvme/target/core.c             | 33 +++++++++++-------
- drivers/nvme/target/fabrics-cmd-auth.c |  2 +-
- drivers/nvme/target/nvmet.h            |  2 ++
- drivers/nvme/target/pci-epf.c          |  3 ++
- 12 files changed, 91 insertions(+), 96 deletions(-)
-
+> Thanks,
+> Michal
+>
+> [*] And now when I'm thinking about it, I'm not sure one can trust any
+>     app ID that is sent over...
 
