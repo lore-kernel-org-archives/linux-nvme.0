@@ -4,97 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 934C2C9830E
-	for <linux-nvme@archiver.kernel.org>; Sun, 27 Sep 2026 07:09:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2B4C7C98338
+	for <linux-nvme@archiver.kernel.org>; Sun, 27 Sep 2026 08:20:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=BIYDdjJ1rcyjUwNCj55QdTfFyOHRu8zxJh3wOv/c/fY=; b=nLhgR3YEuhlQHA57cc8KtjwCPU
-	EHtYyd3cjmOvZqepIIBP95pLPr8OmmETk4lx/0ospZbgiZ/yqxd/MzxOgIT8gSBVuC44K279givvF
-	o2MdWK4N2M+Q6jh9cA9gRYuscpRoCmqJM+HcbnjdmPYgE7ea2uhwlvbbVjoLsJo2x1Rix879z4ypL
-	OpWSxK7gX1evp0e+wodTzcaJNPZVo9PyDpSmIHHMWD318bRhqGAl7qEJjVlJux3AKGfiNSubNjkFD
-	zTorFqRl4YnEa/fdtTSNvlNMkB5l9NpDJq6IsRSfQrfHHTmMO893qgo8+o66dJLbaaVTvj2xR8Ptd
-	crpVbRTQ==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=V2dwCmnh4jcZ0MUl2mHzbEQ5hr9TbVsuwLEVbpur9Q0=; b=QymmvnINtxhlH00Q7RZa3xA0QW
+	5+yX/8GJxL1f/Od6dsKO9DsRZ2THv6YlSTO2By97GFL2KDl4S+bPbJ2lwVLLaJYzuxnfd1pPoGEXk
+	sblUnDEfo7kSxmVkSDJt8BdXgj5vyenqdDbSoK8/DjIAPwGOjPJtENUUowwwPGTz6X4WnVk5d3Lv7
+	OJWc48H59hrawpU07/sihFEw0lmvxmK3wL0kw9Yr9CER3iaZXbYNsolFrESdWX3shf0C1Y5b4iM1E
+	y85g3T2x59RdZTzlnj+97kv6PAMFzjVrGoFGKplYbo/pqRlRZEIOe0wAAdl0d5gFO74Hp07JeDCYb
+	2ALMaGNw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xAj13-0000000G5iK-0WXf;
-	Sun, 27 Sep 2026 07:09:41 +0000
-Received: from mail-dy2-x0f.google.com ([2607:f8b0:4864:36::f])
+	id 1xAk7c-0000000G8Tv-2jbh;
+	Sun, 27 Sep 2026 08:20:32 +0000
+Received: from mail-m49198.qiye.163.com ([45.254.49.198])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xAj0w-0000000G5gf-3htw
+	id 1xAk7Y-0000000G8SD-0RiD
 	for linux-nvme@lists.infradead.org;
-	Sun, 27 Sep 2026 07:09:36 +0000
-Received: by mail-dy2-x0f.google.com with SMTP id 5a478bee46e88-33c24422d4dso2547952eec.2
-        for <linux-nvme@lists.infradead.org>; Sun, 27 Sep 2026 00:09:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=crusoe.ai; s=google; t=1790492973; x=1791097773; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=BIYDdjJ1rcyjUwNCj55QdTfFyOHRu8zxJh3wOv/c/fY=;
-        b=XNA58MotZjU+h7CqrP8IaHwF93DcQCDCLmBtKuYXvDoE3M1uP27Ksxlc+CXNilfVyK
-         m2n6sdlvaOeeUo6knz6REaME/gMA5WWuf2kDtRAut9EucDbAvQAYp7nut4hcyHIOjQEu
-         CzfHk1CE8s6gQdKzrFZABKUj9HYX2oGG4U26pDX9pN6TIFgCFgI4ytpblcyvSsNDPKN2
-         qGesytDBLnOjclpvZHF9eisZ4Bcsgfvs9LDNtXavisFCI0BI2TN1hLZKQdoiRZAY0N05
-         P3vGOr54Q1IsAMk4kPV0msTtm8mQdHHEdhTojVgpjjfG1O7nmuZOiWom0OQyePjP6UWN
-         +QHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790492973; x=1791097773;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=BIYDdjJ1rcyjUwNCj55QdTfFyOHRu8zxJh3wOv/c/fY=;
-        b=s0k6+z//Y5FkuADTc4UwpLUlG9lQ1LofceW+GCVPH8TmsGUHHOkEx+k4tQp2xp6U3O
-         kZIFtPE64IQ5OkzWxr6KgBynAKPn0G2x8opnnCA8BdNh/XufsLwZR5uoGgbXlAUX+At4
-         oSJ5IHMFTMhyS88pcKfHIrw28LX3qSA5la3LIk2XHhY7a2bNVxOb9nyDqpAzk7Ql7kVa
-         gU+x0fdrfERg7lqEYdIdggne6WAx1c2dXk9W689jm32Eu4PbD3eAHc0+8W53Ug4yj/oG
-         zNMgE1WOhAxpjVQJ3ON2qZB10nxrVdxFrMv6katwoycnt1H4Sx5O47iApF/wyhw502n2
-         H14w==
-X-Gm-Message-State: AFuF++k/V17o1SrslA8NNuC9wTAuM1VRU268IoxZLZZb2nd5hrlZt93/
-	/eZS2MozDxFH9uMpJ3hBVfTHUpeJglV6f2lQXmpuavoZu9hNzYoJ4EdonTSTuhmwfx5gUDFEQJF
-	6tAL4ZGc=
-X-Gm-Gg: AYBFou0KfzQ9a2A4QBz26j5IhyrsBKjBSvA66GZEC1x0wt5ZxT5mzTnVchbM13ocNzv
-	60Z0RZrKbNZ76uXPw7TtzsSdEYTHtVJedwnNHKBSnQLjjJpSOYnJPnk8zGR2NcAgH867LN+v6Z+
-	/BhJGIs1kEZbzoRjYT0L4r9czB/XIroTUPDeDKReN/vX9yhwUkrejSjLOdvSDQr73oiEgnAE/gB
-	XoP9+lR0bpPg0I8wqmmRksunlxkdOvT2qxrEPu3iPBFbsThPLJh5sh7Tr1eAShkLLdUTUAC94LK
-	FPmKxBRQiLuEvmaxHJ5xlrkvsZHhXL7YTlpQKBf2a3a1ptK6x6sYlkCE60J8hiyYffavFECL058
-	NiQZf1wLoAPV2jbguvytC4QWTZJxRwByHhzpO1Iui9F0kX/Mim/Ff0ZgrqSvV4lMTg33qsAOXiS
-	e6Ij6xm5hzO7zqg9SOYwJUd5e7Uj6K/9MPic3tFKpjEsYE7gydmSKoApAhnE/jB/TQlCk1JBdux
-	q/EkvHIwz9jljL6hw5t+NYs2GuwtCczlxy5uxWyWo/Iauyzfh9gcg==
-X-Received: by 2002:a05:7022:5f1c:b0:144:c122:6cc6 with SMTP id a92af1059eb24-146d01af925mr4979747c88.32.1790492973282;
-        Sun, 27 Sep 2026 00:09:33 -0700 (PDT)
-Received: from MBP-Saravanan-D.civet-hops.ts.net ([2601:647:4380:3400:cdfd:5309:3fdc:3b4e])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-146bb6551d9sm10322371c88.9.2026.09.27.00.09.31
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 27 Sep 2026 00:09:32 -0700 (PDT)
-From: Saravanan D <saravanand@crusoe.ai>
-To: linux-nvme@lists.infradead.org
-Cc: kbusch@kernel.org,
-	hch@lst.de,
-	sagi@grimberg.me,
-	axboe@kernel.dk,
-	nilay@linux.ibm.com,
-	dwagner@suse.de,
+	Sun, 27 Sep 2026 08:20:30 +0000
+Received: from PC-202605011814.localdomain (unknown [222.191.246.242])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 4f3a443f6;
+	Sun, 27 Sep 2026 16:20:22 +0800 (GMT+08:00)
+From: Runyu Xiao <runyu.xiao@seu.edu.cn>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Breno Leitao <leitao@debian.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	"Martin K . Petersen" <mkp@kernel.org>,
+	Lee Duncan <lduncan@suse.com>,
+	Hannes Reinecke <hare@suse.com>,
+	Nicholas Bellinger <nab@linux-iscsi.org>,
+	linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org,
+	target-devel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	iyamahata@crusoe.ai,
-	kiyer@crusoe.ai,
-	ganbalagane@crusoe.ai,
-	sj@kernel.org,
-	Saravanan D <saravanand@crusoe.ai>
-Subject: [PATCH v4 1/2] nvme: add per-queue sysfs directories
-Date: Sun, 27 Sep 2026 00:09:24 -0700
-Message-ID: <20260927070925.47209-2-saravanand@crusoe.ai>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260927070925.47209-1-saravanand@crusoe.ai>
-References: <20260927070925.47209-1-saravanand@crusoe.ai>
+	stable@vger.kernel.org,
+	Runyu Xiao <runyu.xiao@seu.edu.cn>,
+	Jianhao Xu <jianhao.xu@seu.edu.cn>
+Subject: [PATCH v7 0/4] nvmet: avoid recursive configfs open
+Date: Sun, 27 Sep 2026 16:20:07 +0800
+Message-Id: <20260927082011.638723-1-runyu.xiao@seu.edu.cn>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0aa0e1f36f2c03a1kunm12f6b69c1ac324
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaQh0YVh4aH0hIGBpKTkJOSVYeHw
+	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUlVSkJKVUlPTVVJT0lZV1kWGg8SFR0UWUFZT0tIVUpLSE
+	pPSExVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=CwU78sMvDEsOExt0w+ZbN1oR1EIflpiWsDeKOcKPl1d2iF4JrnrQb1RTUCnW7rCWG14K1qOW5yp6HyQcyQ5xvXIWKviazvbR72a7LBPRG4mMIc4Oq3VM7Ihaig2dc+thj6ikXEr2tROgyasyPEKlx4GLLj32YloHpPAqUZl4xHY=; c=relaxed/relaxed; s=default; d=seu.edu.cn; v=1;
+	bh=V2dwCmnh4jcZ0MUl2mHzbEQ5hr9TbVsuwLEVbpur9Q0=;
+	h=date:mime-version:subject:message-id:from;
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260927_000934_925872_3EDD9E6A 
-X-CRM114-Status: GOOD (  18.07  )
+X-CRM114-CacheID: sfid-20260927_012028_716089_648C5E29 
+X-CRM114-Status: UNSURE (   7.93  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,137 +83,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Transports have per I/O queue state worth exposing, the nvme-tcp
-io_cpu to begin with, but the core has no representation of an
-individual queue and no place under the controller device to hang
-per queue attributes.
+Several configfs store callbacks open user-configured paths while holding
+the item's frag_sem.  If a configured path resolves into configfs, the open
+can re-enter __configfs_open_file() and try to acquire the same
+non-recursive semaphore again.
 
-Add a small nvme_queue_info that a transport embeds in its queue
-structure, and helpers that register it as
+Add helpers in configfs for opening non-configfs paths, then use them in the
+nvmet file-backed namespace and passthru paths.  The series also pins the
+target-core db_root path and uses the root-relative helper for ALUA and APTPL
+metadata, with a dedicated lock protecting the path and its configuration.
 
-  /sys/class/nvme/nvmeX/queues/<qid>/
+Changes since v6:
+- Honor O_NOFOLLOW when resolving paths in configfs_file_open().
+- Protect db_root and db_root_path against concurrent metadata writes and
+  configfs updates.
+- Return an error when a db_root update races with target device creation.
 
-with a transport provided ktype. The queues directory is created on
-the first registration and released with the controller device.
-Registration is expected once per controller lifetime, so the
-directories persist while the transport's queues cycle across
-reconnects.
+Checks:
+- scripts/checkpatch.pl --strict: all 4 patches pass.
+- Built the affected configfs, nvmet, and target-core objects.
+- Applied the complete series to the stated base commit with git am.
 
-Suggested-by: Sagi Grimberg <sagi@grimberg.me>
-Link: https://lore.kernel.org/linux-nvme/13c160d0-0657-47ce-9a16-58d348267ab0@grimberg.me/
-Assisted-by: Claude:claude-opus-4-8 [Claude Code]
-Signed-off-by: Saravanan D <saravanand@crusoe.ai>
----
- drivers/nvme/host/core.c  |  2 ++
- drivers/nvme/host/nvme.h  | 23 +++++++++++++++++++++
- drivers/nvme/host/sysfs.c | 42 +++++++++++++++++++++++++++++++++++++++
- 3 files changed, 67 insertions(+)
+Runyu Xiao (4):
+  fs: configfs: add helpers for opening non-configfs paths
+  nvmet: avoid recursive configfs open for file-backed namespaces
+  nvmet: avoid recursive configfs open for passthru
+  scsi: target: pin db_root for metadata writes
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index beea23d04a70..211d05a1cc48 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -5197,6 +5197,8 @@ static void nvme_free_ctrl(struct device *dev)
- 
- 	ctrl->ops->free_ctrl(ctrl);
- 
-+	kobject_put(ctrl->queues_kobj);
-+
- 	if (subsys)
- 		nvme_put_subsystem(subsys);
- }
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index bac25b287d25..20410f0d6118 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -339,6 +339,28 @@ enum nvme_ctrl_flags {
- 	NVME_CTRL_FROZEN		= 6,
- };
- 
-+enum nvme_queue_info_flags {
-+	NVME_QUEUE_INFO_REGISTERED	= 0,
-+	NVME_QUEUE_INFO_IO_CPU_USER	= 1,
-+};
-+
-+/*
-+ * Common per-queue state, embedded in the transport's queue structure and
-+ * backing the /sys/class/nvme/nvmeX/queues/<qid>/ directory.
-+ */
-+struct nvme_queue_info {
-+	struct kobject		kobj;
-+	unsigned int		qid;
-+	unsigned long		flags;
-+};
-+
-+struct nvme_ctrl;
-+
-+int nvme_register_queue_info(struct nvme_ctrl *ctrl,
-+			     struct nvme_queue_info *qinfo, unsigned int qid,
-+			     const struct kobj_type *ktype);
-+void nvme_unregister_queue_info(struct nvme_queue_info *qinfo);
-+
- struct nvme_ctrl {
- 	bool comp_seen;
- 	bool identified;
-@@ -360,6 +382,7 @@ struct nvme_ctrl {
- 	struct srcu_struct srcu;
- 	struct device ctrl_device;
- 	struct device *device;	/* char device */
-+	struct kobject *queues_kobj;
- #ifdef CONFIG_NVME_HWMON
- 	struct device *hwmon_device;
- #endif
-diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-index 4ac3ea3a86fd..a2780445c33e 100644
---- a/drivers/nvme/host/sysfs.c
-+++ b/drivers/nvme/host/sysfs.c
-@@ -1313,3 +1313,45 @@ const struct attribute_group *nvme_subsys_attrs_groups[] = {
- 	&nvme_subsys_attrs_group,
- 	NULL,
- };
-+
-+/*
-+ * Per-queue sysfs directories under /sys/class/nvme/nvmeX/queues/. The
-+ * transport backing the controller registers a directory for each of its
-+ * queues and provides the attributes through the ktype. Registration is
-+ * expected once per controller lifetime, so the directories persist while
-+ * the transport's queues cycle across reconnects. The queues directory
-+ * itself is released with the controller device.
-+ */
-+int nvme_register_queue_info(struct nvme_ctrl *ctrl,
-+			     struct nvme_queue_info *qinfo, unsigned int qid,
-+			     const struct kobj_type *ktype)
-+{
-+	int ret;
-+
-+	if (!ctrl->queues_kobj) {
-+		ctrl->queues_kobj = kobject_create_and_add("queues",
-+							   &ctrl->device->kobj);
-+		if (!ctrl->queues_kobj)
-+			return -ENOMEM;
-+	}
-+
-+	qinfo->qid = qid;
-+	ret = kobject_init_and_add(&qinfo->kobj, ktype, ctrl->queues_kobj,
-+				   "%u", qid);
-+	if (ret) {
-+		kobject_put(&qinfo->kobj);
-+		return ret;
-+	}
-+
-+	set_bit(NVME_QUEUE_INFO_REGISTERED, &qinfo->flags);
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(nvme_register_queue_info);
-+
-+void nvme_unregister_queue_info(struct nvme_queue_info *qinfo)
-+{
-+	if (!test_and_clear_bit(NVME_QUEUE_INFO_REGISTERED, &qinfo->flags))
-+		return;
-+	kobject_put(&qinfo->kobj);
-+}
-+EXPORT_SYMBOL_GPL(nvme_unregister_queue_info);
+ drivers/nvme/target/io-cmd-file.c     |   3 +-
+ drivers/nvme/target/passthru.c        |   3 +-
+ drivers/target/target_core_alua.c     |  42 ++++----
+ drivers/target/target_core_configfs.c | 142 +++++++++++++++++++++-----
+ drivers/target/target_core_internal.h |   5 +
+ drivers/target/target_core_pr.c       |  19 ++--
+ fs/configfs/mount.c                   |  57 +++++++++++
+ include/linux/configfs.h              |   5 +
+ 8 files changed, 219 insertions(+), 57 deletions(-)
+
+
+base-commit: f741eaa40d2a8e199a31ceb683f30867537def70
 -- 
-2.55.0
-
+2.34.1
 
