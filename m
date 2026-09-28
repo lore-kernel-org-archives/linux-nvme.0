@@ -4,73 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 65513C98328
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Sep 2026 06:14:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7B65C9833E
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Sep 2026 06:14:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XaC6DkyMRoZdb4oAVjU9pdXNfcIMayAmSL3fDY/VEnU=; b=ls7UWVlZHN4l4aMaJu8i76q6ZH
-	UZQmNTCqQrXIPdAJ+YOvYFfze79XBv2a1LRZOmUwve2G7JWQKG5KvZl6qGGqGePA3cYYTgRbcc6BC
-	P4tu1UGvBpAP+2UJ2EpGaqN3Ggs3N86FRt0CMERK54Zor6fEtIryOCDMehYrmkB/g0PWrUTVOLJ/t
-	E//fwNY/2IElvXFngIDW1Tp3w0yh5lOdW9ry0aSj+i+Eg+/H8Rr9kuhzYWrb9Un9mV4dnXQhy80yg
-	+FO2KUKm54oh7xZfSw0bO3RjjbPqY/9n/m5GvZMriadWoc4H/fzwKuX+VZY1nVdtqAu640/fRj1l/
-	e4YkA1HA==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=oOOwgR3Na06hDrMsbkRMKNZF35be9FXivq+8tVzj7v0=; b=ycTr57RSH8wh6x1n47chplfTNO
+	VAQhRLhGF7EtgwKSG1sy/uA2fINOYZ88ojYrBSPKj120GeOsFKWFmNYxPiRA9frloZbx/hX7W712u
+	/q4kerv0Hxuh24uXt4Bv8f+a7AXY9xUHzib+0nAUEfvsPOTjmZrgUw8Sq3Ap08ekSgxp9solDJtgz
+	rBGq74n5Dxhm3/SrA+aNn2OxLvRP09yf/lkgds5MZMixPulw/pe5UFogWc+/zEu9GcFXk626xwA71
+	p7kYwibCXbKhYDI7K4K1eLUVF9Srp7qyV+Nwf1eCXnWdkDRQ7NsY0OJxW6g+Y6YxsOkyRszfLHLZ7
+	jF0Nvfvw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xB4d9-0000000HR4V-3LFZ;
-	Mon, 28 Sep 2026 06:14:27 +0000
+	id 1xB4d7-0000000HR3i-20Je;
+	Mon, 28 Sep 2026 06:14:25 +0000
 Received: from mail-pz2-x2b.google.com ([2607:f8b0:4864:3b::2b])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xB4d5-0000000HR37-2G79
+	id 1xB4d4-0000000HR2p-15yl
 	for linux-nvme@lists.infradead.org;
-	Mon, 28 Sep 2026 06:14:24 +0000
-Received: by mail-pz2-x2b.google.com with SMTP id 41be03b00d2f7-cc794a06e5fso1152605a12.3
-        for <linux-nvme@lists.infradead.org>; Sun, 27 Sep 2026 23:14:23 -0700 (PDT)
+	Mon, 28 Sep 2026 06:14:23 +0000
+Received: by mail-pz2-x2b.google.com with SMTP id 41be03b00d2f7-cc78dd412cfso853254a12.0
+        for <linux-nvme@lists.infradead.org>; Sun, 27 Sep 2026 23:14:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790576063; x=1791180863; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=XaC6DkyMRoZdb4oAVjU9pdXNfcIMayAmSL3fDY/VEnU=;
-        b=nrZIaGrYiVkTDxW3D8vMDD37sKyfh/tpJKuEg+EorhBGLLlvniCKyy9HwmtswLeXH6
-         Cby4ruQZWBamfZF91WG9A9QIsT26F0nRRcJ4xxKHsQtoHgMeFKlsadTkV2VRo8ypLqOh
-         acUouuEO+3ogTIYFC25CGDavurOhnySV+SweqADB7pcCXafmNoBnURR3tfAncfgCvZV/
-         viZNEqtKLoxPZXEahjCgs1BiA86z1CM9/sKzzsbPy41TSsdgmAhMUyNNdAoMAXQHHok6
-         xM9xbJt9NzqHmJGqPxdg0YzHnfUtVNmGG4W2DFxDvdLkekVgRfbbAfm+G3LNlkWdV5cu
-         TmfA==
+        d=gmail.com; s=20251104; t=1790576061; x=1791180861; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=oOOwgR3Na06hDrMsbkRMKNZF35be9FXivq+8tVzj7v0=;
+        b=h5n7QzSpTZ70VhwMZSvGyiSGf6TqLXbS9hn9xsMDG7Zi6Lm07qIiyRKWMvglSQHpb4
+         fTeM8IfbGKM1zr3TJV0nNdjPprXIeplVZ1/Jd5iljuDBPvxDl12H9XW9nMaU6JE2Rsey
+         4ljZngkWyD9nIbagsIlFwIh+v4+SNTbkLV8QrecjKGsGAgSFP7hymaZTd2U58SpuTyPb
+         hwLRHydqdi0GizbIWX0PdS+OzGFQxln1RcbDLQg4Pe31z5d1lNplbOsdZS1Ro8MEMZ4H
+         k7UkaJGe4HDDL3Os/nZ3ib59Y/pCZB/nqrbKbriOz1qGgn3xoylYEc4tQTM2OttjLpBA
+         bV0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790576063; x=1791180863;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=XaC6DkyMRoZdb4oAVjU9pdXNfcIMayAmSL3fDY/VEnU=;
-        b=IojjEOu+YP4s1ijHbNmqsd3DLqfa3wU/YnKAe9lt+Mk0Lcn8heqDbKY/iM/wLntOrD
-         CdbF22kINkZ/hfYCwJnvJ42uS2/Zne5s4gtkrzUQKVbJIaJDYcBeS2gxYZTqBtZRicof
-         epR/GRJOWpV3XOhuEkhGfqdec4H1f7diX9g1KT9pa6WdfM9t64c+QF6tnN6IsMFwJslk
-         sMEPRTHs9nXf10HRp18nBse1vgBxz2inuYZvmMvOuDD6kQ2XOeOtvBZ1q+GKyyvMvt9I
-         3sq/CEOmkJp/R1+zNj8wxG4FeGeR7enCESq5CgVHeq/cgZvLIH4cLRLhwuwku35qLUUJ
-         6tgQ==
-X-Forwarded-Encrypted: i=1; AKwUvBygsuerI3ksD6CdPhuOeIcbuXaYB+aNIt5baZdwmMFE9y1MFy7yQsUYqWTTsiXaxL35g9VmKwWF3T7g@lists.infradead.org
-X-Gm-Message-State: AFq9FYJEIyRQ6rWWYhqqeFi5c5f+on97CIzVOPX/8khuwgg8MY+q74n2
-	SG/yLcLNJbebq0hVqSI0Ge/UwHkJf6i+Zi4GgjGylOzfS9OeiTRaTqWb
-X-Gm-Gg: AYBFou1GA+7HRzCNqHoo1sd5dQhhcjWJLMyDWrJDXbE5upgxSAjIXX54+NV9KD7uiAe
-	eF1sRjznRWaXFS9Goo2Gl9hXuVtyJLIPpyl7+1dAl6p4ErPiQ27QPpGrZkwpkjNfzqf12NP/Jvq
-	NcWlNXzJnaE3oCU4ae+g4Pk9VlknqEU7Yp7wbXw5qbOUVpPBOAl52N+sVu7LQZUriprYD1dF5DP
-	0S67mkWjZoxI3HmMp2TyrEFJvdlaBytrsHiVQnvxjSjhOTJABi0+uvTnGDrxCOkQxwjk5D1RgAG
-	qz4OUgyeSOaBLjwfJ6ZybiiCv2GWiz26LxuHSrW1rFxR7YbqJSWs5nIKRzW9fUnG1n7/gnjOoaA
-	0NF+9JdiBdjjoA4MpbQ5T5g5vIvaBkbEhTDptvXeV8Wt6MuCD9RBqI4R3l7qDDUXxACwq2fXQcf
-	SEDKyDua9NJvCQTa1Zlc3RWvnoR1La0GYOMZhGrvhmaEqakBOd1ajVA3jTRaQ+IVyxakInVhzxg
-	T/ed1+ZkgiV+H2ItcHKebUGud4ZYdE/pYfkAMwBpnsMP4hZ92hHN8NPw27/U/oB8/bEul0sD/Kf
-	VcU=
-X-Received: by 2002:a17:90b:560f:b0:3a0:9aa4:f9bf with SMTP id 98e67ed59e1d1-3a0bb552f06mr6777589a91.12.1790576062923;
-        Sun, 27 Sep 2026 23:14:22 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1790576061; x=1791180861;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=oOOwgR3Na06hDrMsbkRMKNZF35be9FXivq+8tVzj7v0=;
+        b=l7yCRum7u8FO7Wi8YPpFbDwcH6QRMQdMRgs2FJqotHnJ+784JuepwWxV3NCL9774jN
+         hXO5puxEHrlM3E0Ii0SX6IylhZfngPUUH6FzGRkxBixzh4xkWccQLKwFALY3v8MbSVOh
+         75u0xErXKAygvq1dVNFpxsgu0juRhavQqPjENLGFg1kzRAZJgpGK7sng8l2rlQNO84Rd
+         eeu0+gme+1eSqZ3b22F7gDhHCFlt0Jkh8ibUeOQevqgDOk8L6uhIvPzXypZobuOc3pBx
+         3nF8TGwKBl82Kh2VX3u1ViseHRT/g8ERYMcGwPmyDiqG9MIlEYCVUFeX0ss6M6U5iY9P
+         UHeQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzy7FU+YLZI6UO3yUf2zbsYS51CyeO+o60Nu5wJSbv2y4RICcHPXcKslyaI06IKMUi2v/dkfj+UkpYt@lists.infradead.org
+X-Gm-Message-State: AFq9FYKH6OpLHlbCN1VMfxH+DzUxZlhWOu917OjU2Nx/6r3jyCJlUFXT
+	GqlUykT93qQyj7DpXEmSiIjnklFJBGeSckFL8hlgv/o+PK9REcoUrAb7
+X-Gm-Gg: AYBFou0XutBWHkEcOJ4buJB/kowz+y27++w2NyRzqbXAIGxSZIQ7hmOyVpSWOh4E8eY
+	Id48Z5nn5xYxSgVjljhnn1qFkqOQDvCykLapsmTfalHRLG79rDbhb+MRKne1pCBfZ4cL6n2emsQ
+	HSDahCIZEvDr9HIY33KhVGvtM9qmvVXcDYQisgQwwEUNLOQ6qHcQM19A5+WRC8XnmMlzpaxPi1W
+	zgswP1fO4ONXRoB8mlCGFoYJui5+WtrY5ZNAaZR3sOvVCxqMolr7fPSsFbySJjqei+6tdZu9tdA
+	f4Qxx8DHURViscFJvWZ8YuBJEnx2POd9P761KbWbDVF3prZX7q+G2Bzxu9+if67P6AU9aIc61nx
+	g43uo+DCUTeKHBm/mPOOcdZhwctQQj0gCz1UryDo+CKtSjCZuf1BP9VQ8RUKw6F47wzRVzu4PLB
+	16D2io/HskmCfx/7yvkImqQehOeqqn/TmY9E2fJSMDrybXKMmt/mU1PX/X7/pWKR0Hy2qpZSiOI
+	8sm5soMIlHeCamNgko9kiBhhEsDN6pJ5kN0B3QoCfyNXsUDs9KCfAhaaxEk5ilxdGZVcvtxFca4
+	F6AoOF3igTWAVQ==
+X-Received: by 2002:a17:90b:2c86:b0:3a2:bb45:d37b with SMTP id 98e67ed59e1d1-3a2bb45da47mr1186529a91.25.1790576060904;
+        Sun, 27 Sep 2026 23:14:20 -0700 (PDT)
 Received: from yupeng-XPS-15-9520.. (c-73-169-192-12.hsd1.wa.comcast.net. [73.169.192.12])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a0b9892dbfsm18864088a91.11.2026.09.27.23.14.21
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a0b9892dbfsm18864088a91.11.2026.09.27.23.14.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Sep 2026 23:14:22 -0700 (PDT)
+        Sun, 27 Sep 2026 23:14:20 -0700 (PDT)
 From: Peng Yu <yupeng0921@gmail.com>
 To: Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>,
@@ -86,17 +85,15 @@ Cc: Tejun Heo <tj@kernel.org>,
 	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Peng Yu <yupeng0921@gmail.com>
-Subject: [PATCH v6 1/3] cgroup: track the effective css in each cgroup
-Date: Sun, 27 Sep 2026 23:14:15 -0700
-Message-ID: <20260928061417.1574676-2-yupeng0921@gmail.com>
+Subject: [PATCH v6 0/3] nvmet: add cgroup_id to charge namespace I/O to a cgroup
+Date: Sun, 27 Sep 2026 23:14:14 -0700
+Message-ID: <20260928061417.1574676-1-yupeng0921@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260928061417.1574676-1-yupeng0921@gmail.com>
-References: <20260928061417.1574676-1-yupeng0921@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260927_231423_580709_C2AA6390 
-X-CRM114-Status: GOOD (  17.53  )
+X-CRM114-CacheID: sfid-20260927_231422_309249_2FE2BAE4 
+X-CRM114-Status: GOOD (  11.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,154 +108,168 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Track the effective css in each cgroup and make cgroup_e_css() and
-cgroup_get_e_css() use it. When a css is brought online or offline,
-update the effective css of its cgroup and of all descendants.
+Scenario:
+* Create multiple nvmet subsystems/namespaces.
+* The namespaces are backed by different LVM logical volumes.
+* Some of the logical volumes share the same physical volumes.
+* The subsystems are exported to different users.
+* We should provide each user a specific iops/bps quota, thus a noisy
+  neighbor won't impact the performance of other logical volumes.
 
-Signed-off-by: Peng Yu <yupeng0921@gmail.com>
-Assisted-by: Claude:claude-fable-5 [Claude Code]
-Assisted-by: Claude:claude-opus-5-5 [Claude Code]
----
- include/linux/cgroup-defs.h |  2 ++
- kernel/cgroup/cgroup.c      | 53 ++++++++++++++++++++++---------------
- 2 files changed, 34 insertions(+), 21 deletions(-)
+Test:
+1 Load kernel modules.
+sudo modprobe brd rd_nr=2 rd_size=1048576
+sudo modprobe nvmet
+sudo modprobe nvmet_tcp
+sudo modprobe nvme_tcp
 
-diff --git a/include/linux/cgroup-defs.h b/include/linux/cgroup-defs.h
-index 3754d697854b..5bbe6025fc77 100644
---- a/include/linux/cgroup-defs.h
-+++ b/include/linux/cgroup-defs.h
-@@ -555,6 +555,8 @@ struct cgroup {
- 	/* Private pointers for each registered subsystem */
- 	struct cgroup_subsys_state __rcu *subsys[CGROUP_SUBSYS_COUNT];
- 
-+	struct cgroup_subsys_state __rcu *e_css[CGROUP_SUBSYS_COUNT];
-+
- 	/*
- 	 * Keep track of total number of dying CSSes at and below this cgroup.
- 	 * Protected by cgroup_mutex.
-diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
-index 2d532bf2c0c7..69b0f0cf2f3e 100644
---- a/kernel/cgroup/cgroup.c
-+++ b/kernel/cgroup/cgroup.c
-@@ -548,20 +548,11 @@ static struct cgroup_subsys_state *cgroup_e_css_by_mask(struct cgroup *cgrp,
- struct cgroup_subsys_state *cgroup_e_css(struct cgroup *cgrp,
- 					 struct cgroup_subsys *ss)
- {
--	struct cgroup_subsys_state *css;
--
- 	if (!CGROUP_HAS_SUBSYS_CONFIG)
- 		return NULL;
- 
--	do {
--		css = cgroup_css(cgrp, ss);
--
--		if (css)
--			return css;
--		cgrp = cgroup_parent(cgrp);
--	} while (cgrp);
--
--	return init_css_set.subsys[ss->id];
-+	return rcu_dereference_check(cgrp->e_css[ss->id],
-+				     lockdep_is_held(&cgroup_mutex));
- }
- 
- /**
-@@ -585,17 +576,10 @@ struct cgroup_subsys_state *cgroup_get_e_css(struct cgroup *cgrp,
- 
- 	rcu_read_lock();
- 
--	do {
--		css = cgroup_css(cgrp, ss);
--
--		if (css && css_tryget_online(css))
--			goto out_unlock;
--		cgrp = cgroup_parent(cgrp);
--	} while (cgrp);
-+	css = cgroup_e_css(cgrp, ss);
-+	while (!css_tryget_online(css))
-+		css = cgroup_e_css(cgroup_parent(css->cgroup), ss);
- 
--	css = init_css_set.subsys[ss->id];
--	css_get(css);
--out_unlock:
- 	rcu_read_unlock();
- 	return css;
- }
-@@ -2131,12 +2115,17 @@ void init_cgroup_root(struct cgroup_fs_context *ctx)
- {
- 	struct cgroup_root *root = ctx->root;
- 	struct cgroup *cgrp = &root->cgrp;
-+	struct cgroup_subsys *ss;
-+	int ssid;
- 
- 	INIT_LIST_HEAD_RCU(&root->root_list);
- 	atomic_set(&root->nr_cgrps, 1);
- 	cgrp->root = root;
- 	init_cgroup_housekeeping(cgrp);
- 
-+	for_each_subsys(ss, ssid)
-+		RCU_INIT_POINTER(cgrp->e_css[ssid], init_css_set.subsys[ssid]);
-+
- 	/* DYNMODS must be modified through cgroup_favor_dynmods() */
- 	root->flags = ctx->flags & ~CGRP_ROOT_FAVOR_DYNMODS;
- 	if (ctx->release_agent)
-@@ -5856,6 +5845,22 @@ static void init_and_link_css(struct cgroup_subsys_state *css,
- 	BUG_ON(cgroup_css(cgrp, ss));
- }
- 
-+static void cgroup_update_e_css(struct cgroup *cgrp, struct cgroup_subsys *ss)
-+{
-+	struct cgroup_subsys_state *d_css;
-+
-+	lockdep_assert_held(&cgroup_mutex);
-+
-+	css_for_each_descendant_pre(d_css, &cgrp->self) {
-+		struct cgroup *dsct = d_css->cgroup;
-+		struct cgroup_subsys_state *css = cgroup_css(dsct, ss);
-+
-+		if (!css)
-+			css = cgroup_e_css(cgroup_parent(dsct), ss);
-+		rcu_assign_pointer(dsct->e_css[ss->id], css);
-+	}
-+}
-+
- /* invoke ->css_online() on a new CSS and mark it online if successful */
- static int online_css(struct cgroup_subsys_state *css)
- {
-@@ -5869,6 +5874,7 @@ static int online_css(struct cgroup_subsys_state *css)
- 	if (!ret) {
- 		css->flags |= CSS_ONLINE;
- 		rcu_assign_pointer(css->cgroup->subsys[ss->id], css);
-+		cgroup_update_e_css(css->cgroup, ss);
- 
- 		atomic_inc(&css->online_cnt);
- 		if (css->parent) {
-@@ -5895,6 +5901,7 @@ static void offline_css(struct cgroup_subsys_state *css)
- 
- 	css->flags &= ~CSS_ONLINE;
- 	RCU_INIT_POINTER(css->cgroup->subsys[ss->id], NULL);
-+	cgroup_update_e_css(css->cgroup, ss);
- 
- 	wake_up_all(&css->cgroup->offline_waitq);
- }
-@@ -5966,6 +5973,7 @@ static struct cgroup *cgroup_create(struct cgroup *parent, const char *name,
- {
- 	struct cgroup_root *root = parent->root;
- 	struct cgroup *cgrp, *tcgrp;
-+	struct cgroup_subsys *ss;
- 	struct kernfs_node *kn;
- 	int i, level = parent->level + 1;
- 	int ret;
-@@ -6010,6 +6018,9 @@ static struct cgroup *cgroup_create(struct cgroup *parent, const char *name,
- 	for (tcgrp = cgrp; tcgrp; tcgrp = cgroup_parent(tcgrp))
- 		cgrp->ancestors[tcgrp->level] = tcgrp;
- 
-+	for_each_subsys(ss, i)
-+		RCU_INIT_POINTER(cgrp->e_css[i], cgroup_e_css(parent, ss));
-+
- 	/*
- 	 * New cgroup inherits effective freeze counter, and
- 	 * if the parent has to be frozen, the child has too.
+2 The two brd devices are used for a bdev backed namespace and a file
+backed namespace, remember their major/minor.
+lsblk --noheadings --nodeps --output NAME,MAJ:MIN,SIZE /dev/ram0 /dev/ram1
+ram0   1:0      1G
+ram1   1:1      1G
+
+3 Enable the io controller and create two cgroups, one for the bdev
+backed namespace, another for the file backed namespace.
+echo "+io" | sudo tee /sys/fs/cgroup/cgroup.subtree_control
+sudo mkdir -p /sys/fs/cgroup/nvmet-bdev
+sudo mkdir -p /sys/fs/cgroup/nvmet-file
+
+4 Create a file system and a file on ram0.
+sudo mkfs.ext4 /dev/ram0
+sudo mkdir -p /mnt/nvmet-file
+sudo mount -o noatime /dev/ram0 /mnt/nvmet-file
+sudo dd if=/dev/zero of=/mnt/nvmet-file/ns.img bs=1M count=512 oflag=direct
+
+5 Create the bdev backed subsystem and namespace.
+sudo mkdir -p /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:bdev/namespaces/1
+echo 1 | sudo tee /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:bdev/attr_allow_any_host
+echo /dev/ram1 | sudo tee /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:bdev/namespaces/1/device_path
+stat -c %i /sys/fs/cgroup/nvmet-bdev | sudo tee /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:bdev/namespaces/1/cgroup_id
+echo 1 | sudo tee /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:bdev/namespaces/1/enable
+
+6 Create the file backed subsystem and namespace.
+sudo mkdir -p /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:file/namespaces/1
+echo 1 | sudo tee /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:file/attr_allow_any_host
+echo /mnt/nvmet-file/ns.img | sudo tee /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:file/namespaces/1/device_path
+stat -c %i /sys/fs/cgroup/nvmet-file | sudo tee /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:file/namespaces/1/cgroup_id
+echo 1 | sudo tee /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:file/namespaces/1/enable
+
+7 Export the two subsystems to 127.0.0.1.
+sudo mkdir -p /sys/kernel/config/nvmet/ports/1
+echo ipv4 | sudo tee /sys/kernel/config/nvmet/ports/1/addr_adrfam
+echo tcp | sudo tee /sys/kernel/config/nvmet/ports/1/addr_trtype
+echo 127.0.0.1 | sudo tee /sys/kernel/config/nvmet/ports/1/addr_traddr
+echo 4420 | sudo tee /sys/kernel/config/nvmet/ports/1/addr_trsvcid
+sudo ln -s /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:bdev /sys/kernel/config/nvmet/ports/1/subsystems/nqn.2026-09.io.test01:bdev
+sudo ln -s /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:file /sys/kernel/config/nvmet/ports/1/subsystems/nqn.2026-09.io.test01:file
+
+8 Connect the two subsystems from 127.0.0.1.
+sudo nvme connect -t tcp -a 127.0.0.1 -s 4420 -n nqn.2026-09.io.test01:bdev
+sudo nvme connect -t tcp -a 127.0.0.1 -s 4420 -n nqn.2026-09.io.test01:file
+sudo udevadm settle
+
+9 Set riops to 20k and run fio.
+echo "1:1 riops=20000 wiops=max rbps=max wbps=max" | sudo tee /sys/fs/cgroup/nvmet-bdev/io.max
+echo "1:0 riops=20000 wiops=max rbps=max wbps=max" | sudo tee /sys/fs/cgroup/nvmet-file/io.max
+
+sudo fio --name=t --filename=/dev/nvme0n1 --rw=randread --bs=4k --iodepth=32 --numjobs=1 \
+--direct=1 --ioengine=libaio --time_based --runtime=10 --ramp_time=3 \
+--group_reporting 2>/dev/null | grep -E '^ +(read|write): IOPS'
+  read: IOPS=20.0k, BW=78.1MiB/s (81.9MB/s)(781MiB/10001msec)
+
+sudo fio --name=t --filename=/dev/nvme1n1 --rw=randread --bs=4k --iodepth=32 --numjobs=1 \
+--direct=1 --ioengine=libaio --time_based --runtime=10 --ramp_time=3 \
+--group_reporting 2>/dev/null | grep -E '^ +(read|write): IOPS'
+  read: IOPS=20.0k, BW=78.2MiB/s (82.0MB/s)(782MiB/10001msec)
+
+10 Set rbps to 100M and run fio.
+echo "1:1 riops=max wiops=max rbps=104857600 wbps=max" | sudo tee /sys/fs/cgroup/nvmet-bdev/io.max
+echo "1:0 riops=max wiops=max rbps=104857600 wbps=max" | sudo tee /sys/fs/cgroup/nvmet-file/io.max
+
+sudo fio --name=t --filename=/dev/nvme0n1 --rw=read --bs=1M --iodepth=32 --numjobs=1 \
+--direct=1 --ioengine=libaio --time_based --runtime=10 --ramp_time=3 \
+--group_reporting 2>/dev/null | grep -E '^ +(read|write): IOPS'
+  read: IOPS=97, BW=100MiB/s (105MB/s)(1041MiB/10399msec)
+
+sudo fio --name=t --filename=/dev/nvme1n1 --rw=read --bs=1M --iodepth=32 --numjobs=1 \
+--direct=1 --ioengine=libaio --time_based --runtime=10 --ramp_time=3 \
+--group_reporting 2>/dev/null | grep -E '^ +(read|write): IOPS'
+  read: IOPS=97, BW=100MiB/s (105MB/s)(1031MiB/10299msec)
+
+11 Set wiops to 20k and run fio.
+echo "1:1 riops=max wiops=20000 rbps=max wbps=max" | sudo tee /sys/fs/cgroup/nvmet-bdev/io.max
+echo "1:0 riops=max wiops=20000 rbps=max wbps=max" | sudo tee /sys/fs/cgroup/nvmet-file/io.max
+
+sudo fio --name=t --filename=/dev/nvme0n1 --rw=randwrite --bs=4k --iodepth=32 --numjobs=1 \
+--direct=1 --ioengine=libaio --time_based --runtime=10 --ramp_time=3 \
+--group_reporting 2>/dev/null | grep -E '^ +(read|write): IOPS'
+  write: IOPS=20.0k, BW=78.1MiB/s (81.9MB/s)(781MiB/10001msec); 0 zone resets
+
+sudo fio --name=t --filename=/dev/nvme1n1 --rw=randwrite --bs=4k --iodepth=32 --numjobs=1 \
+--direct=1 --ioengine=libaio --time_based --runtime=10 --ramp_time=3 \
+--group_reporting 2>/dev/null | grep -E '^ +(read|write): IOPS'
+  write: IOPS=20.0k, BW=78.1MiB/s (81.9MB/s)(781MiB/10002msec); 0 zone resets
+
+12 Set wbps to 100M and run fio.
+echo "1:1 riops=max wiops=max rbps=max wbps=104857600" | sudo tee /sys/fs/cgroup/nvmet-bdev/io.max
+echo "1:0 riops=max wiops=max rbps=max wbps=104857600" | sudo tee /sys/fs/cgroup/nvmet-file/io.max
+
+sudo fio --name=t --filename=/dev/nvme0n1 --rw=write --bs=1M --iodepth=32 --numjobs=1 \
+--direct=1 --ioengine=libaio --time_based --runtime=10 --ramp_time=3 \
+--group_reporting 2>/dev/null | grep -E '^ +(read|write): IOPS'
+  write: IOPS=97, BW=100MiB/s (105MB/s)(1032MiB/10307msec); 0 zone resets
+
+sudo fio --name=t --filename=/dev/nvme1n1 --rw=write --bs=1M --iodepth=32 --numjobs=1 \
+--direct=1 --ioengine=libaio --time_based --runtime=10 --ramp_time=3 \
+--group_reporting 2>/dev/null | grep -E '^ +(read|write): IOPS'
+  write: IOPS=97, BW=100MiB/s (105MB/s)(1033MiB/10296msec); 0 zone resets
+
+13 Cleanup the environment.
+sudo nvme disconnect -n nqn.2026-09.io.test01:bdev
+sudo nvme disconnect -n nqn.2026-09.io.test01:file
+sudo udevadm settle
+
+sudo rm -f /sys/kernel/config/nvmet/ports/1/subsystems/nqn.2026-09.io.test01:bdev
+sudo rm -f /sys/kernel/config/nvmet/ports/1/subsystems/nqn.2026-09.io.test01:file
+sudo rmdir /sys/kernel/config/nvmet/ports/1
+
+echo 0 | sudo tee /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:bdev/namespaces/1/enable
+sudo rmdir /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:bdev/namespaces/1
+sudo rmdir /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:bdev
+
+echo 0 | sudo tee /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:file/namespaces/1/enable
+sudo rmdir /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:file/namespaces/1
+sudo rmdir /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:file
+
+sudo umount /mnt/nvmet-file
+sudo rmdir /mnt/nvmet-file
+sudo modprobe -r brd
+
+sudo rmdir /sys/fs/cgroup/nvmet-bdev
+sudo rmdir /sys/fs/cgroup/nvmet-file
+
+sudo rmmod nvme_tcp
+sudo rmmod nvmet_tcp
+sudo rmmod nvmet
+
+Peng Yu (3):
+  cgroup: track the effective css in each cgroup
+  cgroup: export cgroup_e_css()
+  nvmet: add cgroup_id to charge namespace I/O to a cgroup
+
+ drivers/nvme/target/configfs.c    | 47 ++++++++++++++++++++++++
+ drivers/nvme/target/core.c        | 54 ++++++++++++++++++++++++++++
+ drivers/nvme/target/io-cmd-bdev.c | 18 +++++++++-
+ drivers/nvme/target/io-cmd-file.c | 21 +++++++++--
+ drivers/nvme/target/nvmet.h       | 59 +++++++++++++++++++++++++++++++
+ drivers/nvme/target/zns.c         |  5 +++
+ include/linux/cgroup-defs.h       |  2 ++
+ kernel/cgroup/cgroup.c            | 54 +++++++++++++++++-----------
+ 8 files changed, 236 insertions(+), 24 deletions(-)
+
+
+base-commit: d9cc476535d29a44df3f2aa3b14af9a833fddf90
 -- 
 2.53.0
 
