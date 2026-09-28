@@ -4,90 +4,106 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D6DA3CA5FA2
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Sep 2026 13:48:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA586CA5FA2
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Sep 2026 15:09:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hsNeGqhI2jJ4ABVqJGCe6/xWqAvJeMDFUNjKwnl04P4=; b=GHEEH4d8mkVhUcko1dKccprpTY
-	71YmJXS1AOBIkuY2t68ColcGbWm45hR9/ZmNw4j76ShbN3GIpDKWPzQSaSM3umOVhbsOtk7FaozoF
-	E9RF7ZOe2FWsePu8NLkAn6ax3aEvY5ZpAIG0un/cS4lutkJ8V/QGeY+Qs9h2Gzo9a/Pj2DQ8tSTWb
-	yWT2zB0MIDmQ0wv3YvfgbmxR993qVm9OhMGCj9k+ufidpvVJtjigdhfV4jibIiqKCLbQTs2xj24i6
-	Aeed8n5q1Zfb/1AKAWf3b+BE6iaaCsYQHaANWZJA1fpfnG/oI75MS/iRnKPymmIUXTq2klzyERrXr
-	tsUHV1Ow==;
+	bh=7JzwIQlJou2cKoXFRlxragLvVGFjjNACZv+ODl0Exo0=; b=JPa14lonXajcPPJIz22jZ3G97j
+	dmZVQiRD8uU5KyGOmD7YveXOFuNCTAWmH06js/sPlNymwqXKf9q2mY/nrtsQxF88k2rq6J7M55Q/i
+	The5dBGiYKDP4PmgItBumwzlHGfB2pJOscxiYTmx4MDy5oITRfwZm7uhRtllV9B0jeOTIG0GooDnz
+	lg7JnYmSvy9lz6WGXXXIJ3rVRiN3vyWv63/cSPh4rFPGCMyW4KQbr+qTiJxny3RUjSSiHpcYbb+hq
+	LFZehsXlbHVmDzY8y/2g6sQMJVkC3hBYyAefIOgK8WLwPQx7B1aCMWubnk5HmI+coS72253OHyzlQ
+	EwbM3KKA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBBik-00000000hS0-0QKD;
-	Mon, 28 Sep 2026 13:48:42 +0000
-Received: from mail-dl2-x10.google.com ([2607:f8b0:4864:38::10])
+	id 1xBCym-00000000rIM-0Djg;
+	Mon, 28 Sep 2026 15:09:20 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBBih-00000000hQx-0Zds
+	id 1xBCyj-00000000rH9-1qHs
 	for linux-nvme@lists.infradead.org;
-	Mon, 28 Sep 2026 13:48:40 +0000
-Received: by mail-dl2-x10.google.com with SMTP id a92af1059eb24-142dd025d06so2086127c88.1
-        for <linux-nvme@lists.infradead.org>; Mon, 28 Sep 2026 06:48:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1790603318; x=1791208118; darn=lists.infradead.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hsNeGqhI2jJ4ABVqJGCe6/xWqAvJeMDFUNjKwnl04P4=;
-        b=N8nhrSJf358JrSAiPrlhximGPTsO/EVDn4ePsJ5x/tAek41z4QwQbUlowsnvGRuyUH
-         x9jgVBR+RFDTgFp2TNIY4iC7YxKGP0N1wvg1/YisNoeyg1ruAWrNYNoHYGG+KMrK+RzV
-         4MrLcgbXmca39iriumnuNWZuqiIeI5nF2Od0jCLEfEiJGuUHuh2MyqzkD0Th7nYmeJBe
-         bXYoUpeCP8L/g51V9wVJzeYg46t8Nq0gc77UylLCTdKXz13QGbwga5/61W7ZQfLr/0xP
-         1nUo67GZz6D6jg9+qcLMc9Tw/Mfx6FcMVPX8PJzlyl9XiHWivOjlGNzw8VV+lHjKylj8
-         znDA==
+	Mon, 28 Sep 2026 15:09:18 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1790608154;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7JzwIQlJou2cKoXFRlxragLvVGFjjNACZv+ODl0Exo0=;
+	b=cKbbKIZHpZwAH8xn+7V79o5tlYaqZ98mPmJJg4E56uwebLgsJhwpXnxhFacbIUdDWODvQ9
+	h74iQY2/XDIddfpAUQbn4xSRWqyMVjsJFimn/6wtyzC/W2MG6G0AoCT3rIcAbUdWivMZO6
+	vxhzHdlT/jpInlbpYnqAW+7IKtEGQ+Y=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-682-N9YFeVMvMFW7Jady0kk55A-1; Mon, 28 Sep 2026 11:09:13 -0400
+X-MC-Unique: N9YFeVMvMFW7Jady0kk55A-1
+X-Mimecast-MFC-AGG-ID: N9YFeVMvMFW7Jady0kk55A_1790608152
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-4870af30a85so2481848f8f.1
+        for <linux-nvme@lists.infradead.org>; Mon, 28 Sep 2026 08:09:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790603318; x=1791208118;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=hsNeGqhI2jJ4ABVqJGCe6/xWqAvJeMDFUNjKwnl04P4=;
-        b=kC1XcEh8lCYAzw9hthND4kURQWd+VBfhWdUcDq/Qu2M6+H/+LjZiaYdjSNeSEoyu3o
-         EQgz+d96QonCYIDRQql6/R2rxWFyz9lMJumwMDzt0Tgy2HGc1s9ms3Fhsh7MS9aDwpPX
-         +mzyYX/wKcTqgti2W3FIzTtSz1u7s8Il5kibUqrgFq7xE8WqKjUOOXcoxcMl94a9fqra
-         enkVoU0j0qIMiogwJHwNl7N6RDeOzvgFEHD9gqLbrQFdkeznmkdDqYTAWCc4oEdcoh+Q
-         JHvQ3SdMPi/4sA50+W7bMOJM33dI9yznnHkUPR5d5RfDksRfRmvwWewJmfXEXzIYImM0
-         AJJw==
-X-Forwarded-Encrypted: i=1; AKwUvByJO7mqwixgKERXGGzqzTUFwyRtjht/C2oeOkjLH3J94yOIx5ahGDjwquhmIaKJYS4/Pr3r9yZZAhpV@lists.infradead.org
-X-Gm-Message-State: AFuF++k92VE8aemiAaq/sGPZ9fJM78yFD8t34OOBMO9p9BU0nYoegxUs
-	YrnSp53JcBNDOLBCfUBctLeQ1J44OZuimLF871DByPeZ7BsrG9miGoJ2YCaykXrrZwQ=
-X-Gm-Gg: AYBFou1ILsAe7bm8KvKnZeQLEEcybpHIxVkCttGSoDrtAC6kv2JpNQypCct88QrHonH
-	4AUw3DBW4jeB6sVQIuWh7cA8hYXly6pIN2QCc/UDSt1H+g0SWHF057AgZagU9dAFaVd0FnfYWIe
-	JI3yGvcTLJnhIryxSR+zLrEULPB/gm3t5HMwmuWECOPFcMfSKCt6hEXYw00EJ0VN/3glQeWzK+0
-	A5VbNAIbyBERyiCV8e8rZIaD94DbFJ0KUSOyImIFin+WOmcCwLAE+WGwLLm6mDd7OnyBWYtczZa
-	GZEEPxK81inMiimkid33gAgUDfETOc/5GfbPtSh4y+BuyJQcmVX3WFuU8Q4XC76FdnHIajgTseT
-	NQs8Y9WxBmowN8PrUlso03oVcpnHktREl3FIYSoVZLucHckIAsnpmhiTxN7MKFp5yvEl7bAPJqP
-	WsjwHe2fPZAY5Sa2lhi7xewe12yhda39+4tpJXBqUPXfyqFMiSJcBZEHqqBpwR4zVV5OZ0o92NP
-	jAvSK0JQRXLN2YmTQSlHM/k8VVX80YkHXFsCJ5yv4j84iLe8oLjeG1icQ==
-X-Received: by 2002:a05:7022:43a9:b0:143:4710:a869 with SMTP id a92af1059eb24-146cdfbecc6mr15283284c88.2.1790603317537;
-        Mon, 28 Sep 2026 06:48:37 -0700 (PDT)
-Received: from [192.168.1.106] ([198.8.77.135])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-147913a776fsm21698739c88.17.2026.09.28.06.48.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Sep 2026 06:48:36 -0700 (PDT)
-Message-ID: <bb52a438-5336-4028-b802-2e7c69a0076e@kernel.dk>
-Date: Mon, 28 Sep 2026 07:48:35 -0600
+        d=1e100.net; s=20260707; t=1790608152; x=1791212952;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=7JzwIQlJou2cKoXFRlxragLvVGFjjNACZv+ODl0Exo0=;
+        b=Ld4h1kponB58dii4eeacBSkaKN63MQDJ7rlUVzN2EfSFUeSKsZw9EnfzNxR4UDUhgz
+         1BhftCOg7D99f1ksE9Y4YXcfWD3So5cDKiooxDRU7OlpoBo9+X7p1xOBg87cKtE0bqEz
+         2BdXD7hUZSXR5ut74PDpUQnGtXQDfv91h83EL3eKpHRza0UJgltmDkkOzISioLAJjxyN
+         CmKwzghHOPVSwpM59QbZs6aTW5Tw6wC7f5FYlj1uJxLCY77SFGwQ3ukyrreMvt9PMshl
+         UKOQufg7qqHTtMHHvex7vMW77L1c592SeV7dW+J+D527W/lNB+fp0WyJJLYBSvVkQxYB
+         WxzQ==
+X-Gm-Message-State: AFq9FYIR7C/mFuwSc1+iJs9NPbRHUsfLvLXJ4g3cF846MyW7ZeXfsjcW
+	DH9IXLLK9ipSeFqeWNYrsf3qiXZamdDRT8SLAxkEd4j0J2NP3Vsip/a2i5igd4rqmxLyEOLFtfy
+	aZnpYucZvO3bniJoFncMzy3mu6u8fUSeNeqiCMaC+Rwvu+D1neTF84DT6NI0yQD5j+zyl0vb2Qg
+	ydm7vW+YlYraPK35l8M/spszC9ZPcjkyQ9Hiri5mZ2hsItm5cxB8M=
+X-Gm-Gg: AYBFou0J/e3j6EN8taWMmWBMqCO/RwkQ0fJ4BP+3UIQsuZJHpg9HSu96jZZJY7GO+FG
+	YDPcYPFbW4NKeOraLhgpEpNFM+Tv8P4bEoSFd1/YwYiw+GAI2OTjaw4bq+EGeo8OeQC91IsvwiX
+	CbYPW4k3MRVRLRA6rpC5ouOi2SVBwiEKaLhH88M/sJmSvHiYRUk/OLjI8Qnmks6rDGIIIHJJGLU
+	MwT7LDJDkCUhISeqQ==
+X-Received: by 2002:a05:6000:2083:b0:487:342:eb28 with SMTP id ffacd0b85a97d-488716f2354mr27611165f8f.24.1790608151743;
+        Mon, 28 Sep 2026 08:09:11 -0700 (PDT)
+X-Received: by 2002:a05:6000:2083:b0:487:342:eb28 with SMTP id
+ ffacd0b85a97d-488716f2354mr27611104f8f.24.1790608151341; Mon, 28 Sep 2026
+ 08:09:11 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL] nvme fixes for Linux 7.3
-To: Keith Busch <kbusch@kernel.org>
-Cc: hch@lst.de, sagi@grimberg.me, linux-nvme@lists.infradead.org
-References: <araRiDRUWyvJBca4@kbusch-mbp>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <araRiDRUWyvJBca4@kbusch-mbp>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260902200547.184734-1-jtaubepe@redhat.com> <20260902200547.184734-8-jtaubepe@redhat.com>
+ <ab97f32b-31dd-4975-a8b2-b445110ae3a9@suse.de> <CADRr4bePoiDnWX_XrMWtQe=1g4Yrw1_dK86EV2k9XZR0HnL+UQ@mail.gmail.com>
+ <d4879e78-2735-4f86-beab-8aa319e9162c@suse.de> <CADRr4bcSvLwzfSiV0LTxnhZR7oo3F1b2XEo+wwqi668Gr2BBQA@mail.gmail.com>
+ <a7a60b61-24b4-429b-8ccb-ee5b6f06a5ed@suse.de>
+In-Reply-To: <a7a60b61-24b4-429b-8ccb-ee5b6f06a5ed@suse.de>
+From: Jesse Taube <jtaubepe@redhat.com>
+Date: Mon, 28 Sep 2026 11:08:59 -0400
+X-Gm-Features: AclHuK8rEa0dRLnGnsUacjiVX3fDsEVHWVQeb9zJZDMDBAnfAXNWF2dGmvnsVw0
+Message-ID: <CADRr4bfJtQOKYFjDoR+khaPvQW6-UzN70pZ-nfGJnQ22nUkskw@mail.gmail.com>
+Subject: Re: [PATCH v2 7/7] nvme: fcloop: Add set_marginal_rport to sysfs
+To: Hannes Reinecke <hare@suse.de>
+Cc: linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
+	Sagi Grimberg <sagi@grimberg.me>, Justin Tee <justin.tee@broadcom.com>, 
+	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>, Paul Ely <paul.ely@broadcom.com>, 
+	Chaitanya Kulkarni <kch@nvidia.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
+	"Martin K. Petersen" <martin.petersen@oracle.com>, Nilesh Javali <njavali@marvell.com>, 
+	GR-QLogic-Storage-Upstream@marvell.com, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>, John Meneghini <jmeneghi@redhat.com>, 
+	Bryan Gurney <bgurney@redhat.com>, Chris Leech <cleech@redhat.com>, 
+	"Ewan D . Milne" <emilne@redhat.com>, shinichiro.kawasaki@wdc.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: HARGopqTrlHYnI5CKG2Si6groSG54O0xJ3AxsfLkEyU_1790608152
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260928_064839_441360_9803AA16 
-X-CRM114-Status: GOOD (  13.77  )
+X-CRM114-CacheID: sfid-20260928_080917_554099_9D5E104D 
+X-CRM114-Status: GOOD (  22.55  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,39 +118,67 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/25/26 9:21 AM, Keith Busch wrote:
-> The following changes since commit 5067d4ba713961d8ccea1e06cd4c453793f3121e:
-> 
->   sunvdc: fix -EIO issue due to lack of retries (2026-09-10 14:45:59 -0600)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git tags/nvme-7.3-2026-09-25
-> 
-> for you to fetch changes up to 4a5e49ba0abb8b4328d6318c9aef0c0121f95507:
-> 
->   nvme-multipath: set BLK_FEAT_ZONED only after the zone info is known (2026-09-25 08:06:22 -0700)
-> 
-> ----------------------------------------------------------------
-> nvme fixes for Linux 7.3
-> 
->  - Fix use-after-free of the command effects log on multipath heads
->  - Fix target namespace disable race with in-flight I/O and attribute
->    changes
->  - Fix out-of-bounds write in in-band authentication
->  - Fix out-of-bounds reads parsing SGL segments and ANA logs
->  - Fix zoned limits on multipath heads when the zone info query fails
->  - Fix reservation preempt and abort matching against a nil host id
->  - Fix lockdep key lifetime by reverting the per-socket dynamic keys and
->    delaying socket reclassification past the TLS handshake
->  - Fix controller reset and delete races that trigger spurious warnings
->  - Add a dma pool alignment quirk for the Micron 4100AT
->  - Preserve the target namespace device path on allocation failure
->  - Fix -Wformat-security build warnings
+On Fri, Sep 25, 2026 at 1:10=E2=80=AFAM Hannes Reinecke <hare@suse.de> wrot=
+e:
+>
+> On 9/23/26 6:16 PM, Jesse Taube wrote:
+> > On Wed, Sep 23, 2026 at 11:34=E2=80=AFAM Hannes Reinecke <hare@suse.de>=
+ wrote:
+> >>
+> >> On 9/23/26 4:56 PM, Jesse Taube wrote:
+> >>> On Mon, Sep 21, 2026 at 10:03=E2=80=AFAM Hannes Reinecke <hare@suse.d=
+e> wrote:
+> >>>>
+> [ .. ]
+> >>>>> @@ -1671,6 +1719,7 @@ static DEVICE_ATTR(del_remote_port, 0200, NUL=
+L, fcloop_delete_remote_port);
+> >>>>>     static DEVICE_ATTR(add_target_port, 0200, NULL, fcloop_create_t=
+arget_port);
+> >>>>>     static DEVICE_ATTR(del_target_port, 0200, NULL, fcloop_delete_t=
+arget_port);
+> >>>>>     static DEVICE_ATTR(set_cmd_drop, 0200, NULL, fcloop_set_cmd_dro=
+p);
+> >>>>> +static DEVICE_ATTR(set_marginal_rport, 0200, NULL, fcloop_set_marg=
+inal_rport);
+> >>>>>
+> >>>>>     static struct attribute *fcloop_dev_attrs[] =3D {
+> >>>>>         &dev_attr_add_local_port.attr,
+> >>>>> @@ -1680,6 +1729,7 @@ static struct attribute *fcloop_dev_attrs[] =
+=3D {
+> >>>>>         &dev_attr_add_target_port.attr,
+> >>>>>         &dev_attr_del_target_port.attr,
+> >>>>>         &dev_attr_set_cmd_drop.attr,
+> >>>>> +     &dev_attr_set_marginal_rport.attr,
+> >>>>>         NULL
+> >>>>>     };
+> >>>>>
+> >>>> Please don't make it a fabrics option.
+> >>>
+> >>> What do you mean by fabrics option? How should I fix this?
+> >>>
+> >> Your patch does two things; one is to modify the parser in
+> >> fcloop_parse_options, and the other is to implement a new
+> >> sysfs rport attribute 'set_marginal_rport()'.
+> >> My suggestion is to drop the first part;
+> >
+> > You want to drop the parser?
+> >
+> Yes. 'set_marginal_rport()' sets a boolean value.
+> You don't really need a parser for that.
 
-Pulled, thanks.
+Yes, but we need the parser to get the WWPN and WWNN.
 
--- 
-Jens Axboe
+Thanks,
+Jesse Taube
+>
+> Cheers,
+>
+> Hannes
+> --
+> Dr. Hannes Reinecke                  Kernel Storage Architect
+> hare@suse.de                                +49 911 74053 688
+> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg
+> HRB 36809 (AG N=C3=BCrnberg), GF: I. Totev, A. McDonald, W. Knoblich
+>
 
 
