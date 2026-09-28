@@ -4,101 +4,115 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C227BCA5FC7
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2026 08:23:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1C8FACA5FB5
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2026 08:23:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=984oS/2M5KIktVHs6exbd7VGWIOJaQY+nCN+ILc+rzw=; b=WPkS1WrDmNwraWX4+jdLy/SuML
-	2kDvF18RxZwKa7gdx4Qjyo/XFWjY889xHMN7O/jS/nm2ihwrK2YwCv7c/SHWKCjEdFv6hn3VuIiHj
-	OWTJGFQNPc4eMkdLlHRTSYJJj8LEK0N7RUenv2WxzfoDnr+xnzyWK6XfT/t581jNzoK4KBh7iXzkS
-	tzneWzQmZNn9m61mhu0X2iiBP5yPI/sy4cbrGfzi+snW1k4VwBuMgkeyCGkUrhxg1qrbPsbFteLhN
-	P+E+X+nqf7iwvJRqDkuYtheAXSXvtaMhCcXgTwq7P/GRtvlAWM8eEw6Zw8OSkBAWIDuvJB6K78jAd
-	ekTk775g==;
+	bh=OcUXv3wgMOdU2Q5PfJeVzuf4KJvyhVvGu/xuChutEvA=; b=iUD1q00imgXJbNa//T4Z/jwY/B
+	Z8mHgvz460FWWzRVPbTdvBqvQzmFUH625L3TmJo8V+x/0oTN7DoJjZmS0jnn8pQERKecRTgMNH9Oh
+	mJiqibvy01hg5f3WomZnFr1SMeoVxJ1J904kbr/dxvqPuGuk+9WYabsCG+L0e/PmgE/tF3UHP1JMt
+	fi2XbtJsNGwSXFvdJQ2+9OAr9grtLf80hb1vMM3Ykt6Yfq9TRLHjqQ3hlwXgHGgTCAhTpViHQy0fu
+	GmYFH+GNGtXbjrrxdgXyGuzbqfJXnrQJHMk2X0JRe/1XPi82zqfPwu9t/0B39ffTm2DnC9RefA7cC
+	aPNg8x6Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBT7h-00000002jXN-1hXs;
-	Tue, 29 Sep 2026 08:23:37 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1xBT7b-00000002jK0-2wsb;
+	Tue, 29 Sep 2026 08:23:31 +0000
+Received: from mail-wr2-x10.google.com ([2a00:1450:4864:30::10])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBS6h-00000002a7p-0sxN
+	id 1xBBTN-00000000fC3-4AsV
 	for linux-nvme@lists.infradead.org;
-	Tue, 29 Sep 2026 07:18:31 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id EC6C5405EB;
-	Tue, 29 Sep 2026 07:18:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D8C91F000FF;
-	Tue, 29 Sep 2026 07:18:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790666310;
-	bh=984oS/2M5KIktVHs6exbd7VGWIOJaQY+nCN+ILc+rzw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=FmRxfTDPEZousgH1mjwF32qw+pB3arJrOFJKVf9mYNrECcwDd0kY5zJEDCAeOfA+h
-	 8QMxbbyA3qAZGDy07ZV0BxvdAAP3J68e49cPkJt6Qqx6otSeCjZ7L53yR+diox0onh
-	 0f3FLaVkDB96yhiRoQ/51IQ8Jjw9vtUtF6xRj1BTZbdWu8Sg+6hWOhiXzqXplYNXdr
-	 A6ZOhgMIkCEDC5tqlKqrUVUUTFn3iZyu1kpzjEUylNVswdGDZ2IZTOmqFxGGutWa/U
-	 ADZwjBHN4QGRKgik1vrs/ngbSim7hOwW5sYh9KJo12K4Dl1epBaHdQ/sTKvrSDq5Xt
-	 XHscnmim4ChLA==
-From: Eric Dumazet <edumazet@kernel.org>
-To: "David S . Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
-Cc: Simon Horman <horms@kernel.org>,
-	Neal Cardwell <ncardwell@google.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	edumazet@google.com,
-	netdev@vger.kernel.org,
-	Alexander Aring <aahringo@redhat.com>,
-	David Teigland <teigland@redhat.com>,
-	gfs2@lists.linux.dev,
-	John Fastabend <john.fastabend@gmail.com>,
-	Jakub Sitnicki <jakub@cloudflare.com>,
-	Sabrina Dubroca <sd@queasysnail.net>,
-	Jiayuan Chen <jiayuan.chen@linux.dev>,
-	Matthieu Baerts <matttbe@kernel.org>,
-	Mat Martineau <martineau@kernel.org>,
-	Geliang Tang <geliang@kernel.org>,
-	mptcp@lists.linux.dev,
-	Wen Gu <guwen@linux.alibaba.com>,
-	Dust Li <dust.li@linux.alibaba.com>,
-	"D. Wythe" <alibuda@linux.alibaba.com>,
-	Chuck Lever <cel@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	NeilBrown <neil@brown.name>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>,
-	Tom Talpey <tom@talpey.com>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	linux-nfs@vger.kernel.org,
-	Allison Henderson <achender@kernel.org>,
-	rds-devel@oss.oracle.com,
-	Philipp Reisner <philipp.reisner@linbit.com>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	=?UTF-8?q?Christoph=20B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	drbd-dev@lists.linux.dev,
-	Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
+	Mon, 28 Sep 2026 13:32:51 +0000
+Received: by mail-wr2-x10.google.com with SMTP id ffacd0b85a97d-486e1a044c5so2569495f8f.3
+        for <linux-nvme@lists.infradead.org>; Mon, 28 Sep 2026 06:32:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790602368; x=1791207168; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=OcUXv3wgMOdU2Q5PfJeVzuf4KJvyhVvGu/xuChutEvA=;
+        b=e2uY0JSxWU/ZEMbzrhu1xNjH0COd60yas7cNPzIcAKkFUqm/RLOeJZRKAMMEkG9yOz
+         +cm24AJzsiKzLrFUpfz/1ROjPXY4FHzarAXBU1+MERwfLR91aMlu16Qa3ZKPuoqj/E9x
+         NsmIQQe9mfLhugXJACuSfr6kpH9jQrnnhuk/kHX2c6NCZS+Y22VzOXYOZiO5lTVwAAkr
+         TsgzFucWwW6I1KrgwQ82DBNB9TDz23Dz0f8Tr6f0OqyAfLoWgj++Ppt6KE2G9WTubcbF
+         /MddgnQaxZ8VAYbYFhH947RuyybT/ZSgRQIarLGhdoKjIgbYMlfFHXaxiCBEL7R2r7By
+         D5DQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790602368; x=1791207168;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=OcUXv3wgMOdU2Q5PfJeVzuf4KJvyhVvGu/xuChutEvA=;
+        b=v6Zf3gx4953BEg7vrerUP/TtDS1lKM6ediFLP0SyaJA8K0kuVI8V/IPQN1p8zfuneC
+         Q/ovLJY+Vo0NGcuVEccex9IQUdd9EViEGBqgtfcyGUoddEH+v6czASzmUkT55XJZi+1L
+         YRJrurQvGzX4IkCx94At88vmF3LtMXZRB6j0xjLNT+SKMIDYLVUQDuVx2UMRcoAtJ92+
+         E5VNeb20C+14MwX7tAmiEknxaFJgZicrV9Ae4Lilmoqszm4yys8xQ4Ul3CHkGGGmLnTY
+         CdyrzKs5tLV7YizLFZfvz5D7Vdc3lU1/HCJ3tONJ5S2jHHcCS9qwNwk+7qmKmzIakpiN
+         evlw==
+X-Forwarded-Encrypted: i=1; AKwUvBzfjE8XDAGZ5NrrvUoNah9z8yGgGibV6CezrKqdUPmH29x8dg/E79BahoX37DSMPUIu/+Tk5GTyaY+/@lists.infradead.org
+X-Gm-Message-State: AFq9FYKvTJL1gPkedOUX22ZfiJKbROf4Y60oLpASzR41Y/kuWao389bs
+	+q3jMR7TvKOOA7y77eS4MuEYGzF71EzDzukBHOzYrl0kTxj8HYzHUuaK
+X-Gm-Gg: AYBFou1z0o6uWfKzc0/AjuLLr3aBcXP2Kt3Q6pmUYHYVBHvxMft2QDV8KLVEpceQ++9
+	W1bNhLYC9SR/O2p6XXo98DlmGbH8+JJ1vBS3fj/9hGNFTbJblQ44e7SH5RxoMCd0d7CfUuVbuxS
+	OxhwggMbhar79Kqtk9b7Zse1foiSCYCgCWeU38dAz6BZsKf+AFtMLyZ1HMfUwp7kMov30IyeuFb
+	6P8+zxvBSAyPrjWLK1u8oXXZWb3tMLwxpknLv8fgWcgxLWjInton13v+amW4fYMuzHL4REPFpLX
+	6Zq5PPZpJhDudORF4y4rlReUNV8FYFwKL2TD1bxNtdT/orx9zJEWoPEDm2D2X7rtBtw0GELiGRq
+	8fSV0S3s1sRUl+OsS+yDYWvgBkR3/AA3MIiFd8PivT2+87HwwrSwxe8UcWwU/zbLmRz67Qi6B4t
+	6AsP3BOQBDPrLba8kkMbDn4n9NduTwbWWO/dpkrZ1cCJwNRrHhDH4t11f60Os+b8PaszGW8wXLS
+	xYly1F3cNSQs7eAhtwImokpioaXIlvWERp+AmcAnRyPvG7yK0KoIjDfGiVGDg==
+X-Received: by 2002:adf:e19c:0:b0:487:11c3:b004 with SMTP id ffacd0b85a97d-488719760c4mr23422853f8f.52.1790602368298;
+        Mon, 28 Sep 2026 06:32:48 -0700 (PDT)
+Received: from 127.mynet ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4887a349731sm28090164f8f.12.2026.09.28.06.32.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Sep 2026 06:32:47 -0700 (PDT)
+From: Pavel Begunkov <asml.silence@gmail.com>
+To: linux-block@vger.kernel.org
+Cc: asml.silence@gmail.com,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
 	linux-nvme@lists.infradead.org,
-	Ilya Dryomov <idryomov@gmail.com>,
-	Alex Markuze <amarkuze@redhat.com>,
-	Viacheslav Dubeyko <slava@dubeyko.com>,
-	ceph-devel@vger.kernel.org,
-	Eric Dumazet <edumazet@kernel.org>
-Subject: [PATCH v3 net-next 8/9] libceph: use sk_clear_nospace()
-Date: Tue, 29 Sep 2026 07:17:42 +0000
-Message-ID: <20260929071743.23624-9-edumazet@kernel.org>
-X-Mailer: git-send-email 2.56.0.rc1.315.gc6ed9934b7-goog
-In-Reply-To: <20260929071743.23624-1-edumazet@kernel.org>
-References: <20260929071743.23624-1-edumazet@kernel.org>
+	linux-fsdevel@vger.kernel.org,
+	io-uring@vger.kernel.org,
+	Christoph Hellwig <hch@lst.de>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Nitesh Shetty <nj.shetty@samsung.com>,
+	Kanchan Joshi <joshi.k@samsung.com>,
+	Anuj Gupta <anuj20.g@samsung.com>,
+	Tushar Gohad <tushar.gohad@intel.com>,
+	William Power <william.power@intel.com>,
+	Phil Cayton <phil.cayton@intel.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Alasdair Kergon <agk@redhat.com>,
+	Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	dm-devel@lists.linux.dev
+Subject: [PATCH v7 03/13] block: always adjust bi_offset on bio_advance_iter
+Date: Mon, 28 Sep 2026 14:32:19 +0100
+Message-ID: <39b4cb178513b33726c8d2ee0824f7324e84828e.1790602223.git.asml.silence@gmail.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <cover.1790602223.git.asml.silence@gmail.com>
+References: <cover.1790602223.git.asml.silence@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260928_063250_053510_1BE5538E 
+X-CRM114-Status: GOOD (  15.57  )
 X-Mailman-Approved-At: Tue, 29 Sep 2026 01:23:30 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -114,32 +128,74 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Use the new helpers instead of open coding the SOCK_NOSPACE
-manipulation, so that TCP can later maintain a cheaper private
-copy of this bit.
+Extend bio_no_advance_iter() iteration to also increment the offset.
+It's not currently needed because the currently listed request types
+don't have a buffer, but will be useful once we add bios backed by
+dma-buf, which don't have a bvec but work with a single range.
 
-No functional change intended.
-
-Reviewed-by: Kuniyuki Iwashima <kuniyu@google.com>
-Signed-off-by: Eric Dumazet <edumazet@kernel.org>
+Suggested-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
 ---
- net/ceph/messenger.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/md/dm-io-rewind.c |  6 ++++--
+ include/linux/bio.h       | 12 ++++++++----
+ 2 files changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/net/ceph/messenger.c b/net/ceph/messenger.c
-index 212e7797f9e48edde4a4536bba6f1ff293628b5b..cc7db8c61db37a998b698566caa7c936fa83fe4a 100644
---- a/net/ceph/messenger.c
-+++ b/net/ceph/messenger.c
-@@ -375,7 +375,7 @@ static void ceph_sock_write_space(struct sock *sk)
- 	if (ceph_con_flag_test(con, CEPH_CON_F_WRITE_PENDING)) {
- 		if (sk_stream_is_writeable(sk)) {
- 			dout("%s %p queueing write work\n", __func__, con);
--			clear_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
-+			sk_clear_nospace(sk);
- 			queue_con(con);
- 		}
- 	} else {
+diff --git a/drivers/md/dm-io-rewind.c b/drivers/md/dm-io-rewind.c
+index 04f3fc8aeb6f..b22719c6411c 100644
+--- a/drivers/md/dm-io-rewind.c
++++ b/drivers/md/dm-io-rewind.c
+@@ -113,10 +113,12 @@ static inline void dm_bio_rewind_iter(const struct bio *bio,
+ 	iter->bi_sector -= bytes >> 9;
+ 
+ 	/* No advance means no rewind */
+-	if (bio_no_advance_iter(bio))
++	if (bio_no_advance_iter(bio)) {
+ 		iter->bi_size += bytes;
+-	else
++		iter->bi_offset -= bytes;
++	} else {
+ 		dm_bvec_iter_rewind(bio->bi_io_vec, iter, bytes);
++	}
+ }
+ 
+ /**
+diff --git a/include/linux/bio.h b/include/linux/bio.h
+index 75f8086351c0..10ece05cbf43 100644
+--- a/include/linux/bio.h
++++ b/include/linux/bio.h
+@@ -113,11 +113,13 @@ static inline void bio_advance_iter(const struct bio *bio,
+ {
+ 	iter->bi_sector += bytes >> 9;
+ 
+-	if (bio_no_advance_iter(bio))
++	if (bio_no_advance_iter(bio)) {
+ 		iter->bi_size -= bytes;
+-	else
++		iter->bi_offset += bytes;
++	} else {
+ 		bvec_iter_advance(bio->bi_io_vec, iter, bytes);
+ 		/* TODO: It is reasonable to complete bio with error here. */
++	}
+ }
+ 
+ /* @bytes should be less or equal to bvec[i->bi_idx].bv_len */
+@@ -127,10 +129,12 @@ static inline void bio_advance_iter_single(const struct bio *bio,
+ {
+ 	iter->bi_sector += bytes >> 9;
+ 
+-	if (bio_no_advance_iter(bio))
++	if (bio_no_advance_iter(bio)) {
+ 		iter->bi_size -= bytes;
+-	else
++		iter->bi_offset += bytes;
++	} else {
+ 		bvec_iter_advance_single(bio->bi_io_vec, iter, bytes);
++	}
+ }
+ 
+ void __bio_advance(struct bio *, unsigned bytes);
 -- 
-2.56.0.rc1.315.gc6ed9934b7-goog
+2.54.0
 
 
