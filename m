@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8FEB4C9832A
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8FEF4CA5FA7
 	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2026 08:23:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,64 +12,65 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=AhzjnL4sENHY8mgNL3frpr16ZkLf9hho77d9PMQT7Tw=; b=tcO3o4k7zKDneDSZcQTzP3CZaK
-	0pZgl/thp/Ri6yc0mtMB8W7Yy4nYQTZr3hZYhJD7RVicpVA/VHgLbIzmkPqlPfA3Pes5OlLiMnhKJ
-	ntQJGkIN0950gWxNnicFneokxqK2/Tieb2TcA14AYECl1ZVJOk751m9j5jbLSb9xKcZG4l5eINw5n
-	T0W2J21ZMGp9n+1YFulLtUV/UjYZiwOhgBy/T4d3muYmf7pcZ3swi6mlueEwixMHa9T1kKBNHpJnx
-	lw63tmt94azvsXSltW0mug7tTj62Omy8f88ZM1DTak3PA8Y+iZcM5lycS8p18aBJ3pqe82xjwDweX
-	0KHjB58g==;
+	bh=cVsh0B/AKhKUiV66cIH1/p0W39OWw+1tNkq32iVCj/M=; b=ykBQfcksDCVwy1BkmMmyUvbNtV
+	M2iN3C0A2+C3EeAnBdcdH2iXIeoUP8zgcYOL09M+idw8B54i6GqBxC5ib9Y12TAxjzyAFVR4lfm+D
+	dOjnTOIgXWwWqB8W354y5nU7jOlkrCUdyAm3yRhafFrWXK4D1Nylj6aFnwnb5rhtzPubthNHIsbzV
+	7PD6+Ka2CSU81D17fchTaJB2MBXKK24UrPMQxRPTnGoToTCHkdlD3EhAXqcgpk9Lwo33r6iikbpZa
+	KALlredeFcQMv6LvC+gZocl6BRzflKquCPJbR+1oT45Ge75aJLY8nLeRgbbFkSk+rHfI+v7Z9JSac
+	3eReMW9w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBT7b-00000002jK7-4C0v;
+	id 1xBT7c-00000002jLZ-0xDs;
 	Tue, 29 Sep 2026 08:23:32 +0000
-Received: from mail-wm2-x10.google.com ([2a00:1450:4864:31::10])
+Received: from mail-wr2-x0e.google.com ([2a00:1450:4864:30::e])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBBTP-00000000fCe-3WZZ
+	id 1xBBTT-00000000fFH-1BOe
 	for linux-nvme@lists.infradead.org;
-	Mon, 28 Sep 2026 13:32:53 +0000
-Received: by mail-wm2-x10.google.com with SMTP id 5b1f17b1804b1-49fff72474fso8933915e9.3
-        for <linux-nvme@lists.infradead.org>; Mon, 28 Sep 2026 06:32:51 -0700 (PDT)
+	Mon, 28 Sep 2026 13:32:56 +0000
+Received: by mail-wr2-x0e.google.com with SMTP id ffacd0b85a97d-48884b0219bso1298218f8f.2
+        for <linux-nvme@lists.infradead.org>; Mon, 28 Sep 2026 06:32:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790602370; x=1791207170; darn=lists.infradead.org;
+        d=gmail.com; s=20251104; t=1790602373; x=1791207173; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=AhzjnL4sENHY8mgNL3frpr16ZkLf9hho77d9PMQT7Tw=;
-        b=hBNVr4iEUtudlPBPUdXAm2nS6yfF+SP/445mD2R8yr0KPdI+00Me4yJhzY2fpjc+hE
-         xpthVcT6zNKqQUNJ68IJXiJNkojfgRB+/29tTTticzhi8kAhQX8mkRhL01RrPfCFghDm
-         DX4ErKy1tfzHCf7KBkOh95YgM1Ip9RAHy5+lxnXufm0hcHc0WNDeXR9+KjuMCgMUg+JZ
-         u+6mILR3xkmSazpcVQfQFO3nkctnUcCxt1xFcU9+PAdqh3Jal3Y78HqgoFCsZ1r+bK5c
-         vuYu5hnupxU0zChvKHlgp/L5k4OooYSyGMpYd9ceF+uhjswGct1MzTMymMsEFhs8sHr/
-         3zLw==
+        bh=cVsh0B/AKhKUiV66cIH1/p0W39OWw+1tNkq32iVCj/M=;
+        b=LWdfE1xl2JUDVQBpA78D4rOh5yCbHlotWQUYgH7WZKkDounIcyjO6NFF4QPMvNTjkO
+         fKE7Zh+IoSAjB4RQof28Ai9XGACUs+u7BWYuvSiOmZNS4jCE/tN69fW2lYwK701tH70y
+         9s6ObNgMHE7HGNiYnIhRkC1aphqFuBDleRubdH6gMWg5hXE+PBdjCSeWYCadaiBvTnnk
+         9IYZzMhRiNT4XYz+EEqiHBO+cuR/fBIQPnA26H/Bz/G4K3VjMbRlE5p7O3/qR1eOZkEx
+         mR5EdD0IYrw3gYgP0W+38FiqEEaEVhh51VwRjRulgZ60QYs89SEbDdg8FNQDa2NTbhx9
+         djyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790602370; x=1791207170;
+        d=1e100.net; s=20260707; t=1790602373; x=1791207173;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=AhzjnL4sENHY8mgNL3frpr16ZkLf9hho77d9PMQT7Tw=;
-        b=lX5yaz1uEe/tOt7NX4BCUDrsyyqjZhUyH0WNvEk0J4NFSuco46D2sv5beoyQcBTUJp
-         De0ZIdp5m82IOmsEVsbjDeoukEgizXM09jfKC+CteFAmYbrzENi/ukyG0tXFpiJwqTpr
-         36hpZxpcxYx2UuwBDfV94JI7IywAt4ZwXg8EKediIK61GhI3P2IuLiRpBKpx1X+Gzzlf
-         ghAGqZAljRR4F2P7uD8XGzsQQLq9QbKgrdKimpnWDaXaWJv9KZpOoFNBax8NON6IRxRu
-         v7ViZeSZcVc3h+owbGzIwRsjJSFyIQdXziHZsI0mPeieCpslenFgZpcxaUZY7uQ0LjJH
-         uvqA==
-X-Forwarded-Encrypted: i=1; AKwUvBzmYjg3I5NFp1g7sQP09G5oAqI5IP1Ct63mctlXrOv3Gh+4mmpotfOjNtnmWlubiugv/iV99/golrj0@lists.infradead.org
-X-Gm-Message-State: AFuF++knv/cmlEUZ79mZ6ITuzrZ6fykjstRQ9yr2kMftgNUP6ZDev74F
-	OYyI+AtEQ5FEDDS0nSYwndx7UyPJHEPy+tYguKIHDAU/Uc20gxNLJZkw
-X-Gm-Gg: AYBFou0VaM+hMMoEsWzizIfpedkzRbvV7A/0vQ9AzC1TwZdxt+W1AOQGd4w92UcotQf
-	L6NdUKdNPDQTAIyQftVZn6Hzg7sXcUP4NCZbZDgawoQovV+/RrPXVpK7gaTlmpAHPHP1FswBjOx
-	Aldz3jntq7nvD2Xwz9+5ug0yoeAy6J63Ym1IVx9IeruzkEpVlHHJ66hYWsMwcvIz9tQmvn/WTXj
-	syWlTKomvkNXW1UiYIx9SjmqElY8pzfuBJfoaBkaDlQNhBJnD/GRKRdLszpHlu0zv1l7NDk/9mr
-	kT7QHV8FS5Jykj32dlHb5jsplj67S/pUUbQ2NPrtRPn6DmupJmaVngZy9XdtU7AqpwqbC+osk+E
-	Z0+CqERPvHWtcqn9Kg+Wvn/pUJxvxcCWfYtvwL5Q7tRDwii0PnkqKCuDT+i5tjQkQJ1JHBZeyDJ
-	j5Do5pa6ODfNIGMEweStK/F36aErdI9Eoyr9Bxnoi0iNPxtTYlJwThO1BD2jYzJi2seeYguasV9
-	fSYqT0KV7n8OxoBCKggMPUmUaUi8XIcoJafbTsmASSlwXQIVlYn2KZUVbyu5kooqv8AX5amoeqr
-X-Received: by 2002:a05:600c:4709:b0:49f:fbad:29c1 with SMTP id 5b1f17b1804b1-49ffbad2d61mr102147255e9.33.1790602369885;
-        Mon, 28 Sep 2026 06:32:49 -0700 (PDT)
+        bh=cVsh0B/AKhKUiV66cIH1/p0W39OWw+1tNkq32iVCj/M=;
+        b=g4InjFoRB6ptKM4SNw9MV/pz8XMaIDsjc/lp1J3o1gUo+kN5MSAilAg+zp9V2IyOak
+         mh3UDrKQIUr7OwehPWsubykc1kjqY7sOxyr/6Qyi2jLFLv8QL6wLVyNH7V1BT7rHvyVg
+         f4EipS0fKYGTH+D0f3OCnP98AShKMY9tWttkmO/U5Rn1CCbu4rhvNOr5GOCoT3q9JGNH
+         yQopGdjhB34kyBjNPfqp4gaWPzgDs3P1t5xyNqgW8RiZ/YmfOmCna7Tf9fUKeH1ZvpnK
+         OwkHIaXIZkZFCK3KnuISSUVIHYxc1UtuMQvZHwuvv5a7sfs6i3rvg7sAcrVAg1h6mFpH
+         o5yA==
+X-Forwarded-Encrypted: i=1; AKwUvBxeTY2Iu1RHIsy4vW8RkdexeR8EaYfNrkIjCmShS+N5pgE14/MjD59VOHwyrmNLGAnF42M8nMA/MQzR@lists.infradead.org
+X-Gm-Message-State: AFq9FYIe9I0clj9133534ZUP6+FYFUK09HeOMPx41zGb+1cQQhrdu4zr
+	/qr73eVslbWPddiKFFU66BklftgvOsseLnTTgeFzUKfzOcM257oihHc9
+X-Gm-Gg: AYBFou00iVGg7m3Ce/YWhkc83K/tRZn2EoYca2BgGqZ5kn616UbGNW+u4WKPu8u5S/Q
+	dqDVhlbhDJkywFRGvMM/WBs094c8Tr4+0NgvW/lSvJjCvcvXlIwhI0ay2yn3DTy/3Z3Kx/KA6Np
+	+maMyQYkGrT5JrkjiIoV4OxDLQO8NnNhE/Ax5+h5tS9s16UtYc4/swWXc6iuAGxlj3oWzNR+2n6
+	wjp4mj3f+hT6jaguXSAXDowtkrbZGPYrK/ys82IRUrbOQtDaOk+/oDttQCaPiUeEBaMkMQrXNQN
+	vExriyx3/HyIPwZ651Z3NuL3do1BiTWehck2KH/tgmHt4OvFRY+ybBD5dZDOjy8DvVhHSm2Kigf
+	jiJougc+W3NNKPJjQNbEMiUfFoPeiWhlC1t2IMZg7GYQwj+zzV8+MWYPV4OCYe/KiUKT7XuVOV0
+	aWlzfSMtwMKCal4AAIDD1VqW7h2AEow01haWAzsNfadqkwU6OVdEIi0OObiKxKQ0iVIikuUYdyz
+	DNSabowPqeslbOyRQDRL1m8K/YGEkwFelkz5/NNXFzxOeojJC4UABraDsdJFDkny7IaaLmRiTTE
+	yjUELt7/yFU=
+X-Received: by 2002:a5d:59c4:0:b0:488:6da0:b83d with SMTP id ffacd0b85a97d-4887db39e6cmr20780234f8f.44.1790602373373;
+        Mon, 28 Sep 2026 06:32:53 -0700 (PDT)
 Received: from 127.mynet ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4887a349731sm28090164f8f.12.2026.09.28.06.32.48
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4887a349731sm28090164f8f.12.2026.09.28.06.32.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2026 06:32:49 -0700 (PDT)
+        Mon, 28 Sep 2026 06:32:52 -0700 (PDT)
 From: Pavel Begunkov <asml.silence@gmail.com>
 To: linux-block@vger.kernel.org
 Cc: asml.silence@gmail.com,
@@ -102,17 +103,17 @@ Cc: asml.silence@gmail.com,
 	Mikulas Patocka <mpatocka@redhat.com>,
 	Benjamin Marzinski <bmarzins@redhat.com>,
 	dm-devel@lists.linux.dev
-Subject: [PATCH v7 04/13] block: introduce dma map backed bio type
-Date: Mon, 28 Sep 2026 14:32:20 +0100
-Message-ID: <6fe0d7c85c2f981c5caab3d1532b6c73c604cdb1.1790602223.git.asml.silence@gmail.com>
+Subject: [PATCH v7 06/13] nvme-pci: implement dma-buf backed requests
+Date: Mon, 28 Sep 2026 14:32:22 +0100
+Message-ID: <e99dd5221c71cbf9aafb5737468d814cb83b9174.1790602223.git.asml.silence@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <cover.1790602223.git.asml.silence@gmail.com>
 References: <cover.1790602223.git.asml.silence@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260928_063251_930848_FAEB28BC 
-X-CRM114-Status: GOOD (  33.17  )
+X-CRM114-CacheID: sfid-20260928_063255_474205_A33F40A5 
+X-CRM114-Status: GOOD (  23.67  )
 X-Mailman-Approved-At: Tue, 29 Sep 2026 01:23:30 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -128,280 +129,450 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Premapped buffers don't require a generic bio_vec since these have
-already been dma mapped. Repurpose the bi_io_vec space to store dmabuf
-maps as they are mutually exclusive.
-
-The bio splitting differs from the normal path because it's already
-pre-mapped and for the block layer it's just an offset into the dma-buf.
-The actual segmentation is only available to the importer driver and not
-the block layer, however, it doesn't contain alignment gaps and we don't
-have to check it. For the same reason we can't precisely split by the
-number of segments, but we use ->min_seg_shift stored in the map to
-calculate the minimum number of bytes a request consisting of
-lim->max_segments full segments can cover and split by that. It's
-stricter and can add extra splitting. E.g. for a {4K, 4G} segmentation,
-the min segment size is 4K, and we'll split it into bios of
-(4K * lim->max_segments) bytes each, but it should be good enough for
-now to cover the most popular use cases.
+Enable BIO_DMABUF_MAP backed requests. On registration we map the
+dma-buf and store it as a prp list, which is then used to initialise
+requests. All attached contexts are stored in a new list dmabuf_ctxs,
+and additions/removals are synchronised with dmabuf_lock.
 
 Suggested-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
 ---
- block/bio.c               | 15 ++++++++++--
- block/blk-merge.c         | 50 +++++++++++++++++++++++++++++++++++++++
- block/fops.c              |  2 +-
- include/linux/bio.h       |  9 +++----
- include/linux/blk-mq.h    |  7 ++++++
- include/linux/blk_types.h | 14 ++++++++++-
- include/linux/bvec.h      |  3 ++-
- 7 files changed, 91 insertions(+), 9 deletions(-)
+ drivers/nvme/host/core.c |  12 ++
+ drivers/nvme/host/nvme.h |   2 +
+ drivers/nvme/host/pci.c  | 308 +++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 322 insertions(+)
 
-diff --git a/block/bio.c b/block/bio.c
-index b48091c7663f..1e0d9714c541 100644
---- a/block/bio.c
-+++ b/block/bio.c
-@@ -881,7 +881,11 @@ static int __bio_clone(struct bio *bio, struct bio *bio_src, gfp_t gfp)
- 	bio->bi_write_stream = bio_src->bi_write_stream;
- 	bio->bi_bvec_gap_bit = bio_src->bi_bvec_gap_bit;
- 	bio->bi_iter = bio_src->bi_iter;
--	bio->bi_io_vec = bio_src->bi_io_vec;
-+
-+	if (op_is_dmabuf(bio->bi_opf))
-+		bio->bi_dmabuf_map = bio_src->bi_dmabuf_map;
-+	else
-+		bio->bi_io_vec = bio_src->bi_io_vec;
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index beea23d04a70..d81462e864a4 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2699,6 +2699,17 @@ static int nvme_report_zones(struct gendisk *disk, sector_t sector,
+ #define nvme_report_zones	NULL
+ #endif /* CONFIG_BLK_DEV_ZONED */
  
- 	if (bio->bi_bdev) {
- 		if (bio->bi_bdev == bio_src->bi_bdev &&
-@@ -1204,16 +1208,23 @@ EXPORT_SYMBOL_GPL(__bio_release_pages);
- 
- bool bio_iov_iter_set(struct bio *bio, const struct iov_iter *iter)
- {
--	if (!iov_iter_is_bvec(iter))
-+	if (!iov_iter_is_bvec(iter) && !iov_iter_is_dmabuf_map(iter))
- 		return false;
- 
- 	WARN_ON_ONCE(bio->bi_max_vecs);
- 
-+	static_assert(offsetof(struct bio, bi_io_vec) ==
-+		      offsetof(struct bio, bi_dmabuf_map));
-+	static_assert(offsetof(struct iov_iter, bvec) ==
-+		      offsetof(struct iov_iter, dmabuf_map));
-+
- 	bio->bi_io_vec = (struct bio_vec *)iter->bvec;
- 	bio->bi_iter.bi_idx = 0;
- 	bio->bi_iter.bi_offset = iter->iov_offset;
- 	bio->bi_iter.bi_size = iov_iter_count(iter);
- 	bio_set_flag(bio, BIO_CLONED);
-+	if (iov_iter_is_dmabuf_map(iter))
-+		bio->bi_opf |= REQ_NOMERGE | REQ_DMABUF;
- 	return true;
- }
- 
-diff --git a/block/blk-merge.c b/block/blk-merge.c
-index 258a726071d1..18f014ff3314 100644
---- a/block/blk-merge.c
-+++ b/block/blk-merge.c
-@@ -9,6 +9,7 @@
- #include <linux/blk-integrity.h>
- #include <linux/part_stat.h>
- #include <linux/blk-cgroup.h>
-+#include <linux/dma-buf-io.h>
- 
- #include <trace/events/block.h>
- 
-@@ -319,6 +320,41 @@ static inline unsigned int bvec_seg_gap(struct bio_vec *bvprv,
- 	return bv->bv_offset | (bvprv->bv_offset + bvprv->bv_len);
- }
- 
-+static inline int bio_split_io_at_dmabuf(struct bio *bio,
-+		const struct queue_limits *lim, unsigned *segs,
-+		unsigned max_bytes, unsigned len_align_mask,
-+		unsigned start_align_mask)
++static int nvme_init_dma_buf_io_ctx(struct block_device *bdev,
++		struct dma_buf_io_ctx *ctx)
 +{
-+	unsigned bytes = min(bio->bi_iter.bi_size, max_bytes);
-+	unsigned seg_shift = bio->bi_dmabuf_map->min_seg_shift;
-+	unsigned offset = bio->bi_iter.bi_offset & ((1U << seg_shift) - 1);
-+	u64 max_segs_bytes;
++	struct nvme_ns *ns = bdev->bd_disk->private_data;
++	struct nvme_ctrl *ctrl = ns->ctrl;
 +
-+	/*
-+	 * dma-buf maps don't expose the underlying segmentation, but they're
-+	 * guaranteed to not have alignment gaps, we only need to check the
-+	 * start and length alignment.
-+	 */
-+	if ((bio->bi_iter.bi_offset & start_align_mask) ||
-+	    (bio->bi_iter.bi_size & len_align_mask))
++	if (!ctrl->ops->init_dma_buf_io_ctx)
 +		return -EINVAL;
++	return ctrl->ops->init_dma_buf_io_ctx(ctrl, ctx);
++}
 +
-+	/* Presented as a single contiguous range into the dma-buf */
-+	*segs = 1;
+ const struct block_device_operations nvme_bdev_ops = {
+ 	.owner		= THIS_MODULE,
+ 	.ioctl		= nvme_ioctl,
+@@ -2709,6 +2720,7 @@ const struct block_device_operations nvme_bdev_ops = {
+ 	.get_unique_id	= nvme_get_unique_id,
+ 	.report_zones	= nvme_report_zones,
+ 	.pr_ops		= &nvme_pr_ops,
++	.init_dma_buf_io_ctx = nvme_init_dma_buf_io_ctx,
+ };
+ 
+ static int nvme_wait_ready(struct nvme_ctrl *ctrl, u32 mask, u32 val,
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 2cff9fcbf740..befb7faba9ca 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -667,6 +667,8 @@ struct nvme_ctrl_ops {
+ 	int (*get_address)(struct nvme_ctrl *ctrl, char *buf, int size);
+ 	void (*print_device_info)(struct nvme_ctrl *ctrl);
+ 	bool (*supports_pci_p2pdma)(struct nvme_ctrl *ctrl);
++	int (*init_dma_buf_io_ctx)(struct nvme_ctrl *ctrl,
++				   struct dma_buf_io_ctx *ctx);
+ 	unsigned long (*get_virt_boundary)(struct nvme_ctrl *ctrl, bool is_admin);
+ };
+ 
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index a953c0697f99..e58bdd9a4098 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -27,6 +27,8 @@
+ #include <linux/io-64-nonatomic-lo-hi.h>
+ #include <linux/io-64-nonatomic-hi-lo.h>
+ #include <linux/sed-opal.h>
++#include <linux/dma-buf-io.h>
++#include <linux/dma-resv.h>
+ 
+ #include "trace.h"
+ #include "nvme.h"
+@@ -318,6 +320,8 @@ struct nvme_dev {
+ 	bool hmb;
+ 	struct sg_table *hmb_sgt;
+ 	mempool_t *dmavec_mempool;
++	struct list_head dmabuf_ctxs;
++	struct mutex dmabuf_lock;
+ 
+ 	/* shadow doorbell buffer support: */
+ 	__le32 *dbbuf_dbs;
+@@ -397,6 +401,13 @@ struct nvme_queue {
+ 	struct completion delete_done;
+ };
+ 
++struct nvme_dmabuf_map {
++	struct dma_buf_io_map base;
++	struct sg_table *sgt;
++	unsigned nr_entries;
++	dma_addr_t dma_list[];
++};
 +
-+	/*
-+	 * Limit by the number of segments by using the minimal segment size.
-+	 * Any I/O consisting of N full segments should be able to cover at
-+	 * least N multiplied by the segment size. It's stricter than walking
-+	 * the segments and might cause extra splitting.
-+	 */
-+	max_segs_bytes = (u64)lim->max_segments << seg_shift;
-+	bytes = min_t(u64, bytes, max_segs_bytes - offset);
-+	if (bytes != bio->bi_iter.bi_size)
-+		return bytes;
+ /* bits for iod->flags */
+ enum nvme_iod_flags {
+ 	/* this command has been aborted by the timeout handler */
+@@ -865,6 +876,120 @@ static void nvme_free_descriptors(struct request *req)
+ 	}
+ }
+ 
++static inline struct nvme_dmabuf_map *
++to_nvme_dmabuf_map(struct dma_buf_io_map *map)
++{
++	return container_of(map, struct nvme_dmabuf_map, base);
++}
++
++static void nvme_dmabuf_map_sync_for_cpu(struct nvme_dev *nvme_dev,
++		struct request *req)
++{
++	struct device *dev = nvme_dev->dev;
++	enum dma_data_direction dma_dir;
++	struct bio *bio = req->bio;
++	struct nvme_dmabuf_map *map = to_nvme_dmabuf_map(bio->bi_dmabuf_map);
++
++	dma_dir = rq_data_dir(req) == READ ? DMA_FROM_DEVICE : DMA_TO_DEVICE;
++	dma_sync_sgtable_for_cpu(dev, map->sgt, dma_dir);
++}
++
++static void nvme_dmabuf_map_sync_for_device(struct nvme_dev *nvme_dev,
++		struct request *req)
++{
++	struct device *dev = nvme_dev->dev;
++	enum dma_data_direction dma_dir;
++	struct bio *bio = req->bio;
++	struct nvme_dmabuf_map *map = to_nvme_dmabuf_map(bio->bi_dmabuf_map);
++
++	dma_dir = rq_data_dir(req) == READ ? DMA_FROM_DEVICE : DMA_TO_DEVICE;
++	dma_sync_sgtable_for_device(dev, map->sgt, dma_dir);
++}
++
++static void nvme_rq_clean_dmabuf_map(struct nvme_dev *dev,
++		struct request *req)
++{
++	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
++
++	nvme_dmabuf_map_sync_for_cpu(dev, req);
++
++	if (iod->nr_descriptors)
++		nvme_free_descriptors(req);
++}
++
++static blk_status_t nvme_rq_setup_dmabuf_map(struct request *req,
++		struct nvme_queue *nvmeq)
++{
++	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
++	struct bio *bio = req->bio;
++	struct nvme_dmabuf_map *map = to_nvme_dmabuf_map(bio->bi_dmabuf_map);
++	unsigned bvec_done = bio->bi_iter.bi_offset;
++	unsigned map_idx = bvec_done / NVME_CTRL_PAGE_SIZE;
++	unsigned offset = bvec_done & (NVME_CTRL_PAGE_SIZE - 1);
++	int length = blk_rq_payload_bytes(req) - (NVME_CTRL_PAGE_SIZE - offset);
++	dma_addr_t *dma_list = map->dma_list;
++	u64 prp1_dma = dma_list[map_idx++] + offset;
++	u64 dma_addr, prp2_dma;
++	dma_addr_t prp_dma;
++	__le64 *prp_list;
++	unsigned i;
++
++	nvme_dmabuf_map_sync_for_device(nvmeq->dev, req);
++
++	if (length <= 0) {
++		prp2_dma = 0;
++		goto done;
++	}
++
++	if (length <= NVME_CTRL_PAGE_SIZE) {
++		prp2_dma = dma_list[map_idx];
++		goto done;
++	}
++
++	if (DIV_ROUND_UP(length, NVME_CTRL_PAGE_SIZE) <=
++	    NVME_SMALL_POOL_SIZE / sizeof(__le64))
++		iod->flags |= IOD_SMALL_DESCRIPTOR;
++
++	prp_list = dma_pool_alloc(nvme_dma_pool(nvmeq, iod), GFP_ATOMIC,
++			&prp_dma);
++	if (!prp_list)
++		return BLK_STS_RESOURCE;
++
++	iod->descriptors[iod->nr_descriptors++] = prp_list;
++	prp2_dma = prp_dma;
++	i = 0;
++	for (;;) {
++		if (i == NVME_CTRL_PAGE_SIZE >> 3) {
++			__le64 *old_prp_list = prp_list;
++
++			prp_list = dma_pool_alloc(nvmeq->descriptor_pools.large,
++					GFP_ATOMIC, &prp_dma);
++			if (!prp_list)
++				goto free_prps;
++			iod->descriptors[iod->nr_descriptors++] = prp_list;
++			prp_list[0] = old_prp_list[i - 1];
++			old_prp_list[i - 1] = cpu_to_le64(prp_dma);
++			i = 1;
++		}
++
++		dma_addr = dma_list[map_idx++];
++		prp_list[i++] = cpu_to_le64(dma_addr);
++
++		length -= NVME_CTRL_PAGE_SIZE;
++		if (length <= 0)
++			break;
++	}
++done:
++	iod->cmd.common.dptr.prp1 = cpu_to_le64(prp1_dma);
++	iod->cmd.common.dptr.prp2 = cpu_to_le64(prp2_dma);
++	return BLK_STS_OK;
++free_prps:
++	iod->cmd.common.dptr.prp1 = cpu_to_le64(prp1_dma);
++	iod->cmd.common.dptr.prp2 = cpu_to_le64(prp2_dma);
++	nvme_free_descriptors(req);
++	return BLK_STS_RESOURCE;
++}
++
+ static void nvme_free_prps(struct request *req, unsigned int attrs)
+ {
+ 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+@@ -943,6 +1068,11 @@ static void nvme_unmap_data(struct request *req)
+ 	struct device *dma_dev = nvmeq->dev->dev;
+ 	unsigned int attrs = 0;
+ 
++	if (blk_mq_rq_is_dmabuf(req)) {
++		nvme_rq_clean_dmabuf_map(nvmeq->dev, req);
++		return;
++	}
++
+ 	if (iod->flags & IOD_SINGLE_SEGMENT) {
+ 		static_assert(offsetof(union nvme_data_ptr, prp1) ==
+ 				offsetof(union nvme_data_ptr, sgl.addr));
+@@ -1257,6 +1387,9 @@ static blk_status_t nvme_map_data(struct request *req)
+ 	struct blk_dma_iter iter;
+ 	blk_status_t ret;
+ 
++	if (blk_mq_rq_is_dmabuf(req))
++		return nvme_rq_setup_dmabuf_map(req, nvmeq);
++
+ 	/*
+ 	 * Try to skip the DMA iterator for single segment requests, as that
+ 	 * significantly improves performances for small I/O sizes.
+@@ -2284,6 +2417,172 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid, bool polled)
+ 	return result;
+ }
+ 
++#ifdef CONFIG_DMA_SHARED_BUFFER
++
++struct nvme_dma_buf_io_ctx {
++	struct dma_buf_attachment *attach;
++	struct dma_buf_io_ctx *ctx;
++	struct nvme_dev *dev;
++	struct list_head list;
++};
++
++static void nvme_dmabuf_invalidate_mappings(struct dma_buf_attachment *attach)
++{
++	struct dma_buf_io_ctx *ctx = attach->importer_priv;
++
++	dma_buf_io_invalidate_mappings(ctx);
++}
++
++static const struct dma_buf_attach_ops nvme_dmabuf_importer_ops = {
++	.invalidate_mappings	= nvme_dmabuf_invalidate_mappings,
++	.allow_peer2peer	= true,
++};
++
++static struct dma_buf_io_map *nvme_dma_buf_io_map(struct dma_buf_io_ctx *ctx)
++{
++	unsigned nr_entries = ctx->dmabuf->size / NVME_CTRL_PAGE_SIZE;
++	struct nvme_dma_buf_io_ctx *nvme_ctx = ctx->dev_priv;
++	struct dma_buf_attachment *attach = nvme_ctx->attach;
++	unsigned long tmp, i = 0;
++	struct nvme_dmabuf_map *map;
++	struct scatterlist *sg;
++	struct sg_table *sgt;
++	int ret;
++
++	dma_resv_assert_held(ctx->dmabuf->resv);
++
++	map = kvmalloc_flex(*map, dma_list, nr_entries);
++	if (!map)
++		return ERR_PTR(-ENOMEM);
++
++	sgt = dma_buf_map_attachment(attach, ctx->dir);
++	if (IS_ERR(sgt)) {
++		ret = PTR_ERR(sgt);
++		sgt = NULL;
++		goto err;
++	}
++
++	for_each_sgtable_dma_sg(sgt, sg, tmp) {
++		dma_addr_t dma_addr = sg_dma_address(sg);
++		unsigned long sg_len = sg_dma_len(sg);
++
++		if ((sg_len % NVME_CTRL_PAGE_SIZE) ||
++		    (dma_addr % NVME_CTRL_PAGE_SIZE)) {
++			ret = -EINVAL;
++			goto err;
++		}
++		while (sg_len) {
++			map->dma_list[i++] = dma_addr;
++			dma_addr += NVME_CTRL_PAGE_SIZE;
++			sg_len -= NVME_CTRL_PAGE_SIZE;
++		}
++	}
++
++	ret = dma_buf_io_init_map(ctx, &map->base, sgt);
++	if (ret)
++		goto err;
++	map->nr_entries = nr_entries;
++	map->sgt = sgt;
++	return &map->base;
++err:
++	if (sgt)
++		dma_buf_unmap_attachment(attach, sgt, ctx->dir);
++	kfree(map);
++	return ERR_PTR(ret);
++}
++
++static void nvme_dma_buf_io_unmap(struct dma_buf_io_ctx *ctx,
++		struct dma_buf_io_map *map_base)
++{
++	struct nvme_dma_buf_io_ctx *nvme_ctx = ctx->dev_priv;
++	struct nvme_dmabuf_map *map = to_nvme_dmabuf_map(map_base);
++
++	dma_resv_assert_held(ctx->dmabuf->resv);
++
++	dma_buf_unmap_attachment(nvme_ctx->attach, map->sgt, ctx->dir);
++	kvfree(map);
++}
++
++static void nvme_dma_buf_io_release(struct dma_buf_io_ctx *ctx)
++{
++	struct nvme_dma_buf_io_ctx *nvme_ctx = ctx->dev_priv;
++	struct nvme_dev *dev = nvme_ctx->dev;
++
++	mutex_lock(&dev->dmabuf_lock);
++	if (!list_empty(&nvme_ctx->list)) {
++		dma_buf_detach(ctx->dmabuf, nvme_ctx->attach);
++		list_del_init(&nvme_ctx->list);
++	}
++	mutex_unlock(&dev->dmabuf_lock);
++
++	nvme_put_ctrl(&dev->ctrl);
++	kfree(nvme_ctx);
++}
++
++const struct dma_buf_io_ops nvme_dma_buf_io_ops = {
++	.map		= nvme_dma_buf_io_map,
++	.unmap		= nvme_dma_buf_io_unmap,
++	.release	= nvme_dma_buf_io_release,
++};
++
++static int __nvme_pci_init_dma_buf_io_ctx(struct nvme_ctrl *ctrl,
++		struct dma_buf_io_ctx *ctx)
++{
++	struct nvme_dev *dev = to_nvme_dev(ctrl);
++	struct nvme_dma_buf_io_ctx *nvme_ctx;
++	struct dma_buf_attachment *attach;
++
++	nvme_ctx = kzalloc_obj(*nvme_ctx);
++	if (!nvme_ctx)
++		return -ENOMEM;
++
++	attach = dma_buf_dynamic_attach(ctx->dmabuf, dev->dev,
++					&nvme_dmabuf_importer_ops, ctx);
++	if (IS_ERR(attach)) {
++		kfree(nvme_ctx);
++		return PTR_ERR(attach);
++	}
++
++	nvme_get_ctrl(ctrl);
++	list_add(&nvme_ctx->list, &dev->dmabuf_ctxs);
++	nvme_ctx->attach = attach;
++	nvme_ctx->ctx = ctx;
++	nvme_ctx->dev = dev;
++	ctx->dev_priv = nvme_ctx;
++	ctx->dev_ops = &nvme_dma_buf_io_ops;
 +	return 0;
 +}
 +
- /**
-  * bio_split_io_at - check if and where to split a bio
-  * @bio:  [in] bio to be split
-@@ -346,6 +382,19 @@ int bio_split_io_at(struct bio *bio, const struct queue_limits *lim,
- 		len_align_mask |= (bc->bc_key->crypto_cfg.data_unit_size - 1);
- 	}
- 
-+	if (op_is_dmabuf(bio->bi_opf)) {
-+		int ret;
++static int nvme_pci_init_dma_buf_io_ctx(struct nvme_ctrl *ctrl,
++		struct dma_buf_io_ctx *ctx)
++{
++	struct nvme_dev *dev = to_nvme_dev(ctrl);
++	int ret;
 +
-+		ret = bio_split_io_at_dmabuf(bio, lim, &nsegs, max_bytes,
-+					     len_align_mask, start_align_mask);
-+		if (ret < 0)
-+			return ret;
-+		if (!ret)
-+			goto out;
-+		bytes = ret;
-+		goto split;
++	mutex_lock(&dev->dmabuf_lock);
++	ret = __nvme_pci_init_dma_buf_io_ctx(ctrl, ctx);
++	mutex_unlock(&dev->dmabuf_lock);
++	return ret;
++}
++
++static void nvme_pci_remove_dmabuf(struct nvme_dev *dev)
++{
++	struct nvme_dma_buf_io_ctx *ctx, *tmp;
++
++	mutex_lock(&dev->dmabuf_lock);
++	list_for_each_entry_safe(ctx, tmp, &dev->dmabuf_ctxs, list) {
++		dma_buf_io_detach(ctx->ctx);
++		dma_buf_detach(ctx->ctx->dmabuf, ctx->attach);
++		list_del_init(&ctx->list);
 +	}
++	mutex_unlock(&dev->dmabuf_lock);
++}
++#else
++static void nvme_pci_remove_dmabuf(struct nvme_dev *dev)
++{
++}
++#endif
 +
- 	bio_for_each_bvec(bv, bio, iter) {
- 		if (bv.bv_offset & start_align_mask ||
- 		    bv.bv_len & len_align_mask)
-@@ -376,6 +425,7 @@ int bio_split_io_at(struct bio *bio, const struct queue_limits *lim,
- 		bvprvp = &bvprv;
+ static const struct blk_mq_ops nvme_mq_admin_ops = {
+ 	.queue_rq	= nvme_queue_rq,
+ 	.complete	= nvme_pci_complete_rq,
+@@ -3357,6 +3656,9 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ 			nvme_unquiesce_admin_queue(&dev->ctrl);
  	}
- 
-+out:
- 	*segs = nsegs;
- 	bio->bi_bvec_gap_bit = ffs(gaps);
- 	return 0;
-diff --git a/block/fops.c b/block/fops.c
-index 4d1ab0311b4d..641621db700f 100644
---- a/block/fops.c
-+++ b/block/fops.c
-@@ -363,7 +363,7 @@ static ssize_t __blkdev_direct_IO_async(struct kiocb *iocb,
- 	 * Users don't rely on the iterator being in any particular
- 	 * state for async I/O returning -EIOCBQUEUED, hence we can
- 	 * avoid expensive iov_iter_advance(). Bypass
--	 * bio_iov_iter_get_pages() and set the bvec directly.
-+	 * bio_iov_iter_get_pages() and set the bvec/dmabuf directly.
- 	 */
- 	if (!bio_iov_iter_set(bio, iter)) {
- 		ret = blkdev_iov_iter_get_pages(bio, iter, bdev);
-diff --git a/include/linux/bio.h b/include/linux/bio.h
-index 10ece05cbf43..47aef63dba3b 100644
---- a/include/linux/bio.h
-+++ b/include/linux/bio.h
-@@ -80,7 +80,8 @@ static inline bool bio_no_advance_iter(const struct bio *bio)
- {
- 	return bio_op(bio) == REQ_OP_DISCARD ||
- 	       bio_op(bio) == REQ_OP_SECURE_ERASE ||
--	       bio_op(bio) == REQ_OP_WRITE_ZEROES;
-+	       bio_op(bio) == REQ_OP_WRITE_ZEROES ||
-+	       op_is_dmabuf(bio->bi_opf);
- }
- 
- static inline void *bio_data(struct bio *bio)
-@@ -444,12 +445,12 @@ static inline void bio_wouldblock_error(struct bio *bio)
- 
- /*
-  * Calculate number of bvec segments that should be allocated to fit data
-- * pointed by @iter. If @iter is backed by bvec it's going to be reused
-- * instead of allocating a new one.
-+ * pointed by @iter. If @iter is backed by a bvec or a dmabuf, the bvec array /
-+ * the dma map are going to be reused, and so no extra allocation is required.
-  */
- static inline int bio_iov_vecs_to_alloc(struct iov_iter *iter, int max_segs)
- {
--	if (iov_iter_is_bvec(iter))
-+	if (iov_iter_is_bvec(iter) || iov_iter_is_dmabuf_map(iter))
- 		return 0;
- 	return iov_iter_npages(iter, max_segs);
- }
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index af878597afb8..7c7504c84e09 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -1017,6 +1017,13 @@ static inline void *blk_mq_rq_to_pdu(struct request *rq)
- 	return rq + 1;
- }
- 
-+static inline bool blk_mq_rq_is_dmabuf(struct request *rq)
-+{
-+	if (!IS_ENABLED(CONFIG_DMA_SHARED_BUFFER))
-+		return false;
-+	return rq->bio && op_is_dmabuf(rq->bio->bi_opf);
-+}
+ 	mutex_unlock(&dev->shutdown_lock);
 +
- static inline struct blk_mq_hw_ctx *queue_hctx(struct request_queue *q, int id)
- {
- 	struct blk_mq_hw_ctx *hctx;
-diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-index 98e21b4cbf32..0cc09b975d8f 100644
---- a/include/linux/blk_types.h
-+++ b/include/linux/blk_types.h
-@@ -233,7 +233,12 @@ struct bio {
- 	atomic_t		__bi_remaining;
- 
- 	/* The actual vec list, preserved by bio_reset() */
--	struct bio_vec		*bi_io_vec;
-+	union {
-+		struct bio_vec		*bi_io_vec;
-+		/* Driver specific dma map, valid IFF REQ_DMABUF is set */
-+		struct dma_buf_io_map	*bi_dmabuf_map;
-+	};
-+
- 	struct bvec_iter	bi_iter;
- 
- 	union {
-@@ -402,6 +407,7 @@ enum req_flag_bits {
- 	__REQ_DRV,		/* for driver use */
- 	__REQ_FS_PRIVATE,	/* for file system (submitter) use */
- 	__REQ_ATOMIC,		/* for atomic write operations */
-+	__REQ_DMABUF,		/* Using premmaped dma buffers */
- 	/*
- 	 * Command specific flags, keep last:
- 	 */
-@@ -434,6 +440,7 @@ enum req_flag_bits {
- #define REQ_DRV		(__force blk_opf_t)(1ULL << __REQ_DRV)
- #define REQ_FS_PRIVATE	(__force blk_opf_t)(1ULL << __REQ_FS_PRIVATE)
- #define REQ_ATOMIC	(__force blk_opf_t)(1ULL << __REQ_ATOMIC)
-+#define REQ_DMABUF	(__force blk_opf_t)(1ULL << __REQ_DMABUF)
- 
- #define REQ_NOUNMAP	(__force blk_opf_t)(1ULL << __REQ_NOUNMAP)
- 
-@@ -487,6 +494,11 @@ static inline bool op_is_discard(blk_opf_t op)
- 	return (op & REQ_OP_MASK) == REQ_OP_DISCARD;
++	if (shutdown)
++		nvme_pci_remove_dmabuf(dev);
  }
  
-+static inline bool op_is_dmabuf(blk_opf_t op)
-+{
-+	return op & REQ_DMABUF;
-+}
-+
- /*
-  * Check if a bio or request operation is a zone management operation.
-  */
-diff --git a/include/linux/bvec.h b/include/linux/bvec.h
-index fc566ee1c1ff..b63914ff56e3 100644
---- a/include/linux/bvec.h
-+++ b/include/linux/bvec.h
-@@ -108,7 +108,8 @@ struct bvec_iter {
- 	unsigned int		bi_idx;
+ static int nvme_disable_prepare_reset(struct nvme_dev *dev, bool shutdown)
+@@ -3579,6 +3881,9 @@ static const struct nvme_ctrl_ops nvme_pci_ctrl_ops = {
+ 	.print_device_info	= nvme_pci_print_device_info,
+ 	.supports_pci_p2pdma	= nvme_pci_supports_pci_p2pdma,
+ 	.get_virt_boundary	= nvme_pci_get_virt_boundary,
++#ifdef CONFIG_DMA_SHARED_BUFFER
++	.init_dma_buf_io_ctx	= nvme_pci_init_dma_buf_io_ctx,
++#endif
+ };
  
- 	/*
--	 * Current offset in the bvec entry pointed to by `bi_idx`.
-+	 * Current offset in the bvec entry pointed to by `bi_idx` or into
-+	 * a dma-buf map.
- 	 */
- 	unsigned int		bi_offset;
- } __packed __aligned(4);
+ static int nvme_dev_map(struct nvme_dev *dev)
+@@ -3701,6 +4006,8 @@ static struct nvme_dev *nvme_pci_alloc_dev(struct pci_dev *pdev,
+ 		return ERR_PTR(-ENOMEM);
+ 	INIT_WORK(&dev->ctrl.reset_work, nvme_reset_work);
+ 	mutex_init(&dev->shutdown_lock);
++	INIT_LIST_HEAD(&dev->dmabuf_ctxs);
++	mutex_init(&dev->dmabuf_lock);
+ 
+ 	dev->nr_write_queues = write_queues;
+ 	dev->nr_poll_queues = poll_queues;
+@@ -4344,5 +4651,6 @@ MODULE_AUTHOR("Matthew Wilcox <willy@linux.intel.com>");
+ MODULE_LICENSE("GPL");
+ MODULE_VERSION("1.0");
+ MODULE_DESCRIPTION("NVMe host PCIe transport driver");
++MODULE_IMPORT_NS("DMA_BUF");
+ module_init(nvme_init);
+ module_exit(nvme_exit);
 -- 
 2.54.0
 
