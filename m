@@ -4,88 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E5C72CA5FA1
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Sep 2026 15:50:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B22E7CA5FA2
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Sep 2026 18:24:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=EcatbeX8pT4mVPK6BtLsmrFUIWcm+3T6irC1kikWPR4=; b=nXtQF48AHu814p
-	n2TA/PgmUU96rhF04LNcn7MNdUW4I2kcIe1igUVmoJWxs/WQ2z4gCTOp33h8lXibe1Nmha21q1K0Q
-	djlbg5aif3OR+93jk9Dju/PPjLPB++I+gMBAPtgD70atevJaLD/dVOco4uNbZDY/9ZFlPsUfNVVCL
-	lnCFJnWLaA5WXbn8w+Puf3vPCF59hTHe8dk2ezodf2x8CrZk1krB/7HbFLRyxanYjBOK0ndmxrLVe
-	UmTjREd4xHKwVzBhODdPenABmEIJ/18G2aywHhJTcLwpObbVBivIAJFmE6fhVARqvYYwvDtukpLHr
-	q8mdwDHs6DnT99nsTydw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:In-Reply-To:
+	Subject:Cc:To:From:Message-ID:Date:Reply-To:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=jFgegtxrqBLiSDoehqBbaOYTYpSiUebKsQY5pgr6G+M=; b=vaAwkBX8VdlI3y7L5WZNsBJxsh
+	0426f1B2EfuRA60BXyS1rMgI8Oou5fHb3DajKG64YoLUv/6XAcShoae+DmD5Pb6A90VNb6bb4SLQM
+	jNxU2yEFIG42AMh7mWCSx0Qw2268XWlMY1myuN34k5hjtb6Xvb19mLKXdnGGoV6I0P3nePsSmE3QH
+	YR2VKGXLzxMz5hNV91qzUiuxsM8OiZYjChIVPGNHx9PPNbSzKhRMHWsa9PEFLAUgceSQJ4BeZ4ySh
+	93FbFsuSFzrg52o8H+hULFV3bWkOfaJv3iIIx4czEnCy4hVpnAC51xZQF0UAS4MrSEkpesdDPRdPE
+	pcga1Yng==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBDcs-00000000wj4-21Fw;
-	Mon, 28 Sep 2026 15:50:46 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1xBG1t-00000001JKM-2LcK;
+	Mon, 28 Sep 2026 18:24:45 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBDcr-00000000wiR-2C1n
-	for linux-nvme@bombadil.infradead.org;
-	Mon, 28 Sep 2026 15:50:45 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Subject:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=EcatbeX8pT4mVPK6BtLsmrFUIWcm+3T6irC1kikWPR4=; b=YzeTe/tRpsOaNbP+M2JUqhVWbJ
-	yIApHhfCWev/LvyKCqTPUNTttPFTbIXWn5lamZKvPiHK1TQ34GxZPUpMBKp1dvkXY9mDxHDt8mwlJ
-	JFRw5/i9BjmhA2aqa78U+tUZuT0roT0JUupz3pw0yQavZcrCTibBG8xZ4Z5UYSEqXPRYzp/zcPpSv
-	xvi8EtoOqInxpD72khQ7dCNMrAdFrHZ6tg03BuQe9qrwdVP76ru07lXS6gCRZ5J2k4Q+JfHVGm/bD
-	Yl0JTBSfXjVbcDj5F20VU9P50WJiAS45scopUBNNPJYPN9JqC/Gcd3Cp+Pvu22HTG73CshKXEdh6s
-	WF0WwVQw==;
-Received: from ale.deltatee.com ([204.191.154.188])
-	by desiato.infradead.org with esmtps (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1xBDcn-00000001e3X-24dW
+	id 1xBG1s-00000001JKG-1o59
 	for linux-nvme@lists.infradead.org;
-	Mon, 28 Sep 2026 15:50:44 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
-	MIME-Version:Date:Message-ID:content-disposition;
-	bh=EcatbeX8pT4mVPK6BtLsmrFUIWcm+3T6irC1kikWPR4=; b=AO5vxrXSpbuxrRe1o/Rwqoj9+l
-	ZpvZj/1lkh9zWIRW26x0izwnq9XN8z/XAVRabdlg8WdIT97E3U6wo0FnI0WvtxkyU0WMDHdgMurBx
-	dv+Bg39Xo+FlH+NFh9HVpqB1k6iVC0wjn9a0T4Eq72xh0tfJfiUFSaZUYsA9tiFjAXYpV9jnQSwU3
-	NMBNGdodHI3Ukh16lorAVFbQMJfVDioDgaL40BZ4wO/wwiesBez0UxAnPNSlVjrCd6Gc+QIZzOF6I
-	BGkWg1grtc5tbZIn6jrmXNQtR/jMq4OYVbP7gW0TscEWs+l5blvP8DxMkE9IfcPs1KtV9VAA59vZP
-	x/eYP9kQ==;
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
-	by ale.deltatee.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.98.2)
-	(envelope-from <logang@deltatee.com>)
-	id 1xBDcS-00000002TTV-0wIr;
-	Mon, 28 Sep 2026 09:50:21 -0600
-Message-ID: <62fbc3dc-421e-40f2-8f9e-d28a706cf64d@deltatee.com>
-Date: Mon, 28 Sep 2026 09:50:05 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Runyu Xiao <runyu.xiao@seu.edu.cn>, Christoph Hellwig <hch@lst.de>
-Cc: Breno Leitao <leitao@debian.org>, Andreas Hindborg
- <a.hindborg@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <kch@nvidia.com>, Keith Busch <kbusch@kernel.org>,
- "Martin K. Petersen" <mkp@kernel.org>, Lee Duncan <lduncan@suse.com>,
- Hannes Reinecke <hare@suse.com>, Nicholas Bellinger <nab@linux-iscsi.org>,
- linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
- target-devel@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, Jianhao Xu <jianhao.xu@seu.edu.cn>
-References: <20260926092148.128937-1-runyu.xiao@seu.edu.cn>
- <20260926092148.128937-4-runyu.xiao@seu.edu.cn>
-Content-Language: en-CA
-From: Logan Gunthorpe <logang@deltatee.com>
-In-Reply-To: <20260926092148.128937-4-runyu.xiao@seu.edu.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: runyu.xiao@seu.edu.cn, hch@lst.de, leitao@debian.org, a.hindborg@kernel.org, sagi@grimberg.me, kch@nvidia.com, kbusch@kernel.org, mkp@kernel.org, lduncan@suse.com, hare@suse.com, nab@linux-iscsi.org, linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, target-devel@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org, jianhao.xu@seu.edu.cn
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH v6 3/4] nvmet: avoid recursive configfs open for passthru
-X-SA-Exim-Version: 4.2.1 (built Sun, 23 Feb 2025 07:57:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260928_165041_913287_8C95BBBC 
-X-CRM114-Status: GOOD (  12.86  )
+	Mon, 28 Sep 2026 18:24:44 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id 16A5F4343A;
+	Mon, 28 Sep 2026 18:24:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4D241F000FF;
+	Mon, 28 Sep 2026 18:24:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790619882;
+	bh=jFgegtxrqBLiSDoehqBbaOYTYpSiUebKsQY5pgr6G+M=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=JXEl6xoISVDdzEfU5MH19jz7JFJTYMQWsyJMMaCTTEg5BSRtsUV7kLJy1NKhv+oX4
+	 F6Vo06jedsKB3C+Y42PEdDmvCkCdP1OScHxKcz9YOl7s85sLV1VkupV40OtI0RhRzI
+	 6iJid23uoc1Vl+VpVOZ75SPAUd+Fo5vu3BMx4r6EdK2GAPcKBiRneoa43wE/H/1Kyt
+	 iKDRt5SHpp0MVtqKQZTE+kVb2LKXj7XsJj31o2agOCxvZuRsWvLKlNVDZdpX12BYUh
+	 W5Vj6Qn1bRrbGs7CdhAav5wXCgUGFceWf2fQiZOC83SOyddCXbu3v4pMJVCrMHuI8x
+	 1nHcQigxzcVrA==
+Date: Mon, 28 Sep 2026 08:24:41 -1000
+Message-ID: <dfe81db2d9bc6cc6b17fc1f440af184b@kernel.org>
+From: Tejun Heo <tj@kernel.org>
+To: Peng Yu <yupeng0921@gmail.com>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+	Josef Bacik <josef@toxicpanda.com>, Jens Axboe <axboe@kernel.dk>,
+	Maurizio Lombardi <mlombard@arkamax.eu>, cgroups@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 0/3] nvmet: add cgroup_id to charge namespace I/O to a
+ cgroup
+In-Reply-To: <20260928061417.1574676-1-yupeng0921@gmail.com>
+References: <20260928061417.1574676-1-yupeng0921@gmail.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,26 +72,53 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hello, Peng.
 
+The following is a Claude-generated review.
 
-On 2026-09-26 03:21, Runyu Xiao wrote:
-> nvmet_passthru_enable_store() runs as a configfs store callback while
-> configfs holds the item frag_sem. Passthru enable used filp_open() on the
-> configured controller path, so a path into configfs could re-enter
-> __configfs_open_file() and try to acquire the same semaphore again.
-> 
-> Use configfs_file_open() so the path is resolved before opening,
-> configfs-backed paths are rejected, and the resolved path is opened with
-> file_open_root() while retaining the normal open-time permission and
-> security checks.
-> 
-> Fixes: cae5b01a2afc ("nvmet: introduce the passthru configfs interface")
-> Cc: stable@vger.kernel.org
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> Assisted-by: LLM Codex
-> Signed-off-by: Runyu Xiao <runyu.xiao@seu.edu.cn>
+On Sun, Sep 27, 2026 at 11:14:14PM -0700, Peng Yu wrote:
+> Scenario:
+> * Create multiple nvmet subsystems/namespaces.
+> * The namespaces are backed by different LVM logical volumes.
+> * Some of the logical volumes share the same physical volumes.
+> * The subsystems are exported to different users.
+> * We should provide each user a specific iops/bps quota, thus a noisy
+>   neighbor won't impact the performance of other logical volumes.
 
-The problem and solution make sense to me, thanks.
+- 1/3: Can you explain why in the description? Per-IO users such as nvmet
+  need the lookup to be O(1) instead of walking up the hierarchy.
 
-Reviewed-by: Logan Gunthorpe <logang@deltataee.com>
+  rebind_subsystems() moves root csses between hierarchies without
+  updating e_css[]. This is fine as a root cgroup's e_css[] always points
+  to init_css_set.subsys[], but that isn't obvious. Maybe note it in a
+  comment in init_cgroup_root()?
+
+  Can you also add a comment on the new e_css[] field like the fields
+  around it? It should say what it points to (the css of the nearest
+  ancestor including self which has the subsystem enabled) and that it's
+  updated under cgroup_mutex and read under RCU.
+
+- 2/3: This isn't needed with the change suggested for 3/3 below.
+  Otherwise, cgroup_e_css() now has the same shape as cgroup_css() and
+  could be a static inline in include/linux/cgroup.h instead of an export.
+
+- 3/3: nvmet_blkcg_set_bio() calls bio_associate_blkg_from_css() under
+  rcu_read_lock(). If the blkg doesn't exist yet, it grabs queue_lock
+  inside the RCU section. f928145cbcb5 ("mm/page_io: don't nest queue_lock
+  under rcu in bio_associate_blkg_from_page()") removed the same nesting
+  from mm/page_io.c to prepare for protecting blkcg with blkcg_mutex
+  instead of queue_lock. How about the following instead?
+
+	css = cgroup_get_e_css(ns->cgrp, &io_cgrp_subsys);
+	bio_associate_blkg_from_css(bio, css);
+	css_put(css);
+
+  With 1/3, this is O(1) too and it skips csses which are going offline
+  the same way nvmet_blkcg_begin() does. It also only uses symbols which
+  are already exported.
+
+Thanks.
+
+--
+tejun
 
