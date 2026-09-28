@@ -4,47 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6A636C9833E
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Sep 2026 05:10:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4B9BDCA5FA1
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Sep 2026 05:12:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ly/xSxxKXsojK2iqA+gghoIofrYayNWjZjuMFAs9Sp8=; b=JVLR2Ocstv7u5uGID1evRHLqxs
-	V9ICTm8Olt5xlTq/cpNJIxlUuwL734MDhvaomEnbIuaDHIPm71bMPAmTklIzMgZSOFIuwJ8ct14Kj
-	vEy8WIenkw6a/B9SveR/YVyrvnnxxQ6w3CkoG6AQ+aOvft2odcJR0KIewLyHSr4G5VUxoZqdYdQ+P
-	cM7cKSTQp3yZDD6id8I8ozwzzHiyYOy19Eu/KHu17/vPqSfxv4btObkP/kU8M22+i3LbdO3PUymqh
-	Q7eLZtqBZrFxj//ej7Wi/DnRnhzSg0yIX0UxkEuSiAvYr7/LH7pUsyZw/maUxhZutCtYmahOXld8q
-	w0QR3sLQ==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=Jf1JFbAZ5qBcE4g2ZqIwPrNGMU
+	NxVHP33E2ouKiQChSbLanpfMOK4xYAMYqkTDCb+aEP1IAGbqmFwHtIL8L+dypwhKUuR0UTOrkQ3Kl
+	UWOEabPqOvogOMlA1+lUKUaJVZ0rwY2bEEu/5MIMIHDlRv3OpbifjelnsKq6UR9AMXhAZyyoScl3Z
+	kGsxCQcZyFWTmdbtZz2kQnxRh3ntELQ+AXwa74loG6eFAuWtGZX7vsQBKbI2n7hdyJuBwUSAWHCXe
+	txH/HDFznB2jryACpqYZIoOnxc+SCTaujdL0hSItbAoRLz93N1/1DX8B08DXBI5ELax2nO9hEo0NY
+	ND9EFRRw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xB3dA-0000000HLUk-1h9Y;
-	Mon, 28 Sep 2026 05:10:24 +0000
+	id 1xB3f1-0000000HLaA-2d1T;
+	Mon, 28 Sep 2026 05:12:19 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xB3d7-0000000HLUM-0UtJ
+	id 1xB3ew-0000000HLZZ-1XzD
 	for linux-nvme@lists.infradead.org;
-	Mon, 28 Sep 2026 05:10:22 +0000
+	Mon, 28 Sep 2026 05:12:17 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id B122868B05; Mon, 28 Sep 2026 07:10:11 +0200 (CEST)
-Date: Mon, 28 Sep 2026 07:10:11 +0200
+	id 9607668B05; Mon, 28 Sep 2026 07:12:09 +0200 (CEST)
+Date: Mon, 28 Sep 2026 07:12:09 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Nilay Shroff <nilay@linux.ibm.com>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, kbusch@kernel.org,
-	sagi@grimberg.me, gjoyce@linux.ibm.com, chaitanyak@nvidia.com
-Subject: Re: [PATCH 1/2] nvmet: introduce struct nvmet_passthru
-Message-ID: <20260928051011.GA18753@lst.de>
-References: <20260925112120.790530-1-nilay@linux.ibm.com> <20260925112120.790530-2-nilay@linux.ibm.com>
+To: Runyu Xiao <runyu.xiao@seu.edu.cn>
+Cc: Christoph Hellwig <hch@lst.de>, Breno Leitao <leitao@debian.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	"Martin K . Petersen" <mkp@kernel.org>,
+	Lee Duncan <lduncan@suse.com>, Hannes Reinecke <hare@suse.com>,
+	Nicholas Bellinger <nab@linux-iscsi.org>,
+	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+	target-devel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org, Jianhao Xu <jianhao.xu@seu.edu.cn>
+Subject: Re: [PATCH v7 0/4] nvmet: avoid recursive configfs open
+Message-ID: <20260928051209.GB18753@lst.de>
+References: <20260927082011.638723-1-runyu.xiao@seu.edu.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260925112120.790530-2-nilay@linux.ibm.com>
+In-Reply-To: <20260927082011.638723-1-runyu.xiao@seu.edu.cn>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260927_221021_312007_AECE86FE 
-X-CRM114-Status: GOOD (  11.80  )
+X-CRM114-CacheID: sfid-20260927_221215_729859_2C9DFB28 
+X-CRM114-Status: UNSURE (   9.38  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -59,19 +70,8 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Sep 25, 2026 at 04:51:09PM +0530, Nilay Shroff wrote:
-> Currently, passthru parameters are grouped under struct nvmet_subsys.
-> Since passthru can be configured through configfs and all passthru
-> parameters are exposed under a separate configfs subdirectory, group
-> these parameters under a new struct nvmet_passthru.
-> 
-> Grouping passthru-specific parameters in a separate structure makes
-> the code easier to maintain and reason about.
-> 
-> There are no functional changes intended.
+Looks good:
 
-If the fields are move out anyway, should they be a separate, dynamically
-allocated object so that non-passthrough users don't pay for the memory
-allocation?
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
 
