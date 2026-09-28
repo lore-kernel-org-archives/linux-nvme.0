@@ -4,61 +4,95 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 00ED0C9833F
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Sep 2026 10:17:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B5750C9833F
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Sep 2026 13:16:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=PuVEngSQheLYbH2VdZ2dStj0xXMV8yzBD03OSKW1OAA=; b=rkAw/G3qOZhhZASH5LdbV2IhJ4
-	7QHtowtBnYlg5I3cyyvpF0GiXcJ+BaRfSD9y6HvPO7Ume3n/3RveFLQVwtDraze+EyvY9gfyuAzu5
-	N6r0JW6A8DeggEyJvOLZgNBccXvbmQ73fJdp1Xhxm8RiOfPcAV5u9fYrD6RC1ZKoIdyqptjdA484Q
-	Z5KTLfvmEHlFKEWjcAxVFdcmVZPAiOJdZ2VY1KUcxDkFpKACMhGsdYeU/eMpkja/hHEJIQHzWlLzc
-	NOLPxChpQ2F9QMSRXLVwNImyebqwSCeG1yh4hjydbKLmR8n8esUuMYS1h8C5AlxGOL7+D2FwyadDU
-	GMlByBKg==;
+	bh=EYU9STrakLqmIxSDy4pe5WDDOj9rDVGZfrzaQa8JAd8=; b=GO/rwILJwi4PWcJQqOqyUKIq1m
+	WHUGfXCpMot2UwvFZB1Zy8mpdtY3CPZchrHCPacT/scDxLwYNV0KnMRSRwoXoAJeR17a5NQXh82sO
+	cHGBCu0BNz17cV3/u2mwu3QReVdwopP5k0gH+RoJluTqRx66jpDzVSqpNYoA2gyP8JuJYznMCARNd
+	x5YkA4MmeSQyHM7DBWZ7Y0uzsOwnBpvPKD5+ktGUNmQod9zIWRP6NHLXoH2L1oArg5mGf811bJ9VJ
+	qR4iODgmrZ43+fsWZ31ynz0dqOpQWnpFilyksj6Kce4fUtFwyAyjKxuzqtNUiQc41PjkSILB6pZAw
+	W9N2kBZQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xB8Q0-00000000KUf-30aA;
-	Mon, 28 Sep 2026 10:17:08 +0000
-Received: from out-27.mta1.migadu.com ([2001:41d0:203:375::1b] helo=mta1.migadu.com)
+	id 1xBBDK-00000000dC6-1gfj;
+	Mon, 28 Sep 2026 13:16:14 +0000
+Received: from mail-wm2-x11.google.com ([2a00:1450:4864:31::11])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xB8Px-00000000KU6-0fiq
+	id 1xBBDI-00000000dAa-2Hdl
 	for linux-nvme@lists.infradead.org;
-	Mon, 28 Sep 2026 10:17:06 +0000
-X-Envelope-To: linux-nvme@lists.infradead.org
-DKIM-Signature: a=rsa-sha256; bh=S7HtiBzV+yUVKZNtjNQwGaJxuNAlauHZCZOJNOl8s7s=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790590621; v=1; x=1791195421;
- b=Y6upoHwc6VjsB+I/0qej22oAk62TU/tvo3je1v8OdNaw4n+f20gmyR+sJ2P+R92+2R7oYQlZ
- NxFhL9++y/+h1VTBzeq2imwKUQQwd5DwQKoqHhx7M658X3EPbs11NVHKdbqvNHibpHtub8GgGyj
- GKw9cSCKQE6r812oopxQ1Hvg=
-X-Envelope-To: linux-nvme@lists.infradead.org
-Received: by mta12.migadu.com with ESMTPS id 951cb6a3c28291de;
-	Mon, 28 Sep 2026 10:17:00 +0000
-X-Mizu-Trace-ID: 951cb6a3c28291de
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <2258be48-9e35-4139-b423-82400746db8c@linux.dev>
-Date: Mon, 28 Sep 2026 11:16:59 +0100
+	Mon, 28 Sep 2026 13:16:13 +0000
+Received: by mail-wm2-x11.google.com with SMTP id 5b1f17b1804b1-49b912d8239so24546445e9.0
+        for <linux-nvme@lists.infradead.org>; Mon, 28 Sep 2026 06:16:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=crusoe.ai; s=google; t=1790601369; x=1791206169; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=EYU9STrakLqmIxSDy4pe5WDDOj9rDVGZfrzaQa8JAd8=;
+        b=D2j4NUNWSgPoY2jFgg2D1BuOcgQNST/5oAxT3NWteEDfEY21zDikJM6LosvKN7vWWA
+         OO4Jm+ZfO62yUcn3egGkzgd5KfIc/P9rPtrQfOzWBWMb6p9plaKv21cUB/Sz7zknbNhJ
+         n3yZzm6iyBPzMj/kN7in1g+rQcFm2LPFLSF/Ir49F3kOnUUbZY0qk2BQ4SKoqJoI4EB/
+         nfc6QQCrNGQjaUiyjPV/ypI/3AXd9T8rsuB79d0Y5dAnf9MHiMmhuaqqpb09t8A0xo15
+         faUrc9htxLIWreERHzig7JzRwRCaRbPv+wyXNGxhrvlmmT9Fa04ArQhCRzoCHyhE4TMw
+         WTrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790601369; x=1791206169;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=EYU9STrakLqmIxSDy4pe5WDDOj9rDVGZfrzaQa8JAd8=;
+        b=kMlP2ypa7DtB3/wCslnbeqLHzd4PhcnJ1Agdo/N/4ULHT/zXcpEXIcLLMR6y2ovWWG
+         Iuoy7vhAq2qavLdoEpv+q4sDtnC7LbKpZWyf7FQlinMpA4Jz+p+1DoVkf4numz+GfVY+
+         eWqNioRYVr9oiBhXWbsGY5UN7hdkvAF5m391qw0pMcYyo8DRr1t5oofxyVg0R7GX/T6k
+         HnquVKEoS4OuD8Mm2VgiG2A2Fl/0Oa69UDl+NtdRH12vi1pxushds9edOI4b8pZ9qGqB
+         fJnzjgLI26oJdPHEul3Fp8GEqLwiLypzblkJ5reDktaLKLGF2MGBJp46dZ/O7WKqTGzA
+         IXbg==
+X-Forwarded-Encrypted: i=1; AKwUvBxuBjT+3I9SHVzsVfzfD1UIUVdQhpTIRWVXLNOCDrxzmqhIxrWxaxCIdyUFba8LF8WKrCw9c/KAdiTT@lists.infradead.org
+X-Gm-Message-State: AFuF++mkx3Zxzj6FtyTIZb9o+h6VclTcB8+dOEVahoaMARTp7RAcFiLx
+	ZFn1AJETz24CFK8mjNP84tzwyDAPqONXVcF0ZIORcjUtZqy+ROTD/8L6f724LQKjfMY=
+X-Gm-Gg: AYBFou0fS4ka1cKrAWFXs0G4fVdK5QQIHfb11YJOmKJsvkKSFz/w8sqNiw214RXMO9m
+	rS5Wqbf71fDbGwdeJ39oDvxd5Is9cA1C5Pc9h7SV32H+desjBV+tBky+SpPoor0dUnO2mXGy5if
+	OIk+vGO079N/ySeeu5HXPqGHr9051ipN0sd/nfSiaTfydLHp5M3LWjMfv2OugYd1VYrcaYtvR6J
+	rnddq4pA4gVKqbd1GWTxobrfpKv7yWuKPCqsXWAqsI1drcuDOuN7HKKjJmi7K4I3ZWU3J4QOMOe
+	j7yWqdJvg8hX/l6eD5sOQZuHR/HK1zyoZOORH01EiqaeYN5vX1CT4ZQ6XhGDxEgqnR0M76S15eU
+	7DSzPk6QKJJYyGvWzt2qBsfp+kMrVGhsber0ZAAOlhoituIQjjjcqv1Y4q0LVUWDYZBhgcjjFVK
+	4Uy4xT0d59xYOMwlDugelE9yAnqa+vqpmRs4FaF9ncNX6rML8ARrTJBACp7tczfv0kS3QgM0OZx
+	FZn/xhCR24IPkXEm+ZYAuZ57T4zGM4Dykw=
+X-Received: by 2002:a05:600c:4592:b0:49f:ed8c:6cad with SMTP id 5b1f17b1804b1-49fed8c6cccmr211520515e9.19.1790601369092;
+        Mon, 28 Sep 2026 06:16:09 -0700 (PDT)
+Received: from MBP-Krishna-Iyer.civet-hops.ts.net ([83.71.242.57])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a0017998dbsm205327255e9.14.2026.09.28.06.16.08
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Mon, 28 Sep 2026 06:16:08 -0700 (PDT)
+From: Krishna Iyer <kiyer@crusoe.ai>
+To: kbusch@kernel.org
+Cc: hare@suse.de,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	nilay@linux.ibm.com,
+	sjpark@crusoe.ai,
+	saravanand@crusoe.ai
+Subject: Re: [PATCH v3] nvme-multipath: add fail_if_no_path sysfs attribute
+Date: Mon, 28 Sep 2026 06:16:07 -0700
+Message-ID: <20260928131607.50160-1-kiyer@crusoe.ai>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <arVFPIKeT-HoYF2K@kbusch-mbp>
+References: <20260923004959.88440-1-kiyer@crusoe.ai> <arRJLL4ki-sVQnHf@kbusch-mbp> <20260923225753.49224-1-kiyer@crusoe.ai> <arR3zlpx3Xm2mRt-@kbusch-mbp> <arVFPIKeT-HoYF2K@kbusch-mbp> <20260924214503.82963-1-kiyer@crusoe.ai>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/4] fix NVMe multipath partition diskstats
-To: Christoph Hellwig <hch@lst.de>, John Garry <john.g.garry@oracle.com>
-Cc: axboe@kernel.dk, kbusch@kernel.org, sagi@grimberg.me,
- linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
-References: <20260921083752.1154316-1-john.garry@linux.dev>
- <5fe0a938-aaf4-46cb-8fba-3524586ac5b4@oracle.com>
- <20260928091428.GA29876@lst.de>
-Content-Language: en-US
-From: John Garry <john.garry@linux.dev>
-In-Reply-To: <20260928091428.GA29876@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260928_031705_365871_DCE08DD3 
-X-CRM114-Status: GOOD (  11.28  )
+X-CRM114-CacheID: sfid-20260928_061612_606766_377572FE 
+X-CRM114-Status: UNSURE (   9.68  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,20 +107,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/28/26 10:14, Christoph Hellwig wrote:
-> On Mon, Sep 28, 2026 at 08:30:10AM +0100, John Garry wrote:
->> On 21/09/2026 09:37, John Garry wrote:
->>
->> A reminder on this one ... or are we just going to leave this broken?
-> 
-> I find the amount of overhead and relatively invasive code very
-> offputting, and I still don't understand why we now have a strong
-> urge to address this after 10 years.
+On Thu, Sep 24, 2026 at 09:43 AM, Keith Busch wrote:
+> Okay, I see. Pehaps instead of having one controller export all the
+> namespaces, why not configure your target to have multiple subsystems
+> the client makes independent connections to for each namespace?
 
-Nobody noticed (that the values are not maintained), I guess.
+To confirm, I plan to post v4 as a two-patch series in a few days if I
+do not hear further comments:
 
-It may also be useful to have the per-path disk partition table in 
-future for other reasons.
+Patch 1: Default fixes you described
+- Restrict queue_if_no_path so fast_io_fail_tmo is actually respected
+  in the requeue path
+- Make ANA inaccessible and persistent-loss paths unusable by default,
+  no flag required
+- Add requeue_list kick in nvme_update_ns_ana_state() when an ANA
+  transition leaves the namespace inaccessible
 
-Anyway, your call, so I'll leave it for now.
+Patch 2: The namespace-scoped attribute
+- fail_if_no_path sysfs policy, rebased on patch 1's corrected defaults
+- ABI documentation spelling out interactions with QUEUE_IF_NO_PATH
+  and delayed_removal_secs
+
+Let me know if you'd prefer a different structure or have further
+direction.
+
+Thanks,
+Krishna
 
