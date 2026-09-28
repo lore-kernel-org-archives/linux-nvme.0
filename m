@@ -4,106 +4,120 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA586CA5FA2
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Sep 2026 15:09:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EC974CA5FA2
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Sep 2026 15:30:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
 	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7JzwIQlJou2cKoXFRlxragLvVGFjjNACZv+ODl0Exo0=; b=JPa14lonXajcPPJIz22jZ3G97j
-	dmZVQiRD8uU5KyGOmD7YveXOFuNCTAWmH06js/sPlNymwqXKf9q2mY/nrtsQxF88k2rq6J7M55Q/i
-	The5dBGiYKDP4PmgItBumwzlHGfB2pJOscxiYTmx4MDy5oITRfwZm7uhRtllV9B0jeOTIG0GooDnz
-	lg7JnYmSvy9lz6WGXXXIJ3rVRiN3vyWv63/cSPh4rFPGCMyW4KQbr+qTiJxny3RUjSSiHpcYbb+hq
-	LFZehsXlbHVmDzY8y/2g6sQMJVkC3hBYyAefIOgK8WLwPQx7B1aCMWubnk5HmI+coS72253OHyzlQ
-	EwbM3KKA==;
+	bh=C1sUtiuOaBXEezf3iViA9gUAl7eyYpT11jnOSB4ZV8M=; b=PMv8MKGjkDeDBBGDzWfSpuEPrG
+	MM6QBZ0dW/XpWf1K74V23P08Whuh7WQGacVKQqgWY0rK7kYAeQrA7Om4bca/V1QAyS1Jf7c151Pae
+	0aXUfoPSwLm0e7CUXUHpZhN3tZdRr4RVcQmshj+T8tU5vXmsHZNFY2VQ1+USUFRrOKwNH7WxzokhH
+	1ecWJUXXwPzvVW4T+723eWc6qbXzZ6Ou2qTKxwfrgpuN8UMbFCq7DELTds0XGFMGfU1vOGb/z8WJg
+	vDJXN5n3r6HReSzbwJEo0gj09Lwjcr6ztZETl871wAvrZU3UNekVRuYbhGDlNmYrEXmsb+o0bmtsD
+	8qpUdLhQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBCym-00000000rIM-0Djg;
-	Mon, 28 Sep 2026 15:09:20 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1xBDJS-00000000ulI-3u1R;
+	Mon, 28 Sep 2026 15:30:42 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBCyj-00000000rH9-1qHs
+	id 1xBDJR-00000000ulA-1U3w
+	for linux-nvme@bombadil.infradead.org;
+	Mon, 28 Sep 2026 15:30:41 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:MIME-Version:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=C1sUtiuOaBXEezf3iViA9gUAl7eyYpT11jnOSB4ZV8M=; b=eMRaTf5iVdtaMG116Ot4P/srg4
+	Os9qkz1BV0C6D0JdBs3edYAmKKtYTei+imGrpTEf1pN2NHSiTltJM59zEVubqCpaX0y1WAZW8ekoK
+	m4MI76SxSYfxX8urQqkK2VTJA/iMfYkN90FOcL7FWEhSk7HVlN5gS1YENyNfhK9qt9SI2L79ktIJZ
+	04yFoRwcjAL6xlA0wo7WfZJBsCYnjUXLgdyEdySkdeoTnbGs5TBx8RW+vMZgXBVGOCroD8iigsXVC
+	TOYmkuxIWJlokUrW7JoodY6cAgZJSmLJZDYdFByDY5h4QCzu+kE9oNQGiEeUSFkpnkuEO4nTv1K5b
+	c9sCskBw==;
+Received: from mail-wr2-x1d.google.com ([2a00:1450:4864:30::1d])
+	by desiato.infradead.org with esmtps (Exim 4.99.2 #2 (Red Hat Linux))
+	id 1xBDJO-00000001d7M-2G90
 	for linux-nvme@lists.infradead.org;
-	Mon, 28 Sep 2026 15:09:18 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1790608154;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7JzwIQlJou2cKoXFRlxragLvVGFjjNACZv+ODl0Exo0=;
-	b=cKbbKIZHpZwAH8xn+7V79o5tlYaqZ98mPmJJg4E56uwebLgsJhwpXnxhFacbIUdDWODvQ9
-	h74iQY2/XDIddfpAUQbn4xSRWqyMVjsJFimn/6wtyzC/W2MG6G0AoCT3rIcAbUdWivMZO6
-	vxhzHdlT/jpInlbpYnqAW+7IKtEGQ+Y=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-682-N9YFeVMvMFW7Jady0kk55A-1; Mon, 28 Sep 2026 11:09:13 -0400
-X-MC-Unique: N9YFeVMvMFW7Jady0kk55A-1
-X-Mimecast-MFC-AGG-ID: N9YFeVMvMFW7Jady0kk55A_1790608152
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-4870af30a85so2481848f8f.1
-        for <linux-nvme@lists.infradead.org>; Mon, 28 Sep 2026 08:09:13 -0700 (PDT)
+	Mon, 28 Sep 2026 15:30:40 +0000
+Received: by mail-wr2-x1d.google.com with SMTP id ffacd0b85a97d-4887d06c669so2459647f8f.3
+        for <linux-nvme@lists.infradead.org>; Mon, 28 Sep 2026 08:30:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790609436; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Prtu9R+6Mbb6+34vyJr7Y2PazUjpWwCqr/pgF3CL5zIfen2BK3rHSJfg0JXED5DvtV
+         BBnJ1SYutPKMFCsAh4v0ZL2wz8WOEeDEQEeat7BF32I4d6KyVSG6N4jxi6RP42VFJrKh
+         b0BhpyAn9e7wyvxZ4peaXJxXP5v94lK9W9W7UJs8T7M4rvKClrYZjThFQYo9GZm/fwas
+         kZQ0TcOKffRAfkAfPo49b9zeW6Ry0NYH77BSMuia5dGxZbSTmBsA9Kci3BKVkrLXUym4
+         c3hO8/EcwvmNmjEfiTB2ubc2rjqzBwossbSDNESaIvxFfX8vgtJW7u0y57/a7+17pERp
+         AI9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=C1sUtiuOaBXEezf3iViA9gUAl7eyYpT11jnOSB4ZV8M=;
+        fh=r7A5AxANwBAZ0HrtQ23RS7cJsJ/3yOL2WufubmUuUHo=;
+        b=Hua/laHsU5cMtuIejIqYxVCtkWp3IFHcft/0YoAbk9Hq7KHFKEjZIzQruE2DI7+o8f
+         epk9ydLk/p9ujRDAKz7qMWR9l2FxQtG5xm3LckO0QmH1KxkAyJHaQGu836F6TKbbG2JZ
+         O9dHrztJE49eraxnawTE0UcbK8bOhvTWs4LflXxQJqC1QxtgQmRH5MYX/nx8/tUUCxwo
+         rjcdNT+kC0/UOub+0AITgkyR6++SqO+XeG+2fyySingncjN1uYSbiLtEsJ7yfULZqJtn
+         9h8sGXvy+IZW+ABA+sIq/pcp/cm152GKwuBj0L3nnUoxFNZ7ZnAVezcEEojttPM0/oin
+         2dnQ==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790609436; x=1791214236; darn=lists.infradead.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=C1sUtiuOaBXEezf3iViA9gUAl7eyYpT11jnOSB4ZV8M=;
+        b=cFxrcVbgmL1Dn2s5cG5fFFMmLVCCPNaD+buU8emqilgbKMXDpgWRT/yK6ey7K0fA4C
+         shboBRWWWMbtICJqb3jwQj/W1ZnEgv1ipm+f8v4iYHp9r6kUyUrVAnEP1EoYKmA6h02J
+         Wj4rc2GckSqavi+sXy5wLJa9s44hGHOnF5vpGbIaCZvRnaMBTI8zEub5f2KB8IIrGEPF
+         2r+WElwcAkmvxkRYM2KXiDoMiF/w/tai1YnldE5BtQejWgx+dHMi2RatZ2ELq7W19e2S
+         4+q850NWJsZCWiXrLznhXFR2nV9ywFS7+L9INga1qY6Gq5MGsXmqhBjA+Cv+Bk45hohA
+         T9YA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790608152; x=1791212952;
+        d=1e100.net; s=20260707; t=1790609436; x=1791214236;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=7JzwIQlJou2cKoXFRlxragLvVGFjjNACZv+ODl0Exo0=;
-        b=Ld4h1kponB58dii4eeacBSkaKN63MQDJ7rlUVzN2EfSFUeSKsZw9EnfzNxR4UDUhgz
-         1BhftCOg7D99f1ksE9Y4YXcfWD3So5cDKiooxDRU7OlpoBo9+X7p1xOBg87cKtE0bqEz
-         2BdXD7hUZSXR5ut74PDpUQnGtXQDfv91h83EL3eKpHRza0UJgltmDkkOzISioLAJjxyN
-         CmKwzghHOPVSwpM59QbZs6aTW5Tw6wC7f5FYlj1uJxLCY77SFGwQ3ukyrreMvt9PMshl
-         UKOQufg7qqHTtMHHvex7vMW77L1c592SeV7dW+J+D527W/lNB+fp0WyJJLYBSvVkQxYB
-         WxzQ==
-X-Gm-Message-State: AFq9FYIR7C/mFuwSc1+iJs9NPbRHUsfLvLXJ4g3cF846MyW7ZeXfsjcW
-	DH9IXLLK9ipSeFqeWNYrsf3qiXZamdDRT8SLAxkEd4j0J2NP3Vsip/a2i5igd4rqmxLyEOLFtfy
-	aZnpYucZvO3bniJoFncMzy3mu6u8fUSeNeqiCMaC+Rwvu+D1neTF84DT6NI0yQD5j+zyl0vb2Qg
-	ydm7vW+YlYraPK35l8M/spszC9ZPcjkyQ9Hiri5mZ2hsItm5cxB8M=
-X-Gm-Gg: AYBFou0J/e3j6EN8taWMmWBMqCO/RwkQ0fJ4BP+3UIQsuZJHpg9HSu96jZZJY7GO+FG
-	YDPcYPFbW4NKeOraLhgpEpNFM+Tv8P4bEoSFd1/YwYiw+GAI2OTjaw4bq+EGeo8OeQC91IsvwiX
-	CbYPW4k3MRVRLRA6rpC5ouOi2SVBwiEKaLhH88M/sJmSvHiYRUk/OLjI8Qnmks6rDGIIIHJJGLU
-	MwT7LDJDkCUhISeqQ==
-X-Received: by 2002:a05:6000:2083:b0:487:342:eb28 with SMTP id ffacd0b85a97d-488716f2354mr27611165f8f.24.1790608151743;
-        Mon, 28 Sep 2026 08:09:11 -0700 (PDT)
-X-Received: by 2002:a05:6000:2083:b0:487:342:eb28 with SMTP id
- ffacd0b85a97d-488716f2354mr27611104f8f.24.1790608151341; Mon, 28 Sep 2026
- 08:09:11 -0700 (PDT)
+        bh=C1sUtiuOaBXEezf3iViA9gUAl7eyYpT11jnOSB4ZV8M=;
+        b=qp/pI8hyk6Sub6pGgbvF3b56nzgpuEc1xEzf59CUv+uVc516M3sgH/CiL0YytrdcZg
+         2wZSVrIVASGowF/fbyOUJDDMd4q8UCG3KuBvvO+93oW1HUqXFcc2FuQ1u89Cdo0faZ9y
+         4m5kGxIjxctvbjaF1ylJ/RU9B6LHYXKOBRLf9wMImVFlCjja+2wlvOvbGMu4SKqCXqwv
+         KOozzWUueMMZCyFx91G3OkvWZb33SHdbZ/8SZ6hrwj1SUecL8ORifiMuaJV/mCMv/zK5
+         5NYMQRxvkSOxpTHmgZP3VMAJ8h1mlAncjqQ09U15kxrgc0ZaeKXEE4uNbOkZt9tffSAO
+         AeOA==
+X-Gm-Message-State: AFq9FYL7gUSFp1u9pheiemoNTHBmpZNsP7upOMGLG9GCM63K9Y3yZt0k
+	eHM+uXHH3RQY6sDreiS0HVy6ddmNApeFwJ4+tKjvAetu/ZKv3Fm92pmuVkTTKpJktY45ZwWcvU5
+	q82r19CE6oHww0w4PP1dav6hBgvFKoAebEIKH
+X-Gm-Gg: AYBFou1hTZTyRPrWMu9FY0paJidB4de9Y4GE85STFC9LAk9rPq1Pig6Ok66NJxqsP+O
+	VRCqplEyzHnjY5WWIkQT7X/JcqDdYua5zgBa5fmwlFcAtoYj42CFeRhwiahgARbfd6IQ8QLC20O
+	MggfyNtxfLS0xWzZaY8KGY0GzN1yywDr1CahzjOaruih8CiJrjqoVf/jbb6jZi3FhD4ojPyGQGl
+	tUUH7kv8b4CjykWkZFxQfhiQ5m3Vdrtrski6rZxj0LVrQonoLB03wRaEPKDKNbYYkEjOZEkcdMA
+	HNGA7uadnP7dDh2KCDInnDFPA4WbSbWK7l6PGNCeeyISlcK1x5cKn/W3IQPB5AQT3G4EJQ==
+X-Received: by 2002:a05:6000:4202:b0:488:8864:e2cc with SMTP id
+ ffacd0b85a97d-4888864e5b2mr12975651f8f.26.1790609435839; Mon, 28 Sep 2026
+ 08:30:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20260902200547.184734-1-jtaubepe@redhat.com> <20260902200547.184734-8-jtaubepe@redhat.com>
- <ab97f32b-31dd-4975-a8b2-b445110ae3a9@suse.de> <CADRr4bePoiDnWX_XrMWtQe=1g4Yrw1_dK86EV2k9XZR0HnL+UQ@mail.gmail.com>
- <d4879e78-2735-4f86-beab-8aa319e9162c@suse.de> <CADRr4bcSvLwzfSiV0LTxnhZR7oo3F1b2XEo+wwqi668Gr2BBQA@mail.gmail.com>
- <a7a60b61-24b4-429b-8ccb-ee5b6f06a5ed@suse.de>
-In-Reply-To: <a7a60b61-24b4-429b-8ccb-ee5b6f06a5ed@suse.de>
-From: Jesse Taube <jtaubepe@redhat.com>
-Date: Mon, 28 Sep 2026 11:08:59 -0400
-X-Gm-Features: AclHuK8rEa0dRLnGnsUacjiVX3fDsEVHWVQeb9zJZDMDBAnfAXNWF2dGmvnsVw0
-Message-ID: <CADRr4bfJtQOKYFjDoR+khaPvQW6-UzN70pZ-nfGJnQ22nUkskw@mail.gmail.com>
-Subject: Re: [PATCH v2 7/7] nvme: fcloop: Add set_marginal_rport to sysfs
-To: Hannes Reinecke <hare@suse.de>
-Cc: linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, Justin Tee <justin.tee@broadcom.com>, 
-	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>, Paul Ely <paul.ely@broadcom.com>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, Nilesh Javali <njavali@marvell.com>, 
-	GR-QLogic-Storage-Upstream@marvell.com, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, John Meneghini <jmeneghi@redhat.com>, 
-	Bryan Gurney <bgurney@redhat.com>, Chris Leech <cleech@redhat.com>, 
-	"Ewan D . Milne" <emilne@redhat.com>, shinichiro.kawasaki@wdc.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: HARGopqTrlHYnI5CKG2Si6groSG54O0xJ3AxsfLkEyU_1790608152
-X-Mimecast-Originator: redhat.com
+References: <d040bea9-711d-4638-9d64-50516709b41b@grimberg.me>
+ <20260912053921.49151-1-kumar.shivam43666@gmail.com> <CA+ysrS+a_fsst35-V0YDD00LWT9NaHkO0A9Zrko9EQ8NEwzRBQ@mail.gmail.com>
+In-Reply-To: <CA+ysrS+a_fsst35-V0YDD00LWT9NaHkO0A9Zrko9EQ8NEwzRBQ@mail.gmail.com>
+From: Shivam Kumar <kumar.shivam43666@gmail.com>
+Date: Mon, 28 Sep 2026 11:30:24 -0400
+X-Gm-Features: AclHuK_EFO-MrMNQ8EFUgp2EHKyxJFqvC1p70t-79Pi28sirn3E3ngQLYs1JnWs
+Message-ID: <CA+ysrS+xp10hJeCKy70BirjEDengQvZw_o6X6fSUAh5kVGYCeA@mail.gmail.com>
+Subject: Re: [PATCH v2] nvmet-tcp: fix a hang on queue teardown with data digest
+To: linux-nvme@lists.infradead.org, Sagi Grimberg <sagi@grimberg.me>, 
+	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Chaitanya Kulkarni <kch@nvidia.com>
+Cc: Greg KH <greg@kroah.com>, security@kernel.org, stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260928_080917_554099_9D5E104D 
-X-CRM114-Status: GOOD (  22.55  )
+X-CRM114-CacheID: sfid-20260928_163038_679449_44F4C788 
+X-CRM114-Status: GOOD (  25.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -118,67 +132,66 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Sep 25, 2026 at 1:10=E2=80=AFAM Hannes Reinecke <hare@suse.de> wrot=
-e:
+On Mon, Sep 21, 2026 at 1:06=E2=80=AFPM Shivam Kumar
+<kumar.shivam43666@gmail.com> wrote:
 >
-> On 9/23/26 6:16 PM, Jesse Taube wrote:
-> > On Wed, Sep 23, 2026 at 11:34=E2=80=AFAM Hannes Reinecke <hare@suse.de>=
- wrote:
-> >>
-> >> On 9/23/26 4:56 PM, Jesse Taube wrote:
-> >>> On Mon, Sep 21, 2026 at 10:03=E2=80=AFAM Hannes Reinecke <hare@suse.d=
-e> wrote:
-> >>>>
-> [ .. ]
-> >>>>> @@ -1671,6 +1719,7 @@ static DEVICE_ATTR(del_remote_port, 0200, NUL=
-L, fcloop_delete_remote_port);
-> >>>>>     static DEVICE_ATTR(add_target_port, 0200, NULL, fcloop_create_t=
-arget_port);
-> >>>>>     static DEVICE_ATTR(del_target_port, 0200, NULL, fcloop_delete_t=
-arget_port);
-> >>>>>     static DEVICE_ATTR(set_cmd_drop, 0200, NULL, fcloop_set_cmd_dro=
-p);
-> >>>>> +static DEVICE_ATTR(set_marginal_rport, 0200, NULL, fcloop_set_marg=
-inal_rport);
-> >>>>>
-> >>>>>     static struct attribute *fcloop_dev_attrs[] =3D {
-> >>>>>         &dev_attr_add_local_port.attr,
-> >>>>> @@ -1680,6 +1729,7 @@ static struct attribute *fcloop_dev_attrs[] =
-=3D {
-> >>>>>         &dev_attr_add_target_port.attr,
-> >>>>>         &dev_attr_del_target_port.attr,
-> >>>>>         &dev_attr_set_cmd_drop.attr,
-> >>>>> +     &dev_attr_set_marginal_rport.attr,
-> >>>>>         NULL
-> >>>>>     };
-> >>>>>
-> >>>> Please don't make it a fabrics option.
-> >>>
-> >>> What do you mean by fabrics option? How should I fix this?
-> >>>
-> >> Your patch does two things; one is to modify the parser in
-> >> fcloop_parse_options, and the other is to implement a new
-> >> sysfs rport attribute 'set_marginal_rport()'.
-> >> My suggestion is to drop the first part;
+> On Sat, Sep 12, 2026 at 1:39=E2=80=AFAM Shivam Kumar
+> <kumar.shivam43666@gmail.com> wrote:
 > >
-> > You want to drop the parser?
+> > A command that has received all its data but whose data digest is still
+> > outstanding is stalled in NVMET_TCP_RECV_DDGST, where
+> > nvmet_tcp_need_data_in() is false. nvmet_tcp_uninit_data_in_cmds()
+> > therefore skips it during teardown, leaking its submission queue
+> > reference, and nvmet_sq_destroy() then blocks forever waiting on it.
 > >
-> Yes. 'set_marginal_rport()' sets a boolean value.
-> You don't really need a parser for that.
-
-Yes, but we need the parser to get the WWPN and WWNN.
-
-Thanks,
-Jesse Taube
->
-> Cheers,
->
-> Hannes
-> --
-> Dr. Hannes Reinecke                  Kernel Storage Architect
-> hare@suse.de                                +49 911 74053 688
-> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg
-> HRB 36809 (AG N=C3=BCrnberg), GF: I. Totev, A. McDonald, W. Knoblich
->
-
+> > Release such a command in nvmet_tcp_uninit_data_in_cmds(), and reset
+> > rcv_state after that call.
+> >
+> > Fixes: 872d26a391da ("nvmet-tcp: add NVMe over TCP target driver")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Shivam Kumar <kumar.shivam43666@gmail.com>
+> > ---
+> >  drivers/nvme/target/tcp.c | 10 ++++++++--
+> >  1 file changed, 8 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+> > index e59810175262..3bf344b184e8 100644
+> > --- a/drivers/nvme/target/tcp.c
+> > +++ b/drivers/nvme/target/tcp.c
+> > @@ -1608,6 +1608,11 @@ static void nvmet_tcp_uninit_data_in_cmds(struct=
+ nvmet_tcp_queue *queue)
+> >                         nvmet_req_uninit(&cmd->req);
+> >         }
+> >
+> > +       if (queue->rcv_state =3D=3D NVMET_TCP_RECV_DDGST && queue->cmd =
+&&
+> > +           !nvmet_tcp_need_data_in(queue->cmd) &&
+> > +           !(queue->cmd->flags & NVMET_TCP_F_INIT_FAILED))
+> > +               nvmet_req_uninit(&queue->cmd->req);
+> > +
+> >         if (!queue->nr_cmds && nvmet_tcp_need_data_in(&queue->connect))=
+ {
+> >                 /* failed in connect */
+> >                 nvmet_req_uninit(&queue->connect.req);
+> > @@ -1636,11 +1641,12 @@ static void nvmet_tcp_release_queue_work(struct=
+ work_struct *w)
+> >         nvmet_tcp_restore_socket_callbacks(queue);
+> >         cancel_delayed_work_sync(&queue->tls_handshake_tmo_work);
+> >         cancel_work_sync(&queue->io_work);
+> > -       /* stop accepting incoming data */
+> > -       queue->rcv_state =3D NVMET_TCP_RECV_ERR;
+> >
+> >         nvmet_sq_put_tls_key(&queue->nvme_sq);
+> >         nvmet_tcp_uninit_data_in_cmds(queue);
+> > +       /* stop accepting incoming data */
+> > +       queue->rcv_state =3D NVMET_TCP_RECV_ERR;
+> > +
+> >         nvmet_sq_destroy(&queue->nvme_sq);
+> >         nvmet_cq_put(&queue->nvme_cq);
+> >         cancel_work_sync(&queue->io_work);
+> > --
+> > 2.53.0
+> >
+> Gentle ping on this one.
+Gentle ping.
 
