@@ -4,99 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7EC33CA5FA2
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Sep 2026 18:58:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 775F5CA5FA2
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Sep 2026 20:42:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:MIME-Version:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=EdVeXkgV9pi4EO1zLlRvey2I1xuy1Dyo+nGExdr17w8=; b=xGd4EGsl+7bTinQmV/wzTlYCt+
-	x7jyGFR/6+0gK5fNxtEXEjEXzghTD8JyY9txFE6P5Gv6BXvDI/bPVQRBYrwamF3pnISjvlowneyjX
-	FOJT2cdxXYmMoL+FqlG/KbMt0vo+0TWbIt5SfDRX1YAlHpvvf/ko6IjphBWJWRkKUJbhuWpsip2xN
-	C6YTFn6R1kJPoxO+rY+p2dTUVJ01+yShWnCTT7ehrR4FhbC3Y88yE6wrTAHfYb/r7vKcq3fkXTFx2
-	JN8LZife+rQI228jUyXwPf80KUAm17BSI1eRUaM7TlS4wsT7xno/gw9lKzlnQ8kjYhlEmCIh9j8Yb
-	4C+hBVkQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=BumfOEQEDSO8N/gUoukVcmv0dR7aJeOAZO71bPtzAgc=; b=OVvBqe1ZxZ4PWYqRJgAe6fTLCb
+	ZJHr7YfXcmKltrW3yO4RH6eHaB74XrzFNhUHYIhRW7dh62Aceh/bDdgdp8esWWJGEYhy8i6Yu8oNm
+	p97hhmTL2Tp8VX96+B2vAmI55Grqo3t4lQklfFKs8H1BdJA9XqAK8R9lSzZMUdA0hpCnIW+8kDMst
+	p5Y6Pa5YXV/SsM8vNZI18j+s45M1qifFJP4p5zNai7O7kipNFeKQHH5p8vW5j7Pg7zzcD2q3tVDpr
+	bz0enZS5B4QhoED7kF0/pDpwrL8/Dp7Mn1QkWJGhBtld+pP2i766QSntyOvEG8zs6kSW6QHvrSQVY
+	cdsimMzg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBGYN-00000001NjF-1Cy4;
-	Mon, 28 Sep 2026 18:58:19 +0000
-Received: from mail-qk2-x11.google.com ([2607:f8b0:4864:34::11])
+	id 1xBIBX-00000001azB-3i47;
+	Mon, 28 Sep 2026 20:42:51 +0000
+Received: from 011.lax.mailroute.net ([199.89.1.14])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBGYL-00000001Nip-1hmq
+	id 1xBIBU-00000001aye-1zSQ
 	for linux-nvme@lists.infradead.org;
-	Mon, 28 Sep 2026 18:58:18 +0000
-Received: by mail-qk2-x11.google.com with SMTP id d75a77b69052e-530fa0716f6so37782101cf.3
-        for <linux-nvme@lists.infradead.org>; Mon, 28 Sep 2026 11:58:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790621895; cv=none;
-        d=google.com; s=arc-20260327;
-        b=M16WXgzfMf7f4dZpIeLiPE584dzSlJ1DFN1+hc0MQOvBDt+lBmUm4gFCrc5e/jpSnz
-         lmpmscZvHBCX7UfUrjpXMQResiUnQj8rzzGUdAavOXS+egY9agQgIQxRY3qGattK/4JB
-         EKtcst8DRWz/qxiRrn+xJPXLA7ngCyEXu86ISgKxUFVZsvjMXzxHpJDFNbbD1zfq1bOg
-         KzBwg3ZmoUFZUjzg41ETOMkMBIoEZHxGok/7DlRPDwAkrp8LqjJYQBARgOYfmZ6XF3GQ
-         JcQcPmPCfkb06xm8J+zRz0ELvji7fLdpCl9SNqeljFrY1HJBVGLLm2n0MVrmMUxTWG80
-         qhEg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=EdVeXkgV9pi4EO1zLlRvey2I1xuy1Dyo+nGExdr17w8=;
-        fh=4j9/EojBARSGfxVk7K2oX+hjwCvNMAwobNkVL4pfUcg=;
-        b=d50w+6ZKHotAxf3wNOxU8b7CxXevUU3Ocam8HmEAVpqt3B7SRBl0lbjRCgEOvuSDa5
-         Ro6UlOp9tmq8bsMyPIwa7F2YmogEXbrUlETVdGcPLBUADCh0iqFr//EG8wN/Fcm+Y1O7
-         j0O3sTQancMibmcRlTkrpeA+7n3mjIeJofmqiBPG4Sz8mLXQuey6SXqXOa+ihekBb9wK
-         hlYmyRHmeGGVp1iHMIegrjcwgIqlPElRtCAmfulbsCCKw6rDST15zCgK7mHv23mvj18A
-         Qhh2zhbJ2Q9QMsynoDx+50/7MlcrYS0JVpAxL+ikrBGUvCt/cmzISc2M6Y871d+T1sSy
-         kCsA==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790621895; x=1791226695; darn=lists.infradead.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=EdVeXkgV9pi4EO1zLlRvey2I1xuy1Dyo+nGExdr17w8=;
-        b=Q+L8F2sGF/ttNEgpkMfrfZItb1nIKkXx9UaWYokjR7ABPICbPCsupycdc19ZSDWJpS
-         r0Z4VNNadQi2n1ZrEXRJHrgTig0CTUkqDnW4sNSv+yPTH5eBAy93tcV59VFTFaAvqcZL
-         CeJSCQJlYBlw9GeFRykw/W/qPxYM/fF3RJcBl6XmEW6kS7vO79y9QYOlE7JslLUOnCDG
-         NQCbquOk/tcQMUiYJW6X2hXf2HI7Mak0EGIbAAxESqy+D8vED78d0c9qydVXMEH125LD
-         LmbgUV3PVzUzy3ep14O0IQWiSLE4r4+9264xpCmTL8euMz0cigtRzjUVYwrJDb9A85L7
-         s49A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790621895; x=1791226695;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=EdVeXkgV9pi4EO1zLlRvey2I1xuy1Dyo+nGExdr17w8=;
-        b=0DecMr1XtMhCnC5V3EzItwyF8YOZQbAh8LhsRTuYcMcYu+gpd6kgLvTESeke9VSpfx
-         7TiDy+6uFTfxteUfYHcqT0+wPydnXO1IQbpR1BdmvweTdSkhaE8TgPsVYh6fOUUBnT2A
-         U1Mpuht0eNQTGYkCjrvghu4LRMHzH4vlfU10JNg+GdUf9V+CoQR/9qjO7B2yyAw3TcjA
-         Vm40WBrz8Hbs5uUz3pC2u+Bw5dpJ3TBuUcAB90GIhppaSomycb+XVT9Y06yb9/YqeyrJ
-         d8k3P2+4Qt271JzKGwjXTdtZ5ktF+4b470P9U2fcm5eWWJmYYiYpbXsTfjHvPvbb6mRB
-         0U2Q==
-X-Forwarded-Encrypted: i=1; AKwUvBzfNM4DUl8vuKnMn0/jzYBNEsYhdx8X7J5j//2ogisUsW7N3938iuZkYAYej9+QfrMhd9iaWP6fjJjE@lists.infradead.org
-X-Gm-Message-State: AFuF++lxIBXfrF3ZOeqpXAC88UnLAVS98BR8t+7dO+Pv9B6NykiYV9sA
-	m2s6KMSxwcX3Xzi2+Le8aQVEa/3mwv5kz5X2SMC73rGpK+JjZA5Q8u/sZwTufnZ/5MTOmmlY2CD
-	kBzeHIB2ZkbwdpW7Vdod3E71W+vd23XQ=
-X-Gm-Gg: AYBFou34c5fOFAAHsLqwv5skqvL2XvNrUGFJP27R+2oriIh7ka7dXjxdc6V4uMkj6hE
-	0ANwHihRppPuR4jaO+nd+PZztZVFUKT0nXVHkvDxzEK2FYeJkBp91MfILBUNYVKxOo5q+PoH+i0
-	gWTqVUrm2ssIIc501Rj+ZEG0lorQEpbLyHqsF+g+qCQQzLFq0pOLA05lSLaASzPg5EWzKzmhpNS
-	oUseWBwAlOu239t96BcYmJsWiUUf/6yqsr9tK4ARxAFknIpKd75bwqLcRExVUlf7ItZrv4jvmFC
-	X4H2SSShalGegCIHPJPXRT6RnomuX7U+PkJxhtd5b9JSIPnGntaB2yCU
-X-Received: by 2002:a05:622a:2615:b0:530:de5f:dba0 with SMTP id
- d75a77b69052e-5330b58b60bmr226374361cf.2.1790621895480; Mon, 28 Sep 2026
- 11:58:15 -0700 (PDT)
+	Mon, 28 Sep 2026 20:42:50 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by 011.lax.mailroute.net (Postfix) with ESMTP id 4httY14yHrz1XM4TB;
+	Mon, 28 Sep 2026 20:42:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1790628161; x=1793220162; bh=BumfOEQEDSO8N/gUoukVcmv0
+	dR7aJeOAZO71bPtzAgc=; b=airYkCv7cWfUxSLvkgwl7ngr358vfoNx0znueOOG
+	MU3BwVcSYBhAtuc2XiXnAommAg+jZ/j0gS+sbr9bM3fuKUbYyu3R6J9F388ZjPDW
+	k9NzDpXpL4Q7Qt2/LqnADd7bcKy92gV1RzcsWZz06KT/iHXCpISUFEw8oQRI4sno
+	GE7rhqRoEkPyFppvo/zkIXgl8ShIhgmCP6lUfB47V+IWu9dRKrION/DxR+6nIHzi
+	NjrHuCgou9gpio9gsv2kPBhBPp1Wxd1ZkeHGXQmethFR5vE9p4itLmBKLFJtiwZv
+	LsbiERyiEwy8M/MzE8VfXa2xyK4ePaS+0b6DLtbyLNuIMA==
+X-Virus-Scanned: by MailRoute
+Received: from 011.lax.mailroute.net ([127.0.0.1])
+ by localhost (011.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id 1LizgNKyS4TW; Mon, 28 Sep 2026 20:42:41 +0000 (UTC)
+Received: from [IPV6:2a00:79e0:2ed2:d:334e:163d:7b65:8f42] (unknown [104.135.182.42])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 011.lax.mailroute.net (Postfix) with ESMTPSA id 4httXv2Pghz1XM4Sx;
+	Mon, 28 Sep 2026 20:42:39 +0000 (UTC)
+Message-ID: <2bfc96f2-7d0d-47e0-936e-8810abb31a9f@acm.org>
+Date: Mon, 28 Sep 2026 13:42:38 -0700
 MIME-Version: 1.0
-From: Gustavo Bastidas <gustavobastidas1010@gmail.com>
-Date: Mon, 28 Sep 2026 14:57:55 -0500
-X-Gm-Features: AclHuK8v69cAbN6Mxv7Gj90kU5NZ6vMy_Cubm_xuaiRD9dC9SDQGP4911uFgLWc
-Message-ID: <CAPPWt=30acAVth+nR5kQ5JLuJ=LRTfmSBD2AjntNJgSvcVgkhQ@mail.gmail.com>
-Subject: [BUG] VMD: NVMe controller reset fails with "can't derive routing for
- PCI INT A" / "no GSI" - Bug 221996
-To: linux-pci@vger.kernel.org, linux-nvme@lists.infradead.org
-Cc: bhelgaas@google.com, helgaas@kernel.org, kw@linux.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] nvme-multipath: revalidate zones for namespace heads
+To: Yao Sang <sangyao@kylinos.cn>, linux-nvme@lists.infradead.org,
+ dlemoal@kernel.org
+Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me
+References: <20260610032846.54044-1-sangyao@kylinos.cn>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20260610032846.54044-1-sangyao@kylinos.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260928_115817_454996_7C165756 
-X-CRM114-Status: UNSURE (   7.14  )
+X-CRM114-CacheID: sfid-20260928_134248_556953_9F40F598 
+X-CRM114-Status: UNSURE (   8.28  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -112,33 +84,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+On 6/9/26 8:28 PM, Yao Sang wrote:
+>   		set_capacity_and_notify(ns->head->disk, get_capacity(ns->disk));
+>   		set_disk_ro(ns->head->disk, nvme_ns_is_readonly(ns, info));
+>   		nvme_mpath_revalidate_paths(ns->head);
+> +		ret = nvme_mpath_revalidate_zones(ns->head);
+>   
+> +unfreeze_head_queue:
+>   		blk_mq_unfreeze_queue(ns->head->disk->queue, memflags);
 
-I am writing to bring attention to Bugzilla #221996, which was
-reported 15 days ago regarding a failure in the VMD / PCI routing for
-NVMe on an HP Tiger Lake laptop.
+Does the above nvme_mpath_revalidate_zones() submit I/O while the
+request queue is frozen? If so, is this guaranteed to trigger a
+deadlock? I'm wondering whether the above changes are the changes that
+introduced this syzbot report:
+https://lore.kernel.org/linux-block/6ab26c90.c68e76dc.23da29.00ab.GAE@google.com/
 
-Bugzilla Link: https://bugzilla.kernel.org/show_bug.cgi?id=221996
+ From that report:
 
-Summary of the issue:
-The NVMe controller reset fails with "can't derive routing for PCI INT
-A" / "no GSI", leading to the device being disabled after reset
-failure (-19) and causing the filesystem to remount read-only.
-
-System details:
-- Laptop: HP Tiger Lake laptop
-- Storage: Crucial P2 1TB SSD (CT1000P2SSD8, firmware P2CR033)
-- Affected subsystem: PCI (VMD domain 10000:) / NVMe
-
-The Bugzilla report includes all relevant attachments:
-1. Complete boot dmesg logs showing the VMD GSI routing failures and
-NVMe reset issue.
-2. Full 'lspci -vvv' output showing PCI topology under Intel VMD.
-3. 'nvme id-ctrl' capability data.
-
-Please let me know if any additional logs or kernel parameter tests
-(e.g. pci=...) are needed to debug this issue further.
+-> #2 (&q->limits_lock){+.+.}-{4:4}:
+        __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+        __mutex_lock+0x197/0x15a0 kernel/locking/mutex.c:821
+        queue_limits_start_update include/linux/blkdev.h:1101 [inline]
+        disk_update_zone_resources block/blk-zoned.c:2067 [inline]
+        blk_revalidate_disk_zones+0xad9/0x12e0 block/blk-zoned.c:2375
+        nvme_mpath_revalidate_zones+0x106/0x1c0 
+drivers/nvme/host/multipath.c:301
+        nvme_update_ns_info+0x984/0x1200 drivers/nvme/host/core.c:2622
+        nvme_alloc_ns drivers/nvme/host/core.c:4284 [inline]
+        nvme_scan_ns+0x2563/0x3640 drivers/nvme/host/core.c:4471
+        async_run_entry_fn+0x9d/0x430 kernel/async.c:129
+        process_one_work kernel/workqueue.c:3399 [inline]
+        process_scheduled_works+0xc3d/0x1630 kernel/workqueue.c:3482
+        worker_thread+0xa47/0xfb0 kernel/workqueue.c:3563
+        kthread+0x38b/0x480 kernel/kthread.c:436
+        ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+        ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
 
 Thanks,
-Gustavo Bastidas
+
+Bart.
 
