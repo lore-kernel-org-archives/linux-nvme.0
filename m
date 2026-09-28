@@ -4,101 +4,113 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1816ECA5FC3
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2026 08:23:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 55628CA5FAE
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2026 08:23:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=SFFZIu+j5I6h3HlIFMk62fFaGpeXSzP26xjR5/D9TzM=; b=flp+LCvaZkFE4fwXAVNLW+cZrE
-	W3nHxjLUvKEQuPWRUEm1R921Y0ksqL4/iT1mXNpSLtrYgcPpVUiPgrYP+jxc4Vc6hfSZFc4IG4OlA
-	B1AmwT/RZEVZnmJd9TDKGkfQLai5vZmrMU3e3Flg8CTAnrx9DFthXRXJ+jUKqiYiZKjnG+GVpy83C
-	Ict7e4iALNIfDt3xoMGP6iqY7qOYulFzc/wtVJce6tUnY1KUSeSdrGRZSzr8BkECy5Hr5Gms4iHsN
-	pxWaCAnQKSdUmZdTPuWt63//0IB2IPzEck/c3X7Zf9yyS8zFLisYRcnb2K0/399EzEpwEiwHKCFg1
-	Leo+6qdw==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=rDgWSkzXb9T2f2eSv4f8loR9LBdnnTqRZoSNaSt6PRU=; b=Zl9aOTBuv9b3xYKTxwiA/Zqb4u
+	9I8u0WXCTJmc0gpzQ0QhA8nsdHUY0Afihl/jOG0s+ynAZKGXcZFddw0Q6YnOWP0Irk1XTWnJvwvCx
+	InhnuwsOwQkVBUpeaznqqsyx+xemEBRJZnrPpA5y6ay5dObStJZlc7MWnIInzTB2NfKSJ8suGOuVm
+	fadNNa8KrX65N4UPelfJx9l1MQp1ZXQLRstUptF94doErWG7/OvcxfrT3Wd1IP+nj5a9RCk5XJiMf
+	M/m+f9fMBTH1s56LIQYi7kk7dnu0uMiV6J4tavmqyOrzJvZMNFhwVYC3HSfFNU1U4JZC6awbIbIK2
+	OoGPT97w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBT7f-00000002jSX-0XR1;
-	Tue, 29 Sep 2026 08:23:35 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1xBT7b-00000002jJg-1V8d;
+	Tue, 29 Sep 2026 08:23:31 +0000
+Received: from mail-wr2-x0f.google.com ([2a00:1450:4864:30::f])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBS6G-00000002a2O-3pMT
+	id 1xBBTK-00000000fB5-3g2Q
 	for linux-nvme@lists.infradead.org;
-	Tue, 29 Sep 2026 07:18:05 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 4977560210;
-	Tue, 29 Sep 2026 07:18:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 785EF1F000FF;
-	Tue, 29 Sep 2026 07:18:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790666284;
-	bh=SFFZIu+j5I6h3HlIFMk62fFaGpeXSzP26xjR5/D9TzM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=WehzzmjZ45IohjVy5hfTAPbHpGU1ITF9GaZBqXw/Mcx51EE93kXd2wMk7imB6cFFR
-	 070e4lgyFBRtpB559fWxVXIimlNS3fi8i6qLrn9fxluho0WsT69njsTDI49FSEkC0e
-	 Q9+1MW702fpEd6Su7eYM1DNsgtQgj69PNjuTtvKASr8a5wvbl+LIIjjoT3D7n4QKVq
-	 G6eIlihPxfEYmvRh3OFQnjdnKUVa6g32mF+qDINFdKosiq+dnPc+0T2k2RA7DElaZM
-	 MfvZm3Wv51uiy+SkwhgFPbMn/T1odzBm2UiBZL9/OEHNC3CCSm0mRmmXgUZxdW/KSo
-	 LqqjZcbAK26WQ==
-From: Eric Dumazet <edumazet@kernel.org>
-To: "David S . Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
-Cc: Simon Horman <horms@kernel.org>,
-	Neal Cardwell <ncardwell@google.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	edumazet@google.com,
-	netdev@vger.kernel.org,
-	Alexander Aring <aahringo@redhat.com>,
-	David Teigland <teigland@redhat.com>,
-	gfs2@lists.linux.dev,
-	John Fastabend <john.fastabend@gmail.com>,
-	Jakub Sitnicki <jakub@cloudflare.com>,
-	Sabrina Dubroca <sd@queasysnail.net>,
-	Jiayuan Chen <jiayuan.chen@linux.dev>,
-	Matthieu Baerts <matttbe@kernel.org>,
-	Mat Martineau <martineau@kernel.org>,
-	Geliang Tang <geliang@kernel.org>,
-	mptcp@lists.linux.dev,
-	Wen Gu <guwen@linux.alibaba.com>,
-	Dust Li <dust.li@linux.alibaba.com>,
-	"D. Wythe" <alibuda@linux.alibaba.com>,
-	Chuck Lever <cel@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	NeilBrown <neil@brown.name>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>,
-	Tom Talpey <tom@talpey.com>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	linux-nfs@vger.kernel.org,
-	Allison Henderson <achender@kernel.org>,
-	rds-devel@oss.oracle.com,
-	Philipp Reisner <philipp.reisner@linbit.com>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	=?UTF-8?q?Christoph=20B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	drbd-dev@lists.linux.dev,
-	Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
+	Mon, 28 Sep 2026 13:32:48 +0000
+Received: by mail-wr2-x0f.google.com with SMTP id ffacd0b85a97d-4888129c46eso1629444f8f.1
+        for <linux-nvme@lists.infradead.org>; Mon, 28 Sep 2026 06:32:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790602364; x=1791207164; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=rDgWSkzXb9T2f2eSv4f8loR9LBdnnTqRZoSNaSt6PRU=;
+        b=cm1QhqMZj0npIY+t+N1iKkOX38avCeIhh/tjmMfB+ZvA5PAQZV/GSxMpKaGoHSmlyS
+         55dUrfoXrbSpPfpU76rRqQx5+MEgWWN5NTwtVduXEGy7PMMoudWChjV5AYptFCcnusvS
+         D6ioVhldG59ak4E0WEg/v2MicmPwi5IFIzK4JAAUnhqWEkir30GNn24jv0AlCf3a9Qlz
+         X7osb2TAIjdE+0JiCrHZ+XUamwol45ms2GcUNo1LjpsGGh41rZw8G5khrlzLyuhaW7Jf
+         s+3xY3IHarqH3o9rUp6DthWVekcZ4jnw51qIEGbHL/v/fs3s3+veLl55oKux0BedjnhU
+         LaZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790602364; x=1791207164;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=rDgWSkzXb9T2f2eSv4f8loR9LBdnnTqRZoSNaSt6PRU=;
+        b=2ZbMzDS0Y4I3gT7fKOkzlIjwh12FncEwR9F3ng86AOPjLdgk9C61RDbh+vDbpZoRSu
+         JkOmls9alJr4uCzzwEaIN57xCoxCRrcvqb+H0sa93W+AIc7v0QmegslGgusU71fjfauz
+         elLS6Sy7NIGfifrGR88RFXZcAalpQfewRjABX+6Ng+4SK8kkU1kX8coitca8pd0RZF/6
+         +D8gSqBd6rjwRxYBGgAip0/LehNh010FhAsykEkuKfNF+4sa4c+gGiiVTWQCftFuWfL/
+         qeqyRNiNOrMr5zACx0PM8suaVVJgLfJlRFRXF5Z5W7I1uDxvMB4dXqPKwgc4AvSTG7n7
+         Lp+g==
+X-Forwarded-Encrypted: i=1; AKwUvBygrDKbANOGdNJTs/mkAu64E/8hle0Nvo/FfCuuiaulS5D+yMx6Vv1NR6/akIgZUL406/+3A6Ydns0h@lists.infradead.org
+X-Gm-Message-State: AFq9FYKLVeuC2uduo13BuPb5wGvwCMQfh4DAFR0iculQ6wfHNeXlkuPC
+	5wLqOcpOh4wLyRm1FR8qLQ18oSKoBtDvbyGi/F5urKH/zJpS0TQubrv3
+X-Gm-Gg: AYBFou1qDhxr4/PFEt8nWuDhPfHSD00QALtvfgjywTWE+eQs29P71H6IKZ27b/5WkLJ
+	Z2DKYeHCwqsnpsImrJT+t/lChqrgj0QxI1Rr5xQ3UfcJEw1jiHF2eGtBvFYTq++cBHow5QtGkES
+	hQCnwMaiHiFQ17nOqyO3UF+jIiFrJXHwn6FocJpsdlCABH9tJHVmGtR45/8Ro4569qjMqtQcGV9
+	cXhO+CD7lVikJcgFTJpp1bg9ItYGt5NiPYBvw7ccX3mV3B+KRz3VtuQMKgtJ2jvhgEZfcBjpE8Q
+	zHy9hhKZku2sUTiRVDGTooYd2nd/zk1RteU4y+4J8l8cR639xH2h9F1fl4djfInNk4TcHYT5Yh3
+	SeOEMYM8RkYJlaxvPSAhbv+Uz81fJBsCNBtzUW/iNmRQaGid73ggLT402iuML3tRh4gr/G2l98E
+	6Lzn+OS+dRP+OAAvau0Ltl86R+jYavU0QIiDEml6n2OT9qAyWqDWatYr0FBWLW4NCOgonji/wHi
+	HfDOz1c74y35/ERbxY+PYTNDUFFrvFUOOvGeBKz8KrmMudR9hFizDOPQvvdYCUeGRqGZ0UbDuLr
+	oWtbiW49k7ww
+X-Received: by 2002:a05:6000:4693:b0:487:342:d141 with SMTP id ffacd0b85a97d-488774f4f02mr13825713f8f.23.1790602364016;
+        Mon, 28 Sep 2026 06:32:44 -0700 (PDT)
+Received: from 127.mynet ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4887a349731sm28090164f8f.12.2026.09.28.06.32.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Sep 2026 06:32:43 -0700 (PDT)
+From: Pavel Begunkov <asml.silence@gmail.com>
+To: linux-block@vger.kernel.org
+Cc: asml.silence@gmail.com,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
 	linux-nvme@lists.infradead.org,
-	Ilya Dryomov <idryomov@gmail.com>,
-	Alex Markuze <amarkuze@redhat.com>,
-	Viacheslav Dubeyko <slava@dubeyko.com>,
-	ceph-devel@vger.kernel.org,
-	Eric Dumazet <edumazet@kernel.org>
-Subject: [PATCH v3 net-next 2/9] net: add sk_set_nospace() and sk_clear_nospace()
-Date: Tue, 29 Sep 2026 07:17:36 +0000
-Message-ID: <20260929071743.23624-3-edumazet@kernel.org>
-X-Mailer: git-send-email 2.56.0.rc1.315.gc6ed9934b7-goog
-In-Reply-To: <20260929071743.23624-1-edumazet@kernel.org>
-References: <20260929071743.23624-1-edumazet@kernel.org>
+	linux-fsdevel@vger.kernel.org,
+	io-uring@vger.kernel.org,
+	Christoph Hellwig <hch@lst.de>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Nitesh Shetty <nj.shetty@samsung.com>,
+	Kanchan Joshi <joshi.k@samsung.com>,
+	Anuj Gupta <anuj20.g@samsung.com>,
+	Tushar Gohad <tushar.gohad@intel.com>,
+	William Power <william.power@intel.com>,
+	Phil Cayton <phil.cayton@intel.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Alasdair Kergon <agk@redhat.com>,
+	Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	dm-devel@lists.linux.dev
+Subject: [PATCH v7 00/13] Add dmabuf read/write via io_uring
+Date: Mon, 28 Sep 2026 14:32:16 +0100
+Message-ID: <cover.1790602223.git.asml.silence@gmail.com>
+X-Mailer: git-send-email 2.54.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260928_063246_951928_A34BBE2E 
+X-CRM114-Status: GOOD (  26.39  )
 X-Mailman-Approved-At: Tue, 29 Sep 2026 01:23:30 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -114,285 +126,154 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-SOCK_NOSPACE lives in sk->sk_socket->flags and is manipulated from
-about thirty places in the tree, all of them open coding the
-sk->sk_socket dereference, some with a NULL check, some without,
-and some reaching the struct socket by yet another path.
+The patch set allows to register a dmabuf to an io_uring instance for
+a specified file and use it with io_uring read / write requests. The
+infrastructure is not tied to io_uring and there could be more users
+in the future. A similar idea was attempted some years ago by Keith [1],
+from where I borrowed a number of changes. Later it was brough back up
+to life by Tushar and Vishal.
 
-Add sk_set_nospace() and sk_clear_nospace() helpers and convert the
-core networking setters and clearers to them; the following patches
-convert the remaining subsystem callers so that
-"git grep _bit(SOCK_NOSPACE" only reports the two helpers and the
-remaining test_bit() sites.
+It's an opt-in feature for files, and they need to implement a new
+file operation to use it. Only NVMe block devices are supported in this
+series. The user API is built on top of io_uring's "registered buffers",
+where a dmabuf is registered in a special way, but after it can be used
+as any other "registered buffer" with IORING_OP_{READ,WRITE}_FIXED
+requests. It's created via a new file operation and the resulted map is
+then passed through the I/O stack in a new iterator type. There is some
+additional infrastructure to glue it together, count requests, manage
+lifetime and implement invalidation.
 
-Callers that had no NULL check are all called from user context with a
-socket attached, so folding the check into the helpers only makes them
-more robust.
+Tushar, William, Phil did a lot of testing and experimentation on various
+devices with previous versions of the patch set, and I've received lots
+of help from Anuj, Kanchan and Nitesh with investigations, testing, and
+patching. Earlier benchmarks by Anuj for IOMMU optimisations with udmabuf
+showed:
 
-No functional change intended.
+STRICT: before = 570 KIOPS, after = 5.01 MIOPS
+LAZY: before = 1.93 MIOPS, after = 5.01 MIOPS
+PASSTHROUGH: before = 5.01 MIOPS, after = 5.01 MIOPS
 
-This is a preparation patch: a following one gives TCP a cheaper
-private copy of this bit, and needs a single choke point to keep it
-in sync.
+# Patch set structure:
+- Patches 1-2 introduce internal API and infrastructure mediating
+  io_uring and target subsystem / devices
+- Patches 3-5: block layer support + prep patches
+- Patches 6-8 implement NVMe support
+- Patches 9-13 add io_uring support and uapi.
 
-Reviewed-by: Kuniyuki Iwashima <kuniyu@google.com>
-Signed-off-by: Eric Dumazet <edumazet@kernel.org>
----
- include/net/sock.h   |  2 ++
- net/core/sock.c      | 37 +++++++++++++++++++++++++++++++++++--
- net/core/stream.c    |  6 +++---
- net/ipv4/tcp.c       |  4 ++--
- net/ipv4/tcp_bpf.c   |  2 +-
- net/kcm/kcmsock.c    |  4 ++--
- net/mptcp/protocol.c |  4 ++--
- net/smc/af_smc.c     |  2 +-
- net/smc/smc_tx.c     |  6 +++---
- net/tls/tls_sw.c     |  2 +-
- 10 files changed, 52 insertions(+), 17 deletions(-)
+There are some liburing tests that can serve as an example:
+git: https://github.com/isilence/liburing.git rw-dmabuf-tests-v5
+url: https://github.com/isilence/liburing/tree/rw-dmabuf-tests-v5
 
-diff --git a/include/net/sock.h b/include/net/sock.h
-index 60ea55dc18854a9759f5df618cc8c904d2323e95..f4dd2e105171386f1b68f808175457c51aff183a 100644
---- a/include/net/sock.h
-+++ b/include/net/sock.h
-@@ -1129,6 +1129,8 @@ static inline void sk_forward_alloc_add(struct sock *sk, int val)
- }
- 
- void sk_stream_write_space(struct sock *sk);
-+void sk_set_nospace(struct sock *sk);
-+void sk_clear_nospace(struct sock *sk);
- 
- /* OOB backlog add */
- static inline void __sk_add_backlog(struct sock *sk, struct sk_buff *skb)
-diff --git a/net/core/sock.c b/net/core/sock.c
-index 2948dffcc3e1b49a9a55e30f1380ec165a88859f..11a22aec7e414152aab115e8d11e30067ab3775f 100644
---- a/net/core/sock.c
-+++ b/net/core/sock.c
-@@ -2957,6 +2957,39 @@ void sock_kzfree_s(struct sock *sk, void *mem, int size)
- }
- EXPORT_SYMBOL(sock_kzfree_s);
- 
-+/**
-+ *	sk_set_nospace - tell the transport a writer is waiting for space
-+ *	@sk: socket
-+ *
-+ *	Must be called before the final check of the available send space,
-+ *	so that the transport can not miss the request and forget to call
-+ *	sk->sk_write_space() once space is available again.
-+ */
-+void sk_set_nospace(struct sock *sk)
-+{
-+	struct socket *sock = sk->sk_socket;
-+
-+	if (sock)
-+		set_bit(SOCK_NOSPACE, &sock->flags);
-+}
-+EXPORT_SYMBOL(sk_set_nospace);
-+
-+/**
-+ *	sk_clear_nospace - tell the transport no writer is waiting for space
-+ *	@sk: socket
-+ *
-+ *	Called from ->sk_write_space() handlers, once send space has been
-+ *	made available to writers.
-+ */
-+void sk_clear_nospace(struct sock *sk)
-+{
-+	struct socket *sock = sk->sk_socket;
-+
-+	if (sock)
-+		clear_bit(SOCK_NOSPACE, &sock->flags);
-+}
-+EXPORT_SYMBOL(sk_clear_nospace);
-+
- /* It is almost wait_for_tcp_memory minus release_sock/lock_sock.
-    I think, these locks should be removed for datagram sockets.
-  */
-@@ -2970,7 +3003,7 @@ static long sock_wait_for_wmem(struct sock *sk, long timeo)
- 			break;
- 		if (signal_pending(current))
- 			break;
--		set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
-+		sk_set_nospace(sk);
- 		prepare_to_wait(sk_sleep(sk), &wait, TASK_INTERRUPTIBLE);
- 		if (refcount_read(&sk->sk_wmem_alloc) < READ_ONCE(sk->sk_sndbuf))
- 			break;
-@@ -3011,7 +3044,7 @@ struct sk_buff *sock_alloc_send_pskb(struct sock *sk, unsigned long header_len,
- 			break;
- 
- 		sk_set_bit(SOCKWQ_ASYNC_NOSPACE, sk);
--		set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
-+		sk_set_nospace(sk);
- 		err = -EAGAIN;
- 		if (!timeo)
- 			goto failure;
-diff --git a/net/core/stream.c b/net/core/stream.c
-index 2d748581862d0eda8523f6f371cd2402e1dd6e01..a853b60afdc35a4735c017eb16c748cf2fab1b99 100644
---- a/net/core/stream.c
-+++ b/net/core/stream.c
-@@ -37,7 +37,7 @@ void sk_stream_write_space(struct sock *sk)
- 	struct socket_wq *wq;
- 
- 	if (__sk_stream_is_writeable(sk, 1) && sock) {
--		clear_bit(SOCK_NOSPACE, &sock->flags);
-+		sk_clear_nospace(sk);
- 
- 		rcu_read_lock();
- 		wq = rcu_dereference(sk->sk_wq);
-@@ -143,7 +143,7 @@ int sk_stream_wait_memory(struct sock *sk, long *timeo_p)
- 		if (sk_stream_memory_free(sk) && !vm_wait)
- 			break;
- 
--		set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
-+		sk_set_nospace(sk);
- 		sk->sk_write_pending++;
- 		ret = sk_wait_event(sk, &current_timeo, READ_ONCE(sk->sk_err) ||
- 				    (READ_ONCE(sk->sk_shutdown) & SEND_SHUTDOWN) ||
-@@ -177,7 +177,7 @@ int sk_stream_wait_memory(struct sock *sk, long *timeo_p)
- 	 * When TCP receives ACK packets that make room, tcp_check_space()
- 	 * only calls tcp_new_space() if SOCK_NOSPACE is set.
- 	 */
--	set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
-+	sk_set_nospace(sk);
- 	err = -EAGAIN;
- 	goto out;
- do_interrupted:
-diff --git a/net/ipv4/tcp.c b/net/ipv4/tcp.c
-index 3ac4856852794736c5d49f042ecd08e4246bdd6d..1cde000cfab4704e6756872f6ddec16851ccc55d 100644
---- a/net/ipv4/tcp.c
-+++ b/net/ipv4/tcp.c
-@@ -607,7 +607,7 @@ __poll_t tcp_poll(struct file *file, struct socket *sock, poll_table *wait)
- 				mask |= EPOLLOUT | EPOLLWRNORM;
- 			} else {  /* send SIGIO later */
- 				sk_set_bit(SOCKWQ_ASYNC_NOSPACE, sk);
--				set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
-+				sk_set_nospace(sk);
- 
- 				/* Race breaker. If space is freed after
- 				 * wspace test but before the flags are set,
-@@ -1398,7 +1398,7 @@ int tcp_sendmsg_locked(struct sock *sk, struct msghdr *msg, size_t size)
- 		continue;
- 
- wait_for_space:
--		set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
-+		sk_set_nospace(sk);
- 		tcp_remove_empty_skb(sk);
- 		if (copied)
- 			tcp_push(sk, flags & ~MSG_MORE, mss_now,
-diff --git a/net/ipv4/tcp_bpf.c b/net/ipv4/tcp_bpf.c
-index 2e234d155b5e616d496611d1f367c34ed90f3000..64d74d92af52d1ca2fa3d24910a254a5092466f2 100644
---- a/net/ipv4/tcp_bpf.c
-+++ b/net/ipv4/tcp_bpf.c
-@@ -602,7 +602,7 @@ static int tcp_bpf_sendmsg(struct sock *sk, struct msghdr *msg, size_t size)
- 			goto out_err;
- 		continue;
- wait_for_sndbuf:
--		set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
-+		sk_set_nospace(sk);
- wait_for_memory:
- 		err = sk_stream_wait_memory(sk, &timeo);
- 		if (err) {
-diff --git a/net/kcm/kcmsock.c b/net/kcm/kcmsock.c
-index 71af69d442f211996e514d8d76a4c9d658f7b352..b29c0ed9caf5220ff741584e49632da45626beb7 100644
---- a/net/kcm/kcmsock.c
-+++ b/net/kcm/kcmsock.c
-@@ -735,7 +735,7 @@ static void kcm_tx_work(struct work_struct *w)
- 	/* Primarily for SOCK_SEQPACKET sockets */
- 	if (likely(sk->sk_socket) &&
- 	    test_bit(SOCK_NOSPACE, &sk->sk_socket->flags)) {
--		clear_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
-+		sk_clear_nospace(sk);
- 		sk->sk_write_space(sk);
- 	}
- 
-@@ -779,7 +779,7 @@ static int kcm_sendmsg(struct socket *sock, struct msghdr *msg, size_t len)
- 	/* Call the sk_stream functions to manage the sndbuf mem. */
- 	if (!sk_stream_memory_free(sk)) {
- 		kcm_push(kcm);
--		set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
-+		sk_set_nospace(sk);
- 		err = sk_stream_wait_memory(sk, &timeo);
- 		if (err)
- 			goto out_error;
-diff --git a/net/mptcp/protocol.c b/net/mptcp/protocol.c
-index e89a69ab927c9139c68c9039327cb0e55c33356b..74b1a512072878a54b229bc80aa76bb3e417c862 100644
---- a/net/mptcp/protocol.c
-+++ b/net/mptcp/protocol.c
-@@ -2106,7 +2106,7 @@ static int mptcp_sendmsg(struct sock *sk, struct msghdr *msg, size_t len)
- 		continue;
- 
- wait_for_memory:
--		set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
-+		sk_set_nospace(sk);
- 		__mptcp_push_pending(sk, msg->msg_flags);
- 		ret = sk_stream_wait_memory(sk, &timeo);
- 		if (ret)
-@@ -4472,7 +4472,7 @@ static __poll_t mptcp_check_writeable(struct mptcp_sock *msk)
- 	if (__mptcp_stream_is_writeable(sk, 1))
- 		return EPOLLOUT | EPOLLWRNORM;
- 
--	set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
-+	sk_set_nospace(sk);
- 	smp_mb__after_atomic(); /* NOSPACE is changed by mptcp_write_space() */
- 	if (__mptcp_stream_is_writeable(sk, 1))
- 		return EPOLLOUT | EPOLLWRNORM;
-diff --git a/net/smc/af_smc.c b/net/smc/af_smc.c
-index e9f93b3ab435bbcce0a493f24205bd91bdf15b6a..4f2afbbdef2d7e62431e14562dc26bdfcdaa9f79 100644
---- a/net/smc/af_smc.c
-+++ b/net/smc/af_smc.c
-@@ -2919,7 +2919,7 @@ __poll_t smc_poll(struct file *file, struct socket *sock,
- 				mask |= EPOLLOUT | EPOLLWRNORM;
- 			} else {
- 				sk_set_bit(SOCKWQ_ASYNC_NOSPACE, sk);
--				set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
-+				sk_set_nospace(sk);
- 
- 				if (sk->sk_state != SMC_INIT) {
- 					/* Race breaker the same way as tcp_poll(). */
-diff --git a/net/smc/smc_tx.c b/net/smc/smc_tx.c
-index 3144b4b1fe29013cabc63d72671d256761a4c367..52e5395484fd3e0c4b1356226ecdcf4fb190d487 100644
---- a/net/smc/smc_tx.c
-+++ b/net/smc/smc_tx.c
-@@ -48,7 +48,7 @@ static void smc_tx_write_space(struct sock *sk)
- 	if (atomic_read(&smc->conn.sndbuf_space) && sock) {
- 		if (test_bit(SOCK_NOSPACE, &sock->flags))
- 			SMC_STAT_RMB_TX_FULL(smc, !smc->conn.lnk);
--		clear_bit(SOCK_NOSPACE, &sock->flags);
-+		sk_clear_nospace(sk);
- 		rcu_read_lock();
- 		wq = rcu_dereference(sk->sk_wq);
- 		if (skwq_has_sleeper(wq))
-@@ -100,7 +100,7 @@ static int smc_tx_wait(struct smc_sock *smc, int flags)
- 		}
- 		if (!timeo) {
- 			/* ensure EPOLLOUT is subsequently generated */
--			set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
-+			sk_set_nospace(sk);
- 			rc = -EAGAIN;
- 			break;
- 		}
-@@ -111,7 +111,7 @@ static int smc_tx_wait(struct smc_sock *smc, int flags)
- 		sk_clear_bit(SOCKWQ_ASYNC_NOSPACE, sk);
- 		if (atomic_read(&conn->sndbuf_space) && !conn->urg_tx_pend)
- 			break; /* at least 1 byte of free & no urgent data */
--		set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
-+		sk_set_nospace(sk);
- 		sk_wait_event(sk, &timeo,
- 			      READ_ONCE(sk->sk_err) ||
- 			      (READ_ONCE(sk->sk_shutdown) & SEND_SHUTDOWN) ||
-diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
-index d1ad31986cf2cee88afbde43a2908791eeabb0fb..312e51270f293dc4df8efbec498473c4c3b48d15 100644
---- a/net/tls/tls_sw.c
-+++ b/net/tls/tls_sw.c
-@@ -966,7 +966,7 @@ static int tls_sw_sendmsg_locked(struct sock *sk, struct msghdr *msg,
- 		continue;
- 
- wait_for_sndbuf:
--		set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
-+		sk_set_nospace(sk);
- wait_for_memory:
- 		ret = sk_stream_wait_memory(sk, &timeo);
- 		if (ret) {
+The patches are based on Jens' for-next. Also available as a branch:
+git: https://github.com/isilence/linux.git rw-dmabuf-v7
+url: https://github.com/isilence/linux/tree/rw-dmabuf-v7
+
+[1] https://lore.kernel.org/io-uring/20220805162444.3985535-1-kbusch@fb.com/
+
+v7: - refcount *_io_ctx 
+    - wait rcu grace period for ctx->map before freeing maps
+    - increment map counters under dma resv lock
+    - more comments about bio splitting
+    - make ->unmap responsible for freeing maps to match ->map
+    - replace dma_sync_single* with full table sync
+    - detach dma-buf on nvme reset after cancel nvme_cancel_tagset
+
+v6: - remove fences and wait on invalidation synchronously
+    - report all map requests are detached earlier, outside of wq
+    - handle nvme removal
+    - gate nvme_free_descriptors() on iod->nr_descriptors 
+    - fix error handling in nvme_rq_setup_dmabuf_map() 
+    - fix iov_iter_alignment()
+    - relax the 1G io_uring registered dma-buf limit
+    - fix type overflow issue in bio split
+    - allocate struct dma_buf_io_ctx inside the dma-buf-io code
+    - harden block checks against dma-buf + buffered io
+
+v5: - Reject dma-buf with buffered IO for raw bdev
+    - Add lim->max_segments bio splitting
+    - Add bio_iov_iter_set() helper
+    - Fix io_uring uapi validation
+    - Other minor changes
+    NVMe:
+    - Rename nvme_pci_sgl_set_data() to nvme_pci_dma_iter_set_sgl(), split 
+      into its own prep patch.
+    - Convert segment walk loops to do-while.
+    - Drop adjacent segment coalescing logic.
+    - Drop first_dma/first_len from nvme_pci_dmabuf_sgl_nents()
+    - Remove entries > NVME_MAX_SEGS bailout; moving to the block layer.
+    - Factor SGL vs PRP decision making into a helper.
+
+v4: - https://lore.kernel.org/all/cover.1785274111.git.asml.silence@gmail.com/
+    - Add sgl support from Anuj
+    - Move it under drivers/dma-buf/ and rename
+    - Fix mis-sized allocations
+    - Fix io_uring re-import mishandling
+    - Drop map before io_uring "task work"
+    - Move blk-mq callback to block_device_operations
+    - Convert bio flag to REQ_OP*
+    - Other small changes
+
+v3: https://lore.kernel.org/io-uring/cover.1777475843.git.asml.silence@gmail.com/
+    - Rework io_uring registration
+    - Move token/map infrastructure code out of blk-mq
+    - Simplify callbacks: remove a separate blk-mq table, which was
+      mostly just forwarding calls (to nvme).
+    - Don't skip dma sync depending on request direction
+    - Fix a couple of hangs
+    - Rename s/dma/dmabuf/
+    - Other small changes
+
+v2: - Don't pass raw dma addresses, wrap it into a driver specific object
+    - Split into two objects: token and map
+    - Implement move_notify
+
+Anuj Gupta (2):
+  nvme-pci: rename nvme_pci_sgl_set_data to nvme_pci_dma_iter_set_sgl
+  nvme-pci: add SGL support for the dmabuf path
+
+Pavel Begunkov (11):
+  dma-buf: introduce initial file I/O infrastructure
+  iov_iter: add iterator type for dmabuf maps
+  block: always adjust bi_offset on bio_advance_iter
+  block: introduce dma map backed bio type
+  block: add dma-buf support for raw bdev
+  nvme-pci: implement dma-buf backed requests
+  io_uring/rsrc: introduce buf registration structure
+  io_uring/rsrc: extend buffer update
+  io_uring/rsrc: add uncloneable regbuf flag
+  io_uring/rsrc: add regbuf import flags
+  io_uring/rsrc: add dmabuf backed registered buffers
+
+ block/bio.c                    |  15 +-
+ block/blk-merge.c              |  50 ++++
+ block/fops.c                   |  27 +-
+ drivers/dma-buf/Makefile       |   2 +-
+ drivers/dma-buf/dma-buf-io.c   | 230 ++++++++++++++++
+ drivers/md/dm-io-rewind.c      |   6 +-
+ drivers/nvme/host/core.c       |  12 +
+ drivers/nvme/host/nvme.h       |   2 +
+ drivers/nvme/host/pci.c        | 467 ++++++++++++++++++++++++++++++++-
+ include/linux/bio.h            |  21 +-
+ include/linux/blk-mq.h         |   7 +
+ include/linux/blk_types.h      |  14 +-
+ include/linux/blkdev.h         |   2 +
+ include/linux/bvec.h           |   3 +-
+ include/linux/dma-buf-io.h     | 117 +++++++++
+ include/linux/fs.h             |   2 +
+ include/linux/io_uring_types.h |   5 +
+ include/linux/iov_iter.h       |   2 +
+ include/linux/uio.h            |  11 +
+ include/uapi/linux/io_uring.h  |  31 ++-
+ io_uring/io_uring.c            |   3 +-
+ io_uring/rsrc.c                | 275 ++++++++++++++++---
+ io_uring/rsrc.h                |  45 +++-
+ io_uring/rw.c                  |   6 +-
+ lib/iov_iter.c                 |  29 +-
+ 25 files changed, 1304 insertions(+), 80 deletions(-)
+ create mode 100644 drivers/dma-buf/dma-buf-io.c
+ create mode 100644 include/linux/dma-buf-io.h
+
 -- 
-2.56.0.rc1.315.gc6ed9934b7-goog
+2.54.0
 
 
