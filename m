@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A242ACA5FC2
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2026 08:23:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 181CACA5FC5
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2026 08:23:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=DfV0ZdyXjwMFuzBG40t+uh9OXVIWsQkLcTmp8LtXSIY=; b=dmSi9AE8QcCyLUlF2YWUaSSutU
-	A7f5zVL1DVN9LYwQhNwZt6rTqY4QB9MQIHvvwc9RaGoyJ6H9IwfFfeoRnSDtD2IrKstYmgEuYpAEj
-	JunngoNsAqbVIifsWXPVXkZAMTK638ziD1IBJEuE98oPE3SSXCXu/O2y6pzugtS8O4zVWtgZ1W/t8
-	+SMix5sorT4OhosVC21hfJKQmskZz4BffSqkgEuZOIPptDvPciKxvrS8bUqIyrKy2kGPzIUF+jJsK
-	Cu3/K0j3MqPBAPuZpI8SRrjpOp7KwEJXK7xD+JVWbbG5rhhcrrHZ9RvcPvYh4llWwvlLjabYrHaOe
-	jTkZoxVA==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=hThQis9jrIYHM2qp/AUyAye12+rzpdk99d0bmSnxuAo=; b=1h+ulgaSMX/AL2pzl+cNtC875d
+	5KTx9AZpNZH51juw02SetelKFdK8h/qfu1gAnK4s29PIT0y9LgOItt7hvOaUwTw20JcyQrXBnNGPa
+	3p7g0dB9RNvwjKZy2WNKu5yL7IBA+zccofe5iuB53tRQJgWbe+/WIidQsqZLMC1Qv/Yu3FmW1/Y2a
+	d9C1ZhVpjsSeD5G3cSSmjoUkTxDLSpvVsvqs5cWc+DAhsBLa5bV7xIaFSJ5iu82ruBfORPBUbnADH
+	Y7Ip+jmK3pM3F5CIAVagpB8ol/GGtFh+INEvYrcudUtf8zSzq7pdvNB5BAXMrrkyXKWEoSz7qKXVV
+	l+G39LLA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBT7e-00000002jQr-1aJM;
-	Tue, 29 Sep 2026 08:23:34 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1xBT7f-00000002jUS-3k3S;
+	Tue, 29 Sep 2026 08:23:35 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBS67-00000002a0D-0St8
+	id 1xBS6U-00000002a5B-15wH
 	for linux-nvme@lists.infradead.org;
-	Tue, 29 Sep 2026 07:17:55 +0000
+	Tue, 29 Sep 2026 07:18:18 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 85996404C9;
-	Tue, 29 Sep 2026 07:17:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 040681F000FF;
-	Tue, 29 Sep 2026 07:17:50 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id AFD6340050;
+	Tue, 29 Sep 2026 07:18:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 318A41F000FF;
+	Tue, 29 Sep 2026 07:18:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790666274;
-	bh=DfV0ZdyXjwMFuzBG40t+uh9OXVIWsQkLcTmp8LtXSIY=;
-	h=From:To:Cc:Subject:Date;
-	b=HC9gNeCZQT3WnFBnHiYLaloBAkhdlb69XWMbxRy8PiaJGIPTPD6zTlnf3Ryvc5YtD
-	 ndc1eqGx+qsW/X5N60SwWKjXKN/SDPDG9hXhKxLq33KqrAu55Pg74vSUxLQoxmHM/A
-	 H+J9biykKCRQU4nYH8TyqyD8WmPWQUy9/BuIvyefKsCo/b4tbec7l5y2zh5U6NU3vi
-	 Vl6GVqTVBJUVa4EkAj/o8NBWA2q3BUWLxqFONpztoLahQLNxKZAn5q64UDAdmqIZ1O
-	 iFjMVQtBoLp1twfVreBa2slbPq0CUbtZDgBGVZGoTwPMB9daryMl2npyQVIszOZHCz
-	 l0d+sbbfh4V4w==
+	s=k20260515; t=1790666297;
+	bh=hThQis9jrIYHM2qp/AUyAye12+rzpdk99d0bmSnxuAo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=VwivzD3a6Tfbg1hAmWgU/0lvAsOcO/D2hXgF4I0INZapunQeWFiA/vY9+Pj8um46k
+	 ooyPMj18vfhDBUXjxz3dhKxrC+XN2JW9+9CM6Kpr4craL9R0MJ26TlUwOoQk0DosJu
+	 gTHOTAGt2AbJdtEAc/Se1u3UgBdqRffpKtTmiwlVip3IaR4H8tSqGTpPXp7sS/0lT7
+	 RuQ5LJQxjPDDmef9IVOvE7Ymzh2NTA1DTF+GbYrPFmTDsuyfVORv6qnKeLEbwRO0gn
+	 iTkQMEQ0zTsXm9q0ymW/E/4EZGn948lnU6kHmrmasVInSPxWwImDhDQUPdijALzpug
+	 1/z5MjigjDm7g==
 From: Eric Dumazet <edumazet@kernel.org>
 To: "David S . Miller" <davem@davemloft.net>,
 	Jakub Kicinski <kuba@kernel.org>,
@@ -91,10 +91,12 @@ Cc: Simon Horman <horms@kernel.org>,
 	Viacheslav Dubeyko <slava@dubeyko.com>,
 	ceph-devel@vger.kernel.org,
 	Eric Dumazet <edumazet@kernel.org>
-Subject: [PATCH v3 net-next 0/9] tcp: avoid struct socket cache line miss in tcp_check_space()
-Date: Tue, 29 Sep 2026 07:17:34 +0000
-Message-ID: <20260929071743.23624-1-edumazet@kernel.org>
+Subject: [PATCH v3 net-next 5/9] dlm: use sk_set_nospace() and sk_clear_nospace()
+Date: Tue, 29 Sep 2026 07:17:39 +0000
+Message-ID: <20260929071743.23624-6-edumazet@kernel.org>
 X-Mailer: git-send-email 2.56.0.rc1.315.gc6ed9934b7-goog
+In-Reply-To: <20260929071743.23624-1-edumazet@kernel.org>
+References: <20260929071743.23624-1-edumazet@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Tue, 29 Sep 2026 01:23:30 -0700
@@ -112,85 +114,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tcp_check_space() is called on every incoming ACK and every transmitted
-packet, and tests SOCK_NOSPACE in sk->sk_socket->flags.  Because struct
-socket lives in its own cache line and the TCP fast paths do not touch
-it for anything else, that test pulls in an extra cache line that is
-cold when the working set of active sockets is large.
+Use the new helpers instead of open coding the SOCK_NOSPACE
+manipulation, so that TCP can later maintain a cheaper private
+copy of this bit.
 
-This series mirrors SOCK_NOSPACE into a new u8 field, tp->tcp_nospace,
-placed right after tp->chrono_type in the tcp_sock_write_tx cache line
-group (fitting in an existing 3-byte hole before chrono_start, so no
-other field moves and sizeof(struct tcp_sock) is unchanged).  Both the
-transmit and ACK fast paths already touch that cache line, making the
-fast-path test in tcp_check_space() free of extra cache misses while
-keeping __tcp_check_space() authoritative on SOCK_NOSPACE.
+No functional change intended.
 
-To maintain the invariant (SOCK_NOSPACE set => tp->tcp_nospace set) from
-a single choke point:
+Reviewed-by: Kuniyuki Iwashima <kuniyu@google.com>
+Signed-off-by: Eric Dumazet <edumazet@kernel.org>
+---
+ fs/dlm/lowcomms.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
- - Patch 1 fixes a long-standing bug in dlm where SOCKWQ_ASYNC_NOSPACE
-   was tested and cleared on con->sock->flags instead of SOCK_NOSPACE.
- - Patch 2 introduces sk_set_nospace() and sk_clear_nospace() and
-   converts the core networking setters and clearers.
- - Patches 3-8 convert the remaining in-kernel callers (sunrpc, rds,
-   dlm, drbd, nvme-tcp, libceph) so that no open-coded set_bit() or
-   clear_bit() of SOCK_NOSPACE remains in the tree.
- - Patch 9 adds tp->tcp_nospace, wires it into sk_set_nospace() and
-   sk_clear_nospace(), and switches tcp_check_space() to test it.
-
-v3:
- - Rebase and CC subsystem maintainers (Jakub)
- - Link to v2: https://lore.kernel.org/netdev/20260924134729.2047213-1-edumazet@google.com/
-
-v2:
- - Order set_bit(SOCK_NOSPACE) before tp->tcp_nospace = 1 in
-   sk_set_nospace() and tp->tcp_nospace = 0 before
-   clear_bit(SOCK_NOSPACE) in sk_clear_nospace() so a concurrent
-   lockless tcp_poll() cannot leave SOCK_NOSPACE set with
-   tp->tcp_nospace cleared (Sashiko)
- - Move tp->tcp_nospace to the 3-byte hole after tp->chrono_type so no
-   field in struct tcp_sock shifts after the AccECN bitfield additions
-   (Sashiko)
- - Clarify comment and Patch 2 changelog wording (Sashiko)
- - Link to v1: https://lore.kernel.org/netdev/20260922122721.3568295-1-edumazet@google.com/
-
-Eric Dumazet (9):
-  dlm: fix send buffer backpressure handling
-  net: add sk_set_nospace() and sk_clear_nospace()
-  sunrpc: use sk_set_nospace() and sk_clear_nospace()
-  rds: use sk_set_nospace()
-  dlm: use sk_set_nospace() and sk_clear_nospace()
-  drbd: use sk_set_nospace()
-  nvme-tcp: use sk_clear_nospace()
-  libceph: use sk_clear_nospace()
-  tcp: add tp->tcp_nospace
-
- .../networking/net_cachelines/tcp_sock.rst    |  1 +
- drivers/block/drbd/drbd_worker.c              |  3 +-
- drivers/nvme/host/tcp.c                       |  2 +-
- drivers/nvme/target/tcp.c                     |  2 +-
- fs/dlm/lowcomms.c                             | 10 ++--
- include/linux/tcp.h                           |  3 ++
- include/net/sock.h                            |  2 +
- include/net/tcp.h                             | 30 +++++++++++-
- net/ceph/messenger.c                          |  2 +-
- net/core/sock.c                               | 46 ++++++++++++++++++-
- net/core/stream.c                             |  6 +--
- net/ipv4/tcp.c                                |  5 +-
- net/ipv4/tcp_bpf.c                            |  2 +-
- net/ipv4/tcp_input.c                          |  8 +++-
- net/kcm/kcmsock.c                             |  4 +-
- net/mptcp/protocol.c                          |  4 +-
- net/mptcp/subflow.c                           |  5 ++
- net/rds/tcp_send.c                            |  5 +-
- net/smc/af_smc.c                              |  2 +-
- net/smc/smc_tx.c                              |  6 +--
- net/sunrpc/svcsock.c                          |  4 +-
- net/sunrpc/xprtsock.c                         |  4 +-
- net/tls/tls_sw.c                              |  2 +-
- 23 files changed, 121 insertions(+), 37 deletions(-)
-
+diff --git a/fs/dlm/lowcomms.c b/fs/dlm/lowcomms.c
+index abe9ae4c643fae061d2e168c03219a4f4e1bc007..6aa68a24acab574429664acc3f5ecc25ddd1553d 100644
+--- a/fs/dlm/lowcomms.c
++++ b/fs/dlm/lowcomms.c
+@@ -519,7 +519,7 @@ static void lowcomms_write_space(struct sock *sk)
+ {
+ 	struct connection *con = sock2con(sk);
+ 
+-	clear_bit(SOCK_NOSPACE, &con->sock->flags);
++	sk_clear_nospace(sk);
+ 
+ 	spin_lock_bh(&con->writequeue_lock);
+ 	if (test_and_clear_bit(CF_APP_LIMITED, &con->flags))
+@@ -1394,7 +1394,7 @@ static int send_to_sock(struct connection *con)
+ 			/* Notify TCP that we're limited by the
+ 			 * application window size.
+ 			 */
+-			set_bit(SOCK_NOSPACE, &con->sock->sk->sk_socket->flags);
++			sk_set_nospace(con->sock->sk);
+ 			con->sock->sk->sk_write_pending++;
+ 
+ 			clear_bit(CF_SEND_PENDING, &con->flags);
 -- 
 2.56.0.rc1.315.gc6ed9934b7-goog
 
