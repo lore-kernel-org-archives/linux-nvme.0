@@ -4,72 +4,106 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 775F5CA5FA2
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Sep 2026 20:42:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2BA1FCA5FAB
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2026 01:16:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=BumfOEQEDSO8N/gUoukVcmv0dR7aJeOAZO71bPtzAgc=; b=OVvBqe1ZxZ4PWYqRJgAe6fTLCb
-	ZJHr7YfXcmKltrW3yO4RH6eHaB74XrzFNhUHYIhRW7dh62Aceh/bDdgdp8esWWJGEYhy8i6Yu8oNm
-	p97hhmTL2Tp8VX96+B2vAmI55Grqo3t4lQklfFKs8H1BdJA9XqAK8R9lSzZMUdA0hpCnIW+8kDMst
-	p5Y6Pa5YXV/SsM8vNZI18j+s45M1qifFJP4p5zNai7O7kipNFeKQHH5p8vW5j7Pg7zzcD2q3tVDpr
-	bz0enZS5B4QhoED7kF0/pDpwrL8/Dp7Mn1QkWJGhBtld+pP2i766QSntyOvEG8zs6kSW6QHvrSQVY
-	cdsimMzg==;
+	bh=5pLeu4YqgZECtiedNQxbKwtzen0HMS5vwbUNTX6n4u0=; b=U9FHDs2dCVNRAMtLWms0veN75k
+	kDoGqUJ2sfUN5Smy/Yu0KySCKa9+BmnkNoFNVJtBzl5XvrceYbqI69cixs0eq6zPIWilBGday8K/Q
+	ddZQ5EBJ1VEJbvWzKn21Qzw+XzJOOKrQv2ZglaBrZ9kVI0v0SlWJVuStI9IySQwZOK6K+AtoWrHU2
+	YSerq/NwSsyT0Qr/Wz0qWMdHCEem1yUlmatNb37FvY20urkzSU65lOgrYvoWPAloKNEtRnOuOcbSB
+	r9esHqa59E+b4/KbLx5RLTFuCVSmH4tbGBq7woJ0WAl+aJbgfYtSQQnDLbkkZVS36nE09RI2zmwZB
+	+9opVK0A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBIBX-00000001azB-3i47;
-	Mon, 28 Sep 2026 20:42:51 +0000
-Received: from 011.lax.mailroute.net ([199.89.1.14])
+	id 1xBMRp-000000022jt-2gaP;
+	Tue, 29 Sep 2026 01:15:57 +0000
+Received: from mail-oo2-x2a.google.com ([2607:f8b0:4864:31::2a])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBIBU-00000001aye-1zSQ
+	id 1xBMRm-000000022jV-0I4j
 	for linux-nvme@lists.infradead.org;
-	Mon, 28 Sep 2026 20:42:50 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by 011.lax.mailroute.net (Postfix) with ESMTP id 4httY14yHrz1XM4TB;
-	Mon, 28 Sep 2026 20:42:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1790628161; x=1793220162; bh=BumfOEQEDSO8N/gUoukVcmv0
-	dR7aJeOAZO71bPtzAgc=; b=airYkCv7cWfUxSLvkgwl7ngr358vfoNx0znueOOG
-	MU3BwVcSYBhAtuc2XiXnAommAg+jZ/j0gS+sbr9bM3fuKUbYyu3R6J9F388ZjPDW
-	k9NzDpXpL4Q7Qt2/LqnADd7bcKy92gV1RzcsWZz06KT/iHXCpISUFEw8oQRI4sno
-	GE7rhqRoEkPyFppvo/zkIXgl8ShIhgmCP6lUfB47V+IWu9dRKrION/DxR+6nIHzi
-	NjrHuCgou9gpio9gsv2kPBhBPp1Wxd1ZkeHGXQmethFR5vE9p4itLmBKLFJtiwZv
-	LsbiERyiEwy8M/MzE8VfXa2xyK4ePaS+0b6DLtbyLNuIMA==
-X-Virus-Scanned: by MailRoute
-Received: from 011.lax.mailroute.net ([127.0.0.1])
- by localhost (011.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id 1LizgNKyS4TW; Mon, 28 Sep 2026 20:42:41 +0000 (UTC)
-Received: from [IPV6:2a00:79e0:2ed2:d:334e:163d:7b65:8f42] (unknown [104.135.182.42])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 011.lax.mailroute.net (Postfix) with ESMTPSA id 4httXv2Pghz1XM4Sx;
-	Mon, 28 Sep 2026 20:42:39 +0000 (UTC)
-Message-ID: <2bfc96f2-7d0d-47e0-936e-8810abb31a9f@acm.org>
-Date: Mon, 28 Sep 2026 13:42:38 -0700
+	Tue, 29 Sep 2026 01:15:55 +0000
+Received: by mail-oo2-x2a.google.com with SMTP id 46e09a7af769-801cb343a92so552081a34.1
+        for <linux-nvme@lists.infradead.org>; Mon, 28 Sep 2026 18:15:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790644552; cv=none;
+        d=google.com; s=arc-20260327;
+        b=dfawg0s4rY8klyLHEnrmWZWP1D58SRYCJSsWmjrWWPOtMkbagvs5Yp7NJbn2x7P9dF
+         mx2uOMMNKL2Wd22alKJTUXMuEkZGLCwZUkZlqS0PGGX2BnjTiC5AcTPxMHCNor2CxQ2G
+         H/czsEmUJ8ReZtsnsx7G9fl7nZwln8rc6GUs1svThCqoEPXP71UjpJoTdHSGJp27rdYi
+         1Q84/EcF/OpeLCqDmAYTbx51ri2T1LQr8u2DFSG7e0/7nNOnT5iWlPporQhS6/EQfGz4
+         TX2GL+IcGVfUcn4FHwptFz6cFW9lWE+RfIbOLG+6P4IHYRxW835NAuCbvjQ+jEoJjLMW
+         QxJA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=5pLeu4YqgZECtiedNQxbKwtzen0HMS5vwbUNTX6n4u0=;
+        fh=uQLvBubTDknziv/DpHsSPjZbmjBY+BuGfpCQuXllkXI=;
+        b=YICow+WC3XKGxg0DxjXUBh3tC13S91bSahgd7r+A4B/EPU79H1Pnaj5zZ2KZ/Eh7iD
+         JfmJlFHY0s0QdVsOHqtuS5ZT0fZaO0//2bRP/GloXPY+UDuoeshNSufewkxiSX2s876g
+         3TaveRVehH8STnGsHe6kNj1pbJB0lx5eAHvFpF1Lcvp6qxiDQZOX1pXxUPgMAqY2Ufes
+         fMf+ssYlPZ3xQadgZcatiHKu0CJ546OJil6jz/rvhRoEThniF1zPDH18Mwlhz1ddMKct
+         XfKmqK5MwQ9i+UgfmFd9MKr0NkHetQCZ8llX1942oJ8skVKHoDdUH2S4n0b9Sd3JjSuz
+         dyqQ==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1790644552; x=1791249352; darn=lists.infradead.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=5pLeu4YqgZECtiedNQxbKwtzen0HMS5vwbUNTX6n4u0=;
+        b=PBhsKbqwotq3i4DcY1IGXPPBuVei7UqVlHNz0lI5sYRfelcRZ5wtIeCzhLKrlMCD00
+         4aE7bMk3KpCZ3Ze/3qYgA9oW5kzq8Fc1wjNsgsPTqvxc7lScoVa/GlieuYt9YTQfUYAg
+         LSnwYtxYCQs42RfNKPb8koAvHXO6DRRqzDFAxcu89StdU+fpu+2HcS5iio6rttUxrBMK
+         uBpeNCZxLh7lrH+xNbW8IWeGMVB9o487CLB9ebjCMEGg3MBAtE7pPQZl/AsLd3WTZo76
+         8aDZsybV5Mt4kx4s+WpiQhS+HW7FmO7Dx86wWFZf4fElgrFG21UqyUuu6g65tX4GEuoM
+         Fwcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790644552; x=1791249352;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=5pLeu4YqgZECtiedNQxbKwtzen0HMS5vwbUNTX6n4u0=;
+        b=0/S8hB0iYazzl3GT40YKaJpRg7Q+HePSKWiYHASyFdWkcuEtio2JMb4lNBqRpz4u8n
+         Lq9TItNm4WnwmuEuV97B4MXZnVyZ+Iznh639O4vu8i0ojHAxFUgLRUzgL/AbF5+Z6xfr
+         n5NfUUP8qRhwfe5EPRdMjUgmv2nuEIto8aPKXC73taeSUyQ5oFRasSXN7U7FM63l8Y8+
+         2Fj+VGm8irzUiRs4ooScCJNEEismLFrs5V7aEAIynC/SSV1QYnSAerOJmfiwZ8sYa76z
+         UoPr4b1h49lRChLLEx2ydqdtcuFD8aBoYfABkli9gTzcTafaJvrwVphP4OOdeqQusVmC
+         C4RA==
+X-Forwarded-Encrypted: i=1; AKwUvByz01b5PvJYkUJwr/eikid7XQKK6TtUQezvpEHjbiQfgsmuyU9gvi0w0iw+OS+cjJdYU+D/ERfGtqkK@lists.infradead.org
+X-Gm-Message-State: AFq9FYKQIto7tC7PRlZ42WQMtKax9C020a2QNlJICCcUPkCphxtsUUGg
+	B5w5pcdeUUWqyTsZwYurKKjGvAgUnERFXODAaGwwg8JgvfWOLArQ/pvs41XhpaSG/QHf1gWtwzP
+	5c768a6qGSEi2cFVmzz7BIrsjFDX0O8mDJHX/ktClAA==
+X-Gm-Gg: AYBFou0bGowK8Q+/A7QAJCsAbfHjT3iO18Cp+QF57iYjIPBnI4Esog9W68fE2owPb3c
+	uFJSA6AKVSdjPGxBUUZ8X/F2m+KNOQeBLq6skMQ3A5OwNH3mfKR3/6wdGk7YCPKlkEY0N1XTH8K
+	ZLaXUafqskzIEAfuPbn1XziXnRB1zvFbV1ejt5xQ942kMOzRYXNFkwNRJPCx8Ho73wp9oyRPttv
+	rLAdNhuHwW4M/XOgxDn+eFhxySzomkjksuyUenj1qTi+CafoNAfsshhYLusyKFY8oz/5gVAJFeD
+	N1SIH58gbEPIZkqU/rBGPGdtCsUNoev1cllXFV2E3pnRN1zFz44f9A0=
+X-Received: by 2002:a05:6870:f114:b0:47d:4630:5998 with SMTP id
+ 586e51a60fabf-4930a82b841mr16313646fac.4.1790644552340; Mon, 28 Sep 2026
+ 18:15:52 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] nvme-multipath: revalidate zones for namespace heads
-To: Yao Sang <sangyao@kylinos.cn>, linux-nvme@lists.infradead.org,
- dlemoal@kernel.org
-Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me
-References: <20260610032846.54044-1-sangyao@kylinos.cn>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20260610032846.54044-1-sangyao@kylinos.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20260909222836.2475352-1-csander@purestorage.com>
+In-Reply-To: <20260909222836.2475352-1-csander@purestorage.com>
+From: Caleb Sander Mateos <csander@purestorage.com>
+Date: Mon, 28 Sep 2026 18:15:41 -0700
+X-Gm-Features: AclHuK9y1BkUmfj2CwBKzqVvJvr4htN1Ij_BtBFRlnLw9fnPEz3avSjdBXHF6AQ
+Message-ID: <CADUfDZorm3WsYxvKQkqr1DVAps=ejF7M4U5PLD4O-94GzmYt1g@mail.gmail.com>
+Subject: Re: [PATCH 0/6] io_uring/nvme: support fixed buffer for metadata
+To: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260928_134248_556953_9F40F598 
-X-CRM114-Status: UNSURE (   8.28  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260928_181554_324404_978E0387 
+X-CRM114-Status: GOOD (  28.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,43 +118,78 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/9/26 8:28 PM, Yao Sang wrote:
->   		set_capacity_and_notify(ns->head->disk, get_capacity(ns->disk));
->   		set_disk_ro(ns->head->disk, nvme_ns_is_readonly(ns, info));
->   		nvme_mpath_revalidate_paths(ns->head);
-> +		ret = nvme_mpath_revalidate_zones(ns->head);
->   
-> +unfreeze_head_queue:
->   		blk_mq_unfreeze_queue(ns->head->disk->queue, memflags);
+Hi, any feedback on this series?
 
-Does the above nvme_mpath_revalidate_zones() submit I/O while the
-request queue is frozen? If so, is this guaranteed to trigger a
-deadlock? I'm wondering whether the above changes are the changes that
-introduced this syzbot report:
-https://lore.kernel.org/linux-block/6ab26c90.c68e76dc.23da29.00ab.GAE@google.com/
-
- From that report:
-
--> #2 (&q->limits_lock){+.+.}-{4:4}:
-        __mutex_lock_common kernel/locking/mutex.c:646 [inline]
-        __mutex_lock+0x197/0x15a0 kernel/locking/mutex.c:821
-        queue_limits_start_update include/linux/blkdev.h:1101 [inline]
-        disk_update_zone_resources block/blk-zoned.c:2067 [inline]
-        blk_revalidate_disk_zones+0xad9/0x12e0 block/blk-zoned.c:2375
-        nvme_mpath_revalidate_zones+0x106/0x1c0 
-drivers/nvme/host/multipath.c:301
-        nvme_update_ns_info+0x984/0x1200 drivers/nvme/host/core.c:2622
-        nvme_alloc_ns drivers/nvme/host/core.c:4284 [inline]
-        nvme_scan_ns+0x2563/0x3640 drivers/nvme/host/core.c:4471
-        async_run_entry_fn+0x9d/0x430 kernel/async.c:129
-        process_one_work kernel/workqueue.c:3399 [inline]
-        process_scheduled_works+0xc3d/0x1630 kernel/workqueue.c:3482
-        worker_thread+0xa47/0xfb0 kernel/workqueue.c:3563
-        kthread+0x38b/0x480 kernel/kthread.c:436
-        ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
-        ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+On a 4 KB io_uring NVMe passthru read workload with metadata, we
+measure 14% of the CPU time spent under iov_iter_extract_pages()
+(called from bio_integrity_map_user()) and bio_integrity_unmap_user().
+Using io_uring registered buffers for the metadata avoids this
+significant overhead.
 
 Thanks,
+Caleb
 
-Bart.
+On Wed, Sep 9, 2026 at 3:29=E2=80=AFPM Caleb Sander Mateos
+<csander@purestorage.com> wrote:
+>
+> io_uring NVMe passthrough supports using a "fixed" (registered) buffer
+> for data, but not metadata. On high-IOPS workloads, the pinning and
+> unpinning overhead for the metadata pages is significant and could be
+> avoided if fixed metadata buffers were supported.
+>
+> This patch series adds the necessary plumbing to allow NVMe passthrough
+> commands to use fixed buffers for their metadata. The metadata and data
+> fixed buffer indices can be specified (or omitted) independently.
+> Supporting separate fixed buffers is important as metadata buffers are
+> often stored in separate memory from the corresponding data buffers. For
+> ublk zero-copy I/Os, sharing a buffer index would be impossible as the
+> data buffer is a kernel registered buffer while the metadata buffer is a
+> userspace registered buffer.
+>
+> My main question is which layer the metadata fixed buffer should belong
+> to: core io_uring, io_uring_cmd, or NVMe passthrough? In this initial
+> implementation, the io_uring_cmd layer stores the metadata buffer node
+> and the NVMe passthrough layer defines the UAPI.
+>
+> The main argument for moving the implementation to a more generic layer
+> would be to reuse it for other io_uring request types. For example,
+> IORING_RW_ATTR_FLAG_PI could also benefit from a fixed metadata buffer
+> option, though this series doesn't implement it yet.
+>
+> On the other hand, core io_uring_sqe and io_kiocb space is very limited,
+> so it may be undesirable to dedicate it for a somewhat niche use case.
+> The metadata buffer node storage could be pushed to the NVMe passthrough
+> layer after my in-flight series [1] to reclaim nvme_uring_cmd_pdu space.
+> However, managing request-scoped resources from a ->uring_cmd()
+> implementation is a pain, as the same request can call ->uring_cmd()
+> multiple times and may or may not complete when ->uring_cmd() returns,
+> depending on the ->uring_cmd() return value. io_req_uring_cleanup(), in
+> contrast, provides a single cleanup path for all uring_cmds.
+>
+> [1]: https://lore.kernel.org/io-uring/20260909155848.2069290-1-csander@pu=
+restorage.com/T/
+>
+> Caleb Sander Mateos (6):
+>   bio-integrity: remove dead bio_integrity_copy_user() error path
+>   nvme/ioctl: remove struct nvme_uring_data
+>   blk-integrity: pass iov_iter to blk_rq_integrity_map_user()
+>   nvme/ioctl: pass iov_iter to nvme_map_user_request()
+>   io_uring/cmd: support fixed buffer for metadata
+>   nvme/ioctl: support fixed buffer for metadata
+>
+>  block/bio-integrity.c           | 51 ++++++++++--------
+>  block/blk-integrity.c           |  7 +--
+>  drivers/nvme/host/ioctl.c       | 91 +++++++++++++++++++--------------
+>  include/linux/bio-integrity.h   |  1 +
+>  include/linux/blk-integrity.h   |  6 +--
+>  include/linux/io_uring/cmd.h    | 12 ++++-
+>  include/uapi/linux/nvme_ioctl.h |  5 +-
+>  io_uring/rsrc.c                 | 28 ++++------
+>  io_uring/rsrc.h                 | 17 ++++++
+>  io_uring/uring_cmd.c            | 30 ++++++++++-
+>  10 files changed, 160 insertions(+), 88 deletions(-)
+>
+> --
+> 2.55.0
+>
 
