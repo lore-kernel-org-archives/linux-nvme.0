@@ -4,112 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0E6ADCA5FA1
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2026 13:22:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DDD5AC9832A
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2026 14:25:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LRXRMKUc7hby8sfn6/3owXND2OxfjdsuZ9xeJILdsHY=; b=Gy9ySDcLIybFBOpvj9s03wyyJ6
-	CoUlZH7m+bUubNAGY2Bbu4YadlnocGLbpe2jMJ/yDYliJMWpa/spfGEgK/3y0MI654TnayQ09qXox
-	ERCYn/z+MKcm8Ztnl6uDxka3FAz2101+gyy4i9gV3RM42ALPItHfZCzEC+4Fa5H+pgFb++4rjMNPc
-	PRhlNsSOR6x4ZA404dGYY4io9Ry4Pm1BCQKM7/RweoPb+vhRweWzHLeJbpgNbop76efJEztBcBVva
-	y8lZAReFP2t8w6OTBDcOlMf+JW15dn7ntiHrjVoi7t4MQ6zMpAx1frc9jIV9NjoDFBCyxOTcKqs7/
-	t3eCEJKA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:Message-Id:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=85xj1wiXSyoLF/yht4C9mQFJLHCdiogKv9fjMvxDEbU=; b=WQFDfvzVuelgugLQp6iKRURYoY
+	xbjl6ta2XxYGQJOQ7fSSXfYXEeJsfYzku4kD/iFCa5p1Q3x0tGh61auLv03WgfCQYs150HwTUPzX8
+	xDXTInG1Ygbv6IZuaWlYHvThhTVRrq8T5TXLqey4DI9b5Zoms/q3GyQBkDMXGavUQKROcoeBKy0eG
+	GcZDjbPOAql4ngGybv0/oAm+BAafLBp+1npJ0mAZe9wd5vC9HZjoslCDQEjtt/wJM9AsVBjAEY8i7
+	DVpfKVkuOtI+o2YD1C40yvtOR3jGMTw8dNlvSvVuxMO7xJsvN+dfHm3eMjpqmeS0jrooL0Dae1eZf
+	+ZP+NsOQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBXmu-00000003f21-1Kmg;
-	Tue, 29 Sep 2026 13:22:28 +0000
-Received: from mail-dy2-x0e.google.com ([2607:f8b0:4864:36::e])
+	id 1xBYll-00000003mWB-4113;
+	Tue, 29 Sep 2026 14:25:21 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBXmp-00000003f12-49Pb
+	id 1xBYlk-00000003mVx-3YKs
 	for linux-nvme@lists.infradead.org;
-	Tue, 29 Sep 2026 13:22:27 +0000
-Received: by mail-dy2-x0e.google.com with SMTP id 5a478bee46e88-3411e0ace58so5483481eec.0
-        for <linux-nvme@lists.infradead.org>; Tue, 29 Sep 2026 06:22:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790688143; cv=none;
-        d=google.com; s=arc-20260327;
-        b=PDKYA9PfXTzXrc6f8wg73P/vW64GJt/zJlXSx2sxZIqJ2w/Nn75lxZ0raqTsv6gQCC
-         MNtN95+bYu2D9lsZvhJtpBBDjbIhPxuDkMuHpHhQL3OssXwzqiQyymK/0/EId+Xfj5rc
-         WPKUbFW8k/TFrczrb0KGZQb0A8foO46mkJ5qDe7+g1IRoEFvxX5KtrhiMYm9TzyJYgfc
-         DgpdbJl/9PlhmBHzdH43185PVEMu0dy/qiwD0QLHdIUmdaDu69TkLjwVtQzxBAgGLGaE
-         JN2RMI6HpEHHpIF2zsKVIE7Hn5o7g9j/PZY7O7xffygfSOLCoJlwuUkxYkUdmCHa3C6V
-         5XFg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=LRXRMKUc7hby8sfn6/3owXND2OxfjdsuZ9xeJILdsHY=;
-        fh=TSrpI6PGemanUyH3ZXFRJYwVeRz3t8IoUVdtgOvdUC8=;
-        b=lr4KyQE21Ja3i58qgrf+U5iqTOVI0w/XlyDFVU+lOKju0NIQXhn6rBYPfv5gaAcZxs
-         aOJu3MCOu5WJVYM4F1G8NekbmFnrhjZZVnfEawQc9dQGSN4Z4d6i61JNUHMGGP65fcpk
-         +0OMz0U2vnSwsn5wL0cHBj461ksnj4sdQZq/kN4aL4R6IAPD6rTotyIBgibUPPJhXeo/
-         xI0E4+uqVEGK3uXDScg8CSFxYd9kpkciyAFj9OjjhH1cYCHubOY9bSzlN6mTu5W+/E32
-         ugAIghW+pk3QUKcCjoVvSIzETX9vDA9xVE0bR87USNJFaU4QTcG+rSWhoDXmjyZw87uR
-         Hu6w==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790688143; x=1791292943; darn=lists.infradead.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=LRXRMKUc7hby8sfn6/3owXND2OxfjdsuZ9xeJILdsHY=;
-        b=DUA+sjIf0zBrtRBB/uR6/66UnQPM38scudhewW2NrMWNfArNvnhrU7fffUsfpW01Vq
-         b2X5CaRDdY+WKP7ushYtZ7TRRB4kUrasoWI5aLGOG8eZtzAmJz/089NNRmWgxXhaBkCg
-         TpNZKTbcFb4kh9XsupZeZ0T2W3uI054Wm6ExJwYZKLf0zz+zUGpdbATSjXAvwtrX2XRJ
-         OJGKkiZKP3+++L0Avcf3dx7iCHY4IA/37vGD47YVMcUlSgjwIcx3Bhi/Y2D7pjyUiVdL
-         L8lP5e/aPjTtWihbVKkVTe5dvrZzME29gAlcPywzEHXWm67ugUYUujRETf/qbCOAHEGb
-         eYBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790688143; x=1791292943;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=LRXRMKUc7hby8sfn6/3owXND2OxfjdsuZ9xeJILdsHY=;
-        b=foJ2JOEp8uGuFeJNshlSTOMggvRccjsYofXeI/lUPdHDeGh7KFLROrDpT5bYYllWYk
-         GVGrACaZg9XzAwZfqzorOaNiqV8KsZfeMjFDCX02l0PMbPFIKAsMjwGVik/TpV0z68nt
-         inudySDp3FIAKxa6wJLy0TxN39TafbAy1lf4G+CnIZYJl2x7N8HgVciFWEbO9fCErF3o
-         N1pDwJJquuR015WPfolba4EInsyQYdl+s7xE+HHsJqIwyFiZs6T8M+nb2OfywYIX9WWc
-         NXaZ5aquKfeDhw1Y35Jp2cxyFVGJwJRtWGzwyj0YdAW9bx84yQ9Y+U7EYueSUODyhU67
-         G6Cg==
-X-Forwarded-Encrypted: i=1; AKwUvBwYPuVdxkA2QpmUc9fSwxSoXm+G2pzwKlgtWZ8ywbE6l5OHQdvzXwOXAfwRAZfLKmjZe0KCN2g30wkm@lists.infradead.org
-X-Gm-Message-State: AFq9FYI8Aum8JMsLf16bu58UNZ7/Z9MgyQ7seekuEUYYjgIfcF7qVsSN
-	4yqV+PkKVl8X6RBAbXMrCOn3/yg+kntgyUL0rAxcdG4KXO3TU/D2yvfUBN2Yn+10U+lrd6Irnbm
-	8a4/wrP/KkM8IZZFDVPl0WNy1yu7rSuw=
-X-Gm-Gg: AYBFou3qFmt3ddMAH8Oeh9F7Fm6qo8VfzZkchPWiHNvRwJC9x6CNmBo0ZbNH0psXEb3
-	UqKCYw5/TwPjGdY07/3JRZ1khOwsXG1hbq8KyaXvwhW0uIRFzTshafLp9P6kzDY/12MuGxOTuyf
-	KE5TvL482qTM8KWG9VLb2aohc7zDD1QJ5Vv08sLJQ1URt+G/ZjNqOMNAcDkejoWx7BCo/MKQ98l
-	AAJmlgs+28XvjxBSyoShGNCGhyhI7dSzHyzB/hL+1hnlTNoOBvWN2gbrqpOZg5yt0rN5Bl1Sz66
-	feQNYvF9MVFb1WG9QoVKqvhg2SCncFNI6ZIf7KX7G0qku1a/XocfSEw4hGASaEglpi934/ch5EX
-	a2106CSivqeZVBWrD1yZ7nveBWOeooUAiBVZqTEsvhz4UOijscTJSnXuBGxqyUyuT/qoS4rhkyS
-	tVsB0g/wDSiROQKTUIePa+UTkBpRUzYPV5bCiLTpxKyqal2ggee24=
-X-Received: by 2002:a05:7301:1501:b0:343:fdea:9a4 with SMTP id
- 5a478bee46e88-343fdea2578mr10273152eec.28.1790688142453; Tue, 29 Sep 2026
- 06:22:22 -0700 (PDT)
+	Tue, 29 Sep 2026 14:25:20 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id 4B88D60008;
+	Tue, 29 Sep 2026 14:25:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADAE31F000FF;
+	Tue, 29 Sep 2026 14:25:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790691920;
+	bh=85xj1wiXSyoLF/yht4C9mQFJLHCdiogKv9fjMvxDEbU=;
+	h=From:Date:Subject:To:Cc;
+	b=PNdaWX3fJr0zA9do0cpO0iD4bfd9trkRlljYRzLaKUMogzCmXjLituLo6iUb1Zn5e
+	 wOHAhUmUbKOqaYtDZHbGo9GjUH4ag8gM5m8xwGASX00V13oWWrsLWDJD+i49w0pLGu
+	 sX/yhlalW4js8ByOcM+1omnlLPOAeCKhnsgRLnENDRrarUibC7koJ38nShdJObjRia
+	 Iq7eNnJTOFiZTubg0UPUK0/pL1iVV82w2dcmgu2ZM3S8qxAPtTWCH9VnszTJX7cqh0
+	 xZGyGVQpOsuwMGWu8OAdWlVyDfOhUIZ3zO+NIRdzZSQ02PFXQzjF+b11rU6bE1Wd7d
+	 OE2uwldjCYN2Q==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+Date: Tue, 29 Sep 2026 16:25:00 +0200
+Subject: [PATCH] nvme: fix swapped ZRASF zone state values for full and
+ read only
 MIME-Version: 1.0
-References: <20260925-apple-m3-nvme-v1-0-5e832e2f4aa9@jannau.net>
- <20260925-apple-m3-nvme-v1-2-5e832e2f4aa9@jannau.net> <20260929-debonair-busy-hamster-be2fda@quoll>
-In-Reply-To: <20260929-debonair-busy-hamster-be2fda@quoll>
-From: Luna Jernberg <droidbittin@gmail.com>
-Date: Tue, 29 Sep 2026 15:22:09 +0200
-X-Gm-Features: AclHuK_jJoonbrdcWTM4pJ6-SA0D9nOYSb3Qq4ribSs7qfnRaIDq9x1ahszR1jY
-Message-ID: <CADo9pHg2JyGyOA=_6orXdhDwj7NaKRBciyQMG2w7fQcPm0MNwg@mail.gmail.com>
-Subject: Re: [PATCH 2/7] dt-bindings: mailbox: Add Apple M3 compatibles
-To: Krzysztof Kozlowski <krzk@kernel.org>, Luna Jernberg <droidbittin@gmail.com>
-Cc: Janne Grunau <j@jannau.net>, Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	"Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
-	Jassi Brar <jassisinghbrar@gmail.com>, Keith Busch <kbusch@kernel.org>, 
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Jens Axboe <axboe@kernel.dk>, 
-	linux-nvme@lists.infradead.org, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, iommu@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260929_062224_034496_435BAA13 
-X-CRM114-Status: GOOD (  15.63  )
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260929-nvme-zns-fabrics-field-fix-v1-1-f99b6ffb49fc@kernel.org>
+X-B4-Tracking: v=1; b=H4sIADvKu2oC/yWMQQrCQBAEvxLm7MC6ZAPxK+JhsunoiK6yo0EM+
+ bujXrqpOtRChqow2jULVcxqeisO201D+STlCNbRmWKIXehjz2W+gt/FeJKhavZXXEbfF6fQTdK
+ mFkmEPHCvcP2L7w9/tudwRn58i7SuHw9B87Z+AAAA
+X-Change-ID: 20260929-nvme-zns-fabrics-field-fix-506fa454e5aa
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+ Damien Le Moal <damien.lemoal@wdc.com>, 
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Karl Bonde Torp <k.torp@samsung.com>, stable@vger.kernel.org, 
+ Andreas Hindborg <a.hindborg@kernel.org>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1805; i=a.hindborg@kernel.org;
+ h=from:subject:message-id; bh=39griNeA2J0KiajlOS+aLyu1xGxKZDOPR0HfUFHRsds=;
+ b=owEBbQKS/ZANAwAKAfpQKQiqxb3QAcsmYgBqu8pCjVSm53/mKAnzsB6IaZZ0D2CpCsEgMqydj
+ Ww97FRhhguJAjMEAAEKAB0WIQRXitnI2WZ2JirAaob6UCkIqsW90AUCarvKQgAKCRD6UCkIqsW9
+ 0Ax8D/9paMIkK6BptR6CRhOinxpYa+oKyelk9FHZYfAFuU6gWSFUHlzhg2kicu1aGPwz2RB5LQU
+ IbbrcxPd6tjp1NH5yu9PIqef/KZfl7PU6fK/NhIdE1pwdkJnYuxa5mH6qnw2U9uiIOk7JaIUX15
+ qE0UaeetckZBmpNmQVom1SS+FXCk0ky0qf/ZAyIUizPxxPKNR4Efb7Y4BbijBk5PeDjLTP2CpRc
+ /PoePNp6+sim9T/S7Ip5NMWX+cVGoK4Wj/UddJn19zzfeeRqx1Z0uGYzXT+3lPXNNQlcbx2jV/l
+ MXQMkaK3plOS3/jCI4AQcB6LiDQADVz2H2mDXT5lxIxIRGb2o1TCPt7GJmYqkuXtE111lCynVvK
+ O5zO0kAhzhBi62Gew4J0PhxgzSu39FdKUXj9MRBxglGGWy/HmEe83tQSGNu0KwCgFMCbw2trHhv
+ wjXrFj87ot0TjFy1CiTyTxdtiDZu8I+o0tLNv0TyHIRDGJb9dLufrVVnN6Q2h0Wh3NJ0yOlsJR3
+ O9Dk4RpK9sJhqg2cGnvF/i03i35oD5DHy7PiAzvSxnNDAJwp2GOHKzKN6hZNYncPzlc9+b4rWLV
+ 8xKuEK1QFuJxSyGnuuAvKK5gyUQl1MU9Sb4YzjnlPflsN7CQlDWBYvxVvJY3PYXH87T7x27aK1G
+ GdPQxGys4Lx7L7Q==
+X-Developer-Key: i=a.hindborg@kernel.org; a=openpgp;
+ fpr=3108C10F46872E248D1FB221376EB100563EF7A7
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -124,25 +92,57 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-https://youtu.be/TPwe53kCJuM
+From: Karl Bonde Torp <k.torp@samsung.com>
 
-Den tis 29 sep. 2026 kl 10:21 skrev Krzysztof Kozlowski <krzk@kernel.org>:
->
-> On Fri, Sep 25, 2026 at 10:22:49AM +0200, Janne Grunau wrote:
-> > The ASC mailbox on Apple M3, M3 Pro and M3 Max/Ultra is compatible to
-> > the mailbox on M1 ("apple,asc-mailbox-v4"). Add their per-SoC
-> > compatibles "apple,t8122-asc-mailbox", "apple,t6030-asc-mailbox" and
-> > "apple,t6031-asc-mailbox" to its dt-bindings.
-> >
-> > Signed-off-by: Janne Grunau <j@jannau.net>
-> > ---
-> >  Documentation/devicetree/bindings/mailbox/apple,mailbox.yaml | 3 +++
-> >  1 file changed, 3 insertions(+)
->
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
->
-> Best regards,
-> Krzysztof
->
->
+The Zone Management Receive command Zone Receive Action Specific (ZRASF)
+reporting option values for the Full and Read Only zone states are swapped
+compared to the NVM Express Zoned Namespace Command Set Specification,
+Revision 1.5, Figure 35:
+
+- 5h lists the zones in the ZSF:Full state.
+- 6h lists the zones in the ZSRO:Read Only state.
+
+The nvmet ZNS backend uses these constants to map the ZRASF value received
+from the host to a block layer zone condition when filtering zones in
+Report Zones. Because of the swap, a host asking for full zones was given
+the read only zones, and a host asking for read only zones was given the
+full zones.
+
+Swap the values of NVME_ZRASF_ZONE_STATE_FULL and
+NVME_ZRASF_ZONE_STATE_READONLY to match the specification.
+
+Fixes: aaf2e048af27 ("nvmet: add ZBD over ZNS backend support")
+Cc: stable@vger.kernel.org
+Signed-off-by: Karl Bonde Torp <k.torp@samsung.com>
+---
+Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
+---
+ include/linux/nvme.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 91ce434a7e8d..6248711784b3 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -1266,8 +1266,8 @@ enum {
+ 	NVME_ZRASF_ZONE_STATE_IMP_OPEN	= 0x02,
+ 	NVME_ZRASF_ZONE_STATE_EXP_OPEN	= 0x03,
+ 	NVME_ZRASF_ZONE_STATE_CLOSED	= 0x04,
+-	NVME_ZRASF_ZONE_STATE_READONLY	= 0x05,
+-	NVME_ZRASF_ZONE_STATE_FULL	= 0x06,
++	NVME_ZRASF_ZONE_STATE_FULL	= 0x05,
++	NVME_ZRASF_ZONE_STATE_READONLY	= 0x06,
+ 	NVME_ZRASF_ZONE_STATE_OFFLINE	= 0x07,
+ 	NVME_REPORT_ZONE_PARTIAL	= 1,
+ };
+
+---
+base-commit: 72d3fcf802c45d00b300f25b848a93c3a2bd7c7e
+change-id: 20260929-nvme-zns-fabrics-field-fix-506fa454e5aa
+
+Best regards,
+--  
+Andreas Hindborg <a.hindborg@kernel.org>
+
+
 
