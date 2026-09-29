@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52B89CA5FB3
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2026 08:23:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1816ECA5FC3
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2026 08:23:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=k2Vfim/g6/2BnfyDLSTpDSiAzp7UsiZpcueZY9H3mdc=; b=sLjePvyZMdqPCe4VjcXqUiVw+g
-	KnsPXWtcnslPUlw8oXDLe8jdAvjaO2CaJS+qYkgIrUOwMxluURg02tv4wyI2Bc0B5dIM7tkcu46Cq
-	VBtGTDFryasnq2VdiGwmWFQTJ/wn9jS8qOPhoyv7xuB/ShUseX969lahUyjplJtac9k8lfaOvAA2l
-	mUn2AqtRtOlofPlPyDOG6YiwR52SMNgsj8k8M2yMPjMyiypOTLF/UYrCf3KlkW23M225dBav97wOA
-	9V2uHiJBUmCA0QiAk1/5gwIV98cByOcxYhTX6SqECkAspdVT8FegnWzvQ54T2C2zl365NjNSpiMAn
-	yyYEuY6w==;
+	bh=SFFZIu+j5I6h3HlIFMk62fFaGpeXSzP26xjR5/D9TzM=; b=flp+LCvaZkFE4fwXAVNLW+cZrE
+	W3nHxjLUvKEQuPWRUEm1R921Y0ksqL4/iT1mXNpSLtrYgcPpVUiPgrYP+jxc4Vc6hfSZFc4IG4OlA
+	B1AmwT/RZEVZnmJd9TDKGkfQLai5vZmrMU3e3Flg8CTAnrx9DFthXRXJ+jUKqiYiZKjnG+GVpy83C
+	Ict7e4iALNIfDt3xoMGP6iqY7qOYulFzc/wtVJce6tUnY1KUSeSdrGRZSzr8BkECy5Hr5Gms4iHsN
+	pxWaCAnQKSdUmZdTPuWt63//0IB2IPzEck/c3X7Zf9yyS8zFLisYRcnb2K0/399EzEpwEiwHKCFg1
+	Leo+6qdw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBT7h-00000002jYk-3By6;
-	Tue, 29 Sep 2026 08:23:37 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1xBT7f-00000002jSX-0XR1;
+	Tue, 29 Sep 2026 08:23:35 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBS6l-00000002a8x-2Qcz
+	id 1xBS6G-00000002a2O-3pMT
 	for linux-nvme@lists.infradead.org;
-	Tue, 29 Sep 2026 07:18:35 +0000
+	Tue, 29 Sep 2026 07:18:05 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 3B68140756;
-	Tue, 29 Sep 2026 07:18:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B38011F00898;
-	Tue, 29 Sep 2026 07:18:31 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 4977560210;
+	Tue, 29 Sep 2026 07:18:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 785EF1F000FF;
+	Tue, 29 Sep 2026 07:18:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790666315;
-	bh=k2Vfim/g6/2BnfyDLSTpDSiAzp7UsiZpcueZY9H3mdc=;
+	s=k20260515; t=1790666284;
+	bh=SFFZIu+j5I6h3HlIFMk62fFaGpeXSzP26xjR5/D9TzM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=QNKqNJNl7YHdFdjAi0Dpebnz6k7OXyNfPXP8S9d5ATNnmI5ULQvWiXdm8A8c6rcWV
-	 tSmDrJUQAh4PTHVGE6Aohe0xr+6RiVGYHSbA5/vbhUx5tBrVGdI7NvgGetc4veYzy3
-	 pOq/DK3bysdQRinO5VEk5mlRZ1SabFJHPLRpVs5Hi0M/mXdS6jcltyVPe9wUlFQQl5
-	 IllyxSaa98ynlSIpjkmfVJ9aq83IFOjaLFGl0mxIcfNB9wBtl2+2lJOw/v/pOpdvHf
-	 bmPVLeDKyZUSOBGC13zrTRdCmHmgspdqNm7D/Fqd0MPkV69HOfquO7cCnQKbO+2SRU
-	 qRI8t5S2Xh40w==
+	b=WehzzmjZ45IohjVy5hfTAPbHpGU1ITF9GaZBqXw/Mcx51EE93kXd2wMk7imB6cFFR
+	 070e4lgyFBRtpB559fWxVXIimlNS3fi8i6qLrn9fxluho0WsT69njsTDI49FSEkC0e
+	 Q9+1MW702fpEd6Su7eYM1DNsgtQgj69PNjuTtvKASr8a5wvbl+LIIjjoT3D7n4QKVq
+	 G6eIlihPxfEYmvRh3OFQnjdnKUVa6g32mF+qDINFdKosiq+dnPc+0T2k2RA7DElaZM
+	 MfvZm3Wv51uiy+SkwhgFPbMn/T1odzBm2UiBZL9/OEHNC3CCSm0mRmmXgUZxdW/KSo
+	 LqqjZcbAK26WQ==
 From: Eric Dumazet <edumazet@kernel.org>
 To: "David S . Miller" <davem@davemloft.net>,
 	Jakub Kicinski <kuba@kernel.org>,
@@ -91,9 +91,9 @@ Cc: Simon Horman <horms@kernel.org>,
 	Viacheslav Dubeyko <slava@dubeyko.com>,
 	ceph-devel@vger.kernel.org,
 	Eric Dumazet <edumazet@kernel.org>
-Subject: [PATCH v3 net-next 9/9] tcp: add tp->tcp_nospace
-Date: Tue, 29 Sep 2026 07:17:43 +0000
-Message-ID: <20260929071743.23624-10-edumazet@kernel.org>
+Subject: [PATCH v3 net-next 2/9] net: add sk_set_nospace() and sk_clear_nospace()
+Date: Tue, 29 Sep 2026 07:17:36 +0000
+Message-ID: <20260929071743.23624-3-edumazet@kernel.org>
 X-Mailer: git-send-email 2.56.0.rc1.315.gc6ed9934b7-goog
 In-Reply-To: <20260929071743.23624-1-edumazet@kernel.org>
 References: <20260929071743.23624-1-edumazet@kernel.org>
@@ -114,231 +114,284 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tcp_check_space() runs for every incoming ACK and for every packet we
-send, and reads SOCK_NOSPACE from sk->sk_socket->flags.
+SOCK_NOSPACE lives in sk->sk_socket->flags and is manipulated from
+about thirty places in the tree, all of them open coding the
+sk->sk_socket dereference, some with a NULL check, some without,
+and some reaching the struct socket by yet another path.
 
-struct socket lives in its own cache line, which the TCP fast paths do
-not otherwise touch, so testing sk->sk_socket->flags pulls in an extra
-cache line that is cold when the working set is large.
+Add sk_set_nospace() and sk_clear_nospace() helpers and convert the
+core networking setters and clearers to them; the following patches
+convert the remaining subsystem callers so that
+"git grep _bit(SOCK_NOSPACE" only reports the two helpers and the
+remaining test_bit() sites.
 
-Add tp->tcp_nospace, a mirror of SOCK_NOSPACE placed right after
-tp->chrono_type in the tcp_sock_write_tx group, in a cache line both
-the transmit and the ACK paths already touch (bytes_sent, data_segs_out,
-delivered, bytes_acked, chrono_type).  It fits in an existing 3-byte
-hole before chrono_start, so no other field moves and sizeof(struct
-tcp_sock) is unchanged.
+Callers that had no NULL check are all called from user context with a
+socket attached, so folding the check into the helpers only makes them
+more robust.
 
-The two flags are now only changed from sk_set_nospace() and
-sk_clear_nospace(), which maintain this invariant:
+No functional change intended.
 
-	SOCK_NOSPACE set  =>  tp->tcp_nospace set
+This is a preparation patch: a following one gives TCP a cheaper
+private copy of this bit, and needs a single choke point to keep it
+in sync.
 
-sk_set_nospace() sets SOCK_NOSPACE before tp->tcp_nospace (using
-smp_mb__after_atomic() and smp_store_mb()), while sk_clear_nospace()
-clears tp->tcp_nospace before SOCK_NOSPACE (using
-smp_mb__before_atomic()).  If a lockless sk_set_nospace() from
-tcp_poll() races with sk_clear_nospace() and SOCK_NOSPACE ends up set,
-set_bit(SOCK_NOSPACE) happened after clear_bit(SOCK_NOSPACE), so
-tp->tcp_nospace = 1 happens after tp->tcp_nospace = 0 as well.
-
-tcp_check_space() can thus test tp->tcp_nospace alone and leave the
-authoritative SOCK_NOSPACE test to __tcp_check_space().  The
-invariant is one directional on purpose: a stale tp->tcp_nospace only
-costs an extra call to __tcp_check_space(), which is what we do
-unconditionally today, while a stale SOCK_NOSPACE would cost a
-missed EPOLLOUT.
-
-Note the smp_mb() is kept.  tcp_poll() sets the flag without the
-socket lock, and the store-buffer pattern it forms with
-tcp_check_space() needs a full barrier on both sides.
-
-MPTCP subflows share the struct socket of their parent, hence its
-SOCK_NOSPACE bit, which can not be mirrored in the subflow tcp_sock.
-Pin their tp->tcp_nospace in subflow_ulp_init(), so that they always
-reach __tcp_check_space() and keep the current behavior.
-
-Microbenchmark on an AMD EPYC 7B13, 64 threads, each thread calling
-tcp_check_space() in a loop over a private set of sockets.  Numbers
-are cycles per call above a baseline loop that performs the work the
-callers already did (the cache lines tcp_write_xmit() and
-tcp_clean_rtx_queue() touched) but not tcp_check_space() itself, so
-they are the marginal cost of the function.  Median of 11 runs.
-The set size controls whether struct socket is still cached:
-
-    sockets/thread	before	 after
-    1			  +0.6	  +0.7
-    256    (64 KB)	  +8.3	  +3.9
-    4096   (1 MB)	 +22.4	  +1.1
-    262144 (64 MB)	 +48.4	  -0.8
-
+Reviewed-by: Kuniyuki Iwashima <kuniyu@google.com>
 Signed-off-by: Eric Dumazet <edumazet@kernel.org>
 ---
- .../networking/net_cachelines/tcp_sock.rst    |  1 +
- include/linux/tcp.h                           |  3 ++
- include/net/tcp.h                             | 30 ++++++++++++++++++-
- net/core/sock.c                               | 17 ++++++++---
- net/ipv4/tcp.c                                |  1 +
- net/ipv4/tcp_input.c                          |  8 ++++-
- net/mptcp/subflow.c                           |  5 ++++
- 7 files changed, 59 insertions(+), 6 deletions(-)
+ include/net/sock.h   |  2 ++
+ net/core/sock.c      | 37 +++++++++++++++++++++++++++++++++++--
+ net/core/stream.c    |  6 +++---
+ net/ipv4/tcp.c       |  4 ++--
+ net/ipv4/tcp_bpf.c   |  2 +-
+ net/kcm/kcmsock.c    |  4 ++--
+ net/mptcp/protocol.c |  4 ++--
+ net/smc/af_smc.c     |  2 +-
+ net/smc/smc_tx.c     |  6 +++---
+ net/tls/tls_sw.c     |  2 +-
+ 10 files changed, 52 insertions(+), 17 deletions(-)
 
-diff --git a/Documentation/networking/net_cachelines/tcp_sock.rst b/Documentation/networking/net_cachelines/tcp_sock.rst
-index 0f6088c4ab8bb872e7fc86f02479592e84c0247a..103328dc409e4485a3f989c95348c1bc74ab20c6 100644
---- a/Documentation/networking/net_cachelines/tcp_sock.rst
-+++ b/Documentation/networking/net_cachelines/tcp_sock.rst
-@@ -50,6 +50,7 @@ u8:1                          tcp_usec_ts             read_mostly         read_m
- u32                           chrono_start            read_write                              tcp_chrono_start/stop(tcp_write_xmit,tcp_cwnd_validate,tcp_send_syn_data)
- u32[3]                        chrono_stat             read_write                              tcp_chrono_start/stop(tcp_write_xmit,tcp_cwnd_validate,tcp_send_syn_data)
- u8:2                          chrono_type             read_write                              tcp_chrono_start/stop(tcp_write_xmit,tcp_cwnd_validate,tcp_send_syn_data)
-+u8                            tcp_nospace             read_mostly         read_mostly         tcp_check_space(tx);tcp_check_space(rx)
- u8:1                          rate_app_limited                            read_write          tcp_rate_gen
- u8:1                          fastopen_connect
- u8:1                          fastopen_no_cookie
-diff --git a/include/linux/tcp.h b/include/linux/tcp.h
-index 6a8c77719322f9caee305d954a107892c76d4ef7..e4d1720f49f08f3c12f5ba66fe8fe3379d71b1e0 100644
---- a/include/linux/tcp.h
-+++ b/include/linux/tcp.h
-@@ -269,6 +269,9 @@ struct tcp_sock {
- 				 */
- 	u32	snd_sml;	/* Last byte of the most recently transmitted small packet */
- 	u8	chrono_type;	/* current chronograph type */
-+	u8	tcp_nospace;	/* mirrors SOCK_NOSPACE, must be set whenever
-+				 * SOCK_NOSPACE is set.
-+				 */
- 	u32	chrono_start;	/* Start time in jiffies of a TCP chrono */
- 	u32	chrono_stat[3];	/* Time in jiffies for chrono_stat stats */
- 	u32	write_seq;	/* Tail(+1) of data held in tcp send buffer */
-diff --git a/include/net/tcp.h b/include/net/tcp.h
-index 96a1a23e47fac9b2f8717a4e129f468d40c6cfb5..08c04f7b32960e66ae5885dc93710569abda62e5 100644
---- a/include/net/tcp.h
-+++ b/include/net/tcp.h
-@@ -783,14 +783,42 @@ void tcp_done_with_error(struct sock *sk, int err);
- void tcp_reset(struct sock *sk, struct sk_buff *skb);
- void tcp_fin(struct sock *sk);
- void __tcp_check_space(struct sock *sk);
-+
-+/* Mirror of SOCK_NOSPACE in tcp_sock, maintained by sk_set_nospace()
-+ * and sk_clear_nospace().
-+ *
-+ * MPTCP subflows share the parent socket, and thus its SOCK_NOSPACE bit.
-+ * Keep their mirror always set (see subflow_ulp_init()) so that they
-+ * always reach __tcp_check_space() and behave as before.
-+ */
-+static inline void tcp_set_nospace(struct sock *sk)
-+{
-+	if (sk_is_tcp(sk)) {
-+		/* pairs with smp_mb__before_atomic() in tcp_clear_nospace() */
-+		smp_mb__after_atomic();
-+		/* pairs with smp_mb() in tcp_check_space() */
-+		smp_store_mb(tcp_sk(sk)->tcp_nospace, 1);
-+	}
-+}
-+
-+static inline void tcp_clear_nospace(struct sock *sk)
-+{
-+	if (sk_is_tcp(sk) && !sk_is_mptcp(sk)) {
-+		WRITE_ONCE(tcp_sk(sk)->tcp_nospace, 0);
-+		/* pairs with smp_mb__after_atomic() in tcp_set_nospace() */
-+		smp_mb__before_atomic();
-+	}
-+}
-+
- static inline void tcp_check_space(struct sock *sk)
- {
- 	/* pairs with tcp_poll() */
- 	smp_mb();
- 
--	if (sk->sk_socket && test_bit(SOCK_NOSPACE, &sk->sk_socket->flags))
-+	if (unlikely(READ_ONCE(tcp_sk(sk)->tcp_nospace)))
- 		__tcp_check_space(sk);
+diff --git a/include/net/sock.h b/include/net/sock.h
+index 60ea55dc18854a9759f5df618cc8c904d2323e95..f4dd2e105171386f1b68f808175457c51aff183a 100644
+--- a/include/net/sock.h
++++ b/include/net/sock.h
+@@ -1129,6 +1129,8 @@ static inline void sk_forward_alloc_add(struct sock *sk, int val)
  }
-+
- void tcp_sack_compress_send_ack(struct sock *sk);
  
- static inline void tcp_cleanup_skb(struct sk_buff *skb)
+ void sk_stream_write_space(struct sock *sk);
++void sk_set_nospace(struct sock *sk);
++void sk_clear_nospace(struct sock *sk);
+ 
+ /* OOB backlog add */
+ static inline void __sk_add_backlog(struct sock *sk, struct sk_buff *skb)
 diff --git a/net/core/sock.c b/net/core/sock.c
-index 11a22aec7e414152aab115e8d11e30067ab3775f..946f614f665b3608d1f310da908d82de622ec5c0 100644
+index 2948dffcc3e1b49a9a55e30f1380ec165a88859f..11a22aec7e414152aab115e8d11e30067ab3775f 100644
 --- a/net/core/sock.c
 +++ b/net/core/sock.c
-@@ -2969,8 +2969,15 @@ void sk_set_nospace(struct sock *sk)
- {
- 	struct socket *sock = sk->sk_socket;
- 
--	if (sock)
--		set_bit(SOCK_NOSPACE, &sock->flags);
-+	if (!sock)
-+		return;
-+	/* Set SOCK_NOSPACE before tp->tcp_nospace (paired with
-+	 * sk_clear_nospace() clearing tp->tcp_nospace before SOCK_NOSPACE)
-+	 * so a concurrent clear cannot leave SOCK_NOSPACE set with
-+	 * tp->tcp_nospace cleared.
-+	 */
-+	set_bit(SOCK_NOSPACE, &sock->flags);
-+	tcp_set_nospace(sk);
+@@ -2957,6 +2957,39 @@ void sock_kzfree_s(struct sock *sk, void *mem, int size)
  }
- EXPORT_SYMBOL(sk_set_nospace);
+ EXPORT_SYMBOL(sock_kzfree_s);
  
-@@ -2985,8 +2992,10 @@ void sk_clear_nospace(struct sock *sk)
- {
- 	struct socket *sock = sk->sk_socket;
- 
--	if (sock)
--		clear_bit(SOCK_NOSPACE, &sock->flags);
-+	if (!sock)
-+		return;
-+	tcp_clear_nospace(sk);
-+	clear_bit(SOCK_NOSPACE, &sock->flags);
- }
- EXPORT_SYMBOL(sk_clear_nospace);
- 
-diff --git a/net/ipv4/tcp.c b/net/ipv4/tcp.c
-index 1cde000cfab4704e6756872f6ddec16851ccc55d..f44cbd3e76178a5ec5b40e420b32836477c29266 100644
---- a/net/ipv4/tcp.c
-+++ b/net/ipv4/tcp.c
-@@ -5242,6 +5242,7 @@ static void __init tcp_struct_check(void)
- 	CACHELINE_ASSERT_GROUP_MEMBER(struct tcp_sock, tcp_sock_write_tx, first_tx_mstamp);
- 	CACHELINE_ASSERT_GROUP_MEMBER(struct tcp_sock, tcp_sock_write_tx, delivered_mstamp);
- 	CACHELINE_ASSERT_GROUP_MEMBER(struct tcp_sock, tcp_sock_write_tx, snd_sml);
-+	CACHELINE_ASSERT_GROUP_MEMBER(struct tcp_sock, tcp_sock_write_tx, tcp_nospace);
- 	CACHELINE_ASSERT_GROUP_MEMBER(struct tcp_sock, tcp_sock_write_tx, chrono_start);
- 	CACHELINE_ASSERT_GROUP_MEMBER(struct tcp_sock, tcp_sock_write_tx, chrono_stat);
- 	CACHELINE_ASSERT_GROUP_MEMBER(struct tcp_sock, tcp_sock_write_tx, write_seq);
-diff --git a/net/ipv4/tcp_input.c b/net/ipv4/tcp_input.c
-index 892ff256e235272a8483a11949cc98b319dd7cc9..cdea30d07fe2c2a38c3d38da27ad3274221d5958 100644
---- a/net/ipv4/tcp_input.c
-+++ b/net/ipv4/tcp_input.c
-@@ -6098,8 +6098,14 @@ static void tcp_new_space(struct sock *sk)
-  */
- void __tcp_check_space(struct sock *sk)
- {
++/**
++ *	sk_set_nospace - tell the transport a writer is waiting for space
++ *	@sk: socket
++ *
++ *	Must be called before the final check of the available send space,
++ *	so that the transport can not miss the request and forget to call
++ *	sk->sk_write_space() once space is available again.
++ */
++void sk_set_nospace(struct sock *sk)
++{
 +	struct socket *sock = sk->sk_socket;
 +
-+	/* tp->tcp_nospace is only a hint, SOCK_NOSPACE is authoritative. */
-+	if (!sock || !test_bit(SOCK_NOSPACE, &sock->flags))
-+		return;
++	if (sock)
++		set_bit(SOCK_NOSPACE, &sock->flags);
++}
++EXPORT_SYMBOL(sk_set_nospace);
 +
- 	tcp_new_space(sk);
--	if (!test_bit(SOCK_NOSPACE, &sk->sk_socket->flags))
-+	if (!test_bit(SOCK_NOSPACE, &sock->flags))
- 		tcp_chrono_stop(sk, TCP_CHRONO_SNDBUF_LIMITED);
- }
++/**
++ *	sk_clear_nospace - tell the transport no writer is waiting for space
++ *	@sk: socket
++ *
++ *	Called from ->sk_write_space() handlers, once send space has been
++ *	made available to writers.
++ */
++void sk_clear_nospace(struct sock *sk)
++{
++	struct socket *sock = sk->sk_socket;
++
++	if (sock)
++		clear_bit(SOCK_NOSPACE, &sock->flags);
++}
++EXPORT_SYMBOL(sk_clear_nospace);
++
+ /* It is almost wait_for_tcp_memory minus release_sock/lock_sock.
+    I think, these locks should be removed for datagram sockets.
+  */
+@@ -2970,7 +3003,7 @@ static long sock_wait_for_wmem(struct sock *sk, long timeo)
+ 			break;
+ 		if (signal_pending(current))
+ 			break;
+-		set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
++		sk_set_nospace(sk);
+ 		prepare_to_wait(sk_sleep(sk), &wait, TASK_INTERRUPTIBLE);
+ 		if (refcount_read(&sk->sk_wmem_alloc) < READ_ONCE(sk->sk_sndbuf))
+ 			break;
+@@ -3011,7 +3044,7 @@ struct sk_buff *sock_alloc_send_pskb(struct sock *sk, unsigned long header_len,
+ 			break;
  
-diff --git a/net/mptcp/subflow.c b/net/mptcp/subflow.c
-index f0a6725d2c3762def75c879e769e9da37f92215a..e297c88be503b42979886baaf43acfb6b7e78055 100644
---- a/net/mptcp/subflow.c
-+++ b/net/mptcp/subflow.c
-@@ -2001,6 +2001,11 @@ static int subflow_ulp_init(struct sock *sk)
- 	pr_debug("subflow=%p, family=%d\n", ctx, sk->sk_family);
+ 		sk_set_bit(SOCKWQ_ASYNC_NOSPACE, sk);
+-		set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
++		sk_set_nospace(sk);
+ 		err = -EAGAIN;
+ 		if (!timeo)
+ 			goto failure;
+diff --git a/net/core/stream.c b/net/core/stream.c
+index 2d748581862d0eda8523f6f371cd2402e1dd6e01..a853b60afdc35a4735c017eb16c748cf2fab1b99 100644
+--- a/net/core/stream.c
++++ b/net/core/stream.c
+@@ -37,7 +37,7 @@ void sk_stream_write_space(struct sock *sk)
+ 	struct socket_wq *wq;
  
- 	tp->is_mptcp = 1;
-+	/* Subflows share the MPTCP socket, and thus its SOCK_NOSPACE bit,
-+	 * which tcp_check_space() can not mirror. Pin the mirror so that
-+	 * __tcp_check_space() always tests the shared bit.
-+	 */
-+	tp->tcp_nospace = 1;
- 	ctx->icsk_af_ops = icsk->icsk_af_ops;
- 	icsk->icsk_af_ops = subflow_default_af_ops(sk);
- 	ctx->tcp_state_change = sk->sk_state_change;
+ 	if (__sk_stream_is_writeable(sk, 1) && sock) {
+-		clear_bit(SOCK_NOSPACE, &sock->flags);
++		sk_clear_nospace(sk);
+ 
+ 		rcu_read_lock();
+ 		wq = rcu_dereference(sk->sk_wq);
+@@ -143,7 +143,7 @@ int sk_stream_wait_memory(struct sock *sk, long *timeo_p)
+ 		if (sk_stream_memory_free(sk) && !vm_wait)
+ 			break;
+ 
+-		set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
++		sk_set_nospace(sk);
+ 		sk->sk_write_pending++;
+ 		ret = sk_wait_event(sk, &current_timeo, READ_ONCE(sk->sk_err) ||
+ 				    (READ_ONCE(sk->sk_shutdown) & SEND_SHUTDOWN) ||
+@@ -177,7 +177,7 @@ int sk_stream_wait_memory(struct sock *sk, long *timeo_p)
+ 	 * When TCP receives ACK packets that make room, tcp_check_space()
+ 	 * only calls tcp_new_space() if SOCK_NOSPACE is set.
+ 	 */
+-	set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
++	sk_set_nospace(sk);
+ 	err = -EAGAIN;
+ 	goto out;
+ do_interrupted:
+diff --git a/net/ipv4/tcp.c b/net/ipv4/tcp.c
+index 3ac4856852794736c5d49f042ecd08e4246bdd6d..1cde000cfab4704e6756872f6ddec16851ccc55d 100644
+--- a/net/ipv4/tcp.c
++++ b/net/ipv4/tcp.c
+@@ -607,7 +607,7 @@ __poll_t tcp_poll(struct file *file, struct socket *sock, poll_table *wait)
+ 				mask |= EPOLLOUT | EPOLLWRNORM;
+ 			} else {  /* send SIGIO later */
+ 				sk_set_bit(SOCKWQ_ASYNC_NOSPACE, sk);
+-				set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
++				sk_set_nospace(sk);
+ 
+ 				/* Race breaker. If space is freed after
+ 				 * wspace test but before the flags are set,
+@@ -1398,7 +1398,7 @@ int tcp_sendmsg_locked(struct sock *sk, struct msghdr *msg, size_t size)
+ 		continue;
+ 
+ wait_for_space:
+-		set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
++		sk_set_nospace(sk);
+ 		tcp_remove_empty_skb(sk);
+ 		if (copied)
+ 			tcp_push(sk, flags & ~MSG_MORE, mss_now,
+diff --git a/net/ipv4/tcp_bpf.c b/net/ipv4/tcp_bpf.c
+index 2e234d155b5e616d496611d1f367c34ed90f3000..64d74d92af52d1ca2fa3d24910a254a5092466f2 100644
+--- a/net/ipv4/tcp_bpf.c
++++ b/net/ipv4/tcp_bpf.c
+@@ -602,7 +602,7 @@ static int tcp_bpf_sendmsg(struct sock *sk, struct msghdr *msg, size_t size)
+ 			goto out_err;
+ 		continue;
+ wait_for_sndbuf:
+-		set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
++		sk_set_nospace(sk);
+ wait_for_memory:
+ 		err = sk_stream_wait_memory(sk, &timeo);
+ 		if (err) {
+diff --git a/net/kcm/kcmsock.c b/net/kcm/kcmsock.c
+index 71af69d442f211996e514d8d76a4c9d658f7b352..b29c0ed9caf5220ff741584e49632da45626beb7 100644
+--- a/net/kcm/kcmsock.c
++++ b/net/kcm/kcmsock.c
+@@ -735,7 +735,7 @@ static void kcm_tx_work(struct work_struct *w)
+ 	/* Primarily for SOCK_SEQPACKET sockets */
+ 	if (likely(sk->sk_socket) &&
+ 	    test_bit(SOCK_NOSPACE, &sk->sk_socket->flags)) {
+-		clear_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
++		sk_clear_nospace(sk);
+ 		sk->sk_write_space(sk);
+ 	}
+ 
+@@ -779,7 +779,7 @@ static int kcm_sendmsg(struct socket *sock, struct msghdr *msg, size_t len)
+ 	/* Call the sk_stream functions to manage the sndbuf mem. */
+ 	if (!sk_stream_memory_free(sk)) {
+ 		kcm_push(kcm);
+-		set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
++		sk_set_nospace(sk);
+ 		err = sk_stream_wait_memory(sk, &timeo);
+ 		if (err)
+ 			goto out_error;
+diff --git a/net/mptcp/protocol.c b/net/mptcp/protocol.c
+index e89a69ab927c9139c68c9039327cb0e55c33356b..74b1a512072878a54b229bc80aa76bb3e417c862 100644
+--- a/net/mptcp/protocol.c
++++ b/net/mptcp/protocol.c
+@@ -2106,7 +2106,7 @@ static int mptcp_sendmsg(struct sock *sk, struct msghdr *msg, size_t len)
+ 		continue;
+ 
+ wait_for_memory:
+-		set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
++		sk_set_nospace(sk);
+ 		__mptcp_push_pending(sk, msg->msg_flags);
+ 		ret = sk_stream_wait_memory(sk, &timeo);
+ 		if (ret)
+@@ -4472,7 +4472,7 @@ static __poll_t mptcp_check_writeable(struct mptcp_sock *msk)
+ 	if (__mptcp_stream_is_writeable(sk, 1))
+ 		return EPOLLOUT | EPOLLWRNORM;
+ 
+-	set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
++	sk_set_nospace(sk);
+ 	smp_mb__after_atomic(); /* NOSPACE is changed by mptcp_write_space() */
+ 	if (__mptcp_stream_is_writeable(sk, 1))
+ 		return EPOLLOUT | EPOLLWRNORM;
+diff --git a/net/smc/af_smc.c b/net/smc/af_smc.c
+index e9f93b3ab435bbcce0a493f24205bd91bdf15b6a..4f2afbbdef2d7e62431e14562dc26bdfcdaa9f79 100644
+--- a/net/smc/af_smc.c
++++ b/net/smc/af_smc.c
+@@ -2919,7 +2919,7 @@ __poll_t smc_poll(struct file *file, struct socket *sock,
+ 				mask |= EPOLLOUT | EPOLLWRNORM;
+ 			} else {
+ 				sk_set_bit(SOCKWQ_ASYNC_NOSPACE, sk);
+-				set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
++				sk_set_nospace(sk);
+ 
+ 				if (sk->sk_state != SMC_INIT) {
+ 					/* Race breaker the same way as tcp_poll(). */
+diff --git a/net/smc/smc_tx.c b/net/smc/smc_tx.c
+index 3144b4b1fe29013cabc63d72671d256761a4c367..52e5395484fd3e0c4b1356226ecdcf4fb190d487 100644
+--- a/net/smc/smc_tx.c
++++ b/net/smc/smc_tx.c
+@@ -48,7 +48,7 @@ static void smc_tx_write_space(struct sock *sk)
+ 	if (atomic_read(&smc->conn.sndbuf_space) && sock) {
+ 		if (test_bit(SOCK_NOSPACE, &sock->flags))
+ 			SMC_STAT_RMB_TX_FULL(smc, !smc->conn.lnk);
+-		clear_bit(SOCK_NOSPACE, &sock->flags);
++		sk_clear_nospace(sk);
+ 		rcu_read_lock();
+ 		wq = rcu_dereference(sk->sk_wq);
+ 		if (skwq_has_sleeper(wq))
+@@ -100,7 +100,7 @@ static int smc_tx_wait(struct smc_sock *smc, int flags)
+ 		}
+ 		if (!timeo) {
+ 			/* ensure EPOLLOUT is subsequently generated */
+-			set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
++			sk_set_nospace(sk);
+ 			rc = -EAGAIN;
+ 			break;
+ 		}
+@@ -111,7 +111,7 @@ static int smc_tx_wait(struct smc_sock *smc, int flags)
+ 		sk_clear_bit(SOCKWQ_ASYNC_NOSPACE, sk);
+ 		if (atomic_read(&conn->sndbuf_space) && !conn->urg_tx_pend)
+ 			break; /* at least 1 byte of free & no urgent data */
+-		set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
++		sk_set_nospace(sk);
+ 		sk_wait_event(sk, &timeo,
+ 			      READ_ONCE(sk->sk_err) ||
+ 			      (READ_ONCE(sk->sk_shutdown) & SEND_SHUTDOWN) ||
+diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
+index d1ad31986cf2cee88afbde43a2908791eeabb0fb..312e51270f293dc4df8efbec498473c4c3b48d15 100644
+--- a/net/tls/tls_sw.c
++++ b/net/tls/tls_sw.c
+@@ -966,7 +966,7 @@ static int tls_sw_sendmsg_locked(struct sock *sk, struct msghdr *msg,
+ 		continue;
+ 
+ wait_for_sndbuf:
+-		set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
++		sk_set_nospace(sk);
+ wait_for_memory:
+ 		ret = sk_stream_wait_memory(sk, &timeo);
+ 		if (ret) {
 -- 
 2.56.0.rc1.315.gc6ed9934b7-goog
 
