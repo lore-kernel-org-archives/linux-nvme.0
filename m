@@ -4,72 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B35C0CA5FA5
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2026 23:24:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 04086CA5FAD
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2026 23:24:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=IS6TByWFgsxOTPGaMQkR8btgGIqLwW1a4rgcn4lxTW4=; b=aFgNKsrcKZuaHvakdOIXOsTMA5
-	BKmCk5E8BbpfZdn18yFuvon4nfJzgQXXtsdjOq3UMkWrvp7rt4qB2u2Xf8Rvs1x6VFX7GS1dTQGyS
-	S1WAH0/VP1dzcEp8rBsOPm7fEZ2pcTn8c8cY0hcbneVczcZ5AO5dZyU96p6dz71Xo6uB8GcuyLNHB
-	49Gn+LeEcTeQ8/2taLXPQiDchEfZrBR09fYGTquaISY95YMZ8LIXvCWNa85e6xmb9gWpM1FHl15XV
-	L7Dw++b7knO4k0WaE3c1Dfl6ptLzricxnIXz6Ad0qGcfqd9ZnoGifVYJuDk0IXmJUfzFWCTCDOiQQ
-	QIPk5vdQ==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=wmkdOPAfN3ztZ7PxlqvaeeQ4HbSDCKua7ym3C/IbZLY=; b=jCIdRFxtvOk2uMcekuJEah4V6K
+	EzyO980qbfBXpi3A06To4MuivsAyiYWomSEQekzqTcWFWfhnvm50RtIHxq1GktOMoc/ukXKJ3Xx7P
+	RpGsoU7UVMewelh9fIquApbefTy2D5lDHGfOfdg6qBo9SD81ptnGckN4fHttoa0fjNk/Fk+M2rcft
+	UBdng3HVJLBPf21OBJvOVO9nNjbSZuDAkqyzKOYbAET8AzSRFrUmsm4dnGNfkWo629PaY5eYTiuNa
+	1t8XCZ+69oaN16+ob8RPe1KmbR/sJ9j2kBocRNxncKNxHWv+L6f+I9mJspZ3iRXRAYyXLlr56G3Y8
+	yrmB0NwQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBhBM-00000004kiZ-2uVA;
-	Tue, 29 Sep 2026 23:24:20 +0000
-Received: from mail-pz2-x0c.google.com ([2607:f8b0:4864:3b::c])
+	id 1xBhBQ-00000004kjh-3SIj;
+	Tue, 29 Sep 2026 23:24:24 +0000
+Received: from mail-pj2-x0f.google.com ([2607:f8b0:4864:39::f])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBhBJ-00000004kiD-1ZUm
+	id 1xBhBN-00000004kif-1Eku
 	for linux-nvme@lists.infradead.org;
-	Tue, 29 Sep 2026 23:24:19 +0000
-Received: by mail-pz2-x0c.google.com with SMTP id 41be03b00d2f7-cc78d45f78fso2926494a12.3
-        for <linux-nvme@lists.infradead.org>; Tue, 29 Sep 2026 16:24:16 -0700 (PDT)
+	Tue, 29 Sep 2026 23:24:22 +0000
+Received: by mail-pj2-x0f.google.com with SMTP id 98e67ed59e1d1-3a49573b8bdso1175407a91.2
+        for <linux-nvme@lists.infradead.org>; Tue, 29 Sep 2026 16:24:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790724256; x=1791329056; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=IS6TByWFgsxOTPGaMQkR8btgGIqLwW1a4rgcn4lxTW4=;
-        b=X/GFjLCviScgvqC0SEYzHFXtPXuapV0CGnOZgAidovDjWcAPXR5MSUkj7fXPaEyqql
-         c1N2YKTobYErs9ZZmltgZd6IxhocTKy0Taq6BqRsXtzutTYQgfsNGTK8Xgd0mbXwNrTL
-         MighVWCXVr5fUksHq+njbv6wvbKFXEQRAuDT7RdUIVx2yDzbsbiV7EPZWrE/d43gh+ql
-         VGFPJ/rbPwuTAp8xXjuW7fiLBJwh3tnHQogxUKtJOuSGcCVIamzPyDNNrNh7ZAGL+ZGz
-         YWHB211qW55++Lhx19tk9C1IoNpEkkVtzH9ol/R/H0OS1qnWJP5Rc4fR+V9DyekiqIqV
-         stNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790724256; x=1791329056;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1790724260; x=1791329060; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=IS6TByWFgsxOTPGaMQkR8btgGIqLwW1a4rgcn4lxTW4=;
-        b=ThmVoOhXpqK18prTe/TOJB3kqLWA82tBnqgtLnLnkELDYJvNGoBhBLHBwIBj/HMSxo
-         QCQEPdN8UZRjeKt7wWVL/WGAs6LEvIQ69SnmEk2Bp/mI4ZnkorugCrh/sJ7776UH6PX4
-         IFIEKK3xGQIH8zzoIcJ9a+l8q586v6tYhZ33kdTpmU2sMFxQOZ5CPBPJ9itvXso1naON
-         29AhtjDfFTjrNihSLfBl8ZqhC+XHOl/XnjKJCH3qzvmUwVjAN49URS9EvIv57vBMMcHZ
-         zK0nqmxbease0feSK708IPm6SmvqngpGnTtUhkQFz1mKm7zGejMX91qyMcpqIuoij9Go
-         lLFg==
-X-Forwarded-Encrypted: i=1; AKwUvBxDPhAlrw5/fCJMywuemNrvotuSZxRoxGfSIjzuWHBhupuKjMtT1oEVC8+Tv82K7kJIIv+tFJHV+swy@lists.infradead.org
-X-Gm-Message-State: AFq9FYKc8jk/H0PrRyW9JbjI0Fkpmjwg5aHiYleomVa2r9HCIP8M4UVe
-	y2JLNSluJc0xfApma5BoBBWKDndmtrqjX1I8eWeA+M993W4YHFRBsAq7
-X-Gm-Gg: AYBFou0M2wCVOdMqBdnLWU5D65sSCr3omM8mshaB/9kiFdoXp6WQfNIY06Uyp6LfGwE
-	G346uNV+ftCoMeLtUA/FKIo7GMJC+PkszCGCxWw9G1NQGy1+vg5GPeRe/Fq6rdcq0j6adJ3Thh6
-	rjiQTYbLBhvdrRdTrNzkh7OUE3JikZEtplGA4ltFbnr/V9wWqBW704V2UaqLedxRhqnM7J5Se0Q
-	4946QaFVOClfKSlidWIFwJ9bX/1+Eo2dV90EOcEfF3DNdnFB+L7rMYbhPabZ9Cx79flkMD5cMWY
-	X9RwcUeQQ8bXlbKKPnvJrLBoEyhj8Vw/t/P0pB+7HZ3aTxzIKM09i0MA9MGLV9J6KIFFJslYyK7
-	mv/SkECbGomXrFdh270Ata2MoupQFfdyHVCkpyAQ70juClUP5C0znB+H3bf87nZC88Iqk4SFT1P
-	7+/nDJy15NvRKi7uGngtgzf4baih3DDjmf5A7EO20Hi/owXTFDOBxnUuNSA0mBdqRd9/HhUUhWE
-	+3iC705pnrpGxm8bPPN5tb/6QQhhslLjZxqUeiNkmBrYsvZ43ImctL8enzOCm2FZeLlJFMyQ6dK
-	Ofo=
-X-Received: by 2002:a17:90b:4f89:b0:3a0:4444:ef1e with SMTP id 98e67ed59e1d1-3a4bfe73db9mr752355a91.29.1790724256010;
-        Tue, 29 Sep 2026 16:24:16 -0700 (PDT)
+        bh=wmkdOPAfN3ztZ7PxlqvaeeQ4HbSDCKua7ym3C/IbZLY=;
+        b=QyGygbtUR1c1oKrYCUMbBt5yB/h67Q5S7p0eru2S+XAI0Yn5HVI2Dv83alcFb3Y0lW
+         KxItcl+eLxw3tybvKP9ZWCbVKnbucQ93sRbz8Mqp30bGofLvKLxlYZEIzZFMacz2FYru
+         xcs5IWlgLoIZgj1qSHXxjpoxh2+KjdQS06eLZbWM/gu/v8lfekpp2XxF1y6yLdvq1IX/
+         VgOGHWkkhqB4DQqkj459a+WOGr/DONhRk3RyiPdBVioi04KVzKzhlH6/9S0R/jryqpH7
+         pfHVInkxDFtocYA54XA6wlp2qj9Ow+kflxMJELxPktyVgjZwpdh4JECdaMKuf6GY5j3c
+         d1YA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790724260; x=1791329060;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=wmkdOPAfN3ztZ7PxlqvaeeQ4HbSDCKua7ym3C/IbZLY=;
+        b=d/0A5724ZOLwu3Vpq7dViDegTSi9kMG5iM7MF9tM0FXXRCqmZ705beD38wQYZCcmex
+         xaJvGRO9HWjrdH5uCbtGpJMVlHRIggnSL+PlIxfs8GvIBcQeuobu42C8qICvkfK4y1mL
+         sYaWi5fs/XZVGnZQMwsbMMJ+Uu3Bz2OyyeU8ui3Ys4mET8F3PYW/c7R33Gj1xowLCwBm
+         ho8u2gs6g/UzfVfBgW7qdEKJlGmUutQtBrbYnLiIZ/GWC6XXZDDdtN+OWd6jyK9w/4zn
+         To5nQXUrGv//2oB/9pMZaHs3MAtU9MBUYoKBEe9kxK+shYk+bVmZhjluI2YKtojLzQMY
+         u7qA==
+X-Forwarded-Encrypted: i=1; AKwUvBzQ3HlAjvqWvMEVR4GbWz3P2lQTwY8HF1RM7R5pGTGvWMeTE6rgz9qx/sNnXCjOmh+ygLLFaI2WPmFd@lists.infradead.org
+X-Gm-Message-State: AFq9FYKYfae9gELbI1tWA19XuKsQJXiU+40OEfRqiJKET/gGG7OC+GK4
+	GxzNgcXjSJ7QtctAsNhuXdcT9dox/nK4PTPKqwh7ZScmgTlU8vP2SyYP
+X-Gm-Gg: AYBFou22UknfpuCHKXEfz7iqmqYV+F+p3OH5jaQcQwmpDxVA5dN+pSqLc/wlnDaeEfn
+	H5zLMhJgtEm8xcWfTRlKs/fRWnYexN2TT+J+rEOKf0lDEAvlf8IkUO36gAhElpQuwbDxoeY6YkR
+	JkP9wzo3rFvHdTRrApeKqP5tLdzEonxDl+tVaizMoUrlqQtEYebmafS7/0B+9SbWGkYxplj+o8o
+	MPICGrW1Ue7QQr2b3coZaAKXRC/lXzsNsAGuFon5ssE69X9vElw2OEgP8oq66ECqz5Ad1Z0oIkf
+	XSBd/c7L93NBFg9D6HITOBGdjTumnvpKOJuyymGd50WWeA2icWNSU5PcSz99ZjGX+ouqLNm/K1s
+	mMNpQl7mBe8J71ttiv3lR4aPgLUqRd+9r1XdDVBx228+huJTr1ygrkQOAS9YOQvKWClSpO89ESc
+	oBQVlktagmO+dLVXFjZcTqqvTxzRtk3LHBXByW+TUpTv0a7mFkjqB6H1qmtkpR41/iDHQkL6ms3
+	SCfRQU1hwcq9bP7ecq9afqM/JPyAbEvHqLHVxe6f27fAUwLNt+p/NBa5OxYkDkv/wAADFF/pCDb
+	Lfo=
+X-Received: by 2002:a17:90b:538b:b0:3a0:345a:3646 with SMTP id 98e67ed59e1d1-3a4bfe98dcamr677153a91.45.1790724260338;
+        Tue, 29 Sep 2026 16:24:20 -0700 (PDT)
 Received: from yupeng-XPS-15-9520.. (c-73-169-192-12.hsd1.wa.comcast.net. [73.169.192.12])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a4ca78102csm138700a91.4.2026.09.29.16.24.14
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a4ca78102csm138700a91.4.2026.09.29.16.24.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2026 16:24:15 -0700 (PDT)
+        Tue, 29 Sep 2026 16:24:19 -0700 (PDT)
 From: Peng Yu <yupeng0921@gmail.com>
 To: Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>,
@@ -85,15 +86,17 @@ Cc: Tejun Heo <tj@kernel.org>,
 	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Peng Yu <yupeng0921@gmail.com>
-Subject: [PATCH v7 0/2] nvmet: add cgroup_id to charge namespace I/O to a cgroup
-Date: Tue, 29 Sep 2026 16:24:09 -0700
-Message-ID: <20260929232411.101087-1-yupeng0921@gmail.com>
+Subject: [PATCH v7 2/2] nvmet: add cgroup_id to charge namespace I/O to a cgroup
+Date: Tue, 29 Sep 2026 16:24:11 -0700
+Message-ID: <20260929232411.101087-3-yupeng0921@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260929232411.101087-1-yupeng0921@gmail.com>
+References: <20260929232411.101087-1-yupeng0921@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260929_162417_426193_7F37608F 
-X-CRM114-Status: GOOD (  14.98  )
+X-CRM114-CacheID: sfid-20260929_162421_471094_D0DEE060 
+X-CRM114-Status: GOOD (  27.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,195 +111,468 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Implementation:
+* Add a `cgroup_id` attribute under the nvmet namespace folder, e.g.:
+  /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:bdev/namespaces/1/cgroup_id
+* We can write a cgroup id to it, then that cgroup will control
+  the IOs used by the namespace.
+* Write 0 to clear it.
+* The cgroup_id could be modified when the namespace is disabled.
+* Support both block device backed namespaces and file backed namespaces.
+* Only the direct io scenario is supported, enabling a namespace that
+  has both cgroup_id and buffered_io set fails with -EINVAL.
+
+Change since v2:
+* Fix the in ns->cgroup_path error free issue nvmet_ns_cgroup_path_store.
+* Use nvmet_blkcg_begin/end in nvmet_bdev_zmgmt_send_work.
+
+Change since v3:
+* Use cgroup_id instead of cgroup_path.
+
 Change since v6:
-* 1/2: Explain in the commit message why the effective css is tracked,
-  and add comments on e_css[] and in init_cgroup_root() (Tejun).
-* 2/2: Use cgroup_get_e_css() and css_put() in nvmet_blkcg_set_bio()
-  instead of cgroup_e_css() under rcu_read_lock() (Tejun).
-* Drop "cgroup: export cgroup_e_css()", which is no longer needed (Tejun).
+* Use cgroup_get_e_css() and css_put() in nvmet_blkcg_set_bio() instead
+  of cgroup_e_css() under rcu_read_lock(), so queue_lock isn't nested
+  under RCU when a blkg is created.
+* Drop the patch that exported cgroup_e_css().
 
-Change since v5:
-* Add "cgroup: track the effective css in each cgroup", so looking up
-  the effective css for each I/O is O(1) (Tejun).
-
-Change since v4:
-* Hold the cgroup and look up its effective io css for each I/O,
-  instead of pinning one io css when the namespace is enabled (Tejun).
-* Allow a cgroup that doesn't have the io controller enabled (Tejun).
-* Add "cgroup: export cgroup_e_css()".
-
-The two patches don't depend on each other: 2/2 only uses symbols that
-are already exported and works without 1/2, with the slower lookup.
-1/2 can go through the cgroup tree and 2/2 through the nvme tree.
-
-v6: https://lore.kernel.org/all/20260928061417.1574676-1-yupeng0921@gmail.com/
-v5: https://lore.kernel.org/all/20260926063328.257023-1-yupeng0921@gmail.com/
-v4: https://lore.kernel.org/all/20260924053121.17703-1-yupeng0921@gmail.com/
-v3: https://lore.kernel.org/all/20260923152653.40953-1-yupeng0921@gmail.com/
-v2: https://lore.kernel.org/all/20260922065115.22508-1-yupeng0921@gmail.com/
-v1: https://lore.kernel.org/all/20260908011214.11344-1-yupeng0921@gmail.com/
-
-Scenario:
-* Create multiple nvmet subsystems/namespaces.
-* The namespaces are backed by different LVM logical volumes.
-* Some of the logical volumes share the same physical volumes.
-* The subsystems are exported to different users.
-* We should provide each user a specific iops/bps quota, thus a noisy
-  neighbor won't impact the performance of other logical volumes.
-
-Test:
-1 Load kernel modules.
-sudo modprobe brd rd_nr=2 rd_size=1048576
-sudo modprobe nvmet
-sudo modprobe nvmet_tcp
-sudo modprobe nvme_tcp
-
-2 The two brd devices are used for a bdev backed namespace and a file
-backed namespace, remember their major/minor.
-lsblk --noheadings --nodeps --output NAME,MAJ:MIN,SIZE /dev/ram0 /dev/ram1
-ram0   1:0      1G
-ram1   1:1      1G
-
-3 Enable the io controller and create two cgroups, one for the bdev
-backed namespace, another for the file backed namespace.
-echo "+io" | sudo tee /sys/fs/cgroup/cgroup.subtree_control
-sudo mkdir -p /sys/fs/cgroup/nvmet-bdev
-sudo mkdir -p /sys/fs/cgroup/nvmet-file
-
-4 Create a file system and a file on ram0.
-sudo mkfs.ext4 /dev/ram0
-sudo mkdir -p /mnt/nvmet-file
-sudo mount -o noatime /dev/ram0 /mnt/nvmet-file
-sudo dd if=/dev/zero of=/mnt/nvmet-file/ns.img bs=1M count=512 oflag=direct
-
-5 Create the bdev backed subsystem and namespace.
-sudo mkdir -p /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:bdev/namespaces/1
-echo 1 | sudo tee /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:bdev/attr_allow_any_host
-echo /dev/ram1 | sudo tee /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:bdev/namespaces/1/device_path
-stat -c %i /sys/fs/cgroup/nvmet-bdev | sudo tee /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:bdev/namespaces/1/cgroup_id
-echo 1 | sudo tee /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:bdev/namespaces/1/enable
-
-6 Create the file backed subsystem and namespace.
-sudo mkdir -p /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:file/namespaces/1
-echo 1 | sudo tee /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:file/attr_allow_any_host
-echo /mnt/nvmet-file/ns.img | sudo tee /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:file/namespaces/1/device_path
-stat -c %i /sys/fs/cgroup/nvmet-file | sudo tee /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:file/namespaces/1/cgroup_id
-echo 1 | sudo tee /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:file/namespaces/1/enable
-
-7 Export the two subsystems to 127.0.0.1.
-sudo mkdir -p /sys/kernel/config/nvmet/ports/1
-echo ipv4 | sudo tee /sys/kernel/config/nvmet/ports/1/addr_adrfam
-echo tcp | sudo tee /sys/kernel/config/nvmet/ports/1/addr_trtype
-echo 127.0.0.1 | sudo tee /sys/kernel/config/nvmet/ports/1/addr_traddr
-echo 4420 | sudo tee /sys/kernel/config/nvmet/ports/1/addr_trsvcid
-sudo ln -s /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:bdev /sys/kernel/config/nvmet/ports/1/subsystems/nqn.2026-09.io.test01:bdev
-sudo ln -s /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:file /sys/kernel/config/nvmet/ports/1/subsystems/nqn.2026-09.io.test01:file
-
-8 Connect the two subsystems from 127.0.0.1.
-sudo nvme connect -t tcp -a 127.0.0.1 -s 4420 -n nqn.2026-09.io.test01:bdev
-sudo nvme connect -t tcp -a 127.0.0.1 -s 4420 -n nqn.2026-09.io.test01:file
-sudo udevadm settle
-
-9 Set riops to 20k and run fio.
-echo "1:1 riops=20000 wiops=max rbps=max wbps=max" | sudo tee /sys/fs/cgroup/nvmet-bdev/io.max
-echo "1:0 riops=20000 wiops=max rbps=max wbps=max" | sudo tee /sys/fs/cgroup/nvmet-file/io.max
-
-sudo fio --name=t --filename=/dev/nvme0n1 --rw=randread --bs=4k --iodepth=32 --numjobs=1 \
---direct=1 --ioengine=libaio --time_based --runtime=10 --ramp_time=3 \
---group_reporting 2>/dev/null | grep -E '^ +(read|write): IOPS'
-  read: IOPS=20.0k, BW=78.1MiB/s (81.9MB/s)(781MiB/10001msec)
-
-sudo fio --name=t --filename=/dev/nvme1n1 --rw=randread --bs=4k --iodepth=32 --numjobs=1 \
---direct=1 --ioengine=libaio --time_based --runtime=10 --ramp_time=3 \
---group_reporting 2>/dev/null | grep -E '^ +(read|write): IOPS'
-  read: IOPS=20.0k, BW=78.2MiB/s (82.0MB/s)(782MiB/10001msec)
-
-10 Set rbps to 100M and run fio.
-echo "1:1 riops=max wiops=max rbps=104857600 wbps=max" | sudo tee /sys/fs/cgroup/nvmet-bdev/io.max
-echo "1:0 riops=max wiops=max rbps=104857600 wbps=max" | sudo tee /sys/fs/cgroup/nvmet-file/io.max
-
-sudo fio --name=t --filename=/dev/nvme0n1 --rw=read --bs=1M --iodepth=32 --numjobs=1 \
---direct=1 --ioengine=libaio --time_based --runtime=10 --ramp_time=3 \
---group_reporting 2>/dev/null | grep -E '^ +(read|write): IOPS'
-  read: IOPS=97, BW=100MiB/s (105MB/s)(1041MiB/10399msec)
-
-sudo fio --name=t --filename=/dev/nvme1n1 --rw=read --bs=1M --iodepth=32 --numjobs=1 \
---direct=1 --ioengine=libaio --time_based --runtime=10 --ramp_time=3 \
---group_reporting 2>/dev/null | grep -E '^ +(read|write): IOPS'
-  read: IOPS=97, BW=100MiB/s (105MB/s)(1031MiB/10299msec)
-
-11 Set wiops to 20k and run fio.
-echo "1:1 riops=max wiops=20000 rbps=max wbps=max" | sudo tee /sys/fs/cgroup/nvmet-bdev/io.max
-echo "1:0 riops=max wiops=20000 rbps=max wbps=max" | sudo tee /sys/fs/cgroup/nvmet-file/io.max
-
-sudo fio --name=t --filename=/dev/nvme0n1 --rw=randwrite --bs=4k --iodepth=32 --numjobs=1 \
---direct=1 --ioengine=libaio --time_based --runtime=10 --ramp_time=3 \
---group_reporting 2>/dev/null | grep -E '^ +(read|write): IOPS'
-  write: IOPS=20.0k, BW=78.1MiB/s (81.9MB/s)(781MiB/10001msec); 0 zone resets
-
-sudo fio --name=t --filename=/dev/nvme1n1 --rw=randwrite --bs=4k --iodepth=32 --numjobs=1 \
---direct=1 --ioengine=libaio --time_based --runtime=10 --ramp_time=3 \
---group_reporting 2>/dev/null | grep -E '^ +(read|write): IOPS'
-  write: IOPS=20.0k, BW=78.1MiB/s (81.9MB/s)(781MiB/10002msec); 0 zone resets
-
-12 Set wbps to 100M and run fio.
-echo "1:1 riops=max wiops=max rbps=max wbps=104857600" | sudo tee /sys/fs/cgroup/nvmet-bdev/io.max
-echo "1:0 riops=max wiops=max rbps=max wbps=104857600" | sudo tee /sys/fs/cgroup/nvmet-file/io.max
-
-sudo fio --name=t --filename=/dev/nvme0n1 --rw=write --bs=1M --iodepth=32 --numjobs=1 \
---direct=1 --ioengine=libaio --time_based --runtime=10 --ramp_time=3 \
---group_reporting 2>/dev/null | grep -E '^ +(read|write): IOPS'
-  write: IOPS=97, BW=100MiB/s (105MB/s)(1032MiB/10307msec); 0 zone resets
-
-sudo fio --name=t --filename=/dev/nvme1n1 --rw=write --bs=1M --iodepth=32 --numjobs=1 \
---direct=1 --ioengine=libaio --time_based --runtime=10 --ramp_time=3 \
---group_reporting 2>/dev/null | grep -E '^ +(read|write): IOPS'
-  write: IOPS=97, BW=100MiB/s (105MB/s)(1033MiB/10296msec); 0 zone resets
-
-13 Cleanup the environment.
-sudo nvme disconnect -n nqn.2026-09.io.test01:bdev
-sudo nvme disconnect -n nqn.2026-09.io.test01:file
-sudo udevadm settle
-
-sudo rm -f /sys/kernel/config/nvmet/ports/1/subsystems/nqn.2026-09.io.test01:bdev
-sudo rm -f /sys/kernel/config/nvmet/ports/1/subsystems/nqn.2026-09.io.test01:file
-sudo rmdir /sys/kernel/config/nvmet/ports/1
-
-echo 0 | sudo tee /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:bdev/namespaces/1/enable
-sudo rmdir /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:bdev/namespaces/1
-sudo rmdir /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:bdev
-
-echo 0 | sudo tee /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:file/namespaces/1/enable
-sudo rmdir /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:file/namespaces/1
-sudo rmdir /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:file
-
-sudo umount /mnt/nvmet-file
-sudo rmdir /mnt/nvmet-file
-sudo modprobe -r brd
-
-sudo rmdir /sys/fs/cgroup/nvmet-bdev
-sudo rmdir /sys/fs/cgroup/nvmet-file
-
-sudo rmmod nvme_tcp
-sudo rmmod nvmet_tcp
-sudo rmmod nvmet
-
-Peng Yu (2):
-  cgroup: track the effective css in each cgroup
-  nvmet: add cgroup_id to charge namespace I/O to a cgroup
-
- drivers/nvme/target/configfs.c    | 47 ++++++++++++++++++++++++
+Signed-off-by: Peng Yu <yupeng0921@gmail.com>
+Assisted-by: Claude:claude-fable-5 [Claude Code]
+Assisted-by: Claude:claude-opus-5-5 [Claude Code]
+---
+ drivers/nvme/target/configfs.c    | 47 +++++++++++++++++++++++++
  drivers/nvme/target/core.c        | 54 ++++++++++++++++++++++++++++
  drivers/nvme/target/io-cmd-bdev.c | 18 +++++++++-
  drivers/nvme/target/io-cmd-file.c | 21 +++++++++--
- drivers/nvme/target/nvmet.h       | 58 ++++++++++++++++++++++++++++++
+ drivers/nvme/target/nvmet.h       | 58 +++++++++++++++++++++++++++++++
  drivers/nvme/target/zns.c         |  5 +++
- include/linux/cgroup-defs.h       |  8 +++++
- kernel/cgroup/cgroup.c            | 60 ++++++++++++++++++++-----------
- 8 files changed, 247 insertions(+), 24 deletions(-)
+ 6 files changed, 200 insertions(+), 3 deletions(-)
 
-
-base-commit: 2ee54f01f07c0307deaf90ca8691a4643ae0357b
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index 6286e38436dd..cef832303d72 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -561,6 +561,50 @@ static ssize_t nvmet_ns_device_path_store(struct config_item *item,
+ 
+ CONFIGFS_ATTR(nvmet_ns_, device_path);
+ 
++#ifdef CONFIG_BLK_CGROUP
++static ssize_t nvmet_ns_cgroup_id_show(struct config_item *item, char *page)
++{
++	struct nvmet_ns *ns = to_nvmet_ns(item);
++	struct nvmet_subsys *subsys = ns->subsys;
++	ssize_t ret;
++
++	mutex_lock(&subsys->lock);
++	ret = snprintf(page, PAGE_SIZE, "%llu\n", ns->cgroup_id);
++	mutex_unlock(&subsys->lock);
++	return ret;
++}
++
++static ssize_t nvmet_ns_cgroup_id_store(struct config_item *item,
++		const char *page, size_t count)
++{
++	struct nvmet_ns *ns = to_nvmet_ns(item);
++	struct nvmet_subsys *subsys = ns->subsys;
++	u64 cgroup_id;
++	int ret;
++
++	ret = kstrtou64(page, 0, &cgroup_id);
++	if (ret)
++		return ret;
++
++	mutex_lock(&subsys->lock);
++
++	if (ns->enabled) {
++		ret = -EBUSY;
++		goto out_unlock;
++	}
++
++	/* Writing 0 clears the association. */
++	ns->cgroup_id = cgroup_id;
++	ret = count;
++
++out_unlock:
++	mutex_unlock(&subsys->lock);
++	return ret;
++}
++
++CONFIGFS_ATTR(nvmet_ns_, cgroup_id);
++#endif /* CONFIG_BLK_CGROUP */
++
+ #ifdef CONFIG_PCI_P2PDMA
+ static ssize_t nvmet_ns_p2pmem_show(struct config_item *item, char *page)
+ {
+@@ -833,6 +877,9 @@ static struct configfs_attribute *nvmet_ns_attrs[] = {
+ 	&nvmet_ns_attr_buffered_io,
+ 	&nvmet_ns_attr_revalidate_size,
+ 	&nvmet_ns_attr_resv_enable,
++#ifdef CONFIG_BLK_CGROUP
++	&nvmet_ns_attr_cgroup_id,
++#endif
+ #ifdef CONFIG_PCI_P2PDMA
+ 	&nvmet_ns_attr_p2pmem,
+ #endif
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 43871a8f56ca..6d9d55eb11eb 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -4,6 +4,7 @@
+  * Copyright (c) 2015-2016 HGST, a Western Digital Company.
+  */
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
++#include <linux/cgroup.h>
+ #include <linux/hex.h>
+ #include <linux/module.h>
+ #include <linux/random.h>
+@@ -474,8 +475,57 @@ void nvmet_put_namespace(struct nvmet_ns *ns)
+ 	percpu_ref_put(&ns->ref);
+ }
+ 
++#ifdef CONFIG_BLK_CGROUP
++static int nvmet_blkcg_ns_enable(struct nvmet_ns *ns)
++{
++	struct cgroup *cgrp;
++
++	if (!ns->cgroup_id)
++		return 0;
++
++	/*
++	 * Buffered writes will be handled by a separate thread,
++	 * these IOs have no namespace/cgroup information at that time,
++	 * so we don't support buffered io.
++	 */
++	if (ns->buffered_io) {
++		pr_err("cgroup_id is not supported with buffered_io: %s\n",
++		       ns->device_path);
++		return -EINVAL;
++	}
++
++	cgrp = cgroup_get_from_id(ns->cgroup_id);
++	if (IS_ERR(cgrp)) {
++		pr_err("failed to resolve cgroup id %llu: %ld\n",
++		       ns->cgroup_id, PTR_ERR(cgrp));
++		return PTR_ERR(cgrp);
++	}
++
++	ns->cgrp = cgrp;
++	return 0;
++}
++
++static void nvmet_blkcg_ns_disable(struct nvmet_ns *ns)
++{
++	if (ns->cgrp) {
++		cgroup_put(ns->cgrp);
++		ns->cgrp = NULL;
++	}
++}
++#else
++static inline int nvmet_blkcg_ns_enable(struct nvmet_ns *ns)
++{
++	return 0;
++}
++
++static inline void nvmet_blkcg_ns_disable(struct nvmet_ns *ns)
++{
++}
++#endif /* CONFIG_BLK_CGROUP */
++
+ static void nvmet_ns_dev_disable(struct nvmet_ns *ns)
+ {
++	nvmet_blkcg_ns_disable(ns);
+ 	nvmet_bdev_ns_disable(ns);
+ 	nvmet_file_ns_disable(ns);
+ }
+@@ -602,6 +652,10 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
+ 	if (ret)
+ 		goto out_unlock;
+ 
++	ret = nvmet_blkcg_ns_enable(ns);
++	if (ret)
++		goto out_dev_disable;
++
+ 	ret = nvmet_p2pmem_ns_enable(ns);
+ 	if (ret)
+ 		goto out_dev_disable;
+diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+index f2d9e8901df4..0014e5ef2853 100644
+--- a/drivers/nvme/target/io-cmd-bdev.c
++++ b/drivers/nvme/target/io-cmd-bdev.c
+@@ -297,6 +297,7 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
+ 		bio = bio_alloc(req->ns->bdev, bio_max_segs(sg_cnt), opf,
+ 				GFP_KERNEL);
+ 	}
++	nvmet_blkcg_set_bio(req->ns, bio);
+ 	bio->bi_iter.bi_sector = sector;
+ 	bio->bi_private = req;
+ 	bio->bi_end_io = nvmet_bio_done;
+@@ -322,6 +323,7 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
+ 
+ 			bio = bio_alloc(req->ns->bdev, bio_max_segs(sg_cnt),
+ 					opf, GFP_KERNEL);
++			nvmet_blkcg_set_bio(req->ns, bio);
+ 			bio->bi_iter.bi_sector = sector;
+ 
+ 			bio_chain(bio, prev);
+@@ -358,6 +360,7 @@ static void nvmet_bdev_execute_flush(struct nvmet_req *req)
+ 
+ 	bio_init(bio, req->ns->bdev, req->inline_bvec,
+ 		 ARRAY_SIZE(req->inline_bvec), REQ_OP_WRITE | REQ_PREFLUSH);
++	nvmet_blkcg_set_bio(req->ns, bio);
+ 	bio->bi_private = req;
+ 	bio->bi_end_io = nvmet_bio_done;
+ 
+@@ -366,10 +369,16 @@ static void nvmet_bdev_execute_flush(struct nvmet_req *req)
+ 
+ u16 nvmet_bdev_flush(struct nvmet_req *req)
+ {
++	bool associated;
++	int ret;
++
+ 	if (!bdev_write_cache(req->ns->bdev))
+ 		return 0;
+ 
+-	if (blkdev_issue_flush(req->ns->bdev))
++	associated = nvmet_blkcg_begin(req->ns);
++	ret = blkdev_issue_flush(req->ns->bdev);
++	nvmet_blkcg_end(associated);
++	if (ret)
+ 		return NVME_SC_INTERNAL | NVME_STATUS_DNR;
+ 	return 0;
+ }
+@@ -380,9 +389,11 @@ static void nvmet_bdev_execute_discard(struct nvmet_req *req)
+ 	struct nvme_dsm_range range;
+ 	struct bio *bio = NULL;
+ 	sector_t nr_sects;
++	bool associated;
+ 	int i;
+ 	u16 status = NVME_SC_SUCCESS;
+ 
++	associated = nvmet_blkcg_begin(ns);
+ 	for (i = 0; i <= le32_to_cpu(req->cmd->dsm.nr); i++) {
+ 		status = nvmet_copy_from_sgl(req, i * sizeof(range), &range,
+ 				sizeof(range));
+@@ -394,6 +405,7 @@ static void nvmet_bdev_execute_discard(struct nvmet_req *req)
+ 				nvmet_lba_to_sect(ns, range.slba), nr_sects,
+ 				GFP_KERNEL, &bio);
+ 	}
++	nvmet_blkcg_end(associated);
+ 
+ 	if (bio) {
+ 		bio->bi_private = req;
+@@ -431,6 +443,7 @@ static void nvmet_bdev_execute_write_zeroes(struct nvmet_req *req)
+ 	struct bio *bio = NULL;
+ 	sector_t sector;
+ 	sector_t nr_sector;
++	bool associated;
+ 	int ret;
+ 
+ 	if (!nvmet_check_transfer_len(req, 0))
+@@ -440,8 +453,11 @@ static void nvmet_bdev_execute_write_zeroes(struct nvmet_req *req)
+ 	nr_sector = (((sector_t)le16_to_cpu(write_zeroes->length) + 1) <<
+ 		(req->ns->blksize_shift - 9));
+ 
++	associated = nvmet_blkcg_begin(req->ns);
+ 	ret = __blkdev_issue_zeroout(req->ns->bdev, sector, nr_sector,
+ 			GFP_KERNEL, &bio, 0);
++	nvmet_blkcg_end(associated);
++
+ 	if (bio) {
+ 		bio->bi_private = req;
+ 		bio->bi_end_io = nvmet_bio_done;
+diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
+index 0b22d183f927..570e65259ad8 100644
+--- a/drivers/nvme/target/io-cmd-file.c
++++ b/drivers/nvme/target/io-cmd-file.c
+@@ -79,6 +79,8 @@ static ssize_t nvmet_file_submit_bvec(struct nvmet_req *req, loff_t pos,
+ 	struct kiocb *iocb = &req->f.iocb;
+ 	ssize_t (*call_iter)(struct kiocb *iocb, struct iov_iter *iter);
+ 	struct iov_iter iter;
++	bool associated;
++	ssize_t ret;
+ 	int rw;
+ 
+ 	if (req->cmd->rw.opcode == nvme_cmd_write) {
+@@ -97,7 +99,10 @@ static ssize_t nvmet_file_submit_bvec(struct nvmet_req *req, loff_t pos,
+ 	iocb->ki_filp = req->ns->file;
+ 	iocb->ki_flags = ki_flags | iocb->ki_filp->f_iocb_flags;
+ 
+-	return call_iter(iocb, &iter);
++	associated = nvmet_blkcg_begin(req->ns);
++	ret = call_iter(iocb, &iter);
++	nvmet_blkcg_end(associated);
++	return ret;
+ }
+ 
+ static void nvmet_file_io_done(struct kiocb *iocb, long ret)
+@@ -251,7 +256,13 @@ static void nvmet_file_execute_rw(struct nvmet_req *req)
+ 
+ u16 nvmet_file_flush(struct nvmet_req *req)
+ {
+-	return errno_to_nvme_status(req, vfs_fsync(req->ns->file, 1));
++	bool associated;
++	int ret;
++
++	associated = nvmet_blkcg_begin(req->ns);
++	ret = vfs_fsync(req->ns->file, 1);
++	nvmet_blkcg_end(associated);
++	return errno_to_nvme_status(req, ret);
+ }
+ 
+ static void nvmet_file_flush_work(struct work_struct *w)
+@@ -274,10 +285,12 @@ static void nvmet_file_execute_discard(struct nvmet_req *req)
+ 	int mode = FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE;
+ 	struct nvme_dsm_range range;
+ 	loff_t offset, len;
++	bool associated;
+ 	u16 status = 0;
+ 	int ret;
+ 	int i;
+ 
++	associated = nvmet_blkcg_begin(req->ns);
+ 	for (i = 0; i <= le32_to_cpu(req->cmd->dsm.nr); i++) {
+ 		status = nvmet_copy_from_sgl(req, i * sizeof(range), &range,
+ 					sizeof(range));
+@@ -300,6 +313,7 @@ static void nvmet_file_execute_discard(struct nvmet_req *req)
+ 			break;
+ 		}
+ 	}
++	nvmet_blkcg_end(associated);
+ 
+ 	nvmet_req_complete(req, status);
+ }
+@@ -336,6 +350,7 @@ static void nvmet_file_write_zeroes_work(struct work_struct *w)
+ 	int mode = FALLOC_FL_ZERO_RANGE | FALLOC_FL_KEEP_SIZE;
+ 	loff_t offset;
+ 	loff_t len;
++	bool associated;
+ 	int ret;
+ 
+ 	offset = le64_to_cpu(write_zeroes->slba) << req->ns->blksize_shift;
+@@ -347,7 +362,9 @@ static void nvmet_file_write_zeroes_work(struct work_struct *w)
+ 		return;
+ 	}
+ 
++	associated = nvmet_blkcg_begin(req->ns);
+ 	ret = vfs_fallocate(req->ns->file, mode, offset, len);
++	nvmet_blkcg_end(associated);
+ 	nvmet_req_complete(req, ret < 0 ? errno_to_nvme_status(req, ret) : 0);
+ }
+ 
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index dbda55895f4f..d5dfca18f5fa 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -21,6 +21,8 @@
+ #include <linux/radix-tree.h>
+ #include <linux/t10-pi.h>
+ #include <linux/kfifo.h>
++#include <linux/kthread.h>
++#include <linux/cgroup.h>
+ 
+ #define NVMET_DEFAULT_VS		NVME_VS(2, 1, 0)
+ 
+@@ -115,6 +117,16 @@ struct nvmet_ns {
+ 	struct nvmet_subsys	*subsys;
+ 	const char		*device_path;
+ 
++#ifdef CONFIG_BLK_CGROUP
++	u64			cgroup_id;
++	/*
++	 * Resolved from ->cgroup_id when the namespace is enabled and
++	 * released when it is disabled, so it has the same lifetime and
++	 * visibility rules as ->bdev and ->file.
++	 */
++	struct cgroup		*cgrp;
++#endif
++
+ 	struct config_group	device_group;
+ 	struct config_group	group;
+ 
+@@ -732,6 +744,52 @@ void nvmet_bdev_execute_zone_mgmt_recv(struct nvmet_req *req);
+ void nvmet_bdev_execute_zone_mgmt_send(struct nvmet_req *req);
+ void nvmet_bdev_execute_zone_append(struct nvmet_req *req);
+ 
++#ifdef CONFIG_BLK_CGROUP
++static inline void nvmet_blkcg_set_bio(struct nvmet_ns *ns, struct bio *bio)
++{
++	struct cgroup_subsys_state *css;
++
++	if (!ns->cgrp)
++		return;
++
++	css = cgroup_get_e_css(ns->cgrp, &io_cgrp_subsys);
++	bio_associate_blkg_from_css(bio, css);
++	css_put(css);
++}
++
++static inline bool nvmet_blkcg_begin(struct nvmet_ns *ns)
++{
++	struct cgroup_subsys_state *css;
++
++	if (!ns->cgrp || !in_task() || !(current->flags & PF_KTHREAD))
++		return false;
++
++	css = cgroup_get_e_css(ns->cgrp, &io_cgrp_subsys);
++	kthread_associate_blkcg(css);
++	css_put(css);
++	return true;
++}
++
++static inline void nvmet_blkcg_end(bool associated)
++{
++	if (associated)
++		kthread_associate_blkcg(NULL);
++}
++#else
++static inline void nvmet_blkcg_set_bio(struct nvmet_ns *ns, struct bio *bio)
++{
++}
++
++static inline bool nvmet_blkcg_begin(struct nvmet_ns *ns)
++{
++	return false;
++}
++
++static inline void nvmet_blkcg_end(bool associated)
++{
++}
++#endif /* CONFIG_BLK_CGROUP */
++
+ static inline u32 nvmet_rw_data_len(struct nvmet_req *req)
+ {
+ 	return ((u32)le16_to_cpu(req->cmd->rw.length) + 1) <<
+diff --git a/drivers/nvme/target/zns.c b/drivers/nvme/target/zns.c
+index 23a17c02abee..a9836d44f5e6 100644
+--- a/drivers/nvme/target/zns.c
++++ b/drivers/nvme/target/zns.c
+@@ -480,8 +480,11 @@ static void nvmet_bdev_zmgmt_send_work(struct work_struct *w)
+ 	struct block_device *bdev = req->ns->bdev;
+ 	sector_t zone_sectors = bdev_zone_sectors(bdev);
+ 	u16 status = NVME_SC_SUCCESS;
++	bool associated;
+ 	int ret;
+ 
++	associated = nvmet_blkcg_begin(req->ns);
++
+ 	if (op == REQ_OP_LAST) {
+ 		req->error_loc = offsetof(struct nvme_zone_mgmt_send_cmd, zsa);
+ 		status = NVME_SC_ZONE_INVALID_TRANSITION | NVME_STATUS_DNR;
+@@ -511,6 +514,7 @@ static void nvmet_bdev_zmgmt_send_work(struct work_struct *w)
+ 		status = blkdev_zone_mgmt_errno_to_nvme_status(ret);
+ 
+ out:
++	nvmet_blkcg_end(associated);
+ 	nvmet_req_complete(req, status);
+ }
+ 
+@@ -580,6 +584,7 @@ void nvmet_bdev_execute_zone_append(struct nvmet_req *req)
+ 		bio = bio_alloc(req->ns->bdev, req->sg_cnt, opf, GFP_KERNEL);
+ 	}
+ 
++	nvmet_blkcg_set_bio(req->ns, bio);
+ 	bio->bi_end_io = nvmet_bdev_zone_append_bio_done;
+ 	bio->bi_iter.bi_sector = sect;
+ 	bio->bi_private = req;
 -- 
 2.53.0
 
