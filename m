@@ -4,73 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 04086CA5FAD
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2026 23:24:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4D883CA5FB1
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2026 23:24:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wmkdOPAfN3ztZ7PxlqvaeeQ4HbSDCKua7ym3C/IbZLY=; b=jCIdRFxtvOk2uMcekuJEah4V6K
-	EzyO980qbfBXpi3A06To4MuivsAyiYWomSEQekzqTcWFWfhnvm50RtIHxq1GktOMoc/ukXKJ3Xx7P
-	RpGsoU7UVMewelh9fIquApbefTy2D5lDHGfOfdg6qBo9SD81ptnGckN4fHttoa0fjNk/Fk+M2rcft
-	UBdng3HVJLBPf21OBJvOVO9nNjbSZuDAkqyzKOYbAET8AzSRFrUmsm4dnGNfkWo629PaY5eYTiuNa
-	1t8XCZ+69oaN16+ob8RPe1KmbR/sJ9j2kBocRNxncKNxHWv+L6f+I9mJspZ3iRXRAYyXLlr56G3Y8
-	yrmB0NwQ==;
+	bh=LqO5rqFvyRue6UM+wZoeSHLBr6tsHYDgvKbTW7jcYak=; b=1dL60FCsKH4F2x6H2DjOT2rb1Y
+	6Fbact28y531YgwF9gfZp5kOMask208KbPlj5YGDQo8uXnLwG2Uw65Nyl7fbmy5NvQl8nt51z9LPh
+	cktwtqIcNzut2096ipfEX3Ycr2GYeRRMfyug5ebE/ptDJgz7GVaXH2m043gmajl+L4ISFcMuK6BIx
+	CGGMtnXeg+7sTpWMLCy2M8was0XpLDPLPHiGX8M3rwfJn58yUSIls/LdfwzikXmBqH2RCk99FkmLO
+	jJy/wdSsbCT8vfJmJJQaebmDMuLXXeG+Uc7p7rhn0jd6y0bRtkRSmarGkXPmpBWZ1qePxtvgwxKLK
+	okHig+vg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBhBQ-00000004kjh-3SIj;
-	Tue, 29 Sep 2026 23:24:24 +0000
-Received: from mail-pj2-x0f.google.com ([2607:f8b0:4864:39::f])
+	id 1xBhBS-00000004kkO-0zWN;
+	Tue, 29 Sep 2026 23:24:26 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBhBN-00000004kif-1Eku
+	id 1xBhBQ-00000004kjS-1TlS
+	for linux-nvme@bombadil.infradead.org;
+	Tue, 29 Sep 2026 23:24:24 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
+	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-Type:Content-ID:Content-Description;
+	bh=LqO5rqFvyRue6UM+wZoeSHLBr6tsHYDgvKbTW7jcYak=; b=MhrM2dQOCyaCjM491f02rNiBxy
+	BE/KtHNNzGGsaYiQZg8DZD9XKYKFn05yuWKrOjYFa28m6iIAAeqK2zt2Sjq6RkJ+D+E7T+RobqSSw
+	xdUtNY9DWmOMKuVL7vbxD1J1aQMqgB7QWXlry3gW2T96pgcD1EdIXKcmskKurzg3+MWCIOZlElEux
+	SjYRGFrtHBRKK0aPtmesI66uzPUHu6jCMO6Cs4MkW6GQiq6mO84O6STs3kg5oj+CxaCsBQP+g9kmw
+	ivgUNS5hgMXbHeaJRZveuB5N5nHdvXyGb3mxtEWqavJ6Pb6uTVXvJqaG7dFElvDDiPoICyny3Ov0k
+	4s9+3ADA==;
+Received: from mail-pz2-x29.google.com ([2607:f8b0:4864:3b::29])
+	by desiato.infradead.org with esmtps (Exim 4.99.2 #2 (Red Hat Linux))
+	id 1xBhBN-00000003Ab6-0f4Q
 	for linux-nvme@lists.infradead.org;
-	Tue, 29 Sep 2026 23:24:22 +0000
-Received: by mail-pj2-x0f.google.com with SMTP id 98e67ed59e1d1-3a49573b8bdso1175407a91.2
-        for <linux-nvme@lists.infradead.org>; Tue, 29 Sep 2026 16:24:21 -0700 (PDT)
+	Tue, 29 Sep 2026 23:24:23 +0000
+Received: by mail-pz2-x29.google.com with SMTP id 41be03b00d2f7-cc7cadbe09dso430577a12.2
+        for <linux-nvme@lists.infradead.org>; Tue, 29 Sep 2026 16:24:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790724260; x=1791329060; darn=lists.infradead.org;
+        d=gmail.com; s=20251104; t=1790724258; x=1791329058; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=wmkdOPAfN3ztZ7PxlqvaeeQ4HbSDCKua7ym3C/IbZLY=;
-        b=QyGygbtUR1c1oKrYCUMbBt5yB/h67Q5S7p0eru2S+XAI0Yn5HVI2Dv83alcFb3Y0lW
-         KxItcl+eLxw3tybvKP9ZWCbVKnbucQ93sRbz8Mqp30bGofLvKLxlYZEIzZFMacz2FYru
-         xcs5IWlgLoIZgj1qSHXxjpoxh2+KjdQS06eLZbWM/gu/v8lfekpp2XxF1y6yLdvq1IX/
-         VgOGHWkkhqB4DQqkj459a+WOGr/DONhRk3RyiPdBVioi04KVzKzhlH6/9S0R/jryqpH7
-         pfHVInkxDFtocYA54XA6wlp2qj9Ow+kflxMJELxPktyVgjZwpdh4JECdaMKuf6GY5j3c
-         d1YA==
+        bh=LqO5rqFvyRue6UM+wZoeSHLBr6tsHYDgvKbTW7jcYak=;
+        b=jzdcGq9RUxPhJk+GzqbS2Mdul0suq166mJzAxulbutx9C7TWwPWn9RVT675EBHyb18
+         7goKh5fgFuFzBq0BBPqA4RAXVh/1imbRJLcb0iGU5kwgY+LAq+r7bLLf4S9DXTCC4oCS
+         fIGJzB+Jehqh2qmVNnfvsAy2Do0Zgjs2A+Dlr51q66YDUQ794R9VKKEpSVmn9k0qjY8S
+         2JxBqwwQ+4T7Sbdsr04vkI6LdNF+TlVxIbGjYOMf0aIiQH9lF27D2tZRCwwsAWKgg4F3
+         nRM00sKuEEbEqltK7xamWXikWv2rfplhtTgdWOzG/dxO0CUOwRPgkrv0SVAaK+EieG+/
+         KijQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790724260; x=1791329060;
+        d=1e100.net; s=20260707; t=1790724258; x=1791329058;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=wmkdOPAfN3ztZ7PxlqvaeeQ4HbSDCKua7ym3C/IbZLY=;
-        b=d/0A5724ZOLwu3Vpq7dViDegTSi9kMG5iM7MF9tM0FXXRCqmZ705beD38wQYZCcmex
-         xaJvGRO9HWjrdH5uCbtGpJMVlHRIggnSL+PlIxfs8GvIBcQeuobu42C8qICvkfK4y1mL
-         sYaWi5fs/XZVGnZQMwsbMMJ+Uu3Bz2OyyeU8ui3Ys4mET8F3PYW/c7R33Gj1xowLCwBm
-         ho8u2gs6g/UzfVfBgW7qdEKJlGmUutQtBrbYnLiIZ/GWC6XXZDDdtN+OWd6jyK9w/4zn
-         To5nQXUrGv//2oB/9pMZaHs3MAtU9MBUYoKBEe9kxK+shYk+bVmZhjluI2YKtojLzQMY
-         u7qA==
-X-Forwarded-Encrypted: i=1; AKwUvBzQ3HlAjvqWvMEVR4GbWz3P2lQTwY8HF1RM7R5pGTGvWMeTE6rgz9qx/sNnXCjOmh+ygLLFaI2WPmFd@lists.infradead.org
-X-Gm-Message-State: AFq9FYKYfae9gELbI1tWA19XuKsQJXiU+40OEfRqiJKET/gGG7OC+GK4
-	GxzNgcXjSJ7QtctAsNhuXdcT9dox/nK4PTPKqwh7ZScmgTlU8vP2SyYP
-X-Gm-Gg: AYBFou22UknfpuCHKXEfz7iqmqYV+F+p3OH5jaQcQwmpDxVA5dN+pSqLc/wlnDaeEfn
-	H5zLMhJgtEm8xcWfTRlKs/fRWnYexN2TT+J+rEOKf0lDEAvlf8IkUO36gAhElpQuwbDxoeY6YkR
-	JkP9wzo3rFvHdTRrApeKqP5tLdzEonxDl+tVaizMoUrlqQtEYebmafS7/0B+9SbWGkYxplj+o8o
-	MPICGrW1Ue7QQr2b3coZaAKXRC/lXzsNsAGuFon5ssE69X9vElw2OEgP8oq66ECqz5Ad1Z0oIkf
-	XSBd/c7L93NBFg9D6HITOBGdjTumnvpKOJuyymGd50WWeA2icWNSU5PcSz99ZjGX+ouqLNm/K1s
-	mMNpQl7mBe8J71ttiv3lR4aPgLUqRd+9r1XdDVBx228+huJTr1ygrkQOAS9YOQvKWClSpO89ESc
-	oBQVlktagmO+dLVXFjZcTqqvTxzRtk3LHBXByW+TUpTv0a7mFkjqB6H1qmtkpR41/iDHQkL6ms3
-	SCfRQU1hwcq9bP7ecq9afqM/JPyAbEvHqLHVxe6f27fAUwLNt+p/NBa5OxYkDkv/wAADFF/pCDb
-	Lfo=
-X-Received: by 2002:a17:90b:538b:b0:3a0:345a:3646 with SMTP id 98e67ed59e1d1-3a4bfe98dcamr677153a91.45.1790724260338;
-        Tue, 29 Sep 2026 16:24:20 -0700 (PDT)
+        bh=LqO5rqFvyRue6UM+wZoeSHLBr6tsHYDgvKbTW7jcYak=;
+        b=g05dFtTzDULfZzgWe2Mnz6QkskAICopnWkAYhRUkc6FmmqaT/jE0KmcZ13lrf38og1
+         CRUXidRrRk9NLEeP0GQDYnGmjOkGxZX4Jd97i8VDZImjpalGtnMJWr8VQwmMGI8Y4zVu
+         reLo1+vRVroOiUq8osT0XX5g82hsc4ZzrqukC6e+4E6GFDfdgqO/HrS9N6B0Qjn6OlD2
+         WlZObh1srFGJ2Wde12b3I2tJp9Yk8RFiVCUkfNSYzpWL2v00O3m81xVEttMLHCYRrQ3l
+         aN4qIbNNHxMzNKA6rTlg7VKif2X2iBsx0agjMeSK2C+plsO8jpzUhcvYSnmOCQz5P41p
+         o0lQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwAdE1UR1hxsiDImko5aN/j2WGnyLnQaBzmRSuAuIKTm4WYmknjXGzO3lRiHiGO0zz4X6AK1lf1eDQW@lists.infradead.org
+X-Gm-Message-State: AFq9FYIlvV9hDzzRng60fG4Mv6xPjRPCgDnN+BA6oVmCNJ9ECPAw6j60
+	55x4K3aSd4T68eGOqkTlMSO54snN005dNKSzQtDNeprkpGHIgz4wb8VH
+X-Gm-Gg: AYBFou06/esI5zUEekJLYQMp2yaV90c91ASRSV/G9xeRa/jh26kf7Jd8jyJfQ+4jSj0
+	wwWOqrn5WCco4mh6BvPSUg60Dqg/E+M9FX9t/VdK8/HsSNoaUIBpbcjtZ3uo/8o5sgUbH5p1bPD
+	B5fmHYW8vigayVBnEEO/myZV3kfcdePl1k0FC+0w0oWGRoCKOQ00WAbDb0gjtXZF4SCCdAlKo+k
+	bKjU3tCM8bhkpoeomhAKIflNWTYR0A4HfTyGRtNbRmdBYjpL11U6+AzovZsjh4S2Q2llU8yZ2Qu
+	W6s+b9dYBGD885XeyoE9gQuBsm/qKYTvpS72DO0tkvtz7DwS/oUYpkWUsiz/mGOrA/cwJ+4AqYM
+	QlyhAQqBlnCA+ZOzBS4tTmvQhqz54VvTpYopQajYgsNemNtNmikwvaFutqvvHFXVK0VSug0wqX6
+	vp8O4LHXr0mQTidBQfVl5ubT09zyEQQNSC46TcKZE/QUBgLQlHuUA+zHAAL6gZVyiskmXYG0vLz
+	Ln47WP473MjEDPOyQnyZaGmfPmucQLY+ZtXC3V+fq75qAQDSpnTdv3b4hDeb3XfQnQzWiw4wlhH
+	aGE=
+X-Received: by 2002:a17:90a:d448:b0:3a2:b036:ed62 with SMTP id 98e67ed59e1d1-3a4bff0ef48mr451780a91.37.1790724258206;
+        Tue, 29 Sep 2026 16:24:18 -0700 (PDT)
 Received: from yupeng-XPS-15-9520.. (c-73-169-192-12.hsd1.wa.comcast.net. [73.169.192.12])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a4ca78102csm138700a91.4.2026.09.29.16.24.19
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a4ca78102csm138700a91.4.2026.09.29.16.24.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2026 16:24:19 -0700 (PDT)
+        Tue, 29 Sep 2026 16:24:17 -0700 (PDT)
 From: Peng Yu <yupeng0921@gmail.com>
 To: Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>,
@@ -86,17 +101,17 @@ Cc: Tejun Heo <tj@kernel.org>,
 	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Peng Yu <yupeng0921@gmail.com>
-Subject: [PATCH v7 2/2] nvmet: add cgroup_id to charge namespace I/O to a cgroup
-Date: Tue, 29 Sep 2026 16:24:11 -0700
-Message-ID: <20260929232411.101087-3-yupeng0921@gmail.com>
+Subject: [PATCH v7 1/2] cgroup: track the effective css in each cgroup
+Date: Tue, 29 Sep 2026 16:24:10 -0700
+Message-ID: <20260929232411.101087-2-yupeng0921@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260929232411.101087-1-yupeng0921@gmail.com>
 References: <20260929232411.101087-1-yupeng0921@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260929_162421_471094_D0DEE060 
-X-CRM114-Status: GOOD (  27.72  )
+X-CRM114-CacheID: sfid-20260930_002421_457589_96C40FF3 
+X-CRM114-Status: GOOD (  23.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,468 +126,171 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Implementation:
-* Add a `cgroup_id` attribute under the nvmet namespace folder, e.g.:
-  /sys/kernel/config/nvmet/subsystems/nqn.2026-09.io.test01:bdev/namespaces/1/cgroup_id
-* We can write a cgroup id to it, then that cgroup will control
-  the IOs used by the namespace.
-* Write 0 to clear it.
-* The cgroup_id could be modified when the namespace is disabled.
-* Support both block device backed namespaces and file backed namespaces.
-* Only the direct io scenario is supported, enabling a namespace that
-  has both cgroup_id and buffered_io set fails with -EINVAL.
+cgroup_e_css() and cgroup_get_e_css() find the effective css by walking
+up the hierarchy until they reach a cgroup that has the subsystem
+enabled. Per-I/O users such as nvmet need this lookup to be O(1).
 
-Change since v2:
-* Fix the in ns->cgroup_path error free issue nvmet_ns_cgroup_path_store.
-* Use nvmet_blkcg_begin/end in nvmet_bdev_zmgmt_send_work.
-
-Change since v3:
-* Use cgroup_id instead of cgroup_path.
-
-Change since v6:
-* Use cgroup_get_e_css() and css_put() in nvmet_blkcg_set_bio() instead
-  of cgroup_e_css() under rcu_read_lock(), so queue_lock isn't nested
-  under RCU when a blkg is created.
-* Drop the patch that exported cgroup_e_css().
+Track the effective css in each cgroup and make cgroup_e_css() and
+cgroup_get_e_css() use it. When a css is brought online or offline,
+update the effective css of its cgroup and of all descendants.
 
 Signed-off-by: Peng Yu <yupeng0921@gmail.com>
 Assisted-by: Claude:claude-fable-5 [Claude Code]
 Assisted-by: Claude:claude-opus-5-5 [Claude Code]
 ---
- drivers/nvme/target/configfs.c    | 47 +++++++++++++++++++++++++
- drivers/nvme/target/core.c        | 54 ++++++++++++++++++++++++++++
- drivers/nvme/target/io-cmd-bdev.c | 18 +++++++++-
- drivers/nvme/target/io-cmd-file.c | 21 +++++++++--
- drivers/nvme/target/nvmet.h       | 58 +++++++++++++++++++++++++++++++
- drivers/nvme/target/zns.c         |  5 +++
- 6 files changed, 200 insertions(+), 3 deletions(-)
+ include/linux/cgroup-defs.h |  8 +++++
+ kernel/cgroup/cgroup.c      | 60 ++++++++++++++++++++++++-------------
+ 2 files changed, 47 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index 6286e38436dd..cef832303d72 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -561,6 +561,50 @@ static ssize_t nvmet_ns_device_path_store(struct config_item *item,
+diff --git a/include/linux/cgroup-defs.h b/include/linux/cgroup-defs.h
+index 3754d697854b..cbfe8937647c 100644
+--- a/include/linux/cgroup-defs.h
++++ b/include/linux/cgroup-defs.h
+@@ -555,6 +555,14 @@ struct cgroup {
+ 	/* Private pointers for each registered subsystem */
+ 	struct cgroup_subsys_state __rcu *subsys[CGROUP_SUBSYS_COUNT];
  
- CONFIGFS_ATTR(nvmet_ns_, device_path);
- 
-+#ifdef CONFIG_BLK_CGROUP
-+static ssize_t nvmet_ns_cgroup_id_show(struct config_item *item, char *page)
-+{
-+	struct nvmet_ns *ns = to_nvmet_ns(item);
-+	struct nvmet_subsys *subsys = ns->subsys;
-+	ssize_t ret;
-+
-+	mutex_lock(&subsys->lock);
-+	ret = snprintf(page, PAGE_SIZE, "%llu\n", ns->cgroup_id);
-+	mutex_unlock(&subsys->lock);
-+	return ret;
-+}
-+
-+static ssize_t nvmet_ns_cgroup_id_store(struct config_item *item,
-+		const char *page, size_t count)
-+{
-+	struct nvmet_ns *ns = to_nvmet_ns(item);
-+	struct nvmet_subsys *subsys = ns->subsys;
-+	u64 cgroup_id;
-+	int ret;
-+
-+	ret = kstrtou64(page, 0, &cgroup_id);
-+	if (ret)
-+		return ret;
-+
-+	mutex_lock(&subsys->lock);
-+
-+	if (ns->enabled) {
-+		ret = -EBUSY;
-+		goto out_unlock;
-+	}
-+
-+	/* Writing 0 clears the association. */
-+	ns->cgroup_id = cgroup_id;
-+	ret = count;
-+
-+out_unlock:
-+	mutex_unlock(&subsys->lock);
-+	return ret;
-+}
-+
-+CONFIGFS_ATTR(nvmet_ns_, cgroup_id);
-+#endif /* CONFIG_BLK_CGROUP */
-+
- #ifdef CONFIG_PCI_P2PDMA
- static ssize_t nvmet_ns_p2pmem_show(struct config_item *item, char *page)
- {
-@@ -833,6 +877,9 @@ static struct configfs_attribute *nvmet_ns_attrs[] = {
- 	&nvmet_ns_attr_buffered_io,
- 	&nvmet_ns_attr_revalidate_size,
- 	&nvmet_ns_attr_resv_enable,
-+#ifdef CONFIG_BLK_CGROUP
-+	&nvmet_ns_attr_cgroup_id,
-+#endif
- #ifdef CONFIG_PCI_P2PDMA
- 	&nvmet_ns_attr_p2pmem,
- #endif
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 43871a8f56ca..6d9d55eb11eb 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -4,6 +4,7 @@
-  * Copyright (c) 2015-2016 HGST, a Western Digital Company.
-  */
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-+#include <linux/cgroup.h>
- #include <linux/hex.h>
- #include <linux/module.h>
- #include <linux/random.h>
-@@ -474,8 +475,57 @@ void nvmet_put_namespace(struct nvmet_ns *ns)
- 	percpu_ref_put(&ns->ref);
- }
- 
-+#ifdef CONFIG_BLK_CGROUP
-+static int nvmet_blkcg_ns_enable(struct nvmet_ns *ns)
-+{
-+	struct cgroup *cgrp;
-+
-+	if (!ns->cgroup_id)
-+		return 0;
-+
 +	/*
-+	 * Buffered writes will be handled by a separate thread,
-+	 * these IOs have no namespace/cgroup information at that time,
-+	 * so we don't support buffered io.
++	 * Effective css for each subsystem: the css of the nearest ancestor,
++	 * including this cgroup, that has the subsystem enabled, or the root
++	 * css if the subsystem isn't bound to this hierarchy. Updated under
++	 * cgroup_mutex and read under RCU.
 +	 */
-+	if (ns->buffered_io) {
-+		pr_err("cgroup_id is not supported with buffered_io: %s\n",
-+		       ns->device_path);
-+		return -EINVAL;
-+	}
++	struct cgroup_subsys_state __rcu *e_css[CGROUP_SUBSYS_COUNT];
 +
-+	cgrp = cgroup_get_from_id(ns->cgroup_id);
-+	if (IS_ERR(cgrp)) {
-+		pr_err("failed to resolve cgroup id %llu: %ld\n",
-+		       ns->cgroup_id, PTR_ERR(cgrp));
-+		return PTR_ERR(cgrp);
-+	}
-+
-+	ns->cgrp = cgrp;
-+	return 0;
-+}
-+
-+static void nvmet_blkcg_ns_disable(struct nvmet_ns *ns)
-+{
-+	if (ns->cgrp) {
-+		cgroup_put(ns->cgrp);
-+		ns->cgrp = NULL;
-+	}
-+}
-+#else
-+static inline int nvmet_blkcg_ns_enable(struct nvmet_ns *ns)
-+{
-+	return 0;
-+}
-+
-+static inline void nvmet_blkcg_ns_disable(struct nvmet_ns *ns)
-+{
-+}
-+#endif /* CONFIG_BLK_CGROUP */
-+
- static void nvmet_ns_dev_disable(struct nvmet_ns *ns)
+ 	/*
+ 	 * Keep track of total number of dying CSSes at and below this cgroup.
+ 	 * Protected by cgroup_mutex.
+diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
+index 2d532bf2c0c7..54b207d246bd 100644
+--- a/kernel/cgroup/cgroup.c
++++ b/kernel/cgroup/cgroup.c
+@@ -548,20 +548,11 @@ static struct cgroup_subsys_state *cgroup_e_css_by_mask(struct cgroup *cgrp,
+ struct cgroup_subsys_state *cgroup_e_css(struct cgroup *cgrp,
+ 					 struct cgroup_subsys *ss)
  {
-+	nvmet_blkcg_ns_disable(ns);
- 	nvmet_bdev_ns_disable(ns);
- 	nvmet_file_ns_disable(ns);
+-	struct cgroup_subsys_state *css;
+-
+ 	if (!CGROUP_HAS_SUBSYS_CONFIG)
+ 		return NULL;
+ 
+-	do {
+-		css = cgroup_css(cgrp, ss);
+-
+-		if (css)
+-			return css;
+-		cgrp = cgroup_parent(cgrp);
+-	} while (cgrp);
+-
+-	return init_css_set.subsys[ss->id];
++	return rcu_dereference_check(cgrp->e_css[ss->id],
++				     lockdep_is_held(&cgroup_mutex));
  }
-@@ -602,6 +652,10 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
- 	if (ret)
- 		goto out_unlock;
  
-+	ret = nvmet_blkcg_ns_enable(ns);
-+	if (ret)
-+		goto out_dev_disable;
-+
- 	ret = nvmet_p2pmem_ns_enable(ns);
- 	if (ret)
- 		goto out_dev_disable;
-diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-index f2d9e8901df4..0014e5ef2853 100644
---- a/drivers/nvme/target/io-cmd-bdev.c
-+++ b/drivers/nvme/target/io-cmd-bdev.c
-@@ -297,6 +297,7 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
- 		bio = bio_alloc(req->ns->bdev, bio_max_segs(sg_cnt), opf,
- 				GFP_KERNEL);
- 	}
-+	nvmet_blkcg_set_bio(req->ns, bio);
- 	bio->bi_iter.bi_sector = sector;
- 	bio->bi_private = req;
- 	bio->bi_end_io = nvmet_bio_done;
-@@ -322,6 +323,7 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
+ /**
+@@ -585,17 +576,10 @@ struct cgroup_subsys_state *cgroup_get_e_css(struct cgroup *cgrp,
  
- 			bio = bio_alloc(req->ns->bdev, bio_max_segs(sg_cnt),
- 					opf, GFP_KERNEL);
-+			nvmet_blkcg_set_bio(req->ns, bio);
- 			bio->bi_iter.bi_sector = sector;
+ 	rcu_read_lock();
  
- 			bio_chain(bio, prev);
-@@ -358,6 +360,7 @@ static void nvmet_bdev_execute_flush(struct nvmet_req *req)
+-	do {
+-		css = cgroup_css(cgrp, ss);
+-
+-		if (css && css_tryget_online(css))
+-			goto out_unlock;
+-		cgrp = cgroup_parent(cgrp);
+-	} while (cgrp);
++	css = cgroup_e_css(cgrp, ss);
++	while (!css_tryget_online(css))
++		css = cgroup_e_css(cgroup_parent(css->cgroup), ss);
  
- 	bio_init(bio, req->ns->bdev, req->inline_bvec,
- 		 ARRAY_SIZE(req->inline_bvec), REQ_OP_WRITE | REQ_PREFLUSH);
-+	nvmet_blkcg_set_bio(req->ns, bio);
- 	bio->bi_private = req;
- 	bio->bi_end_io = nvmet_bio_done;
- 
-@@ -366,10 +369,16 @@ static void nvmet_bdev_execute_flush(struct nvmet_req *req)
- 
- u16 nvmet_bdev_flush(struct nvmet_req *req)
+-	css = init_css_set.subsys[ss->id];
+-	css_get(css);
+-out_unlock:
+ 	rcu_read_unlock();
+ 	return css;
+ }
+@@ -2131,12 +2115,24 @@ void init_cgroup_root(struct cgroup_fs_context *ctx)
  {
-+	bool associated;
-+	int ret;
-+
- 	if (!bdev_write_cache(req->ns->bdev))
- 		return 0;
+ 	struct cgroup_root *root = ctx->root;
+ 	struct cgroup *cgrp = &root->cgrp;
++	struct cgroup_subsys *ss;
++	int ssid;
  
--	if (blkdev_issue_flush(req->ns->bdev))
-+	associated = nvmet_blkcg_begin(req->ns);
-+	ret = blkdev_issue_flush(req->ns->bdev);
-+	nvmet_blkcg_end(associated);
-+	if (ret)
- 		return NVME_SC_INTERNAL | NVME_STATUS_DNR;
- 	return 0;
- }
-@@ -380,9 +389,11 @@ static void nvmet_bdev_execute_discard(struct nvmet_req *req)
- 	struct nvme_dsm_range range;
- 	struct bio *bio = NULL;
- 	sector_t nr_sects;
-+	bool associated;
- 	int i;
- 	u16 status = NVME_SC_SUCCESS;
+ 	INIT_LIST_HEAD_RCU(&root->root_list);
+ 	atomic_set(&root->nr_cgrps, 1);
+ 	cgrp->root = root;
+ 	init_cgroup_housekeeping(cgrp);
  
-+	associated = nvmet_blkcg_begin(ns);
- 	for (i = 0; i <= le32_to_cpu(req->cmd->dsm.nr); i++) {
- 		status = nvmet_copy_from_sgl(req, i * sizeof(range), &range,
- 				sizeof(range));
-@@ -394,6 +405,7 @@ static void nvmet_bdev_execute_discard(struct nvmet_req *req)
- 				nvmet_lba_to_sect(ns, range.slba), nr_sects,
- 				GFP_KERNEL, &bio);
- 	}
-+	nvmet_blkcg_end(associated);
- 
- 	if (bio) {
- 		bio->bi_private = req;
-@@ -431,6 +443,7 @@ static void nvmet_bdev_execute_write_zeroes(struct nvmet_req *req)
- 	struct bio *bio = NULL;
- 	sector_t sector;
- 	sector_t nr_sector;
-+	bool associated;
- 	int ret;
- 
- 	if (!nvmet_check_transfer_len(req, 0))
-@@ -440,8 +453,11 @@ static void nvmet_bdev_execute_write_zeroes(struct nvmet_req *req)
- 	nr_sector = (((sector_t)le16_to_cpu(write_zeroes->length) + 1) <<
- 		(req->ns->blksize_shift - 9));
- 
-+	associated = nvmet_blkcg_begin(req->ns);
- 	ret = __blkdev_issue_zeroout(req->ns->bdev, sector, nr_sector,
- 			GFP_KERNEL, &bio, 0);
-+	nvmet_blkcg_end(associated);
-+
- 	if (bio) {
- 		bio->bi_private = req;
- 		bio->bi_end_io = nvmet_bio_done;
-diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
-index 0b22d183f927..570e65259ad8 100644
---- a/drivers/nvme/target/io-cmd-file.c
-+++ b/drivers/nvme/target/io-cmd-file.c
-@@ -79,6 +79,8 @@ static ssize_t nvmet_file_submit_bvec(struct nvmet_req *req, loff_t pos,
- 	struct kiocb *iocb = &req->f.iocb;
- 	ssize_t (*call_iter)(struct kiocb *iocb, struct iov_iter *iter);
- 	struct iov_iter iter;
-+	bool associated;
-+	ssize_t ret;
- 	int rw;
- 
- 	if (req->cmd->rw.opcode == nvme_cmd_write) {
-@@ -97,7 +99,10 @@ static ssize_t nvmet_file_submit_bvec(struct nvmet_req *req, loff_t pos,
- 	iocb->ki_filp = req->ns->file;
- 	iocb->ki_flags = ki_flags | iocb->ki_filp->f_iocb_flags;
- 
--	return call_iter(iocb, &iter);
-+	associated = nvmet_blkcg_begin(req->ns);
-+	ret = call_iter(iocb, &iter);
-+	nvmet_blkcg_end(associated);
-+	return ret;
- }
- 
- static void nvmet_file_io_done(struct kiocb *iocb, long ret)
-@@ -251,7 +256,13 @@ static void nvmet_file_execute_rw(struct nvmet_req *req)
- 
- u16 nvmet_file_flush(struct nvmet_req *req)
- {
--	return errno_to_nvme_status(req, vfs_fsync(req->ns->file, 1));
-+	bool associated;
-+	int ret;
-+
-+	associated = nvmet_blkcg_begin(req->ns);
-+	ret = vfs_fsync(req->ns->file, 1);
-+	nvmet_blkcg_end(associated);
-+	return errno_to_nvme_status(req, ret);
- }
- 
- static void nvmet_file_flush_work(struct work_struct *w)
-@@ -274,10 +285,12 @@ static void nvmet_file_execute_discard(struct nvmet_req *req)
- 	int mode = FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE;
- 	struct nvme_dsm_range range;
- 	loff_t offset, len;
-+	bool associated;
- 	u16 status = 0;
- 	int ret;
- 	int i;
- 
-+	associated = nvmet_blkcg_begin(req->ns);
- 	for (i = 0; i <= le32_to_cpu(req->cmd->dsm.nr); i++) {
- 		status = nvmet_copy_from_sgl(req, i * sizeof(range), &range,
- 					sizeof(range));
-@@ -300,6 +313,7 @@ static void nvmet_file_execute_discard(struct nvmet_req *req)
- 			break;
- 		}
- 	}
-+	nvmet_blkcg_end(associated);
- 
- 	nvmet_req_complete(req, status);
- }
-@@ -336,6 +350,7 @@ static void nvmet_file_write_zeroes_work(struct work_struct *w)
- 	int mode = FALLOC_FL_ZERO_RANGE | FALLOC_FL_KEEP_SIZE;
- 	loff_t offset;
- 	loff_t len;
-+	bool associated;
- 	int ret;
- 
- 	offset = le64_to_cpu(write_zeroes->slba) << req->ns->blksize_shift;
-@@ -347,7 +362,9 @@ static void nvmet_file_write_zeroes_work(struct work_struct *w)
- 		return;
- 	}
- 
-+	associated = nvmet_blkcg_begin(req->ns);
- 	ret = vfs_fallocate(req->ns->file, mode, offset, len);
-+	nvmet_blkcg_end(associated);
- 	nvmet_req_complete(req, ret < 0 ? errno_to_nvme_status(req, ret) : 0);
- }
- 
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index dbda55895f4f..d5dfca18f5fa 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -21,6 +21,8 @@
- #include <linux/radix-tree.h>
- #include <linux/t10-pi.h>
- #include <linux/kfifo.h>
-+#include <linux/kthread.h>
-+#include <linux/cgroup.h>
- 
- #define NVMET_DEFAULT_VS		NVME_VS(2, 1, 0)
- 
-@@ -115,6 +117,16 @@ struct nvmet_ns {
- 	struct nvmet_subsys	*subsys;
- 	const char		*device_path;
- 
-+#ifdef CONFIG_BLK_CGROUP
-+	u64			cgroup_id;
 +	/*
-+	 * Resolved from ->cgroup_id when the namespace is enabled and
-+	 * released when it is disabled, so it has the same lifetime and
-+	 * visibility rules as ->bdev and ->file.
++	 * A root cgroup's effective css is always the root css in
++	 * init_css_set.subsys[], whichever hierarchy the subsystem is bound
++	 * to, so rebind_subsystems() doesn't need to update e_css[]. For
++	 * cgrp_dfl_root this runs before the root csses exist, and
++	 * online_css() sets the entries when they come online.
 +	 */
-+	struct cgroup		*cgrp;
-+#endif
++	for_each_subsys(ss, ssid)
++		RCU_INIT_POINTER(cgrp->e_css[ssid], init_css_set.subsys[ssid]);
 +
- 	struct config_group	device_group;
- 	struct config_group	group;
- 
-@@ -732,6 +744,52 @@ void nvmet_bdev_execute_zone_mgmt_recv(struct nvmet_req *req);
- void nvmet_bdev_execute_zone_mgmt_send(struct nvmet_req *req);
- void nvmet_bdev_execute_zone_append(struct nvmet_req *req);
- 
-+#ifdef CONFIG_BLK_CGROUP
-+static inline void nvmet_blkcg_set_bio(struct nvmet_ns *ns, struct bio *bio)
-+{
-+	struct cgroup_subsys_state *css;
-+
-+	if (!ns->cgrp)
-+		return;
-+
-+	css = cgroup_get_e_css(ns->cgrp, &io_cgrp_subsys);
-+	bio_associate_blkg_from_css(bio, css);
-+	css_put(css);
-+}
-+
-+static inline bool nvmet_blkcg_begin(struct nvmet_ns *ns)
-+{
-+	struct cgroup_subsys_state *css;
-+
-+	if (!ns->cgrp || !in_task() || !(current->flags & PF_KTHREAD))
-+		return false;
-+
-+	css = cgroup_get_e_css(ns->cgrp, &io_cgrp_subsys);
-+	kthread_associate_blkcg(css);
-+	css_put(css);
-+	return true;
-+}
-+
-+static inline void nvmet_blkcg_end(bool associated)
-+{
-+	if (associated)
-+		kthread_associate_blkcg(NULL);
-+}
-+#else
-+static inline void nvmet_blkcg_set_bio(struct nvmet_ns *ns, struct bio *bio)
-+{
-+}
-+
-+static inline bool nvmet_blkcg_begin(struct nvmet_ns *ns)
-+{
-+	return false;
-+}
-+
-+static inline void nvmet_blkcg_end(bool associated)
-+{
-+}
-+#endif /* CONFIG_BLK_CGROUP */
-+
- static inline u32 nvmet_rw_data_len(struct nvmet_req *req)
- {
- 	return ((u32)le16_to_cpu(req->cmd->rw.length) + 1) <<
-diff --git a/drivers/nvme/target/zns.c b/drivers/nvme/target/zns.c
-index 23a17c02abee..a9836d44f5e6 100644
---- a/drivers/nvme/target/zns.c
-+++ b/drivers/nvme/target/zns.c
-@@ -480,8 +480,11 @@ static void nvmet_bdev_zmgmt_send_work(struct work_struct *w)
- 	struct block_device *bdev = req->ns->bdev;
- 	sector_t zone_sectors = bdev_zone_sectors(bdev);
- 	u16 status = NVME_SC_SUCCESS;
-+	bool associated;
- 	int ret;
- 
-+	associated = nvmet_blkcg_begin(req->ns);
-+
- 	if (op == REQ_OP_LAST) {
- 		req->error_loc = offsetof(struct nvme_zone_mgmt_send_cmd, zsa);
- 		status = NVME_SC_ZONE_INVALID_TRANSITION | NVME_STATUS_DNR;
-@@ -511,6 +514,7 @@ static void nvmet_bdev_zmgmt_send_work(struct work_struct *w)
- 		status = blkdev_zone_mgmt_errno_to_nvme_status(ret);
- 
- out:
-+	nvmet_blkcg_end(associated);
- 	nvmet_req_complete(req, status);
+ 	/* DYNMODS must be modified through cgroup_favor_dynmods() */
+ 	root->flags = ctx->flags & ~CGRP_ROOT_FAVOR_DYNMODS;
+ 	if (ctx->release_agent)
+@@ -5856,6 +5852,22 @@ static void init_and_link_css(struct cgroup_subsys_state *css,
+ 	BUG_ON(cgroup_css(cgrp, ss));
  }
  
-@@ -580,6 +584,7 @@ void nvmet_bdev_execute_zone_append(struct nvmet_req *req)
- 		bio = bio_alloc(req->ns->bdev, req->sg_cnt, opf, GFP_KERNEL);
- 	}
++static void cgroup_update_e_css(struct cgroup *cgrp, struct cgroup_subsys *ss)
++{
++	struct cgroup_subsys_state *d_css;
++
++	lockdep_assert_held(&cgroup_mutex);
++
++	css_for_each_descendant_pre(d_css, &cgrp->self) {
++		struct cgroup *dsct = d_css->cgroup;
++		struct cgroup_subsys_state *css = cgroup_css(dsct, ss);
++
++		if (!css)
++			css = cgroup_e_css(cgroup_parent(dsct), ss);
++		rcu_assign_pointer(dsct->e_css[ss->id], css);
++	}
++}
++
+ /* invoke ->css_online() on a new CSS and mark it online if successful */
+ static int online_css(struct cgroup_subsys_state *css)
+ {
+@@ -5869,6 +5881,7 @@ static int online_css(struct cgroup_subsys_state *css)
+ 	if (!ret) {
+ 		css->flags |= CSS_ONLINE;
+ 		rcu_assign_pointer(css->cgroup->subsys[ss->id], css);
++		cgroup_update_e_css(css->cgroup, ss);
  
-+	nvmet_blkcg_set_bio(req->ns, bio);
- 	bio->bi_end_io = nvmet_bdev_zone_append_bio_done;
- 	bio->bi_iter.bi_sector = sect;
- 	bio->bi_private = req;
+ 		atomic_inc(&css->online_cnt);
+ 		if (css->parent) {
+@@ -5895,6 +5908,7 @@ static void offline_css(struct cgroup_subsys_state *css)
+ 
+ 	css->flags &= ~CSS_ONLINE;
+ 	RCU_INIT_POINTER(css->cgroup->subsys[ss->id], NULL);
++	cgroup_update_e_css(css->cgroup, ss);
+ 
+ 	wake_up_all(&css->cgroup->offline_waitq);
+ }
+@@ -5966,6 +5980,7 @@ static struct cgroup *cgroup_create(struct cgroup *parent, const char *name,
+ {
+ 	struct cgroup_root *root = parent->root;
+ 	struct cgroup *cgrp, *tcgrp;
++	struct cgroup_subsys *ss;
+ 	struct kernfs_node *kn;
+ 	int i, level = parent->level + 1;
+ 	int ret;
+@@ -6010,6 +6025,9 @@ static struct cgroup *cgroup_create(struct cgroup *parent, const char *name,
+ 	for (tcgrp = cgrp; tcgrp; tcgrp = cgroup_parent(tcgrp))
+ 		cgrp->ancestors[tcgrp->level] = tcgrp;
+ 
++	for_each_subsys(ss, i)
++		RCU_INIT_POINTER(cgrp->e_css[i], cgroup_e_css(parent, ss));
++
+ 	/*
+ 	 * New cgroup inherits effective freeze counter, and
+ 	 * if the parent has to be frozen, the child has too.
 -- 
 2.53.0
 
