@@ -4,55 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B932CCA5FAC
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2026 11:18:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E220DCA5FAE
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2026 11:18:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:Date:Subject:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
+	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=Pbhw8nw20o2flj+Y2cQj3szIAJikId+xBxd1NvMGhrI=; b=KLhj92Rj2HK381
-	IbW0TJ37Q0QnxW/47p2hvzIBOK0Qk1WreocvhCIB8aZCDea7CIkvoPXstbOK5qA1jguPhh/hNsvG5
-	rbLChrgMjs5mTSofgII2DVMiGsF2v+Sj6+oa0tAcHjpNl8LHGrQAlQNvIgvteaOr3X6OWWgsAcAv1
-	2JS0keX8UNAFI8gGqS1DRZPYryHx/Iz3yxcEVyGcU9stiGQaIiUTprCX1DiLNaTgFRSew+1qFraOr
-	fwNmXBMMFq1ofLRjXeFqn+l/7C+UctV76+Uf8P0DxPtftG8VsM+FcBr1DW/vhy7k99qyCRiKJ2ED3
-	sHT1X+4M+wQBoVUJp1ww==;
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Z9FzaE2/vE57jFZUzt6CPVImLGkzEatjHZfpe8jCTLc=; b=4RT4JCVN8AN4qd/E+CWxvame/g
+	NkjI/QdImbwEtD76+xN3n1bg0KtALpoOqbiL8COIA83fLyxrphkV4FMA7g9n5m/mx60pjx5rd/j/y
+	BOV//CidOmDsR/4fAc0blD7pW+5MhrTeDVAmUWSh5BgjQhFxydHXxSaRfNacbe8FcbWf3sBEtbFyd
+	WUsil2laFkKmIUuidvvPuey45K4yW89vR5hpapRbNaLSlrbY19uestO9PnTf1WxO2EF74YACzYZ8I
+	Aaqr+1H4xR+TGenB4UH283ysbNPwRtJPTPcdZeJaGv+u23m0gwlaj7TpEnww6e8w6qvaBywPr+Uh0
+	IB2JK/yg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBVqn-00000003Nxz-1ANy;
-	Tue, 29 Sep 2026 11:18:21 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1xBVqq-00000003Nzc-25Cd;
+	Tue, 29 Sep 2026 11:18:24 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBVql-00000003Nxb-2B0J
+	id 1xBVqo-00000003NyL-2IWg
 	for linux-nvme@lists.infradead.org;
-	Tue, 29 Sep 2026 11:18:19 +0000
+	Tue, 29 Sep 2026 11:18:22 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id DDDEC418B5;
-	Tue, 29 Sep 2026 11:18:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B5691F000FF;
-	Tue, 29 Sep 2026 11:18:15 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id DC502435FB;
+	Tue, 29 Sep 2026 11:18:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6261E1F00893;
+	Tue, 29 Sep 2026 11:18:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790680698;
-	bh=Pbhw8nw20o2flj+Y2cQj3szIAJikId+xBxd1NvMGhrI=;
-	h=From:Subject:Date:To:Cc;
-	b=YvCMWXSF1SnAsEyMCEWiz829M0QEU1Ut5evrga6GSvJkJ1b5dT8pkiA19BtUy4WUX
-	 V2gX8zwltqGPrJItfrqmR9dr++6ujJ5KEu6eRG6vVcKlrOpS2vrtL7a3BzjF9EopZu
-	 Vpj/BGO/sBz0QmAB9x1MCbkZpKUJg1g/V5WAe1W/QQzrXRs8wHKWaHmusAlsY0aK3P
-	 slbDyM4W8rEQKcjau6OiQVsgcRO9tqvm89KQPq1PrQbH06jCx3BMuurJFVwjPERY4g
-	 jyCf0a3+nJTliEIBWPVtDmadlRxs952Us/jJ97ulHEBu/ijvN+uvPg+hzLiHz1qlhp
-	 fu1f7LIcilwNg==
+	s=k20260515; t=1790680701;
+	bh=Z9FzaE2/vE57jFZUzt6CPVImLGkzEatjHZfpe8jCTLc=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=A+hsNPpt+KqZi0h0f+QX6XZHJy14T+jHPd4fjRpAR/jNG9si/jWixW7UsJ6YboqAE
+	 9w48wmozmGMxWVkl2CmWLJsG0PUlql8X4Qhedg67XgQ5DT/YlgXTmtSD3/X8l8e+q8
+	 7OQ60RUFeDCFpVblYN2RzC0qcya/RWg01RgSHNF4DgouAwooYD59YkSJH0hd5/7Hay
+	 nW00roAOanws78CegCKSKGwCe7Z99mPdF0zOS28YxZzBDK5TLvaXPLKb4/PdhF1Ux3
+	 wchmCXVRMoRVY1kzYatxMycQWLJ022FIjAtH63JW2CMcGzCF6lPn6lvi9THk2fAKwq
+	 huWekYFumbHHg==
 From: Daniel Gomez <da.gomez@kernel.org>
-Subject: [PATCH RFC 0/2] Support for Multiple Atomicity Mode
-Date: Tue, 29 Sep 2026 13:17:10 +0200
-Message-Id: <20260929-nvme-mam-v1-0-48dcbe79cece@samsung.com>
+Date: Tue, 29 Sep 2026 13:17:11 +0200
+Subject: [PATCH RFC 1/2] block: add BLK_FEAT_ATOMIC_WRITE_MULTI
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDSyNL3byy3FTd3MRcXQNz4zSj1BRD46SUZCWg8oKi1LTMCrBR0UpBbs5
- KsRDB4tKkrNTkEpAhSrW1AFcUdfdxAAAA
-X-Change-ID: 20260929-nvme-mam-073f2ed13bdc
+Message-Id: <20260929-nvme-mam-v1-1-48dcbe79cece@samsung.com>
+References: <20260929-nvme-mam-v1-0-48dcbe79cece@samsung.com>
+In-Reply-To: <20260929-nvme-mam-v1-0-48dcbe79cece@samsung.com>
 To: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
  Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
 Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
@@ -60,11 +58,11 @@ Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
  Pankaj Raghav <pankaj.raghav@linux.dev>, Daniel Gomez <da.gomez@kernel.org>, 
  GOST <gost.dev@samsung.com>, Daniel Gomez <da.gomez@samsung.com>
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1790680695; l=4112;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1790680695; l=3935;
  i=da.gomez@samsung.com; s=20240621; h=from:subject:message-id;
- bh=/qFPOCj+XneXiY0E3QXx4zmOmJhK9ESpi5gBlUONhis=;
- b=8IkNSGLoaEpyQKFQLIc+g0wf3lMA0rLtC/6gtlKH7uUYVwaPSvWBVCQAxEvyCM0WwOsVkT/Rb
- AeLSKTcjdvsDNm4l3PjWBGyByp5aFtTsxmcohfbnXzyc1rVspk0oPRf
+ bh=yoyFUIrMHmQeQh2snWMLq7ZrNXZ8ZVDsypAM/FUTxIo=;
+ b=hSczr9HuueniJU4EilQSHKKeVFV5rfSohn1WkHOEiQ+Tg5VuHOtKzcL0coVxMSvsG+V0jcomf
+ qRFzS31Hk+2CPsoZmWi2HFO0yJZ3kbrZuLl467yoW2lCYArzDckVc40
 X-Developer-Key: i=da.gomez@samsung.com; a=ed25519;
  pk=BqYk31UHkmv0WZShES6pIZcdmPPGay5LbzifAdZ2Ia4=
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -81,97 +79,110 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-NVMe has 2 atomic modes: Single Atomicity Mode (SAM) and Multiple
-Atomicity Mode (MAM). In SAM mode, as per spec, commands that cross
-the atomic boundaries may or may not be guaranteed to be atomic. In MAM
-mode, commands that cross the atomic boundaries will be guaranteed to
-be atomic at the LBA subrange atomic boundaries, resulting in multiple
-atomic operations.
+From: Daniel Gomez <da.gomez@samsung.com>
 
-This series adds a new block layer feature BLK_FEAT_ATOMIC_WRITE_MULTI
-that gets enabled when an NVMe controller exposes MAM guarantees. In
-this case, and when the block IO requests are SAM compliant, allow the
-block layer to merge atomic command requests that are contiguous in the
-LBA ranges, leveraging block plug-merge infra, and effectively
-increasing the size of the command up to the maximum hardware
-capabilities. The merged command is not atomic as a whole, so it becomes
-a carrier of multiple atomic commands. This is possible because the
-RWF_ATOMIC that the user has requested is honored at the LBA subrange
-later at the controller side when the carrier command is split at the
-atomic boundaries.
+Add a feature flag that allows the block layer to merge atomic write
+commands into larger ones that are not atomic as a whole but are later
+divided by the device at the atomic write boundaries, with each subrange
+treated as atomic. NVMe calls this Multiple Atomicity Mode (MAM).
 
-MAM QEMU NVMe series [1] covers emulation functionality for testing.
+When the flag is set, stop limiting merged atomic writes at
+the atomic write boundary and cap them at max(max_sectors,
+atomic_write_max_sectors). Each individual atomic write still fits one
+boundary window and every window is written atomically by the device, so
+each merged write stays untorn.
 
-While I think this small feature is worth having (hence this RFC)
-for users sending atomic write commands that are contiguous, the
-question I'd also like to discuss really is how to also expose clear
-MAM semantics to userspace for users who can send larger commands,
-so they avoid syscall overhead [2] and splitting, and still get the
-atomic guarantees in the LBA subranges. RWF_ATOMIC currently exposes
-SAM semantics, but I think MAM may be confusing for users, as it's not
-simply a larger atomic write but an atomic carrier. Thoughts? What can
-work best to leverage MAM from userspace without conflicting with SAM?
+The feature flag can only be enabled when an atomic write boundary
+is set.
 
-Command line logs covering functionality with nvme-cli, fio and
-blktrace:
+No consumer yet, so no behavior changes.
 
-nvme id-ns -H /dev/nvme0n1
-NVME Identify Namespace 1:
-{..}
-nsfeat  : 0x76
-  [7:7] : 0     NPRG, NPRA and NORS are Not Supported
-  [6:6] : 0x1   Multiple Atomicity Mode applies to write operations
-  [5:4] : 0x3   NPWG, NPWA, NPDG, NPDGL, NPDA, and NOWS are Supported
-{..}
-
-Sequential atomic write workflows can benefit from the block layer
-plug-merge as the following fio atomic write workload:
-
-fio --name=atomic-merge --filename=/dev/nvme0n1 \
-  --rw=write --bs=16k --size=64k \
-  --ioengine=io_uring \
-  --iodepth=4 --iodepth_batch_submit=4 \
-  --atomic=1 --direct=1
-
-The output below from btrace confirms the merging results into one
-single command:
-
-btrace /dev/nvme0n1
-259,2    3        1     0.000000000  2725  Q  WS 0 + 32 [fio]
-259,2    3        2     0.000003450  2725  G  WS 0 + 32 [fio]
-259,2    3        3     0.000004250  2725  P   N [fio]
-259,2    3        4     0.000005440  2725  Q  WS 32 + 32 [fio]
-259,2    3        5     0.000006400  2725  M  WS 32 + 32 [fio]
-259,2    3        6     0.000007360  2725  Q  WS 64 + 32 [fio]
-259,2    3        7     0.000007490  2725  M  WS 64 + 32 [fio]
-259,2    3        8     0.000008340  2725  Q  WS 96 + 32 [fio]
-259,2    3        9     0.000008460  2725  M  WS 96 + 32 [fio]
-259,2    3       10     0.000009270  2725  U   N [fio] 1
-259,2    3       11     0.000013460  2725  D  WS 0 + 128 [fio]
-259,2    3       12     0.000239642     0  C  WS 0 + 128 [0]
-
-Link: https://lore.kernel.org/all/20260825-nvme-mam-v1-0-afc38ac713ef@samsung.com/ [1]
-Link: https://kernel-recipes.org/en/2026/postgres-on-vs-with-linux/ [2]
-
+Assisted-by: LLM
 Signed-off-by: Daniel Gomez <da.gomez@samsung.com>
 ---
-Daniel Gomez (2):
-      block: add BLK_FEAT_ATOMIC_WRITE_MULTI
-      nvme: enable multiple atomicity mode
+ block/blk-merge.c      | 9 ++++++++-
+ block/blk-settings.c   | 5 +++++
+ block/blk.h            | 6 +++++-
+ include/linux/blkdev.h | 3 +++
+ 4 files changed, 21 insertions(+), 2 deletions(-)
 
- block/blk-merge.c        |  9 ++++++++-
- block/blk-settings.c     |  5 +++++
- block/blk.h              |  6 +++++-
- drivers/nvme/host/core.c | 23 +++++++++++++++++++++++
- include/linux/blkdev.h   |  3 +++
- include/linux/nvme.h     |  1 +
- 6 files changed, 45 insertions(+), 2 deletions(-)
----
-base-commit: e680312dd3990197297b485e27b53c33d371c279
-change-id: 20260929-nvme-mam-073f2ed13bdc
+diff --git a/block/blk-merge.c b/block/blk-merge.c
+index 258a726071d12..e3c6aae2b3125 100644
+--- a/block/blk-merge.c
++++ b/block/blk-merge.c
+@@ -523,7 +523,14 @@ static inline unsigned int blk_rq_get_max_sectors(struct request *rq,
+ 	struct request_queue *q = rq->q;
+ 	struct queue_limits *lim = &q->limits;
+ 	unsigned int max_sectors, boundary_sectors;
+-	bool is_atomic = rq->cmd_flags & REQ_ATOMIC;
++	/*
++	 * The merged command is itself one atomic write and must not cross the
++	 * atomic write boundary. But in the BLK_FEAT_ATOMIC_WRITE_MULTI case,
++	 * the device writes each boundary window atomically, so its merged
++	 * commands are not atomic as a whole and may cross the boundary.
++	 */
++	bool is_atomic = (rq->cmd_flags & REQ_ATOMIC) &&
++			 !(lim->features & BLK_FEAT_ATOMIC_WRITE_MULTI);
+ 
+ 	if (blk_rq_is_passthrough(rq))
+ 		return q->limits.max_hw_sectors;
+diff --git a/block/blk-settings.c b/block/blk-settings.c
+index 1f5ee2453269f..f0488dedb0b80 100644
+--- a/block/blk-settings.c
++++ b/block/blk-settings.c
+@@ -309,6 +309,10 @@ static void blk_validate_atomic_write_limits(struct queue_limits *lim)
+ 
+ 	boundary_sectors = lim->atomic_write_hw_boundary >> SECTOR_SHIFT;
+ 
++	if (WARN_ON_ONCE((lim->features & BLK_FEAT_ATOMIC_WRITE_MULTI) &&
++			 !boundary_sectors))
++		lim->features &= ~BLK_FEAT_ATOMIC_WRITE_MULTI;
++
+ 	if (boundary_sectors) {
+ 		if (WARN_ON_ONCE(lim->atomic_write_hw_max >
+ 				 lim->atomic_write_hw_boundary))
+@@ -333,6 +337,7 @@ static void blk_validate_atomic_write_limits(struct queue_limits *lim)
+ 	return;
+ 
+ unsupported:
++	lim->features &= ~BLK_FEAT_ATOMIC_WRITE_MULTI;
+ 	lim->atomic_write_max_sectors = 0;
+ 	lim->atomic_write_boundary_sectors = 0;
+ 	lim->atomic_write_unit_min = 0;
+diff --git a/block/blk.h b/block/blk.h
+index 2cc03aa54c532..8d902f41d93c0 100644
+--- a/block/blk.h
++++ b/block/blk.h
+@@ -241,8 +241,12 @@ static inline unsigned int blk_queue_get_max_sectors(struct request *rq)
+ 	if (unlikely(op == REQ_OP_WRITE_ZEROES))
+ 		return q->limits.max_write_zeroes_sectors;
+ 
+-	if (rq->cmd_flags & REQ_ATOMIC)
++	if (rq->cmd_flags & REQ_ATOMIC) {
++		if (q->limits.features & BLK_FEAT_ATOMIC_WRITE_MULTI)
++			return max(q->limits.max_sectors,
++				   q->limits.atomic_write_max_sectors);
+ 		return q->limits.atomic_write_max_sectors;
++	}
+ 
+ 	return q->limits.max_sectors;
+ }
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index d003a9d2d1f6c..92efd4ff67f26 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -360,6 +360,9 @@ typedef unsigned int __bitwise blk_features_t;
+ #define BLK_FEAT_RAID_PARTIAL_STRIPES_EXPENSIVE \
+ 	((__force blk_features_t)(1u << 15))
+ 
++/* device writes each atomic write boundary window of a command atomically */
++#define BLK_FEAT_ATOMIC_WRITE_MULTI	((__force blk_features_t)(1u << 16))
++
+ /*
+  * Flags automatically inherited when stacking limits.
+  */
 
-Best regards,
---  
-Daniel Gomez <da.gomez@samsung.com>
+-- 
+2.55.0
 
 
