@@ -4,94 +4,114 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 199F3CA5FAB
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1200ECA5FBE
 	for <linux-nvme@archiver.kernel.org>; Wed, 30 Sep 2026 06:04:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:Cc:From:References:To:Subject:MIME-Version:Date:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/CYIGon90Dpyxdyj2gt7ks36c8ww0+aJ1J2OviNXcD4=; b=pRrru0uqd3B8o0OaNGFNXdV9ob
-	IWzrQ0hoxZ+xLrwhNek47c+6aXYBZrI08vFwVHOp8a7q6u/iqkWaFbSnBPdCMsnuexZP1uxXYNcBc
-	9USFqiyaGKD1JMVJ/WcDxos50Qy6whEvobtNVFrvcTfquLYnKq4oQ7eJ5ztOHLHkHkM+CkcPHtMdx
-	8n6ck9+Ym3ukbFQdMnE33b5wnCRCuukxsLXTNwGdSthX8f8nZZzsyZg+ZrTLHUQJRVwFf08T7G/DN
-	e1iVcH7ULw7HxhW0bTg0exEMALslgN4pf2kPPcSLBJBwMwROjG6qzbvIDeEpWYgpwdqSMI3m0nzgV
-	VYyjUcXg==;
+	bh=+tOBR8m32zYZZOoraKtqO3ebIcizY6A4dWIJE00zfvo=; b=OzzBhfudZNauHZKb3W9tcK3hSb
+	FXSiI74H+9Zs71/8DYCOtZ7RpSo0lbgyJ3R64wAGnnxf7eZhQB9aMry0ubsVslIznU4KUVAJPRmH4
+	uVwUBHr5T/WWTLieAtMO/V75T27op0GsPzV6nmQf8mM+eu/oIT9sCAmG9rA3bx4hoLVhFt4OFKqaa
+	PhcYrUG9g9sq4Oy76/JN2BaGVPCA9nhBbecu1EDU2e2+43pCNJOo8jFs2KoFAS7XvVfut8H9yE5BJ
+	YGSHBzxMRomC4x/875GWBGw9cl/9BMpSK9Kj+P7K41huhd3C4z1X3w1HuD7DIY5vSNS4I+m/E91IY
+	XCiL7cVg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBnQq-000000055rw-2XvY;
-	Wed, 30 Sep 2026 06:04:44 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1xBnQp-000000055rd-3QvS;
+	Wed, 30 Sep 2026 06:04:43 +0000
+Received: from mail-ed2-x0f.google.com ([2a00:1450:4864:33::f])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBfrr-00000004f12-1YNi
-	for linux-nvme@bombadil.infradead.org;
-	Tue, 29 Sep 2026 22:00:07 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:Cc:From:References:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=/CYIGon90Dpyxdyj2gt7ks36c8ww0+aJ1J2OviNXcD4=; b=rZzU0duYyx0pNRmxJmOSxbXaPq
-	lMa9DpErPOPHklV25ARfu8IWjm8x0GyJ6iDjJ8nr/tqeK+u6O35kWH4hJXW+anwAKm+8WWNGtyRrA
-	l8oSSPJ5V8eEbdVG8GRHE465+vzGVfBv9n8NzUXQJnREncWHb6/+2QNSy6kkgqpV3l29BNhdo2EFt
-	aicCS8MGX/29lJf0QD+GXlXRbTHR0VobMmvLtnNEyyTv5Qgw+majht4pF+uvvbS2A5Y3xqypnQD7C
-	C479c1MxrjWnagR72jh9blToZtFxXYmWX1qE4BgcK6fg/LcWYUCiWZtFZQmBGvBuZhSKJb3XO5YCO
-	0iT7upIg==;
-Received: from smtp-68.smtpout.orange.fr ([80.12.242.68] helo=smtp.smtpout.orange.fr)
-	by desiato.infradead.org with esmtps (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1xBfrn-000000037tG-2LpM
+	id 1xBY0B-00000003gd4-3iTX
 	for linux-nvme@lists.infradead.org;
-	Tue, 29 Sep 2026 22:00:05 +0000
-Received: from [IPV6:2a01:cb10:785:b00:26fb:aefb:6cd2:db0e] ([10.65.86.61])
-	by smtp.orange.fr with ESMTP
-	id BaRaxbqiWDYEzBaRaxk9aB; Tue, 29 Sep 2026 18:12:38 +0200
-Received: from [IPV6:2a01:cb10:785:b00:26fb:aefb:6cd2:db0e]
- ([IPv6:2a01:cb10:785:b00:26fb:aefb:6cd2:db0e])
-	by smtp.orange.fr with ESMTPSA
-	id BaRRx1oDtLJYiBaRSxYYGg; Tue, 29 Sep 2026 18:12:38 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1790698358;
-	bh=/CYIGon90Dpyxdyj2gt7ks36c8ww0+aJ1J2OviNXcD4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=eORPkq/KW8MQ+EAJSBy1x5irQF+H5qrTe5xccMDxElj9P2uXgSBHPxUwVpHTVCll6
-	 5SVS/MDDhsDAZGN4AAL0A+pqjb3JpY0oiJi4RmA5a2LsMfvbHjAfYgoydzIlArDdd3
-	 1gNGXNA6SYakaOVh4qsBVXhu7PPIDqHRVc+uJ/UQNcK+k5bW0OlHVkqB8NEKLzVQbj
-	 WrWFK64mS0JYUGD9+lH3bZ6lo+erqhiqIDJbsj/gkK48oHXui/eMVQUzABmKt1pdft
-	 A2BL3SeatpaJfbpiuXOHSGDlcAsarPXrMFwp14ziu6eev4OWwWLbbyK8angPUWfxcq
-	 OziQJNEFIbFpw==
-X-ME-Helo: [IPV6:2a01:cb10:785:b00:26fb:aefb:6cd2:db0e]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Tue, 29 Sep 2026 18:12:38 +0200
-X-ME-IP: 2a01:cb10:785:b00:26fb:aefb:6cd2:db0e
-Message-ID: <2620af49-ddd9-4df6-848a-d7c93e8a1c03@wanadoo.fr>
-Date: Tue, 29 Sep 2026 18:12:29 +0200
+	Tue, 29 Sep 2026 13:36:13 +0000
+Received: by mail-ed2-x0f.google.com with SMTP id 4fb4d7f45d1cf-6aa1d00daaaso7426892a12.1
+        for <linux-nvme@lists.infradead.org>; Tue, 29 Sep 2026 06:36:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linbit-com.20251104.gappssmtp.com; s=20251104; t=1790688969; x=1791293769; darn=lists.infradead.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+tOBR8m32zYZZOoraKtqO3ebIcizY6A4dWIJE00zfvo=;
+        b=KmqR9FB1qmiEsbNaKmpbh+dS524ilwd4o7TUNGzVU+A9CaY2rsw7l05/TetLQ+pB2V
+         AdU+QaEK4OXhXM2ktVEXLXNO8nzX0XaeSzvXE4evuB/7wz8HGDaqWf6KXKR5H2ZLUEiU
+         7Mts36rYteexg6oCq3nzMKgWLzlsq8/x9aVwUpmt03WhOkf7lx8Jwflh9Gi8z9q966RB
+         sAskqeOaMhsFScz1jywh3SE3AD1j7Bwh/2TKfRPK2PEyrigQQhgElzw0rBlEkumrm/D7
+         fNxPEHSrcPysFXFa9xMlaJR5veGGrcFrJQQsgCKHT3grzcODRGXNNCE/LWkwJUWhNFrk
+         xRDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790688969; x=1791293769;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=+tOBR8m32zYZZOoraKtqO3ebIcizY6A4dWIJE00zfvo=;
+        b=Kbefr1gwpKpX3B8r2axY1yiUlSUeMQjvoUPl80A6jWxEIC3rxKmZbEW3BEsinCOLGS
+         eq6b9q2BSOdJOSzo3bIn6vdhHWl171PDDPXIcRYC/bi3egxplX9iCEpYc3Owa5gdxN/n
+         8ov8j08nstIOMx+zO9qjRmCQXNdslj6OjUdxeYOay03qN2pF9XGHct5nsMHXyGS15keQ
+         K49r2vfcLK0uKfxomq9Qc7p4BWAWAafQbnZirJOmzW6Ly9mmxKzGLrbVTWACLVZ61yon
+         +8ke+lV6O+I0zd58m2QM2onbth3KwOm3HTme+CcQVVCKxEKVMStC3URnYSeHcfY4OTPR
+         1X/A==
+X-Forwarded-Encrypted: i=1; AKwUvBxyEwKmwSoOgxFJczb+pgM7GyXra3PLIpivOXWZZ00vk9DpwUng4HoCv5B3vLGeYkQX8Q+5iXL/mjIi@lists.infradead.org
+X-Gm-Message-State: AFuF++lUuL97bAnPz2XoOh9dF/3jj5zvqAW/q2QKGQ5mmmlWU44myxOg
+	J4b+Dhfx6AyWPBNMajS9oz76GAYOUTy6aBj4Ml1zRiN7TAMvli8KpOG8lx6xy9EINgU=
+X-Gm-Gg: AYBFou1y+uA6JUdtF+jhAIgU98j066G+OulU0JDRh/LzH6nKJGUSZQf4eZxV8uLGiKA
+	H0rUNGKm81zeTNWMWV3X5KkT1ZRLzaxZwRxVyclGndZb0yWgkoqws/o20eVbCe+P/YWt41CfcuF
+	fb2cGKlygB40vKggwhZiCbss0RvPhl01Jmpl8j4ku1a0nA0fEtXFM0rqbXdwL+NvxANdd+gZuhx
+	fxYE6HaKcHjA9mGnX+pHy4aQ1JBVO0oPzXQiqmoV+v1tWnNNNDMMLALtHak2hW0qe2RbpYUneUv
+	00722jeWoJXzRB5uSnT+TtFG9haXE8w3qIYBQhjQccwNWseYxEVEOW5tiz9qgeTxKPiwHVWoOiO
+	7ZjIoMQvDN7lcpkk0HbrDozZ3rCYjnoLq8TQzRJsuMT+0Y/WKebirRO8GG4nbnJ9LBvXMqhSkKj
+	U3mBh+g8IJK107shEadtgNmSnEe7Z/GQJXae+yU7yWB2THfmpTFWAr9P5HfpelyIOwaigE537/p
+	GgE3dlJsaX6oP2sx/WfsWOhtxczdOJwWkTCOHSLL+Yo8VfbkabfBvREJTWlvT3CjK72Q72HZA==
+X-Received: by 2002:a17:906:6a14:b0:c2d:ca78:ea83 with SMTP id a640c23a62f3a-c2dca78ed66mr642618166b.38.1790688968778;
+        Tue, 29 Sep 2026 06:36:08 -0700 (PDT)
+Received: from [192.168.40.198] (093111099180.atmpu0044.highway.a1.net. [93.111.99.180])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2df76fad17sm107201466b.60.2026.09.29.06.36.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Sep 2026 06:36:08 -0700 (PDT)
+Message-ID: <3c683f06-4214-4e0c-b568-a2458fba0cd3@linbit.com>
+Date: Tue, 29 Sep 2026 15:36:02 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 01/13] dma-buf: introduce initial file I/O
- infrastructure
-To: Pavel Begunkov <asml.silence@gmail.com>
-References: <cover.1790602223.git.asml.silence@gmail.com>
- <c33046bbadce5a2f14aa1874270ec2d10def58ef.1790602223.git.asml.silence@gmail.com>
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Content-Language: en-US, fr-FR
-Cc: agk@redhat.com, akpm@linux-foundation.org, anuj20.g@samsung.com,
- axboe@kernel.dk, bmarzins@redhat.com, brauner@kernel.org,
- christian.koenig@amd.com, dm-devel@lists.linux.dev,
- dri-devel@lists.freedesktop.org, hch@lst.de, io-uring@vger.kernel.org,
- jack@suse.cz, joshi.k@samsung.com, kbusch@kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-block@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-nvme@lists.infradead.org,
- matthew.brost@intel.com, mpatocka@redhat.com, nj.shetty@samsung.com,
- phil.cayton@intel.com, sagi@grimberg.me, snitzer@kernel.org,
- sumit.semwal@linaro.org, tushar.gohad@intel.com, viro@zeniv.linux.org.uk,
- william.power@intel.com
-In-Reply-To: <c33046bbadce5a2f14aa1874270ec2d10def58ef.1790602223.git.asml.silence@gmail.com>
+Subject: Re: [PATCH v3 net-next 6/9] drbd: use sk_set_nospace()
+To: Eric Dumazet <edumazet@kernel.org>, "David S . Miller"
+ <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>
+Cc: Simon Horman <horms@kernel.org>, Neal Cardwell <ncardwell@google.com>,
+ Kuniyuki Iwashima <kuniyu@google.com>, edumazet@google.com,
+ netdev@vger.kernel.org, Alexander Aring <aahringo@redhat.com>,
+ David Teigland <teigland@redhat.com>, gfs2@lists.linux.dev,
+ John Fastabend <john.fastabend@gmail.com>,
+ Jakub Sitnicki <jakub@cloudflare.com>, Sabrina Dubroca <sd@queasysnail.net>,
+ Jiayuan Chen <jiayuan.chen@linux.dev>, Matthieu Baerts <matttbe@kernel.org>,
+ Mat Martineau <martineau@kernel.org>, Geliang Tang <geliang@kernel.org>,
+ mptcp@lists.linux.dev, Wen Gu <guwen@linux.alibaba.com>,
+ Dust Li <dust.li@linux.alibaba.com>, "D. Wythe" <alibuda@linux.alibaba.com>,
+ Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>,
+ NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>,
+ Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
+ Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>,
+ linux-nfs@vger.kernel.org, Allison Henderson <achender@kernel.org>,
+ rds-devel@oss.oracle.com, Philipp Reisner <philipp.reisner@linbit.com>,
+ Lars Ellenberg <lars.ellenberg@linbit.com>, Jens Axboe <axboe@kernel.dk>,
+ drbd-dev@lists.linux.dev, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org,
+ Ilya Dryomov <idryomov@gmail.com>, Alex Markuze <amarkuze@redhat.com>,
+ Viacheslav Dubeyko <slava@dubeyko.com>, ceph-devel@vger.kernel.org
+References: <20260929071743.23624-1-edumazet@kernel.org>
+ <20260929071743.23624-7-edumazet@kernel.org>
+Content-Language: en-US
+From: =?UTF-8?Q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>
+In-Reply-To: <20260929071743.23624-7-edumazet@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260929_230003_770404_4DED2664 
-X-CRM114-Status: GOOD (  26.48  )
+X-CRM114-CacheID: sfid-20260929_063611_945016_4504CA99 
+X-CRM114-Status: GOOD (  11.03  )
 X-Mailman-Approved-At: Tue, 29 Sep 2026 23:04:42 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -107,114 +127,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Le 28/09/2026 à 15:32, Pavel Begunkov a écrit :
-> The goal is to be able to natively use dma-buf in the read-write / IO
-> path. This patch adds basic building blocks serving as a glue and API
-> between drivers and upper layer subsystems providing the uAPI. Later
-> patches implement it for NVMe raw block devices and expose it to the
-> user space via io_uring.
+On 9/29/26 09:17, Eric Dumazet wrote:
+> Use the new helpers instead of open coding the SOCK_NOSPACE
+> manipulation, so that TCP can later maintain a cheaper private
+> copy of this bit.
 > 
-> There are two main objects. struct dma_buf_io_ctx and struct
-> dma_buf_io_map. The ctx is used during initial registration and serves
-> as an interface between the upper layer user like io_uring and to the
-> importer subsystem / driver. The map represents the actual dma map
-> established for the target device[s] with dma_buf_map_attachment() and
-> stored in a device specific format. The context is created via a new
-> file operation ->init_dma_buf_io_ctx.
+> No functional change intended.
 > 
-> The ctx-map separation exists to support map invalidation (see
-> dma_buf_io_invalidate_mappings()). A ctx can create
-> multiple maps during its lifetime, but there can only be no more than
-> one (active) map attached to it. Invalidation drops the active map
-> if present, and the next map will only be attempted to be created
-> once there is a new request that wants to use the dma-buf IO ctx.
-> 
-> The primary task of the dma_buf_io_map object is to count requests
-> using it and to wait for their completion when we want to destroy the
-> DMA map.
-> 
-> [un]mapping and any work with dma addresses is delegated to the
-> importer driver via an ops table stored in the ctx, see struct
-> dma_buf_io_ops. Only the target driver / subsystem knows about devices
-> it wants to use the dma-buf with, especially in case of multi-device
-> filesystems or stacking in the future.
-> 
-> Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
+> Reviewed-by: Kuniyuki Iwashima <kuniyu@google.com>
+> Signed-off-by: Eric Dumazet <edumazet@kernel.org>
 > ---
-
-Hi,
-a few nitpicks below, should it help
-
-
-> +static void dma_buf_io_kill_maps(struct dma_buf_io_ctx *ctx, bool final)
-> +{
-> +	struct dma_buf_io_map *map;
-> +
-> +	scoped_guard(mutex, &ctx->map_mutex) {
-
-guard() is enough. This saves indentation.
-
-> +		if (final)
-> +			ctx->maps_killed = true;
-> +
-> +		map = rcu_dereference_protected(ctx->map,
-> +					lockdep_is_held(&ctx->map_mutex));
-> +		if (!map)
-> +			return;
-> +		rcu_assign_pointer(ctx->map, NULL);
-> +		percpu_ref_kill(&map->refs);
-> +	}
-> +}
-
-...
-
-> +int dma_buf_io_ctx_create(struct file *file,
-> +			   struct dma_buf *dmabuf,
-> +			   enum dma_data_direction dir,
-> +			   struct dma_buf_io_ctx **out_ctx)
-> +{
-> +	struct dma_buf_io_ctx *ctx;
-> +	int ret;
-> +
-> +	if (!file->f_op->init_dma_buf_io_ctx)
-> +		return -EOPNOTSUPP;
-> +
-> +	ctx = kmalloc_obj(*ctx);
-
-kzalloc_obj() and save the memset() below
-
-> +	if (!ctx)
-> +		return -ENOMEM;
-> +
-> +	memset(ctx, 0, sizeof(*ctx));
-> +	ctx->dir = dir;
-> +	ctx->dmabuf = dmabuf;
-> +	get_dma_buf(dmabuf);
-> +	mutex_init(&ctx->map_mutex);
-> +	mutex_init(&ctx->map_create_mutex);
-> +	atomic_set(&ctx->active_maps, 0);
-> +	atomic_set(&ctx->all_maps, 0);
-> +	refcount_set(&ctx->refs, 1);
-> +	init_waitqueue_head(&ctx->maps_wq);
-> +
-> +	ret = file->f_op->init_dma_buf_io_ctx(file, ctx);
-> +	if (ret) {
-> +		kfree(ctx);
-> +		dma_buf_put(dmabuf);
-> +		return ret;
-> +	}
-> +
-> +	if (WARN_ON_ONCE(!ctx->dev_ops ||
-> +			 !ctx->dev_ops->map ||
-> +			 !ctx->dev_ops->unmap ||
-> +			 !ctx->dev_ops->release))
-> +		return -EINVAL;
-> +
-> +	*out_ctx = ctx;
-> +	return 0;
-> +}
-...
-
-CJ
-
+>   drivers/block/drbd/drbd_worker.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+Acked-by: Christoph Böhmwalder <christoph.boehmwalder@linbit.com>
 
