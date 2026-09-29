@@ -4,108 +4,118 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5065DCA5FAB
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Sep 2026 04:17:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B8B7BC9830E
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Sep 2026 06:04:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	Content-Type:Subject:References:In-Reply-To:Message-Id:Cc:To:From:Date:
 	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=BXHc2ocVl/GXq6eBcofJvFTp9Fkopv1F3F+Vt9UcgN8=; b=zzgwSAtOBQB9WPPHIChStvV5U7
-	xEHPo9Nhgs++DKMWQ5OE0vM/pygWt3ykHuLlnJn/YrPZ0lbRqEaX5szTbDzp79V4Rv4BkmHGq6v/y
-	X0Vh/sp/dLtSKsmAYlwknms3D8Yc0a8vgVQeMEYxgrCYF+8E2mpPghMYwpB0jBffPI/EztKWmuYtp
-	RF7wp95Eht5P1k3GrRWJytRCmZEoy6XDbxB1kyGAvafoLyB6Ou1gOWyrPj+UPNi9bmNMgZfMZRVOI
-	MiVe4vq/nwmZR6no2D3zZFbwYW5lhRMpN9RwuWutzmxwEsmS8RSEaYMBk4R10oJiWByPjzoQLR9yL
-	iXrvHrqg==;
+	bh=D/ibpmI5jg1a9kUxODZYU60ZnHvdobAWMypDGAeOo8U=; b=thr6+E6NaJF6x86hxBmVUBH7K+
+	MxzkYo89zFDZ6ku5p9gGr0z/XJaEDKW+9krp+zOju6hyUh3NkCfbbhYXMMr1eWlSHoQq0t0BWCPOL
+	3okr1y5QScWeMfhVSvQk09uwY3xN8IYRaTUKKJlqXrxiHK0RqzR/ih3igyb+SYD8XfORtwU2y+f/L
+	yKIIQYSdrEhN6gI+tLB2AwbfTaheeAE3jb98jk/84GySChBUVVHQABeHPxqJRJSN4GhBPx9I2mzNv
+	0xNjjkElezGab8XN8tpHBELsrHmRfLIHDDqjtagwIdVkLVFw0zYjWTSb53huSE9qcf0PVcQfo6B1+
+	s0Z6ehJw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBlkn-00000004zX2-1H3D;
-	Wed, 30 Sep 2026 04:17:13 +0000
-Received: from mail-ej2-x0f.google.com ([2a00:1450:4864:34::f])
+	id 1xBnQp-000000055rj-3qIX;
+	Wed, 30 Sep 2026 06:04:43 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBlkk-00000004zWg-3mae
+	id 1xBZev-00000003w7P-1f04
 	for linux-nvme@lists.infradead.org;
-	Wed, 30 Sep 2026 04:17:12 +0000
-Received: by mail-ej2-x0f.google.com with SMTP id a640c23a62f3a-c2a8b9acbc6so746616066b.0
-        for <linux-nvme@lists.infradead.org>; Tue, 29 Sep 2026 21:17:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790741829; cv=none;
-        d=google.com; s=arc-20260327;
-        b=pb/8o++7dAINfqlyn3nkHnhqHIgKpdzSlOHZQfWw8JHSFcR9OUNCx9vYlycejWWPB0
-         3arlBRDzYPFzhZdAHrGR6BJmtI+MDJewM0MF4VhBE+zVL9o06BFcDodMK/q2U+342ZoM
-         mqFsKR/WwsEUXZI1bD+/rMdb4yOycW5n7rx2UkTTfmIt81SRSAMIu/fz1XJROmtCfeLY
-         TZSKKQhG23o3Rk8MjkCh54AUsC/SvOA948YjpGCrG+jsJsB6n5yZc12+1zyGQxpPqLAa
-         Y9zMMnStINd6XlUng8VE8g2jb0ENqhgxTFX7xXqB3oPnFQC5ZxxmaKJnA87qPMaBhG0o
-         U/lg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=BXHc2ocVl/GXq6eBcofJvFTp9Fkopv1F3F+Vt9UcgN8=;
-        fh=mFl+mXvd5nPZSZBanH6xuDKVgFCyrf/Sioil1zHvdsk=;
-        b=q0jZCh35QyFs7oKRZNygyCHi1ibhpB4qLA2uupEwE5PGtJ5m2bxFcrI6V5RwwJBneK
-         voZzWTQu3l+WY5nWOy0G4epmhvMBtlhxUuam599RjUuLI/ckDuogH619B1+ljJgQrCC2
-         TWqOFBLFfR4q8eauvFIGxuUZSPYNVu3JsaYCfzprAtULQRCsbgbqx6FWVkfAWGUX+7JP
-         azqy3mb30JTSsQMYEZNpkgzE14I4ZjGnA13Mwy/cTDwijpXH5KoaArMxNGGQwtzwRFGf
-         uGsFKdBYi17gkFGSHgRER9eZhA6npYIekYQZtb25Hw+dQ1rbU9fwCIdGgFr36H0+GqH5
-         MjjA==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shopee.com; s=shopee.com; t=1790741829; x=1791346629; darn=lists.infradead.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=BXHc2ocVl/GXq6eBcofJvFTp9Fkopv1F3F+Vt9UcgN8=;
-        b=ijVb6KIt3OsRv+wLZ2XBx2H0hjxBi3ahoWSsjT38KonzsCWEQo766qMF2RCQwJkpE3
-         sAisxlmsxONpiwivmwM7ZiS7GdyVv6KxaRfo521EzBc0wnEyj9WOd4ukpEPw99G1o/Kq
-         jv+/BXJs6tLpRa5KukUKJGe2B3BRFw6vEC80bCU7fY8SB1nQWTE19F/e6H4fLRXhsT24
-         okaJe5MAyxjf3HSHdmzVCGuzmAMjRD+v2ZY7VpT487Wpt0bUIpDH2e6S2W80rIKhTaP1
-         hmCe3h2xEQUlbB1PdnYgRu+DTTo3DZDyg9ZplqUO8sOSim8G8CW9lBPBUw+AaTzaSrT6
-         zxZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790741829; x=1791346629;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=BXHc2ocVl/GXq6eBcofJvFTp9Fkopv1F3F+Vt9UcgN8=;
-        b=dmAiM4lHOPXQGidrUm+u+jvsDvMt2DksdrgQeNTa6wTqqV2DAaVSRnH+VoYrdJrxwD
-         1Yh64stM/Xk7smiV+4vE9wRUZeJC5ydKduypBV5SS348sXFKasVY3WmUjz7A8r2V3hhL
-         p5bNcMiTUzrLzjozbeQucMmn5pN72hhVcj489InBkd47SAV4Unmfhma0/knVeFJa+lqc
-         4uQBJSFanr+2h9OHKbnMGpJl+IeGw5Vn+MuHaQOdVknHmYu6wIib2jLO764PTzCa6rg9
-         ZRDuOo0ml1Ckj+OoZ+3mGqB/I6ajB39Wvh5HD36daarejuI7fhJ+oRoGJQHPnOKN2OI5
-         JhlQ==
-X-Forwarded-Encrypted: i=1; AKwUvBy+iZFLSDBnr5NRb/NfoEjTTy3A6/pRv9wMC6e/LaEdjK5Pxg6ehjqaxWlhNTFHOywNZCjShowqA8c2@lists.infradead.org
-X-Gm-Message-State: AFq9FYIFAFXJRHTGMUUYgGoWREJvdORYxsaL94IAGGDff7QzFIkwUbAt
-	1ZAmYsmv925pcXHTcGSPVi7uGPeeigfcBkDTWriEL5zDyqzH5cJ3f/uWTug8aEglYsTB3/L9o1C
-	WKDwegsVXRkdZQvtdnoT8A60XzxSfd4l4lcUwGSCQMQ==
-X-Gm-Gg: AYBFou2MxYZM1aeke0BmXY7A4ANDNTR6CDYINp0pjPZXW/bcWPe5+PJVWHowyWt7pl2
-	ZLyD0cgtgztf8420SqGAeXXnvxdMiZQz0mpI8zzCBTpYMJwGfoY3+LJdkLT23HKKg/NX0QVCIiM
-	XwKkv7qkFO9PcUD2FozH/nnpnHSS+r8ZwxcDf2Ssvim8FGU41pT28otP6DCAKS8cAQvPk2vCe0m
-	tkcQCIKWD1KRjFr9pY/EqfrJ2E8HypsvriQBL6V/ftxHdyv/IS/+WjgKBf+xPouvkvsKPuMuT5x
-	YSA+1wheQXpqonAtRvZq3VWFZhjMdm6XmX6DbK5f0uz6xO9Y0jfdPBCJ
-X-Received: by 2002:a17:907:7215:b0:c2e:c8c:e123 with SMTP id
- a640c23a62f3a-c2e23cac5d3mr5647366b.10.1790741828953; Tue, 29 Sep 2026
- 21:17:08 -0700 (PDT)
+	Tue, 29 Sep 2026 15:22:21 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id 9D7D543D99;
+	Tue, 29 Sep 2026 15:22:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30CDC1F00893;
+	Tue, 29 Sep 2026 15:22:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790695338;
+	bh=D/ibpmI5jg1a9kUxODZYU60ZnHvdobAWMypDGAeOo8U=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=anpnVCGKi06BDE9uCt53/px/V/Xclaq+d8LO4yKPPxUSJgf0wPpBbfQ0wAIHNm4vj
+	 8Vpn5/NxGqe11Gs10voadlisgh3IYeFXu3g+2SJ+7m3jil4LXAdac5/a4Xipc/L0uU
+	 uoM6DQpX+wkJM1Xtnp6/eELm3sKLoLKt7BKykQRKJe1I4BAVkcxtL+mbfq5coubEnd
+	 AY+5VfQvWQPP+hPh1TvjrAUVXIVRD2udsWqQvO1pm+PtRRNyRs2M8dIsyxgxYbw2fe
+	 VVLle+rliswZIrczTvPrFf+OJ3iwkeEU9REFJ1NId2+NyoFakGOZ6TSqsqwJWcI7hD
+	 VZ8XSrwjo6+2w==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 30CFCF40066;
+	Tue, 29 Sep 2026 11:22:16 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Tue, 29 Sep 2026 11:22:16 -0400
+X-ME-Sender: <xms:qNe7asNumxTZTAqOUMh5yjMfBOgOCMLTp1Im1fFQbesvZUO55nZ2oQ>
+    <xme:qNe7atwuBH0bTHFgDQgRZZI2gbAKYX8VhkuKJBPXxg_z5ueXA34isrO5kfjLkizmi
+    EFNvD4NKhvLofMkY7_rQhiAplvDhtlXfnLh2eIXdvSAvUoXwm8-jGE>
+X-ME-Proxy-Cause: dmFkZTGHwpvTWnenfdWwDpfZ0uSchfAvPs9YUs2fCTjyTe1/aaP/8o/CAtZEpuBnFlnr3l
+    qmTkjOPiHUmeNeOJhaD8lnKlk7EMaLK7X5jKQpwMypkRiS4dvAs3YrNT/c5V6Bk4Ga8MRb
+    xPq/javh4ijLGFfdkpos6GxlxyGT42Fwa0ltNIGopZ+Mq1Abfhj0eHx9Lz1wE2F5x+0msE
+    VuUjojmKduIXDgawsedlXFbIOAX2g6XJhtdhhvodBfsk+7R/r5zcjPGlwzTbqow/k0fhhB
+    KSkSmJEw1/zMzycRq5vhO53cykwQS/OPCRkkdIvcZDxPRXq49tm4EIS2v6w4wGkS37Tlih
+    UB9WCh5UmtBTKVoM5jZdVRPrR1i0Y/KGM6FHAXdqhHo3g4SwJzfP4kS1hl+kp6sqa3oe5B
+    09PI362u5aRRUNoro1OofwHkHSzL/FrFq/CJzhCpmp9MwcGwLzvwm0apSMBCms1xR1uIii
+    arKpKGXFmq7VC4eJ8+APDkopGyFyqzktnwewJR+EDrFxuv09iKewKqVtwVJeGBzDK6vRKq
+    muINJMxJgehj51nQY/hRISHFHFnxUA4qXxqSbYIxuozvMtbIXSmX4t9k0Hmo9w1FDElKMl
+    aRA8ntUnTlF314tfn5h0SudAXalF4N4JRAjlbU/knq2/TyidO7gi2AcylzGg
+X-ME-Proxy: <xmx:qNe7alTNQ8tP03wFnXG8YkXYzgfEyS3-F_ZZKA8_XLoQvUUQJAFCfg>
+    <xmx:qNe7ao_jrYdhgYHkVlRJV3PlHwP6Y0lqhmeeWnVQ7QeNozJaz2D9Iw>
+    <xmx:qNe7avd7MlJGAeGcMrOiqXfK2cDY7WCfVwKtuR1m2DAw7k5rWntO1A>
+    <xmx:qNe7atk68NlURP2riS5zADZafdyfWq3T06kwCJcHcbAilNf3Tw3wPA>
+    <xmx:qNe7aixKa69McjO_gKvG8A33X8ZmiyzjDY8l7fSWjGAQWfQLOOiD_yiI>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id E740A780070; Tue, 29 Sep 2026 11:22:15 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 MIME-Version: 1.0
-References: <20260930024233.96200-1-artem@trailofbits.com>
-In-Reply-To: <20260930024233.96200-1-artem@trailofbits.com>
-From: Xu Chunguang <chunguang.xu@shopee.com>
-Date: Wed, 30 Sep 2026 12:16:57 +0800
-X-Gm-Features: AclHuK9PXTY6APTmi-Sas-3gAiomOj0JKzSbbMMC4c-EJPtWckhIK29Ek9W5PlQ
-Message-ID: <CAAO4dAVKgZT5rkv1YQzgch5xcA=DH0EmHM=oOY6e-c-sArTprw@mail.gmail.com>
-Subject: Re: [PATCH 6.6.y] nvme-fabrics: use reserved tag for reg read/write command
-To: Artem Dinaburg <artem@trailofbits.com>
-Cc: stable@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Sasha Levin <sashal@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, 
-	Jens Axboe <axboe@kernel.dk>, linux-nvme@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260929_211710_992632_1F738B10 
-X-CRM114-Status: GOOD (  30.94  )
+X-ThreadId: AozynqqzZJs-
+Date: Tue, 29 Sep 2026 08:21:55 -0700
+From: "Chuck Lever" <cel@kernel.org>
+To: "Eric Dumazet" <edumazet@kernel.org>,
+ "David S . Miller" <davem@davemloft.net>, "Jakub Kicinski" <kuba@kernel.org>,
+ "Paolo Abeni" <pabeni@redhat.com>
+Cc: "Simon Horman" <horms@kernel.org>,
+ "Neal Cardwell" <ncardwell@google.com>,
+ "Kuniyuki Iwashima" <kuniyu@google.com>, edumazet@google.com,
+ netdev@vger.kernel.org, "Alexander Aring" <aahringo@redhat.com>,
+ "David Teigland" <teigland@redhat.com>, gfs2@lists.linux.dev,
+ "John Fastabend" <john.fastabend@gmail.com>,
+ "Jakub Sitnicki" <jakub@cloudflare.com>,
+ "Sabrina Dubroca" <sd@queasysnail.net>,
+ "Jiayuan Chen" <jiayuan.chen@linux.dev>,
+ "Matthieu Baerts" <matttbe@kernel.org>,
+ "Mat Martineau" <martineau@kernel.org>,
+ "Geliang Tang" <geliang@kernel.org>, mptcp@lists.linux.dev,
+ "Wen Gu" <guwen@linux.alibaba.com>,
+ "Dust Li" <dust.li@linux.alibaba.com>,
+ "D. Wythe" <alibuda@linux.alibaba.com>,
+ "Jeff Layton" <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
+ "Olga Kornievskaia" <okorniev@redhat.com>,
+ "Dai Ngo" <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>,
+ "Trond Myklebust" <trondmy@kernel.org>,
+ "Anna Schumaker" <anna@kernel.org>, linux-nfs@vger.kernel.org,
+ "Allison Henderson" <achender@kernel.org>, rds-devel@oss.oracle.com,
+ "Philipp Reisner" <philipp.reisner@linbit.com>,
+ "Lars Ellenberg" <lars.ellenberg@linbit.com>,
+ =?UTF-8?Q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
+ "Jens Axboe" <axboe@kernel.dk>, drbd-dev@lists.linux.dev,
+ "Keith Busch" <kbusch@kernel.org>, "Christoph Hellwig" <hch@lst.de>,
+ "Sagi Grimberg" <sagi@grimberg.me>,
+ "Chaitanya Kulkarni" <kch@nvidia.com>, linux-nvme@lists.infradead.org,
+ "Ilya Dryomov" <idryomov@gmail.com>,
+ "Alex Markuze" <amarkuze@redhat.com>,
+ "Viacheslav Dubeyko" <slava@dubeyko.com>, ceph-devel@vger.kernel.org
+Message-Id: <9a68f8a0-474c-44f4-97fa-bbf05b6de529@app.fastmail.com>
+In-Reply-To: <20260929071743.23624-4-edumazet@kernel.org>
+References: <20260929071743.23624-1-edumazet@kernel.org>
+ <20260929071743.23624-4-edumazet@kernel.org>
+Subject: Re: [PATCH v3 net-next 3/9] sunrpc: use sk_set_nospace() and
+ sk_clear_nospace()
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Tue, 29 Sep 2026 23:04:42 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -120,106 +130,77 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-OK, I will apply it for 6.6 later, Thanks
 
 
-On Wed, Sep 30, 2026 at 10:42=E2=80=AFAM Artem Dinaburg <artem@trailofbits.=
-com> wrote:
+On Tue, Sep 29, 2026, at 12:17 AM, Eric Dumazet wrote:
+> Use the new helpers instead of open coding the SOCK_NOSPACE
+> manipulation, so that TCP can later maintain a cheaper private
+> copy of this bit.
 >
-> From: Chunguang Xu <chunguang.xu@shopee.com>
+> No functional change intended.
 >
-> [ Upstream commit 7dc3bfcb4c9cc58970fff6aaa48172cb224d85aa ]
->
-> In some scenarios, if too many commands are issued by nvme command in
-> the same time by user tasks, this may exhaust all tags of admin_q. If
-> a reset (nvme reset or IO timeout) occurs before these commands finish,
-> reconnect routine may fail to update nvme regs due to insufficient tags,
-> which will cause kernel hang forever. In order to workaround this issue,
-> maybe we can let reg_read32()/reg_read64()/reg_write32() use reserved
-> tags. This maybe safe for nvmf:
->
-> 1. For the disable ctrl path,  we will not issue connect command
-> 2. For the enable ctrl / fw activate path, since connect and reg_xx()
->    are called serially.
->
-> So the reserved tags may still be enough while reg_xx() use reserved tags=
-.
->
-> [ Backport to 6.6.y: used the older BLK_MQ_REQ_RESERVED request flag. ]
->
-> Signed-off-by: Chunguang Xu <chunguang.xu@shopee.com>
-> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-> Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> Signed-off-by: Keith Busch <kbusch@kernel.org>
-> Assisted-by: LLM
-> Signed-off-by: Artem Dinaburg <artem@trailofbits.com>
+> Reviewed-by: Kuniyuki Iwashima <kuniyu@google.com>
+> Signed-off-by: Eric Dumazet <edumazet@kernel.org>
 > ---
-> Hi Greg, Sasha, and nvme maintainers,
+>  net/sunrpc/svcsock.c  | 4 ++--
+>  net/sunrpc/xprtsock.c | 4 ++--
+>  2 files changed, 4 insertions(+), 4 deletions(-)
 >
-> I am working through the small CVE backports still missing from 6.6.y.
-> This one addresses CVE-2024-41082. It reserves a request tag for
-> controller-register I/O during reconnect and reset.
->
-> The fix is already present in 6.12.y, 6.18.y, and 7.2.y, but not in 6.6.y=
-.
-> This fix also affects 6.1.y, which will need a separate backport; this
-> submission contains only the 6.6.y patch.
-> The target-specific adjustment is recorded in the bracketed note above.
->
-> Could you please queue it for 6.6.y?
->
-> CVE: CVE-2024-41082
-> Upstream: 7dc3bfcb4c9cc58970fff6aaa48172cb224d85aa
->
-> AI assistance: An LLM helped identify, adapt, and validate this backport;=
- I
-> reviewed the resulting code and validation evidence.
->
-> Thanks,
-> Artem Dinaburg
->
->  drivers/nvme/host/fabrics.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-> index fd01b86f10a4b0..8adcc8c97c42cf 100644
-> --- a/drivers/nvme/host/fabrics.c
-> +++ b/drivers/nvme/host/fabrics.c
-> @@ -179,7 +179,7 @@ int nvmf_reg_read32(struct nvme_ctrl *ctrl, u32 off, =
-u32 *val)
->         cmd.prop_get.offset =3D cpu_to_le32(off);
->
->         ret =3D __nvme_submit_sync_cmd(ctrl->fabrics_q, &cmd, &res, NULL,=
- 0,
-> -                       NVME_QID_ANY, 0, 0);
-> +                       NVME_QID_ANY, 0, BLK_MQ_REQ_RESERVED);
->
->         if (ret >=3D 0)
->                 *val =3D le64_to_cpu(res.u64);
-> @@ -225,7 +225,7 @@ int nvmf_reg_read64(struct nvme_ctrl *ctrl, u32 off, =
-u64 *val)
->         cmd.prop_get.offset =3D cpu_to_le32(off);
->
->         ret =3D __nvme_submit_sync_cmd(ctrl->fabrics_q, &cmd, &res, NULL,=
- 0,
-> -                       NVME_QID_ANY, 0, 0);
-> +                       NVME_QID_ANY, 0, BLK_MQ_REQ_RESERVED);
->
->         if (ret >=3D 0)
->                 *val =3D le64_to_cpu(res.u64);
-> @@ -270,7 +270,7 @@ int nvmf_reg_write32(struct nvme_ctrl *ctrl, u32 off,=
- u32 val)
->         cmd.prop_set.value =3D cpu_to_le64(val);
->
->         ret =3D __nvme_submit_sync_cmd(ctrl->fabrics_q, &cmd, NULL, NULL,=
- 0,
-> -                       NVME_QID_ANY, 0, 0);
-> +                       NVME_QID_ANY, 0, BLK_MQ_REQ_RESERVED);
->         if (unlikely(ret))
->                 dev_err(ctrl->device,
->                         "Property Set error: %d, offset %#x\n",
-> --
-> 2.39.5
->
+> diff --git a/net/sunrpc/svcsock.c b/net/sunrpc/svcsock.c
+> index 
+> 50e5e7f5b762de28c34d0f58cb0c6feb1e3ce79f..2d8cdee0798d540ba8eae589deaac5bd3ff889fa 
+> 100644
+> --- a/net/sunrpc/svcsock.c
+> +++ b/net/sunrpc/svcsock.c
+> @@ -792,11 +792,11 @@ static int svc_udp_has_wspace(struct svc_xprt 
+> *xprt)
+>  	 * Set the SOCK_NOSPACE flag before checking the available
+>  	 * sock space.
+>  	 */
+> -	set_bit(SOCK_NOSPACE, &svsk->sk_sock->flags);
+> +	sk_set_nospace(svsk->sk_sk);
+>  	required = atomic_read(&svsk->sk_xprt.xpt_reserved) + 
+> serv->sv_max_mesg;
+>  	if (required*2 > sock_wspace(svsk->sk_sk))
+>  		return 0;
+> -	clear_bit(SOCK_NOSPACE, &svsk->sk_sock->flags);
+> +	sk_clear_nospace(svsk->sk_sk);
+>  	return 1;
+>  }
+> 
+> diff --git a/net/sunrpc/xprtsock.c b/net/sunrpc/xprtsock.c
+> index 
+> 7f60723fa64d84887e260e5e130e44cdbec6f850..b97c70c12f627630509510facfd3c3cf96ab6cb6 
+> 100644
+> --- a/net/sunrpc/xprtsock.c
+> +++ b/net/sunrpc/xprtsock.c
+> @@ -858,7 +858,7 @@ static int xs_nospace(struct rpc_rqst *req, struct 
+> sock_xprt *transport)
+>  	if (xprt_connected(xprt)) {
+>  		/* wait for more buffer space */
+>  		set_bit(XPRT_SOCK_NOSPACE, &transport->sock_state);
+> -		set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
+> +		sk_set_nospace(sk);
+>  		sk->sk_write_pending++;
+>  		xprt_wait_for_buffer_space(xprt);
+>  	} else
+> @@ -1615,7 +1615,7 @@ static void xs_write_space(struct sock *sk)
+> 
+>  	if (!sk->sk_socket)
+>  		return;
+> -	clear_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
+> +	sk_clear_nospace(sk);
+> 
+>  	if (unlikely(!(xprt = xprt_from_sock(sk))))
+>  		return;
+> -- 
+> 2.56.0.rc1.315.gc6ed9934b7-goog
+
+For the svcsock.c hunks of this patch:
+
+Acked-by: Chuck Lever <cel@kernel.org>
+
+
+-- 
+Chuck Lever (Come to NFS bake-a-thon! https://nfsv4bat.org)
 
