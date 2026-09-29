@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0CC4ECA5FBF
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2026 08:23:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BFA61CA5FC4
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2026 08:23:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=IJFRpgGenZGFgmE716szjfJPy4R2IRxV7+FW89IFnek=; b=kT93daWbFUPTld2skdmocQ1259
-	UVXNO61pnqhIm3on6vwh41cGkH9BVWehPnzPcAXaGiDzh1GvTDOvSlhAXXkQN6x4soaj6VBho6NqC
-	UGmLL4zL6YdrOX+zHFvYSKo3gUDlPkpgaT1UJyPfbVVfd8ayOEolb6FuRh9Uvdg8LVmdWcUrElKL4
-	6i/ur49MQbW08yV0p8nBV57FgbMIeYkr5rBx4hTQcP49UI5g0cPWO4V+bsAhTtz6op/YwKavnrgr7
-	pw6uELyMYF46grodZn7DJVF6zpEk0YjY9furbi23rtcGiZObLMfWL0FHHCHOOoB0Ao3/Zxj2CaqkX
-	ZWZVuH0w==;
+	bh=SzyVW5II+GzZ2Kkc45gez6YC7wp+NQFrBHSESlX7gQI=; b=avqTpn1/XntWOGbqQr+/GLN6/H
+	RMNXtaYUeZz/aJR265TgkFe3UyHryJpHI5Z6ie0zGdGUihC5mfArFtzIW2LogTfak1E8JF1gYUMSE
+	Ppz/cs4YXGNeaZKkziDPpp479d107OAJnbDkwgGlsqxi5MEGcz+o2h3D52YJweC/oDXGvbWrcQq0D
+	S9ZGgOjKG+R3Adxoofr4fp9poPzJYMMZylXcizBzZmXBem2UoG25JjPH0NMw8SrHEip4cLmnCJ3EI
+	8srAnxoZKCec6eCHvjeUskVs1vFVqtEi6ZCw9qkAG97dy+rWoU4+1bCfK0BXFkAJwhDfPSWjwWs1v
+	VzB503aQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBT7f-00000002jSs-1ThS;
-	Tue, 29 Sep 2026 08:23:35 +0000
+	id 1xBT7g-00000002jWX-47SW;
+	Tue, 29 Sep 2026 08:23:36 +0000
 Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBS6L-00000002a3b-2p2v
+	id 1xBS6d-00000002a6v-1oOo
 	for linux-nvme@lists.infradead.org;
-	Tue, 29 Sep 2026 07:18:09 +0000
+	Tue, 29 Sep 2026 07:18:27 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 1B95860A5E;
-	Tue, 29 Sep 2026 07:18:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 656C11F00893;
-	Tue, 29 Sep 2026 07:18:05 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id C508E60A60;
+	Tue, 29 Sep 2026 07:18:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 159F81F00898;
+	Tue, 29 Sep 2026 07:18:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790666288;
-	bh=IJFRpgGenZGFgmE716szjfJPy4R2IRxV7+FW89IFnek=;
+	s=k20260515; t=1790666306;
+	bh=SzyVW5II+GzZ2Kkc45gez6YC7wp+NQFrBHSESlX7gQI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=LHPMDU1stnoIOzkVui5b8vIjoubzbqbSkB4Jj1qRkY6vs6k1Y8cf0xmvP9HdU+YYk
-	 swI3Mapse3ZMpePDOfv9JPB2K6iAg5gqIteBCHA4COYT3fRb609BKChwFGSCxSziUc
-	 Biv+bVQseOx+MUK9r1S5tpgS7zGeRiWE0sh9iij7+BLslOUPKSFPtF8IiBWh+NDmiB
-	 T6hCU9+gd6sD7bGJw4O+ZgDRrGfEzJAVQ21WozmNFHiLL1QcS91U27S7+RXqvICDh8
-	 0EwVWsV8vAEy1EuFG+wTLl4Px1nPEY48mKz5HPwvfvg8LuX+TzyYQ+Z1TEW7ADYcVh
-	 1Rae7OOHJcrOQ==
+	b=H1cdlZ0KoyRcwCIuvoJcNR/Y4PP9Q7y1AW2bQfnybfPcty/KPw69k279QkahNdmMQ
+	 AcMS3CTyIBCTR8WlcE0it4bnS8sRPN7WyUBPDJ3iDhKqaJ1qo5XbU4CEdCso1ZqkM/
+	 JQ9SFbTDWRw1COa8Fmi+dUuFRCy4FzTvhhAm4jU8Uv19cIncCZCeyyUIsVT3IP/W4O
+	 v3MBnLIH+LQMqy8Rf21QfbOQDSpZWcSKtOehWAemHNSySobnSvhmc/p6PvQHiD5pTz
+	 eZAs9ej6HDQJLaL8gj/P1EB+//rV0i8X0PDaF712sNC/Erv1bcnqWzzNh+EkC2vWhj
+	 ZHCvKJcaFL7nw==
 From: Eric Dumazet <edumazet@kernel.org>
 To: "David S . Miller" <davem@davemloft.net>,
 	Jakub Kicinski <kuba@kernel.org>,
@@ -91,9 +91,9 @@ Cc: Simon Horman <horms@kernel.org>,
 	Viacheslav Dubeyko <slava@dubeyko.com>,
 	ceph-devel@vger.kernel.org,
 	Eric Dumazet <edumazet@kernel.org>
-Subject: [PATCH v3 net-next 3/9] sunrpc: use sk_set_nospace() and sk_clear_nospace()
-Date: Tue, 29 Sep 2026 07:17:37 +0000
-Message-ID: <20260929071743.23624-4-edumazet@kernel.org>
+Subject: [PATCH v3 net-next 7/9] nvme-tcp: use sk_clear_nospace()
+Date: Tue, 29 Sep 2026 07:17:41 +0000
+Message-ID: <20260929071743.23624-8-edumazet@kernel.org>
 X-Mailer: git-send-email 2.56.0.rc1.315.gc6ed9934b7-goog
 In-Reply-To: <20260929071743.23624-1-edumazet@kernel.org>
 References: <20260929071743.23624-1-edumazet@kernel.org>
@@ -123,50 +123,36 @@ No functional change intended.
 Reviewed-by: Kuniyuki Iwashima <kuniyu@google.com>
 Signed-off-by: Eric Dumazet <edumazet@kernel.org>
 ---
- net/sunrpc/svcsock.c  | 4 ++--
- net/sunrpc/xprtsock.c | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/nvme/host/tcp.c   | 2 +-
+ drivers/nvme/target/tcp.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/net/sunrpc/svcsock.c b/net/sunrpc/svcsock.c
-index 50e5e7f5b762de28c34d0f58cb0c6feb1e3ce79f..2d8cdee0798d540ba8eae589deaac5bd3ff889fa 100644
---- a/net/sunrpc/svcsock.c
-+++ b/net/sunrpc/svcsock.c
-@@ -792,11 +792,11 @@ static int svc_udp_has_wspace(struct svc_xprt *xprt)
- 	 * Set the SOCK_NOSPACE flag before checking the available
- 	 * sock space.
- 	 */
--	set_bit(SOCK_NOSPACE, &svsk->sk_sock->flags);
-+	sk_set_nospace(svsk->sk_sk);
- 	required = atomic_read(&svsk->sk_xprt.xpt_reserved) + serv->sv_max_mesg;
- 	if (required*2 > sock_wspace(svsk->sk_sk))
- 		return 0;
--	clear_bit(SOCK_NOSPACE, &svsk->sk_sock->flags);
-+	sk_clear_nospace(svsk->sk_sk);
- 	return 1;
- }
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 921934028e0b22c2e4c9fd60d09ed8e50051262d..b853ca2d598fa4cb8ea9cb66513f1e1070cd1fb4 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1133,7 +1133,7 @@ static void nvme_tcp_write_space(struct sock *sk)
+ 	read_lock_bh(&sk->sk_callback_lock);
+ 	queue = sk->sk_user_data;
+ 	if (likely(queue && sk_stream_is_writeable(sk))) {
+-		clear_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
++		sk_clear_nospace(sk);
+ 		/* Ensure pending TLS partial records are retried */
+ 		if (nvme_tcp_queue_tls(queue))
+ 			queue->write_space(sk);
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index e598101752620448423925d2385b606e0b4346e8..c38ea3501ea5def168b6f180b56734b99d21bdea 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -1686,7 +1686,7 @@ static void nvmet_tcp_write_space(struct sock *sk)
+ 	}
  
-diff --git a/net/sunrpc/xprtsock.c b/net/sunrpc/xprtsock.c
-index 7f60723fa64d84887e260e5e130e44cdbec6f850..b97c70c12f627630509510facfd3c3cf96ab6cb6 100644
---- a/net/sunrpc/xprtsock.c
-+++ b/net/sunrpc/xprtsock.c
-@@ -858,7 +858,7 @@ static int xs_nospace(struct rpc_rqst *req, struct sock_xprt *transport)
- 	if (xprt_connected(xprt)) {
- 		/* wait for more buffer space */
- 		set_bit(XPRT_SOCK_NOSPACE, &transport->sock_state);
--		set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
-+		sk_set_nospace(sk);
- 		sk->sk_write_pending++;
- 		xprt_wait_for_buffer_space(xprt);
- 	} else
-@@ -1615,7 +1615,7 @@ static void xs_write_space(struct sock *sk)
- 
- 	if (!sk->sk_socket)
- 		return;
--	clear_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
-+	sk_clear_nospace(sk);
- 
- 	if (unlikely(!(xprt = xprt_from_sock(sk))))
- 		return;
+ 	if (sk_stream_is_writeable(sk)) {
+-		clear_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
++		sk_clear_nospace(sk);
+ 		queue_work_on(queue_cpu(queue), nvmet_tcp_wq, &queue->io_work);
+ 	}
+ out:
 -- 
 2.56.0.rc1.315.gc6ed9934b7-goog
 
