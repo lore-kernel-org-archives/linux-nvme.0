@@ -4,101 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 78E19CA5FA1
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2026 08:23:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 61D2CCA5FC8
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2026 08:23:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=RnWUSUoPlsuP4rnCrMGHZfdBwvKHsEHp7ONS81OIlUg=; b=i+rXQWjhyD4ApCuifsHzgBhHQH
-	2faHmQUfgkQSXrmH4g00lP2EzXDt3jN4vLlnVTRX/7RT5+9gETIC73NGFUyEwOgCmC4LiuArXJA+1
-	S94sn225CCnAbHC6xxSPcvSLZsQhIgLfX2NiTwSUaf7C8bdOnP+x/9aotSoBQp6JV3V7UIO48IChR
-	CUJsjRRJdDf7UV4tiZEXPfhTFY3hqMX2DfC8Lr7eGeIIW8f2/VFoNKxZNr3q4aNCsst/TduCBs2iR
-	HwDi2nNt0wk818u7U4hEJSzmqvbRFgdBvYcD0wBqo93WM3iYC64y3kjcWvgmv1QI1NqsguIFpDpDM
-	yYg5+XEQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Message-ID:Date
+	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ZCAoLYZlSrLohEk+mBrzJi43HvKosm2TxiN/tMhp9/s=; b=UD7zF7mTuYK7zj29HWFwfOlgoP
+	0SzFZeJL/WudcDuW/NKE4bmr7oHxX6vMBBGRWcCTEJ5Hyf+s/Tv94LfGAZYG3No8THlXzsczislBj
+	QCKAykLUQkf9ePcxri3NXSdir28HWe2h8C/hE92QxJL6ibpHwc7aTUGrwotCWMEcVhQk1h21FG+Tx
+	kJDH5ZAq8zaPY4zWbrno5Dq10jzdb7Z6kubmDyDWqPdS9XvzNUvsE0mqc6kB/QFQPsnnQgWiP+9yH
+	zkYgTtnbEm949EYCpUMBGVa59uB3J3sO43Pf/eHvuudBX028nbD+yC0shllxnp469BtWXk82YWhh8
+	ozgCcfxg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBT7g-00000002jUt-2cTG;
-	Tue, 29 Sep 2026 08:23:36 +0000
+	id 1xBT7i-00000002jZu-13il;
+	Tue, 29 Sep 2026 08:23:38 +0000
 Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBS6Y-00000002a63-2T3d
+	id 1xBSCb-00000002bmQ-36uj
 	for linux-nvme@lists.infradead.org;
-	Tue, 29 Sep 2026 07:18:22 +0000
+	Tue, 29 Sep 2026 07:24:37 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 54E2B43441;
-	Tue, 29 Sep 2026 07:18:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9C0B1F00893;
-	Tue, 29 Sep 2026 07:18:18 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 6517340DB0;
+	Tue, 29 Sep 2026 07:24:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA4B81F000FF;
+	Tue, 29 Sep 2026 07:24:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790666302;
-	bh=RnWUSUoPlsuP4rnCrMGHZfdBwvKHsEHp7ONS81OIlUg=;
+	s=k20260515; t=1790666677;
+	bh=ZCAoLYZlSrLohEk+mBrzJi43HvKosm2TxiN/tMhp9/s=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Utmyw0ZM96CbsgrYi7Di59lazewSJzkqgeCES4nSZti+IkvQCMxSaEX88ZKJjxOaj
-	 zUWbZuXoe7uutd0a8VirVY4s6libYi8v+CFbziQeDQ6HwyA5Hr1P2B0tKrg6pDK9G9
-	 6EV/14xbrkSI+W3pL6lhkD/dP2yzga6gZbzWU0pJOkwFlkK4BmSrbFCpeitPYiTNkg
-	 o3atTJQsP2tS6/yI0SMxpo56E1/28mcKwHn+27jtxmmb6hW3J09MQHWkzuimU/ghVA
-	 WMuho6JPxiSj2sOwc0JQkxgLh2KpNt85qfi8fzgt2G0Kddq2PFgtzuUEmSix9n/c1I
-	 +Riy/PYJ/j7ew==
-From: Eric Dumazet <edumazet@kernel.org>
-To: "David S . Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
-Cc: Simon Horman <horms@kernel.org>,
-	Neal Cardwell <ncardwell@google.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	edumazet@google.com,
-	netdev@vger.kernel.org,
-	Alexander Aring <aahringo@redhat.com>,
-	David Teigland <teigland@redhat.com>,
-	gfs2@lists.linux.dev,
-	John Fastabend <john.fastabend@gmail.com>,
-	Jakub Sitnicki <jakub@cloudflare.com>,
-	Sabrina Dubroca <sd@queasysnail.net>,
-	Jiayuan Chen <jiayuan.chen@linux.dev>,
-	Matthieu Baerts <matttbe@kernel.org>,
-	Mat Martineau <martineau@kernel.org>,
-	Geliang Tang <geliang@kernel.org>,
-	mptcp@lists.linux.dev,
-	Wen Gu <guwen@linux.alibaba.com>,
-	Dust Li <dust.li@linux.alibaba.com>,
-	"D. Wythe" <alibuda@linux.alibaba.com>,
-	Chuck Lever <cel@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	NeilBrown <neil@brown.name>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>,
-	Tom Talpey <tom@talpey.com>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	linux-nfs@vger.kernel.org,
-	Allison Henderson <achender@kernel.org>,
-	rds-devel@oss.oracle.com,
-	Philipp Reisner <philipp.reisner@linbit.com>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	=?UTF-8?q?Christoph=20B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	drbd-dev@lists.linux.dev,
-	Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	linux-nvme@lists.infradead.org,
-	Ilya Dryomov <idryomov@gmail.com>,
-	Alex Markuze <amarkuze@redhat.com>,
-	Viacheslav Dubeyko <slava@dubeyko.com>,
-	ceph-devel@vger.kernel.org,
-	Eric Dumazet <edumazet@kernel.org>
-Subject: [PATCH v3 net-next 6/9] drbd: use sk_set_nospace()
-Date: Tue, 29 Sep 2026 07:17:40 +0000
-Message-ID: <20260929071743.23624-7-edumazet@kernel.org>
-X-Mailer: git-send-email 2.56.0.rc1.315.gc6ed9934b7-goog
+	b=ORul1xW9USuUDjtn8B3qbLkIBR+R47hz9P3yPidY48GRn803DHgTJ+QMx5QbqfvMS
+	 ZYRm+jFx1sKfk9eUgOCp5fb9VuTXS4XqZi8sPkYqJxCpS5SkOeZ5f2qFLQqBx4sN3B
+	 oRAFJtLePKANnTIeCHoxZwBSXft1IeiEXSVzkRD7d3BPBor1fzAHVtHLzSkm5vRjnm
+	 VMPrNw4tqqrGzyIEOusNLpLKgow3oQT/b93KXU/VIJoktSazn5DT59Z62TGK6yExnY
+	 QrqGOSJXWZrQ36A3gBo717mNumXNDXMW+W3CVQ05eprC9gBvu1K79T8PUxGt5iQPY3
+	 9+sOg/V7h7q8A==
+From: netdev-bot+sinfo@kernel.org
+To: Eric Dumazet <edumazet@kernel.org>
+Cc: "David S . Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Neal Cardwell <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>,
+ edumazet@google.com, netdev@vger.kernel.org,
+ Alexander Aring <aahringo@redhat.com>, David Teigland <teigland@redhat.com>,
+ gfs2@lists.linux.dev, John Fastabend <john.fastabend@gmail.com>,
+ Jakub Sitnicki <jakub@cloudflare.com>, Sabrina Dubroca <sd@queasysnail.net>,
+ Jiayuan Chen <jiayuan.chen@linux.dev>, Matthieu Baerts <matttbe@kernel.org>,
+ Mat Martineau <martineau@kernel.org>, Geliang Tang <geliang@kernel.org>,
+ mptcp@lists.linux.dev, Wen Gu <guwen@linux.alibaba.com>,
+ Dust Li <dust.li@linux.alibaba.com>, "D. Wythe" <alibuda@linux.alibaba.com>,
+ Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>,
+ NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>,
+ Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
+ Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>,
+ linux-nfs@vger.kernel.org, Allison Henderson <achender@kernel.org>,
+ rds-devel@oss.oracle.com, Philipp Reisner <philipp.reisner@linbit.com>,
+ Lars Ellenberg <lars.ellenberg@linbit.com>,
+ Christoph =?utf-8?q?B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
+ Jens Axboe <axboe@kernel.dk>, drbd-dev@lists.linux.dev,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+ linux-nvme@lists.infradead.org, Ilya Dryomov <idryomov@gmail.com>,
+ Alex Markuze <amarkuze@redhat.com>, Viacheslav Dubeyko <slava@dubeyko.com>,
+ ceph-devel@vger.kernel.org
+Subject: Re: [PATCH v3 net-next 0/9] tcp: avoid struct socket cache line miss
+ in tcp_check_space()
+Date: Tue, 29 Sep 2026 07:24:34 +0000
+Message-ID: <179066667444.31693.3326934466907750947@kernel.org>
 In-Reply-To: <20260929071743.23624-1-edumazet@kernel.org>
 References: <20260929071743.23624-1-edumazet@kernel.org>
+Auto-Submitted: auto-generated
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Tue, 29 Sep 2026 01:23:30 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -114,33 +94,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Use the new helpers instead of open coding the SOCK_NOSPACE
-manipulation, so that TCP can later maintain a cheaper private
-copy of this bit.
+Hi!
 
-No functional change intended.
+This is an automated message. This series looks like a fix, but its
+commit messages seem to be missing some information:
 
-Reviewed-by: Kuniyuki Iwashima <kuniyu@google.com>
-Signed-off-by: Eric Dumazet <edumazet@kernel.org>
----
- drivers/block/drbd/drbd_worker.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ - Whether the issue was actually triggered, or is only theoretical
+   (e.g. found by code inspection). If it was triggered please include
+   the symptoms, like the stack trace or error messages.
 
-diff --git a/drivers/block/drbd/drbd_worker.c b/drivers/block/drbd/drbd_worker.c
-index 0697f99fed18d7e70f00b7c559a131517ee8aa42..8e50131b5a5692a8dfb99eafe706602153be94b7 100644
---- a/drivers/block/drbd/drbd_worker.c
-+++ b/drivers/block/drbd/drbd_worker.c
-@@ -635,8 +635,7 @@ static int make_resync_request(struct drbd_peer_device *const peer_device, int c
- 			int sndbuf = sk->sk_sndbuf;
- 			if (queued > sndbuf / 2) {
- 				requeue = 1;
--				if (sk->sk_socket)
--					set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
-+				sk_set_nospace(sk);
- 			}
- 		} else
- 			requeue = 1;
--- 
-2.56.0.rc1.315.gc6ed9934b7-goog
+Please do not repost the series just to address the above. Instead,
+reply to this email with the missing information, so that reviewers
+can take it into account. If the series needs another revision for
+other reasons, please include the information in the commit messages
+then.
 
+The evaluation is done by an LLM so it may be wrong, if you think
+that is the case please reply and explain.
 
