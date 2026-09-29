@@ -4,115 +4,101 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0F8D0CA5FBB
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2026 08:23:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0CC4ECA5FBF
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2026 08:23:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=raEDt673oWsC7HjzDuokLb4yrdGb5LOQuk6WNjaexbY=; b=LBlgAUtHXLXXV//A1lwtjEtQ89
-	m6HFNpJ1WBOOwb1Qvh7/hjtJ7VCfS8CEkPewf6MUa4bzVG/wB3uv97F8bOk67csqh4pvWtCilHUkp
-	974M2PBvXKfO8hJSjda1nDRFnP0DdWPw/fe+V22Ysslg5kOh836eZ5cQNSLfoDIOMUwGAb/2/ZXUS
-	3gYJ38pvXNXB0GOswDsiMxbBNb5lqxLsZfd75ZyPh8xMZDRfAuewFTEQ5m6D6R12SgY/De8Qp/Z2j
-	ri6yMT8sjivscThLfn7wZPHvQdYCAxWyED2mcO2jtv0hjWZnET7UyUAwIy+U1aBjPamCkh+W76IEe
-	e6MitR6g==;
+	bh=IJFRpgGenZGFgmE716szjfJPy4R2IRxV7+FW89IFnek=; b=kT93daWbFUPTld2skdmocQ1259
+	UVXNO61pnqhIm3on6vwh41cGkH9BVWehPnzPcAXaGiDzh1GvTDOvSlhAXXkQN6x4soaj6VBho6NqC
+	UGmLL4zL6YdrOX+zHFvYSKo3gUDlPkpgaT1UJyPfbVVfd8ayOEolb6FuRh9Uvdg8LVmdWcUrElKL4
+	6i/ur49MQbW08yV0p8nBV57FgbMIeYkr5rBx4hTQcP49UI5g0cPWO4V+bsAhTtz6op/YwKavnrgr7
+	pw6uELyMYF46grodZn7DJVF6zpEk0YjY9furbi23rtcGiZObLMfWL0FHHCHOOoB0Ao3/Zxj2CaqkX
+	ZWZVuH0w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBT7d-00000002jOB-1G8e;
-	Tue, 29 Sep 2026 08:23:33 +0000
-Received: from mail-wm2-x11.google.com ([2a00:1450:4864:31::11])
+	id 1xBT7f-00000002jSs-1ThS;
+	Tue, 29 Sep 2026 08:23:35 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBBTb-00000000fKH-261P
+	id 1xBS6L-00000002a3b-2p2v
 	for linux-nvme@lists.infradead.org;
-	Mon, 28 Sep 2026 13:33:04 +0000
-Received: by mail-wm2-x11.google.com with SMTP id 5b1f17b1804b1-49fe8bf173aso15962875e9.3
-        for <linux-nvme@lists.infradead.org>; Mon, 28 Sep 2026 06:33:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790602381; x=1791207181; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=raEDt673oWsC7HjzDuokLb4yrdGb5LOQuk6WNjaexbY=;
-        b=eE5KN7cj9UXtNawtRWq6ZMxh8pJqri1uvpcWCrEST3vIiRM5PXXP3sbPaHlvKUVxsG
-         3yv9AXPTr/jGx14MUPCWop5x1TIt3vD11l0XqZm51yHHCKDnqz7LfTMD8horJV2gV362
-         zG8HemQzDRq6HZ1o76dJGk1892MbCwca0dbofE6cEZESku75k2M60mkKukHGLpS/+dgu
-         UZCVYn2RxX7/DL6MS3iYj59TJmFpcG/zT32/c/ajmYetk9mIjD9gG8xBmdO3Nel7/YZA
-         6TzhNfFAnoP+i3ZCAQEtxr9flzVILjhxGG8QNlYD+KDtOFbsxwagAzCxXLku2tCzO51A
-         rkvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790602381; x=1791207181;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=raEDt673oWsC7HjzDuokLb4yrdGb5LOQuk6WNjaexbY=;
-        b=hGoEzXwjv/FESeS404BAC655ejhHf7z6LXI0vP0nJ/IZzmiHFcpFqqF5O1uerv8KqT
-         P67lGvwPKP2pRL55Zdd4yjQIuYgcGipzbbOSU/OD88B1vw19VLd+nkm11hM5Ewv/Q7vA
-         XOm9N1YX1TF99F7/oNGab8U2s6YXaVt65GWH6oEUpFiSjIo7Hzq39u9m4wheBHMQSznz
-         fPZCeompvUl2zvo5qHMSqBbtG5gJw1i6HVRLOM+AWOOdCUAHEpvJbQFhjobzdNoZzEo2
-         GZ0ahXDH6z/P8eoEqAzE+PmRpJs9QtMX4NTxWw6B4zgecKRN0+hafLhZRZOmFHjWC+jQ
-         zvhQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwtwMEAK6E1pokVbwFkNpejzG/zHnpn99PSdicpZimlIc3lPqrK/aIWRSsJxkZhWfbvNF9iJkEk/Icy@lists.infradead.org
-X-Gm-Message-State: AFuF++nZud9M4zx038n0HoyB92DrnkW8+IVmhry4JlZkXbCyvEooQiyI
-	i8MBrSl17RX0YbZK3JpaLChXxQgcy/5ndRjDCWp6cGb9yQgqYOAYLxn4
-X-Gm-Gg: AYBFou1F/MgCdsVtMUDIRQPFuusNTBOGoV/JT2eM7QKkMha1rPpDvLvBelIXcGFTRFg
-	19g+svgx+qgVIE0QxJMXqNYIx3DT0e+2B9zksjDRNi4iFVxucnClzUU/w2YUIWM8lUMbrI6+jNI
-	oWnezncr8ZquunpVTMYJXDBJTQo22lP9R1jJm3SQBPOZZiLVCsj2ANzaHdDpV0qNVHtBrHLlm8A
-	Q/3Uda9QWnfqAR62hsIrVj2DE8lRoteNtAEMjAxBdr9sw21fzIszbad+CEAzlKJGaQj64/bhE89
-	HXQawEAzhGC56cmP/mGWxUFTxC5TAP3jzAwGLkHcljhr0JMHS9fHFhOkJLBGo/n3/6STPw+zG8f
-	TKg94QNj0Ce3/nQiGYBLbgb4NYYU0Yf76CQNjXNjXowym3PFcVBbKHY+K0mXDsA5SwviSP9f+Zp
-	ANtWDApkq5yxCObBTzT1RmACs+EX977rxv0M5LhuOVpLo2+y9q1EjpImYcw3K+6sPsjqZoEkxdG
-	A7THn/uxZmLEOpwU86eiz+XSQ32MyZPeWWM59+FCoGK7qkUjt9zDgzhH3WQH6caZX3sHKc5wUNC
-X-Received: by 2002:a05:600c:c3cb:20b0:49f:fc13:189d with SMTP id 5b1f17b1804b1-49ffc131a3bmr73381205e9.1.1790602381298;
-        Mon, 28 Sep 2026 06:33:01 -0700 (PDT)
-Received: from 127.mynet ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4887a349731sm28090164f8f.12.2026.09.28.06.32.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2026 06:33:00 -0700 (PDT)
-From: Pavel Begunkov <asml.silence@gmail.com>
-To: linux-block@vger.kernel.org
-Cc: asml.silence@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org,
-	io-uring@vger.kernel.org,
-	Christoph Hellwig <hch@lst.de>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Andrew Morton <akpm@linux-foundation.org>,
+	Tue, 29 Sep 2026 07:18:09 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id 1B95860A5E;
+	Tue, 29 Sep 2026 07:18:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 656C11F00893;
+	Tue, 29 Sep 2026 07:18:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790666288;
+	bh=IJFRpgGenZGFgmE716szjfJPy4R2IRxV7+FW89IFnek=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=LHPMDU1stnoIOzkVui5b8vIjoubzbqbSkB4Jj1qRkY6vs6k1Y8cf0xmvP9HdU+YYk
+	 swI3Mapse3ZMpePDOfv9JPB2K6iAg5gqIteBCHA4COYT3fRb609BKChwFGSCxSziUc
+	 Biv+bVQseOx+MUK9r1S5tpgS7zGeRiWE0sh9iij7+BLslOUPKSFPtF8IiBWh+NDmiB
+	 T6hCU9+gd6sD7bGJw4O+ZgDRrGfEzJAVQ21WozmNFHiLL1QcS91U27S7+RXqvICDh8
+	 0EwVWsV8vAEy1EuFG+wTLl4Px1nPEY48mKz5HPwvfvg8LuX+TzyYQ+Z1TEW7ADYcVh
+	 1Rae7OOHJcrOQ==
+From: Eric Dumazet <edumazet@kernel.org>
+To: "David S . Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>
+Cc: Simon Horman <horms@kernel.org>,
+	Neal Cardwell <ncardwell@google.com>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	edumazet@google.com,
+	netdev@vger.kernel.org,
+	Alexander Aring <aahringo@redhat.com>,
+	David Teigland <teigland@redhat.com>,
+	gfs2@lists.linux.dev,
+	John Fastabend <john.fastabend@gmail.com>,
+	Jakub Sitnicki <jakub@cloudflare.com>,
+	Sabrina Dubroca <sd@queasysnail.net>,
+	Jiayuan Chen <jiayuan.chen@linux.dev>,
+	Matthieu Baerts <matttbe@kernel.org>,
+	Mat Martineau <martineau@kernel.org>,
+	Geliang Tang <geliang@kernel.org>,
+	mptcp@lists.linux.dev,
+	Wen Gu <guwen@linux.alibaba.com>,
+	Dust Li <dust.li@linux.alibaba.com>,
+	"D. Wythe" <alibuda@linux.alibaba.com>,
+	Chuck Lever <cel@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	NeilBrown <neil@brown.name>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>,
+	Tom Talpey <tom@talpey.com>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,
+	linux-nfs@vger.kernel.org,
+	Allison Henderson <achender@kernel.org>,
+	rds-devel@oss.oracle.com,
+	Philipp Reisner <philipp.reisner@linbit.com>,
+	Lars Ellenberg <lars.ellenberg@linbit.com>,
+	=?UTF-8?q?Christoph=20B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
 	Jens Axboe <axboe@kernel.dk>,
-	Nitesh Shetty <nj.shetty@samsung.com>,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	Anuj Gupta <anuj20.g@samsung.com>,
-	Tushar Gohad <tushar.gohad@intel.com>,
-	William Power <william.power@intel.com>,
-	Phil Cayton <phil.cayton@intel.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Alasdair Kergon <agk@redhat.com>,
-	Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Benjamin Marzinski <bmarzins@redhat.com>,
-	dm-devel@lists.linux.dev
-Subject: [PATCH v7 11/13] io_uring/rsrc: add uncloneable regbuf flag
-Date: Mon, 28 Sep 2026 14:32:27 +0100
-Message-ID: <6bb81fd0941222a30477dc849684d47333d1e4ce.1790602223.git.asml.silence@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <cover.1790602223.git.asml.silence@gmail.com>
-References: <cover.1790602223.git.asml.silence@gmail.com>
+	drbd-dev@lists.linux.dev,
+	Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	linux-nvme@lists.infradead.org,
+	Ilya Dryomov <idryomov@gmail.com>,
+	Alex Markuze <amarkuze@redhat.com>,
+	Viacheslav Dubeyko <slava@dubeyko.com>,
+	ceph-devel@vger.kernel.org,
+	Eric Dumazet <edumazet@kernel.org>
+Subject: [PATCH v3 net-next 3/9] sunrpc: use sk_set_nospace() and sk_clear_nospace()
+Date: Tue, 29 Sep 2026 07:17:37 +0000
+Message-ID: <20260929071743.23624-4-edumazet@kernel.org>
+X-Mailer: git-send-email 2.56.0.rc1.315.gc6ed9934b7-goog
+In-Reply-To: <20260929071743.23624-1-edumazet@kernel.org>
+References: <20260929071743.23624-1-edumazet@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260928_063303_553907_509473C4 
-X-CRM114-Status: GOOD (  16.65  )
 X-Mailman-Approved-At: Tue, 29 Sep 2026 01:23:30 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -128,50 +114,60 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-It's hard to implement cloning if the internal structure needs to be
-mutable and/or relies on other ring resources. In preparation to such
-buffer types, add a flag indicating that the buffer can't be cloned. It
-might be possible to add cloning in the future for them, but that would
-likely need reallocating the structure and reacquiring resources in case
-by case manner.
+Use the new helpers instead of open coding the SOCK_NOSPACE
+manipulation, so that TCP can later maintain a cheaper private
+copy of this bit.
 
-Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
+No functional change intended.
+
+Reviewed-by: Kuniyuki Iwashima <kuniyu@google.com>
+Signed-off-by: Eric Dumazet <edumazet@kernel.org>
 ---
- io_uring/rsrc.c | 5 +++++
- io_uring/rsrc.h | 3 ++-
- 2 files changed, 7 insertions(+), 1 deletion(-)
+ net/sunrpc/svcsock.c  | 4 ++--
+ net/sunrpc/xprtsock.c | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/io_uring/rsrc.c b/io_uring/rsrc.c
-index 83a7ad9f5bc7..65d6cf7201ce 100644
---- a/io_uring/rsrc.c
-+++ b/io_uring/rsrc.c
-@@ -1434,6 +1434,11 @@ static int io_clone_buffers(struct io_ring_ctx *ctx, struct io_ring_ctx *src_ctx
- 		if (!src_node) {
- 			dst_node = NULL;
- 		} else {
-+			if (src_node->buf->flags & IO_REGBUF_F_UNCLONEABLE) {
-+				io_rsrc_data_free(ctx, &data);
-+				return -EOPNOTSUPP;
-+			}
-+
- 			dst_node = io_rsrc_node_alloc(ctx, IORING_RSRC_BUFFER);
- 			if (!dst_node) {
- 				io_rsrc_data_free(ctx, &data);
-diff --git a/io_uring/rsrc.h b/io_uring/rsrc.h
-index 9ef88383b363..73d7b1ebf0b6 100644
---- a/io_uring/rsrc.h
-+++ b/io_uring/rsrc.h
-@@ -26,7 +26,8 @@ struct io_rsrc_node {
- };
+diff --git a/net/sunrpc/svcsock.c b/net/sunrpc/svcsock.c
+index 50e5e7f5b762de28c34d0f58cb0c6feb1e3ce79f..2d8cdee0798d540ba8eae589deaac5bd3ff889fa 100644
+--- a/net/sunrpc/svcsock.c
++++ b/net/sunrpc/svcsock.c
+@@ -792,11 +792,11 @@ static int svc_udp_has_wspace(struct svc_xprt *xprt)
+ 	 * Set the SOCK_NOSPACE flag before checking the available
+ 	 * sock space.
+ 	 */
+-	set_bit(SOCK_NOSPACE, &svsk->sk_sock->flags);
++	sk_set_nospace(svsk->sk_sk);
+ 	required = atomic_read(&svsk->sk_xprt.xpt_reserved) + serv->sv_max_mesg;
+ 	if (required*2 > sock_wspace(svsk->sk_sk))
+ 		return 0;
+-	clear_bit(SOCK_NOSPACE, &svsk->sk_sock->flags);
++	sk_clear_nospace(svsk->sk_sk);
+ 	return 1;
+ }
  
- enum {
--	IO_REGBUF_F_KBUF		= 1,
-+	IO_REGBUF_F_KBUF		= 1 << 0,
-+	IO_REGBUF_F_UNCLONEABLE		= 1 << 1,
- };
+diff --git a/net/sunrpc/xprtsock.c b/net/sunrpc/xprtsock.c
+index 7f60723fa64d84887e260e5e130e44cdbec6f850..b97c70c12f627630509510facfd3c3cf96ab6cb6 100644
+--- a/net/sunrpc/xprtsock.c
++++ b/net/sunrpc/xprtsock.c
+@@ -858,7 +858,7 @@ static int xs_nospace(struct rpc_rqst *req, struct sock_xprt *transport)
+ 	if (xprt_connected(xprt)) {
+ 		/* wait for more buffer space */
+ 		set_bit(XPRT_SOCK_NOSPACE, &transport->sock_state);
+-		set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
++		sk_set_nospace(sk);
+ 		sk->sk_write_pending++;
+ 		xprt_wait_for_buffer_space(xprt);
+ 	} else
+@@ -1615,7 +1615,7 @@ static void xs_write_space(struct sock *sk)
  
- struct io_mapped_ubuf {
+ 	if (!sk->sk_socket)
+ 		return;
+-	clear_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
++	sk_clear_nospace(sk);
+ 
+ 	if (unlikely(!(xprt = xprt_from_sock(sk))))
+ 		return;
 -- 
-2.54.0
+2.56.0.rc1.315.gc6ed9934b7-goog
 
 
