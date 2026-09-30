@@ -4,114 +4,179 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 49BC4CA5FB3
-	for <linux-nvme@archiver.kernel.org>; Thu,  1 Oct 2026 11:42:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7FCF1CA5FD2
+	for <linux-nvme@archiver.kernel.org>; Thu,  1 Oct 2026 15:00:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:References:Message-ID:Subject:CC:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=u0AhsE8IW3qyWAltrvsy3OyzZOIRvdjH421SFwSJ83U=; b=KdQbFelCWr7zG9jXqxH0mQ0JAc
-	/l+YJhoOl8MAyb1VqReI9vi+CADTOPswXdKt5J04R7d6tJ/pPR+sfD9mRQYYXqb76OMS7ZNXRknBQ
-	Pz2xeW9fIxNzYwfJBzJuqINKk+CoGo0x8gLNHpnQVFDZWC0LjWsidxY6OmRcuS0JXCz6M3J958NzW
-	6TyBHWePgTdIH++rgMUEq3lkfXlFeyB/Q0QDDbqbtIyoSeRhMQpnjowQpSBGYcJfSJF9q1nlIu1ho
-	5JGXtIf8N4G+ziMhwDSoQM8aGsbqVOJ/6WaA8gve53S3PoutsSa6Ug4aBqV7K/ZKraFEnTM31KG6Q
-	7Nka4hhQ==;
+	bh=I1MjO56Fm+GUs/jcFYcOQ6+Sx3HRdAlAbHICcc8mur4=; b=2whFURt/ayMOnbX8l5ZEL7e9Dz
+	zQXmTkDc35ZiNvm512VlMTyJU4oe+lLoI/gEAOP/LBt44wah6oUIpv5WU8kdvjyb7GbX+6JDOZPFi
+	PzWdTO3JZSCqMa6wK3SOrdE0id8JKTQDqjuUIWeLVjISoU9CATrvTCnRZfoj3hjiA7bsK/lyKivw6
+	9HKoHDVpNadyi8hCHrrSJsjhut0sbLnxzRlz3kWt0BbMw18RZnLA35vcBrdJ8f54Zw42O3zpi54yc
+	at/ehrMkuwdGZ9HP1LWYI+Spy9lS/hRGAs/YToCLKyx34YNCaWlz5HJgjdQfw9PGL60afMqH346EY
+	9DXSY0xA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xCFBY-00000008exZ-1N8X;
-	Thu, 01 Oct 2026 11:42:48 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1xCIGX-00000009SXn-087o;
+	Thu, 01 Oct 2026 15:00:09 +0000
+Received: from mgamail.intel.com ([192.198.163.12])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xCFBV-00000008ewm-1HTq
+	id 1xC0Dq-000000076eK-112Q
 	for linux-nvme@lists.infradead.org;
-	Thu, 01 Oct 2026 11:42:46 +0000
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69175UO94040706;
-	Thu, 1 Oct 2026 11:42:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=u0AhsE
-	8IW3qyWAltrvsy3OyzZOIRvdjH421SFwSJ83U=; b=hAVj0kNRydXM2Pj14As4C6
-	A95mMKJp1lfiIYh7ON4s+O3uUtjrV8be/1vNSTHv3vkpCfCz6DFWJOGezqWcpj22
-	V/40yqZdUVHAICptmJOY8PHAtNtNb8YQfnWSmdcNd7CfFI7tkJHm5TwJosO8TO6w
-	/nRtLw3MgNS3vT8ZKT3CekKN0uFKGP4Xqe2Qf4mp2NGs0kqaAvD/3buG25ne4EHK
-	Px/ruWI+rHhz+wPhc+gqN4lk1UZrxFzvw7LcZXZe7MSG+dqyf6lhrrbujAUKG7iT
-	NAoszW6gIj1m34+eRUbXMF5DnMNlB0hMAECVWZy5++zkEfh+RQbUY/HvPqxAse9A
-	==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4gx4fehrdn-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 01 Oct 2026 11:42:35 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 691BUsTN561208;
-	Thu, 1 Oct 2026 11:42:35 GMT
-Received: from smtprelay03.wdc07v.mail.ibm.com ([172.16.1.70])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4h0g8e8tt8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 01 Oct 2026 11:42:35 +0000 (GMT)
-Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
-	by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 691Bfn3W66716024
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 1 Oct 2026 11:41:49 GMT
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1951358058;
-	Thu,  1 Oct 2026 11:42:34 +0000 (GMT)
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8A78E58057;
-	Thu,  1 Oct 2026 11:42:31 +0000 (GMT)
-Received: from [9.61.28.159] (unknown [9.61.28.159])
-	by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Thu,  1 Oct 2026 11:42:31 +0000 (GMT)
-Message-ID: <04909105-bcbd-4b89-af41-ad761aaa9af2@linux.ibm.com>
-Date: Thu, 1 Oct 2026 17:12:30 +0530
+	Wed, 30 Sep 2026 19:44:11 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790797450; x=1822333450;
+  h=date:from:to:cc:subject:message-id:references:
+   content-transfer-encoding:in-reply-to:mime-version;
+  bh=Fmw6jRsLrnVIuCVQd3pzDMh+JzFsmiDjabIw71RhPKI=;
+  b=dqrpp1xjNjB1eNnArXB8D29Ect9L5skbjKOJRaPGzHDTJLi8GUxGDEEp
+   1bADUw2uqfXwCeBttil+RxekDOnvLL9iPRNueEtNPnx+FCMN5D2GBPE7p
+   ki/jwv6EIEzYE3NTZb9dwIV5Ui2Wu1Phu0WAaqB9fG9JiOXNsHTK7d6pE
+   oul75kWp7QyO75j/dDs1UX72qJ2UOPuSQmVGOuvWfcmf1lhSddhFFivXe
+   533dh9f1F+bL7RzNWeBvSarDou0+5uFnG0QcY3wtVkqD0HWrp3pup7f9T
+   oMTH7oviC8oNylsJ/1dZLwAKcq+xVQrK5MXt4q6zBTDehpVV7anl4JWZ+
+   Q==;
+X-CSE-ConnectionGUID: pfJYRNTaTh6WdjRw7lCILA==
+X-CSE-MsgGUID: NSTve2QBRoqfBbPPESddcQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11921"; a="95356309"
+X-IronPort-AV: E=Sophos;i="6.27,133,1787036400"; 
+   d="scan'208";a="95356309"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2026 12:44:07 -0700
+X-CSE-ConnectionGUID: BAE3pRXXSSWcDpCzBXWdgA==
+X-CSE-MsgGUID: rysXhI4GR7Wj44skSUsNAw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,133,1787036400"; 
+   d="scan'208";a="313724829"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2026 12:44:07 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Wed, 30 Sep 2026 12:44:06 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49 via Frontend Transport; Wed, 30 Sep 2026 12:44:06 -0700
+Received: from CH4PR04CU002.outbound.protection.outlook.com (40.107.201.10) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.46; Wed, 30 Sep 2026 12:44:06 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=OXciUb9UQfT5BON4avglze2lkeYHtLJLMPYxAF3fiV3tbaI+a8IQBnAwmk0a4KwUaiV6vr3Cm5R0JZB4uFwg0179TYhgpOkAsbI/GCR0YcE34ImUTi5NZYEtpc6eXdXiRzTzZXhFS1gL97ZmlZa6gdkZiUV1IeBh3KK8irkbOTQc3Rjrw3PYjt4mxTDR7Tnpvt6P51eS/fz7qVX16w+FfktcwmlV/xRxbCzqsvRibLDZQbiJh0/m0KXifeZNHZGZLyOAzt3hpg6gGhU3g2V6SYT2RswAMGvDcdRkh/stnk55ajMmYtlevjssEe61pIQBEPZkrO2Fh/qMOuouboy5Rw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CYI3B8OyqGFS3ssejZ9imkq9m+g1jMTnkTmxNJ5FqRo=;
+ b=UJ1WGRsRxUNse+gCairW7/zy9BMCudC1jkTq2TEnZ88w+YmRyYHZJtKWKxWqfimSvXCTdNY6Y2n8kd3xo1c6QUXJ64edCf6oh2CJHY794H1KNTSi3aXzhn5Bu0CaCKofqFnWkhyispcVC1Zzzr9dpZbHvqVrW3tVhFpVC9hWbIIoHMwwf5FPvC1T22iilI71Wkj25pUxi97BHzYsTK5x0uQTLu8oQFw/FXnDvKkr8xMpEqRh49JmIMz55kiwEGD5xePlWJ7q5smg31Dfy9LzqLm7cWVi55FuYXm3prMFP0MVFaRvCv0PvRQbVYzcqZdyygqO4XasDyrwX79JEbHBeA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CO1PR11MB4787.namprd11.prod.outlook.com (2603:10b6:303:95::23)
+ by PH7PR11MB6498.namprd11.prod.outlook.com (2603:10b6:510:1f1::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.26; Wed, 30 Sep
+ 2026 19:43:55 +0000
+Received: from CO1PR11MB4787.namprd11.prod.outlook.com
+ ([fe80::e7eb:a872:53d1:21fd]) by CO1PR11MB4787.namprd11.prod.outlook.com
+ ([fe80::e7eb:a872:53d1:21fd%4]) with mapi id 15.21.0472.015; Wed, 30 Sep 2026
+ 19:43:55 +0000
+Date: Wed, 30 Sep 2026 12:43:51 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Pavel Begunkov <asml.silence@gmail.com>
+CC: <linux-block@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+	<linaro-mm-sig@lists.linaro.org>, <linux-nvme@lists.infradead.org>,
+	<linux-fsdevel@vger.kernel.org>, <io-uring@vger.kernel.org>, "Christoph
+ Hellwig" <hch@lst.de>, Sumit Semwal <sumit.semwal@linaro.org>, Christian
+ =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Keith Busch
+	<kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, Alexander Viro
+	<viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara
+	<jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>, Jens Axboe
+	<axboe@kernel.dk>, Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi
+	<joshi.k@samsung.com>, Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad
+	<tushar.gohad@intel.com>, William Power <william.power@intel.com>, "Phil
+ Cayton" <phil.cayton@intel.com>, Alasdair Kergon <agk@redhat.com>, "Mike
+ Snitzer" <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
+	"Benjamin Marzinski" <bmarzins@redhat.com>, <dm-devel@lists.linux.dev>
+Subject: Re: [PATCH v6 01/13] dma-buf: introduce initial file I/O
+ infrastructure
+Message-ID: <ar1md2N4PkoXSE/N@gsse-cloud1.jf.intel.com>
+References: <cover.1789997898.git.asml.silence@gmail.com>
+ <5490ee42c4452fd4198b245ead20fcf7438c066e.1789997898.git.asml.silence@gmail.com>
+ <arx7ZQ8o9aeHsAqS@gsse-cloud1.jf.intel.com>
+ <447c04dd-6bfa-4c45-99e7-37d25a7ab539@gmail.com>
+ <c07404e0-33f6-4e5f-a80a-e1901b42dc39@gmail.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c07404e0-33f6-4e5f-a80a-e1901b42dc39@gmail.com>
+X-ClientProxiedBy: SJ0PR05CA0145.namprd05.prod.outlook.com
+ (2603:10b6:a03:33d::30) To CO1PR11MB4787.namprd11.prod.outlook.com
+ (2603:10b6:303:95::23)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] nvmet: defer setting ns->enabled to false in
- nvmet_ns_disable()
-To: "Shin'ichiro Kawasaki" <shinichiro.kawasaki@wdc.com>
-Cc: hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, kch@nvidia.com,
-        linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-        gjoyce@linux.ibm.com
-References: <20260918162736.802665-1-nilay@linux.ibm.com>
- <20260918162736.802665-2-nilay@linux.ibm.com> <ar30Q5H1fuyFtDwM@shinmob>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <ar30Q5H1fuyFtDwM@shinmob>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=FYWiV5+6 c=1 sm=1 tr=0 ts=6abe472b cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=VnNF1IyMAAAA:8
- a=FLMVk1Nlp5jPE6tgMn8A:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDAxMDA0NiBTYWx0ZWRfX9W8SIsxc9/8s
- MUbJrN6KkiORGJ8y22JAhR9CU+d74iF7tYaqq5qqJTOefzq2Df7uRPjKSUpT5Lfqwr36zuYt00b
- Q6H9ybf8zy7LLGPTvMl1RYvSUpIFE4c=
-X-Proofpoint-ORIG-GUID: JW86kF-goOx435uhQmqMNUJ3cgiYBij-
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDAxMDA0NiBTYWx0ZWRfX1NFeDa+LcUW0
- 3MYzh03NN75sYxKur2Im9MJLSkA1aqWtMRB3W4okEL9eGLzMW2Ex/6vHzzSTqWHjwtGguyYe4BO
- SZJ9urWC23rmfaRCifHoT0VLzoYxLC2ZKdMOJlQtwjapmszFE/KXnGEAS1K8k7z4SGG+lCYrWRB
- W/LxhkiUnf1JWeoy8+41Jr4YSqtsmCWH745QVrTmWDOSonLXfjxz5+ezr24kCZuC4LwM2P5Cann
- NeOjxWEtC/lTKmMF8vXnKwp9sV4SOfiBGS3xxrZHm8oTjO7p7Jr9jfo/SVe0l86F5H81qkcg1Da
- 10oKdJSjgY6pAjxU9WDF6cXNKuV5TmEgh5tD4kyg+X6DAISJYEkFFtp1vxP5+F5rM1DS0ZC1/zI
- Xswt9CCiHtlQ2qyIEYVsQ1s9M37aSILhHhLM4HWXnbMjTK5NYEJrcSamL5NzwwUwqyby9Bzvtkh
- 84fYmrBfUMSC08uATpw==
-X-Proofpoint-GUID: JW86kF-goOx435uhQmqMNUJ3cgiYBij-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-01_03,2026-09-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 clxscore=1015 impostorscore=0 spamscore=0 phishscore=0
- priorityscore=1501 malwarescore=0 bulkscore=0 lowpriorityscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
- definitions=main-2610010046
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PR11MB4787:EE_|PH7PR11MB6498:EE_
+X-MS-Office365-Filtering-Correlation-Id: d1f081bf-bed0-4ebf-182a-08df1f2b2991
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014|23010399003|6133799003|10067099003|4143699003|5023799004|56012099006|11063799006|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info: pu4RpMbSx0h1u4/Dh7Bqc3ep//3wk6pqmzLuSjsmO5+3gbq8dLwoLRc+SmCo/C2d56Tb+skXqpzfeq4CiObkBr1Tfm7Lmx4t2u/goEFX/yVzVfxSDS4uQ3y8QMz+IDNFcS4dWyBI6NyUUXLWTs3iWD6FvkYeQ7ApOSjw6smTeYHFheE4mrUC3yINMUvsSJ3GniIPGzvO+xpGLDiAhOfsVn5tEoftH1AIlJfElH92JK9oASUgGIyazaULWHog//g3pz0KURyWg0x0CAn8Y3sFVfW6hq2GM3E3TcL9RCNYBTusozH/CjjoGjdH0COclr/6HRke+Ztugxcopg/Lwi+q53KOfJo0zkaqv17AK10PyDYbJVuZVKAhsxHT6fCkDtWUVlBSOlSWAuniEJbeP8rrOBHiJrTPOI4IaBVA9zsMsA3BVgDN9I0mbE+doJbfD949NnnLI0QF1fpNFly0R7rq56+Inz1wbETh5adf9JiZAP3CYbk8DtQ5dYJBMpom32fKS2ixCh15InlXIJJOspUHCA/Zn4lZr3kLHqIGgxP2iRj1bqSgGDWxqTHw8+Mswnt3cmpn3ZdkTiQshvOSsIEEQWi20sdzlG/SiyQMgCl3YcnTjeNekk8PPbauw0nQuf7DhcZRtOxkmxk0qhvTeHH+tECHzRHQu7rPT6yuDcyF99U=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB4787.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(23010399003)(6133799003)(10067099003)(4143699003)(5023799004)(56012099006)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?sLQL9tlMeNXRA+DmQwG8OxyqhWpG4eYn2BXjv88Xf5HGIhSGiSW+UQMTiC?=
+ =?iso-8859-1?Q?rbSOSBZUt1aJso2rRV44c32cCB4N7PJXR9TSjCt71zr0XhSJ6tzJEpqil2?=
+ =?iso-8859-1?Q?+L1NjyqIPWlL2UqMf77EXk9YCx//07WE2sFjLKyfTRXvKh4vfkOhGTfywp?=
+ =?iso-8859-1?Q?c52MRs6bzv2NWrjwxXOzgnDQWWB+BNJZc1Cx5Yub7HLgTC0c2p9+B577/E?=
+ =?iso-8859-1?Q?e1Y1IAuU4G+LedNR/cZFtgC667PoXiwaLETcCKacgXHzhm1uPtSgy1dvBj?=
+ =?iso-8859-1?Q?dMWv4gMDbTg+p00YLLIb7DYuMOZK4Cq8/8hc/Fir6tPFkALZpdnyeqrRWY?=
+ =?iso-8859-1?Q?txRTzI7iKn4zqzEz63bQG88c+unZyNC/fKuFW3A/V4UGjHMwTkTh+miUHN?=
+ =?iso-8859-1?Q?Qo5wO79EIhS+1vPp7p1injHMPb+DRJ7TyF5djIwsF9r54kIcsl3a0Ji9nS?=
+ =?iso-8859-1?Q?w+yhY/m/8+o+GTWaw5RpGOqhrOlUqf7XVii1fPQY7GJForIMklNqpbUjhu?=
+ =?iso-8859-1?Q?3FKCp2kr1fiHUHuKC/UAP2HjitGZrapHyLog3g4i1Q7TtnFc6a0LPqmchD?=
+ =?iso-8859-1?Q?VdVP6Zw+R29PJ9Yo82bpYvRdS58DiyflKYtCEZc2Gpp5ST20UHlvjtcWgs?=
+ =?iso-8859-1?Q?T3pIeH/lkx3SLOfMrp7o1fQlhDa4Wdwiax7eg1zsFZ7wwo5jmeg7LZjlPV?=
+ =?iso-8859-1?Q?4X2gl0ThGHxtQJ8EKam1eDOzsjzjQTSGv6Qx6I6u8nH556DTtxOppmfjAA?=
+ =?iso-8859-1?Q?/O6ILs+NYwnEo+AmyHc9Q5v6B0pJ8LFczT+vtOfrA+yChVNzJPYMR+0Rbo?=
+ =?iso-8859-1?Q?gmK1wsV5ndARN9KjeGNTw5e0HhwfavtRjpJHlla9krAneq49ULDLy9n3mK?=
+ =?iso-8859-1?Q?tVMNtKI+b8DoyMeF32qPZSjgADQIfj+ZvMKsRUSeQTpGCS+L6YnArCcEFf?=
+ =?iso-8859-1?Q?l2ysEFXY4O+FUHo764F3UFl/VeC3o45XRBUVpAlOZ8VeS8nSa9MRI6fA4s?=
+ =?iso-8859-1?Q?oAQKHCApxPR4by2kKKCRBO8k1XRY9Gd9wqqRxfZgI5xKd9vf45q4yZiVdy?=
+ =?iso-8859-1?Q?xYFELx8uTdE6Q0bYNaVVCbj2r5l4gw2F2a3/u9B/t/poyzWe8wYaqS4geu?=
+ =?iso-8859-1?Q?QJ3hVdDRUj9ATFVsiHCVVXVBQVWJJqspqXg4iHiHVmQVYSlJDDgxRg5y7i?=
+ =?iso-8859-1?Q?2PEMSjeRSAvsE1agOQhFRIjsyFMbRlK3zbpudvcnnLZV65oFyF2BxnBKb9?=
+ =?iso-8859-1?Q?c4xjL1LGYdNIkwQA/UU7g09OJAmfG//QYA1AvV/gEhORU/E2ASkRu/e4lW?=
+ =?iso-8859-1?Q?FPruuK3tzKsZDOrQAcn9+ERhvKJ9ZWXjfTB4EAshtxetbBOOx+eygYqkp4?=
+ =?iso-8859-1?Q?vCCRQh4vHGLYPWQI/Qh5TejoHpJBUlqoue8nHONYdS4JldzxExevtLd8mU?=
+ =?iso-8859-1?Q?R5U2EwhZEzdKr7E+fIms9ZJdi9pVJfxH/pOl6mDozdbqChZsAp52XPQzaa?=
+ =?iso-8859-1?Q?ChnRSZSK2aQnSrYp/BOlXBah8ToyBnb4ODClA7Hjj+1XQuwqgMhO902QVC?=
+ =?iso-8859-1?Q?VGsQdtlPOqY8+ZDqLy/kfOr6mxKrXLr2x/dYFGxoXjLPK8/S66AZECB0K3?=
+ =?iso-8859-1?Q?6xkg/GsmIfoX6G9PEFPBdezTSek3NYHOKpGDo7+fuApfa5IZ/LUJErF8OK?=
+ =?iso-8859-1?Q?gMxnhTP26xK4iY/PVcnnEEmSvU4N1ZLpBnEZs5yU4jZprdJH2CDl1ATwk0?=
+ =?iso-8859-1?Q?ukvv4SsCWH3f/KvNNf3dp9Fl/HKQOcyNleW2rbhmzOZvkfpv/SRLZj2TP6?=
+ =?iso-8859-1?Q?54XPoBFolucoI54mdKJQI3u/PH2oys0=3D?=
+X-Exchange-RoutingPolicyChecked: JUQQoN3GXGmzsHWGDdX/uoFf71hYWwo6dH6kRN7M+SWv74nUu6Bn+fgx12kwKrBfulW3zKnpPkPShJ2nouK/om99IWXiiN2UAvOI/Pu9AyZWVvnRUXAsw1JmwFVuC5/zIxZGPKYgZADCdtboo1069YDr0YuXJB5/uC2m4T7qYjN189HRc7mwsy0qArdrBZSLqwE8aQ6kbVFCXy27MWfBKgdrRw1Dirn0K7aKjm2WdoGol7y9S6IFOsEvbEkFbHDkNtlItK0ydw2seP4s1sg+8WHzvfKXnb1YRn4Tvclv5f4iPIaS5w/XAzaUB25oyHZK0Y4FbxWtbkeg/GeKDfxzwg==
+X-MS-Exchange-CrossTenant-Network-Message-Id: d1f081bf-bed0-4ebf-182a-08df1f2b2991
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB4787.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2026 19:43:55.2719
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XQO7usHwnfdkyXgs8WgRkzr0QqC2WbfL5Mb6CjPb3HzWhJINM+ofJ5l7jTRlwt9z1Vdsk1y7SQDOFYY/Fv2HpQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6498
+X-OriginatorOrg: intel.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261001_044245_467952_619A8300 
-X-CRM114-Status: GOOD (  28.17  )
+X-CRM114-CacheID: sfid-20260930_124410_331524_8F9457AA 
+X-CRM114-Status: GOOD (  36.57  )
+X-Mailman-Approved-At: Thu, 01 Oct 2026 08:00:05 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -126,77 +191,106 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/1/26 11:25 AM, Shin'ichiro Kawasaki wrote:
-> On Sep 18, 2026 / 21:57, Nilay Shroff wrote:
->> nvmet_ns_disable() currently clears ns->enabled before draining
->> in-flight I/O references. This allows namespace configuration to be
->> changed while existing I/O requests can still hold a reference to the
->> namespace.
->>
->> This can race with configuration of namespace attributes such as the
->> device path, UUID, NGUID etc. These attributes can be accessed by I/O
->> requests without holding subsys->lock and must not be modified while
->> such requests are still using the namespace.
->>
->> In nvmet_ns_disable(), keep ns->enabled set while existing namespace
->> references are being drained, so namespace configuration remains blocked
->> until all in-flight I/O has completed. Set ns->enabled to false only
->> after the namespace references have been drained and the namespace
->> device has been disabled.
->>
->> Introduce the NVMET_NS_IO_LIVE flag, which is set after the namespace
->> is successfully enabled in nvmet_ns_enable(). When nvmet_ns_disable()
->> starts, clear NVMET_NS_IO_LIVE so that the I/O path stops admitting new
->> I/O once the flag is cleared. Using test_and_clear_bit() in
->> nvmet_ns_disable() also prevents concurrent callers from starting a
->> second disable operation.
->>
->> Signed-off-by: Nilay Shroff<nilay@linux.ibm.com>
-> Recent blktests-ci trial runs for nvme-7.3 branch reported failure of nvme/052
-> [*]. It is required to repeat the test case 3 to 20 times to recreate the
-> failure on my test system. I bisected and find this patch is the trigger of the
-> failure.
+On Wed, Sep 30, 2026 at 01:48:49PM +0100, Pavel Begunkov wrote:
+> On 9/30/26 11:08, Pavel Begunkov wrote:
+> > On 9/30/26 04:00, Matthew Brost wrote:
+> > > On Mon, Sep 21, 2026 at 02:38:45PM +0100, Pavel Begunkov wrote:
+> > ...>> +struct dma_buf_io_map *dma_buf_io_create_map(struct dma_buf_io_ctx *ctx)
+> > > > +{
+> > > > +    struct dma_buf *dmabuf = ctx->dmabuf;
+> > > > +    struct dma_buf_io_map *map;
+> > > > +    long ret;
+> > > > +
+> > > > +    guard(mutex)(&ctx->map_create_mutex);
+> > > > +
+> > > > +    scoped_guard(mutex, &ctx->map_mutex) {
+> > > > +        if (ctx->maps_killed)
+> > > > +            return ERR_PTR(-ENOENT);
+> > > > +        /* recheck under the lock in case it has already been re-created */
+> > > > +        map = __dma_buf_io_get_map(ctx);
+> > > > +        if (map)
+> > > > +            return map;
+> > > > +    }
+> > > > +
+> > > > +    dma_buf_io_wait_active_maps(ctx);
+> > > > +
+> > > > +    ret = dma_resv_lock_interruptible(dmabuf->resv, NULL);
+> > > > +    if (ret)
+> > > > +        return ERR_PTR(ret);
+> > > > +
+> > > > +    ret = dma_resv_wait_timeout(dmabuf->resv, DMA_RESV_USAGE_KERNEL,
+> > > > +                    true, MAX_SCHEDULE_TIMEOUT);
+> > > > +    if (ret <= 0) {
+> > > > +        if (!ret)
+> > > > +            ret = -EAGAIN;
+> > > > +        dma_resv_unlock(dmabuf->resv);
+> > > > +        return ERR_PTR(ret);
+> > > > +    }
+> > > > +
+> > > > +    map = ctx->dev_ops->map(ctx);
+> > > 
+> > > I'm playing around this code now.
+> > > 
+> > > I think you need the dma_resv_wait_timeout after the 'map'?
+> > > 
+> > > If a device doesn't support p2p ->map() will typically trigger an async
+> > > migrate to system memory and data will be moving but the map is valid -
+> > > Xe 100% does this, I checked AMDGPU and fairly confident it has the same
+> > > async behavior.
+> > 
+> > There is a wait right before because I read somewhere in dma-buf
+> > comments that I need to do that, sounds a bit odd if I need to
+> > wait on fences before and after. I can add it, just curious how
+> > come that other dma_buf_map_attachment() callers don't need to do
+> > that. Or maybe they wait somewhere else?
+
+In GPU drivers, when we receive a foreign object and map it in Xe or
+AMDGPU, this logic sits deep in the stack. However, the top-level call
+is typically ttm_bo_validate(), which in both drivers eventually
+resolves to the TTM ->move() vfunc. That path calls
+dma_buf_map_attachment(), which in turn invokes the dma-buf's ->map()
+callback.
+
+That ->map() callback can trigger a asynchronous move on a different
+device, where the top-level call is again ttm_bo_validate().
+We then end up back in the TTM ->move() vfunc, where kernel fences are
+installed. I realize that's a lot of layers, but the call chain can end
+up looking like this.
+
+Now we have a mapping and an object with kernel fences attached. Before
+the object can be used by either the exec IOCTL (batch buffer
+submission), the VM bind IOCTL (mapping into the GPU address space), or
+a CPU page fault (not relevant for dma-bufs since they cannot be
+CPU-mapped, but a useful example of a normal BO move), we wait on those
+kernel fences.
+ 
+In the case of the exec IOCTL or VM bind IOCTL, the kernel fences are
+added as dependencies to a drm_sched job, delaying its execution until
+the fences signal. That is where the wait occurs. In the case of a CPU
+page fault, the kernel waits directly on the fences before installing
+the CPU page mappings.
+
+So the TL;DR is if you want to immediately hand back a valid mapping,
+the kernel fences must be waited on before returning after ->map() call.
+
+Matt
+
 > 
-> Nilay, may I ask you to take a look in the failure? I'm not sure if this should
-> be addressed in kernel side of blktests side.
-
-Thanks for the report! I looked into the failure and I think I found the root cause.
-I couldn't reproduce it on my system, but I see there is a narrow race window that can
-potentially trigger the observed failure.
-
-I don't think this is a new race introduced by this patch. However, the changes in this
-patch may have altered the timing enough to make the race easier to trigger.
-
-In nvmet_ns_enable(), we currently queue the asynchronous namespace-change event
-before setting ns->enabled and the corresponding NVMET_NS_ENABLED xarray mark.
-Therefore, if the asynchronous namespace-change event is received and processed
-by the host before the namespace is fully enabled on the target, the host may not
-find the namespace while scanning the active namespace list.
-
-To close this race, I think we should send the namespace-change notification only
-after the namespace has been fully enabled in nvmet_ns_enable(). In particular,
-we can move nvmet_ns_changed() after setting ns->enabled, the NVMET_NS_ENABLED
-xarray mark, and NVMET_NS_IO_LIVE.
-
-Could you please try the following change on your test system and let me know if
-it fixes the failure? If this resolves the issue, I'll send a formal patch:
-
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 8eea0a504308..da98e5cae7f6 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -626,11 +626,11 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
-         if (ret)
-                 goto out_pr_exit;
-
--       nvmet_ns_changed(subsys, ns->nsid);
-         ns->enabled = true;
-         xa_set_mark(&subsys->namespaces, ns->nsid, NVMET_NS_ENABLED);
-         nvmet_debugfs_ns_setup(ns);
-         set_bit(NVMET_NS_IO_LIVE, &ns->flags);
-+       nvmet_ns_changed(subsys, ns->nsid);
-         ret = 0;
-  out_unlock:
-         mutex_unlock(&subsys->lock);
-
+> I can't find it, so maybe it was the comment below and I mixed
+> sth up back then. I'll move it after ->map().
+> 
+> 
+> * Note that for non-dynamic exporters the driver must guarantee that
+> * that the memory is available for use and cleared of any old data by
+> * the time this function returns.  Drivers which pipeline their buffer
+> * moves internally must wait for all moves and clears to complete.
+> * Dynamic exporters do not need to follow this rule: For non-dynamic
+> * importers the buffer is already pinned through @pin, which has the
+> * same requirements. Dynamic importers otoh are required to obey the
+> * dma_resv fences.
+> *
+> 
+> -- 
+> Pavel Begunkov
+> 
 
