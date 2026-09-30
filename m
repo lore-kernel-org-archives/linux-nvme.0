@@ -4,98 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A4B41CA5FC5
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Sep 2026 16:00:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B964CA5FC7
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Sep 2026 17:08:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Date:Cc:To:From:Subject:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HbvtTgQfS2w7xkwQMd4dxfTuimVr1wZpXFUl3NwHi4E=; b=pBDuvg913Tm8I43ekW3qGYBuxw
-	v12qAqO5XhnseGbOBnMyCv+EwDuiHGnkR3vFyunUgq+AItbQcagxJXyb5oAKLeGTh74xTw7QpW4PU
-	HcMjbnfx4ekorG4BkbVWIwSyhbRI6HiGtonDRpkGt6GK6b40J8ctXrBPYLMhT/r8lOvQIVJ1/OEIt
-	f/uVSk3Igdgvg8zA+eCjZkl1+vLXUTSgs2dS7sWrMyZDQCzo5pbgsuC8EAhtRWV3Jf7+5Ao8fzbG1
-	fhKqYEkapNkR//CkR/b6XlaEaER1s7VuSJRj+SLec7bnwD8u+koufzsr6f4XGjwilbUr6xIRWJpfp
-	1SL4hXww==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:Message-Id:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=6HmpSNNEM09p34tQZwZfSR1LMOyNC+rn8rQV0GuvG9w=; b=yde9y477S5QMYV5lokXy+8kI5A
+	AO5Jg8D+iV4hePODc8yA3L9gD56b6RckMHIXfMhjDwmMZvM2zZktAu3yWFgsLuGThfVqmHmWxHaOX
+	Rrq/1Y6lpf2OQ2MUB5QFjH2FgIetPV53LCgyqo2p123S0qYcJCwUYdGLtm+uG5UlbhYYJ+y3HgwZz
+	MneW0cGSmGxpy0aonYfFApwW3sCH/SzNpwh91XxepHK+qYENZ3BFeEq2DHzkDIBfV/rQVHVSuILcB
+	vFt3TvcpCEA6xzzSwUXOrS20aUSbqXzFdl/On0w41ExUgSWsK6C1m25m4+se2i5hf33loOb/nIPFl
+	b4C9cZJQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBwjC-00000006cCt-3C6r;
-	Wed, 30 Sep 2026 16:00:18 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1xBxn6-00000006mhw-3W2t;
+	Wed, 30 Sep 2026 17:08:24 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBwj8-00000006cBn-2WlQ
+	id 1xBxn5-00000006mhe-3JmZ
 	for linux-nvme@lists.infradead.org;
-	Wed, 30 Sep 2026 16:00:17 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1790784011;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HbvtTgQfS2w7xkwQMd4dxfTuimVr1wZpXFUl3NwHi4E=;
-	b=JOq6FAZ5hdC2nVMKpe4vcZ4+uR/wo3ifjtQFnlDEiWqF/uBj5jMBOMuh1/TUSH5kGzibv0
-	xRTk30bfwoDwn0eDIslc9+Qv04oufrHLkLi18F/tw5N98kh07auwkNb0askWpe4y8OqmE+
-	15nfOrzjwWXGmqZ+AZutYms5tUnhp3Y=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-344-egxcpujDNNydrmP-XyWI3Q-1; Wed, 30 Sep 2026 12:00:10 -0400
-X-MC-Unique: egxcpujDNNydrmP-XyWI3Q-1
-X-Mimecast-MFC-AGG-ID: egxcpujDNNydrmP-XyWI3Q_1790784009
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-532c6028621so65338131cf.1
-        for <linux-nvme@lists.infradead.org>; Wed, 30 Sep 2026 09:00:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790784009; x=1791388809;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=rswwO4jduymRlqfwk2hkvrsb0tcbIMml5VZ3Fn+B1L0=;
-        b=UlYA0LchqSGB8eiuwIuiBppbzDUYiDvAe0bggP1DkbTmLf+n1PIdRCrQYE8pOkr6WW
-         4nwGkTLEOtexPoleJ+dOD8yJ4O6C6XiNjj+Ls0fQ56W1ryUZKipUfx3kYPhb4XtpYBDe
-         T9udK54MHa65w7FJcorVQsgPkvgfFx1htuhmBy+/1dL8Ue9tkYe1/L+K6epK3ZXLMulr
-         q1WGKo1SCFrgIlAbLacBn0zM7XLi1lDsll95qDyU2sLJgTk7cX9ESipHfF5cveyi4mS2
-         KvpEqFPgLAhq2euiJWoKtSSSQYc57DACUGe7sTHRR5Vp/WuoZvMwz4MPEebGkXZGIR1U
-         p4sg==
-X-Forwarded-Encrypted: i=1; AKwUvBxv0EsaiFeXcDce0jxoJLZbc0he0zS+whCVW9B8YxgRpTOookyJTOMCgNvx9AmPQADecX+IDDA6Wqv0@lists.infradead.org
-X-Gm-Message-State: AFuF++knSCFSuAKmg8rCCxqBtVnWbnirxXZncmqo1QI4KqbMWB6XXamX
-	sGCIETcWsuRmnHbufqTfYTJoF05Ne0Wpoo8Oi5ogQ/6NjBRMUQbZfQBx6+4alpqc27s9ke6TRn9
-	p5b5fSstxS36UOxN3aPsjSfGpsek6jF94d8tYiJjq5CiatRcSGvlWc+2yvOadXHgykZx4
-X-Gm-Gg: AYBFou2dVH0qTjgXD7fmyq7G9EVBthaI8sOxgNGW4NgVjpske7JZ776bxwUn9B10Pcz
-	YoOyUZM9olcEv0LUzrne9hfsFai1IhUxYjx2GtM1RZN3kCmKbuZ8N/xxkhk/ByTJBaocH/R7DP1
-	vTQ4v2E7EJWXX3DAPRmwjhH+z86NLRNM7TqN0c6uajXQUw5isZOAHkahHhMj2LD7K4BTCTTVoeT
-	WxNvWj9dQjmqM6rZsKkXHcEhOlM71TuFARQMiC0w6R0nxpKmYv6ZlF21TAX0ulT90iK1U4WfE+r
-	r7HC+CCEpTfqtT1K6cgX7SVrMu6Ibp0Ylmq6FmNS9TZwgdqfROpeNP9fGFjbOUiNb+R0K8xGGbu
-	OwutgZC6Q151wPwgibdGuCSIi9MgbSvz3hIpm
-X-Received: by 2002:a05:6214:5b85:b0:914:43b1:d4e8 with SMTP id 6a1803df08f44-917a0b26709mr28871246d6.10.1790784008936;
-        Wed, 30 Sep 2026 09:00:08 -0700 (PDT)
-X-Received: by 2002:a05:6214:5b85:b0:914:43b1:d4e8 with SMTP id 6a1803df08f44-917a0b26709mr28870146d6.10.1790784008156;
-        Wed, 30 Sep 2026 09:00:08 -0700 (PDT)
-Received: from loberman-thinkpadp16gen3.rmtusma.csb ([2600:6c65:2440:d8c:aa2b:ddff:fe88:da74])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-917a8a22f96sm2778796d6.32.2026.09.30.09.00.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2026 09:00:07 -0700 (PDT)
-Message-ID: <ada8481da01e3e4c7800fafdb75bf219fdc07672.camel@redhat.com>
-Subject: Re: [PATCH] nvme-multipath: report "none" iopolicy for discovery
- subsystems
-From: Laurence Oberman <loberman@redhat.com>
-To: Martin George <martinus.gpy@gmail.com>, linux-nvme@lists.infradead.org
-Cc: hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, Martin George
-	 <marting@netapp.com>
-Date: Wed, 30 Sep 2026 12:00:06 -0400
-In-Reply-To: <20260930153658.4002-1-marting@netapp.com>
-References: <20260930153658.4002-1-marting@netapp.com>
-User-Agent: Evolution 3.60.2 (3.60.2-2.fc44)
+	Wed, 30 Sep 2026 17:08:23 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 6180140E0F;
+	Wed, 30 Sep 2026 17:08:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3C465C4AF0B;
+	Wed, 30 Sep 2026 17:08:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1790788103;
+	bh=4NH8nBBHtrLJauGd295tYaaQTMYvG/KmeBoGdp4t9/4=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=H/u/HoweKlQXYlzm3uZOXlvshH/tXz4H+uHgLDqbsPfA5cmwkJB4UNH6NguR/jtw9
+	 yUxn+MwxunZ+BMeKQvAnZoIXvNGZnlVltQA05lyhErG0AS41RscLvBavM+vQDfP/Ti
+	 hRMK9Bk7/84LfETljHP38L/YGm0hsBcUWE0KbNG/sd9bWg3cEP4C4ikqFsq9wfYOzg
+	 bEICVZ4ZAaMAVo5nXwgY4Yoam17qwFeEqE7HIB8ZylZmPqiYwQPe4zRVZnOADpkB4C
+	 3iT5fA1gW2MLb8c8L4eHdlCkYVE0OV/lUAMrgqag6t/z4JN8AT3SeoV1KYMxbe7esK
+	 57np4OOQ4Kb9g==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19F2CCA5FC7;
+	Wed, 30 Sep 2026 17:08:23 +0000 (UTC)
+From: Amber Gao via B4 Relay <devnull+ambergao.apptronik.com@kernel.org>
+Date: Wed, 30 Sep 2026 12:08:04 -0500
+Subject: [PATCH] nvme-pci: avoid the deepest sleep state on Transcend
+ MTE672A SSDs
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: WDuct4MU8aWyFkHeWS5wp5qJfwC5ucqKmVMOvdwUbuk_1790784009
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260930_090015_050204_CDF07CAF 
-X-CRM114-Status: GOOD (  23.35  )
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260930-nvme-transcend-mte672a-v1-1-a025655acd9a@apptronik.com>
+X-B4-Tracking: v=1; b=H4sIAPNBvWoC/yXMQQrCMBBG4auUWRsYI43Wq0gXafqrI3SUTCxC6
+ d1Ndfkt3lvIkAVG52ahjFlMnlqx3zWU7lFvcDJWk2cfuDuw03mCKzmqJejopoJw9NF1fBqA4ME
+ tqMavjKt8fuNL/7e9hwdS2W60rl+KotoKegAAAA==
+X-Change-ID: 20260930-nvme-transcend-mte672a-908bee62e05e
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Amber Gao <ambergao@apptronik.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1790788102; l=3749;
+ i=ambergao@apptronik.com; s=20260930; h=from:subject:message-id;
+ bh=LZs7S1NoTlL/SdsSCVJp0FZHzu9IOgUyTgnCjquUuPo=;
+ b=ldUU+zp98Bnmxv6XGHeCZ+TN6wpx6X0RqytwKBmv+ogcdbFFyOcd4ULn8a8gNNhyoIvP17jFh
+ Uu5JkfMGhBUBlKBmcn4Qu+9APdN8gUzI1HFJhtwj2L1pch8yeMDBkow
+X-Developer-Key: i=ambergao@apptronik.com; a=ed25519;
+ pk=0/6wixcQKuRsYBFf5+L/ltWe5KwC7hPcuyFl2nDaG+Q=
+X-Endpoint-Received: by B4 Relay for ambergao@apptronik.com/20260930 with
+ auth_id=1087
+X-Original-From: Amber Gao <ambergao@apptronik.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,126 +83,94 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: ambergao@apptronik.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, 2026-09-30 at 21:06 +0530, Martin George wrote:
-> A discovery subsystem never exposes namespaces, so it has no
-> multipath
-> head and no I/O paths to select between. Nevertheless the per-
-> subsystem
-> iopolicy attribute is registered unconditionally and reads back the
-> driver-wide default which is 'numa' for the discovery subsystems too.
-> This can be misleading as it suggests a path selection policy is in
-> effect when nothing is ever selected, and writing the attribute
-> silently
-> mutates state that can never be used.
->=20
-> Report "none" instead for a discovery subsystem, and reject writes
-> with -EOPNOTSUPP. Report "none" from iopolicies as well, so that the
-> value read from iopolicy always remains a member of the set
-> advertised
-> by iopolicies; otherwise userspace validating the current policy
-> against the available ones would reject its own subsystem.
->=20
-> And while at it, document iopolicies too, which was not covered when
-> it
-> was added previously.
->=20
-> Signed-off-by: Martin George <marting@netapp.com>
-> ---
-> =C2=A0Documentation/ABI/stable/sysfs-nvme | 15 +++++++++++++++
-> =C2=A0drivers/nvme/host/multipath.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
- 12 ++++++++++++
-> =C2=A02 files changed, 27 insertions(+)
->=20
-> diff --git a/Documentation/ABI/stable/sysfs-nvme
-> b/Documentation/ABI/stable/sysfs-nvme
-> index a0bb88ca1694..67795a2dd905 100644
-> --- a/Documentation/ABI/stable/sysfs-nvme
-> +++ b/Documentation/ABI/stable/sysfs-nvme
-> @@ -465,6 +465,21 @@ Description:
-> =C2=A0=09=09selections. Only available when
-> CONFIG_NVME_MULTIPATH is
-> =C2=A0=09=09enabled.
-> =C2=A0
-> +=09=09A discovery subsystem has no namespaces and hence no
-> I/O
-> +=09=09paths to select from: reading returns "none" and
-> writing
-> +=09=09fails with EOPNOTSUPP.
-> +
-> +What:=09=09/sys/class/nvme-subsystem/nvme-subsysX/iopolicies
-> +Date:=09=09September 2026
-> +KernelVersion:=097.4
-> +Contact:=09Laurence Oberman <loberman@redhat.com>
-> +Description:
-> +=09=09Shows the I/O path selection policies that may be
-> written
-> +=09=09to the iopolicy attribute of this subsystem,
-> separated by
-> +=09=09spaces: "numa round-robin queue-depth". A discovery
-> +=09=09subsystem accepts no policy at all and reports
-> "none".
-> +=09=09Only available when CONFIG_NVME_MULTIPATH is
-> enabled.
-> +
-> =C2=A0What:=09=09/sys/class/nvme-subsystem/nvme-subsysX/subsystype
-> =C2=A0Date:=09=09September 2021
-> =C2=A0KernelVersion:=095.16
-> diff --git a/drivers/nvme/host/multipath.c
-> b/drivers/nvme/host/multipath.c
-> index 11871f5f18c2..56ee25b448ad 100644
-> --- a/drivers/nvme/host/multipath.c
-> +++ b/drivers/nvme/host/multipath.c
-> @@ -1054,6 +1054,10 @@ static ssize_t
-> nvme_subsys_iopolicy_show(struct device *dev,
-> =C2=A0=09struct nvme_subsystem *subsys =3D
-> =C2=A0=09=09container_of(dev, struct nvme_subsystem, dev);
-> =C2=A0
-> +=09/* A discovery subsystem has no namespaces and hence no I/O
-> paths */
-> +=09if (subsys->subtype =3D=3D NVME_NQN_DISC)
-> +=09=09return sysfs_emit(buf, "none\n");
-> +
-> =C2=A0=09return sysfs_emit(buf, "%s\n",
-> =C2=A0=09=09=09=C2=A0 nvme_iopolicy_names[READ_ONCE(subsys-
-> >iopolicy)]);
-> =C2=A0}
-> @@ -1088,6 +1092,9 @@ static ssize_t
-> nvme_subsys_iopolicy_store(struct device *dev,
-> =C2=A0=09=09container_of(dev, struct nvme_subsystem, dev);
-> =C2=A0=09int policy;
-> =C2=A0
-> +=09if (subsys->subtype =3D=3D NVME_NQN_DISC)
-> +=09=09return -EOPNOTSUPP;
-> +
-> =C2=A0=09policy =3D nvme_iopolicy_parse(buf);
-> =C2=A0=09if (policy < 0)
-> =C2=A0=09=09return policy;
-> @@ -1101,8 +1108,13 @@ SUBSYS_ATTR_RW(iopolicy, S_IRUGO | S_IWUSR,
-> =C2=A0static ssize_t iopolicies_show(struct device *dev,
-> =C2=A0=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct device_attribu=
-te *attr, char
-> *buf)
-> =C2=A0{
-> +=09struct nvme_subsystem *subsys =3D
-> +=09=09container_of(dev, struct nvme_subsystem, dev);
-> =C2=A0=09int i, len =3D 0;
-> =C2=A0
-> +=09if (subsys->subtype =3D=3D NVME_NQN_DISC)
-> +=09=09return sysfs_emit(buf, "none\n");
-> +
-> =C2=A0=09for (i =3D 0; i < ARRAY_SIZE(nvme_iopolicy_names); i++)
-> =C2=A0=09=09len +=3D sysfs_emit_at(buf, len, "%s%s", i ? " " : "",
-> =C2=A0=09=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0 nvme_iopolicy_names[i]);
+From: Amber Gao <ambergao@apptronik.com>
 
-Hi Martin, thank you, yes, an oversight on my part not to update the
-documentation.=C2=A0
-Thanks for adding that patch.
+The Transcend MTE672A (PCI ID 1d79:2263, Silicon Motion SM2263XT
+controller) stops responding after it has been idle long enough to
+enter its deepest APST power state. This reproduces without any
+workload: on every boot observed, a write issued about 16 s after the
+kernel starts never completes, and about 45 s in the kernel reports
 
-In addition, your discovery patch change looks good to me.
+  nvme nvme0: I/O tag 191 (30bf) opcode 0x1 (I/O Cmd) QID 2 timeout,
+              aborting req_op:WRITE(1) size:131072
+  nvme nvme0: I/O tag 191 (30bf) opcode 0x1 (I/O Cmd) QID 2 timeout,
+              reset controller
+  nvme nvme0: Abort status: 0x371
 
-Reviewed-by: Laurence Oberman <loberman@redhat.com>
+The abort is not completed either; the drive only comes back once the
+controller has been reset. If the hang occurs while many I/Os are
+queued, that reset can time out as well; the driver then gives up and
+removes the NVMe device from the system. On the affected system this
+has happened twice, both times during a firmware update, leaving the
+ext4 root filesystem unusable.
+
+Booting with nvme_core.default_ps_max_latency_us=10000, which excludes
+only PS4 (the deepest state), makes the boot-time timeout disappear. With
+NVME_QUIRK_NO_DEEPEST_PS applied instead, on a stock command line, no
+timeout has been seen on any boot since, including six multi-GB A/B
+firmware updates.
+
+The same controller is already quirked for this under other vendors'
+IDs: Kingston A2000 (2646:2263), Kingston SKC2000 (2646:2262) and the
+Silicon Motion generic IDs 126f:2262 and 126f:1001.
+
+Tested on a 6.8-based vendor kernel; the patch is against mainline,
+where the surrounding code is unchanged, but has not been retested
+there.
+
+  vid       : 0x1d79
+  ssvid     : 0x1d79
+  mn        : TS2TMTE672AI-VS1
+  fr        : X0122B3
+  [...]
+  ps    0 : mp:6.00W operational enlat:0 exlat:0 rrt:0 rrl:0
+            rwt:0 rwl:0 idle_power:- active_power:-
+  ps    1 : mp:3.00W operational enlat:0 exlat:0 rrt:1 rrl:1
+            rwt:1 rwl:1 idle_power:- active_power:-
+  ps    2 : mp:1.50W operational enlat:0 exlat:0 rrt:2 rrl:2
+            rwt:2 rwl:2 idle_power:- active_power:-
+  ps    3 : mp:0.0450W non-operational enlat:3000 exlat:3000 rrt:3 rrl:3
+            rwt:3 rwl:3 idle_power:- active_power:-
+  ps    4 : mp:0.0040W non-operational enlat:25000 exlat:25000 rrt:4 rrl:4
+            rwt:4 rwl:4 idle_power:- active_power:-
+
+Assisted-by: LLM
+Signed-off-by: Amber Gao <ambergao@apptronik.com>
+---
+Two-line device-ID addition. The affected drive hangs in PS4 shortly after boot;
+NVME_QUIRK_NO_DEEPEST_PS is the same quirk already applied to the Kingston A2000 and
+SKC2000 and the Silicon Motion generic IDs, which share this controller.
+Tested on a 6.8-based vendor kernel; not retested on mainline, where the surrounding
+table is unchanged.
+---
+ drivers/nvme/host/pci.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 5440cf18b..1a3353782 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -4221,6 +4221,8 @@ static const struct pci_device_id nvme_id_table[] = {
+ 		.driver_data = NVME_QUIRK_NO_DEEPEST_PS, },
+ 	{ PCI_DEVICE(0x2646, 0x2263),   /* KINGSTON A2000 NVMe SSD  */
+ 		.driver_data = NVME_QUIRK_NO_DEEPEST_PS, },
++	{ PCI_DEVICE(0x1d79, 0x2263),   /* Transcend MTE672A */
++		.driver_data = NVME_QUIRK_NO_DEEPEST_PS, },
+ 	{ PCI_DEVICE(0x2646, 0x5013),   /* Kingston KC3000, Kingston FURY Renegade */
+ 		.driver_data = NVME_QUIRK_NO_SECONDARY_TEMP_THRESH, },
+ 	{ PCI_DEVICE(0x2646, 0x5018),   /* KINGSTON OM8SFP4xxxxP OS21012 NVMe SSD */
+
+---
+base-commit: 551c722f40809618230001baccf219193e22fc5a
+change-id: 20260930-nvme-transcend-mte672a-908bee62e05e
+
+Best regards,
+--  
+Amber Gao <ambergao@apptronik.com>
+
 
 
