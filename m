@@ -4,57 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A0DB6CA5FB1
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Sep 2026 08:05:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E3527CA5FC1
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Sep 2026 09:12:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:Cc:To
-	:From:Subject:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
-	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=87BxPdY4EjMsQSSVGjREKm+G0eKNQBAfKCSFzVf2aHM=; b=AMckzadKvlSClsOK1Q3p2Dghlg
-	AZBWvFBY4xIB0l1gRU0TZTLLVfah5qgaAsySXFY2tsxkXYi9TnHSyW+l0QCiG2jTNdiiVYL8BGbND
-	db1ZRbZkIZsExl+3odqfL7/NA6H/BkA2jNqc3VvIhBUEyOdseU3hphGPkVTJ/GrW31hcJld+nVAhm
-	pooeQmmCH+9tubu/DfwFyaoYKfFfgZi+Aey7vngGFPZcUAY1sh0h9fLC+hTAPh9EmY+P3h2aNwUJn
-	bGS2LJKDMu0kRqTdjE+axWDd1nF6FRVDtHFNQKV1WlNi6uL4iNegcRegGY+qHtgsebpFGZFqOpMZO
-	PhW0xlGQ==;
+	bh=kBMnDFeTFjA6o5lir8aYg7Q1nxgXxskFh7ltUG1eKa0=; b=reyYw1mVKyh+WznIfDTS5GGO50
+	zGJnrkXq0j0IGQd3WEsbYCqNFuuHxqwQmWk1xC9YdKibQXq1Dq6BVoy8t6fqomckkZIvYuTuOJZNN
+	CpFPVx7akES5+wQUxFj1YyPu8dnd7F49yM5UzR8OIWt9I0afzp8eKhCiSC4WixB4IcgZOF/rSNBs4
+	Zw6iLMRVsEQwpZB9fAIA0kwh50rSV5wLw4JSYOKT8UxDbFyl17cWqWA8ot9a4/G0G8tlcgpk7PbMK
+	lwnUB94mpRMTTB/yNS4uGE9eB/C0OkhK9Z/6pdRFWPYJnBxXQgNQYaUGQKirGZc1wzNLVlvheVnzu
+	MF1CVzHA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBpJR-00000005NUl-3a9X;
-	Wed, 30 Sep 2026 08:05:13 +0000
-Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=arkamax.eu)
+	id 1xBqM2-00000005X02-3ED8;
+	Wed, 30 Sep 2026 09:11:58 +0000
+Received: from mailgw.kylinos.cn ([124.126.103.232])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBpJO-00000005NSu-303g
+	id 1xBqLv-00000005Wya-1oRR
 	for linux-nvme@lists.infradead.org;
-	Wed, 30 Sep 2026 08:05:12 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; s=mail1; bh=L+SpVVO/kNDrGM
-	KFucYg6Wz4pw+WmQwVbWWvkvWAQ/I=; h=in-reply-to:references:cc:to:from:
-	subject:date; d=arkamax.eu; b=oHTt+dNxW4u9GQv3VpABGYznhzyq/Dy6DY32oCij
-	Q3yA1ouGkBtiylExyCUODNNECUXgg0STcSL+snCuBhivSn6z5wdv2tgomcUoh5HCbcqqpt
-	g4KzPNEXrpknownSXxgrXf0di8bPv7VjXY8Z26IR4GJfwbX6ERlgadjXdMI8GyCvkU6kPq
-	9vgv2SNe9kM4U/f29hBQ9F8z81ZmIRkIoGDd6Ej/E39SQXfrWh5sbTqMATax6MuX3d9ohz
-	IHWG36JFP4ytIec5165eLML/zFvOrGpXZl2olFjohK2+TqbkZREkzANVJp21U0pzBaNgV+
-	DfFaSnZqvOQUcaTEcU8gLQ==
-Received: from localhost (046207048051.atmpu0026.highway.a1.net [46.207.48.51])
-	by arkamax.eu (OpenSMTPD) with ESMTPSA id 8034cda7 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Wed, 30 Sep 2026 10:05:05 +0200 (CEST)
-Mime-Version: 1.0
+	Wed, 30 Sep 2026 09:11:53 +0000
+X-UUID: f1135ababcae11f19a56ed5b684f684d-20260930
+X-CTIC-Tags: HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NO_NAME, HR_CTE_QP, HR_CTT_MISS
+	HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME, HR_SJ_DIGIT_LEN
+	HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE
+	HR_SJ_PHRASE_LEN, HR_SJ_PRE_RE, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT
+	HR_TO_NO_NAME, IP_TRUSTED, SRC_TRUSTED, SA_TRUSTED, SA_EXISTED
+	SN_TRUSTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS
+	CIE_BAD, CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS, GTI_C_CI
+	GTI_FG_IT, GTI_RG_INFO, GTI_C_BU, AMN_GOOD, ABX_MISS_RDNS
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:be1cafa9-a4e9-4612-99d5-2219269dcb61,IP:10,
+	URL:0,TC:0,Content:-5,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTI
+	ON:release,TS:30
+X-CID-INFO: VERSION:1.3.19,REQID:be1cafa9-a4e9-4612-99d5-2219269dcb61,IP:10,UR
+	L:0,TC:0,Content:-5,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:30
+X-CID-META: VersionHash:7db8b62,CLOUDID:b402e681f5a3a7591de3410ba00273b8,BulkI
+	D:260929044255IT3ZBZHL,BulkQuantity:1,SF:10|66|78|81|82|83|102|127|850|865
+	|898,TC:nil,Content:0|15|50|99,EDM:5,IP:-2,URL:99|1,File:nil,RT:nil,Bulk:4
+	0,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE
+	:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: f1135ababcae11f19a56ed5b684f684d-20260930
+X-User: sangyao@kylinos.cn
+Received: from localhost.localdomain [(223.70.159.239)] by mailgw.kylinos.cn
+	(envelope-from <sangyao@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 686644997; Wed, 30 Sep 2026 17:11:38 +0800
+From: Yao Sang <sangyao@kylinos.cn>
+To: bvanassche@acm.org
+Cc: axboe@kernel.dk,
+	dlemoal@kernel.org,
+	hch@lst.de,
+	kbusch@kernel.org,
+	linux-nvme@lists.infradead.org,
+	sagi@grimberg.me,
+	sangyao@kylinos.cn
+Subject: Re: [PATCH v2] nvme-multipath: revalidate zones for namespace heads
+Date: Wed, 30 Sep 2026 17:11:12 +0800
+Message-Id: <20260930091112.454399-1-sangyao@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <2bfc96f2-7d0d-47e0-936e-8810abb31a9f@acm.org>
+References: <2bfc96f2-7d0d-47e0-936e-8810abb31a9f@acm.org>
+MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 30 Sep 2026 10:05:03 +0200
-Message-Id: <DLSHUHHXUD8C.2P2HXJTWO2DQT@arkamax.eu>
-Subject: Re: [PATCH] nvmet: use the local P2P device on metadata allocation
- failure
-From: "Maurizio Lombardi" <mlombard@arkamax.eu>
-To: "Sang-Hoon Choi" <csh0052@gmail.com>, "Christoph Hellwig" <hch@lst.de>,
- "Sagi Grimberg" <sagi@grimberg.me>, "Chaitanya Kulkarni" <kch@nvidia.com>
-Cc: <linux-nvme@lists.infradead.org>, "Changyul Lee" <lcy8047@gmail.com>
-X-Mailer: aerc 0.22.0
-References: <179075213853.3.11747926147721077082.idr-bug-90@gmail.com>
-In-Reply-To: <179075213853.3.11747926147721077082.idr-bug-90@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260930_010511_382698_29FD143E 
-X-CRM114-Status: GOOD (  14.70  )
+X-CRM114-CacheID: sfid-20260930_021151_779760_328C1008 
+X-CRM114-Status: UNSURE (   4.37  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,48 +93,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed Sep 30, 2026 at 9:08 AM CEST, Sang-Hoon Choi wrote:
-> nvmet_req_alloc_p2pmem_sgls() assigns req->p2p_dev only after the data
-> and metadata SGL allocations succeed. If the data allocation succeeds
-> but the metadata allocation fails, out_free_sg passes req->p2p_dev to
-> pci_p2pmem_free_sgl() before that assignment has taken place.
->
-> Pass the local p2p_dev argument instead, so cleanup uses the same PCI
-> device as the successful data allocation.
->
-> Fixes: bcd9a0797d73 ("nvmet: fix freeing unallocated p2pmem")
-> Reported-by: Changyul Lee <lcy8047@gmail.com>
-> Link: https://github.com/lcy8047/radix-tree-bug-temp/blob/main/bug_list/i=
-dr-ida-xarray/missing-idr-lock/IDR-BUG-90-nvmet-p2p-ns-map-lookup.md
-
-This link gives 404 to me but anyway the patch looks ok
-
-Reviewed-by: Maurizio Lombardi <mlombard@redhat.com>
-
-
-> Assisted-by: Sang-Hoon Choi <csh0052@gmail.com>
-> Signed-off-by: Sang-Hoon Choi <csh0052@gmail.com>
-> ---
-> Compile-tested on x86_64 with allmodconfig and W=3D1 against mainline
-> 6f8319e3e9a44dd537d17f41565a8453c560a581. No P2P hardware or metadata
-> allocation failure test was performed.
->
->  drivers/nvme/target/core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-> index 43871a8f56ca..9ef29b2b49de 100644
-> --- a/drivers/nvme/target/core.c
-> +++ b/drivers/nvme/target/core.c
-> @@ -1317,7 +1317,7 @@ static int nvmet_req_alloc_p2pmem_sgls(struct pci_d=
-ev *p2p_dev,
-> =20
->  	return 0;
->  out_free_sg:
-> -	pci_p2pmem_free_sgl(req->p2p_dev, req->sg);
-> +	pci_p2pmem_free_sgl(p2p_dev, req->sg);
->  out_err:
->  	return -ENOMEM;
->  }
-
+Hi Bart,=0D
+=0D
+Thanks for pointing this out, and sorry for the regression.=0D
+=0D
+I reproduced the lockdep warning and confirmed that Palla's fix=0D
+resolves it in my tests:=0D
+=0D
+https://lore.kernel.org/all/20260930062648.73871-1-raghunathpalla.0209@gmai=
+l.com/=0D
+=0D
+Thanks,=0D
+Yao=0D
 
