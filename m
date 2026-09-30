@@ -4,114 +4,93 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4D883CA5FB1
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2026 23:24:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 40043CA5FAD
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Sep 2026 02:42:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LqO5rqFvyRue6UM+wZoeSHLBr6tsHYDgvKbTW7jcYak=; b=1dL60FCsKH4F2x6H2DjOT2rb1Y
-	6Fbact28y531YgwF9gfZp5kOMask208KbPlj5YGDQo8uXnLwG2Uw65Nyl7fbmy5NvQl8nt51z9LPh
-	cktwtqIcNzut2096ipfEX3Ycr2GYeRRMfyug5ebE/ptDJgz7GVaXH2m043gmajl+L4ISFcMuK6BIx
-	CGGMtnXeg+7sTpWMLCy2M8was0XpLDPLPHiGX8M3rwfJn58yUSIls/LdfwzikXmBqH2RCk99FkmLO
-	jJy/wdSsbCT8vfJmJJQaebmDMuLXXeG+Uc7p7rhn0jd6y0bRtkRSmarGkXPmpBWZ1qePxtvgwxKLK
-	okHig+vg==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=ZXAnOf/NZJgORhbHe0MffVtfrlsAlZFWtlHgqEl8yV0=; b=xg8EePy+GCREnD+ReiiZwSo9aR
+	2+kfOuOJJL3d/n5L5IccStNnh350GDU4JemaIpDER+Gz/Nc9K+DWPFM/kD1biG8KcWs0EksAGNo7+
+	u78DKOf6uSVar69fcSppYsx/yE1np5JgX1ugCpayUm5IXC23ln3beQ7lEaPPoBcOqIXAHUlTiN2Jv
+	uNJ88xJaN7+FaYHZ46RUK4kniNCThN1mtKrU76jnF7r9Pyfyz24moJXmdbLhi7mcXkjhZuH90D2ud
+	Vhc2HbtIDMTYLTGvDrGLpuz60J5TWZIGiVMpv4ue4xMvzZF//7GWluLzY0MR4BwMddw7O2wrTmmok
+	y9oTPBNQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBhBS-00000004kkO-0zWN;
-	Tue, 29 Sep 2026 23:24:26 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1xBkHI-00000004vEZ-2So2;
+	Wed, 30 Sep 2026 02:42:40 +0000
+Received: from mail-dy2-x0f.google.com ([2607:f8b0:4864:36::f])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBhBQ-00000004kjS-1TlS
-	for linux-nvme@bombadil.infradead.org;
-	Tue, 29 Sep 2026 23:24:24 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=LqO5rqFvyRue6UM+wZoeSHLBr6tsHYDgvKbTW7jcYak=; b=MhrM2dQOCyaCjM491f02rNiBxy
-	BE/KtHNNzGGsaYiQZg8DZD9XKYKFn05yuWKrOjYFa28m6iIAAeqK2zt2Sjq6RkJ+D+E7T+RobqSSw
-	xdUtNY9DWmOMKuVL7vbxD1J1aQMqgB7QWXlry3gW2T96pgcD1EdIXKcmskKurzg3+MWCIOZlElEux
-	SjYRGFrtHBRKK0aPtmesI66uzPUHu6jCMO6Cs4MkW6GQiq6mO84O6STs3kg5oj+CxaCsBQP+g9kmw
-	ivgUNS5hgMXbHeaJRZveuB5N5nHdvXyGb3mxtEWqavJ6Pb6uTVXvJqaG7dFElvDDiPoICyny3Ov0k
-	4s9+3ADA==;
-Received: from mail-pz2-x29.google.com ([2607:f8b0:4864:3b::29])
-	by desiato.infradead.org with esmtps (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1xBhBN-00000003Ab6-0f4Q
+	id 1xBkHF-00000004vEA-3N1N
 	for linux-nvme@lists.infradead.org;
-	Tue, 29 Sep 2026 23:24:23 +0000
-Received: by mail-pz2-x29.google.com with SMTP id 41be03b00d2f7-cc7cadbe09dso430577a12.2
-        for <linux-nvme@lists.infradead.org>; Tue, 29 Sep 2026 16:24:20 -0700 (PDT)
+	Wed, 30 Sep 2026 02:42:39 +0000
+Received: by mail-dy2-x0f.google.com with SMTP id 5a478bee46e88-340f56c44b0so1955148eec.1
+        for <linux-nvme@lists.infradead.org>; Tue, 29 Sep 2026 19:42:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790724258; x=1791329058; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=LqO5rqFvyRue6UM+wZoeSHLBr6tsHYDgvKbTW7jcYak=;
-        b=jzdcGq9RUxPhJk+GzqbS2Mdul0suq166mJzAxulbutx9C7TWwPWn9RVT675EBHyb18
-         7goKh5fgFuFzBq0BBPqA4RAXVh/1imbRJLcb0iGU5kwgY+LAq+r7bLLf4S9DXTCC4oCS
-         fIGJzB+Jehqh2qmVNnfvsAy2Do0Zgjs2A+Dlr51q66YDUQ794R9VKKEpSVmn9k0qjY8S
-         2JxBqwwQ+4T7Sbdsr04vkI6LdNF+TlVxIbGjYOMf0aIiQH9lF27D2tZRCwwsAWKgg4F3
-         nRM00sKuEEbEqltK7xamWXikWv2rfplhtTgdWOzG/dxO0CUOwRPgkrv0SVAaK+EieG+/
-         KijQ==
+        d=trailofbits.com; s=google; t=1790736157; x=1791340957; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ZXAnOf/NZJgORhbHe0MffVtfrlsAlZFWtlHgqEl8yV0=;
+        b=eTikhJk/oXGvl1Z52esnoxzTB9iYD+x8GZ6mv/BcYUIvCw3sQJY313wJPDCo4Q0ZNo
+         6e/CmVIK2kjKWlkDpMoUfmi5cKqn/v/OSAo7CmWIU/Su1LwgICIVLSveosalvx8UDe/T
+         /gUR80WyF1F33RPAZO2HY38wP0tJcVE2wIgYxfv7kYEPemZ98eJShLgSDm1ZgVjkn917
+         GTm8CPrBYGoKCabfuqFlqwqdwcQzmGmFKm/GQT38xv6n+f5UZ7ZcG6QQmvVCbPeFtpMi
+         sRS0f8j4p7k4CbSWcyeUVw4oQXDYC81uYsEeBTS83hD2jFOeKrSfVSYYCsOWPFcJGNHe
+         krtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790724258; x=1791329058;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=LqO5rqFvyRue6UM+wZoeSHLBr6tsHYDgvKbTW7jcYak=;
-        b=g05dFtTzDULfZzgWe2Mnz6QkskAICopnWkAYhRUkc6FmmqaT/jE0KmcZ13lrf38og1
-         CRUXidRrRk9NLEeP0GQDYnGmjOkGxZX4Jd97i8VDZImjpalGtnMJWr8VQwmMGI8Y4zVu
-         reLo1+vRVroOiUq8osT0XX5g82hsc4ZzrqukC6e+4E6GFDfdgqO/HrS9N6B0Qjn6OlD2
-         WlZObh1srFGJ2Wde12b3I2tJp9Yk8RFiVCUkfNSYzpWL2v00O3m81xVEttMLHCYRrQ3l
-         aN4qIbNNHxMzNKA6rTlg7VKif2X2iBsx0agjMeSK2C+plsO8jpzUhcvYSnmOCQz5P41p
-         o0lQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwAdE1UR1hxsiDImko5aN/j2WGnyLnQaBzmRSuAuIKTm4WYmknjXGzO3lRiHiGO0zz4X6AK1lf1eDQW@lists.infradead.org
-X-Gm-Message-State: AFq9FYIlvV9hDzzRng60fG4Mv6xPjRPCgDnN+BA6oVmCNJ9ECPAw6j60
-	55x4K3aSd4T68eGOqkTlMSO54snN005dNKSzQtDNeprkpGHIgz4wb8VH
-X-Gm-Gg: AYBFou06/esI5zUEekJLYQMp2yaV90c91ASRSV/G9xeRa/jh26kf7Jd8jyJfQ+4jSj0
-	wwWOqrn5WCco4mh6BvPSUg60Dqg/E+M9FX9t/VdK8/HsSNoaUIBpbcjtZ3uo/8o5sgUbH5p1bPD
-	B5fmHYW8vigayVBnEEO/myZV3kfcdePl1k0FC+0w0oWGRoCKOQ00WAbDb0gjtXZF4SCCdAlKo+k
-	bKjU3tCM8bhkpoeomhAKIflNWTYR0A4HfTyGRtNbRmdBYjpL11U6+AzovZsjh4S2Q2llU8yZ2Qu
-	W6s+b9dYBGD885XeyoE9gQuBsm/qKYTvpS72DO0tkvtz7DwS/oUYpkWUsiz/mGOrA/cwJ+4AqYM
-	QlyhAQqBlnCA+ZOzBS4tTmvQhqz54VvTpYopQajYgsNemNtNmikwvaFutqvvHFXVK0VSug0wqX6
-	vp8O4LHXr0mQTidBQfVl5ubT09zyEQQNSC46TcKZE/QUBgLQlHuUA+zHAAL6gZVyiskmXYG0vLz
-	Ln47WP473MjEDPOyQnyZaGmfPmucQLY+ZtXC3V+fq75qAQDSpnTdv3b4hDeb3XfQnQzWiw4wlhH
-	aGE=
-X-Received: by 2002:a17:90a:d448:b0:3a2:b036:ed62 with SMTP id 98e67ed59e1d1-3a4bff0ef48mr451780a91.37.1790724258206;
-        Tue, 29 Sep 2026 16:24:18 -0700 (PDT)
-Received: from yupeng-XPS-15-9520.. (c-73-169-192-12.hsd1.wa.comcast.net. [73.169.192.12])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a4ca78102csm138700a91.4.2026.09.29.16.24.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2026 16:24:17 -0700 (PDT)
-From: Peng Yu <yupeng0921@gmail.com>
-To: Christoph Hellwig <hch@lst.de>,
+        d=1e100.net; s=20260707; t=1790736157; x=1791340957;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ZXAnOf/NZJgORhbHe0MffVtfrlsAlZFWtlHgqEl8yV0=;
+        b=RsXhFOxISKOWgCrCnEBfqbyPIQk4n0hkNmcyKDIL+SVqnI084NbMOce6ktHLoOPIgD
+         yl2g6eJu/irtUy+3iUnVW7sDwnNB/azkSKYYX7C6QLTawELSHwnFNDJkLPGi/O5+AWzJ
+         GwkuNS5zq4KwCkAbAJvT6ixF0+r9rn23hQHcsUg0LQvtc//JecwXGSTYRsJGeG4Oqkxn
+         SgUpxh7Tkxm9I4yQmNwJzGm4hCNYTPieV5AxQhvGhs/byD2fDMrUiH0jbigTYxnXP4Qf
+         bbNiVtvCwjHHlRBGcxY0mktBxb1bLwMs6UK1WQ/UCP5H6XNVBd7EMySwjniD2HNbEEeN
+         +DZA==
+X-Forwarded-Encrypted: i=1; AKwUvBwBqzCP3GcryLjyzdQevSzwc8mC+Q6WJFhO40Mdwu1qVCTfzpv+s/nM+F1KQiSbJuvd+CW3oBaDTKVV@lists.infradead.org
+X-Gm-Message-State: AFq9FYKpAfeLsBvrCswx/sDy7Md7jWwJw1ezKsimBbxlVslPCWjjGGzT
+	RgX5se10jqWjtJLAPMvdqapexz5e2KN/8HFZ6F1vmCLRSMykaScPSzMkmVzZNE9/89A=
+X-Gm-Gg: AYBFou1aeUUsih+f8tkh3sr6JOXYJHOD2TLoqFcKQw3lAJtXutjl9MgtEyYZzrHEr0N
+	S8QqlopM267o5pLiG2qFUAtNRRioK4hywW25tquCoNZgFDH+UgDUSlx30gQRj6EPWBmBP/2A1TU
+	QZau4hPVThUI1VMXDUrsYkkR7vKu+sZWgSteNUTK3lPWQlCE/ZDuCTaPswA5oQapqFaCuv3czYN
+	gSMUBvQbirQxS208+ElHSZGFCr3X0jHw4S66tpdUUtC2Ubsg63MTsP9qhR2yKVSz4wueFfSuObH
+	P96xB5Lcn9iYPeGR+paK8zLzQ20sIPrcLisuKAGwAwHKNpp7fSrOpgv+wO86hjYKCgxbQvWIgPG
+	lnDZbZ/64UJqaCCKTiRY9/OkGsV1iOoFUhJ5Z7Dh0AONSnHGBScFCroBgtXBhp/L4vtA0P+5uJJ
+	v7e0dSPvejFoGBSEuq8d3FaPIJvj7KpHulvbbhzHQBKQsGScnYs+TR/8fZFs4WPKFl/LnZt8PUI
+	40sTcUeI2/XTy1BHidtln9iWWXeK5EA98YTlVL2Dq2FDX2fzw8CFKJ17l+W/7sV39vzg+6F
+X-Received: by 2002:a05:693c:8954:20b0:33b:e75b:cc42 with SMTP id 5a478bee46e88-34cdc1ce146mr203864eec.19.1790736156602;
+        Tue, 29 Sep 2026 19:42:36 -0700 (PDT)
+Received: from localhost.localdomain ([2603:8001:5f01:8bab:3481:cbb6:f339:9e4e])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-34c386c2723sm2540580eec.18.2026.09.29.19.42.35
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Tue, 29 Sep 2026 19:42:36 -0700 (PDT)
+From: Artem Dinaburg <artem@trailofbits.com>
+To: stable@vger.kernel.org
+Cc: Artem Dinaburg <artem@trailofbits.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sasha Levin <sashal@kernel.org>,
+	Chunguang Xu <chunguang.xu@shopee.com>,
 	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Cc: Tejun Heo <tj@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
-	Josef Bacik <josef@toxicpanda.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
 	Jens Axboe <axboe@kernel.dk>,
-	Maurizio Lombardi <mlombard@arkamax.eu>,
-	cgroups@vger.kernel.org,
-	linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Peng Yu <yupeng0921@gmail.com>
-Subject: [PATCH v7 1/2] cgroup: track the effective css in each cgroup
-Date: Tue, 29 Sep 2026 16:24:10 -0700
-Message-ID: <20260929232411.101087-2-yupeng0921@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260929232411.101087-1-yupeng0921@gmail.com>
-References: <20260929232411.101087-1-yupeng0921@gmail.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 6.6.y] nvme-fabrics: use reserved tag for reg read/write command
+Date: Tue, 29 Sep 2026 22:42:31 -0400
+Message-ID: <20260930024233.96200-1-artem@trailofbits.com>
+X-Mailer: git-send-email 2.55.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260930_002421_457589_96C40FF3 
-X-CRM114-Status: GOOD (  23.09  )
+X-CRM114-CacheID: sfid-20260929_194237_846039_432823FE 
+X-CRM114-Status: GOOD (  19.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -126,172 +105,91 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-cgroup_e_css() and cgroup_get_e_css() find the effective css by walking
-up the hierarchy until they reach a cgroup that has the subsystem
-enabled. Per-I/O users such as nvmet need this lookup to be O(1).
+From: Chunguang Xu <chunguang.xu@shopee.com>
 
-Track the effective css in each cgroup and make cgroup_e_css() and
-cgroup_get_e_css() use it. When a css is brought online or offline,
-update the effective css of its cgroup and of all descendants.
+[ Upstream commit 7dc3bfcb4c9cc58970fff6aaa48172cb224d85aa ]
 
-Signed-off-by: Peng Yu <yupeng0921@gmail.com>
-Assisted-by: Claude:claude-fable-5 [Claude Code]
-Assisted-by: Claude:claude-opus-5-5 [Claude Code]
+In some scenarios, if too many commands are issued by nvme command in
+the same time by user tasks, this may exhaust all tags of admin_q. If
+a reset (nvme reset or IO timeout) occurs before these commands finish,
+reconnect routine may fail to update nvme regs due to insufficient tags,
+which will cause kernel hang forever. In order to workaround this issue,
+maybe we can let reg_read32()/reg_read64()/reg_write32() use reserved
+tags. This maybe safe for nvmf:
+
+1. For the disable ctrl path,  we will not issue connect command
+2. For the enable ctrl / fw activate path, since connect and reg_xx()
+   are called serially.
+
+So the reserved tags may still be enough while reg_xx() use reserved tags.
+
+[ Backport to 6.6.y: used the older BLK_MQ_REQ_RESERVED request flag. ]
+
+Signed-off-by: Chunguang Xu <chunguang.xu@shopee.com>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+Assisted-by: LLM
+Signed-off-by: Artem Dinaburg <artem@trailofbits.com>
 ---
- include/linux/cgroup-defs.h |  8 +++++
- kernel/cgroup/cgroup.c      | 60 ++++++++++++++++++++++++-------------
- 2 files changed, 47 insertions(+), 21 deletions(-)
+Hi Greg, Sasha, and nvme maintainers,
 
-diff --git a/include/linux/cgroup-defs.h b/include/linux/cgroup-defs.h
-index 3754d697854b..cbfe8937647c 100644
---- a/include/linux/cgroup-defs.h
-+++ b/include/linux/cgroup-defs.h
-@@ -555,6 +555,14 @@ struct cgroup {
- 	/* Private pointers for each registered subsystem */
- 	struct cgroup_subsys_state __rcu *subsys[CGROUP_SUBSYS_COUNT];
+I am working through the small CVE backports still missing from 6.6.y.
+This one addresses CVE-2024-41082. It reserves a request tag for
+controller-register I/O during reconnect and reset.
+
+The fix is already present in 6.12.y, 6.18.y, and 7.2.y, but not in 6.6.y.
+This fix also affects 6.1.y, which will need a separate backport; this
+submission contains only the 6.6.y patch.
+The target-specific adjustment is recorded in the bracketed note above.
+
+Could you please queue it for 6.6.y?
+
+CVE: CVE-2024-41082
+Upstream: 7dc3bfcb4c9cc58970fff6aaa48172cb224d85aa
+
+AI assistance: An LLM helped identify, adapt, and validate this backport; I
+reviewed the resulting code and validation evidence.
+
+Thanks,
+Artem Dinaburg
+
+ drivers/nvme/host/fabrics.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index fd01b86f10a4b0..8adcc8c97c42cf 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -179,7 +179,7 @@ int nvmf_reg_read32(struct nvme_ctrl *ctrl, u32 off, u32 *val)
+ 	cmd.prop_get.offset = cpu_to_le32(off);
  
-+	/*
-+	 * Effective css for each subsystem: the css of the nearest ancestor,
-+	 * including this cgroup, that has the subsystem enabled, or the root
-+	 * css if the subsystem isn't bound to this hierarchy. Updated under
-+	 * cgroup_mutex and read under RCU.
-+	 */
-+	struct cgroup_subsys_state __rcu *e_css[CGROUP_SUBSYS_COUNT];
-+
- 	/*
- 	 * Keep track of total number of dying CSSes at and below this cgroup.
- 	 * Protected by cgroup_mutex.
-diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
-index 2d532bf2c0c7..54b207d246bd 100644
---- a/kernel/cgroup/cgroup.c
-+++ b/kernel/cgroup/cgroup.c
-@@ -548,20 +548,11 @@ static struct cgroup_subsys_state *cgroup_e_css_by_mask(struct cgroup *cgrp,
- struct cgroup_subsys_state *cgroup_e_css(struct cgroup *cgrp,
- 					 struct cgroup_subsys *ss)
- {
--	struct cgroup_subsys_state *css;
--
- 	if (!CGROUP_HAS_SUBSYS_CONFIG)
- 		return NULL;
+ 	ret = __nvme_submit_sync_cmd(ctrl->fabrics_q, &cmd, &res, NULL, 0,
+-			NVME_QID_ANY, 0, 0);
++			NVME_QID_ANY, 0, BLK_MQ_REQ_RESERVED);
  
--	do {
--		css = cgroup_css(cgrp, ss);
--
--		if (css)
--			return css;
--		cgrp = cgroup_parent(cgrp);
--	} while (cgrp);
--
--	return init_css_set.subsys[ss->id];
-+	return rcu_dereference_check(cgrp->e_css[ss->id],
-+				     lockdep_is_held(&cgroup_mutex));
- }
+ 	if (ret >= 0)
+ 		*val = le64_to_cpu(res.u64);
+@@ -225,7 +225,7 @@ int nvmf_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val)
+ 	cmd.prop_get.offset = cpu_to_le32(off);
  
- /**
-@@ -585,17 +576,10 @@ struct cgroup_subsys_state *cgroup_get_e_css(struct cgroup *cgrp,
+ 	ret = __nvme_submit_sync_cmd(ctrl->fabrics_q, &cmd, &res, NULL, 0,
+-			NVME_QID_ANY, 0, 0);
++			NVME_QID_ANY, 0, BLK_MQ_REQ_RESERVED);
  
- 	rcu_read_lock();
+ 	if (ret >= 0)
+ 		*val = le64_to_cpu(res.u64);
+@@ -270,7 +270,7 @@ int nvmf_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val)
+ 	cmd.prop_set.value = cpu_to_le64(val);
  
--	do {
--		css = cgroup_css(cgrp, ss);
--
--		if (css && css_tryget_online(css))
--			goto out_unlock;
--		cgrp = cgroup_parent(cgrp);
--	} while (cgrp);
-+	css = cgroup_e_css(cgrp, ss);
-+	while (!css_tryget_online(css))
-+		css = cgroup_e_css(cgroup_parent(css->cgroup), ss);
- 
--	css = init_css_set.subsys[ss->id];
--	css_get(css);
--out_unlock:
- 	rcu_read_unlock();
- 	return css;
- }
-@@ -2131,12 +2115,24 @@ void init_cgroup_root(struct cgroup_fs_context *ctx)
- {
- 	struct cgroup_root *root = ctx->root;
- 	struct cgroup *cgrp = &root->cgrp;
-+	struct cgroup_subsys *ss;
-+	int ssid;
- 
- 	INIT_LIST_HEAD_RCU(&root->root_list);
- 	atomic_set(&root->nr_cgrps, 1);
- 	cgrp->root = root;
- 	init_cgroup_housekeeping(cgrp);
- 
-+	/*
-+	 * A root cgroup's effective css is always the root css in
-+	 * init_css_set.subsys[], whichever hierarchy the subsystem is bound
-+	 * to, so rebind_subsystems() doesn't need to update e_css[]. For
-+	 * cgrp_dfl_root this runs before the root csses exist, and
-+	 * online_css() sets the entries when they come online.
-+	 */
-+	for_each_subsys(ss, ssid)
-+		RCU_INIT_POINTER(cgrp->e_css[ssid], init_css_set.subsys[ssid]);
-+
- 	/* DYNMODS must be modified through cgroup_favor_dynmods() */
- 	root->flags = ctx->flags & ~CGRP_ROOT_FAVOR_DYNMODS;
- 	if (ctx->release_agent)
-@@ -5856,6 +5852,22 @@ static void init_and_link_css(struct cgroup_subsys_state *css,
- 	BUG_ON(cgroup_css(cgrp, ss));
- }
- 
-+static void cgroup_update_e_css(struct cgroup *cgrp, struct cgroup_subsys *ss)
-+{
-+	struct cgroup_subsys_state *d_css;
-+
-+	lockdep_assert_held(&cgroup_mutex);
-+
-+	css_for_each_descendant_pre(d_css, &cgrp->self) {
-+		struct cgroup *dsct = d_css->cgroup;
-+		struct cgroup_subsys_state *css = cgroup_css(dsct, ss);
-+
-+		if (!css)
-+			css = cgroup_e_css(cgroup_parent(dsct), ss);
-+		rcu_assign_pointer(dsct->e_css[ss->id], css);
-+	}
-+}
-+
- /* invoke ->css_online() on a new CSS and mark it online if successful */
- static int online_css(struct cgroup_subsys_state *css)
- {
-@@ -5869,6 +5881,7 @@ static int online_css(struct cgroup_subsys_state *css)
- 	if (!ret) {
- 		css->flags |= CSS_ONLINE;
- 		rcu_assign_pointer(css->cgroup->subsys[ss->id], css);
-+		cgroup_update_e_css(css->cgroup, ss);
- 
- 		atomic_inc(&css->online_cnt);
- 		if (css->parent) {
-@@ -5895,6 +5908,7 @@ static void offline_css(struct cgroup_subsys_state *css)
- 
- 	css->flags &= ~CSS_ONLINE;
- 	RCU_INIT_POINTER(css->cgroup->subsys[ss->id], NULL);
-+	cgroup_update_e_css(css->cgroup, ss);
- 
- 	wake_up_all(&css->cgroup->offline_waitq);
- }
-@@ -5966,6 +5980,7 @@ static struct cgroup *cgroup_create(struct cgroup *parent, const char *name,
- {
- 	struct cgroup_root *root = parent->root;
- 	struct cgroup *cgrp, *tcgrp;
-+	struct cgroup_subsys *ss;
- 	struct kernfs_node *kn;
- 	int i, level = parent->level + 1;
- 	int ret;
-@@ -6010,6 +6025,9 @@ static struct cgroup *cgroup_create(struct cgroup *parent, const char *name,
- 	for (tcgrp = cgrp; tcgrp; tcgrp = cgroup_parent(tcgrp))
- 		cgrp->ancestors[tcgrp->level] = tcgrp;
- 
-+	for_each_subsys(ss, i)
-+		RCU_INIT_POINTER(cgrp->e_css[i], cgroup_e_css(parent, ss));
-+
- 	/*
- 	 * New cgroup inherits effective freeze counter, and
- 	 * if the parent has to be frozen, the child has too.
+ 	ret = __nvme_submit_sync_cmd(ctrl->fabrics_q, &cmd, NULL, NULL, 0,
+-			NVME_QID_ANY, 0, 0);
++			NVME_QID_ANY, 0, BLK_MQ_REQ_RESERVED);
+ 	if (unlikely(ret))
+ 		dev_err(ctrl->device,
+ 			"Property Set error: %d, offset %#x\n",
 -- 
-2.53.0
+2.39.5
 
 
