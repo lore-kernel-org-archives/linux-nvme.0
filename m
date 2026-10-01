@@ -4,95 +4,114 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 753D1CA5FD2
-	for <linux-nvme@archiver.kernel.org>; Thu,  1 Oct 2026 09:49:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 49BC4CA5FB3
+	for <linux-nvme@archiver.kernel.org>; Thu,  1 Oct 2026 11:42:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wWOahLGqSABk/Bl8Hm3IIeG0DfjrEOdUVN6u43pWVOk=; b=BJEe8MTgp94jAwivw/sBnjQrXY
-	Ei012zUW7nh99VngsRvcVeS4HgVO2/0ckzpbUTzMQDJMKPPPDhFmfvbqYTcRdwnKluXJPPwUAQTaF
-	CfgUA520bVhCEbZar5tqjbQK5mhtdMU7EgGkL40xw7f00UYfa3Ph5zA3/Dkq53J0a0lglNa6tsCy/
-	uYdnuRCrKvEFBfQiT0IqWbeQtC+ZUb5Ckq5MekOQ+cspgUE/Jsnfh/N+Wb0EkYsPeWdpaA3eNTpV2
-	QpNoMqRSpeWeCQNOmGb4cco6pKJkWT/eRnrJzgk3nATU6rcQ5U+v+eMipTIQ0AovdWRSL4dQPjaf0
-	iaim/HbQ==;
+	bh=u0AhsE8IW3qyWAltrvsy3OyzZOIRvdjH421SFwSJ83U=; b=KdQbFelCWr7zG9jXqxH0mQ0JAc
+	/l+YJhoOl8MAyb1VqReI9vi+CADTOPswXdKt5J04R7d6tJ/pPR+sfD9mRQYYXqb76OMS7ZNXRknBQ
+	Pz2xeW9fIxNzYwfJBzJuqINKk+CoGo0x8gLNHpnQVFDZWC0LjWsidxY6OmRcuS0JXCz6M3J958NzW
+	6TyBHWePgTdIH++rgMUEq3lkfXlFeyB/Q0QDDbqbtIyoSeRhMQpnjowQpSBGYcJfSJF9q1nlIu1ho
+	5JGXtIf8N4G+ziMhwDSoQM8aGsbqVOJ/6WaA8gve53S3PoutsSa6Ug4aBqV7K/ZKraFEnTM31KG6Q
+	7Nka4hhQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xCDPZ-00000008QDs-3Q7s;
-	Thu, 01 Oct 2026 09:49:09 +0000
-Received: from mail-wr2-x18.google.com ([2a00:1450:4864:30::18])
+	id 1xCFBY-00000008exZ-1N8X;
+	Thu, 01 Oct 2026 11:42:48 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xCDPS-00000008QC2-2LiK
+	id 1xCFBV-00000008ewm-1HTq
 	for linux-nvme@lists.infradead.org;
-	Thu, 01 Oct 2026 09:49:04 +0000
-Received: by mail-wr2-x18.google.com with SMTP id ffacd0b85a97d-48b024549a2so1232571f8f.3
-        for <linux-nvme@lists.infradead.org>; Thu, 01 Oct 2026 02:49:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=crusoe.ai; s=google; t=1790848140; x=1791452940; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=wWOahLGqSABk/Bl8Hm3IIeG0DfjrEOdUVN6u43pWVOk=;
-        b=OdCZj7GE9VBl0QKC2Avt0zpV0V3UpApncHVZEmMwmBgBMnHfqjqCIOYMjYOqS4DHgd
-         nI/2jNDai2e1qXrAVb1QgRTFOsQxxgMJeMP72DhxEVEeLiFeFB/rMcsXg/O6UcsJ4qzQ
-         +fwkl0B9Ux0XVuAqgoT0I6wbirZlecga8+8Ftkng8oa5NWk4UeukLo4Z4TM5tfEozPTN
-         imA/3dgXtAFLyQVbdMYSfiQD4mK2fnYDYDHr//ut6vhmeNOHDYzkMWAnpUNS7+xUovJt
-         ce70XEi7YqebLX/t1SzS0TW4BVpmiMK5Li+4aqEQcx4ge0gR3xo1UDwaooJgPxbO0W2r
-         Wf7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790848140; x=1791452940;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=wWOahLGqSABk/Bl8Hm3IIeG0DfjrEOdUVN6u43pWVOk=;
-        b=HhbSxUD6zuaI5Xu/56ywen8Af+cUL0YHp5j2H2zkXOxctU0Y/Z157/NRwG8y9/tn0P
-         zblnK5ZJkqB7V+f8dwYxf9Ct1H0qzLvALZ1DKIQn3kcN5zI7cdYRDRzvhrh83Z3viSjV
-         YJYaY6l89y62GADY+WHqlB+FH1zyzjNqWjzmR9U/B6BtLTt9aBr2dgBeEH15h0AhpTzQ
-         +iczdQ66+dRQGjykaqLw7TnKh5crErKgvFOCeNlmWcvOqzQKMQWJsQ/cZiZR7xbD7KG7
-         rN7D2SPAG/TNrj3TqNBgEXPl6OqxWLId3/VLPGlGbuyS4GKtKCW35rCnm6cXLWUtBiPl
-         yL5w==
-X-Gm-Message-State: AFq9FYKjA35luFs3nHBVwNU5QHNHwfXelJTtIpOvQdFrh4BY4kxIFoQ9
-	entRcCARxYwwWoDB2B1+JqJfBgbx07OHPh84Xl6yYOj2ApALpvprjR8/JD/lXJBSjIkmYvIFwQD
-	XY23Sqjh0jQ==
-X-Gm-Gg: AYBFou0i6oGYYzPxEd9ULFemPdo+G/B81QbT+lSbLWJQ+cMvWUy6ZHh0F+/lHBzrzqi
-	ydIueDOjGF7XzZk/IZ4kYaqpuL71wFG7suc4vL/mg4CCwkgucY+6yBVlwleQ4dD/mvN3Xfh5HQw
-	zwoupPRIrqffCm0pTjnJV4/RSSujSLkKI8bcEQXrFbqlI2R4dGxpFUK25O2KYsfa42SiymanIUZ
-	xb0ZMhvFGQRErtWXNbBmpJUwCe76HjbbISjglZsPC9Qa1AiZtzao4p8NGs8vNR9G7QL+hpWSiBh
-	GXwynyfKZL9eAmVtxHMEBKdSiGVkyUPEIuq7Jep4BwA3535bZh6s4+YCx+nWYpTPdDUhWjoLd7e
-	qsW2iF1EPl2NS55wdRvzKx/yfZChI5PJ3azbw7pnqSQzh011yt4iKEhDNBm14jJNOYkumr6PUbC
-	Z02DpQUpXa7cT+6RGRS96ZTnQXe8Y77M5ZbNoaHe2UP898Pru/WakQaqTDjmcGZl1g67mAVFWhN
-	HsiWyVPo2IWf2uWn1kBezg6f74cvMTygiM=
-X-Received: by 2002:a05:6000:4811:b0:488:8546:d0b2 with SMTP id ffacd0b85a97d-48b0253956cmr8652279f8f.51.1790848139833;
-        Thu, 01 Oct 2026 02:48:59 -0700 (PDT)
-Received: from MBP-Krishna-Iyer.civet-hops.ts.net ([83.71.242.57])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48b0db6de0dsm1938341f8f.43.2026.10.01.02.48.59
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 01 Oct 2026 02:48:59 -0700 (PDT)
-From: Krishna Iyer <kiyer@crusoe.ai>
-To: kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me
-Cc: linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	nilay@linux.ibm.com,
-	hare@suse.de,
-	saravanand@crusoe.ai,
-	sjpark@crusoe.ai,
-	Krishna Iyer <kiyer@crusoe.ai>
-Subject: [PATCH v4 1/2] nvme-multipath: fix path state evaluation for failfast and ANA
-Date: Thu,  1 Oct 2026 02:48:56 -0700
-Message-ID: <20261001094857.74567-2-kiyer@crusoe.ai>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261001094857.74567-1-kiyer@crusoe.ai>
-References: <20261001094857.74567-1-kiyer@crusoe.ai>
+	Thu, 01 Oct 2026 11:42:46 +0000
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69175UO94040706;
+	Thu, 1 Oct 2026 11:42:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=u0AhsE
+	8IW3qyWAltrvsy3OyzZOIRvdjH421SFwSJ83U=; b=hAVj0kNRydXM2Pj14As4C6
+	A95mMKJp1lfiIYh7ON4s+O3uUtjrV8be/1vNSTHv3vkpCfCz6DFWJOGezqWcpj22
+	V/40yqZdUVHAICptmJOY8PHAtNtNb8YQfnWSmdcNd7CfFI7tkJHm5TwJosO8TO6w
+	/nRtLw3MgNS3vT8ZKT3CekKN0uFKGP4Xqe2Qf4mp2NGs0kqaAvD/3buG25ne4EHK
+	Px/ruWI+rHhz+wPhc+gqN4lk1UZrxFzvw7LcZXZe7MSG+dqyf6lhrrbujAUKG7iT
+	NAoszW6gIj1m34+eRUbXMF5DnMNlB0hMAECVWZy5++zkEfh+RQbUY/HvPqxAse9A
+	==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4gx4fehrdn-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 01 Oct 2026 11:42:35 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 691BUsTN561208;
+	Thu, 1 Oct 2026 11:42:35 GMT
+Received: from smtprelay03.wdc07v.mail.ibm.com ([172.16.1.70])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4h0g8e8tt8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 01 Oct 2026 11:42:35 +0000 (GMT)
+Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
+	by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 691Bfn3W66716024
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 1 Oct 2026 11:41:49 GMT
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1951358058;
+	Thu,  1 Oct 2026 11:42:34 +0000 (GMT)
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8A78E58057;
+	Thu,  1 Oct 2026 11:42:31 +0000 (GMT)
+Received: from [9.61.28.159] (unknown [9.61.28.159])
+	by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Thu,  1 Oct 2026 11:42:31 +0000 (GMT)
+Message-ID: <04909105-bcbd-4b89-af41-ad761aaa9af2@linux.ibm.com>
+Date: Thu, 1 Oct 2026 17:12:30 +0530
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] nvmet: defer setting ns->enabled to false in
+ nvmet_ns_disable()
+To: "Shin'ichiro Kawasaki" <shinichiro.kawasaki@wdc.com>
+Cc: hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, kch@nvidia.com,
+        linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+        gjoyce@linux.ibm.com
+References: <20260918162736.802665-1-nilay@linux.ibm.com>
+ <20260918162736.802665-2-nilay@linux.ibm.com> <ar30Q5H1fuyFtDwM@shinmob>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <ar30Q5H1fuyFtDwM@shinmob>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Authority-Analysis: v=2.4 cv=FYWiV5+6 c=1 sm=1 tr=0 ts=6abe472b cx=c_pps
+ a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=VnNF1IyMAAAA:8
+ a=FLMVk1Nlp5jPE6tgMn8A:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDAxMDA0NiBTYWx0ZWRfX9W8SIsxc9/8s
+ MUbJrN6KkiORGJ8y22JAhR9CU+d74iF7tYaqq5qqJTOefzq2Df7uRPjKSUpT5Lfqwr36zuYt00b
+ Q6H9ybf8zy7LLGPTvMl1RYvSUpIFE4c=
+X-Proofpoint-ORIG-GUID: JW86kF-goOx435uhQmqMNUJ3cgiYBij-
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDAxMDA0NiBTYWx0ZWRfX1NFeDa+LcUW0
+ 3MYzh03NN75sYxKur2Im9MJLSkA1aqWtMRB3W4okEL9eGLzMW2Ex/6vHzzSTqWHjwtGguyYe4BO
+ SZJ9urWC23rmfaRCifHoT0VLzoYxLC2ZKdMOJlQtwjapmszFE/KXnGEAS1K8k7z4SGG+lCYrWRB
+ W/LxhkiUnf1JWeoy8+41Jr4YSqtsmCWH745QVrTmWDOSonLXfjxz5+ezr24kCZuC4LwM2P5Cann
+ NeOjxWEtC/lTKmMF8vXnKwp9sV4SOfiBGS3xxrZHm8oTjO7p7Jr9jfo/SVe0l86F5H81qkcg1Da
+ 10oKdJSjgY6pAjxU9WDF6cXNKuV5TmEgh5tD4kyg+X6DAISJYEkFFtp1vxP5+F5rM1DS0ZC1/zI
+ Xswt9CCiHtlQ2qyIEYVsQ1s9M37aSILhHhLM4HWXnbMjTK5NYEJrcSamL5NzwwUwqyby9Bzvtkh
+ 84fYmrBfUMSC08uATpw==
+X-Proofpoint-GUID: JW86kF-goOx435uhQmqMNUJ3cgiYBij-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-01_03,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 clxscore=1015 impostorscore=0 spamscore=0 phishscore=0
+ priorityscore=1501 malwarescore=0 bulkscore=0 lowpriorityscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
+ definitions=main-2610010046
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261001_024902_642365_B922BA5E 
-X-CRM114-Status: GOOD (  18.25  )
+X-CRM114-CacheID: sfid-20261001_044245_467952_619A8300 
+X-CRM114-Status: GOOD (  28.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,107 +126,77 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvme_available_path() has two problems that keep I/O queued when it
-should be failed:
+On 10/1/26 11:25 AM, Shin'ichiro Kawasaki wrote:
+> On Sep 18, 2026 / 21:57, Nilay Shroff wrote:
+>> nvmet_ns_disable() currently clears ns->enabled before draining
+>> in-flight I/O references. This allows namespace configuration to be
+>> changed while existing I/O requests can still hold a reference to the
+>> namespace.
+>>
+>> This can race with configuration of namespace attributes such as the
+>> device path, UUID, NGUID etc. These attributes can be accessed by I/O
+>> requests without holding subsys->lock and must not be modified while
+>> such requests are still using the namespace.
+>>
+>> In nvmet_ns_disable(), keep ns->enabled set while existing namespace
+>> references are being drained, so namespace configuration remains blocked
+>> until all in-flight I/O has completed. Set ns->enabled to false only
+>> after the namespace references have been drained and the namespace
+>> device has been disabled.
+>>
+>> Introduce the NVMET_NS_IO_LIVE flag, which is set after the namespace
+>> is successfully enabled in nvmet_ns_enable(). When nvmet_ns_disable()
+>> starts, clear NVMET_NS_IO_LIVE so that the I/O path stops admitting new
+>> I/O once the flag is cleared. Using test_and_clear_bit() in
+>> nvmet_ns_disable() also prevents concurrent callers from starting a
+>> second disable operation.
+>>
+>> Signed-off-by: Nilay Shroff<nilay@linux.ibm.com>
+> Recent blktests-ci trial runs for nvme-7.3 branch reported failure of nvme/052
+> [*]. It is required to repeat the test case 3 to 20 times to recreate the
+> failure on my test system. I bisected and find this patch is the trigger of the
+> failure.
+> 
+> Nilay, may I ask you to take a look in the failure? I'm not sure if this should
+> be addressed in kernel side of blktests side.
 
-1. When fast_io_fail_tmo expires, NVME_CTRL_FAILFAST_EXPIRED is set and
-   the path is skipped, but the function still falls through to
-   nvme_mpath_queue_if_no_path(). If delayed_removal_secs is configured
-   the I/O is requeued indefinitely, defeating fast_io_fail_tmo. Only
-   fall through to queue_if_no_path when there really are no paths;
-   if a path exists but its failfast timer has expired, fail instead.
+Thanks for the report! I looked into the failure and I think I found the root cause.
+I couldn't reproduce it on my system, but I see there is a narrow race window that can
+potentially trigger the observed failure.
 
-2. A LIVE controller counts as a usable path regardless of the namespace
-   ANA state. A path whose ANA state is inaccessible or persistent-loss
-   cannot serve I/O, so it should not count as available. ANA change is
-   transient and bounded by ANATT, so keep queueing while it resolves.
+I don't think this is a new race introduced by this patch. However, the changes in this
+patch may have altered the timing enough to make the race easier to trigger.
 
-Also kick the requeue work from nvme_update_ns_ana_state() when a path
-does not transition to live, so parked I/O is re-evaluated when an ANA
-transition leaves the namespace inaccessible.
+In nvmet_ns_enable(), we currently queue the asynchronous namespace-change event
+before setting ns->enabled and the corresponding NVMET_NS_ENABLED xarray mark.
+Therefore, if the asynchronous namespace-change event is received and processed
+by the host before the namespace is fully enabled on the target, the host may not
+find the namespace while scanning the active namespace list.
 
-Move nvme_state_is_live() above nvme_available_path() so it can be used
-there.
+To close this race, I think we should send the namespace-change notification only
+after the namespace has been fully enabled in nvmet_ns_enable(). In particular,
+we can move nvmet_ns_changed() after setting ns->enabled, the NVMET_NS_ENABLED
+xarray mark, and NVMET_NS_IO_LIVE.
 
-Assisted-by: Claude:claude-fable-5
-Signed-off-by: Krishna Iyer <kiyer@crusoe.ai>
----
- drivers/nvme/host/multipath.c | 26 +++++++++++++++++++-------
- 1 file changed, 19 insertions(+), 7 deletions(-)
+Could you please try the following change on your test system and let me know if
+it fixes the failure? If this resolves the issue, I'll send a formal patch:
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 11871f5f18c2..0d6c05f0808b 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -509,9 +509,15 @@ inline struct nvme_ns *nvme_find_path(struct nvme_ns_head *head)
- 	}
- }
- 
-+static inline bool nvme_state_is_live(enum nvme_ana_state state)
-+{
-+	return state == NVME_ANA_OPTIMIZED || state == NVME_ANA_NONOPTIMIZED;
-+}
-+
- static bool nvme_available_path(struct nvme_ns_head *head)
- 	__must_hold_shared(&head->srcu)
- {
-+	bool failfast = false;
- 	struct nvme_ns *ns;
- 
- 	if (!test_bit(NVME_NSHEAD_DISK_LIVE, &head->flags))
-@@ -519,10 +525,16 @@ static bool nvme_available_path(struct nvme_ns_head *head)
- 
- 	list_for_each_entry_srcu(ns, &head->list, siblings,
- 				 srcu_read_lock_held(&head->srcu)) {
--		if (test_bit(NVME_CTRL_FAILFAST_EXPIRED, &ns->ctrl->flags))
-+		if (test_bit(NVME_CTRL_FAILFAST_EXPIRED, &ns->ctrl->flags)) {
-+			failfast = true;
- 			continue;
-+		}
- 		switch (nvme_ctrl_state(ns->ctrl)) {
- 		case NVME_CTRL_LIVE:
-+			if (!nvme_state_is_live(ns->ana_state) &&
-+			    ns->ana_state != NVME_ANA_CHANGE)
-+				continue;
-+			return true;
- 		case NVME_CTRL_RESETTING:
- 		case NVME_CTRL_CONNECTING:
- 			return true;
-@@ -531,6 +543,9 @@ static bool nvme_available_path(struct nvme_ns_head *head)
- 		}
- 	}
- 
-+	if (failfast)
-+		return false;
-+
- 	/*
- 	 * If "head->delayed_removal_secs" is configured (i.e., non-zero), do
- 	 * not immediately fail I/O. Instead, requeue the I/O for the configured
-@@ -887,11 +902,6 @@ static int nvme_parse_ana_log(struct nvme_ctrl *ctrl, void *data,
- 	return 0;
- }
- 
--static inline bool nvme_state_is_live(enum nvme_ana_state state)
--{
--	return state == NVME_ANA_OPTIMIZED || state == NVME_ANA_NONOPTIMIZED;
--}
--
- static void nvme_update_ns_ana_state(struct nvme_ana_group_desc *desc,
- 		struct nvme_ns *ns)
- {
-@@ -926,8 +936,10 @@ static void nvme_update_ns_ana_state(struct nvme_ana_group_desc *desc,
- 		 * is not live but still create the sysfs link to this path from
- 		 * head node if head node of the path has already come alive.
- 		 */
--		if (test_bit(NVME_NSHEAD_DISK_LIVE, &ns->head->flags))
-+		if (test_bit(NVME_NSHEAD_DISK_LIVE, &ns->head->flags)) {
- 			nvme_mpath_add_sysfs_link(ns->head);
-+			kblockd_schedule_work(&ns->head->requeue_work);
-+		}
- 	}
- }
- 
--- 
-2.54.0
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 8eea0a504308..da98e5cae7f6 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -626,11 +626,11 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
+         if (ret)
+                 goto out_pr_exit;
+
+-       nvmet_ns_changed(subsys, ns->nsid);
+         ns->enabled = true;
+         xa_set_mark(&subsys->namespaces, ns->nsid, NVMET_NS_ENABLED);
+         nvmet_debugfs_ns_setup(ns);
+         set_bit(NVMET_NS_IO_LIVE, &ns->flags);
++       nvmet_ns_changed(subsys, ns->nsid);
+         ret = 0;
+  out_unlock:
+         mutex_unlock(&subsys->lock);
 
 
