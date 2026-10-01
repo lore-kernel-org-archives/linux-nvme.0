@@ -4,148 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 25EB1CA5FB3
-	for <linux-nvme@archiver.kernel.org>; Thu,  1 Oct 2026 05:56:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CA8EBCA5FCF
+	for <linux-nvme@archiver.kernel.org>; Thu,  1 Oct 2026 09:49:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
-	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+mxY0ocRqhq+jPWAYX6/Qp9n/kQLpyxgiHNL30/y7HI=; b=3sLLE4tDsR28h8ujK6evgnjnA7
-	In2X5j7vH7dH5WjEZ4YzoB8H86edul/i+d65MLDYOSBBFjZx12RkkzRVWXUX4YcN6OfYjOa50KPzK
-	mTI/AHYBnfAEkAaLE3DBBlexCyjqpr/jJCfUGpPEiyKo/uRwzjnYf+1t//9gVD0za1WPoM3VD4mF+
-	78SlwYf+fdCU8syhLYH+4hOfGGnII3sTBf30wnBczd7ct614BZbqdqkSlZu/vfQzSVjJqIvpRjbpl
-	3jvhCfAUlrH0XEXdgbQ9bqmLKPVnp+j/mOJ6hgLPQ6RgaKgrytJ3PKLffKob3B1i35sOpuVpNNaaT
-	lodIZjmA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=hNO0JbRYef2qlds0guIph9NYLgasvSXqBVD4E4nG1zE=; b=ZZNi6cnPss4qcWZ6V5zlfimKfj
+	NeidZfMvxXRyvFInt5WTEkgFuDt2av4xYwGoKNRhiSHPCyhJbhEvo1yb6LmLn4bwup4ldYoBZOHxJ
+	aEnNwsR+61lCmwKsRueTKqq3rMdJQXJGICx1Zep04csMK8TeGoTf2cW4X6Hpx1yup8/JP/jwaTFla
+	lW2zf5LYlPBYPm0vLOPWDIMTMlPOUfLGm9zLqW/UVd6fgiFZ8GOW84OxIyhAhXTWQNrqGEYaDiELW
+	+zIh/ZMWm9iC0AEI3dYTeYKYuw5lwNjtpFPhnXUcXjeknCQ3eqlLHEpxxoJe1Dd/EWSzH8Imy3vS/
+	pyZYhjUw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xC9ly-00000007qoI-00jq;
-	Thu, 01 Oct 2026 05:56:02 +0000
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+	id 1xCDPZ-00000008QD0-311y;
+	Thu, 01 Oct 2026 09:49:09 +0000
+Received: from mail-wm2-x10.google.com ([2a00:1450:4864:31::10])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xC9lw-00000007qno-0019
+	id 1xCDPS-00000008QC4-2mrm
 	for linux-nvme@lists.infradead.org;
-	Thu, 01 Oct 2026 05:56:01 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1790834165; x=1822370165;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=0fulaGAkDG7WKiVIaeUlN28J8h6w/IOPfZHaS89wEE0=;
-  b=CFZQvsszzPPGeuNqnBO8eJwB0GBguBfziQrvg1Gjfe/ip6FWBV0GCRIU
-   gdq58rIF9rMUqjBC74931dph27QkPFKplIXSiOEopuI47CAH7aBCtjJay
-   e6N96Fnn9N3RrSavS4CrRVwijTPD/jk4aiim7MECB1VYculCPP7O5vh0Y
-   oCmPEWo5Jc4dZYI5Zcix44tlqnzUKNFq+RorhmfUpZvi0y6y7WA0syEBM
-   zvadyp/QT/TqQCc8skRtlBhTDjgZQW+rxgvbWPMNiNVWJUXFpNOydnnUw
-   +LGXe0+0ygWEZgGl9EBFuhm0la4NkmMAwI8loUQH7M5PVQfDQllTSaE8k
-   g==;
-X-CSE-ConnectionGUID: aoP66wsZSHu7IZLipWsTjg==
-X-CSE-MsgGUID: cAtkIUNKQSaRBYQj9ppRnA==
-X-IronPort-AV: E=Sophos;i="6.27,134,1786982400"; 
-   d="scan'208";a="156864738"
-Received: from mail-eastus2azon11011019.outbound.protection.outlook.com (HELO BN8PR05CU002.outbound.protection.outlook.com) ([52.101.57.19])
-  by ob1.hgst.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 01 Oct 2026 13:56:01 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=X0vt0j4SY77AH15yaoSQqIVXPY1nAycILrccD+ib5PEzE1xonXQ0mGVlZj5nT1W8hNtiS8H0KcauqPXkrVWY/v8DWWu/yJEUB7XAgdcXuFdVf2OaqnNA1QqevRsGumbMTcp1WqYiHWxdcRRlt3w45HY+LcW+//NL8ipmEWI0Nibbz6Z6rBYBuuQ3hyCVMEyAbdhjhOpIDArsufJ5xPxDm1LuH20evLoldL30d7SQvru14nGo73DSJK5GmLHWGmcKk6hqd5vP/m+8+fOxHyFJ0eYnn4vAAUjW6B26on4fHw+Y5O6bgCqLrcHN0q6kgkhU5P37v7KdQ4aCPJElq78m3g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+mxY0ocRqhq+jPWAYX6/Qp9n/kQLpyxgiHNL30/y7HI=;
- b=rVVRig0J1bmK13RXmjDKTPQ9Kz/GAOlz3WOMBqnu9sUmdJkw2YVH0qVfG3MoE5LX/r+nTd3E+lBvftOWURMx3H5sPXruvSHpMNUXWkheRBe5O/Cam2JwHkKV4j+GwHp3QHxnTgxX35+ei+lLZiMMBgfhKSvcZ40yh2g9KhtXjicxbYQjx8LuzsDSFVyPJruBT3fNSqGvuVK1Fqqt6yGH8CUg9K6oCM2MLdWSAmVUsiTdF1+B3OnzIodCCsGXL4CKqXwS/uWb6E6G0jB4BXjsUA1ZZ00d1Ej9joktxAGpidzuVLJFlVHZsnBTLJDuyAWPpevqW4NqLW9TSx051t8fyw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
+	Thu, 01 Oct 2026 09:49:03 +0000
+Received: by mail-wm2-x10.google.com with SMTP id 5b1f17b1804b1-49fff72474fso28611835e9.3
+        for <linux-nvme@lists.infradead.org>; Thu, 01 Oct 2026 02:49:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+mxY0ocRqhq+jPWAYX6/Qp9n/kQLpyxgiHNL30/y7HI=;
- b=etzcZr78EhgAnPNEm1oWqMBCGwam3M5VOl8QcfaOy+x5iPLdBfnVh7OES532imAZghZR/J9bBs37JHFQ+TvcbIQN8UHQ9bzHVF1ZvFhaQ06qvdh7Slai68JWzRrZ6BR63WQtA1LJFqcmFpd8KJ3ddcwe6l3LFJe4CxBpj82J5hs=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-Received: from SA1PR04MB10065.namprd04.prod.outlook.com
- (2603:10b6:806:4dd::14) by BY5PR04MB6504.namprd04.prod.outlook.com
- (2603:10b6:a03:1d2::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.18; Thu, 1 Oct
- 2026 05:55:53 +0000
-Received: from SA1PR04MB10065.namprd04.prod.outlook.com
- ([fe80::9b98:bf8a:b0b1:ef85]) by SA1PR04MB10065.namprd04.prod.outlook.com
- ([fe80::9b98:bf8a:b0b1:ef85%5]) with mapi id 15.21.0472.015; Thu, 1 Oct 2026
- 05:55:53 +0000
-Date: Thu, 1 Oct 2026 07:55:45 +0200
-From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Nilay Shroff <nilay@linux.ibm.com>
-Cc: hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, kch@nvidia.com, 
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, gjoyce@linux.ibm.com
-Subject: Re: [PATCH v2 1/2] nvmet: defer setting ns->enabled to false in
- nvmet_ns_disable()
-Message-ID: <ar30Q5H1fuyFtDwM@shinmob>
-References: <20260918162736.802665-1-nilay@linux.ibm.com>
- <20260918162736.802665-2-nilay@linux.ibm.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260918162736.802665-2-nilay@linux.ibm.com>
-X-ClientProxiedBy: VI1P189CA0026.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:802:2a::39) To SA1PR04MB10065.namprd04.prod.outlook.com
- (2603:10b6:806:4dd::14)
+        d=crusoe.ai; s=google; t=1790848141; x=1791452941; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=hNO0JbRYef2qlds0guIph9NYLgasvSXqBVD4E4nG1zE=;
+        b=Kh389Y4QqaRYut2z9tI+W2zZrfLsWDWioAQhlONOfqUtkmJ8+ogDMLHOCBCIr2Sl7n
+         Jql8tOpb0EF5PW/DM0k9se9EnUAFKyw+Xm2c0oBw32zqLCXtPawZTAEosBoI5O+KtFZF
+         c7O1yjgvIGqzOHGo61lZmFVaYoW0Y5PSQbYGT6b+cTAk2ZyURMcmMHQQ7gAn2Oip8LKk
+         s945YTYikdq7vO5aGyLFlX8e+W0gXf8LV34RxSq6oTFGn3r296UTdJ+fK9i4jYOdf4oJ
+         qaKLAu2ByIHExCjU65PJBA9/8Okbls5bjMwCAJCJUag3Q4KrlV5xAIgXS4+S+f0mYqks
+         Uaow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790848141; x=1791452941;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=hNO0JbRYef2qlds0guIph9NYLgasvSXqBVD4E4nG1zE=;
+        b=A37IwzwxX1dKIlmdcxCEN/RzBIfpFp0i8WaihyTBkXHHQsMWBlYd/4Z/3ls7s2qggY
+         yMuxKCV0wdKrtsfZy7AYIzZfQaZRUG4KGLDpLwdCzpA6hn3Nv3D0gv/gBlL3OfNcYPw7
+         L7gSzIOGlW7zMhIBdSxhjVuY4oX8e8cWPO2wSAeU+73B/W/eqQU/xPC8KiDhg+SMS6s1
+         yMItA43YfKSjSjcgwzEJYLA2r6IIYxW5n3ucl9fcLczu9RXs7xb64vH2w1zQBDkxYBp0
+         vDDHzc3l8wcQM3CqxsIbLkJDojfjF8F0EXVDvxPBrNtmvYbOqm5KEpnBS7allQWyt1qB
+         x4Aw==
+X-Gm-Message-State: AFuF++kyKc97+XyIz20++ymjstZvht4kDYj3HNNE6H2PHzvJgRmiQR2P
+	LauzO2tB7AbIqaOELc2D4mIke8QVbR6x8w5NSNAjKESW40rjzlO81udqi/NiQX+0OMg=
+X-Gm-Gg: AYBFou1WZherOpV4zgsGsJ/jedhzo1V7CgMQIp9FZAIZPdwLfozepbA9LbgXpoRnbuq
+	lYhS4Gq7luZQUESyt0sXkFmFcbtxl0b+B2OWC168Y3owTaAddz9mv8ObdydJBTVkpx6+bVQ8LhN
+	gczaew6zwcSsU2AHHhm+YM4DNPvPHgn6iy1+DfxASJmni05TsthP4NdfaRMBQc6mcWPt2NYdqJy
+	dhkyXH+oorlns7bzn6dQ+6dguEqhfv14Mz9oLROBgup8FfdIcrnvLm8CuLNPCBttGAaX3KIizkn
+	vu7JcNe4MxaiW9pPwoktjusXcN4mJmwEkV6L9X9UC3lfA7h43t5x18jiOXbFdzyrG7KW9f0Dn1x
+	kuQAgnMMkcQFmz0+/h19T2RU0GIPrKh+SC2VLvA3s4uMxK+O4MNh2BOsT0AWYX5XgVVpFdvt2Vm
+	0DHWaHVRWuylBpcb4eNbAIqbUhfsl8VfXyyCcFli4j/XaopyL4+BPAzYnhwV0RFuF+mue7/A7bY
+	PTX+OjSW1KSeMeHIe2jzsUgqEjJYhpQib8=
+X-Received: by 2002:a05:600c:c3cb:20b0:49f:ce78:3567 with SMTP id 5b1f17b1804b1-4a01b11eb84mr51772945e9.24.1790848140848;
+        Thu, 01 Oct 2026 02:49:00 -0700 (PDT)
+Received: from MBP-Krishna-Iyer.civet-hops.ts.net ([83.71.242.57])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48b0db6de0dsm1938341f8f.43.2026.10.01.02.48.59
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 01 Oct 2026 02:49:00 -0700 (PDT)
+From: Krishna Iyer <kiyer@crusoe.ai>
+To: kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	nilay@linux.ibm.com,
+	hare@suse.de,
+	saravanand@crusoe.ai,
+	sjpark@crusoe.ai,
+	Krishna Iyer <kiyer@crusoe.ai>
+Subject: [PATCH v4 2/2] nvme-multipath: add fail_if_no_path sysfs attribute
+Date: Thu,  1 Oct 2026 02:48:57 -0700
+Message-ID: <20261001094857.74567-3-kiyer@crusoe.ai>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20261001094857.74567-1-kiyer@crusoe.ai>
+References: <20261001094857.74567-1-kiyer@crusoe.ai>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR04MB10065:EE_|BY5PR04MB6504:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0489d88e-5bea-4427-d26f-08df1f80a754
-WDCIPOUTBOUND: EOP-TRUE
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|23010399003|19092799006|6133799003|22082099003|18002099003|10067099003|4143699003|56012099006|11063799006;
-X-Microsoft-Antispam-Message-Info: TV1KDt9lp3811BKYZanGaX5olSv/kJrlH+OwvbgJGWYQQNJb9YFeL2S+9c0aO67awLLt15TEVcXsU6K4gBseV6uGDfWh/C+dFMq1rED9cQUFDJpTdtZRNWmYoZwm7l7jLO21zC05lyxsxcqpBVxApO4v+h8IuhV4+DLe7zVnTpuJYcNKLkOmvWVMABf5yCFQv+gqBJ1tJmzJ4nkTU0Sa+Dj/wWq7QQARsw/arfuW/G8aJ0mKJP40R7HoA96nlCeIQb0eYbESOKYKJ5KqznGiRf22Im0UjszZBUiFycSe+xQ4q6FWC3jlo/RDFwypKZqdtSyi30i3eJbPe4bIzihsTZcNF/Orj/96ock2jz3gCASu/kaHdik1aaVQL8oilLBXH5f7SatraG6Pza7qnoToTq0RvA4EpIaBTFVfT4JBflBc0d9HBq7bKlBJAuNcIDXmFqLsd5ecg7uo0uSA5sOMZ1BVVoU52iQ3nJo+RAO/f81OskX7M81eqPxfQ6TcoAXMgGGHohPbj7GmnuvTtptOJokpaOvB/1mMxDL5g3ToDKvtiK7VuTDabUGJqkItPkW4GHkDY9KA09WMHHtdTN7XbG4Z3vJK+6OMLClbNxdQasazYdOw8JWnPXu6IcV235VdGoEQd0YQUOOTmaLJC4OMEafcuvYOHzqglgusAuKdYCY=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR04MB10065.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(23010399003)(19092799006)(6133799003)(22082099003)(18002099003)(10067099003)(4143699003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?O/dV4Kcfgj4EwYC00MEVntgxVsd5YKobK8HwaxmgDv4FG0GPlMsZ9135LomC?=
- =?us-ascii?Q?fdJIq/TqqNjjr4TlWYJmA/TFXLEp4WLct1xYJ6OEWywra8MO0F8Tp9iNvU8k?=
- =?us-ascii?Q?agkKmVqe6Axl1ieU/cOT9K156/J8JMv6OrmXFhiEoHBfZfm1Mmscq6HfSWWV?=
- =?us-ascii?Q?LSPaLi2pOsnQMGldWKeIN0Q02UvdmxVRuJD7mnBlIAuuTqaskhJJ5P91hlNp?=
- =?us-ascii?Q?k2jcRwYyRidiFe3yDQd6u4aqa5txXzTgm0E0C85qHvyGQV2GNpkIgRXCm6Z1?=
- =?us-ascii?Q?aTXI/sz8if1Yvc9MYCShx37ygDoNuWeYinoadlcnJRaMMo6bb/XVGLAF0Z+Z?=
- =?us-ascii?Q?E2y+g45wshwWcFW/f5dx56EWqNhitoRJhtQ19ZM42sJY43d53Fxa0FlSuDmJ?=
- =?us-ascii?Q?HQfMAUjRiQpiHLVhwgbYxSt/lnLchXPs3TsIv+r7j1PnYmvFuQQFa7B+QfUk?=
- =?us-ascii?Q?u7LwHNs98ka+xYjmLLMVOWDufTd+GuFhtZILLA00X0C4XoIASRRK1MkqwcWi?=
- =?us-ascii?Q?JwX16CgXFrVK1hdm5Yyn8pt/YtmX4NLxtfjdfnb+l8RGuLu+6/tWYNl+c9/0?=
- =?us-ascii?Q?rbkHNg59Og7N8XeytrgNpReX94A7K22WnLrQp9O57+rCY0WkNCu0UlUwC5S0?=
- =?us-ascii?Q?rFFJe5tfoNRlHZFJ/7JmOpl20yjl1nzDrQmFn2dyF3fmnetlu6A9nK1Q0MwX?=
- =?us-ascii?Q?SJRUG+Rh3O4EhhuAlSC/oMc08CHZYUlTaHZcwsaL8/5XOF0WMx3xL+i7TizF?=
- =?us-ascii?Q?8wdsIN0CWU/g/FMABERBF5546gPmmVvWHgNiGJfew4KtJHqhVNu7Z8lqjhuP?=
- =?us-ascii?Q?0iEKo9QpcIS2O8i1BFLNTWFkesNjLMweQ9gcQZd61er8VKcUCiBXlQ0WwHFQ?=
- =?us-ascii?Q?Hhhp9/Hz2IA8By6jMtPCCuMvBxL8X3PbMcDVH7jA2c6pnVBU56eIV8nTT+8/?=
- =?us-ascii?Q?Nvjiy2FHWKHQt48L5e2u/dLGqGfvce20DXcLhiD9fURxQfmGNAMQLljYiEEX?=
- =?us-ascii?Q?eDgsWw7Bo1K39cbU5G1YGBJZMhuPPyiraGpF8l03kfubo441P07jBUsiNYH2?=
- =?us-ascii?Q?zylZD+UcPMNvt/mX4EoMDyGxpqQRQTdyiV2NiO3F8sOJI19bv0fiBjojdxaG?=
- =?us-ascii?Q?R5MSda6IZHexVMe1aDcF54E0zl+oNyHftE1tP3J+jSuOuNu/JNqrIojuiVyy?=
- =?us-ascii?Q?zCFv0liLpS3YeCcSLkPYUVX2UWlGDeImEYHCmD+oQQdI0sKTOE1aAL0SAmxs?=
- =?us-ascii?Q?PeoGbs/auJIXuJ4rAkIYdwTg7B/bmptjbf/fCl3YnDRcHlridlLOKMb4upIf?=
- =?us-ascii?Q?A/4E5ONMIM0SB/qkONnf3yCB34m2ebA8wYdoi0ZwTouJIZVRt6WilszHG6b+?=
- =?us-ascii?Q?9SgfUPlN2zGW7RAB6K4QJiCnGin2/OkAPKsXvK5bkyVX+vvKpnJBtt8ZPKz2?=
- =?us-ascii?Q?eGU3uE5Nr5GeE0MC+EJyrUrHPgkX05rU7w1C0Z9T1HtigmQGIwGFrqEyKlyo?=
- =?us-ascii?Q?tTTAJQBXVYDOdmOLL4w25A0FPIYwFq0ksbH7o7szpA9dgKOZSdsm77LDnieH?=
- =?us-ascii?Q?ttcd8v3BqU7mhyNq9intN77NY6zh3r8xQAnOaozg3I512QoGHjjnaGDXzEeT?=
- =?us-ascii?Q?W48Gw5Tr4bU8x+M8uTfHcMdNSBflF8mzLWwzFnNA8xMQvRB378TEAPN9EWee?=
- =?us-ascii?Q?iROIg9GA6wS2aadaPHWaCzYRNsSYvNhGjh3kGNrK5QdS6cJXK/a4WsKe4N0z?=
- =?us-ascii?Q?m+o+e9T7o1AaCrfyLfltpVVxQ6ExKY0=3D?=
-X-Exchange-RoutingPolicyChecked: m5Z6eVU+ky3EeB9qNZ7jRcexVlm84W2367cmfJkdLmY+Z4FX58lmxTbYb9sTs/FIThCDmRjhrSXV5bSEBIprwPajBil4kWY+92b3IaNEosE/m1R4JMUF5vpVQzbz2f9QL8t5M6b1N8y+T1iXej0R8toCl8/yfyAIIVgq2TUFzRyxZqhyS3jopWzGTIsp6OIPhmQVeyBpQy2xZigdJ6vF4+XaE+zTvhDzRauQbIjRFvXeOrI3PvqmsQk48v/tmg9jHsARr6i7O6oBFaHchRjOTSjDH/JXYrQ8HTliAitYuAFVZhiHxrhTYnjMLNvNZSvpmXMefpEHxOXeoYP8kCHTZQ==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: CLxJcxtjvbAPxyLjrqGz2hfcHljTLwIlfpVY4GHfX5rgCftxPUt8mkM14RNq6xkC87w8cfRlNXXim/6WtAniKcXuP2ZWBFTfI2cCx0NWA3mN6DlGOJMAh2RwWa0890d8cCIf8WfXGaBg9viKMNae/SkqsM3bLNYTqmRyT5sq0CW8r43+drfu/6aRugtSsFw8H22oe6oTpWQWP12US3t74R9hgwINQChKydAKMPRqvnOkCrVsqgHYxQ1BjgvXHb0AN4jn3wuESzZq48ZoznI/Do7OJHLZ8z25iP2XpPR266gMXABxD3GNwPz8f3P5BgZJfqrfgARhCVaPSYalKrlJBiW8N3q/L1XCrxbijwCuefda7HnLgXLh9/SALe85pfVz10B21WhCUPF+/HnWpcAcf2k4N1Fe/QnLTaXh8UgJtk7wL98A6h89cKPDKpVA4rdEW/b5vqDUW+joCe+3d5ML0/0y/7c3RQ0RvfLvb3TbJ7MVE4KUndzkZi7IyfjMSnOcHs1Lxr4Q1OZOe8HxgC9unE7Tr/CzFbQSo8yeTDY/Vhwp9dISiwB3yDD2W3+5jR7rv9AT9vsgosOcxwty6CfaU6+SSGc3o81JINsKLf6lJWLJuwHUY/dNEJPBBkCgHoPM
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0489d88e-5bea-4427-d26f-08df1f80a754
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR04MB10065.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Oct 2026 05:55:53.5230
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4ynmeS8QXyJQScSkqxxhhogZaOj5pHopv4s2k6nPE2kV+dGnO4pniKEh152teNzillfgHOKm28KUBvIjaMMKzErvrLyb4EcXTvEu8JfXjvw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR04MB6504
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260930_225600_070972_CF57B7A2 
-X-CRM114-Status: GOOD (  20.53  )
+X-CRM114-CacheID: sfid-20261001_024902_746923_750757C8 
+X-CRM114-Status: GOOD (  21.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -160,49 +106,193 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sep 18, 2026 / 21:57, Nilay Shroff wrote:
-> nvmet_ns_disable() currently clears ns->enabled before draining
-> in-flight I/O references. This allows namespace configuration to be
-> changed while existing I/O requests can still hold a reference to the
-> namespace.
-> 
-> This can race with configuration of namespace attributes such as the
-> device path, UUID, NGUID etc. These attributes can be accessed by I/O
-> requests without holding subsys->lock and must not be modified while
-> such requests are still using the namespace.
-> 
-> In nvmet_ns_disable(), keep ns->enabled set while existing namespace
-> references are being drained, so namespace configuration remains blocked
-> until all in-flight I/O has completed. Set ns->enabled to false only
-> after the namespace references have been drained and the namespace
-> device has been disabled.
-> 
-> Introduce the NVMET_NS_IO_LIVE flag, which is set after the namespace
-> is successfully enabled in nvmet_ns_enable(). When nvmet_ns_disable()
-> starts, clear NVMET_NS_IO_LIVE so that the I/O path stops admitting new
-> I/O once the flag is cleared. Using test_and_clear_bit() in
-> nvmet_ns_disable() also prevents concurrent callers from starting a
-> second disable operation.
-> 
-> Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+When no usable path exists, I/O on a multipath namespace is queued
+until a path returns. With ctrl_loss_tmo=-1 that can be forever:
+during a long fabric outage any process waiting on the I/O is stuck in
+D state. We hit this on virtualization hosts, where a SIGKILLed VM
+process cannot exit while draining I/O to an unreachable NVMe/TCP
+target.
 
-Recent blktests-ci trial runs for nvme-7.3 branch reported failure of nvme/052
-[*]. It is required to repeat the test case 3 to 20 times to recreate the
-failure on my test system. I bisected and find this patch is the trigger of the
-failure.
+Nothing can fail this I/O without tearing something down: controller
+deletion takes every namespace on the controller with it.
 
-Nilay, may I ask you to take a look in the failure? I'm not sure if this should
-be addressed in kernel side of blktests side.
+Add a fail_if_no_path attribute on the ns-head disk: a persistent
+per-namespace policy to fail parked and newly arriving I/O instead of
+queueing it when no usable path exists. It is the namespace-scoped
+counterpart to the controller-scoped fast_io_fail_tmo: the trigger is
+an event userspace observes (a consumer known to be gone, for us a
+SIGKILLed VM the host must reap), not a duration picked up front, and
+sibling namespaces behind the same controllers keep queueing and ride
+out the outage.
 
-[*]
+A CONNECTING controller stops counting as an available path, and with
+no controllers left the policy overrides the delayed_removal_secs
+queue-if-no-path window; the two are opposites, so fail_if_no_path takes
+precedence when both are set. ANA change and controller resetting still
+queue, since both are transient. Controller state is untouched and
+reconnects continue. Like dm's fail_if_no_path, the policy is transport
+agnostic.
 
-  nvme/052 (tr=loop) (Test file-ns creation/deletion under one subsystem) [failed]
-      runtime    ...  12.165s
-      --- tests/nvme/052.out    2026-09-29 00:36:09.236884509 +0000
-      +++ /home/runner/blktests/results/nodev_tr_loop/nvme/052.out.bad  2026-09-29 01:06:09.513359622 +0000
-      @@ -1,2 +1,4 @@
-       Running nvme/052
-      +namespace with uuid "492157d2-1f3b-4bc2-b717-e6234d0fa466" not  created within 5 seconds
-      +FAIL
-       Test complete
+Assisted-by: Claude:claude-fable-5
+Signed-off-by: Krishna Iyer <kiyer@crusoe.ai>
+---
+ Documentation/ABI/stable/sysfs-nvme | 16 +++++++++
+ drivers/nvme/host/multipath.c       | 50 +++++++++++++++++++++++++++--
+ drivers/nvme/host/nvme.h            |  2 ++
+ drivers/nvme/host/sysfs.c           |  4 ++-
+ 4 files changed, 69 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/ABI/stable/sysfs-nvme b/Documentation/ABI/stable/sysfs-nvme
+index a0bb88ca1694..448692dcb117 100644
+--- a/Documentation/ABI/stable/sysfs-nvme
++++ b/Documentation/ABI/stable/sysfs-nvme
+@@ -358,6 +358,22 @@ Description:
+ 		is deferred. Only visible on multipath head devices.
+ 		Requires CONFIG_NVME_MULTIPATH.
+ 
++What:		/sys/block/nvmeXnY/fail_if_no_path
++Date:		October 2026
++KernelVersion:	7.4
++Contact:	Krishna Iyer <kiyer@crusoe.ai>
++Description:
++		Shows or sets the fail-if-no-path policy of the multipath
++		head device ("on" or "off", default "off"). When on, I/O
++		queued or arriving while no usable path exists is failed
++		immediately instead of being queued. This is the opposite of
++		the queue-if-no-path behavior enabled by a nonzero
++		delayed_removal_secs: when both are set fail_if_no_path takes
++		precedence and the parked I/O is failed rather than held for
++		the delayed_removal_secs window. Reconnect attempts are not
++		affected. Only visible on multipath head devices.
++		Requires CONFIG_NVME_MULTIPATH.
++
+ What:		/sys/block/nvmeXnY/csi
+ What:		/sys/block/nvmeXnY/metadata_bytes
+ What:		/sys/block/nvmeXnY/nuse
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 0d6c05f0808b..e43b0f43e73e 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -517,6 +517,8 @@ static inline bool nvme_state_is_live(enum nvme_ana_state state)
+ static bool nvme_available_path(struct nvme_ns_head *head)
+ 	__must_hold_shared(&head->srcu)
+ {
++	bool fail_if_no_path = test_bit(NVME_NSHEAD_FAIL_IF_NO_PATH,
++					&head->flags);
+ 	bool failfast = false;
+ 	struct nvme_ns *ns;
+ 
+@@ -536,14 +538,17 @@ static bool nvme_available_path(struct nvme_ns_head *head)
+ 				continue;
+ 			return true;
+ 		case NVME_CTRL_RESETTING:
+-		case NVME_CTRL_CONNECTING:
+ 			return true;
++		case NVME_CTRL_CONNECTING:
++			if (!fail_if_no_path)
++				return true;
++			continue;
+ 		default:
+ 			break;
+ 		}
+ 	}
+ 
+-	if (failfast)
++	if (failfast || fail_if_no_path)
+ 		return false;
+ 
+ 	/*
+@@ -1242,6 +1247,47 @@ static ssize_t delayed_removal_secs_store(struct device *dev,
+ 
+ DEVICE_ATTR_RW(delayed_removal_secs);
+ 
++static ssize_t fail_if_no_path_show(struct device *dev,
++		struct device_attribute *attr, char *buf)
++{
++	struct gendisk *disk = dev_to_disk(dev);
++	struct nvme_ns_head *head = disk->private_data;
++
++	return sysfs_emit(buf, test_bit(NVME_NSHEAD_FAIL_IF_NO_PATH,
++			&head->flags) ? "on\n" : "off\n");
++}
++
++static ssize_t fail_if_no_path_store(struct device *dev,
++		struct device_attribute *attr, const char *buf, size_t count)
++{
++	struct gendisk *disk = dev_to_disk(dev);
++	struct nvme_ns_head *head = disk->private_data;
++	bool enable;
++	int ret;
++
++	ret = kstrtobool(buf, &enable);
++	if (ret < 0)
++		return ret;
++
++	if (enable) {
++		if (test_and_set_bit(NVME_NSHEAD_FAIL_IF_NO_PATH, &head->flags))
++			return count;
++	} else {
++		if (!test_and_clear_bit(NVME_NSHEAD_FAIL_IF_NO_PATH,
++					&head->flags))
++			return count;
++	}
++
++	synchronize_srcu(&head->srcu);
++
++	if (enable)
++		kblockd_schedule_work(&head->requeue_work);
++
++	return count;
++}
++
++DEVICE_ATTR_RW(fail_if_no_path);
++
+ static ssize_t multipath_failover_count_show(struct device *dev,
+ 		struct device_attribute *attr, char *buf)
+ {
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index bac25b287d25..71ec72306c9c 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -589,6 +589,7 @@ struct nvme_ns_head {
+ #define NVME_NSHEAD_DISK_LIVE		0
+ #define NVME_NSHEAD_QUEUE_IF_NO_PATH	1
+ #define NVME_NSHEAD_CDEV_LIVE		2
++#define NVME_NSHEAD_FAIL_IF_NO_PATH	3
+ 	struct nvme_ns __rcu_guarded	*current_path[];
+ #endif
+ };
+@@ -1097,6 +1098,7 @@ extern struct device_attribute dev_attr_queue_depth;
+ extern struct device_attribute dev_attr_numa_nodes;
+ extern struct device_attribute dev_attr_path_state;
+ extern struct device_attribute dev_attr_delayed_removal_secs;
++extern struct device_attribute dev_attr_fail_if_no_path;
+ extern struct device_attribute dev_attr_multipath_failover_count;
+ extern struct device_attribute dev_attr_io_requeue_no_usable_path_count;
+ extern struct device_attribute dev_attr_io_fail_no_available_path_count;
+diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+index 4ac3ea3a86fd..fe1e5305880e 100644
+--- a/drivers/nvme/host/sysfs.c
++++ b/drivers/nvme/host/sysfs.c
+@@ -265,6 +265,7 @@ static struct attribute *nvme_ns_attrs[] = {
+ 	&dev_attr_numa_nodes.attr,
+ 	&dev_attr_path_state.attr,
+ 	&dev_attr_delayed_removal_secs.attr,
++	&dev_attr_fail_if_no_path.attr,
+ #endif
+ 	&dev_attr_io_passthru_err_log_enabled.attr,
+ 	NULL,
+@@ -302,7 +303,8 @@ static umode_t nvme_ns_attrs_are_visible(struct kobject *kobj,
+ 		if (nvme_disk_is_ns_head(dev_to_disk(dev)))
+ 			return 0;
+ 	}
+-	if (a == &dev_attr_delayed_removal_secs.attr) {
++	if (a == &dev_attr_delayed_removal_secs.attr ||
++	    a == &dev_attr_fail_if_no_path.attr) {
+ 		struct gendisk *disk = dev_to_disk(dev);
+ 
+ 		if (!nvme_disk_is_ns_head(disk))
+-- 
+2.54.0
+
 
