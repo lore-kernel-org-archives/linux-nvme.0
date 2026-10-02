@@ -4,45 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AA53FCA5FD4
-	for <linux-nvme@archiver.kernel.org>; Fri,  2 Oct 2026 04:26:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 900BECA5FD4
+	for <linux-nvme@archiver.kernel.org>; Fri,  2 Oct 2026 04:26:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
 	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Message-ID:Date
 	:Cc:To:From:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZgL8KT6UyYqk0aSUs+XywFLceK5PXM95ccl5tMC4M6c=; b=FSKS1cxZpAastAfnVtdmR139os
-	AX/RNt0q0EL6qYtVHgrcQhKvMrNCh1fPV0IaLWMfW0fr3G2lBoXWJRAwtRZ4liXeatJpAXbseJFsz
-	Pi0ET9XuDT/qpE/sJ2ubY49tWRXyyNz/7zKHMwbNts+luvHyV2FMi0VIXuHYNWEXnontnEW4R/9nQ
-	txCQgtoOoc/pAg+nhedVdRCvUTasmWLVSvKhb3FJtoa9BH6bg2POMb001pJmkAm0T5IiqS2rVenRw
-	be0SW89HGMX27JTsKCKBnR/Km9R76WF5Jy3vltUwu77WfWQj169qU/1VR1Paw5++4CRae5RMcddn6
-	lxxFgU7w==;
+	bh=aZby0WeNlKN6rlwpn1/LnNcy7QUqDYIZv8b3LV0Liww=; b=rVrHbvoRW4QLEjRc41U7Sbbgl1
+	CFEpYcJCqoat6g98Fi2dtcB655UV/FC+MIVpIpWA/G1qY4Jy6jdkNnmtBjt8s1D6chXe1+GXPRs2L
+	rBFFTsVNthaEGF4hFtcct12Kpt0OtL4xr6dail0oYGzyhzFwJ5bED5H93DaigHv1ZQ+MOKHVcchU0
+	5CzPos02k8elRtlxk+5yAc1EbB1wctFH6bnxAg65rEV036V+vBHSzbMoiVoxhOk/moyqC6mafflG6
+	cwsL4CQFTmSeNHaUNmNbz2r70HxfPhVpTDPgOMtgqvjXXK5rIBu+M4eDMhPKd129Wk+3Q2ejtqltj
+	s2I7ow9A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xCUr5-0000000Aavm-2TPQ;
+	id 1xCUr5-0000000Aavg-0HtS;
 	Fri, 02 Oct 2026 04:26:43 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xCRvq-0000000AT4h-05lE
+	id 1xCRvm-0000000AT4M-1G2W
 	for linux-nvme@lists.infradead.org;
-	Fri, 02 Oct 2026 01:19:26 +0000
+	Fri, 02 Oct 2026 01:19:22 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id A70F36021E;
-	Fri,  2 Oct 2026 01:19:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C96C1F00898;
+	by sea.source.kernel.org (Postfix) with ESMTP id 8F9DB40AD0;
 	Fri,  2 Oct 2026 01:19:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BEA51F00893;
+	Fri,  2 Oct 2026 01:19:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790903964;
-	bh=ZgL8KT6UyYqk0aSUs+XywFLceK5PXM95ccl5tMC4M6c=;
+	s=k20260515; t=1790903961;
+	bh=aZby0WeNlKN6rlwpn1/LnNcy7QUqDYIZv8b3LV0Liww=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=E1fbjVWx8HUEkOsH/p+8hEkz6uPVfYJ1N56tobODFjTZ4G0SpbHOpb3gJBYtB+k5V
-	 rmIQt4VHKFCrYqU+GshRab7S/8cfb5Toy3llZbW03orlXY2HQbZz2VYm3dzg73qyCm
-	 L96aUvyVeGmDCToIFNJUVFtjawLq3cLsj7r3Vt2atEhDg6so42rreYSLf7UXARgkT/
-	 QgK8pvBEFq281BgDebVEXqanIpaWh+FiXk2BW7DgyeCHN5UuYNGg1B82+qDnznBxmO
-	 vYJluQbam+z7h/XL7Oa2X5Nclp5TH/ClxAPHABGZI87yHKY0V78XorIsKkH3k43Arv
-	 ZIQNK5qSaUtcA==
-Subject: Re: [PATCH v3 net-next 2/9] net: add sk_set_nospace() and sk_clear_nospace()
+	b=KuA5PeABrGCDRWE2c+jTnoLFrU//pbGuovhvcC7WRoTMqadKhnbC4f+PcUP5YFkX1
+	 unr0lhG32+rUpcxEiGaP3SvZJBE38JOOnYtEe7NcQaP2tq2FmoSQpUxHbi57ooTLMn
+	 Q5YgrSIv45LrfpYfWhZMGqTt5gp+UCm4En3h4iy13LO2lZSEKfkCL0MyrYTLRUB+5y
+	 wOapxs1VHrcJVWsXp0OSik3Vj/iZ24MwH2rXigcYTAMf9eeki1dQ+O+Lnu4LdTypQJ
+	 NSuZnww9Aw+av26zHa/GSTIdIPAkyFnpcJk2cohH8E7Exp59yR+Z4ApDkLbGOT4r8G
+	 61OIfAEMCpdfQ==
+Subject: Re: [PATCH v3 net-next 1/9] dlm: fix send buffer backpressure handling
 From: netdev-bot+sashiko@kernel.org
 To: edumazet@kernel.org
 Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
@@ -60,11 +60,11 @@ Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
  kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
  linux-nvme@lists.infradead.org, idryomov@gmail.com, amarkuze@redhat.com,
  slava@dubeyko.com, ceph-devel@vger.kernel.org
-Date: Fri, 02 Oct 2026 01:19:21 +0000
-Message-ID: <179090396163.434549.17078456875328527207@kernel.org>
-In-Reply-To: <20260929071743.23624-3-edumazet@kernel.org>
-References: <20260929071743.23624-3-edumazet@kernel.org>
-X-sashiko-severity: Low
+Date: Fri, 02 Oct 2026 01:19:18 +0000
+Message-ID: <179090395863.434549.3668493667259120759@kernel.org>
+In-Reply-To: <20260929071743.23624-2-edumazet@kernel.org>
+References: <20260929071743.23624-2-edumazet@kernel.org>
+X-sashiko-severity: High
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
@@ -83,168 +83,149 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thank you for your contribution! Sashiko AI review found more severe
-issue(s) in other patches of this series. This mail is only an FYI, in case
-you want to address the nit picks below when you respin.
+Thank you for your contribution! Sashiko AI review found 2 potential
+issue(s) to consider.
 
-Low priority / nit picks for your consideration:
+Critical: 0 · High: 1 · Medium: 0 · Low: 1
 
-- [Low] The kernel-doc added in net/core/sock.c for the new helpers does
-  not match how the helpers are used, both in this patch and later in…
-- [Low] sk_set_nospace() and sk_clear_nospace() (net/core/sock.c) read
-  sk->sk_socket with a plain load (`struct socket *sock = sk->sk_socket;…
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
+
+- [High] A TCP reset or TCP timeout while the connection is waiting for
+  send space can stall the dlm connection permanently.
+- [Low] In send_to_sock() (fs/dlm/lowcomms.c:1392-1397), the
+  set_bit(SOCK_NOSPACE, &con->sock->sk->sk_socket->flags) under the…
 
 --
 
-net: add sk_set_nospace() and sk_clear_nospace()
+dlm: fix send buffer backpressure handling
 
-This commit adds two helpers, sk_set_nospace() and sk_clear_nospace().
-They set or clear SOCK_NOSPACE in sk->sk_socket->flags after a NULL
-check, and the commit converts the core networking callers to use them.
-It prepares for a later patch that gives TCP a private copy of the bit.
+This commit changes send_to_sock() to test SOCK_NOSPACE instead of
+SOCKWQ_ASYNC_NOSPACE in con->sock->flags. With that change the
+CF_APP_LIMITED wait path is taken again when TCP returns -EAGAIN because
+the send buffer is full. It also removes the clear_bit() of
+SOCKWQ_ASYNC_NOSPACE from lowcomms_write_space(), since that bit no
+longer lives in con->sock->flags.
 
-> diff --git a/net/core/sock.c b/net/core/sock.c
-> index 2948dffcc3e1b..11a22aec7e414 100644
-> --- a/net/core/sock.c
-> +++ b/net/core/sock.c
-> @@ -2957,6 +2957,39 @@ void sock_kzfree_s(struct sock *sk, void *mem, int size)
->  }
->  EXPORT_SYMBOL(sock_kzfree_s);
->  
-> +/**
-> + *	sk_set_nospace - tell the transport a writer is waiting for space
-> + *	@sk: socket
-> + *
-> + *	Must be called before the final check of the available send space,
-> + *	so that the transport can not miss the request and forget to call
-> + *	sk->sk_write_space() once space is available again.
-> + */
-> +void sk_set_nospace(struct sock *sk)
-> +{
-> +	struct socket *sock = sk->sk_socket;
-> +
-> +	if (sock)
-> +		set_bit(SOCK_NOSPACE, &sock->flags);
-> +}
-
-[Severity: Low]
-
-Should this be READ_ONCE(sk->sk_socket)?
-
-The writer side uses a marked store:
-
-include/net/sock.h:sk_set_socket() {
-	WRITE_ONCE(sk->sk_socket, sock);
-}
-
-sock_orphan() makes that store holding only sk_callback_lock:
-
-	write_lock_bh(&sk->sk_callback_lock);
-	sock_set_flag(sk, SOCK_DEAD);
-	sk_set_socket(sk, NULL);
-
-At least one path can reach these helpers at the same time as that store.
-It does not take sk_callback_lock and does not check socket ownership:
-
-CPU1 (SMC CDC receive tasklet)
-smc_cdc_msg_recv()
-  bh_lock_sock(&smc->sk)
-  smc_cdc_msg_recv_action()
-    ...
-      smc_tx_write_space()
-        sk_clear_nospace()
-          sock = sk->sk_socket;
-
-CPU2
-close()
-  smc_release()
-    lock_sock(sk)
-    sock_orphan(sk)
-      WRITE_ONCE(sk->sk_socket, NULL)
-
-Won't KCSAN report this plain read racing with the marked write?
-
-The compiler is also allowed to reload sk->sk_socket after the NULL
-check when it computes &sock->flags. That would undo the NULL check that
-the commit message relies on to make the helpers "more robust".
-
-This patch also adds a second plain read of sk->sk_socket to
-sk_stream_write_space() and smc_tx_write_space(). Both functions already
-had the pointer in a local sock variable.
-
-sk_clear_nospace() below has the same plain load. It is still there at
-the end of the series, after "tcp: add tp->tcp_nospace".
-
-> +EXPORT_SYMBOL(sk_set_nospace);
-> +
-> +/**
-> + *	sk_clear_nospace - tell the transport no writer is waiting for space
-> + *	@sk: socket
-> + *
-> + *	Called from ->sk_write_space() handlers, once send space has been
-> + *	made available to writers.
-> + */
-
-[Severity: Low]
-
-Does this kernel-doc, and the one for sk_set_nospace() above, match how
-the helpers are actually used?
-
-This comment says the helper is "Called from ->sk_write_space() handlers".
-kcm_tx_work() is a workqueue handler, though, and it clears the bit
-before it calls ->sk_write_space():
-
-net/kcm/kcmsock.c:kcm_tx_work() {
-    ...
-	if (likely(sk->sk_socket) &&
-	    test_bit(SOCK_NOSPACE, &sk->sk_socket->flags)) {
-		sk_clear_nospace(sk);
-		sk->sk_write_space(sk);
-	}
-    ...
-}
-
-Later in the series, "sunrpc: use sk_set_nospace() and
-sk_clear_nospace()" adds a call to it from svc_tcp_has_wspace() in
-net/sunrpc/svcsock.c. That is an ->xpo_has_wspace check, not a
-write_space callback.
-
-The sk_set_nospace() comment says it "Must be called before the final
-check of the available send space". Several converted callers, however,
-set the bit on an -EAGAIN exit and never check again. There the point is
-to arm a later ->sk_write_space() or EPOLLOUT:
-
-net/core/stream.c:sk_stream_wait_memory() {
-    ...
-do_eagain:
-    ...
-	sk_set_nospace(sk);
-	err = -EAGAIN;
-	goto out;
-}
-
-The !timeo branches in smc_tx_wait() and sock_alloc_send_pskb() work
-the same way.
-
-The comment also does not say that sk_set_nospace() is only a set_bit()
-with no barrier. Callers have to provide a full barrier between setting
-the bit and re-checking. Today that comes from smp_mb__after_atomic() in
-tcp_poll(), smc_poll() and mptcp_check_writeable(), and from
-prepare_to_wait() in sock_wait_for_wmem().
-
-Could the kernel-doc also cover the -EAGAIN use, the callers outside
-write_space handlers, and the barrier the caller must provide?
-
-> +void sk_clear_nospace(struct sock *sk)
-> +{
-> +	struct socket *sock = sk->sk_socket;
-> +
-> +	if (sock)
-> +		clear_bit(SOCK_NOSPACE, &sock->flags);
-> +}
-> +EXPORT_SYMBOL(sk_clear_nospace);
+> diff --git a/fs/dlm/lowcomms.c b/fs/dlm/lowcomms.c
+> index 2aff1c7c17de4..abe9ae4c643fa 100644
+> --- a/fs/dlm/lowcomms.c
+> +++ b/fs/dlm/lowcomms.c
 
 [ ... ]
+
+> @@ -1391,7 +1389,7 @@ static int send_to_sock(struct connection *con)
+>  	if (ret == -EAGAIN || ret == 0) {
+>  		lock_sock(con->sock->sk);
+>  		spin_lock_bh(&con->writequeue_lock);
+> -		if (test_bit(SOCKWQ_ASYNC_NOSPACE, &con->sock->flags) &&
+> +		if (test_bit(SOCK_NOSPACE, &con->sock->flags) &&
+>  		    !test_and_set_bit(CF_APP_LIMITED, &con->flags)) {
+
+[Severity: High]
+Can a TCP reset or timeout that arrives while the connection is in this
+state leave it stuck for good?
+
+With this change, send_to_sock() sets CF_APP_LIMITED, clears
+CF_SEND_PENDING and returns DLM_IO_END. After that,
+lowcomms_queue_swork() will not queue swork:
+
+fs/dlm/lowcomms.c:lowcomms_queue_swork() {
+	if (!test_bit(CF_IO_STOP, &con->flags) &&
+	    !test_bit(CF_APP_LIMITED, &con->flags) &&
+	    !test_and_set_bit(CF_SEND_PENDING, &con->flags))
+		queue_work(io_workqueue, &con->swork);
+}
+
+>From then on, only lowcomms_write_space() or close_connection() clears
+CF_APP_LIMITED.
+
+tcp_reset() and tcp_write_err() (RTO or keepalive timeout) both go
+through tcp_done_with_error():
+
+net/ipv4/tcp_input.c:tcp_done_with_error() {
+    ...
+	tcp_write_queue_purge(sk);
+	tcp_done(sk);
+
+	if (!sock_flag(sk, SOCK_DEAD))
+		sk_error_report(sk);
+}
+
+Neither path calls sk_write_space(). tcp_done() calls sk_state_change,
+but add_sock() only installs lowcomms_state_change for SCTP.
+
+Every dlm recovery path appears to end in lowcomms_queue_swork(), which
+returns early here:
+
+lowcomms_error_report()
+  dlm_midcomms_unack_msg_resend()
+    dlm_lowcomms_resend_msg()
+      _dlm_lowcomms_commit_msg()
+        lowcomms_queue_swork()
+
+On a receive error on the main connection, process_recv_sockets() also
+only calls lowcomms_queue_swork():
+
+		if (ret < 0) {
+			if (test_bit(CF_IS_OTHERCON, &con->flags)) {
+				close_connection(con, false);
+			} else {
+				spin_lock_bh(&con->writequeue_lock);
+				lowcomms_queue_swork(con);
+				spin_unlock_bh(&con->writequeue_lock);
+			}
+
+A RST does not call sk_data_ready, so the receive worker may not run at
+all. New outgoing messages hit the same CF_APP_LIMITED check. If the peer
+reconnects, accept_from_sock() puts the new socket on othercon because
+the main connection's sock is still set.
+
+Before this patch, the send worker kept requeueing itself with
+DLM_IO_RESCHED. The next sock_sendmsg() then returned the socket error,
+and process_send_sockets() called close_connection() and reconnected.
+
+A peer RST seems realistic here. It happens when the peer's dlm closes
+its socket with unread data in the receive queue, which is likely when
+the peer is slow to drain. It also happens with ss -K or a middlebox RST.
+
+If this happens, won't traffic to that node stay queued on a dead socket
+until dlm_lowcomms_close() or lowcomms shutdown?
+
+The commit message says that for SCTP, returning DLM_IO_END "would wait
+for a callback that never comes". Doesn't the TCP error path have the
+same problem?
+
+Later patches in the series convert these bit operations to
+sk_set_nospace()/sk_clear_nospace() and add tp->tcp_nospace. None of
+them seem to change this behavior.
+
+>  			/* Notify TCP that we're limited by the
+>  			 * application window size.
+
+[Severity: Low]
+This isn't a bug, but the statement under this comment now does
+nothing:
+
+			set_bit(SOCK_NOSPACE, &con->sock->sk->sk_socket->flags);
+
+The branch is only entered when test_bit(SOCK_NOSPACE, &con->sock->flags)
+is already true. con->sock->sk->sk_socket is con->sock, so this sets a
+bit that is already set.
+
+TCP already sets it on its -EAGAIN paths (tcp_sendmsg_locked() and
+sk_stream_wait_memory()). While lock_sock() is held, TCP input that could
+run lowcomms_write_space() is deferred to the backlog, so nothing can
+clear the bit between the test and the set.
+
+Should the set_bit() and the "Notify TCP" comment be removed or
+reworded?
+
+The same applies later in the series, where this line becomes
+sk_set_nospace(con->sock->sk).
 
 -- 
 Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260929071743.23624-1-edumazet%40kernel.org
