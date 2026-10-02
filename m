@@ -4,71 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 900BECA5FD4
-	for <linux-nvme@archiver.kernel.org>; Fri,  2 Oct 2026 04:26:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7B4ECA5FC4
+	for <linux-nvme@archiver.kernel.org>; Fri,  2 Oct 2026 06:59:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Message-ID:Date
-	:Cc:To:From:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=aZby0WeNlKN6rlwpn1/LnNcy7QUqDYIZv8b3LV0Liww=; b=rVrHbvoRW4QLEjRc41U7Sbbgl1
-	CFEpYcJCqoat6g98Fi2dtcB655UV/FC+MIVpIpWA/G1qY4Jy6jdkNnmtBjt8s1D6chXe1+GXPRs2L
-	rBFFTsVNthaEGF4hFtcct12Kpt0OtL4xr6dail0oYGzyhzFwJ5bED5H93DaigHv1ZQ+MOKHVcchU0
-	5CzPos02k8elRtlxk+5yAc1EbB1wctFH6bnxAg65rEV036V+vBHSzbMoiVoxhOk/moyqC6mafflG6
-	cwsL4CQFTmSeNHaUNmNbz2r70HxfPhVpTDPgOMtgqvjXXK5rIBu+M4eDMhPKd129Wk+3Q2ejtqltj
-	s2I7ow9A==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
+	Content-Type:Content-Transfer-Encoding:Date:Message-ID:CC:To:From:Subject:
+	Mime-Version:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	bh=GG2utD0f6nfLzMKJbhK02FJM4RaQ+X/fVsQucE2NZ8w=; b=P18ZkMrzwVhe2PvpjdG5wgvTMt
+	dc45w1TkN7WahYddOj1LeU7nUhl1Lv1n/diNA48PgJWUAGh9EK14GVUDJPXDI1RTd7yO8E82+GUS3
+	A97hNB0D2VN/cx9bO7M99ftOcVlmAH6PfWxDob1NCBdhQz3StCZ/3R2zC1qCZZ1sM2qpL9mDYSnS8
+	I9/7W19ZAy0BV2NiDeONCFh25nwvWlN7KVds1nOvWaAZ58RO77rlbiRcowMN960T4xj2RPWJNgAi1
+	SzrvJJInqeyp4OeQ2VeP1xcRUfMZSCYxSQxOgvJZ2GNgrvCOVvDcGqhy1dcqwzu413QSm9lK7C3l/
+	qHUDNUZQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xCUr5-0000000Aavg-0HtS;
-	Fri, 02 Oct 2026 04:26:43 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1xCXFB-0000000Al8N-0WVE;
+	Fri, 02 Oct 2026 06:59:45 +0000
+Received: from mailout2.samsung.com ([203.254.224.25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xCRvm-0000000AT4M-1G2W
+	id 1xCXF5-0000000Al7m-2OfQ
 	for linux-nvme@lists.infradead.org;
-	Fri, 02 Oct 2026 01:19:22 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 8F9DB40AD0;
-	Fri,  2 Oct 2026 01:19:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BEA51F00893;
-	Fri,  2 Oct 2026 01:19:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790903961;
-	bh=aZby0WeNlKN6rlwpn1/LnNcy7QUqDYIZv8b3LV0Liww=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=KuA5PeABrGCDRWE2c+jTnoLFrU//pbGuovhvcC7WRoTMqadKhnbC4f+PcUP5YFkX1
-	 unr0lhG32+rUpcxEiGaP3SvZJBE38JOOnYtEe7NcQaP2tq2FmoSQpUxHbi57ooTLMn
-	 Q5YgrSIv45LrfpYfWhZMGqTt5gp+UCm4En3h4iy13LO2lZSEKfkCL0MyrYTLRUB+5y
-	 wOapxs1VHrcJVWsXp0OSik3Vj/iZ24MwH2rXigcYTAMf9eeki1dQ+O+Lnu4LdTypQJ
-	 NSuZnww9Aw+av26zHa/GSTIdIPAkyFnpcJk2cohH8E7Exp59yR+Z4ApDkLbGOT4r8G
-	 61OIfAEMCpdfQ==
-Subject: Re: [PATCH v3 net-next 1/9] dlm: fix send buffer backpressure handling
-From: netdev-bot+sashiko@kernel.org
-To: edumazet@kernel.org
-Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
- ncardwell@google.com, kuniyu@google.com, edumazet@google.com,
- netdev@vger.kernel.org, aahringo@redhat.com, teigland@redhat.com,
- gfs2@lists.linux.dev, john.fastabend@gmail.com, jakub@cloudflare.com,
- sd@queasysnail.net, jiayuan.chen@linux.dev, matttbe@kernel.org,
- martineau@kernel.org, geliang@kernel.org, mptcp@lists.linux.dev,
- guwen@linux.alibaba.com, dust.li@linux.alibaba.com, alibuda@linux.alibaba.com,
- cel@kernel.org, jlayton@kernel.org, neil@brown.name, okorniev@redhat.com,
- Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org, anna@kernel.org,
- linux-nfs@vger.kernel.org, achender@kernel.org, rds-devel@oss.oracle.com,
- philipp.reisner@linbit.com, lars.ellenberg@linbit.com,
- christoph.boehmwalder@linbit.com, axboe@kernel.dk, drbd-dev@lists.linux.dev,
- kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
- linux-nvme@lists.infradead.org, idryomov@gmail.com, amarkuze@redhat.com,
- slava@dubeyko.com, ceph-devel@vger.kernel.org
-Date: Fri, 02 Oct 2026 01:19:18 +0000
-Message-ID: <179090395863.434549.3668493667259120759@kernel.org>
-In-Reply-To: <20260929071743.23624-2-edumazet@kernel.org>
-References: <20260929071743.23624-2-edumazet@kernel.org>
-X-sashiko-severity: High
+	Fri, 02 Oct 2026 06:59:44 +0000
+Received: from epcas2p2.samsung.com (unknown [182.195.41.54])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20261002065932epoutp02fd9c0b4238f53a258d49715098874039~apDpzer7I0280402804epoutp02M
+	for <linux-nvme@lists.infradead.org>; Fri,  2 Oct 2026 06:59:32 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20261002065932epoutp02fd9c0b4238f53a258d49715098874039~apDpzer7I0280402804epoutp02M
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1790924372;
+	bh=GG2utD0f6nfLzMKJbhK02FJM4RaQ+X/fVsQucE2NZ8w=;
+	h=Subject:Reply-To:From:To:CC:Date:References:From;
+	b=TWHto4ce+XAmSsle7ZbNpB3gW+Giu5Y805/FQpHsrFuYuQOIGii+o1fq3HqkeMIvB
+	 ZFoGW3jxRq3iff/5wob4GWedyMdytx9OXrEi4cjQvV8wvWguUA8/evckv0VwaMRF4c
+	 EmakIfj2GyzEz3SajX9TCIDldr+hh5h0kZkeBtMw=
+Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
+	epcas2p2.samsung.com (KnoxPortal) with ESMTPS id
+	20261002065932epcas2p2295b2922d4ff7bb52a2d960b20c0c8a6~apDpHoXdW0630206302epcas2p2M;
+	Fri,  2 Oct 2026 06:59:32 +0000 (GMT)
+Received: from epcas2p3.samsung.com (unknown [182.195.38.209]) by
+	epsnrtp02.localdomain (Postfix) with ESMTP id 4hx05H4vHpz2SSKY; Fri,  2 Oct
+	2026 06:59:31 +0000 (GMT)
+Mime-Version: 1.0
+Subject: [PATCH 0/2] nvmet: fix Reservation Acquire preempt sent by the
+ holder
+From: Daejun Park <daejun7.park@samsung.com>
+To: "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
+	"kch@nvidia.com" <kch@nvidia.com>
+CC: "kbusch@kernel.org" <kbusch@kernel.org>, "kanie@linux.alibaba.com"
+	<kanie@linux.alibaba.com>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>, "linux-nfs@vger.kernel.org"
+	<linux-nfs@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, Daejun Park <daejun7.park@samsung.com>
+X-Priority: 3
+X-Content-Kind-Code: NORMAL
+X-CPGS-Detection: blocking_info_exchange
+X-Drm-Type: N,general
+X-Msg-Generator: Mail
+X-Msg-Type: PERSONAL
+X-Reply-Demand: N
+Message-ID: <20261002065931epcms2p1cb2c16f98cf3b05f8c859ad92b0ad465@epcms2p1>
+Date: Fri, 02 Oct 2026 15:59:31 +0900
+X-CMS-MailID: 20261002065931epcms2p1cb2c16f98cf3b05f8c859ad92b0ad465
+Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-MIME-Version: 1.0
-X-Mailman-Approved-At: Thu, 01 Oct 2026 21:26:41 -0700
+X-Sendblock-Type: AUTO_CONFIDENTIAL
+CMS-TYPE: 102P
+X-CPGSPASS: Y
+X-CPGSPASS: Y
+cpgsPolicy: CPGSC10-223,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20261002065931epcms2p1cb2c16f98cf3b05f8c859ad92b0ad465
+References: <CGME20261002065931epcms2p1cb2c16f98cf3b05f8c859ad92b0ad465@epcms2p1>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20261001_235940_640185_A29CA815 
+X-CRM114-Status: GOOD (  25.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,153 +90,114 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: daejun7.park@samsung.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issue(s) to consider.
+nvmet_pr_preempt() does not follow NVMe Base Specification 2.1, section
+8.1.22.7 when a Reservation Acquire command with the Preempt or Preempt
+and Abort action is sent by the reservation holder and the reservation
+is not of an All Registrants type.
 
-Critical: 0 · High: 1 · Medium: 0 · Low: 1
+Patch 1 fixes a use-after-free read in the path that handles a preempt
+sent by the holder.  It does not depend on patch 2 and comes first so
+that it can be backported alone.
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+Patch 2: a holder that preempts with the key of another registrant gets
+a successful completion, but that registrant stays registered and the
+reservation type is changed to RTYPE.  The pNFS SCSI layout server
+fences clients with this command (RFC 9561 section 2.2.3), so on an
+nvmet namespace nfsd logs a client as fenced while the client can still
+write to the device.  The patch lists what changes for a host that
+holds the reservation.
 
-- [High] A TCP reset or TCP timeout while the connection is waiting for
-  send space can stall the dlm connection permanently.
-- [Low] In send_to_sock() (fs/dlm/lowcomms.c:1392-1397), the
-  set_bit(SOCK_NOSPACE, &con->sock->sk->sk_socket->flags) under the…
+Not changed by this series: when the holder preempts itself,
+registrants that share its key stay registered.  Case a) of section
+8.1.22.7 unregisters them, but the paragraph about a holder preempting
+itself lists three effects and does not mention other registrants, so I
+left it alone.  The SCSI target removes them in
+core_scsi3_emulate_pro_preempt().  I can send a patch if that is the
+intended reading.
 
---
+The series is based on the block-7.3 branch of the block tree at
+684b413b5483, which has the current nvme fixes, and was tested there
+with KASAN, PROVE_LOCKING and PROVE_RCU enabled, in QEMU guests, with
+nvme-cli 2.8.  drivers/nvme/target/pr.c is the
+same file there, in nvme-7.3, in nvme-7.4 and in mainline.  "before" is
+that commit, "after" is that commit with both patches.  Each case was
+run once unless noted.  The runs with the patches applied produced no
+KASAN or lockdep report.  Mainline ce1e0223d8ad, which does not have
+"nvmet: copy the hostid into the ctrl before creating PR pc_refs" yet,
+gave the same results before and after.
 
-dlm: fix send buffer backpressure handling
+1. nvme-loop, hosts A, B and C registered on one namespace with
+   different keys, A holds the reservation.  "regs" is the number of
+   registrants after the command.  EA-RO is Exclusive Access -
+   Registrants Only, WE Write Exclusive, WE-RO Write Exclusive -
+   Registrants Only, EA-AR Exclusive Access - All Registrants.
 
-This commit changes send_to_sock() to test SOCK_NOSPACE instead of
-SOCKWQ_ASYNC_NOSPACE in con->sock->flags. With that change the
-CF_APP_LIMITED wait path is taken again when TCP returns -EAGAIN because
-the send buffer is full. It also removes the clear_bit() of
-SOCKWQ_ASYNC_NOSPACE from lowcomms_write_space(), since that bit no
-longer lives in con->sock->flags.
+   reservation and command                     before          after
+   EA-RO, A preempts key of B, same RTYPE      regs 3          regs 2
+   EA-RO, A preempts key of B, other RTYPE     regs 3, type    regs 2, type
+                                               changed         unchanged
+   EA-RO, A preempts and aborts key of B       regs 3          regs 2
+   WE,    A preempts key of B                  regs 3          regs 2
+   WE-RO, A preempts and aborts key of B       regs 3          regs 2
+   EA-RO, A preempts with PRKEY 0h,            success, type   Invalid Field
+          other RTYPE                          changed         in Command
+   EA-RO, A preempts with an unregistered      success         Reservation
+          key, same RTYPE                                      Conflict
+   EA-RO, A preempts itself with another RTYPE regs 3, type    same
+                                               changed
+   EA-RO, C preempts key of B                  regs 2          same
+   EA-AR, A preempts key of B                  regs 2          same
+   EA-AR, A preempts with PRKEY 0h             regs 1          same
 
-> diff --git a/fs/dlm/lowcomms.c b/fs/dlm/lowcomms.c
-> index 2aff1c7c17de4..abe9ae4c643fa 100644
-> --- a/fs/dlm/lowcomms.c
-> +++ b/fs/dlm/lowcomms.c
+   With EA-RO and WE-RO, writes from B succeed while B is registered and
+   fail with Reservation Conflict once it is unregistered.
 
-[ ... ]
+2. blktests nvme/054 passes before and after, with nvme-loop and
+   nvme-tcp.  A test for the multi host cases is posted separately as
+   "[PATCH blktests] nvme/071: test reservation preempt with multiple
+   hosts".  It fails before and passes after (nvme-loop three times,
+   nvme-tcp once, and both transports in one run).
 
-> @@ -1391,7 +1389,7 @@ static int send_to_sock(struct connection *con)
->  	if (ret == -EAGAIN || ret == 0) {
->  		lock_sock(con->sock->sk);
->  		spin_lock_bh(&con->writequeue_lock);
-> -		if (test_bit(SOCKWQ_ASYNC_NOSPACE, &con->sock->flags) &&
-> +		if (test_bit(SOCK_NOSPACE, &con->sock->flags) &&
->  		    !test_and_set_bit(CF_APP_LIMITED, &con->flags)) {
+3. pNFS SCSI layout.  An nfsd server exports XFS on an nvmet-tcp
+   namespace to two clients, all nodes run the same kernel.  The server
+   and both clients are registered, the server holds an EA-RO
+   reservation.  Client 1 holds a layout and writes 1 MiB with O_DIRECT
+   every 0.2 seconds.  Its network link to the server is then blocked
+   while its link to the NVMe target stays up, and a local write to the
+   file on the server recalls the layout.  The server write waits for
+   the lease break time (45 seconds by default), then nfsd fences
+   client 1 and logs "FENCED client[...]" in both cases.  The link is
+   restored about 15 seconds after the fence, and the RPC counter is
+   read when client 1 stops writing.
 
-[Severity: High]
-Can a TCP reset or timeout that arrives while the connection is in this
-state leave it stuck for good?
+                                               before          after
+   seconds the server write waited             49              49
+   registrants after the fence                 3               2
+   bytes client 1 wrote to the device in the
+   10 seconds after the fence                  45088768        0
+   WRITE RPCs sent by client 1 by the end      0               172
 
-With this change, send_to_sock() sets CF_APP_LIMITED, clears
-CF_SEND_PENDING and returns DLM_IO_END. After that,
-lowcomms_queue_swork() will not queue swork:
+   After the fence client 1 logs "reservation conflict error, dev
+   nvme0c0n1" and, once the link is back, sends its writes to the
+   server.
 
-fs/dlm/lowcomms.c:lowcomms_queue_swork() {
-	if (!test_bit(CF_IO_STOP, &con->flags) &&
-	    !test_bit(CF_APP_LIMITED, &con->flags) &&
-	    !test_and_set_bit(CF_SEND_PENDING, &con->flags))
-		queue_work(io_workqueue, &con->swork);
-}
+   A run with the patches in which client 1 was cut off from both the
+   server and the NVMe target gave 45 seconds, 2 registrants and 0
+   bytes; the fence did not block on the unreachable client.
 
->From then on, only lowcomms_write_space() or close_connection() clears
-CF_APP_LIMITED.
+Daejun Park (2):
+  nvmet: fix use-after-free of the old registrant in nvmet_pr_preempt()
+  nvmet: fix preempt of another registrant by the reservation holder
 
-tcp_reset() and tcp_write_err() (RTO or keepalive timeout) both go
-through tcp_done_with_error():
+ drivers/nvme/target/pr.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-net/ipv4/tcp_input.c:tcp_done_with_error() {
-    ...
-	tcp_write_queue_purge(sk);
-	tcp_done(sk);
 
-	if (!sock_flag(sk, SOCK_DEAD))
-		sk_error_report(sk);
-}
-
-Neither path calls sk_write_space(). tcp_done() calls sk_state_change,
-but add_sock() only installs lowcomms_state_change for SCTP.
-
-Every dlm recovery path appears to end in lowcomms_queue_swork(), which
-returns early here:
-
-lowcomms_error_report()
-  dlm_midcomms_unack_msg_resend()
-    dlm_lowcomms_resend_msg()
-      _dlm_lowcomms_commit_msg()
-        lowcomms_queue_swork()
-
-On a receive error on the main connection, process_recv_sockets() also
-only calls lowcomms_queue_swork():
-
-		if (ret < 0) {
-			if (test_bit(CF_IS_OTHERCON, &con->flags)) {
-				close_connection(con, false);
-			} else {
-				spin_lock_bh(&con->writequeue_lock);
-				lowcomms_queue_swork(con);
-				spin_unlock_bh(&con->writequeue_lock);
-			}
-
-A RST does not call sk_data_ready, so the receive worker may not run at
-all. New outgoing messages hit the same CF_APP_LIMITED check. If the peer
-reconnects, accept_from_sock() puts the new socket on othercon because
-the main connection's sock is still set.
-
-Before this patch, the send worker kept requeueing itself with
-DLM_IO_RESCHED. The next sock_sendmsg() then returned the socket error,
-and process_send_sockets() called close_connection() and reconnected.
-
-A peer RST seems realistic here. It happens when the peer's dlm closes
-its socket with unread data in the receive queue, which is likely when
-the peer is slow to drain. It also happens with ss -K or a middlebox RST.
-
-If this happens, won't traffic to that node stay queued on a dead socket
-until dlm_lowcomms_close() or lowcomms shutdown?
-
-The commit message says that for SCTP, returning DLM_IO_END "would wait
-for a callback that never comes". Doesn't the TCP error path have the
-same problem?
-
-Later patches in the series convert these bit operations to
-sk_set_nospace()/sk_clear_nospace() and add tp->tcp_nospace. None of
-them seem to change this behavior.
-
->  			/* Notify TCP that we're limited by the
->  			 * application window size.
-
-[Severity: Low]
-This isn't a bug, but the statement under this comment now does
-nothing:
-
-			set_bit(SOCK_NOSPACE, &con->sock->sk->sk_socket->flags);
-
-The branch is only entered when test_bit(SOCK_NOSPACE, &con->sock->flags)
-is already true. con->sock->sk->sk_socket is con->sock, so this sets a
-bit that is already set.
-
-TCP already sets it on its -EAGAIN paths (tcp_sendmsg_locked() and
-sk_stream_wait_memory()). While lock_sock() is held, TCP input that could
-run lowcomms_write_space() is deferred to the backlog, so nothing can
-clear the bit between the test and the set.
-
-Should the set_bit() and the "Notify TCP" comment be removed or
-reworded?
-
-The same applies later in the series, where this line becomes
-sk_set_nospace(con->sock->sk).
-
+base-commit: 684b413b5483f57c890c171b9400076a0143b918
 -- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260929071743.23624-1-edumazet%40kernel.org
+2.43.0
 
