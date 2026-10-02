@@ -4,90 +4,107 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2230DCA5FCE
-	for <linux-nvme@archiver.kernel.org>; Sun,  4 Oct 2026 07:26:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3AD1ECA5FFD
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Oct 2026 09:17:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=OdRsUg4aEd8z+aIPLHLtgWH8DwChXLilPVarrUw7AJg=; b=kUAYubRLlt5Z2hGWlBhqU4FXuI
-	W4PY+SE69Y3uibD/A4RmXBoZk/kOZQTlrwnSGuhY6vM0gQ8x8LZhgwsWBb4DPDNzQWz9aYCzrsYJM
-	vW+mJ+/+XsLzyqmI4Zea5KVg5v2R79CnKeCJrSoZKccaiiAza47jm54b5ApRxszSWNVabIJxk00dC
-	3Lm76NnDsxYzhNMLEAa2B4ZnKWgktBrv5wkudVAbYWRTRhBQXw+dliS04f0UqSK0o+tqGysbC81N4
-	tJZnuvBYb3NPiZA/jSCehrt3HqMzXNt+q/mRZdRDQNd/2lCgUpd8+5fHSkdMkq6nnKoY2M9U10/2q
-	Mo3hbE3w==;
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=XDp0RcD7HYWUzlsOLtsxZUXX4GvVdXcns7B6N4dcr9I=; b=toOBM6xTjtnFiJu5lzp/m1nsj6
+	KrPfjbfq6vaS0SVhx+3R1xiWwXve/2pEc7h71PsGFSRuk32CvFBncLwFeY1tpfQKnovvEF97Nmy/f
+	1jdxfx4fEm+aFVzQ/N9k0U1thL+G7i8PfomQSHVYO7oSTzUqWn/f/BivnU+r90ftAsXh9PalBmM4r
+	z/Fixbfvbt6f5G/PPbNL1io8urL+ipVAY9w6EGqXz3GcDERf6QgImtU7SqJZLe+Q3c74QKqK6d4I7
+	R7WZC1b6U00QgOxPgC/qOyU9b7r3FAQR3NXMjNBXBWVeCpcnw84Vhkv1VzBzkyIQ27Yw+qRv8Zq43
+	akW9f/yQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xDGby-0000000ESmc-3c9e;
-	Sun, 04 Oct 2026 07:26:18 +0000
-Received: from mail-pz2-x0d.google.com ([2607:f8b0:4864:3b::d])
+	id 1xDeoi-0000000Fz6v-1BQn;
+	Mon, 05 Oct 2026 09:17:04 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xDGbw-0000000ESmH-1Juz
+	id 1xCdwd-0000000BkXm-2KfU
 	for linux-nvme@lists.infradead.org;
-	Sun, 04 Oct 2026 07:26:17 +0000
-Received: by mail-pz2-x0d.google.com with SMTP id 41be03b00d2f7-ccc90f98036so185466a12.1
-        for <linux-nvme@lists.infradead.org>; Sun, 04 Oct 2026 00:26:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791098775; x=1791703575; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=OdRsUg4aEd8z+aIPLHLtgWH8DwChXLilPVarrUw7AJg=;
-        b=dPfChJq1suihKvsrH7zeCBaKVRdgNiuEbdmzB1Ax1TbDOq20jtY9FsYpDc/AW7xVoT
-         ZlEUTIzyp8IoO7sNxhsUvY+g5Zr1Oqw7Pbuso9dE0NqDn+SoFLcgP5kGV/7S1XU/ZrPo
-         MdmL2ntST+UUnDs8to5BwyVso4kCWL+R9OIwvYsULInkqhSYY2XYnUgSv4KLc94YePPr
-         4isENfZFqPEuLAItlMxvngZbBfG3zTLUerAeOlTpbykrrsj6MegY0lWvg3ud6n2ZjkRt
-         NQVm1vapVYITOMd0NOEZJ8s3J1tN3EJZXwtrZQMnjm2MKYYTBHklkQF6QV9lXzgmHYQO
-         QvWQ==
+	Fri, 02 Oct 2026 14:09:05 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1790950141;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XDp0RcD7HYWUzlsOLtsxZUXX4GvVdXcns7B6N4dcr9I=;
+	b=B8m5PwSN9FAtEk7Nuyq461iaYiKKiVpCW9E3mHLGCHh57zqwUPnGtVYfKr0iFOF2w4RHbI
+	jOFQLCrWTrX+g3YxaO0RoOVq0HxGd+bYaPt3vU6fRzpJapVKAJOCC3EptN78zCSlYqc+IY
+	bVi78v9bJmcbDX05pzgay66MdiTt3u4=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-359-vpFKD182PsqyrVEqgbQDLg-1; Fri, 02 Oct 2026 10:07:15 -0400
+X-MC-Unique: vpFKD182PsqyrVEqgbQDLg-1
+X-Mimecast-MFC-AGG-ID: vpFKD182PsqyrVEqgbQDLg_1790950034
+Received: by mail-lj1-f199.google.com with SMTP id 38308e7fff4ca-39b1a8b8bb1so693661fa.2
+        for <linux-nvme@lists.infradead.org>; Fri, 02 Oct 2026 07:07:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791098775; x=1791703575;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=OdRsUg4aEd8z+aIPLHLtgWH8DwChXLilPVarrUw7AJg=;
-        b=0WV4kzVkF3x9AbDy77TreHj8ikb4aY3QgwptSNkrskpfoBqwbEmB6pAvan44BbdtdG
-         qKiL4TZUZkfifcQzmRxCR9LwUyuBO4UgjpF1TTZFZQx5Flu+gKVj8iqXK0XgEVtvm9dR
-         rpaORXFGxxYol1WjrLIOrruOJsCLG//pnBpIoyogvTsaLkXlPqEWXGb3Rw8iftblasE4
-         Z5Zk5kxvOqsIDWf+IREvFiLKBVU5UwzTu/mePEcnB9fhcDCkPiRKXEEsNhs1gKBmt5NW
-         836ycGBa8jYL3+uxMmlK+zOOVzAgILuyZn11yAr+r/HHmzZBo+KeJpHNCaeplMh2hKF1
-         bEAg==
-X-Forwarded-Encrypted: i=1; AKwUvBwyvl8G8VMycbyRAh1BnQi8GqKVmSYqmj46EymmFEpRb/luKl0J8CYk39PB8Sso/NzsECmE0TYencq9@lists.infradead.org
-X-Gm-Message-State: AFq9FYLllebso/Y2VsrJ/nb3vsVsokTFPR5LKHq1MGGVSEw28pVNmMcI
-	mmvUYZUCHt0ZR7A5U2SMqkjU9Sb9wKF1Gvc9aSedvXYhpmFio/jqfe8pF342j/kCie4=
-X-Gm-Gg: AYBFou0PbmdyvYfpbTpm00cjBdjbfZlBnwz09JCQBJ+IHuJd92tjmQkRcYYr2Hu6OXL
-	CTU+jkxnLk+YNGgco8D3uGc3oxL659F2p3hKeqm00P6vp3ny2sIk7ler5fp/kJhpNySaQxBHsEA
-	QL6Tebm56+DFXEpP+hqdiiQElxzLVEqvnYufQE6fW1x5RYaq5BsCKvlKKNos51wALycle+IXLs6
-	WzawvwsLnYFAYzGOWXyYfICppYyhWj8RLM4Q/iEOlukKnkgk0PeAlPMvD7stWpBkRs/FA42/abO
-	of2nh3vFRtcONu7+FFE3uVKj6L7k9UaXRz3LfG/Cp8wl4Vo4cY6+EjCoa+1rV+/L6AYdAyCk91L
-	cXhgXuHk/ABmn8FUHc/rRFT2GkJXZAvWgcHBMrvTvxGjKWh+COKOaE/LPPjPfSnufeS/daiye1Q
-	z/GqNj/MEQqUowZM6FDMwJlCPe80o54wXR+LSclDUf3SEvkniTsQKWYjrPh0po1nJMwQ8+lWCe8
-	Mdvta3HgXleyHRd40A6Nylmr5ShDHyGmyk=
-X-Received: by 2002:a05:701b:2704:b0:144:f096:4dda with SMTP id a92af1059eb24-14f5c9da5abmr10241977c88.43.1791098467702;
-        Sun, 04 Oct 2026 00:21:07 -0700 (PDT)
-Received: from LAPTOP-450UDG4J ([223.185.132.231])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3512718a18esm3057871eec.17.2026.10.04.00.21.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Oct 2026 00:21:07 -0700 (PDT)
-From: Yogesh Gaur <yogeshgaur.83@gmail.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Jens Axboe <axboe@kernel.dk>
-Cc: stable@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Yogesh Gaur <yogeshgaur.83@gmail.com>,
-	syzbot+76c0f0ce8f1e846b4f84@syzkaller.appspotmail.com
-Subject: [PATCH] nvme: keep a private copy of the effects log in the ns head
-Date: Sun,  4 Oct 2026 12:50:52 +0530
-Message-ID: <20261004072052.1574-1-yogeshgaur.83@gmail.com>
-X-Mailer: git-send-email 2.55.0.windows.5
+        d=1e100.net; s=20260707; t=1790950034; x=1791554834;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=XDp0RcD7HYWUzlsOLtsxZUXX4GvVdXcns7B6N4dcr9I=;
+        b=t7S6n3wewxjnq5EYdT+L+V7DekYMxoJSUkv4MrGVb+8zwsfzCZ9kBwK4mQmvKRGknU
+         Arl3TTxyasi30/00HVhfDU7sBEEemRRl6DkGP+VKV5idSnBJkbQz9DpBr2OOSHARJYXo
+         9D/Jz8J7ioep8o6/7pGQvFBtMW4m0d+sPYMHzgk7hdF/KlVOIMYe48yASPSVbVq6MChm
+         iz3BE9ZuSmVbNykSRwhcrjgkrL2CtUd07L4eRwMlbKkisep5ppOVXXEFOiS8IlNEP2Pk
+         g3v91AOJsFvy8w3lTsuxak4NbFjrwIYappIc5bx/qcuT/djtHm+5pi7bF+ifJWqaDlCm
+         fXVg==
+X-Forwarded-Encrypted: i=1; AKwUvBx7iGSrY7BhZ7b64LU2x5UT20ojvvwCdewxUiHGcoZHdtRZ7G4+qWyILDhDBP+2kg2yciTd/RRc63fX@lists.infradead.org
+X-Gm-Message-State: AFq9FYL791BXnw6gHdJqp2BQimZLKq/yRoCjsDTPaOdE3kvS4YT8RuHG
+	OSgcVBIKTPy0TtAHXZ+qYE7SFIDs3E8f6wFu3aZc5yLvvT15lczA082+Gr669TSEWaYyzYKB99u
+	GJhICgYXNYIeLVW8mRwm9lkWPgJlhRWmKit47T/we5WOmVc7hkSvJWy6o8rKL7u3U8Q7et44NEK
+	7clos5U3xKOe5rmoZ041O2Zd4tbUrgrjltKBMalZLlwdk=
+X-Gm-Gg: AYBFou2GS/OpBmMx58batSHajTaQPLJaScxgKQJGQLGmCJKpBpMg2ajiWkU837OisHC
+	y2NklxCo/n+GvBujHMlcttNOBwTb86lbGsBjvKkAIV5jRVPXZRPXm1aQ1INnlVs7LKfc69nwEP4
+	08y2EA/lJtjXC7GyJG3HA6Yf582qh3fVmBH6Tl89sU+bHQf8a+CVyjnJSR
+X-Received: by 2002:a2e:bc24:0:b0:3a6:95a:52a6 with SMTP id 38308e7fff4ca-3a8877b72d8mr7514451fa.20.1790950033923;
+        Fri, 02 Oct 2026 07:07:13 -0700 (PDT)
+X-Received: by 2002:a2e:bc24:0:b0:3a6:95a:52a6 with SMTP id
+ 38308e7fff4ca-3a8877b72d8mr7514081fa.20.1790950033516; Fri, 02 Oct 2026
+ 07:07:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260929071743.23624-2-edumazet@kernel.org> <179090395863.434549.3668493667259120759@kernel.org>
+ <CAL4WiipAe11BJA0rs33_0=bzYXMr0qQvQMPc+6-awyFQdQ1yCA@mail.gmail.com>
+In-Reply-To: <CAL4WiipAe11BJA0rs33_0=bzYXMr0qQvQMPc+6-awyFQdQ1yCA@mail.gmail.com>
+From: Alexander Aring <aahringo@redhat.com>
+Date: Fri, 2 Oct 2026 10:07:01 -0400
+X-Gm-Features: AclHuK_sfowi4LPKpSWl8IXP3uRNzWbqORQfvYROS9BqQto16BFcN8kPZWF14yQ
+Message-ID: <CAK-6q+ga-MNEXgENToB2hLB9jzpsGMrz-1sOo7WQP5M-scnAxg@mail.gmail.com>
+Subject: Re: [PATCH v3 net-next 1/9] dlm: fix send buffer backpressure handling
+To: Eric Dumazet <edumazet@kernel.org>
+Cc: netdev-bot+sashiko@kernel.org, davem@davemloft.net, kuba@kernel.org, 
+	pabeni@redhat.com, horms@kernel.org, ncardwell@google.com, kuniyu@google.com, 
+	edumazet@google.com, netdev@vger.kernel.org, teigland@redhat.com, 
+	gfs2@lists.linux.dev, john.fastabend@gmail.com, jakub@cloudflare.com, 
+	sd@queasysnail.net, jiayuan.chen@linux.dev, matttbe@kernel.org, 
+	martineau@kernel.org, geliang@kernel.org, mptcp@lists.linux.dev, 
+	guwen@linux.alibaba.com, dust.li@linux.alibaba.com, alibuda@linux.alibaba.com, 
+	cel@kernel.org, jlayton@kernel.org, neil@brown.name, okorniev@redhat.com, 
+	Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org, anna@kernel.org, 
+	linux-nfs@vger.kernel.org, achender@kernel.org, rds-devel@oss.oracle.com, 
+	philipp.reisner@linbit.com, lars.ellenberg@linbit.com, 
+	christoph.boehmwalder@linbit.com, axboe@kernel.dk, drbd-dev@lists.linux.dev, 
+	kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, kch@nvidia.com, 
+	linux-nvme@lists.infradead.org, idryomov@gmail.com, amarkuze@redhat.com, 
+	slava@dubeyko.com, ceph-devel@vger.kernel.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: ybk6SqQPNUbJ-bZULwb0BnikHufsV5C-W_xVRzfzu0I_1790950034
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261004_002616_382453_95AD3EC3 
-X-CRM114-Status: GOOD (  17.42  )
+X-CRM114-CacheID: sfid-20261002_070904_180785_41E4C849 
+X-CRM114-Status: GOOD (  15.24  )
+X-Mailman-Approved-At: Mon, 05 Oct 2026 02:16:59 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,105 +119,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvme_alloc_ns_head() points head->effects at the creating controller's
-Commands Supported and Effects log, which lives in ctrl->cels and is
-freed by nvme_free_ctrl(). The head is owned by the subsystem, though:
-with several controllers on one subsystem it is shared between them
-and stays around after the controller that allocated it is gone. When
-another controller then (re)scans the namespace, nvme_query_zone_info()
-and nvme_command_effects() read the freed log:
+Hi,
 
-  BUG: KASAN: slab-use-after-free in nvme_query_zone_info+0x4fd/0x6f0 drivers/nvme/host/zns.c:47
-  Read of size 4 at addr ffff88802ab9e5f4 by task kworker/u8:2/43
-  Workqueue: async async_run_entry_fn
-   nvme_query_zone_info+0x4fd/0x6f0 drivers/nvme/host/zns.c:47
-   nvme_update_ns_info_block+0x1b2e/0x2af0 drivers/nvme/host/core.c:2430
-   nvme_update_ns_info+0xc6/0xd90 drivers/nvme/host/core.c:2553
-   nvme_alloc_ns+0x1a9f/0x3e50 drivers/nvme/host/core.c:4293
-   nvme_scan_ns+0x79d/0x910 drivers/nvme/host/core.c:4483
-  Allocated by task 6345:
-   nvme_get_effects_log+0x13a/0x280 drivers/nvme/host/core.c:3422
-   nvme_alloc_ns_head drivers/nvme/host/core.c:4037 [inline]
-   nvme_init_ns_head drivers/nvme/host/core.c:4153 [inline]
-  Freed by task 14867:
-   nvme_free_cels drivers/nvme/host/core.c:5165 [inline]
-   nvme_free_ctrl+0x1e4/0x6b0 drivers/nvme/host/core.c:5183
+On Fri, Oct 2, 2026 at 4:33=E2=80=AFAM Eric Dumazet <edumazet@kernel.org> w=
+rote:
+>
+> On Fri, Oct 2, 2026 at 3:19=E2=80=AFAM <netdev-bot+sashiko@kernel.org> wr=
+ote:
+> >
+> > Thank you for your contribution! Sashiko AI review found 2 potential
+> > issue(s) to consider.
+> >
+> > Critical: 0 =C2=B7 High: 1 =C2=B7 Medium: 0 =C2=B7 Low: 1
+> >
+> > If you believe none of the issues are legitimate, please reply to each
+> > issue of Medium severity or higher and explain why the AI is wrong.
+> > If any of them are legitimate and you plan to respin, please let patchw=
+ork
+> > know by including "pw-bot: cr" as a separate line at the end of your re=
+ply
+> > (one such reply per series is enough).
+> >
+> > - [High] A TCP reset or TCP timeout while the connection is waiting for
+> >   send space can stall the dlm connection permanently.
+>
+> I dunno if I want to spend time fixing all dlm bugs.
+>
+> It seems TCP changes are now stuck because ood pre-existing bugs in
+> in-kernel-users.
+>
+> Sad.
 
-syzbot hits this with nvme-loop by connecting the same zoned subsystem
-several times with duplicate_connect while deleting and rescanning the
-controllers. The NVM command set case (head->effects = ctrl->effects)
-has the same lifetime problem, as ctrl->effects is also stored in
-ctrl->cels.
+I will take a look into it and cc netdev people.
 
-Give the head its own copy of the log, taken when the head is created
-and freed together with it. That keeps today's behaviour of using the
-first controller's log for the whole head, but no longer ties the
-head's lifetime to that controller.
+Thanks.
 
-Fixes: be93e87e7802 ("nvme: support for multiple Command Sets Supported and Effects log pages")
-Cc: stable@vger.kernel.org
-Reported-by: syzbot+76c0f0ce8f1e846b4f84@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=34a8e8b643a20c2cbde3
-Assisted-by: LLM
-Signed-off-by: Yogesh Gaur <yogeshgaur.83@gmail.com>
----
- drivers/nvme/host/core.c | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 5d7dfd7a63d4..f0df4c204e52 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -694,6 +694,7 @@ static void nvme_free_ns_head(struct kref *ref)
- 	cleanup_srcu_struct(&head->srcu);
- 	nvme_put_subsystem(head->subsys);
- 	kfree(head->plids);
-+	kfree(head->effects);
- 	kfree(head);
- }
- 
-@@ -4022,6 +4023,7 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ns *ns,
- 	__must_hold(&ns->ctrl->subsys->lock)
- {
- 	struct nvme_ctrl *ctrl = ns->ctrl;
-+	struct nvme_effects_log *effects;
- 	struct nvme_ns_head *head;
- 	size_t size = sizeof(*head);
- 	int ret = -ENOMEM;
-@@ -4052,11 +4054,22 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ns *ns,
- 	ns->head = head;
- 
- 	if (head->ids.csi) {
--		ret = nvme_get_effects_log(ctrl, head->ids.csi, &head->effects);
-+		ret = nvme_get_effects_log(ctrl, head->ids.csi, &effects);
- 		if (ret)
- 			goto out_cleanup_srcu;
- 	} else
--		head->effects = ctrl->effects;
-+		effects = ctrl->effects;
-+
-+	/*
-+	 * The effects log belongs to the controller and is freed with it, but
-+	 * the head can outlive this controller and be shared with others, so
-+	 * keep a private copy.
-+	 */
-+	head->effects = kmemdup(effects, sizeof(*effects), GFP_KERNEL);
-+	if (!head->effects) {
-+		ret = -ENOMEM;
-+		goto out_cleanup_srcu;
-+	}
- 
- 	if (ctrl->ctratt & NVME_CTRL_ATTR_FDPS) {
- 		ret = nvme_query_fdp_info(ns, info);
-@@ -4076,6 +4089,7 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ns *ns,
- out_cleanup_fdp:
- 	kfree(head->plids);
- out_cleanup_srcu:
-+	kfree(head->effects);
- 	cleanup_srcu_struct(&head->srcu);
- out_ida_remove:
- 	ida_free(&ctrl->subsys->ns_ida, head->instance);
--- 
-2.55.0.windows.5
+- Alex
 
 
