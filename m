@@ -4,66 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8959FCA5FD4
-	for <linux-nvme@archiver.kernel.org>; Fri,  2 Oct 2026 03:40:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C16C2CA5FC4
+	for <linux-nvme@archiver.kernel.org>; Fri,  2 Oct 2026 04:26:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:From:Subject
-	:Message-ID:In-Reply-To:Date:MIME-Version:Reply-To:Cc:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-	List-Owner; bh=kMwz3JG6cUfXRqV2RJX7PZeX+DHxAQ564iCLriDAmU0=; b=EwImspZPdjBDMm
-	wF6oUJDvDJ54LA2e5eJPaYeO9ptIQdblJ+6z9qf5M2YDBlfHc/8CNoUbIBofWl6shoyaFPIDpK0Bu
-	prRSY/Mp3VgWqyrBZ0mK51STCzCS1+0mmGxOZILSUQ67MkW0whEayXPlhZcGhAR1BNJeeTnMJb9TE
-	ioP84m/awGjeqZtwqPoRcQmkSavOa5IjZREQ16z4dgl2JhB4ShchEPQsdVxqIMrt6X+JrCg62C7uQ
-	VBJ8+bebTYe0szXEAvvuo1sajPF2O6LlTExlFhSY/lx2FQB6WkdLJSUe/TVvlF+FNmc5TG8cBvpmi
-	FJ9qYVnZqb/3rIs5n22w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Message-ID:Date
+	:Cc:To:From:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=5ZaH7kjR91t+LbbdbOtI4sfeLxRZza0chRAHxNS1iZ0=; b=FWdpqgcLmwZlHWQaazfswcoYm6
+	yuKkooTS6lctWmi8qYQPP7Uxnia3i8IBfsKTys+IUZ61TQ0kbBrHyFd2tl87ME3mAgTpWVCAiE665
+	GQoQPCB/QqIScHs//vyaY/LCzcm9gUo/5c+zARTCS1P78vpI1QZRBfmh2yJk36v/+wr/rbiH+7zKa
+	9ZZ5PfRCUKY768q9fohsKNw7jylaObz0V74B6jox1xdvLAz/YJz+0jS5RBONBPdPdwORXB2yusf7N
+	auLKuUEFwBUVaAJ8idCUU6XgMSQvPiju18MD9yLZh9ggAu4fs4Q5Gpm+dc/dY0ooaenrZqPhSXjtM
+	Xz9RsfUA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xCU8M-0000000AYwz-09Qk;
-	Fri, 02 Oct 2026 03:40:30 +0000
-Received: from mail-ot1-f71.google.com ([209.85.210.71])
+	id 1xCUr5-0000000Aavs-3JoO;
+	Fri, 02 Oct 2026 04:26:43 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xCU8J-0000000AYwe-1s6V
+	id 1xCRvr-0000000AT5O-2qPB
 	for linux-nvme@lists.infradead.org;
-	Fri, 02 Oct 2026 03:40:28 +0000
-Received: by mail-ot1-f71.google.com with SMTP id 46e09a7af769-8227ad6ddfaso1011242a34.1
-        for <linux-nvme@lists.infradead.org>; Thu, 01 Oct 2026 20:40:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790912425; x=1791517225;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=kMwz3JG6cUfXRqV2RJX7PZeX+DHxAQ564iCLriDAmU0=;
-        b=IRK2Z+RFp2EDJ8XwT8xQF3DDg3Pp1vznt791TFJ3Cj4bGt3NxG8OQMUwkzlka55YaT
-         5dsLlzT607gP9vrZc9NGA4wTWdN2k1RlGlfpsUYt6hzwE9duh1S+hpT1CV0KeS6JYtNV
-         jjdIuo284RG8KcckjgwYMYnLT9+uDuA9lhqhv6+LS9LbgSmKFZS2i4/le6JMQWZU8sPR
-         /wZ8A2+cvEAY+4rZqi3C0foasid/UBFIeOgTrUjQZGJ38d4/Mv0+aUxDC6NLwUSSKed9
-         cHp5uh1ZoSjQqCeb3XOm9xOHobGXzX/q+BwH+wH08cozXX9cYZRGiAPVNLXJ8VKSsnaj
-         KtkA==
-X-Forwarded-Encrypted: i=1; AKwUvBxcLK6M/HCEmNw0i411yDkQUVhFJsE31MM++9MT7rIolVMCBbG0908F/5CL/vdxQD8rAPTh4EJxtGbd@lists.infradead.org
-X-Gm-Message-State: AFuF++lKR7f2MAg0J7aHbLnhlkA3DO60CX+jdOZtzHLD4mL6nBx/5fKx
-	tFn2eor4LCAc5eOyYKIMz3BqCb7dTnYh4L62MaE1BzcI/K95kQuoQztKqyKa1V09u5C83cetlTx
-	/uYU3dJHN2sPDU5LYZTyqqEMqfxNjvDvGFmPsWvDFxQ68nhGQVZLWJHGZgAg=
+	Fri, 02 Oct 2026 01:19:27 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id 6B8CB4411A;
+	Fri,  2 Oct 2026 01:19:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFC231F00893;
+	Fri,  2 Oct 2026 01:19:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790903967;
+	bh=5ZaH7kjR91t+LbbdbOtI4sfeLxRZza0chRAHxNS1iZ0=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=ErJrQb9S6f1R8SuFuhRXDxtU8WylahNE8JFxYAKJbzR2Ra+k4EfG9s0Q2jOzgBvXC
+	 qz1D8sPUNaERGcuTc2onmU+T5EW1cBavf0efZzDUNJwqPa+eFpDt1A9dDVSDV2Vspg
+	 2pPjPRUpaDdfmGgV0q6bldA+XzCTotbFizw2N8tHRFy8V2aflQMbR2Uxut34s+NAoj
+	 dD5sGlmReE2yU3ptLwk926hWAJZjV2esT9gPoVquL/vAVgd7Ms1DfSTvVV/cYym95D
+	 s6ujsM2cjFMa4em+WkhnJ6AZT/XUOn961ImH+2/owsLkh0DAxyVXs61S/yRVcrG8t6
+	 fIr88V2mvqjdA==
+Subject: Re: [PATCH v3 net-next 9/9] tcp: add tp->tcp_nospace
+From: netdev-bot+sashiko@kernel.org
+To: edumazet@kernel.org
+Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+ ncardwell@google.com, kuniyu@google.com, edumazet@google.com,
+ netdev@vger.kernel.org, aahringo@redhat.com, teigland@redhat.com,
+ gfs2@lists.linux.dev, john.fastabend@gmail.com, jakub@cloudflare.com,
+ sd@queasysnail.net, jiayuan.chen@linux.dev, matttbe@kernel.org,
+ martineau@kernel.org, geliang@kernel.org, mptcp@lists.linux.dev,
+ guwen@linux.alibaba.com, dust.li@linux.alibaba.com, alibuda@linux.alibaba.com,
+ cel@kernel.org, jlayton@kernel.org, neil@brown.name, okorniev@redhat.com,
+ Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org, anna@kernel.org,
+ linux-nfs@vger.kernel.org, achender@kernel.org, rds-devel@oss.oracle.com,
+ philipp.reisner@linbit.com, lars.ellenberg@linbit.com,
+ christoph.boehmwalder@linbit.com, axboe@kernel.dk, drbd-dev@lists.linux.dev,
+ kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
+ linux-nvme@lists.infradead.org, idryomov@gmail.com, amarkuze@redhat.com,
+ slava@dubeyko.com, ceph-devel@vger.kernel.org
+Date: Fri, 02 Oct 2026 01:19:24 +0000
+Message-ID: <179090396455.434549.14548496564842351902@kernel.org>
+In-Reply-To: <20260929071743.23624-10-edumazet@kernel.org>
+References: <20260929071743.23624-10-edumazet@kernel.org>
+X-sashiko-severity: Low
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:c161:b0:4c4:a240:9c3a with SMTP id
- 5614622812f47-4f526a4f2eamr1151205b6e.4.1790912425656; Thu, 01 Oct 2026
- 20:40:25 -0700 (PDT)
-Date: Thu, 01 Oct 2026 20:40:25 -0700
-In-Reply-To: <6a74a7ae.01d0871a.3a0d52.001f.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6abf27a9.b50370da.302ea9.0008.GAE@google.com>
-Subject: Re: [syzbot] [nvme?] possible deadlock in __sock_release (2)
-From: syzbot <syzbot+2398b0f6924a70b7de12@syzkaller.appspotmail.com>
-To: hch@lst.de, johannes@sipsolutions.net, linux-kernel@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, linux-wireless@vger.kernel.org, 
-	netdev@vger.kernel.org, sagi@grimberg.me, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261001_204027_521931_A37F99F2 
-X-CRM114-Status: UNSURE (   7.33  )
-X-CRM114-Notice: Please train this message.
+X-Mailman-Approved-At: Thu, 01 Oct 2026 21:26:41 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,221 +83,127 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-syzbot has found a reproducer for the following issue on:
+Thank you for your contribution! Sashiko AI review found more severe
+issue(s) in other patches of this series. This mail is only an FYI, in case
+you want to address the nit picks below when you respin.
 
-HEAD commit:    d24e8ac715de Merge tag 'net-7.3-rc6' of git://git.kernel.o..
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-console output: https://syzkaller.appspot.com/x/log.txt?x=161b2725580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=7d012d9c67977ee4
-dashboard link: https://syzkaller.appspot.com/bug?extid=2398b0f6924a70b7de12
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1443cbf5580000
+Low priority / nit picks for your consideration:
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+2398b0f6924a70b7de12@syzkaller.appspotmail.com
+- [Low] The commit message says struct socket lives in a cache line
+  "which the TCP fast paths do not otherwise touch".
+- [Low] A child socket inherits the listener's tp->tcp_nospace and
+  nothing resets it.
 
-nvme nvme0: failed to connect socket: -512
-======================================================
-WARNING: possible circular locking dependency detected
-syzkaller #0 Not tainted
-------------------------------------------------------
-syz-executor294/6008 is trying to acquire lock:
-ffff888028dcf540 (&sb->s_type->i_mutex_key#13){+.+.}-{4:4}, at: inode_lock include/linux/fs.h:1024 [inline]
-ffff888028dcf540 (&sb->s_type->i_mutex_key#13){+.+.}-{4:4}, at: __sock_release+0x86/0x260 net/socket.c:734
+--
 
-but task is already holding lock:
-ffffffff8ff50aa0 (nvmf_dev_mutex){+.+.}-{4:4}, at: nvmf_dev_write+0xa6/0xb60 drivers/nvme/host/fabrics.c:1402
+tcp: add tp->tcp_nospace
 
-which lock already depends on the new lock.
+This commit adds tp->tcp_nospace, a copy of SOCK_NOSPACE that lives in the
+tcp_sock_write_tx cache line group. With it, tcp_check_space() no longer
+has to read sk->sk_socket->flags on every ACK and every transmit.
+sk_set_nospace() and sk_clear_nospace() keep the rule that SOCK_NOSPACE
+set implies tp->tcp_nospace set. MPTCP subflows pin tp->tcp_nospace to 1
+in subflow_ulp_init().
 
+> struct socket lives in its own cache line, which the TCP fast paths do
+> not otherwise touch, so testing sk->sk_socket->flags pulls in an extra
+> cache line that is cold when the working set is large.
 
-the existing dependency chain (in reverse order) is:
+[Severity: Low]
+Is this still accurate after this patch? Only tcp_check_space() was
+converted to use the new field.
 
--> #4 (nvmf_dev_mutex){+.+.}-{4:4}:
-       lock_acquire kernel/locking/lockdep.c:5942 [inline]
-       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
-       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
-       __mutex_lock+0x1a4/0x1bd0 kernel/locking/mutex.c:821
-       nvmf_dev_show+0x26/0x210 drivers/nvme/host/fabrics.c:1446
-       seq_read_iter+0x32f/0x1270 fs/seq_file.c:231
-       seq_read+0x344/0x4d0 fs/seq_file.c:163
-       vfs_read+0x1e4/0xb40 fs/read_write.c:572
-       ksys_read+0x12a/0x250 fs/read_write.c:716
-       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
-       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+tcp_write_xmit() calls tcp_cwnd_validate() whenever it has sent packets.
+If the flow is not cwnd limited and the write queue is empty,
+tcp_cwnd_validate() still reads sk->sk_socket->flags:
 
--> #3 (&p->lock){+.+.}-{4:4}:
-       lock_acquire kernel/locking/lockdep.c:5942 [inline]
-       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
-       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
-       __mutex_lock+0x1a4/0x1bd0 kernel/locking/mutex.c:821
-       seq_read_iter+0xe1/0x1270 fs/seq_file.c:183
-       kernfs_fop_read_iter+0x46c/0x610 fs/kernfs/file.c:290
-       __kernel_read+0x397/0xad0 fs/read_write.c:532
-       integrity_kernel_read+0x7e/0xb0 security/integrity/iint.c:28
-       ima_calc_file_hash_tfm+0x25e/0x350 security/integrity/ima/ima_crypto.c:222
-       ima_calc_file_hash+0x1e3/0x380 security/integrity/ima/ima_crypto.c:280
-       ima_collect_measurement+0x94f/0xb30 security/integrity/ima/ima_api.c:300
-       process_measurement+0xdfe/0x2350 security/integrity/ima/ima_main.c:425
-       ima_file_check+0xc3/0x110 security/integrity/ima/ima_main.c:685
-       security_file_post_open+0xc4/0x210 security/security.c:2755
-       do_open fs/namei.c:4839 [inline]
-       path_openat+0x5cd/0x2440 fs/namei.c:5000
-       do_file_open+0x20e/0x430 fs/namei.c:5029
-       do_sys_openat2+0x10f/0x1e0 fs/open.c:1417
-       do_sys_open fs/open.c:1423 [inline]
-       __do_sys_openat fs/open.c:1439 [inline]
-       __se_sys_openat fs/open.c:1434 [inline]
-       __x64_sys_openat+0x12d/0x210 fs/open.c:1434
-       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
-       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+net/ipv4/tcp_output.c:tcp_cwnd_validate() {
+    ...
+		if (tcp_write_queue_empty(sk) && sk->sk_socket &&
+		    test_bit(SOCK_NOSPACE, &sk->sk_socket->flags) &&
+		    (1 << sk->sk_state) & (TCPF_ESTABLISHED | TCPF_CLOSE_WAIT))
+			tcp_chrono_start(sk, TCP_CHRONO_SNDBUF_LIMITED);
+    ...
+}
 
--> #2 (&ima_iint_mutex_key[depth]){+.+.}-{4:4}:
-       lock_acquire kernel/locking/lockdep.c:5942 [inline]
-       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
-       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
-       __mutex_lock+0x1a4/0x1bd0 kernel/locking/mutex.c:821
-       process_measurement+0x5ab/0x2350 security/integrity/ima/ima_main.c:319
-       ima_file_check+0xc3/0x110 security/integrity/ima/ima_main.c:685
-       security_file_post_open+0xc4/0x210 security/security.c:2755
-       do_open fs/namei.c:4839 [inline]
-       path_openat+0x5cd/0x2440 fs/namei.c:5000
-       do_file_open+0x20e/0x430 fs/namei.c:5029
-       file_open_name+0x1c3/0x3e0 fs/open.c:1375
-       filp_open+0x2e/0x50 fs/open.c:1392
-       kernel_read_file_from_path_initns+0xec/0x240 fs/kernel_read_file.c:159
-       fw_get_filesystem_firmware drivers/base/firmware_loader/main.c:549 [inline]
-       _request_firmware+0x733/0x13c0 drivers/base/firmware_loader/main.c:873
-       request_firmware+0x35/0x50 drivers/base/firmware_loader/main.c:948
-       reg_reload_regdb+0x85/0x460 net/wireless/reg.c:1067
-       genl_family_rcv_msg_doit+0x214/0x300 net/netlink/genetlink.c:1114
-       genl_family_rcv_msg net/netlink/genetlink.c:1194 [inline]
-       genl_rcv_msg+0x560/0x800 net/netlink/genetlink.c:1209
-       netlink_rcv_skb+0x159/0x420 net/netlink/af_netlink.c:2575
-       genl_rcv+0x28/0x40 net/netlink/genetlink.c:1218
-       netlink_unicast_kernel net/netlink/af_netlink.c:1338 [inline]
-       netlink_unicast+0x585/0x850 net/netlink/af_netlink.c:1364
-       netlink_sendmsg+0x8b0/0xda0 net/netlink/af_netlink.c:1919
-       sock_sendmsg_nosec net/socket.c:800 [inline]
-       __sock_sendmsg net/socket.c:815 [inline]
-       __sys_sendto+0x48b/0x4e0 net/socket.c:2281
-       __do_sys_sendto net/socket.c:2288 [inline]
-       __se_sys_sendto net/socket.c:2284 [inline]
-       __x64_sys_sendto+0xe0/0x1c0 net/socket.c:2284
-       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
-       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+tcp_cwnd_application_limited() also reads it on the
+slow_start_after_idle path:
 
--> #1 (cb_lock){++++}-{4:4}:
-       lock_acquire kernel/locking/lockdep.c:5942 [inline]
-       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
-       down_read+0x99/0x4c0 kernel/locking/rwsem.c:1574
-       genl_release+0x7e/0x1d0 net/netlink/genetlink.c:697
-       netlink_release+0x105e/0x2000 net/netlink/af_netlink.c:735
-       __sock_release+0xb3/0x260 net/socket.c:735
-       sock_close+0x1c/0x30 net/socket.c:1526
-       __fput+0x3ff/0xb50 fs/file_table.c:512
-       fput_close_sync+0x118/0x250 fs/file_table.c:617
-       __do_sys_close fs/open.c:1560 [inline]
-       __se_sys_close fs/open.c:1545 [inline]
-       __x64_sys_close+0x8b/0x120 fs/open.c:1545
-       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
-       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+net/ipv4/tcp_output.c:tcp_cwnd_application_limited() {
+    ...
+	if (inet_csk(sk)->icsk_ca_state == TCP_CA_Open &&
+	    sk->sk_socket && !test_bit(SOCK_NOSPACE, &sk->sk_socket->flags)) {
+    ...
+}
 
--> #0 (&sb->s_type->i_mutex_key#13){+.+.}-{4:4}:
-       check_prev_add+0xeb/0xe60 kernel/locking/lockdep.c:3209
-       check_prevs_add kernel/locking/lockdep.c:3328 [inline]
-       validate_chain kernel/locking/lockdep.c:3952 [inline]
-       __lock_acquire+0x1528/0x1f40 kernel/locking/lockdep.c:5288
-       lock_acquire kernel/locking/lockdep.c:5942 [inline]
-       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
-       down_write+0x8b/0x1f0 kernel/locking/rwsem.c:1631
-       inode_lock include/linux/fs.h:1024 [inline]
-       __sock_release+0x86/0x260 net/socket.c:734
-       sock_close+0x1c/0x30 net/socket.c:1526
-       __fput+0x3ff/0xb50 fs/file_table.c:512
-       __fput_sync+0xd7/0x100 fs/file_table.c:604
-       nvme_tcp_alloc_queue.isra.0+0xd6d/0x1770 drivers/nvme/host/tcp.c:1985
-       nvme_tcp_alloc_admin_queue drivers/nvme/host/tcp.c:2171 [inline]
-       nvme_tcp_configure_admin_queue+0x26/0x530 drivers/nvme/host/tcp.c:2325
-       nvme_tcp_setup_ctrl+0xa4/0xa20 drivers/nvme/host/tcp.c:2455
-       nvme_tcp_create_ctrl+0x970/0xd90 drivers/nvme/host/tcp.c:3083
-       nvmf_create_ctrl drivers/nvme/host/fabrics.c:1361 [inline]
-       nvmf_dev_write+0x4ee/0xb60 drivers/nvme/host/fabrics.c:1408
-       vfs_write+0x2aa/0x1050 fs/read_write.c:685
-       ksys_write+0x12a/0x250 fs/read_write.c:739
-       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
-       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+Request/response senders limited by the application empty the write
+queue on every transmit. Their transmits would still pull in the struct
+socket cache line. The microbenchmark only times tcp_check_space(), so it
+would not show this.
 
-other info that might help us debug this:
+The new rule (SOCK_NOSPACE set => tp->tcp_nospace set) means both sites
+could check READ_ONCE(tp->tcp_nospace) first without changing behavior.
+Would that be worth doing? If not, could the commit message avoid saying
+the fast paths no longer touch struct socket?
 
-Chain exists of:
-  &sb->s_type->i_mutex_key#13 --> &p->lock --> nvmf_dev_mutex
+[ ... ]
 
- Possible unsafe locking scenario:
+> diff --git a/net/mptcp/subflow.c b/net/mptcp/subflow.c
+> index f0a6725d2c376..e297c88be503b 100644
+> --- a/net/mptcp/subflow.c
+> +++ b/net/mptcp/subflow.c
+> @@ -2001,6 +2001,11 @@ static int subflow_ulp_init(struct sock *sk)
+>  	pr_debug("subflow=%p, family=%d\n", ctx, sk->sk_family);
+>  
+>  	tp->is_mptcp = 1;
+> +	/* Subflows share the MPTCP socket, and thus its SOCK_NOSPACE bit,
+> +	 * which tcp_check_space() can not mirror. Pin the mirror so that
+> +	 * __tcp_check_space() always tests the shared bit.
+> +	 */
+> +	tp->tcp_nospace = 1;
 
-       CPU0                    CPU1
-       ----                    ----
-  lock(nvmf_dev_mutex);
-                               lock(&p->lock);
-                               lock(nvmf_dev_mutex);
-  lock(&sb->s_type->i_mutex_key#13);
+[Severity: Low]
+Do passive children of an MPTCP listener inherit this pinned value, even
+when they fall back to plain TCP?
 
- *** DEADLOCK ***
+The listener subflow gets tcp_nospace = 1 here through
+mptcp_subflow_create_socket()->tcp_set_ulp()->subflow_ulp_init(). Its
+is_mptcp stays 1, so tcp_clear_nospace() never clears it.
 
-locks held by syz-executor294/6008: 1, last CPU#2:
- #0: ffffffff8ff50aa0 (nvmf_dev_mutex){+.+.}-{4:4}, at: nvmf_dev_write+0xa6/0xb60 drivers/nvme/host/fabrics.c:1402
+tcp_create_openreq_child()->inet_csk_clone_lock()->sk_clone_lock() then
+copies the tcp_sock, and nothing resets tcp_nospace.
 
-stack backtrace:
-CPU: 2 UID: 0 PID: 6008 Comm: syz-executor294 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- print_circular_bug.cold+0x178/0x1be kernel/locking/lockdep.c:2087
- check_noncircular+0x146/0x160 kernel/locking/lockdep.c:2219
- check_prev_add+0xeb/0xe60 kernel/locking/lockdep.c:3209
- check_prevs_add kernel/locking/lockdep.c:3328 [inline]
- validate_chain kernel/locking/lockdep.c:3952 [inline]
- __lock_acquire+0x1528/0x1f40 kernel/locking/lockdep.c:5288
- lock_acquire kernel/locking/lockdep.c:5942 [inline]
- lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
- down_write+0x8b/0x1f0 kernel/locking/rwsem.c:1631
- inode_lock include/linux/fs.h:1024 [inline]
- __sock_release+0x86/0x260 net/socket.c:734
- sock_close+0x1c/0x30 net/socket.c:1526
- __fput+0x3ff/0xb50 fs/file_table.c:512
- __fput_sync+0xd7/0x100 fs/file_table.c:604
- nvme_tcp_alloc_queue.isra.0+0xd6d/0x1770 drivers/nvme/host/tcp.c:1985
- nvme_tcp_alloc_admin_queue drivers/nvme/host/tcp.c:2171 [inline]
- nvme_tcp_configure_admin_queue+0x26/0x530 drivers/nvme/host/tcp.c:2325
- nvme_tcp_setup_ctrl+0xa4/0xa20 drivers/nvme/host/tcp.c:2455
- nvme_tcp_create_ctrl+0x970/0xd90 drivers/nvme/host/tcp.c:3083
- nvmf_create_ctrl drivers/nvme/host/fabrics.c:1361 [inline]
- nvmf_dev_write+0x4ee/0xb60 drivers/nvme/host/fabrics.c:1408
- vfs_write+0x2aa/0x1050 fs/read_write.c:685
- ksys_write+0x12a/0x250 fs/read_write.c:739
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fb8f5809ede
-Code: 08 0f 85 f5 e1 ff ff 49 89 fb 48 89 f0 48 89 d7 48 89 ce 4c 89 c2 4d 89 ca 4c 8b 44 24 08 4c 8b 4c 24 10 4c 89 5c 24 08 0f 05 <c3> 90 41 57 41 56 4d 89 c6 41 55 4d 89 cd 41 54 55 53 48 83 ec 08
-RSP: 002b:00007fb8f57b21a8 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-RAX: ffffffffffffffda RBX: 00007fb8f57b26c0 RCX: 00007fb8f5809ede
-RDX: 0000000000000037 RSI: 00007fb8f5859618 RDI: 0000000000000003
-RBP: 0000000000000021 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: ffffffffffffffd0
-R13: 0000000000000002 R14: 00007ffdf198cb10 R15: 00007ffdf198cbf8
- </TASK>
+When the SYN comes from a peer without MPTCP,
+subflow_ulp_clone()->subflow_ulp_fallback() makes the child plain TCP:
 
+	tcp_sk(sk)->is_mptcp = 0;
 
----
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+mptcp_stream_accept() then grafts it as a plain TCP socket. Its new
+struct socket has SOCK_NOSPACE clear. This new early return in
+__tcp_check_space() then applies:
+
+	if (!sock || !test_bit(SOCK_NOSPACE, &sock->flags))
+		return;
+
+So tcp_new_space()->sk_stream_write_space()->sk_clear_nospace() is never
+reached, and that is the only place the hint gets cleared. It stays set
+until the application first fills its send buffer.
+
+Until then, every ACK and every transmit calls __tcp_check_space() out of
+line and reads sk->sk_socket->flags. These connections would not get the
+optimization.
+
+The rule still holds, so no EPOLLOUT is lost. Could tcp_nospace be reset
+for the child, for example in tcp_create_openreq_child() or in
+subflow_ulp_fallback()?
+
+The same can happen with a plain TCP listener. If a socket was connected,
+ended up with tcp_nospace = 1, was disconnected and then put into
+listen(), its children inherit the stale value too. tcp_disconnect() does
+not reset it either.
+
+[ ... ]
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260929071743.23624-1-edumazet%40kernel.org
 
