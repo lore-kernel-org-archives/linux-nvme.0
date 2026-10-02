@@ -4,66 +4,150 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 67F29CA5FCE
-	for <linux-nvme@archiver.kernel.org>; Fri,  2 Oct 2026 01:37:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 90962CA5FD4
+	for <linux-nvme@archiver.kernel.org>; Fri,  2 Oct 2026 03:22:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:From:Subject
-	:Message-ID:In-Reply-To:Date:MIME-Version:Reply-To:Cc:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-	List-Owner; bh=vsMU2tbyBwgu3R71DI4hbY4+W8irSZULn5e09aRfibg=; b=y7nf3AxrNKAyfe
-	wmgv9KUtdp3JiIAfLUlNFKrDSJGZwGUWsnQ+8np5PEFA8yrdj2VsmMAH/qshwI9kp0shD6QIjyhzL
-	7FeLQFAVZMoMZP+T00J6fXmPIoOUFS1LXb9ePAvlpIkFCufaKe/m54PRkL93CStQ78Ddd3Bx2hqmn
-	XL8PVETYZPNDwuNaeyRwGFYP6f/Xa+Vm4YCVS3Zj2mlROVNVvYCgxPZeyHkSyrPKYf7Ujhz/14nqE
-	VtE5dheAGRvLEESbRYmc+YEHFqEsNQND4kRynGrPAoHSFaFaNhfo5vddTMz+lvmIc9siy/zjo2SxF
-	U0+Q+j+pyExIxf2TT9VA==;
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=cmODLtl02I+L6CDg06oON7M4B6tGamVBfnakzYAT8FQ=; b=iaMmPzSsZ7/kcRnxB2hQQDeutg
+	xE1ySTNJv6pS1LneOuzXdH63jUB/bEPSYYqlbnlqj7WH2JSZdHDtzuyzoy6/LXHDy9j4SFPQ62Vy2
+	DhrX+u4ERJ5ORGKSreelgMxg6DNFmG7lqyAoPNn4XmU6gjDdJbp/Qd4knNTKiu1jx/4IYyGT8q2RD
+	VHz22xyNh8dgdzf26FgSzZPBSTQTytxFSLcFfC9ewvm1MN48ht179aOl5WE5JP0ccMZLE23ArBMuG
+	OQGjAEBm3ZA12fgm7/ss31rTWazBZ66hZNsoyOMBenczaPrwFX31PvgqRTHi2/HdjZZ5ser4mKQaY
+	zKyrgxSg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xCSDN-0000000ATqA-34WB;
-	Fri, 02 Oct 2026 01:37:33 +0000
-Received: from mail-oi1-f200.google.com ([209.85.167.200])
+	id 1xCTrD-0000000AYMA-2O1O;
+	Fri, 02 Oct 2026 03:22:47 +0000
+Received: from esa1.hgst.iphmx.com ([68.232.141.245])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xCSDK-0000000ATpp-44LI
+	id 1xCTrB-0000000AYLe-1TpW
 	for linux-nvme@lists.infradead.org;
-	Fri, 02 Oct 2026 01:37:32 +0000
-Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-4eb0b989f0eso2581523b6e.0
-        for <linux-nvme@lists.infradead.org>; Thu, 01 Oct 2026 18:37:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790905049; x=1791509849;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=vsMU2tbyBwgu3R71DI4hbY4+W8irSZULn5e09aRfibg=;
-        b=tdz65UvsFXztk3dtonV5+wxmza1Il71ChOZ/55f3EFCw4EVOnuSa5usy5vRJB52num
-         fkLHS5gUBBzi042psBA+my+7dp5vB9oDetp9F0IAfpjcFpDqHvmeM4ntvq2oBLjHI6Fu
-         oYs+5vlJE7ZbIk0MlLQR41q5sPkop6r6EAQLzWzxQITODsBiwJha6ZZ8M15WOu9lvWN7
-         oi71icm+B5itZyUsz8ymUEQItcXgTBFUQQcyACRwt4FEnvnGevECszHhdHPGdZwlLVnr
-         GkeHyS1syq+2pgGQPfYx/4C/KXl3L9LW/hCMxSiGzfF3st5Rg0YI1SYrP9jHVxpkhRN8
-         Jhyw==
-X-Forwarded-Encrypted: i=1; AKwUvBzMFAZhG0UyRWU/TJVlLl3ucKFJxT+D5gSmJWlbzXAeKhjxPjupuUyKMrdV2iPgw9IhVo8hemP448/k@lists.infradead.org
-X-Gm-Message-State: AFuF++l35NOHyJ4rWZDerWvXsD3soheHxStPovvZ+Pu8tUvYnjHyU7Io
-	M8ujGQl8/KzcslnpVF1yoiaFqTHbL7ZLKykvIUlvCzujdjTXLfpJuoi5v+CLobZb820Z2O1FFc3
-	Vy6VpupG2gez3CD1+cqk09+oL6GTcaumLcK9Qd3t9wjiZu1D/qFa5euY/kW8=
+	Fri, 02 Oct 2026 03:22:46 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1790911370; x=1822447370;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=LsIBzdC0lgRAWi7vvbjK/tCbdKH7JFJNNGlwzGx1TzA=;
+  b=eLqOCHOneQHzLdmC8et8plvU4Pgx8oq8DqeHhUF64Ooz4uHqaoCOVHkW
+   QTas0S7lnE6w6yZjr1GKGrySx67HPszSdqnpVck+o1eQvd71lUCFyqkCQ
+   iU98FMFTA+LuaEI1X+ZjDZnR2i5fgAZjCMDlXIctkJL9c363BiWeMI/2G
+   hZVvCY7nd2xgC03Q8d17FK6KvZxVm2z8LlfYDC2oiuW+G/QOzUzzPQ+pY
+   UyG7qxLs4EYtNn1I+AkCRZtN1OL4hI9DacIKyNkAxlhppYkZizwHifw+P
+   IW/0Hr2rsKEMn+0YPCYMpymfKqtSSQ79JlBmxjaaSZrf97xiuP9HxtOkC
+   g==;
+X-CSE-ConnectionGUID: krJDeyHsQBOfKtA+y3i6mw==
+X-CSE-MsgGUID: KhpO9mA8SASycma4pMnOXw==
+X-IronPort-AV: E=Sophos;i="6.27,135,1786982400"; 
+   d="scan'208";a="156951710"
+Received: from mail-southcentralusazon11011054.outbound.protection.outlook.com (HELO SN4PR0501CU005.outbound.protection.outlook.com) ([40.93.194.54])
+  by ob1.hgst.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 02 Oct 2026 11:22:47 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TwYUEOgqgjileTQmnybqhfh+TIIuZSUC9R6JrxfXw9LndkXmvV3dfcdMVff4l2ECobMW30J5p8XdtLGUh1+vqAB7CQQxiZqCV7qldi1HR395G+P4iMwy5U6DO+BPShbFHmu8zLP/t48cowdmAoHdBNdp/ekrGfG2BUT6LtonJZPUqFVQozFgzvJTEzpjx8Srgq7fFScxGBYgQ4q0Ju/EphT78ao40kyetmzTPrS/TVobp3RjSel62hE+NqqITn3U0vTTXkgeQBuY63ZjN2xJFX5x8ziX3+2nBnzb7mZXMUJS5xz2bGuBveJPp/ElR2UDJilOOWBkUTKML6Z7Y1ES4g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cmODLtl02I+L6CDg06oON7M4B6tGamVBfnakzYAT8FQ=;
+ b=VFy75CLvmg/MgbHEmHZP6VMkd6m53e5CyYQRlXZ5dSNxIjeVeFp+DTFbJ+CNpJpCAmuuhS5yL3UKYhxuITqxvwF/wQ+mj4fIDEpE9HFfgB6zpVGdtRuMH//oOQDwNUD6C09lZnzK3OoRGLemG42cRbbhunLfOA1Y7b/I6D0x/NPMv6Udy3x17tJjfRk6+meDUOuYtxeQ8sFYGzs+XxpOy/NGsR90pcLYis7qn1UHaucbyboafwGtvmd3SG/uxYzFXUefy95jYjBWBwREGVJAxUvUr+u9ZNBeFRmNb5foVnlIoEYFV8aV17MdYALqRvLF4jZi2I5gnj/PbkJdzPG91Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cmODLtl02I+L6CDg06oON7M4B6tGamVBfnakzYAT8FQ=;
+ b=jXqbW6sNAD8F776HhbUPzHexByIKnpyOQBdIiV74mn4EOhbZJC7a4RFs5N3oGX+EhHwnDQ4AVnJBDOkeJFRckPTC/aG8pNsFKYy6RblwR0dVLJtQbbjW85JWOpfQI6YoF176Ll5ZCrjami8LvrjyIu3Yb2RRg2aP//88UxJPt2U=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+Received: from SA1PR04MB10065.namprd04.prod.outlook.com
+ (2603:10b6:806:4dd::14) by CO1PR04MB9649.namprd04.prod.outlook.com
+ (2603:10b6:303:275::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.18; Fri, 2 Oct
+ 2026 03:20:39 +0000
+Received: from SA1PR04MB10065.namprd04.prod.outlook.com
+ ([fe80::9b98:bf8a:b0b1:ef85]) by SA1PR04MB10065.namprd04.prod.outlook.com
+ ([fe80::9b98:bf8a:b0b1:ef85%5]) with mapi id 15.21.0472.016; Fri, 2 Oct 2026
+ 03:20:39 +0000
+Date: Fri, 2 Oct 2026 05:20:26 +0200
+From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: Nilay Shroff <nilay@linux.ibm.com>
+Cc: hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, kch@nvidia.com, 
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, gjoyce@linux.ibm.com
+Subject: Re: [PATCH v2 1/2] nvmet: defer setting ns->enabled to false in
+ nvmet_ns_disable()
+Message-ID: <ar8h9B_P6fZhtWPy@shinmob>
+References: <20260918162736.802665-1-nilay@linux.ibm.com>
+ <20260918162736.802665-2-nilay@linux.ibm.com>
+ <ar30Q5H1fuyFtDwM@shinmob>
+ <04909105-bcbd-4b89-af41-ad761aaa9af2@linux.ibm.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <04909105-bcbd-4b89-af41-ad761aaa9af2@linux.ibm.com>
+X-ClientProxiedBy: TYCP286CA0354.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:7c::17) To SA1PR04MB10065.namprd04.prod.outlook.com
+ (2603:10b6:806:4dd::14)
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:23cc:b0:4d6:9133:cfe1 with SMTP id
- 5614622812f47-4f30b6ff3f7mr4192828b6e.38.1790905049307; Thu, 01 Oct 2026
- 18:37:29 -0700 (PDT)
-Date: Thu, 01 Oct 2026 18:37:29 -0700
-In-Reply-To: <6abf0753.eb639fcc.2b981.0008.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6abf0ad9.7503fbd6.2d3f6.0013.GAE@google.com>
-Subject: Re: [syzbot] [nvme?] KASAN: slab-use-after-free Read in nvme_query_zone_info
-From: syzbot <syzbot+76c0f0ce8f1e846b4f84@syzkaller.appspotmail.com>
-To: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org, 
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	sagi@grimberg.me, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR04MB10065:EE_|CO1PR04MB9649:EE_
+X-MS-Office365-Filtering-Correlation-Id: 637dfa6c-9e94-45e3-b9d0-08df20342257
+WDCIPOUTBOUND: EOP-TRUE
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|23010399003|1800799024|19092799006|4143699003|6133799003|56012099006|11063799006|10067099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info: GuDwGsN4BjY3yvp7YJn99gPcDb2Y9aPuIiWvT8kzHUVXPHj9opMRXQRWh5gLlqRTM0JVlwDIxfNDGGsMcB8ASKF+nvvFWKAqAeIJbHSmrE87+u7Td55uJR2ty3l0Hno3cQx/OBZ32H7Dq8//f8z2QO8BSJVgkHywp4XDgYYF8JpztcPOG/vVNrhIXgF05NaVuLuZMdbRThmPaM4EknaKQS4aTwMbtbp8JTxdCySCa9nFCIjmKRye1vnMySFy+S4pagepKn0tkBPfrxp/PLvlCQQxw4yNqfMxTUKUb5anc7DKCUluff9dh8HAlv3CvKX0Fzkz4UL6btPG23eCab7IRPylvKuSp+aJJV67MvQ9baiALg17s7BIkVRF12FQd5TX88E+TTBMA6vZRD1rNV93sFBHeCfML0Cj3Vh1Kv+VEeh93T0Eg7scnM5N4LLPcpca8XQnkZKT0jlsZ5WulG6XT+gbCr8HDVqpNT0zDR7E8Ry0oJtovmRl1vZ6NA0+52F00/AVQftC/awk/u4Yt/1SDDKk0IffOQwVQK2oHp0e4F0JIoESyee1LbY/OgABvllejAGYqH4rPlHoHQfQDGRZm7AYyYE6+ixPwA7ItEvAWf8R/LG16q7fjnu/REMgepXPMm+gf6L1fxtMSU0Lb508B87a1DZ6TqXbzTX1WSLonO8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR04MB10065.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(23010399003)(1800799024)(19092799006)(4143699003)(6133799003)(56012099006)(11063799006)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?LDzcvO49UuejpKSF3V5BzDc09ctgfbuKmgzG11CvwZOQCuu2s/d5uwRCSWJe?=
+ =?us-ascii?Q?ss+dLfmjrZQR/wyTwnO4CYJElzggm5J3ft4SmkBq6nFpUQS1HyY5qADW0EtD?=
+ =?us-ascii?Q?M+o1NjDyJ4qYsIgDMk/xfQIqnlvK5XjQ8G/yxcbQiWM1ARx9z3e3UibWwwBX?=
+ =?us-ascii?Q?+wN8w7Ufs0+GK6kn/pPMzOJv2n6bm6V9gS+xB+YNgdHQqP7me3ITn/iWSXzK?=
+ =?us-ascii?Q?TJCG00DEg1P9FO4LJIkEV0zF72AeXhOL8fx7iPH2KOkejMbBEVPmcQz5jGnO?=
+ =?us-ascii?Q?09SHSp/kYisCh26zcm6qz10untEO+rnSLy3H4nmq6eu6FsG80rHjyMmNulDG?=
+ =?us-ascii?Q?3mX4ZTS8oiGA95BZeywTOb0vEEaJIM+pzehy2/YEljk64ZkvjKpX4veJ0LhZ?=
+ =?us-ascii?Q?VzNF0i5xoYg8Yn8HV4d2aHebiGKOdPSOep2tjX2ubNxX5g9zfYTNUksWKdtM?=
+ =?us-ascii?Q?s5gBBGteB9xfUjLyu6SwkoFTE6TifjQluuoK5KLrn2SjVIFUl/hd7L+kTJs5?=
+ =?us-ascii?Q?8G9itWmjGxsMKCbdiIjAhTDkJ3aHYL5EHMMSrUc5AfA9176+6Emf2vKdYBa/?=
+ =?us-ascii?Q?WHCczpW6N4ueRTHaI/aTKxiwdzaIjKzCPZpuBip4e+AzCbd04bu0OmviFHod?=
+ =?us-ascii?Q?2O6c76EQZTNoppp96NWBXFCkqCP6BI4/nWC1azkh2fKE6wlD0uCexwDwJwUa?=
+ =?us-ascii?Q?MiXMiHtXbp3w0bGqmihQb4jV2024nzqiWh/LdLfONy35dXwOTiW0tL53G39z?=
+ =?us-ascii?Q?toRUyrgz69NG/BKzh/vWg4n9aWoJm1GYCbFqY2v4F0lYhoWwem5TC+5htHqD?=
+ =?us-ascii?Q?uQ1kmM026Dc+Gm6o+QomQ0PYw/ff4/4B61Z6hGWv0goG8XJ42Koq7NKtxkDv?=
+ =?us-ascii?Q?BXknFMhemhzMaFh1ScrNqPQU0ah5k1wihm++YPKAlhGZ+fqIl1WGD7vg67EI?=
+ =?us-ascii?Q?95Q59MQdSIEdp6l+WGyjuL6yJU3l6hY658zjUs91vCFsqzA3IV5Mtih/TdJy?=
+ =?us-ascii?Q?VgqI8aYzhwSqW+p7sjzID4PJ/5L9EICMBemlalfQYfu+mXVj+oREJy7QJLzq?=
+ =?us-ascii?Q?h+oU17+sTaszVgZ0xqLEAszU90uHV3G2LHjywDdT4FXF39HMJYSlIkNS/RmG?=
+ =?us-ascii?Q?DZ9shRYGljxLmykqxHm00QBBufE4qzv3oNdjT6p5+wjAIjQVYiEhNpVsmfMS?=
+ =?us-ascii?Q?Pc1WtIKHC2JtaNBqUcb7c3+iA27jo7NyLCGYDs37hIUi1GnXeoVj3Xqe6kQb?=
+ =?us-ascii?Q?BhOZsOKCNwDPlnwdLhYQxD6s+6qLvMSXZi+GMPsrF9j8sh8rt+131OtpX7jC?=
+ =?us-ascii?Q?mwqRK5U9SmZv+b4ZgLfYhF1m03GWs0T1s/6dbPuPwPmK0n4NCt1v/0dnzIKw?=
+ =?us-ascii?Q?oiiPLewqEiVyrMJ3UJmVdDVh2XuYO5uxe3Gs6yIG00TQpYP/aL4D+5mv/JF0?=
+ =?us-ascii?Q?948AbnNf8fE7NECE5lKRztGJea1dEOb6EKoDhtKgdnFocetCVokdxIoWOZKa?=
+ =?us-ascii?Q?Fu69YPxo06D9+e0ie7vsAMWzz1A50BlHnHqksy4dVDy8rlZH5fSFAcaMjmka?=
+ =?us-ascii?Q?Gd+ZiKxP1Z64upKdcs/kV+2Q6wQ1BjNfBRjbfKbTpPnoA1Q2GVSztyoLExdX?=
+ =?us-ascii?Q?WW/LzseAsYCoZYf43q319+f9lPmc0iJ/Ubvbiw0BsuP0v8UjFPRKPtwxpIFW?=
+ =?us-ascii?Q?lnZSpfvzCckCCO55Me8WKK3jVaacRQ0kGhWVdD0xU/XPnvutGEyMwXpvovYG?=
+ =?us-ascii?Q?URJVXjk8XRLPXLYKR9OKEKQhFEyZAdo=3D?=
+X-Exchange-RoutingPolicyChecked: SNi4wF7ilX5/qsoPUyJ4SMUcXdlq+SiAo33NtLTtxFyqnjhuuNpUi1y/ASkfA05VmcKevrmqCLcFfWwOiDP0PSiPmDSMl5kfyzUwG247qn9qR94848Brz3+wAE45XKrwTEg15gcXRAgFWH/kEKeh1sLTnJJLt01okoC9b7L9q/QjVwO32VTTpElbLoRHzlsUhV9kaD5KQvzq0Y/R1sFDKNVOZZfhYls2CihF5coHEfN7AJ9KCyhREppGzFPV0ksDSYv6hU5To1G7nE33mtM/Qw8JN1w1chhNFvhIsSQW2oX0WJmRx3bdYav3VWODEHBSD/fAgzLx3gRFmlTZaBqXRg==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: y7ORUIfqiNgNqKFnrjUWUG94t2Siz7Ke0bnvqpDSoe7Y3SZZkc3uVlIhK47SW4Br9pw4VK/0PH4c9QAkVBtud1KxxiWLn438+z+4kWMVGyE0HYS4YE9tmLTmIBl4qYncPz3Mi1/JBD5mSEABYYFkbIU9UTj54jmng/A81hZ9X0LmQwPC5enGFRR1svFY5dYjMZO8kFgWkcyvoKS1GB0WWIjOCErwHYD2QMs7x6RdmDI+w7Dit9tE9WR8pO4YgvmYPWbj3e/gdtQsk4aNl8HYyKEvv87TPb2W0kimotDmZyryskZkLefpNMmDqgS9wMm5dxoQBSBFD3MG5K/M2XSiPNksEZDub+gQpkWhj5UT5VlOecXU4zwh+XUk41HKCsKDDLgcag0b4+cA7urotkjjkK91Tqbr8c/CXjzMW4z5Ar2V04/q4DqOEfsnx8F6/DQRU0mrdY/iT9qvLmpsTVv3VXkuRC0Wc01lEaduHcb+3xKXvNEh0IOBsvULZeAelBfzbXNsYS6JlLTNGfS3G7bJrqyPB1wzaEHxaIKAX5A9WlvNRIopbZHAlv6FXsgRrpymCIt8oKuHNsvsMNrUOgR/AGvs6AzUvTHYavuRlRLJiY7uJKW9/I3Ay+VRjOavEbPp
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 637dfa6c-9e94-45e3-b9d0-08df20342257
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR04MB10065.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Oct 2026 03:20:39.7310
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lDb/2IgGLzD5F1N8qOMLkkMtzI5+xqSH4XNAIA2ojKGxayiGw01T6CqK0oTKpLKlCJag9Zk0D4rF6cUa6awttrOZenjOR4gjv0wBG+iqteA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR04MB9649
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261001_183731_123940_6EADC014 
-X-CRM114-Status: UNSURE (   6.75  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20261001_202245_444301_69D2F689 
+X-CRM114-Status: GOOD (  28.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,181 +162,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-syzbot has found a reproducer for the following issue on:
+On Oct 01, 2026 / 17:12, Nilay Shroff wrote:
+[...]
+> > Recent blktests-ci trial runs for nvme-7.3 branch reported failure of nvme/052
+> > [*]. It is required to repeat the test case 3 to 20 times to recreate the
+> > failure on my test system. I bisected and find this patch is the trigger of the
+> > failure.
+> > 
+> > Nilay, may I ask you to take a look in the failure? I'm not sure if this should
+> > be addressed in kernel side of blktests side.
+> 
+> Thanks for the report! I looked into the failure and I think I found the root cause.
+> I couldn't reproduce it on my system, but I see there is a narrow race window that can
+> potentially trigger the observed failure.
+> 
+> I don't think this is a new race introduced by this patch. However, the changes in this
+> patch may have altered the timing enough to make the race easier to trigger.
+> 
+> In nvmet_ns_enable(), we currently queue the asynchronous namespace-change event
+> before setting ns->enabled and the corresponding NVMET_NS_ENABLED xarray mark.
+> Therefore, if the asynchronous namespace-change event is received and processed
+> by the host before the namespace is fully enabled on the target, the host may not
+> find the namespace while scanning the active namespace list.
+> 
+> To close this race, I think we should send the namespace-change notification only
+> after the namespace has been fully enabled in nvmet_ns_enable(). In particular,
+> we can move nvmet_ns_changed() after setting ns->enabled, the NVMET_NS_ENABLED
+> xarray mark, and NVMET_NS_IO_LIVE.
+> 
+> Could you please try the following change on your test system and let me know if
+> it fixes the failure? If this resolves the issue, I'll send a formal patch:
 
-HEAD commit:    d24e8ac715de Merge tag 'net-7.3-rc6' of git://git.kernel.o..
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-console output: https://syzkaller.appspot.com/x/log.txt?x=16c2d3f5580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=7d012d9c67977ee4
-dashboard link: https://syzkaller.appspot.com/bug?extid=76c0f0ce8f1e846b4f84
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17a1cbf5580000
+(snip)
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+76c0f0ce8f1e846b4f84@syzkaller.appspotmail.com
+Thank you for this swift action. I applied the fix trial change on top of the
+kernel at the nvme-7.3 branch (git hash 4a5e49ba0abb), and confirmed the failure
+goes away by repeating the test case nvme/052 one hundred times. Good :)
 
-==================================================================
-BUG: KASAN: slab-use-after-free in nvme_query_zone_info+0x4fd/0x6f0 drivers/nvme/host/zns.c:47
-Read of size 4 at addr ffff88803745a5f4 by task kworker/u8:13/5985
+When you post the fix as the formal patch, please feel free to add,
 
-CPU: 0 UI
-CPU: 0 UID: 0 PID: 5985 Comm: kworker/u8:13 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/05/2026
-Workqueue: async async_run_entry_fn
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- print_address_description mm/kasan/report.c:378 [inline]
- print_report+0x13d/0x4b0 mm/kasan/report.c:482
- kasan_report+0xdf/0x1c0 mm/kasan/report.c:595
- nvme_query_zone_info+0x4fd/0x6f0 drivers/nvme/host/zns.c:47
- nvme_update_ns_info_block+0x1b2e/0x2af0 drivers/nvme/host/core.c:2430
- nvme_update_ns_info+0xc6/0xd90 drivers/nvme/host/core.c:2553
- nvme_alloc_ns+0x1a9f/0x3e50 drivers/nvme/host/core.c:4293
- nvme_scan_ns+0x79d/0x910 drivers/nvme/host/core.c:4483
- async_run_entry_fn+0x9f/0x580 kernel/async.c:129
- process_one_work+0xac7/0x1b10 kernel/workqueue.c:3396
- process_scheduled_works kernel/workqueue.c:3479 [inline]
- worker_thread+0x5ef/0xe50 kernel/workqueue.c:3560
- kthread+0x373/0x450 kernel/kthread.c:436
- ret_from_fork+0x730/0xd60 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-
-Allocated by task 13:
- kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
- kasan_save_track+0x14/0x30 mm/kasan/common.c:78
- poison_kmalloc_redzone mm/kasan/common.c:409 [inline]
- __kasan_kmalloc+0xaa/0xb0 mm/kasan/common.c:426
- kasan_kmalloc include/linux/kasan.h:263 [inline]
- __kmalloc_cache_noprof+0x2f8/0x6d0 mm/slub.c:5563
- _kmalloc_noprof include/linux/slab.h:991 [inline]
- _kzalloc_noprof include/linux/slab.h:1312 [inline]
- nvme_get_effects_log+0x13a/0x280 drivers/nvme/host/core.c:3422
- nvme_alloc_ns_head drivers/nvme/host/core.c:4037 [inline]
- nvme_init_ns_head drivers/nvme/host/core.c:4153 [inline]
- nvme_alloc_ns+0x25f0/0x3e50 drivers/nvme/host/core.c:4267
- nvme_scan_ns+0x79d/0x910 drivers/nvme/host/core.c:4483
- async_run_entry_fn+0x9f/0x580 kernel/async.c:129
- process_one_work+0xac7/0x1b10 kernel/workqueue.c:3396
- process_scheduled_works kernel/workqueue.c:3479 [inline]
- worker_thread+0x5ef/0xe50 kernel/workqueue.c:3560
- kthread+0x373/0x450 kernel/kthread.c:436
- ret_from_fork+0x730/0xd60 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
-Freed by task 5948:
- kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
- kasan_save_track+0x14/0x30 mm/kasan/common.c:78
- kasan_save_free_info+0x3b/0x70 mm/kasan/generic.c:584
- poison_slab_object mm/kasan/common.c:264 [inline]
- __kasan_slab_free+0x5f/0x80 mm/kasan/common.c:296
- kasan_slab_free include/linux/kasan.h:235 [inline]
- slab_free_hook mm/slub.c:2748 [inline]
- slab_free mm/slub.c:6508 [inline]
- kfree+0x22b/0x6d0 mm/slub.c:6801
- nvme_free_cels drivers/nvme/host/core.c:5165 [inline]
- nvme_free_ctrl+0x1e4/0x6b0 drivers/nvme/host/core.c:5183
- device_release+0xd2/0x270 drivers/base/core.c:2640
- kobject_cleanup lib/kobject.c:689 [inline]
- kobject_release lib/kobject.c:720 [inline]
- kref_put include/linux/kref.h:65 [inline]
- kobject_put+0x1f7/0x640 lib/kobject.c:737
- put_device+0x1f/0x30 drivers/base/core.c:3884
- nvme_sysfs_delete+0xc9/0xf0 drivers/nvme/host/sysfs.c:500
- dev_attr_store+0x58/0x80 drivers/base/core.c:2509
- sysfs_kf_write+0xf2/0x150 fs/sysfs/file.c:145
- kernfs_fop_write_iter+0x3e0/0x5f0 fs/kernfs/file.c:345
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x6af/0x1050 fs/read_write.c:687
- ksys_write+0x12a/0x250 fs/read_write.c:739
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-The buggy address belongs to the object at ffff88803745a000
- which belongs to the cache kmalloc-4k of size 4096
-The buggy address is located 1524 bytes inside of
- freed 4096-byte region [ffff88803745a000, ffff88803745b000)
-
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x37458
-head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-flags: 0xfff00000000040(head|node=0|zone=1|lastcpupid=0x7ff)
-page_type: f5(slab)
-raw: 00fff00000000040 ffff88801c032140 dead000000000100 dead000000000122
-raw: 0000000000000000 0000000000040004 00000000f5000000 0000000000000000
-head: 00fff00000000040 ffff88801c032140 dead000000000100 dead000000000122
-head: 0000000000000000 0000000000040004 00000000f5000000 0000000000000000
-head: 00fff00000000003 fffffffffffffe01 00000000ffffffff 00000000ffffffff
-head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000008
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 3, migratetype Unmovable, gfp_mask 0xd2040(__GFP_IO|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 4974, tgid 4974 (udevd), ts 23285385277
- set_page_owner include/linux/page_owner.h:33 [inline]
- post_alloc_hook+0xfd/0x120 mm/page_alloc.c:1871
- prep_new_page mm/page_alloc.c:1879 [inline]
- get_page_from_freelist+0x110d/0x35d0 mm/page_alloc.c:3943
- __alloc_frozen_pages_noprof+0x2eb/0x3300 mm/page_alloc.c:5436
- alloc_slab_page mm/slub.c:3347 [inline]
- allocate_slab mm/slub.c:3462 [inline]
- new_slab+0xa9/0x6e0 mm/slub.c:3513
- refill_objects+0xe3/0x410 mm/slub.c:7417
- refill_sheaf mm/slub.c:2885 [inline]
- __pcs_replace_empty_main+0x35e/0x650 mm/slub.c:4774
- alloc_from_pcs mm/slub.c:4850 [inline]
- slab_alloc_node mm/slub.c:4984 [inline]
- __do_kmalloc_node mm/slub.c:5413 [inline]
- __kmalloc_noprof+0x67c/0x840 mm/slub.c:5439
- _kmalloc_noprof include/linux/slab.h:995 [inline]
- tomoyo_realpath_from_path+0xb6/0x690 security/tomoyo/realpath.c:251
- tomoyo_get_realpath security/tomoyo/file.c:151 [inline]
- tomoyo_check_open_permission+0x2af/0x3c0 security/tomoyo/file.c:776
- tomoyo_file_open+0x6b/0x90 security/tomoyo/tomoyo.c:334
- security_file_open+0xb5/0x1e0 security/security.c:2739
- do_dentry_open+0x588/0x14d0 fs/open.c:973
- vfs_open+0x82/0x3f0 fs/open.c:1101
- do_open fs/namei.c:4837 [inline]
- path_openat+0x19fa/0x2440 fs/namei.c:5000
- do_file_open+0x20e/0x430 fs/namei.c:5029
- do_sys_openat2+0x10f/0x1e0 fs/open.c:1417
-page last free pid 4967 tgid 4967 ts 22520049234 stack trace:
- reset_page_owner include/linux/page_owner.h:26 [inline]
- __free_pages_prepare mm/page_alloc.c:1418 [inline]
- __free_frozen_pages+0x79f/0x10f0 mm/page_alloc.c:2962
- qlink_free mm/kasan/quarantine.c:163 [inline]
- qlist_free_all+0x47/0xf0 mm/kasan/quarantine.c:179
- kasan_quarantine_reduce+0x1a0/0x1f0 mm/kasan/quarantine.c:286
- __kasan_slab_alloc+0x69/0x90 mm/kasan/common.c:361
- kasan_slab_alloc include/linux/kasan.h:253 [inline]
- slab_post_alloc_hook mm/slub.c:4683 [inline]
- slab_alloc_node mm/slub.c:4996 [inline]
- kmem_cache_alloc_noprof+0x269/0x6a0 mm/slub.c:5010
- alloc_filename fs/namei.c:147 [inline]
- do_getname+0x35/0x390 fs/namei.c:187
- class_filename_flags_constructor include/linux/fs.h:2586 [inline]
- do_sys_openat2+0xc7/0x1e0 fs/open.c:1416
- do_sys_open fs/open.c:1423 [inline]
- __do_sys_openat fs/open.c:1439 [inline]
- __se_sys_openat fs/open.c:1434 [inline]
- __x64_sys_openat+0x12d/0x210 fs/open.c:1434
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-Memory state around the buggy address:
- ffff88803745a480: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff88803745a500: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->ffff88803745a580: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                                                             ^
- ffff88803745a600: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff88803745a680: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
-
-
----
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+Tested-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 
