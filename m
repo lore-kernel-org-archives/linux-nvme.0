@@ -4,107 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07D8BCA5FC4
-	for <linux-nvme@archiver.kernel.org>; Fri,  2 Oct 2026 07:03:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4ACE7CA5FD4
+	for <linux-nvme@archiver.kernel.org>; Fri,  2 Oct 2026 07:03:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=pga9cvOkr+G05GCHwiw/yNVZVi4HrlhY5RevFn+JH1Y=; b=XTrPYEep+fL+EEeA8u5dejWrVI
-	PubJO7ZaGBzEcuXMmS3LVDLW65ONlfgj74/oOYYTGeuBm+UrkfwU/z5YoVhmbZ/PRWWlVM+KbGSu6
-	ncPXgdzIXSF7QIoCW+EBQ6wv7dpnobv3S+gle37uMQqh/2yr3VzlJipAE6UiHHsOl4VrT260m57qF
-	x/KQvzFfbQF5+YuPxlLih5r/qyv3+Xzw9sI1j4LySDat6cSIfu0xt0cNpVWt/ttOUwNodF4k+PjBt
-	vvQka1dObdzU0QmewxCUejFk/Nokqm+Ju9V6vBcfG3/ykHc2TM03r/A64sySXm6kYaIUBMaKCe6wp
-	NvPG/MIQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
+	Content-Type:Content-Transfer-Encoding:Date:Message-ID:In-Reply-To:CC:To:From
+	:Subject:Mime-Version:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=7HqN1Vx6yBbpaHNRy8ORyBDiazEMrazm50bZ8i01OPA=; b=woEaHjQT/tvm+tHayNW+fPh/te
+	6fRBXfPWmlXzD4LmQ4l/WJ1R79LsXbWo4o3e1QwMYfl64n90yBw1yPRDw37nZnI54mxP89LY35l4D
+	E834oH63V6ZD94xzNlLaT9P0H6ZG6Hy4YFypQC3kOHMOZ5n8zncq0eaancGPnKj56D07eV5HLpR2N
+	jsA7N797rb+pYDFVqlqHSKHnBYQzGBzEmuQQ2r78bD6VWZAgDR6qDUgif+Z3L2cg0Ano5nw0rLPec
+	zTD1oDu29WpFS9le0aVib7xkwmM3V29S8ivP1j6cI2mjjME8YxF+j660CFywMiMjFmVYg6y0NJK1H
+	kj0PUV0w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xCXIi-0000000AlVg-2uEO;
-	Fri, 02 Oct 2026 07:03:24 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1xCXJA-0000000Alaa-4188;
+	Fri, 02 Oct 2026 07:03:52 +0000
+Received: from mailout1.samsung.com ([203.254.224.24])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xCXIf-0000000AlUq-3LYD
+	id 1xCXJ7-0000000AlZf-43vx
 	for linux-nvme@lists.infradead.org;
-	Fri, 02 Oct 2026 07:03:23 +0000
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69265SHT3755607;
-	Fri, 2 Oct 2026 07:03:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=pp1; bh=pga9cvOkr+G05GCHwiw/yNVZVi4HrlhY5RevFn+JH
-	1Y=; b=og5U/TWX+EGDvcyMn2QaiF4VY47uPte/+kXhDBEWllsNMLK0piJcxgra5
-	Bc4HTS11YYds4NbpbPjKdFLRxZsE322Tva3xTsYady+wqB6TDuGtNuynjXdq3+oF
-	LGc1MaexQS4BgzxXR1E+2jenBaKcf89pO7wPDEAV7sHuOKrl7FvTnUP+oJc/PBvT
-	+3CORipiPCjAoRayzPZ5SYaoY574+TCLPmwknyrKkQ8KA+k40sSgsCcRRislG0er
-	Ha4lJ6pw5izVTHbmZbXsTndsZdoITJSJ1aRuOihvRJJcWpxVOQdQB0pVFiqc9idS
-	wlPxout+26hUoL2uw4UJCYGW1j6Qw==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4gx3fkpxv7-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 02 Oct 2026 07:03:08 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 69262PnW2076517;
-	Fri, 2 Oct 2026 07:03:08 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4h0xcshsdj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 02 Oct 2026 07:03:08 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 692734ZN42336730
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 2 Oct 2026 07:03:04 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 3825520043;
-	Fri,  2 Oct 2026 07:03:04 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B1AA720040;
-	Fri,  2 Oct 2026 07:02:59 +0000 (GMT)
-Received: from li-a84c74cc-2b13-11b2-a85c-acdd023f0674.ibm.com.com (unknown [9.61.28.159])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Fri,  2 Oct 2026 07:02:59 +0000 (GMT)
-From: Nilay Shroff <nilay@linux.ibm.com>
-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc: shinichiro.kawasaki@wdc.com, hch@lst.de, kbusch@kernel.org,
-        sagi@grimberg.me, gjoyce@linux.ibm.com, chaitanyak@nvidia.com,
-        Nilay Shroff <nilay@linux.ibm.com>, stable@vger.kernel.org
-Subject: [PATCH] nvmet: send namespace changed event after namespace is fully initialized
-Date: Fri,  2 Oct 2026 12:31:43 +0530
-Message-ID: <20261002070249.338225-1-nilay@linux.ibm.com>
-X-Mailer: git-send-email 2.53.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: JsyIAEKbwacjh1RIYlX5AskX_DliDhIF
-X-Proofpoint-GUID: JsyIAEKbwacjh1RIYlX5AskX_DliDhIF
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDAyMDAyNiBTYWx0ZWRfX9JkM0N7MzKGm
- hy4MW4xj+aIPEwrzd0wFVx2LBJO9xrbzDm9lAFUikka0w9k2RdBL7P55pA81CFSXXCJV9lsk6MN
- CIpOUJ9MEvQ1Y9JLeJN8wB5ZNEoWuZc=
-X-Authority-Analysis: v=2.4 cv=Vv62kO2n c=1 sm=1 tr=0 ts=6abf572c cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
- a=Y2IxJ9c9Rs8Kov3niI8_:22 a=VwQbUJbxAAAA:8 a=JF9118EUAAAA:8 a=VnNF1IyMAAAA:8
- a=ygIurIEAvY1zSo9kXhYA:9 a=xVlTc564ipvMDusKsbsT:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDAyMDAyNiBTYWx0ZWRfX+EiCb8/daIDe
- yBEZ/7AbIx/F6MuG8faa5GQkBG4zIDOYbv2r9ZziHfoBjYEf55stAw29ZAqjYqItEs/G9mZphKz
- CVCmAILIZkIQ1Oz+LWMyMsQb4ODQa79GK5kIUczYZdxwT19MuY3G2C8cmus5N5sRIEiqjAyLs5l
- LLaHcMqOcrtx6TbUZ+wQJQXqu4/p7CXhlrwtOTdX0u04aWOqybdrL5Y8jxBGsZ5bx98DaiCIvjg
- /jCuz3kN2EmnMJpYLrDY+dsm/HgDFHZSUaTchUgnLJUVzAfV74bs3Y9wd8K7CnuZrPoluKXYoNH
- vuOtBLYZ+HWA42G6irLwJdpH/xDc1fXKpc8V1SLhaIywIEhPOtUxaf20oF76QW56U7i9klAKJaB
- rrixnT+jBvdRWSnPHuNNLCwidUEXAX4NQPOSdfWmLjfDojcApfFndQd+k70n+jiWD3D+zg2LW/Z
- aN5GGSmU4J0r1kSo3JA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-02_02,2026-10-01_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0 phishscore=0 bulkscore=0 adultscore=0
- priorityscore=1501 malwarescore=0 clxscore=1011 lowpriorityscore=0
- impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
- definitions=main-2610020026
+	Fri, 02 Oct 2026 07:03:51 +0000
+Received: from epcas2p1.samsung.com (unknown [182.195.41.53])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20261002070343epoutp0143a5948bea445852d3b094315a8e2bcd~apHS3t_tO3148431484epoutp01a
+	for <linux-nvme@lists.infradead.org>; Fri,  2 Oct 2026 07:03:43 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20261002070343epoutp0143a5948bea445852d3b094315a8e2bcd~apHS3t_tO3148431484epoutp01a
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1790924623;
+	bh=7HqN1Vx6yBbpaHNRy8ORyBDiazEMrazm50bZ8i01OPA=;
+	h=Subject:Reply-To:From:To:CC:In-Reply-To:Date:References:From;
+	b=MdEI1xbfGX5qrI1jT8ZC87zCxfvEsv3BYr4oJDzDXLcoUXRYWHhRXexrX8q3Qkbdn
+	 J6nT2s5Jq7UOVxuzQCVE7yMDW5QdUsGBaLlWpznrPwmDctXgiGlnnBP0rz3mP0cfzR
+	 Ec9ZAx+apbTRfwgTJ5guyzKH7dMehpZlKaUeVk7M=
+Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
+	epcas2p3.samsung.com (KnoxPortal) with ESMTPS id
+	20261002070342epcas2p35b772ffe3226af31a7314d1e5090bd73~apHSk24cm2248022480epcas2p30;
+	Fri,  2 Oct 2026 07:03:42 +0000 (GMT)
+Received: from epcas2p3.samsung.com (unknown [182.195.38.208]) by
+	epsnrtp02.localdomain (Postfix) with ESMTP id 4hx0B62kk2z2SSKj; Fri,  2 Oct
+	2026 07:03:42 +0000 (GMT)
+Mime-Version: 1.0
+Subject: [PATCH 2/2] nvmet: fix preempt of another registrant by the
+ reservation holder
+From: Daejun Park <daejun7.park@samsung.com>
+To: "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
+	"kch@nvidia.com" <kch@nvidia.com>
+CC: "kbusch@kernel.org" <kbusch@kernel.org>, "kanie@linux.alibaba.com"
+	<kanie@linux.alibaba.com>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>, "linux-nfs@vger.kernel.org"
+	<linux-nfs@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, Daejun Park <daejun7.park@samsung.com>
+X-Priority: 3
+X-Content-Kind-Code: NORMAL
+In-Reply-To: <20261002070200epcms2p593a0aa8ac482e776e8f1de89d9f212ae@epcms2p5>
+X-CPGS-Detection: blocking_info_exchange
+X-Drm-Type: N,general
+X-Msg-Generator: Mail
+X-Msg-Type: PERSONAL
+X-Reply-Demand: N
+Message-ID: <20261002070341epcms2p4e1409e8fcea145562a2996ad1d1d24ea@epcms2p4>
+Date: Fri, 02 Oct 2026 16:03:41 +0900
+X-CMS-MailID: 20261002070341epcms2p4e1409e8fcea145562a2996ad1d1d24ea
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: AUTO_CONFIDENTIAL
+CMS-TYPE: 102P
+X-CPGSPASS: Y
+X-CPGSPASS: Y
+cpgsPolicy: CPGSC10-223,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20261002065931epcms2p1cb2c16f98cf3b05f8c859ad92b0ad465
+References: <20261002070200epcms2p593a0aa8ac482e776e8f1de89d9f212ae@epcms2p5>
+	<20261002065931epcms2p1cb2c16f98cf3b05f8c859ad92b0ad465@epcms2p1>
+	<CGME20261002065931epcms2p1cb2c16f98cf3b05f8c859ad92b0ad465@epcms2p4>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261002_000321_956940_58C23717 
-X-CRM114-Status: GOOD (  17.45  )
+X-CRM114-CacheID: sfid-20261002_000350_326115_238E1D7F 
+X-CRM114-Status: GOOD (  27.69  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -116,51 +93,97 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: daejun7.park@samsung.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvmet_ns_enable() queues the asynchronous namespace change event before
-the namespace is enabled and the corresponding xarray entry is marked
-with NVMET_NS_ENABLED. This may create a narrow race if the host
-receives the namespace change event before the namespace is fully
-initialized on the target. In that case, scanning the active namespace
-list on the host may fail to find the namespace that is being enabled
-on the target.
+Unless the reservation is of an All Registrants type, nvmet_pr_preempt()
+treats every Reservation Acquire command with the Preempt or Preempt and
+Abort action that is sent by the reservation holder as the holder
+preempting itself.  It updates the reservation type to RTYPE and
+completes the command successfully without looking at PRKEY.
 
-The blktests nvme/052 failure was reported[1] due to this race.
+NVMe Base Specification 2.1, section 8.1.22.7 makes the action depend
+on PRKEY for these reservation types, no matter which registrant sends
+the command:
 
-Fix the race by moving nvmet_ns_changed() in nvmet_ns_enable() after
-the namespace is enabled, the xarray entry is marked with
-NVMET_NS_ENABLED, and the NVMET_NS_IO_LIVE flag is set.
+ - PRKEY matches the key of the reservation holder: the reservation is
+   preempted.  This is how a holder preempts itself.
+ - PRKEY does not match the key of the holder and is not 0h: the
+   registrants whose key matches PRKEY are unregistered.
+ - PRKEY does not match the key of the holder and is 0h: the command is
+   aborted with Invalid Field in Command.
 
+With the current code, a holder that preempts with the key of another
+registrant leaves that registrant registered, changes the reservation
+type to RTYPE and still gets a successful completion.  With hosts A, B
+and C registered with the keys 0xa, 0xb and 0xc, and A holding an
+Exclusive Access - Registrants Only reservation, A sends:
+
+  # nvme resv-acquire /dev/nvme1 -n 1 --crkey=0xa --prkey=0xb \
+        --rtype=4 --racqa=1
+  NVME Reservation Acquire success
+  # nvme resv-report /dev/nvme1 -n 1 --eds | grep '^regctl '
+  regctl    : 3
+
+and B can still write to the namespace.  Preempt and Abort (--racqa=2)
+gives the same result.  When C sends the preempt instead (--crkey=0xc),
+B is unregistered and its writes fail with Reservation Conflict.
+
+This defeats fencing in the pNFS SCSI layout server.  nfsd holds the
+reservation and fences a client that does not return its layout by
+calling pr_preempt() with the key of that client and the abort flag,
+which is the command RFC 9561 section 2.2.3 asks for.  On an nvmet
+namespace the preempt succeeds, nfsd logs the client as fenced, and the
+client keeps writing to the device.  In a test with an nfsd server and
+two clients on an nvmet-tcp namespace, the namespace still had three
+registrants after the fence and the fenced client went on writing to
+it.  With this patch two registrants are left and the writes of the
+fenced client fail with a reservation conflict.
+
+Take the self preempt path only when PRKEY is the key of the holder.
+Any other PRKEY sent by the holder is then handled by the code that
+already serves a non-holder registrant, for Preempt and for Preempt and
+Abort.  For a host that holds the reservation this changes the
+following:
+
+ - A preempt with the key of another registrant unregisters the
+   registrants with that key, sends them the registration preempted
+   notification and leaves the reservation type alone.
+ - A preempt with PRKEY 0h fails with Invalid Field in Command.  A
+   holder that changed its reservation type this way has to pass its
+   own key in PRKEY, which works with and without this patch.
+ - A preempt with a PRKEY that matches no registrant fails with
+   Reservation Conflict.  The specification defines that status only
+   for the All Registrants types.  It is what nvmet already returns to
+   a non-holder registrant in this case and what the SCSI target
+   returns for an unregistered key.  nfsd treats it as a successful
+   fence.
+
+Not changed: when the holder preempts itself, registrants that share
+its key stay registered.
+
+Fixes: 5a47c2080a73 ("nvmet: support reservation feature")
 Cc: stable@vger.kernel.org
-Fixes: 74d16965d7ac ("nvmet-loop: avoid using mutex in IO hotpath")
-Reported-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Closes: https://lore.kernel.org/all/ar30Q5H1fuyFtDwM@shinmob/ [1]
-Tested-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+Signed-off-by: Daejun Park <daejun7.park@samsung.com>
 ---
- drivers/nvme/target/core.c | 2 +-
+ drivers/nvme/target/pr.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 8eea0a504308..da98e5cae7f6 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -626,11 +626,11 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
- 	if (ret)
- 		goto out_pr_exit;
+diff --git a/drivers/nvme/target/pr.c b/drivers/nvme/target/pr.c
+index bfd5447f6..665cee8fc 100644
+--- a/drivers/nvme/target/pr.c
++++ b/drivers/nvme/target/pr.c
+@@ -585,7 +585,7 @@ static u16 nvmet_pr_preempt(struct nvmet_req *req,
+ 				&ctrl->hostid, abort);
+ 	}
  
--	nvmet_ns_changed(subsys, ns->nsid);
- 	ns->enabled = true;
- 	xa_set_mark(&subsys->namespaces, ns->nsid, NVMET_NS_ENABLED);
- 	nvmet_debugfs_ns_setup(ns);
- 	set_bit(NVMET_NS_IO_LIVE, &ns->flags);
-+	nvmet_ns_changed(subsys, ns->nsid);
- 	ret = 0;
- out_unlock:
- 	mutex_unlock(&subsys->lock);
+-	if (holder == reg) {
++	if (holder == reg && prkey == holder->rkey) {
+ 		status = nvmet_pr_update_reg_attr(pr, holder,
+ 				nvmet_pr_update_holder_rtype, &rtype);
+ 		if (!status && original_rtype != rtype)
 -- 
-2.53.0
+2.43.0
 
 
