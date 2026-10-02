@@ -4,45 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C16C2CA5FC4
-	for <linux-nvme@archiver.kernel.org>; Fri,  2 Oct 2026 04:26:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AA53FCA5FD4
+	for <linux-nvme@archiver.kernel.org>; Fri,  2 Oct 2026 04:26:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
 	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Message-ID:Date
 	:Cc:To:From:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5ZaH7kjR91t+LbbdbOtI4sfeLxRZza0chRAHxNS1iZ0=; b=FWdpqgcLmwZlHWQaazfswcoYm6
-	yuKkooTS6lctWmi8qYQPP7Uxnia3i8IBfsKTys+IUZ61TQ0kbBrHyFd2tl87ME3mAgTpWVCAiE665
-	GQoQPCB/QqIScHs//vyaY/LCzcm9gUo/5c+zARTCS1P78vpI1QZRBfmh2yJk36v/+wr/rbiH+7zKa
-	9ZZ5PfRCUKY768q9fohsKNw7jylaObz0V74B6jox1xdvLAz/YJz+0jS5RBONBPdPdwORXB2yusf7N
-	auLKuUEFwBUVaAJ8idCUU6XgMSQvPiju18MD9yLZh9ggAu4fs4Q5Gpm+dc/dY0ooaenrZqPhSXjtM
-	Xz9RsfUA==;
+	bh=ZgL8KT6UyYqk0aSUs+XywFLceK5PXM95ccl5tMC4M6c=; b=FSKS1cxZpAastAfnVtdmR139os
+	AX/RNt0q0EL6qYtVHgrcQhKvMrNCh1fPV0IaLWMfW0fr3G2lBoXWJRAwtRZ4liXeatJpAXbseJFsz
+	Pi0ET9XuDT/qpE/sJ2ubY49tWRXyyNz/7zKHMwbNts+luvHyV2FMi0VIXuHYNWEXnontnEW4R/9nQ
+	txCQgtoOoc/pAg+nhedVdRCvUTasmWLVSvKhb3FJtoa9BH6bg2POMb001pJmkAm0T5IiqS2rVenRw
+	be0SW89HGMX27JTsKCKBnR/Km9R76WF5Jy3vltUwu77WfWQj169qU/1VR1Paw5++4CRae5RMcddn6
+	lxxFgU7w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xCUr5-0000000Aavs-3JoO;
+	id 1xCUr5-0000000Aavm-2TPQ;
 	Fri, 02 Oct 2026 04:26:43 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xCRvr-0000000AT5O-2qPB
+	id 1xCRvq-0000000AT4h-05lE
 	for linux-nvme@lists.infradead.org;
-	Fri, 02 Oct 2026 01:19:27 +0000
+	Fri, 02 Oct 2026 01:19:26 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 6B8CB4411A;
-	Fri,  2 Oct 2026 01:19:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFC231F00893;
+	by tor.source.kernel.org (Postfix) with ESMTP id A70F36021E;
 	Fri,  2 Oct 2026 01:19:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C96C1F00898;
+	Fri,  2 Oct 2026 01:19:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790903967;
-	bh=5ZaH7kjR91t+LbbdbOtI4sfeLxRZza0chRAHxNS1iZ0=;
+	s=k20260515; t=1790903964;
+	bh=ZgL8KT6UyYqk0aSUs+XywFLceK5PXM95ccl5tMC4M6c=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=ErJrQb9S6f1R8SuFuhRXDxtU8WylahNE8JFxYAKJbzR2Ra+k4EfG9s0Q2jOzgBvXC
-	 qz1D8sPUNaERGcuTc2onmU+T5EW1cBavf0efZzDUNJwqPa+eFpDt1A9dDVSDV2Vspg
-	 2pPjPRUpaDdfmGgV0q6bldA+XzCTotbFizw2N8tHRFy8V2aflQMbR2Uxut34s+NAoj
-	 dD5sGlmReE2yU3ptLwk926hWAJZjV2esT9gPoVquL/vAVgd7Ms1DfSTvVV/cYym95D
-	 s6ujsM2cjFMa4em+WkhnJ6AZT/XUOn961ImH+2/owsLkh0DAxyVXs61S/yRVcrG8t6
-	 fIr88V2mvqjdA==
-Subject: Re: [PATCH v3 net-next 9/9] tcp: add tp->tcp_nospace
+	b=E1fbjVWx8HUEkOsH/p+8hEkz6uPVfYJ1N56tobODFjTZ4G0SpbHOpb3gJBYtB+k5V
+	 rmIQt4VHKFCrYqU+GshRab7S/8cfb5Toy3llZbW03orlXY2HQbZz2VYm3dzg73qyCm
+	 L96aUvyVeGmDCToIFNJUVFtjawLq3cLsj7r3Vt2atEhDg6so42rreYSLf7UXARgkT/
+	 QgK8pvBEFq281BgDebVEXqanIpaWh+FiXk2BW7DgyeCHN5UuYNGg1B82+qDnznBxmO
+	 vYJluQbam+z7h/XL7Oa2X5Nclp5TH/ClxAPHABGZI87yHKY0V78XorIsKkH3k43Arv
+	 ZIQNK5qSaUtcA==
+Subject: Re: [PATCH v3 net-next 2/9] net: add sk_set_nospace() and sk_clear_nospace()
 From: netdev-bot+sashiko@kernel.org
 To: edumazet@kernel.org
 Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
@@ -60,10 +60,10 @@ Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
  kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
  linux-nvme@lists.infradead.org, idryomov@gmail.com, amarkuze@redhat.com,
  slava@dubeyko.com, ceph-devel@vger.kernel.org
-Date: Fri, 02 Oct 2026 01:19:24 +0000
-Message-ID: <179090396455.434549.14548496564842351902@kernel.org>
-In-Reply-To: <20260929071743.23624-10-edumazet@kernel.org>
-References: <20260929071743.23624-10-edumazet@kernel.org>
+Date: Fri, 02 Oct 2026 01:19:21 +0000
+Message-ID: <179090396163.434549.17078456875328527207@kernel.org>
+In-Reply-To: <20260929071743.23624-3-edumazet@kernel.org>
+References: <20260929071743.23624-3-edumazet@kernel.org>
 X-sashiko-severity: Low
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -89,118 +89,160 @@ you want to address the nit picks below when you respin.
 
 Low priority / nit picks for your consideration:
 
-- [Low] The commit message says struct socket lives in a cache line
-  "which the TCP fast paths do not otherwise touch".
-- [Low] A child socket inherits the listener's tp->tcp_nospace and
-  nothing resets it.
+- [Low] The kernel-doc added in net/core/sock.c for the new helpers does
+  not match how the helpers are used, both in this patch and later in…
+- [Low] sk_set_nospace() and sk_clear_nospace() (net/core/sock.c) read
+  sk->sk_socket with a plain load (`struct socket *sock = sk->sk_socket;…
 
 --
 
-tcp: add tp->tcp_nospace
+net: add sk_set_nospace() and sk_clear_nospace()
 
-This commit adds tp->tcp_nospace, a copy of SOCK_NOSPACE that lives in the
-tcp_sock_write_tx cache line group. With it, tcp_check_space() no longer
-has to read sk->sk_socket->flags on every ACK and every transmit.
-sk_set_nospace() and sk_clear_nospace() keep the rule that SOCK_NOSPACE
-set implies tp->tcp_nospace set. MPTCP subflows pin tp->tcp_nospace to 1
-in subflow_ulp_init().
+This commit adds two helpers, sk_set_nospace() and sk_clear_nospace().
+They set or clear SOCK_NOSPACE in sk->sk_socket->flags after a NULL
+check, and the commit converts the core networking callers to use them.
+It prepares for a later patch that gives TCP a private copy of the bit.
 
-> struct socket lives in its own cache line, which the TCP fast paths do
-> not otherwise touch, so testing sk->sk_socket->flags pulls in an extra
-> cache line that is cold when the working set is large.
-
-[Severity: Low]
-Is this still accurate after this patch? Only tcp_check_space() was
-converted to use the new field.
-
-tcp_write_xmit() calls tcp_cwnd_validate() whenever it has sent packets.
-If the flow is not cwnd limited and the write queue is empty,
-tcp_cwnd_validate() still reads sk->sk_socket->flags:
-
-net/ipv4/tcp_output.c:tcp_cwnd_validate() {
-    ...
-		if (tcp_write_queue_empty(sk) && sk->sk_socket &&
-		    test_bit(SOCK_NOSPACE, &sk->sk_socket->flags) &&
-		    (1 << sk->sk_state) & (TCPF_ESTABLISHED | TCPF_CLOSE_WAIT))
-			tcp_chrono_start(sk, TCP_CHRONO_SNDBUF_LIMITED);
-    ...
-}
-
-tcp_cwnd_application_limited() also reads it on the
-slow_start_after_idle path:
-
-net/ipv4/tcp_output.c:tcp_cwnd_application_limited() {
-    ...
-	if (inet_csk(sk)->icsk_ca_state == TCP_CA_Open &&
-	    sk->sk_socket && !test_bit(SOCK_NOSPACE, &sk->sk_socket->flags)) {
-    ...
-}
-
-Request/response senders limited by the application empty the write
-queue on every transmit. Their transmits would still pull in the struct
-socket cache line. The microbenchmark only times tcp_check_space(), so it
-would not show this.
-
-The new rule (SOCK_NOSPACE set => tp->tcp_nospace set) means both sites
-could check READ_ONCE(tp->tcp_nospace) first without changing behavior.
-Would that be worth doing? If not, could the commit message avoid saying
-the fast paths no longer touch struct socket?
-
-[ ... ]
-
-> diff --git a/net/mptcp/subflow.c b/net/mptcp/subflow.c
-> index f0a6725d2c376..e297c88be503b 100644
-> --- a/net/mptcp/subflow.c
-> +++ b/net/mptcp/subflow.c
-> @@ -2001,6 +2001,11 @@ static int subflow_ulp_init(struct sock *sk)
->  	pr_debug("subflow=%p, family=%d\n", ctx, sk->sk_family);
+> diff --git a/net/core/sock.c b/net/core/sock.c
+> index 2948dffcc3e1b..11a22aec7e414 100644
+> --- a/net/core/sock.c
+> +++ b/net/core/sock.c
+> @@ -2957,6 +2957,39 @@ void sock_kzfree_s(struct sock *sk, void *mem, int size)
+>  }
+>  EXPORT_SYMBOL(sock_kzfree_s);
 >  
->  	tp->is_mptcp = 1;
-> +	/* Subflows share the MPTCP socket, and thus its SOCK_NOSPACE bit,
-> +	 * which tcp_check_space() can not mirror. Pin the mirror so that
-> +	 * __tcp_check_space() always tests the shared bit.
-> +	 */
-> +	tp->tcp_nospace = 1;
+> +/**
+> + *	sk_set_nospace - tell the transport a writer is waiting for space
+> + *	@sk: socket
+> + *
+> + *	Must be called before the final check of the available send space,
+> + *	so that the transport can not miss the request and forget to call
+> + *	sk->sk_write_space() once space is available again.
+> + */
+> +void sk_set_nospace(struct sock *sk)
+> +{
+> +	struct socket *sock = sk->sk_socket;
+> +
+> +	if (sock)
+> +		set_bit(SOCK_NOSPACE, &sock->flags);
+> +}
 
 [Severity: Low]
-Do passive children of an MPTCP listener inherit this pinned value, even
-when they fall back to plain TCP?
 
-The listener subflow gets tcp_nospace = 1 here through
-mptcp_subflow_create_socket()->tcp_set_ulp()->subflow_ulp_init(). Its
-is_mptcp stays 1, so tcp_clear_nospace() never clears it.
+Should this be READ_ONCE(sk->sk_socket)?
 
-tcp_create_openreq_child()->inet_csk_clone_lock()->sk_clone_lock() then
-copies the tcp_sock, and nothing resets tcp_nospace.
+The writer side uses a marked store:
 
-When the SYN comes from a peer without MPTCP,
-subflow_ulp_clone()->subflow_ulp_fallback() makes the child plain TCP:
+include/net/sock.h:sk_set_socket() {
+	WRITE_ONCE(sk->sk_socket, sock);
+}
 
-	tcp_sk(sk)->is_mptcp = 0;
+sock_orphan() makes that store holding only sk_callback_lock:
 
-mptcp_stream_accept() then grafts it as a plain TCP socket. Its new
-struct socket has SOCK_NOSPACE clear. This new early return in
-__tcp_check_space() then applies:
+	write_lock_bh(&sk->sk_callback_lock);
+	sock_set_flag(sk, SOCK_DEAD);
+	sk_set_socket(sk, NULL);
 
-	if (!sock || !test_bit(SOCK_NOSPACE, &sock->flags))
-		return;
+At least one path can reach these helpers at the same time as that store.
+It does not take sk_callback_lock and does not check socket ownership:
 
-So tcp_new_space()->sk_stream_write_space()->sk_clear_nospace() is never
-reached, and that is the only place the hint gets cleared. It stays set
-until the application first fills its send buffer.
+CPU1 (SMC CDC receive tasklet)
+smc_cdc_msg_recv()
+  bh_lock_sock(&smc->sk)
+  smc_cdc_msg_recv_action()
+    ...
+      smc_tx_write_space()
+        sk_clear_nospace()
+          sock = sk->sk_socket;
 
-Until then, every ACK and every transmit calls __tcp_check_space() out of
-line and reads sk->sk_socket->flags. These connections would not get the
-optimization.
+CPU2
+close()
+  smc_release()
+    lock_sock(sk)
+    sock_orphan(sk)
+      WRITE_ONCE(sk->sk_socket, NULL)
 
-The rule still holds, so no EPOLLOUT is lost. Could tcp_nospace be reset
-for the child, for example in tcp_create_openreq_child() or in
-subflow_ulp_fallback()?
+Won't KCSAN report this plain read racing with the marked write?
 
-The same can happen with a plain TCP listener. If a socket was connected,
-ended up with tcp_nospace = 1, was disconnected and then put into
-listen(), its children inherit the stale value too. tcp_disconnect() does
-not reset it either.
+The compiler is also allowed to reload sk->sk_socket after the NULL
+check when it computes &sock->flags. That would undo the NULL check that
+the commit message relies on to make the helpers "more robust".
+
+This patch also adds a second plain read of sk->sk_socket to
+sk_stream_write_space() and smc_tx_write_space(). Both functions already
+had the pointer in a local sock variable.
+
+sk_clear_nospace() below has the same plain load. It is still there at
+the end of the series, after "tcp: add tp->tcp_nospace".
+
+> +EXPORT_SYMBOL(sk_set_nospace);
+> +
+> +/**
+> + *	sk_clear_nospace - tell the transport no writer is waiting for space
+> + *	@sk: socket
+> + *
+> + *	Called from ->sk_write_space() handlers, once send space has been
+> + *	made available to writers.
+> + */
+
+[Severity: Low]
+
+Does this kernel-doc, and the one for sk_set_nospace() above, match how
+the helpers are actually used?
+
+This comment says the helper is "Called from ->sk_write_space() handlers".
+kcm_tx_work() is a workqueue handler, though, and it clears the bit
+before it calls ->sk_write_space():
+
+net/kcm/kcmsock.c:kcm_tx_work() {
+    ...
+	if (likely(sk->sk_socket) &&
+	    test_bit(SOCK_NOSPACE, &sk->sk_socket->flags)) {
+		sk_clear_nospace(sk);
+		sk->sk_write_space(sk);
+	}
+    ...
+}
+
+Later in the series, "sunrpc: use sk_set_nospace() and
+sk_clear_nospace()" adds a call to it from svc_tcp_has_wspace() in
+net/sunrpc/svcsock.c. That is an ->xpo_has_wspace check, not a
+write_space callback.
+
+The sk_set_nospace() comment says it "Must be called before the final
+check of the available send space". Several converted callers, however,
+set the bit on an -EAGAIN exit and never check again. There the point is
+to arm a later ->sk_write_space() or EPOLLOUT:
+
+net/core/stream.c:sk_stream_wait_memory() {
+    ...
+do_eagain:
+    ...
+	sk_set_nospace(sk);
+	err = -EAGAIN;
+	goto out;
+}
+
+The !timeo branches in smc_tx_wait() and sock_alloc_send_pskb() work
+the same way.
+
+The comment also does not say that sk_set_nospace() is only a set_bit()
+with no barrier. Callers have to provide a full barrier between setting
+the bit and re-checking. Today that comes from smp_mb__after_atomic() in
+tcp_poll(), smc_poll() and mptcp_check_writeable(), and from
+prepare_to_wait() in sock_wait_for_wmem().
+
+Could the kernel-doc also cover the -EAGAIN use, the callers outside
+write_space handlers, and the barrier the caller must provide?
+
+> +void sk_clear_nospace(struct sock *sk)
+> +{
+> +	struct socket *sock = sk->sk_socket;
+> +
+> +	if (sock)
+> +		clear_bit(SOCK_NOSPACE, &sock->flags);
+> +}
+> +EXPORT_SYMBOL(sk_clear_nospace);
 
 [ ... ]
 
