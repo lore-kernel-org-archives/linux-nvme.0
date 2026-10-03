@@ -4,58 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 24B6FCA5FC1
-	for <linux-nvme@archiver.kernel.org>; Sat,  3 Oct 2026 12:33:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E390ACA5FC1
+	for <linux-nvme@archiver.kernel.org>; Sat,  3 Oct 2026 12:52:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:To:
-	From:Subject:Cc:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
-	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kZ5y3ZSOkJKyNCJ6Hso8ZTRbuxj1ex4T5I/X5Y45tiM=; b=viAdcktEDPI81chQIW/Dn1v8Mu
-	o/ItfpFthjeXj5r1EwHLn84FdnVMDl2VPZRs1TcZe2ENvemTRVSrZL1ljlIfYEJK8Rp1EDkgcvSZP
-	McFcJnOMdU4kPR3H7OROvDJDdr03jP9Y+dmjTQ1MtEY9voIxglL9mYraNOy+htSFw1KUmJKgJ68Wo
-	4PDJoR3cMz/fkd7JuwfkQY0rDOQ8bV1zGWUmJQEuoi9iKGloaZVbnFqY6kS3X8fSZVxWc/LNFlzFS
-	prxhHBS45UT0hwLSxXGWsJPclpobb+4Qz4/QCgdZ+NEdwfdfuy2CD0KNivX5v0trRh+k5XRRg0lp5
-	Z2+6a0SQ==;
+	bh=v/KkCnT8DcfgAjdsj7WLPc/noK/t0kZqJiLQcWJITrQ=; b=rS8TWojXfCpTLw8EFunEK4h+gs
+	/8vkn5PkgwnlVAJMrdL4g0VohhIyMPjfuh/yL3LkeflBhWgSlaFP/t9j7og/GoNa65j6fVWITP15A
+	/YtWdVpjoG9E+ss+Iz0jzVRg7v8iepsfWHTdTmgzD8LetHykiuqO3ZQImT5aUqw+MklfazQRTxcxX
+	eM6WAbLfoKO8PdJaKbbUoYtlJ5LbCwuZpjCl+rS+nzd3GAcSqArxoVW6sM30UOU7g9Ejr4alPZtB+
+	278FCz7AaSLR8o7+PGzDJ1QTx9kixSrnUdXi3Z+OT7EwFMLstRNn9Fi4LE1fFAQk/Sztt7vB1Pd3k
+	r4c18faw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xCyvO-0000000DUuO-0cP4;
-	Sat, 03 Oct 2026 12:33:10 +0000
-Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=arkamax.eu)
+	id 1xCzDl-0000000DVZE-3vyi;
+	Sat, 03 Oct 2026 12:52:09 +0000
+Received: from mail-dy1-x1333.google.com ([2607:f8b0:4864:20::1333])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xCyvK-0000000DUtv-0gEA
+	id 1xCzDi-0000000DVYr-46Rq
 	for linux-nvme@lists.infradead.org;
-	Sat, 03 Oct 2026 12:33:07 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; s=mail1; bh=AHWwi2RygPrOnN
-	pVFuECy+vvC6Lk/DVmV3VXA83YzMI=; h=in-reply-to:references:to:from:
-	subject:cc:date; d=arkamax.eu; b=n/Ryms9sTkAj9ApaVaOFDy+3tF9z+X2gqHHDx
-	+Ki0LO2BDN24XVKuDm4B+bPrSTwjsJE5uzKOpN74WdvEMFgDUNd7d1qn9cikha1sthrmJR
-	fJnaA3qiKs1uCIjJjygxj2jjKnRj1o9E3eN/C3DTmI8tAUj2F8USgOSjFcZSGHP2shGBzq
-	g/plOiZT9cAQhAEHtBaS5byL00nBue3swqyXUtWLHKLryAxsCTwyN8oQrmCXdkWMZs7PU7
-	ZoGycJqgPKzaPw8GChVycUCf0qgqbbkMLWwYREqR382lmRRqbL2Vf3vftsrrGYBZkTaEaj
-	pay8dN9bIBK1BJ3epVy2YTmVQ==
-Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
-	by arkamax.eu (OpenSMTPD) with ESMTPSA id 2092ede2 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Sat, 3 Oct 2026 14:33:00 +0200 (CEST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 03 Oct 2026 14:33:00 +0200
-Message-Id: <DLV7F9W5HSFS.1D5WQW59ZEHEL@arkamax.eu>
-Cc: <linux-nvme@lists.infradead.org>, <hch@lst.de>, <hare@suse.de>,
- <dwagner@suse.de>, <asahi@lists.linux.dev>, "Sven Peter" <sven@kernel.org>
-Subject: Re: [PATCH] nvme: do not reset controllers in NVME_CTRL_NEW state
-From: "Maurizio Lombardi" <mlombard@arkamax.eu>
-To: "Yureka Lilian" <yureka@cyberchaos.dev>, "Maurizio Lombardi"
- <mlombard@redhat.com>, <kbusch@kernel.org>
-X-Mailer: aerc 0.20.0
-References: <20260915095827.698928-1-mlombard@redhat.com>
- <94912d46-381d-4988-800a-6ef3b595233f@cyberchaos.dev>
-In-Reply-To: <94912d46-381d-4988-800a-6ef3b595233f@cyberchaos.dev>
+	Sat, 03 Oct 2026 12:52:08 +0000
+Received: by mail-dy1-x1333.google.com with SMTP id 5a478bee46e88-3510f00d974so679566eec.1
+        for <linux-nvme@lists.infradead.org>; Sat, 03 Oct 2026 05:52:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791031926; x=1791636726; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=v/KkCnT8DcfgAjdsj7WLPc/noK/t0kZqJiLQcWJITrQ=;
+        b=dmFT43XETjWq/eQFLdN+gfXNm03uqdcfNqBQQs3uXKHrQFmytb0tBfnpoKZ0GWcRmM
+         ZbpBsqTDZczESYJmUthZUKKsxLy3ZOTN+vtlN9SfYIiixEIJL5yw7vasFwE7jNSJ8kDA
+         +QAaq7PVxftro4IavEO8BJ6I25EjZz3ZbpUmHdDYR1sGKp+t8+LIIrw04cN0PcQo6XVN
+         1q+UP0H3159cHeiPM4MmPk9snbJehkEYkocd4mrBG7D2nBUY4icMTgbHJqPDWR++sHaP
+         HCP0QIbV+S3WzpiySzrWVgOhQi5zlLMKdII44dz1cQ8b9sQ9DennXrEt88Mjho5cV8Pn
+         0qfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791031926; x=1791636726;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=v/KkCnT8DcfgAjdsj7WLPc/noK/t0kZqJiLQcWJITrQ=;
+        b=OK8KfWm2Xpf5TLwjPVk8Ekst45XhhEkNeAn2Ej4qZb38PUivXH29H4ai2IA/VIcviX
+         qyYd/zQSbl6VjsvmM9Is2L5bVnJBcHqmx6yPgWvm0dL4e+uw1J9gJd+rXIPKJyPwZLtW
+         Ok7L1AbKkRYvSjHNwnQBkQfhzaiRgi7RkwU3Y37D+D1xUdXn6SWJLFIgJV5YuRemP8BC
+         A2ZVi+d66sJnYbTBuQg4Kn/6/+adyESs+FjukJ76x8jpJRWr/Q3+rQeGurKp2uLc8vmq
+         anpJ60KmuS3rQvj2VZY/wfIfLcTKz0WfgEaGFQoQObtqdmXZ2FhoHM6IETORg3l//31Q
+         1Ryw==
+X-Gm-Message-State: AFuF++mu0/zUfAjswj5im97cy7y7maNtZdO6mf0BGHtORSyQLO3DdeRM
+	6DsqZwRTFjHsl3xkQ8gOjKUIokf74d9WxlgYPPtWoA7/wv/BPtid61z/waSc01Yw
+X-Gm-Gg: AYBFou2I12wiFY/fITFVGpDgUCsjvA2JEuey9tpC0KTkSffhNnf8zRShUlbcb5usM/d
+	g0QYct9gywRDI5tvfQ6dppyFqfTBJMJuf6uXAgZzy3hVIXfd5u0SgJ4V2FUV/zSRV1pmSLAar24
+	0Gkn9Epm93vySB2vu4G4Du3QrHenYEeUH0FwDm1X6DNrsLGka/6oISpKhemVRlgje8nIaXXIA4h
+	ecDgLSYn1CbdAmkRXFHQkzKZ+HCSJvvmWDW6kxd5D/8BlJJrOz1KhYVQOzjWv6dyrf5GCn1JTKI
+	dfct3GEpxtoBAWUQuWyUUNXIjPGeNH53aHP3dRxvMViBbjWjlKXkucJnY6deri1BpDuLgEapHJq
+	NPe+5JidJDdXobsVNIYT3oXFHRfjs4QmTuLIVNjCjwu6EPl2YTVwqoO/J2bch2TwWsPreyZ3q3M
+	efU/IZo6PhrLDl0H0G7QwLZa7H6V8z2eGHNvB1N2fpvB6HPsNBLmQ29tZxR8+dt//mjg9eFFDlZ
+	5ZbSkHLtnV5GrjxLzSl
+X-Received: by 2002:a05:7022:b057:20b0:14d:38f1:b51a with SMTP id a92af1059eb24-151c32dbd2cmr3274138c88.19.1791031925506;
+        Sat, 03 Oct 2026 05:52:05 -0700 (PDT)
+Received: from localhost.localdomain ([103.170.55.70])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-151fc39a6cbsm6211515c88.5.2026.10.03.05.52.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 03 Oct 2026 05:52:05 -0700 (PDT)
+From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+To: linux-nvme@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org,
+	kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me,
+	hare@suse.de
+Subject: [PATCH] nvme: auth: validate DHCHAP secret before stopping authentication
+Date: Sat,  3 Oct 2026 12:51:15 +0000
+Message-ID: <20261003125115.2523-1-sreekuttan2156239@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <0602191a-81ce-4f8a-90d0-b47ba2bc36ac@suse.de>
+References: <0602191a-81ce-4f8a-90d0-b47ba2bc36ac@suse.de>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261003_053306_839171_B6701E5E 
-X-CRM114-Status: GOOD (  23.60  )
+X-CRM114-CacheID: sfid-20261003_055207_023208_814B8A27 
+X-CRM114-Status: GOOD (  13.23  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,81 +102,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat Oct 3, 2026 at 1:55 PM CEST, Yureka Lilian wrote:
-> On 9/15/26 11:58, Maurizio Lombardi wrote:
->> During NVMe controller creation, the controller is exposed to sysfs via
->> nvme_add_ctrl() while it is still in the NVME_CTRL_NEW state.
->> This creates a narrow race window where a userspace process can write to
->> the reset_controller sysfs node before the initialization thread
->> transitions the state to NVME_CTRL_CONNECTING.
->>
->> If a reset is triggered during this window, the state machine allows the
->> transition from NVME_CTRL_NEW to NVME_CTRL_RESETTING, and the reset work
->> is queued. However, the original creation thread continues its execution=
-,
->> subsequently moving the state to NVME_CTRL_CONNECTING and finally to
->> NVME_CTRL_LIVE.
->>
->> When the delayed reset work finally executes, it attempts to tear down
->> the controller and transition the state to NVME_CTRL_CONNECTING. Because
->> the state is now NVME_CTRL_LIVE, this transition fails, triggering a
->> WARN_ON in the reset work.
->>
->> Fix this by removing NVME_CTRL_NEW from the allowed prior states for
->> the NVME_CTRL_RESETTING transition.
->>
->> Fixes: 8bfc3b4c6f9d ("nvmet: switch loopback target state to connecting =
-when resetting")
->> Reported-by: syzbot+4a1d521d19d6321f5aad@syzkaller.appspotmail.com
->> Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
->> ---
->>   drivers/nvme/host/core.c | 1 -
->>   1 file changed, 1 deletion(-)
->>
->> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->> index beea23d04a70..7ea8dd27d08d 100644
->> --- a/drivers/nvme/host/core.c
->> +++ b/drivers/nvme/host/core.c
->> @@ -598,7 +598,6 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
->>   		break;
->>   	case NVME_CTRL_RESETTING:
->>   		switch (old_state) {
->> -		case NVME_CTRL_NEW:
->>   		case NVME_CTRL_LIVE:
->>   			changed =3D true;
->>   			atomic_long_inc(&ctrl->nr_reset);
->
-> Hi!
->
-> I was testing something with linux-next 2026-10-02 and ran into an issue=
-=20
-> with the
-> nvme-apple driver where /dev/nvme0 exists but none of the namespaces appe=
-ar,
-> and the dmesg is awfully quiet about the nvme device. I bisected it down =
-to
-> this patch, which as far as I can tell leads to the nvme-apple being=20
-> stuck in
-> NVME_CTRL_NEW state. Without being familiar with the matter, this looks l=
-ike
-> the nvme-apple driver was using this transition as part of its=20
-> initialization
-> procedure.=C2=A0 If one of the NVMe people who know how these transitions=
- are
-> supposed to work could have a look, that would be much appreciated, as
-> otherwise this will break nvme-apple in 7.3-rc6.
->
-> Thanks,
+Hi Hannes,
 
-Thanks for reporting this,
-it seems that nvme-apple is the only driver that still initializes the
-controller by performing a reset directly from a NEW state.
+Yes, I agree that stopping the currently running authentication when the admin requests a new one is intentional.
 
-This should be easy to fix by moving the state to CONNECTING in
-apple_nvme_probe, just before nvme_reset_ctrl() is called.
+The issue I was pointing out is slightly different: if the new key is invalid, we never actually get to the point where the new authentication can be started again. "nvme_auth_stop()" has already stopped the existing authentication, and the parser returns an error before the restart path is reached.
 
-Would you be able to test the patch if I prepare it?
+So the question is whether writing an invalid replacement key should leave the previous authentication stopped, or whether the key should first be parsed/validated and only then replace the existing authentication state.
 
-Maurizio
+If the intended semantics are that an invalid key write should not disturb an already running authentication, then moving the validation before "nvme_auth_stop()" would make the operation effectively transactional:
 
+validate new key
+    -> error: leave existing authentication unchanged
+    -> success: stop old authentication and start with new key
+
+If, however, the intended semantics are that any attempted replacement stops the existing authentication even when the replacement is invalid, then I agree that the current behaviour is intentional and the patch doesn't fix a bug.
+
+My concern was specifically the former behaviour, rather than "nvme_auth_stop()" itself.
+
+Cheers,
+Sreeraj
 
