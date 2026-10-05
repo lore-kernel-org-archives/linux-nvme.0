@@ -4,80 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7FC59CA5FFC
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 Oct 2026 09:17:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3BB8ACA5FCE
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Oct 2026 09:17:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=w4IDAEWUM5goHy4cCtU/RvHHI4fpSYagB5nlgyoCVks=; b=fJlFgsQ4mNMl8fSc6djIly9zGd
-	emL8E/5dUKHmr6wtcFjY4KmKB0+D0X63dboxW3CiPxcHBLrAm6JhkYf/iYQLfbCvrf893N8y/5mf2
-	nA9OOEcqhIP8BU1hJyvQeXa5URzlkEGK1dFDUvid5XP6+Wmvw0XfZYxGcEprERmS3TlPA2LXY77+1
-	nEJdIG1xIrvSgbdZG4icYPF7hNMzVnxcFTpVTb2CmYc0ud2vgmwRgWKsu5DypHN2L2r7PeOKZ+54B
-	QvWkxIMsPkxB1/hEd/Wc4qMq6t6639/YfF+S3UfiRdn2tSopziTG7lWCjM2/AVeyhEt8OcIk3TeUD
-	R2dYWHZA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=UfiwPw1cUvoeLTUb73jaDzbjG2F3VR4DyksQVw7sRrE=; b=zFWdoMTLGXZeNvg6KVaqaQNTL5
+	JN62amREwnGs2hJfkKuOTOLmMnXwj+yRWNIuE6XNwKccJ9UENYuATzdOkEeYAfSvLmurL078gcekw
+	FBw6+Vna220puhteyNtO60x7Oe5q16ektnzxmJgG9PUhb6z6yR7UAnL+uR+F1YF6N58PMh/Su9Se8
+	BmeJigAaJsUeJA4sfzJ9klGwRcxiBHlH8xIkH1JXC5YRVbbU38SEz1SQKmI0GYhEHFh1vlOClTR7i
+	Y6PJGDbOl27VM2uGqU1cPbTWwXme7MbIOOQgQ5lQ1S9sMlPy7rLlJyHSCghmgIeOzGXR37tVo/yK8
+	4dJ4Cb2A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xDeoi-0000000Fz5w-0kDA;
+	id 1xDeoi-0000000Fz7N-34nP;
 	Mon, 05 Oct 2026 09:17:04 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xCYi6-0000000B00j-1W9k
+	id 1xDenh-0000000Fyzx-0Xn4
 	for linux-nvme@lists.infradead.org;
-	Fri, 02 Oct 2026 08:33:42 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 7CAB960A81
-	for <linux-nvme@lists.infradead.org>; Fri,  2 Oct 2026 08:33:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50FA81F0089B
-	for <linux-nvme@lists.infradead.org>; Fri,  2 Oct 2026 08:33:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790930021;
-	bh=w4IDAEWUM5goHy4cCtU/RvHHI4fpSYagB5nlgyoCVks=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=cXZ/vgUCZgLaMpyiIPgB3rJT4TzVgO3zOCcJ1gPBaCItJvklxFcBZMdtto7Vv57j7
-	 WtPnQ9vq1tuDS5CQDM1xCaDiB8HsUENjLZd072V53xNDundlLTzOfApih5IAQQEEwq
-	 kw+0zUFn1/q1lck7rju1TxV0KHv7tOtmG0P6Fyul1xEFb17OioyhCUTQ3FSYm5UJfH
-	 PbkOBxf9tNDoAhY5X3k7VSnU5XvcyndoD3H/Bddsl5x8xLzF7cKCBhKa8gYh4gO6kE
-	 pU0jYjH/pfNWir6ig/xaPsMDOo3rFI0WLizKlMts4ZODGEcTULmzs0xWmDvxoqQ5b9
-	 PgO6QoK6L9eYg==
-Received: by mail-oa2-f12.google.com with SMTP id 586e51a60fabf-483c65c2fa7so4558510fac.1
-        for <linux-nvme@lists.infradead.org>; Fri, 02 Oct 2026 01:33:41 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBzfmBsxXUy5PTG/i1Ho8mYmGPotdJ9Bdt/p5pUnjrgmIgld+45XcRwvInvIv9HLBQShC4PcO/D3N/Cw@lists.infradead.org
-X-Gm-Message-State: AFq9FYJYNp2QOcpfY8DCMI8VS51JaLuqwVcIB0WZ/QsIt5+MCZBx/q12
-	R70lzE9F96j20U6Ny7dOe1guxmCZG+bZXrup9nKLtFDZTy1VbvUk60psuzUTb4sOeG4V9+v3McQ
-	CPz/s60SpAa0h0ZZQUd6z5DyTzg//u9E=
-X-Received: by 2002:a05:6871:a841:b0:475:a153:2dbe with SMTP id
- 586e51a60fabf-49e15d371demr1895507fac.20.1790930020024; Fri, 02 Oct 2026
- 01:33:40 -0700 (PDT)
+	Mon, 05 Oct 2026 09:16:02 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 9D82768BFE; Mon,  5 Oct 2026 11:15:54 +0200 (CEST)
+Date: Mon, 5 Oct 2026 11:15:54 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
+	Christoph Hellwig <hch@lst.de>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jens Axboe <axboe@kernel.dk>, Nitesh Shetty <nj.shetty@samsung.com>,
+	Kanchan Joshi <joshi.k@samsung.com>,
+	Anuj Gupta <anuj20.g@samsung.com>,
+	Tushar Gohad <tushar.gohad@intel.com>,
+	William Power <william.power@intel.com>,
+	Phil Cayton <phil.cayton@intel.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Benjamin Marzinski <bmarzins@redhat.com>, dm-devel@lists.linux.dev
+Subject: Re: [PATCH v7 06/13] nvme-pci: implement dma-buf backed requests
+Message-ID: <20261005091554.GD10727@lst.de>
+References: <cover.1790602223.git.asml.silence@gmail.com> <e99dd5221c71cbf9aafb5737468d814cb83b9174.1790602223.git.asml.silence@gmail.com>
 MIME-Version: 1.0
-References: <20260929071743.23624-2-edumazet@kernel.org> <179090395863.434549.3668493667259120759@kernel.org>
-In-Reply-To: <179090395863.434549.3668493667259120759@kernel.org>
-From: Eric Dumazet <edumazet@kernel.org>
-Date: Fri, 2 Oct 2026 10:33:29 +0200
-X-Gmail-Original-Message-ID: <CAL4WiipAe11BJA0rs33_0=bzYXMr0qQvQMPc+6-awyFQdQ1yCA@mail.gmail.com>
-X-Gm-Features: AclHuK8nVtaoGsIab0P-m2s1B3ju3ekNwAoCUlK85M2ENTXymnZNl3W63NoMomk
-Message-ID: <CAL4WiipAe11BJA0rs33_0=bzYXMr0qQvQMPc+6-awyFQdQ1yCA@mail.gmail.com>
-Subject: Re: [PATCH v3 net-next 1/9] dlm: fix send buffer backpressure handling
-To: netdev-bot+sashiko@kernel.org
-Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, 
-	ncardwell@google.com, kuniyu@google.com, edumazet@google.com, 
-	netdev@vger.kernel.org, aahringo@redhat.com, teigland@redhat.com, 
-	gfs2@lists.linux.dev, john.fastabend@gmail.com, jakub@cloudflare.com, 
-	sd@queasysnail.net, jiayuan.chen@linux.dev, matttbe@kernel.org, 
-	martineau@kernel.org, geliang@kernel.org, mptcp@lists.linux.dev, 
-	guwen@linux.alibaba.com, dust.li@linux.alibaba.com, alibuda@linux.alibaba.com, 
-	cel@kernel.org, jlayton@kernel.org, neil@brown.name, okorniev@redhat.com, 
-	Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org, anna@kernel.org, 
-	linux-nfs@vger.kernel.org, achender@kernel.org, rds-devel@oss.oracle.com, 
-	philipp.reisner@linbit.com, lars.ellenberg@linbit.com, 
-	christoph.boehmwalder@linbit.com, axboe@kernel.dk, drbd-dev@lists.linux.dev, 
-	kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, kch@nvidia.com, 
-	linux-nvme@lists.infradead.org, idryomov@gmail.com, amarkuze@redhat.com, 
-	slava@dubeyko.com, ceph-devel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e99dd5221c71cbf9aafb5737468d814cb83b9174.1790602223.git.asml.silence@gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20261005_021601_324752_AF5BEB60 
+X-CRM114-Status: GOOD (  13.27  )
 X-Mailman-Approved-At: Mon, 05 Oct 2026 02:16:59 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -93,29 +79,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Oct 2, 2026 at 3:19=E2=80=AFAM <netdev-bot+sashiko@kernel.org> wrot=
-e:
->
-> Thank you for your contribution! Sashiko AI review found 2 potential
-> issue(s) to consider.
->
-> Critical: 0 =C2=B7 High: 1 =C2=B7 Medium: 0 =C2=B7 Low: 1
->
-> If you believe none of the issues are legitimate, please reply to each
-> issue of Medium severity or higher and explain why the AI is wrong.
-> If any of them are legitimate and you plan to respin, please let patchwor=
-k
-> know by including "pw-bot: cr" as a separate line at the end of your repl=
-y
-> (one such reply per series is enough).
->
-> - [High] A TCP reset or TCP timeout while the connection is waiting for
->   send space can stall the dlm connection permanently.
+On Mon, Sep 28, 2026 at 02:32:22PM +0100, Pavel Begunkov wrote:
+> +static void nvme_dmabuf_map_sync_for_cpu(struct nvme_dev *nvme_dev,
+> +		struct request *req)
+> +{
+> +	struct device *dev = nvme_dev->dev;
+> +	enum dma_data_direction dma_dir;
+> +	struct bio *bio = req->bio;
+> +	struct nvme_dmabuf_map *map = to_nvme_dmabuf_map(bio->bi_dmabuf_map);
+> +
+> +	dma_dir = rq_data_dir(req) == READ ? DMA_FROM_DEVICE : DMA_TO_DEVICE;
+> +	dma_sync_sgtable_for_cpu(dev, map->sgt, dma_dir);
 
-I dunno if I want to spend time fixing all dlm bugs.
+This can use rq_dma_dir in the argument.  Same for the other DMA API
+calls.
 
-It seems TCP changes are now stuck because ood pre-existing bugs in
-in-kernel-users.
-
-Sad.
+Btw, given how larger the dmabuf code is now, have you considered
+splitting it into a new nvme-pci-dmabuf.c file?
 
