@@ -4,72 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0F5E3CA9ECB
-	for <linux-nvme@archiver.kernel.org>; Fri,  9 Oct 2026 16:56:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DBDFCCA9EC7
+	for <linux-nvme@archiver.kernel.org>; Fri,  9 Oct 2026 16:56:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fZk+12RxIUpX87ik4Sju0ydtLd9LDkS9K++2ovit7qo=; b=LXt1/+9kP/mo3/4frfjY7wzWzb
-	+toztZTKPU9nGf4ruUzMjFhKaYzFy4OaOa5p/UEyQ+/5gqFnL2MFuegekW6lp+faEpFtP1OtlUc4B
-	SQuk1izf1n1htAiIHd8XM80ezLHgXUQkTmCNHYPKZuoQIw2QpTr97MSF2PfUs1LBN3CglYhmxORdb
-	9mMG+BfB3YzI0XFm97IcEDpWIogtUubkoy5ok306JFHb9vh5lhHwQM7VBFtlCVZFcyRSV7WOB9MyN
-	xf2enDHzS575gedFYCksl2i75r6NGJwclX4V+uoqclG/E9tj5+qqsnDpwpYK05/WmrxGjuOfCTf7q
-	8Y71AlkQ==;
+	bh=vy1zLQ9YKYGfqugQgTKt/AfV3rhwVDXY3KU8gp6bN10=; b=Ln9zuK4OdFIXT2nm1Y0UAqGDjR
+	J5k6NmqmU/LYRlyJEg0n4YwyoxyqbXCgdM0nDvV2ryq4pLC5FU9BvGxFwj4X/j4D4JAoQUg1KLcKj
+	0lk26l9qvbd9vSIV5yka4W0K22txR2/rmGbY/vf0GEkbzVBVq4PV6q3pW4EiYMygaPwVLgZ+Dx8Lw
+	P7Mp6YeYUEz45QOr5rjrpe3ONOQgWFuLtameqCHQTzUtumEj2tegzI3tjbjm1NbDB+1MoA3OAYTVq
+	L9tJy1pPDRiHGboibJ6Vb0rWshGJWE2WcpJSz67p5vhQp/0zxvHvqKJFJ8TAgodyIsLuuaLhwsl6l
+	m6/fwgLw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xFDtf-00000006hZE-1Xle;
-	Fri, 09 Oct 2026 16:56:39 +0000
+	id 1xFDtg-00000006hbZ-1hZj;
+	Fri, 09 Oct 2026 16:56:40 +0000
 Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xEGWB-00000001ayu-1kf3
+	id 1xEGWJ-00000001b2j-2uJd
 	for linux-nvme@lists.infradead.org;
-	Wed, 07 Oct 2026 01:32:33 +0000
-Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-4a01933b584so11485045e9.0
-        for <linux-nvme@lists.infradead.org>; Tue, 06 Oct 2026 18:32:26 -0700 (PDT)
+	Wed, 07 Oct 2026 01:32:37 +0000
+Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-4a16c399641so13172045e9.2
+        for <linux-nvme@lists.infradead.org>; Tue, 06 Oct 2026 18:32:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791336745; x=1791941545; darn=lists.infradead.org;
+        d=gmail.com; s=20251104; t=1791336754; x=1791941554; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=fZk+12RxIUpX87ik4Sju0ydtLd9LDkS9K++2ovit7qo=;
-        b=K0Wy29GTCIZ/Uqf92RT0Z0jaB/WLhVGj+epbkq5AJdzlcdZMUsqpon+GOEKpEEi+Yx
-         YZ7NVQdQkoh6A4SHeFMx1Bv941fwZ/qj84Un44clFysCoNHDhj/bjSlgVxPdp+ItnqCI
-         UI5cHB4XPXSc7qYB/ME5kgqITk9Hd/IUx/gjZj/3uNcEihF9hE4cCPL8m0mQUtzOHhwg
-         UF5VudYT2Vdlg0T60O1DftQ7tUmaelTi9DSIvzym/C/ZeFQRb731YET0WVQ33/JACCTQ
-         TxaBtpXBAiGrxxnhZps09VFko5+KbV6TAIUBpYAe4BIovOdMykH5v3vKOoUK9+BjmIOs
-         1lxA==
+        bh=vy1zLQ9YKYGfqugQgTKt/AfV3rhwVDXY3KU8gp6bN10=;
+        b=oPWL87a3SxH1xFGZxxhnAUkOOsVYBM8viv7Pe9D184r5DJXnZWyRX/rn1BXKGhquWN
+         nMAbGR4GsivXGRbYnrNqgNXIlfpO2v/yc8THPuHXXepAXpM5/589xknK9fRYQwNNuXSj
+         Vexy+3FAI6VujqavIk1Y2JqttXlQpoJzQPqJVbHk9KYEMGa4cN8ohNN88akbg1kU2zKN
+         bfodLdQBY+NbABZ6v2928Fk2Gy4GIXUMUl/8SyiqA/Cv2LK0pQus0YPFjVai77NsmPe3
+         k8M9UT5H6x5OiZqcqa5D3VKWE4E8Gcj5foP5wcm+cPjjUMHMI+ipUOLZ6OkXS57wcell
+         cIdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791336745; x=1791941545;
+        d=1e100.net; s=20260707; t=1791336754; x=1791941554;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=fZk+12RxIUpX87ik4Sju0ydtLd9LDkS9K++2ovit7qo=;
-        b=NmnU4Qg/0dipGeVh4fxa2Rw0oQ/NOw403F9Mh3EVSQaQ9gbh7q4YVOSE92ebHb4+6U
-         XQyvJzmRjVGfuVHUPZNjpgOgPkVMUpXyLdHSGiZq1MWGG7q91eZ+00IMtkilLj8aBbLS
-         aqQu5cEQ4J7e0l8F60sHtEHJ9Yk5kM9soh7Pao6mBXsX/rGSeSR2Z1/Ai+2IE/hAUaMM
-         jKq3EpzsGSqpFPy+O/SuISgaxDYvGmP2N54Y4+HBziVcwIzM/GeaQ655BFwvVgKzd40X
-         mFWMXbG3YvUK/Ku7uIKAGNcEPscVZ8vNVVt0jE7N6wmaVtpTUAsFTcKnw2SHt9hJUGAL
-         jLMg==
-X-Forwarded-Encrypted: i=1; AKwUvBzjNYTGQZO5qV5hLqRjdxBbejVsnogWkiwYduqFUIJySxpH6yKPTegH0MeFYFpU3VJIIMrb0zf3PJvJ@lists.infradead.org
-X-Gm-Message-State: AFuF++kUpELJ3nObzv1s/LrruxLgXIv+6Kus6nvaZhoyjn6tXTaWX1GU
-	NqQSud1da9E2wN3l2MID8Cz/v2tCqspABx70X/NWlzD2OfxF6CEzv5Zs
-X-Gm-Gg: AYBFou3hWN18gQyouZXymBpUHK986sS0sid45n/2PwpGxnPryuQtWIT8Mf1Qp4vsvYm
-	2PozSKpFUzQsYJTqXPTcie0S/UHerhCBz5FgdF20Cl/5dL/1cqi1+UaLp5hX+02UFvK/5Fa+Hdk
-	Su1+kZiTV6LeUwUvXrqk5SICobqyA+G8g5Gm3gWUadHUk/w+B7qH6ZAe8Gc8tVYAxNQoTWCU8fn
-	ycxw7BWhKq7Vh4FtwlZa/YpaKQF/DNQVi+9kRFMGE7ugVSEgiL9/y/6/BwJwHwOC+/Dc+nfmUnO
-	IkN84T0Ky8nF6wfiT+uhzPWo2CzkrCIuIYdAhKCzKzeAvq1t5hN3JETJoRUjNxQOhLZZMFE8unP
-	qxlsWRVWVojpDad3equSv/ZP1r+TlmgFkbu53UBKLhJ/6i1ricGnLr7grziKsRM8uO0t9tlfXy1
-	UwC5dyr4Bwvd5V+PjGrN/o7xI/UTP2nXcaLrC4+OpsLEAjWYtp0vnnYvd6+/IgSJa7Ql03Z4vJh
-	Mb/7/wlYQUK0JzaWZN1gDHVftzS7nim50K6nikPYUsUpTqNV1EF07m4AYZtH7MHGn9CxaLMgroR
-X-Received: by 2002:a05:600c:3b8d:b0:49f:fbad:29c1 with SMTP id 5b1f17b1804b1-4a1806611acmr8359665e9.33.1791336745490;
-        Tue, 06 Oct 2026 18:32:25 -0700 (PDT)
+        bh=vy1zLQ9YKYGfqugQgTKt/AfV3rhwVDXY3KU8gp6bN10=;
+        b=AXPJ2CkbAu/L2LLFluCIiWn+Hb4plPoXoFoHbMdyJMEasqwjbFPOfPmerfSaUgM1jt
+         +1tN9pKSH4gJR78SuK+DPGzwXoT1B2V/JjzgXfCENCaASWmWq5YSa8SX5oFzhRo1Vs24
+         YByNBnLkWazBya/rf2bWvXf3Ml8J5S7kOIj/hzB/IkRE6wJEYZPMiySidOGHQx6kcm9E
+         sKbFcfnE3Kl7yNK1SmytoKA91j4cXVsfqP8ty6stQl017b5LgRfdCseApYPeiLz3Pd4N
+         xSSgdAovvriq3Do5zp4G6v4i/uliHsWBY6vz4HgR9I7nC6/BIdya97Zz2rkhbBYYwXdd
+         nGzA==
+X-Forwarded-Encrypted: i=1; AKwUvBwKCObk2kEjdzkDlKywCcrpuirIXocELj4vKWlfVQApSvzfb7Z+FfUlfPRwctfK2C3dEsudWCtEFAhh@lists.infradead.org
+X-Gm-Message-State: AFuF++m4E8opwYFmBm1UXpP4NVptzWk4irlKnb1uk1bZWfa9e0LQ0OX8
+	B4dSmcSB4cb/Gy1YDNehMdUSs9TBI+ZUSXiJOJU4Ve56q2tsFH7thcn42pN0Dg==
+X-Gm-Gg: AYBFou0o6hiR04gt27JSUQCOz5NEZQtvfuVdBsVvBu0A89dZWHgIUP5NAaRs4BjzPiI
+	Hl+utneVm81W2YEHgIHM0VOcq00hKQ3g5CyUXDOX+Kg8wZJY2GtDEEVaYIO9M++OOe3HSDHAbeS
+	chGROeraRgIkylrdCE6CbhcksJ/DTbFwgg5xUnigwyqaVNA7CvZsOFnAYV4dxOrzOhZ6ho6RwFp
+	CSKeGHKg6cFKb/UEw4P1QR/CXwVqM+4ZJLuGt4IDZqwRkPE/P6glNoCteerXAcD+U1JuxMmHDex
+	w7ok6Ms4UxfvUvcX/bCyyWKx4k1pmv9hu+sn00Crt5M1yx4IrtFzpF5wIPkgvcXMoowoLkpAArW
+	eefacFQsmT4bgfY/T6C18z13/4oIAkbk4kzQKRgS0NQbLe9HB10zmgnOuKOiq57mV9ahO4cZwgR
+	wMI1BhkLo0hqepWS5+xZkU7SRQqaVM1pEj+myb/6uCImf1eeckuUxVvzmZGVOXFZzF3CBFH0T6A
+	h/+IdztAnQI+vOl2PQZVzM6kc/136gucdJkhBbrJJJq4UM1FE4qVWFbZFuzr4QSh6ir/+W2lHrb
+X-Received: by 2002:a05:600c:3b99:b0:4a0:1c10:1372 with SMTP id 5b1f17b1804b1-4a1806501eamr8969125e9.27.1791336754109;
+        Tue, 06 Oct 2026 18:32:34 -0700 (PDT)
 Received: from 127.mynet ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a17f6538b7sm21183615e9.13.2026.10.06.18.32.23
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a17f6538b7sm21183615e9.13.2026.10.06.18.32.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Oct 2026 18:32:23 -0700 (PDT)
+        Tue, 06 Oct 2026 18:32:33 -0700 (PDT)
 From: Pavel Begunkov <asml.silence@gmail.com>
 To: linux-block@vger.kernel.org
 Cc: asml.silence@gmail.com,
@@ -101,17 +101,17 @@ Cc: asml.silence@gmail.com,
 	Mikulas Patocka <mpatocka@redhat.com>,
 	Benjamin Marzinski <bmarzins@redhat.com>,
 	dm-devel@lists.linux.dev
-Subject: [PATCH v8 08/13] nvme sgl fixup
-Date: Wed,  7 Oct 2026 02:31:51 +0100
-Message-ID: <e4caf53b7334af5390d4098cb5883ff551246a5c.1791336002.git.asml.silence@gmail.com>
+Subject: [PATCH v8 12/13] io_uring/rsrc: add regbuf import flags
+Date: Wed,  7 Oct 2026 02:31:55 +0100
+Message-ID: <4a4bfd9b4e444ecf9025e85b5cf0f864aa45c139.1791336002.git.asml.silence@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <cover.1791336002.git.asml.silence@gmail.com>
 References: <cover.1791336002.git.asml.silence@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261006_183228_345778_768960AF 
-X-CRM114-Status: GOOD (  13.93  )
+X-CRM114-CacheID: sfid-20261006_183235_764747_2CF8E335 
+X-CRM114-Status: GOOD (  14.11  )
 X-Mailman-Approved-At: Fri, 09 Oct 2026 09:56:33 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -127,43 +127,82 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+We'll have special registered buffer types that can't be used with all
+opcodes and need special handling. Add separate flags to control
+registered buffer import, which will be used to specify what kind of
+buffers the caller can handle.
+
 Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
 ---
- drivers/nvme/host/pci.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ io_uring/rsrc.c |  8 ++++----
+ io_uring/rsrc.h | 24 ++++++++++++++++++++----
+ 2 files changed, 24 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 651f7654d73b..79b3c1092e4d 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1287,16 +1287,15 @@ static blk_status_t nvme_rq_setup_dmabuf_sgl(struct request *req,
- 		struct nvme_queue *nvmeq, unsigned int entries)
+diff --git a/io_uring/rsrc.c b/io_uring/rsrc.c
+index 6930a6897b41..6e4fe70b316f 100644
+--- a/io_uring/rsrc.c
++++ b/io_uring/rsrc.c
+@@ -1315,9 +1315,9 @@ inline struct io_rsrc_node *io_find_buf_node(struct io_kiocb *req,
+ 	return NULL;
+ }
+ 
+-int io_import_reg_buf(struct io_kiocb *req, struct iov_iter *iter,
++int __io_import_reg_buf(struct io_kiocb *req, struct iov_iter *iter,
+ 			u64 buf_addr, size_t len, int ddir,
+-			unsigned issue_flags)
++			unsigned issue_flags, unsigned import_flags)
  {
- 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
--	struct bio *bio = req->bio;
--	struct nvme_dmabuf_map *map = to_nvme_dmabuf_map(bio->bi_dmabuf_map);
-+	struct nvme_dmabuf_map *map = nvme_req_to_map(req);
- 	size_t length = blk_rq_payload_bytes(req);
- 	struct nvme_sgl_desc *sg_list = &iod->cmd.common.dptr.sgl;
-+	size_t offset = req->bio->bi_iter.bi_offset;
- 	bool pooled = entries > 1;
- 	dma_addr_t sgl_dma = 0;
- 	unsigned int mapped = 0;
- 	unsigned long tmp;
- 	struct scatterlist *sg;
--	size_t offset = bio->bi_iter.bi_offset;
- 	size_t remaining = length;
+ 	struct io_rsrc_node *node;
  
- 	if (!entries)
-@@ -1305,8 +1304,6 @@ static blk_status_t nvme_rq_setup_dmabuf_sgl(struct request *req,
- 	iod->cmd.common.flags = NVME_CMD_SGL_METABUF;
- 	iod->total_len = length;
+@@ -1731,9 +1731,9 @@ static int io_kern_bvec_size(struct iovec *iov, unsigned nr_iovs,
+ 	return 0;
+ }
  
--	nvme_dmabuf_map_sync_for_device(nvmeq->dev, req);
--
- 	/* entries == 1 fits in the inline descriptor; more needs a pool. */
- 	if (pooled) {
- 		if (entries <= NVME_SMALL_POOL_SIZE / sizeof(*sg_list))
+-int io_import_reg_vec(int ddir, struct iov_iter *iter,
++int __io_import_reg_vec(int ddir, struct iov_iter *iter,
+ 			struct io_kiocb *req, struct iou_vec *vec,
+-			unsigned nr_iovs, unsigned issue_flags)
++			unsigned nr_iovs, unsigned issue_flags, unsigned import_flags)
+ {
+ 	struct io_rsrc_node *node;
+ 	struct io_mapped_ubuf *imu;
+diff --git a/io_uring/rsrc.h b/io_uring/rsrc.h
+index 73d7b1ebf0b6..351995b61e68 100644
+--- a/io_uring/rsrc.h
++++ b/io_uring/rsrc.h
+@@ -62,12 +62,28 @@ int io_rsrc_data_alloc(struct io_rsrc_data *data, unsigned nr);
+ 
+ struct io_rsrc_node *io_find_buf_node(struct io_kiocb *req,
+ 				      unsigned issue_flags);
+-int io_import_reg_buf(struct io_kiocb *req, struct iov_iter *iter,
++int __io_import_reg_buf(struct io_kiocb *req, struct iov_iter *iter,
+ 			u64 buf_addr, size_t len, int ddir,
+-			unsigned issue_flags);
+-int io_import_reg_vec(int ddir, struct iov_iter *iter,
++			unsigned issue_flags, unsigned import_flags);
++int __io_import_reg_vec(int ddir, struct iov_iter *iter,
+ 			struct io_kiocb *req, struct iou_vec *vec,
+-			unsigned nr_iovs, unsigned issue_flags);
++			unsigned nr_iovs, unsigned issue_flags,
++			unsigned import_flags);
++
++static inline int io_import_reg_buf(struct io_kiocb *req, struct iov_iter *iter,
++				    u64 buf_addr, size_t len, int ddir,
++				    unsigned issue_flags)
++{
++	return __io_import_reg_buf(req, iter, buf_addr, len, ddir, issue_flags, 0);
++}
++
++static inline int io_import_reg_vec(int ddir, struct iov_iter *iter,
++				    struct io_kiocb *req, struct iou_vec *vec,
++				    unsigned nr_iovs, unsigned issue_flags)
++{
++	return __io_import_reg_vec(ddir, iter, req, vec, nr_iovs, issue_flags, 0);
++}
++
+ int io_prep_reg_iovec(struct io_kiocb *req, struct iou_vec *iv,
+ 			const struct iovec __user *uvec, size_t uvec_segs);
+ 
 -- 
 2.54.0
 
