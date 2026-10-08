@@ -4,93 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2768ACA600B
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 Oct 2026 13:26:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E2408CA6007
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 Oct 2026 14:14:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=M1+oFp0gxdXfQLvRPA6qqYXrymxpx83eWWBEaMxgtbM=; b=YCZmUfc3sXeOj9DS+euWbsUPsj
-	/r1dXzhkcynhmuF2Y3hv07RnPmpARABzkwUJ4gQOyK2LTPkgEJ47HJkDbyprOkOZk6emHzDN0rOOL
-	KXBs+QLxy6X96ul28pWEV/swzy0rdaxjmyTtCixilyDBNfQmPHI4fyPGu5VZH9L0JUvieAzMN+IkF
-	dHcHrGrABt+3PgVQsDtLHh8UtibAFstF9Dc7CkKuJ4LoCRiz560JIT8t0q1IRdemv3lMtM5GKjXPK
-	+HLkmk8+ewcY8HYkj0kSkCOnfGpZVHH96wtK6ieYXnsQpTftrvV4qGrGhHbIjCYXs5XPESoKvQOl2
-	NhN+yizg==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=KrLj7myEvmL1NDZSoo6YVPO8m4//5te8foqX8lpo05U=; b=3J9EzQ3EZocIKJognCPcAdoWVP
+	YfKMMy2MoE1276aTkmTYcSdETOm7ipGXosCTpAIn44WKD/FT7zd/wnDnGS+1NCAbkUyMWoEPaqDlP
+	08Z4eN0w7gXXnXmal4TmGStN4ic88/aw0RbVCCsZFhb8cX6oF+nKYjHlV9GV4hB2KYrkoJWnUzqXy
+	ccUjVNcTG2IrEDG78ywEBEqVdyie0T+GQmmw942uHmj2AUp5wW4sXxKff0w16MdOn0m6FamnKJoyr
+	WnSjzb+PyHqz8/v4t5Hws0Xx4yW44fY4uVqvp7KPgbReTO/lNhLd3hbwgs9VTUmWoTsAEMycahNpC
+	gJVwaXKA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xEo8j-00000004SWJ-1RjH;
-	Thu, 08 Oct 2026 13:26:29 +0000
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
+	id 1xEosz-00000004WIO-21Sd;
+	Thu, 08 Oct 2026 14:14:17 +0000
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xEo8f-00000004SVy-11Db
+	id 1xEosw-00000004WGo-2yL7
 	for linux-nvme@lists.infradead.org;
-	Thu, 08 Oct 2026 13:26:27 +0000
-Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-88834d30002so1525231b3a.1
-        for <linux-nvme@lists.infradead.org>; Thu, 08 Oct 2026 06:26:24 -0700 (PDT)
+	Thu, 08 Oct 2026 14:14:15 +0000
+Received: by mail-wm1-x330.google.com with SMTP id 5b1f17b1804b1-4995b0343c1so44475735e9.3
+        for <linux-nvme@lists.infradead.org>; Thu, 08 Oct 2026 07:14:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=isslab-korea-ac-kr.20251104.gappssmtp.com; s=20251104; t=1791465984; x=1792070784; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=M1+oFp0gxdXfQLvRPA6qqYXrymxpx83eWWBEaMxgtbM=;
-        b=cN0Bc4Hq1a4Ebli/oTDT6i6QN+nRggqgVDrwPbmtzKLVfqOQgez261fwWqSjaC1Qop
-         0PSPzx6kiup5b1pUPVkVtVqQSKXyjqpTpYyLORP5xjos4QHnZSVm/2RVB5pAKXE35XeG
-         Tw3ZHiV3hO/sZnTtQ0Yp/iG96slpMURsN5ytxKl+0GB19OqGx3vu4skNJlF9L85W48f2
-         xkmmR8QArw1VnhboAIA2vl+gVPDydjG0IduifAUXmFagZ2BzFzv7qodrOmbUJdNt0Hy2
-         kOeLgK7dfz/EDrjHJOR5JgHgRyujSnlTZLmIvJj9wGdqyPvWdBUWU50y1rqY/ps6QkGB
-         CNXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791465984; x=1792070784;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=crusoe.ai; s=google; t=1791468853; x=1792073653; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=M1+oFp0gxdXfQLvRPA6qqYXrymxpx83eWWBEaMxgtbM=;
-        b=pb0l5Eki1e1sVfbbypZHax54131x/L17k+lnl564kvXTQRpHWaF3UuV651GnAZCL87
-         3IEquNl8/LIZ5RKoUjaz5po4AshvGrsJXDIgNzc69pfdI4xlHc4wK9X7b1PXz9xdXp9w
-         NnQxd/E3dYHSJGXbxWs519Yw3yN/BF9I/9+1zJXB2NbgaFD5unVjLAr3C6xqeJgxoyVz
-         rK5/HNJD8DzN+XWPgMEzzv51CY+oRuy9l7e3tBMk/u3uRXJZuFcTPphdx9ByOp1ZxZWm
-         yOdhYP/0NHExCVLftZAjzK05RFywsfdEfG2njdBKcgON2BQ8AafyWCgXqOh/36Nph7FU
-         X8pw==
-X-Forwarded-Encrypted: i=1; AKwUvBy+fdqEfyUgQ5AxVtL59i+x8VPKy/AYnUTVphB9guRtSjI31Ulrh/tR7bRRdGZjR/5zQnGaKrYEFTKf@lists.infradead.org
-X-Gm-Message-State: AFuF++lyOCgqxMYmlI+ZHaMvib05CvAVHPrG7Vxb5KEsvP18+jshVHVr
-	QF+a6tSDrnuvTcJQHrcG9AO4ukyxJPbF/dZZojUE1cp4DzusrOPVBGEnUjv8MdHcAKY=
-X-Gm-Gg: AYBFou2UJVALSdBatRw04KYT7TjT7sutkqKnqazEUQQ3L4hf4c+vIE5LKsBbT+0GbeE
-	7ywZD2T9uqPxpbl5O4ofiDeCTtYa3hXITP0SD/CKt/msR5TRFgUhY4MD39xfAOdSSnwBWUkv8q8
-	dmFC178HQyDjSO4Lj/x7fTHn5ms8f6IoelDmdLYEwPHoNoSTpPi3+niZ1vNagobPc/2pLJox9zC
-	qdwEAC2Bl4sPiPTCuGSc11l1Dpa3fPckTPeupgmt/h7TwOpUfoYnzWF8Hru7Hx69tN8Bk3xPhhK
-	r109CAwdlI91XrzTYhNxB/1lUyecoXuOM1E8XEozsCvT+wBbOj43+ZVqaj5xrUtpO4IrFZBYDl2
-	2roAGKE+bx4Faob/ZtapNlSZJa5NjPBvPxYRDnMZpodvZT4S0tGH8WixCh8ivEm35rCDtUoGQGM
-	7zDVPWaWpnaSYKSNhUJmmFp0w8Ef26kFc5+zyrQ5ynmGc75Uln9k212BHx9r8tLbFQ0BHyB5CEh
-	URYxZfMyMmhzAKAUwxt
-X-Received: by 2002:a05:6a21:3995:b0:3de:61f3:3403 with SMTP id adf61e73a8af0-3e1340e0c7bmr4281826637.54.1791465983550;
-        Thu, 08 Oct 2026 06:26:23 -0700 (PDT)
-Received: from localhost.localdomain ([2406:5900:1044:110c:af47:f737:9040:a59])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cd34f318ce0sm17289a12.4.2026.10.08.06.26.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Oct 2026 06:26:23 -0700 (PDT)
-From: Yehyeong Lee <yhlee@isslab.korea.ac.kr>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: Nitesh Shetty <nj.shetty@samsung.com>,
-	Hannes Reinecke <hare@suse.de>,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	gliuxen@gmail.com,
-	linux-nvme@lists.infradead.org,
+        bh=KrLj7myEvmL1NDZSoo6YVPO8m4//5te8foqX8lpo05U=;
+        b=QVHGWDpfd0lov5iqpGK0lvG660obysIfAqwB9lorugjtf4otW6+xbdfn/Pg40sgnUQ
+         WHG6FpsKiB80xegZYETcOpmfU/H7nLfNwwGEqLd9l7Q9M1Po6H0SybdNjT9XrkOs+BkX
+         JqzaBBte7B8Xo6+98eyPjcI3FG+sm2OjHeqpCTBxkvm1lDbcby5L6Oe501rbTbDed6SJ
+         zVT60ZLwNNCgkeVprWmkoUSehaBbJAIbOhonkyDGiDssMMGPKRFp2H/1YmEQZrUiknHC
+         EK1KSVb5Q5LGtgHJkVaSpz4ukn8yl3eUsb209Oie0ogbDvz7ZWTxB02rD/IAbmYalIlB
+         NqDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791468853; x=1792073653;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=KrLj7myEvmL1NDZSoo6YVPO8m4//5te8foqX8lpo05U=;
+        b=zGTgoA/cxCWLUKAXCBYgqYSMhQtMRYUOsxlmnlRtFDiH/vBcpHm6iUlNZhDwpG21ql
+         nSjoRqILMxgzmMdeblJIlBcPs2HO9vZZtUrUVPHOBEAwUpAEXshxRj1zKJdS91tkVMfI
+         gq8KKkcTgMNz0EOthLqfsNxlGFyO+tI+7Bu4i1R/oxrY6uvxrFU3A6BxAmwW2/XpgaaT
+         bH5Pv2LeLkOUyKkyC6B6BSt+EYk/05RLXrtFwknXyiMg6RM3gsbYg8k1oGetK/pH8BrF
+         lD3b1jbntiKplglL8NdxkqmKbfT0/wxfsmiZBf54y8VJyCue9Twgh2aT8zB5E4CzCJs/
+         4zNg==
+X-Gm-Message-State: AFuF++nn55oCmSLLDxa6Up6h1bwpLqgJOZye7rkFHL7BmnfBMzg6RdQP
+	xAup00vOxHUlfuFb635tpC2LATpbhWAtRL54Z7yRp2Bysw2uGcT3CxYmIrG2f5Q7TwI7fln9eXS
+	q11DZjrtKlw==
+X-Gm-Gg: AYBFou3Wv8zY3JKLYjGKxJBGxDpWD2Gj3WhLBBHgKCqB0r6YNLj1whb6eTD5wrrG13H
+	siyblkyCS7dFNaEx51jJtZlWkCVsMjuGvlRsEnrBguKszQ98x3mU6o8Y2KuJGJv3bfS/DENPXQt
+	+eNY590ldZwNK1RYhv3Mpy8DTDH95Wg9wzrcwIKHo6cpx0VfJShkWPFHATLfAU0v91XCAEjN6tE
+	DaCuGxftXRfRBoeeVZt3MsdJYKFHBECtUmHwTTptldiuLK6LjhbN30FujsqqSvxB2tfiNCkhwOP
+	hASUPhvNSYQcoNHS4HH+z5xPUypRaArVlLEPeJe2W176onxy7GfYRRw90J2vKouRR6QCyLWqeel
+	eTtD6j/zeSuDRMakfuN/VtWZBycnaG3oQtIVLscknzjUwFhXNyL1oUQhfd1Il4XWXHIbstn4/zj
+	2z1wUkUW0s/yl2QSzbrVCmVpvLP75ZJwUpaEql+pLJ1p+6m6I9jXtaGCK/6+UnBElkw6/ZHEsj9
+	3JunZbW6LpTeffi8KBdQS1Oqln68mW8MFJB
+X-Received: by 2002:a05:600c:8b6e:b0:4a1:78da:d271 with SMTP id 5b1f17b1804b1-4a18064be59mr101916045e9.30.1791468851533;
+        Thu, 08 Oct 2026 07:14:11 -0700 (PDT)
+Received: from MBP-Krishna-Iyer.civet-hops.ts.net ([80.95.100.53])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a185d914fdsm113358935e9.7.2026.10.08.07.14.10
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 08 Oct 2026 07:14:11 -0700 (PDT)
+From: Krishna Iyer <kiyer@crusoe.ai>
+To: kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	Yehyeong Lee <yhlee@isslab.korea.ac.kr>,
-	stable@vger.kernel.org
-Subject: [PATCH] nvme: bound FDP config log reads to the received buffer
-Date: Thu,  8 Oct 2026 22:26:04 +0900
-Message-ID: <20261008132604.1168105-1-yhlee@isslab.korea.ac.kr>
-X-Mailer: git-send-email 2.43.0
+	nilay@linux.ibm.com,
+	hare@suse.de,
+	saravanand@crusoe.ai,
+	sjpark@crusoe.ai,
+	Krishna Iyer <kiyer@crusoe.ai>,
+	Hannes Reinecke <hare@kernel.org>
+Subject: [PATCH v5 1/2] nvme-multipath: fix path state evaluation for failfast and ANA
+Date: Thu,  8 Oct 2026 07:14:06 -0700
+Message-ID: <20261008141407.22992-2-kiyer@crusoe.ai>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20261008141407.22992-1-kiyer@crusoe.ai>
+References: <20261008141407.22992-1-kiyer@crusoe.ai>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261008_062625_587236_58810413 
-X-CRM114-Status: GOOD (  20.55  )
+X-CRM114-CacheID: sfid-20261008_071414_772302_2ACF5CAC 
+X-CRM114-Status: GOOD (  17.48  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -105,171 +108,109 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvme_query_fdp_granularity() parses the FDP Configurations log using
-sizes the controller returns, without checking that they fit the buffer
-it was given.  The log size is only bounded from above before
-kvmalloc(), so a size below the log header makes
-le16_to_cpu(h->numfdpc) read past the allocation, and a size of zero
-yields ZERO_SIZE_PTR and faults.  Each configuration descriptor is then
-dereferenced (dsze while walking, and nrg and runs on the selected one)
-without checking that the whole descriptor lies within the buffer, so a
-descriptor at or past the end is read out of bounds.  The out-of-bounds
-runs value is then exposed to userspace through
-/sys/block/nvmeXnY/queue/write_stream_granularity.
+nvme_available_path() has two problems that keep I/O queued when it
+should be failed:
 
-A malicious or buggy controller triggers this during namespace scan with a
-short FDP Configurations log:
+1. When fast_io_fail_tmo expires, NVME_CTRL_FAILFAST_EXPIRED is set and
+   the path is skipped, but the function still falls through to
+   nvme_mpath_queue_if_no_path(). If delayed_removal_secs is configured
+   the I/O is requeued indefinitely, defeating fast_io_fail_tmo. Only
+   fall through to queue_if_no_path when there really are no paths;
+   if a path exists but its failfast timer has expired, fail instead.
 
-[    1.104828] BUG: KASAN: slab-out-of-bounds in nvme_alloc_ns+0x39a6/0x4480
-[    1.104848] Read of size 8 at addr ffff888009fd8fe0 by task kworker/u8:3/52
-[    1.104852]
-[    1.104857] CPU: 1 UID: 0 PID: 52 Comm: kworker/u8:3 Not tainted 7.3.0-rc6-00063-g0c2669a9f4a1 #1 PREEMPT(lazy)
-[    1.104862] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.17.0-0-gb52ca86e094d-prebuilt.qemu.org 04/01/2014
-[    1.104866] Workqueue: async async_run_entry_fn
-[    1.104873] Call Trace:
-[    1.104876]  <TASK>
-[    1.104878]  dump_stack_lvl+0x66/0xa0
-[    1.104886]  print_report+0xd0/0x630
-[    1.104893]  ? nvme_alloc_ns+0x39a6/0x4480
-[    1.104897]  ? __virt_addr_valid+0x209/0x3f0
-[    1.104903]  ? nvme_alloc_ns+0x39a6/0x4480
-[    1.104907]  kasan_report+0xe4/0x120
-[    1.104913]  ? nvme_alloc_ns+0x39a6/0x4480
-[    1.104919]  nvme_alloc_ns+0x39a6/0x4480
-[    1.104926]  ? __pfx_nvme_alloc_ns+0x10/0x10
-[    1.104931]  ? check_prev_add+0xfd/0xe80
-[    1.104942]  ? lock_acquire+0x18d/0x300
-[    1.104948]  ? nvme_find_get_ns+0xbb/0x2e0
-[    1.104952]  ? find_held_lock+0x2b/0x80
-[    1.104956]  ? nvme_find_get_ns+0x221/0x2e0
-[    1.104962]  ? nvme_find_get_ns+0x231/0x2e0
-[    1.104967]  ? nvme_scan_ns+0x2e1/0x8d0
-[    1.104971]  ? kfree+0x2e5/0x510
-[    1.104976]  ? __lock_acquire+0x570/0x1b00
-[    1.104982]  nvme_scan_ns+0x56a/0x8d0
-[    1.104987]  ? __pfx_nvme_scan_ns+0x10/0x10
-[    1.104994]  ? lockdep_hardirqs_on_prepare+0xdc/0x190
-[    1.104999]  ? trace_hardirqs_on+0x18/0x160
-[    1.105005]  ? kvm_clock_get_cycles+0x19/0x40
-[    1.105011]  ? __pfx_nvme_scan_ns_async+0x10/0x10
-[    1.105015]  async_run_entry_fn+0x8d/0x290
-[    1.105020]  process_one_work+0x8ac/0x1b00
-[    1.105029]  ? __pfx_process_one_work+0x10/0x10
-[    1.105034]  ? lock_acquire+0x18d/0x300
-[    1.105040]  ? lock_is_held_type+0x8f/0x100
-[    1.105046]  ? __pfx_async_run_entry_fn+0x10/0x10
-[    1.105050]  worker_thread+0x4ee/0xe70
-[    1.105056]  ? lockdep_hardirqs_on_prepare+0xdc/0x190
-[    1.105061]  ? trace_hardirqs_on+0x18/0x160
-[    1.105066]  ? __pfx_worker_thread+0x10/0x10
-[    1.105071]  ? __pfx_worker_thread+0x10/0x10
-[    1.105076]  kthread+0x2ce/0x3b0
-[    1.105080]  ? __pfx_kthread+0x10/0x10
-[    1.105085]  ret_from_fork+0x52e/0x780
-[    1.105090]  ? __pfx_ret_from_fork+0x10/0x10
-[    1.105094]  ? __switch_to+0x572/0xde0
-[    1.105101]  ? __pfx_kthread+0x10/0x10
-[    1.105105]  ret_from_fork_asm+0x1a/0x30
-[    1.105114]  </TASK>
-[    1.105116]
-[    1.105117] Allocated by task 52:
-[    1.105119]  kasan_save_stack+0x33/0x60
-[    1.105123]  kasan_save_track+0x14/0x30
-[    1.105126]  __kasan_kmalloc+0x8f/0xa0
-[    1.105129]  __kvmalloc_node_noprof+0x2e1/0x820
-[    1.105134]  nvme_alloc_ns+0x1097/0x4480
-[    1.105138]  nvme_scan_ns+0x56a/0x8d0
-[    1.105142]  async_run_entry_fn+0x8d/0x290
-[    1.105145]  process_one_work+0x8ac/0x1b00
-[    1.105148]  worker_thread+0x4ee/0xe70
-[    1.105152]  kthread+0x2ce/0x3b0
-[    1.105155]  ret_from_fork+0x52e/0x780
-[    1.105159]  ret_from_fork_asm+0x1a/0x30
-[    1.105163]
-[    1.105164] The buggy address belongs to the object at ffff888009fd8fc0
-[    1.105164]  which belongs to the cache kmalloc-32 of size 32
-[    1.105167] The buggy address is located 8 bytes to the right of
-[    1.105167]  allocated 24-byte region [ffff888009fd8fc0, ffff888009fd8fd8)
-[    1.105171]
-[    1.105172] The buggy address belongs to the physical page:
-[    1.105175] page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x9fd8
-[    1.105179] flags: 0x100000000000000(node=0|zone=1)
-[    1.105183] page_type: f5(slab)
-[    1.105188] raw: 0100000000000000 ffff888008c41780 dead000000000100 dead000000000122
-[    1.105192] raw: 0000000000000000 0000000000400040 00000000f5000000 0000000000000000
-[    1.105194] page dumped because: kasan: bad access detected
-[    1.105195]
-[    1.105196] Memory state around the buggy address:
-[    1.105198]  ffff888009fd8e80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-[    1.105201]  ffff888009fd8f00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-[    1.105203] >ffff888009fd8f80: fc fc fc fc fc fc fc fc 00 00 00 fc fc fc fc fc
-[    1.105205]                                                        ^
-[    1.105207]  ffff888009fd9000: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 fc
-[    1.105210]  ffff888009fd9080: fc fc fc fc fc fc fc fc 00 00 00 00 00 00 00 00
-[    1.105212] ==================================================================
+2. A LIVE controller counts as a usable path regardless of the namespace
+   ANA state. A path whose ANA state is inaccessible or persistent-loss
+   cannot serve I/O, so it should not count as available. ANA change is
+   transient and bounded by ANATT, so keep queueing while it resolves.
 
-Reject a log smaller than its header, and check that a descriptor fits the
-buffer before each access.
+Also kick the requeue work from nvme_update_ns_ana_state() when a path
+does not transition to live, so parked I/O is re-evaluated when an ANA
+transition leaves the namespace inaccessible.
 
-Fixes: 30b5f20bb2dda ("nvme: register fdp parameters with the block layer")
-Cc: stable@vger.kernel.org
-Signed-off-by: Yehyeong Lee <yhlee@isslab.korea.ac.kr>
+Move nvme_state_is_live() above nvme_available_path() so it can be used
+there.
+
+Assisted-by: Claude:claude-fable-5
+Signed-off-by: Krishna Iyer <kiyer@crusoe.ai>
+Reviewed-by: Hannes Reinecke <hare@kernel.org>
+Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>
 ---
- drivers/nvme/host/core.c | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+ drivers/nvme/host/multipath.c | 26 +++++++++++++++++++-------
+ 1 file changed, 19 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 9bcab3dc4c118..2618b4889f1d4 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2272,6 +2272,10 @@ static int nvme_query_fdp_granularity(struct nvme_ctrl *ctrl,
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 11871f5f18c2..0d6c05f0808b 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -509,9 +509,15 @@ inline struct nvme_ns *nvme_find_path(struct nvme_ns_head *head)
  	}
- 
- 	size = le32_to_cpu(hdr.sze);
-+	if (size < sizeof(*h)) {
-+		dev_warn(ctrl->device, "FDP config log too small\n");
-+		return 0;
-+	}
- 	if (size > PAGE_SIZE * MAX_ORDER_NR_PAGES) {
- 		dev_warn(ctrl->device, "FDP config size too large:%zu\n",
- 			 size);
-@@ -2304,8 +2308,12 @@ static int nvme_query_fdp_granularity(struct nvme_ctrl *ctrl,
- 	desc = log;
- 	end = log + size - sizeof(*h);
- 	for (i = 0; i < fdp_idx; i++) {
--		u16 dsze = le16_to_cpu(desc->dsze);
-+		u16 dsze;
- 
-+		if ((u8 *)desc + sizeof(*desc) > (u8 *)h + size)
-+			goto short_desc;
-+
-+		dsze = le16_to_cpu(desc->dsze);
- 		if (!dsze || log + dsze > end) {
- 			dev_warn(ctrl->device,
- 				 "FDP invalid config descriptor at index %d\n", i);
-@@ -2316,6 +2324,9 @@ static int nvme_query_fdp_granularity(struct nvme_ctrl *ctrl,
- 		desc = log;
- 	}
- 
-+	if ((u8 *)desc + sizeof(*desc) > (u8 *)h + size)
-+		goto short_desc;
-+
- 	if (le32_to_cpu(desc->nrg) > 1) {
- 		dev_warn(ctrl->device, "FDP NRG > 1 not supported\n");
- 		ret = 0;
-@@ -2326,6 +2337,11 @@ static int nvme_query_fdp_granularity(struct nvme_ctrl *ctrl,
- out:
- 	kvfree(h);
- 	return ret;
-+
-+short_desc:
-+	dev_warn(ctrl->device, "FDP config descriptor runs past the log\n");
-+	kvfree(h);
-+	return 0;
  }
  
- static int nvme_query_fdp_info(struct nvme_ns *ns, struct nvme_ns_info *info)
++static inline bool nvme_state_is_live(enum nvme_ana_state state)
++{
++	return state == NVME_ANA_OPTIMIZED || state == NVME_ANA_NONOPTIMIZED;
++}
++
+ static bool nvme_available_path(struct nvme_ns_head *head)
+ 	__must_hold_shared(&head->srcu)
+ {
++	bool failfast = false;
+ 	struct nvme_ns *ns;
+ 
+ 	if (!test_bit(NVME_NSHEAD_DISK_LIVE, &head->flags))
+@@ -519,10 +525,16 @@ static bool nvme_available_path(struct nvme_ns_head *head)
+ 
+ 	list_for_each_entry_srcu(ns, &head->list, siblings,
+ 				 srcu_read_lock_held(&head->srcu)) {
+-		if (test_bit(NVME_CTRL_FAILFAST_EXPIRED, &ns->ctrl->flags))
++		if (test_bit(NVME_CTRL_FAILFAST_EXPIRED, &ns->ctrl->flags)) {
++			failfast = true;
+ 			continue;
++		}
+ 		switch (nvme_ctrl_state(ns->ctrl)) {
+ 		case NVME_CTRL_LIVE:
++			if (!nvme_state_is_live(ns->ana_state) &&
++			    ns->ana_state != NVME_ANA_CHANGE)
++				continue;
++			return true;
+ 		case NVME_CTRL_RESETTING:
+ 		case NVME_CTRL_CONNECTING:
+ 			return true;
+@@ -531,6 +543,9 @@ static bool nvme_available_path(struct nvme_ns_head *head)
+ 		}
+ 	}
+ 
++	if (failfast)
++		return false;
++
+ 	/*
+ 	 * If "head->delayed_removal_secs" is configured (i.e., non-zero), do
+ 	 * not immediately fail I/O. Instead, requeue the I/O for the configured
+@@ -887,11 +902,6 @@ static int nvme_parse_ana_log(struct nvme_ctrl *ctrl, void *data,
+ 	return 0;
+ }
+ 
+-static inline bool nvme_state_is_live(enum nvme_ana_state state)
+-{
+-	return state == NVME_ANA_OPTIMIZED || state == NVME_ANA_NONOPTIMIZED;
+-}
+-
+ static void nvme_update_ns_ana_state(struct nvme_ana_group_desc *desc,
+ 		struct nvme_ns *ns)
+ {
+@@ -926,8 +936,10 @@ static void nvme_update_ns_ana_state(struct nvme_ana_group_desc *desc,
+ 		 * is not live but still create the sysfs link to this path from
+ 		 * head node if head node of the path has already come alive.
+ 		 */
+-		if (test_bit(NVME_NSHEAD_DISK_LIVE, &ns->head->flags))
++		if (test_bit(NVME_NSHEAD_DISK_LIVE, &ns->head->flags)) {
+ 			nvme_mpath_add_sysfs_link(ns->head);
++			kblockd_schedule_work(&ns->head->requeue_work);
++		}
+ 	}
+ }
+ 
 -- 
-2.43.0
+2.54.0
 
 
