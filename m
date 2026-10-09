@@ -4,64 +4,110 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 35E20CA6012
-	for <linux-nvme@archiver.kernel.org>; Fri,  9 Oct 2026 10:17:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 98C52CA6018
+	for <linux-nvme@archiver.kernel.org>; Fri,  9 Oct 2026 11:28:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=95KYDsC/jQyaQyl+pchLNxtyaRNhg4WZf9oEozC3kTI=; b=tWyx6SM/78oW7YdggHMvsoKOPe
-	fzrHqAgNO9K/faZGFXv3hvIArZvnauqWty/I3ffumnqcIhbby/WCrIgsXX+ygB+9kcE7TalrBB8zv
-	exmMhWhNujMDt3TRQibxQzXfzQt8Ve1uREVjvYwHQghcpaMLg2XJrZofILb1XN/XPF8IT/d7V8n0L
-	HjB9BHuI1kPz7bYDfy2kJj92oE1g+FyqDWDbboqCJeYS0oMy4Lgs7rgZr0IFJ508Xna3MRiXLq50T
-	qCZymESjY+KOYpX1c22KHShIZbS1ly34TgPs0nFi2UC0Ud1fwhAll4Q7DtLVr9ij3DFncrjA9PidA
-	2K2wr3ug==;
+	bh=sO6+wgHmizERNlE89bUfmYnUemgnXAS4GsjCPxo/9Xs=; b=z7I4dGvBnyKdOOQEZbnuvLgr9P
+	TmZsoL3BwFzxqqMzZN5fEgRjoItMCDMXWRqaErDF1xc9Vo57IFoVuXIr+uescCRYYsGvU095lC8ua
+	FE5A9OSgNSapde63lg1K4ebyxbA3fK+MsDrv0DKF+i0D82eW8nanyDDB8bB/aly/QweuJe2qbTjME
+	zJPTJVrVBm3CXqP4gxmUGPFNupbpNwMmuzelVNeWUtYzQo6KWTZw95zp8gcXN7XRSLUHV/+f42l4y
+	Y8mQ7iBFsLFNdMC0evgZYaXUQB6XI9TdMiPt3bwOiAHmHXe3TkRBpnfm14BB6+m+YJK6NWR2DFQVw
+	s2CUY3FQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xF7f0-000000061gP-0Ur9;
-	Fri, 09 Oct 2026 10:17:06 +0000
-Received: from linux.microsoft.com ([13.77.154.182])
-	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xF7ex-000000061g2-3yd6
+	id 1xF8mE-00000006AjI-38zg;
+	Fri, 09 Oct 2026 11:28:38 +0000
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
+	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1xF8mB-00000006AiH-477c
 	for linux-nvme@lists.infradead.org;
-	Fri, 09 Oct 2026 10:17:05 +0000
-Received: from [192.168.1.70] (unknown [4.194.122.170])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 9E63620B7168;
-	Fri,  9 Oct 2026 03:16:58 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 9E63620B7168
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1791541021;
-	bh=95KYDsC/jQyaQyl+pchLNxtyaRNhg4WZf9oEozC3kTI=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=J31GRIcGb5XJZct6UdxyxnnbY9Pvd4QGcEtGD5mj6myd1Ld7b3xiKeiGm/vms8AdB
-	 joxsm0K95Idvxa6roehEka+Otg/n6Srg+0ysUXeQojxW9eWXzEhy6Q7m+Ib5FDidnw
-	 QOuKZWe8EcFEmAEAf0sknHCuNMW/5Ug/5vpdQc7k=
-Message-ID: <3f4a11ea-bbc0-4dc5-9720-3447346739cf@linux.microsoft.com>
-Date: Fri, 9 Oct 2026 15:46:55 +0530
+	Fri, 09 Oct 2026 11:28:37 +0000
+Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-2db33db4de9so51765ad.0
+        for <linux-nvme@lists.infradead.org>; Fri, 09 Oct 2026 04:28:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791545314; cv=none;
+        d=google.com; s=arc-20260327;
+        b=cs0G3tF13++eTQ5SbAhegOtx2GKTP2uK0l3fig4BU9bdPAZ8bnWXHXNY9e0WMaUtY2
+         AXOxSrATGPs8l7IMu8+u1pAfKZzM7K+wWdASoi5ZMerabIg3QB6ulbVxX0C6YsrzJnHT
+         ZA1BTKWGds53P9ejJ8vsnt4Fp9/m3y5iBvitVGHQXZMwOYwn39uZ5MsmgFocis5bFMBF
+         2vndisd3Goqd26ImQPWnU4rO0m5fCB4vT6Rygm4vM3fcfJNd9EOvN9QXifR5aPLui74m
+         T7XvaRXHBbrzfJlLJ5+VgrWEezesmna88WhhwfMIuZvEmg1reungCh1EPs04LOT37nbk
+         9edQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=sO6+wgHmizERNlE89bUfmYnUemgnXAS4GsjCPxo/9Xs=;
+        fh=z7ja4Hd8a6iVVbyFsQjMvcnVzXE9+c0xFTii2Iwsv8s=;
+        b=EPPupFedTgP+7kQJCvGJ/QzuWbIIBlxwZv0TcN73A0Wvs+WJ9nBjNIDgTu5jmTi9d9
+         PoCVpJt38rKXLow0bGoE+Naf1tvtml57kGWkTwa5ugFYEAUWkuOtgNqJ2apuBFHCBRyb
+         bWAMPVZo3X6bxRt+yLkD3SPkYf3J8FIENeIEQkCOIM5L4QSgkeFNDduz7WKsjI1SkzV4
+         iY1304zNB/xKmep0n4BUom6/xIcpPOepZbo6qvgDuablUFUIvb7sspw4px51PkPPhHRv
+         suDpZk82Ir0EUuVpn+pGtEy9aAVF/EXD+yfkKYkqkCgSmZQQxBpjttxRfKDTPX6UMPYI
+         UnXQ==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1791545314; x=1792150114; darn=lists.infradead.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=sO6+wgHmizERNlE89bUfmYnUemgnXAS4GsjCPxo/9Xs=;
+        b=J3zukFTRRDYo/9xCUdqv4ne1vk9dA/SGa48Gf2pdeGlLInAnjaGyQDuZSutzqQIlZS
+         O3a7U/Rh7cfKz0AMA98dpAUH5vUokeHC/TIMmwHcbjqcGtY6LUy1CVgPC+/ahtsgDAlH
+         6bsTwYmWylh0MzwNdufBhzNDbrvvcDCswjJGCqLh8dEydfBeW3cn254j2rCp8ho3B71t
+         RH8gVLM2Hqhnw/kCmfGJUJOZgnK6wFf293AqXGdCsWjt/KPD5xOAZwb1g11pIb5cqUVL
+         GNTqR0qUIT2xIrpUmBcDPhYLK/gT24Q6ZHYB8o1XTQMPOXbcL6PwrkKdoQL1GpTAKBYF
+         CMSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791545314; x=1792150114;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=sO6+wgHmizERNlE89bUfmYnUemgnXAS4GsjCPxo/9Xs=;
+        b=sBLnHwKJiCLa9SpO8ZzI9vJapjQizeeqOMmah+ngQ+nHGiWQaG1Vv4U80g22x0Spt+
+         em0WY0ETmN4lAd7RvGk2YPyt5WwJy5/QzejJO42X6mjud9d0cYGYHTdcbXz/AarKS21C
+         TD5FE5Qu52wY8q+waD8t28JgxlzM73a0oSkSnleRlPUMN2yooBolodWAIhcjq+/ibQ9K
+         8xYAl3wAuuVwPOqjSnd0YMRdBToKdU9K8CZXm7DUNePnniocUiu8mCdqxWCa6y5Atu3A
+         i1Z/7jtXuphf8Tfhgic9VrFF68GvfXPSf+TSaFDS8Djp/mSGl4d/JMLNoskwAsJSo+ie
+         zlOA==
+X-Forwarded-Encrypted: i=1; AKwUvBwZ5vPtG55VHrzpRwXqGepWXfafy5kdZFx7Sb+8AZ/EZDDrw6DSlt28NgVVZhyK+GFdM08wUVAZ6CXI@lists.infradead.org
+X-Gm-Message-State: AFq9FYI0vorz0AzbpRTOmVRCJU1na20TUnq5KW0re6Tv8MHUvVkJGeEf
+	i+cCKL0mfoh5T+/OjM6OjxVJsipiUQN7PAnMvngZc+ZGblq9CrjaFk+E3llq3oQQvt9IWrlr3Cn
+	x7+XTJGw9jyqCbd+OmvZpkU1TkgKWJitG8wCX6n4v
+X-Gm-Gg: AYBFou3n0XsxnuZ0zpUUc1mP10M1uYI8zUxH4kveO2CgAQl3aiX1WnYBYmE/yuw26UV
+	uMwskw5RWc8gw4+jSq97etkwWsX07/3zRpa9a+jSf+FQF2v/szJlpKD2PhNut9uDZ93pBm7iyhA
+	hNKT1R9IseMeVUQ+Fly9tVEbE0L0vnNRCLc1tNTlr+ZaLcqt2GbH/SWZ+M2c+2wSJMNi3/rj73n
+	Ok0mqtlqUYqGLyMPagCCSS0MOVWhHGIMrHQwfizvyzn9+2E0W/tx9aiy7iIN8zWns+dCSBNrsEb
+	3TrxbDFAl0u125+J57wc+xs8hFZGiiCIMIpMh6I5IlGvxTc2/sevuefP
+X-Received: by 2002:a17:902:f70b:b0:2bd:3bfd:74f1 with SMTP id
+ d9443c01a7336-2e83db4bc44mr3303955ad.2.1791545313585; Fri, 09 Oct 2026
+ 04:28:33 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 0/3] nvme-pci: yield completions under scheduler
- pressure
-From: Naman Jain <namjain@linux.microsoft.com>
-To: Michael Kelley <mhklinux@outlook.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- changfengnan@bytedance.com, Luigi Rizzo <lrizzo@google.com>
 References: <20261009050556.2817978-1-namjain@linux.microsoft.com>
  <MN2PR02MB6863FBC36CE4F1D6419F0E8BD4922@MN2PR02MB6863.namprd02.prod.outlook.com>
- <04d88297-1732-4761-ae82-d68c441a7156@linux.microsoft.com>
-Content-Language: en-US
-In-Reply-To: <04d88297-1732-4761-ae82-d68c441a7156@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <04d88297-1732-4761-ae82-d68c441a7156@linux.microsoft.com> <3f4a11ea-bbc0-4dc5-9720-3447346739cf@linux.microsoft.com>
+In-Reply-To: <3f4a11ea-bbc0-4dc5-9720-3447346739cf@linux.microsoft.com>
+From: Luigi Rizzo <lrizzo@google.com>
+Date: Fri, 9 Oct 2026 13:27:57 +0200
+X-Gm-Features: AclHuK9lXMeYD06lb7uudSY49mGzzzPnQZe8BJ1Av8Eu26jyJ3pnC-vn0cZ5MeA
+Message-ID: <CAMOZA0Ljw-DueDP3WvmtYe4x9Y_fNaptAo+3Hv8xzYHOZi9vbQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/3] nvme-pci: yield completions under scheduler pressure
+To: Naman Jain <namjain@linux.microsoft.com>
+Cc: Michael Kelley <mhklinux@outlook.com>, 
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Keith Busch <kbusch@kernel.org>, 
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, changfengnan@bytedance.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261009_031704_032184_C1B729EA 
-X-CRM114-Status: GOOD (  26.89  )
+X-CRM114-CacheID: sfid-20261009_042836_061928_6D5C397F 
+X-CRM114-Status: GOOD (  30.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,260 +122,97 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 10/9/2026 12:21 PM, Naman Jain wrote:
-> 
-> 
-> On 10/9/2026 11:24 AM, Michael Kelley wrote:
->> From: Naman Jain <namjain@linux.microsoft.com> Sent: Thursday, October 
->> 8, 2026 10:06 PM
->>>
->>> On systems with several fast NVMe controllers, completion interrupts can
->>> keep returning to the same CPUs faster than scheduled work can run. Each
->>> handler may drain only a small number of completions, but the combined
->>> interrupt stream can still prevent scheduler and watchdog progress.
->>
->> See this recent proposal [1] that sounds like it is addressing the 
->> same or a
->> similar issue. And there is this [2] more global approach. It's 
->> worthwhile to read
->> through the discussion on both threads. I haven't done a detailed 
->> comparison
->> of either vs. your proposal.
->>
->> Michael
->>
->> [1] https://lore.kernel.org/linux-nvme/20260818033846.53790-1- 
->> changfengnan@bytedance.com/
->> [2] https://lore.kernel.org/lkml/20260819124341.4185621-1- 
->> lrizzo@google.com/
->>
-> 
-> 
-> Thanks for sharing these Michael. I'll check more on these, and try it out.
-> 
-> Regards,
-> Naman
-
-++ authors of these two series, for awareness and if there is some 
-configuration in their patches I should be trying to fix these lockup 
-issues.
-
-I tested both GSIM v5 and the NVMe adaptive interrupt polling patch on
-the ARM64 Azure system where the NVMe hardirq soft lockup is reproducible.
-
-Test system
-===========
-
-The VM has:
-
-   - 128 Arm Neoverse-V2 vCPUs
-   - two 64-CPU sockets / NUMA nodes
-   - approximately 862 GiB RAM
-   - four 3.5-TB Microsoft NVMe Direct Disk v2 data devices
-   - one NVMe OS device and one additional accelerator-facing NVMe
-     controller
-   - Hyper-V vPCI with MSI-X
-   - 14 I/O queues per data controller
-
-The four data controllers independently map their I/O vectors to the
-same 14 CPUs:
-
-   0, 10, 19, 28, 37, 46, 55, 64,
-   74, 83, 92, 101, 110, 119
-
-Thus each of these CPUs handles corresponding queues from all four data
-controllers.
-
-The kernel base for both experiments was:
-
-   next-20261006
-   eea3fef32a9cf36abcb5975a5a594e4135a6b026
-   7.3.0-rc6-next-20261006
-
-The main lockup workload was read-only:
-
-   - 4-KiB random reads
-   - libaio
-   - O_DIRECT
-   - four data devices
-   - 128 jobs
-   - iodepth 256
-   - 90-second nominal runtime
-
-NVMe interrupt coalescing was disabled (FID 0x08 = 0), and
-nvme.use_threaded_interrupts was zero.
-
-Without a mitigation, the watchdog reports soft lockups after about
-26 seconds, normally on all 14 CPUs listed above.
-
-Conclusion
-==========
-
-On this VM:
-
-   - GSIM v5 did not prevent the lockup with any tested adaptive or fixed
-     setting, including the documented benchmark settings and the maximum
-     allowed delay.
-   - NVMe adaptive polling can improve throughput for sufficiently dense
-     individual queues, but it did not prevent the production lockup
-     because the aggregate cross-controller load was spread across enough
-     queues that most queues did not meet the fixed 10-us admission
-     threshold.
-
-The production failure is triggered by aggregate scheduler starvation
-from many queues and controllers sharing the same IRQ CPUs. Neither
-generic interrupt-rate moderation nor per-queue throughput-based
-adaptation directly observes that condition.
-
-
-More details:
-
-GSIM v5
-=======
-
-I tested the complete seven-patch v5 series:
-
-https://lore.kernel.org/all/20260819124341.4185621-1-lrizzo@google.com/
-
-The kernel was built with:
-
-   CONFIG_IRQ_SW_MODERATION=y
-   CONFIG_IRQ_TIME_ACCOUNTING=y
-
-GSIM is runtime-disabled and per-IRQ opt-in by default. I identified the
-56 dedicated I/O vectors belonging to the four data controllers. All 56
-were eligible and exposed allow_sw_moderation, and only those vectors
-were enabled.
-
-I first verified the same GSIM-patched kernel with runtime moderation
-disabled. It reproduced the soft lockup, as expected.
-
-I then tested the suggested adaptive configuration from the cover letter:
-
-   delay_us=100
-   target_intr_rate=1000000
-   hardirq_percent=70
-   update_ms=5
-
-I also tested the exact adaptive configuration used in patch 6's
-benchmark section:
-
-   delay_us=200
-   target_intr_rate=1000000
-   hardirq_percent=70
-   update_ms=5
-
-In addition, I tested fixed moderation at:
-
-   10, 25, 50, 75, 100, 200 and 500 us
-
-The 500-us value is the maximum allowed by the implementation.
-
-GSIM was definitely active. For the adaptive 100-us test, on the 14
-affected CPUs it selected delays between about 63 and 100 us, set
-323,811 moderation timers, enqueued 506,557 IRQs, and recorded 24,332
-hardirq-over-threshold events.
-
-However, every full-duration GSIM-only configuration still soft-locked.
-
-A summary is:
-
-                          QD1 IOPS       QD256 outcome
-
-   GSIM off                 24.2K        soft lockup
-   adaptive 100 us           4.0K        soft lockup
-   adaptive 200 us           3.3K        soft lockup / timeout
-   fixed 10 us              22.1K        soft lockup
-   fixed 200 us              3.2K        soft lockup
-   fixed 500 us              1.7K        soft lockup / timeout
-
-My interpretation is that GSIM reduces how often the NVMe interrupt
-handler runs, but it does not bound how much work the handler performs
-once entered. Delaying an interrupt permits more CQEs to accumulate, and
-the NVMe hardirq still drains the CQ until empty. On this topology that
-produces fewer, larger, still-unbounded hardirq executions.
-
-This does not contradict the reported GSIM benefits for systems limited
-by aggregate MSI-X traffic or PCIe/SoC backpressure. It means that on
-this VM the limiting issue is scheduler fairness inside the NVMe
-completion handler rather than interrupt-delivery overhead.
-
-NVMe adaptive interrupt polling
-===============================
-
-I also tested:
-
-https://lore.kernel.org/linux-nvme/20260818033846.53790-1-changfengnan@bytedance.com/
-
-The posted revision also has the irq_poll full-budget bookkeeping issue
-reported in the review thread: it can call irq_poll_complete() and still
-return the full budget. Since the author acknowledged this and said it
-would be fixed in the next revision, I added only the corresponding
-one-line fix before boot testing. I did not boot the known-buggy state.
-
-The tested adaptive algorithm uses fixed constants:
-
-   - 10-us poll period and admission threshold
-   - 8,192 CQEs per sample/trial window
-   - irq_poll budget of 64 CQEs
-   - 64 successful windows per polling episode
-   - two immediate failed trials followed by a 524,288-CQE backoff
-
-I tested the same patched kernel with:
-
-   1. adaptive policy off
-   2. adaptive policy enabled at runtime through
-      /sys/class/nvme/nvmeX/adaptive_irq_polling
-   3. nvme.use_adaptive_irq_polling=1 at boot
-
-The runtime policy was enabled only for the four data controllers.
-
-For the production lockup workload, both runtime-on and boot-default-on
-still soft-locked at about 26 seconds.
-
-IRQ_POLL increased by only about 520 callbacks during the entire
-runtime-on test and by about 539 during the boot-default-on test.
-
-The reason appears to be the fixed per-queue admission threshold. With
-about 5M aggregate IOPS spread across 56 I/O queues:
-
-   5M / 56 ~= 89K CQEs/s per queue
-   average interval ~= 11.2 us
-
-The adaptive patch attempts polling only when the measured per-queue
-completion interval is at most 10 us. The workload is intense in
-aggregate, but the individual queues are just below the polling
-admission threshold.
-
-Boot-time enablement produced the same result, so runtime sysfs
-switching was not the issue.
-
-I then tested workloads intended to match the patch's expected dense
-per-queue case.
-
-With one SSD, one job:
-
-               IRQ mode       adaptive mode
-
-   QD32        328K IOPS      328K IOPS
-   QD64        335K IOPS      443K IOPS
-   QD128       406K IOPS      232K IOPS
-
-At QD64, adaptive polling was clearly active (about 1.83M IRQ_POLL
-callbacks) and improved IOPS by about 32% while reducing latency. This
-matches the direction reported by the author.
-
-The results were not stable across repeats, however. A repeated QD64
-run was approximately neutral. QD128 produced both a regression and an
-improvement depending on run order/device state. This appears consistent
-with the author's comment that some benchmark results were still
-affected by drive-state variability.
-
-I also tested one SSD with 16 deep jobs pinned to one CPU. Adaptive
-polling activated, but averaged about 3% fewer IOPS than IRQ mode.
-
-Thanks,
-Naman
+On Fri, Oct 9, 2026 at 12:17=E2=80=AFPM Naman Jain <namjain@linux.microsoft=
+.com> wrote:
+>
+>
+>
+> On 10/9/2026 12:21 PM, Naman Jain wrote:
+> >
+> >
+> > On 10/9/2026 11:24 AM, Michael Kelley wrote:
+> >> From: Naman Jain <namjain@linux.microsoft.com> Sent: Thursday, October
+> >> 8, 2026 10:06 PM
+> >>>
+> >>> On systems with several fast NVMe controllers, completion interrupts =
+can
+> >>> keep returning to the same CPUs faster than scheduled work can run. E=
+ach
+> >>> handler may drain only a small number of completions, but the combine=
+d
+> >>> interrupt stream can still prevent scheduler and watchdog progress.
+> >>
+> >> See this recent proposal [1] that sounds like it is addressing the
+> >> same or a
+> >> similar issue. And there is this [2] more global approach. It's
+> >> worthwhile to read
+> >> through the discussion on both threads. I haven't done a detailed
+> >> comparison
+> >> of either vs. your proposal.
+> >>
+> >> Michael
+> >>
+> >> [1] https://lore.kernel.org/linux-nvme/20260818033846.53790-1-
+> >> changfengnan@bytedance.com/
+> >> [2] https://lore.kernel.org/lkml/20260819124341.4185621-1-
+> >> lrizzo@google.com/
+> >>
+> >
+> >
+> > Thanks for sharing these Michael. I'll check more on these, and try it =
+out.
+> >
+> > Regards,
+> > Naman
+>
+> ++ authors of these two series, for awareness and if there is some
+> configuration in their patches I should be trying to fix these lockup
+> issues.
+
+I see your thorough analysis below, thanks for the details.
+Is there any reason why you used nvme.use_threaded_interrupts=3D0 ?
+
+Setting to 1 moves the work to a kernel thread and seems to be the
+best way to prevent too much work in the hardirq and the soft lockup.
+
+I am surprised that GSIM fails to prevent the soft lockup, though:
+under high load the sequence of events (starting from unmoderated)
+should be the following:
+
+1. HW sends MSIx interrupt, not blocked by anything
+2. SW calls handle_fasteoi_irq() --> handle_irq_event() --> ... -->
+action->handler() which starts processing
+3. HW possibly sends another MSIx interrupt
+4. SW handle_irq_event() completes
+5. SW irq_start_moderation() starts the timer, __disable_irq() and
+sets IRQD_IRQ_INPROGRESS | IRQD_MODERATED
+6. if #3 happened, or another HW interrupt comes before the timer expires:
+  SW handle_fasteoi_irq() finds IRQD_IRQ_INPROGRESS | IRQD_MODERATED both s=
+et,
+  and does not call handle_irq_event(), postponing the call
+7. when the timer expires, the pending interrupt is reinjected.
+
+The above suggests that we should see some pauses between runs of
+action->handler(),
+at least for a single queue per CPU.
+
+Do you have any way to look with perf and bpftrace at the CPU
+processing interrupts,
+to see what keeps it busy (the pause between 6 and 7 should keep it
+well below 100%)
+and try to verify whether the calls to hndle_irq_event() are actually space=
+d
+as the sequence above describes?
+
+Having multiple interrupts on the same CPU mean that the gap
+between interrupts for one can be used by others, and that may
+definitely make the CPU 100% busy in hardirq.
+
+Again to address these cases, nvme.use_threaded_interrupts=3D1 would
+greatly reduce the time spent in hardirq, moving the bulk of the work to so=
+ftirq
+hence at least becoming interruptible.
+
+cheers
+luigi
 
