@@ -4,97 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 19947CA600C
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 Oct 2026 19:19:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3D1DCA6012
+	for <linux-nvme@archiver.kernel.org>; Fri,  9 Oct 2026 02:02:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=NvBBYt0QHaBsGt4sgK0v6LDNYZqIUkl6IROUmRuxWdQ=; b=EYc/UlIG654/KTCs4326PLxA56
-	djp4WAw/TiUogDhjFJQJ0qi1pdWF22kqFogtX/BpLwTdT+tfVo9hAGWpab3Eh2PctttPQkZU/kLXy
-	ga7awQW/v94w3A4fDgnxNYfCCw0tT4RMEbz2rEVaKwts74Z7ooSxbRIdVfi3mbAvQFG5bvomvJKgb
-	LN0ZYgCiLvij/V6s8qMy0BfwDmhfih4y/6TjXW3Q9aYWBJS3Ffxi+dis/1RnjNtp7zqmF87OURn1b
-	94Hsqw/Yok42C3DuzMlOyh/vPS5HLppNW2Z5CSgiQo6++WCRolLe4sUFMQ8XeZ6V4xJRvjshqnvxJ
-	aULIvNjg==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=FK9q3mI/smjlpXK27adCfd32tCuGO0ujIRGbl2MfJLU=; b=UR6EHy6Pw860zeFxaDNil7y5fD
+	f/0+SLz+fjTnEdSAaK3PTYEyfRY2v3Czy3lhokAzdNdEZ5jao0OREdIwNf+ONRSXKoRVrYMPM1MkN
+	0CV7laj+KDYzKAr9Nn9T5y8hAdvqFEakbMsf8MrRnkgUgILUMaiLfgIlMDJkrr8Q+WIDrDn3bY0ph
+	06veM+hrzaXXHMNQtHPxtYZ8TN8o/EkA2K1kM6/Hu8T2LziXeWUMsYFxQ4JhE/QHzc1u/u+bcNkO5
+	FrGMyIg5x9cWOCjk/Zy3i16pfrws2XFwPpN0+2UjPaQMv8gGq++857qbFnBN+HEzQEHjMj/gKlcXY
+	n1nWsVTw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xEtdq-00000004v1v-2OJj;
-	Thu, 08 Oct 2026 19:18:58 +0000
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+	id 1xEzvv-00000005GUV-3AgT;
+	Fri, 09 Oct 2026 02:02:03 +0000
+Received: from mail-dy1-x1330.google.com ([2607:f8b0:4864:20::1330])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xEtdn-00000004uz5-0foA
+	id 1xEzvq-00000005GU4-0qlv
 	for linux-nvme@lists.infradead.org;
-	Thu, 08 Oct 2026 19:18:56 +0000
-Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-48c6955a7c3so1029626f8f.1
-        for <linux-nvme@lists.infradead.org>; Thu, 08 Oct 2026 12:18:54 -0700 (PDT)
+	Fri, 09 Oct 2026 02:01:59 +0000
+Received: by mail-dy1-x1330.google.com with SMTP id 5a478bee46e88-3535a54bed9so1090073eec.1
+        for <linux-nvme@lists.infradead.org>; Thu, 08 Oct 2026 19:01:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791487133; x=1792091933; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=NvBBYt0QHaBsGt4sgK0v6LDNYZqIUkl6IROUmRuxWdQ=;
-        b=YEB0Cuh1FOsiEVyJTSqTpaY4Tz6iz7kOK1byuvg54pDe/6TXX4eTU6lcqhg3dYm2j2
-         Tdc985fK1ihufXG2nmkoYvvg5IRQAKxIY5hdJbG5EqihkUSNaEtmfCq8Gj9Bnntnsfun
-         ediZ1jCoYyVl/8rshEkA1hK+jP+tPlVAWSrD04EjzfVhGBhD6leFClU0EFtEYusPDc+1
-         v1Rrjpepi2UehXYEZKeMgX1RoIeWralOp9qtlCzurUHFEK3j1C+cYkE6+eFDduenGxqV
-         fuEF9k27b0NIQAxYNMn0Z7vaZqRQi9sahiBKLQ2gcHHCsRjDJU4jJx7YmbcZQN+RVCOb
-         0pGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791487133; x=1792091933;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=crusoe.ai; s=google; t=1791511317; x=1792116117; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=NvBBYt0QHaBsGt4sgK0v6LDNYZqIUkl6IROUmRuxWdQ=;
-        b=JcAI6Yr5Vct7uZoLK8to699aF3Gbx2H0tKovV21H/s8Iil5UvoJQN3Hz/gV/s8Q3Hh
-         4WQ6JPaNnR4LWAD21/UfAo7ubhw7tIwWtAU8ClKUKy39I6qFrP4LmQqxIZUpgWHIu2X/
-         ka6IVaajeMSzVYjQbmE1ELvILhSTKuaBA5ane5mMxcET3gCnY7E754CmfzBDHXYr0QdF
-         gBxKAtRaL2tKSBALXlPYg3caTTNaYCPIB2STB8qdylHmplDVXAx3NldZz1WVL5vRdWZd
-         j9iYwmJbfIRZTbkHyI+L5KMYRR0iYCd2X54OIt0KPnBJvZHnCtZr9IplSZjpavd4UNFt
-         c+gw==
-X-Forwarded-Encrypted: i=1; AKwUvBySxZZX6JOy9zCkGHJ0/sSxU76n6gIYg4dOyx6jM8qpsyWEAZkqPfKc74jhhxUa8CWPyTan+y4zO3fp@lists.infradead.org
-X-Gm-Message-State: AFq9FYKD3hxHNIQOgq+aq06HgllA8gpZ5Qm2pnmNghs7EBUwfOusdHpK
-	4uE3ErYqM3Kpz80b1WCRAaAtnfj+zerKi+DPTNsZng+48stG+PUsPhDZ
-X-Gm-Gg: AYBFou3LzguWpOiN6lBGppMQR3LAGwC50goNw+f0ZPEFUOaR49CG1mANFIysdg/rfLz
-	hTyVo8leK0WA9TjIVhJso0yMKJo4kO5vzgEvPe/5dZvV223Ex14miXd6nZrTihbFY5oHQakQpGD
-	27YKhT5tjlKAGIp1cZWbPcdupjYq/nwZOW6gHglAE2ixmqISjT1K0kyFkY9yYlCwJ7FW/qHWn74
-	9F9F3Ztvcy01pCcalEt1WKl3Zu0cnBEpB+Hk7FlvPeflhB1bMw+uOdW7PzwH1XHKsEfWMxOWS9f
-	SpbULEsu5+f6hg8pKfF3ZyfSPoo1I7XopSEuu2C4SooBMd2Bdhcf/EuZukur4zxYHUrmpD43AnA
-	JALyMCIni3sdBBPlPRoUGw1yHUjeM25Q8Zk5+MC612sQGxLTyiRgd4Nq789mOGYdA7vJaX3lcbC
-	XtL5jnuYAoxl0/MyrFGN55sU8WLVaHaWtRTY8SjcOWPkTkIc13pG68wJkd/yfnDcZVM/m6xnWRM
-	NMW77wT8uJOWhDKIZAOLNqWaOGS2GdBncfJQWkAcUpH861VW1jaQTuhQD1BYScDeS9N
-X-Received: by 2002:a5d:64c9:0:b0:48c:7037:aee9 with SMTP id ffacd0b85a97d-48c72890fdcmr12484231f8f.50.1791487132477;
-        Thu, 08 Oct 2026 12:18:52 -0700 (PDT)
-Received: from Raghu007.. (sgyl-44-b2-v4wan-174108-cust110.vm6.cable.virginm.net. [80.1.81.111])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db650fe17sm1104128f8f.9.2026.10.08.12.18.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Oct 2026 12:18:52 -0700 (PDT)
-From: Palla Raghunath <raghunathpalla.0209@gmail.com>
-To: Justin Tee <justin.tee@broadcom.com>,
-	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
-	Paul Ely <paul.ely@broadcom.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Cc: Keith Busch <kbusch@kernel.org>,
-	Daniel Wagner <dwagner@suse.de>,
-	Hannes Reinecke <hare@suse.de>,
+        bh=FK9q3mI/smjlpXK27adCfd32tCuGO0ujIRGbl2MfJLU=;
+        b=hqmuD4w60W2Pf324ds1uHqm4L/iUwwbo+nQvTNJSrFQYXQpmcBlWYTdmugjtOoTW5u
+         v3Y77mIZKXFx8ADr6iH0FdJTYQPbwxL1OXOn0IJzP9LvQlpYPxizrkxrXr5+hW2oBm5m
+         K6xSAofIz54+zEjMX81AlNxhcEn+p/oyiR85FVEl5pRjGKHegPUw+TuZu0PIP3Rwn4dH
+         LozEqrHQTxgglT88lgTjjXld1IYSjf1JceofHyBRiZHUuFDmNAJLaPila9c/MGcKvz3X
+         2FMxLKxduST93b0ljm8wjiYfkrq0KgwLRzhRi513WKdg/40LKTruIHgYer8UM3qdL9Ov
+         hQTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791511317; x=1792116117;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=FK9q3mI/smjlpXK27adCfd32tCuGO0ujIRGbl2MfJLU=;
+        b=R7ryTfhD4CvQuggr+vm7ZpZUbndjzRY5A97pkclWmugJ8w11E3hQJ57DkTPXzXOgxV
+         DxgxdwrZTn9AcCi77Gcd6JBM7bPqesoSp3Iv0fO3xcJCNeWFg14i6bAbrNJz2cNb5wpF
+         LGMi6gs4LU0aDu5MavYaX0PbErPv5LvUzJf7XnfsT/7vc8vLyexnFmqQZaQG4VT/SH5j
+         1uQsZkZFtAm1qsFvqK1+zw3LNL+otfG/+UU5Gf1qALTlJ5eZrW2aOw25KQDJky7EQOMl
+         LemrtzllvHgDfaE6oSzjh4vW3/lQArzuSKy33UU1V8B8u/e922uNxDXXmyp6W59OXP+s
+         F8uQ==
+X-Forwarded-Encrypted: i=1; AKwUvByAlMlsQgHhOuaOIYut/Dgc5VbHB3yEWb/JNrtMxZpn5QIrEpl8K+28+4xlo+/A8b24hYj5DVQSH+5i@lists.infradead.org
+X-Gm-Message-State: AFuF++kaa+uzyEvH1NQgUptp78YqQ6yap5izQER7kNOl6x8fzbHnnaIr
+	tVyfnvyNYHgFVC6Ye3zq9EzV5FoCwcZdW7MsU4a/HaAdj9JKA9qE5ejUrXNdst+N1LY=
+X-Gm-Gg: AYBFou20yDWnFbd+uBZU/P1SuWKo8oc3yN09lTcM5XPe/x9z/fEYMZpB5aN8kXjTgtS
+	vv0xFQ6KReZV+hI2kZ9fO4sixmuvBAwumgieh1E9T7++Ok34hutP5uYoHARbjsBdbZjG75l3Rni
+	C7RQocfK6kcUGRB9vRN4qrUtNlGyzslEkmlcBWB9mgOfSaMGDaOmBRLCD848Cn+XAnmMREkF9uf
+	7qrAXu0gspGUO1Dv8bAqFLV3Bk1L0hhH0xBr8qceKR8ISwL7UpWKH4R0m9j6JnyULGODOOJr+1a
+	cujsHZUVSW+jlqlJ+PfGsENYxOGK0KkNw3ac9WM4GUcTYiHNaIJv7FrNFYXsvb6ze5EXx4gteM5
+	Re47zTQAz5pFyW2kZPa04JRy+oGYnix73gRRYCu7/oDWuqFfKprUyn2Weg12WDg/rXY01mtJbMl
+	HC/UpEeKjpG+9x4h9B6ur1ckx9tgIEqQU5GovQG/K2hLYOM8/4OxqcPKOQLBmbgfl3Q988RPvCI
+	Zfo6vTICdtOf8+bTi1SImK923QoKq0POnQYZxxtZa1S
+X-Received: by 2002:a05:7301:152f:b0:351:7dc1:7aba with SMTP id 5a478bee46e88-3537e12becbmr729997eec.32.1791511316923;
+        Thu, 08 Oct 2026 19:01:56 -0700 (PDT)
+Received: from MBP-Saravanan-D.civet-hops.ts.net ([67.208.231.220])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3537ca329d9sm2120931eec.5.2026.10.08.19.01.54
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 08 Oct 2026 19:01:56 -0700 (PDT)
+From: Saravanan D <saravanand@crusoe.ai>
+To: Nilay Shroff <nilay@linux.ibm.com>
+Cc: Saravanan D <saravanand@crusoe.ai>,
 	linux-nvme@lists.infradead.org,
+	kbusch@kernel.org,
+	hch@lst.de,
+	sagi@grimberg.me,
+	axboe@kernel.dk,
+	dwagner@suse.de,
 	linux-kernel@vger.kernel.org,
-	Shuah Khan <shuah@kernel.org>,
-	Brigham Campbell <me@brighamcampbell.com>,
-	linux-kernel-mentees@lists.linux.dev,
-	raghunathpalla.0209@gmail.com,
-	syzbot+da94a51633758d13bd63@syzkaller.appspotmail.com
-Subject: [PATCH] nvmet-fc: don't drop the last assoc reference in nvmet_fc_delete_ctrl()
-Date: Thu,  8 Oct 2026 20:18:48 +0100
-Message-Id: <20261008191848.47066-1-raghunathpalla.0209@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	iyamahata@crusoe.ai,
+	kiyer@crusoe.ai,
+	ganbalagane@crusoe.ai,
+	sjpark@crusoe.ai
+Subject: Re: [PATCH v4 2/2] nvme-tcp: allow setting per-queue io_cpu through sysfs
+Date: Thu,  8 Oct 2026 19:01:42 -0700
+Message-ID: <20261009020145.64651-1-saravanand@crusoe.ai>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <51a451fe-fdf6-4e8f-afbd-c595f3c6de2c@linux.ibm.com>
+References: <20260927070925.47209-1-saravanand@crusoe.ai> <20260927070925.47209-3-saravanand@crusoe.ai> <51a451fe-fdf6-4e8f-afbd-c595f3c6de2c@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261008_121855_220432_18A1A758 
-X-CRM114-Status: GOOD (  15.18  )
+X-CRM114-CacheID: sfid-20261008_190158_260496_21FD2726 
+X-CRM114-Status: GOOD (  35.12  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,84 +109,169 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-syzbot hit a recursive locking report on subsys->lock when a subsystem
-is unlinked from an FC port.
+On 10/8/26 2:45 AM, Nilay Shroff wrote:
+[...]
+>> The queue directories register on the first connect and persist while
+>> the queues cycle across reconnects, so a write can arrive while a
+>> queue is torn down. The io_cpu changes and their accounting therefore
+>> serialize under a controller level lock rather than the queue lock,
+>> which is destroyed with the queue, and the controller teardown waits
+>> for the last kobject release before the queue array is freed.
+>>
+> I understand based on your requirement you may want to persist io_cpu
+> changes (when managed by user) during controller reconnect. However
+> in case num of queues changes after reconnect (assume it's 32 at first
+> connect but after controller reconnects it's reduced to 16) keeping
+> those 32 queues entries under queues/<qid>/ looks bit odd and not
+> correct. I'd expect queues entries under queue/<qid>/ to be also
+> adjusted based on the controller queue count.
 
-nvmet_port_del_ctrls() holds subsys->lock while it calls ->delete_ctrl()
-for each controller. nvmet_fc_delete_ctrl() grabs a reference on the
-association, queues del_work and then drops the reference. If del_work
-gets to run to completion before that put, ours is the last reference.
-Freeing the assoc tears down the queues, the last nvmet_cq_put() drops
-the last ctrl reference, and nvmet_ctrl_free() goes for subsys->lock
-again:
+Agreed. In v5 the queue directory follows the queue's connected
+lifetime. nvme_tcp_alloc_queue() adds it and nvme_tcp_free_queue()
+removes it, so queues/<qid>/ matches the queue count after every
+reconnect, as blk-mq does for mq/<n> when nr_hw_queues changes. A user
+assigned io_cpu is kept in the nvme_tcp_queue, which persists across
+reconnects, so it applies again when the queue comes back. A write
+while the controller is reconnecting fails with ENOENT.
 
-  WARNING: possible recursive locking detected
-  ...
-   nvmet_ctrl_free+0xa6/0x8e0 drivers/nvme/target/core.c:1766
-   nvmet_cq_put+0x158/0x200 drivers/nvme/target/core.c:848
-   nvmet_fc_target_assoc_free+0x418/0x2220 drivers/nvme/target/fc.c:1173
-   nvmet_fc_delete_ctrl+0x717/0x7e0 drivers/nvme/target/fc.c:1581
-   nvmet_port_del_ctrls+0xfb/0x150 drivers/nvme/target/core.c:311
-   nvmet_port_subsys_drop_link+0x1e8/0x310 drivers/nvme/target/configfs.c:1119
+[...]
+>> @@ -171,6 +173,11 @@ struct nvme_tcp_ctrl {
+>>   	struct delayed_work	connect_work;
+>>   	struct nvme_tcp_request async_req;
+>>   	u32			io_queues[HCTX_MAX_TYPES];
+>> +	/* serializes io_cpu changes and their nvme_tcp_cpu_queues accounting */
+>> +	struct mutex		io_cpu_lock;
+>
+> The io_cpu_lock protect updates to queue->io_cpu and as we now support clang
+> context annotations for NVMe host driver, I'd suggest you annotate the
+> queue->io_cpu with __guarded_by(...) so that clang context analyzer can
+> validate each access to queue->io_cpu. Furthermore, I see that queue->io_cpu
+> could be concurrently accessed from both control path and I/O hotpath. So how
+> would we protect it while it's being accessed from I/O path and concurrently
+> updated from sysfs path?
 
-It's a real hang, not only a lockdep warning. I reproduced it with
-fcloop by putting an msleep() before the put: rm on the configfs link
-gets stuck in D state for good.
+The I/O path reads io_cpu without the lock by design, and a stale read
+is benign. Each queue_work_on() call reads io_cpu once, so a call that
+races with the store queues io_work on the old cpu one last time and
+later calls use the new one. io_work is a single work item, so it
+never runs on both cpus at once. The inline send in
+nvme_tcp_queue_request() only compares io_cpu with the current cpu and
+is serialized by send_mutex. v5 marks the lockless reads with
+READ_ONCE() and the writes with WRITE_ONCE().
 
-I don't think we need that reference at all. del_work does
-list_del_rcu() and synchronize_rcu() before it drops the initial
-reference, so an assoc we find on assoc_list can't go away before
-rcu_read_unlock(). nvmet_fc_schedule_delete_assoc() doesn't sleep, so
-just call it inside the RCU section and get rid of the get/put. If the
-assoc is already being deleted, terminating is set and the call is a
-no-op, which matches what happened before when the get failed.
+Annotating io_cpu with __guarded_by(&ctrl->io_cpu_lock) would need
+context_unsafe() around each of those hot path reads, so I'd rather
+document the lockless readers next to the field. Happy to add the
+annotation if you prefer it.
 
-With the same msleep() in place the patched kernel unlinks cleanly and
-the assoc is freed from the workqueue.
+>> +	unsigned int		nr_queue_infos;
+>> +	atomic_t		qinfo_refs;
+>> +	struct completion	qinfo_release;
+>>   };
+>
+> I think the qinfo_refs and qinfo_release are added for tracking the
+> lifecycle of nvme_queue_info object. But do we really need to do
+> that ?
+> When a nvme_queue_info->kobj is initialized/added, its parent kobject
+> is referenced by the kobject infrastructure. Therefore, as long as a
+> queue-info kobject exists, its parent queues_kobj remains alive, which
+> in turn keeps ctrl->device->kobj alive. This should already prevent the
+> controller object from being released while a queue-info kobject still
+> exists. Could we therefore avoid maintaining a second qinfo_refs
+> reference count and completion? It seems that entire kobject parent
+> chain already provides the lifetime dependency that qinfo_refs is
+> trying to enforce.
 
-Fixes: 4049dc96b8de ("nvmet-fc: defer cleanup using RCU properly")
-Reported-by: syzbot+da94a51633758d13bd63@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=da94a51633758d13bd63
-Signed-off-by: Palla Raghunath <raghunathpalla.0209@gmail.com>
----
- drivers/nvme/target/fc.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+Agreed. With the directory removed in nvme_tcp_free_queue(), no queue
+directory outlives its queue, and the kobject release only frees its
+own allocation, so the parent chain is enough. v5 drops qinfo_refs,
+the completion and nr_queue_infos. Each connection allocates its own
+kobject, so a reconnect never reuses one.
 
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index 1b557775e033..eecdffefa24f 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -1567,8 +1567,14 @@ nvmet_fc_delete_ctrl(struct nvmet_ctrl *ctrl)
- 		list_for_each_entry_rcu(assoc, &tgtport->assoc_list, a_list) {
- 			queue = assoc->queues[0];
- 			if (queue && queue->nvme_sq.ctrl == ctrl) {
--				if (nvmet_fc_tgt_a_get(assoc))
--					found_ctrl = true;
-+				/*
-+				 * No assoc reference here: we're called with
-+				 * subsys->lock held, and if del_work beat us,
-+				 * our put would free the ctrl under that lock.
-+				 * RCU keeps the assoc alive until unlock.
-+				 */
-+				nvmet_fc_schedule_delete_assoc(assoc);
-+				found_ctrl = true;
- 				break;
- 			}
- 		}
-@@ -1576,11 +1582,8 @@ nvmet_fc_delete_ctrl(struct nvmet_ctrl *ctrl)
- 
- 		nvmet_fc_tgtport_put(tgtport);
- 
--		if (found_ctrl) {
--			nvmet_fc_schedule_delete_assoc(assoc);
--			nvmet_fc_tgt_a_put(assoc);
-+		if (found_ctrl)
- 			return;
--		}
- 
- 		spin_lock_irqsave(&nvmet_fc_tgtlock, flags);
- 	}
--- 
-2.34.1
+[...]
+> This look overly complicated. In a simple scheme can't we get rid off
+> NVME_QUEUE_INFO_IO_CPU_USER and instead use NVME_TCP_Q_IO_CPU_SET as an
+> indicator for differentiating between io_cpu is managed by user or driver?
+> For instance,
+>
+> NVME_TCP_Q_IO_CPU_SET = 1
+>      - driver has selected a specific io_cpu
+>
+> NVME_TCP_Q_IO_CPU_SET = 0 && io_cpu != WORK_CPU_UNBOUND
+>      - user has selected a specific io_cpu
+>
+> NVME_TCP_Q_IO_CPU_SET = 0 && io_cpu == WORK_CPU_UNBOUND
+>      - unbound; workqueue chooses the execution CPU and so it's driver managed
 
+I drew your scheme as a state diagram to compare it with v4.
+
+              DRIVER MANAGED          |         USER MANAGED
+   (SET=1, or SET=0 && UNBOUND)       |     (SET=0 && io_cpu=c)
+                                      |
+ connect +--------------------+ store(c)  +--------------------+
+ ------->| A  driver chosen   |-------+-->| C  user pin        |
+         |    io_cpu=c, SET=1 |       |   |    io_cpu=c, SET=0 |
+         |    counted         |       |   |    not counted (1) |
+         +--------------------+       |   +--------------------+
+           | stop, SET=0 and          |     |
+           | io_cpu must be reset (2) |     | store(-1)
+           v                          |     |
+         +--------------------+       |     |
+         | B  unbound         |<------+-----+
+         |    io_cpu=UNBOUND  |       |
+         |    SET=0           |       |   +- - - - - - - - - - +
+         |    also where a    |       |   : D  user unbound    :
+         |    user -1 lands(3)|       |   :    not reachable,  :
+         |                    |       |   :    see (3)         :
+         +--------------------+       |   +- - - - - - - - - - +
+           | next connect, reselect   |
+           +--> A                     |
+
+(1) A user pin has SET=0, so it drops out of nvme_tcp_cpu_queues.
+    When the driver selects io_cpu for other queues and other
+    controllers in nvme_tcp_set_queue_io_cpu(), it sees that cpu as
+    idle and keeps placing queues on it. v4 counts every bound queue
+    regardless of who assigned it.
+
+(2) SET clears at stop. Unless the stop path also resets io_cpu to
+    WORK_CPU_UNBOUND once io_work is cancelled, a driver chosen io_cpu
+    reads as a user pin after the reconnect and the driver never
+    selects a cpu for that queue again. In v4 only the sysfs store
+    sets the USER bit, so connect and stop never touch ownership.
+
+(3) The user managed side has no unbound state. A -1 written by the
+    user is the same state as a queue the driver has not bound yet,
+    so managed reads 1 and the next connect binds it again. Also,
+    nvme_tcp_wq is a per-cpu workqueue, so an unbound io_work runs
+    on the cpu that queued it rather than on a cpu chosen by the
+    workqueue.
+
+The USER bit records who owns io_cpu and survives reconnects, while
+SET records whether io_cpu is in the ledger and follows connect and
+stop. I'd like to keep both, with USER moved into nvme_tcp_queue flags
+as you asked on patch 1. The complexity you point at is the extra
+branch in the store, which collapses to a single path with the same
+behavior in v5.
+
+	mutex_lock(&ctrl->io_cpu_lock);
+	old = xchg(&queue->io_cpu, cpu);
+	set_bit(NVME_TCP_Q_IO_CPU_USER, &queue->flags);
+	if (test_and_clear_bit(NVME_TCP_Q_IO_CPU_SET, &queue->flags))
+		atomic_dec(&nvme_tcp_cpu_queues[old]);
+	if (cpu != WORK_CPU_UNBOUND &&
+	    test_bit(NVME_TCP_Q_ALLOCATED, &queue->flags)) {
+		atomic_inc(&nvme_tcp_cpu_queues[cpu]);
+		set_bit(NVME_TCP_Q_IO_CPU_SET, &queue->flags);
+	}
+	mutex_unlock(&ctrl->io_cpu_lock);
+
+Does that work for you?
+
+> Other that what sashiko provided in the review feedback, above are my
+> few additional comments.
+
+Thanks for the review. v5 also fixes the Sashiko findings.
+
+Thanks,
+Saravanan D.
 
