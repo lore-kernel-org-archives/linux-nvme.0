@@ -4,66 +4,117 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C4E18CA9ECF
-	for <linux-nvme@archiver.kernel.org>; Sun, 11 Oct 2026 17:32:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CA742CA9ECC
+	for <linux-nvme@archiver.kernel.org>; Sun, 11 Oct 2026 20:28:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:From:Subject
-	:Message-ID:Date:MIME-Version:Reply-To:Cc:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=u0o4MtJdz+i7038O/zO8/MdLCh4dr9Ow4hnPcKqRLHE=; b=a1Qh9KtnpGlCWlbxpihlnSieC1
-	STLV9RDt+Y+kpzhTjVpSahaveLTeOfEuw2zZQQsQvd8Yxr5iCrJ4Bf1l3NlfhfvqFG/EI5Ie6xtgQ
-	wgpEKDN4mH734513uzSG47UaFuoCsBSjLd5eJuybiNMrjUKi3uE7KwkTMLhkdsnMbdRgoR8pI7gUP
-	LICWZA70BrhaCR7UrKrjqj2ms+4cCZaoFnaEVfHyLp4nBkDjYDk3pbnZVQ2N6j8XMOF2QU86KNlhb
-	aygKhSxSvgL6lJqQKxUIFhBkhq02bkFaoY+4rPb76k1Vdh3C+LiXvGz3LsU4nZj9JTl5gYNml1qKb
-	kr0Ys6BQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=KaWSej0c/fpIBPSkYQUDhE+fWImBwHQOzaac9Gu2R6Q=; b=f+a1H8hsjb2stNcDtjqQEOM8eh
+	r9H/C7vgyx/PQYL/2EyePtOvR+CwM/rLIruWpU6zJGsA5NoNlBCMFlOsoUmG6Cz1VQvYuELS2AJWc
+	t8nprrGJinvZEdLqlT4+Q7EdqtHgY4m3kJe0PThkU5oz/t7BiOevgN0B1FN5ZqMWxxeMyW0U+0odT
+	PJXsAv7RBg/RVSsH9VQcupZYiPu44SN9O9p2Xi1IEaFj8wLF04ZIba6BN2enFESzJ6ottnCNZurlb
+	tl6O2bdhCLgqofz03fGLSwaOF1NLuxZlCSAd/U+DvVf59tIeWm4TyyigQrwxX62XjaPascRSxoo35
+	XtvNf3oQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xFxPj-00000009GB2-0AIR;
-	Sun, 11 Oct 2026 17:32:47 +0000
-Received: from mail-oi1-f197.google.com ([209.85.167.197])
+	id 1xG09g-00000009OHn-41sj;
+	Sun, 11 Oct 2026 20:28:24 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xFxPb-00000009GAf-2wkt
+	id 1xG09Z-00000009OHM-2VWA
 	for linux-nvme@lists.infradead.org;
-	Sun, 11 Oct 2026 17:32:41 +0000
-Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-4cc89e86e4dso2404747b6e.2
-        for <linux-nvme@lists.infradead.org>; Sun, 11 Oct 2026 10:32:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791739958; x=1792344758;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=u0o4MtJdz+i7038O/zO8/MdLCh4dr9Ow4hnPcKqRLHE=;
-        b=L2TwKbO1vocZCcLNDOLWfRxX8VFXXMkRMBBgsUVyS2PvkwXoTepqp4NiKDR4hqsWI4
-         zkn0kTti1MDu0eznwTDGjWGBlVd68/Q+F/RWJLBd6c4hmUd4lvn9Nzxceaev2Q70KRj0
-         rOeDtC6D98PFxUWiunDihc8tmo9/TIwMoE8XiafrFhVQEJWPjuOrU0Q/AK/JULBVlMvz
-         fj+dk8mg74AvYtvqzULCQTeZBFksJggWHgawsp9iQ114GUCtds3XNqkB+So0ymkLykwn
-         JO6n+BMDYzr1YnFYPM9Dy8BwIkb04W+218wnxkmUxZPma+CANaFLY+dZ+XnGprMt+EKW
-         3Pgw==
-X-Forwarded-Encrypted: i=1; AKwUvBzQDKS5WrzRIuC344OUdWMBBSYVu1aStX10WoGECcL5EpRFS+HKn+YuZYsZ0f95lb8GDMhiRFWn84Q1@lists.infradead.org
-X-Gm-Message-State: AFq9FYJc4qwt32xWsJoWAjO9L5BAQZvbHVtSs0Xh8IAppsWwFNdD7+EG
-	3K5SJ84cyc8Fj6FKh0ypLeqgfsU6omr0W50qlQvKqmpWNIWfgPeJDeUlkg6tcxMnlLV9R8ySWOu
-	V8sBr2LbyX6McIXRkq8bIjtiy8O4Rvn2WT2LOBtnGM4GrLp2Z01qgnueMsHU=
+	Sun, 11 Oct 2026 20:28:20 +0000
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69BIiU5D2155493;
+	Sun, 11 Oct 2026 20:27:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=KaWSej
+	0c/fpIBPSkYQUDhE+fWImBwHQOzaac9Gu2R6Q=; b=iPDJ/yX8hrfmaq4KUNqd3R
+	/SMil3AfnI1wJ7T1QBcCZYBBNhdma8POSFOmbj/AvebD4Kde+XDeXfjxoEU0E+Os
+	PIQfjZdZ5hB8EZCQCgZTN1akKG9UX4v1cZuMKbZTPYV219Icmj7CpTcbvewjqA7v
+	Fd4LEPfmKz+FN9JO+K0U6J9+uoVG4yfzVLdIO424+jmA/IAJvRhKfIUyK+1vqukX
+	Zb5Cwa17cyCXJqXVY2B+ech/fKHPGLcd1rSUKNRdtLLU5J4EP9W6pxPDpiKUQ171
+	aeRbPmYglta7f4RYjTS0rAVegtvIGFrKuOcbgQtzxHY/+RaZ2oLcYawjHWkv9JOA
+	==
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4h7dv361dv-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Sun, 11 Oct 2026 20:27:54 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 69BIK1F7129926;
+	Sun, 11 Oct 2026 20:27:53 GMT
+Received: from smtprelay07.dal12v.mail.ibm.com ([172.16.1.9])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4h82cyaay1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 11 Oct 2026 20:27:53 +0000 (GMT)
+Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com [10.39.53.230])
+	by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 69BKRrtS20447844
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sun, 11 Oct 2026 20:27:53 GMT
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E3BB45805F;
+	Sun, 11 Oct 2026 20:27:52 +0000 (GMT)
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 232E258054;
+	Sun, 11 Oct 2026 20:27:49 +0000 (GMT)
+Received: from [9.61.185.118] (unknown [9.61.185.118])
+	by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Sun, 11 Oct 2026 20:27:48 +0000 (GMT)
+Message-ID: <e3bd727d-869b-470d-84dc-fccae61ca499@linux.ibm.com>
+Date: Mon, 12 Oct 2026 01:57:47 +0530
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:1b97:b0:4f3:e98f:fa0b with SMTP id
- 5614622812f47-50c556bc9d7mr7201373b6e.5.1791739957943; Sun, 11 Oct 2026
- 10:32:37 -0700 (PDT)
-Date: Sun, 11 Oct 2026 10:32:37 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6acbc835.a150a118.27e199.003c.GAE@google.com>
-Subject: [syzbot] [nvme?] BUG: corrupted list in nvmet_fc_remove_port
-From: syzbot <syzbot+c98b21427617af7f547a@syzkaller.appspotmail.com>
-To: hch@lst.de, justin.tee@broadcom.com, kch@nvidia.com, 
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	nareshgottumukkala83@gmail.com, paul.ely@broadcom.com, sagi@grimberg.me, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/2] nvme-tcp: allow setting per-queue io_cpu through
+ sysfs
+To: Saravanan D <saravanand@crusoe.ai>
+Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, hch@lst.de,
+        sagi@grimberg.me, axboe@kernel.dk, dwagner@suse.de,
+        linux-kernel@vger.kernel.org, iyamahata@crusoe.ai, kiyer@crusoe.ai,
+        ganbalagane@crusoe.ai, sjpark@crusoe.ai
+References: <20260927070925.47209-1-saravanand@crusoe.ai>
+ <20260927070925.47209-3-saravanand@crusoe.ai>
+ <51a451fe-fdf6-4e8f-afbd-c595f3c6de2c@linux.ibm.com>
+ <20261009020145.64651-1-saravanand@crusoe.ai>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <20261009020145.64651-1-saravanand@crusoe.ai>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: kQjN2QIgKXCAJ9EReS73ClyZOoldIxoq
+X-Proofpoint-ORIG-GUID: kQjN2QIgKXCAJ9EReS73ClyZOoldIxoq
+X-Authority-Analysis: v=2.4 cv=aqInmiZV c=1 sm=1 tr=0 ts=6acbf14a cx=c_pps
+ a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=nEC4cdWnxhRHzP_wYSQA:9
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDExMDA4MCBTYWx0ZWRfX95y/qGX2zL1Z
+ DhPgi82czAicjAnlv8Yx+pl+7LctAbEXb/vjNfdC3x9E1c/7VJ/aFGI1WI4hufoMsTkOMN3m0q6
+ udn0Q/Aevr6Z//n4prRtTEMm5xA4eDg=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDExMDA4MCBTYWx0ZWRfX6hX2K52B73b9
+ 9iES/7ZkG2vHGskeE+m2LziSxnsUntzz81Nmkxma3B7Reuh8lBScK2CCqZpOuW02yJfY7SWBF8U
+ pWjoRLvtBb3Xk02SKqIzwHApe/kerOdcdXjO9m4TuUz5QQAeb+2OVbSbfpXPQ7nvzz9eBe0mryZ
+ Ds4o62puNKe6hwONQwjyWFYcbj9NORgAsu/yGJCvYunLGToxjrtyNDzweDWUfV+8SgNzu871z8W
+ YHmUA7LHFlan5tyGeVjhsED62rpkGCUpIFQAOwWiEMpokJETn+6qwYUtu/mQ7yNIKx2W7/j11iU
+ UpgBSuCWb8FOSri3c2/U9LsmYAaLWkHRj31uw4uDpM0/MMDrqEo76EaS3b+ZzGVY/KU4l4PqdFF
+ Z1+mMpjD2Jj2lHWtb6HREE5Z7LmjAHSHHkCgmegsG9iA0idrs+7uu8uXUlRDvGF6FMNZn3eB/N7
+ esCUkNMi1b9jOY6ATkg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-11_04,2026-10-09_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1015 spamscore=0 malwarescore=0 suspectscore=0
+ bulkscore=0 adultscore=0 impostorscore=0 priorityscore=1501
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610080000
+ definitions=main-2610110080
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261011_103239_748680_AE27F761 
-X-CRM114-Status: UNSURE (   9.03  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20261011_132817_667073_C2F1FF08 
+X-CRM114-Status: GOOD (  51.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,109 +129,211 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello,
+On 10/9/26 7:31 AM, Saravanan D wrote:
+> On 10/8/26 2:45 AM, Nilay Shroff wrote:
+> [...]
+>>> The queue directories register on the first connect and persist while
+>>> the queues cycle across reconnects, so a write can arrive while a
+>>> queue is torn down. The io_cpu changes and their accounting therefore
+>>> serialize under a controller level lock rather than the queue lock,
+>>> which is destroyed with the queue, and the controller teardown waits
+>>> for the last kobject release before the queue array is freed.
+>>>
+>> I understand based on your requirement you may want to persist io_cpu
+>> changes (when managed by user) during controller reconnect. However
+>> in case num of queues changes after reconnect (assume it's 32 at first
+>> connect but after controller reconnects it's reduced to 16) keeping
+>> those 32 queues entries under queues/<qid>/ looks bit odd and not
+>> correct. I'd expect queues entries under queue/<qid>/ to be also
+>> adjusted based on the controller queue count.
+> 
+> Agreed. In v5 the queue directory follows the queue's connected
+> lifetime. nvme_tcp_alloc_queue() adds it and nvme_tcp_free_queue()
+> removes it, so queues/<qid>/ matches the queue count after every
+> reconnect, as blk-mq does for mq/<n> when nr_hw_queues changes. A user
+> assigned io_cpu is kept in the nvme_tcp_queue, which persists across
+> reconnects, so it applies again when the queue comes back. A write
+> while the controller is reconnecting fails with ENOENT.
+> 
+> [...]
+>>> @@ -171,6 +173,11 @@ struct nvme_tcp_ctrl {
+>>>    	struct delayed_work	connect_work;
+>>>    	struct nvme_tcp_request async_req;
+>>>    	u32			io_queues[HCTX_MAX_TYPES];
+>>> +	/* serializes io_cpu changes and their nvme_tcp_cpu_queues accounting */
+>>> +	struct mutex		io_cpu_lock;
+>>
+>> The io_cpu_lock protect updates to queue->io_cpu and as we now support clang
+>> context annotations for NVMe host driver, I'd suggest you annotate the
+>> queue->io_cpu with __guarded_by(...) so that clang context analyzer can
+>> validate each access to queue->io_cpu. Furthermore, I see that queue->io_cpu
+>> could be concurrently accessed from both control path and I/O hotpath. So how
+>> would we protect it while it's being accessed from I/O path and concurrently
+>> updated from sysfs path?
+> 
+> The I/O path reads io_cpu without the lock by design, and a stale read
+> is benign. Each queue_work_on() call reads io_cpu once, so a call that
+> races with the store queues io_work on the old cpu one last time and
+> later calls use the new one. io_work is a single work item, so it
+> never runs on both cpus at once. The inline send in
+> nvme_tcp_queue_request() only compares io_cpu with the current cpu and
+> is serialized by send_mutex. v5 marks the lockless reads with
+> READ_ONCE() and the writes with WRITE_ONCE().
+> 
+> Annotating io_cpu with __guarded_by(&ctrl->io_cpu_lock) would need
+> context_unsafe() around each of those hot path reads, so I'd rather
+> document the lockless readers next to the field. Happy to add the
+> annotation if you prefer it.
 
-syzbot found the following issue on:
+Yes, reading io_cpu locklessly in the I/O hot path is intentional. However,
+to avoid KCSAN splat, we should mark read and write access with READ_ONCE()
+and WRITE_ONCE() respectively.
 
-HEAD commit:    a5ebb76233b7 Merge tag 'edac_urgent_for_v7.3_rc7' of git:/..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=1494923e580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=df4bbab1c2172b9f
-dashboard link: https://syzkaller.appspot.com/bug?extid=c98b21427617af7f547a
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=126a0f15580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=166a0f15580000
+Unfortunately, the Clang context analyzer cannot currently model a lock that
+serializes writers while allowing readers to access the protected variable
+without holding that lock. Annotating io_cpu with __guarded_by() would therefore
+require us to annotate lockless reads with context_unsafe() or data_race(),
+which I think we'd prefer to avoid.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/d24cfbd75fba/disk-a5ebb762.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/d0874c703893/vmlinux-a5ebb762.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/2a424fa32a7b/bzImage-a5ebb762.xz
+I suggest introducing two helpers: one to read io_cpu and another to update it:
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+c98b21427617af7f547a@syzkaller.appspotmail.com
+static inline int nvme_tcp_queue_io_cpu(struct nvme_tcp_queue *queue)
+{
+	return READ_ONCE(queue->io_cpu);
+}
 
-nvmet_tcp: enabling port 1 (127.0.0.1:4420)
- non-slab/vmalloc memory
-list_del corruption. prev->next should be ffff88802af3b020, but was 0000000000000000. (prev=ffffffff9aecd340)
-------------[ cut here ]------------
-kernel BUG at lib/list_debug.c:64!
-Oops: invalid opcode: 0000 [#1] SMP KASAN PTI
-CPU: 0 UID: 0 PID: 5680 Comm: syz-executor403 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
-RIP: 0010:__list_del_entry_valid_or_report+0x15a/0x190 lib/list_debug.c:62
-Code: e8 ab ea 37 fd 43 80 3c 2c 00 74 08 4c 89 ff e8 6c b1 58 fd 49 8b 17 48 c7 c7 40 71 cc 8b 48 89 de 4c 89 f9 e8 a7 7a 4c fc 90 <0f> 0b 4c 89 f7 e8 7c ea 37 fd 43 80 3c 2c 00 74 08 4c 89 ff e8 3d
-RSP: 0018:ffffc90004cdfc30 EFLAGS: 00010246
-RAX: 000000000000006d RBX: ffff88802af3b020 RCX: 7d3c36a647dfae00
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: 0000000000000201 R08: 0000000000000000 R09: 0000000000000000
-R10: dffffc0000000000 R11: ffffed101708490b R12: 1ffffffff35d9a68
-R13: dffffc0000000000 R14: ffffffff85f7f740 R15: ffffffff9aecd340
-FS:  0000555594721400(0000) GS:ffff8881249bb000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000555594721340 CR3: 0000000038dd8000 CR4: 00000000003526f0
-Call Trace:
- <TASK>
- __list_del_entry_valid include/linux/list.h:140 [inline]
- __list_del_entry include/linux/list.h:261 [inline]
- list_del include/linux/list.h:275 [inline]
- nvmet_fc_portentry_unbind drivers/nvme/target/fc.c:1281 [inline]
- nvmet_fc_remove_port+0x16b/0x320 drivers/nvme/target/fc.c:2927
- nvmet_disable_port+0x13e/0x1f0 drivers/nvme/target/core.c:400
- nvmet_port_subsys_drop_link+0x1e8/0x210 drivers/nvme/target/configfs.c:1123
- configfs_unlink+0x44f/0x6b0 fs/configfs/symlink.c:258
- vfs_unlink+0x27b/0x6e0 fs/namei.c:5678
- filename_unlinkat+0x3d3/0x610 fs/namei.c:5748
- __do_sys_unlinkat fs/namei.c:5777 [inline]
- __se_sys_unlinkat+0x83/0x1a0 fs/namei.c:5769
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f0ad400d8b9
-Code: c0 79 93 eb d5 48 8d 7c 1d 00 eb 99 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 d8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffe650d4178 EFLAGS: 00000246 ORIG_RAX: 0000000000000107
-RAX: ffffffffffffffda RBX: 0000200000000780 RCX: 00007f0ad400d8b9
-RDX: 0000000000000000 RSI: 0000200000000780 RDI: 00000000ffffff9c
-RBP: 00000000000f4240 R08: 0000000000000009 R09: 0000000000000009
-R10: 0000000000000009 R11: 0000000000000246 R12: 0000000000014e22
-R13: 00007ffe650d418c R14: 00007ffe650d41a0 R15: 00007ffe650d4190
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:__list_del_entry_valid_or_report+0x15a/0x190 lib/list_debug.c:62
-Code: e8 ab ea 37 fd 43 80 3c 2c 00 74 08 4c 89 ff e8 6c b1 58 fd 49 8b 17 48 c7 c7 40 71 cc 8b 48 89 de 4c 89 f9 e8 a7 7a 4c fc 90 <0f> 0b 4c 89 f7 e8 7c ea 37 fd 43 80 3c 2c 00 74 08 4c 89 ff e8 3d
-RSP: 0018:ffffc90004cdfc30 EFLAGS: 00010246
-RAX: 000000000000006d RBX: ffff88802af3b020 RCX: 7d3c36a647dfae00
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: 0000000000000201 R08: 0000000000000000 R09: 0000000000000000
-R10: dffffc0000000000 R11: ffffed101708490b R12: 1ffffffff35d9a68
-R13: dffffc0000000000 R14: ffffffff85f7f740 R15: ffffffff9aecd340
-FS:  0000555594721400(0000) GS:ffff8881249bb000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000555594721340 CR3: 0000000038dd8000 CR4: 00000000003526f0
+static inline void nvme_tcp_queue_change_io_cpu(struct nvme_tcp_queue *queue,
+		int cpu)
+	__must_hold(&queue->ctrl->io_cpu_lock)
+{
+	WRITE_ONCE(queue->io_cpu, cpu);
+}
 
+All readers could then access queue->io_cpu through nvme_tcp_queue_io_cpu(),
+while all writes would go through nvme_tcp_queue_change_io_cpu(). The __must_hold()
+annotation on the update helper would allow the Clang context analyzer to verify
+that callers hold io_cpu_lock when modifying io_cpu, without requiring annotations
+for the intentional lockless reads.
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+> 
+>>> +	unsigned int		nr_queue_infos;
+>>> +	atomic_t		qinfo_refs;
+>>> +	struct completion	qinfo_release;
+>>>    };
+>>
+>> I think the qinfo_refs and qinfo_release are added for tracking the
+>> lifecycle of nvme_queue_info object. But do we really need to do
+>> that ?
+>> When a nvme_queue_info->kobj is initialized/added, its parent kobject
+>> is referenced by the kobject infrastructure. Therefore, as long as a
+>> queue-info kobject exists, its parent queues_kobj remains alive, which
+>> in turn keeps ctrl->device->kobj alive. This should already prevent the
+>> controller object from being released while a queue-info kobject still
+>> exists. Could we therefore avoid maintaining a second qinfo_refs
+>> reference count and completion? It seems that entire kobject parent
+>> chain already provides the lifetime dependency that qinfo_refs is
+>> trying to enforce.
+> 
+> Agreed. With the directory removed in nvme_tcp_free_queue(), no queue
+> directory outlives its queue, and the kobject release only frees its
+> own allocation, so the parent chain is enough. v5 drops qinfo_refs,
+> the completion and nr_queue_infos. Each connection allocates its own
+> kobject, so a reconnect never reuses one.
+> 
+> [...]
+>> This look overly complicated. In a simple scheme can't we get rid off
+>> NVME_QUEUE_INFO_IO_CPU_USER and instead use NVME_TCP_Q_IO_CPU_SET as an
+>> indicator for differentiating between io_cpu is managed by user or driver?
+>> For instance,
+>>
+>> NVME_TCP_Q_IO_CPU_SET = 1
+>>       - driver has selected a specific io_cpu
+>>
+>> NVME_TCP_Q_IO_CPU_SET = 0 && io_cpu != WORK_CPU_UNBOUND
+>>       - user has selected a specific io_cpu
+>>
+>> NVME_TCP_Q_IO_CPU_SET = 0 && io_cpu == WORK_CPU_UNBOUND
+>>       - unbound; workqueue chooses the execution CPU and so it's driver managed
+> 
+> I drew your scheme as a state diagram to compare it with v4.
+> 
+>                DRIVER MANAGED          |         USER MANAGED
+>     (SET=1, or SET=0 && UNBOUND)       |     (SET=0 && io_cpu=c)
+>                                        |
+>   connect +--------------------+ store(c)  +--------------------+
+>   ------->| A  driver chosen   |-------+-->| C  user pin        |
+>           |    io_cpu=c, SET=1 |       |   |    io_cpu=c, SET=0 |
+>           |    counted         |       |   |    not counted (1) |
+>           +--------------------+       |   +--------------------+
+>             | stop, SET=0 and          |     |
+>             | io_cpu must be reset (2) |     | store(-1)
+>             v                          |     |
+>           +--------------------+       |     |
+>           | B  unbound         |<------+-----+
+>           |    io_cpu=UNBOUND  |       |
+>           |    SET=0           |       |   +- - - - - - - - - - +
+>           |    also where a    |       |   : D  user unbound    :
+>           |    user -1 lands(3)|       |   :    not reachable,  :
+>           |                    |       |   :    see (3)         :
+>           +--------------------+       |   +- - - - - - - - - - +
+>             | next connect, reselect   |
+>             +--> A                     |
+> 
+> (1) A user pin has SET=0, so it drops out of nvme_tcp_cpu_queues.
+>      When the driver selects io_cpu for other queues and other
+>      controllers in nvme_tcp_set_queue_io_cpu(), it sees that cpu as
+>      idle and keeps placing queues on it. v4 counts every bound queue
+>      regardless of who assigned it.
+> 
+> (2) SET clears at stop. Unless the stop path also resets io_cpu to
+>      WORK_CPU_UNBOUND once io_work is cancelled, a driver chosen io_cpu
+>      reads as a user pin after the reconnect and the driver never
+>      selects a cpu for that queue again. In v4 only the sysfs store
+>      sets the USER bit, so connect and stop never touch ownership.
+> 
+> (3) The user managed side has no unbound state. A -1 written by the
+>      user is the same state as a queue the driver has not bound yet,
+>      so managed reads 1 and the next connect binds it again. Also,
+>      nvme_tcp_wq is a per-cpu workqueue, so an unbound io_work runs
+>      on the cpu that queued it rather than on a cpu chosen by the
+>      workqueue.
+> 
+May not be true always when nvme_tcp_wq is inited with wq_unbound. We
+have a module option using which we could toggle this behavior.
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+> The USER bit records who owns io_cpu and survives reconnects, while
+> SET records whether io_cpu is in the ledger and follows connect and
+> stop. I'd like to keep both, with USER moved into nvme_tcp_queue flags
+> as you asked on patch 1. The complexity you point at is the extra
+> branch in the store, which collapses to a single path with the same
+> behavior in v5.
+> 
+> 	mutex_lock(&ctrl->io_cpu_lock);
+> 	old = xchg(&queue->io_cpu, cpu);
+> 	set_bit(NVME_TCP_Q_IO_CPU_USER, &queue->flags);
+> 	if (test_and_clear_bit(NVME_TCP_Q_IO_CPU_SET, &queue->flags))
+> 		atomic_dec(&nvme_tcp_cpu_queues[old]);
+> 	if (cpu != WORK_CPU_UNBOUND &&
+> 	    test_bit(NVME_TCP_Q_ALLOCATED, &queue->flags)) {
+> 		atomic_inc(&nvme_tcp_cpu_queues[cpu]);
+> 		set_bit(NVME_TCP_Q_IO_CPU_SET, &queue->flags);
+> 	}
+> 	mutex_unlock(&ctrl->io_cpu_lock);
+> 
+> Does that work for you?
+> 
+This looks good. However, I wonder why we need to check NVME_TCP_Q_ALLOCATED
+here? If the user can update io_cpu only while the queue's sysfs directory
+exists, and that directory is created and removed along with the queue's
+allocation and teardown, shouldn't we be able to drop this check?
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+>> Other that what sashiko provided in the review feedback, above are my
+>> few additional comments.
+> 
+> Thanks for the review. v5 also fixes the Sashiko findings.
+> 
 
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+Thanks,
+--Nilay
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
 
