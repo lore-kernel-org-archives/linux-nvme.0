@@ -4,69 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 17D8FCA9ED1
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Oct 2026 14:39:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 385B3CA9EDD
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Oct 2026 16:24:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xP1oht89CwRZ8lK8dc2psCTyCsXfeaCRWjUSkyJhkJg=; b=JltuslqV7AWi8nYuUZH7biLXMm
-	QcT8j7sxwxMOOFVU848ebF/u6rfYuDmNLNxZxt41eViFUUMzKmbqxGeQ/n8qsRQcKbWTypB2oFszF
-	FpLi/85JqT8kUmCM2awCIy3KFGTMbyNW3YAPoz933k2wCIx1/ftcBGH70OtVGs/EsU1+aG+OhlTPi
-	9iTMPgHro0lTHl0r6rkiIWIRbUSUOkbqC5k6cba3Aio+ldOWE3eJpOAaPMnS+5bE5n7ZcCzzjA5uG
-	xQgYLknPKj/OToQm9NJwqKU55pYZUKWMfmP07+ilNQr/DZutc61tx+KKZBTuSfh6XtTW6CsF6BdGp
-	kSs6v4Gg==;
+	bh=gjubPOuxdvWHce9i4IPxOTkmVc5NCDr07T7TK4hmZvk=; b=SUpCpz8benfFBz2L4S++nITM2v
+	cVorqCiLxwu4ZzS9pVVRRJd+JWWFFgYZoQP5YxNq3971pivEZDXG9MXSX2tR9EJIqh0f0VlHzQFjR
+	5VtGsjZMtlFO5DU1JgH/Dva7D2DtmXpv8sYnJtyzv4bVFWSRrO34h5IS/vgzODGVyZ6YP8H560Z5B
+	nlos1GEOWypI7swFKEH9ZEWnRumh8GpWpemu6bJIQt5IhGeq/hyVBZB2339DjP2xB6vlcvNOMCS9t
+	OruHhaUNXzvD58Ut5a1U4WI1RA19hFh2kissguOxit60aNY4ytxTutUB811GaWJ3hW5Na+F5FkzUV
+	S9Ci1IGw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGHBs-0000000AhzJ-3MDs;
-	Mon, 12 Oct 2026 14:39:48 +0000
-Received: from out-179.mta1.migadu.com ([2001:41d0:203:375::b3] helo=mta1.migadu.com)
-	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGHBn-0000000Ahyh-0isL
+	id 1xGIpY-0000000AxHT-1Ags;
+	Mon, 12 Oct 2026 16:24:52 +0000
+Received: from linux.microsoft.com ([13.77.154.182])
+	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1xGIpW-0000000AxH6-0GMS
 	for linux-nvme@lists.infradead.org;
-	Mon, 12 Oct 2026 14:39:44 +0000
-X-Envelope-To: linux-nvme@lists.infradead.org
-DKIM-Signature: a=rsa-sha256; bh=CEkn6V5ALhhqhhpxb3OWlxXupE8t6sIgFZ0BVdRWG90=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1791815981; v=1; x=1792420781;
- b=mdCytkoSLrzPBrXSb6TPfgPUphJ/NUPDhEGvUnJTGA/XcBrDJm0n63PNRkBO0F/mT7DKCquG
- 6P23U0b7lVFP6pP3ojn+9oIwDXFGeV9g1KgUAC8ewe92sduxyrwgxym0wN1hVWR7zsEOF74aFEs
- QnRiTRqgZRagLLfXqU9/Ya9A=
-X-Envelope-To: linux-nvme@lists.infradead.org
-Received: by mta12.migadu.com with ESMTPS id c71f62ae9e69f9bb;
-	Mon, 12 Oct 2026 14:39:41 +0000
-X-Mizu-Trace-ID: c71f62ae9e69f9bb
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <8894307f-1042-497c-9c16-3fc1312486fb@linux.dev>
-Date: Mon, 12 Oct 2026 15:39:36 +0100
+	Mon, 12 Oct 2026 16:24:51 +0000
+Received: from [192.168.1.70] (unknown [4.194.122.162])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 9B36F20B7166;
+	Mon, 12 Oct 2026 09:24:43 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 9B36F20B7166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1791822285;
+	bh=gjubPOuxdvWHce9i4IPxOTkmVc5NCDr07T7TK4hmZvk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=auFpsEqBZP5CtAUsUXapXjiHxzL3yHdCBeIWvsSEpxJ2jaqJdVuHLgCmgl1tyBjlD
+	 SwbWsRo7ypCwS0Lmq4EEZ1t4IFLm4BXqUMVFJEY4vADjN8+IA/uluugycMCOwzoEWy
+	 GWLSXp/x4gR4qO5Ssazj8JKBL+6LCK30YpoKhci4=
+Message-ID: <b3f3b6fe-893c-4a24-b8c0-3a929cb581ac@linux.microsoft.com>
+Date: Mon, 12 Oct 2026 21:54:42 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [External] Re: [PATCH] Revert "nvme-pci: clamp max_hw_sectors
- based on DMA optimized limitation"
-To: Christoph Hellwig <hch@lst.de>
-Cc: Adrian Huang12 <ahuang12@lenovo.com>,
- "kbusch@kernel.org" <kbusch@kernel.org>, "sagi@grimberg.me"
- <sagi@grimberg.me>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Jiwei JW10 Sun <sunjw10@lenovo.com>,
- "iommu@lists.linux.dev" <iommu@lists.linux.dev>
-References: <20261006120248.147654-1-hch@lst.de>
- <8cf8a8ea-c9c9-434b-aec6-e361280a88a4@linux.dev>
- <20261008123724.GA22096@lst.de>
- <TPZP295MB0013C6E51C73799E49B8EFF4B3922@TPZP295MB0013.TWNP295.PROD.OUTLOOK.COM>
- <2007f03b-2c76-4c36-a0bd-0ce99d1a01a2@linux.dev>
- <20261012121736.GE29954@lst.de>
+Subject: Re: [RFC PATCH 3/3] nvme-pci: defer completions when rescheduling is
+ needed
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Michael Kelley <mhklinux@outlook.com>, linux-hyperv@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261009050556.2817978-1-namjain@linux.microsoft.com>
+ <20261009050556.2817978-4-namjain@linux.microsoft.com>
+ <askIoNon8UVyNJiJ@kbusch-mbp>
+ <8aba4809-6655-4bfd-a83a-25c5ab816645@linux.microsoft.com>
+ <aszuckZVkc2-kXM3@kbusch-mbp>
 Content-Language: en-US
-From: John Garry <john.garry@linux.dev>
-In-Reply-To: <20261012121736.GE29954@lst.de>
+From: Naman Jain <namjain@linux.microsoft.com>
+In-Reply-To: <aszuckZVkc2-kXM3@kbusch-mbp>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261012_073943_434653_15DC3CF1 
-X-CRM114-Status: GOOD (  14.68  )
+X-CRM114-CacheID: sfid-20261012_092450_137193_18443001 
+X-CRM114-Status: GOOD (  17.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,29 +76,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/12/26 13:17, Christoph Hellwig wrote:
-> On Mon, Oct 12, 2026 at 09:42:04AM +0100, John Garry wrote:
->> And now we seem to have a conflict, as Christoph wants block size > IOVA
->> rcache limit but you find it may cause this soft lockup.
+
+
+On 10/12/2026 7:58 PM, Keith Busch wrote:
+> On Mon, Oct 12, 2026 at 12:17:38PM +0530, Naman Jain wrote:
+>>> The disable_irq_nosync still does non-posted transactions for msi and
+>>> msi-x. NVMe has a shortcut for msi, but there's currently nothing for
+>>> msi-x. For that case, I have a prep patch I consulted with Thomas, and
+>>> the result is below. I'm delayed sending it out while catching up from
+>>> travel, but I think this will be even more efficient.
+>>>
 >>
->>> 2. Another NVME with mdts=5 (maximum data transfer size = 128KB)
->>>     2.1 The issue does not reproduce regardless of the 'bs' configuration
->>> 3. The condition '128 KB' is identified because the IOMMU scalable IOVA mechanism supports a maximum transfer size of 128 KB.
->>> 4. IOMMU pass-through mode does not trigger the issue with the 'mdts=10' nvme disk.
->>> 5. The issue only appears with high-core-count servers
->>>     5.1 Reproduced servers: 448-core server and 384-core server
->>>     5.2 Non-reproduced server: 128-core server
->>
->> How long does it take for the lockup to trigger? Pretty quickly, I guess.
->>
->> Does changing the number of CPUs affect throughput (before the lockup)? Are
->> you using just a single disk?
+>> Thanks for sharing. I'll give it a try. IIUC, after your patch goes in, I
+>> should be using disable_irq_nowait() in above and see better performance.
 > 
-> If the iova cache locks up under a perfectly normal workloads it
-> is broken. 
+> Yes, exactly. It should save hundreds of CPU cycles on every switch from
+> irq to polling.
+> 
 
+Understood.
 
-> We really need to fix the code there.
+>> Please correct me if I am wrong. I'll monitor your patch in LKML for future
+>> versions.
+> 
+> I need a user for the new API. NVMe is the only one I have in mind
+> right now, so this new irq disable would have to be tied to the series
+> that does the adaptive polling.
 
-Sure, but it would help to first fully understand the conditions to fix it.
+Acked. For this series, there are couple of solutions floating around in 
+LKML, and we are trying to converge on the final approach. Once 
+finalized, if we still need to call disable_irq_sync(), we can make use 
+of this new API. In any case, if I happen to send the next version of 
+this, I can use the new APIs, creating dependency on your changes.
+
+Regards,
+Naman
 
