@@ -4,123 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9E688CA9ED1
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Oct 2026 09:30:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 133D0CA9ED1
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Oct 2026 12:18:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=03+1hE3bYRORO4eEcekQVbtkmb0CZBJTIiQ8tV3eKNQ=; b=XZ17wAhCgdfy0aePzJ1LOmiyma
-	0DvB4MX+FNRYikv4YumovibRHgfOlY6SV9RWHYpLDbfGmi606DH0yyUhcq5PhE8UDRdNh3SS7Xkj/
-	RSKj+bhZx0m8F3K+jUkfJyo8fzYXzpxh7pTk/+iACUWFERDfNbTqAA4wO2aZJ6Sv6Lf6B+9MsOOjH
-	u0dZoTl0Ey6CH7szdVx9Mic+wcc4pOFn/IKPSMIdoK4doab5tFC9bPsxkwKYIMGylZcynZg1XXMbR
-	/eW60uF9xc8fUAa6GOtxRBwT5JBgkIp/E3s2sVJnTQ7/sQOUd4FOwUy3gM3rksu0bC2C7RuRIkHul
-	Q6vC9MjQ==;
+	bh=7DZ29KSR5IQVfS14SvRysgyJyIe/qfWk7fwLE+3d+MI=; b=PPu5no0ne9gVYsp8WQhA86QSmo
+	OeGAf1i5bqmn4xp8JRb2bQweNbFIxw5AjIoXPB7dDznOPPuWWUM+MngaBX7DuNkb6QTgPoUSevo2S
+	rvblUZLcFq/BegGVP6LSQmuDZWQ13HhRmILHEmjphBIdJF+EOXNyvjAkhkDifMjokbCW80bf4mYiM
+	6JYfOqp639a7F3ZNAWVl9PuMlXLGLcXRlKE36lPnCilMGLIEA/7S0y/+3EXJn12oe/kuXEKnVVZBc
+	YDv6u0OsK5UCC87i/7JXS/XeImKO5IDJjol8GwbdTHt7x+/H1gPAOC/d+XEIejvjujOHuw7dEgb4N
+	asV1/TUw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGCMZ-0000000A3si-0IfH;
-	Mon, 12 Oct 2026 09:30:31 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1xGEyg-0000000AQk4-3TOV;
+	Mon, 12 Oct 2026 12:18:02 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGCMV-0000000A3rp-49lT
+	id 1xGEyT-0000000AQNB-3hdx
 	for linux-nvme@lists.infradead.org;
-	Mon, 12 Oct 2026 09:30:29 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 636AE21D96;
-	Mon, 12 Oct 2026 09:30:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791797424; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=03+1hE3bYRORO4eEcekQVbtkmb0CZBJTIiQ8tV3eKNQ=;
-	b=ck0OmmrMLlgOGjvTuDIo1I9UCObSW/6NnH7zTFEfbUxpJjRvKT9YL/JGPMrJgt7iIssA+F
-	WO6Uh3r0pHc3NpfEPDfsoLgggPySdTsg1k+t9IXR8JJroCPZ+U5MzI51Yamlkh/kWGG5rE
-	IRKWig5k+ohyk5tKsrZ1B0o4aWkYf3w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791797424;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=03+1hE3bYRORO4eEcekQVbtkmb0CZBJTIiQ8tV3eKNQ=;
-	b=JNBs9TL2lnJx9XsxPTXDQStwr3Aefo4jv/Rm3FrBfpjsWNVo36kJDuiCnjeNG1ByRLuiIX
-	XuJkisd4CdjAV9Cw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791797424; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=03+1hE3bYRORO4eEcekQVbtkmb0CZBJTIiQ8tV3eKNQ=;
-	b=ck0OmmrMLlgOGjvTuDIo1I9UCObSW/6NnH7zTFEfbUxpJjRvKT9YL/JGPMrJgt7iIssA+F
-	WO6Uh3r0pHc3NpfEPDfsoLgggPySdTsg1k+t9IXR8JJroCPZ+U5MzI51Yamlkh/kWGG5rE
-	IRKWig5k+ohyk5tKsrZ1B0o4aWkYf3w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791797424;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=03+1hE3bYRORO4eEcekQVbtkmb0CZBJTIiQ8tV3eKNQ=;
-	b=JNBs9TL2lnJx9XsxPTXDQStwr3Aefo4jv/Rm3FrBfpjsWNVo36kJDuiCnjeNG1ByRLuiIX
-	XuJkisd4CdjAV9Cw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2B3CC13314;
-	Mon, 12 Oct 2026 09:30:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id P7LSA7CozGrGagAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Mon, 12 Oct 2026 09:30:24 +0000
-Date: Mon, 12 Oct 2026 11:30:19 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Palla Raghunath <raghunathpalla.0209@gmail.com>
-Cc: Justin Tee <justin.tee@broadcom.com>, 
-	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>, Paul Ely <paul.ely@broadcom.com>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, 
-	Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Shuah Khan <shuah@kernel.org>, 
-	Brigham Campbell <me@brighamcampbell.com>, linux-kernel-mentees@lists.linux.dev, 
-	syzbot+da94a51633758d13bd63@syzkaller.appspotmail.com
-Subject: Re: [PATCH] nvmet-fc: don't drop the last assoc reference in
- nvmet_fc_delete_ctrl()
-Message-ID: <b32efbb3-7700-4da0-96a5-ec828f471578@flourine.local>
-References: <20261008191848.47066-1-raghunathpalla.0209@gmail.com>
+	Mon, 12 Oct 2026 12:17:51 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 5D7F96732A; Mon, 12 Oct 2026 14:17:37 +0200 (CEST)
+Date: Mon, 12 Oct 2026 14:17:36 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: John Garry <john.garry@linux.dev>
+Cc: Adrian Huang12 <ahuang12@lenovo.com>, Christoph Hellwig <hch@lst.de>,
+	"kbusch@kernel.org" <kbusch@kernel.org>,
+	"sagi@grimberg.me" <sagi@grimberg.me>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	Jiwei JW10 Sun <sunjw10@lenovo.com>,
+	"iommu@lists.linux.dev" <iommu@lists.linux.dev>
+Subject: Re: [External] Re: [PATCH] Revert "nvme-pci: clamp max_hw_sectors
+ based on DMA optimized limitation"
+Message-ID: <20261012121736.GE29954@lst.de>
+References: <20261006120248.147654-1-hch@lst.de> <8cf8a8ea-c9c9-434b-aec6-e361280a88a4@linux.dev> <20261008123724.GA22096@lst.de> <TPZP295MB0013C6E51C73799E49B8EFF4B3922@TPZP295MB0013.TWNP295.PROD.OUTLOOK.COM> <2007f03b-2c76-4c36-a0bd-0ce99d1a01a2@linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261008191848.47066-1-raghunathpalla.0209@gmail.com>
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	TAGGED_RCPT(0.00)[da94a51633758d13bd63];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[broadcom.com,gmail.com,lst.de,grimberg.me,nvidia.com,kernel.org,suse.de,lists.infradead.org,vger.kernel.org,brighamcampbell.com,lists.linux.dev,syzkaller.appspotmail.com];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
+In-Reply-To: <2007f03b-2c76-4c36-a0bd-0ce99d1a01a2@linux.dev>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261012_023028_179229_A22E6809 
-X-CRM114-Status: GOOD (  13.63  )
+X-CRM114-CacheID: sfid-20261012_051750_075514_5BF495EE 
+X-CRM114-Status: GOOD (  16.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -135,37 +64,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Oct 08, 2026 at 08:18:48PM +0100, Palla Raghunath wrote:
-> syzbot hit a recursive locking report on subsys->lock when a subsystem
-> is unlinked from an FC port.
-> 
-> nvmet_port_del_ctrls() holds subsys->lock while it calls ->delete_ctrl()
-> for each controller. nvmet_fc_delete_ctrl() grabs a reference on the
-> association, queues del_work and then drops the reference. If del_work
-> gets to run to completion before that put, ours is the last reference.
-> Freeing the assoc tears down the queues, the last nvmet_cq_put() drops
-> the last ctrl reference, and nvmet_ctrl_free() goes for subsys->lock
-> again:
-> 
->   WARNING: possible recursive locking detected
->   ...
->    nvmet_ctrl_free+0xa6/0x8e0 drivers/nvme/target/core.c:1766
->    nvmet_cq_put+0x158/0x200 drivers/nvme/target/core.c:848
->    nvmet_fc_target_assoc_free+0x418/0x2220 drivers/nvme/target/fc.c:1173
->    nvmet_fc_delete_ctrl+0x717/0x7e0 drivers/nvme/target/fc.c:1581
->    nvmet_port_del_ctrls+0xfb/0x150 drivers/nvme/target/core.c:311
->    nvmet_port_subsys_drop_link+0x1e8/0x310 drivers/nvme/target/configfs.c:1119
-> 
-> It's a real hang, not only a lockdep warning. I reproduced it with
-> fcloop by putting an msleep() before the put: rm on the configfs link
-> gets stuck in D state for good.
-> 
-> I don't think we need that reference at all.
+On Mon, Oct 12, 2026 at 09:42:04AM +0100, John Garry wrote:
+> And now we seem to have a conflict, as Christoph wants block size > IOVA 
+> rcache limit but you find it may cause this soft lockup.
+>
+>> 2. Another NVME with mdts=5 (maximum data transfer size = 128KB)
+>>    2.1 The issue does not reproduce regardless of the 'bs' configuration
+>> 3. The condition '128 KB' is identified because the IOMMU scalable IOVA mechanism supports a maximum transfer size of 128 KB.
+>> 4. IOMMU pass-through mode does not trigger the issue with the 'mdts=10' nvme disk.
+>> 5. The issue only appears with high-core-count servers
+>>    5.1 Reproduced servers: 448-core server and 384-core server
+>>    5.2 Non-reproduced server: 128-core server
+>
+> How long does it take for the lockup to trigger? Pretty quickly, I guess.
+>
+> Does changing the number of CPUs affect throughput (before the lockup)? Are 
+> you using just a single disk?
 
-Yes, you are correct. The reference does not protect from del_work
-getting scheduled. Indeed this is buggy and your fix looks correct.
+If the iova cache locks up under a perfectly normal workloads it
+is broken.  We really need to fix the code there.
 
-Thanks!
-
-Reviewed-by: Daniel Wagner <dwagner@suse.de>
 
