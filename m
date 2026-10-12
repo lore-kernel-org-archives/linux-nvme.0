@@ -4,72 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 997C2CA9ED1
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Oct 2026 14:13:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E0A03CA9EC5
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Oct 2026 14:13:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FEGgdcLnqcVqT4VDy0LsmeHP+tq7RUbfRCvfJ7zm1f4=; b=C8CSoyb0MizyyrvqXf+rUb/sTP
-	MjIwcmYNIwie8uG4oWUXYCa4GshmskrKg1i4DhMeefbYUrrsmbMr/lfyBzUFXy5B5N+7Zsh3h3bjg
-	T6IFGKrWU5edR4FC1HOxKw+LdYGgZmKEeIH0KA3WwCalpIIb6i7j2/4foQVoVv7KT9b5D74K6HwNo
-	O47SDPPOYTx3gCJ7rWZKMhNWEjbjfCIEd/HqzBXAAUd1EE/uw/Es98vkDkZ8zNBfRLOmx/gz7bkjO
-	zAlZFdytlg+g9RyQsHq+7ickoIbKi80iR/Kvq+RnSys+o0lGoI2bE0J08sqB4UDXt/sUxkawXqqNj
-	ecNBIqLg==;
+	bh=wZoOoHAtBKyUqJYvkGqSuamBRb2ixZoZPiDn5D95M/I=; b=AbIvhfbhEY62raW0hKQBvWrnDK
+	6a2lLPmZoIc4zYv2i06/fi0aRZlOy7AP/cAVnmK28Oe8b/wq2R60QHCa4+Gpi/M20EtSUsESTdXEx
+	UuG0ghgb7xXcryblxJHEsm4EFccGwVGIcD+qHR19cwY0DaygDfLTyZSjPhsPgMZNVQicQKNINIzBd
+	5oBi4z6XWqkLcoLZYrFSQHW7/YyU3U42jtPSEnNuug0fJbUu/bvty/fx6Z6EbMwt4ncgb1Q4W4YwX
+	nqWPK/2DFdfIsuA9SdsOEPDaJBh11H3UfKjQ7KCA7T9/xrBmywEfjXuag1Dx5krjJWQKTRSkiTubg
+	qbxdocKw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGGm3-0000000Aeet-3ekj;
-	Mon, 12 Oct 2026 14:13:08 +0000
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+	id 1xGGm7-0000000AehA-279m;
+	Mon, 12 Oct 2026 14:13:11 +0000
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGGm1-0000000Aebv-1k7y
+	id 1xGGm3-0000000Aedd-2G17
 	for linux-nvme@lists.infradead.org;
-	Mon, 12 Oct 2026 14:13:06 +0000
-Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-49d05d51553so12454745e9.2
-        for <linux-nvme@lists.infradead.org>; Mon, 12 Oct 2026 07:13:04 -0700 (PDT)
+	Mon, 12 Oct 2026 14:13:10 +0000
+Received: by mail-wr1-x433.google.com with SMTP id ffacd0b85a97d-48b042c0759so1450209f8f.2
+        for <linux-nvme@lists.infradead.org>; Mon, 12 Oct 2026 07:13:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791814383; x=1792419183; darn=lists.infradead.org;
+        d=gmail.com; s=20251104; t=1791814385; x=1792419185; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=FEGgdcLnqcVqT4VDy0LsmeHP+tq7RUbfRCvfJ7zm1f4=;
-        b=hXYgnXW550FZaFYqwEtb28RiKlNM34SRHxMokH+91/HgVbtMVVHFqhM2Mw3rUAPaCO
-         otJ7xpW4x2p+oZUJWvu7TvrAGQ+V+OaLE+RomXY8eHNCCdHfqI6W01Om9YGpGdE+YlHl
-         Cjl62ZaR8apwtytMZww0GmyYgB9HT3S8K3ySk/wjj64x20C6V41FDZ09H2C40o5nqqy4
-         po9c+ROSIqtNZg5KFdz3VzUtz4Pq5YEt9+AdYtfhaxT2Th2S4xcbD2cWS83YjjD/7Xhd
-         gW8oYvC71cTY5D259Uuxx9WtZPaoPc4RuTzjoPG4qMjifxMVcrCjS+HkTHmSMjVVyZ5q
-         soIw==
+        bh=wZoOoHAtBKyUqJYvkGqSuamBRb2ixZoZPiDn5D95M/I=;
+        b=CXgsOyZ3X96uTdvzJeqHzQZvyYIFK7KxylPhwx7UjFdrQ3K76VtjOnj/JMBEYH9ESF
+         pCWlR2Z/M9qduUq6SiO2cb7+iOtftxpdjNXHq7K6v7KHkjK+Xx4t1BRutxQZ2acNRJy2
+         d8oDIU4gHSGrrJ7SoPK4tRKwm5cOOc7vNV1VvwWTVytu48zE3r44S+lpA/uVcC93kUht
+         I1XtWOBCWqhGQ1iuRl86BhSJ0pCjeqS56yN3jrN7gtYWhNWJKAx5XbTk/Ci7Jddslz8I
+         BfPvAPVx/ZLI+yccweGoPfyv/7jWhQ0FPoiiSmYAQMV9An/hioZxpQphfkmDHf0CGN28
+         8IhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791814383; x=1792419183;
+        d=1e100.net; s=20260707; t=1791814385; x=1792419185;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=FEGgdcLnqcVqT4VDy0LsmeHP+tq7RUbfRCvfJ7zm1f4=;
-        b=qj6l9pHeRPHQOYRsjrBSHlrGZ463kvm2vugNE1i1CL/MVQ9uChP+Ij79JtyDviv7V/
-         01SfX6HlaI59mh0scIZ2pWutfHVzO4DMsuj+FYZJIU9xqtDixsIffD/6WIznszTuJBk2
-         BawSTgDP0eTfFvlUywuUC1jOJ97NF/Tb2GNwwYF67Tsg5SSPlgvz5G0narHtHoJrsM7F
-         QpkUhRqJ2za34mZO04N/dL7JyHclQY4FVw4n6cJjDVtY80K7miuGgBQrVZ8hp++c5br5
-         z2Qr+QTLdWhTjE0tqfNq6ctv2M/RzVwpdH7RK5ntHii4pD7xIpqhU2+mlcMk0podFeuf
-         TWGg==
-X-Forwarded-Encrypted: i=1; AKwUvBxtkv6SbHTNgL92Al+wWs58MmPRKTmSC1cjc0j+/0KjvOvLDonG8vcT8RiKEQbbWwyFVCsE9Gw0DC95@lists.infradead.org
-X-Gm-Message-State: AFq9FYLPTbTM3txBptEsHjtQMznXWlc7kQueiLu9ima0XQq1/7hHunKi
-	q8Mj9DsvnoJJYlCyXMn3QjhBKGZz8n3/1N3sUH2rtTPpDw93cz7j6gZL
-X-Gm-Gg: AYBFou1Stnstg8Z/Y7QCig3nlN9RVFfXjqppWpaidf09fLnwLBgztLhzEfk12yDxdC8
-	/mmEnbiHzhlt/16i1HUwF8vQMgPhAc/6wn3vepU8mcBqbkv0//C32Xs8rkoYgdoDj+MfDIlO0rI
-	Y29fpQQWaRhNOj1pHLygYB7gR+Ek9jaPNt4vAr7zC2DVJiZ8olH1QgJuc5UVqooJsbRj5kwS3xT
-	WHjda+iIvi34njZ7Zmt7dcIyllmSS5YlFJoHOxE/l6mgMcCxLAoHbxpSpxthxm6fVJLeskBVlpo
-	4K/xaNkhxxSmGKLFD23LvvO0DMhsj01RWGglEANZd+Uqyb6emIFzLKI0jpUgkXy06+YynM3eFru
-	nPTl/a5baJRv6z7BvGmsSFYf+vS+vvhcJK5ARyMsFgUmao70RAPr0iH2SFQE2zSjZZoafIapwPI
-	o8iTlEdKCAHTrrQbP7Un8Xxvl6rx6vQS7TtY1qlwd06Va7e1qP9cBM5YRd7c+NJZlOXaZwavKrf
-	La6yFQA67zTyypWUtKN9fQKjKDkMzU=
-X-Received: by 2002:a05:600c:8208:b0:4a0:1b14:d00c with SMTP id 5b1f17b1804b1-4a18e446f55mr177700555e9.3.1791814383286;
-        Mon, 12 Oct 2026 07:13:03 -0700 (PDT)
+        bh=wZoOoHAtBKyUqJYvkGqSuamBRb2ixZoZPiDn5D95M/I=;
+        b=m4Wdqz4c99nybB+yD6xiMIi7YkWyasl8dbjBQiS6seF1kEfKyH3SMVQkS1UYWfGoKx
+         0e9BgQPP5q4CvPUJbQeTTHpm4YusC3aYlB84mmsj04+DLfquMsdcFj7oOlCN/wYCbMih
+         ilz5OmLWtzpESleO0cSLOlzD5PHZHLUxpT8wykHej2vsuhsbSaSfZxu1E/fGyaRuZNhG
+         zoYOjPxoWPNUgkft7c+lNSn1Y8mDVfXBIBBUI9uPpShYsEGcWHQ0BA+fLTJBFSpFIx4q
+         eJZEpPH+Un2Mkt+JZD1MViB9+RskcdTPBbxP55r+qRIW0oKajP/I8gE0whsvdJF9iVE+
+         cwIw==
+X-Forwarded-Encrypted: i=1; AKwUvBwlvNnLY86xtLDi9SP1tdkzc0WYM5Qt9CiGJxgkAl+tZwtj+fqf9dSz21BOf8s/PrI32jrBWgEXVc6+@lists.infradead.org
+X-Gm-Message-State: AFq9FYIXg7XhyU7cKhG2t+i/CPPUkLI3eYwQ0TDrQgf8k7Y+p/IJYM+2
+	XR9ulBMXh6CYso/A67koSm4nwlElHIh3jZ1ZGAkXnvVqp6RESdbKlNry
+X-Gm-Gg: AYBFou2tvg+GzrAWhDix8XQ8CHvGhnU7CW0m/whHyXMcj7qcKghM8sq1aDwauiIKUIX
+	k7/+atgbZS8a1/I2uIIPzBUG+KHpc+CPhbW+aFDT8ykGGMewjA0UZieHexQX9CPGTTpo0WZu5xT
+	RiWAT43xdjL7Ns4zHD3T7wCWrqMrEM0z1vuw53/afiF0YxdY+vZxV7FxgitpT9V+KnHUm95cXN0
+	7f6f3xawKLnxmEB3h8KvKX+SltE7tFIieYZLtMndm6FPMH4AFDZDjSo2mPDuixzwMAwal3E+4vD
+	eRO6Vw2PhfleIICqZ7b1vUZ2oaPnYvCjedBg6pKc/SIcojZqrbTZ4vQD8sZC9Uhe8OfbfpMJLfV
+	InktnKcd3D/UkfwbfplqhXF6gqXO+VHuZnhvxNd71SFhgl9QUnt+y1TBUQJdfPz7cs86cejYuUc
+	noouvv9BqQCIsMkod95FyQNLO5bzwsV/TIaunXaV6lb07HLwKzG3eoapf7BvwbA/6tiJvY+7JeH
+	dddPwMeuY6oNnriljmbr8dVJZBgUZLXhmO+lpPKNLJu
+X-Received: by 2002:a05:6000:491c:b0:488:8a5d:ffcc with SMTP id ffacd0b85a97d-48dba9e6715mr18187313f8f.13.1791814385235;
+        Mon, 12 Oct 2026 07:13:05 -0700 (PDT)
 Received: from andreayoga.wind3.hub ([151.76.59.204])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db9ac02cfsm18703035f8f.39.2026.10.12.07.13.01
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db9ac02cfsm18703035f8f.39.2026.10.12.07.13.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Oct 2026 07:13:02 -0700 (PDT)
+        Mon, 12 Oct 2026 07:13:04 -0700 (PDT)
 From: Andrea Parri <parri.andrea@gmail.com>
 To: Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>,
@@ -82,17 +82,17 @@ Cc: Andrea Parri <parri.andrea@gmail.com>,
 	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH 4/5] nvmet: pci-epf: report transport errors in command completions
-Date: Mon, 12 Oct 2026 16:12:31 +0200
-Message-ID: <20261012141239.156408-5-parri.andrea@gmail.com>
+Subject: [PATCH 5/5] nvmet: pci-epf: require SGLs to match the command data length
+Date: Mon, 12 Oct 2026 16:12:32 +0200
+Message-ID: <20261012141239.156408-6-parri.andrea@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261012141239.156408-1-parri.andrea@gmail.com>
 References: <20261012141239.156408-1-parri.andrea@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261012_071305_487486_C1104025 
-X-CRM114-Status: GOOD (  13.32  )
+X-CRM114-CacheID: sfid-20261012_071307_594276_08B78FC4 
+X-CRM114-Status: GOOD (  19.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,22 +107,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When the PCI endpoint target fails a command itself, the host receives a
-successful completion. This happens for a data length above MDTS,
-malformed PRPs or SGLs, a buffer allocation failure, an SQ that is not
-live, and a failed DMA of the command data. A write whose data cannot be
-fetched from the host is thus reported as written, though nothing was
-executed.
+The PCI endpoint target sends the host every byte a read command's SGL
+describes, even when the SGL describes more than the command transfers.
+The excess is kmalloc() memory the command never wrote, so the host
+receives stale target memory. Any successful read can do this,
+including Identify.
 
-Each of these paths sets iod->status and calls
-nvmet_pci_epf_complete_iod(), which then reloads iod->status from
-iod->cqe.status. The nvmet core only fills that field when it completes
-the request, which these paths never do, so it is still zero and
-nvmet_pci_epf_cq_work() posts a success status to the host.
+nvmet_pci_epf_alloc_iod_data_buf() allocates each segment at the length
+of its SGL data descriptor, but sets req->transfer_len from
+iod->data_len, the length the command implies. Once the command
+completes, nvmet_pci_epf_transfer_iod_data() sends every segment in
+full. Nothing compares the descriptor lengths with iod->data_len, and
+the MDTS check only bounds iod->data_len.
 
-Drop the reload. Every path already sets iod->status before completion:
-nvmet_pci_epf_queue_response() copies it from the request's CQE, and
-the transport error paths set it themselves.
+Fail the command with Data SGL Length Invalid when the data descriptors
+do not add up to iod->data_len, before any segment is allocated. The
+tcp and rdma transports take the data length from the SGL itself, so
+there most commands already reject a mismatch in
+nvmet_check_transfer_len(). PRP lists are built from iod->data_len and
+are unaffected.
 
 Found by code inspection. Build-tested only (x86_64, W=1): no PCI
 endpoint hardware was available to run it.
@@ -132,21 +135,65 @@ Cc: stable@vger.kernel.org
 Assisted-by: LLM
 Signed-off-by: Andrea Parri <parri.andrea@gmail.com>
 ---
- drivers/nvme/target/pci-epf.c | 1 -
- 1 file changed, 1 deletion(-)
+For stable, this depends on patch 4/5: without it, the new Data SGL
+Length Invalid error is still reported to the host as a success.
+
+ drivers/nvme/target/pci-epf.c | 29 +++++++++++++++++++++++++++--
+ 1 file changed, 27 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/target/pci-epf.c b/drivers/nvme/target/pci-epf.c
-index c683450df4227..4c5fff232fb99 100644
+index 4c5fff232fb99..a8df176c1a574 100644
 --- a/drivers/nvme/target/pci-epf.c
 +++ b/drivers/nvme/target/pci-epf.c
-@@ -1152,7 +1152,6 @@ static void nvmet_pci_epf_complete_iod(struct nvmet_pci_epf_iod *iod)
- 	unsigned long flags;
+@@ -1073,10 +1073,22 @@ static int nvmet_pci_epf_iod_parse_sgl_segments(struct nvmet_pci_epf_ctrl *ctrl,
+ 	return 0;
+ }
  
- 	/* Print an error message for failed commands, except AENs. */
--	iod->status = le16_to_cpu(iod->cqe.status) >> 1;
- 	if (iod->status && iod->cmd.common.opcode != nvme_admin_async_event)
- 		dev_err(iod->ctrl->dev,
- 			"CQ[%d]: Command %s (0x%x) status 0x%0x\n",
++static u64 nvmet_pci_epf_iod_data_segs_len(struct nvmet_pci_epf_iod *iod)
++{
++	u64 len = 0;
++	int i;
++
++	for (i = 0; i < iod->nr_data_segs; i++)
++		len += iod->data_segs[i].length;
++
++	return len;
++}
++
+ static int nvmet_pci_epf_iod_parse_sgls(struct nvmet_pci_epf_iod *iod)
+ {
+ 	struct nvmet_pci_epf_ctrl *ctrl = iod->ctrl;
+ 	struct nvme_sgl_desc *sgl = &iod->cmd.common.dptr.sgl;
++	int ret;
+ 
+ 	if (sgl->type == (NVME_SGL_FMT_DATA_DESC << 4)) {
+ 		/* Single data descriptor case. */
+@@ -1084,10 +1096,23 @@ static int nvmet_pci_epf_iod_parse_sgls(struct nvmet_pci_epf_iod *iod)
+ 		iod->data_segs = &iod->data_seg;
+ 		iod->data_seg.pci_addr = le64_to_cpu(sgl->addr);
+ 		iod->data_seg.length = le32_to_cpu(sgl->length);
+-		return 0;
++	} else {
++		ret = nvmet_pci_epf_iod_parse_sgl_segments(ctrl, iod);
++		if (ret)
++			return ret;
+ 	}
+ 
+-	return nvmet_pci_epf_iod_parse_sgl_segments(ctrl, iod);
++	/*
++	 * The command executes on data_len bytes, but each segment is
++	 * allocated and transferred in full, so they must describe exactly
++	 * data_len bytes.
++	 */
++	if (nvmet_pci_epf_iod_data_segs_len(iod) != iod->data_len) {
++		iod->status = NVME_SC_SGL_INVALID_DATA | NVME_STATUS_DNR;
++		return -EINVAL;
++	}
++
++	return 0;
+ }
+ 
+ static int nvmet_pci_epf_alloc_iod_data_buf(struct nvmet_pci_epf_iod *iod)
 -- 
 2.53.0
 
