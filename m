@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1315CCA9ED0
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 37B5BCC6B01
 	for <linux-nvme@archiver.kernel.org>; Tue, 13 Oct 2026 02:21:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,30 +12,30 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=30E3WmxCHpzxTNipae/RfGuwW1t1OnAEfmZnal2HKWk=; b=MWPL51yOStmZ51HFJAlZqlKRcE
-	YJZLZ1W229zArUDTD69iD7MJq6HJMvN3aOGC2RV2AMd0UzZesnpTMJEwzhVRJnihjLykYhSaL0WN2
-	Odh0bIq6f5RirYsmCDG+XEBekqPUsfGOkcoIaYoAx5A3GGGwT/4BruEy/PqeMHlCc7ZCa7Hg9CKYH
-	X0Ueay2LltG8c9TzOhBCEPDK7UunUOHgu2BmaS0/dwpjMsTJouiLBabrnOG5ERBVZJAEw/2qB1Wem
-	X6RIIr4pkAu5afsdaL/64xpwvkBgQvADFo73Xt3Db17Q4EFHyeOBSUNo4MU3FPskLeIjE0plQSEK7
-	2EQPmlCg==;
+	bh=ZOxbluBvGUNbX2Ri/N3z81iVuWVuHGIO0hj0wP46aSA=; b=E9ffAGlc7TNX5znhx3m7wfnS9j
+	z5Hyj0X+et1mTOduzGULwSXK/44LdVl3tnjWcYzRumFRDQrTyqrDU4/zu87J5eaqQVYVra2EAsGJW
+	yppToUSbVRfON/pUqj4yjJMg3VbujmQa60Izy51zZ9qFUodtlT0k28NQRfOxIcyKP56j/KcDMgN6p
+	Zj8dPJ+gtAqLkkUAou9M9g1c+BP3pdx07yhRrIbFX2Js7N7sdhrxsGoK7QK1VIDIoDlvxR4t3NEE4
+	aatkJ9/eN45k5FbLNoBRSnDbDTeTIOhnWoAV7DgunmNmW7CQZoRfmtKEvATA/C+T1/b804tfW/u/e
+	yAfhTTFw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGS8t-0000000BmVy-2yl2;
-	Tue, 13 Oct 2026 02:21:27 +0000
-Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131])
+	id 1xGS8u-0000000BmWL-00yw;
+	Tue, 13 Oct 2026 02:21:28 +0000
+Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGS8q-0000000BmSa-189A
+	id 1xGS8r-0000000BmSv-05uG
 	for linux-nvme@lists.infradead.org;
-	Tue, 13 Oct 2026 02:21:26 +0000
+	Tue, 13 Oct 2026 02:21:27 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1791858080; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=30E3WmxCHpzxTNipae/RfGuwW1t1OnAEfmZnal2HKWk=;
-	b=ZVLVgqX+5zDk+srNh2eaahAuPN3zBBWX92dQGhqYCnZv2Ti+5fOl9umno6/RhDa7MVkaIUagWKlS5akqVlAqXcuOU3hVDlMqMK3BxQpbHcZ2spvcOolepC5Ps0HJCUQMfqAWV9p0e7sb2THCg7CQRjkfWxJKb3HcxXIDnb/D/Ok=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R861e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033032089153;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0XCk3N11_1791858078;
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XCk3N11_1791858078 cluster:ay36)
+	t=1791858083; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=ZOxbluBvGUNbX2Ri/N3z81iVuWVuHGIO0hj0wP46aSA=;
+	b=rkQor7gej7ezW2BtWfqEn/AqHxm1sZewIF8oOnhqL4jOYp0htIHwNsfPh03uKtlJlFP7YUEKLdQ9myH/GWegju/Phbn6WSjhu4FSlqcVJWOfqWBt5JRkv5MlWQG14uc1nITau0+3lY5qCnz4cfJzQM2YOIyOrpl7y52NM9BIBsc=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037009110;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0XCk-8g9_1791858082;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XCk-8g9_1791858082 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Tue, 13 Oct 2026 10:21:18 +0800
+          Tue, 13 Oct 2026 10:21:22 +0800
 From: Guixin Liu <kanie@linux.alibaba.com>
 To: Keith Busch <kbusch@kernel.org>,
 	Jens Axboe <axboe@kernel.dk>,
@@ -46,18 +46,17 @@ To: Keith Busch <kbusch@kernel.org>,
 	John Garry <john.g.garry@oracle.com>,
 	Hannes Reinecke <hare@suse.de>
 Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH 03/11] nvme: export nvme_bdev_ops
-Date: Tue, 13 Oct 2026 10:21:01 +0800
-Message-ID: <20261013022109.1507911-4-kanie@linux.alibaba.com>
+Subject: [PATCH 07/11] nvmet: implement the FDP feature
+Date: Tue, 13 Oct 2026 10:21:05 +0800
+Message-ID: <20261013022109.1507911-8-kanie@linux.alibaba.com>
 X-Mailer: git-send-email 2.43.7
 In-Reply-To: <20261013022109.1507911-1-kanie@linux.alibaba.com>
 References: <20261013022109.1507911-1-kanie@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261012_192124_482992_F6B2FF0A 
-X-CRM114-Status: UNSURE (   8.29  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20261012_192125_405677_424461D3 
+X-CRM114-Status: GOOD (  20.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,29 +71,185 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Export the NVMe block device operations so that other subsystems can
-recognize a block device as an NVMe namespace through its operations
-pointer and reach the NVMe structures behind it.  The NVMe target FDP
-bridge uses this to detect an NVMe backing device of a namespace.
+Implement Set Features and Get Features for FID 1Dh.  The Endurance
+Group Identifier in Command Dword 11 names the namespace directly,
+since nvmet identifies each namespace as its own endurance group
+(endgid = nsid).  Get Features reports FDPE set with FDPCIDX 0.
+
+Set Features is served locally: the bridge runs the one configuration
+that the backing device is already in, so setting the feature to that
+same value is a no-op that succeeds, and any other value is a change
+of a feature whose endurance group has namespaces, which the spec
+aborts with Command Sequence Error.  That also covers disabling,
+which would strand the write streams already handed out to hosts.
+
+The namespace lookup takes a namespace reference, so that a namespace
+being disabled concurrently with the command cannot go away under
+it.  Report the feature in the Features log page under the same
+per-subsystem condition as the FDPS bit.
 
 Assisted-by: LLM
 Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
 ---
- drivers/nvme/host/core.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/nvme/target/admin-cmd.c |  9 ++++
+ drivers/nvme/target/fdp.c       | 77 +++++++++++++++++++++++++++++++++
+ drivers/nvme/target/nvmet.h     | 10 +++++
+ 3 files changed, 96 insertions(+)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 1322c678f4eb8..b22aebc802920 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2712,6 +2712,7 @@ const struct block_device_operations nvme_bdev_ops = {
- 	.report_zones	= nvme_report_zones,
- 	.pr_ops		= &nvme_pr_ops,
- };
-+EXPORT_SYMBOL_GPL(nvme_bdev_ops);
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index b293ce418e2c3..93fb9c3d500a3 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -600,6 +600,9 @@ static void nvmet_execute_get_log_page_features(struct nvmet_req *req)
+ 		cpu_to_le32(NVME_FIS_FSUPP | NVME_FIS_NSCPE);
+ 	features->fis[NVME_FEAT_RESV_MASK] =
+ 		cpu_to_le32(NVME_FIS_FSUPP | NVME_FIS_NSCPE);
++	if (IS_ENABLED(CONFIG_NVME_TARGET_FDP))
++		features->fis[NVME_FEAT_FDP] =
++			cpu_to_le32(NVME_FIS_FSUPP | NVME_FIS_EGSCPE);
  
- static int nvme_wait_ready(struct nvme_ctrl *ctrl, u32 mask, u32 val,
- 		u32 timeout, const char *op)
+ 	status = nvmet_copy_to_sgl(req, 0, features, sizeof(*features));
+ 	kfree(features);
+@@ -1385,6 +1388,9 @@ void nvmet_execute_set_features(struct nvmet_req *req)
+ 	case NVME_FEAT_RESV_MASK:
+ 		status = nvmet_set_feat_resv_notif_mask(req, cdw11);
+ 		break;
++	case NVME_FEAT_FDP:
++		status = nvmet_set_feat_fdp(req);
++		break;
+ 	default:
+ 		req->error_loc = offsetof(struct nvme_common_command, cdw10);
+ 		status = NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
+@@ -1562,6 +1568,9 @@ void nvmet_execute_get_features(struct nvmet_req *req)
+ 	case NVME_FEAT_RESV_MASK:
+ 		status = nvmet_get_feat_resv_notif_mask(req);
+ 		break;
++	case NVME_FEAT_FDP:
++		status = nvmet_get_feat_fdp(req);
++		break;
+ 	default:
+ 		req->error_loc =
+ 			offsetof(struct nvme_common_command, cdw10);
+diff --git a/drivers/nvme/target/fdp.c b/drivers/nvme/target/fdp.c
+index 17949e3665293..0327970a9cb9d 100644
+--- a/drivers/nvme/target/fdp.c
++++ b/drivers/nvme/target/fdp.c
+@@ -12,6 +12,10 @@
+ #include "../host/nvme.h"
+ #include "nvmet.h"
+ 
++/* Flexible Data Placement feature (FID 1Dh), Command Dword 12 */
++#define NVME_FDP_CDW12_FDPE			(1U << 0)
++#define NVME_FDP_CDW12_FDPCIDX_MASK		(0xffU << 8)
++
+ bool nvmet_fdp_subsys_configured(struct nvmet_subsys *subsys)
+ {
+ 	struct nvmet_ns *ns;
+@@ -83,3 +87,76 @@ void nvmet_fdp_exit_ns(struct nvmet_ns *ns)
+ 	ns->fdp.backend_q = NULL;
+ 	ns->fdp.backend_ctrl = NULL;
+ }
++
++
++/*
++ * Each namespace is its own endurance group, so the Endurance Group
++ * Identifier in Command Dword 11, and in the Log Specific Identifier
++ * of the FDP log pages, directly names the namespace.  Returns the
++ * namespace with a reference held.
++ */
++static struct nvmet_ns *nvmet_fdp_lookup_ns(struct nvmet_req *req, u32 endgid)
++{
++	struct nvmet_subsys *subsys = nvmet_req_subsys(req);
++	struct nvmet_ns *ns;
++
++	ns = xa_load(&subsys->namespaces, endgid);
++	if (!ns || !ns->enabled || !nvmet_fdp_enabled(ns))
++		return NULL;
++
++	if (!percpu_ref_tryget_live(&ns->ref))
++		return NULL;
++
++	return ns;
++}
++
++/*
++ * The bridge runs the one configuration that the backing device is
++ * already in, so setting the feature to that same value is the only
++ * transition that can be served.  The spec aborts any other value
++ * change of a feature whose endurance group has namespaces with
++ * Command Sequence Error, which also covers disabling: pulling FDP
++ * from under a live namespace would strand the write streams already
++ * handed out to hosts.
++ */
++u16 nvmet_set_feat_fdp(struct nvmet_req *req)
++{
++	u32 cdw12 = le32_to_cpu(req->cmd->features.dword12);
++	struct nvmet_ns *ns;
++	u16 status;
++
++	ns = nvmet_fdp_lookup_ns(req,
++				 le32_to_cpu(req->cmd->features.dword11));
++	if (!ns)
++		return NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
++
++	if (cdw12 & ~(NVME_FDP_CDW12_FDPCIDX_MASK | NVME_FDP_CDW12_FDPE)) {
++		status = NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
++	} else if ((cdw12 & NVME_FDP_CDW12_FDPE) &&
++		   !(cdw12 & NVME_FDP_CDW12_FDPCIDX_MASK)) {
++		nvmet_set_result(req, FDPCFG_FDPE);
++		status = 0;
++	} else {
++		status = NVME_SC_CMD_SEQ_ERROR | NVME_STATUS_DNR;
++	}
++
++	percpu_ref_put(&ns->ref);
++	return status;
++}
++
++u16 nvmet_get_feat_fdp(struct nvmet_req *req)
++{
++	struct nvmet_ns *ns;
++
++	ns = nvmet_fdp_lookup_ns(req,
++				 le32_to_cpu(req->cmd->features.dword11));
++	if (!ns)
++		return NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
++
++	/* the namespace is up, so FDP is enabled on the backing device */
++	nvmet_set_result(req, FDPCFG_FDPE);
++
++	percpu_ref_put(&ns->ref);
++	return 0;
++}
++
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 07880db4468ad..e95bafe1fb019 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -997,6 +997,8 @@ static inline bool nvmet_fdp_enabled(struct nvmet_ns *ns)
+ int nvmet_fdp_init_ns(struct nvmet_ns *ns);
+ void nvmet_fdp_exit_ns(struct nvmet_ns *ns);
+ bool nvmet_fdp_subsys_configured(struct nvmet_subsys *subsys);
++u16 nvmet_set_feat_fdp(struct nvmet_req *req);
++u16 nvmet_get_feat_fdp(struct nvmet_req *req);
+ #else
+ static inline bool nvmet_fdp_enabled(struct nvmet_ns *ns)
+ {
+@@ -1013,6 +1015,14 @@ static inline bool nvmet_fdp_subsys_configured(struct nvmet_subsys *subsys)
+ {
+ 	return false;
+ }
++static inline u16 nvmet_set_feat_fdp(struct nvmet_req *req)
++{
++	return NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
++}
++static inline u16 nvmet_get_feat_fdp(struct nvmet_req *req)
++{
++	return NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
++}
+ #endif
+ 
+ /*
 -- 
 2.43.7
 
