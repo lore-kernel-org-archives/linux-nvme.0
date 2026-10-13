@@ -4,65 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C3470CC6B19
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Oct 2026 15:12:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9DEBBCC6B16
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Oct 2026 15:33:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HwNY1rgM6q4Ctj/+3tD0gRogjIimRT6p7jVBUT2kqPk=; b=KQuzeusqkXi8lA2wjSbgHY0rIP
-	A/7bhAd+8RoXmRQgNZwWKwiL4wZffUv4RQNkL/hdfiuWfsr54zsErKF7ImZkgZXLTAdQDzE7lQzGC
-	AfZ49Qut6tVE1M+ctRP5mtHYE+sOsU+Ib8EQjwGYYkLHwGMheqZ/u8KXeOh94GqC14EdUrX4XTmbs
-	t+AEqRIj/a9n/05WHkSQ4Xv6AQH4jS4i+WB069kTB5evMXtF8T/3jJQaFuf+dF6JAieCrrOnQj/S8
-	jfCsNpifkLdkhQ3PHy3iLn+delZ9FI0JCye4a7d+1drE3gEbP6ub6v8wUjE4bH35YrdfKMIeOPKQ6
-	KPgH00JQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=E63mUwFjemiDxyzubiYvAzEQKx406mWvj0GrGEZFzz4=; b=yGPmXCWTtiC8/CHrwobTXjmw/x
+	JzNMUwa0T2eHwb/sIq8cPUX5HnJlsUO72GFmBKv/mgozhCaCtwJmx/Vf6Sde2GhiyUCdbrfuhXn14
+	KSzFfM2WTrYzxPGKkOf3U9ZDeOdsFUN8vKgJVG8jZ008ZZFWKAkKnPppYrAYTZZSTto8NWZ4lGVOy
+	NDGeBE8L6q1Yd+fTjQhk4j0YjyJMGzNHS+XjS5ovp2hDLdMk7sYbulQM3NryRe6L6Li4xswjn+f0u
+	jdG/LKttqB8ja5Z/Z3eA+/AEfoykxV1Y8j7FZFlkUC9UsK1QY658XPXYeqBI7bOx7nxRTYZH/LYZx
+	JuQtPtsg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGeBA-0000000DEN3-30oy;
-	Tue, 13 Oct 2026 15:12:36 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1xGeV5-0000000DM2o-2uXz;
+	Tue, 13 Oct 2026 15:33:11 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGeAv-0000000DELS-0RLJ
+	id 1xGeV2-0000000DM2M-3Da3
 	for linux-nvme@lists.infradead.org;
-	Tue, 13 Oct 2026 15:12:28 +0000
+	Tue, 13 Oct 2026 15:33:10 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 8D6F160A59;
-	Tue, 13 Oct 2026 15:12:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 511BC1F00898;
-	Tue, 13 Oct 2026 15:12:18 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 4C4C243CFB;
+	Tue, 13 Oct 2026 15:33:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1A5B1F000FF;
+	Tue, 13 Oct 2026 15:33:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791904340;
-	bh=HwNY1rgM6q4Ctj/+3tD0gRogjIimRT6p7jVBUT2kqPk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=XUYw4GGNTknWnm65i6mHq+XLq9CcfwRdNYS+uR0S6mPSBSBLfdwVmzXO8EiGiPfxT
-	 6JJJ8/AdSVzOEvFRwgN8EAb9ag9sKNgcb+WWfUKYL+1UCcmoEUVqhd5huncqDVVdbi
-	 qeDUhKZnj+MXP5OfWjtyxYc7Nd5hMzmLy0aIDKZFkyry86AMIZ/5XYIpClsnQSwmvi
-	 HsI/LEP6Ysr8va2NNnSuqMPSVRsb68bLrkcAEFGkrgi9fl7qEUcpGeE9u6wSHLvAYF
-	 Cx5/Q5qDlMsJiy8/jvk0q6r4WNpJoXqIOHEWYvqOqw7F678UilyZa9NhOuAVi98d/O
-	 M2B4UCPriv3hA==
-Message-ID: <1b4ee842-844e-4b6a-9ce8-0c4e7229825f@kernel.org>
-Date: Tue, 13 Oct 2026 17:12:16 +0200
+	s=k20260515; t=1791905588;
+	bh=E63mUwFjemiDxyzubiYvAzEQKx406mWvj0GrGEZFzz4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=O7Iac00VgukUmNt11Uv5RXPVpRARxbnIWbBhWKNvcyzszewbursSp2KErQQteW5fG
+	 QLW7a26/qgb8tWmcIqpm12RHCvtUAE+MieA3ghmhiAeN4tkA5jZdHmifT+tqbuY/A3
+	 uXsuWM9FWx7okZLUzNMyfBfUouQh9T2nzpUZx2PdZFKclceE1l/VAlHuxD85v+uZhn
+	 YpuKYYEW5PV89KWpvh0mCTPbdVihPIRniqMxFMSt2+GxhCgx5Ei0CmdhldCeS4KAWJ
+	 blVYiQDk4ZRv+gdx9QLqTdI2yBlpmDVnGzEPYiDwNLorXXEXopx35TExowJ0hjno5Z
+	 9e78xy87KHdwA==
+Date: Tue, 13 Oct 2026 09:33:06 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Surabhi Gogte <sgogte@purestorage.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org, mkhalfella@purestorage.com,
+	randyj@purestorage.com, adailey@purestorage.com
+Subject: Re: [PATCH v4 0/3] nvme-tcp: parallelize I/O setup queue in connect
+Message-ID: <as5PMuAUcVRDgwUr@kbusch-mbp>
+References: <20260922200718.3941465-1-sgogte@purestorage.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/5] nvmet: pci-epf: report transport errors in command
- completions
-To: Christoph Hellwig <hch@lst.de>, Andrea Parri <parri.andrea@gmail.com>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
- Keith Busch <kbusch@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Niklas Cassel <cassel@kernel.org>, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20261012141239.156408-1-parri.andrea@gmail.com>
- <20261012141239.156408-5-parri.andrea@gmail.com>
- <20261013142736.GE14759@lst.de>
-From: Damien Le Moal <dlemoal@kernel.org>
-Content-Language: en-US
-Organization: Western Digital Research
-In-Reply-To: <20261013142736.GE14759@lst.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260922200718.3941465-1-sgogte@purestorage.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,12 +70,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2026/10/13 16:27, Christoph Hellwig wrote:
-> I think this looks good.  Damien/Niklas, can you test this on hardware?
+On Tue, Sep 22, 2026 at 02:07:15PM -0600, Surabhi Gogte wrote:
+> Similar to commit 2a8513091d2f ("nvme-rdma: parallelize I/O queue
+> allocation and startup"), I/O queue allocation and start steps
+> (including authentication) can be parallelized for nvme-tcp as well.
+> 
+> Patch 1 fixes a pre-existing bug: nvme_tcp_alloc_queue() used
+> current->nsproxy->net_ns to create sockets during initial connect
+> while it used kernel's init_net for reconnect and error recovery
+> paths. The fix captures the caller's network namespace at controller
+> allocation time.
+> 
+> Patch 2 is a preparatory refactor: it splits the queue-count
+> negotiation and TLS PSK checks into helpers so that the individual
+> steps can be called directly from nvme_tcp_configure_io_queues(). No
+> functional change.
+> 
+> Patch 3 has the async implementation: it fans the per-queue alloc and
+> start out over an async domain, serializes the per-cpu queue-count in
+> nvme_tcp_set_queue_io_cpu() that can now run concurrently, and uses
+> ctrl->net for all socket creation.
+> 
+> Testing on a 64-core host with 64 IO-queues shows nvme-tcp connection
+> time reduced from 61ms to 11ms.
 
-I do not have the hardware available right now. Niklas ? Can you test this?
-
--- 
-Damien Le Moal
-Western Digital Research
+Thanks, applied to nvme-7.4.
 
