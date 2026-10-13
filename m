@@ -4,50 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 68F6CCC6B0E
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Oct 2026 14:31:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BD5DECC6B08
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Oct 2026 14:33:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=1OBESittGE0eLBabmd7aqHknEn
-	kdWP/7B6buwdU/v0A4ZrB5uLlGn3pDleWg/7RTnGhdoLWl8LxyM6bjbBsyqWLuz2u/YNizdxqUcvk
-	uxgaGfACGJ3ShuqBYBHs6kLMdj/ffNPbETSeuUlE4V3tb+f/x8maoCH0tKP0cKWFR9uJwczOisD5Y
-	WHMSxXY4u1GeiqIbv1l6Wk4oo40jVRi0pbaiAKQTKvtFNG63WDlUR8VWo6KSiWuHtkikroidz2sBQ
-	bw5OWsOHiJ4YKF4DRiu89OBL50Sz7N/HbBXlh+mA2XMHO46b2rusWYVBjLOAPu05UKKl115iQYhRf
-	m9bnx95g==;
+	bh=hISCIOq3zZTIeWuECdggdpzdSfCe3bOvUSju4mOZVMY=; b=1vL5DRP+dBK11iWxWc2jfnZGKA
+	nPAexrgq/I455CR49vf4B9rek3/jj4TcXWkD6j+mixgMT0CG3IjGQVQUajSXdV+KYbkuI/cwrUmlQ
+	2dGlVLpaDpa1GJtXm6sIePBgojLcIOORw/zSzkYacoLXTAwVYQbrFt1FJ2orp+27wGi5+KO+lbuOM
+	rXU3f/aKVBFNdFCa5A7f//blaBWX8mhUmCL77KDdrgek3g/hZJmg+Tzyp1rydU5JdgfkjHFSCltiy
+	XDkUz/ntDfNXpWiq8Zq+ctFcm6OwzVI+dGPCtN6KkZCRvcHFwIY7iVRwAkCp3s8YaQqO5SxK2cGzX
+	HpEN7HaQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGdXI-0000000D6jP-429U;
-	Tue, 13 Oct 2026 14:31:24 +0000
+	id 1xGdZO-0000000D79e-1mei;
+	Tue, 13 Oct 2026 14:33:34 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGdXF-0000000D6iT-2ZwU
+	id 1xGdZL-0000000D78x-0gSf
 	for linux-nvme@lists.infradead.org;
-	Tue, 13 Oct 2026 14:31:23 +0000
+	Tue, 13 Oct 2026 14:33:33 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 40E71227A8E; Tue, 13 Oct 2026 16:31:18 +0200 (CEST)
-Date: Tue, 13 Oct 2026 16:31:17 +0200
+	id F2385227A88; Tue, 13 Oct 2026 16:33:26 +0200 (CEST)
+Date: Tue, 13 Oct 2026 16:33:26 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Yehyeong Lee <yhlee@isslab.korea.ac.kr>
-Cc: Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] nvme-auth: fail when the controller does not
- authenticate itself
-Message-ID: <20261013143117.GA15395@lst.de>
-References: <20261006134807.518056-1-yhlee@isslab.korea.ac.kr>
+To: Yogesh Gaur <yogeshgaur.83@gmail.com>
+Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>, Jens Axboe <axboe@kernel.dk>,
+	stable@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+76c0f0ce8f1e846b4f84@syzkaller.appspotmail.com
+Subject: Re: [PATCH] nvme: keep a private copy of the effects log in the ns
+ head
+Message-ID: <20261013143326.GB15395@lst.de>
+References: <20261004072052.1574-1-yogeshgaur.83@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261006134807.518056-1-yhlee@isslab.korea.ac.kr>
+In-Reply-To: <20261004072052.1574-1-yogeshgaur.83@gmail.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261013_073122_468490_FEE16FAB 
-X-CRM114-Status: GOOD (  10.02  )
+X-CRM114-CacheID: sfid-20261013_073331_615823_DC22802C 
+X-CRM114-Status: UNSURE (   8.39  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -62,8 +64,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Looks good:
-
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Isn't all this already taken care of by commit 72ece656abd4 ("nvme: fix
+command effects log lifetime for multipath heads") ?
 
 
