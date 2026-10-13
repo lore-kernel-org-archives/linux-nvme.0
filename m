@@ -4,89 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 67FF9CC6B0F
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Oct 2026 22:36:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 45C87CC6B1D
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Oct 2026 22:36:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=/p1VXRvPsdzpyNaMEVuZe4zu8qtnztrsEYEyfTDBzQc=; b=JztqZOzOJ2zenv950RSxJMx+3f
-	V+EA5VcJnn6WvyCLw+oRxVcC7p+7TarkF9fP26vnqG7ZK8ARn/yEwmo4wkKvSbP3bTST+bd1EU5uk
-	DtLWUnrSmk7mmW8AwmWy8ELbYKXI0mY7w8++jDw/pcKRbGYouXjlJeundbuEgb73Ye6cfxtpFJFPl
-	oP04/hMCINOr3dlM+8cbne+0oIRqHs6/NOYFtDae9vdtxFFM4luHghS0SQEsqkT/2gmkk/4CqYIYJ
-	cFahM6MV2VSDbiR3vwf4J/1CkgobUVHM/4QCBRT96PSAfxSsDV+thxWhV5UFMJGzYqRp97blyP3lW
-	mz5qBsuw==;
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=11ciqoNzryubv81w4EwgfcXUZZJqEdjWU7J2LGoY9IE=; b=jRu578/gUNm4Gyfl4egL1IQx68
+	1JACbbUDfPOyP0r6LlzOUABk+7A5bUr8+kbzNjx0sNmeSkmwgBwSs3gpVnpDvqxycaOr8sLCblA1j
+	sMmm8LhO/FY8sbIJq5vsmRxY/o3osxXP2EIOoo/Ej6Fg8AU1OQYN4nebnLTGELhfolLst3jBjEhJD
+	GLP17IRuPBAM0YASYcTM0zq/guiWwWzhvBdEIUv9wUK0qEUOTME5mkvyUso+CJs1oYrehhuNrgv10
+	mrfMm6Bs2a4KfbAVdU2myXMKlXpB6lKbtycDeN+tv3eMStLrtTt8qx2Voh9eQoBV2mfTJ0EoIE+iR
+	8j6w9roA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGl6a-0000000E8sE-2cal;
-	Tue, 13 Oct 2026 22:36:20 +0000
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
+	id 1xGl6Y-0000000E8qZ-1YnI;
+	Tue, 13 Oct 2026 22:36:18 +0000
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGl6X-0000000E8pu-3R5q
+	id 1xGl6W-0000000E8p0-11lG
 	for linux-nvme@lists.infradead.org;
-	Tue, 13 Oct 2026 22:36:19 +0000
-Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69DKWlRv1625157
-	for <linux-nvme@lists.infradead.org>; Tue, 13 Oct 2026 15:36:17 -0700
+	Tue, 13 Oct 2026 22:36:17 +0000
+Received: from pps.filterd (m0528006.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69DKWPGQ610125
+	for <linux-nvme@lists.infradead.org>; Tue, 13 Oct 2026 15:36:15 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=pps82601-s2048-2026-q3; bh=/p1VXRvPs
-	dzpyNaMEVuZe4zu8qtnztrsEYEyfTDBzQc=; b=BhLvAeaOps4E1nARaARTQJD/J
-	3Q6PwSPs4NCSngoBTQY6Gi6lyXhiDHIZoR3hIM0qAgP56RWgvlqEoa+kBBy0mIjK
-	PZP5RpU8ZzPjcs5QxdUFvbRrKV3FdBF3vRZhG9DLsOnMs7w3dOaC+IsQx9+CNVgR
-	29bY2yHUTuPIjQS5mDdq4Ct2U33F0HlBzQ1iLNidpe/jE/MohndOKR++VawsI/Dn
-	a1aB2pSnjRhDSBydq+gyF6LDaqGJxfldiNnllqI3Li7hOtoQXIoTF5UgDwbJSK34
-	5sExcFPsOUepKDrgFSf73bxLi5Qw3Ke1UmsOo9rKdvohnZhyzOfvqdguaYjpQ==
-Received: from mail.thefacebook.com ([163.114.134.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4h9hc46f0v-13
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	pps82601-s2048-2026-q3; bh=11ciqoNzryubv81w4EwgfcXUZZJqEdjWU7J2L
+	GoY9IE=; b=IXn+iPYxoUSGlirIVoatVbUwvj6XI4B1FuMjr1+z7MbLsPpQyqKcN
+	5Z9o5+063NqKe2u2CdmuIvAtGqqKSU4nhoEeyglRQdQQHh1rSrPYiBROzINYmepw
+	GF7ihDKS/I+jDL/snHQ79atmUXBbA059DVYMfRA2ZafP+xuvcGTzqU10js4PoUUE
+	9TTyi1j6TNmW+0VkPOh47Zf3mvvP0CKQYfg+FZBVHDqYiwzBFTEzkJnBLgndj3+/
+	hJOhc5yMmYifJvWBuzhMsVporHIXMPe4QNTr7FguWXuJinlKSC2bQIs3ckakOs3y
+	VCYBHiuSbY5tdkvyFtkD/nDQbQOlmUAvw==
+Received: from maileast.thefacebook.com ([163.114.135.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4h860hy7mv-3
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Tue, 13 Oct 2026 15:36:17 -0700 (PDT)
-Received: from twshared134145.14.frc2.facebook.com (2620:10d:c085:108::150d)
- by mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
+	for <linux-nvme@lists.infradead.org>; Tue, 13 Oct 2026 15:36:14 -0700 (PDT)
+Received: from twshared9243.02.snb2.facebook.com (2620:10d:c0a8:1b::2d) by
+ mail.thefacebook.com (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.49; Tue, 13 Oct 2026 22:36:12 +0000
+ 15.2.2562.49; Tue, 13 Oct 2026 22:36:13 +0000
 Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
-	id 6417A2D52CB77; Tue, 13 Oct 2026 15:35:53 -0700 (PDT)
+	id 6EDF22D52CB7A; Tue, 13 Oct 2026 15:35:53 -0700 (PDT)
 From: Keith Busch <kbusch@meta.com>
 To: <linux-nvme@lists.infradead.org>
 CC: <hch@lst.de>, <changfengnan@bytedance.com>, <linux-pci@vger.kernel.org>,
         <tglx@kernel.org>, <namjain@linux.microsoft.com>,
         Keith Busch
 	<kbusch@kernel.org>
-Subject: [RFC PATCH 0/3] nvme-pci: dynamic interrupt moderation
-Date: Tue, 13 Oct 2026 15:35:40 -0700
-Message-ID: <20261013223543.395054-1-kbusch@meta.com>
+Subject: [RFC PATCH 2/3] PCI/MSI: Implement irq_mask_nowait() for MSI-x
+Date: Tue, 13 Oct 2026 15:35:42 -0700
+Message-ID: <20261013223543.395054-3-kbusch@meta.com>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20261013223543.395054-1-kbusch@meta.com>
+References: <20261013223543.395054-1-kbusch@meta.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=L86I0OT8 c=1 sm=1 tr=0 ts=6aceb261 cx=c_pps
- a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDEzMDA4OSBTYWx0ZWRfXwfFM0tPkkil6
+ CWPY21lhdcMQ5ZkZsbQdlMvikjXYB3+4iwrZsJcxNZUJ5uCI6VeOaocJX7oyBFfmi3QbJAjFGJZ
+ U3tux89jkrESClcPGLtcMp+z4V7gdhE=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDEzMDA4OSBTYWx0ZWRfX2csVbgjZzOPu
+ SO+i2n+TSE+xYQ3dmJI5YlWp3/clcPAUDrkCAkDKxB1rQbYM96ZmZemNs1zXNdV0YeKkcfiD5/E
+ Y59SiJFjqlehXy0vHbYhPe2ykohS/gQYHhAKeg62LppzAWIdL1oreUFol+cPE1FyYR4AIsG3bQd
+ jJdYEuUEqtQQXusDSzHlR9vjNnXXQ+qr1tmjQyHuIF7l23sx0XXD4vk6tjoB4WtMrEEseASbCyZ
+ 99bIQub/EZQ/pQk47fnBZgX5spXv2S482YENkIZgVjLfV/TuNousbGGcz9KfbU1OLWqixqxw2cE
+ Ug4wj/KQIhxLRcn+Gwp3cuszchyP3rcIuccnHMdKZo2sQZdtgUibOaHfkBrVgrh3i/+3yJM8ceN
+ xV2mVnKlp+K5iOtwFyy6wepy+l5t6Cpo/+kjzRmy0bD1PxiBAarMNb6YBLhBtsO/+XbXWgt/gGO
+ mcR1DuoxuGJqoeN90tg==
+X-Authority-Analysis: v=2.4 cv=cJx1IVeN c=1 sm=1 tr=0 ts=6aceb25f cx=c_pps
+ a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
  a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
- a=crHB47gyY4rKiduisYu9:22 a=VwQbUJbxAAAA:8 a=yMhMjlubAAAA:8 a=968KyxNXAAAA:8
- a=czqYIZ0shksRg8RT8RcA:9
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDEzMDA4OSBTYWx0ZWRfX4PF6AKwMAYSJ
- 1cODVKthspII3bCzMbEACoxZIJ6svEAn7XUCPfdbamH1PBTZPtRPdtWIeiK/Wo25K76hfdjS4Ow
- d6HPctsjRhRAELsiP9kRVIHhYmqnAg0=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDEzMDA4OSBTYWx0ZWRfX+ad8nkUrA0jb
- 7enoYFolaWMJSO84YB1NZAsXR/sLTBo0Qo0YtcTCO+kXNtxo5j+cGGcp6DdYZWMQkVyHW8yz6AG
- olk/QT17vFCRHu9j75ik0vNRQxjeav64kJVAxWh0qiBWHFwkNKd58jG7CIfOowk9iQrQLnZNLca
- rau7NSOBzY8EtgCx9m8Pm1exPjMA03bGFnyALoAdg8h+DCVrcFSRLeLpXVX848mQwhsY7SDU6ic
- 8C0VUeTROJvyFuQD71WeYmDn/GkdXdX2ilm/KsuRch6LPgojkQoImj5r5CeWlUg8oV62Qn/aXBP
- GDIcSS7c8G2VTi+JtA88YCVoej9b3hc8AkgMuRX6BRLue3DGEsi+x4Lh3BHsFAR8pDKv4ZOJHsN
- qFfW7HMVweh9wb7sbDAYNg7Ju8h55tzjISKNBQ6vs/MQ9bcUAI5LTraH4WQStRWpVGd88Qhi6Vz
- v/DovNH5xv3JrVPBq1w==
-X-Proofpoint-ORIG-GUID: ORG8JbEZZldc6s1kp43Zj5zPFhoHhpBz
-X-Proofpoint-GUID: ORG8JbEZZldc6s1kp43Zj5zPFhoHhpBz
+ a=kkcUborcUVj0H7zxAXTl:22 a=VwQbUJbxAAAA:8 a=zwF_Yp6pZpUqULGlHS8A:9
+X-Proofpoint-ORIG-GUID: VOai0XpoMWULrW2T-sGGU4ur-J085NCS
+X-Proofpoint-GUID: VOai0XpoMWULrW2T-sGGU4ur-J085NCS
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-10-13_01,2026-10-09_01,2025-10-01_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261013_153617_883153_D526ACCF 
-X-CRM114-Status: GOOD (  11.10  )
+X-CRM114-CacheID: sfid-20261013_153616_425153_918AD17B 
+X-CRM114-Status: GOOD (  11.84  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,44 +105,79 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Keith Busch <kbusch@kernel.org>
 
-Just adding another nvme hybrid interrupt and polling mechanism to the
-lists. There's some recent alternatives mentioned in the links below,
-but I'm trying one last time to leverage the DIM framework. Performance
-wise, this at least doesn't seem any worse than anything else proposed,
-though I've only been able to test on mid-level hardware so far.
+Skip the read-back that flushes the MSI-x mask write. Parent domains
+that mask on behalf of PCI/MSI continue using their own irq_mask().
 
-This one here as some irq prep patches that help some when transitioning
-from irq to polling for MSI-x enabled NVMe completions. These should be
-generally applicable, so isn't necessarily tied to how it gets used in
-the last patch if someone else finds it useful too.
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ drivers/irqchip/irq-msi-lib.c | 1 +
+ drivers/pci/msi/irqdomain.c   | 6 ++++++
+ drivers/pci/msi/msi.h         | 8 +++++++-
+ 3 files changed, 14 insertions(+), 1 deletion(-)
 
-Links:
-
-  [1] https://lore.kernel.org/linux-nvme/20261009050556.2817978-1-namjain=
-@linux.microsoft.com/
-
-  [2] https://lore.kernel.org/linux-nvme/20260818033846.53790-1-changfeng=
-nan@bytedance.com/
-
-Keith Busch (3):
-  genirq: Add disable_irq_nowait()
-  PCI/MSI: Implement irq_mask_nowait() for MSI-X
-  nvme-pci: hybrid irq+polling
-
- drivers/irqchip/irq-msi-lib.c |   1 +
- drivers/nvme/host/Kconfig     |   2 +
- drivers/nvme/host/pci.c       | 624 ++++++++++++++++++++++++++++++++--
- drivers/nvme/host/trace.c     |   1 +
- drivers/nvme/host/trace.h     |  26 ++
- drivers/pci/msi/irqdomain.c   |   6 +
- drivers/pci/msi/msi.h         |   8 +-
- include/linux/interrupt.h     |   1 +
- include/linux/irq.h           |   4 +
- kernel/irq/chip.c             |  31 ++
- kernel/irq/internals.h        |   1 +
- kernel/irq/manage.c           |  21 ++
- 12 files changed, 698 insertions(+), 28 deletions(-)
-
+diff --git a/drivers/irqchip/irq-msi-lib.c b/drivers/irqchip/irq-msi-lib.=
+c
+index 45e0ed3134ce1..bff622b4839aa 100644
+--- a/drivers/irqchip/irq-msi-lib.c
++++ b/drivers/irqchip/irq-msi-lib.c
+@@ -126,6 +126,7 @@ bool msi_lib_init_dev_msi_info(struct device *dev, st=
+ruct irq_domain *domain,
+ 	 */
+ 	if (info->flags & MSI_FLAG_PCI_MSI_MASK_PARENT) {
+ 		chip->irq_mask		=3D irq_chip_mask_parent;
++		chip->irq_mask_nowait	=3D NULL;
+ 		chip->irq_unmask	=3D irq_chip_unmask_parent;
+ 	}
+=20
+diff --git a/drivers/pci/msi/irqdomain.c b/drivers/pci/msi/irqdomain.c
+index 6e65f0f44112e..92a53c2772659 100644
+--- a/drivers/pci/msi/irqdomain.c
++++ b/drivers/pci/msi/irqdomain.c
+@@ -162,6 +162,11 @@ static void pci_irq_mask_msix(struct irq_data *data)
+ 	pci_msix_mask(irq_data_get_msi_desc(data));
+ }
+=20
++static void pci_irq_mask_nowait_msix(struct irq_data *data)
++{
++	pci_msix_mask_nowait(irq_data_get_msi_desc(data));
++}
++
+ static void pci_irq_unmask_msix(struct irq_data *data)
+ {
+ 	pci_msix_unmask(irq_data_get_msi_desc(data));
+@@ -182,6 +187,7 @@ static const struct msi_domain_template pci_msix_temp=
+late =3D {
+ 		.irq_startup		=3D pci_irq_startup_msix,
+ 		.irq_shutdown		=3D pci_irq_shutdown_msix,
+ 		.irq_mask		=3D pci_irq_mask_msix,
++		.irq_mask_nowait	=3D pci_irq_mask_nowait_msix,
+ 		.irq_unmask		=3D pci_irq_unmask_msix,
+ 		.irq_write_msi_msg	=3D pci_msi_domain_write_msg,
+ 		.flags			=3D IRQCHIP_ONESHOT_SAFE,
+diff --git a/drivers/pci/msi/msi.h b/drivers/pci/msi/msi.h
+index 0b420b319f50f..337ff9d9da0ed 100644
+--- a/drivers/pci/msi/msi.h
++++ b/drivers/pci/msi/msi.h
+@@ -40,10 +40,16 @@ static inline void pci_msix_write_vector_ctrl(struct =
+msi_desc *desc, u32 ctrl)
+ 		writel(ctrl, desc_addr + PCI_MSIX_ENTRY_VECTOR_CTRL);
+ }
+=20
+-static inline void pci_msix_mask(struct msi_desc *desc)
++/* Posted write only: the device may still send an interrupt after retur=
+n */
++static inline void pci_msix_mask_nowait(struct msi_desc *desc)
+ {
+ 	desc->pci.msix_ctrl |=3D PCI_MSIX_ENTRY_CTRL_MASKBIT;
+ 	pci_msix_write_vector_ctrl(desc, desc->pci.msix_ctrl);
++}
++
++static inline void pci_msix_mask(struct msi_desc *desc)
++{
++	pci_msix_mask_nowait(desc);
+ 	/* Flush write to device */
+ 	readl(desc->pci.mask_base);
+ }
 --=20
 2.52.0
 
