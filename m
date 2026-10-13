@@ -4,69 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E338FCC6B0E
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Oct 2026 14:38:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C3470CC6B19
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Oct 2026 15:12:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=Gi7ussQe4ptXJT9vHlbkwIk9xt
-	Wk9Dv5u3vwpx4M23Ml99+Y2C58xu89rRmGxQAv+8+dR4meNucOOfjPD4/K8GU+PR4PBOKLI1rvYVk
-	Kj1/M3Mnva3V3r3f3f8KJIAQ1xs+yFWRDmM8YLdqBlw+y9E1tMJa6vymc2s46Sse2HuNEbEKN/2sx
-	dKl6VB923rPb+tjEDVXYMuDXyizYNRqBJpoHWXD4lCzEpkxtXQA208PKP6ds7NUKitY1yUGZ9vwut
-	HFPEX/zmT3bskei013Um3YE8iju4oRc61qKIHl7u0yCFB8nCODznus6LijPUOkwoJPtYe8Z9FbQpx
-	8JxRMwBQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=HwNY1rgM6q4Ctj/+3tD0gRogjIimRT6p7jVBUT2kqPk=; b=KQuzeusqkXi8lA2wjSbgHY0rIP
+	A/7bhAd+8RoXmRQgNZwWKwiL4wZffUv4RQNkL/hdfiuWfsr54zsErKF7ImZkgZXLTAdQDzE7lQzGC
+	AfZ49Qut6tVE1M+ctRP5mtHYE+sOsU+Ib8EQjwGYYkLHwGMheqZ/u8KXeOh94GqC14EdUrX4XTmbs
+	t+AEqRIj/a9n/05WHkSQ4Xv6AQH4jS4i+WB069kTB5evMXtF8T/3jJQaFuf+dF6JAieCrrOnQj/S8
+	jfCsNpifkLdkhQ3PHy3iLn+delZ9FI0JCye4a7d+1drE3gEbP6ub6v8wUjE4bH35YrdfKMIeOPKQ6
+	KPgH00JQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGdea-0000000D8xB-26u3;
-	Tue, 13 Oct 2026 14:38:56 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1xGeBA-0000000DEN3-30oy;
+	Tue, 13 Oct 2026 15:12:36 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGdeZ-0000000D8wl-2Pft
-	for linux-nvme@bombadil.infradead.org;
-	Tue, 13 Oct 2026 14:38:55 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=D6fmDuGwzkfImjlpJLnvJjVFJ/
-	TgmNtNkwM6mVTipRZEaimrELeOz+OjR7d/hZ54V6W/v3KkNERq8vtssFlB9f7DLGkfh32Vx+f63RN
-	Qqu5cV5qTJRbisyVZB4hSboh6O4x3GWewpS7DMEHmOsPYw6VNjiapzCWLOfEoBGkmmkgT5pF3ATfz
-	Qp7n3Q4KIfB0h4JwrLLuKl8HkPDIVpoz2FqERiA54JayebY1XnZdOx0gzO1dLQul7PRPmA0e71S3/
-	km5fBOD9EOx1mK5ktrSybk8453YF38Yi5sQW27aOk6Bihp8py+/JCQEYnwXVymBODdil+SVrvtZcz
-	x2cz3BVw==;
-Received: from verein.lst.de ([213.95.11.211])
-	by desiato.infradead.org with esmtps (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xGdeW-0000000FeSx-2lwf
+	id 1xGeAv-0000000DELS-0RLJ
 	for linux-nvme@lists.infradead.org;
-	Tue, 13 Oct 2026 14:38:54 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 3766D227A8E; Tue, 13 Oct 2026 16:38:50 +0200 (CEST)
-Date: Tue, 13 Oct 2026 16:38:49 +0200
-From: "hch@lst.de" <hch@lst.de>
-To: Daejun Park <daejun7.park@samsung.com>
-Cc: "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
-	"kch@nvidia.com" <kch@nvidia.com>,
-	"kbusch@kernel.org" <kbusch@kernel.org>,
-	"kanie@linux.alibaba.com" <kanie@linux.alibaba.com>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/2] nvmet: fix preempt of another registrant by the
- reservation holder
-Message-ID: <20261013143849.GB15964@lst.de>
-References: <20261002070200epcms2p593a0aa8ac482e776e8f1de89d9f212ae@epcms2p5> <20261002065931epcms2p1cb2c16f98cf3b05f8c859ad92b0ad465@epcms2p1> <CGME20261002065931epcms2p1cb2c16f98cf3b05f8c859ad92b0ad465@epcms2p4> <20261002070341epcms2p4e1409e8fcea145562a2996ad1d1d24ea@epcms2p4>
+	Tue, 13 Oct 2026 15:12:28 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id 8D6F160A59;
+	Tue, 13 Oct 2026 15:12:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 511BC1F00898;
+	Tue, 13 Oct 2026 15:12:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791904340;
+	bh=HwNY1rgM6q4Ctj/+3tD0gRogjIimRT6p7jVBUT2kqPk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=XUYw4GGNTknWnm65i6mHq+XLq9CcfwRdNYS+uR0S6mPSBSBLfdwVmzXO8EiGiPfxT
+	 6JJJ8/AdSVzOEvFRwgN8EAb9ag9sKNgcb+WWfUKYL+1UCcmoEUVqhd5huncqDVVdbi
+	 qeDUhKZnj+MXP5OfWjtyxYc7Nd5hMzmLy0aIDKZFkyry86AMIZ/5XYIpClsnQSwmvi
+	 HsI/LEP6Ysr8va2NNnSuqMPSVRsb68bLrkcAEFGkrgi9fl7qEUcpGeE9u6wSHLvAYF
+	 Cx5/Q5qDlMsJiy8/jvk0q6r4WNpJoXqIOHEWYvqOqw7F678UilyZa9NhOuAVi98d/O
+	 M2B4UCPriv3hA==
+Message-ID: <1b4ee842-844e-4b6a-9ce8-0c4e7229825f@kernel.org>
+Date: Tue, 13 Oct 2026 17:12:16 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261002070341epcms2p4e1409e8fcea145562a2996ad1d1d24ea@epcms2p4>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261013_153853_014398_1BFDE598 
-X-CRM114-Status: UNSURE (   8.66  )
-X-CRM114-Notice: Please train this message.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/5] nvmet: pci-epf: report transport errors in command
+ completions
+To: Christoph Hellwig <hch@lst.de>, Andrea Parri <parri.andrea@gmail.com>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Keith Busch <kbusch@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ Niklas Cassel <cassel@kernel.org>, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20261012141239.156408-1-parri.andrea@gmail.com>
+ <20261012141239.156408-5-parri.andrea@gmail.com>
+ <20261013142736.GE14759@lst.de>
+From: Damien Le Moal <dlemoal@kernel.org>
+Content-Language: en-US
+Organization: Western Digital Research
+In-Reply-To: <20261013142736.GE14759@lst.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,7 +77,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Looks good:
+On 2026/10/13 16:27, Christoph Hellwig wrote:
+> I think this looks good.  Damien/Niklas, can you test this on hardware?
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+I do not have the hardware available right now. Niklas ? Can you test this?
+
+-- 
+Damien Le Moal
+Western Digital Research
 
