@@ -4,62 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7A0B7CC6B16
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Oct 2026 15:37:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 396DECC6B16
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Oct 2026 15:38:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6KGntCJveSKgTB5Os53pE5ueO2Ap7EeMI1AvE0Iy3Ck=; b=xywuIXtUaOJaaRWZuTLK0PzA8Q
-	KwBEL1QVX/F2Umj9g3sxupuQ1t5OFR2ySvOJobfdlwmXfx8UbXvVviXgq1v5aszdFd2Ckn4YJwsS3
-	G4kO4jq0wxOIxWCfC5BMIl+sDMmkdVXB0bvrDF+joNMQgn7P/aAgSC7PzdIUK89hxpA3iYXywKa5e
-	CZ+338oY2VB9HZarT0e+4jrH6OWogl1BTvmLeJ0wMW/HuFFUtSBcKVxVUW5fjUWQdE8BSxnoBwkQG
-	rcT6+sJs8hWkl9yRNp5Mw7Ps6IzB7iqFrER89aPVDA/TFU6Z3vE3YLRgwjqVQkHjtj9Hr32/Bb7qA
-	apPW5AcQ==;
+	bh=fRac/ENAf8sbWAIo8siY+nB/tJsXS7y2nHVsGkQK6zk=; b=QKMhrSw3qnC7mTQHRZ/0ooKjQW
+	MCFfWcaSahqWMNaD6PUzrfnumBlqymNi0LWZUdhkrnZ0c9c1LL06HSmNLhF/oClAZkX2p2FoSaxx5
+	HjqGi/XhuDhrYW4ysiSHINQAo+9YFHUThJoTMz1eWGM8Yi9g/JNiqGWw2bEez8bg8S+ItCUo/DCZb
+	/WsVbVP0Ji1bCuGQOUph+kDsLsnK+n3xg7Rzbrae+pdClLoZNqSvMNQtYFT45chPqBgbD0noYVigc
+	YhcXX0gLRIc4mha4GEA1YjlSKsapQa40i14+6zddUP4/URHSvxPfPB8yLPxzaVUPjaRHmqJjWD35G
+	olmIP8tg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGeZR-0000000DNEI-0LDQ;
-	Tue, 13 Oct 2026 15:37:41 +0000
+	id 1xGea3-0000000DNLl-1AiK;
+	Tue, 13 Oct 2026 15:38:19 +0000
 Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGeZP-0000000DNDV-1KHE
+	id 1xGea2-0000000DNLG-0xox
 	for linux-nvme@lists.infradead.org;
-	Tue, 13 Oct 2026 15:37:39 +0000
+	Tue, 13 Oct 2026 15:38:18 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 021CC436AA;
-	Tue, 13 Oct 2026 15:37:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D66B1F000FF;
-	Tue, 13 Oct 2026 15:37:38 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id D291740AB1;
+	Tue, 13 Oct 2026 15:38:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B31E1F000FF;
+	Tue, 13 Oct 2026 15:38:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791905858;
-	bh=6KGntCJveSKgTB5Os53pE5ueO2Ap7EeMI1AvE0Iy3Ck=;
+	s=k20260515; t=1791905897;
+	bh=fRac/ENAf8sbWAIo8siY+nB/tJsXS7y2nHVsGkQK6zk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=HUW1CULqV0z82N6MB40nIhnlWwes1QqSsgOyJi7hx4z2T3w0JeeSi7TkYME2Zbv5A
-	 kKA4C38aPuJS8/aGtVOvJNJOOsYU2pQBf2x02MepwVIXLGfua7tAo1o5FLJ3ESea1o
-	 FdZrIx/7OAMEpU+lpGKcLT2o9UwN/m2jFNCsXmB7WgYDA436c4Ws8pjKjkTan8JQ6e
-	 Oy7H6g3cLL8/vsJXxxjfbL6zQ/BcFqe1W613iADPuVDtXyqUDK7+xOEJLJGKTd2H6M
-	 0ufphI0hmu7o7/eThMgC57kTRNNOIgfTBXX4Asaqr5T4LXjPFkh8SauNsW4zrpFV+M
-	 vDytBgEdb5wAQ==
-Date: Tue, 13 Oct 2026 09:37:37 -0600
+	b=ioCEEFu0T8VAMITdUgiseYpyrNZcylEasjSvB/52gdAjb7MpKfrigZtNehfc+4O84
+	 2Ss8bW/XCj2GFuOxCy6cOYxU46pWWLTwCcd7b1HZrrdZCYZ+nGo8aOxHnIt5ihnjpF
+	 Z7NPQyj1Zc9vJhkveWnIGur253+R7yMWwG+Hya6gTdSJyZb1pAkFtEocNRxNd0ym1P
+	 spj4AajzxqpabqMXQctdPSjUdoPYMgy1d/xosgLDq1wI8fL5yRGp3BiEd+oLoQMHxE
+	 Oecrk9BVgP0BFNMaK7fAjJDdC/Hjrn52mn+jFmuGaTp6Mjv4XTJ29jNfkVuQpcvRXr
+	 eumrKq3nLrozA==
+Date: Tue, 13 Oct 2026 09:38:16 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Daejun Park <daejun7.park@samsung.com>
-Cc: "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
-	"kch@nvidia.com" <kch@nvidia.com>,
-	"kanie@linux.alibaba.com" <kanie@linux.alibaba.com>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 0/2] nvmet: fix Reservation Acquire preempt sent by the
- holder
-Message-ID: <as5QQbY2qa8Qq5N1@kbusch-mbp>
-References: <CGME20261002065931epcms2p1cb2c16f98cf3b05f8c859ad92b0ad465@epcms2p1>
- <20261002065931epcms2p1cb2c16f98cf3b05f8c859ad92b0ad465@epcms2p1>
+To: =?iso-8859-1?B?Suly6W15?= Jean <Jeremy.Jean@oss.cyber.gouv.fr>
+Cc: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] nvmet-auth: serialize access to DH-HMAC-CHAP state to
+ fix UAF
+Message-ID: <as5QaLgssz5ZK7IB@kbusch-mbp>
+References: <20261003210154.2453077-2-Jeremy.Jean@oss.cyber.gouv.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20261002065931epcms2p1cb2c16f98cf3b05f8c859ad92b0ad465@epcms2p1>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261003210154.2453077-2-Jeremy.Jean@oss.cyber.gouv.fr>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,23 +72,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Oct 02, 2026 at 03:59:31PM +0900, Daejun Park wrote:
-> nvmet_pr_preempt() does not follow NVMe Base Specification 2.1, section
-> 8.1.22.7 when a Reservation Acquire command with the Preempt or Preempt
-> and Abort action is sent by the reservation holder and the reservation
-> is not of an All Registrants type.
+On Sat, Oct 03, 2026 at 09:01:55PM +0000, Jérémy Jean wrote:
+> A REPLY AUTH_SEND command can derive a dhchap_skey key while a
+> concurrent AUTH_RECEIVE command observing this REPLY state executes
+> the failure path and frees that key. The REPLY command then continues
+> and writes into freed memory, causing a use-after-free. KASAN reports
+> it as:
 > 
-> Patch 1 fixes a use-after-free read in the path that handles a preempt
-> sent by the holder.  It does not depend on patch 2 and comes first so
-> that it can be backported alone.
+>   BUG: KASAN: slab-use-after-free in __sha256_final
+>   Write of size 4 at addr ffff88800359c540
+>   ...
+>   nvmet_auth_sq_free (drivers/nvme/target/auth.c:237)
+>   nvmet_execute_auth_receive (drivers/nvme/target/fabrics-cmd-auth.c:621)
 > 
-> Patch 2: a holder that preempts with the key of another registrant gets
-> a successful completion, but that registrant stays registered and the
-> reservation type is changed to RTYPE.  The pNFS SCSI layout server
-> fences clients with this command (RFC 9561 section 2.2.3), so on an
-> nvmet namespace nfsd logs a client as fenced while the client can still
-> write to the device.  The patch lists what changes for a host that
-> holds the reservation.
+> Add a mutex to each submission queue to serialize authentication
+> commands and timeout handling. Unlock the mutex before completing
+> requests and ignore outdated timeout callbacks. Limit timeout delays
+> to prevent immediate expiry on 32-bit kernels.
 
 Thanks, applied to nvme-7.4.
 
