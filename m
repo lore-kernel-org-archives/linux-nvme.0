@@ -4,60 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 48432CC6B16
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Oct 2026 15:36:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7A0B7CC6B16
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Oct 2026 15:37:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=dvGvoF3jF00OPQndsebVTsb5JUa89YbbVTVQ3f9+rSw=; b=F++SZupkrf6lr6r+K/eyrIIpN3
-	zFBjbg6jirsYwLmX+ZlG1FPQhQlE6MuH+LpSfOWObu1m/QVTeiymzXlXffm+lXi3g4p0YlEhG5wRW
-	Z/ZmwoibDiJ+hjIk7FSjba0WPp2gqLa+ltK4gDdjPUYBdt+WPFNNn9NriRXz68DScA8LhOtgkRBAZ
-	ItFVJ/4ASNV28s4klInt8h/nUBuFsLiUX1C+QQHAyv7hsjC+fd0WY1EuBUEm+jlmp02U6N/GbwJ2Z
-	7SWOUTZMelZzeCmCkIcAyPzCx5P4mUg0L27BsstCNURlP/cxEHutP4/MFMfq7yY59nyOaD2jYH0Oc
-	R3bZwLbA==;
+	bh=6KGntCJveSKgTB5Os53pE5ueO2Ap7EeMI1AvE0Iy3Ck=; b=xywuIXtUaOJaaRWZuTLK0PzA8Q
+	KwBEL1QVX/F2Umj9g3sxupuQ1t5OFR2ySvOJobfdlwmXfx8UbXvVviXgq1v5aszdFd2Ckn4YJwsS3
+	G4kO4jq0wxOIxWCfC5BMIl+sDMmkdVXB0bvrDF+joNMQgn7P/aAgSC7PzdIUK89hxpA3iYXywKa5e
+	CZ+338oY2VB9HZarT0e+4jrH6OWogl1BTvmLeJ0wMW/HuFFUtSBcKVxVUW5fjUWQdE8BSxnoBwkQG
+	rcT6+sJs8hWkl9yRNp5Mw7Ps6IzB7iqFrER89aPVDA/TFU6Z3vE3YLRgwjqVQkHjtj9Hr32/Bb7qA
+	apPW5AcQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGeYb-0000000DMy3-2lcV;
-	Tue, 13 Oct 2026 15:36:49 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1xGeZR-0000000DNEI-0LDQ;
+	Tue, 13 Oct 2026 15:37:41 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGeYa-0000000DMxM-26cc
+	id 1xGeZP-0000000DNDV-1KHE
 	for linux-nvme@lists.infradead.org;
-	Tue, 13 Oct 2026 15:36:48 +0000
+	Tue, 13 Oct 2026 15:37:39 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 2593E435C0;
-	Tue, 13 Oct 2026 15:36:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C9F01F000FF;
-	Tue, 13 Oct 2026 15:36:47 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 021CC436AA;
+	Tue, 13 Oct 2026 15:37:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D66B1F000FF;
+	Tue, 13 Oct 2026 15:37:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791905808;
-	bh=dvGvoF3jF00OPQndsebVTsb5JUa89YbbVTVQ3f9+rSw=;
+	s=k20260515; t=1791905858;
+	bh=6KGntCJveSKgTB5Os53pE5ueO2Ap7EeMI1AvE0Iy3Ck=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=VtXcTl3W31cuzIoBd8khnJwWOcDXy/POHn4FNUW7deRXgOwWdlW3GIV/IUlKz1ZSX
-	 uMgdAmCwptp15P+lDev9wGO5VygNEVQNsse7UIFcvlPUi6qbYvLEMikpUpF8sWFqYQ
-	 h/KNdRh8M0Q+Z1reY1/Z/jAFsn/PVkqfG6ee/m4TeGwQxkMD4z7LT/SQzGQfBy+/OK
-	 ZpaK4FKCzSiJ9AMGUJ5vrrXmHoWIiQ2Jdf/hTdbm2f+7mZb30jkDde5EP7c6osFu+a
-	 6jlbJa7fvCY8aVT8q7AUtTUef+TI/u/q3K8Awmh9ItkHrnvhU1sIKSbxNo1a2uFUhj
-	 cVx5o2BzTYL3A==
-Date: Tue, 13 Oct 2026 09:36:46 -0600
+	b=HUW1CULqV0z82N6MB40nIhnlWwes1QqSsgOyJi7hx4z2T3w0JeeSi7TkYME2Zbv5A
+	 kKA4C38aPuJS8/aGtVOvJNJOOsYU2pQBf2x02MepwVIXLGfua7tAo1o5FLJ3ESea1o
+	 FdZrIx/7OAMEpU+lpGKcLT2o9UwN/m2jFNCsXmB7WgYDA436c4Ws8pjKjkTan8JQ6e
+	 Oy7H6g3cLL8/vsJXxxjfbL6zQ/BcFqe1W613iADPuVDtXyqUDK7+xOEJLJGKTd2H6M
+	 0ufphI0hmu7o7/eThMgC57kTRNNOIgfTBXX4Asaqr5T4LXjPFkh8SauNsW4zrpFV+M
+	 vDytBgEdb5wAQ==
+Date: Tue, 13 Oct 2026 09:37:37 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Krishna Iyer <kiyer@crusoe.ai>
-Cc: axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	nilay@linux.ibm.com, hare@suse.de, saravanand@crusoe.ai,
-	sjpark@crusoe.ai, Hannes Reinecke <hare@kernel.org>
-Subject: Re: [PATCH v5 1/2] nvme-multipath: fix path state evaluation for
- failfast and ANA
-Message-ID: <as5QDrAp7srZgWwk@kbusch-mbp>
-References: <20261008141407.22992-1-kiyer@crusoe.ai>
- <20261008141407.22992-2-kiyer@crusoe.ai>
+To: Daejun Park <daejun7.park@samsung.com>
+Cc: "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
+	"kch@nvidia.com" <kch@nvidia.com>,
+	"kanie@linux.alibaba.com" <kanie@linux.alibaba.com>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 0/2] nvmet: fix Reservation Acquire preempt sent by the
+ holder
+Message-ID: <as5QQbY2qa8Qq5N1@kbusch-mbp>
+References: <CGME20261002065931epcms2p1cb2c16f98cf3b05f8c859ad92b0ad465@epcms2p1>
+ <20261002065931epcms2p1cb2c16f98cf3b05f8c859ad92b0ad465@epcms2p1>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261008141407.22992-2-kiyer@crusoe.ai>
+In-Reply-To: <20261002065931epcms2p1cb2c16f98cf3b05f8c859ad92b0ad465@epcms2p1>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,28 +74,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Oct 08, 2026 at 07:14:06AM -0700, Krishna Iyer wrote:
-> nvme_available_path() has two problems that keep I/O queued when it
-> should be failed:
+On Fri, Oct 02, 2026 at 03:59:31PM +0900, Daejun Park wrote:
+> nvmet_pr_preempt() does not follow NVMe Base Specification 2.1, section
+> 8.1.22.7 when a Reservation Acquire command with the Preempt or Preempt
+> and Abort action is sent by the reservation holder and the reservation
+> is not of an All Registrants type.
 > 
-> 1. When fast_io_fail_tmo expires, NVME_CTRL_FAILFAST_EXPIRED is set and
->    the path is skipped, but the function still falls through to
->    nvme_mpath_queue_if_no_path(). If delayed_removal_secs is configured
->    the I/O is requeued indefinitely, defeating fast_io_fail_tmo. Only
->    fall through to queue_if_no_path when there really are no paths;
->    if a path exists but its failfast timer has expired, fail instead.
+> Patch 1 fixes a use-after-free read in the path that handles a preempt
+> sent by the holder.  It does not depend on patch 2 and comes first so
+> that it can be backported alone.
 > 
-> 2. A LIVE controller counts as a usable path regardless of the namespace
->    ANA state. A path whose ANA state is inaccessible or persistent-loss
->    cannot serve I/O, so it should not count as available. ANA change is
->    transient and bounded by ANATT, so keep queueing while it resolves.
-> 
-> Also kick the requeue work from nvme_update_ns_ana_state() when a path
-> does not transition to live, so parked I/O is re-evaluated when an ANA
-> transition leaves the namespace inaccessible.
-> 
-> Move nvme_state_is_live() above nvme_available_path() so it can be used
-> there.
+> Patch 2: a holder that preempts with the key of another registrant gets
+> a successful completion, but that registrant stays registered and the
+> reservation type is changed to RTYPE.  The pNFS SCSI layout server
+> fences clients with this command (RFC 9561 section 2.2.3), so on an
+> nvmet namespace nfsd logs a client as fenced while the client can still
+> write to the device.  The patch lists what changes for a host that
+> holds the reservation.
 
 Thanks, applied to nvme-7.4.
 
