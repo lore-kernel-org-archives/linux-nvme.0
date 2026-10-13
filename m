@@ -4,108 +4,107 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 76DFECC6B1A
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Oct 2026 20:02:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C5E3BCC6B1A
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Oct 2026 20:09:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ht3KL+dVHT63kyImKLUa9SErnOvImt82gs/Vf44c6SY=; b=wMQbH38zyjXfGRMpqZWyD/9n3I
-	DBKY+MChllJ3qZHxc5Tiv8fPPAFc/1pUk8DePenXzyaKuckSTcEDQX0ovizugwrPLNvJ7rTVyRY6X
-	H7zWBNVreGBaR3WqoiD6qaOhG1/X82R8t0QQTEOxzhvSsNOqj6m2VEBYkOXEe2Y0qi5LuVxWAt2Tx
-	Wre4R7B5gZnzFjDPdgdH8VCXK3TqCjw452lAW1KzbY64Jp/hNoBpN59siqv9wv7X4u19n2UXGfRmT
-	3sx/JsZclxrqos+x88wSbwKoJY4Xn0Lj8+KNKdCi7sFjOjPsNpn8I17cUQcvtyEiWc8QpUfQp0Gp2
-	q/grbgcA==;
+	bh=v0gpLt7+oS9KQUHShMJeHfOIQi0PPRoxYfM2szDl9BQ=; b=hKKxqFKIFHteyWO0FTs6XmC4CN
+	E3VGC2mJRnlGnP7/n5TGZS5Gr9gA+CZZE3Wql/eKHyfGiYWIGN/Slf+RaLUMWcczXy1CVpfNERZwn
+	ca1hCoBhJKimKwmBE4qI9T+Jvh6cpfidddb8CwzVkwCw6nnjCraaLW6quUfTDsCEIg4W99HtyQdRY
+	K2q8dIxqZlEpW4EVzohAivus9cW9dvH8FO0h7AGFjoix+TCK+vNc20j0YDVxIrf5Qak2DpWGNvzin
+	ORDSjCiie88qIMJL3nZyqQq+5RDb8o13S8TtsETLbxsJ8gw5TJzW/1BupppIqbP09Rrws+jSBQSb+
+	AEeSxmoA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGii5-0000000Dyde-3BnQ;
-	Tue, 13 Oct 2026 20:02:53 +0000
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+	id 1xGioQ-0000000Dyzn-2PFh;
+	Tue, 13 Oct 2026 20:09:26 +0000
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGii2-0000000DydF-1eSZ
+	id 1xGioN-0000000DyzE-37AK
 	for linux-nvme@lists.infradead.org;
-	Tue, 13 Oct 2026 20:02:51 +0000
-Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-4a1698ea378so28093295e9.2
-        for <linux-nvme@lists.infradead.org>; Tue, 13 Oct 2026 13:02:49 -0700 (PDT)
+	Tue, 13 Oct 2026 20:09:25 +0000
+Received: by mail-wr1-x431.google.com with SMTP id ffacd0b85a97d-487049569b6so2371687f8f.1
+        for <linux-nvme@lists.infradead.org>; Tue, 13 Oct 2026 13:09:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791921768; x=1792526568; darn=lists.infradead.org;
+        d=gmail.com; s=20251104; t=1791922161; x=1792526961; darn=lists.infradead.org;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ht3KL+dVHT63kyImKLUa9SErnOvImt82gs/Vf44c6SY=;
-        b=Y+OwPqZ+LKkaCT+X5qFpa0Vra51+LElskQZluOzcOmzPOVFcd9g2gCDVxSc3ntOGaD
-         wB2L/k+kfJxxAch/0pJKnhMhyv5/Hyibem23g2dOEdl5RuulU+q+69AhfMI7auQuuJEg
-         9tH8o2g89EjjDeQXx71GfMDn9yOguWqn2hJ/VbpZTDuXd2649gNmwUaBI+4UDOJ/Yzc0
-         fZpV9rstW9ZypBblZBmST/81eLiL8HLExu6i4rTg3F/vF2EX0nfEXnsejQPicvGaFH2X
-         VFyvUzHBgSJIptBsGrS/Oq9PtQNnHAyAcUZwcNIDZaAGIUvAFqgcGBNxzU+3hvdeZeIF
-         muUg==
+        bh=v0gpLt7+oS9KQUHShMJeHfOIQi0PPRoxYfM2szDl9BQ=;
+        b=q8Dv+U0/g9y01La7rAEA5Rt5DELGUwWcu/pkLxYdUu4LBLuQQytmHeNP4njJ+bIswi
+         ApOpyyMMtrUCjJD6tTv5t/Wu9zdlHatcsyq0JC4vQe1MRn28MZJ/ok9KhdZAMD9wDnqG
+         Y7PkC4TIC1cCT9goSrBMke4ksoR0ifJz0fGLSDmBV3ctYccS1Xe4/wpvm/fIoaY0aH7E
+         Ab4nVQ+qyKxttFezAxHMEPFVO1T4auc1mgs+TvqFFDXti2JqomLDIHT/ZREs68xw6+K1
+         BEp1tHQye+WrOtyc7PBPVxXPIztHP0Nb+ifo2Ri9ajirUJMo/28UufMCerSNnm+CzDZX
+         aFYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791921768; x=1792526568;
+        d=1e100.net; s=20260707; t=1791922161; x=1792526961;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ht3KL+dVHT63kyImKLUa9SErnOvImt82gs/Vf44c6SY=;
-        b=GBq4DIcfFa6A5zc3tGpLaq3zbMIcr7e//MZx12xAmOCetrTJvwt81Vs1Rv7KdYA/uD
-         RHfRGy19MVurBpEGIPgsT6iH2q6la5qR1paXLv2P8BmtoO5LvYS1TAbTPLmGr+lrnQ0S
-         7VJDnK7uTyzVueWydaj5Acaw1iZHyP1luUlZovmydoFLai3cxegjLr0I6/CXIqBecyn2
-         aN9LkGRyrwLYDJ6aSu/fuV0tqhXg5aF6czCey21AVowSSVpRI0vywfXUD4qQaYZAud4q
-         bc3jiicsPoCJSg5zNPmpyACg2Rnz1CpeaiOTQbGroYoDK1Js0G34dCLL9RozYgTCj5M+
-         ILUA==
-X-Forwarded-Encrypted: i=1; AKwUvBxN44QgBHsByz004o1r6ILfEb80FKZszYPZdu0vJYJOYQ6tutjFWJSg7SgVbTEu1IzCbrsyk6V2cgMK@lists.infradead.org
-X-Gm-Message-State: AFq9FYJXdPYXmOV6whjTPhCgjRWxSVz2HTANNSxUwSFKhSTkPvhcKpo0
-	2B+iSatr3Jed/R3jn2DA9pcBvfwxnF5ukKkM/Am+QVBSwA4ESASg0dfJ
-X-Gm-Gg: AYBFou3D/X3ggc3K3FrHH7BpLSKpwwoS610fmepuFgrTxh5QRs+1iIS9NlQ3OWjCgqv
-	XztGsVnkW956NpFt2uT9Em47efg8ssSzL0IcKmxu3lLiLrTWwD7HmbdECq6/WE17fa74q91tjLA
-	io0X5D9AFV7GszLo58ILCaXxEhj2l/XbaIitKMlWj/1Ozs2X4JtSXshjlmlvRFtaNYIiHLtr4W4
-	Fhe2T9R1UBgeZvfBHrOu33D0QLNRlkdErUXTLhffVyb71ujfK4RmLPljkpMGlK/0g4uAw1wfpfc
-	p5tvQyk591kfbaMrPC3cxRtwYlJN/yd3gu4r4LD1AfWM19opLebtydDNUDO13BR5CQWxT3DOWJo
-	8r7aCcnwCZW+x+RxkQ8DORehvgUEYtWbdqFnaFWxOjiSKa+AiGSEMMzcHUUUrXwAfxkQUOw0HBD
-	7A7T7M9wJEKP6wnDwwJ4VLN1gYLZ3+LXQv3X8K5XGxAuwGRdNmTcZ8/juwjOFzXaL3l1g8/gMnQ
-	xQuxQQf/GYw4xbmpjeyi9Qd1GB7OF0GvTXnVEBJC9MDf38zPgdyKk8PYBfWvGtYvhn2XIpsbvty
-	btFOiL/sMH7kmsjwkq8absQ2thKRgL/Alpk42AoqIQ5qkX17AJAdCohQOP4=
-X-Received: by 2002:a05:600c:46cc:b0:4a0:8b1:f5c with SMTP id 5b1f17b1804b1-4a18e4b583fmr268480065e9.22.1791921767928;
-        Tue, 13 Oct 2026 13:02:47 -0700 (PDT)
+        bh=v0gpLt7+oS9KQUHShMJeHfOIQi0PPRoxYfM2szDl9BQ=;
+        b=HOQw6DHNoCRoaOAmtY50vJTlbQhmZWDL6fG26AR0w/j/Pate6AOL81LOVp0tbd31Vs
+         nFv3+8tb7I+yw8E1j6QxQZUp/BkTIozS1cWzBCpUql2xxkhxgIFM5FWEYhVv6Fgw2REm
+         ORgqMmWCN+hHSg6vgmnqLXxTzuPzum3afQ2SKjRRqyYSPNmE8h9cJVq8xVB6vC5bUHOv
+         AXGwnQz1wSV33sNVNhx0VeQ/2/wQzc/jlNaAUJGkArklXmS5sa0xtRXtMX0YXWHB8uT1
+         NMCwJPptr5xFUPQvouMPvh7LyIvqTTHRjtSQZgxkZW2rA0VYbM6uVAAolMQ/molPTDO/
+         dVzw==
+X-Forwarded-Encrypted: i=1; AKwUvBxqpoWyQn0E+KXUFv3343byzb66VEWbdSqookj4tHypA4mwC0HyUxXZAiqfRT8OCNARAulUbYjh6VEe@lists.infradead.org
+X-Gm-Message-State: AFq9FYI2fRA6rubPo0rk8zSDYwrwNaInhGuqqTFHLVh8+dMTufEtYrfo
+	x40wXkHKK91yDZosOVabAo5b9EHTPcrFtwAkugtYoHHSuW+m66H7l1YG
+X-Gm-Gg: AYBFou0+A90MoWmkA0yB4uKkfPAmtbjNIje5woLBKVqtxL0oY2w6X1QmR3pCDh0yE8N
+	J96qTLT2ZdD6BHTzVhtgQIA2Cd1IXq3jpFcZgLKfi05w72B84U1RtXnE3uxK66f/Dhpo+HcCxV7
+	UBjpToyB8NdIHm1RQpRR2AU9Vx7OXRw+Ww+NKB3cjEjZmQxGYX7SdrbHGLY9ulVWd76An2A6n0p
+	p0dDIC9fWUqc8AtEjaCU68pV50+38jpf9KWjs3rm3ggRdTguoXvmyKvPbi28hne5nDh/c3soFNz
+	718WZEkEhi4oaoaYhYA6NiJ6dyLfYcCVNdR40B/DKvW7pdGeOK2sLoypQ+hTAYnHo+uyu5uYkIf
+	FtpFXPRxOC2e7zMdcWgrs+QJDYvrMtLrGYPddCHEmHi4kYEZR1xKk+pa6s3vBwHKrh22senCxIE
+	tguiqjEBrk6OuZURKhdU+YBh1Wm3E1J4k8FgqVoVQiY3xbPZZRi6coxUROVtsT4ERLFqAEakrgf
+	v+jvVKRuAmXlD3T8R+bsSxQ462tQ9jrWvepKSFfx24uYJLd+u23iXZNznt66wBqgvlmu17FZuu/
+	fbHrO/EjkXWP2kDDYtP+vCerjydiXbdaqtjkgN9Lr6g14yzE
+X-Received: by 2002:a05:6000:310c:b0:487:8b9:526a with SMTP id ffacd0b85a97d-48dbacdaa60mr25864079f8f.36.1791922161609;
+        Tue, 13 Oct 2026 13:09:21 -0700 (PDT)
 Received: from ?IPV6:2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c? ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a18bead84esm384426465e9.13.2026.10.13.13.02.46
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de0ab5af7sm7243430f8f.31.2026.10.13.13.09.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Oct 2026 13:02:47 -0700 (PDT)
-Message-ID: <63fa3e64-44a8-4539-960c-946cebc8fce5@gmail.com>
-Date: Tue, 13 Oct 2026 21:02:39 +0100
+        Tue, 13 Oct 2026 13:09:20 -0700 (PDT)
+Message-ID: <293d49fb-6488-46da-bd3c-6f8600dd123d@gmail.com>
+Date: Tue, 13 Oct 2026 21:09:12 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 01/13] dma-buf: introduce initial file I/O
- infrastructure
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-nvme@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
- Christoph Hellwig <hch@lst.de>, Sumit Semwal <sumit.semwal@linaro.org>,
+Subject: Re: [PATCH v9 00/13] Add dmabuf read/write via io_uring
+To: Matthew Brost <matthew.brost@intel.com>, Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ io-uring@vger.kernel.org, Sumit Semwal <sumit.semwal@linaro.org>,
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
  Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
  Alexander Viro <viro@zeniv.linux.org.uk>,
  Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Andrew Morton <akpm@linux-foundation.org>, Jens Axboe <axboe@kernel.dk>,
+ Andrew Morton <akpm@linux-foundation.org>,
  Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
  Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
  William Power <william.power@intel.com>, Alasdair Kergon <agk@redhat.com>,
  Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
  Benjamin Marzinski <bmarzins@redhat.com>, dm-devel@lists.linux.dev
 References: <cover.1791336930.git.asml.silence@gmail.com>
- <b44df9fed6e346110c504ee312bb0083c7e75574.1791336930.git.asml.silence@gmail.com>
- <aszbv7TgDOPHBEem@gsse-cloud1.jf.intel.com>
+ <d00e43fa-8f5b-4a8b-8b83-421d637ba519@kernel.dk>
+ <20261013141046.GA12680@lst.de> <as6BMYAsWehHddlT@gsse-cloud1.jf.intel.com>
 Content-Language: en-US
 From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <aszbv7TgDOPHBEem@gsse-cloud1.jf.intel.com>
+In-Reply-To: <as6BMYAsWehHddlT@gsse-cloud1.jf.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261013_130250_476706_14AA70B4 
-X-CRM114-Status: GOOD (  22.49  )
+X-CRM114-CacheID: sfid-20261013_130923_804353_A135ACEB 
+X-CRM114-Status: GOOD (  20.53  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -120,51 +119,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/12/26 14:08, Matthew Brost wrote:
-> On Wed, Oct 07, 2026 at 02:42:44AM +0100, Pavel Begunkov wrote:
->> The goal is to be able to natively use dma-buf in the read-write / IO
->> path. This patch adds basic building blocks serving as a glue and API
->> between drivers and upper layer subsystems providing the uAPI. Later
->> patches implement it for NVMe raw block devices and expose it to the
->> user space via io_uring.
+On 10/13/26 20:06, Matthew Brost wrote:
+> On Tue, Oct 13, 2026 at 04:10:47PM +0200, Christoph Hellwig wrote:
+>> On Mon, Oct 12, 2026 at 02:21:41PM -0600, Jens Axboe wrote:
+>>> I've queued this series up for some testing, in a separate branch. JFYI.
 >>
->> There are two main objects. struct dma_buf_io_ctx and struct
->> dma_buf_io_map. The ctx is used during initial registration and serves
->> as an interface between the upper layer user like io_uring and to the
->> importer subsystem / driver. The map represents the actual dma map
->> established for the target device[s] with dma_buf_map_attachment() and
->> stored in a device specific format. The context is created via a new
->> file operation ->init_dma_buf_io_ctx.
->>
->> The ctx-map separation exists to facilitate map invalidation (see
->> dma_buf_io_invalidate_mappings()). A ctx can create
->> multiple maps during its lifetime, but there can only be no more than
->> one (active) map attached to it. Invalidation drops the active map
->> if present, and any new I/O request will try to create a new one.
->>
->> The primary task of dma_buf_io_map is to count requests using it
->> and wait for their completion when we want to destroy the DMA map.
->>
->> [un]mapping and any work with dma addresses is delegated to the
->> importer driver via an ops table stored in the ctx, see struct
->> dma_buf_io_ops. Only the target driver / subsystem knows about devices
->> it wants to use the dma-buf with, especially in case of multi-device
->> filesystems or stacking in the future.
+>> More testing it obviously good.  I've been waiting for addressing
+>> of the Sashiko comments on the nvme patches before doing more ACKs,
+>> and while I can't really judge the code those in the dma-buf code
+>> also look somewhat serious.  So it would be useful to get them addressed
+>> and the series reposted.  Same for folding in the PI vs dmabuf fix
+>> from Anuj, although making the combination work would of course be
+>> even better.
 >>
 > 
-> Full disclosure Pavel incorporated some of my ideas wrt to locking
-> cleanup which I shared off the list.
-> 
-> So I can't in fairness give an RB but:
-> Acked-by: Matthew Brost <matthew.brost@intel.com>
-> 
-> For the series - I can give this and I have pulled to code + have Xe
-> nvme + IGT setup showing this working:
-> 
-> Tested-by: Matthew Brost <matthew.brost@intel.com>
+> Oops, I forgot to look at Sashiko's feedback when I acked the dma-buf
+> patch. I think the two cleanup issues are valid,
 
-Thanks for the suggestions and testing!
+I stopped answering to sashiko as it repeats the same from version
+to version when false positive. Those two are warning paths, which
+should never happen, I'd rather leak than crash on double free or
+so.
 
+  but the reclaim-related
+> ones are not. 
+
+Thanks for confirming, you already elaborated on one of them in
+previous revision, the new one looked to me as the same class of
+issue as well.
+
+I'm not sure why Sashiko is confused here.
+> 
+> I wonder if there are some shrinkers in the tree that incorrectly take
+> dma-resv locks in a blocking manner. They should only use trylocks in
+> shrinkers and direct reclaim paths.
 -- 
 Pavel Begunkov
 
