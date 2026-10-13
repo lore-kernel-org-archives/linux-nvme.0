@@ -4,56 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C5452CC6B16
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Oct 2026 15:41:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 408F7CC6B16
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Oct 2026 15:42:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QD47gaMB3hRw3A72AyUeF5gMpuhU7YrMMvYc5XhYmdQ=; b=kktXt+zJx/Upjqp6FnxcGnoxYu
-	QsN5lGP9m8n5n63L4C7tgUSefPvpLqrx7D47xx7rhMH22lbxqtI7Ueo/Wwhd5y6QGrUbs7wCpf93t
-	1WurdT4D3Ay7T7SwbWNlloAiHC3oBT125lp/yBt4S1P8+rMomWcJXUdJ5J1Xjg9eo9GXnaJGJ6g8t
-	cdlIqY+v/6aRcKRs9Ivct42CdvCAQAICjvJmi1OVB5vd+uoI2VXBkJCqDnrMXXSI5rPvrQkJGhCYe
-	5hlnZKt1DvOyiqKINypCZwJ7bQD1BJrUXqSvz4C3wPL3yI17Ab9VNEthFhrZiOnW/+1RH/mANyIq9
-	JtIAPKEw==;
+	bh=GV3/2pwMIoMbwD/i8kgVO4kcDg6oal1jEHBE+1WtdcI=; b=mF8X0UnNL2LqCKMKGIwDPw5a+m
+	Snu+AOb4h2Rs6HfVpmeRGUOwkS5il7FE/zgMSGK+4ZEEtLOJcKEpSJLXWDMWkuldpLT9nKUxGmW9w
+	aT1M12Y5FUJo93SYvJoCJYeFvyTUL92YhmE12Darq2a3Gz39E/dQ5ELkgpoVaHpfJcTuu7hmwPnAR
+	ggcmHphG4YXKLfMAo2afKuzHMnqSjsTFgABmDt1FrGEKPBxdeOBlBw81tgZ0aE2FtuxyBIctukcPv
+	29CcUqcEo7EkMCt00KEVZssYVWzaK+1+KqJG/jYVZEhmbeRScqtT5gl0cPzyPd65Apb6LMBcBUgcF
+	eeSx+A3Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGeda-0000000DOIA-1l2e;
-	Tue, 13 Oct 2026 15:41:58 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1xGeeS-0000000DOUn-3byw;
+	Tue, 13 Oct 2026 15:42:52 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGedX-0000000DOHJ-3DDW
+	id 1xGeeQ-0000000DOTG-2Xql
 	for linux-nvme@lists.infradead.org;
-	Tue, 13 Oct 2026 15:41:55 +0000
+	Tue, 13 Oct 2026 15:42:50 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 7337D43A17;
-	Tue, 13 Oct 2026 15:41:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25D111F000FF;
-	Tue, 13 Oct 2026 15:41:55 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 07E4360A5E;
+	Tue, 13 Oct 2026 15:42:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 318D91F000FF;
+	Tue, 13 Oct 2026 15:42:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791906115;
-	bh=QD47gaMB3hRw3A72AyUeF5gMpuhU7YrMMvYc5XhYmdQ=;
+	s=k20260515; t=1791906169;
+	bh=GV3/2pwMIoMbwD/i8kgVO4kcDg6oal1jEHBE+1WtdcI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Zq13cvx6LpPGrOkrWpKHNn125PN6MAYszEJL9ovsqQsOB7Eh38pYI3SuIkZiIQb+7
-	 UemeYxQFXMI/hCOW8iv94+q1pRYQNu8Piq0DfZ9eeT7nsUVFqm5CN3Uma5/9EPhAWq
-	 HmPUux1/UgLRiUS2S+yL7sjU7X1cXSxMBrpe2c1JtXnXf4utGYQTHy1fwBt04fzCTq
-	 +V2GSnyuPsAIE+Qdgxqfqibvoka+KqC5crdgqwAQWoV9yCmLyNSTciOL8qZGdpoU42
-	 3jo3pmhg191poyjfrOduu29YGdr6CJygrKaBjn4mqESP495I5/Z2qgP73My+lKsAIh
-	 AjEigddj8yUYA==
-Date: Tue, 13 Oct 2026 09:41:53 -0600
+	b=VPTg0/SKFoCLSUtdRlvaXBWnQYZlMPKvxmObOtG3V36ZTxgCZpIlJGNJGQn4DwUrM
+	 KHSShqwOp9l61ErqpuUZkg693PJmCyIBoJRLqfHMk8js4FNqM2+F+eMj2PsWPUY9O7
+	 jzNiDuL7WWm7O08luPowsqt87qWgv6yAJVF0ztOKAFZp7gzjoCRp5Ce+xSKAh3Mpcx
+	 8TB7c4NQbAf4jXwQ98sFF+Ifui0cE+lUxEdnEF6INixtHwNeLr5tJY+OtqgR7DY74l
+	 /MA2SvwxdChwUauZWv3BhMFd48STi8d5KPYiz+QiGhCLYNj7WfZf6Rn7FqcyUZdRdf
+	 1eZ+dw+452WeA==
+Date: Tue, 13 Oct 2026 09:42:47 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Sung Byeongchan <tjdqudcks0424@naver.com>
-Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] nvmet: require authentication before property set
-Message-ID: <as5RQT5VrqCJCrv4@kbusch-mbp>
-References: <20261007063041.26180-1-tjdqudcks0424@naver.com>
+To: Palla Raghunath <raghunathpalla.0209@gmail.com>
+Cc: Justin Tee <justin.tee@broadcom.com>,
+	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
+	Paul Ely <paul.ely@broadcom.com>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Daniel Wagner <dwagner@suse.de>, Hannes Reinecke <hare@suse.de>,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Shuah Khan <shuah@kernel.org>,
+	Brigham Campbell <me@brighamcampbell.com>,
+	linux-kernel-mentees@lists.linux.dev,
+	syzbot+da94a51633758d13bd63@syzkaller.appspotmail.com
+Subject: Re: [PATCH] nvmet-fc: don't drop the last assoc reference in
+ nvmet_fc_delete_ctrl()
+Message-ID: <as5Rd6jGQNtJpW0C@kbusch-mbp>
+References: <20261008191848.47066-1-raghunathpalla.0209@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261007063041.26180-1-tjdqudcks0424@naver.com>
+In-Reply-To: <20261008191848.47066-1-raghunathpalla.0209@gmail.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,22 +78,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 07, 2026 at 03:30:41PM +0900, Sung Byeongchan wrote:
-> I/O queues do not perform independent DH-HMAC-CHAP authentication.  They
-> instead rely on authentication of the controller's admin queue.  Fabrics
-> property commands, however, are dispatched before the general admin command
-> authentication check.
+On Thu, Oct 08, 2026 at 08:18:48PM +0100, Palla Raghunath wrote:
+> syzbot hit a recursive locking report on subsys->lock when a subsystem
+> is unlinked from an FC port.
 > 
-> An unauthenticated peer can consequently set CC.EN, connect an I/O queue,
-> and access a namespace after admin CONNECT reported that authentication was
-> required.  Reject PROPERTY_SET until the admin queue has authenticated.
-> Targets without a configured authentication key are unchanged.
-> 
-> This was found by source review with AI assistance.  A localhost NVMe/TCP
-> wire reproducer retrieved a known 4 KiB namespace block in two independent
-> boots without completing AUTH_SEND or AUTH_RECEIVE.  With this change,
-> PROPERTY_SET returned NVME_SC_AUTH_REQUIRED and the namespace data was not
-> returned; the no-authentication control continued to work.
+> nvmet_port_del_ctrls() holds subsys->lock while it calls ->delete_ctrl()
+> for each controller. nvmet_fc_delete_ctrl() grabs a reference on the
+> association, queues del_work and then drops the reference. If del_work
+> gets to run to completion before that put, ours is the last reference.
+> Freeing the assoc tears down the queues, the last nvmet_cq_put() drops
+> the last ctrl reference, and nvmet_ctrl_free() goes for subsys->lock
+> again:
 
 Thanks, applied to nvme-7.4.
 
