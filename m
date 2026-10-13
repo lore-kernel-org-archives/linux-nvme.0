@@ -4,90 +4,93 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 71CD4CA9ED2
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Oct 2026 10:28:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 85D5ACA9ED2
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Oct 2026 10:40:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GhN5QPUwL1Bq4m1uEuHr6tNGLQly3fEYwhLYLsDwGEw=; b=4waxhhObTI4i1EIUsPz1ulTS3p
-	Pt5cXtHyrpYGxrJU7+RJ8ER9zdk6MtRlnJdl1yTGMDCBke73XcoRCQ5wAvii7WrObrrqFNJvnWUyE
-	ypT6jEJY7rOxikKEu/8JgqCljtA9OVsKHWeyVDTzHkSGvL/IKO0Sl6KNs3Zk7rGr4Z5BBTUgXZkfg
-	RZ8Wyn+uuXpd1Z2Tmm7wGK20PyTQl0xLdH31w6nEAO5yc3zvzrzYIwXlBQVmiIP+Q8n/nsX1e8t7m
-	k1DC4HfOjYtgIkiLbrbwgtcMAatejhPTIFDXcCcD8BJREMK2drQsL2yTurQzAZNM+SqAnxn9uKOfs
-	AnjpxMsw==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=LoNEcPDXDDbnlveBeeC45rD3sgSjJXZHddsvFQD932A=; b=EXcAto+ER7Nevs9QN1GG7U0Hjm
+	CQmlPwFAAxvSHsI0HTMfkpDtAWgmjyOGFNbkVIt+jjJlB1vpn1kNPIGkGyCPa8zSE72n2QtDIPyMP
+	iFzi39VzdbqhNv0ihb3b2ai4sLD3E7Kjf1cmFPCQm+HX265xiw6EfG3BGkIjuST+jhSjhLP0wkcPU
+	tJqJQBfRm2pDdbo89z01nqfe+Fie7ZAZpwkgcIZA7JFBz/PfilPLgwsLIjZh4KT1B9Xh5sTGzbmwC
+	1kS9j36IcMbs3KGSOVxzq7BZlJpU0gXqHPiggCtWpoeCLWXrkEq7R1QrOWsUgDLlEoNWwyMs/+g7I
+	l32ZNGpQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGZkK-0000000CZQ1-0ECS;
-	Tue, 13 Oct 2026 10:28:36 +0000
+	id 1xGZwD-0000000CboG-3NRr;
+	Tue, 13 Oct 2026 10:40:53 +0000
 Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGZkH-0000000CZO9-2BXs
+	id 1xGZwB-0000000Cbnw-2MRT
 	for linux-nvme@lists.infradead.org;
-	Tue, 13 Oct 2026 10:28:34 +0000
-Received: by mail-pj1-x1029.google.com with SMTP id 98e67ed59e1d1-3ab8309dcbaso1903648a91.1
-        for <linux-nvme@lists.infradead.org>; Tue, 13 Oct 2026 03:28:33 -0700 (PDT)
+	Tue, 13 Oct 2026 10:40:52 +0000
+Received: by mail-pj1-x1029.google.com with SMTP id 98e67ed59e1d1-3ac397836fbso531342a91.1
+        for <linux-nvme@lists.infradead.org>; Tue, 13 Oct 2026 03:40:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=isslab-korea-ac-kr.20251104.gappssmtp.com; s=20251104; t=1791887313; x=1792492113; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=GhN5QPUwL1Bq4m1uEuHr6tNGLQly3fEYwhLYLsDwGEw=;
-        b=IoEoAyn9y/FIn+iF2Z6pghUJ9d3SftpSgmUP6m+u9GeXCrC15vxeKcL9riwBxNis1Z
-         3ItF/JMy/R2Pw3A1dIpD/Qs5J6rBpYjMC60OrmuoRfrqek3yoadPQDlzFzqYvO05GjW9
-         LzDFrp/j4JqHHf18MlZ/oN2rO6wt5G7JblpEfzPCNIyHOf802dPWq12reo6dK7WJpiy2
-         jpOY9/ibl2YhEpBZbQsifPm5kFl8T4cnHUibd6KaJnKhkcddinycHxnrF7zlIeEenG7U
-         c4XjKvTEu5x1pJOfR5ci+U7xXIxMDPN93FHlKPskyzo2s1uGek/7bllR1FK9Mh3DAVXW
-         VuAg==
+        d=isslab-korea-ac-kr.20251104.gappssmtp.com; s=20251104; t=1791888051; x=1792492851; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=LoNEcPDXDDbnlveBeeC45rD3sgSjJXZHddsvFQD932A=;
+        b=gfsFkPyw1qMO8CplxBmbFVOVmN1Cg4d8/qjozXDWeYZffT5GjpWHNadZLMZQj3n4cP
+         MF3vh5pz1UuBIX+bUqNu90eAvCPdRlfMn6HQa1B0I0t7nAux2lwFaDQmi6QUxqCft9bC
+         onWvz5uCNwFjKErLy51lhKOr6p5BxOsmBuFvwbCRaWbspiG8P8PvPh31zf0O9fyQe+HH
+         QCEH6KMruEn3xLKg6cNRgUdGCjwI5BU2WvBj4Mmp7RXfdOK8jGuqIETay2FqgVgJ8xJA
+         5RWVEclczGNMn43grE3nmEatEUshPgx8/qrf0t0F4E4Emw1NZur8a81AfCy1rJfElQal
+         I83g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791887313; x=1792492113;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=GhN5QPUwL1Bq4m1uEuHr6tNGLQly3fEYwhLYLsDwGEw=;
-        b=BgVKWAoPn+as1WBsO6WzX0Yz2T+Y2ZigqBWCYw4doerD+3LktKFZ6+jOA9rk2p7JEx
-         T8XgCofrftOcy0S2QT7ohej9VsU/A9cZj2Rx4Bys/AYGn3BgkwABVELpWO9Tg3qnTwsC
-         Hzny25q1jhOZhyv+MiRpYz1oc2mh5HjqL6kXOk5owLaRQIiPGIQ2H/9UH07EshW2LkCK
-         +GSeOZpdjUcvsmtwSfRXkU9w/SEzzm/BYQrEyUW7NvwUJcIUNx4k2rsXummPrpaqOnTW
-         sEIK0RRuzt1eu2IU+4U0kQBBadpV8kJrHBqK79HRevwKeER+50A4aleCuHu4b7V2F/iI
-         +GPA==
-X-Forwarded-Encrypted: i=1; AKwUvBw6aE0+q8oBiwi4VvDVlhVSznSUqA2jvhAVzZRy9sMzZ4G9hlyg5YTrR2Vly+Z/bLJqoEALMmYvtxw/@lists.infradead.org
-X-Gm-Message-State: AFq9FYKEn1lfaROT0jaEJ9Ho44gZVPc7h0wE+p3wAS4cjXqofyTC7bIl
-	GDbhOgz7FwEDdVIMdluRmjWBNN8HCt2N1jI0gJPNqahbplxmB3oecIYQfqINlcWDmyQ=
-X-Gm-Gg: AYBFou2wr52SXY8z+FIubAaeq4vhf6P5HjdvGQlJU7X+F+Hp2T6Yp+HVLEdYVmxwRqq
-	bye12kD8aQXk0tHi8WQjBqmHsSqiurGtZQr/Hlk9eEsQ/oi8Fpnfupi8S460Bp72ihyM71G/LU/
-	4xQenhDANSyFo/FFhr01Z+ULQhDsehIIq7lHXj1WtU93bb6FsemOWFdQavrtpHrGaXCFiAOJxT5
-	MMFQV6unqk8W7H3P+I6Y1dqT6kYoD9pYij7iimqxVGzArZhwv9wqqLYpRrii2gfIOT6m2YoefIs
-	DvGPTU6joMtDqzrY+CobNdKgsrueWeWHE4q4KUWLeZCWe7e17eApTXV8dfS47x4aT435fBqQxMo
-	WHufzbx0Fza+pwj1zihiKK+Wf9mC8VhcOVfhb000rU1tz7lTj8lUxIO61SMamsrcLBNrqP1T8pz
-	ipP6KwdHkaI6jSVuxeHRk3gM50vNsQ6sns3peYQgHaEpE7MugFNEIbzOakNWUcLXxr3+mUErjDc
-	c0fyA==
-X-Received: by 2002:a17:90b:2d0b:b0:3a6:f6b0:30ce with SMTP id 98e67ed59e1d1-3ab3acb9c79mr6801718a91.36.1791887312674;
-        Tue, 13 Oct 2026 03:28:32 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1791888051; x=1792492851;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=LoNEcPDXDDbnlveBeeC45rD3sgSjJXZHddsvFQD932A=;
+        b=yUvoZoV/gTc0lZbRxBAGc9e91PR0QSi0LOF067COZFPznANrRGKtb8Jstx5gYmcExf
+         +qgg56EbUl3syce1mwIYTLRGA15BPhjx3Dl0SORfmeuesFBSiZV+bxHrm9MW7YQmcIIg
+         1NS2L1irvg4m4TgCOqv1jaG86DU267NBxBgUTaZ93ycYDvmsbBWPFcB9zUp+fSI4r60H
+         ruyYjtonSpEU19t9jeIuRI14epMTn2+iARoONoUHrl+dpXZozTn9wIbBa5t7MGePug8B
+         hZaNMlgeRUwY3DHjPTN4JMgLbXeoTkZzW9YG7r1aMjy7aFMIYCDmPVLkqsoB8ExyYQa3
+         ojTA==
+X-Forwarded-Encrypted: i=1; AKwUvBwxOusqnv9cvh9qcp7CRMyTtAD0b66Xmq5WqQIgMG8OZ++OMM70ujwGDsqCVnCXO7pqtNbich+cPmsV@lists.infradead.org
+X-Gm-Message-State: AFq9FYJ3Yte7opuntSIxx+3blPSXgTDCbirKZPEIMQXQL6AdOrDf8AiC
+	5e52afMkZlO2lk7D7bhBe9YJKbEyzToTsEtgZ5p0NBIG58B/Vp9wg2qSa66XncHnBl4=
+X-Gm-Gg: AYBFou3RgjfkSG28LL9hqINPSINmouBxUAjzRoPw3VoogpW66g0RQtGoQSy86vFgFGy
+	URCLoM9lAy9OoSsxJPdeubW46lD6nmC0vuudSH+1Mh6c6A9NXZIdDPVMs+USkoztTDmKDOk0vGE
+	/AN3cvZSrMCD14ZTVXGjJatdCLeeSGJZGbhjYVczWYu3o/KQziyYiIqxomA+/bt4XiDJLlqr/La
+	xtfuLBlIReNKng3lkbpgcfrJN682qZrt8/iJS/KYiSM5qJCpCZyUb89Lpt+SMMGu6snQnLekRzp
+	alnldgWoqH47e/zyVl/bDxtULVEgvLy/lFeB5iX4pro4pZMaEpJpmMJX5Rph6rlm8UEAKTP1gLO
+	u+hS58lKkFNeyioqVq+T9eiRG/Byz+zZE2++eSdtHGIztQ+DuS+gRP9tQn9gOctizkPcwBs4ieo
+	AL3B5H98uRNEPughexBtGoFnPFHbIXBiAqtb03wkLG2ZYGEHvDWRufKR9nqegkQ5Be1ynKhFsz/
+	WJJUgh7TePc8QhG
+X-Received: by 2002:a17:90a:1196:b0:3a8:a1f6:3b32 with SMTP id 98e67ed59e1d1-3ab423f7336mr6083299a91.38.1791888050617;
+        Tue, 13 Oct 2026 03:40:50 -0700 (PDT)
 Received: from yhlee-960QFG.. ([125.131.91.97])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ab36ed040dsm25809485a91.6.2026.10.13.03.28.30
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ab3386ba90sm12332028a91.1.2026.10.13.03.40.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 03:28:32 -0700 (PDT)
+        Tue, 13 Oct 2026 03:40:50 -0700 (PDT)
 From: Yehyeong Lee <yhlee@isslab.korea.ac.kr>
-To: Kanchan Joshi <joshi.k@samsung.com>,
-	Keith Busch <kbusch@kernel.org>,
+To: Justin Tee <justin.tee@broadcom.com>,
 	Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
 	linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] nvme: bound FDP config log reads to the received buffer
-Date: Tue, 13 Oct 2026 19:28:24 +0900
-Message-ID: <20261013102824.3020520-1-yhlee@isslab.korea.ac.kr>
+Cc: Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
+	Paul Ely <paul.ely@broadcom.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	James Smart <jsmart2021@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	yhlee@isslab.korea.ac.kr
+Subject: [PATCH] nvmet-fc: bound the FCP command data length before allocating buffers
+Date: Tue, 13 Oct 2026 19:40:38 +0900
+Message-ID: <20261013104038.3078601-1-yhlee@isslab.korea.ac.kr>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <66bf5def-eabb-4c9f-bcd5-0143655ffd1f@samsung.com>
-References: <20261008182453.1262733-1-yhlee@isslab.korea.ac.kr> <66bf5def-eabb-4c9f-bcd5-0143655ffd1f@samsung.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261013_032833_583297_9DB2D27E 
-X-CRM114-Status: GOOD (  12.33  )
+X-CRM114-CacheID: sfid-20261013_034051_607449_47F9AB92 
+X-CRM114-Status: GOOD (  16.46  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,21 +105,75 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thanks, this is cleaner - I've folded all three into v4: the minimum size now
-requires the header plus one descriptor, and the per-descriptor check is in the
-walk, rejecting dsze < sizeof(*desc) (which also covers the 1..63 values the old
-!dsze test let through) and requiring the next descriptor to fit.  I kept
-kvzalloc() and the unaligned accessors and added your Suggested-by.
+nvmet_fc_handle_fcp_rqst() takes the data length straight from the FCP
+command IU (cmdiu->data_len, a 32-bit value from the wire) into
+fod->req.transfer_len and calls nvmet_fc_alloc_tgt_pgs(), which hands it to
+sgl_alloc() with no upper bound.  nvmet_req_init() only parses the command
+and clears transfer_len; nvmet_check_transfer_len(), the only other place
+the length is checked, runs later from req->execute(), after the allocation
+has already happened.
 
-On the get_unaligned part: I reproduced the out-of-bounds reads under KASAN (a
-short config log faults nvme_query_fdp_granularity during namespace scan), but I
-could not exercise the alignment behaviour as a fault - x86 handles unaligned
-access transparently, so it only matters on strict-alignment architectures,
-which I do not have.  I verified it only at the code-generation level: on an
--mstrict-align build the accessors emit byte-wise loads where le*_to_cpu()
-emitted a single load.  If you would rather not carry an untested hardening, I
-am happy to drop the unaligned accessors and keep just the bounds fixes.
+A remote, effectively unauthenticated host can therefore declare a huge
+transfer length and make the target allocate that much kernel memory for a
+command that never delivers the data.  nvmet-tcp bounds the equivalent
+length and the rdma transport is limited by its 24-bit SGL length field;
+the fc transport had no such limit.
 
-Thanks,
-Yehyeong
+Reject a command whose data length exceeds NVMET_FC_MAX_XFR_LENGTH before
+allocating anything.  The ceiling is 16 MiB, the largest transfer any
+in-tree fc LLDD can describe (lpfc maps up to LPFC_MAX_SG_SEG_CNT 4096
+segments, qla2xxx 1024), so no in-tree configuration is rejected.
+
+A command declaring 4 GiB reaches sgl_alloc() unbounded before this change;
+afterwards a length above 16 MiB is failed with SGL_INVALID_DATA before any
+allocation is attempted.
+
+Fixes: c53432030d86 ("nvme-fabrics: Add target support for FC transport")
+Cc: stable@vger.kernel.org
+Signed-off-by: Yehyeong Lee <yhlee@isslab.korea.ac.kr>
+---
+ drivers/nvme/target/fc.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index 1b557775e033a..5ec581780454e 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -62,6 +62,16 @@ struct nvmet_fc_ls_req_op {		/* for an LS RQST XMT */
+ /* desired maximum for a single sequence - if sg list allows it */
+ #define NVMET_FC_MAX_SEQ_LENGTH		(256 * 1024)
+ 
++/*
++ * Upper bound on the data length a host may declare in an FCP CMD IU.
++ * This is the largest transfer any in-tree LLDD can describe: lpfc maps
++ * at most LPFC_MAX_SG_SEG_CNT (4096) segments and qla2xxx 1024, so 4096
++ * pages covers both.  The length arrives from the wire as a full 32-bit
++ * value and sizes the command's buffer allocation, so it has to be
++ * bounded before anything is allocated for it.
++ */
++#define NVMET_FC_MAX_XFR_LENGTH		(16 * 1024 * 1024)
++
+ enum nvmet_fcp_datadir {
+ 	NVMET_FCP_NODATA,
+ 	NVMET_FCP_WRITE,
+@@ -2577,6 +2587,14 @@ nvmet_fc_handle_fcp_rqst(struct nvmet_fc_tgtport *tgtport,
+ 	atomic_inc(&fod->queue->sqtail);
+ 
+ 	if (fod->req.transfer_len) {
++		/* bound the host-declared length before allocating for it */
++		if (fod->req.transfer_len > NVMET_FC_MAX_XFR_LENGTH) {
++			nvmet_req_complete(&fod->req,
++					   NVME_SC_SGL_INVALID_DATA |
++					   NVME_STATUS_DNR);
++			return;
++		}
++
+ 		ret = nvmet_fc_alloc_tgt_pgs(fod);
+ 		if (ret) {
+ 			nvmet_req_complete(&fod->req, ret);
+
+base-commit: 2c3418fffa9d037b2038a6db48be63f9e2291806
+-- 
+2.43.0
+
 
