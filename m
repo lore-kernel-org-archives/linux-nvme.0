@@ -4,72 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F2994CC6B3A
-	for <linux-nvme@archiver.kernel.org>; Thu, 15 Oct 2026 15:01:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 05DE5CC6B3D
+	for <linux-nvme@archiver.kernel.org>; Thu, 15 Oct 2026 15:01:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jun/zHGshv7Ie+bKLV3PJNKMmcdIRnJjgz+qOkaWbDg=; b=uJUo8ong2N8cWMs477TF+q/PHW
-	AbV04J8g+EuBjdcKbrhYj+jrKGznGQuJrDuafFjlf+TALoQ60a1b30zN6nRqqO5+TkrgNkfhYjSHj
-	ymef4IZrue6mJfej0CsGgiE59JA8Fq1x8ixpxAL7jIp6kj0DHRtBMMXN8bR+RxTvpr3dzRbYGzMNc
-	hwwBJfcjXqrKOmYIgsKxcQYS0kMdE1taRsoHPII95QjVSPgY5/+oEzrHe0f5Hav3KUBgMpg+uVO9a
-	ScyNfIvzYSDexfNz4OPykmC98pi4oEPBeEmFEVIA5yMKx94a1eOAcfmzEvlE9ZxmKdmyNIQGAG7pc
-	6z/MHniQ==;
+	bh=SSeH33Tp73HrlxrRD40ZRw/kp0xshqtHbX/nV8WDcGA=; b=hGDPbdkkFuTE+ORFr3SrB9BJSL
+	zGmJ7zWShDHrWC8/YW1srXEGocEnV79j/W4UFtUgPa71qT0JFuOCCNPCpYa55wRPl6RsC4x1caQbA
+	dI2uemv1sKeP1yxwQi/Spt9tQjVHnUuunllqbnptChJn+dYXc9Lxa3ds3n+XJV1EO4exhWZgBAPq/
+	PyFmqIi85/2PAPtEnQ/P4dp1LPyg4n5/oo95UtxtEweNZNgT8oiHDfQUsLjd9i9Lec138Npqt3ga0
+	nHTtmuEki9+1TGYhpKuC3sAZ9MtVezj7S9qtHsHQL6RMS2iu/gGd9VFB+blHXkGWqZCGvRNrOlIHO
+	UTpVUwMA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xHMxq-00000000TW4-1bxz;
-	Thu, 15 Oct 2026 15:01:50 +0000
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+	id 1xHMxp-00000000TUe-0nqg;
+	Thu, 15 Oct 2026 15:01:49 +0000
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGjXA-0000000E3KA-0Puz
+	id 1xGjX6-0000000E3Jn-3UKj
 	for linux-nvme@lists.infradead.org;
 	Tue, 13 Oct 2026 20:55:41 +0000
-Received: by mail-wr1-x432.google.com with SMTP id ffacd0b85a97d-48c6955a7c3so906777f8f.1
-        for <linux-nvme@lists.infradead.org>; Tue, 13 Oct 2026 13:55:39 -0700 (PDT)
+Received: by mail-wr1-x42b.google.com with SMTP id ffacd0b85a97d-48b060ec084so2208283f8f.0
+        for <linux-nvme@lists.infradead.org>; Tue, 13 Oct 2026 13:55:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791924938; x=1792529738; darn=lists.infradead.org;
+        d=gmail.com; s=20251104; t=1791924935; x=1792529735; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=jun/zHGshv7Ie+bKLV3PJNKMmcdIRnJjgz+qOkaWbDg=;
-        b=Yan5KNcLPqas0IK7K0P94AcsMf2QMw6Zfibd6VIzIj9VR+9IlrP2BST1x248tXRBM3
-         p+hLQ8pTnOwxSQHrGjU0rrC3A5CkFPAlZVXWOzTZwAjADZ6OXWX3T6mSs+djCrh2F8XQ
-         baB7a/rybLnX0fivRh10OeLnjiYXt7jFqZyhTh8Np4AAjNmyd+wR4qiOqTRe1k+a8XbA
-         qc/CWqcQORw9eDWXDezy38jzuQQzE1cJhyGyG1l73ldPpwaqHUdE04cVcSaoiVuv/jxW
-         IWzrL37ZLBBF1UBVz+oSbSIkdq3pv8+GZTOiJapx9euljM45lgQ00Wo4aFQsCVAkQDxr
-         xFWA==
+        bh=SSeH33Tp73HrlxrRD40ZRw/kp0xshqtHbX/nV8WDcGA=;
+        b=h5534D0qMOrKJUvItrYMyRIX5e/TsQB2qEMOqDKyh5KMmRLiXcgtMPmFG82vMlJxlQ
+         CiVfzt/Kt5/gHuXX9B530YqcJ5EI/+lWIfS8fnsvWrfskLrw27asgVROYlv+3afDJJR7
+         dQ3xvpmwe48GrrWJFLhzHQAK4XZE9TVcGHU52F2l0eq7ArdzrwlIJ1ZbBEZSgir18k9X
+         lOZY7azQ04ulreEXVozruYo9t3Kasx3apFwAjFd6To+Rz3CiBb6Rs5U1ON/5J3MvcJgO
+         S5I2FRvYXrc85iawpsCF6pZ1YChvRDhqxI65k8BV0KVMxXVMpuOEkN9kEq7vJ6IpDU0/
+         /muA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791924938; x=1792529738;
+        d=1e100.net; s=20260707; t=1791924935; x=1792529735;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=jun/zHGshv7Ie+bKLV3PJNKMmcdIRnJjgz+qOkaWbDg=;
-        b=ATcQATji/ret3IDAPhmOALa11/nQbixzBn3LFA5V5NpKizmENsqRse815DruhPI7LA
-         1uhzmhbnf6fybslqSDYuj+4JnGvLwmeYeTUSi+9neAHlx6a5nzoCxIJ+teYLdPIVWqE+
-         Kx/sqZY4sjwospvE5Cnnmnj7/vOnuc4ro1xDIW99k/fpEvW88M1+vuKl94CzcLxxoD/X
-         DL36x47xft/GUS319vEVENPVTmjZAJ+7mUMw1ZylOn2bjK/I+wKiqUizkYflZMFlQD/o
-         1K/gbhAXznB1dHgCIcX/0PhN9cSetY1QFgON25hQJiTverG5VfnCyl+b/S4Rjlv+PzAg
-         H5Bg==
-X-Forwarded-Encrypted: i=1; AKwUvBwzHBwIao/B2RjI5HkeDtAd8mPLSnppQyqVhIUjcTlWRq8U1AoywEicnsPNkP+OBEDuCJbcNhsnPufQ@lists.infradead.org
-X-Gm-Message-State: AFq9FYJne+x2LV0Rqnm8nVdKqBEP2n5UFRJeo2HJLo6d/kKUbQodz/to
-	77oP66G7NmTYSC7TV3L9gf5/WddUAEXLxIBOEkPAr4hkIKDM+fZNhXMH
-X-Gm-Gg: AYBFou1nwiWz+0Yo9N8i0mPYdL4lK2Tu2HKE+VdDhux7Jsw5pWu3t9M6naMtJBdir9o
-	gRwS+xWtWpiQKhlF1sAtBY0i/iCO3oGFXFqLX2g58eVIa8qdZmpvLyftRBrT3QuJ22iJbn+vlOv
-	00LqA/SseCE1lfmLx8bg5Fi5gxmPWm2VysDCaHIDm4R+SoH+QFwTwNaxhSqoEwoX1cW1V3SPooO
-	/uZj2fhbQhsUn8Ua/s23U8yjVO0WjLCwNzPdirSyIMEoUDqtbUGZR/C0+FRZ3kPVQ95P7GLvRCG
-	duAh52PIXWsR+j7QrDtiHsK9WEPqdD8kP7+EcY7TPD3x3cLtAnX3te07CMuKEZGW3ziSZ1ppcJS
-	F2vid9NVKqzJlpVb+jtC2Su7H30/3liQerSuftyTcmVbyAmzY7KMIOj0ceRTRDJsfxGTAc7scWQ
-	Ev6nIVyfT520zfQkkMpfuy0jCis+ZnZ21chK7Q2lza1kofNvv/TH0spAUZ3lmbBlB02ejz46LSP
-	n2ERJQiFnVBGXtxBYUHheCC4Sd2pergJjKGjd5Yxb4u2mbsOzW5zINOGoHD7PjJfxCEDQVK90fm
-X-Received: by 2002:adf:f704:0:b0:488:894d:20b0 with SMTP id ffacd0b85a97d-48dbad336a7mr19927039f8f.44.1791924938291;
-        Tue, 13 Oct 2026 13:55:38 -0700 (PDT)
+        bh=SSeH33Tp73HrlxrRD40ZRw/kp0xshqtHbX/nV8WDcGA=;
+        b=UPugsEfJBgFpIkwCKCGWUFwwTauERu1U1VbH95o9KdU4h0PvO0OKGjfbxa4jFlOka+
+         PPBjIIAosWq9YQWyKpH1RIBcCpqxlXJ1pDsembmct7oQBW4s/fH/jMaNmJ1hAtf9IAcO
+         6cDYXIpJUkba/LANWw2N7Sq3YYGlmtknWUbmM+e3+vNEaOQwRaUZ5duu5wUAW+snD+GN
+         u0hfAt/KsSnwvbw8i3ZOalU06j7flMJadUEe/v+uG1AGLpfGtdUBJ+ooHcbvlRpO6yyD
+         CcCFCeydIDndPvtc3/FqybNEg1kRhl1mgnPYPJrCfOimADxpY2QU9LvsUeIwJOQW1jJk
+         gE8A==
+X-Forwarded-Encrypted: i=1; AKwUvByDOAwwSVBmuSg0KcSFMsUD7tYVRWcGi6+RDVszQ7jppnmQX5XVNdfyTBg1pDL0is/t0i3FMk7pxBg3@lists.infradead.org
+X-Gm-Message-State: AFq9FYIJlGMo1D5aCFHB+LIsEN5N9R32JViSOlQ8IV98eizVPEWItHcZ
+	A7P+lmr/pEYUTpdLBSqVvATBCDkG6y4ighgEqMRE+7oMkQq+nUmy9r6K
+X-Gm-Gg: AYBFou1CqGEOe2LhIBfVUCCHaRS120GvMZS6u0wpW7y3EowVUFyqcPPQ3uGFKbea2OD
+	3rXgvjsFyWPcqoBL5mRvueYYuTZyEQ+gSYt4aBGN4Cj0NZQbFQwQl50j2AtFap9GZ9PCzoMxe9Z
+	Nulo5GT68lU2W0oQWIFcwa2mT+ymhLTHNR6PpTbE4ssegXLeg5QsNx98BQVyesws/8UZ3YkP9x5
+	PHL7IIPMdqgcRQOeZFBehqshmZ5HdxPs/RSukNTyyN3bSvcaM7qp2rXxenmdkajPEumJ+7qGGfT
+	s/jKuOgs2D3TsqmKw+gb4m+Pfkbs58iI06zhhO6uY7f5Sw+1bWykFIdg/jZMcxWuxqncT9d7Aei
+	e2ctv0atigTgKTDnYnOul0RwJG6ZJO7u6nGkTuowclnu1oOdEyfhnhdZVfArBXJJVk4PmYdSv48
+	bkjfV244aLrvFvtKh5Npvtn0nuWBrNVFQI0RDn8PGySujV300QHyolUq9ph0y54HeBCNYk1IMLt
+	lK9ifzUx7yebcQmcNc+Up2agHVKcUFliNqo97iNdRwhpB+O3yNYzekD4hgQbL4FDx4QY1G5OWQ0
+	JcSIMVFgSis=
+X-Received: by 2002:a05:6000:2002:b0:48d:b940:af77 with SMTP id ffacd0b85a97d-48dbace21ecmr25776962f8f.36.1791924935206;
+        Tue, 13 Oct 2026 13:55:35 -0700 (PDT)
 Received: from 127.mynet ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de7273a0esm2380730f8f.29.2026.10.13.13.55.36
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de7273a0esm2380730f8f.29.2026.10.13.13.55.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 13:55:37 -0700 (PDT)
+        Tue, 13 Oct 2026 13:55:32 -0700 (PDT)
 From: Pavel Begunkov <asml.silence@gmail.com>
 To: linux-block@vger.kernel.org
 Cc: asml.silence@gmail.com,
@@ -101,17 +102,17 @@ Cc: asml.silence@gmail.com,
 	Mikulas Patocka <mpatocka@redhat.com>,
 	Benjamin Marzinski <bmarzins@redhat.com>,
 	dm-devel@lists.linux.dev
-Subject: [PATCH v10 10/13] io_uring/rsrc: extend buffer update
-Date: Tue, 13 Oct 2026 21:54:54 +0100
-Message-ID: <0ebd979544306d60e98e9e1afb1c7147fa5da6c1.1791924581.git.asml.silence@gmail.com>
+Subject: [PATCH v10 08/13] nvme-pci: add SGL support for the dmabuf path
+Date: Tue, 13 Oct 2026 21:54:52 +0100
+Message-ID: <892e9887dabf195633d376de113b775b29ae7dd3.1791924581.git.asml.silence@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <cover.1791924581.git.asml.silence@gmail.com>
 References: <cover.1791924581.git.asml.silence@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261013_135540_198324_0130C555 
-X-CRM114-Status: GOOD (  23.69  )
+X-CRM114-CacheID: sfid-20261013_135539_351345_5971A3AD 
+X-CRM114-Status: GOOD (  19.66  )
 X-Mailman-Approved-At: Thu, 15 Oct 2026 08:01:28 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -127,237 +128,196 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-We need to pass more information to buffer registration than we can fit
-into a single struct iovec. This patch allows users to optionally pass
-struct io_uring_regbuf_desc. Apart from having more space for future use
-cases, it also introduces registration types.
+From: Anuj Gupta <anuj20.g@samsung.com>
 
-Currently, the type can be either of IO_REGBUF_TYPE_UADDR, which mirrors
-the iovec path, or IO_REGBUF_TYPE_EMPTY for leaving a buffer table slot
-empty. The next patch introduces a dmabuf backed type, and can be useful
-for other extensions like splicing a list of user addresses (i.e.
-iovec[]), interoperability with zcrx, kernel allocated memory like was
-brough up by Cristoph. Note, the type only represents a registration
-option, which is distinct from how io_uring internally stores it.
+Add SGL support in addition to PRP for dmabuf-backed requests,
+building the descriptor list from the mapping's sg_table.
 
-The flags field is not used yet but always useful to have, e.g. we can
-encode read-only / write-only restrictions using it.
-
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
 Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
 ---
- include/uapi/linux/io_uring.h | 27 +++++++++++++-
- io_uring/rsrc.c               | 68 +++++++++++++++++++++--------------
- 2 files changed, 68 insertions(+), 27 deletions(-)
+ drivers/nvme/host/pci.c | 150 ++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 146 insertions(+), 4 deletions(-)
 
-diff --git a/include/uapi/linux/io_uring.h b/include/uapi/linux/io_uring.h
-index b42b66b424a7..abb590833a0f 100644
---- a/include/uapi/linux/io_uring.h
-+++ b/include/uapi/linux/io_uring.h
-@@ -791,13 +791,38 @@ struct io_uring_rsrc_update {
- 
- struct io_uring_rsrc_update2 {
- 	__u32 offset;
--	__u32 resv;
-+	__u32 flags;
- 	__aligned_u64 data;
- 	__aligned_u64 tags;
- 	__u32 nr;
- 	__u32 resv2;
- };
- 
-+/* struct io_uring_rsrc_update2::flags */
-+enum io_uring_rsrc_reg_flags {
-+	/*
-+	 * Use the extended descriptor format for buffer updates,
-+	 * see struct io_uring_regbuf_desc
-+	 */
-+	IORING_RSRC_UPDATE_EXTENDED		= 1U << 1,
-+};
-+
-+/* Buffer registration type, passed in struct io_uring_regbuf_desc::type */
-+enum io_uring_regbuf_type {
-+	IO_REGBUF_TYPE_EMPTY,
-+	IO_REGBUF_TYPE_UADDR,
-+
-+	__IO_REGBUF_TYPE_MAX,
-+};
-+
-+struct io_uring_regbuf_desc {
-+	__u32 type; /* enum io_uring_regbuf_type */
-+	__u32 flags;
-+	__u64 size;
-+	__u64 uaddr;
-+	__u64 __resv[7];
-+};
-+
- /* Skip updating fd indexes set to this value in the fd table */
- #define IORING_REGISTER_FILES_SKIP	(-2)
- 
-diff --git a/io_uring/rsrc.c b/io_uring/rsrc.c
-index 7234dcdb8372..54774729ee67 100644
---- a/io_uring/rsrc.c
-+++ b/io_uring/rsrc.c
-@@ -27,11 +27,6 @@ struct io_rsrc_update {
- 	u32				offset;
- };
- 
--struct io_uring_regbuf_desc {
--	__u64 uaddr;
--	__u64 size;
--};
--
- static struct io_rsrc_node *io_sqe_buffer_register(struct io_ring_ctx *ctx,
- 						   struct io_uring_regbuf_desc *desc);
- 
-@@ -90,9 +85,12 @@ static void io_iov_to_regbuf_desc(const struct iovec *iov,
- 				  struct io_uring_regbuf_desc *desc)
- {
- 	*desc = (struct io_uring_regbuf_desc) {
-+		.type = IO_REGBUF_TYPE_UADDR,
- 		.uaddr = (u64)(uintptr_t)iov->iov_base,
- 		.size = iov->iov_len,
- 	};
-+	if (!desc->uaddr)
-+		desc->type = IO_REGBUF_TYPE_EMPTY;
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index a0506c93fa16..79b3c1092e4d 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1223,12 +1223,18 @@ static blk_status_t nvme_pci_setup_data_prp(struct request *req,
+ 	return BLK_STS_IOERR;
  }
  
- int __io_account_mem(struct user_struct *user, unsigned long nr_pages)
-@@ -340,6 +338,8 @@ static int __io_sqe_files_update(struct io_ring_ctx *ctx,
- 		return -ENXIO;
- 	if (up->offset + nr_args > ctx->file_table.data.nr)
- 		return -EINVAL;
-+	if (up->flags)
-+		return -EINVAL;
- 
- 	for (done = 0; done < nr_args; done++) {
- 		u64 tag = 0;
-@@ -399,9 +399,8 @@ static int __io_sqe_buffers_update(struct io_ring_ctx *ctx,
- 				   struct io_uring_rsrc_update2 *up,
- 				   unsigned int nr_args)
++static void nvme_pci_sgl_set_data(struct nvme_sgl_desc *sge,
++		dma_addr_t addr, u32 len)
++{
++	sge->addr = cpu_to_le64(addr);
++	sge->length = cpu_to_le32(len);
++	sge->type = NVME_SGL_FMT_DATA_DESC << 4;
++}
++
+ static void nvme_pci_dma_iter_set_sgl(struct nvme_sgl_desc *sge,
+ 		struct blk_dma_iter *iter)
  {
-+	bool extended = up->flags & IORING_RSRC_UPDATE_EXTENDED;
- 	u64 __user *tags = u64_to_user_ptr(up->tags);
--	struct iovec fast_iov, *iov;
--	struct iovec __user *uvec;
- 	u64 user_data = up->data;
- 	__u32 done;
- 	int i, err;
-@@ -410,29 +409,49 @@ static int __io_sqe_buffers_update(struct io_ring_ctx *ctx,
- 		return -ENXIO;
- 	if (up->offset + nr_args > ctx->buf_table.nr)
- 		return -EINVAL;
-+	if (up->flags & ~IORING_RSRC_UPDATE_EXTENDED)
-+		return -EINVAL;
+-	sge->addr = cpu_to_le64(iter->addr);
+-	sge->length = cpu_to_le32(iter->len);
+-	sge->type = NVME_SGL_FMT_DATA_DESC << 4;
++	nvme_pci_sgl_set_data(sge, iter->addr, iter->len);
+ }
  
- 	for (done = 0; done < nr_args; done++) {
- 		struct io_uring_regbuf_desc desc;
- 		struct io_rsrc_node *node;
- 		u64 tag = 0;
+ static void nvme_pci_sgl_set_seg(struct nvme_sgl_desc *sge,
+@@ -1239,6 +1245,142 @@ static void nvme_pci_sgl_set_seg(struct nvme_sgl_desc *sge,
+ 	sge->type = NVME_SGL_FMT_LAST_SEG_DESC << 4;
+ }
  
--		uvec = u64_to_user_ptr(user_data);
--		iov = iovec_from_user(uvec, 1, 1, &fast_iov, io_is_compat(ctx));
--		if (IS_ERR(iov)) {
--			err = PTR_ERR(iov);
--			break;
--		}
- 		if (tags && copy_from_user(&tag, &tags[done], sizeof(tag))) {
- 			err = -EFAULT;
- 			break;
- 		}
- 
--		io_iov_to_regbuf_desc(iov, &desc);
-+		if (extended) {
-+			if (copy_from_user(&desc, u64_to_user_ptr(user_data),
-+					   sizeof(desc))) {
-+				err = -EFAULT;
-+				break;
-+			}
-+			user_data += sizeof(desc);
-+		} else {
-+			struct iovec __user *uvec = u64_to_user_ptr(user_data);
-+			struct iovec fast_iov, *iov;
++static unsigned int nvme_pci_dmabuf_sgl_nents(struct request *req)
++{
++	struct bio *bio = req->bio;
++	struct nvme_dmabuf_map *map = to_nvme_dmabuf_map(bio->bi_dmabuf_map);
++	struct scatterlist *sg;
++	unsigned long tmp;
++	size_t offset = bio->bi_iter.bi_offset;
++	size_t remaining = blk_rq_payload_bytes(req);
++	unsigned int nents = 0;
 +
-+			if (io_is_compat(ctx))
-+				user_data += sizeof(struct compat_iovec);
-+			else
-+				user_data += sizeof(struct iovec);
++	for_each_sgtable_dma_sg(map->sgt, sg, tmp) {
++		size_t sg_len = sg_dma_len(sg);
 +
-+			iov = iovec_from_user(uvec, 1, 1, &fast_iov, io_is_compat(ctx));
-+			if (IS_ERR(iov)) {
-+				err = PTR_ERR(iov);
-+				break;
-+			}
-+			io_iov_to_regbuf_desc(iov, &desc);
++		if (!remaining)
++			break;
++		if (offset >= sg_len) {
++			offset -= sg_len;
++			continue;
 +		}
 +
- 		node = io_sqe_buffer_register(ctx, &desc);
- 		if (IS_ERR(node)) {
- 			err = PTR_ERR(node);
- 			break;
- 		}
++		sg_len -= offset;
++		offset = 0;
 +
- 		if (tag) {
- 			if (!node) {
- 				err = -EINVAL;
-@@ -443,10 +462,6 @@ static int __io_sqe_buffers_update(struct io_ring_ctx *ctx,
- 		i = array_index_nospec(up->offset + done, ctx->buf_table.nr);
- 		io_reset_rsrc_node(ctx, &ctx->buf_table, i);
- 		ctx->buf_table.nodes[i] = node;
--		if (io_is_compat(ctx))
--			user_data += sizeof(struct compat_iovec);
--		else
--			user_data += sizeof(struct iovec);
- 	}
- 	return done ? done : err;
- }
-@@ -481,7 +496,7 @@ int io_register_files_update(struct io_ring_ctx *ctx, void __user *arg,
- 	memset(&up, 0, sizeof(up));
- 	if (copy_from_user(&up, arg, sizeof(struct io_uring_rsrc_update)))
- 		return -EFAULT;
--	if (up.resv || up.resv2)
-+	if (up.resv2)
- 		return -EINVAL;
- 	return __io_register_rsrc_update(ctx, IORING_RSRC_FILE, &up, nr_args);
- }
-@@ -495,7 +510,7 @@ int io_register_rsrc_update(struct io_ring_ctx *ctx, void __user *arg,
- 		return -EINVAL;
- 	if (copy_from_user(&up, arg, sizeof(up)))
- 		return -EFAULT;
--	if (!up.nr || up.resv || up.resv2)
-+	if (!up.nr || up.resv2)
- 		return -EINVAL;
- 	return __io_register_rsrc_update(ctx, type, &up, up.nr);
- }
-@@ -595,12 +610,9 @@ int io_files_update(struct io_kiocb *req, unsigned int issue_flags)
- 	struct io_uring_rsrc_update2 up2;
- 	int ret;
++		do {
++			size_t chunk = min(remaining, sg_len);
++
++			nents++;
++			sg_len -= chunk;
++			remaining -= chunk;
++		} while (sg_len && remaining);
++	}
++
++	if (unlikely(remaining))
++		return 0;
++
++	return nents;
++}
++
++static blk_status_t nvme_rq_setup_dmabuf_sgl(struct request *req,
++		struct nvme_queue *nvmeq, unsigned int entries)
++{
++	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
++	struct nvme_dmabuf_map *map = nvme_req_to_map(req);
++	size_t length = blk_rq_payload_bytes(req);
++	struct nvme_sgl_desc *sg_list = &iod->cmd.common.dptr.sgl;
++	size_t offset = req->bio->bi_iter.bi_offset;
++	bool pooled = entries > 1;
++	dma_addr_t sgl_dma = 0;
++	unsigned int mapped = 0;
++	unsigned long tmp;
++	struct scatterlist *sg;
++	size_t remaining = length;
++
++	if (!entries)
++		return BLK_STS_IOERR;
++
++	iod->cmd.common.flags = NVME_CMD_SGL_METABUF;
++	iod->total_len = length;
++
++	/* entries == 1 fits in the inline descriptor; more needs a pool. */
++	if (pooled) {
++		if (entries <= NVME_SMALL_POOL_SIZE / sizeof(*sg_list))
++			iod->flags |= IOD_SMALL_DESCRIPTOR;
++
++		sg_list = dma_pool_alloc(nvme_dma_pool(nvmeq, iod), GFP_ATOMIC,
++					 &sgl_dma);
++		if (!sg_list)
++			return BLK_STS_RESOURCE;
++		iod->descriptors[iod->nr_descriptors++] = sg_list;
++	}
++
++	for_each_sgtable_dma_sg(map->sgt, sg, tmp) {
++		size_t sg_len = sg_dma_len(sg);
++		dma_addr_t addr = sg_dma_address(sg);
++
++		if (!remaining)
++			break;
++		if (offset >= sg_len) {
++			offset -= sg_len;
++			continue;
++		}
++
++		addr += offset;
++		sg_len -= offset;
++		offset = 0;
++
++		do {
++			u32 chunk = min_t(size_t, remaining, sg_len);
++
++			if (WARN_ON_ONCE(mapped == entries))
++				goto err_free;
++			nvme_pci_sgl_set_data(&sg_list[mapped++], addr, chunk);
++
++			addr += chunk;
++			sg_len -= chunk;
++			remaining -= chunk;
++		} while (sg_len && remaining);
++	}
++
++	if (unlikely(remaining))
++		goto err_free;
++
++	if (pooled)
++		nvme_pci_sgl_set_seg(&iod->cmd.common.dptr.sgl, sgl_dma,
++				     mapped);
++	return BLK_STS_OK;
++err_free:
++	if (pooled) {
++		iod->nr_descriptors--;
++		dma_pool_free(nvme_dma_pool(nvmeq, iod), sg_list, sgl_dma);
++	}
++	return BLK_STS_IOERR;
++}
++
++static blk_status_t nvme_rq_setup_dmabuf(struct request *req,
++		struct nvme_queue *nvmeq, enum nvme_use_sgl use_sgl)
++{
++	unsigned int entries;
++	size_t avg_seg;
++
++	if (use_sgl == SGL_UNSUPPORTED)
++		return nvme_rq_setup_dmabuf_map(req, nvmeq);
++
++	entries = nvme_pci_dmabuf_sgl_nents(req);
++
++	if (use_sgl == SGL_FORCED)
++		return nvme_rq_setup_dmabuf_sgl(req, nvmeq, entries);
++
++	avg_seg = entries ?
++		DIV_ROUND_UP(blk_rq_payload_bytes(req), entries) : 0;
++	if (sgl_threshold && avg_seg >= sgl_threshold)
++		return nvme_rq_setup_dmabuf_sgl(req, nvmeq, entries);
++
++	return nvme_rq_setup_dmabuf_map(req, nvmeq);
++}
++
+ static blk_status_t nvme_pci_setup_data_sgl(struct request *req,
+ 		struct blk_dma_iter *iter)
+ {
+@@ -1334,7 +1476,7 @@ static blk_status_t nvme_map_data(struct request *req)
+ 	blk_status_t ret;
  
-+	memset(&up2, 0, sizeof(up2));
- 	up2.offset = up->offset;
- 	up2.data = up->arg;
--	up2.nr = 0;
--	up2.tags = 0;
--	up2.resv = 0;
--	up2.resv2 = 0;
+ 	if (blk_mq_rq_is_dmabuf(req))
+-		return nvme_rq_setup_dmabuf_map(req, nvmeq);
++		return nvme_rq_setup_dmabuf(req, nvmeq, use_sgl);
  
- 	if (up->offset == IORING_FILE_INDEX_ALLOC) {
- 		ret = io_files_update_with_index_alloc(req, issue_flags);
-@@ -901,9 +913,13 @@ static struct io_rsrc_node *io_sqe_buffer_register(struct io_ring_ctx *ctx,
- 
- 	if (uaddr != desc->uaddr || size != desc->size)
- 		return ERR_PTR(-EOVERFLOW);
-+	if (desc->type >= __IO_REGBUF_TYPE_MAX)
-+		return ERR_PTR(-EINVAL);
-+	if (!mem_is_zero(&desc->__resv, sizeof(desc->__resv)) || desc->flags)
-+		return ERR_PTR(-EINVAL);
- 
--	if (!uaddr) {
--		if (size)
-+	if (desc->type == IO_REGBUF_TYPE_EMPTY) {
-+		if (uaddr || size)
- 			return ERR_PTR(-EFAULT);
- 		/* remove the buffer without installing a new one */
- 		return NULL;
+ 	/*
+ 	 * Try to skip the DMA iterator for single segment requests, as that
 -- 
 2.54.0
 
