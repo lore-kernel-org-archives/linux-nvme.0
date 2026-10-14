@@ -4,63 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4617ACC6B27
-	for <linux-nvme@archiver.kernel.org>; Wed, 14 Oct 2026 07:54:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 19272CC6B1A
+	for <linux-nvme@archiver.kernel.org>; Wed, 14 Oct 2026 07:59:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=Eqbwl8i4iagGFFSkVH0wQKx5RPaDdonVx8/YFLkVpmE=; b=kZFl3gah2hmTEqaS7OMdFAnosz
-	oH1TIkKdzCJcBmnUAn8wOopTJtsTI2Z8x67/zn457WwkQo8KpO+C1nXj+d8KKgqXlbv3zE9tbm3Yu
-	kuM82YVb/MFqhNohZZBQZW7V17ZEjHcS62txuFiCVGIL4Emszubc+Ddl6qEyX1rWdCd/w7PGHoYJW
-	sNlZXrBgRJPjOSIudJCNfzJGeJuKWUL4KGGGffCkmbu1K7eN8hKKwy/zHVq2W4dgjwga8xrCmUeZP
-	6SnUDJIbkOKFTfgoOqeWSy9aExtlceEP7bNtqHxZUh684tEpHfLqGU1hprQ/sMCb21HLjfe8ODDcb
-	LzJAdkjA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:In-Reply-To:
+	Mime-Version:Subject:To:Content-Transfer-Encoding:Message-Id:Date:
+	Content-Type:From:Cc:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=TY/xSqncSuEedRGyadYwHJ/EqM8rGORcOlBn4Wx3l6U=; b=fbD8KOuzZ6GBItVN4/wH4AFPQ3
+	qIQR1Q01QMDfepN+1sHRXhAcOaXRYhp8A4xr8FYm6L0dUCu4BOcOCxf/qR1oohppPHO5IVVdL2F40
+	4LbYM0HViP454RvimZC6HcL4MTiC6Y85MnnVE4wp/vbvWIb51Cx5gC6ikDywRkPLiRnmqxqwA0EnK
+	1HhKpd2IGpSremAdBeDEBP5ac4v0SUPXv3RdfHF4+0Fbzjy1J29qgCDjYJ88M09vp/3RDitZOvyaa
+	9JwqUvNOgkRiHk7OZu95pK6YAaTUcmGboZgFfP2EaY10jx/D5+JzdWfYEPnf14esSlIHy/m+YkYYh
+	FqLv+yjA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGtoL-0000000EpLA-3nvZ;
-	Wed, 14 Oct 2026 07:54:05 +0000
-Received: from m16.mail.163.com ([220.197.31.3])
+	id 1xGttg-0000000EpyT-1fmg;
+	Wed, 14 Oct 2026 07:59:36 +0000
+Received: from va-1-112.ptr.blmpb.com ([209.127.230.112])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGtoI-0000000EpKX-3bWF
+	id 1xGttY-0000000Epwy-3bZR
 	for linux-nvme@lists.infradead.org;
-	Wed, 14 Oct 2026 07:54:04 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=Eq
-	bwl8i4iagGFFSkVH0wQKx5RPaDdonVx8/YFLkVpmE=; b=QrOnKpSkpEJAB/VLTy
-	XNWRawMB8+A9bGPCXAjr3VSCNDaBxL1foEs4yFeiE1juHztbPibS2LfN1+7kBvLd
-	kMXyHj3qkN1lTL15HVqMFuW2BKRO1b0VzO8CwtN9bJlueXzu4pTm78uDp6kqrTo3
-	ecXJFKzOlV9nSDjJFgP8N77Bs=
-Received: from localhost.localdomain (unknown [])
-	by gzsmtp4 (Coremail) with SMTP id PygvCgD3Xz_pNM9qjDEdEg--.38541S2;
-	Wed, 14 Oct 2026 15:53:14 +0800 (CST)
-From: kensanya@163.com
-To: justin.tee@broadcom.com,
-	nareshgottumukkala83@gmail.com,
-	paul.ely@broadcom.com,
-	hch@lst.de,
-	sagi@grimberg.me,
-	kch@nvidia.com
-Cc: linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	TanZheng <tanzheng@kylinos.cn>
-Subject: [PATCH] nvmet-fc: skip hostport ops when the LLDD has no host handle
-Date: Wed, 14 Oct 2026 15:53:03 +0800
-Message-Id: <20261014075303.277735-1-kensanya@163.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: PygvCgD3Xz_pNM9qjDEdEg--.38541S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7KryrJw4xAF1ktw17uw15Jwb_yoW8uw4kpF
-	ZxtFnxKFy7GFWagwn5AFn5Jry2k3W8WFnrJrWfX398ZF1ft34rJrsxK3WvyrW5JF1fCa4U
-	CF45XrZ5Jw15GaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jn5r7UUUUU=
-X-CM-SenderInfo: 5nhq2txq1dqiywtou0bp/xtbC6QrVsWrPNOp08wAA37
+	Wed, 14 Oct 2026 07:59:30 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=2212171451; d=bytedance.com; t=1791964754; h=from:subject:
+ mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
+ mime-version:in-reply-to:message-id;
+ bh=TY/xSqncSuEedRGyadYwHJ/EqM8rGORcOlBn4Wx3l6U=;
+ b=j1JWBXs4ix3DWSJBtPB1kvoZVhv+xgllKPKGq8caK3GTDgvuvvTvAYNXXyIdOR7xJ9iO/Q
+ r2geFt1keIoOEXKDU334NVl2K0LZyVgFmr4mvpvvDmxKQD02FR7GsGofXuE0aDkP9s1jnr
+ Fszd4PJwbtp6rlNSdU/O8s1G2GCPtPJf9DHEud+/yv69AwMu72QvHYRpI6sQcL7smcj+Q9
+ dfm+THL9TePwdezhaTjc7oR1tJBFk+WBHKAlQpJJzEkVIPW/7g9YzKse8wgVL4se+Np7pN
+ EJHaSCwILX7HdXeNcfI46KnQraAogtcDex2FggGnBXwAVzN4NX0az4oGEbAZEg==
+Cc: <hch@lst.de>, <linux-pci@vger.kernel.org>, <tglx@kernel.org>, 
+	<namjain@linux.microsoft.com>, "Keith Busch" <kbusch@kernel.org>
+From: "Fengnan" <changfengnan@bytedance.com>
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 14 Oct 2026 15:58:57 +0800
+X-Lms-Return-Path: <lba+26acf3650+b28434+lists.infradead.org+changfengnan@bytedance.com>
+User-Agent: Mozilla Thunderbird
+Message-Id: <5613ca2a-c8c7-4418-b792-5d7ddc903960@bytedance.com>
+Content-Transfer-Encoding: quoted-printable
+X-Original-From: Fengnan <changfengnan@bytedance.com>
+To: "Keith Busch" <kbusch@meta.com>, <linux-nvme@lists.infradead.org>
+Subject: Re: [RFC PATCH 0/3] nvme-pci: dynamic interrupt moderation
+Mime-Version: 1.0
+In-Reply-To: <20261013223543.395054-1-kbusch@meta.com>
+References: <20261013223543.395054-1-kbusch@meta.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261014_005403_294157_9C957135 
-X-CRM114-Status: GOOD (  10.42  )
+X-CRM114-CacheID: sfid-20261014_005928_972429_A5F35C2E 
+X-CRM114-Status: GOOD (  16.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,59 +69,71 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: TanZheng <tanzheng@kylinos.cn>
+Hi Keith:
 
-nvmet_fc_alloc_hostport() returns NULL when the LLDD passes a NULL
-hosthandle. That is not an ERR_PTR, so nvmet_fc_alloc_target_assoc()
-keeps the association and leaves assoc->hostport NULL.
+I ran some quick tests using your patch on the PS1010 and SN861.=20
+For 4K random reads with QD=3D8, both drives showed a performance drop
+of about 19%.=20
+With QD=3D64/128, there was an improvement of roughly 10=E2=80=9320%.
 
-Disconnect, association free and host invalidation then dereference
-assoc->hostport. The disconnect comment already says an older LLDD
-with no host handle should not send an LS.
+I think the reason is that the current logic still relies on the QD
+depth to determine whether to switch, but a high QD doesn't necessarily
+mean that using the poll mode will be more efficient.
 
-Treat a missing hostport like a missing ls_req: do not send the
-disconnect LS, do not put the hostport, and skip that association in
-nvmet_fc_invalidate_host().
+As for DIM, I tried using it based on my V2 patch, but the result was
+that I either had to add several new DIM functions to perform similar
+checks, or I still ended up with a performance regression.
 
-Assisted-by: Kimi:K3
-Signed-off-by: TanZheng <tanzheng@kylinos.cn>
----
- drivers/nvme/target/fc.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+Here is detail data=20
+https://docs.google.com/spreadsheets/d/1VOR0xB5yk-z6IMwwRvp8R0yd4k_tMi_wI27=
+Pl-dEQVg/edit?gid=3D789521759#gid=3D789521759
 
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index 1b557775e033..951be0bf7b54 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -483,7 +483,8 @@ nvmet_fc_xmt_disconnect_assoc(struct nvmet_fc_tgt_assoc *assoc)
- 	 * message is normal. Otherwise, send unless the hostport has
- 	 * already been invalidated by the lldd.
- 	 */
--	if (!tgtport->ops->ls_req || assoc->hostport->invalid)
-+	if (!tgtport->ops->ls_req || !assoc->hostport ||
-+	    assoc->hostport->invalid)
- 		return;
- 
- 	lsop = kzalloc((sizeof(*lsop) +
-@@ -1176,7 +1177,8 @@ nvmet_fc_target_assoc_free(struct kref *ref)
- 	/* Send Disconnect now that all i/o has completed */
- 	nvmet_fc_xmt_disconnect_assoc(assoc);
- 
--	nvmet_fc_hostport_put(assoc->hostport);
-+	if (assoc->hostport)
-+		nvmet_fc_hostport_put(assoc->hostport);
- 	spin_lock_irqsave(&tgtport->lock, flags);
- 	oldls = assoc->rcv_disconn;
- 	spin_unlock_irqrestore(&tgtport->lock, flags);
-@@ -1526,7 +1528,8 @@ nvmet_fc_invalidate_host(struct nvmet_fc_target_port *target_port,
- 	spin_lock_irqsave(&tgtport->lock, flags);
- 	list_for_each_entry_safe(assoc, next,
- 				&tgtport->assoc_list, a_list) {
--		if (assoc->hostport->hosthandle != hosthandle)
-+		if (!assoc->hostport ||
-+		    assoc->hostport->hosthandle != hosthandle)
- 			continue;
- 		if (!nvmet_fc_tgt_a_get(assoc))
- 			continue;
+Based on the results, it doesn=E2=80=99t perform as well as my previous pat=
+ch=EF=BC=9A
+https://docs.google.com/spreadsheets/d/1rer4Nl5HHxSO-D3NrrHuHSfpR9s1kLhpLjz=
+h7h7Mbmw/edit?gid=3D875909538#gid=3D875909538
 
+
+
+=E5=9C=A8 2026/10/14 06:35, Keith Busch =E5=86=99=E9=81=93:
+> From: Keith Busch <kbusch@kernel.org>
+>=20
+> Just adding another nvme hybrid interrupt and polling mechanism to the
+> lists. There's some recent alternatives mentioned in the links below,
+> but I'm trying one last time to leverage the DIM framework. Performance
+> wise, this at least doesn't seem any worse than anything else proposed,
+> though I've only been able to test on mid-level hardware so far.
+>=20
+> This one here as some irq prep patches that help some when transitioning
+> from irq to polling for MSI-x enabled NVMe completions. These should be
+> generally applicable, so isn't necessarily tied to how it gets used in
+> the last patch if someone else finds it useful too.
+>=20
+> Links:
+>=20
+>   [1] https://lore.kernel.org/linux-nvme/20261009050556.2817978-1-namjain=
+@linux.microsoft.com/
+>=20
+>   [2] https://lore.kernel.org/linux-nvme/20260818033846.53790-1-changfeng=
+nan@bytedance.com/
+>=20
+> Keith Busch (3):
+>   genirq: Add disable_irq_nowait()
+>   PCI/MSI: Implement irq_mask_nowait() for MSI-X
+>   nvme-pci: hybrid irq+polling
+>=20
+>  drivers/irqchip/irq-msi-lib.c |   1 +
+>  drivers/nvme/host/Kconfig     |   2 +
+>  drivers/nvme/host/pci.c       | 624 ++++++++++++++++++++++++++++++++--
+>  drivers/nvme/host/trace.c     |   1 +
+>  drivers/nvme/host/trace.h     |  26 ++
+>  drivers/pci/msi/irqdomain.c   |   6 +
+>  drivers/pci/msi/msi.h         |   8 +-
+>  include/linux/interrupt.h     |   1 +
+>  include/linux/irq.h           |   4 +
+>  kernel/irq/chip.c             |  31 ++
+>  kernel/irq/internals.h        |   1 +
+>  kernel/irq/manage.c           |  21 ++
+>  12 files changed, 698 insertions(+), 28 deletions(-)
+>
 
