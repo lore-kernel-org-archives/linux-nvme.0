@@ -4,57 +4,148 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 19272CC6B1A
-	for <linux-nvme@archiver.kernel.org>; Wed, 14 Oct 2026 07:59:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E9E2CCC6B1A
+	for <linux-nvme@archiver.kernel.org>; Wed, 14 Oct 2026 10:25:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:In-Reply-To:
-	Mime-Version:Subject:To:Content-Transfer-Encoding:Message-Id:Date:
-	Content-Type:From:Cc:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=TY/xSqncSuEedRGyadYwHJ/EqM8rGORcOlBn4Wx3l6U=; b=fbD8KOuzZ6GBItVN4/wH4AFPQ3
-	qIQR1Q01QMDfepN+1sHRXhAcOaXRYhp8A4xr8FYm6L0dUCu4BOcOCxf/qR1oohppPHO5IVVdL2F40
-	4LbYM0HViP454RvimZC6HcL4MTiC6Y85MnnVE4wp/vbvWIb51Cx5gC6ikDywRkPLiRnmqxqwA0EnK
-	1HhKpd2IGpSremAdBeDEBP5ac4v0SUPXv3RdfHF4+0Fbzjy1J29qgCDjYJ88M09vp/3RDitZOvyaa
-	9JwqUvNOgkRiHk7OZu95pK6YAaTUcmGboZgFfP2EaY10jx/D5+JzdWfYEPnf14esSlIHy/m+YkYYh
-	FqLv+yjA==;
+	bh=8eCfazOEQXee8iS/XTQZ178rEcitmyJLUYZd/vEtP6w=; b=dkS7ym/b2KGe6XwGtXjhBjQ09k
+	PF87FK2MJwmPHvSU33kaCTUhQ2avkeGx5lJVrIuzzmwteyliSEkSFK2wmrF8MfaTjmy75PFBjN0nb
+	QBc1ZESZBx7jHWv8yaO50RJDcJKpfsCt7tgOVP7+chZgdKikpsD+41wMDoqf9yGBzwZpo2bw9NXkZ
+	U9078ekVAI0TU5MwQcFAR4HSuSMlq5iEfI9U71QALBQLTZrE0QY+gjqPiRj77Ag4GL07ok1Jlf1iJ
+	m4G2siCzyVMsVYCprcDGFV7tZuW2OWbz+635IU968YozZPf/WzP23E1eYUdEvoI93s1WtXANHOKDc
+	8L8FWgpg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGttg-0000000EpyT-1fmg;
-	Wed, 14 Oct 2026 07:59:36 +0000
-Received: from va-1-112.ptr.blmpb.com ([209.127.230.112])
+	id 1xGwAo-0000000FCg7-3mnX;
+	Wed, 14 Oct 2026 10:25:26 +0000
+Received: from esa4.hgst.iphmx.com ([216.71.154.42])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGttY-0000000Epwy-3bZR
+	id 1xGwAm-0000000FCfO-3beq
 	for linux-nvme@lists.infradead.org;
-	Wed, 14 Oct 2026 07:59:30 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1791964754; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=TY/xSqncSuEedRGyadYwHJ/EqM8rGORcOlBn4Wx3l6U=;
- b=j1JWBXs4ix3DWSJBtPB1kvoZVhv+xgllKPKGq8caK3GTDgvuvvTvAYNXXyIdOR7xJ9iO/Q
- r2geFt1keIoOEXKDU334NVl2K0LZyVgFmr4mvpvvDmxKQD02FR7GsGofXuE0aDkP9s1jnr
- Fszd4PJwbtp6rlNSdU/O8s1G2GCPtPJf9DHEud+/yv69AwMu72QvHYRpI6sQcL7smcj+Q9
- dfm+THL9TePwdezhaTjc7oR1tJBFk+WBHKAlQpJJzEkVIPW/7g9YzKse8wgVL4se+Np7pN
- EJHaSCwILX7HdXeNcfI46KnQraAogtcDex2FggGnBXwAVzN4NX0az4oGEbAZEg==
-Cc: <hch@lst.de>, <linux-pci@vger.kernel.org>, <tglx@kernel.org>, 
-	<namjain@linux.microsoft.com>, "Keith Busch" <kbusch@kernel.org>
-From: "Fengnan" <changfengnan@bytedance.com>
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 14 Oct 2026 15:58:57 +0800
-X-Lms-Return-Path: <lba+26acf3650+b28434+lists.infradead.org+changfengnan@bytedance.com>
-User-Agent: Mozilla Thunderbird
-Message-Id: <5613ca2a-c8c7-4418-b792-5d7ddc903960@bytedance.com>
-Content-Transfer-Encoding: quoted-printable
-X-Original-From: Fengnan <changfengnan@bytedance.com>
-To: "Keith Busch" <kbusch@meta.com>, <linux-nvme@lists.infradead.org>
-Subject: Re: [RFC PATCH 0/3] nvme-pci: dynamic interrupt moderation
-Mime-Version: 1.0
-In-Reply-To: <20261013223543.395054-1-kbusch@meta.com>
-References: <20261013223543.395054-1-kbusch@meta.com>
+	Wed, 14 Oct 2026 10:25:26 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1791973530; x=1823509530;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=j+WHyV877kMfMVNVsl6hVG42Be72kRDVexLIeb2JKwM=;
+  b=Mv7PaGG+/tqaM+Ykr7ZfgsV6sWQ1Ul+LPGTwax2lmHfmfwXyR43u50Wb
+   M0fW3pIlWgfeMyR2YshyKU6BP2DfSl/ePgxch8e/wdufQn600xm8miFa4
+   bQ9nUmUx/aq7crE2Y5enqryM5riPDIyJxtWWqNRx2IRKCAbzkUhGLkLeu
+   2KHASjnIi5kI+LaXRxRFdZ4V3A+JqwolzPAQ1GGY1zvyxTJ64jpiKEE0s
+   UZJ6UgagcVdTkoVCwbmDdv9kQ7U0Jh/tVOAvpxHkST1Wj4x5bJAvrtqm4
+   ZcEHqeqVAGKoblXeZymITPQxfV8B7rC/erzu4n/Q229RHqU8hvgo/2U8i
+   Q==;
+X-CSE-ConnectionGUID: eOTUpPHVSTCvT3TDZERoBQ==
+X-CSE-MsgGUID: 6KSP8rfNQ/aURq5UuJDeHA==
+X-IronPort-AV: E=Sophos;i="6.27,157,1786982400"; 
+   d="scan'208";a="153845500"
+Received: from mail-westus3azon11010061.outbound.protection.outlook.com (HELO PH7PR06CU001.outbound.protection.outlook.com) ([52.101.201.61])
+  by ob1.hgst.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 14 Oct 2026 18:25:29 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Q5bQW5er1MLotWtneh+aFf5djx/aHJ5bffgYYFpTfZoYjMPmInE6ayb0lJIEmagR7pFIIlhVDrlwvc1uivjZ9pL1MweUR8Y+tItCp4iyfTAnWQmO5p9S2HtSBA4m60dBwDnLnrVhPAAtu0d6Fbh9vL8dy9Sndx/vrdXp0Vmdd5Ac+sJU9+MQYiJi4APKVyMjcV0h2lVneptGZifFsB+GXcNWt0klQPo3RFUxDMpdOBPFk2zhICuQtMfP+GTP/XevyDuGlug9bVDaeYVZx0horYy2g5BxujBi8iFpxRRYsKJjyJYJz0u6JXjUMOvhpmfiLa1ebUlw4nSTRWKRo9K1Eg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8eCfazOEQXee8iS/XTQZ178rEcitmyJLUYZd/vEtP6w=;
+ b=AsajZfS87jsDQguhpjCz4yZqT4VsO9KcCaXeZF/2WaS8Q8DUCzKGLugk5ycNZq5jFwJIX7Nt6DM2URqCp6KDToDTGe2Jfh9Y6jZTuNfU3dXE46P+hdgVkMRji4o6qE/COnOwfoUtrFUIwMdBVAx74+qwQRB8US8+dmQ4Teg1JODz3ddgqdWYyg46txOA5NiRGQRT/ezYWUcTT+FHub/6b01j3U9zxxCZLlsuubQgTH/wTgG1quQkTC63KqEwPf9m5Hcchgs7gtd+5sRHgiy8aFpq5sWIfOLju+B0qBaZj39+c4OVXdu+QwWbz7XVlAIfiCQPJcCkT2TKOAH1v7aqzw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8eCfazOEQXee8iS/XTQZ178rEcitmyJLUYZd/vEtP6w=;
+ b=kZpLJSkaxBNs9SGxYM+6TdH4enWkf1K5vt3FRFzfQGZjYf9eDSuDR5hA1FlWzZcjzmW907pU2/A+bZbFC8NeKBVeRyERt6DnL8TnD2q44gw7Dh5MQcrs+WX3LhRV3HZn4PNMJWAz0gXaSI2c4rzc1FoiCGUuR/bdTGXzN1RqupM=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+Received: from SA1PR04MB10065.namprd04.prod.outlook.com
+ (2603:10b6:806:4dd::14) by CH0PR04MB8177.namprd04.prod.outlook.com
+ (2603:10b6:610:f5::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.13; Wed, 14 Oct
+ 2026 10:25:22 +0000
+Received: from SA1PR04MB10065.namprd04.prod.outlook.com
+ ([fe80::9b98:bf8a:b0b1:ef85]) by SA1PR04MB10065.namprd04.prod.outlook.com
+ ([fe80::9b98:bf8a:b0b1:ef85%5]) with mapi id 15.21.0496.021; Wed, 14 Oct 2026
+ 10:25:22 +0000
+Date: Wed, 14 Oct 2026 19:25:17 +0900
+From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: Daejun Park <daejun7.park@samsung.com>
+Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: [PATCH blktests] nvme/071: test reservation preempt with
+ multiple hosts
+Message-ID: <as9W9E4gkBjhZ9sK@shinmob>
+References: <CGME20261002070851epcms2p85765994ffe5ee25f97ff522c29b04b6a@epcms2p8>
+ <20261002070851epcms2p85765994ffe5ee25f97ff522c29b04b6a@epcms2p8>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261002070851epcms2p85765994ffe5ee25f97ff522c29b04b6a@epcms2p8>
+X-ClientProxiedBy: TYCP301CA0005.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:400:386::8) To SA1PR04MB10065.namprd04.prod.outlook.com
+ (2603:10b6:806:4dd::14)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR04MB10065:EE_|CH0PR04MB8177:EE_
+X-MS-Office365-Filtering-Correlation-Id: 539b7ad5-9fcb-477d-ff6b-08df29dd73ef
+WDCIPOUTBOUND: EOP-TRUE
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|19092799006|23010399003|56012099006|11063799006|4143699003|10067099003|22082099003|18002099003|3023799007;
+X-Microsoft-Antispam-Message-Info: OBfVLpE96F5XSe2BTBB+uK/zIZ2+yWMCCb80wCv0jkdCV1p9NvBcyT7E9gSdvLJDqPS+cA60txFa+w5sBfn5B/dR+9su26DpYw+YaQF16/9GcV3iTaJOD246D02/825q3oD9aTb1tIABxVbvex2U0gIDKsfh80AfLE8rTIJAr3yjooxaNTGIbHTEi2ln67favUGznN+Pz+l6SpeJnkBJI6Nf2dygOjjAv9iyu3hL6kqVpokmXSnHXYLwXvi5isXMi3QEmM6vBZRF0RAa8llSkJAq8QPGK1HvHNPluF60YaNq3zvnPnv1uiS8zCju51Xhmq/afEkGF6Pu4l9T9RAPJQzXASX4grx4nEl0RAjKx4mPFMmNPUUx0z9svK4xGmMPqwTqnkM4cFgfbnARNyzPWyyV1WiJgdqWmI25hW9rGRY/FtGKWoPj+vPryB6nolgcjLVGpuvNSYjmj6jhNkJnuU0pnmwCtr8n426cM+3iS1Op6O6uTvWJmn8wTQQzGFsVBwLC65iBwz+4WVeP34hJyLGfl8rcCgG9Z5+NCzlJ8NtPWwFVCBq53R3cw4IGAtxjV4M0bSd0BKVPYI+REA6oh1J8CVp3MzmQUc7f/yhUSz5pcus9moE3koJCqo2lWwR9psbHgNptoh3aeo+fQ7OJGrNyFw4N1HxWtwo6O+BgL30=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR04MB10065.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(19092799006)(23010399003)(56012099006)(11063799006)(4143699003)(10067099003)(22082099003)(18002099003)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?pUtf0kw9zIezdUnhe+UZLZgnpOcoojFeLw0003Vg+orShc9Y41auyJSLIDiF?=
+ =?us-ascii?Q?yTshLTvPLyDUdY0oo8Csd0p6TRS0bJM5BNO+ip2Qe+VwC5hbu7eq/cyps5Vf?=
+ =?us-ascii?Q?TFpc3RbgKKK3TpR96mLFQT7xFKEMH5P8jmVNfl/aX2RivLSnMS7aIiEXvO7m?=
+ =?us-ascii?Q?m7rmeIocXI93sb25HyKBfrsq4xREUI8tTKpg7H5BGvHiH0mHS1t7/qf3DM0w?=
+ =?us-ascii?Q?fBbbSDanmUgjEVzOyaV1bRWsCiFNEVqBoOjsO/QpSPf1seKZS0F8T9X27MII?=
+ =?us-ascii?Q?Har3gjNElf/4UcL27EdH771qiQOlcRdPDBnGgpDHiBn/Fy1KGL3Wz2cI3SqU?=
+ =?us-ascii?Q?cP9lqT/DDiKe2r/tyOtli222MgU3oV/Mg5XVp/UKA0340d1QZsFwWcnU8rxA?=
+ =?us-ascii?Q?JNzo6JVFAP/uVPmOfoeEUzrVYSfrIJZU1Woj5cNLkpSj7ySkzp21WrXAWHNO?=
+ =?us-ascii?Q?0e3RqprK006ZDcvawf//B9DJsDF84FQraqlSEFI2BpksoRGXzF4zOqYKdiAp?=
+ =?us-ascii?Q?Ha5S8sBiZ+j7W23akFsfq0+UkzdgICIGHrdkKULe2HW8KVu0Ta2d3rnUuWuP?=
+ =?us-ascii?Q?aqoV1Jgq+nZL4OwpntgU4+L2i4e+9Atcr0CLRAHUC7FrWB5qSvmg0WyHfrFe?=
+ =?us-ascii?Q?+8IquZrStmOs2gxqtEzl6EW+7hYHFobIjakKiGe9Hl6uLB+aiXxlqKlLAxYP?=
+ =?us-ascii?Q?A8yPfVltymOFIn3hi69esVy2mpT+SHCHasG3nihzkY/mJUjt9JKKJq/z0mLG?=
+ =?us-ascii?Q?fTEc1oZy5JIVJOpSZrafvksJmGYikxJiuz8MI4+QDcUbqYLuJ72OvNOzXK+d?=
+ =?us-ascii?Q?2geGJD2atGjxHEUWHsDEquem994WZRhKagou4icf7+f5y7gk9tw1MmwQ2iXW?=
+ =?us-ascii?Q?TPxU5jMzzY/2uLR+pbHFHtcIm5hDrtpIOGtDHgyh+tyNJmEKohK1iOOBmnsg?=
+ =?us-ascii?Q?p8bcUfzF5+2BQI4L2CO60WI96MLC7mGJChsbN9nv77OJSBwDnjGkqyZocvmY?=
+ =?us-ascii?Q?1/27yevYu6mGqKN6LL2v1vy6lk9TwKGicwHXrtVr4ybPKOvMBMUeq7WeJnad?=
+ =?us-ascii?Q?SfkJ9tn2GLemxpNLUfCTY0y3oOYeUPwZw8caEvZwK8pMhR/M2deRpXx4QkbH?=
+ =?us-ascii?Q?lE0VSWKp1L80ci2W5WeI2rSCKv9IUdgc0ChE02QayWHx9iKZs0Dtst0cCxVl?=
+ =?us-ascii?Q?BH41r5EQ461uB3WE67A8BNwNFPPa44Hh5gFjbi587ZuHdHEnEfCPsxB1FA8d?=
+ =?us-ascii?Q?qm+4XmKhiOkqXrNNodNbS4NWVgZM+yeh3OS6yra1rHhyfJLH+CzNvNSnQ/Kt?=
+ =?us-ascii?Q?RRXD8Mf6Doqa11rwgJoEXNEtFdt3S/qMeVrHJH5j190TT0B8SDHEktjetj5D?=
+ =?us-ascii?Q?QNlJUKKW67Qqr9C7H9ExYhB4YUCIlmGm5/U79tZ4IrHTYDJBG9F1u2+Um3CO?=
+ =?us-ascii?Q?cwZaIlmkLCIyIH3Ys74gMFHKwU42ImncXNullOGcuKGqJV1iiPOHNEtHS6d4?=
+ =?us-ascii?Q?nFcRdYL7K5dUTKV/+4/EXIZOejBcFpqe6+W/VGLurarkOtZBXJFUeFl6auTv?=
+ =?us-ascii?Q?vc62j3KxxqPOsiZIXLfRxqOAxh65S3BPXBW45zuzwJE9s4KBrpV2NougO964?=
+ =?us-ascii?Q?LzZEk+dkfpAcYlycydi1WyovCqFN1VkcSqAdPNE6rlwijZYnR+WC083i5wHG?=
+ =?us-ascii?Q?b1yo+0oCDBv2USsMno0vOGRkGUZfZ4V/Wn5iE0uuLYOGeWg01AIdWs3YXZg2?=
+ =?us-ascii?Q?JVg03ZEY9oJwlfX+5VzjYPUwSiwavIs=3D?=
+X-Exchange-RoutingPolicyChecked: aLA2jYkWFLdcF5Ho7fohluEtqEgZkUHCmuEdXkfum0buq4EKN/UzHTJ0UdT97CgJ9HvVUPH0pnVMFE029ImIzlHOmqWvFIbel5Grz0YrL0gqqE8hSnIIf+09Z+rRMg0FzD9yhc34Y9YnY6TcCRM+n0aMZWNRcjCuifKN0Pci+rcXxFb8YXO4DVpbvbjNzelRyBHG0eIhmSQQLljHep2LKbACO2snq+vYQ6mZe5A9U2U+55j4INsPcaCMyZNpNbCGXLsCd89Un8EBtVj/TNQemBCiVqqK51GGK06RRPej7Rhur8F7D+OTnDmIzx9FKNtPL+YJqbrgQf9fjr7yEP0vSg==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: xVkvQWX9/BaNJuVlyJl+33JUezclUhr2dB2NHFFVqPWpnQlKj1VtOYSruOcqokSlmETr8JNgyTbzrWQsUnvoZ2VZkDMzasYIAKIFpMPTtu6mu7sS3/sn+mwjAybAseUAnmMypepSpZ4IzPaV9Ugsvvw0Xn4H93efB9IpfrtrhtU1rqYQmklzEotl+nm+vBDGzymRvyEei21D2qI0YerGF9Z7ud+evjqyARDe5ErHxn8Pqps12swUfaot75IYCdTpX0RFDc1Dmi46+NUTbOUMPsQW9sfIMapRsBH96ePbnosvMsyz5u7yv7Vms2TikVg7QGcPtgsB6By5Gjn1SypkHc7PTo3MKc2kxVqdjO5zl0Asvt0uWDcLPmuUfM1zDyeD8jOLnnNP1YEku/XSz1QxqjEnIlEOPwJKMnUiHieA2uHr2HXYFonRxSiRdl5bBVubQOXXGfkysM7w+Eyivx2mAVmXwEYCIl5jNBgP6hbm1XOGt/ggTamn3LNJH91eMn0uc90l/YeFQ3xo+CtDzUNH9uV1m1sX9xGwWHo0sZSozHjKtzacPHHbNojrsPJNWaotJNE7Hm/sOj/5FguWHks47hBqGvyXPLrmwG+qyLMIIU3SOzbacUZqq3sFIfKV0/H2
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 539b7ad5-9fcb-477d-ff6b-08df29dd73ef
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR04MB10065.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2026 10:25:22.1791
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jDz9CTQNM/gB/EDGAZdNv1y0u3Bs0flakJxYmM3SMzJBBS2Caq4xQ1Ty94N07JwRbprDsSDVd0ObmIuGChl8WchzQ7baYLAjikaiZhPKmsQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR04MB8177
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261014_005928_972429_A5F35C2E 
-X-CRM114-Status: GOOD (  16.83  )
+X-CRM114-CacheID: sfid-20261014_032524_950378_BDCB4164 
+X-CRM114-Status: GOOD (  18.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,71 +160,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Keith:
+On Oct 02, 2026 / 16:08, Daejun Park wrote:
+> nvme/054 covers the reservation commands with a single host, so its
+> preempt step can only exercise a reservation holder preempting itself.
+> 
+> Add a test that connects three hosts to one namespace and sends the
+> Preempt and the Preempt and Abort actions of the Reservation Acquire
+> command from the reservation holder and from a non-holder registrant,
+> with PRKEY set to the key of another registrant, to the key of the
+> holder, and to 0h.  After each command the test checks the reservation
+> type and, for every registrant, its reservation key and whether it
+> holds the reservation, as reported by the Reservation Report command.
+> 
+> The steps in which the reservation holder preempts another registrant
+> or sends PRKEY 0h fail without the kernel patch "nvmet: fix preempt of
+> another registrant by the reservation holder".
 
-I ran some quick tests using your patch on the PS1010 and SN861.=20
-For 4K random reads with QD=3D8, both drives showed a performance drop
-of about 19%.=20
-With QD=3D64/128, there was an improvement of roughly 10=E2=80=9320%.
+Thanks for the patch. I ran the new test case and confirmed it fails. Also, I
+confirmed the kernel patch noted above avoids the failure. Good.
 
-I think the reason is that the current logic still relies on the QD
-depth to determine whether to switch, but a high QD doesn't necessarily
-mean that using the poll mode will be more efficient.
-
-As for DIM, I tried using it based on my V2 patch, but the result was
-that I either had to add several new DIM functions to perform similar
-checks, or I still ended up with a performance regression.
-
-Here is detail data=20
-https://docs.google.com/spreadsheets/d/1VOR0xB5yk-z6IMwwRvp8R0yd4k_tMi_wI27=
-Pl-dEQVg/edit?gid=3D789521759#gid=3D789521759
-
-Based on the results, it doesn=E2=80=99t perform as well as my previous pat=
-ch=EF=BC=9A
-https://docs.google.com/spreadsheets/d/1rer4Nl5HHxSO-D3NrrHuHSfpR9s1kLhpLjz=
-h7h7Mbmw/edit?gid=3D875909538#gid=3D875909538
-
-
-
-=E5=9C=A8 2026/10/14 06:35, Keith Busch =E5=86=99=E9=81=93:
-> From: Keith Busch <kbusch@kernel.org>
->=20
-> Just adding another nvme hybrid interrupt and polling mechanism to the
-> lists. There's some recent alternatives mentioned in the links below,
-> but I'm trying one last time to leverage the DIM framework. Performance
-> wise, this at least doesn't seem any worse than anything else proposed,
-> though I've only been able to test on mid-level hardware so far.
->=20
-> This one here as some irq prep patches that help some when transitioning
-> from irq to polling for MSI-x enabled NVMe completions. These should be
-> generally applicable, so isn't necessarily tied to how it gets used in
-> the last patch if someone else finds it useful too.
->=20
-> Links:
->=20
->   [1] https://lore.kernel.org/linux-nvme/20261009050556.2817978-1-namjain=
-@linux.microsoft.com/
->=20
->   [2] https://lore.kernel.org/linux-nvme/20260818033846.53790-1-changfeng=
-nan@bytedance.com/
->=20
-> Keith Busch (3):
->   genirq: Add disable_irq_nowait()
->   PCI/MSI: Implement irq_mask_nowait() for MSI-X
->   nvme-pci: hybrid irq+polling
->=20
->  drivers/irqchip/irq-msi-lib.c |   1 +
->  drivers/nvme/host/Kconfig     |   2 +
->  drivers/nvme/host/pci.c       | 624 ++++++++++++++++++++++++++++++++--
->  drivers/nvme/host/trace.c     |   1 +
->  drivers/nvme/host/trace.h     |  26 ++
->  drivers/pci/msi/irqdomain.c   |   6 +
->  drivers/pci/msi/msi.h         |   8 +-
->  include/linux/interrupt.h     |   1 +
->  include/linux/irq.h           |   4 +
->  kernel/irq/chip.c             |  31 ++
->  kernel/irq/internals.h        |   1 +
->  kernel/irq/manage.c           |  21 ++
->  12 files changed, 698 insertions(+), 28 deletions(-)
->
+I think the patch is good enough to apply. Said that, I will wait for the kernel
+side fix patch lands on the Linus master branch to avoid confusion by the test
+case failure. I think the test case number 071 will need renumbering. I will do
+that modification when I apply the patch.
 
