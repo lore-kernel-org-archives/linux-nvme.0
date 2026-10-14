@@ -4,146 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 17246CC6B1A
-	for <linux-nvme@archiver.kernel.org>; Wed, 14 Oct 2026 12:00:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 841A2CC6B24
+	for <linux-nvme@archiver.kernel.org>; Wed, 14 Oct 2026 12:03:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
-	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=PB8CDDlIoreY4ldrxGlrQubCYMtfcRnKH0TLjng7ZEo=; b=Wu/I6b1scZCzDy4Z77Vujn1d/f
-	ow/M0MOd5/qvqm1Eb439WSezL1oO1NoWmvpNGTn1QH506JHQ1GFlQr9Ru7GKAb+TtRF/V/nUlsVaF
-	4+AtpJtTVlwSUc+sLymmiHz01KURHu8q3gYjs1FiLxtxiVbeeEb9ITXSIcEiyYKglc/XNWcevrml/
-	TPuD3g1J+OyZ/qWxiZtGgqH7aKZPThTh9ccZgqsqTd3qiJQH62bj3hw8wgiu8ubRKg840pkl23o22
-	NziQHpY/DZ3MJTRxMCEOPzoM1tlinsFHrx5Y3CcqXyBZBBSd3HMw8xBL4HYq7SjJU7Ev7u19/KZh1
-	pqkdI8pw==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:Message-Id:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=9FQXq+AXIOLlf6JxJuBRQxCCQVA8NFB0ZqKwb8hzTGE=; b=3QQ3w8NCPpIMotEwg+RlpxUjbb
+	J5uYWnPN1aAfxON1OlSYH+g+GYEm5r10qqu3NlmtVGJFYYu036zvAWb9LwH/KCVLBOaousCKDRc7A
+	UmcuvkAA2N+roR8s7en+HThdhdD6NxCC97eOtVcYZmr0pOdbstlhc1gJ3MvV0qqNvVia02DzvgBKm
+	epyeFZuGoEKpF4lVKPoqcjirOe27LHrrFn2iSIMIuJ3I9kwzG2qlcnjt9vMXwYi4CQpwUlRsSTsx8
+	tBjEfCo2Oa6UcVnGYOw0SpWBz5OZl87IsM1AYeWW5e1q7+3GqCWPaAKPzY4I4OgBrp8tnYxs8C49M
+	sYPGKDQg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGxf6-0000000FOQw-295s;
-	Wed, 14 Oct 2026 12:00:48 +0000
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+	id 1xGxhJ-0000000FOYE-0kWI;
+	Wed, 14 Oct 2026 12:03:05 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGxf1-0000000FOQZ-1Rto
+	id 1xGxhH-0000000FOY8-2baU
 	for linux-nvme@lists.infradead.org;
-	Wed, 14 Oct 2026 12:00:46 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1791979243; x=1823515243;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=7FuaRBtpuEj8jpp99wvrxS9D2ZZm4T1WqH6KBcbzKVo=;
-  b=Rh1MEOiqGdgU3FbX+Yu3KU7M7XUUOukYZ4XhzT7dKycEieRN6PqppK2E
-   lbtBcF62C8Vp5AZ+Qi6DpgdPefDt7B410mxcEFXtBtwrfbxwUrIbZh7QM
-   gfIwkx0EC/106NNw/9IeZcZ3w2RGtXLq8LudwwBiG3ZbvcNR9ajW2El03
-   4OuWKKHBoBW3BcIBCDkFTRhDRhlerIOXB6OEi/s4+KdjWHefzyW6LNVU0
-   Ujm1kZibYz6LQugSoFZx2/E73hEtxt9b+ahz2UsWtjFy94YxPCoelKorA
-   qOuf9zVSc/0FfmMKK4ZGn6IMdcw2WOQ3GaYX+bfbW+Afu5Y2zPrzhLYEv
-   w==;
-X-CSE-ConnectionGUID: ZVoBRejMR1mxN62ebP8rWw==
-X-CSE-MsgGUID: bxdRJVf2S6CKiL+jQfjg9A==
-X-IronPort-AV: E=Sophos;i="6.27,157,1786982400"; 
-   d="scan'208";a="157961217"
-Received: from mail-westus3azon11010054.outbound.protection.outlook.com (HELO PH7PR06CU001.outbound.protection.outlook.com) ([52.101.201.54])
-  by ob1.hgst.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 14 Oct 2026 20:00:42 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qdkYstcP6uSmzlaKqaixtvMcVns54+Q/0lavN48BV/ohOhpiHCGRyT3MBOwR3fWiB/xkNQFE3FVaxTKDLJobJiCdmSc7kQVN4lNZ3m4E2qKidTztXTqbADbqiZdRdAqySuRDGKSfI3yqXxRzSBMuI41p+srIcma4nfCGHcirdrWsBCvIjZyHGgJQ30ndc3JmUiufXSnMzJm5xenRAFqwoeEZ2pFCMYg/p5WGpHXsbxAqVM7ugOl3aRYnn2CJyRBCnc+UyKxStvwPpj2fOI3B0Pup26Hx1vDaqL5zmxjWS90NpmvU1ejgTrH8yn+jLxgcmuV6cvsFRvmReILGhhuCgA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PB8CDDlIoreY4ldrxGlrQubCYMtfcRnKH0TLjng7ZEo=;
- b=YvFZBxAtcdTuW96t7T/ZfpwT2bggQwuWraZ+ER1RRkUpaPwhyA3iFudwm6ASrSS8r/QvVqc0X1S0qk7TFyaXH0NBSNRQXOXQESfbUPUc1s/1WvOn6D3q1uc/gHlSV27oX623qGRhHB7T7FRM0EOAjbEQj5mr3dRx/3nn0wNfuGex9rjg96tPvuHGPWMm8oZwRIovfxO4imCxebD6HybijgKLamVs7YSD8exoQLa73vy9WG/VqAFDNnlsKb4BXuVFVctWqU/L+LFe+W9PIWquDyiUG0kzJiSj9wdq8zqsOE52fLDJHwwyWYESvo0QDCpzxoQpU+xrjBfSENXayW07Uw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PB8CDDlIoreY4ldrxGlrQubCYMtfcRnKH0TLjng7ZEo=;
- b=RQREhiuNp67VSew5NU5LmwrF3JwqQlgDh2oHKuQ/lj3VFRt9YQjNV7B9F/4kQUVoXWiVy2A4MNlEiVFjX7JYynnSIoS/B+YHWhhaYJ1C+B4TQVeYOdnkZws3xR2GNuwd5sargxsLBVhpFbIiyNLH4E6nhmte4wCdpfkgkdW7jRY=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-Received: from SA1PR04MB10065.namprd04.prod.outlook.com
- (2603:10b6:806:4dd::14) by SJ0PR04MB7693.namprd04.prod.outlook.com
- (2603:10b6:a03:32b::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.23; Wed, 14 Oct
- 2026 12:00:41 +0000
-Received: from SA1PR04MB10065.namprd04.prod.outlook.com
- ([fe80::9b98:bf8a:b0b1:ef85]) by SA1PR04MB10065.namprd04.prod.outlook.com
- ([fe80::9b98:bf8a:b0b1:ef85%5]) with mapi id 15.21.0496.021; Wed, 14 Oct 2026
- 12:00:41 +0000
-Date: Wed, 14 Oct 2026 21:00:35 +0900
-From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Jesse Taube <jtaubepe@redhat.com>
-Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	John Meneghini <jmeneghi@redhat.com>, Daniel Wagner <dwagner@suse.de>
-Subject: Re: [blktests v3 0/2] Test multipath and marginal ports
-Message-ID: <as9uktniam6a8cLO@shinmob>
-References: <20260828153029.853768-1-jtaubepe@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260828153029.853768-1-jtaubepe@redhat.com>
-X-ClientProxiedBy: TYCPR01CA0192.jpnprd01.prod.outlook.com
- (2603:1096:400:2b0::15) To SA1PR04MB10065.namprd04.prod.outlook.com
- (2603:10b6:806:4dd::14)
+	Wed, 14 Oct 2026 12:03:03 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 952A3600DA;
+	Wed, 14 Oct 2026 12:03:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 33421C2BCC7;
+	Wed, 14 Oct 2026 12:03:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1791979382;
+	bh=VYajclvzOrwjNaQXV7GOh4I3DUluj9rV+N6b3tU5QZ8=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=iLiRyBy/gDQz1etnARTXamUCsQvRIwka1WYR0OSlbc9/SMvFJex2VKkZBlOXFBq1K
+	 18PogAKBRzCV438zdWAU50CRHzCXkf5A271Be2U/Pbbab96Gfki9IrgxW+CRJzdjZ1
+	 0NY4P05BrleJd7PAGJFJwt4JtB24INRGeREYfSePQgNkhNXsYcY75dLqrdv9hpOguJ
+	 tULVTP/+ZQgO8PZ3Ht/EiZsWXYTkKkIDXO+hQ9SL7RKY0EJSgLU3mMvPJtpXGp7IWY
+	 8kAZqj8R3VPz8RpsUCkM4F3H8sa6fIQK6mhstPKLR2wt4MPhA68ags5gzajDkNjHeu
+	 DujxM+JRZ5WxQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DC42CC6B24;
+	Wed, 14 Oct 2026 12:03:02 +0000 (UTC)
+From: Martin Belanger via B4 Relay <devnull+martin.nvme.dev.gmail.com@kernel.org>
+Date: Wed, 14 Oct 2026 08:02:57 -0400
+Subject: [PATCH v2] nvme: make the DH-HMAC-CHAP secret attributes readable
+ by root only
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR04MB10065:EE_|SJ0PR04MB7693:EE_
-X-MS-Office365-Filtering-Correlation-Id: b8b6f102-bb21-443f-13bf-08df29eac4b1
-WDCIPOUTBOUND: EOP-TRUE
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|1800799024|19092799006|376014|366016|10067099003|11063799006|22082099003|18002099003|56012099006;
-X-Microsoft-Antispam-Message-Info: 9vGB2XnyQEsO4dWlWjyEfRjaPOPF/F5A4dFH1+Lx5axzTnVeIIVv5dar8M86XK2IIc8bsyHrFgiwBWxc1ZAXyM7do22xx7XAuNpFH4k6TCngD0Qjhm7sE0ts1k6M1pRncYSb88KqqzDGVRKeLrDevdBOMJad/h6lVfGXXfASJ3dCP+YkDjVJT+Jr8UlCHEbkM7r+SKaYo+w22nJnHT0byqvCnzgrTIsnvHMgaxpUavIprlmxZGodfWLB6UsT1TxSfklZV7KtfE39lc9h7fKpACbm10hvRT9qFKSM/53GXj1JaCvFR+Hn4YY8FadzWsQZCmBwYJ/2lOIcaB3zi1tWjtrTQt1Bs3TOQOjn5AsaY7EYymn7q3CkbWhV2zXZZJB0CEXEiNw4hZUmm+MV6w2T7fOE3/NJvlJDCISVH/qOOn4MHIgEatS5RUHI8QIwplwJQe5ZRlSXQODQSpj4StWzkktLJyD/PYm/n0oWsqAG76MeKY3gw1dgEMAfHi7aj1HtIsBG80zV8m6R3b2L36iMhxlNqR9z7x9mBD0+uW5GUQyICM9IYy9FoovR9cAcDuhswvttcO2LkRnVyGdYw+aW8DFdsMZOaKiUYf2J522o8rtRzn70/EN5iWdvAlnLJ6pyC26sG+nQnU5F+W9ZWJKwyA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR04MB10065.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(19092799006)(376014)(366016)(10067099003)(11063799006)(22082099003)(18002099003)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?q7kazgRR5D3wBaUdG7hiaTIF4FwxCsPIuUbAoCoNn87xQOXY4hJ5O1g+zrp+?=
- =?us-ascii?Q?46wIoBX5J9FpLCDdoxIuxZguDrALEOAA1o3CBARInL4U9Z/09s5v/1vN0Xi6?=
- =?us-ascii?Q?ux82qXR0UgEMDKf55h7tkty8OQSusI7p4voLd9iFp/vx/cc6sv8vv1gJZRl/?=
- =?us-ascii?Q?0xahiHBo1RViSc3NM0JIa5bJh7hdjM5WHJ2kwzR2ZqAuxTKe0wM2n8K5GDNf?=
- =?us-ascii?Q?hXOmQr/cvbG9d4alT0xTtMu9dA57x+/9hFykK9xvcA4nCXwb+vK5a13zX1Qn?=
- =?us-ascii?Q?mkI9ZgGs+AfvC6Lcgp35wknfOSeJXKCP5Gk8oI43uO9zOnODrZZUYLefmeeP?=
- =?us-ascii?Q?hEHGi+XsIfhrrWalpST3EjJLmT4b07bbdDE+il6M4czojEyb54T631500cn9?=
- =?us-ascii?Q?BxvarWSzhCkTMmt2S6EJzRPyoc9jOxbFZQfhIslQibFSdkkZybffVXd4S6gE?=
- =?us-ascii?Q?Ax+zQRZ6USPQTjrZDdtrfeTdD9Yfdjv0FvlUqvbfqjNX99MycBPoiuIveUtn?=
- =?us-ascii?Q?MokY1vQyoNFAoPE7+v/T+2Vpi05jvHKaFNQ7ipes61e0bqhXR2w3mOOv76dK?=
- =?us-ascii?Q?ZIVyODApVbl1tnKA9MaZ/0gFkyaAzmidATMoQu7Fogo6rCd2kuWmgdBioIlj?=
- =?us-ascii?Q?C9qeTotPAm0KZfsK27GP+DpTU/l+TsbpoBJd1q7ck1YOW4QiJ/aDfEYkT9tX?=
- =?us-ascii?Q?5TJ/1gp69aCsUVABmX2od3xGCPxSMZvONwmD0SvGpXRQnw8V7RcYueC/q4Ky?=
- =?us-ascii?Q?dr8eqI9IKKF+1pVs1vhef0gIH2KW9oyUOuyhgfHes71JK5/5uODU/1GbF1G9?=
- =?us-ascii?Q?tYd1h7nuCohem+TjPjLVn+yzsCnKOlnYO2A2El++KYy3PajLuZKeMSStUVWB?=
- =?us-ascii?Q?YGq5y1GCkEyXPWKzS/j5XFVF4zxIy5ySbLqPKIWz2o4XLV3ap94Lvtsn7nAs?=
- =?us-ascii?Q?zjmYd0B4sJja9nu3d4abYgJTFoDPkudmoxR1xU26kSHnpPnUfBRhaEDHgYvQ?=
- =?us-ascii?Q?HRJKBmg6wMN0OWZ7MccsALnc+TLPuRTvH6six5yt3CNouMRjwhmbP4sUmCK3?=
- =?us-ascii?Q?eFpY39HpSURgGWjM1edX3rqEPshTmfhSuoWo2a9ahxb7DfzmWq7uu18grbnH?=
- =?us-ascii?Q?/O+TUmC9phFzRZSaiOC8cWRyXsjYMexN7XRlNpjHUrrnG9QBV8qFcWe4tyKq?=
- =?us-ascii?Q?hiYacb7SfRQQKdrtLVIfSFuSbG/BrXaqvJyI1XBKccYj70KEw8oiEE6ax/uj?=
- =?us-ascii?Q?tkfrh07sVsT7qrjGgshJBV7sE12Bn9uzo8J+tGiRQxrmwfbdV7IQAAvt2wsj?=
- =?us-ascii?Q?uhALKWzejCUym68nMT3B8q8LdPSc0wu8KAdaJZ+XzXk/jHpB/Lr1lyVq4Yt5?=
- =?us-ascii?Q?ks24Zcgum53sEa68ITY4BkHTbUdoMLuYa7BfcQWmO/9Opap53ZmUIm17x0B3?=
- =?us-ascii?Q?TB2DzAtM4u7kMbphkoDgQh5apd3xm+5BRiWum2iOmydVxuoSufu1ujynFEzu?=
- =?us-ascii?Q?dPu/ASVkOc9jxFUNIT0KYpxPRyuEVFH+0WP/+6bQE4EYokgQy7OEL7DPTI1r?=
- =?us-ascii?Q?nFF4VaG1XkQ3TtDTW+LHW5CPiTView7oslGuKWqmPeqrXflmGf4Om4U6KVjF?=
- =?us-ascii?Q?UWCZTjEgM1HtIRhbw66F0oHzpBKpPirvOuRIJFgBFNvw/aVI7uJ6UIpiNVkG?=
- =?us-ascii?Q?R2IQy3YEJG8JaJGz92NT0ws3jo/8W1YtINSlSFqHLBTFcFj6kQUMMbnimlj+?=
- =?us-ascii?Q?gnDqFshvMeFMWFoPXABpjCT8XFTC4mU=3D?=
-X-Exchange-RoutingPolicyChecked: OFJZ1F7oEmvp2oqyWa0DyWqe/QgM/dtjJuXYTJQYRoWB3yExEo/VrEHAZUaIuOCp/R4XK40LR6dgO64WI8CNDNuZbEbcQzpsiPBvaJlnJ7byIQ2kv9NLhd2L5ezwwWn7Ewu7zdOzVcdyltlb0F62Dx+qX8sCfSfs0vr4ZycBO1pjTTrIWVBH5wEs+Ap7MZCvBX9J1OYHJ6XqfiNx3Mpr7UV2O7r+h7tRb8szti5g2PdePVdbw3qHbjIZPrvELtvG5ii8XKfkkve71IZ3SZMgMi7EPZ5hIczdkpgfjeqxGj8MhwpGdtL6hbHxJ+1qeBXlwKMSoD1Si7+TTY5cshoNjA==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: cFOPansb9WCcQB4yKiINUInckqyl14LDHrw398kLfYsJBPpV4ErK84JLdL3bbTzpsPiH1g4YBZGjybG5IOBc2YfR04yyV4c1Vj0RpJwIx2vBm/XdvAfNtZsS+Wru5DsGbffMdBsAC5pHM0E7UDq+YBnYIik34CuVvbC4zjyyPGUzxMU8HVAoUKSmilEUqbMKBd5M/yrp/4u/i1fwtz0KxrotzyVDcM34X/TStQ5cLKyXDKucHio6+ZBcq91rHpxDlfZpxEFiHBlLzyeQzzUsdoFcC7SEws6Iw0LsRUlQxH8aoDKMMgTLDXjmNMYRKL3AbQ4mKuUIXtRxvX8OWEy/xaMU5Dm6psgPGfbSXp1u/kWEjzqke5JYhM7N0PBMpOahNH1cMdJHzoxPUGkeYMrnjrYGRFEbLRezp1VYfG+0ExrEdXUDvfyNIAz0G6o0yLDbQY62K2CU6invHd5103MAyJiW6mK5BTYjEGvHu30xf3PFhQzxNI0ErdO/E//unIiUMDW9EgOYxU2Te4coJI38ueW+UwS2i+GQMRuwWFEVmbe/DJdORR2vF0y0GPLG1CmyGil1ep/jOpWGXCCf9cPsoQLuFqhHHsXrj4dnVl/o+d4z45pdV0velURB8W6KTPe5
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b8b6f102-bb21-443f-13bf-08df29eac4b1
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR04MB10065.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2026 12:00:40.9794
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: afjW8I8TA4RhjLGB4zCFice1B2BipEYfjtNY4t2fiDxFJViu68WiiQPINypjWeEKOXWWwLBT6gS/yhjAm5kKVF05NEhyOtzNICIO0c6pc74=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR04MB7693
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261014_050043_409823_F4C4CD67 
-X-CRM114-Status: GOOD (  11.63  )
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261014-nvme-dhchap-secret-mode-v2-1-00f153e9d8de@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMUQqDMBCE4avIPruQBBXbqxQf0mRat2CUrJWCe
+ Pem9vFjmH8nRRYoXaudMjZRmVOBqysKo09PsMRicsZ11tiG0zaB41jGhRUhY+VpjuCLNT36trG
+ +81TeS8ZDPmf5Nvyt7/sLYf3l6Di+N1PvwnsAAAA=
+X-Change-ID: 20261014-nvme-dhchap-secret-mode-9108e8541a6a
+To: linux-nvme@lists.infradead.org
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+ Hannes Reinecke <hare@suse.de>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+ Daniel Wagner <wagi@kernel.org>, 
+ Martin Belanger <martin.nvme.dev@gmail.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1791979381; l=3245;
+ i=martin.nvme.dev@gmail.com; s=20261014; h=from:subject:message-id;
+ bh=YzbJwanbX41Lark5YtJVe0AVHqjgNwPQp5aKXMjqULc=;
+ b=Ib1ZrDnxDTZUZttiA/j38dYPB1shdfmMLlyzRHHYeQXx39wMBm0oCvjyCGsOWT6Pg9LxNjdEe
+ BPQOfx/SYBSBcZ9lScWoyTQiBHjNkklIXz+JidH/a/XcYrQTafeCu+O
+X-Developer-Key: i=martin.nvme.dev@gmail.com; a=ed25519;
+ pk=4K+XXetGK35w2LzRRddd/bbHawZU222BN+YZRuSpN+k=
+X-Endpoint-Received: by B4 Relay for martin.nvme.dev@gmail.com/20261014
+ with auth_id=1176
+X-Original-From: Martin Belanger <martin.nvme.dev@gmail.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -155,19 +87,95 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: martin.nvme.dev@gmail.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Aug 28, 2026 / 11:30, Jesse Taube wrote:
-> Tests for the upcoming nvme-fc: FPIN link integrity handling set.
-> It tests for various multipath and marginal port
-> scenarios, while confirming the port usage and state. The test is
-> intended to emulate receiving an FPIN event in a multipath environment.
-> 
-> In V3 various generic link checking code was move to common/nvme.
-> This is so that it can be used by other tests to check if multipath
-> working correctly, even on kernels that dont support marginal paths.
+From: Martin Belanger <martin.nvme.dev@gmail.com>
 
-Thanks for the v3 patch. I applied it. Please note that I renumbered the test
-case from 070 to 071.
+The dhchap_secret and dhchap_ctrl_secret sysfs attributes have mode
+0644. Their show functions return the secret, so any local user can
+read the DH-HMAC-CHAP secrets of a connected controller.
+
+Define them with DEVICE_ATTR_ADMIN_RW(), which sets mode 0600. The
+macro takes the show and store functions from the attribute name, so
+rename them. Writing the attributes was already limited to root and is
+not changed.
+
+Fixes: f50fff73d620 ("nvme: implement In-Band authentication")
+Cc: stable@vger.kernel.org
+Cc: Daniel Wagner <wagi@kernel.org>
+Assisted-by: LLM
+Signed-off-by: Martin Belanger <martin.nvme.dev@gmail.com>
+---
+Changes in v2:
+- Use DEVICE_ATTR_ADMIN_RW() instead of DEVICE_ATTR() with 0600 (Greg)
+---
+ drivers/nvme/host/sysfs.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+index e1e3dcfd084b..c0ecb5df1a30 100644
+--- a/drivers/nvme/host/sysfs.c
++++ b/drivers/nvme/host/sysfs.c
+@@ -809,7 +809,7 @@ static DEVICE_ATTR(io_timeout, S_IRUGO | S_IWUSR,
+ 	nvme_io_timeout_show, nvme_io_timeout_store);
+ 
+ #ifdef CONFIG_NVME_HOST_AUTH
+-static ssize_t nvme_ctrl_dhchap_secret_show(struct device *dev,
++static ssize_t dhchap_secret_show(struct device *dev,
+ 		struct device_attribute *attr, char *buf)
+ {
+ 	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+@@ -820,7 +820,7 @@ static ssize_t nvme_ctrl_dhchap_secret_show(struct device *dev,
+ 	return sysfs_emit(buf, "%s\n", opts->dhchap_secret);
+ }
+ 
+-static ssize_t nvme_ctrl_dhchap_secret_store(struct device *dev,
++static ssize_t dhchap_secret_store(struct device *dev,
+ 		struct device_attribute *attr, const char *buf, size_t count)
+ {
+ 	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+@@ -864,10 +864,9 @@ static ssize_t nvme_ctrl_dhchap_secret_store(struct device *dev,
+ 	return count;
+ }
+ 
+-static DEVICE_ATTR(dhchap_secret, S_IRUGO | S_IWUSR,
+-	nvme_ctrl_dhchap_secret_show, nvme_ctrl_dhchap_secret_store);
++static DEVICE_ATTR_ADMIN_RW(dhchap_secret);
+ 
+-static ssize_t nvme_ctrl_dhchap_ctrl_secret_show(struct device *dev,
++static ssize_t dhchap_ctrl_secret_show(struct device *dev,
+ 		struct device_attribute *attr, char *buf)
+ {
+ 	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+@@ -878,7 +877,7 @@ static ssize_t nvme_ctrl_dhchap_ctrl_secret_show(struct device *dev,
+ 	return sysfs_emit(buf, "%s\n", opts->dhchap_ctrl_secret);
+ }
+ 
+-static ssize_t nvme_ctrl_dhchap_ctrl_secret_store(struct device *dev,
++static ssize_t dhchap_ctrl_secret_store(struct device *dev,
+ 		struct device_attribute *attr, const char *buf, size_t count)
+ {
+ 	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+@@ -922,8 +921,7 @@ static ssize_t nvme_ctrl_dhchap_ctrl_secret_store(struct device *dev,
+ 	return count;
+ }
+ 
+-static DEVICE_ATTR(dhchap_ctrl_secret, S_IRUGO | S_IWUSR,
+-	nvme_ctrl_dhchap_ctrl_secret_show, nvme_ctrl_dhchap_ctrl_secret_store);
++static DEVICE_ATTR_ADMIN_RW(dhchap_ctrl_secret);
+ #endif
+ 
+ static struct attribute *nvme_dev_attrs[] = {
+
+---
+base-commit: 24a19b953e2a3d0ea5a8c4951a0ab8f32720c907
+change-id: 20261014-nvme-dhchap-secret-mode-9108e8541a6a
+
+Best regards,
+--  
+Martin Belanger <martin.nvme.dev@gmail.com>
+
+
 
