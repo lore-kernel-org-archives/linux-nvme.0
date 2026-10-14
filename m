@@ -4,59 +4,110 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ADD7CCC6B1A
-	for <linux-nvme@archiver.kernel.org>; Wed, 14 Oct 2026 06:23:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 05CD2CC6B1A
+	for <linux-nvme@archiver.kernel.org>; Wed, 14 Oct 2026 06:46:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:To:
-	From:Subject:Cc:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
-	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZgUbrgI6Nmv0Q1NvUsnFEVJ8hxHy12NfrIaEIBktx68=; b=KElc2azuRJCcWQhKf4w4GYEeov
-	YfCWJmHi+OA0a8n7cBKey2Ar+oWlo37oFOF4DvfdhdhJpP/LUbGhb/iT5xWUcoolP+s3DbCLPTJDY
-	bBMWdAA9fqHidbX2tef49tm8pI3KZbna7kHnhk3qpJvy5nHjJN2aKjMZwQPicRqsVeol5FiGhuJUG
-	n2uiDd5IDGttea75/0WuK4whp/OYxOpJTR+nTxaAQ661YRgok4k84iPFljib/lYq4hjiEKaNIS3Ti
-	0S6Xsq9V223EHNeGgkyeS6prMpx10YcHgDX6f7pHJtpG8vw04M6djDpPY+h+lqYyGvBpxVq7Ce6se
-	Ga+zLTog==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=JTJK3K2HtRoklixNqbatLqReJpESRo1O6orCv2sRVKY=; b=iypgGcii14tgYij4zN5md85xN5
+	VUBuMDcoWp3j3s48yMNC5r9cALQH0oxomVQcAC10DgUbOj4K9XChA7LGVt/eF9oBkypKIHUISGVFQ
+	3uweHKK9I4FKjCPYMYLEaIlW6gFgiQg0FtccbdYAZrC95387IlloCOIUWXsnme9BlFe+yqSJ716Si
+	x28gtkxswn5p+Azd4U/sg0WJ3TvK9HCLPnbl6X7BNUMSlmGJB5N4Jvu09Bjzj6oMh2nOFAS4EWMcr
+	I+EbJGHwBHoeAqKwzK9EoXR+pht0MRxHHtIX/xVmMflTP8k/ZSry0eL1sYcaFnHtkBAO3xY+m8X1N
+	jN1G6Beg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGsOq-0000000EbHo-3zfP;
-	Wed, 14 Oct 2026 06:23:40 +0000
-Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=arkamax.eu)
+	id 1xGskm-0000000EeLw-21bi;
+	Wed, 14 Oct 2026 06:46:20 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGsOl-0000000EbHP-0kFB
+	id 1xGskk-0000000EeLU-1uTJ
+	for linux-nvme@bombadil.infradead.org;
+	Wed, 14 Oct 2026 06:46:18 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=content-type:Content-Transfer-Encoding
+	:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=JTJK3K2HtRoklixNqbatLqReJpESRo1O6orCv2sRVKY=; b=SCU7sFTDRnXJYcilX6BkVhgFFD
+	FebYPV7OymB13Rb7J3nGlfCfvYQbWCw+OImwTe2idtnvq1z6sTXyzFnS3qfjWC1FEWSKTCBcIvQX3
+	7UsnWO6PlmLdBn9nmX+xqQ09KZ7n1a9xfNpEb9lOUJOGVyzlK1om3Af1pp9nr6PC4KhtOe7A8LHtj
+	26cPs0+oVMvuFKnFQRIO0tl7oFs2stW1ufuUlPF18FRJCkQZ8x1Kwby854HgVlx5tJzdShh8BNY6H
+	/TZo9N1iytSeDnZBMi2HwzXSVfXY6RmvS1EMCwrZJ4ukRzhlA6X2RiQbkVoP7JGChrf3OVHVN3AiD
+	F0IlBc7Q==;
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	by desiato.infradead.org with esmtps (Exim 4.99.5 #2 (Red Hat Linux))
+	id 1xGskg-0000000GPf1-2Wcd
 	for linux-nvme@lists.infradead.org;
-	Wed, 14 Oct 2026 06:23:37 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; s=mail1; bh=EYpybl+sKkbYJx
-	E4ysJBc9JgYugoN7FZg/U8lPSyFx0=; h=in-reply-to:references:to:from:
-	subject:cc:date; d=arkamax.eu; b=Bq7BZPcbEPexDPJcPV1QU9ZopvZ5B2T/QPSNY
-	Cbj3o++ZrXJ06RP2EguER3j4ofifK6KX2C3hvefZB99mLMgAiqY7G94KcL/7e2obbpqu0/
-	+v4IPRPzJSjXM0ibax75aOeGtcdzIJqW+HK+nQSWzI2BXFYMFXs5ik/s+adRZb9Ep3VHsq
-	1UtIJZExPOzw9T5Jq8R0xqCzFP60lzdeuyMF3ZXdgRcwDO1b/P96tdBul0e4VZiFLB+Oa3
-	gOxuF7wD/7Zw9a4sPVyWvJrx7rcGhxJ4xXVVvFNs+7qbYLonXWsS7TfzJo//x1E5k/H/9h
-	kPCSCrDW1jeV/IfGHz4jLsXXA==
-Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
-	by arkamax.eu (OpenSMTPD) with ESMTPSA id 6f0b8cc8 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Wed, 14 Oct 2026 08:23:30 +0200 (CEST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 14 Oct 2026 08:23:30 +0200
-Message-Id: <DM4CGCPQCBLX.10XJ0BE8OCYH4@arkamax.eu>
-Cc: <linux-nvme@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <stable@vger.kernel.org>
-Subject: Re: [PATCH] nvmet: take subsys->lock while force-reconnecting in
- nvmet_subsys_attr_qid_max_store()
-From: "Maurizio Lombardi" <mlombard@arkamax.eu>
-To: "Yu Zhang" <yuz08559@gmail.com>, "Keith Busch" <kbusch@kernel.org>,
- "Christoph Hellwig" <hch@lst.de>, "Sagi Grimberg" <sagi@grimberg.me>,
- "Chaitanya Kulkarni" <kch@nvidia.com>
-X-Mailer: aerc 0.22.0
-References: <20261014054727.53183-1-yuz08559@gmail.com>
-In-Reply-To: <20261014054727.53183-1-yuz08559@gmail.com>
+	Wed, 14 Oct 2026 06:46:17 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1791960366;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=JTJK3K2HtRoklixNqbatLqReJpESRo1O6orCv2sRVKY=;
+	b=E6zRys/rUMJc9kuPfnc5SO6qpTDaozerAZUFquvvkOWM7GwEfPTaQlXHFH+a5VzV1n87sb
+	eBIRcZAaBJ1fN9Ppf0avaVw0go6gnQPxPiQLRRK/8bmz+7PyhGLH6K3VMQdpnZK3pQazkS
+	ycm9s4VMpkwhxjziZtTDYS1rYBQkfrI=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1791960371;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=JTJK3K2HtRoklixNqbatLqReJpESRo1O6orCv2sRVKY=;
+	b=Kp4U5LQFK8/H8GZAETxlFKmxu0Jmv1QgHy0Lu9LnBQ3T58PivYwc0nsMCdCsRNTSqQ5+IN
+	YlY5VlPo7paNQzLKHtL7l0mSYOOvyFbAMXEpCEcplF0r+APFn/Gh+s4DAzoPQnj9RIcbAK
+	qsxsT1iKFnj8oXtmftCdSq9x9BPPq0E=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1791960366;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=JTJK3K2HtRoklixNqbatLqReJpESRo1O6orCv2sRVKY=;
+	b=E6zRys/rUMJc9kuPfnc5SO6qpTDaozerAZUFquvvkOWM7GwEfPTaQlXHFH+a5VzV1n87sb
+	eBIRcZAaBJ1fN9Ppf0avaVw0go6gnQPxPiQLRRK/8bmz+7PyhGLH6K3VMQdpnZK3pQazkS
+	ycm9s4VMpkwhxjziZtTDYS1rYBQkfrI=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-244-MxfC6BBbP0ycHaM8okxLuA-1; Wed,
+ 14 Oct 2026 06:45:58 +0000
+X-MC-Unique: MxfC6BBbP0ycHaM8okxLuA-1
+X-Mimecast-MFC-AGG-ID: MxfC6BBbP0ycHaM8okxLuA_1791960356
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 07728180034E;
+	Wed, 14 Oct 2026 06:45:55 +0000 (UTC)
+Received: from snishika-thinkpadp16vgen1.tokyo.csb (headnet05.pony-001.prod.iad2.dc.redhat.com [10.2.32.117])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DC69C1800345;
+	Wed, 14 Oct 2026 06:45:50 +0000 (UTC)
+From: Seiji Nishikawa <snishika@redhat.com>
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: Hannes Reinecke <hare@kernel.org>,
+	Chris Leech <cleech@redhat.com>,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Seiji Nishikawa <snishika@redhat.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] nvme-tcp: fix io_work priority inversion when send_mutex is held
+Date: Wed, 14 Oct 2026 15:45:24 +0900
+Message-ID: <20261014064524.4015025-1-snishika@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+X-Mimecast-MFC-PROC-ID: 7DQmnNWcWzYKey20CizvICxvvoLVtDbMDhQC7Vv7ZO0_1791960356
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261013_232335_877506_6B369EC3 
-X-CRM114-Status: GOOD (  21.19  )
+X-CRM114-CacheID: sfid-20261014_074615_207386_61EBC69A 
+X-CRM114-Status: GOOD (  26.46  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,83 +122,97 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed Oct 14, 2026 at 7:47 AM CEST, Yu Zhang wrote:
-> nvmet_subsys_attr_qid_max_store() sets subsys->max_qid and then walks
-> subsys->ctrls to force every controller to reconnect, but it holds only
-> nvmet_config_sem (for write).  subsys->ctrls is protected by subsys->lock=
-:
-> nvmet_alloc_ctrl() adds an entry under subsys->lock, and nvmet_ctrl_free(=
-)
-> removes it under subsys->lock with list_del() + kfree() (not kfree_rcu).
-> The free path takes no nvmet_config_sem, so the two locks are independent=
-.
->
-> A controller teardown (host disconnect, keep-alive timeout or fatal error
-> -> nvmet_sq_destroy() -> nvmet_ctrl_put() -> nvmet_ctrl_free()) can
-> therefore list_del() an entry while qid_max_store() is iterating the list=
-,
-> corrupting the walk.
->
-> KASAN, concurrent "echo 128 > .../subsystems/<nqn>/attr_qid_max" racing
-> nvme-loop controllers connecting and disconnecting, panics in seconds:
->
->   BUG: KASAN: null-ptr-deref in nvmet_subsys_attr_qid_max_store+0x10d/0x1=
-b0
->   Read of size 8 at addr 0000000000000090
->   Call Trace:
->    nvmet_subsys_attr_qid_max_store+0x10d/0x1b0
->    configfs_write_iter+0x1a7/0x250
->    vfs_write+0x5df/0x940
->    ksys_write+0xfd/0x1e0
->
-> (also seen as a general-protection fault dereferencing a LIST_POISON
-> pointer at the same instruction.)
->
-> Take subsys->lock around the list_for_each_entry() loop, matching every
-> other subsys->ctrls accessor.  ->delete_ctrl() only queues asynchronous
-> controller teardown, so it does not re-enter subsys->lock under the loop.
->
-> Fixes: 3e980f5995e0 ("nvmet: expose max queues to configfs")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Yu Zhang <yuz08559@gmail.com>
-> Tested-by: Yu Zhang <yuz08559@gmail.com>
-> ---
->  drivers/nvme/target/configfs.c | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configf=
-s.c
-> index 1111111..2222222 100644
-> --- a/drivers/nvme/target/configfs.c
-> +++ b/drivers/nvme/target/configfs.c
-> @@ -1683,9 +1683,16 @@ static ssize_t nvmet_subsys_attr_qid_max_store(str=
-uct config_item *item,
->  	down_write(&nvmet_config_sem);
->  	subsys->max_qid =3D qid_max;
->
-> -	/* Force reconnect */
-> +	/*
-> +	 * Force reconnect.  subsys->ctrls is protected by subsys->lock
-> +	 * (nvmet_alloc_ctrl()/nvmet_ctrl_free() add and remove entries under
-> +	 * it); take it here too so a concurrent controller teardown cannot
-> +	 * list_del() an entry while this loop walks the list.
-> +	 */
-> +	mutex_lock(&subsys->lock);
->  	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry)
->  		ctrl->ops->delete_ctrl(ctrl);
-> +	mutex_unlock(&subsys->lock);
->  	up_write(&nvmet_config_sem);
->
->  	return cnt;
-> --
-> 2.43.0
+Commit f42d4796ee10 ("nvme-tcp: fix I/O stalls on congested sockets")
+added a check in nvme_tcp_io_work() that sets pending to true when the
+queue has pending requests and the socket is writeable. The check is
+placed after the mutex_trylock() block, so it also runs when
+mutex_trylock(&queue->send_mutex) failed and io_work did not send
+anything.
 
-I don't think we need a comment in the source code just to explain that.
-It's an established pattern all over the target driver code that accesses
-to the subsys->ctrls list are protected by subsys->lock, so this is already=
- implied.
+When .queue_rq sends a request directly from its own context, it holds
+send_mutex and can give up the CPU in lock_sock_nested() when another
+task needs the CPU, for example the io_work kworker of the same queue,
+which runs on the same CPU. Then io_work cannot take send_mutex, but
+the requests are still on req_list and the socket is writeable, so
+pending is set to true. io_work loops until the deadline and queues
+itself again on io_cpu, without sleeping.
 
-Anyway the fix looks good to me.
+This is a priority inversion. io_work runs on the high priority
+nvme_tcp_wq and cannot make progress until send_mutex is released, but
+it keeps running. The task holding send_mutex runs at normal priority
+and needs the CPU to release it. The scheduler keeps giving the CPU to
+io_work, so the task holding send_mutex may not run again, and the
+requests on the queue are not sent and time out.
 
-Reviewed-by: Maurizio Lombardi <mlombard@redhat.com>
+This is the same problem that commit 70f437fb4395 ("nvme-tcp: fix
+io_work priority inversion") fixed. That commit removed
+"pending = !llist_empty(&queue->req_list)" from the path where
+mutex_trylock() fails, and let the task holding send_mutex queue
+io_work again in nvme_tcp_queue_request() after it releases the mutex.
+The new check brings back the same behavior in a different form.
+
+Two things make this easier to hit. nvme_tcp_queue_request() sends
+directly only when it runs on io_cpu, so the task that takes send_mutex
+is on the same CPU as the io_work kworker of that queue when it takes
+the mutex. Also, when the tasks are in a cgroup with the cpu controller
+enabled, the whole group competes with the nice -20 kworker as one
+entity, so each task in the group gets even less CPU time.
+
+We hit this on a 6 CPU VM running a database on nvme-tcp storage. In
+the vmcore, 2 tasks held send_mutex of 2 queues and were runnable in
+lock_sock_nested() for 103 seconds, while the kworkers for those queues
+kept running io_work on their CPUs. All database tasks were in one
+cgroup, which got only about 0.3% of the CPU against the nice -20
+kworker. Requests timed out, and blk_mq_timeout_work() waited in
+synchronize_srcu() for the tasks still in .queue_rq.
+
+Only do the pending check if io_work could take send_mutex. If it could
+not, the task holding send_mutex sends what it can in
+nvme_tcp_send_all(), and queues io_work again after it releases the
+mutex if requests are still pending, so no request is left behind.
+
+Fixes: f42d4796ee10 ("nvme-tcp: fix I/O stalls on congested sockets")
+Cc: stable@vger.kernel.org # v6.16+
+Signed-off-by: Seiji Nishikawa <snishika@redhat.com>
+---
+ drivers/nvme/host/tcp.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 7eec983c0ead..4b775e22d3cc 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1433,9 +1433,11 @@ static void nvme_tcp_io_work(struct work_struct *w)
+ 
+ 	do {
+ 		bool pending = false;
++		bool got_send_mutex = false;
+ 		int result;
+ 
+ 		if (mutex_trylock(&queue->send_mutex)) {
++			got_send_mutex = true;
+ 			result = nvme_tcp_try_send(queue);
+ 			mutex_unlock(&queue->send_mutex);
+ 			if (result > 0)
+@@ -1450,8 +1452,13 @@ static void nvme_tcp_io_work(struct work_struct *w)
+ 		else if (unlikely(result < 0))
+ 			return;
+ 
+-		/* did we get some space after spending time in recv? */
+-		if (nvme_tcp_queue_has_pending(queue) &&
++		/*
++		 * did we get some space after spending time in recv?
++		 * Only check this if we could take send_mutex. Otherwise
++		 * the task holding it sends the requests and queues io_work
++		 * again after it releases the mutex.
++		 */
++		if (got_send_mutex && nvme_tcp_queue_has_pending(queue) &&
+ 		    sk_stream_is_writeable(queue->sock->sk))
+ 			pending = true;
+ 
+
+base-commit: 5755f1bd0217ffe3c5cf85467bf6b0680f398265
+-- 
+2.55.0
+
 
