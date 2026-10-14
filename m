@@ -4,110 +4,124 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 05CD2CC6B1A
-	for <linux-nvme@archiver.kernel.org>; Wed, 14 Oct 2026 06:46:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F2106CC6B27
+	for <linux-nvme@archiver.kernel.org>; Wed, 14 Oct 2026 07:47:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=JTJK3K2HtRoklixNqbatLqReJpESRo1O6orCv2sRVKY=; b=iypgGcii14tgYij4zN5md85xN5
-	VUBuMDcoWp3j3s48yMNC5r9cALQH0oxomVQcAC10DgUbOj4K9XChA7LGVt/eF9oBkypKIHUISGVFQ
-	3uweHKK9I4FKjCPYMYLEaIlW6gFgiQg0FtccbdYAZrC95387IlloCOIUWXsnme9BlFe+yqSJ716Si
-	x28gtkxswn5p+Azd4U/sg0WJ3TvK9HCLPnbl6X7BNUMSlmGJB5N4Jvu09Bjzj6oMh2nOFAS4EWMcr
-	I+EbJGHwBHoeAqKwzK9EoXR+pht0MRxHHtIX/xVmMflTP8k/ZSry0eL1sYcaFnHtkBAO3xY+m8X1N
-	jN1G6Beg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
+	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=TqZ/LtFYXZbY4tnxo+Y2y338DHABkSGDQWphlXXl9sU=; b=hlTpH4eJQTqFyI0WRW1vZ+9vP4
+	Sb49j+FOTFKjwcDTbSBWt8miJF9Z0nTiOeDRd7IarxMMhUYelSls6mze20s0nUluKQ1uEc2Bq1xb/
+	j/kbuVP8Ub3VdzECEfv3bCl335+BZXx+885Ci/dxaUL4p+g0h2uJAI4TXhbmHapXJE0SQK70v6KSN
+	/bmiHMKyiMOJmTVS79k5Gf1r0Wxu6zKTEQOA7W55xkBQK3u0PM/8d5uz9NqG8gc7YsLu+V8wdb35P
+	r0e5RYCUv3lgVdQSXiU3WUfDjCX12CQ3bckMbO0G2jkO5cwkUMB3tb04j2SWPeV7t8PTpYNw3Zwy5
+	O5DZKqTw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGskm-0000000EeLw-21bi;
-	Wed, 14 Oct 2026 06:46:20 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1xGthW-0000000Endp-2sH4;
+	Wed, 14 Oct 2026 07:47:02 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGskk-0000000EeLU-1uTJ
-	for linux-nvme@bombadil.infradead.org;
-	Wed, 14 Oct 2026 06:46:18 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=content-type:Content-Transfer-Encoding
-	:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=JTJK3K2HtRoklixNqbatLqReJpESRo1O6orCv2sRVKY=; b=SCU7sFTDRnXJYcilX6BkVhgFFD
-	FebYPV7OymB13Rb7J3nGlfCfvYQbWCw+OImwTe2idtnvq1z6sTXyzFnS3qfjWC1FEWSKTCBcIvQX3
-	7UsnWO6PlmLdBn9nmX+xqQ09KZ7n1a9xfNpEb9lOUJOGVyzlK1om3Af1pp9nr6PC4KhtOe7A8LHtj
-	26cPs0+oVMvuFKnFQRIO0tl7oFs2stW1ufuUlPF18FRJCkQZ8x1Kwby854HgVlx5tJzdShh8BNY6H
-	/TZo9N1iytSeDnZBMi2HwzXSVfXY6RmvS1EMCwrZJ4ukRzhlA6X2RiQbkVoP7JGChrf3OVHVN3AiD
-	F0IlBc7Q==;
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
-	by desiato.infradead.org with esmtps (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xGskg-0000000GPf1-2Wcd
+	id 1xGthT-0000000Enc3-2sFu
 	for linux-nvme@lists.infradead.org;
-	Wed, 14 Oct 2026 06:46:17 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1791960366;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=JTJK3K2HtRoklixNqbatLqReJpESRo1O6orCv2sRVKY=;
-	b=E6zRys/rUMJc9kuPfnc5SO6qpTDaozerAZUFquvvkOWM7GwEfPTaQlXHFH+a5VzV1n87sb
-	eBIRcZAaBJ1fN9Ppf0avaVw0go6gnQPxPiQLRRK/8bmz+7PyhGLH6K3VMQdpnZK3pQazkS
-	ycm9s4VMpkwhxjziZtTDYS1rYBQkfrI=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1791960371;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=JTJK3K2HtRoklixNqbatLqReJpESRo1O6orCv2sRVKY=;
-	b=Kp4U5LQFK8/H8GZAETxlFKmxu0Jmv1QgHy0Lu9LnBQ3T58PivYwc0nsMCdCsRNTSqQ5+IN
-	YlY5VlPo7paNQzLKHtL7l0mSYOOvyFbAMXEpCEcplF0r+APFn/Gh+s4DAzoPQnj9RIcbAK
-	qsxsT1iKFnj8oXtmftCdSq9x9BPPq0E=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1791960366;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=JTJK3K2HtRoklixNqbatLqReJpESRo1O6orCv2sRVKY=;
-	b=E6zRys/rUMJc9kuPfnc5SO6qpTDaozerAZUFquvvkOWM7GwEfPTaQlXHFH+a5VzV1n87sb
-	eBIRcZAaBJ1fN9Ppf0avaVw0go6gnQPxPiQLRRK/8bmz+7PyhGLH6K3VMQdpnZK3pQazkS
-	ycm9s4VMpkwhxjziZtTDYS1rYBQkfrI=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-244-MxfC6BBbP0ycHaM8okxLuA-1; Wed,
- 14 Oct 2026 06:45:58 +0000
-X-MC-Unique: MxfC6BBbP0ycHaM8okxLuA-1
-X-Mimecast-MFC-AGG-ID: MxfC6BBbP0ycHaM8okxLuA_1791960356
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	Wed, 14 Oct 2026 07:47:00 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 07728180034E;
-	Wed, 14 Oct 2026 06:45:55 +0000 (UTC)
-Received: from snishika-thinkpadp16vgen1.tokyo.csb (headnet05.pony-001.prod.iad2.dc.redhat.com [10.2.32.117])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DC69C1800345;
-	Wed, 14 Oct 2026 06:45:50 +0000 (UTC)
-From: Seiji Nishikawa <snishika@redhat.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: Hannes Reinecke <hare@kernel.org>,
-	Chris Leech <cleech@redhat.com>,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Seiji Nishikawa <snishika@redhat.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] nvme-tcp: fix io_work priority inversion when send_mutex is held
-Date: Wed, 14 Oct 2026 15:45:24 +0900
-Message-ID: <20261014064524.4015025-1-snishika@redhat.com>
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 1D2871F88F;
+	Wed, 14 Oct 2026 07:46:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1791964016; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TqZ/LtFYXZbY4tnxo+Y2y338DHABkSGDQWphlXXl9sU=;
+	b=jZauYSYupdzB72p3Cyllgv3TALhTj65siJCvY4cgYxlZIHGF+2lIYw5DV46WsQhBwj7TkL
+	NMNYJ7N7DkiSFlxNUlFlY0UW3i6iKYAPb/KIrpzRPVbbDGfXMwckggxr+ZBJW5enmBYJ+1
+	zcSUEgb9QkUz2b6IZqBPUogSU8c0TPk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1791964016;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TqZ/LtFYXZbY4tnxo+Y2y338DHABkSGDQWphlXXl9sU=;
+	b=EYE+zoQEJgdQaz9DjGY2bSUpN4rV814OezP2el03OmYfPvVmIzFsTJBnXJ6dvQlmhAEmFz
+	GPAwMkfra7PMGuAQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1791964016; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TqZ/LtFYXZbY4tnxo+Y2y338DHABkSGDQWphlXXl9sU=;
+	b=jZauYSYupdzB72p3Cyllgv3TALhTj65siJCvY4cgYxlZIHGF+2lIYw5DV46WsQhBwj7TkL
+	NMNYJ7N7DkiSFlxNUlFlY0UW3i6iKYAPb/KIrpzRPVbbDGfXMwckggxr+ZBJW5enmBYJ+1
+	zcSUEgb9QkUz2b6IZqBPUogSU8c0TPk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1791964016;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TqZ/LtFYXZbY4tnxo+Y2y338DHABkSGDQWphlXXl9sU=;
+	b=EYE+zoQEJgdQaz9DjGY2bSUpN4rV814OezP2el03OmYfPvVmIzFsTJBnXJ6dvQlmhAEmFz
+	GPAwMkfra7PMGuAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E609D133F1;
+	Wed, 14 Oct 2026 07:46:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id w43pMW8zz2quOQAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Wed, 14 Oct 2026 07:46:55 +0000
+From: Daniel Wagner <dwagner@suse.de>
+Date: Wed, 14 Oct 2026 09:46:39 +0200
+Subject: [PATCH 1/5] nvme-tcp: initialize pf_cache_lock when allocating the
+ controller
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
-X-Mimecast-MFC-PROC-ID: 7DQmnNWcWzYKey20CizvICxvvoLVtDbMDhQC7Vv7ZO0_1791960356
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261014-nvme-fabrics-isolcpu-v1-1-355156be27b2@kernel.org>
+References: <20261014-nvme-fabrics-isolcpu-v1-0-355156be27b2@kernel.org>
+In-Reply-To: <20261014-nvme-fabrics-isolcpu-v1-0-355156be27b2@kernel.org>
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+Cc: Ming Lei <ming.lei@redhat.com>, Surabhi Gogte <sgogte@purestorage.com>, 
+ Hannes Reinecke <hare@kernel.org>, Nilay Shroff <nilay@linux.ibm.com>, 
+ Frederic Weisbecker <frederic@kernel.org>, 
+ Aaron Tomlin <atomlin@atomlin.com>, Maurizio Lombardi <mlombard@redhat.com>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, Daniel Wagner <wagi@kernel.org>
+X-Mailer: b4 0.16.0
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_RHS_MATCH_TO(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.993];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261014_074615_207386_61EBC69A 
-X-CRM114-Status: GOOD (  26.46  )
+X-CRM114-CacheID: sfid-20261014_004659_878378_679C2B7B 
+X-CRM114-Status: GOOD (  15.84  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -122,97 +136,79 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Commit f42d4796ee10 ("nvme-tcp: fix I/O stalls on congested sockets")
-added a check in nvme_tcp_io_work() that sets pending to true when the
-queue has pending requests and the socket is writeable. The check is
-placed after the mutex_trylock() block, so it also runs when
-mutex_trylock(&queue->send_mutex) failed and io_work did not send
-anything.
+From: Daniel Wagner <wagi@kernel.org>
 
-When .queue_rq sends a request directly from its own context, it holds
-send_mutex and can give up the CPU in lock_sock_nested() when another
-task needs the CPU, for example the io_work kworker of the same queue,
-which runs on the same CPU. Then io_work cannot take send_mutex, but
-the requests are still on req_list and the socket is writeable, so
-pending is set to true. io_work loops until the deadline and queues
-itself again on io_cpu, without sleeping.
+Since commit 61b0ed3be81b ("nvme-tcp: parallelize I/O queue allocation
+and startup") the I/O tag set is allocated before the I/O queues.
+blk_mq_alloc_tag_set calls nvme_tcp_init_request for every request,
+which takes pf_cache_lock of the request's queue, but nvme_tcp_alloc_queue
+initializes that mutex only later.  With CONFIG_DEBUG_MUTEXES the first
+connect triggers DEBUG_LOCKS_WARN_ON(lock->magic != lock) in
+__mutex_lock and lock debugging is disabled.
 
-This is a priority inversion. io_work runs on the high priority
-nvme_tcp_wq and cannot make progress until send_mutex is released, but
-it keeps running. The task holding send_mutex runs at normal priority
-and needs the CPU to release it. The scheduler keeps giving the CPU to
-io_work, so the task holding send_mutex may not run again, and the
-requests on the queue are not sent and time out.
+Initialize pf_cache_lock for all queues when allocating the controller
+and keep it for the lifetime of the controller.
 
-This is the same problem that commit 70f437fb4395 ("nvme-tcp: fix
-io_work priority inversion") fixed. That commit removed
-"pending = !llist_empty(&queue->req_list)" from the path where
-mutex_trylock() fails, and let the task holding send_mutex queue
-io_work again in nvme_tcp_queue_request() after it releases the mutex.
-The new check brings back the same behavior in a different form.
-
-Two things make this easier to hit. nvme_tcp_queue_request() sends
-directly only when it runs on io_cpu, so the task that takes send_mutex
-is on the same CPU as the io_work kworker of that queue when it takes
-the mutex. Also, when the tasks are in a cgroup with the cpu controller
-enabled, the whole group competes with the nice -20 kworker as one
-entity, so each task in the group gets even less CPU time.
-
-We hit this on a 6 CPU VM running a database on nvme-tcp storage. In
-the vmcore, 2 tasks held send_mutex of 2 queues and were runnable in
-lock_sock_nested() for 103 seconds, while the kworkers for those queues
-kept running io_work on their CPUs. All database tasks were in one
-cgroup, which got only about 0.3% of the CPU against the nice -20
-kworker. Requests timed out, and blk_mq_timeout_work() waited in
-synchronize_srcu() for the tasks still in .queue_rq.
-
-Only do the pending check if io_work could take send_mutex. If it could
-not, the task holding send_mutex sends what it can in
-nvme_tcp_send_all(), and queues io_work again after it releases the
-mutex if requests are still pending, so no request is left behind.
-
-Fixes: f42d4796ee10 ("nvme-tcp: fix I/O stalls on congested sockets")
-Cc: stable@vger.kernel.org # v6.16+
-Signed-off-by: Seiji Nishikawa <snishika@redhat.com>
+Fixes: 61b0ed3be81b ("nvme-tcp: parallelize I/O queue allocation and startup")
+Signed-off-by: Daniel Wagner <wagi@kernel.org>
 ---
- drivers/nvme/host/tcp.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ drivers/nvme/host/tcp.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 7eec983c0ead..4b775e22d3cc 100644
+index ec678ed07af8..f876375dffd2 100644
 --- a/drivers/nvme/host/tcp.c
 +++ b/drivers/nvme/host/tcp.c
-@@ -1433,9 +1433,11 @@ static void nvme_tcp_io_work(struct work_struct *w)
+@@ -1531,7 +1531,6 @@ static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
+ 	kfree(queue->pdu);
+ 	mutex_destroy(&queue->send_mutex);
+ 	mutex_destroy(&queue->queue_lock);
+-	mutex_destroy(&queue->pf_cache_lock);
  
- 	do {
- 		bool pending = false;
-+		bool got_send_mutex = false;
- 		int result;
+ #ifdef CONFIG_DEBUG_LOCK_ALLOC
+ 	lockdep_unregister_key(&queue->nvme_tcp_sk_key);
+@@ -1861,7 +1860,6 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
+ 	INIT_LIST_HEAD(&queue->send_list);
+ 	mutex_init(&queue->send_mutex);
+ 	INIT_WORK(&queue->io_work, nvme_tcp_io_work);
+-	mutex_init(&queue->pf_cache_lock);
  
- 		if (mutex_trylock(&queue->send_mutex)) {
-+			got_send_mutex = true;
- 			result = nvme_tcp_try_send(queue);
- 			mutex_unlock(&queue->send_mutex);
- 			if (result > 0)
-@@ -1450,8 +1452,13 @@ static void nvme_tcp_io_work(struct work_struct *w)
- 		else if (unlikely(result < 0))
- 			return;
+ 	if (qid > 0)
+ 		queue->cmnd_capsule_len = nctrl->ioccsz * 16;
+@@ -2002,7 +2000,6 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
+ err_destroy_mutex:
+ 	mutex_destroy(&queue->send_mutex);
+ 	mutex_destroy(&queue->queue_lock);
+-	mutex_destroy(&queue->pf_cache_lock);
+ 	return ret;
+ }
  
--		/* did we get some space after spending time in recv? */
--		if (nvme_tcp_queue_has_pending(queue) &&
-+		/*
-+		 * did we get some space after spending time in recv?
-+		 * Only check this if we could take send_mutex. Otherwise
-+		 * the task holding it sends the requests and queues io_work
-+		 * again after it releases the mutex.
-+		 */
-+		if (got_send_mutex && nvme_tcp_queue_has_pending(queue) &&
- 		    sk_stream_is_writeable(queue->sock->sk))
- 			pending = true;
+@@ -3028,7 +3025,7 @@ static struct nvme_tcp_ctrl *nvme_tcp_alloc_ctrl(struct device *dev,
+ 		struct nvmf_ctrl_options *opts)
+ {
+ 	struct nvme_tcp_ctrl *ctrl;
+-	int ret;
++	int ret, i;
  
+ 	ctrl = kzalloc_obj(*ctrl);
+ 	if (!ctrl)
+@@ -3098,6 +3095,14 @@ static struct nvme_tcp_ctrl *nvme_tcp_alloc_ctrl(struct device *dev,
+ 		goto out_free_ctrl;
+ 	}
+ 
++	/*
++	 * The I/O tag set is allocated before the I/O queues, and initializing
++	 * its requests already allocates the PDUs from the page frag caches of
++	 * the queues, so initialize their locks here.
++	 */
++	for (i = 0; i < ctrl->ctrl.queue_count; i++)
++		mutex_init(&ctrl->queues[i].pf_cache_lock);
++
+ 	ctrl->net = get_net(current->nsproxy->net_ns);
+ 
+ 	ret = nvme_init_ctrl(&ctrl->ctrl, dev, &nvme_tcp_ctrl_ops, 0);
 
-base-commit: 5755f1bd0217ffe3c5cf85467bf6b0680f398265
 -- 
-2.55.0
+2.56.0
 
 
