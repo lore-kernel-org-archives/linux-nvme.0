@@ -4,94 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EB421C3DA7A
-	for <linux-nvme@archiver.kernel.org>; Wed, 14 Oct 2026 17:05:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8B171CC6B1A
+	for <linux-nvme@archiver.kernel.org>; Wed, 14 Oct 2026 17:31:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OVk1zQ/OEbMRFp/NCWXuyOatJombWw8MRS7/HS8mm9o=; b=1sC5e2E+LOhIE+13XpHdlv8m33
-	hlWKEJUbyfHwtMMuROTCSgb21PA9dLshsGskrepPWgzrkwgeMDm+ZuiJ2E6VDK0fjCuijaiKxiavv
-	fOn1ch+QQv6GEuMxK2IbhnRUMueuazQSIF+Wyz4d7rIgggXTYQTqpd6fdQX2gnESQ+Giqsyv8I59R
-	CoddiD9t+CYfMw9tFSmTlZaxNmJ2ytEBqqubA3F/ZYu2n62tcvOtbJLDlXa7VJP799xb+5m/cxPez
-	kEhzVBWm4O7qB7DjvvMobhyCjnLOLyvTan2BfXZypHhIIqFr4GsaVruXO9WXJZMjoRnp4VEH2nzwg
-	75pFOvpA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+	List-Owner; bh=RYProyi5xNxC6zBZwCH3uv9Z1jW/dCeSE4umfM39R84=; b=CZWMC8nYq00dPk
+	7U4j0eM1arNCSbf749OPxpOWtLdkxv2c83PV018w1AUKYc271kj6tcxiEFfElQdMXErHRjvQj4Y8a
+	D+Eaa5SEwIDQSBOyNMaU73PZZTB/9xEDM0ESM8H26IEivzcIS/h1n3jx5q+Rb7NFp479nj5YljOO+
+	2nKng1P1qaUwZRBs9KCB5h/6MO+dssi3JpcjUhOSfpvtxtMqFmIBVvIJ1UPT0cVFcSGbhpQY7fwO/
+	+/mwetQN+7vYNVE6nA+Jq5Y6Evzhf1J40IWUe/XL++lE88zZnsC9GbmoeFucLhTCUQmZZW/GoDqFd
+	st0e49gQAoxCWwwLkJQw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xH2Q4-0000000G3l0-1NnU;
-	Wed, 14 Oct 2026 17:05:36 +0000
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+	id 1xH2on-0000000G54p-3gdE;
+	Wed, 14 Oct 2026 17:31:09 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xH2Q1-0000000G3jh-3hv0
+	id 1xH2om-0000000G54d-1bc4
 	for linux-nvme@lists.infradead.org;
-	Wed, 14 Oct 2026 17:05:35 +0000
-Received: by mail-wr1-x431.google.com with SMTP id ffacd0b85a97d-48c5358fc28so604922f8f.0
-        for <linux-nvme@lists.infradead.org>; Wed, 14 Oct 2026 10:05:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791997532; x=1792602332; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=OVk1zQ/OEbMRFp/NCWXuyOatJombWw8MRS7/HS8mm9o=;
-        b=aQqZ98Q/wX0yV056LPmIRUl4Vb8npU4COJzRVixcrAVj65keX5i/v3PwCnHimUf/NE
-         XTn52sWBOyRfjJMfSw2L86VEkoe1jqh7wDBL+tUYn5OvsELrNS+YERScGlPJr2gfeAht
-         1/lNeTDD0Y+T1sWVhCy/RgmU7JXpAZkyDTdQt7EfmiKMi9921wH+26DjBrVQCDLGN6JL
-         +AFCbY5QaRgI2cy3VKwF4z8VP24Zv4V9muOXAvQ0gZhUb0LrKuDEaQaYW+AGS1CL85rG
-         TvOXzVtM3LfLgaEwN+PvhqesOHksk2wTZ5xYm9voW1Hn1LeY1oK4YrC8FR/Kh8qofPtZ
-         8OfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791997532; x=1792602332;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=OVk1zQ/OEbMRFp/NCWXuyOatJombWw8MRS7/HS8mm9o=;
-        b=KzVz55wMCCmYwHD3xpN3EG0gop6ux20FGWAgrH60V+zuwFDMwGnqXTvW+H7hpUXMkw
-         P8M0vXFRkOA2hawc6KVCC9qW1piEHoJsFhSLMGILImmHM1L9r9UYP0KdhhUTNTmXbbCC
-         wxDTRllxsPFjohvCPGdoEuYd9woiLnFoxadgOio+FZ4xlwBPd5SyOXuUYfjuAQ3M8Oaj
-         BpOQbXFQv4gY8yMJZPCOFN/rA/vn4LAG1lZZ2oMfTtUDs/YKAySolRlSjYWtab9cayru
-         xOuM5S9yiEpI3Usqm6Pxju2ngb6n9E6tgK2MdqsTSg87vNGBYHFEhScYyguvAMXCQ325
-         B4nw==
-X-Forwarded-Encrypted: i=1; AKwUvBwFAGlt+qtk6h3ZWjrx2I1LcHFO/2zu7ztW8yQVOhg7rujrPbliDvdlV9kKQji6a3U4JWMwOVotOscK@lists.infradead.org
-X-Gm-Message-State: AFq9FYJRtg6J/R727N6B3VtEtfIektOR5QxQ1yLgUjWsbldlicP87RUk
-	mbU51P4YmqbBmnc6ZAil5tLNW6TNXPlQq+z2QlootpWuYMGKhpVhfokX
-X-Gm-Gg: AYBFou1G02Oy/i9LvTpQ2j9Rv8GCfgno4A0idq1UwEk2HAxLi8MIf+Rp/sxg+F8kZ4I
-	+ADMRLqVviS9ITuSY9h1GtP95tK+0rJJ2WveEdOxbfVJ+z5bKVm7Akb+y5pPH846mnAGptC6gbf
-	TW6tg0FJczkNMZswf8A6pztJPJ3O+QrVy1xGWOscIdlQv6QCoeHYkILIP4QNyooY/vF26zGOrD+
-	6XGGYRPz63GZbPfRwI4QvLWDawo2ITcRstwPpIOXVJv3he5v8ObXl3rvu8CHklsoEbFoZ1JRXny
-	gUv0F1+JJm/nX0bnbRLfooTy7r5zhD8zNV5jsYcLVOlrIoLJVXEIFBQVgV4EOfhEbVXbGEPEAyo
-	Z+zBAs0xrsFQuRqoRiYaEvwd4yLGjmjxq1vd6lnxEfssTaQMCtpIfs4brxfb11606xlv0mRCInO
-	dEKJUFwGQwPcNiQwTWzjSkwgxbkUBExKeeOBB/yGZFemxx4Kci9/8XFlXHynem9WPPzNCHzlbor
-	EIS3VpkNhnWtsRas5Y3wEBWtoTiUgmnNfGLgkQ0JTD+opM=
-X-Received: by 2002:a05:600c:19c8:b0:4a1:777b:8a12 with SMTP id 5b1f17b1804b1-4a18e4adcdbmr328508655e9.14.1791997531763;
-        Wed, 14 Oct 2026 10:05:31 -0700 (PDT)
-Received: from andreayoga.wind3.hub ([31.189.109.133])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1bd98637asm4863305e9.8.2026.10.14.10.05.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Oct 2026 10:05:31 -0700 (PDT)
-From: Andrea Parri <parri.andrea@gmail.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Andrea Parri <parri.andrea@gmail.com>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Keith Busch <kbusch@kernel.org>,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 2/5] nvmet: zns: don't leak stale memory in zone management receive
-Date: Wed, 14 Oct 2026 19:05:23 +0200
-Message-ID: <20261014170524.3151-1-parri.andrea@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261014130431.GA15622@lst.de>
-References: <20261012141239.156408-1-parri.andrea@gmail.com> <20261012141239.156408-3-parri.andrea@gmail.com> <20261013142554.GC14759@lst.de> <20261014110001.95212-1-parri.andrea@gmail.com> <20261014130431.GA15622@lst.de>
+	Wed, 14 Oct 2026 17:31:08 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id C28304373E;
+	Wed, 14 Oct 2026 17:31:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 748B41F000C4;
+	Wed, 14 Oct 2026 17:31:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791999067;
+	bh=RYProyi5xNxC6zBZwCH3uv9Z1jW/dCeSE4umfM39R84=;
+	h=Date:From:To:Cc:Subject:In-Reply-To;
+	b=Ew9E9YA62Gv9M0AW8R0KVP6Iv2ggUxLjrY92VDMPj8bwdHOGNAzvuC3xiynzgK3Vr
+	 CDsgLHyhDz11zSR8EaG8JjGG1LsFm5htvVBi0bVYadhyPq0ppl5yljuQaF/rpt9yS/
+	 iuqFs3rysJ+WbjBU1H3B3R1lxNdVSW5Eosi35f80C/avRVyoKJ7sB/BR5fdlvxD7FN
+	 BEuOMX+tMn/vQdipaTpTUMyoLSpOj9GLCMqMGnVt2SXBbU8BjVSTlDDhvbPo1ZkRM6
+	 bsZQkKK6dEAqmJzVLdn3F8tzpuqjVlk+feF69lTCMCP6ciiZDHzdgygaioUaqpeKxh
+	 WFBfAQe810rNA==
+Date: Wed, 14 Oct 2026 12:31:06 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Keith Busch <kbusch@meta.com>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, changfengnan@bytedance.com,
+	linux-pci@vger.kernel.org, tglx@kernel.org,
+	namjain@linux.microsoft.com, Keith Busch <kbusch@kernel.org>,
+	Luigi Rizzo <lrizzo@google.com>
+Subject: Re: [RFC PATCH 2/3] PCI/MSI: Implement irq_mask_nowait() for MSI-x
+Message-ID: <20261014173106.GA1643226@bhelgaas>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261014_100533_930349_C5D5BB32 
-X-CRM114-Status: UNSURE (   9.32  )
-X-CRM114-Notice: Please train this message.
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261013223543.395054-3-kbusch@meta.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,13 +69,87 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 14, 2026 at 03:04:31PM +0200, Christoph Hellwig wrote:
-> Just to make it clear, that's not to say we don't want these fixed,
-> but they are considered robustness fixes and not security issues.
+[+cc Luigi, cover letter at
+https://lore.kernel.org/all/20261013223543.395054-1-kbusch@meta.com]
 
-Thanks for clarifying.  The tests are now posted:
+On Tue, Oct 13, 2026 at 03:35:42PM -0700, Keith Busch wrote:
+> From: Keith Busch <kbusch@kernel.org>
+> 
+> Skip the read-back that flushes the MSI-x mask write. Parent domains
+> that mask on behalf of PCI/MSI continue using their own irq_mask().
+> 
+> Signed-off-by: Keith Busch <kbusch@kernel.org>
 
-  https://lore.kernel.org/r/20261014170046.2516-1-parri.andrea@gmail.com
+I assume Thomas will review/ack the pci/msi/ parts.
 
-Andrea
+Cc'd Luigi since I know he's interested in interrupt moderation in
+general.
+
+> ---
+>  drivers/irqchip/irq-msi-lib.c | 1 +
+>  drivers/pci/msi/irqdomain.c   | 6 ++++++
+>  drivers/pci/msi/msi.h         | 8 +++++++-
+>  3 files changed, 14 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/irqchip/irq-msi-lib.c b/drivers/irqchip/irq-msi-lib.c
+> index 45e0ed3134ce1..bff622b4839aa 100644
+> --- a/drivers/irqchip/irq-msi-lib.c
+> +++ b/drivers/irqchip/irq-msi-lib.c
+> @@ -126,6 +126,7 @@ bool msi_lib_init_dev_msi_info(struct device *dev, struct irq_domain *domain,
+>  	 */
+>  	if (info->flags & MSI_FLAG_PCI_MSI_MASK_PARENT) {
+>  		chip->irq_mask		= irq_chip_mask_parent;
+> +		chip->irq_mask_nowait	= NULL;
+>  		chip->irq_unmask	= irq_chip_unmask_parent;
+>  	}
+>  
+> diff --git a/drivers/pci/msi/irqdomain.c b/drivers/pci/msi/irqdomain.c
+> index 6e65f0f44112e..92a53c2772659 100644
+> --- a/drivers/pci/msi/irqdomain.c
+> +++ b/drivers/pci/msi/irqdomain.c
+> @@ -162,6 +162,11 @@ static void pci_irq_mask_msix(struct irq_data *data)
+>  	pci_msix_mask(irq_data_get_msi_desc(data));
+>  }
+>  
+> +static void pci_irq_mask_nowait_msix(struct irq_data *data)
+> +{
+> +	pci_msix_mask_nowait(irq_data_get_msi_desc(data));
+> +}
+> +
+>  static void pci_irq_unmask_msix(struct irq_data *data)
+>  {
+>  	pci_msix_unmask(irq_data_get_msi_desc(data));
+> @@ -182,6 +187,7 @@ static const struct msi_domain_template pci_msix_template = {
+>  		.irq_startup		= pci_irq_startup_msix,
+>  		.irq_shutdown		= pci_irq_shutdown_msix,
+>  		.irq_mask		= pci_irq_mask_msix,
+> +		.irq_mask_nowait	= pci_irq_mask_nowait_msix,
+>  		.irq_unmask		= pci_irq_unmask_msix,
+>  		.irq_write_msi_msg	= pci_msi_domain_write_msg,
+>  		.flags			= IRQCHIP_ONESHOT_SAFE,
+> diff --git a/drivers/pci/msi/msi.h b/drivers/pci/msi/msi.h
+> index 0b420b319f50f..337ff9d9da0ed 100644
+> --- a/drivers/pci/msi/msi.h
+> +++ b/drivers/pci/msi/msi.h
+> @@ -40,10 +40,16 @@ static inline void pci_msix_write_vector_ctrl(struct msi_desc *desc, u32 ctrl)
+>  		writel(ctrl, desc_addr + PCI_MSIX_ENTRY_VECTOR_CTRL);
+>  }
+>  
+> -static inline void pci_msix_mask(struct msi_desc *desc)
+> +/* Posted write only: the device may still send an interrupt after return */
+> +static inline void pci_msix_mask_nowait(struct msi_desc *desc)
+>  {
+>  	desc->pci.msix_ctrl |= PCI_MSIX_ENTRY_CTRL_MASKBIT;
+>  	pci_msix_write_vector_ctrl(desc, desc->pci.msix_ctrl);
+> +}
+> +
+> +static inline void pci_msix_mask(struct msi_desc *desc)
+> +{
+> +	pci_msix_mask_nowait(desc);
+>  	/* Flush write to device */
+>  	readl(desc->pci.mask_base);
+>  }
+> -- 
+> 2.52.0
+> 
 
