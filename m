@@ -4,108 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 030FAC3DA7A
-	for <linux-nvme@archiver.kernel.org>; Wed, 14 Oct 2026 16:43:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 55924C3DA7A
+	for <linux-nvme@archiver.kernel.org>; Wed, 14 Oct 2026 17:01:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MprqRVTku8rnnoqrNidogE79Hh/sbjcVtJHMk6QO0CA=; b=3otIKpRs6Wg+ewL6AELaf1daWu
-	WeK9DFx+NM1grPcgN8HdZyUWil/TnD7Wo1Zjxl22eLzRi1IW+l5+U6By1+TFUfJklqLK79msCMvOH
-	1WBbXsXhacQhWNqHGoCiJitEXPujN0t4KtkRa0cIdQdz2LI4ovFMrZ2249xlYz+xLQtJ/tONpsBTs
-	imrwD7u/P/guIOblvaesIus5140JAt2repuS52x7KuYkSdUlSQE/ZKHiKbdC3UdxpuLDIDD6MhB8N
-	yVdVymr7Pk02v+BUyvHk7J7knwfGMUFuif+CwycoxLKjn/4pmXMPmFCwJ0Gvln0tYiaHKtDTKICVc
-	XymCSHyg==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=QOBgvIN3PYDY+cIEwUK+qMtv/Bkt+tCopG81B61mV0c=; b=SIKWMP4NgrmfO4d2/ZpaxkHXT/
+	3S1Bkl1RRPNn4IxCSbrsypf9sy1mroI+8qaj1eQHTLie3KGputY08bVa2c70CilKkMCRaOs4sEHPl
+	yCEGrib7Mbtc49odQVVMKyylcmcVpvw4cplwx7nDAd3koku5LBo2NtbWQpTutgXA4vMGr5Uy9iVcj
+	mD6rFbiryEkLZVbVNfYhRNkdDIiu5LbbqWxknQcNYMztp+nVZ13BZwwwoRmcaNT0ikeyjKkNgVqMb
+	h0To1vrB3WQkLGki44NJKiuCdqfDjTXkHsx594+58A5n4aon9yDOr+Hk7/hhOozC7uLb9D6GA5dpO
+	s+Wm6ZqQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xH24h-0000000G1Im-0KrH;
-	Wed, 14 Oct 2026 16:43:31 +0000
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+	id 1xH2Lb-0000000G37z-33Nm;
+	Wed, 14 Oct 2026 17:00:59 +0000
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xH24e-0000000G1I4-2yhx
+	id 1xH2LX-0000000G379-32f6
 	for linux-nvme@lists.infradead.org;
-	Wed, 14 Oct 2026 16:43:29 +0000
-Received: by mail-wm1-x330.google.com with SMTP id 5b1f17b1804b1-4980fe6b3beso33440065e9.0
-        for <linux-nvme@lists.infradead.org>; Wed, 14 Oct 2026 09:43:28 -0700 (PDT)
+	Wed, 14 Oct 2026 17:00:57 +0000
+Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-4a022fee0caso41178765e9.1
+        for <linux-nvme@lists.infradead.org>; Wed, 14 Oct 2026 10:00:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791996207; x=1792601007; darn=lists.infradead.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=MprqRVTku8rnnoqrNidogE79Hh/sbjcVtJHMk6QO0CA=;
-        b=aZih4+b+VL/yZ6PLdrXdoYljR+4zZxASHsUXReGOkj89bzsVEFBBSBjUusG/00niBV
-         4jt3OE5rOa6md0Pp2qGC0O9uoZj4fqXY+QTeaUBatHI1IlphMKydf7E1j2ARzfwdymcE
-         NJ07p3kxBQlVvyGNsHlB7VZ/vyk09dyROS0dGpeP5geC5QUn0tP0tJcgGJuAvXp5t/CQ
-         YRxypx7bd792thFwaY3vylZN+dnbjaWCKol+UzUFyUqOJXmI6agW+//uvAgcTMvjhBQ6
-         vdBHM+M23JEYazRY60Do+AZnRonWgwvlxMWSZJ9Yl7v2yEbNp9k067n/Z4aXSUcqn8Nn
-         M0eQ==
+        d=gmail.com; s=20251104; t=1791997254; x=1792602054; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=QOBgvIN3PYDY+cIEwUK+qMtv/Bkt+tCopG81B61mV0c=;
+        b=RTSnCzmlrL16ZObYrIJX/4lixEd7ZiVNHVqqLXiRzIPlZ4iBZct3IEQ3vC5ztNs8kx
+         /zBxLkAYxmpp7yfb5UoR9jalW8cctFlMTXdZ7UcMezKg43Nr2odTSad56ACxcSkwvfTE
+         0qJ4KhNzNuqF987nrvQIZsixwIE6nOD1uUgj2/XdvoO6gYRzwb3Y/r5W8ZJ+GsxxIRLQ
+         oC522Hxwu0zlNiykJsSBWSjatsZwCAGzcnumn5nXUzZZM571R6mXUWm3V/UGwug0llrW
+         kJVYaBl+n3vcKXJwGgb+/ze65bbEE0GKRO8FcABXFejyGn33UBbKlLcEZekt/3ksMk8k
+         SwbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791996207; x=1792601007;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1791997254; x=1792602054;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=MprqRVTku8rnnoqrNidogE79Hh/sbjcVtJHMk6QO0CA=;
-        b=XPGR+rwUx1jYLYXDq6SImLr7bajItew+lT5GPzIo7YQjEhp+Rpv7ldbVcuxT+oP0ht
-         URCpF3pis6/R2oqOiFV+1y3qo8tGyTTRI3yK3ZRsqZixpwVt6xDuET+ARSo8+abjwNx3
-         rET6Ol//X9lpuysqvGHvswE/nwbaI3I+KmNLf2g1yv50mLeZ56vraPDugJBzcbxlWFDX
-         fpiAJyPwwU60Olt7RqEnq/m0W23YauzSKmsm2LU0eEeYiYL6mzuIEFiDFIeK/Pl5pg5j
-         W5kGftolQ2Huoa+nYkUc7BLtNY2w9eByUKKNyhOq7bOKWdSR23Y1Lb3ZQVAND7UnRN3U
-         umDQ==
-X-Forwarded-Encrypted: i=1; AKwUvByDoxo665HP0xDYsvDAdRauOKzeBR6ygKvf5FzQn1FGrSDLqpy7E9pJyEiYBjmP/eQ0N7BTBVlnZ1Oo@lists.infradead.org
-X-Gm-Message-State: AFq9FYJgY4+aYiGnXCKu7KEQiie0OtHkVhXzdjUSdVcYNhSkxJI5GRoZ
-	fNJjYBp3XitvyC9KpQHhXAkFtj92yc2rjvW4hyPMoO5uMN++CjetgTk1
-X-Gm-Gg: AYBFou0cUveUe2kLY4kwWPGiz8VHxpKQg4i/dEvg360/KuI4ZjkGreDkIYtxZEoDB8C
-	X8LGfAqY2dvcZm1WTlGaptiPpUkxr67pt7QGvGBXoDOQdwCcoZ01+1/SHXVnzOfhTJQKsSZNpOX
-	nezSU5PNBdV6tfpfbG98cWwkLKouUTWOAxnA6tvyYSCGrM4xG7JEGKibcwPfM6hx0j9Ie/orwrN
-	3RL2erSzPMkV3TP/N+LhdXiLdHkSZK21S/mLEL12JcV7WjgMFAjJcBmwAIABP5acVbAgpwnpWwf
-	fpI9HZlBfp8gUeIrMOQJ7O4NvVKVuoKBYZIY0eFhDo8cMw5T96E20TtBCHWNdVNWk7CZyf6QFo/
-	vnXVf44E+AMfEcG1JQTiT3xewA9zlq3rQ3tQ5chhXXEOEFxT4Z5FlczlHbMRSCRMSdfkGwHpKO+
-	Om3Y75OfdCUynGalj/DvYPxno+3UD4xH6KcQeK1wCCTBHVVXSHZ20Z7jmqIEAeNoyRJvXTy/2gT
-	McBwz7yGWW+3oBURQ6+imOVydvnydbGeSqtqBuI/Hy7zlyxST6bgq602QMT4i0dsse98GjO52J9
-	WQNTSnKBcOjYn7fa0KXb7vSE+X8915B3A9FOLoNwggJ36Vsf
-X-Received: by 2002:a05:600c:83cf:b0:4a1:ac66:604b with SMTP id 5b1f17b1804b1-4a1ac666a65mr120408565e9.1.1791996206748;
-        Wed, 14 Oct 2026 09:43:26 -0700 (PDT)
-Received: from ?IPV6:2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c? ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1bd640be0sm4751135e9.1.2026.10.14.09.43.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Oct 2026 09:43:24 -0700 (PDT)
-Message-ID: <7d3c3cc3-5c7b-4d28-82d8-2cdb5e010c29@gmail.com>
-Date: Wed, 14 Oct 2026 17:43:20 +0100
+        bh=QOBgvIN3PYDY+cIEwUK+qMtv/Bkt+tCopG81B61mV0c=;
+        b=kiiTtBmynivtIptzoQVkeVre/YYqXriYaejdZqmLIa/xKEnH7LrZTd86fXTPRQueKg
+         GGkU4BJObPjMhW5ORwfJwr3+BYoVLwPa6vXgBm/jhDOv0FisMip3pwZV6N447M3Lx2hn
+         6aQ5rfxjSy/dqgv7XPK3cuvvfsHD/74XtS2d6YQx2z8HpCRDYUmnORBZMhjXXkKq+wT5
+         evlXJ0Oof8tqR3dMT50lknzWQGt0b6fxSpvtYjLLLS+d+zL34fJlIIVuF+W1DkL/HMWj
+         5JsB4ciHsL8QBGlEfe8Yyqo7siDlQil9QF3k0vWgwiDD+a2dvRH6Qc4D/jXo8eTRr9x6
+         cTkw==
+X-Forwarded-Encrypted: i=1; AKwUvByKfQPHsPx4tfmmn/iPQPl+eTkObysm65F5LZuWFFw5M9hJJOiwUndk3Xc4ARi5gf4voRgHGLNN2xGN@lists.infradead.org
+X-Gm-Message-State: AFq9FYIKN2h/Ku7X0OQv1DCHO++YfRWhy990UA86YeD6NAXzRNoY7a2X
+	OF4jC3xhM8uFMuB7r7B9vZFNclYAK+gM9uEVblBZ6CCXDJMsYS6/VtFU
+X-Gm-Gg: AYBFou2SYI1zDeLxdwvaBw6NOoyv1EnVzvFB8jODBHhxSpulBI2I28U+0zSqcl9qoBG
+	W/YBvf8M9EjNBVPS2Cw6K/HlGGwnecksER0cKvkYl92T3LhcP8OQp//nBXonFB2sthXQ2JrwKnn
+	QpulMNnr7/Ob5qWENeLK8GYJ2cZFNneJYqYJ9QpbeXidR82dQULIcSXBS/OzssIlhn8dk0bzJnz
+	hcPq77liRd0MJ0rQD4CpYqH04beqSDPHALxgVhyILfNQ3wtEh76nfNlKGAGveTCYMC4Y+/BEVC6
+	lsphsK/wxrob1M4wOcyBuRVtBGX0ZC8+/CO9jZCfhR6pn2GsJlhJz8Bdjru8CZsXtj4JlMvGSEZ
+	9S/9RNafugt2XWHhVtX1gVuJP2ugA9u6RPvYGG6tSFvv2+2n39fWyDn8H6oydIKpceEoHgd/Xl1
+	7pSN8wu6p+E6KaBReYy4/4NsWuGmTzuXRrcivIuaCyidB3Pt59E/NqFfbkNwqALZlSmuZf+Mo/u
+	l3PSMSc6lY8Yb6v6+4PPIFlypRBTHF297Qrhbh4FrCgsQ==
+X-Received: by 2002:a05:600c:609b:b0:4a1:83f0:7c91 with SMTP id 5b1f17b1804b1-4a18e4ca1dcmr313482265e9.18.1791997253716;
+        Wed, 14 Oct 2026 10:00:53 -0700 (PDT)
+Received: from andreayoga.wind3.hub ([31.189.109.133])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1bd9a8a22sm5349415e9.5.2026.10.14.10.00.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Oct 2026 10:00:53 -0700 (PDT)
+From: Andrea Parri <parri.andrea@gmail.com>
+To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+	linux-block@vger.kernel.org
+Cc: Andrea Parri <parri.andrea@gmail.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Daniel Wagner <dwagner@suse.de>,
+	linux-nvme@lists.infradead.org
+Subject: [PATCH blktests 0/4] nvme: add nvmet zone report and FC regression tests
+Date: Wed, 14 Oct 2026 19:00:37 +0200
+Message-ID: <20261014170046.2516-1-parri.andrea@gmail.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 04/13] block: introduce dma map backed bio type
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-nvme@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Andrew Morton <akpm@linux-foundation.org>, Jens Axboe <axboe@kernel.dk>,
- Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
- Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
- William Power <william.power@intel.com>,
- Matthew Brost <matthew.brost@intel.com>, Alasdair Kergon <agk@redhat.com>,
- Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
- Benjamin Marzinski <bmarzins@redhat.com>, dm-devel@lists.linux.dev
-References: <cover.1791975048.git.asml.silence@gmail.com>
- <39b964cf7510f42755188563da63d3d5acaf2aa9.1791975048.git.asml.silence@gmail.com>
- <20261014131554.GA16467@lst.de>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <20261014131554.GA16467@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261014_094328_770284_22DE14BE 
-X-CRM114-Status: GOOD (  16.70  )
+X-CRM114-CacheID: sfid-20261014_100055_797817_A2176FFB 
+X-CRM114-Status: GOOD (  12.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -120,35 +102,59 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/14/26 14:15, Christoph Hellwig wrote:
-> On Wed, Oct 14, 2026 at 12:02:02PM +0100, Pavel Begunkov wrote:
-...>>   	case REQ_OP_DISCARD:
->> diff --git a/block/blk-mq.c b/block/blk-mq.c
->> index e929f94b25c7..1b7f8cbbda8b 100644
->> --- a/block/blk-mq.c
->> +++ b/block/blk-mq.c
->> @@ -3150,6 +3150,12 @@ void blk_mq_submit_bio(struct bio *bio)
->>   		goto queue_exit;
->>   	}
->>   
->> +	if (unlikely(op_is_dmabuf(bio->bi_opf) &&
->> +		bdev_has_integrity_csum(bio->bi_bdev))) {
->> +		bio_endio_status(bio, BLK_STS_NOTSUPP);
-> 
-> Wrong indentation, conditions are never indented the same level as
-> the following code block, even with the weirdest preferences.
-> 
-> /me note the patch from Anuj on the list actually got this right..
+Add regression tests for three nvmet bugs fixed by the kernel series
+"nvmet: fix stale data exposure and ZNS validation" [1]:
 
-I had to split Anuj's patch in two, should've butchered it
-while hand applying. I'll follow up on that unless Jens
-already applied the change.
+  nvme/071  "nvmet-fc: only send read data for successful commands"
+  nvme/072  "nvmet: zns: don't leak stale memory in zone management receive"
+  nvme/073  "nvmet: zns: reject a NUMD whose byte count wraps"
 
-> Otherwise looks good:
-> 
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
+The nvme/072 fix is already applied to nvme-7.4; the other two are still
+under review.
+
+Patch 1 adds the zoned null_blk target setup, cleanup and zone report
+status check that nvme/072 and nvme/073 share.  Patches 2-4 add one test
+each, with a small C helper for nvme/071 and nvme/072 where nvme-cli
+cannot express the check.
+
+All three tests run on every configured transport.  On a kernel without
+the fixes, nvme/072 and nvme/073 fail over loop, tcp, rdma and fc, and
+nvme/071 fails over fc, the only affected transport.  All three pass
+with the fixes applied.
+
+The tests take the next free numbers, nvme/071 to nvme/073.  If other
+nvme tests land first, I'm happy to renumber them and resend.
+
+[1] https://lore.kernel.org/r/20261012141239.156408-1-parri.andrea@gmail.com
+
+Andrea Parri (4):
+  nvme/rc: add zoned null_blk target helpers
+  nvme/071: test that nvmet sends no data for a failed read
+  nvme/072: test nvmet zone report initialization and length
+  nvme/073: test that nvmet rejects a zone report NUMD that wraps
+
+ src/.gitignore           |   2 +
+ src/Makefile             |   2 +
+ src/nvme-sentinel-read.c |  89 +++++++++++++++++++++
+ src/nvme-zone-report.c   | 165 +++++++++++++++++++++++++++++++++++++++
+ tests/nvme/071           |  80 +++++++++++++++++++
+ tests/nvme/071.out       |   2 +
+ tests/nvme/072           |  68 ++++++++++++++++
+ tests/nvme/072.out       |   2 +
+ tests/nvme/073           |  46 +++++++++++
+ tests/nvme/073.out       |   2 +
+ tests/nvme/rc            |  61 +++++++++++++++
+ 11 files changed, 519 insertions(+)
+ create mode 100644 src/nvme-sentinel-read.c
+ create mode 100644 src/nvme-zone-report.c
+ create mode 100755 tests/nvme/071
+ create mode 100644 tests/nvme/071.out
+ create mode 100755 tests/nvme/072
+ create mode 100644 tests/nvme/072.out
+ create mode 100755 tests/nvme/073
+ create mode 100644 tests/nvme/073.out
 
 -- 
-Pavel Begunkov
+2.53.0
 
 
