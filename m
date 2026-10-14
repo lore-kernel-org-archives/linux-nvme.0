@@ -4,32 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C65F1CC6B3D
-	for <linux-nvme@archiver.kernel.org>; Thu, 15 Oct 2026 15:01:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1C24BCC6B33
+	for <linux-nvme@archiver.kernel.org>; Thu, 15 Oct 2026 15:01:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WPh3IhVkA8XF5g+okB2cqL4d03binWC7/Fv5RpDZsr8=; b=s6ScFMiqgsexR/4kjN3f2n035Z
-	EbTslWlx2KbiOJWCo/cySOha446N6yGncUcfzP12ECN5NJSZvb6wHCz1coudtWdCEN5r7s5NElmWt
-	/SJNkV119+dGUvYYPZSwcGq3RIZheuEi4dTxnM8usRdMknS9U7HQsKl7Y0gos6DucnAMdmvNlMM7t
-	/uC87iTFf6Mawt3Dxxf5GrVlLakuYpxfrypCgsem4nyZju8f4BX13vEWmNObK3e92OgIXC6xPaBhy
-	MiTdVBoKgGpzcMY0+qjvI6reAc+7LKpOdweDhUfhIiKLtSrgCi1BuX7cYeYsZ06CuX3WUt/KmAXyU
-	kd/Emqrw==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=c/ViXU2YcsMkI/vG8ZuZ39w2Xi
+	IYKYK7nAbtxX2rFdttuLckjD4e94LNRzSrGPeX8ItZmSNwrzh1r5bYBkEC94R6LIXTkiTcnMJRysf
+	g6BjRHkKXXiZxkreawmsQKhgBX07xeoatc7j5zuOSvsS3A387TwqZMiAu9uOb5i+6QtTBytiJ85uI
+	e8zrr7oCz5fGGULu7QnwBVvD1ZfbgJg8fd3GUJrHnkEAGA9BQ8SF0fHgaEbuzB4LjhQjEYmDIOSbq
+	Twt+xZpR8MXzqLiLhntg0htiB+SYMOn0YgsWF7ilQVAu5aVEzp3W2KdAY6nXQNOvF8dAbQvBDq/dC
+	j/CDI09w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xHMxa-00000000THN-3QYQ;
-	Thu, 15 Oct 2026 15:01:34 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1xHMxb-00000000TIV-1vzu;
+	Thu, 15 Oct 2026 15:01:35 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGypt-0000000FYVm-3aDx
+	id 1xGyqY-0000000FYhD-0LGh
+	for linux-nvme@bombadil.infradead.org;
+	Wed, 14 Oct 2026 13:16:42 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=atp4aIqkbW/zzg3ZCRudCSJI5t
+	7YRhVbL3sVOTdcCRHiG21kqNVNRPSgVkS/UqGpK91yVLSQUg5TTfhiyix4V+V4196ND6QeFe8bnKa
+	fm5IhLxKn8u8loz0W3wIC7KhRN7W7S/oRRzaJ28Nm6+F3JewNLmD11qTmA9+RuH+UbjZH7mOlfEGj
+	3IOtrcFAzOnUl5/ntAE+qUpQM7E5t53ktGzMpZS1hhJqMX15oGYsrhA6wMjVI08NhH8+QtF6FlY9Y
+	orpPKRCt8y3t7KhwbAdaqBuv+UEqmRz55axr1uyhi1bdCSVx9LEuZxrJf87k8fez3MC/fVBYhAVh4
+	nIp+WL2w==;
+Received: from verein.lst.de ([213.95.11.211])
+	by desiato.infradead.org with esmtps (Exim 4.99.5 #2 (Red Hat Linux))
+	id 1xGyqT-0000000GnyH-1zWg
 	for linux-nvme@lists.infradead.org;
-	Wed, 14 Oct 2026 13:16:11 +0000
+	Wed, 14 Oct 2026 13:16:39 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 7236968B05; Wed, 14 Oct 2026 15:15:54 +0200 (CEST)
-Date: Wed, 14 Oct 2026 15:15:54 +0200
+	id 4E99168BFE; Wed, 14 Oct 2026 15:16:34 +0200 (CEST)
+Date: Wed, 14 Oct 2026 15:16:33 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Pavel Begunkov <asml.silence@gmail.com>
 Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -52,17 +67,17 @@ Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
 	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
 	Mikulas Patocka <mpatocka@redhat.com>,
 	Benjamin Marzinski <bmarzins@redhat.com>, dm-devel@lists.linux.dev
-Subject: Re: [PATCH v11 04/13] block: introduce dma map backed bio type
-Message-ID: <20261014131554.GA16467@lst.de>
-References: <cover.1791975048.git.asml.silence@gmail.com> <39b964cf7510f42755188563da63d3d5acaf2aa9.1791975048.git.asml.silence@gmail.com>
+Subject: Re: [PATCH v11 08/13] nvme-pci: add SGL support for the dmabuf path
+Message-ID: <20261014131633.GC16467@lst.de>
+References: <cover.1791975048.git.asml.silence@gmail.com> <86fb4caeddaa58fafad106548f82950782ea04fd.1791975048.git.asml.silence@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <39b964cf7510f42755188563da63d3d5acaf2aa9.1791975048.git.asml.silence@gmail.com>
+In-Reply-To: <86fb4caeddaa58fafad106548f82950782ea04fd.1791975048.git.asml.silence@gmail.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261014_061605_316683_19C1C3DA 
-X-CRM114-Status: GOOD (  42.10  )
+X-CRM114-CacheID: sfid-20261014_141637_584118_BBBEF4A0 
+X-CRM114-Status: GOOD (  11.68  )
 X-Mailman-Approved-At: Thu, 15 Oct 2026 08:01:28 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -78,188 +93,8 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 14, 2026 at 12:02:02PM +0100, Pavel Begunkov wrote:
-> Premapped buffers don't require a generic bio_vec since these have
-> already been dma mapped. Repurpose the bi_io_vec space to store dmabuf
-> maps as they are mutually exclusive.
-> 
-> The bio splitting differs from the normal path because it's already
-> pre-mapped and for the block layer it's just an offset into the dma-buf.
-> The actual segmentation is only available to the importer driver and not
-> the block layer, however, it doesn't contain alignment gaps and we don't
-> have to check it. For the same reason we can't precisely split by the
-> number of segments, but we use ->min_seg_shift stored in the map to
-> calculate the minimum number of bytes a request consisting of
-> lim->max_segments full segments can cover and split by that. It's
-> stricter and can add extra splitting. E.g. for a {4K, 4G} segmentation,
-> the min segment size is 4K, and we'll split it into bios of
-> (4K * lim->max_segments) bytes each, but it should be good enough for
-> now to cover the most popular use cases.
-> 
-> Suggested-by: Keith Busch <kbusch@kernel.org>
-> Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
-> ---
->  block/bio.c               | 15 +++++++++--
->  block/blk-merge.c         | 52 +++++++++++++++++++++++++++++++++++++++
->  block/blk-mq.c            |  6 +++++
->  block/fops.c              |  2 +-
->  include/linux/bio.h       |  9 ++++---
->  include/linux/blk-mq.h    |  7 ++++++
->  include/linux/blk_types.h | 14 ++++++++++-
->  include/linux/bvec.h      |  3 ++-
->  8 files changed, 99 insertions(+), 9 deletions(-)
-> 
-> diff --git a/block/bio.c b/block/bio.c
-> index b48091c7663f..1e0d9714c541 100644
-> --- a/block/bio.c
-> +++ b/block/bio.c
-> @@ -881,7 +881,11 @@ static int __bio_clone(struct bio *bio, struct bio *bio_src, gfp_t gfp)
->  	bio->bi_write_stream = bio_src->bi_write_stream;
->  	bio->bi_bvec_gap_bit = bio_src->bi_bvec_gap_bit;
->  	bio->bi_iter = bio_src->bi_iter;
-> -	bio->bi_io_vec = bio_src->bi_io_vec;
-> +
-> +	if (op_is_dmabuf(bio->bi_opf))
-> +		bio->bi_dmabuf_map = bio_src->bi_dmabuf_map;
-> +	else
-> +		bio->bi_io_vec = bio_src->bi_io_vec;
->  
->  	if (bio->bi_bdev) {
->  		if (bio->bi_bdev == bio_src->bi_bdev &&
-> @@ -1204,16 +1208,23 @@ EXPORT_SYMBOL_GPL(__bio_release_pages);
->  
->  bool bio_iov_iter_set(struct bio *bio, const struct iov_iter *iter)
->  {
-> -	if (!iov_iter_is_bvec(iter))
-> +	if (!iov_iter_is_bvec(iter) && !iov_iter_is_dmabuf_map(iter))
->  		return false;
->  
->  	WARN_ON_ONCE(bio->bi_max_vecs);
->  
-> +	static_assert(offsetof(struct bio, bi_io_vec) ==
-> +		      offsetof(struct bio, bi_dmabuf_map));
-> +	static_assert(offsetof(struct iov_iter, bvec) ==
-> +		      offsetof(struct iov_iter, dmabuf_map));
-> +
->  	bio->bi_io_vec = (struct bio_vec *)iter->bvec;
->  	bio->bi_iter.bi_idx = 0;
->  	bio->bi_iter.bi_offset = iter->iov_offset;
->  	bio->bi_iter.bi_size = iov_iter_count(iter);
->  	bio_set_flag(bio, BIO_CLONED);
-> +	if (iov_iter_is_dmabuf_map(iter))
-> +		bio->bi_opf |= REQ_NOMERGE | REQ_DMABUF;
->  	return true;
->  }
->  
-> diff --git a/block/blk-merge.c b/block/blk-merge.c
-> index 258a726071d1..501ddc01c449 100644
-> --- a/block/blk-merge.c
-> +++ b/block/blk-merge.c
-> @@ -9,6 +9,7 @@
->  #include <linux/blk-integrity.h>
->  #include <linux/part_stat.h>
->  #include <linux/blk-cgroup.h>
-> +#include <linux/dma-buf-io.h>
->  
->  #include <trace/events/block.h>
->  
-> @@ -319,6 +320,41 @@ static inline unsigned int bvec_seg_gap(struct bio_vec *bvprv,
->  	return bv->bv_offset | (bvprv->bv_offset + bvprv->bv_len);
->  }
->  
-> +static inline int bio_split_io_at_dmabuf(struct bio *bio,
-> +		const struct queue_limits *lim, unsigned *segs,
-> +		unsigned max_bytes, unsigned len_align_mask,
-> +		unsigned start_align_mask)
-> +{
-> +	unsigned bytes = min(bio->bi_iter.bi_size, max_bytes);
-> +	unsigned seg_shift = bio->bi_dmabuf_map->min_seg_shift;
-> +	unsigned offset = bio->bi_iter.bi_offset & ((1U << seg_shift) - 1);
-> +	u64 max_segs_bytes;
-> +
-> +	/*
-> +	 * dma-buf maps don't expose the underlying segmentation, but they're
-> +	 * guaranteed to not have alignment gaps, we only need to check the
-> +	 * start and length alignment.
-> +	 */
-> +	if ((bio->bi_iter.bi_offset & start_align_mask) ||
-> +	    (bio->bi_iter.bi_size & len_align_mask))
-> +		return -EINVAL;
-> +
-> +	/* Presented as a single contiguous range into the dma-buf */
-> +	*segs = 1;
-> +
-> +	/*
-> +	 * Limit by the number of segments by using the minimal segment size.
-> +	 * Any I/O consisting of N full segments should be able to cover at
-> +	 * least N multiplied by the segment size. It's stricter than walking
-> +	 * the segments and might cause extra splitting.
-> +	 */
-> +	max_segs_bytes = (u64)lim->max_segments << seg_shift;
-> +	bytes = min_t(u64, bytes, max_segs_bytes - offset);
-> +	if (bytes != bio->bi_iter.bi_size)
-> +		return bytes;
-> +	return 0;
-> +}
-> +
->  /**
->   * bio_split_io_at - check if and where to split a bio
->   * @bio:  [in] bio to be split
-> @@ -346,6 +382,19 @@ int bio_split_io_at(struct bio *bio, const struct queue_limits *lim,
->  		len_align_mask |= (bc->bc_key->crypto_cfg.data_unit_size - 1);
->  	}
->  
-> +	if (op_is_dmabuf(bio->bi_opf)) {
-> +		int ret;
-> +
-> +		ret = bio_split_io_at_dmabuf(bio, lim, &nsegs, max_bytes,
-> +					     len_align_mask, start_align_mask);
-> +		if (ret < 0)
-> +			return ret;
-> +		if (!ret)
-> +			goto out;
-> +		bytes = ret;
-> +		goto split;
-> +	}
-> +
->  	bio_for_each_bvec(bv, bio, iter) {
->  		if (bv.bv_offset & start_align_mask ||
->  		    bv.bv_len & len_align_mask)
-> @@ -376,6 +425,7 @@ int bio_split_io_at(struct bio *bio, const struct queue_limits *lim,
->  		bvprvp = &bvprv;
->  	}
->  
-> +out:
->  	*segs = nsegs;
->  	bio->bi_bvec_gap_bit = ffs(gaps);
->  	return 0;
-> @@ -493,6 +543,8 @@ unsigned int blk_recalc_rq_segments(struct request *rq)
->  
->  	if (!rq->bio)
->  		return 0;
-> +	if (op_is_dmabuf(rq->bio->bi_opf))
-> +		return 1;
->  
->  	switch (bio_op(rq->bio)) {
->  	case REQ_OP_DISCARD:
-> diff --git a/block/blk-mq.c b/block/blk-mq.c
-> index e929f94b25c7..1b7f8cbbda8b 100644
-> --- a/block/blk-mq.c
-> +++ b/block/blk-mq.c
-> @@ -3150,6 +3150,12 @@ void blk_mq_submit_bio(struct bio *bio)
->  		goto queue_exit;
->  	}
->  
-> +	if (unlikely(op_is_dmabuf(bio->bi_opf) &&
-> +		bdev_has_integrity_csum(bio->bi_bdev))) {
-> +		bio_endio_status(bio, BLK_STS_NOTSUPP);
-
-Wrong indentation, conditions are never indented the same level as
-the following code block, even with the weirdest preferences.
-
-/me note the patch from Anuj on the list actually got this right..
-
-Otherwise looks good:
+Looks good:
 
 Reviewed-by: Christoph Hellwig <hch@lst.de>
+
 
