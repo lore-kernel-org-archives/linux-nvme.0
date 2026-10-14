@@ -4,116 +4,126 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 550ACCC6B2A
-	for <linux-nvme@archiver.kernel.org>; Wed, 14 Oct 2026 07:52:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07353CC6B27
+	for <linux-nvme@archiver.kernel.org>; Wed, 14 Oct 2026 07:52:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=425t+R5ruu5k9Lveoptl4nDGocPQEjIuYGl7RTB5IqY=; b=jKWRDCStef+3Ts+0coBzIQqxQh
-	flsALvmN+0hZMF7kJ8vXepWncHSouwKqUX4aFFg6oio6ybFlRAhlgh9ZjZbunlzoQtJfxsG+svXZm
-	mkCaQO4CV5VWsigInDk4oT/9hni1IiuNdkInjqmKpBdgrCAbXfVynuUG7/38sNrInS+4l9BlMzCP8
-	LYEssFjS8FMjYZba+PEGSqAKmFgQCCTs3kA3olCn3maic3WpZ3ux2Z/6Y4EZkt1JkN70kqLfK1U2C
-	humpEHrADrT33F35BbGkB3FsHUa2lmvyF+sYjWYAxQdedJbKpmlfXrjQz2S7//A0BIMJNqPZSJHVi
-	uAgbRaYg==;
+	bh=ehlKzFSyvoS91J6eXLTeDDZvSjF76Gj6XwClpVQ8S4I=; b=udrF3Qim3kdJIy5UdU1ZB+yBpn
+	0QENyH1RB61w+IMKBdxXLf5UbdoZ23r9Ws2vEfU/svPvzskBcZIgxcsdv+rcZREc+nvsfIUYjFfxf
+	2PnWyDFuPFwlqei51OXmsX/rqw/aFilAKS0/ynFUskzNJSHOE7LVTjoIoBSEW1kNnyJVWNdBr6KG8
+	gVa09W+jesyfPZ9XPGRMYz1re6LeEHog2Zg7tBRzwdvVJmZbStpN1Zl+E3bWJDyIcA6DXVpdQjTpO
+	9lrurISvU0VyxbTrTv0oCI0vnt/lAVMFyTpnlwEsAN+8ZnV8nMU0/YmriF9sqFtV0ju6hfaqf7WUz
+	zxPREU3Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGtmU-0000000Eoik-3YDi;
-	Wed, 14 Oct 2026 07:52:10 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1xGtmV-0000000Eoj9-0FTr;
+	Wed, 14 Oct 2026 07:52:11 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGtmM-0000000Eodl-2qJp
+	id 1xGtmO-0000000Eoe3-2D4i
 	for linux-nvme@lists.infradead.org;
-	Wed, 14 Oct 2026 07:52:08 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	Wed, 14 Oct 2026 07:52:09 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1F2E1221A3;
-	Wed, 14 Oct 2026 07:52:01 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C07501F7BF;
+	Wed, 14 Oct 2026 07:52:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791964321; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1791964322; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=425t+R5ruu5k9Lveoptl4nDGocPQEjIuYGl7RTB5IqY=;
-	b=jLPvdVL4ZLSHpvSc6lC6NsqABtr45recovdB1haGTbeSHSug//2snIrA8HCMzWRvnlVrr+
-	kBLNFEnkxR/Y4H0DZQUE4BKorALOFGYJs5KYfyKk4XmgOKbvx5wF3DYduSConb/oLx2Yuf
-	O7vS09u/KZ2JrPyOdoaj0glGPDmhc/c=
+	bh=ehlKzFSyvoS91J6eXLTeDDZvSjF76Gj6XwClpVQ8S4I=;
+	b=QOGM8V3iLf/Drn9GjqJJWswH9z33anNCKraWMvkzQWu+/996Q5okjAkmH1BCbamCkJbXc6
+	wEZ60siDKANN95saH3Au3jdxBnprbuAWCznNxK87GNPMxeGpOudJp6coIM5i8nf8os7Z0i
+	B8LaTjwKVN5XUQw9QCG0recafhfCXaY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791964321;
+	s=susede2_ed25519; t=1791964322;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=425t+R5ruu5k9Lveoptl4nDGocPQEjIuYGl7RTB5IqY=;
-	b=DJImOm/lgq0XaWNwsctgTWcGDUNlnV9oBhJ6fBX58k9HcXit6IDJYbb1UrM0V5O43p9Sh4
-	YLyVAIjtrmdhUUBw==
-Authentication-Results: smtp-out1.suse.de;
-	none
+	bh=ehlKzFSyvoS91J6eXLTeDDZvSjF76Gj6XwClpVQ8S4I=;
+	b=b+FjF22i7CH2CXZLv1NEQv4JwcDAG2SPlwwwmQjDwLgSZ5f2CXXXG5TUa2MV03Qq72kgni
+	cLuzVjc5h3y4QrBg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=QOGM8V3i;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=b+FjF22i
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791964321; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1791964322; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=425t+R5ruu5k9Lveoptl4nDGocPQEjIuYGl7RTB5IqY=;
-	b=jLPvdVL4ZLSHpvSc6lC6NsqABtr45recovdB1haGTbeSHSug//2snIrA8HCMzWRvnlVrr+
-	kBLNFEnkxR/Y4H0DZQUE4BKorALOFGYJs5KYfyKk4XmgOKbvx5wF3DYduSConb/oLx2Yuf
-	O7vS09u/KZ2JrPyOdoaj0glGPDmhc/c=
+	bh=ehlKzFSyvoS91J6eXLTeDDZvSjF76Gj6XwClpVQ8S4I=;
+	b=QOGM8V3iLf/Drn9GjqJJWswH9z33anNCKraWMvkzQWu+/996Q5okjAkmH1BCbamCkJbXc6
+	wEZ60siDKANN95saH3Au3jdxBnprbuAWCznNxK87GNPMxeGpOudJp6coIM5i8nf8os7Z0i
+	B8LaTjwKVN5XUQw9QCG0recafhfCXaY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791964321;
+	s=susede2_ed25519; t=1791964322;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=425t+R5ruu5k9Lveoptl4nDGocPQEjIuYGl7RTB5IqY=;
-	b=DJImOm/lgq0XaWNwsctgTWcGDUNlnV9oBhJ6fBX58k9HcXit6IDJYbb1UrM0V5O43p9Sh4
-	YLyVAIjtrmdhUUBw==
+	bh=ehlKzFSyvoS91J6eXLTeDDZvSjF76Gj6XwClpVQ8S4I=;
+	b=b+FjF22i7CH2CXZLv1NEQv4JwcDAG2SPlwwwmQjDwLgSZ5f2CXXXG5TUa2MV03Qq72kgni
+	cLuzVjc5h3y4QrBg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E24251368E;
-	Wed, 14 Oct 2026 07:52:00 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 90D1D1368E;
+	Wed, 14 Oct 2026 07:52:02 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id lNoHL6A0z2rRPwAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Wed, 14 Oct 2026 07:52:00 +0000
+	id D5pfG6I0z2rZPwAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Wed, 14 Oct 2026 07:52:02 +0000
 From: Daniel Wagner <dwagner@suse.de>
-Date: Wed, 14 Oct 2026 09:51:48 +0200
-Subject: [PATCH blktests 2/5] nvme/070: test connect with an isolated CPU
+Date: Wed, 14 Oct 2026 09:51:50 +0200
+Subject: [PATCH blktests 4/5] nvme/072: test poll support without poll
+ queues
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261014-nvme-isolcpu-v1-2-2fd175a8ef00@kernel.org>
+Message-Id: <20261014-nvme-isolcpu-v1-4-2fd175a8ef00@kernel.org>
 References: <20261014-nvme-isolcpu-v1-0-2fd175a8ef00@kernel.org>
 In-Reply-To: <20261014-nvme-isolcpu-v1-0-2fd175a8ef00@kernel.org>
 To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
  Daniel Wagner <wagi@kernel.org>
 X-Mailer: b4 0.16.0
-X-Spamd-Result: default: False [-4.30 / 50.00];
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: C07501F7BF
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.51 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.994];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MX_GOOD(-0.01)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim];
+	DKIM_TRACE(0.00)[suse.de:+]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261014_005206_658407_8CA9EA53 
-X-CRM114-Status: GOOD (  22.53  )
+X-CRM114-CacheID: sfid-20261014_005206_706556_E1A3286D 
+X-CRM114-Status: GOOD (  14.82  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -130,240 +140,124 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Daniel Wagner <wagi@kernel.org>
 
-Since kernel commit a46c27026da1 ("blk-mq: don't schedule block kworker
-on isolated CPUs") isolated CPUs are removed from the CPU mask of the
-hardware contexts. If only isolated CPUs are mapped to a hardware
-context, the mask is empty and blk_mq_alloc_request_hctx fails with
--EXDEV. The fabrics transports allocate the Connect command for each
-I/O queue this way, so the connect fails, e.g. with isolcpus=domain or
-with an isolated cpuset partition.
+blk_mq_alloc_tag_set() initializes all queue maps. When nr_poll_queues
+is set but the target grants no queues for polling, nvmf_map_queues()
+used to leave the poll map in this state, with all CPUs mapped to the
+first hardware context. The queue claimed poll support and polled I/O
+was sent to a queue which isn't a poll queue.
 
-Isolate the last online CPU with a cpuset partition, connect with the
-default number of I/O queues and run verified I/O from a housekeeping
-CPU and from the isolated CPU. To make sure the test exercises the
-problem, it checks that the hardware context of the isolated CPU has an
-empty CPU mask, that the I/O of the isolated CPU runs on that CPU, and
-traces nvme_setup_cmd on the queue of the hardware context: the
-housekeeping CPUs must not submit commands on it, the isolated CPU must.
+Limit the target to twice the number of online CPUs, connect with as
+many read, write and poll queues as there are online CPUs, so no queues
+are left for polling, check that the queue doesn't claim poll support
+and run verified I/O.
 
-The problem is fixed by kernel commit XXX ("blk-mq: use a housekeeping
-CPU for passthrough requests on isolated hctxs").
+The problem is fixed by kernel commit XXX ("nvme-fabrics: clear the poll
+map if no poll queues are mapped").
 
 Signed-off-by: Daniel Wagner <wagi@kernel.org>
 ---
- tests/nvme/070     | 196 +++++++++++++++++++++++++++++++++++++++++++++++++++++
- tests/nvme/070.out |   2 +
- 2 files changed, 198 insertions(+)
+ tests/nvme/072     | 85 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/072.out |  2 ++
+ 2 files changed, 87 insertions(+)
 
-diff --git a/tests/nvme/070 b/tests/nvme/070
+diff --git a/tests/nvme/072 b/tests/nvme/072
 new file mode 100755
-index 000000000000..6b9d4d80e257
+index 000000000000..72bf80d660f5
 --- /dev/null
-+++ b/tests/nvme/070
-@@ -0,0 +1,196 @@
++++ b/tests/nvme/072
+@@ -0,0 +1,85 @@
 +#!/bin/bash
 +# SPDX-License-Identifier: GPL-3.0+
 +# Copyright (c) 2026 SUSE LLC and contributors
 +#
-+# Test connecting with an isolated CPU. blk-mq removes the CPUs which are
-+# isolated, e.g. with a cpuset isolated partition, from the CPU mask of the
-+# hardware contexts. If a hardware context ends up without a CPU, the Connect
-+# command for its I/O queue can't be allocated and the connect fails. Run I/O
-+# from a housekeeping CPU and from the isolated CPU and trace the queue IDs of
-+# the commands to verify that the hardware context of the isolated CPU is used
-+# and works.
++# Test that a controller without poll queues doesn't claim poll support.
++# blk_mq_alloc_tag_set initializes all queue maps. When nr_poll_queues is set
++# but the target grants no queues for polling, nvmf_map_queues used to leave
++# the poll map in this state, so the queue claimed poll support and polled I/O
++# was sent to a queue which isn't a poll queue.
 +#
-+# The bug was introduced by commit a46c27026da1 ("blk-mq: don't schedule block
-+# kworker on isolated CPUs").
++# The bug was introduced for nvme-tcp by commit 1a9460cef571 ("nvme-tcp:
++# support simple polling") and for nvme-rdma by commit 5651cd3c4336
++# ("nvme-rdma: fix queue mapping when queue count is limited").
 +#
-+# Regression test for commit XXX ("blk-mq: use a housekeeping CPU for
-+# passthrough requests on isolated hctxs").
++# Regression test for commit XXX ("nvme-fabrics: clear the poll map if no poll
++# queues are mapped").
 +
 +. tests/nvme/rc
-+. common/cgroup
 +
-+DESCRIPTION="Test connect with an isolated CPU"
++DESCRIPTION="Test poll support without poll queues"
 +QUICK=1
 +
 +requires() {
 +	_nvme_requires
 +	_have_fio
 +	_have_loop
-+	_require_nvme_trtype_is_fabrics
-+	_require_min_cpus 2
-+	_have_cgroup2_controller_file cpuset cpuset.cpus.partition
-+	_have_tracefs
++	_require_nvme_trtype tcp rdma
 +}
 +
 +set_conditions() {
 +	_set_nvme_trtype "$@"
 +}
 +
-+isolate_cpu() {
-+	local cpu="$1"
-+	local partition
-+
-+	_init_cgroup2 || return 1
-+	_set_attr "+cpuset" "$(_cgroup2_base_dir)/cgroup.subtree_control"
-+	_set_attr "${cpu}" "${CGROUP2_DIR}/cpuset.cpus"
-+	_set_attr "isolated" "${CGROUP2_DIR}/cpuset.cpus.partition"
-+
-+	partition=$(cat "${CGROUP2_DIR}/cpuset.cpus.partition")
-+	if [[ "${partition}" != "isolated" ]]; then
-+		SKIP_REASONS+=("failed to isolate CPU ${cpu}: ${partition}")
-+		_exit_cgroup2
-+		return 1
-+	fi
-+
-+	return 0
-+}
-+
-+run_io() {
-+	local ns="$1"
-+
-+	_run_fio_verify_io --size=32m --filename="/dev/${ns}"
-+}
-+
-+# Set isolated_hctx to the index of the hardware context the software context
-+# of the CPU is mapped to, if the CPU mask of the hardware context is empty.
-+find_isolated_hctx() {
-+	local nvmedev="$1"
-+	local cpu="$2"
-+	local ctx
-+	local hctx
-+
-+	for ctx in /sys/class/nvme/"${nvmedev}"/nvme*n*/mq/*/cpu"${cpu}"; do
-+		[[ -d "${ctx}" ]] || continue
-+		hctx="$(dirname "${ctx}")"
-+		if [[ -n "$(cat "${hctx}/cpu_list")" ]]; then
-+			SKIP_REASONS+=("hctx of CPU ${cpu} has CPUs: $(cat "${hctx}/cpu_list")")
-+			return 1
-+		fi
-+		isolated_hctx="$(basename "${hctx}")"
-+		return 0
-+	done
-+
-+	SKIP_REASONS+=("no hctx found for CPU ${cpu}")
-+	return 1
-+}
-+
-+start_trace() {
-+	local trace_dir="$1"
-+	local ctrl_id="$2"
-+	local qid="$3"
-+	local event="${trace_dir}/events/nvme/nvme_setup_cmd"
-+
-+	_set_attr "" "${trace_dir}/trace"
-+	_set_attr "ctrl_id == ${ctrl_id} && qid == ${qid}" "${event}/filter"
-+	_set_attr 1 "${event}/enable"
-+}
-+
-+# Stop tracing and print the number of traced commands.
-+stop_trace() {
-+	local trace_dir="$1"
-+
-+	_set_attr 0 "${trace_dir}/events/nvme/nvme_setup_cmd/enable"
-+	grep -c "nvme_setup_cmd:" "${trace_dir}/trace"
-+}
-+
-+check_io() {
-+	local nvmedev="$1"
-+	local cpu="$2"
-+	local trace_dir="$3"
-+	local ns
-+	local isolated_hctx
-+	local qid
-+	local nr_cmds
-+
-+	ns=$(_find_nvme_ns "${def_subsys_uuid}")
-+	find_isolated_hctx "${nvmedev}" "${cpu}" || return 1
-+	qid=$((isolated_hctx + 1))
-+
-+	if [[ ! -d "${trace_dir}/events/nvme/nvme_setup_cmd" ]]; then
-+		SKIP_REASONS+=("tracepoint nvme/nvme_setup_cmd does not exist")
-+		return 1
-+	fi
-+
-+	# The test runs on the housekeeping CPUs, which must not use the
-+	# hardware context of the isolated CPU.
-+	start_trace "${trace_dir}" "${nvmedev#nvme}" "${qid}"
-+	run_io "${ns}" || echo "FAIL: I/O from housekeeping CPU"
-+	nr_cmds=$(stop_trace "${trace_dir}")
-+	if [[ "${nr_cmds}" -ne 0 ]]; then
-+		echo "FAIL: ${nr_cmds} commands from housekeeping CPUs on qid ${qid}"
-+	fi
-+
-+	# Moving the subshell into the partition confines it to the
-+	# isolated CPU, so its I/O uses the hardware context of the
-+	# isolated CPU.
-+	start_trace "${trace_dir}" "${nvmedev#nvme}" "${qid}"
-+	(
-+		local allowed
-+
-+		_set_attr "${BASHPID}" "${CGROUP2_DIR}/cgroup.procs"
-+		allowed=$(awk '/^Cpus_allowed_list:/ { print $2 }' \
-+				"/proc/${BASHPID}/status")
-+		if [[ "${allowed}" != "${cpu}" ]]; then
-+			echo "FAIL: subshell runs on CPUs ${allowed}"
-+			exit 1
-+		fi
-+		run_io "${ns}"
-+	) || echo "FAIL: I/O from isolated CPU ${cpu}"
-+	nr_cmds=$(stop_trace "${trace_dir}")
-+	if [[ "${nr_cmds}" -eq 0 ]]; then
-+		echo "FAIL: no commands from isolated CPU ${cpu} on qid ${qid}"
-+	fi
-+
-+	return 0
-+}
-+
 +test() {
 +	echo "Running ${TEST_NAME}"
 +
-+	local cpu
++	local cfs_path="${NVMET_CFS}/subsystems/${def_subsysnqn}"
++	local nr_cpus
 +	local nvmedev
-+	local trace_dir="/sys/kernel/debug/tracing/instances/blktests-nvme-070"
-+	local skipped=false
++	local disk
++	local ns
 +
 +	_setup_nvmet
 +
-+	# Isolate the last online CPU. Without nr_io_queues there is usually
-+	# one I/O queue per online CPU, so its hardware context has no other
-+	# CPU.
-+	cpu=$(awk -F'[-,]' '{ print $NF }' /sys/devices/system/cpu/online)
-+	if ! isolate_cpu "${cpu}"; then
-+		return 1
-+	fi
++	nr_cpus=$(getconf _NPROCESSORS_ONLN)
 +
 +	_nvmet_target_setup
 +
-+	if _nvme_connect_subsys; then
++	if [[ ! -f "${cfs_path}/attr_qid_max" ]]; then
++		SKIP_REASONS+=("missing attr_qid_max feature")
++		_nvmet_target_cleanup
++		return 1
++	fi
++	if [[ $(cat "${cfs_path}/attr_qid_max") -lt $((2 * nr_cpus)) ]]; then
++		SKIP_REASONS+=("target supports less than $((2 * nr_cpus)) I/O queues")
++		_nvmet_target_cleanup
++		return 1
++	fi
++
++	# Only grant enough queues for the read and default queues, so no
++	# queues are left for polling.
++	_set_attr $((2 * nr_cpus)) "${cfs_path}/attr_qid_max"
++
++	if _nvme_connect_subsys --nr-io-queues "${nr_cpus}" \
++				--nr-write-queues "${nr_cpus}" \
++				--nr-poll-queues "${nr_cpus}"; then
 +		_nvmf_wait_for_state "${def_subsysnqn}" "live" || echo FAIL
 +		nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
++		disk=$(basename /sys/class/nvme/"${nvmedev}"/nvme*n*)
 +
-+		mkdir "${trace_dir}"
-+		check_io "${nvmedev}" "${cpu}" "${trace_dir}" || skipped=true
-+		rmdir "${trace_dir}"
++		if [[ $(cat "/sys/block/${disk}/queue/io_poll") != 0 ]]; then
++			echo "FAIL: ${disk} claims poll support without poll queues"
++		fi
++
++		ns=$(_find_nvme_ns "${def_subsys_uuid}")
++		_run_fio_verify_io --size=32m --filename="/dev/${ns}" ||
++			echo "FAIL: fio verify"
 +
 +		_nvme_disconnect_subsys
 +	fi
 +
 +	_nvmet_target_cleanup
-+	_exit_cgroup2
-+
-+	if [[ "${skipped}" = true ]]; then
-+		return 1
-+	fi
 +
 +	echo "Test complete"
 +}
-diff --git a/tests/nvme/070.out b/tests/nvme/070.out
+diff --git a/tests/nvme/072.out b/tests/nvme/072.out
 new file mode 100644
-index 000000000000..b765a2894652
+index 000000000000..3f765b30a22b
 --- /dev/null
-+++ b/tests/nvme/070.out
++++ b/tests/nvme/072.out
 @@ -0,0 +1,2 @@
-+Running nvme/070
++Running nvme/072
 +Test complete
 
 -- 
