@@ -4,98 +4,100 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 01A9DCC6B27
-	for <linux-nvme@archiver.kernel.org>; Wed, 14 Oct 2026 07:52:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 17A16CC6B1A
+	for <linux-nvme@archiver.kernel.org>; Wed, 14 Oct 2026 07:52:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rqwTexX+VXE68Tycj26rp0GL/wtyxBPhiwxd7aT+dGc=; b=lt9/2dyn5BsF+Zacguo9JayGss
-	IEUHFSNfhyTX9VOZyigx5MgmuhgurVpfsa9XHKL0i4cMOFK8Brb07FpupR7+QBIAML3Fc/VDAO0n+
-	yyy2GjR6VJn/38Y4ZfoRtUUCfQvhaKXcNALp7ekVNOsiyUl2eh8IX33llhrgxhzw/GGeJk9H018Os
-	OLF4uYSqCq99SDEpDmzIXJeSude8sktd2HAP7Pum6eZ3NYtde5H6viofPng3q/Z2nsgHs1G7Wf4RG
-	1EQOEVGNE3Jo29LVBCXGheEDz/tkUBohdz0uS0CcDBdl25n39MpNRyG+n6g/7nHTT8xYpyO/F6CVE
-	nlqgmQjQ==;
+	bh=TYeNVTWkATSfJ5WxgpHapfwrBmkdA5cLYSKc+6TQcSA=; b=APz1SUycfLOxG4CFPr4pbtZjVN
+	NwLyOi6I+CarNgpIjMjTKn94qs5YMaYqQ6v4i+UKOZ4Q5EGMjbh3QhhuEj4LmwOIQl0a8Lnjrl14u
+	VmbGsQHbEgy+pYsIDqYEutRR//2Mf87foUy0+2k/d6g6nkUCoPICTztXT+JVsyNE85SvKecCmKBZR
+	lUdTi16ouwFjE1zln3NQGwdFTkE2pCGLyEhcpuiHqVUXXKg2yuAl9dmjgGbJllUEc4hcvgP+AqzMW
+	WyWk6FDc3p8JROzCAACciM8/He6wiiorsaoqv+n4qqkvFPVwSDZ4rxcHE5lvYCd73ig3j39h5ZeVI
+	6w5jZ5Lg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGtmR-0000000Eog6-3whw;
-	Wed, 14 Oct 2026 07:52:07 +0000
+	id 1xGtmT-0000000EohR-2jG4;
+	Wed, 14 Oct 2026 07:52:09 +0000
 Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGtmI-0000000Eoc9-0F3y
+	id 1xGtmN-0000000Eodo-2X3j
 	for linux-nvme@lists.infradead.org;
-	Wed, 14 Oct 2026 07:51:59 +0000
+	Wed, 14 Oct 2026 07:52:08 +0000
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4611622040;
-	Wed, 14 Oct 2026 07:51:56 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E749C22040;
+	Wed, 14 Oct 2026 07:52:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791964316; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1791964322; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=rqwTexX+VXE68Tycj26rp0GL/wtyxBPhiwxd7aT+dGc=;
-	b=lcDLe7vU64XBzCD6VpO+DsETtxa259KI8aJ2Q49HCEhAKIAJZQZMcBBbWQ6179KYJB6B/Y
-	JbL13tRdSg7pwQkMUZRQ3hHvmuHwc0aic4xxTmbffvKat6nSTyj3TvZ30YraeT4MVGl8bp
-	upfPBq9Yo4xA/7lRs54wvQOHZ5wq42A=
+	bh=TYeNVTWkATSfJ5WxgpHapfwrBmkdA5cLYSKc+6TQcSA=;
+	b=mMf/Ny4XYU0PTHv7laBt56xzpwfW+FbtOPGiw2w1sBl/YM9WXTABjREPG85dOHhjYq0cW8
+	WspNm8iFdWhS2jhd5lwcgNED3BbG29lr+2CXNhT0MPHYGSWVRsN/Uxs0bvrXyIpeZOmahX
+	KVPHt4uOaDxR9M9TLPO7XdDQBJ6imiM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791964316;
+	s=susede2_ed25519; t=1791964322;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=rqwTexX+VXE68Tycj26rp0GL/wtyxBPhiwxd7aT+dGc=;
-	b=lMLwIjW5JmOjfdKIgg4qQrtBmFhT6FdD316YFlIWP8G+N7lmfBVVWTEY7A8d9Erez7VNcp
-	S2gzZXkGb+s0R9Cw==
+	bh=TYeNVTWkATSfJ5WxgpHapfwrBmkdA5cLYSKc+6TQcSA=;
+	b=6y8waG68KX+B5chQ4yY/xkKfhnBoaA/8dWnnEjClABfLrm/HMx06BMxT40zOy9nnlEIQWN
+	10yTuVyzYjvjgZCg==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=lcDLe7vU;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=lMLwIjW5
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=vpSxJXAS;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="y5u6gX/P"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791964316; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1791964321; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=rqwTexX+VXE68Tycj26rp0GL/wtyxBPhiwxd7aT+dGc=;
-	b=lcDLe7vU64XBzCD6VpO+DsETtxa259KI8aJ2Q49HCEhAKIAJZQZMcBBbWQ6179KYJB6B/Y
-	JbL13tRdSg7pwQkMUZRQ3hHvmuHwc0aic4xxTmbffvKat6nSTyj3TvZ30YraeT4MVGl8bp
-	upfPBq9Yo4xA/7lRs54wvQOHZ5wq42A=
+	bh=TYeNVTWkATSfJ5WxgpHapfwrBmkdA5cLYSKc+6TQcSA=;
+	b=vpSxJXAS7mRRRKUgbcmlRsKOsGIF8PrdwN4lyt5dr1jTqU2zoXytXy2ldKDZhXHJT+wY54
+	/JhDIAmj7jFs9J7KwPeEz4nuIR4IbCw+5Kl74q8wiCu3hjVx4Tz29E24azFyja60bdCHpL
+	+uj526AKlVPvuWJpKIOskdaEk2LohxM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791964316;
+	s=susede2_ed25519; t=1791964321;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=rqwTexX+VXE68Tycj26rp0GL/wtyxBPhiwxd7aT+dGc=;
-	b=lMLwIjW5JmOjfdKIgg4qQrtBmFhT6FdD316YFlIWP8G+N7lmfBVVWTEY7A8d9Erez7VNcp
-	S2gzZXkGb+s0R9Cw==
+	bh=TYeNVTWkATSfJ5WxgpHapfwrBmkdA5cLYSKc+6TQcSA=;
+	b=y5u6gX/PGDo5CM9pGuKhmi57UsP2Rx8olw7M28Nw0ZdoF08EHzuvw0av7h1xGQfR78qEXL
+	J4MXKAPc+hiO0wAg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 158991368E;
-	Wed, 14 Oct 2026 07:51:56 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B599A1368E;
+	Wed, 14 Oct 2026 07:52:01 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 2W/uOJs0z2rLPwAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Wed, 14 Oct 2026 07:51:56 +0000
+	id Pxf8I6E0z2rWPwAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Wed, 14 Oct 2026 07:52:01 +0000
 From: Daniel Wagner <dwagner@suse.de>
-Date: Wed, 14 Oct 2026 09:51:47 +0200
-Subject: [PATCH blktests 1/5] common/nvme: don't truncate the full log when
- disconnecting
+Date: Wed, 14 Oct 2026 09:51:49 +0200
+Subject: [PATCH blktests 3/5] nvme/071: test I/O queue limits per queue
+ type
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261014-nvme-isolcpu-v1-1-2fd175a8ef00@kernel.org>
+Message-Id: <20261014-nvme-isolcpu-v1-3-2fd175a8ef00@kernel.org>
 References: <20261014-nvme-isolcpu-v1-0-2fd175a8ef00@kernel.org>
 In-Reply-To: <20261014-nvme-isolcpu-v1-0-2fd175a8ef00@kernel.org>
 To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
  Daniel Wagner <wagi@kernel.org>
 X-Mailer: b4 0.16.0
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: E749C22040
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-4.51 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
@@ -119,11 +121,9 @@ X-Spamd-Result: default: False [-4.51 / 50.00];
 	RCPT_COUNT_THREE(0.00)[4];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim]
-X-Rspamd-Queue-Id: 4611622040
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261014_005158_403295_8D0AC551 
-X-CRM114-Status: GOOD (  11.04  )
+X-CRM114-CacheID: sfid-20261014_005206_680407_8D0575BB 
+X-CRM114-Status: GOOD (  14.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -140,40 +140,145 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Daniel Wagner <wagi@kernel.org>
 
-_nvme_disconnect_ctrl and _nvme_disconnect_subsys redirect the output
-of nvme disconnect with '&>' into $FULL. This truncates the file and
-everything a test logged before the disconnect is lost, e.g. the fio
-command lines logged by _run_fio.
+nvmf_nr_io_queues() limits each queue type to the number of online CPUs
+when asking the controller for I/O queues, but nvmf_set_io_queues()
+used to hand out the granted queues without these limits. With
+nr_write_queues larger than the number of online CPUs, the default
+queues got more queues than there are CPUs, some hardware contexts had
+no CPU mapped and connecting their I/O queues failed with -EXDEV.
 
-Append to $FULL instead.
+Connect with nr_io_queues set to the number of online CPUs and twice as
+many write and poll queues, check that every hardware context has a CPU
+mapped and that no queue type has more hardware contexts than online
+CPUs, and run verified I/O.
+
+The problem is fixed by kernel commit XXX ("nvme-fabrics: limit each
+queue type to the number of online CPUs").
 
 Signed-off-by: Daniel Wagner <wagi@kernel.org>
 ---
- common/nvme | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/nvme/071     | 104 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/071.out |   2 ++
+ 2 files changed, 106 insertions(+)
 
-diff --git a/common/nvme b/common/nvme
-index 8c907c34910d..1b3090e0a5da 100644
---- a/common/nvme
-+++ b/common/nvme
-@@ -290,7 +290,7 @@ _nvme_disconnect_ctrl() {
- 	if [[ -d "${ctrl_dir}" ]]; then
- 		local ret
- 
--		nvme disconnect --device "${ctrl}" &> "${FULL}"
-+		nvme disconnect --device "${ctrl}" &>> "${FULL}"
- 		ret=$?
- 		if [[ ${ret} -ne 0 ]]; then
- 			echo "FAIL: nvme disconnect returned error code: ${ret}"
-@@ -574,7 +574,7 @@ _nvme_disconnect_subsys() {
- 		esac
- 	done
- 
--	nvme disconnect --nqn "${subsysnqn}" &> "${FULL}"
-+	nvme disconnect --nqn "${subsysnqn}" &>> "${FULL}"
- 	ret=$?
- 	if [[ ${ret} -ne 0 ]]; then
- 		echo "FAIL: nvme disconnect returned error code: ${ret}"
+diff --git a/tests/nvme/071 b/tests/nvme/071
+new file mode 100755
+index 000000000000..2ac5dd761876
+--- /dev/null
++++ b/tests/nvme/071
+@@ -0,0 +1,104 @@
++#!/bin/bash
++# SPDX-License-Identifier: GPL-3.0+
++# Copyright (c) 2026 SUSE LLC and contributors
++#
++# Test that no queue type gets more I/O queues than there are online CPUs.
++# nvmf_nr_io_queues limits each queue type to the number of online CPUs when
++# asking for I/O queues, but nvmf_set_io_queues used to hand out the granted
++# queues without these limits. With nr_write_queues larger than the number of
++# online CPUs, the default queues got more queues than CPUs, some hardware
++# contexts had no CPU mapped and connecting their I/O queues failed.
++#
++# The bug was introduced for nvme-tcp by commit 6486199378a5 ("nvme-tcp: fix
++# queue mapping when queue count is limited") and for nvme-rdma by commit
++# a249d3066de6 ("nvme-fabrics: add queue setup helpers").
++#
++# Regression test for commit XXX ("nvme-fabrics: limit each queue type to the
++# number of online CPUs").
++
++. tests/nvme/rc
++
++DESCRIPTION="Test I/O queue limits per queue type"
++QUICK=1
++
++requires() {
++	_nvme_requires
++	_have_fio
++	_have_loop
++	_have_debugfs
++	_require_nvme_trtype tcp rdma
++}
++
++set_conditions() {
++	_set_nvme_trtype "$@"
++}
++
++# Check that every hardware context has a software context mapped and that no
++# queue type has more hardware contexts than there are online CPUs.
++check_hctxs() {
++	local nvmedev="$1"
++	local nr_cpus="$2"
++	local disk
++	local hctx
++	local type
++	local -A nr_type=()
++
++	disk=$(basename /sys/class/nvme/"${nvmedev}"/nvme*n*)
++	for hctx in /sys/block/"${disk}"/mq/*; do
++		if ! compgen -G "${hctx}/cpu*[0-9]" > /dev/null; then
++			echo "FAIL: hctx $(basename "${hctx}") has no CPU mapped"
++		fi
++	done
++
++	for hctx in /sys/kernel/debug/block/"${disk}"/hctx*; do
++		type=$(cat "${hctx}/type")
++		nr_type[${type}]=$((${nr_type[${type}]:-0} + 1))
++	done
++	for type in "${!nr_type[@]}"; do
++		if [[ "${nr_type[${type}]}" -gt "${nr_cpus}" ]]; then
++			echo "FAIL: ${nr_type[${type}]} ${type} queues for ${nr_cpus} CPUs"
++		fi
++	done
++}
++
++test() {
++	echo "Running ${TEST_NAME}"
++
++	local cfs_path="${NVMET_CFS}/subsystems/${def_subsysnqn}"
++	local nr_cpus
++	local nvmedev
++	local ns
++
++	_setup_nvmet
++
++	nr_cpus=$(getconf _NPROCESSORS_ONLN)
++
++	_nvmet_target_setup
++
++	# The bug only shows if the target grants a queue per online CPU for
++	# each queue type.
++	if [[ -f "${cfs_path}/attr_qid_max" ]] &&
++	   [[ $(cat "${cfs_path}/attr_qid_max") -lt $((3 * nr_cpus)) ]]; then
++		SKIP_REASONS+=("target supports less than $((3 * nr_cpus)) I/O queues")
++		_nvmet_target_cleanup
++		return 1
++	fi
++
++	if _nvme_connect_subsys --nr-io-queues "${nr_cpus}" \
++				--nr-write-queues $((2 * nr_cpus)) \
++				--nr-poll-queues $((2 * nr_cpus)); then
++		_nvmf_wait_for_state "${def_subsysnqn}" "live" || echo FAIL
++		nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
++		check_hctxs "${nvmedev}" "${nr_cpus}"
++
++		ns=$(_find_nvme_ns "${def_subsys_uuid}")
++		_run_fio_verify_io --size=32m --filename="/dev/${ns}" ||
++			echo "FAIL: fio verify"
++
++		_nvme_disconnect_subsys
++	fi
++
++	_nvmet_target_cleanup
++
++	echo "Test complete"
++}
+diff --git a/tests/nvme/071.out b/tests/nvme/071.out
+new file mode 100644
+index 000000000000..146809b91e0a
+--- /dev/null
++++ b/tests/nvme/071.out
+@@ -0,0 +1,2 @@
++Running nvme/071
++Test complete
 
 -- 
 2.56.0
