@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1C24BCC6B33
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59AE2CC6B3A
 	for <linux-nvme@archiver.kernel.org>; Thu, 15 Oct 2026 15:01:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,39 +12,39 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=c/ViXU2YcsMkI/vG8ZuZ39w2Xi
-	IYKYK7nAbtxX2rFdttuLckjD4e94LNRzSrGPeX8ItZmSNwrzh1r5bYBkEC94R6LIXTkiTcnMJRysf
-	g6BjRHkKXXiZxkreawmsQKhgBX07xeoatc7j5zuOSvsS3A387TwqZMiAu9uOb5i+6QtTBytiJ85uI
-	e8zrr7oCz5fGGULu7QnwBVvD1ZfbgJg8fd3GUJrHnkEAGA9BQ8SF0fHgaEbuzB4LjhQjEYmDIOSbq
-	Twt+xZpR8MXzqLiLhntg0htiB+SYMOn0YgsWF7ilQVAu5aVEzp3W2KdAY6nXQNOvF8dAbQvBDq/dC
-	j/CDI09w==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=msYbVeZ2MF9i6U3L313zKKFe4g
+	9w4Qi1Il8vUvG7b+LxiJrhsaO+ilzfGqXPO7ohaA0V4qDoRarDpy9u0/K23PL6W7uRyptiUnNFmVP
+	sER0LRdJeSgI6nb2+R5JNVL4pZmdp2svPLwN5+H3eIEksxzSkkBgGOKzTcwAB6RixdQSfVJ9vrWXK
+	ZGnV5OFb957aze5aRJP23/rjOcxPdGiNATWiNGPTFUTjTaFzZn0s931zdvJ5XlmPseK9UqG9KGVi+
+	YVsJ5xL6INo/1JfBP5NJholwdKQ2vhEst7sZ3NZ6jtetAW1DEIBPqXbqQbyUXiX8HTtOWBcEQeMf2
+	aZrqsN4A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xHMxb-00000000TIV-1vzu;
+	id 1xHMxb-00000000TI1-0vOa;
 	Thu, 15 Oct 2026 15:01:35 +0000
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGyqY-0000000FYhD-0LGh
+	id 1xGyqG-0000000FYcB-3j6v
 	for linux-nvme@bombadil.infradead.org;
-	Wed, 14 Oct 2026 13:16:42 +0000
+	Wed, 14 Oct 2026 13:16:24 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=atp4aIqkbW/zzg3ZCRudCSJI5t
-	7YRhVbL3sVOTdcCRHiG21kqNVNRPSgVkS/UqGpK91yVLSQUg5TTfhiyix4V+V4196ND6QeFe8bnKa
-	fm5IhLxKn8u8loz0W3wIC7KhRN7W7S/oRRzaJ28Nm6+F3JewNLmD11qTmA9+RuH+UbjZH7mOlfEGj
-	3IOtrcFAzOnUl5/ntAE+qUpQM7E5t53ktGzMpZS1hhJqMX15oGYsrhA6wMjVI08NhH8+QtF6FlY9Y
-	orpPKRCt8y3t7KhwbAdaqBuv+UEqmRz55axr1uyhi1bdCSVx9LEuZxrJf87k8fez3MC/fVBYhAVh4
-	nIp+WL2w==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=jdkvhKst6//HZhhOIJPne/ipzU
+	O9kFjnjyPfGFAQ1jfXR13MEWPV3ITC9H63+7G/K5k5U7zl6b4eQGelrevnim5FavK2d+FR4mlCm5d
+	UJrNUJSewuVoyfwotv1mvhWGPGLNftQnlGuha/F4tbsl9RKkZm3GGdgkc+yCWaYEytz3cZQ2axDqJ
+	26Zew1SqtbjDNlMudtuKI0i/8Xqz74h33lgAM+iY278xzzLfaOmmZQJVVu6SS2KpTGKGionio/Mz6
+	Yhj9ORe+baLJ+Nxq3BVSK4eeHVQNpeahYF7DFf/0JZPBuj4fKACsPYG1qVcoeGSpdtM7IzsdYYweK
+	eZAMEsmA==;
 Received: from verein.lst.de ([213.95.11.211])
 	by desiato.infradead.org with esmtps (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xGyqT-0000000GnyH-1zWg
+	id 1xGyqD-0000000GnwK-3Mup
 	for linux-nvme@lists.infradead.org;
-	Wed, 14 Oct 2026 13:16:39 +0000
+	Wed, 14 Oct 2026 13:16:23 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 4E99168BFE; Wed, 14 Oct 2026 15:16:34 +0200 (CEST)
-Date: Wed, 14 Oct 2026 15:16:33 +0200
+	id C52D868BEB; Wed, 14 Oct 2026 15:16:18 +0200 (CEST)
+Date: Wed, 14 Oct 2026 15:16:18 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Pavel Begunkov <asml.silence@gmail.com>
 Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -67,17 +67,17 @@ Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
 	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
 	Mikulas Patocka <mpatocka@redhat.com>,
 	Benjamin Marzinski <bmarzins@redhat.com>, dm-devel@lists.linux.dev
-Subject: Re: [PATCH v11 08/13] nvme-pci: add SGL support for the dmabuf path
-Message-ID: <20261014131633.GC16467@lst.de>
-References: <cover.1791975048.git.asml.silence@gmail.com> <86fb4caeddaa58fafad106548f82950782ea04fd.1791975048.git.asml.silence@gmail.com>
+Subject: Re: [PATCH v11 07/13] nvme-pci: implement dma-buf backed requests
+Message-ID: <20261014131618.GB16467@lst.de>
+References: <cover.1791975048.git.asml.silence@gmail.com> <9540e74b5d2dd1a5dc0d436bc0c2a6f5e18fc389.1791975048.git.asml.silence@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <86fb4caeddaa58fafad106548f82950782ea04fd.1791975048.git.asml.silence@gmail.com>
+In-Reply-To: <9540e74b5d2dd1a5dc0d436bc0c2a6f5e18fc389.1791975048.git.asml.silence@gmail.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261014_141637_584118_BBBEF4A0 
-X-CRM114-Status: GOOD (  11.68  )
+X-CRM114-CacheID: sfid-20261014_141622_016911_D4E93970 
+X-CRM114-Status: GOOD (  10.98  )
 X-Mailman-Approved-At: Thu, 15 Oct 2026 08:01:28 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -96,5 +96,4 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 Looks good:
 
 Reviewed-by: Christoph Hellwig <hch@lst.de>
-
 
