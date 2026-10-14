@@ -4,87 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7A82ACC6B33
-	for <linux-nvme@archiver.kernel.org>; Thu, 15 Oct 2026 15:02:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E0FC1CC6B33
+	for <linux-nvme@archiver.kernel.org>; Thu, 15 Oct 2026 15:02:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=sjQY12JZJkEEoHUMGZ5pLsy3Pmh4yJs101KM8nm2S/U=; b=m5xw89qya6VkHLtqZt1ymSUamI
-	eADTFcll59UZtS6eAC7T0We4r+2970UzbgbpJHCFfrh7Lj5D+Iyhkq5HCiTZmxfN8RqoC+Muc5Eza
-	NzYLcUNWGN4JnySlNuzYnWzJSYowBdNWuHw5XdpUlAc3yDqVlWAYhQmOIgVfU75vOowTFR+OvZt05
-	YiR8zOZzcdKssnUAJ8sGOJurO7IPEPfsvB53xdaHtuRg09Zz8kMBQMpePhYfwhb35U0HQZRuaPKob
-	zFRriV8CgJFb/XJuJGJzhpil8LU2cqsn7Nt0qi0Kzjr2KU38Wy02noyMb11PGBIagrJnU2jZffdpC
-	bEvDENew==;
+	bh=ays4SVba18pfRPB/Hpqu6QDaxGmpKJaoA/2lD097Khk=; b=12NpocXTAx5EMpMlM/xQ9Zoyfe
+	nv/OuP2lu8JPejjRygPURaQQ93aBJV439Ar5I31GhnHtsp3itqv7CmEoZcqyOvE0uhQ003AmWYQAM
+	LHgT1tsGlVgwQZ1I7YY/4eJQG6T93LKv8yzoOu6pII9ESUdmtj3E2h+ShuxQp/5UUjVjSwyHgpFCS
+	UCNQopmVgLe2rqrebiMhrS5LDLLmG9yD60GFcTsl+Q0KDsARhkgtvRnwgJ2Y0bYBJed+11lXyS/3k
+	2EqPPezHpnhjHQBYeYeI6Ff1z4CX5Plc+RK8oMiw7A4HHhvbLXjQgQi1id1NppFA6ZQEIF1rQ/Cbv
+	PJa/v0Ig==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xHMyk-00000000UI8-0tIj;
-	Thu, 15 Oct 2026 15:02:46 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1xHMyq-00000000URN-0gKJ;
+	Thu, 15 Oct 2026 15:02:52 +0000
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGwki-0000000FH45-0fSM
-	for linux-nvme@bombadil.infradead.org;
-	Wed, 14 Oct 2026 11:02:32 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=sjQY12JZJkEEoHUMGZ5pLsy3Pmh4yJs101KM8nm2S/U=; b=oRQM0PvxlHG0HgBNe31YWyUKBY
-	/neu6ces2Qt+axjwvs7ovvywJr5wbSxIyJlYlanrr0rzJ6fkcgSmKHd5T88SNz0aqMo9Viyy5BFm8
-	cvS9WwzRBRXz5NUvSTervuHMIZo5kxlo9L7eHYAnaOoZZOXnwUx6m8b1OtvFisXy5n8ym4WyUawy2
-	BS7LL3BC8Z2GsgYWRQ4zULWClP5IlfwjBpSaucHvTya0hMUwgWkmxhMVp1fmontLYjPsy4AGIhyyi
-	xnZwXAFTgdrZkZg3Xu8BxgcJF9H40cNGOH5UCxTqsuXS24m6kc26kDgKAqZYGtvvTHogfKSePIc84
-	cOeQRyMA==;
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
-	by desiato.infradead.org with esmtps (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xGwkf-0000000Gf2X-11mT
+	id 1xGwku-0000000FHEi-1h7Q
 	for linux-nvme@lists.infradead.org;
-	Wed, 14 Oct 2026 11:02:30 +0000
-Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-4a1635f7c89so8280865e9.2
-        for <linux-nvme@lists.infradead.org>; Wed, 14 Oct 2026 04:02:28 -0700 (PDT)
+	Wed, 14 Oct 2026 11:02:53 +0000
+Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-4a01933b584so34775185e9.0
+        for <linux-nvme@lists.infradead.org>; Wed, 14 Oct 2026 04:02:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791975748; x=1792580548; darn=lists.infradead.org;
+        d=gmail.com; s=20251104; t=1791975762; x=1792580562; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=sjQY12JZJkEEoHUMGZ5pLsy3Pmh4yJs101KM8nm2S/U=;
-        b=LUpjeeFmFt6C6BPZaV9kFiu3j6vzXbVfLoIoipqtlEmxWHb9HbG+q/BnvqUXYyTI5V
-         qhO2eUrcR/oQaUszQu2VfAhGFpKq/oAWSLtmtQZUtiozjmPZa1fG/vrwFG6iLjaSwXMS
-         /Ks380WbRL6dWdjUD+FcM+JBJHHqXG7e8yQ4NRcVN7bm8MSKJ67PSv34aOSnt7VhAPZ2
-         bKjdqiuI7IafdyDaeM1oxp8WZZ2WE7Tz/Vq6iBvSjAPoLC5bEUIuQuW02qN6L0Vo6j2s
-         4+oocwtiGsKa49+ekDDL1l5iY0LPTTf74oN+Vq0x996raPDhgH8hHaNkXVl4N9/CURZS
-         838g==
+        bh=ays4SVba18pfRPB/Hpqu6QDaxGmpKJaoA/2lD097Khk=;
+        b=HOty/sObD1vVFJR3Ckq5F8CqQz5hWj8C2GmIdNLauInF9ckcfSSTxRq0HomiMqJ4h5
+         DENqiwITgfakpa0XccteDHJ6KfwbwmgWQCZuQ0DQ/wAn79MVxjJuxVeQWnK8/CAd4ABj
+         v3mgq3IMU+BVAgeZCwhG2VodXG6r/v9FbiAZ4hbpEW1XHY/2UrZszzVIFWWbhiI9sBkg
+         0lh8DQWmKRUMvRbTjZYJxYvlIxvq71qzMS4molc1twmg/OKffIL5femLM9E9W9w9bpbv
+         82WfbknyV7WpY3fmgXl/WuDz9BerY0RBjSB7b1hjdupRxksNj5eGwOVACqQmXVCCL686
+         KrWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791975748; x=1792580548;
+        d=1e100.net; s=20260707; t=1791975762; x=1792580562;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=sjQY12JZJkEEoHUMGZ5pLsy3Pmh4yJs101KM8nm2S/U=;
-        b=ZTUJAjKxuFrQkC0gtBWB0oA/T6uxvP5mc+pg+Xvlfq4kH5PyjG1g0yLxj6alL+gPGa
-         fU9pyXv2GKOnxBe8tGWQlxtXCjc1gSrhrzvmI96DeRs0xsdNhH0rK35YPfUP2w/Bvncf
-         Z1pIyuy8iafn6IIGidYHhiowHVAehhdRXYg9VCe192YE89Y+ghNaQb74r3dVQ0FIBlFR
-         FhyFhmcGWl+iBxrHV3CapaxWd6qQsaf2oqsWQIm0waYqCjLcblRLw5Hz9sNxo2j+9R/m
-         gQqcCw1XN+rOm1btlYIrjxBMXlh7jwiIHsWeH3OckolfZJPyYDsbDIHfGgrpszFNUsj4
-         CYCA==
-X-Forwarded-Encrypted: i=1; AKwUvBwI4opcJ6kWpIv1yDyYlO5aHIJwCjevptPIey9oHxqftw1NlVsM4kj54gAO/Gdgi2H438ZWYJnXCaqM@lists.infradead.org
-X-Gm-Message-State: AFq9FYJDn/IagDaPzhKqoh2UdR0pjnrklCs2PsmynY0/za1iX32Y2tC3
-	dAeduPUasVcz5q1+jJIxmma/lPvZi3NFiTa/5p7yNHgwtGhQFxpCwDZA
-X-Gm-Gg: AYBFou2zHXZDBWQTN8U6G+PEoQHgWj1QqvOE2S73ytC9GYMjwFEj5/Eh+0N7l7B8gaS
-	ZakDiG/l76ZvjOiJrEUHYIiX61yttqQyadYA9LLO4ukcDljK8jW0kuzSj8p3D8/6ZfkxUBYEaLz
-	qgjrXlHNtYGr460gHIFbwm62u/J1uZ3VvOSufXsjcKaZLImO94OL97KnspZTbSbFsWI/XDDu80F
-	8cQ4b7TIY049BuEPXUYlF8ZqIWXcl05oYlq5Vqvc6V8vr5Jc+jDKygzmxCJSBIy2uOugniLKkCf
-	zI377ZNgQQ4htk5yOyCLZ1r+lp3WtQGNkH78G3e6sY49J/Yk4kStlShlaERLEuGDA60ZvtpDf20
-	b71tid3gsA7lu1M9hsOV975ELDoY4k7QFvvw0WysdtwFGi3RkjQ/pA4FcAa65b1lbTm+uO3gmYd
-	+sTBSxtEeArU8W3XrDtIFr8uKRr3h0cvGDvVZCD+uhwgz5/qX2DNFeFAFG97Ds6RpyOGqFC8Kbj
-	YwoSDRmXtCE+SdIFvTaXsqWt/ScYwnPvE1o7T03uUBtdizzjYiIpEQsms3H5eCSudrG8wywX70E
-X-Received: by 2002:a05:600c:8716:b0:4a1:62b8:9aa1 with SMTP id 5b1f17b1804b1-4a18e44885dmr316691205e9.2.1791975747413;
-        Wed, 14 Oct 2026 04:02:27 -0700 (PDT)
+        bh=ays4SVba18pfRPB/Hpqu6QDaxGmpKJaoA/2lD097Khk=;
+        b=B1T1twzG3f8KrsU2FPkW7O6IFAP0jdyhZRQwFD6kdYbab/nNZexzB2XH5w9YM+xpQh
+         i5+7iAsejqqVDcMAafMq9BHDi06l0l35sNnJ13yYg9xtKVrZm9w/KtprxT3rTr95oeUK
+         ovBgVSu3eJMsfQxoCN5ttq/Wex3gG9FtBoxxODxo2P/YbHjK83TSq73pvP4W+K/pgWBs
+         lX2ltpMJPLqNs3KUI5o8GLjw9tgxDR7n83mIJoiFTUUCQnlJdbGETjylG6/0NRJLYo62
+         T3k4snfWlGy0MdrY9CXrdfDJGJIFIW3PcOhWR7SBT3LSUD+CDUzDiaH5gpiQ9NYjPMcP
+         q/cQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxhwiOEJmUkb2SzdonI8ihz0+hdtx3DtNEi2dWs24DoH11YQyYxJyoOIwjbuu/2EtODKQXmbrXsLx40@lists.infradead.org
+X-Gm-Message-State: AFq9FYJeYKlk+T0k7m4/Xrxv/ncftE9HVyq79jl0t4z8vPJGJR9o84/B
+	6tcsw9io1s+Lwoxog03aYh328BXsi4pLZ5lRaURQuEBfg741ChAEC2oy
+X-Gm-Gg: AYBFou2WHOJ5OgTxy3WwK4bbgmsb4MLN105SQ/2NRUDF5sXp2ojn57q+niXqln7Xj8E
+	vJ+tuuKxexD5uptqN4FfQSiDcWBr/lmGqyGtrCAFsjCQ+9cMTmjoL0JBmgFoxomo82EdfTB9qWj
+	gi6axU04YtAFvtsQSS6m7e6qXaFt1EGiNNVku7AkEQga4JlQLvWHRE7q+0DLQaEbTNJwuZ1sFjz
+	SW9KwIvbSLrueeBUuUH2IgWjG+VENrzm715xIwaXPJyCFhGLOR5VkL5ON64AmVM5WDX/3NdKW2+
+	kGJ92EWr3al7ncdyzhKNEEhd9NU7+efAxyDLtGbJd0wFWEiunPJrKfl9td1dwUYIm3eyY1Kqfip
+	O3w2CHrqCrSVOMqT6u0KAow7uVPuG7l8LF9CXzMc8708FtKIX24IBsvPKfxIm5VEw25WkIvrD6A
+	oM6RYBr0CgtideJabSnSaeZWEYpRCONazr7dctIswHUC3wV0Bp9PtdHWbm//QA4HktsndAfPte0
+	XfSMO1nrhdfDOaGFUltd3laAU1cegmcFfP0Q+MDxRDv/lBUgtkXRHdKI2b6wwMSwcE2zQ3jTTzM
+X-Received: by 2002:a05:600c:154c:b0:49f:ce78:3562 with SMTP id 5b1f17b1804b1-4a18e4a9159mr329602185e9.19.1791975762395;
+        Wed, 14 Oct 2026 04:02:42 -0700 (PDT)
 Received: from 127.mynet ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1b45eb78csm38078845e9.2.2026.10.14.04.02.25
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1b45eb78csm38078845e9.2.2026.10.14.04.02.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Oct 2026 04:02:26 -0700 (PDT)
+        Wed, 14 Oct 2026 04:02:39 -0700 (PDT)
 From: Pavel Begunkov <asml.silence@gmail.com>
 To: linux-block@vger.kernel.org
 Cc: asml.silence@gmail.com,
@@ -116,17 +101,17 @@ Cc: asml.silence@gmail.com,
 	Mikulas Patocka <mpatocka@redhat.com>,
 	Benjamin Marzinski <bmarzins@redhat.com>,
 	dm-devel@lists.linux.dev
-Subject: [PATCH v11 05/13] block: add dma-buf support for raw bdev
-Date: Wed, 14 Oct 2026 12:02:03 +0100
-Message-ID: <c01c4709dc55a12fb0f2fe1ec847b5f1f0c92789.1791975048.git.asml.silence@gmail.com>
+Subject: [PATCH v11 12/13] io_uring/rsrc: add regbuf import flags
+Date: Wed, 14 Oct 2026 12:02:10 +0100
+Message-ID: <eb798e045bc245ebb7b0b42ba09a34b92f8b216f.1791975048.git.asml.silence@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <cover.1791975048.git.asml.silence@gmail.com>
 References: <cover.1791975048.git.asml.silence@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261014_120229_386886_D22FBB2E 
-X-CRM114-Status: GOOD (  19.90  )
+X-CRM114-CacheID: sfid-20261014_040245_583092_3D2C48C8 
+X-CRM114-Status: GOOD (  13.79  )
 X-Mailman-Approved-At: Thu, 15 Oct 2026 08:01:28 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -142,86 +127,81 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add a simple proxy implementation of init_dma_buf_io_ctx() forwarding
-the call to a new struct block_device_operations operation. Also reject
-dma-buf backed iterators for buffered IO.
+We'll have special registered buffer types that can't be used with all
+opcodes and need special handling. Add separate flags to control
+registered buffer import, which will be used to specify what kind of
+buffers the caller can handle.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-[pavel: reject dma-buf without O_DIRECT]
 Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
 ---
- block/fops.c           | 24 ++++++++++++++++++++++++
- include/linux/blkdev.h |  2 ++
- 2 files changed, 26 insertions(+)
+ io_uring/rsrc.c |  8 ++++----
+ io_uring/rsrc.h | 24 ++++++++++++++++++++----
+ 2 files changed, 24 insertions(+), 8 deletions(-)
 
-diff --git a/block/fops.c b/block/fops.c
-index 827dc9eecba7..6c6700df943c 100644
---- a/block/fops.c
-+++ b/block/fops.c
-@@ -730,6 +730,9 @@ blkdev_direct_write(struct kiocb *iocb, struct iov_iter *from)
+diff --git a/io_uring/rsrc.c b/io_uring/rsrc.c
+index 532866a1e9b9..f42d201738cd 100644
+--- a/io_uring/rsrc.c
++++ b/io_uring/rsrc.c
+@@ -1317,9 +1317,9 @@ inline struct io_rsrc_node *io_find_buf_node(struct io_kiocb *req,
+ 	return NULL;
+ }
  
- static ssize_t blkdev_buffered_write(struct kiocb *iocb, struct iov_iter *from)
+-int io_import_reg_buf(struct io_kiocb *req, struct iov_iter *iter,
++int __io_import_reg_buf(struct io_kiocb *req, struct iov_iter *iter,
+ 			u64 buf_addr, size_t len, int ddir,
+-			unsigned issue_flags)
++			unsigned issue_flags, unsigned import_flags)
  {
-+	if (unlikely(iov_iter_is_dmabuf_map(from)))
-+		return -EOPNOTSUPP;
+ 	struct io_rsrc_node *node;
+ 
+@@ -1733,9 +1733,9 @@ static int io_kern_bvec_size(struct iovec *iov, unsigned nr_iovs,
+ 	return 0;
+ }
+ 
+-int io_import_reg_vec(int ddir, struct iov_iter *iter,
++int __io_import_reg_vec(int ddir, struct iov_iter *iter,
+ 			struct io_kiocb *req, struct iou_vec *vec,
+-			unsigned nr_iovs, unsigned issue_flags)
++			unsigned nr_iovs, unsigned issue_flags, unsigned import_flags)
+ {
+ 	struct io_rsrc_node *node;
+ 	struct io_mapped_ubuf *imu;
+diff --git a/io_uring/rsrc.h b/io_uring/rsrc.h
+index 73d7b1ebf0b6..351995b61e68 100644
+--- a/io_uring/rsrc.h
++++ b/io_uring/rsrc.h
+@@ -62,12 +62,28 @@ int io_rsrc_data_alloc(struct io_rsrc_data *data, unsigned nr);
+ 
+ struct io_rsrc_node *io_find_buf_node(struct io_kiocb *req,
+ 				      unsigned issue_flags);
+-int io_import_reg_buf(struct io_kiocb *req, struct iov_iter *iter,
++int __io_import_reg_buf(struct io_kiocb *req, struct iov_iter *iter,
+ 			u64 buf_addr, size_t len, int ddir,
+-			unsigned issue_flags);
+-int io_import_reg_vec(int ddir, struct iov_iter *iter,
++			unsigned issue_flags, unsigned import_flags);
++int __io_import_reg_vec(int ddir, struct iov_iter *iter,
+ 			struct io_kiocb *req, struct iou_vec *vec,
+-			unsigned nr_iovs, unsigned issue_flags);
++			unsigned nr_iovs, unsigned issue_flags,
++			unsigned import_flags);
 +
- 	return iomap_file_buffered_write(iocb, from, &blkdev_iomap_ops, NULL,
- 			NULL);
- }
-@@ -855,6 +858,11 @@ static ssize_t blkdev_read_iter(struct kiocb *iocb, struct iov_iter *to)
- 		if (ret < 0 || !count)
- 			goto reexpand;
- 	}
-+	if (unlikely(iov_iter_is_dmabuf_map(to))) {
-+		if (!ret)
-+			ret = -EOPNOTSUPP;
-+		goto reexpand;
-+	}
- 
- 	/*
- 	 * Take i_rwsem and invalidate_lock to avoid racing with set_blocksize
-@@ -958,6 +966,21 @@ static int blkdev_mmap_prepare(struct vm_area_desc *desc)
- 	return generic_file_mmap_prepare(desc);
- }
- 
-+static int blkdev_init_dma_buf_io_ctx(struct file *file,
-+				      struct dma_buf_io_ctx *ctx)
++static inline int io_import_reg_buf(struct io_kiocb *req, struct iov_iter *iter,
++				    u64 buf_addr, size_t len, int ddir,
++				    unsigned issue_flags)
 +{
-+	struct block_device *bdev = file_bdev(file);
-+	struct gendisk *disk = bdev->bd_disk;
-+
-+	if (!(file->f_flags & O_DIRECT))
-+		return -EINVAL;
-+	if (!disk->fops->init_dma_buf_io_ctx)
-+		return -EOPNOTSUPP;
-+	if (bdev_has_integrity_csum(bdev))
-+		return -EOPNOTSUPP;
-+	return disk->fops->init_dma_buf_io_ctx(bdev, ctx);
++	return __io_import_reg_buf(req, iter, buf_addr, len, ddir, issue_flags, 0);
 +}
 +
- const struct file_operations def_blk_fops = {
- 	.open		= blkdev_open,
- 	.release	= blkdev_release,
-@@ -976,6 +999,7 @@ const struct file_operations def_blk_fops = {
- 	.fallocate	= blkdev_fallocate,
- 	.uring_cmd	= blkdev_uring_cmd,
- 	.fop_flags	= FOP_BUFFER_RASYNC | FOP_DONTCACHE,
-+	.init_dma_buf_io_ctx = blkdev_init_dma_buf_io_ctx,
- };
- 
- static __init int blkdev_init(void)
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index d003a9d2d1f6..2d5c30823aab 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -1599,6 +1599,8 @@ struct block_device_operations {
- 	/* returns the length of the identifier or a negative errno: */
- 	int (*get_unique_id)(struct gendisk *disk, u8 id[16],
- 			enum blk_unique_id id_type);
-+	int (*init_dma_buf_io_ctx)(struct block_device *,
-+				   struct dma_buf_io_ctx *);
- 	struct module *owner;
- 	const struct pr_ops *pr_ops;
++static inline int io_import_reg_vec(int ddir, struct iov_iter *iter,
++				    struct io_kiocb *req, struct iou_vec *vec,
++				    unsigned nr_iovs, unsigned issue_flags)
++{
++	return __io_import_reg_vec(ddir, iter, req, vec, nr_iovs, issue_flags, 0);
++}
++
+ int io_prep_reg_iovec(struct io_kiocb *req, struct iou_vec *iv,
+ 			const struct iovec __user *uvec, size_t uvec_segs);
  
 -- 
 2.54.0
