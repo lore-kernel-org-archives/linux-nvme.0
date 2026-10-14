@@ -4,72 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 31314CC6B1A
-	for <linux-nvme@archiver.kernel.org>; Wed, 14 Oct 2026 17:01:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 78A9BCC6B1A
+	for <linux-nvme@archiver.kernel.org>; Wed, 14 Oct 2026 17:01:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=cLpXe4/u91k9DHDDYoXmFNxRFAC/Zm9beCfIpbWNzcY=; b=D0czzEPTlGUdtLfdRSkMWHHjAm
-	0I7wA2SA7xzvaIeJsaqZoS+ZaR23FuipSk2lP1OiVH9chgGOT3L4llcXLHBo0G+CVB/cHaMwBogVm
-	G0hBJrPMbcKCIOb9D54LtI4CEWwBMuc3cjynyFP0snyNHXxSMigJqgmWW/d57v5415Ay+lswMIHfy
-	lVC0X9E4zDDhltZQvIQF71E0/GXf1tMTcRb2fbd9Mb+zie92bcD9aSy9pw1VqaFaQVtAzcjhN1BYB
-	GN8mysx43S3z54czTH0lmY0/rNtbsjnAQMQarn53CgNdW47X8KYdMbUNLwJN/ZmMV07QogQltYHEG
-	ZALxXuNw==;
+	bh=b4EOz8oNcujmRPotVW/3oA0Xk0tvmFoYm47gqUKw16U=; b=JFUKdY6fgVXCxjiQKCCg+zjXxv
+	GH5rlzgxCf3UP0gXOhJWscmsGFZ9pMESrLosLeBXqguowJw2cYZGgPB4aA3Ud/DnOjiqXnvBDkciz
+	VVNHOxmNcGXxnYDepVsEJ+8qqdK1bNsoHmsiqOf2r45YyDtqpJytpwqF5+oBgb+UA/pohtFCXQoiH
+	Fnj6Uo57pbmbd0jyCOT+CPPhpS3xzrj5Gj5qK88LDrM5EXlAyKNIenTb9MTXFlwmqX3htmOeMXoM0
+	MIKnklfrm+DjwyqBI6MYBRWXpZCIzqx4k7B4+EvEOEQWY8IN2NjbZztkpixoixraqYfrbzhBA/jre
+	J4KXESuw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xH2Ld-0000000G38r-3gNR;
-	Wed, 14 Oct 2026 17:01:01 +0000
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+	id 1xH2Li-0000000G3Al-03AC;
+	Wed, 14 Oct 2026 17:01:06 +0000
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xH2La-0000000G37i-3XVc
+	id 1xH2Lf-0000000G39B-07D3
 	for linux-nvme@lists.infradead.org;
-	Wed, 14 Oct 2026 17:01:00 +0000
-Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-4a02667ccebso32050545e9.0
-        for <linux-nvme@lists.infradead.org>; Wed, 14 Oct 2026 10:00:58 -0700 (PDT)
+	Wed, 14 Oct 2026 17:01:04 +0000
+Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-4a16c399641so42923555e9.2
+        for <linux-nvme@lists.infradead.org>; Wed, 14 Oct 2026 10:01:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791997257; x=1792602057; darn=lists.infradead.org;
+        d=gmail.com; s=20251104; t=1791997261; x=1792602061; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=cLpXe4/u91k9DHDDYoXmFNxRFAC/Zm9beCfIpbWNzcY=;
-        b=B6iOrV1gw4NkhYv1be6139qGK5aEYM3KTjBmoyosAqLNByJ0fJAxUv7lO39WWgjgc0
-         xpOT+K7ZCwENfAG3VhhsZgvCKMXyDbjY3DeKSHXaAILWlVpu13Zrj8U3AqoWzgeuqLhD
-         /eC37mhviUoH+9kOpc/dSL+ByAPLKUvSjmRQCGF9aFcDSa6eDUi3vqTxdAPZ2leDdtz+
-         ac0IhOhVTpy7coBrodNcLJMMJXBwh73SwQXzgZ9EFKutf8Egz43jAF3tN1YGyVuu+wSK
-         Lswa2BaIbVS6oi98gYZXFaNcoAzsGSeICm4FCFlnjmDauXbhdXkfrAFHctvyomR8dIF/
-         aBXw==
+        bh=b4EOz8oNcujmRPotVW/3oA0Xk0tvmFoYm47gqUKw16U=;
+        b=Vihln/Mmvgdwug+pyz+dWjAo7yCuTDWEy7CErwO6IA2o6RN2x66guKMPyGAsNx0ZzL
+         oO9E+WRY5OQEKwc2EaBCVGr/UQWXElO3lIS5OP/fPQP7R/jrD9jyhSLtHpUzwNMGfph+
+         nJUAOLDOwr1DWq4cfhtl7D2UBZZ25vCgMgriqNawqvi9f6k2TUzaWFQN3GVcutEmP57k
+         4VlVQrKXcxfAPY0C4EtI9FomQl3yf2RWH5pVOZJkW8wHmWDnRqdikQe/FjEKhq9lqEdf
+         L9MahJPsi07u8HN3Qw3YJyRncJE7sk6TJWgeKB+a6AKcWSOMcYtBWxI4/bvl10hUMH5F
+         uKXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791997257; x=1792602057;
+        d=1e100.net; s=20260707; t=1791997261; x=1792602061;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=cLpXe4/u91k9DHDDYoXmFNxRFAC/Zm9beCfIpbWNzcY=;
-        b=z+haWqnDfecHld+9ncSpnPybP8nUjoXgPFhINQ2MOOuoS2JSiqDPbRQ/d7IR4knYSu
-         ZESUzUrQPy2UnPL5kBCs3hz3tBep9bm+/aNUPazzb3haVKmK+99qPvMvKPk3To1Qjmj7
-         MH62NxixH1OiVbAVaeywWdC2o+tRwRvkkT0CMAM/chA1cG7DtwYwk9NTxxa/hthVU2nc
-         9ePcrn2+/wCe+huP2rIgrnjbehPhIk/lcwiPzwfEfLUC221MvMWY22zCn9FuY3KNvINj
-         QJpy//F9bn3eO5PZmDjfEwW5rutu1exej4IpMrA72gNfzSBjkXV6x8e3zsTFrjbzX9nG
-         YRWQ==
-X-Forwarded-Encrypted: i=1; AKwUvByQdXlQIWOwdtpGIBJTmQLBVwNo4WmwUMFOKv8j3a48ox+VJxwyvZ/JVrqpmiY8bTveuArDQW/6olTi@lists.infradead.org
-X-Gm-Message-State: AFq9FYKk2XyD+Mw3wQCukhvr6z9HT+qjV0lalI/EsSni2xMhCPsmxUKe
-	vgD5WJTcjyVeANykWIP7zj9BBFNRltDLfT+S4w63kIOq9QiMtptb0I9d
-X-Gm-Gg: AYBFou38QBXubJKmvtlAomFVr+E2cuk5BSeODa7o6LYl+6386XJAQmv7mWPyC6CPItc
-	Vk0k6yP8RSqeGdogQ493gFDfxHugYjQRn9Xq57qSUy1B0twue04RvSExLtgCBS0xVAI5Mm83aAS
-	wOTHNYvUEEOemrMQIScEGzqhgU8fM5RCd1rWbhyvl0rduTq10gNxBGaltps3oiSaAGUT0RXOJj5
-	fhCW19bF5jTDus7HP7PBG8ebU3EC9Moe1ZxUneSHc4PzLbTkUlStETCrd07CbBU/zCBVVKjR7mY
-	n1eZwr4I2/LqI/5neyShNx+XFsSBBIdVu4FGFrKXiZSeQCvUlEuVmWUn7qaUTJLuWf9LZAXEtEX
-	cZR8hKTsTIjvPIzkHXkMQKLip54lrRyiMSvs8Jc9NPIZYeZvbytZBHcNHWJhh+Fa8Js38h3zGK3
-	67bN0Pq0AP40I99oQdeQ3KekEc3EW3rsmk6gW6af+qN43wcYaWNdp4Ul+EkYFevzz7mU00Q0t4b
-	I5S1KkO45xCbK+UKwWdC4yCG4JHlK7fzNFE6Oj0xdS94g==
-X-Received: by 2002:a05:600c:190b:b0:4a1:82cc:1e9a with SMTP id 5b1f17b1804b1-4a18e4b2b25mr330216135e9.17.1791997256518;
-        Wed, 14 Oct 2026 10:00:56 -0700 (PDT)
+        bh=b4EOz8oNcujmRPotVW/3oA0Xk0tvmFoYm47gqUKw16U=;
+        b=t8c80+1PFWP5aRWhuvwHzKzwMY/X7USA10YwrSjbUTXHHijAjgjct5cNhBV9RGJMXZ
+         HSN+8yMSduvaFghfv3NMrqY5hUueavJn5HTlxeP1cFklmhor5EvNDNnJUdq2L+1nvz98
+         06kD1Fuq5uAbqerWH1uWbrg9Io+ukWMa+KBWaSgsr3HnnDancVHtF28cs/7C5YK2OWia
+         ErP+oQxJTXv3W0KFfvSBR6IFhDaPEK0mkidum5w6C6GiiFJWhwGWU47iFE5LTezMBzJ4
+         GZchtXyZBdpKbpg8D9x7cDnQwVcJgSKx4i4iqQQjgyIwtD63bq1um0SYR1u9MfrqV8ya
+         egDA==
+X-Forwarded-Encrypted: i=1; AKwUvBxymixcvJ8qgtLNxv+GQJNK1j7tZ/1XfkErQo0jJrsKReZJfTSAFftHHbHmm9tKDgO/IZumSFQlR+V3@lists.infradead.org
+X-Gm-Message-State: AFq9FYKh2/Rvow9jp7J5fJOF4Cc/bXlnSf2fYNAEyCPu4BwTWvmAuSAG
+	Jk3DAGhZ2kBJZnBBaLv2w/jmzcspNuPBIzLNTP4luVfRnRA8tTO8xqYs
+X-Gm-Gg: AYBFou2JvO3qRE7EuLBjyrdzzT28FTenWIrPOY7Oo7i9WSZeBsQPBEGYcGAAXzhPr3M
+	cWam1j2npFzuDA7BoSrNs1CF1qEZE3vQTxoSM3B+1j6ZNJJOsnQknsM7l4+2pPHAyWcLRZoFOrB
+	D1nz8/uT3/WnkVAHB+I14OV6HSBgBNf2gSrTjIpxnMSN5a9jVMZAc7K6ffk8yfUIryRIPZtB+1p
+	jvrcMpwPAXd0LPQJrQaYY+uVjFuSuh0RUrTdZ4SGQeegG+4F+nuJJwOa9z5CPkOB2NAEwMe4W+G
+	lgXjlb9/9OvhoPThKG1HresxUuZxS3MP0osapaMj7Y5RWw6XhApI6BI1evbtiffhkheucWAKZWK
+	uVxzLBkq1Twfuc0W/mDAS9ofkWQ1r15XuLWZ8yqeyqKgmDa8K9GICkTOueVYfYqhKViYa9YGbor
+	YOtnxvfG5y+RnYCxGYNpw2IFqBPZP/4lV0gW8xidXWDxrrCCQiJFfvdxXq030DZXIs4eFZdylOO
+	xn6A1hgRyTFIBOLlbgrpJJ0j+qG06qm/XqqJ1QgjzbbyA==
+X-Received: by 2002:a05:600c:4fcb:b0:4a1:811c:8083 with SMTP id 5b1f17b1804b1-4a18e4c3600mr330167855e9.33.1791997261055;
+        Wed, 14 Oct 2026 10:01:01 -0700 (PDT)
 Received: from andreayoga.wind3.hub ([31.189.109.133])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1bd9a8a22sm5349415e9.5.2026.10.14.10.00.55
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1bd9a8a22sm5349415e9.5.2026.10.14.10.00.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Oct 2026 10:00:56 -0700 (PDT)
+        Wed, 14 Oct 2026 10:00:59 -0700 (PDT)
 From: Andrea Parri <parri.andrea@gmail.com>
 To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
 	linux-block@vger.kernel.org
@@ -80,17 +80,17 @@ Cc: Andrea Parri <parri.andrea@gmail.com>,
 	Chaitanya Kulkarni <kch@nvidia.com>,
 	Daniel Wagner <dwagner@suse.de>,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH blktests 1/4] nvme/rc: add zoned null_blk target helpers
-Date: Wed, 14 Oct 2026 19:00:38 +0200
-Message-ID: <20261014170046.2516-2-parri.andrea@gmail.com>
+Subject: [PATCH blktests 2/4] nvme/071: test that nvmet sends no data for a failed read
+Date: Wed, 14 Oct 2026 19:00:39 +0200
+Message-ID: <20261014170046.2516-3-parri.andrea@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261014170046.2516-1-parri.andrea@gmail.com>
 References: <20261014170046.2516-1-parri.andrea@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261014_100059_627481_B89EA115 
-X-CRM114-Status: GOOD (  12.02  )
+X-CRM114-CacheID: sfid-20261014_100103_749044_9FBBD797 
+X-CRM114-Status: GOOD (  28.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -105,90 +105,238 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add helpers that export a zoned null_blk device as a namespace of the
-default subsystem and connect to it, tear that setup down again, and
-issue a partial Zone Management Receive and check its completion status.
+Issue a failing Identify into a buffer filled with a sentinel and verify
+that the target transfers no data, with a successful Identify and a
+namespace read as controls. The test runs on every configured transport;
+only nvmet-fc failed it before the fix. Add a small helper because
+nvme-cli cannot prefill the data buffer.
 
-The zone report tests added next share them.
+The test fails over fc on the unpatched kernel and passes with the fix
+applied.
 
 Assisted-by: LLM
 Signed-off-by: Andrea Parri <parri.andrea@gmail.com>
 ---
- tests/nvme/rc | 61 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 61 insertions(+)
+ src/.gitignore           |  1 +
+ src/Makefile             |  1 +
+ src/nvme-sentinel-read.c | 89 ++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/071           | 80 ++++++++++++++++++++++++++++++++++++
+ tests/nvme/071.out       |  2 +
+ 5 files changed, 173 insertions(+)
+ create mode 100644 src/nvme-sentinel-read.c
+ create mode 100755 tests/nvme/071
+ create mode 100644 tests/nvme/071.out
 
-diff --git a/tests/nvme/rc b/tests/nvme/rc
-index c415ca1234407..270fad19d61f1 100644
---- a/tests/nvme/rc
-+++ b/tests/nvme/rc
-@@ -408,6 +408,67 @@ _nvmet_passthru_target_cleanup() {
- 	_remove_nvmet_host "${def_hostnqn}"
- }
- 
-+# Export a zoned null_blk device as a namespace of the default subsystem and
-+# connect to it. Callers must source common/null_blk.
-+_nvmet_zoned_target_setup() {
-+	if ! _init_null_blk nr_devices=0; then
-+		return 1
-+	fi
-+	if ! _configure_null_blk nullb0 blocksize=512 size=1024 zoned=1 \
-+	     zone_size=1 power=1 >>"$FULL" 2>&1; then
-+		echo "could not configure zoned null_blk device"
-+		return 1
-+	fi
+diff --git a/src/.gitignore b/src/.gitignore
+index e9869e172b20f..2429da9d9cf44 100644
+--- a/src/.gitignore
++++ b/src/.gitignore
+@@ -18,3 +18,4 @@
+ /ioctl-lbmd-query
+ /nvme-passthru-admin-uring
+ /nvme-delay-ioctl
++/nvme-sentinel-read
+diff --git a/src/Makefile b/src/Makefile
+index dd646940fa25e..78433f0762b4a 100644
+--- a/src/Makefile
++++ b/src/Makefile
+@@ -24,6 +24,7 @@ C_TARGETS := \
+ 	mount_clear_sock \
+ 	nvme-delay-ioctl \
+ 	nvme-passthrough-meta \
++	nvme-sentinel-read \
+ 	ioctl-lbmd-query \
+ 	nbdsetsize \
+ 	openclose \
+diff --git a/src/nvme-sentinel-read.c b/src/nvme-sentinel-read.c
+new file mode 100644
+index 0000000000000..dd36f283f46e2
+--- /dev/null
++++ b/src/nvme-sentinel-read.c
+@@ -0,0 +1,89 @@
++// SPDX-License-Identifier: GPL-3.0+
++// Copyright (C) 2026 Andrea Parri
 +
-+	_nvmet_target_setup --blkdev none
-+	_create_nvmet_ns --blkdev /dev/nullb0 --uuid "$def_subsys_uuid" \
-+		>/dev/null
-+	_nvme_connect_subsys
++/*
++ * Issue an NVMe admin read command into a buffer filled with a sentinel and
++ * print the NVMe status and the number of bytes the command overwrote.
++ */
++#define _GNU_SOURCE
++#include <errno.h>
++#include <fcntl.h>
++#include <linux/nvme_ioctl.h>
++#include <stdint.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <sys/ioctl.h>
++#include <unistd.h>
++
++#define SENTINEL	0xa5
++
++static int parse_u32(const char *s, uint32_t *val)
++{
++	unsigned long v;
++	char *end;
++
++	errno = 0;
++	v = strtoul(s, &end, 0);
++	if (errno || end == s || *end || v > UINT32_MAX)
++		return -1;
++	*val = v;
++	return 0;
 +}
 +
-+_nvmet_zoned_target_cleanup() {
++int main(int argc, char **argv)
++{
++	struct nvme_passthru_cmd cmd = { };
++	uint32_t opcode, cdw10, len, i, changed = 0;
++	unsigned char *buf;
++	void *p;
++	int fd, ret;
++
++	if (argc != 5 || parse_u32(argv[2], &opcode) || opcode > 0xff ||
++	    parse_u32(argv[3], &cdw10) || parse_u32(argv[4], &len) || !len) {
++		fprintf(stderr, "usage: %s /dev/nvmeX opcode cdw10 data-len\n",
++			argv[0]);
++		return 2;
++	}
++
++	/*
++	 * Page-align the buffer so that the kernel maps it for the transfer
++	 * instead of bouncing it: a bounce buffer is zero-filled and copied
++	 * back even when the command fails, which would hide the sentinel.
++	 */
++	ret = posix_memalign(&p, 4096, len);
++	if (ret) {
++		fprintf(stderr, "posix_memalign: %s\n", strerror(ret));
++		return 2;
++	}
++	buf = p;
++	memset(buf, SENTINEL, len);
++
++	fd = open(argv[1], O_RDONLY);
++	if (fd < 0) {
++		perror(argv[1]);
++		free(buf);
++		return 2;
++	}
++
++	cmd.opcode = opcode;
++	cmd.addr = (uintptr_t)buf;
++	cmd.data_len = len;
++	cmd.cdw10 = cdw10;
++
++	ret = ioctl(fd, NVME_IOCTL_ADMIN_CMD, &cmd);
++	close(fd);
++	if (ret < 0) {
++		perror("NVME_IOCTL_ADMIN_CMD");
++		free(buf);
++		return 2;
++	}
++
++	for (i = 0; i < len; i++)
++		if (buf[i] != SENTINEL)
++			changed++;
++
++	printf("%#x %u\n", ret, changed);
++	free(buf);
++	return 0;
++}
+diff --git a/tests/nvme/071 b/tests/nvme/071
+new file mode 100755
+index 0000000000000..5333bfac8db53
+--- /dev/null
++++ b/tests/nvme/071
+@@ -0,0 +1,80 @@
++#!/bin/bash
++# SPDX-License-Identifier: GPL-3.0+
++# Copyright (C) 2026 Andrea Parri
++#
++# Check that the NVMe target transfers no read data for a failed command.
++# The host buffer is filled with a sentinel, so any data the target sends
++# shows up as changed bytes.
++#
++# Regression test for patch "nvmet-fc: only send read data for successful
++# commands".
++
++. tests/nvme/rc
++
++DESCRIPTION="verify nvmet does not transfer data for failed reads"
++QUICK=1
++
++requires() {
++	_nvme_requires
++	_have_loop
++	_require_kernel_nvme_target
++	_have_src_program nvme-sentinel-read
++}
++
++set_conditions() {
++	_set_nvme_trtype "$@"
++}
++
++# Issue an Identify with CNS $2 to controller $1 and print the NVMe status
++# and the number of changed bytes in the 4096-byte data buffer.
++_identify() {
++	src/nvme-sentinel-read "$1" 0x06 "$2" 4096 2>>"$FULL"
++}
++
++test() {
++	echo "Running ${TEST_NAME}"
++
++	local changed ctrl ns status
++
++	_setup_nvmet
++	# File backing: the namespace read below fails over loop with the
++	# default loop device backing, for reasons unrelated to this test.
++	_nvmet_target_setup --blkdev file
++	_nvme_connect_subsys
++
++	ctrl=$(_find_nvme_dev "$def_subsysnqn")
++	ns="/dev/${ctrl}n1"
++
++	# Identify Controller succeeds and must overwrite the sentinel.
++	if ! read -r status changed < <(_identify "/dev/$ctrl" 0x01); then
++		echo "successful Identify could not be issued"
++	else
++		echo "cns=0x01 status=$status changed=$changed" >>"$FULL"
++		if ((status != 0 || changed == 0)); then
++			echo "successful Identify returned status $status with $changed bytes"
++		fi
++	fi
++
++	# An unsupported CNS fails and must leave the sentinel intact.
++	if ! read -r status changed < <(_identify "/dev/$ctrl" 0xff); then
++		echo "failed Identify could not be issued"
++	else
++		echo "cns=0xff status=$status changed=$changed" >>"$FULL"
++		if (((status & 0x7ff) != 2)); then
++			echo "failed Identify returned status $status, expected 0x2"
++		fi
++		if ((changed != 0)); then
++			echo "failed Identify transferred data: $changed bytes changed"
++		fi
++	fi
++
++	if ! dd if="$ns" of=/dev/null bs=4096 count=256 iflag=direct \
++	     status=none >>"$FULL" 2>&1; then
++		echo "namespace read failed"
++	fi
++
 +	_nvme_disconnect_subsys
 +	_nvmet_target_cleanup
-+	_exit_null_blk
++
++	echo "Test complete"
 +}
-+
-+# Test cleanup handler to register with _nvmet_zoned_target_setup().
-+_cleanup_nvmet_zoned_target() {
-+	_cleanup_nvmet
-+	_exit_null_blk
-+}
-+
-+# Issue a partial zone report from zone 0 of namespace device $1 with a
-+# $2-byte data buffer and NUMD $3, and check that it completes with status
-+# code $4, or succeeds if $4 is 0.
-+_check_zone_report() {
-+	local dev=$1 data_len=$2 numd=$3 expected=$4 desc err rc status
-+
-+	desc="zone report with $data_len bytes and NUMD $numd"
-+	err=$(nvme io-passthru "$dev" --namespace-id=1 --opcode=0x7a --read \
-+		--data-len="$data_len" --cdw10=0 --cdw11=0 --cdw12="$numd" \
-+		--cdw13=0x10000 2>&1 >/dev/null)
-+	rc=$?
-+	status=$(sed -n \
-+		's/^NVMe status:.*(\(0x[[:xdigit:]][[:xdigit:]]*\)).*/\1/p' \
-+		<<<"$err")
-+	printf '%s: exit=%d status=%s\n' "$desc" "$rc" "${status:-none}" \
-+		>>"$FULL"
-+
-+	if ((expected == 0)); then
-+		if ((rc != 0)); then
-+			echo "$desc failed"
-+		fi
-+	elif ((rc == 0)); then
-+		echo "$desc was not rejected"
-+	elif [[ -z "$status" ]]; then
-+		echo "$desc returned no NVMe status"
-+	elif (((status & 0x7ff) != expected)); then
-+		printf '%s returned status %s, expected %#x\n' "$desc" \
-+			"$status" "$expected"
-+	fi
-+}
-+
- _discovery_genctr() {
- 	local port=${1}
- 
+diff --git a/tests/nvme/071.out b/tests/nvme/071.out
+new file mode 100644
+index 0000000000000..146809b91e0a3
+--- /dev/null
++++ b/tests/nvme/071.out
+@@ -0,0 +1,2 @@
++Running nvme/071
++Test complete
 -- 
 2.53.0
 
