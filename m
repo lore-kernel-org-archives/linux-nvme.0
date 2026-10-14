@@ -4,107 +4,103 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CA6A5CC6B2A
-	for <linux-nvme@archiver.kernel.org>; Wed, 14 Oct 2026 13:41:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3FA7ECC6B1D
+	for <linux-nvme@archiver.kernel.org>; Wed, 14 Oct 2026 13:43:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=TI1InYuhv2BOMB8UNQLzhmzx2APX9vyjkfAbRr4ddfE=; b=ZPAPxC628wcG3XN6O8TZjcTiuQ
-	bIgqd78BVtB1//MZMuk8fCAskkvMnZgIgIKDVZjN4RcfGhbOv0AP1glgz78/OddPL8FN1KhuYviPN
-	r6IQI+GsCilJcBtTqp0nvAWhyh0+yxyXOZFQ0I4ECmjMupRLQ8mD6IBmuEfTH4QxD50ucsD/k5O2c
-	xrR0qwwFyGen6aziJ8ZgGvC6uIsOCqr/fLoBIcv38HOXqonrJcEYHf63yykr5zexMbHRp1OZD+0Ud
-	V2ObrjFa+WgMdjRWW+xwpgrM1H4o1/XgveTJWD7MqwPlPQSjEjwqh41Sq1s3A0pMs50Gi7umtOv4V
-	7HZeFHSQ==;
+	bh=/UfknVFgwY+ADn2+7Gfp8pJoPMV5PqQ31vPcFrLztQY=; b=2hBvy7OpRVvk+yA3kwOW9FJzxH
+	rXKphYXIhl/4wFihkdbSrpWg0VHCRL/tUeoUe3H0h1nggf5gpt32RGEFSXwNi0S2ZnSV9GP4NTBzu
+	9xri8viOSy507pyBJlL4nSWp/HG2yrUQr6MXJWoCj5r0oiSZNfjTYAHRhddD6QgPL9F2jkpsYTqEN
+	xpIPrhOaE8vj1M0VUCFlRtXMA0wT36RN+V6F/ctOKbn7WVOEEz7uO7oJoXYZy7o2OdNg4t3kiQcDb
+	pDwILWtOwEmSjUP4VOz5HRRcFA+6hj9bvN1AU6J98z/XA5JOPH/EWMqvj38a6CwHfrZE30FBCMmgy
+	l+Tdy6vA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGzE5-0000000Fcnk-0CHz;
-	Wed, 14 Oct 2026 13:41:01 +0000
-Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e])
+	id 1xGzGW-0000000FdAr-3cir;
+	Wed, 14 Oct 2026 13:43:32 +0000
+Received: from mail-oo1-xc2b.google.com ([2607:f8b0:4864:20::c2b])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGzE2-0000000Fcmh-138C
+	id 1xGzGL-0000000Fd9y-29MW
 	for linux-nvme@lists.infradead.org;
-	Wed, 14 Oct 2026 13:41:00 +0000
-Received: by mail-ot1-x32e.google.com with SMTP id 46e09a7af769-82621039b6bso665364a34.1
-        for <linux-nvme@lists.infradead.org>; Wed, 14 Oct 2026 06:40:57 -0700 (PDT)
+	Wed, 14 Oct 2026 13:43:27 +0000
+Received: by mail-oo1-xc2b.google.com with SMTP id 006d021491bc7-6de08b2e447so1751320eaf.3
+        for <linux-nvme@lists.infradead.org>; Wed, 14 Oct 2026 06:43:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1791985257; x=1792590057; darn=lists.infradead.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=TI1InYuhv2BOMB8UNQLzhmzx2APX9vyjkfAbRr4ddfE=;
-        b=rhqzeZiyp3mV5kLDBVkVkbGbvhmS07vAQj5xwkHKuJVh+46/UPqptbzPNHrZpH3JfA
-         IPOc6aeO78FDcRY0FvsZCKZXpiSLOSpGHWwBY8QNAaYZYyaUtgLDbX3mjzQLstDR6HLS
-         sxIF86xJ6zl8crciCxyCzhj+hqaiBJHpgLxQS0O9M4SJdTFYNrgqXfQTCOYwp87uNzYv
-         E+Yax6lk8fwTbBrIuI0DxEHkD+tBt93HpJIvigjdt0BtvuXXbhh8QbxTborg0BpbEOr6
-         CC0+s8A/sij3MJaCh3/61zTdBBQOapaqHKg/9L9Audpr8gRKm6LiKGV2o09tXNGffYQj
-         BOPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791985257; x=1792590057;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1791985400; x=1792590200; darn=lists.infradead.org;
+        h=content-transfer-encoding:content-type:mime-version:date:message-id
+         :subject:references:in-reply-to:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=TI1InYuhv2BOMB8UNQLzhmzx2APX9vyjkfAbRr4ddfE=;
-        b=nMBRLKtcdySnxF2llZJJrI77bWisfkiJI+hpASq587hpUbIVabKSM702eRT/e2+zWh
-         fyE4CHCyABLQMbR1BZPwCbmsYZdi/PWiHyzGUCrTONMdyc/kPCGywGFQ3ArLop7G6s0L
-         T3L27gQuc2PclQOuIL+KQB/j4VUc8nO3o2AZORT1Yig20UJu9vyrRveSqNdKK/GMGR7U
-         4nvIh4pbE2qhxyroFxENQJcVy2cKHtcpBr0Xxi2Gi42M0S4bC7+EXbebSSbolZ3Q5vk0
-         Xh7g3x0fjWqoY/pyM94mJ1cJeUTQQU9lFDT+PYesnJBtAMl5S0gRSxZ4S3uRtdds6tPB
-         jHaQ==
-X-Forwarded-Encrypted: i=1; AKwUvByyPR5wZScg6Jebinyp0pYIfQZaDRxKSLYndywoRjVOtyNY4JNtU/MEKwR4D/zcNoEsTD4O9Y1oyFXV@lists.infradead.org
-X-Gm-Message-State: AFq9FYJURQtfU1kaHzQWzE0MSajNXOTKEiiiZcaKpQiqhHccXyXrY+cU
-	eIHQ1CNV3psD42CziYoKEwhIc0TWFWSZQ3PujskGR6eU+VDVm0QFF542AubjxDbf6HM=
-X-Gm-Gg: AYBFou2QgJs9EyvJ5pYz2upUqb8Wqzj+l0buPZDicwBdrGkCTxvW/PADS6gZiH7JHJe
-	lNs8v9kkB8i9zCc+OxXZ67YByFNpqavGxIiw8UBOTIfmLkG7H6njekd7AZzGk54WGZbeRzdOklW
-	NhLBftz+8NFK/19f9bMkd4gv6ib16WCg8Z7F2h+Jr7Zf9YFPT3KfXqcRB/RXu6ntVhe7BwVGQUR
-	ro8huoXqcsLDLSR5C5BS1DyVUEHEHAvhTuF94CMV+gz7WenTfORQ2iGwVhCeIDWna6KHigV3dKe
-	qj8xFie4VKiT8oprplX5dWee0ghRt7t213Asd9/Ejzyesol/vjyeudJ19KRFBrQpYyVPhVD7prA
-	5UTg3kyCceqYZLMElazYCTkO0p2E7OHhuggZTG9UO6ezxCnKqus3TNRujAsLqgZfnF9H4JKn4D1
-	AqBJnoXziKdWKeS3/+PcdDR3qIsGm4Wg5971mptXZgT/PBwFoT3ULyz/9U4sEMgDlDlRSvEStAR
-	m+AlBZ+tHUPCjPa5j3zFBG6KYNdIaa7ZmFKX39BFTQKr87+iF4PvVf6jw==
-X-Received: by 2002:a05:6830:67e4:b0:812:4cc7:4afe with SMTP id 46e09a7af769-830969d183fmr14838309a34.17.1791985256814;
-        Wed, 14 Oct 2026 06:40:56 -0700 (PDT)
+        bh=/UfknVFgwY+ADn2+7Gfp8pJoPMV5PqQ31vPcFrLztQY=;
+        b=IKhG/oFqFCqTXtrszBg7FSqlA08/dGZJhlaZJjPbuUgTyWG2EFFmnxon9mqPE/5sHP
+         d8eOCiy+l034TRqy2HhY+f6OgmfovRRqijoh4fdul/z/5DGA5d59OSMBdA1iXp+BCZ3i
+         hgNo/Vm2oPwXlOqa3kdwBPlzFjIE8GNmfed+Lvc9HIcad7AABO+CldpSg80sjaRRYgU0
+         8ETFUbaj/4XhgZKaedvahnQ1FzbrUhXIlwXr4uyJCq0hJxh1UZD7XyrwuFOK2bA4gZqA
+         +iKiRK6+nNs7OcRtYIs9w7kzqU7z7uYcAPRFC8HyDbkrg2etKSS3g8YWsdelTRQUKv5O
+         N4rQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791985400; x=1792590200;
+        h=content-transfer-encoding:content-type:mime-version:date:message-id
+         :subject:references:in-reply-to:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/UfknVFgwY+ADn2+7Gfp8pJoPMV5PqQ31vPcFrLztQY=;
+        b=BFirAF0rGsDba5yS/RqRiOLdt58KnWB01LYSu7lBXqQOJes0JrP3U99p2DOQnMwxYe
+         lBPi96kf9hw2yFjeLDaDaZYavSJRQCUg/8kJAZq39Xv/qpr85K3pRWp4ft3gjXvX/VHU
+         mUX79lPDLLWiK3oojL8b/Q88+z8y3QPAkFNjhDWGLS1vhnizNlRVEtzqXW0gbAMgjCUi
+         RformlU3NZQyOueuhWoqUlCI2QpRaxrFtW7nG2weTmAEw+/qd0DZFINXYoDosE3AmyMh
+         ps0w2rQB3VJ+1TtWMRE1Ub3FCILVYN/9NwPwWt2mSqI3IyHeBqC3nlj0fQOEVa4Kce94
+         jWvg==
+X-Forwarded-Encrypted: i=1; AKwUvBydDLkUTxEWDAQLD92NNcUctwudBsnEAvIltfIcnvxKkeOz1fDzoVbijwAkOWCOJqM9OiCy7dFhUwx5@lists.infradead.org
+X-Gm-Message-State: AFq9FYJTbKFEl90EKzmGQ1mv6J9a9X1kq11D1/WanJEv3XKYNghSTRUx
+	MJRZ2P3OXBFMSvom+5rAE1Q7P4J30Yx4n1+yLemLHnqFGdpIL8MM/pjvQRaU6xZSaOw=
+X-Gm-Gg: AYBFou2UwNF8jLg2JtL+r/6zyK9WTCcQsmElakrz5460mKqK3bzOILcIIWDPami9Y7b
+	Fg6fIrABOvFSqa6CuTuPpSrsdjaFtSQnhuwpvS82+d9OLSkHEoUguMA8wYU7v07L+PnaWoBzjCV
+	bVBQgtsfZsHkrtJkS//UDZN6ApglQ0Pyo+3WRg542v2fpcBvPGFO3tGFNgGc+GI+2d+MqcAcfJE
+	Pt9BsDXZkZMBjDeQrQtJM2C3Ts67RUdHd6Vq2ee2UrK0GTpPB4BzIsGKS/lAjpwrlSeXKgnj8vw
+	50Esbh2+7mI6TzFHk1WTd6WIpuNgOd/i35qFP0I1ijRhS3NuXbYHOm6h9ZGvwDMbLpJWsub6yAE
+	tjCBjUlgNbOWTioKAUhKuJACA1BTLQxIjxSacFGg+i1f20V18b3cgi5jUDXRtxh6FynuvrCVypP
+	FlXnERtPOdTojuDiIMayL044jLH2tR5MoCQhwMioq842lVhBvqPhoPxCJW46Y7M0wIE+72a2F2T
+	FaFVlIO2mdD5yDyVjnU//s/gSB9sHGC9IjOtP9LR98h5DeESINmbf8Oxw==
+X-Received: by 2002:a05:6820:1c8d:b0:6fd:3c3e:3c66 with SMTP id 006d021491bc7-6fd3c3e3e7fmr1002063eaf.3.1791985400251;
+        Wed, 14 Oct 2026 06:43:20 -0700 (PDT)
 Received: from [192.168.1.106] ([198.8.77.135])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-83038f822dcsm14657364a34.10.2026.10.14.06.40.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Oct 2026 06:40:56 -0700 (PDT)
-Message-ID: <81e6538c-977c-4b45-bd44-242ce5e00dd7@kernel.dk>
-Date: Wed, 14 Oct 2026 07:40:54 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 13/13] io_uring/rsrc: add dmabuf backed registered
- buffers
-To: Pavel Begunkov <asml.silence@gmail.com>, linux-block@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- io-uring@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Andrew Morton <akpm@linux-foundation.org>,
- Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
- Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
- William Power <william.power@intel.com>,
- Matthew Brost <matthew.brost@intel.com>, Alasdair Kergon <agk@redhat.com>,
- Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
- Benjamin Marzinski <bmarzins@redhat.com>, dm-devel@lists.linux.dev
-References: <cover.1791975048.git.asml.silence@gmail.com>
- <4aa230df871ee275536f367087b44ebfebb88cc1.1791975048.git.asml.silence@gmail.com>
-Content-Language: en-US
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4a6dfb4e92asm2073695fac.6.2026.10.14.06.43.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Oct 2026 06:43:19 -0700 (PDT)
 From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <4aa230df871ee275536f367087b44ebfebb88cc1.1791975048.git.asml.silence@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+To: linux-block@vger.kernel.org, Pavel Begunkov <asml.silence@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
+ io-uring@vger.kernel.org, Christoph Hellwig <hch@lst.de>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>, 
+ Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>, 
+ William Power <william.power@intel.com>, 
+ Matthew Brost <matthew.brost@intel.com>, Alasdair Kergon <agk@redhat.com>, 
+ Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>, 
+ Benjamin Marzinski <bmarzins@redhat.com>, dm-devel@lists.linux.dev
+In-Reply-To: <cover.1791975048.git.asml.silence@gmail.com>
+References: <cover.1791975048.git.asml.silence@gmail.com>
+Subject: Re: [PATCH v11 00/13] Add dmabuf read/write via io_uring
+Message-Id: <179198539824.583283.3195125120949504062.b4-ty@b4>
+Date: Wed, 14 Oct 2026 07:43:18 -0600
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261014_064058_455291_FA94651C 
-X-CRM114-Status: GOOD (  14.03  )
+X-CRM114-CacheID: sfid-20261014_064324_564738_4AD4C29E 
+X-CRM114-Status: GOOD (  13.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -119,43 +115,50 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-A few nits:
 
-> diff --git a/io_uring/dma-buf.c b/io_uring/dma-buf.c
-> new file mode 100644
-> index 000000000000..1a1a88640823
-> --- /dev/null
-> +++ b/io_uring/dma-buf.c
-> @@ -0,0 +1,66 @@
-> +#include "dma-buf.h"
+On Wed, 14 Oct 2026 12:01:58 +0100, Pavel Begunkov wrote:
+> The patch set allows to register a dmabuf to an io_uring instance for
+> a specified file and use it with io_uring read / write requests. The
+> infrastructure is not tied to io_uring and there could be more users
+> in the future. A similar idea was attempted some years ago by Keith [1],
+> from where I borrowed a number of changes. Later it was brough back up
+> to life by Tushar and Vishal.
+> 
+> [...]
 
-Needs SPDX license header.
+Applied, thanks!
 
-> diff --git a/io_uring/dma-buf.h b/io_uring/dma-buf.h
-> new file mode 100644
-> index 000000000000..a876a9e5e272
-> --- /dev/null
-> +++ b/io_uring/dma-buf.h
-> +static inline int io_attach_dmabuf_map(struct io_kiocb *req,
-> +					struct iov_iter *iter,
-> +					unsigned issue_flags)
-> +{
-> +	bool nowait = issue_flags & IO_URING_F_NONBLOCK;
-> +	struct dma_buf_io_map *map;
-> +	struct io_buf_dma *bd;
-> +
-> +	if (!IS_ENABLED(CONFIG_DMA_SHARED_BUFFER))
-> +		return -EOPNOTSUPP;
-> +	if (!(req->flags & REQ_F_DMABUF))
-> +		return 0;
-> +
-> +	bd = req->buf_node->buf->priv;
-> +	map = dma_buf_io_get_map(bd->ctx, nowait);
-> +	if (unlikely(IS_ERR(map)))
-> +		return PTR_ERR(map);
+[01/13] dma-buf: introduce initial file I/O infrastructure
+        commit: 0d3120db2cbe0a8793650e19f0923968a406ca2e
+[02/13] iov_iter: add iterator type for dmabuf maps
+        commit: aeb3bb52052b3548b3acf0cc5606dbb5babb228b
+[03/13] block: always adjust bi_offset on bio_advance_iter
+        commit: 801503b9a66f7c2423b5e495d8e77e0f4447e5d4
+[04/13] block: introduce dma map backed bio type
+        commit: d88e44f43e939e6ac0ca8302c6f3c957b33aa5fe
+[05/13] block: add dma-buf support for raw bdev
+        commit: 839231d193932ca0d592c2859669066f7c43731c
+[06/13] nvme-pci: rename nvme_pci_sgl_set_data to nvme_pci_dma_iter_set_sgl
+        commit: a03648e2efda070322cd4066abf4dff15be093c4
+[07/13] nvme-pci: implement dma-buf backed requests
+        commit: ce5e386c110815e3a29e3ba27d97575c28589c39
+[08/13] nvme-pci: add SGL support for the dmabuf path
+        commit: d5c8cfd41d2575c65c3f1d543017949e578a92d3
+[09/13] io_uring/rsrc: introduce buf registration structure
+        commit: 727a66ad21b013555eedfd84559cd4707717463c
+[10/13] io_uring/rsrc: extend buffer update
+        commit: a5819c456b716fa8bcb7792b942ab02b15e07fc5
+[11/13] io_uring/rsrc: add uncloneable regbuf flag
+        commit: 13b1690bb4767d3f1c847baf71a704c5f2da99e2
+[12/13] io_uring/rsrc: add regbuf import flags
+        commit: d218f3e381908da0e68429f3a4b764e666564c60
+[13/13] io_uring/rsrc: add dmabuf backed registered buffers
+        commit: 62e4bf5b25d4458cf8aa9dece9022359f39f2294
 
-No need for unlikely() with IS_ERR(), it already includes that.
-
+Best regards,
 -- 
 Jens Axboe
+
+
+
 
