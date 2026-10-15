@@ -4,131 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 65643CC6B3A
-	for <linux-nvme@archiver.kernel.org>; Thu, 15 Oct 2026 15:02:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 44296C2D0A6
+	for <linux-nvme@archiver.kernel.org>; Thu, 15 Oct 2026 18:00:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Az43PS/qS00pmQNyOpOlhDk/xvxDJzb8VYH9IXe9HrU=; b=XWHgmNR5I1ThA1FhKispfBmaEd
-	r2Lx6ZYFZTRiey+ZZN1ZpafHFZkH8nIAhwvsLntgXAgTgY65e5a9GkC0PGTfeFw2Q7K9z4y3voYx9
-	tCIOASk1HXyEGAsOORiJwckPcAOLLHtEVigwV8Lkss1MmZE56lL9ydhPpwsbVAb6LlEMfh23Xi4WC
-	3iZjl+fgHaJewbElQf2zfiOXaiUVknBWpm2h3vnlXJhvWoOlqrsBa28bLlZvoZe8iaEd30Fljq3Au
-	A3kkzEjOZmn0v2I4aJUoS+NXTvLUnVmNpn9a4e/lKolWCvgKCNkRwk5X1uZi7C+0uHQr0w8zIZjxh
-	sIfc4QZw==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=pQU2mFCcZijVfHNcT83wEGKS/aSb6ywHgE8MWS0vK70=; b=NlBjyMjyk/mc+SH6+YZ539Ulyj
+	bg0lt0ZG0WSDAoIB+OC0iTWoE9khc/A/Dnd6b9Sbj9rcbi2ZVGT2eoO/BCN60X2Jw89MwhIpRvAQZ
+	YWxCM/mr++PLAePI2BGfTXPRzChmOSt3wVkuFYsSEX5Kljd7l259c9J9sWNSaeMqgt/95Y1qB8WXj
+	gR1P/yAt/NHc9/YRLcEI3irdeyDAoYcjgSbAL7+f7m1+djFuOusikOuMQWdY263Uu6X/hvT59eocv
+	ClDTx8uwe0MznesxqC5cjWfyY4t3bF0FeSc5Ytc91Wyu2hcoSaC25HuTi/S+/Qf+i8+CGdPKHEzUq
+	nyxcch3Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xHMym-00000000UNj-1Og2;
-	Thu, 15 Oct 2026 15:02:48 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1xHPkR-000000014zV-48hH;
+	Thu, 15 Oct 2026 18:00:12 +0000
+Received: from mail-dy1-x1336.google.com ([2607:f8b0:4864:20::1336])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xGwkz-0000000FHFy-3Jlu
-	for linux-nvme@bombadil.infradead.org;
-	Wed, 14 Oct 2026 11:02:53 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=Az43PS/qS00pmQNyOpOlhDk/xvxDJzb8VYH9IXe9HrU=; b=Yzy3jRaokpnR4WJ57IE01b9gPI
-	rr8Xn8NG2EZHI24TxvfNaUGVGD254FgpoU1f1bN8zhVWbs3RqkKwEfm+zGNjgYhndrm4aKklvbeMm
-	8SlNxJAao27Is2GQ1P0yrNM+yjLS1vtr24TwAoyYt57XOP/4uUyAEG3mdaq9JnPOYWLwkPR50OWOb
-	IozVaCSSpw73HtWwU9jgi75W1L2tdZOOj3tvWwZ/0DBKXPSqdy35VAGrQP0N/6sQpNmr8qEyqgG5L
-	plOTQZEn0JIv6VmIC3L7guIh18QgWZ3qak41yyYFw9RBiRE9NRo+E2k+bD4MJkc/6+85IxYkMR3CG
-	09xhWVXQ==;
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
-	by desiato.infradead.org with esmtps (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xGwkw-0000000Gf6p-3MM3
+	id 1xHPkO-000000014yW-1vKY
 	for linux-nvme@lists.infradead.org;
-	Wed, 14 Oct 2026 11:02:48 +0000
-Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-48bbb06e746so214171f8f.3
-        for <linux-nvme@lists.infradead.org>; Wed, 14 Oct 2026 04:02:46 -0700 (PDT)
+	Thu, 15 Oct 2026 18:00:10 +0000
+Received: by mail-dy1-x1336.google.com with SMTP id 5a478bee46e88-33bf40b0c8bso49147eec.0
+        for <linux-nvme@lists.infradead.org>; Thu, 15 Oct 2026 11:00:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791975765; x=1792580565; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Az43PS/qS00pmQNyOpOlhDk/xvxDJzb8VYH9IXe9HrU=;
-        b=NpkisnKwFS+DbeWhVkaQV7ENUqRChHX4tZKz57zcwzSIhClB8/JwPTVFhAGf/N0Unt
-         rYxPLCsZjMPGk8LBwOemydWZpyTtVmEqqfN6dFtEhmobg+mSQfc8FVSGwRJrJEKJC9+9
-         X+oqGdUgOKs4KbSuV5HR131Sm/+Ye1UDpWK5sM2OIWR9fFG5eT12EaltrkxQ3NFo2xXU
-         UBYZYLrxYO8spTJmFfRG5wLq1m2rOhi3mmsS4VnU1CZArdriTXpusno85CwAqiSGjO+5
-         nR7a5G5gXgiZERNDTweJ/FDBxcD5UgyUyC6AQ6dfCjCwnk4uuo5PBPa38WvHG8g5Twuv
-         Uumw==
+        d=gmail.com; s=20251104; t=1792087207; x=1792692007; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=pQU2mFCcZijVfHNcT83wEGKS/aSb6ywHgE8MWS0vK70=;
+        b=qdiTWv3gUYTdXbmEyGpklo6FcW8/ZYKwW/WFfYuZsJDFT+oM4MvrJVUCQaUQyCMLRz
+         a3hcCZoz4C8qc3dDRETlYtzThaKS0YAs14W9HcB4II++cor2VJmCU4uLtPybR1yBDB/7
+         WGiEE7lrjjFgtrMosisMNUkW5KVNof3pJ3F5r1CnYDs3PQWKh2JXgfRLp9vQYYqkawJJ
+         WiiY4g3IUVWE051gDJoydoqoCMBeH+Hjq3kgCzIIQfIsWHkFQS0+VzKCHdlYlq0sYB0t
+         czOv4YxWj8oFfDlMSn4ktrv7JZxCKA4pmVk1cWkHRtGTloiGMbSTHQLmr/z5jG716ISA
+         9i1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791975765; x=1792580565;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Az43PS/qS00pmQNyOpOlhDk/xvxDJzb8VYH9IXe9HrU=;
-        b=crV7QJBfvLuWvOpiOMsmelND3kpgE8/qgYaI82sXXM28BPl7e/uH/cUl5VDg8EE8Gc
-         6+TW+ydRP6Kza3N1O8y7GCGb/9R/kshl0macictYuiMiO2XwaCuCknrJJrWnEY+wlHuR
-         s9vRdSQQR6/g95fgvqzlfrbDRrgj5FFyJ+XbbN3gX5yWqfpb9FTgAfFgKLHVtrb7esgJ
-         e5gKcSPXRVs7LlHFhXdzS4wcjUXSSkCMKIHfeUvKTBXJ83HsHExZ9ipj1MwFUW5E9b9q
-         hmvKimuIDzeBd8tdLTFS2M8FExvxPgh714SQTDrtyJsSRGmc1OoTGsBO3mEWa0Nk9ufp
-         1jWw==
-X-Forwarded-Encrypted: i=1; AKwUvBwKvP9VbgXpY5RHeRbYw/LJLQlbaxjFV+i6Ucrg13OuKGkQ4b3ISSg03zUiWJ5FCbPyipuZXd243el5@lists.infradead.org
-X-Gm-Message-State: AFq9FYJ6v0nI/AuDmi2ZpbAfyYDOsf+aIjdO/A6eEWGjJQVBZUTpu57n
-	KOpdrwzZw46CLK7YM+M6t2aGr4/WxJ9luXEcPWx1E4qUlxRZ0lP8oLKS
-X-Gm-Gg: AYBFou0wsfpVDPiUZdXDhSljL/DZY4Sc5nypB4GnNeAQgjBzBlnunUnlsx04NuSDK1H
-	otwGsbWnkdUBl9G1R+hCnLLCIoXtk1Gi1AO+ycgO4UVd/QaXdLZIPDIRvOXFEz7aGF/vj3aZ6Z8
-	pFuHD3yhgRDfVr9YsQgQD+RSgM1JRQFMcH4QpJXimHivI4fPRabXXCuQTOpU/eEcXv1EXyR/HPY
-	VrJck7RNVhbG1/uxQArOa47RSICxk+xbGf7lqGTylqApr14eCcFVX0ZyDFSabQvMvSKJlQpd99m
-	NZl2yLPKi/tEhzl0f1EL8Q+W5jzeMxYH0G0tsvF5sqjG+QCOZuUIvwSQO2jycgVODyDZbJAvTgI
-	eqZ/68KEwhG9AFuXHQ5ji7oTUcaVqLDuR7WH2JWHr9UqhRLDYfdgbYPg2sLxc1erADNPrme3J51
-	39X5yiFdkn2bLDVnnviCPfbBaxQTLDl9kJidNsGvhTcwLFgZyk/mwMMMctbh48xWQbU4c3haG6l
-	SytHduHFRagIORec2inxRqf969F+imNtyy50IpOGcZO6z7kID2oPS7ONkWOxSZCOMccVkiQXX1P
-	TJcj04t0l2U=
-X-Received: by 2002:a05:600c:e547:20b0:4a1:946c:953d with SMTP id 5b1f17b1804b1-4a1946c968cmr174343455e9.27.1791975765052;
-        Wed, 14 Oct 2026 04:02:45 -0700 (PDT)
-Received: from 127.mynet ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1b45eb78csm38078845e9.2.2026.10.14.04.02.42
+        d=1e100.net; s=20260707; t=1792087207; x=1792692007;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=pQU2mFCcZijVfHNcT83wEGKS/aSb6ywHgE8MWS0vK70=;
+        b=RMwuNqFggaYUs9WFGjPCXoWjGry0nmZtUIA3KiS2qvGG6aSs1H/+uwo6nb/rC4m/3y
+         OkvglvPlOfAjMdxzdYzFzTPV4PHHQ3fG/tzh05lqFFX0h30xlglT3KcFu1mq51CE081+
+         E9yniKfivJmpuhnzdxBEhhaFgFy8e3wp4mheZq5oYQtiW3ryfVS9ZvaR5JQSD2gQ91a+
+         /q1DUalUWlurfrUrF5ZlIoQL9rfy+eVYI9Vjgk28SJ5ucxnX21uLPitsqDBZAN8AWCJk
+         KvzDwIfxqUbChSLOLjiKuOdymGJeB48bzdlR1g6l9ibtktKJ3Z7pS1PJYHYuQ8DN3S96
+         NtyQ==
+X-Gm-Message-State: AFq9FYKIf9v28F3NoA2A8XU1YdeASiDee8wAhqxvyalpRJHLft23bFsJ
+	C1aTuDz22o4a985HbFhx4ibqJuZhruo4J0B1TF1QhPtZpl73f7vbivzj
+X-Gm-Gg: AYBFou1IOMGJGi8GfBKoBZSuJadX7Bn1nM18NYBShAQlYUKOa1hVO7dj+gGjEyxxog9
+	wamNt9Uo05HoCB0BC98SAvB6CoIuyLWa07No0o51r8RI6rRJ0F/Wyot2P5Au47CX+gXNwWSRfmw
+	HK/lbud0f8v4+4gTJZC6D7uUtO7MEPz6v9CBvcCP8Yqm/Gdl4hUrscYWtERdiPW0W7+uwWz5FJY
+	Y1XsSrHFO7JPupvRHDlvsU/S6eyG97ufiKuDRmkTG1DaD1xLWHfdrPie6OfYaJ3NnZJw8g2dqG7
+	fuwBXlGX4FtobUG/qh+4XjW8rJ/8OEAvGQsr4cMfqJEljfXviNw5X3rTs3RfwdbNuN/II/KznbQ
+	q9P6eSwxywNmF6hWjJLrFMr9egnYCRcivfBkvEcXKUjR7DEm7YEz0liO22fgB2sDMdOLiKpDso4
+	btUw/fIehJ2K/KRD6w4k9yiPbVZpRZEPaz616Q35JwUZtsHrBbX7g8wXdShGGZwcYeGJZk+G8Ar
+	h3S2u0xMRCdX9EkCPzIQI6WOXWd8virVPcS7GR052VKAe8=
+X-Received: by 2002:a05:701a:c901:b0:143:26cf:8617 with SMTP id a92af1059eb24-16a6337f340mr29049828c88.25.1792087206644;
+        Thu, 15 Oct 2026 11:00:06 -0700 (PDT)
+Received: from Terra.tail0ac356.ts.net ([198.176.50.208])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-182a900cfbfsm444389c88.22.2026.10.15.11.00.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Oct 2026 04:02:44 -0700 (PDT)
-From: Pavel Begunkov <asml.silence@gmail.com>
-To: linux-block@vger.kernel.org
-Cc: asml.silence@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org,
-	io-uring@vger.kernel.org,
-	Christoph Hellwig <hch@lst.de>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Thu, 15 Oct 2026 11:00:06 -0700 (PDT)
+From: Weiming Shi <bestswngs@gmail.com>
+To: Hannes Reinecke <hare@suse.de>,
 	Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Andrew Morton <akpm@linux-foundation.org>,
 	Jens Axboe <axboe@kernel.dk>,
-	Nitesh Shetty <nj.shetty@samsung.com>,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	Anuj Gupta <anuj20.g@samsung.com>,
-	Tushar Gohad <tushar.gohad@intel.com>,
-	William Power <william.power@intel.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Alasdair Kergon <agk@redhat.com>,
-	Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Benjamin Marzinski <bmarzins@redhat.com>,
-	dm-devel@lists.linux.dev
-Subject: [PATCH v11 13/13] io_uring/rsrc: add dmabuf backed registered buffers
-Date: Wed, 14 Oct 2026 12:02:11 +0100
-Message-ID: <4aa230df871ee275536f367087b44ebfebb88cc1.1791975048.git.asml.silence@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <cover.1791975048.git.asml.silence@gmail.com>
-References: <cover.1791975048.git.asml.silence@gmail.com>
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Xiang Mei <xmei5@asu.edu>,
+	Weiming Shi <bestswngs@gmail.com>,
+	stable@vger.kernel.org,
+	co+4a43f26b1a2b6f57@bugs.sh
+Subject: [PATCH] nvme-auth: serialize authentication before TLS key revocation
+Date: Thu, 15 Oct 2026 10:59:57 -0700
+Message-ID: <20261015175956.1895355-2-bestswngs@gmail.com>
+X-Mailer: git-send-email 2.55.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261014_120246_923207_1E71C8D8 
-X-CRM114-Status: GOOD (  32.35  )
-X-Mailman-Approved-At: Thu, 15 Oct 2026 08:01:28 -0700
+X-CRM114-CacheID: sfid-20261015_110008_551623_24F62DE8 
+X-CRM114-Status: GOOD (  24.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -143,477 +103,323 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Implement dmabuf backed registered buffers. To register them, the user
-should specify IO_REGBUF_TYPE_DMABUF for the regitration and pass the
-desired dmabuf fd and a file for which it should be registered.
+NVMe/TCP reset and error recovery can revoke opts->tls_key while
+admin-queue DH-HMAC-CHAP authentication is replacing it.  The sysfs
+reset_controller and tls_configured_key paths can reach this race because
+nvme_auth_stop() cancels only controller work; the split negotiate/wait
+interface also lets concurrent callers reset the same queue context.
 
-From there, it can be used with io_uring read/write requests
-IORING_OP_{READ,WRITE}_FIXED) as normal. The requests should be issued
-against the file specified during registration, and otherwise they'll be
-failed. The user should also be prepared to handle spurious -EAGAIN by
-reissuing the request.
+Serialize complete authentication transactions per queue, reject new work
+after the controller leaves LIVE or CONNECTING, and make nvme_auth_stop()
+drain queue work and its callers before NVMe/TCP revokes the generated key.
+Take the transaction mutex before canceling residual work so a pending
+authentication cannot be reported successful without running.  Authentication
+on different I/O queues remains parallel.
 
-Internally, dmabuf registered buffers is an optin feature for io_uring
-request opcodes and they should pass a special flag on import to use it.
+  BUG: KASAN: null-ptr-deref in down_write (kernel/locking/rwsem.c:1632)
+  RIP: down_write (kernel/locking/rwsem.c:1632)
+  Call Trace:
+   key_revoke (security/keys/key.c:1142)
+   nvme_auth_revoke_tls_key (drivers/nvme/host/auth.c:653)
+   nvme_reset_ctrl_work (drivers/nvme/host/tcp.c:2612)
+   process_one_work (kernel/workqueue.c:3396)
+   worker_thread (kernel/workqueue.c:3479 kernel/workqueue.c:3560)
+   kthread (kernel/kthread.c:436)
+   ret_from_fork (arch/x86/kernel/process.c:158)
+   ret_from_fork_asm (arch/x86/entry/entry_64.S:245)
+  Kernel panic - not syncing: Fatal exception
 
-Suggested-by: David Wei <dw@davidwei.uk>
-Suggested-by: Vishal Verma <vishal1.verma@intel.com>
-Suggested-by: Tushar Gohad <tushar.gohad@intel.com>
-Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
+Fixes: e88a7595b57f ("nvme-tcp: request secure channel concatenation")
+Cc: stable@vger.kernel.org # 6.15+
+Reported-by: <co+4a43f26b1a2b6f57@bugs.sh>
+Assisted-by: LLM
+Signed-off-by: Weiming Shi <bestswngs@gmail.com>
 ---
- include/linux/io_uring_types.h |  5 +++
- include/uapi/linux/io_uring.h  |  6 ++-
- io_uring/Makefile              |  1 +
- io_uring/dma-buf.c             | 66 +++++++++++++++++++++++++++++
- io_uring/dma-buf.h             | 76 ++++++++++++++++++++++++++++++++++
- io_uring/rsrc.c                | 59 ++++++++++++++++++++++++--
- io_uring/rsrc.h                |  5 +++
- io_uring/rw.c                  | 33 +++++++++++----
- 8 files changed, 237 insertions(+), 14 deletions(-)
- create mode 100644 io_uring/dma-buf.c
- create mode 100644 io_uring/dma-buf.h
+ drivers/nvme/host/auth.c    | 81 +++++++++++++++++++++++++++----------
+ drivers/nvme/host/fabrics.c | 16 +-------
+ drivers/nvme/host/nvme.h    |  9 +----
+ drivers/nvme/host/sysfs.c   |  8 +---
+ drivers/nvme/host/tcp.c     |  7 ++--
+ 5 files changed, 68 insertions(+), 53 deletions(-)
 
-diff --git a/include/linux/io_uring_types.h b/include/linux/io_uring_types.h
-index 90fea94ad202..73cd11d173df 100644
---- a/include/linux/io_uring_types.h
-+++ b/include/linux/io_uring_types.h
-@@ -11,6 +11,7 @@
+diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
+index e55920642f2c..563dbe3dcc89 100644
+--- a/drivers/nvme/host/auth.c
++++ b/drivers/nvme/host/auth.c
+@@ -21,6 +21,7 @@ static mempool_t *nvme_chap_buf_pool;
+ struct nvme_dhchap_queue_context {
+ 	struct list_head entry;
+ 	struct work_struct auth_work;
++	struct mutex auth_mutex;
+ 	struct nvme_ctrl *ctrl;
+ 	struct crypto_kpp *dh_tfm;
+ 	struct nvme_dhchap_key *transformed_key;
+@@ -915,9 +916,12 @@ static void nvme_queue_auth_work(struct work_struct *work)
+ 		chap->error = ret;
+ }
  
- struct iou_loop_params;
- struct io_uring_bpf_ops;
-+struct dma_buf_io_map;
+-int nvme_auth_negotiate(struct nvme_ctrl *ctrl, int qid)
++static int nvme_auth_negotiate(struct nvme_ctrl *ctrl, int qid)
+ {
+ 	struct nvme_dhchap_queue_context *chap;
++	enum nvme_ctrl_state state;
++	unsigned long flags;
++	int ret = 0;
  
- enum {
- 	/*
-@@ -610,6 +611,7 @@ enum {
- 	REQ_F_IMPORT_BUFFER_BIT,
- 	REQ_F_SQE_COPIED_BIT,
- 	REQ_F_IOPOLL_BIT,
-+	REQ_F_DMABUF_BIT,
+ 	if (!ctrl->host_key) {
+ 		dev_warn(ctrl->device, "qid %d: no key\n", qid);
+@@ -931,12 +935,18 @@ int nvme_auth_negotiate(struct nvme_ctrl *ctrl, int qid)
  
- 	/* not a real bit, just to check we're not overflowing the space */
- 	__REQ_F_LAST_BIT,
-@@ -705,6 +707,8 @@ enum {
- 	REQ_F_SQE_COPIED	= IO_REQ_FLAG(REQ_F_SQE_COPIED_BIT),
- 	/* request must be iopolled to completion (set in ->issue()) */
- 	REQ_F_IOPOLL		= IO_REQ_FLAG(REQ_F_IOPOLL_BIT),
-+	/* there is a dma map attached to request that needs to be dropped */
-+	REQ_F_DMABUF		= IO_REQ_FLAG(REQ_F_DMABUF_BIT),
- };
- 
- struct io_tw_req {
-@@ -827,6 +831,7 @@ struct io_kiocb {
- 	/* custom credentials, valid IFF REQ_F_CREDS is set */
- 	const struct cred		*creds;
- 	struct io_wq_work		work;
-+	struct dma_buf_io_map		*dmabuf_map;
- 
- 	struct io_big_cqe {
- 		u64			extra1;
-diff --git a/include/uapi/linux/io_uring.h b/include/uapi/linux/io_uring.h
-index abb590833a0f..b456f45fa8de 100644
---- a/include/uapi/linux/io_uring.h
-+++ b/include/uapi/linux/io_uring.h
-@@ -811,6 +811,7 @@ enum io_uring_rsrc_reg_flags {
- enum io_uring_regbuf_type {
- 	IO_REGBUF_TYPE_EMPTY,
- 	IO_REGBUF_TYPE_UADDR,
-+	IO_REGBUF_TYPE_DMABUF,
- 
- 	__IO_REGBUF_TYPE_MAX,
- };
-@@ -820,7 +821,10 @@ struct io_uring_regbuf_desc {
- 	__u32 flags;
- 	__u64 size;
- 	__u64 uaddr;
--	__u64 __resv[7];
+ 	chap = &ctrl->dhchap_ctxs[qid];
+ 	cancel_work_sync(&chap->auth_work);
+-	queue_work(nvme_auth_wq, &chap->auth_work);
+-	return 0;
 +
-+	__s32 dmabuf_fd;
-+	__s32 target_fd;
-+	__u64 __resv[6];
- };
++	spin_lock_irqsave(&ctrl->lock, flags);
++	state = nvme_ctrl_state(ctrl);
++	if (state != NVME_CTRL_LIVE && state != NVME_CTRL_CONNECTING)
++		ret = -ESHUTDOWN;
++	else
++		queue_work(nvme_auth_wq, &chap->auth_work);
++	spin_unlock_irqrestore(&ctrl->lock, flags);
++	return ret;
+ }
+-EXPORT_SYMBOL_GPL(nvme_auth_negotiate);
  
- /* Skip updating fd indexes set to this value in the fd table */
-diff --git a/io_uring/Makefile b/io_uring/Makefile
-index c54e328d1410..965bb60e9f7b 100644
---- a/io_uring/Makefile
-+++ b/io_uring/Makefile
-@@ -26,3 +26,4 @@ obj-$(CONFIG_PROC_FS) += fdinfo.o
- obj-$(CONFIG_IO_URING_MOCK_FILE) += mock_file.o
- obj-$(CONFIG_IO_URING_BPF) += bpf_filter.o
- obj-$(CONFIG_IO_URING_BPF_OPS) += bpf-ops.o
-+obj-$(CONFIG_DMA_SHARED_BUFFER) += dma-buf.o
-diff --git a/io_uring/dma-buf.c b/io_uring/dma-buf.c
-new file mode 100644
-index 000000000000..1a1a88640823
---- /dev/null
-+++ b/io_uring/dma-buf.c
-@@ -0,0 +1,66 @@
-+#include "dma-buf.h"
+-int nvme_auth_wait(struct nvme_ctrl *ctrl, int qid)
++static int nvme_auth_wait(struct nvme_ctrl *ctrl, int qid)
+ {
+ 	struct nvme_dhchap_queue_context *chap;
+ 	int ret;
+@@ -948,13 +958,32 @@ int nvme_auth_wait(struct nvme_ctrl *ctrl, int qid)
+ 	nvme_auth_reset_dhchap(chap);
+ 	return ret;
+ }
+-EXPORT_SYMBOL_GPL(nvme_auth_wait);
 +
-+static inline void io_release_dmabuf(void *priv)
++int nvme_authenticate(struct nvme_ctrl *ctrl, int qid)
 +{
-+	struct io_buf_dma *bd = priv;
-+
-+	fput(bd->target_file);
-+	dma_buf_io_ctx_release(bd->ctx);
-+	kfree(bd);
-+}
-+
-+int __io_register_dmabuf(struct io_ring_ctx *ctx,
-+			struct io_uring_regbuf_desc *desc,
-+			struct io_mapped_ubuf *imu)
-+{
-+	struct io_buf_dma *bd = NULL;
-+	struct file *target_file = NULL;
-+	struct dma_buf *dmabuf = NULL;
++	struct nvme_dhchap_queue_context *chap;
 +	int ret;
 +
-+	if (ctx->flags & IORING_SETUP_IOPOLL)
-+		return -EOPNOTSUPP;
-+	if (desc->uaddr || desc->size)
-+		return -EINVAL;
-+
-+	bd = kzalloc(sizeof(*bd), GFP_KERNEL);
-+	if (!bd)
-+		return -ENOMEM;
-+
-+	target_file = fget(desc->target_fd);
-+	if (!target_file) {
-+		ret = -EBADF;
-+		goto err;
++	if (!ctrl->dhchap_ctxs) {
++		dev_warn(ctrl->device, "qid %d: no key\n", qid);
++		return -ENOKEY;
 +	}
-+	dmabuf = dma_buf_get(desc->dmabuf_fd);
-+	if (IS_ERR(dmabuf)) {
-+		ret = PTR_ERR(dmabuf);
-+		dmabuf = NULL;
-+		goto err;
-+	}
-+	ret = io_validate_user_buf_range(0, dmabuf->size);
-+	if (ret)
-+		goto err;
++	chap = &ctrl->dhchap_ctxs[qid];
 +
-+	ret = dma_buf_io_ctx_create(target_file, dmabuf, DMA_BIDIRECTIONAL,
-+				    &bd->ctx);
-+	if (ret)
-+		goto err;
-+
-+	bd->target_file = target_file;
-+	imu->len = dmabuf->size;
-+	imu->release = io_release_dmabuf;
-+	imu->priv = bd;
-+	imu->flags = IO_REGBUF_F_DMABUF | IO_REGBUF_F_UNCLONEABLE;
-+	imu->dir = IO_BUF_DEST | IO_BUF_SOURCE;
-+	dma_buf_put(dmabuf);
-+	return 0;
-+err:
-+	kfree(bd);
-+	if (target_file)
-+		fput(target_file);
-+	if (dmabuf)
-+		dma_buf_put(dmabuf);
++	mutex_lock(&chap->auth_mutex);
++	ret = nvme_auth_negotiate(ctrl, qid);
++	if (!ret)
++		ret = nvme_auth_wait(ctrl, qid);
++	mutex_unlock(&chap->auth_mutex);
 +	return ret;
 +}
-+
-diff --git a/io_uring/dma-buf.h b/io_uring/dma-buf.h
-new file mode 100644
-index 000000000000..a876a9e5e272
---- /dev/null
-+++ b/io_uring/dma-buf.h
-@@ -0,0 +1,76 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#ifndef IOU_DMA_BUF_H
-+#define IOU_DMA_BUF_H
-+
-+#include <linux/dma-buf-io.h>
-+#include <linux/io_uring_types.h>
-+
-+#include "rsrc.h"
-+
-+struct io_buf_dma {
-+	struct dma_buf_io_ctx		*ctx;
-+	struct file			*target_file;
-+};
-+
-+int __io_register_dmabuf(struct io_ring_ctx *ctx,
-+			struct io_uring_regbuf_desc *desc,
-+			struct io_mapped_ubuf *imu);
-+
-+static inline void io_detach_dmabuf_map(struct io_kiocb *req)
-+{
-+	if (!IS_ENABLED(CONFIG_DMA_SHARED_BUFFER))
-+		return;
-+	if (!(req->flags & REQ_F_DMABUF) || !req->dmabuf_map)
-+		return;
-+	dma_buf_io_map_drop(req->dmabuf_map);
-+	req->dmabuf_map = NULL;
-+}
-+
-+static inline int io_attach_dmabuf_map(struct io_kiocb *req,
-+					struct iov_iter *iter,
-+					unsigned issue_flags)
-+{
-+	bool nowait = issue_flags & IO_URING_F_NONBLOCK;
-+	struct dma_buf_io_map *map;
-+	struct io_buf_dma *bd;
-+
-+	if (!IS_ENABLED(CONFIG_DMA_SHARED_BUFFER))
-+		return -EOPNOTSUPP;
-+	if (!(req->flags & REQ_F_DMABUF))
-+		return 0;
-+
-+	bd = req->buf_node->buf->priv;
-+	map = dma_buf_io_get_map(bd->ctx, nowait);
-+	if (unlikely(IS_ERR(map)))
-+		return PTR_ERR(map);
-+	req->dmabuf_map = map;
-+	iter->dmabuf_map = map;
-+	return 0;
-+}
-+
-+static inline int io_import_dmabuf_map(struct io_kiocb *req,
-+				int ddir, struct iov_iter *iter,
-+				struct io_mapped_ubuf *imu,
-+				size_t len, size_t offset)
-+{
-+	struct io_buf_dma *bd = imu->priv;
-+
-+	if (!IS_ENABLED(CONFIG_DMA_SHARED_BUFFER))
-+		return -EOPNOTSUPP;
-+	if (req->file != bd->target_file)
-+		return -EBADF;
-+	req->flags |= REQ_F_DMABUF;
-+	iov_iter_dmabuf_map(iter, ddir, NULL, offset, len);
-+	return 0;
-+}
-+
-+static inline int io_register_dmabuf(struct io_ring_ctx *ctx,
-+			struct io_uring_regbuf_desc *desc,
-+			struct io_mapped_ubuf *imu)
-+{
-+	if (!IS_ENABLED(CONFIG_DMA_SHARED_BUFFER))
-+		return -EOPNOTSUPP;
-+	return __io_register_dmabuf(ctx, desc, imu);
-+}
-+
-+#endif /* IOU_DMA_BUF_H */
-diff --git a/io_uring/rsrc.c b/io_uring/rsrc.c
-index f42d201738cd..2e89e091afbb 100644
---- a/io_uring/rsrc.c
-+++ b/io_uring/rsrc.c
-@@ -10,6 +10,7 @@
- #include <linux/compat.h>
- #include <linux/io_uring.h>
- #include <linux/io_uring/cmd.h>
-+#include <linux/dma-buf-io.h>
++EXPORT_SYMBOL_GPL(nvme_authenticate);
  
- #include <uapi/linux/io_uring.h>
- 
-@@ -19,6 +20,7 @@
- #include "rsrc.h"
- #include "memmap.h"
- #include "register.h"
-+#include "dma-buf.h"
- 
- struct io_rsrc_update {
- 	struct file			*file;
-@@ -898,6 +900,38 @@ bool io_check_coalesce_buffer(struct page **page_array, int nr_pages,
- 	return true;
- }
- 
-+static struct io_rsrc_node *io_register_dmabuf_desc(struct io_ring_ctx *ctx,
-+						    struct io_uring_regbuf_desc *desc)
-+{
-+	struct io_rsrc_node *node = NULL;
-+	struct io_mapped_ubuf *imu = NULL;
-+	int ret;
-+
-+	node = io_rsrc_node_alloc(ctx, IORING_RSRC_BUFFER);
-+	if (!node)
-+		return ERR_PTR(-ENOMEM);
-+
-+	imu = io_alloc_imu(ctx, 0);
-+	if (!imu) {
-+		ret = -ENOMEM;
-+		goto err;
-+	}
-+	memset(imu, 0, sizeof(*imu));
-+	refcount_set(&imu->refs, 1);
-+
-+	ret = io_register_dmabuf(ctx, desc, imu);
-+	if (ret)
-+		goto err;
-+	node->buf = imu;
-+	return node;
-+err:
-+	if (imu)
-+		io_free_imu(ctx, imu);
-+	if (node)
-+		io_cache_free(&ctx->node_cache, node);
-+	return ERR_PTR(ret);
-+}
-+
- static struct io_rsrc_node *io_sqe_buffer_register(struct io_ring_ctx *ctx,
- 						   struct io_uring_regbuf_desc *desc)
+ static void nvme_ctrl_auth_work(struct work_struct *work)
  {
-@@ -918,6 +952,12 @@ static struct io_rsrc_node *io_sqe_buffer_register(struct io_ring_ctx *ctx,
- 	if (!mem_is_zero(&desc->__resv, sizeof(desc->__resv)) || desc->flags)
- 		return ERR_PTR(-EINVAL);
+ 	struct nvme_ctrl *ctrl =
+ 		container_of(work, struct nvme_ctrl, dhchap_auth_work);
+-	int ret, q;
++	int ret, q, last = 1;
  
-+	if (desc->type == IO_REGBUF_TYPE_DMABUF)
-+		return io_register_dmabuf_desc(ctx, desc);
-+
-+	if (desc->dmabuf_fd || desc->target_fd)
-+		return ERR_PTR(-EINVAL);
-+
- 	if (desc->type == IO_REGBUF_TYPE_EMPTY) {
- 		if (uaddr || size)
- 			return ERR_PTR(-EFAULT);
-@@ -1242,9 +1282,12 @@ static int io_import_kbuf(int ddir, struct iov_iter *iter,
- 	return 0;
- }
+ 	/*
+ 	 * If the ctrl is no connected, bail as reconnect will handle
+@@ -964,16 +993,9 @@ static void nvme_ctrl_auth_work(struct work_struct *work)
+ 		return;
  
--static int io_import_fixed(int ddir, struct iov_iter *iter,
-+static int io_import_fixed(struct io_kiocb *req,
-+			   int ddir, struct iov_iter *iter,
- 			   struct io_mapped_ubuf *imu,
--			   u64 buf_addr, size_t len)
-+			   u64 buf_addr, size_t len,
-+			   unsigned issue_flags,
-+			   unsigned import_flags)
+ 	/* Authenticate admin queue first */
+-	ret = nvme_auth_negotiate(ctrl, 0);
++	ret = nvme_authenticate(ctrl, 0);
+ 	if (ret) {
+-		dev_warn(ctrl->device,
+-			 "qid 0: error %d setting up authentication\n", ret);
+-		return;
+-	}
+-	ret = nvme_auth_wait(ctrl, 0);
+-	if (ret) {
+-		dev_warn(ctrl->device,
+-			 "qid 0: authentication failed\n");
++		dev_warn(ctrl->device, "qid 0: authentication failed\n");
+ 		return;
+ 	}
+ 	/*
+@@ -991,22 +1013,26 @@ static void nvme_ctrl_auth_work(struct work_struct *work)
+ 		 */
+ 		if (!chap->authenticated)
+ 			continue;
+-		cancel_work_sync(&chap->auth_work);
+-		queue_work(nvme_auth_wq, &chap->auth_work);
++		ret = nvme_auth_negotiate(ctrl, q);
++		if (ret) {
++			dev_warn(ctrl->device,
++				 "qid %d: authentication setup failed, error %d\n",
++				 q, ret);
++			break;
++		}
++		last = q + 1;
+ 	}
+ 
+ 	/*
+ 	 * Failure is a soft-state; credentials remain valid until
+ 	 * the controller terminates the connection.
+ 	 */
+-	for (q = 1; q < ctrl->queue_count; q++) {
++	for (q = 1; q < last; q++) {
+ 		struct nvme_dhchap_queue_context *chap =
+ 			&ctrl->dhchap_ctxs[q];
+ 		if (!chap->authenticated)
+ 			continue;
+-		flush_work(&chap->auth_work);
+-		ret = chap->error;
+-		nvme_auth_reset_dhchap(chap);
++		ret = nvme_auth_wait(ctrl, q);
+ 		if (ret)
+ 			dev_warn(ctrl->device,
+ 				 "qid %d: authentication failed\n", q);
+@@ -1044,6 +1070,7 @@ int nvme_auth_init_ctrl(struct nvme_ctrl *ctrl)
+ 		chap->qid = i;
+ 		chap->ctrl = ctrl;
+ 		chap->authenticated = false;
++		mutex_init(&chap->auth_mutex);
+ 		INIT_WORK(&chap->auth_work, nvme_queue_auth_work);
+ 	}
+ 
+@@ -1060,7 +1087,17 @@ EXPORT_SYMBOL_GPL(nvme_auth_init_ctrl);
+ 
+ void nvme_auth_stop(struct nvme_ctrl *ctrl)
  {
- 	const struct bio_vec *bvec;
- 	size_t folio_mask;
-@@ -1264,6 +1307,11 @@ static int io_import_fixed(int ddir, struct iov_iter *iter,
- 
- 	offset = buf_addr - imu->ubuf;
- 
-+	if (imu->flags & IO_REGBUF_F_DMABUF) {
-+		if (!(import_flags & IO_REGBUF_IMPORT_ALLOW_DMABUF))
-+			return -EFAULT;
-+		return io_import_dmabuf_map(req, ddir, iter, imu, len, offset);
-+	}
- 	if (imu->flags & IO_REGBUF_F_KBUF)
- 		return io_import_kbuf(ddir, iter, imu, len, offset);
- 
-@@ -1326,7 +1374,8 @@ int __io_import_reg_buf(struct io_kiocb *req, struct iov_iter *iter,
- 	node = io_find_buf_node(req, issue_flags);
- 	if (!node)
- 		return -EFAULT;
--	return io_import_fixed(ddir, iter, node->buf, buf_addr, len);
-+	return io_import_fixed(req, ddir, iter, node->buf, buf_addr, len,
-+				issue_flags, import_flags);
- }
- 
- static int io_buffer_acct_cloned_hpages(struct io_ring_ctx *ctx,
-@@ -1753,7 +1802,9 @@ int __io_import_reg_vec(int ddir, struct iov_iter *iter,
- 	iovec_off = vec->nr - nr_iovs;
- 	iov = vec->iovec + iovec_off;
- 
--	if (imu->flags & IO_REGBUF_F_KBUF) {
-+	if (imu->flags & IO_REGBUF_F_DMABUF) {
-+		return -EOPNOTSUPP;
-+	} else if (imu->flags & IO_REGBUF_F_KBUF) {
- 		int ret = io_kern_bvec_size(iov, nr_iovs, imu, &nr_segs);
- 
- 		if (unlikely(ret))
-diff --git a/io_uring/rsrc.h b/io_uring/rsrc.h
-index 351995b61e68..d893cc5e580a 100644
---- a/io_uring/rsrc.h
-+++ b/io_uring/rsrc.h
-@@ -28,6 +28,11 @@ struct io_rsrc_node {
- enum {
- 	IO_REGBUF_F_KBUF		= 1 << 0,
- 	IO_REGBUF_F_UNCLONEABLE		= 1 << 1,
-+	IO_REGBUF_F_DMABUF		= 1 << 3,
-+};
++	int i;
 +
-+enum {
-+	IO_REGBUF_IMPORT_ALLOW_DMABUF		= 1 << 1,
- };
+ 	cancel_work_sync(&ctrl->dhchap_auth_work);
++	if (!ctrl->dhchap_ctxs)
++		return;
++
++	for (i = 0; i < ctrl_max_dhchaps(ctrl); i++) {
++		mutex_lock(&ctrl->dhchap_ctxs[i].auth_mutex);
++		cancel_work_sync(&ctrl->dhchap_ctxs[i].auth_work);
++		mutex_unlock(&ctrl->dhchap_ctxs[i].auth_mutex);
++	}
+ }
+ EXPORT_SYMBOL_GPL(nvme_auth_stop);
  
- struct io_mapped_ubuf {
-diff --git a/io_uring/rw.c b/io_uring/rw.c
-index 999d9a1cc5a5..d33b925a848e 100644
---- a/io_uring/rw.c
-+++ b/io_uring/rw.c
-@@ -23,6 +23,7 @@
- #include "rsrc.h"
- #include "poll.h"
- #include "rw.h"
-+#include "dma-buf.h"
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 59f823dfbbcc..0da8f1b74f86 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -481,13 +481,7 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
+ 			goto out_free_data;
+ 		}
+ 		/* Authentication required */
+-		ret = nvme_auth_negotiate(ctrl, 0);
+-		if (ret) {
+-			dev_warn(ctrl->device,
+-				 "qid 0: authentication setup failed\n");
+-			goto out_free_data;
+-		}
+-		ret = nvme_auth_wait(ctrl, 0);
++		ret = nvme_authenticate(ctrl, 0);
+ 		if (ret) {
+ 			dev_warn(ctrl->device,
+ 				 "qid 0: authentication failed, error %d\n",
+@@ -556,13 +550,7 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
+ 			goto out_free_data;
+ 		}
+ 		/* Authentication required */
+-		ret = nvme_auth_negotiate(ctrl, qid);
+-		if (ret) {
+-			dev_warn(ctrl->device,
+-				 "qid %d: authentication setup failed\n", qid);
+-			goto out_free_data;
+-		}
+-		ret = nvme_auth_wait(ctrl, qid);
++		ret = nvme_authenticate(ctrl, qid);
+ 		if (ret) {
+ 			dev_warn(ctrl->device,
+ 				 "qid %u: authentication failed, error %d\n",
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 2cff9fcbf740..d6952bb4afa6 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -1288,8 +1288,7 @@ int __init nvme_init_auth(void);
+ void __exit nvme_exit_auth(void);
+ int nvme_auth_init_ctrl(struct nvme_ctrl *ctrl);
+ void nvme_auth_stop(struct nvme_ctrl *ctrl);
+-int nvme_auth_negotiate(struct nvme_ctrl *ctrl, int qid);
+-int nvme_auth_wait(struct nvme_ctrl *ctrl, int qid);
++int nvme_authenticate(struct nvme_ctrl *ctrl, int qid);
+ void nvme_auth_free(struct nvme_ctrl *ctrl);
+ void nvme_auth_revoke_tls_key(struct nvme_ctrl *ctrl);
+ #else
+@@ -1305,11 +1304,7 @@ static inline void __exit nvme_exit_auth(void)
+ {
+ }
+ static inline void nvme_auth_stop(struct nvme_ctrl *ctrl) {};
+-static inline int nvme_auth_negotiate(struct nvme_ctrl *ctrl, int qid)
+-{
+-	return -EPROTONOSUPPORT;
+-}
+-static inline int nvme_auth_wait(struct nvme_ctrl *ctrl, int qid)
++static inline int nvme_authenticate(struct nvme_ctrl *ctrl, int qid)
+ {
+ 	return -EPROTONOSUPPORT;
+ }
+diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+index 02a2490a9ed7..42bdba831894 100644
+--- a/drivers/nvme/host/sysfs.c
++++ b/drivers/nvme/host/sysfs.c
+@@ -1038,13 +1038,7 @@ static ssize_t tls_configured_key_store(struct device *dev,
+ 	if (!ctrl->opts || !ctrl->opts->concat)
+ 		return -EOPNOTSUPP;
  
- static void io_complete_rw(struct kiocb *kiocb, long res);
- static void io_complete_rw_iopoll(struct kiocb *kiocb, long res);
-@@ -358,13 +359,18 @@ static int io_init_rw_fixed(struct io_kiocb *req, unsigned int issue_flags,
- 	struct io_async_rw *io = req->async_data;
+-	error = nvme_auth_negotiate(ctrl, 0);
+-	if (error < 0) {
+-		nvme_reset_ctrl(ctrl);
+-		return error;
+-	}
+-
+-	error = nvme_auth_wait(ctrl, 0);
++	error = nvme_authenticate(ctrl, 0);
+ 	if (error < 0) {
+ 		nvme_reset_ctrl(ctrl);
+ 		return error;
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 921934028e0b..f3709009ffd0 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -2563,9 +2563,8 @@ static void nvme_tcp_error_recovery_work(struct work_struct *work)
+ 	struct nvme_tcp_ctrl *tcp_ctrl = container_of(work,
+ 				struct nvme_tcp_ctrl, err_work);
+ 	struct nvme_ctrl *ctrl = &tcp_ctrl->ctrl;
++	bool revoke_tls_key = ctrl->opts->concat && ctrl->tls_pskid;
+ 
+-	if (nvme_tcp_key_revoke_needed(ctrl))
+-		nvme_auth_revoke_tls_key(ctrl);
+ 	nvme_stop_keep_alive(ctrl);
+ 	flush_work(&ctrl->async_event_work);
+ 	nvme_tcp_teardown_io_queues(ctrl, false);
+@@ -2574,6 +2573,8 @@ static void nvme_tcp_error_recovery_work(struct work_struct *work)
+ 	nvme_tcp_teardown_admin_queue(ctrl, false);
+ 	nvme_unquiesce_admin_queue(ctrl);
+ 	nvme_auth_stop(ctrl);
++	if (revoke_tls_key && ctrl->opts->tls_key)
++		nvme_auth_revoke_tls_key(ctrl);
+ 
+ 	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_CONNECTING)) {
+ 		/* state change failure is ok if we started ctrl delete */
+@@ -2606,9 +2607,9 @@ static void nvme_reset_ctrl_work(struct work_struct *work)
+ 		container_of(work, struct nvme_ctrl, reset_work);
  	int ret;
  
--	if (io->bytes_done)
--		return 0;
-+	if (!io->bytes_done) {
-+		ret = __io_import_reg_buf(req, &io->iter, rw->addr, rw->len, ddir,
-+					  issue_flags, IO_REGBUF_IMPORT_ALLOW_DMABUF);
-+		if (ret)
-+			return ret;
-+		iov_iter_save_state(&io->iter, &io->iter_state);
-+	}
++	nvme_stop_ctrl(ctrl);
+ 	if (nvme_tcp_key_revoke_needed(ctrl))
+ 		nvme_auth_revoke_tls_key(ctrl);
+-	nvme_stop_ctrl(ctrl);
+ 	nvme_tcp_teardown_ctrl(ctrl, false);
  
--	ret = io_import_reg_buf(req, &io->iter, rw->addr, rw->len, ddir,
--				issue_flags);
--	iov_iter_save_state(&io->iter, &io->iter_state);
--	return ret;
-+	ret = io_attach_dmabuf_map(req, &io->iter, issue_flags);
-+	if (ret)
-+		return ret;
-+	return 0;
- }
- 
- int io_prep_read_fixed(struct io_kiocb *req, const struct io_uring_sqe *sqe)
-@@ -577,6 +583,8 @@ static void io_complete_rw(struct kiocb *kiocb, long res)
- 	struct io_rw *rw = container_of(kiocb, struct io_rw, kiocb);
- 	struct io_kiocb *req = cmd_to_io_kiocb(rw);
- 
-+	io_detach_dmabuf_map(req);
-+
- 	/* ring owner may block in freeze_super() before task_work runs */
- 	if (kiocb->ki_flags & IOCB_WRITE)
- 		io_req_end_write(req);
-@@ -698,7 +706,7 @@ static ssize_t loop_rw_iter(int ddir, struct io_rw *rw, struct iov_iter *iter)
- 	    !(kiocb->ki_filp->f_flags & O_NONBLOCK))
- 		return -EAGAIN;
- 	if ((req->flags & REQ_F_BUF_NODE) &&
--	     (req->buf_node->buf->flags & IO_REGBUF_F_KBUF))
-+	     (req->buf_node->buf->flags & (IO_REGBUF_F_KBUF|IO_REGBUF_F_DMABUF)))
- 		return -EFAULT;
- 
- 	ppos = io_kiocb_ppos(kiocb);
-@@ -1226,7 +1234,10 @@ int io_read_fixed(struct io_kiocb *req, unsigned int issue_flags)
- 	if (unlikely(ret))
- 		return ret;
- 
--	return io_read(req, issue_flags);
-+	ret = io_read(req, issue_flags);
-+	if (ret != -EIOCBQUEUED)
-+		io_detach_dmabuf_map(req);
-+	return ret;
- }
- 
- int io_write_fixed(struct io_kiocb *req, unsigned int issue_flags)
-@@ -1237,7 +1248,11 @@ int io_write_fixed(struct io_kiocb *req, unsigned int issue_flags)
- 	if (unlikely(ret))
- 		return ret;
- 
--	return io_write(req, issue_flags);
-+	ret = io_write(req, issue_flags);
-+	if (ret != -EIOCBQUEUED)
-+		io_detach_dmabuf_map(req);
-+	return ret;
-+
- }
- 
- void io_rw_fail(struct io_kiocb *req)
+ 	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_CONNECTING)) {
 -- 
-2.54.0
+2.55.0
 
 
