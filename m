@@ -4,111 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B361CCC6B38
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Oct 2026 16:12:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E12BFCCA46C
+	for <linux-nvme@archiver.kernel.org>; Fri, 16 Oct 2026 16:57:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gPXFXTYHfhMIi3Tk5OWQVDYZ9+5PmV/EuJNrX3blnmE=; b=uUIFE1ZiqzAZslknWgSb6cPjDP
-	BOWHqE5VaeXJBaorZTc4p2HpjxxHzZNlPYuneI8H/rWSEhnLwSSccPXYFcNjAl+VyyRWGSJIxpna4
-	2WzICQhIOddy6PkFeQlLyqzo57zczOhXyc7J2A7S5bXMjs3oJW2qlmA2M9MqMqzNwwthcKGtskdgm
-	roP+nNQyldaQteE3kyBb0/FVl8Y/F47pgGtr+BsDIE7dH1YEDNiv0vIv/CpPQtAZG5VevEXU3JkHe
-	+InCCZ+9zQYjTvLACTq99DeUkWj9hd5LonXco6YghZ37uplCVDHCsWbt1jxmifoappvpMNRvpP1wu
-	8PZ+HBSg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=mB1lyDJtxnoLmeurhPWzLVLDYob9XndoNmsaP9fWeJw=; b=4n+GUxItJoHaRSebsqtNWPk7jk
+	l2wvzW8HXqppE/EzRHWIfjA0wlwYZSUw+IExuwQ7yBmBhZXig8fBy/r+yDYMmdqeLEptEIexCvVHo
+	1WTKz2OeVBqpcMXyLdje9aWWwuKAKVpl53weKn/ViZDS9prU9qPEksckZswRd8KeKBkt/1eqB34aV
+	gyCk9NKa8J5rj9h9ZBKiy8t38GcaVZEDxnZ60ptz1N4ymQIvGYdtkaxRRxYa2+EvEm3rC28X2FUWz
+	gA3p+25ik5XkU0TClcZXo53qMDqgZRc1HNCMklZLRrTJSHwKWNZV2aVX3+zCJlzU6rtw3uFIPjQG3
+	mdKVp6Fw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xHkXJ-00000003PCI-1YwD;
-	Fri, 16 Oct 2026 16:12:01 +0000
-Received: from mail-qv1-xf31.google.com ([2607:f8b0:4864:20::f31])
+	id 1xHlEy-00000003VLp-453I;
+	Fri, 16 Oct 2026 16:57:08 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xHkXG-00000003PBw-35tV
+	id 1xHlEw-00000003VKC-4BO9
 	for linux-nvme@lists.infradead.org;
-	Fri, 16 Oct 2026 16:11:59 +0000
-Received: by mail-qv1-xf31.google.com with SMTP id 6a1803df08f44-91b54d1e9cdso1276466d6.1
-        for <linux-nvme@lists.infradead.org>; Fri, 16 Oct 2026 09:11:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792167117; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ko/nWKtqDfzRCD0PvuiVUp8rl1mDPhBZfSeGEejtaoUSpemZ+PLIbwwv6CeW2MGR8S
-         Bj9J6cJrqtf4t//KiaiMZx6NtK2XRcJ90EyYxJ8Jq893NyPOiY3dpBckqnOQ5gJkb1eO
-         XzJ55BVV+uFah7TfIfG3drT8gRTZva1YCHli3mM+bkgdH1nbogtP4MzqIfkfw3235YqQ
-         2jlmbohN3uy15zO+goegwJkr5K0oPIrkyrFdyYqJwBXTij40WyvZOCecWyMM2FEo5Rtn
-         1CYdoRjyQUjm7cVoADKCWyTipnoM3Hi7YAhNmzVj2Faeuy1kN6CtXKxd2ObywtScVP6a
-         nDaQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=gPXFXTYHfhMIi3Tk5OWQVDYZ9+5PmV/EuJNrX3blnmE=;
-        fh=yR3KGqvQXSLjMgEuhWgAabiXh28Pdd563S70qNNZMNc=;
-        b=AHawkEN5Y7M0g9tWAZBQQ9Jc58HxmY3icfIhCKwnRhat7CdouNQ/fMWMp5G8vdfmK5
-         91PxjPXIF61uPhE1rlnIgIY5859aLz8t48VKYwz4v8qk+nVIlSPaN3YcpkUpSzDPPLct
-         bDyIgHeaA5t7dZYtDAp7YdFeEa3KL4hRMbvZiR4dUQiUTdoDawUIcemjb4vA0F4U49MR
-         bdg9AScB3vnR4OVRt+WHPZMOvhEyj6UcyV/UoWJqaf6cLmWGCrhXydNNymC1QTNgV+jc
-         ExA0BLkSZNHHfHC5fN4S1/EJxd/kXshfGrbwzbq/ejp1IEWqf5hjSe5/nxsWmt4yjsyx
-         4LTw==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792167117; x=1792771917; darn=lists.infradead.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=gPXFXTYHfhMIi3Tk5OWQVDYZ9+5PmV/EuJNrX3blnmE=;
-        b=WNcIRQh6URAUF3kxL6hRRz924Tk5zj9y0+/qY6H/VAUF5V109DkZE5GEyy5FT8nf20
-         J4KRvqxtbBwG1h/8MLIA7Xy/Qz1NATcHFxsZPBtd1J3Ktim2C0qVcwn5NJPJNFgTNS97
-         UA4HD39Ji2oIAwtXBHyAX+8D8ONiGHuv7cIH7g21iGgTt9Fpgyk8xeeL9CMVn1QI/Sn2
-         abql2WhZfUGq+2YU3yr+XAJ4t/7HQCb7f1SJf8BsFUZJ0YJCP+AE+nuPvtV2EfkEpyzQ
-         7iOoIWC9ru5uQAJF9mM/3VrN93nKvCCf/TTxaSA3DeQvL7i2wYYWYdzQSSLIAQ5gJc1A
-         +bdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792167117; x=1792771917;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=gPXFXTYHfhMIi3Tk5OWQVDYZ9+5PmV/EuJNrX3blnmE=;
-        b=jFlYypUd9KWSLnyGr5z1wDoarASjD2V1W+SMW7xelWOB/1cN7uJi5X47DtKmwBgJSq
-         bb3tJPHREBWCdDQRdyOmldmSMZTym/oYmwQeNmpZ84J9YPCvwqwkOx0UenmHpLJ1IwjA
-         Q5a73nZ7opxB+bdgiFzxYmj4ypJFAdjQ68RKGG4wRtER0KeByKlc5t9LS8QcepvUl8Kg
-         0JGl+9SiSTOs1pweJfBM3fhvhMhMBEIK7OvAxu+jqJ/qjwFGf96+elTmfl1b4ls62CJW
-         6gDy46Hoon5OPabfRMXoWiJPev0BZ2EUtH1ZYWM2Sg+fIjrLdDJjxWnmEe2UhSU6nGBJ
-         fBUA==
-X-Forwarded-Encrypted: i=1; AKwUvBy4tmFq9EQo/4DURvGBlWtqWwR+PExICifqQlAJKG4yaK+NWikrGfz7BD8Tx8/tq4nLZKO/9OouRVuB@lists.infradead.org
-X-Gm-Message-State: AFq9FYIYGy6/ueQYkOUR3lDBeAojCVEn9SCu5xztbNz/ZHP0KVyqRsna
-	jr3DtXJhtr/mA1NxLQoMSw/Ryo9LRCOnOZDoEtq8qE7+S7fa/QSrbweWDyRoRkqR9EtNwc5ATOg
-	BSeyEbAtikIH8dlYcSayz+9K6r378Ahw=
-X-Gm-Gg: AYBFou1ZdrmWe72AtMyThsCaM+47xsaO1vz18UmiFxISkd2OYkh107TfrHMWraNb7ja
-	STSPKpFnRSsXKeacSV2NAI6Z+QMDxKjK+uExlYi3kPY8NBATdgTRuZhjnzo2MErnaOEQIKtr2yK
-	Io/GXYi+484cirurBYvZyzHyWXXGK5df76Dd+z4edFAIq0jL3XBZUY80hCE2gb2LN3TfpMwTqmA
-	puavD94zAipRas8APARBjlbV5BhzsoO5jGLdtThXa2kX0wwVtaaW4pFUrm5/YZtIhLNrk01kCR2
-	AivnMpr3orjNAtopsBHx9J4sgmlSsPWiwYHE/pXcxEK4bFU+l7NKSBi0wl76ElC1Wru5tGreFI9
-	Epafg1nyc8Id0DM/2SGveyflOFddqn+i+yrIH/ByUoQT1x7ciFVFW6yVjus8jl8Nrepyiz9dYbQ
-	==
-X-Received: by 2002:a05:6214:451d:b0:911:9373:a171 with SMTP id
- 6a1803df08f44-91bdf14bd10mr7504466d6.30.1792167117094; Fri, 16 Oct 2026
- 09:11:57 -0700 (PDT)
+	Fri, 16 Oct 2026 16:57:07 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id 26D4A60A82;
+	Fri, 16 Oct 2026 16:57:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93D251F000C7;
+	Fri, 16 Oct 2026 16:57:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792169825;
+	bh=mB1lyDJtxnoLmeurhPWzLVLDYob9XndoNmsaP9fWeJw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=BZdt5w6p84jWf0riEkOHuE+a1YOcGugk9zO9Qs04Z0U5I3Gy9Tlqyafp0CiDc58mW
+	 aJ34Xu6nFizWsQTooGld+Csg88R63a+GiODdERTP+MWl3vTh8fhFcF96JImhNAbKuE
+	 Nhv41ulBpmHzkY6GoAgF2n/S2Sb0O6J1Pu8mE95mYExYmLTjaPDUFip60WJZh8D0H4
+	 40EDBIE899wHulZOncMsz20d5rEv4/ia+q7VIJh3MsVNeT91YK+oOM3shKJ+1ty8Rg
+	 GZ9ZvYzJ8hobHy4U0qOza4HqXWYL5a5WZlSsZTB2XD3PTRMSvVaEJ+73PD2IyGJCnd
+	 VNqIePe69G4wA==
+Date: Fri, 16 Oct 2026 10:57:04 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Erwan Velu <erwanaliasr1@gmail.com>
+Cc: linux-nvme@lists.infradead.org, axboe@kernel.dk, hch@lst.de,
+	sagi@grimberg.me, linux-kernel@vger.kernel.org,
+	Erwan Velu <e.velu@criteo.com>
+Subject: Re: [PATCH] nvme: honor the volatile write cache enable state
+Message-ID: <atJXYHJa4jkUWJmP@kbusch-mbp>
+References: <20261016141208.2641974-1-e.velu@criteo.com>
 MIME-Version: 1.0
-References: <20261016155947.11018-1-neganhat@gmail.com> <atJLkogz_looz_I7@kbusch-mbp>
-In-Reply-To: <atJLkogz_looz_I7@kbusch-mbp>
-From: =?UTF-8?B?Tmjhuq10IEFuaCBOZ3V54buFbiBEdXk=?= <neganhat@gmail.com>
-Date: Fri, 16 Oct 2026 23:11:43 +0700
-X-Gm-Features: AclHuK8Iwg8EbtvN55OnbeHF8C8q8dkZtGC1xJ5xQYF_Zpjnogu2bBvmMmbRg1Y
-Message-ID: <CAFJkwZyX6==NCJgvgptD8C8AP5YtiLY=B8M5zacNYKxGXqQYnQ@mail.gmail.com>
-Subject: Re: [PATCH v2] nvmet-fc: skip port entry rebinding if already bound
- to a target port
-To: Keith Busch <kbusch@kernel.org>
-Cc: paul.ely@broadcom.com, nareshgottumukkala83@gmail.com, hch@lst.de, 
-	sagi@grimberg.me, kch@nvidia.com, linux-nvme@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, 
-	syzbot+be62d4b375542ecebd17@syzkaller.appspotmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261016_091158_807787_F20E4B75 
-X-CRM114-Status: UNSURE (   7.60  )
-X-CRM114-Notice: Please train this message.
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261016141208.2641974-1-e.velu@criteo.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -123,22 +69,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Sorry about the noise in the recent patches=E2=80=94I botched staging the d=
-iff
-before amending. v3 has the actual diff moving the check above
-nvmet_fc_tgtport_get().
+On Fri, Oct 16, 2026 at 04:12:08PM +0200, Erwan Velu wrote:
+>   job                   | cache   |   IOPS | fsync avg | flushes |  gain
+>   ----------------------+---------+--------+-----------+---------+------
+>   psync buffered, QD1   | back    |   3885 |   247.6us |  116552 |
+>                         | through |  48325 |    15.7us |       0 | x12.4
+>   ----------------------+---------+--------+-----------+---------+------
+>   io_uring direct, QD1  | back    |   3886 |   238.2us |  116593 |
+>                         | through |  41924 |     5.7us |       0 | x10.8
+>   ----------------------+---------+--------+-----------+---------+------
+>   io_uring direct, QD32 | back    |   5088 |  6173.5us |  117793 |
+>                         | through | 140196 |   107.0us |       0 | x27.6
+> 
+> From NVMe 1.4c (sections 5.21.1.6 and 6.8) up to the NVMe Base
+> Specification 2.4 (sections 5.2.30.1.4 and 7.2), a Flush command has no
+> effect if the volatile write cache is not enabled.
 
-Regards,
-Nhat Anh
+Yeah, the NVMe Flush operation should be a no-op in the device, so the
+dramatic performance difference is a bit alarming. Surely the block
+stack's flush machinery is not the reason for the difference, right?
 
-On Fri, Oct 16, 2026 at 11:06=E2=80=AFPM Keith Busch <kbusch@kernel.org> wr=
-ote:
->
-> On Fri, Oct 16, 2026 at 10:59:47PM +0700, Nguyen Duy Nhat Anh wrote:
-> > v1 -> v2:
-> > - Move pe->tgtport check before nvmet_fc_tgtport_get() to avoid refcoun=
-t leak.
->
-> You may want to double check before posting new versions because this v2
-> is identical to v1.
+If the device's flush handling is this bad when VWC is disabled, what
+happens when you have it enabled? Can you re-run the same test with that
+setting?
+
+I'm not necessarily against what you're proposing here, but your numbers
+are unexpected.
 
