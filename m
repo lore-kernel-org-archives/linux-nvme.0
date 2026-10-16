@@ -4,55 +4,105 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 97079CCA46C
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Oct 2026 15:58:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0F77CCCA46C
+	for <linux-nvme@archiver.kernel.org>; Fri, 16 Oct 2026 16:00:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
-	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Cc:To:Subject:
-	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zAXJRVD0+zjmhCjAOJwlVikEKzNagnlo8V5sKOCNPVQ=; b=Rdz2Bm27oDNRhyh7Gm3Qd2AQWR
-	hUcxT2399zJ0Rf14anBZUkJIudixK7i/uPNvmAfAYLoK1YASGM/thyiGEVJc1drk5visZKYKXbjUr
-	tuvUrq79v5s3FjCJWVRJ9ItlR2DgAuQX8oIdKS+SrOGPpg/FRMYzeiJZvbkN+czU1cOLqTO9yiFpG
-	zrU7EsnDHSPfZN0PtVfXE1YxqKAfcH3j03p6H22mKG6w0hI9m0LVAI8gzWDZk/70ZLROCzpY4zAOX
-	bl33VCRtCu0Ia8IJuOouKUPv/pa9WTwTUEk70z+BHLdzuOprgY1QdO+X7hWFioIK5R5QS9ktUL50p
-	3t2VaXQg==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=qvmLPz06rJRqpskfFH0YX2GLcYLTXoI2OSEKQqiSxh4=; b=EhQmDpkxHjhXUJdfu5JeKzGcM8
+	2m9aBmWU3DPRYyE+60BzDXYMIPBrB9W0ZWIsteI8njUuQXaIOzTNYvpDndN/5QDOIe35+wuNN5Imt
+	NxnIEct6Pmh9jI4TGvEb8PPt/V0Z8gUm4TSsYqtfeqVu1hA0AI6b8GSFPOl9ymFvk70sRbR7LBgdA
+	89gROe8uZ0qhMnqqU43H82UEhKP8HsdLz1wCGiY/QQAgZtzkvMWSYD68DlTxB1xI3fmfN1PUSH3LN
+	zDgd9/s/6sQX2pgPT8V9oVfJ9IntGQbrBopfilrOHTzYj461Xm0OaiIYoeEf8F4deQfs30LqmY2M0
+	u2Z2jq+g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xHkKd-00000003MCN-14KS;
-	Fri, 16 Oct 2026 15:58:55 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1xHkM3-00000003NAR-1p35;
+	Fri, 16 Oct 2026 16:00:23 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xHkKc-00000003MBF-04tG
+	id 1xHkM1-00000003N9E-3HOv
+	for linux-nvme@bombadil.infradead.org;
+	Fri, 16 Oct 2026 16:00:21 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
+	:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=qvmLPz06rJRqpskfFH0YX2GLcYLTXoI2OSEKQqiSxh4=; b=ML4WUXbrTsMqgu0MLzf5Uc4vvt
+	2JdZJeQqPg1qDoDxxqUJpbq+vZnyU192smWVA4UrGYbej8CwBijP4Udbd4ekR/ghUsB8S1cuSMrEQ
+	p/vwVjWk5zsi8EQvqOet27+a/kyisxF7ZJl8V++oLHMbHAjoo3aEomwy6UHt9jFaaRcmiYSU/d5rA
+	P080kDOyClj/hN6lztOyCIHSyq2b3+MCPMgzVN6pyQ3IL2oIVFUml3yAjkaGmN6Oa41ZVt+PlFG6W
+	Y5d+6LvR2Wt5qoW4OmDZkibuioMNUjn9d6vZl/okOnXYGZPOdRKdtRPAOncbI/Q6QNVCViiJLirAV
+	mjsiafwA==;
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531])
+	by desiato.infradead.org with esmtps (Exim 4.99.5 #2 (Red Hat Linux))
+	id 1xHkLy-00000001hme-3Fiz
 	for linux-nvme@lists.infradead.org;
-	Fri, 16 Oct 2026 15:58:54 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 5F264602D4;
-	Fri, 16 Oct 2026 15:58:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9E191F000C7;
-	Fri, 16 Oct 2026 15:58:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792166333;
-	bh=zAXJRVD0+zjmhCjAOJwlVikEKzNagnlo8V5sKOCNPVQ=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=PnzRhrTxtmrs0vxoRTiqRQZtWr7ZWBXGUE2PS6g7cnqaIhra9Y78aV05+0ky3TOaQ
-	 rJNjmUneGm/qWiWOMTQ/jmajw3VbFvx4nj7o0xf3rzwKzREdzWteVQpsYa0Lep9q83
-	 6zWhbo+RojVrXxlT4GFRtCSUaDIVc+V9PvFSPmariU1l0LFGQsg8RGqRgL/4NbXVSu
-	 41LgnEv8m+grSc5ph6dsb1HOOu5p5jnXXMfTsR1QDG5FpqFskCFDVB8AzbXFn3UmRK
-	 yJrbA1hgmQJ0aqpUaq4ql/oaJ+jbDSg0eHX0SbNU2vjPpnrRZ8nAcfH1aQjzZgp8tX
-	 JXnaBJAixk/gw==
-Message-ID: <sashiko-outbox-174590@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] nvmet-fc: skip port entry rebinding if already bound to
- a target port
-To: "Nguyen Duy Nhat Anh" <neganhat@gmail.com>
-Cc: linux-nvme@lists.infradead.org
-In-Reply-To: <20261016155415.10521-1-neganhat@gmail.com>
-References: <20261016155415.10521-1-neganhat@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 16 Oct 2026 15:58:52 +0000
+	Fri, 16 Oct 2026 16:00:20 +0000
+Received: by mail-pg1-x531.google.com with SMTP id 41be03b00d2f7-cd62c570b5dso84066a12.2
+        for <linux-nvme@lists.infradead.org>; Fri, 16 Oct 2026 09:00:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792166415; x=1792771215; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=qvmLPz06rJRqpskfFH0YX2GLcYLTXoI2OSEKQqiSxh4=;
+        b=a2RC/yWMvcoG6CpiTkqiN067AX4WXDfgxsb83wlsj7QpfY8Xpj1+u9nCXQkVcz8bsz
+         1EoYCFJQvX2WyZzuEG6OXXGY+rGlVXKQMlTa3qqVr2nZtq2e1MdbdOSMsqWy2kshHbmx
+         b7r58wsKjelOqmBUX3EFhsgdegltcAHH863aGGykURFPheBSTDzL71DS8X+M7Er+g5F2
+         RWGjv8sPoMCoH+h/kLXT1ZNeYyJoYcYP01myIxOBZj/h25NYS/JI+2VNYSSs1RIAv0oM
+         X1o+VdJDaWAPAB2pxBInyRU+rNqFTpHS5hVuH/DGAhnygXGwUIgmK8oWqvB8Wh0cJKnI
+         bUlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792166415; x=1792771215;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=qvmLPz06rJRqpskfFH0YX2GLcYLTXoI2OSEKQqiSxh4=;
+        b=WBOyjBbi4bcQ+PUPOvKbgDlt4L660FTNgEculQgfM9ZA2sA3PlDWm5G/e+A8mVUunI
+         7l6IZysItWBIAPzuh83WT9B5CwcZ1S0S8c6m0iTUe0kRaUVv0uMPxHM8I1auWNXvNlUt
+         Sdl+f/LIlkjzm6EKNyJ19/0AFBOzBBZU8CyYKX0rZDp7DX9l2eKZBGBJ5F0OhLSeaLII
+         XqwfZIJsX7qLJ9lPmm6mA9k8WJ8RgFz+D1SI7l5MG5KeMv7bej+2X1JEbsO8XNfBHash
+         +XO6WuatRqUrbzswbFKNIzAfMI1vyk5IAwyJ80Ug8Cd6abfSpYin+fqCpxQIEwM8PznG
+         yt0w==
+X-Forwarded-Encrypted: i=1; AKwUvBxureCj4uKSDS12QgbDUWpOtsat52OZR0E+ECh/ze4YRGxa36VOcvCxZim7k12ZRQj3Nn7kKwxmF+5Y@lists.infradead.org
+X-Gm-Message-State: AFq9FYIh0gnbTNAjMkiUq7qlT+b4h08RJPtAsXRC9XFEKcJlZ/Rz966F
+	vphAhSv/JqczLfOPIKAenUdtyPDZVJk+EZrwaZ+RyLtsJiAFHc7xJbYU
+X-Gm-Gg: AYBFou3bWXoROvNCfDZi1UcHQV6twDDbVyNpL8q7KbyNBaKGbKmsZIimiOftsgirYlx
+	IayLx+Ddlf4BITQ1zcHIvkETvw75jf6aJ54kTWKsq4GcxldTSRHCsJyyPR7eidF1aIEBbJhvWVc
+	v+w8eW3zVAoLrGE6rv5VjWptu28X3t7LKkknm7J+iHVvupzKYQ8Rjt8hnBALEa6Ag8DJrKr4uqp
+	qxXOO1AHithuGB6nalLJNmVdq5uskiQOn15T7lzchVyNFHHSZD8fQQPqSxWInVTVf4NN/y+LVUn
+	Nu+ZEKo3sgtgoAFKgRwHwuKrCVSafgwcCkU0PUIVWLfpJOTePk+VPUEOKoZXrsTD7+XrKsqGj6q
+	UFd2PQ85KfifpSrW/3VkVqPSx5YsF06TQqqZwHJHig2BOP7JbVYEWX8N14XZ5JTmuIC855twBWN
+	GbcXw2zljMTCIoH8m3ayR9vFWtW7d4LIN+wjmvXgx2TlIE9LNwqRD9Nq9YjOZ/xx61RmmyNLRiy
+	HRj0TCV8wWZM/rQXTtmB82SwSab8j25wgM67QKuqBjqFbMYjJ4=
+X-Received: by 2002:a05:6a20:3d07:b0:3e0:d38e:1ed9 with SMTP id adf61e73a8af0-3e16be86c35mr22403928637.48.1792166415388;
+        Fri, 16 Oct 2026 09:00:15 -0700 (PDT)
+Received: from casta ([2401:d800:20b:1196:6a2:5930:14e3:f74b])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-89febdc2209sm814796b3a.33.2026.10.16.09.00.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Oct 2026 09:00:13 -0700 (PDT)
+From: Nguyen Duy Nhat Anh <neganhat@gmail.com>
+To: paul.ely@broadcom.com
+Cc: nareshgottumukkala83@gmail.com,
+	hch@lst.de,
+	sagi@grimberg.me,
+	kch@nvidia.com,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Nguyen Duy Nhat Anh <neganhat@gmail.com>,
+	syzbot+be62d4b375542ecebd17@syzkaller.appspotmail.com
+Subject: [PATCH v2] nvmet-fc: skip port entry rebinding if already bound to a target port
+Date: Fri, 16 Oct 2026 22:59:47 +0700
+Message-ID: <20261016155947.11018-1-neganhat@gmail.com>
+X-Mailer: git-send-email 2.55.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20261016_170018_865983_E0F36171 
+X-CRM114-Status: GOOD (  12.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -64,59 +114,49 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Medium] nvme-target/fc: reference count leak of tgtport on rebind confli=
-ct
---
+In nvmet_fc_portentry_rebind_tgt(), nvmet_fc_tgtlock serializes access to
+nvmet_fc_portentry_list, but does not prevent multiple concurrent or
+duplicate target port registrations from attempting to rebind to an
+already-assigned port entry.
 
-commit 69be6b42e2f6eef3ebd6d221309e5ccb64969922
-Author: Nguyen Duy Nhat Anh <neganhat@gmail.com>
+When pe->tgtport is non-NULL, WARN_ON() is triggered and pe->tgtport is
+overwritten, leading to kernel warnings and leaking the reference count
+acquired by nvmet_fc_tgtport_get().
 
-nvmet-fc: skip port entry rebinding if already bound to a target port
+Fix this by checking if pe->tgtport is already set before acquiring a
+reference count and rebinding. If it is bound, skip the entry to prevent
+clobbering existing bindings.
 
-This commit adds a check to avoid clobbering existing target port
-assignments during rebinding. It prevents multiple concurrent or duplicate
-target port registrations from overwriting an already-assigned port entry.
+Reported-by: syzbot+be62d4b375542ecebd17@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=be62d4b375542ecebd17
+Signed-off-by: Nguyen Duy Nhat Anh <neganhat@gmail.com>
 
-Closes: https://syzkaller.appspot.com/bug?extid=3Dbe62d4b375542ecebd17
+---
+v1 -> v2:
+- Move pe->tgtport check before nvmet_fc_tgtport_get() to avoid refcount leak.
+---
+ drivers/nvme/target/fc.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-> diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-> index eecdffefa24fa..ac3194497a1e0 100644
-> --- a/drivers/nvme/target/fc.c
-> +++ b/drivers/nvme/target/fc.c
-> @@ -1324,7 +1324,9 @@ nvmet_fc_portentry_rebind_tgt(struct nvmet_fc_tgtpo=
-rt *tgtport)
->  			if (!nvmet_fc_tgtport_get(tgtport))
->  				continue;
-> =20
-> -			WARN_ON(pe->tgtport);
-> +			if (pe->tgtport)
-> +				continue;
-> +
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index 1b557775e033..9b7fd8f5bd47 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -1324,7 +1324,9 @@ nvmet_fc_portentry_rebind_tgt(struct nvmet_fc_tgtport *tgtport)
+ 			if (!nvmet_fc_tgtport_get(tgtport))
+ 				continue;
+ 
+-			WARN_ON(pe->tgtport);
++			if (pe->tgtport)
++				continue;
++
+ 			tgtport->pe = pe;
+ 			pe->tgtport = tgtport;
+ 			break;
+-- 
+2.55.0
 
-[Severity: Medium]
-Does this code leak the reference count on the target port?
-
-The commit message states the intent to check for an existing assignment
-before acquiring the reference count, but the check is placed immediately
-after nvmet_fc_tgtport_get() has already incremented the reference.=20
-
-If pe->tgtport is already set, the continue statement will move to the next
-iteration without releasing the reference acquired by nvmet_fc_tgtport_get(=
-),
-permanently leaking it and preventing the target port from being freed upon
-unregistration.
-
->  			tgtport->pe =3D pe;
->  			pe->tgtport =3D tgtport;
->  			break;
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261016155415.1052=
-1-1-neganhat@gmail.com?part=3D1
 
