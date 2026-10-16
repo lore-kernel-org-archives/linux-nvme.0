@@ -4,105 +4,111 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D89CECCA46C
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Oct 2026 16:07:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B361CCC6B38
+	for <linux-nvme@archiver.kernel.org>; Fri, 16 Oct 2026 16:12:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=zfoHK1ZIKQ1TgR5QFK+lCQM9pR1G/aWYu6gXDDq4ISc=; b=zTFLvEbROS3izbOa7M8f8q8dcW
-	n+oaXxL7bL40cVAhTEX07t0TZoi1gbkRodGTXrA7IhOfgFyblp9nZkUaKPwYtM+kdMXxg0F8upZoU
-	OT7TGdKlTLyCxdfuNvHobXZVp/cwioM7uOSSTkxmSRpIGqoBWx9kMjZRtmS0juieJJie10lyHjhzi
-	8I6v9qrVCK/fULSB1srnuQ1+9CBhlchKukHNO61NTVeNssENyjIEe8dUTTV8LfKBn76YcnzXTG1rp
-	Rs2xgPkTv3HN0e713AgJ3nHBLvpmg2WUs/yinWtBzeiI5/g9utuwKiBxg35vB4Jl2xESfsidGOll/
-	AQLmBedA==;
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=gPXFXTYHfhMIi3Tk5OWQVDYZ9+5PmV/EuJNrX3blnmE=; b=uUIFE1ZiqzAZslknWgSb6cPjDP
+	BOWHqE5VaeXJBaorZTc4p2HpjxxHzZNlPYuneI8H/rWSEhnLwSSccPXYFcNjAl+VyyRWGSJIxpna4
+	2WzICQhIOddy6PkFeQlLyqzo57zczOhXyc7J2A7S5bXMjs3oJW2qlmA2M9MqMqzNwwthcKGtskdgm
+	roP+nNQyldaQteE3kyBb0/FVl8Y/F47pgGtr+BsDIE7dH1YEDNiv0vIv/CpPQtAZG5VevEXU3JkHe
+	+InCCZ+9zQYjTvLACTq99DeUkWj9hd5LonXco6YghZ37uplCVDHCsWbt1jxmifoappvpMNRvpP1wu
+	8PZ+HBSg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xHkT0-00000003OiQ-28p6;
-	Fri, 16 Oct 2026 16:07:34 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1xHkXJ-00000003PCI-1YwD;
+	Fri, 16 Oct 2026 16:12:01 +0000
+Received: from mail-qv1-xf31.google.com ([2607:f8b0:4864:20::f31])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xHkSz-00000003Ohd-1YXB
-	for linux-nvme@bombadil.infradead.org;
-	Fri, 16 Oct 2026 16:07:33 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=zfoHK1ZIKQ1TgR5QFK+lCQM9pR1G/aWYu6gXDDq4ISc=; b=OUVm62HOcAO+QMzVDQUn7igy39
-	l/RcCNq2ANfIHYXtqpAKLmLbMcSfyFNUilqezT29pxz1SlmUAtQx7PRW7XL/gYEGaAvkeR3H8+oXR
-	Piqc6Y3p1bpXyqN9IG1Ht88Sy5Szx5qY/2UaY7nxIqbgjyXVhkAadPaF+wHfJBasoPKok1Y3BYFuh
-	/1CDhs8pyOstwxgg/1jzsWLni2zPA8XebLx+pWGiT717GKBD9SDT6XuLqInEd29ZuIFVNEwuMt6r6
-	C5EAaewn0nihJMdA4QF0HjXNLhW2VrJtXVDbav12nf6Vm6NdboslAKbYgZXsSF28pkt/6bJdrnFlx
-	0xnoqtaA==;
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
-	by desiato.infradead.org with esmtps (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xHkSw-00000001iHt-25bq
+	id 1xHkXG-00000003PBw-35tV
 	for linux-nvme@lists.infradead.org;
-	Fri, 16 Oct 2026 16:07:32 +0000
-Received: by mail-pl1-x62f.google.com with SMTP id d9443c01a7336-2dd1dcdcf95so1133735ad.1
-        for <linux-nvme@lists.infradead.org>; Fri, 16 Oct 2026 09:07:29 -0700 (PDT)
+	Fri, 16 Oct 2026 16:11:59 +0000
+Received: by mail-qv1-xf31.google.com with SMTP id 6a1803df08f44-91b54d1e9cdso1276466d6.1
+        for <linux-nvme@lists.infradead.org>; Fri, 16 Oct 2026 09:11:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792167117; cv=none;
+        d=google.com; s=arc-20260327;
+        b=ko/nWKtqDfzRCD0PvuiVUp8rl1mDPhBZfSeGEejtaoUSpemZ+PLIbwwv6CeW2MGR8S
+         Bj9J6cJrqtf4t//KiaiMZx6NtK2XRcJ90EyYxJ8Jq893NyPOiY3dpBckqnOQ5gJkb1eO
+         XzJ55BVV+uFah7TfIfG3drT8gRTZva1YCHli3mM+bkgdH1nbogtP4MzqIfkfw3235YqQ
+         2jlmbohN3uy15zO+goegwJkr5K0oPIrkyrFdyYqJwBXTij40WyvZOCecWyMM2FEo5Rtn
+         1CYdoRjyQUjm7cVoADKCWyTipnoM3Hi7YAhNmzVj2Faeuy1kN6CtXKxd2ObywtScVP6a
+         nDaQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=gPXFXTYHfhMIi3Tk5OWQVDYZ9+5PmV/EuJNrX3blnmE=;
+        fh=yR3KGqvQXSLjMgEuhWgAabiXh28Pdd563S70qNNZMNc=;
+        b=AHawkEN5Y7M0g9tWAZBQQ9Jc58HxmY3icfIhCKwnRhat7CdouNQ/fMWMp5G8vdfmK5
+         91PxjPXIF61uPhE1rlnIgIY5859aLz8t48VKYwz4v8qk+nVIlSPaN3YcpkUpSzDPPLct
+         bDyIgHeaA5t7dZYtDAp7YdFeEa3KL4hRMbvZiR4dUQiUTdoDawUIcemjb4vA0F4U49MR
+         bdg9AScB3vnR4OVRt+WHPZMOvhEyj6UcyV/UoWJqaf6cLmWGCrhXydNNymC1QTNgV+jc
+         ExA0BLkSZNHHfHC5fN4S1/EJxd/kXshfGrbwzbq/ejp1IEWqf5hjSe5/nxsWmt4yjsyx
+         4LTw==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792166848; x=1792771648; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=zfoHK1ZIKQ1TgR5QFK+lCQM9pR1G/aWYu6gXDDq4ISc=;
-        b=OYjxVruI6gwq0YwyMJxKke9mcknFSsV6oGkEc1dbMNF3OacVc9QkxNDfIX3eEmjtV2
-         c8KGicITgxRrCLofXBgrRpniKGHHGw4txvj9Yx3UMtnnbSvLkQznSUQaNOv5BMwDb+lU
-         UAf6/iDrirViM6y5LGXdzpjvwdWiH5awOtuyPrUB1mN8cLqCWIGBGL/7dOBEOLcWx5VV
-         o4K9poHt92HTBbQWnZWqxVAF2FLji2WzRkTa1FjXEdlful7Cj8QCSCV7iODsKUTEpHY4
-         Sg3eMtNeJS3sk+5zXb2fkK6/2D6x8oKSw5eOEf4G5/fBQyB+zYJIFzak2eSdgvMfoGTY
-         6ghg==
+        d=gmail.com; s=20251104; t=1792167117; x=1792771917; darn=lists.infradead.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=gPXFXTYHfhMIi3Tk5OWQVDYZ9+5PmV/EuJNrX3blnmE=;
+        b=WNcIRQh6URAUF3kxL6hRRz924Tk5zj9y0+/qY6H/VAUF5V109DkZE5GEyy5FT8nf20
+         J4KRvqxtbBwG1h/8MLIA7Xy/Qz1NATcHFxsZPBtd1J3Ktim2C0qVcwn5NJPJNFgTNS97
+         UA4HD39Ji2oIAwtXBHyAX+8D8ONiGHuv7cIH7g21iGgTt9Fpgyk8xeeL9CMVn1QI/Sn2
+         abql2WhZfUGq+2YU3yr+XAJ4t/7HQCb7f1SJf8BsFUZJ0YJCP+AE+nuPvtV2EfkEpyzQ
+         7iOoIWC9ru5uQAJF9mM/3VrN93nKvCCf/TTxaSA3DeQvL7i2wYYWYdzQSSLIAQ5gJc1A
+         +bdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792166848; x=1792771648;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=zfoHK1ZIKQ1TgR5QFK+lCQM9pR1G/aWYu6gXDDq4ISc=;
-        b=Ky0tfNQwUMQJBe9mJVKd9IzNvv5xYH33AUwaqvrJJNHsTqfUt2xg7Lb47D/epIiUQH
-         DOcCrT0plGBCEVfTS68Ly15MFg+6TPqoacZ27gAsAjBYr7ZRQt2WTT1+PpMXJ4tlV0je
-         TIvDJFoL3Z2rnsSc0Bmy0MU5fMzpXAjTAmNyxygBINlPhgObhvYi1uab5EVo6JpJQtDU
-         /DHJGAhQwZT295J9SS81oTpSGLk2kUVq9DykY1EnKUhGvCchnxNgcEuFTg9RmZHHrmju
-         mUCPT9CgeuVHt3+O64fOoql3FsHHSKs7oLcBQ8x3JFsN1+eYWAzLUIC6JnLCudAMBknE
-         rHUQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwY+VXWRFcTetGE18Uk2/CShtx2X/6XAqRlhF105MOKRUJxBSYkCWKU4twAlCb9bI+eoqaV1fF04imK@lists.infradead.org
-X-Gm-Message-State: AFq9FYKS/OP/2CCgEsAfel+okIk8IINxU1DhVSJ7vtRy7lMQfvBa4DZB
-	Vx/wSQ9BkUzi/wWQSrIG/ryZbONz1aIyO8c15OlnDMzUbAjvu6fLtY/G
-X-Gm-Gg: AYBFou3nPI4SEDEwjq8PjlG1oAyu9QYTtKExPgVdPDAHbQJPNfjKtRgPxcIbMZBlfI7
-	sO07Yb8UecNG/UeTpL96vnquMfqZbJU8XyTdi5f0rrIQh+HeOyS+Me5woqi6CzllQCDIJN9t0kI
-	8T5JxiAhB3YcJo9jY8qqvXevHQTBU9QEQNC2p7sJs981NdhRjEr6lNNkkUCA6r1LSHYZgFsRsiF
-	Ek5mfrTvdsE88Y8d/ygZv626XgtDBb44+jgWMy7ZiPazn11Sx1jrN8hv1n4pw0NNls2+Eyrr9eL
-	88XLoLmWKsI8GDm4fy2kDG7A55pNG26+srxWW3pSg5g3UsJiXvz4mWq3YAphqSP/cjh7t3p1DVF
-	EKKuVmV4Bk1J/vw82tIp8r+0nCZxKP9TUP7Vv8jx+crmMlZJ00UskTBWx9i+KNY19+Y+ld2cnzv
-	IxDlBYyEa3hRIsuSYC/9+lC81BKZKchCuq5xRyk+u7qnNQbb39HgR23fmEkhOF+OhiHEPbA37vm
-	EtX9gxuLb/FznmVeu/7bQ/HJS6dzSGFcgRtPc4HRfg880uUKWU=
-X-Received: by 2002:a17:903:2b04:b0:2e9:7770:cc35 with SMTP id d9443c01a7336-2e9a6a07297mr2933355ad.17.1792166847953;
-        Fri, 16 Oct 2026 09:07:27 -0700 (PDT)
-Received: from casta ([2401:d800:20b:1196:6a2:5930:14e3:f74b])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e97e8b1f0asm12294325ad.68.2026.10.16.09.07.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2026 09:07:26 -0700 (PDT)
-From: Nguyen Duy Nhat Anh <neganhat@gmail.com>
-To: paul.ely@broadcom.com
-Cc: nareshgottumukkala83@gmail.com,
-	hch@lst.de,
-	sagi@grimberg.me,
-	kch@nvidia.com,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Nguyen Duy Nhat Anh <neganhat@gmail.com>,
-	syzbot+be62d4b375542ecebd17@syzkaller.appspotmail.com
-Subject: [PATCH v3] nvmet-fc: skip port entry rebinding if already bound to a target port
-Date: Fri, 16 Oct 2026 23:07:00 +0700
-Message-ID: <20261016160700.12021-1-neganhat@gmail.com>
-X-Mailer: git-send-email 2.55.0
+        d=1e100.net; s=20260707; t=1792167117; x=1792771917;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=gPXFXTYHfhMIi3Tk5OWQVDYZ9+5PmV/EuJNrX3blnmE=;
+        b=jFlYypUd9KWSLnyGr5z1wDoarASjD2V1W+SMW7xelWOB/1cN7uJi5X47DtKmwBgJSq
+         bb3tJPHREBWCdDQRdyOmldmSMZTym/oYmwQeNmpZ84J9YPCvwqwkOx0UenmHpLJ1IwjA
+         Q5a73nZ7opxB+bdgiFzxYmj4ypJFAdjQ68RKGG4wRtER0KeByKlc5t9LS8QcepvUl8Kg
+         0JGl+9SiSTOs1pweJfBM3fhvhMhMBEIK7OvAxu+jqJ/qjwFGf96+elTmfl1b4ls62CJW
+         6gDy46Hoon5OPabfRMXoWiJPev0BZ2EUtH1ZYWM2Sg+fIjrLdDJjxWnmEe2UhSU6nGBJ
+         fBUA==
+X-Forwarded-Encrypted: i=1; AKwUvBy4tmFq9EQo/4DURvGBlWtqWwR+PExICifqQlAJKG4yaK+NWikrGfz7BD8Tx8/tq4nLZKO/9OouRVuB@lists.infradead.org
+X-Gm-Message-State: AFq9FYIYGy6/ueQYkOUR3lDBeAojCVEn9SCu5xztbNz/ZHP0KVyqRsna
+	jr3DtXJhtr/mA1NxLQoMSw/Ryo9LRCOnOZDoEtq8qE7+S7fa/QSrbweWDyRoRkqR9EtNwc5ATOg
+	BSeyEbAtikIH8dlYcSayz+9K6r378Ahw=
+X-Gm-Gg: AYBFou1ZdrmWe72AtMyThsCaM+47xsaO1vz18UmiFxISkd2OYkh107TfrHMWraNb7ja
+	STSPKpFnRSsXKeacSV2NAI6Z+QMDxKjK+uExlYi3kPY8NBATdgTRuZhjnzo2MErnaOEQIKtr2yK
+	Io/GXYi+484cirurBYvZyzHyWXXGK5df76Dd+z4edFAIq0jL3XBZUY80hCE2gb2LN3TfpMwTqmA
+	puavD94zAipRas8APARBjlbV5BhzsoO5jGLdtThXa2kX0wwVtaaW4pFUrm5/YZtIhLNrk01kCR2
+	AivnMpr3orjNAtopsBHx9J4sgmlSsPWiwYHE/pXcxEK4bFU+l7NKSBi0wl76ElC1Wru5tGreFI9
+	Epafg1nyc8Id0DM/2SGveyflOFddqn+i+yrIH/ByUoQT1x7ciFVFW6yVjus8jl8Nrepyiz9dYbQ
+	==
+X-Received: by 2002:a05:6214:451d:b0:911:9373:a171 with SMTP id
+ 6a1803df08f44-91bdf14bd10mr7504466d6.30.1792167117094; Fri, 16 Oct 2026
+ 09:11:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261016155947.11018-1-neganhat@gmail.com> <atJLkogz_looz_I7@kbusch-mbp>
+In-Reply-To: <atJLkogz_looz_I7@kbusch-mbp>
+From: =?UTF-8?B?Tmjhuq10IEFuaCBOZ3V54buFbiBEdXk=?= <neganhat@gmail.com>
+Date: Fri, 16 Oct 2026 23:11:43 +0700
+X-Gm-Features: AclHuK8Iwg8EbtvN55OnbeHF8C8q8dkZtGC1xJ5xQYF_Zpjnogu2bBvmMmbRg1Y
+Message-ID: <CAFJkwZyX6==NCJgvgptD8C8AP5YtiLY=B8M5zacNYKxGXqQYnQ@mail.gmail.com>
+Subject: Re: [PATCH v2] nvmet-fc: skip port entry rebinding if already bound
+ to a target port
+To: Keith Busch <kbusch@kernel.org>
+Cc: paul.ely@broadcom.com, nareshgottumukkala83@gmail.com, hch@lst.de, 
+	sagi@grimberg.me, kch@nvidia.com, linux-nvme@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, 
+	syzbot+be62d4b375542ecebd17@syzkaller.appspotmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261016_170730_602690_F3F3E17D 
-X-CRM114-Status: GOOD (  13.36  )
+X-CRM114-CacheID: sfid-20261016_091158_807787_F20E4B75 
+X-CRM114-Status: UNSURE (   7.60  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -117,53 +123,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-In nvmet_fc_portentry_rebind_tgt(), nvmet_fc_tgtlock serializes access to
-nvmet_fc_portentry_list, but does not prevent multiple concurrent or
-duplicate target port registrations from attempting to rebind to an
-already-assigned port entry.
+Sorry about the noise in the recent patches=E2=80=94I botched staging the d=
+iff
+before amending. v3 has the actual diff moving the check above
+nvmet_fc_tgtport_get().
 
-When pe->tgtport is non-NULL, WARN_ON() is triggered and pe->tgtport is
-overwritten, leading to kernel warnings and leaking the reference count
-acquired by nvmet_fc_tgtport_get().
+Regards,
+Nhat Anh
 
-Fix this by checking if pe->tgtport is already set before acquiring a
-reference count and rebinding. If it is bound, skip the entry to prevent
-clobbering existing bindings.
-
-Reported-by: syzbot+be62d4b375542ecebd17@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=be62d4b375542ecebd17
-Signed-off-by: Nguyen Duy Nhat Anh <neganhat@gmail.com>
-
----
-v2 -> v3:
-- Correctly place pe->tgtport check before nvmet_fc_tgtport_get() to avoid refcount leak.
-v1 -> v2:
-- Move pe->tgtport check before nvmet_fc_tgtport_get() to avoid refcount leak.
----
----
- drivers/nvme/target/fc.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index 1b557775e033..43c5202a82b6 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -1321,10 +1321,13 @@ nvmet_fc_portentry_rebind_tgt(struct nvmet_fc_tgtport *tgtport)
- 	list_for_each_entry(pe, &nvmet_fc_portentry_list, pe_list) {
- 		if (tgtport->fc_target_port.node_name == pe->node_name &&
- 		    tgtport->fc_target_port.port_name == pe->port_name) {
-+
-+			if (pe->tgtport)
-+				continue;
-+
- 			if (!nvmet_fc_tgtport_get(tgtport))
- 				continue;
- 
--			WARN_ON(pe->tgtport);
- 			tgtport->pe = pe;
- 			pe->tgtport = tgtport;
- 			break;
--- 
-2.55.0
-
+On Fri, Oct 16, 2026 at 11:06=E2=80=AFPM Keith Busch <kbusch@kernel.org> wr=
+ote:
+>
+> On Fri, Oct 16, 2026 at 10:59:47PM +0700, Nguyen Duy Nhat Anh wrote:
+> > v1 -> v2:
+> > - Move pe->tgtport check before nvmet_fc_tgtport_get() to avoid refcoun=
+t leak.
+>
+> You may want to double check before posting new versions because this v2
+> is identical to v1.
 
