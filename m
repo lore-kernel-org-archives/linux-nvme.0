@@ -4,97 +4,139 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ED511CCA46C
-	for <linux-nvme@archiver.kernel.org>; Sat, 17 Oct 2026 02:35:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AA494CC6B2A
+	for <linux-nvme@archiver.kernel.org>; Sat, 17 Oct 2026 04:26:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZROtWBtn7Em4KQUcWsy9pq8PmRRT29SnOSczBb7KaLk=; b=xKD33ZHA15loo/oLXkZ58ZkTkK
-	xBChNt3l54fJPcXsnt4+Is3Am+G4BSQ3rGehrVOB3X3zb60nw95kFACrlKGDRqK1UeHnLg4pXoTb+
-	+WTWDYSEjeI2nAK+24V+5fGY3WBhPP/z4VzwE2qpB739YLG9PO4qGcKS96nM2kfnmz2d0Lrk0EDS3
-	zMC+i0wL4/Hc7s0EOr9Rp058g9e0uLy0YU9ZRq183Mo2iAqb0mt6VM1DDdsJImfUsiSe45arYmefL
-	G07G0SNe1c9zUuuBRhFPa8oxC8npr/JsyGcEOoJDXdsofq8n66vyMxu2p5daFF2GZnOjWlw4dX0IO
-	dJoTNDdQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=3zMUckmdHlMtdlh/QB1ae7Hw29RsJYHLhEYheFqtBOg=; b=aulQJk5mzXjm2RlESSCdmpsLCm
+	E5Z44KEaueKEoBw6KWxstVhW/j5a+b4hNmu97rhV+DZEMWpEJYPgKEhdYop6HBqEQonzR82dI0A7B
+	ww/BsGNAWbZ/oXDCicrWjwOKJC6CLdt2eTcMz5kYwot58+sRyXVXcAMlpiRtWvv2T+v3o20Rh/rAB
+	w6a2lq7f+j6KLxCk1K0/oemUI4/LmHXXk/5wPTg7IHaXB81kbdQyCf52Lk/fS4/KCF/zowSzNODB/
+	KbV6PwYtyVNTs/4PNEdEBr8twQRenV3oN7BqfPYSvrDI7PsRAHaJtlfSrNJ8t5j+HFcSx6YDEXKNi
+	KNNkewug==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xHuGB-00000004Lfo-48qT;
-	Sat, 17 Oct 2026 02:34:59 +0000
-Received: from mail-dy1-x132e.google.com ([2607:f8b0:4864:20::132e])
+	id 1xHvzY-00000004PUj-3xEx;
+	Sat, 17 Oct 2026 04:25:56 +0000
+Received: from mail-westeuropeazlp170130006.outbound.protection.outlook.com ([2a01:111:f403:c201::6] helo=AM0PR02CU008.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xHuG3-00000004LfF-1AH5
+	id 1xHvzW-00000004PUO-08Ot
 	for linux-nvme@lists.infradead.org;
-	Sat, 17 Oct 2026 02:34:52 +0000
-Received: by mail-dy1-x132e.google.com with SMTP id 5a478bee46e88-3282db206d3so1336641eec.0
-        for <linux-nvme@lists.infradead.org>; Fri, 16 Oct 2026 19:34:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=crusoe.ai; s=google; t=1792204489; x=1792809289; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ZROtWBtn7Em4KQUcWsy9pq8PmRRT29SnOSczBb7KaLk=;
-        b=fc/eqxBWOaJE0w/qNJNerFa8+lIL2s5oVCdnERR75MQHe5K+uVcEkGAaQQFp566wro
-         8uIgDhrri6IiGDopoMC1XtkBIYChj7s7Tk2fNiybELi3aluzRp+wCW52WmDZp88rz1TM
-         +/dguo575Uw9x4+TqWBj/bL+lzsHbq5nOApgLco6i3hJBOpv73Pv7A8aN5KWOV8G4Ljo
-         QEjxCdyiW+BNIr7n160E6zJ3vTLmuLahpBRktdTLWj0F9z49LOssaL2Mk27JRBbfN016
-         Gef++b9UT+vbWLPU7t5xJ4Qlt4Vdix2H2zuq9w/5GLUKtr9+LvdxoyNh/cnSfa/MaMJU
-         j9xQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792204489; x=1792809289;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ZROtWBtn7Em4KQUcWsy9pq8PmRRT29SnOSczBb7KaLk=;
-        b=NGjPQSL93gTdbWrTp+oVKp93fmPLrRc6mQucjtmeS7yEZ7SyIPlmqcS3ZhWTt2j4fs
-         SVQrLTc/gVr0vTNfy6aWGnj+Qkxe3Y5AETSCEO78ZihfsIakW5XFHmvaotu4W/z3BnLe
-         3S/PT5UEblqJCY/bXW3BKnGegml36a5BPsF8z7TY2JzBFP7J1TZsK54C/7RIEk//tpeR
-         AzLzo38W75o4jWsh0nX/+sfoOTGz0mKSadLA0GoXNXv6roCaNYkDbBLsyQytF9QrHnD8
-         NMnSV1eYAv1cIXC1PN4QqHCWWFAoZkozdmJxr2s/JTewwL7OyUE4H3QfFzEVcL8TRjK1
-         BlIA==
-X-Forwarded-Encrypted: i=1; AKwUvBwHPn4amwPF+NQJL5oiU3unHL+yXakOkpI7qUl0w5nEeuAi/ZLtA5rJUypaA5RSYyG4iORxpY+OlC2J@lists.infradead.org
-X-Gm-Message-State: AFq9FYKsbS2D9Hbneuo+rOCI8dgdytqtw/Qasc4ZdkyKcNHHm9wUVZjP
-	N3kUEaMkUhitC1bbV/FIOAgAfvyHc3bqhy9uirJiNhBwKxfg25yZu0/kewVOZRzyCZE=
-X-Gm-Gg: AYBFou0bdg/xUz/honhkFucxs17mtlTTA3RFRwwuFLitmEbl+xlvaz1vZ1nvmEVDOGU
-	KDzc4Rb3gh0M9NWzzz2VrZPGlh3Ojo2bG6fU793SxVzHr8jnXfk8HER9QyAqfx5evBP4VqaEfM1
-	ASbJk3/hL4z3gv3QnxomyRMWCcsuUUXa1BC+WGavrO9Bk4yzu1RUqu+sGIMVnKj9qhhHUsHrlEB
-	AabDuZsUb8WiVwYjMrvrNW6P+nbDa/raA1oG8h+RyxQvn8lJQmTeLO6p2+RZvSIUbpQD7U941Rk
-	tKg3KtrLvJFk8+z3mIoosm/TR5+luNcGLb7Z+0Hqgmhb2CpyD+dmIt1w5ZJyUJI8fxxZMR5kqsy
-	1OsNS6IOMZj4KCDbq6nQh94+ZWnoPmShqr505Uo43Gj/rwBthdCSkkzMGCa8kJMLlVZv5lkDtCV
-	bmCvWrv0QVnOIjiIaUj9zYYROSyGs4gx6yi8/qb3BxQdKntMuWSJeXg0fMhWzcQl4PJOmaLFR4g
-	mUabOofMp3QgOU9tLqmwellSc1SAf1bFG/JEKXxKHa0
-X-Received: by 2002:a05:7301:2727:b0:343:fb75:a5f2 with SMTP id 5a478bee46e88-361a1865981mr2187452eec.9.1792204488444;
-        Fri, 16 Oct 2026 19:34:48 -0700 (PDT)
-Received: from MBP-Saravanan-D.civet-hops.ts.net ([67.208.231.220])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-360813b6e33sm11007439eec.7.2026.10.16.19.34.46
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 16 Oct 2026 19:34:47 -0700 (PDT)
-From: Saravanan D <saravanand@crusoe.ai>
-To: Nilay Shroff <nilay@linux.ibm.com>
-Cc: Saravanan D <saravanand@crusoe.ai>,
-	linux-nvme@lists.infradead.org,
-	kbusch@kernel.org,
-	hch@lst.de,
-	sagi@grimberg.me,
-	axboe@kernel.dk,
-	dwagner@suse.de,
-	linux-kernel@vger.kernel.org,
-	iyamahata@crusoe.ai,
-	kiyer@crusoe.ai,
-	ganbalagane@crusoe.ai,
-	sjpark@crusoe.ai
-Subject: Re: [PATCH v4 2/2] nvme-tcp: allow setting per-queue io_cpu through sysfs
-Date: Fri, 16 Oct 2026 19:34:38 -0700
-Message-ID: <20261017023442.63620-1-saravanand@crusoe.ai>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <e3bd727d-869b-470d-84dc-fccae61ca499@linux.ibm.com>
-References: <20260927070925.47209-1-saravanand@crusoe.ai> <20260927070925.47209-3-saravanand@crusoe.ai> <51a451fe-fdf6-4e8f-afbd-c595f3c6de2c@linux.ibm.com> <20261009020145.64651-1-saravanand@crusoe.ai> <e3bd727d-869b-470d-84dc-fccae61ca499@linux.ibm.com>
-MIME-Version: 1.0
+	Sat, 17 Oct 2026 04:25:55 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qBGBvEp5oN+sNr3yorR4AxJRI6bkev63BDzBZmMJ5E9dzQ+anotP32KnrhJ01JkqS+LxKcVkfMY1UWZisUAY8XZfYPKUgNHNJDTs2x7IuyFpXXyyomzS6gkB/iVfyHu9lgjQwDTc576J1rKnFly00EZC/wn4R/+U1XNtNUMxwUekEXzlofl9BkFKmAcyoPzCBH1EFn008DwIL+gCjTRZ0QxJsgtEIzEclI8qgt+w6oLNQG+PdYaro9QtKnyTn4M5/UDK+5Q8Cwmaf/kZA7Z3mqrxfAPUbAhmNFhVNe/nHcjznaBeiZbrQPWwHU9wVCYoHKMYYRvk1XEGDzb6RyPeKQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3zMUckmdHlMtdlh/QB1ae7Hw29RsJYHLhEYheFqtBOg=;
+ b=gfZBitEUeBojoR8X4jOxPHtTbzBJX+aciPXkBp98cXIbfEg3bvaNv9wiXAUMj1sGe98tQoK/G+BYeUbWRqxHLE9hd7O1EfJ0nIQn7S7cN4PQnB5iwlUi8RVivcJ25Rh0knPVpYfoHK9SRBbYLzmAAgKL/AUgxp8yo1HpEO5zIY3w8VyqA2OeuQjXgWGSP1AVNGQktivxEUUo1EH128aNMMMHcvvjo6N2yOuBAFaG98iQMFiILE+RSQhQmaDCIjSB0k/Ogu03gj1DfN8lYqadDRWDhCdRNdP6gloh/b93N3QAKM74H9/CpAGXnCS4GJO+Q1BMIRpVx7KeZYZTvmy4zQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=criteo.com; dmarc=pass action=none header.from=criteo.com;
+ dkim=pass header.d=criteo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=criteo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3zMUckmdHlMtdlh/QB1ae7Hw29RsJYHLhEYheFqtBOg=;
+ b=phGUqVea/jAU0z8HbXq/SDf3LzFiERredPLEvUtwxFHTSnxfpZmy6Xiak4G7dtwAWEh5a8zMIYF3eKS1y+laHLWpmko0t9pslraqEQtEygYj8K3Ff7T6D9cfECn9TfNXFvBpYLRW6+vL96jaMSpqitgTxrr3yAxC2L9nAZUdfEZpfl8FhiV27SFVzMYnjjQVdKqSwt4xFgUI2TVZv5a37rKfaUUDK+XJHrvFLwy77OKoTlryGqgUqRK9gJfCq+AoyYZqC6Pcu/+PgsTV2QUtLpbFjbPXZwvbPyT+wnqg4vMubqcowf9w05VDQhyN0m2X324tb2+r0ttlLoTjru/9Gg==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=criteo.com;
+Received: from VI1PR04MB5310.eurprd04.prod.outlook.com (2603:10a6:803:57::26)
+ by CPH1PF76D0E694C.eurprd04.prod.outlook.com (2603:10a6:388::3cb) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.13; Sat, 17 Oct
+ 2026 04:25:45 +0000
+Received: from VI1PR04MB5310.eurprd04.prod.outlook.com
+ ([fe80::3b8e:ff4c:76b4:a012]) by VI1PR04MB5310.eurprd04.prod.outlook.com
+ ([fe80::3b8e:ff4c:76b4:a012%5]) with mapi id 15.21.0522.013; Sat, 17 Oct 2026
+ 04:25:44 +0000
+Message-ID: <f665dc3e-fc5c-4352-8e41-a46b7ae97946@criteo.com>
+Date: Sat, 17 Oct 2026 06:25:43 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvme: honor the volatile write cache enable state
+To: Keith Busch <kbusch@kernel.org>, Erwan Velu <erwanaliasr1@gmail.com>
+Cc: linux-nvme@lists.infradead.org, axboe@kernel.dk, hch@lst.de,
+ sagi@grimberg.me, linux-kernel@vger.kernel.org
+References: <20261016141208.2641974-1-e.velu@criteo.com>
+ <atJXYHJa4jkUWJmP@kbusch-mbp>
+ <CAL2Jzuz1qFwLSA=iivp5qLCTL6-4rvKmvFzJbOQzjPu6j_7Y2A@mail.gmail.com>
+ <atJeazM_rJ0uj3vt@kbusch-mbp>
+ <CAL2Jzux8v6zCxfcdd=MY5n0zQMVSa-_8Lki9z-fz7bFShNf7vw@mail.gmail.com>
+ <atJk_2FmzjUZYO_Z@kbusch-mbp>
+Content-Language: en-US
+From: Erwan Velu <e.velu@criteo.com>
+In-Reply-To: <atJk_2FmzjUZYO_Z@kbusch-mbp>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: PR1P264CA0009.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:102:19e::14) To VI1PR04MB5310.eurprd04.prod.outlook.com
+ (2603:10a6:803:57::26)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VI1PR04MB5310:EE_|CPH1PF76D0E694C:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7d1c48a4-770b-467f-a6d5-08df2c06b61c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|23010399003|56012099006|11063799006|261009223027099003|4143699003|10067099003|22082099003|18002099003|6133799003;
+X-Microsoft-Antispam-Message-Info: N453uibhWPZkLELnUbauxZUndQgCefmu/u40VxATWz5huMedw6iBXD7llYo7MBoWx7mGj6YSGPfr+vglYzLIdyM59un3uVpmcJFRLDWuGsDFwUWrI2xrBqgt0S8+kqs/Y/2KbLOfHQEEYZg8bdh+MoxMBDP7nTraiT0gxlfeqk6UvuMuYNptk9Qry8uqjCLYRwTyKWsbHS/VeHc0E0N/HyOyQO+taVVc5OK3WC3c5crEsYDop6z+qFISemNhRkJuabd4yYVnq5XNaSm/bMRfuue0pWPzTcdKfeSyLgbMzCOtoK8hedLlzbmVQLAbtMGFgnLCrgmDYDuWsx43LdmHS9w3E2jGELSC+9OZbjK29CfeaNYy88h5kDKyw9aFc/3JmYX79fmei9Nm/O9sNWA8/HR/LkSRkCzCP4xwyJqJXCZOMy7hxjwX8vHEK1up57RYgzTgYUMDL8Vje03uz9YYJTRUElPp+9hpEuOfqnZWXg6hNqtqGNSJKWoW9PbpBGy/WrLENWqRD+wA3wgkOX0VjjZlBBAZpWrYTiJv4m2JDWBPH3v28yAutg7wsJfk112lZ/T7LnIYqv0z5bVywM8Hly860T7/oKzRXmp5GrjR0+bJMnbE/DZbvUquCPfJIBQOg8hTJ4Zpe5JOtOeKs6bWRtiVLDGKYAG9MsoBMgj4l1Y=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB5310.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(23010399003)(56012099006)(11063799006)(261009223027099003)(4143699003)(10067099003)(22082099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K1R2UVJMbFREcGZNdUQ1R3B0QmRjWWlLdldVYVRIZTRrV0lzS2dvQzMzK3VG?=
+ =?utf-8?B?WlBBNUtpNC9xL25qdWdPQ251aWcyRlFQQnF6Z2hCUm02cjFrYkNlV0ZNTFFG?=
+ =?utf-8?B?SldSVzN0aXI5LzRESG5jVmhFWEZDU1ZpbGpQZFRuUUx3OWFHQ1J0SnRQdEZT?=
+ =?utf-8?B?cmMvcTZ3VVVnS2lEUkdPRU1QMldtNmZqeXZJOXUybjcxNVZnNFhKQ1o5Mldn?=
+ =?utf-8?B?Wk5ObWhNWC9mUEhLTW1CUGhSYWx3d0paL2pHZlRXb0xFUVNlS0JDaEJ2YWxp?=
+ =?utf-8?B?cWx1eTVraU1rS0k4aUd6UW1rT3hPRmpqeDU2UkVCN0M5QTYzc2pLUnRNTTFR?=
+ =?utf-8?B?c1htTzJJa3g1OHNacjU0L0ZaWjFkVjJvREhoczVwZ29JLzRKNWxwdzVEOFpm?=
+ =?utf-8?B?V1ZDUEsvZWkvdjl1eEs0TlBrdW5UM0s1ajh6VVpsb2xYY25zUmkzZ1VwVG1R?=
+ =?utf-8?B?YWFZV05mSTE3WDJ5Tk5TV29wdEsxVUdUYkZqT3Y2OFdHYW9JeTV6bjJiNHVN?=
+ =?utf-8?B?cHY2bGs2UG5rVnpDTis2bkMxblp3d0I0ZEtWRTJFZHNwdWo4UFB6TExSUnNv?=
+ =?utf-8?B?MFQ5QTZ5NERCS0RnOU9FaWlTSXBsME12U3R3NTh1Rk5JaDFoc0NNVjc0bjV3?=
+ =?utf-8?B?MTUvelhvbTZReExsRlRiVXMvaEZXZGdTMXpYV0J5NUZnTk56U2dwSTV3SGpz?=
+ =?utf-8?B?MUtSbnJOclAzVG1YWE8zTWlxZUJKWk1xOS9hY1ZsVzQrNmVic3krWDd1MnBJ?=
+ =?utf-8?B?VlJCVFVWZVB5c0VhcFFQWXJwb2FMaG1qbWZwRDNHU2F1aHZtK2Q3bDFxZUl5?=
+ =?utf-8?B?ZDM0L0g5aURzTmNwNHVmQ0FZWXAyb1hPZmp2K0xpZ3NVUjRiSTR3b3RVMkpU?=
+ =?utf-8?B?UUNHcTM3djJuYUlBNlF0M2dtcDI2VWZSYk1vYXgxc1d1Y1N3bUplRkc1Q2JD?=
+ =?utf-8?B?MFJOL1FBaGwyUmFxdzBIWTFEL3FKRDRmUER0YkE5OHUyVHJHTXd6bFpxWUxV?=
+ =?utf-8?B?UnN5cVM0TllNQXNGRkVGWFI5RTlydENyQVY4N1NoUHlQUzBUcGE2N3dZNGxL?=
+ =?utf-8?B?Um9iTVhnY3RMd0NFNE9pWDFGZmxmRzhFVFAzejhLbnk5cCtvQTVrRXdJNW44?=
+ =?utf-8?B?VnZ0aGV1d0VmUm5EV2cwWko1dHd6dkVxWlVPUmdBN0d1RU1KQ3hRZ09DZUZq?=
+ =?utf-8?B?Y2Z6c1M5T2ZkZFBoVW5HTzhvaXlCRDNSdC9vR3dBNXlEWEdycGRLOVEyTWda?=
+ =?utf-8?B?bEh4NDBuZzlxZnBnYWo4Sk0rVUU0THhhVE1QSXJkS2d3WnZReEdhNDY1ZFVr?=
+ =?utf-8?B?R1YrMWc0ZE8wL3NvTS9kYmR6b0lOcWtIcVlvQXBPc2RlZWllU1NFYWhvb1hS?=
+ =?utf-8?B?Um5NdFF5ZUh0cUM5S2VrWlFyU1FtWmk5bFNNRk54STNKSXgzaHJvU21PdVp3?=
+ =?utf-8?B?L2tGbU9DRXcvbFZyNndhTDBkci9kWGM5SDVaeHVpUjc0OTNpOW42QUxHUmt4?=
+ =?utf-8?B?Wms0TE1uclZoaFZvaTcyZ1d4alVKV0lpTjJMOExpbExXcE5hMVFxcDFuSVhM?=
+ =?utf-8?B?eWdtaUlkZiszZklPM1orTlNFamh3THBVUHAvZStWbldVWXhVeW55MDJ4dXU4?=
+ =?utf-8?B?QktxZTlabUlCbFdxK002UEN1SXRuZEx3VVdPVmJLRnpmLzNGd3hkdmVMekdF?=
+ =?utf-8?B?NCtCenF0NXdmY2FwUk9DZHB4RmtOeGMvN2hiN1ZsMkNmMWhsNEZERVdUUmxt?=
+ =?utf-8?B?MFBkWERPM1Z6VFVDckNYaVBkMDJBZE5IU0QyUGxKWTlrQWhQaDFpUTlyTkpC?=
+ =?utf-8?B?dnprcTMvOGJ3SkFHMUY3c3RQK0ZlMkd5ZVgwdHhsRWZTMjAySStWb2l3dnZt?=
+ =?utf-8?B?RjU4RlN6Zk52c1pSUXMzUUNENGhrY0dmR2o3cytRbUc0dnBNYkxHR1VzSGp5?=
+ =?utf-8?B?ZFJQZktSdnpCWWlhY29WSDBnSEs5ZUdKaG5MVHZvWHJVT1NBK0JTMldrUVBC?=
+ =?utf-8?B?ZU9Ea1hETFZxanpUN0V2MlVPVTA0YjM5QVdodXlaNUFkNWZudkVSK0lLQ1pJ?=
+ =?utf-8?B?cU9UTkZWRUNiYm1VUDhMYWpqejJ5NDJIcWJQOFhPcStxSlhMNE1KRzZ1VFBj?=
+ =?utf-8?B?d2EwU1JRYkpZN2VNUEV4WkdVNGFnM2VIMUNOZXF4U0c5U0Fvb0NjaWxBQ1hz?=
+ =?utf-8?B?Q0FRSU9CNUNXYVVmeThMRjgyVUFjQi93ME5Ua0E2b2UxQ3VpNVhxeTdpdnVK?=
+ =?utf-8?B?OEdKaFhiMUpPVUNOWk9PZUg1cnJKek9RWG1BbnNWVWpOY1UrZHd1cjh3K0tN?=
+ =?utf-8?B?eWJxaXBqSFZMTUI3Z2JQQUpsQ0M3b2ZtNXRIYWRTRk5SUDhjNk1hUT09?=
+X-OriginatorOrg: criteo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7d1c48a4-770b-467f-a6d5-08df2c06b61c
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB5310.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2026 04:25:44.8683
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 2a35d8fd-574d-48e3-927c-8c398e225a01
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: S1z8FDO6QOZShYDVK7Mam1dPGsed4c7ZEyY5LVSg+gS4txT4lN+yH8Cdu4hSZmFWBAp2JZx9simdORzLeqYJzw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CPH1PF76D0E694C
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261016_193451_349626_3D5C3366 
-X-CRM114-Status: GOOD (  27.21  )
+X-CRM114-CacheID: sfid-20261016_212554_226015_98D9E151 
+X-CRM114-Status: GOOD (  11.69  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,96 +151,76 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/11/26 1:27 PM, Nilay Shroff wrote:
-> On 10/9/26 7:31 AM, Saravanan D wrote:
 [...]
->> Annotating io_cpu with __guarded_by(&ctrl->io_cpu_lock) would need
->> context_unsafe() around each of those hot path reads, so I'd rather
->> document the lockless readers next to the field. Happy to add the
->> annotation if you prefer it.
->
-> Yes, reading io_cpu locklessly in the I/O hot path is intentional. However,
-> to avoid KCSAN splat, we should mark read and write access with READ_ONCE()
-> and WRITE_ONCE() respectively.
->
-> Unfortunately, the Clang context analyzer cannot currently model a lock that
-> serializes writers while allowing readers to access the protected variable
-> without holding that lock. Annotating io_cpu with __guarded_by() would therefore
-> require us to annotate lockless reads with context_unsafe() or data_race(),
-> which I think we'd prefer to avoid.
->
-> I suggest introducing two helpers: one to read io_cpu and another to update it:
->
-> static inline int nvme_tcp_queue_io_cpu(struct nvme_tcp_queue *queue)
-> {
-> 	return READ_ONCE(queue->io_cpu);
-> }
->
-> static inline void nvme_tcp_queue_change_io_cpu(struct nvme_tcp_queue *queue,
-> 		int cpu)
-> 	__must_hold(&queue->ctrl->io_cpu_lock)
-> {
-> 	WRITE_ONCE(queue->io_cpu, cpu);
-> }
->
-> All readers could then access queue->io_cpu through nvme_tcp_queue_io_cpu(),
-> while all writes would go through nvme_tcp_queue_change_io_cpu(). The __must_hold()
-> annotation on the update helper would allow the Clang context analyzer to verify
-> that callers hold io_cpu_lock when modifying io_cpu, without requiring annotations
-> for the intentional lockless reads.
+> Unfortunately, no: there are contradicting statements here.
 
-Agreed. v5 adds both helpers as you wrote them. Every reader goes
-through nvme_tcp_queue_io_cpu(), and the two writers, the cpu
-selection at connect and the sysfs store, go through
-nvme_tcp_queue_change_io_cpu() with io_cpu_lock held.
+Hi Keith,
 
-[...]
->> (3) The user managed side has no unbound state. A -1 written by the
->>      user is the same state as a queue the driver has not bound yet,
->>      so managed reads 1 and the next connect binds it again. Also,
->>      nvme_tcp_wq is a per-cpu workqueue, so an unbound io_work runs
->>      on the cpu that queued it rather than on a cpu chosen by the
->>      workqueue.
->>
-> May not be true always when nvme_tcp_wq is inited with wq_unbound. We
-> have a module option using which we could toggle this behavior.
+Sorry for the confusion, my previous replies were wrong and contradicted
+the commit message. Let me restate it with new measurements.
 
-You're right, that holds only for the default per-cpu nvme_tcp_wq.
-With wq_unbound the workqueue picks the cpu as you describe, and
-nvme_tcp_set_queue_io_cpu() leaves every driver managed queue unbound.
-A user written io_cpu still selects the worker pool for that cpu, so
-how closely io_work follows it depends on the affinity_scope of
-nvme_tcp_wq. With affinity_scope=cpu and affinity_strict=1, io_work
-runs on that cpu, provided the cpu is in the cpumask of nvme_tcp_wq.
-With the default cache_shard scope, io_work starts on a cpu in the
-same shard, and the scheduler may move it afterwards.
-v5 documents this in the ABI entry.
+To make sure the numbers are relevant, I switched to the latest nvme
+branch, nvme-7.4 (2e8e30b3cf9f), and re-ran all the tests from scratch,
+with and without the patch on top of it, on the same drive (Kioxia
+CD6-V, NVMe 1.4, VWC 0x5, WCE cleared by default).
 
-[...]
->> 	mutex_lock(&ctrl->io_cpu_lock);
->> 	old = xchg(&queue->io_cpu, cpu);
->> 	set_bit(NVME_TCP_Q_IO_CPU_USER, &queue->flags);
->> 	if (test_and_clear_bit(NVME_TCP_Q_IO_CPU_SET, &queue->flags))
->> 		atomic_dec(&nvme_tcp_cpu_queues[old]);
->> 	if (cpu != WORK_CPU_UNBOUND &&
->> 	    test_bit(NVME_TCP_Q_ALLOCATED, &queue->flags)) {
->> 		atomic_inc(&nvme_tcp_cpu_queues[cpu]);
->> 		set_bit(NVME_TCP_Q_IO_CPU_SET, &queue->flags);
->> 	}
->> 	mutex_unlock(&ctrl->io_cpu_lock);
->>
->> Does that work for you?
->>
-> This looks good. However, I wonder why we need to check NVME_TCP_Q_ALLOCATED
-> here? If the user can update io_cpu only while the queue's sysfs directory
-> exists, and that directory is created and removed along with the queue's
-> allocation and teardown, shouldn't we be able to drop this check?
+Both rows of each job in the commit message table were measured with
+WCE cleared; only the kernel differs. Without the patch, WCE is ignored
+and the namespace is exposed in write-back mode, so one Flush is sent
+per fsync. With the patch, the namespace is in write-through mode and no
+Flush is sent.
 
-Agreed, v5 drops the check. nvme_tcp_free_queue() removes the
-directory before it clears NVME_TCP_Q_ALLOCATED, so no store can run
-on a freed queue. The SET backstop stays after the removal, for a
-store that lands between the queue stop and the free.
+To answer your question, I measured the Flush latency at the driver
+level, between the nvme_setup_cmd and nvme_complete_rq tracepoints:
+
+  - passthrough: 2000 "nvme flush" sent directly to the device
+  - fio: 4k randwrite, io_uring, direct, QD1, fsync=1, 10s
+
+   kernel  | WCE | mode    | passthrough | fio: Flush | fio: fsync |  IOPS
+           |     |         | Flush avg   | avg (drv)  | avg (fio)  |
+--------+-----+---------+-------------+------------+------------+------
+   nvme-7.4|  0  | back    |    194.8us  |   214.6us  |  236.1us  |  3917
+   patched |  0  | through |    194.2us  |    (none)  |  5.7us  | 44433
+   patched |  1  | back    |    194.2us  |   219.7us  |  237.1us  |  3916
+
+So:
+
+  - The block layer flush handling is not the reason: without the patch,
+    the device accounts for ~215us of the ~236us fsync, the rest of the
+    stack for ~21us.
+
+  - The drive spends ~194us on a Flush whether the volatile write cache
+    is enabled or not. It does not short-circuit the Flush when WCE is
+    cleared, although the spec says it has no effect in that case.
+
+  - Without the patch, WCE cleared therefore performs exactly like the
+    volatile write cache enabled (3917 vs 3916 IOPS), while the patched
+    kernel skips the Flush entirely (44433 IOPS).
+
+The slow no-op Flush is a firmware behavior, but the kernel should not
+send it in the first place when WCE is cleared, which is what the patch
+does.
+
+I also re-ran the commit message benchmark on nvme-7.4, WCE cleared in
+both cases (fio 4k randwrite, fsync=1, 30s):
+
+   job                   | kernel   |   IOPS | fsync avg | flushes |  gain
+----------------------+----------+--------+-----------+---------+------
+   psync buffered, QD1   | nvme-7.4 |   3917 |   249.2us | 117506 |
+                         | patched  |  48227 |    15.7us |  0 | x12.3
+----------------------+----------+--------+-----------+---------+------
+   io_uring direct, QD1  | nvme-7.4 |   3888 |   238.2us | 116636 |
+                         | patched  |  42580 |     5.5us |  0 | x11.0
+----------------------+----------+--------+-----------+---------+------
+   io_uring direct, QD32 | nvme-7.4 |   5674 |  5514.1us | 117774 |
+                         | patched  | 140090 |   107.1us |  0 | x24.7
+
+If you think it makes the commit message clearer, I can send a v2 with
+these numbers, the kernel anitly, and the driver level Flush latency above.
 
 Thanks,
-Saravanan D.
+Erwan
+
+
+
 
