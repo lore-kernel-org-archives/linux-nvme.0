@@ -4,139 +4,93 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AA494CC6B2A
-	for <linux-nvme@archiver.kernel.org>; Sat, 17 Oct 2026 04:26:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B8BFCCF2C4
+	for <linux-nvme@archiver.kernel.org>; Sat, 17 Oct 2026 15:39:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3zMUckmdHlMtdlh/QB1ae7Hw29RsJYHLhEYheFqtBOg=; b=aulQJk5mzXjm2RlESSCdmpsLCm
-	E5Z44KEaueKEoBw6KWxstVhW/j5a+b4hNmu97rhV+DZEMWpEJYPgKEhdYop6HBqEQonzR82dI0A7B
-	ww/BsGNAWbZ/oXDCicrWjwOKJC6CLdt2eTcMz5kYwot58+sRyXVXcAMlpiRtWvv2T+v3o20Rh/rAB
-	w6a2lq7f+j6KLxCk1K0/oemUI4/LmHXXk/5wPTg7IHaXB81kbdQyCf52Lk/fS4/KCF/zowSzNODB/
-	KbV6PwYtyVNTs/4PNEdEBr8twQRenV3oN7BqfPYSvrDI7PsRAHaJtlfSrNJ8t5j+HFcSx6YDEXKNi
-	KNNkewug==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=EE+MiTt74CK7KkF/IZaKJAB/iw+nwq5cMCvHfUJcFlg=; b=jhXPeLPbJ4lZlG908NLUN+1u0y
+	fhP99nVwECevXkXPHwm3HWlPn88+mPqQbZ2sXrkLlEJo5Woh4wI/kyude7EmZo2GVRsZMy9yYdO8n
+	pvv6PZHCfdOKx0GO1E5IKDtf4uLD1VWFh7s8ksn68bU3WwNLu0xaH4txGHmH0TFJ8AT1jBzdtwjxT
+	NxeT0tFwhKszgY7U/SA9rwzggy1/ChRVnnWY9uQabxYDOUdhA2wVmmQ043GuSf5qpz1dmb8DFv9kp
+	jVqEmaFwxC3Bj5ay+rCkDmqxrIRKSBr6CX2Wzd1ZY9AKZH+O7NkQReqGLH71k1L9XkybCKv0+pK+G
+	x/M1AU5A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xHvzY-00000004PUj-3xEx;
-	Sat, 17 Oct 2026 04:25:56 +0000
-Received: from mail-westeuropeazlp170130006.outbound.protection.outlook.com ([2a01:111:f403:c201::6] helo=AM0PR02CU008.outbound.protection.outlook.com)
+	id 1xI6V0-00000004tFM-0DF7;
+	Sat, 17 Oct 2026 15:39:06 +0000
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xHvzW-00000004PUO-08Ot
+	id 1xI6Uw-00000004tEx-2EWq
 	for linux-nvme@lists.infradead.org;
-	Sat, 17 Oct 2026 04:25:55 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qBGBvEp5oN+sNr3yorR4AxJRI6bkev63BDzBZmMJ5E9dzQ+anotP32KnrhJ01JkqS+LxKcVkfMY1UWZisUAY8XZfYPKUgNHNJDTs2x7IuyFpXXyyomzS6gkB/iVfyHu9lgjQwDTc576J1rKnFly00EZC/wn4R/+U1XNtNUMxwUekEXzlofl9BkFKmAcyoPzCBH1EFn008DwIL+gCjTRZ0QxJsgtEIzEclI8qgt+w6oLNQG+PdYaro9QtKnyTn4M5/UDK+5Q8Cwmaf/kZA7Z3mqrxfAPUbAhmNFhVNe/nHcjznaBeiZbrQPWwHU9wVCYoHKMYYRvk1XEGDzb6RyPeKQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3zMUckmdHlMtdlh/QB1ae7Hw29RsJYHLhEYheFqtBOg=;
- b=gfZBitEUeBojoR8X4jOxPHtTbzBJX+aciPXkBp98cXIbfEg3bvaNv9wiXAUMj1sGe98tQoK/G+BYeUbWRqxHLE9hd7O1EfJ0nIQn7S7cN4PQnB5iwlUi8RVivcJ25Rh0knPVpYfoHK9SRBbYLzmAAgKL/AUgxp8yo1HpEO5zIY3w8VyqA2OeuQjXgWGSP1AVNGQktivxEUUo1EH128aNMMMHcvvjo6N2yOuBAFaG98iQMFiILE+RSQhQmaDCIjSB0k/Ogu03gj1DfN8lYqadDRWDhCdRNdP6gloh/b93N3QAKM74H9/CpAGXnCS4GJO+Q1BMIRpVx7KeZYZTvmy4zQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=criteo.com; dmarc=pass action=none header.from=criteo.com;
- dkim=pass header.d=criteo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=criteo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3zMUckmdHlMtdlh/QB1ae7Hw29RsJYHLhEYheFqtBOg=;
- b=phGUqVea/jAU0z8HbXq/SDf3LzFiERredPLEvUtwxFHTSnxfpZmy6Xiak4G7dtwAWEh5a8zMIYF3eKS1y+laHLWpmko0t9pslraqEQtEygYj8K3Ff7T6D9cfECn9TfNXFvBpYLRW6+vL96jaMSpqitgTxrr3yAxC2L9nAZUdfEZpfl8FhiV27SFVzMYnjjQVdKqSwt4xFgUI2TVZv5a37rKfaUUDK+XJHrvFLwy77OKoTlryGqgUqRK9gJfCq+AoyYZqC6Pcu/+PgsTV2QUtLpbFjbPXZwvbPyT+wnqg4vMubqcowf9w05VDQhyN0m2X324tb2+r0ttlLoTjru/9Gg==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=criteo.com;
-Received: from VI1PR04MB5310.eurprd04.prod.outlook.com (2603:10a6:803:57::26)
- by CPH1PF76D0E694C.eurprd04.prod.outlook.com (2603:10a6:388::3cb) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.13; Sat, 17 Oct
- 2026 04:25:45 +0000
-Received: from VI1PR04MB5310.eurprd04.prod.outlook.com
- ([fe80::3b8e:ff4c:76b4:a012]) by VI1PR04MB5310.eurprd04.prod.outlook.com
- ([fe80::3b8e:ff4c:76b4:a012%5]) with mapi id 15.21.0522.013; Sat, 17 Oct 2026
- 04:25:44 +0000
-Message-ID: <f665dc3e-fc5c-4352-8e41-a46b7ae97946@criteo.com>
-Date: Sat, 17 Oct 2026 06:25:43 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme: honor the volatile write cache enable state
-To: Keith Busch <kbusch@kernel.org>, Erwan Velu <erwanaliasr1@gmail.com>
-Cc: linux-nvme@lists.infradead.org, axboe@kernel.dk, hch@lst.de,
- sagi@grimberg.me, linux-kernel@vger.kernel.org
-References: <20261016141208.2641974-1-e.velu@criteo.com>
- <atJXYHJa4jkUWJmP@kbusch-mbp>
- <CAL2Jzuz1qFwLSA=iivp5qLCTL6-4rvKmvFzJbOQzjPu6j_7Y2A@mail.gmail.com>
- <atJeazM_rJ0uj3vt@kbusch-mbp>
- <CAL2Jzux8v6zCxfcdd=MY5n0zQMVSa-_8Lki9z-fz7bFShNf7vw@mail.gmail.com>
- <atJk_2FmzjUZYO_Z@kbusch-mbp>
-Content-Language: en-US
-From: Erwan Velu <e.velu@criteo.com>
-In-Reply-To: <atJk_2FmzjUZYO_Z@kbusch-mbp>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PR1P264CA0009.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:102:19e::14) To VI1PR04MB5310.eurprd04.prod.outlook.com
- (2603:10a6:803:57::26)
+	Sat, 17 Oct 2026 15:39:04 +0000
+Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-89f28c3ac7bso282214b3a.0
+        for <linux-nvme@lists.infradead.org>; Sat, 17 Oct 2026 08:39:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=isslab-korea-ac-kr.20251104.gappssmtp.com; s=20251104; t=1792251541; x=1792856341; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=EE+MiTt74CK7KkF/IZaKJAB/iw+nwq5cMCvHfUJcFlg=;
+        b=jOIBBqRgJVfuFKo/x5nPkXBNi3PDMh/4cTdoI69iOqJo61yvo4Znvv5FmIO8CDfRfE
+         zOrjfiv90fDHD40pI2kKGMr3DAxaCiWDp1v+J2vmpkYi/3GOnEICz9C9sTMnG1JAxnql
+         /OA0ekDi7hb2xIV1bR43JoI3YFhdIvgCx94NvmsMWalXRFZ2n4Uofogf/Dp6ghEodXhI
+         3GpWKs8ptu12pUlGDdFVemgFklXPUMJdBaD+OpCjxeKFpKwCjnDeWBLNaBhVEnSg+JXl
+         OcX3q9oyxshKP5kK8J+/F6BiqaFOdTqczMCFrIhPrec6xMXxpO5xs1FQk2ZHtYjotaqm
+         7nng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792251541; x=1792856341;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=EE+MiTt74CK7KkF/IZaKJAB/iw+nwq5cMCvHfUJcFlg=;
+        b=mD/SPKnBB3P9SVLBtWw19QKu2PTnZKu3wOHX8zTIp8fEuttapwq0i12YrSB17810Y0
+         e2KlZ5BIV8CbdXHjcXBC+kXFMoEVtki7xvZI7gS+7gpCpzocZYnbdpW9J5+vt0QfApxb
+         2nIiblohIK99Y7YkW9J/VJzMpfB7/eIWZhMK0l4t5JLN97P8+59JJvd5/slWTKczfbpd
+         i9wVRWJ7jxU1ZP0dyKYZ0I8IQ6bccfHAjtU2pL4n/6vPwgUGk0Zquzo0zbD/P5EpYdBi
+         Piub06O5BMhtrWLjQMf8on+So2gXRv9RgYY07m1b6SNdlynqE8UKJFT+oeYu7SrNDeUJ
+         ZGjw==
+X-Forwarded-Encrypted: i=1; AKwUvBxEq43cIw+Pix22BkdWVvED3iqL2ME6tO09y5LOdznbw/ODcXY3fnJh8SNFLALpL95W+v1/W6UgkJXo@lists.infradead.org
+X-Gm-Message-State: AFq9FYLLX3smvW47ZXykfd9oJriZ4+93BdHrNLvFShpHJ9CmVzKg0Q3I
+	ZsjiAY6NMIgU+4DZBUXdRFN7YMV48261D0LAGxt2ePt4orARoP0Ie3c1dsgl1IxMWCg=
+X-Gm-Gg: AYBFou3BBz4+q52W3qTZxmTVRmU5zLKaO5/4MAel43yf6vLcfwyb53rtHQvXwV3kbTq
+	sGWtT50i+4JLu/SClHfc0n2gTNCrR1rvBG5rG9lkCSMEDil98/mo3YaC0PH6Sax/YOiqRoMgGAA
+	rIHJ2hLmDgf1z+HcNxHr2xYYPfKJkfD8+CAIwt0FnoDiBHQFS4eQhtkN/5AKlGq1H0UdhgR6+Tf
+	sp1i+4e4YqVL77rs4K3nKw5aWCXNQUp107C5q1NRydJiMzQRZB8SP16lbHIrstNvAaZax3pDtQE
+	PTvOGbeHh/BLxUXaeZ3rn8JaSwVRpd4v9emicBPHgnHnlCZ5Vgz4f7aw6J+CeNEpA1ByqU8M6+X
+	TNUe4ouqY47mpNQtvzRJzh3xlq7e1oE37hxqkwn200CirBO1EKsgf3/BavUeBJPlTYy4eJPzu94
+	2XnMz3Fd9V/7CDawglyQKMGi+VURVx4BSZ06jGPKk6jrw2LQl74f2w1S86N4+kGVNq7G9pxNLCx
+	97ezMKd93O2+peEEq3MwmDgWtviTWPN
+X-Received: by 2002:a05:6a00:4f91:b0:89f:9ea6:1de6 with SMTP id d2e1a72fcca58-8a04c80effcmr2316077b3a.24.1792251540821;
+        Sat, 17 Oct 2026 08:39:00 -0700 (PDT)
+Received: from yhlee-960QFG.Davolink ([2406:5900:1044:110c:6c71:58da:ec95:3c04])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-89f579479ebsm2350277b3a.40.2026.10.17.08.38.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 17 Oct 2026 08:39:00 -0700 (PDT)
+From: Yehyeong Lee <yhlee@isslab.korea.ac.kr>
+To: Justin Tee <justin.tee@broadcom.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
+	Paul Ely <paul.ely@broadcom.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Shuangpeng Bai <shuangpeng.kernel@gmail.com>,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	yhlee@isslab.korea.ac.kr
+Subject: [PATCH] nvmet-fc: fix use-after-free in nvmet_fc_ls_create_connection()
+Date: Sun, 18 Oct 2026 00:38:05 +0900
+Message-ID: <20261017153805.2528275-1-yhlee@isslab.korea.ac.kr>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VI1PR04MB5310:EE_|CPH1PF76D0E694C:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7d1c48a4-770b-467f-a6d5-08df2c06b61c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|23010399003|56012099006|11063799006|261009223027099003|4143699003|10067099003|22082099003|18002099003|6133799003;
-X-Microsoft-Antispam-Message-Info: N453uibhWPZkLELnUbauxZUndQgCefmu/u40VxATWz5huMedw6iBXD7llYo7MBoWx7mGj6YSGPfr+vglYzLIdyM59un3uVpmcJFRLDWuGsDFwUWrI2xrBqgt0S8+kqs/Y/2KbLOfHQEEYZg8bdh+MoxMBDP7nTraiT0gxlfeqk6UvuMuYNptk9Qry8uqjCLYRwTyKWsbHS/VeHc0E0N/HyOyQO+taVVc5OK3WC3c5crEsYDop6z+qFISemNhRkJuabd4yYVnq5XNaSm/bMRfuue0pWPzTcdKfeSyLgbMzCOtoK8hedLlzbmVQLAbtMGFgnLCrgmDYDuWsx43LdmHS9w3E2jGELSC+9OZbjK29CfeaNYy88h5kDKyw9aFc/3JmYX79fmei9Nm/O9sNWA8/HR/LkSRkCzCP4xwyJqJXCZOMy7hxjwX8vHEK1up57RYgzTgYUMDL8Vje03uz9YYJTRUElPp+9hpEuOfqnZWXg6hNqtqGNSJKWoW9PbpBGy/WrLENWqRD+wA3wgkOX0VjjZlBBAZpWrYTiJv4m2JDWBPH3v28yAutg7wsJfk112lZ/T7LnIYqv0z5bVywM8Hly860T7/oKzRXmp5GrjR0+bJMnbE/DZbvUquCPfJIBQOg8hTJ4Zpe5JOtOeKs6bWRtiVLDGKYAG9MsoBMgj4l1Y=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB5310.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(23010399003)(56012099006)(11063799006)(261009223027099003)(4143699003)(10067099003)(22082099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K1R2UVJMbFREcGZNdUQ1R3B0QmRjWWlLdldVYVRIZTRrV0lzS2dvQzMzK3VG?=
- =?utf-8?B?WlBBNUtpNC9xL25qdWdPQ251aWcyRlFQQnF6Z2hCUm02cjFrYkNlV0ZNTFFG?=
- =?utf-8?B?SldSVzN0aXI5LzRESG5jVmhFWEZDU1ZpbGpQZFRuUUx3OWFHQ1J0SnRQdEZT?=
- =?utf-8?B?cmMvcTZ3VVVnS2lEUkdPRU1QMldtNmZqeXZJOXUybjcxNVZnNFhKQ1o5Mldn?=
- =?utf-8?B?Wk5ObWhNWC9mUEhLTW1CUGhSYWx3d0paL2pHZlRXb0xFUVNlS0JDaEJ2YWxp?=
- =?utf-8?B?cWx1eTVraU1rS0k4aUd6UW1rT3hPRmpqeDU2UkVCN0M5QTYzc2pLUnRNTTFR?=
- =?utf-8?B?c1htTzJJa3g1OHNacjU0L0ZaWjFkVjJvREhoczVwZ29JLzRKNWxwdzVEOFpm?=
- =?utf-8?B?V1ZDUEsvZWkvdjl1eEs0TlBrdW5UM0s1ajh6VVpsb2xYY25zUmkzZ1VwVG1R?=
- =?utf-8?B?YWFZV05mSTE3WDJ5Tk5TV29wdEsxVUdUYkZqT3Y2OFdHYW9JeTV6bjJiNHVN?=
- =?utf-8?B?cHY2bGs2UG5rVnpDTis2bkMxblp3d0I0ZEtWRTJFZHNwdWo4UFB6TExSUnNv?=
- =?utf-8?B?MFQ5QTZ5NERCS0RnOU9FaWlTSXBsME12U3R3NTh1Rk5JaDFoc0NNVjc0bjV3?=
- =?utf-8?B?MTUvelhvbTZReExsRlRiVXMvaEZXZGdTMXpYV0J5NUZnTk56U2dwSTV3SGpz?=
- =?utf-8?B?MUtSbnJOclAzVG1YWE8zTWlxZUJKWk1xOS9hY1ZsVzQrNmVic3krWDd1MnBJ?=
- =?utf-8?B?VlJCVFVWZVB5c0VhcFFQWXJwb2FMaG1qbWZwRDNHU2F1aHZtK2Q3bDFxZUl5?=
- =?utf-8?B?ZDM0L0g5aURzTmNwNHVmQ0FZWXAyb1hPZmp2K0xpZ3NVUjRiSTR3b3RVMkpU?=
- =?utf-8?B?UUNHcTM3djJuYUlBNlF0M2dtcDI2VWZSYk1vYXgxc1d1Y1N3bUplRkc1Q2JD?=
- =?utf-8?B?MFJOL1FBaGwyUmFxdzBIWTFEL3FKRDRmUER0YkE5OHUyVHJHTXd6bFpxWUxV?=
- =?utf-8?B?UnN5cVM0TllNQXNGRkVGWFI5RTlydENyQVY4N1NoUHlQUzBUcGE2N3dZNGxL?=
- =?utf-8?B?Um9iTVhnY3RMd0NFNE9pWDFGZmxmRzhFVFAzejhLbnk5cCtvQTVrRXdJNW44?=
- =?utf-8?B?VnZ0aGV1d0VmUm5EV2cwWko1dHd6dkVxWlVPUmdBN0d1RU1KQ3hRZ09DZUZq?=
- =?utf-8?B?Y2Z6c1M5T2ZkZFBoVW5HTzhvaXlCRDNSdC9vR3dBNXlEWEdycGRLOVEyTWda?=
- =?utf-8?B?bEh4NDBuZzlxZnBnYWo4Sk0rVUU0THhhVE1QSXJkS2d3WnZReEdhNDY1ZFVr?=
- =?utf-8?B?R1YrMWc0ZE8wL3NvTS9kYmR6b0lOcWtIcVlvQXBPc2RlZWllU1NFYWhvb1hS?=
- =?utf-8?B?Um5NdFF5ZUh0cUM5S2VrWlFyU1FtWmk5bFNNRk54STNKSXgzaHJvU21PdVp3?=
- =?utf-8?B?L2tGbU9DRXcvbFZyNndhTDBkci9kWGM5SDVaeHVpUjc0OTNpOW42QUxHUmt4?=
- =?utf-8?B?Wms0TE1uclZoaFZvaTcyZ1d4alVKV0lpTjJMOExpbExXcE5hMVFxcDFuSVhM?=
- =?utf-8?B?eWdtaUlkZiszZklPM1orTlNFamh3THBVUHAvZStWbldVWXhVeW55MDJ4dXU4?=
- =?utf-8?B?QktxZTlabUlCbFdxK002UEN1SXRuZEx3VVdPVmJLRnpmLzNGd3hkdmVMekdF?=
- =?utf-8?B?NCtCenF0NXdmY2FwUk9DZHB4RmtOeGMvN2hiN1ZsMkNmMWhsNEZERVdUUmxt?=
- =?utf-8?B?MFBkWERPM1Z6VFVDckNYaVBkMDJBZE5IU0QyUGxKWTlrQWhQaDFpUTlyTkpC?=
- =?utf-8?B?dnprcTMvOGJ3SkFHMUY3c3RQK0ZlMkd5ZVgwdHhsRWZTMjAySStWb2l3dnZt?=
- =?utf-8?B?RjU4RlN6Zk52c1pSUXMzUUNENGhrY0dmR2o3cytRbUc0dnBNYkxHR1VzSGp5?=
- =?utf-8?B?ZFJQZktSdnpCWWlhY29WSDBnSEs5ZUdKaG5MVHZvWHJVT1NBK0JTMldrUVBC?=
- =?utf-8?B?ZU9Ea1hETFZxanpUN0V2MlVPVTA0YjM5QVdodXlaNUFkNWZudkVSK0lLQ1pJ?=
- =?utf-8?B?cU9UTkZWRUNiYm1VUDhMYWpqejJ5NDJIcWJQOFhPcStxSlhMNE1KRzZ1VFBj?=
- =?utf-8?B?d2EwU1JRYkpZN2VNUEV4WkdVNGFnM2VIMUNOZXF4U0c5U0Fvb0NjaWxBQ1hz?=
- =?utf-8?B?Q0FRSU9CNUNXYVVmeThMRjgyVUFjQi93ME5Ua0E2b2UxQ3VpNVhxeTdpdnVK?=
- =?utf-8?B?OEdKaFhiMUpPVUNOWk9PZUg1cnJKek9RWG1BbnNWVWpOY1UrZHd1cjh3K0tN?=
- =?utf-8?B?eWJxaXBqSFZMTUI3Z2JQQUpsQ0M3b2ZtNXRIYWRTRk5SUDhjNk1hUT09?=
-X-OriginatorOrg: criteo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7d1c48a4-770b-467f-a6d5-08df2c06b61c
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB5310.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2026 04:25:44.8683
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 2a35d8fd-574d-48e3-927c-8c398e225a01
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: S1z8FDO6QOZShYDVK7Mam1dPGsed4c7ZEyY5LVSg+gS4txT4lN+yH8Cdu4hSZmFWBAp2JZx9simdORzLeqYJzw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CPH1PF76D0E694C
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261016_212554_226015_98D9E151 
-X-CRM114-Status: GOOD (  11.69  )
+X-CRM114-CacheID: sfid-20261017_083902_838503_4E29255C 
+X-CRM114-Status: GOOD (  13.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -151,76 +105,99 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-[...]
-> Unfortunately, no: there are contradicting statements here.
+nvmet_fc_ls_create_connection() looks up the association with
+nvmet_fc_find_target_assoc(), which returns it with a reference held, and
+drops that reference as soon as the target queue has been allocated.
+iod->assoc is then dereferenced again by nvmet_fc_makeconnid() while
+building the connection id.
 
-Hi Keith,
+The queue only borrows the pointer and takes no reference of its own.
+Once the lookup reference is dropped the association is kept alive solely
+by the reference taken when it was created, so a disconnect LS or a remote
+port unregister running concurrently can free it before
+nvmet_fc_makeconnid() reads it:
 
-Sorry for the confusion, my previous replies were wrong and contradicted
-the commit message. Let me restate it with new measurements.
+BUG: KASAN: slab-use-after-free in nvmet_fc_handle_ls_rqst_work (drivers/nvme/target/fc.c:193 drivers/nvme/target/fc.c:1841 drivers/nvme/target/fc.c:1995 drivers/nvme/target/fc.c:2021)
+Read of size 8 at addr ffff888179f1b000 by task kworker/u9:2/1167
 
-To make sure the numbers are relevant, I switched to the latest nvme
-branch, nvme-7.4 (2e8e30b3cf9f), and re-ran all the tests from scratch,
-with and without the patch on top of it, on the same drive (Kioxia
-CD6-V, NVMe 1.4, VWC 0x5, WCE cleared by default).
+Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+Workqueue: nvmet-wq nvmet_fc_handle_ls_rqst_work
+Call Trace:
+ <TASK>
+ dump_stack_lvl (lib/dump_stack.c:94 lib/dump_stack.c:120)
+ print_report (mm/kasan/report.c:378 mm/kasan/report.c:482)
+ kasan_report (mm/kasan/report.c:595)
+ nvmet_fc_handle_ls_rqst_work (drivers/nvme/target/fc.c:193 drivers/nvme/target/fc.c:1841 drivers/nvme/target/fc.c:1995 drivers/nvme/target/fc.c:2021)
+ process_scheduled_works (kernel/workqueue.c:3322 kernel/workqueue.c:3405)
+ worker_thread (kernel/workqueue.c:3486)
+ kthread (kernel/kthread.c:436)
+ ret_from_fork (archkernel/process.c:158)
+ ret_from_fork_asm (arch/x86/entry/entry_64.S:245)
+ </TASK>
 
-Both rows of each job in the commit message table were measured with
-WCE cleared; only the kernel differs. Without the patch, WCE is ignored
-and the namespace is exposed in write-back mode, so one Flush is sent
-per fsync. With the patch, the namespace is in write-through mode and no
-Flush is sent.
+Freed by task 1167 on cpu 0 at 405.998150s:
+ kasan_save_track (mm/kasan/common.c:57 mm/kasan/common.c:78)
+ kasan_save_free_info (mm/kasan/generic.c:584)
+ __kasan_slab_free (mm/kasan/common.c:253 mm/kasan/common.c:285)
+ kfree (include/linux/kasan.h:235 mm/slub.c:2705 mm/slub.c:6405 mm/slub.c:6720)
+ nvmet_fc_handle_ls_rqst_work (drivers/nvme/target/fc.c:1808 drivers/nvme/target/fc.c:1995 drivers/nvme/target/fc.c:2021)
+ process_scheduled_works (kernel/workqueue.c:3322 kernel/workqueue.c:3405)
+ worker_thread (kernel/workqueue.c:3486)
+ kthread (kernel/kthread.c:436)
+ ret_from_fork (archkernel/process.c:158)
+ ret_from_fork_asm (arch/x86/entry/entry_64.S:245)
 
-To answer your question, I measured the Flush latency at the driver
-level, between the nvme_setup_cmd and nvme_complete_rq tracepoints:
+The buggy address belongs to the object at ffff888179f1b000
+ which belongs to the cache kmalloc-2k of size 2048
+The buggy address is located 0 bytes inside of
+ freed 2048-byte region [ffff888179f1b000, ffff888179f1b800)
 
-  - passthrough: 2000 "nvme flush" sent directly to the device
-  - fio: 4k randwrite, io_uring, direct, QD1, fsync=1, 10s
+Hold the lookup reference until the response has been built, and drop it
+on the error path as well.
 
-   kernel  | WCE | mode    | passthrough | fio: Flush | fio: fsync |  IOPS
-           |     |         | Flush avg   | avg (drv)  | avg (fio)  |
---------+-----+---------+-------------+------------+------------+------
-   nvme-7.4|  0  | back    |    194.8us  |   214.6us  |  236.1us  |  3917
-   patched |  0  | through |    194.2us  |    (none)  |  5.7us  | 44433
-   patched |  1  | back    |    194.2us  |   219.7us  |  237.1us  |  3916
+Reported-by: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
+Closes: https://lore.kernel.org/linux-nvme/20260731204504.2396434-1-shuangpeng.kernel@gmail.com
+Fixes: c53432030d86 ("nvme-fabrics: Add target support for FC transport")
+Cc: stable@vger.kernel.org
+Signed-off-by: Yehyeong Lee <yhlee@isslab.korea.ac.kr>
+---
+ drivers/nvme/target/fc.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-So:
-
-  - The block layer flush handling is not the reason: without the patch,
-    the device accounts for ~215us of the ~236us fsync, the rest of the
-    stack for ~21us.
-
-  - The drive spends ~194us on a Flush whether the volatile write cache
-    is enabled or not. It does not short-circuit the Flush when WCE is
-    cleared, although the spec says it has no effect in that case.
-
-  - Without the patch, WCE cleared therefore performs exactly like the
-    volatile write cache enabled (3917 vs 3916 IOPS), while the patched
-    kernel skips the Flush entirely (44433 IOPS).
-
-The slow no-op Flush is a firmware behavior, but the kernel should not
-send it in the first place when WCE is cleared, which is what the patch
-does.
-
-I also re-ran the commit message benchmark on nvme-7.4, WCE cleared in
-both cases (fio 4k randwrite, fsync=1, 30s):
-
-   job                   | kernel   |   IOPS | fsync avg | flushes |  gain
-----------------------+----------+--------+-----------+---------+------
-   psync buffered, QD1   | nvme-7.4 |   3917 |   249.2us | 117506 |
-                         | patched  |  48227 |    15.7us |  0 | x12.3
-----------------------+----------+--------+-----------+---------+------
-   io_uring direct, QD1  | nvme-7.4 |   3888 |   238.2us | 116636 |
-                         | patched  |  42580 |     5.5us |  0 | x11.0
-----------------------+----------+--------+-----------+---------+------
-   io_uring direct, QD32 | nvme-7.4 |   5674 |  5514.1us | 117774 |
-                         | patched  | 140090 |   107.1us |  0 | x24.7
-
-If you think it makes the commit message clearer, I can send a v2 with
-these numbers, the kernel anitly, and the driver level Flush latency above.
-
-Thanks,
-Erwan
-
-
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index 1b557775e033a..f3e80095d7d16 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -1796,9 +1796,6 @@ nvmet_fc_ls_create_connection(struct nvmet_fc_tgtport *tgtport,
+ 					be16_to_cpu(rqst->connect_cmd.sqsize));
+ 			if (!queue)
+ 				ret = VERR_QUEUE_ALLOC_FAIL;
+-
+-			/* release get taken in nvmet_fc_find_target_assoc */
+-			nvmet_fc_tgt_a_put(iod->assoc);
+ 		}
+ 	}
+ 
+@@ -1812,6 +1809,8 @@ nvmet_fc_ls_create_connection(struct nvmet_fc_tgtport *tgtport,
+ 					FCNVME_RJT_RC_INV_ASSOC :
+ 					FCNVME_RJT_RC_LOGIC,
+ 				FCNVME_RJT_EXP_NONE, 0);
++		if (iod->assoc)
++			nvmet_fc_tgt_a_put(iod->assoc);
+ 		return;
+ 	}
+ 
+@@ -1833,6 +1832,9 @@ nvmet_fc_ls_create_connection(struct nvmet_fc_tgtport *tgtport,
+ 	acc->connectid.connection_id =
+ 			cpu_to_be64(nvmet_fc_makeconnid(iod->assoc,
+ 				be16_to_cpu(rqst->connect_cmd.qid)));
++
++	/* release get taken in nvmet_fc_find_target_assoc */
++	nvmet_fc_tgt_a_put(iod->assoc);
+ }
+ 
+ /*
+-- 
+2.43.0
 
 
