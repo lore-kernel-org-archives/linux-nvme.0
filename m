@@ -4,57 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 21FA4CCF2E6
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 13:55:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 69229CCF2E6
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 13:56:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nHLGTsqgzrpP743iggg/I87NFd+UE+21/5qKzZ490fU=; b=Uc6CYfQGBKwJx4MKFHIXCyUG3G
-	11KFYZUb3xUQ+8bIrYSKUxeEwsDDDhQ2mxpLy+Qkpuam+/1wMUBVvzsFCJg8zXXr+xZHbeyxF+LcY
-	E/g11UTbiNGF42UEMLLdlHYF74BHGWeuer4mmWMVr6du8dn4AxiHUt0UxRqsc80/d3CJ6pfgP8vZp
-	GwFsBQV65SdprihYwpMmuxaeVPB9muDR4Sb8GJohK/Z/gVhTZJtf+8zSDebPtTyVinNWMkkmNrdFO
-	rocrHSPw/HD9Nw/CNrTsXrqJp3W6Fh9k4acr9N3ddkgVwA46ua0eapxMmTb/aCYvVLaaHKx9YdlMp
-	9dHufovg==;
+	bh=vpj6IvGtQRXGfs75eSRHxCa9kkV+bZVG3Uo3pFiayeM=; b=jsgeOp5e9Yt4u1wh/lV+IDILYB
+	s61HxTG+wY1mSk74GLFJ0+D0LlYZsywkNYOYM97khP4rHhHz3vgTasFE1ZDtSNMc1IcCXcoxcIty6
+	C+EYImd55a2Hy3o5dWJgtY4/fWO3ciWpfpY9KGRlHNWME6qQ/9E3UQhzNfmzBAPVfWhywIlX7kTtk
+	z6UeR//jwUcykyOW+IZ4XYcOc0X1tVjxxbE194tWOfdZr2NOAqHNFOhQG/Ih99vAb/b7EJTOzigOG
+	QGYNIzDCcEuWb50asakgG4SThEtdwnovOmtQZpbmAWWwOCQS6Cd5H0PmEEw0OoiFQEyuV4HupFvWh
+	q98V0Y1Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xInq7-00000007aAI-2zQu;
-	Mon, 19 Oct 2026 13:55:47 +0000
+	id 1xInqg-00000007aRs-3WcV;
+	Mon, 19 Oct 2026 13:56:22 +0000
 Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xInq7-00000007a9h-05cO
+	id 1xInqe-00000007aQO-1GY6
 	for linux-nvme@lists.infradead.org;
-	Mon, 19 Oct 2026 13:55:47 +0000
+	Mon, 19 Oct 2026 13:56:20 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id C1AA6435FE;
-	Mon, 19 Oct 2026 13:55:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A348A1F000C8;
-	Mon, 19 Oct 2026 13:55:45 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 10BA040AC0;
+	Mon, 19 Oct 2026 13:56:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE00E1F000C5;
+	Mon, 19 Oct 2026 13:56:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418146;
-	bh=nHLGTsqgzrpP743iggg/I87NFd+UE+21/5qKzZ490fU=;
+	s=k20260515; t=1792418179;
+	bh=vpj6IvGtQRXGfs75eSRHxCa9kkV+bZVG3Uo3pFiayeM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=HQlzyiSzJXFVVTclsV1gkSvWaCCy0xa7cdW8KS/5vL9/zdR+O8EsLA4aU8TC8celb
-	 3mfqayR6GI63Ydt+fy+ZBivF4+NKKqE5fmSGJhN4pC1gnsGCRE3P2amRn9Tj8f78i3
-	 ZzJRQWZOwY/U26sPUfZ5xapj0WK2SfTIh/EYqCK+n7tjS3THCAA7VaWJSMB1ZnpXLh
-	 T/GqDcRCrRCEphJ8U4iTgBLRtC6hZy6jehLwPQ128sGLui7GkH0iDic90xdS6v3FiZ
-	 H2AWaQB+LhSr2KQSvMYj3Qcw+pEa1PBK8Bx0q0noX7XS+Akn4fCEtwq1YRHlKC3K+q
-	 jiApaQFT4Ad9Q==
+	b=kSFNWfaNahiLsQgI+ovO2xakRpOGSK7tN+pCCegsz8cn2X+99/H8GkBZ7+siCXBX5
+	 Spi1/q/pd/ZDSO6wv3j87pUiJRaz8jON48NzyH5qCU2tfurB0x6xDTNL8jQFEC0l0e
+	 wMRIazw/fGiQ6L5IIltUqW1Tn534a3NV/zMxhkb9IoDUQN5QawuaNU829C9WaFLVb2
+	 EBRDC+8797DtJ7RRaJfhIUcjk8s4gsFvVn/fiSJ24qMsUnXcD0MSWQmSVSFxgNAdHq
+	 QRUJ3kvqVlEzU/TyB81I/DiY3lDZFzgBMaLpoMRFYY5TnNKiel82uOhKAaKKw/qz7P
+	 GtVGhp+703ePA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Chao Shi <coshi036@gmail.com>,
+Cc: Xixin Liu <liuxixin@kylinos.cn>,
+	Christoph Hellwig <hch@lst.de>,
 	Keith Busch <kbusch@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	axboe@kernel.dk,
 	sagi@grimberg.me,
+	kch@nvidia.com,
 	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-5.10] nvme: ratelimit the completion-path messages driven by device data
-Date: Mon, 19 Oct 2026 09:45:36 -0400
-Message-ID: <20261019135441.1420968-45-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-5.15] nvmet: zns: reject full zone report when buffer is too small
+Date: Mon, 19 Oct 2026 09:46:00 -0400
+Message-ID: <20261019135441.1420968-69-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -78,482 +79,516 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Chao Shi <coshi036@gmail.com>
+From: Xixin Liu <liuxixin@kylinos.cn>
 
-[ Upstream commit c05c86681170e381e24498257db3a879deb1ae89 ]
+[ Upstream commit 86985da12699360a2b20748c5a492ddd92db8c47 ]
 
-nvme_find_rq() and nvme_handle_cqe() print an unratelimited message for
-every completion queue entry whose command id does not resolve to an
-in-flight request.  Both are reached from the completion interrupt path
-(nvme_irq() -> nvme_poll_cq() -> nvme_handle_cqe()) and the decision to
-print is made entirely from device-supplied data, so a controller that
-posts a stream of bogus command ids drives unbounded printk from hard
-interrupt context.
+Zone Management Receive uses the Partial Report (PR) bit in dword 13.  On a
+partial report (PR bit set), the host accepts an incomplete listing and
+Number of Zones must not exceed the zone descriptors copied to the host
+buffer.  On a full report (PR bit clear), Number of Zones is the total
+number of matching zones and every descriptor must fit in the buffer (ZNS
+Command Set Specification Rev 1.2, section 3.4.2).
 
-This is not hypothetical.  A single boot under an emulated controller
-that posts invalid completions produced 846 "could not locate request
-for tag 0x0", 846 "invalid id 0 completed on queue 2" and 123 "genctr
-mismatch" lines.  Once the tag set has been torn down every subsequent
-completion resolves to nothing, so the print rate is bounded only by how
-fast the device can post entries.
+nvmet_bdev_zone_zmgmt_recv_work() already caps Number of Zones for partial
+reports, but on a full report it may still succeed when the buffer only
+holds part of the matching descriptors.  Reject the command in that case.
 
-Ratelimit the three messages.  The information they carry is diagnostic
-and repeats, so the suppression count printed by the ratelimit helpers
-is enough to tell that the condition persists.  This matches how the
-other device-driven error prints in the driver are already handled, for
-example the status messages in nvme_log_error() and
-nvme_log_err_passthru().
-
-nvme_find_rq() lives in nvme.h and is shared by pci, tcp, rdma, apple and
-target-loop, so all transports are covered.
-
-Found by FuzzNvme.
-
-Signed-off-by: Chao Shi <coshi036@gmail.com>
+Signed-off-by: Xixin Liu <liuxixin@kylinos.cn>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-I have enough local-tree and review evidence to decide. The remaining
-work is to write the full nine-phase analysis.
+The local tree is **6.12.111** (`pending-6.12`). The buggy Zone
+Management Receive path is present here, and this is a small spec-
+compliance fix that should be backported to this tree.
 
 ===============================================================
 PHASE 1: COMMIT MESSAGE FORENSICS
 ===============================================================
 
 Step 1.1: PARSE THE SUBJECT LINE
-Record: **[nvme]** **[ratelimit]** Completion-path messages that fire
-from device-supplied command IDs are unbounded; the commit rate-limits
-those three prints.
+- Subsystem prefix: `nvmet: zns:`
+- Action verb: **reject** (prevents an illegal success path)
+- Claimed intent: fail a full (PR=0) zone report when the host buffer
+  cannot hold every matching descriptor
+
+Record: [nvmet/zns] [reject] [fail full zone report when the data buffer
+is too small]
 
 Step 1.2: PARSE ALL COMMIT MESSAGE TAGS
-Record:
-- **Signed-off-by:** Chao Shi \<coshi036@gmail.com\> (author)
-- **Signed-off-by:** Keith Busch \<kbusch@kernel.org\> (NVMe maintainer;
+- Signed-off-by: Xixin Liu <liuxixin@kylinos.cn> (author)
+- Reviewed-by: Christoph Hellwig <hch@lst.de> (NVMe/block maintainer)
+- Signed-off-by: Keith Busch <kbusch@kernel.org> (NVMe maintainer;
   applied the patch)
-- **No Fixes:** tag (expected for this review queue)
-- **No Cc: stable** (expected; not a negative)
-- **No Reported-by / Tested-by / Reviewed-by / Acked-by / Link:**
-- Notable: “Found by FuzzNvme” in the body (fuzzer-found, not syzbot)
-- Ignore any pipeline “Upstream commit” / “Signed-off-by: Sasha Levin”
-  markers
+- No Fixes: tag (expected for this review pipeline)
+- No Reported-by / Tested-by / Link / Cc: stable
+- Ignore any pipeline-added Sasha Levin SOB / Upstream markers
+
+Record: Author SOB + Hellwig Reviewed-by + Busch SOB. No syzbot, no user
+report, no Fixes tag.
 
 Step 1.3: ANALYZE THE COMMIT BODY TEXT
+Zone Management Receive uses the Partial Report (PR) bit:
+- PR=1 (partial): host accepts an incomplete listing; Number of Zones
+  must not exceed descriptors actually copied.
+- PR=0 (full): Number of Zones is the total match count; every matching
+  descriptor must fit (ZNS Command Set Spec Rev 1.2 §3.4.2). If the
+  buffer is too small, the command must be aborted with Invalid Field in
+  Command.
+
+`nvmet_bdev_zone_zmgmt_recv_work()` already caps Number of Zones for
+PR=1, but for PR=0 it can still complete successfully when only some
+matching descriptors were copied.
+
 Record:
-- **Bug:** `nvme_find_rq()` and `nvme_handle_cqe()` print on every CQE
-  whose command id does not map to an in-flight request. The print
-  decision is made from device-supplied data.
-- **Symptom:** Unbounded `printk` from the completion interrupt path
-  (`nvme_irq()` → `nvme_poll_cq()` → `nvme_handle_cqe()`). One emulated-
-  controller boot produced 846 “could not locate request for tag 0x0”,
-  846 “invalid id 0 completed on queue 2”, and 123 “genctr mismatch”
-  lines. After the tag set is torn down, every later completion prints;
-  rate is limited only by how fast the device posts entries.
-- **Version info:** None in the message. The prints have been in-tree
-  since v5.15 / v5.9 (verified in Phase 3).
-- **Root cause:** Device-controlled, unratelimited diagnostics on the
-  hard-IRQ completion path. Other device-driven NVMe error prints
-  (`nvme_log_error()`, `nvme_log_err_passthru()`) are already
-  ratelimited.
+- Bug: full report succeeds with incomplete descriptors while Number of
+  Zones is the full match count
+- Symptom: initiator sees SUCCESS plus a header that claims more zones
+  than were transferred
+- Version info: none in the message; code dates to 2021
+- Root cause: PR=0 path never checks `nr_zones > out_nr_zones`
 
 Step 1.4: DETECT HIDDEN BUG FIXES
-Record: Not a disguised cleanup. It is an explicit fix for IRQ-context
-log flood. The subject uses “ratelimit” rather than “fix”, but the body
-states the failure mode and a concrete reproduction.
+Not hidden. This is an explicit protocol-correctness fix: illegal
+SUCCESS → INVALID_FIELD | DNR.
+
+Record: [Not a disguised cleanup; it is a command-handling bug fix]
 
 ===============================================================
 PHASE 2: DIFF ANALYSIS - LINE BY LINE
 ===============================================================
 
 Step 2.1: INVENTORY THE CHANGES
-Record:
-- `drivers/nvme/host/nvme.h`: `nvme_find_rq()` — `pr_err` →
-  `pr_err_ratelimited`; `dev_err` → `dev_err_ratelimited` (~5 lines net
-  churn)
-- `drivers/nvme/host/pci.c`: `nvme_handle_cqe()` — `dev_warn` →
-  `dev_warn_ratelimited` (3 lines)
-- Scope: **single-purpose surgical fix**, two files, ~9 insertions / 8
-  deletions. No logic, locking, or API changes.
+- File: `drivers/nvme/target/zns.c`
+- Scope: ~10 insertions / 3 deletions in one function
+- Function: `nvmet_bdev_zone_zmgmt_recv_work()`
+- Classification: single-file surgical fix
+
+Record: [zns.c, ~+10/-3] [nvmet_bdev_zone_zmgmt_recv_work] [surgical]
 
 Step 2.2: UNDERSTAND THE CODE FLOW CHANGE
-Record:
-- Hunk 1 (`nvme_find_rq`, missing request): same `return NULL`; only the
-  error print is ratelimited.
-- Hunk 2 (`nvme_find_rq`, genctr mismatch): same `return NULL`; only the
-  error print is ratelimited.
-- Hunk 3 (`nvme_handle_cqe`, invalid id): same early return; only the
-  warning is ratelimited.
-- Affected path: completion / IRQ / poll error path when the device
-  posts a bad command id. Success path is unchanged.
+Before (this tree, lines 301–309):
+
+```301:309:drivers/nvme/target/zns.c
+        /*
+  - When partial bit is set nr_zones must indicate the number of zone
+  - descriptors actually transferred.
+         */
+        if (req->cmd->zmr.pr)
+                rz_data.nr_zones = min(rz_data.nr_zones,
+rz_data.out_nr_zones);
+
+        nr_zones = cpu_to_le64(rz_data.nr_zones);
+        status = nvmet_copy_to_sgl(req, 0, &nr_zones, sizeof(nr_zones));
+```
+
+After:
+- PR=1: same cap as today
+- PR=0 and `nr_zones > out_nr_zones`: set `error_loc` to `numd`, return
+  `NVME_SC_INVALID_FIELD | NVME_STATUS_DNR`, skip writing the header
+- Otherwise: unchanged success path
+
+The callback still copies only descriptors that fit (`if (rz->nr_zones <
+rz->out_nr_zones)`), then increments `nr_zones` for every match. So
+after `blkdev_report_zones()`, `nr_zones` is the match count and
+`out_nr_zones` is buffer capacity. That comparison is exactly the
+missing check.
+
+Record: [PR=0 undersized buffer: SUCCESS + inflated nr_zones →
+INVALID_FIELD | DNR]
 
 Step 2.3: IDENTIFY THE BUG MECHANISM
-Record:
-- **Category:** Logic / correctness of diagnostics; IRQ-context
-  resource/DoS (unbounded `printk` driven by device data).
-- **Mechanism:** A malicious or failing controller can post a stream of
-  CQEs with bogus command ids. Each entry hits
-  `pr_err`/`dev_err`/`dev_warn` in `nvme_irq()`. After tag-set teardown
-  the miss path is permanent. `_ratelimited` variants cap volume while
-  still reporting that the condition persists (suppression count).
+Category: **logic / protocol correctness** (not UAF, leak, or race).
+
+Mechanism: PR=0 must fail when the buffer cannot hold every matching
+descriptor. The target currently reports SUCCESS and writes Number of
+Zones = full match count while copying only `out_nr_zones` descriptors.
+A host that iterates `report->nr_zones` entries then reads past its
+buffer.
+
+The status and `error_loc` match the existing too-small-header check in
+`nvmet_bdev_validate_zone_mgmt_recv()` (lines 164–166).
+
+Record: [Logic/spec] [PR=0 truncated full report incorrectly succeeds]
 
 Step 2.4: ASSESS THE FIX QUALITY
-Record:
-- Obviously correct: swap to helpers already used in the same driver
-  (`nvme_log_error()`, PCI timeout path).
-- Minimal: three call-site changes, no behavior change on the success
-  path.
-- Regression risk: very low. Worst case is fewer repeated log lines for
-  a persistent fault; first occurrences and the ratelimit “suppressed”
-  count remain.
-- Red flags: none (no API, locking, or data-structure changes).
+Obviously correct against the spec and against the existing PR=1 cap.
+Minimal. No API/data-structure change.
+
+Regression risk is low:
+- Linux kernel host always sets `c.zmr.pr = NVME_REPORT_ZONE_PARTIAL` in
+  `nvme_ns_report_zones()` — that path is unchanged
+- PR=0 with an adequate buffer is unchanged
+- Only PR=0 with a too-small buffer flips SUCCESS → error, which is the
+  specified behavior
+- Failed commands already `goto out` in this function; `error_loc` /
+  `NVME_STATUS_DNR` are used throughout this file
+
+Record: [High quality, surgical] [Low regression risk; only the illegal
+success path changes]
 
 ===============================================================
 PHASE 3: GIT HISTORY INVESTIGATION
 ===============================================================
 
 Step 3.1: BLAME THE CHANGED LINES
-Record:
-- `nvme_find_rq()` and both prints: `e7006de6c23803` (“nvme: code
-  command_id with a genctr for use-after-free validation”, Sagi
-  Grimberg, 2021-06-16). Contained in **v5.15-rc1**. Present in this
-  tree (`git merge-base --is-ancestor` succeeded).
-- PCI “invalid id” print: `50b7c24390a53c` (“nvme-pci: fix NULL req in
-  completion handler”, Xianting Tian, 2020-09-22). Contained in
-  **v5.9-rc7**. Present in this tree.
-- The buggy prints have been in NVMe for years, including all 6.12.y
-  history.
+`git blame -L 267,313 drivers/nvme/target/zns.c`: every line of this
+function is from
+
+`aaf2e048af2704` — `nvmet: add ZBD over ZNS backend support` (Chaitanya
+Kulkarni, 2021-06-09)
+
+`git merge-base --is-ancestor aaf2e048af2704 v6.12` succeeded. The bug
+has been in this series from the start of 6.12 (and since ~v5.14).
+
+Record: [Introduced by aaf2e048af2704, 2021] [Present in this 6.12 tree]
 
 Step 3.2: FOLLOW THE FIXES: TAG
-Record: No `Fixes:` tag. N/A. The introducing commits above are the
-functional origin.
+No Fixes: tag. The introducing commit is the original ZNS target
+feature, not a later regression.
+
+Record: [No Fixes tag] [Buggy code is the original 2021 implementation,
+ancestor of HEAD]
 
 Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES
-Record:
-- `git log --oneline -15 HEAD -- drivers/nvme/host/nvme.h` shows no
-  later rewrite of `nvme_find_rq()`.
-- `git log --oneline --grep="ratelimit the completion-path" HEAD --
-  drivers/nvme/` is empty: this fix is **not** in the local tree.
-- Standalone one-patch change. Not “patch X/Y”. Keith applied it to
-  nvme-7.3 with only a line-wrap tweak.
+Recent `drivers/nvme/target/zns.c` history in this tree: identify NULL
+deref, DNR rename, conv_zones_bitmap, etc. None already implement this
+PR=0 rejection. Current source still has the old comment and the `if
+(req->cmd->zmr.pr)` cap only.
+
+Standalone 1/1 (cover letter on lore confirms a single patch).
+
+Record: [No prior equivalent fix in this file] [Standalone; no series
+prerequisites]
 
 Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS
-Record:
-- Chao Shi: only `4298c52252cf6` (“nvme: reject passthrough of driver-
-  managed Set Features”) in this tree under `drivers/nvme/`. Not a
-  series dependency.
-- Keith Busch is an NVMe maintainer; his SOB is a strong quality signal.
+Xixin Liu has other NVMe work in this tree (tcp/rdma), but this ZNS recv
+check is not already here. Review weight comes from Hellwig + Busch, not
+from the author being the subsystem maintainer.
+
+Record: [Contributor, not nvmet maintainer] [Reviewed/applied by NVMe
+maintainers]
 
 Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS
-Record: No new helpers or structs. `pr_err_ratelimited` /
-`dev_err_ratelimited` / `dev_warn_ratelimited` exist in this tree
-(`include/linux/printk.h`, `include/linux/dev_printk.h`) and are already
-used in `drivers/nvme/host/core.c` and `pci.c`. Applies standalone.
+Diff uses `req->error_loc`, `offsetof(struct nvme_zone_mgmt_recv_cmd,
+numd)`, `NVME_SC_INVALID_FIELD | NVME_STATUS_DNR`. All exist in this
+tree (`NVME_STATUS_DNR` via `dd0b0a4a2c5d7`, already in 6.12). Context
+in `zns.c` matches the pre-image exactly.
+
+Record: [No missing helpers] [Applies standalone to this tree]
 
 ===============================================================
 PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 ===============================================================
 
 Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION
-Record:
-- `b4 dig -c <msgid>` failed: the landed commit is not in this checkout,
-  so there is no local commit-ish to match.
-- Thread recovered from Patchew and Openwall (lore.kernel.org returned
-  403):
-  - Submission: https://patchew.org/linux/20260810220258.1960208-1-
-    coshi036@gmail.com/
-  - Message-ID: `20260810220258.1960208-1-coshi036@gmail.com`
-    (2026-08-10)
-  - Single v1 patch (not a multi-revision series).
-- Keith Busch: agreed that dumping every garbage CQE adds no diagnostic
-  value; **applied to nvme-7.3** with a minor overly-long-line wrap. No
-  NAK, no stability concern.
-- Author replied that later submissions would avoid long lines. That is
-  style only; Keith already applied the wrap.
+lore.kernel.org WebFetch returned 403. Thread recovered from the gnuweeb
+mirror:
+
+https://lore-kernel.gnuweeb.org/linux-
+nvme/cover.1783579899.git.liuxixin@kylinos.cn/T/
+
+- v1: 2026-07-09, nested `else { if (...) }`
+- Hellwig: line too long; use `else if`
+- v2: 2026-07-13, matches the candidate diff
+- Hellwig: “Looks good” + Reviewed-by
+- Busch: “Thanks, applied to nvme-7.3.”
+- No NAK, no stable discussion, no security/crash report
+- Author: “Tested on nvmet-tcp loopback with io-passthru.”
+
+`b4 dig -c` was not used: the candidate SHA is not in this checkout.
+Thread contents were verified from the archive instead.
+
+Record: [v1→v2 style-only] [Hellwig RB, Busch applied] [No NAK / no Cc:
+stable in review]
 
 Step 4.2: CHECK WHO REVIEWED THE PATCH
-Record: To/Cc on the v1: Keith Busch, Jens Axboe, Christoph Hellwig,
-Sagi Grimberg, linux-nvme, linux-kernel. Maintainer applied it. No
-separate Reviewed-by on the provided commit text.
+Original To/Cc: linux-nvme, hch, sagi (Sagi Grimberg), kch (Chaitanya
+Kulkarni). Right maintainers were on the thread.
+
+Record: [Hellwig reviewed; Busch applied; Kulkarni/Grimberg CCed]
 
 Step 4.3: SEARCH FOR THE BUG REPORT
-Record: No bugzilla/syzbot link. Reproduction is in the commit: FuzzNvme
-+ emulated controller, 1815 diagnostic lines in one boot. Severity from
-the author’s data: hard-IRQ printk flood, unbounded after tag-set
-teardown.
+No Reported-by, bugzilla, or syzbot. Same author also posted a host-side
+defensive patch (`nvme: zns: cap zone report nr_zones by DMA buffer
+size`) because hosts that trust Number of Zones can walk past the DMA
+buffer. That is independent; this tree’s host `zns.c` has no
+`max_in_buf` yet, and Linux host uses PR=1 anyway.
+
+Record: [No end-user crash report] [Author also wrote a host-side bound
+against inflated nr_zones]
 
 Step 4.4: CHECK FOR RELATED PATCHES AND SERIES
-Record: Standalone. Sibling unratelimited prints remain in
-apple/tcp/rdma/loop *after* `nvme_find_rq()` fails; those are extra
-transport messages, not prerequisites. This patch still covers the
-shared `nvme_find_rq()` prints on all of those transports.
+Cover is 0/1 + 1/1. Self-contained. Host cap patch is a separate
+hardening change, not a prerequisite for the target rejection.
+
+Record: [Standalone target fix] [Host companion not required here]
 
 Step 4.5: CHECK STABLE MAILING LIST HISTORY
-Record: lore.kernel.org/stable search returned 403. Openwall/Patchew
-show no stable NAK or “already rejected” discussion. UNVERIFIED: no
-evidence this was previously declined for stable.
+lore.kernel.org/stable search also 403. No evidence in the nvme thread
+that stable was requested or rejected.
+
+Record: [No stable-list discussion found] [UNVERIFIED: could not query
+lore.kernel.org/stable directly]
 
 ===============================================================
 PHASE 5: CODE SEMANTIC ANALYSIS
 ===============================================================
 
 Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF
-Record: `nvme_find_rq()` (inline in `nvme.h`); `nvme_handle_cqe()`
-(`pci.c`).
+Record: [`nvmet_bdev_zone_zmgmt_recv_work`]
 
 Step 5.2: TRACE CALLERS
-Record (verified with grep + reads):
-- `nvme_find_rq()`:
-  - `nvme_handle_cqe()` — PCI
-  - `nvme_tcp_process_nvme_cqe()`, `nvme_tcp_handle_c2h_data()`,
-    `nvme_tcp_handle_r2t()` — TCP
-  - `nvme_rdma_process_nvme_rsp()` — RDMA
-  - `apple_nvme_handle_cqe()` — Apple
-  - `nvme_loop` completion path — target-loop
-- `nvme_handle_cqe()` ← `nvme_poll_cq()` ← `nvme_irq()` (hard IRQ or
-  threaded IRQ), `nvme_poll_irqdisable()`, `nvme_poll()`,
-  `nvme_reap_pending_cqes()`.
-- Impact: every NVMe transport’s completion path. PCI hard-IRQ is the
-  hottest and the one the commit calls out.
+- `nvmet_bdev_execute_zone_mgmt_recv()` queues that work
+- Set as `req->execute` from `nvmet_bdev_zns_parse_io_cmd()` on
+  `nvme_cmd_zone_mgmt_recv`
+- `nvmet_parse_io_cmd()` → `nvmet_bdev_zns_parse_io_cmd()` when
+  `req->ns->csi == NVME_CSI_ZNS` and `CONFIG_BLK_DEV_ZONED`
+
+Record: [I/O path for ZNS namespaces on nvmet] [Triggered by Zone
+Management Receive from an initiator]
 
 Step 5.3: TRACE CALLEES
-Record: `blk_mq_tag_to_rq()`, genctr helpers, then `pr_*` / `dev_*`. No
-allocation, no new locking.
+`nvmet_bdev_validate_zone_mgmt_recv`, `blkdev_report_zones` /
+`nvmet_bdev_report_zone_cb`, `nvmet_copy_to_sgl`, `nvmet_req_complete`.
+No new locks or allocations.
+
+Record: [Existing report/copy/complete helpers only]
 
 Step 5.4: FOLLOW THE CALL CHAIN
-Record: PCI: device posts CQE → MSI/MSI-X → `nvme_irq()` →
-`nvme_poll_cq()` → `nvme_handle_cqe()` → `nvme_find_rq()`. Reachable
-whenever an NVMe controller is attached, including VMs/emulators and
-failing real devices. Userspace does not need a special syscall; a bad
-device is enough. FuzzNvme reached it.
+Reachable from NVMe-oF (TCP/RDMA/FC/loop) against a ZNS target
+namespace. Userspace tools (`nvme zns report-zones`, libnvme, SPDK) can
+send PR=0. Linux in-kernel host always uses PR=1, so it does not hit the
+bug, but other initiators can.
+
+Record: [Userspace/NVMe-oF reachable] [Linux kernel host does not use
+PR=0]
 
 Step 5.5: SEARCH FOR SIMILAR PATTERNS
-Record: Same driver already ratelimits device-driven errors
-(`nvme_log_error`, `nvme_log_err_passthru`, PCI timeout
-`dev_warn_ratelimited`). Apple still has an unratelimited “invalid id”
-`dev_warn`; TCP/RDMA/loop have their own unratelimited “bad command_id”
-prints. Those leftovers do not block this fix.
+Only this one PR=0/PR=1 split in nvmet. Host always sets
+`NVME_REPORT_ZONE_PARTIAL`. No sibling driver with the same missing
+full-report check.
+
+Record: [Single instance in nvmet ZNS]
 
 ===============================================================
 PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
 ===============================================================
 
 Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?
-Record: **Yes.** Local tree is **6.12.111** (`git describe HEAD` →
-`p-6.12-3-gc504cf0baa3d8`, `make kernelversion` → 6.12.111).
-- `drivers/nvme/host/nvme.h:598-607` still uses `pr_err` / `dev_err`.
-- `drivers/nvme/host/pci.c:1128-1130` still uses `dev_warn`.
-- Introducing commits are ancestors of HEAD. Bug present since v5.15
-  (find_rq) / v5.9 (PCI invalid-id print).
+Yes. `make kernelversion` = 6.12.111; `git describe HEAD` =
+`p-6.12-3-gc504cf0baa3d8`. Current `nvmet_bdev_zone_zmgmt_recv_work()`
+still only caps PR=1. Introducer `aaf2e048af2704` is an ancestor of
+v6.12 and of HEAD.
+
+Record: [Bug exists at drivers/nvme/target/zns.c:305-306] [Since
+aaf2e048af2704 / ~5.14]
 
 Step 6.2: CHECK FOR BACKPORT COMPLICATIONS
-Record: **Clean apply (line-number offset only).** The 6.12
-`nvme_find_rq()` body matches the hunk. `nvme_handle_cqe()` differs
-later (`trace_nvme_sq` lacks the newer `data_race()` comment in this
-tree), but that is after the changed warn. No conflicting refactor.
+Pre-image matches this file exactly (`OLD FOUND` in a dry-run of the
+hunk). `NVME_STATUS_DNR` and `numd` exist. No refactor in the way.
+
+Record: [Expected clean apply]
 
 Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE
-Record: No commit in this tree ratelimits these three messages. No
-alternate fix found.
+`git log --grep` on this file found no “reject full zone report”. Host
+`max_in_buf` is also absent. No equivalent fix.
+
+Record: [Not already present]
 
 ===============================================================
 PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 ===============================================================
 
 Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY
-Record: **NVMe host** (`drivers/nvme/host/`). **IMPORTANT** — primary
-block storage on servers, workstations, and many embedded/Android
-platforms. Not core mm/VFS, but a very common production driver.
+`drivers/nvme/target/zns.c` — NVMe target ZNS backend, built as
+`nvmet-$(CONFIG_BLK_DEV_ZONED)`.
+
+Record: [nvmet ZNS] [IMPORTANT for NVMe-oF zoned exports; not core
+mm/VFS]
 
 Step 7.2: ASSESS SUBSYSTEM ACTIVITY
-Record: Active in this 6.12 branch (recent PCI IRQ, doorbell, quirk, and
-core lifetime fixes). The buggy prints themselves have been unchanged
-since 2021.
+nvmet is actively fixed in this 6.12 tree (TCP OOB, auth, RDMA leaks,
+ZNS identify NULL deref). ZNS recv itself has been stable since 2021.
+
+Record: [nvmet active; this function long-unchanged]
 
 ===============================================================
 PHASE 8: IMPACT AND RISK ASSESSMENT
 ===============================================================
 
 Step 8.1: DETERMINE WHO IS AFFECTED
-Record: **Driver-specific**, all NVMe host transports via
-`nvme_find_rq()`; PCI users are the main hard-IRQ case. Large user
-population whenever a controller posts invalid completions (faulty
-firmware, reset/teardown, emulator, fuzzer, passthrough VM).
+Config-specific: `CONFIG_NVME_TARGET=y` and `CONFIG_BLK_DEV_ZONED=y`,
+exporting a zoned bdev as a ZNS namespace. Initiators that send Zone
+Management Receive with PR=0 and a buffer smaller than the matching
+descriptor list.
+
+Record: [Config-specific: nvmet + zoned bdev + PR=0 full report]
 
 Step 8.2: DETERMINE THE TRIGGER CONDITIONS
-Record:
-- Trigger: CQE with a command id that does not resolve, or genctr
-  mismatch; also every completion after tag-set teardown.
-- Commonness: rare on healthy hardware; realistic on failing devices,
-  resets, and VMs. FuzzNvme hit it in one boot.
-- Unprivileged userspace: not via a normal syscall on a healthy disk. A
-  VM user with an emulated/passthrough NVMe device, or a malicious
-  controller, can drive it. Device-controlled printk from IRQ is a host
-  DoS vector in those setups.
+Deterministic: PR=0 + `numd` too small for every matching zone. Not a
+race. Linux kernel host does not trigger it (PR=1). Userspace and non-
+Linux NVMe-oF initiators can. Needs access to the subsystem, not a
+random unprivileged syscall on a machine that is not an NVMe target.
+
+Record: [Deterministic protocol path] [Common for tools that request a
+full report with a small buffer] [Not a local unprivileged syscall
+unless nvmet is configured]
 
 Step 8.3: DETERMINE THE FAILURE MODE SEVERITY
-Record:
-- **Failure mode:** Unbounded `printk` from hard IRQ / completion
-  context. Can stall on `console_lock`, flood the log, and contribute to
-  soft lockups on slow consoles. Not a UAF/oops by itself.
-- **Severity: HIGH** (IRQ-context flood / hang risk), not CRITICAL (no
-  panic/corruption on the success path).
+Target kernel: no oops, leak, or deadlock — wrong SUCCESS instead of
+Invalid Field.
+
+Initiator: SUCCESS + Number of Zones = full match count + only a prefix
+of descriptors transferred. A parser that trusts that count walks past
+its buffer (userspace OOB / wrong zone map). Incomplete zone inventory
+can then drive wrong zone management.
+
+Record: [Incorrect SUCCESS / truncated full report] [Severity: MEDIUM —
+protocol/data-integrity for zoned NVMe-oF, not a target oops]
 
 Step 8.4: CALCULATE RISK-BENEFIT RATIO
-Record:
-- **Benefit:** High for NVMe users who hit a dying, resetting, or
-  emulated controller — stops IRQ printk storms that have been
-  demonstrated in practice.
-- **Risk:** Very low (3 call-site swaps to existing ratelimit helpers).
-- **Ratio:** Strongly favors backport.
+Benefit: spec-correct failure instead of a silently truncated zone map;
+avoids initiator over-read and incomplete inventory. Small but real for
+nvmet ZNS users.
+
+Risk: ~10 lines, error path only, same status pattern already used in
+this file. Linux in-kernel host path unchanged.
+
+Record: [Benefit: medium for affected nvmet ZNS users] [Risk: very low]
+[Favor backport]
 
 ===============================================================
 PHASE 9: FINAL SYNTHESIS
 ===============================================================
 
 Step 9.1: COMPILE THE EVIDENCE
-**FOR:**
-- Real, reproduced bug (1815 lines in one boot; FuzzNvme).
-- Hard-IRQ, device-controlled printk — known lockup/DoS class.
-- After tag-set teardown the miss path is permanent; print rate = device
-  CQE rate.
-- Tiny, obviously correct, matches existing NVMe style.
-- Maintainer (Keith Busch) applied it with agreement, no NAK.
-- Buggy code present in this 6.12.111 tree since v5.15/v5.9.
-- Applies cleanly; no prerequisites.
-- `nvme_find_rq()` is shared across PCI/TCP/RDMA/Apple/loop.
 
-**AGAINST:**
-- Not a crash, UAF, or data-corruption fix.
-- Healthy devices rarely hit the path.
-- Transport-local “bad command_id” prints in tcp/rdma/apple/loop stay
-  unratelimited (incomplete sibling coverage, not a dependency).
+FOR:
+- Real, deterministic spec violation in command completion (ZNS 1.2
+  §3.4.2)
+- SUCCESS with Number of Zones > descriptors transferred can make
+  initiators over-read or act on an incomplete zone map
+- ~10-line surgical change, obviously correct
+- Hellwig Reviewed-by, Busch applied; author tested nvmet-tcp loopback
+- Buggy code has been in this 6.12 tree since the original ZNS target
+  code (2021)
+- Applies cleanly; all symbols exist (`NVME_STATUS_DNR`, `numd`,
+  `error_loc`)
+- No new API/feature
+- Fits stable-kernel-rules “oh, that's not good” for storage protocol
+  results
 
-**UNRESOLVED:**
-- lore.kernel.org 403; discussion recovered from Patchew/Openwall.
-- `b4 dig -c` could not run against a local SHA (commit not in this
-  tree).
-- No stable-list discussion found (search blocked).
+AGAINST:
+- Not a target oops/UAF/deadlock
+- No syzbot or production Reported-by
+- Niche: nvmet + zoned + PR=0
+- Linux in-kernel host always uses PR=1
+- No Cc: stable (not a negative under these review rules)
+
+UNRESOLVED:
+- Could not `b4 dig` a local SHA (commit not in this checkout)
+- lore.kernel.org and git.kernel.org fetches were blocked; thread
+  verified via gnuweeb mirror
+- Exact mainline SHA not confirmed locally
 
 Step 9.2: APPLY THE STABLE RULES CHECKLIST
-1. Obviously correct and tested? **PASS** — three `_ratelimited` swaps;
-   maintainer applied; FuzzNvme reproduction.
-2. Fixes a real bug that affects users? **PASS** — documented IRQ printk
-   flood; teardown path makes it unbounded.
-3. Important issue (crash, security, corruption, deadlock)? **PASS** —
-   IRQ-context flood can stall the console / soft-lockup; device-driven
-   DoS. Severity HIGH.
-4. Small and contained? **PASS** — ~9/+8 lines, two files, error prints
-   only.
-5. No new features or APIs? **PASS**.
-6. Can apply to the local tree? **PASS** — buggy code present; helpers
-   present; clean apply expected.
+1. Obviously correct and tested? **PASS** — spec-aligned; Hellwig RB;
+   author tested loopback
+2. Fixes a real bug that affects users? **PASS** — wrong SUCCESS on a
+   real NVMe-oF command
+3. Important issue? **PASS** (MEDIUM) — not a kernel oops, but incorrect
+   zoned inventory / initiator over-read; “oh, that's not good” for a
+   storage protocol
+4. Small and contained? **PASS** — one function, ~10 lines
+5. No new features or APIs? **PASS**
+6. Can apply to the local tree? **PASS** — pre-image matches 6.12.111
+   `zns.c`
 
 Step 9.3: CHECK FOR EXCEPTION CATEGORIES
-Record: Not a device-ID / quirk / DT / build / docs exception. Qualifies
-as a normal small stability fix.
+Not a device-ID, quirk, DT, build, or docs exception. It is a normal
+small bugfix.
 
 Step 9.4: MAKE YOUR DECISION
-This belongs on 6.12.y. The tree still has the unratelimited IRQ prints,
-the fix is surgical, and the failure mode is a real host-stability
-problem on failing or emulated NVMe — not a feature or cleanup.
-
-Detailed explanation:
-The problem is unbounded `printk` from NVMe completion handling when the
-device supplies a command id that does not map to an in-flight request.
-That path runs from `nvme_irq()` in hard interrupt context (or the
-equivalent completion callbacks on other transports). After the tag set
-is torn down, every CQE misses, so a broken controller can print as fast
-as it can post completions. That is a real production concern during
-reset/remove of a failing disk and in VMs; FuzzNvme already produced
-thousands of lines in one boot. Rate-limiting those three diagnostics
-matches `nvme_log_error()` and does not change I/O completion logic.
-Risk is negligible; benefit is avoiding IRQ-context log storms on a
-widely deployed storage stack.
+This 6.12 tree still has the original PR=0 hole. The fix is tiny,
+maintainer-reviewed, and changes only the illegal success path. That is
+appropriate for this stable tree.
 
 Verification:
-- [Phase 1] Parsed tags: author SOB Chao Shi; maintainer SOB Keith
-  Busch; no Fixes/Cc stable/Reported-by (expected).
-- [Phase 1] Body: concrete counts (846/846/123) and IRQ path `nvme_irq`
-  → `nvme_poll_cq` → `nvme_handle_cqe`.
-- [Phase 2] Diff: `pr_err`/`dev_err`/`dev_warn` → `_ratelimited` in
-  `nvme_find_rq` and `nvme_handle_cqe` only.
-- [Phase 3] `git blame drivers/nvme/host/nvme.h`: prints from
-  `e7006de6c23803` (v5.15-rc1).
-- [Phase 3] `git blame drivers/nvme/host/pci.c`: invalid-id print from
-  `50b7c24390a53c` (v5.9-rc7).
-- [Phase 3] `git merge-base --is-ancestor e7006de6c23803 HEAD` and
-  `50b7c24390a53c HEAD`: both ancestors.
-- [Phase 3] `git log --grep="ratelimit the completion-path" HEAD --
-  drivers/nvme/`: empty; fix not in this tree.
-- [Phase 4] `b4 dig` needs a local commit-ish; candidate is not in this
-  checkout — UNVERIFIED via b4.
-- [Phase 4] Patchew + Openwall: v1 applied by Keith Busch to nvme-7.3;
-  no NAK.
-- [Phase 4] lore.kernel.org fetch: 403 — discussion taken from
-  Patchew/Openwall instead.
-- [Phase 5] Callers of `nvme_find_rq`: pci, tcp, rdma, apple,
-  target/loop (grep).
-- [Phase 5] `nvme_poll_cq` called from `nvme_irq`,
-  `nvme_poll_irqdisable`, `nvme_poll`, `nvme_reap_pending_cqes`.
-- [Phase 5] `queue_request_irq()` registers `nvme_irq` as the hard-IRQ
-  handler (or thread fn).
-- [Phase 5] Ratelimit macros present in `include/linux/printk.h` and
-  `include/linux/dev_printk.h`; already used in `nvme_log_error()`.
-- [Phase 6] `git describe HEAD` / `make kernelversion`: 6.12.111
-  (`p-6.12-3-gc504cf0baa3d8`).
-- [Phase 6] Read `nvme.h:598-607` and `pci.c:1126-1131`: unratelimited
-  prints still present.
-- [Phase 8] Failure mode: device-driven printk flood from hard IRQ;
-  severity HIGH (lockup/DoS), not oops/UAF.
-- UNVERIFIED: whether this SHA already exists on some other remote
-  branch (not required; local tree does not have the fix).
-- UNVERIFIED: stable mailing-list history (lore/stable 403).
+- [Phase 1] Tags: Xixin Liu SOB, Christoph Hellwig Reviewed-by, Keith
+  Busch SOB; no Fixes/Reported-by/Cc: stable
+- [Phase 1] Body: PR=0 full report must fail when buffer cannot hold
+  every matching descriptor (ZNS 1.2 §3.4.2)
+- [Phase 2] Diff: one hunk in `nvmet_bdev_zone_zmgmt_recv_work()`; PR=1
+  still capped; PR=0 adds `nr_zones > out_nr_zones` →
+  `NVME_SC_INVALID_FIELD | NVME_STATUS_DNR`
+- [Phase 2] Callback already copies only `out_nr_zones` descriptors
+  while counting all matches — verified at
+  drivers/nvme/target/zns.c:227-246
+- [Phase 3] `git blame`: function from aaf2e048af2704 (2021-06-09)
+- [Phase 3] `git merge-base --is-ancestor aaf2e048af2704 HEAD` and `...
+  v6.12`: both true
+- [Phase 3] No equivalent fix in `git log -- drivers/nvme/target/zns.c`
+- [Phase 4] Thread: https://lore-kernel.gnuweeb.org/linux-
+  nvme/cover.1783579899.git.liuxixin@kylinos.cn/T/ — v1→v2 style only;
+  Hellwig RB; Busch applied to nvme-7.3
+- [Phase 4] UNVERIFIED: b4 dig (SHA not in tree); lore.kernel.org HTTP
+  403
+- [Phase 5] Callers: `nvmet_parse_io_cmd` →
+  `nvmet_bdev_zns_parse_io_cmd` → `nvmet_bdev_execute_zone_mgmt_recv`
+  (core.c:954-961, zns.c:315-318, 614-615)
+- [Phase 5] Linux host uses `c.zmr.pr = NVME_REPORT_ZONE_PARTIAL`
+  (host/zns.c:197)
+- [Phase 6] `make kernelversion` = 6.12.111; buggy `if
+  (req->cmd->zmr.pr)` still present; dry-run pre-image found;
+  `NVME_STATUS_DNR` and `numd` exist
+- [Phase 7] Built only with `nvmet-$(CONFIG_BLK_DEV_ZONED)`
+- [Phase 8] Failure mode: incorrect SUCCESS / truncated full report, not
+  a target crash
+- UNVERIFIED: whether a later mainline follow-up changed this hunk after
+  nvme-7.3 apply
+
+The problem is a spec-incorrect SUCCESS on a full zone report when the
+host buffer is too small. That is a real command-handling bug in this
+6.12 tree, the patch is small and already matches local code, and the
+risk is limited to failing a command that was already returning
+inconsistent data.
 
 **YES**
 
- drivers/nvme/host/nvme.h | 6 +++---
- drivers/nvme/host/pci.c  | 6 +++---
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/nvme/target/zns.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index ec03a07617af1..b28c1a82f79e6 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -672,12 +672,12 @@ static inline struct request *nvme_find_rq(struct blk_mq_tags *tags,
- 
- 	rq = blk_mq_tag_to_rq(tags, tag);
- 	if (unlikely(!rq)) {
--		pr_err("could not locate request for tag %#x\n",
--			tag);
-+		pr_err_ratelimited("could not locate request for tag %#x\n",
-+				   tag);
- 		return NULL;
- 	}
- 	if (unlikely(nvme_genctr_mask(nvme_req(rq)->genctr) != genctr)) {
--		dev_err(nvme_req(rq)->ctrl->device,
-+		dev_err_ratelimited(nvme_req(rq)->ctrl->device,
- 			"request %#x genctr mismatch (got %#x expected %#x)\n",
- 			tag, genctr, nvme_genctr_mask(nvme_req(rq)->genctr));
- 		return NULL;
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 4efb55f1e3833..6e4261b0a0821 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1375,9 +1375,9 @@ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq,
- 
- 	req = nvme_find_rq(nvme_queue_tagset(nvmeq), command_id);
- 	if (unlikely(!req)) {
--		dev_warn(nvmeq->dev->ctrl.device,
--			"invalid id %d completed on queue %d\n",
--			command_id, le16_to_cpu(cqe->sq_id));
-+		dev_warn_ratelimited(nvmeq->dev->ctrl.device,
-+				     "invalid id %d completed on queue %d\n",
-+				     command_id, le16_to_cpu(cqe->sq_id));
- 		return;
+diff --git a/drivers/nvme/target/zns.c b/drivers/nvme/target/zns.c
+index 95af4b67108c7..abf3435ca2900 100644
+--- a/drivers/nvme/target/zns.c
++++ b/drivers/nvme/target/zns.c
+@@ -299,11 +299,18 @@ static void nvmet_bdev_zone_zmgmt_recv_work(struct work_struct *w)
  	}
  
+ 	/*
+-	 * When partial bit is set nr_zones must indicate the number of zone
+-	 * descriptors actually transferred.
++	 * Partial report (PR bit set): the host accepts an incomplete listing,
++	 * so cap Number of Zones to the descriptors that fit in the buffer.
++	 * Full report (PR bit clear): Number of Zones is the match count; fail
++	 * if the buffer cannot hold every matching zone descriptor.
+ 	 */
+-	if (req->cmd->zmr.pr)
++	if (req->cmd->zmr.pr) {
+ 		rz_data.nr_zones = min(rz_data.nr_zones, rz_data.out_nr_zones);
++	} else if (rz_data.nr_zones > rz_data.out_nr_zones) {
++		req->error_loc = offsetof(struct nvme_zone_mgmt_recv_cmd, numd);
++		status = NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
++		goto out;
++	}
+ 
+ 	nr_zones = cpu_to_le64(rz_data.nr_zones);
+ 	status = nvmet_copy_to_sgl(req, 0, &nr_zones, sizeof(nr_zones));
 -- 
 2.53.0
 
