@@ -4,56 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9D661CCF2E3
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 14:15:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 91615CCF2E6
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 14:43:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
 	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
 	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Cc:To:Subject:
 	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=SXd06xmy2j7mpCCKr/bXsUuVAzRO7J0mNBFLbo3SZ3A=; b=as3NaOe/JeSktNK3CjwQHD3Mxi
-	cI54O/LHRPAL0zqjcBBmB9+bx+KfM36Ec2Ge6gYQ/GIbSqsXAeDgRf6e7nSL/IPCp0IHtEHQPjceQ
-	WQMxASWmjWx0xKhv11DIkfs8CjuM2wFGfY/K7UxM7zgrLjvrogo9ig0lpHzQFSq2zH4bcOADd2rWw
-	YDOKjILl/6obZC8/Op0wMhe7LnrGXe2sZni7pnR7tKmRNNpQDRCCkZp+Vul/g2t3jINmCuqDqQWo2
-	f1X8EpPwVGqPsqHbYSTR+Ue9FrbsEpFLyIa4QSDbdct001TB6+wASK8Imbvhqc9AtnZzBG4bGuYFA
-	ZIK65DTA==;
+	bh=+REiuhOk6WK+CD+uZ6yHzg7Wu7MxEiEhQ/9njhRYMBI=; b=K3FNF9YsgTweRdR5xsfuyjXmY6
+	3ir9WWutaLH+9aaqEr4mqItHOVWDdUA4g47BELKuN962WpWi6fSktfVakLKaT+Ls/K7H7xCjHNqL+
+	htkf5VnIHgYPefpuAt1J34u2W7yxYsoJcqmRcnBg/SLjCME1+4V1ngEQuUjx0EQsYlllP5sLS5En9
+	aEGnOCTrpAXjVC8D8PB2hLclxvAYMN1ZQB+UBxyA5XPOrgeMsCXAsFC2j0IZBZL6j3g1P4Z8RhMDn
+	uWAKYLHcF37alHfKQxb4ucJp+ty7KU9TUNHqkKpYn3bTb5vHPD+CsIS3NSXIf65Yzj4KC6CQ6QOSn
+	OwKVyPuw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xIo9K-00000007iZ4-46p9;
-	Mon, 19 Oct 2026 14:15:38 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1xIoag-00000007ltw-2r67;
+	Mon, 19 Oct 2026 14:43:54 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xIo9J-00000007iYi-3T4g
+	id 1xIoag-00000007ltj-19dt
 	for linux-nvme@lists.infradead.org;
-	Mon, 19 Oct 2026 14:15:37 +0000
+	Mon, 19 Oct 2026 14:43:54 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 54FFE41942
-	for <linux-nvme@lists.infradead.org>; Mon, 19 Oct 2026 14:15:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17DB71F000C5;
-	Mon, 19 Oct 2026 14:15:37 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id B2A97601FD
+	for <linux-nvme@lists.infradead.org>; Mon, 19 Oct 2026 14:43:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E0761F000C4;
+	Mon, 19 Oct 2026 14:43:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792419337;
-	bh=SXd06xmy2j7mpCCKr/bXsUuVAzRO7J0mNBFLbo3SZ3A=;
+	s=k20260515; t=1792421033;
+	bh=+REiuhOk6WK+CD+uZ6yHzg7Wu7MxEiEhQ/9njhRYMBI=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=g1XKR/xhxtWyn7Zk22eNQfnHItacmChn6GuvGngytzG1Lpm1qtzpLP5gTPwdqf8YO
-	 NA6EMnXSkuIygvYTn9fr7AqZa9IDh4ABdceRCbQP6ah5dnem2bXWFc1WUxwJhNadL2
-	 HwNlI+BXLXRK3IEKYRh2dFoMEFka3xGIRGuww9iZ2AZgOFHVrge4jlPj55dW6B34Rw
-	 SWEsEaOn6gIxW/vDeC4riPVR/LpAU5lxKdfhnhmI18+UXLH+klppCEa76eh+k8FSsZ
-	 yuKH8yg9GjT0iSDA2jBAR08hpws8o6K+vP+OLgdvmO/fc/Gk1uwNooBcSQLVRC5kp1
-	 G77CdxRLbpFwQ==
-Message-ID: <sashiko-outbox-177332@kernel.org>
+	b=fCtbdGkFAWYUnZM067PZpanw2OkkMQgp1vAlfPaliM3aqqwu3a10lrrnSlBbfYJ8u
+	 n4DaiYuYj8Hi6zKwJawPjUKjZU6hnq6Bm8fquW7hZ9i2Bsy9LcvMij4OlAVMHwcsQa
+	 +bkqlVFb4WR/GtrLE+oDZPCATQNtNCEhF3fmas85X891L5yBJZCbyYMuBRd5mi1WmO
+	 OCw+eq8UE+BDnbgMIv6Oia1BbQCQi9E+a34Tmgjvr3epG8tnwxkmmF9npfDHgpNRZQ
+	 9s8TutqFvqV3c+41hbI5UE6hHubM+VPvLAjazi6QAHmCN/1+M8GqNsomAIkvCejr/0
+	 +2WdUJr9qPj7Q==
+Message-ID: <sashiko-outbox-177482@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH AUTOSEL 6.18-5.15] nvmet: zns: reject full zone report
- when buffer is too small
+Subject: Re: [PATCH AUTOSEL 6.18-5.15] nvme-tcp: look up host_iface in the
+ current netns
 To: "Sasha Levin" <sashal@kernel.org>
 Cc: linux-nvme@lists.infradead.org
-In-Reply-To: <20261019135441.1420968-69-sashal@kernel.org>
+In-Reply-To: <20261019135441.1420968-231-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
- <20261019135441.1420968-69-sashal@kernel.org>
+ <20261019135441.1420968-231-sashal@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 19 Oct 2026 14:15:36 +0000
+Date: Mon, 19 Oct 2026 14:43:52 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,126 +71,86 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [High] nvmet: zns: broken PR=3D0 zone reports in nvmet_bdev_zone_zmgmt_re=
-cv_work()
+- [Critical] nvme-tcp: use-after-free in nvme_tcp_alloc_ctrl() via __dev_ge=
+t_by_name()
 --
 
-commit 42bb4c679b1e6318e7ed82bbe79461a255997505
-Author: Xixin Liu <liuxixin@kylinos.cn>
+commit 04aa71fe23c7dec86f240fa7773c4020c75d2bb7
+Author: Geliang Tang <geliang@kernel.org>
 
-nvmet: zns: reject full zone report when buffer is too small
+nvme-tcp: look up host_iface in the current netns
 
-This patch updates nvmet_bdev_zone_zmgmt_recv_work() in
-drivers/nvme/target/zns.c to fail Zone Management Receive commands with
-NVME_SC_INVALID_FIELD | NVME_STATUS_DNR when the Partial Report (PR) bit is
-clear and rz_data.nr_zones exceeds rz_data.out_nr_zones.
+This commit changes nvme_tcp_alloc_ctrl() to look up opts->host_iface in
+current->nsproxy->net_ns rather than init_net so that interfaces in the
+calling task's network namespace can be found.
 
-> diff --git a/drivers/nvme/target/zns.c b/drivers/nvme/target/zns.c
-> index 15a579cf528c1..dfa9269b59992 100644
-> --- a/drivers/nvme/target/zns.c
-> +++ b/drivers/nvme/target/zns.c
-> @@ -299,11 +299,18 @@ static void nvmet_bdev_zone_zmgmt_recv_work(struct =
-work_struct *w)
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index 9a96df1a511c0..fb6858023f19d 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -2935,7 +2935,8 @@ static struct nvme_tcp_ctrl *nvme_tcp_alloc_ctrl(st=
+ruct device *dev,
 >  	}
 > =20
->  	/*
-> -	 * When partial bit is set nr_zones must indicate the number of zone
-> -	 * descriptors actually transferred.
-> +	 * Partial report (PR bit set): the host accepts an incomplete listing,
-> +	 * so cap Number of Zones to the descriptors that fit in the buffer.
-> +	 * Full report (PR bit clear): Number of Zones is the match count; fail
-> +	 * if the buffer cannot hold every matching zone descriptor.
->  	 */
-> -	if (req->cmd->zmr.pr)
-> +	if (req->cmd->zmr.pr) {
->  		rz_data.nr_zones =3D min(rz_data.nr_zones, rz_data.out_nr_zones);
-> +	} else if (rz_data.nr_zones > rz_data.out_nr_zones) {
-> +		req->error_loc =3D offsetof(struct nvme_zone_mgmt_recv_cmd, numd);
-> +		status =3D NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
-> +		goto out;
-> +	}
+>  	if (opts->mask & NVMF_OPT_HOST_IFACE) {
+> -		if (!__dev_get_by_name(&init_net, opts->host_iface)) {
+> +		if (!__dev_get_by_name(current->nsproxy->net_ns,
+> +				       opts->host_iface)) {
 
-[Severity: High]
-Won't rejecting req->cmd->zmr.pr =3D=3D 0 commands when rz_data.nr_zones >
-rz_data.out_nr_zones break valid non-partial Zone Management Receive
-queries?
+[Severity: Critical]
+Is it safe to call __dev_get_by_name() here without holding rtnl_lock()?
 
-Per the NVMe Zoned Namespace Command Set specification (section 3.4.2), the
-Partial Report (PR) bit controls the value placed in the Number of Zones
-field of the 64-byte Report Zones header (struct nvme_zone_report):
+When userspace writes connection parameters with host_iface=3D<name> to
+/dev/nvme-fabrics, the call chain:
 
-- When PR is 0, Number of Zones indicates the total number of zones matching
-  the ZRASF criteria from SLBA to the end of the namespace, regardless of t=
-he
-  size of the data buffer, while only as many zone descriptors as fit in the
-  buffer are transferred.
+  nvmf_dev_write()
+    -> nvmf_create_ctrl()
+      -> nvme_tcp_create_ctrl()
+        -> nvme_tcp_alloc_ctrl()
 
-- When PR is 1, Number of Zones indicates the number of zone descriptors
-  actually transferred in the buffer.
+runs in sleepable process context holding only nvmf_dev_mutex, with
+neither rtnl_lock() nor rcu_read_lock() held.
 
-The only NUMD buffer size condition that aborts the command with Invalid
-Field in Command is when the buffer is smaller than the 64-byte Report Zones
-header itself, which nvmet_bdev_validate_zone_mgmt_recv() already checks:
+In net/core/dev.c, __dev_get_by_name() requires the RTNL semaphore and
+calls netdev_name_node_lookup(), which traverses the per-netns hash bucket
+with non-RCU list primitives:
 
-drivers/nvme/target/zns.c:nvmet_bdev_validate_zone_mgmt_recv() {
-	...
-	if (out_bufsize < sizeof(struct nvme_zone_report)) {
-		req->error_loc =3D offsetof(struct nvme_zone_mgmt_recv_cmd, numd);
-		return NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
-	}
-	...
+net/core/dev.c:netdev_name_node_lookup() {
+	struct hlist_head *head =3D dev_name_hash(net, name);
+	struct netdev_name_node *name_node;
+
+	hlist_for_each_entry(name_node, head, hlist)
+		if (!strcmp(name_node->name, name))
+			return name_node;
+	return NULL;
 }
 
-The existing helpers in drivers/nvme/target/zns.c are built around this
-behavior. In particular, get_nr_zones_from_buf() explicitly allows a 64-byte
-header-only buffer (returning out_nr_zones =3D=3D 0) so an initiator can is=
-sue a
-PR=3D0 command to discover the total number of matching zones before alloca=
-ting
-a full descriptor buffer:
+net/core/dev.c:__dev_get_by_name() {
+	struct netdev_name_node *node_name;
 
-drivers/nvme/target/zns.c:get_nr_zones_from_buf() {
-	if (bufsize <=3D sizeof(struct nvme_zone_report))
-		return 0;
-
-	return (bufsize - sizeof(struct nvme_zone_report)) /
-		sizeof(struct nvme_zone_descriptor);
+	node_name =3D netdev_name_node_lookup(net, name);
+	return node_name ? node_name->dev : NULL;
 }
 
-And nvmet_bdev_report_zone_cb() copies descriptors into the host SGL only
-while rz->nr_zones < rz->out_nr_zones, yet continues incrementing
-rz->nr_zones across all remaining matching zones specifically to compute the
-total match count for PR=3D0:
+If a network device in current->nsproxy->net_ns is concurrently
+unregistered via unregister_netdevice_many_notify() ->
+rollback_registered_many() (which unlinks the node in unlist_netdevice(),
+waits for an RCU grace period via synchronize_net(), and then frees the
+nodes via netdev_name_node_alt_flush() and netdev_name_node_free()), has an
+altname deleted via netdev_name_node_alt_destroy() ->
+__netdev_name_node_alt_destroy(), or is renamed via dev_change_name(),
+neither synchronize_net() nor call_rcu() will wait for a preempted reader
+in nvme_tcp_alloc_ctrl().
 
-drivers/nvme/target/zns.c:nvmet_bdev_report_zone_cb() {
-	...
-	if (rz->nr_zones < rz->out_nr_zones) {
-		...
-		status =3D nvmet_copy_to_sgl(rz->req, rz->out_buf_offset, &zdesc,
-					   sizeof(zdesc));
-		if (status)
-			return -EINVAL;
+Could this trigger a use-after-free on name_node or name_node->name during
+the hash list traversal, and should this lookup use dev_get_by_name_rcu()
+under rcu_read_lock() (or netdev_name_in_use()) instead?
 
-		rz->out_buf_offset +=3D sizeof(zdesc);
-	}
-
-	rz->nr_zones++;
-
-	return 0;
-}
-
-With this new check in nvmet_bdev_zone_zmgmt_recv_work(), any 64-byte
-header-only PR=3D0 query (out_nr_zones =3D=3D 0) fails with NVME_SC_INVALID=
-_FIELD |
-NVME_STATUS_DNR whenever at least one zone matches, and any bounded-buffer
-PR=3D0 query fails after nvmet_bdev_report_zone_cb() has already written
-out_nr_zones descriptors into the host SGL.
-
-> =20
->  	nr_zones =3D cpu_to_le64(rz_data.nr_zones);
->  	status =3D nvmet_copy_to_sgl(req, 0, &nr_zones, sizeof(nr_zones));
+>  			pr_err("invalid interface passed: %s\n",
+>  			       opts->host_iface);
+>  			ret =3D -ENODEV;
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261019135441.1420=
-968-69-sashal@kernel.org?part=3D1
+968-231-sashal@kernel.org?part=3D1
 
