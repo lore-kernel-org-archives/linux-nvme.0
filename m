@@ -4,61 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 741F1CCF2E3
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 13:59:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 12710CCF2E3
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 14:00:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=dfaSzENZdtWDtRhEiA8zAhs3rBjmvEZNAHYLn8XcjZE=; b=KVXqDUuXBN6FcU+EVGJG1t7cTF
-	1AG/0/FPob1ExI0ifD9BF/AvMyE51Y8jdH/3tQwOulcJ7hRUIV1krQMnt4udTAhtW2yMm9s6jV7Sw
-	BV1Xl5Vt22+6LZXT0o42o1p6zXATN03sjhmfXOJyXmz1cqVc1tSrRzmDq9yCUiH98Hp7QO+z6sEeu
-	EqdkULdLwnTi1diPRG9/yH1bs57hs5aluCmgAdsPpQkhovf06zfshtZTX+AMNn+J7bU5WtsdQ18iK
-	Nx90iuX/IdWOmhGSLKKevcHvJxz+cEbNq1l2xsnzfsE2xGB6EZWDqT9j8yNG2E5etBfZmC4WgjwU0
-	5iWBMKyw==;
+	bh=n+rhH6sFi7Wv5X0hh3VjHO8MU1I4EKEJ3OCazhVuTZI=; b=eW5pNCCCUrgCQXXVLUqxENSq3P
+	pPwgaoyVVAR+s1AQTvbANIM/f83XEVXJ0yRkpVI91bxC5QHFuh2bfySiJ6TQC7dDPzTxsO9tgux3u
+	FN+vavXaLn35jNmCJorLxIVSLITz09f1pJfHInZaSBKFCAH0JLx6xEjLeEdknHdP4BLAFaE8nSFUs
+	gQvVIBOX8Cn9BO8Cli3//AUBvcY6miy+JW3amD7s2I+q6qmEWbDYdNtOfZMzBZL76eWv5VlE8Ltky
+	jlToKbvzqgLJMtL4UNkTMYTNdPIBpGU3T4I4+uwLFOtJR5vjXPpAIg+1Amre8fJyGz7VXhc+qqQkK
+	L+ebu9zQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xIntg-00000007cOH-3Hef;
-	Mon, 19 Oct 2026 13:59:28 +0000
+	id 1xInuQ-00000007cb5-3zcG;
+	Mon, 19 Oct 2026 14:00:14 +0000
 Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xInte-00000007cN1-2w7B
+	id 1xInuP-00000007cZc-2bAx
 	for linux-nvme@lists.infradead.org;
-	Mon, 19 Oct 2026 13:59:26 +0000
+	Mon, 19 Oct 2026 14:00:13 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 1894660258;
-	Mon, 19 Oct 2026 13:59:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 775D51F000C8;
-	Mon, 19 Oct 2026 13:59:24 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 01C386020A;
+	Mon, 19 Oct 2026 14:00:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1AED1F000C7;
+	Mon, 19 Oct 2026 14:00:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418365;
-	bh=dfaSzENZdtWDtRhEiA8zAhs3rBjmvEZNAHYLn8XcjZE=;
+	s=k20260515; t=1792418412;
+	bh=n+rhH6sFi7Wv5X0hh3VjHO8MU1I4EKEJ3OCazhVuTZI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=bJcgu4J+o66k+IW1Zoio421HZIen1v1j/QJpuUDyBdNoNDYQaIqeiSgG9YDyCiFPj
-	 nIqcy0YA+MPYiVxY2Cr9HoMzE7k4UrW6qfQm/OEn54NV+sGVhBUEcDVffTA1m0E0Rv
-	 ou01qVcRZ/aMQyF5DCEcw/cwqMPPeAplLCKKsbKFRyvVRb6c7rJ3lGdBCL7eYFaAHD
-	 Ve2fxoMg33wpE2tilOIS2dF2VZhf3pPmnA/LwgsUmJQKgQ6mlfqAcY6sCTWtSQHe0A
-	 7Oayg3ZjUVp1PkuOu8yfrv0BSvyGb5NVr2rhc4a11Zdf4Qum6YpHP8asHp4HeBR+RV
-	 xDkOyJa7zA7ug==
+	b=HIux8TKRZ/qUweUgywVCamTemxbClEOu6xsmEIBtYIxdVIZUpMkGmhz0lu+qTuTOj
+	 0oMO+Q1gnnq/Pk8bxlT4gn5NgPK4/jjMw7/iZoZq6tJsQ5K4SAQ9b5oytBaPoFHU9C
+	 l7dQegkCoLyw7sHJjMPW50ucXQaLFJITcZoD8ILRndWIXrAbiMqeOPJmKO4YSe04rY
+	 RMnG0E5nwvSd8eCT4rOTr+L1BM49gwTsJoLUJrRHhh7DIm9NLs1n21eSQkCCFDBZ+t
+	 Fw7MeGT1ic+JfUtf3XcMPw4FblNHcNc/zD6AyNTD/xh1TG7dCDvxRb06V1+O/CVZ9v
+	 KCBUJOoequogQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Xixin Liu <liuxixin@kylinos.cn>,
+Cc: Geliang Tang <tanggeliang@kylinos.cn>,
 	Hannes Reinecke <hare@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
 	Keith Busch <kbusch@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	hare@suse.de,
 	axboe@kernel.dk,
 	sagi@grimberg.me,
-	kch@nvidia.com,
 	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-6.6] nvme-auth: use crypto_memneq for DH-HMAC-CHAP response comparison
-Date: Mon, 19 Oct 2026 09:48:07 -0400
-Message-ID: <20261019135441.1420968-196-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-5.15] nvme-tcp: look up host_iface in the current netns
+Date: Mon, 19 Oct 2026 09:48:42 -0400
+Message-ID: <20261019135441.1420968-231-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -82,491 +79,415 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Xixin Liu <liuxixin@kylinos.cn>
+From: Geliang Tang <tanggeliang@kylinos.cn>
 
-[ Upstream commit 3a6d89836ab09d53f4c32c57588689a378ce4363 ]
+[ Upstream commit 58202950e39c127d593ec4f0624d8b8985a285b1 ]
 
-DH-HMAC-CHAP authentication compares HMAC response digests with memcmp().
-Standard memcmp() may stop at the first differing byte, which can leak
-timing information to a remote attacker and allow incremental recovery
-of the expected digest.
+nvme_tcp_alloc_ctrl() looks opts->host_iface up in &init_net, the boot-time
+netns. When called from any other netns - e.g. the selftest's ns2, where
+ns2eth1 actually lives - the lookup misses and the controller setup fails
+with "invalid interface passed":
 
-Use crypto_memneq() for constant-time comparison on both the host path
-that validates the controller Success1 response and the target path that
-validates the host Reply digest.  Other memcmp() uses in the NVMe auth
-code (e.g. fixed string prefix checks) are not security-sensitive and
-are left unchanged.
+ nvmet: adding nsid 1 to subsystem nqn.2014-08.org.nvmexpress.mptcpdev
+ nvmet_tcp: enabling port 24660 (0.0.0.0:24099)
+ # nvme discover -a 10.1.1.1 --tos=0x10 --host-iface=ns2eth1
+ nvme_tcp: invalid interface passed: ns2eth1
+ # failed to add controller, error invalid interface
 
-Signed-off-by: Xixin Liu <liuxixin@kylinos.cn>
+Look the device up in current->nsproxy->net_ns instead so the check sees
+the calling task's netns.
+
 Reviewed-by: Hannes Reinecke <hare@kernel.org>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Geliang Tang <tanggeliang@kylinos.cn>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-The local tree is **v7.3-rc4** (`7.3.0-rc4`, `f0100363d8c37`). The
-commit under review is `3a6d89836ab09` (“nvme-auth: use crypto_memneq
-for DH-HMAC-CHAP response comparison”). It is already an ancestor of
-HEAD (landed in v7.3-rc1). That does not decide the backport question;
-the decision below is on technical merit and whether the bug exists in
-this lineage.
+This is a one-line netns-correctness fix in existing NVMe-TCP `host-
+iface` validation. The buggy lookup is in this 6.12 tree; the patch
+applies cleanly.
 
 ===============================================================
 PHASE 1: COMMIT MESSAGE FORENSICS
 ===============================================================
 
-**Step 1.1: PARSE THE SUBJECT LINE**
+Step 1.1: PARSE THE SUBJECT LINE
+Record: [nvme-tcp] [look up] [validate `host_iface` in the calling
+task’s netns instead of `init_net`]
 
-Record: **[nvme-auth]** **[use]** Replace `memcmp()` with
-`crypto_memneq()` when comparing DH-HMAC-CHAP HMAC response digests.
-
-**Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
-
+Step 1.2: PARSE ALL COMMIT MESSAGE TAGS
 Record:
-- `Fixes:` — none (expected)
-- `Reported-by:` — none
-- `Tested-by:` — none
-- `Reviewed-by: Hannes Reinecke <hare@kernel.org>` (author of the
-  original NVMe in-band auth code)
-- `Reviewed-by: Christoph Hellwig <hch@lst.de>`
-- `Link:` — none in the commit
-- `Cc: stable@vger.kernel.org` — none (expected)
-- `Signed-off-by: Xixin Liu <liuxixin@kylinos.cn>` (author)
-- `Signed-off-by: Keith Busch <kbusch@kernel.org>` (NVMe maintainer)
-- Ignore pipeline `Signed-off-by: Sasha Levin` if present; it is not in
-  this commit
+- Reviewed-by: Hannes Reinecke \<hare@kernel.org\> (NVMe/storage
+  maintainer)
+- Signed-off-by: Geliang Tang \<tanggeliang@kylinos.cn\> (author; MPTCP
+  contributor)
+- Signed-off-by: Keith Busch \<kbusch@kernel.org\> (NVMe maintainer;
+  applied the patch)
+- No Fixes:, Reported-by, Tested-by, Link:, or Cc: stable (absence
+  expected for this review)
+- Ignore pipeline markers (Upstream commit / Sasha Levin SOB) — none in
+  the origin commit `58202950e39c1`
 
-**Step 1.3: ANALYZE THE COMMIT BODY TEXT**
-
+Step 1.3: ANALYZE THE COMMIT BODY TEXT
 Record:
-- **Bug:** DH-HMAC-CHAP compares HMAC response digests with `memcmp()`,
-  which can return at the first differing byte.
-- **Symptom/failure mode:** Timing leak of how far the computed HMAC
-  matches the expected digest; a remote attacker could try to recover
-  the expected digest incrementally.
-- **Version information:** none in the message. Keith later said on-list
-  it was applied “for 7.2”; `git merge-base --is-ancestor` shows it is
-  **not** in `v7.2` and **is** in `v7.3-rc1`.
-- **Root cause (author):** variable-time comparison of authentication
-  MAC material.
+- Bug: `nvme_tcp_alloc_ctrl()` looks up `opts->host_iface` with
+  `__dev_get_by_name(&init_net, ...)`. In any other netns the name is
+  missing, so controller setup fails.
+- Symptom: `nvme_tcp: invalid interface passed: ns2eth1` then `failed to
+  add controller, error invalid interface`. Concrete repro: `nvme
+  discover -a 10.1.1.1 --tos=0x10 --host-iface=ns2eth1` from netns
+  `ns2`.
+- Failure mode: connect/discover abort with `-ENODEV`. Not a crash,
+  leak, or corruption.
+- Root cause: hardcoded boot netns instead of the calling task’s netns.
+- Version info: none in the message. The log line
+  `nqn.2014-08.org.nvmexpress.mptcpdev` is from an MPTCP NVMe selftest
+  that is not in this tree; the mechanism is not MPTCP-specific.
 
-**Step 1.4: DETECT HIDDEN BUG FIXES**
-
-Record: Not a disguised cleanup. It is an explicit security/correctness
-change: secret MAC comparison must be constant-time. The remaining
-`memcmp()` uses (string prefixes, GUIDs) are called out as non-sensitive
-and left alone.
+Step 1.4: DETECT HIDDEN BUG FIXES
+Record: Not a disguised cleanup. It is an explicit correctness fix:
+wrong netns for a name lookup. No hidden leak/race/UAF.
 
 ===============================================================
 PHASE 2: DIFF ANALYSIS - LINE BY LINE
 ===============================================================
 
-**Step 2.1: INVENTORY THE CHANGES**
-
+Step 2.1: INVENTORY THE CHANGES
 Record:
-- `drivers/nvme/host/auth.c`: +2 / −1 (`#include <crypto/utils.h>`;
-  `memcmp` → `crypto_memneq` in `nvme_auth_process_dhchap_success1`)
-- `drivers/nvme/target/fabrics-cmd-auth.c`: +2 / −1 (same include;
-  `memcmp` → `crypto_memneq` in `nvmet_auth_reply`)
-- **Scope:** two-file surgical fix, 4 insertions, 2 deletions. No API,
-  Kconfig, or data-structure changes.
+- File: `drivers/nvme/host/tcp.c` (+2/−1)
+- Function: `nvme_tcp_alloc_ctrl()`
+- Scope: single-file, one-line surgical change
 
-**Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
+Step 2.2: UNDERSTAND THE CODE FLOW CHANGE
+Record: In the `NVMF_OPT_HOST_IFACE` validation path, existence check
+was `__dev_get_by_name(&init_net, opts->host_iface)`. After:
+`__dev_get_by_name(current->nsproxy->net_ns, opts->host_iface)`. Normal
+connect path only; if the name is missing, still `-ENODEV` /
+`out_free_ctrl`.
 
+Step 2.3: IDENTIFY THE BUG MECHANISM
 Record:
-- **Host (`nvme_auth_process_dhchap_success1`):** after `data->hl ==
-  chap->hash_len` and `data->rvalid`, the host used to
-  `memcmp(chap->response, data->rval, data->hl)`. Now
-  `crypto_memneq(...)`. Failure still sets
-  `NVME_AUTH_DHCHAP_FAILURE_FAILED` and returns `-ECONNREFUSED`.
-- **Target (`nvmet_auth_reply`):** after computing the expected host
-  HMAC into `response`, the target used to `memcmp(data->rval, response,
-  data->hl)`. Now `crypto_memneq(...)`. Failure still frees `response`
-  and returns `NVME_AUTH_DHCHAP_FAILURE_FAILED`.
-- Affected path: authentication success/reply validation only, not
-  probe/init/error-unrelated code.
+- Category: logic/correctness (wrong network namespace)
+- Mechanism: interface names are per-netns. Lookup in `init_net` rejects
+  names that only exist in the caller’s netns (veths, container NICs).
+  The later `SO_BINDTODEVICE` already uses `sock_net(sk)`
+  (`net/core/sock.c` `sock_setbindtodevice()`), and `sock_create()`
+  already uses `current->nsproxy->net_ns`. Only this existence check was
+  wrong.
+- Not UAF/leak/race/crash. Pre-existing `__dev_get_by_name` without
+  RTNL/RCU is unchanged (comment in `net/core/dev.c` says RTNL is
+  required). Later MPTCP RFCs added RCU; mainline did not.
 
-**Step 2.3: IDENTIFY THE BUG MECHANISM**
-
-Record: **[Memory safety / crypto side channel]** Variable-time
-`memcmp()` on HMAC digests. `crypto_memneq()` (`include/crypto/utils.h`)
-is documented as “Compare two areas of memory without leaking timing
-information” and returns 0 if equal, 1 otherwise — same boolean sense as
-`if (memcmp(...))`.
-
-**Step 2.4: ASSESS THE FIX QUALITY**
-
-Record: Obviously correct and minimal. Length `data->hl` is already
-checked against `chap->hash_len` on the host path. Return-value polarity
-matches. Regression risk is very low: same control flow, slightly more
-work per compare (HMAC length is 32–64 bytes). No new locks, APIs, or
-userspace ABI.
+Step 2.4: ASSESS THE FIX QUALITY
+Record: Obviously correct and consistent with `sock_create()`. Minimal.
+`current->nsproxy` is valid here: `nvme_tcp_alloc_ctrl()` is only called
+from `nvme_tcp_create_ctrl()` → `nvmf_create_ctrl()` →
+`nvmf_dev_write()` (userspace write to `/dev/nvme-fabrics`), not from
+reconnect workqueues. Regression risk very low: a caller that relied on
+init_net names while running in another netns would still fail later at
+`SO_BINDTODEVICE`.
 
 ===============================================================
 PHASE 3: GIT HISTORY INVESTIGATION
 ===============================================================
 
-**Step 3.1: BLAME THE CHANGED LINES**
-
+Step 3.1: BLAME THE CHANGED LINES
 Record:
-- Host `memcmp`: introduced in `f50fff73d620cd` (“nvme: implement In-
-  Band authentication”, Hannes Reinecke, 2022). **In `v6.0`**, not in
-  `v5.19`.
-- Target `memcmp`: introduced in `db1312dd95488b` (“nvmet: implement
-  basic In-Band Authentication”). Same merge window, **v6.0**.
-- The buggy comparison has been in tree for many years.
+- Feature: `3ede8f72a9a28` (“nvme-tcp: allow selecting the network
+  interface for connections”), 2021-06-03, first in v5.14-rc1. Used
+  `dev_get_by_name(&init_net, ...)`.
+- Switch to `__dev_get_by_name`: `8b43ced64d2bac` (2021-07-13), Fixes:
+  3ede8f72, to avoid holding a netdev ref that blocked unregister. Still
+  `&init_net`.
+- Both are ancestors of this 6.12 tree. Bug present since the feature
+  landed.
 
-**Step 3.2: FOLLOW THE FIXES: TAG**
+Step 3.2: FOLLOW THE FIXES: TAG
+Record: No Fixes: tag. Buggy pattern comes from `3ede8f72a9a28` /
+`8b43ced64d2bac`, both in HEAD.
 
-Record: No `Fixes:` tag. The introducing commits above are the
-functional equivalent. Both are ancestors of this tree.
+Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES
+Record: Recent `tcp.c` history in this tree is TLS/PDU hardening, not
+host_iface. Origin after this commit has no further host_iface change on
+this file. Standalone v1, not “patch X/Y”.
 
-**Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
+Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS
+Record: Geliang Tang is an MPTCP contributor, not an NVMe maintainer. In
+this tree his nvme work is unrelated (`nvmet-tcp` leak, unused
+variable). On origin this is his only `tcp.c` host_iface change. Weight
+comes from Hannes’s Reviewed-by and Keith applying it.
 
-Record: Recent work on these files is auth bounds-checking, hashing
-updates, and secure-channel concatenation. This commit is standalone
-(subject is not `N/M`). No prerequisite refactor is required for the
-two-line swap plus include.
-
-**Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
-
-Record: Xixin Liu is a contributor, not the NVMe auth maintainer. Weight
-comes from **Reviewed-by Hannes Reinecke** (original auth author) and
-**Christoph Hellwig**, applied by **Keith Busch**.
-
-**Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
-
-Record: Depends only on `crypto_memneq()` / `<crypto/utils.h>`. In this
-tree, `include/crypto/utils.h` exists (`c616fb0cbae8`, 2023) and
-`CONFIG_CRYPTO` selects `CRYPTO_LIB_UTILS` (`lib/crypto/memneq.c`).
-`NVME_AUTH` already `select CRYPTO`. Standalone on this tree.
+Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS
+Record: No new helpers. `__dev_get_by_name` and
+`current->nsproxy->net_ns` exist here. Applies standalone (hunk
+succeeded at offset 32). `inet_pton_with_scope(&init_net, ...)` for
+addresses is left as-is; that is a separate scope issue, not a
+dependency.
 
 ===============================================================
 PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 ===============================================================
 
-**Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
-
+Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION
 Record:
-- `b4 dig -c 3a6d89836ab09` → https://patch.msgid.link/0001.nvme-auth-
-  memneq.1781751816.git.liuxixin@kylinos.cn
-- `b4 dig -a`: **v1 only** (no v2/v3). Applied as submitted.
-- Thread (mbox): Christoph: “Looks good” + Reviewed-by. Hannes:
-  Reviewed-by. No NAK, no stable discussion, no requested changes.
-- Keith (2026-09-15): applied earlier; pointed at `3a6d89836ab09`.
+- SHA: `58202950e39c127d593ec4f0624d8b8985a285b1` (not in this tree; on
+  origin)
+- b4 dig: https://patch.msgid.link/c14cd4633c27abe2dec863480168691023694
+  aee.1785033817.git.tanggeliang@kylinos.cn
+- Thread (gnuweeb mirror; lore.kernel.org returned 403/bot wall):
+  standalone `[PATCH]`, 2026-07-26
+- b4 dig -a: v1 only; applied version is that v1
+- Hannes Reinecke 2026-07-27: Reviewed-by. Note that discovery-log
+  addresses in a netns may not be reachable from the initiator; not a
+  NAK of this lookup fix.
+- Keith Busch 2026-08-10: “Thanks, applied to nvme-7.3.”
+- No NAK, no Cc: stable in the thread
+- Earlier MPTCP RFC series combined netns + RCU (`dev_get_by_name_rcu` /
+  `netdev_name_in_use`); the committed patch is the netns one-liner only
 
-**Step 4.2: CHECK WHO REVIEWED THE PATCH**
+Step 4.2: CHECK WHO REVIEWED THE PATCH
+Record: b4 dig -w recipients: Keith Busch, Jens Axboe, Christoph
+Hellwig, Sagi Grimberg, Hannes Reinecke, linux-nvme. Appropriate
+maintainers. Hannes reviewed; Keith applied.
 
-Record (`b4 dig -w`): To/Cc included `linux-nvme@lists.infradead.org`,
-Keith Busch, Jens Axboe, Christoph Hellwig, Sagi Grimberg, Chaitanya
-Kulkarni, Hannes Reinecke. Right maintainers were on the patch.
+Step 4.3: SEARCH FOR THE BUG REPORT
+Record: No syzbot/bugzilla. Evidence is the author’s selftest log
+(`ns2eth1` in ns2). That MPTCP NVMe selftest is not in this 6.12 tree.
+Bug is still real for any netns + `host-iface`.
 
-**Step 4.3: SEARCH FOR THE BUG REPORT**
+Step 4.4: CHECK FOR RELATED PATCHES AND SERIES
+Record: Applied as a standalone linux-nvme patch, not as part of the
+MPTCP NVMe series. No sibling patch required for this lookup.
 
-Record: No `Reported-by`, bugzilla, or syzbot. This is code-audit /
-crypto-hygiene, not a user crash report.
-
-**Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
-
-Record: Cover was `[PATCH v1 0/1]` / `[PATCH v1 1/1]` — single patch.
-Precedent in this tree: `ksmbd: Compare MACs in constant time`
-(`c5794709bc910`, had `Cc: stable`); `scsi: target: Use constant-time
-crypto_memneq() for CHAP digests` (`cf14fc2be8688`); TPM/SMB client
-similar replacements.
-
-**Step 4.5: CHECK STABLE MAILING LIST HISTORY**
-
-Record: **UNVERIFIED** on lore.kernel.org/stable (WebFetch 403,
-WebSearch failed). The original NVMe thread never mentions `stable@`.
+Step 4.5: CHECK STABLE MAILING LIST HISTORY
+Record: gnuweeb `/stable/` search 404; lore.kernel.org 403. No verified
+stable-list discussion. UNVERIFIED: whether anyone already nominated or
+rejected this for stable.
 
 ===============================================================
 PHASE 5: CODE SEMANTIC ANALYSIS
 ===============================================================
 
-**Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF**
+Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF
+Record: `nvme_tcp_alloc_ctrl()` only.
 
-Record: `nvme_auth_process_dhchap_success1`, `nvmet_auth_reply`.
-Includes only otherwise.
-
-**Step 5.2: TRACE CALLERS**
-
+Step 5.2: TRACE CALLERS
 Record:
-- `nvme_auth_process_dhchap_success1` ← `nvme_queue_auth_work` in
-  `drivers/nvme/host/auth.c` (DH-HMAC-CHAP Success1 after AUTH_RECEIVE).
-  Queued from connect / `dhchap_auth_work` / sysfs re-auth.
-- `nvmet_auth_reply` ← `nvmet_execute_auth_send` when the DH-HMAC-CHAP
-  step is Reply. `nvmet_execute_auth_send` is the fabrics AUTH_SEND
-  execute handler (`drivers/nvme/target/fabrics-cmd.c`).
+- `nvme_tcp_alloc_ctrl` ← `nvme_tcp_create_ctrl` (`.create_ctrl` of
+  `nvme_tcp_transport`)
+- ← `nvmf_create_ctrl()` in `drivers/nvme/host/fabrics.c`
+- ← `nvmf_dev_write()` (misc device write)
+- Userspace: nvme-cli `connect`/`discover` writing to `/dev/nvme-
+  fabrics`
+- Reconnect (`nvme_tcp_setup_ctrl` / `nvme_tcp_alloc_queue`) does not
+  call `alloc_ctrl`; it reuses `opts->host_iface` on `SO_BINDTODEVICE`
 
-**Step 5.3: TRACE CALLEES**
+Step 5.3: TRACE CALLEES
+Record: `__dev_get_by_name(net, name)` → `netdev_name_node_lookup()`.
+Existence check only; no ref taken (that was the point of
+`8b43ced64d2bac`).
 
-Record: Target computes expected HMAC via `nvmet_auth_host_hash()` (HMAC
-over challenge `dhchap_c1`, transformed host key, etc.), then compares.
-Host compares precomputed `chap->response` to controller `rval`. No
-allocation/locking change in the hunks.
+Step 5.4: FOLLOW THE CALL CHAIN
+Record: Reachable from userspace via `/dev/nvme-fabrics` when
+`host_iface=` is set. Privileged fabrics connect, not an unprivileged
+syscall smash. In this tree `nvme_tcp_alloc_queue()` uses
+`sock_create()` → `current->nsproxy->net_ns`, then `sock_setsockopt(...,
+SO_BINDTODEVICE, ...)` which looks up the name in `sock_net(sk)`.
+Validation was the only `init_net` step on that path.
 
-**Step 5.4: FOLLOW THE CALL CHAIN**
-
-Record: **Reachable from the network** on an NVMe-oF target with
-`CONFIG_NVME_TARGET_AUTH`. An unauthenticated remote host sending
-AUTH_SEND Reply hits `nvmet_auth_reply`. Host path is hit when
-connecting with in-band auth / bidirectional controller auth. Not a
-syscall smash; it is the authentication protocol itself.
-
-**Step 5.5: SEARCH FOR SIMILAR PATTERNS**
-
-Record: After this commit, no remaining `memcmp` of HMAC material in
-`drivers/nvme/host/auth.c` or `drivers/nvme/target/fabrics-cmd-auth.c`.
-Other NVMe `memcmp` uses are prefix/GUID/debugfs checks, which the
-commit correctly left alone.
+Step 5.5: SEARCH FOR SIMILAR PATTERNS
+Record: Only this `__dev_get_by_name` in `drivers/nvme/`. RDMA transport
+has no `NVMF_OPT_HOST_IFACE`. `inet_pton_with_scope(&init_net, ...)`
+remains for `traddr`/`host_traddr` (numeric parse; different issue).
 
 ===============================================================
 PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
 ===============================================================
 
-**Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
+Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?
+Record: Yes. `drivers/nvme/host/tcp.c:3000`:
+`if (!__dev_get_by_name(&init_net, opts->host_iface))`
+Tree: pending-6.12, `make kernelversion` 6.12.111, `git describe HEAD`
+p-6.12-3-gc504cf0baa3d8. Bug since v5.14. `git merge-base --is-ancestor
+58202950e39c1 HEAD` is false (fix not present).
 
-Record: Yes, in this lineage since v6.0. This checkout already contains
-the fix (`crypto_memneq` at `drivers/nvme/host/auth.c:365` and
-`drivers/nvme/target/fabrics-cmd-auth.c:189`). The pre-fix `memcmp` is
-in `3a6d89836ab09^`.
+Step 6.2: CHECK FOR BACKPORT COMPLICATIONS
+Record: `git apply --check` of origin diff: hunk succeeded at offset 32.
+Local context still `kcalloc` (mainline later `kzalloc_objs`); that is
+after the hunk, not in it. Expected: clean apply / trivial offset.
 
-**Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
-
-Record: **Clean apply on this tree** (already applied). Include is
-`<crypto/utils.h>`, which this 7.3 tree has. For much older stables the
-header was `crypto/algapi.h`; that is not a problem **here**.
-
-**Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
-
-Record: This *is* the fix in this tree. No earlier alternate memneq
-conversion on these files.
+Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE
+Record: No later host_iface netns fix. `1be52169` (sock_create_kern) and
+`b013b817` (netns UAF on kernel TCP socket) are not in this tree; this
+patch does not depend on them.
 
 ===============================================================
 PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 ===============================================================
 
-**Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
+Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY
+Record: NVMe over Fabrics TCP host (`drivers/nvme/host/tcp.c`,
+`CONFIG_NVME_TCP`). Criticality: IMPORTANT — datacenter remote block
+storage, not core mm/vfs, not staging.
 
-Record: NVMe over Fabrics in-band authentication
-(`drivers/nvme/host/auth.c`, `drivers/nvme/target/fabrics-cmd-auth.c`).
-**IMPORTANT** for NVMe-oF deployments that enable auth; not core mm/VFS.
-Configs: `NVME_HOST_AUTH` / `NVME_TARGET_AUTH` (help text “If unsure,
-say N”), both select `NVME_AUTH`.
-
-**Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
-
-Record: Actively maintained (recent OOB/auth bounds fixes on the same
-files). Auth itself has been stable in design since 2022.
+Step 7.2: ASSESS SUBSYSTEM ACTIVITY
+Record: Actively maintained (TLS, PDU validation, etc.). `host_iface`
+itself has been stable since 5.14 with only the 2021 refcount change
+until this 2026 netns fix.
 
 ===============================================================
 PHASE 8: IMPACT AND RISK ASSESSMENT
 ===============================================================
 
-**Step 8.1: DETERMINE WHO IS AFFECTED**
+Step 8.1: DETERMINE WHO IS AFFECTED
+Record: Users of NVMe-TCP who pass `host_iface=` from a non-init netns,
+when that name is not also in `init_net`. Driver-specific + config
+(`CONFIG_NVME_TCP`) + optional option. Typical host-net `eth0` cases
+often pass the init_net check by accident; unique names (`ns2eth1`,
+container veths) fail.
 
-Record: Config-specific (`NVME_HOST_AUTH` / `NVME_TARGET_AUTH`) and only
-during DH-HMAC-CHAP. Target comparison is the access-control check for
-remote hosts.
+Step 8.2: DETERMINE THE TRIGGER CONDITIONS
+Record: Write connect/discover options including `host_iface=<name>`
+from a process whose netns is not `init_net`. Not every boot; only this
+option. Needs fabrics connect privilege, not unprivileged
+exploitability.
 
-**Step 8.2: DETERMINE THE TRIGGER CONDITIONS**
+Step 8.3: DETERMINE THE FAILURE MODE SEVERITY
+Record: Controller creation fails (`-ENODEV`); no NVMe device. No oops,
+hang, or corruption. Severity: MEDIUM (availability of an existing
+option), HIGH for those who need interface pinning in a netns.
 
-Record: Every in-band auth exchange that validates an HMAC response.
-Target path: remote peer during AUTH_SEND Reply. Host path:
-bidirectional controller auth when `rvalid` is set. Unprivileged remote
-initiator can hit the target compare if the subsystem is enabled.
-
-**Step 8.3: DETERMINE THE FAILURE MODE SEVERITY**
-
-Record: **Timing side channel on authentication MACs.** Severity
-**HIGH** as a security defect (auth protocol using variable-time
-compare). Practical “byte-by-byte recover the static secret” is weaker
-than the commit text implies: `nvmet_auth_host_hash()` HMACs a per-
-session challenge (`dhchap_c1`), so the expected digest is not a stable
-value across attempts. Same caveat as the SCSI CHAP memneq patch. It is
-still the wrong primitive for MAC compare; ksmbd’s analogous change was
-`Cc: stable`.
-
-**Step 8.4: CALCULATE RISK-BENEFIT RATIO**
-
-Record: **Benefit: high** for NVMe-oF auth users (closes a real class of
-crypto bug on a remote-facing check). **Risk: very low** (4 insertions,
-same branches, standard helper). Ratio strongly favors applying it.
+Step 8.4: CALCULATE RISK-BENEFIT RATIO
+Record:
+- Benefit: medium for netns/container NVMe-TCP with `host-iface`; low
+  for default host-net users
+- Risk: very low (1-line, same helper, same error path)
+- Ratio: favorable — almost no regression surface, real connectivity bug
 
 ===============================================================
 PHASE 9: FINAL SYNTHESIS
 ===============================================================
 
-**Step 9.1: COMPILE THE EVIDENCE**
+Step 9.1: COMPILE THE EVIDENCE
 
-**FOR:**
-- Real crypto bug: `memcmp` on HMAC responses in DH-HMAC-CHAP
-- Remote-facing target auth path
-- 4-line, obviously correct replacement with the kernel’s constant-time
-  helper
-- Reviewed by Hannes Reinecke and Christoph Hellwig; applied by Keith
-  Busch
-- Bug present since v6.0; `crypto_memneq` already available here
-- Same pattern as other MAC compares that stable has taken (e.g. ksmbd)
-- No new feature/API; no locking/ABI change
+FOR:
+- Real, reproduced failure: `host-iface` rejected in non-init netns
+- Feature and buggy code exist in 6.12 since v5.14
+- Matches how sockets are created and bound in this tree
+- One-line, obviously correct; applies with offset only
+- Reviewed by Hannes Reinecke; applied by Keith Busch
+- No new API/feature; restores intended `host-iface` behavior
+- Storage connect failure is user-visible for affected deployments
+  (containers, netns isolation, multi-homed pinning)
 
-**AGAINST:**
-- Optional Kconfig (default N)
-- No CVE/syzbot/user report
-- Incremental digest recovery is harder than the message states because
-  HMAC input includes a unique challenge
-- No in-thread `Cc: stable`
+AGAINST:
+- Not a crash, UAF, corruption, deadlock, or security bug
+- Optional `host-iface` plus non-init netns is a relatively narrow path
+- Motivating selftest (MPTCP NVMe) is not in 6.12
+- Went into nvme-7.3 updates, not a -fixes pull; no stable nomination in
+  the thread
+- Hannes noted broader discovery/netns limitations (not a NAK)
 
-**UNRESOLVED:**
-- Whether stable@ ever discussed this (lore stable search failed)
-- Practical remote exploitability over NVMe-oF (network jitter)
+UNRESOLVED:
+- Stable mailing list discussion (lore blocked / gnuweeb stable 404)
+- Whether distro/k8s NVMe-TCP actually uses `host-iface` from a
+  container netns (plausible, not counted)
 
-**Step 9.2: APPLY THE STABLE RULES CHECKLIST**
+Step 9.2: APPLY THE STABLE RULES CHECKLIST
+1. Obviously correct and tested? PASS — one-line netns fix; maintainer
+   Reviewed-by; author reproduced
+2. Fixes a real bug that affects users? PASS — connect fails with
+   `-ENODEV` for a valid interface in the caller’s netns
+3. Important issue? PASS — availability of NVMe-TCP when `host-iface` is
+   used from a netns; not a panic, but a functional showstopper on that
+   path. Small correctness fixes of this kind are routine in stable
+4. Small and contained? PASS — +2/−1 in one function
+5. No new features or APIs? PASS
+6. Can apply to the local tree? PASS — buggy line present; apply-check
+   succeeded at offset 32
 
-1. Obviously correct and tested? **PASS** — polarity of `crypto_memneq`
-   matches `memcmp`; reviewed by auth author and NVMe core reviewers; in
-   mainline since 7.3-rc1.
-2. Fixes a real bug that affects users? **PASS** — wrong comparison
-   primitive on live HMAC auth; users with NVMe-oF in-band auth are
-   affected.
-3. Important issue (crash, security, corruption, deadlock)? **PASS** —
-   security (timing leak on authentication MAC), HIGH.
-4. Small and contained? **PASS** — 2 files, +4/−2.
-5. No new features or APIs? **PASS**
-6. Can apply to the local tree? **PASS** — already applied;
-   `<crypto/utils.h>` and `CRYPTO_LIB_UTILS` are present.
+Step 9.3: CHECK FOR EXCEPTION CATEGORIES
+Record: None (not a device ID, quirk, DT, build, or docs fix). Qualifies
+as a normal small bugfix.
 
-**Step 9.3: CHECK FOR EXCEPTION CATEGORIES**
+Step 9.4: MAKE YOUR DECISION
+The local 6.12 tree still looks `host_iface` up in `init_net` while
+creating the TCP socket in the caller’s netns. That is a long-standing,
+self-contained correctness bug. Backporting this line restores
+connect/discover with `--host-iface` from containers and other netns
+without new infrastructure. Risk is negligible compared with leaving
+NVMe-TCP interface pinning broken off host netns.
 
-Record: Not a device-ID/quirk/DT/build/docs exception. It is a small
-security fix, which is in-scope for stable on its own.
+===============================================================
+What the commit solves for this tree
+===============================================================
 
-**Step 9.4: MAKE YOUR DECISION**
+`host_iface` is supposed to force NVMe-TCP onto a named NIC via
+`SO_BINDTODEVICE`. Validation used `&init_net`, so a name that only
+exists in the calling netns is treated as invalid and controller setup
+aborts. In 6.12 the socket is already created with `sock_create()`
+(current netns) and bind-to-device already searches that netns. The
+check is the broken piece. Stable users who pin NVMe-TCP to a NIC from a
+netns/container hit a hard connect failure; this is the whole fix.
 
-This is a small, maintainer-reviewed security fix for NVMe-oF DH-HMAC-
-CHAP: the host Success1 path and the target Reply path compared HMAC
-digests with `memcmp()`. That can leak match length. `crypto_memneq()`
-is the established kernel helper; control flow is unchanged. The code
-has existed since v6.0, applies cleanly here, and does not need extra
-commits.
+Risk vs benefit: benefit is restoring an existing option in netns; risk
+is a one-line lookup change with the same `-ENODEV` path. No
+prerequisites. `inet_pton_with_scope(&init_net)` is untouched and not
+required for this fix.
 
-Even if full incremental recovery of a static digest is unlikely because
-each HMAC includes a fresh challenge, stable trees should not leave
-authentication MACs on a variable-time compare. Risk is negligible;
-benefit is closing a real crypto-hygiene hole on a network-facing auth
-check.
-
-### What problem it solves and why it matters
-DH-HMAC-CHAP is NVMe-oF in-band authentication. The target decides
-whether the host’s Reply HMAC is correct; the host (when bidirectional)
-decides whether the controller’s Success1 HMAC is correct. Using
-`memcmp()` can stop at the first mismatch and leak timing. Stable users
-who enable this optional auth still need that check to be constant-time.
-
-### Stable rules
-The patch is obviously correct, tiny, already reviewed, and does not add
-features. It fixes a security issue, not a style nit.
-
-### Risk vs benefit
-Very low regression risk versus a meaningful security improvement for
-NVMe-oF auth. Header/`CRYPTO_LIB_UTILS` dependencies are already
-satisfied in this 7.3 tree.
-
-### Concerns
-Exploitability is weaker than a static-secret `memcmp` leak; feature is
-optional. Neither outweighs applying a 4-line, standard crypto fix.
-
-Verification:
-- [Phase 1] Parsed commit `3a6d89836ab09`: no Fixes/Reported-
-  by/Cc:stable; Reviewed-by Hannes Reinecke and Christoph Hellwig; SOB
-  Keith Busch
-- [Phase 2] Diff: +`#include <crypto/utils.h>` and
-  `memcmp`→`crypto_memneq` in `nvme_auth_process_dhchap_success1` and
-  `nvmet_auth_reply` (+4/−2)
-- [Phase 2] `include/crypto/utils.h`: `crypto_memneq` returns 0 if
-  equal, 1 otherwise — matches `if (memcmp(...))`
-- [Phase 3] `git blame` on parent: host memcmp from `f50fff73d620cd`
-  (v6.0); target from `db1312dd95488b` (v6.0)
-- [Phase 3] `git merge-base --is-ancestor f50fff73d620cd v6.0` yes;
-  `v5.19` no
-- [Phase 3] No Fixes tag to follow
-- [Phase 3] Standalone 1/1 series; `NVME_AUTH` selects `CRYPTO`;
-  `CRYPTO` selects `CRYPTO_LIB_UTILS`
-- [Phase 4] `b4 dig -c 3a6d89836ab09`: lore msgid `0001.nvme-auth-
-  memneq.1781751816.git.liuxixin@kylinos.cn`
-- [Phase 4] `b4 dig -a`: v1 only
-- [Phase 4] `b4 dig -w`: linux-nvme plus
-  Busch/Axboe/Hellwig/Grimberg/Kulkarni/Reinecke
-- [Phase 4] mbox: Christoph “Looks good”; Hannes Reviewed-by; no NAK;
-  Keith: applied as `3a6d89836ab09`
-- [Phase 4] WebFetch lore 403; WebSearch failed; stable-list discussion
-  UNVERIFIED
-- [Phase 5] Callers: host auth workqueue; target
-  `nvmet_execute_auth_send` ← fabrics AUTH_SEND (remote)
-- [Phase 5] `nvmet_auth_host_hash` HMACs `dhchap_c1` (per-session
-  challenge) — verified in `drivers/nvme/target/auth.c`
-- [Phase 5] No leftover HMAC `memcmp` in the two auth files
-- [Phase 6] `git describe HEAD`: `v7.3-rc4-27-gf0100363d8c37`; `make
-  kernelversion`: 7.3.0-rc4
-- [Phase 6] `git merge-base --is-ancestor 3a6d89836ab09 HEAD` yes; not
-  in `v7.2`; yes in `v7.3-rc1`
-- [Phase 6] Local files already use `crypto_memneq` at the two call
-  sites
-- [Phase 8] Failure mode: timing leak on auth MAC compare; severity HIGH
-  (security); trigger: NVMe-oF in-band auth
-- UNVERIFIED: practical remote exploitability; whether stable@ already
-  discussed the patch
+===============================================================
+Verification
+===============================================================
+- [Phase 1] Parsed origin commit `58202950e39c1`: Reviewed-by Hannes
+  Reinecke; SOB Geliang Tang + Keith Busch; no Fixes/Cc-stable
+- [Phase 2] Diff: +2/−1 in `nvme_tcp_alloc_ctrl()`; `&init_net` →
+  `current->nsproxy->net_ns`
+- [Phase 2] Confirmed `sock_setbindtodevice()` uses `sock_net(sk)`;
+  `sock_create()` uses `current->nsproxy->net_ns` (`net/socket.c:1614`)
+- [Phase 3] blame: `3ede8f72a9a28` (v5.14-rc1) introduced init_net
+  lookup; `8b43ced64d2bac` switched to `__dev_get_by_name`, still
+  init_net; both ancestors of HEAD
+- [Phase 3] `git merge-base --is-ancestor 58202950e39c1 HEAD` → not an
+  ancestor (fix absent)
+- [Phase 4] `b4 dig -c 58202950e39c1`: lore msgid `c14cd4633c27abe2...`;
+  v1 only
+- [Phase 4] `b4 dig -w`: linux-nvme maintainers on To/Cc
+- [Phase 4] Hannes: Reviewed-by plus discovery/netns remark, no NAK;
+  Keith: applied to nvme-7.3
+- [Phase 4] lore.kernel.org 403; used lore-kernel.gnuweeb.org.
+  UNVERIFIED: stable@ thread
+- [Phase 5] Callers via grep: only `nvme_tcp_create_ctrl` →
+  `nvmf_dev_write`; reconnect does not call `alloc_ctrl`
+- [Phase 6] `git describe HEAD` p-6.12-3-gc504cf0baa3d8; `make
+  kernelversion` 6.12.111; buggy line at `tcp.c:3000`
+- [Phase 6] `git apply --check` of origin diff: succeeded at offset 32
+- [Phase 6] `1be52169` / `b013b817` not in this tree; not required
+- [Phase 8] Failure: `-ENODEV` / invalid interface; severity MEDIUM–HIGH
+  availability, not crash
+- UNVERIFIED: production hit rate of host-iface from container netns;
+  MPTCP selftest not in this tree
 
 **YES**
 
- drivers/nvme/host/auth.c               | 3 ++-
- drivers/nvme/target/fabrics-cmd-auth.c | 3 ++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ drivers/nvme/host/tcp.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
-index 8f3ccb317e4de..9d73713d6f828 100644
---- a/drivers/nvme/host/auth.c
-+++ b/drivers/nvme/host/auth.c
-@@ -9,6 +9,7 @@
- #include <linux/unaligned.h>
- #include <crypto/hash.h>
- #include <crypto/dh.h>
-+#include <crypto/utils.h>
- #include "nvme.h"
- #include "fabrics.h"
- #include <linux/nvme-auth.h>
-@@ -381,7 +382,7 @@ static int nvme_auth_process_dhchap_success1(struct nvme_ctrl *ctrl,
- 		return 0;
- 
- 	/* Validate controller response */
--	if (memcmp(chap->response, data->rval, data->hl)) {
-+	if (crypto_memneq(chap->response, data->rval, data->hl)) {
- 		dev_dbg(ctrl->device, "%s: qid %d ctrl response %*ph\n",
- 			__func__, chap->qid, (int)chap->hash_len, data->rval);
- 		dev_dbg(ctrl->device, "%s: qid %d host response %*ph\n",
-diff --git a/drivers/nvme/target/fabrics-cmd-auth.c b/drivers/nvme/target/fabrics-cmd-auth.c
-index 35bf1a2357d49..5b010318286e4 100644
---- a/drivers/nvme/target/fabrics-cmd-auth.c
-+++ b/drivers/nvme/target/fabrics-cmd-auth.c
-@@ -10,6 +10,7 @@
- #include <linux/nvme-auth.h>
- #include <crypto/hash.h>
- #include <crypto/kpp.h>
-+#include <crypto/utils.h>
- #include "nvmet.h"
- 
- static void nvmet_auth_expired_work(struct work_struct *work)
-@@ -187,7 +188,7 @@ static u8 nvmet_auth_reply(struct nvmet_req *req, void *d, u32 tl)
- 		return NVME_AUTH_DHCHAP_FAILURE_FAILED;
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index beef2b576102a..1f26e35d7a99e 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -2999,7 +2999,8 @@ static struct nvme_tcp_ctrl *nvme_tcp_alloc_ctrl(struct device *dev,
  	}
  
--	if (memcmp(data->rval, response, data->hl)) {
-+	if (crypto_memneq(data->rval, response, data->hl)) {
- 		pr_info("ctrl %d qid %d host response mismatch\n",
- 			ctrl->cntlid, req->sq->qid);
- 		pr_debug("ctrl %d qid %d rval %*ph\n",
+ 	if (opts->mask & NVMF_OPT_HOST_IFACE) {
+-		if (!__dev_get_by_name(&init_net, opts->host_iface)) {
++		if (!__dev_get_by_name(current->nsproxy->net_ns,
++				       opts->host_iface)) {
+ 			pr_err("invalid interface passed: %s\n",
+ 			       opts->host_iface);
+ 			ret = -ENODEV;
 -- 
 2.53.0
 
