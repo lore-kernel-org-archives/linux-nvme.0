@@ -4,58 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D424FCCF2E6
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 13:55:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 38903CCF2DE
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 13:55:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=K1yI4OaXXQqqhSpz4taIeYtRsTD8IJ6NxXgAgl7pho8=; b=Gx1JGveBCk9+aaTCHexHiZjR+K
-	8hdVQLzp8drK3Y7l7zk3/ZANoCLP7Tuj1udHCIsIHjhp0xEV888DRg1zLpY8hpaHuv6rRmgAJRHNH
-	Hx6prK/LoRcIL3qkh1u8SaIdCnmGBYoNUBE6LyUl9R0RppiqkUWuAJ5ie3btbMomSC3BYA0RQt8+a
-	2VdZe4OPI5WnQcXF8kPW+jpaxsQ9YxLJRM7GD1jwHibPJH/5hdAcCQVnsq/Ivb5FFJJ1N+UelYTsb
-	MFQr4BxEPpPTyQwRk6ke8nlT/uky0MfwTZhtuiZXSWHkH789mrset6eB2ptFzmIhRJ8X6L0fMjdP8
-	N7cbKxZg==;
+	bh=ypyiSk7m1tN2St+TQ9gw6JLtzzjoLOMXeA2Bwty7kUE=; b=uM4Smoq1tDzQNndexDRk2ESgzt
+	EORjz/6qqKZwRLarrytF82+HFkYM8SRcK8fcIx+T55I0/f/a9SwdUbix3aQeUiPu90u0XbAehEpDe
+	qmi90KSkAU+mwcQ0Y5AGfih3qSh1x6JLArabWtTygHPPIdlRpFnx2zNgoWMqjGmhu3yDiExUJlX/Q
+	pwzCyXXreeSjlK3N9sZRG7wYwkmLzUCdIvonKYxSFP9iM+uyFOlRwuJec4IE3oDwWnxy8IjYalQIr
+	FzrcchkWo+1cG6zkFjgZK15EMQ+0hP2Wn3RyVU40RiFckkxxpa9WRx653Kvq07sJHi0PmxHMk9WwH
+	dPSG2bwA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xInpX-00000007Zrn-0b1X;
-	Mon, 19 Oct 2026 13:55:11 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1xInq3-00000007a8W-2OGX;
+	Mon, 19 Oct 2026 13:55:43 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xInpT-00000007Zod-2LGO
+	id 1xInq1-00000007a7d-2nEU
 	for linux-nvme@lists.infradead.org;
-	Mon, 19 Oct 2026 13:55:07 +0000
+	Mon, 19 Oct 2026 13:55:42 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id EA2886021C;
-	Mon, 19 Oct 2026 13:55:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E1561F000CE;
-	Mon, 19 Oct 2026 13:55:05 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 4771A41218;
+	Mon, 19 Oct 2026 13:55:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17BDE1F000C7;
+	Mon, 19 Oct 2026 13:55:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418106;
-	bh=K1yI4OaXXQqqhSpz4taIeYtRsTD8IJ6NxXgAgl7pho8=;
+	s=k20260515; t=1792418141;
+	bh=ypyiSk7m1tN2St+TQ9gw6JLtzzjoLOMXeA2Bwty7kUE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=bXbp7X4wxaN4ubhmIBfePEnW8a9TF+FIkXAbsw+EJ3nxdy2OTI6NarjCFSy/bvH4g
-	 uMg9p7/bOHcYV20mG4Ep4P3ASgyE5M0iow0smnor6hZNfE/ZlXdOTjH8occ36p/fEO
-	 GGCV02QNByGiaS5iGymH35CfVfuWy2U2qmNIJDuFbVx15+8Nsjb8Jn+UhIqnm/2kbL
-	 vnO8nIE/V2SOXXk1LP7Ok8hYUgiuxgqexL//dYVVDZi/DMwZg6fkZRZ/7nXWbz3DMq
-	 RwTfU9vfxKhpPZbexGP9bvYBfL5UAPxPCqifktZSpj1Z2sVln8OVdHqZYKUMNlkYVM
-	 +z59esXNrF2KQ==
+	b=YqNpPYpj0Z7D95H69wGyZDNyXwZfQqb/XD9tABfjvSXDLL7TgpHRKY3thQn14XU2K
+	 a4vN8JK48uTYrkUGPU42H8ywffSTBa0500NBJ9WwyWJzEd354JsYnn5QOBT6c0JaM4
+	 iYH1vD0hAwHQF9Vd0qr/oHjyrGKwX+iZ6d7p+ofvXUaWNLhcIV3h1Q6WfykARwsBcZ
+	 H1kfksigDOhmD+M6mrAjY23U6rEZInTBs1QkJybFKa+5kog0gv/9ww5vrAX6UQx27l
+	 ftw30IGG0lyGQbhO80/Hm5JeciNVD8CccVXvu1TUPajvbUkCXylYdkjmUjk5LdEJdP
+	 kgGa3TIW0MNvw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Xixin Liu <liuxixin@kylinos.cn>,
+Cc: Hari Mishal <harimishal1@gmail.com>,
 	Christoph Hellwig <hch@lst.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Keith Busch <kbusch@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	axboe@kernel.dk,
 	sagi@grimberg.me,
 	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-5.10] nvme: zns: cap zone report nr_zones by DMA buffer size
-Date: Mon, 19 Oct 2026 09:45:07 -0400
-Message-ID: <20261019135441.1420968-16-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18] nvme: clamp FDP nruhsd to allocated RUH status descriptor count
+Date: Mon, 19 Oct 2026 09:45:32 -0400
+Message-ID: <20261019135441.1420968-41-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -79,451 +80,390 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Xixin Liu <liuxixin@kylinos.cn>
+From: Hari Mishal <harimishal1@gmail.com>
 
-[ Upstream commit 09c9062d4f62199a634a45e2bb9e6e8e572cc78c ]
+[ Upstream commit 29261f8bb41662f2a660c479e5cf592942b53f78 ]
 
-With Partial Report (PR=1), the Number of Zones (NZ) field in the report
-header must equal the number of zone descriptors fully transferred in the
-DMA buffer (ZNS Command Set Specification Rev 1.2, section 3.4.2).
+nvme_query_fdp_info() allocates the RUH status buffer for at most S8_MAX
+- 1 descriptors, and then copies ruhs->ruhsd[] into head->plids[] using
+the controller reported ruhs->nruhsd directly as the loop bound.
+However, that count wasn't taken into account for the actual buffer's
+size, so there was a chance for a controller reporting a larger nruhsd
+to cause the copy to overflow the buffer.  Clamp nr_plids to the same
+bound used for the allocation.
 
-nvme_ns_report_zones() does not cap the parse loop by max_in_buf derived
-from buflen.  Cap nz with min3() over the device-reported count, nr_zones -
-zone_idx, and max_in_buf.
-
-Signed-off-by: Xixin Liu <liuxixin@kylinos.cn>
+Assisted-by: gkh_clanker_t1000
 Reviewed-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Hari Mishal <harimishal1@gmail.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-The local tree is **7.3.0-rc4** (`v7.3-rc4-27-gf0100363d8c37`). The
-candidate is `09c9062d4f621` (“nvme: zns: cap zone report nr_zones by
-DMA buffer size”). The ZNS report path has been here since v5.9; this is
-a small host-side bounds cap against a device-controlled zone count.
+This is a one-line out-of-bounds-read clamp in NVMe FDP setup. The local
+tree is **v7.3-rc4** (`7.3.0-rc4`, HEAD `f0100363d8c37`).
+`nvme_query_fdp_info()` exists here; the overflow is real; the change is
+surgical.
 
-===============================================================
-PHASE 1: COMMIT MESSAGE FORENSICS
-===============================================================
+## PHASE 1: COMMIT MESSAGE FORENSICS
 
 **Step 1.1: PARSE THE SUBJECT LINE**
-Record: **[nvme: zns:] [cap] [limit zone-report parse count by DMA
-buffer size]**
-- Subsystem: NVMe host Zoned Namespace (ZNS) driver
-- Verb “cap” is a bounds/safety fix, not a feature
+Record: **[nvme]** **[clamp]** clamp FDP `nruhsd` to the allocated RUH
+status descriptor count. “Clamp” is a bounds-fix verb.
 
 **Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
 Record:
-- **Fixes:** none (expected for manual review)
-- **Reported-by:** none
-- **Tested-by:** none
-- **Reviewed-by:** Christoph Hellwig `<hch@lst.de>` (NVMe/block
-  maintainer)
-- **Acked-by:** none
-- **Link:** none
-- **Cc: stable:** none (expected; not a negative)
-- **Signed-off-by:** Xixin Liu `<liuxixin@kylinos.cn>` (author); Keith
-  Busch `<kbusch@kernel.org>` (NVMe maintainer)
-- Ignore any Sasha Levin SOB / “Upstream commit” markers — none present
-  on the real commit
+- **Reviewed-by:** Christoph Hellwig `<hch@lst.de>`
+- **Assisted-by:** gkh_clanker_t1000
+- **Signed-off-by:** Hari Mishal (author), Greg Kroah-Hartman
+  (submitter), Keith Busch (NVMe maintainer)
+- **No Fixes:** tag (expected)
+- **No Reported-by / Tested-by / Link / Cc: stable**
+- Ignore pipeline SOBs; Greg’s SOB is from the actual submission, not a
+  stable-prep marker
 
 **Step 1.3: ANALYZE THE COMMIT BODY TEXT**
 Record:
-- **Bug:** `nvme_ns_report_zones()` trusts `report->nr_zones` from the
-  device and caps only by the caller’s `nr_zones`, not by how many
-  `nvme_zone_descriptor`s fit in the allocated DMA/vmalloc buffer
-  (`buflen`).
-- **Spec:** With Partial Report (PR=1), NZ must equal descriptors fully
-  transferred (ZNS Command Set Spec Rev 1.2 §3.4.2).
-- **Symptom/failure mode:** parse loop `report->entries[i]` can walk
-  past `buflen` → kernel out-of-bounds read (crash / KASAN / info leak).
-  `sector += zsze * nz` can also advance by an inflated `nz`.
-- **Version info in message:** none
-- **Root cause:** missing cap derived from `buflen`
+- **Bug:** `nvme_query_fdp_info()` allocates a RUH-status buffer for at
+  most `S8_MAX - 1` descriptors, then copies `ruhs->ruhsd[]` using
+  controller-reported `ruhs->nruhsd` as the loop bound.
+- **Symptom:** a controller that reports `nruhsd` larger than the
+  allocated descriptor count overflows that buffer on the copy into
+  `head->plids[]`.
+- **Root cause:** allocation size and copy bound were not the same.
+- **Fix:** clamp `nr_plids` to the same bound used for allocation.
+- **Version info in message:** none.
 
 **Step 1.4: DETECT HIDDEN BUG FIXES**
-Record: **Not disguised.** Explicit bounds-cap of a device-provided
-count. Real memory-safety fix, not cleanup.
+Record: Not hidden. This is an explicit buffer-overflow / OOB-read fix.
 
-===============================================================
-PHASE 2: DIFF ANALYSIS - LINE BY LINE
-===============================================================
+## PHASE 2: DIFF ANALYSIS
 
 **Step 2.1: INVENTORY THE CHANGES**
 Record:
-- File: `drivers/nvme/host/zns.c` — **+6 / −2** (8 lines in the commit)
-- Function: `nvme_ns_report_zones()` only
-- Scope: **single-file surgical fix**
+- **File:** `drivers/nvme/host/core.c` — 1 insertion, 1 deletion
+- **Function:** `nvme_query_fdp_info()`
+- **Scope:** single-file, one-line surgical fix
 
 **Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
-Record:
-- **Before:** after `nvme_zns_alloc_report_buffer()` and
-  `nvme_submit_sync_cmd()`, `nz = min(le64_to_cpu(report->nr_zones),
-  nr_zones)` then `for (i = 0; i < nz && zone_idx < nr_zones; i++)`
-  reads `report->entries[i]`.
-- **After:** `max_in_buf = (buflen - sizeof(nvme_zone_report)) /
-  sizeof(nvme_zone_descriptor)`; `nz = min3(device NZ, nr_zones -
-  zone_idx, max_in_buf)`.
-- Path: normal ZNS zone-report (probe/revalidate, `BLKREPORTZONE` ioctl,
-  filesystems using `blkdev_report_zones()`).
+Record: Before: `head->nr_plids = le16_to_cpu(ruhs->nruhsd);` then
+`kcalloc(head->nr_plids, …)` and `for (i = 0; i < head->nr_plids; i++)
+head->plids[i] = le16_to_cpu(ruhs->ruhsd[i].pid);`. After: `nr_plids` is
+`min(reported, S8_MAX - 1)`, so the copy cannot walk past the allocated
+`ruhs` buffer. Path is namespace-head init when the controller
+advertises FDP.
 
 **Step 2.3: IDENTIFY THE BUG MECHANISM**
-Record: **[Memory safety / OOB] [device-controlled length not capped by
-allocation]**
-- `nvme_zone_report` is 64 bytes + flexible `entries[]`; each descriptor
-  is 64 bytes (verified in `include/linux/nvme.h`).
-- Buffer is often **smaller** than `nr_zones` descriptors:
-  `nvme_zns_alloc_report_buffer()` min()s against
-  `queue_max_hw_sectors`, `queue_max_segments << PAGE_SHIFT`, and halves
-  `bufsize` on vmalloc failure.
-- Callers pass `BLK_ALL_ZONES` (`(unsigned int)-1` / `UINT_MAX`) — e.g.
-  `disk->fops->report_zones(disk, 0, UINT_MAX, ...)` in `block/blk-
-  zoned.c` during zone revalidate. Then `min(device_nz, UINT_MAX) ==
-  device_nz`.
-- If firmware reports total zones (or a huge NZ) instead of the partial-
-  transfer count, the loop indexes past the allocation.
-- Secondary: `nr_zones - zone_idx` keeps `nz` as remaining requested
-  zones for `sector += zsze * nz`.
-- Same buffer-derived cap already exists in the NVMe **target**:
-  `get_nr_zones_from_buf()` in `drivers/nvme/target/zns.c`.
+Record: **(g) logic/correctness + (d) memory safety — out-of-bounds
+read.** `nruhsd` is a `__le16` from the device (0..65535). Allocation
+used `struct_size(ruhs, ruhsd, S8_MAX - 1)` (126 descriptors, 4048
+bytes). Verified layout in `include/linux/nvme.h`: 16-byte header +
+32-byte `nvme_fdp_ruh_status_desc`. If `nruhsd == 65535`, the loop reads
+~2MB past the buffer. `plids` is sized from `nr_plids`, so the overflow
+is an OOB **read** of `ruhs`, not a write into `plids`.
 
 **Step 2.4: ASSESS THE FIX QUALITY**
-Record:
-- **Obviously correct:** `min3` of device count, remaining request, and
-  descriptors that fit in `buflen`.
-- **Minimal:** two small hunks, no API/struct change.
-- **Regression risk: very low.** Only **lowers** `nz`. Compliant PR=1
-  devices already set NZ ≤ `max_in_buf`, so behavior is unchanged on
-  good hardware.
-- `min3()` exists in `include/linux/minmax.h` in this tree.
+Record: Obviously correct: clamp matches the allocation bound. Minimal.
+Regression risk is low: extra reported placement IDs are dropped instead
+of overflowing. Later mainline commit `53cdaeab2e30e` raised that cap to
+`U8_MAX` / `NVME_MAX_PLIDS`; that is a follow-up improvement, not a sign
+this clamp is wrong.
 
-===============================================================
-PHASE 3: GIT HISTORY INVESTIGATION
-===============================================================
+## PHASE 3: GIT HISTORY INVESTIGATION
 
 **Step 3.1: BLAME THE CHANGED LINES**
 Record:
-- Buggy pattern introduced in **`240e6ee272c07`** (“nvme: support for
-  zoned namespaces”, Keith Busch, 2020-06-29).
-- First contained in **`v5.9-rc1`**.
-- Present for many years; not a recent-only bug.
-- `nz = min(device NZ, nr_zones)` form after **`936fab503ff4a`** (“nvme:
-  fix error handling in nvme_ns_report_zones”), which still did not cap
-  by buffer size.
+- Allocation `struct_size(..., S8_MAX - 1)` introduced in
+  `30b5f20bb2dda` (“nvme: register fdp parameters with the block layer”,
+  Keith Busch, 2025-05-06).
+- Unclamped `nr_plids` assignment plus the `ruhsd[]` copy loop:
+  `38e8397dde633` (“nvme: use fdp streams if write stream is provided”).
+- Both first appear in **v6.16-rc1** (`git describe --contains --match
+  'v*'`).
 
 **Step 3.2: FOLLOW THE FIXES: TAG**
-Record: **No Fixes: tag.** Introduced by `240e6ee272c07` (v5.9). That
-commit **is** an ancestor of this tree (`git merge-base --is-ancestor
-240e6ee272c07 HEAD` succeeded). Candidate **`09c9062d4f621` is also
-already an ancestor of HEAD** (landed in **v7.3-rc1**). No later
-overlapping fix of the same `nz` cap.
+Record: No `Fixes:` tag. Introducing commits identified by blame, not by
+tag.
 
 **Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
 Record:
-- Related: `936fab503ff4a` (error handling), `8b4fb0f968ffe` (split
-  report_zones), `fdb9aed869f34` (`disk_report_zone()` args).
-- **Standalone:** this hunk does not need those refactors; it only
-  changes how `nz` is computed.
-- Sibling **`3456b52552896`** (v2 2/2) only adds zone index to an error
-  log — **not a prerequisite**.
+- `29261f8bb4166` — this clamp (candidate)
+- `53cdaeab2e30e` — raise cap to `U8_MAX` and introduce `NVME_MAX_PLIDS`
+  (depends on the clamp being present)
+- `56e1c6bbe4bb0` — race on the plids array (independent locking fix)
+- Series partner `3c568b35a0d30` — NS descriptor bounds (different
+  function, not a prerequisite)
+
+Standalone. Labeled `[PATCH 2/2]` but 1/2 is an independent bounds check
+in `nvme_identify_ns_descs()`.
 
 **Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
-Record:
-- Author Xixin Liu: several NVMe patches (`09c9062d4f621`,
-  `3456b52552896`, plus tcp/rdma/auth). Not the subsystem maintainer.
-- Applied by **Keith Busch**; reviewed by **Christoph Hellwig**. High
-  maintainer weight.
+Record: Hari Mishal also authored sibling overflow fixes (`nvme: bound
+ns descriptor header…`, `nvmet: passthru: fix OOB reads…`). Submitted
+via Greg; merged by NVMe maintainer Keith Busch. Christoph Hellwig
+reviewed.
 
 **Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
-Record: **No functional prerequisites.** Uses existing `min3`, `buflen`,
-`nvme_zone_report` / `nvme_zone_descriptor`. Can apply standalone on any
-tree with this parse loop (since v5.9).
+Record: None for the clamp itself. It only needs `nvme_query_fdp_info()`
+with `S8_MAX - 1` allocation and the copy loop — present since v6.16. No
+new helpers or APIs.
 
-===============================================================
-PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
-===============================================================
+## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 
 **Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
 Record:
-- `b4 dig -c 09c9062d4f621` → https://patch.msgid.link/8ed1b6a33454.v2.1
-  782280600.git.liuxixin@kylinos.cn
-- Full thread saved via `b4 dig -m /tmp/nvme-zns-thread.mbox`
-- **v1** (2026-06-24): combined bounds cap + log message change
-- **v2** (2026-06-25): split per review; **1/2 is this fix**, 2/2 is
-  logging
-- Christoph on v1: log change “unrelated, please split”; **“The rest
-  looks good as well.”**
-- Christoph on v2 1/2: **“Looks good: Reviewed-by: Christoph Hellwig”**
-- Keith Busch: **“Thanks, applied to nvme-7.3.”**
-- **No NAK, no stable objection, no risk flags.** No explicit Cc: stable
-  in the thread.
+- `b4 dig -c 29261f8bb4166` → https://patch.msgid.link/2026070932-fried-
+  frying-9c36@gregkh
+- **v1 only** (`b4 dig -a`): `[PATCH 1/2] nvme: bound ns descriptor…` +
+  `[PATCH 2/2]` this clamp
+- Full thread saved via `b4 dig -m`; lore HTTP fetch returned 403, so
+  discussion is from the mbox, not lore HTML
+- Christoph: “Looks good: Reviewed-by: Christoph Hellwig”
+- Keith Busch: “Thanks, series applied to nvme-7.3.”
+- No NAK, no stable discussion in-thread, no reviewer risk flags
 
 **Step 4.2: CHECK WHO REVIEWED THE PATCH**
-Record (`b4 dig -w`): To/Cc linux-nvme, Keith Busch, Jens Axboe,
-Christoph Hellwig, Sagi Grimberg, linux-kernel. Appropriate NVMe/block
-maintainers.
+Record (`b4 dig -w`): linux-nvme, linux-kernel, Keith Busch, Jens Axboe,
+Christoph Hellwig, Sagi Grimberg. Appropriate maintainers were on Cc.
+Christoph reviewed; Keith applied.
 
 **Step 4.3: SEARCH FOR THE BUG REPORT**
-Record: **No syzbot, bugzilla, or user crash report.** Spec-driven host-
-side hardening. Still a real OOB if NZ exceeds the buffer
-(buggy/malicious NVMe, including fabrics/USB).
+Record: No syzbot/bugzilla/`Reported-by`. Bug is from code review /
+static analysis (Greg/clanker-assisted). Still a concrete OOB from
+device-provided `nruhsd`.
 
 **Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
-Record: v2 is 2/2. **1/2 is self-contained.** 2/2 is optional logging,
-not required for the bounds fix.
+Record: 2/2 is independent of 1/2. Follow-up `53cdaeab2e30e` changes the
+numeric cap but does not replace the need to clamp. Race fix
+`56e1c6bbe4bb0` is separate.
 
 **Step 4.5: CHECK STABLE MAILING LIST HISTORY**
-Record: Web search of lore.kernel.org/stable for this subject found **no
-relevant discussion** (unrelated historical hits only). Not previously
-rejected for stable.
+Record: lore.kernel.org/stable search returned 403. **UNVERIFIED**
+whether stable@ already discussed this. No evidence in the nvme thread
+of a stable NAK.
 
-===============================================================
-PHASE 5: CODE SEMANTIC ANALYSIS
-===============================================================
+## PHASE 5: CODE SEMANTIC ANALYSIS
 
-**Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF**
-Record: **`nvme_ns_report_zones()`** (uses
-`nvme_zns_alloc_report_buffer()`, `nvme_zone_parse_entry()`,
-`nvme_submit_sync_cmd()`).
+**Step 5.1: IDENTIFY KEY FUNCTIONS**
+Record: `nvme_query_fdp_info()` only.
 
 **Step 5.2: TRACE CALLERS**
-Record:
-- `nvme_report_zones()` in `drivers/nvme/host/core.c` — `gendisk`
-  `.report_zones` (`nvme_bdev_ops`)
-- `nvme_ns_head_report_zones()` in `drivers/nvme/host/multipath.c` —
-  multipath head ops
-Both under `CONFIG_BLK_DEV_ZONED` (`zns.o` is `nvme-
-core-$(CONFIG_BLK_DEV_ZONED)`).
-Upper layer: `blkdev_do_report_zones()` → ioctl,
-`blkdev_report_zones()`, and **revalidate with `UINT_MAX`** (`block/blk-
-zoned.c` ~2354). Filesystems: zonefs, f2fs, btrfs, xfs zoned.
+Record: Only caller is `nvme_alloc_ns_head()` in
+`drivers/nvme/host/core.c`:
+
+```4043:4047:drivers/nvme/host/core.c
+        if (ctrl->ctratt & NVME_CTRL_ATTR_FDPS) {
+                ret = nvme_query_fdp_info(ns, info);
+                if (ret < 0)
+                        goto out_cleanup_srcu;
+        }
+```
+
+Triggered during namespace-head creation when Identify Controller
+`ctratt` has `NVME_CTRL_ATTR_FDPS`. That is probe/scan, not a hot I/O
+path, but it runs for every FDP-capable namespace.
 
 **Step 5.3: TRACE CALLEES**
-Record: alloc buffer (vmalloc, queue limits), Zone Management Receive
-with `NVME_REPORT_ZONE_PARTIAL`, parse entries, `disk_report_zone()`,
-`kvfree`.
+Record: `nvme_get_features()`, `nvme_query_fdp_granularity()`,
+`kzalloc`/`kcalloc`, `nvme_submit_sync_cmd()` (device fills `ruhs`),
+then the copy loop.
 
 **Step 5.4: FOLLOW THE CALL CHAIN**
-Record: Userspace `BLKREPORTZONE` / zoned FS mount / disk revalidate →
-`disk->fops->report_zones` → `nvme_ns_report_zones`. **Reachable from
-userspace and from device probe.** Unprivileged trigger depends on
-device node permissions; probe path is admin/boot. Malicious NVMe-over-
-Fabrics still in scope for some deployments.
+Record: Device probe / namespace scan → `nvme_init_ns_head` →
+`nvme_alloc_ns_head` → `nvme_query_fdp_info`. Reachable from attaching
+an NVMe device, including NVMe over Fabrics. A malicious or buggy target
+can set FDPS and return a huge `nruhsd`. Not a direct unprivileged
+syscall, but device/Fabrics-controlled and kernel-reachable.
 
 **Step 5.5: SEARCH FOR SIMILAR PATTERNS**
-Record: NVMe target already caps with `get_nr_zones_from_buf()`. SCSI
-`sd_zbc.c` uses report-length/`nr_zones` differently. Host ZNS was the
-missing cap.
+Record: Same author series also bounded NS identify descriptors. Follow-
+up kept the clamp and only raised the cap. No second unclamped `nruhsd`
+copy found.
 
-===============================================================
-PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
-===============================================================
+## PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
 
 **Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
-Record:
-- Tree: **Linux 7.3.0-rc4** (`git describe HEAD` =
-  `v7.3-rc4-27-gf0100363d8c37`).
-- File and function exist; current `zns.c` **already contains this cap**
-  (commit is in HEAD).
-- Bug introduced **v5.9** (`240e6ee272c07`); not after this branch
-  point.
-- This checkout is **mainline 7.3-rc**, not an older LTS cut, but the
-  **same `nvme_ns_report_zones` loop** is what older stables still have
-  without the cap.
+Record: **Yes, in this lineage.** This checkout is **v7.3-rc4** (`make
+kernelversion` → `7.3.0-rc4`). FDP query exists. Bug introduced
+**v6.16-rc1**, before 7.3. Candidate `29261f8bb4166` is already an
+ancestor of HEAD (`git merge-base --is-ancestor` succeeded; first
+contained in **v7.3-rc1**). Current HEAD already clamps:
+
+```2371:2371:drivers/nvme/host/core.c
+        head->nr_plids = min(le16_to_cpu(ruhs->nruhsd), NVME_MAX_PLIDS);
+```
+
+That is this fix plus `53cdaeab2e30e` (`NVME_MAX_PLIDS` = `U8_MAX`). The
+unclamped assignment is gone at HEAD because the fix landed in 7.3-rc1;
+the overflow pattern is still the code this tree maintains.
 
 **Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
-Record: **Clean apply** on this tree (already applied). Context around
-`nz = min(...)` is stable since the 2020 error-handling fix. No
-conflicting later rewrite of that assignment. Expected **clean or
-trivial** cherry-pick onto trees that still have
-`nvme_ns_report_zones()`.
+Record: Against **current HEAD**, the original hunk would not apply
+(`S8_MAX - 1` vs `NVME_MAX_PLIDS`). Against the pre-fix function (parent
+of `29261f8bb4166` in this history), it is a one-line change on
+`head->nr_plids = le16_to_cpu(ruhs->nruhsd)` with matching `S8_MAX - 1`
+allocation. **Expected backport difficulty: clean apply** on trees that
+still have that allocation; this 7.3 checkout already has the later
+form.
 
 **Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
-Record: This is the fix. No alternate `max_in_buf` cap. Sibling logging
-commit is independent.
+Record: This clamp and the `NVME_MAX_PLIDS` follow-up are both in HEAD.
+That is this tree already containing the upstream fix, not a different
+substitute.
 
-===============================================================
-PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
-===============================================================
+## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 
 **Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
-Record: **`drivers/nvme/host/` ZNS** — **IMPORTANT** (storage; not core
-mm/VFS, but NVMe zoned devices used by zonefs/f2fs/btrfs/xfs). Config-
-gated by `CONFIG_BLK_DEV_ZONED`.
+Record: **NVMe host core** (`drivers/nvme/host/`). **IMPORTANT** —
+common storage stack, not staging. Overflow is in host core during
+namespace setup.
 
 **Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
-Record: NVMe host is actively maintained; `zns.c` itself is **mature**
-(ZNS since 2020). Long-lived bug, not churn from a new subsystem.
+Record: Active (recent FDP, multipath, scan, SRCU fixes). FDP streams
+themselves date to v6.16; this is not brand-new experimental code in
+7.3.
 
-===============================================================
-PHASE 8: IMPACT AND RISK ASSESSMENT
-===============================================================
+## PHASE 8: IMPACT AND RISK ASSESSMENT
 
 **Step 8.1: DETERMINE WHO IS AFFECTED**
-Record: **Driver/config-specific:** NVMe ZNS namespaces
-(`CONFIG_BLK_DEV_ZONED`). Not all NVMe users; all ZNS users on
-report/revalidate/ioctl/FS mount.
+Record: **Driver-specific / config-specific:** NVMe controllers with FDP
+(`NVME_CTRL_ATTR_FDPS` + `FDPCFG_FDPE`). Includes local NVMe and Fabrics
+targets that advertise FDP.
 
 **Step 8.2: DETERMINE THE TRIGGER CONDITIONS**
-Record:
-- Common path: zone report / revalidate (`UINT_MAX` zones).
-- Harmless on spec-compliant PR=1 devices (NZ already ≤ buffer).
-- Harmful if firmware reports NZ larger than transferred descriptors
-  (ignore PR, report total count, or malicious controller).
-- Not a timing race. Device-controlled integer.
+Record: Namespace scan/probe on an FDP-enabled controller that returns
+`nruhsd >` allocated descriptor count. Not every boot. A buggy SSD can
+hit it; an untrusted NVMe/TCP target can hit it on purpose. Unprivileged
+local users cannot trigger it without a device.
 
 **Step 8.3: DETERMINE THE FAILURE MODE SEVERITY**
-Record: **Out-of-bounds kernel read** of `report->entries[i]` past
-`buflen` → oops/KASAN, possible infoleak. **Severity: HIGH** (memory
-safety from device-provided length). Inflated `nz` can also skip zones
-in `sector +=` if the loop continues; the OOB is the primary issue.
+Record: **Kernel out-of-bounds read** of `ruhs->ruhsd[]` → KASAN/oops or
+infoleak of adjacent heap. **Severity: HIGH.**
 
 **Step 8.4: CALCULATE RISK-BENEFIT RATIO**
-Record:
-- **Benefit:** HIGH for ZNS — prevents OOB on buggy/malicious
-  controllers; correct remaining-count; matches target-side logic.
-- **Risk:** VERY LOW — 6 insertions, only tightens a min(); no
-  lock/API/hot-path change.
-- **Ratio:** strongly favors backport.
+Record: **Benefit: high** (stops device-triggered OOB). **Risk: very
+low** (one `min()`, same bound as allocation). **Ratio: strongly
+favorable.**
 
-===============================================================
-PHASE 9: FINAL SYNTHESIS
-===============================================================
+## PHASE 9: FINAL SYNTHESIS
 
 **Step 9.1: COMPILE THE EVIDENCE**
 
-FOR:
-- Real OOB: parse count from device NZ not limited by DMA/vmalloc buffer
-- Buffer is routinely smaller than requested `nr_zones` (queue limits,
-  vmalloc backoff)
-- Revalidate uses `UINT_MAX`, so `min(NZ, nr_zones)` does not cap
-- Small (+6/−2), obviously correct `min3`
+**FOR:**
+- Real OOB read from device-controlled `nruhsd` vs a 126-descriptor
+  buffer
+- One-line, obviously correct clamp
 - Reviewed by Christoph Hellwig; applied by Keith Busch
-- Same cap already in NVMe target
-- Bug in tree since v5.9; no extra deps
 - No new API/feature
+- Self-contained; series 1/2 is not required
+- FDP path exists in this tree; bug dates to v6.16
 
-AGAINST:
-- No public crash/syzbot report (spec-compliant devices already set NZ)
-- ZNS is a subset of NVMe users
-- No Fixes:/Cc: stable (ignored per rules)
+**AGAINST:**
+- No public user/syzbot report (code-analysis find)
+- Only FDP-capable devices
+- HEAD already has this clamp (and a later cap raise), so this exact
+  hunk is not what HEAD’s source line looks like
+- Lore stable@ search could not be fetched (403)
 
-UNRESOLVED:
-- Could not fetch lore.kernel.org HTML (403); thread recovered via `b4
-  dig -m`
-- No stable-list discussion found
+**UNRESOLVED:**
+- Whether stable@ already queued it (lore/stable HTTP 403)
+- No runtime reproducer in the message (mechanism is still verified in
+  code)
 
 **Step 9.2: APPLY THE STABLE RULES CHECKLIST**
-1. Obviously correct and tested? **PASS** — maintainer Reviewed-by;
-   applied to nvme-7.3
-2. Fixes a real bug that affects users? **PASS** — OOB if NZ exceeds
-   buffer; reachable zone-report path
-3. Important issue? **PASS** — HIGH memory-safety (OOB read), not
-   cosmetic
-4. Small and contained? **PASS** — 8 lines, one function
+1. Obviously correct and tested? **PASS** — clamp equals allocation
+   bound; reviewed and merged to nvme-7.3
+2. Fixes a real bug that affects users? **PASS** — OOB read on FDP
+   namespace setup
+3. Important issue (crash/security/corruption/deadlock)? **PASS** —
+   HIGH, kernel OOB from device data
+4. Small and contained? **PASS** — 1 line, one function
 5. No new features or APIs? **PASS**
-6. Can apply to the local tree? **PASS** — code present; patch already
-   applies here
+6. Can apply to the local tree? **PASS** for this codebase’s pre-fix
+   form (`S8_MAX - 1` allocation + unclamped `nruhsd`). HEAD already has
+   the evolved clamp; that does not make the fix inapplicable to this
+   lineage.
 
 **Step 9.3: CHECK FOR EXCEPTION CATEGORIES**
-Record: **Not** a device-ID/quirk/DT/build/docs exception. Ordinary
-**memory-safety bug fix**.
+Record: None (not a device-ID/quirk/DT/build/docs exception). It is a
+normal memory-safety fix.
 
 **Step 9.4: MAKE YOUR DECISION**
-This should be backported: it is a small, maintainer-acked cap that
-stops the ZNS host from walking off the report buffer when the device’s
-NZ is larger than what `buflen` can hold. On this 7.3-rc4 tree the ZNS
-report path exists and the same bug has been in `nvme_ns_report_zones()`
-since v5.9.
+This tree’s NVMe host core has the FDP RUH-status query, and using the
+controller’s `nruhsd` as the copy bound without capping it to the
+allocated descriptor count is a real overflow. The fix is the smallest
+correct change. This 7.3 checkout already contains that logic (then
+raised the cap to `U8_MAX`); that is the upstream landing, not a reason
+to treat the overflow as unworthy of stable. Benefit vs risk is strongly
+in favor of backporting.
 
-What it solves for stable users: kernel OOB on NVMe ZNS zone reports
-(ioctl, FS mount, disk revalidate), especially with `BLK_ALL_ZONES` and
-firmware that does not honor Partial Report.
+### What the commit solves, and why it matters
+A Flexible Data Placement controller returns how many Reclaim Unit
+Handle status descriptors it has (`nruhsd`). The driver only allocated
+room for 126, then indexed `ruhs->ruhsd[i]` up to the raw reported
+count. That is a kernel heap OOB read during namespace setup, including
+from a remote NVMe/TCP target.
 
-Risk vs benefit: benefit is memory safety on a real I/O path; risk is a
-tighter min that is a no-op on compliant devices.
+### Stable rules
+Small, obviously correct, no new API, real memory-safety bug.
 
-Concerns: none material. Sibling logging patch is not required. No
-missing prerequisites on this tree.
+### Risk vs benefit
+One `min()` vs device-triggered OOB: take the fix.
+
+### Concerns
+Patch 2/2 does not need patch 1/2. Trees that already switched
+allocation to `NVME_MAX_PLIDS` should keep clamp and allocation in sync
+(already true here via `53cdaeab2e30e`). Trees still on `S8_MAX - 1`
+should get this commit as-is.
 
 Verification:
-- [Phase 1] Parsed subject/tags: Reviewed-by Christoph Hellwig; SOB
-  Keith Busch; no Fixes/Reported-by/Cc:stable
-- [Phase 1] Body: PR=1 / NZ vs DMA buffer; missing `max_in_buf` cap
-- [Phase 2] Diff: `drivers/nvme/host/zns.c` +6/−2 in
-  `nvme_ns_report_zones()`; `min3(device NZ, nr_zones - zone_idx,
-  max_in_buf)`
-- [Phase 2] Struct sizes: `nvme_zone_report` 64B, descriptor 64B
-  (`include/linux/nvme.h`)
-- [Phase 2] Alloc can shrink buffer: `nvme_zns_alloc_report_buffer()`
-  hw_sectors/segments/vmalloc halving
-- [Phase 3] `git blame`: loop from `240e6ee272c07` (v5.9-rc1)
-- [Phase 3] `git describe --contains 240e6ee272c07` → v5.9-rc1;
-  `09c9062d4f621` → v7.3-rc1
-- [Phase 3] `git merge-base --is-ancestor` both SHAs vs HEAD: success
-- [Phase 3] No Fixes: tag; sibling `3456b52552896` is logging-only
-- [Phase 4] `b4 dig -c`: msgid
-  `8ed1b6a33454.v2.1782280600.git.liuxixin@kylinos.cn`
-- [Phase 4] `b4 dig -a`: v1 then v2 (split log change)
-- [Phase 4] `b4 dig -w`: linux-nvme, kbusch, axboe, hch, sagi
-- [Phase 4] mbox: Christoph “Looks good” + R-b; Keith “applied to
-  nvme-7.3”; no NAK
-- [Phase 4] lore HTTP 403; used b4 mbox instead
-- [Phase 4] stable list search: no relevant thread
-- [Phase 5] Callers: `core.c` `nvme_report_zones`, `multipath.c`
-  `nvme_ns_head_report_zones`; `blk-zoned.c` `UINT_MAX` revalidate
-- [Phase 5] `BLK_ALL_ZONES` = `(unsigned int)-1` in
-  `include/linux/blkdev.h`
-- [Phase 5] Target already has `get_nr_zones_from_buf()`
-- [Phase 6] `git describe HEAD`: v7.3-rc4-27-g…; `make kernelversion`:
-  7.3.0-rc4
-- [Phase 6] Current `zns.c` already has `max_in_buf` / `min3`
-- [Phase 8] Failure: OOB read of `report->entries[]`; severity HIGH
-- UNVERIFIED: live crash on specific firmware (no public repro); does
-  not override code-level OOB
-
-The patch is small, correct, and fixes a real device-controlled bounds
-bug in NVMe ZNS zone reporting.
+- [Phase 1] Parsed tags: Reviewed-by Christoph Hellwig; SOBs Hari
+  Mishal, Greg KH, Keith Busch; no Fixes/Reported-by/Cc stable
+- [Phase 2] Diff: 1 line in `nvme_query_fdp_info()`;
+  `le16_to_cpu(ruhs->nruhsd)` → `min(..., S8_MAX - 1)`
+- [Phase 2] Struct sizes verified in `include/linux/nvme.h`: 16-byte
+  header + 32-byte descriptors; 126 descriptors → 4048-byte buffer;
+  `nruhsd` up to 65535
+- [Phase 3] Blame: allocation `30b5f20bb2dda`, copy loop
+  `38e8397dde633`; both `git describe --contains --match 'v*'` →
+  v6.16-rc1
+- [Phase 3] `git merge-base --is-ancestor 29261f8bb4166 HEAD` → commit
+  is in this tree; `describe --contains` → v7.3-rc1
+- [Phase 3] Parent of candidate still has `size = struct_size(ruhs,
+  ruhsd, S8_MAX - 1)` and unclamped `nr_plids`
+- [Phase 4] `b4 dig -c` → msgid 2026070932-fried-frying-9c36@gregkh;
+  `-a` v1 only; `-w` nvme maintainers; `-m` full thread
+- [Phase 4] mbox: Christoph R-b; Keith “applied to nvme-7.3”; no NAK
+- [Phase 4] lore.kernel.org and patch.msgid.link HTTP 403; LKML mirrors
+  agree with mbox
+- [Phase 5] grep callers: only `nvme_alloc_ns_head()` when
+  `NVME_CTRL_ATTR_FDPS`
+- [Phase 6] `git describe HEAD` / `make kernelversion`: v7.3-rc4 /
+  7.3.0-rc4; current clamp is `min(..., NVME_MAX_PLIDS)` from
+  `53cdaeab2e30e`
+- [Phase 8] Failure mode: OOB read of `ruhs->ruhsd[]`, severity HIGH
+- UNVERIFIED: stable@ mailing-list history (HTTP 403); no runtime
+  reproducer in the commit message
 
 **YES**
 
- drivers/nvme/host/zns.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/zns.c b/drivers/nvme/host/zns.c
-index cce4c5b55aa9c..f067185920451 100644
---- a/drivers/nvme/host/zns.c
-+++ b/drivers/nvme/host/zns.c
-@@ -178,7 +178,7 @@ int nvme_ns_report_zones(struct nvme_ns *ns, sector_t sector,
- 	struct nvme_zone_report *report;
- 	struct nvme_command c = { };
- 	int ret, zone_idx = 0;
--	unsigned int nz, i;
-+	unsigned int max_in_buf, nz, i;
- 	size_t buflen;
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 5ed62e070f715..ad725e346c94e 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2313,7 +2313,7 @@ static int nvme_query_fdp_info(struct nvme_ns *ns, struct nvme_ns_info *info)
+ 		goto free;
+ 	}
  
- 	if (ns->head->ids.csi != NVME_CSI_ZNS)
-@@ -188,6 +188,9 @@ int nvme_ns_report_zones(struct nvme_ns *ns, sector_t sector,
- 	if (!report)
- 		return -ENOMEM;
- 
-+	max_in_buf = (buflen - sizeof(struct nvme_zone_report)) /
-+		sizeof(struct nvme_zone_descriptor);
-+
- 	c.zmr.opcode = nvme_cmd_zone_mgmt_recv;
- 	c.zmr.nsid = cpu_to_le32(ns->head->ns_id);
- 	c.zmr.numd = cpu_to_le32(nvme_bytes_to_numd(buflen));
-@@ -207,7 +210,8 @@ int nvme_ns_report_zones(struct nvme_ns *ns, sector_t sector,
- 			goto out_free;
- 		}
- 
--		nz = min((unsigned int)le64_to_cpu(report->nr_zones), nr_zones);
-+		nz = min3((unsigned int)le64_to_cpu(report->nr_zones),
-+			  nr_zones - zone_idx, max_in_buf);
- 		if (!nz)
- 			break;
+-	head->nr_plids = le16_to_cpu(ruhs->nruhsd);
++	head->nr_plids = min(le16_to_cpu(ruhs->nruhsd), S8_MAX - 1);
+ 	if (!head->nr_plids)
+ 		goto free;
  
 -- 
 2.53.0
