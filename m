@@ -4,38 +4,38 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1EB43CCF2DE
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 03:36:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2AC1BCCF2E4
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 03:36:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9FYK1D9hAWXYaLafWV0p9wbAKSpE+RrReSAffAQBv3s=; b=IKoaTz+j3xFiSCZQHBbALpOxVb
-	Q4FPujZV1M1a8OduxOWIvTs9IXSfm8N/14jXa3dmlIMis8ONBtASTdJcvyRh/yp69o5kcwwcc6K07
-	8ztdPSIXuE9Z4Lsxf7AnwXkl/UIdbBsN5KDaDKjjgJPVkn4uKgp81CqcUIqP19DsJby6lQPR3DcN3
-	gk++3sdBilXCrBjdTPUjf8u+U7FdRoDGOZESYqPQsPZ8Cw9qEA7y5t0jurfAadkpGND6Yu0Uc7J4i
-	CKjVGET7x/vp/vm/hP36SKF+XYnJbSLdYkFBrBjQ1bNggUm5s9PuqQX+GMCF/srvepQjuzjr+F8Zx
-	wXNRK4Rg==;
+	bh=Nx09b3aplpXwRCI+pjPIFZ6yvnMtfaKSUeWLrmcmfO4=; b=CWT/aWG5J+j5wDdyyRmyJhlVYR
+	QLkV+zs4eglgMn35fVqwZDehWxTF+g3GNE+yZcVGFB3e3VBwDliRnP7ux9H1TaqggZny1joeW7Z8k
+	oV8eo7lZ4pDdJ7GcciohboMv7L2hYhUoHxJOr8z2ezocZOGmCZMk/t6s19hEI6mwKWlc9FZXJ/jF7
+	xqMePiU+UlObXz65wtZJh6ocZPjlYx690jbOInLYbai43JdDD2vvJAyg5LPo8+mfNL/iVp4U4uy0y
+	kvZgrv/sSaUjIs7Y1FzPGcYkDe90OuFvMmIq5fpCmDEBZusPolns4ehZ6yR7+HzF1W1Hp7uGUt5OT
+	0Q7uzJeg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xIeB3-00000006Xiq-295e;
-	Mon, 19 Oct 2026 03:36:45 +0000
-Received: from out30-98.freemail.mail.aliyun.com ([115.124.30.98])
+	id 1xIeB6-00000006XnV-2qDu;
+	Mon, 19 Oct 2026 03:36:48 +0000
+Received: from out30-110.freemail.mail.aliyun.com ([115.124.30.110])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xIeAu-00000006Xcd-2euu
+	id 1xIeB0-00000006Xfr-19yR
 	for linux-nvme@lists.infradead.org;
-	Mon, 19 Oct 2026 03:36:39 +0000
+	Mon, 19 Oct 2026 03:36:44 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1792380991; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=9FYK1D9hAWXYaLafWV0p9wbAKSpE+RrReSAffAQBv3s=;
-	b=jAchgJwgnVSyr/2fFrvtJI8bHASMDCEdw5Al++OzhArZimlmKjOP67MRtFlikKkRhLeoq9FqR2RM4orjBiPclt2mQ7rgK3qy5WNDsKUTAWhWkzwnoSQfEWGr9wkSzTbt+XXVfQVG4gAKk3R9pYUJ+IyIPnsCm/ozFWdSicN/x1s=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R101e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XD-ZCLl_1792380990;
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XD-ZCLl_1792380990 cluster:ay36)
+	t=1792381000; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=Nx09b3aplpXwRCI+pjPIFZ6yvnMtfaKSUeWLrmcmfO4=;
+	b=lU3WsijhFRkESO/oap51B8UZt3Ueiy7XoFtGxy6EAWTkG4UaDK3GwM8TsTd/85JsmNu9b+PYFfTS/HoJVVnaEu9V7mqczi0x6qhIKJ/4esgauBjUBdy+B3J+rLXnEmVetFhxJPJGDuPWpNlSgzUdfUkKA0EDdg/P/CGZHgBx+lM=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XD-YSEV_1792380999;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XD-YSEV_1792380999 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Mon, 19 Oct 2026 11:36:30 +0800
+          Mon, 19 Oct 2026 11:36:40 +0800
 From: Guixin Liu <kanie@linux.alibaba.com>
 To: Keith Busch <kbusch@kernel.org>,
 	Jens Axboe <axboe@kernel.dk>,
@@ -45,17 +45,17 @@ To: Keith Busch <kbusch@kernel.org>,
 	Daniel Wagner <dwagner@suse.de>,
 	Hannes Reinecke <hare@suse.de>
 Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH 01/11] nvme: add the FDP wire structures for the I/O management send command
-Date: Mon, 19 Oct 2026 11:36:14 +0800
-Message-ID: <20261019033624.402337-2-kanie@linux.alibaba.com>
+Subject: [PATCH 11/11] nvmet: add an FDP write translation tracepoint
+Date: Mon, 19 Oct 2026 11:36:24 +0800
+Message-ID: <20261019033624.402337-12-kanie@linux.alibaba.com>
 X-Mailer: git-send-email 2.43.7
 In-Reply-To: <20261019033624.402337-1-kanie@linux.alibaba.com>
 References: <20261019033624.402337-1-kanie@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261018_203636_842884_4BCD06BA 
-X-CRM114-Status: GOOD (  11.18  )
+X-CRM114-CacheID: sfid-20261018_203642_545844_CB92D954 
+X-CRM114-Status: GOOD (  10.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,91 +70,74 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add the command definition of the I/O Management Send command (opcode
-0x1D) to the command opcode enum and the command union, together with
-its management operation, and the log page identifiers of the FDP
-pages that the target serves, so that initiators and targets share
-the same wire format.
-
-No in-kernel initiator uses the command yet; the NVMe target FDP
-support that consumes these structures follows in this series.
+Add a tracepoint to the write path that reports the placement
+identifier carried by a write command with the Data Placement
+Directive and the backing write stream it is translated to.
 
 Assisted-by: LLM
 Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
 ---
- include/linux/nvme.h | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ drivers/nvme/target/io-cmd-bdev.c |  4 ++++
+ drivers/nvme/target/trace.h       | 23 +++++++++++++++++++++++
+ 2 files changed, 27 insertions(+)
 
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 91ce434a7e8d9..9141fd386012b 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -967,6 +967,7 @@ enum nvme_opcode {
- 	nvme_cmd_resv_acquire	= 0x11,
- 	nvme_cmd_io_mgmt_recv	= 0x12,
- 	nvme_cmd_resv_release	= 0x15,
-+	nvme_cmd_io_mgmt_send	= 0x1d,
- 	nvme_cmd_zone_mgmt_send	= 0x79,
- 	nvme_cmd_zone_mgmt_recv	= 0x7a,
- 	nvme_cmd_zone_append	= 0x7d,
-@@ -989,6 +990,7 @@ enum nvme_opcode {
- 		nvme_opcode_name(nvme_cmd_resv_acquire),	\
- 		nvme_opcode_name(nvme_cmd_io_mgmt_recv),	\
- 		nvme_opcode_name(nvme_cmd_resv_release),	\
-+		nvme_opcode_name(nvme_cmd_io_mgmt_send),	\
- 		nvme_opcode_name(nvme_cmd_zone_mgmt_send),	\
- 		nvme_opcode_name(nvme_cmd_zone_mgmt_recv),	\
- 		nvme_opcode_name(nvme_cmd_zone_append))
-@@ -1245,6 +1247,23 @@ enum {
- 	NVME_IO_MGMT_RECV_MO_RUHS	= 1,
- };
+diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+index ff480f9ab9906..139be9edad969 100644
+--- a/drivers/nvme/target/io-cmd-bdev.c
++++ b/drivers/nvme/target/io-cmd-bdev.c
+@@ -9,6 +9,7 @@
+ #include <linux/memremap.h>
+ #include <linux/module.h>
+ #include "nvmet.h"
++#include "trace.h"
  
-+enum {
-+	NVME_IO_MGMT_SEND_MO_RUH_UPDATE	= 1,
-+};
+ void nvmet_bdev_set_limits(struct block_device *bdev, struct nvme_id_ns *id)
+ {
+@@ -302,7 +303,10 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
+ 	bio->bi_end_io = nvmet_bio_done;
+ 	if (req->cmd->rw.opcode == nvme_cmd_write &&
+ 	    nvmet_fdp_enabled(req->ns)) {
++		u16 pid = le32_to_cpu(req->cmd->rw.dsmgmt) >> 16;
 +
-+struct nvme_io_mgmt_send_cmd {
-+	__u8			opcode;
-+	__u8			flags;
-+	__le16			command_id;
-+	__le32			nsid;
-+	__le64			rsvd2[2];
-+	union nvme_data_ptr	dptr;
-+	__u8			mo;
-+	__u8			rsvd10;
-+	__le16			mos;
-+	__le32			rsvd11[5];
-+};
+ 		bio->bi_write_stream = nvmet_fdp_write_stream(req);
++		trace_nvmet_fdp_write_translate(req, pid, bio->bi_write_stream);
+ 	}
+ 
+ 	blk_start_plug(&plug);
+diff --git a/drivers/nvme/target/trace.h b/drivers/nvme/target/trace.h
+index 7f7ebf9558e50..0ab7252960790 100644
+--- a/drivers/nvme/target/trace.h
++++ b/drivers/nvme/target/trace.h
+@@ -131,6 +131,29 @@ TRACE_EVENT(nvmet_req_complete,
+ 
+ );
+ 
++TRACE_EVENT(nvmet_fdp_write_translate,
++	TP_PROTO(struct nvmet_req *req, u16 pid, u8 stream),
++	TP_ARGS(req, pid, stream),
++	TP_STRUCT__entry(
++		__field(u16, ctrl_id)
++		__array(char, disk, DISK_NAME_LEN)
++		__field(u32, nsid)
++		__field(u16, pid)
++		__field(u8, stream)
++	),
++	TP_fast_assign(
++		__entry->ctrl_id = nvmet_req_to_ctrl_id(req);
++		__assign_req_name(__entry->disk, req);
++		__entry->nsid = req->ns->nsid;
++		__entry->pid = pid;
++		__entry->stream = stream;
++	),
++	TP_printk("nvmet%s: %snsid=%u, pid=%u, write_stream=%u",
++		__print_ctrl_id(__entry->ctrl_id),
++		__print_disk_name(__entry->disk),
++		__entry->nsid, __entry->pid, __entry->stream)
++);
 +
- struct nvme_fdp_ruh_status_desc {
- 	__le16			pid;
- 	__le16			ruhid;
-@@ -1416,6 +1435,9 @@ enum {
- 	NVME_LOG_FEATURES	= 0x12,
- 	NVME_LOG_RMI		= 0x16,
- 	NVME_LOG_FDP_CONFIGS	= 0x20,
-+	NVME_LOG_FDP_RUH_USAGE	= 0x21,
-+	NVME_LOG_FDP_STATS	= 0x22,
-+	NVME_LOG_FDP_EVENTS	= 0x23,
- 	NVME_LOG_DISC		= 0x70,
- 	NVME_LOG_RESERVATION	= 0x80,
- 	NVME_FWACT_REPL		= (0 << 3),
-@@ -1437,6 +1459,7 @@ struct nvme_supported_features_log {
+ #define aer_name(aer) { aer, #aer }
  
- enum {
- 	NVME_FIS_FSUPP	= 1 << 0,
-+	NVME_FIS_EGSCPE	= 1 << 23,
- 	NVME_FIS_NSCPE	= 1 << 20,
- 	NVME_FIS_CSCPE	= 1 << 21,
- };
-@@ -2016,6 +2039,7 @@ struct nvme_command {
- 		struct nvme_dbbuf dbbuf;
- 		struct nvme_directive_cmd directive;
- 		struct nvme_io_mgmt_recv_cmd imr;
-+		struct nvme_io_mgmt_send_cmd ims;
- 	};
- };
- 
+ TRACE_EVENT(nvmet_async_event,
 -- 
 2.43.7
 
