@@ -4,90 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 26CB7CCF2E3
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 13:40:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D424FCCF2E6
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 13:55:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=cCjmpspcPpS38WYBBQYovAwzUdEJHovl54RGs3q/tTo=; b=VmzC+cM2p/TZPCoPPtptzVJ0c/
-	qG0v3HGLIMSfFkVbDKzQsFBiHXneu//RrMHKeTlaDm5h1yTBgnN0ZY+naZDueuLx1fF1fBMq4xNrP
-	RAFxscVV2Kfp7Q9nR8x59b+oZNAo4gHXHbkPzz46/WyQDUGUwvg1qVaqJSrinA50VKK4kl16Vvorb
-	1D1gf+zONWucomFRhlvT2DyazE+f70kmYL5RlBNIR7PHd0p/SfQgV61S6EYXAb7CKRCv/RbSqGk/x
-	mrDB/c7VGhTu4UCmx/rqGv9wmipnnASmgkRM1YKv8BuCxcYpoJNGgVqy+YWUk2oRY69bFnOSC5Ebx
-	gWPgqUCw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=K1yI4OaXXQqqhSpz4taIeYtRsTD8IJ6NxXgAgl7pho8=; b=Gx1JGveBCk9+aaTCHexHiZjR+K
+	8hdVQLzp8drK3Y7l7zk3/ZANoCLP7Tuj1udHCIsIHjhp0xEV888DRg1zLpY8hpaHuv6rRmgAJRHNH
+	Hx6prK/LoRcIL3qkh1u8SaIdCnmGBYoNUBE6LyUl9R0RppiqkUWuAJ5ie3btbMomSC3BYA0RQt8+a
+	2VdZe4OPI5WnQcXF8kPW+jpaxsQ9YxLJRM7GD1jwHibPJH/5hdAcCQVnsq/Ivb5FFJJ1N+UelYTsb
+	MFQr4BxEPpPTyQwRk6ke8nlT/uky0MfwTZhtuiZXSWHkH789mrset6eB2ptFzmIhRJ8X6L0fMjdP8
+	N7cbKxZg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xInbg-00000007XMN-1Qgl;
-	Mon, 19 Oct 2026 13:40:52 +0000
-Received: from mail-dl1-x122f.google.com ([2607:f8b0:4864:20::122f])
+	id 1xInpX-00000007Zrn-0b1X;
+	Mon, 19 Oct 2026 13:55:11 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xInbb-00000007XKT-3kBK
+	id 1xInpT-00000007Zod-2LGO
 	for linux-nvme@lists.infradead.org;
-	Mon, 19 Oct 2026 13:40:50 +0000
-Received: by mail-dl1-x122f.google.com with SMTP id a92af1059eb24-157fe9d771bso706213c88.0
-        for <linux-nvme@lists.infradead.org>; Mon, 19 Oct 2026 06:40:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792417247; x=1793022047; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=cCjmpspcPpS38WYBBQYovAwzUdEJHovl54RGs3q/tTo=;
-        b=RCehLN0lQIr6m9mKJNNKNWHxcOxwbf2R8oDF51MbJnyb1XdxZY+ChhZKX+Vj50oCEg
-         0e6CToI3wwhnIEfF6u3lDTcZAhOXWYp/0JIcndlZGZS7VlcWhMiuetIT6yfE5yS4hwDj
-         lu6AD1WWA3SqOPg5YUsJhwNmH6jv0UPdb/aRrSpg1H6sdYtn8wW8BuEY+A8LjAI21YK2
-         W1ynJAEtczl7r64c2LcgZfckHbXT3jsbVogcrYKFi7/yDkmTEZihH+5EiST27AF6+bA5
-         oRpGl7w6GHg9pEKTQgFkS/hhIP4ZnyBBPAAAMJIBMKIZtrq3KF4auyAIVPp1rYAKabto
-         rzNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792417247; x=1793022047;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=cCjmpspcPpS38WYBBQYovAwzUdEJHovl54RGs3q/tTo=;
-        b=TaVWBcgXv1mxWuwBOrWRIiTCBBULs7ty+wOsrKr+Ko5easJxzBd91EWzJ0Q+Vs555y
-         6t1v5twPk3hkJW1/tFxn7nNWoBzVvkGkJx0A+Ix1/xpdfLfTB9gAYFUSqtU7xpCTuvYA
-         3nxT6hM5e0/vU0M6AtNNPqdrS5o/qQKBZn+yS8o+WcqWJjQvQoORjRVDfGCwv5aEZjeu
-         70DXiDN/B/9HS3UL6CciVamRicu+HTnqjLxIlClk/5FNvxh9+w+EDKNqPr++st39uhq2
-         4SS0v8QT3LNTiFDk7JDF2E03ljZPQtQxglGQlNJGPISH0FG2yhuQRisU2qlfwh44Z0kq
-         /PQA==
-X-Forwarded-Encrypted: i=1; AKwUvBw0Dhk4sD2nkT91APHJD5ZFWlyvEgJLDjImXCZcLc6ymapFyX1v8bhyS805DLqkKPOJraIR1SrJ3050@lists.infradead.org
-X-Gm-Message-State: AFq9FYKLDdgYLfpY+B84bCQ9dwVDYbMabxSpBTzRvcLjt2yJfaT3pOC7
-	684eCvDocJ0znJ2jYdD2hTF4wcsM+xxhp6swjcjT1Ted9j/gdeXaF00=
-X-Gm-Gg: AYBFou0GK3IInCe6xUQ6vt6D61vQ9tPNkaTuiANlWPgLcvT0hR/YdBEQ3zRWEtOBe3k
-	LiP2IMXj2gojlQmlwvenv2wDTSbUEXQpsx7+AKUqIMGi6Suj88ym0YMmVoq3XhhGnoMCRvwPhSA
-	3BEazyIzDMuw0rjOiKpZ/AkEdBK485jdu1X+mhhrx8AVtdHczwB3vt7pdkwjDHjIeWfrZsjIDsV
-	ak43HlzNJle44AnuXhElCcN3RUa3vlRlnGrx99luJ7XmhduR6KlbPsg8tS/FMvmq5UjVwUgdjL7
-	+bJXEFDAHnXmLaXXAoJ/8xxVK9Pt6J+Djd3aEuW0yvcN6gbKrPWmUC6CuMSVveQby/19c6GaEBz
-	t/6z21TNROORZ/CbUeY8ipdwOZi2w3FPs24Dd2jy6agixATDbiPsWe6qt0Hb5E1PRaJPEStxZ6U
-	pHFnRpSChuUAvFrf/eZK+XrCOV1LGanBvohuB9v9jgU3umzdoDX7RD/a576N8dbdBZOkMgZqhYM
-	+GploVyDhYYQdAZeKw/QjrfRFZdNz3qgWdlybQof3KpwfqC
-X-Received: by 2002:a05:7022:170d:b0:143:3617:c595 with SMTP id a92af1059eb24-1850c223bb9mr10480854c88.1.1792417231454;
-        Mon, 19 Oct 2026 06:40:31 -0700 (PDT)
-Received: from anuj-MacBookPro ([2406:7400:63:e55a:9f78:eb3b:17e1:f1b6])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1831ba424a6sm29078300c88.17.2026.10.19.06.40.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 06:40:30 -0700 (PDT)
-Date: Mon, 19 Oct 2026 19:10:22 +0530
-From: Anuj Gupta <anuj1072538@gmail.com>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, axboe@kernel.dk, 
-	joshi.k@samsung.com, linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, 
-	io-uring@vger.kernel.org, Anuj Gupta <anuj20.g@samsung.com>
-Subject: Re: [PATCH] nvme/io_uring: enable dma-buf backed passthrough I/O
-Message-ID: <vx4ugjq6wol6elipmwkuhtpk3qnanpwou6g73dxrjona3nepd4@pvetkgijfsx5>
-References: <20261016103453.1129150-1-anuj1072538@gmail.com>
- <79627452-98d3-4e8d-9c37-ceda0796d59c@gmail.com>
+	Mon, 19 Oct 2026 13:55:07 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id EA2886021C;
+	Mon, 19 Oct 2026 13:55:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E1561F000CE;
+	Mon, 19 Oct 2026 13:55:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792418106;
+	bh=K1yI4OaXXQqqhSpz4taIeYtRsTD8IJ6NxXgAgl7pho8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=bXbp7X4wxaN4ubhmIBfePEnW8a9TF+FIkXAbsw+EJ3nxdy2OTI6NarjCFSy/bvH4g
+	 uMg9p7/bOHcYV20mG4Ep4P3ASgyE5M0iow0smnor6hZNfE/ZlXdOTjH8occ36p/fEO
+	 GGCV02QNByGiaS5iGymH35CfVfuWy2U2qmNIJDuFbVx15+8Nsjb8Jn+UhIqnm/2kbL
+	 vnO8nIE/V2SOXXk1LP7Ok8hYUgiuxgqexL//dYVVDZi/DMwZg6fkZRZ/7nXWbz3DMq
+	 RwTfU9vfxKhpPZbexGP9bvYBfL5UAPxPCqifktZSpj1Z2sVln8OVdHqZYKUMNlkYVM
+	 +z59esXNrF2KQ==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Xixin Liu <liuxixin@kylinos.cn>,
+	Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	axboe@kernel.dk,
+	sagi@grimberg.me,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.18-5.10] nvme: zns: cap zone report nr_zones by DMA buffer size
+Date: Mon, 19 Oct 2026 09:45:07 -0400
+Message-ID: <20261019135441.1420968-16-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
+References: <20261019135441.1420968-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <79627452-98d3-4e8d-9c37-ceda0796d59c@gmail.com>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261019_064047_933113_A13CF465 
-X-CRM114-Status: GOOD (  20.34  )
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.18.57
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,114 +79,453 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Oct 18, 2026 at 11:06:16PM +0100, Pavel Begunkov wrote:
-> On 10/16/26 11:34, Anuj Gupta wrote:
-> > From: Anuj Gupta <anuj20.g@samsung.com>
-> > diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-> > index 3aa5d2f2dfbb..6343da1f6c05 100644
-> > --- a/drivers/nvme/host/ioctl.c
-> > +++ b/drivers/nvme/host/ioctl.c
-> > @@ -458,6 +458,7 @@ static enum rq_end_io_ret nvme_uring_cmd_end_io(struct request *req,
-> >   			status = blk_status_to_errno(err);
-> >   	}
-> >   	io_uring_cmd_set_res32(ioucmd, status, result);
-> > +	io_uring_cmd_detach_dmabuf(ioucmd);
-> 
-> It's not great spilling the responsibility for [de,a]ttaching
-> between nvme and uring_cmd code. Is there a way to stash it
-> all under io_uring?
+From: Xixin Liu <liuxixin@kylinos.cn>
 
-The natural place would be __io_uring_cmd_done(), but that runs from
-task_work, while the ref has to be dropped at hardware completion, like
-io_complete_rw() does.
+[ Upstream commit 09c9062d4f62199a634a45e2bb9e6e8e572cc78c ]
 
-Hooking io_uring_cmd_do_in_task_lazy() would avoid changing the NVMe
-call site, but would add a non-obvious side effect to a generic
-task_work helper. How about a separate helper that drivers call from
-end_io instead? This keeps the dma-buf handling in io_uring while NVMe
-only reports that it has finished accessing the data.
+With Partial Report (PR=1), the Number of Zones (NZ) field in the report
+header must equal the number of zone descriptors fully transferred in the
+DMA buffer (ZNS Command Set Specification Rev 1.2, section 3.4.2).
 
-Something like this on top of this patch:
+nvme_ns_report_zones() does not cap the parse loop by max_in_buf derived
+from buflen.  Cap nz with min3() over the device-reported count, nr_zones -
+zone_idx, and max_in_buf.
 
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index 6343da1f6c05..6a7d1cc7b716 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -458,7 +458,6 @@ static enum rq_end_io_ret nvme_uring_cmd_end_io(struct request *req,
- 			status = blk_status_to_errno(err);
- 	}
- 	io_uring_cmd_set_res32(ioucmd, status, result);
--	io_uring_cmd_detach_dmabuf(ioucmd);
+Signed-off-by: Xixin Liu <liuxixin@kylinos.cn>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+
+LLM Generated explanations, may be completely bogus:
+
+The local tree is **7.3.0-rc4** (`v7.3-rc4-27-gf0100363d8c37`). The
+candidate is `09c9062d4f621` (“nvme: zns: cap zone report nr_zones by
+DMA buffer size”). The ZNS report path has been here since v5.9; this is
+a small host-side bounds cap against a device-controlled zone count.
+
+===============================================================
+PHASE 1: COMMIT MESSAGE FORENSICS
+===============================================================
+
+**Step 1.1: PARSE THE SUBJECT LINE**
+Record: **[nvme: zns:] [cap] [limit zone-report parse count by DMA
+buffer size]**
+- Subsystem: NVMe host Zoned Namespace (ZNS) driver
+- Verb “cap” is a bounds/safety fix, not a feature
+
+**Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
+Record:
+- **Fixes:** none (expected for manual review)
+- **Reported-by:** none
+- **Tested-by:** none
+- **Reviewed-by:** Christoph Hellwig `<hch@lst.de>` (NVMe/block
+  maintainer)
+- **Acked-by:** none
+- **Link:** none
+- **Cc: stable:** none (expected; not a negative)
+- **Signed-off-by:** Xixin Liu `<liuxixin@kylinos.cn>` (author); Keith
+  Busch `<kbusch@kernel.org>` (NVMe maintainer)
+- Ignore any Sasha Levin SOB / “Upstream commit” markers — none present
+  on the real commit
+
+**Step 1.3: ANALYZE THE COMMIT BODY TEXT**
+Record:
+- **Bug:** `nvme_ns_report_zones()` trusts `report->nr_zones` from the
+  device and caps only by the caller’s `nr_zones`, not by how many
+  `nvme_zone_descriptor`s fit in the allocated DMA/vmalloc buffer
+  (`buflen`).
+- **Spec:** With Partial Report (PR=1), NZ must equal descriptors fully
+  transferred (ZNS Command Set Spec Rev 1.2 §3.4.2).
+- **Symptom/failure mode:** parse loop `report->entries[i]` can walk
+  past `buflen` → kernel out-of-bounds read (crash / KASAN / info leak).
+  `sector += zsze * nz` can also advance by an inflated `nz`.
+- **Version info in message:** none
+- **Root cause:** missing cap derived from `buflen`
+
+**Step 1.4: DETECT HIDDEN BUG FIXES**
+Record: **Not disguised.** Explicit bounds-cap of a device-provided
+count. Real memory-safety fix, not cleanup.
+
+===============================================================
+PHASE 2: DIFF ANALYSIS - LINE BY LINE
+===============================================================
+
+**Step 2.1: INVENTORY THE CHANGES**
+Record:
+- File: `drivers/nvme/host/zns.c` — **+6 / −2** (8 lines in the commit)
+- Function: `nvme_ns_report_zones()` only
+- Scope: **single-file surgical fix**
+
+**Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
+Record:
+- **Before:** after `nvme_zns_alloc_report_buffer()` and
+  `nvme_submit_sync_cmd()`, `nz = min(le64_to_cpu(report->nr_zones),
+  nr_zones)` then `for (i = 0; i < nz && zone_idx < nr_zones; i++)`
+  reads `report->entries[i]`.
+- **After:** `max_in_buf = (buflen - sizeof(nvme_zone_report)) /
+  sizeof(nvme_zone_descriptor)`; `nz = min3(device NZ, nr_zones -
+  zone_idx, max_in_buf)`.
+- Path: normal ZNS zone-report (probe/revalidate, `BLKREPORTZONE` ioctl,
+  filesystems using `blkdev_report_zones()`).
+
+**Step 2.3: IDENTIFY THE BUG MECHANISM**
+Record: **[Memory safety / OOB] [device-controlled length not capped by
+allocation]**
+- `nvme_zone_report` is 64 bytes + flexible `entries[]`; each descriptor
+  is 64 bytes (verified in `include/linux/nvme.h`).
+- Buffer is often **smaller** than `nr_zones` descriptors:
+  `nvme_zns_alloc_report_buffer()` min()s against
+  `queue_max_hw_sectors`, `queue_max_segments << PAGE_SHIFT`, and halves
+  `bufsize` on vmalloc failure.
+- Callers pass `BLK_ALL_ZONES` (`(unsigned int)-1` / `UINT_MAX`) — e.g.
+  `disk->fops->report_zones(disk, 0, UINT_MAX, ...)` in `block/blk-
+  zoned.c` during zone revalidate. Then `min(device_nz, UINT_MAX) ==
+  device_nz`.
+- If firmware reports total zones (or a huge NZ) instead of the partial-
+  transfer count, the loop indexes past the allocation.
+- Secondary: `nr_zones - zone_idx` keeps `nz` as remaining requested
+  zones for `sector += zsze * nz`.
+- Same buffer-derived cap already exists in the NVMe **target**:
+  `get_nr_zones_from_buf()` in `drivers/nvme/target/zns.c`.
+
+**Step 2.4: ASSESS THE FIX QUALITY**
+Record:
+- **Obviously correct:** `min3` of device count, remaining request, and
+  descriptors that fit in `buflen`.
+- **Minimal:** two small hunks, no API/struct change.
+- **Regression risk: very low.** Only **lowers** `nz`. Compliant PR=1
+  devices already set NZ ≤ `max_in_buf`, so behavior is unchanged on
+  good hardware.
+- `min3()` exists in `include/linux/minmax.h` in this tree.
+
+===============================================================
+PHASE 3: GIT HISTORY INVESTIGATION
+===============================================================
+
+**Step 3.1: BLAME THE CHANGED LINES**
+Record:
+- Buggy pattern introduced in **`240e6ee272c07`** (“nvme: support for
+  zoned namespaces”, Keith Busch, 2020-06-29).
+- First contained in **`v5.9-rc1`**.
+- Present for many years; not a recent-only bug.
+- `nz = min(device NZ, nr_zones)` form after **`936fab503ff4a`** (“nvme:
+  fix error handling in nvme_ns_report_zones”), which still did not cap
+  by buffer size.
+
+**Step 3.2: FOLLOW THE FIXES: TAG**
+Record: **No Fixes: tag.** Introduced by `240e6ee272c07` (v5.9). That
+commit **is** an ancestor of this tree (`git merge-base --is-ancestor
+240e6ee272c07 HEAD` succeeded). Candidate **`09c9062d4f621` is also
+already an ancestor of HEAD** (landed in **v7.3-rc1**). No later
+overlapping fix of the same `nz` cap.
+
+**Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
+Record:
+- Related: `936fab503ff4a` (error handling), `8b4fb0f968ffe` (split
+  report_zones), `fdb9aed869f34` (`disk_report_zone()` args).
+- **Standalone:** this hunk does not need those refactors; it only
+  changes how `nz` is computed.
+- Sibling **`3456b52552896`** (v2 2/2) only adds zone index to an error
+  log — **not a prerequisite**.
+
+**Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
+Record:
+- Author Xixin Liu: several NVMe patches (`09c9062d4f621`,
+  `3456b52552896`, plus tcp/rdma/auth). Not the subsystem maintainer.
+- Applied by **Keith Busch**; reviewed by **Christoph Hellwig**. High
+  maintainer weight.
+
+**Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
+Record: **No functional prerequisites.** Uses existing `min3`, `buflen`,
+`nvme_zone_report` / `nvme_zone_descriptor`. Can apply standalone on any
+tree with this parse loop (since v5.9).
+
+===============================================================
+PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+===============================================================
+
+**Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
+Record:
+- `b4 dig -c 09c9062d4f621` → https://patch.msgid.link/8ed1b6a33454.v2.1
+  782280600.git.liuxixin@kylinos.cn
+- Full thread saved via `b4 dig -m /tmp/nvme-zns-thread.mbox`
+- **v1** (2026-06-24): combined bounds cap + log message change
+- **v2** (2026-06-25): split per review; **1/2 is this fix**, 2/2 is
+  logging
+- Christoph on v1: log change “unrelated, please split”; **“The rest
+  looks good as well.”**
+- Christoph on v2 1/2: **“Looks good: Reviewed-by: Christoph Hellwig”**
+- Keith Busch: **“Thanks, applied to nvme-7.3.”**
+- **No NAK, no stable objection, no risk flags.** No explicit Cc: stable
+  in the thread.
+
+**Step 4.2: CHECK WHO REVIEWED THE PATCH**
+Record (`b4 dig -w`): To/Cc linux-nvme, Keith Busch, Jens Axboe,
+Christoph Hellwig, Sagi Grimberg, linux-kernel. Appropriate NVMe/block
+maintainers.
+
+**Step 4.3: SEARCH FOR THE BUG REPORT**
+Record: **No syzbot, bugzilla, or user crash report.** Spec-driven host-
+side hardening. Still a real OOB if NZ exceeds the buffer
+(buggy/malicious NVMe, including fabrics/USB).
+
+**Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
+Record: v2 is 2/2. **1/2 is self-contained.** 2/2 is optional logging,
+not required for the bounds fix.
+
+**Step 4.5: CHECK STABLE MAILING LIST HISTORY**
+Record: Web search of lore.kernel.org/stable for this subject found **no
+relevant discussion** (unrelated historical hits only). Not previously
+rejected for stable.
+
+===============================================================
+PHASE 5: CODE SEMANTIC ANALYSIS
+===============================================================
+
+**Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF**
+Record: **`nvme_ns_report_zones()`** (uses
+`nvme_zns_alloc_report_buffer()`, `nvme_zone_parse_entry()`,
+`nvme_submit_sync_cmd()`).
+
+**Step 5.2: TRACE CALLERS**
+Record:
+- `nvme_report_zones()` in `drivers/nvme/host/core.c` — `gendisk`
+  `.report_zones` (`nvme_bdev_ops`)
+- `nvme_ns_head_report_zones()` in `drivers/nvme/host/multipath.c` —
+  multipath head ops
+Both under `CONFIG_BLK_DEV_ZONED` (`zns.o` is `nvme-
+core-$(CONFIG_BLK_DEV_ZONED)`).
+Upper layer: `blkdev_do_report_zones()` → ioctl,
+`blkdev_report_zones()`, and **revalidate with `UINT_MAX`** (`block/blk-
+zoned.c` ~2354). Filesystems: zonefs, f2fs, btrfs, xfs zoned.
+
+**Step 5.3: TRACE CALLEES**
+Record: alloc buffer (vmalloc, queue limits), Zone Management Receive
+with `NVME_REPORT_ZONE_PARTIAL`, parse entries, `disk_report_zone()`,
+`kvfree`.
+
+**Step 5.4: FOLLOW THE CALL CHAIN**
+Record: Userspace `BLKREPORTZONE` / zoned FS mount / disk revalidate →
+`disk->fops->report_zones` → `nvme_ns_report_zones`. **Reachable from
+userspace and from device probe.** Unprivileged trigger depends on
+device node permissions; probe path is admin/boot. Malicious NVMe-over-
+Fabrics still in scope for some deployments.
+
+**Step 5.5: SEARCH FOR SIMILAR PATTERNS**
+Record: NVMe target already caps with `get_nr_zones_from_buf()`. SCSI
+`sd_zbc.c` uses report-length/`nr_zones` differently. Host ZNS was the
+missing cap.
+
+===============================================================
+PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
+===============================================================
+
+**Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
+Record:
+- Tree: **Linux 7.3.0-rc4** (`git describe HEAD` =
+  `v7.3-rc4-27-gf0100363d8c37`).
+- File and function exist; current `zns.c` **already contains this cap**
+  (commit is in HEAD).
+- Bug introduced **v5.9** (`240e6ee272c07`); not after this branch
+  point.
+- This checkout is **mainline 7.3-rc**, not an older LTS cut, but the
+  **same `nvme_ns_report_zones` loop** is what older stables still have
+  without the cap.
+
+**Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
+Record: **Clean apply** on this tree (already applied). Context around
+`nz = min(...)` is stable since the 2020 error-handling fix. No
+conflicting later rewrite of that assignment. Expected **clean or
+trivial** cherry-pick onto trees that still have
+`nvme_ns_report_zones()`.
+
+**Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
+Record: This is the fix. No alternate `max_in_buf` cap. Sibling logging
+commit is independent.
+
+===============================================================
+PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+===============================================================
+
+**Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
+Record: **`drivers/nvme/host/` ZNS** — **IMPORTANT** (storage; not core
+mm/VFS, but NVMe zoned devices used by zonefs/f2fs/btrfs/xfs). Config-
+gated by `CONFIG_BLK_DEV_ZONED`.
+
+**Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
+Record: NVMe host is actively maintained; `zns.c` itself is **mature**
+(ZNS since 2020). Long-lived bug, not churn from a new subsystem.
+
+===============================================================
+PHASE 8: IMPACT AND RISK ASSESSMENT
+===============================================================
+
+**Step 8.1: DETERMINE WHO IS AFFECTED**
+Record: **Driver/config-specific:** NVMe ZNS namespaces
+(`CONFIG_BLK_DEV_ZONED`). Not all NVMe users; all ZNS users on
+report/revalidate/ioctl/FS mount.
+
+**Step 8.2: DETERMINE THE TRIGGER CONDITIONS**
+Record:
+- Common path: zone report / revalidate (`UINT_MAX` zones).
+- Harmless on spec-compliant PR=1 devices (NZ already ≤ buffer).
+- Harmful if firmware reports NZ larger than transferred descriptors
+  (ignore PR, report total count, or malicious controller).
+- Not a timing race. Device-controlled integer.
+
+**Step 8.3: DETERMINE THE FAILURE MODE SEVERITY**
+Record: **Out-of-bounds kernel read** of `report->entries[i]` past
+`buflen` → oops/KASAN, possible infoleak. **Severity: HIGH** (memory
+safety from device-provided length). Inflated `nz` can also skip zones
+in `sector +=` if the loop continues; the OOB is the primary issue.
+
+**Step 8.4: CALCULATE RISK-BENEFIT RATIO**
+Record:
+- **Benefit:** HIGH for ZNS — prevents OOB on buggy/malicious
+  controllers; correct remaining-count; matches target-side logic.
+- **Risk:** VERY LOW — 6 insertions, only tightens a min(); no
+  lock/API/hot-path change.
+- **Ratio:** strongly favors backport.
+
+===============================================================
+PHASE 9: FINAL SYNTHESIS
+===============================================================
+
+**Step 9.1: COMPILE THE EVIDENCE**
+
+FOR:
+- Real OOB: parse count from device NZ not limited by DMA/vmalloc buffer
+- Buffer is routinely smaller than requested `nr_zones` (queue limits,
+  vmalloc backoff)
+- Revalidate uses `UINT_MAX`, so `min(NZ, nr_zones)` does not cap
+- Small (+6/−2), obviously correct `min3`
+- Reviewed by Christoph Hellwig; applied by Keith Busch
+- Same cap already in NVMe target
+- Bug in tree since v5.9; no extra deps
+- No new API/feature
+
+AGAINST:
+- No public crash/syzbot report (spec-compliant devices already set NZ)
+- ZNS is a subset of NVMe users
+- No Fixes:/Cc: stable (ignored per rules)
+
+UNRESOLVED:
+- Could not fetch lore.kernel.org HTML (403); thread recovered via `b4
+  dig -m`
+- No stable-list discussion found
+
+**Step 9.2: APPLY THE STABLE RULES CHECKLIST**
+1. Obviously correct and tested? **PASS** — maintainer Reviewed-by;
+   applied to nvme-7.3
+2. Fixes a real bug that affects users? **PASS** — OOB if NZ exceeds
+   buffer; reachable zone-report path
+3. Important issue? **PASS** — HIGH memory-safety (OOB read), not
+   cosmetic
+4. Small and contained? **PASS** — 8 lines, one function
+5. No new features or APIs? **PASS**
+6. Can apply to the local tree? **PASS** — code present; patch already
+   applies here
+
+**Step 9.3: CHECK FOR EXCEPTION CATEGORIES**
+Record: **Not** a device-ID/quirk/DT/build/docs exception. Ordinary
+**memory-safety bug fix**.
+
+**Step 9.4: MAKE YOUR DECISION**
+This should be backported: it is a small, maintainer-acked cap that
+stops the ZNS host from walking off the report buffer when the device’s
+NZ is larger than what `buflen` can hold. On this 7.3-rc4 tree the ZNS
+report path exists and the same bug has been in `nvme_ns_report_zones()`
+since v5.9.
+
+What it solves for stable users: kernel OOB on NVMe ZNS zone reports
+(ioctl, FS mount, disk revalidate), especially with `BLK_ALL_ZONES` and
+firmware that does not honor Partial Report.
+
+Risk vs benefit: benefit is memory safety on a real I/O path; risk is a
+tighter min that is a no-op on compliant devices.
+
+Concerns: none material. Sibling logging patch is not required. No
+missing prerequisites on this tree.
+
+Verification:
+- [Phase 1] Parsed subject/tags: Reviewed-by Christoph Hellwig; SOB
+  Keith Busch; no Fixes/Reported-by/Cc:stable
+- [Phase 1] Body: PR=1 / NZ vs DMA buffer; missing `max_in_buf` cap
+- [Phase 2] Diff: `drivers/nvme/host/zns.c` +6/−2 in
+  `nvme_ns_report_zones()`; `min3(device NZ, nr_zones - zone_idx,
+  max_in_buf)`
+- [Phase 2] Struct sizes: `nvme_zone_report` 64B, descriptor 64B
+  (`include/linux/nvme.h`)
+- [Phase 2] Alloc can shrink buffer: `nvme_zns_alloc_report_buffer()`
+  hw_sectors/segments/vmalloc halving
+- [Phase 3] `git blame`: loop from `240e6ee272c07` (v5.9-rc1)
+- [Phase 3] `git describe --contains 240e6ee272c07` → v5.9-rc1;
+  `09c9062d4f621` → v7.3-rc1
+- [Phase 3] `git merge-base --is-ancestor` both SHAs vs HEAD: success
+- [Phase 3] No Fixes: tag; sibling `3456b52552896` is logging-only
+- [Phase 4] `b4 dig -c`: msgid
+  `8ed1b6a33454.v2.1782280600.git.liuxixin@kylinos.cn`
+- [Phase 4] `b4 dig -a`: v1 then v2 (split log change)
+- [Phase 4] `b4 dig -w`: linux-nvme, kbusch, axboe, hch, sagi
+- [Phase 4] mbox: Christoph “Looks good” + R-b; Keith “applied to
+  nvme-7.3”; no NAK
+- [Phase 4] lore HTTP 403; used b4 mbox instead
+- [Phase 4] stable list search: no relevant thread
+- [Phase 5] Callers: `core.c` `nvme_report_zones`, `multipath.c`
+  `nvme_ns_head_report_zones`; `blk-zoned.c` `UINT_MAX` revalidate
+- [Phase 5] `BLK_ALL_ZONES` = `(unsigned int)-1` in
+  `include/linux/blkdev.h`
+- [Phase 5] Target already has `get_nr_zones_from_buf()`
+- [Phase 6] `git describe HEAD`: v7.3-rc4-27-g…; `make kernelversion`:
+  7.3.0-rc4
+- [Phase 6] Current `zns.c` already has `max_in_buf` / `min3`
+- [Phase 8] Failure: OOB read of `report->entries[]`; severity HIGH
+- UNVERIFIED: live crash on specific firmware (no public repro); does
+  not override code-level OOB
+
+The patch is small, correct, and fixes a real device-controlled bounds
+bug in NVMe ZNS zone reporting.
+
+**YES**
+
+ drivers/nvme/host/zns.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/host/zns.c b/drivers/nvme/host/zns.c
+index cce4c5b55aa9c..f067185920451 100644
+--- a/drivers/nvme/host/zns.c
++++ b/drivers/nvme/host/zns.c
+@@ -178,7 +178,7 @@ int nvme_ns_report_zones(struct nvme_ns *ns, sector_t sector,
+ 	struct nvme_zone_report *report;
+ 	struct nvme_command c = { };
+ 	int ret, zone_idx = 0;
+-	unsigned int nz, i;
++	unsigned int max_in_buf, nz, i;
+ 	size_t buflen;
  
- 	/*
- 	 * For IOPOLL, check if this completion is happening in the context
-@@ -473,7 +472,7 @@ static enum rq_end_io_ret nvme_uring_cmd_end_io(struct request *req,
- 			blk_rq_unmap_user(pdu->bio);
- 		__io_uring_cmd_done(ioucmd, 0);
- 	} else {
--		io_uring_cmd_do_in_task_lazy(ioucmd, nvme_uring_task_cb);
-+		io_uring_cmd_hw_done(ioucmd, nvme_uring_task_cb);
- 	}
- 	return RQ_END_IO_FREE;
- }
-diff --git a/include/linux/io_uring/cmd.h b/include/linux/io_uring/cmd.h
-index 33e0ebeea5a0..0a89f5faf88c 100644
---- a/include/linux/io_uring/cmd.h
-+++ b/include/linux/io_uring/cmd.h
-@@ -70,7 +70,8 @@ int io_uring_cmd_import_fixed_vec(struct io_uring_cmd *ioucmd,
- 				  size_t uvec_segs,
- 				  int ddir, struct iov_iter *iter,
- 				  unsigned issue_flags);
--void io_uring_cmd_detach_dmabuf(struct io_uring_cmd *ioucmd);
-+void io_uring_cmd_hw_done(struct io_uring_cmd *ioucmd,
-+			  io_req_tw_func_t task_work_cb);
+ 	if (ns->head->ids.csi != NVME_CSI_ZNS)
+@@ -188,6 +188,9 @@ int nvme_ns_report_zones(struct nvme_ns *ns, sector_t sector,
+ 	if (!report)
+ 		return -ENOMEM;
  
- /*
-  * Completes the request, i.e. posts an io_uring CQE and deallocates @ioucmd
-@@ -138,7 +139,8 @@ static inline int io_uring_cmd_import_fixed_vec(struct io_uring_cmd *ioucmd,
- 	return -EOPNOTSUPP;
- }
- 
--static inline void io_uring_cmd_detach_dmabuf(struct io_uring_cmd *ioucmd)
-+static inline void io_uring_cmd_hw_done(struct io_uring_cmd *ioucmd,
-+					io_req_tw_func_t task_work_cb)
- {
- }
- 
-diff --git a/io_uring/uring_cmd.c b/io_uring/uring_cmd.c
-index 0e0509edec6f..11a8ed1ba03a 100644
---- a/io_uring/uring_cmd.c
-+++ b/io_uring/uring_cmd.c
-@@ -50,12 +50,6 @@ void io_uring_cmd_cleanup(struct io_kiocb *req)
- 	io_req_uring_cleanup(req, 0);
- }
- 
--void io_uring_cmd_detach_dmabuf(struct io_uring_cmd *ioucmd)
--{
--	io_detach_dmabuf_map(cmd_to_io_kiocb(ioucmd));
--}
--EXPORT_SYMBOL_GPL(io_uring_cmd_detach_dmabuf);
--
- bool io_uring_try_cancel_uring_cmd(struct io_ring_ctx *ctx,
- 				   struct io_uring_task *tctx)
- {
-@@ -146,6 +140,18 @@ void __io_uring_cmd_do_in_task(struct io_uring_cmd *ioucmd,
- }
- EXPORT_SYMBOL_GPL(__io_uring_cmd_do_in_task);
- 
-+/*
-+ * Queue completion in task context after dropping references that must be
-+ * released at hardware completion rather than from task_work.
-+ */
-+void io_uring_cmd_hw_done(struct io_uring_cmd *ioucmd,
-+			  io_req_tw_func_t task_work_cb)
-+{
-+	io_detach_dmabuf_map(cmd_to_io_kiocb(ioucmd));
-+	__io_uring_cmd_do_in_task(ioucmd, task_work_cb, IOU_F_TWQ_LAZY_WAKE);
-+}
-+EXPORT_SYMBOL_GPL(io_uring_cmd_hw_done);
++	max_in_buf = (buflen - sizeof(struct nvme_zone_report)) /
++		sizeof(struct nvme_zone_descriptor);
 +
- /*
-  * Called by consumers of io_uring_cmd, if they originally returned
-  * -EIOCBQUEUED upon receiving the command.
+ 	c.zmr.opcode = nvme_cmd_zone_mgmt_recv;
+ 	c.zmr.nsid = cpu_to_le32(ns->head->ns_id);
+ 	c.zmr.numd = cpu_to_le32(nvme_bytes_to_numd(buflen));
+@@ -207,7 +210,8 @@ int nvme_ns_report_zones(struct nvme_ns *ns, sector_t sector,
+ 			goto out_free;
+ 		}
+ 
+-		nz = min((unsigned int)le64_to_cpu(report->nr_zones), nr_zones);
++		nz = min3((unsigned int)le64_to_cpu(report->nr_zones),
++			  nr_zones - zone_idx, max_in_buf);
+ 		if (!nz)
+ 			break;
+ 
+-- 
+2.53.0
+
 
