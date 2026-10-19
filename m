@@ -4,59 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 38903CCF2DE
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 13:55:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 21FA4CCF2E6
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 13:55:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ypyiSk7m1tN2St+TQ9gw6JLtzzjoLOMXeA2Bwty7kUE=; b=uM4Smoq1tDzQNndexDRk2ESgzt
-	EORjz/6qqKZwRLarrytF82+HFkYM8SRcK8fcIx+T55I0/f/a9SwdUbix3aQeUiPu90u0XbAehEpDe
-	qmi90KSkAU+mwcQ0Y5AGfih3qSh1x6JLArabWtTygHPPIdlRpFnx2zNgoWMqjGmhu3yDiExUJlX/Q
-	pwzCyXXreeSjlK3N9sZRG7wYwkmLzUCdIvonKYxSFP9iM+uyFOlRwuJec4IE3oDwWnxy8IjYalQIr
-	FzrcchkWo+1cG6zkFjgZK15EMQ+0hP2Wn3RyVU40RiFckkxxpa9WRx653Kvq07sJHi0PmxHMk9WwH
-	dPSG2bwA==;
+	bh=nHLGTsqgzrpP743iggg/I87NFd+UE+21/5qKzZ490fU=; b=Uc6CYfQGBKwJx4MKFHIXCyUG3G
+	11KFYZUb3xUQ+8bIrYSKUxeEwsDDDhQ2mxpLy+Qkpuam+/1wMUBVvzsFCJg8zXXr+xZHbeyxF+LcY
+	E/g11UTbiNGF42UEMLLdlHYF74BHGWeuer4mmWMVr6du8dn4AxiHUt0UxRqsc80/d3CJ6pfgP8vZp
+	GwFsBQV65SdprihYwpMmuxaeVPB9muDR4Sb8GJohK/Z/gVhTZJtf+8zSDebPtTyVinNWMkkmNrdFO
+	rocrHSPw/HD9Nw/CNrTsXrqJp3W6Fh9k4acr9N3ddkgVwA46ua0eapxMmTb/aCYvVLaaHKx9YdlMp
+	9dHufovg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xInq3-00000007a8W-2OGX;
-	Mon, 19 Oct 2026 13:55:43 +0000
+	id 1xInq7-00000007aAI-2zQu;
+	Mon, 19 Oct 2026 13:55:47 +0000
 Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xInq1-00000007a7d-2nEU
+	id 1xInq7-00000007a9h-05cO
 	for linux-nvme@lists.infradead.org;
-	Mon, 19 Oct 2026 13:55:42 +0000
+	Mon, 19 Oct 2026 13:55:47 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 4771A41218;
-	Mon, 19 Oct 2026 13:55:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17BDE1F000C7;
-	Mon, 19 Oct 2026 13:55:40 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id C1AA6435FE;
+	Mon, 19 Oct 2026 13:55:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A348A1F000C8;
+	Mon, 19 Oct 2026 13:55:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418141;
-	bh=ypyiSk7m1tN2St+TQ9gw6JLtzzjoLOMXeA2Bwty7kUE=;
+	s=k20260515; t=1792418146;
+	bh=nHLGTsqgzrpP743iggg/I87NFd+UE+21/5qKzZ490fU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=YqNpPYpj0Z7D95H69wGyZDNyXwZfQqb/XD9tABfjvSXDLL7TgpHRKY3thQn14XU2K
-	 a4vN8JK48uTYrkUGPU42H8ywffSTBa0500NBJ9WwyWJzEd354JsYnn5QOBT6c0JaM4
-	 iYH1vD0hAwHQF9Vd0qr/oHjyrGKwX+iZ6d7p+ofvXUaWNLhcIV3h1Q6WfykARwsBcZ
-	 H1kfksigDOhmD+M6mrAjY23U6rEZInTBs1QkJybFKa+5kog0gv/9ww5vrAX6UQx27l
-	 ftw30IGG0lyGQbhO80/Hm5JeciNVD8CccVXvu1TUPajvbUkCXylYdkjmUjk5LdEJdP
-	 kgGa3TIW0MNvw==
+	b=HQlzyiSzJXFVVTclsV1gkSvWaCCy0xa7cdW8KS/5vL9/zdR+O8EsLA4aU8TC8celb
+	 3mfqayR6GI63Ydt+fy+ZBivF4+NKKqE5fmSGJhN4pC1gnsGCRE3P2amRn9Tj8f78i3
+	 ZzJRQWZOwY/U26sPUfZ5xapj0WK2SfTIh/EYqCK+n7tjS3THCAA7VaWJSMB1ZnpXLh
+	 T/GqDcRCrRCEphJ8U4iTgBLRtC6hZy6jehLwPQ128sGLui7GkH0iDic90xdS6v3FiZ
+	 H2AWaQB+LhSr2KQSvMYj3Qcw+pEa1PBK8Bx0q0noX7XS+Akn4fCEtwq1YRHlKC3K+q
+	 jiApaQFT4Ad9Q==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Hari Mishal <harimishal1@gmail.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Cc: Chao Shi <coshi036@gmail.com>,
 	Keith Busch <kbusch@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	axboe@kernel.dk,
 	sagi@grimberg.me,
 	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18] nvme: clamp FDP nruhsd to allocated RUH status descriptor count
-Date: Mon, 19 Oct 2026 09:45:32 -0400
-Message-ID: <20261019135441.1420968-41-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-5.10] nvme: ratelimit the completion-path messages driven by device data
+Date: Mon, 19 Oct 2026 09:45:36 -0400
+Message-ID: <20261019135441.1420968-45-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -80,390 +78,481 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Hari Mishal <harimishal1@gmail.com>
+From: Chao Shi <coshi036@gmail.com>
 
-[ Upstream commit 29261f8bb41662f2a660c479e5cf592942b53f78 ]
+[ Upstream commit c05c86681170e381e24498257db3a879deb1ae89 ]
 
-nvme_query_fdp_info() allocates the RUH status buffer for at most S8_MAX
-- 1 descriptors, and then copies ruhs->ruhsd[] into head->plids[] using
-the controller reported ruhs->nruhsd directly as the loop bound.
-However, that count wasn't taken into account for the actual buffer's
-size, so there was a chance for a controller reporting a larger nruhsd
-to cause the copy to overflow the buffer.  Clamp nr_plids to the same
-bound used for the allocation.
+nvme_find_rq() and nvme_handle_cqe() print an unratelimited message for
+every completion queue entry whose command id does not resolve to an
+in-flight request.  Both are reached from the completion interrupt path
+(nvme_irq() -> nvme_poll_cq() -> nvme_handle_cqe()) and the decision to
+print is made entirely from device-supplied data, so a controller that
+posts a stream of bogus command ids drives unbounded printk from hard
+interrupt context.
 
-Assisted-by: gkh_clanker_t1000
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Hari Mishal <harimishal1@gmail.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+This is not hypothetical.  A single boot under an emulated controller
+that posts invalid completions produced 846 "could not locate request
+for tag 0x0", 846 "invalid id 0 completed on queue 2" and 123 "genctr
+mismatch" lines.  Once the tag set has been torn down every subsequent
+completion resolves to nothing, so the print rate is bounded only by how
+fast the device can post entries.
+
+Ratelimit the three messages.  The information they carry is diagnostic
+and repeats, so the suppression count printed by the ratelimit helpers
+is enough to tell that the condition persists.  This matches how the
+other device-driven error prints in the driver are already handled, for
+example the status messages in nvme_log_error() and
+nvme_log_err_passthru().
+
+nvme_find_rq() lives in nvme.h and is shared by pci, tcp, rdma, apple and
+target-loop, so all transports are covered.
+
+Found by FuzzNvme.
+
+Signed-off-by: Chao Shi <coshi036@gmail.com>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-This is a one-line out-of-bounds-read clamp in NVMe FDP setup. The local
-tree is **v7.3-rc4** (`7.3.0-rc4`, HEAD `f0100363d8c37`).
-`nvme_query_fdp_info()` exists here; the overflow is real; the change is
-surgical.
+I have enough local-tree and review evidence to decide. The remaining
+work is to write the full nine-phase analysis.
 
-## PHASE 1: COMMIT MESSAGE FORENSICS
+===============================================================
+PHASE 1: COMMIT MESSAGE FORENSICS
+===============================================================
 
-**Step 1.1: PARSE THE SUBJECT LINE**
-Record: **[nvme]** **[clamp]** clamp FDP `nruhsd` to the allocated RUH
-status descriptor count. “Clamp” is a bounds-fix verb.
+Step 1.1: PARSE THE SUBJECT LINE
+Record: **[nvme]** **[ratelimit]** Completion-path messages that fire
+from device-supplied command IDs are unbounded; the commit rate-limits
+those three prints.
 
-**Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
+Step 1.2: PARSE ALL COMMIT MESSAGE TAGS
 Record:
-- **Reviewed-by:** Christoph Hellwig `<hch@lst.de>`
-- **Assisted-by:** gkh_clanker_t1000
-- **Signed-off-by:** Hari Mishal (author), Greg Kroah-Hartman
-  (submitter), Keith Busch (NVMe maintainer)
-- **No Fixes:** tag (expected)
-- **No Reported-by / Tested-by / Link / Cc: stable**
-- Ignore pipeline SOBs; Greg’s SOB is from the actual submission, not a
-  stable-prep marker
+- **Signed-off-by:** Chao Shi \<coshi036@gmail.com\> (author)
+- **Signed-off-by:** Keith Busch \<kbusch@kernel.org\> (NVMe maintainer;
+  applied the patch)
+- **No Fixes:** tag (expected for this review queue)
+- **No Cc: stable** (expected; not a negative)
+- **No Reported-by / Tested-by / Reviewed-by / Acked-by / Link:**
+- Notable: “Found by FuzzNvme” in the body (fuzzer-found, not syzbot)
+- Ignore any pipeline “Upstream commit” / “Signed-off-by: Sasha Levin”
+  markers
 
-**Step 1.3: ANALYZE THE COMMIT BODY TEXT**
+Step 1.3: ANALYZE THE COMMIT BODY TEXT
 Record:
-- **Bug:** `nvme_query_fdp_info()` allocates a RUH-status buffer for at
-  most `S8_MAX - 1` descriptors, then copies `ruhs->ruhsd[]` using
-  controller-reported `ruhs->nruhsd` as the loop bound.
-- **Symptom:** a controller that reports `nruhsd` larger than the
-  allocated descriptor count overflows that buffer on the copy into
-  `head->plids[]`.
-- **Root cause:** allocation size and copy bound were not the same.
-- **Fix:** clamp `nr_plids` to the same bound used for allocation.
-- **Version info in message:** none.
+- **Bug:** `nvme_find_rq()` and `nvme_handle_cqe()` print on every CQE
+  whose command id does not map to an in-flight request. The print
+  decision is made from device-supplied data.
+- **Symptom:** Unbounded `printk` from the completion interrupt path
+  (`nvme_irq()` → `nvme_poll_cq()` → `nvme_handle_cqe()`). One emulated-
+  controller boot produced 846 “could not locate request for tag 0x0”,
+  846 “invalid id 0 completed on queue 2”, and 123 “genctr mismatch”
+  lines. After the tag set is torn down, every later completion prints;
+  rate is limited only by how fast the device posts entries.
+- **Version info:** None in the message. The prints have been in-tree
+  since v5.15 / v5.9 (verified in Phase 3).
+- **Root cause:** Device-controlled, unratelimited diagnostics on the
+  hard-IRQ completion path. Other device-driven NVMe error prints
+  (`nvme_log_error()`, `nvme_log_err_passthru()`) are already
+  ratelimited.
 
-**Step 1.4: DETECT HIDDEN BUG FIXES**
-Record: Not hidden. This is an explicit buffer-overflow / OOB-read fix.
+Step 1.4: DETECT HIDDEN BUG FIXES
+Record: Not a disguised cleanup. It is an explicit fix for IRQ-context
+log flood. The subject uses “ratelimit” rather than “fix”, but the body
+states the failure mode and a concrete reproduction.
 
-## PHASE 2: DIFF ANALYSIS
+===============================================================
+PHASE 2: DIFF ANALYSIS - LINE BY LINE
+===============================================================
 
-**Step 2.1: INVENTORY THE CHANGES**
+Step 2.1: INVENTORY THE CHANGES
 Record:
-- **File:** `drivers/nvme/host/core.c` — 1 insertion, 1 deletion
-- **Function:** `nvme_query_fdp_info()`
-- **Scope:** single-file, one-line surgical fix
+- `drivers/nvme/host/nvme.h`: `nvme_find_rq()` — `pr_err` →
+  `pr_err_ratelimited`; `dev_err` → `dev_err_ratelimited` (~5 lines net
+  churn)
+- `drivers/nvme/host/pci.c`: `nvme_handle_cqe()` — `dev_warn` →
+  `dev_warn_ratelimited` (3 lines)
+- Scope: **single-purpose surgical fix**, two files, ~9 insertions / 8
+  deletions. No logic, locking, or API changes.
 
-**Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
-Record: Before: `head->nr_plids = le16_to_cpu(ruhs->nruhsd);` then
-`kcalloc(head->nr_plids, …)` and `for (i = 0; i < head->nr_plids; i++)
-head->plids[i] = le16_to_cpu(ruhs->ruhsd[i].pid);`. After: `nr_plids` is
-`min(reported, S8_MAX - 1)`, so the copy cannot walk past the allocated
-`ruhs` buffer. Path is namespace-head init when the controller
-advertises FDP.
-
-**Step 2.3: IDENTIFY THE BUG MECHANISM**
-Record: **(g) logic/correctness + (d) memory safety — out-of-bounds
-read.** `nruhsd` is a `__le16` from the device (0..65535). Allocation
-used `struct_size(ruhs, ruhsd, S8_MAX - 1)` (126 descriptors, 4048
-bytes). Verified layout in `include/linux/nvme.h`: 16-byte header +
-32-byte `nvme_fdp_ruh_status_desc`. If `nruhsd == 65535`, the loop reads
-~2MB past the buffer. `plids` is sized from `nr_plids`, so the overflow
-is an OOB **read** of `ruhs`, not a write into `plids`.
-
-**Step 2.4: ASSESS THE FIX QUALITY**
-Record: Obviously correct: clamp matches the allocation bound. Minimal.
-Regression risk is low: extra reported placement IDs are dropped instead
-of overflowing. Later mainline commit `53cdaeab2e30e` raised that cap to
-`U8_MAX` / `NVME_MAX_PLIDS`; that is a follow-up improvement, not a sign
-this clamp is wrong.
-
-## PHASE 3: GIT HISTORY INVESTIGATION
-
-**Step 3.1: BLAME THE CHANGED LINES**
+Step 2.2: UNDERSTAND THE CODE FLOW CHANGE
 Record:
-- Allocation `struct_size(..., S8_MAX - 1)` introduced in
-  `30b5f20bb2dda` (“nvme: register fdp parameters with the block layer”,
-  Keith Busch, 2025-05-06).
-- Unclamped `nr_plids` assignment plus the `ruhsd[]` copy loop:
-  `38e8397dde633` (“nvme: use fdp streams if write stream is provided”).
-- Both first appear in **v6.16-rc1** (`git describe --contains --match
-  'v*'`).
+- Hunk 1 (`nvme_find_rq`, missing request): same `return NULL`; only the
+  error print is ratelimited.
+- Hunk 2 (`nvme_find_rq`, genctr mismatch): same `return NULL`; only the
+  error print is ratelimited.
+- Hunk 3 (`nvme_handle_cqe`, invalid id): same early return; only the
+  warning is ratelimited.
+- Affected path: completion / IRQ / poll error path when the device
+  posts a bad command id. Success path is unchanged.
 
-**Step 3.2: FOLLOW THE FIXES: TAG**
-Record: No `Fixes:` tag. Introducing commits identified by blame, not by
-tag.
-
-**Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
+Step 2.3: IDENTIFY THE BUG MECHANISM
 Record:
-- `29261f8bb4166` — this clamp (candidate)
-- `53cdaeab2e30e` — raise cap to `U8_MAX` and introduce `NVME_MAX_PLIDS`
-  (depends on the clamp being present)
-- `56e1c6bbe4bb0` — race on the plids array (independent locking fix)
-- Series partner `3c568b35a0d30` — NS descriptor bounds (different
-  function, not a prerequisite)
+- **Category:** Logic / correctness of diagnostics; IRQ-context
+  resource/DoS (unbounded `printk` driven by device data).
+- **Mechanism:** A malicious or failing controller can post a stream of
+  CQEs with bogus command ids. Each entry hits
+  `pr_err`/`dev_err`/`dev_warn` in `nvme_irq()`. After tag-set teardown
+  the miss path is permanent. `_ratelimited` variants cap volume while
+  still reporting that the condition persists (suppression count).
 
-Standalone. Labeled `[PATCH 2/2]` but 1/2 is an independent bounds check
-in `nvme_identify_ns_descs()`.
-
-**Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
-Record: Hari Mishal also authored sibling overflow fixes (`nvme: bound
-ns descriptor header…`, `nvmet: passthru: fix OOB reads…`). Submitted
-via Greg; merged by NVMe maintainer Keith Busch. Christoph Hellwig
-reviewed.
-
-**Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
-Record: None for the clamp itself. It only needs `nvme_query_fdp_info()`
-with `S8_MAX - 1` allocation and the copy loop — present since v6.16. No
-new helpers or APIs.
-
-## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
-
-**Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
+Step 2.4: ASSESS THE FIX QUALITY
 Record:
-- `b4 dig -c 29261f8bb4166` → https://patch.msgid.link/2026070932-fried-
-  frying-9c36@gregkh
-- **v1 only** (`b4 dig -a`): `[PATCH 1/2] nvme: bound ns descriptor…` +
-  `[PATCH 2/2]` this clamp
-- Full thread saved via `b4 dig -m`; lore HTTP fetch returned 403, so
-  discussion is from the mbox, not lore HTML
-- Christoph: “Looks good: Reviewed-by: Christoph Hellwig”
-- Keith Busch: “Thanks, series applied to nvme-7.3.”
-- No NAK, no stable discussion in-thread, no reviewer risk flags
+- Obviously correct: swap to helpers already used in the same driver
+  (`nvme_log_error()`, PCI timeout path).
+- Minimal: three call-site changes, no behavior change on the success
+  path.
+- Regression risk: very low. Worst case is fewer repeated log lines for
+  a persistent fault; first occurrences and the ratelimit “suppressed”
+  count remain.
+- Red flags: none (no API, locking, or data-structure changes).
 
-**Step 4.2: CHECK WHO REVIEWED THE PATCH**
-Record (`b4 dig -w`): linux-nvme, linux-kernel, Keith Busch, Jens Axboe,
-Christoph Hellwig, Sagi Grimberg. Appropriate maintainers were on Cc.
-Christoph reviewed; Keith applied.
+===============================================================
+PHASE 3: GIT HISTORY INVESTIGATION
+===============================================================
 
-**Step 4.3: SEARCH FOR THE BUG REPORT**
-Record: No syzbot/bugzilla/`Reported-by`. Bug is from code review /
-static analysis (Greg/clanker-assisted). Still a concrete OOB from
-device-provided `nruhsd`.
+Step 3.1: BLAME THE CHANGED LINES
+Record:
+- `nvme_find_rq()` and both prints: `e7006de6c23803` (“nvme: code
+  command_id with a genctr for use-after-free validation”, Sagi
+  Grimberg, 2021-06-16). Contained in **v5.15-rc1**. Present in this
+  tree (`git merge-base --is-ancestor` succeeded).
+- PCI “invalid id” print: `50b7c24390a53c` (“nvme-pci: fix NULL req in
+  completion handler”, Xianting Tian, 2020-09-22). Contained in
+  **v5.9-rc7**. Present in this tree.
+- The buggy prints have been in NVMe for years, including all 6.12.y
+  history.
 
-**Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
-Record: 2/2 is independent of 1/2. Follow-up `53cdaeab2e30e` changes the
-numeric cap but does not replace the need to clamp. Race fix
-`56e1c6bbe4bb0` is separate.
+Step 3.2: FOLLOW THE FIXES: TAG
+Record: No `Fixes:` tag. N/A. The introducing commits above are the
+functional origin.
 
-**Step 4.5: CHECK STABLE MAILING LIST HISTORY**
-Record: lore.kernel.org/stable search returned 403. **UNVERIFIED**
-whether stable@ already discussed this. No evidence in the nvme thread
-of a stable NAK.
+Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES
+Record:
+- `git log --oneline -15 HEAD -- drivers/nvme/host/nvme.h` shows no
+  later rewrite of `nvme_find_rq()`.
+- `git log --oneline --grep="ratelimit the completion-path" HEAD --
+  drivers/nvme/` is empty: this fix is **not** in the local tree.
+- Standalone one-patch change. Not “patch X/Y”. Keith applied it to
+  nvme-7.3 with only a line-wrap tweak.
 
-## PHASE 5: CODE SEMANTIC ANALYSIS
+Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS
+Record:
+- Chao Shi: only `4298c52252cf6` (“nvme: reject passthrough of driver-
+  managed Set Features”) in this tree under `drivers/nvme/`. Not a
+  series dependency.
+- Keith Busch is an NVMe maintainer; his SOB is a strong quality signal.
 
-**Step 5.1: IDENTIFY KEY FUNCTIONS**
-Record: `nvme_query_fdp_info()` only.
+Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS
+Record: No new helpers or structs. `pr_err_ratelimited` /
+`dev_err_ratelimited` / `dev_warn_ratelimited` exist in this tree
+(`include/linux/printk.h`, `include/linux/dev_printk.h`) and are already
+used in `drivers/nvme/host/core.c` and `pci.c`. Applies standalone.
 
-**Step 5.2: TRACE CALLERS**
-Record: Only caller is `nvme_alloc_ns_head()` in
-`drivers/nvme/host/core.c`:
+===============================================================
+PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+===============================================================
 
-```4043:4047:drivers/nvme/host/core.c
-        if (ctrl->ctratt & NVME_CTRL_ATTR_FDPS) {
-                ret = nvme_query_fdp_info(ns, info);
-                if (ret < 0)
-                        goto out_cleanup_srcu;
-        }
-```
+Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION
+Record:
+- `b4 dig -c <msgid>` failed: the landed commit is not in this checkout,
+  so there is no local commit-ish to match.
+- Thread recovered from Patchew and Openwall (lore.kernel.org returned
+  403):
+  - Submission: https://patchew.org/linux/20260810220258.1960208-1-
+    coshi036@gmail.com/
+  - Message-ID: `20260810220258.1960208-1-coshi036@gmail.com`
+    (2026-08-10)
+  - Single v1 patch (not a multi-revision series).
+- Keith Busch: agreed that dumping every garbage CQE adds no diagnostic
+  value; **applied to nvme-7.3** with a minor overly-long-line wrap. No
+  NAK, no stability concern.
+- Author replied that later submissions would avoid long lines. That is
+  style only; Keith already applied the wrap.
 
-Triggered during namespace-head creation when Identify Controller
-`ctratt` has `NVME_CTRL_ATTR_FDPS`. That is probe/scan, not a hot I/O
-path, but it runs for every FDP-capable namespace.
+Step 4.2: CHECK WHO REVIEWED THE PATCH
+Record: To/Cc on the v1: Keith Busch, Jens Axboe, Christoph Hellwig,
+Sagi Grimberg, linux-nvme, linux-kernel. Maintainer applied it. No
+separate Reviewed-by on the provided commit text.
 
-**Step 5.3: TRACE CALLEES**
-Record: `nvme_get_features()`, `nvme_query_fdp_granularity()`,
-`kzalloc`/`kcalloc`, `nvme_submit_sync_cmd()` (device fills `ruhs`),
-then the copy loop.
+Step 4.3: SEARCH FOR THE BUG REPORT
+Record: No bugzilla/syzbot link. Reproduction is in the commit: FuzzNvme
++ emulated controller, 1815 diagnostic lines in one boot. Severity from
+the author’s data: hard-IRQ printk flood, unbounded after tag-set
+teardown.
 
-**Step 5.4: FOLLOW THE CALL CHAIN**
-Record: Device probe / namespace scan → `nvme_init_ns_head` →
-`nvme_alloc_ns_head` → `nvme_query_fdp_info`. Reachable from attaching
-an NVMe device, including NVMe over Fabrics. A malicious or buggy target
-can set FDPS and return a huge `nruhsd`. Not a direct unprivileged
-syscall, but device/Fabrics-controlled and kernel-reachable.
+Step 4.4: CHECK FOR RELATED PATCHES AND SERIES
+Record: Standalone. Sibling unratelimited prints remain in
+apple/tcp/rdma/loop *after* `nvme_find_rq()` fails; those are extra
+transport messages, not prerequisites. This patch still covers the
+shared `nvme_find_rq()` prints on all of those transports.
 
-**Step 5.5: SEARCH FOR SIMILAR PATTERNS**
-Record: Same author series also bounded NS identify descriptors. Follow-
-up kept the clamp and only raised the cap. No second unclamped `nruhsd`
-copy found.
+Step 4.5: CHECK STABLE MAILING LIST HISTORY
+Record: lore.kernel.org/stable search returned 403. Openwall/Patchew
+show no stable NAK or “already rejected” discussion. UNVERIFIED: no
+evidence this was previously declined for stable.
 
-## PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
+===============================================================
+PHASE 5: CODE SEMANTIC ANALYSIS
+===============================================================
 
-**Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
-Record: **Yes, in this lineage.** This checkout is **v7.3-rc4** (`make
-kernelversion` → `7.3.0-rc4`). FDP query exists. Bug introduced
-**v6.16-rc1**, before 7.3. Candidate `29261f8bb4166` is already an
-ancestor of HEAD (`git merge-base --is-ancestor` succeeded; first
-contained in **v7.3-rc1**). Current HEAD already clamps:
+Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF
+Record: `nvme_find_rq()` (inline in `nvme.h`); `nvme_handle_cqe()`
+(`pci.c`).
 
-```2371:2371:drivers/nvme/host/core.c
-        head->nr_plids = min(le16_to_cpu(ruhs->nruhsd), NVME_MAX_PLIDS);
-```
+Step 5.2: TRACE CALLERS
+Record (verified with grep + reads):
+- `nvme_find_rq()`:
+  - `nvme_handle_cqe()` — PCI
+  - `nvme_tcp_process_nvme_cqe()`, `nvme_tcp_handle_c2h_data()`,
+    `nvme_tcp_handle_r2t()` — TCP
+  - `nvme_rdma_process_nvme_rsp()` — RDMA
+  - `apple_nvme_handle_cqe()` — Apple
+  - `nvme_loop` completion path — target-loop
+- `nvme_handle_cqe()` ← `nvme_poll_cq()` ← `nvme_irq()` (hard IRQ or
+  threaded IRQ), `nvme_poll_irqdisable()`, `nvme_poll()`,
+  `nvme_reap_pending_cqes()`.
+- Impact: every NVMe transport’s completion path. PCI hard-IRQ is the
+  hottest and the one the commit calls out.
 
-That is this fix plus `53cdaeab2e30e` (`NVME_MAX_PLIDS` = `U8_MAX`). The
-unclamped assignment is gone at HEAD because the fix landed in 7.3-rc1;
-the overflow pattern is still the code this tree maintains.
+Step 5.3: TRACE CALLEES
+Record: `blk_mq_tag_to_rq()`, genctr helpers, then `pr_*` / `dev_*`. No
+allocation, no new locking.
 
-**Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
-Record: Against **current HEAD**, the original hunk would not apply
-(`S8_MAX - 1` vs `NVME_MAX_PLIDS`). Against the pre-fix function (parent
-of `29261f8bb4166` in this history), it is a one-line change on
-`head->nr_plids = le16_to_cpu(ruhs->nruhsd)` with matching `S8_MAX - 1`
-allocation. **Expected backport difficulty: clean apply** on trees that
-still have that allocation; this 7.3 checkout already has the later
-form.
+Step 5.4: FOLLOW THE CALL CHAIN
+Record: PCI: device posts CQE → MSI/MSI-X → `nvme_irq()` →
+`nvme_poll_cq()` → `nvme_handle_cqe()` → `nvme_find_rq()`. Reachable
+whenever an NVMe controller is attached, including VMs/emulators and
+failing real devices. Userspace does not need a special syscall; a bad
+device is enough. FuzzNvme reached it.
 
-**Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
-Record: This clamp and the `NVME_MAX_PLIDS` follow-up are both in HEAD.
-That is this tree already containing the upstream fix, not a different
-substitute.
+Step 5.5: SEARCH FOR SIMILAR PATTERNS
+Record: Same driver already ratelimits device-driven errors
+(`nvme_log_error`, `nvme_log_err_passthru`, PCI timeout
+`dev_warn_ratelimited`). Apple still has an unratelimited “invalid id”
+`dev_warn`; TCP/RDMA/loop have their own unratelimited “bad command_id”
+prints. Those leftovers do not block this fix.
 
-## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+===============================================================
+PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
+===============================================================
 
-**Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
-Record: **NVMe host core** (`drivers/nvme/host/`). **IMPORTANT** —
-common storage stack, not staging. Overflow is in host core during
-namespace setup.
+Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?
+Record: **Yes.** Local tree is **6.12.111** (`git describe HEAD` →
+`p-6.12-3-gc504cf0baa3d8`, `make kernelversion` → 6.12.111).
+- `drivers/nvme/host/nvme.h:598-607` still uses `pr_err` / `dev_err`.
+- `drivers/nvme/host/pci.c:1128-1130` still uses `dev_warn`.
+- Introducing commits are ancestors of HEAD. Bug present since v5.15
+  (find_rq) / v5.9 (PCI invalid-id print).
 
-**Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
-Record: Active (recent FDP, multipath, scan, SRCU fixes). FDP streams
-themselves date to v6.16; this is not brand-new experimental code in
-7.3.
+Step 6.2: CHECK FOR BACKPORT COMPLICATIONS
+Record: **Clean apply (line-number offset only).** The 6.12
+`nvme_find_rq()` body matches the hunk. `nvme_handle_cqe()` differs
+later (`trace_nvme_sq` lacks the newer `data_race()` comment in this
+tree), but that is after the changed warn. No conflicting refactor.
 
-## PHASE 8: IMPACT AND RISK ASSESSMENT
+Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE
+Record: No commit in this tree ratelimits these three messages. No
+alternate fix found.
 
-**Step 8.1: DETERMINE WHO IS AFFECTED**
-Record: **Driver-specific / config-specific:** NVMe controllers with FDP
-(`NVME_CTRL_ATTR_FDPS` + `FDPCFG_FDPE`). Includes local NVMe and Fabrics
-targets that advertise FDP.
+===============================================================
+PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+===============================================================
 
-**Step 8.2: DETERMINE THE TRIGGER CONDITIONS**
-Record: Namespace scan/probe on an FDP-enabled controller that returns
-`nruhsd >` allocated descriptor count. Not every boot. A buggy SSD can
-hit it; an untrusted NVMe/TCP target can hit it on purpose. Unprivileged
-local users cannot trigger it without a device.
+Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY
+Record: **NVMe host** (`drivers/nvme/host/`). **IMPORTANT** — primary
+block storage on servers, workstations, and many embedded/Android
+platforms. Not core mm/VFS, but a very common production driver.
 
-**Step 8.3: DETERMINE THE FAILURE MODE SEVERITY**
-Record: **Kernel out-of-bounds read** of `ruhs->ruhsd[]` → KASAN/oops or
-infoleak of adjacent heap. **Severity: HIGH.**
+Step 7.2: ASSESS SUBSYSTEM ACTIVITY
+Record: Active in this 6.12 branch (recent PCI IRQ, doorbell, quirk, and
+core lifetime fixes). The buggy prints themselves have been unchanged
+since 2021.
 
-**Step 8.4: CALCULATE RISK-BENEFIT RATIO**
-Record: **Benefit: high** (stops device-triggered OOB). **Risk: very
-low** (one `min()`, same bound as allocation). **Ratio: strongly
-favorable.**
+===============================================================
+PHASE 8: IMPACT AND RISK ASSESSMENT
+===============================================================
 
-## PHASE 9: FINAL SYNTHESIS
+Step 8.1: DETERMINE WHO IS AFFECTED
+Record: **Driver-specific**, all NVMe host transports via
+`nvme_find_rq()`; PCI users are the main hard-IRQ case. Large user
+population whenever a controller posts invalid completions (faulty
+firmware, reset/teardown, emulator, fuzzer, passthrough VM).
 
-**Step 9.1: COMPILE THE EVIDENCE**
+Step 8.2: DETERMINE THE TRIGGER CONDITIONS
+Record:
+- Trigger: CQE with a command id that does not resolve, or genctr
+  mismatch; also every completion after tag-set teardown.
+- Commonness: rare on healthy hardware; realistic on failing devices,
+  resets, and VMs. FuzzNvme hit it in one boot.
+- Unprivileged userspace: not via a normal syscall on a healthy disk. A
+  VM user with an emulated/passthrough NVMe device, or a malicious
+  controller, can drive it. Device-controlled printk from IRQ is a host
+  DoS vector in those setups.
 
+Step 8.3: DETERMINE THE FAILURE MODE SEVERITY
+Record:
+- **Failure mode:** Unbounded `printk` from hard IRQ / completion
+  context. Can stall on `console_lock`, flood the log, and contribute to
+  soft lockups on slow consoles. Not a UAF/oops by itself.
+- **Severity: HIGH** (IRQ-context flood / hang risk), not CRITICAL (no
+  panic/corruption on the success path).
+
+Step 8.4: CALCULATE RISK-BENEFIT RATIO
+Record:
+- **Benefit:** High for NVMe users who hit a dying, resetting, or
+  emulated controller — stops IRQ printk storms that have been
+  demonstrated in practice.
+- **Risk:** Very low (3 call-site swaps to existing ratelimit helpers).
+- **Ratio:** Strongly favors backport.
+
+===============================================================
+PHASE 9: FINAL SYNTHESIS
+===============================================================
+
+Step 9.1: COMPILE THE EVIDENCE
 **FOR:**
-- Real OOB read from device-controlled `nruhsd` vs a 126-descriptor
-  buffer
-- One-line, obviously correct clamp
-- Reviewed by Christoph Hellwig; applied by Keith Busch
-- No new API/feature
-- Self-contained; series 1/2 is not required
-- FDP path exists in this tree; bug dates to v6.16
+- Real, reproduced bug (1815 lines in one boot; FuzzNvme).
+- Hard-IRQ, device-controlled printk — known lockup/DoS class.
+- After tag-set teardown the miss path is permanent; print rate = device
+  CQE rate.
+- Tiny, obviously correct, matches existing NVMe style.
+- Maintainer (Keith Busch) applied it with agreement, no NAK.
+- Buggy code present in this 6.12.111 tree since v5.15/v5.9.
+- Applies cleanly; no prerequisites.
+- `nvme_find_rq()` is shared across PCI/TCP/RDMA/Apple/loop.
 
 **AGAINST:**
-- No public user/syzbot report (code-analysis find)
-- Only FDP-capable devices
-- HEAD already has this clamp (and a later cap raise), so this exact
-  hunk is not what HEAD’s source line looks like
-- Lore stable@ search could not be fetched (403)
+- Not a crash, UAF, or data-corruption fix.
+- Healthy devices rarely hit the path.
+- Transport-local “bad command_id” prints in tcp/rdma/apple/loop stay
+  unratelimited (incomplete sibling coverage, not a dependency).
 
 **UNRESOLVED:**
-- Whether stable@ already queued it (lore/stable HTTP 403)
-- No runtime reproducer in the message (mechanism is still verified in
-  code)
+- lore.kernel.org 403; discussion recovered from Patchew/Openwall.
+- `b4 dig -c` could not run against a local SHA (commit not in this
+  tree).
+- No stable-list discussion found (search blocked).
 
-**Step 9.2: APPLY THE STABLE RULES CHECKLIST**
-1. Obviously correct and tested? **PASS** — clamp equals allocation
-   bound; reviewed and merged to nvme-7.3
-2. Fixes a real bug that affects users? **PASS** — OOB read on FDP
-   namespace setup
-3. Important issue (crash/security/corruption/deadlock)? **PASS** —
-   HIGH, kernel OOB from device data
-4. Small and contained? **PASS** — 1 line, one function
-5. No new features or APIs? **PASS**
-6. Can apply to the local tree? **PASS** for this codebase’s pre-fix
-   form (`S8_MAX - 1` allocation + unclamped `nruhsd`). HEAD already has
-   the evolved clamp; that does not make the fix inapplicable to this
-   lineage.
+Step 9.2: APPLY THE STABLE RULES CHECKLIST
+1. Obviously correct and tested? **PASS** — three `_ratelimited` swaps;
+   maintainer applied; FuzzNvme reproduction.
+2. Fixes a real bug that affects users? **PASS** — documented IRQ printk
+   flood; teardown path makes it unbounded.
+3. Important issue (crash, security, corruption, deadlock)? **PASS** —
+   IRQ-context flood can stall the console / soft-lockup; device-driven
+   DoS. Severity HIGH.
+4. Small and contained? **PASS** — ~9/+8 lines, two files, error prints
+   only.
+5. No new features or APIs? **PASS**.
+6. Can apply to the local tree? **PASS** — buggy code present; helpers
+   present; clean apply expected.
 
-**Step 9.3: CHECK FOR EXCEPTION CATEGORIES**
-Record: None (not a device-ID/quirk/DT/build/docs exception). It is a
-normal memory-safety fix.
+Step 9.3: CHECK FOR EXCEPTION CATEGORIES
+Record: Not a device-ID / quirk / DT / build / docs exception. Qualifies
+as a normal small stability fix.
 
-**Step 9.4: MAKE YOUR DECISION**
-This tree’s NVMe host core has the FDP RUH-status query, and using the
-controller’s `nruhsd` as the copy bound without capping it to the
-allocated descriptor count is a real overflow. The fix is the smallest
-correct change. This 7.3 checkout already contains that logic (then
-raised the cap to `U8_MAX`); that is the upstream landing, not a reason
-to treat the overflow as unworthy of stable. Benefit vs risk is strongly
-in favor of backporting.
+Step 9.4: MAKE YOUR DECISION
+This belongs on 6.12.y. The tree still has the unratelimited IRQ prints,
+the fix is surgical, and the failure mode is a real host-stability
+problem on failing or emulated NVMe — not a feature or cleanup.
 
-### What the commit solves, and why it matters
-A Flexible Data Placement controller returns how many Reclaim Unit
-Handle status descriptors it has (`nruhsd`). The driver only allocated
-room for 126, then indexed `ruhs->ruhsd[i]` up to the raw reported
-count. That is a kernel heap OOB read during namespace setup, including
-from a remote NVMe/TCP target.
-
-### Stable rules
-Small, obviously correct, no new API, real memory-safety bug.
-
-### Risk vs benefit
-One `min()` vs device-triggered OOB: take the fix.
-
-### Concerns
-Patch 2/2 does not need patch 1/2. Trees that already switched
-allocation to `NVME_MAX_PLIDS` should keep clamp and allocation in sync
-(already true here via `53cdaeab2e30e`). Trees still on `S8_MAX - 1`
-should get this commit as-is.
+Detailed explanation:
+The problem is unbounded `printk` from NVMe completion handling when the
+device supplies a command id that does not map to an in-flight request.
+That path runs from `nvme_irq()` in hard interrupt context (or the
+equivalent completion callbacks on other transports). After the tag set
+is torn down, every CQE misses, so a broken controller can print as fast
+as it can post completions. That is a real production concern during
+reset/remove of a failing disk and in VMs; FuzzNvme already produced
+thousands of lines in one boot. Rate-limiting those three diagnostics
+matches `nvme_log_error()` and does not change I/O completion logic.
+Risk is negligible; benefit is avoiding IRQ-context log storms on a
+widely deployed storage stack.
 
 Verification:
-- [Phase 1] Parsed tags: Reviewed-by Christoph Hellwig; SOBs Hari
-  Mishal, Greg KH, Keith Busch; no Fixes/Reported-by/Cc stable
-- [Phase 2] Diff: 1 line in `nvme_query_fdp_info()`;
-  `le16_to_cpu(ruhs->nruhsd)` → `min(..., S8_MAX - 1)`
-- [Phase 2] Struct sizes verified in `include/linux/nvme.h`: 16-byte
-  header + 32-byte descriptors; 126 descriptors → 4048-byte buffer;
-  `nruhsd` up to 65535
-- [Phase 3] Blame: allocation `30b5f20bb2dda`, copy loop
-  `38e8397dde633`; both `git describe --contains --match 'v*'` →
-  v6.16-rc1
-- [Phase 3] `git merge-base --is-ancestor 29261f8bb4166 HEAD` → commit
-  is in this tree; `describe --contains` → v7.3-rc1
-- [Phase 3] Parent of candidate still has `size = struct_size(ruhs,
-  ruhsd, S8_MAX - 1)` and unclamped `nr_plids`
-- [Phase 4] `b4 dig -c` → msgid 2026070932-fried-frying-9c36@gregkh;
-  `-a` v1 only; `-w` nvme maintainers; `-m` full thread
-- [Phase 4] mbox: Christoph R-b; Keith “applied to nvme-7.3”; no NAK
-- [Phase 4] lore.kernel.org and patch.msgid.link HTTP 403; LKML mirrors
-  agree with mbox
-- [Phase 5] grep callers: only `nvme_alloc_ns_head()` when
-  `NVME_CTRL_ATTR_FDPS`
-- [Phase 6] `git describe HEAD` / `make kernelversion`: v7.3-rc4 /
-  7.3.0-rc4; current clamp is `min(..., NVME_MAX_PLIDS)` from
-  `53cdaeab2e30e`
-- [Phase 8] Failure mode: OOB read of `ruhs->ruhsd[]`, severity HIGH
-- UNVERIFIED: stable@ mailing-list history (HTTP 403); no runtime
-  reproducer in the commit message
+- [Phase 1] Parsed tags: author SOB Chao Shi; maintainer SOB Keith
+  Busch; no Fixes/Cc stable/Reported-by (expected).
+- [Phase 1] Body: concrete counts (846/846/123) and IRQ path `nvme_irq`
+  → `nvme_poll_cq` → `nvme_handle_cqe`.
+- [Phase 2] Diff: `pr_err`/`dev_err`/`dev_warn` → `_ratelimited` in
+  `nvme_find_rq` and `nvme_handle_cqe` only.
+- [Phase 3] `git blame drivers/nvme/host/nvme.h`: prints from
+  `e7006de6c23803` (v5.15-rc1).
+- [Phase 3] `git blame drivers/nvme/host/pci.c`: invalid-id print from
+  `50b7c24390a53c` (v5.9-rc7).
+- [Phase 3] `git merge-base --is-ancestor e7006de6c23803 HEAD` and
+  `50b7c24390a53c HEAD`: both ancestors.
+- [Phase 3] `git log --grep="ratelimit the completion-path" HEAD --
+  drivers/nvme/`: empty; fix not in this tree.
+- [Phase 4] `b4 dig` needs a local commit-ish; candidate is not in this
+  checkout — UNVERIFIED via b4.
+- [Phase 4] Patchew + Openwall: v1 applied by Keith Busch to nvme-7.3;
+  no NAK.
+- [Phase 4] lore.kernel.org fetch: 403 — discussion taken from
+  Patchew/Openwall instead.
+- [Phase 5] Callers of `nvme_find_rq`: pci, tcp, rdma, apple,
+  target/loop (grep).
+- [Phase 5] `nvme_poll_cq` called from `nvme_irq`,
+  `nvme_poll_irqdisable`, `nvme_poll`, `nvme_reap_pending_cqes`.
+- [Phase 5] `queue_request_irq()` registers `nvme_irq` as the hard-IRQ
+  handler (or thread fn).
+- [Phase 5] Ratelimit macros present in `include/linux/printk.h` and
+  `include/linux/dev_printk.h`; already used in `nvme_log_error()`.
+- [Phase 6] `git describe HEAD` / `make kernelversion`: 6.12.111
+  (`p-6.12-3-gc504cf0baa3d8`).
+- [Phase 6] Read `nvme.h:598-607` and `pci.c:1126-1131`: unratelimited
+  prints still present.
+- [Phase 8] Failure mode: device-driven printk flood from hard IRQ;
+  severity HIGH (lockup/DoS), not oops/UAF.
+- UNVERIFIED: whether this SHA already exists on some other remote
+  branch (not required; local tree does not have the fix).
+- UNVERIFIED: stable mailing-list history (lore/stable 403).
 
 **YES**
 
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/host/nvme.h | 6 +++---
+ drivers/nvme/host/pci.c  | 6 +++---
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 5ed62e070f715..ad725e346c94e 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2313,7 +2313,7 @@ static int nvme_query_fdp_info(struct nvme_ns *ns, struct nvme_ns_info *info)
- 		goto free;
- 	}
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index ec03a07617af1..b28c1a82f79e6 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -672,12 +672,12 @@ static inline struct request *nvme_find_rq(struct blk_mq_tags *tags,
  
--	head->nr_plids = le16_to_cpu(ruhs->nruhsd);
-+	head->nr_plids = min(le16_to_cpu(ruhs->nruhsd), S8_MAX - 1);
- 	if (!head->nr_plids)
- 		goto free;
+ 	rq = blk_mq_tag_to_rq(tags, tag);
+ 	if (unlikely(!rq)) {
+-		pr_err("could not locate request for tag %#x\n",
+-			tag);
++		pr_err_ratelimited("could not locate request for tag %#x\n",
++				   tag);
+ 		return NULL;
+ 	}
+ 	if (unlikely(nvme_genctr_mask(nvme_req(rq)->genctr) != genctr)) {
+-		dev_err(nvme_req(rq)->ctrl->device,
++		dev_err_ratelimited(nvme_req(rq)->ctrl->device,
+ 			"request %#x genctr mismatch (got %#x expected %#x)\n",
+ 			tag, genctr, nvme_genctr_mask(nvme_req(rq)->genctr));
+ 		return NULL;
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 4efb55f1e3833..6e4261b0a0821 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1375,9 +1375,9 @@ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq,
+ 
+ 	req = nvme_find_rq(nvme_queue_tagset(nvmeq), command_id);
+ 	if (unlikely(!req)) {
+-		dev_warn(nvmeq->dev->ctrl.device,
+-			"invalid id %d completed on queue %d\n",
+-			command_id, le16_to_cpu(cqe->sq_id));
++		dev_warn_ratelimited(nvmeq->dev->ctrl.device,
++				     "invalid id %d completed on queue %d\n",
++				     command_id, le16_to_cpu(cqe->sq_id));
+ 		return;
+ 	}
  
 -- 
 2.53.0
