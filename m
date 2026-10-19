@@ -1,64 +1,104 @@
 Received: from smtp.lore.kernel.org (ip-10-30-226-214.us-west-2.compute.internal [10.30.226.214])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3A03606A322
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 14:50:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D15AE606A31A
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 14:47:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=rRg1cMfm;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jt3manw0
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=G9RErJaV;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=VpIx09my
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C695FCCF2E6
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 14:50:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C4414CCF2E6
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 14:47:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
-	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Cc:To:Subject:
-	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Date:Cc:To:From
+	:Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=oUauQvHS3NTWyt9vjGJPWt7FZhoq+fPqFt/ovAb7PII=; b=rRg1cMfmfxPn01/aHIfidadjk+
-	UaDG7sbAi89uT6nnvwkCIZO2nBXQMGZmLHRCQQxbcnZO9LR4qKTKP/JPb6kCvCYYwt8M97q9q0cCF
-	AXUgOtFRdUCGpZMKUeas4btDMG4aUqtGedsnM3dGF8HDHe7frLd0BwqTXT/E6NpR6uHVb+zP6NfEm
-	66pmPGx5NI1WP4r4jyi5wcuPLPAPLlRs2PivqxLaeaXuqzUjuN6lbrxJBEJR92fn6W8dw8/lEARno
-	swIocGzu+jjqQ2D6WGPnDcTQMq5tPsiVXGLE6Yy7UkF5I9pOvpWPE8DN+FGTLnJtYRD+fOf+1IMaQ
-	/OB6f68A==;
+	bh=rHOolWs+HrDZTYIj1HgXgSZZtVsYtKQLKIFtAPPddUM=; b=G9RErJaVH+gMQSP1DFWPcVmgBF
+	5NVW0sAV9dx6RO9zcFHnPUdaoA+e8d1wIw92WWhDqZCxa+XbVGvaWaaQ4ISbSqNIOhXzAqA86zD1m
+	D7kRJgSvDwhPFIB19cGHD+EbUukUCAyEKHHxlhVn9v36BEKoMFk74ouDr3zNOZ20VJNocdukcz1oI
+	JP03pAplvCeN3O3lDPZlGxS0xEbOVGRm+zM2jw91IbohLy+aYzwB66FHGxtzTg1fAqw1lldbuLr+T
+	o/juF4kShiRXlXtB2cfk9OpR+fkFZU/ZxTgJE68fNO9s2wp/uDQRR15LERjY2p4bCICYPfgRdo3f0
+	QJ6fPl0g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xIohF-00000007mU5-2uPK;
-	Mon, 19 Oct 2026 14:50:41 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1xIodl-00000007mIe-1K4k;
+	Mon, 19 Oct 2026 14:47:05 +0000
+Received: from mail-dy1-x132b.google.com ([2607:f8b0:4864:20::132b])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xIohE-00000007mTw-3B1h
+	id 1xIodj-00000007mIJ-0qN9
 	for linux-nvme@lists.infradead.org;
-	Mon, 19 Oct 2026 14:50:40 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id E70CE60210
-	for <linux-nvme@lists.infradead.org>; Mon, 19 Oct 2026 14:50:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C2CD1F000C4;
-	Mon, 19 Oct 2026 14:50:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792421439;
-	bh=oUauQvHS3NTWyt9vjGJPWt7FZhoq+fPqFt/ovAb7PII=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=jt3manw0+0PNVgyKezATASKo0q+s096Fyart3hWQsdFW3n24K2Os6xGoYRcLpcU3q
-	 Q/4FgTuyW4bVa4NTRtL/QE+T9P7UgbzH3tszG7ZFyGjU+1RpvQ3319p5VtBKdUXE7E
-	 SqKrRFpz3UQG+ZGLh3eCVsq+FIitwq2t7JyEHS8+MYQ9l8XeoprWHCPcn6GXjTvZCe
-	 Df72CbttBt7GnstsH1vH8nZhKwFZgqZIp9oEY2+lOQE2U1ex/JJHtCRucuRKwMDMS2
-	 oRVn9hzbk/vnUMTcK2cqQzWlx5Q2KMGQVIc5hpJng2vCqxi2oUh7RgoNQCG1I+uCk8
-	 zfejpFT+a4WTQ==
-Message-ID: <sashiko-outbox-177519@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH AUTOSEL 6.18] nvme-tcp: delay
- nvme_tcp_reclassify_socket()
-To: "Sasha Levin" <sashal@kernel.org>
+	Mon, 19 Oct 2026 14:47:04 +0000
+Received: by mail-dy1-x132b.google.com with SMTP id 5a478bee46e88-3535bf8b3e0so4659331eec.0
+        for <linux-nvme@lists.infradead.org>; Mon, 19 Oct 2026 07:47:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792421222; x=1793026022; darn=lists.infradead.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=rHOolWs+HrDZTYIj1HgXgSZZtVsYtKQLKIFtAPPddUM=;
+        b=VpIx09myvoVpLpGq9Vq0pz77s07s0HZXhsvs91SlTmbh1crt8utZkB4bC1GU6VvvEB
+         vDCGMhwqy17EDNXbB0nBXo9mxNiYxYpuZVCgHvNzF9u8+fucqBtCytrFOV8IUkvYqE1W
+         v71rCpsJ2w3dhf/pYJUO0xNkUcSlMc+iwGiwEA0GAKSSJ6rqWP1KGM7YcgP+FE86eEDj
+         avRRxl017bandlruXc9N9jFQ9rR6Xx6jJ/e7GVv2r8Zc1vSt6g6Po/zulZyDptch1opd
+         H8ypzSKHDQwYX1iPKDDF5lwuvB9PgkdwtyRIYieEQn/YNn+rbyIJmdi1zUYXkq4kKQPo
+         kCwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792421222; x=1793026022;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=rHOolWs+HrDZTYIj1HgXgSZZtVsYtKQLKIFtAPPddUM=;
+        b=gsnrakbLXlKdsBgRfFFMd89yxTFf5+rWVW5m8ORSAqNA6BkaIwrIXgdSPkemR/9d40
+         /DM6bZMWMMHrWyZxLEE1EBowlpSQRZOkyKSfGwTL/YcA/dAnG9I4YNfj5RnfMEM+j3zm
+         9qtB4OVWmCWGY7NZPZZgekHSLrg8wa0IFVX4/gbOatc1Yfa2GbGy8FflmFXK1xV0pnwC
+         wJrjB4KHh0jSj9i16Z6pVj5VLLYFkuV5pkAEfFU2Kv9Ha59zfcjS2J05wRL6Re3D75lY
+         nliljO50Y/PjxVO/wl1P1mbyl8rm8umlldwEGoUtxia4xHpbLbJWHhLn0a6qixTqZBl6
+         aYgw==
+X-Gm-Message-State: AFq9FYJT0vPt4i6Ly9tJOEIdTtszZT9fGYiHCY9NxVNAZKETzXxuxlZm
+	TGETO7Oo04AcnqPPl/2yWn8feDSE/eZMBIO/LR1tlUD2TOwJ+w111/edgUxkJ63r
+X-Gm-Gg: AYBFou38doB2b/qg0ENoppKteYlpOvVMnuCTM0NtM1gvprUxHJUhaECY0oPjzrIxCJQ
+	549j5fwHrczS7MYiSRdDyoB9n80uMFtMLCSUWQ0Ru7RFrXSJ3jCq9L/cKEoHPhRkNXD3RwcRBjO
+	THNeP/ddh50PlxBamyGNnhvfBVDjJ5Wo5mge9ZZlI+XtTECTUEmnsfjRDNMvHM9T+YpOYetkAjj
+	U7wMMV/NXu9E7kI2OxtD7lX5EEhKNE1cvGAgFrGzljcp7g03m1GDjoyPWVM30tuF7xQYmdrQzxl
+	QePA1TUwDEB0H+H92hdgT2K2jbJkv4hVHnS5Vt5ebUy/11RI2wmT4UWBu+pFObZtLj8eiKfnyty
+	FojOpTbzzSAe+bG3OeuTFuuWOUDMvnsvxFAo8Dln6+GFdeZh6KEECqHTKJP3BBmpfVXkac1jAsL
+	VuQLmMm3I/alqEqF/aGbh+4SKUW3P+ArouNOBctB3tzzuCjMJYkOaWaFBBLVoxctznxSWlRnhWd
+	Lf0dDoI7va+FBHz
+X-Received: by 2002:a05:7022:5f04:b0:149:1feb:6dae with SMTP id a92af1059eb24-18513b9ac38mr9541041c88.39.1792421221518;
+        Mon, 19 Oct 2026 07:47:01 -0700 (PDT)
+Received: from [10.0.2.15] ([136.226.252.185])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1830f213ba7sm34263642c88.0.2026.10.19.07.46.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Oct 2026 07:47:00 -0700 (PDT)
+Message-ID: <1af1ff8db7803c1b8f8e656eebe249cbe5e622b4.camel@gmail.com>
+Subject: Re: [PATCH v2 3/3] nvme: document the service-time iopolicy sysfs
+ attributes
+From: Martin George <martinus.gpy@gmail.com>
+To: Laurence Oberman <loberman@redhat.com>, Guixin Liu
+ <kanie@linux.alibaba.com>,  sashiko-reviews@lists.linux.dev
 Cc: linux-nvme@lists.infradead.org
-In-Reply-To: <20261019135441.1420968-249-sashal@kernel.org>
-References: <20261019135441.1420968-1-sashal@kernel.org>
- <20261019135441.1420968-249-sashal@kernel.org>
-Content-Type: text/plain; charset=utf-8
+Date: Mon, 19 Oct 2026 20:16:57 +0530
+In-Reply-To: <1a84584bc9cf64fab6b4e17bdf2050f9b176ad6a.camel@redhat.com>
+References: <20261019075607.808947-1-kanie@linux.alibaba.com>
+	 <20261019075607.808947-4-kanie@linux.alibaba.com>
+	 <sashiko-outbox-176783@kernel.org>
+	 <acd6eee9-dadb-48e3-9a9d-232a268472d8@linux.alibaba.com>
+	 <c4b6b7cfd51a498df8aaa7f5bc5cef9a0605b733.camel@gmail.com>
+	 <1a84584bc9cf64fab6b4e17bdf2050f9b176ad6a.camel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 19 Oct 2026 14:50:39 +0000
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
+X-Archived-By: <archiver.kernel.org>
+MIME-Version: 1.0
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20261019_074703_255938_EAB416FA 
+X-CRM114-Status: GOOD (  15.66  )
+X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,125 +108,45 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_BLOCKED,RCVD_IN_ZEN_BLOCKED_OPENDNS,SPF_HELO_NONE
-	autolearn=ham autolearn_force=no version=4.0.1
+	autolearn=no autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
-X-Archived-By: <archiver.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] nvme-tcp: unsafe live lock reinit in nvme_tcp_reclassify_socket()
---
+On Mon, 2026-10-19 at 08:43 -0400, Laurence Oberman wrote:
+> On Mon, 2026-10-19 at 17:43 +0530, Martin George wrote:
+> > On Mon, 2026-10-19 at 19:13 +0800, Guixin Liu wrote:
+> > > >=20
+> > > > Should "service-time" also be added to the accepted values for
+> > > > /sys/class/nvme-subsystem/nvme-subsysX/iopolicy?
+> > > >=20
+> > > > =D9=87=D8=A7=DB=8C=DB=8C
+> > > Sure, changed in v3.
+> >=20
+> > Not just /sys/class/nvme-subsystem/nvme-subsysX/iopolicy, but this
+> > should be added to the accepted values in /sys/class/nvme-
+> > subsystem/nvme-subsysX/iopolicies as well.
+> >=20
+> > -Martin
+> Hello
+>=20
+> There should be no changes needed for my original iopolicies patch=C2=A0
+>=20
+> iopolicies_show() walks ARRAY_SIZE(nvme_iopolicy_names), so whoever
+> adds a service-time policy adds its enum value and its string to
+> nvme_iopolicy_names[] as part of that work. The new name then shows
+> up
+> in iopolicies automatically. The existing iopolicy store path already
+> matches against the same array, so both attributes stay in sync
+> without
+> code changes
+>=20
 
-commit 168d45f90ed1a7b47f62fbd5085e5e0bbb05d5a8
-Author: Eric Dumazet <edumazet@google.com>
+I meant adding to the iopolicies documentation here.
 
-nvme-tcp: delay nvme_tcp_reclassify_socket()
-
-This commit delays nvme_tcp_reclassify_socket() in nvme_tcp_alloc_queue()
-until after kernel_connect() and the optional nvme_tcp_start_tls() handshake
-complete, in order to avoid pulling tlshd lock dependencies into the
-nvme-tcp socket lockdep class.
-
-Link: https://lore.kernel.org/lkml/CANn89i+wnTLC=3D=3DUnXCpjsS4YxvEfhe5oK0N=
-7fttbqr1zKyqdug@mail.gmail.com/
-
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index beef2b576102a..da148092677fe 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -1859,7 +1859,6 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *n=
-ctrl, int qid,
->  	}
-> =20
->  	sk_net_refcnt_upgrade(queue->sock->sk);
-> -	nvme_tcp_reclassify_socket(queue->sock);
-> =20
->  	/* Single syn retry */
->  	tcp_sock_set_syncnt(queue->sock->sk, 1);
-> @@ -1948,6 +1947,8 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *n=
-ctrl, int qid,
->  			goto err_init_connect;
->  	}
-> =20
-> +	nvme_tcp_reclassify_socket(queue->sock);
-> +
-
-[Severity: High]
-Is it safe to call nvme_tcp_reclassify_socket() here after kernel_connect()
-and nvme_tcp_start_tls() have already run?
-
-When CONFIG_DEBUG_LOCK_ALLOC is enabled, nvme_tcp_reclassify_socket() checks
-sock_allow_reclassification() and calls sock_lock_init_class_and_name() in
-process context with bottom halves enabled and no lock held:
-
-drivers/nvme/host/tcp.c:nvme_tcp_reclassify_socket() {
-	struct sock *sk =3D sock->sk;
-
-	if (WARN_ON_ONCE(!sock_allow_reclassification(sk)))
-		return;
-
-	switch (sk->sk_family) {
-	case AF_INET:
-		sock_lock_init_class_and_name(sk, "slock-AF_INET-NVME",
-					      &nvme_tcp_slock_key[0],
-					      "sk_lock-AF_INET-NVME",
-					      &nvme_tcp_sk_key[0]);
-		break;
-    ...
-}
-
-And sock_lock_init_class_and_name() reinitializes sk->sk_lock in-place:
-
-include/net/sock.h:sock_lock_init_class_and_name()
-	sk_owner_set(sk, THIS_MODULE);
-	sk->sk_lock.owned =3D 0;
-	init_waitqueue_head(&sk->sk_lock.wq);
-	spin_lock_init(&(sk)->sk_lock.slock);
-	debug_check_no_locks_freed((void *)&(sk)->sk_lock,
-				   sizeof((sk)->sk_lock));
-	lockdep_set_class_and_name(&(sk)->sk_lock.slock,
-				   (skey), (sname));
-	lockdep_init_map(&(sk)->sk_lock.dep_map, (name), (key), 0);
-
-At this point in nvme_tcp_alloc_queue() (reached from
-nvme_tcp_alloc_admin_queue() or __nvme_tcp_alloc_io_queues()),
-kernel_connect() has already transitioned queue->sock->sk to TCP_ESTABLISHE=
-D,
-hashed it into inet_ehash, and armed TCP timers. In addition, when TLS is
-used, handshake_nl_done_doit() -> handshake_complete() ->
-nvme_tcp_tls_done() completes queue->tls_complete before userspace tlshd
-closes its open file descriptor to queue->sock->file.
-
-If incoming peer packets (such as TCP ACKs, window updates, TLS 1.3
-post-handshake NewSessionTicket messages, or FIN/RST) trigger softirq TCP RX
-(tcp_v4_rcv() / tcp_v6_rcv()), or if TCP timers (tcp_write_timer() /
-tcp_delack_timer()) or tlshd activity coincide with
-nvme_tcp_reclassify_socket():
-
-1. Can softirq or tlshd acquire sk->sk_lock.slock or sk->sk_lock right after
-   sock_allow_reclassification(sk) succeeds, racing with spin_lock_init(),
-   init_waitqueue_head(), sk->sk_lock.owned =3D 0,
-   debug_check_no_locks_freed(), lockdep_set_class_and_name(), and
-   lockdep_init_map() to corrupt the spinlock, waitqueue, and lockdep state?
-
-2. If softirq or tlshd already holds sk->sk_lock.slock or sk->sk_lock.owned
-   when sock_allow_reclassification(sk) is checked, won't this trigger
-   WARN_ON_ONCE(!sock_allow_reclassification(sk)) and abort reclassificatio=
-n,
-   leaving the socket in the default lockdep class?
-
->  	ret =3D nvme_tcp_init_connection(queue);
->  	if (ret)
->  		goto err_init_connect;
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261019135441.1420=
-968-249-sashal@kernel.org?part=3D1
+-Martin
 
