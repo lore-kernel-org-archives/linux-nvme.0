@@ -4,56 +4,138 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 038B4CCF2D3
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 11:13:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CF00ACCF2E3
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 12:01:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:References:
+	In-Reply-To:Cc:To:From:Subject:Content-Transfer-Encoding:Content-Type:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LgnfQ8wTBplOdukELUJAbNGTXtmsm4PBQs4E3Txr/1U=; b=oZHGQKl7u5vTEMtRnoHmaAYEgW
-	h2zlqfKDYETdKujg3n3PgJAzSLUAkRf8a/r2I7rHBjDnoCrhFFbIY7MC1SwGKcyloCYTNwobuGK7W
-	rZbcDDw8xjeVpIGBaxiO7N9HLOi3S0uh3h2QJorxaVu+tTWyXBqmm6W5nTbdtj4GPhHF5qS7sidjp
-	FhLCZqbD36Xca5LX8nhPXS7qAUT1t0Dsnlnpe/DrsAbHhn9llKltghp+BIP9CCd8DKp96BOlvxiiu
-	csRwE7W/kfBVlqTPC4/HHEZa53Uk/M1yxiq4t791dZFBdCpXXhz1lk7EhUFH8ZVvy6IMx3kSPakGh
-	m7kBSItQ==;
+	bh=eizw4Kp0fIdeSJH2kfJJvLAORXAdc5N5Ckf4TmLSqPo=; b=PXf4aEPOcOn59rwdtX+6kT/L/p
+	9575Vr8BVhYFG0ftS0njWLn5EAtYSqY0I0Kpg/w2GCWDbxp+EwzPvHeFuboqfhyk3TP+wkWSIZG4B
+	nDA3ocUV55QskSEqdjjVL3cxq0IaAnksnjViI7i5MVeDdf66zy4bzJhQobr4rjdNz7rWqjeJR0WO0
+	RpKjukVl3UBB0bs9pmQl8xn5Hm9bDInNc3FBH2R5wzPgHUqCSR6Oe6CzxumTT6wqNU7+ijNANSNV5
+	q4AwLMjqrB2AONxwBETSvRfjYG9L04hB2TnJKKxSG01FPc11oUAuIIfxV1Ud8X7GDC3Da/8jhXtMf
+	IsWxHoeg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xIlJ7-00000007GWq-3i3e;
-	Mon, 19 Oct 2026 11:13:33 +0000
-Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131])
+	id 1xIm3e-00000007KxJ-0lD6;
+	Mon, 19 Oct 2026 12:01:38 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xIlJ4-00000007GWR-2y59
+	id 1xIm3X-00000007Kwm-0Gvk
 	for linux-nvme@lists.infradead.org;
-	Mon, 19 Oct 2026 11:13:32 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1792408407; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=LgnfQ8wTBplOdukELUJAbNGTXtmsm4PBQs4E3Txr/1U=;
-	b=K35Z9mjlFcRW6zySyej+M0mEpHVnP3Z1GFGRla0Stjd1xNgiIDNzqD4EQtouZNmeE6nYmDbH1VDpPAOhV881oWahF+xxj65jZUpepNDVdC2203SfbaVqmeJ5bhnqGZdBttXixmKr5bgIJ/cT9D3C4eKk6JUZK6VFXpdDUjooI+w=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033032089153;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=2;SR=0;TI=SMTPD_---0XD68rJ0_1792408402;
-Received: from 30.178.69.0(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XD68rJ0_1792408402 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Mon, 19 Oct 2026 19:13:23 +0800
-Message-ID: <acd6eee9-dadb-48e3-9a9d-232a268472d8@linux.alibaba.com>
-Date: Mon, 19 Oct 2026 19:13:21 +0800
+	Mon, 19 Oct 2026 12:01:32 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A551D21CAB;
+	Mon, 19 Oct 2026 12:01:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792411283; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eizw4Kp0fIdeSJH2kfJJvLAORXAdc5N5Ckf4TmLSqPo=;
+	b=E2juYitcp/qobVMtOz9jE853ph6Gq1X9Zo7mt01mrGjaRRJ1xLxgTl1BhBqot+Bb0EXJhF
+	wHn8lacXnqkwMZoQFugyAwQkd/w46D7jjX1gf0tsP+y/ibEsyWI9GPYqVX90gVTdWxOHuR
+	YQvX2BIqeZ9DWvSpPdMWEtrQn3jMGq0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792411283;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eizw4Kp0fIdeSJH2kfJJvLAORXAdc5N5Ckf4TmLSqPo=;
+	b=B+5CrO4GXcb2bzjj+cekLWGvGil3GioODo37qAn17GSktk2LJyn5tjeFP1VHYPct/LRGpS
+	NIxhKw8Tg8jQINBg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=lyYoJ6Ji;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="X/4CYOJS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792411278; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eizw4Kp0fIdeSJH2kfJJvLAORXAdc5N5Ckf4TmLSqPo=;
+	b=lyYoJ6JiarDMyrCxZqTcc2OA2F/+J9aCig+Xsp/07GwWWGsxWURhEPzv5R2Y+UKk1TnX8A
+	H92jL14TrFLys/5abUjf1LVLI7IHaVFqxen7naykFdnvem93qzYgCg/b/7t+pCEvEaMtw6
+	i8JodyS5aFqLyP87p6dLUAx598h3kMM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792411278;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eizw4Kp0fIdeSJH2kfJJvLAORXAdc5N5Ckf4TmLSqPo=;
+	b=X/4CYOJShcC0aCzxwrpzZpEi37m9AOys9POzAd2xR6sIx6Muy37Rl0pc7PYp+avCrU8OKW
+	0B2hexYJjVF4eXAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6B996136CC;
+	Mon, 19 Oct 2026 12:01:18 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Vi1wFI4G1mojTAAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Mon, 19 Oct 2026 12:01:18 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] nvme: document the service-time iopolicy sysfs
- attributes
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-nvme@lists.infradead.org
-References: <20261019075607.808947-1-kanie@linux.alibaba.com>
- <20261019075607.808947-4-kanie@linux.alibaba.com>
- <sashiko-outbox-176783@kernel.org>
-From: Guixin Liu <kanie@linux.alibaba.com>
-In-Reply-To: <sashiko-outbox-176783@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v6 02/18] nvmet/debugfs: Export controller CIU and CIRN
+ via debugfs
+From: Daniel Wagner <dwagner@suse.de>
+To: Mohamed Khalfella <mkhalfella@purestorage.com>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+ Justin Tee <justin.tee@broadcom.com>, 
+ Naresh Gottumukkala <nareshgottumukkala83@gmail.com>, 
+ Paul Ely <paul.ely@broadcom.com>, Hannes Reinecke <hare@kernel.org>, 
+ Chaitanya Kulkarni <kch@nvidia.com>, James Smart <jsmart833426@gmail.com>, 
+ Randy Jennings <randyj@purestorage.com>, linux-nvme@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20260920182936.2317916-3-mkhalfella@purestorage.com>
+References: <20260920182936.2317916-1-mkhalfella@purestorage.com>
+ <20260920182936.2317916-3-mkhalfella@purestorage.com>
+Date: Mon, 19 Oct 2026 14:01:13 +0200
+Message-Id: <179241127352.3544975.2554197788837860779.b4-reply@b4>
+X-Mailer: b4 0.16.0
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: A551D21CAB
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,kernel.dk,lst.de,grimberg.me,broadcom.com,gmail.com,nvidia.com,purestorage.com,lists.infradead.org,vger.kernel.org,suse.de];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:dkim];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261019_041331_071920_212D61A0 
-X-CRM114-Status: GOOD (  28.13  )
+X-CRM114-CacheID: sfid-20261019_050131_397718_8607C0BB 
+X-CRM114-Status: UNSURE (   9.42  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,175 +150,19 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On 2026-09-20 11:28 -0700, Mohamed Khalfella wrote:
+> Export ctrl->ciu and ctrl->cirn as debugfs files under controller
+> debugfs directory.
 
+Could you add the 'why' part to the commit message?
 
-在 2026/10/19 16:13, sashiko-bot@kernel.org 写道:
-> Thank you for your contribution! Sashiko AI review found 3 potential issue(s) to consider:
-> - [High] nvme-multipath: nvme_failover_req() clears rq bytes before in_flight_size sub
-> - [High] nvme-multipath: in_flight_size underflow in nvme_mpath_end_request()
-> - [Low] nvme: missing service-time in sysfs-nvme iopolicy ABI documentation
-> --
->
-> commit 5acf4057a11f40dc3e2cd32f04002286c4084ff4
-> Author: Guixin Liu <kanie@linux.alibaba.com>
->
-> nvme: document the service-time iopolicy sysfs attributes
->
-> This commit documents the new in_flight_bytes and relative_throughput sysfs
-> attributes added for the service-time NVMe multipath I/O policy in
-> Documentation/ABI/stable/sysfs-nvme.
->
->> diff --git a/Documentation/ABI/stable/sysfs-nvme b/Documentation/ABI/stable/sysfs-nvme
->> index a2f5d0710db40..adaf292c8c67b 100644
->> --- a/Documentation/ABI/stable/sysfs-nvme
->> +++ b/Documentation/ABI/stable/sysfs-nvme
->> @@ -326,6 +326,28 @@ Description:
->>  		currently selected path. Returns empty if iopolicy is not
->>  		"numa". Requires CONFIG_NVME_MULTIPATH.
->>  
->> +What:		/sys/block/nvmeXcYnZ/in_flight_bytes
->> +What:		/sys/block/nvmeXcYnZ/relative_throughput
->> +Date:		October 2026
->> +KernelVersion:	7.5
->> +Contact:	Guixin Liu <kanie@linux.alibaba.com>
->> +Description:
->> +		in_flight_bytes: Shows the number of bytes currently in
->> +		flight on this path's controller. Returns empty if
->> +		iopolicy is not "service-time".
->> +		Requires CONFIG_NVME_MULTIPATH.
-> [Severity: High]
-> Can ns->ctrl->in_flight_size permanently leak in-flight bytes when a
-> request fails over in nvme_failover_req()?
->
-> In commit 211891d7cca0 ("nvme-multipath: implement service-time iopolicy"),
-> nvme_mpath_start_request() adds blk_rq_bytes(rq) to ns->ctrl->in_flight_size
-> and sets NVME_MPATH_CNT_ACTIVE_BYTES:
->
-> drivers/nvme/host/multipath.c:nvme_mpath_start_request() {
-> 	...
-> 	} else if (iopolicy == NVME_IOPOLICY_ST &&
-> 		   !(nvme_req(rq)->flags & NVME_MPATH_CNT_ACTIVE_BYTES)) {
-> 		atomic64_add(blk_rq_bytes(rq), &ns->ctrl->in_flight_size);
-> 		nvme_req(rq)->flags |= NVME_MPATH_CNT_ACTIVE_BYTES;
-> 	}
-> }
->
-> When a request fails over (for example, on NVME_SC_ANA_TRANSITION,
-> NVME_SC_HOST_PATH_ERROR, or a dying queue), __nvme_complete_rq() calls
-> nvme_failover_req(), which steals the bios from req before calling
-> nvme_end_req():
->
-> drivers/nvme/host/multipath.c:nvme_failover_req() {
-> 	...
-> 	blk_steal_bios(&ns->head->requeue_list, req);
-> 	spin_unlock_irqrestore(&ns->head->requeue_lock, flags);
->
-> 	nvme_req(req)->status = 0;
-> 	nvme_end_req(req);
-> }
->
-> Because blk_steal_bios() clears rq->__data_len:
->
-> block/blk-mq.c:blk_steal_bios() {
-> 	...
-> 	rq->__data_len = 0;
-> }
->
-> by the time nvme_end_req() -> __nvme_end_req() -> nvme_mpath_end_request()
-> runs:
->
-> drivers/nvme/host/multipath.c:nvme_mpath_end_request() {
-> 	...
-> 	if (nvme_req(rq)->flags & NVME_MPATH_CNT_ACTIVE_BYTES) {
-> 		atomic64_sub(blk_rq_bytes(rq), &ns->ctrl->in_flight_size);
-> 		nvme_req(rq)->flags &= ~NVME_MPATH_CNT_ACTIVE_BYTES;
-> 	}
-> }
->
-> blk_rq_bytes(rq) is 0, so the failed-over request's bytes are never
-> subtracted from ns->ctrl->in_flight_size. When failover occurs without a
-> controller reset, does ns->ctrl->in_flight_size remain permanently
-> inflated, skewing nvme_st_compare_load() and the in_flight_bytes sysfs
-> attribute?
-Right, fixed in v3.
->
-> [Severity: High]
-> Also in nvme_mpath_end_request(), can ns->ctrl->in_flight_size underflow
-> to a negative value if a requeued request completes after a controller
-> reset?
->
-> When a request started under NVME_IOPOLICY_ST is requeued via
-> nvme_retry_req() -> blk_mq_requeue_request() (or via BLK_STS_RESOURCE after
-> nvme_start_request() in nvme_rdma_queue_rq() or nvme_fc_start_fcp_op()),
-> the request returns to MQ_RQ_IDLE while retaining RQF_DONTPREP and
-> NVME_MPATH_CNT_ACTIVE_BYTES.
->
-> If a controller reset occurs before that request is re-dispatched,
-> nvme_mpath_init_identify() resets ctrl->in_flight_size to 0:
->
-> drivers/nvme/host/multipath.c:nvme_mpath_init_identify() {
-> 	...
-> 	/* initialize this in the identify path to cover controller resets */
-> 	atomic_set(&ctrl->nr_active, 0);
-> 	atomic64_set(&ctrl->in_flight_size, 0);
-> }
->
-> When the request is later re-dispatched, nvme_setup_cmd() skips
-> nvme_clear_nvme_request() because RQF_DONTPREP is set, and
-> nvme_mpath_start_request() skips atomic64_add() because
-> NVME_MPATH_CNT_ACTIVE_BYTES is already set. When the request finishes,
-> nvme_mpath_end_request() unconditionally subtracts blk_rq_bytes(rq) from
-> ns->ctrl->in_flight_size (unlike nr_active, which uses
-> atomic_dec_if_positive()), driving ctrl->in_flight_size negative.
->
-> In nvme_st_compare_load(), the negative s64 is then assigned to unsigned
-> size_t:
->
-> drivers/nvme/host/multipath.c:nvme_st_compare_load() {
-> 	size_t sz1, sz2, st1, st2;
-> 	unsigned int tp1 = ns1->ctrl->relative_throughput;
-> 	unsigned int tp2 = ns2->ctrl->relative_throughput;
->
-> 	sz1 = atomic64_read(&ns1->ctrl->in_flight_size);
-> 	sz2 = atomic64_read(&ns2->ctrl->in_flight_size);
->
-> Would this wrap sz1 or sz2 to near SIZE_MAX, causing
-> nvme_service_time_path() to avoid that controller's path while reporting a
-> negative value in in_flight_bytes?
-Yes, fixed in v3.
->> +
->> +		relative_throughput: Shows or sets the relative
->> +		throughput weight of this path, which the "service-time"
->> +		iopolicy uses to estimate the path service time as
->> +		in_flight_bytes / relative_throughput. The value is an
->> +		integer in the range 0-100 and defaults to 1; assign
->> +		higher values to faster paths. A path with a value of 0
->> +		is only selected when no path with a positive value is
->> +		available. Reading returns empty if iopolicy is not
->> +		"service-time"; writing is accepted regardless of the
->> +		active policy. Requires CONFIG_NVME_MULTIPATH.
->> +
->>  What:		/sys/block/nvmeXnY/delayed_removal_secs
->>  Date:		May 2025
->>  KernelVersion:	6.16
-> [Severity: Low]
-> In the same file (Documentation/ABI/stable/sysfs-nvme), the entry for
-> /sys/class/nvme-subsystem/nvme-subsysX/iopolicy still lists only the three
-> previous policies:
->
-> What:		/sys/class/nvme-subsystem/nvme-subsysX/iopolicy
-> ...
-> Description:
-> 		Shows or sets the multipath I/O path selection policy for
-> 		this subsystem. Accepted values: "numa", "round-robin",
-> 		"queue-depth". Changing the policy clears all current path
-> 		selections. Only available when CONFIG_NVME_MULTIPATH is
-> 		enabled.
->
-> Should "service-time" also be added to the accepted values for
-> /sys/class/nvme-subsystem/nvme-subsysX/iopolicy?
->
-> هایی
-Sure, changed in v3.
+> 
+> Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
+> Reviewed-by: Hannes Reinecke <hare@suse.de>
+> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+
+Besides the missing 'why', it looks good.
+
+Reviewed-by: Daniel Wagner <dwagner@suse.de>
 
 
