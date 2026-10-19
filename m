@@ -1,65 +1,68 @@
-Return-Path: <linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org>
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-	aws-us-west-2-korg-lkml-1.web.codeaurora.org
+Received: from smtp.lore.kernel.org (ip-10-30-226-214.us-west-2.compute.internal [10.30.226.214])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3A03606A322
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 14:50:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=rRg1cMfm;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jt3manw0
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 91615CCF2E6
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 14:43:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C695FCCF2E6
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 14:50:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
 	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
 	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Cc:To:Subject:
 	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+REiuhOk6WK+CD+uZ6yHzg7Wu7MxEiEhQ/9njhRYMBI=; b=K3FNF9YsgTweRdR5xsfuyjXmY6
-	3ir9WWutaLH+9aaqEr4mqItHOVWDdUA4g47BELKuN962WpWi6fSktfVakLKaT+Ls/K7H7xCjHNqL+
-	htkf5VnIHgYPefpuAt1J34u2W7yxYsoJcqmRcnBg/SLjCME1+4V1ngEQuUjx0EQsYlllP5sLS5En9
-	aEGnOCTrpAXjVC8D8PB2hLclxvAYMN1ZQB+UBxyA5XPOrgeMsCXAsFC2j0IZBZL6j3g1P4Z8RhMDn
-	uWAKYLHcF37alHfKQxb4ucJp+ty7KU9TUNHqkKpYn3bTb5vHPD+CsIS3NSXIf65Yzj4KC6CQ6QOSn
-	OwKVyPuw==;
+	bh=oUauQvHS3NTWyt9vjGJPWt7FZhoq+fPqFt/ovAb7PII=; b=rRg1cMfmfxPn01/aHIfidadjk+
+	UaDG7sbAi89uT6nnvwkCIZO2nBXQMGZmLHRCQQxbcnZO9LR4qKTKP/JPb6kCvCYYwt8M97q9q0cCF
+	AXUgOtFRdUCGpZMKUeas4btDMG4aUqtGedsnM3dGF8HDHe7frLd0BwqTXT/E6NpR6uHVb+zP6NfEm
+	66pmPGx5NI1WP4r4jyi5wcuPLPAPLlRs2PivqxLaeaXuqzUjuN6lbrxJBEJR92fn6W8dw8/lEARno
+	swIocGzu+jjqQ2D6WGPnDcTQMq5tPsiVXGLE6Yy7UkF5I9pOvpWPE8DN+FGTLnJtYRD+fOf+1IMaQ
+	/OB6f68A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xIoag-00000007ltw-2r67;
-	Mon, 19 Oct 2026 14:43:54 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1xIohF-00000007mU5-2uPK;
+	Mon, 19 Oct 2026 14:50:41 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xIoag-00000007ltj-19dt
+	id 1xIohE-00000007mTw-3B1h
 	for linux-nvme@lists.infradead.org;
-	Mon, 19 Oct 2026 14:43:54 +0000
+	Mon, 19 Oct 2026 14:50:40 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id B2A97601FD
-	for <linux-nvme@lists.infradead.org>; Mon, 19 Oct 2026 14:43:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E0761F000C4;
-	Mon, 19 Oct 2026 14:43:53 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id E70CE60210
+	for <linux-nvme@lists.infradead.org>; Mon, 19 Oct 2026 14:50:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C2CD1F000C4;
+	Mon, 19 Oct 2026 14:50:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792421033;
-	bh=+REiuhOk6WK+CD+uZ6yHzg7Wu7MxEiEhQ/9njhRYMBI=;
+	s=k20260515; t=1792421439;
+	bh=oUauQvHS3NTWyt9vjGJPWt7FZhoq+fPqFt/ovAb7PII=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=fCtbdGkFAWYUnZM067PZpanw2OkkMQgp1vAlfPaliM3aqqwu3a10lrrnSlBbfYJ8u
-	 n4DaiYuYj8Hi6zKwJawPjUKjZU6hnq6Bm8fquW7hZ9i2Bsy9LcvMij4OlAVMHwcsQa
-	 +bkqlVFb4WR/GtrLE+oDZPCATQNtNCEhF3fmas85X891L5yBJZCbyYMuBRd5mi1WmO
-	 OCw+eq8UE+BDnbgMIv6Oia1BbQCQi9E+a34Tmgjvr3epG8tnwxkmmF9npfDHgpNRZQ
-	 9s8TutqFvqV3c+41hbI5UE6hHubM+VPvLAjazi6QAHmCN/1+M8GqNsomAIkvCejr/0
-	 +2WdUJr9qPj7Q==
-Message-ID: <sashiko-outbox-177482@kernel.org>
+	b=jt3manw0+0PNVgyKezATASKo0q+s096Fyart3hWQsdFW3n24K2Os6xGoYRcLpcU3q
+	 Q/4FgTuyW4bVa4NTRtL/QE+T9P7UgbzH3tszG7ZFyGjU+1RpvQ3319p5VtBKdUXE7E
+	 SqKrRFpz3UQG+ZGLh3eCVsq+FIitwq2t7JyEHS8+MYQ9l8XeoprWHCPcn6GXjTvZCe
+	 Df72CbttBt7GnstsH1vH8nZhKwFZgqZIp9oEY2+lOQE2U1ex/JJHtCRucuRKwMDMS2
+	 oRVn9hzbk/vnUMTcK2cqQzWlx5Q2KMGQVIc5hpJng2vCqxi2oUh7RgoNQCG1I+uCk8
+	 zfejpFT+a4WTQ==
+Message-ID: <sashiko-outbox-177519@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH AUTOSEL 6.18-5.15] nvme-tcp: look up host_iface in the
- current netns
+Subject: Re: [PATCH AUTOSEL 6.18] nvme-tcp: delay
+ nvme_tcp_reclassify_socket()
 To: "Sasha Levin" <sashal@kernel.org>
 Cc: linux-nvme@lists.infradead.org
-In-Reply-To: <20261019135441.1420968-231-sashal@kernel.org>
+In-Reply-To: <20261019135441.1420968-249-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
- <20261019135441.1420968-231-sashal@kernel.org>
+ <20261019135441.1420968-249-sashal@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 19 Oct 2026 14:43:52 +0000
+Date: Mon, 19 Oct 2026 14:50:39 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
 List-Id: <linux-nvme.lists.infradead.org>
-List-Unsubscribe: <http://lists.infradead.org/mailman/options/linux-nvme>,
- <mailto:linux-nvme-request@lists.infradead.org?subject=unsubscribe>
 List-Archive: <http://lists.infradead.org/pipermail/linux-nvme/>
 List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
@@ -67,90 +70,123 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
+X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_BLOCKED,RCVD_IN_ZEN_BLOCKED_OPENDNS,SPF_HELO_NONE
+	autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
+	aws-us-west-2-korg-listserv-alma10-1
+X-Archived-By: <archiver.kernel.org>
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [Critical] nvme-tcp: use-after-free in nvme_tcp_alloc_ctrl() via __dev_ge=
-t_by_name()
+- [High] nvme-tcp: unsafe live lock reinit in nvme_tcp_reclassify_socket()
 --
 
-commit 04aa71fe23c7dec86f240fa7773c4020c75d2bb7
-Author: Geliang Tang <geliang@kernel.org>
+commit 168d45f90ed1a7b47f62fbd5085e5e0bbb05d5a8
+Author: Eric Dumazet <edumazet@google.com>
 
-nvme-tcp: look up host_iface in the current netns
+nvme-tcp: delay nvme_tcp_reclassify_socket()
 
-This commit changes nvme_tcp_alloc_ctrl() to look up opts->host_iface in
-current->nsproxy->net_ns rather than init_net so that interfaces in the
-calling task's network namespace can be found.
+This commit delays nvme_tcp_reclassify_socket() in nvme_tcp_alloc_queue()
+until after kernel_connect() and the optional nvme_tcp_start_tls() handshake
+complete, in order to avoid pulling tlshd lock dependencies into the
+nvme-tcp socket lockdep class.
+
+Link: https://lore.kernel.org/lkml/CANn89i+wnTLC=3D=3DUnXCpjsS4YxvEfhe5oK0N=
+7fttbqr1zKyqdug@mail.gmail.com/
 
 > diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 9a96df1a511c0..fb6858023f19d 100644
+> index beef2b576102a..da148092677fe 100644
 > --- a/drivers/nvme/host/tcp.c
 > +++ b/drivers/nvme/host/tcp.c
-> @@ -2935,7 +2935,8 @@ static struct nvme_tcp_ctrl *nvme_tcp_alloc_ctrl(st=
-ruct device *dev,
+> @@ -1859,7 +1859,6 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *n=
+ctrl, int qid,
 >  	}
 > =20
->  	if (opts->mask & NVMF_OPT_HOST_IFACE) {
-> -		if (!__dev_get_by_name(&init_net, opts->host_iface)) {
-> +		if (!__dev_get_by_name(current->nsproxy->net_ns,
-> +				       opts->host_iface)) {
+>  	sk_net_refcnt_upgrade(queue->sock->sk);
+> -	nvme_tcp_reclassify_socket(queue->sock);
+> =20
+>  	/* Single syn retry */
+>  	tcp_sock_set_syncnt(queue->sock->sk, 1);
+> @@ -1948,6 +1947,8 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *n=
+ctrl, int qid,
+>  			goto err_init_connect;
+>  	}
+> =20
+> +	nvme_tcp_reclassify_socket(queue->sock);
+> +
 
-[Severity: Critical]
-Is it safe to call __dev_get_by_name() here without holding rtnl_lock()?
+[Severity: High]
+Is it safe to call nvme_tcp_reclassify_socket() here after kernel_connect()
+and nvme_tcp_start_tls() have already run?
 
-When userspace writes connection parameters with host_iface=3D<name> to
-/dev/nvme-fabrics, the call chain:
+When CONFIG_DEBUG_LOCK_ALLOC is enabled, nvme_tcp_reclassify_socket() checks
+sock_allow_reclassification() and calls sock_lock_init_class_and_name() in
+process context with bottom halves enabled and no lock held:
 
-  nvmf_dev_write()
-    -> nvmf_create_ctrl()
-      -> nvme_tcp_create_ctrl()
-        -> nvme_tcp_alloc_ctrl()
+drivers/nvme/host/tcp.c:nvme_tcp_reclassify_socket() {
+	struct sock *sk =3D sock->sk;
 
-runs in sleepable process context holding only nvmf_dev_mutex, with
-neither rtnl_lock() nor rcu_read_lock() held.
+	if (WARN_ON_ONCE(!sock_allow_reclassification(sk)))
+		return;
 
-In net/core/dev.c, __dev_get_by_name() requires the RTNL semaphore and
-calls netdev_name_node_lookup(), which traverses the per-netns hash bucket
-with non-RCU list primitives:
-
-net/core/dev.c:netdev_name_node_lookup() {
-	struct hlist_head *head =3D dev_name_hash(net, name);
-	struct netdev_name_node *name_node;
-
-	hlist_for_each_entry(name_node, head, hlist)
-		if (!strcmp(name_node->name, name))
-			return name_node;
-	return NULL;
+	switch (sk->sk_family) {
+	case AF_INET:
+		sock_lock_init_class_and_name(sk, "slock-AF_INET-NVME",
+					      &nvme_tcp_slock_key[0],
+					      "sk_lock-AF_INET-NVME",
+					      &nvme_tcp_sk_key[0]);
+		break;
+    ...
 }
 
-net/core/dev.c:__dev_get_by_name() {
-	struct netdev_name_node *node_name;
+And sock_lock_init_class_and_name() reinitializes sk->sk_lock in-place:
 
-	node_name =3D netdev_name_node_lookup(net, name);
-	return node_name ? node_name->dev : NULL;
-}
+include/net/sock.h:sock_lock_init_class_and_name()
+	sk_owner_set(sk, THIS_MODULE);
+	sk->sk_lock.owned =3D 0;
+	init_waitqueue_head(&sk->sk_lock.wq);
+	spin_lock_init(&(sk)->sk_lock.slock);
+	debug_check_no_locks_freed((void *)&(sk)->sk_lock,
+				   sizeof((sk)->sk_lock));
+	lockdep_set_class_and_name(&(sk)->sk_lock.slock,
+				   (skey), (sname));
+	lockdep_init_map(&(sk)->sk_lock.dep_map, (name), (key), 0);
 
-If a network device in current->nsproxy->net_ns is concurrently
-unregistered via unregister_netdevice_many_notify() ->
-rollback_registered_many() (which unlinks the node in unlist_netdevice(),
-waits for an RCU grace period via synchronize_net(), and then frees the
-nodes via netdev_name_node_alt_flush() and netdev_name_node_free()), has an
-altname deleted via netdev_name_node_alt_destroy() ->
-__netdev_name_node_alt_destroy(), or is renamed via dev_change_name(),
-neither synchronize_net() nor call_rcu() will wait for a preempted reader
-in nvme_tcp_alloc_ctrl().
+At this point in nvme_tcp_alloc_queue() (reached from
+nvme_tcp_alloc_admin_queue() or __nvme_tcp_alloc_io_queues()),
+kernel_connect() has already transitioned queue->sock->sk to TCP_ESTABLISHE=
+D,
+hashed it into inet_ehash, and armed TCP timers. In addition, when TLS is
+used, handshake_nl_done_doit() -> handshake_complete() ->
+nvme_tcp_tls_done() completes queue->tls_complete before userspace tlshd
+closes its open file descriptor to queue->sock->file.
 
-Could this trigger a use-after-free on name_node or name_node->name during
-the hash list traversal, and should this lookup use dev_get_by_name_rcu()
-under rcu_read_lock() (or netdev_name_in_use()) instead?
+If incoming peer packets (such as TCP ACKs, window updates, TLS 1.3
+post-handshake NewSessionTicket messages, or FIN/RST) trigger softirq TCP RX
+(tcp_v4_rcv() / tcp_v6_rcv()), or if TCP timers (tcp_write_timer() /
+tcp_delack_timer()) or tlshd activity coincide with
+nvme_tcp_reclassify_socket():
 
->  			pr_err("invalid interface passed: %s\n",
->  			       opts->host_iface);
->  			ret =3D -ENODEV;
+1. Can softirq or tlshd acquire sk->sk_lock.slock or sk->sk_lock right after
+   sock_allow_reclassification(sk) succeeds, racing with spin_lock_init(),
+   init_waitqueue_head(), sk->sk_lock.owned =3D 0,
+   debug_check_no_locks_freed(), lockdep_set_class_and_name(), and
+   lockdep_init_map() to corrupt the spinlock, waitqueue, and lockdep state?
+
+2. If softirq or tlshd already holds sk->sk_lock.slock or sk->sk_lock.owned
+   when sock_allow_reclassification(sk) is checked, won't this trigger
+   WARN_ON_ONCE(!sock_allow_reclassification(sk)) and abort reclassificatio=
+n,
+   leaving the socket in the default lockdep class?
+
+>  	ret =3D nvme_tcp_init_connection(queue);
+>  	if (ret)
+>  		goto err_init_connect;
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261019135441.1420=
-968-231-sashal@kernel.org?part=3D1
+968-249-sashal@kernel.org?part=3D1
 
