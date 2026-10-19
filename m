@@ -4,58 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 12710CCF2E3
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 14:00:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0ECBBCCF2DE
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 14:00:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=n+rhH6sFi7Wv5X0hh3VjHO8MU1I4EKEJ3OCazhVuTZI=; b=eW5pNCCCUrgCQXXVLUqxENSq3P
-	pPwgaoyVVAR+s1AQTvbANIM/f83XEVXJ0yRkpVI91bxC5QHFuh2bfySiJ6TQC7dDPzTxsO9tgux3u
-	FN+vavXaLn35jNmCJorLxIVSLITz09f1pJfHInZaSBKFCAH0JLx6xEjLeEdknHdP4BLAFaE8nSFUs
-	gQvVIBOX8Cn9BO8Cli3//AUBvcY6miy+JW3amD7s2I+q6qmEWbDYdNtOfZMzBZL76eWv5VlE8Ltky
-	jlToKbvzqgLJMtL4UNkTMYTNdPIBpGU3T4I4+uwLFOtJR5vjXPpAIg+1Amre8fJyGz7VXhc+qqQkK
-	L+ebu9zQ==;
+	bh=GxtG7fv1eAppClQmc13q7JrC+mlvaj0Pd5oOi23SH4M=; b=D/oRXumVJ/T+7j9pFNr0uu3c3/
+	Da7y3OL5rMwRsTeOhVWdP3IUBz5TzAR2StERMoenrvkXHF6i2naXGjJvNf5h+izV6HWHTICm4Th4C
+	Ihs3TsQ6K5xqz6JkAn3dSVIZeW7VkJ3pAxN3XHt9IJrK0Ve5XP9IJ5lQkpifUMIsNwZvT+hnN08cr
+	Gf/zp3ftx0Ez/y1ttEbb4l1HdCM9o9uIU55elkauTKgsOtHIQblU0nvwvdRfqDPUzN4Fmhm0Pfn/X
+	uUX9H5pJpl81Jqrgj2WtR+HYHTrula6HEokWVkuIoxy7P4CtYZWLD4+cTuREdiyKHCjSqrY6uF+uy
+	FMu03khg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xInuQ-00000007cb5-3zcG;
-	Mon, 19 Oct 2026 14:00:14 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1xInup-00000007cro-2vig;
+	Mon, 19 Oct 2026 14:00:39 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xInuP-00000007cZc-2bAx
+	id 1xInup-00000007cqh-0vjD
 	for linux-nvme@lists.infradead.org;
-	Mon, 19 Oct 2026 14:00:13 +0000
+	Mon, 19 Oct 2026 14:00:39 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 01C386020A;
-	Mon, 19 Oct 2026 14:00:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1AED1F000C7;
-	Mon, 19 Oct 2026 14:00:11 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id CB05442B79;
+	Mon, 19 Oct 2026 14:00:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 914701F000C4;
+	Mon, 19 Oct 2026 14:00:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418412;
-	bh=n+rhH6sFi7Wv5X0hh3VjHO8MU1I4EKEJ3OCazhVuTZI=;
+	s=k20260515; t=1792418438;
+	bh=GxtG7fv1eAppClQmc13q7JrC+mlvaj0Pd5oOi23SH4M=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=HIux8TKRZ/qUweUgywVCamTemxbClEOu6xsmEIBtYIxdVIZUpMkGmhz0lu+qTuTOj
-	 0oMO+Q1gnnq/Pk8bxlT4gn5NgPK4/jjMw7/iZoZq6tJsQ5K4SAQ9b5oytBaPoFHU9C
-	 l7dQegkCoLyw7sHJjMPW50ucXQaLFJITcZoD8ILRndWIXrAbiMqeOPJmKO4YSe04rY
-	 RMnG0E5nwvSd8eCT4rOTr+L1BM49gwTsJoLUJrRHhh7DIm9NLs1n21eSQkCCFDBZ+t
-	 Fw7MeGT1ic+JfUtf3XcMPw4FblNHcNc/zD6AyNTD/xh1TG7dCDvxRb06V1+O/CVZ9v
-	 KCBUJOoequogQ==
+	b=WWnyzBXInruMWZn1vq+OtEe5pSKBMk5ZKYcz0bQGManGSACwikCmNF1CvsuDr2nhp
+	 LUozowgiskLubg+6Y2Ry0WS64Co8Mh9zdKncg6A9pVrijVP0Sre7GkJ6EBzROmbAJ1
+	 cknDPoqntETcHvBMMnJwjGrOx9JVHmWlv0C1PPtcOSoJaYYWyed1wF4hxA/WCQidr7
+	 XT2GnB6LYoufBz06E1L7c5yyQS1hsBXxtz5rP/zk84WJwzd6wjtLLTS7fMN7TYNbuQ
+	 gGoTU4bTF42lYL4s3a+Oa9q7gCec7cm3ZqhPSL81MqHULI28cSAel1K31Lh9HhK3/1
+	 QmfaSzZLjeiSA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Geliang Tang <tanggeliang@kylinos.cn>,
-	Hannes Reinecke <hare@kernel.org>,
+Cc: Eric Dumazet <edumazet@google.com>,
+	Nilay Shroff <nilay@linux.ibm.com>,
+	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
 	Keith Busch <kbusch@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	axboe@kernel.dk,
 	sagi@grimberg.me,
 	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-5.15] nvme-tcp: look up host_iface in the current netns
-Date: Mon, 19 Oct 2026 09:48:42 -0400
-Message-ID: <20261019135441.1420968-231-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18] nvme-tcp: delay nvme_tcp_reclassify_socket()
+Date: Mon, 19 Oct 2026 09:49:00 -0400
+Message-ID: <20261019135441.1420968-249-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -79,395 +80,452 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Geliang Tang <tanggeliang@kylinos.cn>
+From: Eric Dumazet <edumazet@google.com>
 
-[ Upstream commit 58202950e39c127d593ec4f0624d8b8985a285b1 ]
+[ Upstream commit 447a7a3026eda85ac2738cbe6ee5ab066a39dad0 ]
 
-nvme_tcp_alloc_ctrl() looks opts->host_iface up in &init_net, the boot-time
-netns. When called from any other netns - e.g. the selftest's ns2, where
-ns2eth1 actually lives - the lookup misses and the controller setup fails
-with "invalid interface passed":
+Commit 841aee4d75f1 ("nvme-tcp: lockdep: annotate in-kernel sockets")
+introduced nvme_tcp_reclassify_socket() to resolve a lockdep WARN by
+distinguishing userspace sockets from nvme-tcp sockets. After that, TLS
+encryption support was introduced to nvme-tcp and it added another lock
+dependency on userspace socket handling by tlshd, which resulted in a
+new lockdep WARN. This WARN was hidden by the commit 19bdb70c77d3
+("nvme-tcp: lockdep: use dynamic lockdep keys per socket instance").
+However, it turned out the commit 19bdb70c77d3 has a bug of lockdep key
+lifetime management, and it is to be reverted by another patch in this
+series. After the revert, the WARN was unveiled and observed at the
+blktests test case nvme/062:
 
- nvmet: adding nsid 1 to subsystem nqn.2014-08.org.nvmexpress.mptcpdev
- nvmet_tcp: enabling port 24660 (0.0.0.0:24099)
- # nvme discover -a 10.1.1.1 --tos=0x10 --host-iface=ns2eth1
- nvme_tcp: invalid interface passed: ns2eth1
- # failed to add controller, error invalid interface
+  WARNING: possible circular locking dependency detected
+  7.3.0-rc2+ #455 Tainted: G        W
+  ------------------------------------------------------
+  tlshd/75867 is trying to acquire lock:
+  ffffffff91ada5e0 (fs_reclaim){+.+.}-{0:0}, at: __kmalloc_cache_noprof+0x64/0x6d0
 
-Look the device up in current->nsproxy->net_ns instead so the check sees
-the calling task's netns.
+  but task is already holding lock:
+  ffff888197808258 (sk_lock-AF_INET-NVME){+.+.}-{0:0}, at: do_tcp_setsockopt+0x499/0x26a0
 
-Reviewed-by: Hannes Reinecke <hare@kernel.org>
-Signed-off-by: Geliang Tang <tanggeliang@kylinos.cn>
+  which lock already depends on the new lock.
+
+To fix the lockdep WARN caused by the TLS encryption support, delay the
+reclassification of the nvme-tcp sockets. Currently the reclassification
+happens before the TLS handshake starts, which pulls in the additional
+lock dependencies related to tlshd. Reclassify the sockets after the TLS
+handshake instead, to cut that dependency.
+
+Link: https://lore.kernel.org/lkml/CANn89i+wnTLC==UnXCpjsS4YxvEfhe5oK0N7fttbqr1zKyqdug@mail.gmail.com/
+Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>
+Signed-off-by: Eric Dumazet <edumazet@google.com>
+Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-This is a one-line netns-correctness fix in existing NVMe-TCP `host-
-iface` validation. The buggy lookup is in this 6.12 tree; the patch
-applies cleanly.
+This tree is **6.18.57** (`v6.18.57-155-gcdf239ca885b2`). The question
+is whether `nvme-tcp: delay nvme_tcp_reclassify_socket()` should be
+backported **here**. The buggy pattern is present in 6.18, the change is
+three lines, and it does not depend on the 7.3-era revert that
+accompanied it upstream.
 
-===============================================================
-PHASE 1: COMMIT MESSAGE FORENSICS
-===============================================================
+---
 
-Step 1.1: PARSE THE SUBJECT LINE
-Record: [nvme-tcp] [look up] [validate `host_iface` in the calling
-task’s netns instead of `init_net`]
+## PHASE 1: COMMIT MESSAGE FORENSICS
 
-Step 1.2: PARSE ALL COMMIT MESSAGE TAGS
+**Step 1.1: PARSE THE SUBJECT LINE**
+Record: `[nvme-tcp] [delay] delay nvme_tcp_reclassify_socket() until
+after the TLS handshake`
+
+**Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
 Record:
-- Reviewed-by: Hannes Reinecke \<hare@kernel.org\> (NVMe/storage
-  maintainer)
-- Signed-off-by: Geliang Tang \<tanggeliang@kylinos.cn\> (author; MPTCP
-  contributor)
-- Signed-off-by: Keith Busch \<kbusch@kernel.org\> (NVMe maintainer;
-  applied the patch)
-- No Fixes:, Reported-by, Tested-by, Link:, or Cc: stable (absence
-  expected for this review)
-- Ignore pipeline markers (Upstream commit / Sasha Levin SOB) — none in
-  the origin commit `58202950e39c1`
+- `Link: https://lore.kernel.org/lkml/CANn89i+wnTLC==UnXCpjsS4YxvEfhe5oK
+  0N7fttbqr1zKyqdug@mail.gmail.com/` (Eric Dumazet report of the
+  lockdep-key lifetime bug)
+- `Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>`
+- `Signed-off-by: Eric Dumazet <edumazet@google.com>` (author)
+- `Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>`
+- `Signed-off-by: Keith Busch <kbusch@kernel.org>` (NVMe maintainer)
+- No `Fixes:` tag (expected)
+- No `Cc: stable` (expected)
+- No `Reported-by:` / syzbot tag on this commit itself (the Link is the
+  related lockdep-key discussion)
 
-Step 1.3: ANALYZE THE COMMIT BODY TEXT
+**Step 1.3: ANALYZE THE COMMIT BODY TEXT**
 Record:
-- Bug: `nvme_tcp_alloc_ctrl()` looks up `opts->host_iface` with
-  `__dev_get_by_name(&init_net, ...)`. In any other netns the name is
-  missing, so controller setup fails.
-- Symptom: `nvme_tcp: invalid interface passed: ns2eth1` then `failed to
-  add controller, error invalid interface`. Concrete repro: `nvme
-  discover -a 10.1.1.1 --tos=0x10 --host-iface=ns2eth1` from netns
-  `ns2`.
-- Failure mode: connect/discover abort with `-ENODEV`. Not a crash,
-  leak, or corruption.
-- Root cause: hardcoded boot netns instead of the calling task’s netns.
-- Version info: none in the message. The log line
-  `nqn.2014-08.org.nvmexpress.mptcpdev` is from an MPTCP NVMe selftest
-  that is not in this tree; the mechanism is not MPTCP-specific.
+- **Bug:** After `841aee4d75f1` put nvme-tcp sockets in a private lock
+  class, TLS support made `tlshd` operate on an already-reclassified
+  NVME socket. That pulled userspace TLS lock dependencies into
+  `sk_lock-AF_INET-NVME`.
+- **Symptom:** lockdep `WARNING: possible circular locking dependency
+  detected` in blktests `nvme/062`. `tlshd` holds `sk_lock-AF_INET-NVME`
+  and tries to take `fs_reclaim` via `__kmalloc_cache_noprof`.
+- **Hiding commit:** `19bdb70c77d3` (dynamic per-socket lockdep keys)
+  hid the WARN, then proved buggy and is reverted by patch 1/2 of the
+  same series.
+- **Fix:** reclassify after the TLS handshake so `tlshd` runs against
+  the default socket class.
+- **Version in the splat:** 7.3.0-rc2+; that is the mainline
+  observation, not a claim that 6.18 is unaffected.
 
-Step 1.4: DETECT HIDDEN BUG FIXES
-Record: Not a disguised cleanup. It is an explicit correctness fix:
-wrong netns for a name lookup. No hidden leak/race/UAF.
+**Step 1.4: DETECT HIDDEN BUG FIXES**
+Record: Not a disguised cleanup. It is an explicit lockdep-isolation
+fix. `nvme_tcp_reclassify_socket()` is already a no-op without
+`CONFIG_DEBUG_LOCK_ALLOC`, so the runtime effect is lockdep-only.
 
-===============================================================
-PHASE 2: DIFF ANALYSIS - LINE BY LINE
-===============================================================
+---
 
-Step 2.1: INVENTORY THE CHANGES
+## PHASE 2: DIFF ANALYSIS
+
+**Step 2.1: INVENTORY THE CHANGES**
 Record:
-- File: `drivers/nvme/host/tcp.c` (+2/−1)
-- Function: `nvme_tcp_alloc_ctrl()`
-- Scope: single-file, one-line surgical change
+- File: `drivers/nvme/host/tcp.c` (`+2 / -1`)
+- Function: `nvme_tcp_alloc_queue()`
+- Scope: single-file surgical move of one call
 
-Step 2.2: UNDERSTAND THE CODE FLOW CHANGE
-Record: In the `NVMF_OPT_HOST_IFACE` validation path, existence check
-was `__dev_get_by_name(&init_net, opts->host_iface)`. After:
-`__dev_get_by_name(current->nsproxy->net_ns, opts->host_iface)`. Normal
-connect path only; if the name is missing, still `-ENODEV` /
-`out_free_ctrl`.
-
-Step 2.3: IDENTIFY THE BUG MECHANISM
+**Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
 Record:
-- Category: logic/correctness (wrong network namespace)
-- Mechanism: interface names are per-netns. Lookup in `init_net` rejects
-  names that only exist in the caller’s netns (veths, container NICs).
-  The later `SO_BINDTODEVICE` already uses `sock_net(sk)`
-  (`net/core/sock.c` `sock_setbindtodevice()`), and `sock_create()`
-  already uses `current->nsproxy->net_ns`. Only this existence check was
-  wrong.
-- Not UAF/leak/race/crash. Pre-existing `__dev_get_by_name` without
-  RTNL/RCU is unchanged (comment in `net/core/dev.c` says RTNL is
-  required). Later MPTCP RFCs added RCU; mainline did not.
+- **Before:** `sock_create_kern` → `sock_alloc_file` →
+  `sk_net_refcnt_upgrade` → **`nvme_tcp_reclassify_socket()`** →
+  sockopts/connect → optional `nvme_tcp_start_tls()` →
+  `nvme_tcp_init_connection()`
+- **After:** same path, but reclassify runs **after** TLS handshake (or
+  after connect if TLS is not used), still **before**
+  `nvme_tcp_init_connection()`
+- Affected path: queue allocation / controller connect, including the
+  TLS handshake path
 
-Step 2.4: ASSESS THE FIX QUALITY
-Record: Obviously correct and consistent with `sock_create()`. Minimal.
-`current->nsproxy` is valid here: `nvme_tcp_alloc_ctrl()` is only called
-from `nvme_tcp_create_ctrl()` → `nvmf_create_ctrl()` →
-`nvmf_dev_write()` (userspace write to `/dev/nvme-fabrics`), not from
-reconnect workqueues. Regression risk very low: a caller that relied on
-init_net names while running in another netns would still fail later at
-`SO_BINDTODEVICE`.
-
-===============================================================
-PHASE 3: GIT HISTORY INVESTIGATION
-===============================================================
-
-Step 3.1: BLAME THE CHANGED LINES
+**Step 2.3: IDENTIFY THE BUG MECHANISM**
 Record:
-- Feature: `3ede8f72a9a28` (“nvme-tcp: allow selecting the network
-  interface for connections”), 2021-06-03, first in v5.14-rc1. Used
-  `dev_get_by_name(&init_net, ...)`.
-- Switch to `__dev_get_by_name`: `8b43ced64d2bac` (2021-07-13), Fixes:
-  3ede8f72, to avoid holding a netdev ref that blocked unregister. Still
-  `&init_net`.
-- Both are ancestors of this 6.12 tree. Bug present since the feature
-  landed.
+- Category: lockdep class mixing (userspace `tlshd` vs in-kernel nvme-
+  tcp), same family as `841aee4d75f1`
+- Mechanism: early reclassify makes TLS setsockopt/`kmalloc` look like
+  NVME-class `sk_lock` → `fs_reclaim`. Combined with existing NVME-class
+  reclaim dependencies, lockdep reports a cycle.
+- Fix: keep handshake on the default `AF_INET` class; switch to NVME
+  class only once kernel NVMe protocol I/O begins.
 
-Step 3.2: FOLLOW THE FIXES: TAG
-Record: No Fixes: tag. Buggy pattern comes from `3ede8f72a9a28` /
-`8b43ced64d2bac`, both in HEAD.
-
-Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES
-Record: Recent `tcp.c` history in this tree is TLS/PDU hardening, not
-host_iface. Origin after this commit has no further host_iface change on
-this file. Standalone v1, not “patch X/Y”.
-
-Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS
-Record: Geliang Tang is an MPTCP contributor, not an NVMe maintainer. In
-this tree his nvme work is unrelated (`nvmet-tcp` leak, unused
-variable). On origin this is his only `tcp.c` host_iface change. Weight
-comes from Hannes’s Reviewed-by and Keith applying it.
-
-Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS
-Record: No new helpers. `__dev_get_by_name` and
-`current->nsproxy->net_ns` exist here. Applies standalone (hunk
-succeeded at offset 32). `inet_pton_with_scope(&init_net, ...)` for
-addresses is left as-is; that is a separate scope issue, not a
-dependency.
-
-===============================================================
-PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
-===============================================================
-
-Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION
+**Step 2.4: ASSESS THE FIX QUALITY**
 Record:
-- SHA: `58202950e39c127d593ec4f0624d8b8985a285b1` (not in this tree; on
-  origin)
-- b4 dig: https://patch.msgid.link/c14cd4633c27abe2dec863480168691023694
-  aee.1785033817.git.tanggeliang@kylinos.cn
-- Thread (gnuweeb mirror; lore.kernel.org returned 403/bot wall):
-  standalone `[PATCH]`, 2026-07-26
-- b4 dig -a: v1 only; applied version is that v1
-- Hannes Reinecke 2026-07-27: Reviewed-by. Note that discovery-log
-  addresses in a netns may not be reachable from the initiator; not a
-  NAK of this lookup fix.
-- Keith Busch 2026-08-10: “Thanks, applied to nvme-7.3.”
-- No NAK, no Cc: stable in the thread
-- Earlier MPTCP RFC series combined netns + RCU (`dev_get_by_name_rcu` /
-  `netdev_name_in_use`); the committed patch is the netns one-liner only
+- Obviously correct: one call moved past the userspace-like handshake.
+- Minimal; no API/data-structure change.
+- Regression risk is low. `sock_allow_reclassification()` only requires
+  the socket not to be user-owned or slocked; `nvme_tcp_start_tls()`
+  waits for handshake completion before returning. Failed TLS goes to
+  `err_init_connect` without reclassify, which is fine because the
+  socket is being torn down. Reviewers accepted this; blktests
+  `nvme/062` was reported to pass.
 
-Step 4.2: CHECK WHO REVIEWED THE PATCH
-Record: b4 dig -w recipients: Keith Busch, Jens Axboe, Christoph
-Hellwig, Sagi Grimberg, Hannes Reinecke, linux-nvme. Appropriate
-maintainers. Hannes reviewed; Keith applied.
+---
 
-Step 4.3: SEARCH FOR THE BUG REPORT
-Record: No syzbot/bugzilla. Evidence is the author’s selftest log
-(`ns2eth1` in ns2). That MPTCP NVMe selftest is not in this 6.12 tree.
-Bug is still real for any netns + `host-iface`.
+## PHASE 3: GIT HISTORY INVESTIGATION
 
-Step 4.4: CHECK FOR RELATED PATCHES AND SERIES
-Record: Applied as a standalone linux-nvme patch, not as part of the
-MPTCP NVMe series. No sibling patch required for this lookup.
-
-Step 4.5: CHECK STABLE MAILING LIST HISTORY
-Record: gnuweeb `/stable/` search 404; lore.kernel.org 403. No verified
-stable-list discussion. UNVERIFIED: whether anyone already nominated or
-rejected this for stable.
-
-===============================================================
-PHASE 5: CODE SEMANTIC ANALYSIS
-===============================================================
-
-Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF
-Record: `nvme_tcp_alloc_ctrl()` only.
-
-Step 5.2: TRACE CALLERS
+**Step 3.1: BLAME THE CHANGED LINES**
 Record:
-- `nvme_tcp_alloc_ctrl` ← `nvme_tcp_create_ctrl` (`.create_ctrl` of
-  `nvme_tcp_transport`)
-- ← `nvmf_create_ctrl()` in `drivers/nvme/host/fabrics.c`
-- ← `nvmf_dev_write()` (misc device write)
-- Userspace: nvme-cli `connect`/`discover` writing to `/dev/nvme-
-  fabrics`
-- Reconnect (`nvme_tcp_setup_ctrl` / `nvme_tcp_alloc_queue`) does not
-  call `alloc_ctrl`; it reuses `opts->host_iface` on `SO_BINDTODEVICE`
+- Reclassify call introduced by `841aee4d75f1` (Chris Leech, 2022-02-15;
+  in this tree, first appeared around 5.18).
+- TLS handshake call introduced by `be8e82caa6859` (Hannes Reinecke,
+  2023-08-24; `v6.7-rc1`).
+- The lockdep WARN exists from TLS introduction onward whenever
+  reclassify happens first.
 
-Step 5.3: TRACE CALLEES
-Record: `__dev_get_by_name(net, name)` → `netdev_name_node_lookup()`.
-Existence check only; no ref taken (that was the point of
-`8b43ced64d2bac`).
+**Step 3.2: FOLLOW THE FIXES: TAG**
+Record: No `Fixes:` tag. Referenced commits:
+- `841aee4d75f1`: **is** an ancestor of this tree.
+- `19bdb70c77d3`: **is not** an ancestor of HEAD or of `v6.18` (dated
+  2026-06-04, contained around 7.x). The “hiding” commit never landed
+  here, so the TLS lockdep WARN was never suppressed in 6.18.y.
 
-Step 5.4: FOLLOW THE CALL CHAIN
-Record: Reachable from userspace via `/dev/nvme-fabrics` when
-`host_iface=` is set. Privileged fabrics connect, not an unprivileged
-syscall smash. In this tree `nvme_tcp_alloc_queue()` uses
-`sock_create()` → `current->nsproxy->net_ns`, then `sock_setsockopt(...,
-SO_BINDTODEVICE, ...)` which looks up the name in `sock_net(sk)`.
-Validation was the only `init_net` step on that path.
+**Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
+Record: This is **patch 2/2** of Shin'ichiro Kawasaki’s series “nvme-
+tcp: do not use dynamic lockdep key for socket instances”:
+1. Revert `19bdb70c77d3`
+2. This delay of reclassify
 
-Step 5.5: SEARCH FOR SIMILAR PATTERNS
-Record: Only this `__dev_get_by_name` in `drivers/nvme/`. RDMA transport
-has no `NVMF_OPT_HOST_IFACE`. `inet_pton_with_scope(&init_net, ...)`
-remains for `traddr`/`host_traddr` (numeric parse; different issue).
+Patch 1 is a no-op for this tree (nothing to revert). This delay patch
+is standalone on 6.18.
 
-===============================================================
-PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
-===============================================================
+**Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
+Record: Authored by Eric Dumazet (networking/lockdep); submitted by
+Shin'ichiro Kawasaki; applied by Keith Busch. Cover letter: tested on
+v7.3-rc2, `nvme/005` and `nvme/062` pass with no lockdep splat.
 
-Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?
-Record: Yes. `drivers/nvme/host/tcp.c:3000`:
-`if (!__dev_get_by_name(&init_net, opts->host_iface))`
-Tree: pending-6.12, `make kernelversion` 6.12.111, `git describe HEAD`
-p-6.12-3-gc504cf0baa3d8. Bug since v5.14. `git merge-base --is-ancestor
-58202950e39c1 HEAD` is false (fix not present).
-
-Step 6.2: CHECK FOR BACKPORT COMPLICATIONS
-Record: `git apply --check` of origin diff: hunk succeeded at offset 32.
-Local context still `kcalloc` (mainline later `kzalloc_objs`); that is
-after the hunk, not in it. Expected: clean apply / trivial offset.
-
-Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE
-Record: No later host_iface netns fix. `1be52169` (sock_create_kern) and
-`b013b817` (netns UAF on kernel TCP socket) are not in this tree; this
-patch does not depend on them.
-
-===============================================================
-PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
-===============================================================
-
-Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY
-Record: NVMe over Fabrics TCP host (`drivers/nvme/host/tcp.c`,
-`CONFIG_NVME_TCP`). Criticality: IMPORTANT — datacenter remote block
-storage, not core mm/vfs, not staging.
-
-Step 7.2: ASSESS SUBSYSTEM ACTIVITY
-Record: Actively maintained (TLS, PDU validation, etc.). `host_iface`
-itself has been stable since 5.14 with only the 2021 refcount change
-until this 2026 netns fix.
-
-===============================================================
-PHASE 8: IMPACT AND RISK ASSESSMENT
-===============================================================
-
-Step 8.1: DETERMINE WHO IS AFFECTED
-Record: Users of NVMe-TCP who pass `host_iface=` from a non-init netns,
-when that name is not also in `init_net`. Driver-specific + config
-(`CONFIG_NVME_TCP`) + optional option. Typical host-net `eth0` cases
-often pass the init_net check by accident; unique names (`ns2eth1`,
-container veths) fail.
-
-Step 8.2: DETERMINE THE TRIGGER CONDITIONS
-Record: Write connect/discover options including `host_iface=<name>`
-from a process whose netns is not `init_net`. Not every boot; only this
-option. Needs fabrics connect privilege, not unprivileged
-exploitability.
-
-Step 8.3: DETERMINE THE FAILURE MODE SEVERITY
-Record: Controller creation fails (`-ENODEV`); no NVMe device. No oops,
-hang, or corruption. Severity: MEDIUM (availability of an existing
-option), HIGH for those who need interface pinning in a netns.
-
-Step 8.4: CALCULATE RISK-BENEFIT RATIO
+**Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
 Record:
-- Benefit: medium for netns/container NVMe-TCP with `host-iface`; low
-  for default host-net users
-- Risk: very low (1-line, same helper, same error path)
-- Ratio: favorable — almost no regression surface, real connectivity bug
+- Revert of `19bdb70c77d3`: **not needed** here.
+- Cover letter also cites `0ba6912f7e97` (“Revert once: don't use a work
+  queue…”) to cut a **different** chain (`sk_lock → cpu_hotplug_lock`)
+  for `nvme/005`. That commit is **not** in this tree, and it is **not**
+  a prerequisite of this TLS reclassify move.
+- `nvme_tcp_reclassify_socket()`, `nvme_tcp_start_tls()`, and the
+  alloc_queue control flow all exist in `v6.18` with the same ordering
+  the patch expects.
 
-===============================================================
-PHASE 9: FINAL SYNTHESIS
-===============================================================
+Can this apply standalone? **Yes.**
 
-Step 9.1: COMPILE THE EVIDENCE
+---
+
+## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+
+**Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
+Record:
+- `b4 dig -c 447a7a3026eda85ac2738cbe6ee5ab066a39dad0` → https://patch.m
+  sgid.link/20260914074853.3990397-3-
+  shinichiro.kawasaki@opensource.wdc.com
+- Cover: https://patch.msgid.link/20260914074853.3990397-1-
+  shinichiro.kawasaki@opensource.wdc.com
+- Single revision (v1 of a 2-patch series). Direct lore.kernel.org fetch
+  returned 403; full thread was retrieved via `b4 dig -m`.
+- No NAKs. Keith Busch: “Thanks, applied to nvme-7.3.”
+- No reviewer `Cc: stable` suggestion found in the thread.
+
+**Step 4.2: CHECK WHO REVIEWED THE PATCH**
+Record (`b4 dig -w`): linux-nvme, Keith Busch, Jens Axboe, Christoph
+Hellwig, Sagi Grimberg, Eric Dumazet, Nilay Shroff. Nilay: “Looks good
+to me.” / `Reviewed-by`. Eric reviewed the companion revert.
+
+**Step 4.3: SEARCH FOR THE BUG REPORT**
+Record: Observed in blktests `nvme/062` (NVMe-TCP TLS). The Link tag is
+Eric’s report of the *dynamic key* lifetime WARN that motivated the
+revert; this delay patch is the follow-up so that revert does not re-
+expose the TLS class-mixing splat. Severity: lockdep warning, not a
+reported production hang.
+
+**Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
+Record: Companion revert is irrelevant to 6.18. A side discussion about
+keeping per-queue dynamic keys was dropped; Eric argued static “kernel
+vs user” classes are sufficient and per-instance keys hide real AB/BA
+bugs. That does not affect this delay patch.
+
+**Step 4.5: CHECK STABLE MAILING LIST HISTORY**
+Record: Web search of lore.kernel.org/stable for this subject did not
+turn up a prior stable discussion or an explicit rejection.
+
+---
+
+## PHASE 5: CODE SEMANTIC ANALYSIS
+
+**Step 5.1: IDENTIFY KEY FUNCTIONS**
+Record: `nvme_tcp_alloc_queue()` (call moved); helper
+`nvme_tcp_reclassify_socket()` unchanged; handshake still in
+`nvme_tcp_start_tls()`.
+
+**Step 5.2: TRACE CALLERS**
+Record: `nvme_tcp_alloc_queue()` is called from
+`nvme_tcp_alloc_admin_queue()` and `__nvme_tcp_alloc_io_queues()` during
+controller setup. Userspace trigger: connecting an NVMe/TCP controller
+(`nvme-cli` / nvmf), including TLS PSK when `CONFIG_NVME_TCP_TLS` is
+enabled.
+
+**Step 5.3: TRACE CALLEES**
+Record: `nvme_tcp_start_tls()` → `tls_client_hello_psk()` + wait for
+`tlshd`. Reclassify → `sock_lock_init_class_and_name()` only under
+`CONFIG_DEBUG_LOCK_ALLOC`.
+
+**Step 5.4: FOLLOW THE CALL CHAIN**
+Record: Reachable from normal NVMe/TCP connect. The lockdep splat needs
+lockdep + TLS + `tlshd`. Without lockdep the moved function is an empty
+stub in this tree (`static void nvme_tcp_reclassify_socket(struct socket
+*sock) { }` in the `#else` of `CONFIG_DEBUG_LOCK_ALLOC`).
+
+**Step 5.5: SEARCH FOR SIMILAR PATTERNS**
+Record: Same reclassify pattern exists in sunrpc (`xprtsock.c`,
+`svcsock.c`), SMB client, Bluetooth. Those also guard with
+`sock_allow_reclassification()`. This is the established in-kernel
+socket isolation approach.
+
+---
+
+## PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
+
+**Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
+Record: **Yes.** On `v6.18`:
+
+```
+1801: nvme_tcp_reclassify_socket(queue->sock);   /* immediately after
+create */
+1885: ret = nvme_tcp_start_tls(...);             /* later */
+1890: ret = nvme_tcp_init_connection(queue);
+```
+
+TLS (`be8e82caa6859`) and static reclassify (`841aee4d75f1`) are both in
+6.18. Dynamic keys (`19bdb70c77d3`) are not, so the TLS lockdep WARN is
+live here, not hypothetical.
+
+**Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
+Record: Clean apply. The hunk is a single function-call move around
+`nvme_tcp_start_tls()` / `nvme_tcp_init_connection()`, which have the
+same shape in `v6.18`. Later `sockaddr_unsized` / `__fput_sync` churn
+does not touch this call.
+
+**Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
+Record: No equivalent delay of reclassify in 6.18 history. No other TLS
+lockdep isolation fix on this path.
+
+---
+
+## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+
+**Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
+Record: NVMe over Fabrics TCP host (`drivers/nvme/host/tcp.c`).
+**IMPORTANT** for NVMe/TCP users; not core mm/VFS. TLS is
+`CONFIG_NVME_TCP_TLS` (“If unsure, say N”).
+
+**Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
+Record: Actively maintained (TLS, digest, security, reconnect). This is
+a targeted lockdep fix, not a refactor of new 7.3 infrastructure.
+
+---
+
+## PHASE 8: IMPACT AND RISK ASSESSMENT
+
+**Step 8.1: DETERMINE WHO IS AFFECTED**
+Record: NVMe/TCP users with `CONFIG_NVME_TCP_TLS` **and**
+`CONFIG_DEBUG_LOCK_ALLOC`/`LOCKDEP`, during TLS connect (`tlshd`).
+Production configs without lockdep: no functional change (stub
+function).
+
+**Step 8.2: DETERMINE THE TRIGGER CONDITIONS**
+Record: Controller connect with TLS PSK, lockdep enabled. Reproduced by
+blktests `nvme/062`. Not an unprivileged syscall smash; it is a
+privileged NVMe fabrics connect path. Timing: every TLS queue setup, not
+a rare race.
+
+**Step 8.3: DETERMINE THE FAILURE MODE SEVERITY**
+Record: lockdep circular-dependency **WARNING** (kernel tainted `W`).
+Discussion treats it as class mixing (false cycle from `tlshd` vs in-
+kernel NVMe), not a confirmed production deadlock. The same isolation
+hole has existed since TLS landed in 6.7; no production hang report was
+found for this chain. Severity: **MEDIUM** for debug/CI kernels, **LOW**
+for production 6.18 users.
+
+**Step 8.4: CALCULATE RISK-BENEFIT RATIO**
+Record:
+- Benefit: restores the `841aee4d75f1` kernel-vs-user isolation for TLS;
+  silences a real blktests splat; keeps lockdep usable on NVMe/TCP+TLS.
+- Risk: very low (3-line move, no-op without lockdep, reviewed, tested).
+- Ratio: favorable. The “important issue” bar is the only weak point,
+  not correctness or applyability.
+
+---
+
+## PHASE 9: FINAL SYNTHESIS
+
+**Step 9.1: COMPILE THE EVIDENCE**
 
 FOR:
-- Real, reproduced failure: `host-iface` rejected in non-init netns
-- Feature and buggy code exist in 6.12 since v5.14
-- Matches how sockets are created and bound in this tree
-- One-line, obviously correct; applies with offset only
-- Reviewed by Hannes Reinecke; applied by Keith Busch
-- No new API/feature; restores intended `host-iface` behavior
-- Storage connect failure is user-visible for affected deployments
-  (containers, netns isolation, multi-homed pinning)
+- Buggy ordering exists in this 6.18 tree (reclassify before TLS).
+- Tiny, obviously correct, reviewed by Nilay Shroff, applied by Keith
+  Busch, idea from Eric Dumazet.
+- Tested (blktests `nvme/062`).
+- Applies cleanly; no missing helpers or struct changes.
+- Companion revert is **not** required here because `19bdb70c77d3` never
+  landed.
+- Zero production behavioral change without lockdep.
+- Same class of fix as the existing `841aee4d75f1` annotation; TLS had
+  re-broken that isolation.
 
 AGAINST:
-- Not a crash, UAF, corruption, deadlock, or security bug
-- Optional `host-iface` plus non-init netns is a relatively narrow path
-- Motivating selftest (MPTCP NVMe) is not in 6.12
-- Went into nvme-7.3 updates, not a -fixes pull; no stable nomination in
-  the thread
-- Hannes noted broader discovery/netns limitations (not a NAK)
+- Debug-only (`nvme_tcp_reclassify_socket()` is empty without
+  `CONFIG_DEBUG_LOCK_ALLOC`).
+- Not a reported oops, hang, corruption, or CVE.
+- Needs optional TLS + `tlshd` + lockdep to fire.
+- Written as patch 2/2 of a 7.3 series whose other half does not apply
+  here (that is not a blocker; it just explains origin).
 
 UNRESOLVED:
-- Stable mailing list discussion (lore blocked / gnuweeb stable 404)
-- Whether distro/k8s NVMe-TCP actually uses `host-iface` from a
-  container netns (plausible, not counted)
+- Direct lore.kernel.org HTTP fetch returned 403; thread content was
+  still verified via `b4 dig -m`.
+- No stable-list nomination/rejection found.
 
-Step 9.2: APPLY THE STABLE RULES CHECKLIST
-1. Obviously correct and tested? PASS — one-line netns fix; maintainer
-   Reviewed-by; author reproduced
-2. Fixes a real bug that affects users? PASS — connect fails with
-   `-ENODEV` for a valid interface in the caller’s netns
-3. Important issue? PASS — availability of NVMe-TCP when `host-iface` is
-   used from a netns; not a panic, but a functional showstopper on that
-   path. Small correctness fixes of this kind are routine in stable
-4. Small and contained? PASS — +2/−1 in one function
-5. No new features or APIs? PASS
-6. Can apply to the local tree? PASS — buggy line present; apply-check
-   succeeded at offset 32
+**Step 9.2: APPLY THE STABLE RULES CHECKLIST**
+1. Obviously correct and tested? **PASS** (3-line move; Reviewed-by;
+   blktests `nvme/062`)
+2. Fixes a real bug that affects users? **PASS** (reproducible lockdep
+   WARN on NVMe/TCP TLS connect; bothers debug/CI users)
+3. Important issue? **PASS** (weak but acceptable: lockdep splat / “oh,
+   that's not good”; restores lock-class isolation that this tree
+   already relies on)
+4. Small and contained? **PASS** (3 lines, one function)
+5. No new features or APIs? **PASS**
+6. Can apply to the local tree? **PASS** (`v6.18` has the same call
+   sites)
 
-Step 9.3: CHECK FOR EXCEPTION CATEGORIES
-Record: None (not a device ID, quirk, DT, build, or docs fix). Qualifies
-as a normal small bugfix.
+**Step 9.3: CHECK FOR EXCEPTION CATEGORIES**
+Record: Not a device-ID/quirk/DT/build/docs exception. Ordinary small
+bugfix.
 
-Step 9.4: MAKE YOUR DECISION
-The local 6.12 tree still looks `host_iface` up in `init_net` while
-creating the TCP socket in the caller’s netns. That is a long-standing,
-self-contained correctness bug. Backporting this line restores
-connect/discover with `--host-iface` from containers and other netns
-without new infrastructure. Risk is negligible compared with leaving
-NVMe-TCP interface pinning broken off host netns.
+**Step 9.4: MAKE YOUR DECISION**
+Backport. The defect is in this tree, the patch is self-contained
+without the 7.3 revert, and the risk is negligible. Leaving early
+reclassify in place keeps a known lockdep isolation hole in NVMe/TCP TLS
+on 6.18.y.
 
-===============================================================
-What the commit solves for this tree
-===============================================================
+---
 
-`host_iface` is supposed to force NVMe-TCP onto a named NIC via
-`SO_BINDTODEVICE`. Validation used `&init_net`, so a name that only
-exists in the calling netns is treated as invalid and controller setup
-aborts. In 6.12 the socket is already created with `sock_create()`
-(current netns) and bind-to-device already searches that netns. The
-check is the broken piece. Stable users who pin NVMe-TCP to a NIC from a
-netns/container hit a hard connect failure; this is the whole fix.
+### What the commit solves for this tree
+On 6.18, nvme-tcp still reclassifies sockets immediately after create,
+then may run a TLS handshake via `tlshd`. That puts userspace handshake
+locking into the NVME socket class and produces a lockdep circular-
+dependency warning (blktests `nvme/062`). Moving reclassify to after
+handshake (and after connect when TLS is off) cuts that dependency.
+Production kernels without lockdep do not change behavior.
 
-Risk vs benefit: benefit is restoring an existing option in netns; risk
-is a one-line lookup change with the same `-ENODEV` path. No
-prerequisites. `inet_pton_with_scope(&init_net)` is untouched and not
-required for this fix.
+### Stable rules / risk
+Meets the written rules: small, obviously correct, tested, no new API,
+applies here. Benefit is debug/CI lockdep correctness; regression risk
+is essentially zero.
 
-===============================================================
-Verification
-===============================================================
-- [Phase 1] Parsed origin commit `58202950e39c1`: Reviewed-by Hannes
-  Reinecke; SOB Geliang Tang + Keith Busch; no Fixes/Cc-stable
-- [Phase 2] Diff: +2/−1 in `nvme_tcp_alloc_ctrl()`; `&init_net` →
-  `current->nsproxy->net_ns`
-- [Phase 2] Confirmed `sock_setbindtodevice()` uses `sock_net(sk)`;
-  `sock_create()` uses `current->nsproxy->net_ns` (`net/socket.c:1614`)
-- [Phase 3] blame: `3ede8f72a9a28` (v5.14-rc1) introduced init_net
-  lookup; `8b43ced64d2bac` switched to `__dev_get_by_name`, still
-  init_net; both ancestors of HEAD
-- [Phase 3] `git merge-base --is-ancestor 58202950e39c1 HEAD` → not an
-  ancestor (fix absent)
-- [Phase 4] `b4 dig -c 58202950e39c1`: lore msgid `c14cd4633c27abe2...`;
-  v1 only
-- [Phase 4] `b4 dig -w`: linux-nvme maintainers on To/Cc
-- [Phase 4] Hannes: Reviewed-by plus discovery/netns remark, no NAK;
-  Keith: applied to nvme-7.3
-- [Phase 4] lore.kernel.org 403; used lore-kernel.gnuweeb.org.
-  UNVERIFIED: stable@ thread
-- [Phase 5] Callers via grep: only `nvme_tcp_create_ctrl` →
-  `nvmf_dev_write`; reconnect does not call `alloc_ctrl`
-- [Phase 6] `git describe HEAD` p-6.12-3-gc504cf0baa3d8; `make
-  kernelversion` 6.12.111; buggy line at `tcp.c:3000`
-- [Phase 6] `git apply --check` of origin diff: succeeded at offset 32
-- [Phase 6] `1be52169` / `b013b817` not in this tree; not required
-- [Phase 8] Failure: `-ENODEV` / invalid interface; severity MEDIUM–HIGH
-  availability, not crash
-- UNVERIFIED: production hit rate of host-iface from container netns;
-  MPTCP selftest not in this tree
+### Concerns
+Do not pull in the companion revert of `19bdb70c77d3` (absent here). Do
+not treat `0ba6912f7e97` as a dependency of this patch; that is a
+separate `nvme/005` lock chain.
+
+---
+
+Verification:
+- [Phase 1] Parsed tags: Link to Eric’s lore report; Reviewed-by Nilay
+  Shroff; SOBs Eric Dumazet, Shin'ichiro Kawasaki, Keith Busch; no
+  Fixes/Cc:stable
+- [Phase 2] Diff: move `nvme_tcp_reclassify_socket()` in
+  `nvme_tcp_alloc_queue()` from after `sk_net_refcnt_upgrade` to after
+  optional `nvme_tcp_start_tls()`, +2/-1
+- [Phase 2] Confirmed `#else` stub: function is empty without
+  `CONFIG_DEBUG_LOCK_ALLOC` in this tree
+- [Phase 3] `git describe HEAD` / Makefile: 6.18.57
+- [Phase 3] `git merge-base --is-ancestor 841aee4d75f1 HEAD`: YES
+  (reclassify present)
+- [Phase 3] `git merge-base --is-ancestor be8e82caa6859 HEAD`: YES (TLS
+  present)
+- [Phase 3] `git merge-base --is-ancestor 19bdb70c77d3 HEAD`: NO
+  (hiding/dynamic-key commit not in 6.18)
+- [Phase 3] `git grep` on `v6.18:drivers/nvme/host/tcp.c`: reclassify at
+  line 1801, TLS at 1885 — buggy order confirmed
+- [Phase 3] `git blame v6.18 -- drivers/nvme/host/tcp.c`: reclassify =
+  `841aee4d75f1`, TLS = `be8e82caa6859`
+- [Phase 3] `git merge-base --is-ancestor 0ba6912f7e97 HEAD`: NO; not
+  required for this hunk
+- [Phase 4] `b4 dig -c 447a7a3026…`: patch 2/2, msgid
+  `20260914074853.3990397-3-…`
+- [Phase 4] `b4 dig -a`: v1 series only (cover + revert + this patch)
+- [Phase 4] `b4 dig -w`: linux-nvme +
+  Busch/Axboe/Hellwig/Grimberg/Dumazet/Shroff
+- [Phase 4] mbox: Nilay Reviewed-by; Keith applied to nvme-7.3; no NAK;
+  no Cc:stable
+- [Phase 4] lore.kernel.org WebFetch: 403; used b4 mbox instead
+- [Phase 4] stable list search: no prior discussion found
+- [Phase 5] Callers: `nvme_tcp_alloc_admin_queue`,
+  `__nvme_tcp_alloc_io_queues` (controller setup)
+- [Phase 5] `sock_allow_reclassification()`: `!sock_owned_by_user &&
+  !spin_is_locked(slock)`
+- [Phase 6] Apply: same surrounding symbols in v6.18; expected clean
+- [Phase 8] Failure mode: lockdep WARNING on TLS connect, not a verified
+  production deadlock
+- UNVERIFIED: whether any distro 6.18 debug kernel has a live user
+  report of this splat (commit cites blktests, not a distro bugzilla)
+
+The patch is small, the buggy ordering is in this 6.18 tree, and it does
+not need the later revert series to be useful.
 
 **YES**
 
@@ -475,19 +533,26 @@ Verification
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index beef2b576102a..1f26e35d7a99e 100644
+index 1f26e35d7a99e..9f15feff66132 100644
 --- a/drivers/nvme/host/tcp.c
 +++ b/drivers/nvme/host/tcp.c
-@@ -2999,7 +2999,8 @@ static struct nvme_tcp_ctrl *nvme_tcp_alloc_ctrl(struct device *dev,
+@@ -1859,7 +1859,6 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
  	}
  
- 	if (opts->mask & NVMF_OPT_HOST_IFACE) {
--		if (!__dev_get_by_name(&init_net, opts->host_iface)) {
-+		if (!__dev_get_by_name(current->nsproxy->net_ns,
-+				       opts->host_iface)) {
- 			pr_err("invalid interface passed: %s\n",
- 			       opts->host_iface);
- 			ret = -ENODEV;
+ 	sk_net_refcnt_upgrade(queue->sock->sk);
+-	nvme_tcp_reclassify_socket(queue->sock);
+ 
+ 	/* Single syn retry */
+ 	tcp_sock_set_syncnt(queue->sock->sk, 1);
+@@ -1948,6 +1947,8 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
+ 			goto err_init_connect;
+ 	}
+ 
++	nvme_tcp_reclassify_socket(queue->sock);
++
+ 	ret = nvme_tcp_init_connection(queue);
+ 	if (ret)
+ 		goto err_init_connect;
 -- 
 2.53.0
 
