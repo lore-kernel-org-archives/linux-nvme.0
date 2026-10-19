@@ -4,38 +4,38 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99B5ACCF2DB
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 03:36:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 00BEBCCF2D4
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 03:36:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Ba8HIyTEZioFYwA6Xp49Au3oQ6zPI5Xf2mDJ4f5gLv8=; b=KnVNnyUOzaz/zhFBgM6iR9BESv
-	MZgu7smBito5asQPcwOx7AVXf6SE8U6S41b3IGNeNeRv05hZo1Y6uDLue++Cv/XrviIQUvp/ubPLO
-	3gwd65DcXVWw8ElxALJwa/YUHIq7LLEBllvotKTzw3yLFENcrn73TwRnv1c+SvHX1jhBvwYLs51d1
-	Fy43HUVJl+KDjSMjcNSLNBwLt0KlT9Omw8rMK9n1x7Xa5TycIQ+ETOgI7R3cvYcl3A4f/PJNI/k6T
-	Vsyb3a1Wj67g9X3KyW3ELh9ZLuHEUSAVNNCL4Isjk+R9ICpnpeD6OCo26c5wJwiwxiWH4C3vusOxl
-	ECSO8Kbg==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=9VJgNqGtSYTUgAl8FqB/CWbIZP3Ig20ib1t5wkL/EqE=; b=qOzrKah++G8M4MD9fvU4TBN+1q
+	hRy1B7hpP/jWduCCE+rF888pCp7PMRUDiut1gxodIv7V+vQU3+G9IaPazI/y3jcpRduvra/W5X8Um
+	8AsfcWIBKISM9Aqv6BTCc/L+BrJsD8k7mypPSakhNUVrLO8lTlrknMC4njNPDJYqWrMEz0urr70SF
+	r7JwUK3VWgLGjP7PL4F3/GHiNgtPpmQ7bhQlceCdfUqN58WkZWMytDULGPGXqc6KUL4QqhaM5nAoe
+	D5hkuSZIMpLYp2XampmR0+kaGQOp0sEjVNyKzpPfghXyZ+iAWf18Mpxytfj2dxvLxpl3q+NH3eISL
+	dgJZOplw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xIeB4-00000006Xkn-0cJJ;
-	Mon, 19 Oct 2026 03:36:46 +0000
-Received: from out30-110.freemail.mail.aliyun.com ([115.124.30.110])
+	id 1xIeB3-00000006XjE-2gAR;
+	Mon, 19 Oct 2026 03:36:45 +0000
+Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xIeB0-00000006Xfi-02id
+	id 1xIeAt-00000006Xcc-1oru
 	for linux-nvme@lists.infradead.org;
-	Mon, 19 Oct 2026 03:36:43 +0000
+	Mon, 19 Oct 2026 03:36:39 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1792380999; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=Ba8HIyTEZioFYwA6Xp49Au3oQ6zPI5Xf2mDJ4f5gLv8=;
-	b=WXyNI44cVTFK3jOt345A2OTusYXnc3AlNnip6QowNYa2F69pv2RHFKoOZphooaZfniP9ec4SqKwv68fBivF54Q09KIB4XGeBd7HAdUZ5/Dt/G2HOAHyrh1+aX575jWocVrD7y7RFKdPbBwubSNO5CrYGHKO3klySU9aBCGI01DQ=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R721e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037033178;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XD-ZCPA_1792380998;
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XD-ZCPA_1792380998 cluster:ay36)
+	t=1792380991; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=9VJgNqGtSYTUgAl8FqB/CWbIZP3Ig20ib1t5wkL/EqE=;
+	b=eTWuLm72uXGFLiKy5zzjYFSK2Nef0ef5uteSRhtt8AoGLq2sMu2N+301QGlYDuoVrOAN60EsfgjVscYmF4APgjhIiRZHkNZb8Tpf3wtTAK2IPk1u5zuX215aOZuwu53Z795AjTfEKCtMmdQicYRNHHFFOv0OYxMkdyzAdg4PARQ=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R951e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033032089153;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XD-YS9z_1792380989;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XD-YS9z_1792380989 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Mon, 19 Oct 2026 11:36:39 +0800
+          Mon, 19 Oct 2026 11:36:29 +0800
 From: Guixin Liu <kanie@linux.alibaba.com>
 To: Keith Busch <kbusch@kernel.org>,
 	Jens Axboe <axboe@kernel.dk>,
@@ -45,17 +45,15 @@ To: Keith Busch <kbusch@kernel.org>,
 	Daniel Wagner <dwagner@suse.de>,
 	Hannes Reinecke <hare@suse.de>
 Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH 10/11] nvmet: translate placement identifiers of writes to write streams
-Date: Mon, 19 Oct 2026 11:36:23 +0800
-Message-ID: <20261019033624.402337-11-kanie@linux.alibaba.com>
+Subject: [PATCH RESEND 0/11] nvmet: FDP bridge for NVMe-oF targets
+Date: Mon, 19 Oct 2026 11:36:13 +0800
+Message-ID: <20261019033624.402337-1-kanie@linux.alibaba.com>
 X-Mailer: git-send-email 2.43.7
-In-Reply-To: <20261019033624.402337-1-kanie@linux.alibaba.com>
-References: <20261019033624.402337-1-kanie@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261018_203642_285573_77588336 
-X-CRM114-Status: GOOD (  14.43  )
+X-CRM114-CacheID: sfid-20261018_203636_701319_BC7A551C 
+X-CRM114-Status: GOOD (  17.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,74 +68,109 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-A write command that carries the Data Placement Directive names a
-placement identifier in the Directive Specific field.  Both sides of
-the bridge use identity mapped handles: the write streams of the
-backing device map to the placement handles one by one, in the order
-the reclaim unit handle status reports them.  Translate the placement
-identifier to the matching backing write stream on the write path, so
-the data lands in the reclaim unit of the backing device that the
-host selected.  The enable of the namespace has verified that the
-backing placement identifiers are identity mapped.
+Flexible Data Placement (FDP) is defined in the NVMe base specification
+and therefore applies to fabrics as well.  An Ethernet Bunch Of
+Flash (EBOF) style
+storage system that exposes its local FDP-capable NVMe drives to remote
+hosts over NVMe-oF currently has no way to pass the capability through:
+nvmet neither advertises FDP nor translates or forwards any FDP command,
+so a host connected through the target loses the write amplification
+benefits that the local drives provide.
 
-Writes without the directive, and writes with a placement identifier
-that is out of range, keep the default stream 0: the spec lets the
-controller place such data itself.
+This series adds an FDP bridge to the NVMe target.  A namespace backed
+by an NVMe namespace opts in through the fdp_enable configfs attribute;
+the bridge then advertises the FDPS capability, reports the backing FDP
+configuration through the feature and log pages, translates the
+placement identifiers of write commands to the backing write streams,
+and forwards the FDP management commands and log pages to the backing
+controller.  The backing geometry is verified at namespace enable time,
+so the bridge only comes up when the backing placement identifiers are
+identity mapped, which the translation relies on.
 
-Assisted-by: LLM
-Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
----
- drivers/nvme/target/io-cmd-bdev.c |  4 ++++
- drivers/nvme/target/nvmet.h       | 20 ++++++++++++++++++++
- 2 files changed, 24 insertions(+)
+The FDP commands are served by the bridge directly instead of relying
+on the existing passthru support, for several reasons:
 
-diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-index f2d9e8901df4e..ff480f9ab9906 100644
---- a/drivers/nvme/target/io-cmd-bdev.c
-+++ b/drivers/nvme/target/io-cmd-bdev.c
-@@ -300,6 +300,10 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
- 	bio->bi_iter.bi_sector = sector;
- 	bio->bi_private = req;
- 	bio->bi_end_io = nvmet_bio_done;
-+	if (req->cmd->rw.opcode == nvme_cmd_write &&
-+	    nvmet_fdp_enabled(req->ns)) {
-+		bio->bi_write_stream = nvmet_fdp_write_stream(req);
-+	}
- 
- 	blk_start_plug(&plug);
- 	if (req->metadata_len)
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 5bcc719973a57..af77591053226 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -1005,6 +1005,26 @@ void nvmet_execute_io_mgmt_recv(struct nvmet_req *req);
- void nvmet_execute_io_mgmt_send(struct nvmet_req *req);
- void nvmet_execute_get_log_page_fdp_configs(struct nvmet_req *req);
- void nvmet_fdp_log_forward(struct nvmet_req *req);
-+
-+/*
-+ * Both sides of the bridge use identity mapped handles, so placement
-+ * identifier i routes to backing write stream i+1; stream 0, the
-+ * default, places the data without a directive.
-+ */
-+static inline u8 nvmet_fdp_write_stream(struct nvmet_req *req)
-+{
-+	u16 control = le16_to_cpu(req->cmd->rw.control);
-+	u16 pid;
-+
-+	if ((control & 0xf0) != (NVME_RW_DTYPE_DPLCMT & 0xf0))
-+		return 0;
-+
-+	pid = le32_to_cpu(req->cmd->rw.dsmgmt) >> 16;
-+	if (pid >= req->ns->fdp.nruh)
-+		return 0;
-+
-+	return pid + 1;
-+}
- #else
- static inline bool nvmet_fdp_enabled(struct nvmet_ns *ns)
- {
+  - Passthru subsystems do not support reservations; the reservation
+    commands are rejected and the controller is not advertised as
+    reservation capable, because the underlying device cannot
+    differentiate the hosts that connect over fabrics.  A regular
+    namespace goes through the target's own reservation implementation,
+    which is not available to a passthru subsystem.
+
+  - A passthru subsystem is bound to a single backend controller: the
+    whole drive, with all of its namespaces, is passed through as one
+    unit, and no regular namespaces can be added to the subsystem.  An
+    EBOF system needs to compose a storage pool out of individual
+    namespaces from multiple backend drives, which only the regular
+    namespace path provides.
+
+  - The regular namespace path already handles the target side of
+    reservations, ANA reporting and per-namespace configuration; the
+    bridge extends that path rather than replacing it.
+
+  - With passthru, the namespace identity of the backend drive is
+    exposed to the host as is, and the host would talk to the backend
+    controller's FDP state through the passthrough of every command.
+    The bridge instead owns the FDP presentation of the exported
+    namespace, while the state that the backing controller owns is
+    forwarded to it: the reclaim unit handle status hosts read and the
+    reclaim unit handle updates they issue are carried out by the
+    controller that actually manages the media.
+
+The Linux host side needs no changes: the existing FDP discovery path
+(FDPS bit, endurance group identifier, FDP feature, FDP configurations
+log page and reclaim unit handle status) works against the bridge
+unmodified.
+
+The series is structured as follows:
+
+  1-2   wire structures and block layer helper
+  3     nvme_bdev_ops export, used to recognize an NVMe backing device
+  4     per-namespace bridge state and configuration
+  5     endurance group identifier in the CS-INDEP identify data
+  6     FDPS advertisement
+  7     FDP feature (FID 1Dh)
+  8     I/O management command forwarding
+  9     FDP log pages (LID 20h-23h)
+  10    placement identifier translation on the write path
+  11    tracepoint for the translation
+
+This was tested with a QEMU FDP backing device through an nvmet-tcp
+loopback setup: the host discovers and registers the backing write
+streams over the bridge, writes with placement identifiers land in the
+reclaim units of the backend device they select (verified through the
+reclaim unit handle status of the backend), and the forwarded log pages
+match the backend byte for byte.
+
+Guixin Liu (11):
+  nvme: add the FDP wire structures for the I/O management send command
+  block: add bdev_write_stream_granularity()
+  nvme: export nvme_bdev_ops
+  nvmet: add per-namespace FDP bridge state and configuration
+  nvmet: report the Endurance Group Identifier in the CS-INDEP identify
+    data
+  nvmet: advertise the FDP capability
+  nvmet: implement the FDP feature
+  nvmet: forward the FDP I/O management commands to the backing device
+  nvmet: serve the FDP log pages
+  nvmet: translate placement identifiers of writes to write streams
+  nvmet: add an FDP write translation tracepoint
+
+ drivers/nvme/host/core.c          |   1 +
+ drivers/nvme/target/Kconfig       |  14 +
+ drivers/nvme/target/Makefile      |   1 +
+ drivers/nvme/target/admin-cmd.c   |  33 +++
+ drivers/nvme/target/configfs.c    |  31 +++
+ drivers/nvme/target/core.c        |  38 +++-
+ drivers/nvme/target/fdp.c         | 431 ++++++++++++++++++++++++++++++++++++++
+ drivers/nvme/target/io-cmd-bdev.c |   8 +
+ drivers/nvme/target/nvmet.h       |  93 ++++++++
+ drivers/nvme/target/trace.h       |  23 ++
+ include/linux/blkdev.h            |   8 +
+ include/linux/nvme.h                          |  24 +
+ 12 files changed, 703 insertions(+), 2 deletions(-)
+
 -- 
-2.43.7
+2.50.0
 
 
