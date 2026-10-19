@@ -4,57 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 19EFBCCF2E6
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 14:04:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8DA6DCCF2E7
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 14:05:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QWiDfVMVCaFUz1kFD0OIgw5hrbI95Ilr8io9OQQrYtg=; b=C3YaMa8q4O5ryT/8+47juQBqsx
-	uZrS6d3h43R8B3vpyKY4/3ZA3ZQAwVDF5z8Go+GZ0Ja243My9wUdV23vjvWqXsugonAFY391/Zg17
-	ZS7N3H0YzzRe442QHe+w9vQnsxJZsaCUcw0wizryUVMh8gm1OjBPK+zVYZwOJkXVAKMSWE8OKhRxD
-	85yzAT7wV5LxzrdanrII4hTOejd8xrYGyKvgVGwjpm2K27Mx0Qh22Z2Ye9n8nRTwvb+e6+3SxYsYE
-	NHmMeuyAw49hj/7PTeu62APVWUqmqnS1Rl5OsBWNKb8A0hyKq+YktNIeNCt4B1/4nO/cKKC7o4m7u
-	BbRTQPOA==;
+	bh=czAK1+Kxgb1MOvp8fqcw27eT99l34C+QFqp+8Yw+G9A=; b=zhdkFG3QKO+BbLcqRZF0HJTdNb
+	aYDCxZDQg5IsSLJON83FMFd68mMH6vEDDks4Vzbbl5GBONEeBqffuf5nAvhz7PN426GqLWScpfvd2
+	AQSodSE9n4SnMuSbdzgBAJG2XksBBJ18bi7Y2hL6JqPKonLbYCajR+yDd/n8JLTS0gsFSrS6lOtXU
+	/4D1J4wHuzzJU8k6OsXwmL3vW0XP2cW0lHuiC9VgUeIpP/UMVBYMOuzR9EpgqCjiGo6YEJZnJGbCk
+	EJKVWXTpyPJhIMmBtyn2jjS+SOIL4s5ERssOBszrJsFidwuaxPZmTW8y5QgaOGaqv/2TK3ORjzHQY
+	C+zFY5PQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xInyG-00000007fQT-30fg;
-	Mon, 19 Oct 2026 14:04:12 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1xInzW-00000007gFL-02o1;
+	Mon, 19 Oct 2026 14:05:30 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xInyF-00000007fP4-2Egt
+	id 1xInzU-00000007gEe-3rEY
 	for linux-nvme@lists.infradead.org;
-	Mon, 19 Oct 2026 14:04:11 +0000
+	Mon, 19 Oct 2026 14:05:28 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id E557060238;
-	Mon, 19 Oct 2026 14:04:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D0B91F000C9;
-	Mon, 19 Oct 2026 14:04:09 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id A8CE44069A;
+	Mon, 19 Oct 2026 14:05:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E3861F000C6;
+	Mon, 19 Oct 2026 14:05:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418650;
-	bh=QWiDfVMVCaFUz1kFD0OIgw5hrbI95Ilr8io9OQQrYtg=;
+	s=k20260515; t=1792418728;
+	bh=czAK1+Kxgb1MOvp8fqcw27eT99l34C+QFqp+8Yw+G9A=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Okq5ByyqFOwr8IXJxvgggHJyCEQDLS4WBScXc/dW1bLguAfzvVpTxhIrAegQ/MBmI
-	 nZKtWoVsJbLN4LDown1Yz3rfT6pcU4stUiX2OIWOJhhDDMO7zXDyau347m1ta2/EGn
-	 NeyDA/3bH8GFKfG5wVth+GKnCBnLVmb68JXf3QcKqUglIjBZ42R9brWSQDnvFNRPIx
-	 qbLxoZofx2Om2OfaNHNFEYpsHhlsVf3pHiok2cstHKChNRcBlRjpT0rnY2+HQvLMj3
-	 Ab4sWJvNHk0YvYS3nvyba5uzYJ8OhaFADQYro1l6nLGvvy/DiuayjDCjCzCdU0mhsY
-	 35ZgWrh3JfIsQ==
+	b=PE+cpiz78BNsZwWMJJnIdpLA2TFoE80XAz+fsH/oQKNNWpAsMF/S8HCyx62e1pOBS
+	 BuerdfjMMbncx8a6VRi7M0B3fKJgmT0uB95y/Ylj4PXnV+3ult6a8cHRfG4y6AQlB1
+	 n2CwQaEc2hx1FMaMlvYITLwQaK8wT6901Div4IDFW2DMWhXgp0oAHGhJz2xL2ROWum
+	 9VBzWV/6p/nznyK9DbeKFmFENkie0DnXbsHRfYg7f7kFEgZawME28azV/lxETTfGNF
+	 soy4l55GmS3Ag6QZaIx7bljy6Gvp1SYeZmvOY9M8TSLLUkyBUoQFrfaoTU9dFGX5ov
+	 mFvg9X/cSxq/A==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Hari Mishal <harimishal1@gmail.com>,
+Cc: Maurizio Lombardi <mlombard@redhat.com>,
+	Daniel Wagner <dwagner@suse.de>,
 	Keith Busch <kbusch@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	justin.tee@broadcom.com,
+	nareshgottumukkala83@gmail.com,
+	paul.ely@broadcom.com,
+	axboe@kernel.dk,
 	sagi@grimberg.me,
-	kch@nvidia.com,
 	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-6.1] nvmet: passthru: fix OOB reads when parsing ns id descriptor list
-Date: Mon, 19 Oct 2026 09:51:31 -0400
-Message-ID: <20261019135441.1420968-400-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-5.10] nvme-fc: do not warn on controller removal race
+Date: Mon, 19 Oct 2026 09:52:25 -0400
+Message-ID: <20261019135441.1420968-454-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -78,355 +82,288 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Hari Mishal <harimishal1@gmail.com>
+From: Maurizio Lombardi <mlombard@redhat.com>
 
-[ Upstream commit bc7f75eba50012ed447654d8ce169ebaba695193 ]
+[ Upstream commit 62b70e6c87121ae5b79ca20c3a5b005590336ec5 ]
 
-nvmet_passthru_override_id_descs() walks a namespace identification
-descriptor list populated from the underlying passthru controller's
-Identify response, which is device reported. The loop advanced pos by
-device controlled amounts (sizeof(*cur) + nidl) without checking that
-the next descriptor header actually fits inside the buffer, so a
-malicious device could push pos to within a few bytes of the buffer end
-and cause cur->nidl, cur->nidt or the reserved field to be read past the
-allocation.
+In nvme_fc_reconnect_or_delete(), the system attempts to remove
+the controller when reconnect limits are reached by calling
+nvme_delete_ctrl(). This call is currently wrapped in a WARN_ON().
 
-Additionally, when a CSI descriptor lands exactly at the last valid
-header offset, cur + 1 points one byte past the end of the buffer.
-The unconditional memcpy(&csi, cur + 1, NVME_NIDT_CSI_LEN) could read
-that out-of-bounds byte and copy it back to the initiator via
-nvmet_copy_to_sgl(), leaking adjacent heap memory.
+If a user concurrently deletes the controller via sysfs, the
+controller's state may have already transitioned out of the
+CONNECTING state. When this happens, nvme_delete_ctrl() correctly
+rejects the operation and returns -EBUSY. Because of the WARN_ON()
+wrapper, this race condition triggers an unnecessary kernel warning
+stack trace.
 
-Bounds check both the descriptor header and the CSI value before
-dereferencing them.
+Remove the WARN_ON() macro around nvme_delete_ctrl();
+this allows the system to safely ignore the -EBUSY return value
+if the controller is already being deleted.
 
-Signed-off-by: Hari Mishal <harimishal1@gmail.com>
+Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
+Reviewed-by: Daniel Wagner <dwagner@suse.de>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-The local tree is **6.12.111** (`pending-6.12`). The buggy descriptor
-parser is present here; the fix is not. This is a small, obviously
-correct OOB-read/info-leak fix in NVMe target passthrough.
+I have the local-tree, diff, history, and review evidence. Below is the
+full nine-phase analysis for this 6.18.y checkout.
 
 ---
 
 ## PHASE 1: COMMIT MESSAGE FORENSICS
 
 **Step 1.1: PARSE THE SUBJECT LINE**
-
-Record: **[nvmet/passthru] [fix] [OOB reads when parsing namespace ID
-descriptor list]**
+Record: `[nvme-fc] [do not warn] suppress a false-positive WARN_ON when
+controller deletion races with reconnect exhaustion`
 
 **Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
-
 Record:
-- Signed-off-by: Hari Mishal \<harimishal1@gmail.com\> (author)
-- Signed-off-by: Keith Busch \<kbusch@kernel.org\> (NVMe maintainer,
-  applied the patch)
-- No Fixes:, Reported-by, Tested-by, Reviewed-by, Acked-by, Link:, or
-  Cc: stable tags (absence is expected for this review pipeline)
-- Ignore any pipeline “Upstream commit” / Sasha Levin markers — none
-  were on the upstream commit itself
+- `Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>` (author)
+- `Reviewed-by: Daniel Wagner <dwagner@suse.de>`
+- `Signed-off-by: Keith Busch <kbusch@kernel.org>` (NVMe maintainer)
+- No `Fixes:`, `Reported-by:`, `Tested-by:`, `Link:`, or `Cc: stable`
+  (absence is expected)
+- Pipeline-only tags ignored: `[Upstream commit 62b70e6c8712...]`,
+  `Signed-off-by: Sasha Levin`
 
 **Step 1.3: ANALYZE THE COMMIT BODY TEXT**
-
 Record:
-- **Bug:** `nvmet_passthru_override_id_descs()` walks a 4096-byte
-  Identify NS descriptor list filled by the backend passthrough
-  controller. The loop advances `pos` by `sizeof(*cur) + nidl` (`nidl`
-  is device-controlled) without checking that the next descriptor header
-  still fits in the buffer.
-- **Symptom/failure:** OOB read of `cur->nidl` / `cur->nidt` / reserved
-  past the allocation. If a CSI descriptor sits at the last valid header
-  offset, `memcpy(&csi, cur + 1, NVME_NIDT_CSI_LEN)` reads one byte past
-  the buffer and that byte can be copied to the initiator via
-  `nvmet_copy_to_sgl()` — heap info leak.
-- **Version info:** none in the message. Introducing code is from v5.19
-  (see Phase 3).
-- **Root cause:** missing bounds checks on descriptor header and CSI
-  payload before dereference.
+- **Bug:** `nvme_fc_reconnect_or_delete()` wraps `nvme_delete_ctrl()` in
+  `WARN_ON()`.
+- **Symptom:** concurrent sysfs delete can move the controller out of
+  `CONNECTING`; `nvme_delete_ctrl()` then correctly returns `-EBUSY`,
+  and `WARN_ON()` dumps a kernel warning stack.
+- **Root cause:** TOCTOU between the `NVME_CTRL_CONNECTING` check and
+  the delete call. `-EBUSY` is a valid result, not a programming error.
+- **Version info:** none stated. The `WARN_ON` has been on this call
+  since 2017.
 
 **Step 1.4: DETECT HIDDEN BUG FIXES**
-
-Record: Not a disguised cleanup. The subject and body describe a real
-OOB read / leak. The diff is only bounds checks.
+Record: Not disguised. It is an explicit false-positive `WARN_ON` fix
+for a real race. Functional delete behavior is unchanged.
 
 ---
 
 ## PHASE 2: DIFF ANALYSIS
 
 **Step 2.1: INVENTORY THE CHANGES**
-
 Record:
-- File: `drivers/nvme/target/passthru.c` — **+9 / -0** (upstream: 9
-  insertions)
-- Function: `nvmet_passthru_override_id_descs()`
-- Scope: single-file surgical fix
+- File: `drivers/nvme/host/fc.c` (`1 insertion, 1 deletion`)
+- Function: `nvme_fc_reconnect_or_delete()`
+- Scope: single-file, one-line surgical change
 
 **Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
-
 Record:
-- **Before:** loop `for (pos = 0; pos < NVME_IDENTIFY_DATA_SIZE; pos +=
-  len)` sets `cur = data + pos`, then immediately reads `cur->nidl` /
-  `cur->nidt`. No check that `pos + sizeof(*cur)` is in range. CSI path
-  does `memcpy(&csi, cur + 1, NVME_NIDT_CSI_LEN)` with no payload-size
-  check.
-- **After:**
-  1. If `pos + sizeof(*cur) > NVME_IDENTIFY_DATA_SIZE`, break (stop
-     before OOB header read).
-  2. On CSI, if `pos + sizeof(*cur) + NVME_NIDT_CSI_LEN >
-     NVME_IDENTIFY_DATA_SIZE`, break (stop before OOB CSI byte read).
-- Path: Identify CNS=NS_DESC_LIST success path when `clear_ids` is set.
-  Fail-safe: truncated/malformed list → `csi_seen` stays false → buffer
-  zeroed, CSI not echoed.
+- **Before:** after reconnect limits / `dev_loss_tmo` expiry,
+  `WARN_ON(nvme_delete_ctrl(&ctrl->ctrl))` fires on any non-zero return.
+- **After:** `nvme_delete_ctrl()` is called and `-EBUSY` is ignored.
+- Path: reconnect-failure / teardown, not the successful connect path.
 
 **Step 2.3: IDENTIFY THE BUG MECHANISM**
-
 Record:
-- **Category:** memory safety — out-of-bounds read + heap info leak
-- **Mechanism:** device-controlled `nidl` can place `pos` so a 4-byte
-  `struct nvme_ns_id_desc` (`nidt`, `nidl`, `__le16 reserved`) does not
-  fit. `NVME_NIDT_CSI_LEN` is 1; with header at offset 4092, `cur + 1`
-  is byte 4096 (one past a 4096-byte `kzalloc`). That byte can be
-  returned to the initiator.
-
-Verified sizes in this tree (`include/linux/nvme.h`):
-- `struct nvme_ns_id_desc` = 4 bytes
-- `NVME_NIDT_CSI_LEN` = 1
-- `NVME_IDENTIFY_DATA_SIZE` = 4096
+- **Category:** race / incorrect assertion (`WARN_ON` on a legitimate
+  `-EBUSY`)
+- **Mechanism:** `nvme_delete_ctrl()` fails `nvme_change_ctrl_state(...,
+  NVME_CTRL_DELETING)` or fails to queue `delete_work` if delete is
+  already in progress. The reconnect path already checked
+  `nvme_ctrl_state() == NVME_CTRL_CONNECTING` without a lock, so a
+  concurrent sysfs/`nvme_delete_ctrl()` can win. The warning is the bug;
+  deletion is already handled.
 
 **Step 2.4: ASSESS THE FIX QUALITY**
-
 Record:
-- Obviously correct: two `break`s before dereference.
-- Minimal: no unrelated changes.
-- Regression risk: low. Breaking on a truncated list skips CSI override;
-  `clear_ids` already zeros the rest of the list. Compliant devices put
-  CSI well inside 4096 bytes.
-- Host-side parser later also checks `pos + sizeof(*cur) + cur->nidl`;
-  this passthru patch does not check non-CSI body size, but non-CSI
-  payloads are not read here — only used to advance `pos`. Next
-  iteration’s header check still stops OOB. Not a blocker.
+- Obviously correct: other `nvme_delete_ctrl()` sites in the same file
+  (remoteport unregister, module unload) and RDMA/TCP already omit
+  `WARN_ON`.
+- Minimal, no API/data-structure change.
+- Regression risk is very low: the only behavior change is not warning
+  on an expected `-EBUSY`. A still-`CONNECTING` controller is still
+  deleted.
 
 ---
 
 ## PHASE 3: GIT HISTORY INVESTIGATION
 
 **Step 3.1: BLAME THE CHANGED LINES**
-
 Record:
-- Buggy function introduced by **`34ad61514c4c3`** (“nvmet: add a
-  clear_ids attribute for passthru targets”, Alan Adamson, 2022-06-27).
-- First appeared: **v5.19-rc2** (`git describe`:
-  `v5.19-rc2-35-g34ad61514c4c3`).
-- **In this tree:** yes (`git merge-base --is-ancestor 34ad61514c4c3
-  HEAD` → yes). Blame on the local file still points every line of this
-  function at that commit.
+- `WARN_ON(nvme_delete_ctrl(...))` blamed to `c5017e85705bfe` (“nvme:
+  move controller deletion to common code”, Christoph Hellwig,
+  2017-10-29).
+- That commit replaced `WARN_ON(__nvme_fc_del_ctrl(ctrl))` with
+  `WARN_ON(nvme_delete_ctrl(...))`. The common helper can return
+  `-EBUSY` on a concurrent delete; the old wrapper’s assumption no
+  longer holds.
+- Present since ~v4.15-era NVMe-FC code; long-lived in this 6.18 series.
 
 **Step 3.2: FOLLOW THE FIXES: TAG**
-
-Record: No Fixes: tag. Bug introduced by `34ad61514c4c3`, which is in
-this 6.12 tree.
+Record: No `Fixes:` tag. Not applicable. Introducer is `c5017e85705bfe`,
+which is in this tree.
 
 **Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
-
 Record:
-- Local recent history of `passthru.c` includes `e38dad438fc08` (clear
-  EUID/NGUID/UUID on loop) — does not change this loop.
-- Upstream: `bc7f75eba5001` is the latest change to this file on
-  `origin/master`; **no follow-up** after it.
-- Standalone, not “patch X/Y”. Sibling host fix `3c568b35a0d30` (“nvme:
-  bound ns descriptor header and body to identify buffer”) is a parallel
-  pattern in `drivers/nvme/host/core.c`, **not a prerequisite** for this
-  passthru patch.
+- Recent `fc.c` work is unrelated (DMA unmap, double-free, tagset, rport
+  locking).
+- Precedent in-tree: `6622f9acd29cd` “nvme-loop: do not warn for deleted
+  controllers during reset” (2021) — same class of false `WARN_ON`
+  during concurrent delete.
+- Standalone; not `patch X/Y`.
 
 **Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
-
-Record:
-- Author is not the subsystem maintainer. Related upstream work: host NS
-  descriptor bounds (`3c568b35a0d30`) and FDP clamp (`29261f8bb4166`).
-- Applied by **Keith Busch** (NVMe maintainer). Weight is from
-  maintainer application + Christoph Hellwig review, not author
-  identity.
+Record: Maurizio Lombardi (Red Hat) is a regular NVMe contributor.
+Applied by Keith Busch (NVMe maintainer). Reviewed by Daniel Wagner
+(SUSE, active NVMe-FC). Thread also has `Reviewed-by: Hannes Reinecke`.
 
 **Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
-
-Record:
-- Uses existing `NVME_IDENTIFY_DATA_SIZE`, `struct nvme_ns_id_desc`,
-  `NVME_NIDT_CSI`, `NVME_NIDT_CSI_LEN` — all in this tree.
-- `git apply --check` of the upstream diff against this tree: **clean**.
-- Can apply standalone. **No prerequisites.**
+Record: None. Uses existing `nvme_delete_ctrl()`. Applies standalone.
 
 ---
 
 ## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 
 **Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
-
 Record:
-- `b4 dig -c bc7f75eba5001` →
-  https://patch.msgid.link/20260717144353.19436-1-harimishal1@gmail.com
-- `b4 dig -a`: **v1 only** (single revision). Keith split the long line
-  when applying (`if (pos + sizeof(*cur) + NVME_NIDT_CSI_LEN >`
-  wrapped).
-- `b4 dig -m /tmp/nvmet-oob.mbox`: full thread saved.
-- Christoph Hellwig (20 Jul 2026): **“Overly long line here. Otherwise
-  this looks sane.”** — no NAK.
-- Keith Busch (10 Aug 2026): **“Thanks, applied to nvme-7.3 with fix to
-  overly long line.”**
-- No reviewer `Cc: stable` in the thread.
-- WebFetch to lore.kernel.org returned **403**; discussion recovered via
-  `b4 dig -m`.
+- `b4 dig -c 62b70e6c87121ae5b79ca20c3a5b005590336ec5` →
+  https://patch.msgid.link/20260908143434.105513-1-mlombard@redhat.com
+- `b4 dig -a`: single v1, no later revisions
+- Full thread saved via `b4 dig -m`
+- Daniel Wagner: “Yes, this makes sense.” + Reviewed-by
+- Hannes Reinecke: Reviewed-by
+- No NAKs, no risk flags, no `Cc: stable` in review (not a negative)
 
 **Step 4.2: CHECK WHO REVIEWED THE PATCH**
-
-Record (`b4 dig -w`): To/Cc Hari Mishal, Christoph Hellwig, Sagi
-Grimberg, Chaitanya Kulkarni, linux-nvme@lists.infradead.org, linux-
-kernel@vger.kernel.org. Hellwig reviewed; Busch applied. Appropriate
-NVMe maintainers.
+Record: Recipients included `kbusch@kernel.org`, `dwagner@suse.de`,
+`linux-nvme@lists.infradead.org`. Right maintainers and list. Keith
+Busch signed off.
 
 **Step 4.3: SEARCH FOR THE BUG REPORT**
-
-Record: No Reported-by / syzbot / bugzilla. Found by code review (same
-author class as the host parser bounds fix). Bug is still real from
-reading the loop.
+Record: No `Reported-by` / bugzilla / syzbot. Description is a concrete
+sysfs-vs-reconnect race, not theoretical cleanup.
 
 **Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
-
-Record: Standalone v1. Related but independent: host `3c568b35a0d30`
-(not in this tree). Not required to land this passthru fix.
+Record: Standalone one-patch series. Sibling transports already call
+`nvme_delete_ctrl()` without `WARN_ON`.
 
 **Step 4.5: CHECK STABLE MAILING LIST HISTORY**
-
-Record: **UNVERIFIED** — lore.kernel.org/stable via WebFetch returned
-403. No stable discussion in the captured linux-nvme/lkml thread.
+Record: lore.kernel.org WebFetch returned 403. The captured NVMe thread
+has no stable discussion. **UNVERIFIED:** whether `stable@` discussed
+this commit.
 
 ---
 
 ## PHASE 5: CODE SEMANTIC ANALYSIS
 
-**Step 5.1: KEY FUNCTIONS IN THE DIFF**
-
-Record: `nvmet_passthru_override_id_descs()` only.
+**Step 5.1: IDENTIFY KEY FUNCTIONS**
+Record: `nvme_fc_reconnect_or_delete()`; callee `nvme_delete_ctrl()`.
 
 **Step 5.2: TRACE CALLERS**
-
 Record:
-- Called from `nvmet_passthru_execute_cmd_work()` when Identify succeeds
-  and `cns == NVME_ID_CNS_NS_DESC_LIST`.
-- That work is used because `nvmet_parse_passthru_admin_cmd()` sets
-  `req->execute = nvmet_passthru_execute_cmd` and `req->p.use_workqueue
-  = true` for CNS CTRL/NS/NS_DESC_LIST.
-- Reachable from an NVMe-oF initiator Identify command on a passthrough
-  subsystem.
+- `nvme_fc_reset_ctrl_work()` → `nvme_fc_reconnect_or_delete(ctrl,
+  -ENOTCONN)` when the remoteport is not `ONLINE`
+- `nvme_fc_connect_ctrl_work()` → `nvme_fc_reconnect_or_delete(ctrl,
+  ret)` when `nvme_fc_create_association()` fails
+Both run on `nvme_wq` after link loss / failed reconnect — a normal SAN
+path.
 
 **Step 5.3: TRACE CALLEES**
-
-Record: `kzalloc(4096)`, `nvmet_copy_from_sgl` (backend Identify data),
-descriptor walk, `memset` + rebuild CSI, `nvmet_copy_to_sgl` (to
-initiator), `kfree`. No new locks/allocators in the patch.
+Record: `nvme_delete_ctrl()` does `nvme_change_ctrl_state(ctrl,
+NVME_CTRL_DELETING)` then `queue_work(nvme_delete_wq,
+&ctrl->delete_work)`, returning `-EBUSY` if either fails. Sysfs
+`delete_controller` uses `nvme_delete_ctrl_sync()` (same `DELETING`
+transition).
 
 **Step 5.4: FOLLOW THE CALL CHAIN**
-
 Record:
-- Userspace/admin enables `CONFIG_NVME_TARGET` +
-  `CONFIG_NVME_TARGET_PASSTHRU`, exports a backend NVMe controller.
-- Function only runs if `ctrl->subsys->clear_ids` is set. Default **1
-  for loop** (`core.c`: “By default, set loop targets to clear IDS”);
-  other transports via configfs `clear_ids`.
-- Trigger: initiator Identify NS descriptor list. Backend-controlled
-  bytes; initiator can receive leaked heap. Reachable from the fabrics
-  initiator, not from an unprivileged syscall on the target without an
-  NVMe-oF target setup.
+```
+fabric reconnect work / reset work
+  → nvme_fc_reconnect_or_delete()
+      [state == CONNECTING?]
+      → nvme_delete_ctrl()   // races with:
+           sysfs delete_controller (CAP_SYS_ADMIN, S_IWUSR)
+           nvme_fc_unregister_remoteport()
+           nvme_fc_delete_controllers() (module unload)
+```
+Reachable in production NVMe-FC setups. Sysfs delete needs privilege;
+reconnect exhaustion does not.
 
 **Step 5.5: SEARCH FOR SIMILAR PATTERNS**
+Record: At `v6.18.57`, `WARN_ON(nvme_delete_ctrl` exists only in
+`drivers/nvme/host/fc.c`. RDMA (`nvme_rdma_reconnect_or_remove`), TCP,
+and the other two FC call sites already ignore the return. This site is
+the leftover.
 
-Record: Same missing-bounds pattern in `nvme_identify_ns_descs()`
-(`drivers/nvme/host/core.c`) in this tree. Upstream fixed it separately
-(`3c568b35a0d30`). Confirms a systematic parser bug; this commit is the
-target/passthru instance.
+semcode MCP: not available; used `git grep` / `rg`.
 
 ---
 
 ## PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
 
 **Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
-
-Record: **Yes.** Local `drivers/nvme/target/passthru.c` lines 53–64 are
-the unbounded loop. `git describe HEAD` = `p-6.12-3-gc504cf0baa3d8`,
-`make kernelversion` = **6.12.111**. Upstream fix `bc7f75eba5001` is
-**not** an ancestor of HEAD. Bug since v5.19.
+Record:
+- Local tree: `v6.18.57` (`VERSION=6`, `PATCHLEVEL=18`, `SUBLEVEL=57`;
+  `git describe HEAD` = `v6.18.57-155-gcdf239ca885b2`)
+- At `v6.18.57`, `drivers/nvme/host/fc.c:3337` is
+  `WARN_ON(nvme_delete_ctrl(&ctrl->ctrl));`
+- Upstream fix `62b70e6c8712` is **not** an ancestor of `v6.18.57`
+- Bug introduced 2017; present in this series
 
 **Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
-
-Record: **Clean apply.** Surrounding function matches upstream pre-fix
-(aside from later mainline kmalloc_obj churn, which is after this fix
-and not in 6.12). `git apply --check` succeeded. Difficulty: clean
-apply.
+Record: Clean apply. Context around the line at `v6.18.57` matches the
+patch. `git apply --check` against the `v6.18.57` file succeeded.
+Difficulty: clean apply.
 
 **Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
-
-Record: No commit with this subject in this tree. Host-side sibling
-`3c568b35a0d30` also not in HEAD. No alternate fix for this passthru
-loop.
+Record: No other in-tree commit removes this FC `WARN_ON`. The loop
+analog (`6622f9acd29cd`) is already present and does not replace this
+fix.
 
 ---
 
 ## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 
 **Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
-
-Record: **NVMe target passthrough** (`drivers/nvme/target/passthru.c`).
-**IMPORTANT** for NVMe-oF target/passthru users (storage appliances,
-loop testing), not core mm/VFS. Not staging.
+Record: NVMe over Fabrics FC host (`drivers/nvme/host/fc.c`).
+**IMPORTANT** (enterprise SAN storage), not core mm/VFS, not staging.
 
 **Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
-
-Record: Active. This 6.12 tree already has many nvmet stable-style fixes
-(auth OOB, TCP PDU OOB, rdma leaks). Passthru file itself is relatively
-mature since 2022.
+Record: Actively maintained (recent FC locking, tagset, DMA fixes). This
+line itself has been stable since 2017.
 
 ---
 
 ## PHASE 8: IMPACT AND RISK ASSESSMENT
 
 **Step 8.1: DETERMINE WHO IS AFFECTED**
-
-Record: **Config-specific / driver-specific:** `CONFIG_NVME_TARGET=y/m`
-and `CONFIG_NVME_TARGET_PASSTHRU=y`, and `clear_ids` enabled (default on
-loop; optional elsewhere). Not all 6.12 users, but real production NVMe-
-oF passthru and loop setups.
+Record: Config-specific / driver-specific: `CONFIG_NVME_FC` users.
+Typical audience is enterprise FC-SAN, i.e. LTS/stable deployments.
 
 **Step 8.2: DETERMINE THE TRIGGER CONDITIONS**
-
 Record:
-- Identify NS descriptor list on a passthru namespace with `clear_ids`.
-- Needs a backend that returns a truncated/malformed list (malicious or
-  buggy NVMe device).
-- Not a hot every-syscall path; realistic for passthru Identify.
-- Unprivileged local user on the target: no, unless they are an
-  initiator to that target. Remote initiator + malicious backend: yes,
-  leak across the fabric.
+- Trigger: reconnect attempts exhausted **and** a concurrent delete
+  (sysfs, remoteport teardown, or module unload)
+- Not every I/O; realistic during link flaps / admin teardown
+- Unprivileged users cannot write `delete_controller`; they can
+  contribute to reconnect failure. Privilege needed for the sysfs side
+  of the described race.
 
 **Step 8.3: DETERMINE THE FAILURE MODE SEVERITY**
-
 Record:
-- OOB read of header fields (KASAN / possible oops depending on slab).
-- 1-byte heap leak to the initiator via Identify response.
-- **Severity: HIGH** (memory safety + info leak). Not a universal panic,
-  but security-class.
+- Default: `WARN_ON` stack dump (no data loss; delete still happens on
+  the other path)
+- With `panic_on_warn`: kernel panic during controller teardown
+- Severity: **MEDIUM** normally, **HIGH/CRITICAL** if `panic_on_warn` is
+  enabled (CI, hardened, some Android/enterprise)
 
 **Step 8.4: CALCULATE RISK-BENEFIT RATIO**
-
 Record:
-- **Benefit:** high for passthru+clear_ids users — stops OOB read and
-  initiator-visible leak. Same class as other nvmet bounds fixes already
-  in this tree.
-- **Risk:** very low — 9 lines, two bounds checks, fail-closed.
-- **Ratio:** strongly favors backport.
+- **Benefit:** medium — stops a user-visible warning and a possible
+  `panic_on_warn` crash on a path enterprise NVMe-FC users actually hit
+- **Risk:** very low — one line, no locking/API change, matches other
+  transports
+- **Ratio:** benefit exceeds risk
 
 ---
 
@@ -435,144 +372,126 @@ Record:
 **Step 9.1: COMPILE THE EVIDENCE**
 
 **FOR:**
-- Real OOB read and heap leak, documented and confirmed in this tree’s
-  code.
-- Bug present since v5.19; fully present on 6.12.111.
-- 9-line, obviously correct bounds checks; `git apply --check` clean.
-- NVMe maintainer applied it; Christoph Hellwig: “looks sane.”
-- No follow-up rework on `origin/master`.
-- Fail-closed: malformed list just omits CSI, which matches `clear_ids`
-  sanitizing.
+- Real race; `-EBUSY` is correct, `WARN_ON` is not
+- `WARN_ON` is a listed strong-yes class (and can panic)
+- One-line, obviously correct, reviewed by Wagner/Reinecke, applied by
+  Busch
+- Buggy line exists in `v6.18.57`; applies cleanly; no prerequisites
+- Same file’s other delete sites and RDMA/TCP already omit the warning
+- Precedent: nvme-loop “do not warn for deleted controllers”
 
 **AGAINST:**
-- Passthru is `default n`; needs `clear_ids`.
-- No syzbot/CVE/Fixes/Cc: stable.
-- Trigger is a malicious/buggy backend device, not a generic local
-  syscall.
-- Slightly weaker than the host parser (no `nidl` body check on skip).
+- Not data corruption / UAF / deadlock
+- No public user report or syzbot
+- Default impact is a warning, not a functional hang
+- NVMe-FC is not universal
 
 **UNRESOLVED:**
-- Stable list search (lore 403).
-- No public reproducer beyond the described layout.
-
-None of the against items outweigh a small, verified memory-safety fix
-whose buggy code is in this tree.
+- Whether `stable@` discussed it (lore search 403)
+- How often the race is hit in the field (no `Reported-by`)
 
 **Step 9.2: APPLY THE STABLE RULES CHECKLIST**
-
-1. Obviously correct and tested? **PASS** — Hellwig + Busch; logic
-   verified against struct sizes.
-2. Fixes a real bug that affects users? **PASS** — OOB read/leak on
-   Identify for passthru+clear_ids.
-3. Important issue? **PASS** — HIGH: OOB read + heap leak to initiator.
-4. Small and contained? **PASS** — 9 lines, one function.
-5. No new features or APIs? **PASS**.
-6. Can apply to the local tree? **PASS** — clean apply; code present; no
-   missing deps.
+1. Obviously correct and tested? **PASS** — one-line, two NVMe
+   reviewers, maintainer SOB
+2. Fixes a real bug that affects users? **PASS** — false `WARN_ON` on a
+   reachable race
+3. Important issue? **PASS** — `WARN_ON` / possible `panic_on_warn`
+   panic; not silent corruption, but in the documented yes class
+4. Small and contained? **PASS** — 1 line, 1 file
+5. No new features or APIs? **PASS**
+6. Can apply to the local tree? **PASS** — clean on `v6.18.57`
 
 **Step 9.3: CHECK FOR EXCEPTION CATEGORIES**
+Record: None (not a device ID / quirk / DT / build / docs exception).
+Qualifies as a normal small bugfix.
 
-Record: Not a device-ID/quirk/DT/build/docs exception. Qualifies as a
-normal security/memory-safety bug fix.
-
-**Step 9.4: MAKE YOUR DECISION**
-
-Backport to this 6.12 tree. The parser the commit fixes is here, the
-patch applies cleanly, and the failure is an OOB read that can leak heap
-to an NVMe-oF initiator.
+**Step 9.4: DECISION**
+This tree is 6.18.y. The `WARN_ON` is still in `v6.18.57`. The patch is
+a one-line removal of a false assertion on a real reconnect-vs-delete
+race. It does not change successful-delete behavior, matches every other
+NVMe transport, and is the kind of warning-to-panic issue stable should
+take.
 
 ---
 
-## What the commit solves (for this tree)
+## What the commit solves, and why it matters here
 
-`nvmet_passthru_override_id_descs()` copies a 4096-byte Identify NS
-descriptor list from the backend, walks it with device-controlled
-strides, and may reconstruct a CSI descriptor for the initiator when
-`clear_ids` is set. Without header/CSI bounds checks, a crafted list can
-read past the allocation and send that byte to the initiator. On 6.12
-this is the original 2022 loop; two range checks close it.
+On 6.18.y NVMe-FC, when reconnects are exhausted,
+`nvme_fc_reconnect_or_delete()` tries to delete the controller. If
+userspace (`delete_controller`) or another teardown path already moved
+the controller to `DELETING`, `nvme_delete_ctrl()` returns `-EBUSY` by
+design. Wrapping that in `WARN_ON()` turns a handled race into a kernel
+warning (or a panic if `panic_on_warn` is set). Removing the wrapper is
+the same policy RDMA, TCP, and the other FC delete sites already use.
 
-## Stable rules / risk vs benefit
-
-Meets stable rules: real, important, small, no new API, applies here.
-Benefit is stopping a leak/OOB on a path this tree already ships. Risk
-is two `break`s on malformed input.
-
-## Concerns
-
-None that block backport. Host-side sibling `3c568b35a0d30` is a
-separate candidate, not a dependency. `CONFIG_NVME_TARGET_PASSTHRU` is
-optional; that narrows impact, not correctness.
+Risk is negligible; benefit is avoiding a production warning/panic on
+enterprise FC fabrics that 6.18.y actually ships.
 
 ---
 
 ## Verification
+- [Phase 1] Parsed tags: author SOB Maurizio Lombardi; Reviewed-by
+  Daniel Wagner; SOB Keith Busch; no Fixes/Reported-by/Cc:stable
+- [Phase 2] Diff: 1 line in `nvme_fc_reconnect_or_delete()`;
+  `WARN_ON(nvme_delete_ctrl())` → `nvme_delete_ctrl()`
+- [Phase 2] `nvme_delete_ctrl()` at `drivers/nvme/host/core.c:257`
+  returns `-EBUSY` if state change or `queue_work` fails
+- [Phase 2] State machine: `CONNECTING` → `DELETING` or `LIVE` only;
+  concurrent delete explains `-EBUSY`
+- [Phase 3] `git blame` at parent: line from `c5017e85705bfe` (2017);
+  originally `WARN_ON(__nvme_fc_del_ctrl)`
+- [Phase 3] `git log -S 'WARN_ON(nvme_delete_ctrl'` on `fc.c`:
+  introducer + this removal
+- [Phase 3] Related: `6622f9acd29cd` nvme-loop “do not warn…” is already
+  an ancestor
+- [Phase 3] No later `fc.c` commits after the candidate rewrite this
+  line
+- [Phase 4] `b4 dig -c 62b70e6c8712`:
+  https://patch.msgid.link/20260908143434.105513-1-mlombard@redhat.com
+- [Phase 4] `b4 dig -a`: v1 only
+- [Phase 4] `b4 dig -w`: kbusch, dwagner, linux-nvme CC’d
+- [Phase 4] `b4 dig -m`: Wagner + Reinecke Reviewed-by; no NAK
+- [Phase 4] lore WebFetch 403 — used b4 mbox instead
+- [Phase 4] UNVERIFIED: stable@ mailing list history (403)
+- [Phase 5] Callers verified: `nvme_fc_reset_ctrl_work`,
+  `nvme_fc_connect_ctrl_work`
+- [Phase 5] Concurrent deleters: `nvme_sysfs_delete` →
+  `nvme_delete_ctrl_sync`; `nvme_fc_unregister_remoteport`;
+  `nvme_fc_delete_controllers`
+- [Phase 5] `git grep` at v6.18.57: only FC reconnect path uses
+  `WARN_ON(nvme_delete_ctrl`
+- [Phase 6] `git describe HEAD` / `make kernelversion`: 6.18.57
+- [Phase 6] `git show v6.18.57:drivers/nvme/host/fc.c` line 3337:
+  `WARN_ON` present
+- [Phase 6] `git merge-base --is-ancestor 62b70e6c8712 v6.18.57` / HEAD:
+  not in the 6.18.57 base
+- [Phase 6] Apply check of the patch onto the v6.18.57 file: success
+- [Phase 7] `CONFIG_NVME_FC`; MAINTAINERS: Keith Busch + NVMe FC
+  transport
+- [Phase 8] Failure mode: WARN_ON stack / panic_on_warn; severity MEDIUM
+  (HIGH if panic_on_warn)
+- UNVERIFIED: field frequency (no Reported-by)
 
-- [Phase 1] Parsed subject/body/tags from `git show bc7f75eba5001`;
-  tags: two SOBs only.
-- [Phase 2] Diff: +9 in `nvmet_passthru_override_id_descs()`; compared
-  to local lines 53–64.
-- [Phase 2] Sizes: `include/linux/nvme.h` — desc 4 bytes, CSI len 1,
-  Identify size 4096.
-- [Phase 3] `git blame -L 33,78 drivers/nvme/target/passthru.c` →
-  `34ad61514c4c3`.
-- [Phase 3] `git describe 34ad61514c4c3` → v5.19-rc2-35; `merge-base
-  --is-ancestor 34ad61514c4c3 HEAD` → yes.
-- [Phase 3] `merge-base --is-ancestor bc7f75eba5001 HEAD` → no (not in
-  this tree).
-- [Phase 3] `git log origin/master --oneline
-  bc7f75eba5001..origin/master -- drivers/nvme/target/passthru.c` →
-  empty (no follow-up).
-- [Phase 3] `git show bc7f75eba5001 | git apply --check` → clean.
-- [Phase 4] `b4 dig -c/-a/-w/-m`: v1 only; lore URL; Hellwig “looks
-  sane”; Busch applied to nvme-7.3.
-- [Phase 4] WebFetch lore/patch.msgid.link: 403. Discussion from mbox,
-  not WebFetch.
-- [Phase 5] Callers: `nvmet_passthru_execute_cmd_work` ← Identify
-  CNS_NS_DESC_LIST; parse path sets workqueue.
-- [Phase 5] `clear_ids` default 1 for loop in
-  `drivers/nvme/target/core.c:1457-1459`.
-- [Phase 5] Host analog unbounded loop in this tree at
-  `nvme_identify_ns_descs()`; upstream `3c568b35a0d30` not in HEAD.
-- [Phase 6] `git describe HEAD` = p-6.12-3-gc504cf0baa3d8; `make
-  kernelversion` = 6.12.111; branch `pending-6.12`.
-- [Phase 6] Local function matches pre-fix; origin/master post-fix
-  matches this commit.
-- [Phase 8] Failure: OOB read + 1-byte heap leak to initiator; HIGH.
-- UNVERIFIED: lore.kernel.org/stable discussion (HTTP 403). Not used to
-  drive the verdict.
+The fix is small, surgical, present as a real bug in this 6.18.y tree,
+and meets the stable criteria.
 
 **YES**
 
- drivers/nvme/target/passthru.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/nvme/host/fc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
-index 0c361b1e35665..6d7469c94610e 100644
---- a/drivers/nvme/target/passthru.c
-+++ b/drivers/nvme/target/passthru.c
-@@ -53,13 +53,22 @@ static u16 nvmet_passthru_override_id_descs(struct nvmet_req *req)
- 	for (pos = 0; pos < NVME_IDENTIFY_DATA_SIZE; pos += len) {
- 		struct nvme_ns_id_desc *cur = data + pos;
- 
-+		if (pos + sizeof(*cur) > NVME_IDENTIFY_DATA_SIZE)
-+			break;
-+
- 		if (cur->nidl == 0)
- 			break;
-+
- 		if (cur->nidt == NVME_NIDT_CSI) {
-+			if (pos + sizeof(*cur) + NVME_NIDT_CSI_LEN >
-+						NVME_IDENTIFY_DATA_SIZE)
-+				break;
-+
- 			memcpy(&csi, cur + 1, NVME_NIDT_CSI_LEN);
- 			csi_seen = true;
- 			break;
- 		}
-+
- 		len = sizeof(struct nvme_ns_id_desc) + cur->nidl;
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index fc7aa3fc6c2b5..186d1beecf32b 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -3334,7 +3334,7 @@ nvme_fc_reconnect_or_delete(struct nvme_fc_ctrl *ctrl, int status)
+ 				ctrl->cnum, min_t(int, portptr->dev_loss_tmo,
+ 					(ctrl->ctrl.opts->max_reconnects *
+ 					 ctrl->ctrl.opts->reconnect_delay)));
+-		WARN_ON(nvme_delete_ctrl(&ctrl->ctrl));
++		nvme_delete_ctrl(&ctrl->ctrl);
  	}
+ }
  
 -- 
 2.53.0
