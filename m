@@ -4,59 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6972ECCF2DE
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 13:56:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 741F1CCF2E3
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 13:59:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lNWFS/3scIX+7MJSnEHstb3kLAcYL3/eoyYtqGJwCB4=; b=IBz8RLxOjvcBZnpNKuQsnoRjlU
-	TN+Pgu8/I0c5SiOzHUWoNH9BMbOgi0kfX64Bp30FuygYpBsaQWWpBFGBQo7ekmQh/AL8t8yvXq83i
-	Q9edZlezzes+l58eKoXz+Y19Me0NC8qn7xSZkQJhtEZtxa9rQ3/sAUXhySq++bOKIFX7W6DsNB5YE
-	es8wcbdNWXo5kRfjLv05vhsHiatHcdgaRWIdXDbtrSXmFqegcJTwqYtqQ9GQVD3vFCEtdoAcOKzr+
-	T8jfI6RzP4lLGc/nXU19/igtvWvi0zRAklPLV813Vrm9kjwIPQz9hV8ucNY8H3zgMAGanw78iJveG
-	SLivd7gg==;
+	bh=dfaSzENZdtWDtRhEiA8zAhs3rBjmvEZNAHYLn8XcjZE=; b=KVXqDUuXBN6FcU+EVGJG1t7cTF
+	1AG/0/FPob1ExI0ifD9BF/AvMyE51Y8jdH/3tQwOulcJ7hRUIV1krQMnt4udTAhtW2yMm9s6jV7Sw
+	BV1Xl5Vt22+6LZXT0o42o1p6zXATN03sjhmfXOJyXmz1cqVc1tSrRzmDq9yCUiH98Hp7QO+z6sEeu
+	EqdkULdLwnTi1diPRG9/yH1bs57hs5aluCmgAdsPpQkhovf06zfshtZTX+AMNn+J7bU5WtsdQ18iK
+	Nx90iuX/IdWOmhGSLKKevcHvJxz+cEbNq1l2xsnzfsE2xGB6EZWDqT9j8yNG2E5etBfZmC4WgjwU0
+	5iWBMKyw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xInr2-00000007agd-417G;
-	Mon, 19 Oct 2026 13:56:44 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1xIntg-00000007cOH-3Hef;
+	Mon, 19 Oct 2026 13:59:28 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xInr0-00000007afL-40wm
+	id 1xInte-00000007cN1-2w7B
 	for linux-nvme@lists.infradead.org;
-	Mon, 19 Oct 2026 13:56:43 +0000
+	Mon, 19 Oct 2026 13:59:26 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 5590E6020A;
-	Mon, 19 Oct 2026 13:56:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2B341F000C7;
-	Mon, 19 Oct 2026 13:56:40 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 1894660258;
+	Mon, 19 Oct 2026 13:59:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 775D51F000C8;
+	Mon, 19 Oct 2026 13:59:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418202;
-	bh=lNWFS/3scIX+7MJSnEHstb3kLAcYL3/eoyYtqGJwCB4=;
+	s=k20260515; t=1792418365;
+	bh=dfaSzENZdtWDtRhEiA8zAhs3rBjmvEZNAHYLn8XcjZE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=LnkibqHS87my1ieBNzpo6zpnmLnT0fMpVNqdEL6yEwwnSFEBazKkXwxiyVPzIC9pV
-	 f6DQnlQo1dnbIeRm8Qk8JtDSwIG0KXsbZYo1+bU6pVES/vzs8Q6gMlaLK1ula5cXZY
-	 YIqlmtQsCn/GTx6FSmVCqCi2h+oQHT0sb2ogLpVVRcLn0Koqi9p8kMdD5ReczoTGVA
-	 gz0mUctmw7gQPoqZxD9jEooYiJK9g+EHsnvzLy1aq5ky9HwtvKPQi48Ni/AoukgO8N
-	 EXhftPku4kw7/pM9hV7H9wTRh1XGF0MiZKvz9ggOXd3NO+7me3ZXDa6P3+oxORKeqS
-	 zy7DwNml0Odkg==
+	b=bJcgu4J+o66k+IW1Zoio421HZIen1v1j/QJpuUDyBdNoNDYQaIqeiSgG9YDyCiFPj
+	 nIqcy0YA+MPYiVxY2Cr9HoMzE7k4UrW6qfQm/OEn54NV+sGVhBUEcDVffTA1m0E0Rv
+	 ou01qVcRZ/aMQyF5DCEcw/cwqMPPeAplLCKKsbKFRyvVRb6c7rJ3lGdBCL7eYFaAHD
+	 Ve2fxoMg33wpE2tilOIS2dF2VZhf3pPmnA/LwgsUmJQKgQ6mlfqAcY6sCTWtSQHe0A
+	 7Oayg3ZjUVp1PkuOu8yfrv0BSvyGb5NVr2rhc4a11Zdf4Qum6YpHP8asHp4HeBR+RV
+	 xDkOyJa7zA7ug==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Hari Mishal <harimishal1@gmail.com>,
+Cc: Xixin Liu <liuxixin@kylinos.cn>,
+	Hannes Reinecke <hare@kernel.org>,
 	Christoph Hellwig <hch@lst.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Keith Busch <kbusch@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	hare@suse.de,
 	axboe@kernel.dk,
 	sagi@grimberg.me,
+	kch@nvidia.com,
 	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-5.10] nvme: bound ns descriptor header and body to identify buffer
-Date: Mon, 19 Oct 2026 09:46:15 -0400
-Message-ID: <20261019135441.1420968-84-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-6.6] nvme-auth: use crypto_memneq for DH-HMAC-CHAP response comparison
+Date: Mon, 19 Oct 2026 09:48:07 -0400
+Message-ID: <20261019135441.1420968-196-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -80,469 +82,491 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Hari Mishal <harimishal1@gmail.com>
+From: Xixin Liu <liuxixin@kylinos.cn>
 
-[ Upstream commit 3c568b35a0d309acb40746552bec2af24cd550ef ]
+[ Upstream commit 3a6d89836ab09d53f4c32c57588689a378ce4363 ]
 
-nvme_identify_ns_descs() allocates a buffer and gives it to the
-controller, which populates it and then iterates the buffer with
-variable byte increments that vary by type and body size.  But, there is
-no bounds check inside the iteration itself except the loop bound
-itself.  Fix this by checking and stopping iteration if the next header
-or its declared body would go past the buffer itself.
+DH-HMAC-CHAP authentication compares HMAC response digests with memcmp().
+Standard memcmp() may stop at the first differing byte, which can leak
+timing information to a remote attacker and allow incremental recovery
+of the expected digest.
 
-Assisted-by: gkh_clanker_t1000
+Use crypto_memneq() for constant-time comparison on both the host path
+that validates the controller Success1 response and the target path that
+validates the host Reply digest.  Other memcmp() uses in the NVMe auth
+code (e.g. fixed string prefix checks) are not security-sensitive and
+are left unchanged.
+
+Signed-off-by: Xixin Liu <liuxixin@kylinos.cn>
+Reviewed-by: Hannes Reinecke <hare@kernel.org>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Hari Mishal <harimishal1@gmail.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-## PHASE 1: COMMIT MESSAGE FORENSICS
+The local tree is **v7.3-rc4** (`7.3.0-rc4`, `f0100363d8c37`). The
+commit under review is `3a6d89836ab09` (“nvme-auth: use crypto_memneq
+for DH-HMAC-CHAP response comparison”). It is already an ancestor of
+HEAD (landed in v7.3-rc1). That does not decide the backport question;
+the decision below is on technical merit and whether the bug exists in
+this lineage.
+
+===============================================================
+PHASE 1: COMMIT MESSAGE FORENSICS
+===============================================================
 
 **Step 1.1: PARSE THE SUBJECT LINE**
 
-Record: **[nvme]** **[bound]** bound namespace descriptor header and
-body to the Identify buffer so iteration cannot walk off the end.
+Record: **[nvme-auth]** **[use]** Replace `memcmp()` with
+`crypto_memneq()` when comparing DH-HMAC-CHAP HMAC response digests.
 
 **Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
 
 Record:
-- **Assisted-by:** gkh_clanker_t1000 (LLM-assisted; not a substitute for
-  review)
-- **Reviewed-by:** Christoph Hellwig \<hch@lst.de\> (NVMe maintainer)
-- **Signed-off-by:** Hari Mishal \<harimishal1@gmail.com\> (author)
-- **Signed-off-by:** Greg Kroah-Hartman \<gregkh@linuxfoundation.org\>
-  (submitted the series)
-- **Signed-off-by:** Keith Busch \<kbusch@kernel.org\> (NVMe maintainer;
-  applied)
-- **No Fixes:** tag (expected for this review pipeline)
-- **No Cc: stable** (expected)
-- **No Reported-by / Tested-by / Link / syzbot**
-- Ignore pipeline markers: none in the supplied text beyond the usual
-  SOBs
-
-Notable: reviewed and applied by the two primary NVMe maintainers.
-Submitted as **[PATCH 1/2]** with an unrelated sibling (FDP clamp).
+- `Fixes:` — none (expected)
+- `Reported-by:` — none
+- `Tested-by:` — none
+- `Reviewed-by: Hannes Reinecke <hare@kernel.org>` (author of the
+  original NVMe in-band auth code)
+- `Reviewed-by: Christoph Hellwig <hch@lst.de>`
+- `Link:` — none in the commit
+- `Cc: stable@vger.kernel.org` — none (expected)
+- `Signed-off-by: Xixin Liu <liuxixin@kylinos.cn>` (author)
+- `Signed-off-by: Keith Busch <kbusch@kernel.org>` (NVMe maintainer)
+- Ignore pipeline `Signed-off-by: Sasha Levin` if present; it is not in
+  this commit
 
 **Step 1.3: ANALYZE THE COMMIT BODY TEXT**
 
 Record:
-- **Bug:** `nvme_identify_ns_descs()` allocates a 4096-byte Identify
-  buffer, lets the controller fill it, then walks variable-length
-  namespace ID descriptors. The only guard was `pos <
-  NVME_IDENTIFY_DATA_SIZE`.
-- **Symptom/failure mode:** out-of-bounds header/body access when a
-  descriptor header sits near the end of the buffer, or `nidl` claims a
-  body that extends past 4096 bytes. That is a heap OOB read (possible
-  crash, KASAN report, or adjacent-heap leak via `memcpy` in
-  `nvme_process_ns_desc()`).
-- **Version info:** none in the message. The walker has existed since
-  2017.
-- **Root cause:** device-controlled stride (`sizeof(header) + nidl`)
-  with no check that the next header or declared body still fits in the
-  allocation.
+- **Bug:** DH-HMAC-CHAP compares HMAC response digests with `memcmp()`,
+  which can return at the first differing byte.
+- **Symptom/failure mode:** Timing leak of how far the computed HMAC
+  matches the expected digest; a remote attacker could try to recover
+  the expected digest incrementally.
+- **Version information:** none in the message. Keith later said on-list
+  it was applied “for 7.2”; `git merge-base --is-ancestor` shows it is
+  **not** in `v7.2` and **is** in `v7.3-rc1`.
+- **Root cause (author):** variable-time comparison of authentication
+  MAC material.
 
 **Step 1.4: DETECT HIDDEN BUG FIXES**
 
-Record: **Not a disguised cleanup.** It is an explicit bounds-check fix.
-The verb “bound” here means “do not read past the buffer.”
+Record: Not a disguised cleanup. It is an explicit security/correctness
+change: secret MAC comparison must be constant-time. The remaining
+`memcmp()` uses (string prefixes, GUIDs) are called out as non-sensitive
+and left alone.
 
----
-
-## PHASE 2: DIFF ANALYSIS
+===============================================================
+PHASE 2: DIFF ANALYSIS - LINE BY LINE
+===============================================================
 
 **Step 2.1: INVENTORY THE CHANGES**
 
 Record:
-- **File:** `drivers/nvme/host/core.c` — **+4 / −0**
-- **Function:** `nvme_identify_ns_descs()`
-- **Scope:** single-file surgical fix (two `if` + `break` pairs)
+- `drivers/nvme/host/auth.c`: +2 / −1 (`#include <crypto/utils.h>`;
+  `memcmp` → `crypto_memneq` in `nvme_auth_process_dhchap_success1`)
+- `drivers/nvme/target/fabrics-cmd-auth.c`: +2 / −1 (same include;
+  `memcmp` → `crypto_memneq` in `nvmet_auth_reply`)
+- **Scope:** two-file surgical fix, 4 insertions, 2 deletions. No API,
+  Kconfig, or data-structure changes.
 
 **Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
 
-Record: **Before:** loop at `pos`, form `cur = data + pos`, read
-`cur->nidl` immediately, then call `nvme_process_ns_desc()` which
-`memcpy`s the body. **After:** (1) if the 4-byte header would pass the
-buffer, stop; (2) if `nidl == 0`, stop (unchanged); (3) if header+body
-would pass the buffer, stop; then process. Still an Identify/scan path,
-not an error-recovery rewrite. Stopping with `break` matches existing
-`nidl == 0` / `len < 0` handling (no new error code for a truncated
-trailing descriptor).
+Record:
+- **Host (`nvme_auth_process_dhchap_success1`):** after `data->hl ==
+  chap->hash_len` and `data->rvalid`, the host used to
+  `memcmp(chap->response, data->rval, data->hl)`. Now
+  `crypto_memneq(...)`. Failure still sets
+  `NVME_AUTH_DHCHAP_FAILURE_FAILED` and returns `-ECONNREFUSED`.
+- **Target (`nvmet_auth_reply`):** after computing the expected host
+  HMAC into `response`, the target used to `memcmp(data->rval, response,
+  data->hl)`. Now `crypto_memneq(...)`. Failure still frees `response`
+  and returns `NVME_AUTH_DHCHAP_FAILURE_FAILED`.
+- Affected path: authentication success/reply validation only, not
+  probe/init/error-unrelated code.
 
 **Step 2.3: IDENTIFY THE BUG MECHANISM**
 
-Record: **[Memory safety / out-of-bounds]** Device-controlled OOB read.
-
-Mechanism, verified against `struct nvme_ns_id_desc` (`nidt`, `nidl`,
-reserved — 4 bytes) and `nvme_process_ns_desc()`:
-- If `pos` is 4093–4095, reading the header itself is OOB.
-- If the header fits but `nidl` does not leave enough remaining bytes,
-  known-type `memcpy` (EUI64/NGUID/UUID/CSI) reads past the
-  `kzalloc(4096)` buffer after the length-equals-expected check.
-
-The fix stops before those accesses. Header check is first, so
-`cur->nidl` is only read when the header is in-bounds.
+Record: **[Memory safety / crypto side channel]** Variable-time
+`memcmp()` on HMAC digests. `crypto_memneq()` (`include/crypto/utils.h`)
+is documented as “Compare two areas of memory without leaking timing
+information” and returns 0 if equal, 1 otherwise — same boolean sense as
+`if (memcmp(...))`.
 
 **Step 2.4: ASSESS THE FIX QUALITY**
 
-Record: **Obviously correct and minimal.** Check order is right. `nidl`
-is `__u8` (max 255); `pos` is non-negative and `< 4096`; `pos + 4 +
-nidl` cannot overflow a 32-bit `int`. On spec-compliant lists that fit
-in 4096 bytes the new branches never fire. **Regression risk: very
-low.** Truncating a malformed last descriptor is safer than reading past
-the buffer. If CSI is truncated on a multi-CSS controller, the existing
-`!csi_seen` path can still return `-EINVAL` — that is the conservative
-failure.
+Record: Obviously correct and minimal. Length `data->hl` is already
+checked against `chap->hash_len` on the host path. Return-value polarity
+matches. Regression risk is very low: same control flow, slightly more
+work per compare (HMAC length is 32–64 bytes). No new locks, APIs, or
+userspace ABI.
 
-No API, locking, or data-structure change.
-
----
-
-## PHASE 3: GIT HISTORY INVESTIGATION
+===============================================================
+PHASE 3: GIT HISTORY INVESTIGATION
+===============================================================
 
 **Step 3.1: BLAME THE CHANGED LINES**
 
-Record: Loop introduced by **`3b22ba2682b432`** (“nvme: get list of
-namespace descriptors”, Johannes Thumshirn, 2017-06-15) — first
-contained in **v4.13-rc1**. The two bounds checks are
-**`3c568b35a0d309`** (this commit, 2026-07-14). The walker has been in-
-tree for many years.
+Record:
+- Host `memcmp`: introduced in `f50fff73d620cd` (“nvme: implement In-
+  Band authentication”, Hannes Reinecke, 2022). **In `v6.0`**, not in
+  `v5.19`.
+- Target `memcmp`: introduced in `db1312dd95488b` (“nvmet: implement
+  basic In-Band Authentication”). Same merge window, **v6.0**.
+- The buggy comparison has been in tree for many years.
 
 **Step 3.2: FOLLOW THE FIXES: TAG**
 
-Record: **No Fixes: tag.** Buggy pattern comes from `3b22ba2682b432`,
-which is an ancestor of this checkout.
+Record: No `Fixes:` tag. The introducing commits above are the
+functional equivalent. Both are ancestors of this tree.
 
 **Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
 
-Record:
-- Same-author sibling **`bc7f75eba5001`** — `nvmet: passthru: fix OOB
-  reads when parsing ns id descriptor list` (same descriptor-list OOB
-  class on the target passthru path). Independent file.
-- Series sibling **`29261f8bb4166`** — `nvme: clamp FDP nruhsd...` is a
-  different function (`nvme_query_fdp_info`). **This 1/2 does not depend
-  on 2/2.**
-- Later `core.c` changes (kmalloc_obj, unsigned nsid print,
-  scan/SRCU/FDP) do not rewrite this loop. **Standalone.**
+Record: Recent work on these files is auth bounds-checking, hashing
+updates, and secure-channel concatenation. This commit is standalone
+(subject is not `N/M`). No prerequisite refactor is required for the
+two-line swap plus include.
 
 **Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
 
-Record: Hari Mishal is not an NVMe maintainer; three NVMe commits, all
-device-controlled bounds issues. Weight comes from **Christoph Hellwig
-Reviewed-by** and **Keith Busch** applying it to nvme-7.3.
+Record: Xixin Liu is a contributor, not the NVMe auth maintainer. Weight
+comes from **Reviewed-by Hannes Reinecke** (original auth author) and
+**Christoph Hellwig**, applied by **Keith Busch**.
 
 **Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
 
-Record: **None.** Adds checks in an existing loop.
-`nvme_process_ns_desc()`, `NVME_IDENTIFY_DATA_SIZE` (4096), and `struct
-nvme_ns_id_desc` already exist here. Applies standalone.
+Record: Depends only on `crypto_memneq()` / `<crypto/utils.h>`. In this
+tree, `include/crypto/utils.h` exists (`c616fb0cbae8`, 2023) and
+`CONFIG_CRYPTO` selects `CRYPTO_LIB_UTILS` (`lib/crypto/memneq.c`).
+`NVME_AUTH` already `select CRYPTO`. Standalone on this tree.
 
----
-
-## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+===============================================================
+PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+===============================================================
 
 **Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
 
 Record:
-- **b4 dig:** https://patch.msgid.link/2026070931-stopping-
-  cost-239a@gregkh
-- **v1 only** (`b4 dig -a`); applied version is that v1
-- Thread (mbox): Christoph: “Looks good: Reviewed-by”; Keith: “Thanks,
-  series applied to nvme-7.3.”
-- **No NAK, no stability concerns, no request for Cc: stable**
-
-WebFetch of lore.kernel.org returned **403**; discussion recovered via
-`b4 dig -m`.
+- `b4 dig -c 3a6d89836ab09` → https://patch.msgid.link/0001.nvme-auth-
+  memneq.1781751816.git.liuxixin@kylinos.cn
+- `b4 dig -a`: **v1 only** (no v2/v3). Applied as submitted.
+- Thread (mbox): Christoph: “Looks good” + Reviewed-by. Hannes:
+  Reviewed-by. No NAK, no stable discussion, no requested changes.
+- Keith (2026-09-15): applied earlier; pointed at `3a6d89836ab09`.
 
 **Step 4.2: CHECK WHO REVIEWED THE PATCH**
 
-Record (`b4 dig -w`): To/Cc included **linux-nvme**, **Keith Busch, Jens
-Axboe, Christoph Hellwig, Sagi Grimberg** (all NVM EXPRESS DRIVER
-maintainers). Appropriate audience.
+Record (`b4 dig -w`): To/Cc included `linux-nvme@lists.infradead.org`,
+Keith Busch, Jens Axboe, Christoph Hellwig, Sagi Grimberg, Chaitanya
+Kulkarni, Hannes Reinecke. Right maintainers were on the patch.
 
 **Step 4.3: SEARCH FOR THE BUG REPORT**
 
-Record: **No user/syzbot/bugzilla report.** Found by analysis (Greg’s
-clanker + author). Still a real, reachable OOB given a malformed
-Identify NS descriptor list.
+Record: No `Reported-by`, bugzilla, or syzbot. This is code-audit /
+crypto-hygiene, not a user crash report.
 
 **Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
 
-Record: **[PATCH 1/2]** / **[PATCH 2/2]** share an author and file but
-not code. 1/2 is self-contained. Target passthru fix is a related class,
-not a prerequisite.
+Record: Cover was `[PATCH v1 0/1]` / `[PATCH v1 1/1]` — single patch.
+Precedent in this tree: `ksmbd: Compare MACs in constant time`
+(`c5794709bc910`, had `Cc: stable`); `scsi: target: Use constant-time
+crypto_memneq() for CHAP digests` (`cf14fc2be8688`); TPM/SMB client
+similar replacements.
 
 **Step 4.5: CHECK STABLE MAILING LIST HISTORY**
 
-Record: lore.kernel.org/stable WebFetch **403**. **UNVERIFIED** whether
-stable@ already discussed this hash. Absence of Cc: stable is expected
-here and is not a negative.
+Record: **UNVERIFIED** on lore.kernel.org/stable (WebFetch 403,
+WebSearch failed). The original NVMe thread never mentions `stable@`.
 
----
+===============================================================
+PHASE 5: CODE SEMANTIC ANALYSIS
+===============================================================
 
-## PHASE 5: CODE SEMANTIC ANALYSIS
+**Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF**
 
-**Step 5.1: KEY FUNCTIONS**
-
-Record: **`nvme_identify_ns_descs()`** modified;
-**`nvme_process_ns_desc()`** callee (memcpy of descriptor bodies).
+Record: `nvme_auth_process_dhchap_success1`, `nvmet_auth_reply`.
+Includes only otherwise.
 
 **Step 5.2: TRACE CALLERS**
 
 Record:
-- Only caller: `nvme_scan_ns()` in `drivers/nvme/host/core.c`
-- `nvme_scan_ns()` ← `nvme_scan_ns_async()` /
-  `nvme_scan_ns_sequential()`
-- Those ← `nvme_scan_work()` on `ctrl->scan_work`
-
-Context: **process-context workqueue**, NVMe namespace scan on probe,
-reset, and NS-changed AEN. Common path for NVMe hosts, not IRQ/hot-
-cache.
+- `nvme_auth_process_dhchap_success1` ← `nvme_queue_auth_work` in
+  `drivers/nvme/host/auth.c` (DH-HMAC-CHAP Success1 after AUTH_RECEIVE).
+  Queued from connect / `dhchap_auth_work` / sysfs re-auth.
+- `nvmet_auth_reply` ← `nvmet_execute_auth_send` when the DH-HMAC-CHAP
+  step is Reply. `nvmet_execute_auth_send` is the fabrics AUTH_SEND
+  execute handler (`drivers/nvme/target/fabrics-cmd.c`).
 
 **Step 5.3: TRACE CALLEES**
 
-Record: `kzalloc` / `nvme_submit_sync_cmd` / `nvme_process_ns_desc` /
-`kfree`. The OOB is in the parse loop and in `nvme_process_ns_desc()`
-memcpy, not in the admin command itself.
+Record: Target computes expected HMAC via `nvmet_auth_host_hash()` (HMAC
+over challenge `dhchap_c1`, transformed host key, etc.), then compares.
+Host compares precomputed `chap->response` to controller `rval`. No
+allocation/locking change in the hunks.
 
 **Step 5.4: FOLLOW THE CALL CHAIN**
 
-Record: Reachable on any NVMe 1.3+ controller (or multi-CSS) that does
-not have `NVME_QUIRK_NO_NS_DESC_LIST`. Userspace does not call this
-syscall-direct; a **malicious or buggy controller** (local PCIe or NVMe-
-oF target) controls the buffer. That is a standard untrusted-device
-memory-safety bug.
+Record: **Reachable from the network** on an NVMe-oF target with
+`CONFIG_NVME_TARGET_AUTH`. An unauthenticated remote host sending
+AUTH_SEND Reply hits `nvmet_auth_reply`. Host path is hit when
+connecting with in-band auth / bidirectional controller auth. Not a
+syscall smash; it is the authentication protocol itself.
 
 **Step 5.5: SEARCH FOR SIMILAR PATTERNS**
 
-Record: Same class already bounded in `drivers/nvme/target/passthru.c`
-(`pos + sizeof(*cur)` and CSI body). Host-side
-`nvme_identify_ns_descs()` was the gap this commit closes.
+Record: After this commit, no remaining `memcmp` of HMAC material in
+`drivers/nvme/host/auth.c` or `drivers/nvme/target/fabrics-cmd-auth.c`.
+Other NVMe `memcmp` uses are prefix/GUID/debugfs checks, which the
+commit correctly left alone.
 
----
-
-## PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
+===============================================================
+PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
+===============================================================
 
 **Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
 
-Record:
-- Local tree: **`git describe HEAD` = `v7.3-rc4-27-gf0100363d8c37`**,
-  **`make kernelversion` = 7.3.0-rc4**
-- Function and loop exist at `drivers/nvme/host/core.c`
-  (`nvme_identify_ns_descs`)
-- Bug introduced **v4.13** (`3b22ba2682b432`), long before this branch
-- The two checks are present on HEAD (this commit is an ancestor). That
-  is historical fact, **not** used as “already selected for stable”
+Record: Yes, in this lineage since v6.0. This checkout already contains
+the fix (`crypto_memneq` at `drivers/nvme/host/auth.c:365` and
+`drivers/nvme/target/fabrics-cmd-auth.c:189`). The pre-fix `memcmp` is
+in `3a6d89836ab09^`.
 
 **Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
 
-Record: **Clean apply** to this `nvme_identify_ns_descs()` shape.
-Context is the same 4.13-era loop; no extra helpers required. **Expected
-backport difficulty: clean apply** on trees that still have this
-function.
+Record: **Clean apply on this tree** (already applied). Include is
+`<crypto/utils.h>`, which this 7.3 tree has. For much older stables the
+header was `crypto/algapi.h`; that is not a problem **here**.
 
 **Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
 
-Record: No earlier host-side equivalent. Passthru OOB fix is a different
-file. No conflicting alternate host fix.
+Record: This *is* the fix in this tree. No earlier alternate memneq
+conversion on these files.
 
----
+===============================================================
+PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+===============================================================
 
-## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+**Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
 
-**Step 7.1: SUBSYSTEM AND CRITICALITY**
+Record: NVMe over Fabrics in-band authentication
+(`drivers/nvme/host/auth.c`, `drivers/nvme/target/fabrics-cmd-auth.c`).
+**IMPORTANT** for NVMe-oF deployments that enable auth; not core mm/VFS.
+Configs: `NVME_HOST_AUTH` / `NVME_TARGET_AUTH` (help text “If unsure,
+say N”), both select `NVME_AUTH`.
 
-Record: **NVMe host core** (`drivers/nvme/host/core.c`). **IMPORTANT** —
-common block/storage path, not mm/VFS core, but widely deployed
-(servers, laptops, NVMe-oF).
+**Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
 
-**Step 7.2: SUBSYSTEM ACTIVITY**
+Record: Actively maintained (recent OOB/auth bounds fixes on the same
+files). Auth itself has been stable in design since 2022.
 
-Record: Actively maintained (Keith Busch, Christoph Hellwig, et al.).
-This is a small correctness fix in old parse code, not a follow-on to a
-brand-new feature in 7.3.
+===============================================================
+PHASE 8: IMPACT AND RISK ASSESSMENT
+===============================================================
 
----
+**Step 8.1: DETERMINE WHO IS AFFECTED**
 
-## PHASE 8: IMPACT AND RISK ASSESSMENT
+Record: Config-specific (`NVME_HOST_AUTH` / `NVME_TARGET_AUTH`) and only
+during DH-HMAC-CHAP. Target comparison is the access-control check for
+remote hosts.
 
-**Step 8.1: WHO IS AFFECTED**
+**Step 8.2: DETERMINE THE TRIGGER CONDITIONS**
 
-Record: **Driver-specific, but broad:** NVMe hosts scanning namespaces
-(almost all NVMe users on 1.3+). Triggered by device Identify data, not
-a rare Kconfig.
+Record: Every in-band auth exchange that validates an HMAC response.
+Target path: remote peer during AUTH_SEND Reply. Host path:
+bidirectional controller auth when `rvalid` is set. Unprivileged remote
+initiator can hit the target compare if the subsystem is enabled.
 
-**Step 8.2: TRIGGER CONDITIONS**
+**Step 8.3: DETERMINE THE FAILURE MODE SEVERITY**
 
-Record: Namespace scan (probe/reset/NS-changed). **Not** every I/O.
-Needs a **malformed descriptor list** (buggy firmware or untrusted
-target). Unprivileged local users typically cannot inject Identify
-payloads without device control; NVMe-oF to an untrusted target can.
-Timing-independent; deterministic given bad data.
+Record: **Timing side channel on authentication MACs.** Severity
+**HIGH** as a security defect (auth protocol using variable-time
+compare). Practical “byte-by-byte recover the static secret” is weaker
+than the commit text implies: `nvmet_auth_host_hash()` HMACs a per-
+session challenge (`dhchap_c1`), so the expected digest is not a stable
+value across attempts. Same caveat as the SCSI CHAP memneq patch. It is
+still the wrong primitive for MAC compare; ksmbd’s analogous change was
+`Cc: stable`.
 
-**Step 8.3: FAILURE MODE SEVERITY**
+**Step 8.4: CALCULATE RISK-BENEFIT RATIO**
 
-Record: **Heap out-of-bounds read** → KASAN/oops, possible info leak, or
-silent heap corruption adjacent to the Identify buffer. **Severity:
-HIGH.** Not a guaranteed panic on production kernels, but it is a real
-memory-safety bug in a storage driver.
+Record: **Benefit: high** for NVMe-oF auth users (closes a real class of
+crypto bug on a remote-facing check). **Risk: very low** (4 insertions,
+same branches, standard helper). Ratio strongly favors applying it.
 
-**Step 8.4: RISK-BENEFIT RATIO**
-
-Record:
-- **Benefit: high** — stops device-controlled OOB on a common NVMe scan
-  path; 4 lines; maintainers acked.
-- **Risk: very low** — two range checks; no lock/API/behavior change for
-  valid lists.
-- **Ratio: strongly favors backport.**
-
----
-
-## PHASE 9: FINAL SYNTHESIS
+===============================================================
+PHASE 9: FINAL SYNTHESIS
+===============================================================
 
 **Step 9.1: COMPILE THE EVIDENCE**
 
 **FOR:**
-- Real OOB read from controller-controlled Identify NS descriptor list
-- Path is namespace scan on ordinary NVMe hosts
-- 4-line, obviously correct bounds checks; header checked before `nidl`
-- Same bug class already recognized on the passthru parser
-- Reviewed-by Christoph Hellwig; applied by Keith Busch
-- Code has existed since v4.13; no missing prerequisites in this tree
-- No new feature/API
+- Real crypto bug: `memcmp` on HMAC responses in DH-HMAC-CHAP
+- Remote-facing target auth path
+- 4-line, obviously correct replacement with the kernel’s constant-time
+  helper
+- Reviewed by Hannes Reinecke and Christoph Hellwig; applied by Keith
+  Busch
+- Bug present since v6.0; `crypto_memneq` already available here
+- Same pattern as other MAC compares that stable has taken (e.g. ksmbd)
+- No new feature/API; no locking/ABI change
 
 **AGAINST:**
-- No Fixes:/Cc: stable/syzbot/user report (not a negative per the rules)
-- LLM-assisted origin (offset by maintainer review)
-- Trigger needs a bogus/malicious controller, not typical I/O
-- Series labeled 1/2 (sibling is independent)
+- Optional Kconfig (default N)
+- No CVE/syzbot/user report
+- Incremental digest recovery is harder than the message states because
+  HMAC input includes a unique challenge
+- No in-thread `Cc: stable`
 
 **UNRESOLVED:**
-- lore.kernel.org HTTP 403; thread recovered via b4 mbox
-- Whether stable@ already discussed this commit: **UNVERIFIED**
+- Whether stable@ ever discussed this (lore stable search failed)
+- Practical remote exploitability over NVMe-oF (network jitter)
 
-**Step 9.2: STABLE RULES CHECKLIST**
+**Step 9.2: APPLY THE STABLE RULES CHECKLIST**
 
-1. Obviously correct and tested? **PASS** — two range checks; Reviewed-
-   by maintainer; applied to nvme-7.3
-2. Fixes a real bug that affects users? **PASS** — OOB parse of device
-   Identify data
-3. Important (crash/security/corruption/deadlock)? **PASS** — HIGH
-   memory-safety (OOB read; crash/leak potential)
-4. Small and contained? **PASS** — +4 lines, one function
+1. Obviously correct and tested? **PASS** — polarity of `crypto_memneq`
+   matches `memcmp`; reviewed by auth author and NVMe core reviewers; in
+   mainline since 7.3-rc1.
+2. Fixes a real bug that affects users? **PASS** — wrong comparison
+   primitive on live HMAC auth; users with NVMe-oF in-band auth are
+   affected.
+3. Important issue (crash, security, corruption, deadlock)? **PASS** —
+   security (timing leak on authentication MAC), HIGH.
+4. Small and contained? **PASS** — 2 files, +4/−2.
 5. No new features or APIs? **PASS**
-6. Can apply to the local tree? **PASS** — same function/context; no
-   extra deps
+6. Can apply to the local tree? **PASS** — already applied;
+   `<crypto/utils.h>` and `CRYPTO_LIB_UTILS` are present.
 
-**Step 9.3: EXCEPTION CATEGORIES**
+**Step 9.3: CHECK FOR EXCEPTION CATEGORIES**
 
-Record: **None** (not an ID/quirk/DT/build/doc exception). It qualifies
-as a normal small memory-safety fix.
+Record: Not a device-ID/quirk/DT/build/docs exception. It is a small
+security fix, which is in-scope for stable on its own.
 
-**Step 9.4: DECISION**
+**Step 9.4: MAKE YOUR DECISION**
 
-This is a surgical host-side bounds check for a long-standing, device-
-controlled OOB in NVMe namespace scanning. It meets stable rules for
-this checkout (7.3-rc4; buggy walker present since v4.13). Benefit is
-high; regression risk is very low.
+This is a small, maintainer-reviewed security fix for NVMe-oF DH-HMAC-
+CHAP: the host Success1 path and the target Reply path compared HMAC
+digests with `memcmp()`. That can leak match length. `crypto_memneq()`
+is the established kernel helper; control flow is unchanged. The code
+has existed since v6.0, applies cleanly here, and does not need extra
+commits.
 
----
+Even if full incremental recovery of a static digest is unlikely because
+each HMAC includes a fresh challenge, stable trees should not leave
+authentication MACs on a variable-time compare. Risk is negligible;
+benefit is closing a real crypto-hygiene hole on a network-facing auth
+check.
 
-### What the commit solves (for this tree)
+### What problem it solves and why it matters
+DH-HMAC-CHAP is NVMe-oF in-band authentication. The target decides
+whether the host’s Reply HMAC is correct; the host (when bidirectional)
+decides whether the controller’s Success1 HMAC is correct. Using
+`memcmp()` can stop at the first mismatch and leak timing. Stable users
+who enable this optional auth still need that check to be constant-time.
 
-`nvme_identify_ns_descs()` walks a 4096-byte Identify Namespace ID
-Descriptor List with a device-chosen stride. Without checking that the
-next 4-byte header and `nidl` body fit, a truncated or oversized last
-descriptor causes an out-of-bounds header read and/or `memcpy` in
-`nvme_process_ns_desc()`. That hits every NVMe scan of a 1.3+ (or multi-
-CSS) controller that returns a bad list. The patch stops the loop before
-those accesses. Compliant devices are unchanged.
+### Stable rules
+The patch is obviously correct, tiny, already reviewed, and does not add
+features. It fixes a security issue, not a style nit.
 
 ### Risk vs benefit
-
-Four lines of range checks, no locking or ABI change. Worst case on a
-truncated list is skipping remaining descriptors (already the `nidl ==
-0` policy). Benefit is preventing a heap OOB in a widely used storage
-driver.
+Very low regression risk versus a meaningful security improvement for
+NVMe-oF auth. Header/`CRYPTO_LIB_UTILS` dependencies are already
+satisfied in this 7.3 tree.
 
 ### Concerns
+Exploitability is weaker than a static-secret `memcmp` leak; feature is
+optional. Neither outweighs applying a 4-line, standard crypto fix.
 
-None that block backport: 1/2 is independent of the FDP 2/2 patch; no
-extra commits required; apply is clean against this
-`nvme_identify_ns_descs()`.
-
----
-
-### Verification
-
-- **[Phase 1]** Parsed tags: Reviewed-by Christoph Hellwig; SOB Hari
-  Mishal, Greg Kroah-Hartman, Keith Busch; Assisted-by
-  gkh_clanker_t1000; no Fixes/Reported-by/Cc:stable/syzbot
-- **[Phase 2]** Diff: +4 lines in `nvme_identify_ns_descs()`; two `pos +
-  sizeof(*cur)` / `+ cur->nidl` checks vs `NVME_IDENTIFY_DATA_SIZE`
-  (4096). Confirmed `struct nvme_ns_id_desc` is 4 bytes; `nidl` is
-  `__u8`
-- **[Phase 2]** `nvme_process_ns_desc()` memcpy of EUI64/NGUID/UUID/CSI
-  only after `nidl` matches expected length — body check is what keeps
-  those copies in-buffer
-- **[Phase 2]** Integer overflow: max `pos+hdr+nidl` ≈ 4354, no 32-bit
-  overflow
-- **[Phase 3]** `git describe HEAD` = v7.3-rc4-27-gf0100363d8c37; `make
-  kernelversion` = 7.3.0-rc4
-- **[Phase 3]** Commit `3c568b35a0d309`; `git merge-base --is-ancestor`
-  → ancestor of HEAD
-- **[Phase 3]** Blame: loop `3b22ba2682b432` (2017, v4.13-rc1); checks
-  from this commit
-- **[Phase 3]** Pre-image `git show 3c568b35a0d30^:...` matches the
-  supplied diff (no header/body checks)
-- **[Phase 3]** Sibling `29261f8bb4166` is `nvme_query_fdp_info()` only
-  — not a prereq. Related `bc7f75eba5001` is target passthru
-- **[Phase 4]** `b4 dig -c 3c568b35a0d309`: lore/msgid
-  2026070931-stopping-cost-239a@gregkh; v1 only; CC linux-nvme + all
-  NVMe maintainers
-- **[Phase 4]** mbox: Hellwig Reviewed-by; Busch “series applied to
-  nvme-7.3”; no NAK
-- **[Phase 4]** WebFetch lore.kernel.org / patch.msgid.link / lore
-  stable search: **403** — discussion taken from b4 mbox instead
-- **[Phase 5]** Only caller `nvme_scan_ns()` → `nvme_scan_work()`
-  (probe/reset/NS-changed scan)
-- **[Phase 5]** Similar bounds already in
-  `drivers/nvme/target/passthru.c`
-- **[Phase 6]** Buggy walker exists in this tree’s history since v4.13;
-  current file has the checks; apply would be clean
-- **[Phase 6]** MAINTAINERS: NVM EXPRESS DRIVER — Busch, Axboe, Hellwig,
-  Grimberg
-- **[Phase 8]** Failure mode: heap OOB read on malformed Identify NS
-  descriptor list; severity HIGH
-- **UNVERIFIED:** whether stable@ already discussed this commit (lore
-  stable HTTP 403)
+Verification:
+- [Phase 1] Parsed commit `3a6d89836ab09`: no Fixes/Reported-
+  by/Cc:stable; Reviewed-by Hannes Reinecke and Christoph Hellwig; SOB
+  Keith Busch
+- [Phase 2] Diff: +`#include <crypto/utils.h>` and
+  `memcmp`→`crypto_memneq` in `nvme_auth_process_dhchap_success1` and
+  `nvmet_auth_reply` (+4/−2)
+- [Phase 2] `include/crypto/utils.h`: `crypto_memneq` returns 0 if
+  equal, 1 otherwise — matches `if (memcmp(...))`
+- [Phase 3] `git blame` on parent: host memcmp from `f50fff73d620cd`
+  (v6.0); target from `db1312dd95488b` (v6.0)
+- [Phase 3] `git merge-base --is-ancestor f50fff73d620cd v6.0` yes;
+  `v5.19` no
+- [Phase 3] No Fixes tag to follow
+- [Phase 3] Standalone 1/1 series; `NVME_AUTH` selects `CRYPTO`;
+  `CRYPTO` selects `CRYPTO_LIB_UTILS`
+- [Phase 4] `b4 dig -c 3a6d89836ab09`: lore msgid `0001.nvme-auth-
+  memneq.1781751816.git.liuxixin@kylinos.cn`
+- [Phase 4] `b4 dig -a`: v1 only
+- [Phase 4] `b4 dig -w`: linux-nvme plus
+  Busch/Axboe/Hellwig/Grimberg/Kulkarni/Reinecke
+- [Phase 4] mbox: Christoph “Looks good”; Hannes Reviewed-by; no NAK;
+  Keith: applied as `3a6d89836ab09`
+- [Phase 4] WebFetch lore 403; WebSearch failed; stable-list discussion
+  UNVERIFIED
+- [Phase 5] Callers: host auth workqueue; target
+  `nvmet_execute_auth_send` ← fabrics AUTH_SEND (remote)
+- [Phase 5] `nvmet_auth_host_hash` HMACs `dhchap_c1` (per-session
+  challenge) — verified in `drivers/nvme/target/auth.c`
+- [Phase 5] No leftover HMAC `memcmp` in the two auth files
+- [Phase 6] `git describe HEAD`: `v7.3-rc4-27-gf0100363d8c37`; `make
+  kernelversion`: 7.3.0-rc4
+- [Phase 6] `git merge-base --is-ancestor 3a6d89836ab09 HEAD` yes; not
+  in `v7.2`; yes in `v7.3-rc1`
+- [Phase 6] Local files already use `crypto_memneq` at the two call
+  sites
+- [Phase 8] Failure mode: timing leak on auth MAC compare; severity HIGH
+  (security); trigger: NVMe-oF in-band auth
+- UNVERIFIED: practical remote exploitability; whether stable@ already
+  discussed the patch
 
 **YES**
 
- drivers/nvme/host/core.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/nvme/host/auth.c               | 3 ++-
+ drivers/nvme/target/fabrics-cmd-auth.c | 3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index d5fb6612fa229..5ed62e070f715 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1564,8 +1564,12 @@ static int nvme_identify_ns_descs(struct nvme_ctrl *ctrl,
- 	for (pos = 0; pos < NVME_IDENTIFY_DATA_SIZE; pos += len) {
- 		struct nvme_ns_id_desc *cur = data + pos;
+diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
+index 8f3ccb317e4de..9d73713d6f828 100644
+--- a/drivers/nvme/host/auth.c
++++ b/drivers/nvme/host/auth.c
+@@ -9,6 +9,7 @@
+ #include <linux/unaligned.h>
+ #include <crypto/hash.h>
+ #include <crypto/dh.h>
++#include <crypto/utils.h>
+ #include "nvme.h"
+ #include "fabrics.h"
+ #include <linux/nvme-auth.h>
+@@ -381,7 +382,7 @@ static int nvme_auth_process_dhchap_success1(struct nvme_ctrl *ctrl,
+ 		return 0;
  
-+		if (pos + sizeof(*cur) > NVME_IDENTIFY_DATA_SIZE)
-+			break;
- 		if (cur->nidl == 0)
- 			break;
-+		if (pos + sizeof(*cur) + cur->nidl > NVME_IDENTIFY_DATA_SIZE)
-+			break;
+ 	/* Validate controller response */
+-	if (memcmp(chap->response, data->rval, data->hl)) {
++	if (crypto_memneq(chap->response, data->rval, data->hl)) {
+ 		dev_dbg(ctrl->device, "%s: qid %d ctrl response %*ph\n",
+ 			__func__, chap->qid, (int)chap->hash_len, data->rval);
+ 		dev_dbg(ctrl->device, "%s: qid %d host response %*ph\n",
+diff --git a/drivers/nvme/target/fabrics-cmd-auth.c b/drivers/nvme/target/fabrics-cmd-auth.c
+index 35bf1a2357d49..5b010318286e4 100644
+--- a/drivers/nvme/target/fabrics-cmd-auth.c
++++ b/drivers/nvme/target/fabrics-cmd-auth.c
+@@ -10,6 +10,7 @@
+ #include <linux/nvme-auth.h>
+ #include <crypto/hash.h>
+ #include <crypto/kpp.h>
++#include <crypto/utils.h>
+ #include "nvmet.h"
  
- 		len = nvme_process_ns_desc(ctrl, &info->ids, cur, &csi_seen);
- 		if (len < 0)
+ static void nvmet_auth_expired_work(struct work_struct *work)
+@@ -187,7 +188,7 @@ static u8 nvmet_auth_reply(struct nvmet_req *req, void *d, u32 tl)
+ 		return NVME_AUTH_DHCHAP_FAILURE_FAILED;
+ 	}
+ 
+-	if (memcmp(data->rval, response, data->hl)) {
++	if (crypto_memneq(data->rval, response, data->hl)) {
+ 		pr_info("ctrl %d qid %d host response mismatch\n",
+ 			ctrl->cntlid, req->sq->qid);
+ 		pr_debug("ctrl %d qid %d rval %*ph\n",
 -- 
 2.53.0
 
