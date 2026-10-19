@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 29036CCF2DD
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1EB43CCF2DE
 	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 03:36:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,30 +12,30 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nyPLhLnF9T9518o2UneCzRtJlrrg/wdkORxySMDG/Jc=; b=CKYZHv1YX1CPHAI3C5rMw/USxA
-	8gft2yk7fCbpzP2/5RdFlb5IpnaZp8SSAp9wotGmZChrbDe7SX452+PnOHknaH04HCn8Z5L8brhMb
-	y4CAw4NtrLwi2KaQozpIm+glSciqmHx9AB14+3D/rojFA7L3B/Pe8vMLVwI6lCyJv73r4U3SSJSL3
-	fHqKeBBbzdnx4GPe7ks7Z5qA8Yyi4gL2rKOxxGpSxr41f2GVpy4lZ68nsS7C7282uaajdfe3+n8G/
-	nH+s7/BX/QpO6I7R4BoyrXmFZ9R/Tveuwvydv4/FxS5HZq3jUrxF2CuIg8+P5KaQ0UVwi9Ju4X6yl
-	tYf1SNrg==;
+	bh=9FYK1D9hAWXYaLafWV0p9wbAKSpE+RrReSAffAQBv3s=; b=IKoaTz+j3xFiSCZQHBbALpOxVb
+	Q4FPujZV1M1a8OduxOWIvTs9IXSfm8N/14jXa3dmlIMis8ONBtASTdJcvyRh/yp69o5kcwwcc6K07
+	8ztdPSIXuE9Z4Lsxf7AnwXkl/UIdbBsN5KDaDKjjgJPVkn4uKgp81CqcUIqP19DsJby6lQPR3DcN3
+	gk++3sdBilXCrBjdTPUjf8u+U7FdRoDGOZESYqPQsPZ8Cw9qEA7y5t0jurfAadkpGND6Yu0Uc7J4i
+	CKjVGET7x/vp/vm/hP36SKF+XYnJbSLdYkFBrBjQ1bNggUm5s9PuqQX+GMCF/srvepQjuzjr+F8Zx
+	wXNRK4Rg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xIeB3-00000006Xjh-3CUa;
+	id 1xIeB3-00000006Xiq-295e;
 	Mon, 19 Oct 2026 03:36:45 +0000
-Received: from out30-97.freemail.mail.aliyun.com ([115.124.30.97])
+Received: from out30-98.freemail.mail.aliyun.com ([115.124.30.98])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xIeAv-00000006Xci-2eYH
+	id 1xIeAu-00000006Xcd-2euu
 	for linux-nvme@lists.infradead.org;
 	Mon, 19 Oct 2026 03:36:39 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1792380995; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=nyPLhLnF9T9518o2UneCzRtJlrrg/wdkORxySMDG/Jc=;
-	b=Er67FbxcAe+7glMdbQ2+nNqPGSfjzsClrSd/YqTX4MbWgaZQjaFGOkxcBtAEAKvyHwYwdbnYLwBdATC2KCicSqGFkeFSKAbU45LE4POYYSCyuRp3fkdHKCf+kWJfptQcN+QFpNufA6bRd0jZcMYmCMCUPeTPx4SFY2EqVQILeRw=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037026112;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XD-YSCY_1792380994;
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XD-YSCY_1792380994 cluster:ay36)
+	t=1792380991; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=9FYK1D9hAWXYaLafWV0p9wbAKSpE+RrReSAffAQBv3s=;
+	b=jAchgJwgnVSyr/2fFrvtJI8bHASMDCEdw5Al++OzhArZimlmKjOP67MRtFlikKkRhLeoq9FqR2RM4orjBiPclt2mQ7rgK3qy5WNDsKUTAWhWkzwnoSQfEWGr9wkSzTbt+XXVfQVG4gAKk3R9pYUJ+IyIPnsCm/ozFWdSicN/x1s=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R101e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XD-ZCLl_1792380990;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XD-ZCLl_1792380990 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Mon, 19 Oct 2026 11:36:35 +0800
+          Mon, 19 Oct 2026 11:36:30 +0800
 From: Guixin Liu <kanie@linux.alibaba.com>
 To: Keith Busch <kbusch@kernel.org>,
 	Jens Axboe <axboe@kernel.dk>,
@@ -45,17 +45,17 @@ To: Keith Busch <kbusch@kernel.org>,
 	Daniel Wagner <dwagner@suse.de>,
 	Hannes Reinecke <hare@suse.de>
 Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH 06/11] nvmet: advertise the FDP capability
-Date: Mon, 19 Oct 2026 11:36:19 +0800
-Message-ID: <20261019033624.402337-7-kanie@linux.alibaba.com>
+Subject: [PATCH 01/11] nvme: add the FDP wire structures for the I/O management send command
+Date: Mon, 19 Oct 2026 11:36:14 +0800
+Message-ID: <20261019033624.402337-2-kanie@linux.alibaba.com>
 X-Mailer: git-send-email 2.43.7
 In-Reply-To: <20261019033624.402337-1-kanie@linux.alibaba.com>
 References: <20261019033624.402337-1-kanie@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261018_203637_806480_E8C339A2 
-X-CRM114-Status: GOOD (  10.48  )
+X-CRM114-CacheID: sfid-20261018_203636_842884_4BCD06BA 
+X-CRM114-Status: GOOD (  11.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,32 +70,91 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Set the Flexible Data Placement Supported (FDPS) bit in the Identify
-Controller ctratt field whenever at least one enabled namespace of
-the subsystem bridges FDP.  Hosts use the FDPS bit to decide whether
-to query the FDP feature and configuration for each namespace, so
-without it the bridge stays invisible.  The FDP log pages are listed
-in the Supported Log Pages log page by the patches that serve them.
+Add the command definition of the I/O Management Send command (opcode
+0x1D) to the command opcode enum and the command union, together with
+its management operation, and the log page identifiers of the FDP
+pages that the target serves, so that initiators and targets share
+the same wire format.
+
+No in-kernel initiator uses the command yet; the NVMe target FDP
+support that consumes these structures follows in this series.
 
 Assisted-by: LLM
 Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
 ---
- drivers/nvme/target/admin-cmd.c | 2 ++
- 1 file changed, 2 insertions(+)
+ include/linux/nvme.h | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index aad5abdb6ef96..b293ce418e2c3 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -699,6 +699,8 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
- 	ctratt = NVME_CTRL_ATTR_HID_128_BIT | NVME_CTRL_ATTR_TBKAS;
- 	if (nvmet_is_pci_ctrl(ctrl))
- 		ctratt |= NVME_CTRL_ATTR_RHII;
-+	if (nvmet_fdp_subsys_configured(ctrl->subsys))
-+		ctratt |= NVME_CTRL_ATTR_FDPS;
- 	id->ctratt = cpu_to_le32(ctratt);
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 91ce434a7e8d9..9141fd386012b 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -967,6 +967,7 @@ enum nvme_opcode {
+ 	nvme_cmd_resv_acquire	= 0x11,
+ 	nvme_cmd_io_mgmt_recv	= 0x12,
+ 	nvme_cmd_resv_release	= 0x15,
++	nvme_cmd_io_mgmt_send	= 0x1d,
+ 	nvme_cmd_zone_mgmt_send	= 0x79,
+ 	nvme_cmd_zone_mgmt_recv	= 0x7a,
+ 	nvme_cmd_zone_append	= 0x7d,
+@@ -989,6 +990,7 @@ enum nvme_opcode {
+ 		nvme_opcode_name(nvme_cmd_resv_acquire),	\
+ 		nvme_opcode_name(nvme_cmd_io_mgmt_recv),	\
+ 		nvme_opcode_name(nvme_cmd_resv_release),	\
++		nvme_opcode_name(nvme_cmd_io_mgmt_send),	\
+ 		nvme_opcode_name(nvme_cmd_zone_mgmt_send),	\
+ 		nvme_opcode_name(nvme_cmd_zone_mgmt_recv),	\
+ 		nvme_opcode_name(nvme_cmd_zone_append))
+@@ -1245,6 +1247,23 @@ enum {
+ 	NVME_IO_MGMT_RECV_MO_RUHS	= 1,
+ };
  
- 	id->oacs = 0;
++enum {
++	NVME_IO_MGMT_SEND_MO_RUH_UPDATE	= 1,
++};
++
++struct nvme_io_mgmt_send_cmd {
++	__u8			opcode;
++	__u8			flags;
++	__le16			command_id;
++	__le32			nsid;
++	__le64			rsvd2[2];
++	union nvme_data_ptr	dptr;
++	__u8			mo;
++	__u8			rsvd10;
++	__le16			mos;
++	__le32			rsvd11[5];
++};
++
+ struct nvme_fdp_ruh_status_desc {
+ 	__le16			pid;
+ 	__le16			ruhid;
+@@ -1416,6 +1435,9 @@ enum {
+ 	NVME_LOG_FEATURES	= 0x12,
+ 	NVME_LOG_RMI		= 0x16,
+ 	NVME_LOG_FDP_CONFIGS	= 0x20,
++	NVME_LOG_FDP_RUH_USAGE	= 0x21,
++	NVME_LOG_FDP_STATS	= 0x22,
++	NVME_LOG_FDP_EVENTS	= 0x23,
+ 	NVME_LOG_DISC		= 0x70,
+ 	NVME_LOG_RESERVATION	= 0x80,
+ 	NVME_FWACT_REPL		= (0 << 3),
+@@ -1437,6 +1459,7 @@ struct nvme_supported_features_log {
+ 
+ enum {
+ 	NVME_FIS_FSUPP	= 1 << 0,
++	NVME_FIS_EGSCPE	= 1 << 23,
+ 	NVME_FIS_NSCPE	= 1 << 20,
+ 	NVME_FIS_CSCPE	= 1 << 21,
+ };
+@@ -2016,6 +2039,7 @@ struct nvme_command {
+ 		struct nvme_dbbuf dbbuf;
+ 		struct nvme_directive_cmd directive;
+ 		struct nvme_io_mgmt_recv_cmd imr;
++		struct nvme_io_mgmt_send_cmd ims;
+ 	};
+ };
+ 
 -- 
 2.43.7
 
