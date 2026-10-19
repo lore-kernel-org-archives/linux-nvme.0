@@ -4,58 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ED994CCF2DE
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 14:04:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 19EFBCCF2E6
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 14:04:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xtfpE39WRfrVjcfSIGjhuyowlpgu8qhBwS2Mm5HbFwI=; b=k5OCnBRPPvQoetzXvKxriOtnHT
-	T/CbsJy4b/5gNFUC8ncYxoTOdlQMTjpB13hBiDZUrSclx+VgpmehcUB9QP6Hzy3RCE6eUejA6OfSK
-	MbgPficviWertyvjPztBgcxDuz8ikjgc0BDPaz1g6D4o6AGRkXSqdTUm85p1kCSkIqTlcr5uxjPYR
-	cLdWQv6rL5ajofYQMOpROPwAJp1IsptZp/a5shGm6BvARHB9MiPsTXjZ436noKyV9ey7kifdDnPch
-	9RYsl1MSPU+PoNcYNxH2v+TbEawFJcfkV4fF4ISBXKx+GXeoNopXJ/OZM4SCGFOueSGmCNHHsUPNm
-	eUh1gO+A==;
+	bh=QWiDfVMVCaFUz1kFD0OIgw5hrbI95Ilr8io9OQQrYtg=; b=C3YaMa8q4O5ryT/8+47juQBqsx
+	uZrS6d3h43R8B3vpyKY4/3ZA3ZQAwVDF5z8Go+GZ0Ja243My9wUdV23vjvWqXsugonAFY391/Zg17
+	ZS7N3H0YzzRe442QHe+w9vQnsxJZsaCUcw0wizryUVMh8gm1OjBPK+zVYZwOJkXVAKMSWE8OKhRxD
+	85yzAT7wV5LxzrdanrII4hTOejd8xrYGyKvgVGwjpm2K27Mx0Qh22Z2Ye9n8nRTwvb+e6+3SxYsYE
+	NHmMeuyAw49hj/7PTeu62APVWUqmqnS1Rl5OsBWNKb8A0hyKq+YktNIeNCt4B1/4nO/cKKC7o4m7u
+	BbRTQPOA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xInyE-00000007fOO-2GxP;
-	Mon, 19 Oct 2026 14:04:10 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1xInyG-00000007fQT-30fg;
+	Mon, 19 Oct 2026 14:04:12 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xInyC-00000007fN5-3z6d
+	id 1xInyF-00000007fP4-2Egt
 	for linux-nvme@lists.infradead.org;
-	Mon, 19 Oct 2026 14:04:09 +0000
+	Mon, 19 Oct 2026 14:04:11 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 5665F60258;
-	Mon, 19 Oct 2026 14:04:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C9711F000C6;
-	Mon, 19 Oct 2026 14:04:06 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id E557060238;
+	Mon, 19 Oct 2026 14:04:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D0B91F000C9;
+	Mon, 19 Oct 2026 14:04:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418648;
-	bh=xtfpE39WRfrVjcfSIGjhuyowlpgu8qhBwS2Mm5HbFwI=;
+	s=k20260515; t=1792418650;
+	bh=QWiDfVMVCaFUz1kFD0OIgw5hrbI95Ilr8io9OQQrYtg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=RPbvqWEDkNhBebSe2zm+/9xrECMJYF42+DhF0n4wwRgnHq3dNt4rzLZNvrCG/NNdP
-	 yEki2+y/bu1JCoH8s9jLC4ql+GJYCeU1o5UB6+HCJPQSkXZUVg7keZd2y8aRYM02cQ
-	 xznAeHQCtg80dRItisCR9Hhg+CvRCLG1mYHjH0PdMR+nTgWkMcbcPkY6XwAV1sCyyD
-	 Pmdz4fyFY/nD5C0X3XlIuaivdB0xPZp487MYI79EmbvWnVzOT8EuLwdsSIqov9h6kD
-	 5ZnF3fIQU92dPLoc4UlSEih6wqMkorjlVtrFJ0WlXSGOuP66snSYqGG8MQpG0JOx0z
-	 YjD8NRAaXmF7g==
+	b=Okq5ByyqFOwr8IXJxvgggHJyCEQDLS4WBScXc/dW1bLguAfzvVpTxhIrAegQ/MBmI
+	 nZKtWoVsJbLN4LDown1Yz3rfT6pcU4stUiX2OIWOJhhDDMO7zXDyau347m1ta2/EGn
+	 NeyDA/3bH8GFKfG5wVth+GKnCBnLVmb68JXf3QcKqUglIjBZ42R9brWSQDnvFNRPIx
+	 qbLxoZofx2Om2OfaNHNFEYpsHhlsVf3pHiok2cstHKChNRcBlRjpT0rnY2+HQvLMj3
+	 Ab4sWJvNHk0YvYS3nvyba5uzYJ8OhaFADQYro1l6nLGvvy/DiuayjDCjCzCdU0mhsY
+	 35ZgWrh3JfIsQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: John Garry <john.g.garry@oracle.com>,
-	Christoph Hellwig <hch@lst.de>,
+Cc: Hari Mishal <harimishal1@gmail.com>,
 	Keith Busch <kbusch@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	axboe@kernel.dk,
 	sagi@grimberg.me,
+	kch@nvidia.com,
 	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-6.6] nvme: don't reference NS after unlocking in nvme_ns_head_ctrl_ioctl()
-Date: Mon, 19 Oct 2026 09:51:29 -0400
-Message-ID: <20261019135441.1420968-398-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-6.1] nvmet: passthru: fix OOB reads when parsing ns id descriptor list
+Date: Mon, 19 Oct 2026 09:51:31 -0400
+Message-ID: <20261019135441.1420968-400-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -79,303 +78,355 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: John Garry <john.g.garry@oracle.com>
+From: Hari Mishal <harimishal1@gmail.com>
 
-[ Upstream commit 77c57daf98a2ad95ec9ac1371caeff8939cc1f58 ]
+[ Upstream commit bc7f75eba50012ed447654d8ce169ebaba695193 ]
 
-In nvme_ns_head_ctrl_ioctl(), once we drop the SRCU read lock we should
-not reference the NS to lookup the controller, so use the available
-controller pointer directly.
+nvmet_passthru_override_id_descs() walks a namespace identification
+descriptor list populated from the underlying passthru controller's
+Identify response, which is device reported. The loop advanced pos by
+device controlled amounts (sizeof(*cur) + nidl) without checking that
+the next descriptor header actually fits inside the buffer, so a
+malicious device could push pos to within a few bytes of the buffer end
+and cause cur->nidl, cur->nidt or the reserved field to be read past the
+allocation.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: John Garry <john.g.garry@oracle.com>
+Additionally, when a CSI descriptor lands exactly at the last valid
+header offset, cur + 1 points one byte past the end of the buffer.
+The unconditional memcpy(&csi, cur + 1, NVME_NIDT_CSI_LEN) could read
+that out-of-bounds byte and copy it back to the initiator via
+nvmet_copy_to_sgl(), leaking adjacent heap memory.
+
+Bounds check both the descriptor header and the CSI value before
+dereferencing them.
+
+Signed-off-by: Hari Mishal <harimishal1@gmail.com>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-The local tree is **7.3.0-rc4** (`v7.3-rc4-27-gf0100363d8c37`). The
-candidate is a one-line use-after-unlock fix in the NVMe multipath ioctl
-path; the rest of this write-up is the forensic check of whether that
-fix belongs here as a stable backport.
+The local tree is **6.12.111** (`pending-6.12`). The buggy descriptor
+parser is present here; the fix is not. This is a small, obviously
+correct OOB-read/info-leak fix in NVMe target passthrough.
 
 ---
 
 ## PHASE 1: COMMIT MESSAGE FORENSICS
 
 **Step 1.1: PARSE THE SUBJECT LINE**
-Record: `[nvme] [don't reference] Avoid using the namespace object after
-dropping the SRCU lock in nvme_ns_head_ctrl_ioctl()`
+
+Record: **[nvmet/passthru] [fix] [OOB reads when parsing namespace ID
+descriptor list]**
 
 **Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
-Record:
-- `Reviewed-by: Christoph Hellwig <hch@lst.de>` (NVMe co-maintainer)
-- `Signed-off-by: John Garry <john.g.garry@oracle.com>` (author)
-- `Signed-off-by: Keith Busch <kbusch@kernel.org>` (NVMe maintainer;
-  applied the patch)
-- No `Fixes:` tag (expected for this review pipeline)
-- No `Cc: stable@vger.kernel.org` (expected)
-- No `Reported-by:`, `Tested-by:`, `Link:`, or syzbot tags
 
-Later mailing-list review also produced `Reviewed-by: Hannes Reinecke
-<hare@kernel.org>` (not copied into the committed message).
+Record:
+- Signed-off-by: Hari Mishal \<harimishal1@gmail.com\> (author)
+- Signed-off-by: Keith Busch \<kbusch@kernel.org\> (NVMe maintainer,
+  applied the patch)
+- No Fixes:, Reported-by, Tested-by, Reviewed-by, Acked-by, Link:, or
+  Cc: stable tags (absence is expected for this review pipeline)
+- Ignore any pipeline “Upstream commit” / Sasha Levin markers — none
+  were on the upstream commit itself
 
 **Step 1.3: ANALYZE THE COMMIT BODY TEXT**
+
 Record:
-- **Bug:** After `srcu_read_unlock(&head->srcu)`, the code still did
-  `nvme_ctrl_ioctl(ns->ctrl, ...)`.
-- **Symptom/failure mode:** Use of `ns` after the SRCU critical section
-  ends. `nvme_find_path()` does not take an `ns` kref; SRCU is what
-  keeps `ns` alive. After unlock, `nvme_ns_remove()` can finish
-  `synchronize_srcu(&ns->head->srcu)` and `nvme_put_ns()` → `kfree(ns)`.
-  Loading `ns->ctrl` is then a use-after-free.
-- **Version info:** None in the message. History shows the pattern dates
-  to `48145b62563a9` (v5.13-rc1 era, 2021).
-- **Root cause:** The function already saved `struct nvme_ctrl *ctrl =
-  ns->ctrl` and used it for `nvme_put_ctrl(ctrl)`, but the ioctl call
-  still went through `ns->ctrl` after unlock.
+- **Bug:** `nvmet_passthru_override_id_descs()` walks a 4096-byte
+  Identify NS descriptor list filled by the backend passthrough
+  controller. The loop advances `pos` by `sizeof(*cur) + nidl` (`nidl`
+  is device-controlled) without checking that the next descriptor header
+  still fits in the buffer.
+- **Symptom/failure:** OOB read of `cur->nidl` / `cur->nidt` / reserved
+  past the allocation. If a CSI descriptor sits at the last valid header
+  offset, `memcpy(&csi, cur + 1, NVME_NIDT_CSI_LEN)` reads one byte past
+  the buffer and that byte can be copied to the initiator via
+  `nvmet_copy_to_sgl()` — heap info leak.
+- **Version info:** none in the message. Introducing code is from v5.19
+  (see Phase 3).
+- **Root cause:** missing bounds checks on descriptor header and CSI
+  payload before dereference.
 
 **Step 1.4: DETECT HIDDEN BUG FIXES**
-Record: Not hidden. The subject is explicit. This is a real lifetime/UAF
-fix, not style cleanup. The local `ctrl` variable existed specifically
-to survive the unlock; the ioctl call was the leftover unsafe use.
+
+Record: Not a disguised cleanup. The subject and body describe a real
+OOB read / leak. The diff is only bounds checks.
 
 ---
 
 ## PHASE 2: DIFF ANALYSIS
 
 **Step 2.1: INVENTORY THE CHANGES**
+
 Record:
-- File: `drivers/nvme/host/ioctl.c` — 1 insertion, 1 deletion
-- Function: `nvme_ns_head_ctrl_ioctl()`
-- Scope: single-file, one-line surgical fix under
-  `CONFIG_NVME_MULTIPATH`
+- File: `drivers/nvme/target/passthru.c` — **+9 / -0** (upstream: 9
+  insertions)
+- Function: `nvmet_passthru_override_id_descs()`
+- Scope: single-file surgical fix
 
 **Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
+
 Record:
-Before:
-```
-struct nvme_ctrl *ctrl = ns->ctrl;
-nvme_get_ctrl(ns->ctrl);          /* still under SRCU — OK */
-srcu_read_unlock(&head->srcu, srcu_idx);
-ret = nvme_ctrl_ioctl(ns->ctrl, ...);  /* ns used after unlock — BUG */
-nvme_put_ctrl(ctrl);
-```
-After:
-```
-ret = nvme_ctrl_ioctl(ctrl, ...);  /* uses the pointer saved under SRCU
-*/
-```
-The `nvme_get_ctrl()` before unlock keeps the controller object alive;
-only the namespace object was left unprotected.
+- **Before:** loop `for (pos = 0; pos < NVME_IDENTIFY_DATA_SIZE; pos +=
+  len)` sets `cur = data + pos`, then immediately reads `cur->nidl` /
+  `cur->nidt`. No check that `pos + sizeof(*cur)` is in range. CSI path
+  does `memcpy(&csi, cur + 1, NVME_NIDT_CSI_LEN)` with no payload-size
+  check.
+- **After:**
+  1. If `pos + sizeof(*cur) > NVME_IDENTIFY_DATA_SIZE`, break (stop
+     before OOB header read).
+  2. On CSI, if `pos + sizeof(*cur) + NVME_NIDT_CSI_LEN >
+     NVME_IDENTIFY_DATA_SIZE`, break (stop before OOB CSI byte read).
+- Path: Identify CNS=NS_DESC_LIST success path when `clear_ids` is set.
+  Fail-safe: truncated/malformed list → `csi_seen` stays false → buffer
+  zeroed, CSI not echoed.
 
 **Step 2.3: IDENTIFY THE BUG MECHANISM**
+
 Record:
-- **Category:** use-after-free / lifetime (memory safety), SRCU
-  protection dropped too early relative to `ns` use
-- **Mechanism:** Path lookup is SRCU-only. Callers drop SRCU *on
-  purpose* before controller ioctls so a Delete Namespace passthrough
-  cannot deadlock on `synchronize_srcu` (comment at the
-  `nvme_ns_head_ioctl` call site). Concurrent `nvme_ns_remove()` can
-  then free `ns` while the old code still loaded `ns->ctrl`.
+- **Category:** memory safety — out-of-bounds read + heap info leak
+- **Mechanism:** device-controlled `nidl` can place `pos` so a 4-byte
+  `struct nvme_ns_id_desc` (`nidt`, `nidl`, `__le16 reserved`) does not
+  fit. `NVME_NIDT_CSI_LEN` is 1; with header at offset 4092, `cur + 1`
+  is byte 4096 (one past a 4096-byte `kzalloc`). That byte can be
+  returned to the initiator.
+
+Verified sizes in this tree (`include/linux/nvme.h`):
+- `struct nvme_ns_id_desc` = 4 bytes
+- `NVME_NIDT_CSI_LEN` = 1
+- `NVME_IDENTIFY_DATA_SIZE` = 4096
 
 **Step 2.4: ASSESS THE FIX QUALITY**
+
 Record:
-- Obviously correct: use the already-captured, refcounted `ctrl`.
-- Minimal: one identifier change; no API, locking, or control-flow
-  change.
-- Regression risk: very low. `ctrl` is assigned under SRCU and pinned
-  with `nvme_get_ctrl()` before unlock.
+- Obviously correct: two `break`s before dereference.
+- Minimal: no unrelated changes.
+- Regression risk: low. Breaking on a truncated list skips CSI override;
+  `clear_ids` already zeros the rest of the list. Compliant devices put
+  CSI well inside 4096 bytes.
+- Host-side parser later also checks `pos + sizeof(*cur) + cur->nidl`;
+  this passthru patch does not check non-CSI body size, but non-CSI
+  payloads are not read here — only used to advance `pos`. Next
+  iteration’s header check still stops OOB. Not a blocker.
 
 ---
 
 ## PHASE 3: GIT HISTORY INVESTIGATION
 
 **Step 3.1: BLAME THE CHANGED LINES**
+
 Record:
-- Buggy `nvme_ctrl_ioctl(ns->ctrl, ...)` after unlock introduced in
-  `48145b62563a9` (`nvme: fix controller ioctl through ns_head`, Minwoo
-  Im, 2021-04-22).
-- First appeared around **v5.13** (`tags/v5.13-rc1~19^2~1^2~6`).
-- `struct nvme_ctrl *ctrl = ns->ctrl` was added in that same commit —
-  they saved `ctrl` for `nvme_put_ctrl()` but still passed `ns->ctrl`
-  into the ioctl.
-- The SRCU unlock in this function has been there since `3e7d1a55165bd`
-  / the 2021 rewrite. This is long-lived buggy code, not a recent
-  regression.
+- Buggy function introduced by **`34ad61514c4c3`** (“nvmet: add a
+  clear_ids attribute for passthru targets”, Alan Adamson, 2022-06-27).
+- First appeared: **v5.19-rc2** (`git describe`:
+  `v5.19-rc2-35-g34ad61514c4c3`).
+- **In this tree:** yes (`git merge-base --is-ancestor 34ad61514c4c3
+  HEAD` → yes). Blame on the local file still points every line of this
+  function at that commit.
 
 **Step 3.2: FOLLOW THE FIXES: TAG**
-Record: No `Fixes:` tag. The introducing commit is `48145b62563a9`, and
-`git merge-base --is-ancestor 48145b62563a9 HEAD` succeeded, so the
-buggy code is in this lineage.
+
+Record: No Fixes: tag. Bug introduced by `34ad61514c4c3`, which is in
+this 6.12 tree.
 
 **Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
+
 Record:
-- Nearby John Garry commits (`627e8bb91a8fd` requeue/SRCU order,
-  `a11e0a4cb4189` / `9952f3882ecba` cdev lifetime) are **separate**
-  bugs. This diff does not depend on them.
-- Not labeled `patch X/Y`. Standalone one-liner.
-- Later `86f9536c2d8f4` only changes the sparse annotation `__releases`
-  → `__releases_shared`; not a prerequisite.
+- Local recent history of `passthru.c` includes `e38dad438fc08` (clear
+  EUID/NGUID/UUID on loop) — does not change this loop.
+- Upstream: `bc7f75eba5001` is the latest change to this file on
+  `origin/master`; **no follow-up** after it.
+- Standalone, not “patch X/Y”. Sibling host fix `3c568b35a0d30` (“nvme:
+  bound ns descriptor header and body to identify buffer”) is a parallel
+  pattern in `drivers/nvme/host/core.c`, **not a prerequisite** for this
+  passthru patch.
 
 **Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
-Record: John Garry is a regular NVMe contributor (Oracle). Around this
-date he also fixed related lifetime issues, but this patch is
-independent. Maintainers Christoph Hellwig, Keith Busch, and Hannes
-Reinecke all reviewed/acked it.
+
+Record:
+- Author is not the subsystem maintainer. Related upstream work: host NS
+  descriptor bounds (`3c568b35a0d30`) and FDP clamp (`29261f8bb4166`).
+- Applied by **Keith Busch** (NVMe maintainer). Weight is from
+  maintainer application + Christoph Hellwig review, not author
+  identity.
 
 **Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
-Record: None. The preimage already has `ctrl`, `nvme_get_ctrl`, and
-`srcu_read_unlock`. The patch applies standalone.
+
+Record:
+- Uses existing `NVME_IDENTIFY_DATA_SIZE`, `struct nvme_ns_id_desc`,
+  `NVME_NIDT_CSI`, `NVME_NIDT_CSI_LEN` — all in this tree.
+- `git apply --check` of the upstream diff against this tree: **clean**.
+- Can apply standalone. **No prerequisites.**
 
 ---
 
 ## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 
 **Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
+
 Record:
-- `b4 dig -c 77c57daf98a2ad`: https://patch.msgid.link/20260706125402.61
-  5277-1-john.g.garry@oracle.com
-- `b4 dig -a`: **v1 only**; committed version is that v1.
-- Thread (saved via `b4 dig -m`):
-  - Christoph Hellwig: “Looks good:” + `Reviewed-by`
-  - Keith Busch: “Thanks, applied to nvme-7.3.”
-  - Hannes Reinecke: `Reviewed-by: Hannes Reinecke <hare@kernel.org>`
-- No NAKs, no requests for a v2, no reviewer concern about the approach.
-- No explicit `Cc: stable` in the thread (not a negative; this pipeline
-  expects that).
+- `b4 dig -c bc7f75eba5001` →
+  https://patch.msgid.link/20260717144353.19436-1-harimishal1@gmail.com
+- `b4 dig -a`: **v1 only** (single revision). Keith split the long line
+  when applying (`if (pos + sizeof(*cur) + NVME_NIDT_CSI_LEN >`
+  wrapped).
+- `b4 dig -m /tmp/nvmet-oob.mbox`: full thread saved.
+- Christoph Hellwig (20 Jul 2026): **“Overly long line here. Otherwise
+  this looks sane.”** — no NAK.
+- Keith Busch (10 Aug 2026): **“Thanks, applied to nvme-7.3 with fix to
+  overly long line.”**
+- No reviewer `Cc: stable` in the thread.
+- WebFetch to lore.kernel.org returned **403**; discussion recovered via
+  `b4 dig -m`.
 
 **Step 4.2: CHECK WHO REVIEWED THE PATCH**
-Record (`b4 dig -w`): To/Cc were `hch@lst.de`, `kbusch@kernel.org`,
-`sagi@grimberg.me`, `axboe@fb.com`, `linux-nvme@lists.infradead.org`.
-Subsystem maintainers were on the original mail and reviewed it.
+
+Record (`b4 dig -w`): To/Cc Hari Mishal, Christoph Hellwig, Sagi
+Grimberg, Chaitanya Kulkarni, linux-nvme@lists.infradead.org, linux-
+kernel@vger.kernel.org. Hellwig reviewed; Busch applied. Appropriate
+NVMe maintainers.
 
 **Step 4.3: SEARCH FOR THE BUG REPORT**
-Record: No `Reported-by` / syzbot / bugzilla. Found by code inspection
-(same author was auditing NVMe lifetime vs SRCU around the same time).
-The race is still concrete: ioctl + path removal.
+
+Record: No Reported-by / syzbot / bugzilla. Found by code review (same
+author class as the host parser bounds fix). Bug is still real from
+reading the loop.
 
 **Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
-Record: Standalone `[PATCH]`, not a numbered series. Sibling lifetime
-patches are independent.
+
+Record: Standalone v1. Related but independent: host `3c568b35a0d30`
+(not in this tree). Not required to land this passthru fix.
 
 **Step 4.5: CHECK STABLE MAILING LIST HISTORY**
-Record: lore.kernel.org `/stable/` returned HTTP 403 from this
-environment. **UNVERIFIED:** no confirmed stable@ discussion. That is
-expected for a candidate that has not been auto-selected.
+
+Record: **UNVERIFIED** — lore.kernel.org/stable via WebFetch returned
+403. No stable discussion in the captured linux-nvme/lkml thread.
 
 ---
 
 ## PHASE 5: CODE SEMANTIC ANALYSIS
 
-semcode MCP tools are not available; callers/callees were traced with
-grep and file reads.
+**Step 5.1: KEY FUNCTIONS IN THE DIFF**
 
-**Step 5.1: IDENTIFY KEY FUNCTIONS**
-Record: `nvme_ns_head_ctrl_ioctl()` only.
+Record: `nvmet_passthru_override_id_descs()` only.
 
 **Step 5.2: TRACE CALLERS**
+
 Record:
-- `nvme_ns_head_ioctl()` — `block_device_operations.ioctl` for the
-  multipath ns-head disk (`/dev/nvmeXnY`)
-- `nvme_ns_head_chr_ioctl()` — `file_operations.unlocked_ioctl` for the
-  generic ns-head char device (`/dev/ngXnY`)
-Both call it when `is_ctrl_ioctl(cmd)` is true: `NVME_IOCTL_ADMIN_CMD`,
-`NVME_IOCTL_ADMIN64_CMD`, or SED/opal ioctls.
+- Called from `nvmet_passthru_execute_cmd_work()` when Identify succeeds
+  and `cns == NVME_ID_CNS_NS_DESC_LIST`.
+- That work is used because `nvmet_parse_passthru_admin_cmd()` sets
+  `req->execute = nvmet_passthru_execute_cmd` and `req->p.use_workqueue
+  = true` for CNS CTRL/NS/NS_DESC_LIST.
+- Reachable from an NVMe-oF initiator Identify command on a passthrough
+  subsystem.
 
 **Step 5.3: TRACE CALLEES**
-Record: `nvme_get_ctrl` / `nvme_put_ctrl` (`get_device`/`put_device` on
-`ctrl->device`), `srcu_read_unlock`, `nvme_ctrl_ioctl` (admin
-passthrough / SED).
+
+Record: `kzalloc(4096)`, `nvmet_copy_from_sgl` (backend Identify data),
+descriptor walk, `memset` + rebuild CSI, `nvmet_copy_to_sgl` (to
+initiator), `kfree`. No new locks/allocators in the patch.
 
 **Step 5.4: FOLLOW THE CALL CHAIN**
-Record: Userspace ioctl on a multipath NVMe ns-head device. Reachable
-from userspace. Admin commands typically need privileges, but that does
-not make a kernel UAF acceptable; privileged management tools and path
-teardown are exactly the production workload.
+
+Record:
+- Userspace/admin enables `CONFIG_NVME_TARGET` +
+  `CONFIG_NVME_TARGET_PASSTHRU`, exports a backend NVMe controller.
+- Function only runs if `ctrl->subsys->clear_ids` is set. Default **1
+  for loop** (`core.c`: “By default, set loop targets to clear IDS”);
+  other transports via configfs `clear_ids`.
+- Trigger: initiator Identify NS descriptor list. Backend-controlled
+  bytes; initiator can receive leaked heap. Reachable from the fabrics
+  initiator, not from an unprivileged syscall on the target without an
+  NVMe-oF target setup.
 
 **Step 5.5: SEARCH FOR SIMILAR PATTERNS**
-Record: Non-multipath `nvme_ioctl()` / `nvme_ns_chr_ioctl()` use
-`ns->ctrl` without this SRCU drop; those `ns` objects are tied to the
-open disk/cdev, so they are a different lifetime model. No second copy
-of this exact post-unlock `ns->ctrl` load in `nvme_ns_head_ctrl_ioctl`.
+
+Record: Same missing-bounds pattern in `nvme_identify_ns_descs()`
+(`drivers/nvme/host/core.c`) in this tree. Upstream fixed it separately
+(`3c568b35a0d30`). Confirms a systematic parser bug; this commit is the
+target/passthru instance.
 
 ---
 
 ## PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
 
 **Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
-Record:
-- Tree: **7.3.0-rc4** (`git describe HEAD` =
-  `v7.3-rc4-27-gf0100363d8c37`)
-- `git merge-base --is-ancestor 77c57daf98a2ad HEAD` → yes (the fix is
-  already on this mainline snapshot)
-- Preimage (`77c57daf98a2ad^`) still has `nvme_ctrl_ioctl(ns->ctrl,
-  ...)` after unlock
-- Introducing commit `48145b62563a9` is an ancestor; the bug has been in
-  this lineage since ~v5.13
-- Current `ioctl.c` already uses `nvme_ctrl_ioctl(ctrl, ...)`
 
-This is a mainline 7.3-rc checkout, not a 6.x.y stable branch. The
-question is still whether the *fix* is stable-worthy for this codebase.
-The touched function, the `ctrl` local, and the SRCU unlock are all
-present. The bug was not introduced after this tree branched.
+Record: **Yes.** Local `drivers/nvme/target/passthru.c` lines 53–64 are
+the unbounded loop. `git describe HEAD` = `p-6.12-3-gc504cf0baa3d8`,
+`make kernelversion` = **6.12.111**. Upstream fix `bc7f75eba5001` is
+**not** an ancestor of HEAD. Bug since v5.19.
 
 **Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
-Record: Clean apply on this code. The hunk is one argument change. Would
-also apply cleanly to any tree that still has the 2021
-`nvme_ns_head_ctrl_ioctl` shape (the `ctrl` local + post-unlock ioctl).
+
+Record: **Clean apply.** Surrounding function matches upstream pre-fix
+(aside from later mainline kmalloc_obj churn, which is after this fix
+and not in 6.12). `git apply --check` succeeded. Difficulty: clean
+apply.
 
 **Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
-Record: This is the fix. No alternate older fix of the same `ns->ctrl`
-load. Related commits fix different lifetime bugs.
+
+Record: No commit with this subject in this tree. Host-side sibling
+`3c568b35a0d30` also not in HEAD. No alternate fix for this passthru
+loop.
 
 ---
 
 ## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 
 **Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
-Record: `drivers/nvme/host` — NVMe host ioctl/multipath. **IMPORTANT**
-(common storage stack; not core mm/vfs, but widely deployed). Gated on
-`CONFIG_NVME_MULTIPATH` (Kconfig: “If unsure, say Y.”).
+
+Record: **NVMe target passthrough** (`drivers/nvme/target/passthru.c`).
+**IMPORTANT** for NVMe-oF target/passthru users (storage appliances,
+loop testing), not core mm/VFS. Not staging.
 
 **Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
-Record: Active (io_uring passthrough, multipath, ioctl hardening). This
-particular function body has been stable in shape since 2021.
+
+Record: Active. This 6.12 tree already has many nvmet stable-style fixes
+(auth OOB, TCP PDU OOB, rdma leaks). Passthru file itself is relatively
+mature since 2022.
 
 ---
 
 ## PHASE 8: IMPACT AND RISK ASSESSMENT
 
 **Step 8.1: DETERMINE WHO IS AFFECTED**
-Record: NVMe **multipath** users who issue controller ioctls on the ns-
-head block or char device (`NVME_IOCTL_ADMIN_CMD` / `ADMIN64` / SED).
-Datacenter NVMe-oF / dual-ported SSD setups.
+
+Record: **Config-specific / driver-specific:** `CONFIG_NVME_TARGET=y/m`
+and `CONFIG_NVME_TARGET_PASSTHRU=y`, and `clear_ids` enabled (default on
+loop; optional elsewhere). Not all 6.12 users, but real production NVMe-
+oF passthru and loop setups.
 
 **Step 8.2: DETERMINE THE TRIGGER CONDITIONS**
+
 Record:
-- `srcu_read_lock` → `nvme_find_path` → controller ioctl →
-  **intentional** `srcu_read_unlock` (to avoid deadlock with namespace
-  delete) → old code loads `ns->ctrl`
-- Concurrent `nvme_ns_remove()` (path loss, controller delete, admin
-  Delete NS)
-- Timing-dependent. Not every ioctl hits it; when it hits, it is a real
-  UAF.
-- Triggerable from userspace ioctl; typically privileged admin ioctls.
+- Identify NS descriptor list on a passthru namespace with `clear_ids`.
+- Needs a backend that returns a truncated/malformed list (malicious or
+  buggy NVMe device).
+- Not a hot every-syscall path; realistic for passthru Identify.
+- Unprivileged local user on the target: no, unless they are an
+  initiator to that target. Remote initiator + malicious backend: yes,
+  leak across the fabric.
 
 **Step 8.3: DETERMINE THE FAILURE MODE SEVERITY**
-Record: Use-after-free of `struct nvme_ns` → KASAN report / oops /
-potential memory corruption. **Severity: HIGH** (UAF in a production
-ioctl path).
+
+Record:
+- OOB read of header fields (KASAN / possible oops depending on slab).
+- 1-byte heap leak to the initiator via Identify response.
+- **Severity: HIGH** (memory safety + info leak). Not a universal panic,
+  but security-class.
 
 **Step 8.4: CALCULATE RISK-BENEFIT RATIO**
+
 Record:
-- **Benefit:** High — closes a UAF that has existed since v5.13 in a
-  standard multipath ioctl path.
-- **Risk:** Very low — one-line substitution of an already-saved,
-  refcounted pointer.
-- **Ratio:** Strongly favors backporting.
+- **Benefit:** high for passthru+clear_ids users — stops OOB read and
+  initiator-visible leak. Same class as other nvmet bounds fixes already
+  in this tree.
+- **Risk:** very low — 9 lines, two bounds checks, fail-closed.
+- **Ratio:** strongly favors backport.
 
 ---
 
@@ -383,140 +434,146 @@ Record:
 
 **Step 9.1: COMPILE THE EVIDENCE**
 
-FOR:
-- Real UAF: `ns` is SRCU-protected only; used after `srcu_read_unlock`
-- `nvme_find_path()` does not take an `ns` kref (verified)
-- `nvme_ns_remove()` does `synchronize_srcu(&ns->head->srcu)` then
-  `nvme_put_ns()` → `kfree(ns)` (verified)
-- Callers drop SRCU early on purpose so namespace delete can proceed —
-  the window is intentional
-- One-line, obviously correct, uses the pointer the original 2021 code
-  already saved
-- Reviewed by Hellwig, Busch, Reinecke; applied to nvme-7.3
-- Bug present since ~v5.13; no extra prerequisites
-- Userspace-reachable ioctl on common NVMe multipath hardware
+**FOR:**
+- Real OOB read and heap leak, documented and confirmed in this tree’s
+  code.
+- Bug present since v5.19; fully present on 6.12.111.
+- 9-line, obviously correct bounds checks; `git apply --check` clean.
+- NVMe maintainer applied it; Christoph Hellwig: “looks sane.”
+- No follow-up rework on `origin/master`.
+- Fail-closed: malformed list just omits CSI, which matches `clear_ids`
+  sanitizing.
 
-AGAINST:
-- No crash log / syzbot in the commit message (inspection-found)
-- No `Fixes:`/`Cc: stable` (expected here; not a reason to reject)
-- Gated on `CONFIG_NVME_MULTIPATH`
-- This 7.3-rc4 snapshot already contains the commit (it landed for 7.3);
-  that does **not** reduce technical merit for selecting it as a stable
-  candidate
+**AGAINST:**
+- Passthru is `default n`; needs `clear_ids`.
+- No syzbot/CVE/Fixes/Cc: stable.
+- Trigger is a malicious/buggy backend device, not a generic local
+  syscall.
+- Slightly weaker than the host parser (no `nidl` body check on skip).
 
-UNRESOLVED:
-- Could not fetch lore.kernel.org in the browser (403); thread was
-  recovered via `b4 dig -m`
-- Could not search lore `/stable/` (403)
+**UNRESOLVED:**
+- Stable list search (lore 403).
+- No public reproducer beyond the described layout.
+
+None of the against items outweigh a small, verified memory-safety fix
+whose buggy code is in this tree.
 
 **Step 9.2: APPLY THE STABLE RULES CHECKLIST**
-1. Obviously correct and tested? **PASS** — one identifier; reviewed by
-   three NVMe maintainers
-2. Fixes a real bug that affects users? **PASS** — UAF on ns-head
-   controller ioctl vs path removal
-3. Important issue (crash/security/corruption/deadlock)? **PASS** — UAF
-   → oops/corruption; HIGH
-4. Small and contained? **PASS** — 1 line, one function
-5. No new features or APIs? **PASS**
-6. Can apply to the local tree? **PASS** — function and `ctrl` local
-   exist; hunk is the existing post-fix form
+
+1. Obviously correct and tested? **PASS** — Hellwig + Busch; logic
+   verified against struct sizes.
+2. Fixes a real bug that affects users? **PASS** — OOB read/leak on
+   Identify for passthru+clear_ids.
+3. Important issue? **PASS** — HIGH: OOB read + heap leak to initiator.
+4. Small and contained? **PASS** — 9 lines, one function.
+5. No new features or APIs? **PASS**.
+6. Can apply to the local tree? **PASS** — clean apply; code present; no
+   missing deps.
 
 **Step 9.3: CHECK FOR EXCEPTION CATEGORIES**
-Record: Not a device-ID/quirk/DT/build/docs exception. It is a normal
-memory-safety bugfix.
+
+Record: Not a device-ID/quirk/DT/build/docs exception. Qualifies as a
+normal security/memory-safety bug fix.
 
 **Step 9.4: MAKE YOUR DECISION**
-This is a textbook stable candidate: a long-standing, small, obviously
-correct UAF fix in NVMe multipath ioctl handling, with maintainer review
-and no dependencies.
+
+Backport to this 6.12 tree. The parser the commit fixes is here, the
+patch applies cleanly, and the failure is an OOB read that can leak heap
+to an NVMe-oF initiator.
 
 ---
 
-### What the commit solves (for stable users)
-On `CONFIG_NVME_MULTIPATH`, controller ioctls on the namespace-head
-device drop `head->srcu` before running the ioctl so a Delete Namespace
-passthrough cannot deadlock. The namespace pointer is not refcounted
-across that unlock. Passing `ns->ctrl` into `nvme_ctrl_ioctl()` after
-unlock can dereference a freed `nvme_ns` if a path is removed
-concurrently. Using the `ctrl` pointer saved under SRCU (already pinned
-with `nvme_get_ctrl()`) closes that hole.
+## What the commit solves (for this tree)
 
-### Risk vs benefit
-Benefit is a UAF/crash fix on a real ioctl path used with NVMe
-multipath. Risk is essentially nil.
+`nvmet_passthru_override_id_descs()` copies a 4096-byte Identify NS
+descriptor list from the backend, walks it with device-controlled
+strides, and may reconstruct a CSI descriptor for the initiator when
+`clear_ids` is set. Without header/CSI bounds checks, a crafted list can
+read past the allocation and send that byte to the initiator. On 6.12
+this is the original 2022 loop; two range checks close it.
 
-### Concerns
-None for applicability on this tree’s NVMe ioctl code. Nearby Garry
-lifetime patches are not required.
+## Stable rules / risk vs benefit
+
+Meets stable rules: real, important, small, no new API, applies here.
+Benefit is stopping a leak/OOB on a path this tree already ships. Risk
+is two `break`s on malformed input.
+
+## Concerns
+
+None that block backport. Host-side sibling `3c568b35a0d30` is a
+separate candidate, not a dependency. `CONFIG_NVME_TARGET_PASSTHRU` is
+optional; that narrows impact, not correctness.
 
 ---
 
-Verification:
-- [Phase 1] Parsed commit `77c57daf98a2ad`: subject, Hellwig Reviewed-
-  by, Garry/Busch SOBs; no Fixes/Reported-by/Cc:stable
-- [Phase 1] Body: only describes not using NS after SRCU unlock
-- [Phase 2] `git show 77c57daf98a2ad`: 1 line in
-  `nvme_ns_head_ctrl_ioctl`, `ns->ctrl` → `ctrl` after unlock
-- [Phase 2] Read current `drivers/nvme/host/ioctl.c`: fix present;
-  caller comment documents early SRCU drop to avoid delete-namespace
-  deadlock
-- [Phase 3] `git blame -L 729,743 drivers/nvme/host/ioctl.c`: buggy
-  ioctl-through-ns-head from `48145b62563a9` (2021)
-- [Phase 3] `git name-rev --tags 48145b62563a9`:
-  `tags/v5.13-rc1~19^2~1^2~6`
-- [Phase 3] `git merge-base --is-ancestor 48145b62563a9 HEAD`: yes
-- [Phase 3] Parent `627e8bb91a8fd` is a different requeue/SRCU bug; not
-  a dependency of this hunk
-- [Phase 4] `b4 dig -c 77c57daf98a2ad`: lore at
-  patch.msgid.link/20260706125402.615277-1-john.g.garry@oracle.com
-- [Phase 4] `b4 dig -a`: v1 only
-- [Phase 4] `b4 dig -w`: linux-nvme + Hellwig/Busch/Grimberg/Axboe
-- [Phase 4] `b4 dig -m /tmp/nvme-ns-unlock.mbox`: Hellwig R-b, Busch
-  applied to nvme-7.3, Reinecke R-b; no NAK
-- [Phase 4] WebFetch lore.kernel.org: 403 — UNVERIFIED via HTTP; thread
-  recovered from mbox
-- [Phase 5] grep: callers are `nvme_ns_head_ioctl` and
-  `nvme_ns_head_chr_ioctl`; wired from `multipath.c` fops
-- [Phase 5] `nvme_find_path()` returns path under SRCU only; no
-  `nvme_get_ns()`
-- [Phase 5] `nvme_free_ns()` kfree’s `ns`; `nvme_ns_remove()`
-  synchronize_srcu then `nvme_put_ns()`
-- [Phase 6] `make kernelversion` / Makefile: 7.3.0-rc4; `git describe
-  HEAD`: v7.3-rc4-27-gf0100363d8c37
-- [Phase 6] `git merge-base --is-ancestor 77c57daf98a2ad HEAD`: fix
-  already in this mainline snapshot
-- [Phase 6] Preimage `git show
-  77c57daf98a2ad^:drivers/nvme/host/ioctl.c`: confirmed
-  `nvme_ctrl_ioctl(ns->ctrl, ...)` after unlock
-- [Phase 7] `drivers/nvme/host/Kconfig`: `NVME_MULTIPATH` “If unsure,
-  say Y”
-- [Phase 8] Failure mode: UAF of `struct nvme_ns` on controller ioctl vs
-  path remove — HIGH
-- UNVERIFIED: stable@ mailing-list history (lore /stable/ HTTP 403)
-- UNVERIFIED: no public crash reproducer attached to the patch (does not
-  override the verified lifetime hole)
+## Verification
 
-The patch is obviously correct, fixes a real UAF, is one line, and
-applies to this tree’s NVMe ioctl code.
+- [Phase 1] Parsed subject/body/tags from `git show bc7f75eba5001`;
+  tags: two SOBs only.
+- [Phase 2] Diff: +9 in `nvmet_passthru_override_id_descs()`; compared
+  to local lines 53–64.
+- [Phase 2] Sizes: `include/linux/nvme.h` — desc 4 bytes, CSI len 1,
+  Identify size 4096.
+- [Phase 3] `git blame -L 33,78 drivers/nvme/target/passthru.c` →
+  `34ad61514c4c3`.
+- [Phase 3] `git describe 34ad61514c4c3` → v5.19-rc2-35; `merge-base
+  --is-ancestor 34ad61514c4c3 HEAD` → yes.
+- [Phase 3] `merge-base --is-ancestor bc7f75eba5001 HEAD` → no (not in
+  this tree).
+- [Phase 3] `git log origin/master --oneline
+  bc7f75eba5001..origin/master -- drivers/nvme/target/passthru.c` →
+  empty (no follow-up).
+- [Phase 3] `git show bc7f75eba5001 | git apply --check` → clean.
+- [Phase 4] `b4 dig -c/-a/-w/-m`: v1 only; lore URL; Hellwig “looks
+  sane”; Busch applied to nvme-7.3.
+- [Phase 4] WebFetch lore/patch.msgid.link: 403. Discussion from mbox,
+  not WebFetch.
+- [Phase 5] Callers: `nvmet_passthru_execute_cmd_work` ← Identify
+  CNS_NS_DESC_LIST; parse path sets workqueue.
+- [Phase 5] `clear_ids` default 1 for loop in
+  `drivers/nvme/target/core.c:1457-1459`.
+- [Phase 5] Host analog unbounded loop in this tree at
+  `nvme_identify_ns_descs()`; upstream `3c568b35a0d30` not in HEAD.
+- [Phase 6] `git describe HEAD` = p-6.12-3-gc504cf0baa3d8; `make
+  kernelversion` = 6.12.111; branch `pending-6.12`.
+- [Phase 6] Local function matches pre-fix; origin/master post-fix
+  matches this commit.
+- [Phase 8] Failure: OOB read + 1-byte heap leak to initiator; HIGH.
+- UNVERIFIED: lore.kernel.org/stable discussion (HTTP 403). Not used to
+  drive the verdict.
 
 **YES**
 
- drivers/nvme/host/ioctl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/target/passthru.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index fb8533127116a..b3e58de6f5cc5 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -727,7 +727,7 @@ static int nvme_ns_head_ctrl_ioctl(struct nvme_ns *ns, unsigned int cmd,
+diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
+index 0c361b1e35665..6d7469c94610e 100644
+--- a/drivers/nvme/target/passthru.c
++++ b/drivers/nvme/target/passthru.c
+@@ -53,13 +53,22 @@ static u16 nvmet_passthru_override_id_descs(struct nvmet_req *req)
+ 	for (pos = 0; pos < NVME_IDENTIFY_DATA_SIZE; pos += len) {
+ 		struct nvme_ns_id_desc *cur = data + pos;
  
- 	nvme_get_ctrl(ns->ctrl);
- 	srcu_read_unlock(&head->srcu, srcu_idx);
--	ret = nvme_ctrl_ioctl(ns->ctrl, cmd, argp, open_for_write);
-+	ret = nvme_ctrl_ioctl(ctrl, cmd, argp, open_for_write);
++		if (pos + sizeof(*cur) > NVME_IDENTIFY_DATA_SIZE)
++			break;
++
+ 		if (cur->nidl == 0)
+ 			break;
++
+ 		if (cur->nidt == NVME_NIDT_CSI) {
++			if (pos + sizeof(*cur) + NVME_NIDT_CSI_LEN >
++						NVME_IDENTIFY_DATA_SIZE)
++				break;
++
+ 			memcpy(&csi, cur + 1, NVME_NIDT_CSI_LEN);
+ 			csi_seen = true;
+ 			break;
+ 		}
++
+ 		len = sizeof(struct nvme_ns_id_desc) + cur->nidl;
+ 	}
  
- 	nvme_put_ctrl(ctrl);
- 	return ret;
 -- 
 2.53.0
 
