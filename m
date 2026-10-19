@@ -4,59 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0ECBBCCF2DE
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 14:00:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 107E5CCF2E3
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 14:02:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GxtG7fv1eAppClQmc13q7JrC+mlvaj0Pd5oOi23SH4M=; b=D/oRXumVJ/T+7j9pFNr0uu3c3/
-	Da7y3OL5rMwRsTeOhVWdP3IUBz5TzAR2StERMoenrvkXHF6i2naXGjJvNf5h+izV6HWHTICm4Th4C
-	Ihs3TsQ6K5xqz6JkAn3dSVIZeW7VkJ3pAxN3XHt9IJrK0Ve5XP9IJ5lQkpifUMIsNwZvT+hnN08cr
-	Gf/zp3ftx0Ez/y1ttEbb4l1HdCM9o9uIU55elkauTKgsOtHIQblU0nvwvdRfqDPUzN4Fmhm0Pfn/X
-	uUX9H5pJpl81Jqrgj2WtR+HYHTrula6HEokWVkuIoxy7P4CtYZWLD4+cTuREdiyKHCjSqrY6uF+uy
-	FMu03khg==;
+	bh=gh8kzn/QJvmz8FixtNVHHt9eBjv+i+vGDVTK7Vg5tBk=; b=Ef46Px+6sFS3N6IHP8oeW5PKH6
+	o3rU0UFHeBnSS0hvtrgNKtFFws54c9mq49CFaCw9trPZsdMTc5PqE7w/Gv/vPOQPbDjpETYxENC5H
+	UMowQcCn5SmsUjNzveu9mdcLpvYiU4bRjua9WK7RFucD4TsRwQjEezRjKHwcZ9g5++zwZLmCSH5EK
+	srtn0s/x6uluKBaQ/orzvLzlKG/+L0XVZmZ6ZKVeIrjwmpxWXW6Mn+2oMsGKuphjtmkeGnsOFbQ25
+	Q3ZoW/cLfENdB26Mkkjs2gFDVJqrCf5vlmpdQq7SE78XlqYj/j2ji/5sasiHHViBaQIx8K2WJvFPj
+	5EeL9Qfg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xInup-00000007cro-2vig;
-	Mon, 19 Oct 2026 14:00:39 +0000
+	id 1xInwf-00000007eDD-2kSx;
+	Mon, 19 Oct 2026 14:02:33 +0000
 Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xInup-00000007cqh-0vjD
+	id 1xInwe-00000007eBW-1NJG
 	for linux-nvme@lists.infradead.org;
-	Mon, 19 Oct 2026 14:00:39 +0000
+	Mon, 19 Oct 2026 14:02:32 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id CB05442B79;
-	Mon, 19 Oct 2026 14:00:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 914701F000C4;
-	Mon, 19 Oct 2026 14:00:37 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 18C6240DEE;
+	Mon, 19 Oct 2026 14:02:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E78A41F000C4;
+	Mon, 19 Oct 2026 14:02:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418438;
-	bh=GxtG7fv1eAppClQmc13q7JrC+mlvaj0Pd5oOi23SH4M=;
+	s=k20260515; t=1792418552;
+	bh=gh8kzn/QJvmz8FixtNVHHt9eBjv+i+vGDVTK7Vg5tBk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=WWnyzBXInruMWZn1vq+OtEe5pSKBMk5ZKYcz0bQGManGSACwikCmNF1CvsuDr2nhp
-	 LUozowgiskLubg+6Y2Ry0WS64Co8Mh9zdKncg6A9pVrijVP0Sre7GkJ6EBzROmbAJ1
-	 cknDPoqntETcHvBMMnJwjGrOx9JVHmWlv0C1PPtcOSoJaYYWyed1wF4hxA/WCQidr7
-	 XT2GnB6LYoufBz06E1L7c5yyQS1hsBXxtz5rP/zk84WJwzd6wjtLLTS7fMN7TYNbuQ
-	 gGoTU4bTF42lYL4s3a+Oa9q7gCec7cm3ZqhPSL81MqHULI28cSAel1K31Lh9HhK3/1
-	 QmfaSzZLjeiSA==
+	b=kPAwoq98HywUq3DKbCe4AqgN+kS9jsX62WM3fdV8zOnfHl6+dAKPVpWx8QUR0RkO/
+	 QGZ9fZlzW3zlv1UorLRFbYL5PUs/4n6GmNfK4d530SefHyWu7l7ckdxfApLFFn7uAe
+	 1XLNu54GFwy1+uvIBn+WkPqh8/+JaidvLN6nj/jsCn2ykSqn2vRnPPJgGqtpJSP/Xp
+	 qETfIjPgNnbDo9jJOoFM3llBhZPWl155TyQLBODuBBquAXMEgUEp8rKOkr/hMCsDW0
+	 zkeBJTB/dwvf1ZYCjk3aImx5tJ0zRdJQbU5LVP5FSs+l9qauvi2tLw2XwomqFG7ZBN
+	 ktzQy3X8Mq20Q==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Eric Dumazet <edumazet@google.com>,
-	Nilay Shroff <nilay@linux.ibm.com>,
-	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+Cc: John Garry <john.g.garry@oracle.com>,
+	Christoph Hellwig <hch@lst.de>,
 	Keith Busch <kbusch@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	axboe@kernel.dk,
 	sagi@grimberg.me,
 	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18] nvme-tcp: delay nvme_tcp_reclassify_socket()
-Date: Mon, 19 Oct 2026 09:49:00 -0400
-Message-ID: <20261019135441.1420968-249-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-6.12] nvme: handle positive error codes in nuse_show()
+Date: Mon, 19 Oct 2026 09:50:20 -0400
+Message-ID: <20261019135441.1420968-329-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -80,332 +79,333 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Eric Dumazet <edumazet@google.com>
+From: John Garry <john.g.garry@oracle.com>
 
-[ Upstream commit 447a7a3026eda85ac2738cbe6ee5ab066a39dad0 ]
+[ Upstream commit dd516cd7624648c71d338d99368587f10ecc9f0b ]
 
-Commit 841aee4d75f1 ("nvme-tcp: lockdep: annotate in-kernel sockets")
-introduced nvme_tcp_reclassify_socket() to resolve a lockdep WARN by
-distinguishing userspace sockets from nvme-tcp sockets. After that, TLS
-encryption support was introduced to nvme-tcp and it added another lock
-dependency on userspace socket handling by tlshd, which resulted in a
-new lockdep WARN. This WARN was hidden by the commit 19bdb70c77d3
-("nvme-tcp: lockdep: use dynamic lockdep keys per socket instance").
-However, it turned out the commit 19bdb70c77d3 has a bug of lockdep key
-lifetime management, and it is to be reverted by another patch in this
-series. After the revert, the WARN was unveiled and observed at the
-blktests test case nvme/062:
+Function __nvme_submit_sync_cmd() returns a positive error code for NVMe
+errors. Otherwise, we get 0 for success or a negative error code for a
+kernel error.
 
-  WARNING: possible circular locking dependency detected
-  7.3.0-rc2+ #455 Tainted: G        W
-  ------------------------------------------------------
-  tlshd/75867 is trying to acquire lock:
-  ffffffff91ada5e0 (fs_reclaim){+.+.}-{0:0}, at: __kmalloc_cache_noprof+0x64/0x6d0
+In nuse_show() -> ns_{head}_update_nuse() -> nvme_identify_ns() ->
+nvme_submit_sync_cmd() -> __nvme_submit_sync_cmd(), we then may get a
+positive error code returned.
 
-  but task is already holding lock:
-  ffff888197808258 (sk_lock-AF_INET-NVME){+.+.}-{0:0}, at: do_tcp_setsockopt+0x499/0x26a0
+Function nuse_show() - being a device attr handler - should return the
+number of bytes written to the buffer or a negative error code.
 
-  which lock already depends on the new lock.
+Convert any positive NVMe error code to -EIO.
 
-To fix the lockdep WARN caused by the TLS encryption support, delay the
-reclassification of the nvme-tcp sockets. Currently the reclassification
-happens before the TLS handshake starts, which pulls in the additional
-lock dependencies related to tlshd. Reclassify the sockets after the TLS
-handshake instead, to cut that dependency.
-
-Link: https://lore.kernel.org/lkml/CANn89i+wnTLC==UnXCpjsS4YxvEfhe5oK0N7fttbqr1zKyqdug@mail.gmail.com/
-Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>
-Signed-off-by: Eric Dumazet <edumazet@google.com>
-Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Signed-off-by: John Garry <john.g.garry@oracle.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-This tree is **6.18.57** (`v6.18.57-155-gcdf239ca885b2`). The question
-is whether `nvme-tcp: delay nvme_tcp_reclassify_socket()` should be
-backported **here**. The buggy pattern is present in 6.18, the change is
-three lines, and it does not depend on the 7.3-era revert that
-accompanied it upstream.
+I have the mailing-list thread and the sysfs/NVMe return-code path. Next
+I’ll confirm how a positive NVMe status is treated as a byte count, then
+give the backport verdict for this tree.
 
 ---
 
 ## PHASE 1: COMMIT MESSAGE FORENSICS
 
 **Step 1.1: PARSE THE SUBJECT LINE**
-Record: `[nvme-tcp] [delay] delay nvme_tcp_reclassify_socket() until
-after the TLS handshake`
+
+Record: `[nvme] [handle] convert positive NVMe status codes from
+nuse_show() into a proper sysfs errno`
+
+- Subsystem: `nvme` (host sysfs)
+- Verb: `handle` (bug-fix language: incorrect error handling)
+- Intent: sysfs `nuse` show must not return a positive NVMe status as a
+  “bytes written” count
 
 **Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
+
 Record:
-- `Link: https://lore.kernel.org/lkml/CANn89i+wnTLC==UnXCpjsS4YxvEfhe5oK
-  0N7fttbqr1zKyqdug@mail.gmail.com/` (Eric Dumazet report of the
-  lockdep-key lifetime bug)
-- `Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>`
-- `Signed-off-by: Eric Dumazet <edumazet@google.com>` (author)
-- `Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>`
-- `Signed-off-by: Keith Busch <kbusch@kernel.org>` (NVMe maintainer)
-- No `Fixes:` tag (expected)
-- No `Cc: stable` (expected)
-- No `Reported-by:` / syzbot tag on this commit itself (the Link is the
-  related lockdep-key discussion)
+- `Fixes:` — absent (expected for this review pipeline)
+- `Reported-by:` — none
+- `Tested-by:` — none
+- `Reviewed-by: Christoph Hellwig <hch@lst.de>` (core NVMe reviewer)
+- `Acked-by:` — none
+- `Link:` — none in the commit; lore found separately
+- `Cc: stable@vger.kernel.org` — absent (not a negative signal)
+- `Signed-off-by: John Garry <john.g.garry@oracle.com>` (author)
+- `Signed-off-by: Keith Busch <kbusch@kernel.org>` (NVMe maintainer;
+  applied to nvme-7.3)
+- Ignore pipeline `Signed-off-by: Sasha Levin` if present — not in this
+  commit
 
 **Step 1.3: ANALYZE THE COMMIT BODY TEXT**
+
 Record:
-- **Bug:** After `841aee4d75f1` put nvme-tcp sockets in a private lock
-  class, TLS support made `tlshd` operate on an already-reclassified
-  NVME socket. That pulled userspace TLS lock dependencies into
-  `sk_lock-AF_INET-NVME`.
-- **Symptom:** lockdep `WARNING: possible circular locking dependency
-  detected` in blktests `nvme/062`. `tlshd` holds `sk_lock-AF_INET-NVME`
-  and tries to take `fs_reclaim` via `__kmalloc_cache_noprof`.
-- **Hiding commit:** `19bdb70c77d3` (dynamic per-socket lockdep keys)
-  hid the WARN, then proved buggy and is reverted by patch 1/2 of the
-  same series.
-- **Fix:** reclassify after the TLS handshake so `tlshd` runs against
-  the default socket class.
-- **Version in the splat:** 7.3.0-rc2+; that is the mainline
-  observation, not a claim that 6.18 is unaffected.
+- **Bug:** `__nvme_submit_sync_cmd()` returns 0, a negative Linux errno,
+  or a **positive NVMe status**. That value is propagated `nuse_show() →
+  ns_{head}_update_nuse() → nvme_identify_ns() →
+  nvme_submit_sync_cmd()`.
+- **Symptom:** `nuse_show()` is a device attribute handler; it must
+  return a byte count or a negative errno. A positive NVMe status is
+  neither.
+- **Fix:** map `ret > 0` to `-EIO`; keep `ret < 0` as-is.
+- **Version info in message:** none. Feature itself dates to v6.8
+  (`a1a825ab6a603` “nvme: add csi, ms and nuse to sysfs”).
+- **Root cause:** treating any non-zero `ret` as a sysfs error, which is
+  wrong for positive NVMe codes (they are not negative, so they were
+  returned as a success length).
 
 **Step 1.4: DETECT HIDDEN BUG FIXES**
-Record: Not a disguised cleanup. It is an explicit lockdep-isolation
-fix. `nvme_tcp_reclassify_socket()` is already a no-op without
-`CONFIG_DEBUG_LOCK_ALLOC`, so the runtime effect is lockdep-only.
+
+Record: Not hidden. Explicit error-handling fix. Same class as “add
+missing check” / “handle X properly.”
 
 ---
 
-## PHASE 2: DIFF ANALYSIS
+## PHASE 2: DIFF ANALYSIS - LINE BY LINE
 
 **Step 2.1: INVENTORY THE CHANGES**
+
 Record:
-- File: `drivers/nvme/host/tcp.c` (`+2 / -1`)
-- Function: `nvme_tcp_alloc_queue()`
-- Scope: single-file surgical move of one call
+- File: `drivers/nvme/host/sysfs.c` — **+3 / −1**
+- Function: `nuse_show()` only
+- Scope: **single-file surgical fix**
 
 **Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
+
 Record:
-- **Before:** `sock_create_kern` → `sock_alloc_file` →
-  `sk_net_refcnt_upgrade` → **`nvme_tcp_reclassify_socket()`** →
-  sockopts/connect → optional `nvme_tcp_start_tls()` →
-  `nvme_tcp_init_connection()`
-- **After:** same path, but reclassify runs **after** TLS handshake (or
-  after connect if TLS is not used), still **before**
-  `nvme_tcp_init_connection()`
-- Affected path: queue allocation / controller connect, including the
-  TLS handshake path
+- **Before:** `if (ret) return ret;` — negative errno returned
+  correctly; **positive NVMe status returned as the sysfs byte count**,
+  and `sysfs_emit()` is skipped so the buffer is never filled with the
+  NUSE value.
+- **After:** `ret < 0` → pass through; `ret > 0` → `-EIO`; `ret == 0` →
+  `sysfs_emit()` of `head->nuse`.
+- Path affected: **error path** of a sysfs read that issues Identify
+  Namespace (rate-limited).
 
 **Step 2.3: IDENTIFY THE BUG MECHANISM**
+
 Record:
-- Category: lockdep class mixing (userspace `tlshd` vs in-kernel nvme-
-  tcp), same family as `841aee4d75f1`
-- Mechanism: early reclassify makes TLS setsockopt/`kmalloc` look like
-  NVME-class `sk_lock` → `fs_reclaim`. Combined with existing NVME-class
-  reclaim dependencies, lockdep reports a cycle.
-- Fix: keep handshake on the default `AF_INET` class; switch to NVME
-  class only once kernel NVMe protocol I/O begins.
+- **Category:** logic/correctness of sysfs error conversion; can also
+  trip a kernel `WARN`.
+- **Mechanism:** NVMe completion status is stored as
+  `le16_to_cpu(cqe->status) >> 1` (`nvme_try_complete_req()`).
+  `nvme_execute_rq()` returns that value when non-zero. Status often
+  includes `NVME_STATUS_DNR` (**0x4000 = 16384**).
+- Sysfs (`sysfs_kf_seq_show` in `fs/sysfs/file.c`):
+  - `count < 0` → error
+  - `count >= PAGE_SIZE` → **`WARN(1, "OOB write or bad count ...")`**
+    then clamp
+  - otherwise `seq_commit(sf, count)` of a buffer that was `memset` to 0
+    but never written by `nuse_show()`
+- On 4K pages (typical x86_64), DNR-tagged Identify failures (`status |
+  0x4000 >= 16384 > 4096`) **fire a kernel WARN**. Smaller statuses
+  become a short successful read of zeros instead of `-EIO`.
 
 **Step 2.4: ASSESS THE FIX QUALITY**
+
 Record:
-- Obviously correct: one call moved past the userspace-like handshake.
-- Minimal; no API/data-structure change.
-- Regression risk is low. `sock_allow_reclassification()` only requires
-  the socket not to be user-owned or slocked; `nvme_tcp_start_tls()`
-  waits for handshake completion before returning. Failed TLS goes to
-  `err_init_connect` without reclassify, which is fine because the
-  socket is being torn down. Reviewers accepted this; blktests
-  `nvme/062` was reported to pass.
+- Obviously correct: matches `__nvme_submit_sync_cmd()` contract and the
+  existing `nvme_hwmon` pattern (`if (ret > 0) return -EIO`).
+- Minimal; no unrelated edits; no API/struct changes.
+- Regression risk **very low**: only the misclassified success path
+  becomes `-EIO`, which is the intended ABI.
 
 ---
 
 ## PHASE 3: GIT HISTORY INVESTIGATION
 
 **Step 3.1: BLAME THE CHANGED LINES**
+
 Record:
-- Reclassify call introduced by `841aee4d75f1` (Chris Leech, 2022-02-15;
-  in this tree, first appeared around 5.18).
-- TLS handshake call introduced by `be8e82caa6859` (Hannes Reinecke,
-  2023-08-24; `v6.7-rc1`).
-- The lockdep WARN exists from TLS introduction onward whenever
-  reclassify happens first.
+- Buggy `if (ret) return ret;` introduced in **`a1a825ab6a603`** (Daniel
+  Wagner, 2023-12-18), “nvme: add csi, ms and nuse to sysfs”.
+- First appeared: **v6.8-rc1** (`git describe --contains` →
+  `v6.8-rc1~121^2~25^2~4`).
+- Present for a long time in this 7.3 lineage.
 
 **Step 3.2: FOLLOW THE FIXES: TAG**
-Record: No `Fixes:` tag. Referenced commits:
-- `841aee4d75f1`: **is** an ancestor of this tree.
-- `19bdb70c77d3`: **is not** an ancestor of HEAD or of `v6.18` (dated
-  2026-06-04, contained around 7.x). The “hiding” commit never landed
-  here, so the TLS lockdep WARN was never suppressed in 6.18.y.
+
+Record: No `Fixes:` tag. Buggy commit identified by blame:
+`a1a825ab6a603`. That commit **is** an ancestor of this tree.
 
 **Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
-Record: This is **patch 2/2** of Shin'ichiro Kawasaki’s series “nvme-
-tcp: do not use dynamic lockdep key for socket instances”:
-1. Revert `19bdb70c77d3`
-2. This delay of reclassify
 
-Patch 1 is a no-op for this tree (nothing to revert). This delay patch
-is standalone on 6.18.
+Record:
+- `8d0d2447394b1` — double-free of `nvme_id_ns` in `ns_update_nuse()`
+  (already in tree; different bug).
+- `88c918d1ee2c88` — `nvme_disk_is_ns_head()` use in `nuse_show`.
+- Standalone v1 patch; not “patch X/Y”.
 
 **Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
-Record: Authored by Eric Dumazet (networking/lockdep); submitted by
-Shin'ichiro Kawasaki; applied by Keith Busch. Cover letter: tested on
-v7.3-rc2, `nvme/005` and `nvme/062` pass with no lockdep splat.
+
+Record: John Garry is an active NVMe/block contributor (cdev lifetime,
+multipath, sysfs). Nearby commits are unrelated lifetime/locking work,
+not prerequisites of this hunk.
 
 **Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
-Record:
-- Revert of `19bdb70c77d3`: **not needed** here.
-- Cover letter also cites `0ba6912f7e97` (“Revert once: don't use a work
-  queue…”) to cut a **different** chain (`sk_lock → cpu_hotplug_lock`)
-  for `nvme/005`. That commit is **not** in this tree, and it is **not**
-  a prerequisite of this TLS reclassify move.
-- `nvme_tcp_reclassify_socket()`, `nvme_tcp_start_tls()`, and the
-  alloc_queue control flow all exist in `v6.18` with the same ordering
-  the patch expects.
 
-Can this apply standalone? **Yes.**
+Record: None. Touches only `nuse_show()` control flow. `nuse_show`,
+`ns_update_nuse`, `ns_head_update_nuse`, and `nvme_identify_ns` all
+exist here. **Applies standalone.**
 
 ---
 
 ## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 
 **Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
+
 Record:
-- `b4 dig -c 447a7a3026eda85ac2738cbe6ee5ab066a39dad0` → https://patch.m
-  sgid.link/20260914074853.3990397-3-
-  shinichiro.kawasaki@opensource.wdc.com
-- Cover: https://patch.msgid.link/20260914074853.3990397-1-
-  shinichiro.kawasaki@opensource.wdc.com
-- Single revision (v1 of a 2-patch series). Direct lore.kernel.org fetch
-  returned 403; full thread was retrieved via `b4 dig -m`.
-- No NAKs. Keith Busch: “Thanks, applied to nvme-7.3.”
-- No reviewer `Cc: stable` suggestion found in the thread.
+- `b4 dig -c dd516cd762464` → https://patch.msgid.link/20260630102717.26
+  71475-1-john.g.garry@oracle.com
+- **v1 only** (no v2/v3). Applied as submitted.
+- Author note: could print `nvme_get_error_status_str()`; rejected as a
+  bad idea (keeps the fix small).
+- Christoph: “Looks good:” + `Reviewed-by`
+- Keith Busch: “Thanks, applied to nvme-7.3.”
+- No NAKs, no stable nomination, no risk flags.
 
 **Step 4.2: CHECK WHO REVIEWED THE PATCH**
-Record (`b4 dig -w`): linux-nvme, Keith Busch, Jens Axboe, Christoph
-Hellwig, Sagi Grimberg, Eric Dumazet, Nilay Shroff. Nilay: “Looks good
-to me.” / `Reviewed-by`. Eric reviewed the companion revert.
+
+Record (`b4 dig -w`): To/Cc **hch@lst.de, kbusch@kernel.org,
+sagi@grimberg.me, axboe@fb.com, linux-nvme@lists.infradead.org**. Right
+maintainers; Hellwig reviewed; Busch applied.
 
 **Step 4.3: SEARCH FOR THE BUG REPORT**
-Record: Observed in blktests `nvme/062` (NVMe-TCP TLS). The Link tag is
-Eric’s report of the *dynamic key* lifetime WARN that motivated the
-revert; this delay patch is the follow-up so that revert does not re-
-expose the TLS class-mixing splat. Severity: lockdep warning, not a
-reported production hang.
+
+Record: No `Reported-by`, syzbot, or bugzilla. Found by code inspection
+of the Identify → sysfs return path. Still a real, reachable bug (sysfs
+read issues Identify NS).
 
 **Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
-Record: Companion revert is irrelevant to 6.18. A side discussion about
-keeping per-queue dynamic keys was dropped; Eric argued static “kernel
-vs user” classes are sufficient and per-instance keys hide real AB/BA
-bugs. That does not affect this delay patch.
+
+Record: Standalone single patch. Same conversion already used in
+`drivers/nvme/host/hwmon.c`.
 
 **Step 4.5: CHECK STABLE MAILING LIST HISTORY**
-Record: Web search of lore.kernel.org/stable for this subject did not
-turn up a prior stable discussion or an explicit rejection.
+
+Record: Direct lore stable search was blocked (bot/403). Thread mbox has
+**no** `Cc: stable` and no stable-list discussion. **UNVERIFIED**
+whether anyone later asked for it on stable@ — does not change the
+technical verdict.
 
 ---
 
 ## PHASE 5: CODE SEMANTIC ANALYSIS
 
-**Step 5.1: IDENTIFY KEY FUNCTIONS**
-Record: `nvme_tcp_alloc_queue()` (call moved); helper
-`nvme_tcp_reclassify_socket()` unchanged; handshake still in
-`nvme_tcp_start_tls()`.
+**Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF**
+
+Record: `nuse_show` (modified). Callers of the bad return:
+`ns_head_update_nuse`, `ns_update_nuse` → `nvme_identify_ns` →
+`nvme_submit_sync_cmd` → `__nvme_submit_sync_cmd` → `nvme_execute_rq`.
 
 **Step 5.2: TRACE CALLERS**
-Record: `nvme_tcp_alloc_queue()` is called from
-`nvme_tcp_alloc_admin_queue()` and `__nvme_tcp_alloc_io_queues()` during
-controller setup. Userspace trigger: connecting an NVMe/TCP controller
-(`nvme-cli` / nvmf), including TLS PSK when `CONFIG_NVME_TCP_TLS` is
-enabled.
+
+Record: `nuse_show` is `DEVICE_ATTR_RO(nuse)` (`0444`) on the NVMe
+namespace disk. Reachable from userspace `read()` of
+`/sys/block/nvmeXnY/nuse`. Documented in
+`Documentation/ABI/stable/sysfs-nvme`; used so libnvme need not issue
+Identify itself. **Not** IRQ/hot-path; process context, admin command.
 
 **Step 5.3: TRACE CALLEES**
-Record: `nvme_tcp_start_tls()` → `tls_client_hello_psk()` + wait for
-`tlshd`. Reclassify → `sock_lock_init_class_and_name()` only under
-`CONFIG_DEBUG_LOCK_ALLOC`.
+
+Record: Identify Namespace (admin), SRCU in the multipath helper, rate
+limit 5s. On Identify failure, `nvme_identify_ns()` kfree’s the id
+buffer and returns the status — no leak there.
 
 **Step 5.4: FOLLOW THE CALL CHAIN**
-Record: Reachable from normal NVMe/TCP connect. The lockdep splat needs
-lockdep + TLS + `tlshd`. Without lockdep the moved function is an empty
-stub in this tree (`static void nvme_tcp_reclassify_socket(struct socket
-*sock) { }` in the `#else` of `CONFIG_DEBUG_LOCK_ALLOC`).
+
+Record: userspace `read` → sysfs/kernfs → `nuse_show` → Identify NS.
+**Unprivileged users can trigger it** (world-readable). Failure of
+Identify is uncommon on a healthy live NS, but expected during reset,
+path loss, unmap, or device errors — exactly when libnvme/nvme-cli may
+still read `nuse`.
 
 **Step 5.5: SEARCH FOR SIMILAR PATTERNS**
-Record: Same reclassify pattern exists in sunrpc (`xprtsock.c`,
-`svcsock.c`), SMB client, Bluetooth. Those also guard with
-`sock_allow_reclassification()`. This is the established in-kernel
-socket isolation approach.
+
+Record: Same `if (ret > 0) return -EIO` in `nvme_get_temp_thresh` /
+`nvme_set_temp_thresh` (`hwmon.c`). Other `nuse_show`-style sysfs
+readers in this file mostly format cached fields and do not submit
+commands.
 
 ---
 
 ## PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
 
 **Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
-Record: **Yes.** On `v6.18`:
 
-```
-1801: nvme_tcp_reclassify_socket(queue->sock);   /* immediately after
-create */
-1885: ret = nvme_tcp_start_tls(...);             /* later */
-1890: ret = nvme_tcp_init_connection(queue);
-```
-
-TLS (`be8e82caa6859`) and static reclassify (`841aee4d75f1`) are both in
-6.18. Dynamic keys (`19bdb70c77d3`) are not, so the TLS lockdep WARN is
-live here, not hypothetical.
+Record:
+- `git describe HEAD` → **v7.3-rc4-27-gf0100363d8c37**
+- `make kernelversion` → **7.3.0-rc4**
+- `nuse_show` exists in `drivers/nvme/host/sysfs.c`
+- Bug introduced **v6.8** (`a1a825ab6a603`); **is** ancestor of HEAD
+- Candidate **`dd516cd762464` is already an ancestor of HEAD** (evaluate
+  on merit, not “already selected”)
+- Current file already contains the `ret < 0` / `ret > 0` logic
 
 **Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
-Record: Clean apply. The hunk is a single function-call move around
-`nvme_tcp_start_tls()` / `nvme_tcp_init_connection()`, which have the
-same shape in `v6.18`. Later `sockaddr_unsized` / `__fput_sync` churn
-does not touch this call.
+
+Record: **Clean apply** on this tree (hunk matches current `nuse_show`).
+No conflicting refactor of this function beyond the fix itself.
 
 **Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
-Record: No equivalent delay of reclassify in 6.18 history. No other TLS
-lockdep isolation fix on this path.
+
+Record: Double-free fix `8d0d2447394b1` is present and orthogonal. No
+alternate conversion of positive NVMe status in `nuse_show` besides this
+commit.
 
 ---
 
 ## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 
 **Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
-Record: NVMe over Fabrics TCP host (`drivers/nvme/host/tcp.c`).
-**IMPORTANT** for NVMe/TCP users; not core mm/VFS. TLS is
-`CONFIG_NVME_TCP_TLS` (“If unsure, say N”).
+
+Record: **NVMe host sysfs** (`drivers/nvme/host/`). Criticality:
+**IMPORTANT** (common storage stack; not mm/VFS core). Affects NVMe
+users who read namespace sysfs (management tools).
 
 **Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
-Record: Actively maintained (TLS, digest, security, reconnect). This is
-a targeted lockdep fix, not a refactor of new 7.3 infrastructure.
+
+Record: Actively developed (many recent sysfs/diag/timeout patches).
+`nuse` itself is mature (since 6.8), not brand-new 7.3-only code.
 
 ---
 
 ## PHASE 8: IMPACT AND RISK ASSESSMENT
 
 **Step 8.1: DETERMINE WHO IS AFFECTED**
-Record: NVMe/TCP users with `CONFIG_NVME_TCP_TLS` **and**
-`CONFIG_DEBUG_LOCK_ALLOC`/`LOCKDEP`, during TLS connect (`tlshd`).
-Production configs without lockdep: no functional change (stub
-function).
+
+Record: **Driver-specific** — NVMe namespace sysfs. Anyone with
+`CONFIG_BLK_DEV_NVME` (default on most distros) and a namespace. Tools:
+libnvme / nvme-cli discovery.
 
 **Step 8.2: DETERMINE THE TRIGGER CONDITIONS**
-Record: Controller connect with TLS PSK, lockdep enabled. Reproduced by
-blktests `nvme/062`. Not an unprivileged syscall smash; it is a
-privileged NVMe fabrics connect path. Timing: every TLS queue setup, not
-a rare race.
+
+Record:
+- Trigger: `read` of `/sys/block/nvmeXnY/nuse` while Identify NS returns
+  a **non-zero NVMe status** (and the 5s ratelimit allows a command).
+- Uncommon on a healthy device; realistic on reset, interconnect errors,
+  or a controller that fails Identify.
+- Unprivileged readable (`DEVICE_ATTR_RO` = 0444).
 
 **Step 8.3: DETERMINE THE FAILURE MODE SEVERITY**
-Record: lockdep circular-dependency **WARNING** (kernel tainted `W`).
-Discussion treats it as class mixing (false cycle from `tlshd` vs in-
-kernel NVMe), not a confirmed production deadlock. The same isolation
-hole has existed since TLS landed in 6.7; no production hang report was
-found for this chain. Severity: **MEDIUM** for debug/CI kernels, **LOW**
-for production 6.18 users.
+
+Record:
+- DNR (or any status ≥ `PAGE_SIZE`): **kernel WARN** in
+  `sysfs_kf_seq_show` (“OOB write or bad count”) — **HIGH** (WARNING;
+  panic if `panic_on_warn`).
+- Smaller status: successful short read of zeros instead of an error —
+  **MEDIUM** (wrong ABI; tools may treat NUSE as 0 or fail to parse).
+- Not UAF, not filesystem corruption, not a hard deadlock.
 
 **Step 8.4: CALCULATE RISK-BENEFIT RATIO**
+
 Record:
-- Benefit: restores the `841aee4d75f1` kernel-vs-user isolation for TLS;
-  silences a real blktests splat; keeps lockdep usable on NVMe/TCP+TLS.
-- Risk: very low (3-line move, no-op without lockdep, reviewed, tested).
-- Ratio: favorable. The “important issue” bar is the only weak point,
-  not correctness or applyability.
+- **Benefit:** medium–high — stops a real WARN and a bogus sysfs success
+  on a widely deployed driver.
+- **Risk:** very low — 3 lines, error path only, established `-EIO`
+  mapping.
+- **Ratio:** favorable.
 
 ---
 
@@ -413,146 +413,131 @@ Record:
 
 **Step 9.1: COMPILE THE EVIDENCE**
 
-FOR:
-- Buggy ordering exists in this 6.18 tree (reclassify before TLS).
-- Tiny, obviously correct, reviewed by Nilay Shroff, applied by Keith
-  Busch, idea from Eric Dumazet.
-- Tested (blktests `nvme/062`).
-- Applies cleanly; no missing helpers or struct changes.
-- Companion revert is **not** required here because `19bdb70c77d3` never
-  landed.
-- Zero production behavioral change without lockdep.
-- Same class of fix as the existing `841aee4d75f1` annotation; TLS had
-  re-broken that isolation.
+**FOR backporting**
+- Real bug: sysfs show returns a positive NVMe status as a byte count.
+- Can `WARN` when status includes `NVME_STATUS_DNR` (0x4000) on 4K/16K
+  pages.
+- Userspace can get a successful empty/short read instead of an error.
+- 3-line, obviously correct; Hellwig reviewed; Busch applied.
+- Same pattern already used in NVMe hwmon.
+- Code and bug exist in this 7.3 tree (since v6.8).
+- No new API/feature; no series dependencies.
 
-AGAINST:
-- Debug-only (`nvme_tcp_reclassify_socket()` is empty without
-  `CONFIG_DEBUG_LOCK_ALLOC`).
-- Not a reported oops, hang, corruption, or CVE.
-- Needs optional TLS + `tlshd` + lockdep to fire.
-- Written as patch 2/2 of a 7.3 series whose other half does not apply
-  here (that is not a blocker; it just explains origin).
+**AGAINST backporting**
+- No user/syzbot report; found by inspection.
+- Identify NS rarely fails on a live healthy namespace.
+- Not a UAF/panic/data-corruption class bug in the common success path.
 
-UNRESOLVED:
-- Direct lore.kernel.org HTTP fetch returned 403; thread content was
-  still verified via `b4 dig -m`.
-- No stable-list nomination/rejection found.
+**UNRESOLVED**
+- Stable@ archives could not be fetched (403/bot). No evidence of a
+  prior rejection.
 
 **Step 9.2: APPLY THE STABLE RULES CHECKLIST**
-1. Obviously correct and tested? **PASS** (3-line move; Reviewed-by;
-   blktests `nvme/062`)
-2. Fixes a real bug that affects users? **PASS** (reproducible lockdep
-   WARN on NVMe/TCP TLS connect; bothers debug/CI users)
-3. Important issue? **PASS** (weak but acceptable: lockdep splat / “oh,
-   that's not good”; restores lock-class isolation that this tree
-   already relies on)
-4. Small and contained? **PASS** (3 lines, one function)
+
+1. Obviously correct and tested? **PASS** — reviewed by Hellwig, applied
+   by Busch, matches documented return contract.
+2. Fixes a real bug that affects users? **PASS** — wrong sysfs return;
+   WARN on DNR Identify failures.
+3. Important issue? **PASS** — WARN_ON-class (and wrong userspace ABI).
+   Severity HIGH for the WARN path, MEDIUM otherwise.
+4. Small and contained? **PASS** — +3/−1, one function.
 5. No new features or APIs? **PASS**
-6. Can apply to the local tree? **PASS** (`v6.18` has the same call
-   sites)
+6. Can apply to the local tree? **PASS** — `nuse_show` present; hunk
+   matches.
 
 **Step 9.3: CHECK FOR EXCEPTION CATEGORIES**
+
 Record: Not a device-ID/quirk/DT/build/docs exception. Ordinary small
-bugfix.
+driver bugfix.
 
 **Step 9.4: MAKE YOUR DECISION**
-Backport. The defect is in this tree, the patch is self-contained
-without the 7.3 revert, and the risk is negligible. Leaving early
-reclassify in place keeps a known lockdep isolation hole in NVMe/TCP TLS
-on 6.18.y.
 
----
+This tree is **7.3.0-rc4**. The `nuse` sysfs attribute exists here. A
+positive NVMe Identify status must not be returned as a sysfs byte
+count; that can WARN and confuse management tools. The patch is tiny,
+already the established NVMe conversion, and has maintainer review.
+Benefit outweighs risk.
 
 ### What the commit solves for this tree
-On 6.18, nvme-tcp still reclassifies sockets immediately after create,
-then may run a TLS handshake via `tlshd`. That puts userspace handshake
-locking into the NVME socket class and produces a lockdep circular-
-dependency warning (blktests `nvme/062`). Moving reclassify to after
-handshake (and after connect when TLS is off) cuts that dependency.
-Production kernels without lockdep do not change behavior.
 
-### Stable rules / risk
-Meets the written rules: small, obviously correct, tested, no new API,
-applies here. Benefit is debug/CI lockdep correctness; regression risk
-is essentially zero.
+`nuse_show()` refreshes Namespace Utilization via Identify NS. Command
+errors come back as **positive** NVMe status. Returning that from a
+`DEVICE_ATTR_RO` show handler makes kernfs treat it as a length: zeros
+to userspace, or a **sysfs “bad count” WARN** when the status is ≥
+`PAGE_SIZE` (typical with DNR). Mapping `ret > 0` to `-EIO` restores the
+sysfs contract.
 
-### Concerns
-Do not pull in the companion revert of `19bdb70c77d3` (absent here). Do
-not treat `0ba6912f7e97` as a dependency of this patch; that is a
-separate `nvme/005` lock chain.
+### Risk vs benefit
+
+Very low risk, clear correctness win on a user-visible NVMe sysfs file.
 
 ---
 
-Verification:
-- [Phase 1] Parsed tags: Link to Eric’s lore report; Reviewed-by Nilay
-  Shroff; SOBs Eric Dumazet, Shin'ichiro Kawasaki, Keith Busch; no
-  Fixes/Cc:stable
-- [Phase 2] Diff: move `nvme_tcp_reclassify_socket()` in
-  `nvme_tcp_alloc_queue()` from after `sk_net_refcnt_upgrade` to after
-  optional `nvme_tcp_start_tls()`, +2/-1
-- [Phase 2] Confirmed `#else` stub: function is empty without
-  `CONFIG_DEBUG_LOCK_ALLOC` in this tree
-- [Phase 3] `git describe HEAD` / Makefile: 6.18.57
-- [Phase 3] `git merge-base --is-ancestor 841aee4d75f1 HEAD`: YES
-  (reclassify present)
-- [Phase 3] `git merge-base --is-ancestor be8e82caa6859 HEAD`: YES (TLS
-  present)
-- [Phase 3] `git merge-base --is-ancestor 19bdb70c77d3 HEAD`: NO
-  (hiding/dynamic-key commit not in 6.18)
-- [Phase 3] `git grep` on `v6.18:drivers/nvme/host/tcp.c`: reclassify at
-  line 1801, TLS at 1885 — buggy order confirmed
-- [Phase 3] `git blame v6.18 -- drivers/nvme/host/tcp.c`: reclassify =
-  `841aee4d75f1`, TLS = `be8e82caa6859`
-- [Phase 3] `git merge-base --is-ancestor 0ba6912f7e97 HEAD`: NO; not
-  required for this hunk
-- [Phase 4] `b4 dig -c 447a7a3026…`: patch 2/2, msgid
-  `20260914074853.3990397-3-…`
-- [Phase 4] `b4 dig -a`: v1 series only (cover + revert + this patch)
-- [Phase 4] `b4 dig -w`: linux-nvme +
-  Busch/Axboe/Hellwig/Grimberg/Dumazet/Shroff
-- [Phase 4] mbox: Nilay Reviewed-by; Keith applied to nvme-7.3; no NAK;
-  no Cc:stable
-- [Phase 4] lore.kernel.org WebFetch: 403; used b4 mbox instead
-- [Phase 4] stable list search: no prior discussion found
-- [Phase 5] Callers: `nvme_tcp_alloc_admin_queue`,
-  `__nvme_tcp_alloc_io_queues` (controller setup)
-- [Phase 5] `sock_allow_reclassification()`: `!sock_owned_by_user &&
-  !spin_is_locked(slock)`
-- [Phase 6] Apply: same surrounding symbols in v6.18; expected clean
-- [Phase 8] Failure mode: lockdep WARNING on TLS connect, not a verified
-  production deadlock
-- UNVERIFIED: whether any distro 6.18 debug kernel has a live user
-  report of this splat (commit cites blktests, not a distro bugzilla)
+## Verification
 
-The patch is small, the buggy ordering is in this 6.18 tree, and it does
-not need the later revert series to be useful.
+- **[Phase 1]** Parsed message: no Fixes/Reported-by/stable Cc;
+  Reviewed-by Hellwig; SOB Garry + Busch.
+- **[Phase 2]** Diff: +3/−1 in `nuse_show()` only; `if (ret)` → `ret <
+  0` / `ret > 0` → `-EIO`.
+- **[Phase 2]** `__nvme_submit_sync_cmd()` comment and
+  `nvme_execute_rq()`: positive value is NVMe status
+  (`nvme_req(rq)->status`).
+- **[Phase 2]** `nvme_try_complete_req()`: `rq->status =
+  le16_to_cpu(status) >> 1`; `NVME_STATUS_DNR = 0x4000`.
+- **[Phase 2]** `fs/sysfs/file.c` `sysfs_kf_seq_show`: `count >=
+  PAGE_SIZE` → `WARN(1, "OOB write or bad count")`.
+- **[Phase 2]** Same conversion in `drivers/nvme/host/hwmon.c` lines
+  31–32 and 54–55.
+- **[Phase 3]** Blame: buggy `if (ret)` from `a1a825ab6a603` (v6.8); fix
+  is `dd516cd762464`.
+- **[Phase 3]** `git merge-base --is-ancestor a1a825ab6a603 HEAD` — yes;
+  `dd516cd762464` also ancestor.
+- **[Phase 3]** Related: `8d0d2447394b1` double-free in `ns_update_nuse`
+  — different bug, already here.
+- **[Phase 3]** Author log: standalone; not a multi-patch series.
+- **[Phase 4]** `b4 dig -c dd516cd762464`: lore msgid
+  `20260630102717.2671475-1-john.g.garry@oracle.com`.
+- **[Phase 4]** `b4 dig -a`: v1 only.
+- **[Phase 4]** `b4 dig -w`: linux-nvme + Hellwig, Busch, Grimberg,
+  Axboe.
+- **[Phase 4]** mbox: Hellwig “Looks good”; Busch “applied to nvme-7.3”;
+  no NAK.
+- **[Phase 4]** WebFetch lore/stable: 403/bot — UNVERIFIED stable@
+  traffic.
+- **[Phase 5]** semcode MCP not available; used grep. Callers: sysfs RO
+  attr `nuse`.
+- **[Phase 5]** ABI: `/sys/block/nvmeXnY/nuse` since 6.8; Identify on
+  read; `DEVICE_ATTR_RO` → 0444.
+- **[Phase 6]** `git describe HEAD`: v7.3-rc4-27-gf0100363d8c37;
+  kernelversion 7.3.0-rc4.
+- **[Phase 6]** Current `nuse_show` already has the fix; buggy pattern
+  exists in history of this file.
+- **[Phase 8]** Failure: WARN (HIGH) or bogus short sysfs read (MEDIUM);
+  trigger = Identify NS error on nuse read.
+
+The fix is small, surgical, and meets the stable criteria for this tree.
 
 **YES**
 
- drivers/nvme/host/tcp.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/nvme/host/sysfs.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 1f26e35d7a99e..9f15feff66132 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1859,7 +1859,6 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
- 	}
+diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+index 16c6fea4b2db6..12478e0297356 100644
+--- a/drivers/nvme/host/sysfs.c
++++ b/drivers/nvme/host/sysfs.c
+@@ -239,8 +239,10 @@ static ssize_t nuse_show(struct device *dev, struct device_attribute *attr,
+ 		ret = ns_head_update_nuse(head);
+ 	else
+ 		ret = ns_update_nuse(disk->private_data);
+-	if (ret)
++	if (ret < 0)
+ 		return ret;
++	else if (ret > 0)
++		return -EIO;
  
- 	sk_net_refcnt_upgrade(queue->sock->sk);
--	nvme_tcp_reclassify_socket(queue->sock);
- 
- 	/* Single syn retry */
- 	tcp_sock_set_syncnt(queue->sock->sk, 1);
-@@ -1948,6 +1947,8 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
- 			goto err_init_connect;
- 	}
- 
-+	nvme_tcp_reclassify_socket(queue->sock);
-+
- 	ret = nvme_tcp_init_connection(queue);
- 	if (ret)
- 		goto err_init_connect;
+ 	return sysfs_emit(buf, "%llu\n", head->nuse);
+ }
 -- 
 2.53.0
 
