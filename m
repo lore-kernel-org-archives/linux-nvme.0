@@ -2,106 +2,99 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFAB1606A31C
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2026 21:40:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E745E606A31D
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Oct 2026 02:51:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=hGyUolBu;
-	dkim=pass (2048-bit key, unprotected) header.d=purestorage.com header.i=@purestorage.com header.a=rsa-sha256 header.s=google2022 header.b=Zi7Zdazr
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=skI8kThL;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=VMgRgeGC
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fbdkiBRqceNsAEo7WpDOWPS1EXWmU9r7NLF53sieob0=; b=hGyUolBuv1+e4zZO+nQUFzRFbv
-	NKU2WW00XBwcgscwmSQqE822egeaMkD6Z5X/2zZiUCou4SKptsFd0wHNQTcfzegDiZ5X5Y9tZ8ic/
-	hVN1DwPAiDYohRSPQym5Ufz+lSXh/yibk1QTQK56yqEEd1mk8miFBepclp1NwSTruS45eliYx7P9Q
-	oGRgQexZv7PaDi1ZvvRPqeSp97it9sW+I5Tff9+ekez0IAJTH/kHMD04NrGHO6bhCGzQClkOtvihi
-	q9DJwFY32mhyuQFJSkXFF4Wz4uanWHzIiieVwySAD1iyaClHfvzz4KL8PpiutLBQ91LiXYgxx4b2z
-	CgSaS4Nw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=YrHXlTj62K9347P7OmkxD9vCvcqzaK1MyEYVZ/+sypU=; b=skI8kThLn/3/JAGeHHmSP9QJ/t
+	6TpcxymnIlAblPJ6NRG9SjFNuKHtxXCrYN+N2eqdqlJPD46GyuxhFioBF9t//Ua3ccBQ8qM1sE8jN
+	giW+YCbZx5OUz822f1o1i5vDlgnllKiWshx0Jh+LZfZoPZIHNC7rpxriEsHphPDrwEIp1dQBT/CHR
+	Yjr8ZXN0f5m6jHT7E32a1JDHeZSC0umXZoWDsLDekJs0EcM5Rw5lkTo6w9NaEVVWbUNxdMSJJavaw
+	iQrSj3CiJSmczIbLY6+XZwPWUzE4pb07h6by9UaIkeu5b82aBjTI9UjS1l52Q8QGB09X7wdDS9Wzr
+	6qOyzi2w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xIv5d-00000008QGQ-05bf;
-	Mon, 19 Oct 2026 21:40:17 +0000
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+	id 1xIzwP-00000008k3s-3N2A;
+	Tue, 20 Oct 2026 02:51:05 +0000
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xIv5a-00000008QFp-1qM9
+	id 1xIzwL-00000008k2H-0FLf
 	for linux-nvme@lists.infradead.org;
-	Mon, 19 Oct 2026 21:40:15 +0000
-Received: by mail-wr1-x430.google.com with SMTP id ffacd0b85a97d-48dfaa3fa12so75165f8f.0
-        for <linux-nvme@lists.infradead.org>; Mon, 19 Oct 2026 14:40:13 -0700 (PDT)
+	Tue, 20 Oct 2026 02:51:03 +0000
+Received: by mail-pg1-x52f.google.com with SMTP id 41be03b00d2f7-cc4aa18f9afso1090783a12.3
+        for <linux-nvme@lists.infradead.org>; Mon, 19 Oct 2026 19:51:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1792446012; x=1793050812; darn=lists.infradead.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=fbdkiBRqceNsAEo7WpDOWPS1EXWmU9r7NLF53sieob0=;
-        b=Zi7ZdazrBdRsLe7un9DGBedeHqS4tQtD9uF+1njycE/FRDpWTcg/fbYpg+bNAKmHVC
-         W76+E7OlGTCDJI130HSGq/sxH2VY7MSaj4h5ss9n6odIElWiLEbP52h771jQ3Yhdve/2
-         E6kJyDI/8F0ygKBW67SH/dn1AO3kxu6xRewl7djxGqztBVm/vtg6+giO0csSnDKuSm1d
-         rjVYn2ixh/AoId31WYh05pF2crhJSEZ/eoRLRl5goA6lzCSdx0oP1sDkGdA2oXKyGG/m
-         ne0suZGqgbzTTDLwq/F6zhdSwyIh4YYZIlQYAzctVsgzWUSYLpF/hQMAjo05aqf31iOg
-         j12A==
+        d=gmail.com; s=20251104; t=1792464659; x=1793069459; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=YrHXlTj62K9347P7OmkxD9vCvcqzaK1MyEYVZ/+sypU=;
+        b=VMgRgeGC9aWpdsGyzjcRQfwrjtfJj8LUrVjk61b4iBGbD+juRMBmlGuM4GXvSIBiRI
+         jkO2Y61YBWhTEOVq/Fx3xCX9ubGXF78JXStS6W9W78kPS77E1KfmFn9kV36TlH+JPOuK
+         3fc/HJkt8TvihvP42DAnj8UUgxdoa1vYyqMumzN50Le1YbFLWjAtEi4GGrhmtXf7+0F6
+         5V3R+xLet1yc56Q0bWfJWcku+6LZEvfOvTtyheVeFLUlN/7fqnvUfaluHEmo7zOxZI1o
+         pGt+ArAD0ORoK9XzJ7ZsbQtpiDQ+/h5a4KP8R0MVO+CC3bWHbdCn3LhuzJ9ylilzU7nK
+         B0Ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792446012; x=1793050812;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=fbdkiBRqceNsAEo7WpDOWPS1EXWmU9r7NLF53sieob0=;
-        b=jEh/iEUvwTbkSB0Z1tWXXk6AMGsElV49tV3jsaj0l/9flj2Sdif+Z8fDBKU8DRd5dx
-         eUXPXlN2hR81SQrL2omCk+nC0ty33Wbi+E5FVAwT+TponVgKVYOEPoffpiSSg42Q+/N7
-         aKkKWhUoOUydviJMUbsSdprB31GFOGAoYPzdlw6n5StP8R+5vOO+gFWzKxuzZ7DMcvsj
-         3sELKDD9jJkollp8WN88c6BhcibO5XNTWQQBTMjNykVdZlfx/s5ZUkuNecRfI6WPqRpn
-         5BM+7chCfzNnQBrPgsiVOe0Nzg0Pt9pL9DkmGXfX2rYiG63G4Gk9bhzC0T6tOHvC9Ozw
-         7TIw==
-X-Forwarded-Encrypted: i=1; AKwUvBwgmccRzKWxjugUywUVC9CbUtpaOlM0Hs2VMrSNNMPLcutKFvO9ilsY1u48OOOzRJinyjy6ueqYgG4D@lists.infradead.org
-X-Gm-Message-State: AFq9FYIauPkeDuhC2Z+jnUfxko0Nk05HkEJ9RgcCc+vjT+WXlquqP7E0
-	jwR8PdlRMfnVPEopEZHO0Ix174TMnOnfd06+bMvyfCoknP8XOYnO7wKaqp296cxE+lw=
-X-Gm-Gg: AYBFou33/YHLEhNsh6F3AdTv7NJk56dnFGPmFofUzpBWdwniWz+2nVJ7EEfmfXOCZRa
-	ccNhl3oV7KIEoeqUQaf0I7uAM01eGnB350V++A9LwTRsVxaffDurqLTjjHmumIFQcobChau0F8b
-	5NyV9yFyxnAIhTM8l7z9DPz0aBt9HBamBw2hcS/WXm3uABVtscksUXC8m4caSBeLLX5QIMPMEzR
-	VLjC3pRwmZAwQCk3HeTcwJMMMLJMHslZIOypaF7H6pQN5VoB4d1Mcx8Z5I2ECWO1JfP1Wx2Vj+z
-	geoTNJKp4LL4ZD9WQaZtaTrAw2RSKjk+9zMmS2hVqYYAcIj8+9irZaKhDZSC/NPCAA+DxEHR1M6
-	yBwSYL6DXukv/l5cCA822IOl8Pv/TpPI8+dEoR4crd9NnFlROEj9G4rP5z0Bgq99E0QQFS2CLnq
-	vi/JFSYDdGY5/txf2mY1CSWyEkNmK0iNenUJQHYdBdc+saaqDFMYWpI5iZNqeLTdiiy2X2KXk5B
-	9qCvfniLh/MiM4T7Wvbtl+UAxZnGA==
-X-Received: by 2002:a05:600c:2256:b0:4a1:e478:7878 with SMTP id 5b1f17b1804b1-4a1f53dce01mr4437525e9.18.1792446011568;
-        Mon, 19 Oct 2026 14:40:11 -0700 (PDT)
-Received: from medusa.lab.kspace.sh ([208.88.152.253])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-48e1d83a338sm1464721f8f.59.2026.10.19.14.40.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 14:40:10 -0700 (PDT)
-Date: Mon, 19 Oct 2026 14:40:07 -0700
-From: Mohamed Khalfella <mkhalfella@purestorage.com>
-To: Daniel Wagner <dwagner@suse.de>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Justin Tee <justin.tee@broadcom.com>,
-	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
-	Paul Ely <paul.ely@broadcom.com>, Hannes Reinecke <hare@kernel.org>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	James Smart <jsmart833426@gmail.com>,
-	Randy Jennings <randyj@purestorage.com>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH v6 07/18] nvme: Introduce FENCING and FENCED controller
- states
-Message-ID: <20261019214007.GO2931-mkhalfella@purestorage.com>
-References: <20260920182936.2317916-1-mkhalfella@purestorage.com>
- <20260920182936.2317916-8-mkhalfella@purestorage.com>
- <179242929827.3619480.8550407233438315193.b4-review@b4>
- <ebc2064d-70d8-44c9-8230-5ba4b24cf5d9@flourine.local>
+        d=1e100.net; s=20260707; t=1792464659; x=1793069459;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=YrHXlTj62K9347P7OmkxD9vCvcqzaK1MyEYVZ/+sypU=;
+        b=BvnVckqfd3zu6poZw4xoelBJO5WvJkvIMmEHxOqKfASGUm7Wtm1L7Lc/37YyngQbcH
+         lKxqQLsxoL2+PSlQ4hxUSWZxWOojgkw/RG1GW4hfAWwMyaTWeG1GgIVMUE6YX8qM3lX5
+         kYdiDml5S4gJ66jXlqbnIgEGo87CIZaobaNA1J8tGwW5O/uqTGlv9TI8yX0HCqIi2603
+         UyN1vippMb3nZ+0cNhf/pqWkM3fIGRfqF4H833SZWfr5qHGdPBDnkF08FnmLjYkP/UTI
+         6wcCpGBWf6/SQCJLYI4i0jIZCiymeDb7gQ4hc0lAKNtjZPfVR880mDVeNSamGIxRUZDR
+         Q/6g==
+X-Forwarded-Encrypted: i=1; AKwUvByumFcKl2R4nlD95SWH+AW0ZfV3kpO+GuDevRD+LWGPrMQ2z1AaU+juJyxua/mKMRQNv1I0PdUGMYKn@lists.infradead.org
+X-Gm-Message-State: AFq9FYLj17UJJt9xsGz0LAhgFc/4lwOUa10xGuoArhosESI7KwDyVwze
+	wLxfmHw5rCDW8rZxE9CttUl+iu4FcdktTlw6KoTXwTJNjDjb7mrjujtd
+X-Gm-Gg: AYBFou3jg7K7q/eNtvCTjzOwO8/h7dKAd4Gw9bNnLM34aVsJE8Jfe2JJHVJs5ov+ESq
+	eW89gPbRRxZ0rXVGYowsusumdJcTNOYcvCA/mwjim48xNyTluc3Hv2iorVY7j/iNnn40KB0cPoY
+	oY75naVbUxDaZEQ40ronhoW44TNpFIiOlO0VrGXI4ECtm8AQltEuQCNdEJsftvraWcq6lZl5IIB
+	gbLSsMhIMSPKCLo7lNFDjtNTYuuHAskUOWJYNniCanwKaNxIDoVI/oudXMPoa1fLbdeHWZlSM8V
+	9RFn/nYKAIe8xuiW6DU86FCRgV9a/bul+t2H60kCHhEBe1QeWvhLptaFUT+FLE8wyPFityU4h3e
+	kJpVt5SBoOV7qsEeb+bhhDNvNInBdQL3qIrs7zPRtdzrYzejTDHUJof8qQoPz+CburL9NgwrymL
+	WkORT08jXievvNh10UlO7SY0pS8GvgTDRUnn2B2h/3atBmMiHtKyYSsIbcGdNW8FLGbkI+IEA/G
+	JDtkMs+NKvoq8BXPhefHqBlehZ4p+n7vSR29uhmXT9m4zPu598zDWta/lSbHN5Kc8WnWtnYhJd0
+	VGJUsqtSxpDYj2q1Ij9NvquRCyjClhIA7o79aF3UNnoyszCX
+X-Received: by 2002:a05:6a20:a121:b0:3de:76da:6b9 with SMTP id adf61e73a8af0-3e226057ab4mr8478461637.68.1792464659552;
+        Mon, 19 Oct 2026 19:50:59 -0700 (PDT)
+Received: from EAIT-H54D9Q2FJQ.eait.uq.edu.au ([130.102.10.249])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-89f579464besm4613442b3a.34.2026.10.19.19.50.55
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Mon, 19 Oct 2026 19:50:58 -0700 (PDT)
+From: Yu Zhang <yuz08559@gmail.com>
+To: Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Cc: Maurizio Lombardi <mlombard@arkamax.eu>,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Yu Zhang <yuz08559@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH v2] nvmet: take subsys->lock while force-reconnecting in nvmet_subsys_attr_qid_max_store()
+Date: Tue, 20 Oct 2026 12:50:47 +1000
+Message-ID: <20261020025047.88297-1-yuz08559@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261014054727.53183-1-yuz08559@gmail.com>
+References: <20261014054727.53183-1-yuz08559@gmail.com>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ebc2064d-70d8-44c9-8230-5ba4b24cf5d9@flourine.local>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261019_144014_498742_07145A87 
-X-CRM114-Status: GOOD (  20.35  )
-X-Spam-Score: -2.1 (--)
+X-CRM114-CacheID: sfid-20261019_195101_137885_717162D2 
+X-CRM114-Status: GOOD (  11.05  )
+X-Spam-Score: -1.9 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -112,55 +105,68 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Mon 2026-10-19 19:18:32 +0200, Daniel Wagner wrote:
-> On Mon, Oct 19, 2026 at 07:01:38PM +0200, Daniel Wagner wrote:
-> > > --- a/drivers/nvme/host/sysfs.c
-> > > +++ b/drivers/nvme/host/sysfs.c
-> > > @@ -542,6 +542,8 @@ static ssize_t nvme_sysfs_show_state(struct device *dev,
-> > >  	static const char *const state_name[] = {
-> > >  		[NVME_CTRL_NEW]		= "new",
-> > >  		[NVME_CTRL_LIVE]	= "live",
-> > > +		[NVME_CTRL_FENCING]	= "fencing",
-> > > +		[NVME_CTRL_FENCED]	= "fenced",
-> > >  		[NVME_CTRL_RESETTING]	= "resetting",
-> > >  		[NVME_CTRL_CONNECTING]	= "connecting",
-> > >  		[NVME_CTRL_DELETING]	= "deleting",
-> > 
-> > The ABI documentation needs to be updated.
-> 
-> And while you’re at it, what’s the impact on blktests? I can’t quite
-> recall what you presented during ALPSS regarding blktests. Is this
-> covered?
+nvmet_subsys_attr_qid_max_store() sets subsys->max_qid and then walks
+subsys->ctrls to force every controller to reconnect, but it holds only
+nvmet_config_sem (for write).  subsys->ctrls is protected by subsys->lock:
+nvmet_alloc_ctrl() adds an entry under subsys->lock, and nvmet_ctrl_free()
+removes it under subsys->lock with list_del() + kfree() (not kfree_rcu).
+The free path takes no nvmet_config_sem, so the two locks are independent.
 
-Both [1] and [2] trigger "fencing" state. [1] focuses on not seeing
-corruption while [2] also inspects kernel logs to make sure that CCR and
-CQT are triggered when they should. There is no explict check of the
-controller state in these tests. We know that CCR/CQT will happen in
-"fencing" state though.
+A controller teardown (host disconnect, keep-alive timeout or fatal error
+-> nvmet_sq_destroy() -> nvmet_ctrl_put() -> nvmet_ctrl_free()) can
+therefore list_del() an entry while qid_max_store() is iterating the list,
+corrupting the walk.
 
-> 
-> Keith, Christoph, and I are mostly concerned about this patch.
-> Experience tells us that anyone touching the state machine will
-> introduce regressions. Because of that, I’d really like to make sure the
-> upstream testing side is covered. I know you’ve run tests in your lab,
-> but we need test cases that everyone can execute in their own
-> environments, and blktests is the right vehicle for that.
-> 
+KASAN, concurrent "echo 128 > .../subsystems/<nqn>/attr_qid_max" racing
+nvme-loop controllers connecting and disconnecting, panics in seconds:
 
-I documented part of the testing I did in lab in my ALPSS slides [3].
+  BUG: KASAN: null-ptr-deref in nvmet_subsys_attr_qid_max_store+0x10d/0x1b0
+  Read of size 8 at addr 0000000000000090
+  Call Trace:
+   nvmet_subsys_attr_qid_max_store+0x10d/0x1b0
+   configfs_write_iter+0x1a7/0x250
+   vfs_write+0x5df/0x940
+   ksys_write+0xfd/0x1e0
 
-I addition to [1] and [2], what kind of blktest you would like to see?
-If you describe the blktest in detail I will implement it and put it for
-review.
+(also seen as a general-protection fault dereferencing a LIST_POISON
+pointer at the same instruction.)
 
-1- https://lore.kernel.org/all/20260917020752.1672578-1-mkhalfella@purestorage.com/
-2- https://lore.kernel.org/all/20260921205951.3023714-1-mkhalfella@purestorage.com/
-3- https://drive.google.com/file/d/17lt_H3FxeoDSWD8q32diO7e03JYJaimn/view?usp=drive_link
+Take subsys->lock around the list_for_each_entry() loop, matching every
+other subsys->ctrls accessor.  ->delete_ctrl() only queues asynchronous
+controller teardown, so it does not re-enter subsys->lock under the loop.
+
+Fixes: 3e980f5995e0 ("nvmet: expose max queues to configfs")
+Cc: stable@vger.kernel.org
+Signed-off-by: Yu Zhang <yuz08559@gmail.com>
+Tested-by: Yu Zhang <yuz08559@gmail.com>
+---
+ drivers/nvme/target/configfs.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index 2b69ffc..23418fa 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -1684,8 +1684,10 @@ static ssize_t nvmet_subsys_attr_qid_max_store(struct config_item *item,
+ 	subsys->max_qid = qid_max;
+ 
+ 	/* Force reconnect */
++	mutex_lock(&subsys->lock);
+ 	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry)
+ 		ctrl->ops->delete_ctrl(ctrl);
++	mutex_unlock(&subsys->lock);
+ 	up_write(&nvmet_config_sem);
+ 
+ 	return cnt;
+-- 
+2.43.0
+
 
