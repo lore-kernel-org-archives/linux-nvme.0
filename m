@@ -2,86 +2,87 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30682606A319
-	for <linux-nvme@archiver.kernel.org>; Wed, 21 Oct 2026 09:53:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D73FB606A320
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 Oct 2026 10:01:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=1piWAHo5;
-	dkim=pass (2048-bit key, unprotected) header.d=crusoe.ai header.i=@crusoe.ai header.a=rsa-sha256 header.s=google header.b=Pqw4q25d
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=AcVj3cqo;
+	dkim=pass (2048-bit key, unprotected) header.d=crusoe.ai header.i=@crusoe.ai header.a=rsa-sha256 header.s=google header.b=KlcI4dG7
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2ip+TnxVMQPR+eirU2Ea4sovkq+dHLiGkFhsxVAsS/8=; b=1piWAHo5tpNaMZWKbW6TugjcgC
-	aLN62+bmSYLESC9uuqy4BNFmzuRbjcwVTOtDWF3AhTpW/8IJTUsm8f0gtqQ0+b4iYdkilfbeAl8iN
-	AUDjldTz4ApzHCKh8yTlqaFvurCSFRTia368F7aUjhBumtTcOx2JPOsAQvLxGyLv4YTHSixd6fAMH
-	a2Pb0LnUpRlo+/ppiJlWrrm0N2GT26oukoODjb3zirCJrqWLkkCbJv+Dym78i/NIUKWXCTE/Iagl1
-	Biz3kiDHpfdl634dJJogGxPoYQsrFQ3tfnswej7WKpfpIBh0UgrjGaSZsNDFSCnt0EYM5B8YZkgoY
-	ac2uGA5A==;
+	bh=mxq8kuo1w0yT9pwlujpaWDKFUlFP+9O+MLIpqh9/Bfc=; b=AcVj3cqoYl0XUuedkZhEu8uAWz
+	WOTxXd5kRwH0IlwIZwHsXWJw03IB2tD8UWZv6LHS6VFd7lvZZebuqRDL/KNIUaoun+i/lavzTyRjC
+	yn7FAE/PUmMyML9b+ytBcbTEbTQQ+2bDBTcHjj7X21ZoAulOXEu8k1HtvW+rwclntospux5dNtgrS
+	IqdVFunuiKFfAgGBV+TJhEW9p7KIWVr6oxo4Ed2P4BazrxRqw2GCtOfxvmnBxdOp16WnX1KTzSEq+
+	G12pCtz9JSc1qM3kz9Ft6rXaKopbWzpxdcZzCWdQ2rQW+ffzwhxopRreTZC91EpWOXE2DWInRYobU
+	+ImUBDVA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xJT13-0000000BXYC-3M3s;
-	Wed, 21 Oct 2026 09:53:49 +0000
-Received: from mail-dy1-x132a.google.com ([2607:f8b0:4864:20::132a])
+	id 1xJT84-0000000BYWs-4668;
+	Wed, 21 Oct 2026 10:01:04 +0000
+Received: from mail-dy1-x1330.google.com ([2607:f8b0:4864:20::1330])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xJT11-0000000BXXj-2Zby
+	id 1xJT83-0000000BYWO-2CDp
 	for linux-nvme@lists.infradead.org;
-	Wed, 21 Oct 2026 09:53:48 +0000
-Received: by mail-dy1-x132a.google.com with SMTP id 5a478bee46e88-3282db206d3so1229995eec.0
-        for <linux-nvme@lists.infradead.org>; Wed, 21 Oct 2026 02:53:47 -0700 (PDT)
+	Wed, 21 Oct 2026 10:01:04 +0000
+Received: by mail-dy1-x1330.google.com with SMTP id 5a478bee46e88-35f1f76ea84so756560eec.1
+        for <linux-nvme@lists.infradead.org>; Wed, 21 Oct 2026 03:01:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=crusoe.ai; s=google; t=1792576427; x=1793181227; darn=lists.infradead.org;
+        d=crusoe.ai; s=google; t=1792576862; x=1793181662; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=2ip+TnxVMQPR+eirU2Ea4sovkq+dHLiGkFhsxVAsS/8=;
-        b=Pqw4q25dSrAhrIFN673jX2OFE+XquRZXnqGOboVwfAXJxFrb61/9N8Kfxa/H4iVe5R
-         r9bWDwEabGaaHjig+QaBU6RKxEpZQ6woh7DkdLDAFT2JQii2AKAVgv5wfiqLhTnojTLt
-         MiXnrEFtm6ijoYY/JjJHlDvV2yRdUT9LaGxPY7J15JgnCeEJvu23Ttl4I5Tr3EAkUMKd
-         udGQkOPrSZ2R6i9WVI3bHOfnQxixhE5hOYPSzMWUl9JkSmJpHJpMd2bSCMgy3TPvs4Zz
-         pgvKM+wWtT0NsxAV07U04EuomxEX/LjqHA/Bc9ku0//jcz6jAXrPVWcF0MKH9JKTmRDI
-         2lMA==
+        bh=mxq8kuo1w0yT9pwlujpaWDKFUlFP+9O+MLIpqh9/Bfc=;
+        b=KlcI4dG7b6bvoyUeIEj5g70OoHHnCKAPHmTpyyMSnlpMYY/21LP4g+EOT9aBpgtkcV
+         jrfL1Gyl8Bdm3Fb/bPXDKHd4ZhXpgGEKBCveMsIR7FUTFR0ywIhNKKLpaNCqXTRVCKTJ
+         fIIKocYFhqGJNCgZvYyyPoBiuFg9EFnX0kYBJiiHhZ/bT2cpv0/ESnYgtJ41UxUmG5eX
+         mnFUohYBRZavHP/s/9h11X8jVW5S4VhMEhhVCMdwDqhD/0qUb1Ap5voOGbj9WMjCX3ye
+         ZR4bmH/NzrLtqDa8nCU/Y6+ZUsl1kWm/xeovMfkYlvtYLeeDbGWFfDxO29ONZI3Fq8Qm
+         k7wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792576427; x=1793181227;
+        d=1e100.net; s=20260707; t=1792576862; x=1793181662;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=2ip+TnxVMQPR+eirU2Ea4sovkq+dHLiGkFhsxVAsS/8=;
-        b=A9m2qUuYSph0YUt0Gtdjz9/huiAukmjT7LkNYXVs6N2f7H/1wLQJ9da6SCXiG29YI2
-         almkw7nK51mPHDBn40xTA876ZKAmPqUK5NM+BNHLwlQ5rg+lR7jjwLw8eaSJ97oYXNAf
-         GfDTfMctOm0XSzoFs/4crVUvYgWz28LQmxKo8yQPBD3vvluM00vh+uUx/PMJmszsX8Pr
-         EP37LJPN9aFWPAQYDvr2HiQWqmNQvWX2BxnooQYNAY/7bgjlaNxPdVSkcBoJnGrYu9po
-         EEsZowSZ6wl15BRqzVEO49USYhCA3BLLDbJduiQJCtiAQij8DaQKQ6awhz+JrLuI0cjO
-         bw3w==
-X-Forwarded-Encrypted: i=1; AKwUvBz5nRpnC+RyXrcZf27EZxGSbdz/0GmZHcSOdDVGbsvZPMu8DC9xBH/cBJNPNpQxqFA3ST2jduzW/rXt@lists.infradead.org
-X-Gm-Message-State: AFq9FYJgGqFoRKfuwbWfR234MfskrEKeIeyi7texCGVbLJpHJ2Ra0oq9
-	qzlQqc35nr3tvkIrkLIXv6Hcg1vs/noqGdp39Ck1y4OmI2Kd35OSQvnNCITuTccCyDA=
-X-Gm-Gg: AYBFou0daruzWGNCKErsDsvD56mo7QfmOiSggVyb6GSBxVFBmCa+flZlhOexyUY2Qp2
-	ygjUAuRMM9Z1b/8/F3meA5ZGZcQSnPvo4M2DhzEGOtQVUfbbAW3wbXwhXsOzmKwIea2n8bvxDbl
-	4FGvti5ZCGzlXwFJm1z3LIPuNUo2j8HF0ZeV/DgzI5nWGPCsj9zTzLzQxIbkPQrxY82XdUDVA5C
-	u9+c4W6r5tWLSFOxDzmpDhlmh3UCASepW1yZ0ijqiXc/t+qkHNGFmdtJ4RAU9IgnlAT+9qomhM3
-	DpWj5d7Cuv+8A7AP3GxodaFrwH0LR560e3BqSUAQITl8H67Uh3BO12heqxkfr/8ot8zhBpntIbo
-	OBoHS5Cq/SzpOADsACY6p1t2uWGzhCcS0WRywKDTUyu24gIJLO2KfwjTEEsF+Wtded98V1FB2ld
-	Fna1ULFZIh+jUiHJjk3Vb01YGzuRRrj9mHjDe9PQa8hBJqN6vQZ/rSt+E6uhnQi50qKJs7w5SrV
-	NS9lF+6oIfxMNKbKDBPs2+6j3wusXuAqhEs5O0bC7aVq0hUxHMLWH2KpObf/OsfNP9YdgT+tkyn
-	rSRj038yPOqbl/8i3UglCy205dMEYxyrJLDvGrwNBmTxxcttVLTt+J4=
-X-Received: by 2002:a05:7300:2152:b0:35c:dd03:55d2 with SMTP id 5a478bee46e88-3674db4d057mr3780258eec.26.1792576426668;
-        Wed, 21 Oct 2026 02:53:46 -0700 (PDT)
+        bh=mxq8kuo1w0yT9pwlujpaWDKFUlFP+9O+MLIpqh9/Bfc=;
+        b=u2hchtvVfH3LdrBX0lP2m189F3S23LvsRZrdumniiEAuhQjE7B/v4CcxvpULYRdm9E
+         Jw/xygme5DSgnIIXAI0jaDTa8AoGIj7SmwNffb53Z1MT6lt5FpNAEQZ8btCujb2myMs6
+         RHBZpoJ9XZMmC22mSvC+SfbmbrJkuoMfIfnCimVmuAnnEOkR8kz3M7rQzO4Afiaatilm
+         CGfx6qD3V4V2FebXXm0E28ySjzzhjiMfI+DI0WqwyeEhNyv71Xbf/Z4xUOjvuuEgSU81
+         usmbMNQGDFT4FOPU/b+cBRFsObYR2vAW9wLGWFbn1VCAb2IhyLrW1KDPGagj0sGkVA0E
+         8tLg==
+X-Forwarded-Encrypted: i=1; AKwUvBxrip1OpVD1vE6IMBvJoVyMA+SzsqoGCl/vurrXPjL/r0jtr+LhxsSm5Q3YncdCoWnfmb6D0czwhlUO@lists.infradead.org
+X-Gm-Message-State: AFq9FYIk8KMPuEDijYmtkhdG4Ap3u0QOPYrFhJjGzVctXPlqY1pFWUh9
+	xZo1+DRfPpAZVzjKPA9sVeAglydtJ8NPsFuJ2Wu6oXZIpXzbkRYVygQ2AZNKQx7AUeCgOzn2MjP
+	FFSBmR14=
+X-Gm-Gg: AYBFou0PGdYOd5ziOwugyQgv6WObuzE+u7KoxLDerbtoHWa7KRm1iZ7KfGptyr7KL7I
+	aNHDMWjiQz0w4hqqOpriKVDLWBmC4cfpOYobQBh9bHdejDDQ5A61wNfRtNqy8uw/TDX1wJEtUM9
+	rIZ+6J4tzG+bWrXcfTvnP/VDMaQWlGuTYAolL2kUJNraTGzUi1Ea+wU1baMgsyZ/oAU4xlUSNZV
+	CD0cWxb4GgVg+9vtmDpQfEyVt5wg7cN7vZBC4O4jvg4e3MRlH7VltskmCHWyTQcJePDXybH4YyJ
+	leahzvglJo10C3FX7B+GeAxhq62IeFSpbFh34kjbLtpsNX2nwYG7RTPi3DmVuL8hV8mgMPaggIv
+	QOR5xznHPg31zm1aUdmQtqpaEb8WDZgrDlgNcr+iOesfX7lCnGcgraEszEplZkT3o48u8XMWq1R
+	mSXH+vB9Jz3P2a+W0Y/BpipipBFWAModcLcgeys0yQiQQ3iiwZcWoCGCqvuEZ6QOMts08+pmqCH
+	yqRSq3Gj3MM/gCMb89ZKa708uO9TvGG3xM2dwzaIcl2fTB0BcEBesrwGHXPQ/BPl/ALdqAQY+Iv
+	ZGp74SIxZfRABHSoVH1H/OVQzBEIV02E5A==
+X-Received: by 2002:a05:7301:1a83:b0:360:4199:ff11 with SMTP id 5a478bee46e88-3674ce2f9e2mr2465279eec.12.1792576862194;
+        Wed, 21 Oct 2026 03:01:02 -0700 (PDT)
 Received: from MBP-Saravanan-D.civet-hops.ts.net ([2601:647:4381:36fd:9c31:126:4a90:466f])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36740cc8439sm6382582eec.11.2026.10.21.02.53.45
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-367405edd7bsm5915070eec.6.2026.10.21.03.01.00
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 21 Oct 2026 02:53:46 -0700 (PDT)
+        Wed, 21 Oct 2026 03:01:01 -0700 (PDT)
 From: Saravanan D <saravanand@crusoe.ai>
-To: Hannes Reinecke <hare@suse.de>
+To: Daniel Wagner <dwagner@suse.de>
 Cc: Saravanan D <saravanand@crusoe.ai>,
+	Hannes Reinecke <hare@suse.de>,
 	linux-nvme@lists.infradead.org,
 	kbusch@kernel.org,
 	hch@lst.de,
 	sagi@grimberg.me,
 	axboe@kernel.dk,
 	nilay@linux.ibm.com,
-	dwagner@suse.de,
 	sgogte@purestorage.com,
 	hare@kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -90,17 +91,17 @@ Cc: Saravanan D <saravanand@crusoe.ai>,
 	ganbalagane@crusoe.ai,
 	sjpark@crusoe.ai
 Subject: Re: [PATCH v5 2/2] nvme-tcp: allow setting per-queue io_cpu through sysfs
-Date: Wed, 21 Oct 2026 02:53:36 -0700
-Message-ID: <20261021095340.83118-1-saravanand@crusoe.ai>
+Date: Wed, 21 Oct 2026 03:00:55 -0700
+Message-ID: <20261021100057.85647-1-saravanand@crusoe.ai>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <378a9456-35ac-4a18-8c1e-80cc754dcbfc@suse.de>
-References: <20261018010059.83120-1-saravanand@crusoe.ai> <20261018010059.83120-3-saravanand@crusoe.ai> <378a9456-35ac-4a18-8c1e-80cc754dcbfc@suse.de>
+In-Reply-To: <79b5a23a-5ecf-4e96-85c8-031b5eca2867@flourine.local>
+References: <20261018010059.83120-1-saravanand@crusoe.ai> <20261018010059.83120-3-saravanand@crusoe.ai> <0ee4d281-61b4-458e-92c6-7fff3e50c0ec@flourine.local> <72fce5bb-b256-42aa-8844-f970c4480ad3@suse.de> <79b5a23a-5ecf-4e96-85c8-031b5eca2867@flourine.local>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261021_025347_657673_40E4513A 
-X-CRM114-Status: GOOD (  17.73  )
+X-CRM114-CacheID: sfid-20261021_030103_587620_F2802F1D 
+X-CRM114-Status: GOOD (  22.49  )
 X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -119,51 +120,44 @@ X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On 10/21/26 12:28 AM, Hannes Reinecke wrote:
+On Wed, Oct 21, 2026 at 10:19:37AM +0200, Daniel Wagner wrote:
 [...]
-> I think the 'managed' sysfs attribute needs to be per controller, as it
-> would be extremely awkward to allow some queues to be managed from the
-> admin and some queues automatically placed.
+> There was a lot of discussion during Linux Plumbers on how to configure
+> a system for the isolcpus case at runtime. From what I understand, the
+> preferred interface for this is cgroups. Hence, pinning the CPU for this
+> work is likely a target for it, though I don't think there is a need to
+> figure it out right now. I just wanted to highlight this point.
 
-The mix is intentional, and it is the case this series is for. On a
-host that partitions its CPUs between tenants, a queue only needs a
-user assigned io_cpu when its blk-mq map group straddles two tenants'
-cpusets. On our 384 cpu hosts with 128 queue controllers that is one
-or two queues per controller per VM, and the driver's least loaded
-selection already places the others well. With ownership per
-controller, the control plane would have to take over every queue of
-the controller to fix those one or two, and reimplement the least
-loaded selection for all the others.
+Thanks for the pointer. I see the two as layers. cgroups decide which
+CPUs a tenant owns. io_cpu then places a queue's socket work inside
+that set. Today our control plane writes it, and a cgroup aware tool
+could write it later. So io_cpu would not need to change if the
+isolcpus configuration moves to cgroups.
 
-Per queue granularity is also where Sagi steered the series after the
-earlier per controller connect option, since the CPU partitioning
-changes after connect time and only some queues are affected [1].
-Sagi, does the per queue model still match what you had in mind?
+On your earlier isolcpus point, the store only requires the cpu to be
+online, so a queue can be pinned to an isolated cpu at runtime, for
+example one that belongs to the VM issuing the I/O, even though blk-mq
+leaves isolated cpus out of the hardware context masks.
 
-> And I think you need to check for interactions with the existing
-> 'wq_unbound' module option; both claim to do similar things so we
-> would need to clarify the details here.
+> However, to make this truly user-friendly, I think nvme-cli should be
+> extended so it is aware of this and can configure it directly. I've
+> merged Nilay's --nr-io-queues patches, so this is the natural next
+> feature nvme-cli should support; see commit:
+>
+> e170d6985797 ("news: document the use of --nr-io-queues during nvme connect")
 
-They are independent. wq_unbound picks the workqueue type for all of
-nvme-tcp at module load, and when it is set the driver never selects an
-io_cpu, so every driver managed queue stays unbound. io_cpu places the
-work of a single queue. When both are used, a written io_cpu selects the
-worker pool for that cpu, and how closely the work follows it depends on
-the affinity_scope of nvme_tcp_wq. To keep the work on exactly that cpu,
-nvme_tcp_wq needs affinity_scope=cpu and affinity_strict=1, and the cpu
-has to be in its cpumask. The ABI entry in this patch documents that,
-and I can expand the text in v6 if it reads ambiguous.
+Agreed. Once the ABI settles I'll add nvme-cli support to show and set
+io_cpu per queue, following the --nr-io-queues work you merged.
 
-> And should be we able to specify a cpu _set_ here?
+> I would also really like to have a blktest for this as well.
 
-For this series I would keep a single cpu. io_work is one work item
-queued with queue_work_on(), which takes a single cpu, so honoring a
-set would need a separate unbound workqueue per queue with its own
-cpumask. A single cpu inside the owning tenant's cpuset covers the
-case above, and a cpumask could be added later as a separate attribute
-without changing io_cpu.
+I'll write one and post it alongside v6. It will use nvmet tcp over
+loopback and check that
 
-[1] https://lore.kernel.org/linux-nvme/13c160d0-0657-47ce-9a16-58d348267ab0@grimberg.me/
+  - io_cpu reads and writes work and invalid values are rejected
+  - an assignment survives a controller reset
+  - the queue directories follow the queue count as it shrinks and grows
+  - deleting the controller while io_cpu is written is safe
 
 Thanks,
 Saravanan D.
