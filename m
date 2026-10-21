@@ -2,107 +2,134 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D73FB606A320
-	for <linux-nvme@archiver.kernel.org>; Wed, 21 Oct 2026 10:01:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0422F606A324
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 Oct 2026 10:04:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=AcVj3cqo;
-	dkim=pass (2048-bit key, unprotected) header.d=crusoe.ai header.i=@crusoe.ai header.a=rsa-sha256 header.s=google header.b=KlcI4dG7
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=HLJzgWFk;
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=cIgu92Op;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=S2VzEQSE;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=cIgu92Op;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=S2VzEQSE
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mxq8kuo1w0yT9pwlujpaWDKFUlFP+9O+MLIpqh9/Bfc=; b=AcVj3cqoYl0XUuedkZhEu8uAWz
-	WOTxXd5kRwH0IlwIZwHsXWJw03IB2tD8UWZv6LHS6VFd7lvZZebuqRDL/KNIUaoun+i/lavzTyRjC
-	yn7FAE/PUmMyML9b+ytBcbTEbTQQ+2bDBTcHjj7X21ZoAulOXEu8k1HtvW+rwclntospux5dNtgrS
-	IqdVFunuiKFfAgGBV+TJhEW9p7KIWVr6oxo4Ed2P4BazrxRqw2GCtOfxvmnBxdOp16WnX1KTzSEq+
-	G12pCtz9JSc1qM3kz9Ft6rXaKopbWzpxdcZzCWdQ2rQW+ffzwhxopRreTZC91EpWOXE2DWInRYobU
-	+ImUBDVA==;
+	bh=FSkifS5g9sRs2dk1uWfgPOLlW8mQhgnvvl6vZQyqxXE=; b=HLJzgWFkXGwkqjQNlsn6X0a3Qf
+	OE60rKJtCcPBBkWUF2q9SXWZZaJ3pe3dky003MJczRjE3jK2KHp9yyGDBB4mlkbHRq5gHxKHYBfbg
+	gNhTo2JEPqaUINHvkK3AOte8nNpaUQyj4LCRxC0TDIx3QdXlIRGHyw27FUw+/O8qNx+UWeRRsR7KQ
+	MXntLRU/DCilEuUSeLXr6dqByh+YJ9UbC8lw0SiRlWzEtFlQgI3LW6VcgNp5exTmwkHgy4yAK+MoJ
+	JVtf1MU6gVNQulbPyX0AdEk9QTUNgiAbVbcMz5P7EJvS7qbOFhPqcOWMw2OJkc2rXBTkSUmVBIogC
+	LyjhajsA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xJT84-0000000BYWs-4668;
-	Wed, 21 Oct 2026 10:01:04 +0000
-Received: from mail-dy1-x1330.google.com ([2607:f8b0:4864:20::1330])
+	id 1xJTBP-0000000BYzO-2Ayf;
+	Wed, 21 Oct 2026 10:04:31 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xJT83-0000000BYWO-2CDp
+	id 1xJTBN-0000000BYyr-23kA
 	for linux-nvme@lists.infradead.org;
-	Wed, 21 Oct 2026 10:01:04 +0000
-Received: by mail-dy1-x1330.google.com with SMTP id 5a478bee46e88-35f1f76ea84so756560eec.1
-        for <linux-nvme@lists.infradead.org>; Wed, 21 Oct 2026 03:01:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=crusoe.ai; s=google; t=1792576862; x=1793181662; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=mxq8kuo1w0yT9pwlujpaWDKFUlFP+9O+MLIpqh9/Bfc=;
-        b=KlcI4dG7b6bvoyUeIEj5g70OoHHnCKAPHmTpyyMSnlpMYY/21LP4g+EOT9aBpgtkcV
-         jrfL1Gyl8Bdm3Fb/bPXDKHd4ZhXpgGEKBCveMsIR7FUTFR0ywIhNKKLpaNCqXTRVCKTJ
-         fIIKocYFhqGJNCgZvYyyPoBiuFg9EFnX0kYBJiiHhZ/bT2cpv0/ESnYgtJ41UxUmG5eX
-         mnFUohYBRZavHP/s/9h11X8jVW5S4VhMEhhVCMdwDqhD/0qUb1Ap5voOGbj9WMjCX3ye
-         ZR4bmH/NzrLtqDa8nCU/Y6+ZUsl1kWm/xeovMfkYlvtYLeeDbGWFfDxO29ONZI3Fq8Qm
-         k7wQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792576862; x=1793181662;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=mxq8kuo1w0yT9pwlujpaWDKFUlFP+9O+MLIpqh9/Bfc=;
-        b=u2hchtvVfH3LdrBX0lP2m189F3S23LvsRZrdumniiEAuhQjE7B/v4CcxvpULYRdm9E
-         Jw/xygme5DSgnIIXAI0jaDTa8AoGIj7SmwNffb53Z1MT6lt5FpNAEQZ8btCujb2myMs6
-         RHBZpoJ9XZMmC22mSvC+SfbmbrJkuoMfIfnCimVmuAnnEOkR8kz3M7rQzO4Afiaatilm
-         CGfx6qD3V4V2FebXXm0E28ySjzzhjiMfI+DI0WqwyeEhNyv71Xbf/Z4xUOjvuuEgSU81
-         usmbMNQGDFT4FOPU/b+cBRFsObYR2vAW9wLGWFbn1VCAb2IhyLrW1KDPGagj0sGkVA0E
-         8tLg==
-X-Forwarded-Encrypted: i=1; AKwUvBxrip1OpVD1vE6IMBvJoVyMA+SzsqoGCl/vurrXPjL/r0jtr+LhxsSm5Q3YncdCoWnfmb6D0czwhlUO@lists.infradead.org
-X-Gm-Message-State: AFq9FYIk8KMPuEDijYmtkhdG4Ap3u0QOPYrFhJjGzVctXPlqY1pFWUh9
-	xZo1+DRfPpAZVzjKPA9sVeAglydtJ8NPsFuJ2Wu6oXZIpXzbkRYVygQ2AZNKQx7AUeCgOzn2MjP
-	FFSBmR14=
-X-Gm-Gg: AYBFou0PGdYOd5ziOwugyQgv6WObuzE+u7KoxLDerbtoHWa7KRm1iZ7KfGptyr7KL7I
-	aNHDMWjiQz0w4hqqOpriKVDLWBmC4cfpOYobQBh9bHdejDDQ5A61wNfRtNqy8uw/TDX1wJEtUM9
-	rIZ+6J4tzG+bWrXcfTvnP/VDMaQWlGuTYAolL2kUJNraTGzUi1Ea+wU1baMgsyZ/oAU4xlUSNZV
-	CD0cWxb4GgVg+9vtmDpQfEyVt5wg7cN7vZBC4O4jvg4e3MRlH7VltskmCHWyTQcJePDXybH4YyJ
-	leahzvglJo10C3FX7B+GeAxhq62IeFSpbFh34kjbLtpsNX2nwYG7RTPi3DmVuL8hV8mgMPaggIv
-	QOR5xznHPg31zm1aUdmQtqpaEb8WDZgrDlgNcr+iOesfX7lCnGcgraEszEplZkT3o48u8XMWq1R
-	mSXH+vB9Jz3P2a+W0Y/BpipipBFWAModcLcgeys0yQiQQ3iiwZcWoCGCqvuEZ6QOMts08+pmqCH
-	yqRSq3Gj3MM/gCMb89ZKa708uO9TvGG3xM2dwzaIcl2fTB0BcEBesrwGHXPQ/BPl/ALdqAQY+Iv
-	ZGp74SIxZfRABHSoVH1H/OVQzBEIV02E5A==
-X-Received: by 2002:a05:7301:1a83:b0:360:4199:ff11 with SMTP id 5a478bee46e88-3674ce2f9e2mr2465279eec.12.1792576862194;
-        Wed, 21 Oct 2026 03:01:02 -0700 (PDT)
-Received: from MBP-Saravanan-D.civet-hops.ts.net ([2601:647:4381:36fd:9c31:126:4a90:466f])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-367405edd7bsm5915070eec.6.2026.10.21.03.01.00
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 21 Oct 2026 03:01:01 -0700 (PDT)
-From: Saravanan D <saravanand@crusoe.ai>
-To: Daniel Wagner <dwagner@suse.de>
-Cc: Saravanan D <saravanand@crusoe.ai>,
-	Hannes Reinecke <hare@suse.de>,
-	linux-nvme@lists.infradead.org,
-	kbusch@kernel.org,
-	hch@lst.de,
-	sagi@grimberg.me,
-	axboe@kernel.dk,
-	nilay@linux.ibm.com,
-	sgogte@purestorage.com,
-	hare@kernel.org,
-	linux-kernel@vger.kernel.org,
-	iyamahata@crusoe.ai,
-	kiyer@crusoe.ai,
-	ganbalagane@crusoe.ai,
-	sjpark@crusoe.ai
-Subject: Re: [PATCH v5 2/2] nvme-tcp: allow setting per-queue io_cpu through sysfs
-Date: Wed, 21 Oct 2026 03:00:55 -0700
-Message-ID: <20261021100057.85647-1-saravanand@crusoe.ai>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <79b5a23a-5ecf-4e96-85c8-031b5eca2867@flourine.local>
-References: <20261018010059.83120-1-saravanand@crusoe.ai> <20261018010059.83120-3-saravanand@crusoe.ai> <0ee4d281-61b4-458e-92c6-7fff3e50c0ec@flourine.local> <72fce5bb-b256-42aa-8844-f970c4480ad3@suse.de> <79b5a23a-5ecf-4e96-85c8-031b5eca2867@flourine.local>
+	Wed, 21 Oct 2026 10:04:30 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 82A8621B6A;
+	Wed, 21 Oct 2026 10:04:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792577067; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FSkifS5g9sRs2dk1uWfgPOLlW8mQhgnvvl6vZQyqxXE=;
+	b=cIgu92OpUOYOgYiKqYMZS6dyGPqdaQC75nNW8p8TDGhFa/NniOmEvs3Uq5QzjVFRzshETj
+	dcIswELzeYAMNIdb0oQGlb6/kbCnx13cXlrRZnKbP4h/7PA5G2NVN5sHBPpdbWek+mTpWJ
+	NoKF0l0uJ68NH/4LVWH1Ej++idiqH+I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792577067;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FSkifS5g9sRs2dk1uWfgPOLlW8mQhgnvvl6vZQyqxXE=;
+	b=S2VzEQSEf8kOS15C3nnrqSGQ3jUYk/8VajCEkwmT4im2coHF0wmI7r9FMk50jBWZPMWgZC
+	k6Dt813GXMTYy2Bg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792577067; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FSkifS5g9sRs2dk1uWfgPOLlW8mQhgnvvl6vZQyqxXE=;
+	b=cIgu92OpUOYOgYiKqYMZS6dyGPqdaQC75nNW8p8TDGhFa/NniOmEvs3Uq5QzjVFRzshETj
+	dcIswELzeYAMNIdb0oQGlb6/kbCnx13cXlrRZnKbP4h/7PA5G2NVN5sHBPpdbWek+mTpWJ
+	NoKF0l0uJ68NH/4LVWH1Ej++idiqH+I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792577067;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FSkifS5g9sRs2dk1uWfgPOLlW8mQhgnvvl6vZQyqxXE=;
+	b=S2VzEQSEf8kOS15C3nnrqSGQ3jUYk/8VajCEkwmT4im2coHF0wmI7r9FMk50jBWZPMWgZC
+	k6Dt813GXMTYy2Bg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4889F134FD;
+	Wed, 21 Oct 2026 10:04:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id axTVByuO2Gr0OQAAD6G6ig
+	(envelope-from <hare@suse.de>); Wed, 21 Oct 2026 10:04:27 +0000
+Message-ID: <526673b4-a090-47a4-9181-e30813a8cbe5@suse.de>
+Date: Wed, 21 Oct 2026 12:04:26 +0200
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvme-tcp: fix io_work priority inversion when send_mutex
+ is held
+To: Seiji Nishikawa <snishika@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>
+Cc: Hannes Reinecke <hare@kernel.org>, Chris Leech <cleech@redhat.com>,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20261014064524.4015025-1-snishika@redhat.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20261014064524.4015025-1-snishika@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-13.29 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-0.998];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -13.29
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261021_030103_587620_F2802F1D 
-X-CRM114-Status: GOOD (  22.49  )
-X-Spam-Score: -2.1 (--)
+X-CRM114-CacheID: sfid-20261021_030429_683020_672D402D 
+X-CRM114-Status: GOOD (  33.54  )
+X-Spam-Score: -4.4 (----)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -113,52 +140,102 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Wed, Oct 21, 2026 at 10:19:37AM +0200, Daniel Wagner wrote:
-[...]
-> There was a lot of discussion during Linux Plumbers on how to configure
-> a system for the isolcpus case at runtime. From what I understand, the
-> preferred interface for this is cgroups. Hence, pinning the CPU for this
-> work is likely a target for it, though I don't think there is a need to
-> figure it out right now. I just wanted to highlight this point.
+On 10/14/26 8:45 AM, Seiji Nishikawa wrote:
+> Commit f42d4796ee10 ("nvme-tcp: fix I/O stalls on congested sockets")
+> added a check in nvme_tcp_io_work() that sets pending to true when the
+> queue has pending requests and the socket is writeable. The check is
+> placed after the mutex_trylock() block, so it also runs when
+> mutex_trylock(&queue->send_mutex) failed and io_work did not send
+> anything.
+> 
+> When .queue_rq sends a request directly from its own context, it holds
+> send_mutex and can give up the CPU in lock_sock_nested() when another
+> task needs the CPU, for example the io_work kworker of the same queue,
+> which runs on the same CPU. Then io_work cannot take send_mutex, but
+> the requests are still on req_list and the socket is writeable, so
+> pending is set to true. io_work loops until the deadline and queues
+> itself again on io_cpu, without sleeping.
+> 
+> This is a priority inversion. io_work runs on the high priority
+> nvme_tcp_wq and cannot make progress until send_mutex is released, but
+> it keeps running. The task holding send_mutex runs at normal priority
+> and needs the CPU to release it. The scheduler keeps giving the CPU to
+> io_work, so the task holding send_mutex may not run again, and the
+> requests on the queue are not sent and time out.
+> 
+> This is the same problem that commit 70f437fb4395 ("nvme-tcp: fix
+> io_work priority inversion") fixed. That commit removed
+> "pending = !llist_empty(&queue->req_list)" from the path where
+> mutex_trylock() fails, and let the task holding send_mutex queue
+> io_work again in nvme_tcp_queue_request() after it releases the mutex.
+> The new check brings back the same behavior in a different form.
+> 
+> Two things make this easier to hit. nvme_tcp_queue_request() sends
+> directly only when it runs on io_cpu, so the task that takes send_mutex
+> is on the same CPU as the io_work kworker of that queue when it takes
+> the mutex. Also, when the tasks are in a cgroup with the cpu controller
+> enabled, the whole group competes with the nice -20 kworker as one
+> entity, so each task in the group gets even less CPU time.
+> 
+> We hit this on a 6 CPU VM running a database on nvme-tcp storage. In
+> the vmcore, 2 tasks held send_mutex of 2 queues and were runnable in
+> lock_sock_nested() for 103 seconds, while the kworkers for those queues
+> kept running io_work on their CPUs. All database tasks were in one
+> cgroup, which got only about 0.3% of the CPU against the nice -20
+> kworker. Requests timed out, and blk_mq_timeout_work() waited in
+> synchronize_srcu() for the tasks still in .queue_rq.
+> 
+How very interesting. I don't think you could craft a blktest for this?
 
-Thanks for the pointer. I see the two as layers. cgroups decide which
-CPUs a tenant owns. io_cpu then places a queue's socket work inside
-that set. Today our control plane writes it, and a cgroup aware tool
-could write it later. So io_cpu would not need to change if the
-isolcpus configuration moves to cgroups.
+> Only do the pending check if io_work could take send_mutex. If it could
+> not, the task holding send_mutex sends what it can in
+> nvme_tcp_send_all(), and queues io_work again after it releases the
+> mutex if requests are still pending, so no request is left behind.
+> 
 
-On your earlier isolcpus point, the store only requires the cpu to be
-online, so a queue can be pinned to an isolated cpu at runtime, for
-example one that belongs to the VM issuing the I/O, even though blk-mq
-leaves isolated cpus out of the hardware context masks.
+The direct send path again. I really wonder if we need it at all, or
+whether we cannot simply delete it.
 
-> However, to make this truly user-friendly, I think nvme-cli should be
-> extended so it is aware of this and can configure it directly. I've
-> merged Nilay's --nr-io-queues patches, so this is the natural next
-> feature nvme-cli should support; see commit:
->
-> e170d6985797 ("news: document the use of --nr-io-queues during nvme connect")
+Can you try if you see a regression with this patch?
 
-Agreed. Once the ABI settles I'll add nvme-cli support to show and set
-io_cpu per queue, following the --nr-io-queues work you merged.
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index ba5c7b3e2a7c..2c59b550e13f 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -405,17 +405,6 @@ static inline void nvme_tcp_queue_request(struct 
+nvme_tcp_request *req,
+         empty = llist_add(&req->lentry, &queue->req_list) &&
+                 list_empty(&queue->send_list) && !queue->request;
 
-> I would also really like to have a blktest for this as well.
+-       /*
+-        * if we're the first on the send_list and we can try to send
+-        * directly, otherwise queue io_work. Also, only do that if we
+-        * are on the same cpu, so we don't introduce contention.
+-        */
+-       if (queue->io_cpu == raw_smp_processor_id() &&
+-           empty && mutex_trylock(&queue->send_mutex)) {
+-               nvme_tcp_send_all(queue);
+-               mutex_unlock(&queue->send_mutex);
+-       }
+-
+         if (last && nvme_tcp_queue_has_pending(queue))
+                 queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
+  }
 
-I'll write one and post it alongside v6. It will use nvmet tcp over
-loopback and check that
+Cheers,
 
-  - io_cpu reads and writes work and invalid values are rejected
-  - an assignment survives a controller reset
-  - the queue directories follow the queue count as it shrinks and grows
-  - deleting the controller while io_cpu is written is safe
-
-Thanks,
-Saravanan D.
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
