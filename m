@@ -2,94 +2,69 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56D3A606A322
-	for <linux-nvme@archiver.kernel.org>; Wed, 21 Oct 2026 18:47:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D902A606A31B
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 Oct 2026 20:43:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=oztWOslc;
-	dkim=pass (2048-bit key, unprotected) header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=gqrcj7cL
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=aHN4mY1l;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WCvT85l+
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3xBrDcZFd80Ul5kXzUkyKrsSjyIhpaV6/CILIoL496g=; b=oztWOslcZyDJP+IGCcyBeisx3m
-	+ROutRrsVTkqrsW/WBeyQwsdVkzl+f8FGVj2bXHg0kKa7dC3i1aeIT1xrwqhxALxGxMs7vnA3VLQF
-	3YvTfFjsZl5XAt8fHZQMJW1tOP/mNrpAY/4kj8NNo0LMUElR86sygwl6js5Skb4X8Lg7kTtYHKn0L
-	mGO/ruI7eZXMt0DyF84r7MPBlINBjbr+yP14SCGc6zhYzeFSWNmTGQxEvwAJVUuTlvKBj3g12XTZ6
-	qBs9Ej7KXQYChkIclm3bFbcJKVGj6QJFEgQalAby/rs0d38/ApXepxgSNjyF/QFpNY+ChHdn22O+O
-	EK4D0A4g==;
+	bh=X+hgZpi6s8zitINqxdtV3NY32G2toc0s1ujAuu40Bds=; b=aHN4mY1lWYU4Gr65/QbLcsv26N
+	JeFtI237cYUb/ULGMEMfIOO3EO09TQZhp5HILvzyfbcnxegarXk8Jf6e1lRFCVMzjBDvoDaHaeMGf
+	PUzOKmxcMHE090DB/KciZlNpDyebWJP5eLmHPlICiDIaKUylDLv8aCTcBig2vreIQ7vx/st58VvrS
+	geUIZw3WqaqyAmlQYWm0KGxwROu01diGDGSqaiDXujsH+cG1j/h1iybpu/UVSoO4itjDEHebx+JWq
+	YwWbDfhP15d+GAF0vXwd+Gl4Cn0LzJ4bxAfsLJmSZIb4IdawcMNjR4nEkq9Zp5Hoot8ht0RW6SUsH
+	ooFrNZJA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xJbLN-0000000CgL6-3MGP;
-	Wed, 21 Oct 2026 18:47:21 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
+	id 1xJd9X-0000000Cr2m-2QQ9;
+	Wed, 21 Oct 2026 20:43:15 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xJbLK-0000000CgJs-1Quu
+	id 1xJd9W-0000000Cr2a-0M4u
 	for linux-nvme@lists.infradead.org;
-	Wed, 21 Oct 2026 18:47:19 +0000
-Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
-	by m0089730.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 69LHrwUt1477582
-	for <linux-nvme@lists.infradead.org>; Wed, 21 Oct 2026 11:47:16 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	pps82601-s2048-2026-q3; bh=3xBrDcZFd80Ul5kXzUkyKrsSjyIhpaV6/CILI
-	oL496g=; b=gqrcj7cL3fIFUR5L5PuBYwrN2ZXXVOcA/3XAjPIatsD7GboMTeonR
-	ZxAgI2VrRgymi0o7NA4d19ceaklLrfFcxkOpQVGeOaA+Aw/uEU2G/oyJBkQSXGqg
-	w/P9/n5f4bHNs4969EkzPrODrmBvzJo9TtEd5NPG6vNLxGwwQ1YVL6vABU/ZfcjA
-	XccTX2Vu/tv5i2QirR36vmxPDmk6shYZc7Wa6lofo/q+yU+Kcj4foLgKZB5hn48X
-	QFT1dOJGRaFp+qSYkAQ0HqrbmPvAub7gynCpXeOXXT/p0auoCY7TSwT8Ray47heB
-	obVhrnbgDhfJhf36P68DrMjYSAJ8reTcA==
-Received: from maileast.thefacebook.com ([163.114.135.16])
-	by m0089730.ppops.net (PPS) with ESMTPS id 4hdw56xu11-3
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Wed, 21 Oct 2026 11:47:16 -0700 (PDT)
-Received: from twshared31846.02.snb1.facebook.com (2620:10d:c0a8:1b::8e35) by
- mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.49; Wed, 21 Oct 2026 18:47:14 +0000
-Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
-	id 9B4FF2DBB477D; Wed, 21 Oct 2026 11:46:59 -0700 (PDT)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-block@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
-        <axboe@kernel.dk>, <asml.silence@gmail.com>
-CC: <hch@lst.de>, Keith Busch <kbusch@kernel.org>
-Subject: [PATCH 1/2] block: reject dma-bufs larger than 4GiB
-Date: Wed, 21 Oct 2026 11:46:57 -0700
-Message-ID: <20261021184658.644645-2-kbusch@meta.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20261021184658.644645-1-kbusch@meta.com>
-References: <20261021184658.644645-1-kbusch@meta.com>
+	Wed, 21 Oct 2026 20:43:14 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id 808C243A1F;
+	Wed, 21 Oct 2026 20:43:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C56C61F000C1;
+	Wed, 21 Oct 2026 20:43:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792615393;
+	bh=X+hgZpi6s8zitINqxdtV3NY32G2toc0s1ujAuu40Bds=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=WCvT85l+M7vTXVdOSjvWu80mi6GWub+PZZf3lI8wNnsP/A/vd2Xa6CnSvLHJF1lYJ
+	 ldFG4vYTZ4hx0b0/Uu0Iz19+/9418gCW0jP79P/LMsCtGL4YnMULwet2uEGibn1jh8
+	 pbjUcYUH424ZeWdOvaP0RHhndcc6u7bQnNKyzAOAunAUt8/xRIqQHYbc77/eKe46wD
+	 o6b8akppup4YR0drKqecUYAaRet3P9REgqiSo+CzN/r7TUHmdZe7HSFqvCkxbnpCoZ
+	 KCp1zteSv40HEZNvYL+U6u4dhQtinkxeKoHLjN1O0P0bB0gduZ9PAAMY0MAfPrUb2v
+	 9wOy2B/bMwq0g==
+Date: Wed, 21 Oct 2026 14:43:11 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Runyu Xiao <runyu.xiao@seu.edu.cn>
+Cc: Christoph Hellwig <hch@lst.de>, Breno Leitao <leitao@debian.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	"Martin K. Petersen" <mkp@kernel.org>,
+	Lee Duncan <lduncan@suse.com>, Hannes Reinecke <hare@suse.com>,
+	Nicholas Bellinger <nab@linux-iscsi.org>,
+	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+	target-devel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org, Jianhao Xu <jianhao.xu@seu.edu.cn>
+Subject: Re: [PATCH v6 0/4] nvmet: avoid recursive configfs open
+Message-ID: <atkj3yg7e_ff1vt2@kbusch-mbp>
+References: <20260926092148.128937-1-runyu.xiao@seu.edu.cn>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-GUID: 3rV1tES5XrTUZst9eADmmaarCXbW6osk
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIxMDA3NCBTYWx0ZWRfX691Xs7BB3+2P
- MYjNyvbcSJmdkrDz0FMiX7eueGtQVxf8jin+5YgsRfezzSBeQSdkxVXh7uXbdc3Zx3sxSPkQ2Cd
- ozC/VPwpyJ26k8kK3Qw4/TibpoaCTFbFhB8rpDlvDqxsjRFcagmIg54zwvlAUMiqxE6B85iJRm2
- ITS+umeapbSi4KtJKzNrlYMxGnY6rVoVovrZJEdBsSV+Dn6QjgAqMfKNXWA3Q9T1Cf61SQXMr+l
- BJUA6pxhP1HsEIaE8PfTGqNoL0lY9NNeQ3718x2UdTwMDcRT9SmKU1Rcgc/QGxLaU6JrgejZuZP
- 92MyMZa7tXjcpgkCFx4CMN3cFEAfY59SM1hIRcqb1QoKORgttjEryuJ4J2csvDNkljfKryI7oTN
- yCb1IXkUbS5CbKq9vIxmeQrKQ7vQ5/9lcUbE2e48f2Ukc3lB42x7KWPMpKTYMMxWNd7LTmg/y3b
- KguzwihRyyZaFpCZRmg==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIxMDA3NCBTYWx0ZWRfX86ii2ufCdxKM
- uwhrSFDYzwB6QYOjHx4CVcRqAz7+1s69z1G7OOnReL5GuW+cvcN/YJu6dk1iYI+omWWPpKtowiC
- cO5eeUnw1EJJeqBSuvMZdohY6/H4mbY=
-X-Authority-Analysis: v=2.4 cv=J+Q/fwnS c=1 sm=1 tr=0 ts=6ad908b4 cx=c_pps
- a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
- a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
- a=855S8uPTkML1Oy45N9_h:22 a=VwQbUJbxAAAA:8 a=kMFwTpXalVGouGIobfMA:9
-X-Proofpoint-ORIG-GUID: 3rV1tES5XrTUZst9eADmmaarCXbW6osk
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-21_05,2026-10-21_02,2025-10-01_01
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261021_114718_537981_26E39A80 
-X-CRM114-Status: GOOD (  12.40  )
-X-Spam-Score: -2.8 (--)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260926092148.128937-1-runyu.xiao@seu.edu.cn>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,48 +75,28 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-From: Keith Busch <kbusch@kernel.org>
+On Sat, Sep 26, 2026 at 05:21:44PM +0800, Runyu Xiao wrote:
+> Several configfs store callbacks open user-configured paths while holding
+> the item's frag_sem.  If a configured path resolves into configfs, the open
+> can re-enter __configfs_open_file() and try to acquire the same
+> non-recursive semaphore again.
+> 
+> Add helpers in configfs for opening non-configfs paths, then use them in the
+> nvmet file-backed namespace and passthru paths.  The series also pins the
+> target-core db_root path and uses the root-relative helper for ALUA and APTPL
+> metadata, so the helper has its target-core consumer in the same series.
 
-The dma-buf offset is set in the 32-bit bvec_iter bi_offset. Reject
-buffers that can carry an offset that would wrap.
+For the nvme changes:
 
-Fixes: 839231d19393 ("block: add dma-buf support for raw bdev")
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- block/fops.c | 3 ++++
- 1 file changed, 3 insertions(+)
+Acked-by: Keith Busch <kbusch@kernel.org>
 
-diff --git a/block/fops.c b/block/fops.c
-index 46cb86dd36d23..a974b423869eb 100644
---- a/block/fops.c
-+++ b/block/fops.c
-@@ -19,6 +19,7 @@
- #include <linux/iomap.h>
- #include <linux/module.h>
- #include <linux/io_uring/cmd.h>
-+#include <linux/dma-buf-io.h>
- #include "blk.h"
-=20
- static inline struct inode *bdev_file_inode(struct file *file)
-@@ -1009,6 +1010,9 @@ static int blkdev_init_dma_buf_io_ctx(struct file *=
-file,
-=20
- 	if (!(file->f_flags & O_DIRECT))
- 		return -EINVAL;
-+	if (ctx->dmabuf->size > UINT_MAX)
-+		return -EINVAL;
- 	if (!disk->fops->init_dma_buf_io_ctx)
- 		return -EOPNOTSUPP;
- 	if (bdev_has_integrity_csum(bdev))
---=20
-2.52.0
-
+The bulk of the series is outside nvme though, so probably should go
+through a different tree.
 
