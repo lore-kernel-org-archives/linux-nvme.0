@@ -2,117 +2,109 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C421E606A324
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Oct 2026 06:55:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DDEB606A319
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Oct 2026 07:19:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=FnqFVobp;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=AS4FBYVv
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=J0OZn6qR;
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=HD/U/NWk;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=HhH9kvRY
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+qOAfSouOX0t5YZwWU2eSWaqspMZR2wrvfeU+oUpg14=; b=FnqFVobppnX8OQdSyq9x/xa4ph
-	0GA8ympaWAAW1Q7WjJvkv7m68LFySQTU2h8i1Po3svgQX8byNRwxKeuZqXIXXcxqXfhhizJp1IFqO
-	xMVkH8Bsu5d6m8PPqtG38EEt4kPi0l05HSJkwF7zI7W27SGderUgWwPJt3ojGGNNVEIio4zFaQY+5
-	N5AL6ZZKwoDTEGyDk/bQWnJllhvYnItp11N1ZcAcooYQjkd//5wZfGExnuJjg3QvBt66rtzd+VYeL
-	h7cke+LiWQ4/Zs6giiIy+BsHPW2LXaYJKdLjdsfejknuQxGCwTnjV2Tk1YiqxmDBQRMXvTI1Wj0Bn
-	XpVDBztg==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=MiRA/Sd3582R8jqkdeZLtvV26orjjHzxbVU5TB7AnAM=; b=J0OZn6qR9xzP8hO6j6+OhpbWwk
+	8zeFYNLj4fU+YTsvCPImWI1MfXxP527PeDEz6O47G4h2XBHtSV6dtTaYBmpeNQwf0zCQCMN0G45qd
+	I9asTBTig0rkngZ+fq+MgDH9YAG7RQiBiocBK4Dx0ar9JY/z05L6qDBXGQT1XLqPi4Icz2YpBqvrB
+	RvfFrbmstBkPbcSHgZOly4qCHtzNJKJu3wQr+r95mE9wEYK9/YI32waNmVRXkXNtNq90Dcj9dl2aZ
+	IN2A8pxUfeSK6WWIl0qy63gUh3zTVPJbXuAbHtZ3RaZWrOlHFWcOVUtxwhdtg9DF/65VT3og/74MY
+	ftIbvl2Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xJmiI-0000000DWP1-32nM;
-	Thu, 22 Oct 2026 06:55:46 +0000
-Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d])
+	id 1xJn5V-0000000DYOj-2mdL;
+	Thu, 22 Oct 2026 07:19:45 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xJmiF-0000000DWOW-3QBr
+	id 1xJn5T-0000000DYM8-22ge
+	for linux-nvme@bombadil.infradead.org;
+	Thu, 22 Oct 2026 07:19:43 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
+	:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=MiRA/Sd3582R8jqkdeZLtvV26orjjHzxbVU5TB7AnAM=; b=HD/U/NWkAozVpX9fqk1wa55QEH
+	/M5o0ZTI4Z0CofPPQq0fUAIAKBvaPm1BODT2t7zUVn6CDKgRkhaALRqG72L53YtG6A81Bi+3e/yu/
+	Xpn7GdYT544GOLbl2OoogbJRqPscaq1gDCvlCRFs2n8Ugqf9KN3pb9drZ7JeVCNbHNkPye062ja0M
+	V4UEmgLD/boM5hce9u5gsubemoAvc1h1f2ayRurwqXnGPxi+dD6Pl06mhRjAk0ku2pYNHv478gqdb
+	H2k0yuG2rtlX4vV3jX0y9sfpeinhoWlrb0I0DGDGCU1eHTCfuKb8iE704ICRhZ/amf0yp+lTAMaah
+	252pO4Dw==;
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+	by desiato.infradead.org with esmtps (Exim 4.99.5 #2 (Red Hat Linux))
+	id 1xJn5Q-00000006XwH-1yUJ
 	for linux-nvme@lists.infradead.org;
-	Thu, 22 Oct 2026 06:55:44 +0000
-Received: by mail-oi1-x22d.google.com with SMTP id 5614622812f47-4b190cdc9feso1060562b6e.0
-        for <linux-nvme@lists.infradead.org>; Wed, 21 Oct 2026 23:55:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792652142; cv=none;
-        d=google.com; s=arc-20260327;
-        b=HnhemakzL1uD0vMR1hvFF7H7JJWrOQYXxlaHH1KLiwIgwTmTGZRe7p97pKrDs10Knd
-         oHayzJTalt/EmrSWSFgoHvRKdeVq8FksUTlu4YAEaHzvItP+/W/HXsdQFeGkW8aELz4Q
-         FL94bPEudUGJvXABuaEZXADj+nDwegPM2xwDhgf/Z3dIMTL8UZ15mvjQLjMF2bygqFy6
-         t3bu5lDk9ctYowfoua9PsXADcxrGEnuVP531jcQEb6do92SblgM9BzsTVOivPSgwcZ58
-         cFmaiwZLDpj/3Ty3z+eRfs1/vdeYoskRK6MZAgOBLjO2NMPe+vFc6WWVMYQWKYa8KIIi
-         gzqw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=+qOAfSouOX0t5YZwWU2eSWaqspMZR2wrvfeU+oUpg14=;
-        fh=PxzbUx9ZgAwMqdf4pFk2ezHbodfpb1sOgf0Df+yU3f0=;
-        b=jsN5W2evW/fNOfpFG56f0T/33AG/+GyT9jotrc4o/PGhd3WOTQk9XGvJIV4BNAO1BF
-         Vo85S5NYMtArWXEMR8TMJuezmA9dbVMH3iLfUV8RlejHDPeGMckM47lLyJzqDG2ppeGX
-         zfT7oMa8oEQZIm33/MKnXpWaCoMTZOqP3Lt1UR59FZRyTxk3VlwuDPiHHN/n5XYHJLUt
-         zm7B9bVoTzn6wkT3Z+t8ln2h6YP8g9p0Z+xQ3j7vhM9rrKqXCOdmuNPk1xVNdq4TfLY1
-         e1NM61lQ5Qfn4hbEiHEwUzBOzl+dEvv6H3F/3FTkJsw9jKWfqJ7EL+3P514PfrfrMiZv
-         8VNA==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	Thu, 22 Oct 2026 07:19:42 +0000
+Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-4a1f403aca0so9367355e9.3
+        for <linux-nvme@lists.infradead.org>; Thu, 22 Oct 2026 00:19:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792652142; x=1793256942; darn=lists.infradead.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=+qOAfSouOX0t5YZwWU2eSWaqspMZR2wrvfeU+oUpg14=;
-        b=AS4FBYVv8+pzpsdqZupIH7EOGD7W3p7bk7o5vcT/y+4el7/pmDHSZ9bD2r1MtPXOFU
-         PO3T/z91GQOAb/oq5TWtXjWRugRyD9JEgo2Qv0Ldn/vUJ5DgEWc5JX4HqPRZKbetGRLl
-         XphtQLZ3hRfoBS+XYVRk3SNmfs7HzpzXYfvDh1qGriVzfftWON1+RAIBKIfn7XX8ez1g
-         dMMqdsjUGzjg3U8rR3Vrz44sLhyISBXWArUzSQDw20p/M6HG4PTjjnz3t9PT7WQ5vdoE
-         nfg6/RsMZ2llo4lz35IiSYgJmYUg6Qsm8h4g/3uIsvMI3yRfstB9VkHoNY2GPKtdPStj
-         mYPA==
+        d=gmail.com; s=20251104; t=1792653579; x=1793258379; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=MiRA/Sd3582R8jqkdeZLtvV26orjjHzxbVU5TB7AnAM=;
+        b=HhH9kvRYLwU22y3bSVCRCo6qYdXyn98cP730IB5JVnf1KTzN/+d46hA5X1Fmxy8LVK
+         qXpx0z/6YAwOlFW/tRfkMNdyIgpciPk6nx63yboFVVPqCWtcDyo03IC1hyFAHdjYmIHu
+         47RBKnGiucpbWlv1KTM4nLy6kskC+AJnWlolMQXXy7krMqGQlWEtPOFq851HSAKTGJVC
+         IuHo5ejF9xupSPyVvecGOC2WRJIJaeqeGfQL7C+w8KsZgTx7NZocxPyx9eWdag0lDpjz
+         w9RKtxypHV1cTaSMwiz2t9uSg7UNzo5pf+g4NYZnH5u+kDaqBQmS69JYJHjbQ1EKgmEm
+         vRjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792652142; x=1793256942;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=+qOAfSouOX0t5YZwWU2eSWaqspMZR2wrvfeU+oUpg14=;
-        b=2Q64N60QBlxaZ9+0p09/1QTIPEEYUhirgZZRuXI5eY3EDjwpau4qaVkcDnbdy3RJut
-         RIZCJD3tL5l8NOBBdVmZef6wBQi4x1XQKSGsZ1bfeKnknibQVnFDLFklUlYaAW6T7Tgf
-         KTTI/A1DqVGQkfaFce4ElyK/OcI2vWmOp2p696iZtnYB++pknY1f9/i5RDj66mrArYgP
-         XSYMCEQnFcp9Gq+vM6tGwaK8rwBRdI0+b/6nWk8ijmhYbLvZmGdjnwxfXdyHgHpFWKnr
-         uZKb0MXwxuG9F0ca1+RidAgnAwLiJ+Zlu3D9mWlk6xoggSd3UkXGzgV7/ykLyenRFL11
-         xt5A==
-X-Forwarded-Encrypted: i=1; AKwUvBz0eQRtsEXhwI3Zb0udDyrNM8mxeNrGSWy7ZHkzwWXQQQej2iZFhK3QipnIeMi7ffmJdxYgpGg0oNb7@lists.infradead.org
-X-Gm-Message-State: AFq9FYIul5rj/XoGV0v0Qy/dfVxZmjQc6B9knSfU1j4QMo+UHu/kkNHI
-	hkhuaFcoU0AMV7PZD3vVRirlZeHQa2D3TCa6715yvSAZx2koyVFCaXvoUZuxrrutleMrEYwVdCC
-	MxGThWDnjJRw6m08fKLi4QelcX3w4jJo=
-X-Gm-Gg: AYBFou0tmFiMboX5mfMBfA5vgMr9fja2gKU0FLoDE4gMG5shojC4RR3eNkJJ8+LwtM+
-	5nEEBUQy4Z9u5jWN6chyIL9nKLvHjcDP3Qts4cWm+lRHn4csrxBFN2cIm4yKhMNA3fkiDqZ2Ogg
-	F72RoA6pjRXDzjE0wos6N9RzVTm41vdRO//Sz8/i5n94aOwyN4F5l1NGvWPvfPtSwoxFcARTpwc
-	oicTLyFAh8fLt8mDlePZxKDLtT3d3cM6x77pbnrefxcYIq8zq5eCI/AIpIsT5N572CMGY+QSuZy
-	KHD0yOtkkqmeDK8Yfh8MLv7a1sUayrfwyPyY+RLCh037AX1C4WfFKUpS2UD6/qg982olA2W4NAb
-	BVdml/IJcXZp6QevFgdjpIPw0jTSc6M35yMKslBOU2TnBrYFIb9cJCfHhHH2f1xwkWd9kZkrkHo
-	AVUZ1Mk3wASdrPWg==
-X-Received: by 2002:a05:6808:d4c:b0:4f5:e13:95e2 with SMTP id
- 5614622812f47-5534f511f07mr3092508b6e.9.1792652142362; Wed, 21 Oct 2026
- 23:55:42 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1792653579; x=1793258379;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=MiRA/Sd3582R8jqkdeZLtvV26orjjHzxbVU5TB7AnAM=;
+        b=BQgL7/nHhFzk4HEfXVX7RNhv9uYM0lw+qXRHwxYtUZSyrGz4I7T3VSnjJAFBqJuLxn
+         l+kH3QoBGTH2Z9GOR2l+6DDDPwrGfSdKYcDHMYrI+Mp+hHI/yBqb75/sxefdpkwzgT6H
+         3EE7PZ0MGL/jUtWBXN48dC3TtKn9RVfR6yTPUaZ1pXHHIyKYfMK55FOY50+KeZzVbUWv
+         9eZVpd2aNgXa6UfjB0Mc++YpRJFxRKX10gEoXbUZwhp7APLIDtBOZnQXk+BgEoxVSk6+
+         t0ZDLlPDTE71LGiFqj0oU+rSeidroXYRgFGez9qzjzQxlklVmlA749nB9Y2ly5bnVnOF
+         MqCA==
+X-Forwarded-Encrypted: i=1; AKwUvBy4GhIwxDozSixTEFWGijVATUaGxKTaLOG0HNnRSJPNmWL1KwHmNe9pbmVh7tSC3XTsa11eIE2rBPSO@lists.infradead.org
+X-Gm-Message-State: AFq9FYIYt3GcBZl3f+qPZWx9Ktl00+h3ywJ42ZViQgCTdtK9ApE+rBL+
+	s/jNvm23laaTzzPVS5oda7s6NNnkvX53QINecIQ0IMwjN6nCp4CtBGWg
+X-Gm-Gg: AYBFou2rtJlwJAAsUr2PWA5yPvQtqMza5aemFqOKxvpI9RaS//zWgTQnhrbMQCpFYdZ
+	9cBL5A6MulIHwE7eXwIdXjrQ2R4/RzyyHDvnexORiWMb+5D8mipk8X2FaQUZQMnd9XO0uYVAaOO
+	c717So3ITHIQgd4LpVWfimhpuaGtuRFwTa++7JoxB0t/XdDM808akze1KtU6RpugHn9SJJcE5lE
+	j2RbfO6TQVvCDoCfb7dhuW5llHh6WWEp0OUj0sDHbZmdgSjmBV6NxtVmFM19NaNFGZXgThbkmRD
+	WROuwkX2udj6vDIDDi3ePz7SGE+w2DTfxg0grKDrW7U2nLEdc4agPmScsoGPSBFMWzp90hWPK3Z
+	wG55ZosKsHg//K2DRadjShaE2ARjVNZWIp1TWMj6ITUUS649Li6qE3uX5pf18wxfDNBqfqOE66t
+	Ty6G4tg7CfhAz30gXD2tOYploRqDTIKqXr/tHYl7XAwf6Y3FHJs2hA082XLaTug+hL314mo2klX
+	pEkXgSo1e5qwDwfpnQ72qpYXI7TXvib49wAZnIIT7bn6vctjvm4JTFT5MAdNGuXcdEQ5SSfKm5O
+	6vuqR5He037dg3xPkg==
+X-Received: by 2002:a05:600c:b90:b0:4a1:d307:b526 with SMTP id 5b1f17b1804b1-4a1fd72a9ffmr88188875e9.0.1792653578527;
+        Thu, 22 Oct 2026 00:19:38 -0700 (PDT)
+Received: from localhost.localdomain ([2a06:c701:4778:c500:2fac:694b:933a:abb0])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e258427cesm10698338f8f.52.2026.10.22.00.19.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Oct 2026 00:19:37 -0700 (PDT)
+From: Avi Weiss <thnkslprpt@gmail.com>
+To: Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org
+Cc: Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Hannes Reinecke <hare@suse.de>
+Subject: [PATCH] nvme-tcp: wait for in-flight TLS handshake callback
+Date: Thu, 22 Oct 2026 10:19:34 +0300
+Message-ID: <20261022071934.3818224-1-thnkslprpt@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-References: <20261002152821.410591-1-yupeng0921@gmail.com> <CAG3TDc1Ydhjx1GD7-ZCqmzYbZv5+DM0O7wPnzKLWJ1ycK9C2sQ@mail.gmail.com>
- <66f87058e7e811af340d920e654117eb@kernel.org>
-In-Reply-To: <66f87058e7e811af340d920e654117eb@kernel.org>
-From: peng yu <yupeng0921@gmail.com>
-Date: Wed, 21 Oct 2026 23:55:30 -0700
-X-Gm-Features: AclHuK8Sypv-7xRYs_lPJ7h3Nm6lMdPqTsjMnjk1hM_VRIlE-PXSuRDM8lifbow
-Message-ID: <CAG3TDc1BgQNuCD75NTCcpmP_d4aLummSP6AN6JuxoAgeEBfmFw@mail.gmail.com>
-Subject: Re: [PATCH v8] nvmet: add cgroup_id to charge namespace I/O to a cgroup
-To: Tejun Heo <tj@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, 
-	Keith Busch <kbusch@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
-	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Josef Bacik <josef@toxicpanda.com>, Jens Axboe <axboe@kernel.dk>, 
-	Maurizio Lombardi <mlombard@arkamax.eu>, cgroups@vger.kernel.org, linux-block@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261021_235543_858798_8ECC4E73 
-X-CRM114-Status: GOOD (  17.13  )
-X-Spam-Score: -1.9 (-)
+X-CRM114-CacheID: sfid-20261022_081940_699872_28AEB6D6 
+X-CRM114-Status: GOOD (  14.08  )
+X-Spam-Score: 2.0 (++)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -123,35 +115,54 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=4.0.1
+	FREEMAIL_FROM,FROM_LOCAL_NOVOWEL,HEADER_FROM_DIFFERENT_DOMAINS,
+	HK_RANDOM_FROM,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Wed, Oct 21, 2026 at 2:57=E2=80=AFPM Tejun Heo <tj@kernel.org> wrote:
->
-> Hello, Peng.
->
-> On Tue, Oct 20, 2026 at 06:01:12PM -0700, peng yu wrote:
-> > Hi Tejun, does this patch look good from the cgroup perspective?
->
-> From the cgroup core side, this looks okay to me. However, the current
-> implementation will block the shared submitter when throttled, and it
-> would probably need more work to behave well.
+When nvme_tcp_start_tls() times out or is interrupted,
+tls_handshake_cancel() can return false after handshake_complete()
+marks the request completed, but before nvme_tcp_tls_done()
+finishes. Error cleanup can then release the queue while the
+callback still accesses it.
 
-Currently the io.max won't block the shared submitters but io.cost and
-io.latency will. If a nvmet subsystem has two namespaces, one namespace is
-blocked by the io.cost or io.latency, the IOs of another namesapce will be
-blocked too. I plan to create a v9 patch, if a namespace has a cgroup, it
-will submit the IOs via the nvmet_wq, then this namespaces won't impact eac=
-h
-other. If it is not the correct way, please let me know.
+Wait for queue->tls_complete when cancellation loses, before
+continuing cleanup. Preserve the original timeout or signal error.
 
+This follows the cancellation/completion synchronization used
+in SunRPC for:
+- commit d00e32f84ca1 ("sunrpc: wait for in-flight TLS handshake
+  callback when cancel loses race")
+- commit a89dd5974588 ("SUNRPC: wait for in-flight client TLS
+  handshake callback")
 
-> Thanks.
->
-> --
-> tejun
+Fixes: be8e82caa685 ("nvme-tcp: enable TLS handshake upcall")
+Signed-off-by: Avi Weiss <thnkslprpt@gmail.com>
+---
+ drivers/nvme/host/tcp.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 7eec983c0ead..26a626abef7b 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1816,7 +1816,8 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
+ 		dev_err(nctrl->device,
+ 			"queue %d: TLS handshake failed, error %d\n",
+ 			qid, ret);
+-		tls_handshake_cancel(queue->sock->sk);
++		if (!tls_handshake_cancel(queue->sock->sk))
++			wait_for_completion(&queue->tls_complete);
+ 	} else {
+ 		if (queue->tls_err) {
+ 			dev_err(nctrl->device,
+
+base-commit: 7be4bc52fd9e0e55dc9a2e0232b89427d2c4b614
+-- 
+2.43.0
+
 
