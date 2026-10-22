@@ -2,76 +2,76 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A20C760A2636
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Oct 2026 13:29:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E884E60A3827
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Oct 2026 13:30:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=JG7NJqOJ;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=BEYuLgvu
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=oAkOMQXp;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=nsmFDp4V
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=EYSAYLomRkx00Riws69w3PNAb4pgR9omSPOZniDwcNo=; b=JG7NJqOJgJhQHL
-	GX6+lu41HORxJt8ZmJALAfGIitKsJL023At19RUCT7ebgm4GmXXYVKYxrEUFbX10FbcpyljP5gZTP
-	h+IYBIuMoVbtPvK+PCmhmASXWHknbhn2aMv27ew7gpNDqkbUvwGwc89WmtepivmERGUH+UNIJzpWt
-	re1+hBXSiK6y0sE5Jmjlnq83NCshGEAhEGjpGlWyI6YfKLVSkISPKnPe5kOab1WBcN5URpZdYL4pg
-	KLXvkqc9L+/7yuhlpdesLINb074uSS6yp8/NOPwdv8OfHEqSYysm1HGMz4wZRQdac0cDGt7gvcG6v
-	mnYviqFiXxDzbjZJKfsg==;
+	List-Owner; bh=bhcOKx3y9myNmTpXc9YX9Stk2q4QfYaHlPOapeiAi1c=; b=oAkOMQXpSIQ+1M
+	MLD6f0sGMsZz5X6PbcIBlwYtYPJAmZdTqR5o/q+q4jYFb1gV1tVL8SNr1YradggLpVsua/d5hGeXP
+	j9BK3B5Rr/gg96ZbJevjgn5lNaW9Os6iOIbXbzIGEbyGrGn9aerwUz1GK7CxCW+NLgiAWBWt4MYvF
+	/12ikIJo6CkdTctGLlK4013nO1caYO7Eox224EZXTExlWKaAX5EffsuHrqVNF4H9hg9jZq8qyvqVU
+	kuFNB0HfGJcJ3dEaqVcCiuBLhjLw074maPR+6YOtyPdk5BGUVw1hAM0g4WjTbwG169Q3gcWtHv5w7
+	8HKgWVG8pOcR7EX3hXQg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xJsrk-0000000ECWS-0vjf;
-	Thu, 22 Oct 2026 13:29:56 +0000
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+	id 1xJsrq-0000000ECcF-0cNR;
+	Thu, 22 Oct 2026 13:30:02 +0000
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xJsri-0000000ECTS-1IIA
+	id 1xJsrl-0000000ECWH-0PlV
 	for linux-nvme@lists.infradead.org;
-	Thu, 22 Oct 2026 13:29:55 +0000
-Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-4a2069b9710so6007035e9.2
-        for <linux-nvme@lists.infradead.org>; Thu, 22 Oct 2026 06:29:53 -0700 (PDT)
+	Thu, 22 Oct 2026 13:29:58 +0000
+Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-4a1dede3c2cso23778115e9.2
+        for <linux-nvme@lists.infradead.org>; Thu, 22 Oct 2026 06:29:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792675792; x=1793280592; darn=lists.infradead.org;
+        d=gmail.com; s=20251104; t=1792675795; x=1793280595; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=EYSAYLomRkx00Riws69w3PNAb4pgR9omSPOZniDwcNo=;
-        b=BEYuLgvu6OMcdYG++ZyKBeUMmmtZTiF5RzBOrNtc/jwyThMztnP62mo2lPgygLgZPK
-         DCEtf1Uc5784gAjkeEkSS8hyD5bDySXuuOlTaRhJjgt4ZM8lu93gn1u1GbDOQ78GUnQU
-         ED2SzThFrCQh2SoPPdVvJj9+TQt9rZ5dgYNKFYOCHKgHI5jUr+8MdEEdT85mnqa7XijR
-         Gyl8vUQj8lilJz2VLEIhBG59w7NzXJgY2UGtcgDu9Fsm+v/8eZrnsmZyn566jI86NOHX
-         n3oathVtfpUhqtHfxhggQOB1HwF0inmDxr4fxzpD7QF8BRPENu2HI9UwDBHKk/Q4FPpq
-         cIqQ==
+        bh=bhcOKx3y9myNmTpXc9YX9Stk2q4QfYaHlPOapeiAi1c=;
+        b=nsmFDp4VjuHr9KyNO7oTDiRE9yisUVr+abnvoO7g5U9qMb5rzJfk2QFmYSWDWyTayW
+         2K53KZHrbyaZbjjzCyH1jd8/hK1XpEhvBJwcnCWWVcXBY5T1UrkOyCm3UA4V3IsEZF+J
+         zfi5Opmi0zx8f+1ZEyRT2nskpIEeVLIloi7I4B/mcT7ag5VgKVVX1HgSXO+RcHNP56Ea
+         RbrTZPD/ANt5Y1mqTefusjgwGmO2fX+pTyjHVF52epj5r7RA0BQvkfWTala7uBL/Zaka
+         Ulh22FnJ/emUpCaEjRjcn3tSVf2r/sCVK5HC+CnPwidZqZICn1RXTiEzA7j6QAqgEPCN
+         aJgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792675792; x=1793280592;
+        d=1e100.net; s=20260707; t=1792675795; x=1793280595;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=EYSAYLomRkx00Riws69w3PNAb4pgR9omSPOZniDwcNo=;
-        b=miKmhYf7Asj5X6vwZpBXgr0Gs55TDOI/t+aZU/oAd25JaWMRcBejvm4WmRtZnzAhQH
-         FliVDxG/Igy0zgVXTpHRxqzwUU5d29jiKv94SvaCQf7aOKey4TZ5Ar9Y3QBbdPWDC0Eq
-         JFrXwJr1zsiN6upezDSIBYW0J+4y/fzErbiakHHF0PXuyMCvFDiPiu8KM/llmFn5iyNE
-         9IyYtNeufvFGchHFNQwKzGTnrZzojOr/gsPOzayCU0s8cVc3LDf1xLXD2ECRRaR9Im/x
-         0VPICKN3gLJGGvo397bngIp1Gk+iW/WAw7wlZqpK3UP3MlU9J31QhyfqKWSHwKRG2Uzz
-         uMrA==
-X-Forwarded-Encrypted: i=1; AKwUvBzauHJtpuiVqbMvK2DuVyoeCCbbG6iW1mXS2XdyFUIAU24gvr97o3gNmD/de4jmDZ851xXHmXuGmfAk@lists.infradead.org
-X-Gm-Message-State: AFq9FYJ8O5D3ws5FpwgcI9J7JHpz7/mPvTDKiWhBFWh9iENvccFSg2de
-	WYxPY0Rb0qPgGU1Y/Pw34ae2WBbHowaYg3L61hwZWR0cErAbrbBeIBTF
-X-Gm-Gg: AYBFou3ANafhhW9nVXxus44vWYI4LYYDt9CduKTxVT7dkm3Eh6qsKqTr4Sdfqrt848H
-	CM200f5LVXUkH82IIp2v1EWOJ2R0PeZ9tpJx3kV44cVpAYE08Si2PJhgPZtfcrYkN8GUPOnmK9M
-	kdkcf3Khzw8ZCs421cvgRWy1yljuNxdOpRTjIb7KCeGzub8SxPtRlTqajPfdHfM/hZrVPxYiYY7
-	hIBza32KRDohWyyvnhuDd0ZBmyCj0WYuHGeU4fsyZHw3sOhlDQb+DlEqM7msdloUjw9jnvxNUD8
-	khkMdSNfjvFZvYKtdOlv6C17EWejQlSUQz5vrHZkdFDvwXXnWx8jfUUQexsWqAj3NVJMVDvbqcO
-	zA88gi3RxWtEBNV+PjkMtVYgYfdYxNK8lVrDFN74PJK09BmiQaEUxNBgT6WHKtS6wtNdcaG2c22
-	N54z9FDRx3SPk1afg1LpfonCuyte2b+5HQd3BlLo60IXrH2Lu+T0ohH5EjESQVce1jHCYvI81VO
-	/l76kEi6opmGjVdf++4sBvMiyuYTEA8/PB6BQ3AmAuQNZo11msnaMQD3uocVhUImfXCpT31Ksyl
-	Y/cM0OQs/XjeZKvUVIx8BgGy
-X-Received: by 2002:a05:600c:8b4c:b0:4a2:729:f7ce with SMTP id 5b1f17b1804b1-4a20729f92bmr40185675e9.8.1792675792204;
-        Thu, 22 Oct 2026 06:29:52 -0700 (PDT)
+        bh=bhcOKx3y9myNmTpXc9YX9Stk2q4QfYaHlPOapeiAi1c=;
+        b=g5DHLtg15SY8lDyDMe/Y5bIlkbeNthVXLTYSgK5Q3ROIQ1Z0Y0XU5BD+SR4l+KX09e
+         06ausUeBIrpQHMjs/5ShPEcHETePAMNAcB1t7Bc59m9GT8Z8btVKQe1O/STPXiAABWCW
+         yPDiZPnr4s24nuIyara3pzBOw6FtimtTkpsvTVjRAsEZQqFXBHc0qDO4Wa25wJ1kyXOG
+         U75ZLHFM2qrLmBUaS8NmY0A943aUQlespaTQeJW0ag6CNs3OlTvl0IdSKc2tIiDB8mtO
+         oQCIUrRVoy6tLOg59W31rKFb2HW779Snu6fBB1wguySP654n8GCtjn25yi+wty4sQIXV
+         yKOQ==
+X-Forwarded-Encrypted: i=1; AKwUvBy8L35cTVM7y27bQrWqTOYMY4Iwud0ixTZh/9vWpZPj24nRQjFexjX1AHwwStmFoJ4tkY6p6MFsthbL@lists.infradead.org
+X-Gm-Message-State: AFq9FYIwsRjLe3cNBpZ46IlX2JHvGAJncOe9oaSCtMHLA5yr7JJ47cpI
+	3Ty8ZUWCqaTB1DnTe5WfKcQuODRGA70zwiRfG5ulu58C8EnOT/dI+YNrnlDVrGTh
+X-Gm-Gg: AYBFou2NhpX6DNWjfEIyrMaqKZJ20CxayNNczwWolu2Ss1Vb8WWDDfXN0UcYn8e5nl0
+	AV7tdDDw20SiEoYDz6KcltlqhbYrsUMCUT3713uKSUckGFAhecEwQkorpDlWZU/Rz0CJlrb+uVk
+	lWk1XKfLTlC7pfaFVWFv0KxnTkeOsAhP6RJp9sORpdBf7YTvmD5jsMNXqUebt86oGfgvX9qEgcP
+	vgXhPuesY73Ko5CznxFgbjy2pAL0urGzUbEwTNfm8ryd1S+oFzPn4OAsvhqWiVCv9SBIAPC+CR/
+	GVeorqxgIQWibgQpJV+4so8Ai5BKi316eaqpUQitFyLyNfWfHA9ka0XaxJbcs6sP8Pdg9KFVnRI
+	kBwOEhjOoFq/2MOrOfEymTkgFdAyz74E2VxwpThaFuh/eeYGVFCZYjsSNqA1Fch2jgnvJVmn0ve
+	yEZ7o7eSIzUtljIJMSd5dA7nf5/femHTzW7AM/GGQy8DKY4tNUlb0NlLZDXHRkwExz2ZglDRumc
+	72g67OETPkddRWNau/5paF0U7whYUcypG+g6WzsW7nuJ/KVED3T0uM2ex23fD+wlvUr2g5ksdO9
+	H17EQ6IsKyBIBvqiO9tV1Jm7AntTxoOLjloEgDZNkMf4NQ==
+X-Received: by 2002:a05:600c:3b17:b0:49c:cee0:e7c1 with SMTP id 5b1f17b1804b1-4a1fdd31aebmr113093645e9.16.1792675794933;
+        Thu, 22 Oct 2026 06:29:54 -0700 (PDT)
 Received: from andreayoga.wind3.hub ([151.76.51.95])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1fcd629bbsm108832715e9.5.2026.10.22.06.29.50
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1fcd629bbsm108832715e9.5.2026.10.22.06.29.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2026 06:29:51 -0700 (PDT)
+        Thu, 22 Oct 2026 06:29:53 -0700 (PDT)
 From: Andrea Parri <parri.andrea@gmail.com>
 To: Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>,
@@ -79,12 +79,15 @@ To: Christoph Hellwig <hch@lst.de>,
 Cc: Andrea Parri <parri.andrea@gmail.com>,
 	Damien Le Moal <dlemoal@kernel.org>,
 	Keith Busch <kbusch@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
 	Niklas Cassel <cassel@kernel.org>,
 	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/4] nvmet: zns: reject a NUMD whose byte count wraps
-Date: Thu, 22 Oct 2026 15:29:31 +0200
-Message-ID: <20261022132934.3592924-3-parri.andrea@gmail.com>
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH v2 3/4] nvmet: pci-epf: report transport errors in command completions
+Date: Thu, 22 Oct 2026 15:29:32 +0200
+Message-ID: <20261022132934.3592924-4-parri.andrea@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261022132934.3592924-1-parri.andrea@gmail.com>
 References: <20261022132934.3592924-1-parri.andrea@gmail.com>
@@ -92,8 +95,8 @@ X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261022_062954_397711_486C0C01 
-X-CRM114-Status: GOOD (  17.63  )
+X-CRM114-CacheID: sfid-20261022_062957_162499_4D285606 
+X-CRM114-Status: GOOD (  13.55  )
 X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -113,88 +116,45 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Zone Management Receive computes its buffer size as (numd + 1) << 2 in
-u32, in nvmet_bdev_validate_zone_mgmt_recv(),
-nvmet_bdev_zone_zmgmt_recv_work() and
-nvmet_bdev_execute_zone_mgmt_recv(). NUMD is a 32-bit dword count, so
-any NUMD from 0x3fffffff up wraps.
+When the PCI endpoint target fails a command itself, the host receives a
+successful completion. This happens for a data length above MDTS,
+malformed PRPs or SGLs, a buffer allocation failure, an SQ that is not
+live, and a failed DMA of the command data. A write whose data cannot be
+fetched from the host is thus reported as written, though nothing was
+executed.
 
-The data length check in nvmet_bdev_execute_zone_mgmt_recv() sees the
-same wrapped value, so such a command can pass it. A data length that
-does not match the wrapped size is already rejected by that check, with
-Data SGL Length Invalid.
+Each of these paths sets iod->status and calls
+nvmet_pci_epf_complete_iod(), which then reloads iod->status from
+iod->cqe.status. The nvmet core only fills that field when it completes
+the request, which these paths never do, so it is still zero and
+nvmet_pci_epf_cq_work() posts a success status to the host.
 
-Every site agrees on the wrapped size, so the target zeroes and fills
-only that many bytes and nothing leaks, but it answers a command whose
-NUMD asks for 4 GiB or more.
+Drop the reload. Every path already sets iod->status before completion:
+nvmet_pci_epf_queue_response() copies it from the request's CQE, and
+the transport error paths set it themselves.
 
-Reject a NUMD from U32_MAX / 4 up with Invalid Field at the start of
-nvmet_bdev_execute_zone_mgmt_recv(), before this handler or its work
-item computes the byte count. A size_t computation would still wrap on
-32-bit kernels, where nvmet_check_transfer_len() and req->transfer_len
-are 32 bits wide.
+Found by code inspection.
 
-nvmet_io_cmd_transfer_len() in core.c, which the pci-epf transport uses
-to size its buffer, computes the same expression before this handler
-runs. Return 0 there for such a NUMD, so pci-epf allocates no buffer and
-the handler then rejects the command.
-
-Tested over the loop, tcp, rdma and fc transports with a zoned
-null_blk namespace: a wrapping NUMD, sent with a data length that
-matches the wrapped size, was accepted before this patch and now fails
-with Invalid Field, while ordinary NUMD values still succeed. The core.c
-change only affects pci-epf and is build-tested only.
-
-Fixes: aaf2e048af27 ("nvmet: add ZBD over ZNS backend support")
+Fixes: 0faa0fe6f90e ("nvmet: New NVMe PCI endpoint function target driver")
+Cc: stable@vger.kernel.org
+Tested-by: Niklas Cassel <cassel@kernel.org>
 Signed-off-by: Andrea Parri <parri.andrea@gmail.com>
 ---
-v2: check NUMD at the start of nvmet_bdev_execute_zone_mgmt_recv() and in
-nvmet_io_cmd_transfer_len(), before any (numd + 1) << 2 is computed,
-instead of in nvmet_bdev_validate_zone_mgmt_recv(); this also drops the
-over-long comment line (Christoph).
+ drivers/nvme/target/pci-epf.c | 1 -
+ 1 file changed, 1 deletion(-)
 
- drivers/nvme/target/core.c |  3 +++
- drivers/nvme/target/zns.c  | 12 ++++++++++--
- 2 files changed, 13 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 291d782ce5442..2e4e066ef6bac 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -1093,6 +1093,9 @@ static u32 nvmet_io_cmd_transfer_len(struct nvmet_req *req)
- 	case nvme_cmd_dsm:
- 		return nvmet_dsm_len(req);
- 	case nvme_cmd_zone_mgmt_recv:
-+		/* The handler rejects a NUMD whose byte count would wrap. */
-+		if (le32_to_cpu(req->cmd->zmr.numd) >= U32_MAX / 4)
-+			return 0;
- 		return (le32_to_cpu(req->cmd->zmr.numd) + 1) << 2;
- 	default:
- 		return 0;
-diff --git a/drivers/nvme/target/zns.c b/drivers/nvme/target/zns.c
-index 78d82b6ff1214..92f5c1435582e 100644
---- a/drivers/nvme/target/zns.c
-+++ b/drivers/nvme/target/zns.c
-@@ -322,9 +322,17 @@ static void nvmet_bdev_zone_zmgmt_recv_work(struct work_struct *w)
+diff --git a/drivers/nvme/target/pci-epf.c b/drivers/nvme/target/pci-epf.c
+index 9c28367435a59..099e8766f6d40 100644
+--- a/drivers/nvme/target/pci-epf.c
++++ b/drivers/nvme/target/pci-epf.c
+@@ -1149,7 +1149,6 @@ static void nvmet_pci_epf_complete_iod(struct nvmet_pci_epf_iod *iod)
+ 	unsigned long flags;
  
- void nvmet_bdev_execute_zone_mgmt_recv(struct nvmet_req *req)
- {
--	u32 out_bufsize = (le32_to_cpu(req->cmd->zmr.numd) + 1) << 2;
-+	u32 numd = le32_to_cpu(req->cmd->zmr.numd);
-+
-+	/* From U32_MAX / 4 up, (numd + 1) << 2 wraps here and in the work. */
-+	if (numd >= U32_MAX / 4) {
-+		req->error_loc = offsetof(struct nvme_zone_mgmt_recv_cmd, numd);
-+		nvmet_req_complete(req,
-+				   NVME_SC_INVALID_FIELD | NVME_STATUS_DNR);
-+		return;
-+	}
- 
--	if (!nvmet_check_transfer_len(req, out_bufsize))
-+	if (!nvmet_check_transfer_len(req, (numd + 1) << 2))
- 		return;
- 
- 	INIT_WORK(&req->z.zmgmt_work, nvmet_bdev_zone_zmgmt_recv_work);
+ 	/* Print an error message for failed commands, except AENs. */
+-	iod->status = le16_to_cpu(iod->cqe.status) >> 1;
+ 	if (iod->status && iod->cmd.common.opcode != nvme_admin_async_event)
+ 		dev_err(iod->ctrl->dev,
+ 			"CQ[%d]: Command %s (0x%x) status 0x%0x\n",
 -- 
 2.53.0
 
