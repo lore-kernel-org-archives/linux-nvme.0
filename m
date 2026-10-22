@@ -2,109 +2,91 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DDEB606A319
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Oct 2026 07:19:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E240F606A320
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Oct 2026 07:32:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=J0OZn6qR;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=HD/U/NWk;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=HhH9kvRY
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=zNwCCaK5;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=ST1HNZpZ
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=MiRA/Sd3582R8jqkdeZLtvV26orjjHzxbVU5TB7AnAM=; b=J0OZn6qR9xzP8hO6j6+OhpbWwk
-	8zeFYNLj4fU+YTsvCPImWI1MfXxP527PeDEz6O47G4h2XBHtSV6dtTaYBmpeNQwf0zCQCMN0G45qd
-	I9asTBTig0rkngZ+fq+MgDH9YAG7RQiBiocBK4Dx0ar9JY/z05L6qDBXGQT1XLqPi4Icz2YpBqvrB
-	RvfFrbmstBkPbcSHgZOly4qCHtzNJKJu3wQr+r95mE9wEYK9/YI32waNmVRXkXNtNq90Dcj9dl2aZ
-	IN2A8pxUfeSK6WWIl0qy63gUh3zTVPJbXuAbHtZ3RaZWrOlHFWcOVUtxwhdtg9DF/65VT3og/74MY
-	ftIbvl2Q==;
+	bh=ij51hxNW5zjirh2vfsWXzFWDuoTjiEkzczCqYtgwfDw=; b=zNwCCaK5unsu5i62w7pAPlPe4i
+	xUv9coCF0sA+Rsq1YBPDB9iBNSuxTwfKA1qBJcgDM4liDG+mruu0UaOMvOYFsTyMk9M2iSU2h3sS0
+	osFhfLFXMv89dx5EelO/O+FrbuzVK3A+D/75AVeEbovIV9vpKr/W+zF3TqVHbILfBtOTS0NGiQZ86
+	2OO9TyVZOn4MSxs8oFJUuUFrjY2169JfZzlqcyvp2Uw9cuO7+YtUP2cI5mfRCdMgyT0JVX3G0GMMG
+	COhhixzgnbnDMO2v/Yc7dna1/cUTB95kkg/Dt6DlrtOU87HqLGaS2eT834CzeAkfrg/XGWXZu5PgU
+	y5vxSp7Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xJn5V-0000000DYOj-2mdL;
-	Thu, 22 Oct 2026 07:19:45 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1xJnHV-0000000DZSr-3LEF;
+	Thu, 22 Oct 2026 07:32:09 +0000
+Received: from mail-dy1-x132f.google.com ([2607:f8b0:4864:20::132f])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xJn5T-0000000DYM8-22ge
-	for linux-nvme@bombadil.infradead.org;
-	Thu, 22 Oct 2026 07:19:43 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=MiRA/Sd3582R8jqkdeZLtvV26orjjHzxbVU5TB7AnAM=; b=HD/U/NWkAozVpX9fqk1wa55QEH
-	/M5o0ZTI4Z0CofPPQq0fUAIAKBvaPm1BODT2t7zUVn6CDKgRkhaALRqG72L53YtG6A81Bi+3e/yu/
-	Xpn7GdYT544GOLbl2OoogbJRqPscaq1gDCvlCRFs2n8Ugqf9KN3pb9drZ7JeVCNbHNkPye062ja0M
-	V4UEmgLD/boM5hce9u5gsubemoAvc1h1f2ayRurwqXnGPxi+dD6Pl06mhRjAk0ku2pYNHv478gqdb
-	H2k0yuG2rtlX4vV3jX0y9sfpeinhoWlrb0I0DGDGCU1eHTCfuKb8iE704ICRhZ/amf0yp+lTAMaah
-	252pO4Dw==;
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
-	by desiato.infradead.org with esmtps (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xJn5Q-00000006XwH-1yUJ
+	id 1xJnHS-0000000DZSP-3LoW
 	for linux-nvme@lists.infradead.org;
-	Thu, 22 Oct 2026 07:19:42 +0000
-Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-4a1f403aca0so9367355e9.3
-        for <linux-nvme@lists.infradead.org>; Thu, 22 Oct 2026 00:19:39 -0700 (PDT)
+	Thu, 22 Oct 2026 07:32:08 +0000
+Received: by mail-dy1-x132f.google.com with SMTP id 5a478bee46e88-3514b90bb89so4201899eec.1
+        for <linux-nvme@lists.infradead.org>; Thu, 22 Oct 2026 00:32:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792653579; x=1793258379; darn=lists.infradead.org;
+        d=gmail.com; s=20251104; t=1792654326; x=1793259126; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=MiRA/Sd3582R8jqkdeZLtvV26orjjHzxbVU5TB7AnAM=;
-        b=HhH9kvRYLwU22y3bSVCRCo6qYdXyn98cP730IB5JVnf1KTzN/+d46hA5X1Fmxy8LVK
-         qXpx0z/6YAwOlFW/tRfkMNdyIgpciPk6nx63yboFVVPqCWtcDyo03IC1hyFAHdjYmIHu
-         47RBKnGiucpbWlv1KTM4nLy6kskC+AJnWlolMQXXy7krMqGQlWEtPOFq851HSAKTGJVC
-         IuHo5ejF9xupSPyVvecGOC2WRJIJaeqeGfQL7C+w8KsZgTx7NZocxPyx9eWdag0lDpjz
-         w9RKtxypHV1cTaSMwiz2t9uSg7UNzo5pf+g4NYZnH5u+kDaqBQmS69JYJHjbQ1EKgmEm
-         vRjQ==
+        bh=ij51hxNW5zjirh2vfsWXzFWDuoTjiEkzczCqYtgwfDw=;
+        b=ST1HNZpZ6qciFGHARoX1mZvCd48uG405ElILPhY384P/otGXrH6GxR5j+ZeWP4qiIs
+         ULJPbsv8aY7jqepCOC0TkqJ0NFEsw9r68HkTBKPHi25ook5ru3aDwIMNfWA4CpK7CnIb
+         2oTGQM9maku6CHMaGzkDhbIUDy9tHI72kt7Wv4ukgFXJFbCJDnu1GIfORlSvKy6pplcs
+         uyWBasfnNhzJiodo987HQU2zUs7Oz2eZFYHt+zlk0gGboi8i3ATQ4wwliWtKLjVtHIXj
+         OjSjUyYh0jP4KTSdOBUUrl9xTZrVaWsMs9RcWioxMWTZwbqZpfq+TzNYeWrF+D14I5na
+         6E1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792653579; x=1793258379;
+        d=1e100.net; s=20260707; t=1792654326; x=1793259126;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=MiRA/Sd3582R8jqkdeZLtvV26orjjHzxbVU5TB7AnAM=;
-        b=BQgL7/nHhFzk4HEfXVX7RNhv9uYM0lw+qXRHwxYtUZSyrGz4I7T3VSnjJAFBqJuLxn
-         l+kH3QoBGTH2Z9GOR2l+6DDDPwrGfSdKYcDHMYrI+Mp+hHI/yBqb75/sxefdpkwzgT6H
-         3EE7PZ0MGL/jUtWBXN48dC3TtKn9RVfR6yTPUaZ1pXHHIyKYfMK55FOY50+KeZzVbUWv
-         9eZVpd2aNgXa6UfjB0Mc++YpRJFxRKX10gEoXbUZwhp7APLIDtBOZnQXk+BgEoxVSk6+
-         t0ZDLlPDTE71LGiFqj0oU+rSeidroXYRgFGez9qzjzQxlklVmlA749nB9Y2ly5bnVnOF
-         MqCA==
-X-Forwarded-Encrypted: i=1; AKwUvBy4GhIwxDozSixTEFWGijVATUaGxKTaLOG0HNnRSJPNmWL1KwHmNe9pbmVh7tSC3XTsa11eIE2rBPSO@lists.infradead.org
-X-Gm-Message-State: AFq9FYIYt3GcBZl3f+qPZWx9Ktl00+h3ywJ42ZViQgCTdtK9ApE+rBL+
-	s/jNvm23laaTzzPVS5oda7s6NNnkvX53QINecIQ0IMwjN6nCp4CtBGWg
-X-Gm-Gg: AYBFou2rtJlwJAAsUr2PWA5yPvQtqMza5aemFqOKxvpI9RaS//zWgTQnhrbMQCpFYdZ
-	9cBL5A6MulIHwE7eXwIdXjrQ2R4/RzyyHDvnexORiWMb+5D8mipk8X2FaQUZQMnd9XO0uYVAaOO
-	c717So3ITHIQgd4LpVWfimhpuaGtuRFwTa++7JoxB0t/XdDM808akze1KtU6RpugHn9SJJcE5lE
-	j2RbfO6TQVvCDoCfb7dhuW5llHh6WWEp0OUj0sDHbZmdgSjmBV6NxtVmFM19NaNFGZXgThbkmRD
-	WROuwkX2udj6vDIDDi3ePz7SGE+w2DTfxg0grKDrW7U2nLEdc4agPmScsoGPSBFMWzp90hWPK3Z
-	wG55ZosKsHg//K2DRadjShaE2ARjVNZWIp1TWMj6ITUUS649Li6qE3uX5pf18wxfDNBqfqOE66t
-	Ty6G4tg7CfhAz30gXD2tOYploRqDTIKqXr/tHYl7XAwf6Y3FHJs2hA082XLaTug+hL314mo2klX
-	pEkXgSo1e5qwDwfpnQ72qpYXI7TXvib49wAZnIIT7bn6vctjvm4JTFT5MAdNGuXcdEQ5SSfKm5O
-	6vuqR5He037dg3xPkg==
-X-Received: by 2002:a05:600c:b90:b0:4a1:d307:b526 with SMTP id 5b1f17b1804b1-4a1fd72a9ffmr88188875e9.0.1792653578527;
-        Thu, 22 Oct 2026 00:19:38 -0700 (PDT)
-Received: from localhost.localdomain ([2a06:c701:4778:c500:2fac:694b:933a:abb0])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e258427cesm10698338f8f.52.2026.10.22.00.19.37
+        bh=ij51hxNW5zjirh2vfsWXzFWDuoTjiEkzczCqYtgwfDw=;
+        b=xd8QtrUUOYZW1x3DBGolIGtgfFFIhRJ3xBaXiD3bnQy4i8/eOgtD5XDGKj25jp24zS
+         VIyPdu5svMTCK5+9nM8IaeRgfo7Qk4YrrcCSPkdi7gsSbfTh+qfRZ6Tlgmaede55ka06
+         Q/VCj4DSvPd5+tT/G/xmrr2Tucm0k+3MWkT30vBlqZhTKz7ZNVJYe3xb6qgONjSjheoF
+         AxFCimSgAXfp5sBp0iM5L/zkpFSMeEuz4phwLmCLXLuRmLjVlhg8wmxjbpD71trOTFHW
+         l09jFbR6q+3GaICe0kaHBRILqCrmdVgMspgDyXyrWhfWAPwUEOQ0GuisNKR09VVeQcLG
+         cNXA==
+X-Gm-Message-State: AFq9FYJpy7cstV4ZzkmfA5P9ClJvMZmGhsyuBFvVtx9gXmCugNGhnsYU
+	ZCAX0kKJ1wXLrQpQuVbBAEVuRI/FuhQPwgBbpHD2QpYURNE7mUDEvTe7qN6zKcRr
+X-Gm-Gg: AYBFou0dEFXTtWE/unuDbOupXyibQ6wBUbPU2pnJYJj1l/uCHRlL9TqBOAdE4kaCZO3
+	m3CDI5nS2fG12ZzLv1bajG8TZ+UlOIcqbNei07VzeUqm4tO2iZdyDSKqtQZrnLgCfoQe100cTFd
+	n6+Le17R/DLZ3X0ZDWn67sENkFV22FyZ8of0JF4cBz3GKs6AbgQcdlyiSLqELAxvtIGNqc+g22o
+	QXVf5se8FFglw/aa1LnG0WYhD+F9i2bqrKKRZgbhxI+0UL4KzqJNE54zUnWajNIggUaKQ4E/njP
+	DGA5FuNQn9w15MeaYYNpQ1SlAxQBRvdQZSwi+1qREyatuqZ9BB/Hyw/AXiEXQNqnDrpVSTcMCRE
+	hiofhrEU4D3TDwA47L8h2Omr4WNC7p/WkLQVq3Cymi4pz6sZ/97VoEve3Eg7exqrcRxqMZUxQ/I
+	17UMyPSCHcOG/rz14d2PXHLSu+hG4VBQTDE5RoiYRd09Q0527KgsZKw+V4POp9H5aOgnUMDJAre
+	bZwUNpJawFnzjW2k479ilHQ8OKIPMQGlkk11OARb7MGS1DV8RWue6HEqjtiwg==
+X-Received: by 2002:a05:7301:fc12:b0:361:7ab9:47b5 with SMTP id 5a478bee46e88-3674df527a5mr5990754eec.36.1792654325532;
+        Thu, 22 Oct 2026 00:32:05 -0700 (PDT)
+Received: from gooner.hq.netapp.com ([136.226.242.197])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36741e71eaesm28833907eec.26.2026.10.22.00.32.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2026 00:19:37 -0700 (PDT)
-From: Avi Weiss <thnkslprpt@gmail.com>
-To: Keith Busch <kbusch@kernel.org>,
-	linux-nvme@lists.infradead.org
-Cc: Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH] nvme-tcp: wait for in-flight TLS handshake callback
-Date: Thu, 22 Oct 2026 10:19:34 +0300
-Message-ID: <20261022071934.3818224-1-thnkslprpt@gmail.com>
+        Thu, 22 Oct 2026 00:32:04 -0700 (PDT)
+From: Martin George <martinus.gpy@gmail.com>
+X-Google-Original-From: Martin George <marting@netapp.com>
+To: linux-nvme@lists.infradead.org
+Cc: hch@lst.de,
+	kbusch@kernel.org,
+	sagi@grimberg.me,
+	Martin George <marting@netapp.com>
+Subject: [PATCH] nvme: add nvme_is_disc_subsys() helper
+Date: Thu, 22 Oct 2026 13:01:44 +0530
+Message-ID: <20261022073144.5239-1-marting@netapp.com>
 X-Mailer: git-send-email 2.43.0
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261022_081940_699872_28AEB6D6 
-X-CRM114-Status: GOOD (  14.08  )
-X-Spam-Score: 2.0 (++)
+X-CRM114-CacheID: sfid-20261022_003206_840629_F8108DF4 
+X-CRM114-Status: GOOD (  16.10  )
+X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -115,53 +97,92 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,FROM_LOCAL_NOVOWEL,HEADER_FROM_DIFFERENT_DOMAINS,
-	HK_RANDOM_FROM,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=4.0.1
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-When nvme_tcp_start_tls() times out or is interrupted,
-tls_handshake_cancel() can return false after handshake_complete()
-marks the request completed, but before nvme_tcp_tls_done()
-finishes. Error cleanup can then release the queue while the
-callback still accesses it.
+Mirror the target's nvmet_is_disc_subsys() with a host-side
+nvme_is_disc_subsys() helper, and use it for the open-coded
+subtype == NVME_NQN_DISC checks in the host code to help
+maintain consistency and improve code readability.
 
-Wait for queue->tls_complete when cancellation loses, before
-continuing cleanup. Preserve the original timeout or signal error.
+And while here, fix an error message to refer to the subsystem
+rather than the controller.
 
-This follows the cancellation/completion synchronization used
-in SunRPC for:
-- commit d00e32f84ca1 ("sunrpc: wait for in-flight TLS handshake
-  callback when cancel loses race")
-- commit a89dd5974588 ("SUNRPC: wait for in-flight client TLS
-  handshake callback")
-
-Fixes: be8e82caa685 ("nvme-tcp: enable TLS handshake upcall")
-Signed-off-by: Avi Weiss <thnkslprpt@gmail.com>
+Signed-off-by: Martin George <marting@netapp.com>
 ---
- drivers/nvme/host/tcp.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/nvme/host/core.c      | 4 ++--
+ drivers/nvme/host/multipath.c | 6 +++---
+ drivers/nvme/host/nvme.h      | 5 +++++
+ 3 files changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 7eec983c0ead..26a626abef7b 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1816,7 +1816,8 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
- 		dev_err(nctrl->device,
- 			"queue %d: TLS handshake failed, error %d\n",
- 			qid, ret);
--		tls_handshake_cancel(queue->sock->sk);
-+		if (!tls_handshake_cancel(queue->sock->sk))
-+			wait_for_completion(&queue->tls_complete);
- 	} else {
- 		if (queue->tls_err) {
- 			dev_err(nctrl->device,
-
-base-commit: 7be4bc52fd9e0e55dc9a2e0232b89427d2c4b614
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 531f9bb14bab..96b1dddf439b 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3329,9 +3329,9 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ 	else
+ 		subsys->subtype = NVME_NQN_NVME;
+ 
+-	if (nvme_discovery_ctrl(ctrl) && subsys->subtype != NVME_NQN_DISC) {
++	if (nvme_discovery_ctrl(ctrl) && !nvme_is_disc_subsys(subsys)) {
+ 		dev_err(ctrl->device,
+-			"Subsystem %s is not a discovery controller",
++			"Subsystem %s is not a discovery subsystem",
+ 			subsys->subnqn);
+ 		kfree(subsys);
+ 		return -EINVAL;
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 87b934b46b85..1140491d58dd 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -1072,7 +1072,7 @@ static ssize_t nvme_subsys_iopolicy_show(struct device *dev,
+ 		container_of(dev, struct nvme_subsystem, dev);
+ 
+ 	/* A discovery subsystem has no namespaces and hence no I/O paths */
+-	if (subsys->subtype == NVME_NQN_DISC)
++	if (nvme_is_disc_subsys(subsys))
+ 		return sysfs_emit(buf, "none\n");
+ 
+ 	return sysfs_emit(buf, "%s\n",
+@@ -1109,7 +1109,7 @@ static ssize_t nvme_subsys_iopolicy_store(struct device *dev,
+ 		container_of(dev, struct nvme_subsystem, dev);
+ 	int policy;
+ 
+-	if (subsys->subtype == NVME_NQN_DISC)
++	if (nvme_is_disc_subsys(subsys))
+ 		return -EOPNOTSUPP;
+ 
+ 	policy = nvme_iopolicy_parse(buf);
+@@ -1129,7 +1129,7 @@ static ssize_t iopolicies_show(struct device *dev,
+ 		container_of(dev, struct nvme_subsystem, dev);
+ 	int i, len = 0;
+ 
+-	if (subsys->subtype == NVME_NQN_DISC)
++	if (nvme_is_disc_subsys(subsys))
+ 		return sysfs_emit(buf, "none\n");
+ 
+ 	for (i = 0; i < ARRAY_SIZE(nvme_iopolicy_names); i++)
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index a8ef62b8e34b..ace9119d0c09 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -522,6 +522,11 @@ struct nvme_subsystem {
+ #endif
+ };
+ 
++static inline bool nvme_is_disc_subsys(struct nvme_subsystem *subsys)
++{
++	return subsys->subtype != NVME_NQN_NVME;
++}
++
+ /*
+  * Container structure for uniqueue namespace identifiers.
+  */
 -- 
 2.43.0
 
