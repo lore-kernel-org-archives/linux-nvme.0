@@ -2,76 +2,76 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 895E2606A324
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Oct 2026 13:09:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B16E3606A31B
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Oct 2026 13:09:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=BbqSyQpJ;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=pGH5pWXL
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=XraMEAOf;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=V5d+V+wx
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=KkBAWb8M/VmKX7IuVDiW1Jf257xwCls4UjhLRxqmku8=; b=BbqSyQpJR9SbmO
-	8S+ui7uvGu2ZeqXZRa/mIe5TVvMaTz0wFsysUUbiLu+pLn6t/Lkxxk0k3jy+NJKGNrIrititUHC7z
-	pZyp8vqWk++AZd2EUPTFzj4t11hKa7pnYyD6IfWjmw3KCXCTvRFM8BxJJC9Z8T+94s2z7iXn8RfY6
-	1xZOpuyitR3Ux6v5Nn7WO0Ljxnw7qrrESWTs98QXesHdJaeU3w2vwY9Ik8Y8HYXSkrSVrq1UoLHkm
-	8hX2WMqIZ36462Fby7hoLW/Eb2dZiBWDhRX4r+0MH7z9upwii8hT6FTADUPkaUFQwM3ZqqrZzfK01
-	hfsvGeOq+r2zz2o8ipkQ==;
+	List-Owner; bh=2BqGwuPW1LSqC01ykDlKxwwUb1RW6AH4YD+EZwCze/4=; b=XraMEAOfn7e85a
+	grSnc9GNTV1ux1p0wrFyH0nhpErLWtGLrraBQx19UL8p0whMyC8xAHWVx3+V8RM0sBkDyx9Q/ua9a
+	TqwJvXpLGLlmZxhAygEPbUM5EtH1nRsoOzdbUKSdDpuXLn6IjzfVPWDkF5/FQXYqPnC7TmyArAyrj
+	NgcS5JRlzmHV/nLPnTWUwHZzCy87Q4UwcV4E4ocU/7vLx8RNu2RadVy/i4K8Ag9wmGS828UzeMzHR
+	Lx/ygw4+fQLXavQFWnxLnlawiNuzoyDyQTRa42fKV5p5+yEtisLDvSrXke1+ttCQfc31fAM4G3U1Y
+	rA2SxcOAfhS2MH4x33UA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xJsYI-0000000E8sd-0vym;
-	Thu, 22 Oct 2026 13:09:50 +0000
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+	id 1xJsYK-0000000E8tg-1VoF;
+	Thu, 22 Oct 2026 13:09:52 +0000
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xJsYF-0000000E8r4-31sZ
+	id 1xJsYI-0000000E8rq-0Af9
 	for linux-nvme@lists.infradead.org;
-	Thu, 22 Oct 2026 13:09:48 +0000
-Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-4a1fe9efc0eso21340765e9.2
-        for <linux-nvme@lists.infradead.org>; Thu, 22 Oct 2026 06:09:47 -0700 (PDT)
+	Thu, 22 Oct 2026 13:09:51 +0000
+Received: by mail-wr1-x430.google.com with SMTP id ffacd0b85a97d-48b001cd92bso1046862f8f.2
+        for <linux-nvme@lists.infradead.org>; Thu, 22 Oct 2026 06:09:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792674586; x=1793279386; darn=lists.infradead.org;
+        d=gmail.com; s=20251104; t=1792674588; x=1793279388; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=KkBAWb8M/VmKX7IuVDiW1Jf257xwCls4UjhLRxqmku8=;
-        b=pGH5pWXLdv6B2peNAfpeI4Nuo2m/og596kvHZexIZ3dJYoJlZab1935qrGIM0gqc11
-         aDwDAcpnGmWbF4Q2VTJ+so/vwTzNSdW2q5H2qluCQ9xUjC2K2KSRW/lHAVn0xjmjlDM9
-         dRibnMPq17rmInmzNXXuxKbhUAEUTYm5niJgFUSrvLX+vcXnni8w9xCSptwRh/4yG3I3
-         4los+J0cxEDkTMO7clRBUySZmKBl7p/u528M6lf7HllWasOaM8kFf8NCf++zvAPJrsSo
-         gMA8gHQbNELhofyX6+n0uxSjx1Rc5knMZr9mQ1J/QZ2Y4k2sprsu2Xyjz8ymzEjhfPfM
-         WTag==
+        bh=2BqGwuPW1LSqC01ykDlKxwwUb1RW6AH4YD+EZwCze/4=;
+        b=V5d+V+wxO0MB1UB/In3N5/jdID0lR07fcNtfY2wvqto0+Z/elnTHCBAjU8/a97+hu+
+         dXJH87r3oex9jKDnVRIEMjSVArNaWDvvtwgzVSjQuw90gUmqug+9GYHNeSfu4ntcPxGR
+         RtnSoI507LE5cYkrDb9nDG8jN30CaqpZREVfLPlcnWAGGMGh0midfX80ojVWE1vqssMJ
+         rBST6OzyNFvLkFLHPg8i0HHh/YJBt+AkIZHPmbNZwegpeL7mT6OS/7i/fzSbZKr6g1v5
+         Z+ydbilO7b0Zuf/5b08JpJqBW7AM9lsVCQFELAWtE1BgzH39iE+LP7Y0s3r3wjcY4xq+
+         vmeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792674586; x=1793279386;
+        d=1e100.net; s=20260707; t=1792674588; x=1793279388;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=KkBAWb8M/VmKX7IuVDiW1Jf257xwCls4UjhLRxqmku8=;
-        b=rd62Bc1XgdzZmkHUM0beSjz8jNVs06jVqdKAnfwOceHNmrWMSWC+SrL35zfwm/5EUC
-         9Ylm1ku/SAPS9d0jpZ7vUIiQDiXVzPcyUBPSVdOakHMXMMsj4uaUBFE//zvGvOQFucx1
-         jE6o5fcBjg47+gE9blG08yJUNuRfHM0yw8AyvJOEr00YPG+3/GLO5VKJy5t/Ztun3x7j
-         uMd7l/WytQpA+0E5OLQTwqAWRlcXxxvObwJuzGdYCiMnx6QgPfHajVG+7aQKpIVN6PqA
-         fxySjKnM+l/DzaTL+pKbzzBhPJ3bISab6f7iXT9urPO8Y4WlAkE72atBY4qTO5oDi0l5
-         QXoQ==
-X-Forwarded-Encrypted: i=1; AKwUvBy+H6IOqoXLv7DtjUVAhHrLkoGdiHJABjdudYLNzJPf450csyrnfDGffNN9gCpCGOuVkjYcBr91V+0I@lists.infradead.org
-X-Gm-Message-State: AFq9FYJqs0ZiHWdXoqLK6La0/16us6v72gfrlLJpaTB2k1Yfe0GNvL9h
-	ACb7dkd7FwiEDEmOjDxTDmnfUHfD6LAwtOhk77h0pAzFwGOFvLm6IjPb
-X-Gm-Gg: AYBFou2Uvgla7Tz6kvGj90wensUpC2GIYJm1JKRmpw1yCaujycXQ2WIdzjgkzZTjyl0
-	Og8oAENdHY/2EQQ0aIKYlbqtSOhs3cZwWGFllBqEvQH+LGeHNxXkwONtPIiFV3Iqm5VOPxpH0qP
-	6nye8QKQCYjn6aI9tO9oQacscos0ZHBRZLu4wBi9ZdnC6xXhIj4LLYCFeSbZ/w8fpFThVimzdtC
-	fUD4z8+2tIpiHaEbh4RwEpZekXi4raHhPKUxBJ3dUWDzciWvkcsF6TXP9cPM9TUHblsdGBT3tya
-	s9c3H4wP0ZllrkE8H+gNrdHIRWxnqLcYJfzwmGHn2ay3TiO9k1Pfvy9Ef1tbrU/YnYPJt1wneEr
-	A5L0IAHOKDXqatXPvmj1CwOsl6S6RoZNgWeS1BV/p9XWtmJHTYPIrp84OcBx/6FWgZ93fOuaFfg
-	4pFWCa4KvNuIzf0GGmHYmTZpvaVc15ioFokHSW34vAWcijs8bO7ul2Z+6hg8OqqKAXnr2xeNLm8
-	ObLTh1VJ38Se0MIMS7z5A0InmbVbyxUSFsqoYr4jsZGEIwVV9c6dTjMLmP5Z5345D/xpW8kMFWz
-	hJ7TA4MaBBwoV8peuMB6vPRr
-X-Received: by 2002:a05:600c:3b0d:b0:4a2:a9:ed87 with SMTP id 5b1f17b1804b1-4a200a9efc4mr99645355e9.19.1792674585354;
-        Thu, 22 Oct 2026 06:09:45 -0700 (PDT)
+        bh=2BqGwuPW1LSqC01ykDlKxwwUb1RW6AH4YD+EZwCze/4=;
+        b=WIgSRidNhsVG8ozeBgGjp72KxhXsRvI7gcIbjYvzh+fGgu+owWAFWubwy9eR3ViXZe
+         c7sfn/LE4MUX0Kz8ZEPNsNDORvhp5a3w5AcgrfDpKw6Fh9yxYIF5MIYSROk9ASJYzjOm
+         QYOkTN2ZBbLRxHXEKgDBXgB79qyKvqs/sNhTUObdxNqfM9bJyf4i61rYAHWpXgwBNREd
+         c6j+2qKsxrYv5I5uLy93P86pX/0EB7EOw6VrJcij6/J2OEB9mefXrni1eMLL7kOXvYb0
+         KaQyPgojjk+5iC4Y1jC1d5NBy/TKJ0cWmau4gvW1ijpuHOntEcMfhJChNQjIcmOIMM0a
+         d4TQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwi1ARK7C/hZwvQfEZQyswANWXUJ0MmNBdJ4t/2QW3mrPTOmlyn5I9aRabmHx+pO/Zx1gOEQqaYmXeI@lists.infradead.org
+X-Gm-Message-State: AFq9FYK1xaoFqZUWlmuE12YX43n0JUFccGmcHPRFkX3Uu947f8EsM2hz
+	2k08HltiUzINje4wiaKE1wie6XzqdmToXN48eH4i7pW9EbC6jENWBVWf
+X-Gm-Gg: AYBFou3mZvuw46Rtjl10CzWFqTCyHxGGZpahTfS6IGwB5c7A7HHxmK19pbTQ9rnn5n7
+	MnAigJIdp3pssxzi23Cqoxy69eTq+E6DaYTQqYQmhaQFSrCSNCGc68tMtNMoJ0OaYM8ic8IVkjw
+	w5FCsE8uhq79DyCGmjTL1SYsF8N7CqUEcWvHzRf/Ubq0iZz1vlpX8X0Lf7rJyCRRJRizkgmeNNb
+	4YLIn+lzZ8ECmW/zlBEnqhad0GJObYFXjY+oByMm1vJ4d/GxEEUxZz43tqwTrM/C30EJMY3OjUt
+	5cC90eKKBJU79b8OWC1lJXfgshdz6uJjKeoLkI4X5243CJ7AxfOkMN1NPy1ECAHD2WAD17OYyAz
+	HiGGK53S5dpv3HdsGRM86fO5YgYlVtL3Pk2aPVeKomyrF8F9TPDllfTh3GvXBx83Q9u7ueiJmba
+	8CIb3e/SPLGRA9vs2MXq7V7ooJJZJL7jMdcI6HEPARZXQx84LjMESTeODG/BeHrMZgZ2aQMIb5X
+	DQ8ouXac6AJnnjC+oMtxWPGI6utNG5ASOqy+OPabijiKjJiB4JelVvcK2gp25wbf+t6CeN5Zr3J
+	iAysupEG2x8Gp4e2L6IYTOfz
+X-Received: by 2002:a05:600c:3e8e:b0:4a1:eccb:53eb with SMTP id 5b1f17b1804b1-4a1fdaef48cmr106086885e9.6.1792674587622;
+        Thu, 22 Oct 2026 06:09:47 -0700 (PDT)
 Received: from andreayoga.wind3.hub ([151.76.51.95])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1fcd2eff9sm119664695e9.4.2026.10.22.06.09.40
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1fcd2eff9sm119664695e9.4.2026.10.22.06.09.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2026 06:09:41 -0700 (PDT)
+        Thu, 22 Oct 2026 06:09:47 -0700 (PDT)
 From: Andrea Parri <parri.andrea@gmail.com>
 To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
 	linux-block@vger.kernel.org
@@ -82,9 +82,9 @@ Cc: Andrea Parri <parri.andrea@gmail.com>,
 	Chaitanya Kulkarni <kch@nvidia.com>,
 	Daniel Wagner <dwagner@suse.de>,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH blktests v2 2/4] nvme/072: test that nvmet sends no data for a failed read
-Date: Thu, 22 Oct 2026 15:09:22 +0200
-Message-ID: <20261022130927.3583166-3-parri.andrea@gmail.com>
+Subject: [PATCH blktests v2 3/4] nvme/073: test nvmet zone report initialization and length
+Date: Thu, 22 Oct 2026 15:09:23 +0200
+Message-ID: <20261022130927.3583166-4-parri.andrea@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261022130927.3583166-1-parri.andrea@gmail.com>
 References: <20261022130927.3583166-1-parri.andrea@gmail.com>
@@ -92,8 +92,8 @@ X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261022_060947_802887_47D8EF84 
-X-CRM114-Status: GOOD (  27.87  )
+X-CRM114-CacheID: sfid-20261022_060950_128068_E3BC84A0 
+X-CRM114-Status: GOOD (  28.74  )
 X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -113,63 +113,62 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Issue a failing Identify into a buffer filled with a sentinel and verify
-that the target transfers no data, with a successful Identify as a
-control. The test runs on every configured transport; only nvmet-fc
-failed it before the fix. Add a small helper because nvme-cli cannot
-prefill the data buffer.
+Export a zoned null_blk device through the NVMe target and verify that
+Zone Management Receive zeroes reserved and unused report bytes and
+rejects a transfer length inconsistent with NUMD. The test runs on every
+configured transport, with RDMA restricted to 4 KiB page kernels so that
+the preparatory write exceeds the default inline-data limit. Add a small
+passthrough helper because nvme-cli does not expose the reserved report
+bytes.
 
-The test fails over fc on the unpatched kernel and passes with the fix
-applied.
+The test fails on the unpatched kernel and passes with the fix applied.
 
 Assisted-by: LLM
 Signed-off-by: Andrea Parri <parri.andrea@gmail.com>
 ---
- src/.gitignore           |  1 +
- src/Makefile             |  1 +
- src/nvme-sentinel-read.c | 89 ++++++++++++++++++++++++++++++++++++++++
- tests/nvme/072           | 72 ++++++++++++++++++++++++++++++++
- tests/nvme/072.out       |  2 +
- 5 files changed, 165 insertions(+)
- create mode 100644 src/nvme-sentinel-read.c
- create mode 100755 tests/nvme/072
- create mode 100644 tests/nvme/072.out
+ src/.gitignore         |   1 +
+ src/Makefile           |   1 +
+ src/nvme-zone-report.c | 165 +++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/073         |  68 +++++++++++++++++
+ tests/nvme/073.out     |   2 +
+ 5 files changed, 237 insertions(+)
+ create mode 100644 src/nvme-zone-report.c
+ create mode 100755 tests/nvme/073
+ create mode 100644 tests/nvme/073.out
 
 diff --git a/src/.gitignore b/src/.gitignore
-index f9a3916304c0f..57d14df3a2540 100644
+index 57d14df3a2540..7d9ffb45185e7 100644
 --- a/src/.gitignore
 +++ b/src/.gitignore
-@@ -19,3 +19,4 @@
- /ioctl-lbmd-query
+@@ -20,3 +20,4 @@
  /nvme-passthru-admin-uring
  /nvme-delay-ioctl
-+/nvme-sentinel-read
+ /nvme-sentinel-read
++/nvme-zone-report
 diff --git a/src/Makefile b/src/Makefile
-index 1e571c6b0b4eb..1133f34d7f07c 100644
+index 1133f34d7f07c..9ff1166887851 100644
 --- a/src/Makefile
 +++ b/src/Makefile
-@@ -24,6 +24,7 @@ C_TARGETS := \
- 	mount_clear_sock \
+@@ -25,6 +25,7 @@ C_TARGETS := \
  	nvme-delay-ioctl \
  	nvme-passthrough-meta \
-+	nvme-sentinel-read \
+ 	nvme-sentinel-read \
++	nvme-zone-report \
  	ioctl-lbmd-query \
  	nbdsetsize \
  	openclose \
-diff --git a/src/nvme-sentinel-read.c b/src/nvme-sentinel-read.c
+diff --git a/src/nvme-zone-report.c b/src/nvme-zone-report.c
 new file mode 100644
-index 0000000000000..dd36f283f46e2
+index 0000000000000..438c91897e32e
 --- /dev/null
-+++ b/src/nvme-sentinel-read.c
-@@ -0,0 +1,89 @@
++++ b/src/nvme-zone-report.c
+@@ -0,0 +1,165 @@
 +// SPDX-License-Identifier: GPL-3.0+
 +// Copyright (C) 2026 Andrea Parri
 +
-+/*
-+ * Issue an NVMe admin read command into a buffer filled with a sentinel and
-+ * print the NVMe status and the number of bytes the command overwrote.
-+ */
++/* Check that unused bytes in an NVMe zone report are zeroed. */
 +#define _GNU_SOURCE
++#include <endian.h>
 +#include <errno.h>
 +#include <fcntl.h>
 +#include <linux/nvme_ioctl.h>
@@ -180,162 +179,236 @@ index 0000000000000..dd36f283f46e2
 +#include <sys/ioctl.h>
 +#include <unistd.h>
 +
-+#define SENTINEL	0xa5
++#define REPORT_LEN		4096
++/*
++ * Larger than the default RDMA in-capsule data size on 4 KiB page kernels.
++ * nvme/073 skips RDMA on other page sizes, where this write could stay
++ * inline rather than use buffers allocated and freed per command.
++ */
++#define POISON_LEN		8192
++#define WRITE_OPCODE		0x01
++#define ZONE_REPORT_OPCODE	0x7a
++#define PARTIAL_REPORT		(1U << 16)
++#define ZONE_REPORT_HEADER	64
++#define ZONE_DESC_LEN		64
++#define ZONE_START_OFFSET	16
++#define NR_ATTEMPTS		64
 +
-+static int parse_u32(const char *s, uint32_t *val)
++static int poison_target(int fd, unsigned int iteration)
 +{
-+	unsigned long v;
-+	char *end;
++	unsigned char data[POISON_LEN];
++	struct nvme_passthru_cmd cmd = {
++		.opcode = WRITE_OPCODE,
++		.nsid = 1,
++		.addr = (uintptr_t)data,
++		.data_len = sizeof(data),
++		.cdw10 = iteration * (POISON_LEN / 512),
++		.cdw12 = POISON_LEN / 512 - 1,
++	};
 +
-+	errno = 0;
-+	v = strtoul(s, &end, 0);
-+	if (errno || end == s || *end || v > UINT32_MAX)
-+		return -1;
-+	*val = v;
-+	return 0;
++	memset(data, 0x5a, sizeof(data));
++	return ioctl(fd, NVME_IOCTL_IO_CMD, &cmd);
++}
++
++static uint64_t read_le64(const unsigned char *p)
++{
++	uint64_t value;
++
++	memcpy(&value, p, sizeof(value));
++	return le64toh(value);
 +}
 +
 +int main(int argc, char **argv)
 +{
-+	struct nvme_passthru_cmd cmd = { };
-+	uint32_t opcode, cdw10, len, i, changed = 0;
-+	unsigned char *buf;
++	unsigned char *report;
++	unsigned long long slba;
++	char *end;
 +	void *p;
-+	int fd, ret;
++	int fd, i, j, ret, rc = 0;
 +
-+	if (argc != 5 || parse_u32(argv[2], &opcode) || opcode > 0xff ||
-+	    parse_u32(argv[3], &cdw10) || parse_u32(argv[4], &len) || !len) {
-+		fprintf(stderr, "usage: %s /dev/nvmeX opcode cdw10 data-len\n",
++	if (argc != 3) {
++		fprintf(stderr, "usage: %s /dev/nvmeXnY last-zone-slba\n",
 +			argv[0]);
 +		return 2;
 +	}
 +
++	errno = 0;
++	slba = strtoull(argv[2], &end, 0);
++	if (errno || *end) {
++		fprintf(stderr, "invalid SLBA: %s\n", argv[2]);
++		return 2;
++	}
++
 +	/*
-+	 * Page-align the buffer so that the kernel maps it for the transfer
-+	 * instead of bouncing it: a bounce buffer is zero-filled and copied
-+	 * back even when the command fails, which would hide the sentinel.
++	 * Page-align the report so that the kernel maps it for the transfer
++	 * instead of bouncing it: a bounce buffer is zero-filled, which would
++	 * hide the sentinel and any bytes the target left unwritten.
 +	 */
-+	ret = posix_memalign(&p, 4096, len);
++	ret = posix_memalign(&p, 4096, REPORT_LEN);
 +	if (ret) {
 +		fprintf(stderr, "posix_memalign: %s\n", strerror(ret));
 +		return 2;
 +	}
-+	buf = p;
-+	memset(buf, SENTINEL, len);
++	report = p;
 +
-+	fd = open(argv[1], O_RDONLY);
++	fd = open(argv[1], O_RDWR);
 +	if (fd < 0) {
 +		perror(argv[1]);
-+		free(buf);
++		free(report);
 +		return 2;
 +	}
 +
-+	cmd.opcode = opcode;
-+	cmd.addr = (uintptr_t)buf;
-+	cmd.data_len = len;
-+	cmd.cdw10 = cdw10;
++	for (i = 0; i < NR_ATTEMPTS; i++) {
++		struct nvme_passthru_cmd cmd = {
++			.opcode = ZONE_REPORT_OPCODE,
++			.nsid = 1,
++			.addr = (uintptr_t)report,
++			.data_len = REPORT_LEN,
++			.cdw10 = (uint32_t)slba,
++			.cdw11 = (uint32_t)(slba >> 32),
++			.cdw12 = REPORT_LEN / 4 - 1,
++			.cdw13 = PARTIAL_REPORT,
++		};
++		unsigned int nonzero = 0, stale = 0, poisoned = 0;
++		unsigned char sentinel = i & 1 ? 0xa5 : 0x3c;
 +
-+	ret = ioctl(fd, NVME_IOCTL_ADMIN_CMD, &cmd);
++		ret = poison_target(fd, i);
++		if (ret) {
++			if (ret < 0)
++				perror("poison_target");
++			else
++				fprintf(stderr, "poison write status: %#x\n", ret);
++			rc = 2;
++			goto out;
++		}
++
++		memset(report, sentinel, REPORT_LEN);
++		ret = ioctl(fd, NVME_IOCTL_IO_CMD, &cmd);
++		if (ret) {
++			if (ret < 0)
++				perror("NVME_IOCTL_IO_CMD");
++			else
++				fprintf(stderr, "NVMe status: %#x\n", ret);
++			rc = 2;
++			goto out;
++		}
++
++		if (read_le64(report) != 1 ||
++		    read_le64(report + ZONE_REPORT_HEADER +
++			      ZONE_START_OFFSET) != slba) {
++			fprintf(stderr, "unexpected zone report header or SLBA\n");
++			rc = 1;
++			goto out;
++		}
++
++		for (j = 8; j < REPORT_LEN; j++) {
++			if (j >= ZONE_REPORT_HEADER &&
++			    j < ZONE_REPORT_HEADER + ZONE_DESC_LEN)
++				continue;
++			if (!report[j])
++				continue;
++			nonzero++;
++			if (report[j] == sentinel)
++				stale++;
++			if (report[j] == 0x5a)
++				poisoned++;
++		}
++
++		fprintf(stderr, "attempt %d: %u nonzero bytes "
++			"(%u poison, %u sentinel)\n", i + 1, nonzero,
++			poisoned, stale);
++		if (nonzero) {
++			rc = 1;
++			goto out;
++		}
++	}
++
++out:
 +	close(fd);
-+	if (ret < 0) {
-+		perror("NVME_IOCTL_ADMIN_CMD");
-+		free(buf);
-+		return 2;
-+	}
-+
-+	for (i = 0; i < len; i++)
-+		if (buf[i] != SENTINEL)
-+			changed++;
-+
-+	printf("%#x %u\n", ret, changed);
-+	free(buf);
-+	return 0;
++	free(report);
++	return rc;
 +}
-diff --git a/tests/nvme/072 b/tests/nvme/072
+diff --git a/tests/nvme/073 b/tests/nvme/073
 new file mode 100755
-index 0000000000000..a651fa0b0c672
+index 0000000000000..4416367fee67b
 --- /dev/null
-+++ b/tests/nvme/072
-@@ -0,0 +1,72 @@
++++ b/tests/nvme/073
+@@ -0,0 +1,68 @@
 +#!/bin/bash
 +# SPDX-License-Identifier: GPL-3.0+
 +# Copyright (C) 2026 Andrea Parri
 +#
-+# Check that the NVMe target transfers no read data for a failed command.
-+# The host buffer is filled with a sentinel, so any data the target sends
-+# shows up as changed bytes.
++# Check that NVMe target zone reports are fully initialized and that their
++# transfer length matches NUMD.
 +#
-+# Regression test for patch "nvmet-fc: only send read data for successful
-+# commands".
++# Regression test for patch "nvmet: zns: don't leak stale memory in zone
++# management receive".
 +
 +. tests/nvme/rc
++. common/null_blk
 +
-+DESCRIPTION="verify nvmet does not transfer data for failed reads"
++DESCRIPTION="check NVMe target zone report initialization and length"
 +QUICK=1
 +
 +requires() {
 +	_nvme_requires
 +	_have_loop
 +	_require_kernel_nvme_target
-+	_have_src_program nvme-sentinel-read
++	_have_null_blk
++	_have_kernel_options BLK_DEV_ZONED
++	_have_src_program nvme-zone-report
++
++	# RDMA defaults to PAGE_SIZE bytes of inline data. The helper's
++	# 8 KiB preparatory write must exceed that limit.
++	if [[ "$nvme_trtype" == "rdma" ]]; then
++		_page_size_equals 4096
++	fi
 +}
 +
 +set_conditions() {
 +	_set_nvme_trtype "$@"
 +}
 +
-+# Issue an Identify with CNS $2 to controller $1 and print the NVMe status
-+# and the number of changed bytes in the 4096-byte data buffer.
-+issue_identify() {
-+	src/nvme-sentinel-read "$1" 0x06 "$2" 4096 2>>"$FULL"
-+}
-+
 +test() {
 +	echo "Running ${TEST_NAME}"
 +
-+	local changed ctrl status
++	local block_size dev last_sector ret sectors slba zone_sectors
 +
 +	_setup_nvmet
-+	_nvmet_target_setup
-+	_nvme_connect_subsys
-+
-+	ctrl=$(_find_nvme_dev "$def_subsysnqn")
-+
-+	# Identify Controller succeeds and must overwrite the sentinel.
-+	if ! read -r status changed < <(issue_identify "/dev/$ctrl" 0x01); then
-+		echo "successful Identify could not be issued"
-+	else
-+		echo "cns=0x01 status=$status changed=$changed" >>"$FULL"
-+		if ((status != 0 || changed == 0)); then
-+			echo "successful Identify returned status $status with $changed bytes"
-+		fi
++	_register_test_cleanup _cleanup_nvmet_zoned_target
++	if ! _nvmet_zoned_target_setup; then
++		return 1
 +	fi
++	dev="/dev/$(_find_nvme_ns "$def_subsys_uuid")"
 +
-+	# An unsupported CNS fails and must leave the sentinel intact.
-+	if ! read -r status changed < <(issue_identify "/dev/$ctrl" 0xff); then
-+		echo "failed Identify could not be issued"
-+	else
-+		echo "cns=0xff status=$status changed=$changed" >>"$FULL"
-+		if (((status & 0x7ff) != 2)); then
-+			echo "failed Identify returned status $status, expected 0x2"
-+		fi
-+		if ((changed != 0)); then
-+			echo "failed Identify transferred data: $changed bytes changed"
-+		fi
-+	fi
++	sectors=$(cat /sys/block/nullb1/size)
++	zone_sectors=$(cat /sys/block/nullb1/queue/chunk_sectors)
++	block_size=$(cat /sys/block/nullb1/queue/logical_block_size)
++	last_sector=$(((sectors - 1) / zone_sectors * zone_sectors))
++	slba=$((last_sector * 512 / block_size))
 +
-+	_nvme_disconnect_subsys
-+	_nvmet_target_cleanup
++	src/nvme-zone-report "$dev" "$slba" >>"$FULL" 2>&1
++	ret=$?
++	case $ret in
++	0) ;;
++	1) echo "zone report contained stale data" ;;
++	*) echo "zone report checker failed" ;;
++	esac
++
++	_check_zone_report "$dev" 4096 1023 0
++	_check_zone_report "$dev" 8192 1023 15
++
++	_nvmet_zoned_target_cleanup
 +
 +	echo "Test complete"
 +}
-diff --git a/tests/nvme/072.out b/tests/nvme/072.out
+diff --git a/tests/nvme/073.out b/tests/nvme/073.out
 new file mode 100644
-index 0000000000000..3f765b30a22b0
+index 0000000000000..ed6690e578688
 --- /dev/null
-+++ b/tests/nvme/072.out
++++ b/tests/nvme/073.out
 @@ -0,0 +1,2 @@
-+Running nvme/072
++Running nvme/073
 +Test complete
 -- 
 2.53.0
