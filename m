@@ -2,93 +2,108 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 644A4606A319
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Oct 2026 04:58:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08CC1606A319
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Oct 2026 06:29:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=SHX90qE4;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=pHsNKiVm
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Ieo7d7J0;
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=g5Oh+J/f;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=U8fWHJYT
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=hGRhRvri5RD8Q3dYNBF9nbwsKBlQUd9Lj9QWckhNeYY=; b=SHX90qE40xnz43vHcSdBSsyyUT
-	CZXzbOpasqr8a4MoJQDJNbqPtpvre8rmhqLO0C+Ux1ldCC5j6/1y2Qvvc3RWxslRwNGkq/GToEfkH
-	IZWTjHmHKjmaErN5qRYDtgbKq4RP20zv0+f2pSfLwd9uBpwPBa4zlKfKpZ+mQay4PuUgW93UvD4VQ
-	WarsDkeo5yr1w/FLQlWIj6kfVnUtHS9lQQgxlOAXY74CzIgY2y8vyI3KqtwTrEKHWNh5bNETgll4P
-	tuTP4X8rTdgK0eqtQ0f3wHZcTBO9xI8A7uh/A9ncAvZXgNVY2hhZUsduj3pmKLK9Xh38A/IkoHKoI
-	RtL6cxag==;
+	bh=LTcIwHCkV7H2yPlaX3buDu6FTvh743aqgH51nE4exbo=; b=Ieo7d7J0x3mvq/wClVT6y7UZFk
+	kxgKt1BOb4PgbNL3nBJZAmRq4+3dlh4vTip31IRDUYS9Cr1ep1zB6tBok+NZISNhrRzpjIB0WG5ts
+	FSQLMBFcnhCB/1NgdiToUFxYc4IbwrtbSCCKERXvDquPmZ4Bzvzg3egk0BfXgU4PWNhdFhq+mIET1
+	+0cEjXlF2YmufmxpyJmaSIiYIaHFRE1bWNq9citshPAJS95AKAgg7lscd62CFRx5H4Mt2hgIN0sZO
+	k64ZBO7bvHTHnOUt/OD5T7+v8VeH3B7gwEbLnXV3wVwLZYwAALsqdYxWoaiVVBcgAk7as1+tLnmba
+	HxgUfkMA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xJksy-0000000DLXu-1e1k;
-	Thu, 22 Oct 2026 04:58:40 +0000
-Received: from mail-qt1-x835.google.com ([2607:f8b0:4864:20::835])
+	id 1xJmIy-0000000DTE9-3Ikj;
+	Thu, 22 Oct 2026 06:29:36 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xJksv-0000000DLXU-24Tv
+	id 1xJmIx-0000000DTDq-29ib
+	for linux-nvme@bombadil.infradead.org;
+	Thu, 22 Oct 2026 06:29:35 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
+	:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=LTcIwHCkV7H2yPlaX3buDu6FTvh743aqgH51nE4exbo=; b=g5Oh+J/fZjleeNc3grPECqhlLv
+	wlis8AVJKuycuP8RGg2dK9nDbX3F2IaPhtkI0Hl9DTHlQ7nOtw4sVuCbfiq0+jZZTkKvLGn/3zsh1
+	8Squ9ZEn2pkFV/+v9VxKIcNfH+ENF0VQ7ObWhXvNRA0k7F458P+KR4+3MYUjLjt+ywy8HeJKiv3Fi
+	1+vKRAGEXrq8smcP/Af85faSplM0k7zKM5uC61Rxd+gi7NJbmWIjBlgGaB44qi2EM0c8CaMrq612A
+	I+kKSjOvTtST6bGSrs/9nz0WwhEA7+qLWWZf78tyaK41YwdvKRBb/coeZF2xLM3UJdJ5UlSIbdadt
+	TLZl05Sw==;
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+	by desiato.infradead.org with esmtps (Exim 4.99.5 #2 (Red Hat Linux))
+	id 1xJmIs-00000006Vtz-3bpW
 	for linux-nvme@lists.infradead.org;
-	Thu, 22 Oct 2026 04:58:38 +0000
-Received: by mail-qt1-x835.google.com with SMTP id d75a77b69052e-535179e995bso15703941cf.0
-        for <linux-nvme@lists.infradead.org>; Wed, 21 Oct 2026 21:58:36 -0700 (PDT)
+	Thu, 22 Oct 2026 06:29:32 +0000
+Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-4a20a37703bso1011115e9.1
+        for <linux-nvme@lists.infradead.org>; Wed, 21 Oct 2026 23:29:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792645115; x=1793249915; darn=lists.infradead.org;
+        d=gmail.com; s=20251104; t=1792650568; x=1793255368; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=hGRhRvri5RD8Q3dYNBF9nbwsKBlQUd9Lj9QWckhNeYY=;
-        b=pHsNKiVmO7XnX9LaL9m/AkdwjA4pQs2cbeMzJpqAl0Z2a1xRRb/I/YXYbzP5hW6GGz
-         DMGyKxCiF4pVZNBt96XZhdgxSTaDf6dW/akL6Ad6eNE1fsQd0SrcKRnLM5wgn8tOH8Rv
-         HwsCAe2pyS+Bct99SIlnYXeeg+Q4MgeAVo56VDgpiWd6KjqzpX+dKNqW1ojrHv43iA7t
-         E4NlMSilegKKHaRcMBxYGjd4GIwYdTzKD9ptps8z4KjQUiKzaLToWSMX9y2zXtwzn/9K
-         /LNgAMhXNQtRgYF9jXUaZoUt3d+8ey/5yIuwxp4tTeylnk1Cx9cH2BUyRQNi38kEG5S2
-         11lQ==
+        bh=LTcIwHCkV7H2yPlaX3buDu6FTvh743aqgH51nE4exbo=;
+        b=U8fWHJYToBNiS+neJal8nYXaH4ubaXoq4S1qqhpYqHCAcCcHhfA+mtVqcFPN9ZNqV5
+         OeJLb9ksu+vMu5Z2CVW68/ZSr4xVVhGFv1X6TXT2iIC549ocx1Gk9y/hpDAya/QQrrrS
+         mmTIhfV4RA8Z2IR+C/xF0i/Msa4Uk4JwnpmBcUJOUOCrU0QDdR2TXw7FFjw6mu62Btj1
+         fmsz/HMd+99HC1LCGUJd11AeUsTy8KqbjYUtxq7UgOqq3qOVff7ByFt2FYrFOnnAG122
+         6sg2F6+heWc6m9L714iv10EcNdHnVxdXQ8F4ADrb/LBGTGMSam+48tSH1mpjhg2L3GOT
+         HAFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792645115; x=1793249915;
+        d=1e100.net; s=20260707; t=1792650568; x=1793255368;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=hGRhRvri5RD8Q3dYNBF9nbwsKBlQUd9Lj9QWckhNeYY=;
-        b=zxayABn34IzDW2GnpMC94lqRxJFUZSgorOTLWtiwSvS35JizrcWu8/kTbSAb7O2nqt
-         0FgxH2gj3xxHoN4+3O49/McuifML13S+/yDB7hRdALSbJ/Mupzxwm1eaLaazJCe6fM2z
-         11e8GKg1ei3TgTcmWODZVcLxfPwsU6VGTmnGi1PqE18Pc1KvSJcxvIfn1YeeMQ2bB9l0
-         Hfx3z32izrcX8nmVlnTJUymX2MjlXQiOkOumuBRrNX3kiTsRQsj5CZqKF3O6mAmZjc+6
-         kIuC74+UdKbFzmfcVOYPUkeM1o5fKFAGYBKeRIOOw4teDDtrphsENrHSy51/BhN9uGvA
-         K/MQ==
-X-Gm-Message-State: AFq9FYKDJgoCoCR8D+B1ak3y+ma/mLjWEpi77KJbZm6YtaL8E9Tqaqjd
-	i/r3Cx57aobr8/rmw7RafptOuLvvymb3qOPIq+bufyYikTVfCSKjotWf
-X-Gm-Gg: AYBFou3S644t0EmAb1hpz0B4gtVzgd5zs1UF5U/wpIIntyxYmmMmTDESNw/K/ZvesGU
-	r+3fvGsTH2C0fWJDKZhWNPREquM2REBv4Y/Vdn6Gz0IDpluc+mh5nHVB0u+fGf08r3pc03Xl0Qp
-	jIlb20ktH3zSA/+9deMRvVex3kA+mx/vNom/shHq284NmkKC4kMAXu45lBI0cxNexx5V7fJMFOS
-	smKKArTTvrxvphWFbb/6hz7domTJAK7lY6gMqQj5y+U3wsNddx+dclt9+C1pgsG2HOBRWvwY/Ys
-	7jBoSwzRoIh71b5lVzPpOx5du+8hSlUod/vkJhY9ybPugO+yHX3HpU+m53gbXpejHPJnERK4LeP
-	O8DM4tDq7h07g1RoJJOC2p2Uu2OgbpMHcCRo5Kkdw86Z7yR5eDnPAxydZiKw5XRpKvbX2ke/Z1j
-	pnYGr/9Vun3dN44ViU08LQwI+6CQW2U4faLk7r5WnPQL+OtSZTLhkAgWrCxxOyKVBOOE81UJxRJ
-	3t+cOe9WEkY85nnpKIZqv7/TRdn7GXfg5ss0oIw9rs4z6wW2te4qyGE+8ROZmGeg7lhasld6kLh
-	c/w=
-X-Received: by 2002:ac8:5d41:0:b0:536:5783:43ac with SMTP id d75a77b69052e-5369b826136mr64421541cf.35.1792645115375;
-        Wed, 21 Oct 2026 21:58:35 -0700 (PDT)
-Received: from i4-gl-tmk5904.ad.psu.edu ([130.203.156.186])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-536ab729156sm17857071cf.14.2026.10.21.21.58.33
+        bh=LTcIwHCkV7H2yPlaX3buDu6FTvh743aqgH51nE4exbo=;
+        b=1dHQfcivS0Pm72GfEoWukOuujAY5gVV2w+jQ0FydGUieUg0q8aDApYzshZM3yTEKYd
+         OiTXAdg6105jzHM1FQW1rrJHzgEVESENMwtsojYbPqNuRCD8+hYD8MeM0Oayt1gQ0ZFX
+         K3TPo9Mz/XR7WHh5nEbaPf7mK150i412Qkzk/Ip/1roL9tzDFi/vTHKm40btpLgWYeIU
+         RhWIXts4nCY9Ih2LLTrvoVTyfLxlP8kZ5IEi1zGkvuX2nhvjs3Lur69kzGr7uAKP6eve
+         WtVaXrkdLSKHtE3F4PZbwqfiUBCYGi/L3odGAFqpf8W7rSya2uN4TD4n49l/AqLJYVJ2
+         H53g==
+X-Forwarded-Encrypted: i=1; AKwUvBzkSUjFhvbkIbpoY9F9661UmVOC+OmH1p70qyv1MJyMSDfh4u+eQpk9S1e9A4MDKCuCQinj5BiqG3lt@lists.infradead.org
+X-Gm-Message-State: AFq9FYKroBPxW1ymLZ5Nblyaojq147Y974+9Wn3ZR2zTsuyN2KbOy7n1
+	FZc3pL7XomzdWO4W8dXGQzK+drsKADFmLR7Tfcw+oWv/fwP4jaFzyanX
+X-Gm-Gg: AYBFou0T5sTVhjuA5hlvAU/4B7n6zHWwQ3j7IlOPgmEkaJ5aoLcfJluAlz2g4qnFy90
+	cH3zI3p160DLzlZwFfGq3+T84MCxPpUfdjXslLsTj3zKah0JvdUaaKmgBL/VBkEWeJVtBPYG39x
+	Z/pHooD2DBoM8z4RhOPwNosPzxz5O/YNDzAlahmIbwHBKtCDk8o3gcBKuLyKKIIX0CoHQxgWLcT
+	wcoshf8zlfSHvJWPxrRRVB9Y8/QFBfvKLMkQHczna/hqe12wVaYWo1//LXElPpljZL9PMarZImE
+	qgEnBlmrMqSOe1ee/U8SXbk60cuvcBNkbZImdG3nU+itSnzHrv8kUfzkScfjtX+YfTu1W61n3uB
+	Jw41B0KSbUlSRZmNcavW55awYIRrCX8fRd+LXhe7PxSggk1BrWoakGqYii4rfOceIMtMiv6EQ7V
+	B8ntqA82TQb0x0BWQvXEtKAx4Bu7qH5EsAoDwZcKfGoZoi9BTsgVmHAaAW3ncvreX1uwHvmujqm
+	Z7IPWfPhhQGFCxwGfCrJmKieTR1BS/dhaRebhDo4YC6EFYgZHowZ1PiGdck0YNHq319k9D9
+X-Received: by 2002:a05:600d:864d:10b0:49f:e941:d6e with SMTP id 5b1f17b1804b1-4a1fdd399dbmr60022755e9.21.1792650567635;
+        Wed, 21 Oct 2026 23:29:27 -0700 (PDT)
+Received: from localhost.localdomain ([2a06:c701:4778:c500:2fac:694b:933a:abb0])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1fc0b42bdsm96216345e9.0.2026.10.21.23.29.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2026 21:58:34 -0700 (PDT)
-From: Yuho Choi <oss.patchbox@gmail.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org,
+        Wed, 21 Oct 2026 23:29:27 -0700 (PDT)
+From: Avi Weiss <thnkslprpt@gmail.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	Yuho Choi <oss.patchbox@gmail.com>
-Subject: [PATCH v1] nvme-pci: shut down the controller if disabling the HMB fails on suspend
-Date: Thu, 22 Oct 2026 00:58:18 -0400
-Message-ID: <20261022045828.1392332-2-oss.patchbox@gmail.com>
+	Avi Weiss <thnkslprpt@gmail.com>
+Subject: [PATCH] nvmet: prevent double-free after metadata SGL allocation failure
+Date: Thu, 22 Oct 2026 09:29:23 +0300
+Message-ID: <20261022062923.3761399-1-thnkslprpt@gmail.com>
 X-Mailer: git-send-email 2.43.0
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261021_215837_543688_70854E19 
-X-CRM114-Status: GOOD (  18.80  )
-X-Spam-Score: -1.1 (-)
+X-CRM114-CacheID: sfid-20261022_072931_221360_967F3314 
+X-CRM114-Status: GOOD (  11.91  )
+X-Spam-Score: 2.0 (++)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,62 +114,43 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_GMAIL_RCVD,
-	FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,FROM_LOCAL_NOVOWEL,HEADER_FROM_DIFFERENT_DOMAINS,
+	HK_RANDOM_FROM,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-nvme_suspend() disables the host memory buffer before it moves the
-controller to a non-operational power state, as host memory access may
-not work in a system suspend state. It only treats a negative return
-from nvme_set_host_mem() as a failure, though. If the controller fails
-the Set Features command with an NVMe status, the HMB stays enabled and
-the controller is suspended with it in use.
+If metadata SGL allocation fails, nvmet_req_alloc_sgls() frees
+req->sg without clearing it. The RDMA error completion path later
+frees the same scatterlist again.
 
-On resume, nvme_setup_host_mem() then tries to enable the buffer again.
-If the controller rejects that, the buffer is freed while the controller
-can still access it, and the reset that nvme_resume() falls back to is
-not scheduled, as the controller is still LIVE.
+Use nvmet_req_free_sgls() instead so that the scatterlist pointers
+and counts are cleared before response cleanup.
 
-Handle a positive status like the power state change below does: shut
-the controller down, so that it no longer accesses the buffer and is
-reset on resume.
-
-Fixes: e5ad96f388b7 ("nvme-pci: disable hmb on idle suspend")
-Assisted-by: LLM
-Signed-off-by: Yuho Choi <oss.patchbox@gmail.com>
+Fixes: c6e3f13398123 ("nvmet: add metadata support for block devices")
+Signed-off-by: Avi Weiss <thnkslprpt@gmail.com>
 ---
-This was found by code inspection as part of ongoing, not yet
-published research. It has not been reproduced on hardware.
-Compile-tested only (x86_64 defconfig with BLK_DEV_NVME=y, W=1).
+ drivers/nvme/target/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/nvme/host/pci.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 77317e5d00f9..268d8fe0ac90 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -3997,6 +3997,14 @@ static int nvme_suspend(struct device *dev)
- 		ret = nvme_set_host_mem(ndev, 0);
- 		if (ret < 0)
- 			goto unfreeze;
-+		if (ret) {
-+			/*
-+			 * The controller may still access the HMB. Shut it
-+			 * down instead, which forces a reset on resume.
-+			 */
-+			ret = nvme_disable_prepare_reset(ndev, true);
-+			goto unfreeze;
-+		}
- 	}
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 07a74c2e1f58..8032924e657f 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -1359,7 +1359,7 @@ int nvmet_req_alloc_sgls(struct nvmet_req *req)
  
- 	ret = nvme_get_power_state(ctrl, &ndev->last_ps);
+ 	return 0;
+ out_free:
+-	sgl_free(req->sg);
++	nvmet_req_free_sgls(req);
+ out:
+ 	return -ENOMEM;
+ }
 
-base-commit: c03c1a14507dfaf8b856c2608f9ac216021fc222
+base-commit: a804c5742bff224d4cb4d25dd383554d598be32b
 -- 
 2.43.0
 
