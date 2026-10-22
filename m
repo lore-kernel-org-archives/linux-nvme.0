@@ -2,92 +2,95 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74814606A31E
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Oct 2026 12:03:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63064606A319
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Oct 2026 12:41:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=MWObqJSa;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=IDsSRTeW
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=LSDhmw03;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=uTCWLf2t
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Unsubscribe-Post:List-Owner;
-	bh=ZYP5yrgTb/w5dlTNs4dFxXJq9l0xNxdDp3WQtepGxwg=; b=MWObqJSaULBfyYxGC9DSXG+Hks
-	jG/ZZ4Jqs3IxYUiRIui6VrsUxH0rXjEZw/krf6g8B95+Lu5Epxu+/1PSISE/VbKeoKwxAA0ey05uv
-	08kIP+fAZHQSNbYtr5XXOZ1rOovRrEYb6DESTqpj1IiI7SFTnR8t3TDUPs4QlZwbcIUnmDe0JJPCn
-	v1xJo9rcfheGz3sW+MCFI7q07q/A8MSNo04hQ+Q55fGRQOgNXSiCKcb5KmNMoCFMkF53IKDZsXrlH
-	dVjMglHTfgVNq4ls8VdbfZEgjLQ/aRD5t2WU6vsrBsZc7Mwn7jwOTJcSH4Wv9Mo3vrynAYyejRd85
-	8B4nRe1g==;
+	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
+	List-Owner; bh=CcN6V0kVf6Aq31J0RAqWWkvpV1VAcbfbB6YKV5xFzr4=; b=LSDhmw03KnP9gd
+	WImBmQKnSQp7XJAi85Vplhs8x6xzcqKgE9X7TVCYTmkLgrajX/Te1fLmoKNdWGdzTqKY24ZWJVzRV
+	qz+CptHy6iP3uqWdVSKOhfL4XIAJkO4fDkPWnYpBLkgIFdI+ghEitt3H0fJVyxildhLReeRywBwCu
+	glKvebUHAmof2In9kRtnigHjS8BWhy7N5hhkmkMhfnGrmi6lidpHoaNMC9aJtREhcicY+IcSFWaT4
+	lWjRRGV/aM4SwKt1n9pTpuMswWku5K80JiwOydt6Un8TIb4mVKDPkiii6gkMZ46iUl2XO3Mv58aLs
+	AdQBP7HpO8gcEVBxFSXg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xJrWI-0000000E3Ao-138x;
-	Thu, 22 Oct 2026 12:03:42 +0000
-Received: from mail-dy1-x1332.google.com ([2607:f8b0:4864:20::1332])
+	id 1xJs6V-0000000E57v-0Fu9;
+	Thu, 22 Oct 2026 12:41:07 +0000
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xJrWF-0000000E3A7-3cq6
+	id 1xJs6R-0000000E57D-3rI2
 	for linux-nvme@lists.infradead.org;
-	Thu, 22 Oct 2026 12:03:41 +0000
-Received: by mail-dy1-x1332.google.com with SMTP id 5a478bee46e88-35ef6b49813so2320314eec.0
-        for <linux-nvme@lists.infradead.org>; Thu, 22 Oct 2026 05:03:39 -0700 (PDT)
+	Thu, 22 Oct 2026 12:41:05 +0000
+Received: by mail-pj1-x1032.google.com with SMTP id 98e67ed59e1d1-3ad787b79ffso1075516a91.1
+        for <linux-nvme@lists.infradead.org>; Thu, 22 Oct 2026 05:41:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792670618; x=1793275418; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ZYP5yrgTb/w5dlTNs4dFxXJq9l0xNxdDp3WQtepGxwg=;
-        b=IDsSRTeWcU6Zq++Bd4mTruVacBcilesHZotc+ErTZ8WMK6g66Muf1uGVQ5QcZoIgpu
-         68cdg9sM+GzKoE760jy1Ks4nd8VE9BsD5BXB3GSKtR37moHZhDs8q3ft6Tnzjhf7mYvI
-         vVYw5rYZqBtPdg4CuF4CjCuWh91w4as0IBU/rURl/E/bSA+M8L4ibdASj42r1cAQCTlu
-         hv1KGWfKdZQcU4xMV48LeTymORahHAT2kDCBJwqRX78GszAgUd0WIUp+W8j/x4Nkz+02
-         obFVfGVm/e5JMvwTNvR84AqA5fR2Grb5N0uG8XqmZygs3q2Alg14hvx01oGHgHyBmFYE
-         +5rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792670618; x=1793275418;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1792672863; x=1793277663; darn=lists.infradead.org;
+        h=content-transfer-encoding:content-type:mime-version:date:message-id
+         :subject:references:in-reply-to:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ZYP5yrgTb/w5dlTNs4dFxXJq9l0xNxdDp3WQtepGxwg=;
-        b=WkoF10pj6OHGD74ZV376mLXjqPSTKT+axcNT3S2ZZag1uk5WfhOczWUgkRk24Pieug
-         roG7WUZS/StZiSF3n/nbRpillPVk60gzG01kUkY2XRuQfkY5Qwq18ZwK3UlGfqekAmWz
-         zzPZ61LYG7rgOYSk6KVZZuusUeJ72zYI6oo43A6xkhgw2890ntLi3g3QWDI5XYeF79gq
-         v8jevzRcD88459VjKxQfCHnh4X7aWigrvdSa8CHBmHuwpgGpX7RQ0SKyVJ632/yEvdCE
-         Bl/31upBMkxV6dx2QZZs7yHG1KBSG3d3aUJuYCEgGPzuw5/KI8hqFKsJjPrRLSwIdzU1
-         wRwQ==
-X-Gm-Message-State: AFq9FYLArFYmPBAc0atUZUtVuHI3Pfb+PvP9f6QBEhCQZORJlY/RtrNv
-	1jiZ1cq1w6vhs4XO4WtV7855GQenNZhMF4ETbHPsMi9n4Y7iGucrP2JTxMM1MPn/
-X-Gm-Gg: AYBFou3U1VQ0oD4d4Mzv5tdwoqqKjuINjAzfxSROExiMghmS38odtE7fM2FiNnjke/q
-	JwqdhRZNJL0b4e+eEzEZSUpb4Hx4sBKty80RUuzWFmrzaFL8lkyzHM5QeVhMlAAEEqQPmgKdtqR
-	fwvYDgS+0nIUS4g97PWwPo1XN4O/HXfL3CIIoOje9VylDnpa7XAHuQtBqEo0HZamg/rtjv0mUFO
-	LZeyV4svvCqGGjqAj7g0OZP54aJe7Zj/waGlx82y6BpLJ8H59oI2CaacOacCd8ii+LgMCdCJaxI
-	9M8egzJp4kRp2/EJqHtd2QxohQsG9iPx2rbLmKsRZd6HcSD5aWKk8kQM4FvJhulFfuTBK934ydo
-	SscTMGhqLOFT0M+a3FfWE/vJ2FbTqt5z7qEfFcJlZ0bcSqJ7CtNpFTQCpCRD3Mkchxj35a6U8Nl
-	Ra4lPgLqZqMUyyBT7VWLhrItDC7EHPU1pCAdlQ/P6eYbGlvElbjlYJ1j7+T/9/vvLEQBfC39nqW
-	KC8bAp+6L7ScAA4RhOzk4Nm6ENYclrNGAdnuGUyhB9iR0zKd/J6zwxcDDCMvv2uopDPLEaxeROh
-	Figb
-X-Received: by 2002:a05:693c:42c3:b0:360:1637:404 with SMTP id 5a478bee46e88-3674f1164a4mr6500665eec.33.1792670618221;
-        Thu, 22 Oct 2026 05:03:38 -0700 (PDT)
-Received: from gooner.hq.netapp.com ([136.226.242.197])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3674198e2d6sm14324971eec.22.2026.10.22.05.03.35
+        bh=CcN6V0kVf6Aq31J0RAqWWkvpV1VAcbfbB6YKV5xFzr4=;
+        b=uTCWLf2tS15lxjP41kGKhH4zTx23McrMXRq0v6+JMWI1bWabZ1FigkMbrHBpI4TqIa
+         2vvI52tkjRgFKiVLx55Y9yLX1HJgro8ugN16OFWfpF8C61Xf39UY1kS42wYh2uTvdWtv
+         xJ6Z1Pxd3u/34PwFAvaNbiRrvaFctlJzkHTWQD5PY1GhndHQYhYf1hZ9SWSfxU7cIYMe
+         1QsMhfU0W7W64MVfegDZfTlkeu5+tiOeQTOSOtsJcbJcRWRzYQ03LX6ZBqqJXw8MdtS8
+         OOUOBfSeCblR5E5Clej1yYwWKMqeOFPonTBtmMIgMkERLNhapRSEXsrTBZhFPDSeMpOx
+         Lorw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792672863; x=1793277663;
+        h=content-transfer-encoding:content-type:mime-version:date:message-id
+         :subject:references:in-reply-to:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=CcN6V0kVf6Aq31J0RAqWWkvpV1VAcbfbB6YKV5xFzr4=;
+        b=r+3QnSLCie35tRWQYgqkpvPeawpyWz7XeMSb4IRcro9xT7LEGkwbmTmoG+yYWKop3i
+         kJiNKPPkHz1ITjbdCmmBQsoMwtveu1BfJC+zRnnM5ckglO+8/SRXfjqqxi2IuqWF0q2V
+         3eX8p5KCLWkkQVxODSLtWqwuOJeu0Q25THRnEWbwrA6kRDTElKavvx3Qn2CjVp0fC4KX
+         5KrCK/wbIgjz3Y255eHZqdU9uAxZUq0LSi0U8bbIYvywkaV9WNCZEv3INkHwR+RfCG1H
+         VCRp4AjllroWiaayjlAMBONiTCh1ev2pTXNie8AAEzEwl4ZFNTmpAQOZw/irtzX5TwYq
+         Tdig==
+X-Forwarded-Encrypted: i=1; AKwUvBzgFSFrp2QNVSExzi2bkYzq+dbIaSd9xuCvJqmYp27ZJWONVN79X/T5WOl0+45tpkXrYhuI8PKhMWSM@lists.infradead.org
+X-Gm-Message-State: AFq9FYIlIR6uxQbNXb5r67W6UKfsCbyQTQ7pAN8ysfxyT0RREl9vP/e2
+	DrjNEL7RXHCyV4F1/6ph3ROFPBbjXADxQclR5jy6BRZzQag5IGZ00FwhbeLXA3blu/o=
+X-Gm-Gg: AYBFou2Yv/OqVnBCXvtrcc8pjDtrDAJLZIYeRlThU559R0c1mU2a8w8dq0EtJGPc24A
+	yWcVXpqqxTpf2O6+Ra33hH8QGmX5OJDrEgK0X0L5njVA957BELgBhMbFr7PnWRlKVRvKDrsuNsJ
+	YTHyYfYZ8MshGuuEeoe7I1Avh0NrhL41c62oHJZZdGCuXpe1bSZjg2C2Ib1nhm6jmI8PtUc9i1H
+	8ajeqTVXt6k3EnWW+SSsBxqp9rTWZhZRWcyWb04EZlJ/VePEKwWLIPY0ByxorDpcijKJldQo/CV
+	XBs59dCJfOlo5lRCqT0LRQhNBz+JiQFwa+8No2du/PlW7GbD6M+6C5sKa5GIsojDfks2dsO1FbT
+	xOch5XrVCMj+jarEZtnFFhYOJpJNuX/qdrJsHBKPYd/Qe6OkBRQ35zStM2wbQLGuZKIxcK5UL/4
+	jH/9U6GvgO0BhU3EtTan5cxuQypwxh7wqXTu8pK2SDGsXdYNPJ7FP61476GsYBFrne5onTTQydV
+	mvM3jhGMfQRzFC981w5XxS+0IqStGo/OwPY0/W9N7xhuR0TR6nz+iFB9ELqyILIj75bMeNaRE95
+	KyacbM7ddSYqODok6wMiy2TIMYTLpSAZ8990fM4=
+X-Received: by 2002:a17:90b:3c12:b0:3ac:b7b9:6484 with SMTP id 98e67ed59e1d1-3ad86d57f66mr3763863a91.45.1792672862598;
+        Thu, 22 Oct 2026 05:41:02 -0700 (PDT)
+Received: from [192.168.1.106] ([198.8.77.135])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ad85f4b103sm4484148a91.3.2026.10.22.05.41.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2026 05:03:37 -0700 (PDT)
-From: Martin George <martinus.gpy@gmail.com>
-X-Google-Original-From: Martin George <marting@netapp.com>
-To: linux-nvme@lists.infradead.org
-Cc: hch@lst.de,
-	kbusch@kernel.org,
-	sagi@grimberg.me
-Subject: [PATCH] nvme-multipath: avoid size_t underflow in ANA log bounds checks
-Date: Thu, 22 Oct 2026 17:33:23 +0530
-Message-ID: <20261022120323.6684-1-marting@netapp.com>
-X-Mailer: git-send-email 2.43.0
+        Thu, 22 Oct 2026 05:41:02 -0700 (PDT)
+From: Jens Axboe <axboe@kernel.dk>
+To: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
+ asml.silence@gmail.com, Keith Busch <kbusch@meta.com>
+Cc: hch@lst.de, Keith Busch <kbusch@kernel.org>
+In-Reply-To: <20261021184658.644645-1-kbusch@meta.com>
+References: <20261021184658.644645-1-kbusch@meta.com>
+Subject: Re: [PATCH 0/2] block, nvme: minor fixes to dma-buf support
+Message-Id: <179267286175.3853015.14808759833206340958.b4-ty@b4>
+Date: Thu, 22 Oct 2026 06:41:01 -0600
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261022_050339_907585_E244CDF7 
-X-CRM114-Status: GOOD (  11.90  )
-X-Spam-Score: -2.1 (--)
+X-CRM114-CacheID: sfid-20261022_054104_245045_28285F9A 
+X-CRM114-Status: GOOD (  10.79  )
+X-Spam-Score: -1.9 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,47 +101,36 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-The ANA log bounds checks subtract the required size from ana_log_size
-in unsigned arithmetic, which can wrap when a rogue or buggy target
-reports an oversized nnsids. Compare as "ana_log_size - offset < required"
-instead, so the subtraction can't underflow and bypass the check.
 
-Signed-off-by: Martin George <marting@netapp.com>
----
- drivers/nvme/host/multipath.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Wed, 21 Oct 2026 11:46:56 -0700, Keith Busch wrote:
+> Just a couple minor fixes. I wish I could say I caught the first one
+> myself, but no, I prompted an LLM to look at it.
+> 
+> I am assuming changing the bi_offset type to accomodate large offsets
+> isn't acceptable as the bvec_iter's size appears to be packed to be
+> small. I think there's a path to accepting larger offsets through
+> bi_idx, but the patch proposed here is a safer quick fix.
+> 
+> [...]
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 87b934b46b85..701015022199 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -878,7 +878,7 @@ static int nvme_parse_ana_log(struct nvme_ctrl *ctrl, void *data,
- 		u32 nr_nsids;
- 		size_t nsid_buf_size;
- 
--		if (WARN_ON_ONCE(offset > ctrl->ana_log_size - sizeof(*desc)))
-+		if (WARN_ON_ONCE(ctrl->ana_log_size - offset < sizeof(*desc)))
- 			return -EINVAL;
- 
- 		nr_nsids = le32_to_cpu(desc->nnsids);
-@@ -894,7 +894,7 @@ static int nvme_parse_ana_log(struct nvme_ctrl *ctrl, void *data,
- 			return -EINVAL;
- 
- 		offset += sizeof(*desc);
--		if (WARN_ON_ONCE(offset > ctrl->ana_log_size - nsid_buf_size))
-+		if (WARN_ON_ONCE(ctrl->ana_log_size - offset < nsid_buf_size))
- 			return -EINVAL;
- 
- 		error = cb(ctrl, desc, data);
+Applied, thanks!
+
+[1/2] block: reject dma-bufs larger than 4GiB
+      commit: bcbd808652e127a704c21fa44d908eb56cbcda03
+[2/2] nvme-pci: detach dma-bufs only on removal
+      commit: fd13f31ac62abac4df2166bb0a6fbff53b288e0c
+
+Best regards,
 -- 
-2.43.0
+Jens Axboe
+
+
 
 
