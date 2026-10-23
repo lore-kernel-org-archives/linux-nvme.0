@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AE47606A31A
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Oct 2026 08:37:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09516606A31A
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Oct 2026 08:37:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=VdnKAlLZ;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=k3JuCwE4
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=rumvs96d;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=n+ruY2FF
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
 	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
@@ -14,48 +14,47 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=aXvl8cisX5PVCYWsS6C8JemrwOJTfHF55vzWTL0NKJg=; b=VdnKAlLZ4yd9nL6a+DHhiGPlLp
-	ltTsHalJN4yFNhYt+nqmtZo+mD6IgsKKriT7u98J2YkKpOEC+Sbpb8YiAR6Aa+QJXbaXtALElfF8t
-	yrYU1JQZOrduQmJP9lx3qsZe5qMo6htwn7cVS7677imAL5YwsU+MDB9DKTFQmDUDo5TVSZ0c+NHY4
-	6iNYGPEUClt1pfaOJEBk8ReRW24QcDxBsqfyL/pnPuv16kKtAD1dAZUM7glTU6tewaDyZNJTU9wb7
-	eD20NwZp0JLw2WOhxyvOJSoOfKWkKjepFXSci33lN7WJGDR7vHjRN65m4CSfWLEvylsgZHmpu5sLg
-	22gapJlA==;
+	bh=GHHjobLPKXZ2I/flGEFtASHLAgMzDqnTtMW4RKZLWn8=; b=rumvs96d+F5c5Db+hgqJSiffE7
+	ut3dPHcPEeWuavJ59Ic6+UoylTVgOYO8jqFbhrK69jYcQ9pDsBaNwjo/FeiCC6BJbr9pjqUknWmx+
+	/sPzJfxbyCiySjpbfirIT9X03nZnji/svlUIhh0Z7/539qOZW1R99FjmynMk/kUF4CEt7rkoV4K0I
+	8N/c2AtSKA/izcySfnAcHz6zPODUuTkPEy3cexVD3O4rrl4GNPhQO1y7MWTmT++eOBltbDKS/irLE
+	b42EAxUtQg/4A6lPM7ds9asuxBPXcHB7MzlImAk9tdiyoFlshlGbpyrNKDXa98NWAdoiXLQjvq4Vw
+	5zCxymTg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xKAm1-0000000FwX4-1v3t;
-	Fri, 23 Oct 2026 08:37:13 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1xKAmQ-0000000Fwbg-2wAV;
+	Fri, 23 Oct 2026 08:37:38 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xKAlz-0000000FwWy-3ImQ
+	id 1xKAmP-0000000Fwb2-1mmE
 	for linux-nvme@lists.infradead.org;
-	Fri, 23 Oct 2026 08:37:11 +0000
+	Fri, 23 Oct 2026 08:37:37 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 399FF41F97;
-	Fri, 23 Oct 2026 08:37:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 025101F01825;
-	Fri, 23 Oct 2026 08:37:10 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id EEA23421F2;
+	Fri, 23 Oct 2026 08:37:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B73751F01825;
+	Fri, 23 Oct 2026 08:37:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792744631;
-	bh=aXvl8cisX5PVCYWsS6C8JemrwOJTfHF55vzWTL0NKJg=;
+	s=k20260515; t=1792744656;
+	bh=GHHjobLPKXZ2I/flGEFtASHLAgMzDqnTtMW4RKZLWn8=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=k3JuCwE4m5sY85chYOiM8acnyXe+gZvx9Cv0e0T7nxkS9QEP+b2YuYmqx6hHCh/hG
-	 M0SVNMAHHriZ+fE9ahqQ2fIYVQvzjmCWV+HZ4DrpWVGzVmY8EgJFCYN6DzRn/liKvz
-	 wPmUiWouXeNEpAbu7/RGrLGlkPKFundf2459+31w3pFU8ksCHBJmIHcE6wkrjWOQeY
-	 c8gx0yOFElkauU6OWHC3LUQGrVLvvpgDdpcP72og56542XoE5kqDt+9NO4LSqUuAoz
-	 W8X3V3Drm/9wKIN6MMHFoSJ5LWu5/r4a0FdN0Ol5fnkgA3YzvIwJXVLe9LwiE1RonS
-	 cbAuBd5zf93pA==
-Message-ID: <sashiko-outbox-182525@kernel.org>
+	b=n+ruY2FFYnczL+PrxNB4oaJ+4LmDDJldoj+UkhjLQhSSRDWBPoyhqsfEdIkAVsJlz
+	 D8Ip00l9soOAaD7aOcdqAYNzgZC61s7ezDSMIaw84QSsf5luCDVMPNwjzaaSgq/V4D
+	 14L1IMZ335a0xv+dsOj9M/F7DT6wn8P8SG2kxLL71sMwzALwq6BWhEZOmDLZrAmI2X
+	 Z1SevPCuOXjUqSr2m7OF5Ns2G3prfH/zjPdk0XepTmMWj07Uqjxq80z6W2OpM7wOuF
+	 Edrk7Ddu9NFQ3gQKckRD420JJ6dJk06umQ5+Te7atK6DtEtnVmmMvT1KDAcFp0L/bq
+	 G8H85Imlm2k0w==
+Message-ID: <sashiko-outbox-182526@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 08/11] nvmet: forward the FDP I/O management commands to
- the backing device
+Subject: Re: [PATCH 09/11] nvmet: serve the FDP log pages
 To: "Guixin Liu" <kanie@linux.alibaba.com>
 Cc: linux-nvme@lists.infradead.org
-In-Reply-To: <20261023080251.2606443-9-kanie@linux.alibaba.com>
+In-Reply-To: <20261023080251.2606443-10-kanie@linux.alibaba.com>
 References: <20261023080251.2606443-1-kanie@linux.alibaba.com>
- <20261023080251.2606443-9-kanie@linux.alibaba.com>
+ <20261023080251.2606443-10-kanie@linux.alibaba.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 23 Oct 2026 08:37:10 +0000
+Date: Fri, 23 Oct 2026 08:37:36 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,315 +74,273 @@ X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 X-Archived-By: <archiver.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 6 potential issue(=
+Thank you for your contribution! Sashiko AI review found 3 potential issue(=
 s) to consider:
-- [Critical] nvmet: 32-bit overflow in imr.numd transfer length calculation
-- [High] nvmet: I/O management commands bypass persistent reservation checks
-- [Medium] nvmet: check for exact RUH count match in nvmet_fdp_init_backend=
-()
-- [Medium] nvmet: fdp: validate MO and FDP state before checking transfer l=
-ength
-- [Medium] nvmet: unbounded kzalloc() size in nvmet_fdp_io_mgmt_forward()
-- [Medium] nvmet: nvmet_io_cmd_check_access() rejects nvme_cmd_io_mgmt_recv=
- on ro ns
+- [Critical] nvmet: unsanitized cmd and truncated transfer_len in nvmet_fdp=
+_log_forward()
+- [High] nvmet: broken partial/offset reads and unbounded kzalloc() in FDP =
+log handlers
+- [High] nvmet: check NVMET_NS_IO_LIVE instead of ns->enabled in nvmet_fdp_=
+lookup_ns()
 --
 
-commit 4f84fb2c45be67fb452f4d8f98d902624309a456
+commit 6fe9b61853a62f18f9ae3bb5a0ad4dcfebf1822f
 Author: Guixin Liu <kanie@linux.alibaba.com>
 
-nvmet: forward the FDP I/O management commands to the backing device
+nvmet: serve the FDP log pages
 
-This commit adds support for forwarding NVMe FDP I/O Management Receive and
-Send commands to the backing NVMe namespace via a staging buffer and
-validates the backing FDP placement identifier mapping when enabling a
-namespace.
-
-> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-> index 14f55631cf502..cdf5a4c183edd 100644
-> --- a/drivers/nvme/target/core.c
-> +++ b/drivers/nvme/target/core.c
-> @@ -1110,9 +1110,22 @@ static u32 nvmet_io_cmd_transfer_len(struct nvmet_=
-req *req)
->  		return nvmet_dsm_len(req);
->  	case nvme_cmd_zone_mgmt_recv:
->  		return (le32_to_cpu(req->cmd->zmr.numd) + 1) << 2;
-> +	case nvme_cmd_io_mgmt_recv:
-> +		if (IS_ENABLED(CONFIG_NVME_TARGET_FDP))
-> +			return (le32_to_cpu(req->cmd->imr.numd) + 1) << 2;
-> +		break;
-> +	case nvme_cmd_io_mgmt_send:
-> +		if (IS_ENABLED(CONFIG_NVME_TARGET_FDP)) {
-> +			u32 npid =3D le16_to_cpu(req->cmd->ims.mos);
-> +
-> +			return (npid + 1) * sizeof(__le16);
-> +		}
-> +		break;
->  	default:
-> -		return 0;
-> +		break;
->  	}
-> +
-> +	return 0;
->  }
-> =20
->  static u16 nvmet_parse_io_cmd(struct nvmet_req *req)
-> @@ -1154,6 +1167,17 @@ static u16 nvmet_parse_io_cmd(struct nvmet_req *re=
-q)
->  			return ret;
->  	}
-> =20
-> +	if (IS_ENABLED(CONFIG_NVME_TARGET_FDP)) {
-> +		switch (req->cmd->common.opcode) {
-> +		case nvme_cmd_io_mgmt_recv:
-> +			req->execute =3D nvmet_execute_io_mgmt_recv;
-> +			return 0;
-> +		case nvme_cmd_io_mgmt_send:
-> +			req->execute =3D nvmet_execute_io_mgmt_send;
-> +			return 0;
-> +		}
-> +	}
-
-[Severity: High]
-Does returning 0 here bypass the persistent reservation access checks for
-nvme_cmd_io_mgmt_recv and nvme_cmd_io_mgmt_send when req->ns->pr.enable is
-set?
-
-In nvmet_parse_io_cmd(), the earlier call to nvmet_parse_pr_cmd() only
-handles the four reservation opcodes (register, acquire, release, report)
-and returns 1 for other I/O commands. The actual access enforcement and
-per-controller reference acquisition happen at the end of
-nvmet_parse_io_cmd():
-
-drivers/nvme/target/core.c:nvmet_parse_io_cmd() {
-    ...
-	if (req->ns->pr.enable) {
-		ret =3D nvmet_pr_check_cmd_access(req);
-		if (ret)
-			return ret;
-
-		ret =3D nvmet_pr_get_ns_pc_ref(req);
-	}
-	return ret;
-}
-
-Because the new switch returns 0 early, neither nvmet_pr_check_cmd_access()
-nor nvmet_pr_get_ns_pc_ref() is reached (and req->ns->csi is not checked).
-In addition, nvmet_is_req_write_cmd_group() and
-nvmet_is_req_read_cmd_group() in drivers/nvme/target/pr.c do not list
-nvme_cmd_io_mgmt_send or nvme_cmd_io_mgmt_recv, so reservation conflict
-checks and preempt-and-abort reference tracking would not cover these
-commands.
-
-[Severity: Medium]
-Also in nvmet_parse_io_cmd(), nvmet_io_cmd_check_access() is called just
-before this switch. When a namespace is write-protected
-(req->ns->readonly), nvmet_io_cmd_check_access() only allows nvme_cmd_read
-and nvme_cmd_flush:
-
-drivers/nvme/target/core.c:nvmet_io_cmd_check_access() {
-	if (unlikely(req->ns->readonly)) {
-		switch (req->cmd->common.opcode) {
-		case nvme_cmd_read:
-		case nvme_cmd_flush:
-			break;
-		default:
-			return NVME_SC_NS_WRITE_PROTECTED;
-		}
-	}
-
-	return 0;
-}
-
-Should nvme_cmd_io_mgmt_recv be permitted in nvmet_io_cmd_check_access() so
-that hosts can still read Reclaim Unit Handle Status on a write-protected
-namespace instead of failing with NVME_SC_NS_WRITE_PROTECTED?
+This commit adds support for serving the FDP Configurations log page
+from the target's namespace configuration snapshot and forwarding the
+remaining FDP log pages to the backing controller over its admin queue.
 
 > diff --git a/drivers/nvme/target/fdp.c b/drivers/nvme/target/fdp.c
-> index 5008294984885..807f54c73c4e1 100644
+> index 807f54c73c4e1..011f022e857aa 100644
 > --- a/drivers/nvme/target/fdp.c
 > +++ b/drivers/nvme/target/fdp.c
 
 [ ... ]
 
-> +static u16 nvmet_fdp_io_mgmt_forward(struct nvmet_req *req, bool recv)
+> @@ -355,3 +354,100 @@ static int nvmet_fdp_init_backend(struct nvmet_ns *=
+ns)
+>  	return ret;
+>  }
+> =20
+> +void nvmet_execute_get_log_page_fdp_configs(struct nvmet_req *req)
 > +{
-> +	struct nvme_command c =3D {};
+> +	u32 lsi =3D le16_to_cpu(req->cmd->get_log_page.lsi);
+> +	struct nvme_fdp_config_desc *desc;
+> +	struct nvme_fdp_config_log *log;
+> +	struct nvmet_ns *ns;
+> +	size_t dsze, total;
 > +	u16 status =3D 0;
-> +	void *buf;
-> +	int ret;
+> +	int i;
 > +
-> +	buf =3D kzalloc(req->transfer_len, GFP_KERNEL);
-> +	if (!buf)
-> +		return NVME_SC_INTERNAL;
-
-[Severity: Medium]
-Can an initiator trigger a page allocator warning in
-nvmet_fdp_io_mgmt_forward() by supplying a large matching imr.numd and SGL
-length?
-
-In nvmet_execute_io_mgmt_recv(), nvmet_check_transfer_len() only checks that
-(numd + 1) << 2 equals req->transfer_len without imposing an upper bound. On
-transports such as RDMA or FC where req->sg is allocated from discontiguous
-pages via sgl_alloc(), a host can supply a transfer_len larger than
-KMALLOC_MAX_SIZE (for example, 8 MiB). Passing that unbounded
-req->transfer_len to kzalloc(..., GFP_KERNEL) without a size limit or
-__GFP_NOWARN will reach ___kmalloc_large_node() ->
-__alloc_frozen_pages_noprof() and trigger WARN_ON_ONCE_GFP(order >
-MAX_PAGE_ORDER, gfp).
-
-Should req->transfer_len be bounded (or allocated with __GFP_NOWARN) before
-calling kzalloc()?
-
-> +
-> +	if (!recv) {
-> +		status =3D nvmet_copy_from_sgl(req, 0, buf, req->transfer_len);
-> +		if (status)
-> +			goto free;
-> +	}
-> +
-> +	c.common =3D req->cmd->common;
-> +	c.common.nsid =3D cpu_to_le32(req->ns->fdp.backend_nsid);
-> +	c.common.dptr =3D (union nvme_data_ptr){};
-> +	ret =3D nvme_submit_sync_cmd(req->ns->fdp.backend_q, &c, buf,
-> +				   req->transfer_len);
-> +	if (ret) {
-> +		status =3D ret > 0 ? ret : NVME_SC_INTERNAL;
-> +		goto free;
-> +	}
-> +
-> +	if (recv)
-> +		status =3D nvmet_copy_to_sgl(req, 0, buf, req->transfer_len);
-> +free:
-> +	kfree(buf);
-> +	return status;
-> +}
-> +
-> +void nvmet_execute_io_mgmt_recv(struct nvmet_req *req)
-> +{
-> +	u16 status;
-> +
-> +	status =3D nvmet_fdp_io_mgmt_check(req);
-> +	if (status)
-> +		goto out;
-> +
-> +	if (!nvmet_check_transfer_len(req,
-> +			(le32_to_cpu(req->cmd->imr.numd) + 1) << 2))
-> +		return;
-
-[Severity: Critical]
-Can the 32-bit calculation (le32_to_cpu(req->cmd->imr.numd) + 1) << 2
-overflow here and in nvmet_io_cmd_transfer_len()?
-
-Because le32_to_cpu(req->cmd->imr.numd) is a 32-bit unsigned value, any
-imr.numd >=3D 0x3fffffff wraps around in 32-bit arithmetic before being pas=
-sed
-as size_t len to nvmet_check_transfer_len().
-
-For example, if a host sends imr.numd =3D 0x40000000 with a 4-byte SGL
-(req->transfer_len =3D 4), (0x40000000U + 1) << 2 wraps to 4 and passes
-nvmet_check_transfer_len(). Then nvmet_fdp_io_mgmt_forward() allocates a
-4-byte buffer with kzalloc(4, GFP_KERNEL), copies req->cmd->common into c
-with the unwrapped c.imr.numd =3D 0x40000000, and submits it to
-req->ns->fdp.backend_q. On a PCIe NVMe backing controller using PRPs (which
-only carry the DMA address in prp1 and rely on imr.numd for the transfer
-size), the controller can DMA the full RUHS payload past the end of the
-4-byte slab buffer. Similarly, imr.numd =3D 0x3fffffff wraps to 0, causing
-kzalloc(0, GFP_KERNEL) to return ZERO_SIZE_PTR and submitting a non-zero
-numd command with an unmapped buffer.
-
-> +
-> +	if (req->cmd->imr.mo !=3D NVME_IO_MGMT_RECV_MO_RUHS) {
+> +	ns =3D nvmet_fdp_lookup_ns(req, lsi);
+> +	if (!ns) {
 > +		status =3D NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
 > +		goto out;
 > +	}
+
+[Severity: High]
+Can calling nvmet_fdp_lookup_ns() here and in nvmet_fdp_log_forward() race
+with nvmet_ns_disable() and nvmet_ns_free()?
+
+In drivers/nvme/target/fdp.c, nvmet_fdp_lookup_ns() checks ns->enabled
+under rcu_read_lock() instead of test_bit(NVMET_NS_IO_LIVE, &ns->flags):
+
+drivers/nvme/target/fdp.c:nvmet_fdp_lookup_ns() {
+	rcu_read_lock();
+	ns =3D xa_load(&subsys->namespaces, endgid);
+	if (!ns || !ns->enabled || !nvmet_fdp_enabled(ns))
+		goto out_unlock;
+
+	if (!percpu_ref_tryget_live(&ns->ref))
+		goto out_unlock;
+}
+
+However, in drivers/nvme/target/core.c, nvmet_ns_disable() clears
+NVMET_NS_IO_LIVE, kills the percpu_ref, and runs synchronize_rcu() and
+nvmet_fdp_exit_ns() before setting ns->enabled =3D false:
+
+drivers/nvme/target/core.c:nvmet_ns_disable() {
+	if (!test_and_clear_bit(NVMET_NS_IO_LIVE, &ns->flags))
+		return;
+	...
+	percpu_ref_kill(&ns->ref);
+	synchronize_rcu();
+	wait_for_completion(&ns->disable_done);
+	percpu_ref_exit(&ns->ref);
+	...
+	nvmet_fdp_exit_ns(ns);
+
+	mutex_lock(&subsys->lock);
+	nvmet_ns_changed(subsys, ns->nsid);
+	nvmet_ns_dev_disable(ns);
+	ns->enabled =3D false;
+	mutex_unlock(&subsys->lock);
+}
+
+When nvmet_ns_free() calls nvmet_ns_disable(), it immediately erases the
+namespace from subsys->namespaces and calls kfree(ns) without another RCU
+grace period after ns->enabled is cleared. An RCU reader in
+nvmet_fdp_lookup_ns() entering after synchronize_rcu() can still see
+ns->enabled =3D=3D true and call percpu_ref_tryget_live(&ns->ref) on freed
+memory.
+
+Additionally, if a reader in nvmet_fdp_lookup_ns() passes the ns->enabled
+and nvmet_fdp_enabled(ns) checks while the namespace is being disabled, and
+the namespace is then reconfigured with FDP disabled and re-enabled via
+nvmet_ns_enable() (which re-initializes ns->ref),
+percpu_ref_tryget_live(&ns->ref) can succeed after nvmet_fdp_exit_ns() has
+set ns->fdp.backend_ctrl =3D NULL, leading to a NULL pointer dereference of
+ns->fdp.backend_ctrl->admin_q in nvmet_fdp_log_forward().
+
+Should nvmet_fdp_lookup_ns() check test_bit(NVMET_NS_IO_LIVE, &ns->flags)
+just like nvmet_req_find_ns() does?
+
 > +
-> +	status =3D nvmet_fdp_io_mgmt_forward(req, true);
+> +	dsze =3D ALIGN(struct_size(desc, ruhs, ns->fdp.nruh), 8);
+> +	total =3D sizeof(*log) + dsze;
+> +
+> +	log =3D kzalloc(req->transfer_len, GFP_KERNEL);
+> +	if (!log) {
+> +		status =3D NVME_SC_INTERNAL;
+> +		goto out_put;
+> +	}
+> +
+> +	if (req->transfer_len >=3D sizeof(*log)) {
+> +		/* single configuration, 0's based */
+> +		log->numfdpc =3D 0;
+> +		log->ver =3D 0;
+> +		log->sze =3D cpu_to_le32(total);
+> +	}
+> +	if (req->transfer_len >=3D total) {
+> +		desc =3D (void *)(log + 1);
+> +		desc->dsze =3D cpu_to_le16(dsze);
+> +		/* FDPCV set, FDPVWC clear, RGIF 0 for the single RG */
+> +		desc->fdpa =3D 1 << 7;
+> +		desc->nrg =3D cpu_to_le32(1);
+> +		desc->nruh =3D cpu_to_le16(ns->fdp.nruh);
+> +		desc->maxpids =3D cpu_to_le16(ns->fdp.nruh - 1);
+> +		desc->nns =3D cpu_to_le32(1);
+> +		desc->runs =3D cpu_to_le64(ns->fdp.runs);
+> +		/* all handles Initially Isolated */
+> +		for (i =3D 0; i < ns->fdp.nruh; i++)
+> +			desc->ruhs[i].ruht =3D 0x1;
+> +	}
+
+[Severity: High]
+What happens here when a host performs a partial read with
+sizeof(*log) < req->transfer_len < total (or req->transfer_len < sizeof(*lo=
+g)),
+or specifies a non-zero Log Page Offset (req->cmd->get_log_page.lpo)?
+
+Because desc is only populated when req->transfer_len >=3D total, any parti=
+al
+read between sizeof(*log) and total (such as reading the header plus the
+fixed portion of struct nvme_fdp_config_desc, or reading the descriptor at
+a non-zero lpo with transfer_len =3D=3D dsze) will copy all-zeroes for the
+descriptor, even though nvmet_execute_identify_ctrl() advertises LPO support
+in id->lpa.
+
+Also, passing the initiator-controlled req->transfer_len directly to
+kzalloc(req->transfer_len, GFP_KERNEL) here and in nvmet_fdp_log_forward()
+without bounding the length or passing __GFP_NOWARN allows a large SGL
+transfer_len (for example on RDMA) to exceed KMALLOC_MAX_SIZE and trigger
+WARN_ON_ONCE_GFP(order > MAX_PAGE_ORDER, gfp) in the page allocator.
+
+Could nvmet_execute_get_log_page_fdp_configs() instead allocate total bytes
+(which is bounded because ns->fdp.nruh <=3D U8_MAX), populate the log header
+and descriptor unconditionally, and copy the requested slice based on
+nvmet_get_log_page_offset(req->cmd) and req->transfer_len (similar to
+nvmet_execute_disc_get_log_page() in drivers/nvme/target/discovery.c)?
+
+> +
+> +	status =3D nvmet_copy_to_sgl(req, 0, log, req->transfer_len);
+> +	kfree(log);
+> +out_put:
+> +	percpu_ref_put(&ns->ref);
 > +out:
 > +	nvmet_req_complete(req, status);
 > +}
 > +
-> +void nvmet_execute_io_mgmt_send(struct nvmet_req *req)
+> +/*
+> + * Forward an FDP log page that the backing controller owns, addressed
+> + * by the Endurance Group Identifier of the backing endurance group.
+> + */
+> +void nvmet_fdp_log_forward(struct nvmet_req *req)
 > +{
-> +	u16 status;
+> +	struct nvme_command c =3D {};
+> +	struct nvmet_ns *ns;
+> +	u16 status =3D 0;
+> +	void *buf;
+> +	int ret;
 > +
-> +	status =3D nvmet_fdp_io_mgmt_check(req);
-> +	if (status)
-> +		goto out;
-> +
-> +	if (!nvmet_check_transfer_len(req,
-> +			(le16_to_cpu(req->cmd->ims.mos) + 1) * sizeof(__le16)))
-> +		return;
-> +
-> +	if (req->cmd->ims.mo !=3D NVME_IO_MGMT_SEND_MO_RUH_UPDATE) {
+> +	ns =3D nvmet_fdp_lookup_ns(req,
+> +				 le16_to_cpu(req->cmd->get_log_page.lsi));
+> +	if (!ns) {
 > +		status =3D NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
 > +		goto out;
 > +	}
-
-[Severity: Medium]
-Should the Management Operation (ims.mo and imr.mo) be validated before
-calling nvmet_check_transfer_len(), and also checked along with
-nvmet_fdp_enabled(req->ns) in nvmet_io_cmd_transfer_len()?
-
-In the NVMe specification, ims.mos only encodes NPID when ims.mo is
-NVME_IO_MGMT_SEND_MO_RUH_UPDATE; other MO values (such as 00h, No Action) do
-not transfer data. Because nvmet_check_transfer_len() runs before checking
-ims.mo (and always expects at least 2 bytes), a command with an unsupported
-MO and a 0-byte SGL fails in nvmet_check_transfer_len() with
-NVME_SC_SGL_INVALID_DATA instead of NVME_SC_INVALID_FIELD. Likewise, on PCI
-endpoint targets, nvmet_pci_epf_exec_iod_work() uses
-nvmet_io_cmd_transfer_len() before req->execute() runs, so returning a
-non-zero length when FDP is disabled or MO is unsupported causes unnecessary
-buffer allocation and host DMA before the command is rejected.
-
-[ ... ]
-
-> +static int nvmet_fdp_init_backend(struct nvmet_ns *ns)
-> +{
-> +	struct nvme_fdp_ruh_status *st;
-> +	struct nvme_id_ns *id;
-> +	int ret, i;
-
-[ ... ]
-
-> +	if (le16_to_cpu(st->nruhsd) < ns->fdp.nruh) {
-> +		pr_err("the ns:%u backing reports fewer handles than write streams\n",
-> +		       ns->nsid);
-> +		ret =3D -EINVAL;
-> +		goto free_st;
+> +
+> +	buf =3D kzalloc(req->transfer_len, GFP_KERNEL);
+> +	if (!buf) {
+> +		status =3D NVME_SC_INTERNAL;
+> +		goto out_put;
 > +	}
 > +
-> +	for (i =3D 0; i < ns->fdp.nruh; i++) {
-> +		if (le16_to_cpu(st->ruhsd[i].pid) !=3D i) {
-> +			pr_err("the ns:%u backing placement identifiers are not identity mapp=
-ed\n",
-> +			       ns->nsid);
-> +			ret =3D -EINVAL;
-> +			goto free_st;
-> +		}
-> +	}
+> +	c =3D *req->cmd;
+> +	c.get_log_page.nsid =3D cpu_to_le32(0);
+> +	c.get_log_page.lsi =3D cpu_to_le16(ns->fdp.backend_endgid);
+> +	ret =3D nvme_submit_sync_cmd(ns->fdp.backend_ctrl->admin_q, &c, buf,
+> +				   req->transfer_len);
 
-[Severity: Medium]
-Should nvmet_fdp_init_backend() check that le16_to_cpu(st->nruhsd) !=3D
-ns->fdp.nruh rather than only checking for fewer handles?
+[Severity: Critical]
+Can forwarding a raw copy of *req->cmd with the 32-bit result of
+nvmet_get_log_page_len() cause the backing NVMe controller to DMA into
+arbitrary host addresses or overflow buf?
 
-In the NVMe host driver, nvme_query_fdp_info() clamps head->nr_plids (which
-becomes bdev_max_write_streams()) to NVME_MAX_PLIDS (U8_MAX):
+In drivers/nvme/target/admin-cmd.c, nvmet_execute_get_log_page() checks
+req->transfer_len against nvmet_get_log_page_len(req->cmd), which computes
+the byte length in 32-bit u32 arithmetic:
 
-drivers/nvme/host/core.c:nvme_query_fdp_info() {
-    ...
-	head->nr_plids =3D min(le16_to_cpu(ruhs->nruhsd), NVME_MAX_PLIDS);
-    ...
+drivers/nvme/target/admin-cmd.c:nvmet_get_log_page_len() {
+	u32 len =3D le16_to_cpu(cmd->get_log_page.numdu);
+
+	len <<=3D 16;
+	len +=3D le16_to_cpu(cmd->get_log_page.numdl);
+	/* NUMD is a 0's based value */
+	len +=3D 1;
+	len *=3D sizeof(u32);
+
+	return len;
 }
 
-If the backing namespace has more than U8_MAX Reclaim Unit Handles,
-ns->fdp.nruh in nvmet_fdp_init_ns() will be U8_MAX while st->nruhsd returned
-by nvmet_fdp_backend_ruhs() is larger than ns->fdp.nruh. Since
-nvmet_execute_io_mgmt_recv() forwards the backing namespace's RUHS response
-directly to the remote host, any extra descriptors beyond ns->fdp.nruh would
-be exposed to the host without having been checked for identity mapping and
-would conflict with the target's reported nruh and maxpids.
+When the 32-bit NUMD value ((numdu << 16) | numdl) is >=3D 0x3fffffff,
+(NUMD + 1) * sizeof(u32) overflows u32 and wraps modulo 2^32. Meanwhile,
+nvmet_fdp_log_forward() copies the raw command (c =3D *req->cmd) without
+clearing c.common.dptr or c.get_log_page.rsvd2, and passes the untruncated
+numdu/numdl to the backing controller:
+
+1. If NUMD wraps len to 0 (e.g. NUMD =3D=3D 0x3fffffff with a 0-length SGL =
+so
+req->transfer_len =3D=3D 0), nvmet_check_transfer_len(req, 0) succeeds and
+kzalloc(0, GFP_KERNEL) returns ZERO_SIZE_PTR. In __nvme_submit_sync_cmd(),
+nvme_init_request() clears NVME_CMD_SGL_ALL from c.common.flags (switching
+the command to PRP mode) and skips blk_rq_map_kern() because bufflen is 0:
+
+drivers/nvme/host/core.c:__nvme_submit_sync_cmd() {
+	nvme_init_request(req, cmd);
+	if (flags & NVME_SUBMIT_RETRY)
+		req->cmd_flags &=3D ~REQ_FAILFAST_DRIVER;
+
+	if (buffer && bufflen) {
+		ret =3D blk_rq_map_kern(req, buffer, bufflen, GFP_KERNEL);
+		if (ret)
+			goto out;
+	}
+}
+
+In nvme_prep_rq(), blk_rq_nr_phys_segments(req) is 0, so nvme_map_data() is
+skipped and the initiator's raw c.common.dptr (prp1/prp2) remains in the
+admin SQE with NUMD >=3D 0x3fffffff, instructing the backing PCIe controller
+to DMA the log page into initiator-chosen physical/IOVA addresses.
+
+2. If NUMD wraps len to a small non-zero value (e.g. numdu =3D=3D 0x4000,
+numdl =3D=3D 0x0000 so req->transfer_len =3D=3D 4), kzalloc(4, GFP_KERNEL) =
+allocates
+an 8-byte slab buffer and blk_rq_map_kern() maps 4 bytes, while numdu/numdl
+in the forwarded admin SQE requests 4 GiB + 4 bytes. Since PCIe admin
+queues use PRPs (which do not encode buffer length), the backing controller
+DMAs the full FDP log page past the end of buf.
+
+Should nvmet_fdp_log_forward() construct a clean struct nvme_command (or
+zero c.common.dptr and rsvd2 as nvmet_fdp_io_mgmt_forward() does for dptr)
+and derive numdl/numdu from a bounded buffer length (or use a host helper
+like nvme_get_log_lsi()), and should nvmet_get_log_page_len() avoid 32-bit
+overflow?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261023080251.2606=
-443-1-kanie@linux.alibaba.com?part=3D8
+443-1-kanie@linux.alibaba.com?part=3D9
 
