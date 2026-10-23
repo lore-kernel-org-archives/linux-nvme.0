@@ -2,58 +2,90 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3CF4606A31F
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Oct 2026 10:54:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12022606A31A
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Oct 2026 11:36:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=SvOnx4p2;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KdTvWrho
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=mGIuEOs+;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=IBUDF8L1
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
-	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Cc:To:Subject:
-	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
 	List-Unsubscribe-Post:List-Owner;
-	bh=6A6yJDChGAjnhYV4h08pUIFeRVH5G9WSjV0B9ydYDgo=; b=SvOnx4p2KUdcVZZU8lzx3J1xnD
-	5mehv/4dVn5ols48bvFaoLxPfOFX01r8YWSpfWWpSFpVHrTVsdJ7zF3/CSBXFY9irDEXvPCdbP7YD
-	hevlK879eezEX2ZmVDb3eum52t4wO3pZRdXtq2YwlS7nExTiuhB2tuzVO7fmatNu9oUaz1P9DZl0Y
-	VIGO+ELPO3jXWr0krd9lT0lMIjoSKH2RUkAAl7+jXEF8Dht8QQ2kcbxeI9ZsRqicgen6tOjEAum8g
-	Ap12VBv4yf7fk02RzayPWt/XmEQoRW2rP4faNQgRnI8x5P6aIIewEq4VGKDnCB7mAtFzxRE5Pq/ZO
-	lwruMA2A==;
+	bh=IuDvY+GZo871EJkCLit2ojV8/CoV5VnvDfBzzstEvUM=; b=mGIuEOs+60r9GHn/V0oMuKLWYp
+	jtimfYxAtvxT8lPznMht9R6VMGVLm0KJmxm4gTWZP/nXWHXSvWkDLNy6Hr156by57OSBdwcOIG4+u
+	YJ9jeyQ2MIUthV2bIXRQYzYGb4NUY/X7hsPx7LCnXBmqCx1soTgYdrV2pSYl1joiF2iOujQYPw03B
+	8whQPlWA1AWFYTOsUrdQUfZHrPnpPtSHrDGzZBsCMNaR76sSGGnt/4pyD6RXvRwO81DnSqRWf2ctb
+	RZ3iSugll2py6dAl6nhh5vJbbdiZPhceIElNYVXzL0XPwTUMFLxtR4OwpbhdZsklpGWm0tGET77IK
+	QctCunng==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xKCuS-0000000GBgb-3GLz;
-	Fri, 23 Oct 2026 10:54:04 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1xKDZc-0000000GEr0-1gJN;
+	Fri, 23 Oct 2026 11:36:36 +0000
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xKCuQ-0000000GBgI-3dEs
+	id 1xKDZZ-0000000GEqg-2nXL
 	for linux-nvme@lists.infradead.org;
-	Fri, 23 Oct 2026 10:54:02 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 5125D41701;
-	Fri, 23 Oct 2026 10:54:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 159B71F01828;
-	Fri, 23 Oct 2026 10:54:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792752842;
-	bh=6A6yJDChGAjnhYV4h08pUIFeRVH5G9WSjV0B9ydYDgo=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=KdTvWrhomHZEOnevSlKT/BLC6bRShnA19UBejCXcvL11lmqm2aavrdPl7zyu6QP0T
-	 9xpReuYm1UkvTxldB1LsB3F9L34Zf/InRogMSdA0LDRtzbfi/6qsPy9BW2+rwp3yrA
-	 odlC5ritvj/Jtr6ZoVw75kwaEAwhLi8sSaSQVnMV+Khoq1zNhWSmUjXwhORTXO1Udh
-	 jxcuTOVilDTWUq7XXwSbGSTiaFVKs5wOTJO6Yfs+/lrlarvQFfR6JVRVO5UtkRE+E1
-	 q1xqDHuYEiSspdIfZR88bAWJYnac+RvbMFZALv/ciVdxNS9WkO6vlDglT4rValp4c5
-	 0mWFruTDGs/zw==
-Message-ID: <sashiko-outbox-182710@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] nvme-pci: disable accessible controller on error paths
-To: "Eduard Zateev" <hackerowskiy@gmail.com>
-Cc: linux-nvme@lists.infradead.org
-In-Reply-To: <20261023101825.139040-1-hackerowskiy@gmail.com>
-References: <20261023101825.139040-1-hackerowskiy@gmail.com>
-Content-Type: text/plain; charset=utf-8
+	Fri, 23 Oct 2026 11:36:34 +0000
+Received: by mail-pj1-x1030.google.com with SMTP id 98e67ed59e1d1-3acc96a256dso467722a91.3
+        for <linux-nvme@lists.infradead.org>; Fri, 23 Oct 2026 04:36:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792755392; x=1793360192; darn=lists.infradead.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=IuDvY+GZo871EJkCLit2ojV8/CoV5VnvDfBzzstEvUM=;
+        b=IBUDF8L1VSUjNl9hLh6Nrv32qa2OQGd5OdsZgKNyOzbJcP+OKrke1SL5wsxQEEksbP
+         NTo2PVyKrqzYaOLxpEmgglqQk+Blix5PgdfvT2Um2KhjRfsLC8EmcOKyafFgX930SJTd
+         VyY7aGDb6yXZhotPngh6FJ84auhbAg8UC7B6/s857vkvfKJKEgpmefB99aLSm30hlBy9
+         loPPZ0dVK53FJqvWbjKZE0kQbhg+SntuHfT8kLAQOr9sPakonSsTLk+BRmBt1o74Hw0X
+         DEBJ0rdH3RsONSdoq0mTxelp8/HHXrerFDgrVr6c46dRFtZPoO/N7WpTCDjVr9nnAiiD
+         po9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792755392; x=1793360192;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=IuDvY+GZo871EJkCLit2ojV8/CoV5VnvDfBzzstEvUM=;
+        b=wFcOTXw67wQgVh12LVTLdZ2+YebR68IFVT8UKzI88bTev9Xpxh0dFMNco9n9yoWcKu
+         lzrNe/NScU8/r8hnB1JctVAKc8QjigcV8ArMmGZH5xx/MaataeiJJzB/+D1H7FL4h8Wn
+         Xb29fOFEH0tzq2T5dNuP/3BrgmUVXv9UjNyAeMPhTbkxFL56fVVleo+qvnAcBBYzu7S/
+         XwENUN9jdZB5yAzsGNpMNYD6Vpf9nBiNuH+4nJFj3wYBo/7Vr4L0tw3oiCuEUMlAVDbF
+         QClOWsQur4x5Py79EvzxwNcZgL6fryhEHwtDjHywjkzEmEOdPMPx/daRaVJ696Jam4bG
+         M3YQ==
+X-Gm-Message-State: AFq9FYLQZe9SkPk4jVnWjl22CyA1QAIR9P+I7i351qEUrzzPKuaQC6hi
+	AnFaQSAAiSd3Uoxd9Rl+LxTDbGTtd5NJwwf1PtecPUTsedwFxMSqRRpESH+MW/4r
+X-Gm-Gg: AYBFou1u7NJ2oRS5313bOy5R2t6bzKhelwLhsQwM9g7UYRAu0avW3JPTOS12fWWMoZw
+	YSynbdng1LTqrgObPtZKr9QooP9mA14uazhT+KHKQi5S1goyrMoI2r8HmFHNVsyL9hrvEZW4+4O
+	3BZ3EvjRrhsxz61bu1DaoTQk31toi6RTr/BlGB3z9GuH+Iw+lX9vmVKGnctAjKOMf42yTGGWClP
+	HdDUp+bewwGQSJWUlp8YPrXYBX96Z37mR1Ex2T0WE6xyT0XAFtvYDKKCWeB7fC+wQKdWwLIXuod
+	OhhPn8BOkTk22VjweLfwjHtFsk1os5ivgr6QhQpBByROrX/MBO0rTxYDK+4qrbHmpgQEGXBmm9s
+	qoAzkUW2qE4ZeSlqi8E91e5kBVdpaPQRbVCFP7NwjwS3eW2Ztik0JFZRjx6xLwsfBeKg27CAnrb
+	7oF1jZTJVMI+6zK5/qJsCU/VL0imIOV4F8Fyj37lHnmTIFwF3yVN8J87GoVoHnJWN6EqI/qIA8x
+	E6zss7nbivu4blu015tS5LNH3HW92YBOZoRK1dUvBZj2/LkABQ+CvgZwR1JedI=
+X-Received: by 2002:a17:90a:d40f:b0:3ac:9a5e:9cde with SMTP id 98e67ed59e1d1-3adce02f85dmr1515815a91.30.1792755392224;
+        Fri, 23 Oct 2026 04:36:32 -0700 (PDT)
+Received: from [127.0.0.1] ([152.136.45.109])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ea7b3dc41dsm9276295ad.59.2026.10.23.04.36.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Oct 2026 04:36:31 -0700 (PDT)
+From: Qing Zhang <diasyzhangqing@gmail.com>
+To: linux-nvme@lists.infradead.org
+Cc: hch@lst.de, sagi@grimberg.me, kch@nvidia.com, linux-kernel@vger.kernel.org
+Subject: [PATCH] nvmet: protect nvmet_ports_list with nvmet_config_sem
+Date: Fri, 23 Oct 2026 19:36:28 +0800
+Message-ID: <179275538809.275862.8334230595898232727@tencent.com>
+X-Mailer: git-send-email 2.43.7
+X-Archived-By: <archiver.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 23 Oct 2026 10:54:01 +0000
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20261023_043633_730845_DA8AA1F6 
+X-CRM114-Status: GOOD (  13.13  )
+X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -63,118 +95,78 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
-X-Archived-By: <archiver.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] nvme-pci: skipped nvme_dev_disable() in nvme_reset_work() after de=
-ad suspend
---
+>From 554233f4165842a0a104896c30ed4d2e89c11931 Mon Sep 17 00:00:00 2001
+From: Qing Zhang <diasyzhang@tencent.com>
+Date: Fri, 23 Oct 2026 19:29:28 +0800
+Subject: [PATCH] nvmet: protect nvmet_ports_list with nvmet_config_sem
 
-commit e486876c5c5632e71a9ede664c55c8b5d653c958
-Author: Eduard Zateev <hackerowskiy@gmail.com>
+Readers of nvmet_ports_list (e.g. nvmet_subsys_disc_changed()) hold
+nvmet_config_sem and assert it via lockdep.  The writers --
+nvmet_ports_make() and nvmet_port_release() -- do not take the lock;
+they rely on the parent directory's VFS inode lock for serialization,
+which is an implementation detail of configfs and not a guaranteed
+contract.  Align the writers with the lock the readers already require.
 
-nvme-pci: disable accessible controller on error paths
+Also move list_add() in nvmet_ports_make() to after the port is fully
+initialized: the old position published the port on the global list
+before INIT_LIST_HEAD(&port->subsystems), so a concurrent reader
+could traverse uninitialized list heads.
 
-This commit separates PCI accessibility checks from controller health in
-nvme_dev_disable() so that nvme_disable_ctrl() is called whenever the PCI
-device remains accessible, even if the controller reports a fatal status
-or is not ready.
+flush_workqueue() in nvmet_port_release() stays outside the semaphore
+to avoid a lock dependency on nvmet_wq.
 
-Link: https://syzkaller.appspot.com/bug?extid=3Df4353e96f7004ae5a09e
+Fixes: b662a078576e ("nvmet: enable Discovery Controller AENs")
+Signed-off-by: Qing Zhang <diasyzhang@tencent.com>
+---
+ drivers/nvme/target/configfs.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index ea552ac5501f6..bb8e84f062db7 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-
-[ ... ]
-
-> @@ -3552,10 +3557,16 @@ static void nvme_dev_disable(struct nvme_dev *dev=
-, bool shutdown)
-> =20
->  	nvme_quiesce_io_queues(&dev->ctrl);
-> =20
-> -	if (!dead && dev->ctrl.queue_count > 0) {
-> +	if (!dead && dev->ctrl.queue_count > 0)
->  		nvme_delete_io_queues(dev);
-> -		nvme_disable_ctrl(&dev->ctrl, shutdown);
-> -		nvme_poll_irqdisable(&dev->queues[0]);
-> +	if (dev->ctrl.queue_count > 0 && nvme_pci_ctrl_is_accessible(dev)) {
-> +		/*
-> +		 * Stop an accessible controller even if it reports itself dead.
-> +		 * Otherwise it may complete requests after they have been cancelled.
-> +		 */
-> +		nvme_disable_ctrl(&dev->ctrl, shutdown && !dead);
-> +		if (!dead)
-> +			nvme_poll_irqdisable(&dev->queues[0]);
->  	}
-
-[Severity: High]
-Can calling nvme_disable_ctrl(&dev->ctrl, shutdown && !dead) here leave
-I/O queues unquiesced during nvme_reset_work() when resuming from a
-suspend where the controller was dead?
-
-During system suspend, nvme_suspend() and nvme_simple_suspend() call
-nvme_disable_prepare_reset(ndev, true) -> nvme_dev_disable(ndev, true).
-If the controller reports NVME_CSTS_CFS or !NVME_CSTS_RDY while PCI MMIO
-is still accessible, dead is true and nvme_disable_ctrl(&dev->ctrl, false)
-clears NVME_CC_ENABLE in dev->ctrl.ctrl_config:
-
-drivers/nvme/host/core.c:nvme_disable_ctrl() {
-	ctrl->ctrl_config &=3D ~NVME_CC_SHN_MASK;
-	if (shutdown)
-		ctrl->ctrl_config |=3D NVME_CC_SHN_NORMAL;
-	else
-		ctrl->ctrl_config &=3D ~NVME_CC_ENABLE;
-...
-}
-
-At the end of nvme_dev_disable(dev, true), the shutdown block still runs
-because shutdown is true, which unquiesces the I/O and admin queues:
-
-drivers/nvme/host/pci.c:nvme_dev_disable() {
-...
-	if (shutdown) {
-		nvme_unquiesce_io_queues(&dev->ctrl);
-		if (dev->ctrl.admin_q && !blk_queue_dying(dev->ctrl.admin_q))
-			nvme_unquiesce_admin_queue(&dev->ctrl);
-	}
-...
-}
-
-When resuming via nvme_resume() or nvme_simple_resume() ->
-nvme_try_sched_reset() -> nvme_reset_work(), nvme_reset_work() checks
-NVME_CC_ENABLE before calling nvme_dev_disable(dev, false):
-
-drivers/nvme/host/pci.c:nvme_reset_work() {
-...
-	if (dev->ctrl.ctrl_config & NVME_CC_ENABLE)
-		nvme_dev_disable(dev, false);
-	nvme_sync_queues(&dev->ctrl);
-...
-}
-
-Previously, NVME_CC_ENABLE remained set in dev->ctrl.ctrl_config across
-nvme_dev_disable(dev, true), so nvme_reset_work() always called
-nvme_dev_disable(dev, false) and re-quiesced the I/O queues via
-nvme_quiesce_io_queues(&dev->ctrl).
-
-With NVME_CC_ENABLE cleared during suspend when dead is true, won't
-nvme_reset_work() skip nvme_dev_disable(dev, false) and leave the I/O
-queues unquiesced while resetting the controller and setting up queues,
-allowing entered or requeued requests to be dispatched before queue setup
-and nvme_dbbuf_set() complete?
-
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index b03b5d1c2dc3..75cb9e63025f 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -2009,7 +2009,9 @@ static void nvmet_port_release(struct config_item *item)
+=20
+ 	/* Let inflight controllers teardown complete */
+ 	flush_workqueue(nvmet_wq);
++	down_write(&nvmet_config_sem);
+ 	list_del(&port->global_entry);
++	up_write(&nvmet_config_sem);
+=20
+ 	key_put(port->keyring);
+ 	kfree(port);
+@@ -2070,8 +2072,6 @@ static struct config_group *nvmet_ports_make(struct con=
+fig_group *group,
+ 			port->ana_state[i] =3D NVME_ANA_INACCESSIBLE;
+ 	}
+=20
+-	list_add(&port->global_entry, &nvmet_ports_list);
+-
+ 	INIT_LIST_HEAD(&port->entry);
+ 	INIT_LIST_HEAD(&port->subsystems);
+ 	INIT_LIST_HEAD(&port->referrals);
+@@ -2105,6 +2105,10 @@ static struct config_group *nvmet_ports_make(struct co=
+nfig_group *group,
+ 	configfs_add_default_group(&port->ana_default_group.group,
+ 			&port->ana_groups_group);
+=20
++	down_write(&nvmet_config_sem);
++	list_add(&port->global_entry, &nvmet_ports_list);
++	up_write(&nvmet_config_sem);
++
+ 	return &port->group;
+ }
+=20
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261023101825.1390=
-40-1-hackerowskiy@gmail.com?part=3D1
+2.43.7
+
 
