@@ -2,76 +2,76 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DAFB606A31B
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Oct 2026 23:05:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67695606A31D
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Oct 2026 23:05:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=aoKYhnbm;
-	dkim=pass (2048-bit key, unprotected) header.d=crusoe.ai header.i=@crusoe.ai header.a=rsa-sha256 header.s=google header.b=KA/mzVU/
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=XGLa3ZPs;
+	dkim=pass (2048-bit key, unprotected) header.d=crusoe.ai header.i=@crusoe.ai header.a=rsa-sha256 header.s=google header.b=DoYRZdnx
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=9UHLjeKrYRjfbnwwuY8ZM/Qh+DkT6uaF+f3tpZdmmVI=; b=aoKYhnbm2YvSl4
-	8EiZKRsJn+WkO43j9VWrCK1jdstyFp3jvSyTiEHN65nUWIt7AOGK0867msHdjut5De8APmBEFtSSJ
-	UlZ9zScYiMOB7VOUlUVoWyRnGwb6B/+fIBI6BI9/3tY5K9N+7G1MrBZ9QEqRmopAZ+lWkWDI4MFU4
-	Qugj140SiuqGuj48/Ww0zSVPrOqmXrLzXnwEFGxfzEf/WU26bWDKx/H6t2w+F0Kr6s47JcuUOIL5o
-	EDDC1pbwrnEXJNYKwRG7C3VtZ6e4ZSFATbYb+XW9P4hU7V9ianNdNBv5G9FiSfe6vwLZoAr0EnvZT
-	6dY9CpZDLiKfqwIKBpuQ==;
+	List-Owner; bh=ZswvTd/s2fcGyqpmQVd7BMQTG9xDsl0OyrHTOIwhPu8=; b=XGLa3ZPs90A4Ja
+	2y3I1MQSgN0hDTJ1Kp/w4XmlTL4fNQgFRt4c3AqwdSCTDA1Qd55VE1HROSzDnaBKAkDtEm875ZEOA
+	Q3kTMbfWkDbbO0d1nj+CQe8MsB2/5F0YZbfLmF2ExSGSABHFtz2tGk3T+qSrao0LDiAkUmmItlk/n
+	KrSh7LZECiUpH6gs25u+ldFy1AyU2jjjCB57t+QOyRz8BAqiNuLt1qKWn6S4chDudM8D45crrg0ps
+	YeryLvXFA+jaXKJQSePWW10ekPl17ERItfcb7z1ayrefdDm7Fp8NFPedhpSFcgml9yIbBWis655Io
+	b1Ma+378p39hNtDwbHzA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xKOJs-0000000H8j0-3k3l;
-	Fri, 23 Oct 2026 23:05:04 +0000
-Received: from mail-dy1-x132e.google.com ([2607:f8b0:4864:20::132e])
+	id 1xKOJw-0000000H8lH-06Vo;
+	Fri, 23 Oct 2026 23:05:08 +0000
+Received: from mail-dy1-x1331.google.com ([2607:f8b0:4864:20::1331])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xKOJp-0000000H8hZ-2R4I
+	id 1xKOJt-0000000H8iz-14mR
 	for linux-nvme@lists.infradead.org;
-	Fri, 23 Oct 2026 23:05:02 +0000
-Received: by mail-dy1-x132e.google.com with SMTP id 5a478bee46e88-33bf40b0c8bso2489001eec.0
-        for <linux-nvme@lists.infradead.org>; Fri, 23 Oct 2026 16:05:01 -0700 (PDT)
+	Fri, 23 Oct 2026 23:05:06 +0000
+Received: by mail-dy1-x1331.google.com with SMTP id 5a478bee46e88-354ba08cfd1so2379911eec.1
+        for <linux-nvme@lists.infradead.org>; Fri, 23 Oct 2026 16:05:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=crusoe.ai; s=google; t=1792796701; x=1793401501; darn=lists.infradead.org;
+        d=crusoe.ai; s=google; t=1792796704; x=1793401504; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=9UHLjeKrYRjfbnwwuY8ZM/Qh+DkT6uaF+f3tpZdmmVI=;
-        b=KA/mzVU/Ptl6g7A1s2PhIFFSGMFiGCsiuDFHMbe/AXTn5+nCGdU3m3NxzhCo8qjS45
-         1V7/Bgxy+ho+hHYnhuI6ZIuW7dcPfmBRP+/m7YvYF2e5qKb1H0caXbbrI5yjPn/tgRuc
-         e0aVVtMKWaZ+cK0KsCxuMt3WNhPpwPEpo3KoPajYWldFVAfeNHoqgBaJQ4mQ0nd4R7AA
-         Gjcckw4OhQWiL2T9QMs6aU1loggc6YCwXPwx7gtCh36xV6gbdMyWu45gKEs9+nwETo/s
-         Dx1QmzpDC1sqv07RuheABB2Cx+AR9/WGeecANHHM2ni6aUauNBJDAMNaQYrKLmI20yM9
-         dBng==
+        bh=ZswvTd/s2fcGyqpmQVd7BMQTG9xDsl0OyrHTOIwhPu8=;
+        b=DoYRZdnx5Zkw2UiKR4LlDRAF+9ADUDD20+7h19JvWpF5kWnRj1f/n2r0JRvqH9voRL
+         d8MG6Eh5Jr9MkdpF5mhuKUOTSoGhNCgf6pmDOnpBwTxDuBlLe53t3coi+Fv/0hOUyRiK
+         v0ydxOI6ZzNvAgFMaH/OcK9ZKsKwrBa4yWRRYJjXJ/ZGGag0z9rUScr2P3XDFt092I9k
+         hViycsSN1DeokLekg8u+JYj3cijEykHfbWojRIAlxvdaCVy6Zl9slZbB2XdW+gO+6IlK
+         WFS50eU0jVqa51v0E/8FzQ/4UpEF2LY595VT19z/PyKfVFSvZ+5A/xGEMfdSyRBUkvok
+         EEUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792796701; x=1793401501;
+        d=1e100.net; s=20260707; t=1792796704; x=1793401504;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=9UHLjeKrYRjfbnwwuY8ZM/Qh+DkT6uaF+f3tpZdmmVI=;
-        b=iAZvdFJIqgrmdUAtzJSutdjRe2NOdMbU7Cue2ZJ7fYtnSoMMEeWTYmKGn4c0csa3qF
-         AtwyxqwtlXLbOP3i3pgV7w5GDF8mJmSpWciDCeWDJiN+OrxZ6OKuWbhnHSdfvqUHzPz3
-         fpaI0MrI1HszmCzlW5DQSYL8xR3zUStjLYprP7OW1wAuhHS77ouQPa7y+BuFJaFC/Q5C
-         r3qLcJrHvowK2WiZFVIbap3rAYrcWF26bhPLpY7J5VLlf8NbR8tkEdAOayvdrUFaypEj
-         qDKBtfN2RL8iPVnw9Q6AYsQBHRYrrVVJZvPJy0OZ6iB0k/TL2kOa0N/KybgMrVPetaj3
-         gO1w==
-X-Gm-Message-State: AFq9FYJF1Aiv8Mkc6WTAl4bm4ghUL7RTXT7sdiig/YKVmD/bbhyTVhp9
-	RXq3e1rqcuGTeJPj/PbiM/gFhjSSCctPwS0i5ix6P8IxKM/L/lehthPYutR8pcsL+kbN232g5mV
-	wWIyUtzE=
-X-Gm-Gg: AYBFou2Ptpnd+2TSOZ+rcLoyl4S57KP3xOB63/5zms17Sk7AZ5s0ug1q0s1mJJxuI4K
-	3HVg+wr0AORk4A/ARJI1ivgEakV6sQEuVuB4PsplGV0h+c8wbrgllDxWCFhp9ujhIcKHXTtxlIh
-	ODWL61UJOqsnhpf9dqkqc/hbeZGE67PR89TdN090M+cz2000lGc2vTSaON9Y/g967SmfH7pf3fy
-	QRy/aHtRSnpSAWd5sixhoy363dPB+D3wTQ0tWBZ6PJz9A5lz83ZopRkVTend94atiAY4L7lHzvR
-	WtbOzPBl/YlFOScVftE4GfWvgNA7JuZFEIQi1VoPzFeL5qm+u8Xw7ZBwSowU6IAuPydwrksmW8o
-	ihKVcqufRSUqM9fHeYlYesylIN/RrgPaYPWxYPuifCkc53VdQKSIJ3X6bOrlhEh+1cq9NWWBP9F
-	NOOzZ0ZKAPQEcsWiQAGketF6OX9ur7oYgnHOBR+LxnGDnkOgWLfXaL1ZCwjNzsOYEazyo8j9mqW
-	ZfgJb2Mn3OwIyK9qRp1EoBRrsQXacRz66fhJYMxaBTQ2YpgIM143vnSmEP9UgoDHg0oHbuido6E
-	I40RsNj3xjI1dNjnw2Ho0w7Fjw==
-X-Received: by 2002:a05:7300:105:b0:366:913f:4d27 with SMTP id 5a478bee46e88-369e85027a5mr811308eec.30.1792796700299;
-        Fri, 23 Oct 2026 16:05:00 -0700 (PDT)
+        bh=ZswvTd/s2fcGyqpmQVd7BMQTG9xDsl0OyrHTOIwhPu8=;
+        b=bewV0rIvQlikVQcq2HranlFHJByH7fcExX+klL8G6QcdonS2A9tVoNotizVvrRz2T2
+         E8MIcQLK6MaW+qu5LUhoTPVMoS4qV0cZnhgbeUuTxyyiQbfr3LywirQURsEcvoDDCgww
+         CLixoxygiHIyGpMbEeFPMlR3g4f5D3ipYrscnMCw9Zb8hiFMyYyi22D4OpoRK12WOiZj
+         S7m6KWuTqei7P1pOeVXuP7FCWExM1qb5KSrsbPAmHNcraOD7VSSBbszeeod7qDc6rC0r
+         94XGnfSJ10vVJiejdxVJRM8g8b3rRQL2vYMmCx3M6I3+ldWnGzbIQDQ0uUxjoHuudEy4
+         05sA==
+X-Gm-Message-State: AFq9FYKw25eWGJwHbzXot1QaisX7EO8WkkWkNuwOO3kzgS4WkmJ0PkdV
+	b7N0GK+h7uENuT9WwZuwxlQp/jA7OOvr7KDiuaIBonl9cfFC0FuUayeO0UBodjgxPMGoQQBzTKQ
+	M790eeFg=
+X-Gm-Gg: AYBFou2GasESTtTCRxLJtquIITK8obYHY3KK9vYRGZ3mX06Cl7d1WmxEJG3dGsQivw+
+	a6ahW6fuB628gKlnw/8QMoWTdHQqZI+S72Z4jL9ylWsmC9TmcD6PpsHZV2rROnJf5wnM6IWwlML
+	Lt1U+C0tgaAoix/6BFJaipqnjAthgc/G6moIKvVoyCaGOBQ8o3HWSPdRgbE3iws6Ngc+J4J/V/W
+	jAH/FoSQe5dq2IVhpzRz1qKEpU3havAbzPJ0lakNVzzq6g97R5RPhKqErNrR4Qd51GCARPwiZ+K
+	1eKz7fq8LmsVPuGpiC8fqQD8YqDFEXlSA/OiN7xaTGevldvDPzX+x0EjvRPrxjwLx3wF9yI2RxR
+	alvetGn1ougtZtmTrHbLTzYBI9cFto3OQukjZpPdK+xDaF/huLGH/TXPyiij6XShGNP+I0jVWwA
+	vSGEa8Aeuh/kEBbaz7+der90/A/9g/dzdvy2pWiSI91KdKHvhiLdrmbVpNO3MeeALIAgSOeFCM8
+	tvkZnsU3jiHedZqyN1Fg3r4kopygE3Pjwm1gi1qGvJqNXBfm7b0kbiAL6f/Ly9qJUvlP5KTZ0Lg
+	0cqg2cBPmRTUtpOJNG5/RyJdfg==
+X-Received: by 2002:a05:7301:1a87:b0:369:a63c:83f4 with SMTP id 5a478bee46e88-369e8354e3cmr941075eec.5.1792796704036;
+        Fri, 23 Oct 2026 16:05:04 -0700 (PDT)
 Received: from MBP-Saravanan-D.civet-hops.ts.net ([67.208.231.220])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-369e8ecf087sm1356203eec.27.2026.10.23.16.04.58
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-369e8ecf087sm1356203eec.27.2026.10.23.16.05.02
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 23 Oct 2026 16:04:59 -0700 (PDT)
+        Fri, 23 Oct 2026 16:05:03 -0700 (PDT)
 From: Saravanan D <saravanand@crusoe.ai>
 To: linux-nvme@lists.infradead.org
 Cc: kbusch@kernel.org,
@@ -90,9 +90,9 @@ Cc: kbusch@kernel.org,
 	sjpark@crusoe.ai,
 	bchen@crusoe.ai,
 	Saravanan D <saravanand@crusoe.ai>
-Subject: [PATCH v6 1/2] nvme: add per-queue sysfs directories
-Date: Fri, 23 Oct 2026 16:04:25 -0700
-Message-ID: <20261023230426.6425-2-saravanand@crusoe.ai>
+Subject: [PATCH v6 2/2] nvme-tcp: allow setting per-queue io_cpu through sysfs
+Date: Fri, 23 Oct 2026 16:04:26 -0700
+Message-ID: <20261023230426.6425-3-saravanand@crusoe.ai>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261023230426.6425-1-saravanand@crusoe.ai>
 References: <20261023230426.6425-1-saravanand@crusoe.ai>
@@ -100,8 +100,8 @@ X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261023_160501_633081_9E787064 
-X-CRM114-Status: GOOD (  21.36  )
+X-CRM114-CacheID: sfid-20261023_160505_325206_D57EAE52 
+X-CRM114-Status: GOOD (  28.54  )
 X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -121,192 +121,411 @@ X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Per I/O queue transport state, such as the nvme-tcp io_cpu, has
-nowhere to live in sysfs, since the core has no directory for
-individual queues.
+nvme_tcp_set_queue_io_cpu() picks each queue's io_cpu at connect time
+as the least loaded CPU in the queue's blk-mq map group, and all socket
+work runs there for the connection's lifetime. This decision falls
+short when the host partitions its CPUs after connect time. On a 384
+cpu multi tenant host with 128 queue controllers, blk-mq folds three
+CPUs into every map group, some groups straddle two tenants' cpusets,
+and 9% of nvme_tcp_io_work executions ran outside the submitting VM's
+cpuset, seen by the neighbor as steal time.
 
-Add helpers that create the controller's queues directory and add or
-remove one directory per queue
+Expose the io_cpu in each I/O queue's directory
 
-  /sys/class/nvme/nvmeX/queues/<qid>/
+  /sys/class/nvme/nvmeX/queues/<qid>/io_cpu
 
-carrying attributes provided by the transport. The transport creates
-the queues directory from its controller setup path, adds a queue's
-directory when it sets the queue up and removes it when it frees the
-queue, so the directories follow the queues across reconnects and
-changes in the queue count. The core allocates each queue directory
-and its release frees only that allocation. Removal waits for running
-attribute callbacks, so the transport may tear the queue down once it
-returns.
+so a control plane that owns CPU placement can set it directly instead
+of relying on the driver's heuristic. The attribute accepts a decimal
+cpu number, -1 or "unbound". A user assignment, unbound included, is
+marked in the queue flags, persists across reconnects and is never
+reselected by the driver. The read-only managed attribute reports 1
+while io_cpu is driver managed and 0 once the user assigned it. The
+accounting of nvme_tcp_cpu_queues applies regardless of who set the
+io_cpu.
 
-The queues directory holds a reference on the controller device, so
-nvme_uninit_ctrl() deletes it after the transport has removed the
-queue directories.
+A queue's directory is added once the connect time selection has set its
+io_cpu, so readers never see a placement that is about to change, and
+removed when the queue is freed, before it is torn down, so a sysfs
+store never runs on a freed queue. The queues directory is created
+before the I/O queues are set up in parallel. All io_cpu writes, from
+sysfs and from the driver, serialize with the accounting under
+nvme_tcp_cpu_queues_lock, while the I/O paths read io_cpu locklessly.
+The queue stop now clears NVME_TCP_Q_IO_CPU_SET under that lock, since a
+sysfs store may move io_cpu in between.
+
+nvme_tcp_free_queue() now clears NVME_TCP_Q_IO_CPU_SET and drops its
+count, because a queue can still be counted when it is freed. A sysfs
+store may have run after the queue stop, or the connect may have
+failed, and the setup error path frees such a queue without calling
+nvme_tcp_stop_queue(), where the count is normally dropped.
 
 Suggested-by: Sagi Grimberg <sagi@grimberg.me>
 Link: https://lore.kernel.org/linux-nvme/13c160d0-0657-47ce-9a16-58d348267ab0@grimberg.me/
 Assisted-by: Claude:claude-opus-5-5 [Claude Code]
 Signed-off-by: Saravanan D <saravanand@crusoe.ai>
 ---
- drivers/nvme/host/core.c  |  6 +++
- drivers/nvme/host/nvme.h  | 23 ++++++++++
- drivers/nvme/host/sysfs.c | 88 +++++++++++++++++++++++++++++++++++++++
- 3 files changed, 117 insertions(+)
+ Documentation/ABI/stable/sysfs-nvme |  31 +++++
+ drivers/nvme/host/tcp.c             | 172 ++++++++++++++++++++++++----
+ 2 files changed, 183 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 531f9bb14bab..41e1c9d0ee58 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -5153,6 +5153,12 @@ void nvme_uninit_ctrl(struct nvme_ctrl *ctrl)
- {
- 	nvme_stop_keep_alive(ctrl);
- 	nvme_hwmon_exit(ctrl);
-+	/* transports remove their queue directories before this point */
-+	if (ctrl->queues_kobj) {
-+		kobject_del(ctrl->queues_kobj);
-+		kobject_put(ctrl->queues_kobj);
-+		ctrl->queues_kobj = NULL;
-+	}
- 	nvme_fault_inject_fini(&ctrl->fault_inject);
- 	dev_pm_qos_hide_latency_tolerance(ctrl->device);
- 	cdev_device_del(&ctrl->cdev, ctrl->device);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index a8ef62b8e34b..d198214d7f8b 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -339,6 +339,28 @@ enum nvme_ctrl_flags {
- 	NVME_CTRL_FROZEN		= 6,
+diff --git a/Documentation/ABI/stable/sysfs-nvme b/Documentation/ABI/stable/sysfs-nvme
+index 9291595f8102..aec327cf507a 100644
+--- a/Documentation/ABI/stable/sysfs-nvme
++++ b/Documentation/ABI/stable/sysfs-nvme
+@@ -503,3 +503,34 @@ Contact:	Hannes Reinecke <hare@suse.de>
+ Description:
+ 		Shows the subsystem type. Possible values: "discovery",
+ 		"nvm", "reserved".
++
++What:		/sys/class/nvme/nvmeX/queues/<qid>/io_cpu
++What:		/sys/class/nvme/nvmeX/queues/<qid>/managed
++Date:		October 2026
++KernelVersion:	7.5
++Contact:	Saravanan D <saravanand@crusoe.ai>
++Description:
++		Per I/O queue directories, populated by the transport
++		backing the controller. A directory appears once the
++		driver has selected the queue's CPU at connect time and
++		is removed when the queue is torn down, so the
++		directories follow the queue count and are absent while
++		the controller reconnects.
++		NVMe over TCP exposes:
++
++		io_cpu: (RW) The CPU that runs the socket work for I/O
++		queue <qid>, selected by the driver at connect time.
++		Writing a decimal online CPU number overrides the
++		selection, and writing -1 or "unbound" leaves the socket
++		work unbound. A written value persists across reconnects
++		for the life of the controller, also when its CPU goes
++		offline. Unbound socket work runs on the CPU that queued
++		it. When the nvme_tcp module is loaded with wq_unbound
++		set, the socket work runs on an unbound workqueue and
++		how closely it follows io_cpu depends on the affinity
++		scope of the nvme_tcp_wq workqueue. Reads return the
++		current CPU, or -1 when the queue is unbound.
++
++		managed: (RO) Shows who owns the CPU placement. 1 while
++		io_cpu is driver managed, 0 once the user assigned it,
++		for the life of the controller.
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index f876375dffd2..cf92626b4971 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -95,6 +95,7 @@ enum nvme_tcp_queue_flags {
+ 	NVME_TCP_Q_LIVE		= 1,
+ 	NVME_TCP_Q_POLLING	= 2,
+ 	NVME_TCP_Q_IO_CPU_SET	= 3,
++	NVME_TCP_Q_IO_CPU_USER	= 4,
  };
  
-+/*
-+ * Per-queue directory /sys/class/nvme/nvmeX/queues/<qid>/, allocated by the
-+ * core and carrying attributes provided by the transport.
-+ */
-+struct nvme_queue_info {
-+	struct kobject		kobj;
-+	void			*data;
+ enum nvme_tcp_recv_state {
+@@ -142,6 +143,7 @@ struct nvme_tcp_queue {
+ 	struct completion       tls_complete;
+ 	int                     tls_err;
+ 	struct page_frag_cache	pf_cache;
++	struct nvme_queue_info	*qinfo;
+ 
+ 	void (*state_change)(struct sock *);
+ 	void (*data_ready)(struct sock *);
+@@ -230,6 +232,19 @@ static inline int nvme_tcp_queue_id(struct nvme_tcp_queue *queue)
+ 	return queue - queue->ctrl->queues;
+ }
+ 
++/* the I/O paths read io_cpu locklessly, writers hold the accounting lock */
++static inline int nvme_tcp_queue_io_cpu(struct nvme_tcp_queue *queue)
++{
++	return READ_ONCE(queue->io_cpu);
++}
++
++static inline void nvme_tcp_queue_change_io_cpu(struct nvme_tcp_queue *queue,
++						int cpu)
++	__must_hold(&nvme_tcp_cpu_queues_lock)
++{
++	WRITE_ONCE(queue->io_cpu, cpu);
++}
++
+ static inline bool nvme_tcp_recv_pdu_supported(enum nvme_tcp_pdu_type type)
+ {
+ 	switch (type) {
+@@ -427,7 +442,7 @@ static inline void nvme_tcp_queue_request(struct nvme_tcp_request *req,
+ 	 * lockdep reports circular locking via elevator_lock.  Defer TLS
+ 	 * sends to the io workqueue instead of inline from this path.
+ 	 */
+-	if (queue->io_cpu == raw_smp_processor_id() &&
++	if (nvme_tcp_queue_io_cpu(queue) == raw_smp_processor_id() &&
+ 	    !nvme_tcp_queue_tls(queue) &&
+ 	    empty && mutex_trylock(&queue->send_mutex)) {
+ 		nvme_tcp_send_all(queue);
+@@ -435,7 +450,8 @@ static inline void nvme_tcp_queue_request(struct nvme_tcp_request *req,
+ 	}
+ 
+ 	if (last && nvme_tcp_queue_has_pending(queue))
+-		queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
++		queue_work_on(nvme_tcp_queue_io_cpu(queue), nvme_tcp_wq,
++			      &queue->io_work);
+ }
+ 
+ static void nvme_tcp_process_req_list(struct nvme_tcp_queue *queue)
+@@ -844,7 +860,8 @@ static int nvme_tcp_handle_r2t(struct nvme_tcp_queue *queue,
+ 	nvme_tcp_setup_h2c_data_pdu(req);
+ 
+ 	llist_add(&req->lentry, &queue->req_list);
+-	queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
++	queue_work_on(nvme_tcp_queue_io_cpu(queue), nvme_tcp_wq,
++		      &queue->io_work);
+ 
+ 	return 0;
+ }
+@@ -1131,7 +1148,8 @@ static void nvme_tcp_data_ready(struct sock *sk)
+ 	queue = sk->sk_user_data;
+ 	if (likely(queue && queue->rd_enabled) &&
+ 	    !test_bit(NVME_TCP_Q_POLLING, &queue->flags))
+-		queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
++		queue_work_on(nvme_tcp_queue_io_cpu(queue), nvme_tcp_wq,
++			      &queue->io_work);
+ 	read_unlock_bh(&sk->sk_callback_lock);
+ }
+ 
+@@ -1146,7 +1164,8 @@ static void nvme_tcp_write_space(struct sock *sk)
+ 		/* Ensure pending TLS partial records are retried */
+ 		if (nvme_tcp_queue_tls(queue))
+ 			queue->write_space(sk);
+-		queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
++		queue_work_on(nvme_tcp_queue_io_cpu(queue), nvme_tcp_wq,
++			      &queue->io_work);
+ 	}
+ 	read_unlock_bh(&sk->sk_callback_lock);
+ }
+@@ -1469,7 +1488,8 @@ static void nvme_tcp_io_work(struct work_struct *w)
+ 
+ 	} while (!time_after(jiffies, deadline)); /* quota is exhausted */
+ 
+-	queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
++	queue_work_on(nvme_tcp_queue_io_cpu(queue), nvme_tcp_wq,
++		      &queue->io_work);
+ }
+ 
+ static void nvme_tcp_free_async_req(struct nvme_tcp_ctrl *ctrl)
+@@ -1503,9 +1523,22 @@ static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
+ 	struct nvme_tcp_queue *queue = &ctrl->queues[qid];
+ 	unsigned int noio_flag;
+ 
+-	if (!test_and_clear_bit(NVME_TCP_Q_ALLOCATED, &queue->flags))
++	if (!test_bit(NVME_TCP_Q_ALLOCATED, &queue->flags))
+ 		return;
+ 
++	/* no io_cpu store runs once the directory is removed */
++	if (queue->qinfo) {
++		nvme_remove_queue_info(queue->qinfo);
++		queue->qinfo = NULL;
++	}
++	clear_bit(NVME_TCP_Q_ALLOCATED, &queue->flags);
++
++	/* a failed connect or a store after the stop left it counted */
++	spin_lock(&nvme_tcp_cpu_queues_lock);
++	if (test_and_clear_bit(NVME_TCP_Q_IO_CPU_SET, &queue->flags))
++		nvme_tcp_cpu_queues[nvme_tcp_queue_io_cpu(queue)]--;
++	spin_unlock(&nvme_tcp_cpu_queues_lock);
++
+ 	page_frag_cache_drain(&queue->pf_cache);
+ 
+ 	/**
+@@ -1724,8 +1757,18 @@ static void nvme_tcp_set_queue_io_cpu(struct nvme_tcp_queue *queue)
+ 	unsigned int *mq_map = NULL;
+ 	int cpu, min_queues = INT_MAX, io_cpu;
+ 
++	spin_lock(&nvme_tcp_cpu_queues_lock);
++	/* a user assigned io_cpu is kept across reconnects */
++	if (test_bit(NVME_TCP_Q_IO_CPU_USER, &queue->flags)) {
++		io_cpu = nvme_tcp_queue_io_cpu(queue);
++		if (io_cpu != WORK_CPU_UNBOUND &&
++		    !test_and_set_bit(NVME_TCP_Q_IO_CPU_SET, &queue->flags))
++			nvme_tcp_cpu_queues[io_cpu]++;
++		goto out_unlock;
++	}
++
+ 	if (wq_unbound)
+-		goto out;
++		goto out_unlock;
+ 
+ 	if (nvme_tcp_default_queue(queue))
+ 		mq_map = set->map[HCTX_TYPE_DEFAULT].mq_map;
+@@ -1735,10 +1778,9 @@ static void nvme_tcp_set_queue_io_cpu(struct nvme_tcp_queue *queue)
+ 		mq_map = set->map[HCTX_TYPE_POLL].mq_map;
+ 
+ 	if (WARN_ON(!mq_map))
+-		goto out;
++		goto out_unlock;
+ 
+ 	/* Search for the least used cpu from the mq_map */
+-	spin_lock(&nvme_tcp_cpu_queues_lock);
+ 	io_cpu = WORK_CPU_UNBOUND;
+ 	for_each_online_cpu(cpu) {
+ 		int num_queues = nvme_tcp_cpu_queues[cpu];
+@@ -1751,14 +1793,14 @@ static void nvme_tcp_set_queue_io_cpu(struct nvme_tcp_queue *queue)
+ 		}
+ 	}
+ 	if (io_cpu != WORK_CPU_UNBOUND) {
+-		queue->io_cpu = io_cpu;
++		nvme_tcp_queue_change_io_cpu(queue, io_cpu);
+ 		nvme_tcp_cpu_queues[io_cpu]++;
+ 		set_bit(NVME_TCP_Q_IO_CPU_SET, &queue->flags);
+ 	}
++out_unlock:
+ 	spin_unlock(&nvme_tcp_cpu_queues_lock);
+-out:
+ 	dev_dbg(ctrl->ctrl.device, "queue %d: using cpu %d\n",
+-		qid, queue->io_cpu);
++		qid, nvme_tcp_queue_io_cpu(queue));
+ }
+ 
+ static void nvme_tcp_tls_done(void *data, int status, key_serial_t pskid)
+@@ -1846,6 +1888,85 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
+ 	return ret;
+ }
+ 
++static ssize_t io_cpu_show(struct kobject *kobj, struct kobj_attribute *attr,
++			   char *buf)
++{
++	struct nvme_tcp_queue *queue = nvme_queue_info_data(kobj);
++	int io_cpu = nvme_tcp_queue_io_cpu(queue);
++
++	return sysfs_emit(buf, "%d\n",
++			  io_cpu == WORK_CPU_UNBOUND ? -1 : io_cpu);
++}
++
++static ssize_t io_cpu_store(struct kobject *kobj, struct kobj_attribute *attr,
++			    const char *buf, size_t count)
++{
++	struct nvme_tcp_queue *queue = nvme_queue_info_data(kobj);
++	int cpu, old, ret;
++
++	if (sysfs_streq(buf, "unbound")) {
++		cpu = WORK_CPU_UNBOUND;
++	} else {
++		ret = kstrtoint(buf, 10, &cpu);
++		if (ret)
++			return ret;
++		if (cpu == -1)
++			cpu = WORK_CPU_UNBOUND;
++		else if ((unsigned int)cpu >= nr_cpu_ids || !cpu_online(cpu))
++			return -EINVAL;
++	}
++
++	spin_lock(&nvme_tcp_cpu_queues_lock);
++	old = nvme_tcp_queue_io_cpu(queue);
++	nvme_tcp_queue_change_io_cpu(queue, cpu);
++	set_bit(NVME_TCP_Q_IO_CPU_USER, &queue->flags);
++	if (test_and_clear_bit(NVME_TCP_Q_IO_CPU_SET, &queue->flags))
++		nvme_tcp_cpu_queues[old]--;
++	if (cpu != WORK_CPU_UNBOUND) {
++		nvme_tcp_cpu_queues[cpu]++;
++		set_bit(NVME_TCP_Q_IO_CPU_SET, &queue->flags);
++	}
++	spin_unlock(&nvme_tcp_cpu_queues_lock);
++
++	return count;
++}
++
++static ssize_t managed_show(struct kobject *kobj, struct kobj_attribute *attr,
++			    char *buf)
++{
++	struct nvme_tcp_queue *queue = nvme_queue_info_data(kobj);
++
++	return sysfs_emit(buf, "%d\n",
++			  !test_bit(NVME_TCP_Q_IO_CPU_USER, &queue->flags));
++}
++
++static struct kobj_attribute nvme_tcp_io_cpu_attr =
++	__ATTR(io_cpu, 0644, io_cpu_show, io_cpu_store);
++static struct kobj_attribute nvme_tcp_managed_attr =
++	__ATTR_RO(managed);
++
++static struct attribute *nvme_tcp_queue_attrs[] = {
++	&nvme_tcp_io_cpu_attr.attr,
++	&nvme_tcp_managed_attr.attr,
++	NULL,
 +};
++ATTRIBUTE_GROUPS(nvme_tcp_queue);
 +
-+static inline void *nvme_queue_info_data(struct kobject *kobj)
++static void nvme_tcp_add_queue_sysfs(struct nvme_tcp_queue *queue)
 +{
-+	return container_of(kobj, struct nvme_queue_info, kobj)->data;
-+}
-+
-+struct nvme_ctrl;
-+
-+int nvme_queue_dir_create(struct nvme_ctrl *ctrl);
-+struct nvme_queue_info *
-+nvme_add_queue_info(struct nvme_ctrl *ctrl, unsigned int qid,
-+		    const struct attribute_group **groups, void *data);
-+void nvme_remove_queue_info(struct nvme_queue_info *qinfo);
-+
- struct nvme_ctrl {
- 	bool comp_seen;
- 	bool identified;
-@@ -360,6 +382,7 @@ struct nvme_ctrl {
- 	struct srcu_struct srcu;
- 	struct device ctrl_device;
- 	struct device *device;	/* char device */
-+	struct kobject *queues_kobj;
- #ifdef CONFIG_NVME_HWMON
- 	struct device *hwmon_device;
- #endif
-diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-index 5224597a32f1..cf62ff905a35 100644
---- a/drivers/nvme/host/sysfs.c
-+++ b/drivers/nvme/host/sysfs.c
-@@ -1313,3 +1313,91 @@ const struct attribute_group *nvme_subsys_attrs_groups[] = {
- 	&nvme_subsys_attrs_group,
- 	NULL,
- };
-+
-+static void nvme_queue_info_release(struct kobject *kobj)
-+{
-+	kfree(container_of(kobj, struct nvme_queue_info, kobj));
-+}
-+
-+static const struct kobj_type nvme_queue_info_ktype = {
-+	.sysfs_ops	= &kobj_sysfs_ops,
-+	.release	= nvme_queue_info_release,
-+};
-+
-+/**
-+ * nvme_queue_dir_create - create the controller's queues directory
-+ * @ctrl: controller
-+ *
-+ * Creates /sys/class/nvme/nvmeX/queues/ if it does not exist yet. The
-+ * transport calls this from its controller setup path, which must not run
-+ * it concurrently for the same controller. nvme_uninit_ctrl() deletes the
-+ * directory.
-+ */
-+int nvme_queue_dir_create(struct nvme_ctrl *ctrl)
-+{
-+	if (ctrl->queues_kobj)
-+		return 0;
-+
-+	ctrl->queues_kobj = kobject_create_and_add("queues",
-+						   &ctrl->device->kobj);
-+	if (!ctrl->queues_kobj)
-+		return -ENOMEM;
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(nvme_queue_dir_create);
-+
-+/**
-+ * nvme_add_queue_info - add a directory for one queue
-+ * @ctrl: controller, whose queues directory must exist
-+ * @qid: queue id, used as the directory name
-+ * @groups: attributes provided by the transport
-+ * @data: transport data, returned by nvme_queue_info_data()
-+ *
-+ * Adds /sys/class/nvme/nvmeX/queues/<qid>/. Calls for different queues of
-+ * the same controller may run concurrently. Returns the queue info, to be
-+ * passed to nvme_remove_queue_info(), or an ERR_PTR().
-+ */
-+struct nvme_queue_info *
-+nvme_add_queue_info(struct nvme_ctrl *ctrl, unsigned int qid,
-+		    const struct attribute_group **groups, void *data)
-+{
++	struct nvme_ctrl *nctrl = &queue->ctrl->ctrl;
 +	struct nvme_queue_info *qinfo;
-+	int ret;
 +
-+	if (WARN_ON_ONCE(!ctrl->queues_kobj))
-+		return ERR_PTR(-EINVAL);
-+
-+	qinfo = kzalloc_obj(*qinfo);
-+	if (!qinfo)
-+		return ERR_PTR(-ENOMEM);
-+	qinfo->data = data;
-+
-+	ret = kobject_init_and_add(&qinfo->kobj, &nvme_queue_info_ktype,
-+				   ctrl->queues_kobj, "%u", qid);
-+	if (ret)
-+		goto out_put;
-+
-+	ret = sysfs_create_groups(&qinfo->kobj, groups);
-+	if (ret)
-+		goto out_put;
-+	return qinfo;
-+
-+out_put:
-+	kobject_put(&qinfo->kobj);
-+	return ERR_PTR(ret);
++	qinfo = nvme_add_queue_info(nctrl, nvme_tcp_queue_id(queue),
++				    nvme_tcp_queue_groups, queue);
++	if (IS_ERR(qinfo)) {
++		dev_warn(nctrl->device, "queue %d: no sysfs directory: %ld\n",
++			 nvme_tcp_queue_id(queue), PTR_ERR(qinfo));
++		return;
++	}
++	queue->qinfo = qinfo;
 +}
-+EXPORT_SYMBOL_GPL(nvme_add_queue_info);
 +
-+/**
-+ * nvme_remove_queue_info - remove a queue directory
-+ * @qinfo: queue info returned by nvme_add_queue_info()
-+ *
-+ * Waits for running attribute callbacks, so none run once this returns
-+ * and the transport data may be torn down.
-+ */
-+void nvme_remove_queue_info(struct nvme_queue_info *qinfo)
-+{
-+	kobject_del(&qinfo->kobj);
-+	kobject_put(&qinfo->kobj);
-+}
-+EXPORT_SYMBOL_GPL(nvme_remove_queue_info);
+ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
+ 				key_serial_t pskid)
+ {
+@@ -1915,7 +2036,11 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
+ 
+ 	queue->sock->sk->sk_allocation = GFP_ATOMIC;
+ 	queue->sock->sk->sk_use_task_frag = false;
+-	queue->io_cpu = WORK_CPU_UNBOUND;
++	/* no store races here, the lock is for the write helper */
++	spin_lock(&nvme_tcp_cpu_queues_lock);
++	if (!test_bit(NVME_TCP_Q_IO_CPU_USER, &queue->flags))
++		nvme_tcp_queue_change_io_cpu(queue, WORK_CPU_UNBOUND);
++	spin_unlock(&nvme_tcp_cpu_queues_lock);
+ 	queue->request = NULL;
+ 	queue->data_remaining = 0;
+ 	queue->ddgst_remaining = 0;
+@@ -2030,11 +2155,10 @@ static void nvme_tcp_stop_queue_nowait(struct nvme_ctrl *nctrl, int qid)
+ 	if (!test_bit(NVME_TCP_Q_ALLOCATED, &queue->flags))
+ 		return;
+ 
+-	if (test_and_clear_bit(NVME_TCP_Q_IO_CPU_SET, &queue->flags)) {
+-		spin_lock(&nvme_tcp_cpu_queues_lock);
+-		nvme_tcp_cpu_queues[queue->io_cpu]--;
+-		spin_unlock(&nvme_tcp_cpu_queues_lock);
+-	}
++	spin_lock(&nvme_tcp_cpu_queues_lock);
++	if (test_and_clear_bit(NVME_TCP_Q_IO_CPU_SET, &queue->flags))
++		nvme_tcp_cpu_queues[nvme_tcp_queue_io_cpu(queue)]--;
++	spin_unlock(&nvme_tcp_cpu_queues_lock);
+ 
+ 	mutex_lock(&queue->queue_lock);
+ 	if (test_and_clear_bit(NVME_TCP_Q_LIVE, &queue->flags))
+@@ -2097,6 +2221,8 @@ static int nvme_tcp_start_queue(struct nvme_ctrl *nctrl, int idx)
+ 
+ 	if (idx) {
+ 		nvme_tcp_set_queue_io_cpu(queue);
++		/* expose io_cpu only once the driver has selected it */
++		nvme_tcp_add_queue_sysfs(queue);
+ 		ret = nvmf_connect_io_queue(nctrl, idx);
+ 	} else
+ 		ret = nvmf_connect_admin_queue(nctrl);
+@@ -2303,6 +2429,11 @@ static int nvme_tcp_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
+ 	if (ret)
+ 		return ret;
+ 
++	/* the parallel queue setup below adds the queue directories */
++	ret = nvme_queue_dir_create(ctrl);
++	if (ret)
++		return ret;
++
+ 	if (new) {
+ 		ret = nvme_alloc_io_tag_set(ctrl, &to_tcp_ctrl(ctrl)->tag_set,
+ 				&nvme_tcp_mq_ops,
+@@ -2890,7 +3021,8 @@ static void nvme_tcp_commit_rqs(struct blk_mq_hw_ctx *hctx)
+ 	struct nvme_tcp_queue *queue = hctx->driver_data;
+ 
+ 	if (!llist_empty(&queue->req_list))
+-		queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
++		queue_work_on(nvme_tcp_queue_io_cpu(queue), nvme_tcp_wq,
++			      &queue->io_work);
+ }
+ 
+ static blk_status_t nvme_tcp_queue_rq(struct blk_mq_hw_ctx *hctx,
 -- 
 2.55.0
 
