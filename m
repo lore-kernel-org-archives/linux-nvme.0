@@ -2,124 +2,70 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96D0D606A31E
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Oct 2026 12:24:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 040E0606A31B
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Oct 2026 13:42:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=acUHZv9v;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=kkPq982a;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Whiek4t1;
-	dkim=neutral header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=hZupRC7P;
-	dkim=neutral header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Whiek4t1
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=bPEK4XK+
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:From:Subject
+	:Message-ID:Date:MIME-Version:Reply-To:Cc:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
 	List-Unsubscribe-Post:List-Owner;
-	bh=x4CmADp2ir7n+E8mOlnp3JESSQ5fFcEi+jbhhp5rGtk=; b=acUHZv9viwvi2HH2jixaStNCDR
-	hJ5ryU7+swaqJDb2pQ2dzHXyHkpV8FwgCs0+mG1UIOZJeGC7S0a5KktDMKKmAbDmw2kZZrZFR4P68
-	8wLqLKbxZCw47xYFhCuhb9OfMpnkB1Lqq7a6j8C17CUTHMawC5v+9p2mclm/Zse4ZHrnGGt7h3a6D
-	2k0DXdfNj8o+S/kUDBJlJt6pq5utC9IFFWGKrjqKHKGL5CJ4eZbHoDtRybjzSTYWf5FNkt281xOGz
-	bnJYFXt9DMQ3PA0WN0wQNHO3m+zUVMKbEyR7+V+t0wEPsgNpcwDqWSWq+iOksCHsDb+F4rzSVEjlJ
-	kTT1jPqw==;
+	bh=ljm8bNNap3tvF9+jeCrN03t35kRNZ/yBqVC9j5iU6CA=; b=bPEK4XK+sNSCY6frTZpZxcs8Hv
+	7L14Q9FepWpuV4bsrab2CqJg59IGxw2M6+J+ubB8qpUvQ86gAOKwAIEFhUBVL209b45p5kwzOuBgg
+	5qcbD1CWGMpxiC11N7K4eKwBTM2gnQa1Q0FC7AcfcuaICx0dCsCVXx44fZQ33oTUr3+3KVGAbjp/l
+	ze8EMBLeSLrD4oN4CH7AHQLKkA3OXboG43yASYUkBS7z+TwA0H4UETqKeylCC6WgTEyivEqaYEwWP
+	wKwrS3y+BBFH2MaWoqhFrnOyG28tG2Fe2VHdRCcO2ghIoV30ZOxBlDeHVyx5RMj8c01ag1tPxy/C6
+	Oy1iid/Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xKEJp-0000000GI4y-2aeG;
-	Fri, 23 Oct 2026 12:24:21 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1xKFXl-0000000GQLl-2LMr;
+	Fri, 23 Oct 2026 13:42:49 +0000
+Received: from mail-oi1-f198.google.com ([209.85.167.198])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xKEJn-0000000GI4q-3Ifp
-	for linux-nvme@bombadil.infradead.org;
-	Fri, 23 Oct 2026 12:24:19 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=content-type:Content-Transfer-Encoding
-	:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=x4CmADp2ir7n+E8mOlnp3JESSQ5fFcEi+jbhhp5rGtk=; b=kkPq982aN0Fc++La/+w3SpVABe
-	QL/TgfJgjODTfoRlehMW68e5gZq0wd2Qbhvoz3WueoCmOdnA2GgGteXxvWZ3yvN87AgqVZez54OFG
-	G7E+w4/Eb86deCaoBFtI8wy44R62ZW4C5zgKBh5b5c+NWRHwjgF0h/d7T38Md3EEAr9GHAbT+ikIO
-	SM3xyc8r7ENfwm+AyrZ6NHOui/1zZbME+P/GhTPgy03oLmyWkM1CQl9TCbQw7xnJLxKnay1IC2ZtH
-	UyXaQPGxtwz4smvvlLIIa2KatUxIZn2E4+bRNx1Diyr+svPZkhIwPSeHp9LqgDw3HavOusg+PAA2N
-	7KAq84qQ==;
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
-	by desiato.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xKEJk-00000009Yhd-3uhG
+	id 1xKFXg-0000000GQHd-1Oxt
 	for linux-nvme@lists.infradead.org;
-	Fri, 23 Oct 2026 12:24:18 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1792758245;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=x4CmADp2ir7n+E8mOlnp3JESSQ5fFcEi+jbhhp5rGtk=;
-	b=Whiek4t1dF5vq5Rp9QIk5h4oi7Og27esZER22QEBRhQat+C1M6MtF/uEBSWeMiTLqiChtL
-	4vbZESs0/mBFDDWFfBqQJeim1aAO03Qw+VCvxD7Kj8MXoCSBumEmvIE5T/xXRRw7/EScUH
-	c8cx6doqkCW0KVUI0icA0BYC3cJDTo4=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1792758253;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=x4CmADp2ir7n+E8mOlnp3JESSQ5fFcEi+jbhhp5rGtk=;
-	b=hZupRC7PMV+pu1EQysYVpK558VGpCsmhej1CeW11hcGWEwOXCoy/QEH1ZnqsFQ5WVl2sLp
-	haBLfT/cbkfn0MchN2Z2BgxDiCDWz8wWgcJOTiyQS2EPkrsSbObCGfF001BgiX6NX1y8p2
-	HmQdf/hYv+fXeUiVLAoJltFHMXmQEUw=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1792758245;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=x4CmADp2ir7n+E8mOlnp3JESSQ5fFcEi+jbhhp5rGtk=;
-	b=Whiek4t1dF5vq5Rp9QIk5h4oi7Og27esZER22QEBRhQat+C1M6MtF/uEBSWeMiTLqiChtL
-	4vbZESs0/mBFDDWFfBqQJeim1aAO03Qw+VCvxD7Kj8MXoCSBumEmvIE5T/xXRRw7/EScUH
-	c8cx6doqkCW0KVUI0icA0BYC3cJDTo4=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-608-CHJDW6xEMZqCQT8L7LpFbw-1; Fri,
- 23 Oct 2026 08:24:02 -0400
-X-MC-Unique: CHJDW6xEMZqCQT8L7LpFbw-1
-X-Mimecast-MFC-AGG-ID: CHJDW6xEMZqCQT8L7LpFbw_1792758240
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 47B6E1944D26;
-	Fri, 23 Oct 2026 12:24:00 +0000 (UTC)
-Received: from snishika-thinkpadp16vgen1.tokyo.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C9E881800444;
-	Fri, 23 Oct 2026 12:23:55 +0000 (UTC)
-From: Seiji Nishikawa <snishika@redhat.com>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Seiji Nishikawa <snishika@redhat.com>,
-	Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chris Leech <cleech@redhat.com>,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] nvme-tcp: fix io_work priority inversion when send_mutex is held
-Date: Fri, 23 Oct 2026 21:23:51 +0900
-Message-ID: <20261023122351.977034-1-snishika@redhat.com>
-In-Reply-To: <526673b4-a090-47a4-9181-e30813a8cbe5@suse.de>
-References: <20261014064524.4015025-1-snishika@redhat.com> <526673b4-a090-47a4-9181-e30813a8cbe5@suse.de>
+	Fri, 23 Oct 2026 13:42:47 +0000
+Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-4ab260600easo2579836b6e.1
+        for <linux-nvme@lists.infradead.org>; Fri, 23 Oct 2026 06:42:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792762953; x=1793367753;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ljm8bNNap3tvF9+jeCrN03t35kRNZ/yBqVC9j5iU6CA=;
+        b=MZm/V+KKWPjOe8fV00jBmYHjUZ2i/xPKRwN9BxfMktCFnJ7+YwGEQahahXwZzGNdFb
+         ZpKz3Egde59SK8Z6YTeUDblG/eTOWldauL8MAIrNOqk7B0qVxKKmWSpZTW1NnOGwqHJ5
+         WJ13znB2vLMonDiYj7asFobaVODzFwqua7erXi0SPfISbYposdS/NaNH/fRKtj437BC/
+         rZ5IGy3bQwtAs71ysDcMURXw7YC65TV6tfXWQi0xWqAGthqLV1MIGEsThcSENieESUoB
+         T4AYNXUFqSQnkq9l1W9u47eDJ9XNFtbLF4D1aH7/1mRuR+UaeYqQJICjr7Z3/384pqPK
+         jE7A==
+X-Forwarded-Encrypted: i=1; AKwUvByhZZEdioY2fMh4+1jO0Z3RIM2zACN507LghOdd2HOHip0c/FnrgqPWKZydonp7Ry/52BA5IpRAv2nM@lists.infradead.org
+X-Gm-Message-State: AFq9FYJfG/m9Qmo9cr02fwyYxw91sjWUOXeRanMSmOX8U6sNENraGY5V
+	GPBTwbGR2SrKUavJ0NYpHJ5KOKfyqnstQSjN05U5FphiurTqP6ZF2e3zZB26/G7xTByzno/FmxH
+	GH3dF5uatHweWr5eq1SS8Pwt0BGyrBF1xdjP19ATpoh8cL+WQpcGQW8ciPlM=
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
-X-Mimecast-MFC-PROC-ID: IZFP1QvVRSiXLrQGF0DT0hvgR5C_RSxGm3xTpDOZPsQ_1792758240
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+X-Received: by 2002:a05:6808:c224:b0:53a:1c29:cb37 with SMTP id
+ 5614622812f47-557ee87e5edmr3000376b6e.38.1792762953518; Fri, 23 Oct 2026
+ 06:42:33 -0700 (PDT)
+Date: Fri, 23 Oct 2026 06:42:33 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6adb6449.5589765f.2780bb.0034.GAE@google.com>
+Subject: [syzbot] [nvme?] WARNING in nvme_tcp_init_request
+From: syzbot <syzbot+bdd7605037d64d5ccc10@syzkaller.appspotmail.com>
+To: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org, 
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	sagi@grimberg.me, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261023_132417_188374_F51A3552 
-X-CRM114-Status: GOOD (  43.07  )
-X-Spam-Score: 2.7 (++)
+X-CRM114-CacheID: sfid-20261023_064244_490388_73757CCF 
+X-CRM114-Status: UNSURE (   8.29  )
+X-CRM114-Notice: Please train this message.
+X-Spam-Score: 1.8 (+)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -130,139 +76,128 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
 	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Thank you for the review.
+Hello,
 
-On 10/21/26 12:10 PM, Hannes Reinecke wrote:
-> On 10/14/26 8:45 AM, Seiji Nishikawa wrote:
->> We hit this on a 6 CPU VM running a database on nvme-tcp storage. In
->> the vmcore, 2 tasks held send_mutex of 2 queues and were runnable in
->> lock_sock_nested() for 103 seconds, while the kworkers for those queues
->> kept running io_work on their CPUs. All database tasks were in one
->> cgroup, which got only about 0.3% of the CPU against the nice -20
->> kworker. Requests timed out, and blk_mq_timeout_work() waited in
->> synchronize_srcu() for the tasks still in .queue_rq.
->>
-> How very interesting. I don't think you could craft a blktest for this?
->
+syzbot found the following issue on:
 
-I do not have a reliable reproducer in my lab. Reproducing the hang
-requires a particular sequence of scheduling events. The task holding
-send_mutex is preempted inside lock_sock_nested(), a higher priority
-(nice -20) kworker looping in io_work, waiting for send_mutex to be
-released, takes that CPU, and then starves the task holding send_mutex
-of CPU time indefinitely. The kworker keeps looping because
-mutex_trylock() keeps failing, since the preempted task still holds
-send_mutex, and the pending check (f42d4796ee10) keeps the kworker
-running instead of letting it return. It happened on a 6 CPU VM with a
-database under heavy load. So far I have only seen it on the customer
-system, but there it reproduced every time.
+HEAD commit:    2efb7a11f1aa Add linux-next specific files for 20261016
+git tree:       linux-next
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=1419283c580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=129fca4e65ab9877
+dashboard link: https://syzkaller.appspot.com/bug?extid=bdd7605037d64d5ccc10
+compiler:       Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1219283c580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1718d93e580000
 
->> Only do the pending check if io_work could take send_mutex. If it could
->> not, the task holding send_mutex sends what it can in
->> nvme_tcp_send_all(), and queues io_work again after it releases the
->> mutex if requests are still pending, so no request is left behind.
->>
->
-> The direct send path again. I really wonder if we need it at all, or
-> whether we cannot simply delete it.
->
-> Can you try if you see a regression with this patch?
->
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index ba5c7b3e2a7c..2c59b550e13f 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -405,17 +405,6 @@ static inline void nvme_tcp_queue_request(struct
-> nvme_tcp_request *req,
->          empty = llist_add(&req->lentry, &queue->req_list) &&
->                  list_empty(&queue->send_list) && !queue->request;
->
-> -       /*
-> -        * if we're the first on the send_list and we can try to send
-> -        * directly, otherwise queue io_work. Also, only do that if we
-> -        * are on the same cpu, so we don't introduce contention.
-> -        */
-> -       if (queue->io_cpu == raw_smp_processor_id() &&
-> -           empty && mutex_trylock(&queue->send_mutex)) {
-> -               nvme_tcp_send_all(queue);
-> -               mutex_unlock(&queue->send_mutex);
-> -       }
-> -
->          if (last && nvme_tcp_queue_has_pending(queue))
->                  queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
->   }
->
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/cd996cff1b76/disk-2efb7a11.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/59577d58bd5a/vmlinux-2efb7a11.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/a3dfa3b04143/bzImage-2efb7a11.xz
 
-I cannot try it where the hang reproduced. That is a customer production
-system, and I have no reproducer outside of it. On the kernel with the
-regression, that system hung within 12 to about 50 minutes after boot, 5
-times in 2 days, under its normal database load. It has been running a
-kernel with my patch since October 15 under the same load, and the hang
-has not come back. With your patch this hang cannot happen, since
-io_work becomes the only sender and the trylock in io_work never fails.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+bdd7605037d64d5ccc10@syzkaller.appspotmail.com
 
-What I could do is a sanity check. On a 4 CPU VM with an nvmet tcp
-loopback target I ran
+nvme nvme0: creating 2 I/O queues.
+nvme nvme0: mapped 2/0/0 default/read/poll queues.
+------------[ cut here ]------------
+DEBUG_LOCKS_WARN_ON(lock->magic != lock)
+WARNING: kernel/locking/mutex.c:625 at __mutex_lock_common kernel/locking/mutex.c:625 [inline], CPU#1: syz-executor121/5622
+WARNING: kernel/locking/mutex.c:625 at __mutex_lock+0x132a/0x15a0 kernel/locking/mutex.c:821, CPU#1: syz-executor121/5622
+Modules linked in:
+CPU: 1 UID: 0 PID: 5622 Comm: syz-executor121 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+RIP: 0010:__mutex_lock_common kernel/locking/mutex.c:625 [inline]
+RIP: 0010:__mutex_lock+0x1331/0x15a0 kernel/locking/mutex.c:821
+Code: b9 7a 91 48 c1 e8 03 0f b6 04 18 84 c0 0f 85 46 02 00 00 83 3d 93 fc 83 05 00 75 13 48 8d 3d c6 fa 86 05 48 c7 c6 c0 27 0d 8c <67> 48 0f b9 3a 90 e9 1d ee ff ff 90 0f 0b 90 e9 f0 f1 ff ff 90 0f
+RSP: 0018:ffffc90003bdf1e0 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: dffffc0000000000 RCX: ffff88807e8a9f40
+RDX: 0000000000000000 RSI: ffffffff8c0d27c0 RDI: ffffffff917db820
+RBP: ffffc90003bdf378 R08: ffffffff917ab9e3 R09: 1ffffffff22f573c
+R10: dffffc0000000000 R11: fffffbfff22f573d R12: ffff88807ed84460
+R13: 0000000000000000 R14: 1ffff9200077be50 R15: 0000000000000000
+FS:  000055557669a400(0000) GS:ffff888123b8b000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fcefd60ee9c CR3: 000000007ed68000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ nvme_tcp_init_request+0xbd/0x260 drivers/nvme/host/tcp.c:571
+ blk_mq_init_request block/blk-mq.c:3596 [inline]
+ blk_mq_alloc_rqs block/blk-mq.c:3664 [inline]
+ blk_mq_alloc_map_and_rqs+0x66d/0x980 block/blk-mq.c:4137
+ __blk_mq_alloc_map_and_rqs block/blk-mq.c:4155 [inline]
+ __blk_mq_alloc_rq_maps block/blk-mq.c:4714 [inline]
+ blk_mq_alloc_set_map_and_rqs+0x1a0/0x810 block/blk-mq.c:4745
+ blk_mq_alloc_tag_set+0x8e5/0x1000 block/blk-mq.c:4929
+ nvme_alloc_io_tag_set+0x36a/0x6f0 drivers/nvme/host/core.c:5103
+ nvme_tcp_configure_io_queues drivers/nvme/host/tcp.c:2297 [inline]
+ nvme_tcp_setup_ctrl+0xc6f/0x1670 drivers/nvme/host/tcp.c:2530
+ nvme_tcp_create_ctrl+0xa59/0xf00 drivers/nvme/host/tcp.c:3123
+ nvmf_create_ctrl drivers/nvme/host/fabrics.c:1361 [inline]
+ nvmf_dev_write+0x24ca/0x2d90 drivers/nvme/host/fabrics.c:1408
+ vfs_write+0x296/0xba0 fs/read_write.c:685
+ ksys_write+0x150/0x270 fs/read_write.c:1036
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f86ccedd849
+Code: c0 79 93 eb d5 48 8d 7c 1d 00 eb 99 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 d8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fffd35af4a8 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 6769666e6f632f2e RCX: 00007f86ccedd849
+RDX: 000000000000003a RSI: 00002000000007c0 RDI: 0000000000000008
+RBP: 0000000000000001 R08: 0000000000000006 R09: 0000000000000006
+R10: 0000000000000006 R11: 0000000000000246 R12: 00007fffd35af618
+R13: 431bde82d7b634db R14: 00007f86ccf70c40 R15: 0000000000000002
+ </TASK>
+----------------
+Code disassembly (best guess):
+   0:	b9 7a 91 48 c1       	mov    $0xc148917a,%ecx
+   5:	e8 03 0f b6 04       	call   0x4b60f0d
+   a:	18 84 c0 0f 85 46 02 	sbb    %al,0x246850f(%rax,%rax,8)
+  11:	00 00                	add    %al,(%rax)
+  13:	83 3d 93 fc 83 05 00 	cmpl   $0x0,0x583fc93(%rip)        # 0x583fcad
+  1a:	75 13                	jne    0x2f
+  1c:	48 8d 3d c6 fa 86 05 	lea    0x586fac6(%rip),%rdi        # 0x586fae9
+  23:	48 c7 c6 c0 27 0d 8c 	mov    $0xffffffff8c0d27c0,%rsi
+* 2a:	67 48 0f b9 3a       	ud1    (%edx),%rdi <-- trapping instruction
+  2f:	90                   	nop
+  30:	e9 1d ee ff ff       	jmp    0xffffee52
+  35:	90                   	nop
+  36:	0f 0b                	ud2
+  38:	90                   	nop
+  39:	e9 f0 f1 ff ff       	jmp    0xfffff22e
+  3e:	90                   	nop
+  3f:	0f                   	.byte 0xf
 
-  # NVMET_TRTYPES=tcp ./check nvme
 
-on 3 kernels: v7.3 (base), v7.3 with my patch (seiji), and v7.3 with
-your patch (hannes).
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-base    passed=49 failed=0 not_run=12
-seiji   passed=49 failed=0 not_run=12
-hannes  passed=49 failed=0 not_run=12
-per-test results identical
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-The 12 not run are the same on all 3 kernels, skipped for reasons
-unrelated to the patches:
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-      6     nvme_trtype=tcp is not supported in this test
-      1     command tlshd is not available
-      1     driver scsi_debug is not available
-      1     kernel option KASAN has not been enabled
-      1     kernel option NVME_TARGET_DEBUGFS has not been enabled
-      1     libnvme version is older than 1.11.0
-      1     Remote target required but NVME_TARGET_CONTROL is not set
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
 
-This is only a functional check. It says nothing about latency.
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
 
-To apply your patch on v7.3 I had to drop the !nvme_tcp_queue_tls()
-line as well, since 08acb54b063a ("nvme-tcp: defer TLS inline send to
-io_work") is in v7.3. That commit already skips the direct send for
-TLS queues, so the io_work only path is already in use there. Two
-small things in the patch. empty is set but no longer used, which
-warns with W=1, and nvme_tcp_send_all() loses its only caller. I
-dropped both in the version I built.
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
 
-I agree the direct send path is the source of this family of bugs,
-5c11f7d9f843, a0fdd1418007, 70f437fb4395 and this one, and I am fine
-with removing it. But I think the two should be kept apart. This
-regression is in v6.16 and later, so it is in every current stable tree
-and in the distro kernels based on them, and people are hitting it in
-production now. What stable and the distros need is a small fix that
-only changes behavior for those who hit the problem, and that is what
-this patch is. Removing the direct send path changes performance for
-everyone using nvme-tcp and requires a performance review before it is
-introduced. Also, it belongs in the next merge window rather than in
-stable.
-
-So I would prefer to take this minimal fix now for v7.4 and stable, and
-do the removal as a separate patch for-next. If you agree, I can write
-and send that patch with your Suggested-by. For the performance side I
-can only test on VMs, so latency numbers from a real nvme-tcp setup
-would be needed from someone else. If later performance measurements
-reveal that the direct send is unnecessary, the check added here goes
-away with it, which is fine.
-
-Thanks,
-Seiji
-
+If you want to undo deduplication, reply with:
+#syz undup
 
