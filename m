@@ -2,82 +2,80 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C30606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 350CC606A31A
 	for <linux-nvme@archiver.kernel.org>; Fri, 23 Oct 2026 09:50:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=ozkRlCtI;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Ov+8Bima
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=al2bpAf1;
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=XQFEWevA
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
 	List-Unsubscribe-Post:List-Owner;
-	bh=Jum1aQJB6bRdZdUYtOmfk5Rws5tzDQQlB372hq12SIk=; b=ozkRlCtI/0kANqts03egQnwYgU
-	ttUuHKKAvA4zublvNsCwicfeYKrvYoAjoSXF1l0Jt2X5bFHnr2xiRw9uHALGlg47FiF1/SY7x+BkA
-	EqEQ1cckFbO4ouyM0V98T/HydmkvfnFk7ij3DhikA3PUPa9o33kb9fjJWkfHgrKrMD/hBbAoPsYG0
-	m7qK4aAyFJzSes/Sz2ydaJlQv2QboYMTD9ELQMjmkXxW8cd6+P1DVVk1Xcbt3fnoJikjI7ta6ukpl
-	p3i2fD85hWrhskT3SunBO7XlduPFrhyoNJre4orFRhfKoytyrEkBH6VIfdbFJfmDmffgWNRUawR9l
-	6rR8Dh0g==;
+	bh=ZWWYXX7fL6nQSfOVGxkAL56aJANp0WiYob2iEw7E9qs=; b=al2bpAf1y9k25X4WhxfDXPEOBl
+	Q828iz53xIrNWuQgF+KWNBu9XjRvdgfV7ACSTo9myWVNN5gCvcjCKlbJUX/ZoI7SrhbRhrr9JXe6q
+	Rp6MopvUFcHkvji7l16Uko/DvNpF6lTNYIhMw2UG+FKDOTKGJa8oO0lDDFnI+3RYXm27I+dZpmhQs
+	/hkbf6uP0sAyK2mBz1u6JsXYnmD07UkX0jWG4NKUefZqBm+ZvZ7Ns60sJkWovBZ6QNEXyMpV4PTAP
+	sjMoF9bjMHZ9wPbn7G6BAI55f78XlSwFudBzkXFYpdGwbzTbBx6oN/JR5pFLr7PSkt3Th9+106DKv
+	SGGQ4TOw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xKBuc-0000000G583-11Dm;
+	id 1xKBuc-0000000G58I-1ctt;
 	Fri, 23 Oct 2026 09:50:10 +0000
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xKBuV-0000000G55B-48Dd
+	id 1xKBuV-0000000G55C-3iAl
 	for linux-nvme@lists.infradead.org;
 	Fri, 23 Oct 2026 09:50:06 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
 	s=mimecast20190719; t=1792749002;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Jum1aQJB6bRdZdUYtOmfk5Rws5tzDQQlB372hq12SIk=;
-	b=Ov+8BimaMXHvI4oXgNigWtsVS8wK9FmL7Hl3vv/yeO2qZGAw+dFYxORN5q+NJbBiQVnYgC
-	G31+jeBkiM0VSgDSLUt1ZnXlmplitqfvj0vysPyOigGRsQgVmyTfEbcxutv1BL3jgeUFbU
-	mK1fS+xHBLS8z4znreE+LP8bTAkavJM=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ZWWYXX7fL6nQSfOVGxkAL56aJANp0WiYob2iEw7E9qs=;
+	b=XQFEWevAkYVOd02KIph95tOqlklLG8Kej6iyP3ZqPoEyZL9wusTUW2c1vpoiW9Uz3VuVKY
+	8LU3haGI/mUVGMdysVBj+vdfq4kQc/f/fG9vDZs/0nOfCva8YHwbJQqf/ZIYMLzxPTKIu+
+	t/qiUFg53ZAstpLHil3mwRh1B32b00I=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-391-zic9yy-fOlmeiK1VInDWNA-1; Fri,
- 23 Oct 2026 05:48:17 -0400
-X-MC-Unique: zic9yy-fOlmeiK1VInDWNA-1
-X-Mimecast-MFC-AGG-ID: zic9yy-fOlmeiK1VInDWNA_1792748896
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-155-zXdvZCqON5-3Mo9lJd023Q-1; Fri,
+ 23 Oct 2026 05:48:12 -0400
+X-MC-Unique: zXdvZCqON5-3Mo9lJd023Q-1
+X-Mimecast-MFC-AGG-ID: zXdvZCqON5-3Mo9lJd023Q_1792748891
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id EE1951954B06;
-	Fri, 23 Oct 2026 09:48:15 +0000 (UTC)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 501151800755;
+	Fri, 23 Oct 2026 09:48:10 +0000 (UTC)
 Received: from mlombard-thinkpadt14gen4.redhat.corp (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id A566D1800444;
-	Fri, 23 Oct 2026 09:48:13 +0000 (UTC)
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 9C9E01800444;
+	Fri, 23 Oct 2026 09:48:07 +0000 (UTC)
 From: Maurizio Lombardi <mlombard@redhat.com>
 To: kbusch@kernel.org
 Cc: linux-nvme@lists.infradead.org,
 	axboe@kernel.dk,
 	hch@lst.de,
 	dwagner@suse.de
-Subject: [PATCH 2/2] nvme-pci: increase quirks_param buffer size to 256 bytes
-Date: Fri, 23 Oct 2026 11:48:06 +0200
-Message-ID: <20261023094806.944563-3-mlombard@redhat.com>
-In-Reply-To: <20261023094806.944563-1-mlombard@redhat.com>
-References: <20261023094806.944563-1-mlombard@redhat.com>
+Subject: [PATCH 0/2] Fix for nvme quirks module parameter
+Date: Fri, 23 Oct 2026 11:48:04 +0200
+Message-ID: <20261023094806.944563-1-mlombard@redhat.com>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: GurD6Rv9HRIeLcQrGk3YpU5cAcY6o-35qymRecaU1X0_1792748896
+X-Mimecast-MFC-PROC-ID: IizPe2UxvNQJxc6cmIqQw0CPlzQvQRQzdCCWZEMcuIo_1792748891
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 content-type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261023_025004_109748_DB7D3DF4 
-X-CRM114-Status: GOOD (  12.65  )
-X-Spam-Score: 0.5 (/)
+X-CRM114-CacheID: sfid-20261023_025004_039737_08A6FB05 
+X-CRM114-Status: UNSURE (   8.41  )
+X-CRM114-Notice: Please train this message.
+X-Spam-Score: -2.8 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,40 +86,26 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-16.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-The current 128 byte buffer for the nvme.quirks command line parameter
-is a bit too small. If a user needs to specify multiple quirks or use
-multiple VID:DID combinations, the configuration string can easily
-exceed this limit.
+The first patch fixes a boot hang when nvme-pci is built-in in the
+kernel, reported by Ramon Jesus Miranda here:
+https://lore.kernel.org/linux-nvme/20261018155426.1299676-1-ramonjesusmiranda@gmail.com/
 
-Increase the size of the quirks_param array from 128 to 256 bytes to
-comfortably accommodate longer and more complex quirk configurations.
+The second patch increases the quirks parameter's buffer.
 
-Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
----
- drivers/nvme/host/pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Maurizio Lombardi (2):
+  nvme-pci: fix early boot hang with nvme.quirks= parameter
+  nvme-pci: increase quirks_param buffer size to 256 bytes
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 6699c7da4b5a..d6c8fcc6151a 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -232,7 +232,7 @@ static int quirks_param_set(const char *value, const struct kernel_param *kp)
- 	return err;
- }
- 
--static char quirks_param[128];
-+static char quirks_param[256];
- static const struct kernel_param_ops quirks_param_ops = {
- 	.set = quirks_param_set,
- 	.get = param_get_string,
+ drivers/nvme/host/pci.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
 -- 
 2.56.0
 
