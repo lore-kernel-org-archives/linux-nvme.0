@@ -2,41 +2,41 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE0E8606A31E
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Oct 2026 08:03:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DE6F606A31A
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Oct 2026 08:03:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=z3lRk92n;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=lvNBtNFG
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=L6mIJEU4;
+	dkim=pass (1024-bit key, unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=NKZhAsuv
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=0fTzlDvfAp5L1yBHP6Hrs7VySIWJ+6xVLe/GeeedsiY=; b=z3lRk92nIgA1W6
-	/XCMg6u6ubNGhVzdfB/3NlkR0sFoy/uZLSAyrm7IR2KegVHDr+vYmgQ1BxQ3D6jamZuqcltkpcqab
-	VZGnHOrndQ70VKFd8ZV+XgPhm5LOgQ5dV4dOeEHS9hSyl+2g2zEUahilXvX0BPxggZoXUSDNppkdc
-	T2rFJjCqJD9fsXV7r/WR3129Y6Zu+YMv0V7edcaGp/F8WoXYZXh6L4dvjuSAA7T4eD3xwySptRr2u
-	Jx9FV1H2fkqE2ri7PSm4fRVqJiwuPRKJ5JJjXLqXnuMrZV7skSK6MFytcvat0qCv+2zxroNjPVvuZ
-	a/BFous+MZoi0NTVQzwA==;
+	List-Owner; bh=IDeM7YsEZ4ifkdn8oVcb47xTY9dtW2yaDw5e6gon9As=; b=L6mIJEU4CPMk2g
+	1MwzsIiRFa1HYOEbYWiPPL61l37hrRg2FcvGMIaIVK+j+61jIJ/JIvbBsxvu329AL55cPjGfb+aan
+	X9QX6GzL8w5AIv1GpEt2Dipu2CePv8fX6W4bMsQA3yXQZJwceLPbN8UmkUv6eZKv+VG4Bdy2bBU+7
+	N+tUInuvYY/nHn1/WhRGsGMrG+qXdI9tdbRpitvBVPVaME8GsW6F5IxmTm4WeR/8ofOrROvh79uov
+	bCiYzAooAEDoAlJ6KcAlGZ6tJOyqVJA+M1A6z309WALYh+gGikcTNFwLSh/Ih9MhW4g12U3qLUapD
+	Tegjrjt4MjKwfaALmvIg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xKAF7-0000000FqoZ-1n7c;
-	Fri, 23 Oct 2026 08:03:13 +0000
-Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133])
+	id 1xKAF9-0000000FqrL-3ZIO;
+	Fri, 23 Oct 2026 08:03:15 +0000
+Received: from out199-7.us.a.mail.aliyun.com ([47.90.199.7])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xKAEz-0000000FqiX-3J8n
+	id 1xKAF4-0000000Fqkd-0AQA
 	for linux-nvme@lists.infradead.org;
-	Fri, 23 Oct 2026 08:03:07 +0000
+	Fri, 23 Oct 2026 08:03:12 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1792742582; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=0fTzlDvfAp5L1yBHP6Hrs7VySIWJ+6xVLe/GeeedsiY=;
-	b=lvNBtNFG493Ol1ANM5FUPPYQaN635Zg2/4fwUG+nXASvzzfF/7AYh3vJo3QyeNWUOeY5Arbiysc/5QMoH718vHTrWnOctRht4kIbrwqM3U5H/s9Utfyy92YkTfdtQKPBUs3sOscfm1//+c5ZE1Fe1lT4XmhsAaBKSKGYGeD5WjA=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R751e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037033178;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XDLNnFV_1792742581;
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XDLNnFV_1792742581 cluster:ay36)
+	t=1792742586; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=IDeM7YsEZ4ifkdn8oVcb47xTY9dtW2yaDw5e6gon9As=;
+	b=NKZhAsuv5qQYB6c6w3TKM2gjR4KYfiwRxQ/6AdMYxq8xJSfwbHpBtpeyb527LlcwGQlrsWQCmcGjHjRHVtSPF9UGtB4bjYtgtS37Uyzc6PBxwLl3vvOUKAFKn+wgzMwtbH809FwescteeqZhcuHztURJx/CxpAy5FL+eWqXU3iQ=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R581e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037026112;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XDLNnGg_1792742584;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XDLNnGg_1792742584 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Fri, 23 Oct 2026 16:03:01 +0800
+          Fri, 23 Oct 2026 16:03:04 +0800
 From: Guixin Liu <kanie@linux.alibaba.com>
 To: Keith Busch <kbusch@kernel.org>,
 	Jens Axboe <axboe@kernel.dk>,
@@ -46,9 +46,9 @@ To: Keith Busch <kbusch@kernel.org>,
 	Daniel Wagner <dwagner@suse.de>,
 	Hannes Reinecke <hare@suse.de>
 Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH 02/11] block: add bdev_write_stream_granularity()
-Date: Fri, 23 Oct 2026 16:02:42 +0800
-Message-ID: <20261023080251.2606443-3-kanie@linux.alibaba.com>
+Subject: [PATCH 05/11] nvmet: report the Endurance Group Identifier in the CS-INDEP identify data
+Date: Fri, 23 Oct 2026 16:02:45 +0800
+Message-ID: <20261023080251.2606443-6-kanie@linux.alibaba.com>
 X-Mailer: git-send-email 2.43.7
 In-Reply-To: <20261023080251.2606443-1-kanie@linux.alibaba.com>
 References: <20261023080251.2606443-1-kanie@linux.alibaba.com>
@@ -56,8 +56,9 @@ X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261023_010306_018648_FCF4007A 
-X-CRM114-Status: GOOD (  10.84  )
+X-CRM114-CacheID: sfid-20261023_010311_699404_B23F63CF 
+X-CRM114-Status: UNSURE (   8.64  )
+X-CRM114-Notice: Please train this message.
 X-Spam-Score: -17.6 (-----------------)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -78,35 +79,36 @@ X-Spam-Status: No, score=-26.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-The write stream granularity queue limit is readable through the
-queue_limits structure only.  Add a block device accessor next to
-bdev_max_write_streams(), so that holders of a block device can read
-it without going through the request queue.
+The Identify Namespace data structure (CNS 00h) reports the Endurance
+Group Identifier of the namespace, but the I/O Command Set Independent
+Identify Namespace data structure (CNS 08h) leaves the field zeroed.
+Hosts that implement NVMe 2.0 or later, or that cannot use CNS 00h,
+take the Endurance Group Identifier from the CS-INDEP data structure
+and thus always see 0, which breaks every consumer of the identifier:
+the FDP feature and log pages and the Rotational Media Information
+log page are addressed by it.
+
+Report the same Endurance Group Identifier as CNS 00h: each namespace
+is its own endurance group, so the identifier equals the namespace
+identifier.
 
 Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
 ---
- include/linux/blkdev.h | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/nvme/target/admin-cmd.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 4f7905c3412b8..6eca09058dec6 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -1307,6 +1307,14 @@ static inline unsigned short bdev_max_write_streams(struct block_device *bdev)
- 	return bdev_limits(bdev)->max_write_streams;
- }
- 
-+static inline unsigned int
-+bdev_write_stream_granularity(struct block_device *bdev)
-+{
-+	if (bdev_is_partition(bdev))
-+		return 0;
-+	return bdev_limits(bdev)->write_stream_granularity;
-+}
-+
- static inline unsigned queue_logical_block_size(const struct request_queue *q)
- {
- 	return q->limits.logical_block_size;
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 7764a3c0195c9..aad5abdb6ef96 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -1081,6 +1081,7 @@ static void nvmet_execute_id_cs_indep(struct nvmet_req *req)
+ 	id->nstat = NVME_NSTAT_NRDY;
+ 	id->anagrpid = cpu_to_le32(req->ns->anagrpid);
+ 	id->nmic = NVME_NS_NMIC_SHARED;
++	id->endgid = cpu_to_le16(req->ns->nsid);
+ 	if (req->ns->readonly)
+ 		id->nsattr |= NVME_NS_ATTR_RO;
+ 	if (req->ns->bdev && bdev_rot(req->ns->bdev))
 -- 
 2.43.7
 
