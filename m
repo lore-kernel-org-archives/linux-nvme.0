@@ -2,102 +2,103 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F299D606A31A
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Oct 2026 18:10:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51034606A320
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Oct 2026 18:13:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=ASaWexr5;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ElGEn7jr
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=yHB7ZTL+;
+	dkim=pass (2048-bit key, unprotected) header.d=purestorage.com header.i=@purestorage.com header.a=rsa-sha256 header.s=google2022 header.b=WH4Hsm86
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:
-	References:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:
-	Subject:Date:From:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=9qg8CezQBnAfLuqyFUGhfk9+41KUyU8Lk4icphWUOg4=; b=ASaWexr5KDikAB
-	y0zmgCide1TRe/ebpZ7kPugcBpQrn32kP/kaT3sJmM5SPaipegYifPYykg7b462kaGDZsvcEQyIAR
-	5V5YV5EBhWoi8+Qe2kzV+LKAEHErmdyGbWPC8g1NP2CHjgCrEw+o0vus2H4EIKi/xB+XTxaRjhJ4M
-	cHZHOmqHGyNXPRBQEn4ZSXoJY8+HWoeXjm7YSVffgHPPV5r3UaPh6kDKsYMx3GSJfCHzTyNFcAyw2
-	pJb3EMC8MatNBkTfi32oWwhewpynhiOhGlG8KHXVGwXT0aT862w/Yzpx3aI3cB3bla6fYtMZnrNDf
-	5InQ72tuklwwOczO6z0A==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Unsubscribe-Post:List-Owner;
+	bh=QW3sLtRWxfBZuOWJq/rGSlPO0jYxXYDcOJrE1b/An2w=; b=yHB7ZTL+/HalDdRCTBsLHwhSph
+	RCBPA8LlUdodkOG8o6hYhVeTHk5cNnzZ3JPhgH9ft9FmyFmdhN8ECeNpZFQJPriSdZg2htUQkmIrv
+	lpHKzbNNBEcvx5JAnNkuDwyQrXV6mPiC2sw7RXzu4ZqL7k6A5dp5UQHpNNc92eeTRJIfYNtOCPl42
+	yGZW6jEL1VB2WBEVtLDfS6kwz7naDfTWXPOerHrHrcaz/ctREmiu64ofB0NT36T81faoB9NMxfjs9
+	bAITwANkacu39K04936TO+hA2wJ3dqR4ccUH9SuKQmQ6Mzcny+WhLra0kbUwli9tI53hvlT3eHdos
+	y9u/1ONA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xLP8q-000000032cd-1Xgi;
-	Mon, 26 Oct 2026 18:09:52 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1xLPBy-00000003301-46IM;
+	Mon, 26 Oct 2026 18:13:06 +0000
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xLP8o-000000032cA-3R04
+	id 1xLPBs-000000032z4-3d1l
 	for linux-nvme@lists.infradead.org;
-	Mon, 26 Oct 2026 18:09:50 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id D5E4A60A70;
-	Mon, 26 Oct 2026 18:09:49 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1793038189;
-	b=tQ/i3+Eig8NE7DhMBbEw6Zp56BeCQNFp6dGEqi3CySF+8XdDWCvf8YK3ecM4E80u2avr
-	 sXvsvj0UTuEk9ndRlzbk2o9/joZtB+1Q2qX3rn+EyphzBJ7XCQW5lJ9TCCfmJ3PzSxWkF
-	 RWQCDnwZB84dI2upOQKZh5wbhMsoswCVTCZvOlGmDTnmGCrbj08sAeTWMPreJAXU+eEkF
-	 1kQ1T4R6cpFy0/Hqo2w76AZRmnL68DnneRaq/WGXoOnPr1Wsuo/tTVlZYWmHpLjHFo0A/
-	 SL/T3PHqKYBzDyQ5ESIWRvUbIQ+3nYyOExpIeEITCjhOkDjqoJU5exkGuzPHDrB2PUA==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1793038189;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To;
-	bh=9qg8CezQBnAfLuqyFUGhfk9+41KUyU8Lk4icphWUOg4=;
-	b=rE79YOwErrzQ4mRZFAhaVGaAeh3aGwaiG5ZNYFm8/tJ7hw4iapQ9x6oVzCa+61CAAtJf
-	 1c5GNoIGUSV9M1HjGF7B3NQQKvgdCB01csRcHp76Y8n4gvaKbTFfEEUisnOLYzeBqrRmk
-	 8VVPpUb1KRaNl4liRaiddNZnx2VKKf9RZAvvzKxKYFw/J04TwGyUHRTVstNwu6O5FS+lL
-	 wjjtStWg64wlf0woLjmQQ5wlv6DDYBo6VfS5hFl0KgyBIH2SmfmhNUTlUxuFkXPlysRfE
-	 eCFWObfjWqsEaf5JmCJwQsojHUuRyxt1Irr4uchS/ySUzVGj014HjUh6czLcvalW2Ng==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id C2F6E1F01825;
-	Mon, 26 Oct 2026 18:09:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793038189;
-	bh=9qg8CezQBnAfLuqyFUGhfk9+41KUyU8Lk4icphWUOg4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=ElGEn7jrDmDZceNxu355KAd43NJ+oxmdHtNCOsXRtCODjAyfaLApoNGDuAP3Vvjji
-	 EqhBdkAy5y9vSXe7eU1QqopiO1yx5+ZTOqQE13EMxvMqlPXPD0TkdhMRE5VkeHiBdy
-	 +uMvUNd8jrLW+vt+0HNI3x7XAUZn0VWXY2iBaIrC1ephxCiz1ygmzSbNxrJO8pNa3t
-	 oHHl7sQxOmXYhMrK3ARM+uL/Uzf1MbA68ooiMF3lvsYzUfWGGzBImjyzu4+2C01FqI
-	 TtC/8WFlMJvLQisyj46eHWQJgOjGaG9i2gvED41Cd8bAhP9/Q93t5TIDjGY/63QdWu
-	 unXMqe83G9IYw==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 34BF344E1E;
-	Mon, 26 Oct 2026 18:09:48 +0000 (UTC)
-From: Martin Belanger via B4 Relay <devnull+martin.nvme.dev.gmail.com@kernel.org>
-Date: Mon, 26 Oct 2026 14:09:44 -0400
-Subject: [PATCH 1/2] nvme-tcp: start error recovery when read_sock fails
+	Mon, 26 Oct 2026 18:13:05 +0000
+Received: by mail-wr1-x42e.google.com with SMTP id ffacd0b85a97d-48e47347279so1254738f8f.1
+        for <linux-nvme@lists.infradead.org>; Mon, 26 Oct 2026 11:12:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1793038378; x=1793643178; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=QW3sLtRWxfBZuOWJq/rGSlPO0jYxXYDcOJrE1b/An2w=;
+        b=WH4Hsm86Ni6LrfWBLcpxj97lssKG//N0LRwOPnynGlhbifh9ZA4IQBCV1w3Q33wKDr
+         bAguytwOiKRbNKT5ruF8VY5mBQLa9PT9xvRXu1egWdeVnWz83Ez+jVD8TH2kakAvTvi7
+         Y7ujXEuEbS9qq1a9kT4d+Lub7ZAeBvqPfCmCD+bHTvpKQCvYc9FtWDip139epg1M03sU
+         KQfoG+mFL2YjA9/WV+18BqEydpDDPl9HtxN0Lg7RMpnoIA/f3uIGLdGZwIf9KZ0NdWQ4
+         BgU5L8le2lvCR85D4kIcblQ5I15JWNSwd1I/tH2+pGdpv7M3gq2PEsDMfUcgoIN7/kvu
+         JxLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793038378; x=1793643178;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=QW3sLtRWxfBZuOWJq/rGSlPO0jYxXYDcOJrE1b/An2w=;
+        b=GAxieE5hAw0r31Br8ATTVzT0T2zV/vwcMpdFlRCx4iKtAxgOwXaZBN7gIK2YbD3TBl
+         Tyj3d8pxsoHZPrRJv07WNPSO24JSxcyixziOSWo/bGwWm3Fb60xxYLMb8z7CY4GxLFJk
+         999gMUXVdeEPC8gEJ7IhY7vE0Rb0MiSB8V6xRuUGXvvIAi8gzG1bc+pwNUMsTH/FkYWK
+         iJextA89Ly+1F2HV0Dc6xBIQShH862IcrkwsRj8VWK0jDaaIC+OipuvnLFtYRCHUau+I
+         WC1nx5tdYgnNZiqxBLuRvyBkrjZSLoPzVVVPRvTdN+e7N5NKmgnUdeUO+FqI/97J6bAA
+         Jbfw==
+X-Forwarded-Encrypted: i=1; AKwUvBzNotlWzqg2apzBh+vZYy4Xg1h8rRlu32lPuiNEl7QSjFoDrIAU2zNx6ZbOuhDVaYxsQx4PehKxv694@lists.infradead.org
+X-Gm-Message-State: AFq9FYLjuwpNP/L3s6ycBnuo04mfGZt115xk+oKmlM0qC9e4SlPbC+Yh
+	7LjzskHQ1xd/JAK61f6XBnhv9VPYibW/GwVhgK5xOleTe53KyJ6b+pJbqAXqOYDLpKs=
+X-Gm-Gg: AYBFou0OBLRJ4/5iDC1frb8MZNI8yhd37ljI7AJw6Pa2hITdIg8LXhGRMEvf+w04o4X
+	hp0Gkdxg3R1z9RDZb11x1PxYRFTPgqYM4JqILqAEHb8q5yR2JKHK8uXpg5NVDWoUZbdXdTt8nr6
+	1FjAeb9rCLgOBZjvbBpKlEzeDRsFoi2PSKxIhEMQALQ7RoIOntwtBfEMlzUrteo1X1ZnYRjKdWQ
+	iIbQpVcS7pe64p62KAMbevL+yupZUfdmDLtkz0TPF0Jcz1ADkeBYXXyJnEOwPRCjI5risGHZQBn
+	UJ+SjAv/eg9Mzdf160p2aNmjMYl4ZAtpeWVxPkiYs3hjUbdQbF3TmA5911VjRWV8LlHhEpiU8pr
+	jPHXg2F+uOEhKKUnauth67y6ng4CaGhqvNrPXBR13av0WtQQsLh0nO7O1n9NCxUlTrGIu1R/vae
+	ZazCU/7Sy9wwIyPx6YhRBuwyYv/7goassMWPi7aE5/NUYmnx8N0upl0ZiR3CYOC+76BeiXhKQ+I
+	s6LlVdRvNgoIMFjFLkeP4tAy+qUJy1bV9iluF1tK9zVTO2NbI6FUYKsem1V5otAYeZtX1cFD6zw
+X-Received: by 2002:a05:6000:41d1:b0:48d:f9dd:e3df with SMTP id ffacd0b85a97d-48e3eb82f9amr15096144f8f.18.1793038378341;
+        Mon, 26 Oct 2026 11:12:58 -0700 (PDT)
+Received: from medusa.lab.kspace.sh ([208.88.152.253])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-48e3ecd8c05sm22665445f8f.49.2026.10.26.11.12.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Oct 2026 11:12:57 -0700 (PDT)
+Date: Mon, 26 Oct 2026 11:12:54 -0700
+From: Mohamed Khalfella <mkhalfella@purestorage.com>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Justin Tee <justin.tee@broadcom.com>,
+	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
+	Paul Ely <paul.ely@broadcom.com>, Hannes Reinecke <hare@kernel.org>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	James Smart <jsmart833426@gmail.com>,
+	Randy Jennings <randyj@purestorage.com>,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH v6 11/18] nvme-rdma: Use CCR to recover controller that
+ hits an error
+Message-ID: <20261026181254.GA2653700-mkhalfella@purestorage.com>
+References: <20260920182936.2317916-1-mkhalfella@purestorage.com>
+ <20260920182936.2317916-12-mkhalfella@purestorage.com>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261026-nvme-tcp-ctrlrec-fixes-v1-1-ebf6ff7eff34@gmail.com>
-References: <20261026-nvme-tcp-ctrlrec-fixes-v1-0-ebf6ff7eff34@gmail.com>
-In-Reply-To: <20261026-nvme-tcp-ctrlrec-fixes-v1-0-ebf6ff7eff34@gmail.com>
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
- Hannes Reinecke <hare@kernel.org>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Martin Belanger <martin.belanger@dell.com>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1793038187; l=1609;
- i=martin.nvme.dev@gmail.com; s=20261014; h=from:subject:message-id;
- bh=ggidawoLoKfpkMXbqKndiLcxYd4qxdMDfKr5YsSgVnk=;
- b=VFIrA0yEclOqssaEnOt9moNoMSkIDzLHTFipPmWLmams9r1umzRKoQ4yGnggqc3TvwySHMjIQ
- O/XZ2KJkldcBMOfXFCYA+Xnyynr571JTUsbUbcw+dTFqIxBB6BqNv5R
-X-Developer-Key: i=martin.nvme.dev@gmail.com; a=ed25519;
- pk=4K+XXetGK35w2LzRRddd/bbHawZU222BN+YZRuSpN+k=
-X-Endpoint-Received: by B4 Relay for martin.nvme.dev@gmail.com/20261014
- with auth_id=1176
-X-Original-From: Martin Belanger <martin.nvme.dev@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260920182936.2317916-12-mkhalfella@purestorage.com>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20261026_111300_911995_32E5B273 
+X-CRM114-Status: GOOD (  13.85  )
+X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,65 +108,32 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: martin.nvme.dev@gmail.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-From: Martin Belanger <martin.belanger@dell.com>
+On Sun 2026-09-20 11:28:09 -0700, Mohamed Khalfella wrote:
+> An alive nvme controller that hits an error now will move to FENCING
+> state instead of RESETTING state. ctrl->fencing_work attempts CCR to
+> terminate inflight IOs. Regardless of the success or failure of CCR
+> operation the controller is transitioned to RESETTING state to continue
+> error recovery process.
+> 
+> Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
 
-nvme_tcp_recv_skb() disables the queue and starts error recovery for
-errors it detects itself. An error returned by the transport reaches
-nvme_tcp_try_recv() without either action.
+Hello Sagi,
 
-nvme_tcp_io_work() returns on a negative result and does not requeue
-itself, so the queue stops receiving and remains stalled until a command
-times out.
+Can you please take a look v6 of this patch. I applied the change
+discussed in v5 by moving flush_work(&ctrl->fencing_work) to
+.stop_ctrl(). It looks much better now.
 
-Report the error and start error recovery when the queue is still
-enabled, which indicates that the error was not handled by the actor.
+I would like to get these changes merged in 7.5, and getting this patch
+reviewed leaves only nvme-fc change which I believe Daniel is looking at
+now.
 
-Assisted-by: LLM
-Signed-off-by: Martin Belanger <martin.belanger@dell.com>
----
- drivers/nvme/host/tcp.c | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 7190eb10c248..a03476f0f69d 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1431,7 +1431,21 @@ static int nvme_tcp_try_recv(struct nvme_tcp_queue *queue)
- 	queue->nr_cqe = 0;
- 	consumed = sock->ops->read_sock(sk, &rd_desc, nvme_tcp_recv_skb);
- 	release_sock(sk);
--	return consumed == -EAGAIN ? 0 : consumed;
-+	if (consumed == -EAGAIN)
-+		return 0;
-+
-+	/* nvme_tcp_recv_skb() does both of these itself, so a queue that is
-+	 * still enabled failed inside read_sock() instead
-+	 */
-+	if (unlikely(consumed < 0 && queue->rd_enabled)) {
-+		dev_err(queue->ctrl->ctrl.device,
-+			"queue %d: receive failed: %d\n",
-+			nvme_tcp_queue_id(queue), consumed);
-+		queue->rd_enabled = false;
-+		nvme_tcp_error_recovery(&queue->ctrl->ctrl);
-+	}
-+
-+	return consumed;
- }
- 
- static void nvme_tcp_io_work(struct work_struct *w)
-
--- 
-2.53.0
-
-
+Thanks,
 
