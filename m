@@ -2,101 +2,62 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93621606A31A
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Oct 2026 10:57:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB1FC60A3837
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Oct 2026 11:10:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=XzMQbgNx;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=qTBzY5u+
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=uEpo3v0S;
+	dkim=pass (1024-bit key, unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=xF1Nt7gp
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=A6WQ68hjWi8GGKbr/7ipB7b6//gVmCrXXLJs0RemD+8=; b=XzMQbgNxniKJs2
-	hm4jXs2f5yjyzuOK/9LadNLTFSr0wUKEhr9ep/pmkKL/HMMOfihGJIlN9gEYLNIDOALA6BFKLzMb2
-	LCHMOPP2tsfIbfQPC0jaeSjPIihTgpn3BiCebD1u59Za/7HOgPtx0+OH8h92JGxtEwTVIo4StHIyh
-	331ziq5Um7FwoSqwAWcj0hNiK8heJyX8CKJUponf7aWesxNzr8+iW95i7MhMdp2GwaTuMp66HOJ6l
-	MnU4rIvPBqLnFw6ny2JxF868x2+iYsC8E/W0/P9F9J6jI+i9wGpe81TZ5AbxOH0EP4jZwJqT4kWsY
-	3zDUkpq87Q08OnwJecVQ==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Unsubscribe-Post:List-Owner;
+	bh=xz8HPCWEbQVqy3w4HlCVb5N/8mNJZ1F0FNCstNxmPd8=; b=uEpo3v0SNNMeHCMgw8K1i3QEdF
+	/LT0vwcQW68yqHzgLYvWmniMOy9B43GOddr5aCdxf+hUi61VGSfiJXzG5NmJGdPowU2x2KJrN5FTD
+	ReHPs9HadsdQJn2+GzgKd+Fvntbs8giD7evVJoR7Lfyy1sME9KqgeaKD+C1oy+XhoDZUvh631AzGx
+	7Tp/VdQsIOJ8OyQZECatbzpc9wN92+mL4xVqtZBpjWBqUM8OIvrSAt7YALQHi61Ff1/rDoMsEZXJm
+	uLLka8sO7dxSAGTutkmyTp2HObm5nOt/m23LMzB0o3NxnnTEMdYWvFhZN1Bnk308UO6cyijer+M9T
+	lTOLPAyA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xLIOA-00000002J4z-19DS;
-	Mon, 26 Oct 2026 10:57:14 +0000
-Received: from mail-yx2-x01.google.com ([2607:f8b0:4864:41::1])
+	id 1xLIb5-00000002KQE-0mai;
+	Mon, 26 Oct 2026 11:10:35 +0000
+Received: from out30-118.freemail.mail.aliyun.com ([115.124.30.118])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xLIO7-00000002J4S-3p9F
+	id 1xLIb0-00000002KJx-3pfN
 	for linux-nvme@lists.infradead.org;
-	Mon, 26 Oct 2026 10:57:13 +0000
-Received: by mail-yx2-x01.google.com with SMTP id 00721157ae682-8b0dbcd4b6aso5258527b3.1
-        for <linux-nvme@lists.infradead.org>; Mon, 26 Oct 2026 03:57:11 -0700 (PDT)
+	Mon, 26 Oct 2026 11:10:33 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793012230; x=1793617030; darn=lists.infradead.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=A6WQ68hjWi8GGKbr/7ipB7b6//gVmCrXXLJs0RemD+8=;
-        b=qTBzY5u+4dvN3BM4y/IaboaVJp+7WfYBmO0DX3lMTjUY3JlVbxluUgHj6BAwEG17Mh
-         sYt1T7rYemf8u9s6w5xgpBkiXdH99eL0ccHoOxGOAa+nx8iU+GK1ttx2kk2/sHvXH/7/
-         dwEIowQx5ixlkZd2k+mADOe/m8ASwgRiUgldkZl7U2yFqwsUYjkNGvLFlcporPPdLwz1
-         0HJgtRFdf2mx8Y0YniB8SLBnoKYHeiqCFtO0w5YiCugozDvA4wG/Yi4UeDv4YyP4rbwA
-         kigOj1e2NE1+IqkCIac9MrW+vojuzq/v3mxTblVO1Hrp8HhM2XdDlcRLYFCzXFoTn/V9
-         a+Zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793012230; x=1793617030;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=A6WQ68hjWi8GGKbr/7ipB7b6//gVmCrXXLJs0RemD+8=;
-        b=ystmCf0BcjEocVErl09rv+WJbquGaHmqxISPg/8085fmNbhdkMhQFBspC8CcXH8tYC
-         mnqulfMTVLEXuKRXmrYR06P0bDQ2r2UdFblilAyBKCKmIOh/0FJtUaKHAHh7mZBAp/fG
-         6VxaBxIArPhbo5yTbKDOSxIAqYufPBdrZPwBcfZkrweGbBpzBheK/qcL1oRH97my/30M
-         E3tsj1/7V4ZQXWJ386z34ONCke1wRNf2BWnfE5GXCooB82PhWCNMew31vVrvjj6uCAVd
-         m0BTPULGIFV3BlZ7JVRdam1bnhhjchG07yFl0F0T4UDBYRUOi6Li5F82Vjv01T0FiQ3y
-         Z/ww==
-X-Gm-Message-State: AFq9FYJLMfsbKOV9QZM8oOKUqNn8G7UGiK6OV6D3NiRSLz94usw4vY3M
-	+EmsaTNVA0jeXRMDqjiA7P65/zUbPgfykZgNOrZUKb0dMAg2rvyLRpL+
-X-Gm-Gg: AYBFou1GjsMnkk+DVrAU3BjsM4Vc+Il1fE5dvu/dcLYI2GwfLnXzY+SQcOhRUoDmOzA
-	7pUV3pOC8p2vHg5mxDU6HTtn68NfXLobTM3/0K3oiF6qmCf5oIjEF7X7qQap9pLJDHVGfLBYwA3
-	zOdo2/iHmOXJ1ew/RiXAmQ88+PQ8GJkfl1VWaHMBu29p1LmRG6h/0/ncMQhzSrgVRa/LktD9DGi
-	ECPXlF2r+g3xSM7LY4wvA/RSKywBf6+nDR0PYQJ2rUddXeNSFzwK2Lx5wSbm93jhN/zqWIXysEL
-	CD+dFgA8p5JzD6a3fzcyIuuZQLLY37ocnaXm8fDV5wNzkA5l19LrBfzkoOfTEVDRtEgMCKmSx6F
-	BH9eGDQ/o29s1GuX+ZBGsfdgK0tuWDQ33xCbC3nC4rdJiL4VEzRC+kafVMAP+G6Te4yLhjWDwJB
-	PsHBse1YrbhQWxG/s2oUsYr1LMzUJssreGsg4xST5vCD1adg7uE6k7D/pjbenls0VRMXeDJe1JO
-	Fp1EkmgvQqZMOx4ZS4xLsdVcJriCXSLlVgE4a8MDk5cws+7Y2Y/45hdTO6vB3g=
-X-Received: by 2002:a05:690c:dd6:b0:873:5bb2:6c06 with SMTP id 00721157ae682-8b166c4a307mr54037207b3.48.1793012230048;
-        Mon, 26 Oct 2026 03:57:10 -0700 (PDT)
-Received: from [10.0.0.48] ([71.69.222.122])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b166eb116esm28902707b3.37.2026.10.26.03.57.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Oct 2026 03:57:09 -0700 (PDT)
-Message-ID: <705f4452-3d07-4d91-9dcd-ea53b2cd75a5@gmail.com>
-Date: Mon, 26 Oct 2026 06:57:07 -0400
+	d=linux.alibaba.com; s=default;
+	t=1793013028; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=xz8HPCWEbQVqy3w4HlCVb5N/8mNJZ1F0FNCstNxmPd8=;
+	b=xF1Nt7gp0PFenTG1oxXay546qgZe1ycADetBp/RJiwbP84cEWcKiCU+rSkDnQME3hMYBCuK3Z5dQZjIxR7CvF66WvBhVYsqoWeC0/4ssAE0A89hXCyD3qq7CDDHcSBO+5sufwtL1py3DhvZqqMWtQX1jTollMwtih88vQt+rdEM=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XDXPhZn_1793013027;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XDXPhZn_1793013027 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Mon, 26 Oct 2026 19:10:28 +0800
+From: Guixin Liu <kanie@linux.alibaba.com>
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Nilay Shroff <nilay@linux.ibm.com>,
+	Daniel Wagner <dwagner@suse.de>,
+	Hannes Reinecke <hare@suse.de>
+Cc: linux-nvme@lists.infradead.org
+Subject: [PATCH v4 0/3] nvme: introduce the service-time iopolicy
+Date: Mon, 26 Oct 2026 19:10:15 +0800
+Message-ID: <20261026111019.3724465-1-kanie@linux.alibaba.com>
+X-Mailer: git-send-email 2.43.7
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/3] nvme-tcp: parallelize I/O queue allocation and
- startup
-To: Surabhi Gogte <sgogte@purestorage.com>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- mkhalfella@purestorage.com, randyj@purestorage.com, adailey@purestorage.com,
- Hannes Reinecke <hare@kernel.org>, wagi@kernel.org,
- shinichiro.kawasaki@wdc.com
-References: <20260922200718.3941465-1-sgogte@purestorage.com>
- <20260922200718.3941465-4-sgogte@purestorage.com>
-Content-Language: en-US
-From: Martin Belanger <martin.nvme.dev@gmail.com>
-In-Reply-To: <20260922200718.3941465-4-sgogte@purestorage.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261026_035711_958033_BA34C78E 
-X-CRM114-Status: GOOD (  13.36  )
-X-Spam-Score: -2.1 (--)
+X-CRM114-CacheID: sfid-20261026_041031_124933_73061C1F 
+X-CRM114-Status: GOOD (  14.20  )
+X-Spam-Score: -17.6 (-----------------)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,55 +68,96 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-4.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-26.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On 9/22/26 16:07, Surabhi Gogte wrote:
- > Similar to commit 2a8513091d2f ("nvme-rdma: parallelize I/O queue
- > allocation and startup"), refactor nvme tcp I/O queue setup to use async
- > API, combining allocation and startup into a single parallel operation
- > per queue. This reduces connection and reconnection setup time when
- > there are delays in establishing connections, which is especially
- > important for high-core-count hosts.
-[...]
+The queue-depth iopolicy counts requests, so a 128K I/O weighs the same
+as a 4K one, and it cannot express that one path is simply faster than
+another. This series adds a service-time iopolicy for NVMe native
+multipath, adapted from dm-ps-service-time: it picks the path with the
+lowest estimated service time, in_flight_bytes / relative_throughput,
+so balancing follows actual bytes in flight and per-path throughput
+weights.
 
-Hi Surabhi,
+Weights live in a per-path relative_throughput sysfs attribute (0-100,
+default 1, 0 makes the path a standby). Patch 3 documents the new
+attributes in the stable sysfs ABI; patch 1 carries the benchmark data
+in its commit log.
 
-This patch breaks NVMe/TCP connects with TLS. This is a different bug
-from the pf_cache_lock one that Shin'ichiro reported.
+This version is rebased onto the nvme-7.4 branch of
+git://git.infradead.org/nvme.git.
 
-Test: one VM with 4 CPUs, nvmet-tcp on 127.0.0.1 with tsas tls1.3, a
-connect with --tls and 4 I/O queues, and tlshd at upstream commit
-a0bd51d.
+Changes since v3:
 
-- Linus master 6b4b543fa187: 14 of 20 connects fail.
-- Same tree with this patch reverted: 20 of 20 connects pass.
-- Same tree with Daniel's pf_cache_lock fix [1]: 22 of 40 and 17 of 40
-   connects fail.
+- Rebased onto nvme-7.4, which adds the iopolicies and path_state
+  attributes and the discovery-subsystem "none" handling.
 
-On each failed connect, one I/O queue logs:
+- The iopolicies ABI entry now lists service-time too. nvme-7.4
+  already documents the attribute (with a hardcoded list of the
+  three older policies); patch 3 extends that list along with the
+  iopolicy accepted values.
 
-   nvme nvme0: queue 4: TLS handshake complete, error -110
+Changes since v2:
 
-The tlshd that runs for the target logs:
+- in_flight_bytes no longer leaks on failover: the accounted bytes
+  are now released in nvme_failover_req() before blk_steal_bios()
+  clears the request data length. Before, every failover (ANA
+  transition, path error, queue_rq unwind) permanently left the
+  request's bytes in the counter, skewing path selection until a
+  controller reset. Reproduced with an ANA transition during load on
+  the NVMe-oF/TCP test setup: the counter kept 512K of phantom bytes
+  after all I/O completed; with the fix it returns to zero.
 
-   failed to search 'psk' key 'NVMe0R01 <hostnqn> <subnqn>'
-   gnutls: Error in password/key file. (-31)
+- The release clamps at zero instead of a plain subtraction. A
+  request requeued across a controller reset is accounted against the
+  pre-reset counter but completes after nvme_mpath_init_identify()
+  re-zeroed it, and the plain subtraction would wrap negative, making
+  the comparator treat the path as pathologically overloaded. This
+  mirrors atomic_dec_if_positive() in the queue-depth accounting.
 
-and closes the connection. The tlshd that runs for the host then gets
-GNUTLS_E_PREMATURE_TERMINATION, which it reports to the kernel as
-ETIMEDOUT. The other queues use the same PSK, and their handshakes
-succeed. blktests nvme/062 and nvme/063 fail the same way.
+- The comparison operates on u64 instead of size_t, so the byte
+  counts and the shift guard keep their magnitude on 32-bit builds,
+  where size_t would truncate the atomic64 reads.
 
-I can share the reproducer script.
+- Added "service-time" to the accepted values of the subsystem
+  iopolicy ABI entry and to the policies listed by the iopolicies
+  ABI entry.
 
-[1] 
-https://lore.kernel.org/all/20261014-nvme-fabrics-isolcpu-v1-1-355156be27b2@kernel.org/
+No public v3 was posted; this version folds the review feedback from
+the v2 discussion and a rebase onto nvme-7.4.
 
-Martin
+On the adaptive I/O policy dependency Hannes raised during v1: that
+series has become the latency I/O policy and is still under
+revision. The two are complementary: the latency policy infers path
+speed from observed completions, service-time takes configured
+weights and byte counts.
+
+Guixin Liu (3):
+  nvme-multipath: implement service-time iopolicy
+  nvme-multipath: document service-time iopolicy
+  nvme: document the service-time iopolicy sysfs attributes
+
+ Documentation/ABI/stable/sysfs-nvme          |  35 +++-
+ Documentation/admin-guide/nvme-multipath.rst |  31 +++-
+ drivers/nvme/host/multipath.c                | 189 ++++++++++++++++++-
+ drivers/nvme/host/nvme.h                     |   6 +
+ drivers/nvme/host/sysfs.c                    |   7 +-
+ 5 files changed, 256 insertions(+), 12 deletions(-)
+
+v2 of this series:
+https://lore.kernel.org/r/20261019075607.808947-1-kanie@linux.alibaba.com
+
+v1 of this series:
+https://lore.kernel.org/r/20260617114602.2224074-1-kanie@linux.alibaba.com
+
+latency I/O policy v7:
+https://lore.kernel.org/r/20260809100825.2014133-1-nilay@linux.ibm.com
+-- 
+2.43.7
 
