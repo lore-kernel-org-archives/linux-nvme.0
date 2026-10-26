@@ -2,84 +2,84 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45CFF606A323
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Oct 2026 11:27:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB919606A323
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Oct 2026 11:28:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=suZaf334;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=tK4EJPkv
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=YVVSuWL1;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=btfd5w1d
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=+KAqS8M+/qoJA2pnACOUntqjOG8j1ld8MRFk1qGoTjs=; b=suZaf334eruZQz
-	l99vXMbk+nk45QDleCfBK3+bNGJ+f4HotrXSK+TxwX9y2E3qu564Kk7JeCz/7V08m9yZpCFtGHFKP
-	Jj/O4Xc6S4jg05EDCNsBpriqQNBc1+1K5UgNGSd2Ck64PWA16wtherlN6KqfRDMhInniL0fh5SKcZ
-	F0sUJPl7gcTcOntLCOx6OBsRrLPjXE/05J0IW0nW/3foVaXTCFEb4+jBFhYCeReAhJdys+uPz8sd5
-	oHHINVr1Xbt1OMNmHJHOxjJusW2SSAUAY9Urq3guVxaERbWPBb+A0ya6jDG6Q6pHEVSxJmy2xrHyC
-	NBONeJhjuoalfMzK2TvA==;
+	List-Owner; bh=ifcJOVQksIbT4LRSAR+fBN2obWCcURFUjY4fZfdk+Kk=; b=YVVSuWL1R7Y3ej
+	eY4Svdon07XnGqFCSSXeZpx24QNPndq1pTbaKDkQ9XODmxoPuqWeqgeDsVwLq4By8iB4uuUAU3HsC
+	gnzLqp638BfPaC79/fQXvcJgBpJs+jwM51JA4V4IHpmOnBZGnoGevDeraawwQTUHDafzQNWZwnNb5
+	GUwiW/1W6u6K0e9+XSDwA/T/ApKTCUF1hE54rTcD2da6YAzh7YVmr0wYtT5Rxv3JE1HEF2EQGY025
+	4OKmaMFu1J1Qc35FaimFHYHvVTFKrzhoNzJMwaF+GuA2wOnSL8McAntvZtmVUn8NsZJAVgxS9q14s
+	8/DsSpbPDwaZf/1zUmOA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xLIrq-00000002NHO-3VQG;
-	Mon, 26 Oct 2026 11:27:54 +0000
+	id 1xLIsX-00000002NTT-2RRm;
+	Mon, 26 Oct 2026 11:28:37 +0000
 Received: from mail-yx2-x0a.google.com ([2607:f8b0:4864:41::a])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xLIro-00000002NH3-191z
+	id 1xLIsV-00000002NRs-2GYm
 	for linux-nvme@lists.infradead.org;
-	Mon, 26 Oct 2026 11:27:53 +0000
-Received: by mail-yx2-x0a.google.com with SMTP id 956f58d0204a3-6798efe507bso1307453d50.0
-        for <linux-nvme@lists.infradead.org>; Mon, 26 Oct 2026 04:27:51 -0700 (PDT)
+	Mon, 26 Oct 2026 11:28:36 +0000
+Received: by mail-yx2-x0a.google.com with SMTP id 956f58d0204a3-677bd24a602so1661879d50.1
+        for <linux-nvme@lists.infradead.org>; Mon, 26 Oct 2026 04:28:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793014071; x=1793618871; darn=lists.infradead.org;
+        d=gmail.com; s=20251104; t=1793014114; x=1793618914; darn=lists.infradead.org;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=+KAqS8M+/qoJA2pnACOUntqjOG8j1ld8MRFk1qGoTjs=;
-        b=tK4EJPkv37AY0EXBSYSpJiwn0VokgostIqYBKxqDke3JZsGZ0BMaqXbRETammnFTDY
-         hY0ZF4PnOHV6jx6Uh8G8Xh112mup0LxxkFCdWnGBS+t995Q7z8y3s5dM7kNJ5ugunKfH
-         E8bPtPE7GKbmjnOfunaG8EsJEF59dYSyL6weIoREUgNPZ6yA90LAqNkCwDD+3iotmJpQ
-         mKnlEzq0DEEaEyfnjbG2WYpmBGwGdcCw1E10qXRKmALKwDCxfz/fcz5C80KaP26ZEyow
-         ClvsmSM/yN6RJf5PBWkBHSw9qzNFXsc0Xsa+yU3Ssjk6u4RbsfP9FNiJbxb8aFQu40Bb
-         2Xqg==
+        bh=ifcJOVQksIbT4LRSAR+fBN2obWCcURFUjY4fZfdk+Kk=;
+        b=btfd5w1dCWlRk3h5nVeeaKaJco9Esb3Lq3DsYOmApY4n60MJ1QwlGtALmYqqYk6Hjx
+         /grd5WS0vsktT0efm8ChpIKGNCvgzrxHf9m4dkDM/vqVMZUhTo8c1czBik+/REHDQ/68
+         VSUZXfVXjjz6QAAWtNXfM65wG3++Hsf8e5Vr+U+A0t72ZfCKN9JcXiZIaA4+tVPHULID
+         4nkYxuVJvNb7XgJqfKhyeW7Jx3mgnyStX44ijDNX9bMKhpBguXR5K2o7kQTo9xRNeSxj
+         XBVmmLSMHH+j0Ymh7tCnlcTxkhHtLfHjJly5cbORYOiaE/zlKuISB1FL5gHkGW79DTPs
+         jbfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793014071; x=1793618871;
+        d=1e100.net; s=20260707; t=1793014114; x=1793618914;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=+KAqS8M+/qoJA2pnACOUntqjOG8j1ld8MRFk1qGoTjs=;
-        b=IvtYz0y/fFFxLyTD7vGm61OA8qurb3ybcodf+y7uNq+VcbpYIseBKay8mVW2HsCFPp
-         JFUR9rkTYXfnXrjjzIfmqjjxLh4RBf2qgvZH1HT96Od6Z6UNPf7990f8wvni1aP4lRuO
-         y3mjMHR/kz8qypBvsrdbrWqTwsi4k8/Zg4IfeGoeaBmSGJKa2xpmgiJ7q+9n++xD4aHK
-         R9WH+GbEHiP/s9FQ464Ki6F4RCdwdm2efuQ4l6qOw9twN/mbxT158KUtpQ1fyrOYFYCM
-         bTQ/Q4CI1D8NS+EZdSCrUqK7vvrAQXSf8jzShbsXVl7bG0yVl5clOhvDdbduyKDGzq9L
-         /FxA==
-X-Forwarded-Encrypted: i=1; AKwUvBz8uFatliTS6PcBeNKAcGD1WvSGCSOc1xobh++qa9wLCfElacrluJ8Sjc0Q9liiTeHBRaylq434BkGn@lists.infradead.org
-X-Gm-Message-State: AFq9FYJYmUAk4rt/KV/L90XLvHuebfqosQKG73MVhF2k7U4C8Vhp/Vv/
-	nrI6UDnPkIj3pBJ9j4bBhKgnhLhRO9jGJiT9FF7xdBS7WUDzZFXvz5Os
-X-Gm-Gg: AYBFou3Vo88sDMm+Aor+ykH4xWf88YngPLuAI+CExXT6JYy4/i7c0EuNX4UzGpXJOVq
-	INm8szcz9iYr5ilN7hbcsrrhv7TO1LK2MJU8DY2jZalTf3eNoQ1jochvV0adxpCbMs4mmntl3BX
-	GZfVoaNCGJwP6HIim8TBNRQQbCuXsWmANH3iaTNI6X8SvA8eHhEimzN4t6m/KhiX5z6a3Dov1mW
-	yJu5h8A+nQnXtGXpfsdsAgJozJtJtxJCB6H6eShe4z8mdcmJxkH4MLJwFBOXmL4zg3mQsBMTTk1
-	nshRC9ahBM+l9Kihf5yFe0MkW6aPrHLAqNwFC+gEFI5dsDnIG5O3T8cbg/BVVGZ1bd7yCixtb3X
-	FNBNlrhNWtuFb55T1V/ILNDEM5m91HRrSpU+76V37W109IFV5k4pq/Yn4uE7VsJjTre+bVaPDfj
-	4B/OuLXqIq+PDXrka2/4judIw+RhLhsb2o8VWfnjJTQqyIrDpnq0A5j0K/17jOOYDAun2CjkOtq
-	18lpw74gzE7sZEXnV39HY5Gtkm9Ow+9Wk39FK8Y/zpfqK+zMoAvlySObYK39tY=
-X-Received: by 2002:a05:690e:144a:b0:67a:5e25:607b with SMTP id 956f58d0204a3-67a5e2565dbmr2989868d50.54.1793014070886;
-        Mon, 26 Oct 2026 04:27:50 -0700 (PDT)
+        bh=ifcJOVQksIbT4LRSAR+fBN2obWCcURFUjY4fZfdk+Kk=;
+        b=bGUieK4Xs3LYEp/z9ycLpP4QgJnxj/18zxq4vu1bsBsLO6iThVXGDVV65u2vN25gr/
+         zoU/yqRKwBtRYpLN+aGTN7KyJ4ckDD1nPjzuSQdvhMlThRmLStPmYcW64ZkgadPuBANx
+         77SprikM93R2FmZjeHWgQ68ZQrNM1NnGaJlekiZfmTNOHZdWSbdqOXQ4PMyrAQ9gzdw4
+         lxNGMbzkzawif+kYUhcFs3dWCPB7IZK1KNOqrwBo2u2pxfjhv5PxoVWnEbxjNvfVkENk
+         XC4HrdEAQrndI6MimCV3ikuH81nmERWEAa2QA6Tvdd9WGaQraZgyHxJgxD+R4L/mU5a0
+         0KJA==
+X-Forwarded-Encrypted: i=1; AKwUvByoooyLIS4AZm+axqLIe0yToWiolJPTCMa14TDOag98gliggd6McF/Agdkp2LHZPl9FZFmM5sA4M8Xe@lists.infradead.org
+X-Gm-Message-State: AFq9FYLmXh2MBtDRRdL6e1o8Z+5DdXeCEMgkBv4hdQwKPlbZ2PZa/H5W
+	pcrtNoca9YcVRfskuRIGiN4MoylhUbvhfDaTnage0hZrG0fqzZ3Gzrak
+X-Gm-Gg: AYBFou1F1wqsU0bp16Ge1E/K8+36bO15j9UC7BZIH4+H2AY0fDASyyn+QQGcqNSuS5A
+	iWUuU8JyR8DADwiLsfYqgmMRNTarWL4kRf5E7V/GJpA/GMpQzAiPGOwQys+cROI6M/CvPHBcfW2
+	M+ZyuZsDelBJjULbyDPUKmiMpkGj0cj2bZgd4ABrMTWrDq6451dOR3TSjFeA3gJCePRaCbR2ILQ
+	pHUs3KZZn0iTGefmKycNpQo8vF3T6g3d0Muv9hJ39YMKI97/4Jq94xjitmW/zh2aIc2Kb2N78Ko
+	AsTtdGxdSpRA3emBDe/E5iT50gEQe4y6+viMZNw5PpmMAzmgPywyh8LkaRatAo5NT6ey9tnilpU
+	6RbVh3ZBeZF4UvIObjqnGcgy9oJ3AjiHaplguXVf6C8XRMtWDJv8HPmiVthOc1oAKy4I3ysHTKC
+	GNiaWrfdw8EZNgZFn07QfCgtW/8wzAFqXHi2d5tUTbg8sbC+D0kGBiYERH60OdhBj7iGTOvKSLJ
+	sBK8cnVE8ctHBm2GR+8BnBq6Ggbrm485M1kCT29AgzFqakiM7cDBttu0V8lFw==
+X-Received: by 2002:a05:690e:169c:b0:679:a58:148c with SMTP id 956f58d0204a3-67a4519368cmr5729731d50.7.1793014114235;
+        Mon, 26 Oct 2026 04:28:34 -0700 (PDT)
 Received: from [10.0.0.48] ([71.69.222.122])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67a46235de1sm3114048d50.13.2026.10.26.04.27.49
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67a45ff8d6dsm3266096d50.1.2026.10.26.04.28.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Oct 2026 04:27:50 -0700 (PDT)
-Message-ID: <6ad9cd0e-e5a4-4b8b-8b5f-c93f6b249647@gmail.com>
-Date: Mon, 26 Oct 2026 07:27:48 -0400
+        Mon, 26 Oct 2026 04:28:33 -0700 (PDT)
+Message-ID: <69ac84e1-14c6-44bd-8eb4-a228918f9b61@gmail.com>
+Date: Mon, 26 Oct 2026 07:28:32 -0400
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC net-next 2/5] tls: add socket options to register the
- traffic secrets
+Subject: Re: [PATCH RFC net-next 3/5] tls: update the RX key when a KeyUpdate
+ is received
 To: Hannes Reinecke <hare@suse.de>, John Fastabend
  <john.fastabend@gmail.com>, Jakub Kicinski <kuba@kernel.org>,
  Sabrina Dubroca <sd@queasysnail.net>, "David S. Miller"
@@ -94,16 +94,16 @@ Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
  Alistair Francis <alistair.francis@wdc.com>,
  Martin Belanger <martin.belanger@dell.com>
 References: <20261025-keyupdate-rfc-v1-0-60b7756eccbd@gmail.com>
- <20261025-keyupdate-rfc-v1-2-60b7756eccbd@gmail.com>
- <131fc354-ff38-4aca-ac3d-8e3a6f3716f4@suse.de>
+ <20261025-keyupdate-rfc-v1-3-60b7756eccbd@gmail.com>
+ <8af172e4-0039-4dbb-970e-ab91b3d6e149@suse.de>
 Content-Language: en-US
 From: Martin Belanger <martin.nvme.dev@gmail.com>
-In-Reply-To: <131fc354-ff38-4aca-ac3d-8e3a6f3716f4@suse.de>
+In-Reply-To: <8af172e4-0039-4dbb-970e-ab91b3d6e149@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261026_042752_364232_7DB46DE0 
-X-CRM114-Status: GOOD (  39.70  )
+X-CRM114-CacheID: sfid-20261026_042835_663386_F599C75D 
+X-CRM114-Status: GOOD (  36.93  )
 X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -124,294 +124,349 @@ X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
 
-On 10/26/26 03:37, Hannes Reinecke wrote:
+On 10/26/26 03:53, Hannes Reinecke wrote:
 > On 10/26/26 1:36 AM, Martin Belanger via B4 Relay wrote:
 >> From: Martin Belanger <martin.belanger@dell.com>
 >>
->> kTLS holds the key and IV of each direction, but not the traffic secret
->> they were derived from. The derivation is one-way, so the kernel cannot
->> compute the next generation for a KeyUpdate on its own.
+>> When a KeyUpdate arrives, kTLS blocks reads with -EKEYEXPIRED until
+>> the user installs the next key. A kernel user such as nvme-tcp or
+>> sunrpc never does, so the connection stalls.
 >>
->> Add TLS_TX_TRAFFIC_SECRET and TLS_RX_TRAFFIC_SECRET. The owner of the
->> socket passes the TLS 1.3 application traffic secret of a direction 
->> after
->> installing its key. The cipher of the installed key selects the hash, so
->> the option takes only the secret. A socket without a registered secret
->> behaves as before.
+>> For a socket with a registered RX secret, derive the next key and
+>> install it when the KeyUpdate is decrypted. The record is not passed to
+>> the user, so recvmsg(), splice() and read_sock() go on to the next
+>> record. Without a registered secret the behavior is unchanged.
 >>
->> The TX secret can be registered alone. The RX secret needs the TX secret
->> first: a received KeyUpdate can ask for one in reply, and since the
->> kernel consumes the record, only the kernel can send that reply.
->>
->> Installing a new key with TLS_TX or TLS_RX removes the secrets that no
->> longer apply. The secrets are cleared when the context is freed and
->> cannot be read back.
+>> A KeyUpdate that is not alone in its record, has a wrong length or an
+>> invalid request_update value ends the connection, as RFC 9846 section
+>> 4.7.3 requires. So does a peer that sends more than 8 KeyUpdates in one
+>> second, the same limit as GnuTLS.
 >>
 >> Assisted-by: LLM
 >> Signed-off-by: Martin Belanger <martin.belanger@dell.com>
 >> ---
->>   Documentation/networking/tls.rst | 26 ++++++++++++
->>   include/net/tls.h                | 13 ++++++
->>   include/uapi/linux/tls.h         |  2 +
->>   net/tls/tls_main.c               | 86 
->> +++++++++++++++++++++++++++++++++++++++-
->>   4 files changed, 126 insertions(+), 1 deletion(-)
+>>   include/net/tls.h       |   7 +++
+>>   net/tls/Makefile        |   3 +-
+>>   net/tls/tls.h           |   2 +
+>>   net/tls/tls_keyupdate.c | 150 
+>> ++++++++++++++++++++++++++++++++++++++++++++++++
+>>   net/tls/tls_sw.c        |  35 +++++++++--
+>>   5 files changed, 190 insertions(+), 7 deletions(-)
 >>
->> diff --git a/Documentation/networking/tls.rst 
->> b/Documentation/networking/tls.rst
->> index 980c442d7161..2e011bd1ce4a 100644
->> --- a/Documentation/networking/tls.rst
->> +++ b/Documentation/networking/tls.rst
->> @@ -300,6 +300,32 @@ extra byte used by the ContentType field.
->>     [1] https://datatracker.ietf.org/doc/html/rfc8449
->>   +TLS_TX_TRAFFIC_SECRET and TLS_RX_TRAFFIC_SECRET
->> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> +
->> +``TLS_TX_TRAFFIC_SECRET`` registers the TLS 1.3 application traffic 
->> secret
->> +of the transmit direction, ``TLS_RX_TRAFFIC_SECRET`` that of the 
->> receive
->> +direction. With a registered secret, the kernel performs KeyUpdate 
->> for that
->> +direction itself (RFC 9846, section 4.7.3). The value is the secret 
->> itself.
->> +TLS 1.3 only, software path only.
->> +
->> +Install the key of the direction first, with the ``TLS_TX`` or 
->> ``TLS_RX``
->> +socket option described above. The cipher of that key selects the 
->> hash, and
->> +the secret must have the length of that hash: 32 bytes for SHA-256
->> +(AES-128-GCM, AES-128-CCM, ChaCha20-Poly1305) or 48 bytes for SHA-384
->> +(AES-256-GCM). Other ciphers return ``EOPNOTSUPP``.
->> +
->> +Each secret can be registered once. ``TLS_RX_TRAFFIC_SECRET`` needs
->> +``TLS_TX_TRAFFIC_SECRET`` first: a received KeyUpdate can ask for 
->> one in
->> +reply, and only the kernel sees it. ``TLS_TX_TRAFFIC_SECRET`` alone is
->> +allowed.
->> +
->> +If the application installs a new key itself with ``TLS_TX``, both 
->> secrets
->> +are removed. With ``TLS_RX``, the RX secret is removed. KeyUpdate 
->> for that
->> +direction is then left to the application again.
->> +
->> +The secrets cannot be read back.
->> +
->>   Statistics
->>   ==========
->>   diff --git a/include/net/tls.h b/include/net/tls.h
->> index e57bef58851e..aacc6d12226e 100644
+>> diff --git a/include/net/tls.h b/include/net/tls.h
+>> index aacc6d12226e..a5bc28a7d1f5 100644
 >> --- a/include/net/tls.h
 >> +++ b/include/net/tls.h
->> @@ -65,6 +65,9 @@ struct tls_rec;
->>     #define TLS_AAD_SPACE_SIZE        13
->>   +/* SHA-384, the longest hash of a TLS 1.3 cipher suite kTLS 
+>> @@ -63,6 +63,11 @@ struct tls_rec;
+>>     #define TLS_HANDSHAKE_KEYUPDATE        24    /* rfc8446 B.3: Key 
+>> update */
+>>   +/* KeyUpdate: msg_type, 24-bit length, request_update (RFC 9846 
+>> 4.7.3) */
+>> +#define TLS_KEYUPDATE_MSG_SIZE        5
+>> +#define TLS_KEY_UPDATE_NOT_REQUESTED    0
+>> +#define TLS_KEY_UPDATE_REQUESTED    1
+>> +
+>>   #define TLS_AAD_SPACE_SIZE        13
+>>     /* SHA-384, the longest hash of a TLS 1.3 cipher suite kTLS 
 >> supports */
->> +#define TLS_MAX_TRAFFIC_SECRET_SIZE    48
->> +
->>   #define TLS_MAX_IV_SIZE            16
->>   #define TLS_MAX_SALT_SIZE        4
->>   #define TLS_TAG_SIZE            16
->> @@ -224,6 +227,12 @@ struct tls_prot_info {
->>       u16 tail_size;
->>   };
->>   +/* A TLS 1.3 application traffic secret. len is 0 if none is 
->> registered. */
->> +struct tls_traffic_secret {
->> +    u8 data[TLS_MAX_TRAFFIC_SECRET_SIZE];
->> +    u8 len;
->> +};
->> +
->>   struct tls_context {
->>       /* read-only cache line */
->>       struct tls_prot_info prot_info;
->> @@ -266,6 +275,10 @@ struct tls_context {
->>       union tls_crypto_context crypto_send;
->>       union tls_crypto_context crypto_recv;
->>   +    /* Registered for KeyUpdate, protected by the socket lock */
->> +    struct tls_traffic_secret tx_secret;
->> +    struct tls_traffic_secret rx_secret;
->> +
->>       struct list_head list;
->>       refcount_t refcount;
->>       struct rcu_head rcu;
->> diff --git a/include/uapi/linux/tls.h b/include/uapi/linux/tls.h
->> index 1245ab38afc1..d1b136ecea96 100644
->> --- a/include/uapi/linux/tls.h
->> +++ b/include/uapi/linux/tls.h
->> @@ -42,6 +42,8 @@
->>   #define TLS_TX_ZEROCOPY_RO    3    /* TX zerocopy (only sendfile 
->> now) */
->>   #define TLS_RX_EXPECT_NO_PAD    4    /* Attempt opportunistic 
->> zero-copy */
->>   #define TLS_TX_MAX_PAYLOAD_LEN    5    /* Maximum plaintext size */
->> +#define TLS_TX_TRAFFIC_SECRET    6    /* TLS 1.3 TX traffic secret */
->> +#define TLS_RX_TRAFFIC_SECRET    7    /* TLS 1.3 RX traffic secret */
->>     /* Supported versions */
->>   #define TLS_VERSION_MINOR(ver)    ((ver) & 0xFF)
->> diff --git a/net/tls/tls_main.c b/net/tls/tls_main.c
->> index 8bdb78718a8d..1c6e993ec012 100644
->> --- a/net/tls/tls_main.c
->> +++ b/net/tls/tls_main.c
->> @@ -31,6 +31,7 @@
->>    * SOFTWARE.
->>    */
->>   +#include <crypto/sha2.h>
->>   #include <linux/module.h>
->>     #include <net/tcp.h>
->> @@ -325,6 +326,8 @@ void tls_ctx_free(struct sock *sk, struct 
->> tls_context *ctx)
->>         memzero_explicit(&ctx->crypto_send, sizeof(ctx->crypto_send));
->>       memzero_explicit(&ctx->crypto_recv, sizeof(ctx->crypto_recv));
->> +    memzero_explicit(&ctx->tx_secret, sizeof(ctx->tx_secret));
->> +    memzero_explicit(&ctx->rx_secret, sizeof(ctx->rx_secret));
->>       mutex_destroy(&ctx->tx_lock);
->>         if (sk)
->> @@ -757,8 +760,16 @@ static int do_tls_setsockopt_conf(struct sock 
->> *sk, sockptr_t optval,
->>           ctx->rx_conf = conf;
->>       update_sk_prot(sk, ctx);
->>   -    if (update)
->> +    if (update) {
->> +        /* The registered secret no longer matches the key. The RX
->> +         * secret also needs the TX one, see 
->> do_tls_setsockopt_secret().
->> +         */
->
-> What is a bit unfortunate that we don't have a direct link between the 
-> key and the traffic secret. So a user might set a key which is _not_
-> derived from the traffic secret, rendering the KeyUpdate non-workable.
->
-> Can we add a check here?
-> It should be possible to calculate the key from the traffic secret, no?
->
-Yes. The key is HKDF-Expand-Label(secret, "key") and the IV is
-HKDF-Expand-Label(secret, "iv"). When the secret is registered, the
-kernel can derive both and compare them with the installed key and IV.
-A secret that does not match fails with EINVAL. I will add this in v2.
->> +        if (tx)
->> +            memzero_explicit(&ctx->tx_secret,
->> +                     sizeof(ctx->tx_secret));
->> +        memzero_explicit(&ctx->rx_secret, sizeof(ctx->rx_secret));
->>           return 0;
->> +    }
->>         if (tx) {
->>           ctx->sk_write_space = sk->sk_write_space;
->> @@ -857,6 +868,72 @@ static int 
->> do_tls_setsockopt_tx_payload_len(struct sock *sk, sockptr_t optval,
->>       return 0;
->>   }
->>   +/* Length of the TLS 1.3 traffic secret for @cipher_type, the size of
->> + * its hash. 0 if KeyUpdate is not supported for the cipher.
+>> @@ -142,6 +147,8 @@ struct tls_sw_context_rx {
+>>       u8 zc_capable:1;
+>>       u8 reader_contended:1;
+>>       bool key_update_pending;
+>> +    u8 key_update_count;        /* received in this window */
+>> +    unsigned long key_update_window;    /* jiffies */
+>>         struct tls_strparser strp;
+>>   diff --git a/net/tls/Makefile b/net/tls/Makefile
+>> index 6edcf1271b75..ce8ac6a59f8c 100644
+>> --- a/net/tls/Makefile
+>> +++ b/net/tls/Makefile
+>> @@ -7,6 +7,7 @@ CFLAGS_trace.o := -I$(src)
+>>     obj-$(CONFIG_TLS) += tls.o
+>>   -tls-y := tls_main.o tls_sw.o tls_proc.o trace.o tls_strp.o tls_hkdf.o
+>> +tls-y := tls_main.o tls_sw.o tls_proc.o trace.o tls_strp.o tls_hkdf.o \
+>> +     tls_keyupdate.o
+>>     tls-$(CONFIG_TLS_DEVICE) += tls_device.o tls_device_fallback.o
+>> diff --git a/net/tls/tls.h b/net/tls/tls.h
+>> index b2061f6bf065..63ece8074985 100644
+>> --- a/net/tls/tls.h
+>> +++ b/net/tls/tls.h
+>> @@ -149,6 +149,8 @@ int init_prot_info(struct tls_prot_info *prot,
+>>              const struct tls_cipher_desc *cipher_desc);
+>>   int tls_hkdf_expand_label(const u8 *secret, size_t secret_len,
+>>                 const char *label, u8 *out, size_t out_len);
+>> +int tls_keyupdate_rekey(struct sock *sk, int tx);
+>> +int tls_keyupdate_rx(struct sock *sk, struct sk_buff *skb);
+>>   int tls_set_sw_offload(struct sock *sk, int tx,
+>>                  struct tls_crypto_info *new_crypto_info);
+>>   void tls_update_rx_zc_capable(struct tls_context *tls_ctx);
+>> diff --git a/net/tls/tls_keyupdate.c b/net/tls/tls_keyupdate.c
+>> new file mode 100644
+>> index 000000000000..543bf57599c7
+>> --- /dev/null
+>> +++ b/net/tls/tls_keyupdate.c
+>> @@ -0,0 +1,150 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> +/* Copyright (c) 2026 Dell Technologies Inc. or its subsidiaries.
+>> + *
+>> + * TLS 1.3 KeyUpdate, RFC 9846 sections 4.7.3 and 7.2.
+>> + *
+>> + * A TLS 1.3 peer can change the key of the direction it sends in at 
+>> any
+>> + * time. It sends a KeyUpdate message, then encrypts all later records
+>> + * with the next key. A sender must also change its key before the key
+>> + * has protected too many records (section 5.5).
+>> + *
+>> + * The next key is derived from the application traffic secret, not 
+>> from
+>> + * the current key. User space gives the kernel only the key and IV, so
+>> + * the kernel cannot derive the next key on its own. Without the 
+>> secret,
+>> + * a received KeyUpdate goes to the application, and the kernel stops
+>> + * decrypting until the application installs the next key with TLS_RX.
+>> + *
+>> + * With TLS_TX_TRAFFIC_SECRET or TLS_RX_TRAFFIC_SECRET, user space also
+>> + * gives the kernel the secret of that direction. The kernel then 
+>> handles
+>> + * KeyUpdate itself. This file derives and installs the next key, and
+>> + * processes a received KeyUpdate. tls_sw.c sends KeyUpdate messages.
 >> + */
->> +static int tls_traffic_secret_len(u16 cipher_type)
->> +{
->> +    switch (cipher_type) {
->> +    case TLS_CIPHER_AES_GCM_128:
->> +    case TLS_CIPHER_AES_CCM_128:
->> +    case TLS_CIPHER_CHACHA20_POLY1305:
->> +        return SHA256_DIGEST_SIZE;
->> +    case TLS_CIPHER_AES_GCM_256:
->> +        return SHA384_DIGEST_SIZE;
->> +    default:
->> +        return 0;
->> +    }
->> +}
 >> +
->> +static int do_tls_setsockopt_secret(struct sock *sk, sockptr_t optval,
->> +                    unsigned int optlen, int tx)
+>> +#include <linux/jiffies.h>
+>> +#include <linux/skbuff.h>
+>> +#include <net/strparser.h>
+>> +#include <net/tls.h>
+>> +
+>> +#include "tls.h"
+>> +
+>> +/* A peer that sends more KeyUpdates than this in one second ends the
+>> + * connection. Each one costs three HMACs and a new key, and carries no
+>> + * data.
+>> + */
+>> +#define TLS_KEYUPDATE_RX_MAX_PER_SEC    8
+>> +
+>> +/**
+>> + * tls_keyupdate_rekey - install the next key of one direction
+>> + * @sk: socket
+>> + * @tx: non-zero for the transmit direction
+>> + *
+>> + * Derive the next application traffic secret from the registered one,
+>> + * then its key and IV, and install them. The record sequence number
+>> + * restarts at zero.
+>> + *
+>> + * Return: 0 on success, or a negative errno. On error the installed 
+>> key
+>> + * and the registered secret do not change.
+>> + */
+>> +int tls_keyupdate_rekey(struct sock *sk, int tx)
 >> +{
 >> +    struct tls_context *ctx = tls_get_ctx(sk);
->> +    struct tls_crypto_info *crypto_info;
 >> +    struct tls_traffic_secret *secret;
->> +    int len;
+>> +    const struct tls_cipher_desc *cipher_desc;
+>> +    u8 iv[TLS_MAX_SALT_SIZE + TLS_MAX_IV_SIZE];
+>> +    u8 next[TLS_MAX_TRAFFIC_SECRET_SIZE];
+>> +    union tls_crypto_context tmp = {};
+>> +    struct tls_crypto_info *info = &tmp.info;
+>> +    int rc;
 >> +
->> +    if (tx) {
->> +        crypto_info = &ctx->crypto_send.info;
->> +        secret = &ctx->tx_secret;
->> +    } else {
->> +        crypto_info = &ctx->crypto_recv.info;
->> +        secret = &ctx->rx_secret;
->> +    }
->> +
->> +    /* The key must be installed first: its cipher selects the hash */
->> +    if (!TLS_CRYPTO_INFO_READY(crypto_info) ||
->> +        crypto_info->version != TLS_1_3_VERSION)
+>> +    secret = tx ? &ctx->tx_secret : &ctx->rx_secret;
+>> +    cipher_desc = get_cipher_desc(ctx->prot_info.cipher_type);
+>> +    if (!cipher_desc || !secret->len ||
+>> +        cipher_desc->salt + cipher_desc->iv > sizeof(iv))
 >> +        return -EINVAL;
 >> +
->> +    if ((tx ? ctx->tx_conf : ctx->rx_conf) != TLS_SW)
->> +        return -EOPNOTSUPP;
+>> +    /* version and cipher_type; the rest of tmp stays zero */
+>> +    *info = tx ? ctx->crypto_send.info : ctx->crypto_recv.info;
 >> +
->> +    len = tls_traffic_secret_len(crypto_info->cipher_type);
->> +    if (!len)
->> +        return -EOPNOTSUPP;
+>> +    rc = tls_hkdf_expand_label(secret->data, secret->len, "traffic 
+>> upd",
+>> +                   next, secret->len);
+>> +    if (rc)
+>> +        goto out;
 >> +
->> +    if (sockptr_is_null(optval) || optlen != len)
->> +        return -EINVAL;
+>> +    rc = tls_hkdf_expand_label(next, secret->len, "key",
+>> +                   crypto_info_key(info, cipher_desc),
+>> +                   cipher_desc->key);
+>> +    if (rc)
+>> +        goto out;
 >> +
->> +    /* A received KeyUpdate may ask for one in reply. The kernel
->> +     * consumes the record, so only the kernel can send the reply.
->> +     */
->> +    if (!tx && !ctx->tx_secret.len)
->> +        return -EINVAL;
+>> +    rc = tls_hkdf_expand_label(next, secret->len, "iv", iv,
+>> +                   cipher_desc->salt + cipher_desc->iv);
+>> +    if (rc)
+>> +        goto out;
+>> +
+>> +    memcpy(crypto_info_salt(info, cipher_desc), iv, cipher_desc->salt);
+>> +    memcpy(crypto_info_iv(info, cipher_desc), iv + cipher_desc->salt,
+>> +           cipher_desc->iv);
+>> +
+>> +    rc = tls_set_sw_offload(sk, tx, info);
+>> +    if (rc)
+>> +        goto out;
+>> +
+>> +    memcpy(secret->data, next, secret->len);
+>> +
+>> +out:
+>> +    memzero_explicit(next, sizeof(next));
+>> +    memzero_explicit(iv, sizeof(iv));
+>> +    memzero_explicit(&tmp, sizeof(tmp));
+>> +
+>> +    return rc;
+>> +}
+>> +
+> Hmm. So this calculates 'iv' and 'key' from the traffic secret.
+> But as it does, why can't we use it to calculate the _initial_ 'iv' 
+> and 'key' from the traffic secret?
+> IE wouldn't it make sense to allow for _just_ the (initial) traffic
+> secrets to be set, and calculate 'iv' and 'key' on the fly _always?
+> That would remove the possible admin error where the admin sets a
+> set of 'IV' and 'key' values which do _not_ match the traffic secrets.
 >
-> Hmm? What is this? Doesn't that imply that you first have to set the
-> TX key before setting the RX key?
-> The documentation says we can do either way ...
-The order applies only to the secrets. TLS_TX and TLS_RX can still be
-set in either order. tls.rst says "TLS_RX_TRAFFIC_SECRET needs
-TLS_TX_TRAFFIC_SECRET first".
+> Hmm?
+It can. I kept TLS_TX and TLS_RX as they are for two reasons:
 
-The check refuses an RX secret without a TX secret. A received
-KeyUpdate can have update_requested set. The kernel consumes the
-record, so only the kernel can send the reply, and the reply needs the
-TX secret. An RX secret alone could never answer it.
+- Every kTLS user (OpenSSL, GnuTLS, tlshd) already derives the key and
+   IV and installs them with TLS_TX and TLS_RX. The secret is an
+   optional addition for KeyUpdate. Code that does not use KeyUpdate
+   does not change.
+- The crypto_info of TLS_TX and TLS_RX also holds the version, the
+   cipher and the record sequence number. An option that takes only the
+   secret needs a new struct for these.
 
-An application normally sets both secrets one after the other, right
-after the handshake. A KeyUpdate is processed only when the socket is
-read, so it cannot arrive between the two calls unless another thread
-reads the socket.
-
-Question 1 of the cover letter, one option for both secrets, would
-remove the order. I will wait for other opinions on it.
+With the check from patch 2, the kernel refuses a secret that does not
+match the installed key and IV. So the error you describe cannot
+happen.
 
 Martin
 >
+>> +/**
+>> + * tls_keyupdate_rx - process a received KeyUpdate
+>> + * @sk: socket
+>> + * @skb: the decrypted record, which starts with a KeyUpdate message
+>> + *
+>> + * Called with the socket locked, for a direction with a registered
+>> + * secret. The caller does not pass the record to the user.
+>> + *
+>> + * Return: 0 on success, or a negative errno if the connection must 
+>> end.
+>> + */
+>> +int tls_keyupdate_rx(struct sock *sk, struct sk_buff *skb)
+>> +{
+>> +    struct tls_context *ctx = tls_get_ctx(sk);
+>> +    struct tls_sw_context_rx *rx_ctx = tls_sw_ctx_rx(ctx);
+>> +    const struct strp_msg *rxm = strp_msg(skb);
+>> +    u8 msg[TLS_KEYUPDATE_MSG_SIZE];
+>> +    int rc;
 >> +
->> +    if (secret->len)
->> +        return -EBUSY;
+>> +    /* A KeyUpdate must end its record (section 5.1). Another message
+>> +     * in the same record is not supported.
+>> +     */
+>> +    if (rxm->full_len != sizeof(msg) ||
+>> +        skb_copy_bits(skb, rxm->offset, msg, sizeof(msg)))
+>> +        return -EBADMSG;
 >> +
->> +    if (copy_from_sockptr(secret->data, optval, len)) {
->> +        memzero_explicit(secret->data, sizeof(secret->data));
->> +        return -EFAULT;
+>> +    /* msg_type, a 24-bit length of 1, then request_update */
+>> +    if (msg[1] || msg[2] || msg[3] != 1)
+>> +        return -EBADMSG;
+>> +    if (msg[4] != TLS_KEY_UPDATE_NOT_REQUESTED &&
+>> +        msg[4] != TLS_KEY_UPDATE_REQUESTED)
+>> +        return -EBADMSG;
+>> +
+>> +    if (!rx_ctx->key_update_count ||
+>> +        time_after(jiffies, rx_ctx->key_update_window + HZ)) {
+>> +        rx_ctx->key_update_window = jiffies;
+>> +        rx_ctx->key_update_count = 0;
 >> +    }
->> +    secret->len = len;
+>> +    if (++rx_ctx->key_update_count > TLS_KEYUPDATE_RX_MAX_PER_SEC)
+>> +        return -EBADMSG;
+>> +
+>> +    rc = tls_keyupdate_rekey(sk, 0);
+>> +    if (rc) {
+>> +        TLS_INC_STATS(sock_net(sk), LINUX_MIB_TLSRXREKEYERROR);
+>> +        return rc;
+>> +    }
+>> +    TLS_INC_STATS(sock_net(sk), LINUX_MIB_TLSRXREKEYOK);
 >> +
 >> +    return 0;
 >> +}
+>> diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
+>> index 312e51270f29..a314fa638dc3 100644
+>> --- a/net/tls/tls_sw.c
+>> +++ b/net/tls/tls_sw.c
+>> @@ -1551,15 +1551,26 @@ static int tls_check_pending_rekey(struct 
+>> sock *sk, struct tls_context *ctx,
+>>       if (hs_type == TLS_HANDSHAKE_KEYUPDATE) {
+>>           struct tls_sw_context_rx *rx_ctx = ctx->priv_ctx_rx;
+>>   -        WRITE_ONCE(rx_ctx->key_update_pending, true);
+>>           TLS_INC_STATS(sock_net(sk), LINUX_MIB_TLSRXREKEYRECEIVED);
 >> +
->>   static int do_tls_setsockopt(struct sock *sk, int optname, 
->> sockptr_t optval,
->>                    unsigned int optlen)
->>   {
->> @@ -883,6 +960,13 @@ static int do_tls_setsockopt(struct sock *sk, 
->> int optname, sockptr_t optval,
->>           rc = do_tls_setsockopt_tx_payload_len(sk, optval, optlen);
->>           release_sock(sk);
->>           break;
->> +    case TLS_TX_TRAFFIC_SECRET:
->> +    case TLS_RX_TRAFFIC_SECRET:
->> +        lock_sock(sk);
->> +        rc = do_tls_setsockopt_secret(sk, optval, optlen,
->> +                          optname == TLS_TX_TRAFFIC_SECRET);
->> +        release_sock(sk);
->> +        break;
->>       default:
->>           rc = -ENOPROTOOPT;
->>           break;
+>> +        if (ctx->rx_secret.len) {
+>> +            err = tls_keyupdate_rx(sk, skb);
+>> +            if (err) {
+>> +                tls_err_abort(sk, err);
+>> +                return err;
+>> +            }
+>> +            return 1;
+>> +        }
+>> +
+>> +        WRITE_ONCE(rx_ctx->key_update_pending, true);
+>>       }
+>>         return 0;
+>>   }
+>>     /* On decrypt failure the connection is aborted (sk_err set) before
+>> - * returning a negative errno.
+>> + * returning a negative errno. Return 1 for a record the kernel 
+>> consumed
+>> + * (a KeyUpdate): the caller frees it and does not pass it to the user.
+>>    */
+>>   static int tls_rx_one_record(struct sock *sk, struct msghdr *msg,
+>>                    struct tls_decrypt_arg *darg)
+>> @@ -1883,6 +1894,11 @@ int tls_sw_recvmsg(struct sock *sk,
+>>           err = tls_rx_one_record(sk, msg, &darg);
+>>           if (err < 0)
+>>               goto recv_end;
+>> +        if (err > 0) {
+>> +            tls_rx_rec_done(ctx);
+>> +            consume_skb(darg.skb);
+>> +            continue;
+>> +        }
+>>             async |= darg.async;
+>>   @@ -2019,9 +2035,8 @@ ssize_t tls_sw_splice_read(struct socket 
+>> *sock,  loff_t *ppos,
+>>       if (err)
+>>           goto splice_read_end;
+>>   -    if (!skb_queue_empty(&ctx->rx_list)) {
+>> -        skb = __skb_dequeue(&ctx->rx_list);
+>> -    } else {
+>> +    skb = __skb_dequeue(&ctx->rx_list);
+>> +    while (!skb) {
+>>           struct tls_decrypt_arg darg;
+>>             err = tls_rx_rec_wait(sk, flags & SPLICE_F_NONBLOCK,
+>> @@ -2036,7 +2051,10 @@ ssize_t tls_sw_splice_read(struct socket 
+>> *sock,  loff_t *ppos,
+>>               goto splice_read_end;
+>>             tls_rx_rec_done(ctx);
+>> -        skb = darg.skb;
+>> +        if (err > 0)
+>> +            consume_skb(darg.skb);
+>> +        else
+>> +            skb = darg.skb;
+>>       }
+>>         rxm = strp_msg(skb);
+>> @@ -2118,6 +2136,11 @@ int tls_sw_read_sock(struct sock *sk, 
+>> read_descriptor_t *desc,
+>>               err = tls_rx_one_record(sk, NULL, &darg);
+>>               if (err < 0)
+>>                   goto read_sock_end;
+>> +            if (err > 0) {
+>> +                tls_rx_rec_done(ctx);
+>> +                consume_skb(darg.skb);
+>> +                continue;
+>> +            }
+>>                 released = tls_read_flush_backlog(sk, prot, INT_MAX,
+>>                                 0, decrypted,
 >>
+>
+> The rest looks okay.
+>
 > Cheers,
 >
 > Hannes
