@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEAC5606A335
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Oct 2026 15:58:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A82E6606A323
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Oct 2026 15:58:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=44FaonGO;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RfGdENv1
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=LT0iWrli;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IZhlpQ4N
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
@@ -14,51 +14,50 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=vDe8CRpYtfnlmiKQSVOlxcNlMy5T26XfLimRRniHF+0=; b=44FaonGOxJZ8aC7AjetPaBaphG
-	ogDlIvjTq8tKadQa1GpZ/NH8OG4p9UzekAz9JG5Mx96/axYxeysmqMhjU4xytNgur5hWiqpQiBihL
-	baqAtP3yOD2jd+dRdDhCqtXJXWih1PvwSsy8dobWr5ULo+/7CaFONujWNTq5ZKSbeCs8h8DMAwdcY
-	5JhDER8ZCDULhIwZwffES6uzkiMuhDq/MudwB0hjVH1PuyZNmyzvwUK/sNYM1pskMrMmtEB3avmU3
-	S7fy8cPEPleD4ZRjqwK5qRYXfxDUtDdBJXEEHkacPSFLBMfdrvWvFUndc81ZMLUVado95e93plMmK
-	rnE11fYQ==;
+	bh=eZAP7Nz9rXRWZhVSYPJ/pbBpkrnLzpAj+W5fvtEnIBg=; b=LT0iWrlirVcTm/k7V0aqtJi1lU
+	TeWNhbk97b7VfT/15wDXvf1CzVlDisqTPiCCKWEynytUbZntGSVQeX0HyT5X7Iqx68Y6xKV/XWKqH
+	XR+ujq5rmKIFYGtlajr6X/RKshNhmurFph1wC6lqVH2nhpUSEENulU6jTQ7AACHLOHt1VUxjG4zQi
+	9MY62u76FAGhRHTtoSuQbhzqQaLfYpARZH8zLkKYGW3/MdEzWjmJ+5yhZIGpt3BQCIdzwogYeTx4g
+	wJwrpfv+C4ADrieIpwXbeLREnn1oCZChhMelkSnjGqNBI/HmPvafXEwxXXLpqLixRJD7Ro05m41up
+	YGffsd4w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xLN5L-00000002noB-0idg;
-	Mon, 26 Oct 2026 15:58:07 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1xLN5y-00000002nuq-1VcE;
+	Mon, 26 Oct 2026 15:58:46 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xLN5J-00000002nni-3YGK
+	id 1xLN5w-00000002nuf-12Qd
 	for linux-nvme@lists.infradead.org;
-	Mon, 26 Oct 2026 15:58:05 +0000
+	Mon, 26 Oct 2026 15:58:44 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 63F11600CB;
-	Mon, 26 Oct 2026 15:58:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA1081F01825;
-	Mon, 26 Oct 2026 15:58:03 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id E8BCF43643;
+	Mon, 26 Oct 2026 15:58:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93AFA1F01825;
+	Mon, 26 Oct 2026 15:58:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793030284;
-	bh=vDe8CRpYtfnlmiKQSVOlxcNlMy5T26XfLimRRniHF+0=;
+	s=k20260515; t=1793030323;
+	bh=eZAP7Nz9rXRWZhVSYPJ/pbBpkrnLzpAj+W5fvtEnIBg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=RfGdENv1KO6WGultc5JBQI30mnFo6lIKcY9IMNm242LLG++yypD0knxji/25b8PHA
-	 KWUyeaY+4qcol3KBKeNo/GMw23xHfVVKzB402sfacJYzvNeFe0vZy2sQNkMTR4sBTA
-	 aS24MMu0Ia1VzOQuVdZFCc+ZaXidM1CweyLxsyn4wzGVxu8YYpmOW2gjBQ9Z6qCaSb
-	 N5LRLymxHHOcSDK0YF1Oa37aZCvH6asL4lEb88PKQ34ncvLwNfAQNWCB9f2nPYsiyM
-	 cX9YDggdR5JCxlrTsVUznB2IBeWahvXy3OARhdTDh0GYMww/mQKO50oK7pU4vvBbOz
-	 mWdsfHDrHsgeQ==
-Date: Mon, 26 Oct 2026 09:58:02 -0600
+	b=IZhlpQ4N5DCp/PmhUmxzRbgq9jO+mfSoW1UQ1VvC5j5CmzacXCjiC1v2VmxZ2GWTN
+	 LcyGxJ07ckVqTLeU/4sI3D9k4fp9qMrSxaUS9Of3Bq6nIsVEk+gJAXlkWcm6lvh3VQ
+	 b4dCTbR1BycywQqPcBSJylYzfiKEShKlU6EzzqwgUZioQP7dXfaYNfOSEFVa7zfdKU
+	 /PpGAWTKIU0eHorMa593v84AAqgqKIH25WOIQRmQZCreyWVRkFGSEISCLlzMDEEkNC
+	 LamIDbM/x92K1NTCfdQX6tzpKEsrGt0t4LuBPIOKlcuwGCuEcGNn8Q1frbIfhzREnc
+	 J1J5wvdT2BwHA==
+Date: Mon, 26 Oct 2026 09:58:42 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Christian Aurich Zanettini Martins <christian.aurichzm@gmail.com>
-Cc: linux-nvme@lists.infradead.org, axboe@kernel.dk, hch@lst.de,
-	sagi@grimberg.me, sgogte@purestorage.com, mgurtovoy@nvidia.com,
-	israelr@nvidia.com, wagi@kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] nvme-rdma: fix NULL metadata_sgl dereference with T10-PI
-Message-ID: <at94ipr6nhBIMBK2@kbusch-mbp>
-References: <20261024213737.506824-1-christian.aurichzm@gmail.com>
+To: Rongzheng Wang <testwrzwrz@gmail.com>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nvmet: use the enabled transport when disabling a port
+Message-ID: <at94snlz2OrINQcC@kbusch-mbp>
+References: <20261023191851.5316-1-testwrzwrz@gmail.com>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261024213737.506824-1-christian.aurichzm@gmail.com>
+In-Reply-To: <20261023191851.5316-1-testwrzwrz@gmail.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,24 +75,19 @@ X-Spam-Status: No, score=-6.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Sat, Oct 24, 2026 at 06:37:37PM -0300, Christian Aurich Zanettini Martins wrote:
-> Since commit 2a8513091d2f ("nvme-rdma: parallelize I/O queue allocation
-> and startup") the I/O tag set is allocated before the I/O queues.
-> nvme_rdma_init_request() only sets req->metadata_sgl if
-> queue->pi_support is set, but pi_support is only set later by
-> nvme_rdma_alloc_queue(), so every I/O request is left with a NULL
-> metadata_sgl.
+On Sat, Oct 24, 2026 at 03:18:51AM +0800, Rongzheng Wang wrote:
+> nvmet_disable_port() looks up the transport from the current
+> disc_addr.trtype, while nvmet_enable_port() records the transport in
+> port->tr_ops.  If trtype is changed while a port is being enabled, the
+> port can be removed through a different transport, passing the private
+> data of the original transport to the wrong ->remove_port().
 > 
-> With an RDMA device that supports integrity and a namespace formatted
-> with protection information, nvme_rdma_dma_map_req() then dereferences
-> the NULL pointer on the first integrity I/O, already during the
-> namespace scan when there is more than one I/O queue.
+> The same mismatch is reachable with loop and RDMA: loop add_port()
+> leaves port->priv NULL, and RDMA remove_port() dereferences it.
 > 
-> Queues that a later reconnect adds for the first time have the same
-> problem.
-> 
-> Check queue_idx and the controller's max_integrity_segments instead,
-> which is what nvme_rdma_alloc_queue() derives pi_support from.
+> Use port->tr_ops for removal and serialize trtype changes with
+> nvmet_config_sem in nvmet_addr_trtype_store(), so the transport that
+> added the port is also the one that removes it.
 
 Thanks, applied to nvme-7.4.
 
