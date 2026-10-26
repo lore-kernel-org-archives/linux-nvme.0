@@ -2,59 +2,96 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 837A1606A32E
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Oct 2026 18:29:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFA1D606A324
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Oct 2026 18:47:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=ylIWqJL2;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gqtbtrZ2
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=yhM5p2sW;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Zsja6HjN
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
-	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Cc:To:Subject:
-	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
 	List-Unsubscribe-Post:List-Owner;
-	bh=sAOjpV7dj6etFg7djpRsLmi89agtJWhB40CYXgZzZ18=; b=ylIWqJL2FvhxG4kHNY8RrP5VUu
-	8nYXwRx+ItmfAxoovewYW6P8fmVNiW1goQQqugBFkJNo8mKm2C3TvAnlJfjEInVw97KvbQVaYLTTV
-	x43FwTFPIc4DHBjQ02+wojvbzrgRuGXc8ztKQuwoJJwcn+vyQeJDMAiRBktCY6U8UUci5bojCDHtO
-	EtT3ks9DZLu4FCuDKwOgGbXfVYx4EXBV0X/c9WRNQwivYAF5gZjZnND69LGK7oVYQ2OoI6qOGKgdt
-	ppw4n7MJL0TKfI2S77Lo3UQBd9bhLEV8M1+p8zCx7o47P+QMhrU1UTpJhlySp8aDADTaxKqLVIwcF
-	04AHTueQ==;
+	bh=04ZAW9YYQFyNzmPB2rE27kvKEWlMN6ldEO2+3cJbpTw=; b=yhM5p2sWxtmEXigaO4sRFobqv1
+	zlmlXVqmjbwYD36EJXEwgwpO+z/BxjYFzpzRVmHaI8BzmIbUFDGOjyW3CixPa+ydySH8O+/j8u1NS
+	XXoKBu2OVAKmXXCjVcYHntHqbF/wZOBT6t8Yn8Onvc7M78qvmSo/wN6tSC4WPh2qIKpbJ3gLqdaDq
+	R/El6QOhOeVw7QMzsh5JSd663M8v8oHbdaAmPR9KiJIygFK589NcjKWTrkOA+197QoZ+96kGwfa3W
+	FOzW+m0WjkjOOqLopVBNBAyNikPa1paXDyvxx3xT6NSNFDjuD9HK/NL8243pbRSu1meIbWa5ikzo1
+	6/1JKT7w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xLPRr-000000034UQ-2PDf;
-	Mon, 26 Oct 2026 18:29:31 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1xLPjB-00000003678-0yHc;
+	Mon, 26 Oct 2026 18:47:25 +0000
+Received: from mail-ua1-x935.google.com ([2607:f8b0:4864:20::935])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xLPRq-000000034Ss-1Gzj
+	id 1xLPj9-0000000366D-2Aj9
 	for linux-nvme@lists.infradead.org;
-	Mon, 26 Oct 2026 18:29:30 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 6B4C960A96;
-	Mon, 26 Oct 2026 18:29:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 054891F031E0;
-	Mon, 26 Oct 2026 18:29:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793039369;
-	bh=sAOjpV7dj6etFg7djpRsLmi89agtJWhB40CYXgZzZ18=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=gqtbtrZ2Io15K0a7cAThDrPqOCcAI5zfih3XrCOH/vTnykofkIDR4ibnkto4jYdXw
-	 vyS+epbqWi8C0l2HjBLnRuvyb1fRQcbZDXIbH688Llwk7ttVzxnI4rIzABtMFQG2vw
-	 h5WF1F7yxgbCINcXPCyc7DZaL4mu7eJJZAj2ajqEidzbzvFn+Q3EPIvDhMntvLYILB
-	 +zFxydGXcjI4ZuFGyJw4fx72Fj1CZcPeL0xY2vxxjzjItAjWOIXdSh/byQ6xCAwnG2
-	 BLicQojz5WBwRYRe05mBGS4BoLuwr6eeeNAJIQHR0341iZOQtP3T2TwXueAkAVJyCZ
-	 kdjwbVmIKwIOw==
-Message-ID: <sashiko-outbox-185619@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 1/2] nvme-tcp: start error recovery when read_sock fails
-To: "Martin Belanger" <martin.nvme.dev@gmail.com>
-Cc: linux-nvme@lists.infradead.org
-In-Reply-To: <20261026-nvme-tcp-ctrlrec-fixes-v1-1-ebf6ff7eff34@gmail.com>
-References: <20261026-nvme-tcp-ctrlrec-fixes-v1-0-ebf6ff7eff34@gmail.com>
- <20261026-nvme-tcp-ctrlrec-fixes-v1-1-ebf6ff7eff34@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 26 Oct 2026 18:29:28 +0000
+	Mon, 26 Oct 2026 18:47:24 +0000
+Received: by mail-ua1-x935.google.com with SMTP id a1e0cc1a2514c-980c4f5c921so994366241.2
+        for <linux-nvme@lists.infradead.org>; Mon, 26 Oct 2026 11:47:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1793040441; x=1793645241; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=04ZAW9YYQFyNzmPB2rE27kvKEWlMN6ldEO2+3cJbpTw=;
+        b=Zsja6HjNItOdXnSGMIABS16ZC0k55bhyLmQ3SM5kdI+UFS2JyLp9toJa/04zWJIaDw
+         FRCvGy+KkJDeFHDbWC6dilSH4UMqs/hYpu0LXuq4omzCIU1G+8UGPNCe9akUPAQFpqho
+         O39LRaSewn5FN5Qfp7+9+BOgnElKEZo275ipNq1KOca1lVuJeJ7k8PBWbYgz0NScrYZQ
+         aYfrXUX9vDNzo+GdiyYMFWlxVOOpOfzPU0cY/7Z1kx7uuqO5+lxIn8PXA23hqXaXaICH
+         HrPMhMrp+6DslDGF4CmYedQNfgOFIVih8yzRTVW7frwjAIjEyq2LMzmM1xM1zgLbUnhl
+         vxfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793040441; x=1793645241;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=04ZAW9YYQFyNzmPB2rE27kvKEWlMN6ldEO2+3cJbpTw=;
+        b=b88yjgzXL6q8plOJpGR9MQG+Vo/GgnX9d8ZYJ/GBoQhZulzm2eRsOPyD4macIliHga
+         9D8A8gsOvsFMt3cV7lm6dKsiRGUcq8gSuWQLpS1vSLiS5PF1kdD2tQ2coL5p0uPWUB8L
+         IvELgBRK3VEkxDXM2g2vpR6muXQqDNh/ynHJLgw90p8sNMonoLmycIEOSdhVcr3n1KeB
+         xcNph63a+5SUZ4OSB24PQH0dMOpL8YvIuv8n2FBv98zPjjFbFc/7Np671tTQXUw++1Nd
+         DLIaGSEINzs6DhN9Xj4gN9nH+AOAoGwA7ebBnqW8i9yo21UudAmwTxmhnoiWv6QvE9IV
+         02+g==
+X-Gm-Message-State: AFq9FYInMembf+BajEp5dOcRKh1u01LDqv6rOeZkO1E6UXuc/GfFvjHW
+	G3XrRm6Wqb8RjYwd97WZjkW3L/a1oJiksjr03ZMF97iDDxrh5sxFhl/iJ0u1wgOH0aI=
+X-Gm-Gg: AYBFou3otd174NqjML3jX96lAkkW/uUZ8iXyLFk49gJFBk0eT+R2nZ7cd0oPF13hK3p
+	hv2zfpxTUhRNEroTBCS1YiQrr8na2j3bBg3dLUzi4t8QG61TCycANBfCSpsN1rqltL7POWpOeMQ
+	fS4dpsDxel7xXdDz5xeAkCje0r6NJmptMdpfYj4NmBTRcjtcXEHMCBhI01+XCpjX50V7AZ+Tlb2
+	avr/Y+xml9zpR/nsLtSgPo2/wWY/uDZk/F8xQzuf1o7vAQxEYFoaq0TGu5NUKbN6WIB7XYYqplP
+	r2pYRr4g+U4I4NzSRcyjqXDpT0EgXsvONdipAENx/ZW8O88VeyExbVIuyiKKMVbbldXsXPiBb7+
+	fOhWQFMl67qHc4AtVymSojnfS6h8hZ+cf7QhO6lkXdtVaE5H0lrldrsyLHVw0vkf6rHuiaWGWj5
+	GL8KjMhzBOg2glyORqCdKJHnhJP+G/civoM2kH2333Cdiju/jjUz6L6a2mBrcliK5mUXZsuXoLe
+	eCYFDzEFThkWnofZ/qGgVKc0LZ6/TwmVs3w0vhO9OlK58H8Yy5QT1FkkSbv3xgL/Vk=
+X-Received: by 2002:a05:6102:3e89:b0:7cc:2b48:cb1b with SMTP id ada2fe7eead31-7ce5ce76692mr2747252137.35.1793040441466;
+        Mon, 26 Oct 2026 11:47:21 -0700 (PDT)
+Received: from bridge.. ([2804:14d:ba6b:8339:9a5c:f039:9435:df2a])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-991259c3067sm101634241.5.2026.10.26.11.47.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Oct 2026 11:47:21 -0700 (PDT)
+From: Christian Aurich Zanettini Martins <christian.aurichzm@gmail.com>
+To: linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me,
+	hare@kernel.org,
+	sgogte@purestorage.com,
+	wagi@kernel.org,
+	linux-kernel@vger.kernel.org,
+	Christian Aurich Zanettini Martins <christian.aurichzm@gmail.com>
+Subject: [PATCH] nvme-tcp: fix request PDU size when header digest is enabled
+Date: Mon, 26 Oct 2026 15:46:21 -0300
+Message-ID: <20261026184621.29276-1-christian.aurichzm@gmail.com>
+X-Mailer: git-send-email 2.43.0
+X-Archived-By: <archiver.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20261026_114723_568798_F11A041B 
+X-CRM114-Status: GOOD (  14.73  )
+X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -64,120 +101,61 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
-X-Archived-By: <archiver.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Medium] nvme-tcp: race on queue->rd_enabled after release_sock() in nvme=
-_tcp_try_recv()
---
+Since commit 61b0ed3be81b ("nvme-tcp: parallelize I/O queue allocation
+and startup") the I/O tag set is allocated before the I/O queues.
+nvme_tcp_init_request() sizes the PDU with nvme_tcp_hdgst_len(queue),
+but queue->hdr_digest is only set later by nvme_tcp_alloc_queue(), so
+every I/O PDU is allocated without room for the header digest.
 
-commit 3915b73f53c8a994bf45e1efec593bc2bb4f9f8b
-Author: Martin Belanger <martin.belanger@dell.com>
+With hdr_digest enabled, the digest is then written 4 bytes past the
+PDU, over the header of the next PDU in the page_frag cache, and the
+target drops the connection on the first I/O:
 
-nvme-tcp: start error recovery when read_sock fails
+  nvmet_tcp: unexpected pdu type 159
+  nvmet: ctrl 1 fatal error occurred!
 
-This commit updates nvme_tcp_try_recv() to log an error, disable the queue,
-and trigger controller error recovery when sock->ops->read_sock() returns a
-negative error code other than -EAGAIN and queue->rd_enabled is still set.
+Queues that a later reconnect adds for the first time have the same
+problem.
 
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 7190eb10c2481..a03476f0f69d5 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -1431,7 +1431,21 @@ static int nvme_tcp_try_recv(struct nvme_tcp_queue=
- *queue)
->  	queue->nr_cqe =3D 0;
->  	consumed =3D sock->ops->read_sock(sk, &rd_desc, nvme_tcp_recv_skb);
->  	release_sock(sk);
-> -	return consumed =3D=3D -EAGAIN ? 0 : consumed;
-> +	if (consumed =3D=3D -EAGAIN)
-> +		return 0;
-> +
-> +	/* nvme_tcp_recv_skb() does both of these itself, so a queue that is
-> +	 * still enabled failed inside read_sock() instead
-> +	 */
-> +	if (unlikely(consumed < 0 && queue->rd_enabled)) {
-> +		dev_err(queue->ctrl->ctrl.device,
-> +			"queue %d: receive failed: %d\n",
-> +			nvme_tcp_queue_id(queue), consumed);
-> +		queue->rd_enabled =3D false;
-> +		nvme_tcp_error_recovery(&queue->ctrl->ctrl);
-> +	}
+Use the controller option, which is what nvme_tcp_alloc_queue() copies
+into the queue.
 
-[Severity: Medium]
-Should the check and clearing of queue->rd_enabled happen before calling
-release_sock(sk) in drivers/nvme/host/tcp.c:nvme_tcp_try_recv()?
+Fixes: 61b0ed3be81b ("nvme-tcp: parallelize I/O queue allocation and startup")
+Signed-off-by: Christian Aurich Zanettini Martins <christian.aurichzm@gmail.com>
+---
+Based on nvme-7.4 (aaedcff90148).
 
-In nvme_tcp_recv_skb(), queue->rd_enabled is checked, cleared, and followed
-by nvme_tcp_error_recovery() while lock_sock(sk) is held:
+Tested in QEMU with nvmet-tcp over loopback and parallel I/O: with
+hdr_digest the connection failed on the first I/O before the fix; after
+it, no errors and the data matched, also with data_digest and with a
+reconnect growing the queues from 2 to 4 (attr_qid_max).
 
-drivers/nvme/host/tcp.c:nvme_tcp_recv_skb() {
-	if (unlikely(!queue->rd_enabled))
-		return -EFAULT;
-...
-		if (result) {
-			dev_err(queue->ctrl->ctrl.device,
-				"receive failed:  %d\n", result);
-			queue->rd_enabled =3D false;
-			nvme_tcp_error_recovery(&queue->ctrl->ctrl);
-			return result;
-		}
-}
+ drivers/nvme/host/tcp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-When sock->ops->read_sock() fails directly without hitting the error path in
-nvme_tcp_recv_skb() (for example, tls_sw_read_sock() returning -EINVAL on a
-non-data TLS record, -EBADMSG, -EKEYEXPIRED, -ENOMEM, or sock_error()),
-calling release_sock(sk) first drains sk->sk_backlog via __release_sock(sk)
-while queue->rd_enabled is still true.
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index f876375dffd2..7733aa092544 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -566,7 +566,7 @@ static int nvme_tcp_init_request(struct blk_mq_tag_set *set,
+ 	struct nvme_tcp_cmd_pdu *pdu;
+ 	int queue_idx = (set == &ctrl->tag_set) ? hctx_idx + 1 : 0;
+ 	struct nvme_tcp_queue *queue = &ctrl->queues[queue_idx];
+-	u8 hdgst = nvme_tcp_hdgst_len(queue);
++	u8 hdgst = ctrl->ctrl.opts->hdr_digest ? NVME_TCP_DIGEST_LENGTH : 0;
+ 
+ 	mutex_lock(&queue->pf_cache_lock);
+ 	req->pdu = page_frag_alloc(&queue->pf_cache,
+-- 
+2.43.0
 
-Any TCP segments that arrived in softirq while the socket was owned will
-trigger sk->sk_data_ready:
-
-release_sock()
-  -> __release_sock()
-    -> nvme_tcp_data_ready()
-
-drivers/nvme/host/tcp.c:nvme_tcp_data_ready() {
-	read_lock_bh(&sk->sk_callback_lock);
-	queue =3D sk->sk_user_data;
-	if (likely(queue && queue->rd_enabled) &&
-	    !test_bit(NVME_TCP_Q_POLLING, &queue->flags))
-		queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
-	read_unlock_bh(&sk->sk_callback_lock);
-}
-
-Because queue->rd_enabled has not been cleared yet during release_sock(sk)
-and the subsequent dev_err() call, nvme_tcp_data_ready() sees
-queue->rd_enabled as true and re-queues queue->io_work on the failed queue.
-
-In addition, nvme_tcp_try_recv() can be called concurrently from
-nvme_tcp_poll() and nvme_tcp_io_work(), relying on lock_sock(sk) for
-serialization:
-
-drivers/nvme/host/tcp.c:nvme_tcp_poll() {
-	set_bit(NVME_TCP_Q_POLLING, &queue->flags);
-	if (sk_can_busy_loop(sk) && skb_queue_empty_lockless(&sk->sk_receive_queue=
-))
-		sk_busy_loop(sk, true);
-	ret =3D nvme_tcp_try_recv(queue);
-	clear_bit(NVME_TCP_Q_POLLING, &queue->flags);
-}
-
-Could releasing lock_sock(sk) before checking and clearing queue->rd_enabled
-allow a concurrent nvme_tcp_try_recv() caller to acquire lock_sock(sk) while
-queue->rd_enabled is still true, either logging duplicate errors or entering
-nvme_tcp_recv_skb() after a transient read_sock() error?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261026-nvme-tcp-c=
-trlrec-fixes-v1-0-ebf6ff7eff34@gmail.com?part=3D1
 
