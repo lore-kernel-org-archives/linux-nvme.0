@@ -2,109 +2,111 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB919606A323
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Oct 2026 11:28:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48D23606A31B
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Oct 2026 12:34:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=YVVSuWL1;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=btfd5w1d
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=mXZmHc6V;
+	dkim=pass (2048-bit key, unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=aBP15kfQ
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=ifcJOVQksIbT4LRSAR+fBN2obWCcURFUjY4fZfdk+Kk=; b=YVVSuWL1R7Y3ej
-	eY4Svdon07XnGqFCSSXeZpx24QNPndq1pTbaKDkQ9XODmxoPuqWeqgeDsVwLq4By8iB4uuUAU3HsC
-	gnzLqp638BfPaC79/fQXvcJgBpJs+jwM51JA4V4IHpmOnBZGnoGevDeraawwQTUHDafzQNWZwnNb5
-	GUwiW/1W6u6K0e9+XSDwA/T/ApKTCUF1hE54rTcD2da6YAzh7YVmr0wYtT5Rxv3JE1HEF2EQGY025
-	4OKmaMFu1J1Qc35FaimFHYHvVTFKrzhoNzJMwaF+GuA2wOnSL8McAntvZtmVUn8NsZJAVgxS9q14s
-	8/DsSpbPDwaZf/1zUmOA==;
+	List-Owner; bh=458YXaipmUPCkSgXpI1P1gVozEsoGlLTT1eCAf59Q1M=; b=mXZmHc6VFl3TGo
+	HwuYUDRdmhn1Q4YTxr8dAUDvuxh7A12hRYxaaCDeW2WIRKPNNnW5HoIm4ViWYm2JVGkOAQkjQdT4t
+	ML/ye4Cu1ecIxO2QT+MpqDIkgO/Eq7P+WjPImwZ+YUqmPS+NkRGAnzr5N7PmhtqN4xRp7RYT7yst+
+	M28x2+ohUBRMVLVlMsrazya6tbyL3c6Bv1iEHhJDk4Z/sqmRQq7wOxWg2AkZWz3nCfO/nNwiqUXkk
+	fMH6V4pwNlS2bRdoR5M0JJWg3XcB08DcyCCKBCpngnf4ZHE5Y2VRl9p9ozMA9k7/eGCoEiil571pM
+	b/69FsMUwCcMQ7B//w6g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xLIsX-00000002NTT-2RRm;
-	Mon, 26 Oct 2026 11:28:37 +0000
-Received: from mail-yx2-x0a.google.com ([2607:f8b0:4864:41::a])
+	id 1xLJuN-00000002Vpc-0yIq;
+	Mon, 26 Oct 2026 12:34:35 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xLIsV-00000002NRs-2GYm
+	id 1xLJuL-00000002VpG-1oWM
 	for linux-nvme@lists.infradead.org;
-	Mon, 26 Oct 2026 11:28:36 +0000
-Received: by mail-yx2-x0a.google.com with SMTP id 956f58d0204a3-677bd24a602so1661879d50.1
-        for <linux-nvme@lists.infradead.org>; Mon, 26 Oct 2026 04:28:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793014114; x=1793618914; darn=lists.infradead.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ifcJOVQksIbT4LRSAR+fBN2obWCcURFUjY4fZfdk+Kk=;
-        b=btfd5w1dCWlRk3h5nVeeaKaJco9Esb3Lq3DsYOmApY4n60MJ1QwlGtALmYqqYk6Hjx
-         /grd5WS0vsktT0efm8ChpIKGNCvgzrxHf9m4dkDM/vqVMZUhTo8c1czBik+/REHDQ/68
-         VSUZXfVXjjz6QAAWtNXfM65wG3++Hsf8e5Vr+U+A0t72ZfCKN9JcXiZIaA4+tVPHULID
-         4nkYxuVJvNb7XgJqfKhyeW7Jx3mgnyStX44ijDNX9bMKhpBguXR5K2o7kQTo9xRNeSxj
-         XBVmmLSMHH+j0Ymh7tCnlcTxkhHtLfHjJly5cbORYOiaE/zlKuISB1FL5gHkGW79DTPs
-         jbfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793014114; x=1793618914;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ifcJOVQksIbT4LRSAR+fBN2obWCcURFUjY4fZfdk+Kk=;
-        b=bGUieK4Xs3LYEp/z9ycLpP4QgJnxj/18zxq4vu1bsBsLO6iThVXGDVV65u2vN25gr/
-         zoU/yqRKwBtRYpLN+aGTN7KyJ4ckDD1nPjzuSQdvhMlThRmLStPmYcW64ZkgadPuBANx
-         77SprikM93R2FmZjeHWgQ68ZQrNM1NnGaJlekiZfmTNOHZdWSbdqOXQ4PMyrAQ9gzdw4
-         lxNGMbzkzawif+kYUhcFs3dWCPB7IZK1KNOqrwBo2u2pxfjhv5PxoVWnEbxjNvfVkENk
-         XC4HrdEAQrndI6MimCV3ikuH81nmERWEAa2QA6Tvdd9WGaQraZgyHxJgxD+R4L/mU5a0
-         0KJA==
-X-Forwarded-Encrypted: i=1; AKwUvByoooyLIS4AZm+axqLIe0yToWiolJPTCMa14TDOag98gliggd6McF/Agdkp2LHZPl9FZFmM5sA4M8Xe@lists.infradead.org
-X-Gm-Message-State: AFq9FYLmXh2MBtDRRdL6e1o8Z+5DdXeCEMgkBv4hdQwKPlbZ2PZa/H5W
-	pcrtNoca9YcVRfskuRIGiN4MoylhUbvhfDaTnage0hZrG0fqzZ3Gzrak
-X-Gm-Gg: AYBFou1F1wqsU0bp16Ge1E/K8+36bO15j9UC7BZIH4+H2AY0fDASyyn+QQGcqNSuS5A
-	iWUuU8JyR8DADwiLsfYqgmMRNTarWL4kRf5E7V/GJpA/GMpQzAiPGOwQys+cROI6M/CvPHBcfW2
-	M+ZyuZsDelBJjULbyDPUKmiMpkGj0cj2bZgd4ABrMTWrDq6451dOR3TSjFeA3gJCePRaCbR2ILQ
-	pHUs3KZZn0iTGefmKycNpQo8vF3T6g3d0Muv9hJ39YMKI97/4Jq94xjitmW/zh2aIc2Kb2N78Ko
-	AsTtdGxdSpRA3emBDe/E5iT50gEQe4y6+viMZNw5PpmMAzmgPywyh8LkaRatAo5NT6ey9tnilpU
-	6RbVh3ZBeZF4UvIObjqnGcgy9oJ3AjiHaplguXVf6C8XRMtWDJv8HPmiVthOc1oAKy4I3ysHTKC
-	GNiaWrfdw8EZNgZFn07QfCgtW/8wzAFqXHi2d5tUTbg8sbC+D0kGBiYERH60OdhBj7iGTOvKSLJ
-	sBK8cnVE8ctHBm2GR+8BnBq6Ggbrm485M1kCT29AgzFqakiM7cDBttu0V8lFw==
-X-Received: by 2002:a05:690e:169c:b0:679:a58:148c with SMTP id 956f58d0204a3-67a4519368cmr5729731d50.7.1793014114235;
-        Mon, 26 Oct 2026 04:28:34 -0700 (PDT)
-Received: from [10.0.0.48] ([71.69.222.122])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67a45ff8d6dsm3266096d50.1.2026.10.26.04.28.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Oct 2026 04:28:33 -0700 (PDT)
-Message-ID: <69ac84e1-14c6-44bd-8eb4-a228918f9b61@gmail.com>
-Date: Mon, 26 Oct 2026 07:28:32 -0400
+	Mon, 26 Oct 2026 12:34:34 +0000
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69QBEsqi3273471;
+	Mon, 26 Oct 2026 12:34:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=pp1; bh=458YXaipmUPCkSgXp
+	I1P1gVozEsoGlLTT1eCAf59Q1M=; b=aBP15kfQ/YGgKt41Ztnrs6pWXjb5MGLof
+	n8JozNhvv5HSs8Yr0dQCDCRzNeireG1E6gREoFcAsWjeZICHVdA9SFA+FUk5CRCf
+	jH9eDwjbqXy70PEOTQYNwhLPXNgOype83Ns/MxYsACmwn2UJkrhg8APvuAh6khiW
+	70rL9vGnhhstWSXgfu6RjCWxBqcDrUDroTprQ2lPkalOHwTD+z5xAqR2eg5+k8+4
+	oBkh4TvvVwoPujGX4kGNVHZhr3YTpOc8xa7cFRbxLVlmvc1jJQFcDk+t4qiAJfb+
+	All52XoiNbJGZYki9/T6aDUY9vZeoNw4dvzIrEjwt3B+cK2xRZNHw==
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hgj3m2217-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 26 Oct 2026 12:34:28 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 69QB5JKw2503060;
+	Mon, 26 Oct 2026 12:34:27 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4hh9py5jr3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 26 Oct 2026 12:34:27 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
+	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 69QCYPb030802654
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 26 Oct 2026 12:34:26 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id CD49520040;
+	Mon, 26 Oct 2026 12:34:25 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 10E622004F;
+	Mon, 26 Oct 2026 12:34:22 +0000 (GMT)
+Received: from li-a84c74cc-2b13-11b2-a85c-acdd023f0674.ibm.com.com (unknown [9.61.162.42])
+	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Mon, 26 Oct 2026 12:34:21 +0000 (GMT)
+From: Nilay Shroff <nilay@linux.ibm.com>
+To: kbusch@kernel.org, dwagner@suse.de, hch@lst.de, hare@suse.de,
+        sagi@grimberg.me, chaitanyak@nvidia.com, gjoyce@linux.ibm.com
+Cc: linux-nvme@lists.infradead.org
+Subject: [PATCH v3 2/2] nvme: expose queue information via debugfs
+Date: Mon, 26 Oct 2026 18:03:23 +0530
+Message-ID: <20261026123411.1988949-6-nilay@linux.ibm.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261026123411.1988949-4-nilay@linux.ibm.com>
+References: <20261026123411.1988949-4-nilay@linux.ibm.com>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC net-next 3/5] tls: update the RX key when a KeyUpdate
- is received
-To: Hannes Reinecke <hare@suse.de>, John Fastabend
- <john.fastabend@gmail.com>, Jakub Kicinski <kuba@kernel.org>,
- Sabrina Dubroca <sd@queasysnail.net>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Shuah Khan <shuah@kernel.org>
-Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Hannes Reinecke <hare@kernel.org>, Chuck Lever <cel@kernel.org>,
- kernel-tls-handshake@lists.linux.dev, linux-nvme@lists.infradead.org,
- Alistair Francis <alistair.francis@wdc.com>,
- Martin Belanger <martin.belanger@dell.com>
-References: <20261025-keyupdate-rfc-v1-0-60b7756eccbd@gmail.com>
- <20261025-keyupdate-rfc-v1-3-60b7756eccbd@gmail.com>
- <8af172e4-0039-4dbb-970e-ab91b3d6e149@suse.de>
-Content-Language: en-US
-From: Martin Belanger <martin.nvme.dev@gmail.com>
-In-Reply-To: <8af172e4-0039-4dbb-970e-ab91b3d6e149@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI2MDA0OCBTYWx0ZWRfXxk7cfxQrNpgD
+ UjyILmZmJevGjVob1vrMgvGGvM3c+x3nMauFytCfhNI3PZgVmCr9m6NQQp+F5mtpQ5ccIs8vTui
+ 7jsgRuprEHGHiWg2Ogg1QaS+mnN2WL8=
+X-Proofpoint-ORIG-GUID: VhnrlzulQM6D1Y0A5CMZZJcZ1h1BZRfr
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI2MDA0OCBTYWx0ZWRfX8HQBniHq8Upv
+ 0ZLnB8D79xn72GMuFFVgKlZFm7LCL0HmN4TFZFm+Uj4WnEKZP2fdlY9Ov9sxxtA78uQMIz6qnj2
+ eeWoOgoXQ/euh14ro6O0V0ZtqKJFa7uuxR084VXU6U1csi9DMHDFdguoGkTw6wbJ7u6gK8ae8Wt
+ W/+WUqHQtYLX20/alo4HL+REFvP3WxWYWSQlB7uta6EyYVRFYOqOPfa8BClT0/dezxoBAQ+SyW3
+ 8EbqqpSQ52xANWBDAXaXObm1+D2w7pR/TFDWbeu6YFgX6z0Wwp+lmnxEHzwkxKJB6ihySMa7Z/z
+ mQqFqWPDI1KUpv32tlefqeK16dkneRmVymu9VgaTexZq4qGUtoPGXqWstmghbqGCNziRA1FhYA6
+ iDYF+bfZa6sWl9bXwmb6tzhf4MvSfxMkBwVXlAfxgD7AYRl7Ky1ojbLlXPDajTCl3VLwoShM2d6
+ jxaQumYIv+phazY8GZg==
+X-Authority-Analysis: v=2.4 cv=G7uJgNk5 c=1 sm=1 tr=0 ts=6adf48d4 cx=c_pps
+ a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
+ a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
+ a=Y2IxJ9c9Rs8Kov3niI8_:22 a=VnNF1IyMAAAA:8 a=LWIoN9EnsF6OxIflJ4MA:9
+X-Proofpoint-GUID: VhnrlzulQM6D1Y0A5CMZZJcZ1h1BZRfr
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-10-26_02,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 adultscore=0 impostorscore=0 suspectscore=0 clxscore=1015
+ phishscore=0 spamscore=0 malwarescore=0 lowpriorityscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610260048
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261026_042835_663386_F599C75D 
-X-CRM114-Status: GOOD (  36.93  )
-X-Spam-Score: -2.1 (--)
+X-CRM114-CacheID: sfid-20261026_053433_611397_B7E6C26A 
+X-CRM114-Status: GOOD (  22.58  )
+X-Spam-Score: -2.6 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -115,359 +117,241 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
+Add a new debugfs attribute "io_queue_info" to expose per-queue
+information for NVMe controllers. For NVMe-TCP, this includes the
+CPU handling each I/O queue and the associated TCP flow (source and
+destination address/port).
 
-On 10/26/26 03:53, Hannes Reinecke wrote:
-> On 10/26/26 1:36 AM, Martin Belanger via B4 Relay wrote:
->> From: Martin Belanger <martin.belanger@dell.com>
->>
->> When a KeyUpdate arrives, kTLS blocks reads with -EKEYEXPIRED until
->> the user installs the next key. A kernel user such as nvme-tcp or
->> sunrpc never does, so the connection stalls.
->>
->> For a socket with a registered RX secret, derive the next key and
->> install it when the KeyUpdate is decrypted. The record is not passed to
->> the user, so recvmsg(), splice() and read_sock() go on to the next
->> record. Without a registered secret the behavior is unchanged.
->>
->> A KeyUpdate that is not alone in its record, has a wrong length or an
->> invalid request_update value ends the connection, as RFC 9846 section
->> 4.7.3 requires. So does a peer that sends more than 8 KeyUpdates in one
->> second, the same limit as GnuTLS.
->>
->> Assisted-by: LLM
->> Signed-off-by: Martin Belanger <martin.belanger@dell.com>
->> ---
->>   include/net/tls.h       |   7 +++
->>   net/tls/Makefile        |   3 +-
->>   net/tls/tls.h           |   2 +
->>   net/tls/tls_keyupdate.c | 150 
->> ++++++++++++++++++++++++++++++++++++++++++++++++
->>   net/tls/tls_sw.c        |  35 +++++++++--
->>   5 files changed, 190 insertions(+), 7 deletions(-)
->>
->> diff --git a/include/net/tls.h b/include/net/tls.h
->> index aacc6d12226e..a5bc28a7d1f5 100644
->> --- a/include/net/tls.h
->> +++ b/include/net/tls.h
->> @@ -63,6 +63,11 @@ struct tls_rec;
->>     #define TLS_HANDSHAKE_KEYUPDATE        24    /* rfc8446 B.3: Key 
->> update */
->>   +/* KeyUpdate: msg_type, 24-bit length, request_update (RFC 9846 
->> 4.7.3) */
->> +#define TLS_KEYUPDATE_MSG_SIZE        5
->> +#define TLS_KEY_UPDATE_NOT_REQUESTED    0
->> +#define TLS_KEY_UPDATE_REQUESTED    1
->> +
->>   #define TLS_AAD_SPACE_SIZE        13
->>     /* SHA-384, the longest hash of a TLS 1.3 cipher suite kTLS 
->> supports */
->> @@ -142,6 +147,8 @@ struct tls_sw_context_rx {
->>       u8 zc_capable:1;
->>       u8 reader_contended:1;
->>       bool key_update_pending;
->> +    u8 key_update_count;        /* received in this window */
->> +    unsigned long key_update_window;    /* jiffies */
->>         struct tls_strparser strp;
->>   diff --git a/net/tls/Makefile b/net/tls/Makefile
->> index 6edcf1271b75..ce8ac6a59f8c 100644
->> --- a/net/tls/Makefile
->> +++ b/net/tls/Makefile
->> @@ -7,6 +7,7 @@ CFLAGS_trace.o := -I$(src)
->>     obj-$(CONFIG_TLS) += tls.o
->>   -tls-y := tls_main.o tls_sw.o tls_proc.o trace.o tls_strp.o tls_hkdf.o
->> +tls-y := tls_main.o tls_sw.o tls_proc.o trace.o tls_strp.o tls_hkdf.o \
->> +     tls_keyupdate.o
->>     tls-$(CONFIG_TLS_DEVICE) += tls_device.o tls_device_fallback.o
->> diff --git a/net/tls/tls.h b/net/tls/tls.h
->> index b2061f6bf065..63ece8074985 100644
->> --- a/net/tls/tls.h
->> +++ b/net/tls/tls.h
->> @@ -149,6 +149,8 @@ int init_prot_info(struct tls_prot_info *prot,
->>              const struct tls_cipher_desc *cipher_desc);
->>   int tls_hkdf_expand_label(const u8 *secret, size_t secret_len,
->>                 const char *label, u8 *out, size_t out_len);
->> +int tls_keyupdate_rekey(struct sock *sk, int tx);
->> +int tls_keyupdate_rx(struct sock *sk, struct sk_buff *skb);
->>   int tls_set_sw_offload(struct sock *sk, int tx,
->>                  struct tls_crypto_info *new_crypto_info);
->>   void tls_update_rx_zc_capable(struct tls_context *tls_ctx);
->> diff --git a/net/tls/tls_keyupdate.c b/net/tls/tls_keyupdate.c
->> new file mode 100644
->> index 000000000000..543bf57599c7
->> --- /dev/null
->> +++ b/net/tls/tls_keyupdate.c
->> @@ -0,0 +1,150 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +/* Copyright (c) 2026 Dell Technologies Inc. or its subsidiaries.
->> + *
->> + * TLS 1.3 KeyUpdate, RFC 9846 sections 4.7.3 and 7.2.
->> + *
->> + * A TLS 1.3 peer can change the key of the direction it sends in at 
->> any
->> + * time. It sends a KeyUpdate message, then encrypts all later records
->> + * with the next key. A sender must also change its key before the key
->> + * has protected too many records (section 5.5).
->> + *
->> + * The next key is derived from the application traffic secret, not 
->> from
->> + * the current key. User space gives the kernel only the key and IV, so
->> + * the kernel cannot derive the next key on its own. Without the 
->> secret,
->> + * a received KeyUpdate goes to the application, and the kernel stops
->> + * decrypting until the application installs the next key with TLS_RX.
->> + *
->> + * With TLS_TX_TRAFFIC_SECRET or TLS_RX_TRAFFIC_SECRET, user space also
->> + * gives the kernel the secret of that direction. The kernel then 
->> handles
->> + * KeyUpdate itself. This file derives and installs the next key, and
->> + * processes a received KeyUpdate. tls_sw.c sends KeyUpdate messages.
->> + */
->> +
->> +#include <linux/jiffies.h>
->> +#include <linux/skbuff.h>
->> +#include <net/strparser.h>
->> +#include <net/tls.h>
->> +
->> +#include "tls.h"
->> +
->> +/* A peer that sends more KeyUpdates than this in one second ends the
->> + * connection. Each one costs three HMACs and a new key, and carries no
->> + * data.
->> + */
->> +#define TLS_KEYUPDATE_RX_MAX_PER_SEC    8
->> +
->> +/**
->> + * tls_keyupdate_rekey - install the next key of one direction
->> + * @sk: socket
->> + * @tx: non-zero for the transmit direction
->> + *
->> + * Derive the next application traffic secret from the registered one,
->> + * then its key and IV, and install them. The record sequence number
->> + * restarts at zero.
->> + *
->> + * Return: 0 on success, or a negative errno. On error the installed 
->> key
->> + * and the registered secret do not change.
->> + */
->> +int tls_keyupdate_rekey(struct sock *sk, int tx)
->> +{
->> +    struct tls_context *ctx = tls_get_ctx(sk);
->> +    struct tls_traffic_secret *secret;
->> +    const struct tls_cipher_desc *cipher_desc;
->> +    u8 iv[TLS_MAX_SALT_SIZE + TLS_MAX_IV_SIZE];
->> +    u8 next[TLS_MAX_TRAFFIC_SECRET_SIZE];
->> +    union tls_crypto_context tmp = {};
->> +    struct tls_crypto_info *info = &tmp.info;
->> +    int rc;
->> +
->> +    secret = tx ? &ctx->tx_secret : &ctx->rx_secret;
->> +    cipher_desc = get_cipher_desc(ctx->prot_info.cipher_type);
->> +    if (!cipher_desc || !secret->len ||
->> +        cipher_desc->salt + cipher_desc->iv > sizeof(iv))
->> +        return -EINVAL;
->> +
->> +    /* version and cipher_type; the rest of tmp stays zero */
->> +    *info = tx ? ctx->crypto_send.info : ctx->crypto_recv.info;
->> +
->> +    rc = tls_hkdf_expand_label(secret->data, secret->len, "traffic 
->> upd",
->> +                   next, secret->len);
->> +    if (rc)
->> +        goto out;
->> +
->> +    rc = tls_hkdf_expand_label(next, secret->len, "key",
->> +                   crypto_info_key(info, cipher_desc),
->> +                   cipher_desc->key);
->> +    if (rc)
->> +        goto out;
->> +
->> +    rc = tls_hkdf_expand_label(next, secret->len, "iv", iv,
->> +                   cipher_desc->salt + cipher_desc->iv);
->> +    if (rc)
->> +        goto out;
->> +
->> +    memcpy(crypto_info_salt(info, cipher_desc), iv, cipher_desc->salt);
->> +    memcpy(crypto_info_iv(info, cipher_desc), iv + cipher_desc->salt,
->> +           cipher_desc->iv);
->> +
->> +    rc = tls_set_sw_offload(sk, tx, info);
->> +    if (rc)
->> +        goto out;
->> +
->> +    memcpy(secret->data, next, secret->len);
->> +
->> +out:
->> +    memzero_explicit(next, sizeof(next));
->> +    memzero_explicit(iv, sizeof(iv));
->> +    memzero_explicit(&tmp, sizeof(tmp));
->> +
->> +    return rc;
->> +}
->> +
-> Hmm. So this calculates 'iv' and 'key' from the traffic secret.
-> But as it does, why can't we use it to calculate the _initial_ 'iv' 
-> and 'key' from the traffic secret?
-> IE wouldn't it make sense to allow for _just_ the (initial) traffic
-> secrets to be set, and calculate 'iv' and 'key' on the fly _always?
-> That would remove the possible admin error where the admin sets a
-> set of 'IV' and 'key' values which do _not_ match the traffic secrets.
->
-> Hmm?
-It can. I kept TLS_TX and TLS_RX as they are for two reasons:
+This information can be useful for understanding and tuning the
+interaction between NVMe-TCP I/O queues and network stack components,
+such as IRQ affinity, RPS/RFS, XPS, or NIC flow steering (ntuple).
 
-- Every kTLS user (OpenSSL, GnuTLS, tlshd) already derives the key and
-   IV and installs them with TLS_TX and TLS_RX. The secret is an
-   optional addition for KeyUpdate. Code that does not use KeyUpdate
-   does not change.
-- The crypto_info of TLS_TX and TLS_RX also holds the version, the
-   cipher and the record sequence number. An option that takes only the
-   secret needs a new struct for these.
+The data is exported using seq_file interfaces to allow iteration
+over all controller queues.
 
-With the check from patch 2, the kernel refuses a secret that does not
-match the installed key and IV. So the error you describe cannot
-happen.
+Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+---
+ drivers/nvme/host/core.c    |  3 ++
+ drivers/nvme/host/debugfs.c | 76 ++++++++++++++++++++++++++++++++++++-
+ drivers/nvme/host/nvme.h    |  2 +
+ drivers/nvme/host/tcp.c     | 54 ++++++++++++++++++++++++++
+ 4 files changed, 134 insertions(+), 1 deletion(-)
 
-Martin
->
->> +/**
->> + * tls_keyupdate_rx - process a received KeyUpdate
->> + * @sk: socket
->> + * @skb: the decrypted record, which starts with a KeyUpdate message
->> + *
->> + * Called with the socket locked, for a direction with a registered
->> + * secret. The caller does not pass the record to the user.
->> + *
->> + * Return: 0 on success, or a negative errno if the connection must 
->> end.
->> + */
->> +int tls_keyupdate_rx(struct sock *sk, struct sk_buff *skb)
->> +{
->> +    struct tls_context *ctx = tls_get_ctx(sk);
->> +    struct tls_sw_context_rx *rx_ctx = tls_sw_ctx_rx(ctx);
->> +    const struct strp_msg *rxm = strp_msg(skb);
->> +    u8 msg[TLS_KEYUPDATE_MSG_SIZE];
->> +    int rc;
->> +
->> +    /* A KeyUpdate must end its record (section 5.1). Another message
->> +     * in the same record is not supported.
->> +     */
->> +    if (rxm->full_len != sizeof(msg) ||
->> +        skb_copy_bits(skb, rxm->offset, msg, sizeof(msg)))
->> +        return -EBADMSG;
->> +
->> +    /* msg_type, a 24-bit length of 1, then request_update */
->> +    if (msg[1] || msg[2] || msg[3] != 1)
->> +        return -EBADMSG;
->> +    if (msg[4] != TLS_KEY_UPDATE_NOT_REQUESTED &&
->> +        msg[4] != TLS_KEY_UPDATE_REQUESTED)
->> +        return -EBADMSG;
->> +
->> +    if (!rx_ctx->key_update_count ||
->> +        time_after(jiffies, rx_ctx->key_update_window + HZ)) {
->> +        rx_ctx->key_update_window = jiffies;
->> +        rx_ctx->key_update_count = 0;
->> +    }
->> +    if (++rx_ctx->key_update_count > TLS_KEYUPDATE_RX_MAX_PER_SEC)
->> +        return -EBADMSG;
->> +
->> +    rc = tls_keyupdate_rekey(sk, 0);
->> +    if (rc) {
->> +        TLS_INC_STATS(sock_net(sk), LINUX_MIB_TLSRXREKEYERROR);
->> +        return rc;
->> +    }
->> +    TLS_INC_STATS(sock_net(sk), LINUX_MIB_TLSRXREKEYOK);
->> +
->> +    return 0;
->> +}
->> diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
->> index 312e51270f29..a314fa638dc3 100644
->> --- a/net/tls/tls_sw.c
->> +++ b/net/tls/tls_sw.c
->> @@ -1551,15 +1551,26 @@ static int tls_check_pending_rekey(struct 
->> sock *sk, struct tls_context *ctx,
->>       if (hs_type == TLS_HANDSHAKE_KEYUPDATE) {
->>           struct tls_sw_context_rx *rx_ctx = ctx->priv_ctx_rx;
->>   -        WRITE_ONCE(rx_ctx->key_update_pending, true);
->>           TLS_INC_STATS(sock_net(sk), LINUX_MIB_TLSRXREKEYRECEIVED);
->> +
->> +        if (ctx->rx_secret.len) {
->> +            err = tls_keyupdate_rx(sk, skb);
->> +            if (err) {
->> +                tls_err_abort(sk, err);
->> +                return err;
->> +            }
->> +            return 1;
->> +        }
->> +
->> +        WRITE_ONCE(rx_ctx->key_update_pending, true);
->>       }
->>         return 0;
->>   }
->>     /* On decrypt failure the connection is aborted (sk_err set) before
->> - * returning a negative errno.
->> + * returning a negative errno. Return 1 for a record the kernel 
->> consumed
->> + * (a KeyUpdate): the caller frees it and does not pass it to the user.
->>    */
->>   static int tls_rx_one_record(struct sock *sk, struct msghdr *msg,
->>                    struct tls_decrypt_arg *darg)
->> @@ -1883,6 +1894,11 @@ int tls_sw_recvmsg(struct sock *sk,
->>           err = tls_rx_one_record(sk, msg, &darg);
->>           if (err < 0)
->>               goto recv_end;
->> +        if (err > 0) {
->> +            tls_rx_rec_done(ctx);
->> +            consume_skb(darg.skb);
->> +            continue;
->> +        }
->>             async |= darg.async;
->>   @@ -2019,9 +2035,8 @@ ssize_t tls_sw_splice_read(struct socket 
->> *sock,  loff_t *ppos,
->>       if (err)
->>           goto splice_read_end;
->>   -    if (!skb_queue_empty(&ctx->rx_list)) {
->> -        skb = __skb_dequeue(&ctx->rx_list);
->> -    } else {
->> +    skb = __skb_dequeue(&ctx->rx_list);
->> +    while (!skb) {
->>           struct tls_decrypt_arg darg;
->>             err = tls_rx_rec_wait(sk, flags & SPLICE_F_NONBLOCK,
->> @@ -2036,7 +2051,10 @@ ssize_t tls_sw_splice_read(struct socket 
->> *sock,  loff_t *ppos,
->>               goto splice_read_end;
->>             tls_rx_rec_done(ctx);
->> -        skb = darg.skb;
->> +        if (err > 0)
->> +            consume_skb(darg.skb);
->> +        else
->> +            skb = darg.skb;
->>       }
->>         rxm = strp_msg(skb);
->> @@ -2118,6 +2136,11 @@ int tls_sw_read_sock(struct sock *sk, 
->> read_descriptor_t *desc,
->>               err = tls_rx_one_record(sk, NULL, &darg);
->>               if (err < 0)
->>                   goto read_sock_end;
->> +            if (err > 0) {
->> +                tls_rx_rec_done(ctx);
->> +                consume_skb(darg.skb);
->> +                continue;
->> +            }
->>                 released = tls_read_flush_backlog(sk, prot, INT_MAX,
->>                                 0, decrypted,
->>
->
-> The rest looks okay.
->
-> Cheers,
->
-> Hannes
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 531f9bb14bab..15334521c314 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4316,6 +4316,8 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
+ 	if (device_add_disk(ctrl->device, ns->disk, nvme_ns_attr_groups))
+ 		goto out_cleanup_ns_from_list;
+ 
++	nvme_debugfs_register(ns->disk);
++
+ 	if (!nvme_ns_head_multipath(ns->head))
+ 		nvme_add_ns_cdev(ns);
+ 
+@@ -4399,6 +4401,7 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+ 
+ 	nvme_mpath_remove_sysfs_link(ns);
+ 
++	nvme_debugfs_unregister(ns->disk);
+ 	del_gendisk(ns->disk);
+ 
+ 	mutex_lock(&ns->ctrl->namespaces_lock);
+diff --git a/drivers/nvme/host/debugfs.c b/drivers/nvme/host/debugfs.c
+index 798fec4730f0..8ea0413f7b75 100644
+--- a/drivers/nvme/host/debugfs.c
++++ b/drivers/nvme/host/debugfs.c
+@@ -25,6 +25,61 @@ struct nvme_debugfs_ctx {
+ 	struct nvme_debugfs_attr *attr;
+ };
+ 
++static void *nvme_io_queue_info_start(struct seq_file *m, loff_t *pos)
++{
++	struct nvme_debugfs_ctx *ctx = m->private;
++	struct nvme_ns *ns = ctx->data;
++	struct nvme_ctrl *ctrl = ns->ctrl;
++
++	/*
++	 * IO queues starts at offset 1.
++	 */
++	return (++*pos < ctrl->queue_count) ? pos : NULL;
++}
++
++static void *nvme_io_queue_info_next(struct seq_file *m, void *v, loff_t *pos)
++{
++	struct nvme_debugfs_ctx *ctx = m->private;
++	struct nvme_ns *ns = ctx->data;
++	struct nvme_ctrl *ctrl = ns->ctrl;
++
++	return (++*pos < ctrl->queue_count) ? pos : NULL;
++}
++
++static void nvme_io_queue_info_stop(struct seq_file *m, void *v)
++{
++	/* nothing to be done */
++}
++
++static int nvme_io_queue_info_show(struct seq_file *m, void *v)
++{
++	struct nvme_debugfs_ctx *ctx = m->private;
++	struct nvme_ns *ns = ctx->data;
++	struct nvme_ctrl *ctrl = ns->ctrl;
++
++	if (ctrl->ops->print_io_queue_info)
++		return ctrl->ops->print_io_queue_info(m, ctrl, *(loff_t *)v);
++
++	return 0;
++}
++
++const struct seq_operations nvme_io_queue_info_seq_ops = {
++	.start = nvme_io_queue_info_start,
++	.next = nvme_io_queue_info_next,
++	.stop = nvme_io_queue_info_stop,
++	.show = nvme_io_queue_info_show
++};
++
++static bool nvme_debugfs_get_ns(void *data)
++{
++	return nvme_get_ns(data);
++}
++
++static void nvme_debugfs_put_ns(void *data)
++{
++	nvme_put_ns(data);
++}
++
+ static int nvme_debugfs_show(struct seq_file *m, void *v)
+ {
+ 	struct nvme_debugfs_ctx *ctx = m->private;
+@@ -100,6 +155,17 @@ static int nvme_debugfs_release(struct inode *inode, struct file *file)
+ 	return ret;
+ }
+ 
++static bool nvme_debugfs_io_queue_info_visible(void *data)
++{
++	struct nvme_ns *ns = data;
++	struct nvme_ctrl *ctrl = ns->ctrl;
++
++	if (ctrl->ops->print_io_queue_info)
++		return true;
++
++	return false;
++}
++
+ static const struct file_operations nvme_debugfs_fops = {
+ 	.owner   = THIS_MODULE,
+ 	.open    = nvme_debugfs_open,
+@@ -109,7 +175,15 @@ static const struct file_operations nvme_debugfs_fops = {
+ };
+ 
+ static const struct nvme_debugfs_attr nvme_debugfs_attrs[] = {
+-	{},
++	{
++		.name		= "io_queue_info",
++		.mode		= 0400,
++		.seq_ops	= &nvme_io_queue_info_seq_ops,
++		.get		= nvme_debugfs_get_ns,
++		.put		= nvme_debugfs_put_ns,
++		.is_visible	= nvme_debugfs_io_queue_info_visible,
++	},
++	{}
+ };
+ 
+ static void nvme_debugfs_create_files(struct request_queue *q,
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index db2ab1469fd0..48995bc6669c 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -679,6 +679,8 @@ struct nvme_ctrl_ops {
+ 	void (*print_device_info)(struct nvme_ctrl *ctrl);
+ 	bool (*supports_pci_p2pdma)(struct nvme_ctrl *ctrl);
+ 	unsigned long (*get_virt_boundary)(struct nvme_ctrl *ctrl, bool is_admin);
++	int (*print_io_queue_info)(struct seq_file *m, struct nvme_ctrl *ctrl,
++			int qid);
+ };
+ 
+ /*
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index f876375dffd2..2cb697d33c02 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -2701,6 +2701,59 @@ static void nvme_tcp_free_ctrl(struct nvme_ctrl *nctrl)
+ 	kfree(ctrl);
+ }
+ 
++static int nvme_tcp_print_io_queue_info(struct seq_file *m,
++		struct nvme_ctrl *ctrl, int qid)
++{
++	int cpu;
++	struct sockaddr_storage src, dst;
++	struct nvme_tcp_ctrl *tctrl = to_tcp_ctrl(ctrl);
++	struct nvme_tcp_queue *queue = &tctrl->queues[qid];
++	int ret = -EINVAL;
++
++	if (!qid || qid >= ctrl->queue_count)
++		return -EINVAL;
++
++	if (!test_bit(NVME_TCP_Q_LIVE, &queue->flags))
++		return 0;
++
++	mutex_lock(&queue->queue_lock);
++	if (!queue->sock)
++		goto unlock;
++
++	ret = kernel_getsockname(queue->sock, (struct sockaddr *)&src);
++	if (ret <= 0)
++		goto unlock;
++
++	ret = kernel_getpeername(queue->sock, (struct sockaddr *)&dst);
++	if (ret <= 0)
++		goto unlock;
++
++	cpu = (queue->io_cpu == WORK_CPU_UNBOUND) ? -1 : queue->io_cpu;
++
++	if (src.ss_family == AF_INET) {
++		struct sockaddr_in *sip = (struct sockaddr_in *)&src;
++		struct sockaddr_in *dip = (struct sockaddr_in *)&dst;
++
++		seq_printf(m, "qid=%d cpu=%d src_ip=%pI4 src_port=%u dst_ip=%pI4 dst_port=%u\n",
++				qid, cpu,
++				&sip->sin_addr.s_addr, ntohs(sip->sin_port),
++				&dip->sin_addr.s_addr, ntohs(dip->sin_port));
++		ret = 0;
++	} else if (src.ss_family == AF_INET6) {
++		struct sockaddr_in6 *sip6 = (struct sockaddr_in6 *)&src;
++		struct sockaddr_in6 *dip6 = (struct sockaddr_in6 *)&dst;
++
++		seq_printf(m, "qid=%d cpu=%d src_ip=%pI6c src_port=%u dst_ip=%pI6c dst_port=%u\n",
++				qid, cpu,
++				&sip6->sin6_addr, ntohs(sip6->sin6_port),
++				&dip6->sin6_addr, ntohs(dip6->sin6_port));
++		ret = 0;
++	}
++unlock:
++	mutex_unlock(&queue->queue_lock);
++	return ret;
++}
++
+ static void nvme_tcp_set_sg_null(struct nvme_command *c)
+ {
+ 	struct nvme_sgl_desc *sg = &c->common.dptr.sgl;
+@@ -3002,6 +3055,7 @@ static const struct nvme_ctrl_ops nvme_tcp_ctrl_ops = {
+ 	.get_address		= nvme_tcp_get_address,
+ 	.stop_ctrl		= nvme_tcp_stop_ctrl,
+ 	.get_virt_boundary	= nvmf_get_virt_boundary,
++	.print_io_queue_info	= nvme_tcp_print_io_queue_info,
+ };
+ 
+ static bool
+-- 
+2.53.0
+
 
