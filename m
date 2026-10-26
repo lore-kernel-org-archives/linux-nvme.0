@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 626E2606A31A
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Oct 2026 18:24:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 837A1606A32E
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Oct 2026 18:29:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=J0w2Dw/k;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QB9akI7K
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=ylIWqJL2;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gqtbtrZ2
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
 	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
@@ -14,48 +14,47 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=mBteM7uh0neiMgZA+K/xWc7JS2IrfcXFGSxUlafqCzs=; b=J0w2Dw/kKiNf7eaTkqLfvmfuzZ
-	T3wAvW9pACV9oJLcsi4GZZseE/FL3IMhyo73oWeOiJ3Hy3pvR3lrLhEZ7sfZucqLxqjb/H/Btbu58
-	wu7jtmtlNc1nrC8u6AokFyrg9vVM5vZTL/ovZ83hVMg2UJlN/syGFgtDAlPeuhJ4kUlyFYOs/xjIz
-	0PhPIvX5ey7HmWo31yiZsjGfEa75uL0Ew1WbzYmHSLgnkURZicR02DftKHDrSUsNpsEtymWmuAUUL
-	AipIKNLZM0Rj7/i+uO+Vqw3qEBQa1C2aEp3yfhx6PXNXG+GUFNy2IdVl3oAj1xm5cuH7HMdcCDJHt
-	T8NIVHvw==;
+	bh=sAOjpV7dj6etFg7djpRsLmi89agtJWhB40CYXgZzZ18=; b=ylIWqJL2FvhxG4kHNY8RrP5VUu
+	8nYXwRx+ItmfAxoovewYW6P8fmVNiW1goQQqugBFkJNo8mKm2C3TvAnlJfjEInVw97KvbQVaYLTTV
+	x43FwTFPIc4DHBjQ02+wojvbzrgRuGXc8ztKQuwoJJwcn+vyQeJDMAiRBktCY6U8UUci5bojCDHtO
+	EtT3ks9DZLu4FCuDKwOgGbXfVYx4EXBV0X/c9WRNQwivYAF5gZjZnND69LGK7oVYQ2OoI6qOGKgdt
+	ppw4n7MJL0TKfI2S77Lo3UQBd9bhLEV8M1+p8zCx7o47P+QMhrU1UTpJhlySp8aDADTaxKqLVIwcF
+	04AHTueQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xLPMf-00000003401-41Su;
-	Mon, 26 Oct 2026 18:24:09 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1xLPRr-000000034UQ-2PDf;
+	Mon, 26 Oct 2026 18:29:31 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xLPMd-000000033zn-3FWq
+	id 1xLPRq-000000034Ss-1Gzj
 	for linux-nvme@lists.infradead.org;
-	Mon, 26 Oct 2026 18:24:07 +0000
+	Mon, 26 Oct 2026 18:29:30 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id C1998601F9;
-	Mon, 26 Oct 2026 18:24:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 521491F01825;
-	Mon, 26 Oct 2026 18:24:06 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 6B4C960A96;
+	Mon, 26 Oct 2026 18:29:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 054891F031E0;
+	Mon, 26 Oct 2026 18:29:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793039046;
-	bh=mBteM7uh0neiMgZA+K/xWc7JS2IrfcXFGSxUlafqCzs=;
+	s=k20260515; t=1793039369;
+	bh=sAOjpV7dj6etFg7djpRsLmi89agtJWhB40CYXgZzZ18=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=QB9akI7Kk5jXvw+yvYwaMBh9EUfZo4uglif5OeqNGMTZnClaeWjfEtREHHOiGiACs
-	 1oGx5o/zpM+oz8AmPEiB9vyXAV6T4WVnI8z7hYCt2wyd5PtFWA3Qx8dfC2KgwK0AVz
-	 CUX3186yb9WX/cmKe3XmmVJlsZx4HuCtaeseFPanmG97EQW46Ll7KDlrrssmITl3XP
-	 0djgL+7AgVMdh7hboEEePUHDy9OFLo/2giQqBUXvm2LRhRkm1U8Rewx22kdKy6Y6/Y
-	 fGNbZ0GXpLWRS5+etiOOPmqwFCWMFV00agidCpqxGGP9PnSneOLYt7Q+leeP3PiwUG
-	 9q72D4JxftcKg==
-Message-ID: <sashiko-outbox-185615@kernel.org>
+	b=gqtbtrZ2Io15K0a7cAThDrPqOCcAI5zfih3XrCOH/vTnykofkIDR4ibnkto4jYdXw
+	 vyS+epbqWi8C0l2HjBLnRuvyb1fRQcbZDXIbH688Llwk7ttVzxnI4rIzABtMFQG2vw
+	 h5WF1F7yxgbCINcXPCyc7DZaL4mu7eJJZAj2ajqEidzbzvFn+Q3EPIvDhMntvLYILB
+	 +zFxydGXcjI4ZuFGyJw4fx72Fj1CZcPeL0xY2vxxjzjItAjWOIXdSh/byQ6xCAwnG2
+	 BLicQojz5WBwRYRe05mBGS4BoLuwr6eeeNAJIQHR0341iZOQtP3T2TwXueAkAVJyCZ
+	 kdjwbVmIKwIOw==
+Message-ID: <sashiko-outbox-185619@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 2/2] nvme-tcp: skip TLS control records while waiting
- for the ICResp
+Subject: Re: [PATCH 1/2] nvme-tcp: start error recovery when read_sock fails
 To: "Martin Belanger" <martin.nvme.dev@gmail.com>
 Cc: linux-nvme@lists.infradead.org
-In-Reply-To: <20261026-nvme-tcp-ctrlrec-fixes-v1-2-ebf6ff7eff34@gmail.com>
+In-Reply-To: <20261026-nvme-tcp-ctrlrec-fixes-v1-1-ebf6ff7eff34@gmail.com>
 References: <20261026-nvme-tcp-ctrlrec-fixes-v1-0-ebf6ff7eff34@gmail.com>
- <20261026-nvme-tcp-ctrlrec-fixes-v1-2-ebf6ff7eff34@gmail.com>
+ <20261026-nvme-tcp-ctrlrec-fixes-v1-1-ebf6ff7eff34@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 26 Oct 2026 18:24:04 +0000
+Date: Mon, 26 Oct 2026 18:29:28 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,180 +74,110 @@ X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 X-Archived-By: <archiver.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [High] nvme-tcp: missing msg_control in nvme_tcp_skip_tls_record() causes=
- -EIO
-- [Medium] nvme-tcp: unhandled EOF in nvme_tcp_recv_icresp() on TLS queues
+- [Medium] nvme-tcp: race on queue->rd_enabled after release_sock() in nvme=
+_tcp_try_recv()
 --
 
-commit e6540f770ca0b1e419e220cc7a58ea6cad9fb1eb
+commit 3915b73f53c8a994bf45e1efec593bc2bb4f9f8b
 Author: Martin Belanger <martin.belanger@dell.com>
 
-nvme-tcp: skip TLS control records while waiting for the ICResp
+nvme-tcp: start error recovery when read_sock fails
 
-This commit updates nvme-tcp connection initialization to skip non-data TLS
-records (such as TLS 1.3 NewSessionTicket handshake records) and process
-TLS alerts while waiting for the ICResp PDU.
+This commit updates nvme_tcp_try_recv() to log an error, disable the queue,
+and trigger controller error recovery when sock->ops->read_sock() returns a
+negative error code other than -EAGAIN and queue->rd_enabled is still set.
 
 > diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index a03476f0f69d5..2d361a9e87101 100644
+> index 7190eb10c2481..a03476f0f69d5 100644
 > --- a/drivers/nvme/host/tcp.c
 > +++ b/drivers/nvme/host/tcp.c
-[ ... ]
-> @@ -1548,12 +1554,138 @@ static void nvme_tcp_free_queue(struct nvme_ctrl=
- *nctrl, int qid)
-[ ... ]
-> +static int nvme_tcp_skip_tls_record(struct nvme_tcp_queue *queue,
-> +				    struct msghdr *msg, u8 ctype, int len)
-> +{
-> +	u8 buf[NVME_TCP_TLS_REC_CHUNK];
-> +	int ret;
+> @@ -1431,7 +1431,21 @@ static int nvme_tcp_try_recv(struct nvme_tcp_queue=
+ *queue)
+>  	queue->nr_cqe =3D 0;
+>  	consumed =3D sock->ops->read_sock(sk, &rd_desc, nvme_tcp_recv_skb);
+>  	release_sock(sk);
+> -	return consumed =3D=3D -EAGAIN ? 0 : consumed;
+> +	if (consumed =3D=3D -EAGAIN)
+> +		return 0;
 > +
-> +	switch (ctype) {
-> +	case TLS_RECORD_TYPE_HANDSHAKE:
-> +		break;
-> +	case TLS_RECORD_TYPE_ALERT:
-> +		ret =3D nvme_tcp_recv_tls_alert(queue, msg, len);
-> +		return ret ? : -ENOTCONN;
-> +	default:
-> +		pr_err("queue %d: unhandled TLS record %u\n",
-> +		       nvme_tcp_queue_id(queue), ctype);
-> +		return -ENOTCONN;
+> +	/* nvme_tcp_recv_skb() does both of these itself, so a queue that is
+> +	 * still enabled failed inside read_sock() instead
+> +	 */
+> +	if (unlikely(consumed < 0 && queue->rd_enabled)) {
+> +		dev_err(queue->ctrl->ctrl.device,
+> +			"queue %d: receive failed: %d\n",
+> +			nvme_tcp_queue_id(queue), consumed);
+> +		queue->rd_enabled =3D false;
+> +		nvme_tcp_error_recovery(&queue->ctrl->ctrl);
 > +	}
-> +
-> +	/* the ICResp is in a later record, drain this one first */
-> +	while (!(msg->msg_flags & MSG_EOR)) {
-> +		struct kvec iov =3D {
-> +			.iov_base =3D buf,
-> +			.iov_len =3D sizeof(buf),
-> +		};
-> +		struct msghdr drain =3D {};
-> +
-> +		ret =3D kernel_recvmsg(queue->sock, &drain, &iov, 1, sizeof(buf),
-> +				     0);
-> +		if (ret <=3D 0) {
-> +			pr_warn("queue %d: failed to drain TLS record: %d\n",
-> +				nvme_tcp_queue_id(queue), ret);
-> +			return ret ? : -ECONNRESET;
-> +		}
-> +		msg->msg_flags =3D drain.msg_flags;
-> +	}
-
-[Severity: High]
-Will draining a handshake record larger than sizeof(*icresp) (128 bytes) in
-drivers/nvme/host/tcp.c:nvme_tcp_skip_tls_record() always fail with -EIO?
-
-When a TLS peer (such as an OpenSSL target sending a TLS 1.3
-NewSessionTicket) sends a TLS_RECORD_TYPE_HANDSHAKE record larger than 128
-bytes, the initial kernel_recvmsg() in nvme_tcp_recv_icresp() reads the
-first 128 bytes and returns without setting MSG_EOR in msg.msg_flags.
-
-In nvme_tcp_skip_tls_record(), the drain msghdr is zero-initialized with
-drain.msg_control set to NULL and drain.msg_controllen set to 0 before
-calling kernel_recvmsg().
-
-In the kTLS receive path:
-
-  kernel_recvmsg()
-    -> tls_sw_recvmsg()
-      -> process_rx_list()
-        -> tls_record_content_type()
-          -> put_cmsg()
-
-net/core/scm.c:put_cmsg() checks msg->msg_control:
-
-	if (!msg->msg_control || msg->msg_controllen < sizeof(struct cmsghdr)) {
-		msg->msg_flags |=3D MSG_CTRUNC;
-		return 0; /* XXX: return error? check spec. */
-	}
-
-And net/tls/tls_sw.c:tls_record_content_type() rejects non-data records
-when MSG_CTRUNC is set:
-
-	if (!*control) {
-		*control =3D tlm->control;
-		if (!*control)
-			return -EBADMSG;
-
-		err =3D put_cmsg(msg, SOL_TLS, TLS_GET_RECORD_TYPE,
-			       sizeof(*control), control);
-		if (*control !=3D TLS_RECORD_TYPE_DATA) {
-			if (err || msg->msg_flags & MSG_CTRUNC)
-				return -EIO;
-		}
-	}
-
-Because drain does not provide a control message buffer,
-tls_record_content_type() returns -EIO without consuming the rest of the
-handshake record, causing nvme_tcp_skip_tls_record() and
-nvme_tcp_init_connection() to fail with -EIO.
-
-Should drain.msg_control and drain.msg_controllen be populated with a
-cmsg buffer on each iteration of the drain loop?
-
-> +
-> +	return 0;
-> +}
-> +
-> +/*
-> + * Receive the ICResp. Over TLS, skip the records that a peer may send
-> + * ahead of it.
-> + *
-> + * Returns the length received, or a negative errno.
-> + */
-> +static int nvme_tcp_recv_icresp(struct nvme_tcp_queue *queue,
-> +				struct nvme_tcp_icresp_pdu *icresp)
-> +{
-> +	char cbuf[CMSG_LEN(sizeof(char))];
-> +	struct msghdr msg;
-> +	struct kvec iov;
-> +	u8 ctype;
-> +	int i, ret;
-> +
-> +	for (i =3D 0; i < NVME_TCP_ICRESP_MAX_RECORDS; i++) {
-> +		memset(&msg, 0, sizeof(msg));
-> +		memset(cbuf, 0, sizeof(cbuf));
-> +		iov.iov_base =3D icresp;
-> +		iov.iov_len =3D sizeof(*icresp);
-> +		if (nvme_tcp_queue_tls(queue)) {
-> +			msg.msg_control =3D cbuf;
-> +			msg.msg_controllen =3D sizeof(cbuf);
-> +		}
-> +		msg.msg_flags =3D MSG_WAITALL;
-> +		ret =3D kernel_recvmsg(queue->sock, &msg, &iov, 1,
-> +				     iov.iov_len, msg.msg_flags);
-> +		if (ret < 0 || !nvme_tcp_queue_tls(queue))
-> +			return ret;
 
 [Severity: Medium]
-What happens in drivers/nvme/host/tcp.c:nvme_tcp_recv_icresp() if the TLS
-peer closes the connection cleanly before sending the ICResp and
-kernel_recvmsg() returns 0?
+Should the check and clearing of queue->rd_enabled happen before calling
+release_sock(sk) in drivers/nvme/host/tcp.c:nvme_tcp_try_recv()?
 
-When kernel_recvmsg() returns 0 on EOF over a TLS-enabled queue, the check
-above (ret < 0 || !nvme_tcp_queue_tls(queue)) is false, so execution
-continues to tls_get_record_type() with the zeroed cbuf.
+In nvme_tcp_recv_skb(), queue->rd_enabled is checked, cleared, and followed
+by nvme_tcp_error_recovery() while lock_sock(sk) is held:
 
-Since cmsg->cmsg_level is 0, tls_get_record_type() returns 0, and
-nvme_tcp_skip_tls_record() hits the default case:
+drivers/nvme/host/tcp.c:nvme_tcp_recv_skb() {
+	if (unlikely(!queue->rd_enabled))
+		return -EFAULT;
+...
+		if (result) {
+			dev_err(queue->ctrl->ctrl.device,
+				"receive failed:  %d\n", result);
+			queue->rd_enabled =3D false;
+			nvme_tcp_error_recovery(&queue->ctrl->ctrl);
+			return result;
+		}
+}
 
-	default:
-		pr_err("queue %d: unhandled TLS record %u\n",
-		       nvme_tcp_queue_id(queue), ctype);
-		return -ENOTCONN;
+When sock->ops->read_sock() fails directly without hitting the error path in
+nvme_tcp_recv_skb() (for example, tls_sw_read_sock() returning -EINVAL on a
+non-data TLS record, -EBADMSG, -EKEYEXPIRED, -ENOMEM, or sock_error()),
+calling release_sock(sk) first drains sk->sk_backlog via __release_sock(sk)
+while queue->rd_enabled is still true.
 
-This logs a spurious "unhandled TLS record 0" error and returns -ENOTCONN,
-bypassing the EOF handling in nvme_tcp_init_connection():
+Any TCP segments that arrived in softirq while the socket was owned will
+trigger sk->sk_data_ready:
 
-	ret =3D nvme_tcp_recv_icresp(queue, icresp);
-	if (ret >=3D 0 && ret < sizeof(*icresp))
-		ret =3D -ECONNRESET;
+release_sock()
+  -> __release_sock()
+    -> nvme_tcp_data_ready()
 
-Should the early return condition in nvme_tcp_recv_icresp() check ret <=3D 0
-instead of ret < 0?
+drivers/nvme/host/tcp.c:nvme_tcp_data_ready() {
+	read_lock_bh(&sk->sk_callback_lock);
+	queue =3D sk->sk_user_data;
+	if (likely(queue && queue->rd_enabled) &&
+	    !test_bit(NVME_TCP_Q_POLLING, &queue->flags))
+		queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
+	read_unlock_bh(&sk->sk_callback_lock);
+}
+
+Because queue->rd_enabled has not been cleared yet during release_sock(sk)
+and the subsequent dev_err() call, nvme_tcp_data_ready() sees
+queue->rd_enabled as true and re-queues queue->io_work on the failed queue.
+
+In addition, nvme_tcp_try_recv() can be called concurrently from
+nvme_tcp_poll() and nvme_tcp_io_work(), relying on lock_sock(sk) for
+serialization:
+
+drivers/nvme/host/tcp.c:nvme_tcp_poll() {
+	set_bit(NVME_TCP_Q_POLLING, &queue->flags);
+	if (sk_can_busy_loop(sk) && skb_queue_empty_lockless(&sk->sk_receive_queue=
+))
+		sk_busy_loop(sk, true);
+	ret =3D nvme_tcp_try_recv(queue);
+	clear_bit(NVME_TCP_Q_POLLING, &queue->flags);
+}
+
+Could releasing lock_sock(sk) before checking and clearing queue->rd_enabled
+allow a concurrent nvme_tcp_try_recv() caller to acquire lock_sock(sk) while
+queue->rd_enabled is still true, either logging duplicate errors or entering
+nvme_tcp_recv_skb() after a transient read_sock() error?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261026-nvme-tcp-c=
-trlrec-fixes-v1-0-ebf6ff7eff34@gmail.com?part=3D2
+trlrec-fixes-v1-0-ebf6ff7eff34@gmail.com?part=3D1
 
