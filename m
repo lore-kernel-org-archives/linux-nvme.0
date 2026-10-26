@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADAE5606A331
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Oct 2026 12:52:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64516606A31A
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Oct 2026 12:55:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=dx88tCMt;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GvPmWLG4
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=hNNhtiRP;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y/xY1FGh
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
 	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
@@ -14,47 +14,47 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=XPMkvKKanr3S4ASvEacFHPbaqJr5gbbk21MA5ahcXyQ=; b=dx88tCMt00CVzSWUVKGdpiYIGL
-	lP6f2a630uNyPt33jdB39+PpjkQHWp7pfI6EEOMdhkaD7rZDPw7nUdmcwUK5pmA8rOf0bFGboWJXF
-	5i4l8rw7MyBm/Lc+qEKrDu3bUmzv7bWZKP7qYQ5KsYNr58bsdJESeJjms00a7L3WMipsZfwmRlxuK
-	OHq60Sy7VuFKzjCrgyDxVEu7loC9pj7KKvmevisR3gWS5ItribldCCjRXUZytd/eU8X7Rg35irBMz
-	70V4pWeVjD758W9uBdeK8HIivwYw8sClH5a72DvUPVgdz3VHSPRL6bBqdwts4zIWFIce573Ji+7hw
-	5WhEuf4A==;
+	bh=qGdhYKZ1ojjIG4EwgBFW7rFIlEc+8YjWXLSDbmZdKuA=; b=hNNhtiRPOFqPgc2vWIXsmDrCgg
+	po/zaasskcN+1f8fT0AAE5NbWaQCwMEj2jF76681ngV0Slldc/eLUbAexbW0MownFVeuGCPlKVree
+	Q1y5oYU6XCnHEknXG7vMj9xhcayPINIISK5ciu7CI9Yc4nif2epjYMcqn8FyPE+5CzRj2jrsYpOum
+	aU6QpDGRmGblbNJ/IyiwjOAaSo49DsGuHmUjhqLHcHiP4czl7jCGTZjE5DdsAP1qfUb82ZKmyDWEq
+	8rjcJwyVcr77UlUj9h7AHynGt7O3mZxdn5xPpDNgA7TpTvLgt+0YY3XjfZqAbUX/3WIjq0lVIlC2z
+	XchfXjCw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xLKBS-00000002XUl-1BsS;
-	Mon, 26 Oct 2026 12:52:14 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1xLKEc-00000002Xta-0KnM;
+	Mon, 26 Oct 2026 12:55:30 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xLKBQ-00000002XUb-28lX
+	id 1xLKEa-00000002XtS-2r3w
 	for linux-nvme@lists.infradead.org;
-	Mon, 26 Oct 2026 12:52:12 +0000
+	Mon, 26 Oct 2026 12:55:28 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 72D834352C;
-	Mon, 26 Oct 2026 12:52:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31E581F01825;
-	Mon, 26 Oct 2026 12:52:11 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id A7099601FB;
+	Mon, 26 Oct 2026 12:55:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 406321F01825;
+	Mon, 26 Oct 2026 12:55:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793019131;
-	bh=XPMkvKKanr3S4ASvEacFHPbaqJr5gbbk21MA5ahcXyQ=;
+	s=k20260515; t=1793019327;
+	bh=qGdhYKZ1ojjIG4EwgBFW7rFIlEc+8YjWXLSDbmZdKuA=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=GvPmWLG45mBwXRBon8X2v3XrT3faP2BZpi2WUmJ+HjFuN2V1Idl9awa45T8ZrC2YT
-	 sbMEUGQZbMfn/WXrVrGNV/G6+FBIQD0RcYvRx0LLeGaXN20M4KYHp2jy2IPb2Y3n1p
-	 8p1uX0OGgzRhTegWfftbe8bD3g4oIU3BuWCv1/bqoqdIUzTEQblKKP0fQalPEUV2hQ
-	 nwzpLmwwNqqnwsphpTYQGJmYS1eYVFPXpaRFuc/jpZADCZjfxlAqZgZilN6IsLW3h5
-	 +9BKSdlElOfRVkEclqQ7lbxj8NHE9zEW9LWJySd8ImugAzz9UrYW5ksvC+nO+1CKIE
-	 kzFQwLbai3LfQ==
-Message-ID: <sashiko-outbox-185248@kernel.org>
+	b=Y/xY1FGh02dh4wgUn2QEoOhsxtmCMu+s4CQJ6IRMUmUVQvAroAlZWXFIhRbnm/hG3
+	 Uay9PvzJsMAjsGmdpR1rtDfOQNYGWGkdte7R7li98tjay9Iy1PAWQVjO/oFUoUuX2m
+	 EUIlGoEuzPgPtsp7OhEDRu/EipncA2pKagUyFIpRipU7/CdyrYq/+uJ8dG63L3/6kM
+	 xtSEVJdfi4Lplf2+RJVAPCrEDBmOnHgFCeHW+QzPF0/1pDrduaTvzTlAddoWCWyXpy
+	 sBN9tEnErrAM46pQo/w4jHc+DXUgJvbF+BGPG13ElwgfrdNisavyf5qNOmUiyuWp/K
+	 miEFjs4mA5FQA==
+Message-ID: <sashiko-outbox-185251@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 1/2] nvme: add debugfs helpers for NVMe drivers
+Subject: Re: [PATCH v3 2/2] nvme: expose queue information via debugfs
 To: "Nilay Shroff" <nilay@linux.ibm.com>
 Cc: linux-nvme@lists.infradead.org
-In-Reply-To: <20261026123411.1988949-5-nilay@linux.ibm.com>
+In-Reply-To: <20261026123411.1988949-6-nilay@linux.ibm.com>
 References: <20261026123411.1988949-4-nilay@linux.ibm.com>
- <20261026123411.1988949-5-nilay@linux.ibm.com>
+ <20261026123411.1988949-6-nilay@linux.ibm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 26 Oct 2026 12:52:10 +0000
+Date: Mon, 26 Oct 2026 12:55:26 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,85 +74,202 @@ X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 X-Archived-By: <archiver.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+Thank you for your contribution! Sashiko AI review found 3 potential issue(=
 s) to consider:
-- [Medium] nvme: missing debugfs_mutex and NOIO scope in nvme_debugfs_creat=
-e_files()
+- [High] nvme-tcp: race with queue teardown in nvme_tcp_print_io_queue_info=
+()
+- [Medium] nvme: debugfs: nvme_io_queue_info_start() skips queues on resume=
+d reads
+- [Low] nvme: debugfs: missing static qualifier on nvme_io_queue_info_seq_o=
+ps
 --
 
-commit cd2cc953bf8eddec233eaabc47f820bf78836863
+commit 0f7d7347ae3aacfc41bb3e9a63226f587e2b9ffd
 Author: Nilay Shroff <nilay@linux.ibm.com>
 
-nvme: add debugfs helpers for NVMe drivers
+nvme: expose queue information via debugfs
 
-This patch introduces helper APIs and an attribute structure for NVMe
-drivers to register and unregister seq_file-based debugfs entries on a
-request queue's debugfs directory.
+This commit adds an io_queue_info debugfs attribute to expose per-queue
+information for NVMe controllers using seq_file iteration. For NVMe-TCP,
+it outputs each I/O queue's bound CPU and TCP socket source and
+destination address and port.
 
 > diff --git a/drivers/nvme/host/debugfs.c b/drivers/nvme/host/debugfs.c
-> new file mode 100644
-> index 0000000000000..798fec4730f0a
-> --- /dev/null
+> index 798fec4730f0a..8ea0413f7b753 100644
+> --- a/drivers/nvme/host/debugfs.c
 > +++ b/drivers/nvme/host/debugfs.c
-> @@ -0,0 +1,133 @@
-
-[ ... ]
-
-> +static void nvme_debugfs_create_files(struct request_queue *q,
-> +		const struct nvme_debugfs_attr *attr, void *data)
+> @@ -25,6 +25,61 @@ struct nvme_debugfs_ctx {
+>  	struct nvme_debugfs_attr *attr;
+>  };
+> =20
+> +static void *nvme_io_queue_info_start(struct seq_file *m, loff_t *pos)
 > +{
-> +	if (WARN_ON_ONCE(!q->debugfs_dir))
-> +		return;
+> +	struct nvme_debugfs_ctx *ctx =3D m->private;
+> +	struct nvme_ns *ns =3D ctx->data;
+> +	struct nvme_ctrl *ctrl =3D ns->ctrl;
 > +
-> +	for (; attr->name; attr++) {
-> +		if (attr->is_visible && !attr->is_visible(data))
-> +			continue;
-> +		debugfs_create_file_aux(attr->name, attr->mode, q->debugfs_dir,
-> +				data, (void *)attr, &nvme_debugfs_fops);
-> +	}
+> +	/*
+> +	 * IO queues starts at offset 1.
+> +	 */
+> +	return (++*pos < ctrl->queue_count) ? pos : NULL;
 > +}
 
 [Severity: Medium]
-Should nvme_debugfs_create_files() hold q->debugfs_mutex and run under a
-memalloc_noio_save() scope when accessing q->debugfs_dir and creating
-debugfs files?
+Will unconditionally pre-incrementing *pos in nvme_io_queue_info_start()
+cause queues to be skipped when seq_read_iter() resumes reading on a
+subsequent read() call or after a seq_file buffer overflow?
 
-In include/linux/blkdev.h, struct request_queue documents that
-debugfs_mutex serializes all debugfs metadata operations on debugfs_dir:
+In fs/seq_file.c:seq_read_iter(), the Fill loop advances m->index via
+m->op->next() before checking whether the user buffer is full or whether
+m->op->show() overflowed the seq_file buffer:
 
-	struct dentry		*debugfs_dir;
-	struct dentry		*sched_debugfs_dir;
-	struct dentry		*rqos_debugfs_dir;
-	/*
-	 * Serializes all debugfs metadata operations using the above dentries.
-	 */
-	struct mutex		debugfs_mutex;
+	p =3D m->op->next(m, p, &m->index);
+	...
+	if (!p || IS_ERR(p))	// no next record for us
+		break;
+	if (m->count >=3D iov_iter_count(iter))
+		break;
+	err =3D m->op->show(m, p);
+	if (err > 0) {		// ->show() says "skip it"
+		m->count =3D offs;
+	} else if (err || seq_has_overflowed(m)) {
+		m->count =3D offs;
+		break;
+	}
 
-Furthermore, block/blk.h notes in blk_debugfs_lock_nomemsave() why NOIO
-context is needed alongside debugfs_mutex (as introduced in commit
-dfe48ea17973 ("blk-mq: use NOIO context to prevent deadlock during debugfs
-creation")):
+When the loop stops because the seq_file buffer overflowed or the caller's
+buffer was filled, m->index has already been incremented by
+nvme_io_queue_info_next() to the next unshown queue ID. On the next read,
+seq_read_iter() calls nvme_io_queue_info_start(m, &m->index), which
+executes ++*pos a second time and skips that queue.
 
-	/*
-	 * debugfs directory and file creation can trigger fs reclaim, which can e=
-nter
-	 * back into the block layer request_queue. This can cause deadlock if the
-	 * queue is frozen. Use NOIO context together with debugfs_mutex to preven=
-t fs
-	 * reclaim from triggering block I/O.
-	 */
+Should nvme_io_queue_info_start() only advance *pos when *pos is 0?
 
-When nvme_alloc_ns() calls nvme_debugfs_register(ns->disk) after
-device_add_disk(), the namespace is already on ctrl->namespaces and the
-disk is live in sysfs, while blk_register_queue() has already dropped
-blk_debugfs_lock(q). If the queue is concurrently frozen (for example, by
-a controller reset calling nvme_start_freeze() or a sysfs write calling
-blk_mq_freeze_queue()), could GFP_KERNEL allocations inside
-debugfs_create_file_aux() trigger direct filesystem reclaim into the
-frozen queue and deadlock, or race with concurrent blktrace, scheduler,
-rqos, or queue teardown debugfs operations on q->debugfs_dir?
+> +
+> +static void *nvme_io_queue_info_next(struct seq_file *m, void *v, loff_t=
+ *pos)
+> +{
+> +	struct nvme_debugfs_ctx *ctx =3D m->private;
+> +	struct nvme_ns *ns =3D ctx->data;
+> +	struct nvme_ctrl *ctrl =3D ns->ctrl;
+> +
+> +	return (++*pos < ctrl->queue_count) ? pos : NULL;
+> +}
+> +
+> +static void nvme_io_queue_info_stop(struct seq_file *m, void *v)
+> +{
+> +	/* nothing to be done */
+> +}
+> +
+> +static int nvme_io_queue_info_show(struct seq_file *m, void *v)
+> +{
+> +	struct nvme_debugfs_ctx *ctx =3D m->private;
+> +	struct nvme_ns *ns =3D ctx->data;
+> +	struct nvme_ctrl *ctrl =3D ns->ctrl;
+> +
+> +	if (ctrl->ops->print_io_queue_info)
+> +		return ctrl->ops->print_io_queue_info(m, ctrl, *(loff_t *)v);
+> +
+> +	return 0;
+> +}
+> +
+> +const struct seq_operations nvme_io_queue_info_seq_ops =3D {
+> +	.start =3D nvme_io_queue_info_start,
+> +	.next =3D nvme_io_queue_info_next,
+> +	.stop =3D nvme_io_queue_info_stop,
+> +	.show =3D nvme_io_queue_info_show
+> +};
+
+[Severity: Low]
+Should nvme_io_queue_info_seq_ops be marked static since it is only used
+within drivers/nvme/host/debugfs.c?
+
+[ ... ]
+
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index 7190eb10c2481..a59169629d56b 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -2691,6 +2691,59 @@ static void nvme_tcp_free_ctrl(struct nvme_ctrl *n=
+ctrl)
+>  	kfree(ctrl);
+>  }
+> =20
+> +static int nvme_tcp_print_io_queue_info(struct seq_file *m,
+> +		struct nvme_ctrl *ctrl, int qid)
+> +{
+> +	int cpu;
+> +	struct sockaddr_storage src, dst;
+> +	struct nvme_tcp_ctrl *tctrl =3D to_tcp_ctrl(ctrl);
+> +	struct nvme_tcp_queue *queue =3D &tctrl->queues[qid];
+> +	int ret =3D -EINVAL;
+> +
+> +	if (!qid || qid >=3D ctrl->queue_count)
+> +		return -EINVAL;
+> +
+> +	if (!test_bit(NVME_TCP_Q_LIVE, &queue->flags))
+> +		return 0;
+> +
+> +	mutex_lock(&queue->queue_lock);
+> +	if (!queue->sock)
+> +		goto unlock;
+> +
+> +	ret =3D kernel_getsockname(queue->sock, (struct sockaddr *)&src);
+> +	if (ret <=3D 0)
+> +		goto unlock;
+> +
+> +	ret =3D kernel_getpeername(queue->sock, (struct sockaddr *)&dst);
+> +	if (ret <=3D 0)
+> +		goto unlock;
+
+[Severity: High]
+Can nvme_tcp_print_io_queue_info() race with queue teardown during
+controller reset or error recovery?
+
+Holding a reference on struct nvme_ns keeps the namespace and controller
+allocated, but does not prevent nvme_reset_ctrl_work() or
+nvme_tcp_error_recovery_work() from running nvme_tcp_teardown_io_queues()
+while io_queue_info is being read.
+
+In nvme_tcp_stop_queue_nowait(), NVME_TCP_Q_LIVE is cleared under
+queue->queue_lock while queue->sock remains non-NULL:
+
+	mutex_lock(&queue->queue_lock);
+	if (test_and_clear_bit(NVME_TCP_Q_LIVE, &queue->flags))
+		__nvme_tcp_stop_queue(queue);
+	/* Stopping the queue will disable TLS */
+	queue->tls_enabled =3D false;
+	mutex_unlock(&queue->queue_lock);
+
+Shortly after, nvme_tcp_free_io_queues() -> nvme_tcp_free_queue() runs
+without holding queue->queue_lock, frees queue->sock before clearing the
+pointer, and destroys queue->queue_lock:
+
+	__fput_sync(queue->sock->file);
+	queue->sock =3D NULL;
+	memalloc_noio_restore(noio_flag);
+
+	kfree(queue->pdu);
+	mutex_destroy(&queue->send_mutex);
+	mutex_destroy(&queue->queue_lock);
+	mutex_destroy(&queue->pf_cache_lock);
+
+If nvme_tcp_print_io_queue_info() checks test_bit(NVME_TCP_Q_LIVE,
+&queue->flags) just before teardown, it can acquire queue->queue_lock
+after nvme_tcp_stop_queue_nowait() unlocks it, see queue->sock !=3D NULL
+because NVME_TCP_Q_LIVE is not re-checked under the lock, and dereference
+queue->sock in kernel_getsockname() and kernel_getpeername() concurrently
+with __fput_sync(queue->sock->file), or touch queue->queue_lock while
+nvme_tcp_free_queue() destroys it (and reconnect re-initializes it in
+nvme_tcp_alloc_queue()).
+
+In addition, if !queue->sock is taken under queue->queue_lock (where ret
+is still -EINVAL) or if kernel_getpeername() returns -ENOTCONN on a
+shut-down socket, returning a negative error code from the seq_file show
+callback aborts the entire seq_read_iter() read instead of skipping the
+stopped queue.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261026123411.1988=
-949-4-nilay@linux.ibm.com?part=3D1
+949-4-nilay@linux.ibm.com?part=3D2
 
