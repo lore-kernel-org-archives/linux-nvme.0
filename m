@@ -2,103 +2,60 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51034606A320
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Oct 2026 18:13:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 626E2606A31A
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Oct 2026 18:24:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=yHB7ZTL+;
-	dkim=pass (2048-bit key, unprotected) header.d=purestorage.com header.i=@purestorage.com header.a=rsa-sha256 header.s=google2022 header.b=WH4Hsm86
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=J0w2Dw/k;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QB9akI7K
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Cc:To:Subject:
+	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=QW3sLtRWxfBZuOWJq/rGSlPO0jYxXYDcOJrE1b/An2w=; b=yHB7ZTL+/HalDdRCTBsLHwhSph
-	RCBPA8LlUdodkOG8o6hYhVeTHk5cNnzZ3JPhgH9ft9FmyFmdhN8ECeNpZFQJPriSdZg2htUQkmIrv
-	lpHKzbNNBEcvx5JAnNkuDwyQrXV6mPiC2sw7RXzu4ZqL7k6A5dp5UQHpNNc92eeTRJIfYNtOCPl42
-	yGZW6jEL1VB2WBEVtLDfS6kwz7naDfTWXPOerHrHrcaz/ctREmiu64ofB0NT36T81faoB9NMxfjs9
-	bAITwANkacu39K04936TO+hA2wJ3dqR4ccUH9SuKQmQ6Mzcny+WhLra0kbUwli9tI53hvlT3eHdos
-	y9u/1ONA==;
+	bh=mBteM7uh0neiMgZA+K/xWc7JS2IrfcXFGSxUlafqCzs=; b=J0w2Dw/kKiNf7eaTkqLfvmfuzZ
+	T3wAvW9pACV9oJLcsi4GZZseE/FL3IMhyo73oWeOiJ3Hy3pvR3lrLhEZ7sfZucqLxqjb/H/Btbu58
+	wu7jtmtlNc1nrC8u6AokFyrg9vVM5vZTL/ovZ83hVMg2UJlN/syGFgtDAlPeuhJ4kUlyFYOs/xjIz
+	0PhPIvX5ey7HmWo31yiZsjGfEa75uL0Ew1WbzYmHSLgnkURZicR02DftKHDrSUsNpsEtymWmuAUUL
+	AipIKNLZM0Rj7/i+uO+Vqw3qEBQa1C2aEp3yfhx6PXNXG+GUFNy2IdVl3oAj1xm5cuH7HMdcCDJHt
+	T8NIVHvw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xLPBy-00000003301-46IM;
-	Mon, 26 Oct 2026 18:13:06 +0000
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+	id 1xLPMf-00000003401-41Su;
+	Mon, 26 Oct 2026 18:24:09 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xLPBs-000000032z4-3d1l
+	id 1xLPMd-000000033zn-3FWq
 	for linux-nvme@lists.infradead.org;
-	Mon, 26 Oct 2026 18:13:05 +0000
-Received: by mail-wr1-x42e.google.com with SMTP id ffacd0b85a97d-48e47347279so1254738f8f.1
-        for <linux-nvme@lists.infradead.org>; Mon, 26 Oct 2026 11:12:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1793038378; x=1793643178; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=QW3sLtRWxfBZuOWJq/rGSlPO0jYxXYDcOJrE1b/An2w=;
-        b=WH4Hsm86Ni6LrfWBLcpxj97lssKG//N0LRwOPnynGlhbifh9ZA4IQBCV1w3Q33wKDr
-         bAguytwOiKRbNKT5ruF8VY5mBQLa9PT9xvRXu1egWdeVnWz83Ez+jVD8TH2kakAvTvi7
-         Y7ujXEuEbS9qq1a9kT4d+Lub7ZAeBvqPfCmCD+bHTvpKQCvYc9FtWDip139epg1M03sU
-         KQfoG+mFL2YjA9/WV+18BqEydpDDPl9HtxN0Lg7RMpnoIA/f3uIGLdGZwIf9KZ0NdWQ4
-         BgU5L8le2lvCR85D4kIcblQ5I15JWNSwd1I/tH2+pGdpv7M3gq2PEsDMfUcgoIN7/kvu
-         JxLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793038378; x=1793643178;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=QW3sLtRWxfBZuOWJq/rGSlPO0jYxXYDcOJrE1b/An2w=;
-        b=GAxieE5hAw0r31Br8ATTVzT0T2zV/vwcMpdFlRCx4iKtAxgOwXaZBN7gIK2YbD3TBl
-         Tyj3d8pxsoHZPrRJv07WNPSO24JSxcyixziOSWo/bGwWm3Fb60xxYLMb8z7CY4GxLFJk
-         999gMUXVdeEPC8gEJ7IhY7vE0Rb0MiSB8V6xRuUGXvvIAi8gzG1bc+pwNUMsTH/FkYWK
-         iJextA89Ly+1F2HV0Dc6xBIQShH862IcrkwsRj8VWK0jDaaIC+OipuvnLFtYRCHUau+I
-         WC1nx5tdYgnNZiqxBLuRvyBkrjZSLoPzVVVPRvTdN+e7N5NKmgnUdeUO+FqI/97J6bAA
-         Jbfw==
-X-Forwarded-Encrypted: i=1; AKwUvBzNotlWzqg2apzBh+vZYy4Xg1h8rRlu32lPuiNEl7QSjFoDrIAU2zNx6ZbOuhDVaYxsQx4PehKxv694@lists.infradead.org
-X-Gm-Message-State: AFq9FYLjuwpNP/L3s6ycBnuo04mfGZt115xk+oKmlM0qC9e4SlPbC+Yh
-	7LjzskHQ1xd/JAK61f6XBnhv9VPYibW/GwVhgK5xOleTe53KyJ6b+pJbqAXqOYDLpKs=
-X-Gm-Gg: AYBFou0OBLRJ4/5iDC1frb8MZNI8yhd37ljI7AJw6Pa2hITdIg8LXhGRMEvf+w04o4X
-	hp0Gkdxg3R1z9RDZb11x1PxYRFTPgqYM4JqILqAEHb8q5yR2JKHK8uXpg5NVDWoUZbdXdTt8nr6
-	1FjAeb9rCLgOBZjvbBpKlEzeDRsFoi2PSKxIhEMQALQ7RoIOntwtBfEMlzUrteo1X1ZnYRjKdWQ
-	iIbQpVcS7pe64p62KAMbevL+yupZUfdmDLtkz0TPF0Jcz1ADkeBYXXyJnEOwPRCjI5risGHZQBn
-	UJ+SjAv/eg9Mzdf160p2aNmjMYl4ZAtpeWVxPkiYs3hjUbdQbF3TmA5911VjRWV8LlHhEpiU8pr
-	jPHXg2F+uOEhKKUnauth67y6ng4CaGhqvNrPXBR13av0WtQQsLh0nO7O1n9NCxUlTrGIu1R/vae
-	ZazCU/7Sy9wwIyPx6YhRBuwyYv/7goassMWPi7aE5/NUYmnx8N0upl0ZiR3CYOC+76BeiXhKQ+I
-	s6LlVdRvNgoIMFjFLkeP4tAy+qUJy1bV9iluF1tK9zVTO2NbI6FUYKsem1V5otAYeZtX1cFD6zw
-X-Received: by 2002:a05:6000:41d1:b0:48d:f9dd:e3df with SMTP id ffacd0b85a97d-48e3eb82f9amr15096144f8f.18.1793038378341;
-        Mon, 26 Oct 2026 11:12:58 -0700 (PDT)
-Received: from medusa.lab.kspace.sh ([208.88.152.253])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-48e3ecd8c05sm22665445f8f.49.2026.10.26.11.12.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Oct 2026 11:12:57 -0700 (PDT)
-Date: Mon, 26 Oct 2026 11:12:54 -0700
-From: Mohamed Khalfella <mkhalfella@purestorage.com>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Justin Tee <justin.tee@broadcom.com>,
-	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
-	Paul Ely <paul.ely@broadcom.com>, Hannes Reinecke <hare@kernel.org>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	James Smart <jsmart833426@gmail.com>,
-	Randy Jennings <randyj@purestorage.com>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v6 11/18] nvme-rdma: Use CCR to recover controller that
- hits an error
-Message-ID: <20261026181254.GA2653700-mkhalfella@purestorage.com>
-References: <20260920182936.2317916-1-mkhalfella@purestorage.com>
- <20260920182936.2317916-12-mkhalfella@purestorage.com>
-X-Archived-By: <archiver.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260920182936.2317916-12-mkhalfella@purestorage.com>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261026_111300_911995_32E5B273 
-X-CRM114-Status: GOOD (  13.85  )
-X-Spam-Score: -2.1 (--)
+	Mon, 26 Oct 2026 18:24:07 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id C1998601F9;
+	Mon, 26 Oct 2026 18:24:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 521491F01825;
+	Mon, 26 Oct 2026 18:24:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793039046;
+	bh=mBteM7uh0neiMgZA+K/xWc7JS2IrfcXFGSxUlafqCzs=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=QB9akI7Kk5jXvw+yvYwaMBh9EUfZo4uglif5OeqNGMTZnClaeWjfEtREHHOiGiACs
+	 1oGx5o/zpM+oz8AmPEiB9vyXAV6T4WVnI8z7hYCt2wyd5PtFWA3Qx8dfC2KgwK0AVz
+	 CUX3186yb9WX/cmKe3XmmVJlsZx4HuCtaeseFPanmG97EQW46Ll7KDlrrssmITl3XP
+	 0djgL+7AgVMdh7hboEEePUHDy9OFLo/2giQqBUXvm2LRhRkm1U8Rewx22kdKy6Y6/Y
+	 fGNbZ0GXpLWRS5+etiOOPmqwFCWMFV00agidCpqxGGP9PnSneOLYt7Q+leeP3PiwUG
+	 9q72D4JxftcKg==
+Message-ID: <sashiko-outbox-185615@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 2/2] nvme-tcp: skip TLS control records while waiting
+ for the ICResp
+To: "Martin Belanger" <martin.nvme.dev@gmail.com>
+Cc: linux-nvme@lists.infradead.org
+In-Reply-To: <20261026-nvme-tcp-ctrlrec-fixes-v1-2-ebf6ff7eff34@gmail.com>
+References: <20261026-nvme-tcp-ctrlrec-fixes-v1-0-ebf6ff7eff34@gmail.com>
+ <20261026-nvme-tcp-ctrlrec-fixes-v1-2-ebf6ff7eff34@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 26 Oct 2026 18:24:04 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,32 +65,190 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
+X-Archived-By: <archiver.kernel.org>
 
-On Sun 2026-09-20 11:28:09 -0700, Mohamed Khalfella wrote:
-> An alive nvme controller that hits an error now will move to FENCING
-> state instead of RESETTING state. ctrl->fencing_work attempts CCR to
-> terminate inflight IOs. Regardless of the success or failure of CCR
-> operation the controller is transitioned to RESETTING state to continue
-> error recovery process.
-> 
-> Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
+- [High] nvme-tcp: missing msg_control in nvme_tcp_skip_tls_record() causes=
+ -EIO
+- [Medium] nvme-tcp: unhandled EOF in nvme_tcp_recv_icresp() on TLS queues
+--
 
-Hello Sagi,
+commit e6540f770ca0b1e419e220cc7a58ea6cad9fb1eb
+Author: Martin Belanger <martin.belanger@dell.com>
 
-Can you please take a look v6 of this patch. I applied the change
-discussed in v5 by moving flush_work(&ctrl->fencing_work) to
-.stop_ctrl(). It looks much better now.
+nvme-tcp: skip TLS control records while waiting for the ICResp
 
-I would like to get these changes merged in 7.5, and getting this patch
-reviewed leaves only nvme-fc change which I believe Daniel is looking at
-now.
+This commit updates nvme-tcp connection initialization to skip non-data TLS
+records (such as TLS 1.3 NewSessionTicket handshake records) and process
+TLS alerts while waiting for the ICResp PDU.
 
-Thanks,
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index a03476f0f69d5..2d361a9e87101 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+[ ... ]
+> @@ -1548,12 +1554,138 @@ static void nvme_tcp_free_queue(struct nvme_ctrl=
+ *nctrl, int qid)
+[ ... ]
+> +static int nvme_tcp_skip_tls_record(struct nvme_tcp_queue *queue,
+> +				    struct msghdr *msg, u8 ctype, int len)
+> +{
+> +	u8 buf[NVME_TCP_TLS_REC_CHUNK];
+> +	int ret;
+> +
+> +	switch (ctype) {
+> +	case TLS_RECORD_TYPE_HANDSHAKE:
+> +		break;
+> +	case TLS_RECORD_TYPE_ALERT:
+> +		ret =3D nvme_tcp_recv_tls_alert(queue, msg, len);
+> +		return ret ? : -ENOTCONN;
+> +	default:
+> +		pr_err("queue %d: unhandled TLS record %u\n",
+> +		       nvme_tcp_queue_id(queue), ctype);
+> +		return -ENOTCONN;
+> +	}
+> +
+> +	/* the ICResp is in a later record, drain this one first */
+> +	while (!(msg->msg_flags & MSG_EOR)) {
+> +		struct kvec iov =3D {
+> +			.iov_base =3D buf,
+> +			.iov_len =3D sizeof(buf),
+> +		};
+> +		struct msghdr drain =3D {};
+> +
+> +		ret =3D kernel_recvmsg(queue->sock, &drain, &iov, 1, sizeof(buf),
+> +				     0);
+> +		if (ret <=3D 0) {
+> +			pr_warn("queue %d: failed to drain TLS record: %d\n",
+> +				nvme_tcp_queue_id(queue), ret);
+> +			return ret ? : -ECONNRESET;
+> +		}
+> +		msg->msg_flags =3D drain.msg_flags;
+> +	}
+
+[Severity: High]
+Will draining a handshake record larger than sizeof(*icresp) (128 bytes) in
+drivers/nvme/host/tcp.c:nvme_tcp_skip_tls_record() always fail with -EIO?
+
+When a TLS peer (such as an OpenSSL target sending a TLS 1.3
+NewSessionTicket) sends a TLS_RECORD_TYPE_HANDSHAKE record larger than 128
+bytes, the initial kernel_recvmsg() in nvme_tcp_recv_icresp() reads the
+first 128 bytes and returns without setting MSG_EOR in msg.msg_flags.
+
+In nvme_tcp_skip_tls_record(), the drain msghdr is zero-initialized with
+drain.msg_control set to NULL and drain.msg_controllen set to 0 before
+calling kernel_recvmsg().
+
+In the kTLS receive path:
+
+  kernel_recvmsg()
+    -> tls_sw_recvmsg()
+      -> process_rx_list()
+        -> tls_record_content_type()
+          -> put_cmsg()
+
+net/core/scm.c:put_cmsg() checks msg->msg_control:
+
+	if (!msg->msg_control || msg->msg_controllen < sizeof(struct cmsghdr)) {
+		msg->msg_flags |=3D MSG_CTRUNC;
+		return 0; /* XXX: return error? check spec. */
+	}
+
+And net/tls/tls_sw.c:tls_record_content_type() rejects non-data records
+when MSG_CTRUNC is set:
+
+	if (!*control) {
+		*control =3D tlm->control;
+		if (!*control)
+			return -EBADMSG;
+
+		err =3D put_cmsg(msg, SOL_TLS, TLS_GET_RECORD_TYPE,
+			       sizeof(*control), control);
+		if (*control !=3D TLS_RECORD_TYPE_DATA) {
+			if (err || msg->msg_flags & MSG_CTRUNC)
+				return -EIO;
+		}
+	}
+
+Because drain does not provide a control message buffer,
+tls_record_content_type() returns -EIO without consuming the rest of the
+handshake record, causing nvme_tcp_skip_tls_record() and
+nvme_tcp_init_connection() to fail with -EIO.
+
+Should drain.msg_control and drain.msg_controllen be populated with a
+cmsg buffer on each iteration of the drain loop?
+
+> +
+> +	return 0;
+> +}
+> +
+> +/*
+> + * Receive the ICResp. Over TLS, skip the records that a peer may send
+> + * ahead of it.
+> + *
+> + * Returns the length received, or a negative errno.
+> + */
+> +static int nvme_tcp_recv_icresp(struct nvme_tcp_queue *queue,
+> +				struct nvme_tcp_icresp_pdu *icresp)
+> +{
+> +	char cbuf[CMSG_LEN(sizeof(char))];
+> +	struct msghdr msg;
+> +	struct kvec iov;
+> +	u8 ctype;
+> +	int i, ret;
+> +
+> +	for (i =3D 0; i < NVME_TCP_ICRESP_MAX_RECORDS; i++) {
+> +		memset(&msg, 0, sizeof(msg));
+> +		memset(cbuf, 0, sizeof(cbuf));
+> +		iov.iov_base =3D icresp;
+> +		iov.iov_len =3D sizeof(*icresp);
+> +		if (nvme_tcp_queue_tls(queue)) {
+> +			msg.msg_control =3D cbuf;
+> +			msg.msg_controllen =3D sizeof(cbuf);
+> +		}
+> +		msg.msg_flags =3D MSG_WAITALL;
+> +		ret =3D kernel_recvmsg(queue->sock, &msg, &iov, 1,
+> +				     iov.iov_len, msg.msg_flags);
+> +		if (ret < 0 || !nvme_tcp_queue_tls(queue))
+> +			return ret;
+
+[Severity: Medium]
+What happens in drivers/nvme/host/tcp.c:nvme_tcp_recv_icresp() if the TLS
+peer closes the connection cleanly before sending the ICResp and
+kernel_recvmsg() returns 0?
+
+When kernel_recvmsg() returns 0 on EOF over a TLS-enabled queue, the check
+above (ret < 0 || !nvme_tcp_queue_tls(queue)) is false, so execution
+continues to tls_get_record_type() with the zeroed cbuf.
+
+Since cmsg->cmsg_level is 0, tls_get_record_type() returns 0, and
+nvme_tcp_skip_tls_record() hits the default case:
+
+	default:
+		pr_err("queue %d: unhandled TLS record %u\n",
+		       nvme_tcp_queue_id(queue), ctype);
+		return -ENOTCONN;
+
+This logs a spurious "unhandled TLS record 0" error and returns -ENOTCONN,
+bypassing the EOF handling in nvme_tcp_init_connection():
+
+	ret =3D nvme_tcp_recv_icresp(queue, icresp);
+	if (ret >=3D 0 && ret < sizeof(*icresp))
+		ret =3D -ECONNRESET;
+
+Should the early return condition in nvme_tcp_recv_icresp() check ret <=3D 0
+instead of ret < 0?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261026-nvme-tcp-c=
+trlrec-fixes-v1-0-ebf6ff7eff34@gmail.com?part=3D2
 
