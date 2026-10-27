@@ -2,97 +2,96 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBF22606A323
-	for <linux-nvme@archiver.kernel.org>; Tue, 27 Oct 2026 14:29:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33921606A322
+	for <linux-nvme@archiver.kernel.org>; Tue, 27 Oct 2026 14:44:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=gixyHtKh;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=tS0khtXw
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=U82rJs93;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CGVth+qG
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=DdqPE1hxlr3HcgV5Z9+I8/97tTXj8KtZhhg4o4QDLzc=; b=gixyHtKh+eh25Q
-	jyE0OSrCzCJlx4K2fQDAMgCSwMz+kY5WoYv+YsY8t5Fi42cp01n7Y8ns7hFkrokyoFB7lZCdY5p//
-	G6ZtBY8vZJlt2MptBXV+ngTsnJRawc1BKtsmYp7AemJTkmP93uDUzfz3v2smgInqEyUpgRnytraZY
-	oGJr8u9STaIN4ovnI4SWdrwokZgiNOSe7TZAQq0frs/ccd1lCNI6psXIu4S9oESfE1+6Y1G/GNhCE
-	+UfeFCEVLwXQqM8bvvjOVTTAXfLDHnh73ttvQGxdt3rxjtyO5CX8oo3YgB580XzlOKt8cH0W2eD6E
-	RjPvCQg2XEvgnQ2LZ3PQ==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Unsubscribe-Post:List-Owner;
+	bh=eMqLobo7VkmEKx6VZ6nPHT3O1QdYzqTpUBW8kb9AOmk=; b=U82rJs93807+GTXx7pTg//qjxn
+	gjr3zijUIW+7UTkLKgzSA82CkDDJtSsPgFIS1yveSenll+qxguLfZFZWR3WSpBFsXagg8mbha2IaE
+	w8sVwDEYD1bf2ijy6cL1m9QjbgOHwSanDoKRDs56JcCa9la8zAW1z2TN6wMSDHULVQpqtssl3o8WW
+	6++a3XfuRyq47T46u0T3rPDYGDhR69Dt+xb+DoJ+Cc0QPSzPvj/UEOSWP56ya9ixOVBS7WIwbvzxf
+	6G1P3szydBxZHyZ6nG2AwsDHtPVGsk24znGMOUN5dVuaf0a6DkaJKvfURyBQ2UdsIIFoyWVWtBAB5
+	5DUk2AXQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xLiAt-0000000526T-016P;
-	Tue, 27 Oct 2026 14:29:15 +0000
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f])
+	id 1xLiPE-0000000542N-3aZZ;
+	Tue, 27 Oct 2026 14:44:04 +0000
+Received: from mail-dl1-x1233.google.com ([2607:f8b0:4864:20::1233])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xLiAq-0000000525h-18Cq
+	id 1xLiPB-0000000541f-3fpA
 	for linux-nvme@lists.infradead.org;
-	Tue, 27 Oct 2026 14:29:13 +0000
-Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-c4395d31228so639885966b.1
-        for <linux-nvme@lists.infradead.org>; Tue, 27 Oct 2026 07:29:11 -0700 (PDT)
+	Tue, 27 Oct 2026 14:44:03 +0000
+Received: by mail-dl1-x1233.google.com with SMTP id a92af1059eb24-15dd124bbe7so2691729c88.1
+        for <linux-nvme@lists.infradead.org>; Tue, 27 Oct 2026 07:44:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793111350; x=1793716150; darn=lists.infradead.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=DdqPE1hxlr3HcgV5Z9+I8/97tTXj8KtZhhg4o4QDLzc=;
-        b=tS0khtXwCgnEcj2BAb/5z4KZMJdL2VI43oVP+pIlFIkWCYEA2kFdsL30VpIU1BHx6/
-         BzybgHXxqRNiNrDUCZGfZ5SFBcX1cK3i6/adLfJXFz+x8+GfnW62r9lSeqsNt88r7exR
-         3yeoLSGJEaeyM44Ajg60XlHFcgYDaO2SPV103aImsg0LYwPWlOuTJ4nIv4RoYeBBShP3
-         RrE8GwjshnDINQXxFOkK0AsZiFgzyYQlA9LZ0/sMqyqFKY9bNI72mUJdNy+5XUT/gKoT
-         Mva3z0w6rI1hfULcJ4vC5uo+B777lh8bq2AbFxlcG2Z33vxqoD09M9NWWgpACO/R9enF
-         XXpA==
+        d=gmail.com; s=20260707; t=1793112240; x=1793717040; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=eMqLobo7VkmEKx6VZ6nPHT3O1QdYzqTpUBW8kb9AOmk=;
+        b=CGVth+qGJ2G4QxaC0pW+3vRuRja0M0m7r2+EubUjblBw6tdp0C8F/qBdWXL0JnAMbb
+         ZsYSpYZh1UB3hRp29VZD2oLrKovXorTQZ2scO1qNXGDC5pt7hT1f921Eyxjp4hzwsOkX
+         2kdyWedZ3GTIC+B3YI6NWGjJwMgjIxp1ugiEVW39rWIiYgSpFO5pPtyn9cfy/AUZI3Ql
+         aG+uJ+5usvCEO6pssI2biQUQa8kmxIOuCxNcWNmfKn6uuSq8eBDhAbs2WmFy/P+YZfi9
+         hpkx9laxGc4pdA4j/siuIqOcXuqIRC5WYcZJErMTxvViXJxdNlgabG+1scCh0/XOQz9o
+         Io0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793111350; x=1793716150;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1793112240; x=1793717040;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=DdqPE1hxlr3HcgV5Z9+I8/97tTXj8KtZhhg4o4QDLzc=;
-        b=NMGs2OwBTFnckeVB7WLDdrTuiGWCK31T0tVCanH4HMD2+obPzlndwPL4DS5LckaAZK
-         HUvm+FJlm6ng3CPPlF30CKWbX9l6audln0aP2bYRi6DldHa0ubnRVD/cAO7DzLuoKK8u
-         1BZiBENeDebmwM+2HWMb5zNOsRZsJM6/BXsSX1DTrA/BrmM+zSMl4AD0aAeOrjjOuQ/8
-         +bEyGVoaaMX9VkRYhm5F4XLzSOf++jZpC5pvGwW30jqjk0WEdiSQywrR69VPJRrfXawi
-         o1v6JE6CaZxCReP/ReoAhS5y5KnriFcGGg0uVubEBqXz9fZ+Pi6JK8goZHscDiJQhmYo
-         8iyw==
-X-Forwarded-Encrypted: i=1; AKwUvBzHeHWxY4HVAMMX1rQoqkArLFESOmah9T+Xin8D5aq2Zoy3x/ZKObYNHQQwTh/QVb9M/3F3U8PeoEdb@lists.infradead.org
-X-Gm-Message-State: AFq9FYKz/am2yQ1etEXesk6kbboa7rlQIkRJNOtACA51I2TtFc8itGfK
-	z3Dh+MovKWGQsOdjoAB7or8o6Z+yHTFFcGJ9Artd3bk+S3vyP7Co4aTIrMbnSQ==
-X-Gm-Gg: AYBFou0kq6lX3enbHQet7uj/HHoBcB0L7AkRsfVhr770+KjjUkpuNT2X16++q43bsdC
-	EzLvMsi7rmYYN4YBWfQLXI4BAg9OeN9lqvbMb1ntWSCaPUGZt1NjA0mKLWyj1RkfUtPKdMI3UAa
-	UvcW5XKbqhquowmuUX3JzWlRmKNgoxm4aqIKE4gSwEAORcqfThaYbKP13kDwxCP3YfPNFu/Gt2S
-	S1X/41ml2IJdQBAspFI2IJQxsGBYLLycJ0vWZpauKtRmY5trQRCvyOauc+ssL/C91FQUZtkvVSF
-	E0NCwNZ6BLgXp2DiCled6OyfGDKX2JzfanrRNF8IJ+8OI9EgmlqjvYw3BsRzGFXGVcAsLnMnWZ4
-	8O478Tk4D3ZRsUbspTVqRMNx8qDCxx2UFXOgOqQLVDMervPxyd2AzRkpe3RExuPZ6k01tYdPer6
-	87ev9MM6l4P1ER1ZvV0P/vDRX/DbGjP5U1uw6qLKawevLac+IkzHNNN2gkFHkPbes2o02fqUJU9
-	+s6pTNasuhXuK6UX9XTSJG6tyRGsdPVFLWbYPeWVLaUi/wRHIGh19IN26e1ACsCqa6SerWKwl/1
-	sMg/YEGZ+5/SG1ihiP74ZskeCsHPCm9K/YzCDNFBXjeuR+ubZkj64AhMvPZkmJze0+kU1d/I7v8
-	NuCzZnbDul/ULg0R6kS47ALa8gKCLJQ==
-X-Received: by 2002:a17:907:6d22:b0:c2e:4b90:3c56 with SMTP id a640c23a62f3a-c46bddb306amr1127968566b.13.1793111349505;
-        Tue, 27 Oct 2026 07:29:09 -0700 (PDT)
-Received: from [10.54.182.141] (82-132-213-26.dab.02.net. [82.132.213.26])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c49a50c434asm151877066b.5.2026.10.27.07.29.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Oct 2026 07:29:08 -0700 (PDT)
-Message-ID: <08e772c7-5e32-4e0c-b161-49ba970c6595@gmail.com>
-Date: Tue, 27 Oct 2026 14:28:59 +0000
+        bh=eMqLobo7VkmEKx6VZ6nPHT3O1QdYzqTpUBW8kb9AOmk=;
+        b=lBYlDAfDbsEx4MPHQA6oSCat7+EpoM+GADrgtWV96kJxF6J9cssMNvYJ4zqqJA7lov
+         4CmAKwuOBeyqP8wbgLXMq2Cz5pWAB6EHgXaRzy+GA+YBmWS8I16eGUFn+9Bj57fh0348
+         QQYjup87UR0xb7S8r9zXN3RQg0L+3WZ+26TIPo8p8Ur1it0jGQxwgjendOxQ+8SxbEYE
+         wm2VqMFENF154i8GGL4adkY2VKUKufJB2+78MOkObIGbevxveRwdwgQe2pBjAppLTESI
+         IGdpGFk9t7iziU9OWMMr/RSHQPtuiTcrV+rKrKr+U3Uw+COgiEI4ekMT+wvQaqp1zML1
+         vdnQ==
+X-Gm-Message-State: AFq9FYIMVJzyuKF8gkebKU5spaik93m2akquBstAWuJt+OYZIQkaHcvb
+	Axwnms6y9tW8CXCn56sdf5BHqoKb+A/bZrbSm3N18TaqFyAv+av0RiLKjhqbsp2B
+X-Gm-Gg: AYBFou2jfCDFWVCNnJvQ0dv+t1SconbJyDrDFPjjot//oztlM0rqYXtLNoiTG3MphPg
+	6O2BHk1MKNv/HlaBY31Twb3N6GPjM6A2ZKK9tkhOhS00U//QxSq4mOzTpD9qfGqumFTzZLEHUxq
+	Y1sLTGErf256n6fM3PovuVaIROI7CXY8ciXhUw5dR9JAvdaQVLvZK93cT+ePqoQQEjwGENucTT6
+	F4MSU3/xCR5EpDiiraBu0qfHCwfsNnCYgH1nOHFFJwKqv6a7M+pvp6mBJNOJwbb3Z85Q06SpYPm
+	Wg9vmObH9HNj1CJjMrC7/dlodBQ/7Y6OtyieOobAivERNs8w8xGV37C/alcfq3LFKkhk7O9JLmw
+	QpOBZWihm7Xd5AwevbCPj8C/Ay0JJ/Ds+BD3pwlMfNnHEGPUcik/AULygUIymPRWqVI6uQvOSjn
+	MVzNuaSD5rCoGpahgeWLousd1yMEnhJ261m8Ki9uSlitdQ7QIuBMvfDzPcXJ8hOQRxtQFMiCbnh
+	m6QUsjoilkKV/Yhu7OSpzo9wPpas3kgsQ/Y5CWMWpMoOiNleXtMMD8XrewU96JlhSGz0Q==
+X-Received: by 2002:a05:701b:2902:b0:174:cf1b:235c with SMTP id a92af1059eb24-1993f6d2389mr13877306c88.43.1793112240015;
+        Tue, 27 Oct 2026 07:44:00 -0700 (PDT)
+Received: from yocto.amd.com ([165.204.156.251])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-19894d5a10csm33804482c88.1.2026.10.27.07.43.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Oct 2026 07:43:59 -0700 (PDT)
+From: paritoshpotukuchi@gmail.com
+To: linux-nvme@lists.infradead.org
+Cc: justin.tee@broadcom.com,
+	nareshgottumukkala83@gmail.com,
+	paul.ely@broadcom.com,
+	hch@lst.de,
+	sagi@grimberg.me,
+	kch@nvidia.com,
+	linux-kernel@vger.kernel.org,
+	syzbot+df0058a8d0bdce7c4059@syzkaller.appspotmail.com,
+	Paritosh Potukuchi <paritosh.potukuchi@amd.com>,
+	Ravi Kumar <ravi.kumar3@amd.com>
+Subject: [PATCH] nvmet-fc: extend critical section in nvmet_fc_remove_port()
+Date: Tue, 27 Oct 2026 14:43:04 +0000
+Message-ID: <20261027144304.1177203-1-paritoshpotukuchi@gmail.com>
+X-Mailer: git-send-email 2.55.0
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] block, nvme: minor fixes to dma-buf support
-To: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, axboe@kernel.dk
-Cc: hch@lst.de, Keith Busch <kbusch@kernel.org>
-References: <20261021184658.644645-1-kbusch@meta.com>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <20261021184658.644645-1-kbusch@meta.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261027_072912_339821_5EA08D3F 
-X-CRM114-Status: GOOD (  14.56  )
+X-CRM114-CacheID: sfid-20261027_074401_915702_0FF5C022 
+X-CRM114-Status: GOOD (  11.27  )
 X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -104,42 +103,76 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=4.0.1
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On 10/21/26 19:46, Keith Busch wrote:
-> From: Keith Busch <kbusch@kernel.org>
-> 
-> Just a couple minor fixes. I wish I could say I caught the first one
-> myself, but no, I prompted an LLM to look at it.
-> 
-> I am assuming changing the bi_offset type to accomodate large offsets
-> isn't acceptable as the bvec_iter's size appears to be packed to be
-> small. I think there's a path to accepting larger offsets through
-> bi_idx, but the patch proposed here is a safer quick fix.
+From: Paritosh Potukuchi <paritosh.potukuchi@amd.com>
 
-It'd be curious to hear how you want to pack it. On the same note,
-we'll eventually also need support vectored readv/writev and very
-likely have the same problem. E.g. we'd either need to keep map in
-another field (perhaps in bio only), or demormalising data and
-keeping an array of {map,off,len}.
+Currently in nvmet_fc_remove_port the critical section starts from
+the call to spin_lock_irqsave(&nvmet_fc_tgtlock, flags) and ends
+before the call to nvmet_fc_portentry_unbind(pe).
 
+nvmet_fc_portentry_unbind takes a spin_lock_irqsave on nvmet_fc_tgtlock
+again, to execute its critical section. The problem here is that,
+releasing the lock before calling nvmet_fc_portentry_unbind, and then
+retaking the lock inside it, creates room for other threads to possibly
+enter the critical section.
 
-> Keith Busch (2):
->    block: reject dma-bufs larger than 4GiB
->    nvme-pci: detach dma-bufs only on removal
-> 
->   block/fops.c            | 4 ++++
->   drivers/nvme/host/pci.c | 4 +---
->   2 files changed, 5 insertions(+), 3 deletions(-)
-> 
+The solution proposed is to extend the critical section inside
+nvmet_fc_remove_port, till the point where tgtport is being used.
 
+Reported-by: syzbot+df0058a8d0bdce7c4059@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=df0058a8d0bdce7c4059
+Co-developed-by: Ravi Kumar <ravi.kumar3@amd.com>
+Signed-off-by: Ravi Kumar <ravi.kumar3@amd.com>
+Signed-off-by: Paritosh Potukuchi <paritosh.potukuchi@amd.com>
+---
+ drivers/nvme/target/fc.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index 1b557775e033..96d8aafb9f56 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -1271,15 +1271,11 @@ nvmet_fc_portentry_bind(struct nvmet_fc_tgtport *tgtport,
+ static void
+ nvmet_fc_portentry_unbind(struct nvmet_fc_port_entry *pe)
+ {
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&nvmet_fc_tgtlock, flags);
+ 	if (pe->tgtport) {
+ 		nvmet_fc_tgtport_put(pe->tgtport);
+ 		pe->tgtport->pe = NULL;
+ 	}
+ 	list_del(&pe->pe_list);
+-	spin_unlock_irqrestore(&nvmet_fc_tgtlock, flags);
+ }
+ 
+ /*
+@@ -2922,7 +2918,6 @@ nvmet_fc_remove_port(struct nvmet_port *port)
+ 	spin_lock_irqsave(&nvmet_fc_tgtlock, flags);
+ 	if (pe->tgtport && nvmet_fc_tgtport_get(pe->tgtport))
+ 		tgtport = pe->tgtport;
+-	spin_unlock_irqrestore(&nvmet_fc_tgtlock, flags);
+ 
+ 	nvmet_fc_portentry_unbind(pe);
+ 
+@@ -2932,6 +2927,8 @@ nvmet_fc_remove_port(struct nvmet_port *port)
+ 		nvmet_fc_tgtport_put(tgtport);
+ 	}
+ 
++	spin_unlock_irqrestore(&nvmet_fc_tgtlock, flags);
++
+ 	kfree(pe);
+ }
+ 
 -- 
-Pavel Begunkov
+2.55.0
 
 
