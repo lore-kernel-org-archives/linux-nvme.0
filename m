@@ -2,62 +2,82 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9751A606AD9C
-	for <linux-nvme@archiver.kernel.org>; Tue, 27 Oct 2026 07:37:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBED0606A338
+	for <linux-nvme@archiver.kernel.org>; Tue, 27 Oct 2026 09:36:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=wZPvZJVe;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=e4vJb+AX
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=tq6yLZUg;
+	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=e3JbQsS+
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Unsubscribe-Post:List-Owner;
-	bh=zT69dOKI+tL8sMiSURAMyeJawlF+atv7ZSY3yp65Kgo=; b=wZPvZJVeNoO89diYpV+otxm7yk
-	NlQQaUWpWnyneXvfhJKtJWBEcu0hj8VuWpp/4WwlB78K4W05L2G9YEpWs8KvujSdONBRN0nUiLEsj
-	XV/mbKnuobkHIBcW/Fu9UuApthLe3TL1RwlLUPvtYYiH1ic6bSFh5cwJ9ixheyELyXsmD+LQVaEaQ
-	td4sK/FZDWNJvBKktf5AhMt54Z39a6uCalzYMgNYGdoTOMVdu3XhOHuYzDxq+tdbAcAFS7FYj3xU5
-	vnGkJBlw3cfUI4ZRTQ/Jbhc8FhkmWKvqLDWxrAfrUu22AKO1n1zJzBxYg+YrjDJPtpSc+0D2imR9V
-	K1qmGGSg==;
+	MIME-Version:References:In-Reply-To:Date:Subject:Cc:To:From:Message-ID:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
+	List-Owner; bh=N/K74U+TcO0PjJV1p98N1BNxE+fTpOOkIZK7IOlKS3g=; b=tq6yLZUg7hHJEe
+	Zx6Fa5osYCWjY0D1YyFuUF2P0SCS0966i2Ulb+/x/TjqEudqaLvY9AGS1joe2FFsPQf0+9xsID23G
+	zf9UqN4G5GqlYSPPzO9KKSoA+puyewwfW4ov+rA84E7g2/KvVgRRQAsuKwUCYLPrP+dBm/MOpZV2N
+	3whoW34HzgA6DxQnudo0XOCp3w9hGNXoHDCoDJjZGieAqqW65qR4ShWFKr6/MquV+TxfSwBVxmn5z
+	hgXM2IAl129bx7MbDgW29RKOLXye5APx/DATtnxlHIeVxwHudl3gK0SFApMwcNW+bFHLXHeMiZObS
+	Or7BeJFv0ZpUHnlE9RZA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xLbkY-00000003uYH-1IY1;
-	Tue, 27 Oct 2026 07:37:38 +0000
-Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133])
+	id 1xLdb7-00000004B16-3voh;
+	Tue, 27 Oct 2026 09:36:01 +0000
+Received: from out203-205-221-242.mail.qq.com ([203.205.221.242])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xLbkU-00000003uWy-1phg
+	id 1xLdb5-00000004AzM-22yy
 	for linux-nvme@lists.infradead.org;
-	Tue, 27 Oct 2026 07:37:37 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1793086651; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=zT69dOKI+tL8sMiSURAMyeJawlF+atv7ZSY3yp65Kgo=;
-	b=e4vJb+AXU4NLhKmx5sGE79TUxNsBjuMVhtPqBd4ZvlK6mKVDwAZQJfPIHLesPYMz9Aj3jlq2+9ZGwh29CTF9dzr5eP3zRDPKoXauGrRzMfVhTFDjGoykB9EPbcDBxFfgZj2CIF94DTCRnLpqSPniOIAaDU4cto1tMmggfsj/MYo=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R901e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XDd1wbw_1793086650;
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XDd1wbw_1793086650 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Tue, 27 Oct 2026 15:37:30 +0800
-From: Guixin Liu <kanie@linux.alibaba.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Nilay Shroff <nilay@linux.ibm.com>,
-	Daniel Wagner <dwagner@suse.de>,
-	Hannes Reinecke <hare@suse.de>
-Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH v2] nvme-tcp: Validate the queue state under the queue lock in the address attribute
-Date: Tue, 27 Oct 2026 15:37:25 +0800
-Message-ID: <20261027073725.2292265-1-kanie@linux.alibaba.com>
-X-Mailer: git-send-email 2.43.7
+	Tue, 27 Oct 2026 09:36:01 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1793093756; bh=N/K74U+TcO0PjJV1p98N1BNxE+fTpOOkIZK7IOlKS3g=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=e3JbQsS+8L3IApcXOQUkHaSGOE8UtSPCS8v+G4LH2GO5tfD6A4yhBVnL5xLgVxV+k
+	 22TTLddZLQ2/6S/CikvI8byFzvHuFgJ4c6ia0bTd0QtUZNF8j2ceLtliJXP8bYbdV0
+	 UFXEfmDNwklh5GQS8ftttv2MMn9Fvap6eTlVkrhA=
+Received: from kernel-lab.tail5e91bb.ts.net ([2409:8950:57d:63:2e7f:4b13:c1e3:e391])
+	by newxmesmtplogicsvrszc50-0.qq.com (NewEsmtp) with SMTP
+	id 8F4896E6; Tue, 27 Oct 2026 17:35:52 +0800
+X-QQ-mid: xmsmtpt1793093754t879s3i95
+Message-ID: <tencent_39AF670751CA25EA49D4BFD8E76C509F5506@qq.com>
+X-QQ-XMAILINFO: MDbayGdXPuoepF3YR80vY2w44zeOLqCaKntDJUnysCKaH1TnYpA1tTnQ7IMlN6
+	 Ptq4eX0pUQ6fLbwaNtVBkYKr2fwN6/Wlyy4+n5MSUOvUm1nBG/9sK44kO6LEGrga/Wwrxra1y1aF
+	 S1n4NWj4CkN5IhEoveDqyjNgD9pSdNrvRK4tz+c7N4kQUr1W5Tr0jah2Xd3FGHItJrUfoQk5+xX+
+	 9bnPMw93ErK+SmHbKT9hDSGvZT1beFjWmzWOCSUexphJO1HR98F46JIY0I5qWT5iCo0HJ3GCwevm
+	 0RAm8LZAr/5FVc2wDvGb/paqCmOSzepZjLbZTLyI73H3omHlaEg+/B7Ofwsb8jft0AEyFXwCQmhi
+	 OeuPWRooCdzv7ijZz3rDkjRZ0niWjie55fXM0rnkFU1XTTwFkMKDfJOSE+3bGFMC7Hw2wAJgdCQY
+	 3HHInqZ77D/z+IvEIDBYT7g/2aZuwoPMapA5ZmExl+Ktl+Ytax5+oa+kdnrVstN9/vCSULaspmNI
+	 jmZmaExPicKzsB17xWyB+6Yg9cLAkgIh5gHPL6rGEWAnoPXpOHcnnM6Ea9UdIc/WsW7FAVwhvQn/
+	 HHKDY746yBbI0WNbW5TThgrolykpyrh7oau7wExJihA0RLN/LjTweYeu3yizmk74/BqZZZPmlp+L
+	 ZVvm4ZuIpX2Zecz1hf/6BOVNmIbMJ/w9tRm+SYQY573vviv8zEju6XxEdm+dcGpwYMDa7GYPXP2h
+	 zshUbPkTLMK3BbjQIm9AsETO+THjysPdXWzRTg0PoreQ9UoZqQBcBuyGGZIjogl1tB8INsFvdTQq
+	 DgEl0VSTT2XjEa+AMOe+AyzwyNXqVDRz/lBjFybio7Z1m7bkc3rYzTVk/c7Nqz0KrSxy6Qk2Nm04
+	 SAJrLLwNAfaLAGqJkaTIkKTk2JnXg6LJxJkjSEpuyMB/PUDqwh+yFfiHQ+4UceZpnEO0c9zj5hsu
+	 DT9YwRRZksMV3ZOjSPTSf6DcPLLuktYais9qZUkDVu6kPYTIhxv3+LHiBofB39Lmk6Dt+iakhq1q
+	 y+ATLo9QKn9oHL8tWej4sDe8X/MlBoiUedPE25xYYwG+Pyn+Pshk90R7Rsq/Uba8Nt13eNRPiOxB
+	 bYx7sDdBJCIcn0Xwk=
+X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
+From: Yingjie Wang <1075151112@qq.com>
+To: linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me,
+	kch@nvidia.com,
+	hare@suse.de,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] nvmet-tcp: validate the TLS handshake timeout
+Date: Tue, 27 Oct 2026 17:35:51 +0800
+X-OQ-MSGID: <20261027093552.3934437-2-1075151112@qq.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261027093552.3934437-1-1075151112@qq.com>
+References: <20261027093552.3934437-1-1075151112@qq.com>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261027_003734_988496_62F1ECD0 
-X-CRM114-Status: GOOD (  20.74  )
-X-Spam-Score: -17.6 (-----------------)
+X-CRM114-CacheID: sfid-20261027_023559_844578_FD563760 
+X-CRM114-Status: GOOD (  14.09  )
+X-Spam-Score: -1.9 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,163 +88,104 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-26.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
-	version=4.0.1
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Reading the "address" sysfs attribute calls kernel_getsockname() on the
-admin queue socket, which can race with the queue teardown during
-connection error recovery: a reader can observe NVME_TCP_Q_LIVE set,
-then block on the queue lock while nvme_tcp_free_queue() releases the
-socket and clears queue->sock without holding the lock.  Once the
-reader acquires the lock it dereferences the NULL socket pointer.
+tls_handshake_timeout is writable but stored as a signed int. Multiplying
+the value by MSEC_PER_SEC and HZ therefore uses signed arithmetic.
 
-Commit 76d54bf20cdc ("nvme-tcp: don't access released socket during
-error recovery") had the queue liveness check inside the lock.
-Commit 782373ba2766 ("nvme: tcp: avoid race between queue_lock lock
-and destroy") moved it back out because the lock itself is destroyed
-in nvme_tcp_free_queue(), so a reader arriving late trips
-mutex_destroy().
+With HZ=1000, setting it to 2147484 overflows both multiplications. If
+the handshake request is accepted and remains pending, the timer wheel
+treats the jiffies delay as already expired and queues the timeout work
+on its next advance, while the handshake agent was given about 24.9 days.
+Negative values such as -1 cause the same immediate kernel-side timeout.
 
-Check the queue liveness inside the queue lock, and clear queue->sock
-under the same lock.  The teardown clears NVME_TCP_Q_LIVE under the
-lock well before the socket is released, so a reader either sees the
-bit cleared or a socket that cannot be released while it holds the
-lock.  To also close the lock lifetime race, the queue locks are now
-owned by the controller: they are initialized with the queue array and
-only destroyed when the controller is freed, which cannot happen while
-a sysfs attribute read is still in progress.  The opts-derived queue
-count is used for both initialization and destruction, as reconnects
-may shrink ctrl->queue_count.
+Store the parameter as an unsigned int and reject values that cannot be
+represented both by tls_handshake_args::ta_timeout_ms and by a safe
+jiffies delay. Take one snapshot so a concurrent parameter update cannot
+give the handshake agent and delayed work different timeouts.
 
-Fixes: 782373ba2766 ("nvme: tcp: avoid race between queue_lock lock and destroy")
+Negative and oversized values now fail with -EINVAL. Keep zero valid,
+preserving the existing immediate-timeout behavior.
+
+Fixes: 675b453e0241 ("nvmet-tcp: enable TLS handshake upcall")
 Cc: stable@vger.kernel.org
-Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+Signed-off-by: Yingjie Wang <1075151112@qq.com>
 ---
- drivers/nvme/host/tcp.c | 46 +++++++++++++++++++++++++++++------------
- 1 file changed, 33 insertions(+), 13 deletions(-)
+ drivers/nvme/target/tcp.c | 26 ++++++++++++++++++++++----
+ 1 file changed, 22 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index a15ed49871ea..6c8a569d5c48 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1514,14 +1514,21 @@ static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
- 	 * nvme_reset_ctrl_work(), queue teardown is immediately followed by
- 	 * re-allocation. fput() defers socket cleanup to delayed_fput_work
- 	 * in workqueue context, which can race with new queue setup.
-+	 *
-+	 * Clear queue->sock under the queue lock so that a sysfs reader in
-+	 * nvme_tcp_get_address() either observes the NVME_TCP_Q_LIVE bit
-+	 * cleared or a still valid socket.  The queue lock itself is owned
-+	 * by the controller and only destroyed when the controller is
-+	 * freed, so readers blocked on it cannot race its teardown.
- 	 */
-+	mutex_lock(&queue->queue_lock);
- 	__fput_sync(queue->sock->file);
- 	queue->sock = NULL;
-+	mutex_unlock(&queue->queue_lock);
- 	memalloc_noio_restore(noio_flag);
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index e598101752620..7937377436d3b 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -6,6 +6,7 @@
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ #include <linux/module.h>
+ #include <linux/init.h>
++#include <linux/jiffies.h>
+ #include <linux/slab.h>
+ #include <linux/crc32c.h>
+ #include <linux/err.h>
+@@ -76,8 +77,24 @@ MODULE_PARM_DESC(idle_poll_period_usecs,
+ /*
+  * TLS handshake timeout
+  */
+-static int tls_handshake_timeout = 10;
+-module_param(tls_handshake_timeout, int, 0644);
++static unsigned int tls_handshake_timeout = 10;
++
++static int tls_handshake_timeout_set(const char *val,
++				     const struct kernel_param *kp)
++{
++	return param_set_uint_minmax(val, kp, 0,
++		min_t(unsigned long, UINT_MAX / MSEC_PER_SEC,
++		      MAX_JIFFY_OFFSET / HZ));
++}
++
++static const struct kernel_param_ops tls_handshake_timeout_ops = {
++	.set = tls_handshake_timeout_set,
++	.get = param_get_uint,
++};
++
++module_param_cb(tls_handshake_timeout, &tls_handshake_timeout_ops,
++		&tls_handshake_timeout, 0644);
++__MODULE_PARM_TYPE(tls_handshake_timeout, "uint");
+ MODULE_PARM_DESC(tls_handshake_timeout,
+ 		 "nvme TLS handshake timeout in seconds (default 10)");
+ #endif
+@@ -1904,6 +1921,7 @@ static int nvmet_tcp_tls_handshake(struct nvmet_tcp_queue *queue)
+ {
+ 	int ret = -EOPNOTSUPP;
+ 	struct tls_handshake_args args;
++	unsigned int timeout = READ_ONCE(tls_handshake_timeout);
  
- 	kfree(queue->pdu);
- 	mutex_destroy(&queue->send_mutex);
--	mutex_destroy(&queue->queue_lock);
- 	mutex_destroy(&queue->pf_cache_lock);
- }
+ 	if (queue->state != NVMET_TCP_Q_TLS_HANDSHAKE) {
+ 		pr_warn("cannot start TLS in state %d\n", queue->state);
+@@ -1917,7 +1935,7 @@ static int nvmet_tcp_tls_handshake(struct nvmet_tcp_queue *queue)
+ 	args.ta_done = nvmet_tcp_tls_handshake_done;
+ 	args.ta_data = queue;
+ 	args.ta_keyring = key_serial(queue->port->nport->keyring);
+-	args.ta_timeout_ms = tls_handshake_timeout * 1000;
++	args.ta_timeout_ms = timeout * MSEC_PER_SEC;
  
-@@ -1839,7 +1846,6 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
- 	int ret, rcv_pdu_size;
- 	struct file *sock_file;
- 
--	mutex_init(&queue->queue_lock);
- 	queue->ctrl = ctrl;
- 	init_llist_head(&queue->req_list);
- 	INIT_LIST_HEAD(&queue->send_list);
-@@ -1977,7 +1983,6 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
- 	queue->sock = NULL;
- err_destroy_mutex:
- 	mutex_destroy(&queue->send_mutex);
--	mutex_destroy(&queue->queue_lock);
- 	mutex_destroy(&queue->pf_cache_lock);
+ 	ret = tls_server_hello_psk(&args, GFP_KERNEL);
+ 	if (ret) {
+@@ -1925,7 +1943,7 @@ static int nvmet_tcp_tls_handshake(struct nvmet_tcp_queue *queue)
+ 		pr_err("failed to start TLS, err=%d\n", ret);
+ 	} else {
+ 		queue_delayed_work(nvmet_wq, &queue->tls_handshake_tmo_work,
+-				   tls_handshake_timeout * HZ);
++				   (unsigned long)timeout * HZ);
+ 	}
  	return ret;
  }
-@@ -2627,6 +2632,10 @@ static void nvme_tcp_stop_ctrl(struct nvme_ctrl *ctrl)
- static void nvme_tcp_free_ctrl(struct nvme_ctrl *nctrl)
- {
- 	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
-+	/* the same count used to size and initialize the queue array */
-+	unsigned int nr_queues = nctrl->opts->nr_io_queues +
-+		nctrl->opts->nr_write_queues + nctrl->opts->nr_poll_queues + 1;
-+	unsigned int i;
- 
- 	if (list_empty_careful(&ctrl->list))
- 		goto free_ctrl;
-@@ -2637,6 +2646,8 @@ static void nvme_tcp_free_ctrl(struct nvme_ctrl *nctrl)
- 
- 	nvmf_free_options(nctrl->opts);
- free_ctrl:
-+	for (i = 0; i < nr_queues; i++)
-+		mutex_destroy(&ctrl->queues[i].queue_lock);
- 	kfree(ctrl->queues);
- 	kfree(ctrl);
- }
-@@ -2889,17 +2900,18 @@ static int nvme_tcp_get_address(struct nvme_ctrl *ctrl, char *buf, int size)
- 
- 	len = nvmf_get_address(ctrl, buf, size);
- 
--	if (!test_bit(NVME_TCP_Q_LIVE, &queue->flags))
--		return len;
--
- 	mutex_lock(&queue->queue_lock);
- 
--	ret = kernel_getsockname(queue->sock, (struct sockaddr *)&src_addr);
--	if (ret > 0) {
--		if (len > 0)
--			len--; /* strip trailing newline */
--		len += scnprintf(buf + len, size - len, "%ssrc_addr=%pISc\n",
--				(len) ? "," : "", &src_addr);
-+	if (test_bit(NVME_TCP_Q_LIVE, &queue->flags)) {
-+		ret = kernel_getsockname(queue->sock,
-+				(struct sockaddr *)&src_addr);
-+		if (ret > 0) {
-+			if (len > 0)
-+				len--; /* strip trailing newline */
-+			len += scnprintf(buf + len, size - len,
-+					"%ssrc_addr=%pISc\n",
-+					(len) ? "," : "", &src_addr);
-+		}
- 	}
- 
- 	mutex_unlock(&queue->queue_lock);
-@@ -2965,7 +2977,7 @@ static struct nvme_tcp_ctrl *nvme_tcp_alloc_ctrl(struct device *dev,
- 		struct nvmf_ctrl_options *opts)
- {
- 	struct nvme_tcp_ctrl *ctrl;
--	int ret;
-+	int ret, i;
- 
- 	ctrl = kzalloc_obj(*ctrl);
- 	if (!ctrl)
-@@ -3035,6 +3047,14 @@ static struct nvme_tcp_ctrl *nvme_tcp_alloc_ctrl(struct device *dev,
- 		goto out_free_ctrl;
- 	}
- 
-+	/*
-+	 * The queue locks are owned by the controller, not the queues:
-+	 * they outlive the per-queue connect/disconnect cycles so that
-+	 * sysfs readers can never race their destruction.
-+	 */
-+	for (i = 0; i < ctrl->ctrl.queue_count; i++)
-+		mutex_init(&ctrl->queues[i].queue_lock);
-+
- 	ret = nvme_init_ctrl(&ctrl->ctrl, dev, &nvme_tcp_ctrl_ops, 0);
- 	if (ret)
- 		goto out_kfree_queues;
 -- 
-2.43.7
+2.43.0
 
 
