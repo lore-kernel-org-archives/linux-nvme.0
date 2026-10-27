@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1769B606A31A
-	for <linux-nvme@archiver.kernel.org>; Tue, 27 Oct 2026 00:37:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9A4B606A31A
+	for <linux-nvme@archiver.kernel.org>; Tue, 27 Oct 2026 00:37:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=xralAgVO;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BLuZ3nn0
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=OfjtG/HJ;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oNV8VUI8
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
 	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
@@ -14,45 +14,45 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=AHTg5LrmTRCidQYtcebNbXZ2VNLqeb9B0Tq+ClWe9dw=; b=xralAgVOQh4Ki/DI1c07gMuV8Z
-	aMABmckoqtHMseYXU3Gy/PYPhWCp5jAc9Mev9GIeC7XhiU427yyQojXzmY6rSOWe1hSrm8f2n+eIW
-	qb5YNl/Vl674VpAgSVtlAFksm0cakdn92WMFTADxExbX86GGFMpZKK5FDzKRI3MCMLVUdVHGT4aTL
-	YIxYxcwHQ+3oFhKRV/6bXdIzSPXnwBD7gwN1rYvmOrYmGSsb/cV7ip9RZugtnOx/nVcwUvPmE4cGq
-	ReijiE1HsBmggfqf1Uee14P4iVW5C3nuF8Wq3HD1f8HLzE/VcwZYefaMn4nz3fxaWft8cZQhAIW5P
-	IOy/9tvA==;
+	bh=N0c9VI+Am6An5QUNg2kTvDGpOC+sq/cpQo4/HEPMPyw=; b=OfjtG/HJa2cnFytZOKuxDL9L7I
+	8mjWfRzXsdgCADPztngK+EwNpT30qeXDdZIOwHIfhi0qmPiFOXHnK5b2bvqOiIbuic/v81AK8pLSH
+	rwxznab+xCrRj+fwRKbH2VbTfcqpejEqaw0oXc2acMzzJ3WeqR4AZrFNd3aA4PbA3cVc16YimNq8y
+	Vx4MCkag5PUrX1vgvbnDD0muKFdRd/baLIOIvhZGYXmebVx/lxbKdqDobL9Xjt/nbxIPlBonCRvoZ
+	6oQ5C2lG94bqt1DETqQn3PdA19V9+m9e1or3l0AY2y3qgjawaryJfAkU19cCM4zq/XKWFA0kPLUFv
+	CeTW/3ZA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xLVBe-00000003XZa-0CdH;
-	Tue, 27 Oct 2026 00:37:10 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1xLVBf-00000003XZk-0fW1;
+	Tue, 27 Oct 2026 00:37:11 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xLVBd-00000003XZS-1KFA
+	id 1xLVBd-00000003XZX-3U7Y
 	for linux-nvme@lists.infradead.org;
 	Tue, 27 Oct 2026 00:37:09 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id BC29B42E6D;
-	Tue, 27 Oct 2026 00:37:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 786A41F01825;
-	Tue, 27 Oct 2026 00:37:08 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 5665043AB8;
+	Tue, 27 Oct 2026 00:37:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EB621F01825;
+	Tue, 27 Oct 2026 00:37:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793061428;
-	bh=AHTg5LrmTRCidQYtcebNbXZ2VNLqeb9B0Tq+ClWe9dw=;
+	s=k20260515; t=1793061429;
+	bh=N0c9VI+Am6An5QUNg2kTvDGpOC+sq/cpQo4/HEPMPyw=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=BLuZ3nn0g/iYJ573uSCW+rRS+mEc52CxpRJ4jbdPcibJ3ZcCWhtp/8qjtTBAKKLq7
-	 vIaEuWfRd7VbALKEGJIbLzx4XmnnFsY6KKieBZFMAmqUd9MZzL35vlq/Blcyljax54
-	 hHXs5063v+gPJo+Ql7vWptAcXdNGbvxD/SDqThENv7iB8W64smrGFQ3nosl+42JDz+
-	 PuJHijIitEy4+o4DDbW5X/eRATVxx5BPLt3L52gOJVso77AsY793lkbPb5w05IP9u/
-	 lEA8BqKFQfNuSQSv680GoLam6dtM8lEJU7BZHnwM+zaprzGKIJr90iFSSq1Fsm5tzC
-	 psQ64ISuiLVnQ==
-Message-ID: <sashiko-outbox-185958@kernel.org>
+	b=oNV8VUI8ZW0TAplXHt6ssr1bSThwui8ARYG08PwIP7Q3AKW+ETbZeB8xVVVsq5upN
+	 JxDwh9V+OAYnuMXMgD0va18Ajm9hbpKra3HBoJh+s87vO7gso7pbGrOehHz5PXm/03
+	 8/JQhRlBMJbyA+yC+THWnJMZnQCeypwWqSiqcM+idHRTnhxu40cLjCEt6V/Jy++/QP
+	 MkIlATUYKm3Z0xA6l4wzArbtuhkKjD3MW3neG8mkyjBYRxQ9R8UloMXMwr60qHT9ay
+	 wI2yxmmT4rUbz8iD1oQI/zjEAa/R+LtynP0kh88ujpqZK/XKK8HyZACVDoyqZxwkBE
+	 k3xNW/lOaknWQ==
+Message-ID: <sashiko-outbox-185959@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RFC net-next 3/5] tls: update the RX key when a
- KeyUpdate is received
+Subject: Re: [PATCH RFC net-next 4/5] tls: send a KeyUpdate at the record
+ limit and on request
 To: "Martin Belanger" <martin.nvme.dev@gmail.com>
 Cc: linux-nvme@lists.infradead.org
-In-Reply-To: <20261025-keyupdate-rfc-v1-3-60b7756eccbd@gmail.com>
+In-Reply-To: <20261025-keyupdate-rfc-v1-4-60b7756eccbd@gmail.com>
 References: <20261025-keyupdate-rfc-v1-0-60b7756eccbd@gmail.com>
- <20261025-keyupdate-rfc-v1-3-60b7756eccbd@gmail.com>
+ <20261025-keyupdate-rfc-v1-4-60b7756eccbd@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Date: Tue, 27 Oct 2026 00:37:08 +0000
@@ -75,163 +75,251 @@ X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 X-Archived-By: <archiver.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+Thank you for your contribution! Sashiko AI review found 4 potential issue(=
 s) to consider:
-- [High] tls: memory leak of decrypted skb when tls_keyupdate_rx() fails
-- [Medium] tls: spurious saved_data_ready() call during in-kernel RX rekey
+- [Medium] tls: missing MSG_NOSIGNAL in tls_tx_key_update() causes unexpect=
+ed SIGPIPE
+- [Medium] tls: stale KeyUpdate state after manual rekey in do_tls_setsocko=
+pt_conf()
+- [Medium] tls: swallowed TCP send errors and cleared sk_err in tls_tx_key_=
+update()
+- [Medium] tls: lock_sock() dropped in tls_tx_key_update() races with setso=
+ckopt and rx
 --
 
-commit 52ccace8026bcb8f3e4f14ffabc2a54f8cb3955e
+commit 56c21ecdb1fcce3eea994287aff8609b92227c81
 Author: Martin Belanger <martin.belanger@dell.com>
 
-tls: update the RX key when a KeyUpdate is received
+tls: send a KeyUpdate at the record limit and on request
 
-This commit updates the kTLS receive path so sockets with a registered RX
-traffic secret automatically derive and install the next key upon decrypting
-a TLS 1.3 KeyUpdate record. The consumed KeyUpdate record is not passed to
-the caller, and invalid or excessive KeyUpdate messages abort the connectio=
-n.
+This commit sends a TLS 1.3 KeyUpdate before the next record when the TX key
+reaches 2^24 records or when the peer has requested a KeyUpdate. It also ad=
+ds
+the TLS_TX_KEY_UPDATE socket option to trigger an immediate KeyUpdate and
+optionally request one from the peer.
 
 > diff --git a/net/tls/tls_keyupdate.c b/net/tls/tls_keyupdate.c
-> new file mode 100644
-> index 0000000000000..543bf57599c7b
-> --- /dev/null
+> index 543bf57599c7b..851d5b54b336d 100644
+> --- a/net/tls/tls_keyupdate.c
 > +++ b/net/tls/tls_keyupdate.c
-
-[ ... ]
-
-> +int tls_keyupdate_rekey(struct sock *sk, int tx)
-> +{
-> +	struct tls_context *ctx =3D tls_get_ctx(sk);
-> +	struct tls_traffic_secret *secret;
-> +	const struct tls_cipher_desc *cipher_desc;
-> +	u8 iv[TLS_MAX_SALT_SIZE + TLS_MAX_IV_SIZE];
-> +	u8 next[TLS_MAX_TRAFFIC_SECRET_SIZE];
-> +	union tls_crypto_context tmp =3D {};
-> +	struct tls_crypto_info *info =3D &tmp.info;
-> +	int rc;
+> @@ -146,5 +146,10 @@ int tls_keyupdate_rx(struct sock *sk, struct sk_buff=
+ *skb)
+>  	}
+>  	TLS_INC_STATS(sock_net(sk), LINUX_MIB_TLSRXREKEYOK);
+> =20
+> +	/* Any KeyUpdate from the peer answers our update_requested */
+> +	ctx->tx_key_update_asked =3D false;
+> +	if (msg[4] =3D=3D TLS_KEY_UPDATE_REQUESTED)
+> +		ctx->tx_key_update_reply =3D true;
 > +
-> +	secret =3D tx ? &ctx->tx_secret : &ctx->rx_secret;
-> +	cipher_desc =3D get_cipher_desc(ctx->prot_info.cipher_type);
-> +	if (!cipher_desc || !secret->len ||
-> +	    cipher_desc->salt + cipher_desc->iv > sizeof(iv))
-> +		return -EINVAL;
-> +
-> +	/* version and cipher_type; the rest of tmp stays zero */
-> +	*info =3D tx ? ctx->crypto_send.info : ctx->crypto_recv.info;
-> +
-> +	rc =3D tls_hkdf_expand_label(secret->data, secret->len, "traffic upd",
-> +				   next, secret->len);
-> +	if (rc)
-> +		goto out;
-> +
-> +	rc =3D tls_hkdf_expand_label(next, secret->len, "key",
-> +				   crypto_info_key(info, cipher_desc),
-> +				   cipher_desc->key);
-> +	if (rc)
-> +		goto out;
-> +
-> +	rc =3D tls_hkdf_expand_label(next, secret->len, "iv", iv,
-> +				   cipher_desc->salt + cipher_desc->iv);
-> +	if (rc)
-> +		goto out;
-> +
-> +	memcpy(crypto_info_salt(info, cipher_desc), iv, cipher_desc->salt);
-> +	memcpy(crypto_info_iv(info, cipher_desc), iv + cipher_desc->salt,
-> +	       cipher_desc->iv);
-> +
-> +	rc =3D tls_set_sw_offload(sk, tx, info);
-> +	if (rc)
-> +		goto out;
+>  	return 0;
+>  }
 
 [Severity: Medium]
-When tls_keyupdate_rekey() is called on the RX path (tx =3D=3D 0) via:
+What happens to ctx->tx_key_update_asked and ctx->tx_key_update_reply if
+userspace later performs a manual rekey via setsockopt(TLS_TX) or
+setsockopt(TLS_RX)?
 
-  tls_rx_one_record()
-    -> tls_check_pending_rekey()
-      -> tls_keyupdate_rx()
-        -> tls_keyupdate_rekey()
-          -> tls_set_sw_offload()
-            -> tls_finish_key_update()
+In net/tls/tls_main.c, do_tls_setsockopt_conf() clears the registered
+secrets when updating an existing key:
 
-tls_finish_key_update() unconditionally invokes ctx->saved_data_ready(sk):
+	if (update) {
+		/* The registered secret no longer matches the key. The RX
+		 * secret also needs the TX one, see do_tls_setsockopt_secret().
+		 */
+		if (tx)
+			memzero_explicit(&ctx->tx_secret,
+					 sizeof(ctx->tx_secret));
+		memzero_explicit(&ctx->rx_secret, sizeof(ctx->rx_secret));
+		return 0;
+	}
 
-  static void tls_finish_key_update(struct sock *sk, struct tls_context *tl=
-s_ctx)
-  {
-          struct tls_sw_context_rx *ctx =3D tls_ctx->priv_ctx_rx;
+If userspace calls setsockopt(TLS_TX_KEY_UPDATE) with request =3D 1 (setting
+ctx->tx_key_update_asked =3D true) and then manually rekeys via TLS_TX or
+TLS_RX, ctx->rx_secret is zeroed so the peer's KeyUpdate is handled in
+userspace rather than tls_keyupdate_rx(). If userspace subsequently registe=
+rs
+new traffic secrets, ctx->tx_key_update_asked remains true and future
+TLS_TX_KEY_UPDATE requests with value =3D 1 will permanently fail with -EBU=
+SY
+in tls_sw_key_update(). Similarly, a stale ctx->tx_key_update_reply =3D true
+across a manual TX rekey and secret registration would cause the next
+tls_sw_sendmsg() to emit an unintended extra KeyUpdate.
 
-          WRITE_ONCE(ctx->key_update_pending, false);
-          /* wake-up pre-existing poll() */
-          ctx->saved_data_ready(sk);
-  }
+Should do_tls_setsockopt_conf() also clear ctx->tx_key_update_asked (and
+ctx->tx_key_update_reply when tx is true)?
 
-In this in-kernel RX rekey path, ctx->key_update_pending was never set to
-true, and tls_rx_rec_done(ctx) has not been called yet by the caller
-(tls_sw_recvmsg(), tls_sw_splice_read(), or tls_sw_read_sock()), so
-ctx->strp.msg_ready still refers to the unconsumed KeyUpdate record.
-
-Won't calling ctx->saved_data_ready(sk) here cause concurrent pollers runni=
-ng
-tls_sk_poll() to observe tls_strp_msg_ready(ctx) =3D=3D true and falsely re=
-port
-EPOLLIN | EPOLLRDNORM when no application data record follows, as well as
-schedule spurious receive work in kernel consumers like nvme-tcp and sunrpc
-that commit 22f8bf8808dc ("tls: Suppress spurious saved_data_ready on all
-receive paths") aimed to avoid?
+> diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
+> index a314fa638dc36..4acedddfb01e8 100644
+> --- a/net/tls/tls_sw.c
+> +++ b/net/tls/tls_sw.c
 
 [ ... ]
 
-> diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
-> index 312e51270f293..a314fa638dc36 100644
-> --- a/net/tls/tls_sw.c
-> +++ b/net/tls/tls_sw.c
-> @@ -1551,15 +1551,26 @@ static int tls_check_pending_rekey(struct sock *s=
-k, struct tls_context *ctx,
->  	if (hs_type =3D=3D TLS_HANDSHAKE_KEYUPDATE) {
->  		struct tls_sw_context_rx *rx_ctx =3D ctx->priv_ctx_rx;
+> @@ -1005,6 +1006,150 @@ static int tls_sw_sendmsg_locked(struct sock *sk,=
+ struct msghdr *msg,
+>  	return copied > 0 ? copied : ret;
+>  }
 > =20
-> -		WRITE_ONCE(rx_ctx->key_update_pending, true);
->  		TLS_INC_STATS(sock_net(sk), LINUX_MIB_TLSRXREKEYRECEIVED);
+> +/* RFC 9846 section 5.5 allows 2^24.5 full-size records per AES-GCM key.
+> + * Send the KeyUpdate a little earlier.
+> + */
+> +#define TLS_KEYUPDATE_TX_RECORDS	BIT_ULL(24)
 > +
-> +		if (ctx->rx_secret.len) {
-> +			err =3D tls_keyupdate_rx(sk, skb);
-> +			if (err) {
-> +				tls_err_abort(sk, err);
-> +				return err;
-> +			}
-> +			return 1;
-> +		}
+> +/* Section 4.7.3: the epoch must not exceed 2^48-1. The application
+> + * traffic secrets start at epoch 3.
+> + */
+> +#define TLS_KEYUPDATE_MAX		(BIT_ULL(48) - 4)
+> +
+> +/* Send a KeyUpdate with the current key, then install the next key.
+> + * Called with tx_lock held and the socket locked.
+> + */
+> +static int tls_tx_key_update(struct sock *sk, u8 request, int flags)
+> +{
+> +	u8 body[TLS_KEYUPDATE_MSG_SIZE] =3D {
+> +		TLS_HANDSHAKE_KEYUPDATE, 0, 0, 1, request
+> +	};
+> +	struct tls_context *tls_ctx =3D tls_get_ctx(sk);
+> +	struct tls_sw_context_tx *ctx =3D tls_sw_ctx_tx(tls_ctx);
+> +	u8 record_type =3D TLS_RECORD_TYPE_HANDSHAKE;
+> +	u8 buf[CMSG_SPACE(sizeof(record_type))];
+> +	struct msghdr msg =3D {};
+> +	struct cmsghdr *cmsg;
+> +	struct kvec iov;
+> +	int ret;
+> +
+> +	memset(buf, 0, sizeof(buf));
+> +	msg.msg_control =3D buf;
+> +	msg.msg_controllen =3D sizeof(buf);
+> +	msg.msg_flags =3D flags & MSG_DONTWAIT;
 
-[Severity: High]
-Does this error path leak the decrypted skb (darg->skb)?
+[Severity: Medium]
+Could masking msg.msg_flags with only MSG_DONTWAIT here cause unexpected
+SIGPIPE delivery?
 
-In tls_rx_one_record(), tls_decrypt_sw() (or tls_decrypt_device()) has
-already allocated a standalone cleartext skb in darg->skb for the
-TLS_RECORD_TYPE_HANDSHAKE record before calling tls_check_pending_rekey().
+When tls_sw_sendmsg() is called with MSG_NOSIGNAL and a KeyUpdate is due,
+tls_tx_key_update_if_due() passes msg->msg_flags into tls_tx_key_update(),
+which strips MSG_NOSIGNAL before calling tls_sw_sendmsg_locked(). Likewise,
+tls_sw_key_update() called from do_tls_setsockopt_key_update() passes
+flags =3D 0.
 
-When tls_keyupdate_rx() returns a negative errno (for example, due to a
-malformed KeyUpdate message or exceeding TLS_KEYUPDATE_RX_MAX_PER_SEC),
-tls_check_pending_rekey() returns that negative error to tls_rx_one_record()
-without freeing skb.
+If the connection has failed with -EPIPE (for example when SEND_SHUTDOWN is
+set), tls_sw_sendmsg_locked() passes msg.msg_flags to tcp_sendmsg_locked()
+and sk_stream_error():
 
-All three callers of tls_rx_one_record() only call consume_skb(darg.skb) wh=
-en
-err >=3D 0, and jump straight to their exit labels when err < 0:
+net/core/stream.c:sk_stream_error() {
+	if (err =3D=3D -EPIPE)
+		err =3D sock_error(sk) ? : -EPIPE;
+	if (err =3D=3D -EPIPE && !(flags & MSG_NOSIGNAL))
+		send_sig(SIGPIPE, current, 0);
+	return err;
+}
 
-  err =3D tls_rx_one_record(sk, msg, &darg);
-  if (err < 0)
-          goto recv_end; /* or splice_read_end / read_sock_end */
-  if (err > 0) {
-          tls_rx_rec_done(ctx);
-          consume_skb(darg.skb);
-          continue;
-  }
+This sends SIGPIPE to the calling task during setsockopt(TLS_TX_KEY_UPDATE)
+or during a sendmsg() call that explicitly requested MSG_NOSIGNAL. Should
+tls_tx_key_update() preserve MSG_NOSIGNAL from flags in the sendmsg() path
+and set MSG_NOSIGNAL in the setsockopt() path?
 
-Should skb be freed via consume_skb(skb) before returning a negative error
-from tls_check_pending_rekey()?
+> +
+> +	cmsg =3D CMSG_FIRSTHDR(&msg);
+> +	cmsg->cmsg_level =3D SOL_TLS;
+> +	cmsg->cmsg_type =3D TLS_SET_RECORD_TYPE;
+> +	cmsg->cmsg_len =3D CMSG_LEN(sizeof(record_type));
+> +	memcpy(CMSG_DATA(cmsg), &record_type, sizeof(record_type));
+> +
+> +	iov.iov_base =3D body;
+> +	iov.iov_len =3D sizeof(body);
+> +	iov_iter_kvec(&msg.msg_iter, ITER_SOURCE, &iov, 1, sizeof(body));
+> +
+> +	/* A control record closes the open record first, so all data
+> +	 * written so far goes out with the current key, ahead of the
+> +	 * KeyUpdate.
+> +	 */
+> +	ret =3D tls_sw_sendmsg_locked(sk, &msg, sizeof(body));
+> +	if (ret < 0)
+> +		return ret;
+
+[Severity: Medium]
+Can tls_sw_sendmsg_locked() return sizeof(body) even when transmitting the
+KeyUpdate record fails at the TCP layer?
+
+Inside tls_sw_sendmsg_locked(), once the 5-byte KeyUpdate payload is copied
+into msg_pl, copied is incremented to 5 before bpf_exec_tx_verdict() ->
+tls_push_record() is called. If synchronous encryption in tls_do_encryption=
+()
+succeeds and moves the record to ctx->tx_list, but tls_tx_records() ->
+tls_push_sg() -> tcp_sendmsg_locked() fails (for example with -EPIPE because
+SEND_SHUTDOWN is set while sk->sk_err was initially 0), tls_tx_records()
+calls tls_err_abort(sk, -EPIPE) and returns -EPIPE.
+
+Because bpf_exec_tx_verdict() only rolls back copied when
+sk->sk_err =3D=3D EBADMSG, copied remains 5. At the end of
+tls_sw_sendmsg_locked():
+
+end:
+	ret =3D sk_stream_error(sk, msg->msg_flags, ret);
+	return copied > 0 ? copied : ret;
+
+sk_stream_error() consumes and clears sk->sk_err back to 0 via
+sock_error(sk), and tls_sw_sendmsg_locked() returns 5 instead of -EPIPE.
+tls_tx_key_update() then sees ret =3D=3D 5, rotates the TX key via
+tls_keyupdate_rekey(sk, 1), increments LINUX_MIB_TLSTXREKEYOK and
+tx_key_updates, and returns 0 on a broken socket with sk->sk_err cleared.
+
+> +
+> +	/* Nothing may be encrypted with the next key before the KeyUpdate
+> +	 * is encrypted with the current one.
+> +	 */
+> +	ret =3D tls_encrypt_async_wait(ctx);
+> +	if (!ret)
+> +		ret =3D tls_keyupdate_rekey(sk, 1);
+> +	if (ret) {
+> +		/* The peer expects the next key: the connection is lost */
+> +		TLS_INC_STATS(sock_net(sk), LINUX_MIB_TLSTXREKEYERROR);
+> +		tls_err_abort(sk, ret);
+> +		return ret;
+> +	}
+
+[Severity: Medium]
+Is KeyUpdate state protected if tls_sw_sendmsg_locked() drops the socket lo=
+ck
+while waiting for send buffer memory?
+
+Both tls_tx_key_update_if_due() and tls_sw_key_update() check
+ctx->tx_secret.len, ctx->rx_secret.len, ctx->tx_key_update_asked, and
+ctx->tx_key_update_reply under lock_sock(sk) and ctx->tx_lock, then call
+tls_tx_key_update(). Inside tls_tx_key_update(), tls_sw_sendmsg_locked() (or
+tcp_sendmsg_locked() via tls_tx_records() -> tls_push_sg()) can call
+sk_stream_wait_memory() when the send buffer is full, which temporarily dro=
+ps
+lock_sock(sk) while keeping only ctx->tx_lock held.
+
+However, the setsockopt handlers for TLS_TX / TLS_RX
+(do_tls_setsockopt_conf()) and TLS_TX_TRAFFIC_SECRET / TLS_RX_TRAFFIC_SECRET
+(do_tls_setsockopt_secret()), as well as the RX path (tls_sw_recvmsg() ->
+tls_keyupdate_rx()), only acquire lock_sock(sk) and do not take ctx->tx_loc=
+k.
+While tls_tx_key_update() is sleeping in sk_stream_wait_memory():
+
+1. A concurrent setsockopt(TLS_TX) in do_tls_setsockopt_conf() can replace
+   the TX key and zero ctx->tx_secret and ctx->rx_secret. When
+   tls_tx_key_update() wakes up, it finishes sending the KeyUpdate under the
+   already-replaced key and then calls tls_keyupdate_rekey(sk, 1), which se=
+es
+   !ctx->tx_secret.len, returns -EINVAL, and aborts the connection via
+   tls_err_abort(sk, -EINVAL).
+2. A concurrent setsockopt(TLS_RX) can zero ctx->rx_secret after
+   tls_sw_key_update(sk, 1) has already verified ctx->rx_secret.len, leaving
+   ctx->tx_key_update_asked =3D true with no registered RX secret to ever c=
+lear
+   it.
+3. A concurrent recvmsg() in tls_keyupdate_rx() can set
+   ctx->tx_key_update_reply =3D true while tls_sw_key_update(sk, 1) is slee=
+ping
+   before sending KeyUpdate(update_requested), so tls_tx_key_update() does
+   not clear tx_key_update_reply.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261025-keyupdate-=
-rfc-v1-0-60b7756eccbd@gmail.com?part=3D3
+rfc-v1-0-60b7756eccbd@gmail.com?part=3D4
 
