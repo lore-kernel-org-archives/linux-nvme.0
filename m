@@ -2,10 +2,10 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65CB7606A31A
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Oct 2026 14:36:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8339A60A2613
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Oct 2026 14:36:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=4k+I0473
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=NStW0BkP
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
@@ -13,42 +13,42 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=4k+I0473hxAle0UrhzrX5Zw6iC
-	YYfvnE5lvW7Hb9k3jwG/AgPZQBNgQ9oPXSKSb3vYZz0PciuNCR/v0MSWQjPMIbHDV6bQk6Q3a0BaN
-	AnOnKzAoCfJaHEsZlKvKvKQFyiOXqIRfOft1fUw0QFvsWXKBtv341QaOC53BBfN4roFbAqT4cyZ7Q
-	3qAtkJicqriw8wkxpNeDaWBa/o38+PzZ/THi03pnffFLSbrCfYQP8tIFyOC3yHYLcNtCrBH8NuqT9
-	BiBwTgKRvtVEvqzul4GGQhnQDAJftF0UMs/XgbaceD0kuKsH1saF0fKyqifoOrk2FN/xxxSoSj8qV
-	XlAGUCOw==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=NStW0BkPALl8+9+Qc/jPNIPKUE
+	sVRSCru3nFdrnQLGNYbiqka6pdYcZjczkH+AREH1r5rJ1pu1dlCFKUtv019DFv2UHkLlKQ44QFqGJ
+	2UvrSJf2/i0C49ZRFP3NXuwHwRzS051vZ/+zKVOQ7/VsQUShTP7JwwNrsksoaNhykCdJPkNoqszWQ
+	Tsj2Tm5C7Unc9rUivF8HoGANBSarvOJTg7/X+DyD09sn5fmMOX1A6VWMW6onrTl2CURSzTPpwNrXU
+	IXca5E6w15HuRRJfh2eoQ+IoV+acJnOWt4BbUl/l014VaCJvx5bqUOHBGswByJswbLvzrJ3lruaPx
+	T4H5EyBw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xM4lN-00000007DYY-0Us5;
-	Wed, 28 Oct 2026 14:36:25 +0000
+	id 1xM4lb-00000007DcG-0xXs;
+	Wed, 28 Oct 2026 14:36:39 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xM4lK-00000007DXK-2bIc
+	id 1xM4lZ-00000007DbV-0yi8
 	for linux-nvme@lists.infradead.org;
-	Wed, 28 Oct 2026 14:36:23 +0000
+	Wed, 28 Oct 2026 14:36:38 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id DB83D68AFE; Wed, 28 Oct 2026 15:36:18 +0100 (CET)
-Date: Wed, 28 Oct 2026 15:36:18 +0100
+	id A381B68AFE; Wed, 28 Oct 2026 15:36:33 +0100 (CET)
+Date: Wed, 28 Oct 2026 15:36:33 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Yingjie Wang <1075151112@qq.com>
 Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, axboe@kernel.dk,
 	hch@lst.de, sagi@grimberg.me, kch@nvidia.com, hare@suse.de,
 	corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] nvmet-tcp: validate the TLS handshake timeout
-Message-ID: <20261028143618.GB13429@lst.de>
-References: <cover.1793188633.git.1075151112@qq.com> <tencent_39D5138228F932E024F79FE1733CC8CDAA05@qq.com>
+Subject: Re: [PATCH v3 2/2] nvme-tcp: validate the TLS handshake timeout
+Message-ID: <20261028143633.GC13429@lst.de>
+References: <cover.1793188633.git.1075151112@qq.com> <tencent_BFD509CFBFC7E76F10959593270DD1CAA506@qq.com>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <tencent_39D5138228F932E024F79FE1733CC8CDAA05@qq.com>
+In-Reply-To: <tencent_BFD509CFBFC7E76F10959593270DD1CAA506@qq.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261028_073622_800226_45104FBC 
-X-CRM114-Status: UNSURE (   8.99  )
+X-CRM114-CacheID: sfid-20261028_073637_412672_EB8A7276 
+X-CRM114-Status: UNSURE (   9.16  )
 X-CRM114-Notice: Please train this message.
 X-Spam-Score: -1.9 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
