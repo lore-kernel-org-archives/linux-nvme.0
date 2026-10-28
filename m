@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3869606A31A
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Oct 2026 06:55:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BCE0606A31A
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Oct 2026 06:59:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=IAf2Jjza;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QUtQsmur
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=cdgsNS2e;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WVRWC7l2
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
 	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
@@ -14,47 +14,47 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=Ezp3oDN7Y2VQe15nNyu9ImVDd8HQhLrjk3u3Vao5tLg=; b=IAf2Jjzal0xq4aLRZoUMSr4xtQ
-	ehUDwQpuOqjdyl2zWcyPhH7srMhnIiHJIxpQeQ4ajcXMXiquH3W6o5fJbF2/AueidTmsGs567V+7G
-	Z0mhUvAl28UExNa/3rvnmYA22nzkZsdTAHJHzs0eIna5rK21Zpmfw25rEN2VZ71ArfHuxK/nJUhnw
-	DYHhO2WrB0ee762bK9aVLonuVrS0SG+0Yapk2ufzqJYllgoMHp8j5LFxW8IN4BXW1MxktT/zQzA+5
-	nc0dj67EUxBclF2BG8VI/ErXDHXZtCxJ79NG8n5xjFuUwr88AQfP3XpVo9bf2fExYqtBElEKvnWWS
-	PC8/T/RQ==;
+	bh=lYrh5yarw1iQl2TouYbgef09nP54PLDBwc21B6WSxBY=; b=cdgsNS2ex/AswHPS43tAoOczvm
+	jmncTP/rxDJTtl6owtjHFAXOFB9+tMI3jNrYkcUnfNXwv51JVgceQFqW+xZB46IgYBRFQjvby2HMF
+	zMWBrRdPH4svSTdccqLJD+0PSGfFJV4RitgrSjfx+bExGu05zJ6+qZO3ANdWWTFTSH/GqyhSXp3e/
+	keP9pPVBh1/xSqI87FAa6ddFQefm04qSNm8H8CoLiA36iVNHXek92pqTPCBQIQyZoU/+R+jdCHBYK
+	UFpC9Jz2uzm2XOYK5t1ON0qdSYaHudy3Cjw1V2/mSg2jP85CQCHQa0O5teIhf8hySUWpURwYsA6PL
+	lOShZXDQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xLxZh-00000006R8B-44vf;
-	Wed, 28 Oct 2026 06:55:53 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1xLxco-00000006RQ9-1E6K;
+	Wed, 28 Oct 2026 06:59:06 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xLxZg-00000006R7n-0xLw
+	id 1xLxcn-00000006RPw-0dsn
 	for linux-nvme@lists.infradead.org;
-	Wed, 28 Oct 2026 06:55:52 +0000
+	Wed, 28 Oct 2026 06:59:05 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 00BF3410BF;
-	Wed, 28 Oct 2026 06:55:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2E661F01825;
-	Wed, 28 Oct 2026 06:55:50 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 4510160120;
+	Wed, 28 Oct 2026 06:59:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C78241F01825;
+	Wed, 28 Oct 2026 06:59:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793170550;
-	bh=Ezp3oDN7Y2VQe15nNyu9ImVDd8HQhLrjk3u3Vao5tLg=;
+	s=k20260515; t=1793170744;
+	bh=lYrh5yarw1iQl2TouYbgef09nP54PLDBwc21B6WSxBY=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=QUtQsmurrqw3D8PrcoNHRifpcbCaWjEpq0GXc4l19HWuEBB9VO+/q7CTiXReXATUI
-	 2ujtjhh+D+KcAp86HDL5R5++av9XExDXpqj1Gm+I2Sn6f04t+aqkhCEKTEhwQWc9ZD
-	 09vj7flnjcS4R1CM5ZPgVr4Tyrka8V+6lavV9yA8yD1//jUc7yj1FbJ1eXt01T+NIm
-	 EDt4dmffnx0mjZ//Og+vQcl2grc1RrtPyHnBxUI7hTtPdPlDrhQmVP0F7ph+3ffyoy
-	 5Eg1OpqUEWDE82yRam3L4dz5990JiDx9BJtI6RUHcKU+EfFTm0SZjfRNdVWtkXd8Ee
-	 VUvFaUyFOiAAg==
-Message-ID: <sashiko-outbox-187571@kernel.org>
+	b=WVRWC7l2uzmtDol7nWDIy6qlE2UkXCmTBM2+ictenWXJRotKOVO0gp/mn0in5/vm6
+	 QnAZUwyCxNI/pWCWw8NLAM9mhGwvNs06Tuwuj9lDmBhMqiCiSfEQcASYeWtS4O43cO
+	 rNcl4bCqAawGDyQ4bMH88l73Dl+uSUUjlonDCCDhsFMX126G8lrJrBa9stFwYvxN8H
+	 0IhrT+5xDwmHdKWpyoYC7XiXHeLFCx79LOTQWwAdLlkt8e9yLUBIq2ZemjZlUsJ0Ee
+	 6HSQC1gDLzdcFS/XYCvPOQihcohrzmQSC++ioeDCDVjRZgBb0JDsRreB8Vxd027qJ5
+	 +n2ncxWOHbEbA==
+Message-ID: <sashiko-outbox-187572@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] nvmet: Check the admin queue before reading its TLS key
- in debugfs
+Subject: Re: [PATCH] nvmet: Free the old negotiation state when restarting
+ authentication
 To: "Guixin Liu" <kanie@linux.alibaba.com>
 Cc: linux-nvme@lists.infradead.org
-In-Reply-To: <20261028064417.548948-1-kanie@linux.alibaba.com>
-References: <20261028064417.548948-1-kanie@linux.alibaba.com>
+In-Reply-To: <20261028064345.544504-1-kanie@linux.alibaba.com>
+References: <20261028064345.544504-1-kanie@linux.alibaba.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 28 Oct 2026 06:55:50 +0000
+Date: Wed, 28 Oct 2026 06:59:03 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,91 +76,96 @@ X-Archived-By: <archiver.kernel.org>
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [High] nvmet: unsynchronized ctrl->sqs[0] access in nvmet_ctrl_tls_key_sh=
-ow()
+- [Critical] nvmet-auth: NULL deref on restart due to stale dhchap_skey_len
 --
 
-commit 3cf90339b7ea83703b0eb52aef8d8c4af5c44e19
+commit b95a68b07cb2fd80ef9528e69f5467fefe0e42a1
 Author: Guixin Liu <kanie@linux.alibaba.com>
 
-nvmet: Check the admin queue before reading its TLS key in debugfs
+nvmet: Free the old negotiation state when restarting authentication
 
-This commit checks whether ctrl->sqs[0] is non-NULL in
-nvmet_ctrl_tls_key_show() before querying the admin queue's TLS key ID for
-debugfs output.
+This commit calls nvmet_auth_sq_free() when restarting DH-HMAC-CHAP
+negotiation in nvmet_execute_auth_send() so that previously allocated
+c1, c2, and skey buffers on the submission queue are freed before a new
+round begins.
 
-> diff --git a/drivers/nvme/target/debugfs.c b/drivers/nvme/target/debugfs.c
-> index e85fe1d4c9f8d..a27a501fe61a4 100644
-> --- a/drivers/nvme/target/debugfs.c
-> +++ b/drivers/nvme/target/debugfs.c
-> @@ -136,8 +136,10 @@ NVMET_DEBUGFS_ATTR(nvmet_ctrl_host_traddr);
->  static int nvmet_ctrl_tls_key_show(struct seq_file *m, void *p)
->  {
->  	struct nvmet_ctrl *ctrl =3D m->private;
-> -	key_serial_t keyid =3D nvmet_queue_tls_keyid(ctrl->sqs[0]);
-> +	key_serial_t keyid =3D 0;
-> =20
-> +	if (ctrl->sqs[0])
-> +		keyid =3D nvmet_queue_tls_keyid(ctrl->sqs[0]);
+> diff --git a/drivers/nvme/target/fabrics-cmd-auth.c b/drivers/nvme/target=
+/fabrics-cmd-auth.c
+> index 1fe21f2672f10..e68b1c6f2ce5a 100644
+> --- a/drivers/nvme/target/fabrics-cmd-auth.c
+> +++ b/drivers/nvme/target/fabrics-cmd-auth.c
+> @@ -330,6 +330,7 @@ void nvmet_execute_auth_send(struct nvmet_req *req)
+>  			/* Restart negotiation */
+>  			pr_debug("%s: ctrl %d qid %d reset negotiation\n",
+>  				 __func__, ctrl->cntlid, req->sq->qid);
+> +			nvmet_auth_sq_free(req->sq);
 
-[Severity: High]
-Can this unlocked check and reload of ctrl->sqs[0] race with admin queue
-teardown in nvmet_tcp_release_queue_work() and nvmet_sq_destroy(), or with
-the error path in nvmet_install_queue()?
+[Severity: Critical]
+Can this trigger a NULL pointer dereference in nvmet_auth_host_hash() if
+the host restarts negotiation after generating a DH session key and then
+sends a reply with dhvlen =3D=3D 0?
 
-First, ctrl->sqs[0] is checked and then reloaded without READ_ONCE() or any
-lock synchronizing against nvmet_sq_destroy() in drivers/nvme/target/core.c:
+In the first round, when a DH group is configured (ctrl->dh_gid !=3D
+NVME_AUTH_DHGROUP_NULL) and the host sends a reply with a non-zero dhvlen,
+nvmet_auth_reply() -> nvmet_auth_ctrl_sesskey() allocates
+req->sq->dhchap_skey and sets req->sq->dhchap_skey_len to the hash length.
+If that reply fails authentication with NVME_AUTH_DHCHAP_MESSAGE_FAILURE1,
+the host can send a new negotiate message to restart authentication.
 
-    if (sq->qid =3D=3D 0) {
-        ctrl->reset_tbkas =3D true;
-        sq->ctrl->sqs[sq->qid] =3D NULL;
-        nvmet_ctrl_put(ctrl);
-    }
+Calling nvmet_auth_sq_free() here frees sq->dhchap_skey and sets it to
+NULL, but leaves sq->dhchap_skey_len non-zero:
 
-If ctrl->sqs[0] is cleared to NULL between the if (ctrl->sqs[0]) check and
-the argument evaluation for nvmet_queue_tls_keyid(ctrl->sqs[0]), NULL is
-passed into nvmet_queue_tls_keyid() in drivers/nvme/target/nvmet.h:
+drivers/nvme/target/auth.c:nvmet_auth_sq_free() {
+	...
+	kfree(sq->dhchap_skey);
+	sq->dhchap_skey =3D NULL;
+}
 
-    static inline key_serial_t nvmet_queue_tls_keyid(struct nvmet_sq *sq)
-    {
-        return sq->tls_key ? key_serial(sq->tls_key) : 0;
-    }
+If the host then completes the negotiate and challenge steps and sends a
+reply with dhvlen =3D=3D 0 in the second round, nvmet_auth_reply() skips
+nvmet_auth_ctrl_sesskey():
 
-which dereferences sq->tls_key on a NULL pointer.
+drivers/nvme/target/fabrics-cmd-auth.c:nvmet_auth_reply() {
+	...
+	if (dhvlen) {
+		if (!ctrl->dh_tfm)
+			return NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD;
+		if (nvmet_auth_ctrl_sesskey(req, data->rval + 2 * data->hl,
+					    dhvlen) < 0)
+			return NVME_AUTH_DHCHAP_FAILURE_DHGROUP_UNUSABLE;
+	}
+	...
+	if (nvmet_auth_host_hash(req, response, data->hl) < 0) {
+}
 
-Second, even when ctrl->sqs[0] is read as non-NULL, nothing pins the queue =
-or
-sq->tls_key while nvmet_ctrl_tls_key_show() runs. During queue teardown in
-drivers/nvme/target/tcp.c, nvmet_tcp_release_queue_work() executes:
+nvmet_auth_host_hash() then passes the NULL req->sq->dhchap_skey along with
+the stale non-zero req->sq->dhchap_skey_len to
+nvme_auth_augmented_challenge():
 
-    nvmet_sq_put_tls_key(&queue->nvme_sq);
-    nvmet_tcp_uninit_data_in_cmds(queue);
-    nvmet_sq_destroy(&queue->nvme_sq);
-    ...
-    kfree(queue);
+drivers/nvme/target/auth.c:nvmet_auth_host_hash() {
+	...
+	if (ctrl->dh_gid !=3D NVME_AUTH_DHGROUP_NULL) {
+		challenge =3D kmalloc(shash_len, GFP_KERNEL);
+		if (!challenge) {
+			ret =3D -ENOMEM;
+			goto out_free_response;
+		}
+		ret =3D nvme_auth_augmented_challenge(ctrl->shash_id,
+						    req->sq->dhchap_skey,
+						    req->sq->dhchap_skey_len,
+						    req->sq->dhchap_c1,
+						    challenge, shash_len);
+}
 
-where nvmet_sq_put_tls_key() in drivers/nvme/target/nvmet.h drops the key
-reference before ctrl->sqs[0] is cleared:
+Because skey_len is non-zero while skey is NULL,
+nvme_auth_augmented_challenge() -> nvme_auth_hmac() ->
+nvme_auth_hmac_init() dereferences NULL when preparing the HMAC key.
 
-    static inline void nvmet_sq_put_tls_key(struct nvmet_sq *sq)
-    {
-        if (sq->tls_key) {
-            key_put(sq->tls_key);
-            sq->tls_key =3D NULL;
-        }
-    }
-
-Because the controller debugfs directory stays alive until the final
-ctrl->ref is dropped in nvmet_ctrl_free() -> nvmet_debugfs_ctrl_free(ctrl)
-(for example, while queue->nvme_cq or I/O queues still hold controller
-references), a concurrent reader of the tls_key debugfs file can dereference
-sq->tls_key after key_put() or dereference sq after kfree(queue).
-
-Could this be avoided by reading the key directly from ctrl->tls_key (or
-caching the key serial on struct nvmet_ctrl), or by properly serializing
-access to the queue and its key?
+Should nvmet_auth_sq_free() also reset sq->dhchap_skey_len =3D 0 (or should
+nvmet_auth_reply() require dhvlen !=3D 0 when ctrl->dh_gid !=3D
+NVME_AUTH_DHGROUP_NULL)?
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261028064417.5489=
-48-1-kanie@linux.alibaba.com?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261028064345.5445=
+04-1-kanie@linux.alibaba.com?part=3D1
 
