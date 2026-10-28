@@ -2,136 +2,54 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70BA0606A31E
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Oct 2026 14:48:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A4F0606A31C
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Oct 2026 14:50:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=SLRq+cFH;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=pfn4kK5d;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=59GVsKrf;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=pfn4kK5d;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=59GVsKrf
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=QW3A4Kyw
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=bsG7crIIuAMMMeIJH2tXsDbmQj/vvYfAUVvbzdxkpL4=; b=SLRq+cFHKxXuNH
-	VTdAx79afwOV4B9LGTQd13AvdE54GAc9zEwb9hbNJeK48E8CgWCs623ih8p6cKUwVPmQLgjURf9Uu
-	J79fzbaEVIsM4CEbgxRkjd17vtoxVd+49vngodHXu291xLrOtvhNRRtIMda48lGNvhl2IfrnFSamd
-	PDwsERZWsP8rY6YdIGeuXskuwkRgyIgBFnX9zYcBBcjRyAphb9y9XMtdZlBwgV38lr6Fi5urgGsK9
-	GF7SE4lMnfv9Ip/3YN4C73DRdKZN6aas8B88ITOVKmnvxDpcxzlWbb+6ox7+SbotH5yfZb+Yxl+MS
-	mhNwYhAHb0wVgWEM7V2w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Unsubscribe-Post:List-Owner;
+	bh=9q11DNs176bYYMFUR11AeQaBpGiT4ivxtJoclTadRk4=; b=QW3A4Kyww8PGlyqDJLydqa7X+3
+	Wdd9q8fqNWp1WI5xgKITNLpBYoAQnAdUl/03Nrxcdy+5rN2bLaL4bCwD4aEDfDY3Ghb+ZqKK6LEJE
+	gOxxkk853tPqOIgBMjyjxJCsA5AFYPptSrbC0Ps1Hg2qkJBQ3KaohfH+WwFyREWSBaNuu/Wg2AYu8
+	x/ZWkWS1PDm2zDLXAIVagPRc2kRi4FCN7EUoXbj4W4pLtjW3SVqI7P4vs01xT9p8uQDiiSfgPmrXx
+	QJUsI45Wgnp3Iig9gStgDw7/9mFgqs3taFDJ3cj40rE8EG3mM2+W9SGLYHoISZIc/HqhLx0pWDhMu
+	5mewAN5w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xM4x2-00000007FOe-0fiC;
-	Wed, 28 Oct 2026 14:48:28 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1xM4yd-00000007Fsn-3rdH;
+	Wed, 28 Oct 2026 14:50:07 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xM4wy-00000007FO5-3eWz
+	id 1xM4ya-00000007FrT-3dqo
 	for linux-nvme@lists.infradead.org;
-	Wed, 28 Oct 2026 14:48:26 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8AF3F22117;
-	Wed, 28 Oct 2026 14:48:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793198902; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bsG7crIIuAMMMeIJH2tXsDbmQj/vvYfAUVvbzdxkpL4=;
-	b=pfn4kK5d+rDIAG3rbOXd6tXkIfpmj5nNhmMDTolo6hiJBmWkiubuN9OIzjdrIBgXCSLL4P
-	0hJJTly/TJOInjx22Yt/cF94WriS6JC7idV3zlRTmqi4lMjqhswg1M9/s35IIiWKq9ljkT
-	Dhu8jpm8ej0TpdqI8SLI8wU3QCwFi0M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793198902;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bsG7crIIuAMMMeIJH2tXsDbmQj/vvYfAUVvbzdxkpL4=;
-	b=59GVsKrf5jliqBjkYtcu3V/6JQkKOzB4KjKlaUFqvACyS/JvazmdaMphS3/HD3KqpNTkLK
-	bzpnYUPmjNo0d9CQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793198902; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bsG7crIIuAMMMeIJH2tXsDbmQj/vvYfAUVvbzdxkpL4=;
-	b=pfn4kK5d+rDIAG3rbOXd6tXkIfpmj5nNhmMDTolo6hiJBmWkiubuN9OIzjdrIBgXCSLL4P
-	0hJJTly/TJOInjx22Yt/cF94WriS6JC7idV3zlRTmqi4lMjqhswg1M9/s35IIiWKq9ljkT
-	Dhu8jpm8ej0TpdqI8SLI8wU3QCwFi0M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793198902;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bsG7crIIuAMMMeIJH2tXsDbmQj/vvYfAUVvbzdxkpL4=;
-	b=59GVsKrf5jliqBjkYtcu3V/6JQkKOzB4KjKlaUFqvACyS/JvazmdaMphS3/HD3KqpNTkLK
-	bzpnYUPmjNo0d9CQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1D6D513419;
-	Wed, 28 Oct 2026 14:48:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 7WU4OjUL4mpRDgAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 28 Oct 2026 14:48:22 +0000
-Message-ID: <fe2db289-20e4-4496-8263-4897b3259f83@suse.de>
-Date: Wed, 28 Oct 2026 15:48:21 +0100
+	Wed, 28 Oct 2026 14:50:06 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 75A2468DDD; Wed, 28 Oct 2026 15:49:53 +0100 (CET)
+Date: Wed, 28 Oct 2026 15:49:51 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Andrei-Alexandru Bleortu <me@andrei-z.com>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org, linux-rdma@vger.kernel.org
+Subject: Re: [PATCH 1/1] nvme-rdma: post the command capsule inline when it
+ fits
+Message-ID: <20261028144951.GA14583@lst.de>
+References: <20261015124823.2962700-1-me@andrei-z.com> <20261015124823.2962700-2-me@andrei-z.com>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvmet: Check the admin queue before reading its TLS key
- in debugfs
-To: Guixin Liu <kanie@linux.alibaba.com>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Nilay Shroff <nilay@linux.ibm.com>,
- Daniel Wagner <dwagner@suse.de>
-Cc: linux-nvme@lists.infradead.org
-References: <20261028064417.548948-1-kanie@linux.alibaba.com>
- <2f4468e2-9b25-4df7-8ad9-606a9aee2e0b@suse.de>
- <db1819ed-a087-46fa-acab-9f94ec778ce6@linux.alibaba.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <db1819ed-a087-46fa-acab-9f94ec778ce6@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-13.29 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-0.997];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,alibaba.com:email];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo,alibaba.com:email]
-X-Spam-Score: -13.29
-X-Spam-Level: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261015124823.2962700-2-me@andrei-z.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261028_074825_069305_EFE662E2 
-X-CRM114-Status: GOOD (  18.49  )
-X-Spam-Score: -4.4 (----)
+X-CRM114-CacheID: sfid-20261028_075005_212777_F55DA35B 
+X-CRM114-Status: GOOD (  38.15  )
+X-Spam-Score: -1.9 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -142,73 +60,114 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-15.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On 10/28/26 9:24 AM, Guixin Liu wrote:
+Can you reworkd the commit log to be concise?  Also I find it really
+annoying that a ULP would have to decide this.  Doing inline submission
+should really be something the core/LLDD takes care of.
+
+On Thu, Oct 15, 2026 at 03:48:23PM +0300, Andrei-Alexandru Bleortu wrote:
+> nvme_rdma_post_send() posts the 64-byte command capsule by reference,
+> so the HCA has to DMA-read the capsule from host memory before it can
+> send the command. That read is on the latency path of every I/O.
 > 
+> Ask for sizeof(struct nvme_command) bytes of inline data when creating
+> the queue pair, and create it without inline data if the device refuses.
+> Post a capsule that has no in-capsule data with IB_SEND_INLINE when it
+> fits in the granted inline size. The CPU then copies the capsule into
+> the send WQE and the HCA no longer reads it.
 > 
-> 在 2026/10/28 15:42, Hannes Reinecke 写道:
->> On 10/28/26 7:44 AM, Guixin Liu wrote:
->>> nvmet_ctrl_tls_key_show() dereferences ctrl->sqs[0] unconditionally,
->>> but the admin queue is not installed yet while the controller is
->>> being created, and sqs[0] is set to NULL again when it is destroyed.
->>> Reading the tls_key debugfs entry in either window crashes the kernel.
->>>
->>> Only query the queue's TLS key when the admin queue is present and
->>> report 0 otherwise.
->>>
->>> Fixes: 316dabe6089fe ("nvmet: add tls_concat and tls_key debugfs entries")
->>> Cc: stable@vger.kernel.org
->>> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
->>> ---
->>>    drivers/nvme/target/debugfs.c | 4 +++-
->>>    1 file changed, 3 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/nvme/target/debugfs.c b/drivers/nvme/target/debugfs.c
->>> index e85fe1d4c9f8..a27a501fe61a 100644
->>> --- a/drivers/nvme/target/debugfs.c
->>> +++ b/drivers/nvme/target/debugfs.c
->>> @@ -136,8 +136,10 @@ NVMET_DEBUGFS_ATTR(nvmet_ctrl_host_traddr);
->>>    static int nvmet_ctrl_tls_key_show(struct seq_file *m, void *p)
->>>    {
->>>        struct nvmet_ctrl *ctrl = m->private;
->>> -    key_serial_t keyid = nvmet_queue_tls_keyid(ctrl->sqs[0]);
->>> +    key_serial_t keyid = 0;
->>>    +    if (ctrl->sqs[0])
->>> +        keyid = nvmet_queue_tls_keyid(ctrl->sqs[0]);
->>>        seq_printf(m, "%08x\n", keyid);
->>>        return 0;
->>>    }
->>
->> I think it might be easier if 'nvmet_queue_tls_keyid()' would accept
->> a NULL argument.
-> This is simpler, however Sashiko's review points out that after the
-> NULL check, sq->tls_key clould be freed by nvmet_sq_put_tls_key(),
-> or sq itself could be destroyed.
+> Providers copy inline data from sg_list[].addr as a kernel virtual
+> address, but nvme-rdma keeps the capsule's DMA address there. On the
+> inline path the SGE therefore points at qe->data. The capsule stays
+> DMA-mapped for the by-reference path.
 > 
-> My idea is store admin queue's tls_key to nvmet_ctrl to prevent access
-> sq and sq->tls_key in debugfs interface, what do you think?
+> An earlier version of this patch was measured with fio doing 4 KiB
+> random reads at queue depth 1 against a null_blk namespace exported by
+> nvmet-rdma. Both host pairs ran a 6.8 kernel over RoCEv2 at 100 Gb/s.
+> The mean completion latency fell by 0.998 us (95% CI 0.943-1.049)
+> between two AMD EPYC 7452 hosts with ConnectX-5 Ex, and by 0.589 us
+> (0.558-0.618) between two Xeon Platinum 8360Y hosts with ConnectX-6 Dx.
+> IOPS rose by 3.3% on the EPYC pair. A run there that asked for inline
+> data but kept posting by reference showed no change. That version asked
+> for 220 bytes and had no fallback, but it inlined the same capsules.
 > 
-Argl. Don't.
-
-I would do something like
-
-key_serial_t keyid = ctrl->sqs ? nvmet_queue_tls_keyid(ctrl->sqs[0]):0;
-
-to make it clear that ctrl->sqs might be NULL here.
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+> Assisted-by: LLM
+> Signed-off-by: Andrei-Alexandru Bleortu <me@andrei-z.com>
+> ---
+>  drivers/nvme/host/rdma.c | 28 ++++++++++++++++++++++++++--
+>  1 file changed, 26 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 5b9b540693b5..517098ebffb1 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -106,6 +106,7 @@ struct nvme_rdma_queue {
+>  	bool			pi_support;
+>  	int			cq_size;
+>  	struct mutex		queue_lock;
+> +	u32			max_inline_data;
+>  };
+>  
+>  struct nvme_rdma_setup_ctx {
+> @@ -265,7 +266,7 @@ static int nvme_rdma_wait_for_cm(struct nvme_rdma_queue *queue)
+>  static int nvme_rdma_create_qp(struct nvme_rdma_queue *queue, const int factor)
+>  {
+>  	struct nvme_rdma_device *dev = queue->device;
+> -	struct ib_qp_init_attr init_attr;
+> +	struct ib_qp_init_attr init_attr, attr;
+>  	int ret;
+>  
+>  	memset(&init_attr, 0, sizeof(init_attr));
+> @@ -284,9 +285,21 @@ static int nvme_rdma_create_qp(struct nvme_rdma_queue *queue, const int factor)
+>  		init_attr.create_flags |= IB_QP_CREATE_INTEGRITY_EN;
+>  	init_attr.qp_context = queue;
+>  
+> -	ret = rdma_create_qp(queue->cm_id, dev->pd, &init_attr);
+> +	/*
+> +	 * Ask for enough inline data to carry the command capsule in the send
+> +	 * WQE (see nvme_rdma_post_send()).  If the device cannot provide it,
+> +	 * create the QP without inline data and post the capsule by reference.
+> +	 */
+> +	attr = init_attr;
+> +	attr.cap.max_inline_data = sizeof(struct nvme_command);
+> +	ret = rdma_create_qp(queue->cm_id, dev->pd, &attr);
+> +	if (ret) {
+> +		attr = init_attr;
+> +		ret = rdma_create_qp(queue->cm_id, dev->pd, &attr);
+> +	}
+>  
+>  	queue->qp = queue->cm_id->qp;
+> +	queue->max_inline_data = ret ? 0 : attr.cap.max_inline_data;
+>  	return ret;
+>  }
+>  
+> @@ -1641,6 +1654,17 @@ static int nvme_rdma_post_send(struct nvme_rdma_queue *queue,
+>  	wr.opcode     = IB_WR_SEND;
+>  	wr.send_flags = IB_SEND_SIGNALED;
+>  
+> +	/*
+> +	 * Post a capsule without in-capsule data inline if it fits in the
+> +	 * granted inline size, so the HCA does not have to DMA-read it from
+> +	 * host memory.  The CPU copies inline data from a kernel virtual
+> +	 * address, so point the SGE at qe->data.
+> +	 */
+> +	if (num_sge == 1 && sge->length <= queue->max_inline_data) {
+> +		sge->addr = (uintptr_t)qe->data;
+> +		wr.send_flags |= IB_SEND_INLINE;
+> +	}
+> +
+>  	if (first)
+>  		first->next = &wr;
+>  	else
+> -- 
+> 2.56.0
+> 
+---end quoted text---
 
