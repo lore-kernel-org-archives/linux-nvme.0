@@ -2,103 +2,65 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 631D8606A31A
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 Oct 2026 03:15:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76FD7606A31A
+	for <linux-nvme@archiver.kernel.org>; Thu, 29 Oct 2026 03:32:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=14cDFtbV;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Mjm1V/l8
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=d8zm7QEw;
+	dkim=pass (1024-bit key, unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=ccz2XLCT
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Unsubscribe-Post:List-Owner;
-	bh=vIlFLNw+m47ftNTJxN6Q3ULvJUFPP52XPh/0+wF0w7c=; b=14cDFtbVBlcjA2UIqrCm28jUXt
-	sB0Lufiyrnay6bfyAAb30m5A1t0DVEsa9oX9rPEcnTYlFU0FuTymB4Inkuiuo7Dj3tyy4PtY9ooEc
-	hg+ga72q58XRMyQM11bJKKcORnn1erkxEx3LRkiEmgM+5zuy0I47HipbNYw2QG0mOENi5nO42wsLs
-	lEzteSeXcTYhuvMAtS+ZHNu02qOM8B3noABr+VHijppnLjt6ZiBmrgpM5e9hXJ5otvps39CAdh7dl
-	Te0Ei6rHfyRSsF1oy8soeOU0p82VEcWcv9oAg65omkZSy3KhJvHRGDNLkZz7zSsVx2V5yNGGSJW86
-	66RZ2ypg==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
+	List-Owner; bh=j1U9sOk5U6G4yxjXGQDxCWVE6F1XpahE0gLfZxeView=; b=d8zm7QEwVl2Wzr
+	kkWLx2S96fqzGXo3c94Ut89jakqcLm3LzV7vlzamiArwebFBhweuNHjgIO5YQvpXABvp8Ba9112o/
+	6FH5EHLplGoMwu7Qpgn0PucIGJg+lN/LHUhqTnDiHN0u7RjHxYBN1jIZ1N0cpLuAjT7J4HVzRy1pV
+	V/GLAOYxkXbzApHNqgMehVb2l+6B7WQl00l9f+eq+Pqofqsog3LgE4gzXeTHP9oR5Ok5GWQK5nyIR
+	S0XHz79k2HkKNn+TD4evWSlELrtqhUmxl37aNgyUQEc8ZyWfRCmoD8dgN++wSFG3p4uSsvwgkQVsl
+	zOScw6yRGfv6lpj51IoA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMGc2-00000008Exb-2LUr;
-	Thu, 29 Oct 2026 03:15:34 +0000
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+	id 1xMGsV-00000008FNt-14Oa;
+	Thu, 29 Oct 2026 03:32:35 +0000
+Received: from out30-124.freemail.mail.aliyun.com ([115.124.30.124])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMGby-00000008ExB-39jH
+	id 1xMGsR-00000008FNX-43H9
 	for linux-nvme@lists.infradead.org;
-	Thu, 29 Oct 2026 03:15:32 +0000
-Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-4a2069b9710so15534255e9.2
-        for <linux-nvme@lists.infradead.org>; Wed, 28 Oct 2026 20:15:29 -0700 (PDT)
+	Thu, 29 Oct 2026 03:32:34 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793243728; x=1793848528; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=vIlFLNw+m47ftNTJxN6Q3ULvJUFPP52XPh/0+wF0w7c=;
-        b=Mjm1V/l8eg5sFecNnarhNZYKxRDyRG5ADJeWT759AWbcLbZu9MtJqRCqcgFDgh95/W
-         5GRX13BArf8vlBhJeioUhdb84bqnLEJEOHtgGSWDArpJI8mLbKjMCgooei+7S5WFGycb
-         i1bC1sZ+y4N8x6qkSP4ExPotkJwE2rezO4ku0GiL3u1h0BubDagXIfeT0KOQ+Ifj++Jy
-         PYKYSXZDdfmNuUUlyi2bhGOycOoEGsz7I3MenuNkX/cutkhXSpRCdT56xY7OPmAW1yJY
-         oYh+GIb0ReSi7ihNMeHGy1Nw/gvfcCyc6Wqo9BkhuCtlQubBbotdTWVzNqY/TDgUMGGY
-         daIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793243728; x=1793848528;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=vIlFLNw+m47ftNTJxN6Q3ULvJUFPP52XPh/0+wF0w7c=;
-        b=lAnrDpIdWLwmEwoROhEMOMlGRnfL1t5qIA2mRMndfTlAhI7BQyiAF7qIe1TEb5eLhj
-         rmOHYRWoRJyXwciGeHmLfuqxLmMv4rAi3RemD1mav5eDzd51sYMo5MKGSXeOycZBdoVq
-         0Bi5OhwPh/ijEGhBuGKvIlNmnyHLmP6oBAGv7o52dLWFA/EvmQzZBXFCDHyxmAVS6vNv
-         GDw1XqmskPYIKMNr04Yfu1iJ0uvB7jCf3lHPBGD4+8fOCJfTICfWy1x62hGASXvekEtd
-         3v05U4QJ+CaTmTOaAgBpkxoVctZRAVZf42hIFH0K3aNs+YY12KhH8SZOjmcP93z5Lgbi
-         VUWg==
-X-Forwarded-Encrypted: i=1; AKwUvBxLlo9wYB8bbpHpFyWRtfLX3nQJN/S311sBie2Dm3NDRlhsZKpgbJNqCee3F0zeDJV+SDlkWMnXFpMD@lists.infradead.org
-X-Gm-Message-State: AFq9FYIn+i8mpB4U5VG9lr0zyHrrq05FbhHbxGveFKuZQyojzZ/XCL1S
-	VSOv6RPH0JbMjFVX7rSw7S04k4tY4zqdKDV2B/vpeughA785SRaHihV1
-X-Gm-Gg: AYBFou2zBSa7ew4JSQ/6APxliuPcnS526Mb+1M+HmxfJi7OBYAQB/aT2uOM+YOd9amN
-	G8dkcxGpApscTqyZaDx169JJNUPzFKOA4L4zvXxa8GqPoDKgNrtnBitOApC7iZhNUgkZZCm7FJj
-	qtDxaKdPmnMyrCpuHPEJaEuydNuKLhiXcR4pIBia9jLOvGWofpY7gY41kv6MvqzMxPgZkJU5Dm8
-	ULnTtu7mA8WjC6VVKI24sM6ffjVBnBxXmL3PCRJkbAOaar5M8AVfMb0PbdpZTZpJ0FqAhQzkzm9
-	D076O+6AzIKskutNBRCSm/QRzTQe/+pH1lnFfGCoOIU0at7SKaIEPyBlp6ppwvD2Uotfo1p36xh
-	zWUqDqJP8XBCG5DX4xBwQDXD1hFr4PwUbO7gkjY5CGUAIrkeECwuAW9rLZB50jq7PuKyG3P4OG1
-	X9+GaLmrqHzDdykqHLzKUnhQRxk2ZCehQStYHUXBA4SgAuTFuln3J+EzqIM2BuvbHjvLdMSfoGZ
-	UJHakl0/StUwWhU+iy/RTPTjSlsarwTZ2MrV55iL6Ct2hn0eqpKMj0NeUAZ36sN8b3033NuqFi0
-	PQxIQUG4Oe0InOvludmFyjAWuFnXKpTlOjuET+f+rR57ZGEa0XpLzCmr6rBJxJrFltugncGF7Lb
-	Vyb8Bo6+r6lJW96DdGHCblE4M3053c92gzMwTnt1J4CuvrKlcEweKDxR2ToCPWE6RTWRe/CiXN1
-	D2izaLMTxFU0vjGg==
-X-Received: by 2002:a05:600c:8715:b0:4a1:7ec7:a479 with SMTP id 5b1f17b1804b1-4a967ab1ce3mr94468935e9.33.1793243727833;
-        Wed, 28 Oct 2026 20:15:27 -0700 (PDT)
-Received: from localhost.localdomain (dynamic-077-007-226-156.77.7.pool.telefonica.de. [77.7.226.156])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4aa80f04723sm35478505e9.5.2026.10.28.20.15.26
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 28 Oct 2026 20:15:27 -0700 (PDT)
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: stable@vger.kernel.org
-Cc: Karl Mehltretter <kmehltretter@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sasha Levin <sashal@kernel.org>,
-	Dan Carpenter <error27@gmail.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	linux-nvme@lists.infradead.org,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Subject: [PATCH 5.10.y] nvme-tcp: fix error codes in nvme_tcp_setup_ctrl()
-Date: Thu, 29 Oct 2026 04:13:52 +0100
-Message-Id: <20261029031352.56096-1-kmehltretter@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+	d=linux.alibaba.com; s=default;
+	t=1793244747; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=j1U9sOk5U6G4yxjXGQDxCWVE6F1XpahE0gLfZxeView=;
+	b=ccz2XLCTxLzuqQcrcXM5waiu9oSNoH/tW1CxTpM/k9Ck8K2/ExDcKu9mDqm+edWsWdOww5kqE5cgKYIYSEDYa17hZ50V6RIR5WZhyNx7jDJBlRH+/6tyLJIrKrXVJc+oOucOWuPVbs2pSTLBbxk2kQ6np5J2dEOHKg/du1DWxGc=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R381e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XDiCfgM_1793244745;
+Received: from 30.178.69.52(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XDiCfgM_1793244745 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Thu, 29 Oct 2026 11:32:26 +0800
+Message-ID: <6e2e7e5a-b827-48e0-bebd-6a3004401f93@linux.alibaba.com>
+Date: Thu, 29 Oct 2026 11:32:24 +0800
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvmet: Check the admin queue before reading its TLS key
+ in debugfs
+To: Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Nilay Shroff <nilay@linux.ibm.com>,
+ Daniel Wagner <dwagner@suse.de>
+Cc: linux-nvme@lists.infradead.org
+References: <20261028064417.548948-1-kanie@linux.alibaba.com>
+ <2f4468e2-9b25-4df7-8ad9-606a9aee2e0b@suse.de>
+ <db1819ed-a087-46fa-acab-9f94ec778ce6@linux.alibaba.com>
+ <fe2db289-20e4-4496-8263-4897b3259f83@suse.de>
+From: Guixin Liu <kanie@linux.alibaba.com>
+In-Reply-To: <fe2db289-20e4-4496-8263-4897b3259f83@suse.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261028_201530_811634_A57CDBC7 
-X-CRM114-Status: GOOD (  12.12  )
-X-Spam-Score: -2.1 (--)
+X-CRM114-CacheID: sfid-20261028_203232_688293_49E151FB 
+X-CRM114-Status: GOOD (  16.09  )
+X-Spam-Score: -17.6 (-----------------)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,54 +71,77 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-24.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	USER_AGENT_SANE_1,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-From: Dan Carpenter <dan.carpenter@oracle.com>
 
-commit 522af60cb2f8e3658bda1902fb7f200dcf888a5c upstream.
 
-These error paths currently return success but they should return
--EOPNOTSUPP.
+在 2026/10/28 22:48, Hannes Reinecke 写道:
+> On 10/28/26 9:24 AM, Guixin Liu wrote:
+>>
+>>
+>> 在 2026/10/28 15:42, Hannes Reinecke 写道:
+>>> On 10/28/26 7:44 AM, Guixin Liu wrote:
+>>>> nvmet_ctrl_tls_key_show() dereferences ctrl->sqs[0] unconditionally,
+>>>> but the admin queue is not installed yet while the controller is
+>>>> being created, and sqs[0] is set to NULL again when it is destroyed.
+>>>> Reading the tls_key debugfs entry in either window crashes the kernel.
+>>>>
+>>>> Only query the queue's TLS key when the admin queue is present and
+>>>> report 0 otherwise.
+>>>>
+>>>> Fixes: 316dabe6089fe ("nvmet: add tls_concat and tls_key debugfs entries")
+>>>> Cc: stable@vger.kernel.org
+>>>> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+>>>> ---
+>>>>    drivers/nvme/target/debugfs.c | 4 +++-
+>>>>    1 file changed, 3 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/nvme/target/debugfs.c b/drivers/nvme/target/debugfs.c
+>>>> index e85fe1d4c9f8..a27a501fe61a 100644
+>>>> --- a/drivers/nvme/target/debugfs.c
+>>>> +++ b/drivers/nvme/target/debugfs.c
+>>>> @@ -136,8 +136,10 @@ NVMET_DEBUGFS_ATTR(nvmet_ctrl_host_traddr);
+>>>>    static int nvmet_ctrl_tls_key_show(struct seq_file *m, void *p)
+>>>>    {
+>>>>        struct nvmet_ctrl *ctrl = m->private;
+>>>> -    key_serial_t keyid = nvmet_queue_tls_keyid(ctrl->sqs[0]);
+>>>> +    key_serial_t keyid = 0;
+>>>>    +    if (ctrl->sqs[0])
+>>>> +        keyid = nvmet_queue_tls_keyid(ctrl->sqs[0]);
+>>>>        seq_printf(m, "%08x\n", keyid);
+>>>>        return 0;
+>>>>    }
+>>>
+>>> I think it might be easier if 'nvmet_queue_tls_keyid()' would accept
+>>> a NULL argument.
+>> This is simpler, however Sashiko's review points out that after the
+>> NULL check, sq->tls_key clould be freed by nvmet_sq_put_tls_key(),
+>> or sq itself could be destroyed.
+>>
+>> My idea is store admin queue's tls_key to nvmet_ctrl to prevent access
+>> sq and sq->tls_key in debugfs interface, what do you think?
+>>
+> Argl. Don't.
+>
+> I would do something like
+>
+> key_serial_t keyid = ctrl->sqs ? nvmet_queue_tls_keyid(ctrl->sqs[0]):0;
+>
+> to make it clear that ctrl->sqs might be NULL here.
+>
+> Cheers,
+>
+> Hannes
+OK, I will send a v2 patch.
 
-Fixes: 73ffcefcfca0 ("nvme-tcp: check sgl supported by target")
-Fixes: 3f2304f8c6d6 ("nvme-tcp: add NVMe over TCP host driver")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-[ Karl Mehltretter: Omit the SGL-check hunk because 5.10.y lacks
-  73ffcefcfca0 ("nvme-tcp: check sgl supported by target"). ]
-Assisted-by: LLM
-Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
----
-The fix is already in 5.15 and newer.
+Best Regards,
+Guixin Liu
 
-Tested on the 5.10.273 review queue (6aa0165f18f12) in arm64 QEMU,
-using a loopback NVMe/TCP target stub reporting icdoff = 1. Without the
-fix, the connection write succeeds and deleting the remaining controller
-oopses. With the fix, the write fails with -EOPNOTSUPP and no controller
-remains in sysfs.
-
- drivers/nvme/host/tcp.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 9e1c45d7cc999..6c52e7fc2bf46 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -2116,6 +2116,7 @@ static int nvme_tcp_setup_ctrl(struct nvme_ctrl *ctrl, bool new)
- 		return ret;
- 
- 	if (ctrl->icdoff) {
-+		ret = -EOPNOTSUPP;
- 		dev_err(ctrl->device, "icdoff is not supported!\n");
- 		goto destroy_admin;
- 	}
--- 
-2.50.1
 
