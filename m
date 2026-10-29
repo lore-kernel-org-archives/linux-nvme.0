@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68B17606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2939606A31C
 	for <linux-nvme@archiver.kernel.org>; Thu, 29 Oct 2026 15:53:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=UeupuGbN;
-	dkim=pass (2048-bit key, unprotected) header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=fdCDc9s5
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=oma+BlFu;
+	dkim=pass (2048-bit key, unprotected) header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=AQZUTSR9
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
@@ -14,54 +14,54 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=ld/KYE43Sr/GbuMcQC/gA/eFGsFr8F+t0JPU0+cSomw=; b=UeupuGbNb/eqM9755A7S2v8Xi1
-	yOj7Q3bDxB6H2BAGT4PSBMOghseE3d7MGdMc/EhU/qlDA3B9Xvz3GhnLntV2+98O7G86/xdqL0OHW
-	7dSTW0qF1YIXAlELAxXuKjbqQnbmaOTqYGUtv7leIBnqASx5BmfzGUsCHXWKIYD0kuwpiW/8STy4H
-	BIiuM73SxYAjxP1PVUwKszUqO8Mrrrr4pYlKCCTz3Q7audDwSK5GHvrpx/f+e/08SGtDMTe7wbxTC
-	uKkWdIS6+OJCexAdoZELUk1U5JaC7N2XIl2imlkMWqx7bAY/OZizaZtvXAXInCoOLTj2uWVwP8C0R
-	p1eTWSHA==;
+	bh=3ZcL7uhOHB9dAVkO4/B4l0rz1bHfG+oST9Ecj6KhW6o=; b=oma+BlFuaMocUuv1JUldIr5DU4
+	dtwXN5Bz1HPj2Dzd0Fs5qqA++nceFS4Nwa+LmZsHjZfD5chwL/YKFlsWWxF3AB80eura196bxLoTA
+	Y6jSjoqOlljP8s25NGW1fUCL2a2aemalWW4Vx3BnwcnksNC+dSnA/3Fp6J05vbUwQ/X0qfoPdrGKn
+	aN2Uz36iuWI69GGAQilIyxD4jiU4Gm7FFA3Z0btrpjens7XfQFDICrzOvdrlLl+xrQxzTeMatFzTG
+	lo+M9t8mclRFZe44rztaLycP1vHmR8bAMNTIpL20nVUpKA/9P9cwBWTJBzmvkTpe8t6YIxRTfBNuJ
+	j1avtUxQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMSRG-00000009fwS-3pTW;
-	Thu, 29 Oct 2026 15:53:14 +0000
+	id 1xMSRH-00000009fwe-0PuM;
+	Thu, 29 Oct 2026 15:53:15 +0000
 Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMSRC-00000009fta-1AFX
+	id 1xMSRD-00000009fuM-1qaB
 	for linux-nvme@lists.infradead.org;
 	Thu, 29 Oct 2026 15:53:13 +0000
 Received: from pps.filterd (m0044012.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69TCdNgg2670384
-	for <linux-nvme@lists.infradead.org>; Thu, 29 Oct 2026 08:53:08 -0700
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69TCcfBN2668822
+	for <linux-nvme@lists.infradead.org>; Thu, 29 Oct 2026 08:53:11 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	pps82601-s2048-2026-q3; bh=ld/KYE43Sr/GbuMcQC/gA/eFGsFr8F+t0JPU0
-	+cSomw=; b=fdCDc9s55FB9H+kPt13yFHnbcYR1ex4N+/5enndri+EvDjEi55FnK
-	WL1j57w2Cmau149MIbE0qSZFIySi0B775sLmYPT7iUqEouCehh24hEFBabLcT0bH
-	dnuk5rxahn2AcjxGgk1nTl9rfnrcn7VSnKhUxfXw+J+hXau1D2S3JlvNoXFEdKe8
-	O12VwX6i3EGuxeMjFzEcPP7zzCmWDthhiXXEIsfCJNouvnBHmwzKu/vvA1a495NO
-	u6uu82MD1gH/EUPi9TXY2bxi9Yz8nKOKXehUK9SPOQAQTOPEVjBkdVQHy0wkJZvv
-	IcjDDdDmnXiTgHQlVNUAm4ejXrptt9FCw==
-Received: from mail.thefacebook.com ([163.114.134.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4hm28qjnp5-3
+	pps82601-s2048-2026-q3; bh=3ZcL7uhOHB9dAVkO4/B4l0rz1bHfG+oST9Ecj
+	6KhW6o=; b=AQZUTSR9d4xXa2YUBKTJNj9qWZ9N6/nTFUmk4qrhVpS9ldpqSV46q
+	egS4UrrLttHDRqnbOR7nrZZQ9X+zpeNfb40+v838tWi527VSDnJnLmkDg8jmc06n
+	Gcl+EcwaNOqbWMozSr9DDepM6DfHkCNWy+co0jaMf5yjdkJHRjh4ivjuF//W9ZvR
+	56nDlK6S8b8VaYjbr5XoLtmUzMdaPUkqWreh/3VTgdvSPd0+RPM3ZyDmZirAIRxQ
+	XOL3Vk59ts+2r47Jjmn44MgXQeUZnkPveQBQ/wEVVPwmjiiXkrJEpgH3cEp+QLHr
+	0BdXvPKbMwYkhLR56b79kcxqFy5PyGtCg==
+Received: from maileast.thefacebook.com ([163.114.135.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4hm28qjnpd-4
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Thu, 29 Oct 2026 08:53:08 -0700 (PDT)
-Received: from twshared13996.31.frc3.facebook.com (2620:10d:c085:108::150d) by
- mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
+	for <linux-nvme@lists.infradead.org>; Thu, 29 Oct 2026 08:53:10 -0700 (PDT)
+Received: from twshared36767.32.frc3.facebook.com (2620:10d:c0a8:fe::f072) by
+ mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.56; Thu, 29 Oct 2026 15:53:05 +0000
+ 15.2.2562.56; Thu, 29 Oct 2026 15:53:07 +0000
 Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
-	id 5D09F2E22CEB3; Thu, 29 Oct 2026 08:52:57 -0700 (PDT)
+	id 758442E22CEAD; Thu, 29 Oct 2026 08:52:56 -0700 (PDT)
 From: Keith Busch <kbusch@meta.com>
 To: <linux-nvme@lists.infradead.org>
-CC: <axboe@kernel.dk>, <hch@lst.de>, Chris Mason <mason@kernel.org>,
+CC: <axboe@kernel.dk>, <hch@lst.de>, Josef Bacik <josef@toxicpanda.com>,
         Sagi
  Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
-        Keith Busch
-	<kbusch@kernel.org>
-Subject: [PATCH 09/19] nvmet: fix pc_ref use-after-free in preempt and abort
-Date: Thu, 29 Oct 2026 08:52:42 -0700
-Message-ID: <20261029155252.2332266-10-kbusch@meta.com>
+        Hannes
+ Reinecke <hare@kernel.org>, Keith Busch <kbusch@kernel.org>
+Subject: [PATCH 07/19] nvmet-tcp: let the accept work come to an end
+Date: Thu, 29 Oct 2026 08:52:40 -0700
+Message-ID: <20261029155252.2332266-8-kbusch@meta.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20261029155252.2332266-1-kbusch@meta.com>
 References: <20261029155252.2332266-1-kbusch@meta.com>
@@ -70,30 +70,31 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI5MDA2MSBTYWx0ZWRfXx9bZSg0E/1xm
- /tzbe6sdkIo54frCZ6FtZLPtW2VtHDlr3sFgrHUT/WqE6JMbIJvdewN9x5LLnFwfeou9CTnv6Hw
- K2z0OwUwC9ldUGKmjKjPTmWOosIwHwM=
-X-Proofpoint-GUID: 7T5yfkxTWdWFCIgk1xgh251_bPPuCph2
-X-Proofpoint-ORIG-GUID: 7T5yfkxTWdWFCIgk1xgh251_bPPuCph2
-X-Authority-Analysis: v=2.4 cv=NudE4MdJ c=1 sm=1 tr=0 ts=6ae36be4 cx=c_pps
- a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
- a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
- a=PAz_-FQ8hEVmOPYdF0yf:22 a=VwQbUJbxAAAA:8 a=Ikd4Dj_1AAAA:8
- a=cJzY04SRZynBs7MXj8gA:9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI5MDA2MSBTYWx0ZWRfX1XTQvfkn9Mcf
- Fp8UdukHrsTLaoPtYE+Fo0mXbdt0/xnhxhsUwSaAa1miOoQCAgknOL0m8tldlKZ8/SfSfRC1bQ9
- EsfbSLfpVXZ5Pf3clVgwk/0WjTnekBhyGt5vH3sDw9r8DPfg5w8ivq/1fFmp+gML5duB/wKsiq+
- BTsz/yAOpIxqfKuM+dbHypg86Imb8jKIUoTrZKuWHGXuZAyPBvsJxQnw+oZToz8fu/WcJSrmLH4
- +8oTXuCRyu42HcXzTwrkYC1R6KvKlgWqvA4nl737cFmbrhpL/sRcGA7i9W2YZ81/0imFOj+jrCm
- taWhMURaE6I6f920E6iTRmjmsteEXl7SRWElegknJosR9+ukHEq4waoNK/OPEBMna7MWlchpgPS
- 51qGyDYdiR+TjKRU6HDrENea+dQkPZsvxhUK5fHfgXVBuXMxjENWLT2mud+rHHhkgjNloujtLE0
- r2qwmP49V6H8wy8F7AQ==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI5MDA2MiBTYWx0ZWRfX5syQs8TamKGn
+ T2CcuXbmGCAmqOzEbFuC4EzCnW+WCPpu7/2gc5X7iyS7gUZUGOroS3L2/OENxhf0cila5Vv9d/B
+ RVa+vhRGVIp4GEtgK54L74GtFEBzkDQ=
+X-Proofpoint-GUID: inAwwW_oqX_p9Mg9HehlMUZ0ZfPAffT8
+X-Proofpoint-ORIG-GUID: inAwwW_oqX_p9Mg9HehlMUZ0ZfPAffT8
+X-Authority-Analysis: v=2.4 cv=NudE4MdJ c=1 sm=1 tr=0 ts=6ae36be7 cx=c_pps
+ a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
+ a=6f_Js7kaMIyz5LlK:21 a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=7x6HtfJdh03M6CCDgxCd:22 a=PAz_-FQ8hEVmOPYdF0yf:22 a=maIFttP_AAAA:8
+ a=Ikd4Dj_1AAAA:8 a=VwQbUJbxAAAA:8 a=kaggLGEg1OjrjjH46csA:9
+ a=qR24C9TJY6iBuJVj_x8Y:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI5MDA2MiBTYWx0ZWRfX+YNrzmXyT7RY
+ ejrwqvfIt7XxvGBRviDvRSaixK5i+akpIqJwJPA99zPwgViDk2mCMXtTmg2xxlmerHAulwI7Bpj
+ PkcNM0d/jXTZKCNQkgj8066JvoFOvXhU0/1GHc4JB+g9T4jMh0oTWlX6j3SwBdVC5UTIrje1gfa
+ f6uufoqgdC9QLJdYWaeb8cAGHj7Y4hgqcrfGNvc1aTTqm8syBx3MxLX3bygKr8frYN4fxnDHWh4
+ d82rkit7Mzt0GTiZk9k1EnjrW/s7GCVulctctxI5oUv1MU4D+48/7+kicdAa0whufBdOR6Ycxxf
+ sOIE+gVSqdHa849/0RiGuTBUL9ytH3FdwIEhI1txJzOlpuJ+QqrlridjzjFU0kpV62Z0EgRiYvt
+ mhUqpcxRgeW0OroxWzAxJvHv1L+UxUgSOP5qobIdpz67NampbTusKox2tEeGwSQzir+dUU5lcJX
+ 6FDs6sOiDOIS93btpPg==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-10-29_04,2026-10-21_02,2025-10-01_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261029_085310_354465_A28CD1B8 
-X-CRM114-Status: GOOD (  22.23  )
+X-CRM114-CacheID: sfid-20261029_085311_484781_BF741D7D 
+X-CRM114-Status: GOOD (  15.08  )
 X-Spam-Score: -2.8 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -113,241 +114,66 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-From: Chris Mason <mason@kernel.org>
+From: Josef Bacik <josef@toxicpanda.com>
 
-With reservations enabled on a namespace, the target keeps a pc_ref per
-controller, a percpu_ref counting that controller's I/O on the
-namespace. "Preempt and abort" kills the pc_refs of the preempted
-controllers and waits for the kill to be confirmed in
-nvmet_pr_set_ctrl_to_abort(), then waits for the count to drop to zero
-and resurrects them in nvmet_pr_do_abort(). Neither holds a reference
-to the pc_ref, only pr_sem. nvmet_ctrl_destroy_pr() frees the pc_refs
-under subsys->lock when the controller goes away, so a host that
-registers a key, disconnects, and sends preempt and abort with that key
-over a second connection frees a pc_ref that the abort is sleeping on:
+nvmet_tcp_accept_work() loops until there's nothing left to accept, and
+anyone opening and closing connections fast enough keeps it running
+indefinitely, since tearing down a dead connection takes long enough for
+more to arrive. Whoever flushes nvmet_wq waits for it: removing any
+other port of the target does in nvmet_port_release(), and so does
+unloading the rdma and fc modules.
 
-    preempt and abort on C1            last put of C2
-    nvmet_pr_set_ctrl_to_abort()
-      percpu_ref_kill_and_confirm()
-      wait_for_completion()
-                                       nvmet_ctrl_destroy_pr()
-                                         percpu_ref_exit()
-                                         kfree(pc_ref)
-    percpu_ref_switch_to_atomic_rcu()  /* use after free */
+Accept a bounded number of connections per run and requeue the work. A
+flush doesn't wait for work queued behind it.
 
-Put the pc_refs that an abort has killed on a per-namespace list.
-nvmet_ctrl_destroy_pr() only flags a pc_ref on that list, and
-nvmet_pr_do_abort() frees flagged ones once it's done with them. The
-list and the flag are written under the xarray lock.
-
-Fixes: 5a47c2080a73 ("nvmet: support reservation feature")
+Fixes: 872d26a391da ("nvmet-tcp: add NVMe over TCP target driver")
 Cc: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>
 Cc: Chaitanya Kulkarni <kch@nvidia.com>
-Signed-off-by: Chris Mason <mason@kernel.org>
+Reviewed-by: Hannes Reinecke <hare@kernel.org>
+Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 Signed-off-by: Jens Axboe <axboe@kernel.dk>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- drivers/nvme/target/nvmet.h |  5 ++
- drivers/nvme/target/pr.c    | 92 ++++++++++++++++++++++++++-----------
- 2 files changed, 69 insertions(+), 28 deletions(-)
+ drivers/nvme/target/tcp.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index d7804bf91aaa8..a89b384c4bbc9 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -88,6 +88,8 @@ struct nvmet_pr {
- 	 */
- 	struct semaphore	pr_sem;
- 	struct list_head	registrant_list;
-+	/* The pc_refs that a running "preempt and abort" has killed. */
-+	struct list_head	abort_list;
- };
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index 158e422851a4b..5105317cc61e3 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -102,6 +102,7 @@ MODULE_PARM_DESC(tls_handshake_timeout,
+ #define NVMET_TCP_RECV_BUDGET		8
+ #define NVMET_TCP_SEND_BUDGET		8
+ #define NVMET_TCP_IO_WORK_BUDGET	64
++#define NVMET_TCP_ACCEPT_BUDGET		16
 =20
- struct nvmet_pr_per_ctrl_ref {
-@@ -95,6 +97,9 @@ struct nvmet_pr_per_ctrl_ref {
- 	struct completion	free_done;
- 	struct completion	confirm_done;
- 	uuid_t			hostid;
-+	/* Both are written under the lock of ns->pr_per_ctrl_refs. */
-+	struct list_head	abort_entry;
-+	bool			ctrl_gone;
- };
+ enum nvmet_tcp_send_state {
+ 	NVMET_TCP_SEND_DATA_PDU,
+@@ -2073,9 +2074,9 @@ static void nvmet_tcp_accept_work(struct work_struc=
+t *w)
+ 	struct nvmet_tcp_port *port =3D
+ 		container_of(w, struct nvmet_tcp_port, accept_work);
+ 	struct socket *newsock;
+-	int ret;
++	int ret, i;
 =20
- struct nvmet_ns {
-diff --git a/drivers/nvme/target/pr.c b/drivers/nvme/target/pr.c
-index 14eaa99f98fa3..1c0d6cac1a6b3 100644
---- a/drivers/nvme/target/pr.c
-+++ b/drivers/nvme/target/pr.c
-@@ -468,18 +468,54 @@ static void nvmet_pr_confirm_ns_pc_ref(struct percp=
-u_ref *ref)
- 	complete(&pc_ref->confirm_done);
+-	while (true) {
++	for (i =3D 0; i < NVMET_TCP_ACCEPT_BUDGET; i++) {
+ 		ret =3D kernel_accept(port->sock, &newsock, O_NONBLOCK);
+ 		if (ret < 0) {
+ 			if (ret !=3D -EAGAIN)
+@@ -2084,6 +2085,9 @@ static void nvmet_tcp_accept_work(struct work_struc=
+t *w)
+ 		}
+ 		nvmet_tcp_alloc_queue(port, newsock);
+ 	}
++
++	/* There may be more. Come to an end for those who flush nvmet_wq. */
++	queue_work(nvmet_wq, &port->accept_work);
  }
 =20
-+static void nvmet_pr_free_pc_ref(struct nvmet_pr_per_ctrl_ref *pc_ref)
-+{
-+	percpu_ref_exit(&pc_ref->ref);
-+	kfree(pc_ref);
-+}
-+
-+/*
-+ * The controller goes away. "Preempt and abort" sleeps on the pc_refs o=
-n its
-+ * list, so leave the free of such a pc_ref to nvmet_pr_do_abort().
-+ */
-+static void nvmet_pr_erase_pc_ref(struct nvmet_ns *ns, unsigned long cnt=
-lid)
-+{
-+	struct nvmet_pr_per_ctrl_ref *pc_ref;
-+
-+	xa_lock(&ns->pr_per_ctrl_refs);
-+	pc_ref =3D __xa_erase(&ns->pr_per_ctrl_refs, cntlid);
-+	if (pc_ref && !list_empty(&pc_ref->abort_entry)) {
-+		pc_ref->ctrl_gone =3D true;
-+		pc_ref =3D NULL;
-+	}
-+	xa_unlock(&ns->pr_per_ctrl_refs);
-+
-+	if (pc_ref)
-+		nvmet_pr_free_pc_ref(pc_ref);
-+}
-+
- static void nvmet_pr_set_ctrl_to_abort(struct nvmet_req *req, uuid_t *ho=
-stid)
- {
- 	struct nvmet_pr_per_ctrl_ref *pc_ref;
- 	struct nvmet_ns *ns =3D req->ns;
- 	unsigned long idx;
-=20
-+	xa_lock(&ns->pr_per_ctrl_refs);
- 	xa_for_each(&ns->pr_per_ctrl_refs, idx, pc_ref) {
--		if (uuid_equal(&pc_ref->hostid, hostid)) {
--			percpu_ref_kill_and_confirm(&pc_ref->ref,
--						nvmet_pr_confirm_ns_pc_ref);
--			wait_for_completion(&pc_ref->confirm_done);
--		}
-+		if (uuid_equal(&pc_ref->hostid, hostid) &&
-+		    list_empty(&pc_ref->abort_entry))
-+			list_add_tail(&pc_ref->abort_entry,
-+				      &ns->pr.abort_list);
-+	}
-+	xa_unlock(&ns->pr_per_ctrl_refs);
-+
-+	list_for_each_entry(pc_ref, &ns->pr.abort_list, abort_entry) {
-+		/* Killed for another host that this command preempts. */
-+		if (percpu_ref_is_dying(&pc_ref->ref))
-+			continue;
-+		percpu_ref_kill_and_confirm(&pc_ref->ref,
-+					    nvmet_pr_confirm_ns_pc_ref);
-+		wait_for_completion(&pc_ref->confirm_done);
- 	}
- }
-=20
-@@ -618,20 +654,27 @@ static u16 nvmet_pr_preempt(struct nvmet_req *req,
- static void nvmet_pr_do_abort(struct work_struct *w)
- {
- 	struct nvmet_req *req =3D container_of(w, struct nvmet_req, r.abort_wor=
-k);
--	struct nvmet_pr_per_ctrl_ref *pc_ref;
-+	struct nvmet_pr_per_ctrl_ref *pc_ref, *tmp;
- 	struct nvmet_ns *ns =3D req->ns;
--	unsigned long idx;
-+	bool ctrl_gone;
-=20
- 	/*
- 	 * The target does not support abort, just wait per-controller ref to 0=
-.
- 	 */
--	xa_for_each(&ns->pr_per_ctrl_refs, idx, pc_ref) {
--		if (percpu_ref_is_dying(&pc_ref->ref)) {
--			wait_for_completion(&pc_ref->free_done);
--			reinit_completion(&pc_ref->confirm_done);
--			reinit_completion(&pc_ref->free_done);
--			percpu_ref_resurrect(&pc_ref->ref);
--		}
-+	list_for_each_entry_safe(pc_ref, tmp, &ns->pr.abort_list, abort_entry) =
-{
-+		wait_for_completion(&pc_ref->free_done);
-+		reinit_completion(&pc_ref->confirm_done);
-+		reinit_completion(&pc_ref->free_done);
-+		percpu_ref_resurrect(&pc_ref->ref);
-+
-+		/* Off the list, the pc_ref belongs to its controller again. */
-+		xa_lock(&ns->pr_per_ctrl_refs);
-+		list_del_init(&pc_ref->abort_entry);
-+		ctrl_gone =3D pc_ref->ctrl_gone;
-+		xa_unlock(&ns->pr_per_ctrl_refs);
-+
-+		if (ctrl_gone)
-+			nvmet_pr_free_pc_ref(pc_ref);
- 	}
-=20
- 	up(&ns->pr.pr_sem);
-@@ -1052,6 +1095,8 @@ static int nvmet_pr_alloc_and_insert_pc_ref(struct =
-nvmet_ns *ns,
- 	init_completion(&pc_ref->free_done);
- 	init_completion(&pc_ref->confirm_done);
- 	uuid_copy(&pc_ref->hostid, hostid);
-+	INIT_LIST_HEAD(&pc_ref->abort_entry);
-+	pc_ref->ctrl_gone =3D false;
-=20
- 	ret =3D xa_insert(&ns->pr_per_ctrl_refs, idx, pc_ref, GFP_KERNEL);
- 	if (ret)
-@@ -1067,7 +1112,6 @@ static int nvmet_pr_alloc_and_insert_pc_ref(struct =
-nvmet_ns *ns,
- int nvmet_ctrl_init_pr(struct nvmet_ctrl *ctrl)
- {
- 	struct nvmet_subsys *subsys =3D ctrl->subsys;
--	struct nvmet_pr_per_ctrl_ref *pc_ref;
- 	struct nvmet_ns *ns =3D NULL;
- 	unsigned long idx;
- 	int ret;
-@@ -1095,19 +1139,14 @@ int nvmet_ctrl_init_pr(struct nvmet_ctrl *ctrl)
-=20
- free_per_ctrl_refs:
- 	nvmet_for_each_enabled_ns(&subsys->namespaces, idx, ns) {
--		if (ns->pr.enable) {
--			pc_ref =3D xa_erase(&ns->pr_per_ctrl_refs, ctrl->cntlid);
--			if (pc_ref)
--				percpu_ref_exit(&pc_ref->ref);
--			kfree(pc_ref);
--		}
-+		if (ns->pr.enable)
-+			nvmet_pr_erase_pc_ref(ns, ctrl->cntlid);
- 	}
- 	return ret;
- }
-=20
- void nvmet_ctrl_destroy_pr(struct nvmet_ctrl *ctrl)
- {
--	struct nvmet_pr_per_ctrl_ref *pc_ref;
- 	struct nvmet_ns *ns;
- 	unsigned long idx;
-=20
-@@ -1115,12 +1154,8 @@ void nvmet_ctrl_destroy_pr(struct nvmet_ctrl *ctrl=
-)
- 	mutex_destroy(&ctrl->pr_log_mgr.lock);
-=20
- 	nvmet_for_each_enabled_ns(&ctrl->subsys->namespaces, idx, ns) {
--		if (ns->pr.enable) {
--			pc_ref =3D xa_erase(&ns->pr_per_ctrl_refs, ctrl->cntlid);
--			if (pc_ref)
--				percpu_ref_exit(&pc_ref->ref);
--			kfree(pc_ref);
--		}
-+		if (ns->pr.enable)
-+			nvmet_pr_erase_pc_ref(ns, ctrl->cntlid);
- 	}
- }
-=20
-@@ -1136,6 +1171,7 @@ int nvmet_pr_init_ns(struct nvmet_ns *ns)
- 	atomic_set(&ns->pr.generation, 0);
- 	sema_init(&ns->pr.pr_sem, 1);
- 	INIT_LIST_HEAD(&ns->pr.registrant_list);
-+	INIT_LIST_HEAD(&ns->pr.abort_list);
- 	ns->pr.notify_mask =3D 0;
-=20
- 	xa_init(&ns->pr_per_ctrl_refs);
+ static void nvmet_tcp_listen_data_ready(struct sock *sk)
 --=20
 2.52.0
 
