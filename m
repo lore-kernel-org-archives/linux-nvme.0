@@ -2,104 +2,116 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 226F1606A31A
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 Oct 2026 10:59:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEA5C606A31A
+	for <linux-nvme@archiver.kernel.org>; Thu, 29 Oct 2026 11:34:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=monOkC4F;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xciGgwMB
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=CVtjrsCJ;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=TFbRR8cL
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=BjLzw1kM6LZTzUaUxJhqUTMufk3/F/G637drKyKaiJE=; b=monOkC4FoH6xyC
-	aijRJr3zXh+eivmTciQY5y82yTpdY4di/mC3jhvHsfgLliu/mv1d+GAPxFvC3xkNRoIPMO47D1zBT
-	CsBJM3JA4b7ZGnQoIpw5xwvih0L8HejD7FYNpQ5gS4e7UbomdozZ7gF+EhuH9IkbFFJ9FbbEbsR/l
-	tvQ4BuZzHCeHQaCGt5dCzbsT8ar3xO2AdrofEOm/FKoY+m6mUHTQAR0ktyPbOE4HQ1DtQrWc/8LGN
-	SG7aiSD5j031DVB9kztzdTJQU3ZcjJ8Uc7PUluO/SN5GuPd7dvbF7WKUaopyKC0u6ObK4YGfd0BMT
-	mPxu4SuQMhYu0SU0fC3w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Unsubscribe-Post:List-Owner;
+	bh=Fxs2p2vZjp5Ja+55tP7VAzUi3885HhPUvSbaP3WtHOs=; b=CVtjrsCJyPap0J/xFgKT3ZDjbX
+	rUFqYp2q+RyFs+/cDHsglGkBrpRlKiDytghODleS+1VjsaI3PWc0gSr3bEsoK6y88uTCYnx4qJket
+	ON2NnKC2oebGR8QWMSb3Q/kEgKtIWNGlQO0RJZ71BVbbxypgS2tGouoCGTgwBwztmMcyRTwdpztir
+	O4h/JK6oAwsxdHvYyUhtNfKbGpGaQZ19BM1UW15HC4zjLLz5Z1Wpy4wTGUeH7xNR2nfzIpLcpeOeD
+	qZkB8pier5Z0a75weiTVKv+1BczPeCrMH43S9jgmglEAdZqDBQ+VfHPcy7p50K/D67QMW0KAwuN5k
+	vNPOS6wA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMNqz-000000091vU-2WzU;
-	Thu, 29 Oct 2026 10:59:29 +0000
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+	id 1xMOOw-000000094IN-1qsZ;
+	Thu, 29 Oct 2026 11:34:34 +0000
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMNqy-000000091v9-0In3
+	id 1xMOOt-000000094I2-02Xg
 	for linux-nvme@lists.infradead.org;
-	Thu, 29 Oct 2026 10:59:29 +0000
-Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-4a208d93758so20349785e9.3
-        for <linux-nvme@lists.infradead.org>; Thu, 29 Oct 2026 03:59:27 -0700 (PDT)
+	Thu, 29 Oct 2026 11:34:32 +0000
+Received: by mail-ed1-x534.google.com with SMTP id 4fb4d7f45d1cf-6af9a9451daso2494298a12.0
+        for <linux-nvme@lists.infradead.org>; Thu, 29 Oct 2026 04:34:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793273668; cv=none;
+        d=google.com; s=arc-20260327;
+        b=aR3QIw38rUxu69NyaRfEWb3X/w85yfgLDLqiTPRFHQ3cUn9FK6sbKyAQ4XAWQ3OzO0
+         cKL/Gr3rTyWIOr1L5aLFBPnPF5imPmw7VJu/lMi+USr0UtU69XTLcJKXh9TqQ2c+Or9c
+         vLlXUi3p1IJ3r/b7PeJ+YImFuumoV0vhqgGLPxFswZTcNITvV8zexMF8RZKhgd6ju/No
+         6mJYEqzvJ4e2DXRCAulsWqVjSoxKlNUOmUmDsx9oL16l1/hFHjlxf30e9pWleEiEQO58
+         smfrQSsqxcEpwqwqjvNJva9dXUL55KFWTyxz2Qn55v2juV99aBGxL9PUacjLVDEMv23H
+         5DKw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Fxs2p2vZjp5Ja+55tP7VAzUi3885HhPUvSbaP3WtHOs=;
+        fh=/+EpCuyDBJxyWkL1lFlcIpcOZVE8OONFJeg/MQeTAJ0=;
+        b=IXC1OHtjV/I5KmycMPCdXiJPzaiZkho5jqukiznNNNXS2nzpCLvOKo+CbtDhLoGyaD
+         a8rZqqvhThA1kR7+nMX1nAr5xcY86YK1cNIVaOTaboAvXRAjh3V250iRihW35Co8TfZQ
+         O1+TXNMG/+JY3VxDdQeyuf7j3EpD6Ii/uibWlRQeSSL1UPsm1J9C2QOBV/dpViBX6ODK
+         ZsUvaTHkH05mOLfcu4LEAPV3QOnWRnN5PYhBNGiFkSzKoT7VRgUe03cvhy8iU7Ax08CM
+         Mwvhiwso+0XWpKw8pwodS16RX7g4SDkLUdeUqauFsEisPh228Poe4oYJnhmOdDGVphOP
+         gGjg==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793271566; x=1793876366; darn=lists.infradead.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20260707; t=1793273668; x=1793878468; darn=lists.infradead.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=BjLzw1kM6LZTzUaUxJhqUTMufk3/F/G637drKyKaiJE=;
-        b=xciGgwMBmLFkx2FqPHiAJxpsCU0xFfrH6BX3jmyzcIdzAKHrO0tjnK91PQF4GkUeyK
-         AOqDj9k3qQfCjDBrJULV2HvevQxlZy4UHvyqrsdsWD4rbBRhf/aEECqM3D8PJiCC4til
-         VBodbHyP6fSbKOrX21Ow883F+i95vC4zqaMjp5RG+ZX40P6epQigyerummP/0emam5GO
-         /T4uS9fr3d/fLFk+9miYuCkDbm3ieSwP8GDVo4KlEtywfKsV/n403xTGtncV3UXwAAxS
-         7/5VBAe1fhdCKSYzAj55VVTlti44/2fnfr8KXGV4InhTraaIMxflUMoRV07LbzpjzTdH
-         /xsQ==
+        bh=Fxs2p2vZjp5Ja+55tP7VAzUi3885HhPUvSbaP3WtHOs=;
+        b=TFbRR8cL/fzTF9ANdb9ciA+vWcAKolif5hPwPF9zMKM7X3HXgd3i+OL0MJ0fnB+iAW
+         Aq/e94tblmr33vdu7nMrGfwl7S4pD6FV5y+nB8GabM6J+X4/l1eOLTwgBmyze3HqPmyj
+         AKxbgl0642uaWx6lqlta8ta1DjPjE/1nj7e0imW5tg8c/F86DKWhCNOkLLTYyFoh96Yp
+         XcHyUVp+FiuJs0C3WqAWRX/RM2g3/LtJkNLvYuLrp501qmmyEyUnxSZJfDRPFoX7w1bX
+         KtMekdfV/EaBgcz2sw4mJwFe6D7Lpc9pKtm1r9OmdtnYYTlRD0oc66/nYQgYZgIr5Hi1
+         xtyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793271566; x=1793876366;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=BjLzw1kM6LZTzUaUxJhqUTMufk3/F/G637drKyKaiJE=;
-        b=vidbz5avas2cEr0GCbR6CL/CrWIrJQS7hKqzPS8fxoFYVpeCY7tCfDkoiKp8KFUn3Q
-         KBEGKLbgCA0mdaj0IiVbktxeOv4GgrONk2UyyCw7IaKu6rXaCRXIgjmC9nhp5wIVW0E2
-         Rf/cJHmJ8zccUDJgZBKBYBtcJcRP4O1Sal6snzMRCYJ6MdBSqDjvKlXIInqan+Z1CKoj
-         88PXNm3PYitWqObkimyrdYE1n4fxn8ypueWEWqN0l0xsIha1BMGDs+Wa01giJaMri1Xv
-         EadLRpAfi2URWEyT5EIlFRqX0aR/JuLhpL0IAzIOaUiE9atcVNHTTgTFWKRi/uUIe2AI
-         OLZw==
-X-Forwarded-Encrypted: i=1; AKwUvBxxJWA3ydwFabxjGFRGWApsXm/qHs4EW9z72Be22hAHGlb5L25DLHo0hVPvgi8gdClOdVaWyRB2Gs4g@lists.infradead.org
-X-Gm-Message-State: AFq9FYKVcoJDcntmMqCUpyzyWeoIBD6pTNdkj9kaStrVCOfbSiZR1SAl
-	CVIYDpm9pMvk40FQTLsvBjEC4tleyHIV3y5b6vtuFEy4r8enQORhktK5
-X-Gm-Gg: AYBFou2MB4B94ZGsqrDm9XrbZ/fNw02TqTmx9jhzJwES90BDAxF2JMmBr9XSjF1rslq
-	oc5JnEXMxYmt6I7NIsN1FcagZWIo6xQhWLhHJ/kcS3cU6HT6O+zRnuO+pkqfEK5bF/uHbEYrQY+
-	Uo31QYQpyxJaqxPCxuve2KCzidd+O/WWA6+mJZpOUoXl/qbM3oN68anLf1zi2HGfpepmYVZyn8n
-	M6NBkJhKNGH3QUG6aD6zWODQJPcvyOmqnJwESrL2oqgTYu4I6JRmjtfQhiH5dcQa7nA0FQdUI6D
-	JD0RFHLuHkAf7tFJC56Z1DyeTu4alP8dbg6JDdZqev1FL2Y+2AeYGGXoPn4beW9JuNqg6t1aRPo
-	WXkStVKQVps0SoJKdOmaCYVw6ISSi6O7UJcnjM9ISsV51iqI11EjqJVWypOBWUCXlg8zgnVxmyp
-	ii5c7lBzP4PdoZ8b1egayxHfBYO5bJ9pEqlkI2gkSij66YnE1cC9P028sh9JiXi/8hI1Bl6/o9F
-	ofKaLBk3GimImw3gK/nwiHDAzpOehRdq8IBQrBLLis0V3I8dPaABvWy7rJhnhkvJnzijsbP9UY3
-	V+vUP80xAVQwZFYUsIQIoqrKeAk4qmqSD+MDSdU0u/UcfhqMdqyMvLxu5IZlKc/6meq5IYbOr1i
-	ikmTyUvBywhk4TMvbiWPvOcqaa1MsQi+DUQz/uCxpYjZaFFnhtzwWJh9E08bCS8OZu21BhTsV9W
-	OTqQ==
-X-Received: by 2002:a05:600c:4f89:b0:4a1:c6fd:4db0 with SMTP id 5b1f17b1804b1-4a966c41836mr125002085e9.19.1793271565710;
-        Thu, 29 Oct 2026 03:59:25 -0700 (PDT)
-Received: from ?IPV6:2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c? ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4aa7ee575e2sm58301065e9.1.2026.10.29.03.59.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Oct 2026 03:59:25 -0700 (PDT)
-Message-ID: <c4acc3b3-be8c-49c6-b1ec-b25431d28d8d@gmail.com>
-Date: Thu, 29 Oct 2026 10:59:26 +0000
+        d=1e100.net; s=20260707; t=1793273668; x=1793878468;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Fxs2p2vZjp5Ja+55tP7VAzUi3885HhPUvSbaP3WtHOs=;
+        b=HzFXGdBnPXCy8ikv2OHVaMhtReP+9gzPLbQXovqDhy52S/FN6TovXmSpoGKG5Q5Cjb
+         xjf2zBT7cCQSWAWD98dhwBozm7jKuC9xjn0H8V/I5tg7Eaw9khbJ3VDGMpOcOULyHQGj
+         g8NzXCxtu8dwN2MhLRoorYQ6ZlM8G3AabtrkVwfY2emxp0k4A7QJQlfV58JsaWKYrzsD
+         2cgtZBh7rkBVa7opvxmyrHSbOG1FDqfbJu5FdN/GEYvmxzCjzxq7JDAQhWhNkt9yEBPv
+         UFPvhIk5k87T/RO6fdpRF+KD7+uvqTI8Yo5D9KE2wUJmAoIh+lD7U5OQapxFI1zpkavU
+         e4cw==
+X-Forwarded-Encrypted: i=1; AKwUvBwDKjwzA6qDk7ey5iG8gaqcqosTUcSKtfAQRajrkswfV/sneY8HeTNuITd+WvgSnp9Ui4MzGQro3W8c@lists.infradead.org
+X-Gm-Message-State: AFq9FYLk2l5Pjp6ozltuNzHkBMORKz2VUd1jC2SFuJk0tTdJ7hO1XU5d
+	tJOQ8r9tMxVlmldC2Po61tZVh5uxVQv+nfC4n/mYV2qJMi5oeT1r9ZiD2DSavhGXEWk3xVWLV1v
+	lxuZb59xp6ASXwwmO6MLdo12SnlT69g==
+X-Gm-Gg: AYBFou1zLa1WoE6lWrh8Y50ULkRWawWit4EnrNPUux8ZyQvuq0ZbBvzqn8s/ZFxTIGR
+	4MiSlzqDr0GryfM3cmJqNwxhW3bG2xW5gdoFLimUN0RlfMF6epB/23eBKVQmkbFzLXrFRDKasne
+	tWwC5Six8QVGrU5D+FKsOdwKMCSSZlP74my9elYA4pnQsOWndo68SJ4M5XqVK76ihRCZ0WJrfyq
+	q3ainpHl6KR7kKIPLKvXSBhDOS+Bee9tcFC1PasJx74YuJ/VF3RK+KAp92dC1UEfj4ngAvCK2gK
+	eOGsxs7zBGfJ4/CyTIUb0e+z/O3EkwFrTDvBUcWA2+anPGhF7rfux5ofL5RE/g0epV6KicmvbnE
+	+Y8wuCID++AU0zYgnNJwqcYwo2wRLV+9Z8wGQec/3NuvRtA5kefdiIMIAU21CQPpSRjvwqxVxqw
+	so3znk+WAmftAAIySALsjrVfCAJeZuO5t0y0IDAE3ZsYSa
+X-Received: by 2002:aa7:d386:0:b0:6b1:bcb9:15a with SMTP id
+ 4fb4d7f45d1cf-6b49cbe4f13mr2485749a12.20.1793273668033; Thu, 29 Oct 2026
+ 04:34:28 -0700 (PDT)
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/5] io_uring/uring_cmd: support dma-buf registered
- buffers
-To: Anuj Gupta <anuj1072538@gmail.com>, axboe@kernel.dk, kbusch@kernel.org,
- hch@lst.de, sagi@grimberg.me, James.Bottomley@HansenPartnership.com,
- mkp@kernel.org, bernd@bsbernd.com, joannelkoong@gmail.com, miklos@szeredi.hu
-Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
- fuse-devel@lists.linux.dev, joshi.k@samsung.com, anuj20.g@samsung.com
-References: <20261022144501.2478417-1-anuj1072538@gmail.com>
- <20261022144501.2478417-4-anuj1072538@gmail.com>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <20261022144501.2478417-4-anuj1072538@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20261028181412.1919506-1-kbader@redhat.com>
+In-Reply-To: <20261028181412.1919506-1-kbader@redhat.com>
+From: Anuj gupta <anuj1072538@gmail.com>
+Date: Thu, 29 Oct 2026 17:03:48 +0530
+X-Gm-Features: AclHuK80QgKYucRyIWXZZ12A-Bk4L1d3Sa54QPpy49ElFlJWi5EmglCzjpxKLqk
+Message-ID: <CACzX3At39QvtmM=sGh13+uCaU9RWhKW8e8r1hPLMJ3LdFAsetg@mail.gmail.com>
+Subject: Re: [PATCH] block: only fail dma-buf bios that need block layer PI
+To: Kyle Bader <kbader@redhat.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Pavel Begunkov <asml.silence@gmail.com>, Kyle Bader <kbader@ibm.com>, 
+	Anuj Gupta <anuj20.g@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>, 
+	Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, 
+	"Martin K. Petersen" <martin.petersen@oracle.com>, Tushar Gohad <tushar.gohad@intel.com>, 
+	linux-block@vger.kernel.org, io-uring@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261029_035928_121354_A15CDE1A 
-X-CRM114-Status: GOOD (  10.10  )
-X-Spam-Score: -2.1 (--)
+X-CRM114-CacheID: sfid-20261029_043431_079393_3AC6E944 
+X-CRM114-Status: UNSURE (   7.28  )
+X-CRM114-Notice: Please train this message.
+X-Spam-Score: -0.8 (/)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,29 +122,14 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_GMAIL_RCVD,
+	FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On 10/22/26 15:44, Anuj Gupta wrote:
-> From: Anuj Gupta <anuj20.g@samsung.com>
-> 
-> Let callers of io_uring_cmd_import_fixed() opt in to dma-buf registered
-> buffers with IO_URING_CMD_IMPORT_DMABUF, and attach the current map on
-> import.
-> 
-> The map has to be dropped at hardware completion rather than from
-> task_work. Add io_uring_cmd_hw_done() for drivers to call from end_io,
-> which drops the map and queues task_work, and warn if task_work is
-> queued with a map still attached.
-
-Reviewed-by: Pavel Begunkov <asml.silence@gmail.com>
-
--- 
-Pavel Begunkov
-
+Looks ok to me
+Reviewed-by: Anuj Gupta <anuj20.g@samsung.com>
 
