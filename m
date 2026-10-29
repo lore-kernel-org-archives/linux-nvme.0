@@ -2,106 +2,63 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9CF8606A321
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 Oct 2026 00:51:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05D4F606A31A
+	for <linux-nvme@archiver.kernel.org>; Thu, 29 Oct 2026 02:15:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=d9gZahwm;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ehAA92vF
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=XIS5YSXX;
+	dkim=pass (2048-bit key, unprotected) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=n4z7pKfv
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	Content-Transfer-Encoding:Cc:To:Message-Id:Content-Type:MIME-Version:Subject:
-	Date:From:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Mime-Version:
+	Subject:Cc:Content-Transfer-Encoding:Content-Type:In-Reply-To:From:To:
+	Message-Id:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=OQxAwIFM4Dy+JaXQReRXxUOmCNsUI1oyyY7VMdV3wqE=; b=d9gZahwmaPOCA0ufWZPDx8YLYq
-	6/p7RGJkR6S0HmMIMsj4sVuHruyerxNHxw5rBDliiW15WkkYsKzeZqv65dKDTTmjm4yRSXByqbjdL
-	1cQH1PtSJ47v/fun8dbr+EbV0u7/6Tfe7CKbOzJ2FDQppvPTsdgmB4UjhwMFNALWy8MRT4Twby3bI
-	mFMl8OKQVSJdWwpCDQCtIK9TnqHHfz+oXx37aLinzKimjp2sPPdlzrrccVzcZrCnlBrZx+nTHp8cE
-	aOocb7Pim3MIRC/vC6CqeJEEnXtai73BlWIIssGPHn2Chawo845cHP7zcVvEjA4u487cwzwMaSk3W
-	1Ha7l4YA==;
+	bh=V7i4RlDFWSoW8wBciJiCSsfVygxZnW25vkRz+Gj8oUo=; b=XIS5YSXXMegnHxnyoadoxiJ41V
+	i4oUmPQbPbYqEiMUuV8noS2hgEsX/rHJbms1si7szVhbUSbUlPTfupN8NRabBMBJYVFOnnT5eGi3A
+	zZp2G22xIy3Rx6CUR2QP84HYgNHLaaGe+NNcOE4nwe2EQSv8NZYeNt9fyJVlrRkKM3/WMbOZChEJu
+	FuiAzoHQqanLqd5Bfl4P3h03bazCk/UZMBSeO5HSLD525nktNqIxrzKy5POpEDLuWOGVYsRxLnXQY
+	DI3h0JWT9BxDiFvkCKGySJVaT3NBaqNgD2+Vshy5qRd9omD0Cr0gU86Ej9jlgnYXSZABeIX9Ecnq2
+	HC3BB2qg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMEMb-000000087P0-1xUs;
-	Thu, 29 Oct 2026 00:51:29 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1xMFff-00000008BmB-3BPl;
+	Thu, 29 Oct 2026 02:15:15 +0000
+Received: from va-1-112.ptr.blmpb.com ([209.127.230.112])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMEMY-000000087Or-2RfK
+	id 1xMFfb-00000008Blj-15Om
 	for linux-nvme@lists.infradead.org;
-	Thu, 29 Oct 2026 00:51:26 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 02E924165E;
-	Thu, 29 Oct 2026 00:51:26 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1793235085;
-	b=SD+DQfKq7ALdlYwqFyRnn057+CYW7hTxO6psAajBz+Eju2WPVu6C7MbELcdlB/6B8/ig
-	 mpyH0Rf33cRwcyRpuVFn/fPwcIS+bdAmgWIKkoepgdcWe9/fFdhatvmcTaf6KFldLNOHh
-	 Wew9qQKoFp0C4k+wi+QsdFewutF3l9F58xMV3bQqMSVZHGe2lMv1ACDahRDXgf+RIL20W
-	 UtkBY5IOM4HeUTrU7KMfI26AXaUhVi2Xf52WP3/PxIQsU27QnxM7xNTw3Z1T23luPe1pI
-	 4T5QBqLNdwmA2s2x9Uzsvx6nE4h4ifd/DIf0srdY/mINyyR8eb7q3QbeTp+GT1HDU0w==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1793235085;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:X-B4-Tracking:To:Cc:X-Mailer:X-Developer-Signature:
-	 X-Developer-Key:X-Endpoint-Received:X-Original-From:Reply-To:
-	 Content-Transfer-Encoding;
-	bh=OQxAwIFM4Dy+JaXQReRXxUOmCNsUI1oyyY7VMdV3wqE=;
-	b=H4e8dVczWMD12G9Q+4Gcy0loLSytfnctwKtgb8faycrQx2GMZqB9AXXJT3jSNw+0efkX
-	 TgQsuLx+Vl1CKRXAl/rhs76DPzOJDCvv5stcExVjiCRqZF8cCglGRlUQQ4SfFpLIfbJcu
-	 66kkwCgyyJ7Bk7irZdiH+IX8L531jmRzT9Y6VO/FQG3l9m4qVswxCjM2fIyBDxoEbUHqm
-	 x9Cj2MPuTkcsBsiB40xkZTBVxn4COHWvYk55DuO1g+OM51NmOg1v7r29grJH2F0hzB1l4
-	 OMPR+XxXUZbJ2qj2yvE6FSnmXTi2dA7Rv3xJIxioHUVSXZ0ABYZ8KRMqze6y+aZySpg==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 61A701F01825;
-	Thu, 29 Oct 2026 00:51:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793235085;
-	bh=OQxAwIFM4Dy+JaXQReRXxUOmCNsUI1oyyY7VMdV3wqE=;
-	h=From:Date:Subject:To:Cc:Reply-To;
-	b=ehAA92vFic4byXSAkIPVnwwQYthQyBg9jUpQuOVp86pu3KZP55+xTc/9+JQFKdhoM
-	 Eq8pfnLrmt3oUb0ot+OM2JSYoTPgZ69dBvrHYNCvRvN7V+DQbqi7xvCTovrNU/nUEk
-	 lvfKNt+xWneyh+xvEkG05VcB/TJBqGuJSxAW0cy0h3302Y/xHlfk51fvfeTa+JzBLi
-	 8ZcvKa0qRQteSHa+KGVQPkVZfvN85xAVTZeB7Oww83g9tdv6l7aykp7MkM9SjDcUNr
-	 19CVdeskgEMQtWlHJMuK8sjOgwhgsVxHSLHRwNLuvnprgaUku0uXyydO4rEDXidQG9
-	 mY4EBEa77cjIA==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id C5F6C45646;
-	Thu, 29 Oct 2026 00:51:23 +0000 (UTC)
-From: Daejun Park via B4 Relay <devnull+daejun7.park.samsung.com@kernel.org>
-Date: Thu, 29 Oct 2026 09:51:24 +0900
-Subject: [PATCH] nvme: unregister when pr_register() is given a zero new
- key
+	Thu, 29 Oct 2026 02:15:14 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=2212171451; d=bytedance.com; t=1793240097; h=from:subject:
+ mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
+ mime-version:in-reply-to:message-id;
+ bh=V7i4RlDFWSoW8wBciJiCSsfVygxZnW25vkRz+Gj8oUo=;
+ b=n4z7pKfv/tsaXySsUV9TQxUTNmHQ5jlE4niPTVxd63uEHs6y8VlUa1BLzbmguk6xtY+XK1
+ M/Vb+O7cQvP+c0QdyochOqmTqMnKz/Q0nQjGXkCiTi4NgLTesK6reDAB+/oGDxVK+NSHd5
+ QQ5gHIalupkc7GALSKLXANwAap349/1EWRsbkLgY6bVVBADVUcaOhNpg58rVP9G3F0dbAp
+ Za+imwUQM0cqsoz8gLCp90WOLhixpnl2r1If/l2LZ5/ZelNQsj7jH5C6lU0Zc5WcgITS+T
+ 0hHaR9HzvdXJSh7I4p/mEwIXvpnJImBZ4+epTPk2rmOQbTUan+LSnaCxZ5zAUQ==
+Date: Thu, 29 Oct 2026 10:14:52 +0800
+Message-Id: <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.9ea1a2e5.340e.41d7.bbaa.69129ddcead9@bytedance.com>
+To: "Keith Busch" <kbusch@kernel.org>
+From: "changfengnan" <changfengnan@bytedance.com>
+In-Reply-To: <auIRf1QATQjVDtkH@kbusch-mbp>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Cc: "Christoph Hellwig" <hch@lst.de>, "Keith Busch" <kbusch@meta.com>, 
+	<linux-nvme@lists.infradead.org>, <linux-pci@vger.kernel.org>, 
+	<tglx@kernel.org>, <namjain@linux.microsoft.com>
+Subject: Re: [RFC PATCH 0/3] nvme-pci: dynamic interrupt moderation
 X-Archived-By: <archiver.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261029-nvme-pr-unreg-v1-1-b4657ad4e98e@samsung.com>
-X-B4-Tracking: v=1; b=H4sIAIuY4moC/x3MQQqAIBBA0avErBtQC4muEi3ExppFJiNJEN49a
- fkW/7+QSZgyzN0LQoUzX7FB9x34w8WdkLdmMMpYrcyEsZyESfCOQjuaMTirQqDBD9CaJBT4+X/
- LWusH5YuPwl8AAAA=
-To: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
- Sagi Grimberg <sagi@grimberg.me>
-Cc: Jens Axboe <axboe@kernel.dk>, 
- Mike Christie <michael.christie@oracle.com>, linux-nvme@lists.infradead.org, 
- linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
- Daejun Park <daejun7.park@samsung.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1793235083; l=1781;
- i=daejun7.park@samsung.com; s=20261006; h=from:subject:message-id;
- bh=mAU8OTdvinewhOZxDTmeXGacEZAsamAJlbTQrV18Lu8=;
- b=c5q4qcV2O2rZi5rHmmEktc3SJVT8gpMB9op5eXzH9YJ52W2Cn/7S9he5kMvOjX8OuAtFmyTey
- Qn9UwWPeegeBs9CcwDecacqBZ51x/r2eHAnpLrCK7rJ69hmU4Jj9jw9
-X-Developer-Key: i=daejun7.park@samsung.com; a=ed25519;
- pk=4yUfDqGRZTIj0Ik43z1GoMZRWCNm/rgX6uJuM9dtNIg=
-X-Endpoint-Received: by B4 Relay for daejun7.park@samsung.com/20261006 with
- auth_id=1122
-X-Original-From: Daejun Park <daejun7.park@samsung.com>
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+X-Lms-Return-Path: <lba+16ae2ac1f+1f1b3d+lists.infradead.org+changfengnan@bytedance.com>
+References: <20261013223543.395054-1-kbusch@meta.com> <16e8bc03-42c2-4bc8-bce9-dab49aad66b8@bytedance.com> <20261028150712.GA16374@lst.de>
+	<auIRf1QATQjVDtkH@kbusch-mbp>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20261028_191511_707905_D0952072 
+X-CRM114-Status: GOOD (  17.94  )
+X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,67 +68,50 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: daejun7.park@samsung.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-From: Daejun Park <daejun7.park@samsung.com>
 
-The block layer PR API defines a zero new_key in pr_register() as
-unregistering old_key. nvme_pr_register() sends Replace Reservation
-Key with a zero NRKEY instead. The host stays registered with key 0,
-and its next registration with another key fails with Reservation
-Conflict.
+> From: "Keith Busch"<kbusch@kernel.org>
+> Date:=C2=A0 Wed, Oct 28, 2026, 23:15
+> Subject:=C2=A0 Re: [RFC PATCH 0/3] nvme-pci: dynamic interrupt moderation
+> To: "Christoph Hellwig"<hch@lst.de>
+> Cc: "Fengnan"<changfengnan@bytedance.com>, "Keith Busch"<kbusch@meta.com>=
+, <linux-nvme@lists.infradead.org>, <linux-pci@vger.kernel.org>, <tglx@kern=
+el.org>, <namjain@linux.microsoft.com>
+> On Wed, Oct 28, 2026 at 04:07:12PM +0100, Christoph Hellwig wrote:
+> > On Thu, Oct 22, 2026 at 05:43:54PM +0800, Fengnan wrote:
+> > > Hi Keith:
+> > >=C2=A0
+> > > I made some modifications to DIM and then implemented a solution
+> > > using the DIM framework.=C2=A0
+> > > Based on current testing, the results are now comparable to those of
+> > > the previous patch.
+> > > Here are the preliminary test results:
+> > > https://docs.google.com/spreadsheets/d/1e8LQPnaDhmv50XlAM3XxI0TMQkhbk=
+0bTZwlJP1Hzzdk/edit?gid=3D188992110#gid=3D188992110
+> > >=C2=A0
+> > > If you agree with this approach, I=E2=80=99ll continue testing and op=
+timizing.
+> >=C2=A0
+> > =D0=86 can't speak for Keith, but I'd really love to see this going for=
+ward!
+>=C2=A0
+> Same! This is a great problem to solve, but I'm just sorry I don't have
+> more cycles to work on the cause. I can quickly respin the msix noflush
+> pre-patches to address the naming issues tglx mentioned, and we can take
+> nvme in whichever direction has the best performance.
+>=C2=A0
 
-The pNFS SCSI layout client unregisters this way at umount. A later
-mount cannot register and sends all I/O through the metadata server.
+That sounds good.
+I'm currently working on continuously optimizing and testing both
+approaches (using DIM and not using DIM).=C2=A0
+I plan to update the code and add new data again next Monday.
 
-Send Unregister Reservation Key when new_key is zero.
-
-Fixes: 1d277a637a71 ("NVMe: Add persistent reservation ops")
-Cc: stable@vger.kernel.org
-Signed-off-by: Daejun Park <daejun7.park@samsung.com>
----
-Tested with IOC_PR_REGISTER on an nvmet nvme-loop namespace and on
-dm-linear over it. Registering a new key after unregister now works.
-A wrong old_key still gets Reservation Conflict.
----
- drivers/nvme/host/pr.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/pr.c b/drivers/nvme/host/pr.c
-index fe7dbe2648..d8b6ac4d83 100644
---- a/drivers/nvme/host/pr.c
-+++ b/drivers/nvme/host/pr.c
-@@ -128,8 +128,12 @@ static int nvme_pr_register(struct block_device *bdev, u64 old_key, u64 new_key,
- 	data.crkey = cpu_to_le64(old_key);
- 	data.nrkey = cpu_to_le64(new_key);
- 
--	cdw10 = old_key ? NVME_PR_REGISTER_ACT_REPLACE :
--		NVME_PR_REGISTER_ACT_REG;
-+	if (!new_key)
-+		cdw10 = NVME_PR_REGISTER_ACT_UNREG;
-+	else if (old_key)
-+		cdw10 = NVME_PR_REGISTER_ACT_REPLACE;
-+	else
-+		cdw10 = NVME_PR_REGISTER_ACT_REG;
- 	cdw10 |= (flags & PR_FL_IGNORE_KEY) ? NVME_PR_IGNORE_KEY : 0;
- 	cdw10 |= NVME_PR_CPTPL_PERSIST;
- 
-
----
-base-commit: 65ba8f34ec886ec72b2c07ddc8cf3d815c32869d
-change-id: 20261028-nvme-pr-unreg-24fa60ffe3c3
-
-Best regards,
--- 
-Daejun Park <daejun7.park@samsung.com>
-
-
+Thanks.
 
