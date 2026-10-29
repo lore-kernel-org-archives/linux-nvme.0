@@ -2,117 +2,60 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD2E460A2627
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 Oct 2026 17:00:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E746606A31C
+	for <linux-nvme@archiver.kernel.org>; Thu, 29 Oct 2026 17:57:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=1EirkDpx;
-	dkim=pass (2048-bit key, unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=FWF5NL8t
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Hxbf6pLa;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lqkF0Aw5
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=Qry513D0Zb8OCMgbWXRkzan35yGeMe0Uo97yFS6Gqyk=; b=1EirkDpxytpHNY
-	trEt5KLP9TFpirdHsx2XY5voDjetjB5oJMwAJGcRWjtLNqLXDy7P2og6JgwHS58tbNLCv0VyQAcJA
-	1eAAbkdQbkhxOgZQ1OfiasQdLqeMhTjuHEv/deIplgwD1lTg5sOYSexXU93dkeV2lNELVP0yvAeIf
-	eCJxw0220avfWfMgiXHAUk9kWQ9KNLcZDNaKJOk4WZG4kKVJatJBrNQ5jzQnoGqkExW6qw5v+rVQp
-	BbeixgY/71Gk/UuQy1mOPZjv+g6Jtk3m027/zKMxJ0kxCh/rqv7oHBSrCY9syKr2Gzc3d+B/FY7Wz
-	LIxRssyfMF/IK8sFrRBA==;
+	Content-Type:MIME-Version:References:In-Reply-To:Subject:Cc:To:From:
+	Message-ID:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Unsubscribe-Post:List-Owner;
+	bh=Bo7AGglowNOqbJg/RzmeJY9UwlIjuNUgtaQL0Gm1c8c=; b=Hxbf6pLa6WLPMStIm5FjzXfycb
+	NJ+blILatBRpL0BxIM5WsOHKXhE9NIa+P+Z5OyWv7u3TGPLTQCOVsAdvYr0joX5gD9mD0/b82nb7C
+	YUeQXMsc5f4A8ZxDof3N/65ncOuPqO0FxBokUv2aZAYW9L9N59cIBn3Og0OfTO9AFfa4mnNual45w
+	fQz54AmYQGRFQHBPyRJO8GXuCt12m37EDGGwSBqPCGfKVrfV7lfHbtzY2YJ/1xiIz7pjo+MgcHjyk
+	TJ/x8NRSl5+vxDNjLQ8GNSoy6hXnAIovpecYwRZs+Ka3tUFsdxVXwQ6fnZm4U+TEXIEIfORS+OEGL
+	SSJRxlPA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMTTp-00000009uio-1qj3;
-	Thu, 29 Oct 2026 16:59:57 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1xMUNX-0000000A2K0-2y5t;
+	Thu, 29 Oct 2026 17:57:31 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMTTm-00000009uiJ-2tFJ
+	id 1xMUNW-0000000A2Jk-0Jwd
 	for linux-nvme@lists.infradead.org;
-	Thu, 29 Oct 2026 16:59:55 +0000
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69TGEOLV409940;
-	Thu, 29 Oct 2026 16:59:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=Qry513
-	D0Zb8OCMgbWXRkzan35yGeMe0Uo97yFS6Gqyk=; b=FWF5NL8tdO2MVHOniKdka1
-	Vl3pB//3CzVilCS2D70PDXFnfWwgZkd7bR6ua5rWU0IVoxZLv4I+ctFx8LfMEzsz
-	TMInIc263jewpd2TBCrHwTGN84I/6FZj98eMAvfMduxpaZfGIw1Nef+xiO5C1jRs
-	S0Yo+hUCraOUMGe/NELTJjHONDHubPqXNGirG0lL0vR8UjQZJ0CtXoFVjd7BgBUU
-	kYZiQj0Ko8gRIZCk575KzR5gYKvNXDvLgnUhQ/SJ5gEmXOBoyXCkWvEyNZNV3G6T
-	IJx3CjzRGFIBPdVk0lFXuOrIXuUp0R0ko6x6Azocp/7qPz9XO29HmCrGCrjFacBQ
-	==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hgj3mkr32-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 29 Oct 2026 16:59:36 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 69TGJrjd3329800;
-	Thu, 29 Oct 2026 16:59:36 GMT
-Received: from smtprelay02.dal12v.mail.ibm.com ([172.16.1.4])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4hm8qp8cfj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 29 Oct 2026 16:59:36 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
-	by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 69TGxZHm18088678
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 29 Oct 2026 16:59:35 GMT
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 650DB58055;
-	Thu, 29 Oct 2026 16:59:35 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1BE0158043;
-	Thu, 29 Oct 2026 16:59:33 +0000 (GMT)
-Received: from [9.61.35.48] (unknown [9.61.35.48])
-	by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Thu, 29 Oct 2026 16:59:32 +0000 (GMT)
-Message-ID: <a9d3333f-3b70-45c7-ba79-7b441336415e@linux.ibm.com>
-Date: Thu, 29 Oct 2026 22:29:31 +0530
+	Thu, 29 Oct 2026 17:57:30 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id 06E8E60619;
+	Thu, 29 Oct 2026 17:57:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 873451F01825;
+	Thu, 29 Oct 2026 17:57:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793296648;
+	bh=Bo7AGglowNOqbJg/RzmeJY9UwlIjuNUgtaQL0Gm1c8c=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=lqkF0Aw5klXIOjNhV+gSV2CN1VDhZheNuW+Q0MFB4wsX5Vw/SyR9HrtC1+AllKoYg
+	 2SAkFBklrLhp2FJBIo0y8ND+WU7+PX05isWiHcS+YXSMLSTI3UURWigURHeNNYHKre
+	 1qeRrKed2U6Hmridm/PGAK7mG9/MFJm7oHRr7Y9uUoQO1rMhh41C4Of6BjxtJr0d7O
+	 39UMEQdQkje2AVhvfNhLe2Go75FX7x2phGzf0QfUtTQnCJBbiJacn9DawO0WcUcgAJ
+	 Ebu3RGzndLqO27JH8cwjnVUoWihUTrfQYV3nW2Uu4Yte8lJjWB99ijUNJkakiou2l/
+	 Idp7YytbFqoHg==
+Date: Thu, 29 Oct 2026 07:57:27 -1000
+Message-ID: <17d94c41da65e31e1579a7211ebb7aa1@kernel.org>
+From: Tejun Heo <tj@kernel.org>
+To: Peng Yu <yupeng0921@gmail.com>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, Keith Busch <kbusch@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>, Josef Bacik <josef@toxicpanda.com>, Jens Axboe <axboe@kernel.dk>, Maurizio Lombardi <mlombard@arkamax.eu>, cgroups@vger.kernel.org, linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v11] nvmet: add cgroup_id to charge namespace I/O to a cgroup
+In-Reply-To: <20261029153103.13689-1-yupeng0921@gmail.com>
+References: <20261029153103.13689-1-yupeng0921@gmail.com>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/2] nvme-tcp: NIC topology aware I/O queue scaling and
- queue info export
-To: Daniel Wagner <dwagner@suse.de>
-Cc: kbusch@kernel.org, hch@lst.de, hare@suse.de, sagi@grimberg.me,
-        chaitanyak@nvidia.com, gjoyce@linux.ibm.com,
-        linux-nvme@lists.infradead.org
-References: <20261026123411.1988949-4-nilay@linux.ibm.com>
- <28fc7035-2beb-4f67-9a55-09b31d873608@flourine.local>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <28fc7035-2beb-4f67-9a55-09b31d873608@flourine.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI5MDA2NSBTYWx0ZWRfX8Lt+F2F05scI
- ETfRTtQStToR+OovcCqG7abINCOr7LCoRkRUK9xVhBfI/GQdLsVWlvVmemyi3af6e12ErmTShL1
- r/329XHqAP5CV0Dx3GuPg5YA6S6QidE=
-X-Proofpoint-ORIG-GUID: xISAHyldDlOmKTJaqr9iRsVlstZoxiI7
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI5MDA2NSBTYWx0ZWRfX5ntrqi4gEqnl
- 9kUVwkGdQiUlKS1lSRe20mT7rt3Cc8RNeO0ImEsmWrYYkRFT1mKMD/79s0bPSH/YrsKlCdndeXE
- E0a39cYqLWQUSacy3hL+eSJt0JhbOifuQWo7j0sHZ6BnFRR4iRj9RUMO3N7vi7D4w6khNGQnmzC
- YfRbVDPBSylklSN2sfqREwInn8pTJ6Bgp2afgNfFclyB1jS0fsQ05azTnQq+k8Zq7ahFpw933Vr
- JmvJUkceRKFv3rEcXLkDMY8v2SAetHwZyAX4tUa6AzF1zOLOH/yN2OyQXbn9jeiqx000zkWzXBX
- VrNE7Mv9wObLSAAbQk7GCznXMPfBRgu8WhEIvuz1tB6Q5OV3Gy/ATPjfs5N5QxdulZ/ffIYWGgb
- A0VOgi0hbk7xbxTUrpe1clNV73QNEg==
-X-Authority-Analysis: v=2.4 cv=G7uJgNk5 c=1 sm=1 tr=0 ts=6ae37b78 cx=c_pps
- a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=WUf5vLJwIp2Ygoj-k0QA:9
- a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: xISAHyldDlOmKTJaqr9iRsVlstZoxiI7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-29_05,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 adultscore=0 suspectscore=0 phishscore=0 spamscore=0
- malwarescore=0 lowpriorityscore=0 classifier=typeunknown authscore=0 authtc=
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.22.0-2610190000 definitions=main-2610290065
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261029_095954_844628_3953E10B 
-X-CRM114-Status: GOOD (  19.79  )
-X-Spam-Score: -2.6 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -123,37 +66,154 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On 10/29/26 9:41 PM, Daniel Wagner wrote:
-> On Mon, Oct 26, 2026 at 06:03:21PM +0530, Nilay Shroff wrote:
->> Following the feedback, the logic for determining the number of fabric I/O
->> queues (nr-io-queues) has been moved to userspace in nvme-cli [2]. As a
->> result, the first two patches from the previous series, which implemented
->> this logic in the kernel driver, have been dropped. This series contains
->> the remaining two patches, which export NVMe/TCP I/O queue information
->> through debugfs to facilitate host-side network tuning.
->>
->> The first patch introduces debugfs helper functions that can be used by
->> drivers to export debugfs attributes.
-> 
-> What is the expectation, what's the use case here? Should this
-> information be available in a productive system? In this case debugfs
-> might not be the right choice.
+Hello, Peng.
 
-Ideally, this information should be available on production systems to
-facilitate network stack tuning.
+From the cgroup side, this looks okay to me.
 
-Would you recommend exposing it through sysfs rather than debugfs? During
-the last LSFMM, I received feedback suggesting debugfs, so I implemented
-the interface accordingly in this patch series. However, I'm open to moving
-it to sysfs if we agree that it is the more appropriate interface.
+The following is a Claude-generated review.
 
-Thanks,
---Nilay
+On Thu, Oct 29, 2026 at 08:31:03AM -0700, Peng Yu wrote:
+> Considering this scenario: The LVM creates multiple logical volumes on
+> the same physical disk, the logical volumes are assigned to different
+> nvmet subsystems/namespaces. We want to stop a remote noisy user from
+> using all the disk iops via nvmet. So add a per namespace css. Each
+> namespace could be throttled separately.
+
+The grammar of this paragraph could use a pass ("Considering this
+scenario: The LVM ..."), and "add a per namespace css" isn't accurate.
+The patch associates the namespace with a cgroup rather than adding a
+css.
+
+> The per namespace css is good enough for the io.max, but is not good
+> enough for the io.cost and io.latency. The io.cost and io.latency may
+> put a thread to sleep. If the thread is shared by different namespaces,
+> all of them will be impacted together. Submit the IOs via a workqueue to
+> avoid this impact.
+
+What the change guarantees is only in the changelog below "---" and
+could be said here:
+
+- every I/O command except Reservation commands runs from its own work
+  item on a per-namespace workqueue, and the file backend's Flush, DSM
+  and Write Zeroes and zone management run directly in that work item
+- a command whose queue is being deleted is aborted
+- the work runs under memalloc_noio
+- the effective io css is looked up for each command
+- buffered_io is refused
+
+> With this patch and no cgroup_id set, the peformance is almost the same.
+> When we set the cgroup_id, we can see a performance decrease but it
+> is still very fast.
+
+With cgroup_id set, IOPS drops 14-20% (424.4k to 363.4k file, 446.4k to
+356.7k bdev) and p99 goes from 330us to 1171us (file) and from 313us to
+864us (bdev). The description doesn't say whether any io controller
+limit was configured for those runs. Typo: "peformance".
+
+The commands now run on blkcg_wq's normal-priority workers (nice 0)
+instead of nvmet_tcp_wq and ib-comp-wq, which are WQ_HIGHPRI (nice -20).
+In this setup fio runs on the same 4 CPUs, so the target's I/O now
+competes with it at equal priority, which might account for part of the
+p99 increase. Should blkcg_wq be WQ_HIGHPRI?
+
+> +What:		/config/nvmet/subsystems/NAME/namespaces/NSID/cgroup_id
+...
+> +Description:
+> +		Shows or sets the cgroup2 ID of the cgroup to charge this
+> +		namespace's I/O to. Writing 0 clears it. The I/O is
+> +		charged to the cgroup's effective io css: the cgroup
+> +		itself or its nearest ancestor with the io controller
+> +		enabled. The namespace must be disabled before
+> +		modification. Enabling the namespace fails if the cgroup
+> +		can't be found or if buffered_io is set. A cgroup that is
+> +		removed and created again gets a new ID.
+
+The entry could say that the cgroup must be visible in the cgroup
+namespace of the task that enables the namespace (cgroup_get_from_id()
+checks this), that I/O goes to the nearest online ancestor's io css if
+the cgroup is removed while the namespace is enabled, and that only
+direct I/O is charged, with Reservation commands and the admin Write
+Protect flush left out.
+
+> +	/*
+> +	 * Buffered writes will be handled by a separate thread,
+> +	 * these IOs have no namespace/cgroup information at that time,
+> +	 * so we don't support buffered io.
+> +	 */
+
+The reason could be stated more directly: buffered writes are written
+back later by the flusher, and writeback attributes them through the
+page cache's memcg, not through this association.
+
+> +	ns->blkcg_wq = alloc_workqueue("nvmet-blkcg-%u",
+> +			WQ_MEM_RECLAIM | WQ_UNBOUND, num_online_cpus(),
+> +			ns->nsid);
+
+nvmet doesn't set a bio ioprio, so bio_set_ioprio() derives it from the
+submitter's nice value: best-effort level 0 on a highpri worker, level 4
+on a normal one. That matters on devices with an I/O scheduler, and
+WQ_HIGHPRI would keep it as before.
+
+With more than WQ_MAX_ACTIVE (2048) CPUs online, wq_clamp_max_active()
+prints a warning on every enable. Maybe min_t(int, num_online_cpus(),
+WQ_MAX_ACTIVE)?
+
+The name uses only the nsid, which is unique only within a subsystem, so
+namespaces in different subsystems get identically named workqueues and
+rescuer threads.
+
+> +	/* a disable waits for the command: don't throttle it any more */
+> +	if (!ns->cgrp || !READ_ONCE(ns->enabled))
+
+The !ns->cgrp test can't be true: only wrapped commands get here, and
+ns->cgrp is cleared only after the namespace's references drain.
+
+With io.max, blk-throttle holds throttled bios instead of putting the
+submitter to sleep, so this check and the dying-queue check only catch
+commands that haven't started. A disable or queue teardown then waits
+for the held bios at the io.max rate, with nvmet_config_sem held for
+write during a disable. That's inherent to throttling, but maybe worth a
+short comment?
+
+> +static void nvmet_blkcg_init_req(struct nvmet_req *req)
+> +{
+> +	if (!req->ns->cgrp)
+> +		return;
+
+This keys on ns->cgrp and nvmet_req_run_work() keys on ns->blkcg_wq.
+They agree because both are set and cleared together while no command
+exists. Maybe nvmet_req_run_work() could test whether the request itself
+was wrapped, e.g. req->execute == nvmet_blkcg_queue_req since nothing
+reassigns ->execute after the wrap, or a per-request flag set when
+wrapping?
+
+> +static inline void nvmet_req_run_work(struct nvmet_req *req,
+> +		struct workqueue_struct *wq, struct work_struct *work,
+> +		work_func_t func)
+> +{
+> +#ifdef CONFIG_BLK_CGROUP
+> +	if (req->ns->blkcg_wq) {
+> +		func(work);
+> +		return;
+> +	}
+> +#endif
+
+The file backend's Flush, DSM and Write Zeroes and zone management now
+count against blkcg_wq's max_active for their whole duration
+(vfs_fsync(), vfs_fallocate(), submit_bio_wait() over the zones). With
+max_active at the number of CPUs, a few slow flushes can fill it and
+hold up the namespace's reads and writes. Without cgroup_id these ran on
+nvmet_wq and zbd_wq. Probably fine, but worth noting.
+
+Thanks.
+
+--
+tejun
 
