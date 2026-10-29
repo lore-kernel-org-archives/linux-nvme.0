@@ -2,98 +2,108 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D80B606A31C
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 Oct 2026 15:53:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94C8A606A31C
+	for <linux-nvme@archiver.kernel.org>; Thu, 29 Oct 2026 15:58:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=skZDjrg/;
-	dkim=pass (2048-bit key, unprotected) header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=Q0XER3ct
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=HDoqcur2;
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=HQxbKELX
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
 	List-Unsubscribe-Post:List-Owner;
-	bh=tcqBYeIlCd2ckB4LxZaVSeLZ4/m7gRvyyTLSgnPssmk=; b=skZDjrg/C8fBiWzUVrtvFhd4cp
-	iF8DPe7IFtAhvCORkK2pv+BIPA4SbZgI5skYX5wxzeCveydU1HXCBW9356wqWbzXVn01naQzfEHZM
-	mFQhMDJYwq1mVWdjTSVhI4JNNTBJCmoRBHzM4l8APuGuDuNhU/cGbaiJSGY/ebRsR6hbxxadcpC2D
-	w/S9c7MGnELAE3AQD8uxGwudEpWX595XGQgbJobQAMPAE8tiBOCx+UH3CGArYADpf6yGT86X+lENi
-	Z554v9NCJs4UC8qpaQlDX72CtVzD1dQLvn077saMFdDLXt0dqkzQBi2WtbilUfwNbCtd5z0iNdIYo
-	mSGvTjng==;
+	bh=JlvxwwNyQO6n19Y10XHId6qvmxHt/ChSrZalCBx9Qp8=; b=HDoqcur2CGQw5I1dswpfF/DFjM
+	OGCRSTZfCLKEYoDV8CPRxd3Pj+bBK+RaOSx3LH4zjn2CSuLqKeh1Qqm4J6PXIP4D5R7epPFjYCdzl
+	jOFQUJMt7TugYdes8s8El0ruW1jjj165ubshxg9IVSLTdYs/LovJ5+L53MCUgKDjEMdPCQTH89L3X
+	dicaNTMcP4uNZ7iJEGe3oqB/luB++ahvYadeRtYpns5a71OogIn3zqxgZlzryqcmtjz5sZTOaSAF6
+	vXkf0siEtKn+tDqIfuvxvKKnOUO5xjI+o08TI44sks9yYh6wgF3w3c87xZsGAv4/czu3T7lFsegrG
+	cePvp7JA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMSRk-00000009grz-0UoB;
-	Thu, 29 Oct 2026 15:53:44 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
+	id 1xMSWd-00000009i1q-0JkD;
+	Thu, 29 Oct 2026 15:58:47 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMSRZ-00000009gZ4-3OcF
+	id 1xMSWZ-00000009i0m-2hpM
 	for linux-nvme@lists.infradead.org;
-	Thu, 29 Oct 2026 15:53:41 +0000
-Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
-	by m0089730.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 69TCcsBW2894964
-	for <linux-nvme@lists.infradead.org>; Thu, 29 Oct 2026 08:53:32 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	pps82601-s2048-2026-q3; bh=tcqBYeIlCd2ckB4LxZaVSeLZ4/m7gRvyyTLSg
-	nPssmk=; b=Q0XER3ctR36QjewEjZcgco3a1JBdMhFY2SHkG3+1f9ld9gkPEaBFt
-	o8rm893LBYBLYdMlotJLa6rmeNIRw8sappwsXqopxG7OulwwN0oCOEcIWwpgUsiq
-	wi/JutusHJk7RQcZr0LRmEQ/Uuk1GlujdSBgvVGBdoeYZO3p3+TbsGEUIHV/eZ5i
-	LWgv9jWW95TB+ET+jwyYGyiTFs34gzZFjrCBFCzib3l6BTnLAVKnZI4vWQ4GTi8g
-	E3bjJEOAo7ycezxfL0rEQRrRhbLy++sLfUrB5DQtj6g5V9rjIrabYmd51FbZrHRS
-	9PLRJg4Y52dmKMJGUhVpDC49P3eCmS64w==
-Received: from mail.thefacebook.com ([163.114.134.16])
-	by m0089730.ppops.net (PPS) with ESMTPS id 4hjypur6e9-5
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Thu, 29 Oct 2026 08:53:32 -0700 (PDT)
-Received: from twshared0305.01.snb2.facebook.com (2620:10d:c085:208::7cb7) by
- mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.56; Thu, 29 Oct 2026 15:53:18 +0000
-Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
-	id 59BB02E22CEC8; Thu, 29 Oct 2026 08:52:58 -0700 (PDT)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-nvme@lists.infradead.org>
-CC: <axboe@kernel.dk>, <hch@lst.de>, Chris Mason <mason@kernel.org>,
-        Sagi
- Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
-        Keith Busch
-	<kbusch@kernel.org>
-Subject: [PATCH 13/19] nvmet-rdma: take a device off the list last
-Date: Thu, 29 Oct 2026 08:52:46 -0700
-Message-ID: <20261029155252.2332266-14-kbusch@meta.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20261029155252.2332266-1-kbusch@meta.com>
-References: <20261029155252.2332266-1-kbusch@meta.com>
+	Thu, 29 Oct 2026 15:58:45 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1793289521;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=JlvxwwNyQO6n19Y10XHId6qvmxHt/ChSrZalCBx9Qp8=;
+	b=HQxbKELXXHIZsgSCzLrasQOOdIRJO/8og1+Qiv8X0QgrNloP9r6ph013ct7NEKPNsElPM7
+	4+EOIuYUgzUQEB/KE8fZGgj2B55iVSmF76Bc0br0r1wkRicF+6ucV91IV1PjbdIhCc5q06
+	mmfdwdO+XHYEotUmCODN8nNkqJ6T+oU=
+Received: from mail-dl1-f70.google.com (mail-dl1-f70.google.com
+ [74.125.82.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-677-c9UwJVeCNtW7QrdBxmfh4Q-1; Thu, 29 Oct 2026 11:58:39 -0400
+X-MC-Unique: c9UwJVeCNtW7QrdBxmfh4Q-1
+X-Mimecast-MFC-AGG-ID: c9UwJVeCNtW7QrdBxmfh4Q_1793289518
+Received: by mail-dl1-f70.google.com with SMTP id a92af1059eb24-1383723dfddso3780840c88.0
+        for <linux-nvme@lists.infradead.org>; Thu, 29 Oct 2026 08:58:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793289518; x=1793894318;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=JlvxwwNyQO6n19Y10XHId6qvmxHt/ChSrZalCBx9Qp8=;
+        b=RHiqqewRuOxW0THW9w34SNqiQMou8gSRySYKwmYxbiSGfFNO7j1SdCI5V7obSTPn4z
+         jJo09eEFlNPjeGjga3Pl0TiBCXSPsm8nLntipZPbnFCF2qMOk8xJPuSWYBfOGzBzXZCV
+         QHvlxESYClwvMwhVc0UIMTp1PM2PgfNf77FkZSreY3PQAHCCtrIOiNg4MjpxHXM75rW7
+         dLNHgrqkB4ACPkjePbCF09l0g1YiTD1SCuF3WSpYpPpDGI2rrYfWFK9YYVTbZ66gtWsK
+         m0oDawwI8d2jBSZgit95qa3ychQEetK6JaDHCo1tnV91NVrNdPzKTCSA7fuL25AvAC7I
+         NIrA==
+X-Forwarded-Encrypted: i=1; AKwUvBzAKGy9Q6Peb36ozh1wcBipUyPmfNOkifInKWu+gC7JHikux1RV+23KMUkmZKBliyD+PiL8ZX+19514@lists.infradead.org
+X-Gm-Message-State: AFq9FYJBXr+q40r+by+oyfzbmRb+gnAqA3vqMRZKRa11iHvBEhkwKlPh
+	YTn3Gx6YYsRDRKfmVtolZzxEgkYf/xyHcTKjhWkDh4N8NdmPBlpkTfJWGTFckcwD06z3JjVDsB0
+	Q2nPYLcyGvFwrsuU4HiTvg0FwvgrT0Rh9xtZUnLqDCglFeJZGjv+1iuowFelAIOoiURj+
+X-Gm-Gg: AYBFou3AndKR6RDs8v0xIdwZ1P0VKvUD3lWrkH+L4zsRn6s1SwHqehWAGuvHnYduMig
+	CHGTsO485gy7LMk3LbU04MOTzVXTs9HCbKmUHwfIlvB4JyVT3DcABcvkg2AhdiZls+iPXiQNSht
+	IfwMMP5a7LzbCepFDoD4mu+IoxPecQTgvEhLYMbmz3kUEfAUl+FY+WbtNQadFaxp/cMCcmcBAFa
+	1K6HJd8iPXaxWxnbeiJN/WeeBiRgek4WzwIhiNPxSXwSvduR14zx9QHddhJ1lWafsJDf6o5IJr1
+	fgj4JUxBAlpeYLEmaBvYu8gekWPWOkSD3MhlI8xa6n2e6FrWx0rX0aQW/SViaYwsS7R9/xtgfUw
+	8jEfnEegw9cZWtsQNEAEGHBPU3u13/4bSObuL
+X-Received: by 2002:a05:7022:ed06:b0:182:9071:3249 with SMTP id a92af1059eb24-1a6ced8ec45mr7441630c88.30.1793289518125;
+        Thu, 29 Oct 2026 08:58:38 -0700 (PDT)
+X-Received: by 2002:a05:7022:ed06:b0:182:9071:3249 with SMTP id a92af1059eb24-1a6ced8ec45mr7441587c88.30.1793289517483;
+        Thu, 29 Oct 2026 08:58:37 -0700 (PDT)
+Received: from alpha ([76.166.245.42])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1abea527afesm23753c88.15.2026.10.29.08.58.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Oct 2026 08:58:36 -0700 (PDT)
+From: Kyle Bader <kbader@redhat.com>
+To: Jens Axboe <axboe@kernel.dk>,
+	Pavel Begunkov <asml.silence@gmail.com>
+Cc: Kyle Bader <kbader@ibm.com>,
+	Anuj Gupta <anuj20.g@samsung.com>,
+	Kanchan Joshi <joshi.k@samsung.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Tushar Gohad <tushar.gohad@intel.com>,
+	linux-block@vger.kernel.org,
+	io-uring@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] block: only fail dma-buf bios that need block layer PI
+Date: Thu, 29 Oct 2026 15:58:21 +0000
+Message-ID: <20261029155821.2983229-1-kbader@redhat.com>
+X-Mailer: git-send-email 2.56.0
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: eI0-n46RczC0hFDwck8pN0p30LC6B9Dr
-X-Proofpoint-GUID: eI0-n46RczC0hFDwck8pN0p30LC6B9Dr
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI5MDA2MiBTYWx0ZWRfX/QEIxymyxVTm
- OP4biYdlN0WaIlB6ddEvWZW5RR0YSGN/yFVCUcQdR4Ydot+ExTzcsXJdetIl3lL4umOKlWVDfJM
- y+rB5tGIGTTeMK2QqHjtSh1NzE/x+QI=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI5MDA2MiBTYWx0ZWRfXzJqEKKzAobK1
- BIeN0Vj/IZMzD8aDdzAcy5m68HrPgm/nhr9B3a42Rs/pIuoWm1buW/AA4Yw4EDsrBhTjgqYdXlV
- dYLrC0jA/nJtzMFmcskHdFFbM8BDZHRIDxKParo65SfSo+NtSyKfsT5Wk9aNOuhbzSWSDRWHxBa
- EbWTBPSJs7a4AjecGqmQjywMXgKnAp4mRBmrlOXVOo4tfF3IzW1zkDXH2pjlKC+2paGVXeOEFXc
- +1Qh5ObcHUYqRmYrhKrdwCKgsHH/HfFFTVozrk6antFQZAukbIUF0+FJLjG8kfgCvM1uVWZwR5s
- NQzJMU+dsTT52Euwd9tc+EgDEcGK/II29j+ihtm2pvwi04SMJqOwapj4/w8peYA560+Vk+2M8KY
- pN4BDklRz0ZSAH+7qxJlOJjFjQIL7mJG5+Qhi/I0JCZgDAl/IXGZyOC8o2VaL3EAuyHGsNwhguM
- 9HJwK/qN9ZhfnK7V1Bg==
-X-Authority-Analysis: v=2.4 cv=bPmDs/+Z c=1 sm=1 tr=0 ts=6ae36bfc cx=c_pps
- a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
- a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
- a=855S8uPTkML1Oy45N9_h:22 a=VwQbUJbxAAAA:8 a=Ikd4Dj_1AAAA:8
- a=-iJHC2yFU5qgFxQsWSsA:9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-29_04,2026-10-21_02,2025-10-01_01
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: tMcTrjT1WdXTjmtbhRZE5wbxuE9WaGzLw6eKAwjaZ_E_1793289518
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261029_085334_016672_CE6ABC25 
-X-CRM114-Status: GOOD (  14.19  )
+X-CRM114-CacheID: sfid-20261029_085843_777500_109C9F2B 
+X-CRM114-Status: GOOD (  16.68  )
 X-Spam-Score: -2.8 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -113,57 +123,68 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-From: Chris Mason <mason@kernel.org>
+From: Kyle Bader <kbader@ibm.com>
 
-nvmet_rdma_remove_one() disconnects the queues of a device and flushes
-nvmet-wq, but since commit a3dd7d0022c3 it returns right away if the
-device isn't on device_list. nvmet_rdma_free_dev(), run by the release
-work of the last queue, takes the device off that list first and frees
-the SRQs and the PD afterwards. A device removal in between finds
-nothing on the list, returns, and the RDMA core frees the device under
-ib_dealloc_pd().
+All dma-buf (P2P) I/O to a device with integrity data is rejected
+today, at registration and in blk_mq_submit_bio(). Only a bio for which
+the block layer generates or verifies PI needs that. The block layer
+then walks the bio_vecs, and a dma-buf bio has none.
 
-Free the SRQs and the PD first and unlist the device last, so the
-remove callback finds it and its flush waits for the release work.
+Reject only those bios, and remove the check at registration. Then a
+submitter that attaches its own PI, for example with
+IORING_RW_ATTR_FLAG_PI, can do dma-buf I/O to such a device.
 
-Fixes: a3dd7d0022c3 ("nvmet-rdma: Don't flush system_wq by default during=
- remove_one")
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>
-Cc: Chaitanya Kulkarni <kch@nvidia.com>
-Signed-off-by: Chris Mason <mason@kernel.org>
-Signed-off-by: Jens Axboe <axboe@kernel.dk>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
+Link: https://lore.kernel.org/all/bbb87d6b-b7a3-487a-8be4-27f3f9ce4a1b@samsung.com/
+Assisted-by: LLM
+Reviewed-by: Anuj Gupta <anuj20.g@samsung.com>
+Signed-off-by: Kyle Bader <kbader@ibm.com>
 ---
- drivers/nvme/target/rdma.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+v2: a shorter commit message (Christoph), and Anuj's Reviewed-by. The
+code is the same as in v1, so the tests of v1 still apply.
 
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index fc0c85076cee4..fe91df653e5cf 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -1197,13 +1197,17 @@ static void nvmet_rdma_free_dev(struct kref *ref)
- 	struct nvmet_rdma_device *ndev =3D
- 		container_of(ref, struct nvmet_rdma_device, ref);
-=20
-+	nvmet_rdma_destroy_srqs(ndev);
-+	ib_dealloc_pd(ndev->pd);
-+
+v1: https://lore.kernel.org/all/20261028181412.1919506-1-kbader@redhat.com/
+
+ block/blk-mq.c | 9 ++++++++-
+ block/fops.c   | 2 --
+ 2 files changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 7fff1305b..3fc9fdeb3 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -3138,8 +3138,15 @@ void blk_mq_submit_bio(struct bio *bio)
+ 		goto queue_exit;
+ 	}
+ 
 +	/*
-+	 * Not earlier: nvmet_rdma_remove_one() waits for the release work that
-+	 * got here only if it finds the device on the list.
++	 * The block layer cannot generate or verify PI for a dma-buf bio, as
++	 * that walks the data pages.  Only fail the bio if it needs that, not
++	 * if the submitter attached its own integrity payload or if PI
++	 * generation or verification is turned off for the device.
 +	 */
- 	mutex_lock(&device_list_mutex);
- 	list_del(&ndev->entry);
- 	mutex_unlock(&device_list_mutex);
-=20
--	nvmet_rdma_destroy_srqs(ndev);
--	ib_dealloc_pd(ndev->pd);
--
- 	kfree(ndev);
+ 	if (unlikely(op_is_dmabuf(bio->bi_opf) &&
+-		     bdev_has_integrity_csum(bio->bi_bdev))) {
++		     bdev_has_integrity_csum(bio->bi_bdev) &&
++		     (bio_integrity_action(bio) & BI_ACT_CHECK))) {
+ 		bio_endio_status(bio, BLK_STS_NOTSUPP);
+ 		goto queue_exit;
+ 	}
+diff --git a/block/fops.c b/block/fops.c
+index 01bc8afe3..5c8024011 100644
+--- a/block/fops.c
++++ b/block/fops.c
+@@ -947,8 +947,6 @@ static int blkdev_init_dma_buf_io_ctx(struct file *file,
+ 		return -EINVAL;
+ 	if (!disk->fops->init_dma_buf_io_ctx)
+ 		return -EOPNOTSUPP;
+-	if (bdev_has_integrity_csum(bdev))
+-		return -EOPNOTSUPP;
+ 	return disk->fops->init_dma_buf_io_ctx(bdev, ctx);
  }
-=20
---=20
-2.52.0
+ 
+
+base-commit: 45b716456dd99488a0cef58482120dc0474aa696
+-- 
+2.56.0
 
 
