@@ -2,155 +2,59 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DFD1606A31A
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 Oct 2026 03:46:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65393606A31A
+	for <linux-nvme@archiver.kernel.org>; Thu, 29 Oct 2026 03:50:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=s4qqDiAZ;
-	dkim=pass (2048-bit key, unprotected) header.d=wdc.com header.i=@wdc.com header.a=rsa-sha256 header.s=dkim.wdc.com header.b=GHLiyEAD;
-	dkim=pass (1024-bit key, unprotected) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-sharedspace-onmicrosoft-com header.b=R1Fh3KK/
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=zAquv1Hb;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KPXZNBBf
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
-	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Cc:To:Subject:
+	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=ef6nUOghrJCKUnWPhp89xP78KMG6jUkUg0ZDemQBxm0=; b=s4qqDiAZnujRMTmaG4klZnihHf
-	n6qlCWB5ZPOqg2k/UFt8h9TQRNvxnQ6DLQRyG8cH08jchSdXxPqRhSznb+Qtz2HMwW4dsnCUTHK/Q
-	ajX/8i09q05lURI4OE1Toue/shtL91VKHFRljhrWCodR0LuGhbl2th1pYnaqfStBGXRvrHWBCl25f
-	Cl0AflHNeGpm/pI81Lk0OZjpZwWdv8DPo7wrQyBraQGn0xCU3N8hSKnYiP4BElvh2eFqjZ0KM/WOA
-	VXCSll+iuuZYOqusnsM1K7HQfiIeHoZ1IZ7bPDa92Y0GKgwqO5tNmWSG+PuSDwZwnwPj/D9q4JYv0
-	aDJw+PEQ==;
+	bh=gr8UwMwNA4tO2C8qgIMJNc3FcocVo0aMxb8k8JdnGmM=; b=zAquv1HbrQnXfXTQa4i3z5Oto9
+	HfugRZTw5MkBa7mINPhCRHqO72xhHUbzmac9AmOdQdxPuT6NO0CGdpE8dbgf9yeNCE2SBIX4Mn7FS
+	y4QfxBGXveCQKrEu79YIWOvHNGSRvT/4ZIU4lNsd2u4vwR8bjInRPMPGk9TM++NDF2wcPAn7v0R5F
+	o8gWPmi4uklJrSIT1D07LtTNOE3sWtBWIaoY2+p1g01ujnRIuT9ES/Yl7ahMQ5xWOOk+NqvFy8Ctk
+	tfU807n92eJR58wg+lDtQg2acuUf7r7OSmM432HRH1RpxOf3YSA9LFQRyYnuv00E7Y7S/soEZ9Y6P
+	RMXrHXZA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMH5q-00000008GSc-2ety;
-	Thu, 29 Oct 2026 03:46:22 +0000
-Received: from esa4.hgst.iphmx.com ([216.71.154.42])
+	id 1xMHA5-00000008GoN-1qCR;
+	Thu, 29 Oct 2026 03:50:45 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMH5m-00000008GRZ-1HzK
+	id 1xMHA3-00000008GoA-33vb
 	for linux-nvme@lists.infradead.org;
-	Thu, 29 Oct 2026 03:46:20 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1793245577; x=1824781577;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=KpWgGqIg9DrKpnoV2kJ8qPraqP50hl91B7rLY5OIcS4=;
-  b=GHLiyEADT8zspaPEu5n0F8m923f4uq1xW59KMmpnJ0DjIGk2VfPX5ood
-   WvKivBsknK2IOnb809kUpnKWfbz1sNoN6JIIYxEyH/VYByN08wi2Uz/a3
-   xabzBrZN02+yEP39hI2ydl9J+Ia9l6FCdc/syZYwKNA2eJKT2Ex7+b5Sq
-   y+D80iAs9d8RSjmVsDWL/dyOJQT5nHhRm4h2YreWXzWFZHHIB8Hfux5TH
-   WwuWK9V3UqDiB/0fpvfUX1rLGaxbufx3/wtes5kElgv0beSgE4bMl5qvJ
-   Wlo5Je2llabmltD/lm26jGJJcS2ghRcksnzjcujrfgRJlGYO2ff4pRH8C
-   g==;
-X-CSE-ConnectionGUID: rEeTCdZtTM+yH6Ipss+f7w==
-X-CSE-MsgGUID: NadhfR59SX6Nw9BtIGz0dA==
-X-IronPort-AV: E=Sophos;i="6.27,183,1786982400"; 
-   d="scan'208";a="155039164"
-Received: from mail-northcentralusazon11010028.outbound.protection.outlook.com (HELO CH1PR05CU001.outbound.protection.outlook.com) ([52.101.193.28])
-  by ob1.hgst.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 29 Oct 2026 11:46:15 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gQHpcdZGmOQyuppC7iM5rN93+cOuTh7fPmpXBI8XzUCB3e5orbJ5+o4CQyMogjTRVE61V9jonQRRaA24Oefr5iyZoJVO2BjYcK3fgdc9F5jaUSIwh7ruIXUjUPYleQ64s+BeJ8L12jtZz0B5CqB2A2+JhjffEiEyEBdkAMPEB1Ytvg0T9C79u79saAlAUa4EV19Z0sejVkYprt83TuYLx5Tj/8gRgl2nQK2FQ6ZmzBslLzvX4ZxKh5kvqLx3itZLzyd7CftBwg8tBpatdEK6sSFglM/uRLnq8zSZH2Rl0fV4x4arPL7sIDaMU8IxyAk9ln0kNzz++NEj1sqJ3Nvlhw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ef6nUOghrJCKUnWPhp89xP78KMG6jUkUg0ZDemQBxm0=;
- b=byrZ6sxb6NWRVduouLibO5S/P/JnUJEqoyvqcxSZi2oxUE5PMU1Iw20zq9KXnsdKxXmB8DnX7wL6oguxSWggcsiYylGWmpbCPa/aIdpRBkKd5QKWQsuch1BK8p2QdZuPHCdInVE6i5Gkxo1ud5QgdZFIJVYoxugp75OdS27ajGzdtNgZeX6GJ8fFZVsQ/101aMZ9VTxCJT/XKvpy8uCLBTB22a210yRV37uzOp27LS9iAM7cs1Tufr5EmzBxsk5bVRGDFQ2FUpWkUKaA8IebvkPqegNwqPS6QdCSC7EuWYBMYq/tl3VvcSCX78rWlGj/JPsp0BvNLysdYpRrTWkHKg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ef6nUOghrJCKUnWPhp89xP78KMG6jUkUg0ZDemQBxm0=;
- b=R1Fh3KK/gk17qWYcCm0KnAFQOvFcQGNoSb7uZd8OcSOlA48sTm/DH2t7FvvXz/VQSXTON20TEy5GdYMnYKcf32JspdIS2UFuVtfTnf3uCetsalgc0gmPmIdYduhHUTHLARCy2DPGA0Z0q6KKRB5AyYDcQ/EwTZNWsKvUJ21vmh8=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-Received: from SA1PR04MB10065.namprd04.prod.outlook.com
- (2603:10b6:806:4dd::14) by SA2PR04MB7563.namprd04.prod.outlook.com
- (2603:10b6:806:147::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.8; Thu, 29 Oct
- 2026 03:46:13 +0000
-Received: from SA1PR04MB10065.namprd04.prod.outlook.com
- ([fe80::9b98:bf8a:b0b1:ef85]) by SA1PR04MB10065.namprd04.prod.outlook.com
- ([fe80::9b98:bf8a:b0b1:ef85%5]) with mapi id 15.21.0546.021; Thu, 29 Oct 2026
- 03:46:13 +0000
-Date: Thu, 29 Oct 2026 12:46:06 +0900
-From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Andrea Parri <parri.andrea@gmail.com>
-Cc: linux-block@vger.kernel.org, Christoph Hellwig <hch@lst.de>, 
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, Daniel Wagner <dwagner@suse.de>, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH blktests v2 0/4] nvme: add nvmet zone report and FC
- regression tests
-Message-ID: <auLBAhlTKh0hB8W4@shinmob>
-References: <20261022130927.3583166-1-parri.andrea@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261022130927.3583166-1-parri.andrea@gmail.com>
-X-ClientProxiedBy: TYWP286CA0021.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:262::12) To SA1PR04MB10065.namprd04.prod.outlook.com
- (2603:10b6:806:4dd::14)
-X-Archived-By: <archiver.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR04MB10065:EE_|SA2PR04MB7563:EE_
-X-MS-Office365-Filtering-Correlation-Id: f67fbe39-deaa-42fe-18f5-08df356f2da9
-WDCIPOUTBOUND: EOP-TRUE
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|19092799006|261028144727099003|261021121427099003|56012099006|11063799006|261022105027099003|261026121527099003|261026140227099003|10067099003|18002099003|22082099003|3023799007;
-X-Microsoft-Antispam-Message-Info: gqe/KVNcRzL8YDbJv10mew70VTMrbj1xJfLQc1K+7R233ixeFHDPIqeJmGmBN73vSDPhfYuWi4Q/Xz3D+CYsLSb5bkNtqvbNvxYT36c6Xq8dzYOnJ04VPFV0kxrdYbBK/9qo7LUdgUz2y6//bitgJQpw0MYxX8sZLo9DuqJZ1BF2u3/7X5HAAu7mAMbr/v6fWKVtSzYOSUChf6krdjo1nqa9aV8JmdqiTGfsgKkI07GETjfuC+gqbiU+LbpRSS7MxOdC2zKns/9sSlGQxi461ax45OzCMsYxbeBx1QW+jwc3E6wUYUfb7aqw4ivU6OEyPcsFkKgsn6Yf0vwISqU1gAJmJg5YEuaux+Mo61ay4GiuU+WTdSvhWCxynq3PSiYLoQUdbUbC7SPB0HTK98qG7J2YJkZeUqfnWioVoSE+WVOZMga9ppT3tyI07OKDkUCt3NaoCXBdVHAlpAVdOi5+0JFtqCy4dx0NjLDFuBTRVX3O8MKKZ0cEJ0WV/EFnNBkYd1Zt3EpZUsVdElyA3xKZUBDcLek+saNY0cozLz4x1UNhDOMeLLYvyh2MmR0lDd+W3Az5709QpGHMAq9lWi0AnCM3PQ+TGaRyHpz1HL0JMgiAMl1sfKO7kZEQq8Yn/1GKxVh0mbsCc75HxbkgWqlu459MS4RE66mhWbh/y7OWsSs=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR04MB10065.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(19092799006)(261028144727099003)(261021121427099003)(56012099006)(11063799006)(261022105027099003)(261026121527099003)(261026140227099003)(10067099003)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?bqv0fx8LqIgMi6DivDZ14OBe8Y946KVtPiX4rHVIDbZFDHoySgcGnk2AZyKW?=
- =?us-ascii?Q?SX1gM8755L7pZ/sQZTZfRHsl/rTvvJSPptvAJL1q+c2ftA6Gca4mZXzDmZ6m?=
- =?us-ascii?Q?gb8D6Evg0jBBO8JdK6zjJ6l6eOCi00NltxoyRXTP5Jc5AooJoM6Mfn0yv0kX?=
- =?us-ascii?Q?xTmYEcb4dNqa+faucxPE8Ykj8t+ic/oFP4OSP4+IrmT7nZ3b5xOS0TDSL9I2?=
- =?us-ascii?Q?l6d+snnm4iR+wVFl72vpn0RYiWYrHvVFeyjiek9Kif4XZAYX/JEua1e5ObZ0?=
- =?us-ascii?Q?9+GatO2o5fM3KRQqKz/p0y2Eqr1hFEPSb5GzAsAJsKJNTRb6zyD3SWU/zgbZ?=
- =?us-ascii?Q?NFNEfaQ4hxBwfOmpbZ0hCI4xIvTnC0m+7qHZYT8n0Ph9QfsnEP8CadocAiZm?=
- =?us-ascii?Q?QNcbdhZ1LPFbp/Tw6UKxmWuqDoQ/Jn3WK8wUbzrla52MH817pM7LUE96Wpyo?=
- =?us-ascii?Q?BX4auYN2lZrB6/XpWNIoE5WJVEk6TgdcCAchl26WBNZpkfvofYXRGU44W0G8?=
- =?us-ascii?Q?Z6+9n4eCaXewdQp5in0hEX4dyS50/x9Qv89rkdFYrLVsv+/OJX4PAXLKrawS?=
- =?us-ascii?Q?u5yf26XUNo3wYpCM5oahbpMcbzhWd2jQoXDnqxtcPnzTMO0yXwEzECBf1KN+?=
- =?us-ascii?Q?BjTjN0xBrNLV4nBj4Dy8BhVIqplhay2ukH49b+8L+MZozZRqM9gCThoALtRz?=
- =?us-ascii?Q?So+9Fz/O7QIxXTMJQ2m2lhfTMS6l8RoqLLlxXwW8F6OY/7+920t8tsF7ulCy?=
- =?us-ascii?Q?DLawk+EK8fxJxs6BnTouOHSMwryfY3VSo4KY8mayO+xFYnjngzuPRjzZvTzt?=
- =?us-ascii?Q?agh4dCMzDijF2scetxDQKOOBzscCZky9nu220B7Xw7ETA9Kh9I9pKBEHBpR7?=
- =?us-ascii?Q?k99l/OVT4W2L0xUxrA0gdqWEIsdJiEKmbgdFT1m+PhVGuNwPuQflM+pm2Xqr?=
- =?us-ascii?Q?TyL7IA4G1auQ4TOvNNnjv1DAwOBQ3CTu3TxIS/Yy8nENS5wB+3+Dgm0p8Tyc?=
- =?us-ascii?Q?hctReQJMB1UkUdO4mgqVzrOUCDdJLB/VcJTYdbWeV5GyEtOqsuFWWLmasOsU?=
- =?us-ascii?Q?J94yJQIR4PGCEWNgBs1SsfnKMKY2empwVDMEm011FalJMbK521dHq57fnkLq?=
- =?us-ascii?Q?tb/Nkp/ueHPM5e45pkuXfXJt4PAUqEm33k2KuAsnAHP1VhqMIfejvN0HQd9h?=
- =?us-ascii?Q?UUNbwXgem8Q0f5Cy+1yxEANa/Z93pdsVU75Ietn/Vhr/xL+O+JMHzYi16tRz?=
- =?us-ascii?Q?xQ5Kr47YAOKPqj9+o9JKOfClddJmCtaR2tQOMgfUBXrrdoSXLtAhc440Kq9y?=
- =?us-ascii?Q?SWVUlXwnC5JK5A7GvbCCtBhybRJ7XD+UKBtPHmXIF9+ui9Tg3tjB4nkBSQgo?=
- =?us-ascii?Q?l1Pb7ge0CRcLHqOx7MOU5fhwertBJW0gpH6wD8Rw4OqxbXp2mGYOmRPT9ypA?=
- =?us-ascii?Q?7D22vsWGoiKQAFoke+gfti6QNdZBk/bgNOX/WF6F7WrkC28OIyU/df9jIuhD?=
- =?us-ascii?Q?c43evtBzZ3bhLlPw4w0LmgZERoyi1czyLzx1r4QGTfzHD8feAdx0IrK9FZaD?=
- =?us-ascii?Q?FB8cGDd1lxmIb2ntM24UBPjX6cJu+5IdcYEsGrw20DvV/EXM4veqwYC2z9kf?=
- =?us-ascii?Q?KFWYMOH8UhSb0W4UzgnhXkOh6FdI49BCoYIrSgYvOxoBu5ow71p+y5/OuLaC?=
- =?us-ascii?Q?o6cSJ/k2zRzD4nTzes73faXabd40NIje5KMurh2YmboaW2FhkGIc9W3wGwf3?=
- =?us-ascii?Q?5mjnuxgbiF/14s0uEMwCoQTz5LRXdBE=3D?=
-X-Exchange-RoutingPolicyChecked: nPgSE/X9s/Q7XucOwnDKNjtnHFZXJJ53VnjKd5D7pZI2ai3C3jz/WkEITHmMMP92bY6V9fQCprpFdjAU2CVZdrFAjjagiJQQDFqjB34823p2vqBItO94m6AFzYvq8Lf2wIpNfPHYR4yTb6xDHZ6nxz1JyUpY6E2f3MHPLLIK5M4FLX2Oy8bAinICipvtf0Lnh+1iI+qNIgaHJJ0NV9pcdnX80PptXEId90LCjhTINh375c3mbNoIC97vFlgUZHSFrMfdSUme2YpM7/MqXNMvVg0dKL7MhIUHohcxYVnqWzoCCWE0nLheLjkQcaIwwUkuD33Pgrplc5tYdJAKPCsGpg==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: u+G5NcaaE4L/xnld2fYVM4GbVg7udYqkWQE4tGLWZg/8iOeuJaJNr+f6eOikYBihD8RdNt4VdvPY4fa29dcOO8kAHGfwIF1rBxdPMW3inVhvhcs89mJA1mos2mwsHIsjf7QkZ8YNr6s+iQ+XoCgQBTgfZ9falg3BxqJ5qc9tykVIbDWGqp/q+zcy3yPv5+wkpccn9abOx55ILsNcK6RUHs5mL8t4R4fIxraeFLoL+PbfJkPFYWyFOs9qKmu60zlU3+rrqOYG9xyjpPNRBXQXH/zvWhQZLsqgQD2ooCU/t7Smh3XTPTOTQBkZMDsbUpAMlfblh7U5oJ463yxUShdH08ETxxc472eoSDbnGnoh4my2fxZdskkFkrgVAbCR8xW9xBoGfZ9wyYmL1Azdnk0JSd4r1a9zow4Brub8OwT9VKJtEtm+9bbRpeeaQ5bDxi1UOb/AE3lcEQoc8eJeLnKjfb1BeGrpUONsb1GGnu6QJwmCJbRDndrhqoMFxo3RD8ckIqdQvsNz93PCwxPY+mqfV2NSkU5PM2F70rFZqdmDV6gv1l9dDGRAQ6/wfvwTjHqpco4hKfxmvMshnVDiW/mUkGCNf7GxVK4aGLZH0TyjvMi1KL6OCh88pFpEsr7eCXTw
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f67fbe39-deaa-42fe-18f5-08df356f2da9
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR04MB10065.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2026 03:46:13.4435
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NGlz3YAvqDlrLiD3pQLOBGgeKtHjTaVp/mxARAmwHi36ONaEhZih3mLcTcOyWfdZ+Sc0SNLUJD0oFC6XK4cXwqZIsRbSmQNkZzhTshgdP/o=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR04MB7563
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261028_204619_030545_89024EFF 
-X-CRM114-Status: GOOD (  11.88  )
-X-Spam-Score: -4.4 (----)
+	Thu, 29 Oct 2026 03:50:43 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id 99CE5600DA;
+	Thu, 29 Oct 2026 03:50:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28F901F01828;
+	Thu, 29 Oct 2026 03:50:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793245842;
+	bh=gr8UwMwNA4tO2C8qgIMJNc3FcocVo0aMxb8k8JdnGmM=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=KPXZNBBf64Bx/l3h2XaGwqRzpj0O/ggtU1x4ltuRDLtYjsY/DT/lqj1HQj+5SkuZ4
+	 DltCQzkrGNSmGCPZOmrBRZ1wZNaRC6iJ6qEUj31xc5YwnpCn4hBd+FQ3pvEzWHxBRo
+	 99tCSTOn4Uu0T7jdRF68vQxctclpmx7odZ/Tdo9xBLg2r293x2/zxuoSRF17FVtaTP
+	 5P2fW+0u3ibwy+VbMUsDq0dsJlOEkGQjG2PGZLCfq2xg5ynlfjI3k+JXdvKDKnGT2K
+	 M2DHd8JveKuVA+qw6f5xw4XQ8cLZFW+LS1kp/EkSUcSzAPYl2NQRU+n4opMJOhFqVR
+	 anZ2oyZ1+rxEA==
+Message-ID: <sashiko-outbox-188683@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2] nvmet: Handle a NULL admin queue in
+ nvmet_queue_tls_keyid()
+To: "Guixin Liu" <kanie@linux.alibaba.com>
+Cc: linux-nvme@lists.infradead.org
+In-Reply-To: <20261029034306.3626274-1-kanie@linux.alibaba.com>
+References: <20261029034306.3626274-1-kanie@linux.alibaba.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 29 Oct 2026 03:50:41 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -160,25 +64,113 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
+X-Archived-By: <archiver.kernel.org>
 
-On Oct 22, 2026 / 15:09, Andrea Parri wrote:
-> Add regression tests for three nvmet bugs fixed by the kernel series [1]:
-> 
->   nvme/072  "nvmet-fc: only send read data for successful commands"
->   nvme/073  "nvmet: zns: don't leak stale memory in zone management receive"
->   nvme/074  "nvmet: zns: reject a NUMD whose byte count wraps"
-> 
-> The nvme/073 fix is already applied to nvme-7.4; the other two are still
-> under review.
-...
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] nvmet: UAF race in nvmet_queue_tls_keyid() during admin queue tear=
+down
+--
 
-Thanks. I applied this series. I confirmed nvme/072 and nvme/074 cause failures
-with the kernel at the block/for-next branch. Hope that they get fixed soon.
+commit 7f7e86c9399b0b51dffaf7a9659e2eee6e379123
+Author: Guixin Liu <kanie@linux.alibaba.com>
+
+nvmet: Handle a NULL admin queue in nvmet_queue_tls_keyid()
+
+This commit adds a NULL pointer check for sq in nvmet_queue_tls_keyid() to
+avoid dereferencing a NULL admin queue when the tls_key debugfs entry is re=
+ad
+before the admin queue is created or after it is destroyed.
+
+> diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+> index 9cec19e6f4857..8bfc953b69f24 100644
+> --- a/drivers/nvme/target/nvmet.h
+> +++ b/drivers/nvme/target/nvmet.h
+> @@ -959,6 +959,8 @@ static inline void nvmet_req_bio_put(struct nvmet_req=
+ *req, struct bio *bio)
+>  #ifdef CONFIG_NVME_TARGET_TCP_TLS
+>  static inline key_serial_t nvmet_queue_tls_keyid(struct nvmet_sq *sq)
+>  {
+> +	if (!sq)
+> +		return 0;
+>  	return sq->tls_key ? key_serial(sq->tls_key) : 0;
+>  }
+
+[Severity: High]
+Does checking for a NULL sq here actually prevent a use-after-free when
+nvmet_ctrl_tls_key_show() races with admin queue teardown?
+
+In drivers/nvme/target/debugfs.c, nvmet_ctrl_tls_key_show() reads
+ctrl->sqs[0] without holding any lock or reference pinning the queue or its
+key:
+
+static int nvmet_ctrl_tls_key_show(struct seq_file *m, void *p)
+{
+	struct nvmet_ctrl *ctrl =3D m->private;
+	key_serial_t keyid =3D nvmet_queue_tls_keyid(ctrl->sqs[0]);
+
+	seq_printf(m, "%08x\n", keyid);
+	return 0;
+}
+
+Concurrently, during admin queue teardown in drivers/nvme/target/tcp.c,
+nvmet_tcp_release_queue_work() releases the TLS key, destroys the sq, and
+frees the queue:
+
+	nvmet_sq_put_tls_key(&queue->nvme_sq);
+	nvmet_tcp_uninit_data_in_cmds(queue);
+	nvmet_sq_destroy(&queue->nvme_sq);
+	nvmet_cq_put(&queue->nvme_cq);
+	...
+	kfree(queue);
+
+where nvmet_sq_put_tls_key() drops the key reference before clearing
+sq->tls_key:
+
+static inline void nvmet_sq_put_tls_key(struct nvmet_sq *sq)
+{
+	if (sq->tls_key) {
+		key_put(sq->tls_key);
+		sq->tls_key =3D NULL;
+	}
+}
+
+and nvmet_sq_destroy() in drivers/nvme/target/core.c only clears
+sq->ctrl->sqs[sq->qid] afterwards:
+
+	if (ctrl) {
+		ctrl->reset_tbkas =3D true;
+		sq->ctrl->sqs[sq->qid] =3D NULL;
+		nvmet_ctrl_put(ctrl);
+		sq->ctrl =3D NULL; /* allows reusing the queue later */
+	}
+
+Can this still lead to two use-after-free races when reading the tls_key
+debugfs entry while the controller stays alive via other references on
+ctrl->ref (such as I/O queues or the keep-alive timer)?
+
+1. nvmet_sq_put_tls_key() runs before nvmet_sq_destroy() clears
+   ctrl->sqs[0], and calls key_put(sq->tls_key) before setting
+   sq->tls_key =3D NULL. If nvmet_ctrl_tls_key_show() runs concurrently,
+   sq is still non-NULL, so can nvmet_queue_tls_keyid() dereference
+   sq->tls_key in key_serial(sq->tls_key) while or after key_put() frees
+   the struct key?
+
+2. If nvmet_ctrl_tls_key_show() loads a non-NULL sq =3D ctrl->sqs[0] just
+   before nvmet_sq_destroy() sets sq->ctrl->sqs[0] =3D NULL and
+   nvmet_tcp_release_queue_work() calls kfree(queue), the !sq check in
+   nvmet_queue_tls_keyid() will still see the non-NULL pointer and
+   dereference sq->tls_key on the freed queue.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261029034306.3626=
+274-1-kanie@linux.alibaba.com?part=3D1
 
