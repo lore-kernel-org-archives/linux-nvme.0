@@ -2,75 +2,75 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B44B9606C46E
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 Oct 2026 14:19:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D364606A326
+	for <linux-nvme@archiver.kernel.org>; Thu, 29 Oct 2026 14:20:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=MoiKHvml;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=djJWiIcV
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=3SanlJdF;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=aZ8vghUx
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=h3LMsbtIcJ0VDO1NfF8USKNq+9F4WgnyItWrt5X3yTw=; b=MoiKHvmlBs0hl0
-	RVPy7KeAGJILKNiqT5fKSoo0lhSN2i/0rZQ+Zoue3ZHkpvzl1hvRva5nOK1JyA3YQP1556Xlgh8tW
-	tAz0kRV8QFkqZXdxo7GBSviw1a7kRr5kaKz3/Mkr6tYODQKKXucuhYm+QRnSDjlzzwwa2yyMukL6A
-	5w+jtOPEm5wgz1fRI961Yfs9Q+60fudK8aN9HZ92W8wacm1U6Drv4BE/A829ZP8c+zAXUBQDHg2P0
-	SQU3spkNiShu1RIBFmLdJvABHLRmlTYTEfs94NfPFvWTK/cK23szP7/W7D24bTLIwT1e3WfdneMaj
-	w9bjdutgO4sRETVfqvMg==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Unsubscribe-Post:List-Owner;
+	bh=CEJgZSOIdMAj6jpTCSnhUIhLpKEk9BtwYmYBUge0rqk=; b=3SanlJdFGykJ9kADaqK9DAc0we
+	IyRF0LOQtEWreqGHExSqeHGxpnPmDROnbb5mtIWYInB2rCHpvpvyqZKwdug2sUtUEIwmTvULw1Wyx
+	Y5IBTn6VlRvcPIGiTyyJU1WdpEUS45Cq0Ou4+WauM/UAU3EezAEwATqx465OQYmJ423VOhUfNCilf
+	F14sMe3jPFK9G7MyANXOnv4nfeFNIuDaVPJTA0c1yXYLZjf3Alm8vZYNcgxHXuL4qhUg7lKegVaKy
+	iorvZJZokNdJl7mWua+8BrcFejKjo4B/uq057y96go08Z6PyLIrE7HUhPJTyRspBI5FHwzZaXJmBs
+	43R7RW5Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMQyI-00000009VKm-2Ubg;
-	Thu, 29 Oct 2026 14:19:14 +0000
-Received: from mail-ua1-x935.google.com ([2607:f8b0:4864:20::935])
+	id 1xMQzZ-00000009Vct-49BO;
+	Thu, 29 Oct 2026 14:20:33 +0000
+Received: from mail-ua1-x92c.google.com ([2607:f8b0:4864:20::92c])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMQyF-00000009VKC-2tzV
+	id 1xMQzW-00000009Vbv-1tRc
 	for linux-nvme@lists.infradead.org;
-	Thu, 29 Oct 2026 14:19:13 +0000
-Received: by mail-ua1-x935.google.com with SMTP id a1e0cc1a2514c-980c4f5c921so664653241.2
-        for <linux-nvme@lists.infradead.org>; Thu, 29 Oct 2026 07:19:10 -0700 (PDT)
+	Thu, 29 Oct 2026 14:20:32 +0000
+Received: by mail-ua1-x92c.google.com with SMTP id a1e0cc1a2514c-98c7798ce74so706715241.1
+        for <linux-nvme@lists.infradead.org>; Thu, 29 Oct 2026 07:20:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793283550; x=1793888350; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=h3LMsbtIcJ0VDO1NfF8USKNq+9F4WgnyItWrt5X3yTw=;
-        b=djJWiIcV3WbK+3FW8M/3nlrlr2+jrlOXMlZbgkt1VLC78KU5aAohZ37D/UMZFqK/+G
-         /0Ahk3wcGNvBC65SQtvPO4A2kRNVWAV/znbrlaViicBmgYcP/1OoiRwI7/37gK/KX5hq
-         W+m+vh8T7Z4I5JKMvFe16MGGwqSEj3vJ99SWTIl+BqnFzZqRt3T9Ar9N73x1bmUB0l7l
-         bsPyi7VGL6KfUy9lNMNSkS6RdViXeualQPOjX8wFv3jFvOeRJ28j/6CxY5LySX5tVqaP
-         R5r1JZFQKuTuQC6ncl6mHkIeiKoKOjPi1URStXar9J3WdKPLFUozR4PJEl+fDbIt7M4d
-         f8cw==
+        d=gmail.com; s=20260707; t=1793283629; x=1793888429; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=CEJgZSOIdMAj6jpTCSnhUIhLpKEk9BtwYmYBUge0rqk=;
+        b=aZ8vghUxxE8Cy0TsC+kv7/JKv/XIHsaieulgt2af8LVaHW7MoEtpOQ+PeyoP5+7ujU
+         qdIfeJSBWYMFoFczaeYispkkIV8K+cegBlRMNTbyVTp5EV9UbnIqEfKSLFTgY++9dWbi
+         nwixRxHtEgPcL5e3Zcm+YqR/clDzS9/NtiBqUY+vZMzHIjY87bBtbcB6vuCI3vbxjpXv
+         flXVqxjFoJaw+9xxG6FvLm78IKvPzLDSPmQiVuDSryr71beOoYUIdzJUdRRTrIt4Hnb3
+         zbP14ze8JiYYUnK4zYuWudIq0H4GcsnjYqDbOjwppQlSzY6gIDNXvc73ghOCaWW4NV1/
+         8mpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793283550; x=1793888350;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=h3LMsbtIcJ0VDO1NfF8USKNq+9F4WgnyItWrt5X3yTw=;
-        b=dkhNvYTsfTd/OyBNujawP38pr4B+llsjy4Opavbk8Agc0el7AnyMZKkY0E8xC/BTQ4
-         FvMfe6Ichfaf+Olt10iHvcLdoHl1yEpTJhIW/Guhkwhq5OHB+9WDv//cq8ZwtjszukH3
-         Q4PaNE8GzManJRl0PZkSH+Z+p5rQsOrdui6xIpv5UvPu+b6z4OKgNAtin6DwIbyBl1s0
-         NYK1PF5ocNc3m9pRfZbcdHvLa9rBKhFrKOzUK1u8zrxi2YkpCatNj08FgTE487yOeqn/
-         6aw/GiNYsK/LW3CBEWQedTP07aGa7RIHL6T8tF9BBxyXq9pELvUYsOjKULo7HKVy+eOk
-         mxAQ==
-X-Gm-Message-State: AFq9FYJZVJG5bXSHY2dQjusOQKrQj4Vr8f6L50Dba7svOSYlw3uCIagw
-	S3qxm2xFQngkyWnCZf7UsmpCJBfAOB47okl+47k8bfI1nJsMso1XOP88a0PijGSVo/8=
-X-Gm-Gg: AYBFou25hyChVIA/Vo3TOm6IfvmksAjqs0wYEB6+vD5jJBNetHhix9Bm6IX/qbxTuMU
-	d3EzsA4NriLCs4cEfMEKwxqrptGaRdfTX2AobjNPxiMbQyWlGBhvDP4UpzQ7bbVT7SnThxGdN/Q
-	0TOdhyTO+OQ/RrotEV7SvrwOAqR9awtSaXcK99YLZzWrDz5AAa9VipJDXDuRBpqKCLms96LECye
-	8OR5Cq3Y18+jPkPymIqKo6SNbhmOrbCjitsae5/v5KvGLLnIXYNpjH8tezRQOhTwVqHVQpVwsJ2
-	I9/SEpzdOL8QUPfvHYsvtBH8RMhbhL+HXvU3TJInTitCjeB1DQPfroN+xB7m5+kw7ENm571iX9Z
-	QF+veQPN4e5dudlH9j8sXACU9IYF+vJ7v4kD3bAg+8CqdVf2bki3Lseac31zq/F+50PadZf9zQW
-	6X2gc5fo9lsGlJGy4w/rhkENKQRUTPp6mLoYkimQr3VtV9LluUYkW34qx2QuMkJYT3qZciOI7gC
-	8LLOxWBaZOtpNaQAtZ0E0HKtvNg9KhVi2d4RncP/dedxZZ67E/3Gz6tfopfd+aqKORK4VpsjQVo
-	PgnY00zQeZtfzrKiG6VCtzrA0CRzDgKXUt2/LSCDle+ScLiCi7FzxQELn+4n
-X-Received: by 2002:a05:6102:f08:b0:7ce:6474:7216 with SMTP id ada2fe7eead31-7d03a62cb8bmr2399258137.36.1793283549317;
-        Thu, 29 Oct 2026 07:19:09 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1793283629; x=1793888429;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=CEJgZSOIdMAj6jpTCSnhUIhLpKEk9BtwYmYBUge0rqk=;
+        b=cynMG2BEzNlOQjGyg2yeDNq+v0pYOjXRtWI1IIEeWAN6qGe9Z3Wcy4YLdEY84SwsID
+         O5CZhcxTvSn7G1cvsT2ugeQSLRI+qO8Nrt6KE+rKtDo5WTkiIC93bpWuZVAykA9C1UhQ
+         NwJwI1V13RfLL/bmm19/ycNAp35IPkOhUEO+uSTdVGrZvqKcyVTwWqes010vMIkrXcLB
+         RE8oaN3OA2ZGpV3itWYOXcB6/kYbt3QPY7/m7+sOQuHCcshgKTylcK+RXSsOhN81K6SW
+         M2Ro+oZLAE8JnfKBgFnsQf40cRVze1e8q7KSjPnpzUmP4sVichuHmxW9ie3CzmoNDg0h
+         5ROw==
+X-Gm-Message-State: AFq9FYKH9igFY6KAvAREtsyZWhO+HM91jdpV50lY29SclZReKMi6z4D5
+	H9lXJQsY9DXM6HlIdAKRZ7H/k7mb5FZ4u0L2hSO4SVXzYV2BsfosY1tX/MsgSeEOYFE=
+X-Gm-Gg: AYBFou3Yqt46JO78ntOcXtVxtr0NdEPJ5BkgNveV6SnzPinlIEalh8xi1zLnrT7SgEN
+	tsKFuOnC4u6g6EpmARydHyvY2NuJJGdg8NpZ/9CDZ0zrVwbvvfeUVQ48Oe57hOeOOyO8h92bOwK
+	VgWZwb0362IKcQhg2rP9G8hf52piNM9SRkoVuj7kI8+16XahmaucctOZhYh/4PL+LKPRPzjiY9K
+	2dsK5sP7jDZkjYC9Yyj7Vy8lN3Bq/1EIL+VaGYEoHNmxkfziM2W5YAb8yVc1PKP1zKPk19AsG5a
+	N9NcjMA1Ypb1CMaXjdrsk2KAslmJ/uVCHK4Ao+VjBeYU+1xdX30MwcvvZbQCy90M6aiXPZA/k3h
+	WkoPE7P7CQ9L+f2BG3U4auTPQcmX0L6gkNEkwLVub4uGu9tm0fuXE3zHWSEuYVCW3dW+a6kBPTE
+	Ty/7izOcLMedtFTvtSh1I9cikuMiGVGK/Ppmp1gsiePgkBuodFI7h6GX8kaR3sdS5U1B/AcAoMV
+	dht/Rxr+iPSqk4fp7Oh4O+yC1HUF7oxYd0MA2QQxL+Ni6DR0X+ogXWITTAgOqNFLcKd7rogSe1E
+	se+Xb5YavAuxe0G1RqVbnvSOHkAQQ/Y3Q/Rzixc=
+X-Received: by 2002:a05:6102:6f07:b0:7c3:1d7:f234 with SMTP id ada2fe7eead31-7d03a294a6dmr2037964137.2.1793283628442;
+        Thu, 29 Oct 2026 07:20:28 -0700 (PDT)
 Received: from bridge.. ([2804:14d:ba6b:8339:e751:b7f8:a4ea:bd70])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7cea3d32a48sm9362274137.9.2026.10.29.07.19.05
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-991eaee2e66sm11457241.2.2026.10.29.07.20.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2026 07:19:08 -0700 (PDT)
+        Thu, 29 Oct 2026 07:20:26 -0700 (PDT)
 From: Christian Aurich Zanettini Martins <christian.aurichzm@gmail.com>
 To: linux-nvme@lists.infradead.org
 Cc: kbusch@kernel.org,
@@ -81,20 +81,19 @@ Cc: kbusch@kernel.org,
 	hare@kernel.org,
 	nilay@linux.ibm.com,
 	wagi@kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] nvme-rdma: fix NULL queue->ctrl dereference on reconnect
-Date: Thu, 29 Oct 2026 11:18:43 -0300
-Message-ID: <20261029141843.2066616-1-christian.aurichzm@gmail.com>
+	linux-kernel@vger.kernel.org,
+	Christian Aurich Zanettini Martins <christian.aurichzm@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH v2] nvme-rdma: fix NULL queue->ctrl dereference on reconnect
+Date: Thu, 29 Oct 2026 11:19:57 -0300
+Message-ID: <20261029141957.2068907-1-christian.aurichzm@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261029060521.1690223-1-christian.aurichzm@gmail.com>
-References: <20261029060521.1690223-1-christian.aurichzm@gmail.com>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261029_071911_731032_D70E638D 
-X-CRM114-Status: UNSURE (   8.49  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20261029_072030_495775_BA70B2F1 
+X-CRM114-Status: GOOD (  16.60  )
 X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -106,27 +105,97 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
-	version=4.0.1
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Thu, Oct 29, 2026 at 03:05:21AM -0300, Christian Aurich Zanettini Martins wrote:
->  static void nvme_rdma_free_ctrl(struct nvme_ctrl *nctrl)
->  {
->  	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(nctrl);
-> +	int i, nr_queues = NVME_RDMA_OPT_NR_QUEUES(nctrl->opts);
+Since commit 2a8513091d2f ("nvme-rdma: parallelize I/O queue allocation
+and startup"), a reconnect that gets more I/O queues than before grows
+the tag set before the new queues are set up. queue->ctrl is only set
+by nvme_rdma_setup_io_queues(), so I/O submitted in between reaches
+nvme_rdma_queue_rq() on a queue that was never allocated and
+dereferences a NULL queue->ctrl:
 
-Please drop this one, I'll send a v2. Thanks for the reviews, Nilay
-and Christoph.
+  BUG: kernel NULL pointer dereference, address: 000000000000034c
+  RIP: 0010:nvme_rdma_queue_rq+0x52/0xb90
 
-When creating the controller fails, nvmf_create_ctrl() frees opts right
-after nvme_put_ctrl(), but that put is not always the last one. With
-CONFIG_DEBUG_KOBJECT_RELEASE, KASAN reports a use-after-free here on
-every failed connect.
+Set queue->ctrl for every queue when allocating the controller. Such
+requests are then requeued like on any other queue that is not live.
 
-v2 only moves queue->ctrl and leaves queue_lock where it is.
+Fixes: 2a8513091d2f ("nvme-rdma: parallelize I/O queue allocation and startup")
+Cc: stable@vger.kernel.org
+Signed-off-by: Christian Aurich Zanettini Martins <christian.aurichzm@gmail.com>
+---
+v2:
+- Only move queue->ctrl. v1 also moved queue_lock, which needs the
+  queue count in nvme_rdma_free_ctrl(), but opts can already be freed
+  there when creating the controller fails (KASAN use-after-free on a
+  failed connect with CONFIG_DEBUG_KOBJECT_RELEASE).
+- Not carrying the Reviewed-by tags from Nilay and Christoph, as most
+  of the patch changed
+
+v1: https://lore.kernel.org/linux-nvme/20261029060521.1690223-1-christian.aurichzm@gmail.com/
+
+Based on nvme-7.4 (89480d137bf0), also applies to mainline and v7.3.
+
+Reproduced in QEMU with nvmet-rdma over rxe and
+CONFIG_NVME_MULTIPATH=n: connect with attr_qid_max=2, keep direct reads
+running on the CPUs that map to the new hw queues, then raise
+attr_qid_max to 4. The window is short, so the readers run at
+SCHED_FIFO with nvme-wq pinned to their CPUs. Without the patch the
+host oopses within two tries in all six boots. With v2, 24 of 24 tries
+go live and 30 resets under I/O pass, with and without lockdep, and
+failed connects are clean under KASAN.
+
+ drivers/nvme/host/rdma.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 07216890f75c..32189fdfc0f5 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -735,7 +735,6 @@ static int nvme_rdma_setup_io_queues(struct nvme_rdma_ctrl *ctrl,
+ 	for (i = 0; i < nr_queues; i++) {
+ 		struct nvme_rdma_queue *queue = &ctrl->queues[first + i];
+ 
+-		queue->ctrl = ctrl;
+ 		queue->queue_size = queue_size;
+ 
+ 		ctxs[i].queue = queue;
+@@ -798,7 +797,6 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ 	bool pi_capable = false;
+ 	int error;
+ 
+-	ctrl->queues[0].ctrl = ctrl;
+ 	ctrl->queues[0].queue_size = NVME_AQ_DEPTH;
+ 	error = nvme_rdma_alloc_queue(&ctrl->queues[0]);
+ 	if (error)
+@@ -2284,7 +2282,7 @@ static struct nvme_rdma_ctrl *nvme_rdma_alloc_ctrl(struct device *dev,
+ 		struct nvmf_ctrl_options *opts)
+ {
+ 	struct nvme_rdma_ctrl *ctrl;
+-	int ret;
++	int ret, i;
+ 
+ 	ctrl = kzalloc_obj(*ctrl);
+ 	if (!ctrl)
+@@ -2343,6 +2341,9 @@ static struct nvme_rdma_ctrl *nvme_rdma_alloc_ctrl(struct device *dev,
+ 	if (!ctrl->queues)
+ 		goto out_free_ctrl;
+ 
++	for (i = 0; i < ctrl->ctrl.queue_count; i++)
++		ctrl->queues[i].ctrl = ctrl;
++
+ 	ret = nvme_init_ctrl(&ctrl->ctrl, dev, &nvme_rdma_ctrl_ops,
+ 				0 /* no quirks, we're perfect! */);
+ 	if (ret)
+
+base-commit: 89480d137bf0d943a82c64f86ae2407a15276b5e
+-- 
+2.43.0
+
 
