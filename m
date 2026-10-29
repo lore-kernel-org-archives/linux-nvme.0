@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCE7F606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0B17606A31C
 	for <linux-nvme@archiver.kernel.org>; Thu, 29 Oct 2026 15:53:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=iXBMYVXW;
-	dkim=pass (2048-bit key, unprotected) header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=mw/CRyeS
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=0fjK6xYg;
+	dkim=pass (2048-bit key, unprotected) header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=F+eP7RZO
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
@@ -14,54 +14,54 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=bPhAjwLrZqQMq+hHyRcLffsFNtJOw02gP1csuX15Nbc=; b=iXBMYVXW7IqvP6LZMfgrrcG1iG
-	d5TIvJTC1AP2b/A1B+JAqEXEdjQBxA8CPwyjn9z4sNCBwWd+DUEQKZqes8RJnohyfA83SG3otscij
-	TA2eJMOCg3cOR0nmCaG6T5CJ1j8m9146JEW/VzVRS26OQ7EzNIAMnLOmrO5xRBR6ngRLrwESKfVdJ
-	3gOsduSJAuAPO7qNxxMrVoivK4w73hEqSOra2Hiw1OAGX4bAA9zPNoOR5CZYhrLICWbHec00kBuKx
-	h53zl/vuDLKgD1pNQFy+fNvVyBZS6PKwE+8AcRaNGprG4ixyTeyqBQ+aIs98HsDXDWulV3i4Sk/pX
-	Op4ZFrCg==;
+	bh=RX5ORDDX9+Z2RvSJipTBoht8fLHvT6CuKfszh+EDtaY=; b=0fjK6xYgmavJ11Kn+l8TNnV2ir
+	MV2IEpcpormGkgDeZgzJolUJnb3Mjl58ov400yArQwlX8/Dprnjitm61hJDHrlTZ8pW4Oqc+LhH7+
+	7kHBG/1XTG21GW50LfOH1Si0/P8STe/oFtvMVwb9+/xmGyDc6gpmDVXtijAdEPfOK3/wVc9svOgEM
+	U2ZfbDzS4ht/MABWjxR4GqDEVCuQjRoGbrINP69aYjH6hBBHUA/8EO/xJeJc8WL5WUwXmvqVFjyRb
+	DCFbohi8RER6zVkOhe6cjm80otBiTBXV8lSIbKQZga5mt0e6O77VTM/AzmTbzr5ogCHJ1B0bItCrc
+	POg0W/lg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMSRK-00000009g1G-0HYS;
+	id 1xMSRK-00000009g28-1OGc;
 	Thu, 29 Oct 2026 15:53:18 +0000
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMSRF-00000009fvl-3YC8
+	id 1xMSRG-00000009fvb-3wgz
 	for linux-nvme@lists.infradead.org;
-	Thu, 29 Oct 2026 15:53:15 +0000
-Received: from pps.filterd (m0044012.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69TCdNgp2670384
+	Thu, 29 Oct 2026 15:53:16 +0000
+Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
+	by m0001303.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 69TCd5cg2477664
 	for <linux-nvme@lists.infradead.org>; Thu, 29 Oct 2026 08:53:13 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	pps82601-s2048-2026-q3; bh=bPhAjwLrZqQMq+hHyRcLffsFNtJOw02gP1csu
-	X15Nbc=; b=mw/CRyeSEyyNDppQdyoE++qpyUM9ec9B5vqOlLw+nKUJ2vLxB8HQp
-	RcvcW/XTPSHhcrS7K7oNromzV14CkjuYYCocplJawPkI7yNijJhjNRvW5Y5lPGOH
-	JwnHwcfFzA3tFrRX2iDSoPXssQ0H+mP3fLq6FHCO3kM2vwDj8zDgMgyW57VIhr/+
-	nIdNPJsg2qrsdvxTiXQBJVcSabTaa5pJZcyxl+8vUwc63o0zOBi1Ig36dMTIvQqD
-	t/w4mKgRnE82diXvy7MLSX0RxN0CR9C1CrVBmWT0q6m137HZjV2LnVyBV25yYlkE
-	F3oYIMYHEO2VL49EL3MU/5t/tcAtO4riw==
+	pps82601-s2048-2026-q3; bh=RX5ORDDX9+Z2RvSJipTBoht8fLHvT6CuKfszh
+	+EDtaY=; b=F+eP7RZOT3TaoBO5VltJhMoM7s2+T0j3fFUh87J3qtU9Z760Lvxys
+	iS6Bxhu33fEjj2lpUVkg8vuj9z/Nc8vzqHHq/a6u6ZfzrtJglm6ueLCHyVy9j3cX
+	7Y0WPPq++sRQ5pKzd2CAOnuLSFqFV7QEjIXQAf0C/841KvkTEDMQXyAliOHi5Uyv
+	L3gCp7XHcAtf5itw/4MYNtDPP8zIqhcEVHWBp/XV1R0ergZU5+eSLGDdtkdjniGt
+	RtJQAbcTHEqL/pqCJDTllwBUBbp+J7SK4VhBUt+mXDj8imHTT6mtoKnJfuUmdxl1
+	fWvyrlo4xJpHq3DNtN6bHgrjibPeEkXwQ==
 Received: from mail.thefacebook.com ([163.114.134.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4hm28qjnp5-10
+	by m0001303.ppops.net (PPS) with ESMTPS id 4hm5yr9m9b-8
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
 	for <linux-nvme@lists.infradead.org>; Thu, 29 Oct 2026 08:53:13 -0700 (PDT)
-Received: from twshared30277.33.frc3.facebook.com (2620:10d:c085:108::150d) by
- mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
+Received: from twshared13996.31.frc3.facebook.com (2620:10d:c085:208::7cb7) by
+ mail.thefacebook.com (2620:10d:c08b:78::c78f) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.56; Thu, 29 Oct 2026 15:53:12 +0000
+ 15.2.2562.56; Thu, 29 Oct 2026 15:53:05 +0000
 Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
-	id EDFC62E22CEB1; Thu, 29 Oct 2026 08:52:56 -0700 (PDT)
+	id 1E9162E22CEDC; Thu, 29 Oct 2026 08:53:00 -0700 (PDT)
 From: Keith Busch <kbusch@meta.com>
 To: <linux-nvme@lists.infradead.org>
-CC: <axboe@kernel.dk>, <hch@lst.de>, Josef Bacik <josef@toxicpanda.com>,
-        Keith
- Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-        Hannes Reinecke
-	<hare@kernel.org>
-Subject: [PATCH 08/19] nvme-tcp: start error recovery when a send fails
-Date: Thu, 29 Oct 2026 08:52:41 -0700
-Message-ID: <20261029155252.2332266-9-kbusch@meta.com>
+CC: <axboe@kernel.dk>, <hch@lst.de>, Chris Mason <mason@kernel.org>,
+        Sagi
+ Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+        Keith Busch
+	<kbusch@kernel.org>
+Subject: [PATCH 17/19] nvmet-rdma: don't run the wait list recursively
+Date: Thu, 29 Oct 2026 08:52:50 -0700
+Message-ID: <20261029155252.2332266-18-kbusch@meta.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20261029155252.2332266-1-kbusch@meta.com>
 References: <20261029155252.2332266-1-kbusch@meta.com>
@@ -70,30 +70,30 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI5MDA2MiBTYWx0ZWRfX3+5QQCZVLvPB
- QwS66bw6/zEmUwSJy/q1BTiez8rDh+KOHnqt9V+srODPWF/w1kWfSBzi9XufIzs8+tKq95BwNZb
- K/1YD3PMmzL24BjJf6RzmNYayXg5/wc=
-X-Proofpoint-GUID: 92noGQZFJnPaCdtEkYJ4K1GCLbbgSDAw
-X-Proofpoint-ORIG-GUID: 92noGQZFJnPaCdtEkYJ4K1GCLbbgSDAw
-X-Authority-Analysis: v=2.4 cv=NudE4MdJ c=1 sm=1 tr=0 ts=6ae36be9 cx=c_pps
+X-Authority-Analysis: v=2.4 cv=S8NMU4sP c=1 sm=1 tr=0 ts=6ae36be9 cx=c_pps
  a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
  a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
- a=PAz_-FQ8hEVmOPYdF0yf:22 a=maIFttP_AAAA:8 a=VwQbUJbxAAAA:8
- a=0DUUQeXdsZC2MOM7yMoA:9 a=qR24C9TJY6iBuJVj_x8Y:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI5MDA2MiBTYWx0ZWRfXyxMB7LSEdK0W
- TMnuGk3OpP0Z6ErTPEwRWDSA268+pg2L9FMk/J892usIo+dzav+iZgKUAigpCT+bVUPGM7ksK5h
- I5U3Zgk5OLBeMweh4mmd+TktNvAPFnPIoYZ+WxLTYxjFFfz6ECBPZhar2FULt5Wag5kANZgf2BX
- kNs8iQ4Lj1wwpAqqbJxVaRD3+gACP4Gpm4UW4GwLIsgxrl0EnTRA8n2/6sewbnxEd1GNP9fFZtv
- glX83k+RbSVtBEfFfcEt2B65vh7QbnbNVg2zTj5cgGKNYLQ71dcrOJaSPSXuiTuuQfvSo81g6Tz
- 3pdZ0GBcIWdavgvmQkSjDoooIHQhvjfRv7MiMvH3MwmCCb4giTkUV444epwBlAgbrFS3K/d5s2a
- b19RwoNbOrl0C2DzPrYk//RJ9iK/Wc0xuOiXJDcq4GFafytXxkBlBMvSEalLUXQwLZuPHJlxH+Q
- jm9HN5RqI1ehxM733Fg==
+ a=_78whYxrdx1mplLwxq1U:22 a=VwQbUJbxAAAA:8 a=Ikd4Dj_1AAAA:8
+ a=3Mfn_JQTHNHXCUR_PKIA:9
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI5MDA2MSBTYWx0ZWRfX6ZuXsPr+UkyO
+ MxPWiZ/b+g0ckrK+OB04EjyO8jv75YZFuomRJ5WwKdyuw3i3KQeCoQxMuXfzMky+Qfx7Qw4Ihr6
+ IVZTzhYoFWcrYCZ6QcC65yzxjkWqPtg=
+X-Proofpoint-ORIG-GUID: 6KpTVS0eeuLaIRNGDRevR-CpAGqHlOgI
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI5MDA2MSBTYWx0ZWRfXw/NioJ+9y8ga
+ CQ+60POSdQs6cF2FXrrznSEZ5znvM17UIIXzzUTcszdX5bcxkXa0WePF+PRrHlM6II30X91g5zv
+ /Ep1ggF1AtRUB2SXaLxjF38acnGXrz4bB3teOZCj99bFLwX1mn+QtvhrMGV6F7QSfd+Pd7a4s6j
+ eJovZTJK2AwuKT81YYbZSUTIOGL5O8sMq6UDYZ8nMUhw0QhC+YFVntrEigrnxqEhpaCe22v8Paz
+ PiH59p41Bng5vieAPnMHn+gcmnLBMZ/53WNwJzCMhBkzb5CKdvwAt5H9oJoZESkuw+chAr4QcoR
+ g2JAnGNGVO7FZYaDbBWKsr+WfEdZfJPmXEANNgFcEDoZIi0y65GfXGxRZCS+lquZxFy1KyMBS7i
+ +horO8TOXD1X+rSyRrW6wDInhXSrma5zhGAy7mwNMkTrhZ8wsiR326qq0CFvP1GSZq1s+kZ+8uj
+ IRb/JpCI2dnWYS+ysoQ==
+X-Proofpoint-GUID: 6KpTVS0eeuLaIRNGDRevR-CpAGqHlOgI
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-10-29_04,2026-10-21_02,2025-10-01_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261029_085313_897290_8C1E4CE3 
-X-CRM114-Status: GOOD (  13.84  )
+X-CRM114-CacheID: sfid-20261029_085315_155157_983C3AC7 
+X-CRM114-Status: GOOD (  22.46  )
 X-Spam-Score: -2.8 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -113,48 +113,122 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-From: Josef Bacik <josef@toxicpanda.com>
+From: Chris Mason <mason@kernel.org>
 
-When the target closes a connection, nvme_tcp_state_change() calls
-nvme_tcp_error_recovery(), which does nothing unless the controller is
-live. While connecting that's fine for the queue being set up, its
-Connect fails and the attempt with it. But if an already connected queue
-is closed at the end of the attempt, nothing fails, the notification is
-lost and the controller goes live on a dead socket. Every request on
-that queue then fails with "failed to send request -32" and is retried,
-forever with native multipathing, and if it's the admin queue the first
-keep-alive fails too. Nothing but a manual reset recovers it. The Linux
-target closes its connections at exactly that moment after a fatal
-error.
+nvmet_rdma_release_rsp() returns the send queue slots of a response and
+then runs the wait list, passing each waiting command to
+nvmet_rdma_execute_command(). Many commands complete inside their
+execute callback, and if the response can't be posted,
+nvmet_rdma_queue_response() calls nvmet_rdma_release_rsp() right there,
+which starts another run of the wait list inside the first:
 
-Start error recovery when a request can't be sent, as nvme-rdma does.
+    nvmet_rdma_process_wr_wait_list()
+      nvmet_rdma_execute_command()
+        nvmet_execute_admin_connect()
+          nvmet_req_complete()
+            nvmet_rdma_queue_response()
+              ib_post_send() fails
+              nvmet_rdma_release_rsp()
+                nvmet_rdma_process_wr_wait_list()
 
-Fixes: 3f2304f8c6d6 ("nvme-tcp: add NVMe over TCP host driver")
-Cc: Keith Busch <kbusch@kernel.org>
+Each waiting command adds a level while posts keep failing, and the host
+decides how many commands wait: it sizes the receive queue, can fill
+the send queue with commands that nvmet_req_init() rejects without
+taking a slot, and over siw can make posts fail by holding back an
+RDMA READ. 400 waiting Connects overflow the stack of the CQ worker.
+
+Before the loop executes a command, point the response's new
+wait_released at a flag on the loop's stack. A release that finds it
+set means the loop hasn't returned from that command yet: it returns
+the slots and releases the response, but sets the flag and leaves the
+list to the loop instead of running it. The flag tells the loop not to
+touch the response again.
+
+Fixes: 8f000cac6e7a ("nvmet-rdma: add a NVMe over Fabrics RDMA target dri=
+ver")
 Cc: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>
-Reviewed-by: Hannes Reinecke <hare@kernel.org>
-Signed-off-by: Josef Bacik <josef@toxicpanda.com>
+Cc: Chaitanya Kulkarni <kch@nvidia.com>
+Signed-off-by: Chris Mason <mason@kernel.org>
 Signed-off-by: Jens Axboe <axboe@kernel.dk>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- drivers/nvme/host/tcp.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/nvme/target/rdma.c | 28 +++++++++++++++++++++++++---
+ 1 file changed, 25 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index bc46e5f3eaa79..9e15311e7d9cc 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1437,6 +1437,8 @@ static int nvme_tcp_try_send(struct nvme_tcp_queue =
-*queue)
- 			"failed to send request %d\n", ret);
- 		nvme_tcp_fail_request(queue->request);
- 		nvme_tcp_done_send_req(queue);
-+		/* The close may have come when nobody could act on it */
-+		nvme_tcp_error_recovery(&queue->ctrl->ctrl);
- 	}
- out:
- 	memalloc_noreclaim_restore(noreclaim_flag);
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index fced200678853..1e434cc451c28 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -77,6 +77,8 @@ struct nvmet_rdma_rsp {
+ 	u32			invalidate_rkey;
+=20
+ 	struct list_head	wait_list;
++	/* set under rsp_wr_wait_lock while the wait list's loop executes us */
++	bool			*wait_released;
+ 	int			tag;
+ };
+=20
+@@ -511,23 +513,42 @@ static int nvmet_rdma_post_recv(struct nvmet_rdma_d=
+evice *ndev,
+ 	return ret;
+ }
+=20
+-static void nvmet_rdma_process_wr_wait_list(struct nvmet_rdma_queue *que=
+ue)
++static void nvmet_rdma_process_wr_wait_list(struct nvmet_rdma_queue *que=
+ue,
++					    struct nvmet_rdma_rsp *done)
+ {
+ 	unsigned long flags;
+=20
+ 	spin_lock_irqsave(&queue->rsp_wr_wait_lock, flags);
++	if (done->wait_released) {
++		/*
++		 * The loop below has not come back from this command yet. It is
++		 * further up this stack if the command completed in place and
++		 * its response could not be posted. Otherwise it runs in
++		 * another context. It goes on with the list, so leave the list
++		 * to it.
++		 */
++		*done->wait_released =3D true;
++		WRITE_ONCE(done->wait_released, NULL);
++		spin_unlock_irqrestore(&queue->rsp_wr_wait_lock, flags);
++		return;
++	}
+ 	while (!list_empty(&queue->rsp_wr_wait_list)) {
+ 		struct nvmet_rdma_rsp *rsp;
++		bool released =3D false;
+ 		bool ret;
+=20
+ 		rsp =3D list_entry(queue->rsp_wr_wait_list.next,
+ 				struct nvmet_rdma_rsp, wait_list);
+ 		list_del(&rsp->wait_list);
++		rsp->wait_released =3D &released;
+=20
+ 		spin_unlock_irqrestore(&queue->rsp_wr_wait_lock, flags);
+ 		ret =3D nvmet_rdma_execute_command(rsp);
+ 		spin_lock_irqsave(&queue->rsp_wr_wait_lock, flags);
+=20
++		/* A released response can be freed, or in use again. */
++		if (!released)
++			WRITE_ONCE(rsp->wait_released, NULL);
+ 		if (!ret) {
+ 			list_add(&rsp->wait_list, &queue->rsp_wr_wait_list);
+ 			break;
+@@ -680,8 +701,9 @@ static void nvmet_rdma_release_rsp(struct nvmet_rdma_=
+rsp *rsp)
+=20
+ 	nvmet_rdma_free_rsp_resources(rsp);
+=20
+-	if (unlikely(!list_empty_careful(&queue->rsp_wr_wait_list)))
+-		nvmet_rdma_process_wr_wait_list(queue);
++	if (unlikely(READ_ONCE(rsp->wait_released) ||
++		     !list_empty_careful(&queue->rsp_wr_wait_list)))
++		nvmet_rdma_process_wr_wait_list(queue, rsp);
+=20
+ 	nvmet_rdma_put_rsp(rsp);
+ }
 --=20
 2.52.0
 
