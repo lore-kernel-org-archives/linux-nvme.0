@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C047606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FCA6606A31C
 	for <linux-nvme@archiver.kernel.org>; Thu, 29 Oct 2026 15:53:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=RYAOK4bJ;
-	dkim=pass (2048-bit key, unprotected) header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=Zg2RbOIe
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=GmLJ4lgr;
+	dkim=pass (2048-bit key, unprotected) header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=AKNY2+l2
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
@@ -14,55 +14,54 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=6qdEONiF+AR/vPL9T8u6uBo5tDazTHsRzYb8alfXH5Q=; b=RYAOK4bJGPJ6Og/ZYoF9dMVmLs
-	uPrNjLiU6qj6xGWxwXAm04PiasssN0lJEsUDQvb5TemOS422k6C/ZjX0I24Bdnmntv+vIVWQcuIn7
-	KZB2bfycr3BVvalzV/kc8y32HcB8LuuKGbRmRCG3R62wrrPem5hYWjvNx2hec4EGzCqVDWjYz10Lg
-	W9iT5SdirPiMuP2Xv2wLHEtnrBWIpCnwM+iVQUp3Y3JBzG1+DxZrw50AMRe1nStGF/Ivv02dIEIz8
-	uBhBcR8hr286aXGrjA6CHSC1mMc3lUrMjpISinJZk87/vmWhn86rdVmHTWXFH3CfHr/FYec7ThJ1G
-	7SWoeEUQ==;
+	bh=ce0JTXP4G8TGdFZo5VXlI7MKnQFgWr4Sog2Z5Vu0eVg=; b=GmLJ4lgrCm+6Ky1qyG4maD8ld0
+	Ak3YCt4amkEpcjyyWw1N5F+m9hnXLL1YEtiUARADOA8tFKto2pi3udiklIeD/6R9xL6XkxUpkPMPJ
+	qz82M+kHUIRqKgST1aPvHgykKAF0yFrEV+T6yR7UEtkGBojh6je+qeN+EyCcQbMgfC8rG3yTho9Yt
+	63/Y19A4QkPWEwbSNbW6HrRhhvHlmJCnkulofTVnZWTqDVHrD18F+C9rOtR518pJx30pkz9X96ZEn
+	tdWi5ghB/t4OJO1FLSrvG+/h0/PDYy5rTiPS49DPmy9b2qkSizJD1+NqAXAc6tcZZFH3F668sLGKJ
+	KhYqbBbA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMSRN-00000009g8K-3twT;
-	Thu, 29 Oct 2026 15:53:21 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
+	id 1xMSRO-00000009g8f-0aB3;
+	Thu, 29 Oct 2026 15:53:22 +0000
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMSRJ-00000009fzQ-2iVu
+	id 1xMSRM-00000009g4y-0lmq
 	for linux-nvme@lists.infradead.org;
-	Thu, 29 Oct 2026 15:53:19 +0000
-Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
-	by m0001303.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 69TCe3PY2479599
-	for <linux-nvme@lists.infradead.org>; Thu, 29 Oct 2026 08:53:16 -0700
+	Thu, 29 Oct 2026 15:53:21 +0000
+Received: from pps.filterd (m0528007.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69TEoUvD1324344
+	for <linux-nvme@lists.infradead.org>; Thu, 29 Oct 2026 08:53:19 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	pps82601-s2048-2026-q3; bh=6qdEONiF+AR/vPL9T8u6uBo5tDazTHsRzYb8a
-	lfXH5Q=; b=Zg2RbOIe9UaNis6hFrVU2ojITwag8+FdKZISHBpMVGx3nHc09Pilv
-	opxPXLrF4FffY1yFrYlhRDQfyopkotbneQnq8ec0PRbp4d64qrx+BgRnj5hUAoP6
-	TLAZrzzLdT6W9nLL1IOlUYy0tCBibXrGrwKCcrdIu0ST5vBV0Uj/Ejtn7VW4YwSa
-	d/erJtVoddWT1IRx/Y2rn3/SIzkIj4YY7Mf6OD7jZ06F+VnhjIX5dvgI5gww4YEz
-	5peJOgur2AS36Bs5OeOgAfroQ8jDRURJV/em3tIgCM4eFouTRaXo3t0TA4vSWsiU
-	FwEnmx1Ke+vZkOBnP8KX8kOO7WxZ75ZWw==
+	pps82601-s2048-2026-q3; bh=ce0JTXP4G8TGdFZo5VXlI7MKnQFgWr4Sog2Z5
+	Vu0eVg=; b=AKNY2+l2oC1xoh0BucKY04my6dRkLemUvGi8gp8gH3oXKWKVpeksd
+	Mwyet/jS+B35LpwjeMmcP/sMeHCsFKBxYr3m02ZfQbww7dTyBh/dzG33ZOCaQqWk
+	qNh6CTR2HlNz5nowJlUoIfzSMt1GNEQQBvD9CQPNcBUceiDr0MOtrpkLmUDEDYal
+	xfhEXisZ4R3vxB/XfTgXfKd/PStA/hSn9ZpTg9r+5oG7Uj85QnwAqUnV+f1o46FD
+	iZjFZ+/QcjwcFp9tmwLphEgjbeXVQSamt+3I9kHR7oCft7A/v2JnACgg/gca2v1v
+	zRx5YxFCw85ruOhtF8MMlYLTJm6M/jZgQ==
 Received: from mail.thefacebook.com ([163.114.134.16])
-	by m0001303.ppops.net (PPS) with ESMTPS id 4hm5yr9mav-3
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4hm88vrjr4-7
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Thu, 29 Oct 2026 08:53:16 -0700 (PDT)
-Received: from twshared30277.33.frc3.facebook.com (2620:10d:c085:208::f) by
- mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
+	for <linux-nvme@lists.infradead.org>; Thu, 29 Oct 2026 08:53:19 -0700 (PDT)
+Received: from twshared30277.33.frc3.facebook.com (2620:10d:c085:108::4) by
+ mail.thefacebook.com (2620:10d:c08b:78::c78f) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
  15.2.2562.56; Thu, 29 Oct 2026 15:53:12 +0000
 Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
-	id DB8F42E22CE85; Thu, 29 Oct 2026 08:52:54 -0700 (PDT)
+	id 912F72E22CECA; Thu, 29 Oct 2026 08:52:59 -0700 (PDT)
 From: Keith Busch <kbusch@meta.com>
 To: <linux-nvme@lists.infradead.org>
-CC: <axboe@kernel.dk>, <hch@lst.de>, Josef Bacik <josef@toxicpanda.com>,
-        Hannes Reinecke <hare@suse.de>, Sagi Grimberg <sagi@grimberg.me>,
-        Chaitanya
- Kulkarni <kch@nvidia.com>,
-        Hannes Reinecke <hare@kernel.org>, Keith Busch
+CC: <axboe@kernel.dk>, <hch@lst.de>, Chris Mason <mason@kernel.org>,
+        Sagi
+ Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+        Keith Busch
 	<kbusch@kernel.org>
-Subject: [PATCH 04/19] nvmet-auth: keep the old keys if the new ones fail
-Date: Thu, 29 Oct 2026 08:52:37 -0700
-Message-ID: <20261029155252.2332266-5-kbusch@meta.com>
+Subject: [PATCH 14/19] nvmet-rdma: queue the release work under the mutex
+Date: Thu, 29 Oct 2026 08:52:47 -0700
+Message-ID: <20261029155252.2332266-15-kbusch@meta.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20261029155252.2332266-1-kbusch@meta.com>
 References: <20261029155252.2332266-1-kbusch@meta.com>
@@ -71,30 +70,30 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=S8NMU4sP c=1 sm=1 tr=0 ts=6ae36bec cx=c_pps
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI5MDA2MSBTYWx0ZWRfX7WyBuOdc99ng
+ U/kZZatAXD7pYT0jafWWFSLAsoOKJ37RTB0Zyc4Z+cV4Ka4ktYFrkDKIrHLAnQFHjgCj7RFBQ1T
+ MGMc5fHxXODlYv3IkguohLaU+5xpkT8=
+X-Proofpoint-ORIG-GUID: lWkrtUoxLG5cYrgaqemww4csv3bjKzbF
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI5MDA2MSBTYWx0ZWRfX1r47aucRwvD+
+ jvt8jyEu1sWAqm7sUi4an00yOHGeHqIOR/brS8quM3CPsMKofEnmAFCpwkbZyoqS5ZdTVMY2A7q
+ pyU9xWb8H7mk/NfJO75Fm/GlMg6/sZbJUHvpSr+NdvLtKmhizQg6/rT2LrcYPeYkoKnphdD/tSL
+ wt6GGsbL4hXliAgff2U/83utFsouMJ9FuqAeYa+PFK+lm9KUminMjj0/7NV/JhhlJe3UAWSGhPs
+ 9qvVZdvhMbf4y8D2SjJfzVN6NmTnVSdiBwMTGlJEq9kJlmLsfKT3Gyf0kVu9dqFPAAes30p9G+X
+ fbbJWGS8yR8BtzERxq2dbB4VGyMdCum12wkpMKbY7Md14EJuf8q11Yzew/oWQdGOzaqLVmhWPaY
+ aVxB4kgQhNysJFIvy3Tr17tkJRHB3COYBpLPFdDMDxYxf5L7xXTvrMu3R7JoQ1G2oGY1hUa5q/t
+ QxEwnUi0q5+ilhzyDNQ==
+X-Proofpoint-GUID: lWkrtUoxLG5cYrgaqemww4csv3bjKzbF
+X-Authority-Analysis: v=2.4 cv=HKVWhYtv c=1 sm=1 tr=0 ts=6ae36bef cx=c_pps
  a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
  a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
- a=_78whYxrdx1mplLwxq1U:22 a=maIFttP_AAAA:8 a=Ikd4Dj_1AAAA:8 a=VwQbUJbxAAAA:8
- a=fZjt8k4mCumlHEbMZ4kA:9 a=qR24C9TJY6iBuJVj_x8Y:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI5MDA2MSBTYWx0ZWRfX1F6Ve90SSIYS
- phoVyeLb5HPKtpe6RW17g2r4oDfGh7w45n5/0seaGncQjStDlN44DyT0yIhJjM4TYyxr/wPefuY
- nsLibwT/m9H0lmQK1bAWv9ytvXNnr5o=
-X-Proofpoint-ORIG-GUID: H1_n4uMG0GoyypD2uWManWph1MegDy_s
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI5MDA2MSBTYWx0ZWRfX0DTYARYx9N9S
- SqrSA4z2aozv0iB8TKhvT9c2iPMYGK8azuEexSuIxK9xmBWsebyVqVxBhYjFvs+PC8NI6AsL/jT
- PHjcFon6o/gHNcKSts+0z6aepmzGNslK+YWfAfglP4fqg1xiHyb69ap+hV2NtxLS5uyqCGG3zGD
- cXTaosZrpICWvYLSMlpOO4rW9ZAILy8Nl1WZpU7zj7yvaVlxrCd/IMVDHVZoACi2vPA8JBiNSFo
- QjSj1BnPlJqVG/XUVYIULXO8KTIU7kOtSxwtzq7rD7cfoLJkQLUbME9RBHlIypwILM830ANTfVK
- fzFARg9BaidcozzB/HZ0vipNBt6lT69dFkvx/7mZ+kI8aIK18HbCCIu+eRlRwH1P3zoRyRc7p7F
- UIPtd+7IDsBjNV/krANmHk/yaxPGAg91GQMhRX1jdPxZyxf090zw1koBK7a8RJ8BOd78M9KYcVe
- A7KRXjuA6aQZ95sUmnQ==
-X-Proofpoint-GUID: H1_n4uMG0GoyypD2uWManWph1MegDy_s
+ a=4h92JMTCafKA-fb_NiOh:22 a=VwQbUJbxAAAA:8 a=Ikd4Dj_1AAAA:8
+ a=QZ8vGD8rgBD2_cZM0L4A:9
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-10-29_04,2026-10-21_02,2025-10-01_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261029_085317_863809_55D003A4 
-X-CRM114-Status: GOOD (  17.24  )
+X-CRM114-CacheID: sfid-20261029_085320_231419_60ADE44F 
+X-CRM114-Status: GOOD (  15.95  )
 X-Spam-Score: -2.8 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -114,129 +113,62 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-From: Josef Bacik <josef@toxicpanda.com>
+From: Chris Mason <mason@kernel.org>
 
-AUTH_Negotiate on the admin queue has nvmet_setup_auth() reload the
-host's keys, and it frees the old host key first. If decoding the new
-secret fails, or an allocation does, the controller is left without a
-host key, which means no authentication at all: nvmet_check_auth_status()
-passes everything and I/O queue Connects no longer ask for it. configfs
-accepts any string starting with "DHHC-1:" and a digit, so one typo
-while changing a secret opens the namespaces to any connected admin
-queue.
+nvmet_rdma_remove_one() takes the queue mutex, unlists each queue of
+the device and queues its release work, then flushes nvmet-wq. So a
+queue that still holds objects on the device must either be on the
+list or have its release work queued. nvmet_rdma_queue_disconnect()
+breaks that: it unlists the queue under the mutex, drops it, and only
+then calls __nvmet_rdma_queue_disconnect() to queue the work. A device
+removal in that window finds nothing to wait for, and the release work
+then destroys the QP and CQ share on a freed device.
 
-Decode the new keys first and only then replace the old ones.
+Queue the work before dropping the mutex, as nvmet_rdma_remove_one()
+itself does. That's safe now that rdma_disconnect() no longer sleeps on
+an iWARP event that needs the same mutex.
 
-Fixes: db1312dd9548 ("nvmet: implement basic In-Band Authentication")
-Cc: Hannes Reinecke <hare@suse.de>
+Fixes: f1d4ef7d8883 ("nvmet-rdma: register ib_client to not deadlock in d=
+evice removal")
 Cc: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>
 Cc: Chaitanya Kulkarni <kch@nvidia.com>
-Reviewed-by: Hannes Reinecke <hare@kernel.org>
-Signed-off-by: Josef Bacik <josef@toxicpanda.com>
+Signed-off-by: Chris Mason <mason@kernel.org>
 Signed-off-by: Jens Axboe <axboe@kernel.dk>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- drivers/nvme/target/auth.c | 69 ++++++++++++++++----------------------
- 1 file changed, 28 insertions(+), 41 deletions(-)
+ drivers/nvme/target/rdma.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
-index 574025730834c..ccba84b1344e0 100644
---- a/drivers/nvme/target/auth.c
-+++ b/drivers/nvme/target/auth.c
-@@ -135,6 +135,7 @@ u8 nvmet_setup_auth(struct nvmet_ctrl *ctrl, struct n=
-vmet_sq *sq, bool reset)
- 	int ret =3D 0;
- 	struct nvmet_host_link *p;
- 	struct nvmet_host *host =3D NULL;
-+	struct nvme_dhchap_key *host_key, *ctrl_key =3D NULL;
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index fe91df653e5cf..35fd3f3c35dc1 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -1744,17 +1744,17 @@ static void __nvmet_rdma_queue_disconnect(struct =
+nvmet_rdma_queue *queue)
 =20
- 	down_read(&nvmet_config_sem);
- 	if (nvmet_is_disc_subsys(ctrl->subsys))
-@@ -172,55 +173,41 @@ u8 nvmet_setup_auth(struct nvmet_ctrl *ctrl, struct=
- nvmet_sq *sq, bool reset)
- 		goto out_unlock;
- 	}
-=20
--	if (host->dhchap_hash_id =3D=3D ctrl->shash_id) {
--		pr_debug("Re-use existing hash ID %d\n",
--			 ctrl->shash_id);
--	} else {
--		ctrl->shash_id =3D host->dhchap_hash_id;
--	}
+ static void nvmet_rdma_queue_disconnect(struct nvmet_rdma_queue *queue)
+ {
+-	bool disconnect =3D false;
 -
--	/* Skip the 'DHHC-1:XX:' prefix */
--	nvme_auth_free_key(ctrl->host_key);
--	ctrl->host_key =3D nvme_auth_extract_key(host->dhchap_secret + 10,
--					       host->dhchap_key_hash);
--	if (IS_ERR(ctrl->host_key)) {
 +	/*
-+	 * Skip the 'DHHC-1:XX:' prefix. Keep the old keys until the new ones
-+	 * are there: a controller without a host key needs no authentication.
++	 * The release work is queued with the mutex held, so that
++	 * nvmet_rdma_remove_one() finds the queue on the list or its work on
++	 * the workqueue.
 +	 */
-+	host_key =3D nvme_auth_extract_key(host->dhchap_secret + 10,
-+					 host->dhchap_key_hash);
-+	if (IS_ERR(host_key)) {
- 		ret =3D NVME_AUTH_DHCHAP_FAILURE_NOT_USABLE;
--		ctrl->host_key =3D NULL;
--		goto out_free_hash;
-+		goto out_unlock;
+ 	mutex_lock(&nvmet_rdma_queue_mutex);
+ 	if (!list_empty(&queue->queue_list)) {
+ 		list_del_init(&queue->queue_list);
+-		disconnect =3D true;
++		__nvmet_rdma_queue_disconnect(queue);
  	}
-+	if (host->dhchap_ctrl_secret) {
-+		ctrl_key =3D nvme_auth_extract_key(host->dhchap_ctrl_secret + 10,
-+						 host->dhchap_ctrl_key_hash);
-+		if (IS_ERR(ctrl_key)) {
-+			nvme_auth_free_key(host_key);
-+			ret =3D NVME_AUTH_DHCHAP_FAILURE_NOT_USABLE;
-+			goto out_unlock;
-+		}
-+	}
-+	nvme_auth_free_key(ctrl->host_key);
-+	ctrl->host_key =3D host_key;
-+	nvme_auth_free_key(ctrl->ctrl_key);
-+	ctrl->ctrl_key =3D ctrl_key;
-+	ctrl->shash_id =3D host->dhchap_hash_id;
- #ifdef CONFIG_NVME_TARGET_AUTH_DEBUG
- 	pr_debug("%s: using hash %s key %*ph\n", __func__,
- 		 ctrl->host_key->hash > 0 ?
- 		 nvme_auth_hmac_name(ctrl->host_key->hash) : "none",
- 		 (int)ctrl->host_key->len, ctrl->host_key->key);
-+	if (ctrl->ctrl_key)
-+		pr_debug("%s: using ctrl hash %s key %*ph\n", __func__,
-+			 ctrl->ctrl_key->hash > 0 ?
-+			 nvme_auth_hmac_name(ctrl->ctrl_key->hash) : "none",
-+			 (int)ctrl->ctrl_key->len, ctrl->ctrl_key->key);
- #endif
--	nvme_auth_free_key(ctrl->ctrl_key);
--	if (!host->dhchap_ctrl_secret) {
--		ctrl->ctrl_key =3D NULL;
--		goto out_unlock;
--	}
+ 	mutex_unlock(&nvmet_rdma_queue_mutex);
 -
--	ctrl->ctrl_key =3D nvme_auth_extract_key(host->dhchap_ctrl_secret + 10,
--					       host->dhchap_ctrl_key_hash);
--	if (IS_ERR(ctrl->ctrl_key)) {
--		ret =3D NVME_AUTH_DHCHAP_FAILURE_NOT_USABLE;
--		ctrl->ctrl_key =3D NULL;
--		goto out_free_hash;
--	}
--#ifdef CONFIG_NVME_TARGET_AUTH_DEBUG
--	pr_debug("%s: using ctrl hash %s key %*ph\n", __func__,
--		 ctrl->ctrl_key->hash > 0 ?
--		 nvme_auth_hmac_name(ctrl->ctrl_key->hash) : "none",
--		 (int)ctrl->ctrl_key->len, ctrl->ctrl_key->key);
--#endif
--out_free_hash:
--	if (ret) {
--		if (ctrl->host_key) {
--			nvme_auth_free_key(ctrl->host_key);
--			ctrl->host_key =3D NULL;
--		}
--		ctrl->shash_id =3D 0;
--	}
- out_unlock:
- 	up_read(&nvmet_config_sem);
+-	if (disconnect)
+-		__nvmet_rdma_queue_disconnect(queue);
+ }
 =20
+ static void nvmet_rdma_queue_connect_fail(struct rdma_cm_id *cm_id,
 --=20
 2.52.0
 
