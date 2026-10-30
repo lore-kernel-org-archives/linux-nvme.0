@@ -2,119 +2,110 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53714606A31A
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 Oct 2026 17:43:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D678A606A31A
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Oct 2026 18:53:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=YtNOTJJz;
-	dkim=pass (2048-bit key, unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=dAep/+yC
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=EvXf9588;
+	dkim=pass (2048-bit key, unprotected) header.d=purestorage.com header.i=@purestorage.com header.a=rsa-sha256 header.s=google2022 header.b=KD9tNopx
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=dmCogxK77f9L99Jbim+9FwtzvMEbyM9QKgF4tLZQJMg=; b=YtNOTJJzjZ3eDd
-	YrZFinKlE1i9DvgmDG8iw8KKOJMMR5ohYr2yQFRSOl+cQsN4YN/RorBNVCBF8RBvPDYGpGrq+bQUK
-	7sene6ZW7WkDCF7bHFouZ+XcPk/iEFb4n1QbCJN7EuxXs6gE7U/b4C+lyNKfXz0SkzPiUv+98qwmC
-	FB+mqdM1FgeOOa9grSxlE/fPHSuigrEqs6kqRlccpQc1MPwYvHyhu2voqD3DWVo+iKqx6+SY6gS8k
-	UBu/eGGty4EJzFv/b8DJiYoxJ1ST0EAeDd6M/M8ypEmaGcP5QN2LA3Z9v9BCUCzv1xgEK3vb3OqRx
-	/uBstNAXgp/5ZnRFBMvQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Unsubscribe-Post:List-Owner;
+	bh=6+OCqfxDbpq61xBuSuXpAVYprxq9Hm6R+j2C8z2vLPs=; b=EvXf9588+epfZvdMjNptAH+h4T
+	A3A54CJlnsZpoZzCkrp3bnK4IQwgq0q2S2GidTbIjc9GU16Em9a/XsimR3TjW7EnkxIs02Hi48c2w
+	WM7rFcQMvtCZz+azIkhqzFn0wiZEOL7u2CwwH8rf0iyZJKTMW2a0XmbK5yTApBJCWEFPIQCxQVe8C
+	1ipGuS0fsdD7RkSS1xrL0Ll3pnVBdxX+qkfBn+n/oUWAK97FbiomSUiHJ5hgyBXESyWlhIVWs0Sf4
+	IAO5DVJoMdrlVV6sPon1DBea6QJwvp46v1CTWNKEpON4tXeZ6KrVP0Ily/Vdi2xpTEob+Ba8NDAyV
+	ViJeZAZw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMqdv-0000000CGaZ-3gO9;
-	Fri, 30 Oct 2026 17:43:55 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1xMriq-0000000CQkl-0Jf5;
+	Fri, 30 Oct 2026 18:53:04 +0000
+Received: from mail-dy1-x132a.google.com ([2607:f8b0:4864:20::132a])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMqdt-0000000CGZs-0szC
+	id 1xMril-0000000CQkC-3uoT
 	for linux-nvme@lists.infradead.org;
-	Fri, 30 Oct 2026 17:43:54 +0000
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69UEi5uY1563939;
-	Fri, 30 Oct 2026 17:43:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=dmCogx
-	K77f9L99Jbim+9FwtzvMEbyM9QKgF4tLZQJMg=; b=dAep/+yC1vt1r9dWxQ4Uhu
-	WwTd2/Q0pcqdTkoMHVBuptXoVV44W1i1TRNx+8XJ0xCSIEitWfKsHlyVw7iEMt52
-	E+svu+W4W7dIHB7dsw79p2v28GayTgPZLSHlUmK6C3l/M6OI+oPW+VqeFII29r9/
-	iaaMNYS6w1zbOBY5abpY3fyfa9rlZbmzzg/TjELhIyCuWp9fyMsUJeDbbhUgvNK6
-	eqRtAVIQ/LUsQsNJRaN5rb2n2gCldExCrZid+g+D++2dnc9gn/SjSGkkBr4f6lQz
-	+s75CaAwofc2yN6qBGj1+ywVMS5ZDyf51yiThrLu/kXY1tJyJKPwRsOqTOB4XU+A
-	==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hmeay40k2-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 30 Oct 2026 17:43:43 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 69UEZ6vq649977;
-	Fri, 30 Oct 2026 17:43:42 GMT
-Received: from smtprelay06.dal12v.mail.ibm.com ([172.16.1.8])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4hm69e5jyx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 30 Oct 2026 17:43:42 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
-	by smtprelay06.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 69UHhgLN32637692
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 30 Oct 2026 17:43:42 GMT
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0D88A5805F;
-	Fri, 30 Oct 2026 17:43:42 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id BFA4D58043;
-	Fri, 30 Oct 2026 17:43:38 +0000 (GMT)
-Received: from [9.61.35.48] (unknown [9.61.35.48])
-	by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 30 Oct 2026 17:43:38 +0000 (GMT)
-Message-ID: <9574eb9f-050c-4148-a785-11782ada856c@linux.ibm.com>
-Date: Fri, 30 Oct 2026 23:13:37 +0530
+	Fri, 30 Oct 2026 18:53:01 +0000
+Received: by mail-dy1-x132a.google.com with SMTP id 5a478bee46e88-33fb4680717so12305eec.1
+        for <linux-nvme@lists.infradead.org>; Fri, 30 Oct 2026 11:52:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1793386378; x=1793991178; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=6+OCqfxDbpq61xBuSuXpAVYprxq9Hm6R+j2C8z2vLPs=;
+        b=KD9tNopxWNmVAbpPZOf5zMVv7ZVzBYSX7btaGhWgz+vVt9euodq4z5CP5FPAp9jf5L
+         rf6ZfzyIHTVGAgaOyyMY0gc78hpl9tttyT7OjDfMlteUQvBvp3y+kduuRVUlJyIFZM7W
+         2U6V3oCqC5yZ96DjxbLmhUE2qXNTy4dQs+bYEmPr3TOsZV+xIK6c876uxbsn8kppIZYH
+         f05FzW/5B1S0iBH382tGRy9O3uyXS19cwH6dmIZ/Etc2V5nf54vvQ+8DDXzlGNNXRgOJ
+         DwcMa3k2EwciuaNxT1LHu3Nr50JzD3Vx5nRCqDvjm5ygn9C5TW0Pn46iG6Nud8vh1Wv8
+         +82g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793386378; x=1793991178;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=6+OCqfxDbpq61xBuSuXpAVYprxq9Hm6R+j2C8z2vLPs=;
+        b=T1wBAHem5KK97VBi/HrM+/LOCnipmQ3EY89ARN6zba4D1/A9z18TJCOQJjz0sqBPaV
+         60m0uABy4wHU7zDf5Q5FLDGCNe7h8wsJylaRwBhafpIOkor1hlhkP96CvuzEwwuERb+V
+         lFXC/Lr5Fs4AGuP1CVqqIEfQo2yUdKl1EHE6YJDCA7phwcG10D7iHbYn2bz4um21BBRk
+         2tvXlihvUVFZVYUmAXUUGyDZg3xuVhGm42+qtNliyas3vvjjMwYCxEMhFAhzHEvtQEja
+         QpaXoUiLCAvEPte350HJwsLYHqtuz710fL/WHjoMF0pzvOiirZIjHuKcqL4KaRTToKW2
+         kjfg==
+X-Forwarded-Encrypted: i=1; AKwUvBy8k2VA737Hw3yOrGTDMNpoR513wx/qifvFasEnRCn4ACNpKO7c089picCt8fgz4bgq0v7lP0cAfu8A@lists.infradead.org
+X-Gm-Message-State: AFq9FYJhkF0RNe25+fPSD0kufHePxFYrunLy2jB15BHEGrPVQc/Kashu
+	RjGthiFwCogrn8gfd/p4X7U+GgHJ8gjs8tr7f/aykFCb01IWlljYT1rlZgAT+k3LWLw=
+X-Gm-Gg: AYBFou0fbS3S1LSiNgkPUV3cAbpFt+8sK7Mx3RR2jtGHsS6Yon5PirZ6+5R9XvM3azY
+	1vhEiLCqdHMjGmFeo/H7K/Th+lHiIKLUBTGkVwN+2QtC0AdcvUa2QsTnCha4LoArMW7UraJ5sKw
+	+dK/SnqaSj5p3Y0dNqoFr3H/0gEtbQsW1Jew84ld/PsP3Sx/1pbOWSYFVgeLjAMII0JSJ6l2U0q
+	e5FOJ/wyPtSIcKUHouy/agFJ4EyMj3XxSCiiRkmepp+fwS27mSFsJN9++jn1vdbRqAWfvWl3Bmn
+	iBYg/3OXxg439ebnexLpw+3SZ8GmXwBQHw7/MecaeKtaLkEIl/TWcXY52iUw/wJSu2bmqB7Rk48
+	QhQRcpAZj+qI8JueG1WNI1Ugm3PEeestivyZT8wVwjZIJx0pFL+LLA5hqGJ8E0DmOF9QYOLeEMt
+	rLre9fXfcqifFrBo4IR1/HYmvlK3QxCMgLDHKzm5QcwQHgYO6dvCvbx2HwYPxMHFvVh7I5dUH9f
+	R9KRgIc4LdsZdlcA09/YRuTh9MeqAhbQrlSMYvfTWeDHqdn872AYGmd1XI3/r4gipAK1NkthIor
+	zZdZ/ZQOPt9cFdvCN72lHla+EpDD9dCkoqbbVr7SM326IxnUEjI=
+X-Received: by 2002:a05:7300:e9d6:20b0:369:d779:bcb8 with SMTP id 5a478bee46e88-36a42059aa6mr4854512eec.0.1793386377812;
+        Fri, 30 Oct 2026 11:52:57 -0700 (PDT)
+Received: from medusa.lab.kspace.sh ([208.88.152.253])
+        by smtp.googlemail.com with ESMTPSA id 5a478bee46e88-36a4291e38fsm10419574eec.15.2026.10.30.11.52.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Oct 2026 11:52:57 -0700 (PDT)
+Date: Fri, 30 Oct 2026 11:52:56 -0700
+From: Mohamed Khalfella <mkhalfella@purestorage.com>
+To: Daniel Wagner <dwagner@suse.de>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Justin Tee <justin.tee@broadcom.com>,
+	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
+	Paul Ely <paul.ely@broadcom.com>, Hannes Reinecke <hare@kernel.org>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	James Smart <jsmart833426@gmail.com>,
+	Randy Jennings <randyj@purestorage.com>,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH v6 02/18] nvmet/debugfs: Export controller CIU and CIRN
+ via debugfs
+Message-ID: <20261030185256.GB122209-mkhalfella@purestorage.com>
+References: <20260920182936.2317916-1-mkhalfella@purestorage.com>
+ <20260920182936.2317916-3-mkhalfella@purestorage.com>
+ <179241127352.3544975.2554197788837860779.b4-reply@b4>
+ <20261019190106.GK2931-mkhalfella@purestorage.com>
+ <a3852ed1-4b6d-44e7-b4de-bc1c6a3b635b@flourine.local>
+ <20261021183859.GY2931-mkhalfella@purestorage.com>
+ <69bf549b-5b03-45ed-a18f-799c6e0efca4@flourine.local>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme-tcp: fix use-after-free in nvme_tcp_free_ctrl()
-To: Christian Aurich Zanettini Martins <christian.aurichzm@gmail.com>,
-        linux-nvme@lists.infradead.org
-Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
-        hare@kernel.org, wagi@kernel.org, kanie@linux.alibaba.com,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20261030170151.49844-1-christian.aurichzm@gmail.com>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <20261030170151.49844-1-christian.aurichzm@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: giY5zcBIL79cCB5buaIlIzQCqJ6eyoQ6
-X-Proofpoint-GUID: EnmkZ-YXCTJk_MOYnOkq82nA2_Uz5YST
-X-Authority-Analysis: v=2.4 cv=eZyo7LEH c=1 sm=1 tr=0 ts=6ae4d74f cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=VwQbUJbxAAAA:8
- a=pGLkceISAAAA:8 a=VnNF1IyMAAAA:8 a=vwH2LiGPTe3qxVmh5OkA:9 a=QEXdDO2ut3YA:10
- a=ZXulRonScM0A:10
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDMwMDA2OCBTYWx0ZWRfXy0WVDTX59TB9
- GgeUx4BBLWPwZt5mB0WO66d9jzvp4nRe+hNN9y+BeSp/ODw5pwzdrJU/fTa8bv0eniFh+H1UtJ/
- 9JMzjvBXGW9gWCg72mtHToiiJi44SEA=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDMwMDA2OCBTYWx0ZWRfX+iHEHKvduLgt
- Dnfn+Bd88H4lAhzgeA5vcvaJiPoXRMazyPQoOYwVN56KGK7b8LBpyd1E0cpUVzeyZ018qzNoTxQ
- vg6Igi/aArvlCtw8QtMfa4IXLo5VYMUQCdvTbQmD76lpqVRSQbleDkgQbZG7EIEzSvAjb7Evsux
- aLLugUZ/I1WQnUUd6+NMxpWvxufyWlR1ujGtPV4B++8PxgpeJ5xfEwSxtyysPp2HD2mqZqXZOwA
- kg/rw4bARgfjeqPFgtEI3yzLis92QDeUYL3KgJl2GXHVPqKkDyBhhLLGWIPx4b8JGdOCoQ72wYE
- YEWnxeD5b8vPMS+r0Ik4ZlxmX4YR85A8uxNhBlF3rCzv954MjPnngASf6F9yD7sSMN3ikE7N+Fr
- 0zB2XP4vclvuHxe8Kthst1T/AENV/x1iA/TSv/OiLl4HhGTwjp/FdGnQDzLCAaIqkzoBz5CVlSc
- kmVe/4Y0ZoH/PjASeXw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-30_05,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 phishscore=0 malwarescore=0 clxscore=1015 lowpriorityscore=0
- impostorscore=0 adultscore=0 suspectscore=0 priorityscore=1501 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610300068
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <69bf549b-5b03-45ed-a18f-799c6e0efca4@flourine.local>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261030_104353_256552_95350EFD 
-X-CRM114-Status: GOOD (  13.95  )
-X-Spam-Score: -2.6 (--)
+X-CRM114-CacheID: sfid-20261030_115259_976894_A241B0DF 
+X-CRM114-Status: GOOD (  14.83  )
+X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -125,30 +116,21 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-10.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On 10/30/26 10:31 PM, Christian Aurich Zanettini Martins wrote:
-> nvme_tcp_free_ctrl() reads ctrl->ctrl.opts to know how many queue
-> mutexes to destroy. When creating the controller fails,
-> nvmf_create_ctrl() frees opts as soon as nvme_tcp_create_ctrl()
-> returns, but a concurrent open of the character device can hold the
-> last reference to the controller. With CONFIG_DEBUG_KOBJECT_RELEASE,
-> which delays the release, every failed connect reads freed memory:
+On Fri 2026-10-30 11:30:00 +0100, Daniel Wagner wrote:
+> On Wed, Oct 21, 2026 at 11:38:59AM -0700, Mohamed Khalfella wrote:
+> > Good to know that nvme-cli now parses these fields. That is said, the
+> > sysfs and debugfs attributes are useful to have. Say the controller is
+> > stuck in a state that it can not process an identify command.
 > 
->    BUG: KASAN: slab-use-after-free in nvme_tcp_free_ctrl+0x38b/0x430
->    Read of size 4 at addr ffff888005b93740 by task kworker/2:1/51
-> 
-> Keep the size of the queue array in the controller and use it instead.
-> 
-> Fixes: 2eeeaa9c1ff0 ("nvme-tcp: Validate the queue state under the queue lock in the address attribute")
-> Cc:stable@vger.kernel.org
-> Signed-off-by: Christian Aurich Zanettini Martins<christian.aurichzm@gmail.com>
+> Fair enough. I didn't consider this, in this case having the values can
+> be helpful. Please add this info to the commit message.
 
-Looks good to me:
-Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>
+Added a paragraph to the commit message documenting that.
 
