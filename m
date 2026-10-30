@@ -2,80 +2,119 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 691F4606A31D
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 Oct 2026 08:47:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 369EE606A323
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Oct 2026 10:04:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=0Bp5gGMg;
-	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=L4S5w7Qi
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=DYowN3+m;
+	dkim=pass (2048-bit key, unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=pis+wDaD
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Date:Subject:Cc:To:From:Message-ID:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Unsubscribe-Post:List-Owner;
-	bh=4PuUhSHvezLBSZJFINC4++j3AbiYAFeVh5nQiEi2aiY=; b=0Bp5gGMgTmHb5zL1A6a8H7I48C
-	GWoWaqhLqFosaGVsO+XRPbB0hJzL5zsf3iYOxOHjaB1JHdYOqgMOHcr/GKdUO3KMtqY5mL+5Jjo92
-	T8cpjHKgvzHATu+Lln6uR2pkdS9F7Yd8Iy8CsimexffhoTYQA7fIczhZuIMfC1PpGDpbhs1GSb4+a
-	5Hrozta0tRXngp42vckiQiY1m1OwTCbERA0V3QmQxkJWDAF4qVSqzJZdTzpX64w7U2eXufvIgLFWc
-	JddH44RM9FKvZTJtrNGm/WoanUstWwBxEXe65UKBzSVt/jqTlmuPjU01NJeT9MDZ8lUgL5oxCTXRr
-	NGgy2u8A==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
+	List-Owner; bh=lWAxP1LyqQJmu3BW9GWxkfm+Y7zBUBY3W5GM09iWJNU=; b=DYowN3+m0aAsha
+	czJl0cSgaTYRCljDLVZWz2JPglJjM7+O+zWKceF4n6D/mLieQzEIZojaWwMwS3D43z1kTrY2sBkKS
+	Ibmd7qmcNdUjOUtk4Tgxl2qGe7zPFioZ6+mpy44bSGWSqGNWFzyRS6gfA2CWXh1FsivkmtMgPbtEy
+	hrTRFUMosgnaUl6i/zZbyomHB7oKYMNNY2S/gf5uICwx8n7tErbJ02rgHD5ARJRf6Rt7YRcETPb3R
+	Ckgqp7PpSIhfzIzn5DXXnQ/IC8o0GXEC5BQ8Fk5DyWN6tRtmOcqoPEa2AcSemjBNrusXv0JPCzYar
+	CQFGQnb8jaxEZUsKNKZw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMiGI-0000000B9Vf-2cj9;
-	Fri, 30 Oct 2026 08:46:58 +0000
-Received: from out162-62-57-87.mail.qq.com ([162.62.57.87])
+	id 1xMjTQ-0000000BLhx-1US2;
+	Fri, 30 Oct 2026 10:04:36 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMiGE-0000000B9Ul-3JZT
+	id 1xMjTN-0000000BLhI-3dHN
 	for linux-nvme@lists.infradead.org;
-	Fri, 30 Oct 2026 08:46:56 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1793349985; bh=4PuUhSHvezLBSZJFINC4++j3AbiYAFeVh5nQiEi2aiY=;
-	h=From:To:Cc:Subject:Date;
-	b=L4S5w7Qi2FmqMOD8kKmxAWgmKlf8cTCBypUncskB6R4EGOBtwsE6lvcE74LrkQJZC
-	 mmgaKkHc9Wz6TF5Y8CGYXVBlgXwDdEViYH8YguehTyZPioK1sPZwLzClSRHApzP8iL
-	 B7eK+pcLHleEiPZGA0dNfLIifL24qrI8wf7exxvI=
-Received: from kernel-lab.tail5e91bb.ts.net ([2409:8950:57d:63:5510:213f:594e:6216])
-	by newxmesmtplogicsvrsza73-0.qq.com (NewEsmtp) with SMTP
-	id B969DEA3; Fri, 30 Oct 2026 16:46:22 +0800
-X-QQ-mid: xmsmtpt1793349982tvc9gdgie
-Message-ID: <tencent_E7828EAC883D49896E2EDD4FCCFE653E9909@qq.com>
-X-QQ-XMAILINFO: Nx5J06Esz7r7PMhUy8UoGmObr45+JzSl81wouu51VZczr6ixFLgDWGSHohfeK9
-	 XOxNdZsBgHpqdJXoYPrw08Jo5IjDOrcTBbKT/VTB+osBD+kFMQkIowzwd1xfOiSV/7OrnNG7xVha
-	 jI6S4hHBKZq0SnivF8SKd68OLYh4G4+037zXIhMvUtDofOaWfsQ6E8T8aCWMhA6+9y8AzXsgLGlC
-	 hl3Xd79jZ4mOXv2gjXdQ3fvVw/a3dEHKRQbBnI1/Vl9OLokoB3MiidkkfE/rLnPhc6u41rvW1Wff
-	 mEdC3krQC/ArtzcnWt5oG97Rxesq5f5piVfyU9VV1rY1e5mx4CiUt85EroYjmgXSKPF6CuTGfCNq
-	 62v/v+xrsMUiZsmffMjcdAHPC3D2Cu5wME/oP7SOXnX3/vEVZHzzGXjuI5gkzbQIW7pGw3WcsV2F
-	 CSqyrpI0ZZjnYzusuMInrorS4PpzVDgYhoPn3ZZWGwYzcjJ+DDpSEDJ5nVIIRrbUERDk7MRFZ5Nb
-	 o+BNz5JAlrVdy3ND3XdPik+VrrSCzTylxwjTvVKPyKxckx7EbMuMgwipYdS3eTEhnQFg38LFLjfX
-	 eJEfVRLNXF3EGJFOx+/7/3qKaYwr+vNIamsRqvIVk9HV7C0qU9qHTUGJsnAsbchnD5vlzlSLhNkx
-	 2tjpOEfPHBajr+Bxqn7TwM0iX3cHqnU+u5oZoIJKhWk7Lx3/12ZllUXDRe56LXLw9sjHCfh1VIKy
-	 3exeEzwQtuANFB6w2LdDV4lpNDWIQkIYxypC3ySXrUdNvOiWbAqK//6JuaVKTLvPVXOSov5f2ilD
-	 7JIoObL4ACUOCHP14P1OBSDnhWy+GBZRxfEvvkM5idKOU/kZ4oCkJCLpP4EeOaUBJW26Yr723e9V
-	 vABHlb87VLkoVgC7MdZ4/o3TgA4vd8AsgaBjOc25ciWd7XXw9CorzgUxtkNPWTyheqdEA2X4OHN8
-	 CyGAl4FnQRXUQ5cpvGRjdD1S29SzJMsJSljkx0uznkt+CsMPfJhTTjHdjMG3qfTT2zyGyUejBbPi
-	 VusrFDAgw1RDswkGYSvaBkjHX5t9nSSOSlhOGCYX/tjuH45/JWkrbDE1UZRBtJMCTxGbFFy/UmUL
-	 /fCYI4wExGT+xRx96s1n0pzYrM4A==
-X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
-From: Yingjie Wang <1075151112@qq.com>
-To: linux-nvme@lists.infradead.org
-Cc: hch@lst.de,
-	sagi@grimberg.me,
-	kch@nvidia.com,
-	kbusch@kernel.org,
-	axboe@kernel.dk,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] nvmet: reject keep-alive timeouts that would overflow
-Date: Fri, 30 Oct 2026 16:46:22 +0800
-X-OQ-MSGID: <20261030084622.2485816-1-1075151112@qq.com>
-X-Mailer: git-send-email 2.43.0
+	Fri, 30 Oct 2026 10:04:35 +0000
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69U8EgtL2376915;
+	Fri, 30 Oct 2026 10:04:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=lWAxP1
+	LyqQJmu3BW9GWxkfm+Y7zBUBY3W5GM09iWJNU=; b=pis+wDaD02xdYImQGKBjTm
+	2FHbwCjwIBiiEsmhlgn6z4U4ftjVUwwnAFWY/LQTOPQQO+iIWFLbdE21VR2T5VOn
+	tIijAiTT6ckXSTJh7W4PYJaY5l2WtTuK/pFBrRSRQ5GKZPwGMuN7sLTxF+nNTQmy
+	SlwNw5jx0XLN+F5+PVR/vzQBrOr74VHNDf/hfb4B0lToHFJvz3F02OhxKLEyNLn7
+	JZLquZ0UXZtBFVlIGofKfZOXxxRNkGcAIimGeVbMkDZCMwOyLw5ZaVJZr0uYlRZM
+	UCAeUQeCb9CmKxxj8vdM6I76EHYAGthuwjKTsELCuHB4cnn8gTeCB0JvwFGtnAIA
+	==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hmeay253d-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 30 Oct 2026 10:04:18 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 69U8Z6ch263597;
+	Fri, 30 Oct 2026 10:04:17 GMT
+Received: from smtprelay04.wdc07v.mail.ibm.com ([172.16.1.71])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4hk55pjwfq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 30 Oct 2026 10:04:17 +0000 (GMT)
+Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
+	by smtprelay04.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 69UA4HFh61931890
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 30 Oct 2026 10:04:17 GMT
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 40A8558060;
+	Fri, 30 Oct 2026 10:04:17 +0000 (GMT)
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 919E85805E;
+	Fri, 30 Oct 2026 10:04:13 +0000 (GMT)
+Received: from [9.61.35.48] (unknown [9.61.35.48])
+	by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 30 Oct 2026 10:04:13 +0000 (GMT)
+Message-ID: <1408da28-a55e-448b-b493-d60fd5d20524@linux.ibm.com>
+Date: Fri, 30 Oct 2026 15:34:12 +0530
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvme-rdma: fix NULL queue->ctrl dereference on reconnect
+To: Christian Aurich Zanettini Martins <christian.aurichzm@gmail.com>,
+        linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+        sgogte@purestorage.com, hare@kernel.org, wagi@kernel.org,
+        linux-kernel@vger.kernel.org, Guixin Liu <kanie@linux.alibaba.com>
+References: <20261029060521.1690223-1-christian.aurichzm@gmail.com>
+ <20261029141843.2066616-1-christian.aurichzm@gmail.com>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <20261029141843.2066616-1-christian.aurichzm@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-GUID: o1NqIKR21frSySSac3wrTwGDn3yLXNqr
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDMwMDAzOCBTYWx0ZWRfX3uf2T5OvjaE1
+ S66QT6++PLd6MWSJEteO+6letgWGnUWmpZLKKeBz0oA963ySgiQHIBX2I3F6gieK6K3Nf0+g+qe
+ GMN/AKUD7ksVlSn4mqXJYp8XfX0VSrTC2HHQKuH81QzA7Ai7JfdhoIDgsHWVGZ4BZKOr9Kt0ZVw
+ UcHcsp5gCAuSpk59BM9EUz4ijrTqlfoWpEQqkYlc1ewbbojNPRu8D5zqKz37nOwKhbf47eMCnep
+ PcMNu637a6f9DKIfHKvkAaSfArDBFL5ekfKbBRxV18t332Y6GoqsIGyZFtHIngQL5JFis0GgH7k
+ pqewyFeaZpVQO7hZ8Wy94nCgJakvLDWIbI8xifoiBqEQGQASILEUCPf13Vny03WLTLpOzB2dfT0
+ 7c52Pap2OEFxcLQyCPO9Yl/LcpZitwdJzo6RVEUIP+vxlsiBx5LMVL9z60JiJvAYi5vxK4EE7tq
+ dcc55Evb8uJG2/b2c+A==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDMwMDAzOCBTYWx0ZWRfXwHc0vqa4GuUB
+ +BngihuN7aNy49ZOxHbwwS0MpmUFspLviujrdtr+Ny0vi2gG0cUKGatg92p+ghx4E3mhQmorhSU
+ xQWCyoPmI7/w5vPV/636sdXIJUgOzPQ=
+X-Authority-Analysis: v=2.4 cv=QbjzLcbv c=1 sm=1 tr=0 ts=6ae46ba3 cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=_oZkWWPpCZdd6U5KUbcA:9
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: ULYizYjFtnEbYPrwJ48UVEuJDYX1tUUI
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-10-30_03,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 impostorscore=0 phishscore=0 adultscore=0 malwarescore=0
+ spamscore=0 suspectscore=0 clxscore=1015 bulkscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610300038
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261030_014655_376546_9FBFAA47 
-X-CRM114-Status: GOOD (  14.83  )
-X-Spam-Score: -1.9 (-)
+X-CRM114-CacheID: sfid-20261030_030433_921882_82C29713 
+X-CRM114-Status: GOOD (  17.19  )
+X-Spam-Score: -2.6 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,116 +125,46 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-nvmet_set_feat_kato() and nvmet_alloc_ctrl() convert the 32-bit
-millisecond KATO from the host to seconds with DIV_ROUND_UP(kato, 1000).
-The addition in DIV_ROUND_UP() is done in 32 bits, so any KATO above
-4294966296 ms wraps around and rounds to 0 seconds. A Set Features
-command with KATO 0xffffffff then succeeds but disables the keep-alive
-timer: Get Features returns 0 and Keep Alive fails with Keep Alive
-Timeout Invalid. A Connect command with such a KATO creates a controller
-without a keep-alive timer.
+On 10/29/26 7:48 PM, Christian Aurich Zanettini Martins wrote:
+> On Thu, Oct 29, 2026 at 03:05:21AM -0300, Christian Aurich Zanettini Martins wrote:
+>>   static void nvme_rdma_free_ctrl(struct nvme_ctrl *nctrl)
+>>   {
+>>   	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(nctrl);
+>> +	int i, nr_queues = NVME_RDMA_OPT_NR_QUEUES(nctrl->opts);
+> 
+> Please drop this one, I'll send a v2. Thanks for the reviews, Nilay
+> and Christoph.
+> 
+> When creating the controller fails, nvmf_create_ctrl() frees opts right
+> after nvme_put_ctrl(), but that put is not always the last one. With
+> CONFIG_DEBUG_KOBJECT_RELEASE, KASAN reports a use-after-free here on
+> every failed connect.
+> 
+> v2 only moves queue->ctrl and leaves queue_lock where it is.
 
-The converted value has more consumers that can overflow. Get Features
-multiplies it by 1000, and the timer paths multiply it by HZ in 32 bits
-and arm a delay that must not exceed MAX_JIFFY_OFFSET.
+Ah, so in v2, we would only move the initialization of queue->ctrl while
+leaving queue->queue_lock unchanged. This avoids tying the lifetime of
+queue->queue_lock to the rdma controller and looks correct.
 
-Reject a KATO whose rounded value does not fit all of these. Return Keep
-Alive Timeout Invalid from both Set Features and Connect. Validate Set
-Features before stopping the current timer so a failed update leaves its
-timeout unchanged. Round in 64 bits. A KATO of 0 keeps its current
-meaning.
+However, I think a similar issue could arise in the NVMe/TCP implementation
+due to the recent changes in commit 2eeeaa9c1ff0 ("nvme-tcp: Validate the
+queue state under the queue lock in the address attribute"). We should
+probably address those changes as well.
 
-Fixes: a07b4970f464 ("nvmet: add a generic NVMe target")
-Cc: stable@vger.kernel.org
-Signed-off-by: Yingjie Wang <1075151112@qq.com>
----
- drivers/nvme/target/admin-cmd.c | 7 ++++++-
- drivers/nvme/target/core.c      | 8 +++++++-
- drivers/nvme/target/nvmet.h     | 8 ++++++++
- 3 files changed, 21 insertions(+), 2 deletions(-)
+Unlike NVMe/RDMA, NVMe/TCP needs to tie the lifetime of queue->queue_lock
+to that of the tcp controller. Therefore, we may need to introduce a separate
+ctrl->allocated_queue_count, initialized with the number of queues allocated
+at connect time. We could then use ctrl->allocated_queue_count in
+nvme_tcp_free_ctrl() to destroy the controller-owned queue objects, rather
+than accessing nctrl->opts to determine nr_queues.
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 26028be8fe4d8..a06cff8304db0 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -1227,8 +1227,13 @@ u16 nvmet_set_feat_kato(struct nvmet_req *req)
- {
- 	u32 val32 = le32_to_cpu(req->cmd->common.cdw11);
- 
-+	if (val32 > NVMET_MAX_KATO * MSEC_PER_SEC) {
-+		req->error_loc = offsetof(struct nvme_common_command, cdw11);
-+		return NVME_SC_KA_TIMEOUT_INVALID | NVME_STATUS_DNR;
-+	}
-+
- 	nvmet_stop_keep_alive_timer(req->sq->ctrl);
--	req->sq->ctrl->kato = DIV_ROUND_UP(val32, 1000);
-+	req->sq->ctrl->kato = DIV_ROUND_UP_ULL(val32, MSEC_PER_SEC);
- 	nvmet_start_keep_alive_timer(req->sq->ctrl);
- 
- 	nvmet_set_result(req, req->sq->ctrl->kato);
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 956f9a552e70f..9b30a9b7a0b71 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -1612,6 +1612,12 @@ struct nvmet_ctrl *nvmet_alloc_ctrl(struct nvmet_alloc_ctrl_args *args)
- 	u8 dhchap_status;
- 	int ret;
- 
-+	if (kato > NVMET_MAX_KATO * MSEC_PER_SEC) {
-+		args->status = NVME_SC_KA_TIMEOUT_INVALID | NVME_STATUS_DNR;
-+		args->error_loc = offsetof(struct nvmf_connect_command, kato);
-+		return NULL;
-+	}
-+
- 	args->status = NVME_SC_CONNECT_INVALID_PARAM | NVME_STATUS_DNR;
- 	subsys = nvmet_find_get_subsys(args->port, args->subsysnqn);
- 	if (!subsys) {
-@@ -1684,7 +1690,7 @@ struct nvmet_ctrl *nvmet_alloc_ctrl(struct nvmet_alloc_ctrl_args *args)
- 		kato = NVMET_DISC_KATO_MS;
- 
- 	/* keep-alive timeout in seconds */
--	ctrl->kato = DIV_ROUND_UP(kato, 1000);
-+	ctrl->kato = DIV_ROUND_UP_ULL(kato, MSEC_PER_SEC);
- 
- 	ctrl->err_counter = 0;
- 	spin_lock_init(&ctrl->error_lock);
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index bd13adc72f671..9ac599d90b413 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -7,6 +7,7 @@
- #define _NVMET_H
- 
- #include <linux/dma-mapping.h>
-+#include <linux/jiffies.h>
- #include <linux/types.h>
- #include <linux/device.h>
- #include <linux/kref.h>
-@@ -712,6 +713,13 @@ void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
- #define NVMET_KAS		10
- #define NVMET_DISC_KATO_MS		120000
- 
-+/*
-+ * Largest keep-alive timeout in seconds that can be reported back in
-+ * milliseconds and converted to jiffies without overflowing.
-+ */
-+#define NVMET_MAX_KATO	\
-+	min3(U32_MAX / MSEC_PER_SEC, U32_MAX / HZ, MAX_JIFFY_OFFSET / HZ)
-+
- int __init nvmet_init_configfs(void);
- void __exit nvmet_exit_configfs(void);
- 
-
-base-commit: 89480d137bf0d943a82c64f86ae2407a15276b5e
--- 
-2.43.0
-
+Thanks,
+--Nilay
 
