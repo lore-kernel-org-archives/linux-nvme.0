@@ -2,110 +2,138 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C02606A31D
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 Oct 2026 19:19:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 561F1606A31C
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Oct 2026 19:19:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=a7pAQKTT;
-	dkim=pass (2048-bit key, unprotected) header.d=purestorage.com header.i=@purestorage.com header.a=rsa-sha256 header.s=google2022 header.b=RuxlzoYu
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=DouW0Xqt;
+	dkim=pass (1024-bit key, unprotected) header.d=seagate.com header.i=@seagate.com header.a=rsa-sha256 header.s=stxiport header.b=SY1wsPI5;
+	dkim=pass (1024-bit key, unprotected) header.d=seagate.com header.i=@seagate.com header.a=rsa-sha256 header.s=selector1 header.b=LDBGJNqS
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
 	List-Unsubscribe-Post:List-Owner;
-	bh=WFZOXzn6veCZIAF+JkkHH6W85OOUZkO3tjuMxrK8z4M=; b=a7pAQKTTUGO7wEVMK9y70dxyjY
-	4DktMZBDm9zxRVeyBgbaY5rYdRGa8hf+YZsSCRxocme19zha51YYhgRxWZZEDTYagpjYfbMBnfd5h
-	ljTyVtVHychpwc58kj8Q4LsXn981cSeTvA7uF4kq+tCTxgstSi1oAPdQofilQkT5+lo8TBP9NZrS7
-	8YbM+PA0W8kWlk+WvlI33qJ3nlqy+cY3B1i8hOfQFqf64ckDMXuIeq23vgo0gV6CUbu3K1MWwn6AY
-	yfdTT5SYWf9byZmqEDuWqUiJ0DPXwkqSIBg1q5FReEIcGYEnu5L6kC5ATLITPuHsAKCzUDp1YYlQG
-	h/sVUc+g==;
+	bh=HehpalulkoLTK0sY1HL/24WpXJbf1QKekOImofgn6DU=; b=DouW0XqtEHltNLB4ZDGbi7tgo0
+	5ph7RImUOZ4lEd2/Eznm6v4qi1/tLo2AJoVbrtzNbOV9uvvKnrRHzxLzNX5G+6TeH8UsCwMHNUMRQ
+	FXbmdpAeCYyGKpo7Ca7/jxcnLX2ihb1guroao9KBqVw/sUD0lppwbzfhU8BzHrvB6bmwCowNCZI5N
+	5yl/JBhKLLeX380kJGplCLAwVV4/sG3tcdZEmYg1vKBHpBtjUcrTxp0Pfgpd2kGZ1o6p0ysFY3RBE
+	AZC5Y5iiGlPengUCHwYBT/8Eqai42eklJ2NZmiS6lwZscs3yCD4OPbPv9/Fx1FxU8YiiSeHBowaLL
+	c2e8I3sA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMs89-0000000CTpy-1IXn;
-	Fri, 30 Oct 2026 19:19:13 +0000
-Received: from mail-dl1-x122a.google.com ([2607:f8b0:4864:20::122a])
+	id 1xMs8T-0000000CTtU-1o9m;
+	Fri, 30 Oct 2026 19:19:33 +0000
+Received: from esa.hc4959-67.iphmx.com ([216.71.153.94])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMs85-0000000CTp4-0UOV
+	id 1xMs8Q-0000000CTsq-01M2
 	for linux-nvme@lists.infradead.org;
-	Fri, 30 Oct 2026 19:19:11 +0000
-Received: by mail-dl1-x122a.google.com with SMTP id a92af1059eb24-1adbf62dd31so869869c88.0
-        for <linux-nvme@lists.infradead.org>; Fri, 30 Oct 2026 12:19:08 -0700 (PDT)
+	Fri, 30 Oct 2026 19:19:32 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1793387948; x=1793992748; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=WFZOXzn6veCZIAF+JkkHH6W85OOUZkO3tjuMxrK8z4M=;
-        b=RuxlzoYuT+opoj09cycq2CSrfUY1/F7OHa03ojSQ2E58NN1Wt3MwPqQKvIzfQKmiZ5
-         p1L0JMyAXPHdBx6+VMuAcicBVPKpE6UMGYyX/BytJYLsM6ubiDEJlSN7q/oD/HzCjVmk
-         BOuGoqLh+n/oofC2G+pCCqROw1LsRYl+eJd4S0SKvcEyqF0TxAT/POG1q3yj8tXURayz
-         LA6xp313B9xT3ZIusUJULd8n5ciq8HX0OIRKdPbiQ8WpTQNoLIgxfpPMPbxoE5iymYBb
-         9MH7XXknghcg8lZGWYLP/VQFSLfXI3kx/B50nHEeTEK3CiHTVxBzjUiVALUKeUkPe3cC
-         8IJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793387948; x=1793992748;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=WFZOXzn6veCZIAF+JkkHH6W85OOUZkO3tjuMxrK8z4M=;
-        b=G+EuFqPyIFygd09KpKmZrcfpihCOXgSC/4M7Hir/Ww7DtNKlG3JWUia2GR13feBivM
-         mK0ofmmQaYcRnIVQi+W82oVmU/Z5PI4cNRP+WwAv8XOclZFkgS3rZcDJ+3b/h0zPxXuM
-         PyJrZDzSE3fL4bPp+z0xfIwLLnLaHCz8+UsDtYMEYNVkP2myhJn2M8CawDyuTI7mPujO
-         KgfAKEXcyn7aEkZRrxQ+HQO5SbL3RrQfdYFntIEw6mSi5kIvacMdLaT0zCHDSaxmhgQ5
-         p5/QCJQz33KTpP4qV4OrRIsvPm3XFSZCLx/szlV4saWqGekfrrD+NVADr3MNSiH7pHOw
-         bbPw==
-X-Forwarded-Encrypted: i=1; AKwUvBxfwIAqklIAT6h+s4huSGt59kdE6uz9k4XEOdPx5c68P8Zd6iv2YcD9dOyJQ1RUpfQpKdgyUIXwiZPx@lists.infradead.org
-X-Gm-Message-State: AFq9FYJaavzbS47d+4cXlS4gYJtrnWVvD6fOV7gJsLZzhXwXnfqoEJIE
-	ZuZoXEcRS5v7UKce3l66G+w96K9jVhG44/k6Je4i8+ZBeQqPvA3uIfY4YLopzNH4J/U=
-X-Gm-Gg: AYBFou3YnPY00EidIIrGUhzkm8nmW4DihXFoiUaWPXvfOIDVP7hOInTMbrXrZ4WmeBz
-	+LTJ6yX5DBhzLrNuPsqXzGDFA4q07/9bidOecdCljzxfnI03f/1DI8pMBp0ByAn16uCT+vUC+pi
-	f0tzl8Chqj+cTBUUII3vyZ1tQiGJzSHtxcTbCyrD1z9C054mr//3xCx1dKTjx84MXooXiRlRL10
-	wLYfIjf5DgXla85V50P8ko2OylbAwqiFpnrBk0MwdMeSM99pGVBvVv5+UOZQ1LCsMeIoUyel8cF
-	UCJaJ/6hAi6yICJHq8ymggHLwhjoQuAYokP/mzamKmNgrk0DZ5lUJ9fPMboHkDfS+Sb1XQG7O3E
-	Bn8sUOGLj6bfhDFv3DDDwnlrzmLZmeODw5JWDrx7pf/ffJlFm+pKsUXXEIwZ3zFHnANMiOysS7+
-	faxwANkcpv1qEaVOOiH3m8+PkYVcgkpKqfC9QHd9pxdgdVE+/Lr8h1370Z2uxKMgQluAoFh1zpE
-	xlZlZhOt9dxzlxRWberPdHT0iAn7Gdd4V+yCmAgX9AU7CEalOPLmF5iSnnjqYEURwdD2i7w3GIi
-	PE55T0yyJCxKZ5jgRE360s2LCyWvEGHIarFjXnSId9hIwrgRrtw=
-X-Received: by 2002:a05:7022:f115:b0:1a2:1a28:9348 with SMTP id a92af1059eb24-1ac5e22840emr3810130c88.37.1793387947237;
-        Fri, 30 Oct 2026 12:19:07 -0700 (PDT)
-Received: from medusa.lab.kspace.sh ([208.88.152.253])
-        by smtp.googlemail.com with ESMTPSA id a92af1059eb24-1ac192c27cdsm14623889c88.10.2026.10.30.12.19.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 12:19:06 -0700 (PDT)
-Date: Fri, 30 Oct 2026 12:19:05 -0700
-From: Mohamed Khalfella <mkhalfella@purestorage.com>
-To: Daniel Wagner <dwagner@suse.de>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Justin Tee <justin.tee@broadcom.com>,
-	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
-	Paul Ely <paul.ely@broadcom.com>, Hannes Reinecke <hare@kernel.org>,
+  d=seagate.com; i=@seagate.com; q=dns/txt; s=stxiport;
+  t=1793387970; x=1824923970;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=HehpalulkoLTK0sY1HL/24WpXJbf1QKekOImofgn6DU=;
+  b=SY1wsPI5xYHu0xE6FW5UMqCORg7x7Q3TMGwh85kD44F1i2Ji1/wbgEoe
+   hqNRDOMj+3LauuTJ+jvnSz7FhZ8gwrncnvOkZkmyVp+GImEzxFGYiQJzW
+   oBp93ma65qbLLk/RKPO5ggCK6pZ7k2JpaVF1+wRG4qv56ttAuT5oAogux
+   I=;
+X-CSE-ConnectionGUID: DkI5pGJMRFK1U3OfbEazPQ==
+X-CSE-MsgGUID: WyXQWFZXT5eacJdLuD7pmQ==
+Received: from mail-bl0pr07cu00103.outbound.protection.outlook.com (HELO BL0PR07CU001.outbound.protection.outlook.com) ([40.93.4.3])
+  by ob1.hc4959-67.iphmx.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 30 Oct 2026 12:19:29 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=D7V3u6L3sT7fkPgjvPuD6IHZU9usSdyUHADaBJGXHmLel9bBvM1msamJd51ezX5TUzjLj1hYnXRjSoVRx9yG8MJSzoEd3JiOnoafbbg+wYeNXSkcf/PBA89KRG5cvzcueLL2GV+r9AcawvlrG/a51nZ+WSRwKR5tc86FzrasCvP/8g5Kb6628Lenl82mih6Hz/dOE43a9ruNqKZXH10LEQERC0zl92+WFe5cnVAnPcVdt7yaAyoCbGr3dNK6p0IDS93FRHnRlgCktw0ArphSm+cJKQB/nbUppkwb4TMs/RLPe2mMrM7/ZIJwM3x/7vTBMMt/KJbdHlSPAZioqR7DAQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HehpalulkoLTK0sY1HL/24WpXJbf1QKekOImofgn6DU=;
+ b=bG3T6n3IRou9naQiHHjUTtw93Yi22fj/QWWgcz7l2erQtJt1nQsaw/JKBV2fNa5vMnhU6w2WlXLv2Aqvx7a9NDcBIPZu625af1kyoTFqmGUvjfKDTREZkn/qO7L/KgFWObdtbcVTUC52O4zkPsRaPr4dxbH9UQCQWPyHYx7Z/efmehlyMo4EIe1AyogWlSYO3Wja4L3i9h9lFTUFG1kNkc7kKCW/mNgAYj3dmGxB21sth5WIZFj3QDZZxkdaVfuW2tgMcOTMEzPcWEOyRcT2/u2FU0ctveRmGWoZNC+SOVBPBjmLY1WXUfROORfBqx79YYJP4ZdXMW6dxR9YVLaubA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 134.204.222.52) smtp.rcpttodomain=lists.infradead.org
+ smtp.mailfrom=seagate.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=seagate.com; dkim=none (message not signed);
+ arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seagate.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HehpalulkoLTK0sY1HL/24WpXJbf1QKekOImofgn6DU=;
+ b=LDBGJNqStftMCPj/sKXHnS5+QzMFGcpKGGQBkJ1xBc3wgJcO44qHrjsYF0uVKX+a7nHu3rvVM9iLN0sczdtNlL9nA+z2VE55jOaOja2OhDugzdKXVNMwkWMhHU1CVV1FJrd060nTqokOacafWJ7VyH/LuJdvmhJiBNeW4YOSZ2U=
+Received: from CH0PR03CA0444.namprd03.prod.outlook.com (2603:10b6:610:10e::12)
+ by BL3PR20MB4972.namprd20.prod.outlook.com (2603:10b6:208:3b7::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.10; Fri, 30 Oct
+ 2026 19:19:21 +0000
+Received: from BN3PEPF00022BC6.namprd05.prod.outlook.com
+ (2603:10b6:610:10e:cafe::80) by CH0PR03CA0444.outlook.office365.com
+ (2603:10b6:610:10e::12) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.569.10 via Frontend Transport; Fri,
+ 30 Oct 2026 19:19:21 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=softfail (sender
+ IP is 134.204.222.52) smtp.mailfrom=seagate.com; dkim=none (message not
+ signed) header.d=none;dmarc=fail action=oreject header.from=seagate.com;
+Received: from lcopzesaa001.seagate.com (134.204.222.52) by
+ BN3PEPF00022BC6.mail.protection.outlook.com (10.167.248.219) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.569.4 via Frontend Transport; Fri, 30 Oct 2026 19:19:20 +0000
+X-CSE-ConnectionGUID: qh1zy6bpRlKNKQA3XEFVxw==
+X-CSE-MsgGUID: 7Fjy0X08QUKOlVUVza7s8g==
+Received: from lcopiesaa01a.seagate.com ([10.230.120.56])
+  by lcopzesaa001.seagate.com with ESMTP; 30 Oct 2026 12:22:01 -0700
+X-CSE-ConnectionGUID: E7pRxbH4RS2WFQkpuKIr0g==
+X-CSE-MsgGUID: WtBeoHltTEOgtW7m8lh5rA==
+X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
+   d="scan'208";a="2047095"
+STX-Internal-Secure-Mailhost: TRUE
+Received: from col-l721190pt001.colo.seagate.com ([10.230.88.101])
+  by lcopiesaa01a.seagate.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 12:19:20 -0700
+From: James Fantin-Hardesty <james.fantin-hardesty@seagate.com>
+To: linux-nvme@lists.infradead.org
+Cc: Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
 	Chaitanya Kulkarni <kch@nvidia.com>,
-	James Smart <jsmart833426@gmail.com>,
-	Randy Jennings <randyj@purestorage.com>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH v6 07/18] nvme: Introduce FENCING and FENCED controller
- states
-Message-ID: <20261030191905.GC122209-mkhalfella@purestorage.com>
-References: <20260920182936.2317916-1-mkhalfella@purestorage.com>
- <20260920182936.2317916-8-mkhalfella@purestorage.com>
- <179242929827.3619480.8550407233438315193.b4-review@b4>
- <20261019212630.GN2931-mkhalfella@purestorage.com>
- <7e73057c-698a-4ce6-b153-3b8b1077f77c@flourine.local>
- <20261021183357.GX2931-mkhalfella@purestorage.com>
- <fe4f3c98-492c-418a-9ff2-b3c6cf5446cf@flourine.local>
+	Damien Le Moal <dlemoal@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	James Fantin-Hardesty <james.fantin-hardesty@seagate.com>
+Subject: [PATCH] nvmet: fix arbitration burst field mask
+Date: Fri, 30 Oct 2026 13:18:53 -0600
+Message-ID: <20261030191853.1777683-1-james.fantin-hardesty@seagate.com>
+X-Mailer: git-send-email 2.56.0
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fe4f3c98-492c-418a-9ff2-b3c6cf5446cf@flourine.local>
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN3PEPF00022BC6:EE_|BL3PR20MB4972:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 2e8e46ab-a515-415d-fa3c-08df36bab31e
+STX-Hosted-IronPort-Oubound: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|376014|1800799024|36860700016|82310400026|11063799006|56012099006|261009223027099003|261021123027099003|261021121427099003|10067099003|18002099003;
+X-Microsoft-Antispam-Message-Info: 4sh03zco/gJyv7oQdfYkUJI5W8fcabVjlaAHcLC0F0ykK8By5ziqOBYnIQCHx8HrDgpfYTH6pzIcN319Nro3hkvLWGtaG3jDtw6wvcRwGJhGA2eZMQNWZaN3pLW87UMZTsNC3Yb+XnlBrmfwmUqmckxpFiaNGFgPiXl0J2qgVkKuvgLFDOT1ypIBE+ZttcNAiPdtEQ7LTagMSlWEWJCnJWSkWpJfxJNLw6rL7zFsuPBe2VM11cACEPExlTHFeSovSwtLCXhwOnxBlsyIlgkg+9x+G/zhg1IWvM9GfFrDSnEsJY0/cHppyEEw6Uz7Ww+tkenPoP2cAaLms7bK5WRIRLCJLryJ6g8QG+AHHYD2+3myJqBaihPpJ5ov8j7QEXvpRJtTBwE8XSQYHJPNB3h7Q0iRC4y56k1lemxZltJkwt87MZqMXzE8624WA3f/ZPKmc6BZ0KibAeW68Ao4C5Idb4FCSLl/7FlNUASZceuLeegECzPmHy27Q4FnZrBio2ZS07s4eQ6DI3xJY4X7085s+5ukIDyYbhnE0IFxr9JIMDc1KH9tHNOuyRo1heiGDOFkZ0HkdAlk/EdbXrBzDOAZjRvH9KhwIvcuvqTG/oJV6I7Yke4g5kLsY8zwxd+VvP+xhi/gnAo3/7CW8pU6kkuGLkSEZ+gTFiWgjzbDJkMFQ+ejrGy2M4xSHjnfZ5IAnVKGaRxRlgD2/3txRdDHYuP/jw==
+X-Forefront-Antispam-Report: CIP:134.204.222.52;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:lcopzesaa001.seagate.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(36860700016)(82310400026)(11063799006)(56012099006)(261009223027099003)(261021123027099003)(261021121427099003)(10067099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: uq4XJPUuA4086a19X0huoW8wvc3DjGlEm+4IpCGEYflN+btqrtNtZjSs+Dg8GSKmScRzMusPgRPdV0tEs7w2imgAhwvf2ZuR3A+J/DxRd9ydwVNHaO+2lgDzQ/NDLyAn1e5FqcNeT4yVUtjOnEOYn6YNSDqgNB9CTXhwObutJ2zq7U7dhGM31XrSd+OyKsCer9anSQzWPBwlqzg/4hY2f3Kxyi3QsTqNHumwas8NsqvPxxyEFRgA/t0mlGv2XwW6lrUB2lVk5rdJLNNYHIJxek2ja51L3JXRUNLt8qf2Wsfpg713qA2Eg1JpKUhn7BMJmumna7Cemb1qguUQRcjtywLO9+Kh8/c9DBBk4Qe5/Z8cXqM00qLI0V4g6D6InSpye5G1j9G3xk5Kz31EBUnqZzWtyVEIVg/e7Jf7u0WOoTOdZA+H0Pz21QVhmcRROp71
+X-Exchange-RoutingPolicyChecked: WTn3DXxXcc9jEsceSveFBVmWflnSuIo3OCKGrESqltGpz7yGk9D17aNYsawoZgif+7cCldiiqAsU1hPRDlkTn+vpGAL93iL7oK3Q0GuQojkIe/0ybpVKzUAbmAwUiBDzcL1ihQ3PbkZDiJfGWfDxj7XOuVkGJDPA3/yga87bNuRISRX+m3v0EBU09czHotKRa299hgAeKDXgP2a1pqCg9TU3f41j3ySM3eJ51LbSd+bW/8JsDUevaYiqm2LfgDmC+0iOrTgREFcAd2vIpU2wdAzfiqBR2MOrAJqpFnYv1hp54XRxnREF96yWmemQowgUDYRpbpe2TjujfkF2PZIkEw==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: g7djGyfuJIuSS0Zt/2t0pft8YcnENHGkPlmfc01BVBVm4xW5kiGyzcHorPKakQQzVt0LNncEvPnTBjjFLXn9rOYVUYOwMiDTXQjbgVorVeInIgYzYHxo0HkQU+if8pmIyKJVVVL0vERUoZbmX/83IZuYc9t8F3lakTM7l6xJtI849X0nsUc5CDY0STiBM3fN8LkOVnFA1wSowQYg1pEIQ2lJ8Ls7XebMPJVkX2YhfULkBZIFq0JY9RsKpwMnykSMfxaU/tSwxCPWJQSHKCkZ3JQclk80H6QpJKbwmgPMfxaGUmWxevlwWENP8zUjpNJeAGYpqNt82wXwFW3B7Zr4kwHyV9aAeBGfOmyAmIcU/8A1RauVRt85FKFhtqKAVYKRTdz+lToIx6915y5BzKjqFuUJlq3eiR3HzqyIfuAJA0TlLec0stu+8bwHu7ZceQXt6GjwoD52HUTEwAsLTjjNYpAQvUPyQAdQ4Zv1vHmNIclpaNb9DOkgMjq+SoiyL0Ana67PuSI6X5nOTrk77nHSttS6DkblVAqATAy0/sjngS84guRPwhvdOGwYbkLbHJr9FGclmnonO57/6oDBRtCNmb631Vq+ehx0g7izBbzTnTQNPy/o+auM5M/EU7skE8vI
+X-OriginatorOrg: seagate.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2026 19:19:20.4979
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2e8e46ab-a515-415d-fa3c-08df36bab31e
+X-MS-Exchange-CrossTenant-Id: d466216a-c643-434a-9c2e-057448c17cbe
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d466216a-c643-434a-9c2e-057448c17cbe;Ip=[134.204.222.52];Helo=[lcopzesaa001.seagate.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN3PEPF00022BC6.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR20MB4972
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261030_121909_487331_543E226A 
-X-CRM114-Status: GOOD (  16.57  )
-X-Spam-Score: -2.1 (--)
+X-CRM114-CacheID: sfid-20261030_121930_530807_5B08BC1B 
+X-CRM114-Status: GOOD (  11.29  )
+X-Spam-Score: -4.4 (----)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -116,42 +144,47 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Fri 2026-10-30 11:32:52 +0100, Daniel Wagner wrote:
-> On Wed, Oct 21, 2026 at 11:33:57AM -0700, Mohamed Khalfella wrote:
-> > Is Documentation/ABI/stable/sysfs-nvme a living history of sysfs-nvme
-> > documentation or a documentation for the specific kernel release?
-> 
-> I understand it documents the sysfs API. sysfs is supposed to be stable,
-> so adding a new state is factually a breaking change. The document
-> should document the current API the kernel provides.
+The Arbitration Burst (AB) field of the Arbitration feature is
+CDW11 bits 2:0 (NVMe Base Specification 2.1, Feature 01h), but
+nvmet incorrectly masks it with 0x3. Use 0x7 for both set and get.
 
-Looks like changing the "Date" or "KernelVersion" will make it like
-"state" attribute has been added new newer kernel. That leaves one place
-to mention "fencing" and "fenced" are added in newer kernel.
+Fixes: a0ed77d4c9a7 ("nvmet: Implement arbitration feature support")
+Signed-off-by: James Fantin-Hardesty <james.fantin-hardesty@seagate.com>
+---
+ drivers/nvme/target/admin-cmd.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
---- a/Documentation/ABI/stable/sysfs-nvme
-+++ b/Documentation/ABI/stable/sysfs-nvme
-@@ -145,8 +145,9 @@ KernelVersion:      4.11
- Contact:       Sagi Grimberg <sagi@grimberg.me>
- Description:
-                Shows the current state of the controller. Possible values:
--               "new", "live", "resetting", "connecting", "deleting",
--               "deleting (no IO)", "dead".
-+               "new", "live", "fencing", "fenced", "resetting", "connecting",
-+               "deleting", "deleting (no IO)", "dead". "fencing" and "fenced"
-+               were added in 7.5.
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 26028be8fe4d..6cb59a4f233c 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -1326,7 +1326,7 @@ static u16 nvmet_set_feat_arbitration(struct nvmet_req *req)
+ 		.hpw = (cdw11 >> 24) & 0xff,
+ 		.mpw = (cdw11 >> 16) & 0xff,
+ 		.lpw = (cdw11 >> 8) & 0xff,
+-		.ab = cdw11 & 0x3,
++		.ab = cdw11 & 0x7,
+ 	};
+ 
+ 	if (!ctrl->ops->set_feature) {
+@@ -1481,7 +1481,7 @@ static u16 nvmet_get_feat_arbitration(struct nvmet_req *req)
+ 			 ((u32)arb.hpw << 24) |
+ 			 ((u32)arb.mpw << 16) |
+ 			 ((u32)arb.lpw << 8) |
+-			 (arb.ab & 0x3));
++			 (arb.ab & 0x7));
+ 
+ 	return NVME_SC_SUCCESS;
+ }
+-- 
+2.56.0
 
- What:          /sys/class/nvme/nvmeX/numa_node
- Date:          November 2018
-
-
-I added this diff to this patch. Let me know if you want me to change
-it.
 
