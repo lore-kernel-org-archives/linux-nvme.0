@@ -2,70 +2,110 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF36B60A3818
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 Oct 2026 18:44:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23AC4606A324
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Oct 2026 00:24:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=cTy8sl1P;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=g+h5gi3j
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=oErXGCiL;
+	dkim=pass (2048-bit key, unprotected) header.d=crusoe.ai header.i=@crusoe.ai header.a=rsa-sha256 header.s=google header.b=ZmgBrTnC
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=Qx9Vxq+q1VH53YvroEAQ47lDP6bGDc9uPHBxf7J0T7o=; b=cTy8sl1P1nnvwz
-	icg3bsdtXgJmWnqGoLu+I2dEdcj6pdwt94GjROiV0qCbv0knnQ+pZtpSgg91xx1KeWCS2nz0oz6bE
-	gRe3hScDJuWg1f4lGcTAH7hZwf8/5762jrXlrl8HWCXQOgp3w+SZlVr3mY9Plmwhfxjifm8UkadPT
-	6ljtLrC0ZlubMEtEZRNPU5HPgY/+7L9ROzPVeWb2u0qnUZIWrSa8nqnJFjNKy2wmlIr1tWlC+55h6
-	fUPaH5npJoPgcuULlxIvi0pl5dGYMibQb3knbwvE3MpqyGc5wYAodTPn85qwHE44SUyIk+XkMX7uz
-	kUR/gnH4e3kZAgLqNeyg==;
+	List-Owner; bh=KkjXI6XREDZgMovozjWwMnBiOd6uNUe+5PisGTE2NV0=; b=oErXGCiLBB9WRs
+	q1OJcAJCFaHJmaRrTzi8BtxkMQho7R+3IO7/flIYdwWJBMCIkmxC547BKsUT667FMuH23P2pmhKVB
+	wRdUsAG5XBu5vXvO7fcSiGVIdrJjCWQkbCLvriDxDfqK4ZstpBFnDE6gSYFiyHc96SfLuefxGRDxR
+	SORbYb6LxIm5wHQG+N6myJFOou4bqx5IM3fE+GJYgVqoPiXw2DAGbSHw+DfJNoSS3rLe4w5S3JBFi
+	89gPLIAjipSWZNpi7NwckrPgcqji+3qxlWqy64FH2l3YmvyS0dFUH6bH1MqeKQax7Ctg1mZeAkbCV
+	Rg0rUH6vyUhV/l1nDkxQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMV6X-0000000A9T1-02Uu;
-	Thu, 29 Oct 2026 18:44:01 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1xMaPg-0000000AZeA-1bIl;
+	Fri, 30 Oct 2026 00:24:08 +0000
+Received: from mail-dy1-x1332.google.com ([2607:f8b0:4864:20::1332])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMV6V-0000000A9Rn-49oo
+	id 1xMaPb-0000000AZdj-2I4z
 	for linux-nvme@lists.infradead.org;
-	Thu, 29 Oct 2026 18:44:00 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 1DD9C43FE9;
-	Thu, 29 Oct 2026 18:43:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2A9F1F01283;
-	Thu, 29 Oct 2026 18:43:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793299439;
-	bh=Qx9Vxq+q1VH53YvroEAQ47lDP6bGDc9uPHBxf7J0T7o=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=g+h5gi3jEK8BB5uAdKTMg8CQvNl6gCP/yYOLuc7kCqhiYS606tBFVtV4NHYt9RkEF
-	 Pmus3xfxFpQDHtIcj5Fj752O1CDElhr0Sr2bb0sqr0MQqeueKKFq7E+mpOSnkHQMPT
-	 LlbW3KPjfynlptaczW+rNeJ/Y8JFFC7y8mC0ePLjS70++cwT/kbZljgFu+B/nkcK0H
-	 c5j/TLLwhH9U+/MD9itZaqOZ7SyB9IkuWgOYVGQdyhpglt074BwN+xpSyttxu52Cqv
-	 m1sRIpFx0Hr5nW6oRprb0RB6PJC6Pb/ru+bPS9qAQ15w+MrnitG3cpmNg4ybCnl2AH
-	 A9GFs4hZnrhLQ==
-From: Sasha Levin <sashal@kernel.org>
-To: stable@vger.kernel.org
-Cc: Sasha Levin <sashal@kernel.org>,
-	Karl Mehltretter <kmehltretter@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dan Carpenter <error27@gmail.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	linux-nvme@lists.infradead.org,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Subject: Re: [PATCH 5.10.y] nvme-tcp: fix error codes in nvme_tcp_setup_ctrl()
-Date: Thu, 29 Oct 2026 14:43:28 -0400
-Message-ID: <2026-10-29-1-daily-reply-0021-nvme-tcp-setup-ctrl-5-10@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261029031352.56096-1-kmehltretter@gmail.com>
-References: <20261029031352.56096-1-kmehltretter@gmail.com>
+	Fri, 30 Oct 2026 00:24:05 +0000
+Received: by mail-dy1-x1332.google.com with SMTP id 5a478bee46e88-36a1947498bso292785eec.1
+        for <linux-nvme@lists.infradead.org>; Thu, 29 Oct 2026 17:24:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=crusoe.ai; s=google; t=1793319842; x=1793924642; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=KkjXI6XREDZgMovozjWwMnBiOd6uNUe+5PisGTE2NV0=;
+        b=ZmgBrTnCbVjBtlvR/mwn7SEBQD+L3UH+0HSyGJoUL361sC5erxRClSbuMlKo1PTQui
+         5BHaMjwnIcuoii5OiKOwTBztyqLNPXiyB0CXi22ya5nR3n3eMfW24FK3B9UnpJh0U8mY
+         /aXF31PO6knAt886pamVP5/NId1OpnGkaM+2eKEdZ7P0nRXiGR5ilPXD3V3DUCizhprr
+         FjpaR339Z1aYVUQvOFiKkw49MpJCcAN2Sf9seO7XELw3Svg+SmSOzbw85Cra4sM+YMIR
+         DQBDr2XJM3yazQZEd03GuPC34GhHY2zGFDQxeb5GgjebVkocD7GlXw6uBpwlnq57Jey0
+         VhnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793319842; x=1793924642;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=KkjXI6XREDZgMovozjWwMnBiOd6uNUe+5PisGTE2NV0=;
+        b=CsIeUqMHk0Qgjwwqiaa5agZLbAfTD3sRi9p7f+v4DC+pF+biPLnhBtjW79JiOXoWsk
+         QDP6aEXIM1puSd9Z7XvknIVmjrIz6BDg1EeF5AS3uCzT0DuBU4j/flF2I0ecceCAjhId
+         DsRrjBtIEmWLX8sRnHqcawpw/+i+xId1b+TOGf5WE/giGC+It3sQW8ArUuwnYnLZHHD2
+         YMRj4DdsDqbBwEpQBBf3sPNRqPJRSroT45pavIpmbo3jwA9ZIrSf5PsiYZa5JRGnbOKy
+         iZqdkUea91adMCgMil1xEocpIYeO4vBIZMWtPz48eOzTEzyvJzaiukUMzs+3xQgK57+X
+         OWeQ==
+X-Gm-Message-State: AFq9FYJ7VuWIXmmLCLXFtsq8PIBzyB5HAo0NT14P/Fw2oiZDQgAj8WFk
+	g7Oue6MJSE4xSfg3RjFQ1SejVDPErLLNQrKQr9a+iAaIyvy0FjjNI3RX8mmBBc6KuORxU4FxG0w
+	287PyQbY=
+X-Gm-Gg: AYBFou3Go6pRvPWTcZA4BUuQTDGGRUG5KqkA4HXNlO7bYVUS8lmlrnGZhR90yic4OEe
+	Tr5jqQIET5TKNO2cOZBCFpIZRPwX+pcWfJa1cX+GWGXm1Rnt5syAUeZNq0Eu7NZedouiD9RIA/q
+	sWl/XyOlKPKZlgXAJ1gbyHg3WkIhma0iafmWQWIpumRLwIb/0iw1l4/9+zxU2mmbdcKenbqluGt
+	itxoryWT39DomuBDlTn10cJ6U4J5YemXv5b8hr+himTzh9t6UiY+ytyejfTzFABtFOQk1fHjNb3
+	GRns63nB0Q8aXJL0A4HgwpGC8Kxji7UY0nFVdMyaFxxDfKQH2gvlx+idvfaeXuUFdcMEzQNIJTV
+	iED+HMNY8DaW+ZkT0iY0XlaWoVwWMMSeL55z5WHogSFbAh7bji9L2VT/b3lrG3Be045knbwtjjf
+	VonWl4UN9A5kUA7Qnj5ffJvYx5REURu60B1zFDxBZ08z4HkindVVTM5+shHHbYxGSPuxf+oSR59
+	DICBnHOH2SyavZGdknFE49bV/9pTyW6+Upo8IoHuHuVH36OfBH5LlRAYioLrhJMagshnGX565wC
+	50kGVq8SYVjkxhYvkhJclLdhihmb2ZPRkoE/q+AlMD1W+UPuaLD0RfPBjGXhSo0RZMmlvtjSo4J
+	itFyI1QvVgRLsjyMZE4s3
+X-Received: by 2002:a05:693c:83cf:10b0:36a:1427:3933 with SMTP id 5a478bee46e88-36a4236e7bemr1488656eec.16.1793319841432;
+        Thu, 29 Oct 2026 17:24:01 -0700 (PDT)
+Received: from MBP-Saravanan-D.civet-hops.ts.net ([67.208.231.220])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a42a77c0dsm2241458eec.26.2026.10.29.17.23.59
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 29 Oct 2026 17:24:00 -0700 (PDT)
+From: Saravanan D <saravanand@crusoe.ai>
+To: linux-nvme@lists.infradead.org
+Cc: Saravanan D <saravanand@crusoe.ai>,
+	kbusch@kernel.org,
+	hch@lst.de,
+	sagi@grimberg.me,
+	axboe@kernel.dk,
+	nilay@linux.ibm.com,
+	dwagner@suse.de,
+	sgogte@purestorage.com,
+	hare@kernel.org,
+	hare@suse.de,
+	linux-kernel@vger.kernel.org,
+	iyamahata@crusoe.ai,
+	kiyer@crusoe.ai,
+	ganbalagane@crusoe.ai,
+	sjpark@crusoe.ai,
+	bchen@crusoe.ai,
+	shinichiro.kawasaki@wdc.com
+Subject: Re: [PATCH v6 0/2] nvme-tcp: allow setting per-queue io_cpu through sysfs
+Date: Thu, 29 Oct 2026 17:23:40 -0700
+Message-ID: <20261030002344.92839-1-saravanand@crusoe.ai>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261023230426.6425-1-saravanand@crusoe.ai>
+References: <20261023230426.6425-1-saravanand@crusoe.ai>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20261029_172403_942227_7688AA58 
+X-CRM114-Status: UNSURE (   6.55  )
+X-CRM114-Notice: Please train this message.
+X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,12 +123,14 @@ X-Spam-Status: No, score=-8.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-> These error paths currently return success but they should return
-> -EOPNOTSUPP.
+A short status update on v6. The Sashiko review of v6 came back without
+findings [1], and Shin'ichiro confirmed that the blktests case nvme/075
+passes with the series applied [2]. The blktests patch linked v5 by
+mistake, the version under review is this v6 thread.
 
-Queued for 5.10, thanks.
+[1] https://sashiko.dev/#/patchset/20261023230426.6425-1-saravanand%40crusoe.ai
+[2] https://lore.kernel.org/linux-nvme/auMw5Gxg6toa8GD2@shinmob/
 
--- 
 Thanks,
-Sasha
+Saravanan D.
 
