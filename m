@@ -2,115 +2,114 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9083F606A31C
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 Oct 2026 20:59:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD009606B7B9
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Oct 2026 21:26:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=N9Aa/KqF;
-	dkim=pass (2048-bit key, unprotected) header.d=purestorage.com header.i=@purestorage.com header.a=rsa-sha256 header.s=google2022 header.b=KMZ2hPNb
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=AHg4HOIv;
+	dkim=pass (2048-bit key, unprotected) header.d=purestorage.com header.i=@purestorage.com header.a=rsa-sha256 header.s=google2022 header.b=DqNBr0Nm
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
 	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=Q6USGcPBbGiibCPbj0AvZUr4XyMx+DULAeB+QLoxL6Y=; b=N9Aa/KqFfZki0b
-	+bCvuE/bg9wMV3OXoB4IQOC2A8k9GlJ+kIJd17+L5YizWmPumLFdJmpLEqzIMj2NoUIaRvy1VEc/g
-	TP99cDtt5GwOVybnnvnDczRiY5TRRnH3JlwUcfpkr7L/63pMKSpaz5Bi8HUk6Poh2DPauAyJ6+ptH
-	PyLQWRylBQ584BH9de3iBXZNnsQk2klt8gOzqCQdMbjs5R7fPD8UfMG7oB/07z+1RWwfu9xb3rvgh
-	5sfdxXQ4+cWNdrYHZ9W6TPWn+KGHRDr4liEzcllO1VhliB6LsfBAMBLOJENlqq67J2AvC7d7mKl5p
-	qOVYYkF55614pFpflOdg==;
+	List-Owner; bh=6PnPZflWZGQkBJLvcdzUi8qDR8iMloTcXmEwdQBRUDQ=; b=AHg4HOIvFItJSb
+	yl41Y5iy4+T11ni0XHxsSXsY/lTZM4AKGvgwffcPes9Rp+aY3fdAvULAZ+reN63+hnZdXhwjOPA3i
+	hQXUP0QMx9RoGhT3JgzAxfnmhzOfd+PQJjedAUvJp+AwU54bwcTsXxd0FmTrvlXUygqd+AvG/4nav
+	HafJ8OK67Xn7rR0Zs506OMZr0ZlYr/+68zaHuM/0scPxUZqDu8mblqnU+Uo4v2E/+d+mRt4sjlqMm
+	nYnhqWi6AL/QNXh6S0R0zavoZg5jOuAiw4smz47BbY4XM9bMP0ysbZTL5EVEHbzsgofGI0Vr7B10F
+	qO5+YhQtP/Tk2y6dvapA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMtgm-0000000Caaz-0UQi;
-	Fri, 30 Oct 2026 20:59:04 +0000
-Received: from mail-vs1-xe30.google.com ([2607:f8b0:4864:20::e30])
+	id 1xMu6u-0000000CbhU-3GoB;
+	Fri, 30 Oct 2026 21:26:04 +0000
+Received: from mail-qt1-x834.google.com ([2607:f8b0:4864:20::834])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMtgj-0000000Caac-1SPM
+	id 1xMu6r-0000000Cbgw-3e48
 	for linux-nvme@lists.infradead.org;
-	Fri, 30 Oct 2026 20:59:02 +0000
-Received: by mail-vs1-xe30.google.com with SMTP id ada2fe7eead31-7bec5112765so778726137.1
-        for <linux-nvme@lists.infradead.org>; Fri, 30 Oct 2026 13:58:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793393938; cv=none;
+	Fri, 30 Oct 2026 21:26:03 +0000
+Received: by mail-qt1-x834.google.com with SMTP id d75a77b69052e-5365d26ccbdso15536931cf.0
+        for <linux-nvme@lists.infradead.org>; Fri, 30 Oct 2026 14:26:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793395559; cv=none;
         d=google.com; s=arc-20260327;
-        b=ElKh0utBjN484DoZKmotgEyDEzHKYgkF20x9l/GixKqGkv/AQSJLDI/tP/83RVjqSe
-         xNrMRWzWVYanR1/71OJZ2RP0w5P/0W6f15/aibm4P7XUTu96hj3cM36wc9yXg17OjoDp
-         9YttU315p8UEOwOuFjOP7ZoZxp1njNFBg13L6n6SNO6OPEY7s/NK6NngszlY64btq/CY
-         vbENm2Bvm44zg6/Ki25szR4DjE8NagnZTwnVbz2ZRyjtDuMCraPe++T8rH/nJkdVRKNu
-         hzY3DhJ+qv24fLpxn1a/+y0oLVGWohtCRBHw2pkaPr60NLXUNYGOrS6ePMje2V2PgxTh
-         0Uow==
+        b=I5RynuhdBUfKnS8ZINHw1aP9kS0mnL3x/Eknce2fPUCtwh6qD8owa63hAsBj6ay0sl
+         CTArGepGnTW90QbZ1Xhy13cSf9Y0Q4GYkqUn6sl7e4dgXg9ZBBjCXrIHA1pDEumDM0S1
+         eymSQHx52WhAg9W1Nig2dA3kR4er/pVQ0tAOkhUMqhYR0yaai6lr1TxfHQLb9Y852ZbN
+         9WR54QmdD0XQbI3uQ4oDC4Y5DVS10aXU1J2kcroZCmDY2iAh7ainmIOxbu3Bjrb1BHky
+         5r41C8Znyjl5BXQ7qPQJjaUnT+vr1FkkVLUtfVKiZ8MO9/VREKKEEJbAW5niwf8NN7Ck
+         MPdQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=Q6USGcPBbGiibCPbj0AvZUr4XyMx+DULAeB+QLoxL6Y=;
-        fh=3E6AYo4BGdCDrepOA/s3U8Axc4WBa4JOulxzDYxc2Qw=;
-        b=dsL6gLsFIG+ZQsanPcsSKNSN1FhvNVR5lDkTcWkOtk1ovKlPMJtnQBh2TmwEvIW0ov
-         ZxgdZM3IjuID/9vlPUIlvQveXHwgZw7EsY9zXTCSiZVw1q9Gx/smhi3k3ZrQ37VHELBQ
-         QEc2SD7I426Bo7gcTnFeeNUr4IAGLZ5XV/NEhk+5tPOsLERTCLtvEgmvAH1JSsxVd6Ih
-         d7zt2/O7wmiXfG8Dpk4koVeyssNljoywumHICYn4I2N1xPpi+5ZZW9MEnk6Cv1z9m4RM
-         o49His7lUy1m7gbhaHmdqA3+0cVV/ZsyS68Zdq2Qzqbo549IX0wbXeesOEQOU7HJQ+eg
-         rebQ==;
+        bh=6PnPZflWZGQkBJLvcdzUi8qDR8iMloTcXmEwdQBRUDQ=;
+        fh=dpYg5ZyPGssdK2QX8KES7/SA95S/yONaDE5PB2RwqyM=;
+        b=jxft5L47E3owVPUVkbU0pYdxvTubWgKjNOcq1B8Y4zOVuxdNGy+27ji7AeWkUiY8fw
+         LTEb4ynT88vrAwKUAtLq4OnDO3oZKj4KH0Vfa40mkcz+39nPTHD/yuL4WXIInpaz0K3s
+         3D6pucgx2ppCqen8yBCENmUIE3lWgqWfPZtuvZ4kRXJckEr8JxSJB76fmp26lcd8MIaA
+         fRH6jbYpXc6gejFkwkT2JEJ17L67m9c7pLglu38aXyUEU0bjrg7JBoCQhYsQcNstFzbU
+         imKceDh7MVmIWoMzgdq/3SkRi9LRtA+hiW0cPEDO1LMvdASZL8x11hdkIRwCox2NeiNn
+         Ax2Q==;
         darn=lists.infradead.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1793393938; x=1793998738; darn=lists.infradead.org;
+        d=purestorage.com; s=google2022; t=1793395559; x=1794000359; darn=lists.infradead.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=Q6USGcPBbGiibCPbj0AvZUr4XyMx+DULAeB+QLoxL6Y=;
-        b=KMZ2hPNb84w83MlaAjbeIwVrCuqbCCjAwEOa/jGUd/W8iVpnqa9e1DKZrZfjCbJ3i9
-         /FbsSC+QhjeNcrscOTjR6OPn+nDWJF1hlbiIym4NCdTk8UxgDRiCxov88WL+Sbr1Ma4R
-         aZClT63cvom9yWkv9kU8+P/64BrYIXDwyuznfPd9eeH8UTBdzzE/+3LuBbj3CrsH6Q1/
-         teClBQmfo2sPVrLrTd67K5f9WT/J6FTeuJLbWTyDfpKwJ9u49EclwdR/750cHoZMT7bh
-         WeiGXsj5mCOfn7j9eS4Sn3/2ZHvruF2L8GIHqfaFWpT9oZdoZu+haCucSQAofLfGM7rv
-         u9HQ==
+        bh=6PnPZflWZGQkBJLvcdzUi8qDR8iMloTcXmEwdQBRUDQ=;
+        b=DqNBr0NmRem50ImtSKatIA5vy9mvWkvxv+OnijF0w3MFeDeb6lH99KzGSGshfTSgD8
+         XgQuH+Tzhn1ycpjthq+fWX2ppZJC9XRoGZjw7iMoadxjSSRmNw1Mdtav1qgNOdE+C8hb
+         pgFCaUxjucqX5HFsYkXtSX76cpjziMqWDewq6dWU/QTMdgxBwDJHIkaiWuL8x2q6rfWR
+         JGJgd7zhkSHB5ScbO8ADHkrtNlZlq38VbB5rKF8pbStIpTQGcdYwFbS07g0cyOnlVTkt
+         F+CM6F1uD339tjvg4nZksDIoev7hn+ZPLgc3zzq0zc6FRWcXZByc2gOecvsguAQNZMBG
+         DCpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793393938; x=1793998738;
+        d=1e100.net; s=20260707; t=1793395559; x=1794000359;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Q6USGcPBbGiibCPbj0AvZUr4XyMx+DULAeB+QLoxL6Y=;
-        b=qIiiDbneVDllMzTODbdSjuT5HQepISVODA92s2ySVrQw1QmF1vTBdXBqNayvL8UmVW
-         lh30SW/bYGg/hqA9fwRyfFm95r/IUAYsPjA9oCcFUkfSGNKfiNoSP0bkeLzd2svHa8Lq
-         3igWNRGAsvQse2BYvbTRLqvwK0TuHwZDG5E6OhI8qj3Yj2oJZeC9iToDzoFcgv3nXfSr
-         QgVhWGhBmQjLm7mnooe5Cr7jBr/yuUpvcTMsr3ZyWozNIBNWIdbJBy0y/NOxI8KDOXEv
-         tu3uNuUYWZn4MDvhYX/clXWWdiOJO63fVZpFxCiaXUrSB7NSBgPEA6/ul5Pv8bqv8ceL
-         GpJg==
-X-Forwarded-Encrypted: i=1; AKwUvBw1phuTRfMFUkwSI5PrVT3xXcpsu67xpuM+UhhNBlcpD+4d+3Yfm3AbwRz8dj9bOFsKK+cZO7hesoGG@lists.infradead.org
-X-Gm-Message-State: AFq9FYIZem9CNo6x8c82YxwoxHx95c0b/2amQQES8IczXuLxiKx4o/Y7
-	f8z3aMJvhKylwjHjM5KVYntZl7ifili7yXxitgOcyeavNMxMDFtQL3mUanxAfzZNL9DSL1CBjtQ
-	YBpBVAe1KfWxvhA8mW30t3vdL1LXH65Y3j6kPCfVZkg==
-X-Gm-Gg: AYBFou1tN3RC9m+xrAqUqHwDxtpklBjAbNAFWXCkkt41zqIZb51kW7VFd+SIgmMTv8j
-	+HBvuVRti166yQkLPxmL1LR5smahZezqlAKz96eoB4ASQVMsE944yL+62aAHenvTqeztylVRmh2
-	I7RDtJ4PDh2lXfMxk13Frnn8FuyLyk9v9dl6bKU7+z+i3mQp1iMsvvkGQ8tUFmojeFrU6fOymzw
-	GB5RGMn6R1uTDByRBMYlxx6NMUPB2DJ8EBveKQZmnhA0OpUpKc491TYFuOgCOx61z0bqWVJot09
-	ZfmGR6q0vhIt85mlRQ1wypH1tAtrzccs93Zd5craKiZDONAFJ0Rv2UUKB+UdZGCvuJHI2k01oYh
-	mRLom5Ha1K4TnpX0Vyv5bNiN5xI4Y9OEVOgkJShHItc/9GMLbooNbjdpdEo5i5SC9cGSp7Qx2Pe
-	wNVKILqp0t8vqrdXWcF1/Jfg==
-X-Received: by 2002:a05:6102:4422:b0:7c3:7286:c291 with SMTP id
- ada2fe7eead31-7d072c3e082mr2023245137.19.1793393938021; Fri, 30 Oct 2026
- 13:58:58 -0700 (PDT)
+        bh=6PnPZflWZGQkBJLvcdzUi8qDR8iMloTcXmEwdQBRUDQ=;
+        b=pOB0onSKQBpWxsf3OhUF18jw7VbeJiLuJfn0Zv/W/155dsgCLe2XpcdOrvA3PizxG2
+         V8MxPCsADV03T1Klc3HGgRkutzAdnyr4U0rKmQSGcTvU4Xzd1vEfdXnvP2WVFNRAQZre
+         VGiKAwjFskeKhikOqA1tFScEkyTflXCjBSUpGav46E/QesvGyAypEervCmJVvDG22Hwc
+         zBwmDeHgSox94hGmfQ7WMyYEKMMo5oKad+I4vHmDH0rZ2sF4bouKK8lSLR8BEriLrU2a
+         9nkw4E4skEvn1FzLo0O/vF+nrCVPDFf8H62OYviAMUKVhOaWLDNPqyEnGgXC+S07amPI
+         Q/WQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzRmWEz3XP2wNXEdANPndrg01HAsy89hv/eszuK9vF+hHGk+QaotfRhWwEcG9/prm5r6vrizG5mh+O1@lists.infradead.org
+X-Gm-Message-State: AFq9FYJeWwxGHlJrt0X6mwlW93Q66wXH0uHDLeQdfHBj/Qx4lGmoktB7
+	Y+873OHT6U1y/cBVpZigvleVUlHeCekJ5DNlsgNbCEJL8v0hdrF8U9ALz7+A2c+cdrHDZp4BSKb
+	uYFNXt+LFICtTuh7dGp7Pn6ZluonrN5PlcOq0UH7mjA==
+X-Gm-Gg: AYBFou0lW3TIJ1AsfcwUC3ZKal9u2Ofl1iQgFjB9aihrbCGv1BvaCNflAoc1MDw7n6M
+	AOK34yMR1ifsPEIplB4d7qVCOtOp3C0rme7PU5Bu/HlNYqBHLs/niNreA2MvRI6LE3z39YWxFoV
+	HnVZErwOGE+5jD1sLyd5bRL5KVjDSOSDqse6gptIetdgEHe2sbBj1mNUq9zGSLrKC53ULNVLWbb
+	toeNwgBW6PbueuHRXOy6O7GNwSQKCI9zCkpTBlWygRYDxJIWYy3KLQS4tjsKe2bdbSX1aU8cTma
+	KGVQtvWaiCQ18LPrpDv4Q7Y4y09DCC3XW+MX5sBeVDHBG7xyLREMYndXwOqWrtUF+S3GNAbelpv
+	TBSxW5/nWKF85pLjqD6doG4/MUS7O+DQHjfV3
+X-Received: by 2002:ac8:5a04:0:b0:535:25db:17b1 with SMTP id
+ d75a77b69052e-542b62a459emr59994351cf.17.1793395559191; Fri, 30 Oct 2026
+ 14:25:59 -0700 (PDT)
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-References: <20260920182936.2317916-1-mkhalfella@purestorage.com> <20260920182936.2317916-6-mkhalfella@purestorage.com>
-In-Reply-To: <20260920182936.2317916-6-mkhalfella@purestorage.com>
-From: Randy Jennings <randyj@purestorage.com>
-Date: Fri, 30 Oct 2026 13:58:46 -0700
-X-Gm-Features: AclHuK8X6zhh06a0byCpdwLnjr3WBz6Rb-me0_VFRdAQiql9ckylY2x3JwQ4rBM
-Message-ID: <CAPpK+O3+eF=9WOVqDJptwfGdA+=XwFeTx-sMatq=bQLUPhMvVA@mail.gmail.com>
-Subject: Re: [PATCH v6 05/18] nvmet: Send an AEN on CCR completion
-To: Mohamed Khalfella <mkhalfella@purestorage.com>
+References: <20260922200718.3941465-1-sgogte@purestorage.com>
+ <20260922200718.3941465-4-sgogte@purestorage.com> <705f4452-3d07-4d91-9dcd-ea53b2cd75a5@gmail.com>
+In-Reply-To: <705f4452-3d07-4d91-9dcd-ea53b2cd75a5@gmail.com>
+From: "Surabhi Gogte (she/her)" <sgogte@purestorage.com>
+Date: Fri, 30 Oct 2026 14:25:22 -0700
+X-Gm-Features: AclHuK-E-tAbQfFFoffttX8JpmWen3SDKN4NyGsv3Y_ggaQL4RVBOp4lMFsPazQ
+Message-ID: <CAMof9cU5s0ck20fcSAYSvK-xpcP5_Hv2BmN20Bh3btpLum7THg@mail.gmail.com>
+Subject: Re: [PATCH v4 3/3] nvme-tcp: parallelize I/O queue allocation and startup
+To: Martin Belanger <martin.nvme.dev@gmail.com>
 Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, Justin Tee <justin.tee@broadcom.com>, 
-	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>, Paul Ely <paul.ely@broadcom.com>, 
-	Hannes Reinecke <hare@kernel.org>, Chaitanya Kulkarni <kch@nvidia.com>, James Smart <jsmart833426@gmail.com>, 
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Hannes Reinecke <hare@suse.de>
+	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, mkhalfella@purestorage.com, 
+	randyj@purestorage.com, adailey@purestorage.com, 
+	Hannes Reinecke <hare@kernel.org>, wagi@kernel.org, shinichiro.kawasaki@wdc.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261030_135901_707736_B45C17F4 
-X-CRM114-Status: GOOD (  15.65  )
+X-CRM114-CacheID: sfid-20261030_142601_919957_20337210 
+X-CRM114-Status: GOOD (  22.57  )
 X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -122,44 +121,65 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Sun, Sep 20, 2026 at 11:30=E2=80=AFAM Mohamed Khalfella
-<mkhalfella@purestorage.com> wrote:
+On Mon, Oct 26, 2026 at 3:57=E2=80=AFAM Martin Belanger
+<martin.nvme.dev@gmail.com> wrote:
 >
-> When an impacted controller that is the target of pending CCRs is torn
-> down, send an AEN to each source controller that issued a CCR against
-> it. The notification points to the CCR log page that the source
-> controller can read to check which CCR operation completed.
+> On 9/22/26 16:07, Surabhi Gogte wrote:
+>  > Similar to commit 2a8513091d2f ("nvme-rdma: parallelize I/O queue
+>  > allocation and startup"), refactor nvme tcp I/O queue setup to use asy=
+nc
+>  > API, combining allocation and startup into a single parallel operation
+>  > per queue. This reduces connection and reconnection setup time when
+>  > there are delays in establishing connections, which is especially
+>  > important for high-core-count hosts.
+> [...]
 >
-> Split nvmet_add_async_event() into a locked helper so the AEN can be
-> queued while ctrl->lock is already held.
+> Hi Surabhi,
 >
-> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-> index f5d7cb9c943a..69491e8e52ba 100644
-> --- a/drivers/nvme/target/core.c
-> +++ b/drivers/nvme/target/core.c
-> @@ -218,13 +218,19 @@ void nvmet_add_async_event(struct nvmet_ctrl *ctrl,=
- u8 event_type,
->         aen->event_info =3D event_info;
->         aen->log_page =3D log_page;
+> This patch breaks NVMe/TCP connects with TLS. This is a different bug
+> from the pf_cache_lock one that Shin'ichiro reported.
 >
-> -       mutex_lock(&ctrl->lock);
->         list_add_tail(&aen->entry, &ctrl->async_events);
-> -       mutex_unlock(&ctrl->lock);
+> Test: one VM with 4 CPUs, nvmet-tcp on 127.0.0.1 with tsas tls1.3, a
+> connect with --tls and 4 I/O queues, and tlshd at upstream commit
+> a0bd51d.
 >
->         queue_work(nvmet_aen_wq, &ctrl->async_event_work);
->  }
-...
-> +       lockdep_assert_held(&ctrl->lock);
-Is there a reason not to replace the mutex_lock() call with a
-lockdep_assert_held() call?
+> - Linus master 6b4b543fa187: 14 of 20 connects fail.
+> - Same tree with this patch reverted: 20 of 20 connects pass.
+> - Same tree with Daniel's pf_cache_lock fix [1]: 22 of 40 and 17 of 40
+>    connects fail.
+>
+> On each failed connect, one I/O queue logs:
+>
+>    nvme nvme0: queue 4: TLS handshake complete, error -110
+>
+> The tlshd that runs for the target logs:
+>
+>    failed to search 'psk' key 'NVMe0R01 <hostnqn> <subnqn>'
+>    gnutls: Error in password/key file. (-31)
+>
+> and closes the connection. The tlshd that runs for the host then gets
+> GNUTLS_E_PREMATURE_TERMINATION, which it reports to the kernel as
+> ETIMEDOUT. The other queues use the same PSK, and their handshakes
+> succeed. blktests nvme/062 and nvme/063 fail the same way.
+>
+> I can share the reproducer script.
 
-Reviewed-by: Randy Jennings <randyj@purestorage.com>
+Hey Martin, can you try the tests once with tlshd using commit 3a6658e
+("tlshd: Link the NFS keyrings per handshake instead of at startup")
+or ktls-utils 1.5. blktests nvme/062 and nvme/063 passed with this
+commit. I believe that change fixed the keyring race in tlshd
+independently. If the issue persists, let me know the reproducer
+script so I can also take a look. I saw the same errors while running
+blktests with an older tlshd version from ktls-utils 1.3.1 and
+updating tlshd worked.
+
+Best,
+Surabhi
 
