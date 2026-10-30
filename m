@@ -2,137 +2,110 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A744606A31D
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 Oct 2026 10:33:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F02D606A325
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Oct 2026 11:18:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=zKyTiU6I;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=DpC4Fhvy;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=vXEZe1pJ;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=DpC4Fhvy;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=vXEZe1pJ
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=rzPtbuiS;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lZvNNBNO
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Unsubscribe-Post:List-Owner;
-	bh=Q4jrBtDa9XdgPx65X4O9wIPTGTES0E0M7mDS6n2yd28=; b=zKyTiU6IirnSZypb2if6PLAzQT
-	od6wxw2mYAKXIOiJ0CLccTz5Cvnc9u/Wu+RWJTUxTdr6wcXbLDuBkUDRhBvw8YaYejfa+cv6rwLkq
-	w0ZkjrZpWkOjNz9K8d0kkZdc2vdpSr0nmKRfGijkRfkruRpR9G6UdBdNGPj547Gq6Tq5vaje+hUzn
-	2YJRCI+WyfewMJNgVVnH2ccyMYaK3Hilj2nJLt6/KBUQ+fX3HNfh669G1C2PworkZKGJTTqLBM85j
-	Fs9YeLwhVqzE0jOcAFQA0Z9ilt/HzuyhvpT4ohPf833VEkCVi1Ohp1ykc/xEB/uH3eC9zClfKATNW
-	g/xlMYiw==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:
+	References:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:
+	Subject:Date:From:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
+	List-Owner; bh=NXLKMZwLfVx9UsX7y2gYH9+eai5hc+ie92CesIACQhk=; b=rzPtbuiSatTBH0
+	fVqOVr7i8Frma+Kg5dgLg/Bf3QE37B3F0f645zPWCM53QI85/kvPj98ibf90/oFrO8u7Q7hzZYxqu
+	ZYYWOck3TxJZf8DWtoeBhu/ABK3BMTNp5q9zFbG6nPCrviEpmTOKAm7PDLinCTA3g0tc6hWkGyLfp
+	Y+ABQ4xngYsKX51JHLBxotILAg3C8Qta7g97Ts7Ta0Y7frmQ43tCZeRCNMCIfuFEiTm03t3BeKUJo
+	+ERCxKM+NP1CTf3l/Cd4NNPYJBoZNaljVhXX8p/I/ZAgDDx3WUdgYbgd7+h3uuwGr7gTBAOjwlBu4
+	4LWsU66H1U5eUW2RK+1g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMjux-0000000BPK7-01QU;
-	Fri, 30 Oct 2026 10:33:03 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1xMkcn-0000000BWc2-3s0u;
+	Fri, 30 Oct 2026 11:18:21 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMjut-0000000BPJn-3dau
+	id 1xMkcm-0000000BWbT-0SBF
 	for linux-nvme@lists.infradead.org;
-	Fri, 30 Oct 2026 10:33:01 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	Fri, 30 Oct 2026 11:18:20 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id D7F3643A43;
+	Fri, 30 Oct 2026 11:18:19 +0000 (UTC)
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1793359099;
+	b=b+g97pB62jXM03e2IOIIyWEwPco3VgotX491u0LQ49KaH3ZM0XMx2h1af4U2gDuBppT/
+	 NHesugwwsdy1YK9PeQM4ZIXtTeL8F6D31Sx30dGcnDMTjJypMKWl+qZOCRXBRKj366Hxj
+	 r7BrlPDP9tVo12oa6R9qGt8JU7chsvLfUAFXaMuN9pvjO41sgfs/lrfZU8OlWuYMTxcPb
+	 3BzOtz+CQ5WGkvdkNQfRCDh0J6byHyFHffXBo5GVT0COOevhzB3wP9jUb/2CJSxyVhPaL
+	 OSNfS2Jam7XggmRTWiLw1FqUH2FKallCmFbWDNx1lUL85PzTCzh4yBX4RNUkcMlmgDw==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1793359099;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=NXLKMZwLfVx9UsX7y2gYH9+eai5hc+ie92CesIACQhk=;
+	b=Bm+4TZ4iJYZ1OEoOjRU9/fo1ZdMNJ6yG8W17sDynMtikQPqYex3gNZ9fN6STJ1yvM4E2
+	 WKtbav3OHSA2PMswNp1yv9U9eS2u0xQUqULdtwC+v6BpGyV2Gm1q0Z8+NzeyrfQ4XnE6X
+	 9utnh3HVmRMeKpV6WJIDxe+efwwS8+tarpJrmNW4+xV2KvvdmJ/+ZcHjchiGY+czakPib
+	 jGzejzfN6pfkbGAWwatS+jVflzuj6YbGnG2Y2AtjDEiwisRYG4VRwQXFQ+yjHfsHc8T6E
+	 lV58JPUvBVJm4CKQJQ1DZd+Bp1v6yHWoaFf9xdQxeDG1TqDusgL631Z8f/9yGl1ojEA==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9C88821EB0;
-	Fri, 30 Oct 2026 10:32:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793356377; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Q4jrBtDa9XdgPx65X4O9wIPTGTES0E0M7mDS6n2yd28=;
-	b=DpC4FhvycI7jwNItULPTfitzNbDGIKcx1UT4Xr9bU22B3MUMo2OqDylLIfSeKaj+Ph0OxZ
-	Mq4M4P0tdIrBhQYvS0lE78SIQ11LQ9oL5eT6GVdtg1vEXlttJ+nfyAS8siOdc9+w3a2TPD
-	X2hHbFdRKnrMSz7cn5xKqvUHccUADxM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793356377;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Q4jrBtDa9XdgPx65X4O9wIPTGTES0E0M7mDS6n2yd28=;
-	b=vXEZe1pJz/CvXHkQLyskU5i1XIX/K6kfLkF0W+dVogxYpwSayYUrI53tfYlTZPflR8N27b
-	6CHVqZ5u+uPej1Aw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793356377; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Q4jrBtDa9XdgPx65X4O9wIPTGTES0E0M7mDS6n2yd28=;
-	b=DpC4FhvycI7jwNItULPTfitzNbDGIKcx1UT4Xr9bU22B3MUMo2OqDylLIfSeKaj+Ph0OxZ
-	Mq4M4P0tdIrBhQYvS0lE78SIQ11LQ9oL5eT6GVdtg1vEXlttJ+nfyAS8siOdc9+w3a2TPD
-	X2hHbFdRKnrMSz7cn5xKqvUHccUADxM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793356377;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Q4jrBtDa9XdgPx65X4O9wIPTGTES0E0M7mDS6n2yd28=;
-	b=vXEZe1pJz/CvXHkQLyskU5i1XIX/K6kfLkF0W+dVogxYpwSayYUrI53tfYlTZPflR8N27b
-	6CHVqZ5u+uPej1Aw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 656AD13419;
-	Fri, 30 Oct 2026 10:32:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id lMp1EFly5GonIQAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Fri, 30 Oct 2026 10:32:57 +0000
-Date: Fri, 30 Oct 2026 11:32:52 +0100
-From: Daniel Wagner <dwagner@suse.de>
-To: Mohamed Khalfella <mkhalfella@purestorage.com>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	Justin Tee <justin.tee@broadcom.com>, Naresh Gottumukkala <nareshgottumukkala83@gmail.com>, 
-	Paul Ely <paul.ely@broadcom.com>, Hannes Reinecke <hare@kernel.org>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, James Smart <jsmart833426@gmail.com>, 
-	Randy Jennings <randyj@purestorage.com>, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH v6 07/18] nvme: Introduce FENCING and FENCED controller
- states
-Message-ID: <fe4f3c98-492c-418a-9ff2-b3c6cf5446cf@flourine.local>
-References: <20260920182936.2317916-1-mkhalfella@purestorage.com>
- <20260920182936.2317916-8-mkhalfella@purestorage.com>
- <179242929827.3619480.8550407233438315193.b4-review@b4>
- <20261019212630.GN2931-mkhalfella@purestorage.com>
- <7e73057c-698a-4ce6-b153-3b8b1077f77c@flourine.local>
- <20261021183357.GX2931-mkhalfella@purestorage.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id 0DB6D1F00A15;
+	Fri, 30 Oct 2026 11:18:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793359099;
+	bh=NXLKMZwLfVx9UsX7y2gYH9+eai5hc+ie92CesIACQhk=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=lZvNNBNOG0HA/XqvtezdJ0wwotr/h6eQHj+uw885wLaD4kOgUp5GzOKUoE4y++QY8
+	 ssOZZ3TdNIkJ7Hx6KJS0XF2hYBOHne1YKmaHl5kmGZ4t8fOWVf6BU/UJR2xOTXI2xX
+	 b/+ao7P+X1nr15XAoaUWJWDAeCGbEZkbA7murCm6CB2uvmp4NS7MSGBuTdDYcQvLhu
+	 2NCt73dX+GbtSk3d2ednQiHLSEgeQYqfmkgtKbXu38iTFDSLxgMKVgcJB5zH57toYF
+	 UUA9xx3zjyAuGqdIEWsmUAVGGRJl19i98gKpqArskVK9c6WZIbGOKfANHcFK9VVtPW
+	 Ua3bZkQOKG9yQ==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 6A6584376E;
+	Fri, 30 Oct 2026 11:18:17 +0000 (UTC)
+From: Martin Belanger via B4 Relay <devnull+martin.nvme.dev.gmail.com@kernel.org>
+Date: Fri, 30 Oct 2026 07:18:12 -0400
+Subject: [PATCH RFC net-next v3 1/5] tls: add HKDF-Expand-Label for the TLS
+ 1.3 key schedule
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261021183357.GX2931-mkhalfella@purestorage.com>
-X-Spam-Level: 
-X-Spamd-Result: default: False [-13.30 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,kernel.dk,lst.de,grimberg.me,broadcom.com,gmail.com,nvidia.com,purestorage.com,lists.infradead.org,vger.kernel.org,suse.de];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -13.30
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261030_033300_071997_7C5761D6 
-X-CRM114-Status: GOOD (  10.60  )
-X-Spam-Score: -2.1 (--)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261030-keyupdate-rfc-v3-1-8e1e32226e51@gmail.com>
+References: <20261030-keyupdate-rfc-v3-0-8e1e32226e51@gmail.com>
+In-Reply-To: <20261030-keyupdate-rfc-v3-0-8e1e32226e51@gmail.com>
+To: John Fastabend <john.fastabend@gmail.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Sabrina Dubroca <sd@queasysnail.net>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, Shuah Khan <shuah@kernel.org>
+Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ Hannes Reinecke <hare@kernel.org>, Chuck Lever <cel@kernel.org>, 
+ kernel-tls-handshake@lists.linux.dev, linux-nvme@lists.infradead.org, 
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Martin Belanger <martin.belanger@dell.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793359096; l=5308;
+ i=martin.nvme.dev@gmail.com; s=20261014; h=from:subject:message-id;
+ bh=pH4YhE4u4x17EaEwNK+mf52ndKZ9YKny0gD+XRiyqAU=;
+ b=flTjih4A1uyocLlnTD8jLvnlDvC6gZdMahE8UA++tQ7KnPxvQMG9JtuhRk83N8LlaHuanZbjL
+ PUaBwG39rWnC/PQWGb2UKSweP/NZdt8hmDWQLdaGOxU/TWQoM2doodX
+X-Developer-Key: i=martin.nvme.dev@gmail.com; a=ed25519;
+ pk=4K+XXetGK35w2LzRRddd/bbHawZU222BN+YZRuSpN+k=
+X-Endpoint-Received: by B4 Relay for martin.nvme.dev@gmail.com/20261014
+ with auth_id=1176
+X-Original-From: Martin Belanger <martin.nvme.dev@gmail.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -142,19 +115,167 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: martin.nvme.dev@gmail.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Wed, Oct 21, 2026 at 11:33:57AM -0700, Mohamed Khalfella wrote:
-> Is Documentation/ABI/stable/sysfs-nvme a living history of sysfs-nvme
-> documentation or a documentation for the specific kernel release?
+From: Martin Belanger <martin.belanger@dell.com>
 
-I understand it documents the sysfs API. sysfs is supposed to be stable,
-so adding a new state is factually a breaking change. The document
-should document the current API the kernel provides.
+A TLS 1.3 KeyUpdate derives the next traffic secret, key and IV with
+HKDF-Expand-Label (RFC 9846, section 7.2). Add the helper for the
+kernel to do this itself.
+
+Only the part of the key schedule after the handshake is needed. The
+input is a traffic secret, which is already a pseudorandom key, so
+HKDF-Extract is not needed. Each output is at most Hash.length bytes,
+so each derivation is a single HMAC with the library SHA-256 or SHA-384
+functions.
+
+Assisted-by: LLM
+Reviewed-by: Hannes Reinecke <hare@kernel.org>
+Signed-off-by: Martin Belanger <martin.belanger@dell.com>
+---
+ net/tls/Kconfig    |  2 ++
+ net/tls/Makefile   |  2 +-
+ net/tls/tls.h      |  2 ++
+ net/tls/tls_hkdf.c | 82 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 87 insertions(+), 1 deletion(-)
+
+diff --git a/net/tls/Kconfig b/net/tls/Kconfig
+index 4f4d5973a28f..6183ebe954ee 100644
+--- a/net/tls/Kconfig
++++ b/net/tls/Kconfig
+@@ -8,6 +8,8 @@ config TLS
+ 	select CRYPTO
+ 	select CRYPTO_AES
+ 	select CRYPTO_GCM
++	select CRYPTO_LIB_SHA256
++	select CRYPTO_LIB_SHA512
+ 	select NET_SOCK_MSG
+ 	default n
+ 	help
+diff --git a/net/tls/Makefile b/net/tls/Makefile
+index 4c7d296081ee..6edcf1271b75 100644
+--- a/net/tls/Makefile
++++ b/net/tls/Makefile
+@@ -7,6 +7,6 @@ CFLAGS_trace.o := -I$(src)
+ 
+ obj-$(CONFIG_TLS) += tls.o
+ 
+-tls-y := tls_main.o tls_sw.o tls_proc.o trace.o tls_strp.o
++tls-y := tls_main.o tls_sw.o tls_proc.o trace.o tls_strp.o tls_hkdf.o
+ 
+ tls-$(CONFIG_TLS_DEVICE) += tls_device.o tls_device_fallback.o
+diff --git a/net/tls/tls.h b/net/tls/tls.h
+index 60a37bdaaa25..b2061f6bf065 100644
+--- a/net/tls/tls.h
++++ b/net/tls/tls.h
+@@ -147,6 +147,8 @@ void tls_strp_abort_strp(struct tls_strparser *strp, int err);
+ int init_prot_info(struct tls_prot_info *prot,
+ 		   const struct tls_crypto_info *crypto_info,
+ 		   const struct tls_cipher_desc *cipher_desc);
++int tls_hkdf_expand_label(const u8 *secret, size_t secret_len,
++			  const char *label, u8 *out, size_t out_len);
+ int tls_set_sw_offload(struct sock *sk, int tx,
+ 		       struct tls_crypto_info *new_crypto_info);
+ void tls_update_rx_zc_capable(struct tls_context *tls_ctx);
+diff --git a/net/tls/tls_hkdf.c b/net/tls/tls_hkdf.c
+new file mode 100644
+index 000000000000..49e33146ac7e
+--- /dev/null
++++ b/net/tls/tls_hkdf.c
+@@ -0,0 +1,82 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/* Copyright (c) 2026 Dell Technologies Inc. or its subsidiaries.
++ *
++ * TLS 1.3 HKDF-Expand-Label, RFC 9846 section 7.1.
++ *
++ * TLS 1.3 derives all of its secrets and keys with HKDF (RFC 5869). The
++ * TLS handshake runs in user space and gives the kernel one application
++ * traffic secret for each direction. For a KeyUpdate, the kernel derives
++ * the next traffic secret from the current one (section 7.2), and the
++ * new key and IV from the next traffic secret (section 7.3). Both steps
++ * use only HKDF-Expand-Label, so this file implements only that
++ * function, not the full key schedule of the handshake.
++ *
++ * The input is always a traffic secret. It is already a random key of
++ * the hash length, so HKDF-Extract is not needed. No output is longer
++ * than the hash, so HKDF-Expand is a single HMAC.
++ */
++
++#include <crypto/sha2.h>
++#include <linux/errno.h>
++#include <linux/string.h>
++#include <linux/unaligned.h>
++
++#include "tls.h"
++
++#define TLS_HKDF_LABEL_PREFIX		"tls13 "
++#define TLS_HKDF_LABEL_PREFIX_LEN	(sizeof(TLS_HKDF_LABEL_PREFIX) - 1)
++#define TLS_HKDF_LABEL_MAX		32
++
++/**
++ * tls_hkdf_expand_label - HKDF-Expand-Label with an empty context
++ * @secret: the secret
++ * @secret_len: length of @secret, which selects the hash: SHA-256 for
++ *	SHA256_DIGEST_SIZE, SHA-384 for SHA384_DIGEST_SIZE
++ * @label: the label, without the "tls13 " prefix
++ * @out: output buffer
++ * @out_len: number of bytes to derive, at most @secret_len
++ *
++ * Return: 0 on success, -EINVAL if a length is not valid.
++ */
++int tls_hkdf_expand_label(const u8 *secret, size_t secret_len,
++			  const char *label, u8 *out, size_t out_len)
++{
++	u8 info[2 + 1 + TLS_HKDF_LABEL_PREFIX_LEN + TLS_HKDF_LABEL_MAX + 1 + 1];
++	size_t label_len = strlen(label);
++	u8 tmp[SHA384_DIGEST_SIZE];
++	size_t pos = 0;
++
++	if (secret_len != SHA256_DIGEST_SIZE &&
++	    secret_len != SHA384_DIGEST_SIZE)
++		return -EINVAL;
++	if (!out_len || out_len > secret_len || label_len > TLS_HKDF_LABEL_MAX)
++		return -EINVAL;
++
++	/* struct {
++	 *	uint16 length;
++	 *	opaque label<7..255>;
++	 *	opaque context<0..255>;
++	 * } HkdfLabel;
++	 *
++	 * followed by the HKDF-Expand counter for the first output block.
++	 */
++	put_unaligned_be16(out_len, info);
++	pos += 2;
++	info[pos++] = TLS_HKDF_LABEL_PREFIX_LEN + label_len;
++	memcpy(info + pos, TLS_HKDF_LABEL_PREFIX, TLS_HKDF_LABEL_PREFIX_LEN);
++	pos += TLS_HKDF_LABEL_PREFIX_LEN;
++	memcpy(info + pos, label, label_len);
++	pos += label_len;
++	info[pos++] = 0;	/* empty context */
++	info[pos++] = 1;	/* counter */
++
++	if (secret_len == SHA256_DIGEST_SIZE)
++		hmac_sha256_usingrawkey(secret, secret_len, info, pos, tmp);
++	else
++		hmac_sha384_usingrawkey(secret, secret_len, info, pos, tmp);
++
++	memcpy(out, tmp, out_len);
++	memzero_explicit(tmp, sizeof(tmp));
++
++	return 0;
++}
+
+-- 
+2.53.0
+
+
 
