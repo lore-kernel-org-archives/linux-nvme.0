@@ -2,14 +2,14 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C976606B808
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 Oct 2026 10:30:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A744606A31D
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Oct 2026 10:33:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=PIcSc+ae;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=U872c2om;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=+ubaVylM;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=U872c2om;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=+ubaVylM
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=zKyTiU6I;
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=DpC4Fhvy;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=vXEZe1pJ;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=DpC4Fhvy;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=vXEZe1pJ
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
@@ -17,73 +17,72 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=gWX+3wDbQkVauWcmK8OBTIu0g/Gz7UWDoYtFmjHOmGY=; b=PIcSc+aexK7SqSdurDt90oub/J
-	vwa9HW6BZsDav+HxiOFHaZDY+dzeRfnRAExQ1uEbvj+CMwEX6VgWY25CZ/vRyXakTLbV+g5QliYGU
-	1HprP8pv8rpTW6uc8pxQucX0HXwetEhcYWGGJ0b2j0qiwZZxKGrPrnCY1IRf5m8GmNIOIZ/++Qajs
-	TXwCE/OrGzjAvgZCXVP6jrz249nu8sQYAvxmk6FeCqAih+QXFsi99fA5euLBIvdhJBBS1rd4XZAov
-	GICPBVfxCSQgMflAjZ4Ct4MDVJd8V+2nTLxHietFH2x8C6mPrsETT7GSWloIXYRcMlqgXclS4C3bb
-	D1LC8GQA==;
+	bh=Q4jrBtDa9XdgPx65X4O9wIPTGTES0E0M7mDS6n2yd28=; b=zKyTiU6IirnSZypb2if6PLAzQT
+	od6wxw2mYAKXIOiJ0CLccTz5Cvnc9u/Wu+RWJTUxTdr6wcXbLDuBkUDRhBvw8YaYejfa+cv6rwLkq
+	w0ZkjrZpWkOjNz9K8d0kkZdc2vdpSr0nmKRfGijkRfkruRpR9G6UdBdNGPj547Gq6Tq5vaje+hUzn
+	2YJRCI+WyfewMJNgVVnH2ccyMYaK3Hilj2nJLt6/KBUQ+fX3HNfh669G1C2PworkZKGJTTqLBM85j
+	Fs9YeLwhVqzE0jOcAFQA0Z9ilt/HzuyhvpT4ohPf833VEkCVi1Ohp1ykc/xEB/uH3eC9zClfKATNW
+	g/xlMYiw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMjsF-0000000BOsj-0rE1;
-	Fri, 30 Oct 2026 10:30:15 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1xMjux-0000000BPK7-01QU;
+	Fri, 30 Oct 2026 10:33:03 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMjsC-0000000BOrN-0Fro
+	id 1xMjut-0000000BPJn-3dau
 	for linux-nvme@lists.infradead.org;
-	Fri, 30 Oct 2026 10:30:13 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	Fri, 30 Oct 2026 10:33:01 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 1F1C51F444;
-	Fri, 30 Oct 2026 10:30:10 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 9C88821EB0;
+	Fri, 30 Oct 2026 10:32:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793356210; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793356377; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gWX+3wDbQkVauWcmK8OBTIu0g/Gz7UWDoYtFmjHOmGY=;
-	b=U872c2om+l5s0slBW2tUfcM6ttsLSA9beDUHvJl24u8mc4xyEHY9/e5bH07fP0ew7bF4nP
-	04c8POr4XKkiiZorrtU1MGCapteQpXTZamHis+Y/WTRuuhq+MHzw0/Z10VAGCAmLWaEWRq
-	nDhS9tRo3zuZJFeg35Xl5yS3shthsCE=
+	bh=Q4jrBtDa9XdgPx65X4O9wIPTGTES0E0M7mDS6n2yd28=;
+	b=DpC4FhvycI7jwNItULPTfitzNbDGIKcx1UT4Xr9bU22B3MUMo2OqDylLIfSeKaj+Ph0OxZ
+	Mq4M4P0tdIrBhQYvS0lE78SIQ11LQ9oL5eT6GVdtg1vEXlttJ+nfyAS8siOdc9+w3a2TPD
+	X2hHbFdRKnrMSz7cn5xKqvUHccUADxM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793356210;
+	s=susede2_ed25519; t=1793356377;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gWX+3wDbQkVauWcmK8OBTIu0g/Gz7UWDoYtFmjHOmGY=;
-	b=+ubaVylMoXWSkziqAJl1B8r6pgKqlkKsFJrhHQr8SqhXdfJQoYZ+iDKNSA/6DZDUFfiCIN
-	3jc2p3HU0aJ/1wAw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=U872c2om;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=+ubaVylM
+	bh=Q4jrBtDa9XdgPx65X4O9wIPTGTES0E0M7mDS6n2yd28=;
+	b=vXEZe1pJz/CvXHkQLyskU5i1XIX/K6kfLkF0W+dVogxYpwSayYUrI53tfYlTZPflR8N27b
+	6CHVqZ5u+uPej1Aw==
+Authentication-Results: smtp-out1.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793356210; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793356377; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gWX+3wDbQkVauWcmK8OBTIu0g/Gz7UWDoYtFmjHOmGY=;
-	b=U872c2om+l5s0slBW2tUfcM6ttsLSA9beDUHvJl24u8mc4xyEHY9/e5bH07fP0ew7bF4nP
-	04c8POr4XKkiiZorrtU1MGCapteQpXTZamHis+Y/WTRuuhq+MHzw0/Z10VAGCAmLWaEWRq
-	nDhS9tRo3zuZJFeg35Xl5yS3shthsCE=
+	bh=Q4jrBtDa9XdgPx65X4O9wIPTGTES0E0M7mDS6n2yd28=;
+	b=DpC4FhvycI7jwNItULPTfitzNbDGIKcx1UT4Xr9bU22B3MUMo2OqDylLIfSeKaj+Ph0OxZ
+	Mq4M4P0tdIrBhQYvS0lE78SIQ11LQ9oL5eT6GVdtg1vEXlttJ+nfyAS8siOdc9+w3a2TPD
+	X2hHbFdRKnrMSz7cn5xKqvUHccUADxM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793356210;
+	s=susede2_ed25519; t=1793356377;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gWX+3wDbQkVauWcmK8OBTIu0g/Gz7UWDoYtFmjHOmGY=;
-	b=+ubaVylMoXWSkziqAJl1B8r6pgKqlkKsFJrhHQr8SqhXdfJQoYZ+iDKNSA/6DZDUFfiCIN
-	3jc2p3HU0aJ/1wAw==
+	bh=Q4jrBtDa9XdgPx65X4O9wIPTGTES0E0M7mDS6n2yd28=;
+	b=vXEZe1pJz/CvXHkQLyskU5i1XIX/K6kfLkF0W+dVogxYpwSayYUrI53tfYlTZPflR8N27b
+	6CHVqZ5u+uPej1Aw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E389D13419;
-	Fri, 30 Oct 2026 10:30:09 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 656AD13419;
+	Fri, 30 Oct 2026 10:32:57 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id NBBiL7Fx5GoJHgAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Fri, 30 Oct 2026 10:30:09 +0000
-Date: Fri, 30 Oct 2026 11:30:00 +0100
+	id lMp1EFly5GonIQAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Fri, 30 Oct 2026 10:32:57 +0000
+Date: Fri, 30 Oct 2026 11:32:52 +0100
 From: Daniel Wagner <dwagner@suse.de>
 To: Mohamed Khalfella <mkhalfella@purestorage.com>
 Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
@@ -93,57 +92,47 @@ Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
 	Chaitanya Kulkarni <kch@nvidia.com>, James Smart <jsmart833426@gmail.com>, 
 	Randy Jennings <randyj@purestorage.com>, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
 	Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH v6 02/18] nvmet/debugfs: Export controller CIU and CIRN
- via debugfs
-Message-ID: <69bf549b-5b03-45ed-a18f-799c6e0efca4@flourine.local>
+Subject: Re: [PATCH v6 07/18] nvme: Introduce FENCING and FENCED controller
+ states
+Message-ID: <fe4f3c98-492c-418a-9ff2-b3c6cf5446cf@flourine.local>
 References: <20260920182936.2317916-1-mkhalfella@purestorage.com>
- <20260920182936.2317916-3-mkhalfella@purestorage.com>
- <179241127352.3544975.2554197788837860779.b4-reply@b4>
- <20261019190106.GK2931-mkhalfella@purestorage.com>
- <a3852ed1-4b6d-44e7-b4de-bc1c6a3b635b@flourine.local>
- <20261021183859.GY2931-mkhalfella@purestorage.com>
+ <20260920182936.2317916-8-mkhalfella@purestorage.com>
+ <179242929827.3619480.8550407233438315193.b4-review@b4>
+ <20261019212630.GN2931-mkhalfella@purestorage.com>
+ <7e73057c-698a-4ce6-b153-3b8b1077f77c@flourine.local>
+ <20261021183357.GX2931-mkhalfella@purestorage.com>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261021183859.GY2931-mkhalfella@purestorage.com>
-X-Spamd-Result: default: False [-14.51 / 50.00];
+In-Reply-To: <20261021183357.GX2931-mkhalfella@purestorage.com>
+X-Spam-Level: 
+X-Spamd-Result: default: False [-13.30 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
-	DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[kernel.org,kernel.dk,lst.de,grimberg.me,broadcom.com,gmail.com,nvidia.com,purestorage.com,lists.infradead.org,vger.kernel.org,suse.de];
-	DKIM_TRACE(0.00)[suse.de:+];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -14.51
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 1F1C51F444
+	FREEMAIL_CC(0.00)[kernel.org,kernel.dk,lst.de,grimberg.me,broadcom.com,gmail.com,nvidia.com,purestorage.com,lists.infradead.org,vger.kernel.org,suse.de];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -13.30
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261030_033012_275631_DBCD34D4 
-X-CRM114-Status: GOOD (  11.25  )
-X-Spam-Score: -4.4 (----)
+X-CRM114-CacheID: sfid-20261030_033300_071997_7C5761D6 
+X-CRM114-Status: GOOD (  10.60  )
+X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -161,11 +150,11 @@ X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Wed, Oct 21, 2026 at 11:38:59AM -0700, Mohamed Khalfella wrote:
-> Good to know that nvme-cli now parses these fields. That is said, the
-> sysfs and debugfs attributes are useful to have. Say the controller is
-> stuck in a state that it can not process an identify command.
+On Wed, Oct 21, 2026 at 11:33:57AM -0700, Mohamed Khalfella wrote:
+> Is Documentation/ABI/stable/sysfs-nvme a living history of sysfs-nvme
+> documentation or a documentation for the specific kernel release?
 
-Fair enough. I didn't consider this, in this case having the values can
-be helpful. Please add this info to the commit message.
+I understand it documents the sysfs API. sysfs is supposed to be stable,
+so adding a new state is factually a breaking change. The document
+should document the current API the kernel provides.
 
