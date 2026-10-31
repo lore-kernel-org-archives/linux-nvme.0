@@ -2,94 +2,58 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 834A2606A31A
-	for <linux-nvme@archiver.kernel.org>; Sat, 31 Oct 2026 08:35:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DF1D606A31C
+	for <linux-nvme@archiver.kernel.org>; Sat, 31 Oct 2026 08:43:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=2LwRudDY;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Xp4Amijb
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=qQmFwFKj;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gmTX1fp6
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Cc:To:Subject:
+	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=WLiyauFtJhuMbP58y+JmNLKI5+Crt03dR88sII+z+Zc=; b=2LwRudDYSx+sc9boc91m1903If
-	9nyTKsk321kaIDKxtVtxdGKBX7F+H7WrBnNp/Y+rjwy2QQUGVREvBSWRgCZeqz2PuzPWtx03Cte/V
-	OoJDuRRYhBhH2OnX3IPKifPnWnURc5zHDVroEDVjiEs74iBBbV3HMBdj5yGBSl02hfy3DkbnfREPg
-	I4s3pEPsslu9kUf0bpo0TExn8PA2cCG77IIt422deZ2ZbdP3QrPfhao9miF0hDvna6eFR2Oe0oKFo
-	NBMnENqas8+JA+iwWzCnXZaWsdsMx4eLLmpLDAfDVVAMszxXQqq9gbG1g9Dw0R+brt99hmtJdrHUW
-	g2g/Zm8g==;
+	bh=SlJ2nuAXRS3J78+B743Bvt2saDbJrdU/ZeRQWeafmXI=; b=qQmFwFKjLfXQ/kW5C7YbUyxDQI
+	rmzZYzjcUe1Vs3QiVVwa9tqv+5Zm14f0NXsBaSaGAFFgBPFtaKV8PPshj+7M0zd3YygQkGzx8teYs
+	rgEtHVtoVGtgfYQyh3JOg9506Tf9SY6+aKG1PUi/M6LU9byNgtq8Gl7zhfNQ0A6GaYQpKSCnP0iaY
+	6J/DnzQlj6sR0IgrLCV9NDnDc6B8npSoIg+eU+/T1EXpkODOuEGAh7aGbwXZBsjvY6ib7PZG9U+IA
+	7dnGIOx5fR8Z4lO7AstCpw2Y2Q9odTnv+WDnWSc9GD9GTQDBCk10qXBjFxuMmnEYx8oOMx9oX91gE
+	dJcLHQ+A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xN4Z1-0000000D4lo-2UeX;
-	Sat, 31 Oct 2026 08:35:47 +0000
-Received: from mail-dl1-x122d.google.com ([2607:f8b0:4864:20::122d])
+	id 1xN4gI-0000000D58G-1wzv;
+	Sat, 31 Oct 2026 08:43:18 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xN4Yy-0000000D4l6-1K3H
+	id 1xN4gH-0000000D580-0szE
 	for linux-nvme@lists.infradead.org;
-	Sat, 31 Oct 2026 08:35:45 +0000
-Received: by mail-dl1-x122d.google.com with SMTP id a92af1059eb24-14394530ec6so1924493c88.1
-        for <linux-nvme@lists.infradead.org>; Sat, 31 Oct 2026 01:35:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793435743; x=1794040543; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=WLiyauFtJhuMbP58y+JmNLKI5+Crt03dR88sII+z+Zc=;
-        b=Xp4AmijbjimH+rb7Fd6tfPOUtW+M+qfFQQRDJN5GsZp67uxf7qMwo/EfpQBNgnF8P2
-         dKX+7DgaJkOoFidZs3ME3G5Tjco57awr1PwNTkBqQPo+Fl3boZCh1LMvJc51Si7BYoBN
-         Wm98URchri3XlGtUOVKXlNdJ+vDXlLFfg7XHFfRdNCR6DTtNul+yvoo29f7f26t/6bjM
-         /jbpr7s5lZxOnpQnvdox44yzr9xa7SZWk2Qy61Hti7sZlDgKSNKfFI7J3yCdtsrkKhat
-         BVSKtCnFCZw64uw9h+4gZE3fc30nHn2evxtKy/4kcIK5KjozAqe9vNgk+fLT9OV67ksR
-         reLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793435743; x=1794040543;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=WLiyauFtJhuMbP58y+JmNLKI5+Crt03dR88sII+z+Zc=;
-        b=xQq0cTmPg6av9Lo2RebGwrTh9gdJYwrlygxNH2W+zrABl3ss/IglcYoG3yzgSre1/j
-         J+eQvTG98gmL3M9XGaA/NI2ScKtqrOTDNIqcaDVpwMjnUQaM5q9nwsqjRjvPF8Q+yBla
-         7Ze6aW3hYgjDHZ6cNa9dmXPSoIZgMTWWaJU2xJpUAuINbGr6iNPKnM32sDV63dJU/UeE
-         UZizQ1qWVZp1c2FBuYFcb2Ab03smsyX1T6Glj1pB2WdAPP1yCMWcGGoF0U9BWE+ciLZW
-         hwRKqviWKn2zGx9HbCWCkDHzKDkLjM+58KLz5PAmbWJGxLCtwIk0Bq3scbHLEDzRCszK
-         GIAg==
-X-Gm-Message-State: AFq9FYLKAj1EbyhBzE7m5o+h79Rk9Fij5mHN4nM5c9/zwdLRbIo2TuLL
-	JHY4Q07SazJ2jsE+rTT+0KF52cp5ti83c9E4mgfiffRC3t8L04AbqrDQ
-X-Gm-Gg: AYBFou0puNGc4P9DqHLReE3nDqqwUbqRCAlRz7NsqQhZfXKonPGpghAq1JbBsi3Mn27
-	7MhaVCLjrnn6ToGnwFPgxiLeqoVS4ovhZjEOKVdNzj8yJGa55cC4+/QwngKVbYJXi2ecyGvfe/K
-	J9Ci7rsy95pGhwf7eKmxqrQPNa1UKqJxB2TnoDrETvPLogtxu7bGAuCO1p4S909m+tKmEXAI5bm
-	NFkeKyUbPRkPG8N1PuGcI18HPhSkUj2Ehd9HJXnI/DpemJp+urojMM6Nwsd7/dXbHRGMPo3fsNM
-	mJg3uvemYZna/854A8wjCN63KH2+dQMgaBahvrsp2VpRRS24efzBmarRiJMZI/ovPT8saN+xRIv
-	n8li7a3vHWkzpm9xmqNMuijNBmtDzlugUpO7E3DM4CsrM0xIKqtMkr/8f7o1uEaHRmXFZMmc2kX
-	OKWj9ry36vwe4L31VB6QAJ3fLnaG6wV4Q3wxqTXHNsVqZmSEFG/j820/otlRf3SQcSsB8yVEeWd
-	YsdxymsqIwLXdkW7Ddmr1FpguNNalgHrDzoOqMYgu+J62D/sYxn1udFjJdJhpLu/faTtfXf3+aL
-	8A4DGaawcC8jrIDIeXgn+3n59E3f0T85ZsZWBBzVfh5VAGBhKA==
-X-Received: by 2002:a05:7022:7f17:b0:168:3243:c937 with SMTP id a92af1059eb24-1ac5cb1c8b3mr7522678c88.16.1793435743153;
-        Sat, 31 Oct 2026 01:35:43 -0700 (PDT)
-Received: from localhost.localdomain ([103.170.55.71])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac1854da78sm18910706c88.6.2026.10.31.01.35.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Oct 2026 01:35:42 -0700 (PDT)
-From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-To: hare@suse.de,
-	hch@lst.de,
-	sagi@grimberg.me,
-	kch@nvidia.com
-Cc: linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-Subject: [PATCH] nvmet: preserve ANA log page copy errors
-Date: Sat, 31 Oct 2026 08:35:05 +0000
-Message-ID: <20261031083505.4767-1-sreekuttan2156239@gmail.com>
-X-Mailer: git-send-email 2.55.0
-X-Archived-By: <archiver.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261031_013544_379074_C2E60527 
-X-CRM114-Status: GOOD (  12.75  )
-X-Spam-Score: -1.9 (-)
+	Sat, 31 Oct 2026 08:43:17 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id 6116F605C9;
+	Sat, 31 Oct 2026 08:43:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F25261F00A15;
+	Sat, 31 Oct 2026 08:43:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793436196;
+	bh=SlJ2nuAXRS3J78+B743Bvt2saDbJrdU/ZeRQWeafmXI=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=gmTX1fp6XrUfit3J5lIrjhLN66TtrHLSynYgFsgq4RDczq961hnjMzv0kuu8fpcds
+	 TPLRG2BvSruTQ3wbePoaV6k2iCfHlp6yQxQqDwJXfm3q2lDprS6mvvf52ka5cgKBk5
+	 c7ISqY4Tox4KqY7aMWRneCYEESbGzHUAygbnl13SlevPetxUVxhRP5Lhn3VmjH7GoM
+	 0Lv50xQ57fi1ENvSq/eQ0BDS9t1OtNZzBpqX2AvQEgrl7NVE8MMCdy4by8jp/qT0em
+	 XESW1ycG4/8eva7B07iGzOFzHT5OCNO/4FnL6k+adyQKxijg69TaOH8+w4yNSgrrG0
+	 m/TwXIc+QfPpQ==
+Message-ID: <sashiko-outbox-191840@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] nvmet: preserve ANA log page copy errors
+To: "Sreeraj S Kurup" <sreekuttan2156239@gmail.com>
+Cc: linux-nvme@lists.infradead.org
+In-Reply-To: <20261031083505.4767-1-sreekuttan2156239@gmail.com>
+References: <20261031083505.4767-1-sreekuttan2156239@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 31 Oct 2026 08:43:15 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,54 +63,133 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
+X-Archived-By: <archiver.kernel.org>
 
-Do not overwrite an error returned while copying ANA
-group descriptors with the result of copying the ANA
-log page header.
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
+- [High] nvmet: allocation failure in nvmet_execute_get_log_page_ana() retu=
+rns success
+- [High] nvmet: nvmet_execute_get_log_page_ana() breaks short ANA log page =
+reads
+--
 
-Initialize the status to success before processing
-ANA groups and copy the header only if all group
-descriptor copies succeed. This ensures that failures
-during descriptor copying are correctly reported to
-the host.
+commit a674cf164d41aef50b30cbe7f108586cbc265b8d
+Author: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
 
-Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
----
- drivers/nvme/target/admin-cmd.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+nvmet: preserve ANA log page copy errors
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 26028be8fe4d..2bcb6d3de9ec 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -543,7 +543,7 @@ static void nvmet_execute_get_log_page_ana(struct nvmet_req *req)
- 	u16 ngrps = 0;
- 	u16 status;
- 
--	status = NVME_SC_INTERNAL;
-+	status = NVME_SC_SUCCESS;
- 	desc = kmalloc_flex(*desc, nsids, NVMET_MAX_NAMESPACES);
- 	if (!desc)
- 		goto out;
-@@ -572,7 +572,8 @@ static void nvmet_execute_get_log_page_ana(struct nvmet_req *req)
- 	kfree(desc);
- 
- 	/* copy the header last once we know the number of groups */
--	status = nvmet_copy_to_sgl(req, 0, &hdr, sizeof(hdr));
-+	if (!status)
-+		status = nvmet_copy_to_sgl(req, 0, &hdr, sizeof(hdr));
- out:
- 	nvmet_req_complete(req, status);
- }
--- 
-2.55.0
+This commit initializes the status variable in
+nvmet_execute_get_log_page_ana() to success and only copies the ANA log page
+header if no error occurred while copying the ANA group descriptors.
 
+> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-=
+cmd.c
+> index 26028be8fe4d8..2bcb6d3de9eca 100644
+> --- a/drivers/nvme/target/admin-cmd.c
+> +++ b/drivers/nvme/target/admin-cmd.c
+> @@ -543,7 +543,7 @@ static void nvmet_execute_get_log_page_ana(struct nvm=
+et_req *req)
+>  	u16 ngrps =3D 0;
+>  	u16 status;
+> =20
+> -	status =3D NVME_SC_INTERNAL;
+> +	status =3D NVME_SC_SUCCESS;
+>  	desc =3D kmalloc_flex(*desc, nsids, NVMET_MAX_NAMESPACES);
+>  	if (!desc)
+>  		goto out;
+
+[Severity: High]
+If kmalloc_flex() returns null in nvmet_execute_get_log_page_ana() in
+drivers/nvme/target/admin-cmd.c, won't jumping to the out label now complete
+the request with a success status instead of an internal error status witho=
+ut
+writing any data to the host buffer?
+
+Previously, status was initialized before kmalloc_flex() so that the error
+path on allocation failure would report an internal error:
+
+drivers/nvme/target/admin-cmd.c:nvmet_execute_get_log_page_ana() {
+	...
+	status =3D NVME_SC_SUCCESS;
+	desc =3D kmalloc_flex(*desc, nsids, NVMET_MAX_NAMESPACES);
+	if (!desc)
+		goto out;
+	...
+out:
+	nvmet_req_complete(req, status);
+}
+
+> @@ -572,7 +572,8 @@ static void nvmet_execute_get_log_page_ana(struct nvm=
+et_req *req)
+>  	kfree(desc);
+> =20
+>  	/* copy the header last once we know the number of groups */
+> -	status =3D nvmet_copy_to_sgl(req, 0, &hdr, sizeof(hdr));
+> +	if (!status)
+> +		status =3D nvmet_copy_to_sgl(req, 0, &hdr, sizeof(hdr));
+
+[Severity: High]
+Does guarding the header copy with if (!status) in
+nvmet_execute_get_log_page_ana() in drivers/nvme/target/admin-cmd.c break
+short reads of the variable-length ana log page?
+
+In nvmet_copy_to_sgl(), a non-zero status is returned when the copy exceeds
+req->sg length (for example, when a host requests only sizeof(struct
+nvme_ana_rsp_hdr) bytes to inspect chgcnt and ngrps before allocating a
+buffer for the full log page):
+
+drivers/nvme/target/core.c:nvmet_copy_to_sgl() {
+	if (sg_pcopy_from_buffer(req->sg, req->sg_cnt, buf, len, off) !=3D len) {
+		req->error_loc =3D offsetof(struct nvme_common_command, dptr);
+		return NVME_SC_SGL_INVALID_DATA | NVME_STATUS_DNR;
+	}
+	return 0;
+}
+
+In nvmet_execute_get_log_page_ana(), when a descriptor does not fit in the
+host buffer, the first loop breaks out early and the second loop (added in
+commit be1277f5eb17 ("nvme: count all ANA groups for ANA Log page")) counts
+the remaining enabled groups specifically so hdr.ngrps holds the total group
+count when hdr is written at offset 0:
+
+drivers/nvme/target/admin-cmd.c:nvmet_execute_get_log_page_ana() {
+	...
+	for (grpid =3D 1; grpid <=3D NVMET_MAX_ANAGRPS; grpid++) {
+		if (!nvmet_ana_group_enabled[grpid])
+			continue;
+		len =3D nvmet_format_ana_group(req, grpid, desc);
+		status =3D nvmet_copy_to_sgl(req, offset, desc, len);
+		if (status)
+			break;
+		offset +=3D len;
+		ngrps++;
+	}
+	for ( ; grpid <=3D NVMET_MAX_ANAGRPS; grpid++) {
+		if (nvmet_ana_group_enabled[grpid])
+			ngrps++;
+	}
+
+	hdr.chgcnt =3D cpu_to_le64(nvmet_ana_chgcnt);
+	hdr.ngrps =3D cpu_to_le16(ngrps);
+	nvmet_clear_aen_bit(req, NVME_AEN_BIT_ANA_CHANGE);
+	up_read(&nvmet_ana_sem);
+}
+
+With if (!status) before copying hdr, any short read that breaks out of the
+first loop skips writing hdr, fails the command, renders the second loop de=
+ad
+work, and still clears the asynchronous event bit via nvmet_clear_aen_bit()
+even though the command fails.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261031083505.4767=
+-1-sreekuttan2156239@gmail.com?part=3D1
 
