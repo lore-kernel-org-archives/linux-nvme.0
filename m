@@ -2,97 +2,59 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5C39606A31D
-	for <linux-nvme@archiver.kernel.org>; Sat, 31 Oct 2026 09:35:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E68B8606A31A
+	for <linux-nvme@archiver.kernel.org>; Sat, 31 Oct 2026 09:48:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=V+AevDPZ;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UU9GDv4x
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Dk7P/7ES;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OI71pfDh
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=piH3lxdjVU4RYaignxMIKWlUZiFBMo0J6b65E2PX6yk=; b=V+AevDPZ4VUVIC
-	84Jf8QC0btmYvh1aaGATrsr69b3JU7NteMMAnbJfuqMlydMUkUhqqyvamgZ/dA9ijM4dqZ5m++cx+
-	gEs82EzK1WcLhDmGKGoy/pQlT3hlEV/V30Sj8JWnQ/ZSa4V3ThGQTuIcrIMJRLdfdN9NDPZHKSC4G
-	V40CJ12HzybSH8tWfKHHr1rMmh14u6tXHq1c2t9R7w69lE3zCd5NpJ9tkgcZJMw1yDU/+yJ1qGm8t
-	EvKLUkeTbovljgYvRFp7fokkF7EIZ9F6ULb784jYAMo9ws8glIqdIajIlyzPExzNlrey1MNgn7y4p
-	QagVFu5EvIR5Jn7kLJMQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Cc:To:Subject:
+	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Unsubscribe-Post:List-Owner;
+	bh=UhzV9ABZjCUBnUIA4jYv3y82UfrD2BwXbsKcZe+VJpY=; b=Dk7P/7ES5Lyh0RG4eUKBLmIww+
+	H3SuQyAkdwH1wA9rz9hDdBGU0vj/d9mNDIF7ES4VqYmqKkpIx8PLD2kGxEzmLSX0JnhpiEPGyZ3b3
+	cnSFv4dHILx26MR65nLOOv9QA6URTR8xp/wUphFdciyouTA3kRkZaDpPF9xYPdpKozMywNWEzoW/d
+	Gtw3f2XyPhurHZAzlVbRh1A+GPhA+6FWDxb5/3smOOGMVcj9MANVJpwfjI8Xf+yBfUOV70n177vgF
+	p7NuU64iyUKh6RK0m3mTkapEXNvTANxTMjojL8OnJ94kaGBRMWFfyQLb/DrL4VdAKmiakFYIQCull
+	rglT6PwA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xN5UI-0000000D8bb-2vNS;
-	Sat, 31 Oct 2026 09:34:58 +0000
-Received: from mail-dy1-x1330.google.com ([2607:f8b0:4864:20::1330])
+	id 1xN5h0-0000000DAos-1lQI;
+	Sat, 31 Oct 2026 09:48:06 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xN5UE-0000000D8bG-2GAU
+	id 1xN5gy-0000000DAo7-3LNy
 	for linux-nvme@lists.infradead.org;
-	Sat, 31 Oct 2026 09:34:56 +0000
-Received: by mail-dy1-x1330.google.com with SMTP id 5a478bee46e88-36a17a332ecso2621751eec.1
-        for <linux-nvme@lists.infradead.org>; Sat, 31 Oct 2026 02:34:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793439293; x=1794044093; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=piH3lxdjVU4RYaignxMIKWlUZiFBMo0J6b65E2PX6yk=;
-        b=UU9GDv4xHF1FiFWOEm2SduqKqmBwb22N1a/RXZzKI552T1jDszSbUogiw7jUgaGp9Q
-         RDe09aew8oZduJFvnQ1fqBtEOCFrTVe2K5kfj3YllorBxwAZiifIfmtQLFAFKW/UFqZa
-         5fBhkFPm7cqf7nIFeFob/r8IjqgMJYzOkNO0S5HkITySeFuLFOb7pRt/EkCh+thJeCUi
-         qFxbR7/sji/4UVl5NxvAXPCxzXlHkdwi6OW8WvxTgFzeRC6AXLEOeDYcfy5sZS4bdb2Q
-         zrdSbcjB4qZtclqZmohRRGcLOpqRyfOxHrJ9dXztPw6Jmbr04f5VFLBX6vB6HJdbviyt
-         W9JQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793439293; x=1794044093;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=piH3lxdjVU4RYaignxMIKWlUZiFBMo0J6b65E2PX6yk=;
-        b=Fu4c0NrJNeEDy94xVoNB0famv4IyVcZBA5EbKJpaZVfrlr19Qyb0VBPNWWSMgXj2NT
-         t8jI4km04spjPLcHfhm6oWIZwghMy4T0eyqwriQn7gIGdF+Y490U1uF4KMPQlH14JrZu
-         qG9B4yz+hM7SQ8Kb0WiNsXekxxr4rPh0awUSG/RvBwpsbaUaSxbgwaRCVJ6wVa1BMJXp
-         c07WIJvqFYIgG83SAoL4vg0Sad8BZmPskZmgLp1P5rcn5cQdw0TwnX95h2iG+23e/x/m
-         wq9LGeXebQZQV1p+ZiMjx+7AoRaEQ4w7sb5hXSy7rXXrttC86GYWHgFNWJrTpdZyo0rg
-         U+FA==
-X-Forwarded-Encrypted: i=1; AKwUvBwDEK3oId7wD2UKwVCzs1Eu+pvFKulEufdHjygmfGm9z5z9lS4/vPK+GmXQEviRaquLH2c0jBaCSz3x@lists.infradead.org
-X-Gm-Message-State: AFq9FYKVtmL4BP/AIHWEVMQr4G/O2LIHOTRAi4s7lOyYc++7E53Seohp
-	afbOEvpdyFqfRSdVMEtqX2CiFQUaSBfxXCLrNfvCKdDdnMGM1zWjxIZ06ZPNSw==
-X-Gm-Gg: AYBFou0SHIuZpEZBfT9td4g5/PS3s8Kb0yYL9/KruG4XJ7X3pczmjWOqyF9NZzBdL3v
-	g8oCttds0LVlXdAoxMo2ZgGtWGvK+GQBRX+e7xd36o0KnJE9VUyozgIqh2ZPpogLj4KV8tuRScG
-	juHQNo3EgBHDhx8pUl4C8wgFhtFrQo7Dycgex/I1OP4ZgdcuMOSHtEkbKjZerm1tB36yfSOj6Nv
-	gEP5ampm3ugaj/dRljRE6pwKwV2NSUBWPR3mF+8088Q1w9bNMcBGyro26EXsj8/9SxFdarRRXc6
-	+TPXosfn9qbyRHOAclW6KCWPV/odNmDbp7OJ8PXD1PXye0WLiZDLDwxEVHktDm0kxwVznCZTrWi
-	cD4BHhxEpkqvz+6k6QQlU2Hzt5fzlSrjiQDwcDD9dYPoplAiJ75ltabaUHClhYeq2uvH0QXw964
-	ZI0LBAfeR23ceRy2CS1KlbwZQVEgN3LbDwVcOm6+lfAnoKNNuGwyAKr+uDb1Gda0Z0PWQbrGTR/
-	k0SCY5owqGSgYz7riXj5FQkMJPZCYsPT1RuqXB9a31tVVX2QZrCTOXUoboCc3wdL9Ft6chFPd85
-	mCoeO0h/NQQg73BMno8i+cgeKk5znvPN1k5HsSTTHSBFYPOII9iJ+C/rUJ0T9ISzDUjeDOg=
-X-Received: by 2002:a05:7300:d0a5:b0:36a:1b23:a1cd with SMTP id 5a478bee46e88-36a4239359bmr6654389eec.9.1793439293236;
-        Sat, 31 Oct 2026 02:34:53 -0700 (PDT)
-Received: from localhost.localdomain ([103.170.55.71])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a42a504c6sm15850027eec.21.2026.10.31.02.34.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Oct 2026 02:34:52 -0700 (PDT)
-From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-To: sreekuttan2156239@gmail.com
-Cc: hare@suse.de,
-	hch@lst.de,
-	kch@nvidia.com,
-	linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	sagi@grimberg.me
-Subject: [PATCH v2] nvmet: preserve ANA log page copy errors
-Date: Sat, 31 Oct 2026 09:34:20 +0000
-Message-ID: <20261031093420.3017-1-sreekuttan2156239@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261031083505.4767-1-sreekuttan2156239@gmail.com>
+	Sat, 31 Oct 2026 09:48:04 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id 7FFA2438D1;
+	Sat, 31 Oct 2026 09:48:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D0011F00919;
+	Sat, 31 Oct 2026 09:48:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793440084;
+	bh=UhzV9ABZjCUBnUIA4jYv3y82UfrD2BwXbsKcZe+VJpY=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=OI71pfDh8FNFrVRMqjIn+IYtt8miWK15P+Sosms6k9hiiXnXIy/t6QNorcRyh0HdV
+	 t+czWaRZgu3tl6B4gHsi9ZPzzJPsRJtwNYGramvxyzQIsKYkb93ZoIvzGi7xrFjtyf
+	 Zhg4Q2VMyTsJdCsfg1LLQpiz4+mWuta/rncf7LB2t3141ug26OqqNWOnzD3lXW9Rcg
+	 Z1ZRxYgcDEN9MKPC4M8lub58qQM6sMS/aCXctOnWer6zTWUE69WVPDrRsEyIR9tJRO
+	 3O1LjBW6ymh4Qu3MHvII6O9AjjVhbDUWFIkj5l6INszhzA06Cq9QvZZZEjuqfr1QrO
+	 qmcwLSqV96pkg==
+Message-ID: <sashiko-outbox-191877@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2] nvmet: preserve ANA log page copy errors
+To: "Sreeraj S Kurup" <sreekuttan2156239@gmail.com>
+Cc: linux-nvme@lists.infradead.org
+In-Reply-To: <20261031093420.3017-1-sreekuttan2156239@gmail.com>
 References: <20261031083505.4767-1-sreekuttan2156239@gmail.com>
-X-Archived-By: <archiver.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261031_023454_619415_26115F09 
-X-CRM114-Status: GOOD (  12.95  )
-X-Spam-Score: -1.9 (-)
+ <20261031093420.3017-1-sreekuttan2156239@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 31 Oct 2026 09:48:03 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,78 +64,117 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
+X-Archived-By: <archiver.kernel.org>
 
-Preserve errors encountered while copying ANA group
-descriptors instead of unconditionally overwriting
-them with the result of copying the ANA log page
-header.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] nvmet: skipped partial ANA descriptor copy in nvmet_execute_get_lo=
+g_page_ana()
+--
 
-Ensure that allocation failures are reported correctly
-and that short ANA log page reads can still return the
-header containing the change count and group count.
-Preserve genuine descriptor-copy and header-copy
-errors.
+commit d3533edc412b03d8943fd7010d72c42247b5d211
+Author: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
 
-Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
----
-v2:
- - Preserve the allocation failure status.
- - Handle short ANA log-page reads by checking
-   descriptor length against the requested transfer
-   length before copying.
- - Preserve genuine descriptor and header copy errors.
+nvmet: preserve ANA log page copy errors
 
- drivers/nvme/target/admin-cmd.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+This commit preserves descriptor-copy and allocation errors in
+nvmet_execute_get_log_page_ana() instead of overwriting status when copying
+the ANA log page header, and skips copying ANA group descriptors when their
+length exceeds the remaining transfer length.
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 26028be8fe4d..b0bcfbc94b93 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -542,17 +542,23 @@ static void nvmet_execute_get_log_page_ana(struct nvmet_req *req)
- 	u32 grpid;
- 	u16 ngrps = 0;
- 	u16 status;
-+	u16 header_status;
- 
- 	status = NVME_SC_INTERNAL;
- 	desc = kmalloc_flex(*desc, nsids, NVMET_MAX_NAMESPACES);
- 	if (!desc)
- 		goto out;
- 
-+	status = NVME_SC_SUCCESS;
-+
- 	down_read(&nvmet_ana_sem);
- 	for (grpid = 1; grpid <= NVMET_MAX_ANAGRPS; grpid++) {
- 		if (!nvmet_ana_group_enabled[grpid])
- 			continue;
- 		len = nvmet_format_ana_group(req, grpid, desc);
-+		if (offset > req->transfer_len || len > req->transfer_len - offset)
-+			break;
-+
- 		status = nvmet_copy_to_sgl(req, offset, desc, len);
- 		if (status)
- 			break;
-@@ -572,7 +578,9 @@ static void nvmet_execute_get_log_page_ana(struct nvmet_req *req)
- 	kfree(desc);
- 
- 	/* copy the header last once we know the number of groups */
--	status = nvmet_copy_to_sgl(req, 0, &hdr, sizeof(hdr));
-+	header_status = nvmet_copy_to_sgl(req, 0, &hdr, sizeof(hdr));
-+	if (!status)
-+		status = header_status;
- out:
- 	nvmet_req_complete(req, status);
- }
--- 
-2.55.0
+> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-=
+cmd.c
+> index 26028be8fe4d8..b0bcfbc94b930 100644
+> --- a/drivers/nvme/target/admin-cmd.c
+> +++ b/drivers/nvme/target/admin-cmd.c
+> @@ -542,17 +542,23 @@ static void nvmet_execute_get_log_page_ana(struct n=
+vmet_req *req)
+>  	u32 grpid;
+>  	u16 ngrps =3D 0;
+>  	u16 status;
+> +	u16 header_status;
+> =20
+>  	status =3D NVME_SC_INTERNAL;
+>  	desc =3D kmalloc_flex(*desc, nsids, NVMET_MAX_NAMESPACES);
+>  	if (!desc)
+>  		goto out;
+> =20
+> +	status =3D NVME_SC_SUCCESS;
+> +
+>  	down_read(&nvmet_ana_sem);
+>  	for (grpid =3D 1; grpid <=3D NVMET_MAX_ANAGRPS; grpid++) {
+>  		if (!nvmet_ana_group_enabled[grpid])
+>  			continue;
+>  		len =3D nvmet_format_ana_group(req, grpid, desc);
+> +		if (offset > req->transfer_len || len > req->transfer_len - offset)
+> +			break;
+> +
+>  		status =3D nvmet_copy_to_sgl(req, offset, desc, len);
+>  		if (status)
+>  			break;
+> @@ -572,7 +578,9 @@ static void nvmet_execute_get_log_page_ana(struct nvm=
+et_req *req)
+>  	kfree(desc);
+> =20
+>  	/* copy the header last once we know the number of groups */
+> -	status =3D nvmet_copy_to_sgl(req, 0, &hdr, sizeof(hdr));
+> +	header_status =3D nvmet_copy_to_sgl(req, 0, &hdr, sizeof(hdr));
+> +	if (!status)
+> +		status =3D header_status;
 
+[Severity: High]
+As reported by Sashiko on v1 [1], in nvmet_execute_get_log_page_ana() in
+drivers/nvme/target/admin-cmd.c, when a host issues a Get Log Page command
+for NVME_LOG_ANA with req->transfer_len ending partway through an enabled A=
+NA
+group descriptor (offset < req->transfer_len < offset + len), does breaking
+out of the loop before calling nvmet_copy_to_sgl() leave the trailing
+[offset, req->transfer_len) portion of req->sg unwritten?
+
+In drivers/nvme/target/core.c, nvmet_copy_to_sgl() wraps
+sg_pcopy_from_buffer():
+
+u16 nvmet_copy_to_sgl(struct nvmet_req *req, off_t off, const void *buf,
+		size_t len)
+{
+	if (sg_pcopy_from_buffer(req->sg, req->sg_cnt, buf, len, off) !=3D len) {
+		req->error_loc =3D offsetof(struct nvme_common_command, dptr);
+		return NVME_SC_SGL_INVALID_DATA | NVME_STATUS_DNR;
+	}
+	return 0;
+}
+
+Previously, when offset < req->transfer_len and offset + len >
+req->transfer_len, sg_pcopy_from_buffer() still copied the first
+req->transfer_len - offset bytes of desc to fill req->sg up to
+req->transfer_len before returning a short count, and the final header copy
+at offset 0 reset status to 0.
+
+Because nvmet transports allocate req->sg with capacity req->transfer_len
+without zeroing it and transmit the full req->transfer_len on completion,
+skipping nvmet_copy_to_sgl() when len > req->transfer_len - offset omits the
+partial descriptor bytes that fit in the buffer and exposes req->transfer_l=
+en
+- offset bytes of uninitialized kernel memory to the host.
+
+Also, since req->sg has total capacity req->transfer_len,
+sg_pcopy_from_buffer() only returns less than len when off + len exceeds
+req->transfer_len. With the pre-check ensuring offset + len <=3D
+req->transfer_len, can nvmet_copy_to_sgl(req, offset, desc, len) ever return
+a non-zero status here?
+
+[1] https://lore.kernel.org/r/20261031083505.4767-1-sreekuttan2156239@gmail=
+.com
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261031093420.3017=
+-1-sreekuttan2156239@gmail.com?part=3D1
 
