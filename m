@@ -2,99 +2,143 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D18D606A329
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 Nov 2026 06:14:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7EB9606A324
+	for <linux-nvme@archiver.kernel.org>; Mon,  2 Nov 2026 07:16:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=XpjHKpcI;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Pj1iKOy2
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=DN3+gQ3v;
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=F0LlMQ+R;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=l/eKtV3K;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=F0LlMQ+R;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=l/eKtV3K
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
-	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=UYKyTKANHmNueSZX+Vts+dz5q7U+GTeUPWVYwIUP5po=; b=XpjHKpcIweVCkN
-	FU0AYyvcYg/DwcGlT1uarqFgaUabDI6ze0Ci6X5YATJgdswpFIdyAT0boFBq9OIkQMrW11uDCCSjz
-	enq0Ol/aaBgzOVO1oeY2mUAs+4lXfNQVU6lVnRcnTHvkoaNCwTaZ3jBjS4s7zc/VosASsTXf8fb95
-	//BIwXQyjPDr1oPy9ZhvjRlojMcuKnjXwbzV7878tOUsTwDxo25aYVVXiyVHx+Raf02WOK1ZaKiAk
-	3ntPjXKYYH8Fj8fBOxyUJNZmU+jgZpv80g7GRKUyim8AVmxMuzL0x95XAvmhIYZovHEIFXaZQ3LxO
-	AeruTJO19deQggEYu3yg==;
+	List-Owner; bh=4ByMKIBvfZhDSrda5lB4kY7Ks7hcY9F8y/GUj0feuLo=; b=DN3+gQ3vpUXsqJ
+	VTkfgxx2PJWkqb5tqdu7FsaB+g1yRyw+twQMwVT5u9hbS5YtdvfNNZt6aOh0Zre1vyAK0/anwgsBx
+	15Z/Yj0W0AB1IS8kTz19y4yPhU/7Au7q7/uN5aTHMNmvYt5mLhzJhZ1ktovztC1u3JK9JWJfjCPcP
+	rt6WQ0XzSK/kejXbd+ZQsf8cByHUOBzlgQJ18RpIOpCzqodQ5Cn4RHJHPPaY2ga0t63cr50ujP3MR
+	SYewiHQX2ut07jxTHqY7L9AxRt5zsVcTL+ToL1I3JtAvSFwmqCycWLSRqKbpmBRU8OGECAzeuL7OQ
+	FFV1XJZB2xXwfh6reYJg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xNlJj-0000000FdGf-0zem;
-	Mon, 02 Nov 2026 06:14:51 +0000
-Received: from mail-dl1-x122b.google.com ([2607:f8b0:4864:20::122b])
+	id 1xNmGt-0000000FjK9-3dgG;
+	Mon, 02 Nov 2026 07:15:59 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xNlJh-0000000FdFZ-0IXZ
+	id 1xNmGq-0000000FjJp-3QV0
 	for linux-nvme@lists.infradead.org;
-	Mon, 02 Nov 2026 06:14:50 +0000
-Received: by mail-dl1-x122b.google.com with SMTP id a92af1059eb24-14394530ec6so3185267c88.1
-        for <linux-nvme@lists.infradead.org>; Sun, 01 Nov 2026 22:14:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793600088; x=1794204888; darn=lists.infradead.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=UYKyTKANHmNueSZX+Vts+dz5q7U+GTeUPWVYwIUP5po=;
-        b=Pj1iKOy2yaAhTR8oe1nO4kPFkoB0v49gijoCUvdubmuv1EW6cAg5Fdj3tVUjrNzvQq
-         nTAHvbnKZDq9o2F9CF5tTuuIDY+tHf/vwDNxC3c4wV7jOXJyDjdmKviPU4OxtIlK3s6T
-         VukU2DZSk1fY3WuXof08B6lkfPjTZLmR6WBCSFQAB5wQRhRucVdLeCjfhKdh7LgxAytc
-         GRCK4W03tngQDDddyZBbt9fMIOM6OgQFr/ufAW8t3AaLbRJoYBc5SXNsANqpVlNjGm7h
-         xkGrnAqxZx8I0JWgAzOUygz/PcHJt2xBZuI9dXQn4Evrv5X+zQ3m7Uheh51eCpudlPfT
-         6ICQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793600088; x=1794204888;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=UYKyTKANHmNueSZX+Vts+dz5q7U+GTeUPWVYwIUP5po=;
-        b=gyID6QtqqMyWUDtksRJtdvT29ToFxDdQt3OlG+7+GyfgXUoOhTcYEjSEfy8rD5BWx5
-         EIalHJsI8KVSF+BAr9p81ZVsY0q3XAnPTF5gVcLAFp5eAP6fPhON8xIea5GKtCUS3oig
-         naUaBvvFvyer/yRoiBKd8gwfHesNYYmVgiCJBIZzFqV1TqLkeMx9hNYeyyEaVqEe+cf8
-         pGylg475GQK9gZGc8VE2RNiepv1zQnZPAIkI8Jd4RwmCZBMQ0HDgiwcZ2wh979OTQFam
-         U0Qk4hK3HaojKkrVcCSqN4XegmM5JSi4lBqdZrRsRLHBEglRkNJrCpIXex6G9+5feCqg
-         Fb6A==
-X-Gm-Message-State: AFq9FYKgycIgOWREdMxY+IqvfP4KxkzmJ9ZxuuO38dFrzHOgsuwbuNTM
-	BUBZ4YFAnOjWppSOyP1OyAaFGdRvVEcc83aituYEgUx2teAIU6kOvHOc
-X-Gm-Gg: AYBFou3D21Pba8ePN9Hpq7SqTPC8mxwWeX9YktqgRGfC1y3QAVqgMK6adm+xoUHudvP
-	yp9lrTwC8ZucGZb/2KZDjknAZUiBAxoozrb8tqD0emCav6WMtmsankN5xWc3IwL5hxgi3fklXDu
-	68Z5xty4Omms+Sc/iYs20ApwBLHbvpXDwR+9nNV2Pbbr4qU33vecyxJPy2jn00v25pev1DNt+2Z
-	Tv+8XalCSvP3/wUYIP4JHBnfJbgrn90Qn9KU/lmXoWHb2eKkjTEUqaa42vMF/Y7+tYBygn4PLam
-	xqnsnNbt1cx1FL7MnrYkk6KGxBznJ//819ro8i70t8Pixe76JzlTg9h58RY2+AXLTIe68l5aT7G
-	8r1FHAY+UzcrARejddCRv9sRKgQJy6efFAmFq0UeNkoaWQlrxiLWvy7XdK7ELdszbrKJISyhRtk
-	nPzkqm/bFiRfZGhQ6Ik4QckmJdqlOHq0S2F6bcgfeNJo8JmXCI++UDdskNNgLF1FcW7KY2KNmgd
-	psba3LQqvmWcS+HfuY2LWkHnm2R0kTzarELc2ma57UJduKosjdXrwNEvL4FU50fN2uwDGf4g2c/
-	MXCGTmxHrbiWkSmqpWjNjIQCNkGBv6KJEknOLuI2xqhVf9w=
-X-Received: by 2002:a05:7023:d09:b0:1a4:4194:fc04 with SMTP id a92af1059eb24-1ac5e320bd8mr13624659c88.28.1793600088113;
-        Sun, 01 Nov 2026 22:14:48 -0800 (PST)
-Received: from [127.0.1.1] ([23.254.208.9])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac19c6b969sm30288043c88.14.2026.11.01.22.14.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Nov 2026 22:14:47 -0800 (PST)
-From: Qiliang Yuan <odys.yuan@gmail.com>
-Date: Mon, 02 Nov 2026 01:14:37 -0500
-Subject: [PATCH 2/2] block: set QUEUE_FLAG_NO_ELV_SWITCH under the read
- lock in del_gendisk()
+	Mon, 02 Nov 2026 07:15:58 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5BDC11FB23;
+	Mon,  2 Nov 2026 07:15:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1793603753; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4ByMKIBvfZhDSrda5lB4kY7Ks7hcY9F8y/GUj0feuLo=;
+	b=F0LlMQ+Ry/LOPWtPCvgLgX4MN2WjfogHaqNqSba867foFYSerbcufbg7EvPPZIEZhyaQBa
+	Q1KV8nDRXYM8lcE/Hps8kjz6OCrUawP/3AkESyJ0UOXxZ/mGcwpsALicA9nOoEEDxkkdS+
+	+4RZMZglO7DoG6cdxcLiLdtO8b4HEK0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1793603753;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4ByMKIBvfZhDSrda5lB4kY7Ks7hcY9F8y/GUj0feuLo=;
+	b=l/eKtV3KKkKKPuJkLiZydrhy1LjmqEauFTQXhNWbktgfKwwjr03na2CTqMyb9nGZJi7Usu
+	buwFuKhhDK+voFCA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1793603753; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4ByMKIBvfZhDSrda5lB4kY7Ks7hcY9F8y/GUj0feuLo=;
+	b=F0LlMQ+Ry/LOPWtPCvgLgX4MN2WjfogHaqNqSba867foFYSerbcufbg7EvPPZIEZhyaQBa
+	Q1KV8nDRXYM8lcE/Hps8kjz6OCrUawP/3AkESyJ0UOXxZ/mGcwpsALicA9nOoEEDxkkdS+
+	+4RZMZglO7DoG6cdxcLiLdtO8b4HEK0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1793603753;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4ByMKIBvfZhDSrda5lB4kY7Ks7hcY9F8y/GUj0feuLo=;
+	b=l/eKtV3KKkKKPuJkLiZydrhy1LjmqEauFTQXhNWbktgfKwwjr03na2CTqMyb9nGZJi7Usu
+	buwFuKhhDK+voFCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BD8A7134B3;
+	Mon,  2 Nov 2026 07:15:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id +BvoHKg46GqcYgAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 02 Nov 2026 07:15:52 +0000
+Message-ID: <20efc96b-c57d-4bbf-8d3d-602b8c9e5828@suse.de>
+Date: Mon, 2 Nov 2026 08:15:52 +0100
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261102-bug-nvme-remove-ns-async-v1-2-61780fee111c@gmail.com>
-References: <20261102-bug-nvme-remove-ns-async-v1-0-61780fee111c@gmail.com>
-In-Reply-To: <20261102-bug-nvme-remove-ns-async-v1-0-61780fee111c@gmail.com>
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-block@vger.kernel.org, Ming Lei <tom.leiming@gmail.com>, 
- Nilay Shroff <nilay@linux.ibm.com>, 
- Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>, 
- Stuart Hayes <stuart.w.hayes@gmail.com>, Qiliang Yuan <odys.yuan@gmail.com>
-X-Mailer: b4 0.13.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 3/3] nvme-tcp: parallelize I/O queue allocation and
+ startup
+To: "Surabhi Gogte (she/her)" <sgogte@purestorage.com>,
+ Martin Belanger <martin.nvme.dev@gmail.com>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ mkhalfella@purestorage.com, randyj@purestorage.com, adailey@purestorage.com,
+ Hannes Reinecke <hare@kernel.org>, wagi@kernel.org,
+ shinichiro.kawasaki@wdc.com
+References: <20260922200718.3941465-1-sgogte@purestorage.com>
+ <20260922200718.3941465-4-sgogte@purestorage.com>
+ <705f4452-3d07-4d91-9dcd-ea53b2cd75a5@gmail.com>
+ <CAMof9cU5s0ck20fcSAYSvK-xpcP5_Hv2BmN20Bh3btpLum7THg@mail.gmail.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <CAMof9cU5s0ck20fcSAYSvK-xpcP5_Hv2BmN20Bh3btpLum7THg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-11.79 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_RCPT(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FREEMAIL_TO(0.00)[purestorage.com,gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -11.79
+X-Spam-Level: 
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261101_221449_126341_985F7C87 
-X-CRM114-Status: GOOD (  16.79  )
-X-Spam-Score: -2.1 (--)
+X-CRM114-CacheID: sfid-20261101_231557_005193_86E17169 
+X-CRM114-Status: GOOD (  24.14  )
+X-Spam-Score: -4.4 (----)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -105,85 +149,78 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-7.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-del_gendisk() takes the tag set's update_nr_hwq_lock for write to set
-QUEUE_FLAG_NO_ELV_SWITCH, then for read around __del_gendisk(). The
-write lock was there to wait for elevator switches from sysfs, which
-held the lock for read when the flag was added.
+On 10/30/26 10:25 PM, Surabhi Gogte (she/her) wrote:
+> On Mon, Oct 26, 2026 at 3:57 AM Martin Belanger
+> <martin.nvme.dev@gmail.com> wrote:
+>>
+>> On 9/22/26 16:07, Surabhi Gogte wrote:
+>>   > Similar to commit 2a8513091d2f ("nvme-rdma: parallelize I/O queue
+>>   > allocation and startup"), refactor nvme tcp I/O queue setup to use async
+>>   > API, combining allocation and startup into a single parallel operation
+>>   > per queue. This reduces connection and reconnection setup time when
+>>   > there are delays in establishing connections, which is especially
+>>   > important for high-core-count hosts.
+>> [...]
+>>
+>> Hi Surabhi,
+>>
+>> This patch breaks NVMe/TCP connects with TLS. This is a different bug
+>> from the pf_cache_lock one that Shin'ichiro reported.
+>>
+>> Test: one VM with 4 CPUs, nvmet-tcp on 127.0.0.1 with tsas tls1.3, a
+>> connect with --tls and 4 I/O queues, and tlshd at upstream commit
+>> a0bd51d.
+>>
+>> - Linus master 6b4b543fa187: 14 of 20 connects fail.
+>> - Same tree with this patch reverted: 20 of 20 connects pass.
+>> - Same tree with Daniel's pf_cache_lock fix [1]: 22 of 40 and 17 of 40
+>>     connects fail.
+>>
+>> On each failed connect, one I/O queue logs:
+>>
+>>     nvme nvme0: queue 4: TLS handshake complete, error -110
+>>
+>> The tlshd that runs for the target logs:
+>>
+>>     failed to search 'psk' key 'NVMe0R01 <hostnqn> <subnqn>'
+>>     gnutls: Error in password/key file. (-31)
+>>
+>> and closes the connection. The tlshd that runs for the host then gets
+>> GNUTLS_E_PREMATURE_TERMINATION, which it reports to the kernel as
+>> ETIMEDOUT. The other queues use the same PSK, and their handshakes
+>> succeed. blktests nvme/062 and nvme/063 fail the same way.
+>>
+>> I can share the reproducer script.
+> 
+> Hey Martin, can you try the tests once with tlshd using commit 3a6658e
+> ("tlshd: Link the NFS keyrings per handshake instead of at startup")
+> or ktls-utils 1.5. blktests nvme/062 and nvme/063 passed with this
+> commit. I believe that change fixed the keyring race in tlshd
+> independently. If the issue persists, let me know the reproducer
+> script so I can also take a look. I saw the same errors while running
+> blktests with an older tlshd version from ktls-utils 1.3.1 and
+> updating tlshd worked.
+> 
+Ouch. That will be tricky for distros. If there is a specific commit
+which requires an update to ktlshd we need to have a way to identify
+that; otherwise we'll see lots of regressions where customers have
+updated only one side.
+Please modify the patch to work with older versions of ktlshd.
 
-When several disks of one tag set are deleted at once, as nvme does for
-the namespaces of a controller, each write lock waits for the other
-disks to get through __del_gendisk() under the read lock, and the
-deletions run one after another.
+Cheers,
 
-Elevator switches from sysfs have taken update_nr_hwq_lock for write
-since commit 4ff58d6bc9dd4 ("block: serialize elevator changes for the
-same queue using a writer lock"), as updates of nr_hw_queues do. Set the
-flag under the read lock instead, which still waits for both and keeps
-them out.
-
-Disconnect time of an nvme controller that removes its namespaces in
-parallel, from a target on the same host, over tcp to 127.0.0.1 and
-over nvme-loop, with 4 I/O queues, median of 3 runs on each of two
-boots per kernel:
-
-  namespaces  transport  before              after
-           8  tcp          85 /   91 ms        51 /   47 ms
-          32  tcp         294 /  293 ms        75 /   70 ms
-          64  tcp         533 /  550 ms       115 /  124 ms
-          64  loop       1283 / 1200 ms       185 /  204 ms
-
-Signed-off-by: Qiliang Yuan <odys.yuan@gmail.com>
----
- block/genhd.c | 17 +++++------------
- 1 file changed, 5 insertions(+), 12 deletions(-)
-
-diff --git a/block/genhd.c b/block/genhd.c
-index 10ca8b4d6eea7..5afc60bf139e6 100644
---- a/block/genhd.c
-+++ b/block/genhd.c
-@@ -781,16 +781,6 @@ static void __del_gendisk(struct gendisk *disk)
- 		blk_unfreeze_release_lock(q);
- }
- 
--static void disable_elv_switch(struct request_queue *q)
--{
--	struct blk_mq_tag_set *set = q->tag_set;
--	WARN_ON_ONCE(!queue_is_mq(q));
--
--	down_write(&set->update_nr_hwq_lock);
--	blk_queue_flag_set(QUEUE_FLAG_NO_ELV_SWITCH, q);
--	up_write(&set->update_nr_hwq_lock);
--}
--
- /**
-  * del_gendisk - remove the gendisk
-  * @disk: the struct gendisk to remove
-@@ -820,10 +810,13 @@ void del_gendisk(struct gendisk *disk)
- 	} else {
- 		set = disk->queue->tag_set;
- 
--		disable_elv_switch(disk->queue);
--
- 		memflags = memalloc_noio_save();
- 		down_read(&set->update_nr_hwq_lock);
-+		/*
-+		 * Set the flag under the read lock, as elevator switches take
-+		 * update_nr_hwq_lock for write.
-+		 */
-+		blk_queue_flag_set(QUEUE_FLAG_NO_ELV_SWITCH, disk->queue);
- 		__del_gendisk(disk);
- 		up_read(&set->update_nr_hwq_lock);
- 		memalloc_noio_restore(memflags);
-
+Hannes
 -- 
-2.43.0
-
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
