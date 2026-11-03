@@ -2,110 +2,64 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70CE4606EE85
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2026 21:43:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 164E6606A328
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2026 22:41:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=IEi36FDJ;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UBTtVz/o
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=wAKwqNQK;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=He/lVY6a
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:
-	References:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:
-	Subject:Date:From:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=bOtXECOZj8apeq/96BbPzaL+V47SSqXEDd4K4LhuaxE=; b=IEi36FDJ+XhuL6
-	rpkz6QGQhiCd938rMkmT7uxx+QtvScs43DG4XktavCjej05mmBGq4bIqEuNO8BILCaX0oHzdEG9Es
-	r6Co7Qa9tcG/Tt2d9fOBaj9gBUMUSssvYQ/sLzhJHYMy99yfLoF6ilxZ0fqri/rllCe4nEjcmpYYy
-	foIJiix+1/5l7xY8/Z2L7/E7vkby1F975+E4ZW2tUgf+6VlS+OR3r7xVdZ167XnL4+kOuu3WsYkJC
-	xI/KdA823vPZt0CsxzNdCZSyRp0qHDGLa0Uz1yr7tMny3AjYrhA5ZOvGpygk2Jwy7Ay4NFz6bBTFK
-	Py2H3YIya/VVpnMaCsSg==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Unsubscribe-Post:List-Owner;
+	bh=MsISqNXakbNMhld7Cj1YhO0/ijK5aJ2Aj3UwQYpgHtk=; b=wAKwqNQKIFn7W2C58vMJLG9HyJ
+	OZl2/upad2PD6vl1sQKsxZzoHIwPA/3/aQjPQz62bBKbDTBo3nyrhPGIzZJEBRyIShPhRfuFAy1E5
+	GDK1NeS6Q5YYwPubC3p25omKYIBU/UzmVNPFKHOYUgMEImuAJQxoaefSee5s4cEoHdHgvPnTa31Oz
+	WjG4a4sEYQzKeOLZaeoFrERJk+0rINL55mxtKk1+uJ3Hc35brlmDLAddbk0JeebVTDQhp4P9KPlHJ
+	aUu/iI1YCEjZ0cTKCy3vzGFkrBBNlbTKanueRtrfvwkJl5mBYG1lu/zsM0WQBqlPdM/UXfOpCHHYC
+	lDJnUHGQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOMI3-00000003kzT-0EjC;
-	Tue, 03 Nov 2026 21:43:35 +0000
+	id 1xONBt-00000003sZb-2uRL;
+	Tue, 03 Nov 2026 22:41:17 +0000
 Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOMHz-00000003kvy-2asK
+	id 1xONBs-00000003sZB-2Cym
 	for linux-nvme@lists.infradead.org;
-	Tue, 03 Nov 2026 21:43:31 +0000
+	Tue, 03 Nov 2026 22:41:16 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 5EF7A41314;
-	Tue,  3 Nov 2026 21:43:31 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1793742211;
-	b=YpTggJiRjdiRfL+dJimZLXpShaRZnJPzJEQ57oXKz0QsimfwGddOeX7fksvLv80gS57+
-	 wdG+7G4mj/pDXQslH9Cox/UCaIBBqqWSK5nk0rpyQ3l4RQf+4WG7KXU1IKcwQxq8Oy8YJ
-	 QWpPh2Lh2EwBEww8fIRJU/PWrN/jMyi1fGL8/CIXki7lUyiTvlya1icbLjWdl7sq8TAba
-	 9Ms5M/JIYf8p8zmxn76vVTjXi6/jMEvEVPpLsYKGQWkU05NI4R69VhdCP2wFgbmsf80b8
-	 ggSEmcdrSZETD49iz/Ywt4CJLfhfNYPJAslJGPVfO+aI9272QOI40GBDDUqkkN2rQZg==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1793742211;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To;
-	bh=bOtXECOZj8apeq/96BbPzaL+V47SSqXEDd4K4LhuaxE=;
-	b=q0f21YUSLsHR36tBMLD2MOTGsuQaI5B6yJWxUBuDsecMXeiBSouc2mipHkKdy2Rtfv5I
-	 RGDXjxnBnunyFcqj2Vpq4Zz4l9RvFXUmaE5TWPzV+EkU/Ve4TPj9aCdn3xkc+79DTHbAf
-	 mEA7EAye2rqUoZyZhKKgucmsqlzEq8Y/8KlauSXKnC9CK3+jb4atsPlKUe1zgMCvlKX9z
-	 M6dNU+6pn8ohVbWH1ZYcR+8E22pLaAjARKd25wBDscgDqinuImRTStO7qD1nvcNxPd5z5
-	 2MhHYgnHIT8QeSfey/V2QpIeSpsGznw+6fgCUe55b7WyKNqkzH2ucpbiI+1qpCFEmPg==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 27DD21F00A2B;
-	Tue,  3 Nov 2026 21:43:29 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 33425419EE;
+	Tue,  3 Nov 2026 22:41:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 433F61F000C1;
+	Tue,  3 Nov 2026 22:41:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793742211;
-	bh=bOtXECOZj8apeq/96BbPzaL+V47SSqXEDd4K4LhuaxE=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=UBTtVz/oEorAtZfY/3815JjUpIAeJRMUnRMzk/V5pIez+A+edwyPZlOnQCav9L9vT
-	 HTWWP8oqhuOEI88ic916DBEkZFzGjMIynkTEQ+mvMDCPAgqRgbHbgxmbk6e2k3rubo
-	 c37xvOOPT2djdyAPAe53cZZZmC+cpd08YitSrsghotc11TzaJxzsK9uexWv+eZVg8Q
-	 ZqaqjyoGvxcDE/Jz4Q3v0pQs1ui7dQ6nRolAT+gvnQcPdAUHHqQZc0oAmMV1KfDkqF
-	 3SWBdqQyOObw1TDdySzkV9xO6PoaxO0Spo6nD3rJdKaJ1YmB6g5HSoDnDivLJ+oa8F
-	 VswaWFymN7lIg==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id A0C1C46B57;
-	Tue,  3 Nov 2026 21:43:27 +0000 (UTC)
-From: Martin Belanger via B4 Relay <devnull+martin.nvme.dev.gmail.com@kernel.org>
-Date: Tue, 03 Nov 2026 16:43:30 -0500
-Subject: [PATCH net-next v5 6/6] selftests/tls: add KeyUpdate tests
+	s=k20260515; t=1793745676;
+	bh=MsISqNXakbNMhld7Cj1YhO0/ijK5aJ2Aj3UwQYpgHtk=;
+	h=From:To:Cc:Subject:Date;
+	b=He/lVY6aY//OeLZRSDNoP2UvpLz5LU320Owc/DkB4d3RyZrV5R9Mqj3CQee2watyR
+	 +CDkkTPgd6X8mpE7I6L7VFPR+wU0r1ksn+vJSrAYBRFpWFOz2m840pGVcW/a72XO5a
+	 G+Gf9QdRfgsDISnN7wakErFdSPh1wB8mpatmEKuSiG+T29Rb7nu0DLWbkztPEgxsja
+	 fxphOQoXAAzAgvTeGXsxCJMNWvGpevyfE473f/AZr279ZvC90hd3XAO4SbD43+nNZM
+	 rHFf1LTBXM0y1AkhB6XYjxJkY9LRBYwoMHwKr9YOGtDxlJbUfW0+aDwp4r2n/3tu0D
+	 O26RngXv2D9cQ==
+From: Sasha Levin <sashal@kernel.org>
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Sasha Levin <sashal@kernel.org>,
+	stable@vger.kernel.org
+Subject: [PATCH] nvme-pci: add NVME_QUIRK_DMAPOOL_ALIGN_512 for KIOXIA XG10d
+Date: Tue,  3 Nov 2026 17:41:14 -0500
+Message-ID: <20261103224114.1657779-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261103-keyupdate-rfc-v5-6-de1ab90a88d5@gmail.com>
-References: <20261103-keyupdate-rfc-v5-0-de1ab90a88d5@gmail.com>
-In-Reply-To: <20261103-keyupdate-rfc-v5-0-de1ab90a88d5@gmail.com>
-To: John Fastabend <john.fastabend@gmail.com>, 
- Jakub Kicinski <kuba@kernel.org>, Sabrina Dubroca <sd@queasysnail.net>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, Shuah Khan <shuah@kernel.org>
-Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- Hannes Reinecke <hare@kernel.org>, Chuck Lever <cel@kernel.org>, 
- kernel-tls-handshake@lists.linux.dev, linux-nvme@lists.infradead.org, 
- Alistair Francis <alistair.francis@wdc.com>, 
- Martin Belanger <martin.nvme.dev@gmail.com>, 
- Martin Belanger <martin.belanger@dell.com>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1793742206; l=18438;
- i=martin.nvme.dev@gmail.com; s=20261014; h=from:subject:message-id;
- bh=ObswRwjprFQMogVgY2Su5jajfK0Mz2S+6Aep+hgA7nw=;
- b=Z3tta7x4u9iPLdjKtWiTkW8BBttcdlNWRNDc9lyEKbl2L6sQReeRWuEzy2RXF8T6RfXPqO52t
- uLNYKutBghDBjzUn3k+0VGqcHu918UKd2YPpSHS5RRN9ikPmIqg+dBY
-X-Developer-Key: i=martin.nvme.dev@gmail.com; a=ed25519;
- pk=4K+XXetGK35w2LzRRddd/bbHawZU222BN+YZRuSpN+k=
-X-Endpoint-Received: by B4 Relay for martin.nvme.dev@gmail.com/20261014
- with auth_id=1176
-X-Original-From: Martin Belanger <martin.nvme.dev@gmail.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -115,7 +69,6 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: martin.nvme.dev@gmail.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
@@ -125,600 +78,57 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-From: Martin Belanger <martin.belanger@dell.com>
+The KIOXIA XG10d reads past the end of a PRP List that fills a whole
+256 byte small descriptor.  If that descriptor is the last block of its
+dmapool page, the read crosses into the following page.  Behind an IOMMU
+that is usually an unmapped IOVA, and the controller does not survive
+the fault:
 
-Test the in-kernel KeyUpdate on a bidirectional connection with both
-traffic secrets registered on each socket:
+  arm-smmu-v3 arm-smmu-v3.0.auto: event: F_TRANSLATION client: 0001:09:00.0 sid: 0x20900 ssid: 0x0 iova: 0xff7fe000 ipa: 0x0
+  nvme nvme0: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
+  nvme 0001:09:00.0: Unable to change power state from D3cold to D0, device inaccessible
+  nvme nvme0: Disabling device after reset failure: -19
 
-- registration errors: wrong length, missing key, TLS 1.2, SM4, the
-  RX secret before the TX secret, and a secret that does not give the
-  installed key;
-- KeyUpdates in both directions with data around them;
-- a data record, a KeyUpdate and another data record queued before
-  the first read;
-- update_requested: the peer answers before its next data, also
-  after a send that failed with EAGAIN, and a second request waits
-  for the answer;
-- splice() across a KeyUpdate;
-- one write that crosses the record limit gets a KeyUpdate in the
-  middle;
-- a key installed with TLS_TX removes the registered secrets;
-- after a key installed with TLS_RX, a new update_requested is
-  accepted;
-- TLS_TX_KEY_UPDATE on a shut down socket does not raise SIGPIPE;
-- more than 8 KeyUpdates in one second, and an invalid
-  request_update value, end the connection.
+When this fired, sixteen 132 KiB writes were in flight, each with a
+32-entry PRP List in a small descriptor from the same dmapool page; the
+one at offset 0xF00 ends exactly at the faulting IOVA.
 
-The keys are derived from the secrets with HKDF-Expand-Label, with the
-HMAC of the kernel through AF_ALG.
+Only full lists trigger it.  The 31-entry lists of aligned 128 KiB
+transfers land in that last block too, and never faulted in our testing.
+A full list needs a transfer spanning exactly 33 pages, such as an
+aligned 132 KiB transfer or a 128 KiB transfer from a buffer that is not
+page aligned.  Larger transfers get a 4 KiB descriptor, which a 256 KiB
+MDTS never fills.  Transfers above 128 KiB became routine once commit
+2e8e30b3cf9f ("Revert "nvme-pci: clamp max_hw_sectors based on DMA
+optimized limitation"") lifted the 128 KiB cap behind an IOMMU.  Kernels
+before v6.4 are not affected either way: their dmapool never handed out
+the last block of a page (see commit da9619a30e73 ("dmapool: link blocks
+across pages")).
 
-Reviewed-by: Hannes Reinecke <hare@kernel.org>
-Reviewed-by: Chuck Lever <cel@kernel.org>
-Signed-off-by: Martin Belanger <martin.belanger@dell.com>
+Align the small descriptor pool to 512 bytes, as is already done for
+the O2 Micro and Micron 4100AT controllers.  The last block then starts
+at offset 0xE00, and the read stays inside the page.
+
+Cc: stable@vger.kernel.org # 6.4.x
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- tools/testing/selftests/net/config |   4 +
- tools/testing/selftests/net/tls.c  | 521 +++++++++++++++++++++++++++++++++++++
- 2 files changed, 525 insertions(+)
+ drivers/nvme/host/pci.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/tools/testing/selftests/net/config b/tools/testing/selftests/net/config
-index d4416f8bdcfd..dba70eee452d 100644
---- a/tools/testing/selftests/net/config
-+++ b/tools/testing/selftests/net/config
-@@ -10,8 +10,12 @@ CONFIG_CAN_VXCAN=m
- CONFIG_CGROUPS=y
- CONFIG_CRYPTO_ARIA=y
- CONFIG_CRYPTO_CHACHA20POLY1305=m
-+CONFIG_CRYPTO_HMAC=y
- CONFIG_CRYPTO_SHA1=y
-+CONFIG_CRYPTO_SHA256=y
-+CONFIG_CRYPTO_SHA512=y
- CONFIG_CRYPTO_SM4_GENERIC=y
-+CONFIG_CRYPTO_USER_API_HASH=y
- CONFIG_DEBUG_INFO_BTF=y
- CONFIG_DEBUG_INFO_BTF_MODULES=n
- CONFIG_DUMMY=y
-diff --git a/tools/testing/selftests/net/tls.c b/tools/testing/selftests/net/tls.c
-index c4203401c4bf..02a87fbc23f8 100644
---- a/tools/testing/selftests/net/tls.c
-+++ b/tools/testing/selftests/net/tls.c
-@@ -11,6 +11,7 @@
- #include <stdlib.h>
- #include <unistd.h>
- 
-+#include <linux/if_alg.h>
- #include <linux/tls.h>
- #include <linux/tcp.h>
- #include <linux/socket.h>
-@@ -2421,6 +2422,526 @@ TEST_F(tls, rekey_poll_delay)
- 	}
- }
- 
-+#ifndef SOL_ALG
-+#define SOL_ALG 279
-+#endif
-+
-+/* RFC 9846 section 7.1, HKDF-Expand-Label with an empty context, for an
-+ * output no longer than the hash. The HMAC comes from the kernel.
-+ */
-+static bool hkdf_expand_label(const unsigned char *secret, int secret_len,
-+			      const char *label, unsigned char *out,
-+			      int out_len)
-+{
-+	struct sockaddr_alg sa = {
-+		.salg_family = AF_ALG,
-+		.salg_type = "hash",
-+	};
-+	unsigned char info[2 + 1 + 255 + 1 + 1], md[48];
-+	int tfm, op, n = 0, label_len = 6 + strlen(label);
-+	bool ok = false;
-+
-+	strcpy((char *)sa.salg_name,
-+	       secret_len == 48 ? "hmac(sha384)" : "hmac(sha256)");
-+
-+	info[n++] = out_len >> 8;
-+	info[n++] = out_len;
-+	info[n++] = label_len;
-+	memcpy(info + n, "tls13 ", 6);
-+	memcpy(info + n + 6, label, label_len - 6);
-+	n += label_len;
-+	info[n++] = 0;	/* context */
-+	info[n++] = 1;	/* HKDF-Expand counter */
-+
-+	tfm = socket(AF_ALG, SOCK_SEQPACKET, 0);
-+	if (tfm < 0)
-+		return false;
-+	if (bind(tfm, (struct sockaddr *)&sa, sizeof(sa)) ||
-+	    setsockopt(tfm, SOL_ALG, ALG_SET_KEY, secret, secret_len))
-+		goto out;
-+
-+	op = accept(tfm, NULL, 0);
-+	if (op < 0)
-+		goto out;
-+	ok = write(op, info, n) == n && read(op, md, secret_len) == secret_len;
-+	close(op);
-+	if (ok)
-+		memcpy(out, md, out_len);
-+out:
-+	close(tfm);
-+	return ok;
-+}
-+
-+/* Fill @keys with the key and IV that @secret gives, record number 0 */
-+static bool keyupdate_keys(uint16_t cipher_type, const unsigned char *secret,
-+			   int secret_len, struct tls_crypto_info_keys *keys)
-+{
-+	unsigned char *key, *salt, *iv;
-+	int key_len, salt_len, iv_len;
-+	unsigned char nonce[12];
-+
-+	tls_crypto_info_init(TLS_1_3_VERSION, cipher_type, keys, 0);
-+
-+	switch (cipher_type) {
-+	case TLS_CIPHER_AES_GCM_128:
-+		key = keys->aes128.key;
-+		salt = keys->aes128.salt;
-+		iv = keys->aes128.iv;
-+		key_len = sizeof(keys->aes128.key);
-+		salt_len = sizeof(keys->aes128.salt);
-+		iv_len = sizeof(keys->aes128.iv);
-+		break;
-+	case TLS_CIPHER_AES_GCM_256:
-+		key = keys->aesgcm256.key;
-+		salt = keys->aesgcm256.salt;
-+		iv = keys->aesgcm256.iv;
-+		key_len = sizeof(keys->aesgcm256.key);
-+		salt_len = sizeof(keys->aesgcm256.salt);
-+		iv_len = sizeof(keys->aesgcm256.iv);
-+		break;
-+	case TLS_CIPHER_AES_CCM_128:
-+		key = keys->aesccm128.key;
-+		salt = keys->aesccm128.salt;
-+		iv = keys->aesccm128.iv;
-+		key_len = sizeof(keys->aesccm128.key);
-+		salt_len = sizeof(keys->aesccm128.salt);
-+		iv_len = sizeof(keys->aesccm128.iv);
-+		break;
-+	case TLS_CIPHER_CHACHA20_POLY1305:
-+		key = keys->chacha20.key;
-+		salt = keys->chacha20.salt;
-+		iv = keys->chacha20.iv;
-+		key_len = sizeof(keys->chacha20.key);
-+		salt_len = 0;
-+		iv_len = sizeof(keys->chacha20.iv);
-+		break;
-+	default:
-+		return false;
-+	}
-+
-+	if (!hkdf_expand_label(secret, secret_len, "key", key, key_len) ||
-+	    !hkdf_expand_label(secret, secret_len, "iv", nonce,
-+			       salt_len + iv_len))
-+		return false;
-+
-+	memcpy(salt, nonce, salt_len);
-+	memcpy(iv, nonce + salt_len, iv_len);
-+	return true;
-+}
-+
-+/* In-kernel KeyUpdate: fd and cfd both register the TX and RX traffic
-+ * secrets of a bidirectional connection. fd -> cfd starts at record
-+ * number @seq. Returns false if the variant does not support it.
-+ */
-+static bool keyupdate_setup_seq(struct __test_metadata *_metadata,
-+				FIXTURE_DATA(tls) *self,
-+				const FIXTURE_VARIANT(tls) *variant,
-+				uint64_t seq)
-+{
-+	struct tls_crypto_info_keys keys_a, keys_b;
-+	unsigned char secret_a[48], secret_b[48];
-+	unsigned char *rec_seq;
-+	int len, i;
-+
-+	if (self->notls || variant->tls_version != TLS_1_3_VERSION)
-+		return false;
-+
-+	switch (variant->cipher_type) {
-+	case TLS_CIPHER_AES_GCM_128:
-+	case TLS_CIPHER_AES_CCM_128:
-+	case TLS_CIPHER_CHACHA20_POLY1305:
-+		len = 32;
-+		break;
-+	case TLS_CIPHER_AES_GCM_256:
-+		len = 48;
-+		break;
-+	default:
-+		return false;
-+	}
-+
-+	memset(secret_a, 0xa5, sizeof(secret_a));
-+	memset(secret_b, 0x5a, sizeof(secret_b));
-+
-+	/* the keys must be the ones that the secrets give */
-+	ASSERT_TRUE(keyupdate_keys(variant->cipher_type, secret_a, len,
-+				   &keys_a));
-+	ASSERT_TRUE(keyupdate_keys(variant->cipher_type, secret_b, len,
-+				   &keys_b));
-+
-+	/* rec_seq is the last member of each crypto_info */
-+	rec_seq = (unsigned char *)&keys_a + keys_a.len - 8;
-+	for (i = 0; i < 8; i++)
-+		rec_seq[i] = seq >> (56 - 8 * i);
-+
-+	/* fd -> cfd: replace the keys of the fixture */
-+	EXPECT_EQ(setsockopt(self->fd, SOL_TLS, TLS_TX, &keys_a,
-+			     keys_a.len), 0);
-+	EXPECT_EQ(setsockopt(self->cfd, SOL_TLS, TLS_RX, &keys_a,
-+			     keys_a.len), 0);
-+	/* cfd -> fd */
-+	EXPECT_EQ(setsockopt(self->fd, SOL_TLS, TLS_RX, &keys_b,
-+			     keys_b.len), 0);
-+	EXPECT_EQ(setsockopt(self->cfd, SOL_TLS, TLS_TX, &keys_b,
-+			     keys_b.len), 0);
-+
-+	/* the RX secret needs the TX secret first */
-+	EXPECT_EQ(setsockopt(self->fd, SOL_TLS, TLS_RX_TRAFFIC_SECRET,
-+			     secret_b, len), -1);
-+	EXPECT_EQ(errno, EINVAL);
-+
-+	EXPECT_EQ(setsockopt(self->fd, SOL_TLS, TLS_TX_TRAFFIC_SECRET,
-+			     secret_a, len), 0);
-+	EXPECT_EQ(setsockopt(self->fd, SOL_TLS, TLS_RX_TRAFFIC_SECRET,
-+			     secret_b, len), 0);
-+	EXPECT_EQ(setsockopt(self->cfd, SOL_TLS, TLS_TX_TRAFFIC_SECRET,
-+			     secret_b, len), 0);
-+	EXPECT_EQ(setsockopt(self->cfd, SOL_TLS, TLS_RX_TRAFFIC_SECRET,
-+			     secret_a, len), 0);
-+
-+	return true;
-+}
-+
-+static bool keyupdate_setup(struct __test_metadata *_metadata,
-+			    FIXTURE_DATA(tls) *self,
-+			    const FIXTURE_VARIANT(tls) *variant)
-+{
-+	return keyupdate_setup_seq(_metadata, self, variant, 0);
-+}
-+
-+static void keyupdate_send(struct __test_metadata *_metadata, int fd,
-+			   int request)
-+{
-+	EXPECT_EQ(setsockopt(fd, SOL_TLS, TLS_TX_KEY_UPDATE,
-+			     &request, sizeof(request)), 0);
-+}
-+
-+static void send_recv_str(struct __test_metadata *_metadata, int from, int to,
-+			  const char *str)
-+{
-+	int len = strlen(str) + 1;
-+	char buf[64];
-+
-+	EXPECT_EQ(send(from, str, len, 0), len);
-+	EXPECT_EQ(recv(to, buf, sizeof(buf), 0), len);
-+	EXPECT_EQ(memcmp(buf, str, len), 0);
-+}
-+
-+TEST_F(tls, keyupdate_secret_errors)
-+{
-+	unsigned char secret[48] = {};
-+	int one = 1;
-+
-+	if (self->notls)
-+		SKIP(return, "no TLS support");
-+
-+	/* no secret registered */
-+	EXPECT_EQ(setsockopt(self->fd, SOL_TLS, TLS_TX_KEY_UPDATE,
-+			     &one, sizeof(one)), -1);
-+	EXPECT_EQ(errno, EINVAL);
-+
-+	if (variant->tls_version != TLS_1_3_VERSION) {
-+		EXPECT_EQ(setsockopt(self->fd, SOL_TLS, TLS_TX_TRAFFIC_SECRET,
-+				     secret, 32), -1);
-+		EXPECT_EQ(errno, EINVAL);
-+		return;
-+	}
-+
-+	if (variant->cipher_type == TLS_CIPHER_SM4_GCM ||
-+	    variant->cipher_type == TLS_CIPHER_SM4_CCM) {
-+		EXPECT_EQ(setsockopt(self->fd, SOL_TLS, TLS_TX_TRAFFIC_SECRET,
-+				     secret, 32), -1);
-+		EXPECT_EQ(errno, EOPNOTSUPP);
-+		return;
-+	}
-+
-+	/* the RX key is not installed on fd */
-+	EXPECT_EQ(setsockopt(self->fd, SOL_TLS, TLS_RX_TRAFFIC_SECRET,
-+			     secret, 32), -1);
-+	EXPECT_EQ(errno, EINVAL);
-+
-+	/* wrong length */
-+	EXPECT_EQ(setsockopt(self->fd, SOL_TLS, TLS_TX_TRAFFIC_SECRET,
-+			     secret, 16), -1);
-+	EXPECT_EQ(errno, EINVAL);
-+
-+	/* the installed key does not come from this secret */
-+	EXPECT_EQ(setsockopt(self->fd, SOL_TLS, TLS_TX_TRAFFIC_SECRET, secret,
-+			     variant->cipher_type == TLS_CIPHER_AES_GCM_256 ?
-+			     48 : 32), -1);
-+	EXPECT_EQ(errno, EINVAL);
-+}
-+
-+TEST_F(tls, keyupdate)
-+{
-+	int i;
-+
-+	if (!keyupdate_setup(_metadata, self, variant))
-+		SKIP(return, "no in-kernel KeyUpdate for this variant");
-+
-+	send_recv_str(_metadata, self->fd, self->cfd, "before");
-+
-+	/* stay below the limit of 8 received KeyUpdates per second */
-+	for (i = 0; i < 4; i++) {
-+		keyupdate_send(_metadata, self->fd, 0);
-+		send_recv_str(_metadata, self->fd, self->cfd, "after");
-+		keyupdate_send(_metadata, self->cfd, 0);
-+		send_recv_str(_metadata, self->cfd, self->fd, "reverse");
-+	}
-+}
-+
-+TEST_F(tls, keyupdate_queued)
-+{
-+	const char *str = "queued behind a KeyUpdate";
-+	int len = strlen(str) + 1;
-+	char buf[64];
-+
-+	if (!keyupdate_setup(_metadata, self, variant))
-+		SKIP(return, "no in-kernel KeyUpdate for this variant");
-+
-+	/* the record before the KeyUpdate, the KeyUpdate and the record
-+	 * after it are all queued before the first read
-+	 */
-+	EXPECT_EQ(send(self->fd, str, len, MSG_MORE), len);
-+	keyupdate_send(_metadata, self->fd, 0);
-+	EXPECT_EQ(send(self->fd, str, len, 0), len);
-+
-+	EXPECT_EQ(recv(self->cfd, buf, len, MSG_WAITALL), len);
-+	EXPECT_EQ(memcmp(buf, str, len), 0);
-+	EXPECT_EQ(recv(self->cfd, buf, len, MSG_WAITALL), len);
-+	EXPECT_EQ(memcmp(buf, str, len), 0);
-+}
-+
-+TEST_F(tls, keyupdate_request)
-+{
-+	int one = 1;
-+
-+	if (!keyupdate_setup(_metadata, self, variant))
-+		SKIP(return, "no in-kernel KeyUpdate for this variant");
-+
-+	keyupdate_send(_metadata, self->fd, 1);
-+
-+	/* no answer yet */
-+	EXPECT_EQ(setsockopt(self->fd, SOL_TLS, TLS_TX_KEY_UPDATE,
-+			     &one, sizeof(one)), -1);
-+	EXPECT_EQ(errno, EBUSY);
-+
-+	/* cfd processes the request, then answers ahead of its data */
-+	send_recv_str(_metadata, self->fd, self->cfd, "request");
-+	send_recv_str(_metadata, self->cfd, self->fd, "answer");
-+
-+	/* answered */
-+	keyupdate_send(_metadata, self->fd, 1);
-+	send_recv_str(_metadata, self->fd, self->cfd, "request");
-+	send_recv_str(_metadata, self->cfd, self->fd, "answer");
-+}
-+
-+TEST_F(tls, keyupdate_splice)
-+{
-+	const char *str = "spliced after a KeyUpdate";
-+	int len = strlen(str) + 1;
-+	char buf[64];
-+	int p[2];
-+
-+	if (!keyupdate_setup(_metadata, self, variant))
-+		SKIP(return, "no in-kernel KeyUpdate for this variant");
-+
-+	ASSERT_GE(pipe(p), 0);
-+
-+	keyupdate_send(_metadata, self->fd, 0);
-+	EXPECT_EQ(send(self->fd, str, len, 0), len);
-+
-+	EXPECT_EQ(splice(self->cfd, NULL, p[1], NULL, len, 0), len);
-+	EXPECT_EQ(read(p[0], buf, len), len);
-+	EXPECT_EQ(memcmp(buf, str, len), 0);
-+
-+	close(p[0]);
-+	close(p[1]);
-+}
-+
-+TEST_F(tls, keyupdate_manual_rekey)
-+{
-+	struct tls_crypto_info_keys tls12;
-+	int zero = 0;
-+
-+	if (!keyupdate_setup(_metadata, self, variant))
-+		SKIP(return, "no in-kernel KeyUpdate for this variant");
-+
-+	/* a key installed by the user removes the registered secrets */
-+	tls_crypto_info_init(variant->tls_version, variant->cipher_type,
-+			     &tls12, 2);
-+	EXPECT_EQ(setsockopt(self->fd, SOL_TLS, TLS_TX, &tls12, tls12.len), 0);
-+
-+	EXPECT_EQ(setsockopt(self->fd, SOL_TLS, TLS_TX_KEY_UPDATE,
-+			     &zero, sizeof(zero)), -1);
-+	EXPECT_EQ(errno, EINVAL);
-+}
-+
-+TEST_F(tls, keyupdate_manual_rekey_request)
-+{
-+	struct tls_crypto_info_keys keys;
-+	unsigned char secret[48];
-+	int len;
-+
-+	if (!keyupdate_setup(_metadata, self, variant))
-+		SKIP(return, "no in-kernel KeyUpdate for this variant");
-+
-+	keyupdate_send(_metadata, self->fd, 1);
-+
-+	/* the answer to the request now goes to user space */
-+	len = variant->cipher_type == TLS_CIPHER_AES_GCM_256 ? 48 : 32;
-+	memset(secret, 0x3c, sizeof(secret));
-+	ASSERT_TRUE(keyupdate_keys(variant->cipher_type, secret, len, &keys));
-+	EXPECT_EQ(setsockopt(self->fd, SOL_TLS, TLS_RX, &keys, keys.len), 0);
-+
-+	EXPECT_EQ(setsockopt(self->fd, SOL_TLS, TLS_RX_TRAFFIC_SECRET,
-+			     secret, len), 0);
-+
-+	keyupdate_send(_metadata, self->fd, 1);
-+}
-+
-+TEST_F(tls, keyupdate_nosignal)
-+{
-+	int zero = 0;
-+
-+	if (!keyupdate_setup(_metadata, self, variant))
-+		SKIP(return, "no in-kernel KeyUpdate for this variant");
-+
-+	/* The default action of SIGPIPE ends the test. The result is not
-+	 * checked: as for sendmsg(), the error can show up only on the
-+	 * next call.
-+	 */
-+	EXPECT_EQ(shutdown(self->fd, SHUT_WR), 0);
-+	setsockopt(self->fd, SOL_TLS, TLS_TX_KEY_UPDATE, &zero, sizeof(zero));
-+}
-+
-+TEST_F(tls, keyupdate_rate_limit)
-+{
-+	char buf[64];
-+	int i;
-+
-+	if (!keyupdate_setup(_metadata, self, variant))
-+		SKIP(return, "no in-kernel KeyUpdate for this variant");
-+
-+	/* the ninth KeyUpdate in one second ends the connection */
-+	for (i = 0; i < 9; i++)
-+		keyupdate_send(_metadata, self->fd, 0);
-+	EXPECT_EQ(send(self->fd, "x", 1, 0), 1);
-+
-+	EXPECT_EQ(recv(self->cfd, buf, sizeof(buf), 0), -1);
-+	EXPECT_EQ(errno, EBADMSG);
-+}
-+
-+TEST_F(tls, keyupdate_record_limit)
-+{
-+	struct tls_crypto_info_keys get;
-+	char sbuf[1024], rbuf[1024];
-+	socklen_t optlen;
-+	unsigned char *rec_seq;
-+	__u16 limit = 128;
-+	int i;
-+
-+	if (variant->cipher_type == TLS_CIPHER_CHACHA20_POLY1305)
-+		SKIP(return, "no record limit for ChaCha20-Poly1305");
-+	if (!keyupdate_setup_seq(_metadata, self, variant, (1 << 24) - 2))
-+		SKIP(return, "no in-kernel KeyUpdate for this variant");
-+
-+	ASSERT_EQ(setsockopt(self->fd, SOL_TLS, TLS_TX_MAX_PAYLOAD_LEN,
-+			     &limit, sizeof(limit)), 0);
-+	for (i = 0; i < sizeof(sbuf); i++)
-+		sbuf[i] = i;
-+
-+	/* one call writes 8 records or more, past the record limit */
-+	EXPECT_EQ(send(self->fd, sbuf, sizeof(sbuf), 0), sizeof(sbuf));
-+	EXPECT_EQ(recv(self->cfd, rbuf, sizeof(rbuf), MSG_WAITALL),
-+		  sizeof(rbuf));
-+	EXPECT_EQ(memcmp(sbuf, rbuf, sizeof(sbuf)), 0);
-+
-+	/* the KeyUpdate in the middle of the call restarted at 0 */
-+	tls_crypto_info_init(variant->tls_version, variant->cipher_type,
-+			     &get, 0);
-+	optlen = get.len;
-+	ASSERT_EQ(getsockopt(self->fd, SOL_TLS, TLS_TX, &get, &optlen), 0);
-+	rec_seq = (unsigned char *)&get + optlen - 8;
-+	for (i = 0; i < 5; i++)
-+		EXPECT_EQ(rec_seq[i], 0);
-+}
-+
-+/* A send that fails with EAGAIN before it copies any data leaves an
-+ * empty open record. The next send must still answer a KeyUpdate
-+ * request before its data.
-+ */
-+TEST_F(tls, keyupdate_request_after_eagain)
-+{
-+	struct tls_crypto_info_keys get;
-+	size_t sent = 0, rcvd = 0;
-+	char buf[16384];
-+	unsigned char *rec_seq;
-+	socklen_t optlen;
-+	int size = 4096;
-+	ssize_t ret;
-+	int i;
-+
-+	if (!keyupdate_setup(_metadata, self, variant))
-+		SKIP(return, "no in-kernel KeyUpdate for this variant");
-+
-+	ASSERT_EQ(setsockopt(self->fd, SOL_SOCKET, SO_SNDBUF, &size,
-+			     sizeof(size)), 0);
-+	ASSERT_EQ(setsockopt(self->cfd, SOL_SOCKET, SO_RCVBUF, &size,
-+			     sizeof(size)), 0);
-+	memset(buf, 0x42, sizeof(buf));
-+
-+	/* fill the send buffer until a send copies nothing */
-+	for (;;) {
-+		ret = send(self->fd, buf, sizeof(buf), MSG_DONTWAIT);
-+		if (ret < 0)
-+			break;
-+		sent += ret;
-+	}
-+	ASSERT_EQ(errno, EAGAIN);
-+
-+	/* fd reads the request; its answer is now due */
-+	keyupdate_send(_metadata, self->cfd, 1);
-+	EXPECT_EQ(recv(self->fd, buf, sizeof(buf), MSG_DONTWAIT), -1);
-+	EXPECT_EQ(errno, EAGAIN);
-+
-+	while (rcvd < sent) {
-+		ret = recv(self->cfd, buf, sizeof(buf), 0);
-+		ASSERT_GT(ret, 0);
-+		rcvd += ret;
-+	}
-+
-+	/* the answer goes out before this data */
-+	send_recv_str(_metadata, self->fd, self->cfd, "data");
-+
-+	tls_crypto_info_init(variant->tls_version, variant->cipher_type,
-+			     &get, 0);
-+	optlen = get.len;
-+	ASSERT_EQ(getsockopt(self->fd, SOL_TLS, TLS_TX, &get, &optlen), 0);
-+	rec_seq = (unsigned char *)&get + optlen - 8;
-+	for (i = 0; i < 7; i++)
-+		EXPECT_EQ(rec_seq[i], 0);
-+	EXPECT_EQ(rec_seq[7], 1);
-+
-+	/* cfd got the answer, so it can ask again */
-+	keyupdate_send(_metadata, self->cfd, 1);
-+}
-+
-+TEST_F(tls, keyupdate_invalid)
-+{
-+	/* key_update, length 1, request_update 2 */
-+	static const char bad[] = "\x18\x00\x00\x01\x02";
-+	char buf[64];
-+
-+	if (!keyupdate_setup(_metadata, self, variant))
-+		SKIP(return, "no in-kernel KeyUpdate for this variant");
-+
-+	EXPECT_EQ(tls_send_cmsg(self->fd, TLS_RECORD_TYPE_HANDSHAKE,
-+				(char *)bad, 5, 0), 5);
-+
-+	EXPECT_EQ(recv(self->cfd, buf, sizeof(buf), 0), -1);
-+	EXPECT_EQ(errno, EBADMSG);
-+}
-+
- struct raw_rec {
- 	unsigned int plain_len;
- 	unsigned char plain_data[100];
-
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 019a1e3cc0a2..2be6d1a9ad4d 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -4430,6 +4430,8 @@ static const struct pci_device_id nvme_id_table[] = {
+ 		 .driver_data = NVME_QUIRK_BOGUS_NID, },
+ 	{ PCI_DEVICE(0x1344, 0x6004),	/* Micron 4100AT */
+ 		.driver_data = NVME_QUIRK_DMAPOOL_ALIGN_512, },
++	{ PCI_DEVICE(0x1e0f, 0x0032),	/* KIOXIA XG10d */
++		.driver_data = NVME_QUIRK_DMAPOOL_ALIGN_512, },
+ 	{ PCI_DEVICE(0x1c5c, 0x1504),   /* SK Hynix PC400 */
+ 		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
+ 	{ PCI_DEVICE(0x1c5c, 0x174a),   /* SK Hynix P31 SSD */
 -- 
-2.53.0
-
+2.43.0
 
 
