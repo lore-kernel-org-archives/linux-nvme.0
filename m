@@ -2,63 +2,76 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D28B9606A324
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2026 12:21:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF3A4606A336
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2026 12:29:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=il0XD4sn;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=GJHiRXM/
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=cLhJIHJ1;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FuOZFi7g
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=bapJExKuncQlgMbjOO4Tz6CpPBsNnousD8vFxwysKa4=; b=il0XD4sn55Dth5
-	2wXiipKBFNFpye6GwwCEO3Dm31D56kFb/AEbJFOLdoSyTPx7/lWZC6d6P4IMlZ1nvq0e8DwQ1++ez
-	yA9xblNQ0wJ9RaKsgiMC1FMizrzxFoN/Lw9cb0cOSb04LLWlyO864C/Ts39oeEVLh0iTksP5xxc0b
-	SE0DRsTBfzYxwyxd9f/l5aE6UjnBzcmR3orV1MJCh4WH1vYehdb/REOeHWAssz4wbJHoE42DBCDbu
-	lXlhPAPOfpsEG3bgci1kIPpRwopde2JF047Jq4ZItpiON2SW+YgNXe7zmiMDML5jcTxwZA6vqxchw
-	+dgAgYlT3aS3Cu/Lc/0g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Unsubscribe-Post:List-Owner;
+	bh=DUyYtY0/ODWml+wjlW+GZawiWsZztBIYKliIpArIvIM=; b=cLhJIHJ1wOkX3OS1P41PJG3fE7
+	Y3nrbUn072seoeBKISnjzLDMFRiLGYbwFEkMurnfOVvAAjrYbowhkRpwsQZCZpeFzsKS3VzJ7qmJm
+	vt4zxc06p9oCTb1i2CbcSnGyxet1WNUtCAxT9mu12ISblBaTf8H/glk+g7a7CJFd6E9hKrtEOF1C3
+	cPkxyEA2Z4+xVPlEsu4la8MmJgIWdk5T72X6L0P3BfSGdby4RyB0Qq/1Xs3tb8L0FMuYNcgv0ecKc
+	m3RML8sWVIwi7Ij9JlSDIZDCzX6fvVgBiFGORPnEcDX3nPQ0AfZAooNxq1d/sVV0jCoUVzM8UqKJd
+	vK/cMLUQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xODVj-00000002M54-09qZ;
-	Tue, 03 Nov 2026 12:21:07 +0000
-Received: from out30-98.freemail.mail.aliyun.com ([115.124.30.98])
+	id 1xODde-00000002Nne-0pV2;
+	Tue, 03 Nov 2026 12:29:18 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xODVg-00000002M4V-0xSQ
+	id 1xODdc-00000002NnM-11hr
 	for linux-nvme@lists.infradead.org;
-	Tue, 03 Nov 2026 12:21:05 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1793708462; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=bapJExKuncQlgMbjOO4Tz6CpPBsNnousD8vFxwysKa4=;
-	b=GJHiRXM/47OJVjPiBMWHgYCyZMzqHvjrLvYwR8fEeHjBDNYAI1+69fznwJgyz8bwEYuuJ4p8fV2dItySxlfdzOyt9kqSM5N8in7Sz8Pfp6ZzfvJXSdqLqj/1ePKAu9NmdnUFgZSVPmr648Gnb0heYra96eQ1vX3wumB8OMaVouU=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R661e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037026112;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XE2hjJi_1793708460;
-Received: from 30.178.83.74(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XE2hjJi_1793708460 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Tue, 03 Nov 2026 20:21:01 +0800
-Message-ID: <630fba9b-7e23-47ea-a161-0d79d9ab1ebe@linux.alibaba.com>
-Date: Tue, 3 Nov 2026 20:20:59 +0800
+	Tue, 03 Nov 2026 12:29:17 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with UTF8SMTP id 9EB476020A;
+	Tue,  3 Nov 2026 12:29:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id CB9EF1F00919;
+	Tue,  3 Nov 2026 12:29:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793708955;
+	bh=DUyYtY0/ODWml+wjlW+GZawiWsZztBIYKliIpArIvIM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=FuOZFi7gvZM9i0KCFVY+MbFRT83CKlZXVW1c/zMGlL01IeFLhKm9ANExZwHgYnGjH
+	 lDzdtIeko4Y+RR89YJAlRc7qMht6BVg5czhNrji69ZV/F0S0bQWE5SUtPKF9R85N7/
+	 6yljfx0vSxi3pU4beygEoFcEPlG/XJkIJm5NpSbl/9qO8mIzB3hCQvJEssQ3MRL42m
+	 KSpfAm0oTxTEn9+oLbZbzpJYHiN1B0dapz8GJdlcK33EuWU1z1OO1kR+nzeHGllk4c
+	 4wGyl55Pdx/qkprc27S8bORd228J8HwQtRwdMkcFbPeG3mmY/HVQi4U4X6ZbzZ/Z58
+	 6zGmpJtfDd+yQ==
+Date: Tue, 3 Nov 2026 14:29:11 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: David Howells <dhowells@redhat.com>, Eric Biggers <ebiggers@kernel.org>,
+	linux-integrity@vger.kernel.org, Mimi Zohar <zohar@linux.ibm.com>,
+	keyrings@vger.kernel.org, stable@vger.kernel.org,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Roberto Sassu <roberto.sassu@huawei.com>,
+	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+	Eric Snowberg <eric.snowberg@oracle.com>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Hannes Reinecke <hare@kernel.org>,
+	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:SECURITY SUBSYSTEM" <linux-security-module@vger.kernel.org>
+Subject: Re: [RFC PATCH v2 02/11] nvme-keyring: Add a missing key_put() call
+ to nvme_tls_key_lookup()
+Message-ID: <aunTlxXbRJ6ZP63h@kernel.org>
+References: <20261103030226.2685251-1-jarkko@kernel.org>
+ <20261103030226.2685251-3-jarkko@kernel.org>
+ <20261103053303.GA1382@lst.de>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/12] nvmet: FDP bridge for NVMe-oF targets
-To: Daniel Wagner <dwagner@suse.de>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Nilay Shroff <nilay@linux.ibm.com>, Hannes Reinecke <hare@suse.de>,
- linux-nvme@lists.infradead.org
-References: <20261029122833.284572-1-kanie@linux.alibaba.com>
- <6b361e89-8a46-42d9-ae02-f9d85a3c8549@linux.alibaba.com>
- <0c20ee56-5ff9-4c64-a7a9-84140e5e5cf0@flourine.local>
-From: Guixin Liu <kanie@linux.alibaba.com>
-In-Reply-To: <0c20ee56-5ff9-4c64-a7a9-84140e5e5cf0@flourine.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261103_042104_454951_245A2F5A 
-X-CRM114-Status: GOOD (  15.43  )
-X-Spam-Score: -17.6 (-----------------)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261103053303.GA1382@lst.de>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,44 +82,40 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-14.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=4.0.1
+	SPF_PASS autolearn=no autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
+On Tue, Nov 03, 2026 at 06:33:03AM +0100, Christoph Hellwig wrote:
+> On Tue, Nov 03, 2026 at 05:02:07AM +0200, Jarkko Sakkinen wrote:
+> > Call key_put() before returning -EKEYREVOKED, as the reference count gets
+> > incremented by key_lookup().
+> 
+> Looks good, but I only got this one patch out of a 11 patch series,
+> so without the full context it's hard to fully review it.
 
+I can it is just I rather do it on request because some people complain
+when doing what you asked :-) Regardless, the bug is independent of any
+patch set changes.
 
-在 2026/11/3 18:18, Daniel Wagner 写道:
-> Hi,
->
-> On Tue, Nov 03, 2026 at 11:05:46AM +0800, Guixin Liu wrote:
->>   All the issues Sashiko raised are addressed in this v3, and it looks
->> like Sashiko has no further comments on the current version now.
->>   Please review this series, all comments are welcome. Or if can tell
->> me this approach is reasonable, I'll keep iterating on the implementation
->> details.
-> Before diving deeper into the implementation details, I want to make
-> sure we're aligned on the higher-level direction. As far as I recall
-> from previous discussions, there has been significant hesitation around
-> supporting FDP.
+I'll summarize the context below (ignore or read).
 
-Has FDP passthrough support in the nvme target module been discussed before?
+I tried to tackle: https://lore.kernel.org/lkml/20261101221519.GB2689@quark/
 
-I'm not familiar with the history here — could you fill me in so we can align on whether we want to support it?
+And essentially what I would want is key_type_dead not to exist.
 
+This version is based on module pinning, and  thus not having that
+key_put() would keep key type module alive in that case. However, it
+turned out this approach will not fly as AF_RXRPC and DNS resolver will
+hit the wall given e.g., the remote pinnings.
 
-Best Regards,
+The approach I'm going for next is to have a type registry instead,
+which is independent of the module system (to put story really short).
+I think I'm doing this with right process as this really needs a few
+trials in order to find patterns that stick.
 
-Guixin Liu
-
->  
-> I am happy to help review, but to respect everyone's time, it might be
-> best to first confirm that this has a change to be accepted.
->
-> Thanks,
-> Daniel
-
+Br, Jarkko
 
