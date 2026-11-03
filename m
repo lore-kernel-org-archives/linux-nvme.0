@@ -2,56 +2,124 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07C29606A324
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2026 05:50:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5337606A330
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2026 05:54:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=1udDvZqe
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=35qiYTsk;
+	dkim=pass (2048-bit key, unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=qSD4+6kB
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Unsubscribe-Post:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=1udDvZqeUt4zd/X/LXbSa3MEe3
-	7WL4gdHLGWXykl4zj4wFuUSPRFEddes8gGyKkDk5hSNeKgrSXrzlgseOTfzuhZFrFcoUKFZAIpD/j
-	dxYrDPZfNuL+2tmpyJRg1Ho5kNCrY/3GrDLCKDDcCLnjS8Dl2bP6ggvMs/g2hwtsqaqhAokGv752t
-	nCJN/H4nCxGfs320vtrTX1X+rh1zrGL2VvWn69CEFzPdzh+RR1TIka4QGkl2F9mdPluyuR6YBruh5
-	ZZyRZPRoTB9f1WJurEp5q0BFgbCL0giI0RT/G9H72qW2PArnLk2XHVlj5WHXYbS3bLjJ8DMY9Z+jP
-	0dWK/kdA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
+	List-Owner; bh=19Xmglr3EckNw+SbiaE9to29kj/Uv7Cs/KIXA7qkfVU=; b=35qiYTskmET/I4
+	qjgLJZB7z5RWl23GJXG2QxYmz96gDQrBvzeH2iPlFmitlYDx5zk8RvUWgRMbqzjrfQMPNpfIm0cid
+	0HiIfG/CxnYMqOhwofhKNOKjkuq2hSxyh3fUcTmVEIHUHwXYlKWb4483e599PWuv3ZKX+V7uaKj2a
+	noqt3k2qnn/OlP2tIvpSU2WcbFu1e0ghZbU/qGpXos/7mNhQefPUUW1cNMwnuwbSFFC/db4Y2joB9
+	XOq0ECSy+OHNTxlSmvqwG88IwQ84MXTm8J+SDjErHwgbyzlh1O/0Dbi6uwXw35zrqQAKDekjvTe93
+	jqEXQW/Rt6frYHKy3Pag==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xO7Pj-00000001A1A-41GF;
-	Tue, 03 Nov 2026 05:50:31 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1xO7TO-00000001AHR-24RU;
+	Tue, 03 Nov 2026 05:54:18 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xO7PY-00000001A0V-3sBc
+	id 1xO7TL-00000001AGr-2XGE
 	for linux-nvme@lists.infradead.org;
-	Tue, 03 Nov 2026 05:50:22 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 7237068AFE; Tue,  3 Nov 2026 06:50:17 +0100 (CET)
-Date: Tue, 3 Nov 2026 06:50:17 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Keith Busch <kbusch@meta.com>
-Cc: linux-nvme@lists.infradead.org, axboe@kernel.dk,
-	Josef Bacik <josef@toxicpanda.com>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH 01/19] nvme-loop: delete the controller if a reset fails
-Message-ID: <20261103055017.GA1772@lst.de>
-References: <20261029155252.2332266-1-kbusch@meta.com> <20261029155252.2332266-2-kbusch@meta.com>
+	Tue, 03 Nov 2026 05:54:17 +0000
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A31iIdY236026;
+	Tue, 3 Nov 2026 05:54:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=19Xmgl
+	r3EckNw+SbiaE9to29kj/Uv7Cs/KIXA7qkfVU=; b=qSD4+6kBPhaSO/tTF56Qdw
+	Dh4qqbrOPKpihQRlxF1l3puCfXLRbsWhumohZqmJvAOV/3ZVigq+p9SC5vozeMAW
+	mKrAx7mQhlGh+HIeqHMIibZOlf3TmbiOULY/Oxv8Cluukto6Gjn1rB9sE8jS9sp9
+	q2booqxeLdX2KINfjjxQnSM/iv8LAoa/fTNgwrJaAwEUOSe7/ROrzvYpGzrarZgq
+	oPOtV6dHv16BFpnUDEs4K1I6w90SMxbSiw08MiemwHVGRSIF0TNKch5dbIWl7Gvp
+	bzpwVMuGltmVUROcvZfBQ1L65SOLriUbeCwHCOdVwRjhrjD3S9pi35O03vD7WuNQ
+	==
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hn5rhm55a-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 03 Nov 2026 05:54:06 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6A31nxEe1838940;
+	Tue, 3 Nov 2026 05:54:05 GMT
+Received: from smtprelay03.wdc07v.mail.ibm.com ([172.16.1.70])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4hnwby0rfc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 03 Nov 2026 05:54:05 +0000 (GMT)
+Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
+	by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6A35rG5W27263522
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 3 Nov 2026 05:53:16 GMT
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D0A8958059;
+	Tue,  3 Nov 2026 05:54:04 +0000 (GMT)
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 522FC58061;
+	Tue,  3 Nov 2026 05:54:01 +0000 (GMT)
+Received: from [9.61.129.51] (unknown [9.61.129.51])
+	by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Tue,  3 Nov 2026 05:54:01 +0000 (GMT)
+Message-ID: <44b0d0e5-b14f-4e6c-8e00-16b4af712b7d@linux.ibm.com>
+Date: Tue, 3 Nov 2026 11:23:59 +0530
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261029155252.2332266-2-kbusch@meta.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] block: set QUEUE_FLAG_NO_ELV_SWITCH under the read
+ lock in del_gendisk()
+To: Qiliang Yuan <odys.yuan@gmail.com>, Keith Busch <kbusch@kernel.org>,
+        Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+        Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-block@vger.kernel.org, Ming Lei <tom.leiming@gmail.com>,
+        "Shin'ichiro Kawasaki" <shinichiro.kawasaki@wdc.com>,
+        Stuart Hayes <stuart.w.hayes@gmail.com>
+References: <20261102-bug-nvme-remove-ns-async-v1-0-61780fee111c@gmail.com>
+ <20261102-bug-nvme-remove-ns-async-v1-2-61780fee111c@gmail.com>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <20261102-bug-nvme-remove-ns-async-v1-2-61780fee111c@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-ORIG-GUID: E5XXn22rnhrjyfyL8Mm5dXsOJuq6Th9K
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAzMDAyMiBTYWx0ZWRfX1x8+iNoUGrSD
+ fuFoE79zriB0B4e1rBCzuVFdjAhV9LgSTmXDY7Rf4csKZ47a4WxiVd96MgOPTHDInaMyUT51QfY
+ 3+3KoQv7pfoYpex3WFXCrgHGgupmfaM=
+X-Authority-Analysis: v=2.4 cv=LokHWXdc c=1 sm=1 tr=0 ts=6ae976fe cx=c_pps
+ a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=VwQbUJbxAAAA:8
+ a=QfggKeMjAAAA:8 a=eLFNBQ4JqrOy5HXTT0cA:9 a=QEXdDO2ut3YA:10
+ a=KawSF8pKvnAe-OBSxQn-:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAzMDAyMiBTYWx0ZWRfX7T2GCMMi6pBb
+ 6Pb/oBwUYEc1ie8CZ3WxrCzNnNl+K0kyBm5AqUA7HN0r1sEUY/pAdlYYJ6ncbF7a2ndNddXN70Y
+ s1xiW0Kq+Mh0aRMcr9lQlh/O3yHCXe1Tvi5HmMrtyNXTn+1ZerXDOmRL5On1SR6CiBa3gPihfV1
+ 01rWVlSbTIrKLUzJcbedWAfOLdCVcEFTvqXq8UWiclm4J1qFBew9203/CL/YNkerzYW0CJydKvu
+ siFPJPm/e2g9bKzOoTwT0PdikJY+5YoP1N6InjrbC4QU+fu8vxGauA+7IiIRBoBoe0m9YUwqqu9
+ f0Iv1Ny8GADi7BdjRGljAB344ghnV21RhcrkYf2QT7JcmB2mRPILUIpBosg9TUqsLUvUoix3+W9
+ I8BFiJMWwJ0BMNEpMT01Ok9C2EuSLvXiCx6chNYWAmHUFd1Ajrig1iiKlCTX/xDYt/Jau0PUoua
+ IahJoCcf8aQ2ig2O23w==
+X-Proofpoint-GUID: iymZEAkMF_5fSf0SJ2x8NQHePZXaKuRx
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-03_01,2026-11-02_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 lowpriorityscore=0 clxscore=1015 impostorscore=0
+ priorityscore=1501 suspectscore=0 phishscore=0 malwarescore=0 bulkscore=0
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610300000
+ definitions=main-2611030022
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261102_215021_139130_6BD903C9 
-X-CRM114-Status: UNSURE (   9.45  )
-X-CRM114-Notice: Please train this message.
-X-Spam-Score: -1.9 (-)
+X-CRM114-CacheID: sfid-20261102_215415_785772_59B1814A 
+X-CRM114-Status: GOOD (  19.62  )
+X-Spam-Score: -2.6 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -62,14 +130,39 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-10.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=4.0.1
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Looks good:
+On 11/2/26 11:44 AM, Qiliang Yuan wrote:
+> del_gendisk() takes the tag set's update_nr_hwq_lock for write to set
+> QUEUE_FLAG_NO_ELV_SWITCH, then for read around __del_gendisk(). The
+> write lock was there to wait for elevator switches from sysfs, which
+> held the lock for read when the flag was added.
+> 
+> When several disks of one tag set are deleted at once, as nvme does for
+> the namespaces of a controller, each write lock waits for the other
+> disks to get through __del_gendisk() under the read lock, and the
+> deletions run one after another.
+> 
+> Elevator switches from sysfs have taken update_nr_hwq_lock for write
+> since commit 4ff58d6bc9dd4 ("block: serialize elevator changes for the
+> same queue using a writer lock"), as updates of nr_hw_queues do. Set the
+> flag under the read lock instead, which still waits for both and keeps
+> them out.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Currently, there's a patch[1] in-review to change update_nr_hwq_lock from
+write to read while switching elevator.
+
+So the proposal in this patch may not work out if the changes in patch[1]
+are accepted. I understand your proposed patchset but I'd recommend wait a
+bit till we settle with the patch[1].
+
+[1] https://lore.kernel.org/all/20261031044141.5569-1-laveeshb@laveeshbansal.com/
+
+Thanks,
+--Nilay
 
