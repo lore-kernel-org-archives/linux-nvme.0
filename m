@@ -2,10 +2,10 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3003606A329
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2026 05:40:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07C29606A324
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2026 05:50:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=26IfZBSi
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=1udDvZqe
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
@@ -13,47 +13,44 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=26IfZBSiXSkIvTPAC5XL2icz3x
-	tCii9QIKBLZ9Pp+WbbV8SBF0QFCFPW1AeCyE6FXxpr5NkwRI+yt0W6OXM8PTsR2fq/UjyAkESxGnd
-	2xsfbYvjadngvkW4berswSJvG1+UvRd6e4yjwWo//fo1hkMFUB9iwLV5Y7QkCkGo9/Y5cAsYi+3tW
-	WxpiYqCoVW86rI8NHFcl2U0Aon7FGeE4VQuy5QSEBEqjZw+pTeP/44x0xN/1hRAdjWkxwUJCCFSkR
-	QnMCYBN5hXia4KSB4SqLGviAjmPVRumSxeqgFd3fj3PPK2hJbGJuJHNy1AHseEYLwOPwn97my00A/
-	fC6BYTgA==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=1udDvZqeUt4zd/X/LXbSa3MEe3
+	7WL4gdHLGWXykl4zj4wFuUSPRFEddes8gGyKkDk5hSNeKgrSXrzlgseOTfzuhZFrFcoUKFZAIpD/j
+	dxYrDPZfNuL+2tmpyJRg1Ho5kNCrY/3GrDLCKDDcCLnjS8Dl2bP6ggvMs/g2hwtsqaqhAokGv752t
+	nCJN/H4nCxGfs320vtrTX1X+rh1zrGL2VvWn69CEFzPdzh+RR1TIka4QGkl2F9mdPluyuR6YBruh5
+	ZZyRZPRoTB9f1WJurEp5q0BFgbCL0giI0RT/G9H72qW2PArnLk2XHVlj5WHXYbS3bLjJ8DMY9Z+jP
+	0dWK/kdA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xO7GQ-000000019LN-2HNm;
-	Tue, 03 Nov 2026 05:40:54 +0000
+	id 1xO7Pj-00000001A1A-41GF;
+	Tue, 03 Nov 2026 05:50:31 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xO7GN-000000019L0-1g9o
+	id 1xO7PY-00000001A0V-3sBc
 	for linux-nvme@lists.infradead.org;
-	Tue, 03 Nov 2026 05:40:53 +0000
+	Tue, 03 Nov 2026 05:50:22 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 6C34268BEB; Tue,  3 Nov 2026 06:40:47 +0100 (CET)
-Date: Tue, 3 Nov 2026 06:40:47 +0100
+	id 7237068AFE; Tue,  3 Nov 2026 06:50:17 +0100 (CET)
+Date: Tue, 3 Nov 2026 06:50:17 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Kyle Bader <kbader@redhat.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Pavel Begunkov <asml.silence@gmail.com>,
-	Kyle Bader <kbader@ibm.com>, Anuj Gupta <anuj20.g@samsung.com>,
-	Kanchan Joshi <joshi.k@samsung.com>, Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Tushar Gohad <tushar.gohad@intel.com>, linux-block@vger.kernel.org,
-	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] block: only fail dma-buf bios that need block layer
- PI
-Message-ID: <20261103054047.GA1559@lst.de>
-References: <20261029155821.2983229-1-kbader@redhat.com>
+To: Keith Busch <kbusch@meta.com>
+Cc: linux-nvme@lists.infradead.org, axboe@kernel.dk,
+	Josef Bacik <josef@toxicpanda.com>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH 01/19] nvme-loop: delete the controller if a reset fails
+Message-ID: <20261103055017.GA1772@lst.de>
+References: <20261029155252.2332266-1-kbusch@meta.com> <20261029155252.2332266-2-kbusch@meta.com>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261029155821.2983229-1-kbader@redhat.com>
+In-Reply-To: <20261029155252.2332266-2-kbusch@meta.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261102_214052_053330_8BE392B6 
-X-CRM114-Status: GOOD (  11.06  )
+X-CRM114-CacheID: sfid-20261102_215021_139130_6BD903C9 
+X-CRM114-Status: UNSURE (   9.45  )
+X-CRM114-Notice: Please train this message.
 X-Spam-Score: -1.9 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -75,5 +72,4 @@ X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 Looks good:
 
 Reviewed-by: Christoph Hellwig <hch@lst.de>
-
 
