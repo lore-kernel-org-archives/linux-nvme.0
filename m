@@ -2,70 +2,63 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06DAA606EE97
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2026 19:07:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C121606D811
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2026 19:08:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=EH4p8Q+D
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=IDjFoNUn;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O3TKZXNe
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Subject:Cc:To:
-	From:Mime-Version:Date:Message-ID:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=YKxG32AxsufUd7YchK7727X8TY3T1MC6mpG7My++UTg=; b=EH4p8Q+D2ViYcEKdfpKSQ5cs3d
-	AigHCub4HJ9V+JD7uwtujvM+cHko3ZdC2TPPtu+QfVlwJxh5ByXuzjV+4IhkNyZrnpnfIjeoXb6x1
-	DJz+VTnRRMldEFhEoM1uUEwztbzPVE0Tg3s3PGfhZ39Ka1B8kS/y2sFukOKeiDibL0rQAlKetZ1Pd
-	RJbX+jnxPi6Y3ETqZSiPt8OKXRUVtw47tLRrjQwvWNJZTJyvqVwLUx6Yo1ja5TfpgSH045llFyp+H
-	Rej1pdAvy8+BKNoG4hBMqQKVZU4mibJbvQCvX66UHyYTD9jAHoaa7CEmHfAv2mMCJ3zIG8dfioAS/
-	bSx+ONlA==;
+	bh=z7grRwM8WCPf1zlbK4nUUkkFYLNOkxsXBBTP+mvK+4c=; b=IDjFoNUnRah+KHmycyemD5kGI/
+	OEu43ijHlgryAI8eCYHuG0ekbC/DfgcIAVf3U10MEJEdm93eWAVPPnIA/z49RLzjDUslpI5JCoxaD
+	zzm88jHZo7ZN/OycdTuZ6+eHwpHSZ16qFtQYhUvLxFvdp1yTTaBlfKNVWelcTRbYMpdg0NbBsVJDu
+	esg9fPRBNXp5Z33SEFaZTmhdt9jd+vKduJrVRVpNz/N4h0bP/4bvVz/NTIil2Ta6AvdLSoaDuVMwf
+	GF8chKnrJuHei8hTvonvXOE1MmI/R3WGC/nbF+SmGID31bglL3JMucXYzx+M6BvrNeRJL3vohxEC6
+	UH8UI81A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOJqz-00000003URx-1mZ0;
-	Tue, 03 Nov 2026 19:07:29 +0000
-Received: from mxhk.zte.com.cn ([160.30.148.35])
+	id 1xOJrn-00000003Ufp-0VpS;
+	Tue, 03 Nov 2026 19:08:19 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOJqv-00000003UQX-2C5m
+	id 1xOJrm-00000003UfO-14cj
 	for linux-nvme@lists.infradead.org;
-	Tue, 03 Nov 2026 19:07:27 +0000
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4jJykF5hzRz8Xrr9;
-	Wed, 04 Nov 2026 03:07:17 +0800 (CST)
-Received: from xaxapp01.zte.com.cn ([10.88.99.176])
-	by mse-fl1.zte.com.cn with SMTP id 6A3J73md084144;
-	Wed, 4 Nov 2026 03:07:03 +0800 (+08)
-	(envelope-from shao.mingyin@zte.com.cn)
-Received: from mapi (xaxapp05[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Wed, 4 Nov 2026 03:07:07 +0800 (CST)
-X-Zmail-TransId: 2afc6aea30db9b5-d1efc
-X-Mailer: Zmail v1.0
-Message-ID: <20261104030707567QiZNPqBVEESVbvpNukFkY@zte.com.cn>
-Date: Wed, 4 Nov 2026 03:07:07 +0800 (CST)
+	Tue, 03 Nov 2026 19:08:18 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id 690A76021D;
+	Tue,  3 Nov 2026 19:08:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEADF1F000C1;
+	Tue,  3 Nov 2026 19:08:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793732897;
+	bh=z7grRwM8WCPf1zlbK4nUUkkFYLNOkxsXBBTP+mvK+4c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=O3TKZXNecHe8eRQZymbl357ja5s5/vT3IHeQm6MhGvHFK5QPNE1fbbRac2ZmF5/+G
+	 crXqtNDZShkO1BeegusGfu+7n1ivVwRJYd7HpXE0W/+QqHZNcxwf9iZQcsrSJQVpkS
+	 OoXYciWFNtuFTZVcIY644I0MWCIy39JCY2sS9N3BJ54GFvYGRk5zaRrCwgcDCtcaWw
+	 sfvC6rdBPl5o3owyWUMcfQQ7U7q87cNkiceT+UBGml531OeRCHvImchlNj+j2fgMA9
+	 HYZ5KlXD5ffyOa430iXwFGPZQo9YwfR9QSjY6JcO1LN5KbpkF1dKrOOMvMQ++CDod5
+	 uvFTiT2lPsENA==
+Date: Tue, 3 Nov 2026 12:08:15 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Liao Xuan <liaoxuan@open-hieco.net>
+Cc: axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	default avatarZheng Tan <tanzheng@kylinos.cn>
+Subject: Re: [PATCH 1/3] nvme: Add adaptive PCIe link rate switching function
+Message-ID: <auoxH197kQfUJGaE@kbusch-mbp>
+References: <cover.1790134954.git.liaoxuan@open-hieco.net>
+ <85a11a4085d04a2823c04059702630cf34abf6d4.1790134954.git.liaoxuan@open-hieco.net>
 X-Archived-By: <archiver.kernel.org>
-Mime-Version: 1.0
-From: <shao.mingyin@zte.com.cn>
-To: <kbusch@kernel.org>, <axboe@kernel.dk>, <hch@lst.de>, <sagi@grimberg.me>,
-        <linux-nvme@lists.infradead.org>
-Cc: <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
-Subject: =?UTF-8?B?W1BBVENIIDAvMl0gbnZtZXQ6IHBjaS1lcGY6IGZpeCBhIGNvbmZpZ2ZzIG92ZXJmbG93IGFuZCBhIGZhaWxlZC1yZWFkIGhhbmc=?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL: mse-fl1.zte.com.cn 6A3J73md084144
-X-TLS: YES
-X-ENVELOPE-SENDER: shao.mingyin@zte.com.cn
-X-SOURCE-IP: 10.5.228.132 unknown Wed, 04 Nov 2026 03:07:17 +0800
-X-CLEAN: YES
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6AEA30E5.000/4jJykF5hzRz8Xrr9
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261103_110725_740635_14D46115 
-X-CRM114-Status: UNSURE (   8.47  )
-X-CRM114-Notice: Please train this message.
-X-Spam-Score: -1.9 (-)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <85a11a4085d04a2823c04059702630cf34abf6d4.1790134954.git.liaoxuan@open-hieco.net>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,49 +69,22 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-8.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-This series fixes two independent bugs in the NVMe PCI endpoint function
-target driver.
+On Tue, Nov 03, 2026 at 02:25:43PM +0800, Liao Xuan wrote:
+> Add support for dynamically adjusting the PCIe link rate of NVMe
+> devices based on I/O activity. The link is downgraded to a
+> configurable minimum rate during periods of low activity to save
+> power, and upgraded to the maximum supported rate as soon as the
+> workload exceeds a computed threshold, so that peak performance is
+> maintained under load.
 
-Patch 1 fixes a heap overflow in the subsysnqn configfs attribute.  The
-store callback passed the length of the configfs write buffer to
-strscpy() as the destination size; an NQN longer than NVMF_NQN_SIZE
-therefore wrote past subsysnqn into the following fields of the
-nvmet_pci_epf object.
-
-Patch 2 fixes a hang on failed read commands.  queue_response() completed
-a command with a non-zero status directly, without waking
-exec_iod_work(), which is waiting for the transfer of a DMA_TO_DEVICE
-command.  The completion queue work could then free the iod while the
-work item was still waiting on iod->done.  The work item now waits based
-only on the data direction and length, and completes the command after
-the wait even when it failed.  This is a follow-up to the recent fix for
-the use-after-free in the same function (c9e9bb757971), which moved the
-wait decision earlier but left the failed-command case from
-746d0ac5a07d in place.
-
-The two patches are independent, have no inter-patch dependencies and can
-be applied in any order or as a subset.  Both carry Fixes: and
-Cc: stable.
-
-Testing: both apply to next-20261030, pass checkpatch.pl --strict with
-0 errors/0 warnings/0 checks, and drivers/nvme/target/pci-epf.c builds
-with CONFIG_NVME_TARGET_PCI_EPF=m and W=1 without new warnings.
-
-Patch 1 was also reproduced and re-tested in QEMU (7.3.0-next-20261030,
-configfs pci_ep framework, no endpoint controller needed): writing a
-230-byte value through the subsysnqn attribute stored it and clobbered
-mdts_kb (512 -> 4276545) before the fix, and is rejected with -EINVAL
-after it.  Patch 2 was not runtime-tested: this setup has no PCI
-endpoint controller.
-
-Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
----
-base-commit: 7649ba73f9e7e1e04d0b46213e39c79ae09dd55c
+Pretty sure PCIe ASPM L1 states would save more power than downgrading
+the link rate, as well as have better entry/exit latency than a software
+driven monitor and link retrain.
 
