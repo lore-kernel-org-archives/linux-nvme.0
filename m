@@ -2,60 +2,126 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F6B0606A324
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2026 16:58:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E405606A324
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2026 17:05:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=PNuAiPUt;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OUngCLuR
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=2PwunrSx;
+	dkim=pass (2048-bit key, unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=Es+/SAM3
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
-	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Cc:To:Subject:
-	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Unsubscribe-Post:List-Owner;
-	bh=uU8RIntUZy7rC2MU0khuybK2ArhQyP8UUhj3j/r/m+s=; b=PNuAiPUtMpBP2VbE61FuUgIHyv
-	I6isnbNe1bj2RbPy1J3lixySTsQwNLWWEfEYjEbjZmX9oR58/XHte5w1LqIzecnw/HgYS65BlJpmX
-	F0jypEA/ij3/N4QpJP1zj8DfgRnsC+rnzZNCldyhqzTV12VBZ6pSP7qHAUr8edrJE49fqYd73RAY9
-	fExBTmnryyXQS472nejsjFJMr67GJX96flpH/EA4wybZr9ffJJaZw88wuzeK9HjUx65GmBGLzqE2Q
-	xqqF39DBHe736sWXXmdRtBcaMAJZZCWFsZqkJmcJWtZyq4ELCa8n3+38lqpZziyt0gWy4xfLtFayw
-	Jyp/rCFA==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
+	List-Owner; bh=sQ5/jk8rKWyAkNOj7nl6uop6nOfWs8xpblsULbfB1nk=; b=2PwunrSxChpEAO
+	eVdw4ZCGb3/u/bmEzvIMzVWyHOjkg5OpCzoa+BIzzEdQuQBD4cAGiXx5B5NQhOaFJRWByUHKLKQM7
+	Wr2ZsfhzGjCB2un0PK5IoJ1Hy3KBCxovwbYuBAKboAe/Rr7A9OHz67lgcXHSjvWH8mUmQqSffHh8O
+	IhJ13R6NBURiuhsp0zWQ+PcvruPhj1gBGEHB5od4WVa2WvEMybq9aFxgD0DLTji2VVUlgzYTZE3er
+	WEicNt6z90lj+pvpxSWKg2mM8pYtAm8IY2XWsVqzvhycmzxwXxOBavcc5+0/8xwUbYX1bp41eVlZR
+	h9PoqqxqY7kz56iD/XfQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOHpz-00000003EvY-26Nq;
-	Tue, 03 Nov 2026 16:58:19 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1xOHww-00000003GZO-2UQc;
+	Tue, 03 Nov 2026 17:05:30 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOHpv-00000003Euf-29cz
+	id 1xOHwr-00000003GYF-2euX
 	for linux-nvme@lists.infradead.org;
-	Tue, 03 Nov 2026 16:58:15 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 21A0642E5E;
-	Tue,  3 Nov 2026 16:58:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB8E21F00919;
-	Tue,  3 Nov 2026 16:58:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793725095;
-	bh=uU8RIntUZy7rC2MU0khuybK2ArhQyP8UUhj3j/r/m+s=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=OUngCLuRIWw1FRSWIbNQvq3LeGjhDULcm4NkWxxMcZc24rn08JlMBTQUozINZuPH4
-	 Jcyu8GygsPRILC6Dp3lW09MgdLZA3x+SeGNjkwP3dFmIcnFxWVmIBJkDGxKckZblTL
-	 omAzNUpvLghwKiz5uMzmyG+pWjVSk1Rl73c92l4iMu6jDbyJhUJwqjApDyS8iYZ9Lt
-	 vaUwfWHtWA5AFGRWuAFyJjgdhXBWezE0wCUMdgFwO9wmTyUkBEf4A7lHZCJ0VRSs9p
-	 nIG6Rq+gg4HHitkS/GPOf+Xn5vCECFMUpS9dS3sdbe8iY9eXYsMsSEevmvmZinbApb
-	 m9ryFwoG8+/3A==
-Message-ID: <sashiko-outbox-195763@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v4 4/5] tls: send a KeyUpdate at the record
- limit and on request
-To: "Martin Belanger" <martin.nvme.dev@gmail.com>
-Cc: linux-nvme@lists.infradead.org
-In-Reply-To: <20261102-keyupdate-rfc-v4-4-f17419972b9f@gmail.com>
-References: <20261102-keyupdate-rfc-v4-0-f17419972b9f@gmail.com>
- <20261102-keyupdate-rfc-v4-4-f17419972b9f@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 03 Nov 2026 16:58:14 +0000
+	Tue, 03 Nov 2026 17:05:28 +0000
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A3EEBQ21957448;
+	Tue, 3 Nov 2026 17:04:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=sQ5/jk
+	8rKWyAkNOj7nl6uop6nOfWs8xpblsULbfB1nk=; b=Es+/SAM3wQW37G84liMDh5
+	borI63RxXCNJtBDi3PyMLxxd6T5EwR5bp+Xe+hfkBoK0t9FuVRzKC00TT8kONM5w
+	IU8MypYm3s0dO2ZjPkLehIIdTpHnlR9pwWP8yYFtKS9X80JlGHXGSrSWohmTdGyT
+	iIkdz7zKgylu68o8jNmkB5LFh21brZ43tB3Rmc7k41GxvvaE+yDcAwCjxfPzG4PZ
+	NCAwvq0w/Ce+81yiV+esdOdwYMRsvosg11JWT4cbwOG/7+fcmVz22E7TyFDuiPyq
+	h0Yi+TmBlen37B7ZRVe1+s+vLFzeI4/lHFKHpEl95p2sUxqbuVh+3RUyNi0WB0gA
+	==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hn5rhq6un-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 03 Nov 2026 17:04:51 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6A3EK44U2695648;
+	Tue, 3 Nov 2026 17:04:51 GMT
+Received: from smtprelay02.dal12v.mail.ibm.com ([172.16.1.4])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4hnv5guj44-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 03 Nov 2026 17:04:51 +0000 (GMT)
+Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
+	by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6A3H4ogX55640372
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 3 Nov 2026 17:04:50 GMT
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6592758059;
+	Tue,  3 Nov 2026 17:04:50 +0000 (GMT)
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 71F7158058;
+	Tue,  3 Nov 2026 17:04:46 +0000 (GMT)
+Received: from [9.61.129.51] (unknown [9.61.129.51])
+	by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Tue,  3 Nov 2026 17:04:46 +0000 (GMT)
+Message-ID: <7f6e7fc6-dd40-4949-9a1b-95200c9680e6@linux.ibm.com>
+Date: Tue, 3 Nov 2026 22:34:44 +0530
+X-Archived-By: <archiver.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] blk-mq: use a housekeeping CPU for passthrough
+ requests on isolated hctxs
+To: Daniel Wagner <dwagner@suse.de>, Keith Busch <kbusch@kernel.org>,
+        Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+        Sagi Grimberg <sagi@grimberg.me>
+Cc: Ming Lei <ming.lei@redhat.com>, Surabhi Gogte <sgogte@purestorage.com>,
+        Hannes Reinecke <hare@kernel.org>,
+        Frederic Weisbecker
+ <frederic@kernel.org>,
+        Aaron Tomlin <atomlin@atomlin.com>,
+        Maurizio Lombardi <mlombard@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+References: <20261103-nvme-fabrics-isolcpu-v2-1-95ec70d58254@suse.de>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <20261103-nvme-fabrics-isolcpu-v2-1-95ec70d58254@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: d-Nw3Q3zP_MAaZ7sH5O-WlJu5ENMXRp0
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAzMDA2NiBTYWx0ZWRfX5UilMRvmKMZd
+ oVFVkprwMWWs6xXsiE5HNVLR6Cixz5ZoyDx5AUN3gx1p33X8kzLum/roaNDJESDUBD4IXdxdlgL
+ xDyIKNz4YUkwDPdBCEHLKNttcPpTF6I=
+X-Authority-Analysis: v=2.4 cv=LokHWXdc c=1 sm=1 tr=0 ts=6aea1433 cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=20KFwNOVAAAA:8
+ a=VnNF1IyMAAAA:8 a=Xo84benzLQ6E682cTSsA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAzMDA2NiBTYWx0ZWRfX8fV48+h9Df/T
+ dR/Uq0WBQAYrS8YxaMPDscPYGtROOj9C5Jlk+TCaCZ6A+TeOUjtGFORrPwMvzy0U+52t7U+I6Qe
+ khYwhOND4JK0bja1yyKwlFdZyYRwR5NseCuRaDUR3JNmr54bmLIjbfIH6qPvfq4hZiThMCtuX8c
+ oqPlKQh7YBdBN/4dM4z8jlqm4PXbnZi8hESHterSA86BXet99DCanySnItezE73V2hniSO6TjJ8
+ APZKtmsU/k4KBBnEinCmYElvyKjD/jId6eCpHINOQ0p8781qgmKRx4vzDNmEPC5HhVVDrwPmFq8
+ iu4faUNrkR9rFTb0zubDzZszAWhTqAKTSOPpNhksZxYc01+k06AX67qE8IZm6dQcog2xGxTLq7g
+ cFn8krnF3Yhs65D1UukBqNgYDhP/ZTYWYnLaGIgiGPcYeQb6AJ6V0LgHDxw2xJxG46TxUFbMAcw
+ kfBo/uE01IlJOMqHvYg==
+X-Proofpoint-GUID: d-Nw3Q3zP_MAaZ7sH5O-WlJu5ENMXRp0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-03_03,2026-11-03_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 lowpriorityscore=0 clxscore=1011 impostorscore=0
+ priorityscore=1501 suspectscore=0 phishscore=0 malwarescore=0 bulkscore=0
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610300000
+ definitions=main-2611030066
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20261103_090526_160978_7A007AFE 
+X-CRM114-Status: GOOD (  19.04  )
+X-Spam-Score: -2.6 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,359 +131,39 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-10.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
-X-Archived-By: <archiver.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
-s) to consider:
-- [High] tls: KeyUpdate bypassed in tls_sw_sendmsg_locked() after empty ope=
-n_rec allocation
-- [High] tls: KeyUpdate state races when sk_stream_wait_memory() drops lock=
-_sock()
-- [Medium] tls: tls_tx_key_update() ignores fatal send errors and loses EPI=
-PE
---
+On 11/3/26 8:27 PM, Daniel Wagner wrote:
+> blk_mq_alloc_request_hctx uses the first online CPU in hctx->cpumask to
+> select the software context for a request.
+> 
+> Since commit a46c27026da1 ("blk-mq: don't schedule block kworker on
+> isolated CPUs"), hctx->cpumask excludes isolated CPUs. If a hardware
+> context is mapped only to isolated CPUs, the mask is empty and
+> blk_mq_alloc_request_hctx fails with -EXDEV.
+> 
+> The NVMe fabrics transports use blk_mq_alloc_request_hctx to allocate
+> the Connect command for each I/O queue. As a result, connecting to a
+> controller can fail when using isolcpus=domain or an isolated cpuset
+> partition.
+> 
+> Passthrough requests bypass the software queues and go directly to
+> hctx->dispatch. Their software context is only used to select the
+> completion CPU and as a hint when freeing the tag.
+> 
+> Use the software context of an online housekeeping CPU for passthrough
+> requests.
+> 
+> Fixes: a46c27026da1 ("blk-mq: don't schedule block kworker on isolated CPUs")
+> Tested-by: Maurizio Lombardi<mlombard@redhat.com>
+> Signed-off-by: Daniel Wagner<dwagner@suse.de>
 
-commit 60932b2dae024fb3dd906a58ae73a60d9d48188e
-Author: Martin Belanger <martin.belanger@dell.com>
-
-tls: send a KeyUpdate at the record limit and on request
-
-This commit sends a TLS 1.3 KeyUpdate before the next Application Data
-record when a socket with a registered TX secret reaches 2^24 records or
-when the peer requests a KeyUpdate. It also adds the TLS_TX_KEY_UPDATE
-socket option to trigger a KeyUpdate immediately and optionally request
-one from the peer.
-
-> diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
-> index 027c32edaf850..4b2e10000facf 100644
-> --- a/net/tls/tls_sw.c
-> +++ b/net/tls/tls_sw.c
-
-[ ... ]
-
-> @@ -805,6 +808,16 @@ static int tls_sw_sendmsg_locked(struct sock *sk, st=
-ruct msghdr *msg,
->  			goto send_end;
->  		}
-> =20
-> +		/* Check before each new record: one call can write many
-> +		 * records, and a KeyUpdate reply must go before the next
-> +		 * one. The KeyUpdate itself is a handshake record.
-> +		 */
-> +		if (!ctx->open_rec && record_type =3D=3D TLS_RECORD_TYPE_DATA) {
-> +			ret =3D tls_tx_maybe_update_key(sk, msg->msg_flags);
-> +			if (ret)
-> +				goto send_end;
-> +		}
-> +
->  		if (ctx->open_rec)
->  			rec =3D ctx->open_rec;
->  		else
-
-[Severity: High]
-Can a pending KeyUpdate or the record limit check be bypassed here if an
-earlier send attempt left an empty ctx->open_rec allocated?
-
-In net/tls/tls_sw.c, tls_sw_sendmsg_locked() checks
-tls_tx_maybe_update_key() only when !ctx->open_rec, and then immediately
-allocates ctx->open_rec via tls_get_rec(sk) before checking
-sk_stream_memory_free(sk) or calling tls_alloc_encrypted_msg():
-
-net/tls/tls_sw.c:tls_sw_sendmsg_locked() {
-    ...
-		if (ctx->open_rec)
-			rec =3D ctx->open_rec;
-		else
-			rec =3D ctx->open_rec =3D tls_get_rec(sk);
-    ...
-		if (!sk_stream_memory_free(sk))
-			goto wait_for_sndbuf;
-    ...
-wait_for_sndbuf:
-		sk_set_nospace(sk);
-wait_for_memory:
-		ret =3D sk_stream_wait_memory(sk, &timeo);
-		if (ret) {
-trim_sgl:
-			if (ctx->open_rec)
-				tls_trim_both_msgs(sk, orig_size);
-			goto send_end;
-		}
-}
-
-When the socket send buffer is full and sk_stream_wait_memory() returns an
-error with orig_size =3D=3D 0 (such as -EAGAIN on a non-blocking socket or
-expired SO_SNDTIMEO, or -ERESTARTSYS/-EINTR on a signal),
-tls_trim_both_msgs(sk, 0) trims msg_plaintext and msg_encrypted to 0 bytes
-but leaves ctx->open_rec non-NULL and empty.
-
-This happens directly when a KeyUpdate is due (either at
-TLS_KEYUPDATE_TX_RECORDS or when ctx->tx_key_update_reply is true) and
-tls_tx_maybe_update_key() calls tls_tx_key_update() ->
-tls_sw_sendmsg_locked() while !sk_stream_memory_free(sk), or when
-setsockopt(TLS_TX_KEY_UPDATE) is interrupted by a signal in
-sk_stream_wait_memory(), or when a non-blocking sendmsg() returns -EAGAIN
-at wait_for_sndbuf before a peer KeyUpdate sets ctx->tx_key_update_reply.
-
-When the caller retries sendmsg() once write space is available,
-ctx->open_rec is already non-NULL, so the !ctx->open_rec check is false.
-Wouldn't this skip tls_tx_maybe_update_key() (and the -EKEYEXPIRED check at
-TLS_KEYUPDATE_MAX) and encrypt the Application Data record under the old
-key, as well as cause do_tls_setsockopt_tx_payload_len() to fail with
--EBUSY after an interrupted TLS_TX_KEY_UPDATE?
-
-> @@ -1005,6 +1018,153 @@ static int tls_sw_sendmsg_locked(struct sock *sk,=
- struct msghdr *msg,
->  	return copied > 0 ? copied : ret;
->  }
-> =20
-> +/* RFC 9846 section 5.5 allows 2^24.5 full-size records per AES-GCM key.
-> + * Send the KeyUpdate a little earlier.
-> + */
-> +#define TLS_KEYUPDATE_TX_RECORDS	BIT_ULL(24)
-> +
-> +/* Section 4.7.3: the epoch must not exceed 2^48-1. The application
-> + * traffic secrets start at epoch 3.
-> + */
-> +#define TLS_KEYUPDATE_MAX		(BIT_ULL(48) - 4)
-> +
-> +/* Send a KeyUpdate with the current key, then install the next key.
-> + * Called with tx_lock held and the socket locked.
-> + */
-> +static int tls_tx_key_update(struct sock *sk, u8 request, int flags)
-> +{
-> +	u8 body[TLS_KEYUPDATE_MSG_SIZE] =3D {
-> +		TLS_HANDSHAKE_KEYUPDATE, 0, 0, 1, request
-> +	};
-> +	struct tls_context *tls_ctx =3D tls_get_ctx(sk);
-> +	struct tls_sw_context_tx *ctx =3D tls_sw_ctx_tx(tls_ctx);
-> +	u8 record_type =3D TLS_RECORD_TYPE_HANDSHAKE;
-> +	union {
-> +		struct cmsghdr cmsg;
-> +		u8 buf[CMSG_SPACE(sizeof(record_type))];
-> +	} ctrl =3D {};
-> +	struct msghdr msg =3D {};
-> +	struct cmsghdr *cmsg;
-> +	struct kvec iov;
-> +	int ret;
-> +
-> +	msg.msg_control =3D &ctrl;
-> +	msg.msg_controllen =3D sizeof(ctrl);
-> +	msg.msg_flags =3D flags & (MSG_DONTWAIT | MSG_NOSIGNAL);
-> +
-> +	cmsg =3D CMSG_FIRSTHDR(&msg);
-> +	cmsg->cmsg_level =3D SOL_TLS;
-> +	cmsg->cmsg_type =3D TLS_SET_RECORD_TYPE;
-> +	cmsg->cmsg_len =3D CMSG_LEN(sizeof(record_type));
-> +	memcpy(CMSG_DATA(cmsg), &record_type, sizeof(record_type));
-> +
-> +	iov.iov_base =3D body;
-> +	iov.iov_len =3D sizeof(body);
-> +	iov_iter_kvec(&msg.msg_iter, ITER_SOURCE, &iov, 1, sizeof(body));
-> +
-> +	/* A control record closes the open record first, so all data
-> +	 * written so far goes out with the current key, ahead of the
-> +	 * KeyUpdate.
-> +	 */
-> +	ret =3D tls_sw_sendmsg_locked(sk, &msg, sizeof(body));
-> +	if (ret < 0)
-> +		return ret;
-
-[Severity: Medium]
-As reported by Sashiko on RFC v3 [1], what happens in tls_tx_key_update()
-in net/tls/tls_sw.c when transmitting the 5-byte KeyUpdate record fails in
-tls_tx_records() with an error such as -EPIPE (after shutdown(SHUT_WR)) or
--ECONNRESET?
-
-In tls_sw_sendmsg_locked(), the 5-byte kvec payload is copied into msg_pl
-and copied is incremented to 5 before bpf_exec_tx_verdict() ->
-tls_push_record() -> tls_tx_records() -> tls_push_sg() ->
-tcp_sendmsg_locked() attempts to transmit the encrypted record:
-
-net/tls/tls_sw.c:bpf_exec_tx_verdict() {
-	err =3D tls_push_record(sk, flags, record_type);
-	if (err && err !=3D -EINPROGRESS && sk->sk_err =3D=3D EBADMSG) {
-		*copied -=3D sk_msg_free(sk, msg);
-		tls_free_open_rec(sk);
-		err =3D -sk->sk_err;
-	}
-	return err;
-}
-
-Because bpf_exec_tx_verdict() only rolls back *copied when sk->sk_err =3D=3D
-EBADMSG, copied remains 5 when tls_tx_records() fails with -EPIPE or
--ECONNRESET. At the end of tls_sw_sendmsg_locked():
-
-net/tls/tls_sw.c:tls_sw_sendmsg_locked() {
-    ...
-end:
-	ret =3D sk_stream_error(sk, msg->msg_flags, ret);
-	return copied > 0 ? copied : ret;
-}
-
-When ret is -EPIPE, sk_stream_error() calls sock_error(sk), which clears
-sk->sk_err back to 0, and tls_sw_sendmsg_locked() then discards ret and
-returns copied (5).
-
-Because tls_tx_key_update() only checks ret < 0, doesn't it treat the
-failed send as a success, rotate the TX key via tls_keyupdate_rekey(sk, 1),
-update tx_key_updates and tx_key_update_reply / tx_key_update_asked, and
-return 0 with the unsent KeyUpdate record still sitting on ctx->tx_list and
-sk->sk_err cleared to 0?
-
-> +
-> +	/* Nothing may be encrypted with the next key before the KeyUpdate
-> +	 * is encrypted with the current one.
-> +	 */
-> +	ret =3D tls_encrypt_async_wait(ctx);
-> +	if (!ret)
-> +		ret =3D tls_keyupdate_rekey(sk, 1);
-> +	if (ret) {
-> +		/* The peer expects the next key: the connection is lost */
-> +		TLS_INC_STATS(sock_net(sk), LINUX_MIB_TLSTXREKEYERROR);
-> +		tls_err_abort(sk, ret);
-> +		return ret;
-> +	}
-> +
-> +	TLS_INC_STATS(sock_net(sk), LINUX_MIB_TLSTXREKEYOK);
-> +	tls_ctx->tx_key_updates++;
-> +	if (request =3D=3D TLS_KEY_UPDATE_NOT_REQUESTED)
-> +		tls_ctx->tx_key_update_reply =3D false;
-> +
-> +	return 0;
-> +}
-> +
-> +/* Send a KeyUpdate if one is due: in reply to the peer's
-> + * update_requested (RFC 9846 section 4.7.3), or before the key reaches
-> + * its record limit (section 5.5). ChaCha20-Poly1305 has no record limit:
-> + * the sequence number would wrap first.
-> + */
-> +static int tls_tx_maybe_update_key(struct sock *sk, int flags)
-> +{
-> +	struct tls_context *ctx =3D tls_get_ctx(sk);
-> +	bool limit;
-> +
-> +	if (likely(!ctx->tx_secret.len))
-> +		return 0;
-> +
-> +	limit =3D ctx->prot_info.cipher_type !=3D TLS_CIPHER_CHACHA20_POLY1305 =
-&&
-> +		get_unaligned_be64(ctx->tx.rec_seq) >=3D TLS_KEYUPDATE_TX_RECORDS;
-> +	if (!limit && !ctx->tx_key_update_reply)
-> +		return 0;
-> +
-> +	if (ctx->tx_key_updates >=3D TLS_KEYUPDATE_MAX) {
-> +		/* Ignore update_requested. At the record limit the
-> +		 * connection must end.
-> +		 */
-> +		ctx->tx_key_update_reply =3D false;
-> +		return limit ? -EKEYEXPIRED : 0;
-> +	}
-> +
-> +	return tls_tx_key_update(sk, TLS_KEY_UPDATE_NOT_REQUESTED, flags);
-> +}
-> +
-> +/**
-> + * tls_sw_key_update - send a KeyUpdate now, for TLS_TX_KEY_UPDATE
-> + * @sk: socket
-> + * @request: non-zero to also ask the peer to update its key
-> + *
-> + * Called with tx_lock held and the socket locked.
-> + *
-> + * Return: 0 on success, or a negative errno.
-> + */
-> +int tls_sw_key_update(struct sock *sk, int request)
-> +{
-> +	struct tls_context *ctx =3D tls_get_ctx(sk);
-> +	int ret;
-> +
-> +	if (!ctx->tx_secret.len)
-> +		return -EINVAL;
-> +
-> +	if (request) {
-> +		/* Only the kernel sees the answer */
-> +		if (!ctx->rx_secret.len)
-> +			return -EINVAL;
-> +		/* Section 4.7.3: wait for the answer to the previous one */
-> +		if (ctx->tx_key_update_asked)
-> +			return -EBUSY;
-> +	}
-> +
-> +	if (ctx->tx_key_updates >=3D TLS_KEYUPDATE_MAX - 1)
-> +		return -EKEYEXPIRED;
-> +
-> +	/* A reply must carry update_not_requested */
-> +	if (request && ctx->tx_key_update_reply) {
-> +		ret =3D tls_tx_key_update(sk, TLS_KEY_UPDATE_NOT_REQUESTED,
-> +					MSG_NOSIGNAL);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	ret =3D tls_tx_key_update(sk, request ? TLS_KEY_UPDATE_REQUESTED :
-> +				TLS_KEY_UPDATE_NOT_REQUESTED, MSG_NOSIGNAL);
-> +	if (!ret && request)
-> +		ctx->tx_key_update_asked =3D true;
-> +
-> +	return ret;
-> +}
-
-[Severity: High]
-As reported by Sashiko on RFC v3 [2], can the KeyUpdate state in struct
-tls_context race when sk_stream_wait_memory() temporarily drops
-lock_sock(sk)?
-
-In net/tls/tls_main.c, do_tls_setsockopt_conf() and
-do_tls_setsockopt_secret() only acquire lock_sock(sk) without ctx->tx_lock,
-and in net/tls/tls_keyupdate.c, tls_keyupdate_rx() updates
-ctx->tx_key_update_asked and ctx->tx_key_update_reply under lock_sock(sk).
-Meanwhile, when the socket send buffer is full, tls_sw_sendmsg_locked()
-(at wait_for_sndbuf / wait_for_memory) and tcp_sendmsg_locked() (via
-tls_push_sg()) call sk_stream_wait_memory(), which releases lock_sock(sk)
-while sleeping.
-
-Could this lead to several races while a sender holding ctx->tx_lock sleeps
-in sk_stream_wait_memory()?
-
-1. In tls_tx_key_update(), if a concurrent setsockopt(SOL_TLS, TLS_TX) runs
-do_tls_setsockopt_conf() while tls_sw_sendmsg_locked() is sleeping,
-do_tls_setsockopt_conf() installs a new TX key and zeroes ctx->tx_secret.
-When tls_tx_key_update() wakes up and finishes sending the KeyUpdate
-record, tls_keyupdate_rekey(sk, 1) sees !ctx->tx_secret.len, returns
--EINVAL, and calls tls_err_abort(sk, -EINVAL), aborting the connection.
-
-2. In tls_sw_key_update(sk, 1), if a concurrent setsockopt(SOL_TLS, TLS_RX)
-runs do_tls_setsockopt_conf() while tls_tx_key_update() is sleeping,
-do_tls_setsockopt_conf() zeroes ctx->rx_secret and clears
-ctx->tx_key_update_asked =3D false. When tls_tx_key_update() returns 0,
-tls_sw_key_update() unconditionally sets ctx->tx_key_update_asked =3D true
-even though rx_secret is no longer registered, leaving tx_key_update_asked
-permanently stuck at true.
-
-3. If a concurrent recvmsg() runs tls_keyupdate_rx() while
-tls_sw_key_update(sk, 1) is sleeping in sk_stream_wait_memory() before
-copying the KeyUpdate message, or while an Application Data sendmsg() is
-sleeping at wait_for_sndbuf in tls_sw_sendmsg_locked() after allocating
-ctx->open_rec, ctx->tx_key_update_reply is set to true after the caller has
-already passed the tx_key_update_reply check. Upon wakeup,
-tls_sw_key_update(sk, 1) sends KeyUpdate(update_requested) or
-tls_sw_sendmsg_locked() sends Application Data without first sending the
-required KeyUpdate(update_not_requested) reply.
-
-[1] https://lore.kernel.org/r/20261030-keyupdate-rfc-v3-4-8e1e32226e51@gmai=
-l.com
-[2] https://lore.kernel.org/r/20261030-keyupdate-rfc-v3-4-8e1e32226e51@gmai=
-l.com
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261102-keyupdate-=
-rfc-v4-0-f17419972b9f@gmail.com?part=3D4
+Looks good to me:
+Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>
 
