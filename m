@@ -2,126 +2,109 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E405606A324
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2026 17:05:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D86A606A326
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2026 18:12:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=2PwunrSx;
-	dkim=pass (2048-bit key, unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=Es+/SAM3
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=nGQHLBS/;
+	dkim=pass (2048-bit key, unprotected) header.d=sufficit.com.br header.i=@sufficit.com.br header.a=rsa-sha256 header.s=google header.b=p+hoNOvl
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=sQ5/jk8rKWyAkNOj7nl6uop6nOfWs8xpblsULbfB1nk=; b=2PwunrSxChpEAO
-	eVdw4ZCGb3/u/bmEzvIMzVWyHOjkg5OpCzoa+BIzzEdQuQBD4cAGiXx5B5NQhOaFJRWByUHKLKQM7
-	Wr2ZsfhzGjCB2un0PK5IoJ1Hy3KBCxovwbYuBAKboAe/Rr7A9OHz67lgcXHSjvWH8mUmQqSffHh8O
-	IhJ13R6NBURiuhsp0zWQ+PcvruPhj1gBGEHB5od4WVa2WvEMybq9aFxgD0DLTji2VVUlgzYTZE3er
-	WEicNt6z90lj+pvpxSWKg2mM8pYtAm8IY2XWsVqzvhycmzxwXxOBavcc5+0/8xwUbYX1bp41eVlZR
-	h9PoqqxqY7kz56iD/XfQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:MIME-Version:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Unsubscribe-Post:List-Owner;
+	bh=2peDZpv0Nt2X4R2zWrEwCZ58rKp6e+sLK5ncD1B3k4E=; b=nGQHLBS/tsejMmiDthsglPSGMq
+	JbPYQeuAxx4RWEZ6G9QhW73LIBZpe43GVXXNODjoh12fr602ckdHbIyKSvzVYM6rC+luwc0l50fLW
+	RfZUMmIEyMkOc3RM2mJyi4nIpEivUGomfYTo9hXK3MLdJGlC14swXT1JLA0IBC4n/+041gDn097bv
+	/LV66jDg3sZ5WhG2VkWYlKxbYsg01+EovypgzHksEPyuM3Q8j9TKieLmtwVccw/SPinVG3W1jUXNk
+	EydMkb7ehAzB/lLQt+d5NFwoLU+/PZwMLlgnxZQYkkvKe9Jf/vk7AtnLKaToWBb+iMcXNebLqXO1T
+	VjOIoUBw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOHww-00000003GZO-2UQc;
-	Tue, 03 Nov 2026 17:05:30 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1xOIzT-00000003Mxk-2wdj;
+	Tue, 03 Nov 2026 18:12:11 +0000
+Received: from mail-lj1-x234.google.com ([2a00:1450:4864:20::234])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOHwr-00000003GYF-2euX
+	id 1xOIzQ-00000003MxK-47LM
 	for linux-nvme@lists.infradead.org;
-	Tue, 03 Nov 2026 17:05:28 +0000
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A3EEBQ21957448;
-	Tue, 3 Nov 2026 17:04:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=sQ5/jk
-	8rKWyAkNOj7nl6uop6nOfWs8xpblsULbfB1nk=; b=Es+/SAM3wQW37G84liMDh5
-	borI63RxXCNJtBDi3PyMLxxd6T5EwR5bp+Xe+hfkBoK0t9FuVRzKC00TT8kONM5w
-	IU8MypYm3s0dO2ZjPkLehIIdTpHnlR9pwWP8yYFtKS9X80JlGHXGSrSWohmTdGyT
-	iIkdz7zKgylu68o8jNmkB5LFh21brZ43tB3Rmc7k41GxvvaE+yDcAwCjxfPzG4PZ
-	NCAwvq0w/Ce+81yiV+esdOdwYMRsvosg11JWT4cbwOG/7+fcmVz22E7TyFDuiPyq
-	h0Yi+TmBlen37B7ZRVe1+s+vLFzeI4/lHFKHpEl95p2sUxqbuVh+3RUyNi0WB0gA
-	==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hn5rhq6un-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 03 Nov 2026 17:04:51 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6A3EK44U2695648;
-	Tue, 3 Nov 2026 17:04:51 GMT
-Received: from smtprelay02.dal12v.mail.ibm.com ([172.16.1.4])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4hnv5guj44-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 03 Nov 2026 17:04:51 +0000 (GMT)
-Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
-	by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6A3H4ogX55640372
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 3 Nov 2026 17:04:50 GMT
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6592758059;
-	Tue,  3 Nov 2026 17:04:50 +0000 (GMT)
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 71F7158058;
-	Tue,  3 Nov 2026 17:04:46 +0000 (GMT)
-Received: from [9.61.129.51] (unknown [9.61.129.51])
-	by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Tue,  3 Nov 2026 17:04:46 +0000 (GMT)
-Message-ID: <7f6e7fc6-dd40-4949-9a1b-95200c9680e6@linux.ibm.com>
-Date: Tue, 3 Nov 2026 22:34:44 +0530
+	Tue, 03 Nov 2026 18:12:10 +0000
+Received: by mail-lj1-x234.google.com with SMTP id 38308e7fff4ca-3ab4354db11so33396691fa.1
+        for <linux-nvme@lists.infradead.org>; Tue, 03 Nov 2026 10:12:07 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793729525; cv=none;
+        d=google.com; s=arc-20260327;
+        b=NDHYsj21p1Im2v8wG2e70Kg3xio/zTe+zGLhDHoYuj/yowmmJBO0diZw5ZczxycMcP
+         L8MpnS4Uxsz9STIjCFS//rcTJwlvHjM1n1RBMHtK2waftV//vmAAPJqPFy88i5p6TulC
+         a6jqhxMFZ+DVMmGYMaEJt4A0sIUrLoh3PdHnB+aRnyYKyzbjWFLhwI+PtqPGNpQWsJpu
+         px3l5HEp5NtMBk+SynDg1eDe1wI34gTnLGS0xLCMjxFnJtPkLVK1VqJY8VEagadCHyrh
+         BsA37QGD0H129SfGqDruUdqqCtSqwubuRIDR1nmkuJSijh5SlJEkuWjfFUAk5vtMfCd4
+         9F2g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=2peDZpv0Nt2X4R2zWrEwCZ58rKp6e+sLK5ncD1B3k4E=;
+        fh=gJgyqMUHH86Yx/8p1Cx0UfG5AB0fJ9c8Uzf1mJ3qIUc=;
+        b=pnhjDlXiJSVjnhS36mkQC1w6a8QhyFTa7xMXxyDfuf8A4lM2B4y6vMpNzBks6n+pW0
+         k5s7aJantF/a7nrXs+vfgw8E4RRAAbQysUcTEgSeJL+Jai3fd2lWhg19FkwaLJh3RDJb
+         Br25wVkm+5PrUNySK5QMOJ+kUC0rixpLyV+vmqlcEsA9QbV5lHmHNrmJ9oq4C1rjClmv
+         9uUMY3IdiV63p4H+EiX+rZexLSUZNz3rl8L0gOQZWtTxUOi/Xlq0QsSgz+jz1G0/h87J
+         je0D4aB10eXLnU6ARUR6niBPYAL4lTSozwkSaS5eU8cBX/f0TnJb1bKHYwOXBCgNf334
+         u0Rw==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sufficit.com.br; s=google; t=1793729525; x=1794334325; darn=lists.infradead.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=2peDZpv0Nt2X4R2zWrEwCZ58rKp6e+sLK5ncD1B3k4E=;
+        b=p+hoNOvlLDoOItEtB8oxIy5qVDA89otQPD25R2qe0+eutbaqu1PSEqreyOoXgHiD44
+         bWcCCQEByaT0Y3hrtEGXlqJFKsGM6TEbS7+T0H/O5eDb++1uqcFQF/t9seFSs2MBXC2g
+         F/rY/XqbrmCBAmj/5vH4H0LSY3vato8Mv7wL+ph/BPA0g3iA4N3aKMez+UrDTn6wMNiU
+         Y6EqE44H5X3DoeiEQ/iZj9bhvc6soppo8VzTr8pXeqFIJUjAx1I4v4QpNY9O5cRn/MtH
+         QrX6a0kDt/06xC0lmDhj1Cn6fIz8ZgEHES6SbWyRzGLH8J3l5TqVxWUwy9Gvl9Q5qZo5
+         HlMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793729525; x=1794334325;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=2peDZpv0Nt2X4R2zWrEwCZ58rKp6e+sLK5ncD1B3k4E=;
+        b=Q8Eu1s9VQpmp7qXapQjtfoR/OCeS4yHi4qtr+7xlNrHw/E4JQhncmmBd8S2nB5QzlV
+         rIKYbBHUragNUmqy6cmTf9BcyV7x5AveL2IAHvVrewqt2b5CSW2dQE7YBWODJXMBGWnv
+         Z5m4Z5LnQmjWJjrUKII47dxaH56B8o8dJAeL2yrIl8tQ4sDOpZmwyAEs2w0DJ2MgUf2k
+         83Niu07IEfNWieslR/z87ik6pXLeKssTnjM9ZzUnYeGnDbOhujiLhVC9cgWwnF9ZgQsL
+         iGGjEM9c43SEBBGhoJ0jy9+SInI/YV4ANwpBJA0svVjU4DodnNWkNkecE3Ff7JsZ9r/n
+         c5Jg==
+X-Gm-Message-State: APuU4Z9FPsKG1hr6SosdFkdWXWV3v4e06u6z55q9ViYL23FixaTuyqb9
+	wU9ANGQKTS5g7jysy51bEhwQgYe0rb3Q+AJFvt/1vcOPfLW24QOMOTyocr+6hZIvFL4U+bJWTyN
+	o722z0CPj3w604xd57kQT3obgt9G9P5NRHavz4ttEEfgLKV6KForEJ7HDfw==
+X-Gm-Gg: AYBFou0wjZAGvwxnbTQ5Q4MS36MfyAY+PrDKQi0Bprv+msZFV5TnPOzS92RdxrbX9iK
+	kQQgtDJ2HeBCFOiumkFkKII3Nz5yZ4JvHPAfE6f8iDZ2jldaCwcR7jTjbaPbjUpm+BfREMY9iqn
+	KkpEi4ZytUxahAU8frUOdW0yxCzFndMxUiyvmg6v/WXWXtdwGB2bPHYwmCvk4Zjp44SD/+fwYLs
+	HWVn9/99yRzFzzJkm391dekvJIJcK2PWoHv5HkexVvp1iLOVvWS1rpr0oY3vZtcOKCtn8zQeoXM
+	edCxNmJ3Sm9pn2SXhcm8IUTatmakyQTho2KREjDuXxrSg7J+SXiz/oVPZXVUzjmPgEyELQiDYkp
+	yAN3jltOgozm4AMZRSMXSq/gPoKCCYuuMzmHCws2LYBbC2sIS+RKqBJ/k4TUNelVGFj5RIw==
+X-Received: by 2002:a2e:8a88:0:b0:3a5:e792:2dc8 with SMTP id
+ 38308e7fff4ca-3acb7ad2a7emr28560531fa.16.1793729524867; Tue, 03 Nov 2026
+ 10:12:04 -0800 (PST)
+Received: from 609194959516 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 3 Nov 2026 10:12:04 -0800
+Received: from 609194959516 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 3 Nov 2026 10:12:04 -0800
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] blk-mq: use a housekeeping CPU for passthrough
- requests on isolated hctxs
-To: Daniel Wagner <dwagner@suse.de>, Keith Busch <kbusch@kernel.org>,
-        Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-        Sagi Grimberg <sagi@grimberg.me>
-Cc: Ming Lei <ming.lei@redhat.com>, Surabhi Gogte <sgogte@purestorage.com>,
-        Hannes Reinecke <hare@kernel.org>,
-        Frederic Weisbecker
- <frederic@kernel.org>,
-        Aaron Tomlin <atomlin@atomlin.com>,
-        Maurizio Lombardi <mlombard@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-References: <20261103-nvme-fabrics-isolcpu-v2-1-95ec70d58254@suse.de>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <20261103-nvme-fabrics-isolcpu-v2-1-95ec70d58254@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: d-Nw3Q3zP_MAaZ7sH5O-WlJu5ENMXRp0
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAzMDA2NiBTYWx0ZWRfX5UilMRvmKMZd
- oVFVkprwMWWs6xXsiE5HNVLR6Cixz5ZoyDx5AUN3gx1p33X8kzLum/roaNDJESDUBD4IXdxdlgL
- xDyIKNz4YUkwDPdBCEHLKNttcPpTF6I=
-X-Authority-Analysis: v=2.4 cv=LokHWXdc c=1 sm=1 tr=0 ts=6aea1433 cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=20KFwNOVAAAA:8
- a=VnNF1IyMAAAA:8 a=Xo84benzLQ6E682cTSsA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAzMDA2NiBTYWx0ZWRfX8fV48+h9Df/T
- dR/Uq0WBQAYrS8YxaMPDscPYGtROOj9C5Jlk+TCaCZ6A+TeOUjtGFORrPwMvzy0U+52t7U+I6Qe
- khYwhOND4JK0bja1yyKwlFdZyYRwR5NseCuRaDUR3JNmr54bmLIjbfIH6qPvfq4hZiThMCtuX8c
- oqPlKQh7YBdBN/4dM4z8jlqm4PXbnZi8hESHterSA86BXet99DCanySnItezE73V2hniSO6TjJ8
- APZKtmsU/k4KBBnEinCmYElvyKjD/jId6eCpHINOQ0p8781qgmKRx4vzDNmEPC5HhVVDrwPmFq8
- iu4faUNrkR9rFTb0zubDzZszAWhTqAKTSOPpNhksZxYc01+k06AX67qE8IZm6dQcog2xGxTLq7g
- cFn8krnF3Yhs65D1UukBqNgYDhP/ZTYWYnLaGIgiGPcYeQb6AJ6V0LgHDxw2xJxG46TxUFbMAcw
- kfBo/uE01IlJOMqHvYg==
-X-Proofpoint-GUID: d-Nw3Q3zP_MAaZ7sH5O-WlJu5ENMXRp0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-03_03,2026-11-03_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 lowpriorityscore=0 clxscore=1011 impostorscore=0
- priorityscore=1501 suspectscore=0 phishscore=0 malwarescore=0 bulkscore=0
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610300000
- definitions=main-2611030066
+From: Hugo Deco <hugodeco@sufficit.com.br>
+Date: Tue, 3 Nov 2026 10:12:04 -0800
+X-Gm-Features: AclHuK8R1HPQ0O30EAMzwY1a7LQNMhKTizAdurdfNGW4JjvjIspy-iDgFKoQWEE
+Message-ID: <CAGFVba_n+Fhrp42X4Yn5hjBd=YWP-_2FVpCsxO_mogWGrfHd3w@mail.gmail.com>
+Subject: [PATCH v2] nvme-pci: add NO_FUA quirk for ADATA XPG GAMMIX S70 BLADE
+To: linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, 
+	andres@anarazel.de
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261103_090526_160978_7A007AFE 
-X-CRM114-Status: GOOD (  19.04  )
-X-Spam-Score: -2.6 (--)
+X-CRM114-CacheID: sfid-20261103_101209_086365_12B129AD 
+X-CRM114-Status: GOOD (  13.14  )
+X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -132,38 +115,97 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-10.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On 11/3/26 8:27 PM, Daniel Wagner wrote:
-> blk_mq_alloc_request_hctx uses the first online CPU in hctx->cpumask to
-> select the software context for a request.
-> 
-> Since commit a46c27026da1 ("blk-mq: don't schedule block kworker on
-> isolated CPUs"), hctx->cpumask excludes isolated CPUs. If a hardware
-> context is mapped only to isolated CPUs, the mask is empty and
-> blk_mq_alloc_request_hctx fails with -EXDEV.
-> 
-> The NVMe fabrics transports use blk_mq_alloc_request_hctx to allocate
-> the Connect command for each I/O queue. As a result, connecting to a
-> controller can fail when using isolcpus=domain or an isolated cpuset
-> partition.
-> 
-> Passthrough requests bypass the software queues and go directly to
-> hctx->dispatch. Their software context is only used to select the
-> completion CPU and as a hint when freeing the tag.
-> 
-> Use the software context of an online housekeeping CPU for passthrough
-> requests.
-> 
-> Fixes: a46c27026da1 ("blk-mq: don't schedule block kworker on isolated CPUs")
-> Tested-by: Maurizio Lombardi<mlombard@redhat.com>
-> Signed-off-by: Daniel Wagner<dwagner@suse.de>
+On the ADATA XPG GAMMIX S70 BLADE (PCI 1cc1:5370, firmware 03020P5E)
+every Write with the FUA bit set takes 200, 400 or 600 ms to complete,
+always a multiple of ~200 ms, while a plain Write completes in
+0.0-0.4 ms and a Flush in ~1.3 ms. Tracing nvme_setup_cmd and
+nvme_complete_rq shows the whole delay is between submission and
+completion, i.e. inside the device (e.g. FUA write, control 0x4000:
+598.3 ms).
 
-Looks good to me:
-Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>
+Because ext4/jbd2 issue FUA for every journal commit, fsync() on this
+drive stalls for 250-890 ms and desktop applications freeze.
+
+Add NVME_QUIRK_NO_FUA, which stops advertising BLK_FEAT_FUA while
+keeping the volatile write cache enabled, so the block layer emulates
+FUA with a Write followed by a Flush. Durability semantics are
+unchanged. Apply it to the S70 BLADE through nvme_id_table.
+
+With the quirk applied, 4 KiB O_DIRECT|O_DSYNC writes and
+create+write+fsync drop from 250-890 ms to a 0.82-0.85 ms median
+(30 samples, two partitions on the same drive).
+
+Signed-off-by: Hugo Deco <hugodeco@sufficit.com.br>
+---
+v2:
+ - Match the device by PCI ID in nvme_id_table instead of the model
+   string in core_quirks (Keith Busch).
+
+ drivers/nvme/host/core.c | 2 ++
+ drivers/nvme/host/nvme.h | 8 ++++++++
+ drivers/nvme/host/pci.c  | 2 ++
+ 3 files changed, 12 insertions(+)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index a7a4d09..a9f54ef 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2482,6 +2482,8 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
+ 		lim.features |= BLK_FEAT_WRITE_CACHE | BLK_FEAT_FUA;
+ 	else
+ 		lim.features &= ~(BLK_FEAT_WRITE_CACHE | BLK_FEAT_FUA);
++	if (ns->ctrl->quirks & NVME_QUIRK_NO_FUA)
++		lim.features &= ~BLK_FEAT_FUA;
+
+ 	if (info->is_rotational)
+ 		lim.features |= BLK_FEAT_ROTATIONAL;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 2d8f681..8833a46 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -183,6 +183,12 @@ enum nvme_quirks {
+ 	 * Admin queue DMA buffers must be page aligned
+ 	 */
+ 	NVME_QUIRK_ADMIN_PAGE_ALIGN		= (1 << 23),
++
++	/*
++	 * The device is extremely slow on FUA writes but fast on Flush;
++	 * do not advertise FUA so the block layer emulates it.
++	 */
++	NVME_QUIRK_NO_FUA			= (1 << 24),
+ };
+
+ static inline char *nvme_quirk_name(enum nvme_quirks q)
+@@ -236,6 +242,8 @@ static inline char *nvme_quirk_name(enum nvme_quirks q)
+ 		return "dmapool_align_512";
+ 	case NVME_QUIRK_ADMIN_PAGE_ALIGN:
+ 		return "admin_page_align";
++	case NVME_QUIRK_NO_FUA:
++		return "no_fua";
+ 	}
+
+ 	return "unknown";
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 019a1e3..e262f38 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -4483,6 +4483,8 @@ static const struct pci_device_id nvme_id_table[] = {
+ 		.driver_data = NVME_QUIRK_BOGUS_NID, },
+ 	{ PCI_DEVICE(0x1cc1, 0x5350),   /* ADATA XPG GAMMIX S50 */
+ 		.driver_data = NVME_QUIRK_BOGUS_NID, },
++	{ PCI_DEVICE(0x1cc1, 0x5370),   /* ADATA XPG GAMMIX S70 BLADE */
++		.driver_data = NVME_QUIRK_NO_FUA, },
+ 	{ PCI_DEVICE(0x1dbe, 0x5216),   /* Acer/INNOGRIT FA100/5216 NVMe SSD */
+ 		.driver_data = NVME_QUIRK_BOGUS_NID, },
+ 	{ PCI_DEVICE(0x1dbe, 0x5236),   /* ADATA XPG GAMMIX S70 */
+-- 
+2.53.0
 
