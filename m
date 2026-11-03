@@ -2,56 +2,101 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EACF606A32F
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2026 06:15:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C74AB606A32F
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2026 06:20:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=R/9JVrwt
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=mCVParkL;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=M2Hmcook
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Unsubscribe-Post:List-Owner;
-	bh=37OpAiwCn6erboU1eMdFL6lM3sBalxWTRU9eedva/Fk=; b=R/9JVrwtslltCVyp35egHoMGe3
-	ijApkj80XXzxgRrwSe5TJdqm7KdMfFId5IPXCeCmauMYyID3O0TswOEvfD5q4n75dn30YYLygC2AK
-	uk/a5dsQgCZYtFnIdIcXQhbchX1yY16dFEzmmzjeXZ0oD+hPZeU7VWJMZeom+BkTg68yJY9zSjZ6M
-	Fjer85opSro0V7DkS4dsb7GCD1tVjYrXHMm5+7I4iAkM2N8UBQ3j+e3zvb+PPmP03idNy+ovz4mRS
-	nmp7doa4xYS/9+g53tM9F6lY9si1oe89LUyEFd0nUZugxeN1mPwytn5eEFFKpuCuzK25iMpSg2ENl
-	HWs9dIzg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
+	List-Owner; bh=mp3kk8+6LuA0IVceTCacKEe4tqnDRWucOGMN+FIMuVo=; b=mCVParkLfJj6HN
+	VJ4Twr9lP+8mjlTGNSMcbfWLCax6jBsIpruqO8Nhdpx2EDco+4mnBxXvM4snrn5JhfWJzLHMdLUDb
+	L9hJD1wZ3eqnU2o9SdIVVbj4lGFEN5qNllK3dKAzlaPONSvMkLU4I6dPtCNpJfLjvm3QGhzK6FZmh
+	3ytA+2xg6ZxxBl4ZU2xlJU628Rf3VH/DHlqy7sxcfsXGTRfcraRj0hk5zh8d9NsH0Mz5UAbzz4ZaP
+	d5k7Db1mCcHYD1Yfx6cQNwL9AmtA2dBdk896kpsvWTa4pH4uXmjf4ZAVdtdAzP33zQZgvVc6mZoLZ
+	y9DO9ufkShzzdyTjVBUg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xO7oH-00000001Cha-1U0t;
-	Tue, 03 Nov 2026 06:15:53 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1xO7sr-00000001D0B-1uUs;
+	Tue, 03 Nov 2026 06:20:37 +0000
+Received: from mail-dl1-x1236.google.com ([2607:f8b0:4864:20::1236])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xO7oC-00000001ChE-2H3H
+	id 1xO7sm-00000001CzD-0QeD
 	for linux-nvme@lists.infradead.org;
-	Tue, 03 Nov 2026 06:15:49 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 1DC5368BEB; Tue,  3 Nov 2026 07:15:45 +0100 (CET)
-Date: Tue, 3 Nov 2026 07:15:44 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Keith Busch <kbusch@meta.com>
-Cc: linux-nvme@lists.infradead.org, axboe@kernel.dk, hch@lst.de,
-	Chris Mason <mason@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Keith Busch <kbusch@kernel.org>,
-	Guixin Liu <kanie@linux.alibaba.com>
-Subject: Re: [PATCH 19/19] nvmet: wait only for executing I/O in preempt
- and abort
-Message-ID: <20261103061544.GM1862@lst.de>
-References: <20261029155252.2332266-1-kbusch@meta.com> <20261029155252.2332266-20-kbusch@meta.com>
+	Tue, 03 Nov 2026 06:20:33 +0000
+Received: by mail-dl1-x1236.google.com with SMTP id a92af1059eb24-1a2761c69fbso6360527c88.0
+        for <linux-nvme@lists.infradead.org>; Mon, 02 Nov 2026 22:20:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793686831; x=1794291631; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=mp3kk8+6LuA0IVceTCacKEe4tqnDRWucOGMN+FIMuVo=;
+        b=M2HmcookOUvJ7h44HO5zU1rCri92mLlgaSS+Gd+MdYmhLXXOMODIKkwaJJw2eZ0Xpb
+         ETTBRfIbF0jSb2sDdWyzZ4BiGnGTqjHhLxXAf39l3cGnxJNOoMsf+DtxLGXEvxuisten
+         YFonijMjokEsvz2I9rkViajBNB942WugWMRT4o8dfQPTAeD/pvGGZVCTiQ2L4wdaPFp1
+         O5mZxHXhTiVhIWWxlxVAKIo4nAwKMhgaAk+hCOqy6Ee1v9+21loFrpXdLzOl+OC3mydi
+         9RrYuACWYh8hEYDhpi55Q31H2UYSKLqclhH2gcNeg+sUN7wclh8OevorjEbIA1SqdLtR
+         GLog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793686831; x=1794291631;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=mp3kk8+6LuA0IVceTCacKEe4tqnDRWucOGMN+FIMuVo=;
+        b=dXQ6e3Fal/sytZ21pBt3ydwfN6K0CcYDqggdUWuSPA1F3CZSozzutmjbXRZlLxki3P
+         tBOcfS6ThMHvhyyNYG1ygAb04cHDylJ1pOYYXvZh5nIk8LdM8kZ8HVel67IuJnGYreo0
+         3EUPobxk+GhuLfJpHdlEG5TtwznssnAxjPURSHOsCHc1Hi3WRkdpMMfaT3GiM9tKNVv2
+         BVHtUTp/CMz33DU2vOMHyV8J4zkrFohitTOIv5lEJpLUtzER//lh3oNDcFA1MDRPLZor
+         fdgs9rWnvTt4QktAAMxTjgJQv34oSlxei0t/hCK2TASCNkMmq6FtEhIOZ7HQbvpTFcdq
+         ehbw==
+X-Forwarded-Encrypted: i=1; AKwUvBx2JvYpPW9UkiULM7zRNRRP/ttSJ9d5vQcxeK6ZvB3vgG/2YbCmgyV0hyu/XoUIC6vU8O184gn91YW8@lists.infradead.org
+X-Gm-Message-State: APuU4Z9Bk1oZ2yitff9/ANKeNhHAjzMI/yuEt0PyJGhW6m/tZttSqQis
+	red9B6YVFsd2Kkep//XDlL1VWAYeQjggLvPOA9p0QaMeJl6vhxJyYLI/
+X-Gm-Gg: AYBFou3PPCXzdc3Rv640uNsEtmxQfHT5C9omZHSxEigsHgUlvs5YObM2Q44rTu/M1ru
+	zhLXle8WpTYsKRxWPpcfLVgff214RdWKDAnWLDjRst/NLebKMskPHiWYXITC0o0eWFYVJC6RWoX
+	9LSLM/KXfqzbpfPF2uKWiYqkd15itN+4lR+kADvoGGI6qGDkDRpGpcpjPf70bF8Wep8gaxEqqHc
+	Bn4AzNNfNieX9fTWGSz+/VcBE3JGMoNhs3ro/WNLuhS7KzDm3SKer7sXjQ/NyKNCWBZHRKOwUZS
+	yLPFb0XP9JJ8nhdb70D8AL/8PojtWBQhj/vlC8P2g6wxirQ65RoY/X01ONKaERwhO6ekrrtoSez
+	+NAjWD2r1sUPUyIaqJtjwH6aQ329dqVdDqA2+vn99Eg7162QSwZiVEie4xYGPEVrBJh1co1dPDb
+	qnUS9B307OEDn9SqeRZbjQwDShWwae9v5tZS0StKXtBN0IxCZ/rFZsUOUpHTTuvXp+l3+auNC4P
+	kB5GwBJdQwZq8j7gZHyuVe6FjN3cS9Uw/3ABiJjlu8257pPWebFt36rk22A4Es6P4ddKH2cKV/K
+	gxAKSivaMUKR8vehUaqv
+X-Received: by 2002:a05:701b:42c2:10b0:185:1640:5536 with SMTP id a92af1059eb24-1ac5ab52fa9mr19515376c88.19.1793686830658;
+        Mon, 02 Nov 2026 22:20:30 -0800 (PST)
+Received: from ubuntu.. ([23.254.208.9])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac13ef1932sm39727023c88.2.2026.11.02.22.20.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Nov 2026 22:20:30 -0800 (PST)
+From: Qiliang Yuan <odys.yuan@gmail.com>
+To: Nilay Shroff <nilay@linux.ibm.com>
+Cc: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	Ming Lei <tom.leiming@gmail.com>,
+	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+	Stuart Hayes <stuart.w.hayes@gmail.com>
+Subject: Re: [PATCH 2/2] block: set QUEUE_FLAG_NO_ELV_SWITCH under the read lock in del_gendisk()
+Date: Tue,  3 Nov 2026 01:20:23 -0500
+Message-ID: <20261103062023.2910587-1-odys.yuan@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <44b0d0e5-b14f-4e6c-8e00-16b4af712b7d@linux.ibm.com>
+References: <20261102-bug-nvme-remove-ns-async-v1-0-61780fee111c@gmail.com> <20261102-bug-nvme-remove-ns-async-v1-2-61780fee111c@gmail.com> <44b0d0e5-b14f-4e6c-8e00-16b4af712b7d@linux.ibm.com>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261029155252.2332266-20-kbusch@meta.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261102_221548_903564_7338D29A 
-X-CRM114-Status: GOOD (  36.69  )
-X-Spam-Score: -1.9 (-)
+X-CRM114-CacheID: sfid-20261102_222032_162239_406BA001 
+X-CRM114-Status: GOOD (  11.92  )
+X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -62,152 +107,31 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-15.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
 	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Adding Guixin for the nvmet PR code.  It would have been useful
-to group things a bit more..
+On Tue, 3 Nov 2026 11:23:59 +0530, Nilay Shroff wrote:
+> Currently, there's a patch[1] in-review to change update_nr_hwq_lock from
+> write to read while switching elevator.
+>
+> So the proposal in this patch may not work out if the changes in patch[1]
+> are accepted. I understand your proposed patchset but I'd recommend wait a
+> bit till we settle with the patch[1].
+>
+> [1] https://lore.kernel.org/all/20261031044141.5569-1-laveeshb@laveeshbansal.com/
 
-On Thu, Oct 29, 2026 at 08:52:52AM -0700, Keith Busch wrote:
-> From: Chris Mason <mason@kernel.org>
-> 
-> nvmet_parse_io_cmd() takes the pc_ref for an I/O command as soon as it's
-> parsed, and "preempt and abort" waits for all pc_refs of the preempted
-> controllers before it releases pr_sem. But a write that still needs its
-> data can't complete without the host sending it and without the
-> transport context receiving it, and that same context is where Register,
-> Acquire and Release sleep on pr_sem. So a host that sends a write and
-> holds the data back, then preempt and abort with its own key, then
-> Register on the same queue, deadlocks io_work, the abort work and the
-> write with each other. Two well-behaved hosts get there by accident
-> when one fences the other while it re-registers under I/O. The
-> connection can't be torn down, the namespace can't be disabled, and
-> with nvmet_config_sem held across that, nobody can connect.
-> 
-> Take the pc_ref when the transport calls ->execute(), once all the data
-> is there: nvmet_parse_io_cmd() stashes the real execute method and
-> installs nvmet_pr_execute_io(), which gets the reference, rechecks the
-> reservation access since the host may have lost it since parse time,
-> and calls through. Preempt and abort then only waits for commands that
-> have started executing, which need neither the host nor the transport
-> to finish. A write whose data arrives after the abort now fails with
-> Reservation Conflict where it was previously executed, that's the
-> input the hang needs.
-> 
-> Fixes: 5a47c2080a73 ("nvmet: support reservation feature")
-> Cc: Christoph Hellwig <hch@lst.de>
-> Cc: Sagi Grimberg <sagi@grimberg.me>
-> Cc: Chaitanya Kulkarni <kch@nvidia.com>
-> Signed-off-by: Chris Mason <mason@kernel.org>
-> Signed-off-by: Jens Axboe <axboe@kernel.dk>
-> Signed-off-by: Keith Busch <kbusch@kernel.org>
-> ---
->  drivers/nvme/target/core.c  |  2 +-
->  drivers/nvme/target/nvmet.h |  4 +++-
->  drivers/nvme/target/pr.c    | 42 ++++++++++++++++++++++++++++++++++++-
->  3 files changed, 45 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-> index 1ed250cd4b56e..4f6fb7c4181ab 100644
-> --- a/drivers/nvme/target/core.c
-> +++ b/drivers/nvme/target/core.c
-> @@ -1176,7 +1176,7 @@ static u16 nvmet_parse_io_cmd(struct nvmet_req *req)
->  		if (ret)
->  			return ret;
->  
-> -		ret = nvmet_pr_get_ns_pc_ref(req);
-> +		nvmet_pr_set_execute(req);
->  	}
->  	return ret;
->  }
-> diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-> index 7b429cc16d491..99b3bf5cbd3b6 100644
-> --- a/drivers/nvme/target/nvmet.h
-> +++ b/drivers/nvme/target/nvmet.h
-> @@ -513,6 +513,8 @@ struct nvmet_req {
->  	struct nvmet_port	*port;
->  
->  	void (*execute)(struct nvmet_req *req);
-> +	/* what nvmet_pr_execute_io() calls once it has the pc_ref */
-> +	void (*pr_execute)(struct nvmet_req *req);
->  	const struct nvmet_fabrics_ops *ops;
->  
->  	struct pci_dev		*p2p_dev;
-> @@ -1041,7 +1043,7 @@ void nvmet_pr_exit_ns(struct nvmet_ns *ns);
->  void nvmet_execute_get_log_page_resv(struct nvmet_req *req);
->  u16 nvmet_set_feat_resv_notif_mask(struct nvmet_req *req, u32 mask);
->  u16 nvmet_get_feat_resv_notif_mask(struct nvmet_req *req);
-> -u16 nvmet_pr_get_ns_pc_ref(struct nvmet_req *req);
-> +void nvmet_pr_set_execute(struct nvmet_req *req);
->  static inline void nvmet_pr_put_ns_pc_ref(struct nvmet_pr_per_ctrl_ref *pc_ref)
->  {
->  	percpu_ref_put(&pc_ref->ref);
-> diff --git a/drivers/nvme/target/pr.c b/drivers/nvme/target/pr.c
-> index 1a03f74c2e14f..798f5ce9011f8 100644
-> --- a/drivers/nvme/target/pr.c
-> +++ b/drivers/nvme/target/pr.c
-> @@ -1060,7 +1060,7 @@ u16 nvmet_pr_check_cmd_access(struct nvmet_req *req)
->  	return status;
->  }
->  
-> -u16 nvmet_pr_get_ns_pc_ref(struct nvmet_req *req)
-> +static u16 nvmet_pr_get_ns_pc_ref(struct nvmet_req *req)
->  {
->  	struct nvmet_pr_per_ctrl_ref *pc_ref;
->  
-> @@ -1072,6 +1072,46 @@ u16 nvmet_pr_get_ns_pc_ref(struct nvmet_req *req)
->  	return NVME_SC_SUCCESS;
->  }
->  
-> +static void nvmet_pr_execute_io(struct nvmet_req *req)
-> +{
-> +	u16 status;
-> +
-> +	status = nvmet_pr_get_ns_pc_ref(req);
-> +	if (!status) {
-> +		/*
-> +		 * The host can have lost its registration since the command was
-> +		 * parsed. A get that succeeds after "preempt and abort" has
-> +		 * resurrected the pc_ref has to see that. In percpu mode the
-> +		 * get orders no later load, so this pairs with the
-> +		 * smp_store_release() in __percpu_ref_switch_to_percpu(). While
-> +		 * the resurrect is under way the get is a fully ordered
-> +		 * atomic_long_inc_not_zero(). queue_work() in
-> +		 * nvmet_execute_pr_acquire() orders the unregistration before
-> +		 * the resurrect.
-> +		 */
-> +		smp_rmb();
-> +		status = nvmet_pr_check_cmd_access(req);
-> +	}
-> +	if (status) {
-> +		nvmet_req_complete(req, status);
-> +		return;
-> +	}
-> +
-> +	req->pr_execute(req);
-> +}
-> +
-> +/*
-> + * "Preempt and abort" waits for the commands that hold a pc_ref. Until the
-> + * transport calls ->execute(), the end of a command can depend on the host,
-> + * which may still have to send the data, and on the context and the resources
-> + * of the transport. So a command gets its pc_ref only then.
-> + */
-> +void nvmet_pr_set_execute(struct nvmet_req *req)
-> +{
-> +	req->pr_execute = req->execute;
-> +	req->execute = nvmet_pr_execute_io;
-> +}
-> +
->  static void nvmet_pr_ctrl_ns_all_cmds_done(struct percpu_ref *ref)
->  {
->  	struct nvmet_pr_per_ctrl_ref *pc_ref =
-> -- 
-> 2.52.0
----end quoted text---
+Right, with [1] a switch holds the lock for read and uses
+QUEUE_FLAG_NO_ELV_SWITCH as its busy bit, so setting the flag under the
+read lock here could be undone by a switch that is still running.
+
+I'll drop this patch, send patch 1 on its own, and come back to this
+once [1] has settled.
+
+Thanks,
+Qiliang
 
