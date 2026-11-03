@@ -2,135 +2,94 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B223606A32E
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2026 15:51:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7773606A324
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2026 16:05:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=L8zyJ5qO
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=a6Q9oLf3;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Bo4KnVfl
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
-	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:From:MIME-Version:Date:Message-ID:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
 	List-Unsubscribe-Post:List-Owner;
-	bh=b1NBf00Rb7dOPs19r/c6RTBNnwcB4TdRTWiigDfv5mM=; b=L8zyJ5qObsrtmT86yHbptI+g9W
-	hKFeWmRmlf3rMx1CpFYCHqHZT0TKkWKXlV5AnCfSm7gQFOOb1KVQhW5UlSoxbNTpp2AAI/zVgRsN8
-	7gmUzX2en7z073ieQ4TFJpHByMa005iZaIH8IEz74esfxzLvYRckS6wzJEZWKpZQ0lQIgQll/Buje
-	rr5eDZ0afz9cfZfh7bj81D9PELUUIqqwc4P+MM7MouVoF8I2Xkd7ioZR3H4BXNk4qiSIL2l3byRk+
-	dw406ou62ZZxTxjDH6D6XGuYkXhLMGs27OVzFq67GBk4hNZVBGYN7rlkW4kuWzTglqX4IvxE0cVcT
-	MOwRVwtw==;
+	bh=NaPp4Peej2BCZG+WegsY5W8E2E6lnmgbaSwB55nY4Mg=; b=a6Q9oLf37PuM6WCW0n2alBco15
+	DNfMevgm0aE4/evVixKB1N/+QLTfCZ2XWR5v/q1Cri22dBbFgBdErIHePo+WJVfFaEtw+gMAnQIfF
+	5VFKn+QYOh6bhOw2XqjFf+c3Ga1YAgjZepn/DWJX+3lcHZCFmoT7HAyqTZ2ci2YI2h+rm15JmWyhO
+	9/QCetD87bCRI3gB2xogtVGXCCDqcQ7fNkIxqGX+gBbTUxjRXYFNOoRRHfo8guC2Y9FnFXJVFOdHA
+	YCaefX9hQIPS/3s7prMO3wdvXF3m7mR4RC710QSLuo5jsYwfWKV0SQOmhV8gJy5Sr3khOvrvcQSyV
+	cf8/ymTQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOGmt-000000031RA-1YJG;
-	Tue, 03 Nov 2026 15:51:03 +0000
-Received: from mail-uksouthazon11020088.outbound.protection.outlook.com ([52.101.196.88] helo=LO3P265CU004.outbound.protection.outlook.com)
+	id 1xOH0p-000000033ie-0V2I;
+	Tue, 03 Nov 2026 16:05:27 +0000
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOGmo-000000031Oz-1O5y
+	id 1xOH0k-000000033hm-1dX2
 	for linux-nvme@lists.infradead.org;
-	Tue, 03 Nov 2026 15:51:02 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Gl3yGCjjEX0pJ0eiXzTXSDs9PVNzaLQ5V1HaRmz+KyDRqrhdKbgXzL7I0xEgfRFuEU96Q4CiDItloTB65NUIeECoZjXlhJ/Zw73sSuEL+Vpyu5xiUNA2VLvBKFkUtny8myCj3YSD0FegvcFfBvdHGQGU8bL4YWhbNsxX+NmQkn7E+PqAaLV0k9tHUCOFrcf+kFYAS6L6lPr6EcqmgPZz5dGIwSz/cCbHvRqzX2wvN1Wz6KJMrqySgmZbpnitSeWzdp1qAPWCrpK4T4NIZrC9ZaMx+R5hi1qsqfBVwd2xxu5Ax32h3+JjkHd86Hy92tdnRdB5am2kUPWkG1lvn8pwnw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001; h=From:Date:Subject:Message-ID:MIME-Version;
- bh=b1NBf00Rb7dOPs19r/c6RTBNnwcB4TdRTWiigDfv5mM=;
- b=XCT2dt9mCxsUp9Iu30Mld2WVSgSImKMpb35dtEKxarP0HWsNcWz3ey0mHl7Cx6AD0ze7l9XGPK+j2dE47NDieRMC/z7LdhQcPgQ7d3BaxYd4FjV6sPMptVUfmef0l/Ohzmngn7Q/mWlFwNNV3xsaK5rPPIj353WDtdKtNrGm/NGgts37c89nwiCf661Y9BZsJY260SYrf2zvNFrqOgbeJ4rSVPwr0wg07VLTMZlLyRtProFeabJoBlEymO6uB8YweA8QhHo3Jx/+Yzzz2lyTf7afQFo+rkavJ0bnFSa2s3QI1J1u2bNwVjWt8CyweWI+i2ZphTvk7L0RlTBBDxYOHQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
- dkim=pass header.d=atomlin.com; arc=none
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=atomlin.com;
-Received: from LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:163::8)
- by LOYP123MB3166.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:f1::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.8; Tue, 3 Nov 2026
- 15:50:54 +0000
-Received: from LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM
- ([fe80::f71f:a9f:c4de:687a]) by LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM
- ([fe80::f71f:a9f:c4de:687a%5]) with mapi id 15.21.0592.007; Tue, 3 Nov 2026
- 15:50:54 +0000
-Date: Tue, 3 Nov 2026 10:50:50 -0500
-From: Aaron Tomlin <atomlin@atomlin.com>
-To: Daniel Wagner <dwagner@suse.de>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Ming Lei <ming.lei@redhat.com>, 
-	Surabhi Gogte <sgogte@purestorage.com>, Hannes Reinecke <hare@kernel.org>, 
-	Nilay Shroff <nilay@linux.ibm.com>, Frederic Weisbecker <frederic@kernel.org>, 
-	Maurizio Lombardi <mlombard@redhat.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] blk-mq: use a housekeeping CPU for passthrough
- requests on isolated hctxs
-Message-ID: <54jezeeuin7u7g22uuwwf273kmvw4acwezw2tb5ulpuyr5iyu3@hwertv3q7aie>
-References: <20261103-nvme-fabrics-isolcpu-v2-1-95ec70d58254@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261103-nvme-fabrics-isolcpu-v2-1-95ec70d58254@suse.de>
-X-ClientProxiedBy: CH0PR03CA0236.namprd03.prod.outlook.com
- (2603:10b6:610:e7::31) To LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:163::8)
+	Tue, 03 Nov 2026 16:05:25 +0000
+Received: by mail-pj1-x1034.google.com with SMTP id 98e67ed59e1d1-3acdcfa2bd3so3412452a91.3
+        for <linux-nvme@lists.infradead.org>; Tue, 03 Nov 2026 08:05:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793721921; x=1794326721; darn=lists.infradead.org;
+        h=content-transfer-encoding:content-type:content-language:cc:to
+         :subject:from:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=NaPp4Peej2BCZG+WegsY5W8E2E6lnmgbaSwB55nY4Mg=;
+        b=Bo4KnVflTzMZH+zj1XXBznp9wDTjC/urBibZTG355QmoMiwB4tob1OMeS2CuQRcDZH
+         pvKtIuUJ8Csw217XY67nSxInTSUJTY/wSCci0+4EpXShr7XQRlT1gdCAY0m+Rwp/K9+d
+         XN2ynrpcHejtm/xrgiv+QfY/wCV+e4K3rvlq9WFiXh0la+F5Cb4JQSo/7zHNm9gk4yJC
+         RpOAO9LyW3OH40b87A6eulF7z3coC+ABB/BLTI2lRkb854biJEmWLoN+CNMWLbtE325c
+         3dp8jk528w37TLC5DiUFza/QiQXBRnYKOe9M24DQ3CtDUOYcgJWwBBgQAfTGFZAwRJof
+         1etw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793721921; x=1794326721;
+        h=content-transfer-encoding:content-type:content-language:cc:to
+         :subject:from:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=NaPp4Peej2BCZG+WegsY5W8E2E6lnmgbaSwB55nY4Mg=;
+        b=bWpDgDGk8Eq5c0myJUBs+eNJClxo4Xsk4sfC00f2xrFJYRdq7RxGbLe6b8BcK1X6O2
+         qO1yamvdVQcaLjGhwjCb/Pf+qeIu+z3Qa5vIXNUBkJeu3EsBxp4IFxDTZcfCdVVzUiku
+         1f9TDFuFdlshowpJHylg7Hdv2MCdrNInZjailVlODCxdz/cENNcr9FH3/hTfoBkiS3DQ
+         a7NulkpimCmVDjcRRXsrYLGzHyP7of4B9DdbGoCOQ0ueB9I3jV5gnhpFvovJJh2X6uwb
+         /CQ63I+6qD4tCqLp4b9yyQgSIq2Vt6xcDpp4zlYoyUS8L4+BzIj5TTpJ5DAy6S5mnJVK
+         yB+Q==
+X-Gm-Message-State: APuU4Z8S1GmoNpEkhG4kWSEQpYszKPwyfZbbsd6qr4NLnUELtlcr9j3i
+	5WJxOscPmTkiy0nerlsD7ZRML7p6dqyveN7ODAW6OlRJCXdRLc9ka4xt
+X-Gm-Gg: AYBFou0Enrd4d3rMT3YKu+4O3VqMGWyJqoG5i93UUhDfm1wHZj9f0fmN3kCPI9tt7p9
+	ij+pSAdnsdqnL3nZy7G8sBsq9lDYuju1egEn/aBr4xMT6YsAEHGUMmm+xDwl/yWZcMfTZPs+JvU
+	DA09e6kZVHrkmoxgwCEMahidH17P5IU7yz5E4LuxlHdSRryQvbGKUKaQ7kLhqbE5u98w3/TsvOg
+	IzUCFFKWqroMmf5knK6PvSV1TUi+DGSPcVs0ZChqf1I7Uld2H032DZvc2nUhGUFcHYMVpod5OYe
+	TZotIZ4Qk2hBEJ/MFtQG4tWnGB938CV4PCkTJhyVFMblP6oSGuOMqNM8o/ZpPTtm8tVSbLkbVFS
+	91gS6BkVk2OhAOE+LKL5pYY3CJGCpQtDHvsIATSdxwCQHYND9za105n4IF0ZumpQ+KMs8fBXu95
+	CTxvle/MDB4gP7xaKnWLc+06tWvvlyNBVu+1jIcURqzFe5aM315e3BPMB9f3kfvVriYKUOjJeM8
+	JkS8jCHi0y7NC9/3cZreNhf5vdVN4Cq5faDnH2fyNO8idOuT6EQ0zGpZRRskqZeW3GGj4o/ORez
+	J8Aq71XxPAYy31tuNKS4WE6wMM3ZCH0m+itY4g==
+X-Received: by 2002:a17:90b:53c7:b0:3a4:77b8:1770 with SMTP id 98e67ed59e1d1-3ae897c7747mr10979311a91.15.1793721920802;
+        Tue, 03 Nov 2026 08:05:20 -0800 (PST)
+Received: from [192.168.31.200] ([183.81.0.133])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b07c9b6f91sm4955491a91.17.2026.11.03.08.05.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Nov 2026 08:05:20 -0800 (PST)
+Message-ID: <50227b10-d1fc-4746-b156-5b9eed00eb18@gmail.com>
+Date: Tue, 3 Nov 2026 23:05:18 +0700
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LO2P123MB4190:EE_|LOYP123MB3166:EE_
-X-MS-Office365-Filtering-Correlation-Id: b08df99d-e900-4285-1935-08df39c23e49
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|23010399003|1800799024|366016|56012099006|261009223027099003|261028144727099003|261102130727099003|261102123227099003|261022105027099003|261022075727099003|261026140227099003|261026121527099003|261021123027099003|261021121427099003|10067099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: YeuHxbPt0Hsn3T01a+IhkHnOdmXxDs8CD5fcQOoM9VOnymZWp2/Wyq+2oicCCmdQ5cQnzReon8oIn6fPOqDq0FeUJYbcVs0qgOYPfoZdghfYlWSUvtfCqnf1zVqGGDOTCDrWGFsJqk8k0dT+eMgh7CKiJhVO6rrUbualqJpMUckYhu6BxtpF/VdOiOR0F6Y7MNyyosHu7bcQTe6342X6WL5gAjqZQGsC2Txg8CPkvh4Q8LXXh5DhosI9k+zq58M4V8dmAldG+O8DOSwzQeyPtojotEXyDghpPDRvo7AFG4DfIUGiwMj+PN056NA3jaLZ/NSMkM1FcjzythBHv9xXKs29NzvStdLMmRolS2fH691vxG1QoX47vIsxlJNp2mQQM9LmYNfNBlrlsQ+WGyuqnjY5C8Qnx3vi0ugoGmDrDYUIDR3unAVEAEx9fjuGxUvBTFJmdWxLrXQKRa5I6skF3TbuzPdcxHZaiDC8lz5qA0Icr3Kcfud1HPCP6R5hJ6fLcLJ3ocNZOI9nNnoTGOeTKFFt8vR00wGkoVeY/gO70Obk2qvZd9e3mLq5kBydYumg9HjsdcCaZXmSIuP59DKW2BkE6ectNM8Z9lntSF2H1MK05wgmJ5d8JXXa70mJaEQ2
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(23010399003)(1800799024)(366016)(56012099006)(261009223027099003)(261028144727099003)(261102130727099003)(261102123227099003)(261022105027099003)(261022075727099003)(261026140227099003)(261026121527099003)(261021123027099003)(261021121427099003)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SUt5ZjdWd0Fyc2wzSzcrSW9qSVcveHlRSHdpME1MSUZFcmZPL01KTmJLQWVN?=
- =?utf-8?B?WUxzNWw5aFVrd1Z3U2QwSnZhNmU5UFBnUE9EbDFKQ25NOHkyYkhsOU43ZUdi?=
- =?utf-8?B?c1FZaE4rNDVJdzZGcHZaMW5YRzA4a2pWdHBBbklmd2Q0c2VRcFlmek43Z1hW?=
- =?utf-8?B?S0JmT3NLeDRpUE9pZkZHYXFlbWNWNW5EMGQ5RkpRZjExejNlcXhmbDlQY3g5?=
- =?utf-8?B?d2g4bkJvOGh1SU14MWNEd2U5dHByb3AzL0RQWEVuRy9LUk1yYTZSV2VCY3R5?=
- =?utf-8?B?bWdwL0JJYjlGM2tSOFpVWDdncU9hcVlLalNRZEo0Zk9lUFhGZUtUQ2xMUTB5?=
- =?utf-8?B?T1JIQzRFVHZjbmdkUGxqSW9URXlNNnlJU3haOU5FaGdhaE5lTHU2dEdRZ0Nq?=
- =?utf-8?B?d1pEakh2UDh1Y2lXWHFZcktKakkzTXlRZk5FOC9jWi9meVN1S05CQ3c0WVFF?=
- =?utf-8?B?L0VUMGdKYUtoRmM4MmJkQ0xnWlpsZnFReGxKUW56cHl6ckcwcklQS01ZVERG?=
- =?utf-8?B?QVZrRmllTHZXTWp1UGcwSEhlejVQQ3gzbnVhT3NHMTVBMzlTNUthSkZMeFJ2?=
- =?utf-8?B?alFUelR6UHFtVkY0ckljM2FTNnZleEEvclhWL0crVHgrTmordWF2a0trMXhy?=
- =?utf-8?B?WUNyY09jYkdUQkR2WTlLVUd0V0xmV2dwVWFZdWNpS3JBakprRHVLN3VmTGlk?=
- =?utf-8?B?cHBjOWg2eEp5OHJVVzNCd3NjbWE2OEpycUUzVE1WZmZCLzcwT0IxcjFUVzMz?=
- =?utf-8?B?aDVjNUthWHc4aEw1Tk9zTXhnWDV0Q3Btbk1kR0M0RHhZTXdmM29XalRPSE9x?=
- =?utf-8?B?dTRFQk1MdTJoSVFqdHZZVjFTK0M5WVRCY0RlL1RZeFN0MjdsU28yZEZkdW5H?=
- =?utf-8?B?VDVxenkrZGZwSzZRKzVnMmdHbWhlQjRVVkpHNncyRVZxZmt5QkYzUnd2Wk44?=
- =?utf-8?B?UEczNlFaUktvTWlHTTZjTVl1Q2IrZzV6ZnRoUDJNNzBuM2JpYVA0Y2ZyckdK?=
- =?utf-8?B?bnIwUkhOcVQ0U3Z3VjV0enRRQmMyM0FrR3Y3TEJLdkVFWWY5cGNwZktuRXgr?=
- =?utf-8?B?MDBQVk5WNmg3Nzk1c0pPT09razNKcGJGenNaQlhWZGJTWGs4ZmQ2Mi9JYmRn?=
- =?utf-8?B?OTRCVC8rQVVrRTBUcVoyL0xSYlV4YUlPZmtrRytiSE9VcVhWdnpVR3ZXLzlk?=
- =?utf-8?B?UlBiWkFLSDBoU2FZb3hZbWJ6RURxTXhVVFQwOWgyWmZRUXRTVXE0d1M4NVZQ?=
- =?utf-8?B?K0wyWm1BMDVCbFFZeU1yVEV4SnVqeWVWNW9qUU54T2R0WHd0WkNiYkVEY3dQ?=
- =?utf-8?B?S1BVcnR4RDg1MXU4bklFYldmNlY5OWo1NUpnN2VOcGQxY0NhZ3RvUXExWmNG?=
- =?utf-8?B?Y2ZpWkhjbnFNK0FQV3JxTWJUdGcxZ3grZkpoakgyNitrTDFxdHpaTTc1WlF6?=
- =?utf-8?B?WXEzRFpaVGxqdUJBU0lPZDdNVlVUWE9aM3Zma3N1STdVZ2ErSmYrTXJDN1BW?=
- =?utf-8?B?Z1p6dFhSWEZOamVJblBWVWdkTnpaKzl1b3J0a08rTWR6Yk9EbkhiazJ1UktV?=
- =?utf-8?B?VHJSQjd5cXpsSnlYU1ZzV0xpMWZmSllIRHNCN3dHZ25lUktVdkdHZ1BVRUdi?=
- =?utf-8?B?WndqSys1bmxQdGxnVWxwd1hVOU40WXVJOHdkSXgwem00N2VKczgxR3NldnJO?=
- =?utf-8?B?c2JZbG4wUHc5N2ltSC9NcERvSGNTN3pSN3NNblFpVjNXOHFuamJRZE9VZm9n?=
- =?utf-8?B?SHZrUEt5My9waGRucGw0bDh2RDhDVThRdG1iRkxRbjcza2s1OUo1eTVlK0Yz?=
- =?utf-8?B?WDdGejdRaW9sQVNRZFNBL21HY0xoNWJiU3J4MkRiS0JqU2Y1NHBIem1IS29Q?=
- =?utf-8?B?RWtQVU9ZUHFYY0NRcjlhVXJpaEJYWFhtVFM4REhMemlIblhGRFpYU3dFa3Jm?=
- =?utf-8?B?amdtSFVzaXhhWTdhQTN6Vy80Qk9ZVnBMUzZWNTQ3STF0L3FRS1doWmdpazJ6?=
- =?utf-8?B?RmljMHNqdU5EVlRIby9BdnhiUlozQWk4UVZTcnh2M1VsT2prRHFONDczMzhl?=
- =?utf-8?B?TmdWUi9JcFRUVGRERTFOVGNQYUIwMFc5bHhKcWxJblU2WUY5WTVqOVBQTmVn?=
- =?utf-8?B?QzhCZWFvc1hXNUlUbUZqV0RHUHBoKzFoYllHVW5pUXZxanJZaGdSbVI1MHoy?=
- =?utf-8?B?UE5uZ01oYnpZUXc4OFpXVllReHAycHZWWklxWHB4UG5KNm5VRlVjenZqc21J?=
- =?utf-8?B?dTljNTBNeGxqYnN3dnVqWEZ0cXRQeWJRdXhsVTJyNDI2RWpML2tEZEVNeC9j?=
- =?utf-8?B?bEJVUUpiZ3JlcHN1YjZNZkxWUGFvZWthRU1yeTJzT1FRcFlWUEZ0dz09?=
-X-OriginatorOrg: atomlin.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b08df99d-e900-4285-1935-08df39c23e49
-X-MS-Exchange-CrossTenant-AuthSource: LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2026 15:50:54.3063
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HXhqfwGUG9jcTmwa45lJdr6+uy8BPCUVnktN5FdWDToTl/MaWWM8zHePU+hmBS0Qhec+ES32jL6ALfsJXGcY4A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LOYP123MB3166
+User-Agent: Mozilla Thunderbird
+From: Duc Anh Luu <luuducanh0505@gmail.com>
+Subject: [PATCH] nvmet-tcp: fix use-after-free when TLS handshake completes
+ before timeout is armed
+To: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <kch@nvidia.com>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261103_075058_374827_33A17F68 
-X-CRM114-Status: GOOD (  38.19  )
+X-CRM114-CacheID: sfid-20261103_080522_439504_49C116EE 
+X-CRM114-Status: GOOD (  12.27  )
 X-Spam-Score: -1.9 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -142,128 +101,87 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-13.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Tue, Nov 03, 2026 at 03:57:22PM +0100, Daniel Wagner wrote:
-> blk_mq_alloc_request_hctx uses the first online CPU in hctx->cpumask to
-> select the software context for a request.
-> 
-> Since commit a46c27026da1 ("blk-mq: don't schedule block kworker on
-> isolated CPUs"), hctx->cpumask excludes isolated CPUs. If a hardware
-> context is mapped only to isolated CPUs, the mask is empty and
-> blk_mq_alloc_request_hctx fails with -EXDEV.
-> 
-> The NVMe fabrics transports use blk_mq_alloc_request_hctx to allocate
-> the Connect command for each I/O queue. As a result, connecting to a
-> controller can fail when using isolcpus=domain or an isolated cpuset
-> partition.
-> 
-> Passthrough requests bypass the software queues and go directly to
-> hctx->dispatch. Their software context is only used to select the
-> completion CPU and as a hint when freeing the tag.
-> 
-> Use the software context of an online housekeeping CPU for passthrough
-> requests.
-> 
-> Fixes: a46c27026da1 ("blk-mq: don't schedule block kworker on isolated CPUs")
-> Tested-by: Maurizio Lombardi <mlombard@redhat.com>
-> Signed-off-by: Daniel Wagner <dwagner@suse.de>
-> ---
-> Connecting a fabrics controller fails when all CPUs of a hardware
-> context are isolated with isolcpus=domain or an isolated cpuset
-> partition. Since commit a46c27026da1 ("blk-mq: don't schedule block
-> kworker on isolated CPUs") the CPU mask of such a hardware context is
-> empty and blk_mq_alloc_request_hctx() fails the Connect command with
-> -EXDEV. This patch lets passthrough requests use the software context
-> of a housekeeping CPU instead.
-> 
-> The nvme fabrics fixes from v1 (patches 1 and 3-5) are in nvme-7.4, so
-> only the blk-mq patch is left. The blktest for this patch is nvme/070,
-> posted separately.
-> ---
-> Changes in v2:
-> - Only the blk-mq patch left, the nvme patches are in nvme-7.4.
-> - Reword the commit message to describe what the fix does (Hannes).
-> - Add Tested-by from Maurizio.
-> - Link to v1: https://patch.msgid.link/20261014-nvme-fabrics-isolcpu-v1-0-355156be27b2@kernel.org
-> ---
->  block/blk-mq.c | 37 +++++++++++++++++++++++++++++++++++--
->  1 file changed, 35 insertions(+), 2 deletions(-)
-> 
-> diff --git a/block/blk-mq.c b/block/blk-mq.c
-> index 5fca78778c31..77685e6283fa 100644
-> --- a/block/blk-mq.c
-> +++ b/block/blk-mq.c
-> @@ -717,6 +717,25 @@ struct request *blk_mq_alloc_request(struct request_queue *q, blk_opf_t opf,
->  }
->  EXPORT_SYMBOL(blk_mq_alloc_request);
->  
-> +/*
-> + * Return an online CPU which is neither isolated from the scheduler domains
-> + * nor from managed interrupts, or nr_cpu_ids if there is none.
-> + */
-> +static unsigned int blk_mq_housekeeping_cpu(void)
-> +{
-> +	unsigned int cpu;
-> +
-> +	rcu_read_lock();
-> +	for_each_online_cpu(cpu) {
-> +		if (!cpu_is_isolated(cpu) &&
-> +		    housekeeping_test_cpu(cpu, HK_TYPE_MANAGED_IRQ))
-> +			break;
-> +	}
-> +	rcu_read_unlock();
-> +
-> +	return cpu;
-> +}
-> +
->  struct request *blk_mq_alloc_request_hctx(struct request_queue *q,
->  	blk_opf_t opf, blk_mq_req_flags_t flags, unsigned int hctx_idx)
->  {
-> @@ -767,8 +786,22 @@ struct request *blk_mq_alloc_request_hctx(struct request_queue *q,
->  	if (!blk_mq_hw_queue_mapped(data.hctx))
->  		goto out_queue_exit;
->  	cpu = cpumask_first_and(data.hctx->cpumask, cpu_online_mask);
-> -	if (cpu >= nr_cpu_ids)
-> -		goto out_queue_exit;
-> +	if (cpu >= nr_cpu_ids) {
-> +		/*
-> +		 * Isolated CPUs are not part of hctx->cpumask, so it can be
-> +		 * empty although online CPUs are mapped to this hardware
-> +		 * context. Passthrough requests are inserted directly into
-> +		 * hctx->dispatch, so use the software context of a
-> +		 * housekeeping CPU for them. Inactive hardware contexts have
-> +		 * no online CPU left.
-> +		 */
-> +		if (!blk_op_is_passthrough(opf) ||
-> +		    test_bit(BLK_MQ_S_INACTIVE, &data.hctx->state))
-> +			goto out_queue_exit;
-> +		cpu = blk_mq_housekeeping_cpu();
-> +		if (cpu >= nr_cpu_ids)
-> +			goto out_queue_exit;
-> +	}
->  	data.ctx = __blk_mq_get_ctx(q, cpu);
->  
->  	if (q->elevator)
-> 
-> ---
-> base-commit: c8c53d669d4e45b3a804013251a34387d7e11bfb
-> change-id: 20261013-nvme-fabrics-isolcpu-5b4948362f88
-> 
-> Best regards,
-> --  
-> Daniel Wagner <dwagner@suse.de>
-> 
+nvmet_tcp_tls_handshake() takes a queue reference for the handshake
+completion callback, submits the handshake with tls_server_hello_psk(),
+and only afterwards arms tls_handshake_tmo_work.
 
-Thank you.
+Once tls_server_hello_psk() has queued the request and notified the
+handshake agent, nvmet_tcp_tls_handshake_done() can run before the
+submitter reaches queue_delayed_work(). On failure the callback calls
+nvmet_tcp_schedule_release_queue() and then drops its own reference,
+which drops the last reference and queues release_work. nvmet_wq is
+not ordered, so nvmet_tcp_release_queue_work() can run concurrently:
+its cancel_delayed_work_sync() finds no pending timeout work, and it
+frees the queue. The submitter then arms the delayed work inside the
+freed queue, and the timer fires on freed memory tls_handshake_timeout
+seconds later.
 
-Reviewed-by: Aaron Tomlin <atomlin@atomlin.com>
+Reproduced on mainline during the v7.4 merge window on an NVMe/TCP
+port with addr_tsas=tls1.3, with clients whose handshakes tlshd
+rejects. It reproduces both with stock tlshd and with a minimal test
+agent that fails every request; a non-debug kernel panics in
+__run_timers. With KASAN, the unmodified kernel hit:
 
--- 
-Aaron Tomlin
+BUG: KASAN: slab-use-after-free in __run_timers+0x72a/0x8e0
+Write of size 8 at addr ffff88800317a1d0 by task swapper/3/0
+__run_timers
+run_timer_softirq
+Allocated by task 12: nvmet_tcp_accept_work
+Freed by task 132: kfree <- process_one_work (nvmet_tcp_release_queue_work)
+Last potentially related work creation:
+queue_work_on <- handshake_complete <- handshake_nl_done_doit
+
+The queue was freed 4ms after allocation and the timer fired 10s later.
+With an msleep() inserted between tls_server_hello_psk() and
+queue_delayed_work() the report is deterministic and points at the
+write in queue_delayed_work_on() from nvmet_tcp_accept_work().
+
+Hold an extra queue reference across the submission and the arming of
+the timeout work. If the completion callback has already released the
+queue, the final put queues release_work, which cancels the timeout
+work that was just armed.
+
+Fixes: 675b453e0241 ("nvmet-tcp: enable TLS handshake upcall")
+Cc: stable@vger.kernel.org
+XXX-ADD-YOUR-OWN-Signed-off-by-LINE-HERE-AND-DELETE-THIS-LINE-XXX
+---
+drivers/nvme/target/tcp.c | 9 +++++++++
+1 file changed, 9 insertions(+)
+
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index e59810175262..e55a3b86f3f6 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -1910,6 +1910,14 @@ static int nvmet_tcp_tls_handshake(struct 
+nvmet_tcp_queue *queue)
+return -EINVAL;
+}
++ /* Reference owned by the handshake completion callback */
++ kref_get(&queue->kref);
++ /*
++ * The completion callback may run, and drop its reference and the
++ * queue reference, before tls_server_hello_psk() returns. Hold an
++ * extra reference until the timeout work is armed so the queue
++ * cannot be released underneath us.
++ */
+kref_get(&queue->kref);
+pr_debug("queue %d: TLS ServerHello\n", queue->idx);
+memset(&args, 0, sizeof(args));
+@@ -1927,6 +1935,7 @@ static int nvmet_tcp_tls_handshake(struct 
+nvmet_tcp_queue *queue)
+queue_delayed_work(nvmet_wq, &queue->tls_handshake_tmo_work,
+tls_handshake_timeout * HZ);
+}
++ kref_put(&queue->kref, nvmet_tcp_release_queue);
+return ret;
+}
+#else
 
