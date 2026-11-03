@@ -2,14 +2,14 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDC426070A87
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2026 10:45:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52516606BF8E
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2026 10:51:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=v+rz9D+3;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=0Gx/9y7U;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=kxGiifaQ;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=0Gx/9y7U;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=kxGiifaQ
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=H3QgoZIs;
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=KHOhduX9;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=0qaqPdiE;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=KHOhduX9;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=0qaqPdiE
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
@@ -17,72 +17,72 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=OmVqza68r32jWT+7is8UbaUD50yd0FSVAcJ4aEWMju4=; b=v+rz9D+38N8LTSWrKO8rzdvLPp
-	1+dGfnbA4DrKr6iK3gLJB7iuomF7tstbQ4O3ds7M0epHAPOFYJLc7wQbIOfbVjyEkrQaGKN+/PY8L
-	EZ+sAsiEvjl+FkIE3zJ/ddO6kQqRQPxHDnM7VgOFpgeRjJ7dSNNkLoHleP683OYAD9sYcaAL0epxv
-	V9Z5XDG2a0Ci/szJeMQbnN06TxcG9SNtamkusgzDX0hsx/CDVhGhlo9j3cnPnf9w3Ibd6BobJ3GLE
-	bf1A2DrmdDrZJc0mEw/cL+kh4C+MlgWknJis0cJ3HUUrQmpDPiw4LCeMSdzYhGczIco6O8trKAp9R
-	zzkLW6/Q==;
+	bh=5D7xCUClOOfsmSvAcaEAFG25UX6miDGSw5YNpSrkX2w=; b=H3QgoZIsJOPFGO0bNbgP5QyE4U
+	D+Ske7LxCxMXpjadtVNLUJjx69xmyHB0uwG3BswcsGt74cD5J+nWSxzEM7t+7IvMYymbKFDD44Hxt
+	dP0vs0DDckFjJpiDKNEVxof8tAeVEOz8pKw3CrAos3rzyqi4RD8MSNXu/C2OgfCBfo+hUj8wV6j7D
+	iHe4fgqX0ePO0xuHFgU1bJUtZWmJtkEUNyTVK5muekKI+l8lIsDAx6yUDnrnYXKOhJKa79juLe3NU
+	mfEmWLQX8hl092WX6K6/wBdOEwOf+XWnJaQX6gOutROqRZp7raChcESeIZKbzvyaYIQXZNmpqYmcu
+	wWAePfbg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOC0v-000000023rj-1qpf;
-	Tue, 03 Nov 2026 10:45:13 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1xOC7A-000000025Ql-0sED;
+	Tue, 03 Nov 2026 10:51:40 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOC0s-000000023qr-2JRF
+	id 1xOC76-000000025QC-0tHP
 	for linux-nvme@lists.infradead.org;
-	Tue, 03 Nov 2026 10:45:11 +0000
+	Tue, 03 Nov 2026 10:51:39 +0000
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C5E7721F15;
-	Tue,  3 Nov 2026 10:45:08 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5B04B1FBF1;
+	Tue,  3 Nov 2026 10:51:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793702708; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793703094; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=OmVqza68r32jWT+7is8UbaUD50yd0FSVAcJ4aEWMju4=;
-	b=0Gx/9y7UOj02HXjG4ZsdvnvIaajiv9dBUb2r3VdVEq0QfXfWxIuCYk7lmKzbP7Dpt9bHXM
-	O09oY0CU5ZAk/CmFUHHdy7ARuiW41YjDPJLoqrA+0e57TqdoTPgxtgd1Vwp5y0RD/m6VjA
-	awbOn8Xxw+mQ7nRS3A1rHucNSC74faA=
+	bh=5D7xCUClOOfsmSvAcaEAFG25UX6miDGSw5YNpSrkX2w=;
+	b=KHOhduX9mVmQzN3agJyd8Mbs2/ubzjM0FjPNmp6SF42zDc1Nmqo7x1sdssX2CAxGl0MkMp
+	dPy3LczGUFBIsb01+d+BHI23wSmJuF4ZpqZmG4A7gNzVTqjP9l9VPu1n4+rUzwNLBJ9HLS
+	DDxl6y3blimkFk4PWyrcphq2fm1T7U0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793702708;
+	s=susede2_ed25519; t=1793703094;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=OmVqza68r32jWT+7is8UbaUD50yd0FSVAcJ4aEWMju4=;
-	b=kxGiifaQdf093IUSGJk2pNHGkMa15+9Mjqc/E9+t2Vl5OU5HCx/UBVzLwvfm63nLWik2JX
-	I/1W0uM6+7tmkDDA==
-Authentication-Results: smtp-out1.suse.de;
+	bh=5D7xCUClOOfsmSvAcaEAFG25UX6miDGSw5YNpSrkX2w=;
+	b=0qaqPdiElRcc7UN5iKxmCBVadcHxB+JOikV0LcKKuGLDg+pV404AsFLWDL9nrKNpJFAIls
+	hi8VmhyoZoVXQCCQ==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793702708; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793703094; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=OmVqza68r32jWT+7is8UbaUD50yd0FSVAcJ4aEWMju4=;
-	b=0Gx/9y7UOj02HXjG4ZsdvnvIaajiv9dBUb2r3VdVEq0QfXfWxIuCYk7lmKzbP7Dpt9bHXM
-	O09oY0CU5ZAk/CmFUHHdy7ARuiW41YjDPJLoqrA+0e57TqdoTPgxtgd1Vwp5y0RD/m6VjA
-	awbOn8Xxw+mQ7nRS3A1rHucNSC74faA=
+	bh=5D7xCUClOOfsmSvAcaEAFG25UX6miDGSw5YNpSrkX2w=;
+	b=KHOhduX9mVmQzN3agJyd8Mbs2/ubzjM0FjPNmp6SF42zDc1Nmqo7x1sdssX2CAxGl0MkMp
+	dPy3LczGUFBIsb01+d+BHI23wSmJuF4ZpqZmG4A7gNzVTqjP9l9VPu1n4+rUzwNLBJ9HLS
+	DDxl6y3blimkFk4PWyrcphq2fm1T7U0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793702708;
+	s=susede2_ed25519; t=1793703094;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=OmVqza68r32jWT+7is8UbaUD50yd0FSVAcJ4aEWMju4=;
-	b=kxGiifaQdf093IUSGJk2pNHGkMa15+9Mjqc/E9+t2Vl5OU5HCx/UBVzLwvfm63nLWik2JX
-	I/1W0uM6+7tmkDDA==
+	bh=5D7xCUClOOfsmSvAcaEAFG25UX6miDGSw5YNpSrkX2w=;
+	b=0qaqPdiElRcc7UN5iKxmCBVadcHxB+JOikV0LcKKuGLDg+pV404AsFLWDL9nrKNpJFAIls
+	hi8VmhyoZoVXQCCQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 657F01350A;
-	Tue,  3 Nov 2026 10:45:08 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 03E231350A;
+	Tue,  3 Nov 2026 10:51:33 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id zUufDzS76WqlFgAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Tue, 03 Nov 2026 10:45:08 +0000
-Date: Tue, 3 Nov 2026 11:45:03 +0100
+	id iBcdM7W86WopHQAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Tue, 03 Nov 2026 10:51:33 +0000
+Date: Tue, 3 Nov 2026 11:51:28 +0100
 From: Daniel Wagner <dwagner@suse.de>
 To: Mohamed Khalfella <mkhalfella@purestorage.com>
 Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
@@ -91,18 +91,20 @@ Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
 	Paul Ely <paul.ely@broadcom.com>, Hannes Reinecke <hare@kernel.org>, 
 	Chaitanya Kulkarni <kch@nvidia.com>, James Smart <jsmart833426@gmail.com>, 
 	Randy Jennings <randyj@purestorage.com>, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 08/18] nvme: Implement cross-controller reset recovery
-Message-ID: <dce1f3c8-d988-45a0-b943-6418b4d704ac@flourine.local>
+Subject: Re: [PATCH v6 15/18] nvme-fc: Hold inflight requests while in
+ FENCING state
+Message-ID: <80b5302d-1bcb-45d3-b926-0874470ee183@flourine.local>
 References: <20260920182936.2317916-1-mkhalfella@purestorage.com>
- <20260920182936.2317916-9-mkhalfella@purestorage.com>
- <6e0b4de0-b030-47cc-84ce-3f021a5c75b0@flourine.local>
- <20261031082155.GC34016-mkhalfella@purestorage.com>
+ <20260920182936.2317916-16-mkhalfella@purestorage.com>
+ <d9563967-9ddb-4cd7-9149-d1f37522e1fa@flourine.local>
+ <20261021212357.GZ2931-mkhalfella@purestorage.com>
+ <45d52d19-dbfc-49b9-a445-a8fb9e69abef@flourine.local>
+ <20261103011851.GK122209-mkhalfella@purestorage.com>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261031082155.GC34016-mkhalfella@purestorage.com>
-X-Spam-Level: 
+In-Reply-To: <20261103011851.GK122209-mkhalfella@purestorage.com>
 X-Spamd-Result: default: False [-13.30 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
@@ -125,9 +127,10 @@ X-Spamd-Result: default: False [-13.30 / 50.00];
 	RCVD_COUNT_TWO(0.00)[2];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 X-Spam-Score: -13.30
+X-Spam-Level: 
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261103_024510_760103_3544E8BD 
-X-CRM114-Status: GOOD (  12.37  )
+X-CRM114-CacheID: sfid-20261103_025138_157606_83FEA806 
+X-CRM114-Status: GOOD (  18.74  )
 X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -146,27 +149,67 @@ X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Sat, Oct 31, 2026 at 01:21:55AM -0700, Mohamed Khalfella wrote:
->  701
->  702         if (!wait_for_completion_timeout(&ccr.complete, tmo))
->  703                 ret = -ETIMEDOUT;
->  704
->  705 out:
->  706         spin_lock_irqsave(&sctrl->lock, flags);
->  707         list_del(&ccr.list);
->  708         spin_unlock_irqrestore(&sctrl->lock, flags);
->  709
->  710         if (ret || !completion_done(&ccr.complete))
->  711                 return ret;
->  712         if (ccr.ccrs == NVME_CCR_STATUS_SUCCESS)
->  713                 return 0;
->  714         return -EREMOTEIO;
->  715 }
-> 
-> Actually, this code has a bug. It does not correctly handle the case
-> when CCR operation completes with an error. I added line numbers to show
-> that.
+On Mon, Nov 02, 2026 at 05:18:51PM -0800, Mohamed Khalfella wrote:
+> -/* Complete the requests held in __nvme_fc_teardown_association() */
+> +static bool
+> +nvme_fc_cancel_held_request(struct request *req, void *data)
+> +{
+> +	struct nvme_fc_fcp_op *op = blk_mq_rq_to_pdu(req);
+> +	struct nvme_ctrl *ctrl = data;
+> +
+> +	/*
+> +	 * A single cmpxchg decides who completes this request. If the op is
+> +	 * HELD, nvme_fc_fcpio_done() is done with it and we cancel it. If it
+> +	 * is still COMPLETE, nvme_fc_fcpio_done() has not decided yet: move
+> +	 * it to IDLE so its own cmpxchg to HELD fails and it completes the
+> +	 * request itself (nvme_fc_complete_rq() sets IDLE anyway). Doing this
+> +	 * as read-then-cmpxchg would let the op become HELD in between and
+> +	 * leave it with no one to complete it.
+> +	 */
+> +	if (atomic_cmpxchg(&op->state, FCPOP_STATE_COMPLETE,
+> +			   FCPOP_STATE_IDLE) == FCPOP_STATE_HELD)
+> +		nvme_cancel_request(req, ctrl);
+> +
+> +	return true;
+> +}
+> +
+>  static void
+> -nvme_fc_flush_held_requests(struct nvme_fc_ctrl *ctrl)
+> +nvme_fc_cancel_held_requests(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set)
+>  {
+> -	nvme_cancel_tagset(&ctrl->ctrl);
+> -	nvme_cancel_admin_tagset(&ctrl->ctrl);
+> +	if (set) {
 
-Fair enough, then let's use the local variable. 
+Do we call flush when we don't have a set?
+
+nitpick: use the early return pattern if needed.
+
+> +		blk_mq_tagset_busy_iter(set, nvme_fc_cancel_held_request, ctrl);
+> +		blk_mq_tagset_wait_completed_request(set);
+> +	}
+> +}
+> +
+> +/* Complete the requests nvme_fc_fcpio_done() held during the fence */
+> +static void
+> +nvme_fc_flush_held_requests(struct nvme_fc_ctrl *fc_ctrl)
+> +{
+> +	struct nvme_ctrl *ctrl = &fc_ctrl->ctrl;
+> +
+> +	nvme_fc_cancel_held_requests(ctrl, ctrl->tagset);
+> +	nvme_fc_cancel_held_requests(ctrl, ctrl->admin_tagset);
+>  
+>  	/* re-enable the admin_q so anything new can fast fail */
+> -	nvme_unquiesce_admin_queue(&ctrl->ctrl);
+> +	nvme_unquiesce_admin_queue(ctrl);
+>  
+>  	/* resume the io queues so that things will fast fail */
+> -	nvme_unquiesce_io_queues(&ctrl->ctrl);
+> +	nvme_unquiesce_io_queues(ctrl);
+>  }
+>  
+>  /*
+
+Yes, I'd prefer this over the introduction of RCU in this code path.
 
 
