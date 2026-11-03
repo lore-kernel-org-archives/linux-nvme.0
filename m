@@ -2,55 +2,59 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 275DD606A324
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2026 06:33:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 305A7606A337
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2026 06:38:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=AL6iSpFu
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Eoa+HDjK;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VZxKcb+d
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Cc:To:Subject:
+	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=qfAtoIcGCBg87uuZW1y9XaJODikXP+EnVxZyeJ9W7jc=; b=AL6iSpFu6NAsnUkBvRAOehWHOh
-	k5TaEjd7pXXckHrwv0QU7wV9Q9sdbtyks/OMlIwXawlEoifAnmzzVVmqHsv8h5OGsprIgJhjz1nSs
-	Yz7mqIicTW9RjIVT9LrwxqN3mmCZ0wdi6wAXzmfeLrBQocuwtWWBnuX/xRa5rHz4VzCYNBFn+j6u1
-	XSr/r1Mj+c+QsbnCL4Lr6uDlZu+twaUwYkZ3uC0ZH72wXM1kcCbbt6O9OXt52kroHSt1A/nRf0G8C
-	OCPU7UFbalzKVm2s8blxbAlUOfUUvgH73jBvkGknR/TJDNri9h3Io9Re34lLmLRlfkw/TJJzsueoJ
-	7Utgtk+g==;
+	bh=acgp/TgnepLaOsiwNIpP2GJLsnVno5H7/oRw91HIB34=; b=Eoa+HDjKOVbxJXkeIPfySCKkHO
+	SBC8xRDL5R34f24qiL7w6NtiLzKW62C/LD+lOi8ST6ZQzlr7iEzAWoKIp0wBPMdMdOywAoggTXbC4
+	/Tp4oV3GyPpSeo56z7dNnNvxYCNZ5c9LMDm/qay/g1uJ2DH27vCfYj5SEEiz86kCE/Bk24F3T6ck7
+	ZlHn1pGV3qVxU1g/NOV0lcVoNWroFWbdYW3Pd2XNLRyUbEz/o4Anf13wwI1OrQTzhB8ItGrFGJ8OZ
+	wwzfe6OoKQ+LXmE6w4bPYfVrUsjzMo+iiW1qVIpQN41RbhkuBSPh+FJeKX3LJX4gRITSfbYLnFmXZ
+	tmJrvF9w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xO84t-00000001FmD-3ZuW;
-	Tue, 03 Nov 2026 06:33:03 +0000
-Received: from out28-124.mail.aliyun.com ([115.124.28.124])
+	id 1xO8AR-00000001GOY-1xAk;
+	Tue, 03 Nov 2026 06:38:47 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xO84q-00000001Flp-3XK0
+	id 1xO8AQ-00000001GO2-1sJl
 	for linux-nvme@lists.infradead.org;
-	Tue, 03 Nov 2026 06:33:02 +0000
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.9170154|0.100999;CH=green;DM=|AD|false|;DS=CONTINUE|ham_alarm|0.00322135-0.00151948-0.995259;FP=11438868440337108543|1|1|1|0|-1|-1|-1;HT=maildocker-contentspam033037026024;MF=liaoxuan@open-hieco.net;NM=1;PH=DS;RN=7;RT=7;SR=0;TI=SMTPD_---.jvPeWBu_1793687571;
-Received: from Ubuntu2404-XLH.hygon.cn(mailfrom:liaoxuan@open-hieco.net fp:SMTPD_---.jvPeWBu_1793687571 cluster:ay29)
-          by smtp.aliyun-inc.com;
-          Tue, 03 Nov 2026 14:32:57 +0800
-From: Liao Xuan <liaoxuan@open-hieco.net>
-To: kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me
-Cc: linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Liao Xuan <liaoxuan@open-hieco.net>
-Subject: [PATCH] nvme-pci: Fix performance regression with completion batching for Hygon processors
-Date: Tue,  3 Nov 2026 14:32:49 +0800
-Message-ID: <20261103063249.3212198-1-liaoxuan@open-hieco.net>
-X-Mailer: git-send-email 2.43.0
-X-Archived-By: <archiver.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261102_223301_045833_BE426AEF 
-X-CRM114-Status: GOOD (  14.14  )
-X-Spam-Score: -1.9 (-)
+	Tue, 03 Nov 2026 06:38:46 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id DEBF341404;
+	Tue,  3 Nov 2026 06:38:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A2981F000C1;
+	Tue,  3 Nov 2026 06:38:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793687925;
+	bh=acgp/TgnepLaOsiwNIpP2GJLsnVno5H7/oRw91HIB34=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=VZxKcb+dJ8KiEGTt8NIjgyFe+05wK3qrClinOwKJXSJ0Pxcx6P0kgwVE33WvUYEKO
+	 cmMf7iYD3XggPepMXyBKyghOUyZwcX4s9lLCMhRiah+A3yv3F+n+uQBdHJO7fBBhQq
+	 uYH/tXc0+BpLGny2v2sgg+JfEWHrxALlLqNr+lFVEpDjVz99yxfu2LrYpnZCI3MadY
+	 iYJiFBSYb9Pm7SEwETmxDvIXNPSPX8DWDTMjDSjRrUKv3JTzaDu0VTwP8EXZr81ySU
+	 QI6f+0HG51qkxA1QWIEtifSob9D11fJyx6u3Z++mFwxufzGMy2LXLNNCAASHVf16i8
+	 ENiVCAWxJvMiQ==
+Message-ID: <sashiko-outbox-194649@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] nvme-pci: Fix performance regression with completion
+ batching for Hygon processors
+To: "Liao Xuan" <liaoxuan@open-hieco.net>
+Cc: linux-nvme@lists.infradead.org
+In-Reply-To: <20261103063249.3212198-1-liaoxuan@open-hieco.net>
+References: <20261103063249.3212198-1-liaoxuan@open-hieco.net>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 03 Nov 2026 06:38:45 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -60,109 +64,85 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-16.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
+X-Archived-By: <archiver.kernel.org>
 
-Commit 4f5022453acd ("nvme: wire up completion batching for the IRQ path")
-introduced completion batching to the NVMe IRQ handling path. While this
-change brings performance gains on mainstream platforms, it causes a
-severe random read performance regression on Hygon platforms.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] nvme-pci: write to __ro_after_init use_comp_batch in nvme_probe()
+--
 
-The batching logic defers CQE processing until after the doorbell is
-written. On Hygon microarchitectures, this specific execution order
-accelerates the NVMe controller's interrupt generation. This leads to an
-interrupt storm: the overall interrupt count increases significantly,
-and each interrupt handles fewer CQEs. Consequently, a massive amount of
-CPU cycles are consumed by the fixed overhead of interrupt entry/exit
-rather than useful I/O processing, drastically degrading random read
-efficiency.
+commit f5d6be55aa6c877692b8138ca3509c22f309ca86
+Author: Liao Xuan <liaoxuan@open-hieco.net>
 
-Interrupt statistics were collected on a Hygon platform using a 10-second
-workload of 16 jobs with 4 KiB random reads:
-With batching: average IOPS ~2.29M; interrupts per queue ~1.82M
-Without batching: average IOPS ~2.89M; interrupts per queue ~1.52M
+nvme-pci: Fix performance regression with completion batching for Hygon pro=
+cessors
 
-By restoring the single-completion fast path, the interrupt rate is
-reduced by ~16%, eliminating the interrupt storm.
+This commit introduces a use_comp_batch flag in drivers/nvme/host/pci.c to
+disable IRQ completion batching in nvme_irq() when running on Hygon x86
+processors.
 
-Performance results (fio 4k randread, 16 jobs) show
-significant improvements across various CPU pinning topologies:
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 019a1e3cc0a2d..635755a886523 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -278,6 +278,15 @@ static bool noacpi;
+>  module_param(noacpi, bool, 0444);
+>  MODULE_PARM_DESC(noacpi, "disable acpi bios quirks");
+> =20
+> +static bool use_comp_batch __ro_after_init =3D true;
+> +static void nvme_setup_comp_batch(void)
+> +{
+> +#ifdef CONFIG_X86
+> +	if (boot_cpu_data.x86_vendor =3D=3D X86_VENDOR_HYGON)
+> +		use_comp_batch =3D false;
+> +#endif
+> +}
+> +
+>  struct nvme_dev;
+>  struct nvme_queue;
+> =20
 
-CPU Pinning     | With Batching (kops) | This Patch (kops) | Improvement
-0-15,128-143    | 1,747.9              | 2,053.9           | +17.5%
-0-11,128-139    | 1,939.8              | 2,437.6           | +25.7%
-0-7,128-135     | 2,341.9              | 2,891.3           | +23.5%
-0-15            | 1,754.1              | 2,018.6           | +15.1%
-0-11            | 2,051.2              | 2,510.5           | +22.4%
+[ ... ]
 
-It is worth noting that this issue is not necessarily exclusive to Hygon
-CPUs. Architectures with higher interrupt latency or lower overall
-performance characteristics may also suffer from similar regressions,
-where the overhead of the batching fast path outweighs the benefit of
-amortizing the doorbell write.
+> @@ -4014,6 +4026,8 @@ static int nvme_probe(struct pci_dev *pdev, const s=
+truct pci_device_id *id)
+> =20
+>  	dev_info(dev->ctrl.device, "pci function %s\n", dev_name(&pdev->dev));
+> =20
+> +	nvme_setup_comp_batch();
 
-Instead of hardcoding a permanent revert, introduce a flag 'use_comp_batch'
-and disable IRQ completion batching if running on a Hygon CPU. This
-preserves the performance benefits for platforms that favor batching
-while restoring the optimal single-completion fast path for Hygon, and
-provides a scalable mechanism to disable it on other affected platforms
-in the future.
+[Severity: High]
+Can calling nvme_setup_comp_batch() from nvme_probe() cause a page fault by
+writing to read-only memory?
 
-Fixes: 4f5022453acd ("nvme: wire up completion batching for the IRQ path")
-Signed-off-by: Liao Xuan <liaoxuan@open-hieco.net>
----
- drivers/nvme/host/pci.c | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+In drivers/nvme/host/pci.c, use_comp_batch is annotated with __ro_after_ini=
+t,
+which places it in the .data..ro_after_init section that becomes read-only
+after kernel or module init finishes.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 69932d640..a3ecbac40 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -276,6 +276,15 @@ static bool noacpi;
- module_param(noacpi, bool, 0444);
- MODULE_PARM_DESC(noacpi, "disable acpi bios quirks");
- 
-+static bool use_comp_batch __ro_after_init = true;
-+static void nvme_setup_comp_batch(void)
-+{
-+#ifdef CONFIG_X86
-+	if (boot_cpu_data.x86_vendor == X86_VENDOR_HYGON)
-+		use_comp_batch = false;
-+#endif
-+}
-+
- struct nvme_dev;
- struct nvme_queue;
- 
-@@ -1630,8 +1639,11 @@ static inline bool nvme_poll_cq(struct nvme_queue *nvmeq,
- static irqreturn_t nvme_irq(int irq, void *data)
- {
- 	struct nvme_queue *nvmeq = data;
--	DEFINE_IO_COMP_BATCH(iob);
- 
-+	if (!use_comp_batch)
-+		return nvme_poll_cq(nvmeq, NULL) ? IRQ_HANDLED : IRQ_NONE;
-+
-+	DEFINE_IO_COMP_BATCH(iob);
- 	if (nvme_poll_cq(nvmeq, &iob)) {
- 		if (!rq_list_empty(&iob.req_list))
- 			nvme_pci_complete_batch(&iob);
-@@ -3767,6 +3779,8 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 
- 	dev_info(dev->ctrl.device, "pci function %s\n", dev_name(&pdev->dev));
- 
-+	nvme_setup_comp_batch();
-+
- 	result = nvme_pci_enable(dev);
- 	if (result)
- 		goto out_release_iod_mempool;
--- 
-2.43.0
+However, nvme_probe() can be invoked after init has completed, such as duri=
+ng
+PCIe hotplug, SR-IOV VF creation, PCI bus rescan, sysfs driver bind, or
+asynchronous probing (since nvme_driver sets PROBE_PREFER_ASYNCHRONOUS). Wh=
+en
+that happens on a Hygon CPU, nvme_probe() -> nvme_setup_comp_batch() writes
+to use_comp_batch after .data..ro_after_init has been marked read-only. In
+addition, concurrent nvme_probe() calls can write to use_comp_batch while
+already active controllers read it in nvme_irq().
 
+Since boot_cpu_data.x86_vendor is a system-wide property, should
+nvme_setup_comp_batch() be marked __init and called once from nvme_init()
+before pci_register_driver(&nvme_driver) instead of inside nvme_probe()?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103063249.3212=
+198-1-liaoxuan@open-hieco.net?part=3D1
 
