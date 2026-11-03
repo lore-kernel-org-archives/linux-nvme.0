@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BF94606A333
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2026 15:38:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 140C7606A337
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2026 15:38:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=3iagspkH;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QmtNw7xh
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=qNBW/SfQ;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jOb+aN2Z
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
@@ -14,51 +14,51 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=G9VfqJ+XWxAllnzsArSXxWjkRCkNU1/oIdgGJDZxQ9k=; b=3iagspkHUfC0u8S1SvoadCmtAg
-	Nxh9sHUQSWkS05TvUzpxn0KWig547Qu6Q+z3b0Zaoeb1w4u1Brrp6O24UDqWs0ESDvYOMos29M8Ua
-	xS8cTD2egFxcV2c9JtE2IsXnBdAldvp/paIVUZ911admh3xTR+8KPotyl1tzLfi2rxJ8S5/JvIb8R
-	VYO/Xq0bIwsQKp46bnrKs7bWWxYl6QOnSOYcnbVLArB+zTnWJehGL2PuTyoWp+8OvsYzKsNjLwR2Y
-	ErT0FYgwPZip08clAIPJkLUbdR0Bwm2c8pq/j2LNNazI39y3YnoF/QsUuCn46FpSTTNL6RUOLdMJm
-	6QoQkCiQ==;
+	bh=pSv7ivXh8zLbJg3eT39oc6FOcugV2XYo4tc9Lv/fR1w=; b=qNBW/SfQSAuq9tQc0/ygolshDe
+	vt4NRRpr7gFjSG3/1hlOVoEAebBq09HxtfPjd1r97Xv1YbzGG5kpbV2aGzvXcYGtZqgVlZ0+Q20s6
+	AJiYY4KnT9x+x7kBFq+qvTl0LlN/VkBTuIOIdS3uE/RIrMODbGdAny1URnEb+QK8g802W27PNdchU
+	COsw9BTOJPTWRgjV2MFhkz3w05j5zLjms6bxvrDAdpxiC8sbUHUaUurUwOzbsQ10xghVaWvWOr8Km
+	1zv0VPHCkZz02BhareNCfKd27lXlXm2hDcsoHcxi1eumFqXgbp69yZ3OMVGG2ehXV8uepR6Oe5zhd
+	p7GNZgZA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOGaI-00000002zZH-2SDk;
-	Tue, 03 Nov 2026 15:38:02 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1xOGak-00000002zfK-3GqR;
+	Tue, 03 Nov 2026 15:38:30 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOGaH-00000002zYx-0gLA
+	id 1xOGaj-00000002zey-1Mh6
 	for linux-nvme@lists.infradead.org;
-	Tue, 03 Nov 2026 15:38:01 +0000
+	Tue, 03 Nov 2026 15:38:29 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id D7FF043B2C;
-	Tue,  3 Nov 2026 15:38:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 700F61F00A16;
-	Tue,  3 Nov 2026 15:38:00 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 5716E60A59;
+	Tue,  3 Nov 2026 15:38:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAA9D1F00919;
+	Tue,  3 Nov 2026 15:38:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793720280;
-	bh=G9VfqJ+XWxAllnzsArSXxWjkRCkNU1/oIdgGJDZxQ9k=;
+	s=k20260515; t=1793720308;
+	bh=pSv7ivXh8zLbJg3eT39oc6FOcugV2XYo4tc9Lv/fR1w=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=QmtNw7xhhFhysqUAkJpDFKbVFSlf8bi818bztC2CU7CpAU/i/geKicJEnbVqte2Y4
-	 g8lejir/gP+wrhVUP7qnSVw2RbSVwnK6MQaZGA8sHep7Il4bDCSQdoolk+XGfat+5I
-	 2QGp1Y2mflcbb4CzlLIuUhHMsWflfMYWXMM47O9Y02EghmjdohHuUIFBiCOLjNqSOQ
-	 MlJ8Bc/iPR5WKuuip0t2mVuMGjgjwzwRnleVErSnlttocCVlMnvNCHzw45dIp2deGz
-	 P9/StyaLgPhXjMrFgD1BZwBudz6Bzmg69ToyNSDpn1yucX7MZ00Ax6zx5JpmloCgpa
-	 J5RUPLaakSigg==
-Date: Tue, 3 Nov 2026 08:37:59 -0700
+	b=jOb+aN2ZXZ37oSiGR9IIjOBKmQia/uOKldugmBjTxFD/+pgEUULgjJYa8hWaxOIEx
+	 s/9evpwl/gEkp+57Ne+/jUE7Npixvkfag5xR1eTpjUhueiNVeXtpcxJiyw1Papprop
+	 biHMrZ4WcDRSHKiSW+Btm/bld/69bdJbOWZS7Qqqco4Ce52/EzJ76auzV5Biwn8K/j
+	 aggLQftuJlPOazb+ebU8S+bJD6RhMPguA5molkUGF5zM87B5VW9BCZrw9olfOjwwow
+	 ut1CkOl1q12BmTS3tyIh4CPT9fJ14HJ1YDLccRwvnYXUI+y+1ydOoTelEGTU/D2+a/
+	 ZuxsVhIUGnPOg==
+Date: Tue, 3 Nov 2026 08:38:26 -0700
 From: Keith Busch <kbusch@kernel.org>
-To: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-Cc: hare@suse.de, hch@lst.de, kch@nvidia.com, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org, sagi@grimberg.me
-Subject: Re: [PATCH v2] nvmet: use appropriate types for authentication
- payload lengths
-Message-ID: <aun_15SXOxpzPZXT@kbusch-mbp>
-References: <20261031075932.4345-1-sreekuttan2156239@gmail.com>
- <20261031081751.4583-1-sreekuttan2156239@gmail.com>
+To: Guixin Liu <kanie@linux.alibaba.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Nilay Shroff <nilay@linux.ibm.com>, Daniel Wagner <dwagner@suse.de>,
+	Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH] nvmet-rdma: remove dead allocated field in nvmet_rdma_rsp
+Message-ID: <aun_8szjbm9xd6Xv@kbusch-mbp>
+References: <20261103073307.2588945-1-kanie@linux.alibaba.com>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261031081751.4583-1-sreekuttan2156239@gmail.com>
+In-Reply-To: <20261103073307.2588945-1-kanie@linux.alibaba.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,22 +76,11 @@ X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Sat, Oct 31, 2026 at 08:17:51AM +0000, Sreeraj S Kurup wrote:
-> The authentication payload length is obtained as a u32 value from the
-> NVMe command, but nvmet_auth_challenge() and nvmet_auth_success1()
-> accept it as a signed int.
-> 
-> Use u32 for the payload length parameters in both functions to keep
-> their types consistent with the value returned by
-> nvmet_auth_receive_data_len() and avoid an unnecessary conversion
-> from unsigned to signed.
-> 
-> Also, use size_t for data_size in nvmet_auth_challenge(), since the
-> calculation includes sizeof(), which returns size_t. This avoids
-> implicitly narrowing the calculated payload size to int.
-> 
-> These changes make the payload length handling consistent with the
-> underlying types and avoid potential signedness and narrowing issues.
+On Tue, Nov 03, 2026 at 03:33:07PM +0800, Guixin Liu wrote:
+> Commit 40f0e5dc2f3c ("nvmet-rdma: use sbitmap to replace rsp free
+> list") replaced the ->allocated flag with the discrete tag value
+> NVMET_RDMA_DISCRETE_RSP_TAG, but left the field behind. Nothing
+> references it anymore, so drop it.
 
 Thanks, applied to nvme-7.4.
 
