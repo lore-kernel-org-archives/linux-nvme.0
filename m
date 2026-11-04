@@ -2,108 +2,84 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A67A607040E
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Nov 2026 20:21:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAC1D606B390
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Nov 2026 20:37:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=2U0YmImq;
-	dkim=pass (2048-bit key, unprotected) header.d=igalia.com header.i=@igalia.com header.a=rsa-sha256 header.s=20170329 header.b=aW9MxGcN
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=bnqTwLIR
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Message-ID:References:In-Reply-To:Subject:Cc:To:From:Date:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:MIME-Version:Date:Message-ID:Subject:References:In-Reply-To:CC:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=Q5ylkFwCSFYny5VkrDa+VS2X6oriL1/EsEN3JDNDXmk=; b=2U0YmImqgmBcPh
-	OrQhwk3XcCLKXuKr+Y8jrXd9fhHLdXohL2T9TaQZjgWYTtxpMJw83QuxujVVDkAl4C1oE4jm/XU1y
-	IQ7LH8NGptPElNbr6pEZ+J7lSiW3NzHW0A5Jvasf9jrRYhG5N8fRA4KwYFH6ovb4lnxmBQaulAUmh
-	VaxohbwMAW5fDP5uWT4cq1bukDHefoD4iy9C+WPDBz7dkXs/zs96CP4JeBPub4e8uY2zGInra/Uby
-	0LL4q9YEkcO3i2OGnni/N8MDR1ljCUUYUs0qGdALYoJeoxueMYs7J7R777fGtjBejrcD00lswkbY7
-	zvk8rls/LpAwejIZ7NxQ==;
+	List-Owner; bh=nM/9kvkcUFjnGBNraQqkEM6/RU/cH+NVkIsatlJqafk=; b=bnqTwLIRfNaiIM
+	lv5iaGy2bFD1XaT4M/oROaknpLgbN+N4Hbzgo3a0HX/M07eukRpPO5mSCCHTTFtcu500YVF3X4fB/
+	EPiOZpsIrZmHdxTPzLWe3nlLuc1pKC6r8EmOCaUD8MedIMz+NSt56TInhrLBY5kBmBiHGcithBNbZ
+	TOW1bqBoP+AUn9DhxOqwWgFiyYZ2U2B5/EJmoYpRtiecTRvF6CpIi4wxt6p0p6K4gZvIl8qVqd5v3
+	ihVd5dpoVaV36my+JQwO4XiIjN6uo+E8zqeVbcNSToxuXkdXlbpK4T9yb9XfaDaBGumgfqE+6PvQO
+	lkTf/CEUQZbMojdDzf4A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOhTz-00000006sZe-3cZ7;
-	Wed, 04 Nov 2026 20:21:19 +0000
-Received: from fanzine2.igalia.com ([213.97.179.56])
+	id 1xOhjU-00000006uXs-47tl;
+	Wed, 04 Nov 2026 20:37:20 +0000
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOhTw-00000006sZF-2lkp
+	id 1xOhjS-00000006uXQ-2tgM
 	for linux-nvme@lists.infradead.org;
-	Wed, 04 Nov 2026 20:21:17 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:Message-ID:Subject:Cc:To
-	:From:Date:MIME-Version:From:Reply-To;
-	bh=Q5ylkFwCSFYny5VkrDa+VS2X6oriL1/EsEN3JDNDXmk=; t=1793823676; x=2109183676; 
-	b=aW9MxGcNrB0Aj9XE0wUUxpFPif/3sQghP7U60oU5265nJ+GY1SebQvOVnXEjGDb87/qWziDAJZ9
-	ip4lWzPsShfEqNtnKWByit4pkt5dZ5BahORjY6/K4A1hQ4CCMAVBVR8fpVQLFk6bggrSudN4EeOXx
-	7iDUUNZiy/puwqJUD7TtbXylUa/8l7KZm0yEjyoCZfmzti0liRc67FUOUGJLWtP2uxZJCJks/azze
-	Caidz2y4BPgpcfR1s9dkgYcXz8jzWPTzUOtqWJnp9AtlDBPQt5cSCXcjWBx11F02xbeF3NRi378m3
-	hwLDZoatpZbFRyfJrqmtJyoj18FZffDyy4+Q==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
-	by fanzine2.igalia.com with esmtps 
-	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1xOhTo-002dN2-Kj; Wed, 04 Nov 2026 21:21:08 +0100
-Received: from webmail.service.igalia.com ([192.168.21.45])
-	by mail.igalia.com with esmtp (Exim)
-	id 1xOhTn-0000000EerO-32lX;
-	Wed, 04 Nov 2026 21:21:08 +0100
-Received: from localhost ([127.0.0.1] helo=webmail.igalia.com)
-	by webmail.service.igalia.com with esmtp (Exim 4.98.2)
-	(envelope-from <mfo@igalia.com>)
-	id 1xOhTn-0000000F9ry-2QNi;
-	Wed, 04 Nov 2026 21:21:07 +0100
+	Wed, 04 Nov 2026 20:37:20 +0000
+Received: from pps.filterd (m0109333.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A4KM2ao1913989
+	for <linux-nvme@lists.infradead.org>; Wed, 4 Nov 2026 12:37:18 -0800
+Received: from maileast.thefacebook.com ([163.114.135.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4hrb4e8ddn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Wed, 04 Nov 2026 12:37:17 -0800 (PST)
+Received: from twshared36767.32.frc3.facebook.com (2620:10d:c0a8:1b::30) by
+ mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.56; Wed, 4 Nov 2026 20:37:16 +0000
+Received: from devbig197.nha3.facebook.com (localhost [IPv6:::1])
+	by devbig197.nha3.facebook.com (Postfix) with ESMTP id CCC9E2E753572;
+	Wed,  4 Nov 2026 12:37:15 -0800 (PST)
+From: Keith Busch <kbusch@kernel.org>
+To: <linux-nvme@lists.infradead.org>, Keith Busch <kbusch@meta.com>
+CC: <axboe@kernel.dk>, <hch@lst.de>
+In-Reply-To: <20261029155252.2332266-1-kbusch@meta.com>
+References: <20261029155252.2332266-1-kbusch@meta.com>
+Subject: Re: (subset) [PATCH 00/19] nvme patch pile
+Message-ID: <179382463583.3441171.8379846133187682101.b4-ty@kernel.org>
+Date: Wed, 4 Nov 2026 12:37:15 -0800
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Date: Wed, 04 Nov 2026 17:21:07 -0300
-From: Mauricio Faria de Oliveira <mfo@igalia.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Sagi
- Grimberg <sagi@grimberg.me>, Chao Shi <coshi036@gmail.com>,
- kernel-dev@igalia.com, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] nvme: reject completions for requests that are not in
- flight
-In-Reply-To: <auuRhVO8nZHM-MwY@kbusch-mbp>
-References: <20261103-nvme-double-cmpl-uaf-blk-mq-v1-1-b10fea474423@igalia.com>
- <auo5a1kRTSWsAYtF@kbusch-mbp> <352cfcec6865cbf636a22442511f16b1@igalia.com>
- <auo-v5ZliGbM1Tiz@kbusch-mbp> <65414ea51d23fdbeb5d8b7bb4bd9d535@igalia.com>
- <auuRhVO8nZHM-MwY@kbusch-mbp>
-Message-ID: <610c32b5a2e5e36844071a367356aed6@igalia.com>
-X-Sender: mfo@igalia.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Spam-Score: -48
-X-Spam-Bar: ----
-X-Rspamd-Score: -1.0
-X-Rspamd-Action: no action
-X-Rspamd-Bar: -
+X-Mailer: b4 0.13.0
+X-FB-Internal: Safe
+X-Proofpoint-GUID: qxzOSXX8iVnsUDM-pttEbs5cOTRO4aKW
+X-Proofpoint-ORIG-GUID: qxzOSXX8iVnsUDM-pttEbs5cOTRO4aKW
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA0MDA4MiBTYWx0ZWRfX/sc7quzGZDUs
+ qL5HJvh3ywa/0CrnsIUsfmAmSO4K0hsdcX67w8UG8eHyVwhuefgcQUMOB0Ndw/iFhxpWWDy/jR3
+ BbYYfbC9qh4iGRCFOte8SLlFLuVfiik=
+X-Authority-Analysis: v=2.4 cv=DJ8acCNb c=1 sm=1 tr=0 ts=6aeb977d cx=c_pps
+ a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22 a=tpM8CJlwf7uhpglF1g9U:22
+ a=VwQbUJbxAAAA:8 a=cIrYLgdAOKFo7nbOkFIA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA0MDA4MiBTYWx0ZWRfX9qO54XRyeMAh
+ NUj/YIdnDlhkP/TyGFC7iJcUGD3qB303njeo7doUHaSr7sEiVIDcimXiC5lano7bWe/s9lXmFd/
+ HLzXFo9C/66O4ddOqdCplj7q5R7jKY3N4mfK4MO3GRPx613P72dpqEZuts5U5gIL9jIRAh+92XP
+ y7E90tFqiGlD07iRyFAgBEkhC/ANIXEoF7dH9pp+I9mXMj24GmLHDafPnCPOFzXCRn85LLKjWZY
+ UF2W1Iu8NdnmbtDS5RUsSfmtuvGoHKTRlI/yaMWO4wTlg5jPsgyPssWpYHlzBLm6llimSTXHCSV
+ ZKsZrPmntGtYW+Zhpg8qKzy/6J5uywzAG5hVVyMatrPbmiQUE7PbCghxs3hcteEqWEhkBL7RFiN
+ FDBri/1lF2+k8ljmYyNDqXNtUAcQYSe4ttjZX3Mi6SHliVQXGapE1k3HHQhRK+JOlZoSurQSAjX
+ qrsE7TLFve6pZLMQnTg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-04_05,2026-11-04_01,2025-10-01_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261104_122116_729604_8DB97B58 
-X-CRM114-Status: GOOD (  22.54  )
-X-Spam-Score: -2.1 (--)
-X-Spam-Report: Spam detection software, running on the system "bombadil.infradead.org",
- has NOT identified this incoming email as spam.  The original
- message has been attached to this so you can view it or label
- similar future email.  If you have any questions, see
- the administrator of that system for details.
- 
- Content preview:  On 2026-11-04 17:11, Keith Busch wrote: > On Wed, Nov 04,
-   2026 at 04:46:12PM -0300, Mauricio Faria de Oliveira wrote: >> On 2026-11-03
-    17:06, Keith Busch wrote: >> > On Tue, Nov 03, 2026 at 04:54:27PM [...] 
- 
- Content analysis details:   (-2.1 points, 5.0 required)
- 
-  pts rule name              description
- ---- ---------------------- --------------------------------------------------
-  0.0 SPF_HELO_NONE          SPF: HELO does not publish an SPF Record
- -0.0 SPF_PASS               SPF: sender matches SPF record
- -0.1 DKIM_VALID_AU          Message has a valid DKIM or DK signature from author's
-                             domain
- -0.1 DKIM_VALID             Message has at least one valid DKIM or DK signature
- -0.1 DKIM_VALID_EF          Message has a valid DKIM or DK signature from
-                             envelope-from domain
-  0.1 DKIM_SIGNED            Message has a DKIM or DK signature, not necessarily valid
- -1.9 BAYES_00               BODY: Bayes spam probability is 0 to 1%
-                             [score: 0.0000]
- -0.0 DMARC_PASS             DMARC pass policy
+X-CRM114-CacheID: sfid-20261104_123718_742802_2F977562 
+X-CRM114-Status: GOOD (  13.30  )
+X-Spam-Score: -1.2 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -114,46 +90,48 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On 2026-11-04 17:11, Keith Busch wrote:
-> On Wed, Nov 04, 2026 at 04:46:12PM -0300, Mauricio Faria de Oliveira wrote:
->> On 2026-11-03 17:06, Keith Busch wrote:
->> > On Tue, Nov 03, 2026 at 04:54:27PM -0300, Mauricio Faria de Oliveira wrote:
->> >> For the former question, I'd imagine other block drivers might be
->> >> subject to a similar issue, under incorrect completions, and can take a
->> >> look at this later. I'd appreciate feedback on the points above before
->> >> trying to address it generically in the block layer, if at all possible.
->> > 
->> > Here's my real concern: the proposal is a race. Another CPU can change
->> > the request state to in-flight, and this code will declare it complete
->> > before the hardware even saw it. It's a silent data corruption problem
->> > that we can't fix because it is impossible to tell the difference
->> > between a bogus and a legit completion at that point. This kind of
->> > hardware shouldn't be allowed to exist as it can't be used successfully
->> > when it behaves this way.
->> 
->> Could you please clarify? Not that I'm defending the patch; just so I
->> understand your point.
->> 
->> The reason I ask is, IIUIC, if another CPU changes the request state to
->> in-flight and wins the race over an incorrect completion that maps to
->> that request, the request is declared complete anyway, even without this
->> code, no?
+
+On Thu, 29 Oct 2026 08:52:33 -0700, Keith Busch wrote:
+> Jens sent a large patch series of various proposed fixes in parts of the
+> block stack. The original series can be found here:
 > 
-> Yes, the race I'm mentioning is pre-existing assuming we're dealing with
-> this kind of protocol breaking hardware. It just can't be fixed on the
-> kernel side, and the proposal trying to cater to it makes it painfully
-> obvious. I'd rather crash the kernel than risk passing on corrupted data
-> as a success.
+>   https://lore.kernel.org/linux-block/20261028164415.1262013-1-axboe@kernel.dk/
+> 
+> I want the nvme patches considered separately and applied through the
+> nvme subsystem tree, so this is following up on that: this series pulls
+> out many of the nvme patches from that series, and I'm sending this to
+> the linux-nvme mailing list for further visibility.
+> 
+> [...]
 
-Indeed, under risk, crashing sounds better. Thanks for clarifying.
+Applied, thanks!
 
+[01/19] nvme-loop: delete the controller if a reset fails
+        commit: bc2170d365861d29dce20f982093873baad09804
+[02/19] nvmet-tcp: ask for the TLS record type on every receive
+        commit: 77f72de389e3774dc95d7cd03a98a73e47013abd
+[04/19] nvmet-auth: keep the old keys if the new ones fail
+        commit: 41ad4af45ac90259c652135b24539a08a92a7491
+[07/19] nvmet-tcp: let the accept work come to an end
+        (no commit info)
+[12/19] nvmet-rdma: disconnect only established queues
+        commit: 000a9f4492abad6008682b55571ddc31941963e3
+[13/19] nvmet-rdma: take a device off the list last
+        commit: 86ae3841aea4e29d7ac08d5614ca3823dc8dfbc9
+[14/19] nvmet-rdma: queue the release work under the mutex
+        commit: 80095787f776967361cca76357f19e5445e0cd75
+[15/19] nvmet-rdma: disconnect a queue on device removal
+        commit: a4387799d4228866dc1746b466cd17e1c638d050
+
+Best regards,
 -- 
-Mauricio
+Keith Busch <kbusch@kernel.org>
+
 
