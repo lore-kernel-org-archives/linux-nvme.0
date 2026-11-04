@@ -2,105 +2,104 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4B86606A332
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Nov 2026 14:25:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3B5F606A31B
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Nov 2026 14:25:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=EqpvjzYi;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=gJJsGvev;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=b1InSFta;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=gJJsGvev;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=b1InSFta
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=tNVN8wOj;
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Ww1xUVKy;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=npdypsi5;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Ww1xUVKy;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=npdypsi5
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=3bWT/A56hg+m+72OhH/BAAE9fguz4SyuwgQb8/Ls2NE=; b=EqpvjzYiqLSD2n
-	cqpZsWCVkItgvQn/APxjxZuj2YDqeiRR+nUe/0nftOW+SrrB5I/wcolAS6ovbEzQDMzBHi0cQ436y
-	N0GpNJwsTLsIk0pBk+HLUqC3kkJ7lsmYKiOG1l6UTJp4+mXa6x+GRfKsAX/7pjq9Mthu3Yfq3EnRa
-	W2jF0kmLSca09N+SRqrD7aq1cJlwllTzaI/VN5LjZWZEicD61jnU8J7rkf4z582PVMYOt4sbLvXb/
-	+bC/Drbt2WhvUFbv+8shC7H6TBBGsYZKVr6KVwIS+pG4TYUkrMW5wQpHiWv+w+3BOTjrU/V2Gc7qy
-	YeCv+iGGxnW1+Si/Bmzg==;
+	List-Owner; bh=vzfh1eP6a7zWDBwYoJP9movq1234lrvQ2gCxaKajCw0=; b=tNVN8wOjva/Fp/
+	njK137y3p3QYj9RqEmZiJhWY8/fLPO6eH2u/b92nVsPzAvat5KFWuNXFMNXRP29SRWHgeDWeb0MwD
+	cKARdYz61Jsv7QEXb8I3EJpOkLgOVIf6XWZNG15KAU0VOHTUCCrYcltQF4i9nH3dgtOJ5aodrKmXx
+	uvMWrgo7ZiBenmAnvpG9DulrAsvxnJo3/Pt2meHIwMAa0tCmfpIj7l0WORXRzPXjJl6n3+Sbcozqs
+	wxeF6kupoXdSPzlgHNdltAlSFUNoebFucKuLNWSFS6KwVBwYoiVjAjnaz7sBDq0lXr/dB8Na30cVi
+	1LDBjbAlvA03zrOatRAA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xObvk-00000005cvE-2LeH;
-	Wed, 04 Nov 2026 14:25:36 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1xObvm-00000005cx0-2vRk;
+	Wed, 04 Nov 2026 14:25:38 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xObvi-00000005ctc-1UO5
+	id 1xObvj-00000005cti-3fmg
 	for linux-nvme@lists.infradead.org;
-	Wed, 04 Nov 2026 14:25:35 +0000
+	Wed, 04 Nov 2026 14:25:37 +0000
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C1D301F79A;
-	Wed,  4 Nov 2026 14:25:32 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2119D21F44;
+	Wed,  4 Nov 2026 14:25:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793802332; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793802334; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3bWT/A56hg+m+72OhH/BAAE9fguz4SyuwgQb8/Ls2NE=;
-	b=gJJsGvev18RwyKZEKdZgI3m+hxvh1THidW/3QGwb9xLZ5TwHPHq46DyqnY8L5RNRTV6cBq
-	s/q+b66w5jWdMvcKAssU4jkf2dlXZUnMR1Jor7n5Ta4VpTmKKoHFGw9lgcy2jdERXzX2wl
-	5KW9MjZvqU/owvctFZxH+3PNBG3Eokc=
+	bh=vzfh1eP6a7zWDBwYoJP9movq1234lrvQ2gCxaKajCw0=;
+	b=Ww1xUVKyv+rIzcJ4+V+kVHwhslIt8HhmhicFKphOHXsbEsCkUQQUpLR79wHeaE2cAzMQXz
+	AMlqDkgSX2bOQgsD+ul9uqRkOkPNjeZGwFGtM6qg6xJPlsopaLm3G/JvR5e3TawUBqBrAw
+	ZZyB196vVYtvSrB3bO6WKalRIBmpNj0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793802332;
+	s=susede2_ed25519; t=1793802334;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3bWT/A56hg+m+72OhH/BAAE9fguz4SyuwgQb8/Ls2NE=;
-	b=b1InSFtaugrmu3r5xds9Viez/YbuohxdM6hi8Uld8sS+KKIm15uaQeeP84jVQwajvicSXv
-	rmagsH9o1iITAVCw==
-Authentication-Results: smtp-out2.suse.de;
+	bh=vzfh1eP6a7zWDBwYoJP9movq1234lrvQ2gCxaKajCw0=;
+	b=npdypsi5zIkmvtk/yVH0QeADxqrE6ZzOrv41jxzZk2YlT9j4z0OnFte3IRluPk8hjHyWnL
+	XnjzhqqYWVWUtpBA==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793802332; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793802334; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3bWT/A56hg+m+72OhH/BAAE9fguz4SyuwgQb8/Ls2NE=;
-	b=gJJsGvev18RwyKZEKdZgI3m+hxvh1THidW/3QGwb9xLZ5TwHPHq46DyqnY8L5RNRTV6cBq
-	s/q+b66w5jWdMvcKAssU4jkf2dlXZUnMR1Jor7n5Ta4VpTmKKoHFGw9lgcy2jdERXzX2wl
-	5KW9MjZvqU/owvctFZxH+3PNBG3Eokc=
+	bh=vzfh1eP6a7zWDBwYoJP9movq1234lrvQ2gCxaKajCw0=;
+	b=Ww1xUVKyv+rIzcJ4+V+kVHwhslIt8HhmhicFKphOHXsbEsCkUQQUpLR79wHeaE2cAzMQXz
+	AMlqDkgSX2bOQgsD+ul9uqRkOkPNjeZGwFGtM6qg6xJPlsopaLm3G/JvR5e3TawUBqBrAw
+	ZZyB196vVYtvSrB3bO6WKalRIBmpNj0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793802332;
+	s=susede2_ed25519; t=1793802334;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3bWT/A56hg+m+72OhH/BAAE9fguz4SyuwgQb8/Ls2NE=;
-	b=b1InSFtaugrmu3r5xds9Viez/YbuohxdM6hi8Uld8sS+KKIm15uaQeeP84jVQwajvicSXv
-	rmagsH9o1iITAVCw==
+	bh=vzfh1eP6a7zWDBwYoJP9movq1234lrvQ2gCxaKajCw0=;
+	b=npdypsi5zIkmvtk/yVH0QeADxqrE6ZzOrv41jxzZk2YlT9j4z0OnFte3IRluPk8hjHyWnL
+	XnjzhqqYWVWUtpBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 82DB4134F0;
-	Wed,  4 Nov 2026 14:25:32 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D49D4134F0;
+	Wed,  4 Nov 2026 14:25:33 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id EuhDF1xA62pzagAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Wed, 04 Nov 2026 14:25:32 +0000
+	id XbjTKl1A62p1agAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Wed, 04 Nov 2026 14:25:33 +0000
 From: Daniel Wagner <dwagner@suse.de>
-Date: Wed, 04 Nov 2026 15:25:14 +0100
-Subject: [PATCH blktests v2 2/6] nvme/077: test poll support without poll
+Date: Wed, 04 Nov 2026 15:25:15 +0100
+Subject: [PATCH blktests v2 3/6] nvme/078: test reconnect with fewer I/O
  queues
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261104-nvme-isolcpu-v2-2-2d59f622a2c8@suse.de>
+Message-Id: <20261104-nvme-isolcpu-v2-3-2d59f622a2c8@suse.de>
 References: <20261104-nvme-isolcpu-v2-0-2d59f622a2c8@suse.de>
 In-Reply-To: <20261104-nvme-isolcpu-v2-0-2d59f622a2c8@suse.de>
 To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
  Daniel Wagner <dwagner@suse.de>
 X-Mailer: b4 0.16.0
-X-Spam-Level: 
 X-Spamd-Result: default: False [-17.30 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	REPLY(-4.00)[];
@@ -120,12 +119,13 @@ X-Spamd-Result: default: False [-17.30 / 50.00];
 	FROM_EQ_ENVFROM(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
 X-Spam-Score: -17.30
+X-Spam-Level: 
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261104_062534_679008_0E354457 
-X-CRM114-Status: GOOD (  15.60  )
-X-Spam-Score: -4.4 (----)
+X-CRM114-CacheID: sfid-20261104_062536_094070_D10BB3CC 
+X-CRM114-Status: GOOD (  17.41  )
+X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -144,53 +144,64 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-blk_mq_alloc_tag_set() initializes all queue maps. When nr_poll_queues
-is set but the target grants no queues for polling, nvmf_map_queues()
-used to leave the poll map in this state, with all CPUs mapped to the
-first hardware context. The queue claimed poll support and polled I/O
-was sent to a queue which isn't a poll queue.
+nvmf_set_io_queues() used to only set the io_queues entries for the
+queue types it hands out, but the array is reused on every reconnect.
+When the target granted fewer queues on a reconnect, the poll queue
+count from the previous association survived, nvmf_map_queues() mapped
+CPUs to hardware contexts which don't exist anymore and
+blk_mq_map_swqueue() crashed with a NULL pointer dereference.
 
-Limit the target to twice the number of online CPUs, connect with as
-many read, write and poll queues as there are online CPUs, so no queues
-are left for polling, check that the queue doesn't claim poll support
-and run verified I/O.
+Connect with as many read, write and poll queues as there are online
+CPUs, then lower attr_qid_max on the target to twice the number of
+online CPUs, which makes the target drop the controller. After the
+reconnect with fewer queues, check the queue count, that the queue
+doesn't claim poll support and run verified I/O.
 
-The problem is fixed by kernel commit 36ede1aa85d5 ("nvme-fabrics: clear
-the poll map if no poll queues are mapped").
+The problem is fixed by kernel commits 9588769af5fc ("nvme-fabrics:
+reset io_queues before computing the queue mapping") and 36ede1aa85d5
+("nvme-fabrics: clear the poll map if no poll queues are mapped").
 
 Signed-off-by: Daniel Wagner <dwagner@suse.de>
 ---
- tests/nvme/077     | 87 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
- tests/nvme/077.out |  2 ++
- 2 files changed, 89 insertions(+)
+ tests/nvme/078     | 119 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/078.out |   2 +
+ 2 files changed, 121 insertions(+)
 
-diff --git a/tests/nvme/077 b/tests/nvme/077
+diff --git a/tests/nvme/078 b/tests/nvme/078
 new file mode 100755
-index 000000000000..e57e3416cdde
+index 000000000000..6efeb740e075
 --- /dev/null
-+++ b/tests/nvme/077
-@@ -0,0 +1,87 @@
++++ b/tests/nvme/078
+@@ -0,0 +1,119 @@
 +#!/bin/bash
 +# SPDX-License-Identifier: GPL-3.0+
 +# Copyright (c) 2026 SUSE LLC and contributors
 +#
-+# Test that a controller without poll queues doesn't claim poll support.
-+# blk_mq_alloc_tag_set initializes all queue maps. When nr_poll_queues is set
-+# but the target grants no queues for polling, nvmf_map_queues used to leave
-+# the poll map in this state, so the queue claimed poll support and polled I/O
-+# was sent to a queue which isn't a poll queue.
++# Test reconnecting with fewer I/O queues. nvmf_set_io_queues used to only set
++# the io_queues entries for the queue types it hands out, but the array is
++# reused on every reconnect. When the target grants fewer queues on a
++# reconnect, the poll queue count from the previous association survived,
++# nvmf_map_queues mapped CPUs to hardware contexts which don't exist anymore
++# and blk_mq_map_swqueue crashed. Without the poll map fix, the poll map keeps
++# mapping all CPUs to the first hardware context and the queue claims poll
++# support.
 +#
-+# The bug was introduced for nvme-tcp by commit 1a9460cef571 ("nvme-tcp:
-+# support simple polling") and for nvme-rdma by commit 5651cd3c4336
-+# ("nvme-rdma: fix queue mapping when queue count is limited").
++# The stale io_queues entries were introduced for nvme-tcp by commit
++# 6486199378a5 ("nvme-tcp: fix queue mapping when queue count is limited") and
++# for nvme-rdma by commit 5651cd3c4336 ("nvme-rdma: fix queue mapping when
++# queue count is limited"). The stale poll map was introduced for nvme-tcp by
++# commit 1a9460cef571 ("nvme-tcp: support simple polling") and for nvme-rdma by
++# commit 5651cd3c4336.
 +#
-+# Regression test for commit 36ede1aa85d5 ("nvme-fabrics: clear the poll map
-+# if no poll queues are mapped").
++# Regression test for commits 9588769af5fc ("nvme-fabrics: reset io_queues
++# before computing the queue mapping") and 36ede1aa85d5 ("nvme-fabrics: clear
++# the poll map if no poll queues are mapped").
 +
 +. tests/nvme/rc
 +
-+DESCRIPTION="Test poll support without poll queues"
++DESCRIPTION="Test reconnect with fewer I/O queues"
 +QUICK=1
++CHECK_DMESG=1
 +
 +requires() {
 +	_nvme_requires
@@ -201,6 +212,24 @@ index 000000000000..e57e3416cdde
 +
 +set_conditions() {
 +	_set_nvme_trtype "$@"
++}
++
++wait_for_queue_count() {
++	local nvmedev="$1"
++	local queue_count="$2"
++	local file="/sys/class/nvme-fabrics/ctl/${nvmedev}/queue_count"
++	local retries=10
++
++	while [[ $(cat "${file}") -ne $((queue_count + 1)) ]]; do
++		if [[ "${retries}" == 0 ]]; then
++			echo "FAIL: queue count $(cat "${file}") instead of $((queue_count + 1))"
++			return 1
++		fi
++		sleep 1
++		retries=$((retries - 1))
++	done
++
++	return 0
 +}
 +
 +test() {
@@ -223,22 +252,28 @@ index 000000000000..e57e3416cdde
 +		_nvmet_target_cleanup
 +		return 1
 +	fi
-+	if [[ $(cat "${cfs_path}/attr_qid_max") -lt $((2 * nr_cpus)) ]]; then
-+		SKIP_REASONS+=("target supports less than $((2 * nr_cpus)) I/O queues")
++	if [[ $(cat "${cfs_path}/attr_qid_max") -lt $((3 * nr_cpus)) ]]; then
++		SKIP_REASONS+=("target supports less than $((3 * nr_cpus)) I/O queues")
 +		_nvmet_target_cleanup
 +		return 1
 +	fi
 +
-+	# Only grant enough queues for the read and default queues, so no
-+	# queues are left for polling.
-+	_set_attr $((2 * nr_cpus)) "${cfs_path}/attr_qid_max"
-+
 +	if _nvme_connect_subsys --nr-io-queues "${nr_cpus}" \
 +				--nr-write-queues "${nr_cpus}" \
-+				--nr-poll-queues "${nr_cpus}"; then
++				--nr-poll-queues "${nr_cpus}" \
++				--keep-alive-tmo 1 \
++				--reconnect-delay 2; then
 +		_nvmf_wait_for_state "${def_subsysnqn}" "live" || echo FAIL
 +		nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
 +		disk=$(basename /sys/class/nvme/"${nvmedev}"/nvme*n*)
++		wait_for_queue_count "${nvmedev}" $((3 * nr_cpus))
++
++		# Changing attr_qid_max makes the target drop the controller.
++		# Reconnect with only enough queues for the read and default
++		# queues, so no queues are left for polling.
++		_set_attr $((2 * nr_cpus)) "${cfs_path}/attr_qid_max"
++		wait_for_queue_count "${nvmedev}" $((2 * nr_cpus))
++		_nvmf_wait_for_state "${def_subsysnqn}" "live" || echo FAIL
 +
 +		if [[ $(cat "/sys/block/${disk}/queue/io_poll") != 0 ]]; then
 +			echo "FAIL: ${disk} claims poll support without poll queues"
@@ -257,13 +292,13 @@ index 000000000000..e57e3416cdde
 +
 +	echo "Test complete"
 +}
-diff --git a/tests/nvme/077.out b/tests/nvme/077.out
+diff --git a/tests/nvme/078.out b/tests/nvme/078.out
 new file mode 100644
-index 000000000000..c7f6ac360a57
+index 000000000000..53857c8914c0
 --- /dev/null
-+++ b/tests/nvme/077.out
++++ b/tests/nvme/078.out
 @@ -0,0 +1,2 @@
-+Running nvme/077
++Running nvme/078
 +Test complete
 
 -- 
