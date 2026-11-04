@@ -2,86 +2,88 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01875606A31B
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Nov 2026 06:31:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00510606A326
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Nov 2026 06:31:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=B8KaqoMk;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=O57jyWwg
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=yZQtoZ8t;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PL47/ijl
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
-	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:Date:Subject:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=nxObPTj/uIUEGHfeQ9adXhEvppId2c7V0+NPSeSoNZI=; b=B8KaqoMkw90IkT
-	8YXkHv4TenfL3C/4+LYI+rqw/w/w87MCMgweb5jEzcD2VNCbbQIczcac+zrodf04InnOZKpg9hKIY
-	DYJ0JLlk4JcTPt7/D5vthMiXreRw4sOprHd4NT2YxT6k30dEhwCJjVMxlkjNd8bCmxJiADAi9qknT
-	hv/9v7IBFaTFL3q/oTr4YdlFyHGJ6Q5WhxpY4s+IAiLXjLD8Vlq27rntvZJAwJcS0nbbgBqrdTbKb
-	EdCiI1SdECsm5IVZ3jBhinGGgas+IKTTgg/+Lus7dTY6JDFtX7s6GCgWATexwCEd7OmkMA1HlwJcI
-	L8SltF7mtRFGnB5uWlfw==;
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Unsubscribe-Post:List-Owner;
+	bh=Mw7VJYnNekK0b04jd3U00XO5v3TzXJogPpVwvYNW6MM=; b=yZQtoZ8tfN2rDd57WcPvXfMtEO
+	XmBac6Scc6F6S7tvOeXom/kBixlvL6wCT76TCBBHj//eJcwxtJdvgwiOHaARqi/mbGKnu3wvPTS5E
+	XORm0ePigmRm9/xpOraLqekosPanxQPXFMLoSjoYBvnNowHf/JWagKxxVgK6CsnpGdkkCmoOuW+uS
+	lOQ2mLBdq0uKYtpczcjL9xi63i1S/NEdwxzq4+FR+O9Q7D5S86P2VeGMX3/f8Il+9QIP+UtbNO0j8
+	ufV9PnfJSjBUqRIUII29aCFnLHBj441QUi1ZG+iamogTqd8Nn2mzJH1i3TnuTkRltg/N5Ii1gca0h
+	PXEjL3ig==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOUWV-00000004Q7i-1MkP;
-	Wed, 04 Nov 2026 06:31:03 +0000
-Received: from mail-dl1-x122a.google.com ([2607:f8b0:4864:20::122a])
+	id 1xOUWT-00000004Q57-0THC;
+	Wed, 04 Nov 2026 06:31:01 +0000
+Received: from mail-dl1-x122c.google.com ([2607:f8b0:4864:20::122c])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOUWM-00000004Q1y-30cr
+	id 1xOUWI-00000004Q07-2ILc
 	for linux-nvme@lists.infradead.org;
-	Wed, 04 Nov 2026 06:31:02 +0000
-Received: by mail-dl1-x122a.google.com with SMTP id a92af1059eb24-1b1ce85287aso363058c88.0
-        for <linux-nvme@lists.infradead.org>; Tue, 03 Nov 2026 22:30:54 -0800 (PST)
+	Wed, 04 Nov 2026 06:30:58 +0000
+Received: by mail-dl1-x122c.google.com with SMTP id a92af1059eb24-1b1ce85287aso363018c88.0
+        for <linux-nvme@lists.infradead.org>; Tue, 03 Nov 2026 22:30:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793773854; x=1794378654; darn=lists.infradead.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=nxObPTj/uIUEGHfeQ9adXhEvppId2c7V0+NPSeSoNZI=;
-        b=O57jyWwgNNdPx0JA5Y1iuBwrIn/lGaXTLFCr4nBih79wXCbOUH2XrG5KgsecKdtMVj
-         BPSpQSLysXHRlasof1oRAGAEIgAWR1mDzBRfBXLNcOuD2cQrpztJjE5mC62aGRhZaJGW
-         K0383y+N4h/yKvVgbV+eClqzZiWLX/qd1t5EK5uQRntVWA+aUkF+V5l3rVTjk/5gVkuc
-         fgNQKmISEDW+k8VmDo/YrKFe+5nxR5nd26C3WdQ8CwwIm548YCeUkf0Fwy8MYeVqOr8W
-         snJgmaJSZYgnlBZKptEv390oz2Bb9zxQpR8dE3UiEej9wne32pKUS77uXWlE7UoRt0Hv
-         B6MA==
+        d=gmail.com; s=20260707; t=1793773849; x=1794378649; darn=lists.infradead.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=Mw7VJYnNekK0b04jd3U00XO5v3TzXJogPpVwvYNW6MM=;
+        b=PL47/ijl9lVPLRNjU1/1G+jmjDt4L2di70a0gVl7UENEPD/0pcAVwpVMOfI1HGHaxC
+         yEP6OCeMyPnQOZPq3ecpKPqK6HPt3j4ClpWF4EMZnTGAfvARyMR+q2HxfNWuUG+7jAIo
+         /FsKiCtR4gjgWLLnRpuvY/lRuZL+6/o6lCCGNdbBsNwL8eGh6zjvMvOHdGGC9QMbdov7
+         549SHh+JDuQmXOwXTvxxvZ+eg+HbfGb7oV5nflTU1wOe9VwQi3n5nx+vJsg0qcPoQIGE
+         uHwwWYn7r33BhinxSFI9jnM1aPx+RnMFwBCZ6GBT94O8vzBvOFrPZckjMuw65yfKLs20
+         t/jA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793773854; x=1794378654;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=nxObPTj/uIUEGHfeQ9adXhEvppId2c7V0+NPSeSoNZI=;
-        b=C9cBNMLOjebL1eG9h1TgRtGJMeQmkCNzlonCE3YjPx2Nvp1ArD7U7Gn94SAHyLf6+L
-         gS4zRbBJkmWsTEDdRrbtU6OrRP1bo/C4XrojeYPXX49tjNFcsmubx5lj3rMtn3CXJTP/
-         f4imldBNEb7SRVdtlh0hXjCt04CjqsdmeTHl4Nr/wYp6M5kwzRNMLEKKMGjbBUdHZXEd
-         vbij8Hb3SsfkWuzv5TnNT6AuLz2HIl749dyc6Y6AscxmCyNZf6Umd9WX1ckSxMliSc8F
-         iPWU7w3c3y6u5d65YsHK3NXjlqRgDu7k2W6td1UzUUTiuFOauHHVw+KMx7YkOPy+ZHK7
-         H+Tw==
-X-Gm-Message-State: APuU4Z98MzSPRtdGPXt05JhVIyup1O+xVy+IzLyiyG3uy7e7t2v2NEnh
-	N7chrMqNxTkgmeKaUlTvVawmcM4xjb+v78sDgNO+lFPgzwBROKuYcYyl
-X-Gm-Gg: AYBFou2urOxNrKyGKEoCVXXvMlt0cDiUN6FgMG/G8GH7tw5m5zsN80/1plzCvpLSXHX
-	3TB+eX6bbqutgcpirFQ9iBBDSZUyMrJoQIiaQQaxnrUr8oIurlK23ZWLAMVdIJvDGCAs8fnm15H
-	1lJnkXnRePm2J1587MkivuahyKN/dh7+yGTX/o0Xd6CnhKbIIFGsYktFo7iyPfOg9jXHMz2TNEZ
-	ZZjd8iPCwhD06ZxNoAnXii9V/rw5YjIGMDTYNVyz7ObB5VC3LR6RGYpLutNBqsvYtcGe2kXWI+q
-	ioYQ0QIURDfdrqpTuE04AJGIe3RASBLeuWpgHouZ7B2ZPM9cx575XoBPTYLVw/FvjA0Qp41hApQ
-	Run+3IP4XPF59ad9x7KLtx3sAjK0C+SQjAcQw0q+sqsMEKIhuwhkKhG4TEYphP/xMKj/Pj/FKOk
-	jBiI1PLtLLjAOprq/1Zcu9ELgDW8YtkWcqRhBgSLrtmufwTI4FThzAkpo2MGzxoMIVCsL+3U6vf
-	LzBBZQjUuaJjSXk72sdHZRaSRL/hwjgFwoy43bnVhhL5AgahF8Ks2KNvoSXilpT1utuhZJQiBGp
-	1fOdXb6/dv8/CSsmKqhf3MXl
-X-Received: by 2002:a05:701b:455a:10b0:1b2:42ae:94fb with SMTP id a92af1059eb24-1b242ae963dmr4316991c88.37.1793773853561;
-        Tue, 03 Nov 2026 22:30:53 -0800 (PST)
+        d=1e100.net; s=20260707; t=1793773849; x=1794378649;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Mw7VJYnNekK0b04jd3U00XO5v3TzXJogPpVwvYNW6MM=;
+        b=ZPofISLW9gMmi9HNF3Kgby8nHQ/9nBJhMLscWfDtX2GeZpHFKOSocd9ykZ7u3t/z/q
+         zt3QnwEW8ybhWrup3rpGIc1gQl8e2rsCn4DxN2HslW/xlGmVD3Us9Ywr7d1i7lfxHlii
+         lidTwWBotBrf/hM2LcZz4OwEl3arDSEzAoeFLbOan9s+/MX8xk9riFMgpIeGgsFPNv+W
+         Uquro976viLFAxP4y+GAreB+T4fBLLrrNUTltUBbEm5qGDpzxtBEGG/EA7NQDgD1VPaL
+         +a+sph21mnlHHishgXnaASkzAiGOHt0d3LlCv6LNuaoXA2ejINfoEZbfvvNILasyD+gc
+         19bw==
+X-Gm-Message-State: APuU4Z8iIB/qDzKHCv/4XZSlr/6MA6nK9FUaBVocT/5wV8FvPrZ+3pgq
+	sL1j4P9YcunUocDiS1j5wqUSp5zdIIKWyZF8Ix6qeE7BwBoFNHqd1TFG
+X-Gm-Gg: AYBFou2XBmsnjPg0SZK6V6lFr3wL4z6qI0FJcKNnSArUVCTKOwmovePr/ABqlGVouE7
+	IijmqJeX69renkUq0NZhhuEr++xOdNzjX5rRMOc5ndrHYdK6oybiRB2hakzP00Uhgx7TcA+uXo7
+	iEefzubGTr68ri+pAFvvNH6wy/Z8fgLnlMb85o/Jrhe+QbCYQwHbJHM0wUVrHXxo0kpAxzkxc2+
+	TUKjjCtDku0C0SGnWx2PephPF7/+WMz7Sw6JTGzUnxFW0/1RhHEShfELGsrKlZ6q3dtdGmBTgXM
+	CtOWkA/WDRalwBVAljwm10WmFqNj49S8a8tQdNCeRMLi/c1VZYKilXOVQ7hE54LU1anBD5Kq39V
+	SqIeY3hpTy/3g5ToCWCDU/wzQszRX0m+1/7fNVQP17iWq7yCrct/9tqgHjsDdDmZHLpe1RgjwL0
+	pI5s8NGQW1mZKmjtUPmOcpK4P9oUiB1nG9LXS+DzzVsQ8ULgZpdVB6cYjTux506Ud1akXgGJxTI
+	7stTijOyfPrCfB8Vg1pYoh/4y4t0gQHPWz3hEPNjI1QYUD/GIqFps3G13ZtCf/6r0TW6n6zk9dp
+	4aSir7Ksf9/mKrzP/ppQO8ry
+X-Received: by 2002:a05:7022:158a:b0:185:869a:8c64 with SMTP id a92af1059eb24-1ac56ca0239mr24721522c88.1.1793773849198;
+        Tue, 03 Nov 2026 22:30:49 -0800 (PST)
 Received: from [127.0.1.1] ([23.254.208.9])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b245c65194sm4454290c88.19.2026.11.03.22.30.49
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b245c65194sm4454290c88.19.2026.11.03.22.30.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2026 22:30:53 -0800 (PST)
+        Tue, 03 Nov 2026 22:30:48 -0800 (PST)
 From: Qiliang Yuan <odys.yuan@gmail.com>
-Date: Wed, 04 Nov 2026 01:30:39 -0500
-Subject: [PATCH v2 1/2] srcu: Add list_splice_init_srcu()
+Subject: [PATCH v2 0/2] nvme: fix removing namespaces under SRCU readers
+Date: Wed, 04 Nov 2026 01:30:38 -0500
+Message-Id: <20261104-bug-nvme-remove-ns-srcu-v2-0-feb64ecb96ca@gmail.com>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261104-bug-nvme-remove-ns-srcu-v2-1-feb64ecb96ca@gmail.com>
-References: <20261104-bug-nvme-remove-ns-srcu-v2-0-feb64ecb96ca@gmail.com>
-In-Reply-To: <20261104-bug-nvme-remove-ns-srcu-v2-0-feb64ecb96ca@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAA7R6moC/3WNywrCMBBFf6XM2pEmwT5c+R/SRZqO7YBJJLFBK
+ fl3Y8Gly3PgnrtBpMAU4VxtEChxZO8KyEMFZtFuJuSpMMhaNkLUEsd1RpcsYSDrE6GLGINZsVd
+ Tp9uT7kcxQlk/At34tZevQ+GF49OH936UxNf+mupvMwkUSFL1dddOjdLmMlvN96PxFoac8wcuk
+ 0/JvgAAAA==
 To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
  Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
  Lai Jiangshan <jiangshanlai@gmail.com>, 
@@ -95,8 +97,8 @@ Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  stable@vger.kernel.org
 X-Mailer: b4 0.13.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261103_223054_783004_A660254C 
-X-CRM114-Status: GOOD (  19.11  )
+X-CRM114-CacheID: sfid-20261103_223050_595618_F1A5D29B 
+X-CRM114-Status: GOOD (  13.34  )
 X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -116,81 +118,37 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-list_splice_init_rcu() makes a list look empty to new readers, waits for
-the current ones with the given sync function, and only then links the
-entries into the new list. The sync function takes no argument, so it
-can wait for RCU readers but not for the readers of an srcu_struct.
+nvme_remove_namespaces() splices the namespace list with
+list_splice_init_rcu() and synchronize_rcu(), but the list is read
+under SRCU. A reader still on the last namespace can then walk onto the
+on-stack list head, which KASAN reports as a stack-out-of-bounds read.
 
-Passing synchronize_rcu() for a list read under SRCU still builds, but
-leaves SRCU readers on the entries while the last one's next pointer is
-moved onto the new list head. nvme_remove_namespaces() does this today.
+Patch 1 adds list_splice_init_srcu() for lists read under SRCU, and
+patch 2 uses it in nvme. Both are needed for the fix.
 
-Add list_splice_init_srcu(), which waits for the readers of the given
-srcu_struct instead.
-
-Cc: stable@vger.kernel.org
-Suggested-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Qiliang Yuan <odys.yuan@gmail.com>
 ---
- include/linux/srcu.h | 36 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+V1 -> V2:
+- Add list_splice_init_srcu() instead of open-coding the splice in nvme
+- Put it in srcu.h, as rculist.h doesn't include srcu.h
+- Update the numbers from a new run, median of 3 runs per boot
 
-diff --git a/include/linux/srcu.h b/include/linux/srcu.h
-index 1a8a465a5650d..d4dcaeb83e2b6 100644
---- a/include/linux/srcu.h
-+++ b/include/linux/srcu.h
-@@ -18,6 +18,7 @@
- 
- #include <linux/mutex.h>
- #include <linux/rcupdate.h>
-+#include <linux/rculist.h>
- #include <linux/workqueue.h>
- #include <linux/rcu_segcblist.h>
- 
-@@ -118,6 +119,41 @@ void cleanup_srcu_struct(struct srcu_struct *ssp);
- void synchronize_srcu(struct srcu_struct *ssp);
- void synchronize_srcu_atomic(struct srcu_struct *ssp);
- 
-+/**
-+ * list_splice_init_srcu - splice an SRCU-protected list into an existing list
-+ * @list:	the SRCU-protected list to splice
-+ * @head:	the place in the existing list to splice the first list into
-+ * @ssp:	the srcu_struct that readers of @list use
-+ *
-+ * Like list_splice_init_rcu(), but wait for the SRCU readers of @list
-+ * instead of RCU ones, so that none of them can follow a next pointer
-+ * onto @head.
-+ *
-+ * Note that this function blocks, and that the caller must prevent any
-+ * other updates to @list.
-+ */
-+static inline void list_splice_init_srcu(struct list_head *list,
-+					 struct list_head *head,
-+					 struct srcu_struct *ssp)
-+{
-+	struct list_head *first = list->next;
-+	struct list_head *last = list->prev;
-+	struct list_head *next = head->next;
-+
-+	if (list_empty(list))
-+		return;
-+
-+	INIT_LIST_HEAD_RCU(list);
-+	synchronize_srcu(ssp);
-+	ASSERT_EXCLUSIVE_ACCESS(*first);
-+	ASSERT_EXCLUSIVE_ACCESS(*last);
-+
-+	last->next = next;
-+	rcu_assign_pointer(list_next_rcu(head), first);
-+	first->prev = head;
-+	next->prev = last;
-+}
-+
- #define SRCU_GET_STATE_COMPLETED 0x1
- 
- /**
+v1: https://lore.kernel.org/r/20261103-bug-nvme-remove-ns-srcu-v1-1-e239087d63ac@gmail.com
 
+---
+Qiliang Yuan (2):
+      srcu: Add list_splice_init_srcu()
+      nvme: wait for SRCU readers before splicing the namespace list
+
+ drivers/nvme/host/core.c |  3 +--
+ include/linux/srcu.h     | 36 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 37 insertions(+), 2 deletions(-)
+---
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+change-id: 20261102-bug-nvme-remove-ns-srcu-93d8a75a9b1b
+
+Best regards,
 -- 
-2.43.0
+Qiliang Yuan <odys.yuan@gmail.com>
 
 
