@@ -2,128 +2,137 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5EAE606A337
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Nov 2026 16:45:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24086606A33D
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Nov 2026 16:45:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=NBRuujau;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=TnoMZeIn;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=pE+LsDJ7;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=om1WRHns;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=lqYxjopI
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=i85VKztv;
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=T428q87q;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=68K9xLIf;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=T428q87q;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=68K9xLIf
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=DpSAyNjyZsVtlCdUMdKs2X8x9N76nJtuwlqaRghXfS4=; b=NBRuujauLQG6PH
-	FRR7iy6VQw6UpcorTXqyp5rxDkqkR2LrYwjjQmMoXBK9QNrlQddeW0jEY84j3uoIFQrrFDH/a8G8c
-	kqlrxWYC8/YLCnp2h4N+3IwI9EvpuTNntyFaq6h+V96fzsUvrSy6LO6dBSfJRTSmEX3FiVjBpgMvR
-	sRhG7hMbrO5P/4Ykh/DSTS296Eg5iIOAMxG/yajmlVQw68tQ3ZJ5g8+5huQZhil5GtoDuKZQ69qTl
-	swGeHINHO5XLm7pKlw+j+t6Z0mJIYyhcxwdAzpJ01O0m13ZLvcV/JwfPqlTTa0SsbRtpYlMJifVtc
-	BHhHNYPyR2O37fkwp7Dg==;
+	List-Owner; bh=vfTG03QlAtwLw/SLtfnEyXu8tXQFb4j7MYMxf50ANF4=; b=i85VKztv2+qMAR
+	HWHkcDTt+Ex3foVnVD+wxW0QqQNkq5rteIRi1trF7VQPNdwJTgKZ/vEmi1qbDzZc0D02kffM5W/O2
+	ns1kz3aF0obV3YI0vmpPCsmFC4CyDb3jfjUmxIRgo8TlstXzWF6JP09DIIEue64ZYpbK88Ran0SBm
+	Hbu/VuMSAJVV73T3gPb7Xd1P7JbwlScE/gArbrOsYUN1mfzbem1zrps+LAsZT38mcL2faPcmbpaYy
+	kKP2YrGZ0FxEaxWKDmRo3rlX1q8dzYYO5Nl5QB8wuCavp9YHrqdP81NeEKL9+BuXKVyiy17fmpnsv
+	ci4qypbI36UspUvtFUjQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOe7G-000000062md-1j0E;
+	id 1xOe7G-000000062na-3Dbe;
 	Wed, 04 Nov 2026 16:45:38 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOe76-000000062ax-20W3
+	id 1xOe7B-000000062gt-3WQ4
 	for linux-nvme@lists.infradead.org;
 	Wed, 04 Nov 2026 16:45:36 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 61FFA21E05;
-	Wed,  4 Nov 2026 16:45:25 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 121201F79C;
+	Wed,  4 Nov 2026 16:45:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793810726; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793810732; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DpSAyNjyZsVtlCdUMdKs2X8x9N76nJtuwlqaRghXfS4=;
-	b=TnoMZeInUYOF6Mnmj/eQACnn2cJXdI4g6impVt0X5LpH4W2nZyso8JcqBgoIHy4OYjuie8
-	sDGZ0LCfARJByRkAIM83fhJqeGe/m7HKEGg6f90W8FH3NPCZ+zS7r830+gie4ANefeXvVy
-	mPeVi05G1qzdSF1lJgzsmN8ctftpzdg=
+	bh=vfTG03QlAtwLw/SLtfnEyXu8tXQFb4j7MYMxf50ANF4=;
+	b=T428q87qS7tkxCdYe8yrc9/F6TBYkGx5ITYtQd7j0Ntcf/yAUq+T1/vZBFoZG9H6ZEX7gZ
+	Y0ef1Vd8KABjlBXeoxeCFT7TF/OnkaXlg4gIR0lWwlDp8z2Nz/KEX4oVMSaXrskKqEF0/5
+	w5yY7TtfE+z3KvqnL87nNx/FXseVzyM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793810726;
+	s=susede2_ed25519; t=1793810732;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DpSAyNjyZsVtlCdUMdKs2X8x9N76nJtuwlqaRghXfS4=;
-	b=pE+LsDJ7IGYXmGEI/EDyHL1zafTrI0g3DwXg76tN50QW2xuXLPcafZkJ+xhJfJhsT7UHrL
-	vCEsCBP1w9q02OAQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
+	bh=vfTG03QlAtwLw/SLtfnEyXu8tXQFb4j7MYMxf50ANF4=;
+	b=68K9xLIfPd+5skxhw83bigoVDpAiG9iDliKLuPSK5/b8pqE+9ePABtq0qHTQV8T0vx/3/p
+	FwxVTTRVkLn+p4Dw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=T428q87q;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=68K9xLIf
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793810725; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793810732; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DpSAyNjyZsVtlCdUMdKs2X8x9N76nJtuwlqaRghXfS4=;
-	b=om1WRHnss49UjRkfwglePmyRUmsurfCmTrUYkXCbhPdYLyH9DnSqLahwwVc0xK+9cWxXqf
-	9e+XLfpBMmLakcGEcKjHgrqK/5+qaMTqFiIkZXhpgBklZQj9lPNZ0APLCCIN4kfFVlHk0G
-	EsSEqUxAa1Vxn7FKKO4/Myl3i/4JUuo=
+	bh=vfTG03QlAtwLw/SLtfnEyXu8tXQFb4j7MYMxf50ANF4=;
+	b=T428q87qS7tkxCdYe8yrc9/F6TBYkGx5ITYtQd7j0Ntcf/yAUq+T1/vZBFoZG9H6ZEX7gZ
+	Y0ef1Vd8KABjlBXeoxeCFT7TF/OnkaXlg4gIR0lWwlDp8z2Nz/KEX4oVMSaXrskKqEF0/5
+	w5yY7TtfE+z3KvqnL87nNx/FXseVzyM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793810725;
+	s=susede2_ed25519; t=1793810732;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DpSAyNjyZsVtlCdUMdKs2X8x9N76nJtuwlqaRghXfS4=;
-	b=lqYxjopI0LMI7+ZcdXGIz7/YUq8f0xi6IDo9FG+dKIeHjWo/xa+c4ajnFdJx309hSiBhXA
-	gRmCsAvDIDC7leBA==
+	bh=vfTG03QlAtwLw/SLtfnEyXu8tXQFb4j7MYMxf50ANF4=;
+	b=68K9xLIfPd+5skxhw83bigoVDpAiG9iDliKLuPSK5/b8pqE+9ePABtq0qHTQV8T0vx/3/p
+	FwxVTTRVkLn+p4Dw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2BB07134F0;
-	Wed,  4 Nov 2026 16:45:25 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D0F70134F0;
+	Wed,  4 Nov 2026 16:45:31 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id WKT7ACVh62qMfQAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Wed, 04 Nov 2026 16:45:25 +0000
+	id bDl8Kith62q2fQAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Wed, 04 Nov 2026 16:45:31 +0000
 From: Daniel Wagner <dwagner@suse.de>
-Date: Wed, 04 Nov 2026 17:44:46 +0100
-Subject: [PATCH blktests 07/10] common/nvme: support the ports of a remote
- target
+Date: Wed, 04 Nov 2026 17:44:48 +0100
+Subject: [PATCH blktests 09/10] nvme: skip the tests which need a feature
+ the remote target lacks
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261104-nvme-target-control-v1-7-b31b40537bb4@suse.de>
+Message-Id: <20261104-nvme-target-control-v1-9-b31b40537bb4@suse.de>
 References: <20261104-nvme-target-control-v1-0-b31b40537bb4@suse.de>
 In-Reply-To: <20261104-nvme-target-control-v1-0-b31b40537bb4@suse.de>
 To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
  Daniel Wagner <dwagner@suse.de>
 X-Mailer: b4 0.16.0
+X-Rspamd-Queue-Id: 121201F79C
 X-Spam-Level: 
-X-Spamd-Result: default: False [-13.30 / 50.00];
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-13.51 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MID_RHS_MATCH_FROM(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,running-tests.md:url,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -13.30
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -13.51
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261104_084528_838399_88FA6F06 
-X-CRM114-Status: GOOD (  17.48  )
+X-CRM114-CacheID: sfid-20261104_084534_749115_9A85A10C 
+X-CRM114-Status: GOOD (  15.05  )
 X-Spam-Score: -4.4 (----)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -143,231 +152,179 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-With NVME_TARGET_CONTROL the port helpers still use the local nvmet
-configfs. _create_nvmet_port, _remove_nvmet_port and
-_setup_nvmet_port_ana write to it. _get_nvmet_ports and
-_get_nvmet_port_params read from it. The ports of a remote subsystem
-are not there. _nvmet_target_setup doesn't pass the number of ports to
-the script, and _nvmet_target_add_ports only reports that add-ports is a
-stub. The tests which use more than one port don't work with a remote
-target, e.g. nvme/057 finds no port and connects to none.
+An NVME_TARGET_CONTROL target need not implement the optional commands.
+A storage array, for example, has fixed ports, manages the ANA states
+itself and may not take host keys or a TLS key from blktests. The tests
+which use a missing command then fail, e.g. nvme/057 on set-ana.
 
-Use the port commands of the script instead: setup --ports, add-ports,
-add-port, remove-port, list-ports, show-port and set-ana, with --tls or
---force-tls for the TLS mode. _nvme_connect_subsys finds the port of the
-subsystem with list-ports, as it does with the local target. If the
-script lists no port, e.g. for a target which is configured already, it
-connects to the address config shows, as before.
-
-Document the port commands in running-tests.md.
+Add _require_nvme_target_control_feature, which checks the features
+config --show-features lists. Use it in the tests which add and remove
+ports (nvme/031), set ANA states (nvme/057), change host keys (nvme/042
+to nvme/045, nvme/063) or set up TLS (nvme/062, nvme/063). No target
+lists tls yet: blktests doesn't pass the TLS key to the script.
 
 Signed-off-by: Daniel Wagner <dwagner@suse.de>
 ---
- Documentation/running-tests.md | 29 ++++++++++++++++++
- common/nvme                    | 69 +++++++++++++++++++++++++++++++++++-------
- 2 files changed, 87 insertions(+), 11 deletions(-)
+ Documentation/running-tests.md |  5 +++++
+ tests/nvme/031                 |  1 +
+ tests/nvme/042                 |  1 +
+ tests/nvme/043                 |  1 +
+ tests/nvme/044                 |  1 +
+ tests/nvme/045                 |  1 +
+ tests/nvme/057                 |  1 +
+ tests/nvme/062                 |  1 +
+ tests/nvme/063                 |  1 +
+ tests/nvme/rc                  | 18 ++++++++++++++++++
+ 10 files changed, 31 insertions(+)
 
 diff --git a/Documentation/running-tests.md b/Documentation/running-tests.md
-index 095d6aa4e18e..9ca01e6893ec 100644
+index 847792cec240..9ac55f2c6724 100644
 --- a/Documentation/running-tests.md
 +++ b/Documentation/running-tests.md
-@@ -255,10 +255,39 @@ The blktests expects that the script interface implements following
-   --hostnqn HOSTNQN
-   --ctrlkey CTRLKEY
-   --hostkey HOSTKEY
-+  --ports NR_PORTS
-+  --tls | --force-tls
+@@ -248,6 +248,7 @@ The blktests expects that the script interface implements following
+   --show-trsvid
+   --show-subsys-uuid
+   --show-subsysnqn
++  --show-features
  
- cleanup:
+ setup:
    --subsysnqn SUBSYSNQN
+@@ -288,6 +289,10 @@ set-ana: set the state of an ANA group on the port
  
-+The tests which use more than one port, or add and remove ports, also need
-+the port commands. A port is named by an ID the script picks:
-+
-+add-ports: export the subsystem on NR_PORTS more ports, print their IDs
-+  --subsysnqn SUBSYSNQN
-+  --ports NR_PORTS
-+  --tls | --force-tls
-+
-+add-port: create a port which exports no subsystem, print its ID
-+  --tls | --force-tls
-+
-+remove-port:
-+  --port PORT
-+
-+list-ports: print the IDs of the ports which export the subsystem
-+  --subsysnqn SUBSYSNQN
-+
-+show-port: print the transport type, address and service ID of the port
-+  --port PORT
-+
-+set-ana: set the state of an ANA group on the port
-+  --port PORT
-+  --grpid GRPID
-+  --state STATE
-+
-+If list-ports prints nothing, blktests connects to the address config shows.
-+
- contrib/nvme-target-control implements this interface. It configures a Linux
- nvmet target over ssh and can be extended for other targets, see
- contrib/nvme-target-control/README.md.
-diff --git a/common/nvme b/common/nvme
-index dfe85b6e281f..698d6bf780ef 100644
---- a/common/nvme
-+++ b/common/nvme
-@@ -888,20 +888,21 @@ _nvme_connect_subsys() {
- 		esac
- 	done
+ If list-ports prints nothing, blktests connects to the address config shows.
  
-+	if [[ -z "${port}" ]]; then
-+		local ports
++config --show-features prints the optional commands the script supports,
++add-ports to set-host, and tls if the target can set up TLS. blktests skips
++the tests which need a feature the list lacks.
 +
-+		_get_nvmet_ports "${subsysnqn}" ports
-+		port="${ports[0]##*/}"
-+	fi
- 	if [[ -n "${nvme_target_control}" && -z "${port}" ]]; then
-+		# The target doesn't list ports, e.g. it is configured already.
- 		ARGS+=(--transport "$(${nvme_target_control} config --show-trtype)")
- 		ARGS+=(--traddr "${def_traddr}")
- 		ARGS+=(--trsvcid "${def_trsvcid}")
- 	else
- 		if [[ -z "${port}" ]]; then
--			local ports
--
--			_get_nvmet_ports "${subsysnqn}" ports
--			port="${ports[0]##*/}"
--			if [[ -z "${port}" ]]; then
--				echo "WARNING: no port found"
--				return 1
--			fi
-+			echo "WARNING: no port found"
-+			return 1
- 		fi
- 		_get_nvmet_port_params "${port}" ARGS
- 	fi
-@@ -1079,6 +1080,18 @@ _fc_host_traddr() {
- 	printf "nn-%s:pn-%s" "$(_host_wwnn $port)" "$(_host_wwpn $port)"
+ The authentication tests change the DH-CHAP attributes of the host:
+ 
+ set-host:
+diff --git a/tests/nvme/031 b/tests/nvme/031
+index cd69e8ef13ac..b12e24489740 100755
+--- a/tests/nvme/031
++++ b/tests/nvme/031
+@@ -21,6 +21,7 @@ requires() {
+ 	_nvme_requires
+ 	_have_loop
+ 	_require_nvme_trtype_is_fabrics
++	_require_nvme_target_control_feature add-port remove-port
  }
  
-+# Print the nvme-target-control option for the TLS mode of a port.
-+_nvme_target_control_tls() {
-+	case "$1" in
-+	not-required)
-+		echo "--tls"
-+		;;
-+	required)
-+		echo "--force-tls"
-+		;;
-+	esac
+ set_conditions() {
+diff --git a/tests/nvme/042 b/tests/nvme/042
+index bddbd1bbfc28..7ddc0e91706e 100755
+--- a/tests/nvme/042
++++ b/tests/nvme/042
+@@ -16,6 +16,7 @@ requires() {
+ 	_require_kernel_nvme_fabrics_feature dhchap_ctrl_secret
+ 	_require_nvme_trtype_is_fabrics
+ 	_require_nvme_cli_auth
++	_require_nvme_target_control_feature set-host
+ }
+ 
+ set_conditions() {
+diff --git a/tests/nvme/043 b/tests/nvme/043
+index ac25610a402b..f3b8d640891a 100755
+--- a/tests/nvme/043
++++ b/tests/nvme/043
+@@ -17,6 +17,7 @@ requires() {
+ 	_require_nvme_trtype_is_fabrics
+ 	_require_nvme_cli_auth
+ 	_have_crypto_algorithm dh-generic
++	_require_nvme_target_control_feature set-host
+ }
+ 
+ set_conditions() {
+diff --git a/tests/nvme/044 b/tests/nvme/044
+index 1d9202143cf4..c1a48f1e3d86 100755
+--- a/tests/nvme/044
++++ b/tests/nvme/044
+@@ -17,6 +17,7 @@ requires() {
+ 	_require_nvme_trtype_is_fabrics
+ 	_require_nvme_cli_auth
+ 	_have_crypto_algorithm dh-generic
++	_require_nvme_target_control_feature set-host
+ }
+ 
+ set_conditions() {
+diff --git a/tests/nvme/045 b/tests/nvme/045
+index 78a1c607e9c6..14f4949e198e 100755
+--- a/tests/nvme/045
++++ b/tests/nvme/045
+@@ -18,6 +18,7 @@ requires() {
+ 	_require_nvme_trtype_is_fabrics
+ 	_require_nvme_cli_auth
+ 	_have_crypto_algorithm dh-generic
++	_require_nvme_target_control_feature set-host
+ }
+ 
+ set_conditions() {
+diff --git a/tests/nvme/057 b/tests/nvme/057
+index 0a5cfa4df1a8..6c45af8b5ed9 100755
+--- a/tests/nvme/057
++++ b/tests/nvme/057
+@@ -13,6 +13,7 @@ requires() {
+ 	_have_loop
+ 	_have_fio
+ 	_require_nvme_trtype_is_fabrics
++	_require_nvme_target_control_feature list-ports show-port set-ana
+ }
+ 
+ set_conditions() {
+diff --git a/tests/nvme/062 b/tests/nvme/062
+index eabe2d99bdcc..4402b848ecee 100755
+--- a/tests/nvme/062
++++ b/tests/nvme/062
+@@ -18,6 +18,7 @@ requires() {
+ 	_require_nvme_cli_tls
+ 	_have_libnvme_ver 1 11
+ 	_have_systemd_tlshd_service
++	_require_nvme_target_control_feature tls
+ }
+ 
+ set_conditions() {
+diff --git a/tests/nvme/063 b/tests/nvme/063
+index feb07bf3a06c..fae1e8941136 100755
+--- a/tests/nvme/063
++++ b/tests/nvme/063
+@@ -19,6 +19,7 @@ requires() {
+ 	_require_nvme_trtype tcp
+ 	_require_nvme_cli_auth
+ 	_have_systemd_tlshd_service
++	_require_nvme_target_control_feature set-host tls
+ }
+ 
+ set_conditions() {
+diff --git a/tests/nvme/rc b/tests/nvme/rc
+index 3c3ed680e416..6bdd4058586a 100644
+--- a/tests/nvme/rc
++++ b/tests/nvme/rc
+@@ -155,6 +155,24 @@ _require_remote_nvme_target() {
+ 	return 0
+ }
+ 
++# Skip the test if the NVME_TARGET_CONTROL target lacks one of the features,
++# the optional commands and e.g. tls, see Documentation/running-tests.md.
++_require_nvme_target_control_feature() {
++	local features feature
++
++	if [[ -z "${nvme_target_control}" ]]; then
++		return 0
++	fi
++	features=" $("${nvme_target_control}" config --show-features) "
++	for feature in "$@"; do
++		if [[ "${features}" != *" ${feature} "* ]]; then
++			SKIP_REASONS+=("NVME_TARGET_CONTROL target does not support ${feature}")
++			return 1
++		fi
++	done
++	return 0
 +}
 +
- _create_nvmet_port() {
- 	local tls="${1:-none}"
- 	local host_port="${2:-0}"
-@@ -1088,6 +1101,13 @@ _create_nvmet_port() {
- 	local trsvcid="${def_trsvcid}"
- 	local portcfs
- 
-+	if [[ -n "${nvme_target_control}" ]]; then
-+		# shellcheck disable=SC2046
-+		"${nvme_target_control}" add-port \
-+			$(_nvme_target_control_tls "${tls}")
-+		return
-+	fi
-+
- 	local port
- 	for ((port = 0; ; port++)); do
- 		if [[ ! -e "${NVMET_CFS}/ports/${port}" ]]; then
-@@ -1157,6 +1177,12 @@ _setup_nvmet_port_ana() {
- 	local cfsport="${NVMET_CFS}/ports/${port}"
- 	local anaport="${cfsport}/ana_groups/${anagrpid}"
- 
-+	if [[ -n "${nvme_target_control}" ]]; then
-+		"${nvme_target_control}" set-ana --port "${port}" \
-+			--grpid "${anagrpid}" --state "${anastate}"
-+		return
-+	fi
-+
- 	if [[ ! -d "${anaport}" ]] ; then
- 		if [[ "${anagrpid}" -eq 1 ]]; then
- 			echo "FAIL target setup failed, ANA not supported"
-@@ -1173,6 +1199,11 @@ _remove_nvmet_port() {
- 	local cfsport="${NVMET_CFS}/ports/${port}"
- 	local a
- 
-+	if [[ -n "${nvme_target_control}" ]]; then
-+		"${nvme_target_control}" remove-port --port "${port}"
-+		return
-+	fi
-+
- 	if [[ "${nvme_trtype}" == "fc" ]]; then
- 		_nvme_fcloop_del_tport "$(_remote_wwnn "$port")" \
- 				       "$(_remote_wwpn "$port")"
-@@ -1446,6 +1477,13 @@ _get_nvmet_ports() {
- 	local -n nvmet_ports="$2"
- 	local cfs_path="${NVMET_CFS}/ports"
- 
-+	if [[ -n "${nvme_target_control}" ]]; then
-+		mapfile -t -O "${#nvmet_ports[@]}" nvmet_ports < <(
-+			"${nvme_target_control}" list-ports \
-+				--subsysnqn "${nvmet_subsysnqn}")
-+		return
-+	fi
-+
- 	for port in "${cfs_path}/"*; do
- 		if [[ -e "${port}/subsystems/${nvmet_subsysnqn}" ]]; then
- 			nvmet_ports+=("${port##*/}")
-@@ -1473,7 +1511,12 @@ _get_nvmet_port_params() {
- 	local trsvcid="${def_trsvcid}"
- 
- 	# When port is specified, get port dependent parameter values
--	if [[ $port != none ]]; then
-+	if [[ $port != none && -n "${nvme_target_control}" ]]; then
-+		read -r trtype traddr trsvcid < <(
-+			"${nvme_target_control}" show-port --port "${port}")
-+		[[ -n "${trsvcid}" ]] || exit 1
-+		args+=(--traddr "${traddr}")
-+	elif [[ $port != none ]]; then
- 		[[ -d "${cfs_path}" ]] || exit 1
- 		trtype=$(cat "${cfs_path}/addr_trtype")
- 		traddr=$(cat "${cfs_path}/addr_traddr")
-@@ -1621,10 +1664,13 @@ _nvmet_target_setup() {
- 			ARGS+=(--ctrlkey "${ctrlkey}")
- 		fi
- 
-+		# shellcheck disable=SC2046
- 		"${nvme_target_control}" setup \
- 					 --subsysnqn "${subsysnqn}" \
- 					 --subsys-uuid "${subsys_uuid:-$def_subsys_uuid}" \
- 					 --hostnqn "${def_hostnqn}" \
-+					 --ports "${num_ports}" \
-+					 $(_nvme_target_control_tls "${tls}") \
- 					 "${ARGS[@]}" &> /dev/null
- 		p=0
- 		while (( p < num_ports )); do
-@@ -1719,19 +1765,20 @@ _nvmet_target_add_ports() {
- 			ARGS+=(--ctrlkey "${ctrlkey}")
- 		fi
- 
-+		# shellcheck disable=SC2046
- 		"${nvme_target_control}" add-ports \
- 					 --ports "${num_ports}" \
- 					 --subsysnqn "${subsysnqn}" \
- 					 --subsys-uuid "${subsys_uuid:-$def_subsys_uuid}" \
- 					 --hostnqn "${def_hostnqn}" \
--					 "${ARGS[@]}" &> /dev/null
-+					 $(_nvme_target_control_tls "${tls}") \
-+					 "${ARGS[@]}" > /dev/null
- 		p=0
- 		while (( p < num_ports )); do
- 			# Set ports_to_hosts so that _get_fc_host_port() can return the correct host port
- 			ports_to_hosts+=("${host_port}")
- 			p=$(( p + 1 ))
- 		done
--		echo "'${nvme_target_control} add-ports' is a stub"
- 		return
- 	fi
- 
+ _test_dev_nvme_ctrl() {
+ 	echo "/dev/char/$(cat "${TEST_DEV_SYSFS}/device/dev")"
+ }
 
 -- 
 2.56.0
