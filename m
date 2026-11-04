@@ -2,73 +2,99 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F49E606A32E
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Nov 2026 16:03:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64D63606A32E
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Nov 2026 16:07:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=b79rTviw
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=1oJR3Q9U;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=la9R0RUh
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Subject:Cc:To:
-	From:Mime-Version:Date:References:In-Reply-To:Message-ID:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Unsubscribe-Post:List-Owner;
-	bh=5GFzxx3iTCNJhbuSD/q+9umx6gML7ap63zvkg3Gu3uU=; b=b79rTviwSSxMl6BT+5X30PZwVS
-	x6USLlLXbaBEkPExVtM3hzCZxxoiQxQyMXSZTatxfJZho94UYF2Q6ipki0yC05kqFXtHDGZuQz0PH
-	DPmUJRDT+LqUwnD4b10RnvWNc/n4zKoB/prQAbEnwzxeMEEcQE3Xd09TfUYwyp3zVxU3JJ/F5wTXP
-	KbMuWS8lJQH7Gu1D7P8bPb/siJjgoxPgqpY2PVF/w5ylxPXvDC97pVZw3uwh8pyhX5ZQlQgnPwAKp
-	sPVVm3Zy+pFakTipv2ZZc0VNGBaGzzrWCYEiTZOcg38Q23eKEHbj5gbuBjpz7tCSbwFV3smi0ePZE
-	l+bpq+fA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
+	List-Owner; bh=yKYud9p8+aP8cT7V12zkUbmCop1ErkdHEczU+hWaU/k=; b=1oJR3Q9U386kDO
+	Cq8yRBVNsxo56fQAnKCFWIB+chhEZH5yEMR/SUH76dw4svThaHIqc7KGMx4Vsq57RvKCzSNALnFmx
+	9VD6HOfTLzXSgsv9mimd908nqOIKoX9N4tgr2WaJnm+LZfrevGKLUAs7K0IkVrsUgTrr/rGhIhS+D
+	vCTrQdKhJPQmbXh1V1Ohrof2GckBOeFr5CvbZNHPo0wqQ2gpG4JeKwxxzA5Bt9PIOSzsNkqDAlzSn
+	cs0qook7MTQoKtUlp9HBB5NLgxGaSm7LbJZcOvnXPvwGfFbhlTFEUoArWqgfwRHJiNO/ETqLajK9c
+	KKoS8Slpw1OytywvkjoQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOdSB-00000005sHC-469w;
-	Wed, 04 Nov 2026 16:03:11 +0000
-Received: from mxct.zte.com.cn ([183.62.165.209])
+	id 1xOdWP-00000005suf-0L0G;
+	Wed, 04 Nov 2026 16:07:33 +0000
+Received: from mail-dy1-x132c.google.com ([2607:f8b0:4864:20::132c])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOJqy-00000003UQd-01Lr
+	id 1xOdWM-00000005suN-2jZV
 	for linux-nvme@lists.infradead.org;
-	Tue, 03 Nov 2026 19:07:29 +0000
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mxct.zte.com.cn (FangMail) with ESMTPS id 4jJykL0jZmz5B13Y;
-	Wed, 04 Nov 2026 03:07:22 +0800 (CST)
-Received: from xaxapp04.zte.com.cn ([10.99.98.157])
-	by mse-fl1.zte.com.cn with SMTP id 6A3J79Nf084249;
-	Wed, 4 Nov 2026 03:07:09 +0800 (+08)
-	(envelope-from shao.mingyin@zte.com.cn)
-Received: from mapi (xaxapp04[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Wed, 4 Nov 2026 03:07:14 +0800 (CST)
-X-Zmail-TransId: 2afb6aea30e2942-d9e81
-X-Mailer: Zmail v1.0
-Message-ID: <20261104030714286L0-QmZfiJgl_w6jvQVKSm@zte.com.cn>
-In-Reply-To: <20261104030707567QiZNPqBVEESVbvpNukFkY@zte.com.cn>
-References: 20261104030707567QiZNPqBVEESVbvpNukFkY@zte.com.cn
-Date: Wed, 4 Nov 2026 03:07:14 +0800 (CST)
+	Wed, 04 Nov 2026 16:07:31 +0000
+Received: by mail-dy1-x132c.google.com with SMTP id 5a478bee46e88-35b2c599f43so1783932eec.0
+        for <linux-nvme@lists.infradead.org>; Wed, 04 Nov 2026 08:07:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793808449; x=1794413249; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=yKYud9p8+aP8cT7V12zkUbmCop1ErkdHEczU+hWaU/k=;
+        b=la9R0RUhgOwHjnf759GT7UIqQ8dkrVuZ+CR7cnBXHmRTTfTWbWQT9yt8VVuDsVCjaC
+         wHJ8gUjs1PQnb6cGYCqbHmKyeputrd5UOHu39wIkA8y0/E/F6BL6+F2p+Bg7wwk/YncU
+         ZjJi0oj4vPefp+on2yTPArB1nCF7dSWHAohbTjmHewMXr7NaKZNJtHf3FvhxUIBIo0th
+         SoK6qI7IiDMcbwRQWvwyXYoCMgArXlgYh28G80Xp9/yqWA4EziAgcrr0R1wUOw0qyC+5
+         HDCOaLHEasA14OCXNvGWtVC3PNU4xMflS4G5WLLoiwWiGjblhF1rHZKHQ64Yk9Qu9xbv
+         l6SA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793808449; x=1794413249;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=yKYud9p8+aP8cT7V12zkUbmCop1ErkdHEczU+hWaU/k=;
+        b=NmgPeJhjRJmFUC70gp3tpsUS/vN9vnpt98o73efZMBTTIH+NF92ZJfQBl2hHIGIHSk
+         TxGIFMTGos1zTF3VeghOjfKoFr0Pd2+n+JPnq2iOsb4w5+LSCosjX+i6Ihh67PU4wq3m
+         pIqTWe5Ip19wZwDzTMLsditYZE9vSIJhE5w8FAD7kB27KmQz/QdBMfRpr+9NduSVCXY9
+         HEptKItxue7v0Dy04eO4P/wJCOtWMu0IjMYmKupsudUsuwSg4FV9zR09kKVoruYx7YTU
+         7/ud5VzFzD45PSf1fOhUnxWISFb8n65Y5j+Shy/6VNYeFFMUIFQJZPMXQ+3t0nVZ74ob
+         MZzg==
+X-Forwarded-Encrypted: i=1; AKwUvBwAHg5u7VJr5q6UGqYdrJ2+kpWkzqcpbaTiZZJ11++iqFsf/M/1Yy9hCv2BGeJjNWkXaWel51hnM6ue@lists.infradead.org
+X-Gm-Message-State: APuU4Z91+eK+3Se9O18R8+Z4Fm/VXeZS7aOT1T3WKxfLpwckeR8PLiHs
+	vuvtnM6WrXKvkGHHpJqweboyaXjiMvgOPRahzqDldP2N1x9w5xULRVS7
+X-Gm-Gg: AYBFou3cNV4h1cwPpUUwVJGpLxonBIkSxXYwNCBwGVKzleTUcyGa7Fb9laTYTIFLM1p
+	hI6VKMR+QZgDgM5fR+LnF9TwXGglT1armtd9a+eT3vTTP35Rsu/e6jWeQCW0nsglunXKQptja38
+	ZJ51NKEvUCmp2EAm+Tl1JwUy/BUuQJfjAYVa7m7taVhpndET5Z41300C1V/Lmf5ffVirwt0gQaN
+	3uwiNV0GdGVxL75UURjr4X56NZBs64bV3HxypQHtvQouwb0/NkJ1ziD5W7XvWPaF/eNU+8rCJVa
+	Ep/aEe5VcuzVtQl2hzwUT0Tt1IUavUQ9Gjs0M9yMqpu3iJjt8GoarehHjWIMI/ts0A5cz+Tchph
+	R3snoUsKH1C5l42DHi0bTG6HEyzoSwBFrRsNXQmy8kF4Hzg5Ycj/Au2kV/ylgTMY1Sm1lA9McXm
+	W/8PV5QFaA65lyVdOn6rzqjulsuiPNxrX5FoQrvMZLmSccn0qNg7qb+blXuMEbWQTUjP4q2kLoV
+	n6CRreNjhkHVDx4aMa/TXP8wqggNsaCrEk17rLDGk8ZKXglyprkbDddWZLN55sB4VPLRUDk1OGA
+	9ZCKu40s+82y4rYHEcfJDez+Qu4S8jZPf5HjbZRzbDqevBonXds=
+X-Received: by 2002:a05:7301:4546:b0:36c:a93b:1ba3 with SMTP id 5a478bee46e88-36ca93b1f2bmr3137939eec.20.1793808448995;
+        Wed, 04 Nov 2026 08:07:28 -0800 (PST)
+Received: from localhost.localdomain ([103.178.205.89])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36dd7ec8881sm276249eec.18.2026.11.04.08.07.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Nov 2026 08:07:28 -0800 (PST)
+From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+To: kbusch@kernel.org
+Cc: hare@suse.de,
+	hch@lst.de,
+	kch@nvidia.com,
+	linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	sagi@grimberg.me,
+	sreekuttan2156239@gmail.com
+Subject: Re: [PATCH v2] nvmet: use appropriate types for authentication payload lengths
+Date: Wed,  4 Nov 2026 16:06:52 +0000
+Message-ID: <20261104160652.3603-1-sreekuttan2156239@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <aun_15SXOxpzPZXT@kbusch-mbp>
+References: <aun_15SXOxpzPZXT@kbusch-mbp>
 X-Archived-By: <archiver.kernel.org>
-Mime-Version: 1.0
-From: <shao.mingyin@zte.com.cn>
-To: <kbusch@kernel.org>, <axboe@kernel.dk>, <hch@lst.de>, <sagi@grimberg.me>,
-        <linux-nvme@lists.infradead.org>
-Cc: <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
-Subject: =?UTF-8?B?W1BBVENIIDIvMl0gbnZtZXQ6IHBjaS1lcGY6IGNvbXBsZXRlIGZhaWxlZCByZWFkIGNvbW1hbmRzIGluc3RlYWQgb2Ygd2FpdGluZyBmb3JldmVy?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL: mse-fl1.zte.com.cn 6A3J79Nf084249
-X-TLS: YES
-X-ENVELOPE-SENDER: shao.mingyin@zte.com.cn
-X-SOURCE-IP: 10.5.228.132 unknown Wed, 04 Nov 2026 03:07:22 +0800
-X-CLEAN: YES
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6AEA30EA.000/4jJykL0jZmz5B13Y
-X-Bad-Reply: References and In-Reply-To but no 'Re:' in Subject.
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261103_110728_193362_1EF45109 
-X-CRM114-Status: GOOD (  11.14  )
-X-Spam-Score: -4.2 (----)
-X-Mailman-Approved-At: Wed, 04 Nov 2026 08:03:11 -0800
+X-CRM114-CacheID: sfid-20261104_080730_721823_9CE46E0E 
+X-CRM114-Status: UNSURE (   6.51  )
+X-CRM114-Notice: Please train this message.
+X-Spam-Score: -1.9 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,61 +105,18 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-13.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
 	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-nvmet_pci_epf_queue_response() completes a command directly when its
-status is non-zero, without calling complete(&iod->done).  For commands
-that transfer data from the device to the host (DMA_TO_DEVICE),
-nvmet_pci_epf_exec_iod_work() clears no_wait and waits for iod->done
-after req->execute() has returned.  If such a command fails
-synchronously, for example because the request length or SGL is invalid
-or because the backend rejects the command, the work item waits forever
-on iod->done while the completion path has already queued the iod for
-the completion queue work, which eventually frees it: the waiter is left
-on a freed completion and the SQ worker is stuck.
+Hi,
 
-Only decide whether the work item has to wait from the data direction
-and length, and let it complete the command after the wait even when the
-command failed.  This preserves exactly one
-nvmet_pci_epf_complete_iod() per command and also wakes the waiter for
-failed read commands.
+Thanks for applying the patch!
 
-Fixes: 746d0ac5a07d ("nvmet: pci-epf: Do not complete commands twice if nvmet_req_init() fails")
-Cc: stable@vger.kernel.org
-Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
----
-diff --git a/drivers/nvme/target/pci-epf.c b/drivers/nvme/target/pci-epf.c
-index a8df176c1a57..b12855b57b59 100644
---- a/drivers/nvme/target/pci-epf.c
-+++ b/drivers/nvme/target/pci-epf.c
-@@ -1248,10 +1248,11 @@ static void nvmet_pci_epf_queue_response(struct nvmet_req *req)
- 	iod->status = le16_to_cpu(req->cqe->status) >> 1;
- 
- 	/*
--	 * If the command failed or we have no data to transfer, complete the
--	 * command immediately.
-+	 * If we have no data to transfer back to the host, complete the
-+	 * command immediately.  Otherwise wake up the work item, which
-+	 * transfers the data and completes the command even if it failed.
- 	 */
--	if (iod->status || !iod->data_len || iod->dma_dir != DMA_TO_DEVICE) {
-+	if (!iod->data_len || iod->dma_dir != DMA_TO_DEVICE) {
- 		nvmet_pci_epf_complete_iod(iod);
- 		return;
- 	}
-@@ -1659,7 +1660,7 @@ static void nvmet_pci_epf_exec_iod_work(struct work_struct *work)
- 	wait_for_completion(&iod->done);
- 
- 	if (iod->status != NVME_SC_SUCCESS)
--		return;
-+		goto complete;
- 
- 	WARN_ON_ONCE(!iod->data_len || iod->dma_dir != DMA_TO_DEVICE);
- 	nvmet_pci_epf_transfer_iod_data(iod);
+Best regards,
+Sreeraj
 
