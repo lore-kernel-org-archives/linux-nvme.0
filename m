@@ -2,115 +2,89 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64F1C60716A1
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Nov 2026 17:57:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20BFD606A326
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Nov 2026 18:33:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=A9OlGT/3;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MSqLKSuc
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=pZJb88r3
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:MIME-Version:Date:Message-ID:Subject:References:In-Reply-To:CC:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=otW91gbXc1YAQNlvjTbYBKLpt7tQ412lK+YFy/nR2CI=; b=A9OlGT/3GUdpwx
-	trOoE5yjzHg94RnMJoKe4fZKERBZIuDVMeHKJt04uZ0XOuqv06k0CxDceX5gtWU3EgimH6XdteP9M
-	+92Entb24Y220cemAczLQhLnn009vK7AAR40+unp9aoiYIIUYwk6Q3uIdgZynXWlFR1DIvaLdpYKO
-	vXVZlNMcmhSUEks0Nm95qlExmMXm70MfxJ59HM9E/EfgQsslIptcu8XDtHXSR8cYzpKdRt5XTilYv
-	8VRJFnUscnIrRsEZXt/oYz4j2h8h8tr40DWZ2339rGXbQA3wOrUoDoB8tYKrHnn7b2wyN9ZVMCF+H
-	Fz81Ia5y6fEhgfA8H/yQ==;
+	List-Owner; bh=1t/7T0faC2SM19oIUCWuL5pucy0UjfML+/dd6L6UdM0=; b=pZJb88r3aVB/BL
+	TqWReBidTBBzBk6Sm5UQkTQHt+KQSj2snVTye1lp8YH6/mjGaikSSCNTnl6RSc6r/aeDvDhS85gkb
+	AZsHBDaF8RZuuV3ZImU49M0lpK/poJyFNdQ1y0x9dT1Uqtd7uIzGv0yhzGFVSg6cBf697gB7hgcxB
+	WY9ikzVf2DQCwAHjikZ+vVymGztx8aKHL94BzZPbHdmHCTdeWYtth6jXHwQBZh2kuWh1F8YUZlrBE
+	+705NRw+8b+vDGKUX4pXjj8ZLwmwUWKX61YDBrObzXz6cLb/9kK/pviDuFhkNa0jRjtZa02VpZGWu
+	F8bYXKwlMGuOBYM2xNRw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOfF7-00000006Kur-3AA9;
-	Wed, 04 Nov 2026 17:57:49 +0000
-Received: from mail-vs2-x08.google.com ([2a00:1450:4864:3a::8])
+	id 1xOfnl-00000006PN8-053A;
+	Wed, 04 Nov 2026 18:33:37 +0000
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOfF1-00000006Ktf-1BCt
+	id 1xOfni-00000006PMV-2jDH
 	for linux-nvme@lists.infradead.org;
-	Wed, 04 Nov 2026 17:57:45 +0000
-Received: by mail-vs2-x08.google.com with SMTP id ada2fe7eead31-7c03d219375so1191721137.1
-        for <linux-nvme@lists.infradead.org>; Wed, 04 Nov 2026 09:57:42 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793815062; cv=none;
-        d=google.com; s=arc-20260327;
-        b=EqH9NoF8ExNSmeHTUOvkQ4lKtjYkDVTpFdllXMw0Iu4O3cfd+zu0uBac1r3zDMZFu5
-         BuqAqAFLdH9uyLTnY2C4MYKV0bCwVCy9K74cJ2gTgmmxC2/bSlJT9YYSzeID6Ml9ny1c
-         xlbF+RIAFd3RmAGB6TeZZa88lsjCV86JZedWmOiJL8k4Z1AnJyjBPdw8Y8XxLK6RcvtE
-         PwAQ1tL/bKzXsBBUgjygEgh1ZQttEhB60oysL8tvuHDWacjxAgQINXFuMFjdX2Y8x0OZ
-         sK/k9qZtDfaq2FDmKJ4Cg53taJeMi5RwAFByZUlfU/QIrZoRe8qk9NWXG13nevKDggrX
-         nPeQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=otW91gbXc1YAQNlvjTbYBKLpt7tQ412lK+YFy/nR2CI=;
-        fh=L1wzsr+KLAMFSY0UwNMOaPxigL2+jMIG/0Nx2JztDv4=;
-        b=pqLasEN2bFnqnmDx4E3fOrG3wCRLtjN6DEBviHgDevHuhFp0Qc0D7TlWOdJsC/fwhM
-         vegTnQX5wKB6J1j7pvdukN6bHF5wJSYkXsRaQuiVgD5/EKjIW+aXVqSge44We/tvWoFD
-         j5iuYPENeO7vRHmzXIeATjBnb4wMLhzP8WZFOGirnFACTuUqwjJM1gWvwET1l0a0rxOs
-         3777NH1i7MIN9mywU+/wknqvGu3WR9XmAFEN7k30eYtEyJG4rz71janxzjJkREZsIkpx
-         0DuSZgrQap/0YwStFNgnDr6QIxuYppczKLiHuOaKg6dYettRMpipJ1EcdxP8yuYZF5Ff
-         RNUA==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793815062; x=1794419862; darn=lists.infradead.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=otW91gbXc1YAQNlvjTbYBKLpt7tQ412lK+YFy/nR2CI=;
-        b=MSqLKSucBdgs5KXH+wum1+2pcblXS3Mcl5AVWeH+ZnllTPKzhzDUVoznu65AK5IaUs
-         SIgeUBPqTk1WInlfVe5CxYlHCnyEEKSWVK10A4sLLMcgzfzyknzxiDMe0oDP2BJyxwIs
-         +PNkWHeokfAyfvo8kUvAgoyiSo8elPQLalP7NwvBEcIyN3psH7kp7Vjk7a30sU0VJmJJ
-         eU670p7gW97/sAHhY+0swj7G0teEGgu+yIQ8Yn+8qOtRI34//3CYcD2atOCQHo6/FyIi
-         zzbY1oxX1N6RFX0cd7ocnR4z5/nfgfjDMrDl/mfrFpfKL8euWyvmqJoupuz319YG5X6b
-         To9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793815062; x=1794419862;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=otW91gbXc1YAQNlvjTbYBKLpt7tQ412lK+YFy/nR2CI=;
-        b=raler7xTsYJMBnMzhrCBapFm6Mzo9Cx6jeuFsv+3ZxzxDZlCj4ZNH0sh7ZBkz/ya65
-         +QoLjRcpJNbuGsL2fsJyMUTpV1TNiIAzP9mBmmxjSVK1ZZ3HDPotQSuyv7Xk1mgarBTr
-         rQWrqr/sbCeQvWIAo8XznCuMVv2KWwOhJDrVWySVWDlcAgPHYAJpNGBWDzdf8B9EdJrj
-         ahNLCQAQ+EgW29Xt1g0F9gPvjt4/gEn8faljEEJsvA6izq3MM2gTDFDEQ2tfZoTxAnI7
-         vMMAD8DQaRXq0SuFxwP4TXU5QduxTDkWdSrsziNdP8Va8EBuwm39edNb1VnlzPaemKvv
-         wz3A==
-X-Forwarded-Encrypted: i=1; AKwUvBwJGLD6yZ3bu5vQzppsSs7u/GR1eFGI+5ZLSBN+zqW8du127SUhIZDTb6hsj+OuLjKp5fYgkYC6M3gR@lists.infradead.org
-X-Gm-Message-State: APuU4Z/wg6hWeKj33/3yJ6kadWt1Av04f0ExWyfuaN0v4zahD4DDC8WH
-	WCAAfBqdgnP9DqslvIY/2jh1xDWbldRVz4hVSJV40BeaAXaUAlJYw39PBbfO745ieeP+3ebEl6L
-	6rpd2R5+Y8ktxSnlFllrOq2plqI0XamE=
-X-Gm-Gg: AYBFou2QfWkrGd6QQiZKMzzFTrWWwgfDYQR3twSeE811lk32RX8zx2BDMk9qg9rIa+S
-	/kh2PVb7wkBt2nYeu8G7V0Gx+hrFPbxiz6KkdQNERsYQez5zTTEDZSdGPlYpRjXuK28y7lHDJqF
-	CLokfJCp1FdtZHQ6Fzzz0G0RW2lKJhfOPcgETSo5wmRxq5mNp8N7ftXkq0JIszxsvzkRpuAy777
-	NqYk3quRoldogOCb8fFEMJyY+ahdYmZCjTcP/mfWE5Rt4qB/C1yFr+aqTrPwzBe23qTtDm442+/
-	fpDHNLjuX1LasksZyLdnXkHl6tIw5fM16XgBP2ZgARBckc1cF2t58FuxtV7kPJI7VnBJTXtxHWT
-	dUajSjMLtpqZeMDEVImnSnntZRo4SzIZi/IXg0OAJQ08/qTO3P0QJ63+c0KGigmBK4Z2bxqNSId
-	4ZZEF+GRh59qdHMyi9v/CDb0wPz8U=
-X-Received: by 2002:a05:6102:374c:b0:7a6:85d6:84c3 with SMTP id
- ada2fe7eead31-7d072270e87mr7248597137.3.1793815061671; Wed, 04 Nov 2026
- 09:57:41 -0800 (PST)
+	Wed, 04 Nov 2026 18:33:35 +0000
+Received: from pps.filterd (m0109332.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A4H2Tjm1270935
+	for <linux-nvme@lists.infradead.org>; Wed, 4 Nov 2026 10:33:32 -0800
+Received: from mail.thefacebook.com ([163.114.134.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4hqkba9nk8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Wed, 04 Nov 2026 10:33:32 -0800 (PST)
+Received: from twshared15328.03.snb1.facebook.com (2620:10d:c085:108::150d) by
+ mail.thefacebook.com (2620:10d:c08b:78::c78f) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.56; Wed, 4 Nov 2026 18:33:31 +0000
+Received: from devbig197.nha3.facebook.com (localhost [IPv6:::1])
+	by devbig197.nha3.facebook.com (Postfix) with ESMTP id B110D2E743740;
+	Wed,  4 Nov 2026 10:33:17 -0800 (PST)
+From: Keith Busch <kbusch@kernel.org>
+To: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+        Sagi
+ Grimberg <sagi@grimberg.me>, Sasha Levin <sashal@kernel.org>
+CC: <linux-nvme@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <stable@vger.kernel.org>
+In-Reply-To: <20261104121816.3726177-1-sashal@kernel.org>
+References: <20261104090332.GB30750@lst.de>
+ <20261104121816.3726177-1-sashal@kernel.org>
+Subject: Re: [PATCH v2] nvme-pci: add NVME_QUIRK_DMAPOOL_ALIGN_512 for
+ KIOXIA XG10d
+Message-ID: <179381719771.2628530.5898616470784941042.b4-ty@kernel.org>
+Date: Wed, 4 Nov 2026 10:33:17 -0800
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-References: <WnzOhxjlW7w5jwpSIQmUzrvduOStpoX2h3FS@robsoncassiano.software>
- <20261103075845.GB3882@lst.de> <b0824cb9-e678-4bb3-934d-a1743b164ca8@roeck-us.net>
- <20261104090111.GA30750@lst.de> <3f48f63e-c25b-4361-9ac7-f25cb5082e2c@roeck-us.net>
-In-Reply-To: <3f48f63e-c25b-4361-9ac7-f25cb5082e2c@roeck-us.net>
-From: Robson Cassiano <robson.cassiano777@gmail.com>
-Date: Wed, 4 Nov 2026 14:57:30 -0300
-X-Gm-Features: AclHuK8D77soGc8eurdVd3k7xx9vsXPjC7p6i5jgDB3ZlIKHDyFw7fQ8cmt0yAc
-Message-ID: <CACh1udi5h49ir-dDmPOP=usu4SJegsxa-Us6yV5BeVatj=gj+Q@mail.gmail.com>
-Subject: Re: [PATCH] nvme-pci: add NVME_QUIRK_NO_SECONDARY_TEMP_THRESH for WD SN740
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Christoph Hellwig <hch@lst.de>, Robson Cassiano <linux@robsoncassiano.software>, kbusch@kernel.org, 
-	axboe@kernel.dk, sagi@grimberg.me, linux-nvme@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Alexey.Bogoslavsky@sandisk.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
+X-FB-Internal: Safe
+X-Authority-Analysis: v=2.4 cv=dsdOmFg4 c=1 sm=1 tr=0 ts=6aeb7a7c cx=c_pps
+ a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22 a=xtH7KyWI9dI7BmFOsl-x:22
+ a=VwQbUJbxAAAA:8 a=OU0u9AfXHRIHD09MzroA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA0MDA3MyBTYWx0ZWRfX/3a8qBJL0W/K
+ hEGI7NJXERO8WR6xNJcs1n9DzrQpqSwCQUCSU4qrHnCd5lJphKCrg1nVugP9mXA5AvdaDQosRhL
+ U+AqsxzQA7Ew/CC+N9UTV3fMY120hsSgWuGv+X0rQTsR/1wztRug6zxhbbwJFvSWOdVYWPohUG5
+ DTwlYGzRzdApsl9pOcir4HvfFxO1/1DOmEgdxz/ddT4f9a1Gf7Lz7rbX2HfcGP0FxtoYwPEsq3A
+ n6drDDHpjQimBtLZMpSp37LrHdQrkQkdJ8/OZbox8GhnCimANsLJGhVWEhD1miEDlkIktHslnc9
+ rVRKq5YmQI+OfKSQi5EKBxxq7tiIADswpaf10K+XmxOXAmk+0gwcGssE+8SZMRP+luqOqo4w59v
+ 5uo+xV2Drl9WgR6UwtI6p00ABSwVC3whPaAVRgUahkKTRdV2aM8egukQS8VLkpeNdKtENJR4tAr
+ /xAc3vXhfp7qcYgidbw==
+X-Proofpoint-GUID: TlvfDjFjHkPZlnR_jCm6SEAZkv9evLes
+X-Proofpoint-ORIG-GUID: TlvfDjFjHkPZlnR_jCm6SEAZkv9evLes
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA0MDA3MyBTYWx0ZWRfXxbtcT44GgW/R
+ 1Oi6cNQPXm8hMblpDyfWehg09b/yJKu3ZjwxH6kgdWnY1hSRp1jeyZS3y4u6x4xEaMT0jdgU/4A
+ erTj5Icb07p6stMudWCVZmD+BSM+dBQ=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-04_05,2026-11-04_01,2025-10-01_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261104_095743_910136_E66B8D89 
-X-CRM114-Status: GOOD (  27.96  )
-X-Spam-Score: -2.1 (--)
+X-CRM114-CacheID: sfid-20261104_103334_811006_9087638F 
+X-CRM114-Status: GOOD (  11.31  )
+X-Spam-Score: -1.2 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -121,78 +95,32 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-2.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-You are completely correct. I have now tried setting up the temperature
-limits manually on the WD SN740 drive, and the NVMe accepted them without
-errors.
 
-The quirk is indeed not needed, so please drop/retract this patch request.
+On Wed, 04 Nov 2026 07:18:16 -0500, Sasha Levin wrote:
+> The KIOXIA XG10d reads past the end of a PRP list that completely fills
+> a 256 byte small pool block. When that block is the last one in its
+> dmapool page, the read lands on the next page, which usually isn't
+> mapped. The IOMMU faults it and the controller craps itself:
+> 
+>   arm-smmu-v3 arm-smmu-v3.0.auto: event: F_TRANSLATION client: 0001:09:00.0 sid: 0x20900 ssid: 0x0 iova: 0xff7fe000 ipa: 0x0
+>   nvme nvme0: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
+> 
+> [...]
 
-Thanks,
-Robson
+Applied, thanks!
 
+[1/1] nvme-pci: add NVME_QUIRK_DMAPOOL_ALIGN_512 for KIOXIA XG10d
+      commit: d99ba2df0ea5273752787eed10f4c7d1db2f5dfb
 
-On Wed, Nov 4, 2026 at 11:11=E2=80=AFAM Guenter Roeck <linux@roeck-us.net> =
-wrote:
->
-> On 11/4/26 01:01, Christoph Hellwig wrote:
-> > On Tue, Nov 03, 2026 at 05:31:29AM -0800, Guenter Roeck wrote:
-> >>>> Mark the controller with NVME_QUIRK_NO_SECONDARY_TEMP_THRESH so only
-> >>>> the sensor inputs are exposed.
-> >>>
-> >>> Given that this is an older device I suspect we're not going to
-> >>> see firmware fixes for it.  But given that we had quite a few devices
-> >>> with issues like this, I wonder why nvme-hwmon can't detect these
-> >>> obviously fake values instead and we could drop the quirk?
-> >>>
-> >>
-> >> Question is if the quirk is really needed. Personally I doubt it.
-> >> Normally the thresholds are simply not set. I see that with the NVMEs
-> >> on my system (Samsung SSD 990 PRO) as well. If I set min and max
-> >> values, they are stored and subsequently displayed correctly.
-> >> That means, no, the hwmon driver can _not_ detect if those values
-> >> are fake because it can not distinguish "not set" from "not really
-> >> supported".
-> >>
-> >> I have not seen the patch, but I strongly suspect that it fixes
-> >> a non-issue, unless it can be shown that writing the values has no
-> >> effect.
-> >
-> > So should we drop NVME_QUIRK_NO_SECONDARY_TEMP_THRESH entirely?
-> >
->
-> No. I checked the commit history. Commit bd375feeaf340 ("nvme-pci: add
-> quirk for missing secondary temperature thresholds"), which added
-> the quirk, stated that attempts to set the limits on Kingston NVMEs
-> failed. That seems to be real.
->
-> Commit 340f4fc5508c2 added the quirk for Wodposit WPBSNM8-256GTP.
-> That also seems to be real since it reports an actual failure
-> when trying to write the limit.
->
-> This patch is different. It does not claim a failure when trying
-> to write the limit, or adverse effects when doing it (which might
-> be covered by NVME_QUIRK_NO_TEMP_THRESH_CHANGE). It just complains
-> about unset limits. I do not know if the submitter actually tried
-> to set the limits.
->
-> Thanks,
-> Guenter
->
->
+Best regards,
+-- 
+Keith Busch <kbusch@kernel.org>
 
-
---=20
-Live long and prosper =F0=9F=96=96
-Robson Cassiano
-Senior Software Engineer, Simple Software
-+55 19 9 8384 6616
-global.robsoncassiano.software/
-robson.cassiano@pm.me
 
