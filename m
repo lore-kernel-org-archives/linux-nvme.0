@@ -2,99 +2,99 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A3B7606A33B
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Nov 2026 16:45:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 699B9606A31B
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Nov 2026 16:45:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Ivv+bUte;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=gVPBmfGu;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=zSRTt2hi;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=gVPBmfGu;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=zSRTt2hi
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=jdGLEfdP;
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=fzaW+DNC;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=zgI2yHXv;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=fzaW+DNC;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=zgI2yHXv
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=1jts9GtRrXj66UQAWUkQhHpe+3yRF/xRSj5W4gyNbBY=; b=Ivv+bUteV+HxL+
-	715AQZvQSEgJYmwWkg+Da9UynCs83wkaxJx6DguOgRzbUZ+3sw2IvQu/DnCd328i0B/BSWyy2vLDh
-	owQHjtOosjT6t36xMuJLGZ/B/j0VoCDHuVblRKTm64P35rsph9w0dngFXv6gA7HkzTZxqab3pgcnL
-	JTFqoudINRQFJUfvN6uRL8jU4MMO+c8RNIS2NRKRnB+jqkyCbwSGmxji5cfS0/s6n+G/LE5/UqsVH
-	90ERJr19cGy1f2XVhmkIGBm1iQpWJmutcIgk+PTccU3vJ2NHKeN590PvQdIcJv3plBUnUcTfQ229N
-	fofpFfVCrlSGeSMOOUjw==;
+	List-Owner; bh=q/4zBZoHHs1EZnDPEpeUnUPfc1sphMsvROEGtcmrDbI=; b=jdGLEfdPvgEyU6
+	7dRmST7J0/4wr21T2jMwxWBSwmJz8PD3HwEn3VTkC2cZ84pyRD+Pq2pMDWS7Ioqx3bTiLukarAUfT
+	oDxQLAjhY6XYIVJD3+3Xnoxioz/69uEFQJ1ksDz9lmhRrryZaa2peAB9oJd8z1lvYKcEknHshRGTw
+	GVbDMS/mYf0SatKjXggU8oXzpX0h3hte4LUTNO3p3E7Y8NVPl0JTfUPFzmM9+Fe/EAocHlQpHvlWD
+	82y0IT/xpk/uKEMHuFikj9bUZNHwm+81iPZqVrgz6m6CY6Hwiivfb2NqLm3sJdZVmwT2LbB9IPPIb
+	qNV29IL/K2fSv5qGDb0A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOe73-000000062Zt-1Y8G;
-	Wed, 04 Nov 2026 16:45:25 +0000
+	id 1xOe78-000000062e6-46eF;
+	Wed, 04 Nov 2026 16:45:31 +0000
 Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOe6x-000000062Ti-15Jj
+	id 1xOe76-000000062b4-0zzA
 	for linux-nvme@lists.infradead.org;
-	Wed, 04 Nov 2026 16:45:24 +0000
+	Wed, 04 Nov 2026 16:45:29 +0000
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7F0CD21FC8;
-	Wed,  4 Nov 2026 16:45:17 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 371EF21FC8;
+	Wed,  4 Nov 2026 16:45:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793810717; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793810726; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=1jts9GtRrXj66UQAWUkQhHpe+3yRF/xRSj5W4gyNbBY=;
-	b=gVPBmfGum8j9qNTHBHOLZDtgX+BuGC9x4E/LykuwCBxQjEw94bRx2gCod5J1/+rLKaejO8
-	5a2IUcVpZEmJIAKpRno/1CXXoudg1E/Ttlldiv35jIBhyrJaPgv/x0D7BdryaPBdfwtzN0
-	dR6ZumfWryj24pni41nyo0yjfVfNAlE=
+	bh=q/4zBZoHHs1EZnDPEpeUnUPfc1sphMsvROEGtcmrDbI=;
+	b=fzaW+DNC6d1uiFLZwy+mEhNZjuoF34mrBdVCPFOJ9/Kp6jaTKYtIdyorJGkE8/QRmnm0to
+	P0EjaqEpu3sl7MPg5Pr3q8m38xnrQMlQrTW+7X43ne4VkkyIhSPPQ942Xclm6Rj/+L0sdo
+	GtTmKBrCR4pMjRniHxJmhAxkqasAKjw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793810717;
+	s=susede2_ed25519; t=1793810726;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=1jts9GtRrXj66UQAWUkQhHpe+3yRF/xRSj5W4gyNbBY=;
-	b=zSRTt2hi7PZKoK4n3mpa+TMhZ7delxTWqc8rBvTL43XaJmuBAEPqPTAyPBdctJMtM2/VY3
-	438UKGxXeo2ZvwCQ==
+	bh=q/4zBZoHHs1EZnDPEpeUnUPfc1sphMsvROEGtcmrDbI=;
+	b=zgI2yHXvucmTnHc565iY7y/RfCUvj3oT4eTj+evg6fAcbHsEkiXqRoohbbvJTq7QS79EEL
+	Eg7QKHopBgHtXvBA==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=gVPBmfGu;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=zSRTt2hi
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=fzaW+DNC;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=zgI2yHXv
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793810717; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793810726; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=1jts9GtRrXj66UQAWUkQhHpe+3yRF/xRSj5W4gyNbBY=;
-	b=gVPBmfGum8j9qNTHBHOLZDtgX+BuGC9x4E/LykuwCBxQjEw94bRx2gCod5J1/+rLKaejO8
-	5a2IUcVpZEmJIAKpRno/1CXXoudg1E/Ttlldiv35jIBhyrJaPgv/x0D7BdryaPBdfwtzN0
-	dR6ZumfWryj24pni41nyo0yjfVfNAlE=
+	bh=q/4zBZoHHs1EZnDPEpeUnUPfc1sphMsvROEGtcmrDbI=;
+	b=fzaW+DNC6d1uiFLZwy+mEhNZjuoF34mrBdVCPFOJ9/Kp6jaTKYtIdyorJGkE8/QRmnm0to
+	P0EjaqEpu3sl7MPg5Pr3q8m38xnrQMlQrTW+7X43ne4VkkyIhSPPQ942Xclm6Rj/+L0sdo
+	GtTmKBrCR4pMjRniHxJmhAxkqasAKjw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793810717;
+	s=susede2_ed25519; t=1793810726;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=1jts9GtRrXj66UQAWUkQhHpe+3yRF/xRSj5W4gyNbBY=;
-	b=zSRTt2hi7PZKoK4n3mpa+TMhZ7delxTWqc8rBvTL43XaJmuBAEPqPTAyPBdctJMtM2/VY3
-	438UKGxXeo2ZvwCQ==
+	bh=q/4zBZoHHs1EZnDPEpeUnUPfc1sphMsvROEGtcmrDbI=;
+	b=zgI2yHXvucmTnHc565iY7y/RfCUvj3oT4eTj+evg6fAcbHsEkiXqRoohbbvJTq7QS79EEL
+	Eg7QKHopBgHtXvBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4C952134F0;
-	Wed,  4 Nov 2026 16:45:17 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 049931350A;
+	Wed,  4 Nov 2026 16:45:26 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id GtFqCh1h62p0fQAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Wed, 04 Nov 2026 16:45:17 +0000
+	id 1u2KMyVh62qSfQAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Wed, 04 Nov 2026 16:45:26 +0000
 From: Daniel Wagner <dwagner@suse.de>
-Date: Wed, 04 Nov 2026 17:44:44 +0100
-Subject: [PATCH blktests 05/10] nvme/029: skip if the I/O exceeds the
- maximum transfer size
+Date: Wed, 04 Nov 2026 17:44:47 +0100
+Subject: [PATCH blktests 08/10] nvme/rc: change the host keys on a remote
+ target
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261104-nvme-target-control-v1-5-b31b40537bb4@suse.de>
+Message-Id: <20261104-nvme-target-control-v1-8-b31b40537bb4@suse.de>
 References: <20261104-nvme-target-control-v1-0-b31b40537bb4@suse.de>
 In-Reply-To: <20261104-nvme-target-control-v1-0-b31b40537bb4@suse.de>
 To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
@@ -110,29 +110,30 @@ X-Spamd-Result: default: False [-13.51 / 50.00];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
 	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_ALL(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
 	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:dkim,running-tests.md:url];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	DKIM_TRACE(0.00)[suse.de:+]
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Rspamd-Action: no action
 X-Spam-Score: -13.51
 X-Spam-Level: 
-X-Rspamd-Queue-Id: 7F0CD21FC8
+X-Rspamd-Queue-Id: 371EF21FC8
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261104_084519_464536_84CEC4CD 
-X-CRM114-Status: GOOD (  12.40  )
+X-CRM114-CacheID: sfid-20261104_084528_623125_A6177242 
+X-CRM114-Status: GOOD (  12.50  )
 X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -152,54 +153,95 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-nvme/029 reads and writes up to 1025 blocks with one passthrough
-command. The test was written for 512 byte blocks, where this is 512
-KiB. A namespace with 4 KiB blocks needs 4 MiB per command. If the
-controller's maximum transfer size is smaller, the kernel rejects the
-command with EINVAL and the test fails, e.g. against a target with a
-1 MiB MDTS.
+The authentication tests change the DH-CHAP keys, hash and DH group of
+the host with _set_nvmet_hostkey, _set_nvmet_ctrlkey, _set_nvmet_hash
+and _set_nvmet_dhgroup. They write to the local nvmet configfs. With
+NVME_TARGET_CONTROL the host is configured on the remote target, the
+writes fail and the target keeps the old values. nvme/042 to nvme/045
+fail on the write errors. nvme/045 renews the keys and changes the DH
+group, and the re-authentication with the new values fails.
 
-Skip the test if 1025 blocks don't fit the maximum transfer size of the
-queue.
+Change the values on the target with the set-host command of the
+script. Document the command in running-tests.md.
 
 Signed-off-by: Daniel Wagner <dwagner@suse.de>
 ---
- tests/nvme/029 | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+ Documentation/running-tests.md |  9 +++++++++
+ tests/nvme/rc                  | 20 ++++++++++++++++++++
+ 2 files changed, 29 insertions(+)
 
-diff --git a/tests/nvme/029 b/tests/nvme/029
-index 59f87144e95a..a757cb9915b0 100755
---- a/tests/nvme/029
-+++ b/tests/nvme/029
-@@ -63,6 +63,19 @@ test() {
+diff --git a/Documentation/running-tests.md b/Documentation/running-tests.md
+index 9ca01e6893ec..847792cec240 100644
+--- a/Documentation/running-tests.md
++++ b/Documentation/running-tests.md
+@@ -288,6 +288,15 @@ set-ana: set the state of an ANA group on the port
  
- 	_nvme_connect_subsys
+ If list-ports prints nothing, blktests connects to the address config shows.
  
-+	local ns dev max_bytes
-+	ns="$(_find_nvme_ns "${def_subsys_uuid}")"
-+	dev="/dev/${ns}"
++The authentication tests change the DH-CHAP attributes of the host:
 +
-+	# The largest I/O is 1025 blocks, it must fit the maximum transfer size.
-+	max_bytes=$(($(cat "/sys/block/${ns}/queue/max_hw_sectors_kb") * 1024))
-+	if ((1025 * $(blockdev --getss "$dev") > max_bytes)); then
-+		SKIP_REASONS+=("max transfer size ${max_bytes} is smaller than 1025 blocks")
-+		_nvme_disconnect_subsys >> "$FULL" 2>&1
-+		_nvmet_target_cleanup
-+		return 1
++set-host:
++  --hostnqn HOSTNQN
++  --hostkey HOSTKEY
++  --ctrlkey CTRLKEY
++  --hash HASH
++  --dhgroup DHGROUP
++
+ contrib/nvme-target-control implements this interface. It configures a Linux
+ nvmet target over ssh and can be extended for other targets, see
+ contrib/nvme-target-control/README.md.
+diff --git a/tests/nvme/rc b/tests/nvme/rc
+index 8abd14eeb112..3c3ed680e416 100644
+--- a/tests/nvme/rc
++++ b/tests/nvme/rc
+@@ -247,6 +247,11 @@ _set_nvmet_hostkey() {
+ 	local nvmet_hostkey="$2"
+ 	local cfs_path="${NVMET_CFS}/hosts/${nvmet_hostnqn}"
+ 
++	if [[ -n "${nvme_target_control}" ]]; then
++		"${nvme_target_control}" set-host --hostnqn "${nvmet_hostnqn}" \
++			--hostkey "${nvmet_hostkey}"
++		return
 +	fi
-+
- 	# nvme-cli may fail to allocate linear memory for rather large IO buffers.
- 	# Increase nr_hugepages to allow nvme-cli to try the linear memory allocation
- 	# from HugeTLB pool.
-@@ -72,8 +85,6 @@ test() {
- 		reset_nr_hugepages=true
- 	fi
+ 	_set_attr "${nvmet_hostkey}" "${cfs_path}/dhchap_key"
+ }
  
--	local dev
--	dev="/dev/$(_find_nvme_ns "${def_subsys_uuid}")"
- 	test_user_io "$dev" 1 512 > "$FULL" 2>&1 || echo FAIL
- 	test_user_io "$dev" 1 511 >> "$FULL" 2>&1 || echo FAIL
- 	test_user_io "$dev" 1 513 >> "$FULL" 2>&1 || echo FAIL
+@@ -255,6 +260,11 @@ _set_nvmet_ctrlkey() {
+ 	local nvmet_ctrlkey="$2"
+ 	local cfs_path="${NVMET_CFS}/hosts/${nvmet_hostnqn}"
+ 
++	if [[ -n "${nvme_target_control}" ]]; then
++		"${nvme_target_control}" set-host --hostnqn "${nvmet_hostnqn}" \
++			--ctrlkey "${nvmet_ctrlkey}"
++		return
++	fi
+ 	_set_attr "${nvmet_ctrlkey}" "${cfs_path}/dhchap_ctrl_key"
+ }
+ 
+@@ -263,6 +273,11 @@ _set_nvmet_hash() {
+ 	local nvmet_hash="$2"
+ 	local cfs_path="${NVMET_CFS}/hosts/${nvmet_hostnqn}"
+ 
++	if [[ -n "${nvme_target_control}" ]]; then
++		"${nvme_target_control}" set-host --hostnqn "${nvmet_hostnqn}" \
++			--hash "${nvmet_hash}"
++		return
++	fi
+ 	_set_attr "${nvmet_hash}" "${cfs_path}/dhchap_hash"
+ }
+ 
+@@ -271,6 +286,11 @@ _set_nvmet_dhgroup() {
+ 	local nvmet_dhgroup="$2"
+ 	local cfs_path="${NVMET_CFS}/hosts/${nvmet_hostnqn}"
+ 
++	if [[ -n "${nvme_target_control}" ]]; then
++		"${nvme_target_control}" set-host --hostnqn "${nvmet_hostnqn}" \
++			--dhgroup "${nvmet_dhgroup}"
++		return
++	fi
+ 	_set_attr "${nvmet_dhgroup}" "${cfs_path}/dhchap_dhgroup"
+ }
+ 
 
 -- 
 2.56.0
