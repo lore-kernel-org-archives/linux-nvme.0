@@ -2,110 +2,107 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E3C5606EEA5
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Nov 2026 18:51:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 860BD606A860
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Nov 2026 19:46:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=br/xGWLb;
-	dkim=pass (2048-bit key, unprotected) header.d=crusoe.ai header.i=@crusoe.ai header.a=rsa-sha256 header.s=google header.b=J8FOFiqP
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=aZQ8+jZw;
+	dkim=pass (2048-bit key, unprotected) header.d=igalia.com header.i=@igalia.com header.a=rsa-sha256 header.s=20170329 header.b=nb6lr4u5
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:Message-ID:References:In-Reply-To:Subject:Cc:To:From:Date:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=FR9ISTDLDcSmV8QN0XnoAmz6g1DwpZqiIgX15CQUaGg=; b=br/xGWLbdnvKQf
-	1iJOS9+QA22WwTX5UyuKm1hXJ6NPjOvid2nVOaiDJeBc3gc9czAVZCem88QPyI/cujKjfTmgKBIAI
-	Rz088nTClPcczHqbW0lH4NEg0baZsrDqirFn6GVEB0unK+yvcmdssOutfJ597DftPi1SLmSdA2Pv+
-	xD59/UjvwvxoytwGe7WGYYQeAtaoHxaJq5YCeJtzoCxPwDZLz+0+Z5FNVATRgyBj1KIoGLjVBSuB3
-	jYoUlAE5rQNCMnaQtdfbIYkdne019Tu/Ucg8L7gjChZGLJG6Ji3e68ENWChGsEn9/dn3OjWvxtWNS
-	pqDRth1jWNkl+DT6mEyA==;
+	List-Owner; bh=FepmyHBsJ69d2bGawn41LuG96FhtJK5OYJTHe17LtHk=; b=aZQ8+jZw09uFTw
+	W019eqUe6AE/1RXCkP+v4F8aGdFcubTifgYQFH6SDVJf0EvL4zGJF3Qj/MXVGdGXU0M2ESKUCijj5
+	VfpiCYF7BZRJontVx5G6ltotdW1tQYFbq1s1ruWVFur56rwjHTtHKSI27yAnLAl7xoJdEWuE7VYNy
+	m1n0KHxJTql3+UlsIjMSh41hzvF/A9P8MOsC0lbclzJsaVGeDiqpE6Yy22vrOPBIQkFzqC0yfOZjf
+	F5mZhOwX1ExsrzsyhCz6E3Lr4cE+Pn6ZxhrAmnaPtZQIHISHyLHkUWpiXtbUKdByzmfwh5cDkEJQm
+	W7+0QlctD2HeJ6CoPQiQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOg5O-00000006S65-24Na;
-	Wed, 04 Nov 2026 18:51:50 +0000
-Received: from mail-dy1-x1336.google.com ([2607:f8b0:4864:20::1336])
+	id 1xOgwE-00000006kNH-2yog;
+	Wed, 04 Nov 2026 19:46:26 +0000
+Received: from fanzine2.igalia.com ([213.97.179.56])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOg5L-00000006S4m-3yyH
+	id 1xOgwC-00000006kKc-0yGz
 	for linux-nvme@lists.infradead.org;
-	Wed, 04 Nov 2026 18:51:49 +0000
-Received: by mail-dy1-x1336.google.com with SMTP id 5a478bee46e88-353804b591eso1972176eec.0
-        for <linux-nvme@lists.infradead.org>; Wed, 04 Nov 2026 10:51:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=crusoe.ai; s=google; t=1793818307; x=1794423107; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=FR9ISTDLDcSmV8QN0XnoAmz6g1DwpZqiIgX15CQUaGg=;
-        b=J8FOFiqPvHXuwRL6D00fvbMxR3clxZRBMo/EDENAjwBAIpr4O34hmGUdkA/hEnAiJz
-         QidVx3jWOz2G5adqpb9uA8uxBT+GD75/g+Uog1XLlHHriGtQ3ZVA1fDDkBV0lQdPyvIn
-         kzYUDn/zzOQxtBF1ELcvBWQh5AEjV8I8FQQsewZZXfsedPdnpfjpvI0jH9rLVzv9mY0p
-         gYRmeqXvdRayJHnh/u8ILhRaqE6rm72KPDULhyHq3+U30IZdrDkGctAwfl+9uFfOtVm+
-         wCO4PWK9ogTICT66CP+ASGVqFZy7s+EY4QzBsfoTxeDCP+aGxPi7GAbfSKN+nLD1oZB3
-         c+ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793818307; x=1794423107;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=FR9ISTDLDcSmV8QN0XnoAmz6g1DwpZqiIgX15CQUaGg=;
-        b=PuT7KkNkkov07n6cnlHeoK0YTKfRL5xZuIpL2QlU+UOAwkPYh0OJCDd6J3X2+pqRQn
-         U2/nL7KjXHWRcDcwHMI15Zy1O7rx1inQgZjjaeJC3ufE0giIdnmz+Yc7dEVXZW7U1I2b
-         F43quIGdI+uw0znszph5AdsNZS811h+Otxym2RoZkliogFrRJc0c+llO3Jcn+YXYtY89
-         sCrZr+f0kQZAchyml6cZFMJgyR3du7NxkVxNDa29D1wdCJoEmLElGHJwJkePYlddK8hk
-         CnL0lQLbpqtnkElYj2WmVu8lFuNKgPIqPVhzE+JBDyu2C+TvEm0XTZ4e/19G4inlmKRs
-         GX2A==
-X-Forwarded-Encrypted: i=1; AKwUvBzuDbuzevHo099bV2hCyE6ZliTOKiboPkBrHLG1ASebRu4Uj6mHjoiN8sVZWynM+hjVeUiqwMup+yb4@lists.infradead.org
-X-Gm-Message-State: APuU4Z/xG/9RJBL5PwRVb+iIwEXJB/OsNKImhU5BtCbUM1hemSV3r/EL
-	4kDMeIF4X2hRPB8Pp6Ynhfsn9CxDKPpx8finUTGXsiQvejdyhzXi/x29Rm5aVtobkWw=
-X-Gm-Gg: AYBFou333cjnZVP46JVFtehpRyBsQGgBtOY41Nb4kpf8PlC7rln1o9AegTLQ9WeYWJC
-	tDeR1DTu8x23pL0YKHb+rfYU1LVbazYxPeIBzxaLRGbX9J4YkzCfKayF9yDiLh32KHn0uc9UIy6
-	3clNNRtX0LDwZ7hKmZMvVDu2I1LsPh5kn7h+9KbghEbgVkS+TQzflGVEkqRwWl1SO69IWoFjs/Z
-	m/O6wCyMFD8SmedWRLzbEICd98aMRtfKtjB9UuHFlWTuKAjHC7YNdguCpBPwwHBG6HVO/1E7fap
-	lkHyxc55801HHT4l8saUqSFC0IyD8JSwlT/8Wd1h41xtvhy0X4fFkbtceWjjNwA5u0SPidfYSvd
-	Y0WWyPt9YJSMVAiTTFpZRrnTdcxuBiUOALM9H9hs9HCUjqwVkjv1q5s+SwO+DbMvyxF6PC1SpJ0
-	eJNfwy2xDGWLsk+44g2ROe8CUR0uE56ZuLBrxPc4xL11LiCQZLewqFlqyeV+CXdiEylc4wCD5De
-	egqusfjZMf75edBaaavzJpvZzMm+k/bKG1jAj/cdbX+7lxUghopJea83fLdmwu20bXpirBjfFP+
-	cNlzOj0A0hKw2i8eQj579P87grrNmcwr1Q6K4TSsrOh2BNsS/j9r2RriTFf/vReh4up+7+nwmjc
-	=
-X-Received: by 2002:a05:7301:6498:b0:36d:bf43:93ee with SMTP id 5a478bee46e88-36dbf52d6cdmr849344eec.28.1793818306527;
-        Wed, 04 Nov 2026 10:51:46 -0800 (PST)
-Received: from MBP-Saravanan-D.civet-hops.ts.net ([67.208.231.220])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36ca3966daasm12193389eec.23.2026.11.04.10.51.43
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 04 Nov 2026 10:51:46 -0800 (PST)
-From: Saravanan D <saravanand@crusoe.ai>
-To: sashiko-reviews@lists.linux.dev
-Cc: Saravanan D <saravanand@crusoe.ai>,
-	sashiko-bot@kernel.org,
-	linux-nvme@lists.infradead.org,
-	kbusch@kernel.org,
-	hch@lst.de,
-	sagi@grimberg.me,
-	axboe@kernel.dk,
-	nilay@linux.ibm.com,
-	dwagner@suse.de,
-	sgogte@purestorage.com,
-	hare@kernel.org,
-	hare@suse.de,
-	linux-kernel@vger.kernel.org,
-	iyamahata@crusoe.ai,
-	kiyer@crusoe.ai,
-	ganbalagane@crusoe.ai,
-	sjpark@crusoe.ai,
-	bchen@crusoe.ai
-Subject: Re: [PATCH v7 1/2] nvme: add per-queue sysfs directories
-Date: Wed,  4 Nov 2026 10:51:25 -0800
-Message-ID: <20261104185131.92361-1-saravanand@crusoe.ai>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <sashiko-outbox-197419@kernel.org>
-References: <cover.1793800758.git.saravanand@crusoe.ai> <656dac7329c8452efe786b0c76a3b8c0bbf53159.1793800758.git.saravanand@crusoe.ai> <sashiko-outbox-197419@kernel.org>
+	Wed, 04 Nov 2026 19:46:25 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:Message-ID:Subject:Cc:To
+	:From:Date:MIME-Version:From:Reply-To;
+	bh=FepmyHBsJ69d2bGawn41LuG96FhtJK5OYJTHe17LtHk=; t=1793821584; x=2109181584; 
+	b=nb6lr4u5jcdRb2p8giLzlDTZYOmRjHZk6WtrnzhfcgnxSJfZExdt9kGUX2tOZLXcMjEcSWMZSY8
+	qHy4MYMnzSyobtjp2UH0EY084/N7YVM4xjzr9kr4ZnItu2qACG9ok8Pr1I9ucKAuxk3BqmSRRlQxC
+	rlXrMl5embgmEHoCrMepVtvmTdNaHJBiNqIm29y8vBfRyvCU+7VBTPdpzh1dHiBSUCHWVrV8/hTo/
+	9D5yh7f+L9Uv90xYeofw1CqwgkYYvL6Akk9bT9d7cpbVm5bIY6+eP/8IdMpZsvGDfNs7wD6v9hcLs
+	iAQuBPOwlEagfsgwqZ9MSpj6xPO6cSOq9bOQ==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+	by fanzine2.igalia.com with esmtps 
+	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1xOgw0-002bRo-Qx; Wed, 04 Nov 2026 20:46:12 +0100
+Received: from webmail.service.igalia.com ([192.168.21.45])
+	by mail.igalia.com with esmtp (Exim)
+	id 1xOgw0-0000000EahW-0dbT;
+	Wed, 04 Nov 2026 20:46:12 +0100
+Received: from localhost ([127.0.0.1] helo=webmail.igalia.com)
+	by webmail.service.igalia.com with esmtp (Exim 4.98.2)
+	(envelope-from <mfo@igalia.com>)
+	id 1xOgw0-0000000F9U7-03wW;
+	Wed, 04 Nov 2026 20:46:12 +0100
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
+Date: Wed, 04 Nov 2026 16:46:12 -0300
+From: Mauricio Faria de Oliveira <mfo@igalia.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Sagi
+ Grimberg <sagi@grimberg.me>, Chao Shi <coshi036@gmail.com>,
+ kernel-dev@igalia.com, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nvme: reject completions for requests that are not in
+ flight
+In-Reply-To: <auo-v5ZliGbM1Tiz@kbusch-mbp>
+References: <20261103-nvme-double-cmpl-uaf-blk-mq-v1-1-b10fea474423@igalia.com>
+ <auo5a1kRTSWsAYtF@kbusch-mbp> <352cfcec6865cbf636a22442511f16b1@igalia.com>
+ <auo-v5ZliGbM1Tiz@kbusch-mbp>
+Message-ID: <65414ea51d23fdbeb5d8b7bb4bd9d535@igalia.com>
+X-Sender: mfo@igalia.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Spam-Score: -48
+X-Spam-Bar: ----
+X-Rspamd-Score: -0.0
+X-Rspamd-Action: no action
+X-Rspamd-Bar: /
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261104_105148_000102_0EE7BD4E 
-X-CRM114-Status: GOOD (  12.20  )
+X-CRM114-CacheID: sfid-20261104_114624_272096_E07FE574 
+X-CRM114-Status: GOOD (  22.39  )
 X-Spam-Score: -2.1 (--)
+X-Spam-Report: Spam detection software, running on the system "bombadil.infradead.org",
+ has NOT identified this incoming email as spam.  The original
+ message has been attached to this so you can view it or label
+ similar future email.  If you have any questions, see
+ the administrator of that system for details.
+ 
+ Content preview:  On 2026-11-03 17:06, Keith Busch wrote: > On Tue, Nov 03,
+   2026 at 04:54:27PM -0300, Mauricio Faria de Oliveira wrote: >> For the former
+    question, I'd imagine other block drivers might be >> subject to [...] 
+ 
+ Content analysis details:   (-2.1 points, 5.0 required)
+ 
+  pts rule name              description
+ ---- ---------------------- --------------------------------------------------
+  0.0 SPF_HELO_NONE          SPF: HELO does not publish an SPF Record
+ -0.0 SPF_PASS               SPF: sender matches SPF record
+ -0.1 DKIM_VALID_AU          Message has a valid DKIM or DK signature from author's
+                             domain
+ -0.1 DKIM_VALID             Message has at least one valid DKIM or DK signature
+ -0.1 DKIM_VALID_EF          Message has a valid DKIM or DK signature from
+                             envelope-from domain
+  0.1 DKIM_SIGNED            Message has a DKIM or DK signature, not necessarily valid
+ -1.9 BAYES_00               BODY: Bayes spam probability is 0 to 1%
+                             [score: 0.0000]
+ -0.0 DMARC_PASS             DMARC pass policy
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -116,42 +113,63 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-8.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
+	SPF_PASS autolearn=no autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Wed, Nov 04, 2026 at 02:17:33PM +0000, sashiko-bot@kernel.org wrote:
-[...]
-> [Severity: Medium]
-> If sysfs_create_groups() fails in nvme_add_queue_info() after
-> kobject_init_and_add() has already published qinfo->kobj in sysfs,
-> should the error path call kobject_del(&qinfo->kobj) before
-> kobject_put(&qinfo->kobj), just like nvme_remove_queue_info() does?
+On 2026-11-03 17:06, Keith Busch wrote:
+> On Tue, Nov 03, 2026 at 04:54:27PM -0300, Mauricio Faria de Oliveira wrote:
+>> For the former question, I'd imagine other block drivers might be
+>> subject to a similar issue, under incorrect completions, and can take a
+>> look at this later. I'd appreciate feedback on the points above before
+>> trying to address it generically in the block layer, if at all possible.
+> 
+> Here's my real concern: the proposal is a race. Another CPU can change
+> the request state to in-flight, and this code will declare it complete
+> before the hardware even saw it. It's a silent data corruption problem
+> that we can't fix because it is impossible to tell the difference
+> between a bogus and a legit completion at that point. This kind of
+> hardware shouldn't be allowed to exist as it can't be used successfully
+> when it behaves this way.
 
-I'm surprised this sequence went unnoticed in the previous versions of
-this patch, since the error path has not changed since v5. My fault
-injection runs used DEBUG_KOBJECT_RELEASE, which would have exposed the
-directory left behind, but they set fail-nth on the task writing to
-/dev/nvme-fabrics, and fail-nth only fails allocations made by that
-task. nvme_tcp_setup_io_queues() starts each I/O queue from an async
-worker, so nvme_add_queue_info() runs in a different task and none of
-its allocations failed.
+Could you please clarify? Not that I'm defending the patch; just so I
+understand your point.
 
-I will send a v8 that calls kobject_del() before kobject_put() once
-kobject_init_and_add() has succeeded, so a failed sysfs_create_groups()
-unlinks the <qid> directory before nvme_add_queue_info() returns, the
-same way nvme_remove_queue_info() does.
+The reason I ask is, IIUIC, if another CPU changes the request state to
+in-flight and wins the race over an incorrect completion that maps to
+that request, the request is declared complete anyway, even without this
+code, no?
+ 
+> [...] It's a silent data corruption problem
+> that we can't fix because it is impossible to tell the difference
+> between a bogus and a legit completion at that point. [...]
 
-I have also extended my own testing with a run that uses the failslab
-stack filter to fail each allocation under nvme_add_queue_info() in
-turn, including those made from the async workers. It checks that a
-failed add leaves no queues/<qid> directory behind and that a controller
-reset can add the same qid again. It fails on v7 and passes with the
-fix.
+Yes, but even though the driver can't tell a bogus completion is
+different, it may tell it is unexpected — at least some times; for
+example, the existing generation-counter (genctr) guard, based on driver
+state [1].
+
+> [...] This kind of
+> hardware shouldn't be allowed to exist as it can't be used successfully
+> when it behaves this way.
+
+I agree that a device in this state can't be used successfully, but the
+kernel should, IMHO. 
+Say, in case the device hits this due to firmware which needs an update,
+the kernel crash might prevent the user from applying it, in the first
+place.
+
+Please let me know your thoughts. If there is interest, I'm happy to try
+a different approach.
 
 Thanks,
-Saravanan D.
+
+[1] commit e7006de6c238 ("nvme: code command_id with a genctr for
+use-after-free validation")
+
+-- 
+Mauricio
 
