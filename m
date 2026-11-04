@@ -2,58 +2,145 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2E4D606A334
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Nov 2026 14:17:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F8D7606A32C
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Nov 2026 14:21:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=cA1c0GIt;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Xzflw6pe
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=HbV898V+;
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=KNDr2QNa;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=tofYHgW6;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=KNDr2QNa;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=tofYHgW6
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
-	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:To:Subject:From
-	:Message-ID:Cc:MIME-Version:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:Message-Id:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
 	List-Unsubscribe-Post:List-Owner;
-	bh=9hHPdtSok7Dh0R1O/iCJW3dg8G4o4xj2i/9mjyDsQxc=; b=cA1c0GItUBlDMyQSbSEIvsM88T
-	gcx5Hnxf0vq+YYPiy9tcJLIZxwu/Xijmqh4/mdR4K7odVFjJnm1ZeUOrcdnZXNpB9E5gbXEyVr841
-	o2v4VwIlq69CauGFgqyzMl1oT+O4sLJ/NUlUKpeeE7NAP0QdzZ+fH5yHgYAIkvVaBoXJFBRIb6LBe
-	fkl9gpFny4bv4qIbtHQJ/vQImphM+mZGCwDAOTLm13GJU6UuA/mEvF3j4DXgbpR6L/MZtW9XpksGS
-	WKBSJCU5wvLoPDrnzewdoWx+TA/X0fFN+GFrDFHamNDGOXbiRzm3CUR45eXcowWPLQ4CRJxA2vwBG
-	QCC+ZpFA==;
+	bh=155soI0NjMRHG9x/t6NIXG7vkNWhZFwefv6i2KS25W0=; b=HbV898V+LYrfSf13OLNjFJyoPG
+	QKlSAXo34c97O5fvD1aa8o6Ycckqs4D9L8ho9qrPyIH6aBhXS+m7iICeMAi9M8mNc6gXQo0BJ9Ofv
+	SmPZHwd6PgQ7xDM+Hu2//J4Re0j9AKJvc+4hapdb4e/R7stX5+PGrl99e2EclErK/72U1o4KSkKki
+	SjcQajCQFUoHLCvG13E4Mhey+TzkTn/xd963Auaz6UJt1Qj4j/TkaFmzkeak/ZGz7xSAHQY1kYLEA
+	SrnptoiFvw+JBvLErRO1ql3KItBgjHXM2NUdjPym2SrlPYo+ZiYGv1ytbpEzIsC0QOB9pqFxiZ6j6
+	WqB/LXRQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xObnz-00000005bXq-0ysg;
-	Wed, 04 Nov 2026 14:17:35 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1xObrx-00000005bzc-3uOj;
+	Wed, 04 Nov 2026 14:21:41 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xObny-00000005bXi-0USi
+	id 1xObrv-00000005bzF-49Mi
 	for linux-nvme@lists.infradead.org;
-	Wed, 04 Nov 2026 14:17:34 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id D4F71403A9;
-	Wed,  4 Nov 2026 14:17:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90E0A1F000C1;
-	Wed,  4 Nov 2026 14:17:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793801853;
-	bh=9hHPdtSok7Dh0R1O/iCJW3dg8G4o4xj2i/9mjyDsQxc=;
-	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=Xzflw6peDmU6ztBuIUBBEXUQcW+/Lguscdn5LqgkDnfTK5beMcRVFwr8yBzwbuNjS
-	 JU7ZsgjBWXSuJMX84HhYzPxsY1hmj2oB5eVqZKIztr1uLIszvjaXAc+j1ex8/wnSJb
-	 SmmUr/KnOMSND8+l8LNfsI/tUmKMQOTn2np5bkt2mbn4iFpfctya0RMvkGlmD2xxF7
-	 9g8v1dJcAMg2hvIzQSTDCdVfihpekf68stiTbyh+/fOWV9+4KyvDndzlXhvGihJUe8
-	 +rqUftloRa5QAXbh28rCHpF9lZj8VObxu/rnMYCoQK4nS4lQQcolIPzPmQt04HBHkE
-	 4WdPWhZBd/hkg==
-Message-ID: <sashiko-outbox-197419@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v7 1/2] nvme: add per-queue sysfs directories
-To: "Saravanan D" <saravanand@crusoe.ai>, linux-nvme@lists.infradead.org
-In-Reply-To: <656dac7329c8452efe786b0c76a3b8c0bbf53159.1793800758.git.saravanand@crusoe.ai>
-References: <cover.1793800758.git.saravanand@crusoe.ai>
- <656dac7329c8452efe786b0c76a3b8c0bbf53159.1793800758.git.saravanand@crusoe.ai>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 04 Nov 2026 14:17:33 +0000
+	Wed, 04 Nov 2026 14:21:41 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0413621F30;
+	Wed,  4 Nov 2026 14:21:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1793802098; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=155soI0NjMRHG9x/t6NIXG7vkNWhZFwefv6i2KS25W0=;
+	b=KNDr2QNaR10OIJ0iEM00jdiZR6mNTrurnjTW0VTH2tqzNNd+l3MUsqocI8/rAbqoqJi8qF
+	NwjblGXShiorSRTFv0f5HsKoHspzihKbH4o/+zaWD2kEqYyI3xKoYV6GQhrIqim8m3bmkG
+	FWu6/P2JeJxY42ovRUDTjIhEnQ0Fyac=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1793802098;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=155soI0NjMRHG9x/t6NIXG7vkNWhZFwefv6i2KS25W0=;
+	b=tofYHgW6d5OCtFEehjycsLCB1AwcGDVFIKyu1d4qs5W5AnFCEG0ENWZ9LMUoLmoAHpCyXq
+	KYWUbEw8tERwXkDw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=KNDr2QNa;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=tofYHgW6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1793802098; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=155soI0NjMRHG9x/t6NIXG7vkNWhZFwefv6i2KS25W0=;
+	b=KNDr2QNaR10OIJ0iEM00jdiZR6mNTrurnjTW0VTH2tqzNNd+l3MUsqocI8/rAbqoqJi8qF
+	NwjblGXShiorSRTFv0f5HsKoHspzihKbH4o/+zaWD2kEqYyI3xKoYV6GQhrIqim8m3bmkG
+	FWu6/P2JeJxY42ovRUDTjIhEnQ0Fyac=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1793802098;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=155soI0NjMRHG9x/t6NIXG7vkNWhZFwefv6i2KS25W0=;
+	b=tofYHgW6d5OCtFEehjycsLCB1AwcGDVFIKyu1d4qs5W5AnFCEG0ENWZ9LMUoLmoAHpCyXq
+	KYWUbEw8tERwXkDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9BA50134F0;
+	Wed,  4 Nov 2026 14:21:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id VHDaHHE/62pWZgAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Wed, 04 Nov 2026 14:21:37 +0000
+From: Daniel Wagner <dwagner@suse.de>
+Date: Wed, 04 Nov 2026 15:21:33 +0100
+Subject: [PATCH v3] blk-mq: allow passthrough requests on hctxs without
+ online CPUs
+X-Archived-By: <archiver.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261104-nvme-fabrics-isolcpu-v3-1-41953b5dfba0@suse.de>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3WOzQ6CMBAGX4X07JK2UEBPvofhQMsC9aeYLjQaw
+ rsLGONFj5N8O7MTI/QWiR2iiXkMlmzvFkh2ETNd5VoEWy/MJJeZ4CIBF24ITaW9NQSW+qu5j6B
+ 0uk+LJJNNUbDl9O6xsY9NeyrfTKM+oxlW17roLA29f27dINbdJ5H+TgQBHBKlhMo0ylzL4wW9w
+ 2vc+5atjSC/FsH/PBokCNgrNDmvVSFVeqSRMK6RlfM8vwDRlDYjDgEAAA==
+X-Change-ID: 20261013-nvme-fabrics-isolcpu-5b4948362f88
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+Cc: Ming Lei <ming.lei@redhat.com>, Surabhi Gogte <sgogte@purestorage.com>, 
+ Hannes Reinecke <hare@kernel.org>, Nilay Shroff <nilay@linux.ibm.com>, 
+ Frederic Weisbecker <frederic@kernel.org>, 
+ Aaron Tomlin <atomlin@atomlin.com>, Maurizio Lombardi <mlombard@redhat.com>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, Daniel Wagner <dwagner@suse.de>
+X-Mailer: b4 0.16.0
+X-Spamd-Result: default: False [-13.51 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,msgid.link:url]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -13.51
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 0413621F30
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20261104_062140_184481_82EE63D6 
+X-CRM114-Status: GOOD (  26.02  )
+X-Spam-Score: -4.4 (----)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -63,86 +150,155 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
-X-Archived-By: <archiver.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Medium] nvme: missing kobject_del() on error path in nvme_add_queue_info=
-()
---
+blk_mq_alloc_request_hctx() picks the first online CPU in hctx->cpumask
+to find a software context for the request. If no CPU in the mask is
+online, allocation fails with -EXDEV.
 
-commit 6e5f76664582ac2e5b614fa65fb1066286cd6645
-Author: Saravanan D <saravanand@crusoe.ai>
+This triggers in two scenarios:
 
-nvme: add per-queue sysfs directories
+ 1. Commit 20e4d8139319 ("blk-mq: simplify queue mapping & schedule with
+    each possisble CPU") maps all possible CPUs to hardware contexts. If
+    certain CPUs are offline (e.g. booted with maxcpus= or offlined via
+    sysfs), a hardware context may end up mapped entirely to offline CPUs.
 
-This commit adds helpers to create a per-controller queues sysfs directory
-and manage per-queue subdirectories (/sys/class/nvme/nvmeX/queues/<qid>/)
-populated with transport-provided attribute groups.
+ 2. Commit a46c27026da1 ("blk-mq: don't schedule block kworker on
+    isolated CPUs") strips isolated CPUs from hctx->cpumask. If an hctx
+    is mapped exclusively to isolated CPUs (isolcpus=domain or an isolated
+    cpuset partition), hctx->cpumask ends up empty.
 
-Link: https://lore.kernel.org/linux-nvme/13c160d0-0657-47ce-9a16-58d348267a=
-b0@grimberg.me/
+NVMe fabrics transports allocate the Connect command for each I/O queue
+using blk_mq_alloc_request_hctx(). If an hctx only maps offline or
+isolated CPUs, connecting to the controller fails. Skipping these queues
+is not an option because isolated CPUs still submit I/O through them,
+as will offline CPUs once brought online.
 
-> diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-> index 10018c6356b62..8a982453cb69d 100644
-> --- a/drivers/nvme/host/sysfs.c
-> +++ b/drivers/nvme/host/sysfs.c
+Passthrough requests bypass the software staging queues and dispatch
+directly. For these requests, the software context only serves to pick
+a completion CPU and provide a hint when releasing the tag.
 
-[ ... ]
+Fall back to an online housekeeping CPU's software context when allocating
+passthrough requests on an hctx without an online CPU in its mask.
 
-> +struct nvme_queue_info *
-> +nvme_add_queue_info(struct nvme_ctrl *ctrl, unsigned int qid, void *data)
-> +{
-> +	struct nvme_queue_info *qinfo;
-> +	int ret;
-> +
-> +	if (WARN_ON_ONCE(!ctrl->queues_kobj))
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	qinfo =3D kzalloc_obj(*qinfo);
-> +	if (!qinfo)
-> +		return ERR_PTR(-ENOMEM);
-> +	qinfo->data =3D data;
-> +
-> +	ret =3D kobject_init_and_add(&qinfo->kobj, &nvme_queue_info_ktype,
-> +				   ctrl->queues_kobj, "%u", qid);
-> +	if (ret)
-> +		goto out_put;
-> +
-> +	ret =3D sysfs_create_groups(&qinfo->kobj, ctrl->ops->queue_attr_groups);
-> +	if (ret)
-> +		goto out_put;
-> +	return qinfo;
-> +
-> +out_put:
-> +	kobject_put(&qinfo->kobj);
-> +	return ERR_PTR(ret);
-> +}
+Hardware contexts whose last online CPU went offline are inactive.
+blk-mq drained them for the CPU offline, so allocations on them still
+fail.
 
-[Severity: Medium]
-If sysfs_create_groups() fails in nvme_add_queue_info() after
-kobject_init_and_add() has already published qinfo->kobj in sysfs, should
-the error path call kobject_del(&qinfo->kobj) before kobject_put(&qinfo->ko=
-bj),
-just like nvme_remove_queue_info() does?
+Fixes: 20e4d8139319 ("blk-mq: simplify queue mapping & schedule with each possisble CPU")
+Fixes: a46c27026da1 ("blk-mq: don't schedule block kworker on isolated CPUs")
+Tested-by: Maurizio Lombardi <mlombard@redhat.com>
+Reviewed-by: Aaron Tomlin <atomlin@atomlin.com>
+Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Reviewed-by: Hannes Reinecke <hare@kernel.org>
+Signed-off-by: Daniel Wagner <dwagner@suse.de>
+---
+Connecting an NVMe over Fabrics controller fails in current upstream if
+a hardware context has no online CPU in its CPU mask, which happens with
+isolated and with offline CPUs. The commit message explains both cases.
 
-Without kobject_del(), unlinking the directory from sysfs is deferred to
-kobject_cleanup(). If CONFIG_DEBUG_KOBJECT_RELEASE is enabled or if another
-thread grabbed a reference to qinfo->kobj after it was added to sysfs, the
-<qid> directory and its parent reference on ctrl->queues_kobj remain live
-after nvme_add_queue_info() returns an error, which can cause a subsequent
-retry or reconnect for the same qid to fail with -EEXIST or expose a
-dangling qinfo->data pointer.
+Testing, QEMU VM with 8 CPUs, nvme-loop and nvme-tcp against nvmet in
+the same VM, nvme-tcp also against nvmet in a second VM:
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1793800758.gi=
-t.saravanand@crusoe.ai?part=3D1
+  - Isolated CPU: blktests nvme/079 fails without the patch and passes
+    with it.
+  - Offline CPUs: booted with maxcpus=4, the connect fails with -EXDEV
+    on I/O queues 3 and 4 without the patch. With the patch the connect
+    works, also I/O from the CPUs after bringing them online. blktests
+    nvme/080 fails without the patch and passes with it.
+
+The blktests are posted separately.
+---
+Changes in v3:
+- Same code as v2, update the code comment and the commit message.
+  Sashiko pointed out that the patch also allocates on hardware
+  contexts mapped only to offline CPUs. This is intended: connecting
+  fails in current upstream while CPUs are offline too, since commit
+  20e4d8139319, so add it as a second Fixes tag.
+- Link to v2: https://patch.msgid.link/20261103-nvme-fabrics-isolcpu-v2-1-95ec70d58254@suse.de
+
+Changes in v2:
+- Only the blk-mq patch left, the nvme patches are in nvme-7.4.
+- Reword the commit message to describe what the fix does (Hannes).
+- Add Tested-by from Maurizio.
+- Link to v1: https://patch.msgid.link/20261014-nvme-fabrics-isolcpu-v1-0-355156be27b2@kernel.org
+---
+ block/blk-mq.c | 39 +++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 37 insertions(+), 2 deletions(-)
+
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 5fca78778c31..c87f2d597126 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -717,6 +717,25 @@ struct request *blk_mq_alloc_request(struct request_queue *q, blk_opf_t opf,
+ }
+ EXPORT_SYMBOL(blk_mq_alloc_request);
+ 
++/*
++ * Return an online CPU which is neither isolated from the scheduler domains
++ * nor from managed interrupts, or nr_cpu_ids if there is none.
++ */
++static unsigned int blk_mq_housekeeping_cpu(void)
++{
++	unsigned int cpu;
++
++	rcu_read_lock();
++	for_each_online_cpu(cpu) {
++		if (!cpu_is_isolated(cpu) &&
++		    housekeeping_test_cpu(cpu, HK_TYPE_MANAGED_IRQ))
++			break;
++	}
++	rcu_read_unlock();
++
++	return cpu;
++}
++
+ struct request *blk_mq_alloc_request_hctx(struct request_queue *q,
+ 	blk_opf_t opf, blk_mq_req_flags_t flags, unsigned int hctx_idx)
+ {
+@@ -767,8 +786,24 @@ struct request *blk_mq_alloc_request_hctx(struct request_queue *q,
+ 	if (!blk_mq_hw_queue_mapped(data.hctx))
+ 		goto out_queue_exit;
+ 	cpu = cpumask_first_and(data.hctx->cpumask, cpu_online_mask);
+-	if (cpu >= nr_cpu_ids)
+-		goto out_queue_exit;
++	if (cpu >= nr_cpu_ids) {
++		/*
++		 * Only isolated or offline CPUs are mapped to this hardware
++		 * context. Isolated CPUs are not part of hctx->cpumask, and
++		 * offline CPUs may come online later and need the hardware
++		 * context then. Passthrough requests are inserted directly
++		 * into hctx->dispatch, so use the software context of a
++		 * housekeeping CPU for them. Inactive hardware contexts lost
++		 * their last online CPU and were drained for the CPU offline,
++		 * don't allocate requests on them.
++		 */
++		if (!blk_op_is_passthrough(opf) ||
++		    test_bit(BLK_MQ_S_INACTIVE, &data.hctx->state))
++			goto out_queue_exit;
++		cpu = blk_mq_housekeeping_cpu();
++		if (cpu >= nr_cpu_ids)
++			goto out_queue_exit;
++	}
+ 	data.ctx = __blk_mq_get_ctx(q, cpu);
+ 
+ 	if (q->elevator)
+
+---
+base-commit: c8c53d669d4e45b3a804013251a34387d7e11bfb
+change-id: 20261013-nvme-fabrics-isolcpu-5b4948362f88
+
+Best regards,
+--  
+Daniel Wagner <dwagner@suse.de>
+
 
