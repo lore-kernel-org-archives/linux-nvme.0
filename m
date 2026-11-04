@@ -2,106 +2,102 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2C7D606A31B
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Nov 2026 04:51:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01875606A31B
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Nov 2026 06:31:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=GPd9Y3Gp;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GhC/tWSf
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=B8KaqoMk;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=O57jyWwg
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:MIME-Version:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Unsubscribe-Post:List-Owner;
-	bh=iepVCsYSPNl4UCCvBw+pBw5SWXsBUUPexi1mujRkRLk=; b=GPd9Y3GpnSXeTrMYT1GxLHs7VR
-	C56BX9TLZ+RsTDnCyP8hH7scaNDJBorYkY4iuSD7ULF43mBIffP47/rbudOUKintFYt0291RXtFbK
-	xsPW9TFsiEqyyBmRxsf9ebhnKidSjAsKxWnWEnxXa641Hsi1QVCgpg3Wvo3FYnY5UySIdwblSA5W6
-	tpoEn3fAMahyuIa5KmsUGzxXT19zxaX3fIZOgMxgBVj8wXMLhJ/ci7pIzlIjcgchWG5tak0r6XBe9
-	imby0FnPHo+gYtusir8ssjZUVdK0klofK0vAp8qtskdYWBc9Uy9FkSofDh6HMA2pz/ea9YEv07WGT
-	ng/60KFw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
+	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
+	List-Owner; bh=nxObPTj/uIUEGHfeQ9adXhEvppId2c7V0+NPSeSoNZI=; b=B8KaqoMkw90IkT
+	8YXkHv4TenfL3C/4+LYI+rqw/w/w87MCMgweb5jEzcD2VNCbbQIczcac+zrodf04InnOZKpg9hKIY
+	DYJ0JLlk4JcTPt7/D5vthMiXreRw4sOprHd4NT2YxT6k30dEhwCJjVMxlkjNd8bCmxJiADAi9qknT
+	hv/9v7IBFaTFL3q/oTr4YdlFyHGJ6Q5WhxpY4s+IAiLXjLD8Vlq27rntvZJAwJcS0nbbgBqrdTbKb
+	EdCiI1SdECsm5IVZ3jBhinGGgas+IKTTgg/+Lus7dTY6JDFtX7s6GCgWATexwCEd7OmkMA1HlwJcI
+	L8SltF7mtRFGnB5uWlfw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOSxj-00000004JrK-3WRh;
-	Wed, 04 Nov 2026 04:51:03 +0000
-Received: from mail-lj1-x22c.google.com ([2a00:1450:4864:20::22c])
+	id 1xOUWV-00000004Q7i-1MkP;
+	Wed, 04 Nov 2026 06:31:03 +0000
+Received: from mail-dl1-x122a.google.com ([2607:f8b0:4864:20::122a])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOSxd-00000004Jql-04km
+	id 1xOUWM-00000004Q1y-30cr
 	for linux-nvme@lists.infradead.org;
-	Wed, 04 Nov 2026 04:50:58 +0000
-Received: by mail-lj1-x22c.google.com with SMTP id 38308e7fff4ca-3ab53a99771so2359101fa.3
-        for <linux-nvme@lists.infradead.org>; Tue, 03 Nov 2026 20:50:55 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793767854; cv=none;
-        d=google.com; s=arc-20260327;
-        b=lrmWO6+MYjyhTgGvhMLQvrtcP276jR+isvSjf2iTEqwnnke17TsLIfK8VEVQN8Rw9T
-         XV5dBOCSIo003Sy0ZkcIkw+yHEMXhJDojojBhqEztGr5JdBTLhArpI2rku9/vFQBEpTy
-         sNjp+bdeD1nFx/G5F8Hu1Xm5a/BfGwvYAIPyudKGPb08PddzKl4VusDMvRSrRnb0HcwA
-         Oj2vWiBjsisixl9syX+2KwnOQUai4td9i/5Zn6i0syPfDgSaUG6IQTHnkO1pBIN/0lOP
-         NpO8D9AAkuy1beqbHcEMpDHTvv/tTmGzUr+cdVDzYbTR2UDxMVG25EzqIT5uFdgVgvCA
-         jtQA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=iepVCsYSPNl4UCCvBw+pBw5SWXsBUUPexi1mujRkRLk=;
-        fh=7+KdSWkY42MGIqn2x+/v4ldGtolAQUF/Hoh09jRRR8g=;
-        b=XHOwUx6MN7P6THBQ5Q0NNWU6NqoacLC7tuq8P/5V8TIiXkzO8o9qdg+i9ZpWANvze8
-         ZRrZ5X9MhNzUGSu6abLAqD2vfTCkAV5ipNQI+xIag1Vt7rdBIkMCjjSVmdgMD700d2RO
-         hjAU1WnP0ictrl1n1bhbaoccD/lkLntaBmILfX8ZFlxuGNN2AV8tV4DhWLYbwY/msWVk
-         YExLkTgCvxhiHi3OM1Ri9ZDhYXBoidesINLchpCkyjGLcF+H9uqfmE2L8bQ2mhrAWnwq
-         RzdOzFyEMXbDk9jo0opB87WaJTpByDUDTKwmUlX+Be/yQGdJrX3cjiO48hf4fL8cCw6h
-         7PlQ==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	Wed, 04 Nov 2026 06:31:02 +0000
+Received: by mail-dl1-x122a.google.com with SMTP id a92af1059eb24-1b1ce85287aso363058c88.0
+        for <linux-nvme@lists.infradead.org>; Tue, 03 Nov 2026 22:30:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793767854; x=1794372654; darn=lists.infradead.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=iepVCsYSPNl4UCCvBw+pBw5SWXsBUUPexi1mujRkRLk=;
-        b=GhC/tWSfdZs5lcwlMQ0V0Myje/6NEB2PWwSVlb90pcWxLyDPO9NnFouCIMTc71L8qH
-         T5D9Xd52PRX4rPVKwv0aSurNHkT2Z+MvrJ/iV6/0D6d2ditcEEm/i1WkgNEf8vWvpdjS
-         kidczu9j7gZMcV1qEi70k1eK9fYuhvYO68kyQqgnFVA0LZwl+BBqnDyXgdBAgiKaxf6Z
-         ZUeNq/9ilHp+IHAuUmV74g+tSDTO1jdwZSmmVhsNGtpnQyfN2/0pAMl+7ck3UDwOzaCQ
-         sa1Qs4znYoDIjh8oWRQLZXy3XHp5ttfTbyyjBpnfkk1chSSqB829aCOLzNGcpElY2q5B
-         IHtQ==
+        d=gmail.com; s=20260707; t=1793773854; x=1794378654; darn=lists.infradead.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=nxObPTj/uIUEGHfeQ9adXhEvppId2c7V0+NPSeSoNZI=;
+        b=O57jyWwgNNdPx0JA5Y1iuBwrIn/lGaXTLFCr4nBih79wXCbOUH2XrG5KgsecKdtMVj
+         BPSpQSLysXHRlasof1oRAGAEIgAWR1mDzBRfBXLNcOuD2cQrpztJjE5mC62aGRhZaJGW
+         K0383y+N4h/yKvVgbV+eClqzZiWLX/qd1t5EK5uQRntVWA+aUkF+V5l3rVTjk/5gVkuc
+         fgNQKmISEDW+k8VmDo/YrKFe+5nxR5nd26C3WdQ8CwwIm548YCeUkf0Fwy8MYeVqOr8W
+         snJgmaJSZYgnlBZKptEv390oz2Bb9zxQpR8dE3UiEej9wne32pKUS77uXWlE7UoRt0Hv
+         B6MA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793767854; x=1794372654;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=iepVCsYSPNl4UCCvBw+pBw5SWXsBUUPexi1mujRkRLk=;
-        b=IJXt/tfeeQTdzOCyi8sdqpvoyAoQ2IcewWmJAfiPnD9JRHByRq14cYPNFn2I8GxQJk
-         1mKUHT7rgpoIyhbpnbg6yNji+CScWCsyNtFW1LPg0PNONoJAhewwzjk0j3veg2hlrssY
-         7iSshqnNcHx+UkEMn1puYloAa1uRwJBKh8O7GE6jm5qCkO+N7UWU7L7LrZUSFnNEaGJg
-         BxJEQC6CYHXj0nxmstNc64K5lPjgxGmBtuHiIxa+lPfKMClY0pH47qoWrAHqRcCtFiib
-         quwsauMgNf948khS6Sa7jG25t6BaN2EKABaDMTW8dxhEhlrQ07uoIJPYbspdqsn0hnZ8
-         w66g==
-X-Gm-Message-State: APuU4Z/N+aToZlM1BmmnwyrCDjBtY9yw6u/EFT9+c5mB+gLz4aWnObeI
-	4P/uHORgZCkBC1P6mSWddG+EPTH64Hkz6lhW/X7D1/NcPdLnhRv0UtuQgxlok4D5FGKsbwM90Gy
-	g0wd+xDh6K0rHBHu0yr9/8txZzR8DOeI=
-X-Gm-Gg: AYBFou27IjZ0ggIe/H4XlNwbr7yVVSQ5+Ke+SKlAPzyC0mmFgUBzKB3ZJacTXU6uUii
-	Oemw5oUaAWvFzw1m6qfXSjBnEkYTCdtYSIO2jVYJAU+b2zJX/nOIlWgNTWn2k17RVGXDUI0EK25
-	KyAPr6Uwt+BYKR/C/xxqWC0Edpc8ddQYUFknpWj8lXVRCZrzhEwmc5/l2U9qI/bgear97BiaN98
-	l+/Tqkm3dpBKlhBIp+w0zi7qKsfegDj+i1zQXZSDcC1Dr4G7Tx/rZ9uiXtR7e1d8wQUUfV8345H
-	rgIkMAdd7ZcbtyzChzRe8o3madJnIkxaHHL8CNVwdS1SDWMFvdalU+2878ewKchpaE7d4iohUmN
-	q662l7bJYnp4//aLyGFaQOG5dtbVKSOZDSrk+UIEabQa7U6snHnZuAsCF/ebvFXI7Vyl5qkD7hS
-	UxYiAvKz466P+UAQ==
-X-Received: by 2002:a05:651c:1991:b0:3a8:380c:9fb6 with SMTP id
- 38308e7fff4ca-3acb7b187d1mr36544201fa.28.1793767853281; Tue, 03 Nov 2026
- 20:50:53 -0800 (PST)
+        d=1e100.net; s=20260707; t=1793773854; x=1794378654;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=nxObPTj/uIUEGHfeQ9adXhEvppId2c7V0+NPSeSoNZI=;
+        b=C9cBNMLOjebL1eG9h1TgRtGJMeQmkCNzlonCE3YjPx2Nvp1ArD7U7Gn94SAHyLf6+L
+         gS4zRbBJkmWsTEDdRrbtU6OrRP1bo/C4XrojeYPXX49tjNFcsmubx5lj3rMtn3CXJTP/
+         f4imldBNEb7SRVdtlh0hXjCt04CjqsdmeTHl4Nr/wYp6M5kwzRNMLEKKMGjbBUdHZXEd
+         vbij8Hb3SsfkWuzv5TnNT6AuLz2HIl749dyc6Y6AscxmCyNZf6Umd9WX1ckSxMliSc8F
+         iPWU7w3c3y6u5d65YsHK3NXjlqRgDu7k2W6td1UzUUTiuFOauHHVw+KMx7YkOPy+ZHK7
+         H+Tw==
+X-Gm-Message-State: APuU4Z98MzSPRtdGPXt05JhVIyup1O+xVy+IzLyiyG3uy7e7t2v2NEnh
+	N7chrMqNxTkgmeKaUlTvVawmcM4xjb+v78sDgNO+lFPgzwBROKuYcYyl
+X-Gm-Gg: AYBFou2urOxNrKyGKEoCVXXvMlt0cDiUN6FgMG/G8GH7tw5m5zsN80/1plzCvpLSXHX
+	3TB+eX6bbqutgcpirFQ9iBBDSZUyMrJoQIiaQQaxnrUr8oIurlK23ZWLAMVdIJvDGCAs8fnm15H
+	1lJnkXnRePm2J1587MkivuahyKN/dh7+yGTX/o0Xd6CnhKbIIFGsYktFo7iyPfOg9jXHMz2TNEZ
+	ZZjd8iPCwhD06ZxNoAnXii9V/rw5YjIGMDTYNVyz7ObB5VC3LR6RGYpLutNBqsvYtcGe2kXWI+q
+	ioYQ0QIURDfdrqpTuE04AJGIe3RASBLeuWpgHouZ7B2ZPM9cx575XoBPTYLVw/FvjA0Qp41hApQ
+	Run+3IP4XPF59ad9x7KLtx3sAjK0C+SQjAcQw0q+sqsMEKIhuwhkKhG4TEYphP/xMKj/Pj/FKOk
+	jBiI1PLtLLjAOprq/1Zcu9ELgDW8YtkWcqRhBgSLrtmufwTI4FThzAkpo2MGzxoMIVCsL+3U6vf
+	LzBBZQjUuaJjSXk72sdHZRaSRL/hwjgFwoy43bnVhhL5AgahF8Ks2KNvoSXilpT1utuhZJQiBGp
+	1fOdXb6/dv8/CSsmKqhf3MXl
+X-Received: by 2002:a05:701b:455a:10b0:1b2:42ae:94fb with SMTP id a92af1059eb24-1b242ae963dmr4316991c88.37.1793773853561;
+        Tue, 03 Nov 2026 22:30:53 -0800 (PST)
+Received: from [127.0.1.1] ([23.254.208.9])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b245c65194sm4454290c88.19.2026.11.03.22.30.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Nov 2026 22:30:53 -0800 (PST)
+From: Qiliang Yuan <odys.yuan@gmail.com>
+Date: Wed, 04 Nov 2026 01:30:39 -0500
+Subject: [PATCH v2 1/2] srcu: Add list_splice_init_srcu()
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-From: zhang san <shunsheng1218@gmail.com>
-Date: Wed, 4 Nov 2026 12:50:42 +0800
-X-Gm-Features: AclHuK_-DT1ck15JWWBlfanZnKdtx_qDE4sPMfANpjaMeQkMoVd8IZ_gjZ7rDaY
-Message-ID: <CAGTEBTa9dGn8TjKxRPsfeCFiRYAt-cGMAp-XSLBS86SHB6FJ_A@mail.gmail.com>
-Subject: Question: NVMe AER completion delivery during controller removal
-To: kbusch@kernel.org, axboe@fb.com, hch@lst.de, sagi@grimberg.me
-Cc: linux-nvme@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261104-bug-nvme-remove-ns-srcu-v2-1-feb64ecb96ca@gmail.com>
+References: <20261104-bug-nvme-remove-ns-srcu-v2-0-feb64ecb96ca@gmail.com>
+In-Reply-To: <20261104-bug-nvme-remove-ns-srcu-v2-0-feb64ecb96ca@gmail.com>
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+ Lai Jiangshan <jiangshanlai@gmail.com>, 
+ "Paul E. McKenney" <paulmck@kernel.org>, 
+ Josh Triplett <josh@joshtriplett.org>, 
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ rcu@vger.kernel.org, Qiliang Yuan <odys.yuan@gmail.com>, 
+ stable@vger.kernel.org
+X-Mailer: b4 0.13.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261103_205057_103584_27B31115 
-X-CRM114-Status: UNSURE (   8.73  )
-X-CRM114-Notice: Please train this message.
-X-Spam-Score: -1.9 (-)
+X-CRM114-CacheID: sfid-20261103_223054_783004_A660254C 
+X-CRM114-Status: GOOD (  19.11  )
+X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -112,49 +108,89 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-2.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=4.0.1
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Hello,
+list_splice_init_rcu() makes a list look empty to new readers, waits for
+the current ones with the given sync function, and only then links the
+entries into the new list. The sync function takes no argument, so it
+can wait for RCU readers but not for the readers of an srcu_struct.
 
-We are seeking clarification about asynchronous event request (AER)
-completion behavior during NVMe controller removal, before treating an
-observed test failure as a production-reachable driver bug.
+Passing synchronize_rcu() for a list read under SRCU still builds, but
+leaves SRCU readers on the entries while the last one's next pointer is
+moved onto the new list head. nvme_remove_namespaces() does this today.
 
-Our source analysis suggests a possible lifetime race between the AEN
-completion path, which can requeue nvme_async_event_work, and the
-controller removal path. We observed KASAN use-after-free in an
-emulated environment on Linux v7.4-rc1 (6628e7d4c6b2).
+Add list_splice_init_srcu(), which waits for the readers of the given
+srcu_struct instead.
 
-However, our test induced an ERROR AEN through an out-of-specification
-MMIO doorbell write while the device was being removed. This
-deliberately synthetic trigger does not establish that a compliant
-controller would generate the same completion.
+Cc: stable@vger.kernel.org
+Suggested-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Qiliang Yuan <odys.yuan@gmail.com>
+---
+ include/linux/srcu.h | 36 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
-Our main question is: can a specification-compliant controller deliver
-a completion for a previously submitted AER during the interval in
-which the host is disabling the controller and tearing down the admin
-queue, or must such completions be quiesced before disable completes?
-We would also welcome guidance on the exact point after which the host
-may safely assume that no further AER completions can be delivered.
+diff --git a/include/linux/srcu.h b/include/linux/srcu.h
+index 1a8a465a5650d..d4dcaeb83e2b6 100644
+--- a/include/linux/srcu.h
++++ b/include/linux/srcu.h
+@@ -18,6 +18,7 @@
+ 
+ #include <linux/mutex.h>
+ #include <linux/rcupdate.h>
++#include <linux/rculist.h>
+ #include <linux/workqueue.h>
+ #include <linux/rcu_segcblist.h>
+ 
+@@ -118,6 +119,41 @@ void cleanup_srcu_struct(struct srcu_struct *ssp);
+ void synchronize_srcu(struct srcu_struct *ssp);
+ void synchronize_srcu_atomic(struct srcu_struct *ssp);
+ 
++/**
++ * list_splice_init_srcu - splice an SRCU-protected list into an existing list
++ * @list:	the SRCU-protected list to splice
++ * @head:	the place in the existing list to splice the first list into
++ * @ssp:	the srcu_struct that readers of @list use
++ *
++ * Like list_splice_init_rcu(), but wait for the SRCU readers of @list
++ * instead of RCU ones, so that none of them can follow a next pointer
++ * onto @head.
++ *
++ * Note that this function blocks, and that the caller must prevent any
++ * other updates to @list.
++ */
++static inline void list_splice_init_srcu(struct list_head *list,
++					 struct list_head *head,
++					 struct srcu_struct *ssp)
++{
++	struct list_head *first = list->next;
++	struct list_head *last = list->prev;
++	struct list_head *next = head->next;
++
++	if (list_empty(list))
++		return;
++
++	INIT_LIST_HEAD_RCU(list);
++	synchronize_srcu(ssp);
++	ASSERT_EXCLUSIVE_ACCESS(*first);
++	ASSERT_EXCLUSIVE_ACCESS(*last);
++
++	last->next = next;
++	rcu_assign_pointer(list_next_rcu(head), first);
++	first->prev = head;
++	next->prev = last;
++}
++
+ #define SRCU_GET_STATE_COMPLETED 0x1
+ 
+ /**
 
-If a compliant device can generate a completion in the relevant
-window, we can follow up with the source-level race analysis, complete
-KASAN traces, and test details. Otherwise, we will not characterize
-the synthetic result as a production-reachable UAF.
+-- 
+2.43.0
 
-If a standards-compliant trigger or fix is identified, please CC me on
-the relevant patch. I can help validate the reproduction conditions
-and test the exact proposed change, providing a Tested-by tag if
-verification succeeds.
-
-The investigation used AI-assisted source analysis and experiments
-reviewed by us.
-
-Best regards
-Yanhan Li
 
