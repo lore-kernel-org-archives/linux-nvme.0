@@ -2,105 +2,60 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03490606A87B
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Nov 2026 21:23:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79670606E831
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Nov 2026 21:43:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Cc8Wfe9k
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=MjxRgceZ;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XbV1rfK4
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Date:Message-ID:Subject:References:In-Reply-To:CC:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=vPDII9erptSMUVl+p4sQW0aj/xlPNN974/4n1SlNE54=; b=Cc8Wfe9k25Cr1x
-	1QCAs2reSX3Aftg/zUdzyrhConKtFBOTiKI17uMHerzEjNxUPNK+Hyd7NusGj+DGXnwMC9Dacoq20
-	vtmCbsGllJq/paX5SwOLSC17t7+iJYoYf6uE//BQmp0IAAqHJovIwMWyXGnSMLCZu5RVYraS4dIO6
-	SLHmEldE65C0DdXAPyIGJ8ugzpyW82QrrWeHpG/gqQNc/v2XP/UcUPh4shi1eyN1x2PFKZUCWFSlI
-	OzQ1bq/ndlPd31ykfKwnaCWOeR/Bjygk2bkXFCZWUjBMWBBN9UyH6B2xHYMHJ0V1mW9zFmPeAof9A
-	OuePTZ3jd77rRzlK+5sg==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Cc:To:Subject:
+	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Unsubscribe-Post:List-Owner;
+	bh=FYzTDgZyD8KYlbYKTcTatY816C0xIeXkcL3yySf9i9E=; b=MjxRgceZmW5HCQLky9TytJJsQO
+	ZMdQjWUbs2q53RqEB0HD7N7j/D1qJfjEluvLsvA38KmDaXA5a/+LVMQ2zG80tFczwTTKBXMhSJOEM
+	z4wRsBTIxXwCjiSrF0oGgbVHqCu/cC5XAYEYPhtqAwpeIhLszj2UyJCD6Y6hb6lxX8GSo8mAGEIa6
+	PW7QSxaRlNVkzemNZJKOTLGin1fjbGwsipYmblMi/4p5X1gN4LdEavXY3y+eCrHCa7KJ7W/OU9FTl
+	olN4+EzQW2wMHYqbnQ+kqzNzoxQ1nuHKv3/bVvMU9vAyNIVuJIY2xdBsQgHhLS1DPUaXO+ZsVynmQ
+	DaPk22uQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOiRn-000000071KM-13gh;
-	Wed, 04 Nov 2026 21:23:07 +0000
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
+	id 1xOilk-0000000750m-3LBZ;
+	Wed, 04 Nov 2026 21:43:44 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOiRk-000000071Iz-2ZAF
+	id 1xOilk-0000000750b-0Kfh
 	for linux-nvme@lists.infradead.org;
-	Wed, 04 Nov 2026 21:23:05 +0000
-Received: from pps.filterd (m0109333.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A4LMFWq2050193
-	for <linux-nvme@lists.infradead.org>; Wed, 4 Nov 2026 13:23:04 -0800
-Received: from mail.thefacebook.com ([163.114.134.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4hrb4e8sym-3
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Wed, 04 Nov 2026 13:23:03 -0800 (PST)
-Received: from twshared9449.02.snb2.facebook.com (2620:10d:c085:208::f) by
- mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.56; Wed, 4 Nov 2026 21:23:02 +0000
-Received: from devbig197.nha3.facebook.com (localhost [IPv6:::1])
-	by devbig197.nha3.facebook.com (Postfix) with ESMTP id C69B32E753571;
-	Wed,  4 Nov 2026 12:37:15 -0800 (PST)
-From: Keith Busch <kbusch@kernel.org>
-To: David Howells <dhowells@redhat.com>, Jarkko Sakkinen <jarkko@kernel.org>
-CC: Eric Biggers <ebiggers@kernel.org>, <linux-integrity@vger.kernel.org>,
-        Mimi Zohar <zohar@linux.ibm.com>, <keyrings@vger.kernel.org>,
-        <stable@vger.kernel.org>, Jens Axboe <axboe@kernel.dk>,
-        Christoph Hellwig
-	<hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-        Roberto Sassu
-	<roberto.sassu@huawei.com>,
-        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-        Eric
- Snowberg <eric.snowberg@oracle.com>,
-        Paul Moore <paul@paul-moore.com>, James
- Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Hannes
- Reinecke <hare@kernel.org>,
-        "open list:NVM EXPRESS DRIVER"
-	<linux-nvme@lists.infradead.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:SECURITY SUBSYSTEM" <linux-security-module@vger.kernel.org>
-In-Reply-To: <20261103030226.2685251-3-jarkko@kernel.org>
-References: <20261103030226.2685251-1-jarkko@kernel.org>
- <20261103030226.2685251-3-jarkko@kernel.org>
-Subject: Re: (subset) [RFC PATCH v2 02/11] nvme-keyring: Add a missing
- key_put() call to nvme_tls_key_lookup()
-Message-ID: <179382463580.3441171.16018709754015712565.b4-ty@kernel.org>
-Date: Wed, 4 Nov 2026 12:37:15 -0800
-X-Archived-By: <archiver.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
-X-FB-Internal: Safe
-X-Proofpoint-GUID: Z_UUULjlksOzueHRJ6zT6snSA1WIIaAw
-X-Proofpoint-ORIG-GUID: Z_UUULjlksOzueHRJ6zT6snSA1WIIaAw
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA0MDA4NCBTYWx0ZWRfXx5+r2sxkCF5X
- V+VJK9gymsDLkMjazLpZWx3eQMb3vNrgs1UqSxf2P/ZFgMvTdueA8NR8jv2nzMnihB9UqHAd1xL
- CK9PEfoT6KrRzEv0XtG70GxkIGXR7ls=
-X-Authority-Analysis: v=2.4 cv=DJ8acCNb c=1 sm=1 tr=0 ts=6aeba237 cx=c_pps
- a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
- a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22 a=tpM8CJlwf7uhpglF1g9U:22
- a=VwQbUJbxAAAA:8 a=aadjRP30N3kj4PPyLK4A:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA0MDA4NCBTYWx0ZWRfXzX3R2rfHAOH8
- j9ELplPAjQAcB4J/p7QyrV1bXypmZX7zBleHDUtATiMOEP1mpc+HTqDiFjMTxtCc+8XOfHk6waI
- Z9QqK0Ea8W45b3975s1X9LXBRm6J3F98loC5clsIgFjuu6jEE2ptBzhG/nxbj9p8NjsdgaeACfK
- 6bZca6BR5cAxGI7drxKREt6s/6PlLtbJs2IeuK6VzlRF+IzpJBRrbebG0S8992S7PiIPffMuKKd
- 4HFpi5K1tiUNFjdrSuSLN8NrZc8XZgFAMXXJ0IkfiaU9ao/ANsbCTE8akXYFvo3qtVb9vh1ZCwN
- nqnxjV9XGF9b5Ragwo30gsvN2DhRJgTp0ReefHvl6d/VKmGdJhLAg/r652DIJCcejtKgdpXhcJ6
- CfogntJVjJI54eV8p9FHmt/GTkzfQ4NOj64mT36b6sYRapfsUu6Sp8nSOWbXsp4x9UDCiUlrK71
- j/4AWwW9t2oUbXWycjA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-04_05,2026-11-04_01,2025-10-01_01
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261104_132304_662547_D1810896 
-X-CRM114-Status: UNSURE (   8.88  )
-X-CRM114-Notice: Please train this message.
-X-Spam-Score: -1.2 (-)
+	Wed, 04 Nov 2026 21:43:44 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id 433B360F19;
+	Wed,  4 Nov 2026 21:43:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3D7A1F000C1;
+	Wed,  4 Nov 2026 21:43:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793828623;
+	bh=FYzTDgZyD8KYlbYKTcTatY816C0xIeXkcL3yySf9i9E=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=XbV1rfK4phByVgKqx0pxLBhvw8oJ1NAtmCdC/m0Z3UFZh/Gat/A6BqAK9/Bt2K4Ca
+	 pM5XZ9GBOsZgs+1z3MtU+JIKVLaz/KMzXixtzOA/agOIPCh5WJgd7jyO0+wuU3Za5s
+	 by/hbfpCpUgGgfinhLMs0+T/nEehD1jw0ga8H3qk7Ig77HIkLeN57A+hamtjow2ehp
+	 tB0Ft39xXiG+M/gkGxd2YjQ56fUbJUlZy3kNLtYKAR9x0Rz6Hg6+mB+Y6yJLzygPPy
+	 gC7o6IvZ4ERlJfEuzbrGimF7WmchfT15euHQ+IWSQDsKxyd+ahFZGRRs5YdtRe62fM
+	 JwtxGvzXc1zNg==
+Message-ID: <sashiko-outbox-198140@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH net-next v5 4/6] tls: update the RX key when a KeyUpdate
+ is received
+To: "Martin Belanger" <martin.nvme.dev@gmail.com>
+Cc: linux-nvme@lists.infradead.org
+In-Reply-To: <20261103-keyupdate-rfc-v5-4-de1ab90a88d5@gmail.com>
+References: <20261103-keyupdate-rfc-v5-0-de1ab90a88d5@gmail.com>
+ <20261103-keyupdate-rfc-v5-4-de1ab90a88d5@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 04 Nov 2026 21:43:42 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,28 +65,117 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
+X-Archived-By: <archiver.kernel.org>
 
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] tls: FORTIFY_SOURCE field-spanning write warning in tls_keyupdate_=
+rekey()
+--
 
-On Tue, 3 Nov 2026 05:02:07 +0200, Jarkko Sakkinen wrote:
-> Call key_put() before returning -EKEYREVOKED, as the reference count gets
-> incremented by key_lookup().
-> 
-> 
+commit 0485598776b0569167bc509b38a622743e5ca7ce
+Author: Martin Belanger <martin.belanger@dell.com>
 
-Applied, thanks!
+tls: update the RX key when a KeyUpdate is received
 
-[02/11] nvme-keyring: Add a missing key_put() call to nvme_tls_key_lookup()
-        commit: 404a8f6caa63822c1d2a45adbf07fd9c0567a7ef
+This commit updates kTLS to derive and install the next RX key automatically
+when a KeyUpdate handshake message is received on a socket with a registered
+RX traffic secret. It also validates the KeyUpdate message format and rate
+limits incoming KeyUpdate messages to at most 8 per second.
 
-Best regards,
--- 
-Keith Busch <kbusch@kernel.org>
+> diff --git a/net/tls/tls_keyupdate.c b/net/tls/tls_keyupdate.c
+> new file mode 100644
+> index 0000000000000..b9e1ecfc59c47
+> --- /dev/null
+> +++ b/net/tls/tls_keyupdate.c
+[ ... ]
+> +int tls_keyupdate_rekey(struct sock *sk, int tx)
+> +{
+> +	struct tls_context *ctx =3D tls_get_ctx(sk);
+> +	struct tls_traffic_secret *secret;
+> +	const struct tls_cipher_desc *cipher_desc;
+> +	u8 iv[TLS_MAX_SALT_SIZE + TLS_MAX_IV_SIZE];
+> +	u8 next[TLS_MAX_TRAFFIC_SECRET_SIZE];
+> +	union tls_crypto_context tmp;
+> +	struct tls_crypto_info *info =3D &tmp.info;
+> +	int rc;
+> +
+> +	secret =3D tx ? &ctx->tx_secret : &ctx->rx_secret;
+> +	cipher_desc =3D get_cipher_desc(ctx->prot_info.cipher_type);
+> +	if (!cipher_desc || !secret->len ||
+> +	    cipher_desc->salt + cipher_desc->iv > sizeof(iv))
+> +		return -EINVAL;
+> +
+> +	/* version and cipher_type; the rest of tmp stays zero */
+> +	memset(&tmp, 0, sizeof(tmp));
+> +	*info =3D tx ? ctx->crypto_send.info : ctx->crypto_recv.info;
+> +
+> +	rc =3D tls_hkdf_expand_label(secret->data, secret->len, "traffic upd",
+> +				   next, secret->len);
+> +	if (rc)
+> +		goto out;
+> +
+> +	rc =3D tls_hkdf_expand_label(next, secret->len, "key",
+> +				   crypto_info_key(info, cipher_desc),
+> +				   cipher_desc->key);
+> +	if (rc)
+> +		goto out;
+> +
+> +	rc =3D tls_hkdf_expand_label(next, secret->len, "iv", iv,
+> +				   cipher_desc->salt + cipher_desc->iv);
+> +	if (rc)
+> +		goto out;
+> +
+> +	memcpy(crypto_info_salt(info, cipher_desc), iv, cipher_desc->salt);
+> +	memcpy(crypto_info_iv(info, cipher_desc), iv + cipher_desc->salt,
+> +	       cipher_desc->iv);
 
+[Severity: High]
+Won't these memcpy() calls trigger a CONFIG_FORTIFY_SOURCE field-spanning
+write warning when tls_check_pending_rekey() -> tls_keyupdate_rx() ->
+tls_keyupdate_rekey() runs on a socket with a registered traffic secret?
+
+In tls_keyupdate_rekey(), info is initialized as &tmp.info, which points to
+the 4-byte struct tls_crypto_info subobject inside union tls_crypto_context
+tmp.
+
+The inlined helpers crypto_info_salt() and crypto_info_iv() offset from info
+past the end of that 4-byte member:
+
+net/tls/tls.h:
+static inline char *crypto_info_iv(struct tls_crypto_info *crypto_info,
+				   const struct tls_cipher_desc *cipher_desc)
+{
+	return (char *)crypto_info + cipher_desc->iv_offset;
+}
+
+static inline char *crypto_info_salt(struct tls_crypto_info *crypto_info,
+				     const struct tls_cipher_desc *cipher_desc)
+{
+	return (char *)crypto_info + cipher_desc->salt_offset;
+}
+
+Because the destination pointer is derived from the union member &tmp.info
+rather than the enclosing union tmp, __member_size() evaluates to 0 while
+__struct_size() evaluates to the remaining space in tmp, causing fortified
+memcpy() to warn on a field-spanning write.
+
+This is the same union subobject bounds issue that commit c43c1c24f3cd ("tl=
+s:
+avoid field-spanning write when copying crypto info") fixed in
+do_tls_setsockopt_conf(). Could the destination offset be computed from &tmp
+(or could crypto_info_salt() and crypto_info_iv() take union
+tls_crypto_context *) to avoid the FORTIFY_SOURCE warning?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103-keyupdate-=
+rfc-v5-0-de1ab90a88d5@gmail.com?part=3D4
 
