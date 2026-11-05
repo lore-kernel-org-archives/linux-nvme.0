@@ -2,68 +2,59 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B743C606B04D
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Nov 2026 19:58:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E0A1606A31B
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Nov 2026 20:44:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=xVFwx8iN;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jzxLvodv
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=QSV4ny4t;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BTqpxhd1
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
 	List-Unsubscribe-Post:List-Owner;
-	bh=DaBQOBmOn2LdFzR8qRXliWsUS06vZ4v869U44kfu038=; b=xVFwx8iN92XHfkHYXfzCugyQ7a
-	lalr3LoliBuYeeUR2QCxf2WwGRgqMGm7vA2LnijaGcMEE/vI8XkyvhU2mU7Uf0GSfwjFuyyypuMH3
-	U0z6jBgLap6Th9RgFBQF26UEmWO0KJ4I3cPCQWpUZAKCFOPr9RmnTAYR8QLiBelGSU0ZbN2cgy1hv
-	zquM4gLFnPXRArXwkdm4XWfhxo9IAoN8TedRnJWC1zIT9pEl2NOCKtJ02Ne3kHlzQZFM917Oz5u8S
-	7LZwuJWvOyTSMkOSbxeJrYTbsFuaeRW7CRhyAojetZlXJcaQIuGYidEoT5i85lHaqFKQPp5duiUxT
-	zMfpDWGA==;
+	bh=v9n9te4oMTrX4PwOgKXI7vhBwEAn82JVzuFNLEe/yK8=; b=QSV4ny4th3ICyaBCRI5gGfcFc8
+	ogUpBv1UpCYxMOjUlVQl+gc9J8a+QQSV7xVHFNH8aZp/B00dY38R2Gixp70zAqOoXeSzgE+bRV9bb
+	l8LnzrVSEJy0phWtFTvuh5K/Z4vZpy3SnZic/l7Q+r5er9VgTH4g9VPRqcLTK5XwmhS0Z54M2rUFj
+	YYMqKf8Seiic12VAYAjFgh5aj7Hq1ROhpZfciUd9jG3z7h3m6Ful04m0dRwLopZYDiYszOzb6enHp
+	qT3sClhC5JzfwSJPO89M9Eh4jJMZC3UyXajBjLr50PiZfLpanf4Vuoes/bgBrkwK7HK8L/2aMkXQX
+	8zcKq4AQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xP3as-0000000ASYP-0M3O;
-	Thu, 05 Nov 2026 19:57:54 +0000
+	id 1xP4Jo-0000000AbRp-3J4R;
+	Thu, 05 Nov 2026 20:44:20 +0000
 Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xP3ag-0000000ASSV-0ExN
+	id 1xP4Jn-0000000AbQj-2HyR
 	for linux-nvme@lists.infradead.org;
-	Thu, 05 Nov 2026 19:57:44 +0000
+	Thu, 05 Nov 2026 20:44:19 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 8160A600E4;
-	Thu,  5 Nov 2026 19:57:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA32F1F008A3;
-	Thu,  5 Nov 2026 19:57:40 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id AC33E602D4;
+	Thu,  5 Nov 2026 20:44:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 153651F0089F;
+	Thu,  5 Nov 2026 20:44:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793908661;
-	bh=DaBQOBmOn2LdFzR8qRXliWsUS06vZ4v869U44kfu038=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jzxLvodvND2uIskc/k7mrbmX7om02LDQuTN4sSWT7U4a81zt4R49PJEN298tzv1+5
-	 X1R6p0Ufs2Bn4u3FpPBRCD0eADffYNw3RhMutVANraXKdCTiyvo+LKEnBElWl9dNlz
-	 pJMra7ovxSrqyeiHNlyFM+R4pERiF5I/o+Y4fHPExxDIsX7eXoC0cNueIqBIykdvaA
-	 DTXB7bk5AsDHZUcWmUynQ2xbkZsJ9/wfwFzcbQo08UfiRvV/DdBLKBDeBzv9KPsuUz
-	 bkWqUGkTOjsU8UrGbudJVBCTbKN6HQh4nmpsB0DWR7f7Tnz7+viD4lQ9qKWQGjBTvx
-	 OM+zL00zEkejQ==
-Date: Thu, 5 Nov 2026 12:57:39 -0700
+	s=k20260515; t=1793911458;
+	bh=v9n9te4oMTrX4PwOgKXI7vhBwEAn82JVzuFNLEe/yK8=;
+	h=Date:From:To:Cc:Subject;
+	b=BTqpxhd1Vrjo9S9EM1RPWNC8YE56hNbNEwgQkkUZnok36QnzbHtK3tQSixM2dM5pq
+	 eJMmDxYwUWGy+FZtxQhd4PHp8CmR0V49LiUQRbZoY44o2rNsLsBz1NvGRnO4uiBOMd
+	 TyHgY58/bSBmYIyT0j6AGWMbdaY1cfNc+MG9XBIN5SkW/XG/PrxBWy2MQEIhk6Ue2/
+	 YwnPB4L2KNk7RnsqnS8vh+4BpElVB2xbi+8GA8Ae2oSdXckqvmQBa0DIUgziucbOU+
+	 3xutlYwXQj5CFZxaLwQ6QY9eJeNUbGUyyHyWZqlyskrMcIiH3ZgeylFaxcfDPfOevZ
+	 CVyNojA7iiRtg==
+Date: Thu, 5 Nov 2026 13:44:16 -0700
 From: Keith Busch <kbusch@kernel.org>
-To: =?utf-8?B?5buW54WK?= <liaoxuan@open-hieco.net>
-Cc: axboe <axboe@kernel.dk>, hch <hch@lst.de>, sagi <sagi@grimberg.me>,
-	linux-nvme <linux-nvme@lists.infradead.org>,
-	linux-kernel <linux-kernel@vger.kernel.org>,
-	default avatarZheng Tan <tanzheng@kylinos.cn>
-Subject: Re: =?utf-8?B?5Zue5aSN77yaW1BBVEM=?= =?utf-8?Q?H?= 1/3] nvme: Add
- adaptive PCIe link rate switching function
-Message-ID: <auzfs1qAOkXm8i2W@kbusch-mbp>
-References: <cover.1790134954.git.liaoxuan@open-hieco.net>
- <85a11a4085d04a2823c04059702630cf34abf6d4.1790134954.git.liaoxuan@open-hieco.net>
- <auoxH197kQfUJGaE@kbusch-mbp>
- <34801e0a-5d66-47c4-9844-7844363072fe.liaoxuan@open-hieco.net>
+To: axboe@kernel.dk
+Cc: hch@lst.de, linux-nvme@lists.infradead.org, paulmck@kernel.org
+Subject: [GIT PULL] nvme fixes for Linux 7.4
+Message-ID: <auzqoK4jrx-NSHRv@kbusch-mbp>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <34801e0a-5d66-47c4-9844-7844363072fe.liaoxuan@open-hieco.net>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,37 +65,141 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-20.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Thu, Nov 05, 2026 at 01:50:21PM +0800, å»–ç…Š wrote:
-> However, L1 is entered only when the link is completely idle (no
-> pending transactions). During active but low-utilization I/O, the link
-> cannot enter L1 and typically stays trained at its maximum rate. This
-> patch targets exactly that window: it dynamically downgrades the link
-> rate to the minimum sufficient for the current traffic, and upgrades
-> back to maximum when load rises.
+This pull includes a patch for the srcu subsystem. The patch adds a new
+helper, list_splice_init_srcu(), needed to fix namespace removal racing
+with srcu readers. Paul McKenney reviewed and acked this going through
+our nvme tree:
 
-ASPM operates on microsecond idle periods, so a lightly used link spends
-most of its time detected as idle. Your threshold only selects the lower
-rate below roughly 1.5MB/s on a Gen4 x4 link, which is essentially idle
-where L1 would kick in more readily. Do you have shareable numbers that
-show a real power benefit beyond ASPM?
+  https://lore.kernel.org/linux-nvme/493a0897-c117-4517-a3a4-6d84da9d30ae@paulmck-laptop/
 
-> So the two mechanisms cover different link conditions and are
-> complementary rather than conflicting: ASPM L1 handles the idle link,
-> while this patch handles the active-but-underutilized link.
+The following changes since commit c8c53d669d4e45b3a804013251a34387d7e11bfb:
 
-I don't think this kind of policy belongs in the kernel, much less in
-the nvme driver. There are mechanisms for user space to control this,
-though: the bwctrl cooling device lets user space set the link speed,
-and diskstats provide utilization. A user space daemon can implement
-this without kernel changes.
+  blk-crypto: fix NULL deref and UAF in __blk_crypto_evict_key() (2026-10-29 11:10:05 -0600)
 
-If you don't want to tie this to the PCIe thermal subsystem, maybe the
-current_link_speed attribute could add a writeable callback instead?
+are available in the Git repository at:
+
+  git://git.infradead.org/nvme.git tags/nvme-7.4-2026-11-05
+
+for you to fetch changes up to f33c8bc785401669b29229bcf3d0086ba9f5b87c:
+
+  nvmet: cache passthru reference in __nvmet_req_complete() (2026-11-05 08:53:01 -0800)
+
+----------------------------------------------------------------
+nvme fixes for Linux 7.4
+
+ - Fix a passthru reference leak that hangs disabling a target passthru
+   controller (7.4-rc1 regression)
+ - Fix namespace removal race with SRCU readers of the namespace list
+ - Fix use-after-free in nvme-tcp controller teardown after a failed
+   connect
+ - Fix NULL dereference in nvme-rdma when a reconnect adds queues
+ - nvmet-rdma device removal and disconnect fixes
+ - nvmet-tcp TLS record type handling and bounded connection accept work
+ - Don't leak stale memory in the nvmet ANA log page
+ - Harden nvmet against invalid input: keep-alive timeout overflow,
+   incomplete DHCHAP messages, configfs address bounds, arbitration
+   burst mask, and locking for traffic based keep alive updates
+ - Keep the old nvmet auth keys if setting new ones fails
+ - Delete nvme-loop controller on failed reset
+ - Fix extra cdev reference put and unregister on a zero pr_register key
+ - Fix a TLS key reference leak in the nvme keyring
+ - Quirks for ADATA XPG GAMMIX S70 BLADE and KIOXIA XG10d
+ - Speed up nvmet namespace disable
+ - Misc cleanups
+
+----------------------------------------------------------------
+Chris Mason (4):
+      nvmet-rdma: disconnect only established queues
+      nvmet-rdma: take a device off the list last
+      nvmet-rdma: queue the release work under the mutex
+      nvmet-rdma: disconnect a queue on device removal
+
+Christian Aurich Zanettini Martins (2):
+      nvme-tcp: fix use-after-free in nvme_tcp_free_ctrl()
+      nvme-rdma: fix NULL queue->ctrl dereference on reconnect
+
+Christophe JAILLET (1):
+      nvmet: pci-epf: Constify struct pci_epf_ops
+
+Daejun Park (1):
+      nvme: unregister when pr_register() is given a zero new key
+
+Ewan D. Milne (1):
+      nvmet: don't return memory contents beyond valid data when reading ANA log page
+
+Guixin Liu (1):
+      nvmet-rdma: remove dead allocated field in nvmet_rdma_rsp
+
+Hugo Deco (1):
+      nvme-pci: add NO_FUA quirk for ADATA XPG GAMMIX S70 BLADE
+
+James Fantin-Hardesty (1):
+      nvmet: fix arbitration burst field mask
+
+Jarkko Sakkinen (1):
+      nvme-keyring: Add a missing key_put() call to nvme_tls_key_lookup()
+
+Josef Bacik (4):
+      nvme-loop: delete the controller if a reset fails
+      nvmet-tcp: ask for the TLS record type on every receive
+      nvmet-auth: keep the old keys if the new ones fail
+      nvmet-tcp: limit the connections accepted per work run
+
+Jérémy Jean (1):
+      nvmet-auth: reject incomplete DHCHAP messages
+
+Nilay Shroff (1):
+      nvmet: cache passthru reference in __nvmet_req_complete()
+
+Qiliang Yuan (3):
+      nvmet: drop the extra RCU grace period in nvmet_ns_disable()
+      srcu: Add list_splice_init_srcu()
+      nvme: wait for SRCU readers before splicing the namespace list
+
+Sasha Levin (1):
+      nvme-pci: add NVME_QUIRK_DMAPOOL_ALIGN_512 for KIOXIA XG10d
+
+Shao Mingyin (3):
+      nvmet: take subsys->lock when forcing reconnects for tbkas
+      nvmet: bound the traddr and trsvcid configfs writes
+      nvmet: drop the redundant auth check in nvmet_parse_io_cmd()
+
+Sreeraj S Kurup (1):
+      nvmet: use appropriate types for authentication payload lengths
+
+Yingjie Wang (1):
+      nvmet: reject keep-alive timeouts that would overflow
+
+Yuqiang Sun (1):
+      nvme: Do not drop the cdev reference twice when cdev_device_add() fails
+
+ drivers/nvme/common/keyring.c          |  1 +
+ drivers/nvme/host/core.c               | 23 +++++++++---
+ drivers/nvme/host/multipath.c          |  2 -
+ drivers/nvme/host/nvme.h               |  8 ++++
+ drivers/nvme/host/pci.c                |  4 ++
+ drivers/nvme/host/pr.c                 |  8 +++-
+ drivers/nvme/host/rdma.c               |  7 ++--
+ drivers/nvme/host/tcp.c                | 10 ++---
+ drivers/nvme/target/admin-cmd.c        | 20 ++++++++--
+ drivers/nvme/target/auth.c             | 69 ++++++++++++++--------------------
+ drivers/nvme/target/configfs.c         |  6 ++-
+ drivers/nvme/target/core.c             | 27 ++++++++-----
+ drivers/nvme/target/fabrics-cmd-auth.c | 10 ++---
+ drivers/nvme/target/loop.c             |  5 ++-
+ drivers/nvme/target/nvmet.h            | 32 ++++++++++++----
+ drivers/nvme/target/pci-epf.c          |  2 +-
+ drivers/nvme/target/rdma.c             | 56 ++++++++++++++++-----------
+ drivers/nvme/target/tcp.c              | 13 ++++++-
+ include/linux/srcu.h                   | 36 ++++++++++++++++++
+ 19 files changed, 228 insertions(+), 111 deletions(-)
+
 
