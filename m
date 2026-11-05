@@ -2,10 +2,10 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62F04606A32E
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Nov 2026 07:46:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81921606A33B
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Nov 2026 07:46:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=AfaHyYus
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=ld10NqQR
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
@@ -13,24 +13,24 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=AfaHyYusqnPMl1+qKSMpnh4xBP
-	FDoVGFwUsrOkS+3S1CKiVhiWdoxRM+wePaJpp00+peMmaUISu9hiJhpPxIxEzaExcAgpH30atM2ND
-	nqU9nG0GJDVsR41NJjpwAXYsYMn4gtNCIbNEEENKWIjI6Ox7o5apyBxdtwCa3V01LNAh1k3w1yj/T
-	h1kg7vTYW/LDkdBT864im1Fu1tiWeTz1EH05f3pwmvBRwZsiiI7WPSy5IvCsbOzxrEPTZ+z1vm6KX
-	vGaF/Bl24n0WlaItdDRsL0JoczFqAvC6fGaxxazsL+OUsoF0jXH2xQO1jsgb7zy+Ov5fVUXBiiEB/
-	aZ+7HMKw==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=ld10NqQROjChwWEzxXAR+aWh0B
+	GRZkaFrKHmRsCTSKeKzjP7HJaWX6NaI7j5Q/FrmsCwugZ2Y0kPb3mF8CyyRDOSDeMaNwrcsNbQvY7
+	IBN/KH6RZwBRR/2Dmdh7e4EjV+xqQBtXB6CEMRDxxEZi8XAYcg8mb3GbcIDy6ZGDNGNteaFpmWT4f
+	zAXjBvpR7VvLfpNn4RojsOYeMH8+IP+8O+q1J2wrVzpOoTKwkegLlY/b4xxf0t9Puui6Lm8YOJm81
+	wcX9zwxXiRVhtg3t/kKz0Xlei+ydQF6IWBIKAHDQYAsmAT6VSpnOaoHlLdGbni3tF6jbbxIJUnAA8
+	ZHpAlIUA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOsB7-000000082Zb-0Ryo;
-	Thu, 05 Nov 2026 07:46:33 +0000
+	id 1xOsBH-000000082bt-0ss3;
+	Thu, 05 Nov 2026 07:46:43 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOsB4-000000082Yh-0pRA
+	id 1xOsBE-000000082av-3efS
 	for linux-nvme@lists.infradead.org;
-	Thu, 05 Nov 2026 07:46:31 +0000
+	Thu, 05 Nov 2026 07:46:42 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id A08D568BEB; Thu,  5 Nov 2026 08:46:22 +0100 (CET)
-Date: Thu, 5 Nov 2026 08:46:21 +0100
+	id 988D168B05; Thu,  5 Nov 2026 08:46:36 +0100 (CET)
+Date: Thu, 5 Nov 2026 08:46:36 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Qiliang Yuan <odys.yuan@gmail.com>
 Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
@@ -43,18 +43,19 @@ Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
 	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
 	rcu@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] srcu: Add list_splice_init_srcu()
-Message-ID: <20261105074621.GB17781@lst.de>
-References: <20261104-bug-nvme-remove-ns-srcu-v2-0-feb64ecb96ca@gmail.com> <20261104-bug-nvme-remove-ns-srcu-v2-1-feb64ecb96ca@gmail.com>
+Subject: Re: [PATCH v2 2/2] nvme: wait for SRCU readers before splicing the
+ namespace list
+Message-ID: <20261105074636.GC17781@lst.de>
+References: <20261104-bug-nvme-remove-ns-srcu-v2-0-feb64ecb96ca@gmail.com> <20261104-bug-nvme-remove-ns-srcu-v2-2-feb64ecb96ca@gmail.com>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261104-bug-nvme-remove-ns-srcu-v2-1-feb64ecb96ca@gmail.com>
+In-Reply-To: <20261104-bug-nvme-remove-ns-srcu-v2-2-feb64ecb96ca@gmail.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261104_234630_417766_94F416EB 
-X-CRM114-Status: GOOD (  11.33  )
+X-CRM114-CacheID: sfid-20261104_234641_075407_37A74FCD 
+X-CRM114-Status: GOOD (  11.69  )
 X-Spam-Score: -1.9 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
