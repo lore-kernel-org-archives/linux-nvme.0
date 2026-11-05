@@ -2,99 +2,112 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64364606A33E
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Nov 2026 11:42:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F175A606A31B
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Nov 2026 12:37:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=sQAb7y0H;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SmV04ei9
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=y/DT9GCs;
+	dkim=pass (2048-bit key, unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=idmiSLvw
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
 	List-Unsubscribe-Post:List-Owner;
-	bh=+/ie1fjm6lAVadllpDyXq/QvwISd8L07DcsiVDBTI0I=; b=sQAb7y0Hu2k0sOqpo+1Lhz5OOo
-	gwNn1lBndEh5OjYKCcII+uZ3MhRjgRJIZmUQCdCrwpm+/sSnQUQjxB+LWXFYG4h/URw86TT/qlo3W
-	1Su8aIX5huifOV0Uo2LqeeY+cyVc2j8yGwj71y5z7LqF22vM9CcI0fHLqNS+qICZLA9Te+BwnJVyO
-	pVnx4CbRTECqcig2olK/F8cpR0OM5lB3fxYBzzdf9UBy861RmqSwIwUraGARu0IZw3KZRPyiaOoWU
-	WESzTpkCWQ/v4OUXOZR5Rdpfg7c/LMyGC4j6W4EmddwZXBt1F04eCnMsOI27JyP5YxwT96LWI9V9C
-	8OHei6Cg==;
+	bh=k0DikrKQmRQ055t4AEpwuyj+2bQmDjXz+Z3aWAcSxpE=; b=y/DT9GCsVFfbw1BsfZuSMVTPNd
+	7UBVlSiwZzOABpIffaByBskZPh1MWSOGS4EyQi5O3Y7hUroI+d8UVL8jSwLhVxXOfR0ZYq/i/sphe
+	IiCNZC1i7KdV0pyc/ozWnsMcabljblSxz5EHCwoLwgiL6EBQv0mjUFeH1EcAwgGJDs/Ncmii6/7EE
+	Z+JNuEVX8wmF4ALDRLvbTWGQ87gxYKUyCf8Sbdn6SYXWhWLfEbusgD9ziEXO/qbns4mPzWtd6cLEL
+	ryCDe5ZskXS+OQ09WC0XZkigiFXXLCiOceCJ72V+vbejf8XcNqs869qF84UBH/kTcBKzmhpDrPV3z
+	/XjJWXDA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOvrA-00000008hjS-1SQT;
-	Thu, 05 Nov 2026 11:42:12 +0000
-Received: from mail-dy1-x1331.google.com ([2607:f8b0:4864:20::1331])
+	id 1xOwiV-00000008zDR-15QE;
+	Thu, 05 Nov 2026 12:37:19 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOvr7-00000008hha-3Bts
+	id 1xOwiS-00000008zCg-434R
 	for linux-nvme@lists.infradead.org;
-	Thu, 05 Nov 2026 11:42:11 +0000
-Received: by mail-dy1-x1331.google.com with SMTP id 5a478bee46e88-33bf40b0c8bso4781232eec.0
-        for <linux-nvme@lists.infradead.org>; Thu, 05 Nov 2026 03:42:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793878928; x=1794483728; darn=lists.infradead.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=+/ie1fjm6lAVadllpDyXq/QvwISd8L07DcsiVDBTI0I=;
-        b=SmV04ei9ZjfTxK/FfbaoSfjBm5cz1peWxcLDFgU0XX66ckG/xfiq++8IJUIHikpZAa
-         J6dSkAEvpkDqvEyToAxA2A97IO75Gt3yyRHSNonkp6S42gixL8FOzyPG8kRHgwYxZO5K
-         Oc5c2AtaQFqoeLdAkRGTPNzcvFWxErTpOQB6xOOnrWc497y8A8uuar9UDI1/i/T/BSmU
-         5Hg2TNdz6ina3iX3dcFSiOP0yNB+39cJtdCKDudyZuojQ4FHOwx1Gct7iHG8AvxNQ/gh
-         ifXN48MqbIMgsQ3vnrqEJxqEl8wm7HTew2Dh5vPdi4KOqHDnDFKIYV5Xj6Klf76mLumO
-         2A6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793878928; x=1794483728;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=+/ie1fjm6lAVadllpDyXq/QvwISd8L07DcsiVDBTI0I=;
-        b=OA5y9/JdYrltQcBoz/2CgjwACkaexXxMpwyfNBVue6PNsuCYHUIBWPHnnnC/IMTEPG
-         kogFnAZcvH2vVBP3eNza2pHICzjwS1SRDZvPMULgXgNAQ4k7u2DxgOEPwd95cenFFE5K
-         2BTRoiJFymNk8r1cncHPclEBF7yZfoXEUEW+L3Ftwwdh4/lbo/ja78pzVe9pvEFxspm+
-         rvEFUypuGa7pN9ke7OtNCxg4icXIvbZgiAahgMp7TOh62VgUXcqAPQmF6hrLXeTb09Mm
-         VR7XrFWhn+Ce7WmNgbS0haV8O0/BiXfj3rXDEauWLT0l8UZFSOofqE08oMQxN0EKuuNg
-         XvTQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxe9aRbm3refCb5Lz/FCnP0AGJlULtanycNzG61n/mLmvUeH5OdGE0nOLbAUVwcwMgfS+P98uCV7oO9@lists.infradead.org
-X-Gm-Message-State: APuU4Z+S/IOfo6VjRTyQy7SLXdA1feK1s4jzyxN1PxEVS3XRhxJXZzJG
-	9rohdIM7TvULJaQ7qHwgiPMH1awWm6F3Bnr1k4+EKhRO6nl2y3ch/rwi
-X-Gm-Gg: AYBFou2ydDBWQuP9XZxWtubOGxhEhq5UFpx493sIGdtv4gpMFCBETywE1FRY5ocXwem
-	4y75vXKD/EpFTW4blDsMzlA0VwBfnP4Tep9UHTm12AuOaLwkxNakW10IdNfCbdb+VKaIMJK0eaK
-	TMGcHEZ94/n2bagOOFKqpx1bg2+hZDUw6900zBAdju1LyE6iEkuaKipP5kMeKmpVG9n2X4GfrGe
-	Bny6UYDpmY5y9/JaDKR9C6VMtg85lt2ke1aTdcn6v4IpBg+2xLuiNCVEYQdOXvQGEzJQsCxeZoR
-	Irmj4dM/2eRxXgmlvQipbDX/MVxh+Mk4aIwLgX7qiUFrq9J6nR+UNf1IUID33xz6QP9AZ1MtkSc
-	BObLbAJjsRN1P7j0SoSLCGOE1LzP8TFtX5SM3EoYu/vLVZt3zP1r3DI94j6OprxAhUO15U3jqiK
-	8iyWW4d7HZVe6QWeuYogxuEjygK1iFTvMifNElRO5cOdBm3X7LweXrQ34rLbKsFRheuPypUQ2w7
-	c19Ipow+FOwGoLnrn7zo7Ru6pBTorF9gEMEDYxFPGzBmR00w7Gy4c+kiArToqVYRV152ZqoLDXX
-	qL6s4qivn0v9vs4fRI9HWdBmkhP2HLPjc98Wr7xSOoUM68keSaE7DORW/lsGjXEhXI9OVaKVGtk
-	kOTIdLhGladeKg3JpEaI46cdWryWFnt0=
-X-Received: by 2002:a05:701b:420d:10b0:184:d593:2897 with SMTP id a92af1059eb24-1ac5d5aa2aemr30545874c88.29.1793878928117;
-        Thu, 05 Nov 2026 03:42:08 -0800 (PST)
-Received: from lwq-System-Product-Name.. ([23.247.137.158])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b245c4706bsm19644566c88.15.2026.11.05.03.42.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 03:42:07 -0800 (PST)
-From: Yaohan Li <shunsheng1218@gmail.com>
-To: kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me
-Cc: mkp@kernel.org,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH v2] nvme: stop asynchronous event work before ANA teardown
-Date: Thu,  5 Nov 2026 19:41:49 +0800
-Message-Id: <20261105114149.970315-1-shunsheng1218@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	Thu, 05 Nov 2026 12:37:18 +0000
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A5AE8aG3449833;
+	Thu, 5 Nov 2026 12:37:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=pp1; bh=k0DikrKQmRQ055t4AEpwuyj+2bQmDjXz+Z3aWAcSx
+	pE=; b=idmiSLvwZkRj2a2sX37aKgjJsRp6EI7XYW9I1x7Uvgs+QGnJ+9pBkluAQ
+	LdzIsOh6Br47EcodFw0oX0OX4Gmn1shTwpMRjOFFkW2/E2RZbN3GCOVNilnrmgt+
+	WxvMXduskYJgT4vbdnydbSNDnShAeJpo7OS5zNYo4T9GNKizPwq3bJQmQuGN+oCh
+	IQOVQRKZE38p9aEkDZQIC2M5U06bHVLNEd5LC5BngzD/uz1xvrGf6ksvVJOpOC/r
+	2WmoD7hNzmFF43lrclR90fNscE/mFBdww5UECLp/0zsf4YD3AnY2vfhFCv/6XoTX
+	yrfeyCs3I+XnAkB9CEe17v0HqbVxg==
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hn7u3t5p8-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 05 Nov 2026 12:37:02 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6A5A4s4b1476777;
+	Thu, 5 Nov 2026 12:37:01 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4hrka6ss6n-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 05 Nov 2026 12:37:01 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
+	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6A5CavJw28115462
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 5 Nov 2026 12:36:57 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 59B2A2005A;
+	Thu,  5 Nov 2026 12:36:57 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8DDAB2004E;
+	Thu,  5 Nov 2026 12:36:53 +0000 (GMT)
+Received: from li-a84c74cc-2b13-11b2-a85c-acdd023f0674.ibm.com.com (unknown [9.61.54.50])
+	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Thu,  5 Nov 2026 12:36:53 +0000 (GMT)
+From: Nilay Shroff <nilay@linux.ibm.com>
+To: kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, chaitanyak@nvidia.com,
+        gjoyce@linux.ibm.com
+Cc: linux-nvme@lists.infradead.org, shinichiro.kawasaki@wdc.com,
+        Nilay Shroff <nilay@linux.ibm.com>
+Subject: [PATCH] nvmet: cache passthru reference in __nvmet_req_complete()
+Date: Thu,  5 Nov 2026 17:54:55 +0530
+Message-ID: <20261105123642.2120548-2-nilay@linux.ibm.com>
+X-Mailer: git-send-email 2.53.0
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Authority-Analysis: v=2.4 cv=Zsp4uN7G c=1 sm=1 tr=0 ts=6aec786e cx=c_pps
+ a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
+ a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
+ a=iQ6ETzBq9ecOQQE5vZCe:22 a=VwQbUJbxAAAA:8 a=JF9118EUAAAA:8 a=VnNF1IyMAAAA:8
+ a=g3HCxRTuVJBXPMZTQd4A:9 a=xVlTc564ipvMDusKsbsT:22
+X-Proofpoint-ORIG-GUID: TFiVHyZCFa8hT2fIeqKU33BoQCAm86Fy
+X-Proofpoint-GUID: TFiVHyZCFa8hT2fIeqKU33BoQCAm86Fy
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA1MDA0OCBTYWx0ZWRfX6qhzZGFY1Qs+
+ NI3bDdfQQ4SlF15YfmPjSdZbEcUc7fJtjoHKOQ/5+0QevwDsTiHp9UJ5Y4LCo2DDJTkoqIdgxT0
+ q6imwwGqadZ4FwLewIpXMZXbVLydJ+sv2rpSo+3dm327hBb4syP9/xaIZCHsXOw8jxfoG/mQleW
+ 6A2S8gMO6iVjRbPesPoMxvmPVsw+Xt0nZIk5RQKbzHRDBwFsK69Rmp8rBea8Ueds1HwmzDUJ5qI
+ Zb4R3HXoI7Oq1J7fManJ3zh8pBv//4j+WUyh/tFWtkqBIapeaKqLTATDsZhdccGDwzfCefmB+kY
+ IqvGw8VECxey2djk2cP1nPfpdm0+Dby2x2pticsVz4x/WLzKw5p+MphH7bYJYX6f2UZcjdCM5SO
+ tCoGfn4DQA6gsVIV2WbPJrOdOds8OdXXNcc63vQykq5rd/NmlFY5FtRTwzaKZV2fTFUF2JG+Dhd
+ PVXGlpl6wOx32a1SJKQ==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA1MDA0OCBTYWx0ZWRfX5VtksspjExuv
+ gJ1xeBSQNPi8IDOCTlJQE5q4w4NLhEeiilXARMTLX4RQW8oeA0HFyNI6fucnDupOhRdQv1yR2oo
+ ove2FZlznenQw0w1Hw9KgJwx4ZTPcv0=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-05_03,2026-11-04_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 adultscore=0 priorityscore=1501 bulkscore=0 clxscore=1015
+ impostorscore=0 spamscore=0 malwarescore=0 suspectscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2611050048
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261105_034209_824250_904DD273 
-X-CRM114-Status: GOOD (  15.72  )
-X-Spam-Score: -1.9 (-)
+X-CRM114-CacheID: sfid-20261105_043717_005251_6D807F70 
+X-CRM114-Status: GOOD (  18.15  )
+X-Spam-Score: -2.6 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -105,142 +118,121 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-16.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-NVMe ANA work has several producers, including ANA AER completion,
-namespace scanning and failover processing.
+__nvmet_req_complete() releases the passthru reference held while
+processing a passthru request. However, it currently does so after
+calling ops->queue_response().
 
-An AER completion can queue ana_work for an ANA notice and can
-separately queue async_event_work, which sends the AEN uevent and
-submits the next asynchronous event request.  These work items access
-controller-owned state during asynchronous processing.
+Once ops->queue_response() is called, the transport may complete and
+recycle the request on another CPU. If the request is reused, its
+req->p.ref_held field may be reset to false before
+__nvmet_req_complete() checks it in nvmet_put_passthru_ref().
+Consequently, the passthru reference may not be released, leaving
+wait_for_completion(&passthru->disable_done) in
+__nvmet_passthru_ctrl_disable() blocked indefinitely.
 
-Controller teardown must ensure that both the event work and ANA
-processing have completed before their associated resources are
-released.  Cancel async_event_work during controller uninitialization,
-after the controller has stopped accepting new events, and cancel
-ana_work again before releasing its ANA resources.  Draining only
-ana_work is not sufficient: an ANA notice completion can still queue it
-while teardown is in progress.
+Fix this by caching the passthru pointer at the beginning of
+__nvmet_req_complete(), while the request is still valid, and use
+the cached pointer to release the reference after queuing the
+response. This also changes nvmet_put_passthru_ref() to accept
+the passthru pointer directly instead of accessing it through
+the request.
 
-ana_work is initialized in nvme_mpath_init_ctrl() during
-nvme_init_ctrl(), before any teardown path can run.  During controller
-removal its producers are dead before the final cancel in
-nvme_mpath_uninit(): namespace scanning is flushed in
-nvme_remove_namespaces(), path clearing removes the failover source,
-the transport's delete_ctrl tears down the admin queue so no further
-AEN completions can queue work, and nvme_enable_aen() is only
-reachable from nvme_start_ctrl().
-
-nvme_mpath_uninit() also runs from nvme_mpath_init_identify(): from
-the ANA log growth path, where nvme_mpath_stop() has already
-cancelled ana_work, and from its out_uninit error exit, which can be
-reached without nvme_mpath_stop() when reading the ANA log fails.
-nvme_mpath_init_identify() is called from nvme_init_ctrl_finish(),
-while the controller is CONNECTING or RESETTING (LIVE is set at the
-end of nvme_start_ctrl()), and nvme_ana_work() returns immediately
-unless the controller is LIVE, so in both cases the additional cancel
-only drains work that would be a no-op and cannot race a work using
-the ANA buffer.
-
-This issue was investigated and the fix was developed with AI
-assistance (ZCode/GLM-4).
-
-The race was reproduced with the in-tree NVMe loop target and
-scheduling injection.  Cancelling ANA work alone left reports;
-draining the event work and the ANA work together removed the
-reported use-after-free under the same test conditions.
-
-Fixes: 0d0b660f214dc ("nvme: add ANA support")
-Cc: stable@vger.kernel.org
-Signed-off-by: Yaohan Li <shunsheng1218@gmail.com>
+Reported-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Closes: https://lore.kernel.org/all/auhpmq499RVE9YpC@shinmob/
+Fixes: 5e12d81874a1 ("nvmet: fix use-after-free in passthru I/O hotpath")
+Tested-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
 ---
+ drivers/nvme/target/core.c  |  4 +++-
+ drivers/nvme/target/nvmet.h | 24 +++++++++++++++++-------
+ 2 files changed, 20 insertions(+), 8 deletions(-)
 
-Changes since v1:
-- Corrected the causal description: an AER completion queues ana_work
-  (via the ANA notice handler) and separately queues
-  async_event_work, which sends the AEN uevent and submits the next
-  request.  v1 wrongly attributed ana_work re-queueing to the event
-  worker itself.
-- Noted that ana_work is initialized in nvme_mpath_init_ctrl() during
-  nvme_init_ctrl(), before any teardown path, and documented all
-  ana_work producers in comments.
-- Audited the producer shutdown order for the final controller
-  removal: nvme_remove_namespaces() flushes scan_work, path clearing
-  removes the failover source, the transport's delete_ctrl tears down
-  the admin queue, and nvme_enable_aen() is only reachable from
-  nvme_start_ctrl().
-- Corrected the error-path claim: nvme_mpath_init_identify()'s
-  out_uninit exit is reachable without nvme_mpath_stop() (when reading
-  the ANA log fails without growing the buffer).  nvme_ana_work()
-  returns immediately unless the controller is LIVE, and
-  nvme_init_ctrl_finish() runs while the controller is CONNECTING or
-  RESETTING, so the extra cancel on those paths only drains a no-op
-  work.  No additional cancel_work_sync() calls were added.
-- Addressed the Sashiko review note on the explanatory text: the
-  comment in nvme_uninit_ctrl() and the commit message now describe the
-  actual queueing paths — an AER completion queues async_event_work
-  (uevent plus the next request) and separately queues ana_work via the
-  ANA notice handler, while namespace scanning and the failover path are
-  the other ana_work producers — instead of attributing ana_work
-  re-queueing to nvme_async_event_work().
-- No functional changes beyond v1.
-v1: https://lore.kernel.org/r/179378587000.73780.18152328009023418065@gmail.com/
-
- drivers/nvme/host/core.c      | 10 ++++++++++
- drivers/nvme/host/multipath.c |  9 +++++++++
- 2 files changed, 19 insertions(+)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index a7a4d09644c13..8efa306205e19 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -5182,6 +5182,16 @@ EXPORT_SYMBOL_GPL(nvme_start_ctrl);
- void nvme_uninit_ctrl(struct nvme_ctrl *ctrl)
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index eadab017c70b..b8bcb5bf6be6 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -806,6 +806,7 @@ static void __nvmet_req_complete(struct nvmet_req *req, u16 status)
  {
- 	nvme_stop_keep_alive(ctrl);
-+
-+	/*
-+	 * An AER completion can queue async_event_work; drain it
-+	 * before the controller's final release.  Note that ana_work
-+	 * has additional producers (namespace scanning via
-+	 * nvme_scan_work, and the failover path in
-+	 * nvme_failover_req), which is why nvme_mpath_uninit()
-+	 * separately cancels ana_work after this point.
-+	 */
-+	cancel_work_sync(&ctrl->async_event_work);
- 	nvme_hwmon_exit(ctrl);
- 	nvme_fault_inject_fini(&ctrl->fault_inject);
- 	dev_pm_qos_hide_latency_tolerance(ctrl->device);
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 9e0a0fd77c56e..4ced8136d5f63 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -1610,6 +1610,15 @@ int nvme_mpath_init_identify(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ 	struct nvmet_ns *ns = req->ns;
+ 	struct nvmet_pr_per_ctrl_ref *pc_ref = req->pc_ref;
++	struct nvmet_passthru *passthru = nvmet_passthru_ref_held(req);
  
- void nvme_mpath_uninit(struct nvme_ctrl *ctrl)
- {
-+	/*
-+	 * ANA work can be queued by AER completion (via
-+	 * nvme_handle_aen_notice), namespace scanning
-+	 * (nvme_scan_work), and the failover path
-+	 * (nvme_failover_req).  Drain any remaining work before
-+	 * releasing the ANA resources.
-+	 */
-+	cancel_work_sync(&ctrl->ana_work);
+ 	if (!req->sq->sqhd_disabled)
+ 		nvmet_update_sq_head(req);
+@@ -824,7 +825,8 @@ static void __nvmet_req_complete(struct nvmet_req *req, u16 status)
+ 	if (ns)
+ 		nvmet_put_namespace(ns);
+ 
+-	nvmet_put_passthru_ref(req);
++	if (passthru)
++		nvmet_put_passthru_ref(passthru);
+ }
+ 
+ void nvmet_req_complete(struct nvmet_req *req, u16 status)
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 3cd58e813aa7..2c2460ef5e2b 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -832,6 +832,15 @@ static inline struct nvmet_passthru *nvmet_subsys_passthru(
+ 	return subsys->passthru;
+ }
+ 
++static inline struct nvmet_passthru *nvmet_passthru_ref_held(
++		struct nvmet_req *req)
++{
++	if (req->p.ref_held)
++		return nvmet_req_subsys(req)->passthru;
 +
- 	kvfree(ctrl->ana_log_buf);
- 	ctrl->ana_log_buf = NULL;
- 	ctrl->ana_log_size = 0;
++	return NULL;
++}
++
+ static inline bool nvmet_get_passthru_ref(struct nvmet_req *req)
+ {
+ 	if (!percpu_ref_tryget_live(&nvmet_req_subsys(req)->passthru->ref))
+@@ -841,13 +850,9 @@ static inline bool nvmet_get_passthru_ref(struct nvmet_req *req)
+ 	return true;
+ }
+ 
+-static inline void nvmet_put_passthru_ref(struct nvmet_req *req)
++static inline void nvmet_put_passthru_ref(struct nvmet_passthru *passthru)
+ {
+-	if (!req->p.ref_held)
+-		return;
+-
+-	req->p.ref_held = false;
+-	percpu_ref_put(&nvmet_req_subsys(req)->passthru->ref);
++	percpu_ref_put(&passthru->ref);
+ }
+ #else /* CONFIG_NVME_TARGET_PASSTHRU */
+ static inline void nvmet_passthru_subsys_free(struct nvmet_subsys *subsys)
+@@ -873,11 +878,16 @@ static inline struct nvmet_passthru *nvmet_subsys_passthru(
+ {
+ 	return NULL;
+ }
++static inline struct nvmet_passthru *nvmet_passthru_ref_held(
++		struct nvmet_req *req)
++{
++	return NULL;
++}
+ static inline bool nvmet_get_passthru_ref(struct nvmet_req *req)
+ {
+ 	return false;
+ }
+-static inline void nvmet_put_passthru_ref(struct nvmet_req *req)
++static inline void nvmet_put_passthru_ref(struct nvmet_passthru *passthru)
+ {
+ }
+ #endif /* CONFIG_NVME_TARGET_PASSTHRU */
 
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+base-commit: c64d9b2c1f4fd1d8fa52dab37b48428a99c4d58d
 -- 
-2.34.1
+2.53.0
 
 
