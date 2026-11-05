@@ -2,72 +2,104 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EE0E606A328
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Nov 2026 01:46:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC244606A31B
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Nov 2026 01:56:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=GxA1Rdjo;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UZNWd8YS
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=f0P0vgUo;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=EW41Vo2i
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Unsubscribe-Post:List-Owner;
-	bh=vzblkOvjx9ASJ3j79izeEunNnmRUxxFuazx+mrXhEWc=; b=GxA1RdjobvuQW+j4KRTS5eKOBT
-	oRRwuVwluWoGEvC4UFZRK6Nn6th1MwgWYc6YNV69mJmBka4emmdJNrZhKJJLHd8tY2KoP4WRlTV3f
-	BBzmPtRAYSwP2R/76pBET80OhELppYd2wcYuXswG6ZSn455FB7lrAethRAdWLK8Cpyoa+2WQlbPEo
-	yDnBwsgq8WFAn8T5CNpn75Ln6AvN+xKZmeYTmv6osiGPlpDEEQC6KSQCJUj5W1EIa/K/oVpeYadDs
-	Cd2pPkBRiUxP6IzyaYmoNbGeMMFyM1TSYyBAB61XqmRTWLJtL8+3jO08EAOcbdUEqk2CTfd7fyN3s
-	+f5knpMg==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
+	List-Owner; bh=zua2wKISeB6S1byTyWjx24hQmuvknlx4L4ArzH3c8oQ=; b=f0P0vgUouAzvIk
+	NfP8PrcP4xcri7G2+SJogpsye6WsCuakZmQ1jFgGuT7hwpBVr/toOh7h718NLX2Kzz4IPmE0thF/P
+	Mr/ogTkTkoTWQ0NQlLRK+Y8NpfaeQsjVhUkvxA436C5sbxLDR/YDhxZ8jKYcRR66lcHEzLGRgwduV
+	pYUMv4Vg4M3YQpcqQZ0MmPiIDA/95wC475zaRCFNI8PfhgwUlPs7sXxTSq6NXMde6HjQ7nCpuFTkP
+	w48O9QJvSvPH2vjq/gbeXHoclhWuUCtzjYOnin4paU2nvr1me82UpbUrkmPoCWn9EllKIQrUMohJq
+	b/HMtF9Fh2p3E8M12ytQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOmYx-00000007Vbz-3wFy;
-	Thu, 05 Nov 2026 01:46:47 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1xOmif-00000007WcJ-0Ha6;
+	Thu, 05 Nov 2026 01:56:49 +0000
+Received: from mail-dy1-x1335.google.com ([2607:f8b0:4864:20::1335])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOmYw-00000007Vbr-3B94
+	id 1xOmib-00000007Wbi-1k9X
 	for linux-nvme@lists.infradead.org;
-	Thu, 05 Nov 2026 01:46:47 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 319C243D90;
-	Thu,  5 Nov 2026 01:46:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1343D1F0093A;
-	Thu,  5 Nov 2026 01:46:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793843206;
-	bh=vzblkOvjx9ASJ3j79izeEunNnmRUxxFuazx+mrXhEWc=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
-	b=UZNWd8YSARAred/fa/MLSDj/SgK/FWf3Qo5OvzIEmcAGruna0cpdFi4MsJQaonLA1
-	 gJ+Xz3fETCxZey2Rj3CGUo1JMsCgOk58FT4WmRSFIq8aeuAtTCf/uJXTS2Ad8DsYyv
-	 P0CZKFCE9MYj5g8yCvU+8D2/SMyHgdd2ho4T0W9yATREQ7pCTkmpggbB0bg2Atmgux
-	 3il5Rreld193n+3PC0AUs87n2xsp4DSnrUX6WC4XtkNjFBNUG4MX1q9FjI7h5toPMs
-	 xLoSLfhBLIHTCDXaRUlK69dcJlp1nH2Vv8UlMke16+iKtuVbccMrnaO/LpUYm1VWBA
-	 ZB5c8P3650mjg==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id D0D63CE0B0B; Wed,  4 Nov 2026 17:46:45 -0800 (PST)
-Date: Wed, 4 Nov 2026 17:46:45 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Qiliang Yuan <odys.yuan@gmail.com>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Thu, 05 Nov 2026 01:56:47 +0000
+Received: by mail-dy1-x1335.google.com with SMTP id 5a478bee46e88-36a1947498bso3503431eec.1
+        for <linux-nvme@lists.infradead.org>; Wed, 04 Nov 2026 17:56:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793843804; x=1794448604; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=zua2wKISeB6S1byTyWjx24hQmuvknlx4L4ArzH3c8oQ=;
+        b=EW41Vo2iMN98wqr+Rd3hb7aq6VhOhcxknFW0nCWlhOeB2GYYxuvfDbLb8bZ5lqgdTp
+         s78xXxMjJ3ZIiXiYQC8wSLgt5T49TM/aG5N+dqMgT2KyNJTZY2ciUGl2V51Wac2NCuvQ
+         Y+M2v6LfcUAm/d1OklUPV2B9R3D9v6UF3RyLXbINDTwZA6s+aZwe+FEpv2DZwaXRGXF6
+         gD3ItR6zImtzZLMb+2v1V65xC07c+qzDe+KSbtdRDfTtQPukOQhIzkFrt4mlQhJDM0fo
+         j7tUZqKHhNWB5lasDd6k4fpI6BPpHfcpKNa5NOpCkNu3gzCQNGvplFugMeqjeDBI1OvK
+         irgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793843804; x=1794448604;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=zua2wKISeB6S1byTyWjx24hQmuvknlx4L4ArzH3c8oQ=;
+        b=COjkfaW/Ou1MIMWwA4nhY/jWUuU9yUrLVlJ4aKUtO7I1ur+zOq6EtHKn2tkLCoRZpS
+         cqQpaijRWgPsSLe19BTGSWamgwqSV8AV5qJzyP492QcjOGuEQRlceE9J+ubtFkObKLOA
+         9azKp2W5Kwb/as5cnscsYFFd2Y+MtWpvmUIxtbiIQCRuwT7jyG4JW+HMOxrFh/GscG7n
+         69E+j6cySIc/kvTF/2A0igCsEBEo9f73sC69xLkNexknwwqGyRzhrZmG8hYcrIhHxf95
+         FJARnpAPkDc7gqR8kHbtSDiiHfydBVPPgT3p8cNLIegdQ8NZaDGsCMNCvs6earACpMFH
+         lDLA==
+X-Forwarded-Encrypted: i=1; AKwUvBxhtJC2/I/zFMqsENETAPA+iIexiEDJrsyPUOt8Ve/7sS6awZAbwZyOCFhFi6Xg6jHLq6baPmKmwLFn@lists.infradead.org
+X-Gm-Message-State: APuU4Z+ijZJlHBJHXC8qYKHyqacv1Mx2lic6Nkk88JHYJR4tF+t3N+iG
+	MgvoWLe04vkIFLRatxSQk8yiypUqUPFWvvTGXy2dyxpdPJedTGmRDhAD
+X-Gm-Gg: AYBFou0QXSG5xmjtUxLeoxUHWhd35guu4HUNtv7Y6kK9TX5+0gudxPI9DqDdPvYsKw8
+	gj1YDqAhEGbY/cv+HqK5dGD8kfr05V8LkIMV6Ee9+AjbC459VcFZzHGfkSVXs/RaeGEeiN+8hBu
+	FCV5dlXg1OXOrGGuHF9/TGiZ0WPPxiCI26SSpEBoMIqlnSGsO+Hm9XPOORSxja2VHZtQ9sozYuZ
+	8e9HiihJoU4orvfK8boo1IxjJ+4cX6O6RyXYDrWz6ZGitVqCJO2RjDefgajAUovMIGsJG79IKDO
+	eANETO3abJMWJfm3QUtCasfQb1Pxuyy+SWsfPSMqLTbgdijTYXBmx+ojErY8N3NySpF+sWwIUjC
+	hrT4/9vBlrJ2HGvRKhyeNrOKDU4hLlPN6tu1Zm+lvaA7Y2Ghf70uLGU6O8ISuImOXRxj9sj55Bd
+	4uc5tnwJ7Du2QnBu4pRFPfbeW2YR0SBecwtiqQsoptDTwMFQoWqtcXnqN3ZefEMxOfBSKA9+CTf
+	sDQqHF3qoSuP4P4OgfoXxXZ/0YbymISH0aDn3INyabNqDhzmmYd4gUITVQaWoMzKLBlg/T7EqJU
+	yQ42K4QKcjvb12EKJf4r
+X-Received: by 2002:a05:7301:2a05:b0:36c:b138:651e with SMTP id 5a478bee46e88-36cb1386818mr7686510eec.22.1793843804409;
+        Wed, 04 Nov 2026 17:56:44 -0800 (PST)
+Received: from ubuntu.. ([23.254.208.9])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36ca3785430sm16872570eec.3.2026.11.04.17.56.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Nov 2026 17:56:43 -0800 (PST)
+From: Qiliang Yuan <odys.yuan@gmail.com>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Sagi Grimberg <sagi@grimberg.me>,
 	Lai Jiangshan <jiangshanlai@gmail.com>,
 	Josh Triplett <josh@joshtriplett.org>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	=?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
 	Steven Rostedt <rostedt@goodmis.org>,
 	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	rcu@vger.kernel.org, stable@vger.kernel.org
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	rcu@vger.kernel.org,
+	stable@vger.kernel.org
 Subject: Re: [PATCH v2 1/2] srcu: Add list_splice_init_srcu()
-Message-ID: <5b0e7c55-72b1-410a-982c-a62138b9e44c@paulmck-laptop>
-References: <20261104-bug-nvme-remove-ns-srcu-v2-0-feb64ecb96ca@gmail.com>
- <20261104-bug-nvme-remove-ns-srcu-v2-1-feb64ecb96ca@gmail.com>
- <9f8c94ff-29e3-4ea5-b9ec-b04b2bc21b1c@paulmck-laptop>
+Date: Wed,  4 Nov 2026 20:56:38 -0500
+Message-ID: <20261105015638.746024-1-odys.yuan@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <5b0e7c55-72b1-410a-982c-a62138b9e44c@paulmck-laptop>
+References: <20261104-bug-nvme-remove-ns-srcu-v2-0-feb64ecb96ca@gmail.com> <20261104-bug-nvme-remove-ns-srcu-v2-1-feb64ecb96ca@gmail.com> <9f8c94ff-29e3-4ea5-b9ec-b04b2bc21b1c@paulmck-laptop> <5b0e7c55-72b1-410a-982c-a62138b9e44c@paulmck-laptop>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9f8c94ff-29e3-4ea5-b9ec-b04b2bc21b1c@paulmck-laptop>
+Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20261104_175645_479223_3644F411 
+X-CRM114-Status: GOOD (  16.76  )
+X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,116 +109,42 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: paulmck@kernel.org
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Wed, Nov 04, 2026 at 09:14:13AM -0800, Paul E. McKenney wrote:
-> On Wed, Nov 04, 2026 at 01:30:39AM -0500, Qiliang Yuan wrote:
-> > list_splice_init_rcu() makes a list look empty to new readers, waits for
-> > the current ones with the given sync function, and only then links the
-> > entries into the new list. The sync function takes no argument, so it
-> > can wait for RCU readers but not for the readers of an srcu_struct.
-> > 
-> > Passing synchronize_rcu() for a list read under SRCU still builds, but
-> > leaves SRCU readers on the entries while the last one's next pointer is
-> > moved onto the new list head. nvme_remove_namespaces() does this today.
-> > 
-> > Add list_splice_init_srcu(), which waits for the readers of the given
-> > srcu_struct instead.
-> > 
-> > Cc: stable@vger.kernel.org
-> > Suggested-by: Christoph Hellwig <hch@lst.de>
-> > Signed-off-by: Qiliang Yuan <odys.yuan@gmail.com>
-> 
-> I am not inalterably opposed to adding a list_splice_init_srcu(),
-> especially if quite a few more users show up, but here is what I was
-> expecting people to do:
-> 
-> 	static void synchronize_my_srcu(void)
-> 	{
-> 		synchronize_srcu(&my_srcu);
-> 	}
-> 
-> 	...
-> 
-> 	list_splice_init_rcu(l, h, synchronize_my_srcu);
-> 
-> We need at least six uses of the above idiom to break even on the line
-> of code required for introducing a list_splice_init_srcu().
+On Wed, Nov 04, 2026 at 05:46:45PM -0800, Paul E. McKenney wrote:
+> On Wed, Nov 04, 2026 at 09:14:13AM -0800, Paul E. McKenney wrote:
+> > I am not inalterably opposed to adding a list_splice_init_srcu(),
+> > especially if quite a few more users show up, but here is what I was
+> > expecting people to do:
+> >
+> > 	static void synchronize_my_srcu(void)
+> > 	{
+> > 		synchronize_srcu(&my_srcu);
+> > 	}
+> >
+> > 	...
+> >
+> > 	list_splice_init_rcu(l, h, synchronize_my_srcu);
+> >
+> > We need at least six uses of the above idiom to break even on the line
+> > of code required for introducing a list_splice_init_srcu().
+>
+> Given Qiliang's response:
+>
+> Reviewed-by: Paul E. McKenney <paulmck@kernel.org>
 
-Given Qiliang's response:
+Thanks, Paul.
 
-Reviewed-by: Paul E. McKenney <paulmck@kernel.org>
+Christoph, with that, please disregard my suggestion to take v1
+instead; v2 is the one to apply.
 
-							Thanx, Paul
-
-> > ---
-> >  include/linux/srcu.h | 36 ++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 36 insertions(+)
-> > 
-> > diff --git a/include/linux/srcu.h b/include/linux/srcu.h
-> > index 1a8a465a5650d..d4dcaeb83e2b6 100644
-> > --- a/include/linux/srcu.h
-> > +++ b/include/linux/srcu.h
-> > @@ -18,6 +18,7 @@
-> >  
-> >  #include <linux/mutex.h>
-> >  #include <linux/rcupdate.h>
-> > +#include <linux/rculist.h>
-> >  #include <linux/workqueue.h>
-> >  #include <linux/rcu_segcblist.h>
-> >  
-> > @@ -118,6 +119,41 @@ void cleanup_srcu_struct(struct srcu_struct *ssp);
-> >  void synchronize_srcu(struct srcu_struct *ssp);
-> >  void synchronize_srcu_atomic(struct srcu_struct *ssp);
-> >  
-> > +/**
-> > + * list_splice_init_srcu - splice an SRCU-protected list into an existing list
-> > + * @list:	the SRCU-protected list to splice
-> > + * @head:	the place in the existing list to splice the first list into
-> > + * @ssp:	the srcu_struct that readers of @list use
-> > + *
-> > + * Like list_splice_init_rcu(), but wait for the SRCU readers of @list
-> > + * instead of RCU ones, so that none of them can follow a next pointer
-> > + * onto @head.
-> > + *
-> > + * Note that this function blocks, and that the caller must prevent any
-> > + * other updates to @list.
-> > + */
-> > +static inline void list_splice_init_srcu(struct list_head *list,
-> > +					 struct list_head *head,
-> > +					 struct srcu_struct *ssp)
-> > +{
-> > +	struct list_head *first = list->next;
-> > +	struct list_head *last = list->prev;
-> > +	struct list_head *next = head->next;
-> > +
-> > +	if (list_empty(list))
-> > +		return;
-> > +
-> > +	INIT_LIST_HEAD_RCU(list);
-> > +	synchronize_srcu(ssp);
-> > +	ASSERT_EXCLUSIVE_ACCESS(*first);
-> > +	ASSERT_EXCLUSIVE_ACCESS(*last);
-> > +
-> > +	last->next = next;
-> > +	rcu_assign_pointer(list_next_rcu(head), first);
-> > +	first->prev = head;
-> > +	next->prev = last;
-> > +}
-> > +
-> >  #define SRCU_GET_STATE_COMPLETED 0x1
-> >  
-> >  /**
-> > 
-> > -- 
-> > 2.43.0
-> > 
+Thanks,
+Qiliang
 
