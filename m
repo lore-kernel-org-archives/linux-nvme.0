@@ -2,70 +2,88 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED8CA606D802
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Nov 2026 13:58:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06A17606D803
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Nov 2026 15:12:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=kJjiEmC9
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=p01N1Rx4
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Subject:Cc:To:
-	From:Mime-Version:Date:Message-ID:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Unsubscribe-Post:List-Owner;
-	bh=roeOiANIDFUwCk1N8kNAgvb2U58m5KoSZCuD7m0gbng=; b=kJjiEmC9irQwYbN2EUDhqsDKSE
-	eGK5nPews3hr0JDtT9NapurylHNqOjqx9HBmumx1gt+oyOSMfMHA8ihVMvUKEA5eYxOYrYZ6M/SRG
-	i2NBKtceMQGdXBAqKIVZysJdq68scZCRb4oEpnXc22KGaTA6X18/bMeG5Pm3GQrSnFNS+GtoctLOW
-	n/PcQE46AFHSyK/uIVvQgVPQkNZeyr9PTWr6etc37AR0pk1Y+40Hn1eESr8nM3Aqv1dUq3MIqHJRA
-	EZOpPrFrf7JWc9Ynr2fYymt6Jq1pWNd1Evx+0kiz/bwB4Dt656ndcxdHlYfZJJn2RR2zwLPuEpoO8
-	aKrNh3qQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Date:Message-ID:Subject:References:In-Reply-To:CC:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
+	List-Owner; bh=UZ8DsvYdOYu4YnthJODg6wuyHI70zGW4VvxoRcZW9ng=; b=p01N1Rx42X3jwE
+	gkZoAcJAlJQl3LhYyXJZZpPkuvpt87DVdd1EIIbjHX3gog95kmK777gjLi43f2ZyGKEIOExKOmCRz
+	mw1Vrs/FcNzWoeYHPUiuB5JPiFUa0+pdlk8N94YAmUVvp7QIrTn8UpArTTq7E6J7nRrbzL2Iql54I
+	P+BjJ5YqfupBCDUhOTcWO9/15whivz62GALKQBCxS4WlsWz9O/z5HZmbKjXZVEwqzcV0AejnNQk9G
+	pgalc3GNk4Y6gUO6tAK1Ui1Q85ffA/OsBv5hu2tzkgjZ2ks5lABhguPYI79m3whGWy+vgLCMG1YHn
+	S5pZJdI92O12+4gyAn2A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOxyu-00000009CYT-2R4W;
-	Thu, 05 Nov 2026 13:58:20 +0000
-Received: from mxhk.zte.com.cn ([160.30.148.35])
+	id 1xOz89-00000009NFN-1v7C;
+	Thu, 05 Nov 2026 15:11:57 +0000
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOxyr-00000009CVN-0qn7
+	id 1xOz84-00000009NEj-0BTV
 	for linux-nvme@lists.infradead.org;
-	Thu, 05 Nov 2026 13:58:18 +0000
-Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4jL3ml3HNbz8Xrnt;
-	Thu, 05 Nov 2026 21:58:15 +0800 (CST)
-Received: from xaxapp02.zte.com.cn ([10.88.97.241])
-	by mse-fl2.zte.com.cn with SMTP id 6A5Dw6So060372;
-	Thu, 5 Nov 2026 21:58:06 +0800 (+08)
-	(envelope-from shao.mingyin@zte.com.cn)
-Received: from mapi (xaxapp04[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Thu, 5 Nov 2026 21:58:07 +0800 (CST)
-X-Zmail-TransId: 2afb6aec8b6fdec-d453e
-X-Mailer: Zmail v1.0
-Message-ID: <20261105215807526OqR0Bg86VChvwhCEz5xGr@zte.com.cn>
-Date: Thu, 5 Nov 2026 21:58:07 +0800 (CST)
+	Thu, 05 Nov 2026 15:11:53 +0000
+Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A5ETCTs4156153
+	for <linux-nvme@lists.infradead.org>; Thu, 5 Nov 2026 07:11:50 -0800
+Received: from maileast.thefacebook.com ([163.114.135.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4hrbck69d7-5
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Thu, 05 Nov 2026 07:11:50 -0800 (PST)
+Received: from twshared91271.16.frc2.facebook.com (2620:10d:c0a8:1b::8e35) by
+ mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.56; Thu, 5 Nov 2026 15:11:46 +0000
+Received: from devbig197.nha3.facebook.com (localhost [IPv6:::1])
+	by devbig197.nha3.facebook.com (Postfix) with ESMTP id 92C122E7EC6F2;
+	Thu,  5 Nov 2026 07:11:31 -0800 (PST)
+From: Keith Busch <kbusch@kernel.org>
+To: <hch@lst.de>, <sagi@grimberg.me>, <kch@nvidia.com>,
+        <linux-nvme@lists.infradead.org>, <shao.mingyin@zte.com.cn>
+CC: <linux-kernel@vger.kernel.org>
+In-Reply-To: <20261104211446891tN1QRJiKV3CLPQqfb7gJu@zte.com.cn>
+References: <20261104211446891tN1QRJiKV3CLPQqfb7gJu@zte.com.cn>
+Subject: Re: [PATCH] nvmet: drop the redundant auth check in
+ nvmet_parse_io_cmd()
+Message-ID: <179389149159.2132554.6031206055539117690.b4-ty@kernel.org>
+Date: Thu, 5 Nov 2026 07:11:31 -0800
 X-Archived-By: <archiver.kernel.org>
-Mime-Version: 1.0
-From: <shao.mingyin@zte.com.cn>
-To: <kbusch@kernel.org>, <axboe@kernel.dk>, <hch@lst.de>, <sagi@grimberg.me>,
-        <linux-nvme@lists.infradead.org>
-Cc: <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
-Subject: =?UTF-8?B?W1BBVENIXSBudm1lOiByZWplY3QgaW52YWxpZCByZWNvbm5lY3RfZGVsYXkgc3lzZnMgdmFsdWVz?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL: mse-fl2.zte.com.cn 6A5Dw6So060372
-X-TLS: YES
-X-ENVELOPE-SENDER: shao.mingyin@zte.com.cn
-X-SOURCE-IP: 10.5.228.133 unknown Thu, 05 Nov 2026 21:58:15 +0800
-X-CLEAN: YES
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6AEC8B77.000/4jL3ml3HNbz8Xrnt
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
+X-FB-Internal: Safe
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA1MDA2MCBTYWx0ZWRfX0wK44w2+wQVW
+ G+Y9r3E6B/eMi0Wi6Xy+Mo118pquIFwfXoXQowtwv9TPsoIm963D3uBmVDGBT3Pmz0I1Cb8sneZ
+ 85H6Vzqwjbp1IaGyiGqjOTyloYHB1gQ728hJ5I4oH9gihJMvQDNYxz123orQoR57mkxeXknbrlD
+ R1kYLBuT1p2Ex8I4ljoV3F7O2PMKN38Hhj8kzUWOZpy5Sfby26rRoHLXyXb2me/bsAL3taY1EL+
+ 4LVIkZ7DHrJSvO8CSYGG7Vgn2if9ucBwW8a9QTLRbqlUspOONz7dSFMIujrxoJdj32sCmlmRwjV
+ f8vJDizGBHkx7xEh+WdL1hAhEW2AIGHr52LuudY5E/aHUJh/RlIG8ec4TI1q95r1BWp9GkX/cWm
+ poskqq1OOL0LWUAtx2JxHNYW1ouNWEYsluNte5/ydjkCSdZnn2NZca2XANFQt/aPBousCknqkCg
+ vkOfcKcoCDi2PRHYGEg==
+X-Proofpoint-ORIG-GUID: tAIIQtQwSf3IKvGZGJs9HbB1sCf48Tck
+X-Authority-Analysis: v=2.4 cv=bp/Zl0ai c=1 sm=1 tr=0 ts=6aec9cb6 cx=c_pps
+ a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22 a=03ozwUkBphtHgyqjj1sw:22
+ a=1RTuLK3dAAAA:8 a=VwQbUJbxAAAA:8 a=cjythY3byQ-Lh-OW6DMA:9 a=QEXdDO2ut3YA:10
+ a=kRpfLKi8w9umh8uBmg1i:22
+X-Proofpoint-GUID: tAIIQtQwSf3IKvGZGJs9HbB1sCf48Tck
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA1MDA2MCBTYWx0ZWRfX4G255nE+7xYt
+ nLh0PCxaUdDg67uZ0+TgUtoW+rHTDMW7rREOmwc1qxW2Eyw8y1YcUM7twOI6vQF4Odor9+kz8jg
+ 5PCenmPeA8gr0fJ0n5XInfjqbVM+PeQ=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-05_04,2026-11-04_01,2025-10-01_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261105_055817_407948_75DD2FEA 
-X-CRM114-Status: UNSURE (   7.70  )
+X-CRM114-CacheID: sfid-20261105_071152_087938_271006BA 
+X-CRM114-Status: UNSURE (   7.72  )
 X-CRM114-Notice: Please train this message.
-X-Spam-Score: -1.9 (-)
+X-Spam-Score: -1.2 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,62 +94,32 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-13.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
-	version=4.0.1
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-From: Shao Mingyin <shao.mingyin@zte.com.cn>
 
-nvme_ctrl_reconnect_delay_store() stores whatever kstrtou32() accepted
-into opts->reconnect_delay without validating it.  The nvme-fabrics
-option parser refuses reconnect_delay values that are zero or negative,
-and the rest of the driver relies on that: nvme_ctrl_loss_tmo_store()
-computes
+On Wed, 04 Nov 2026 21:14:46 +0800, shao.mingyin@zte.com.cn wrote:
+> nvmet_parse_io_cmd() calls nvmet_check_auth_status() and then
+> nvmet_check_ctrl_status(), which performs the same check again.  The
+> first call cannot fail either: this path only handles commands from I/O
+> queues, and nvmet_check_auth_status() returns true unconditionally for
+> qid > 0.  Drop the duplicate.
+> 
+> No functional change.
+> 
+> [...]
 
-	opts->max_reconnects = DIV_ROUND_UP(ctrl_loss_tmo,
-					    opts->reconnect_delay);
+Applied, thanks!
 
-Writing 0 to reconnect_delay and then a positive value to ctrl_loss_tmo
-therefore divides by zero in the kernel.  In addition, a value larger
-than INT_MAX is truncated to a negative int in the assignment and
-silently bypasses the checks done by the fabrics parser.
+[1/1] nvmet: drop the redundant auth check in nvmet_parse_io_cmd()
+      commit: f96d1722e5861375c47c315117d900ef103ab331
 
-Reject zero and values that do not fit into the signed int field.
+Best regards,
+-- 
+Keith Busch <kbusch@kernel.org>
 
-Fixes: 764075fdcb2f ("nvme: expose reconnect_delay and ctrl_loss_tmo via sysfs")
-Cc: stable@vger.kernel.org
-Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
----
-Tested on 7.3.0-next-20261030 (QEMU/TCG guest) with the loop transport.
-
-Writing 0 to reconnect_delay and then a positive value to ctrl_loss_tmo
-divides by zero in nvme_ctrl_loss_tmo_store():
-
-  unpatched                            patched
-  reconnect_delay=0 accepted           write rejected (-EINVAL)
-  divide error, kernel panic
-
-diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-index 10018c6356b6..d7309a55aa8a 100644
---- a/drivers/nvme/host/sysfs.c
-+++ b/drivers/nvme/host/sysfs.c
-@@ -634,6 +634,14 @@ static ssize_t nvme_ctrl_reconnect_delay_store(struct device *dev,
- 	if (err)
- 		return err;
- 
-+	/*
-+	 * reconnect_delay is used as a divisor by nvme_ctrl_loss_tmo_store()
-+	 * and the reconnect logic expects a positive value, just like the
-+	 * nvme-fabrics option parser does.
-+	 */
-+	if (!v || v > INT_MAX)
-+		return -EINVAL;
-+
- 	ctrl->opts->reconnect_delay = v;
- 	return count;
- }
 
