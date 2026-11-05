@@ -2,96 +2,86 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A123D606A31B
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Nov 2026 15:29:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5431F606D823
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Nov 2026 15:49:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=2mDptQEM
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=so5jzlyj
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:MIME-Version:Date:Message-ID:Subject:References:In-Reply-To:CC:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=aUMrNCDsaT2L4Fm3m1UuKgy4RX6seoHkuoFzSglz9J0=; b=2mDptQEM9SiaF1
-	x4dPaO6EQHMUXC+uXFDR9JAfd1XqW+3pkSsSADglNixgqm4SLf3bjYW2JtMv/Db4gRAvetkfJj+DN
-	OjzKFOvppTEm/YEAghVbvKXY1ixgy5Qy6kM07GHIFQmMFf1a1WQYMnB9fYPtF8EUXaVNjYnSmEK9d
-	+lUkjnYJSIvdNhioGE873YTweVWxtYJH1WkTN40HBknGtQ0gg80Wp2BopCj5pIHLGgtTcdHutIimV
-	eZizMC2+diDgatf5amMLj21MVI1M98WcK+xhWpt8xvm8OSWoJUxE/7Kc/2Bfe6d35pOBVFXlyeVCr
-	t0Iw6Y8EKC/tCM2fn/VQ==;
+	List-Owner; bh=UZ0L818EexEq+UXJ3zX7cGKiO6YKJ6Dqmq04WDhB+Cg=; b=so5jzlyjsA9T+4
+	puHJB7uNBjHnqXpjej8mioENy6cIuJr3zGGnc3GGceCQeuM7u1+Xqnp115so767m3n8uIJ4OQTHBw
+	b3jUPg+u38q8zF3Iv7HQdRmRW1KcAhwW3+Gr/vROJnxIR2VKR0B06XpZ8RbhIugKsKrrohP2jtPKt
+	tPb/qbRL7BgHMvDSDDte5m1P22J4L/6QD8j1JUZqTkEB/ObixwGi39Y8yGusKx8qAzOAmxkKPZxTH
+	T5dgdNkDq1oEYyswPPURnFo4DEjoch4366KGh5n+EexFiycFE3FN6e1SlkvDpwL0B6XuyLdCY/nxo
+	PkMZEFE92Tu68yrwQHTQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOzOc-00000009PHo-4AKf;
-	Thu, 05 Nov 2026 15:28:58 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
+	id 1xOzia-00000009S4t-0vcC;
+	Thu, 05 Nov 2026 15:49:36 +0000
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOzOa-00000009PGc-0bT5
+	id 1xOziX-00000009S4A-2cR9
 	for linux-nvme@lists.infradead.org;
-	Thu, 05 Nov 2026 15:28:58 +0000
-Received: from pps.filterd (m0109332.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A5ESpDK3897571
-	for <linux-nvme@lists.infradead.org>; Thu, 5 Nov 2026 07:28:55 -0800
+	Thu, 05 Nov 2026 15:49:34 +0000
+Received: from pps.filterd (m0109333.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A5ESnsS4122015
+	for <linux-nvme@lists.infradead.org>; Thu, 5 Nov 2026 07:49:33 -0800
 Received: from maileast.thefacebook.com ([163.114.135.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4hru4rgn0x-4
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4hrb4eerd5-3
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Thu, 05 Nov 2026 07:28:54 -0800 (PST)
-Received: from twshared41458.33.frc3.facebook.com (2620:10d:c0a8:1b::8e35) by
- mail.thefacebook.com (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server
+	for <linux-nvme@lists.infradead.org>; Thu, 05 Nov 2026 07:49:32 -0800 (PST)
+Received: from twshared91271.16.frc2.facebook.com (2620:10d:c0a8:1c::11) by
+ mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.56; Thu, 5 Nov 2026 15:28:52 +0000
+ 15.2.2562.56; Thu, 5 Nov 2026 15:49:30 +0000
 Received: from devbig197.nha3.facebook.com (localhost [IPv6:::1])
-	by devbig197.nha3.facebook.com (Postfix) with ESMTP id 88C1C2E7EC6EF;
-	Thu,  5 Nov 2026 07:11:31 -0800 (PST)
+	by devbig197.nha3.facebook.com (Postfix) with ESMTP id 690A62E7F186C;
+	Thu,  5 Nov 2026 07:49:17 -0800 (PST)
 From: Keith Busch <kbusch@kernel.org>
-To: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-        Sagi
- Grimberg <sagi@grimberg.me>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        "Paul E.
- McKenney" <paulmck@kernel.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
-        Steven Rostedt
-	<rostedt@goodmis.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Qiliang Yuan <odys.yuan@gmail.com>
-CC: <linux-nvme@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <rcu@vger.kernel.org>, <stable@vger.kernel.org>
-In-Reply-To: <20261104-bug-nvme-remove-ns-srcu-v2-0-feb64ecb96ca@gmail.com>
-References: <20261104-bug-nvme-remove-ns-srcu-v2-0-feb64ecb96ca@gmail.com>
-Subject: Re: [PATCH v2 0/2] nvme: fix removing namespaces under SRCU
- readers
-Message-ID: <179389149154.2132554.14217810992959275448.b4-ty@kernel.org>
-Date: Thu, 5 Nov 2026 07:11:31 -0800
+To: <hch@lst.de>, <sagi@grimberg.me>, <chaitanyak@nvidia.com>,
+        <gjoyce@linux.ibm.com>, Nilay Shroff <nilay@linux.ibm.com>
+CC: <linux-nvme@lists.infradead.org>, <shinichiro.kawasaki@wdc.com>
+In-Reply-To: <20261105123642.2120548-2-nilay@linux.ibm.com>
+References: <20261105123642.2120548-2-nilay@linux.ibm.com>
+Subject: Re: [PATCH] nvmet: cache passthru reference in
+ __nvmet_req_complete()
+Message-ID: <179389375741.2388130.5323937037398379514.b4-ty@kernel.org>
+Date: Thu, 5 Nov 2026 07:49:17 -0800
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13.0
 X-FB-Internal: Safe
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA1MDA2MSBTYWx0ZWRfX39LrpUqNA/tV
- xFODvwieoRByRbrdl2TSTX78k5l6mC9foSOOKOwArg+HiK0JnXk9F/ksLfbwkAVIIBD9aPjooHG
- tdjFEesX5IRrjol8aYdUlg1Ndfc+NoQrgYKKvWfBSsyk7q4yGHHRbw9VcaptVZe46sW/cgAx8X9
- AuEPCmhrzaLpT7V80FHi5Ba/7Ce8ln32PLOhZmm+8k52mDUHAdA+ayxVYokxhqWjZ/y6jDcTS4J
- OpdkVK1nR3RX68efCXObOwt6C4w8VCqI2m/3na3m/HOaKVVs/N+8+VpuREfbiIzESBvTO6Uz7t2
- HFaPlAFmu7M0oA1zwgJtPUvo+VFJlJwBs1Om5YGjqWJNJwGVc8c7dkOEuE6eJuLcmYUSk7JGXpZ
- MeAhsLqmyZG1tVhGFG0u94To8Zc6eSsTm8CxJwXJ3SquOaLZKwpPeslq2cuy4cG2ERw3qF6t6C1
- 8f+5NvJcm65M2WiTtSg==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA1MDA2MSBTYWx0ZWRfX7N2DB7GBLx3M
- NoQ+QHbnZOFBEPcI9Y9ZVyB+dUQHsilB1hZeWjKhGvQqtOSoZ1i5VLGN0rxCwh0KBNltZFxP+ZY
- m00bt46QsfJ4q7cBH+Da3r7QW9KKER8=
-X-Proofpoint-GUID: SnmCdVjVtdVWvTP0qZVCJI70PnAMxCpv
-X-Authority-Analysis: v=2.4 cv=TLPQ2Fla c=1 sm=1 tr=0 ts=6aeca0b6 cx=c_pps
+X-Proofpoint-GUID: VfSi0xhp1xRXNTEeR2nu7HgrgYb4duhN
+X-Proofpoint-ORIG-GUID: VfSi0xhp1xRXNTEeR2nu7HgrgYb4duhN
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA1MDA2MiBTYWx0ZWRfX7TFy5BZet7ta
+ 4i/jLHn/QEcAiniSEAPAnaoTOH3TgoaESAQmKXE2px9z6AgFB9F+DxdEXrMf1xk6GB6qDDuU0eo
+ 11fZ7PATuTtfYdjEU1mCtccoQqBAitU=
+X-Authority-Analysis: v=2.4 cv=DJ8acCNb c=1 sm=1 tr=0 ts=6aeca58c cx=c_pps
  a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
  a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22 a=xtH7KyWI9dI7BmFOsl-x:22
- a=VwQbUJbxAAAA:8 a=DbJdtLyL_UCRUlSBl1oA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: SnmCdVjVtdVWvTP0qZVCJI70PnAMxCpv
+ a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22 a=tpM8CJlwf7uhpglF1g9U:22
+ a=VwQbUJbxAAAA:8 a=MYjjpZqdesER4p00gTMA:9 a=QEXdDO2ut3YA:10 a=ZXulRonScM0A:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA1MDA2MiBTYWx0ZWRfX4l+PLb1eHGRr
+ +w6arF/NqbJlLFPUmqg8P/gg+cLcI3sVnWqjz0SFoV/mpC43ZYn3iHwuVUj0xcBk5qUK2TB3/kH
+ J/HwtSNIrhIMyAf1AwdQiL/JFqMK9apuCdYEcplwr5r+UqdMZu23CyINN+bY+9r+q6GcrXFL7XN
+ R/RiOQ72agTgl7fIZjmjDSYxbRjHse9gryvaHFuvGrNT5I1owfZmr1G02eSzBsyt0napdgwjS/9
+ t2zg4fkQUZRELCgkFlXmVQ8P7MoXcJoO/YieO79ovDLJrPTDCgxOab6qfTkWInrRAu0ZsC8N035
+ X4BpbtJcafMzPbkR84vJyx7NApd93sZDTIT3245mZXG9NBY4J+ei4H0BrFQjXdCKgfDF1tiOMAE
+ J7P1tkZSMoN/e1cKWt3XZQvmNTzduxdJ2OTl62lCGHrw8vWP/FQB6MHokBTlJVn9pcg6RLN8olA
+ sTSmPzcf29hVmql+Few==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-11-05_04,2026-11-04_01,2025-10-01_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261105_072856_300117_2AFF7282 
-X-CRM114-Status: GOOD (  12.81  )
+X-CRM114-CacheID: sfid-20261105_074933_908322_C6AADF19 
+X-CRM114-Status: UNSURE (   8.71  )
+X-CRM114-Notice: Please train this message.
 X-Spam-Score: -1.2 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -111,23 +101,25 @@ X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
 
-On Wed, 04 Nov 2026 01:30:38 -0500, Qiliang Yuan wrote:
-> nvme_remove_namespaces() splices the namespace list with
-> list_splice_init_rcu() and synchronize_rcu(), but the list is read
-> under SRCU. A reader still on the last namespace can then walk onto the
-> on-stack list head, which KASAN reports as a stack-out-of-bounds read.
+On Thu, 05 Nov 2026 17:54:55 +0530, Nilay Shroff wrote:
+> __nvmet_req_complete() releases the passthru reference held while
+> processing a passthru request. However, it currently does so after
+> calling ops->queue_response().
 > 
-> Patch 1 adds list_splice_init_srcu() for lists read under SRCU, and
-> patch 2 uses it in nvme. Both are needed for the fix.
+> Once ops->queue_response() is called, the transport may complete and
+> recycle the request on another CPU. If the request is reused, its
+> req->p.ref_held field may be reset to false before
+> __nvmet_req_complete() checks it in nvmet_put_passthru_ref().
+> Consequently, the passthru reference may not be released, leaving
+> wait_for_completion(&passthru->disable_done) in
+> __nvmet_passthru_ctrl_disable() blocked indefinitely.
 > 
 > [...]
 
 Applied, thanks!
 
-[1/2] srcu: Add list_splice_init_srcu()
-      commit: d06917d0ba226206dbd606330d73a8eb1e3029c1
-[2/2] nvme: wait for SRCU readers before splicing the namespace list
-      commit: 8a0449832b50cd4f99f2d2952cfc1476e5f26d0f
+[1/1] nvmet: cache passthru reference in __nvmet_req_complete()
+      commit: 93a76fb240be5b7fc1c0d3df1706f7e6396e2577
 
 Best regards,
 -- 
