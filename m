@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F175A606A31B
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Nov 2026 12:37:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1CEA606A31B
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Nov 2026 13:46:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=y/DT9GCs;
-	dkim=pass (2048-bit key, unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=idmiSLvw
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=ibH47Eqf;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HeG1pwhz
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
@@ -14,100 +14,83 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
 	List-Unsubscribe-Post:List-Owner;
-	bh=k0DikrKQmRQ055t4AEpwuyj+2bQmDjXz+Z3aWAcSxpE=; b=y/DT9GCsVFfbw1BsfZuSMVTPNd
-	7UBVlSiwZzOABpIffaByBskZPh1MWSOGS4EyQi5O3Y7hUroI+d8UVL8jSwLhVxXOfR0ZYq/i/sphe
-	IiCNZC1i7KdV0pyc/ozWnsMcabljblSxz5EHCwoLwgiL6EBQv0mjUFeH1EcAwgGJDs/Ncmii6/7EE
-	Z+JNuEVX8wmF4ALDRLvbTWGQ87gxYKUyCf8Sbdn6SYXWhWLfEbusgD9ziEXO/qbns4mPzWtd6cLEL
-	ryCDe5ZskXS+OQ09WC0XZkigiFXXLCiOceCJ72V+vbejf8XcNqs869qF84UBH/kTcBKzmhpDrPV3z
-	/XjJWXDA==;
+	bh=4djbjbi1YPfL0yTh51RFEqcdY/dXJsBUTG3y/N5WRfE=; b=ibH47EqfawGnzLNFosgElC9U8/
+	H3DBoX91zZMX84TcNzzIftMXqul3gSa/ZddvuKPh9dX8SvnBUk3myKxU/3bm+OJAKItVLFfvEqAvy
+	dy26XhZjw37foqljWF+tUyy2U+Ddo/0mD+a4kpw9sWwct02IOEXMSruiDR2Y0kRWz9cB07N7CeA5z
+	Dj42oWEh3VPoglBxkjk6tAh3/IofejEIrKKcT+j9/1gHeNeQQ+Y/erNl5tdI6LDO6idd15dX3Myz0
+	25G3KvASRE63HoM1nusNznzMV6lx+BACNCKZiFmCZzfXLCiRbJDMiNHrdNO/AlCkV/GyqYL9Zk/+K
+	s1O6g74Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOwiV-00000008zDR-15QE;
-	Thu, 05 Nov 2026 12:37:19 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1xOxnC-00000009Ag8-3ZYk;
+	Thu, 05 Nov 2026 13:46:14 +0000
+Received: from mail-dy1-x1331.google.com ([2607:f8b0:4864:20::1331])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOwiS-00000008zCg-434R
+	id 1xOxnA-00000009Afh-0bjg
 	for linux-nvme@lists.infradead.org;
-	Thu, 05 Nov 2026 12:37:18 +0000
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A5AE8aG3449833;
-	Thu, 5 Nov 2026 12:37:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=pp1; bh=k0DikrKQmRQ055t4AEpwuyj+2bQmDjXz+Z3aWAcSx
-	pE=; b=idmiSLvwZkRj2a2sX37aKgjJsRp6EI7XYW9I1x7Uvgs+QGnJ+9pBkluAQ
-	LdzIsOh6Br47EcodFw0oX0OX4Gmn1shTwpMRjOFFkW2/E2RZbN3GCOVNilnrmgt+
-	WxvMXduskYJgT4vbdnydbSNDnShAeJpo7OS5zNYo4T9GNKizPwq3bJQmQuGN+oCh
-	IQOVQRKZE38p9aEkDZQIC2M5U06bHVLNEd5LC5BngzD/uz1xvrGf6ksvVJOpOC/r
-	2WmoD7hNzmFF43lrclR90fNscE/mFBdww5UECLp/0zsf4YD3AnY2vfhFCv/6XoTX
-	yrfeyCs3I+XnAkB9CEe17v0HqbVxg==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hn7u3t5p8-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 05 Nov 2026 12:37:02 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6A5A4s4b1476777;
-	Thu, 5 Nov 2026 12:37:01 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4hrka6ss6n-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 05 Nov 2026 12:37:01 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
-	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6A5CavJw28115462
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 5 Nov 2026 12:36:57 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 59B2A2005A;
-	Thu,  5 Nov 2026 12:36:57 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8DDAB2004E;
-	Thu,  5 Nov 2026 12:36:53 +0000 (GMT)
-Received: from li-a84c74cc-2b13-11b2-a85c-acdd023f0674.ibm.com.com (unknown [9.61.54.50])
-	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Thu,  5 Nov 2026 12:36:53 +0000 (GMT)
-From: Nilay Shroff <nilay@linux.ibm.com>
-To: kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, chaitanyak@nvidia.com,
-        gjoyce@linux.ibm.com
-Cc: linux-nvme@lists.infradead.org, shinichiro.kawasaki@wdc.com,
-        Nilay Shroff <nilay@linux.ibm.com>
-Subject: [PATCH] nvmet: cache passthru reference in __nvmet_req_complete()
-Date: Thu,  5 Nov 2026 17:54:55 +0530
-Message-ID: <20261105123642.2120548-2-nilay@linux.ibm.com>
-X-Mailer: git-send-email 2.53.0
+	Thu, 05 Nov 2026 13:46:13 +0000
+Received: by mail-dy1-x1331.google.com with SMTP id 5a478bee46e88-35c76e9614aso2478379eec.0
+        for <linux-nvme@lists.infradead.org>; Thu, 05 Nov 2026 05:46:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793886371; x=1794491171; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=4djbjbi1YPfL0yTh51RFEqcdY/dXJsBUTG3y/N5WRfE=;
+        b=HeG1pwhzPVFx5WQg2nhyOVruO4vWYhSY377fMJD6eEx3EsSzNomAUzujX8QNxtb/PI
+         HaECmMIm80wfIAOxDI/lGrMpiFWaHn1K0XCLAEMve2TJuWEyIE9GJtmKSz4LJ/qfULt7
+         5ZPa7vtqkWqW3XsBuOSjNyzxHWb9G1MlWvDawnEQIdY/0K8xQRAq6oW94IBRtCro0XzF
+         0L8Wk7CbctyW3dKRQRtCqJm/7PoecgO8BRat5HIiraxdFS18BFANuOWuxSlstvTQoy63
+         9bg+s4B6d4zNKMqNCHA0M/RgqoA2ofSmr42NOAgcmBF+VTUGM3cjijvnh0mhECO+e/mW
+         stdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793886371; x=1794491171;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=4djbjbi1YPfL0yTh51RFEqcdY/dXJsBUTG3y/N5WRfE=;
+        b=nC5VlEFs/5W151J0Ane99DwUT8nqIY4p2z2Uhr8PIUl1nISK3DLyufHraxiue45z2f
+         Rf9fPpzLlIWgc3gvF46y0LHnGmRTqVNaZLaOtU7d38YKoizZOxlaACzgrfpR6xj8/D40
+         g+T8pGltbhddjbRH22atuTiJ0DDs2PzJON4VXcRRsBfGwAIyLGYUDmrJHF2n6EGjiZB/
+         vR6ev7mfUtpM0FgUKjKVW47L1Hbqx9ZyKO71yEjKeHRQeEwZNDp6bip8KD1AVZywJI3j
+         0nTqcRB4B3Vt1ndtkYiIKVWHDlJZKThkjN466saCpT9Cnb6bUu1I9MMWMfCW6M8i6o1D
+         F2LA==
+X-Gm-Message-State: APuU4Z+2qv4iwHZwBUJruS7zjTDYS51DQlQfnIpIk4EohBzrTFiR57qv
+	rRKeYMZ0P8PYeBEHQUq69Z/QTDljSn4PUuC1hmCX9dOlklIsjLMIKZ+rPen+qW+Ncr4=
+X-Gm-Gg: AYBFou3GUet9n8nWcesF26ZOqLDvL+Nc4zlG5u+koRHOS8tAjTlIvrd4MlmqlfOHQnv
+	5+pPV8KnAV58dxh0CpOH79mwGNaBoFcfhCmsmtqpZPs9FKUvpd3ROs1VZK8ZdB0CJr00B4XV17o
+	gvGS2326c+Mube4RPz6PTe8oF2DIDyjUnIlyr09c62RDiCCKPSYZTxiLkEKt8hxOCdQvAQU7Zb7
+	Y7Dcawtiqgy+O7lxM1xsF4GM948YzDBJ6P0ex22ceoqz/tHtHNNMC0AY/DqNK86aPGVShewmbEk
+	20KFTbHvAdlIrinaXqSwSs3JxBx8fBTJkEqGF3tQjDVcLMXGmtAkRjPjqSptW/uA7aj/vCvGd3n
+	VkdhzVl4CtY9BEo/kOzEox0ofmD21O4uOc3eBSNectaod5x3+4m0j6sLj82g03mKLpOoRzjuHS7
+	UsZLzP8me5wnxZ18eRxM678PiHxaNcMEtoQepeW+24LBq7M+JmGVpwinWhvTh5Rneyma5wfMa+2
+	BNorkgnoIf++Ybd7V2Cq2CqcejvLdpwMsCeR0gTGrNqLl+8/V8aeNP9344G9wPldDAyj9bFW9wW
+	BsZl1dcyP1/K3SXaQD2ffK1WdtlbAEBSwSCNJilE3s+nQEN+GcPnJdiclH0rG4njHaE=
+X-Received: by 2002:a05:7300:1351:b0:36e:a321:5353 with SMTP id 5a478bee46e88-36ea3215cb4mr2389132eec.2.1793886370684;
+        Thu, 05 Nov 2026 05:46:10 -0800 (PST)
+Received: from ChanningdeMacBook-Pro ([240b:253:9800:600:bcd8:ac74:ffb9:55cd])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36ca3966daasm22454844eec.23.2026.11.05.05.46.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 05:46:10 -0800 (PST)
+From: Chengyuan He <channinghey@gmail.com>
+X-Google-Original-From: Chengyuan He <channing1ne@gmail.com>
+To: linux-nvme@lists.infradead.org
+Cc: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	linux-kernel@vger.kernel.org,
+	Chengyuan He <channing1ne@gmail.com>
+Subject: [PATCH] nvme-pci: add NO_NS_DESC_LIST quirk for SSSTC CL1 SSDs
+Date: Thu,  5 Nov 2026 22:45:26 +0900
+Message-ID: <20261105134526.95382-1-channing1ne@gmail.com>
+X-Mailer: git-send-email 2.54.0
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=Zsp4uN7G c=1 sm=1 tr=0 ts=6aec786e cx=c_pps
- a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
- a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
- a=iQ6ETzBq9ecOQQE5vZCe:22 a=VwQbUJbxAAAA:8 a=JF9118EUAAAA:8 a=VnNF1IyMAAAA:8
- a=g3HCxRTuVJBXPMZTQd4A:9 a=xVlTc564ipvMDusKsbsT:22
-X-Proofpoint-ORIG-GUID: TFiVHyZCFa8hT2fIeqKU33BoQCAm86Fy
-X-Proofpoint-GUID: TFiVHyZCFa8hT2fIeqKU33BoQCAm86Fy
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA1MDA0OCBTYWx0ZWRfX6qhzZGFY1Qs+
- NI3bDdfQQ4SlF15YfmPjSdZbEcUc7fJtjoHKOQ/5+0QevwDsTiHp9UJ5Y4LCo2DDJTkoqIdgxT0
- q6imwwGqadZ4FwLewIpXMZXbVLydJ+sv2rpSo+3dm327hBb4syP9/xaIZCHsXOw8jxfoG/mQleW
- 6A2S8gMO6iVjRbPesPoMxvmPVsw+Xt0nZIk5RQKbzHRDBwFsK69Rmp8rBea8Ueds1HwmzDUJ5qI
- Zb4R3HXoI7Oq1J7fManJ3zh8pBv//4j+WUyh/tFWtkqBIapeaKqLTATDsZhdccGDwzfCefmB+kY
- IqvGw8VECxey2djk2cP1nPfpdm0+Dby2x2pticsVz4x/WLzKw5p+MphH7bYJYX6f2UZcjdCM5SO
- tCoGfn4DQA6gsVIV2WbPJrOdOds8OdXXNcc63vQykq5rd/NmlFY5FtRTwzaKZV2fTFUF2JG+Dhd
- PVXGlpl6wOx32a1SJKQ==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA1MDA0OCBTYWx0ZWRfX5VtksspjExuv
- gJ1xeBSQNPi8IDOCTlJQE5q4w4NLhEeiilXARMTLX4RQW8oeA0HFyNI6fucnDupOhRdQv1yR2oo
- ove2FZlznenQw0w1Hw9KgJwx4ZTPcv0=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-05_03,2026-11-04_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 adultscore=0 priorityscore=1501 bulkscore=0 clxscore=1015
- impostorscore=0 spamscore=0 malwarescore=0 suspectscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2611050048
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261105_043717_005251_6D807F70 
-X-CRM114-Status: GOOD (  18.15  )
-X-Spam-Score: -2.6 (--)
+X-CRM114-CacheID: sfid-20261105_054612_184873_D60336FE 
+X-CRM114-Status: GOOD (  14.03  )
+X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -118,121 +101,60 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-16.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-__nvmet_req_complete() releases the passthru reference held while
-processing a passthru request. However, it currently does so after
-calling ops->queue_response().
+The SSSTC CL1 series (PCI ID 1e95:9100, e.g. CL1-3D128-Q11, a Silicon
+Motion SM2263XT based OEM drive shipped in Dell laptops) reports NVMe
+version 1.3 but fails the Namespace Identification Descriptor list
+(CNS 03h) with Invalid Field in Command:
 
-Once ops->queue_response() is called, the transport may complete and
-recycle the request on another CPU. If the request is reused, its
-req->p.ref_held field may be reset to false before
-__nvmet_req_complete() checks it in nvmet_put_passthru_ref().
-Consequently, the passthru reference may not be released, leaving
-wait_for_completion(&passthru->disable_done) in
-__nvmet_passthru_ctrl_disable() blocked indefinitely.
+  nvme nvme1: Identify Descriptors failed (nsid=1, status=0x2)
 
-Fix this by caching the passthru pointer at the beginning of
-__nvmet_req_complete(), while the request is still valid, and use
-the cached pointer to release the reference after queuing the
-response. This also changes nvmet_put_passthru_ref() to accept
-the passthru pointer directly instead of accessing it through
-the request.
+nvme_scan_ns() gives up on the namespace when nvme_identify_ns_descs()
+fails, so no block device is created even though the controller is live
+and namespace 1 is otherwise fully functional.
 
-Reported-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Closes: https://lore.kernel.org/all/auhpmq499RVE9YpC@shinmob/
-Fixes: 5e12d81874a1 ("nvmet: fix use-after-free in passthru I/O hotpath")
-Tested-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+The failure was reproduced with the latest vendor firmware 22301119
+(Dell package NJV53, A09) as well as with an older third-party firmware.
+The drive reports an all-zero NGUID and EUI64, so skipping the
+descriptor list loses no identifiers.
+
+The generic Silicon Motion SM2263 entry (126f:2263) already carries
+NVME_QUIRK_NO_NS_DESC_LIST. This drive reports 126f:2263 only as its
+subsystem ID, so that entry does not match it.
+
+Add NVME_QUIRK_NO_NS_DESC_LIST for 1e95:9100 as well.
+
+Tested on 7.0.14 by booting with nvme.quirks=1e95:9100:no_ns_desc_list,
+after which the namespace shows up and I/O works.
+
+Signed-off-by: Chengyuan He <channing1ne@gmail.com>
 ---
- drivers/nvme/target/core.c  |  4 +++-
- drivers/nvme/target/nvmet.h | 24 +++++++++++++++++-------
- 2 files changed, 20 insertions(+), 8 deletions(-)
+ drivers/nvme/host/pci.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index eadab017c70b..b8bcb5bf6be6 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -806,6 +806,7 @@ static void __nvmet_req_complete(struct nvmet_req *req, u16 status)
- {
- 	struct nvmet_ns *ns = req->ns;
- 	struct nvmet_pr_per_ctrl_ref *pc_ref = req->pc_ref;
-+	struct nvmet_passthru *passthru = nvmet_passthru_ref_held(req);
- 
- 	if (!req->sq->sqhd_disabled)
- 		nvmet_update_sq_head(req);
-@@ -824,7 +825,8 @@ static void __nvmet_req_complete(struct nvmet_req *req, u16 status)
- 	if (ns)
- 		nvmet_put_namespace(ns);
- 
--	nvmet_put_passthru_ref(req);
-+	if (passthru)
-+		nvmet_put_passthru_ref(passthru);
- }
- 
- void nvmet_req_complete(struct nvmet_req *req, u16 status)
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 3cd58e813aa7..2c2460ef5e2b 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -832,6 +832,15 @@ static inline struct nvmet_passthru *nvmet_subsys_passthru(
- 	return subsys->passthru;
- }
- 
-+static inline struct nvmet_passthru *nvmet_passthru_ref_held(
-+		struct nvmet_req *req)
-+{
-+	if (req->p.ref_held)
-+		return nvmet_req_subsys(req)->passthru;
-+
-+	return NULL;
-+}
-+
- static inline bool nvmet_get_passthru_ref(struct nvmet_req *req)
- {
- 	if (!percpu_ref_tryget_live(&nvmet_req_subsys(req)->passthru->ref))
-@@ -841,13 +850,9 @@ static inline bool nvmet_get_passthru_ref(struct nvmet_req *req)
- 	return true;
- }
- 
--static inline void nvmet_put_passthru_ref(struct nvmet_req *req)
-+static inline void nvmet_put_passthru_ref(struct nvmet_passthru *passthru)
- {
--	if (!req->p.ref_held)
--		return;
--
--	req->p.ref_held = false;
--	percpu_ref_put(&nvmet_req_subsys(req)->passthru->ref);
-+	percpu_ref_put(&passthru->ref);
- }
- #else /* CONFIG_NVME_TARGET_PASSTHRU */
- static inline void nvmet_passthru_subsys_free(struct nvmet_subsys *subsys)
-@@ -873,11 +878,16 @@ static inline struct nvmet_passthru *nvmet_subsys_passthru(
- {
- 	return NULL;
- }
-+static inline struct nvmet_passthru *nvmet_passthru_ref_held(
-+		struct nvmet_req *req)
-+{
-+	return NULL;
-+}
- static inline bool nvmet_get_passthru_ref(struct nvmet_req *req)
- {
- 	return false;
- }
--static inline void nvmet_put_passthru_ref(struct nvmet_req *req)
-+static inline void nvmet_put_passthru_ref(struct nvmet_passthru *passthru)
- {
- }
- #endif /* CONFIG_NVME_TARGET_PASSTHRU */
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index eade0b1..af19c75 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -4282,6 +4282,8 @@ static const struct pci_device_id nvme_id_table[] = {
+ 		.driver_data = NVME_QUIRK_BOGUS_NID, },
+ 	{ PCI_DEVICE(0x10ec, 0x5765), /* TEAMGROUP MP33 2TB SSD */
+ 		.driver_data = NVME_QUIRK_BOGUS_NID, },
++	{ PCI_DEVICE(0x1e95, 0x9100), /* SSSTC CL1 series */
++		.driver_data = NVME_QUIRK_NO_NS_DESC_LIST, },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_AMAZON, 0x0061),
+ 		.driver_data = NVME_QUIRK_DMA_ADDRESS_BITS_48, },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_AMAZON, 0x0065),
 
 base-commit: c64d9b2c1f4fd1d8fa52dab37b48428a99c4d58d
--- 
-2.53.0
+--
+2.54.0
 
 
