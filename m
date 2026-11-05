@@ -2,83 +2,96 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 737F7606D80B
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Nov 2026 17:09:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FE11606A326
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Nov 2026 18:30:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=K9TYOsdB;
-	dkim=pass (2048-bit key, unprotected) header.d=lankhorst.se header.i=@lankhorst.se header.a=rsa-sha256 header.s=default header.b=LiGqdCVf
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=28XKjb9h;
+	dkim=pass (2048-bit key, unprotected) header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=JApOvJMj
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=45BMwDl5+k3yl6C4+VgHK+KgYa2hgKR/ezUXr9zZDnA=; b=K9TYOsdBp+r87b
-	sKIozgNIvJWMu8w5z+09h9Zz7eXCsla3aGINMQHD477wRTrs61Ih2lseTWZkyfDJm2FhK9EO2sAJy
-	+Wwhcw3SKvk3MaRxMgpkTBfbajooV9o4niZWWuXUbTxYkW6mWEjaw0G/lhma5xdvzq3+sb4LOyQb9
-	Quv0xcjO7eIo63w2DLSBLJQkXraCL0MMtXz8sODO8oKpgl5bBEa1/QS4V2YNltNGseCN/ABe9wJC/
-	nbEIDei6i2mZ0NxD2J1oAPyCTVdmHRrahgEwp0V9OSYUQBa426wfbDHxvOSILhlPzRznHDSSx8UQg
-	9oIeS6iaBBw+U0305tBg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Unsubscribe-Post:List-Owner;
+	bh=ge6S26TMgHzYn7CB5Vllm5OsMg5f83lV+CM0P6k32bk=; b=28XKjb9huEW/WwaO1JK4zIbWqw
+	xsfv9U8Qd4MJb19mNO5o0IRGMFtsFFlOFRZK6xFe7o5+GwF3/H4wevMVbd9SdeKvSOSZuBhEr2olC
+	0CicKGHtwmAuzhjSIiHy+epzq2UfEwSsvblytaFWQr06dv/Nz+Y4IjEhJU/FlPR0nUU1WDoM8FMAv
+	f2dJtaiOKcW/D8SLoO6HLu564lig61XH07/btclVEeWvaH2pp85U0ddquOtArMdqjZCHbnslFCdv2
+	uoQA5g1YL6xU4+aQOVhylFxH+TeKzvkUtecD+lFKwdP+sYIARq2bY5pbiKDrCTgJgj83H7smbY0hu
+	+ohl8Awg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xP0xe-00000009mln-1FYG;
-	Thu, 05 Nov 2026 17:09:15 +0000
-Received: from [2a02:2308:0:7ec:e79c:4e97:b6c4:f0ae] (helo=lankhorst.se)
+	id 1xP2EV-0000000A8lB-0a90;
+	Thu, 05 Nov 2026 18:30:43 +0000
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xP0G0-00000009bDU-15HC
+	id 1xP2E0-0000000A8gN-41cx
 	for linux-nvme@lists.infradead.org;
-	Thu, 05 Nov 2026 16:24:10 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lankhorst.se;
-	s=default; t=1793895455;
-	bh=sQcybDD0TFEKFGLjkC5J5HLRe1kKfr3bprl/6+1sRdw=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=LiGqdCVf46YxCnpoQZd83wAPplv4qbvls59YegWhExqo9VqC+Ps5ldIWkOn2agoZP
-	 ZMXQqyPn8v2JWb0WVUOzST3N2QAj7aURdKGa3qhzvlROGXU7vrnoHvPVIRF7IdHuzO
-	 +viukXbom4levRafdMCl/BqMKYR+tPU/xqK5AyRuJ+eup24NxbiNpf3j79O9RtGKCO
-	 0P7KMFS8NmhaQAo2WDpHO+KxUzysVOYFtZ7TWVbD+xjHO/kqCG/4ebx50Fg3qVHL78
-	 Hs0qZ5TwA7BG5c/HOGZG/mICcNXwtsmVDrm1fjfMqu0fD8ZO/+rDxUFBYgH0KNP3dL
-	 MszzCu1UAZKkg==
-Message-ID: <1a573649-adb5-43c7-93e5-c691af670ab5@lankhorst.se>
-Date: Thu, 5 Nov 2026 17:18:31 +0100
+	Thu, 05 Nov 2026 18:30:41 +0000
+Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
+	by m0001303.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 6A5ITjNt2341302
+	for <linux-nvme@lists.infradead.org>; Thu, 5 Nov 2026 10:30:11 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=pps82601-s2048-2026-q3; bh=ge6S26TMg
+	HzYn7CB5Vllm5OsMg5f83lV+CM0P6k32bk=; b=JApOvJMj1JmRjH8w/fAAp1jmQ
+	EiuDYbJXzlS3l2CmqsYlxdUuN/MaCm5EWdlHGW99i+/P5lyzzGWLUOdM8u8ukz33
+	6YwGUwvY08SvnZArzU/5QaqoDPsMZZde4HdGVKz1yaiqLFbDqmzw9WIibA4veiCW
+	AvLNlz++gJ0yZvkR/a68yq9aLUBFvGDdxNbopnHict9YwwX4hXREEiQ3k/hR9pfw
+	nvnpV7cRTFDpInrtrlNLzB55u0CvX8ciaAPympYJlpi4uKWYzBfueF1EMSsx8l5v
+	0qpUasOOmnPy2XlrA2ln96qZUjqlJxK/COZAnDWV+8RDhKqtjZE0TvPjMwGVA==
+Received: from mail.thefacebook.com ([163.114.134.16])
+	by m0001303.ppops.net (PPS) with ESMTPS id 4hray5yxmg-5
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Thu, 05 Nov 2026 10:30:11 -0800 (PST)
+Received: from twshared36767.32.frc3.facebook.com (2620:10d:c085:108::4) by
+ mail.thefacebook.com (2620:10d:c08b:78::c78f) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.56; Thu, 5 Nov 2026 18:30:08 +0000
+Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
+	id DA8002E80C123; Thu,  5 Nov 2026 10:27:06 -0800 (PST)
+From: Keith Busch <kbusch@meta.com>
+To: <tglx@kernel.org>, <bhelgaas@google.com>
+CC: <maz@kernel.org>, <lrizzo@google.com>, <hch@lst.de>,
+        <changfengnan@bytedance.com>, <namjain@linux.microsoft.com>,
+        <linux-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+        <linux-nvme@lists.infradead.org>, Keith Busch <kbusch@kernel.org>
+Subject: [PATCH 0/2] genirq, PCI/MSI: mask without flushing
+Date: Thu, 5 Nov 2026 10:27:04 -0800
+Message-ID: <20261105182706.3700908-1-kbusch@meta.com>
+X-Mailer: git-send-email 2.52.0
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/23] DMA-buf mapping types
-To: Alistair Popple <apopple@nvidia.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Simona Vetter <simona.vetter@ffwll.ch>,
- Matthew Brost <matthew.brost@intel.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Dongwon Kim <dongwon.kim@intel.com>, Kevin Tian <kevin.tian@intel.com>,
- Xu Yilun <yilun.xu@linux.intel.com>,
- Karl Mehltretter <kmehltretter@gmail.com>,
- Baolu Lu <baolu.lu@linux.intel.com>, Felix Kuehling
- <felix.kuehling@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-rdma@vger.kernel.org,
- iommu@lists.linux.dev, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Mina Almasry <almasrymina@google.com>,
- netdev@vger.kernel.org, Alexey Kardashevskiy <aik@amd.com>,
- zhipingz@meta.com, treding@nvidia.com, jhubbard@nvidia.com,
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>
-References: <20261105-dma_mapping_type_v4-v2-0-78b8dc9ae80a@nvidia.com>
-Content-Language: en-US
-From: Maarten Lankhorst <dev@lankhorst.se>
-In-Reply-To: <20261105-dma_mapping_type_v4-v2-0-78b8dc9ae80a@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Authority-Analysis: v=2.4 cv=b44ncdGx c=1 sm=1 tr=0 ts=6aeccb33 cx=c_pps
+ a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
+ a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
+ a=_78whYxrdx1mplLwxq1U:22 a=VwQbUJbxAAAA:8 a=VabnemYjAAAA:8
+ a=TAX1gFrxjG5BdyIcG9sA:9 a=gKebqoRLp9LExxC7YDUY:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA1MDA3MyBTYWx0ZWRfX3IpJ5YH71gVi
+ 83LHpMFT8xP/FC+WfOL0oWxVd+lxyjJBarxDfg9jn4y8vDB5n5325TJHK3etkNREa00OqceWhD7
+ pfqGox1bn4bsn+tMSiCHrXZZaHt8F30=
+X-Proofpoint-GUID: aejTiatZ0E8CQSr-I_wMskbZnqomT5SU
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA1MDA3MyBTYWx0ZWRfX7dfS1QqEd8Pj
+ JjVS6SqnPiXjPjl4/EH8cnBZOMbicQ21K6CL+M/5PTa2rdPRE9c46VNMLRapnDhyAVOmIzqiTiy
+ JBpUXSiZp44cVkZbYObsvR9SB6Q3Ax/jTNGUJJbZxjXkq94y/e7xbp+vkX7bkBpdtFTZTsMcBmw
+ 4mnVgR1CoG7NwekIHfFiS5fb+1xsfkWx18JQokBQsvMQE3fI36n/XgCi6ZUIQUPrWNRT9SknPKY
+ Nb8YhxEjNnCM08HuPWBs6UHk/ygwa1GeIwRdaM6Iz5HdSDOVqszJsaVB3IV39kmPPBJdI6wdA8A
+ Z/O1ioQtMIOWpS9eQTgh8qsWW2T6csew7T4ZbGv7STuxzrIMc2lt1Y5tiO/sW407M4v+Z1+4sto
+ brKAg7hrgHmGNX1wDaw4JKY98/32mfighx9kgFOuQQZ1kTqUFq6nUwpMrinQXoeZd8Ka8YU9SEI
+ xegptm9lcGj+qewPwcA==
+X-Proofpoint-ORIG-GUID: aejTiatZ0E8CQSr-I_wMskbZnqomT5SU
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-05_05,2026-11-04_01,2025-10-01_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261105_082409_020308_B924AD25 
-X-CRM114-Status: GOOD (  43.24  )
-X-Spam-Score: -1.3 (-)
-X-Mailman-Approved-At: Thu, 05 Nov 2026 09:06:26 -0800
+X-CRM114-CacheID: sfid-20261105_103015_799395_0DBFFFDA 
+X-CRM114-Status: UNSURE (   9.38  )
+X-CRM114-Notice: Please train this message.
+X-Spam-Score: -2.8 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,260 +102,46 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-13.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-For the whole series:
+From: Keith Busch <kbusch@kernel.org>
 
-Acked-by: Maarten Lankhorst <dev@lankhorst.se>
+This adds a new irq api, disable_irq_noflush(), backed by an optional
+irq_chip irq_mask_noflush() callback, and implemented for PCI MSI-x. It
+writes the mask without reading back, and is for callers where an extra
+interrupt after returning is harmless compared to the added latency of
+flushing the masking write to the device.
 
-Great to see the non-sgt mapping types finally being a first class option in dma-buf.
+There are no users in this series; the hybrid irq/polling work from nvme
+is expected to use it when switching between MSI-x interrupts and
+polling, so these are posted separately as prep patches that are
+hopefully generally useful.
 
-On 11/5/26 07:40, Alistair Popple wrote:
-> This is v2 of the DMA-buf mapping types series [1]. It keeps the framework
-> and the SGT conversions from the RFC but defers the final mapping type
-> selection until the first pin/map of the buffer.
->
-> At pin/map the exporter chooses one of the types matched, taking the other
-> attachments and the buffer's placement into account. That choice is held by the
-> core until the exporter explicitly invalidates the attachment. This ensures
-> unmap/remap cannot cause buffer movement and ping/pong.
->
-> Future work will build on top of this series to add an iommufd importer type
-> per the plan in [2], separate out PCIe P2P as its own mapping type and convert
-> XGMI to an exclusive mapping type.
->
-> Why mapping types
-> -----------------
->
-> Since its introduction, DMA-buf has only supported using scatterlist for
-> the exporter and importer to exchange address information.  This is not
-> sufficient for all use cases as dma_addr_t is a very specific and limited
-> type that should not be abused for things unrelated to the DMA API.
->
-> There are several motivations for addressing this now:
->  1) VFIO to IOMMUFD and KVM requires a physical address, not a dma_addr_t
->     scatterlist, it cannot be represented in the scatterlist structure
->  2) xe vGPU requires the host driver to accept a DMABUF from VFIO of its
->     own VF and convert it into an internal VRAM address on the PF
->  3) We are starting to look at replacement datastructures for
->     scatterlist
->  4) Ideas around UALink/etc are suggesting not using the DMA API
->  5) Private interconnects, such as XGMI, are forced to work around this using
->     driver-specific hacks.
->
-> None of these can be achieved using scatterlist. This series introduces a
-> "mapping type" mechanism allowing dma-buf to negotiate compatibility between
-> different types and support alternate mapping options. See the description of
-> patch 2 for more details.
->
-> Selecting mapping type
-> ----------------------
->
-> Importers and exporters list possible mapping types with the exporter
-> responsible for selecting the final type at pin/map time under the dma_resv
-> lock. A matching phase at attachment time eliminates types which statically
-> cannot be supported for a given exporter/importer.
->
-> This was done in response to review comments on the RFC. Karl found that the
-> RFC's match callback ran on an uninitialised attachment [3]. Christian noted
-> that the final decision has to be made under the dma_resv lock before a
-> mapping is created, not at attach [4], and Thomas proposed the three steps
-> followed here: agree the possible types at attach, select at map, hold the
-> selection until invalidate_mappings() [5]. Christian also noted that remaps
-> must not change type or placement as that makes buffers ping/pong [6].
->
-> The dma-buf core enforces that last point by calling select_mapping() only on
-> the first pin/map after attach or after an invalidate. The pin/map type can
-> therefore only change once the exporter has explicitly invalidated the mapping.
->
-> Future work
-> -----------
->
-> This series stops at the SGT type so that the framework and the
-> attach/pin/map contract can be reviewed on their own. I already have
-> proof-of-concept conversions of both PCIe P2P (building on Thomas's work [7])
-> and XGMI to separate mapping types. If those would be helpful for reviewing
-> this series let me know and I will post them.
->
-> Alternatively this series could be split up with patches 1-9 & 22-23 adding the
-> general framework and the rest adding the conversions later.
->
-> Further work, per [2], is an iommufd importer type to replace the private
-> vfio/iommufd interface and allow other DMA-bufs to be imported into iommufd.
->
-> Testing
-> -------
->
-> - KUnit dma-buf-mapping suite (patches 22 and 23) passes.
-> - Every patch compile-tested with a config enabling all converted drivers.
->
-> Changes since v1 [9]
-> --------------------
->
-> - Rebased onto v7.4-rc1. The rename also covers the new nvme-pci DMA-buf
->   importer and devmem's switch to pinning. xe's dynamic-debug knob for the
->   p2pdma distance check (3bc497a40178) is dropped, since the check is now
->   done by the core at match time, and amdgpu's PREEMPT-domain import
->   decision (78cdd96ab497) asks the negotiated match set instead of
->   attach->peer2peer.
-> - The dma_buf_map_attachment()/dma_buf_unmap_attachment() rename is now the
->   first patch, squashed into one, and uses the shorter dma_buf_map_sgt() and
->   dma_buf_unmap_sgt() names (Christian [9]).
-> - Dropped dma_buf_mapping_attach() and the dma_buf_sgt_attach() /
->   dma_buf_sgt_dynamic_attach() renames. Importers that support more than
->   the SGT type list them in a static dma_buf_attach_ops
->   ->supported_mapping_types table. The importing device is passed to the
->   mapping types through the match arguments rather than stored in each
->   entry. dma_buf_attach() and dma_buf_dynamic_attach() are unchanged for
->   everyone else (Christian [9]).
-> - The selected type is an index into the attachment's match set, read
->   through dma_buf_attach_map_type(), instead of a copy in attach->map_type.
->   finish_match() fills the match set entry directly and select_mapping()
->   returns the index.
-> - A failed pin or map only undoes a selection it made itself, so a map
->   failing under a held pin keeps the pinned type and a failed first pin
->   leaves the attachment unselected; KUnit tests for both (Karl [10]).
-> - dma_buf_match_mapping() returns -EOPNOTSUPP when the two sides have no
->   type in common, keeping -EINVAL for an empty list, which restores the
->   error xe's own tests expect (Sashiko).
-> - New DMA_SGT_EXPORTER_REQUIRES_P2P flavour that requires a P2P capable
->   importer without a pci_p2pdma_distance() check at match time, used by
->   vfio and uverbs so iommufd's non-PCI device can still attach and so no
->   pci_dev is dereferenced outside the dma_resv lock (Sashiko).
-> - The SGT P2P distance check is quiet, as it was in xe and amdgpu before
->   the conversion (Sashiko).
-> - Fixed a NULL importer_ops dereference in dma_buf_dynamic_attach() and the
->   NULL check order in dma_buf_unmap_sgt() (Sashiko).
-> - Signed-off-by added to every patch (Jason). Patch 4 is now authored by me
->   with Jason as co-developer, as little of the original remains.
-> - Not addressed: the Tegra fault with CONFIG_DMABUF_DEBUG that Karl
->   reported [12] is a pre-existing Tegra bug being fixed separately.
->
-> Changes since RFC v1 [1]
-> ------------------------
->
-> - Dropped the PAL type and its vfio/iommufd users (RFC 21-25).
-> - Rebased onto v7.3-rc5: move_notify is now invalidate_mappings,
->   CONFIG_DMABUF_MOVE_NOTIFY is gone, new amdxdna/panfrost/panthor
->   exporters converted, kzalloc_obj().
-> - Patch 1 records the whole match set in a fixed-size array in the
->   attachment; patch 3 initialises the attachment before match_mapping()
->   (Karl); patch 15 holds a pci_dev reference instead of asserting the resv
->   lock (Baolu).
-> - New patches 5, 6 and 7: exporter selection at pin/map with core-enforced
->   stickiness, match set queries, and dma_buf_mapping_map()/unmap().
-> - xe and amdgpu conversions written against the final API; amdgpu's XGMI
->   override rewrites the recorded match set entry.
-> - New patch 26 with KUnit tests for the selection contract.
->
-> [1] https://lore.kernel.org/all/0-v1-b5cab63049c0+191af-dmabuf_map_type_jgg@nvidia.com/
-> [2] https://lore.kernel.org/all/20260422150000.GK3199414@nvidia.com/
-> [3] https://lore.kernel.org/all/20261016202653.97339-1-kmehltretter@gmail.com/
-> [4] https://lore.kernel.org/all/d08a26ed-ded7-4447-bf7b-88597ee7df0e@amd.com/
-> [5] https://lore.kernel.org/all/8d4cb20b70ac4c3f36d8d631769757158af2ac8e.camel@linux.intel.com/
-> [6] https://lore.kernel.org/all/7b4dc988-5dbd-40e4-b17a-47b6eaf4bf81@amd.com/
-> [7] https://gitlab.freedesktop.org/thomash/xe-vibe/-/commit/7452df0fc858a7dc5ccac0e2037852cb7ab64d61
-> [8] https://lore.kernel.org/all/20261026053623.202642-1-apopple@nvidia.com/
-> [9] https://lore.kernel.org/all/3151a820-c583-4968-8440-673a9e390446@amd.com/
-> [10] https://lore.kernel.org/all/7193d384-5e28-4f85-8004-1dc9318d5c1c@amd.com/
-> [11] https://lore.kernel.org/all/at8IQZ34wkHQ_5PL@gmail.com/
-> [12] https://lore.kernel.org/all/auAIO0y09SXk34CN@gmail.com/
->
-> ---
-> Alistair Popple (5):
->       dma-buf: Negotiate the mapping type in dma_buf_dynamic_attach()
->       dma-buf: Let the exporter select mapping type at pin/map
->       dma-buf: Add match set queries for exporter placement decisions
->       dma-buf: Add dma_buf_mapping_map() returning a type-tagged mapping
->       dma-buf: Add kunit tests for mapping type selection
->
-> Jason Gunthorpe (18):
->       treewide: Rename dma_buf_(un)map_attachment() to dma_buf_(un)map_sgt()
->       dma-buf: Introduce DMA-buf mapping types
->       dma-buf: Add the SGT DMA mapping type
->       dma-buf: Route SGT related actions through the attachment's mapping type
->       dma-buf: Allow single exporter drivers to avoid the match_mapping function
->       drm: Check the SGT ops for drm_gem_map_dma_buf()
->       dma-buf: Convert all the simple exporters to use SGT mapping type
->       drm/vmwgfx: Use match_mapping instead of dummy calls
->       accel/habanalabs: Use the SGT_P2P mapping type
->       drm/xe/dma-buf: Use the SGT mapping type
->       drm/amdgpu: Use the SGT mapping type
->       vfio/pci: Change the DMA-buf exporter to use mapping_type
->       RDMA/uverbs: Use the SGT_P2P mapping type
->       dma-buf: Update dma_buf_phys_vec_to_sgt() to use the SGT mapping type
->       iio: buffer: convert to use the SGT mapping type
->       functionfs: convert to use the SGT mapping type
->       dma-buf: Remove unused SGT stuff from the common structures
->       dma-buf: Add kunit tests for mapping type
->
->  drivers/accel/amdxdna/amdxdna_cbuf.c               |   8 +-
->  drivers/accel/amdxdna/amdxdna_gem.c                |  11 +-
->  drivers/accel/amdxdna/amdxdna_ubuf.c               |   8 +-
->  drivers/accel/habanalabs/common/memory.c           |  54 +-
->  drivers/accel/ivpu/ivpu_gem.c                      |   6 +-
->  drivers/accel/ivpu/ivpu_gem_userptr.c              |  11 +-
->  drivers/accel/qaic/qaic_data.c                     |   6 +-
->  drivers/dma-buf/Makefile                           |   1 +
->  drivers/dma-buf/dma-buf-mapping.c                  | 291 ++++++-
->  drivers/dma-buf/dma-buf.c                          | 266 ++++--
->  drivers/dma-buf/heaps/cma_heap.c                   |  12 +-
->  drivers/dma-buf/heaps/system_heap.c                |  13 +-
->  drivers/dma-buf/st-dma-mapping.c                   | 896 +++++++++++++++++++++
->  drivers/dma-buf/udmabuf.c                          |   8 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c        | 136 ++--
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            |   4 +-
->  drivers/gpu/drm/armada/armada_gem.c                |  28 +-
->  drivers/gpu/drm/drm_prime.c                        |  28 +-
->  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c         |  16 +-
->  drivers/gpu/drm/i915/gem/i915_gem_object.c         |   2 +-
->  .../gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c   |   4 +-
->  drivers/gpu/drm/i915/gem/selftests/mock_dmabuf.c   |   8 +-
->  drivers/gpu/drm/msm/msm_gem_prime.c                |   7 +-
->  drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c          |   9 +-
->  drivers/gpu/drm/panfrost/panfrost_gem.c            |  13 +-
->  drivers/gpu/drm/panthor/panthor_gem.c              |  11 +-
->  drivers/gpu/drm/tegra/gem.c                        |  26 +-
->  drivers/gpu/drm/virtio/virtgpu_prime.c             |  19 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_prime.c              |  32 +-
->  drivers/gpu/drm/xe/xe_bo.c                         |  16 +-
->  drivers/gpu/drm/xe/xe_dma_buf.c                    |  79 +-
->  drivers/iio/industrialio-buffer.c                  |  13 +-
->  drivers/infiniband/core/umem_dmabuf.c              |   8 +-
->  drivers/infiniband/core/uverbs_std_types_dmabuf.c  |  30 +-
->  drivers/iommu/iommufd/selftest.c                   |  18 +-
->  drivers/media/common/videobuf2/videobuf2-core.c    |   2 +-
->  .../media/common/videobuf2/videobuf2-dma-contig.c  |  23 +-
->  drivers/media/common/videobuf2/videobuf2-dma-sg.c  |  18 +-
->  drivers/media/common/videobuf2/videobuf2-vmalloc.c |  13 +-
->  .../media/platform/nvidia/tegra-vde/dmabuf-cache.c |   6 +-
->  drivers/misc/fastrpc.c                             |  18 +-
->  drivers/nvme/host/pci-dmabuf.c                     |   6 +-
->  drivers/tee/tee_heap.c                             |  13 +-
->  drivers/usb/gadget/function/f_fs.c                 |   9 +-
->  drivers/vfio/pci/vfio_pci_dmabuf.c                 |  26 +-
->  drivers/xen/gntdev-dmabuf.c                        |  27 +-
->  include/linux/dma-buf-mapping.h                    | 420 ++++++++++
->  include/linux/dma-buf.h                            | 234 ++++--
->  include/trace/events/dma_buf.h                     |   2 +-
->  io_uring/zcrx.c                                    |   6 +-
->  net/core/devmem.c                                  |   8 +-
->  samples/vfio-mdev/mbochs.c                         |  10 +-
->  sound/soc/fsl/fsl_asrc_m2m.c                       |  12 +-
->  53 files changed, 2415 insertions(+), 536 deletions(-)
-> ---
-> base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-> change-id: 20261105-dma_mapping_type_v4-f71180b977e8
->
-> Best regards,
-> --  
-> Alistair Popple <apopple@nvidia.com>
->
+RFC with the nvme usage:
+  https://lore.kernel.org/linux-nvme/20261013223543.395054-1-kbusch@meta.=
+com/
+
+Keith Busch (2):
+  genirq: Add disable_irq_noflush()
+  PCI/MSI: Implement irq_mask_noflush() for MSI-X
+
+ drivers/irqchip/irq-msi-lib.c |  1 +
+ drivers/pci/msi/irqdomain.c   |  6 ++++++
+ drivers/pci/msi/msi.h         |  8 +++++++-
+ include/linux/interrupt.h     |  1 +
+ include/linux/irq.h           |  3 +++
+ kernel/irq/chip.c             | 31 +++++++++++++++++++++++++++++++
+ kernel/irq/internals.h        |  1 +
+ kernel/irq/manage.c           | 21 +++++++++++++++++++++
+ 8 files changed, 71 insertions(+), 1 deletion(-)
+
+--=20
+2.52.0
 
 
