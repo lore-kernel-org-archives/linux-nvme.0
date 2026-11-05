@@ -2,41 +2,41 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 951B8606A31B
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Nov 2026 02:11:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33959606A326
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Nov 2026 02:11:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Y2EUqsc6;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=pvafxtII
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=yYoyKLX1;
+	dkim=pass (1024-bit key, unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=qraV9A5Y
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=Bs5S28x6XYUjwfF+VPzRky74EKLnBxK9WSlFo1NqdHk=; b=Y2EUqsc6cvhKjs
-	YyterfQT1QEnJbXCuINdhXgIiQsTqvr2jKzBchTPhNszbl2ucVNeM07M79i1yHqG/rC6aKCKAj9f4
-	mOPm7K4zBib9iY/tJN1fDMGFjtQZvP+Ian1SlnPeMPJTsJblwF9wklXkuQoXdHWXKv/kba5QRoB3t
-	eztu8VmerdZ99ZQrq/2VZGHzx/rvgIwVhZGrZzaiDHUir2oBMyGEpJulAs0gHc5BK1+cI57yDFNHz
-	Hqkg494/DrlaC49u1gd6nFRkpqfu95WtemSr01ajNxdFDgCX788sdcHS8Du36Idb8JcRahlLiZnA2
-	KgiItWlngcbYs88GDMDg==;
+	List-Owner; bh=ch/Iv17IljnFoS6nGgOFeWmHSXKFbPsRqAv5hqjfg6o=; b=yYoyKLX1c+7HSv
+	i4Q0vg+d1JJ7iMUpsone9uA9cWXeR9pxnxLh5JTgNg8xGwweqtBNZsM6RRjgZVbpG8zUKPWrPH5id
+	nk30/8ub0dsFwsqz4aQxokWugSvO97Y5OoG5BBNNEVlKMFJiVa+uZwrc4uU07qbTjHz6tTFfljJZo
+	wR+gSdc5mHES/ijAcwnVZq5LdA/pa5+bmlPfoHsxyemIcaz2SoX25MTFTbaOb1ZeNKO9/uU/57MZb
+	CrqVLb/bFgWHCmL5wlBXwzHfW2tYz2Z2JibBJ3/aIoc/cFYZ3V6Wh5oj2XzLsLD6EPOn5DHTpxmz8
+	Yp+McaPfcJjsYxH+H/rQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOmwY-00000007XSt-3uO8;
-	Thu, 05 Nov 2026 02:11:10 +0000
-Received: from out30-119.freemail.mail.aliyun.com ([115.124.30.119])
+	id 1xOmwZ-00000007XTR-0iTu;
+	Thu, 05 Nov 2026 02:11:11 +0000
+Received: from out30-99.freemail.mail.aliyun.com ([115.124.30.99])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOmwU-00000007XMb-1r2H
+	id 1xOmwV-00000007XNb-1oLe
 	for linux-nvme@lists.infradead.org;
-	Thu, 05 Nov 2026 02:11:07 +0000
+	Thu, 05 Nov 2026 02:11:08 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1793844664; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=Bs5S28x6XYUjwfF+VPzRky74EKLnBxK9WSlFo1NqdHk=;
-	b=pvafxtIIDDEC1bLA1u1JYCrj2WtrgVSn5NG0bRDFpOhq+f/6wzwSwJmH4BhczI/l1D2mIyxbAIfypEPV+tBJAM87nNWeTeO5SbF4UZpryY/vopf0rP7dudopCQQFHv8a/wnTSl90+9tUSjsaiaXI+bPJ0jKCn9PmP1dJaSmHVCk=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R211e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037009110;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XE7BnMa_1793844663;
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XE7BnMa_1793844663 cluster:ay36)
+	t=1793844665; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=ch/Iv17IljnFoS6nGgOFeWmHSXKFbPsRqAv5hqjfg6o=;
+	b=qraV9A5YvS/U8xE4SQay9Opbx/FuinW6xXR3CdIJYGLPoRWtLzENTQAGiB+bPYeCVfen/248mxnkKAzNg/gIeqRae8JIZ+sefXXCiTt1vqRoY6bFrXQq2p73UGHEfDRjXEOUZpPNmBfSwyZxcsfRp0UjauS1UaYAPlVz72rUha4=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R191e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XE7BnN._1793844664;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XE7BnN._1793844664 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Thu, 05 Nov 2026 10:11:03 +0800
+          Thu, 05 Nov 2026 10:11:04 +0800
 From: Guixin Liu <kanie@linux.alibaba.com>
 To: Keith Busch <kbusch@kernel.org>,
 	Jens Axboe <axboe@kernel.dk>,
@@ -46,9 +46,9 @@ To: Keith Busch <kbusch@kernel.org>,
 	Daniel Wagner <dwagner@suse.de>,
 	Hannes Reinecke <hare@suse.de>
 Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH 6/9] nvmet-fc: remove dead fields in nvmet_fc_ls_iod and nvmet_fc_tgt_queue
-Date: Thu,  5 Nov 2026 10:10:48 +0800
-Message-ID: <20261105021051.1667222-7-kanie@linux.alibaba.com>
+Subject: [PATCH 7/9] nvmet: remove unreachable "pcie" entry from the address family map
+Date: Thu,  5 Nov 2026 10:10:49 +0800
+Message-ID: <20261105021051.1667222-8-kanie@linux.alibaba.com>
 X-Mailer: git-send-email 2.43.7
 In-Reply-To: <20261105021051.1667222-1-kanie@linux.alibaba.com>
 References: <20261105021051.1667222-1-kanie@linux.alibaba.com>
@@ -56,9 +56,8 @@ X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261104_181106_652408_BC67CCA8 
-X-CRM114-Status: UNSURE (   9.43  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20261104_181107_844736_9812A99C 
+X-CRM114-Status: GOOD (  14.22  )
 X-Spam-Score: -17.6 (-----------------)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -79,44 +78,47 @@ X-Spam-Status: No, score=-26.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-The fcpreq field of struct nvmet_fc_ls_iod is only ever assigned NULL
-and never read, and the ninetypercent field of struct nvmet_fc_tgt_queue
-is never referenced as the 90% queue state is recomputed on demand.
-Drop both.
+The first entry of nvmet_addr_family[] is never matched: both the
+adrfam show and store handlers skip index 0, and the
+NVMF_ADDR_FAMILY_PCI type is matched by the "pci" entry further down
+the array. Drop the entry and start the iteration at index 0 so the
+map no longer needs an explanation for the skipped element.
 
 Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
 ---
- drivers/nvme/target/fc.c | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/nvme/target/configfs.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index 2b7dc3f03912..bccfbaea6dfc 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -27,7 +27,6 @@ struct nvmet_fc_tgt_assoc;
- 
- struct nvmet_fc_ls_iod {		/* for an LS RQST RCV */
- 	struct nvmefc_ls_rsp		*lsrsp;
--	struct nvmefc_tgt_fcp_req	*fcpreq;	/* only if RS */
- 
- 	struct list_head		ls_rcv_list; /* tgtport->ls_rcv_list */
- 
-@@ -129,7 +128,6 @@ struct nvmet_fc_defer_fcp_req {
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index b3a5242d06f9..874476277ffa 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -42,7 +42,6 @@ static struct nvmet_type_name_map nvmet_transport[] = {
  };
  
- struct nvmet_fc_tgt_queue {
--	bool				ninetypercent;
- 	u16				qid;
- 	u16				sqsize;
- 	u16				ersp_ratio;
-@@ -2076,7 +2074,6 @@ nvmet_fc_rcv_ls_req(struct nvmet_fc_target_port *target_port,
- 	}
+ static const struct nvmet_type_name_map nvmet_addr_family[] = {
+-	{ NVMF_ADDR_FAMILY_PCI,		"pcie" },
+ 	{ NVMF_ADDR_FAMILY_IP4,		"ipv4" },
+ 	{ NVMF_ADDR_FAMILY_IP6,		"ipv6" },
+ 	{ NVMF_ADDR_FAMILY_IB,		"ib" },
+@@ -68,7 +67,7 @@ static ssize_t nvmet_addr_adrfam_show(struct config_item *item, char *page)
+ 	u8 adrfam = to_nvmet_port(item)->disc_addr.adrfam;
+ 	int i;
  
- 	iod->lsrsp = lsrsp;
--	iod->fcpreq = NULL;
- 	memcpy(iod->rqstbuf, lsreqbuf, lsreqbuf_len);
- 	iod->rqstdatalen = lsreqbuf_len;
- 	iod->hosthandle = hosthandle;
+-	for (i = 1; i < ARRAY_SIZE(nvmet_addr_family); i++) {
++	for (i = 0; i < ARRAY_SIZE(nvmet_addr_family); i++) {
+ 		if (nvmet_addr_family[i].type == adrfam)
+ 			return snprintf(page, PAGE_SIZE, "%s\n",
+ 					nvmet_addr_family[i].name);
+@@ -86,7 +85,7 @@ static ssize_t nvmet_addr_adrfam_store(struct config_item *item,
+ 	if (nvmet_is_port_enabled(port, __func__))
+ 		return -EACCES;
+ 
+-	for (i = 1; i < ARRAY_SIZE(nvmet_addr_family); i++) {
++	for (i = 0; i < ARRAY_SIZE(nvmet_addr_family); i++) {
+ 		if (sysfs_streq(page, nvmet_addr_family[i].name))
+ 			goto found;
+ 	}
 -- 
 2.43.7
 
