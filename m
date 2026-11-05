@@ -2,62 +2,60 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2E8F606A328
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Nov 2026 02:11:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3061B606A31B
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Nov 2026 02:20:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=O+aE4Mwd;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=vh5fl/Yy
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=LeFEX4IY;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NjOwVwTP
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Cc:To:Subject:
+	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=0bN7uhLa7OVo5L/3rnz301II+Wiu5rTixdbsegWalVI=; b=O+aE4Mwd3JeSu8917zdyMIby2h
-	8/6GMyAvu+rfheuvPbqkFACrLEt47AhlrlEH/M5HJI7ImOQN5eIPgwpBOgEay0Lbtrf0emrLel6xR
-	sqZ0TxKjb1fufIprdKwKRd46WIrj4aea+sIK9Fls/ds0Y63Zaegg+FIdlYdmt5LwmH+ewykbVZs0X
-	J62f4g9Jr5fSHK24opRIkQ+U+SQHFi8M8f6zD47A9WUZSuM83StcGkTUbH1QetDMoLWdbkxuYNBcm
-	nrrgjkQ9+5P3FAH6Civn+15j89X6ITS0FBbVjDBBX4Yylag9o/Ktnuj4rZgxUQ+aPSlaUzJkOmShO
-	3u6NI5TA==;
+	bh=EQmexwlL0NaglT07ruapIC+ufieHfae6dJtCkzoFsIc=; b=LeFEX4IYJBAuO5WvS7WmGgXP1I
+	6nPPrHtTn5AxSAWmZz7ZQ65eJiWN+IXEHrFUazRXQAB5tctBxwG91DvmQ6SKtkOVoq6V4SeuMFocs
+	2s7mLaNfx5tkmYWam9/xlmVMuTfz3B5Wr9i4+DhKWtNwSxlrm8aPT8IqjuXGyn3MJhGntHwxCVShf
+	vZJilWsWTAX0m79iqkNDuB4TGpG7ccXM44AVK32eXD/GTWrA/w5No5usUj2q9OMsZlgTsd+tTi2Qi
+	SoMzfgeuuh8ifZq+G19isildpH2/CUF5lEVk1B7XbzENmAMDSFQ911ZS10gdQlSo+0GyB6R3801Db
+	H1TKHhiw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOmwV-00000007XOR-1o7Q;
-	Thu, 05 Nov 2026 02:11:07 +0000
-Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132])
+	id 1xOn5h-00000007Z3C-0ygO;
+	Thu, 05 Nov 2026 02:20:37 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOmwS-00000007XLP-0Uul
+	id 1xOn5g-00000007Z2k-0mnF
 	for linux-nvme@lists.infradead.org;
-	Thu, 05 Nov 2026 02:11:05 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1793844658; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=0bN7uhLa7OVo5L/3rnz301II+Wiu5rTixdbsegWalVI=;
-	b=vh5fl/YyECZlvhJGpe9xHrCod1VqL0j3gdwvyf6br1FUKxf9rRbKh6lV3dkUJ+jVFrA8+ymmdlpThLsRkxgwZdwYKwrf0anSTTmgU0ufVsky9yUyOITSuiCyUz/6aypRHI0f8TUVaHk71klPtkmGe4qJmMWZS1GrMqFP0wOMm2o=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R921e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037009110;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XE7BnJm_1793844657;
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XE7BnJm_1793844657 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Thu, 05 Nov 2026 10:10:58 +0800
-From: Guixin Liu <kanie@linux.alibaba.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Nilay Shroff <nilay@linux.ibm.com>,
-	Daniel Wagner <dwagner@suse.de>,
-	Hannes Reinecke <hare@suse.de>
+	Thu, 05 Nov 2026 02:20:36 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id 3F68060C02;
+	Thu,  5 Nov 2026 02:20:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDD391F00A18;
+	Thu,  5 Nov 2026 02:20:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793845235;
+	bh=EQmexwlL0NaglT07ruapIC+ufieHfae6dJtCkzoFsIc=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=NjOwVwTP2nyvVPDJqnrDbEL1Zr0RkY2lBG7BfJF4WAYLX4L/EnJL/ThmUCYLahYCF
+	 4prwuJKq5aXPk1HlE6XyOqM4yW0ezK8nyWHieNqohxeXPl7K3+KwaSzMT1/ZsjkFDy
+	 pWsjmuzaVjhHE6+ecyT0jmApWqzdeVkJDf8/IUqRbhNTMd0hQITk9csA6/ZLwjU+pj
+	 WgywSMLGlFSDGI7tXJyhABUahcwVM1pDKa+1AJ7hRt4yvWepfsK68N3DR5Hc0ies8+
+	 21CfNkYeppHQ2tulmzxhP1PYl2dXVBA5OQ/nUGGThQ4S6icVlsgwo0UZkna8Zrw+tg
+	 sikGOhwvaa3zg==
+Message-ID: <sashiko-outbox-198452@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 5/9] nvme: drop unreachable "off" case in
+ reconnect_delay_show()
+To: "Guixin Liu" <kanie@linux.alibaba.com>
 Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH 0/9] nvme: dead code cleanups
-Date: Thu,  5 Nov 2026 10:10:42 +0800
-Message-ID: <20261105021051.1667222-1-kanie@linux.alibaba.com>
-X-Mailer: git-send-email 2.43.7
-X-Archived-By: <archiver.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261104_181104_657075_187C6D98 
-X-CRM114-Status: GOOD (  11.11  )
-X-Spam-Score: -17.6 (-----------------)
+In-Reply-To: <20261105021051.1667222-6-kanie@linux.alibaba.com>
+References: <20261105021051.1667222-1-kanie@linux.alibaba.com>
+ <20261105021051.1667222-6-kanie@linux.alibaba.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 05 Nov 2026 02:20:34 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -67,57 +65,58 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-21.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=4.0.1
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
+X-Archived-By: <archiver.kernel.org>
 
-A round of dead code removals in the nvme host and target drivers,
-all found by code inspection. Every patch stands on its own and can
-be picked individually:
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Low] nvme: Documentation/ABI/stable/sysfs-nvme out of sync for reconnect=
+_delay
+--
 
- - the NVMEQ_DELETE_ERROR flag lost its only reader in 2020 and is
-   now write-only; dropping it also removes the nvme_del_cq_end()
-   wrapper, which degenerates to nvme_del_queue_end() without it
- - struct fields never referenced since they were introduced:
-   nvme_fc_queue.seqno, nvme_dhchap_queue_context.entry,
-   nvmet_fc_ls_iod.fcpreq and nvmet_fc_tgt_queue.ninetypercent
- - a hostnqn already-assigned check that can never fire because
-   opts->host is only set after the option parsing loop
- - the reconnect_delay "off" case, copied from fast_io_fail_tmo but
-   unreachable for an unsigned value the parser bounds to positive
-   values
- - an address family map entry that both show and store skip, an
-   unreachable break in the passthru feature handling, and a drain
-   of an SQ list that is never populated
+commit 0bdac7a94ae088ab38d8d6006c42a68c7d0447dc
+Author: Guixin Liu <kanie@linux.alibaba.com>
 
-Guixin Liu (9):
-  nvme-pci: remove write-only NVMEQ_DELETE_ERROR flag
-  nvme-fc: remove dead seqno field in nvme_fc_queue
-  nvme-auth: remove dead entry field in nvme_dhchap_queue_context
-  nvme-fabrics: remove dead hostnqn already-assigned check
-  nvme: drop unreachable "off" case in reconnect_delay_show()
-  nvmet-fc: remove dead fields in nvmet_fc_ls_iod and nvmet_fc_tgt_queue
-  nvmet: remove unreachable "pcie" entry from the address family map
-  nvmet: passthru: remove unreachable break statements
-  nvmet-pci-epf: don't drain the never-populated SQ list
+nvme: drop unreachable "off" case in reconnect_delay_show()
 
- drivers/nvme/host/auth.c       |  1 -
- drivers/nvme/host/fabrics.c    |  6 ------
- drivers/nvme/host/fc.c         |  1 -
- drivers/nvme/host/pci.c        | 20 +-------------------
- drivers/nvme/host/sysfs.c      |  2 --
- drivers/nvme/target/configfs.c |  5 ++---
- drivers/nvme/target/fc.c       |  3 ---
- drivers/nvme/target/passthru.c |  2 --
- drivers/nvme/target/pci-epf.c  |  2 --
- 9 files changed, 3 insertions(+), 39 deletions(-)
+This commit removes the check for ctrl->opts->reconnect_delay =3D=3D -1 in
+nvme_ctrl_reconnect_delay_show() so that reading reconnect_delay no longer
+emits "off".
 
--- 
-2.43.7
+> diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+> index 10018c6356b62..3724b5ce03a07 100644
+> --- a/drivers/nvme/host/sysfs.c
+> +++ b/drivers/nvme/host/sysfs.c
+> @@ -618,8 +618,6 @@ static ssize_t nvme_ctrl_reconnect_delay_show(struct =
+device *dev,
+>  {
+>  	struct nvme_ctrl *ctrl =3D dev_get_drvdata(dev);
+> =20
+> -	if (ctrl->opts->reconnect_delay =3D=3D -1)
+> -		return sysfs_emit(buf, "off\n");
+>  	return sysfs_emit(buf, "%d\n", ctrl->opts->reconnect_delay);
 
+[Severity: Low]
+With this branch removed from nvme_ctrl_reconnect_delay_show() in
+drivers/nvme/host/sysfs.c, reading /sys/class/nvme/nvmeX/reconnect_delay
+never outputs "off". However, Documentation/ABI/stable/sysfs-nvme still
+states:
+
+		reconnect_delay: Shows or sets the reconnect delay in
+		seconds. Reading returns the delay value, or "off" if
+		disabled.
+
+Should Documentation/ABI/stable/sysfs-nvme be updated to drop the "off"
+description as well?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261105021051.1667=
+222-1-kanie@linux.alibaba.com?part=3D5
 
