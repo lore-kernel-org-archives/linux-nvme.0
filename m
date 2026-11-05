@@ -2,41 +2,41 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E868F606A328
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Nov 2026 02:11:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E581606A32C
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Nov 2026 02:11:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=C3birdCY;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=kRgfOA9T
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=tWO8VLD0;
+	dkim=pass (1024-bit key, unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=NPstuyXM
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=4fjD1QjXQoURvRCFGFMBDygDUaT3GsURsRxFKbZhGHU=; b=C3birdCYAqzU2j
-	xRjJ6jz/EnIk4sOrI4wSKqmUMTlm2QPB8XVDD/C/Vn4dWJItCzfJxQhdpnTxQ6TW6uIo2bF7FCCtK
-	KH8PkAYM9K+XNesCEEIfwEKMDxe00s0GDKTkrAoaeL3XfhDDnV5nFXn+gKoT1UQsfYP7OuRJBTPAh
-	SY7WPKZgQxXMFY3ml4NiUqf5SBN44G4KZI0ctvywHLgTxG1WglePCb4L8XOQpDS+KNsDorUIFs79W
-	to0WOYcq9e5C94Wnz0Cm/maoMvP4U+i2QgEbj7RPiEpjd2lYk7GyXX2rUV3RJddUlJIfxHcRhFYCD
-	cryjT44fyxAtq0sQx3ZA==;
+	List-Owner; bh=T1o5UTfe4UjNf49g5ls7TMMNr/+HIOPH/BnI3ElGqoc=; b=tWO8VLD07hgK12
+	TuQ4+kqFvvIpl18+oWeQ6EdbmWXFaRkjx77XDnbmiI5tZHSIeeWBgbCr4vSX9vxXo6+odz+oEHKGt
+	R1zaEeCmTZoesjDBtBJonB07pTGZutpTGapflmyuDqT9sCW7KOwsDN3YybIC+fNIcxzeY/id/mZvL
+	bix+Uqsrg6g1onj9dODExf9oc7zVQDRIATRDPP6efb3Yy2QxmqGdiG8FdoK3kzVoRUbnqRW3+S7Mk
+	f3L/l0eYv1CsnLd/Q0muvKNRDqCKECGH434WFczxsfMVCfx6t+dcjI68Fwqev9nv4H/KNXlr/UR80
+	y6FF0FAk28sJa3Gd5+xw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOmwY-00000007XR9-0OhO;
+	id 1xOmwY-00000007XRd-1yVr;
 	Thu, 05 Nov 2026 02:11:10 +0000
-Received: from out30-119.freemail.mail.aliyun.com ([115.124.30.119])
+Received: from out30-98.freemail.mail.aliyun.com ([115.124.30.98])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOmwT-00000007XLR-1WjN
+	id 1xOmwT-00000007XM1-0apG
 	for linux-nvme@lists.infradead.org;
 	Thu, 05 Nov 2026 02:11:07 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1793844659; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=4fjD1QjXQoURvRCFGFMBDygDUaT3GsURsRxFKbZhGHU=;
-	b=kRgfOA9Tvp1DJixFgEHyEMqlYHhxKc8D4LiQKHWyCgjt765rSciaG+3LtPJ4cuU56jgZ6Acf3AaWhvH8GTfqW+uNNafmdsmF5kHO2AaCP5hJw/7jhQbGmbOEuzHLiZJ2Oqtmek1Uh4S+/3O8v8Nak7wCTNIBjKV4WcIVo3m9wGM=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R541e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033032089153;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XE7BnKF_1793844658;
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XE7BnKF_1793844658 cluster:ay36)
+	t=1793844663; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=T1o5UTfe4UjNf49g5ls7TMMNr/+HIOPH/BnI3ElGqoc=;
+	b=NPstuyXM2Wbq01oeU1pN8EDOKsX6WXRpS0FeyY9AVLIdQ3g7mHWjLkWaBUtdRoJnj88hK6ijEj64Y2o+umqVGfad7M3Gc6Im3IJzb/QMMrx+VSCsf+KSNgPcELHPYdcoO6QBhUzgMde4vKu3zJg74SSBz1x8woayqTBDp5V+Q8A=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037026112;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XE770cS_1793844661;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XE770cS_1793844661 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Thu, 05 Nov 2026 10:10:59 +0800
+          Thu, 05 Nov 2026 10:11:02 +0800
 From: Guixin Liu <kanie@linux.alibaba.com>
 To: Keith Busch <kbusch@kernel.org>,
 	Jens Axboe <axboe@kernel.dk>,
@@ -46,9 +46,9 @@ To: Keith Busch <kbusch@kernel.org>,
 	Daniel Wagner <dwagner@suse.de>,
 	Hannes Reinecke <hare@suse.de>
 Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH 1/9] nvme-pci: remove write-only NVMEQ_DELETE_ERROR flag
-Date: Thu,  5 Nov 2026 10:10:43 +0800
-Message-ID: <20261105021051.1667222-2-kanie@linux.alibaba.com>
+Subject: [PATCH 4/9] nvme-fabrics: remove dead hostnqn already-assigned check
+Date: Thu,  5 Nov 2026 10:10:46 +0800
+Message-ID: <20261105021051.1667222-5-kanie@linux.alibaba.com>
 X-Mailer: git-send-email 2.43.7
 In-Reply-To: <20261105021051.1667222-1-kanie@linux.alibaba.com>
 References: <20261105021051.1667222-1-kanie@linux.alibaba.com>
@@ -56,8 +56,9 @@ X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261104_181105_553854_66402972 
-X-CRM114-Status: GOOD (  12.35  )
+X-CRM114-CacheID: sfid-20261104_181105_337379_1F5FC77A 
+X-CRM114-Status: UNSURE (   9.24  )
+X-CRM114-Notice: Please train this message.
 X-Spam-Score: -17.6 (-----------------)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -78,71 +79,34 @@ X-Spam-Status: No, score=-26.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Commit fa46c6fb5d61b ("nvme/pci: move cqe check after device shutdown")
-removed the only reader of the NVMEQ_DELETE_ERROR flag, but left the
-flag and its two writes behind. Without a reader the flag carries no
-state, and nvme_del_cq_end() degenerates to a plain wrapper around
-nvme_del_queue_end(), which the SQ deletion path already uses directly.
-
-Remove the flag, its writes, and the now redundant wrapper.
+The opts->host check in the NVMF_OPT_HOSTNQN handler can never fire:
+options are parsed into a freshly allocated struct, and opts->host is
+only assigned after the parsing loop completes. A duplicate hostnqn
+option is already silently overridden by the strscpy() into the local
+buffer. Remove the dead check.
 
 Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
 ---
- drivers/nvme/host/pci.c | 20 +-------------------
- 1 file changed, 1 insertion(+), 19 deletions(-)
+ drivers/nvme/host/fabrics.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 8a90639789c9..6f6bb9a2486c 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -388,7 +388,6 @@ struct nvme_queue {
- 	unsigned long flags;
- #define NVMEQ_ENABLED		0
- #define NVMEQ_SQ_CMB		1
--#define NVMEQ_DELETE_ERROR	2
- #define NVMEQ_POLLED		3
- 	__le32 *dbbuf_sq_db;
- 	__le32 *dbbuf_cq_db;
-@@ -2238,8 +2237,6 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid, bool polled)
- 	int result;
- 	u16 vector = 0;
- 
--	clear_bit(NVMEQ_DELETE_ERROR, &nvmeq->flags);
--
- 	/*
- 	 * A queue's vector matches the queue identifier unless the controller
- 	 * has only one vector available.
-@@ -3101,18 +3098,6 @@ static enum rq_end_io_ret nvme_del_queue_end(struct request *req,
- 	return RQ_END_IO_NONE;
- }
- 
--static enum rq_end_io_ret nvme_del_cq_end(struct request *req,
--					  blk_status_t error,
--					  const struct io_comp_batch *iob)
--{
--	struct nvme_queue *nvmeq = req->end_io_data;
--
--	if (error)
--		set_bit(NVMEQ_DELETE_ERROR, &nvmeq->flags);
--
--	return nvme_del_queue_end(req, error, iob);
--}
--
- static int nvme_delete_queue(struct nvme_queue *nvmeq, u8 opcode)
- {
- 	struct request_queue *q = nvmeq->dev->ctrl.admin_q;
-@@ -3127,10 +3112,7 @@ static int nvme_delete_queue(struct nvme_queue *nvmeq, u8 opcode)
- 		return PTR_ERR(req);
- 	nvme_init_request(req, &cmd);
- 
--	if (opcode == nvme_admin_delete_cq)
--		req->end_io = nvme_del_cq_end;
--	else
--		req->end_io = nvme_del_queue_end;
-+	req->end_io = nvme_del_queue_end;
- 	req->end_io_data = nvmeq;
- 
- 	init_completion(&nvmeq->delete_done);
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 3d7ad86c1955..c262538523fb 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -872,12 +872,6 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 			opts->fast_io_fail_tmo = token;
+ 			break;
+ 		case NVMF_OPT_HOSTNQN:
+-			if (opts->host) {
+-				pr_err("hostnqn already user-assigned: %s\n",
+-				       opts->host->nqn);
+-				ret = -EADDRINUSE;
+-				goto out;
+-			}
+ 			p = match_strdup(args);
+ 			if (!p) {
+ 				ret = -ENOMEM;
 -- 
 2.43.7
 
