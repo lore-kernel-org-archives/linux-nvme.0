@@ -2,156 +2,104 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67A58606A31B
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Nov 2026 23:57:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6825E606A32D
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Nov 2026 01:22:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=uWF5WVS5;
-	dkim=pass (2048-bit key, unprotected) header.d=wdc.com header.i=@wdc.com header.a=rsa-sha256 header.s=dkim.wdc.com header.b=E6oG3xCd;
-	dkim=pass (1024-bit key, unprotected) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-sharedspace-onmicrosoft-com header.b=LLdqIvE6
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=IYnU03aR;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Ww8DKTIs
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
-	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Unsubscribe-Post:List-Owner;
-	bh=w/Te71xIQ3nGWue2OwFckSRj8I6ITUqVKPNyy5bNXoQ=; b=uWF5WVS5oT1wtX1VdjnbANLTyY
-	IMxhxZupVOVSNu8RisRu46FzXIFn8OYm+tt3JtKAa777NzYiDYNOq3HKsEbFY2S+3syM9IUDPrksP
-	+VIvDBQ+J3Xks3Ewt4lX/zaNrADvIaQnqnzHGVVNxbkEQv30kSsRnpVbzBmk9QtX67aBJ94Y02R4i
-	+yJw4QOaKtHxwb2AgOKEXr047ih7bCVN2GPUFbLq9oiuO9XhWQkkNqHrSuCyVAzol6VOub5Ysw6lg
-	xe2j6lFfh6hE1sJcD5NsxlhP+edfwVOxyRjMZzrLEY7HfVqGQ/+rL8qMfJQ3ro5nTN8yi0zagBw4F
-	ARp7VYng==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
+	List-Owner; bh=PW259vEwVt6aepdEMnV/kf0Mt4lpxnzMAqh8bDDexfs=; b=IYnU03aR4ashLr
+	ELoRnjwtlb0deCKzh/5CiTAtaf5QQTGhcDxuxs/p8aDZM7sr47tSUP/IMC/A0Ls7hN3YF76a6dAJD
+	QxdRm8kU8sjMQ+4RSq5z7Aa7uRM+ASsNf5WGJLQI+PErSfS6b350VLGoln5KEx4JRBqi5ljGFO4o0
+	mtVaxfhLG5us6C8WOVQJPcyxpOxrlAMadY0FAXV7f6wFrjHmD9wLdy0MDdnkqlqaevovkJ03l7pMp
+	0T+h1t71JTb2z1y9WnDuT1LNEWkhzuJoVt/YEXwSAMA/cgvJ50K8Vkcv8JBBtUQGvcxXEAbvxIVnv
+	0XfgkxNGG3s9NkxQeiPQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOkqn-00000007J7u-1rfB;
-	Wed, 04 Nov 2026 23:57:05 +0000
-Received: from esa3.hgst.iphmx.com ([216.71.153.141])
+	id 1xOmBo-00000007TDf-1kis;
+	Thu, 05 Nov 2026 01:22:52 +0000
+Received: from mail-dl1-x122d.google.com ([2607:f8b0:4864:20::122d])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOkql-00000007J7G-2Jjm
+	id 1xOmBm-00000007TD6-1ScI
 	for linux-nvme@lists.infradead.org;
-	Wed, 04 Nov 2026 23:57:04 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1793836623; x=1825372623;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=VMrCmXOhstrmd17PU6m2T+ATZszy2KX15xHhoWSEfyo=;
-  b=E6oG3xCdmIK8uJF7+lrOQgqWwFPg84+R1PFAzvVyRylL02R0DM3v2G3v
-   G7OQZ5zdjF83o2WuDUrMcwLWsbhYClJ+A6Yn19L+QQnj5KEOYjlg1s4TJ
-   6l6Gi+SUwz60PNom14GG0vmMCVXFIoOMQhXlZj6z76Oqc7GCBTP0vLs/s
-   1NNb21Bh6Lz0ELt/j2WubX1XznUQGv4PZ3i4+R0OCtjIMxRSCeTEf3KNW
-   0QEbyGryF1J2B6aEaSv2BChw3sozlU1RcNm7xxUUF37KHit93+65JQkRp
-   ShaYJ9WzsX6fVwDDwgAjyP76qEv6uTohsSJcZLCUWJ/IVrzMuer9TBvUR
-   w==;
-X-CSE-ConnectionGUID: /6K826PgSaaQBtx/dcrjEA==
-X-CSE-MsgGUID: o+wrdyLaSMKKkncenE2CJw==
-X-IronPort-AV: E=Sophos;i="6.27,196,1786982400"; 
-   d="scan'208";a="159841753"
-Received: from mail-centralusazon11011046.outbound.protection.outlook.com (HELO DM5PR21CU001.outbound.protection.outlook.com) ([52.101.62.46])
-  by ob1.hgst.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 05 Nov 2026 07:57:02 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=po1Z/li8LZ0ro/85dgRqEAF34U9pTYJE2lhvSoxo4PZmHNAYXqXyWSB/a+I9vRDgC1O13rdYhRFG7CzUKU6eIwlAQUaTecsi6S8SRGO6NFYDtrBlhjgRBoBfSaXKYpRbAyFSQDlWm9p9hha3OJgwgs99T9QtFEA4A4Yk09Lxf6q3XncVgQteTJhQdYR0sGBUxxzU/nS4pKtvgLoZ/rUi2GaI6k518gtqgWhKecbQ8RpI5dA/EW0HVZ2Ni4sQYNhK8cS9A5bHLKTznChfF6usTXB0VU8tRqSw9ks8xV9d2lHvJ3awDQmpOTT2EWRBifeb2hrUiOlclObVXvJXhUfj5Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=w/Te71xIQ3nGWue2OwFckSRj8I6ITUqVKPNyy5bNXoQ=;
- b=eL5kvumRWgpQWInxoHLe50B31BtGWYZAxuhg8cALLpsits1XAHpIzHfPYq/7OREbxYTD8luf2t59EuWIUgiDOMEqfE45I9DXXkZ80yQwqXAhWf8pGZCJLQXfG0XALACd7t2rqkqIrQiucBnsXeNFklE+DH4/tr0TyG8bcnQhkmLg6KStt5qOA+123VZ9rv9jIoayWizB3tRmVl532w3y49xvhYCl2xbNBisMRUbtW+SFZJ/5crteR8jrxEQEwqp0oKzOjspcRL6hfvZULBi4XytaliyN2H8ErzzQ0VUGM7UJ5zBxldTnDqBzddEfh5HXZQ43vuqLU0xe15HGXB0duA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
+	Thu, 05 Nov 2026 01:22:51 +0000
+Received: by mail-dl1-x122d.google.com with SMTP id a92af1059eb24-1a2761c69fbso288060c88.0
+        for <linux-nvme@lists.infradead.org>; Wed, 04 Nov 2026 17:22:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w/Te71xIQ3nGWue2OwFckSRj8I6ITUqVKPNyy5bNXoQ=;
- b=LLdqIvE6QCciNR/E7vdSYq0pOmYeJVb42hyYd9qsEcwAi18vZ808up0Yd5fWL2SjH0uCjPKPR7X5lgBjTFs8Aj7Ymp4h2CZNzQnOtFKezy8VQnKOopc8pD1XFTJaVnc9c5HSyyJEZ5WSyaPWjwNgtIS5nVK/Qv64SnBTIGi98/k=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-Received: from SA1PR04MB10065.namprd04.prod.outlook.com
- (2603:10b6:806:4dd::14) by CO6PR04MB8380.namprd04.prod.outlook.com
- (2603:10b6:303:143::6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.10; Wed, 4 Nov
- 2026 23:56:41 +0000
-Received: from SA1PR04MB10065.namprd04.prod.outlook.com
- ([fe80::9b98:bf8a:b0b1:ef85]) by SA1PR04MB10065.namprd04.prod.outlook.com
- ([fe80::9b98:bf8a:b0b1:ef85%5]) with mapi id 15.21.0569.011; Wed, 4 Nov 2026
- 23:56:41 +0000
-Date: Thu, 5 Nov 2026 08:56:36 +0900
-From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Nilay Shroff <nilay@linux.ibm.com>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, kbusch@kernel.org, 
-	sagi@grimberg.me, gjoyce@linux.ibm.com, chaitanyak@nvidia.com
-Subject: Re: [PATCH v2 2/2] nvmet: fix use-after-free in passthru I/O hotpath
-Message-ID: <auvFmbUwmva581_7@shinmob>
-References: <20260929112751.2985483-1-nilay@linux.ibm.com>
- <20260929112751.2985483-3-nilay@linux.ibm.com>
- <auhpmq499RVE9YpC@shinmob>
- <98022e84-32f6-430e-899b-1f5cd9777183@linux.ibm.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <98022e84-32f6-430e-899b-1f5cd9777183@linux.ibm.com>
-X-ClientProxiedBy: TYCP286CA0164.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:383::16) To SA1PR04MB10065.namprd04.prod.outlook.com
- (2603:10b6:806:4dd::14)
+        d=gmail.com; s=20260707; t=1793841769; x=1794446569; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=PW259vEwVt6aepdEMnV/kf0Mt4lpxnzMAqh8bDDexfs=;
+        b=Ww8DKTIs1ySeBlLM+SJPMziTV5fueL7fsuRUfLcwwZxQmnMuci+PtuMFjXfRiPjYZp
+         hdEY50zEY6wS89vBJDuob6ZUeuE4WeZ4OVYBYzhLL6fiiXWJ4yzfgtD2eQsqthFI5x6L
+         BKYI+FSNWaRfxWpn5oZY5y5ud6ANirDospQbVJ2a8AQbGaBcT4eFqWvlA+0aCoOnYj6n
+         yqOzKTZCcBq6/HZ1jlQLORiDVeAp+miQ09ISv4I8j6/foHKbioxm2eTlZUI/Hb4GZvI1
+         Pgl48tD0hu8O1tcrKn6ysrsuUz678WLgkVxfPJPEvwQy7ll4kAaGmYK5vHrFYSF261S3
+         jRsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793841769; x=1794446569;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=PW259vEwVt6aepdEMnV/kf0Mt4lpxnzMAqh8bDDexfs=;
+        b=lQQplkeUyksvNmpl2yi7yLH4AxVl6+7x7N3XT17QSwH9GstDhnOaemFfNlTKl+FgNs
+         T4o96603gt8OD+fxQxfogi7W/naRTkg6A7V/q1+bjqQO31L7e7QhF7I+6E4eoM0pP7PI
+         HH4aVI7fGJb49REL0GMjTAISVeiDD/yhauwR/XRVZ2vq7H+EWN33jT3QT1h5PFtZsc8n
+         RQH8QlPzDr3S09+XUtgRLrAVKsPHDR1zjjVslgtnSre+5+qTFsZFrG5GUgz2QWF5vIKF
+         T6CNcwVknPfhQYlxCgXWtH7gN72oKzd2FH6OH3scT+YUTej0Jqzv+feVXPKhdlFW7Ale
+         NxHw==
+X-Forwarded-Encrypted: i=1; AKwUvBxqSlqlqSaUoR7hsaicLCa6gZPf5zkYOhozLFfAMRI9fp3USMYGpiRooDW35HcA7JP9eObved26rbIw@lists.infradead.org
+X-Gm-Message-State: APuU4Z/+yAp8XZhqhgOCgJRXkp40DpEdtzgwIUEO4xdpnn+A9A6qttS0
+	cFFhizS3zHIIiyzCRvWwYpgq+2Ull2x44WnS4t7xyIzTsrjwayEBcmFv
+X-Gm-Gg: AYBFou0EKU2CgggZvdwx9Ew6KeP+7UOYzcRYaZ7aA37sT7wIjC8FnI5s2aqyZSG/Y1p
+	8f7T0V2JpBPCNmv6tzcvBLQdCc4ayhICENzhRhn0/HNJ6lTcDW6OgCs/DM2tGmyzvfX62OzTx/Y
+	I5UKj6yxvEWFB2NfOCK0wiUL6bHYWeS7g+6AyPrzY+WX7Q/IAnw9Nkz+TFHheDM3AMTFOcWMxvS
+	vBTJH4sE6PE2ZJcvy0ukOIRERd6ORcQWq1hPKxt9lCJBqyvKwRmcPHZ+hrp1uW+BHHcngQm9YCL
+	wRhvuFWTcIwepPokAxDMf8hQG6YK+FP/JPT4x3JsfnHFYo/qQFn/Z7XrhmG2DBSrRvhUHgE/mgx
+	gr3QZfDK+PoWAoomSyVaDC7fFLFBLu7+I5KTg87ucz1M51SI6RZDEPg3WLrffKbFt2NLM1XOOe4
+	1c9L2yyd3aYCfYzD80WdQR5Z4sDIk82TCMUZ7+82KmYIk2DzVvAqEL7zzYeBMIoNWgIovOEeR/j
+	pSRhLRJXCC5OE0ihhlEuzrqXTyLzzp3420sHSbFvRIid/NaGKF3aEy/JGrrrCWdfGdNg9AKagVd
+	7y+NQGPglIaOnLSlOEE7
+X-Received: by 2002:a05:7022:281:20b0:1ac:91b6:8dfd with SMTP id a92af1059eb24-1ade9e3e335mr25492252c88.31.1793841769331;
+        Wed, 04 Nov 2026 17:22:49 -0800 (PST)
+Received: from ubuntu.. ([23.254.208.9])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b245c1bcedsm11526499c88.7.2026.11.04.17.22.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Nov 2026 17:22:48 -0800 (PST)
+From: Qiliang Yuan <odys.yuan@gmail.com>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	=?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	rcu@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] srcu: Add list_splice_init_srcu()
+Date: Wed,  4 Nov 2026 20:22:42 -0500
+Message-ID: <20261105012242.623962-1-odys.yuan@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <9f8c94ff-29e3-4ea5-b9ec-b04b2bc21b1c@paulmck-laptop>
+References: <20261104-bug-nvme-remove-ns-srcu-v2-0-feb64ecb96ca@gmail.com> <20261104-bug-nvme-remove-ns-srcu-v2-1-feb64ecb96ca@gmail.com> <9f8c94ff-29e3-4ea5-b9ec-b04b2bc21b1c@paulmck-laptop>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR04MB10065:EE_|CO6PR04MB8380:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7e5879b6-dd6f-48f0-d44a-08df3acf45e4
-WDCIPOUTBOUND: EOP-TRUE
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|19092799006|23010399003|366016|1800799024|22082099003|10067099003|18002099003|56012099006|11063799006|4143699003|261021135927099003;
-X-Microsoft-Antispam-Message-Info: s0FSzEH413FNYz7Q30fFSonvrPSWjbtkO1DVTxmhEtdKcM9D7izCXxWbTXBdzWAZ6DReaOEMz2evyUtviImAGXmQmhaHMjtQ2ZgLpi3xjpyOI3quSPyS/YmxYVvql404yayF/Wg5WqipWDqgJbKk9QIbW8BakN9oLIvZ6V9YrDFh7JLpjNvkv9QAd07cKUFWj4CSoUu6PgkOVmqeBTPU7qyZp51qqzy90J6i1KG6JWLQGZ+WKRRYS1IvnsmRcGq4kZVb/hRUX44taGiVq8DXjNNP8l96pXy3Edo2uR7qcZcxk0Z8lCCpmiLMH/wGcyb+JUkN11LhGX+T0o/iTFe+jNVr1x4nqw030GycB27/qgSwkkDzcOft0UvlsYV5WkyjrrATSSV/XcBQ86VeAcMvhI8rrh5YfDjr6TLa7eLUQv4YFvVgQH062EB8OCm2oucseVziftNrWq9RSJzS8iVy78tbrH/D34mZ9fPjHCNnUm329eTs2S11bizWpFITLI8BaFbUsvmrfAPUreFhdgBP4ICdZgGcaTdNxyKfpSeGRufmgX8yMF/7zfTNOKxKWMp1egKWQBdWh21sp03vZzBv1oAmL645EbVDrNCtuxwRz7lpb5gjwckraY4tdm90ccUwLMnYfcyJKyLC/lQMF0sYgW1+VnNVa8e96rhgCuDG3Qg=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR04MB10065.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(19092799006)(23010399003)(366016)(1800799024)(22082099003)(10067099003)(18002099003)(56012099006)(11063799006)(4143699003)(261021135927099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?k5uB+2MQsmJipFaNEUhOxomOwylvRJaEf3OEAid8X+ix4SlaDgFwRMuhuKD/?=
- =?us-ascii?Q?2BB0Qh1q9GKt/L3MW8i5brRHB7jbu5EZBZC0qhMXLtWbbSjs4WNYUBBABQUN?=
- =?us-ascii?Q?UoKc+6n70C6dP57aw7EO+f/E//+XD1gfoNhTNZuBpEq75m+HWxSnOh+lY+cj?=
- =?us-ascii?Q?oSO5U9L0HN7szLEJWim0IMAOq3HrAoDbLzcTzqkIg9jfa8bRqcwu/yT8324a?=
- =?us-ascii?Q?Ig4fnWiZ2dLAQf8ezn1Bw16qdcjoF+ns0lzYgrhxVfAJzCtnTe73RUONBW5y?=
- =?us-ascii?Q?cGq0nwAoTPA7BZijCIgKqAGnOjMCgg0sb7KBeXNrI3BRBjdDRPu4oN7RS7XE?=
- =?us-ascii?Q?hIMIm++THWYzwsI6EXmnQ1IDuXpdiKON8ig3ueYQj2y7eqXX9dw6Xo43AO6s?=
- =?us-ascii?Q?ccqW7r4OV9exrkTs8XFioyhpLd8bu3r/ToJ4ML97kRQzb40NPt7xLjrPZoBj?=
- =?us-ascii?Q?h5azVO1e8wvZZcmeaNJPqNXxOXECV9VlfUzTlPvvxoV+/5fKtL3dPxulYxuC?=
- =?us-ascii?Q?s1KDqWprfrRt0F4a4dDXbZJGDuEb3DMr3BIQ2VVynhtZbkxcXNCUCxfKF+Pn?=
- =?us-ascii?Q?h64medc9Nnrwxh8dlY2nGIoeOyWr1IPtD6njrGSQgURfiDkq1037Swi0Ax1u?=
- =?us-ascii?Q?CnBB80ZN/Wdwnd94mC+r5R+5a3lo7W1qSJhUsDnhPbR3DVgLe3jHG1FsCJen?=
- =?us-ascii?Q?gt2OM5jo2Em6u68e60XuJVtkIa9Ze5QH4F1KM6eL4MdmLfEZjAhx0pG5/JEY?=
- =?us-ascii?Q?9uWlwR007CiGQiUc+RURe8CBswRuql+jaYwNXxCYDH6SPg6izD+DiQsBOn2S?=
- =?us-ascii?Q?KBeuoG3iv3vHLIOJLmT2Y8VBkAXDiQ/9/ApgNDF/btLCSD9xeTVbZCsFqyNg?=
- =?us-ascii?Q?wj2gE3BUT6qK4TP8dd/dyhcwgG7t3NdGVNDf/M2UTibsdlOoMCeLx33843m2?=
- =?us-ascii?Q?Uqqlvsznq9V2HvTtaDSUPEmqnmmT/60oi9PMErGHA/eOoMTHH0nYlEQo9beV?=
- =?us-ascii?Q?I3IyH7+U/HEpZEjlExlWexUmZ6aVFkA6QVV0iK7+vwEycEgsIEp+ujhXHKT+?=
- =?us-ascii?Q?3QiwLMeIaj6uSrG1womuJz+29Uzn5RXt/Pk/HjH1nBQgP8UpR3Gi0RVTTHFK?=
- =?us-ascii?Q?12ik65E3md49vk4pCVRbV7cH8aCZychF/YkQ95b+FChXNmTQuOmf0odk2Hv3?=
- =?us-ascii?Q?GTmD8YjlXKAIgH7sBkP5tkVqaALLEM3YIQq/h7MDt9h66u55jXKaxUOESE9D?=
- =?us-ascii?Q?DoNoCsEBa4KvtpG/pBwTEbnxgDr/AH9BH5m3v7zBhUuMAoixO3H+xmaEtKUq?=
- =?us-ascii?Q?86oFQoOefVvZalL1k8SATe8+hbTXFmtJOtEFJVAQP9Z6oZhMIO0JbnvIzvRi?=
- =?us-ascii?Q?oJ38eHGJ0sJI/xUJ9yT1GqktxbKgRbU4Fh5cOQ3GAymTVcdVfOlE0jx0q5yW?=
- =?us-ascii?Q?djaGl1EDHCkKy82Mb8N+fJs5oStjHG2jY6AkBI9M8CckQPOL1HWEFi2ln3GE?=
- =?us-ascii?Q?YZKPtv+mBSFE/1VXlJyeJV08RSMTm7waHf+8z78okoR8MdVecyFKXIRpv4nL?=
- =?us-ascii?Q?A1smH8t9cIQu2pO6p42eJaL6gassAstBwVfDzwLyuEjwpsRNGiJqQZbQUMzr?=
- =?us-ascii?Q?3pTF5CbO+nfBOwVhZLsiHfqNshBIJfb6lV5egxgw81gpFr56NGL17K45+toA?=
- =?us-ascii?Q?RH6B1/TtKUKmPfjezf5KxWwZKkgXntJItke94KrT4pml3dZnudshwrOBQ3Nw?=
- =?us-ascii?Q?YoMT82RtUpxggHDFZdQ/SZHdbSIHjcw=3D?=
-X-Exchange-RoutingPolicyChecked: rFFaNMtho8Adi5tgBCGaIW9vILpQWeB7OmtBpD5DY72iTESeywMbZfRoPvDUPRONpj5Pk30d535ZRVhL9SDrJsu/VTK/gueyxuiJ7m+kEwfUmtfOSX6HD/oTy+POPvq2nUD9DGpC2aFOsNga6zgdtHb3rmXvHqk4xQl/VkjdwHFXKAL6XahjZjfvXTF1sYlsF8XqOuuTrjFGxPfqtTCy5i5y9pIl6oqg9FgTh2cVYBGOCF9+Eh9rh0Q1bwj6RoCgD0eMIDbfDoOb9/rNvCqPw/hu+LM6Eq2w9RzcLIvPglBbmJ4bxg312rlab+jBODuAO5Y3htDoi0SzbeL5n6c4QQ==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: H3TCjy5Eb3UbgSKmaUNiqUEMLpdSOINOrXIn0UtdorJzuvRnGMYkJpZsVnEc1XLuQJg0a+FOIFnEiQi7rHjQ/82LKK2hISsjQbqvdMLwQ0Z+84jPpZ3ZX9CZpNesVYRz4iH5XA55KigW0G4vK7eWzOJNGc17j10XXu2TzFKTkOr2eV5qSHq+0aKcKxuMw8+9v9gdCGonBVni6ZWBegygRvV96952zoOnIfdr4Jm+IhwAMnZvokSzpPSP6ghpY066fHNYUvhIwK7/aI32k5XCum/y3DfYIGEJfyjjE4iL71NharKKv06pUUpN0L+4lE6YY8izeMjuQ2DuPbrFdRJkFTdyVzOv/e1XcY47CPJTA6KNeO6tadUwaeoL0VM5+K+A0wLAaGsTx6Tx0oHJLq1OgPV4fJHPaGfUNLGfZgvaHdHKmDzsVjdbsCXbUPiT7KOzCFibivCr9uhdVrJXrMS3iwPTJ1CeCvaQk/LZx8Ir/FQvgLvqL1Y6ipsKEgpXWO2MhqDx5mn5RHvU8+qjeLNbW1Yk6mqwOYfkC7IPFBrWl1e1f1nx52PQ7vc4HvKD01Zwjd4iqg7DtUUQ21whsgOMBAhilxcbJl7oEpGGC+alGO+E/+BgYF9Z8EeJi6/DCmje
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7e5879b6-dd6f-48f0-d44a-08df3acf45e4
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR04MB10065.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2026 23:56:41.6116
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CUjpMLRfmKDKdrvcGU2Fr9mV0kgVM5YfoqG/qskfyrEFDIus2sLOwQHeryhL8teGD9AtpHkOVYF6+Nv/IzD0s+ZMmHgaXWC/uCQzMYfzVTE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR04MB8380
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261104_155703_626498_F5813B43 
-X-CRM114-Status: GOOD (  11.19  )
-X-Spam-Score: -4.4 (----)
+X-CRM114-CacheID: sfid-20261104_172250_386084_F0C6EDE6 
+X-CRM114-Status: GOOD (  17.37  )
+X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -162,26 +110,60 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Nov 03, 2026 / 06:49, Nilay Shroff wrote:
-[...]
-> Based on the above, I prepared a patch[1] to fix this issue. May I ask you to
-> validate this patch on your system? If this works for you then I'll send out a
-> formal patch.
-> 
-> [1]
+On Wed, Nov 04, 2026 at 09:14:12AM -0800, Paul E. McKenney wrote:
+> I am not inalterably opposed to adding a list_splice_init_srcu(),
+> especially if quite a few more users show up, but here is what I was
+> expecting people to do:
+>
+> 	static void synchronize_my_srcu(void)
+> 	{
+> 		synchronize_srcu(&my_srcu);
+> 	}
+>
+> 	...
+>
+> 	list_splice_init_rcu(l, h, synchronize_my_srcu);
+>
+> We need at least six uses of the above idiom to break even on the line
+> of code required for introducing a list_splice_init_srcu().
 
-(snip)
+That works for a global srcu_struct, but nvme has one per controller,
+next to the list it protects:
 
-Nilay, thank you for the action. I validated your patch, and confirmed it works!
-The patch avoided the hang. I also run whole blktests in my environment and
-observed no regression. When you post the patch, feel free to add,
+	struct nvme_ctrl {
+		...
+		struct list_head namespaces;
+		struct mutex namespaces_lock;
+		struct srcu_struct srcu;
+		...
+	};
 
-Tested-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+nvme_init_ctrl() calls init_srcu_struct(&ctrl->srcu) for every
+controller, and readers walk the list under that controller's srcu,
+e.g. nvme_wait_freeze():
+
+	srcu_idx = srcu_read_lock(&ctrl->srcu);
+	list_for_each_entry_srcu(ns, &ctrl->namespaces, list,
+				 srcu_read_lock_held(&ctrl->srcu))
+		blk_mq_freeze_queue_wait(ns->queue);
+	srcu_read_unlock(&ctrl->srcu, srcu_idx);
+
+nvme_remove_namespaces() thus has to wait on the srcu of the controller
+being deleted, which a sync function that takes no argument can't get
+at.
+
+So the choice here is between list_splice_init_srcu(), as Christoph
+suggested on v1, and open-coding the splice in nvme_remove_namespaces()
+as v1 did. Which would you prefer?
+
+Thanks,
+Qiliang
 
