@@ -2,142 +2,134 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC375606A326
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2026 07:32:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17437606D80A
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2026 07:38:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=wp+tq+ko;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=YmpcpWJu;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=P0NCKvX3;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=NQvhHecH;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=o1GFRjWy
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=iEQI/eW8;
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=RYucLT4y;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=AP/5YuY5;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=RYucLT4y;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=AP/5YuY5
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=8JaWjpHsA9K5VQoih0qcs1nntTo5fLlT6Is+63w1g+Y=; b=wp+tq+koaFQfXc
-	Of3ZhnFlNyfcpWV5kOuY+bXdGXFcl3+4HBXsI2JcDpE98IgCJP7pgZZ2PXsWGcA8bcgCoXkXzxf+z
-	mocXH0i6PcvIBqvDHyDZoK2zn575hjBxFdIbw9mrJ0TCT4MWqb5dLZZ/sjsZbvchuxLdKeIioCH+L
-	wUVkZLI4eS1nywJ4IlYD3xqBZ+0jOS3vCkaksXIB2Ijo/FrKuWWErXSuStGbr8Jg9vBlWdrSv54Ok
-	yckwOIHlYgprJ1M6LeXHzT8YbAN6UAaGqc0sJHuP40YDMvVM2hfJAu010tdG8EMd/dD3IIkJI2PiC
-	o1NXuWBg0HBI7MgWdpcg==;
+	List-Owner; bh=NEvMjqHDTzNcYM/FZI1FbNlhgCOjBi3bOjj+pPxNgdE=; b=iEQI/eW8YZDGRd
+	UcqqPeeSsAlVUVa/7S5f++AcWD0L7CCT19sqqjyI9TLkph2wRfJIebCL1ve4Md9fd68/9ci63cElq
+	K56RBtzN2gAspyaZt7/d27PYq2PN1c39f4FKKzZ5ZcXGolKVhqMiq0b+pDsnE9+Qw21OAlNTTD62Y
+	lz8kXJOMMqu24FAuHzQAwNyD2hOkdlF6zosUjuA4KXmcGoHgCvWN0hJrKqoa2WJORF9GYCySUWTgM
+	qMkoGp1vpGQQgEmaUWtZK6lffaJyaimMA4fn8DDm4EBRJbcUcRsmuoQCpFc0GTvwhzMURxY0QyykM
+	axcmAeTUQXBJ6RKmCwVg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xPEQd-0000000BSXF-2UU6;
-	Fri, 06 Nov 2026 07:32:03 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1xPEXF-0000000BTQR-1QSw;
+	Fri, 06 Nov 2026 07:38:53 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xPEQb-0000000BSWG-01F5
+	id 1xPEXD-0000000BTPU-0cfE
 	for linux-nvme@lists.infradead.org;
-	Fri, 06 Nov 2026 07:32:02 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	Fri, 06 Nov 2026 07:38:52 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D853A22200;
-	Fri,  6 Nov 2026 07:31:57 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 464B321EDF;
+	Fri,  6 Nov 2026 07:38:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793950319; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793950729; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8JaWjpHsA9K5VQoih0qcs1nntTo5fLlT6Is+63w1g+Y=;
-	b=YmpcpWJuHpZr5PfHqVpmE/ljKKwpYUBkeTG5/n5f+h8y5d9mLocdFKFCDs+OfLn/J6BMnt
-	MFRG972gMWVduoEOKiG+wIgA1vkmYafEyVIMBrpTiynhPHCH5T3WqaghRY1aoTFvKFXSrg
-	9uHFifY9uQEobZWH4wdAMu1P7w0UFjM=
+	bh=NEvMjqHDTzNcYM/FZI1FbNlhgCOjBi3bOjj+pPxNgdE=;
+	b=RYucLT4yDCWd/vEBDJARou6d+Jg6bJVUhPwM/Sze/sjriyv6KLKZyvVAgq0272OS4bxrk2
+	GWbwGG3VeH67DfkhnwGsVDDlvs40dGzT+RyTeWb/DniAE2x6BNJPl3uu+eVv6qZorcQ14d
+	KkA4gzCTbvHrQEA82sRRBpJMSK+ar6Y=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793950319;
+	s=susede2_ed25519; t=1793950729;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8JaWjpHsA9K5VQoih0qcs1nntTo5fLlT6Is+63w1g+Y=;
-	b=P0NCKvX3R2rWoi0w3sPvlKQ15JlP9cQg6ZLYC7AhjWNxh7fxi2ZW4gyuWjqFqQ1Q+OpSs1
-	mb3LFEv1acYqLrDQ==
+	bh=NEvMjqHDTzNcYM/FZI1FbNlhgCOjBi3bOjj+pPxNgdE=;
+	b=AP/5YuY5mJH7Rnl8wlgk/liSIg1fqJ+plhLo0+l2KTquyz/iDSiZChjRDpoXHxcrPfnSfd
+	Zp5/v+ouRDlkwyDw==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=NQvhHecH;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=o1GFRjWy
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793950317; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793950729; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8JaWjpHsA9K5VQoih0qcs1nntTo5fLlT6Is+63w1g+Y=;
-	b=NQvhHecH53A9OVL7iA4Ti6g9x921L/0nDKD0GiwD+lpfsgw4X9iScj+0LyRS0UdcmUYAeS
-	sQ3yjPkjsXjISACoO0gZVYC0tTeSKMFRJi2XMhOrEuk75oI+v/JUKwTOazdab+8LTAAIJB
-	7Ag/QWuOI8cMBFQ9tBmM4cht1C2dQ8Q=
+	bh=NEvMjqHDTzNcYM/FZI1FbNlhgCOjBi3bOjj+pPxNgdE=;
+	b=RYucLT4yDCWd/vEBDJARou6d+Jg6bJVUhPwM/Sze/sjriyv6KLKZyvVAgq0272OS4bxrk2
+	GWbwGG3VeH67DfkhnwGsVDDlvs40dGzT+RyTeWb/DniAE2x6BNJPl3uu+eVv6qZorcQ14d
+	KkA4gzCTbvHrQEA82sRRBpJMSK+ar6Y=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793950317;
+	s=susede2_ed25519; t=1793950729;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8JaWjpHsA9K5VQoih0qcs1nntTo5fLlT6Is+63w1g+Y=;
-	b=o1GFRjWyRLLEexBiE8OhpxRJ0CbM3/LxeYhqmV1ZIhGVShsCBRZCwwxZulJq48VVhDOUxS
-	QSLJ0yuZ4ilF3JAQ==
+	bh=NEvMjqHDTzNcYM/FZI1FbNlhgCOjBi3bOjj+pPxNgdE=;
+	b=AP/5YuY5mJH7Rnl8wlgk/liSIg1fqJ+plhLo0+l2KTquyz/iDSiZChjRDpoXHxcrPfnSfd
+	Zp5/v+ouRDlkwyDw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 83D20134E9;
-	Fri,  6 Nov 2026 07:31:57 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E714E134E9;
+	Fri,  6 Nov 2026 07:38:48 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id LO6JEW2C7WrKPQAAD6G6ig
-	(envelope-from <hare@suse.de>); Fri, 06 Nov 2026 07:31:57 +0000
-Message-ID: <b2d72dd8-c672-4cd1-b0a2-24b4fc621a1f@suse.de>
-Date: Fri, 6 Nov 2026 08:31:56 +0100
+	id ZYoQLwiE7WqURAAAD6G6ig
+	(envelope-from <hare@suse.de>); Fri, 06 Nov 2026 07:38:48 +0000
+Message-ID: <3fdebf18-946c-445e-a1d4-207c3b543558@suse.de>
+Date: Fri, 6 Nov 2026 08:38:44 +0100
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/6] nvmet: use GFP_KERNEL for PR allocations
+Subject: Re: [PATCH 2/6] nvme-fc: fix iterator over rport->ctrl_list in
+ nvme_fc_match_disconn_ls()
 To: Guixin Liu <kanie@linux.alibaba.com>, Keith Busch <kbusch@kernel.org>,
  Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
  Sagi Grimberg <sagi@grimberg.me>, Nilay Shroff <nilay@linux.ibm.com>,
  Daniel Wagner <dwagner@suse.de>
 Cc: linux-nvme@lists.infradead.org
 References: <20261106015842.3534898-1-kanie@linux.alibaba.com>
- <20261106015842.3534898-7-kanie@linux.alibaba.com>
+ <20261106015842.3534898-3-kanie@linux.alibaba.com>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20261106015842.3534898-7-kanie@linux.alibaba.com>
+In-Reply-To: <20261106015842.3534898-3-kanie@linux.alibaba.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-13.50 / 50.00];
+X-Spamd-Result: default: False [-13.29 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_LONG(-1.00)[-0.998];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	XM_UA_NO_VERSION(0.01)[];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,alibaba.com:email,suse.de:email,suse.de:dkim];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -13.50
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,alibaba.com:email]
+X-Spam-Score: -13.29
 X-Spam-Level: 
-X-Rspamd-Queue-Id: D853A22200
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261105_233201_217005_6DD0BA66 
-X-CRM114-Status: GOOD (  18.65  )
-X-Spam-Score: -2.1 (--)
+X-CRM114-CacheID: sfid-20261105_233851_339801_167FF655 
+X-CRM114-Status: GOOD (  30.31  )
+X-Spam-Score: -4.4 (----)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -157,47 +149,95 @@ X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
 On 11/6/26 2:58 AM, Guixin Liu wrote:
-> nvmet_pr_update_reg_attr() and nvmet_pr_alloc_and_insert_pc_ref()
-> allocate with GFP_ATOMIC, but both run in sleepable context: the PR
-> command handlers execute from the transport workqueues and take the
-> pr_sem semaphore, and the pc_ref allocation is reached from the
-> connect and configfs paths. The latter function even passes
-> GFP_KERNEL to the percpu_ref_init() in the same scope, so the
-> GFP_ATOMIC only raises the failure rate for no reason.
+> Commit b71cbcf7d170e ("nvme-fc: don't hold rport lock when putting ctrl")
+> switched the loop to list_for_each_entry_safe() to allow dropping the
+> rport lock for the nvme_fc_ctrl_put() of a non-matching controller.
+> But the safe iterator only protects the current entry within one
+> iteration: the next entry is cached before the body runs, and while
+> the lock is dropped that entry can run through its own final put into
+> nvme_fc_ctrl_free(), which removes it from the list and frees it.
+> The next iteration then dereferences freed memory.
 > 
-> Switch both allocations to GFP_KERNEL.
+> The safe variant is not needed here at all. The reference the loop
+> takes on the current entry pins it on the list until the iteration
+> moves on, so a plain list_for_each_entry() tolerates the lock drop:
+> while the lock is held the current entry cannot be unlinked, and once
+> the lock is dropped the cached ->next of the pinned entry still points
+> at a valid list member or the head.
 > 
-> Fixes: 5a47c2080a73 ("nvmet: support reservation feature")
+> Switch back to the plain iterator.
+> 
+> Fixes: b71cbcf7d170e ("nvme-fc: don't hold rport lock when putting ctrl")
 > Cc: stable@vger.kernel.org
 > Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+> 
 > ---
->   drivers/nvme/target/pr.c | 4 ++--
+> 
+> Reproduced under KASAN in a VM through fcloop with three or more
+> controllers on one remote port, a tbkas force-reconnect racing
+> concurrent controller disconnects.  The lock-drop window was widened
+> with a test-only mdelay(200) inserted at the same place in both the
+> buggy and the fixed version so the iterator is the only variable; the
+> stock microsecond window did not trigger in 400 iterations of the
+> same workload.
+> 
+>    BUG: KASAN: slab-use-after-free in nvme_fc_match_disconn_ls
+>    Read of size 8 by task kworker
+>    Workqueue: events nvme_fc_handle_ls_rqst_work
+>    Call Trace:
+>     nvme_fc_match_disconn_ls
+>     nvme_fc_ls_disconnect_assoc
+>     nvme_fc_handle_ls_rqst_work
+>     process_one_work
+> 
+> The object was allocated by nvme_fc_alloc_ctrl() on connect and freed
+> by nvme_free_ctrl() on the concurrent teardown of the cached next
+> entry.  With the plain iterator the identical amplified sequence
+> reports nothing and survives; the read hits the pinned current entry,
+> which cannot be freed while the loop holds its reference.
+> ---
+>   drivers/nvme/host/fc.c | 4 ++--
 >   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/nvme/target/pr.c b/drivers/nvme/target/pr.c
-> index 14eaa99f98fa..026653ce338f 100644
-> --- a/drivers/nvme/target/pr.c
-> +++ b/drivers/nvme/target/pr.c
-> @@ -335,7 +335,7 @@ static u16 nvmet_pr_update_reg_attr(struct nvmet_pr *pr,
->   		return NVME_SC_SUCCESS;
->   	}
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> index 0b9ff50d26ff..edf192055618 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -1470,14 +1470,14 @@ nvme_fc_match_disconn_ls(struct nvme_fc_rport *rport,
+>   {
+>   	struct fcnvme_ls_disconnect_assoc_rqst *rqst =
+>   					&lsop->rqstbuf->rq_dis_assoc;
+> -	struct nvme_fc_ctrl *ctrl, *tmp, *ret = NULL;
+> +	struct nvme_fc_ctrl *ctrl, *ret = NULL;
+>   	struct nvmefc_ls_rcv_op *oldls = NULL;
+>   	u64 association_id = be64_to_cpu(rqst->associd.association_id);
+>   	unsigned long flags;
 >   
-> -	new = kmalloc_obj(*new, GFP_ATOMIC);
-> +	new = kmalloc_obj(*new, GFP_KERNEL);
->   	if (!new)
->   		return NVME_SC_INTERNAL;
+>   	spin_lock_irqsave(&rport->lock, flags);
 >   
-> @@ -1040,7 +1040,7 @@ static int nvmet_pr_alloc_and_insert_pc_ref(struct nvmet_ns *ns,
->   	struct nvmet_pr_per_ctrl_ref *pc_ref;
->   	int ret;
->   
-> -	pc_ref = kmalloc_obj(*pc_ref, GFP_ATOMIC);
-> +	pc_ref = kmalloc_obj(*pc_ref, GFP_KERNEL);
->   	if (!pc_ref)
->   		return  -ENOMEM;
->   
+> -	list_for_each_entry_safe(ctrl, tmp, &rport->ctrl_list, ctrl_list) {
+> +	list_for_each_entry(ctrl, &rport->ctrl_list, ctrl_list) {
+>   		if (!nvme_fc_ctrl_get(ctrl))
+>   			continue;
+>   		spin_lock(&ctrl->lock);
 
-Reviewed-by: Hannes Reinecke <hare@kernel.org>
+Not sure here. The implication of the function is that the any 
+controller might've been deleted during each loop iteration
+(disconnect might be triggered from both sides, either host
+_or_ controller).
+So while it's true that a controller might not get deleted while
+a reference is held, that other process might drop a reference
+to the controller while the first process is executing the loop.
+Then the call to 'nvme_fc_ctrl_put()' at the end of the loop
+will be the last reference, the controller gets deleted,
+and the ->next element becomes invalid causing the loop
+to crash.
+
+So, no.
+
+And the issue you've described should've caused the
+nvme_fc_ctrl_get() at the start of the loop to return
+'false'; why didn't it trigger here?
 
 Cheers,
 
