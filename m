@@ -2,10 +2,10 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F08E606A33C
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2026 10:30:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1C17606A334
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2026 10:32:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Iy8QxJoO
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=xQ7uqtCM
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
@@ -13,44 +13,42 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=Iy8QxJoO0JxtWu9Bvt/zAvmm3g
-	0LkLq8XfL3ixOJt2FBg9a9BFHZ80QEBBokHApwOjDYiFcjJBkXu+j5PNWyZ/xiti2eDIS4H+TfW8h
-	1hPu6c7hA0Fb0kyYDy0OVDCJ/hRNP/PtTeUqS603tM01pj6h0vH+vUTS7JwJhgBObuRX6Qi2AtjEu
-	PtaSF3Xn7DRFWD72z/EzhejnlneUKBDUWfzYLdRDu8VgNvVVet9Ro/jwzUCOpbxA9HxJ2rZzRCodz
-	yA421d5Gpb5apu0cCSztPysn+ZlMyxD+W11uhv4w8J0Z+pq1QV28MIPfAUHOTVnMGo0JKk5BlBZqj
-	hdKQXI7w==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=xQ7uqtCMDYUyGbdcYuxVtoSG++
+	sNAWrkvotCIHns0rijxZSKOiAzuJfLlvzuou5sO1XwmTvkpjAW4OPIh+EoA+9/qvTs5RBEe/XSBoY
+	AGP+JLTvjP91FPWIFYApQ6mXfyVUvL9vb7CfH4gTOrx6+0nrQ/8gr7ZeavgpX+7AUGu0jv8WOEXo8
+	IT8nXocw2jtkVDOLI8J9i5GRuzcmzPmtqw5T56hb7+AWFJ/T9C3yCTcxKzon4mWYcSgVj2UQ+8hpS
+	WHRZ39MgXH/dJ5CT/kPEMj+pt7rejfY/Gs7XI3hkOLtJ1DhqMqTI/ZG4jll7GkFBkgwM/FKN3TLxG
+	aTE9o3aw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xPHD1-0000000BwBA-492P;
-	Fri, 06 Nov 2026 10:30:11 +0000
+	id 1xPHFA-0000000Bwdw-23M7;
+	Fri, 06 Nov 2026 10:32:24 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xPHD0-0000000BwAI-0IHZ
+	id 1xPHF8-0000000Bwcq-04Fw
 	for linux-nvme@lists.infradead.org;
-	Fri, 06 Nov 2026 10:30:11 +0000
+	Fri, 06 Nov 2026 10:32:23 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 8A76E68BEB; Fri,  6 Nov 2026 11:30:06 +0100 (CET)
-Date: Fri, 6 Nov 2026 11:30:05 +0100
-From: "hch@lst.de" <hch@lst.de>
-To: "Smith, Kyle" <kyles@hpe.com>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	Keith Busch <kbusch@kernel.org>,
-	"axboe@kernel.dk" <axboe@kernel.dk>, "hch@lst.de" <hch@lst.de>,
-	"sagi@grimberg.me" <sagi@grimberg.me>
-Subject: Re: [PATCH] nvme: Fix potential gendisk leak in nvme_alloc_ns
-Message-ID: <20261106103005.GB5391@lst.de>
-References: <DM4PR84MB1590C08CB556D28CBA707E74A0772@DM4PR84MB1590.NAMPRD84.PROD.OUTLOOK.COM>
+	id 3629668BFE; Fri,  6 Nov 2026 11:32:17 +0100 (CET)
+Date: Fri, 6 Nov 2026 11:32:16 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Yingjie Wang <1075151112@qq.com>
+Cc: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>, Marc Olson <marcolso@amazon.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nvme: avoid wrapping admin_timeout and io_timeout
+Message-ID: <20261106103216.GA5453@lst.de>
+References: <tencent_1B8D08FB52E404EC3FE4933548D6CACB7305@qq.com>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <DM4PR84MB1590C08CB556D28CBA707E74A0772@DM4PR84MB1590.NAMPRD84.PROD.OUTLOOK.COM>
+In-Reply-To: <tencent_1B8D08FB52E404EC3FE4933548D6CACB7305@qq.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261106_023010_252004_C79C9931 
-X-CRM114-Status: UNSURE (   9.03  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20261106_023222_200130_E9FA1850 
+X-CRM114-Status: GOOD (  10.65  )
 X-Spam-Score: -1.9 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
