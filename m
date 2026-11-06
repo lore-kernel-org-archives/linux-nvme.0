@@ -2,97 +2,167 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3C8A606A332
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2026 17:38:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FE5C606A326
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2026 18:01:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=UNoDy3Ie;
-	dkim=pass (2048-bit key, unprotected) header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=QKrB1xVm
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=ME0T12dK;
+	dkim=pass (2048-bit key, unprotected) header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=ZtTLVVrf
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Message-ID:Date
+	:CC:To:From:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=8QAiaS4n20R6Be5/OEFRscYsIl59MRsTRHc5xWVH89k=; b=UNoDy3Ie350jxJMg3ETGIsOokd
-	gjjKRUYx8FxjnlDv/9JfMkLXXO5ItxQplMq2kGqVyauuNNXEUcgW33UUNdwLT5oZ/06gbUCX10AH3
-	AZJg4SXd7DVYpKcT74JxsTsFlps0EeHQJyJS7KVPMIz49CCyjaxTplWFoqRJNdJoVxBvTRjOVfZWJ
-	ypnx+jYZ1kmHwKObujVm1DTeA8X8h4CoCfo3xBaNz4Y/wTlrRIGf7W5WGnjsZszybfinnpY3mWDHJ
-	cCjGOUHb6lY9GgTWw6TMpxleSFvynLN2TVtjVEeaehMQSX9cNN18ZNCeASXSimVvEtmk0rROveMss
-	Aox9usEA==;
+	bh=1yG0UXLpO+ySjtv0MKOmkCnCrULLH6pEI+DkiczZNf8=; b=ME0T12dK6YeAdy3jiPn9Bh5E/v
+	vF95Hl6utvu1ITOLY8VNw84f94wg4gjgMuz99YzR8NGXwgjHkqRFUdw90SCEaTMdKsGP2sOOkAtds
+	Z5lWAgJvFd3dbx+1I7vj95KkBklPeK3rg/PWp8kpzNrG5ePlWlvDlgJ51/CvT+CuXMWEzVC3YCKRX
+	WTUAnBfNOtzNCf+O8rEt2ar8Q4AROnctlT+F+B78LccMJaHX0k/oFA9gAHk1z9CoGTRo9AkbJXfOj
+	Lo18/Ses5L76nIpvmUKcDP4gXXMGDkf6NKv1JKqkRh0Q4zkRR0DGgi1M4mhDKpr+bEoYupjdChzpM
+	SmSYihUQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xPNtG-0000000DFsr-1cXV;
-	Fri, 06 Nov 2026 17:38:14 +0000
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
+	id 1xPOFp-0000000DKdv-1qcY;
+	Fri, 06 Nov 2026 18:01:33 +0000
+Received: from iad-out-001.esa.us-east-1.outbound.mail-perimeter.amazon.com ([107.22.191.150])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xPNtC-0000000DFr3-2puW
+	id 1xPOFm-0000000DKbd-0gMl
 	for linux-nvme@lists.infradead.org;
-	Fri, 06 Nov 2026 17:38:12 +0000
-Received: from pps.filterd (m0044012.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A6HWTbJ1219991
-	for <linux-nvme@lists.infradead.org>; Fri, 6 Nov 2026 09:38:10 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	pps82601-s2048-2026-q3; bh=8QAiaS4n20R6Be5/OEFRscYsIl59MRsTRHc5x
-	WVH89k=; b=QKrB1xVmgcQ9yaWQ00XVASIQvGqbjtqtCuwO4s+Y0cDOGAVwdfJxH
-	kRXbRHgfpEy6bxfTd2pVV1QLxFAs+8ckfugy2W2rskwBhRuCz/zRG9IJwCIlI3kL
-	b7VVcqlMF/HeEdZNv0eSFO0Mj6VBI5zQ0Uy8nNrr4ZAJrjzDme3IFsB4Zpl16iox
-	+KYzvN5U2volmy7tgFReA5voOwHfaBV/a9DWGMbIr/++x0K/a/w9X3+osNyw5I9G
-	Qb2HNoI6dMflxaHg3XXqAOuROSljPJp9yfkv+30uawrF+VhL06gs5I+5C01SEVQ6
-	HIRJJE2pIiHVvmM1GbTlysBIZEjHDqVGw==
-Received: from maileast.thefacebook.com ([163.114.135.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4hs3r6nnrv-13
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Fri, 06 Nov 2026 09:38:10 -0800 (PST)
-Received: from twshared98006.17.frc2.facebook.com (2620:10d:c0a8:1c::1b) by
- mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.56; Fri, 6 Nov 2026 17:38:09 +0000
-Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
-	id A46CF2E8DCBEA; Fri,  6 Nov 2026 09:34:50 -0800 (PST)
-From: Keith Busch <kbusch@meta.com>
-To: <tglx@kernel.org>, <bhelgaas@google.com>
-CC: <maz@kernel.org>, <lrizzo@google.com>, <hch@lst.de>,
-        <changfengnan@bytedance.com>, <namjain@linux.microsoft.com>,
-        <linux-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-        <linux-nvme@lists.infradead.org>, Keith Busch <kbusch@kernel.org>
-Subject: [PATCH v3 1/2] genirq: Add disable_irq_noflush()
-Date: Fri, 6 Nov 2026 09:34:47 -0800
-Message-ID: <20261106173448.34794-2-kbusch@meta.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20261106173448.34794-1-kbusch@meta.com>
-References: <20261106173448.34794-1-kbusch@meta.com>
+	Fri, 06 Nov 2026 18:01:32 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1793988090; x=1825524090;
+  h=from:to:cc:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version:subject;
+  bh=1yG0UXLpO+ySjtv0MKOmkCnCrULLH6pEI+DkiczZNf8=;
+  b=ZtTLVVrfErZmSqTUav7WDz0T0T8Oh4jI3JEZp7hQ4cBVAUM1WcYpkniM
+   ZqCXHhUNzulDURD6yLAYiGILDiVrcfO0rD2iH6cYBp7gTexUhr8PkTCqy
+   x5vxECPyhsoFFHUfKnaOuUL23/7N/i6t9AnKAoiXfcxOMPxC59b9EUmaQ
+   J1FZZMtsdgI6/7JXK9lixHeVj12jw4ykQ51Fc7j2lenEsL1B0sLY2Awf6
+   2cfI30KfGz57KRFEqfyo3a8eYnP+3kfLTh1zYG1YGjQciJER6mWpWbL4Z
+   yemcd6PylcNbdqU5q/3aJqVFiJn7Cu40vNoxoxhjlihSNbElf66++fA5y
+   A==;
+X-CSE-ConnectionGUID: zZwi2+z+QUiIFxPNTKpZMQ==
+X-CSE-MsgGUID: Dfpw/4NgQkysbnpDXopRWg==
+X-IronPort-AV: E=Sophos;i="6.27,197,1787011200"; 
+   d="scan'208";a="30895777"
+Subject: Re: [PATCH] nvme: avoid wrapping admin_timeout and io_timeout
+Thread-Topic: [PATCH] nvme: avoid wrapping admin_timeout and io_timeout
+Received: from ip-10-4-17-41.ec2.internal (HELO smtpout.naws.us-east-1.prod.farcaster.email.amazon.dev) ([10.4.17.41])
+  by internal-iad-out-001.esa.us-east-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 18:01:27 +0000
+Received: from EX19MTAUEC001.ant.amazon.com [72.21.196.66:16561]
+ by smtpin.naws.us-east-1.prod.farcaster.email.amazon.dev [10.0.8.178:2525] with esmtp (Farcaster)
+ id 8a666ad4-17be-41e7-9d15-6f4d317d3528; Fri, 6 Nov 2026 18:01:26 +0000 (UTC)
+X-Farcaster-Flow-ID: 8a666ad4-17be-41e7-9d15-6f4d317d3528
+Received: from EX19EXOUEA002.ant.amazon.com (10.252.134.207) by
+ EX19MTAUEC001.ant.amazon.com (10.252.135.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
+ Fri, 6 Nov 2026 18:01:26 +0000
+Received: from EX19EXOUEA002.ant.amazon.com (10.252.134.207) by
+ EX19EXOUEA002.ant.amazon.com (10.252.134.207) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
+ Fri, 6 Nov 2026 18:01:26 +0000
+Received: from BL2PR08CU001.outbound.protection.outlook.com (10.252.135.42) by
+ EX19EXOUEA002.ant.amazon.com (10.252.134.207) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56
+ via Frontend Transport; Fri, 6 Nov 2026 18:01:26 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Y7pWKCgnAUqbQ+XQZSwxu/DccRQh5QRirj/Bex2a8vfhO9aQNgkBABURNPCmPaoANK2HQmZhyRIS1doE2E/3XgPjdHm9fHiAaSEgiw1mhfW+X0eVO7FV3nDaHMnrT/+5TUNfateWRKHfdWHrc2V+gDnEI03sAsTPjxAVrs1fy5SYwWFsywznBih9TzR33JNgTUWn7zpUGS9p4BYUWHc92t7pR5WSp+VUtPUsXSghmWhE2NOg64xMuu5dyiDo5PXDnZJUZMzdUZEwsD0TZRu2CejPAkZfSvg+DHYkP4XD9AhAItg2Xdl6XAWceKRZgyLaohpe8mH0QOYYaJmdjMslBA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1yG0UXLpO+ySjtv0MKOmkCnCrULLH6pEI+DkiczZNf8=;
+ b=J3waMzgqE7oMyVwUiyXcmuimM7r2FNojDSOfktCo/sQJzbqomRgY4LciVJHFsIdKbqFW04ww6ysODPyhCkfyxIFRTi6YAFEWcyxrieNU1TkC7tZjotw5PkZyYJ2XsO/VngXWMFYAUvfM4BMphBqkzhNeviDFoLrsDvQ6owuxvpDZ0VOEXVV4nathEM5VU2vR6do7mzUieOPUraDZYC15jZR2897Lmuu2J1zxkGO3fbgONlD3JQa4KQ6Z5V4cNa1e6RmjPExGzlxu01nmMBtBEQTprakvoDX003QIhzc4cbubOhaF5JUhxv7gNnw9Mu2VCy5OakQlP0UQOMIojYLpBg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amazon.com; dmarc=pass action=none header.from=amazon.com;
+ dkim=pass header.d=amazon.com; arc=none
+Received: from DSVPR18MB988782.namprd18.prod.outlook.com (2603:10b6:8:41e::22)
+ by SAWPR18MB988694.namprd18.prod.outlook.com (2603:10b6:806:560::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.12; Fri, 6 Nov
+ 2026 18:01:25 +0000
+Received: from DSVPR18MB988782.namprd18.prod.outlook.com
+ ([fe80::19be:a6dc:c88b:2f4e]) by DSVPR18MB988782.namprd18.prod.outlook.com
+ ([fe80::19be:a6dc:c88b:2f4e%6]) with mapi id 15.21.0569.011; Fri, 6 Nov 2026
+ 18:01:25 +0000
+From: "Olson, Marc" <marcolso@amazon.com>
+To: Yingjie Wang <1075151112@qq.com>
+CC: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, "Christoph
+ Hellwig" <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Thread-Index: AQHdbbeuQPHryKFUzkm4wZdMmIeFAbchVdld
+Date: Fri, 6 Nov 2026 18:01:25 +0000
+Message-ID: <DSVPR18MB988782D0113FB2AE0607F34431A1762@DSVPR18MB988782.namprd18.prod.outlook.com>
+References: <tencent_1B8D08FB52E404EC3FE4933548D6CACB7305@qq.com>
+In-Reply-To: <tencent_1B8D08FB52E404EC3FE4933548D6CACB7305@qq.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amazon.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DSVPR18MB988782:EE_|SAWPR18MB988694:EE_
+x-ms-office365-filtering-correlation-id: b2dd8c0c-663b-4c39-b54a-08df3c2ff937
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|366016|23010399003|22082099003|260925021311599003|10067099003|260925021911599003|18002099003|56012099006|261022075727099003|261026121527099003|260925022911599003|261022105027099003|11063799006|38070700021|261026140227099003|261028144727099003;
+x-microsoft-antispam-message-info: XI5H9cU7wFndt3iLUI0bHcpdPeP4vJbojXpUelNaIqFhAgnnPcukMCC/EgDKfCQs5sITin3IYcxypRO+1kFJDqdnjicvHV/3f5aEKvG7I/0iIJ0Vqb9NZjgxQGUFu1h1in+PasrYwOZXBb/BEiUXqswdQWJwn+zpfsLcWhtEyy6SxdhNqKb1/2arBtk1LyY7Y5xqhCmveohhO1d5mi/P9jNRi9K4Nw89jOJxav++K2efmEI2jIMJuAivUONTVd0fGRIxfuxbFntCfSammuAA2jhHViih1YEg1Q3h9uCKKxF5KTrQIX9Lc6grDrxLRXRp9vpuRS09hn87mGxntCBYRPPzZmMYq17JSuNGbq25yBGoerw6y10WxiBwFdPnuQBxgYdFbQtbODEjaaIyQk0EPBX8G0BXCfNafkliXOKxzfCGLGD2hZuA4YE4juAWrzRwELLZkZsGw8LCGc/E50aUCuB1XU8rKd1CV9A42a6ihOYw1uQTBbPtuQyN7N1n6Xmq8fgp0GRgWd6yd8gXJ0mvNT7YoXtn/sqqXC4z36tGPFpuDGRX4CXWX2z8NdFA22HtPCCsjQVIix/0po5yag227+4AddYgGKEGGQ/QdFLuNzT5FLa05YbywH9oEy6P2i5IVC41G25Hau7n0/Oaxft1Pe6raLsWlmih1uNKrbRLwGWuGiGFmHbrFJBnkBXjMXoyOmaY4qPfnMY27rLFcWqJoLUkRGrG4bsQVSr60c/qsC8=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DSVPR18MB988782.namprd18.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(23010399003)(22082099003)(260925021311599003)(10067099003)(260925021911599003)(18002099003)(56012099006)(261022075727099003)(261026121527099003)(260925022911599003)(261022105027099003)(11063799006)(38070700021)(261026140227099003)(261028144727099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?NDJykFvCnU3INpzom2mX/rjb9hq/E0HJa+zSgkm6gxrSmfecSWjMAJwtnw?=
+ =?iso-8859-1?Q?W2hCEFCoSHe/Z2UHYBr46Wr7qNMGcjBIBQOE4gc0V1MC/bm21Hu1EtE4YL?=
+ =?iso-8859-1?Q?JYBHyUsGY2jf/EBVZQBqNnLcslLT+/LEYfMxWQuiBT5YEscUkq3fS/QJl4?=
+ =?iso-8859-1?Q?vAegqNDRE3Wpn8zsQMwMYyEva0sypkDlI+SwGVAPul+QvhOSG5h+KlPa3l?=
+ =?iso-8859-1?Q?/vBuMbn4QIxvMF5gEPOq0gvPrgxNBMNFDBhnSjbaj0a73HBO8M65wn8mPw?=
+ =?iso-8859-1?Q?QSO3TxrEGSUYFs8kaJ60HU928kZcXRCLcPW+SsUD5ERXHYaJmtadc5kk77?=
+ =?iso-8859-1?Q?xYOWr9XBIPI8J9gJUGC2dfZ8GajSMUW4/hIF+0UMGGYuZ+/ecNxwk+d83V?=
+ =?iso-8859-1?Q?l5IMngTgRQWZuERBccXItLCWpoaIaF6Snak4qz76DEgt8VoeDBtEEnUc4A?=
+ =?iso-8859-1?Q?2gsBQyv2Z3JZmn694kvoQxSsRQmAJ2PSSKkeQhAKU/iVN8JYnGJDUtktSB?=
+ =?iso-8859-1?Q?4SnTK/ABDWnbludeKg3D9rO9P7PBb/RIFiMDhkhWeVT94EZyRcBshJcOdd?=
+ =?iso-8859-1?Q?NXDCPzsIkZ8YeI0Ubi64qBFUD3b7zyJUuSClSg/k+oeY52rlE5xvmadJi5?=
+ =?iso-8859-1?Q?i/mxVGuqv++g1k99cSo2RBkSYscZ1MYyYz7lUd6xbrIl1YDQoBgMGprt0m?=
+ =?iso-8859-1?Q?RwkxMyWkCw9QiVUH1PGvzUj7Sn4F9zIE7hVxjFf5O00hgC0EAkVjzKJHrE?=
+ =?iso-8859-1?Q?y2LY+jTHUP1TQT97er7ZiNGar9x6Viu8v5q4sl/8i8CqUf1mz4CZG8srTi?=
+ =?iso-8859-1?Q?HZHX6InJM6B0dzobCDS34UKxlyRBPJFKowe/eknewew4MXkVizyHel4ci+?=
+ =?iso-8859-1?Q?TOXWdh+mBrzNefhcJYH/seRAoeaG436cLzSELqlkb5jfNrtWMJ1ZOl5hCt?=
+ =?iso-8859-1?Q?3Awh6p3nOYd97YooPzueDLBlOczpWTSrzLdM7QBgV9ACaxHOZhoAJrGfxx?=
+ =?iso-8859-1?Q?DJzYOkWVDO2gV1J1QM88GQr3QRAmE3eOIYXpTx0tSMmoRALWIbp/UX234J?=
+ =?iso-8859-1?Q?ByPEhQV9B/WoDjhsikEMuGXfRYVdyRf6gezPX1iwoyl+egldviar8FcHtt?=
+ =?iso-8859-1?Q?erTZyYSHl/NQSHfTNs9V+R6VFCHOTccYetgMyGr4jEYpsEgt544u4oFIyP?=
+ =?iso-8859-1?Q?c5EvCJngJy88rUPBAo2p8t5KbWIwQDyHS4p3xIElFPonMcUgo9CcjkiOHg?=
+ =?iso-8859-1?Q?3JR9WnW8EZh5wOBa7W0esIH6Lm+1Bv7xpQ6uhCHOJRjsAxtM7p4Umi+qHg?=
+ =?iso-8859-1?Q?fMMNUbDAWTDJBVFkpZq+yuACfu62OveV9ybjDquxaFIS3kg/oLkNfBytwp?=
+ =?iso-8859-1?Q?e0zNLrQf33CVqPBz90mRoA/EcIXdu2C6PeFs079Io4YtZ6zOU8QVS/CnYj?=
+ =?iso-8859-1?Q?la0KG2P1ZKqeK/I9lrddT1DmdGX1YJVlKS9nFYVysqEUrY8ipHAZu6paL7?=
+ =?iso-8859-1?Q?639Z6ujt6sC8IBKPEZ3ZigAQ9hBEv/BIGI6l4RBmOEv66cSt3s9A1F2F0m?=
+ =?iso-8859-1?Q?nNuamvQo5Vl7fJsjU3TVm78YlMptfAP7QdQyPRpHN2GCqQY6GbqWSgRYhf?=
+ =?iso-8859-1?Q?p/CTAlogZpnsCNJdhTOZkTiYvey4s4QgNPOUaDrbQ1jWKFrliMs7EAY1Ga?=
+ =?iso-8859-1?Q?mwx/WC0V6/t1OVNix22cFVTPjYbgeVboTlgw9iqtjnfednkVCAM+6AATby?=
+ =?iso-8859-1?Q?4hNfTmSnjRgoFS+VVVx7WIRdUk23PiU4pW2ujCWPYCcITv?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA2MDA3MCBTYWx0ZWRfX9C6deGfvQtaW
- pkMe8Ax/GC1xGrbtXMxU1T21aLJygsXfyIu3j0c54m95P8wltP3pRc6qoGSjSQYDXZQ2H+2aN1U
- Fl2aGE/TE6qiZvYKDsfqQ+u/1YUXHrnU+rNw8fSuIwRggkHw3Qot+KZaG6S/+9NLWghMLj7SJoV
- 6T3Nu59r13U+RIQmgygs3QcXUAyAQjaCPPcLST/AqTzIyYoQ1jdMpNg4CmJLuQVKAM1v5iwAXdm
- cLNY2TKjiGHfOVIyIe0ys+O3648YbtsRD48Himb59VkHkSX/2uZeX48cBJVy3HWHGKT8fu4OKBI
- Ep3kBBRFznHmBNvayQjgDhf3O+KhhLZLc8PAJeANHImnfrSbORHwYE1DEQNOZrOz3mPexM/V1eR
- tWoNO5L4DkMuxMf+wjKp4/bgBqmY/YFSDR7vYwJ4dDWF7I3X/guVg9uewnwG5jjFZu9oHmTkBkn
- CZp2Mtbi6sZnonjyopw==
-X-Authority-Analysis: v=2.4 cv=IsGL47/g c=1 sm=1 tr=0 ts=6aee1082 cx=c_pps
- a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
- a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
- a=PAz_-FQ8hEVmOPYdF0yf:22 a=VwQbUJbxAAAA:8 a=aOCmZ3BWbme0XkIVnlwA:9
-X-Proofpoint-GUID: _WW9I31TMOFH1TRJ7gTWH8zdgxsOsyK-
-X-Proofpoint-ORIG-GUID: _WW9I31TMOFH1TRJ7gTWH8zdgxsOsyK-
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA2MDA3MCBTYWx0ZWRfX+yk1ZOZaJlII
- 3+X0Ix/tUjEEllzQqNHJlgEPse1KaktQPYzqLnWzH94GocR/vx4waI7dqjbpzM6N5NVAWqYTD3e
- B/CxjPltvliQ2akRkMyOwIsOltmG7l0=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-06_05,2026-11-06_01,2025-10-01_01
+X-Exchange-RoutingPolicyChecked: nfrTHoRf8e1n4xt+mOsh4DTSPTB9olfUv7Bu1qd1LZf/o/6VNsznhgsve9Kvs9NJq/gNxlApRqIGyRPWduiPqNR5lDKPmDO8g6q9bbckToiBxNb66E+GXBdRX1vt3L2QqB3J5ZvsYtixNpYbEYSY+An0/Okt9OWv6qpRUv7ZRMEaRK9o9q/Pi25E52wlaZFiosn3MaSR7V4WjCMdu39ADe0GyhjLrgj+c2VK9cXkdJls6OwPwoOKGeG4/hP2HDtdua0En7Bv82qlYdozeKwq612HFmPwkNtzOY/GPvk1jdXztTttzv3G7f7Fr78/8TunQi5xJ0YrSC35B1Qvi29ncw==
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DSVPR18MB988782.namprd18.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b2dd8c0c-663b-4c39-b54a-08df3c2ff937
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Nov 2026 18:01:25.1699
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 5280104a-472d-4538-9ccf-1e1d0efe8b1b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: iNAUkrepfz8MHoHyodr80oyDpXaN1ZNcA0QqELVxMZPfdcFbBsj9Z3HQZdDsPLMhHtRu+lFBvsvFOvwXiM+o8A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SAWPR18MB988694
+X-OriginatorOrg: amazon.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261106_093810_743246_54A17EFE 
-X-CRM114-Status: GOOD (  18.82  )
-X-Spam-Score: -2.8 (--)
+X-CRM114-CacheID: sfid-20261106_100130_361260_00011980 
+X-CRM114-Status: UNSURE (   6.82  )
+X-CRM114-Notice: Please train this message.
+X-Spam-Score: -11.9 (-----------)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,163 +173,28 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=ham
 	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-From: Keith Busch <kbusch@kernel.org>
-
-Drivers that switch between interrupt and polled completions don't need
-the mask write flushed to the device; the disabled state already
-keeps their handler from running and a late interrupt is replayed on
-enable. Add an optional irq_chip::irq_mask_noflush() callback, falling
-back to irq_mask(), and disable_irq_noflush() to mask through it right
-away rather than lazily.
-
-Suggested-by: Thomas Gleixner <tglx@kernel.org>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- include/linux/interrupt.h |  1 +
- include/linux/irq.h       |  3 +++
- kernel/irq/chip.c         | 31 +++++++++++++++++++++++++++++++
- kernel/irq/internals.h    |  1 +
- kernel/irq/manage.c       | 21 +++++++++++++++++++++
- 5 files changed, 57 insertions(+)
-
-diff --git a/include/linux/interrupt.h b/include/linux/interrupt.h
-index ee2dd5349697d..6cfa1f8f3d400 100644
---- a/include/linux/interrupt.h
-+++ b/include/linux/interrupt.h
-@@ -233,6 +233,7 @@ extern void devm_free_irq(struct device *dev, unsigne=
-d int irq, void *dev_id);
-=20
- bool irq_has_action(unsigned int irq);
- extern void disable_irq_nosync(unsigned int irq);
-+extern void disable_irq_noflush(unsigned int irq);
- extern bool disable_hardirq(unsigned int irq);
- extern void disable_irq(unsigned int irq);
- extern void disable_percpu_irq(unsigned int irq);
-diff --git a/include/linux/irq.h b/include/linux/irq.h
-index f485369b1b4f7..3a428dad6666e 100644
---- a/include/linux/irq.h
-+++ b/include/linux/irq.h
-@@ -455,6 +455,8 @@ static inline irq_hw_number_t irqd_to_hwirq(struct ir=
-q_data *d)
-  * @irq_disable:	disable the interrupt
-  * @irq_ack:		start of a new interrupt
-  * @irq_mask:		mask an interrupt source
-+ * @irq_mask_noflush:	mask an interrupt source without flushing the writ=
-e
-+ *			to the hardware (optional, falls back to @irq_mask)
-  * @irq_mask_ack:	ack and mask an interrupt source
-  * @irq_unmask:		unmask an interrupt source
-  * @irq_eoi:		end of interrupt
-@@ -505,6 +507,7 @@ struct irq_chip {
-=20
- 	void		(*irq_ack)(struct irq_data *data);
- 	void		(*irq_mask)(struct irq_data *data);
-+	void		(*irq_mask_noflush)(struct irq_data *data);
- 	void		(*irq_mask_ack)(struct irq_data *data);
- 	void		(*irq_unmask)(struct irq_data *data);
- 	void		(*irq_eoi)(struct irq_data *data);
-diff --git a/kernel/irq/chip.c b/kernel/irq/chip.c
-index de754db414d1d..28285d7274e69 100644
---- a/kernel/irq/chip.c
-+++ b/kernel/irq/chip.c
-@@ -399,6 +399,37 @@ void irq_disable(struct irq_desc *desc)
- 	__irq_disable(desc, irq_settings_disable_unlazy(desc));
- }
-=20
-+static void mask_irq_noflush(struct irq_desc *desc)
-+{
-+	if (irqd_irq_masked(&desc->irq_data))
-+		return;
-+
-+	if (desc->irq_data.chip->irq_mask_noflush) {
-+		desc->irq_data.chip->irq_mask_noflush(&desc->irq_data);
-+		irq_state_set_masked(desc);
-+	} else {
-+		mask_irq(desc);
-+	}
-+}
-+
-+/**
-+ * irq_disable_noflush - Mark interrupt disabled and mask it without flu=
-shing
-+ * @desc:	irq descriptor which should be disabled
-+ *
-+ * Like irq_disable() with lazy disable turned off, but the hardware may
-+ * still deliver an interrupt after this returns. The flow handler deals
-+ * with that the same way it does for a lazily disabled interrupt.
-+ */
-+void irq_disable_noflush(struct irq_desc *desc)
-+{
-+	if (desc->irq_data.chip->irq_disable) {
-+		__irq_disable(desc, true);
-+		return;
-+	}
-+	irq_state_set_disabled(desc);
-+	mask_irq_noflush(desc);
-+}
-+
- void irq_percpu_enable(struct irq_desc *desc, unsigned int cpu)
- {
- 	if (desc->irq_data.chip->irq_enable)
-diff --git a/kernel/irq/internals.h b/kernel/irq/internals.h
-index 703a062be8783..7995970babb77 100644
---- a/kernel/irq/internals.h
-+++ b/kernel/irq/internals.h
-@@ -101,6 +101,7 @@ extern void irq_startup_managed(struct irq_desc *desc=
-);
- extern void irq_shutdown(struct irq_desc *desc);
- extern void irq_shutdown_and_deactivate(struct irq_desc *desc);
- extern void irq_disable(struct irq_desc *desc);
-+extern void irq_disable_noflush(struct irq_desc *desc);
- extern void irq_percpu_enable(struct irq_desc *desc, unsigned int cpu);
- extern void irq_percpu_disable(struct irq_desc *desc, unsigned int cpu);
- extern void mask_irq(struct irq_desc *desc);
-diff --git a/kernel/irq/manage.c b/kernel/irq/manage.c
-index ec3ecb0e48cec..152dabea3102b 100644
---- a/kernel/irq/manage.c
-+++ b/kernel/irq/manage.c
-@@ -706,6 +706,27 @@ void disable_irq_nosync(unsigned int irq)
- }
- EXPORT_SYMBOL(disable_irq_nosync);
-=20
-+/**
-+ * disable_irq_noflush - mask an irq without flushing the mask to the ha=
-rdware
-+ * @irq: Interrupt to disable
-+ *
-+ * Like disable_irq_nosync(), but masks the interrupt at the chip right =
-away
-+ * instead of lazily, and does not flush the mask write to the hardware.=
- An
-+ * interrupt that still arrives is held pending and replayed by enable_i=
-rq().
-+ * Use this when an extra interrupt is cheaper than flushing the mask, e=
-.g.
-+ * switching from interrupts to polling.
-+ *
-+ * This function may be called from IRQ context.
-+ */
-+void disable_irq_noflush(unsigned int irq)
-+{
-+	scoped_irqdesc_get_and_buslock(irq, IRQ_GET_DESC_CHECK_GLOBAL) {
-+		if (!scoped_irqdesc->depth++)
-+			irq_disable_noflush(scoped_irqdesc);
-+	}
-+}
-+EXPORT_SYMBOL_GPL(disable_irq_noflush);
-+
- /**
-  * disable_irq - disable an irq and wait for completion
-  * @irq: Interrupt to disable
---=20
-2.52.0
-
+> Fixes: 8ae4e4477d8f ("nvme: update timeout module parameter type")=0A=
+=0A=
+Makes sense. I suspect very few (if any) users choose a value between=0A=
+UINT_MAX/HZ and UINT_MAX, which is why this went unnoticed until now.=0A=
+The documented EBS io_timeout=3D4294967295 only worked because=0A=
+UINT_MAX * HZ happens to wrap to UINT_MAX - HZ + 1.=0A=
+=0A=
+The fw activation wait also got worse with 6cf828d2fbeb. The old=0A=
+msecs_to_jiffies(admin_timeout * 1000) clamped the wrapped value to=0A=
+MAX_JIFFY_OFFSET, but secs_to_jiffies() doesn't. On 32-bit with a large=0A=
+admin timeout and no MTFA the deadline is already expired and we reset=0A=
+the controller. So also:=0A=
+=0A=
+Fixes: 6cf828d2fbeb ("nvme: convert timeouts to secs_to_jiffies()")=0A=
+=0A=
+Reviewed-by: Marc Olson <marcolso@amazon.com>=
 
