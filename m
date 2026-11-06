@@ -2,66 +2,59 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F64606A32D
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2026 06:41:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38265606A32E
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2026 06:44:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=SuiEmR1W;
-	dkim=pass (1024-bit key, unprotected) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=TCdreGre
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=1ldhJcPJ;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QbDQrMrk
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Cc:To:Subject:
+	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=y9kHH79sXvLdJ8c1WHqBXC13L6ROL+nCnwolQUHTp5s=; b=SuiEmR1W9lg/dE297vzRYzjI1B
-	cLF/0BDbuzvWxXJgNhyxocfJk4Ie4PVqPTy882HEF4cq5/pJERoSW6EVD1WSgvw0CIQIBB4comMFc
-	1WP0yrEi0JvZXItDB0Mhzg+1z3XYe01feVkkXxllrbuXBJaNRdLEHMfijNAiZRRKsaSmiQed8cZhv
-	/PjD5JFPIB5OFIDzeuk1M078ozGB/li9pOAApxyQL7zvq0sIT4QgcrYSVJwZ2bRJTW6Ecys6YNW/r
-	LjBGNd3VDyYKkd3goDMyUBjLNdfYxMgA6KbvXwOted+tGM1NXG+lQ/E+0bG/COOtmBhKo1PgeDVrv
-	QiDK8lWA==;
+	bh=8JY5aYoae4gvBbGk4R/fq3xUEJBzbKgMtlay4eixobA=; b=1ldhJcPJ8CsGsrLYxjT4E++yU4
+	6vzWHYMDyCyHv/V3gmXSKC1d5KAaS++/uMU55krHtXL719s6YJN9lIr7v8K19hAnfDXmVhFng4SZW
+	F9lnV+QXyVuVhk6ELh8Pqtrx1C/Zm00l+IyaUkyK+3ptF/pBbAyMgOEzF1TuvkAWmzlssJ9LjYaFr
+	bt3Pq1Dgk3ioNK4ngsNrM4k2uk8OQf2N7ihbXubRrLhvfSNGclmuOftg2r2g31twJPm9GGr0JO7be
+	vknlw8qZugZ7xP3AJ83E7jjPPLvk1HoCpHD16KBmy0X0Q2w/Wdo8xQRQjEvr1bYzFW+e1ChTS3tgK
+	VhmaGsdQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xPDdM-0000000BMg7-1olS;
-	Fri, 06 Nov 2026 06:41:08 +0000
-Received: from cmccmta6.chinamobile.com ([111.22.67.139])
-	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xPDdH-0000000BMez-1EN3
+	id 1xPDg8-0000000BN0C-3uyC;
+	Fri, 06 Nov 2026 06:44:00 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xPDg7-0000000BN01-1cDn
 	for linux-nvme@lists.infradead.org;
-	Fri, 06 Nov 2026 06:41:07 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=cmss.chinamobile.com; s=default; l=0;
-	h=from:subject:message-id:to:cc:mime-version;
-	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-	b=TCdreGreS8IsLXGTPV5IjCPYFKnAKRAtSsCJnSw5EVTrvoFaaRM4z0uWdnBc8bnWV3iW4qRMIJZwd
-	 QkUJlT3/qQsS7dGnsz2PpYnRbXFlg2AIhF77h0zR5z161a0/FUlk1onoKPo0HW7XRZ+iXR4/oSip1N
-	 459O1WNLXYTF2iT0=
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG: 00000000
-Received: from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app01-12001 (RichMail) with SMTP id 2ee16aed7672245-893f9;
-	Fri, 06 Nov 2026 14:40:50 +0800 (CST)
-X-RM-TRANSID: 2ee16aed7672245-893f9
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG: 00000000
-Received: from cmss.chinamobile.com (unknown[10.55.1.72])
-	by rmsmtp-syy-appsvr02-12002 (RichMail) with SMTP id 2ee26aed76712be-154d7;
-	Fri, 06 Nov 2026 14:40:50 +0800 (CST)
-X-RM-TRANSID: 2ee26aed76712be-154d7
-From: Yuehong Wu <wuyuehong@cmss.chinamobile.com>
-To: linux-nvme@lists.infradead.org
-Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, Keith Busch <kbusch@kernel.org>, Maurizio Lombardi <mlombard@redhat.com>, Mohamed Khalfella <mkhalfella@purestorage.com>, Nitesh Shetty <nj.shetty@samsung.com>, Hannes Reinecke <hare@suse.de>, Randy Dunlap <rdunlap@infradead.org>, Aurelien Aptel <aaptel@nvidia.com>, Nilay Shroff <nilay@linux.ibm.com>, Jesse Taube <jtaubepe@redhat.com>, Rongzheng Wang <testwrzwrz@gmail.com>, Kees Cook <kees@kernel.org>, Rosen Penev <rosenp@gmail.com>, Guixin Liu <kanie@linux.alibaba.com>, Qing Zhang <diasyzhang@tencent.com>, Eric Biggers <ebiggers@kernel.org>, Julian Sun <sunjunchao@bytedance.com>, Yu Zhang <yuz08559@gmail.com>, linux-kernel@vger.kernel.org
-Subject: [PATCH] nvmet: clamp the last ANA group index against the real array size
-Date: Fri, 06 Nov 2026 14:40:48 +0800
-Message-ID: <20261106-nvmet-ana-grpid-1-yuehongwu@cmss.chinamobile.com>
-X-Archived-By: <archiver.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261105_224104_319901_4FCA9302 
-X-CRM114-Status: GOOD (  15.45  )
-X-Spam-Score: -2.4 (--)
+	Fri, 06 Nov 2026 06:43:59 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id 2739E605F2;
+	Fri,  6 Nov 2026 06:43:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 821611F008A1;
+	Fri,  6 Nov 2026 06:43:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793947437;
+	bh=8JY5aYoae4gvBbGk4R/fq3xUEJBzbKgMtlay4eixobA=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=QbDQrMrkPXpwdJ515CqCnJKHunE0bw/QVPFTeeFwSipUdFcS1rxJvGwGXHVt0Vl5N
+	 Nq11O6ftPpVVX6JkkuzwhfYzRXOqUBxq/a5CIhFG5v17CSqsBXKb6dGbB0iY1F+ENG
+	 ZTO4tdBdYb5boCwYCI5q4QxVCm30PW42W1WzewE/sGxdWNLZ5Tn7o204dME3M7qW0R
+	 EVMqUicXUUYBZIclN+4PXkaI93AqT+zK0mSx9aCSH501OQYQevmasMNten7MsMQH5q
+	 +2PAv/pV/1xRtVhQjjhxpY+dcQTEQYLvhnu6X8CzC6pBGU5uZrEhlrrIIo98MG8NMG
+	 JXgtCczkedcyw==
+Message-ID: <sashiko-outbox-200933@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2 17/23] RDMA/uverbs: Use the SGT_P2P mapping type
+To: "Alistair Popple" <apopple@nvidia.com>, dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org, linux-nvme@lists.infradead.org
+Cc: media-ci@linuxtv.org
+In-Reply-To: <20261105-dma_mapping_type_v4-v2-17-78b8dc9ae80a@nvidia.com>
+References: <20261105-dma_mapping_type_v4-v2-0-78b8dc9ae80a@nvidia.com>
+ <20261105-dma_mapping_type_v4-v2-17-78b8dc9ae80a@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 06 Nov 2026 06:43:57 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,81 +64,102 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-13.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
+X-Archived-By: <archiver.kernel.org>
 
-NVMET_MAX_ANAGRPS is the highest valid ANA group id, not the size of
-nvmet_ana_group_enabled[]: the array has NVMET_MAX_ANAGRPS + 1 entries
-and the controller advertises anagrpmax == NVMET_MAX_ANAGRPS.  Both
-array_index_nospec() calls however pass NVMET_MAX_ANAGRPS as the size,
-so for the last group the mask is 0 and the index quietly becomes 0:
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] RDMA/uverbs: commit message contradicts
+  uverbs_dmabuf_match_mapping()
+--
 
- - nvmet_ana_groups_make_group() increments enabled[0] while the group
-   keeps grpid == 128, so the later nvmet_ana_group_release() decrements
-   enabled[128], which underflows to 0xffffffff.  The ANA log page then
-   reports group 128 as inaccessible forever even though the configfs
-   group no longer exists, and the increment on enabled[0] is never
-   undone.
+commit f919774da72af458231453cd6f22c8076d245156
+Author: Jason Gunthorpe <jgg@ziepe.ca>
 
- - nvmet_ns_ana_grpid_store() accepts 128, stores 0 in ns->anagrpid and
-   returns success, so the namespace silently stays in the default ANA
-   group instead of the one the user asked for.
+RDMA/uverbs: Use the SGT_P2P mapping type
 
-Both failures are silent, and they change what the target reports in its
-ANA log page, which is what a host uses to select paths.
+This commit converts uverbs dmabuf from an attach callback checking
+attachment->peer2peer to a match_mapping callback using
+DMA_BUF_EMAPPING_SGT_REQUIRES_P2P().
 
-Pass the real array size in both calls, so the masking is kept but the
-last group is no longer folded onto index 0.
+>     RDMA/uverbs: Use the SGT_P2P mapping type
+>    =20
+>     Very similar to habana, except the rejection of unsupported
+>     pci_p2p_dma_distance() is done inside map not attach via
+>     dma_buf_phys_vec_to_sgt().
+>    =20
+>     Convert this directly to a SGT_P2P match which will prevent matching =
+if
+>     dma_buf_phys_vec_to_sgt() would fail.
+>    =20
+>     Remove the now empty attach function.
+>    =20
+>     Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+>     Signed-off-by: Alistair Popple <apopple@nvidia.com>
+>=20
+> diff --git a/drivers/infiniband/core/uverbs_std_types_dmabuf.c b/drivers/=
+infiniband/core/uverbs_std_types_dmabuf.c
+> index 8d8c997a48834..0bae578c3d78e 100644
+> --- a/drivers/infiniband/core/uverbs_std_types_dmabuf.c
+> +++ b/drivers/infiniband/core/uverbs_std_types_dmabuf.c
 
-Fixes: 20dc66f2d76b ("nvme: prevent potential spectre v1 gadget")
-Cc: stable@vger.kernel.org
-Signed-off-by: Yuehong Wu <wuyuehong@cmss.chinamobile.com>
----
-Verified with nvme-loop in QEMU/KVM on 7.3.0-next-20261027, with two
-kernels built from the same tree and differing only in these two lines
-(no instrumentation):
+[ ... ]
 
- - before the patch, a group created as ports/1/ana_groups/128 is absent
-   from the ANA log page (ngrps=1) even though configfs accepted it, and
-   it is reported as expected afterwards (ngrps=2, group 128 optimized);
- - 128 written to a namespace ana_grpid reads back as 0 before the patch
-   and as 128 after it, and the namespace is accounted to group 128;
- - removing the group again adds a phantom group 128 (state inaccessible,
-   0 namespaces) to the ANA log page before the patch, and leaves no
-   trace after it, even when creating and removing it repeatedly.
+> @@ -95,13 +86,30 @@ static void uverbs_dmabuf_release(struct dma_buf *dma=
+buf)
+>  	uverbs_uobject_put(&priv->uobj);
+>  }
+> =20
+> -static const struct dma_buf_ops uverbs_dmabuf_ops =3D {
+> -	.attach =3D uverbs_dmabuf_attach,
+> +static const struct dma_buf_mapping_sgt_exp_ops uverbs_dma_buf_sgt_ops =
+=3D {
+>  	.map_dma_buf =3D uverbs_dmabuf_map,
+>  	.unmap_dma_buf =3D uverbs_dmabuf_unmap,
+> +};
+> +
+> +static int uverbs_dmabuf_match_mapping(struct dma_buf_match_args *args)
+> +{
+> +	struct dma_buf_mapping_match sgt_match[1];
+> +
+> +	/*
+> +	 * MMIO, so the importer must accept P2P. The provider is only valid
+> +	 * under the dma_resv lock while not revoked, so the distance check is
+> +	 * left to dma_buf_phys_vec_to_sgt() at map time, as before.
+> +	 */
+> +	sgt_match[0] =3D DMA_BUF_EMAPPING_SGT_REQUIRES_P2P(&uverbs_dma_buf_sgt_=
+ops);
 
- drivers/nvme/target/configfs.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+[Severity: Medium]
+Does the commit message match the implementation in
+uverbs_dmabuf_match_mapping()?
 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index 8aea64d..48d3f68 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -701,7 +701,7 @@ static ssize_t nvmet_ns_ana_grpid_store(struct config_item *item,
- 
- 	down_write(&nvmet_ana_sem);
- 	oldgrpid = ns->anagrpid;
--	newgrpid = array_index_nospec(newgrpid, NVMET_MAX_ANAGRPS);
-+	newgrpid = array_index_nospec(newgrpid, NVMET_MAX_ANAGRPS + 1);
- 	nvmet_ana_group_enabled[newgrpid]++;
- 	ns->anagrpid = newgrpid;
- 	nvmet_ana_group_enabled[oldgrpid]--;
-@@ -2074,7 +2074,7 @@ static struct config_group *nvmet_ana_groups_make_group(
- 	grp->grpid = grpid;
- 
- 	down_write(&nvmet_ana_sem);
--	grpid = array_index_nospec(grpid, NVMET_MAX_ANAGRPS);
-+	grpid = array_index_nospec(grpid, NVMET_MAX_ANAGRPS + 1);
- 	nvmet_ana_group_enabled[grpid]++;
- 	up_write(&nvmet_ana_sem);
- 
--- 
-2.43.0
+The commit title and changelog state that this converts uverbs to a SGT_P2P
+match which prevents matching if dma_buf_phys_vec_to_sgt() would fail due to
+an unsupported pci_p2p_dma_distance().
 
+However, uverbs_dmabuf_match_mapping() uses
+DMA_BUF_EMAPPING_SGT_REQUIRES_P2P() rather than DMA_BUF_EMAPPING_SGT_P2P().
+As noted in the code comment, DMA_BUF_EMAPPING_SGT_REQUIRES_P2P() only chec=
+ks
+that the importer accepts P2P (replacing the !attachment->peer2peer check in
+uverbs_dmabuf_attach()) and leaves the P2P distance check to
+dma_buf_phys_vec_to_sgt() at map time because priv->provider is only valid
+under the dma_resv lock while not revoked.
 
+Should the commit title and message be updated to reflect that
+DMA_BUF_EMAPPING_SGT_REQUIRES_P2P() is used instead of SGT_P2P, and that the
+distance check remains at map time?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261105-dma_mappin=
+g_type_v4-v2-0-78b8dc9ae80a@nvidia.com?part=3D17
 
