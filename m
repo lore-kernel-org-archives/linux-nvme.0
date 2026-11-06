@@ -2,41 +2,41 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73430606A329
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 568EE606A328
 	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2026 02:27:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=PfGm9Zua;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=ojW9sl/M
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Nm2vyren;
+	dkim=pass (1024-bit key, unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=QwGkRYwS
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=pJi67xQUk/n9jZxeZYS78g6IZ3p0w15eso0BhISoxwg=; b=PfGm9ZuaySx/Ir
-	WqDhI5v0rHlnZIqrV4mPwHDCuHLT7pReIzBED0o0HiBaNyqmWaShVO5EOsQJ47wyfiBGq1Ww2XjdH
-	NBsa7UTN41KgXCXrHkQKtt7N23AzTQVw8F2y56zooOwmluMTW997/eHA1j7FxNS4Fib4swuOo5z/3
-	bjd1WooTMM+aYKKxOwHge16/zoeuZrNqAYclN0jJwyCW9bENMQjHqAD+tj0TVS1MrtygvLMKEddYW
-	tQGERNqicnWnDpPUwlgLoeemL+Zccn440rrKDVdxEMEwtUV/4Ptr6d01LF3DaHE/6H/Kil464qrSV
-	2KTZLIvROTvVU+hULfvA==;
+	List-Owner; bh=T1o5UTfe4UjNf49g5ls7TMMNr/+HIOPH/BnI3ElGqoc=; b=Nm2vyrenp0jLg4
+	eNv5ZxGPNlDyQIWF3GqPezXF2VQbUR0ghSAubKni+Z8MW9WBW2Xn59TYq730QkoiXMlRpewingcq6
+	y1exWmHBQCHUfWDfzAxYZ44UD7TQCZengJzqEJbc6zl/QtWhfIY0to7ieUp2dMxRI3UsEhzSMuf+3
+	QOnul0PDhYvdIf5myD/rhw08/tTOB6IqeEX0eiaWd1tWx+En8UJcMHgdCi3VvCsvveFH+UQvGBM5Y
+	VdSZMsDb/EJW81zb1wsruSIgThRCam+QfUMuqLqLGekzveFIOugq9xHpjSlkfZsREpA+vc2tzetNL
+	G/Ni84zQX6ugZ3UBDjvw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xP9gF-0000000B3yP-0Rnw;
-	Fri, 06 Nov 2026 02:27:51 +0000
-Received: from out30-119.freemail.mail.aliyun.com ([115.124.30.119])
+	id 1xP9gE-0000000B3yA-4AbH;
+	Fri, 06 Nov 2026 02:27:50 +0000
+Received: from out30-97.freemail.mail.aliyun.com ([115.124.30.97])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xP9gC-0000000B3ui-0mrY
+	id 1xP9gC-0000000B3ug-06rs
 	for linux-nvme@lists.infradead.org;
 	Fri, 06 Nov 2026 02:27:49 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
 	t=1793932066; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=pJi67xQUk/n9jZxeZYS78g6IZ3p0w15eso0BhISoxwg=;
-	b=ojW9sl/MroZxBCAN5a9AhYuh2kHQqP2cDXMnaxaeNVjONBn733Y3QM0CA2w2TdJToSDGTXZrrdx6ZfnwKaxqTf9Q4D3vxEuYPAHUmhgASzvJNZYZAilVGeV2wGsCikt9qkshoh0m6MvjsoENkjZAJNLqswEu4dcpRS6le9k4n74=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R741e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XEA90D7_1793932065;
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XEA90D7_1793932065 cluster:ay36)
+	bh=T1o5UTfe4UjNf49g5ls7TMMNr/+HIOPH/BnI3ElGqoc=;
+	b=QwGkRYwSH0GTLHn/GtXH3ffn0vX9O5q86hPxdVjJKPj4Pxn3vCFWbaKm/tL9pHVWVgCV3gObDFGdj1hrF5ffdS6LM43LqA7Ccc7MhKZo20h7tAVWgV5bZAVnDeeB15G01vyfPLH/fLZM/SJvMMNZjtG1Ig8Js5/nDdyxG14b2l0=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R611e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037033178;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XEA2NtH_1793932064;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XEA2NtH_1793932064 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Fri, 06 Nov 2026 10:27:46 +0800
+          Fri, 06 Nov 2026 10:27:45 +0800
 From: Guixin Liu <kanie@linux.alibaba.com>
 To: Keith Busch <kbusch@kernel.org>,
 	Jens Axboe <axboe@kernel.dk>,
@@ -46,9 +46,9 @@ To: Keith Busch <kbusch@kernel.org>,
 	Daniel Wagner <dwagner@suse.de>,
 	Hannes Reinecke <hare@suse.de>
 Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH v2 5/9] nvme: drop unreachable "off" case in reconnect_delay_show()
-Date: Fri,  6 Nov 2026 10:27:32 +0800
-Message-ID: <20261106022736.3582824-6-kanie@linux.alibaba.com>
+Subject: [PATCH v2 4/9] nvme-fabrics: remove dead hostnqn already-assigned check
+Date: Fri,  6 Nov 2026 10:27:31 +0800
+Message-ID: <20261106022736.3582824-5-kanie@linux.alibaba.com>
 X-Mailer: git-send-email 2.43.7
 In-Reply-To: <20261106022736.3582824-1-kanie@linux.alibaba.com>
 References: <20261106022736.3582824-1-kanie@linux.alibaba.com>
@@ -56,8 +56,9 @@ X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261105_182748_384521_4AAFC6AA 
-X-CRM114-Status: GOOD (  11.89  )
+X-CRM114-CacheID: sfid-20261105_182748_221021_8892B096 
+X-CRM114-Status: UNSURE (   9.30  )
+X-CRM114-Notice: Please train this message.
 X-Spam-Score: -17.6 (-----------------)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -78,46 +79,34 @@ X-Spam-Status: No, score=-26.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-The "off" case was copied from fast_io_fail_tmo_show(), but unlike
-fast_io_fail_tmo, reconnect_delay is an unsigned int that the option
-parser bounds to positive values and that has no off state. The
-comparison can only trigger when the raw value 4294967295 is written
-through sysfs, which is not a meaningful delay. Drop the case and
-the matching sentence in the ABI documentation.
+The opts->host check in the NVMF_OPT_HOSTNQN handler can never fire:
+options are parsed into a freshly allocated struct, and opts->host is
+only assigned after the parsing loop completes. A duplicate hostnqn
+option is already silently overridden by the strscpy() into the local
+buffer. Remove the dead check.
 
 Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
 ---
- Documentation/ABI/stable/sysfs-nvme | 3 +--
- drivers/nvme/host/sysfs.c           | 2 --
- 2 files changed, 1 insertion(+), 4 deletions(-)
+ drivers/nvme/host/fabrics.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/Documentation/ABI/stable/sysfs-nvme b/Documentation/ABI/stable/sysfs-nvme
-index 9291595f8102..1826df9161d2 100644
---- a/Documentation/ABI/stable/sysfs-nvme
-+++ b/Documentation/ABI/stable/sysfs-nvme
-@@ -70,8 +70,7 @@ Description:
- 		fabrics controller.
- 
- 		reconnect_delay: Shows or sets the reconnect delay in
--		seconds. Reading returns the delay value, or "off" if
--		disabled.
-+		seconds. Reading returns the delay value.
- 
- 		ctrl_loss_tmo: Shows or sets the controller loss timeout in
- 		seconds. Reading returns the timeout value, or "off" if
-diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-index 10018c6356b6..3724b5ce03a0 100644
---- a/drivers/nvme/host/sysfs.c
-+++ b/drivers/nvme/host/sysfs.c
-@@ -618,8 +618,6 @@ static ssize_t nvme_ctrl_reconnect_delay_show(struct device *dev,
- {
- 	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
- 
--	if (ctrl->opts->reconnect_delay == -1)
--		return sysfs_emit(buf, "off\n");
- 	return sysfs_emit(buf, "%d\n", ctrl->opts->reconnect_delay);
- }
- 
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 3d7ad86c1955..c262538523fb 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -872,12 +872,6 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 			opts->fast_io_fail_tmo = token;
+ 			break;
+ 		case NVMF_OPT_HOSTNQN:
+-			if (opts->host) {
+-				pr_err("hostnqn already user-assigned: %s\n",
+-				       opts->host->nqn);
+-				ret = -EADDRINUSE;
+-				goto out;
+-			}
+ 			p = match_strdup(args);
+ 			if (!p) {
+ 				ret = -ENOMEM;
 -- 
 2.43.7
 
