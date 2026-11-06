@@ -2,107 +2,79 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 029B6606A31B
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2026 05:24:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 721FE606A330
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2026 06:25:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=hU/ltUqV;
-	dkim=pass (2048-bit key, unprotected) header.d=crusoe.ai header.i=@crusoe.ai header.a=rsa-sha256 header.s=google header.b=jCPfXNDz
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=2oxDmvqe;
+	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=UPH8NmHx
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=YoVjGUFXpjQMcATtlpzVSprfp+MS50wgD3gLJA7JasU=; b=hU/ltUqVc+WJdx
-	C75ZfjTmFTr+xJVNrhvwdcWL83kvacNMVxp/+niTX9/9qpNhsNwIzWz4yKn5iGNy+D2x/tR3XupR7
-	cgqin6tayFJScnEL3c4CNcizY/bCMmjVAHdCUrwBHIhig48qPyww/9MAdgYPHz+DiC2zw++uzj4gd
-	7QcJzpZTsyoO+OZrdkeYP/KBN+L0GPwLMf8YqFbnC95BkKxFqwjatlUM6iqh9I2Fy+KK2DepSoHGY
-	7umQ6QHIWx0uzcBEfQ6//wgHRzxsKjnW+uQ+T5og92iyvRxtpaBev+mV9fPBax8C3RnpTm9J7bRVa
-	75Z+COBeRGsOJWD/jvrg==;
+	MIME-Version:Date:Subject:Cc:To:From:Message-ID:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Unsubscribe-Post:List-Owner;
+	bh=9nbHrpdZ+FKysVhhp4Y+Wfae1ZVEWqntwWaQsXRxDi0=; b=2oxDmvqeHMhxHfSQCmMULoMsQT
+	rQfMq2WtCCDipCnLz6wQtsYHS7lfCojyRJAebVPS+kDNar+j3wo7PUmfpAD6MCxiM2sWRTEUX0WQT
+	IubVNReR6bpmwDzw1nIRpIvL0YIs0IBvfbjOKNe1Q+bMhjcVYG+s3zRJtBXvyppji2Cre3KbObgyJ
+	DXhawxwbx4mPqyEBd/TupvrgMhyhsBRFmDh0odK/wjDpS1aSpO1NHOkCnFdVjfnI/ilDdlx+1Wkpd
+	Z3b/rS6nOFZWEchV09xailz3sVO/wLBjVxcxXVMJXOj8ul7bvdGMyKzPvSibypLw3QKptCzcTNEnv
+	NMB0tNrw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xPCQf-0000000BGat-47Cr;
-	Fri, 06 Nov 2026 05:23:57 +0000
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+	id 1xPDOF-0000000BLac-2Q7P;
+	Fri, 06 Nov 2026 06:25:31 +0000
+Received: from out203-205-221-190.mail.qq.com ([203.205.221.190])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xPCQd-0000000BGaP-3x6J
+	id 1xPDOA-0000000BLZz-2Vov
 	for linux-nvme@lists.infradead.org;
-	Fri, 06 Nov 2026 05:23:57 +0000
-Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-48e1d0e5dafso817224f8f.1
-        for <linux-nvme@lists.infradead.org>; Thu, 05 Nov 2026 21:23:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=crusoe.ai; s=google; t=1793942633; x=1794547433; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=YoVjGUFXpjQMcATtlpzVSprfp+MS50wgD3gLJA7JasU=;
-        b=jCPfXNDz24L6ugbgust+0qJwdEvh2BdCon+b0H2J83XocAriOJcy1AwGmvdo7N3ZYD
-         gN98+HUX73Xv9/u9+3kL88bGG48e9E6/KMq/sao3cP4X+DW2NNe38XPnnywJj+pewmwx
-         YuzWvMWq9Hm118jCqDAMdfvrKlWu910OR6SBSbht4SkO6CKsKXs91xwW1Ivl+C0Ya5TG
-         tlaIyCRf4E8Cuy2MEEoZDdXBH4MfyX1l1XNBBzGrNHedF42zmVIXSgTMRb1vNuyBouT2
-         OOVv2AW4MwenOR/TBiBUbFB41bD5Ifki8JabT9DT6HYBPdA7dExEmhegurpz+ak65oQv
-         oX4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793942633; x=1794547433;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=YoVjGUFXpjQMcATtlpzVSprfp+MS50wgD3gLJA7JasU=;
-        b=ejnNdNcLmxBO9WF0vt890aVp2gxoP2uyjxKEArLCT/0SpqUCT4OefQaAB+lgJxLQPh
-         Nug3o/Gj7NH8OGO3a3g4y7vOK9tOxwd4GFdfLe92jlhq7T8y+m8BaxFeE5luBp/EhvlU
-         6XGzsvdK1ppwGqwwqN7jk5V2N3apfx9Ble5qI2k0WfYfdnETCMj32lf6HakoQE9EzmM3
-         9+P4acHH3IH1jhHdYwkIZsmx9LjIOXmSJQ9lUIc9KlE/RYEh4ukfG6KheFuwIDvQ692P
-         icXJ/QjZM2Tjrt8tL59PFt4WDweD2FOT98BGulGNWML8z1COvGqbs6YKm7lN5DV23i7/
-         OePA==
-X-Gm-Message-State: APuU4Z/Vx7Fep/sGCEtKnkAbU7W19IT1HozIHEXmHvgwNB5r90vtbWl4
-	ZogVwQZGEJ/fVcpN07ix+L+xkb/BQlGrcu7scfFge+8QWYp8XgagJ4iM1g3cTkHn8Ak=
-X-Gm-Gg: AYBFou37u0esKl6gUvCXlm+6jkgNW07g6CKCbJfnOn8G169YXc6ypjxhbxiiBp2HBka
-	Mvoh8zolS+kw8p8W2mJ78PA4JYPLedTz/WC4enTwkd7exkQlLuTQf2v260/lRhp4vq1r47R7Zcy
-	LN86ViVLMoAisbR5nV2UR4N1YmAkIrbPwRd1wW4wmSC8rAjJC0hKErpXkfeIBH9Lzwl6KdFT1W9
-	hc8Il0asPgzAD1LPvospH2hFZuVJR7SMxRooggzLwusr0gS1yTMNtaYbSKCMXO42WldyX+hRx92
-	uUL3FLj+W/yyEr56FgAfYLzjO2EgB2Pl71sAPK9gIgltsTe8k9aZresORH0m9Kl1vmtNcKiHv9j
-	ZQOslLNja7N36v44BTQ3pG6pdnQ6Cf9SrEhx9ZaAmVmC/JKBT4KZdzp+VVBOP3H0SVLezAKZ8AB
-	TOthI0bxeXuQkjNr9wDUMqasnJJh2FNA1cOUnBqzWLA5reiySPTzShB8A0iOXY8olB6q90Q0cJP
-	rI16/yWZAuP6zlZZx+GK/P1vj4jF/P623nzy2TSVA2Xj9JVQx11q6G46mbuGfkYERoaPqBdCtzx
-	Gmw5puQC4gUh8+TiNM0bKM4RFa7jgLMf77K0RYSrV3rC3B+X2yd6IwnN8QHEjaqnK75a+cWD2g=
-	=
-X-Received: by 2002:a05:6000:2284:b0:48e:678d:396e with SMTP id ffacd0b85a97d-4911906d313mr9445010f8f.9.1793942633454;
-        Thu, 05 Nov 2026 21:23:53 -0800 (PST)
-Received: from MBP-Saravanan-D.civet-hops.ts.net ([185.57.101.252])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-492d6d63ae2sm1456239f8f.11.2026.11.05.21.23.51
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 05 Nov 2026 21:23:52 -0800 (PST)
-From: Saravanan D <saravanand@crusoe.ai>
-To: Daniel Wagner <dwagner@suse.de>
-Cc: linux-nvme@lists.infradead.org,
-	kbusch@kernel.org,
-	hch@lst.de,
-	sagi@grimberg.me,
-	axboe@kernel.dk,
-	nilay@linux.ibm.com,
-	sgogte@purestorage.com,
-	hare@kernel.org,
-	hare@suse.de,
-	linux-kernel@vger.kernel.org,
-	iyamahata@crusoe.ai,
-	kiyer@crusoe.ai,
-	ganbalagane@crusoe.ai,
-	sjpark@crusoe.ai,
-	bchen@crusoe.ai
-Subject: Re: [PATCH v7 1/2] nvme: add per-queue sysfs directories
-Date: Fri,  6 Nov 2026 05:23:42 +0000
-Message-ID: <20261106052342.12808-1-saravanand@crusoe.ai>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <23f41537-23bb-44e8-84e3-7069138d151d@flourine.local>
-References: <cover.1793800758.git.saravanand@crusoe.ai> <656dac7329c8452efe786b0c76a3b8c0bbf53159.1793800758.git.saravanand@crusoe.ai> <23f41537-23bb-44e8-84e3-7069138d151d@flourine.local>
+	Fri, 06 Nov 2026 06:25:29 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1793946319; bh=9nbHrpdZ+FKysVhhp4Y+Wfae1ZVEWqntwWaQsXRxDi0=;
+	h=From:To:Cc:Subject:Date;
+	b=UPH8NmHxDd+JGIHrooY+1eyw51nRdUZNFJl5oMGo7no9fniTFyGqoC+FUgSLoh64u
+	 4MAZh4QRFsqIlGJGQmQ25uXZd3UgxENUafs5nV/tBMVgY81A+2pVXGwBntMJjqYTIa
+	 X/d+vIfl0FxSP2SgBs5hBvCnOb6CjUwzbvPevlys=
+Received: from kernel-lab.tail5e91bb.ts.net ([2409:8950:57d:63:7ec2:9796:1e6d:4c54])
+	by newxmesmtplogicsvrszb43-0.qq.com (NewEsmtp) with SMTP
+	id 6511921F; Fri, 06 Nov 2026 14:25:17 +0800
+X-QQ-mid: xmsmtpt1793946317topchmmih
+Message-ID: <tencent_1B8D08FB52E404EC3FE4933548D6CACB7305@qq.com>
+X-QQ-XMAILINFO: OJNvdD+rp7v+p0jSwX4jP4ypq+9pDOsbzA0E3p+o7ZdCyeEBKIMNOwlHDMM+CB
+	 sai2xsZHlqr2kgETm5LwPNnrSds/srsKZB81TTn23zV9kIJ36lAZNO2rVjtdthreRxJ4H2BL/sd1
+	 Bd6brMg1ata8nItHJtkjgWYKpqkcPsqIrizK6MyqX3/AgcwJ0UETI7nSgmBh3lkpwrg/ApwFdD3i
+	 cT57vp+CzpGLQSWOIPwAZMZU7umKhl4VD3ixgMbmaRqaDcOVKQFppoTUw6wMQePh2ndEWTU1fYXw
+	 moZoSUeZYpepAOlbKo8FANphkWJquc4pidPy8znbwguykrLoeR/E1J8385ekR/BnX8Pfd1ZA4ZJy
+	 /Ss6rT6WI9IHayfdBDVOfLgdY/OmqMiP9MSoaAj+KgDUwcLHWsOvgw4X2UHAP0AuLNpLeBxx5dpe
+	 kQ8qzDGo1X7T176b1usztx+5k9XDS/uq5c9LcNFaf+8OIYjyFIgE+ETt2gwMi4H8R01MjYq8arrp
+	 jWFdKSr43kBTcy5QQpcfdfJ7+RHco4VCFIIMDqJfObiiQazXZHWfBH8XibKi5C/yEhktFZPxDizI
+	 nvGXyy5zquC49jTLCj0k+Hv1pCZCYMAD8ASu8CmpE+1uYdHx14DM4lCHTnawa1X08nSGUzcWt7u5
+	 7vOrE4VJELv4K6i8Nbd0YpieXSD7h9RaJmx3P94HIioht2EF9KWmxTBf9Lio7P+j3JhrTG9FV5R8
+	 TFnBOyTUhK+VLMxuboM0zk8ggl+xwvAUWwjJUNGkzsZDF6H+p7Zho9WfVuUwVRDam82EYBPvls1k
+	 74ZNeeskV+z7djG9uoSPQVMrpEadHqSjGXevFnWqkEdrcm52q/mEokoVvLwKFFCvyoJ/yf+25rrI
+	 Dtpkb/hsaA7z3rB4JSzS132duLwSldrRwn4MTBajlTQKk70/WDp61cpZ0OULKlPiMMe0mEdr0uls
+	 vyTY7OAYBhT4ph8wa1hxsbC5zwOK9otVftQbzgVOmEVAguAhbpAjuYpIOhmePKLAIwyxNLr4eiMh
+	 VoQzgt0LlQWUx7pABQWJ6LI3Os51tuSneWDZ4FeHvujyewrB5KacI1p9j28mI=
+X-QQ-XMRINFO: Nq+8W0+stu50tPAe92KXseR0ZZmBTk3gLg==
+From: Yingjie Wang <1075151112@qq.com>
+To: linux-nvme@lists.infradead.org
+Cc: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Marc Olson <marcolso@amazon.com>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] nvme: avoid wrapping admin_timeout and io_timeout
+Date: Fri,  6 Nov 2026 14:25:16 +0800
+X-OQ-MSGID: <a09cbe79b8adb7d5317f2630d4ac604a3708a97c.1793946310.git.1075151112@qq.com>
+X-Mailer: git-send-email 2.43.0
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261105_212355_993713_463DDB30 
-X-CRM114-Status: UNSURE (   9.50  )
-X-CRM114-Notice: Please train this message.
-X-Spam-Score: -2.1 (--)
+X-CRM114-CacheID: sfid-20261105_222527_144169_38D44E15 
+X-CRM114-Status: GOOD (  16.03  )
+X-Spam-Score: -1.9 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -113,27 +85,106 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-8.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Wed, Nov 04, 2026 at 06:30:56PM +0100, Daniel Wagner wrote:
-> > +	ret = sysfs_create_groups(&qinfo->kobj, ctrl->ops->queue_attr_groups);
-> > +	if (ret)
-> > +		goto out_put;
->
-> Don't you have to call kobject_del(&qinfo->kobj); here?
+NVME_ADMIN_TIMEOUT and NVME_IO_TIMEOUT multiply the admin_timeout and
+io_timeout module parameters by HZ in unsigned int arithmetic, and
+nvme_fw_act_work() does the same through secs_to_jiffies(). The parameters
+accept any unsigned int, so values above UINT_MAX / HZ wrap. With HZ=1000,
+io_timeout=4294968 becomes 704 jiffies, and a controller created afterwards
+times out I/O after 0.7 seconds instead of about 49.7 days. On 32-bit
+systems, results above MAX_JIFFY_OFFSET are also unsafe relative delays and
+can be treated as already expired.
 
-Yes. Sashiko flagged the same error path.
+These large values are used in practice. AWS documents
+nvme_core.io_timeout=4294967295 for EBS volumes and says Amazon Linux uses
+it by default. With HZ=1000, the current code happens to wrap this setting
+to 4294966296 jiffies, which still behaves as a long timeout on 64-bit
+systems.
 
-I will send a v8 that adds an out_del label calling kobject_del()
-before kobject_put(), so a failed sysfs_create_groups() unlinks the
-<qid> directory before nvme_add_queue_info() returns.
+Add nvme_timeout_to_jiffies(), which caps the seconds value so that the
+result fits the u32 timeout fields and stays within MAX_JIFFY_OFFSET for
+32-bit timers, and use it for both macros and for the firmware
+activation wait. On 64-bit kernels every timeout that did not wrap is
+unchanged. Larger values saturate instead of being rejected so that the
+documented setting keeps a long timeout.
 
-Thanks for the review.
+Fixes: 8ae4e4477d8f ("nvme: update timeout module parameter type")
+Cc: stable@vger.kernel.org
+Signed-off-by: Yingjie Wang <1075151112@qq.com>
+---
 
-Saravanan D.
+Notes:
+    Unlike the recent tls_handshake_timeout fix, which rejects out-of-range
+    values, this saturates so the documented io_timeout=4294967295 setting
+    remains accepted as a long timeout.
+    
+    AWS documentation referenced above:
+    https://docs.aws.amazon.com/ebs/latest/userguide/timeout-nvme-ebs-volumes.html
+    
+    Tested on nvme-7.4 f33c8bc78540, x86-64 (HZ=1000) in QEMU. With a
+    3-second dm-delay read, io_timeout=4294968 timed out after 704 ms and
+    failed with EIO on the base kernel; with this patch the read completed
+    after 3 seconds with no timeout. The 4294967 boundary and a 1-second
+    control behaved the same on both kernels. admin_timeout and io_timeout
+    readback also matched the expected boundaries over nvme-loop.
+    
+    The affected objects built with W=1 for x86-64 allmodconfig and i386
+    HZ=1000; the i386 objects had no 64-bit division helper dependency.
+
+ drivers/nvme/host/core.c |  2 +-
+ drivers/nvme/host/nvme.h | 13 +++++++++++--
+ 2 files changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 03671bba1754..af8ccbc11c53 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4891,7 +4891,7 @@ static void nvme_fw_act_work(struct work_struct *work)
+ 	if (ctrl->mtfa)
+ 		fw_act_timeout = jiffies + msecs_to_jiffies(ctrl->mtfa * 100);
+ 	else
+-		fw_act_timeout = jiffies + secs_to_jiffies(admin_timeout);
++		fw_act_timeout = jiffies + NVME_ADMIN_TIMEOUT;
+ 
+ 	nvme_quiesce_io_queues(ctrl);
+ 	while (nvme_ctrl_pp_status(ctrl)) {
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 82cdc7d32b22..8305fd82038b 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -22,11 +22,20 @@
+ 
+ extern const struct pr_ops nvme_pr_ops;
+ 
++/* Seconds to jiffies, capped for the u32 timeouts and timer delays */
++static inline unsigned int nvme_timeout_to_jiffies(unsigned int timeout)
++{
++	unsigned long max_secs;
++
++	max_secs = min_t(unsigned long, UINT_MAX, MAX_JIFFY_OFFSET) / HZ;
++	return min_t(unsigned long, timeout, max_secs) * HZ;
++}
++
+ extern unsigned int nvme_io_timeout;
+-#define NVME_IO_TIMEOUT	(nvme_io_timeout * HZ)
++#define NVME_IO_TIMEOUT	nvme_timeout_to_jiffies(nvme_io_timeout)
+ 
+ extern unsigned int admin_timeout;
+-#define NVME_ADMIN_TIMEOUT	(admin_timeout * HZ)
++#define NVME_ADMIN_TIMEOUT	nvme_timeout_to_jiffies(admin_timeout)
+ 
+ #define NVME_DEFAULT_KATO	5
+ 
+
+base-commit: f33c8bc785401669b29229bcf3d0086ba9f5b87c
+-- 
+2.43.0
+
 
