@@ -2,60 +2,67 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 598A1606A326
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2026 06:44:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F2F3606A33D
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2026 07:04:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=h7gvlsNM;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bTEQvc5w
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=2VQTGaVZ;
+	dkim=pass (1024-bit key, unprotected) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=WQEpqa+x
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
-	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Cc:To:Subject:
-	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Unsubscribe-Post:List-Owner;
-	bh=Lq19CXhOeqT6MgWlI1F8gJb79H8vmjdCYSmVq7k8iiY=; b=h7gvlsNMnqn96HhAH/hByqjHyG
-	IJwMBJWP6KsoPNHQZF3HGMuwGj/+KLsSuBpH9yzjKwEMsYup+kjnS4Lq5OJR19ZJ8Cyz+SueLkCjU
-	2TcQM6Gv7LUMkPvE0I1R5juAafyfSglm0QYvPmhXFyvGLQTL7xkfmL/IK+vW1OmLWnh3L6cvX6tvB
-	okokHhYHngUYD8tLm0DpALl9SrNuBTAhVd+h5nbhU7Z5evhIH7xlNzhUouJEgwbjR4E7B5++U4E/e
-	yoGT0tXrG4Holxmsv3UE31cwlVnWED7mSUEZseGqQWw6+PQF1BuVrjiVWNRKULoYhQV47IuHD46hX
-	gFNRoD3Q==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
+	List-Owner; bh=xGUu4K6Hch737xk2AjXhVoXP8Oyq8YcHuX/+uNS+IWo=; b=2VQTGaVZiVNn+u
+	OARQnalQsQLPsriVNCd+HhkDFmnt0/90VbZ+NH4sViRPBS3FbnMrUsoQUMw5xUYsvp2+PVWq6krD+
+	02FAnuC40/exR8cnxqNDlUKrfVMg0VnD4MpjdEccza2/vwbI0AIL9chNm7rT6Ebl61TcqhY6J7Ows
+	AiFwqFI7LEYdiXOu/RxuHNUfzwKeKpQ3j2GoruHaRB/swbsHgCP2zKHDLGVfhZ5JBbINg+NjWSscf
+	/+Wxbo3DXXTD2/JYz+EmCVnQoOgjgbOm5VPWs8rzVYjcru8g8oSWlxcaAsAoD/yYEtrsdlFA+13jt
+	yldTGjCFNJ1Zb1G8YKVg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xPDgD-0000000BN25-0BXb;
-	Fri, 06 Nov 2026 06:44:05 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
-	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xPDgA-0000000BN0z-48P6
+	id 1xPDzX-0000000BO88-3Bdx;
+	Fri, 06 Nov 2026 07:04:03 +0000
+Received: from cmccmta4.chinamobile.com ([111.22.67.137])
+	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xPDzU-0000000BO7c-2y6B
 	for linux-nvme@lists.infradead.org;
-	Fri, 06 Nov 2026 06:44:03 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 081914004F;
-	Fri,  6 Nov 2026 06:44:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D2BA1F008A3;
-	Fri,  6 Nov 2026 06:44:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793947441;
-	bh=Lq19CXhOeqT6MgWlI1F8gJb79H8vmjdCYSmVq7k8iiY=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=bTEQvc5weNeLyI1u7/gm54hcOU8v3Q5LJVc3mur0J/cg5PsEBzgaC8ehD/iQZIViG
-	 IY3CFds0CZArtr4S0ikPhNGM5KnD1yorhPOUIMThv+zbwvKSwAl+EeOMPP6Snxnqn2
-	 WU6HZONz6hAqb/a0ngt2M5WVJphMSr99tpW5h0uWaai2MR9RGnfedStAqohjSiJcsz
-	 rC3KAb2IykwglIz9drJOPP2GyIYKz1ZNGCC7ejrzMsSj3OdMmBzjXiwdmHJ8RBxWoB
-	 Sm+qivQx0f4VIKrRSGirLH+c1+u3NIs+zXDjpftkkR3U9HA701dJDSkBopfPUXRv+4
-	 yFOXfivABprUw==
-Message-ID: <sashiko-outbox-200939@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 23/23] dma-buf: Add kunit tests for mapping type
- selection
-To: "Alistair Popple" <apopple@nvidia.com>, dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org, linux-nvme@lists.infradead.org
-Cc: media-ci@linuxtv.org
-In-Reply-To: <20261105-dma_mapping_type_v4-v2-23-78b8dc9ae80a@nvidia.com>
-References: <20261105-dma_mapping_type_v4-v2-0-78b8dc9ae80a@nvidia.com>
- <20261105-dma_mapping_type_v4-v2-23-78b8dc9ae80a@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 06 Nov 2026 06:44:01 +0000
+	Fri, 06 Nov 2026 07:04:02 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=cmss.chinamobile.com; s=default; l=0;
+	h=from:subject:message-id:to:cc:mime-version;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	b=WQEpqa+x8PBVgdfNxTxarECdINI6l66IdnQ/D3kbeAoZKGAMV1tdU0saC6Rh3FyWNY1eqOf1YXKNa
+	 hJdCdzqQLc2M7dty7K6cf2jvGeEpqX0wWHka5sAYzyyTDZYiVQQyV5kAIlOwJgqp31cI4+23C/rWox
+	 xbecbow8hfLTfjCI=
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG: 00000000
+Received: from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app08-12008 (RichMail) with SMTP id 2ee86aed7bddf60-4dda0;
+	Fri, 06 Nov 2026 15:03:57 +0800 (CST)
+X-RM-TRANSID: 2ee86aed7bddf60-4dda0
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG: 00000000
+Received: from cmss.chinamobile.com (unknown[10.55.1.72])
+	by rmsmtp-syy-appsvr08-12008 (RichMail) with SMTP id 2ee86aed7bdbeb1-1606d;
+	Fri, 06 Nov 2026 15:03:57 +0800 (CST)
+X-RM-TRANSID: 2ee86aed7bdbeb1-1606d
+From: Yuehong Wu <wuyuehong@cmss.chinamobile.com>
+To: linux-nvme@lists.infradead.org
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Andrew Stellman <astellman@stellman-greene.com>, Chaitanya Kulkarni <kch@nvidia.com>, Keith Busch <kbusch@kernel.org>, Maurizio Lombardi <mlombard@redhat.com>, Mohamed Khalfella <mkhalfella@purestorage.com>, Nitesh Shetty <nj.shetty@samsung.com>, Hannes Reinecke <hare@suse.de>, Randy Dunlap <rdunlap@infradead.org>, Aurelien Aptel <aaptel@nvidia.com>, Nilay Shroff <nilay@linux.ibm.com>, Jesse Taube <jtaubepe@redhat.com>, Rongzheng Wang <testwrzwrz@gmail.com>, Kees Cook <kees@kernel.org>, Rosen Penev <rosenp@gmail.com>, Guixin Liu <kanie@linux.alibaba.com>, Qing Zhang <diasyzhang@tencent.com>, Eric Biggers <ebiggers@kernel.org>, Julian Sun <sunjunchao@bytedance.com>, Yu Zhang <yuz08559@gmail.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nvmet: clamp the last ANA group index against the real array size
+Date: Fri, 06 Nov 2026 15:03:55 +0800
+Message-ID: <20261106-nvmet-ana-grpid-followup-1-yuehongwu@cmss.chinamobile.com>
+In-Reply-To: <20261106-nvmet-ana-grpid-1-yuehongwu@cmss.chinamobile.com>
+References: <20261106-nvmet-ana-grpid-1-yuehongwu@cmss.chinamobile.com>
+X-Archived-By: <archiver.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20261105_230401_289952_576D2985 
+X-CRM114-Status: GOOD (  11.77  )
+X-Spam-Score: -2.4 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,155 +72,39 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,T_SPF_TEMPERROR autolearn=no
 	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
-X-Archived-By: <archiver.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 3 potential
-issues to consider:
-- [Low] dma-buf: duplicate KUNIT_EXPECT_PTR_EQ() added in
-  test_mock_attach()
-- [Low] dma-buf: duplicated callback setup and dead field in
-  mock_mapping
-- [Low] dma-buf: commit message omits failed map and pin selection tests
---
+I missed that this was already reported: Andrew posted the same two-line
+change on 2026-09-10
 
-commit 71d342095c556fe9ee3e5b69defcc3e410afbe6f
-Author: Alistair Popple <apopple@nvidia.com>
+  https://lore.kernel.org/linux-nvme/20260910154849.66095-1-astellman@stellman-greene.com/
 
-dma-buf: Add kunit tests for mapping type selection
+and Sagi asked in that thread whether it had been tested.  That patch
+reasons the same way, and it also cites the spec wording for a valid ANA
+group identifier (non-zero and <= ANAGRPMAX), which mine should have
+quoted as well.
 
-This commit adds a configurable offer list, a select_mapping() callback, and
-map/unmap operations for the mock mapping types in the dma-buf KUnit test
-suite. It also introduces new KUnit test cases to verify the mapping type
-selection contract across attach, map, pin, and failure paths.
+What I can add is the evidence that was asked for.  On
+7.3.0-next-20261027, with two kernels built from the same tree that
+differ only in these two lines and no instrumentation, the nvme-loop
+transport shows: a group created as ports/1/ana_groups/128 is
+absent from the ANA log page before the patch (ngrps=1) and present
+after it (ngrps=2); 128 written to a namespace ana_grpid reads back as 0
+before the patch and as 128 after it, with the namespace accounted to
+group 128; and removing the group again adds a phantom group 128 (state
+inaccessible, 0 namespaces) to the ANA log page only in the unpatched
+kernel.  The exact steps are in the --- section of my patch.
 
->     dma-buf: Add kunit tests for mapping type selection
->    =20
->     Add an offer list and a select_mapping() callback to the mock exporter
->     along with map/unmap for the two mock types.
->    =20
->     Adds tests for the exporter/importer contract.
->    =20
->      - test_match_set_is_final: a later importer attaching, even one the
->        exporter answers differently, does not change an existing
->        attachment's match set or default. Later attachments influence what
->        the exporter selects at pin and map time, not previous attachments.
->    =20
->      - test_select_at_map: the exporter chooses a non-default entry
->        at the first map and the result is tagged with it. A pin taken
->        under the live mapping inherits the type and the choice survives
->        unmap/remap even though the exporter would answer differently. Only
->        dma_buf_invalidate_mappings() allows the exporter to make a differ=
-ent
->        selection. An -EBUSY from selection leaves nothing established.
->    =20
->      - test_select_at_pin: pin selects, and the choice survives map, unmap
->        and unpin so a pinned importer that is never invalidated keeps its
->        first type for the life of the import.
->    =20
->     Signed-off-by: Alistair Popple <apopple@nvidia.com>
+Andrew's patch is against a September tree and no longer applies, which
+is why I sent a rebased version.  If you would rather take his original,
+I have no objection.
 
-[Severity: Low]
-This isn't a bug, but the commit message only lists test_match_set_is_final,
-test_select_at_map, and test_select_at_pin, while the patch also adds
-mock_dmabuf_pin(), mock_dmabuf_unpin(), failure injection state, and two
-additional test cases in dma_mapping_cases (test_select_survives_failed_map
-and test_select_after_failed_pin).
 
-Could the commit message be updated to describe these two failed map and pin
-selection tests as well?
 
-> diff --git a/drivers/dma-buf/st-dma-mapping.c b/drivers/dma-buf/st-dma-ma=
-pping.c
-> index cbfa99aeb0ff5..11010731150ae 100644
-> --- a/drivers/dma-buf/st-dma-mapping.c
-> +++ b/drivers/dma-buf/st-dma-mapping.c
-
-[ ... ]
-
-> @@ -370,11 +391,478 @@ static void test_mock_attach(struct kunit *test)
->  	KUNIT_EXPECT_PTR_EQ(test, dma_buf_attach_map_type(attach)->type,
->  			    &mock_type_a);
->  	KUNIT_EXPECT_PTR_EQ(test, mock_match_dev_arg, dev);
-> +	KUNIT_EXPECT_PTR_EQ(test, mock_match_dev_arg, dev);
-
-[Severity: Low]
-This isn't a bug, but was this second KUNIT_EXPECT_PTR_EQ(test,
-mock_match_dev_arg, dev) in test_mock_attach() added by accident?
-
-[ ... ]
-
-> +/* Mock mapping result for the generic map path */
-> +struct mock_mapping {
-> +	struct dma_buf_mapping base;
-> +	const struct dma_buf_mapping_type *made_by;
-> +};
-> +
-> +static struct dma_buf_mapping *mock_type_map(struct dma_buf_attachment *=
-attach,
-> +					     enum dma_data_direction dir)
-> +{
-> +	struct mock_mapping *m;
-> +
-> +	if (mock_map_err)
-> +		return ERR_PTR(mock_map_err);
-> +	m =3D kzalloc_obj(*m);
-> +	if (!m)
-> +		return ERR_PTR(-ENOMEM);
-> +	m->base.type =3D dma_buf_attach_map_type(attach)->type;
-> +	m->made_by =3D dma_buf_attach_map_type(attach)->type;
-> +	return &m->base;
-> +}
-
-[ ... ]
-
-> +static void test_select_at_map(struct kunit *test)
-> +{
-> +	static const struct dma_buf_mapping_match offer_ab[] =3D {
-> +		{ .type =3D &mock_type_a },
-> +		{ .type =3D &mock_type_b },
-> +	};
-> +	struct dma_buf_mapping_match imp[] =3D {
-> +		{ .type =3D &mock_type_a },
-> +		{ .type =3D &mock_type_b },
-> +	};
-> +	MOCK_IMPORTER_OPS(importer_ops, imp);
-> +	struct dma_buf_attachment *attach;
-> +	struct dma_buf_mapping *mapping;
-> +	struct dma_buf *dmabuf;
-> +	struct device *dev;
-> +
-> +	mock_type_a.map =3D mock_type_map;
-> +	mock_type_a.unmap =3D mock_type_unmap;
-> +	mock_type_b.map =3D mock_type_map;
-> +	mock_type_b.unmap =3D mock_type_unmap;
-
-[Severity: Low]
-This isn't a bug, but test_select_at_map(), test_select_at_pin(),
-test_select_survives_failed_map(), and test_select_after_failed_pin() each
-manually assign map and unmap on mock_type_a and mock_type_b at the start of
-the test and clear them to NULL at the end. If any KUNIT_ASSERT_NOT_ERR_OR_=
-NULL
-in those tests fails, the test aborts before clearing the pointers and
-reset_mock_state() does not reset them.
-
-Since none of the other tests in drivers/dma-buf/st-dma-mapping.c require
-mock_type_a.map or mock_type_b.map to be NULL, could map and unmap be
-initialized directly in the static definitions of mock_type_a and mock_type=
-_b
-instead? Also, is the made_by field in struct mock_mapping needed given that
-mock_type_map() sets m->base.type to the same value and made_by is never re=
-ad?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261105-dma_mappin=
-g_type_v4-v2-0-78b8dc9ae80a@nvidia.com?part=3D23
 
