@@ -2,100 +2,121 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8174E606A32D
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2026 13:43:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E5A4606D801
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2026 13:48:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=xnVPF83k;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xwesgoRy
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=PIJR/v2A;
+	dkim=pass (2048-bit key, unprotected) header.d=stellman-greene-com.20260707.gappssmtp.com header.i=@stellman-greene-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=ea/ElQIn
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Unsubscribe-Post:List-Owner;
-	bh=qT2iGCtzANHH9hlwoXwHnZX/StQ9bdfI9+nrQG92gYA=; b=xnVPF83kRj7+mx1M+rU69v+7TW
-	AcH9hqJYd/oyikqQRYQXsnJPiWuPOjh3CA+4us23xSGz75RXZa71hH6u/iW91PuneLCEGrGPVeYjF
-	Bn3b5pHfJp7jrQaj+G70pEyxB8dAigTfoua4Ai7HUrnYUcu4KObCSKe9b30osxjhhneRCPpWO92Cn
-	O4Rh1UOSjSR4UmIxm+OFgE2aMAJ1OB2S9H8sW+3wEkPMOuXV8wYAkKw1l4CZYFB36fQOfDEiUp/ot
-	jM+oTbMY0DK8B6IO3z6eKNMn0WHdQDlM5xsXvj/z2C1ckSQe+wxWpGLSHgqGyjM+gkdAawr8IXntw
-	AnReoUpA==;
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
+	List-Owner; bh=8jqpwl4T8NAec+YKpbFVjez9aIN63QELEDMAzpK5tE4=; b=PIJR/v2ArScwd6
+	wTFZYVaYmAc3O0jccpU42YPK4MlUEzVw0kAS9dsKNLuV5T97BUx95Cv+qn6ta5jwFUEY8RWW9B1oD
+	tqMCLlFdryfhtTSnqEYERXMS9zsKYyg0O04BHV+RR2EZNMkWEFavYGvvwyHg3pGHrRLP9jzaOj6TO
+	OSzbxUDc4Zj4kMQY1NiVAW/eZbhvE0WMZDuE8CUk1DCPcTmwNRhn2vIAmwbH4za332+zuLJVKDkGn
+	uPCL4DOjOmo9ybcRhfQiX9iFPTR+9TbnF+AqF6KJWeQF6G/A/B9cevcQEQJzY1VZhE9zbvZKgCco0
+	N0OTwWhenq1YWP1L+W/Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xPKE3-0000000CTKW-1lgM;
-	Fri, 06 Nov 2026 13:43:27 +0000
-Received: from mail-qt1-x830.google.com ([2607:f8b0:4864:20::830])
+	id 1xPKIb-0000000CTsh-1QnI;
+	Fri, 06 Nov 2026 13:48:09 +0000
+Received: from mail-qv1-xf30.google.com ([2607:f8b0:4864:20::f30])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xPKE0-0000000CTJe-0Oh9
+	id 1xPKIY-0000000CTsH-2ND2
 	for linux-nvme@lists.infradead.org;
-	Fri, 06 Nov 2026 13:43:25 +0000
-Received: by mail-qt1-x830.google.com with SMTP id d75a77b69052e-5365f9a04c5so8649291cf.1
-        for <linux-nvme@lists.infradead.org>; Fri, 06 Nov 2026 05:43:22 -0800 (PST)
+	Fri, 06 Nov 2026 13:48:08 +0000
+Received: by mail-qv1-xf30.google.com with SMTP id 6a1803df08f44-91c76540d0bso6088366d6.0
+        for <linux-nvme@lists.infradead.org>; Fri, 06 Nov 2026 05:48:06 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793972885; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Pj+lbwVkSyr4x5esasrniu2AT0j0A3fFw1+MnZRAvHzTrS4FJnfF3wb5+BAj/1w/8D
+         ZEeuUNklQYXJlqtFkJbndHUc6ub1wT1GT2lwIs3dyO4UiNwGgBWwuvEbELbl05B/Tow5
+         J4LbzGOWDbqqivCj66bMyBw6+DJ4KPpwucr7l3DaF+HgEhxjy2CkMrXenVLsehz2OKUo
+         Wh5Dc8L3L5OcgveSuOU0y0R4B2as3VcXsYRV7JVD023y7BfVts+YDNa+naDHlkP3Xrd8
+         iMm1LcsKpc8kAANMhYTv5VsNVnaHMfxU6nV0iyAoNcU97oMH0VkNfVYxcE9UIX6CTQUd
+         phtg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=8jqpwl4T8NAec+YKpbFVjez9aIN63QELEDMAzpK5tE4=;
+        fh=8E2AfNSMGkslzTllI5UKT3XEvUWNDQmmDW5PlsELWwc=;
+        b=dwIveD2LSMjO/fdVeWLfC5uZSRiQ46pJd9jydb5371alpP5l5fNRybiY3ymQsAqjJD
+         DfnLp3A56fB7OXxIUcRQQfrQ9oIZAgrAa+hEyzxWXigG0Ys0WTXx0qHYqsHdBHM0jiUZ
+         hQEKhk5kIFWNzh0G4x4Idkh+FcTksEv++H79UN0UrAQXnj7lRkU76dohlPuI4f3+TG4z
+         TsWcDPakimqUEA05bxipM6UJIWziRYkAAZQiuz3o/CSaDergh64RviD7BoCqBkq1uD0G
+         nCb5omeBdJpJ5A5NPUjvAQbiaD/ZmOU67BiSBptNxvzp4+DCTzrWQJTNZdccEQFSKtZv
+         DRfw==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793972602; x=1794577402; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qT2iGCtzANHH9hlwoXwHnZX/StQ9bdfI9+nrQG92gYA=;
-        b=xwesgoRydp/MU5mliadG1UkmDaj8vE3ed6D8wSpDL5eZjUSUTOY83H1ysJtYev6/Da
-         U464ZZ1MVLlSFtrNQdbF+gudg0sORFFkJxerMIjGnxvFYUV2FkHd4ZpWGELS8VtwTqWY
-         W4huVXdO17+teLnE3YXgfd6rQWm1fJ4wmjOFQ3ZA0kwCstobtZoh6uo6/E+qI1tfiyIb
-         K5RrCLdLaIUbV38UgGtZk0gjB1pDjI0eeOlS1XQHOeS95wrs9KyC6FYoBJXn86lRZC5+
-         5ZNKo/EMWkuCe2sjx/Z+U17fciKgsT4/U9hCHZntR2l1xyJTdr4tbMgPRoVAFJG/GkTc
-         c7tg==
+        d=stellman-greene-com.20260707.gappssmtp.com; s=20260707; t=1793972885; x=1794577685; darn=lists.infradead.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=8jqpwl4T8NAec+YKpbFVjez9aIN63QELEDMAzpK5tE4=;
+        b=ea/ElQInRnEHpWqaay+JCDNjOF8Hty14U13re9tQaaPlkaWfG1CxTo3vY7fXDY7k3P
+         6ZotcrFArfJbk1K1lfSO3xXIqxAR5B7KDWCl3p27rpEXZXeLVXGpkGUvdSnA3aL84cJn
+         9AzLQWtWJMChSShXMkKb5ctZF3BV880abj3qNWQ0Qrnl2MBYd781aG3VICZT7Y5448kb
+         kxXHGtLwE1wnE3dYISO+cOX1yewOspf4syAAeuqVy2NBsfO3Qh6c44kXjAX3RWvxQaQZ
+         cppD0QHi/TeWpq1rEvThtdlQz4eVmLALknbEHg3BtEw4bHrzaofjr5g4a/xb+xuxhiUv
+         4jGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793972602; x=1794577402;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=qT2iGCtzANHH9hlwoXwHnZX/StQ9bdfI9+nrQG92gYA=;
-        b=lNjoV2mEZGs39j+lgVzaU8mypODe8MJr6QB4Jq/XYVLGuMVJIwNf3/51RAJZMuC2ej
-         mn33eXFXvoBE5Zqv+Dmomv5pGI8rtM9WL4lHM4Sv77h7XEkib2wPifLToQ+XlIzWhsw4
-         L0E8UCbq5gw/hK5pZdikFVeQUL+TF+XyW07Fdv4kIQ+Oh3cJ0rSmT0gVTThytQo5h3Yr
-         SwUsIuNbbn+C+ddXEL8VO6KrSDNjLshE3M8njISbKVHhLhgupqJIi8tmKd3Gs/pkBjI+
-         81XDDSvQpIxUd4begDtjiPFh8Qy8Fouw755gOE16o8mcWq3HldoVXfUg+zkyrw0R4Hqj
-         574g==
-X-Forwarded-Encrypted: i=1; AKwUvBz5Aip8YghxS3sYKQcUP0kPbQyrK+86OCzWKVF4gRpCSkVoRED5kQAfJJzQCfuWhSEszBz84hH5pVCP@lists.infradead.org
-X-Gm-Message-State: APuU4Z+Fz9cl/ClzkQNcVl3p7iTbHMdm8xr1KZwQ3o3GzCbp6+pRGMAw
-	D3C0OZp74QiqPF2SLOsXyINOtJIpvQ27rGaqc2LwLG+WTenheRht4X/l
-X-Gm-Gg: AYBFou32vxeiVyu5MwNbXtXliabXwOIbSv6B4lLMCAK5s/rbaDA+A3Tzoh5Sfo44crT
-	OTsoabBe+DAs3F6UhxZB4DIoKGfsrbO2Tl3KHBLhlpatzS3Zf197SOvsa7HbUBjfYBuKfxovzaJ
-	qfpMLB15sGZIkJK51KsQgyjhX58OOCeKSQBQQOOIManULGgYVnoxbJDzGVedGLExChbt18SSIxE
-	W/kLzPZty0C1I8XATh3j48WSZj8SeAguXhmxShHi7w0DWn7fD2/rVH1/21oErQz2uCnTUP/hPil
-	sc4g+jR15uvneYqUTT+ztPw3G6TJok0FCKa1a2GR3GsRNQkEruA0NmpKVGeVn1ZVyOUV43itF2Q
-	RJxhJFP5p7KNxZf4jowywn81oQNJNQ9ybGOixW0Yu1eCUd6aL5axXBy+xueyXVrj8EHcphN3Mut
-	PeZV1krPVJt0YxvnXEWQ3fro639a0rANrANZ18WkAqBrBtiaVsRhRDnf18o5sayfgl4aiktxGFL
-	/FCcV+BmnZI09vyaav1CkJf/DjTgMnDkw9VRSlD3AVuEvOr/PH+UDA/Kwti+MSplm+512CW9jKf
-	mGWg11gft1h5tUNpWAqo54+wVBAauYbGOkkKrDGCMOV5uQ9ySVhpyZhW1LB6wVF4lMzWOwSweBa
-	nl2PAXK5NMkonKxk1p2yl/tB1zLICdZqIUjN98FfitqeGKwZSlttesqK2mLHk1m0G0pqxg8DQyc
-	2w9pmTzvsDqLVY9pNpeLV5kID8wKI=
-X-Received: by 2002:a05:622a:408d:b0:536:93e0:4b46 with SMTP id d75a77b69052e-54e13881a4dmr40064431cf.25.1793972601788;
-        Fri, 06 Nov 2026 05:43:21 -0800 (PST)
-Received: from Mac.mynetworksettings.com ([2600:4041:5c28:200:3d5f:800f:1837:ce61])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91ea6a887c0sm20792636d6.29.2026.11.06.05.43.20
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 06 Nov 2026 05:43:20 -0800 (PST)
-From: Andrew Stellman <astellman@stellman-greene.com>
-To: Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	linux-nvme@lists.infradead.org
-Cc: Keith Busch <kbusch@kernel.org>,
-	Yuehong Wu <wuyuehong@cmss.chinamobile.com>,
-	Nitesh Shetty <nj.shetty@samsung.com>,
-	linux-kernel@vger.kernel.org,
-	Andrew Stellman <astellman@stellman-greene.com>
-Subject: [PATCH v2] nvmet: accept ANA group ID NVMET_MAX_ANAGRPS in configfs
-Date: Fri,  6 Nov 2026 08:43:13 -0500
-Message-ID: <20261106134313.34829-1-astellman@stellman-greene.com>
-X-Mailer: git-send-email 2.53.0
+        d=1e100.net; s=20260707; t=1793972885; x=1794577685;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=8jqpwl4T8NAec+YKpbFVjez9aIN63QELEDMAzpK5tE4=;
+        b=N21nfxTO+FdnePCa6rYRi18w/eEf3nM0FyuGPEnpnxahPczz6tSQONFh3dOlqbJm4H
+         A8jz1MjR3L/jdasgn68UvvcEyRzaiDCvahLUZc5l7fK7rW9EBBbbE5NEVEx0TmuWecUv
+         GYKBrmQK+JwPxH75W1Benv2a/y6bYdxkNQp+upWCpyRI/t2ZriNJ/nzW1rSxV7XK/zTj
+         e/rvMszHzselo3FYp14fXxBGTcbPwraFJyAbUdF1K76+KxbEO1ToYHXcqVFdLTR5sWoa
+         +AUnhhWj5hK1qyFXfXXuYNBgwotebEt5zl868EUAesHYpAI6f195GJ+tAwSoJoqLs3aG
+         Pl0A==
+X-Gm-Message-State: APuU4Z8+jw/m1876UzdMziA6EQzLmO8kPwdNe+xZFf6FRbAFk1hH7oZs
+	0bdk3EJRYZcmfyFY8CTFa1171d9i5xHQjkCK2Pdo5hmImR1NiSKdudHGunSd++wYZeDw8vh9U61
+	7LKkJpDheANjW//jQZcOEDpAhxsy4ojc=
+X-Gm-Gg: AYBFou3q4hED3+Ry+ERuNVgJUB2tj6RxDnhR5C8Ehfgdrvjj1NsUOL/UqAHOyMLBP1T
+	12OZ3FrBnUoPlLihtlRwgLHA6yXfKsdnWxRf7A1NfuB/xcHZmLhKQxOeRYxInZk3R/dSTvanjlI
+	5WeNN/JqUimQVORhbbu+n8ZMjTCR0XW37fDoeBVQjJam4L7PPImvV46ACkIRbzGPL7pIY4/e23k
+	lb8vhf+NbVQWEnjxuuGvA5NyHJDBJfoci+PoneTJNqhH2Rm6t/LZ4+pj98DLoTfelRMculeQprT
+	BiEFK7LNHgGxx7evmClEzVLjmRfQzpmKfqVvegft9liaRAMR5OSbTRPPOLetL2v9iZo0lm0HyJe
+	CM8fmZdrzr82WleDQCIesqIeiFL1YVLCbzkjax7dusUnqaz2Um/KRGHid548gVGx5e0hNdYzMvi
+	2Ss0IgBdL3NMDeUr/fyN7rTicKOAz1ddr0xvOeP/wzrMJJc6eqOOlJNBJLZPELJoGBrrCsAb6u3
+	3IY1TIp2LJ6h9CC
+X-Received: by 2002:a05:6214:2b83:b0:91e:a43b:26cd with SMTP id
+ 6a1803df08f44-91ea95a3fd1mr33712806d6.16.1793972885126; Fri, 06 Nov 2026
+ 05:48:05 -0800 (PST)
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261106-nvmet-ana-grpid-1-yuehongwu@cmss.chinamobile.com> <20261106-nvmet-ana-grpid-followup-1-yuehongwu@cmss.chinamobile.com>
+In-Reply-To: <20261106-nvmet-ana-grpid-followup-1-yuehongwu@cmss.chinamobile.com>
+From: Andrew Stellman <astellman@stellman-greene.com>
+Date: Fri, 6 Nov 2026 08:47:54 -0500
+X-Gm-Features: AclHuK-hfRPakEFQNMVr9rih3D0VIh32QLrrqCOq2352-Ya5dBeXDTdZ4o2gQfk
+Message-ID: <CAChPuV9c4VubdZO461MjVb2xb_Fj2+SYJcDc7wOvStdvYSU1NA@mail.gmail.com>
+Subject: Re: [PATCH] nvmet: clamp the last ANA group index against the real
+ array size
+To: Yuehong Wu <wuyuehong@cmss.chinamobile.com>
+Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>, 
+	Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, Keith Busch <kbusch@kernel.org>, 
+	Maurizio Lombardi <mlombard@redhat.com>, Mohamed Khalfella <mkhalfella@purestorage.com>, 
+	Nitesh Shetty <nj.shetty@samsung.com>, Hannes Reinecke <hare@suse.de>, 
+	Randy Dunlap <rdunlap@infradead.org>, Aurelien Aptel <aaptel@nvidia.com>, 
+	Nilay Shroff <nilay@linux.ibm.com>, Jesse Taube <jtaubepe@redhat.com>, 
+	Rongzheng Wang <testwrzwrz@gmail.com>, Kees Cook <kees@kernel.org>, Rosen Penev <rosenp@gmail.com>, 
+	Guixin Liu <kanie@linux.alibaba.com>, Qing Zhang <diasyzhang@tencent.com>, 
+	Eric Biggers <ebiggers@kernel.org>, Julian Sun <sunjunchao@bytedance.com>, 
+	Yu Zhang <yuz08559@gmail.com>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261106_054324_150511_6945C3EB 
-X-CRM114-Status: GOOD (  17.85  )
-X-Spam-Score: -1.7 (-)
+X-CRM114-CacheID: sfid-20261106_054806_869022_BC69FDA1 
+X-CRM114-Status: GOOD (  21.15  )
+X-Spam-Score: -1.6 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,106 +127,51 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-21.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-nvmet_ns_ana_grpid_store() accepts an ANA group ID in the range
-1..NVMET_MAX_ANAGRPS, and nvmet_ana_groups_make_group() accepts
-2..NVMET_MAX_ANAGRPS (group 1 is the default group).  Both then pass the
-ID through array_index_nospec() with NVMET_MAX_ANAGRPS as the size.
-That helper treats the size as an exclusive upper bound, so the maximum
-valid ID, 128, is rewritten to 0.
+Thanks, Yuehong. I=E2=80=99ve sent a v2 of my original that answers Sagi=E2=
+=80=99s
+question and links to your testing:
+https://lore.kernel.org/r/20261106134313.34829-1-astellman@stellman-greene.=
+com
 
-nvmet_ana_group_enabled[] is NVMET_MAX_ANAGRPS + 1 entries wide, so
-index 128 is a valid slot, and the controller advertises ANAGRPMAX =
-NVMET_MAX_ANAGRPS.  NVMe Base Specification 2.4, section 8.1.1
-(Asymmetric Namespace Access Reporting), "ANA Groups", defines a valid
-ANA Group Identifier as "a non-zero value that is less than or equal to
-ANAGRPMAX".
 
-There are two visible effects.  Writing 128 to a namespace's ana_grpid
-succeeds but the namespace lands in the reserved group 0, which Identify
-Namespace then reports.  Creating and removing ports/N/ana_groups/128
-increments slot 0 on create but decrements slot 128 on release, leaving
-nvmet_ana_group_enabled[128] at 0xffffffff, so every subsequent ANA log
-page reports a group 128 with no namespaces in the Inaccessible state.
 
-Use NVMET_MAX_ANAGRPS + 1 as the array_index_nospec() bound at both
-sites, matching the array's actual size.  A namespace assigned to group
-128 now follows the same path as any other group: its ANA state is
-Inaccessible until ports/N/ana_groups/128 is created and configured,
-where before it was placed in group 0, whose ana_state entry is never
-set.  That entry stays 0, which isn't a valid ANA state, so
-nvmet_check_ana_state() let I/O through.
-
-Tested on v7.3-rc1 with and without this patch, in an arm64 QEMU guest
-with nvmet over NVMe/TCP to 127.0.0.1.  Before: ana_grpid written as 128
-reads back 0, and the ANA log after mkdir+rmdir of ana_groups/128 lists
-group 128 with nnsids 0, state inaccessible.  After: ana_grpid reads
-back 128 and the ANA log lists only group 1.
-
-The issue was found by Claude Opus 5 running Quality Playbook, an
-LLM-driven code review tool:
-https://github.com/andrewstellman/quality-playbook
-The fix and this changelog were drafted with the same tool and reviewed
-by me.
-
-Fixes: 20dc66f2d76b ("nvme: prevent potential spectre v1 gadget")
-Signed-off-by: Andrew Stellman <astellman@stellman-greene.com>
----
-v2:
-- Rebased onto next-20261105.  No code change from v1.  On this tree
-  it's only build-tested (nvmet as a module, W=1, no new warnings); the
-  runtime testing in the changelog was done on v1.
-- Changelog: noted that ana_groups/ accepts 2..NVMET_MAX_ANAGRPS, named
-  what the tool drafted, and dropped the Assisted-by: trailer, which
-  checkpatch now warns is a non-standard signature.
-- Sagi asked on v1 whether this had been tested, and I didn't answer at
-  the time, sorry.  Yes: the test described in the changelog was run on
-  v7.3-rc1 in an arm64 QEMU guest over NVMe/TCP, with two kernels built
-  from the same tree that differ only in these two lines.
-- Yuehong Wu sent the same fix on next-20261027 and tested it over
-  nvme-loop with the same results:
-  https://lore.kernel.org/linux-nvme/?q=s%3A%22clamp+the+last+ANA+group+index+against+the+real+array+size%22
-  He said he has no objection to the original being taken instead.
-  Thanks, Yuehong.  If you're happy to reply with a Tested-by, it can be
-  picked up when this is applied.
-
-v1: https://lore.kernel.org/linux-nvme/20260910154849.66095-1-astellman@stellman-greene.com/
-
- drivers/nvme/target/configfs.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index b3a5242d0..85dda0ca7 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -709,7 +709,7 @@ static ssize_t nvmet_ns_ana_grpid_store(struct config_item *item,
- 
- 	down_write(&nvmet_ana_sem);
- 	oldgrpid = ns->anagrpid;
--	newgrpid = array_index_nospec(newgrpid, NVMET_MAX_ANAGRPS);
-+	newgrpid = array_index_nospec(newgrpid, NVMET_MAX_ANAGRPS + 1);
- 	nvmet_ana_group_enabled[newgrpid]++;
- 	ns->anagrpid = newgrpid;
- 	nvmet_ana_group_enabled[oldgrpid]--;
-@@ -2084,7 +2084,7 @@ static struct config_group *nvmet_ana_groups_make_group(
- 	grp->grpid = grpid;
- 
- 	down_write(&nvmet_ana_sem);
--	grpid = array_index_nospec(grpid, NVMET_MAX_ANAGRPS);
-+	grpid = array_index_nospec(grpid, NVMET_MAX_ANAGRPS + 1);
- 	nvmet_ana_group_enabled[grpid]++;
- 	up_write(&nvmet_ana_sem);
- 
-
-base-commit: ddfe51b0a0f5dc9e415cc2c8ad8db17532dd426b
--- 
-2.43.0
-
+On Fri, Nov 6, 2026 at 2:04=E2=80=AFAM Yuehong Wu
+<wuyuehong@cmss.chinamobile.com> wrote:
+>
+> I missed that this was already reported: Andrew posted the same two-line
+> change on 2026-09-10
+>
+>   https://lore.kernel.org/linux-nvme/20260910154849.66095-1-astellman@ste=
+llman-greene.com/
+>
+> and Sagi asked in that thread whether it had been tested.  That patch
+> reasons the same way, and it also cites the spec wording for a valid ANA
+> group identifier (non-zero and <=3D ANAGRPMAX), which mine should have
+> quoted as well.
+>
+> What I can add is the evidence that was asked for.  On
+> 7.3.0-next-20261027, with two kernels built from the same tree that
+> differ only in these two lines and no instrumentation, the nvme-loop
+> transport shows: a group created as ports/1/ana_groups/128 is
+> absent from the ANA log page before the patch (ngrps=3D1) and present
+> after it (ngrps=3D2); 128 written to a namespace ana_grpid reads back as =
+0
+> before the patch and as 128 after it, with the namespace accounted to
+> group 128; and removing the group again adds a phantom group 128 (state
+> inaccessible, 0 namespaces) to the ANA log page only in the unpatched
+> kernel.  The exact steps are in the --- section of my patch.
+>
+> Andrew's patch is against a September tree and no longer applies, which
+> is why I sent a rebased version.  If you would rather take his original,
+> I have no objection.
+>
+>
+>
 
