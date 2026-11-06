@@ -2,41 +2,41 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E06DE606A326
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2026 02:27:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A0FC606A31B
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2026 02:27:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=yD30Hvap;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=OdCxdmju
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=ebm+gT1Z;
+	dkim=pass (1024-bit key, unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=fyRNq49r
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=GKMUjWiDTv0VGUEkn6M0uyZNDb9dzlNbnqpGQk5hjg8=; b=yD30HvaplIj8F/
-	TsCXqQHpGdqAeFQMvMYsOJt4TPfxn0rmg+5qoNWqdsVeJBALtVu2Puoaup+y/YQYmVnidjNJqZOGj
-	f1qYEG2RsFutl8dRGyCvoTioH16bSMfeidVdSICLP5RcNEPJrgK1HLPvIhywAzXtC3NxCQz9eIP9j
-	veh7FP18knhU6asy3lCtKQ13U7KBxSYzuPAqyPTw24X50/kJ7DTkWmTeBRDyeXtASrWc4pcAj629r
-	3ZRddeRn1+C0lnLwFFUvsOV7GrrkQuhdXAvwo1H5Euabqnu8uqTK5B/aWEpJ44NwKTFDDtBKBbzcm
-	Kr6kveNPDKugrAoFmMtw==;
+	List-Owner; bh=R38wR8CDz3j/Q9CrYxyDDPo0PiiNIwi0sXO1kaYVmCI=; b=ebm+gT1ZR0QQho
+	9f2hImCYM0oqJ40eTVXHcrzyUQGB0KJCb6CmWMiosvCOUv0sW2MJhZfdQsHOJ55AFDyr4pweHU4OH
+	JGD1lgAhTg9dmAPuCqZkNujkKPSC0yPTgDBMzI39hpvFZhaZoI2s6lsVOeAmBEMV9KjjKtYbhWB1S
+	vZreDFqY+4sKZiyBk0pdfDizZFmwfisinsejEuy9MiQi43RL1M7T3xgot+oGI0bXAcBSXwStTGMAN
+	5bjg+AoFknf4ha/ipXJot7kSO4IT1Z+2qqWMxn21jpx3r+TOBmRSiz5wokX8yJGOOM9zsnbA9VvRn
+	LxKBQG+PqI/YpKmUooNQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xP9gI-0000000B43u-2Q03;
-	Fri, 06 Nov 2026 02:27:54 +0000
-Received: from out30-99.freemail.mail.aliyun.com ([115.124.30.99])
+	id 1xP9gJ-0000000B46o-3jXS;
+	Fri, 06 Nov 2026 02:27:55 +0000
+Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xP9gF-0000000B3wt-0Fpy
+	id 1xP9gG-0000000B3xO-1iAf
 	for linux-nvme@lists.infradead.org;
-	Fri, 06 Nov 2026 02:27:52 +0000
+	Fri, 06 Nov 2026 02:27:53 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1793932069; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=GKMUjWiDTv0VGUEkn6M0uyZNDb9dzlNbnqpGQk5hjg8=;
-	b=OdCxdmjun2e+4UfBLPT8zvPY2YgIW2KcgjDspSJGp9FMN10rHeRHpyhqVWugGelB8u+NkWjjx3bUIOm3nThrvLTORpc0iDDKnZtfGXMGbnKGy/FLZBHDUAmTX9cqgER32ssfY/OZRn+E+Ga/ozjcgU8d3qOoG/JFRSkUfI5MPK8=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XEA90ET_1793932068;
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XEA90ET_1793932068 cluster:ay36)
+	t=1793932070; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=R38wR8CDz3j/Q9CrYxyDDPo0PiiNIwi0sXO1kaYVmCI=;
+	b=fyRNq49rJUiODNcvQXJSlpB61kY/x+cyZH4ssC0BOUW01EepZOAD49qXigjDcqxfNmIV/dWALA70+T7JgQ/alZbG0LX18Szb3+q3YUnCDwyQkH0qOP7i9p6aEtphib7d4jY68X2SLb7l0+zAwGonXj5zxUOaKTXrJGJQjINWYAY=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R301e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XEA2Nv8_1793932069;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XEA2Nv8_1793932069 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Fri, 06 Nov 2026 10:27:48 +0800
+          Fri, 06 Nov 2026 10:27:49 +0800
 From: Guixin Liu <kanie@linux.alibaba.com>
 To: Keith Busch <kbusch@kernel.org>,
 	Jens Axboe <axboe@kernel.dk>,
@@ -46,9 +46,9 @@ To: Keith Busch <kbusch@kernel.org>,
 	Daniel Wagner <dwagner@suse.de>,
 	Hannes Reinecke <hare@suse.de>
 Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH v2 8/9] nvmet: passthru: remove unreachable break statements
-Date: Fri,  6 Nov 2026 10:27:35 +0800
-Message-ID: <20261106022736.3582824-9-kanie@linux.alibaba.com>
+Subject: [PATCH v2 9/9] nvmet-pci-epf: don't drain the never-populated SQ list
+Date: Fri,  6 Nov 2026 10:27:36 +0800
+Message-ID: <20261106022736.3582824-10-kanie@linux.alibaba.com>
 X-Mailer: git-send-email 2.43.7
 In-Reply-To: <20261106022736.3582824-1-kanie@linux.alibaba.com>
 References: <20261106022736.3582824-1-kanie@linux.alibaba.com>
@@ -56,8 +56,8 @@ X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261105_182751_272891_0591DF3B 
-X-CRM114-Status: UNSURE (   8.71  )
+X-CRM114-CacheID: sfid-20261105_182752_625783_9964D4EA 
+X-CRM114-Status: UNSURE (   9.79  )
 X-CRM114-Notice: Please train this message.
 X-Spam-Score: -17.6 (-----------------)
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -79,36 +79,29 @@ X-Spam-Status: No, score=-26.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-In the nvme_admin_set_features and nvme_admin_get_features handlers of
-nvmet_passthru_parse_cmd(), every path of the inner switch over the
-feature id returns, so the break statement following the switch can
-never be reached. Remove them.
+nvmet_pci_epf_delete_sq() calls nvmet_pci_epf_drain_queue() on the
+submission queue, but IOD links are only ever added to the completion
+queue list, so the SQ list is always empty and the call is a no-op.
+Remove it.
 
 Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
 ---
- drivers/nvme/target/passthru.c | 2 --
+ drivers/nvme/target/pci-epf.c | 2 --
  1 file changed, 2 deletions(-)
 
-diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
-index 6b67880c7bb2..32ae4b6b59bf 100644
---- a/drivers/nvme/target/passthru.c
-+++ b/drivers/nvme/target/passthru.c
-@@ -550,7 +550,6 @@ u16 nvmet_parse_passthru_admin_cmd(struct nvmet_req *req)
- 		default:
- 			return nvmet_passthru_get_set_features(req);
- 		}
--		break;
- 	case nvme_admin_get_features:
- 		switch (le32_to_cpu(req->cmd->features.fid)) {
- 		case NVME_FEAT_ASYNC_EVENT:
-@@ -564,7 +563,6 @@ u16 nvmet_parse_passthru_admin_cmd(struct nvmet_req *req)
- 		default:
- 			return nvmet_passthru_get_set_features(req);
- 		}
--		break;
- 	case nvme_admin_identify:
- 		switch (req->cmd->identify.cns) {
- 		case NVME_ID_CNS_CS_CTRL:
+diff --git a/drivers/nvme/target/pci-epf.c b/drivers/nvme/target/pci-epf.c
+index a8df176c1a57..e5781e538a4a 100644
+--- a/drivers/nvme/target/pci-epf.c
++++ b/drivers/nvme/target/pci-epf.c
+@@ -1432,8 +1432,6 @@ static u16 nvmet_pci_epf_delete_sq(struct nvmet_ctrl *tctrl, u16 sqid)
+ 	destroy_workqueue(sq->iod_wq);
+ 	sq->iod_wq = NULL;
+ 
+-	nvmet_pci_epf_drain_queue(sq);
+-
+ 	if (sq->nvme_sq.ctrl)
+ 		nvmet_sq_destroy(&sq->nvme_sq);
+ 
 -- 
 2.43.7
 
