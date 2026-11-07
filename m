@@ -2,98 +2,95 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD8B9606A32C
-	for <linux-nvme@archiver.kernel.org>; Sat,  7 Nov 2026 09:54:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47A71606A32D
+	for <linux-nvme@archiver.kernel.org>; Sat,  7 Nov 2026 09:54:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=CkHZkaU/;
-	dkim=pass (2048-bit key) header.d=crusoe.ai header.i=@crusoe.ai header.a=rsa-sha256 header.s=google header.b=g+uCwOxz
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=0+pNyxKG;
+	dkim=pass (2048-bit key) header.d=crusoe.ai header.i=@crusoe.ai header.a=rsa-sha256 header.s=google header.b=T6DRYxD1
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=6unXmLTVj63gMaJt+DomEkh1Cx4zZ4gKd/LFAI0Dsr0=; b=CkHZkaU/aPopMX
-	TZWNQjU5sE4x6LcGOej81LOYERCS8cQFM1aufrCzB3Xiu9nsMu9MnZmYdMSIUtbbw3nW/DYkOyjBR
-	5Bz+vUpagBxo68nPNfpTwmiGsn2YfVhBI6iS3YdKxoBKI9t0vt4UeUeR0qGAVTgkEjmS+5+6s/9Lj
-	jCYm4Ff1Nu/lFvaxbBme8XilhmCj422INchWwcdPnpuccgNEptdVSIOrYiP6g7cd8tEYMkm5pStcJ
-	eVtJ+EM2/5RnXfdBsa4kNS/TrBIGXqEA423UVWjDIJgzu5lfpWgjpznScUYKiHdc4CRpqqeC8vojG
-	75rSNe5p4a1tzOz4VX8A==;
+	List-Owner; bh=Ugr++g63dOTUo7x25BdGTGymn/sa1cS2lNnytoYqYMM=; b=0+pNyxKGmglGR8
+	r0inSVUPzxvOhqJYx5lC8CUYJew3t/jVmwd1vj1TXlD7Gma6KS8NnLt9TwVJ3KM4J3i3oUF/+hW8b
+	be29PT+5XY5BJDV9TE7RkpoU/JzeXqJ2rzoIRhSN+Jx7VSU4b6CgoOq9BeUE9rwGeiMJV6397HpgP
+	p3s36rjqWyhM3gANbvLfMhYTSgSLUOm09Ld2XSKAFVfskeAek/HJKefsi4DEhq9knRGNi3QegsCr1
+	ghdZ9MlPBJ3tOoUsDP+l2oSpD/jCTJITtVoT7UiVtnRcsxBKEFEglgzitRV25Oey/kY+h2oqTcmQ8
+	FJ12sCr5T+ai/ZB5utFQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xPd7X-0000000ERQm-2mJ9;
-	Sat, 07 Nov 2026 09:53:59 +0000
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+	id 1xPd7b-0000000ERSa-4A1S;
+	Sat, 07 Nov 2026 09:54:03 +0000
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xPd7P-0000000EROx-1efZ
+	id 1xPd7Z-0000000ERRA-1WEA
 	for linux-nvme@lists.infradead.org;
-	Sat, 07 Nov 2026 09:53:52 +0000
-Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-4b7252a32c8so12281295e9.0
-        for <linux-nvme@lists.infradead.org>; Sat, 07 Nov 2026 01:53:50 -0800 (PST)
+	Sat, 07 Nov 2026 09:54:02 +0000
+Received: by mail-wm1-x334.google.com with SMTP id 5b1f17b1804b1-4a5036bbac7so8797535e9.3
+        for <linux-nvme@lists.infradead.org>; Sat, 07 Nov 2026 01:54:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=crusoe.ai; s=google; t=1794045229; x=1794650029; darn=lists.infradead.org;
+        d=crusoe.ai; s=google; t=1794045239; x=1794650039; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=6unXmLTVj63gMaJt+DomEkh1Cx4zZ4gKd/LFAI0Dsr0=;
-        b=g+uCwOxzcM4gNYJUTmY/qRecRHdunmiBLR7c8p6GrgG9hcvciskXPlFMDKRj39tRxO
-         /Yb95VOnc3XGscVeSfSyu8MIgEQrBaVpSTBENbzn+A+LahhkZ8aRJsewziSfa/1NIcmM
-         1MH2Yh/PJQmB7lUZrHoe1GFfhCHwaArFFcX3TjHoQq0POeAo26kN0fnIBSLC5bL0NoNu
-         QBBhtFtqSLqBjWlzCkU+Aiwlmn1XPQsDbu4sSFTiXSIWoS6WYC8VaYWfErUmvjhPWwqn
-         M41+LmhXH7ym73RJ1b8EPnwSsc1dDA+pVELaa/us+9dl+qm0XDrXARZj0zveSE7NiAFk
-         wL9w==
+        bh=Ugr++g63dOTUo7x25BdGTGymn/sa1cS2lNnytoYqYMM=;
+        b=T6DRYxD1OkcULsKg9cgB0qa1EGqfGGvSN7YvvpwtQ4PSbyooldC58YtVr0qAVwn2fw
+         lFBGNtyvSz35StD7Ta2Z3C+uZt6nUf6trUhf8iGGPpST1eoM8VWISE3syOhZ3VQZDG0B
+         T2H77kJaa6SYNk3ut/5lF2a5Vk37bvwIC0dVadEFd+rpv4QDtTFKFBJ1Ay4q96pjq15w
+         9GInLHCmgJImqZ37JS4em5JYKefh6S2+QbX8kCAvuLPkffHjKvaEweTnqlT8zk+plNog
+         lW4WsdfA/OSN5c/vhh7Z9OrT8aiQKhiZXw5Wa/5PrAIehg3AGgBdjZhLJquM70VUTc4P
+         z2dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794045229; x=1794650029;
+        d=1e100.net; s=20260707; t=1794045239; x=1794650039;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=6unXmLTVj63gMaJt+DomEkh1Cx4zZ4gKd/LFAI0Dsr0=;
-        b=W78+5n/wah3zThY8lz0zK72yyXmVyEaXEvebMfKWayCwIr/y+yQQhk16X9CwJ6rWH1
-         AbAQR4erkvTK2gE7LhZqkLulOAFxzuLhsfMjZp8DrZbsyQkLQ1Q93TT+L2W0hanT0hEz
-         3d+r3NTmK6RKZ4eqYEpiKLh76OYjROPzr2pLVnaGUOfFtjl46FZIbPkvWcQOxDNouo0O
-         Pae3TnDgIOVwL9PO18xQWs8139J1zVft/ABkAU35tuQm3waiTfuwD8RceTM4R21O7yeh
-         QdZtZiSA/uU6kc5mDlSzUHyEzEF0sbB7xO1IqDFPtdrzaUS6yEpf1hJTA/d5ay9uaSRQ
-         b2iQ==
-X-Gm-Message-State: APuU4Z8sRu/RMURuvz+x5/TgVDyreGy4z2E2MICVob2piiVoVqeLeCIV
-	dhwoRZiMtjPAt5ANrdHpqmHllfaSxuIqbyW6eJniGkpW3867rt68PFzIOgI2ER38GbfmI3hMZdH
-	WikGYuRDqYg==
-X-Gm-Gg: AYBFou0od4v+DL5I5w2IQT/+u8wzzpjrDMCxQ9wtL+OK0v05oSPbHfcCmVVCLD8f8j0
-	/4s0vjHP+F/j7I0xm8jJYwG4kCu0g0k/HYhK4FGnO8dGOJHBEAqioGWhoJgKROmJKefV/4emf2j
-	iEtl6HLXO2cuh5S4ZjugTh4h+3fPfxwR2jmvUiiRkTkH3oEQ/t0J/l80ra709SU9JlhX7Bi0KfB
-	hsAtg89hcSuF8ReJ7HNyLvdVrKKP3Bid5OHPt77xK8R83jyIz32aCuc7sNXJhR/fTxswqm3LCc5
-	8y591iUQ7dhnXmaeS7KH4JyGhA22YAy9Qsg4ieH/Re2m5+jCnnwtRXfWeNLOHwA/3gRsglAPoKf
-	w9azLSB/LQ5bwhUAYMB8B79dfHIfN2YynWnT4eChW52xw0xU0oVi+qza+jIQz3PZ+PXFCwZ3z6f
-	MNQBBnkQgFgXFw7NNl1jbiUPXWxHeVIxWJlUlqwJRPSZe6s+rET+DkH79Zajc0DQ+Us4EQt4FV8
-	jxtRcN+AUOWF6ak859nDFILPhUIb+raeK2jEWIQdIhymXz2t/0yYYDJF+X2IqBpLyXZD6DJ2xNI
-	LAPev/9tXz+OEOmFnaifp9R6+oUFRoZ4NflrGHmyNMYRU6ZdL6tom2D8RrYxtSX5p6GELFKoVA=
+        bh=Ugr++g63dOTUo7x25BdGTGymn/sa1cS2lNnytoYqYMM=;
+        b=Jc7uf4L2EDpvSlZhRLn9gDzOZv3HIO+Dxx/cZLVFBGryob4hj6EKh8AHvY3yMBc161
+         9yAcG1xCNJDfnIid6qebHYTNHB7AKsde2nCgpcpEjd1+D3jGM+VQXCpjTY7rSTvsPVZZ
+         +86D8C4RLfbuxCv+jtNNxs5RQhpuEkwaQxDGAUD83k2tBl6kc012rWamWf9LbwkMTNoA
+         aDCqwQA8IOLHWSNKeFudmsfRj7mG/1B0ZKJ0KyoP7+dXN+bapfgSN6jSDcsVW5BxO3w9
+         2EPpjRT+m6cyHnVh2mT73nlw0SmZixHd0sGrKTHPDxCgruJeEkDY1PX8oMrU0CY+GQPc
+         KZrA==
+X-Forwarded-Encrypted: i=1; AKwUvBwPag8Tb6m1LyGXYU2HN3R9vYR+562Vb7bh3yrEXcfW7J5ZvNeGa1/wrajtmpMB724KKqPhKyRzpjvy@lists.infradead.org
+X-Gm-Message-State: APuU4Z9vgGClO5YYnuP4cOtpkz+axBw+EWSQWNjSYHNrVlaw8wqYRNNo
+	XZg3MzeTSpWYXYikm+KmwiTaWMms9RwZOw1i46S0YPEObo2I61UVZsznTdewvypvxfs=
+X-Gm-Gg: AYBFou3hcsqiHjKY8QER8AYdTBsEOmwLyLHXWjIlsxO/S2lHTmApYsQRE6CCRWM94r6
+	sAnWZ3GOD7awxGIeMfQq9OSEfY/x/mT8iYy1S9QEzukSys9GWjpt4hNVnyMAZ3rdax0dgQ9dPVx
+	puLalmlgXM5e+qcJiq0tM+fPHGMGVai1A0rq/CiFHzA+djRbcBtaH9PFXbS1MqdD4+ut6ubFKTN
+	7kRKd4kssmXwbHcFqx7whl5538xHXpAx7Bmi3GklWrieY0ec710WqBBpNO11NP2NfxzgHz9xM0W
+	yS4gByTMddXMnS674t/ki8BzonR/TEueEIpVj+c9gcbhdzuCF0F7u2GLhIDgsIA/jR0sU5+RbLM
+	W9z3RjxwTkMii721nSlMUd7TZUlRfnsnGS+Obnj0I3QYifHpTECQ7y5imH5jwLzmCzqxu5ePgGx
+	/hGnMwg2tuzSnB/iSQEbPDNMrXXaoGreda+n6YyRXvvDGaMtV+yX4xIBEQqztqBcuoRkfljqFBJ
+	KDru/IrQlzOwQM6ooA0jjrsxnPVSoC4TDMJyKqJO4kkeMO84H3wL5Eeunwv8IPTfFjpARNTkE8B
+	dE5rHcCVBAuFblw9+USOUyw/2qP6GHmSOMJ0WWC7+NnF/zE9n4koW3mOwF7gfyjvfCzyIC2prw=
 	=
-X-Received: by 2002:a05:600c:4e05:b0:4a2:c2b:a91b with SMTP id 5b1f17b1804b1-4b6de973c54mr78810225e9.10.1794045229548;
-        Sat, 07 Nov 2026 01:53:49 -0800 (PST)
+X-Received: by 2002:a05:600c:4454:b0:4a0:1b21:2628 with SMTP id 5b1f17b1804b1-4b6dfba8640mr90223975e9.23.1794045239588;
+        Sat, 07 Nov 2026 01:53:59 -0800 (PST)
 Received: from MBP-Saravanan-D.civet-hops.ts.net ([185.57.101.252])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b8af10dd35sm37607545e9.4.2026.11.07.01.53.48
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b7da62edb4sm69546605e9.1.2026.11.07.01.53.58
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 07 Nov 2026 01:53:49 -0800 (PST)
+        Sat, 07 Nov 2026 01:53:59 -0800 (PST)
 From: Saravanan D <saravanand@crusoe.ai>
-To: linux-nvme@lists.infradead.org
-Cc: kbusch@kernel.org,
-	hch@lst.de,
-	sagi@grimberg.me,
-	axboe@kernel.dk,
-	nilay@linux.ibm.com,
+To: linux-block@vger.kernel.org
+Cc: shinichiro.kawasaki@wdc.com,
+	linux-nvme@lists.infradead.org,
 	dwagner@suse.de,
-	sgogte@purestorage.com,
-	hare@kernel.org,
 	hare@suse.de,
-	linux-kernel@vger.kernel.org,
+	nilay@linux.ibm.com,
+	sagi@grimberg.me,
+	kbusch@kernel.org,
 	iyamahata@crusoe.ai,
 	kiyer@crusoe.ai,
 	ganbalagane@crusoe.ai,
 	sjpark@crusoe.ai,
 	bchen@crusoe.ai,
 	Saravanan D <saravanand@crusoe.ai>
-Subject: [PATCH v8 1/2] nvme: add per-queue sysfs directories
-Date: Sat,  7 Nov 2026 09:53:36 +0000
-Message-ID: <ce12f1742ea7f8699d85666e4d9d8a2a9d77c90e.1794015622.git.saravanand@crusoe.ai>
+Subject: [PATCH blktests] nvme/081: test the per-queue io_cpu sysfs attribute
+Date: Sat,  7 Nov 2026 09:53:50 +0000
+Message-ID: <20261107095350.98072-1-saravanand@crusoe.ai>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <cover.1794015622.git.saravanand@crusoe.ai>
 References: <cover.1794015622.git.saravanand@crusoe.ai>
@@ -101,8 +98,8 @@ X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261107_015351_474399_717B5C55 
-X-CRM114-Status: GOOD (  21.87  )
+X-CRM114-CacheID: sfid-20261107_015401_449139_AC0BCF13 
+X-CRM114-Status: GOOD (  18.44  )
 X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -122,223 +119,235 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Per I/O queue transport state, such as the nvme-tcp io_cpu, has
-nowhere to live in sysfs, since the core has no directory for
-individual queues.
+nvme-tcp exposes /sys/class/nvme/nvmeX/queues/<qid>/io_cpu and managed,
+so a control plane can choose the CPU that runs each I/O queue's socket
+work [1]. Test that
 
-Add helpers that create the controller's queues directory and add or
-remove one directory per queue
+  - io_cpu reads back a written CPU and rejects invalid values
+  - managed is read only and turns 0 once io_cpu is written
+  - an assignment survives a controller reset
+  - the queue directories follow the queue count as attr_qid_max
+    shrinks and grows it
+  - removing the controller while io_cpu is written completes
 
-  /sys/class/nvme/nvmeX/queues/<qid>/
+The test skips when the kernel does not have the attribute.
 
-carrying the attributes a transport sets in the new queue_attr_groups
-member of struct nvme_ctrl_ops. For such transports nvme_add_ctrl()
-creates the queues directory. It holds a reference on the controller
-device, so nvme_uninit_ctrl() deletes it before deleting the device,
-after the transport has removed the queue directories.
+[1] https://lore.kernel.org/linux-nvme/cover.1794015622.git.saravanand@crusoe.ai/
 
-The transport adds a queue's directory when it sets the queue up and
-removes it when it frees the queue, so the directories follow the
-queues across reconnects and changes in the queue count. The core
-allocates each queue directory and its release frees only that
-allocation. Removal waits for running attribute callbacks, so the
-transport may tear the queue down once it returns.
-
-Suggested-by: Sagi Grimberg <sagi@grimberg.me>
-Link: https://lore.kernel.org/linux-nvme/13c160d0-0657-47ce-9a16-58d348267ab0@grimberg.me/
 Assisted-by: Claude:claude-opus-5-5 [Claude Code]
 Signed-off-by: Saravanan D <saravanand@crusoe.ai>
 ---
- drivers/nvme/host/core.c  | 12 ++++++
- drivers/nvme/host/nvme.h  | 25 +++++++++++
- drivers/nvme/host/sysfs.c | 90 +++++++++++++++++++++++++++++++++++++++
- 3 files changed, 127 insertions(+)
+This is the nvme/077 test posted with v7 [2], renumbered because other
+pending blktests patches use nvme/076 to nvme/080. The test itself is
+unchanged.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index cd0df9b03806..66e1e2c614e8 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -5208,6 +5208,8 @@ void nvme_uninit_ctrl(struct nvme_ctrl *ctrl)
- 	 */
- 	cancel_work_sync(&ctrl->async_event_work);
- 	nvme_hwmon_exit(ctrl);
-+	/* transports remove their queue directories before this point */
-+	nvme_queue_dir_destroy(ctrl);
- 	nvme_fault_inject_fini(&ctrl->fault_inject);
- 	dev_pm_qos_hide_latency_tolerance(ctrl->device);
- 	cdev_device_del(&ctrl->cdev, ctrl->device);
-@@ -5352,6 +5354,12 @@ int nvme_add_ctrl(struct nvme_ctrl *ctrl)
- 	if (ret)
- 		return ret;
- 
-+	if (ctrl->ops->queue_attr_groups) {
-+		ret = nvme_queue_dir_create(ctrl);
-+		if (ret)
-+			goto out_del_cdev;
-+	}
+[2] https://lore.kernel.org/all/20261104140721.4489-1-saravanand@crusoe.ai/
+
+ tests/nvme/081     | 185 +++++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/081.out |   2 +
+ 2 files changed, 187 insertions(+)
+ create mode 100755 tests/nvme/081
+ create mode 100644 tests/nvme/081.out
+
+diff --git a/tests/nvme/081 b/tests/nvme/081
+new file mode 100755
+index 0000000..0b4bce5
+--- /dev/null
++++ b/tests/nvme/081
+@@ -0,0 +1,185 @@
++#!/bin/bash
++# SPDX-License-Identifier: GPL-3.0+
++# Copyright (C) 2026 Saravanan D <saravanand@crusoe.ai>
++#
++# Test the per-queue io_cpu sysfs attribute of nvme-tcp
 +
- 	/*
- 	 * Initialize latency tolerance controls.  The sysfs files won't
- 	 * be visible to userspace unless the device actually supports APST.
-@@ -5364,6 +5372,10 @@ int nvme_add_ctrl(struct nvme_ctrl *ctrl)
- 	nvme_get_ctrl(ctrl);
- 
- 	return 0;
++. tests/nvme/rc
 +
-+out_del_cdev:
-+	cdev_device_del(&ctrl->cdev, ctrl->device);
-+	return ret;
- }
- EXPORT_SYMBOL_GPL(nvme_add_ctrl);
- 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 2543e52d6358..95b598c71b4a 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -356,6 +356,28 @@ enum nvme_ctrl_flags {
- 	NVME_CTRL_FROZEN		= 6,
- };
- 
-+/*
-+ * Per-queue directory /sys/class/nvme/nvmeX/queues/<qid>/, allocated by the
-+ * core and carrying attributes provided by the transport.
-+ */
-+struct nvme_queue_info {
-+	struct kobject		kobj;
-+	void			*data;
-+};
++DESCRIPTION="test the per-queue io_cpu sysfs attribute"
 +
-+static inline void *nvme_queue_info_data(struct kobject *kobj)
-+{
-+	return container_of(kobj, struct nvme_queue_info, kobj)->data;
++requires() {
++	_nvme_requires
++	_have_loop
++	_require_nvme_trtype tcp
++	_require_min_cpus 2
 +}
 +
-+struct nvme_ctrl;
-+
-+int nvme_queue_dir_create(struct nvme_ctrl *ctrl);
-+void nvme_queue_dir_destroy(struct nvme_ctrl *ctrl);
-+struct nvme_queue_info *
-+nvme_add_queue_info(struct nvme_ctrl *ctrl, unsigned int qid, void *data);
-+void nvme_remove_queue_info(struct nvme_queue_info *qinfo);
-+
- struct nvme_ctrl {
- 	bool comp_seen;
- 	bool identified;
-@@ -377,6 +399,7 @@ struct nvme_ctrl {
- 	struct srcu_struct srcu;
- 	struct device ctrl_device;
- 	struct device *device;	/* char device */
-+	struct kobject *queues_kobj;
- #ifdef CONFIG_NVME_HWMON
- 	struct device *hwmon_device;
- #endif
-@@ -675,6 +698,8 @@ struct nvme_ctrl_ops {
- #define NVME_F_BLOCKING			(1 << 2)
- 
- 	const struct attribute_group **dev_attr_groups;
-+	/* attributes of each /sys/class/nvme/nvmeX/queues/<qid>/ directory */
-+	const struct attribute_group **queue_attr_groups;
- 	int (*reg_read32)(struct nvme_ctrl *ctrl, u32 off, u32 *val);
- 	int (*reg_write32)(struct nvme_ctrl *ctrl, u32 off, u32 val);
- 	int (*reg_read64)(struct nvme_ctrl *ctrl, u32 off, u64 *val);
-diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-index 3724b5ce03a0..ff81030f161c 100644
---- a/drivers/nvme/host/sysfs.c
-+++ b/drivers/nvme/host/sysfs.c
-@@ -1311,3 +1311,93 @@ const struct attribute_group *nvme_subsys_attrs_groups[] = {
- 	&nvme_subsys_attrs_group,
- 	NULL,
- };
-+
-+static void nvme_queue_info_release(struct kobject *kobj)
-+{
-+	kfree(container_of(kobj, struct nvme_queue_info, kobj));
++set_conditions() {
++	_set_nvme_trtype "$@"
 +}
 +
-+static const struct kobj_type nvme_queue_info_ktype = {
-+	.sysfs_ops	= &kobj_sysfs_ops,
-+	.release	= nvme_queue_info_release,
-+};
-+
-+/*
-+ * nvme_add_ctrl() creates /sys/class/nvme/nvmeX/queues/ for transports that
-+ * provide queue attributes, and nvme_uninit_ctrl() destroys it.
-+ */
-+int nvme_queue_dir_create(struct nvme_ctrl *ctrl)
-+{
-+	ctrl->queues_kobj = kobject_create_and_add("queues",
-+						   &ctrl->device->kobj);
-+	if (!ctrl->queues_kobj)
-+		return -ENOMEM;
-+	return 0;
++# last CPU in the online list, and the first CPU id past the possible ones
++last_online_cpu() {
++	awk -F'[-,]' '{ print $NF }' /sys/devices/system/cpu/online
 +}
 +
-+void nvme_queue_dir_destroy(struct nvme_ctrl *ctrl)
-+{
-+	if (!ctrl->queues_kobj)
-+		return;
-+
-+	kobject_del(ctrl->queues_kobj);
-+	kobject_put(ctrl->queues_kobj);
-+	ctrl->queues_kobj = NULL;
++first_impossible_cpu() {
++	echo $(( $(awk -F'[-,]' '{ print $NF }' /sys/devices/system/cpu/possible) + 1 ))
 +}
 +
-+/**
-+ * nvme_add_queue_info - add a directory for one queue
-+ * @ctrl: controller, whose queues directory must exist
-+ * @qid: queue id, used as the directory name
-+ * @data: transport data, returned by nvme_queue_info_data()
-+ *
-+ * Adds /sys/class/nvme/nvmeX/queues/<qid>/ carrying the transport's
-+ * queue_attr_groups. Calls for different queues of
-+ * the same controller may run concurrently. Returns the queue info, to be
-+ * passed to nvme_remove_queue_info(), or an ERR_PTR().
-+ */
-+struct nvme_queue_info *
-+nvme_add_queue_info(struct nvme_ctrl *ctrl, unsigned int qid, void *data)
-+{
-+	struct nvme_queue_info *qinfo;
-+	int ret;
++nr_queue_dirs() {
++	local nvmedev="$1"
 +
-+	if (WARN_ON_ONCE(!ctrl->queues_kobj))
-+		return ERR_PTR(-EINVAL);
-+
-+	qinfo = kzalloc_obj(*qinfo);
-+	if (!qinfo)
-+		return ERR_PTR(-ENOMEM);
-+	qinfo->data = data;
-+
-+	ret = kobject_init_and_add(&qinfo->kobj, &nvme_queue_info_ktype,
-+				   ctrl->queues_kobj, "%u", qid);
-+	if (ret)
-+		goto out_put;
-+
-+	ret = sysfs_create_groups(&qinfo->kobj, ctrl->ops->queue_attr_groups);
-+	if (ret)
-+		goto out_del;
-+	return qinfo;
-+
-+out_del:
-+	kobject_del(&qinfo->kobj);
-+out_put:
-+	kobject_put(&qinfo->kobj);
-+	return ERR_PTR(ret);
++	find "/sys/class/nvme/${nvmedev}/queues" -mindepth 1 -maxdepth 1 \
++		-type d 2>/dev/null | wc -l
 +}
-+EXPORT_SYMBOL_GPL(nvme_add_queue_info);
 +
-+/**
-+ * nvme_remove_queue_info - remove a queue directory
-+ * @qinfo: queue info returned by nvme_add_queue_info()
-+ *
-+ * Waits for running attribute callbacks, so none run once this returns
-+ * and the transport data may be torn down.
-+ */
-+void nvme_remove_queue_info(struct nvme_queue_info *qinfo)
-+{
-+	kobject_del(&qinfo->kobj);
-+	kobject_put(&qinfo->kobj);
++expect_attr() {
++	local file="$1"
++	local expected="$2"
++	local value
++
++	value=$(cat "${file}")
++	if [[ "${value}" != "${expected}" ]]; then
++		echo "${file}: read ${value}, expected ${expected}"
++		return 1
++	fi
++	return 0
 +}
-+EXPORT_SYMBOL_GPL(nvme_remove_queue_info);
++
++test_read_write() {
++	local qdir="$1"
++	local cpu="$2"
++	local bad
++
++	expect_attr "${qdir}/1/managed" 1
++
++	echo "${cpu}" > "${qdir}/1/io_cpu"
++	expect_attr "${qdir}/1/io_cpu" "${cpu}"
++	expect_attr "${qdir}/1/managed" 0
++
++	for bad in "$(first_impossible_cpu)" -2 abc 0x1; do
++		if { echo "${bad}" > "${qdir}/1/io_cpu"; } 2>/dev/null; then
++			echo "io_cpu accepted ${bad}"
++		fi
++	done
++	expect_attr "${qdir}/1/io_cpu" "${cpu}"
++
++	if { echo 1 > "${qdir}/1/managed"; } 2>/dev/null; then
++		echo "managed is writable"
++	fi
++
++	echo unbound > "${qdir}/2/io_cpu"
++	expect_attr "${qdir}/2/io_cpu" -1
++	echo -1 > "${qdir}/2/io_cpu"
++	expect_attr "${qdir}/2/io_cpu" -1
++	expect_attr "${qdir}/2/managed" 0
++}
++
++test_reset() {
++	local nvmedev="$1"
++	local qdir="$2"
++	local cpu="$3"
++
++	echo 1 > "/sys/class/nvme/${nvmedev}/reset_controller"
++	_nvmf_wait_for_state "${def_subsysnqn}" "live" || return 1
++
++	expect_attr "${qdir}/1/io_cpu" "${cpu}"
++	expect_attr "${qdir}/1/managed" 0
++	expect_attr "${qdir}/2/io_cpu" -1
++	expect_attr "${qdir}/2/managed" 0
++}
++
++set_qid_max() {
++	local nvmedev="$1"
++	local qid_max="$2"
++	local queue_count_file="/sys/class/nvme-fabrics/ctl/${nvmedev}/queue_count"
++	local retries=10
++
++	echo "${qid_max}" > \
++		"${NVMET_CFS}/subsystems/${def_subsysnqn}/attr_qid_max"
++	while [[ "$(cat "${queue_count_file}")" -ne $((qid_max + 1)) ]]; do
++		if (( retries-- == 0 )); then
++			echo "queue count did not change to $((qid_max + 1))"
++			return 1
++		fi
++		sleep 1
++	done
++	_nvmf_wait_for_state "${def_subsysnqn}" "live" || return 1
++
++	if [[ "$(nr_queue_dirs "${nvmedev}")" -ne "${qid_max}" ]]; then
++		echo "$(nr_queue_dirs "${nvmedev}") queue directories," \
++			"expected ${qid_max}"
++		return 1
++	fi
++	return 0
++}
++
++io_cpu_writer() {
++	local qdir="$1"
++	local cpu="$2"
++	local file
++
++	while true; do
++		for file in "${qdir}"/*/io_cpu; do
++			{ echo "${cpu}" > "${file}"; } 2>/dev/null
++			{ echo unbound > "${file}"; } 2>/dev/null
++		done
++	done
++}
++
++test() {
++	echo "Running ${TEST_NAME}"
++
++	_setup_nvmet
++
++	local cfs_path="${NVMET_CFS}/subsystems/${def_subsysnqn}"
++	local skipped=false
++	local nvmedev qdir cpu writer
++
++	_nvmet_target_setup --blkdev file
++
++	_nvme_connect_subsys --keep-alive-tmo 1 --reconnect-delay 2
++	_nvmf_wait_for_state "${def_subsysnqn}" "live"
++	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
++	qdir="/sys/class/nvme/${nvmedev}/queues"
++	cpu=$(last_online_cpu)
++
++	if [[ ! -f "${qdir}/1/io_cpu" ]]; then
++		SKIP_REASONS+=("missing per-queue io_cpu attribute")
++		skipped=true
++	elif [[ "$(nr_queue_dirs "${nvmedev}")" -lt 2 ]]; then
++		SKIP_REASONS+=("controller has fewer than 2 I/O queues")
++		skipped=true
++	else
++		test_read_write "${qdir}" "${cpu}"
++		test_reset "${nvmedev}" "${qdir}" "${cpu}"
++
++		if [[ -f "${cfs_path}/attr_qid_max" ]]; then
++			set_qid_max "${nvmedev}" 1
++			expect_attr "${qdir}/1/io_cpu" "${cpu}"
++			set_qid_max "${nvmedev}" 2
++		fi
++
++		# remove the controller while its queue directories are written
++		io_cpu_writer "${qdir}" "${cpu}" &
++		writer=$!
++		sleep 1
++	fi
++
++	_nvme_disconnect_subsys
++
++	if [[ -n "${writer}" ]]; then
++		kill "${writer}"
++		wait "${writer}" 2>/dev/null
++	fi
++
++	_nvmet_target_cleanup
++
++	if [[ "${skipped}" = true ]] ; then
++		return 1
++	fi
++
++	echo "Test complete"
++}
+diff --git a/tests/nvme/081.out b/tests/nvme/081.out
+new file mode 100644
+index 0000000..5deb638
+--- /dev/null
++++ b/tests/nvme/081.out
+@@ -0,0 +1,2 @@
++Running nvme/081
++Test complete
 -- 
 2.56.0
 
