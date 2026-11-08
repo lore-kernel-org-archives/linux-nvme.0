@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E59A606A320
-	for <linux-nvme@archiver.kernel.org>; Sun,  8 Nov 2026 21:07:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67B86606A31C
+	for <linux-nvme@archiver.kernel.org>; Sun,  8 Nov 2026 21:08:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=fr+UayhC;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RayU/r54
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=wN6ZeAud;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hJyl5NRj
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
 	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
@@ -14,47 +14,48 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=xJqdmXaMRLuUjZRj45HBi9m9/SkDdkLEvmT6c6aPy9w=; b=fr+UayhCnpP4AGn7e9RRyaWw1g
-	z+mEd91El1/WN0IcKNgZS4oy/P12O0RiN7MmW9A/sc/p95OTphV9yVEBhDCnt/55RXO8JzZx8DWNT
-	p3ELeztsnDkLLhBpexGnllOWBbT6ukcPHBKZQe6IlKJ3pSqiXamyvhTJKHJY8XNc/DXG69H5lB5EP
-	mDWpYJ/As0KjveAZ9r1cupQ0AU9G1KCf2x4WDLXEYEiLnDs13jtqORG8RIwRDdElESZsK8W6bp4Jy
-	1KtDryO2NoYUEcsK6B2BRP375oV+NtRLaNNDknQUHXadKqMVi/28VOQaeXem011OCAvnBT+t2z7WF
-	iBPvkM9Q==;
+	bh=R2GKokw2/sTju46GRiRayxuymaLOEX9DEa0q5Mrg9Kw=; b=wN6ZeAudSiNwejZtUAHMcaKo0n
+	pO8v3cOHV9Zo68oZPrw6KNsfSdOEttBKmjcaZNxE+ei6fjcIn20C1qMAzwSJOobz31qSeFbhxX7h7
+	kcZ5sX3rV+q0Q4aJ+0tbwqXotUzTNCRrWPoOyrFHnMYVMJ9EG3gnJu5VYFSpxWBNR4pAJJ0l7bDMf
+	2aGOFiOxIdMwNFCcjk/pswKDDV86IOIJgzxYSXbO7L+245k5RdUSruZEFJSbXBsjfuafFu/cfwjQU
+	o1ub/bx8a0Vye+Jk69Sf1c7159hv2PEZOMqM4SINAca+M0V2bt6GRHluNJdu4hxjadpBU6vm5t/1h
+	vtI7ikmQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQA6h-0000000GfuT-0FAN;
-	Sun, 08 Nov 2026 21:07:19 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1xQA7c-0000000GgFp-1f9u;
+	Sun, 08 Nov 2026 21:08:16 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQA6g-0000000GfuA-08kb
+	id 1xQA7a-0000000GgEc-2f3J
 	for linux-nvme@lists.infradead.org;
-	Sun, 08 Nov 2026 21:07:18 +0000
+	Sun, 08 Nov 2026 21:08:14 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id B8DA143356;
-	Sun,  8 Nov 2026 21:07:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EF7D1F0089F;
-	Sun,  8 Nov 2026 21:07:17 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id E42D244EC6;
+	Sun,  8 Nov 2026 21:08:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 400481F008A2;
+	Sun,  8 Nov 2026 21:08:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794172037;
-	bh=xJqdmXaMRLuUjZRj45HBi9m9/SkDdkLEvmT6c6aPy9w=;
+	s=k20260515; t=1794172093;
+	bh=R2GKokw2/sTju46GRiRayxuymaLOEX9DEa0q5Mrg9Kw=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=RayU/r54hcHrtIb/LaB6KZUh6/la7UfvH1tQYPSm3jKo7t3baamW2wIQR7iusgJQI
-	 F3DyeDuW+X32zheseMBpmnVsPeCpVaIr2RIrafK9nSWgWr9JmOU0NSACRGYMKnX3Fh
-	 Ery6a32On+7vFfEjCsXo2+ICLgsvHNvm4UVARFSD11wv0McMxt3YI9Xwb0OIiuSsrw
-	 KTG1MSCIqTz3k2fSVG4hIfDCEXMBZfRSkMFRHfxOqXigJUQADzuM36W14VJ0qrjWv7
-	 XBgHy01C+4PQn3TAl56YD5lAn72fcHChMQmh2aiZ4+/jnXqnqVL8sRtuxQRq8GJNq8
-	 G5NaYjN31PVLA==
-Message-ID: <sashiko-outbox-204058@kernel.org>
+	b=hJyl5NRjR/8Xuo/JHYw+/GRyx7a4n7HJDK70gVSfeRUv2yl2c15A5r2RIdQRcDYnt
+	 m+x4xnHPMcobXVWp3kJIUPBK4ItwZa+BFRAL1a5wyEZQqFqdUJx9INUstGcAb30B9A
+	 eF7TiT4f4XwxPdS4TduOrZFmawm/z/yftz6Iguk58Mhr71++ZQzubGA4H8YXOxWkXi
+	 vSqKrin1LpdFSPA85tGkKHwwzOIgRWA0+QAEp/NFPdHdN9GiQrOHk1KZO4l5DevTpO
+	 PqoaqrmZjk4d7zwWo4grum7kIDbpbs56B+ElomgUcphRw9KgGgvlcCE4vZq1pOaNoD
+	 Eak76oNYHrwCg==
+Message-ID: <sashiko-outbox-204059@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v9 04/29] libmultipath: Add path selection support
+Subject: Re: [PATCH v9 18/29] scsi-multipath: revalidate paths upon device
+ unblock
 To: "John Garry" <john.garry@linux.dev>, james.bottomley@hansenpartnership.com, mkp@kernel.org
 Cc: hare@suse.com, linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, snitzer@kernel.org, jmeneghi@redhat.com, bmarzins@redhat.com, dm-devel@lists.linux.dev, hch@lst.de, michael.christie@oracle.com
-In-Reply-To: <20261108204733.557995-5-john.garry@linux.dev>
+In-Reply-To: <20261108204733.557995-19-john.garry@linux.dev>
 References: <20261108204733.557995-1-john.garry@linux.dev>
- <20261108204733.557995-5-john.garry@linux.dev>
+ <20261108204733.557995-19-john.garry@linux.dev>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 08 Nov 2026 21:07:16 +0000
+Date: Sun, 08 Nov 2026 21:08:12 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,112 +75,180 @@ X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 X-Archived-By: <archiver.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] libmultipath: inconsistent path optimization check between
-  is_optimized() and access_state
+Thank you for your contribution! Sashiko AI review found 4 potential
+issues to consider:
+- [High] scsi: multipath: race in scsi_internal_device_unblock() on
+  scsi_mpath_head
+- [High] scsi: multipath: use-after-free in
+  scsi_mpath_revalidate_paths() requeue_work
+- [Medium] scsi: multipath: race in scsi_device_block() accessing
+  scsi_mpath_head
+- [Medium] scsi: multipath: premature scsi_mpath_dev publish in
+  scsi_mpath_dev_alloc()
 --
 
-commit 5d198416c184ad80e962a53ac50fbd829ed2c691
+commit ed012aa632cd8957f54296618fde6fa312555b38
 Author: John Garry <john.garry@linux.dev>
 
-libmultipath: Add path selection support
+scsi-multipath: revalidate paths upon device unblock
 
-This commit adds multipath path selection support for NUMA, round-robin,
-and queue-depth I/O policies along with path access state abstractions.
+This commit adds scsi_mpath_revalidate_paths() and calls it from
+scsi_internal_device_unblock() to clear paths and requeue bios when a
+multipath SCSI device is unblocked.
 
-> diff --git a/lib/multipath.c b/lib/multipath.c
-> index 93c0ca8b390b1..b8ea8478037ef 100644
-> --- a/lib/multipath.c
-> +++ b/lib/multipath.c
-> @@ -8,8 +8,245 @@
->  #include <linux/multipath.h>
->  #include <linux/wait_bit.h>
+> diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
+> index 1950034f580f4..4dbd01484b4a5 100644
+> --- a/drivers/scsi/scsi_lib.c
+> +++ b/drivers/scsi/scsi_lib.c
+> @@ -3121,6 +3121,8 @@ static int scsi_internal_device_unblock(struct scsi=
+_device *sdev,
+>  	mutex_lock(&sdev->state_mutex);
+>  	ret =3D scsi_internal_device_unblock_nowait(sdev, new_state);
+>  	mutex_unlock(&sdev->state_mutex);
+> +	if ((ret =3D=3D 0) && sdev->scsi_mpath_dev)
+> +		scsi_mpath_revalidate_paths(sdev->scsi_mpath_dev);
 > =20
-> +static struct mpath_device *mpath_find_path(struct mpath_head *mpath_hea=
-d);
-> +
-[ ... ]
-> +static struct mpath_device *__mpath_find_path(struct mpath_head *mpath_h=
-ead,
-> +					int node)
-> +{
-> +	int found_distance =3D INT_MAX, fallback_distance =3D INT_MAX, distance;
-> +	struct mpath_device *found =3D NULL, *fallback =3D NULL, *mpath_device;
-> +
-> +	list_for_each_entry_srcu(mpath_device, &mpath_head->dev_list, siblings,
-> +		srcu_read_lock_held(&mpath_head->srcu)) {
-> +		if (mpath_path_is_disabled(mpath_head, mpath_device))
-> +			continue;
-> +
-> +		if (mpath_device->numa_node !=3D NUMA_NO_NODE &&
-> +		    (mpath_read_iopolicy(mpath_head) =3D=3D
-> +			MPATH_IOPOLICY_NUMA))
-> +			distance =3D node_distance(node,
-> +					mpath_device->numa_node);
-> +		else
-> +			distance =3D LOCAL_DISTANCE;
-> +
-> +		switch(mpath_device->access_state) {
-> +		case MPATH_STATE_OPTIMIZED:
-> +		    if (distance < found_distance) {
-> +			    found_distance =3D distance;
-> +			    found =3D mpath_device;
-> +		    }
-> +		    break;
-> +		case MPATH_STATE_NONOPTIMIZED:
-> +		    if (distance < fallback_distance) {
-> +			    fallback_distance =3D distance;
-> +			    fallback =3D mpath_device;
-> +		    }
-> +		    break;
-> +		default:
-> +		    break;
-> +		}
-> +	}
-[ ... ]
-> +static inline bool mpath_path_is_optimized(struct mpath_head *mpath_head,
-> +				struct mpath_device *mpath_device)
-> +{
-> +	return mpath_head->mpdt->is_optimized(mpath_device);
-> +}
-> +
-> +static struct mpath_device *mpath_numa_path(struct mpath_head *mpath_hea=
-d)
-> +{
-> +	int node =3D numa_node_id();
-> +	struct mpath_device *mpath_device;
-> +
-> +	mpath_device =3D srcu_dereference(mpath_head->current_path[node],
-> +					&mpath_head->srcu);
-> +	if (unlikely(!mpath_device))
-> +		return __mpath_find_path(mpath_head, node);
-> +	if (unlikely(mpath_path_is_disabled(mpath_head, mpath_device)))
-> +		return __mpath_find_path(mpath_head, node);
-> +	if (unlikely(!mpath_path_is_optimized(mpath_head, mpath_device)))
-> +		return __mpath_find_path(mpath_head, node);
-> +	return mpath_device;
-> +}
+>  	return ret;
+>  }
+
+[Severity: High]
+Can scsi_internal_device_unblock() race with __scsi_remove_device() and
+dereference a NULL or freed scsi_mpath_head?
+
+Callers such as scsi_target_unblock() and scsi_host_unblock() iterate
+devices with shost_for_each_device(), which pins sdev->sdev_gendev (deferri=
+ng
+scsi_device_dev_release() where sdev->scsi_mpath_dev is freed) without
+holding shost->scan_mutex.  Because sdev->state_mutex is dropped before
+calling scsi_mpath_revalidate_paths() (and
+scsi_internal_device_unblock_nowait() also returns 0 in SDEV_CANCEL),
+__scsi_remove_device() can tear down scsi_mpath_dev->scsi_mpath_head
+concurrently:
+
+CPU0                                  CPU1
+scsi_target_unblock()
+  scsi_internal_device_unblock()
+    mutex_lock(&sdev->state_mutex)
+    scsi_internal_device_unblock_nowait()
+    mutex_unlock(&sdev->state_mutex)
+                                      __scsi_remove_device()
+                                        ...
+                                        scsi_mpath_remove_device()
+                                          scsi_mpath_remove_head()
+                                            scsi_mpath_put_head()
+                                            scsi_mpath_dev->scsi_mpath_head=
+ =3D NULL
+    scsi_mpath_revalidate_paths()
+      mpath_revalidate_paths(mpath_head)  <-- NULL deref or use-after-free
+
+In scsi_mpath_revalidate_paths(), &scsi_mpath_head->mpath_head is at offset
+0, so mpath_clear_paths() and mpath_schedule_requeue_work() dereference a
+NULL or freed mpath_head.
 
 [Severity: Medium]
-Should __mpath_find_path(), mpath_round_robin_path(), and
-mpath_queue_depth_path() check mpath_path_is_optimized() (or a callback
-returning enum mpath_access_state) instead of reading
-mpath_device->access_state directly?
+Can scsi_internal_device_unblock() also observe a partially initialized or
+freed sdev->scsi_mpath_dev during LUN scanning?
 
-mpath_numa_path() and mpath_device_set_live() call
-mpath_path_is_optimized(), which invokes mpath_head->mpdt->is_optimized(),
-whereas __mpath_find_path(), mpath_round_robin_path(), and
-mpath_queue_depth_path() inspect mpath_device->access_state. If a driver
-reports path optimization dynamically through .is_optimized() without
-updating mpath_device->access_state (or vice versa), the two checks
-disagree: when current_path[node] is non-optimized according to
-.is_optimized() but still has access_state set to MPATH_STATE_OPTIMIZED,
-mpath_numa_path() falls back to __mpath_find_path() on every I/O, and
-__mpath_find_path() treats that non-optimized path as optimized and can
-re-select it over a genuinely optimized path at a greater NUMA distance.
+In scsi_add_lun(), sdev is already on shost->__devices and starget->devices
+and set to SDEV_RUNNING or SDEV_BLOCK before scsi_mpath_dev_alloc() runs:
+
+CPU0                                  CPU1
+scsi_add_lun()
+  scsi_mpath_dev_alloc()
+    scsi_multipath_sdev_init()
+      sdev->scsi_mpath_dev =3D scsi_mpath_dev
+                                      scsi_target_unblock()
+                                        scsi_internal_device_unblock()
+                                          if (ret =3D=3D 0 && sdev->scsi_mp=
+ath_dev)
+                                            scsi_mpath_revalidate_paths()
+                                              mpath_revalidate_paths(NULL)
+                                              <-- NULL pointer dereference
+    scsi_mpath_unique_lun_id()
+    ...
+    sdev->scsi_mpath_dev->scsi_mpath_head =3D ...
+
+If scsi_mpath_dev_alloc() fails later at out_uninit,
+scsi_multipath_sdev_uninit() also frees sdev->scsi_mpath_dev before clearing
+the pointer, allowing a concurrent unblock to hit a use-after-free.
+
+> diff --git a/drivers/scsi/scsi_multipath.c b/drivers/scsi/scsi_multipath.c
+> index 67e9010d54782..008bcafe73ad2 100644
+> --- a/drivers/scsi/scsi_multipath.c
+> +++ b/drivers/scsi/scsi_multipath.c
+> @@ -240,6 +240,14 @@ static int scsi_multipath_sdev_init(struct scsi_devi=
+ce *sdev)
+>  	return 0;
+>  }
+> =20
+> +void scsi_mpath_revalidate_paths(struct scsi_mpath_device *scsi_mpath_de=
+v)
+> +{
+> +       struct scsi_mpath_head *scsi_mpath_head =3D scsi_mpath_dev->scsi_=
+mpath_head;
+> +       struct mpath_head *mpath_head =3D &scsi_mpath_head->mpath_head;
+> +
+> +       mpath_revalidate_paths(mpath_head);
+> +}
+
+[Severity: High]
+Can mpath_head->requeue_work queued by scsi_mpath_revalidate_paths() run
+after scsi_mpath_head is freed?
+
+Transport target teardown paths such as fc_starget_delete(),
+iscsi_remove_session(), and rport_dev_loss_timedout() call
+scsi_target_unblock(..., SDEV_TRANSPORT_OFFLINE) immediately followed by
+scsi_remove_target():
+
+CPU0                                  kworker
+fc_starget_delete()
+  scsi_target_unblock()
+    scsi_internal_device_unblock()
+      scsi_mpath_revalidate_paths()
+        mpath_revalidate_paths()
+          mpath_schedule_requeue_work()
+  scsi_remove_target()
+    ...
+      scsi_mpath_remove_device()
+        scsi_mpath_put_head()
+          scsi_mpath_head_release()
+            kfree(scsi_mpath_head)
+                                      mpath_requeue_work()
+                                        spin_lock_irq(&mpath_head->requeue_=
+lock)
+                                        <-- use-after-free
+
+Unlike scsi_mpath_device_iopolicy_store(), which calls
+flush_work(&mpath_head->requeue_work) with a comment noting that
+requeue_work could otherwise run after mpath_head is gone, neither
+scsi_mpath_revalidate_paths() nor scsi_mpath_head_release() /
+mpath_head_uninit() flushes or cancels mpath_head->requeue_work.
+
+> +
+>  void scsi_mpath_dev_clear_path(struct scsi_mpath_device *scsi_mpath_dev)
+>  {
+>         struct mpath_device *mpath_device =3D &scsi_mpath_dev->mpath_devi=
+ce;
+
+[Severity: Medium]
+Can scsi_device_block() hit the same race against __scsi_remove_device() or
+scsi_mpath_dev_alloc() when calling scsi_mpath_dev_clear_path()?
+
+drivers/scsi/scsi_lib.c:scsi_device_block() {
+    ...
+	mutex_unlock(&sdev->state_mutex);
+	if ((err =3D=3D 0) && sdev->scsi_mpath_dev)
+		scsi_mpath_dev_clear_path(sdev->scsi_mpath_dev);
+    ...
+}
+
+Once scsi_device_block() drops sdev->state_mutex, __scsi_remove_device() can
+transition sdev from SDEV_BLOCK directly to SDEV_DEL and run
+scsi_mpath_remove_device(), freeing scsi_mpath_head and clearing
+scsi_mpath_dev->scsi_mpath_head before scsi_mpath_dev_clear_path()
+dereferences it in mpath_synchronize().
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261108204733.5579=
-95-1-john.garry@linux.dev?part=3D4
+95-1-john.garry@linux.dev?part=3D18
 
