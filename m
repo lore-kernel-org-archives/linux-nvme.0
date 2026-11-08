@@ -2,64 +2,85 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C578606A32E
-	for <linux-nvme@archiver.kernel.org>; Sat,  7 Nov 2026 21:53:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77C2F606A31C
+	for <linux-nvme@archiver.kernel.org>; Sun,  8 Nov 2026 12:02:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=WMm1x/E7;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hSw5Xwu5
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=PbqokmjW;
+	dkim=pass (2048-bit key) header.d=wdc.com header.i=@wdc.com header.a=rsa-sha256 header.s=dkim.wdc.com header.b=WJMUO0T9
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
 	List-Unsubscribe-Post:List-Owner;
-	bh=EWlYFnlFkKqc+rHHPIN+VOy/+q1zUN/a2wsNKFALdxk=; b=WMm1x/E7M703bLvkQP/lC0Ldzx
-	x88s/L1bPOuXO4GAWOdvbSH1AtP9r7qD43syB0UN4ItkYxyTBUoxGf9m+DGDeDZsA+cTp5opFAOa0
-	ufeZxR0z9wKGBi03VQN60HKSFZA/OpS1KTmT2cftO0DjU5Mb0Vg+DfcGo+ftZIOvYEeW/KtuNzBVL
-	KaDEr7r9vet56RL2m2PBcUkq6ZxppC35ZXlo+q91simD1lawIsIMqUIrZed6dQDRNzvUek5DiTvLZ
-	2RaOgEbJ4d3AwjkQu1WKECIQ2YoFV1TX6FLGkftmiTH9L8WOAKobRECq6X1kSp5plSktikJ4fKep1
-	hxUOcALA==;
+	bh=tLCFMiSIks5DPLg6euHvMe58ubzuaKQx3twJFEtnd1A=; b=PbqokmjWwDCpiFcWe47III/ciq
+	uV/AMd6t68D/GjlOiVLhP9puzaxwGbcPHjUMCla+TQdGQUz1n6fO7FiYl9G5SBpEAc1JtFyLutlMS
+	WzWNHyd0vYmlNX2XoN/ZrpJFGJ6IKTjaK9+SK/xNDIfALgEAzFrR8e0apcBTbR7HeQnFd+hm3Bj8e
+	0QidPpa2LGlct4sW6EkzK+go1A1JBuSK7voPUZfRaeNCG1YVr2BD+8tfZ88UUjqlVngnqfDUKPU8s
+	8celPtOZ+5MZqJ+dxZoV9DtJ/6Otxh+9489Z6Yk2FTd/VPAb1qIaq0ierA4xtbNDui4gzgYNi8MXV
+	2GOmPEcQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xPoMD-0000000FRYi-0nqC;
-	Sat, 07 Nov 2026 21:53:53 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1xQ1b2-0000000G6eC-0vQv;
+	Sun, 08 Nov 2026 12:02:04 +0000
+Received: from esa6.hgst.iphmx.com ([216.71.154.45])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xPoMB-0000000FRYc-3neL
+	id 1xQ1aw-0000000G6dT-0eKK
 	for linux-nvme@lists.infradead.org;
-	Sat, 07 Nov 2026 21:53:51 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 1726D61202;
-	Sat,  7 Nov 2026 21:53:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 044241F0089F;
-	Sat,  7 Nov 2026 21:53:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794088430;
-	bh=EWlYFnlFkKqc+rHHPIN+VOy/+q1zUN/a2wsNKFALdxk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=hSw5Xwu59lAOUUswo1gzzESTvlg/XUg4O/ufTVW63SK9b0/IbYVkoohTPCOM8Y4sD
-	 rmINjpCIFox5xazFAzn0qv3Nsk33ab3ItOc8mOSt90HM188VDGtBq9oEuKT5iglTKY
-	 o9p3KE+cC1o48cnW9LcQ1007YCOHr2CAWJlRB3J2i3qvP2YkDVyFYKbJKGG3i39e+P
-	 pwD31J9NW/pA/jOZhlGSZBegOeFHXJeJ88qXfzZc7bEfnJndayxMmXD/YiDIv9PTbT
-	 JjnlcJ0mcH0E+O1asgjhPgzso+AE7BvLjadhaoAoncKenDEinIfsCp91WRkhYarIOw
-	 7aZsF/87/nt6w==
-From: Thomas Gleixner <tglx@kernel.org>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Keith Busch <kbusch@meta.com>, bhelgaas@google.com, maz@kernel.org,
- lrizzo@google.com, hch@lst.de, changfengnan@bytedance.com,
- namjain@linux.microsoft.com, linux-kernel@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v3 2/2] PCI/MSI: Implement irq_mask_noflush() for MSI-X
-In-Reply-To: <au-DcqwAz2wmmOne@kbusch-mbp>
-References: <20261106173448.34794-1-kbusch@meta.com>
- <20261106173448.34794-3-kbusch@meta.com> <87wlqpwukt.ffs@fw13>
- <au-DcqwAz2wmmOne@kbusch-mbp>
-Date: Sat, 07 Nov 2026 22:53:47 +0100
-Message-ID: <87o6c0wbo4.ffs@fw13>
+	Sun, 08 Nov 2026 12:01:59 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1794139317; x=1825675317;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=H87s+Riz/TDE+YQSsKMT66/4xfi1kh+zCrO4tlQ/Ezs=;
+  b=WJMUO0T9TFgmbDFxb2XcU203pnTZW8NdadaA7qivmshxOO3g3yc6LbNK
+   k6wrAv6Zpl9TtxH9EsPwpjuYTnAzYy/hH/rb3fJHS8BGOAccQApYAMZOV
+   71Vz5hUc7w9uephNMS7rRpWKeqfb1HGoIzWRk0BC5uWHLnlkYqYXCEjFD
+   a4P/JLb8gHYEg7YyH2lGGrnGizvcBO+/KX+PC4GP1iGt73wtBZL8OKhpo
+   g46sYf4wbcNmK7QYyJNyfGA0ZdnjvL2i6gh2bnU511NH4Y0q8eIu59kZ2
+   2m3qs7o3dJna05S7gGcnCmOQP0ZjRPcDG1Ncs276/eKPcGz38xT+1/Omw
+   w==;
+X-CSE-ConnectionGUID: H1bI8CzNTYuDSHVNQgVA5w==
+X-CSE-MsgGUID: /r4dO/weS3mkqEEVrHjzgQ==
+X-IronPort-AV: E=Sophos;i="6.27,202,1786982400"; 
+   d="scan'208";a="158625197"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-esad1-o.wdc.com) ([199.255.45.14])
+  by ob1.hgst.iphmx.com with ESMTP; 08 Nov 2026 20:01:56 +0800
+X-CSE-ConnectionGUID: dFcGDGRAT/eDjNSizGqpmw==
+X-CSE-MsgGUID: rG8/PlcVTKOQnFZeHPcB6A==
+IronPort-SDR: 6af064b4_LfK89wNyQJ+dwZYnNZKE+N2UqitJmHVpKgGY0CWU8BWQAuD
+ 38lgP+C2+qeRHKW+GgLPscFbTluoLOqkkTPZS1Q==
+Received: from uls-op-esai1-o.wdc.com ([10.248.3.45])
+  by uls-op-esad1-o.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 08 Nov 2026 04:01:56 -0800
+X-CSE-ConnectionGUID: 4lnsgi1ZTbKOldmeke/xIA==
+X-CSE-MsgGUID: mxvThsusTDmIMIQS1GXa1g==
+WDCIronportException: Internal
+Received: from unknown (HELO shindev.ssa.fujisawa.hgst.com) ([10.149.67.30])
+  by uls-op-esai1-o.wdc.com with ESMTP; 08 Nov 2026 04:01:55 -0800
+From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: linux-rdma@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Cc: Jason Gunthorpe <jgg@ziepe.ca>,
+	Leon Romanovsky <leon@kernel.org>,
+	Christoph Hellwig <hch@infradead.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Surabhi Gogte <sgogte@purestorage.com>,
+	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Subject: [PATCH RFC 0/2] RDMA/cma, nvmet-rdma: fix a lockdep WARN
+Date: Sun,  8 Nov 2026 21:01:52 +0900
+Message-ID: <20261108120154.148824-1-shinichiro.kawasaki@wdc.com>
+X-Mailer: git-send-email 2.56.0
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20261108_040158_245216_0957EFEC 
+X-CRM114-Status: GOOD (  15.82  )
+X-Spam-Score: -4.4 (----)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,48 +91,48 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-13.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Sat, Nov 07 2026 at 13:00, Keith Busch wrote:
-> On Fri, Nov 06, 2026 at 09:53:06PM +0100, Thomas Gleixner wrote:
->> On Fri, Nov 06 2026 at 09:34, Keith Busch wrote:
->> > -static inline void pci_msix_mask(struct msi_desc *desc)
->> > +/* Posted write only: the device may still send an interrupt after return */
->> > +static inline void pci_msix_mask_noflush(struct msi_desc *desc)
->> >  {
->> >  	desc->pci.msix_ctrl |= PCI_MSIX_ENTRY_CTRL_MASKBIT;
->> > +	pci_msix_write_vector_ctrl(desc, desc->pci.msix_ctrl);
->> > +}
->> > +
->> > +static inline void pci_msix_mask(struct msi_desc *desc)
->> > +{
->> > +	pci_msix_mask_noflush(desc);
->> 
->> That's before the offline check now, which looks more than wrong.
->
-> This is done on purpose: pci_msix_write_vector_ctrl() already has the
-> same offline check, so nothing actually gets written, same as before.
->
-> And regardless of whether it's offline or not, we have to set the
-> PCI_MSIX_ENTRY_CTRL_MASKBIT in the cached msxi_ctrl. That's common to
-> both paths, so it lives in the noflush helper to avoid duplicating it.
+Since the commit 2a8513091d2f ("nvme-rdma: parallelize I/O queue
+allocation and startup"), the blktests test cases nvme/004 and nvme/031
+often fails with rdma transport due to a lockdep WARN, which is a false-
+positive. Please refer to the first patch for the details of the WARN.
 
-Indeed, but that's an unreadable mess TBH.
+This series addresses the failure by reclassifying the handler_mutex of
+the port listening cm_id. The first patch introduces
+rdma_reclassify_id_for_listen() to RDMA/cma, which sets a dedicated
+lockdep class to the handler_mutex of the specified cm_id. The second
+patch calls it from nvmet-rdma for the port listening cm_id.
 
-Can we please change that to have two functions here?
+I made this series as RFC, because I was not so sure whether adding a
+new function is the best approach. Another idea was to add a new
+argument to rdma_create_id() to tell the cm_id created is for listen
+of not, but it will touch a number of drivers. Yet another idea was to
+add another work in nvmet-rdma to defer the connection establishment
+[1], but adding a new work for the false-positive WARN is not desirable.
+Then I think this patch series is the best solution at this moment.
 
-    pci_msix_write_vector_ctrl()
-plus    
-    pci_msix_write_vector_ctrl_and_flush()
+Any comments will be welcomed. Thanks.
 
-and fixup the related call sites?
+[1] https://lore.kernel.org/linux-nvme/at36um4zrsfOr3kh@shinmob/
 
-Thanks,
 
-        tglx
+Shin'ichiro Kawasaki (2):
+  RDMA/cma: Add rdma_reclassify_id_for_listen()
+  nvmet-rdma: use a separate lockdep class for the listening cm_id
+
+ drivers/infiniband/core/cma.c | 13 +++++++++++++
+ drivers/nvme/target/rdma.c    |  2 ++
+ include/rdma/rdma_cm.h        |  6 ++++++
+ 3 files changed, 21 insertions(+)
+
+-- 
+2.56.0
+
 
