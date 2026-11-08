@@ -2,44 +2,44 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95020606D81A
-	for <linux-nvme@archiver.kernel.org>; Sun,  8 Nov 2026 20:48:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09184606A33B
+	for <linux-nvme@archiver.kernel.org>; Sun,  8 Nov 2026 20:48:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=x9rsH6ez;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=STCqHCKo
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=lmUUJ9Fp;
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=b8nc4Xfa
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=2nnhEenE0/1GT2EDac2uSW/ypInHmlgcoWTshjS2obA=; b=x9rsH6ez5diXoo
-	fbTVfJ+bStLPMAjeqixoCTBtGouaGUHWY2Jcy9EC78X7rUy3qe80Qvc8ZZRqOXVhGPV8qOfj6E8cV
-	XB6sj0vQtWxmXKrSY7+xF8IOWMCUYt1ra9NwU4WHrvDu0jPq/DUauXEIO8KeGh8i80kBLi4cDirF0
-	JFngsnEjpBEZ3sWhaZ5kkP/pxRnPqiIh27R6Z1bxofEOCHDnPXREuVHhS37wO6aJwF3gFl8DTowv7
-	GqeIigtZhtbuU8ICcsgwOdE3aFNiDRbUFbQUxg2KxThiLwwfT+noogKvX7xfHTkLBa/E+3h5/Uv7X
-	+EpgO/ryDQLlynV7tixw==;
+	List-Owner; bh=QlNI+CS9C292zxh1KVBjnCmUthmZFrW3aFe7rlr3lPo=; b=lmUUJ9FpR4WPRh
+	xKnBnruP/SBqPjvHKGEjq8Usa426Iom9EBq5brSQhAC34GWZI+4og1i7YB9NAx5TXtsMniZpFU645
+	JJ7rb6Q+eOfH+fSAbzkDfy6yveh3XNI16DaYjj6c0N3pJopFnO5nYg0Td+0/skxH41+/xI/rbW8hV
+	ACpbQl71SxaT4rFgOdJFvgIgFelZWs5CKlvpKDkNUAB38W8smJxe/fkYlBFCEbRDc/GP3cMsR9owd
+	c33YsZf7E/lHCN5c/he7RV0YMLMu8DZbDuHIaJW9X2zdWWCcVg/2F2xqVL03fQ46gDgL0t8QlPTbg
+	kA02knpwQFf40tPLhqZA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQ9oT-0000000GcZd-3UNQ;
-	Sun, 08 Nov 2026 20:48:29 +0000
-Received: from out-196.mta0.migadu.com ([2001:41d0:1004:224b::c4] helo=mta0.migadu.com)
+	id 1xQ9oW-0000000GcfZ-0y8m;
+	Sun, 08 Nov 2026 20:48:32 +0000
+Received: from out-150.mta1.migadu.com ([95.215.58.150] helo=mta1.migadu.com)
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQ9oL-0000000GcBv-2GfA
+	id 1xQ9oO-0000000GcK3-3DS4
 	for linux-nvme@lists.infradead.org;
-	Sun, 08 Nov 2026 20:48:29 +0000
+	Sun, 08 Nov 2026 20:48:30 +0000
 X-Envelope-To: linux-nvme@lists.infradead.org
-DKIM-Signature: a=rsa-sha256; bh=pPiJo5YvvZwz+FSuNCP5LV5980zfLh166gCKBgUb8TU=;
+DKIM-Signature: a=rsa-sha256; bh=zGxGuv8VhmxQDKGvPD7JkzGiFLkWBpRa5MQ8Ta/vS5c=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794170899; v=1; x=1794775699;
- b=STCqHCKooXiP/JFm9tRgW3k2K0EZRgZUzYpfsWJ/nZhmOi1NZ+x+eFysdDpxd0X+TvipCHrv
- /gW4YuE/qvdJCueQetYDDEYzWfKaUaAP3QmXi/e15EnooO37axtULx7Bs0syB5feEUrZaibzjFn
- +62QjsWOhnbO4EDrHG2uAPaY=
+ t=1794170903; v=1; x=1794775703;
+ b=b8nc4XfaD2zE8DbGFCdftnKpnKM79s1S1LWN1bvT46Gm6nplIK0R0f26Ib5DDNUnwSM9LzU7
+ J84CXShAQEfKd4JRGR3wPiYfdbeoyYDXAf0Ljg49034WfWhOPAsTWDNPnwz+64gfDXZSMtxeX6p
+ 7TChOIlUVIEP2oFHniESBnYo=
 X-Envelope-To: linux-nvme@lists.infradead.org
-Received: by mta10.migadu.com with ESMTPS id 3d3bbd98ebe99174;
-	Sun, 08 Nov 2026 20:48:19 +0000
-X-Mizu-Trace-ID: 3d3bbd98ebe99174
+Received: by mta10.migadu.com with ESMTPS id 3caf6acd72947ce7;
+	Sun, 08 Nov 2026 20:48:23 +0000
+X-Mizu-Trace-ID: 3caf6acd72947ce7
 X-Migadu-Flow: FLOW_OUT
 From: John Garry <john.garry@linux.dev>
 To: james.bottomley@hansenpartnership.com,
@@ -54,9 +54,9 @@ Cc: hare@suse.com,
 	hch@lst.de,
 	michael.christie@oracle.com,
 	John Garry <john.garry@linux.dev>
-Subject: [PATCH v9 20/29] scsi-multipath: provide callbacks for path state
-Date: Sun,  8 Nov 2026 20:47:24 +0000
-Message-ID: <20261108204733.557995-21-john.garry@linux.dev>
+Subject: [PATCH v9 24/29] scsi: sd: add multipath disk class
+Date: Sun,  8 Nov 2026 20:47:28 +0000
+Message-ID: <20261108204733.557995-25-john.garry@linux.dev>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261108204733.557995-1-john.garry@linux.dev>
 References: <20261108204733.557995-1-john.garry@linux.dev>
@@ -64,10 +64,9 @@ X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261108_124821_732245_510ADEBE 
-X-CRM114-Status: UNSURE (   8.48  )
-X-CRM114-Notice: Please train this message.
-X-Spam-Score: -2.1 (--)
+X-CRM114-CacheID: sfid-20261108_124825_031197_4E30712D 
+X-CRM114-Status: GOOD (  16.52  )
+X-Spam-Score: -2.8 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,80 +85,117 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Provide callbacks for .is_disabled, .is_optimized, and .available_path.
+Add a new class, sd_mpath_disk_class, which is the multipath version of
+the scsi_disk class.
 
-These all use scsi_device.sdev_state and scsi_device.access_state.
-
-Member scsi_device.access_state will be driven by ALUA. Currently
-only device handlers support this, and in future we will have core
-SCSI support for implicit ALUA (not relying on device handlers).
+Structure sd_mpath_disk is introduced to manage the multipath gendisk.
 
 Signed-off-by: John Garry <john.garry@linux.dev>
 ---
- drivers/scsi/scsi_multipath.c | 49 +++++++++++++++++++++++++++++++++++
- 1 file changed, 49 insertions(+)
+ drivers/scsi/sd.c | 43 ++++++++++++++++++++++++++++++++++++++++++-
+ drivers/scsi/sd.h |  3 +++
+ 2 files changed, 45 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/scsi/scsi_multipath.c b/drivers/scsi/scsi_multipath.c
-index 4c965650c2bd..2f47c39d8293 100644
---- a/drivers/scsi/scsi_multipath.c
-+++ b/drivers/scsi/scsi_multipath.c
-@@ -298,7 +298,56 @@ static struct bio *scsi_mpath_clone_bio(struct bio *bio)
- 	return clone;
- }
+diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
+index dc45df819c42..03617029a552 100644
+--- a/drivers/scsi/sd.c
++++ b/drivers/scsi/sd.c
+@@ -70,6 +70,7 @@
+ #include <scsi/scsi_ioctl.h>
+ #include <scsi/scsicam.h>
+ #include <scsi/scsi_common.h>
++#include <scsi/scsi_multipath.h>
  
-+static bool scsi_mpath_is_disabled(struct mpath_device *mpath_device)
+ #include "sd.h"
+ #include "scsi_priv.h"
+@@ -113,6 +114,39 @@ static mempool_t *sd_page_pool;
+ static mempool_t *sd_large_page_pool;
+ static atomic_t sd_large_page_pool_users = ATOMIC_INIT(0);
+ static struct lock_class_key sd_bio_compl_lkclass;
++#ifdef CONFIG_SCSI_MULTIPATH
++struct sd_mpath_disk {
++	struct scsi_mpath_head		*scsi_mpath_head;
++};
++
++static void sd_mpath_disk_release(struct device *dev)
 +{
-+	struct scsi_mpath_device *scsi_mpath_dev =
-+				to_scsi_mpath_device(mpath_device);
-+	struct scsi_device *sdev = scsi_mpath_dev->sdev;
-+	unsigned char access_state = READ_ONCE(sdev->access_state) &
-+					SCSI_ACCESS_STATE_MASK;
-+
-+	if (READ_ONCE(sdev->sdev_state) != SDEV_RUNNING)
-+		return true;
-+
-+	if (access_state == SCSI_ACCESS_STATE_OPTIMAL ||
-+	    access_state == SCSI_ACCESS_STATE_ACTIVE)
-+		return false;
-+
-+	return true;
 +}
 +
-+static bool scsi_mpath_is_optimized(struct mpath_device *mpath_device)
++static const struct class sd_mpath_disk_class = {
++	.name = "scsi_mpath_disk",
++	.dev_release = sd_mpath_disk_release,
++};
++
++static int sd_mpath_class_register(void)
 +{
-+	struct scsi_mpath_device *scsi_mpath_dev =
-+				to_scsi_mpath_device(mpath_device);
-+	struct scsi_device *sdev = scsi_mpath_dev->sdev;
-+	unsigned char access_state = READ_ONCE(sdev->access_state) &
-+					SCSI_ACCESS_STATE_MASK;
-+
-+	if (READ_ONCE(sdev->sdev_state) != SDEV_RUNNING)
-+		return false;
-+
-+	return access_state == SCSI_ACCESS_STATE_OPTIMAL;
++	return class_register(&sd_mpath_disk_class);
 +}
 +
-+static bool scsi_mpath_available_path(struct mpath_device *mpath_device)
++static void sd_mpath_class_unregister(void)
 +{
-+	struct scsi_mpath_device *scsi_mpath_dev =
-+				to_scsi_mpath_device(mpath_device);
-+	struct scsi_device *sdev = scsi_mpath_dev->sdev;
-+	enum scsi_device_state sdev_state = READ_ONCE(sdev->sdev_state);
-+
-+	if (sdev_state == SDEV_RUNNING || sdev_state == SDEV_QUIESCE ||
-+	    sdev_state == SDEV_BLOCK || sdev_state == SDEV_CREATED_BLOCK)
-+		return true;
-+
-+	return false;
++	class_unregister(&sd_mpath_disk_class);
++}
++#else /* CONFIG_SCSI_MULTIPATH */
++static int sd_mpath_class_register(void)
++{
++	return 0;
 +}
 +
- static struct mpath_head_template smpdt = {
-+	.is_disabled = scsi_mpath_is_disabled,
-+	.is_optimized = scsi_mpath_is_optimized,
-+	.available_path = scsi_mpath_available_path,
- 	.clone_bio = scsi_mpath_clone_bio,
- };
++static void sd_mpath_class_unregister(void)
++{
++}
++#endif
  
+ static const char *sd_cache_types[] = {
+ 	"write through", "none", "write back",
+@@ -4474,11 +4508,15 @@ static int __init init_sd(void)
+ 	if (err)
+ 		goto err_out;
+ 
++	err = sd_mpath_class_register();
++	if (err)
++		goto err_out_class;
++
+ 	sd_page_pool = mempool_create_page_pool(SD_MEMPOOL_SIZE, 0);
+ 	if (!sd_page_pool) {
+ 		printk(KERN_ERR "sd: can't init discard page pool\n");
+ 		err = -ENOMEM;
+-		goto err_out_class;
++		goto err_out_mpath_class;
+ 	}
+ 
+ 	err = scsi_register_driver(&sd_template);
+@@ -4489,6 +4527,8 @@ static int __init init_sd(void)
+ 
+ err_out_driver:
+ 	mempool_destroy(sd_page_pool);
++err_out_mpath_class:
++	sd_mpath_class_unregister();
+ err_out_class:
+ 	class_unregister(&sd_disk_class);
+ err_out:
+@@ -4514,6 +4554,7 @@ static void __exit exit_sd(void)
+ 		mempool_destroy(sd_large_page_pool);
+ 
+ 	class_unregister(&sd_disk_class);
++	sd_mpath_class_unregister();
+ 
+ 	for (i = 0; i < SD_MAJORS; i++)
+ 		unregister_blkdev(sd_major(i), "sd");
+diff --git a/drivers/scsi/sd.h b/drivers/scsi/sd.h
+index 574af8243016..22438173ea2f 100644
+--- a/drivers/scsi/sd.h
++++ b/drivers/scsi/sd.h
+@@ -83,6 +83,9 @@ struct zoned_disk_info {
+ 
+ struct scsi_disk {
+ 	struct scsi_device *device;
++#ifdef CONFIG_SCSI_MULTIPATH
++	struct sd_mpath_disk *sd_mpath_disk;
++#endif
+ 
+ 	/*
+ 	 * disk_dev is used to show attributes in /sys/class/scsi_disk/,
 -- 
 2.43.0
 
