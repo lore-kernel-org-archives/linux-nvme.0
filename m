@@ -2,150 +2,70 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 848E3606A320
-	for <linux-nvme@archiver.kernel.org>; Sun,  8 Nov 2026 13:08:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80BCB606A320
+	for <linux-nvme@archiver.kernel.org>; Sun,  8 Nov 2026 20:47:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=wSmyVDkg;
-	dkim=pass (2048-bit key) header.d=wdc.com header.i=@wdc.com header.a=rsa-sha256 header.s=dkim.wdc.com header.b=Cf496wRh;
-	dkim=pass (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-sharedspace-onmicrosoft-com header.b=B6B8wRCC
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=NnmrFET5;
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=W52V0x6q
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Message-ID:Subject:To:From:Date:Reply-To:Cc:Content-Transfer-Encoding:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
 	List-Unsubscribe-Post:List-Owner;
-	bh=XuOpCGStdqP6saibhZVYx9/3/yVAFhW23UR2yrzxiNs=; b=wSmyVDkg1vK1UjRbCOXZXPDlKK
-	NscynoTllBndNaSaj9l26GZ5bJ2JxMnUVL2939/25QZod2t/weEnhK43yj/GD4XyJAyvdB6D6ESGY
-	PbTKa3950Pedvnw2QOWgjn98MGZj1S7mRt0f0Q+Og237Gcwt7phJt8BSpXmWWyJ4bxr3GHnXrhlYU
-	l440wgA6w4oGFGZlY6+qMbAjLZeOyXzxBhPuK0C5sccyp7InxrYOYeCMaoJKp8lzmZQGNAhBGZw7C
-	lnq8G8q2Q9VMxVJ61hRqSGXRFKaRMQABxUek/Gx5WMGJDi5j/tSNuhl+dk3st+qzKdByeBqqoa6zW
-	0C4EkDqQ==;
+	bh=xjhWBUZih10V7YJdGXZxprUPzNAlZFyeQN11ftb+jJ0=; b=NnmrFET5SXBrR66FP0vLXKac/r
+	jtUwLuQPgUR4s4pLO6Uuetf7xJigzqI8Fmz1MQBuKplICcBSHZvPhDlMPithKm+RBS5aGb8YSe/AU
+	XhZ3CLWwnc5C8mSvSeh5+cZwpsSB5Z2MSpeJbihv3a4baa5usDpTy3ivduginmQ2SKJ0yj3rgQunG
+	nrlXaU2O96dwETq6cYmEnKPjdj7SlOfA0Wrd+0al/2aAOsDHAaPrUJXjkZmKztnuvCZbRv3Tc0WNq
+	vA/jlnQ7YL1ABq52ap6NJLyrxL1UoDIeYBFh3YIIGqqqudW112UzRtkknaTYQl9m/OEeBVT2X3bNP
+	yRK4w90A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQ2d5-0000000GBxo-0ixB;
-	Sun, 08 Nov 2026 13:08:15 +0000
-Received: from esa6.hgst.iphmx.com ([216.71.154.45])
+	id 1xQ9nx-0000000GbhQ-0SYM;
+	Sun, 08 Nov 2026 20:47:57 +0000
+Received: from out-9.mta1.migadu.com ([95.215.58.9] helo=mta1.migadu.com)
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQ2d1-0000000GBxS-2r75
+	id 1xQ9nt-0000000GbgO-0G5n
 	for linux-nvme@lists.infradead.org;
-	Sun, 08 Nov 2026 13:08:13 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1794143291; x=1825679291;
-  h=date:from:to:subject:message-id:mime-version;
-  bh=33hZiLVGSk4X9IrkhrEMHPj+c/qTu/ht9FLxTKGIWSs=;
-  b=Cf496wRhRYFAYJDGcQH9e6EXGShkpuV40PfES6wdkTFWzUZD6xnZDMO9
-   bq8BS1RqflBA/qcRnD7D6HSC+a8PJWVBRIJchx/ZTfN5KMkxW5pR53iIn
-   5Alj0AN59LQqpCtxvyIKxKb1s/aDEWvRfzXvbYEE4mdwhl+SR3owr0D40
-   IHsjk7aa7h3T3g1t6DuTITt3otZumBYV2MjzMiI5DlJLs67p7xcgUdWyc
-   Q0jLPOSEojQUeA4g/JS1S7lAb/H46vozHXjjRhgFwtNMMmb7smgSuFw7y
-   eWR4WOgE4ATR0GWqHn5Sn3IbjFXkbJYLw7w594HJTMVUK6Dh1r2gFWySQ
-   Q==;
-X-CSE-ConnectionGUID: eHxu+nhgQK+1I/xWQhPFCg==
-X-CSE-MsgGUID: jW9voZmnQwu8Mtl7Gk0BmA==
-X-IronPort-AV: E=Sophos;i="6.27,202,1786982400"; 
-   d="scan'208";a="158627367"
-Received: from mail-westus3azon11011009.outbound.protection.outlook.com (HELO PH0PR06CU001.outbound.protection.outlook.com) ([40.107.208.9])
-  by ob1.hgst.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 08 Nov 2026 21:08:10 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kp64+L90GN1i+UngZmb7/raQNqbGCuSG6sKJzSxRwYNHcllhhUR4KCzl/yLHCi2tJzPaOMnuNZxPtLPdZGxhzGgZth7QwFbLdm6Hv42yz72jtCxPgOSxy3RcMq/8ujP2c+vtfPG14McfUmzVQRGcIhqAuZ1O62mD4U9Py5D8EGSqX1j8SS5AnwjX2VIBLVPcPetdrlyLnZ7n+znOiPn2g74cMo9bKOv5DucQGD+D1kEJtv9/kB3H/WvUAPanm8KtlECxwX7Zrtgyi5QUkYfYUYQzZw2AJyXTalm0IuM+zaDCUn8lh/Tc7lTb84dp4oRxxeG78pGNb1VbFCQbC6TXxw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XuOpCGStdqP6saibhZVYx9/3/yVAFhW23UR2yrzxiNs=;
- b=hfqz8FTad79gN+Kcp8yqAhe4B+53fSysK8BZMAPr9+Pwi+jMUzQtFMfiZGKyzStUGjykJBZKeGjyeRWSYas9r0PLA38qSt2KdgsyH5Lnec6MJyZcMLxyLMZtYselzKKDpwl7bmxC2FLgFly1iX2S2Gtr0rnPTNeZR7WtMKIBsPiwEQO3aFYsi7kSqYFdNxXW40T5lUMxJEMCgIMZtHDGKPPhor4+aUzz2zkhrgQJ/ZhI5TCUzzbFxR5vNxnbtVCWhSnsqLUPb0WqfcC26YWSkfDqP+6mDhJkny4UGu7L0H4MBkJ/TJ0hXdgfkZOWZlKiKNNfxbJGYG9IGfPTafIe5w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XuOpCGStdqP6saibhZVYx9/3/yVAFhW23UR2yrzxiNs=;
- b=B6B8wRCCLeDcJ3pYoWAytowC4MORtl7SVP8cMbmNwhDeoqP0GHtLu3LvenyZAnF9cW/HhVohoVyy+7z+TX+DoD6pFSdxJ0fq/bfU+7qfZJUoJz6sW1c470DV3CpR/NSBmFtYYVZ44VitRPD1iQpJzy6XyCYFX4/jd2oIN9F9B28=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-Received: from SA1PR04MB10065.namprd04.prod.outlook.com
- (2603:10b6:806:4dd::14) by PH0PR04MB7525.namprd04.prod.outlook.com
- (2603:10b6:510:5f::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.12; Sun, 8 Nov
- 2026 13:08:08 +0000
-Received: from SA1PR04MB10065.namprd04.prod.outlook.com
- ([fe80::9b98:bf8a:b0b1:ef85]) by SA1PR04MB10065.namprd04.prod.outlook.com
- ([fe80::9b98:bf8a:b0b1:ef85%5]) with mapi id 15.21.0592.010; Sun, 8 Nov 2026
- 13:08:08 +0000
-Date: Sun, 8 Nov 2026 22:08:03 +0900
-From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>, 
-	nbd@other.debian.org, linux-rdma@vger.kernel.org
-Subject: blktests failures with v7.4-rc1 kernel
-Message-ID: <avBz7uOGYo2y426_@shinmob>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-ClientProxiedBy: TYWPR01CA0016.jpnprd01.prod.outlook.com
- (2603:1096:400:a9::21) To SA1PR04MB10065.namprd04.prod.outlook.com
- (2603:10b6:806:4dd::14)
+	Sun, 08 Nov 2026 20:47:55 +0000
+X-Envelope-To: linux-nvme@lists.infradead.org
+DKIM-Signature: a=rsa-sha256; bh=2rsZwfjFMq/a1Kzo/urx8D8cn0WOpZhxUsbpq63LXSg=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1794170869; v=1; x=1794775669;
+ b=W52V0x6qMUBB5Rr/auBLIUKg0y/4UxEcPe1QEZLpfuZ/70uD7UwyLxNTNEoAJkbGQh/SeEhp
+ X2qsFbphdp/sOHw81JonEDdNxcPOP2TLYjQVVwXb0G6A9FUFmFM8Om5dMbSS8Dx6Q9EKKxTC2/B
+ mQ+kbZ6LgAVcAKGEudEiiJdE=
+X-Envelope-To: linux-nvme@lists.infradead.org
+Received: by mta10.migadu.com with ESMTPS id dd57490ad9f8d74e;
+	Sun, 08 Nov 2026 20:47:49 +0000
+X-Mizu-Trace-ID: dd57490ad9f8d74e
+X-Migadu-Flow: FLOW_OUT
+From: John Garry <john.garry@linux.dev>
+To: james.bottomley@hansenpartnership.com,
+	mkp@kernel.org
+Cc: hare@suse.com,
+	linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org,
+	snitzer@kernel.org,
+	jmeneghi@redhat.com,
+	bmarzins@redhat.com,
+	dm-devel@lists.linux.dev,
+	hch@lst.de,
+	michael.christie@oracle.com,
+	John Garry <john.garry@linux.dev>
+Subject: [PATCH v9 00/29] Native SCSI Multipath support
+Date: Sun,  8 Nov 2026 20:47:04 +0000
+Message-ID: <20261108204733.557995-1-john.garry@linux.dev>
+X-Mailer: git-send-email 2.43.0
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR04MB10065:EE_|PH0PR04MB7525:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7d10faec-c4cf-4381-f8ed-08df3d99558d
-WDCIPOUTBOUND: EOP-TRUE
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|19092799006|23010399003|376014|18002099003|6133799003|10067099003|11063799006|261028144727099003|261102123227099003|261022105027099003|261022075727099003|56012099006|261021135927099003|261021121427099003|261026140227099003|261009223027099003|260925021311599003|260925021911599003|260925022911599003;
-X-Microsoft-Antispam-Message-Info: ZdWbAXH5/s8IPLtx9HvywsjDXpW+IOKCGtygN+xoQu+98Jm0YsVdBETo4MB2b0ka71r2OTJcrSBzCf6QHlSE8gB3vQ4s7knztZG/1bMXMOEEJCWkRj+0PC/eFHA86MRaPuQWjp/HkiNRGaNw+j4Y8aGBja2SxKM9KAKllkATKaTYg/irn6/sV474i4NNS+JJMPRBcuGF2xNJqevA6gOOCMfNur5hxm21vD7JnBrlMoUA0X/NTnSjvfrRM2lmNUgh2SuAmkwpe7mc9wicrY/Br/w6bZrp97fQJnw8aSiSXsE6+BN9ZAnRjjzEbVzm1ym3keZy4O5TnMCfMLjWkUrrkyWVr8c/7viECvJ3JP8Lk6WHs/M+O21pGkqRvM2yj3Ax7uvg4AYgYYABznXCeop30SyFusmRTn9eRt7lWVuF+8wpbsnjkTKlKeJf6cRUK+HiI5A09xbwHAHN/JsNS2JpVtzLu+F0m5YAyxqDUtVZ8g6rpD9OmyaEAnPEsfswoLnHgSpuFODbxRv01bF2Mi/ex8+oTTa8rV7rzotEj+osFCj6YaVEviuaUNnJ8JhdkUkmxkHs+jhocoEQzz3MdITrgNFmyfGBUFJtOupmpDqoHKuLhpwK4z/NJyQcKcR/cX1T
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR04MB10065.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(19092799006)(23010399003)(376014)(18002099003)(6133799003)(10067099003)(11063799006)(261028144727099003)(261102123227099003)(261022105027099003)(261022075727099003)(56012099006)(261021135927099003)(261021121427099003)(261026140227099003)(261009223027099003)(260925021311599003)(260925021911599003)(260925022911599003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?OIBiJEQUZc0xfKA2MvyFJBjlzAJWuDJrr3Tp767MJVcpWL23+nJTTfK5WnKm?=
- =?us-ascii?Q?CFlsea/I5inJ2tyW64AcqrJruA9/ibLplKNrBUEt7ViKjF9EOs+Y/tbnU7aV?=
- =?us-ascii?Q?7uaA9PpqFx3ZEs87vhjwkaBMs+mHG7k2fwxkKDwy+STZ/Gr8sSGyZlQNWuER?=
- =?us-ascii?Q?HXtxm3xlJZjmTX6HNz4mWRSWfnyd7iGrCLJ5728KZ4WfW5huhyzr4UWb7+fu?=
- =?us-ascii?Q?sMqq/pcSQcMs7alpjfcob7fukHatorOGjCK2R4s7GS9HwoG5u9o3jctud/od?=
- =?us-ascii?Q?v3v2gQU3YNqUFgkPlQ3ixz4gXq7TfWTIV2cVdg9DQ0IplR5O/e1iblOlytaN?=
- =?us-ascii?Q?WbcMZIsV3LYBR6aj+VqrqqOuIc0OBYrCKVfu8xJenURu8abHOMg3bpVq1eFO?=
- =?us-ascii?Q?hz2+/UerKAA85YDlkuxeQtLFGzYeI0l7XN4QZ/ITpJFOtcyvmu8X3fUJxrVO?=
- =?us-ascii?Q?MnXHit8SrmWU8jpaKnuNJ3GI4LgSMIlHUjJGxzGy26f6mQwvudRDSCyWmwnJ?=
- =?us-ascii?Q?08Z/PZP8K3mGxA0PQaY83WFLUFGi+PXMuGY07VvRiNiJD62zYQRgWEwwxCto?=
- =?us-ascii?Q?O/WHZCVR6AdQ4Gx5S7MsbRXVQJpAIDi8lUOlFKDd/55rdfWJPWuBdvLAXL1J?=
- =?us-ascii?Q?GJGEv34Q0ozb4G2Tav9Tt52K/jC1VHRLzWK8QWDTqbQMg4k6Kb+VBVeVs46i?=
- =?us-ascii?Q?pt9pZnIBfNZ39f2nk3jySogKycWDI1H/fCfRf+Mas24FNylWAZkxLfOIpQZu?=
- =?us-ascii?Q?bFWRmFj6POI1HxDHt+UUmfQaN1QEcXmcPamek4tob1nMy2EXLKru+HgWGyO3?=
- =?us-ascii?Q?GUfc6pOXSS5UnWTv3sxExaIx7CooJ+qWTNWtlku6ugk94Kw/NhhAhFhOhHy5?=
- =?us-ascii?Q?Ea7quRIXCTME2M1mie4pWja6QTvn2GdF7D8hy+RpxmgG2ei1nCNmmfRkJUNM?=
- =?us-ascii?Q?BmcUTM6C7xLB9oA+Mzr4h2UzxyBh3xX6K3FxdIMYykLuewawZPfNxz/EwX1l?=
- =?us-ascii?Q?/N9ECsHKNRJd9Gr73oDP5Vcdru0oB4vMzBIbPlalL3hBkxFvbljxcYtwwxP2?=
- =?us-ascii?Q?qRE6aUFFOciuC79Pcdk1ucmWLCz5S9zzVMXAB2lv7990aMNAaCHYXSH8PsOJ?=
- =?us-ascii?Q?ORRoEw8mF+kPhFHDfvs/44cYInrNsgKE6AeN0N0dJbj/A4xoMa0S/di8emU2?=
- =?us-ascii?Q?JBEzFpFxhIfjreLEcpMOCOA6BT2wOhS7vDS9xEGlaQoyAkttLeIXzYw2znKT?=
- =?us-ascii?Q?7BEx11RDaOEEJSGFnf60D2LZvZHYX1djGniu7GB51idHtVRr/riidIQjrJev?=
- =?us-ascii?Q?gqMLVWtHnDGyJInHhokKdYbi1/P13zg3v/ajD+r995BEs74LB3MF4d59pc1V?=
- =?us-ascii?Q?sialMRnX4cyuuacmsT+UwPhTW5Y4//0Z3kCKRHpN21+r8yJML9pcV1ojZHy5?=
- =?us-ascii?Q?Wr1lSwS4VhBqzWpYH9M7FFLT6yCRE2Ikb3Q0/JXBmPFao+Xzu2YUYXUwkJVp?=
- =?us-ascii?Q?pp82ZogWTDkYVHamDIupeP+h8bdjIn+0QtOi106d8dceoIIWDEDnH9G09dhO?=
- =?us-ascii?Q?6JnTxvrJdV4OZYgj3xqOZHuz/bemjB2RaJeeKNuLsPi4lD5ByZFOfHMdXXzX?=
- =?us-ascii?Q?zZgwWz5BO+zA+xbj8E0D8lfhnuI62ijOp4NfpX3hZJZ0ryT27JKQVDNZCSwx?=
- =?us-ascii?Q?u3PVOH79ohuSTAC+uLhRcGF9YmpTkBC+DbdWNiERhBMDoOxQtj+YHNs2Zx18?=
- =?us-ascii?Q?h+0iTHGqX1mUpu/SiWvPk9oM1jEIwyQ=3D?=
-X-Exchange-RoutingPolicyChecked: VWzcxdJG2emPZPtKmNXXEeub9wlfOYjG+B/J3EznzZUf0j98mdh2ClHeibTw504h715QUR+xEUIO2QyRdAAjadn9aAIgpdGpac9WTOrR2EMa2pb+7W8DWzN5yoNDmu/esj4Ila0SaS/jlVHx4Nnx3lGn/89PV8BEw7CRWG5SUDa56o6Bjh8nvhsPtWKCvjRhfgVNw/EtL2633qmhF6S6EtzyIC/FdWMuMya4+bu7HyTwHlEkiywHhTAtFfjdF6tyXsm65NclC3LQzgrxPPjjoDaqxDlhMncP1YZx8hKJFAqhAo1HOMUpInddd4cOIqveU23NDcNdPMe4fHns++j0OA==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: +EHkki3BNDtmXDMCQ6Vnyuj54htqNS9mn5yDCnnKjSuch6fuzAnFkNU2+dqx+Joh4No/+z8RNKgffyfVB5+Zf0NzS3Ri84b0p6RYrsyJ8gxPQTYHpTioFJ/jY4X9yNSLIsIpM0W/2jBxLE2aLQ8C6McTnp0aDOUvw6k984mB89t7TeugePMtTiZ+I9ovzi4FNiqT4I+7LCubkERduA4GggMdX6FS0mQP9OpKeTEh1rqqrCI8X3OhhLE+4cPAkZjIXLFzyGffijGwL1SF5WGssKsmmkHjUndLkmIlEEkzS5NLyz1CpVMzYZdBJDKz4LZgxcqAzRfU/SZ8Vlyf4ke/K0lqn8dIWvmdc8YDHmBBqb8UjFvlMLf7j78MA6tFuG45EU7b4LWO9/qIfS1mK5d07RbyZ59jAG44fqe58+1rLqA1eqcOynHPoJVyQHEidEr28JcHjyakqIGBhC+ixzyUi0bCrpBFxJi6iT4Dgt1tZjRS1aZcrrTjYUHRZEjL24+/xrsnFvHjNVRsuqMO+zMCa5/xMpGj+0UTccAEhCXP29Dic0/utBGqdLC6juM62/wD0TF2Wn1pBwysmDzgOmYe7jk125J6Ql3vYruYefqfoEZrhVrpT+axVvzo5f72x0/P
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7d10faec-c4cf-4381-f8ed-08df3d99558d
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR04MB10065.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Nov 2026 13:08:08.5565
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xyZx8szrURZY9F0k0zAC66bPRTXU+rNPg47w9Ywz2k9o6bNixHfAbjyleVkSsmSAoXFv/lNX0/NlLur8eFRmmAVuPLpogU0Bgdv+ronezWk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR04MB7525
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261108_050811_806781_A77E3F78 
-X-CRM114-Status: GOOD (  10.25  )
-X-Spam-Score: -4.4 (----)
+X-CRM114-CacheID: sfid-20261108_124753_537347_510715C0 
+X-CRM114-Status: GOOD (  17.11  )
+X-Spam-Score: -2.8 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -156,89 +76,186 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Hi all,
+NATIVE SCSI MULTIPATH:
 
-I ran the latest blktests (git hash: a65cf6bdca19) with the v7.4-rc1 kernel. I
-observed 4 failures listed below. Compared with the previous report for v7.3
-kernel [1], 2 new failure was observed. The failure #4 nvme/059 needs further
-work. Help for it will be appreciated.
+This series introduces native SCSI multipath support. It is intended as
+an alternative to dm-mpath.
 
+This support aims to provide a multipath-enabled SCSI block device/
+gendisk.
 
-[1] https://lore.kernel.org/linux-block/atgwg4i6C1zGi1HU@shinmob/
+For a SCSI device to support native multipath, either of the following
+conditions must be satisfied:
+a. unique ID in VPD page 83 and ALUA support and scsi_multipath modparam
+   enabled
+b. unique ID in VPD page 83 and scsi_multipath_always modparam enabled
 
+This series relies on reading sdev->access_state to get path information.
+This path information would be provided by ALUA. ALUA support which does
+not rely on device handlers has already been discussed at
+https://lore.kernel.org/linux-scsi/7755e98f-5619-48ba-bcfc-b64eec930c40@oracle.com/
+and support will be added in the next phase.
 
-List of failures
-================
-#1: nvme/004,031  (rdma transport)
-#2: nvme/037 hang  (new)(rdma transport)
-#3: nvme/052
-#4: nvme/059  (new)(fc transport)(kmemleak)
+New classes of devices are added:
+- scsi_mpath_device
+- scsi_mpath_disk
 
+These are required since a multipath scsi_device has no common scsi host.
+An example of the sysfs files and directories for these new classes is as
+follows:
 
-Failure description
-===================
+$ ls -l /sys/class/scsi_mpath_device/scsi_mpath_device0/
+total 0
+-rw-r--r--    1 root     root          4096 Feb 25 11:59 iopolicy
+drwxr-xr-x    2 root     root             0 Feb 25 11:59 multipath
+drwxr-xr-x    2 root     root             0 Feb 25 11:59 power
+lrwxrwxrwx    1 root     root             0 Feb 25 11:59 subsystem ->
+../../../../class/scsi_mpath_device
+-rw-r--r--    1 root     root          4096 Feb 25 11:58 uevent
+-r--r--r--    1 root     root          4096 Feb 25 11:59 vpd_id
+$ ls -l /sys/class/scsi_mpath_device/scsi_mpath_device0/multipath/
+total 0
+lrwxrwxrwx    1 root     root             0 Feb 25 11:59 8:0:0:0 ->
+../../../../platform/host8/session1/target8:0:0/8:0:0:0
+lrwxrwxrwx    1 root     root             0 Feb 25 11:59 9:0:0:0 ->
+../../../../platform/host9/session2/target9:0:0/9:0:0:0
+$ cat /sys/class/scsi_mpath_device/scsi_mpath_device0/vpd_id
+naa.600140505200a986f0043c9afa1fd077
+$ cat /sys/class/scsi_mpath_device/scsi_mpath_device0/iopolicy
+numa
+$
 
-#1: nvme/004,031 (rdma transport)
+$ ls -l /sys/class/scsi_mpath_disk/scsi_mpath_disk0/
+total 0
+drwxr-xr-x    2 root     root             0 Feb 25 12:00 power
+drwxr-xr-x   11 root     root             0 Feb 25 11:58 sdc
+lrwxrwxrwx    1 root     root             0 Feb 25 11:58 subsystem ->
+../../../../class/scsi_mpath_disk
+-rw-r--r--    1 root     root          4096 Feb 25 11:58 uevent
+$ ls -l /sys/class/scsi_mpath_disk/scsi_mpath_disk0/sdc/multipath/
+total 0
+lrwxrwxrwx    1 root     root             0 Feb 25 12:00 sdc:0 ->
+../../../../../platform/host8/session1/target8:0:0/8:0:0:0/block/sdc:0
+lrwxrwxrwx    1 root     root             0 Feb 25 12:00 sdc:1 ->
+../../../../../platform/host9/session2/target9:0:0/9:0:0:0/block/sdc:1
 
-    The test cases nvme/004 and nvme/031 fail occasionally for rdma transport
-    due to the lockdep WARN related to the two locks nvmet_config_sem and
-    &id_priv->handler_mutex. It is easier to recreate with rxe driver. It is
-    rather rare, but the failure is observed with siw driver also.
+$ ls -l /dev/sdc
+brw-rw----    1 root     disk        8,  32 Feb 25 11:58 /dev/sdc
 
-    The trigger commit was
+The scsi_device and scsi_disk classes otherwise remain unmodified.
+However, the per-path block device is hidden in /dev/. Furthermore,
+multipathed block devices have a new naming scheme, sdX:Y, where
+X is the scsi multipath device index and Y is the path index.
 
-     2a8513091d2f ("nvme-rdma: parallelize I/O queue allocation and startup")
+No multipath sg support is added. We still have a per-path sg device.
+Since the SCSI block device is multipath enabled, we can access
+multipathed scsi_ioctl() through that block device.
 
-    in v7.3-rc1. I posted fix patch candidate [2].
+For failover, we take the approach of cloning bio's and re-submitting them
+in full (for failover errors).
 
-    [2] https://lore.kernel.org/linux-nvme/20261108120154.148824-1-shinichiro.kawasaki@wdc.com/
+LIBMULTIPATH:
 
-#2: nvme/037 hang  (rdma transport)
+This series introduces also libmultipath. It is essentially a refactoring
+of NVME multipath support, so we can have a common library to also support
+native SCSI multipath.
 
-    When the test case nvme/037 is repeated several times for rdma transport,
-    it hangs [3]. Nilay provided a fix patch, which was already applied for
-    v7.4-rcX [4].
+Much of the code is taken directly from the NVMe multipath code. However,
+NVMe specifics are removed. A template structure is provided so the driver
+-may provide callbacks for driver specifics, like ANA support for NVMe.
 
-    [3] https://lore.kernel.org/linux-nvme/auhpmq499RVE9YpC@shinmob/
-    [4] https://lore.kernel.org/linux-nvme/20261105123642.2120548-2-nilay@linux.ibm.com/
+Important new structures introduced include:
 
-#3: nvme/052
+- mpath_head
+These contain much of the multipath-specific functionality from
+nvme_ns_head, including a pointer to the gendisk structure and
+a path SRCU-based array.
 
-    When it is repeated several times, the test case nvme/052 fails [5]. Nilay
-    provided a fix patch [6].
+- mpath_device
+This is the per-path structure, and contains much the same
+multipath-specific functionality in nvme_ns
 
-    [5] https://lore.kernel.org/all/ar30Q5H1fuyFtDwM@shinmob/
-    [6] https://lore.kernel.org/linux-nvme/20261002070249.338225-1-nilay@linux.ibm.com/
+libmultipath provides functionality for path management, path selection,
+data path, and failover handling.
 
-#4: nvme/059  (fc transport)(kmemleak)
+Full series also available at
+https://github.com/johnpgarry/linux/tree/scsi-multipath-v7.4-v9
 
-    When the test cases nvme/057, 058 and 059 are repeated several times for
-    fc transport, a kmemleak was reported at the test case nvme/059:
+Differences to v8:
+- Rebase
+- Hardening changes advised by sashiko, including "Clear cmd->flags"
+  change
 
-    unreferenced object 0xffff88812a768000 (size 512):
-      comm "kworker/1:3H", pid 92985, jiffies 4301970763
-      hex dump (first 32 bytes):
-        40 cd f8 4b 81 88 ff ff 00 00 00 00 00 00 00 00  @..K............
-        00 00 00 00 ad 4e ad de ff ff ff ff 00 00 00 00  .....N..........
-      backtrace (crc 3cd92a37):
-        __kmalloc_cache_noprof+0x4c1/0x6d0
-        fcloop_fcp_req+0xc4/0x650 [nvme_fcloop]
-        nvme_fc_start_fcp_op.part.0+0x642/0x17a0 [nvme_fc]
-        nvme_fc_queue_rq+0x392/0x6e0 [nvme_fc]
-        blk_mq_dispatch_rq_list+0x3e0/0x2400
-        __blk_mq_sched_dispatch_requests+0x20a/0x15d0
-        blk_mq_sched_dispatch_requests+0xab/0x150
-        blk_mq_run_work_fn+0x1dc/0x2e0
-        process_one_work+0x944/0x1760
-        worker_thread+0x5fd/0xfe0
-        kthread+0x36d/0x470
-        ret_from_fork+0x653/0x9d0
-        ret_from_fork_asm+0x1a/0x30
+Differences to v7:
+- rebase
+- simplify scsi_mpath_clone_end_io() (sashiko)
+- rename bio_list_add_clone() -> bio_list_add_master()
+- rework checks in mpath_alloc_disk_head() (sashiko)
+
+John Garry (29):
+  scsi: core: Clear cmd->flags for terminal queuing error
+  libmultipath: Add initial framework
+  libmultipath: Add basic gendisk support
+  libmultipath: Add path selection support
+  libmultipath: Add bio handling
+  libmultipath: Add support for mpath_device management
+  libmultipath: Add delayed removal support
+  libmultipath: Add sysfs helpers
+  libmultipath: Add support for block device IOCTL
+  libmultipath: Add mpath_bdev_getgeo()
+  libmultipath: Add mpath_bdev_get_unique_id()
+  scsi-multipath: introduce basic SCSI device support
+  scsi-multipath: introduce scsi_device head structure
+  scsi-multipath: provide sysfs link from to scsi_device
+  scsi-multipath: support iopolicy
+  scsi-multipath: clone each bio
+  scsi-multipath: clear path when device is blocked
+  scsi-multipath: revalidate paths upon device unblock
+  scsi-multipath: failover handling
+  scsi-multipath: provide callbacks for path state
+  scsi-multipath: add scsi_mpath_{start,end}_request()
+  scsi-multipath: update request for terminal request queuing error
+  scsi-multipath: add delayed disk removal support
+  scsi: sd: add multipath disk class
+  scsi: sd: add multipath disk attr groups
+  scsi: sd: support multipath disk
+  scsi: sd: add mpath_dev file
+  scsi: sd: add mpath_numa_nodes dev attribute
+  scsi: sd: add mpath_queue_depth dev attribute
+
+ drivers/scsi/Kconfig          |  10 +
+ drivers/scsi/Makefile         |   1 +
+ drivers/scsi/scsi.c           |   8 +-
+ drivers/scsi/scsi_lib.c       |  20 +-
+ drivers/scsi/scsi_multipath.c | 691 +++++++++++++++++++++++++
+ drivers/scsi/scsi_scan.c      |   4 +
+ drivers/scsi/scsi_sysfs.c     |  10 +
+ drivers/scsi/sd.c             | 611 +++++++++++++++++++++-
+ drivers/scsi/sd.h             |   3 +
+ include/linux/multipath.h     | 156 ++++++
+ include/scsi/scsi_cmnd.h      |   9 +-
+ include/scsi/scsi_device.h    |   2 +
+ include/scsi/scsi_driver.h    |   4 +
+ include/scsi/scsi_host.h      |   4 +
+ include/scsi/scsi_multipath.h | 129 +++++
+ lib/Kconfig                   |   6 +
+ lib/Makefile                  |   2 +
+ lib/multipath.c               | 948 ++++++++++++++++++++++++++++++++++
+ 18 files changed, 2592 insertions(+), 26 deletions(-)
+ create mode 100644 drivers/scsi/scsi_multipath.c
+ create mode 100644 include/linux/multipath.h
+ create mode 100644 include/scsi/scsi_multipath.h
+ create mode 100644 lib/multipath.c
+
+-- 
+2.43.0
+
 
