@@ -2,63 +2,59 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDC92606A33A
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2026 02:27:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 530D6606A32A
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2026 02:31:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=KQ5Xix7G;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=f4fW++mh
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=aiedm3zw;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Apjq2JG/
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=jSWKQrfCUAmL8sZEabRSPhfS3U6uXGmNDJ+WfFuaYqY=; b=KQ5Xix7GmnQOT+
-	zXfmFcDjjfeLXTPGGLGm0Dl6yXbcIRNDpqadncOUPOHhbta8dvTUgaS0rbS6dYxHhY+MFI+nnSSOH
-	WFZ+sOPdAkUK7xRJpdEhp982nng32uU+AglINp/bD+kSfZ068U5I6Z6SbvQ4nfihRJqp7FnKDyXzC
-	PTBqP79QKWF3bV7Pmo4mD0UZ+OV6FMLJ12KP2d7Hr4gCQSMUDi1H83GRIhQVOLptpWtavhbbZBFb1
-	ATJTE1/xdPJBWJ3nYKhFiM+rhEm7S0ZajX9PlnOqjPYZj65bgQaeobcE2uaQs3z6bnYiuHhC1S0Yz
-	m75SN7eBi2uN4upAK1qg==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Cc:To:Subject:
+	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Unsubscribe-Post:List-Owner;
+	bh=f5xGu54rQz0r5NybvgvaFdtIN9Imw37xQ47oWWlDE/s=; b=aiedm3zwsU229n9pDv5RDgbb5j
+	k/jkatJfahRyryT1pqCCz9lKHZyVORuiZCGBLtuZ8NEk5Bw3Rx3rsG8jAdY0uTDiuxOOKDDUHelfO
+	Q1FFEWPUTl1zp0lkn9RzzbBVeubkNSj9yvzuOOsjOBQhqehcYtspXS4Xj1yp0H/Q6iW/wSuFz6OKG
+	WBDFmPU/ybJsnqLKJai/wrPrnmq2Gxpj1GpvInRYHSIrr5Ze1bbZ7DkgZTdTSrs4DTvFnrGSomY4S
+	oiDPHgzcHK6xYCisByEqUqp781oaYpvsMfkCzfnR7k12dGD0xe5rLYjxzDItXL0O+JU+xp7hAP2nn
+	J9RDQheA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQF6A-0000000H7hn-1gdS;
-	Mon, 09 Nov 2026 02:27:06 +0000
-Received: from out30-112.freemail.mail.aliyun.com ([115.124.30.112])
+	id 1xQFAX-0000000H8Lr-04RR;
+	Mon, 09 Nov 2026 02:31:37 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQF64-0000000H7d6-2g03
+	id 1xQFAW-0000000H8LZ-0f7l
 	for linux-nvme@lists.infradead.org;
-	Mon, 09 Nov 2026 02:27:02 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1794191217; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=jSWKQrfCUAmL8sZEabRSPhfS3U6uXGmNDJ+WfFuaYqY=;
-	b=f4fW++mhOYy/75/R15LQ3hAx1SqrTfC9Ddu2837D70WlUX5d5MyBmanyVpJYTgWn8l9ODwJQJuHFcC2t+EyEE5gEZ5HEEEMLejkqExAy/Kejfvo6xtU059sWDdBxehA+dTME8hdk5m23VD2/oivYw5V9BGhzFUZjcX2VhUWRU/c=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XEI5jqY_1794191215;
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XEI5jqY_1794191215 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Mon, 09 Nov 2026 10:26:56 +0800
-From: Guixin Liu <kanie@linux.alibaba.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Nilay Shroff <nilay@linux.ibm.com>,
-	Daniel Wagner <dwagner@suse.de>,
-	Hannes Reinecke <hare@suse.de>
+	Mon, 09 Nov 2026 02:31:36 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id 806FE4077B;
+	Mon,  9 Nov 2026 02:31:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4605B1F0089F;
+	Mon,  9 Nov 2026 02:31:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794191495;
+	bh=f5xGu54rQz0r5NybvgvaFdtIN9Imw37xQ47oWWlDE/s=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=Apjq2JG/Dn4kr4PWV+k3oLC57+kVurg1yqwIDtcLVnxcHzfG5nWbMJsL2Uf+b2EFk
+	 4uoCr4p+9J/9MU/Ayvz1OHwDhHFXmavWchgzpDafDRdKHRXw2+Fa7ovgf8UE5Jye9K
+	 P0DQ1mDLHSG8nHX3HMeV+F59MLErXNoAvVZ4ltYoLxeuPwghCwtAymVM3cZKEPisuC
+	 mBy7qi5LWLdKOZeIDTOK3TKD+KE8PpfnSVpJZDw+5NKyE8yHURKrIGLlmMtrB5Mii7
+	 ga+NrDiHhRFfqEQNB/TJh9+6qSoK8dQ5w3t1U52enkPzSS0D1ddqM+DowfhrEUy+IJ
+	 NbpBHgMHScKIA==
+Message-ID: <sashiko-outbox-204348@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2 3/5] nvme-auth: fix data race on ctrl->transaction
+To: "Guixin Liu" <kanie@linux.alibaba.com>
 Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH v2 5/5] nvmet: use GFP_KERNEL for PR allocations
-Date: Mon,  9 Nov 2026 10:26:46 +0800
-Message-ID: <20261109022646.290792-6-kanie@linux.alibaba.com>
-X-Mailer: git-send-email 2.43.7
-In-Reply-To: <20261109022646.290792-1-kanie@linux.alibaba.com>
+In-Reply-To: <20261109022646.290792-4-kanie@linux.alibaba.com>
 References: <20261109022646.290792-1-kanie@linux.alibaba.com>
-X-Archived-By: <archiver.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261108_182700_832230_D21CD3F5 
-X-CRM114-Status: GOOD (  12.47  )
-X-Spam-Score: -17.6 (-----------------)
+ <20261109022646.290792-4-kanie@linux.alibaba.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 09 Nov 2026 02:31:34 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,59 +64,51 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-26.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
-	version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
+X-Archived-By: <archiver.kernel.org>
 
-nvmet_pr_update_reg_attr() and nvmet_pr_alloc_and_insert_pc_ref()
-allocate with GFP_ATOMIC, but both run in sleepable context: the PR
-command handlers execute from the transport workqueues and take the
-pr_sem semaphore, and the pc_ref allocation is reached from the
-connect and configfs paths. The latter function even passes
-GFP_KERNEL to the percpu_ref_init() in the same scope, so the
-GFP_ATOMIC only raises the failure rate for no reason.
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Low] nvme-auth: missing Fixes trailer for ctrl->transaction data race
+  fix
+--
 
-Switch both allocations to GFP_KERNEL.
+commit 80e147df824d3b130d9f9eca4a6cd6ae6f4b0f78
+Author: Guixin Liu <kanie@linux.alibaba.com>
 
-Fixes: 5a47c2080a73 ("nvmet: support reservation feature")
-Cc: stable@vger.kernel.org
-Reviewed-by: Hannes Reinecke <hare@kernel.org>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>
-Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
----
- drivers/nvme/target/pr.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> nvme-auth: fix data race on ctrl->transaction
+>
+> nvme_ctrl_auth_work() queues the DH-HMAC-CHAP exchange of every queue
+> on nvme-auth-wq without waiting for them, so multiple
+> nvme_queue_auth_work() instances run concurrently and all increment
+> ctrl->transaction in nvme_queue_auth_work(). The plain increment is a
+> data race, and the lost updates hand the same transaction id to
+> concurrent queues.
+>
+> The controller side only echoes the transaction id within a queue, so
+> the race has no functional impact today, but the increment is still
+> unsynchronized and KCSAN reports it. Use atomic_inc_return(); the
+> first transaction id is now 1 instead of 0, which is immaterial as
+> the controller only echoes the id within a queue.
+>
+> Reviewed-by: Hannes Reinecke <hare@kernel.org>
+> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
 
-diff --git a/drivers/nvme/target/pr.c b/drivers/nvme/target/pr.c
-index 14eaa99f98fa..026653ce338f 100644
---- a/drivers/nvme/target/pr.c
-+++ b/drivers/nvme/target/pr.c
-@@ -335,7 +335,7 @@ static u16 nvmet_pr_update_reg_attr(struct nvmet_pr *pr,
- 		return NVME_SC_SUCCESS;
- 	}
- 
--	new = kmalloc_obj(*new, GFP_ATOMIC);
-+	new = kmalloc_obj(*new, GFP_KERNEL);
- 	if (!new)
- 		return NVME_SC_INTERNAL;
- 
-@@ -1040,7 +1040,7 @@ static int nvmet_pr_alloc_and_insert_pc_ref(struct nvmet_ns *ns,
- 	struct nvmet_pr_per_ctrl_ref *pc_ref;
- 	int ret;
- 
--	pc_ref = kmalloc_obj(*pc_ref, GFP_ATOMIC);
-+	pc_ref = kmalloc_obj(*pc_ref, GFP_KERNEL);
- 	if (!pc_ref)
- 		return  -ENOMEM;
- 
--- 
-2.43.7
+[Severity: Low]
+Since this fixes the unsynchronized increment of ctrl->transaction across
+concurrent per-queue authentication work items, should the commit message
+include:
 
+  Fixes: f50fff73d620 ("nvme: implement In-Band authentication")
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261109022646.2907=
+92-1-kanie@linux.alibaba.com?part=3D3
 
