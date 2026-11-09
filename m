@@ -2,103 +2,95 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CE0460A5BDF
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2026 19:05:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DF1F606A31C
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2026 19:09:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=HNHevVr1;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gY+VfllG
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=BAythObg;
+	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.a=rsa-sha256 header.s=google2022 header.b=bwIR6F2w
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:
-	References:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:
-	Subject:Date:From:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=P2fmqmmprCAGOSYykgJw6VD4J+cu5F8pWWrtYwCx08s=; b=HNHevVr1bAuYGf
-	6xkd+TDUpNtB96FARCelwJ3vPJystfj2p4vLOmtX7YvrJwhutLDqtGXLSOqSmjKXDYkDxEJ4qmjiN
-	zuoH18AnvYOf+AaPWSmsweMQh9wEwWDWDGpYMOGEl3qvRA0KO4DsZ35aLlZstRqJtgrrEXt8pB425
-	PRzo//ycyKJPhrg9WAWopEH/Xbwll+xUhhBDqQO0JraggZi+LJRbfz8SufLSgaPOS1XiZWWqWDBGp
-	88CXy3azI5N0LXeszKEeHvEv6blhAta/kLSst1Fg4o6jHTnUIYCoeMy3BwLa4DK0eo0BvEIxSm43y
-	LYSh0hWBZzRp+XmzQaEQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Unsubscribe-Post:List-Owner;
+	bh=zJy9Suk4ayq50Ayby3ChgQJYB8bJU6C5/4/gEq399Pk=; b=BAythObggmTPfK5hloRdtJU8iR
+	nYqoA7ZtmoJ/nMavmz1Uua0HWK9LaqWE5jY1kRkT7R3qI8yYMiJzRRB+G0r19xPRrbYb7COMChFWb
+	AIgIRYBi6AUBxLyg5urUggDvmfSL99TA0ZCaXnESz0EprwBeAoqtU0FpG0OfIc7j21FnZ39/U30un
+	gcVqg6fvcY2mNCko+DG0joSg5HAk8rIRoOfc2TKACtqZXqJ7PZIDPXlL9Q1AAtcleZdqfnfEx/ZMk
+	dgVz9IOM36H1hqu2WpweUyecZghw3fZCZvFUE9lX0ysL+7ECrbjZV8GvTY8nQDqGfvE393OnFc5Pn
+	z4IbEODQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQUft-00000001Vu3-3UI4;
-	Mon, 09 Nov 2026 19:05:01 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1xQUjm-00000001WIf-3LLV;
+	Mon, 09 Nov 2026 19:09:02 +0000
+Received: from mail-dy1-x132b.google.com ([2607:f8b0:4864:20::132b])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQUfs-00000001VtI-0nu7
+	id 1xQUjj-00000001WI6-0i8G
 	for linux-nvme@lists.infradead.org;
-	Mon, 09 Nov 2026 19:05:00 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 522A963294;
-	Mon,  9 Nov 2026 19:04:59 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794251099;
-	b=ahhBkNHL9kK2sZzL73nrzaU3x5udFFjiFSkLC+BsM7OgCJGEEbIXWyGvvOfhgr99QMCb
-	 yn0ZtnEphq1HLMtmLMj3RXrACxhJWAFJchhNbBNXq2LvmrvYcmKlal/DnW/CyYBEh+Oc1
-	 NEi7spPuI6osQz0cmjb+hRMhFsNHGSzz/Fyd2Zp4t4LYoZTLZWDN8xLVwXG68NGI3ieOc
-	 V7B3UST8c8epxsN9/GWeEUa7lVBeCyerJchGGTCf6F0g25OWnwj79qVpjm/XKAR9ux9EA
-	 BxEje3N81FRuHAuLl/04XGo2LfLGhqcom0p0DO11AAQHwADEa6EunN2Sewq0x9lyPpQ==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794251099;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To;
-	bh=P2fmqmmprCAGOSYykgJw6VD4J+cu5F8pWWrtYwCx08s=;
-	b=JbDkDqERGkqYkG5JbJ0euwvZRa7iwUwmm5ZsY4Ippe5BYg4bqmWbEFfpjGbKHklRa5vU
-	 jcyRQJe9n6ovT8XV/Lp5l7zJH98U93+vCo64CMYTMhMEvrkSvxoauN7NUbowKPJkBOSwp
-	 R3PuVAGPQQua84iqOa2ajHpCOlzipKoWJt0WLHXWDL/9JUbtO5771QvkUAwkB2gUrN8dV
-	 wemx1b3nkvZ0MHUB/XXX0I1J3MSCkL1YSMJqIAokw0UJialhc5wVkcqOejwXt2ahicUlg
-	 SVOZ1LvYxOHf9mVRmLixE3ALQZy29HCwtlNaqykbM9/jo6bs0HnVo3k0i7t2pnxh6Sw==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 686A81F008A1;
-	Mon,  9 Nov 2026 19:04:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794251099;
-	bh=P2fmqmmprCAGOSYykgJw6VD4J+cu5F8pWWrtYwCx08s=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=gY+VfllGE9Yy/nLafpqIvTQSojg1VfdPrajioPJqR8fAtHzexFhtHgqhCVQvM7+Yv
-	 NMJPFOWsaWu5h9Pm7C+KSiTG8K1LWXLcsNEdVgnistJrQCGjMYOHAiHws3shi7bpG7
-	 Wm98FyLYXfpbvVw29NprY5oKHfOMi2jrxmdCmZGYrYdTVmx84FQT5Y1hed2+SMZXkt
-	 NuH4I0crt2+LKcnkU+5AVE6plGlnOigz46C0z8V4DjZ9vyfM7LzjXwIEczVRc4GA6P
-	 RmnTUaiv7hGOJZV7l3k9+w6ee/hGLpAvgvwgkZFXfAu9wP0VLTO9iC7nqzjv6JczTz
-	 UoVeWpqFz3Stg==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id EB96D485F2;
-	Mon,  9 Nov 2026 19:04:57 +0000 (UTC)
-From: Martin Belanger via B4 Relay <devnull+martin.nvme.dev.gmail.com@kernel.org>
-Date: Mon, 09 Nov 2026 14:04:53 -0500
-Subject: [PATCH 1/2] nvme-tcp: move the TLS record read loop into a helper
+	Mon, 09 Nov 2026 19:09:00 +0000
+Received: by mail-dy1-x132b.google.com with SMTP id 5a478bee46e88-36ff9c9da34so2090576eec.1
+        for <linux-nvme@lists.infradead.org>; Mon, 09 Nov 2026 11:08:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1794251337; x=1794856137; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=zJy9Suk4ayq50Ayby3ChgQJYB8bJU6C5/4/gEq399Pk=;
+        b=bwIR6F2wjhoZiTrXr6O1pCBIru9KXw4+feSDTkEgxplUb1kQwgv9tqqeaRCckWJbdT
+         tmn5jX9qBcgRHfe4fbqXG0pOHeMj2gGd90ATuYdN9cuDa+ap+ORreq+e5VivUaTGyKUz
+         0uBJ676SWxcL6Cfe8e0t8CL7B9o6PxBC2IxZ50n4HIfAX4lIJ5BYCIks9gL4bFgeJ/Y2
+         VmL0CdjMW2lA8MnSkV9R35VTg8Z2ObwmXnjKGANmwhf82LgwarnnYby6xXjjgRe9wgoZ
+         UbQsoXUDun6m8IGNJOSwxghAIWIyIGUKHNfEgdEE5zPQgD4MVn9HlIJrwGyjUH/gS5Lm
+         QvqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794251337; x=1794856137;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=zJy9Suk4ayq50Ayby3ChgQJYB8bJU6C5/4/gEq399Pk=;
+        b=Nq80zQEyl/mImc9MXFWg3YVt1NixhIIJpKFfJROCv6OBSI286lmqtjM2rY3mD9NKxN
+         1eEvuPv3MvwsjF1sgwUsalp9rAxQk2MFvcBvlMK4wug7JS6ujDyhMhmau8EigTkEBu+V
+         zHSkhzPuepkBZ0vZNPkuGNyjIFYthpVM7zidsLLNzUvbux4ae+wbG1bcYCmyasfa++lt
+         9ZaJ7yNnQjaMg/Jr28dOJp/zMDSwl0a7zjGjyCzGpGL4nyRKQMSOa8pTwik9kX7/Nwcv
+         8WL5uNGGnYdksK4Q9CecceHp0cyTAqO24HmCVpaRmnrCxP6Az5Q9lpZg0eYbkZXYaTD0
+         6xrg==
+X-Forwarded-Encrypted: i=1; AL+hErGhArffziQu8zdHLfqLzO676t/+knHUIsKzUfilP85uKbqkUiIhDgz5fbzb8rJ4Rah5/pYGZh8Nbu+H@lists.infradead.org
+X-Gm-Message-State: APuU4Z//4GGz5Q3IBYe5hcyUe4NavKG3rzupygICWyL8hjN/1TAe5+JW
+	1p9NgvHed4FWSXdGM1bvEE1hCJ86eVOtCYAtgI2p7V2gVaowd7qssefgoVLvmY08dzE=
+X-Gm-Gg: AYBFou3nNvk0p8wfzoQd6VCGEDGiceee+6wJosg8LwKrwbxPdzsXesOxzO0HPrY+iir
+	5WS7IvtVmB2gFNCAtpx6agrqceDPDIAQA8RUpkJEFD2r4/F7S1nfFcYtVNF30ssRkdymLC69SM1
+	rxXzjXQidGzjWchog2/+Ftp/bhhi+T2H2k3Tkj1laSrkxeoxhJCIeT1uK6MScYwsnQSSvQSPTJI
+	WIfSVnwvTTkrIhG3wUnwoaxpY9TKgOSGwM7Szf27IJmxSDXHC5CBxAbMGkKbJsA1RQqJD8XEEZV
+	KbAKmgJOi+b23los+ZtorVGqghWS2n9x+tZtyqijAT7IwbKciLDYLnCKwx0useYs62gyPxPJ+OS
+	11VDy+AlSgYegsh6FpGgzQ/StC2ONd0VlVW1t+eMTWBfSixG/heBnK9otHt/k4BBabLfjetAJId
+	ePZGhfxWKdxe37BaKj17luIoVifbeDA6iN6mLAGavMhiEPktjXjBM22sxrp42WyHF1bwuLXN3pw
+	x4BPie3lzgZmh6CDE9zp2W9Rtw0Xp4ydD5ZijHAmqwJnH53hurKYVCw0dsh/pKeMSntS15Jayl+
+	1iEQ1rFsYn/VoAj+U/uI0EzFMi1uAMn9t1PP0v4aRQIkuRBZ
+X-Received: by 2002:a05:7301:9a91:b0:374:ba43:ae2e with SMTP id 5a478bee46e88-3751ee74826mr222496eec.14.1794251336486;
+        Mon, 09 Nov 2026 11:08:56 -0800 (PST)
+Received: from medusa.lab.kspace.sh ([208.88.152.253])
+        by smtp.googlemail.com with ESMTPSA id 5a478bee46e88-375212e9e03sm510989eec.23.2026.11.09.11.08.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Nov 2026 11:08:55 -0800 (PST)
+Date: Mon, 9 Nov 2026 11:08:54 -0800
+From: Mohamed Khalfella <mkhalfella@purestorage.com>
+To: zhang san <shunsheng1218@gmail.com>
+Cc: kbusch@kernel.org, axboe@fb.com, hch@lst.de, sagi@grimberg.me,
+	linux-nvme@lists.infradead.org
+Subject: Re: Question: NVMe AER completion delivery during controller removal
+Message-ID: <20261109190854.GA765534-mkhalfella@purestorage.com>
+References: <CAGTEBTa9dGn8TjKxRPsfeCFiRYAt-cGMAp-XSLBS86SHB6FJ_A@mail.gmail.com>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261109-nvme-tcp-live-ctrlrec-v1-1-47ba61670e65@gmail.com>
-References: <20261109-nvme-tcp-live-ctrlrec-v1-0-47ba61670e65@gmail.com>
-In-Reply-To: <20261109-nvme-tcp-live-ctrlrec-v1-0-47ba61670e65@gmail.com>
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
- Hannes Reinecke <hare@kernel.org>
-Cc: Martin Belanger <martin.nvme.dev@gmail.com>, 
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Martin Belanger <martin.belanger@dell.com>, stable@vger.kernel.org
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794251097; l=3262;
- i=martin.nvme.dev@gmail.com; s=20261014; h=from:subject:message-id;
- bh=I4tNXDC3YZTae17hei8TZK0tGRXfiT5ZPYdrswIwZ+c=;
- b=1kbWCQoRGlIaN5Ypz1TLuG8zQn3jMAb+c8snPAK0dO/VssR/HwmDS5nDoV9ZaJnoCKCbU5uLB
- b1UD11paE1WA6G+Qk0VF55nQQLiYHPCp4E6+rKjJyXEu4AfscHdR5ft
-X-Developer-Key: i=martin.nvme.dev@gmail.com; a=ed25519;
- pk=4K+XXetGK35w2LzRRddd/bbHawZU222BN+YZRuSpN+k=
-X-Endpoint-Received: by B4 Relay for martin.nvme.dev@gmail.com/20261014
- with auth_id=1176
-X-Original-From: Martin Belanger <martin.nvme.dev@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAGTEBTa9dGn8TjKxRPsfeCFiRYAt-cGMAp-XSLBS86SHB6FJ_A@mail.gmail.com>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20261109_110859_221922_C9E11D40 
+X-CRM114-Status: GOOD (  19.74  )
+X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,124 +100,85 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: martin.nvme.dev@gmail.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-From: Martin Belanger <martin.belanger@dell.com>
+On Wed 2026-11-04 12:50:42 +0800, zhang san wrote:
+> Hello,
+> 
+> We are seeking clarification about asynchronous event request (AER)
+> completion behavior during NVMe controller removal, before treating an
+> observed test failure as a production-reachable driver bug.
+> 
+> Our source analysis suggests a possible lifetime race between the AEN
+> completion path, which can requeue nvme_async_event_work, and the
+> controller removal path. We observed KASAN use-after-free in an
+> emulated environment on Linux v7.4-rc1 (6628e7d4c6b2).
 
-Move the read loop out of nvme_tcp_skip_tls_record() into a new
-helper, nvme_tcp_drain_tls_record(). The next patch uses the helper
-to read TLS records that arrive on a live queue.
 
-No functional change.
+My reading of the code suggests this can happen. nvme_stop_ctrl()
+flushes async_event_work, but the admin queue can still deliver an AER
+completion afterwards, either from the admin queue interrupt handler or
+from the final admin CQ poll in nvme_dev_disable():
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Martin Belanger <martin.belanger@dell.com>
----
- drivers/nvme/host/tcp.c | 60 +++++++++++++++++++++++++++++++------------------
- 1 file changed, 38 insertions(+), 22 deletions(-)
+nvme_remove() ->
+  nvme_dev_disable() ->
+    nvme_poll_irqdisable(&dev->queues[0]) ->
+      nvme_poll_cq() ->
+        nvme_handle_cqe() ->
+          nvme_complete_async_event() ->
+	    queue_work(nvme_wq, &ctrl->async_event_work);
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 7ecc6c007f8d..bf71e6f6a6ef 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1623,31 +1623,16 @@ static int nvme_tcp_recv_tls_alert(struct nvme_tcp_queue *queue,
+
+Nothing flushes async_event_work after that, so the work can run after
+nvme_uninit_ctrl() drops the last reference and the nvme_dev is freed.
+
+> 
+> However, our test induced an ERROR AEN through an out-of-specification
+> MMIO doorbell write while the device was being removed. This
+> deliberately synthetic trigger does not establish that a compliant
+> controller would generate the same completion.
+
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -3909,20 +3909,21 @@ static void nvme_remove(struct pci_dev *pdev)
+
+        if (!pci_device_is_present(pdev)) {
+                nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DEAD);
+                nvme_dev_disable(dev, true);
+        }
+
+        flush_work(&dev->ctrl.reset_work);
+        nvme_stop_ctrl(&dev->ctrl);
+        nvme_remove_namespaces(&dev->ctrl);
+        nvme_dev_disable(dev, true);
++       flush_work(&dev->ctrl.async_event_work);
+        nvme_free_host_mem(dev);
+        nvme_dev_remove_admin(dev);
+        nvme_dbbuf_dma_free(dev);
+        nvme_free_queues(dev, 0);
+        mempool_destroy(dev->dmavec_mempool);
+        nvme_release_descriptor_pools(dev);
+        nvme_dev_unmap(dev);
+        nvme_uninit_ctrl(&dev->ctrl);
  }
- 
- /*
-- * Discard a TLS record that arrived in place of the ICResp. A peer may send
-- * a NewSessionTicket as soon as the handshake completes.
-+ * Read the rest of a TLS record whose first part was read into @msg.
-  *
-- * Returns 0 when the record was discarded and the ICResp can be read, or a
-- * negative errno if the connection cannot continue.
-+ * Returns the bytes read, or a negative errno.
-  */
--static int nvme_tcp_skip_tls_record(struct nvme_tcp_queue *queue,
--				    struct msghdr *msg, u8 ctype, int len)
-+static int nvme_tcp_drain_tls_record(struct nvme_tcp_queue *queue,
-+				     struct msghdr *msg, int flags)
- {
- 	u8 buf[NVME_TCP_TLS_REC_CHUNK];
--	int ret;
-+	int ret, drained = 0;
- 
--	switch (ctype) {
--	case TLS_RECORD_TYPE_HANDSHAKE:
--		break;
--	case TLS_RECORD_TYPE_ALERT:
--		ret = nvme_tcp_recv_tls_alert(queue, msg, len);
--		return ret ? : -ENOTCONN;
--	default:
--		pr_err("queue %d: unhandled TLS record %u\n",
--		       nvme_tcp_queue_id(queue), ctype);
--		return -ENOTCONN;
--	}
--
--	/* the ICResp is in a later record, drain this one first */
- 	while (!(msg->msg_flags & MSG_EOR)) {
- 		struct kvec iov = {
- 			.iov_base = buf,
-@@ -1661,16 +1646,47 @@ static int nvme_tcp_skip_tls_record(struct nvme_tcp_queue *queue,
- 		};
- 
- 		ret = kernel_recvmsg(queue->sock, &drain, &iov, 1, sizeof(buf),
--				     0);
-+				     flags);
- 		if (ret <= 0) {
- 			pr_warn("queue %d: failed to drain TLS record: %d\n",
- 				nvme_tcp_queue_id(queue), ret);
- 			return ret ? : -ECONNRESET;
- 		}
-+		drained += ret;
- 		msg->msg_flags = drain.msg_flags;
- 	}
- 
--	return 0;
-+	return drained;
-+}
-+
-+/*
-+ * Discard a TLS record that arrived in place of the ICResp. A peer may send
-+ * a NewSessionTicket as soon as the handshake completes.
-+ *
-+ * Returns 0 when the record was discarded and the ICResp can be read, or a
-+ * negative errno if the connection cannot continue.
-+ */
-+static int nvme_tcp_skip_tls_record(struct nvme_tcp_queue *queue,
-+				    struct msghdr *msg, u8 ctype, int len)
-+{
-+	int ret;
-+
-+	switch (ctype) {
-+	case TLS_RECORD_TYPE_HANDSHAKE:
-+		break;
-+	case TLS_RECORD_TYPE_ALERT:
-+		ret = nvme_tcp_recv_tls_alert(queue, msg, len);
-+		return ret ? : -ENOTCONN;
-+	default:
-+		pr_err("queue %d: unhandled TLS record %u\n",
-+		       nvme_tcp_queue_id(queue), ctype);
-+		return -ENOTCONN;
-+	}
-+
-+	/* the ICResp is in a later record, drain this one first */
-+	ret = nvme_tcp_drain_tls_record(queue, msg, 0);
-+
-+	return ret < 0 ? ret : 0;
- }
- 
- /*
 
--- 
-2.53.0
+Since you are able to reproduce this issue reliabely, how about you try
+the diff above and see if it fixes the issue.
 
+> 
+> Our main question is: can a specification-compliant controller deliver
+> a completion for a previously submitted AER during the interval in
+> which the host is disabling the controller and tearing down the admin
+> queue, or must such completions be quiesced before disable completes?
+> We would also welcome guidance on the exact point after which the host
+> may safely assume that no further AER completions can be delivered.
 
+If the above diff fixes the issue for you, then I think this is a driver
+bug.
 
