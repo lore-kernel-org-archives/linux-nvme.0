@@ -2,138 +2,161 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FFD9606A321
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2026 17:04:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DA08606A321
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2026 17:04:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=3x7YnMxT;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=gYBNGWyf;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=edp8xY+3
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=EHd5SXhz;
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=ANP3+TJD
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Date:Cc:To:From
-	:Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=pYc2D2gIh1SvVZ578/CJPxnyB11dD1eRwCTe2/iAXXc=; b=3x7YnMxT2qDMQc3GAeeHg9E1RS
-	Nbp1uBiF51/OCcM2/bDr3iA74p+3sL/tWL1S5/2Yi+dRpEJd4ryZyJ03bM4gcZHmsBjsstUdLXHzl
-	Ts7iSSUcb6NKFfsAZVPFQujB+QBRwjgnhVbWZhaxvGylo4hiYjZL9aT+GzqZp9IxCjWHJcX+gVUr/
-	C84QscdFfcXz0aIb2+ahAUPrSq1t8VnX18hBVmd4kOqX588TE2aznhsiElZMrfph38l9WtzPGSjhA
-	Vdm43+2+nQxBeYuhI33lyg3pcwDXFMaTzGWsO4eFIk2pBoMZEzPFpmTl+J+N4Sb8POwqO4081XaPI
-	Lb3rnZFg==;
+	bh=jjpFTnz0Yc1Y7M/dvGri5n0tXtSUOW6fg0KalqDzOkk=; b=EHd5SXhzcmJEhHOiZob1dtjlF6
+	61oagLqiAgvWzHx9WJRpbv+bTHF8WuIb0D5VM8gOPDNtzJdYV2jpYPbtlqgClp12F8OZATOwo6Nkn
+	EexyIrN7iRhw6xTeunL9j2FTYAqMhNoqXYF7++zqEv4mHbvafilI5NZNcFlnlvxfUe1WQxtmBoY3r
+	2GJZ3tMKCCsTxEmUsPJ7z/o85xWnGemMgwoeG0AOFKDEWpJhXHE7fPOlyX1lIf5j0lkBmmBt1qqhr
+	UvihI5gqavL4YRgyDMCQLEEyl5dpFhiKLjB6Bn/Td7Sp2yloLLLiQ7nJVOW8TD6k7Of8m1DMn1mE6
+	RaP/JxvQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQSnD-00000001I9q-3hBN;
-	Mon, 09 Nov 2026 17:04:27 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1xQSnE-00000001I9x-0wJw;
+	Mon, 09 Nov 2026 17:04:28 +0000
+Received: from mail-westcentralusazon11013000.outbound.protection.outlook.com ([40.93.201.0] helo=CY3PR05CU001.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQMJz-00000000NAv-3SZ0
+	id 1xQN6P-00000000TVH-3m94
 	for linux-nvme@lists.infradead.org;
-	Mon, 09 Nov 2026 10:09:54 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E3C561F74A;
-	Mon,  9 Nov 2026 10:09:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1794218989; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pYc2D2gIh1SvVZ578/CJPxnyB11dD1eRwCTe2/iAXXc=;
-	b=gYBNGWyfTs0hWQSJcZvCCWGIT82PJdPRLIFSOa4Ls6aTat15NIFNBvm7aP1lZhX0VSx05w
-	BDUIp73FXsXCmcqHulJ6MttreAVhMvJN8yEOkLT2sm3j4kszd0bec03YJE/mdu70UMJKIU
-	ste3rvGEGJSjPHM7dRXXVJw6IS6oLaU=
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.com header.s=susede1 header.b=edp8xY+3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1794218988; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pYc2D2gIh1SvVZ578/CJPxnyB11dD1eRwCTe2/iAXXc=;
-	b=edp8xY+3stIEeNp0JT5zOyuqkYQ/wMr8wz+uG/9X7jOChXu+SvyYut7VLFMcNl3lwcKrWt
-	81M9H4tngtdn37T9rNeRzwTytTphV95QbLngWHjIn3HddnqsB3FD/zHNRQNWS19Pw3b9Gu
-	72UnK6PvDXJy+eFhFjcYu+0vC5n3DxU=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2326C13302;
-	Mon,  9 Nov 2026 10:09:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id juAiO+ub8WpZVQAAD6G6ig
-	(envelope-from <mwilck@suse.com>); Mon, 09 Nov 2026 10:09:48 +0000
-Message-ID: <f2b862d6106122031d3ad93ea3bd1a7964508de7.camel@suse.com>
-Subject: Re: [PATCH] nvme-cli: nvmf-autoconnect: Consolidate vendor-specific
- NVMe-oF udev rules into a single file
-From: Martin Wilck <mwilck@suse.com>
-To: Xose Vazquez Perez <xose.vazquez@gmail.com>
-Cc: John Garry <john.garry@linux.dev>, Nilay Shroff <nilay@linux.ibm.com>, 
- Guixin Liu <kanie@linux.alibaba.com>, Wayne Berthiaume
- <Wayne.Berthiaume@dell.com>, Vasuki Manikarnike	
- <vasuki.manikarnike@hpe.com>, Matthias Rudolph	
- <Matthias.Rudolph@hitachivantara.com>, Martin George <marting@netapp.com>, 
- NetApp RDAC team <ng-eseries-upstream-maintainers@netapp.com>, Zou Ming
- <zouming.zouming@huawei.com>, Li Xiaokeng	 <lixiaokeng@huawei.com>, Randy
- Jennings <randyj@purestorage.com>, Jyoti Rani	 <jrani@purestorage.com>,
- Brian Bunker <brian@purestorage.com>, Uday Shankar	
- <ushankar@purestorage.com>, Chaitanya Kulkarni <kch@nvidia.com>, Sagi
- Grimberg	 <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>, Christoph
- Hellwig	 <hch@lst.de>, Marco Patalano <mpatalan@redhat.com>, "Ewan D.
- Milne"	 <emilne@redhat.com>, John Meneghini <jmeneghi@redhat.com>, Daniel
- Wagner	 <dwagner@suse.de>, Daniel Wagner <wagi@monom.org>, Hannes Reinecke
- <hare@suse.de>,  Benjamin Marzinski	 <bmarzins@redhat.com>, Christophe
- Varoqui <christophe.varoqui@opensvc.com>,  BLOCK-ML
- <linux-block@vger.kernel.org>, NVME-ML <linux-nvme@lists.infradead.org>,
- SCSI-ML	 <linux-scsi@vger.kernel.org>, DM_DEVEL-ML
- <dm-devel@lists.linux.dev>
-Date: Mon, 09 Nov 2026 11:09:47 +0100
-In-Reply-To: <20261109000834.513230-1-xose.vazquez@gmail.com>
-References: <20261109000834.513230-1-xose.vazquez@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.62.1 
+	Mon, 09 Nov 2026 10:59:55 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jB2QqypgFyay5R2PUD893g2YTKTAm7c0K8OL4LIpufgkRSFLR3GvCpARuLXPQIh36HnWOZfDQA4AsLxo4KFIzRNGJyEAlz7iMbOBx7Q4jZM86JyiLLQ1Vha+fxEwYF88VOACDX47yx6py2uPRZrYY9i7VKF51NwtFQFi79GrCkkgHy4mrZQhW+/wkeQZioDgra/Rqpq8ArJc9miH7sLPDlFxnj6HbJ2ZB848prP6DiWmf4BnVwBDs6P5ZOrsQ2IbaLzmrfWEzW4Uz1u8AXtsERwynIPinOS9Ao3JJW+FkuyDxxqf22f+gw1t5DvcJqoEgFcIp6GixgKuXZDDJAgmRQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jjpFTnz0Yc1Y7M/dvGri5n0tXtSUOW6fg0KalqDzOkk=;
+ b=erOc4FBGOcWKWClP4MKts9uhBLa20zBgxqQ1XXMZ+zjIdgD6gjEeVW/NqA3yZMt0zsrJ+OXeKJkuGJ5j3N2tG1VjxN94h3BFT6i0jkTB5Rv3deVpppjL1M3VGB4+iZLoE0j+cKFTnGts/gMl53OZrsTfxJIX2zO/zbGu3E+WVsXrWNf3NO+fVArAbBwjM+aYk0hRHT3c1U3BEJX5PZ0eZ9M86XtwOwWMeGI85X9+k9Rz5MAFas62ec1jiRykDtJ5M71xIPJjd1a9uMj8BjnpLLzNORFSOLmoF72acZ22oFWmOAR+XXEUyQafIKlaMOJmlT28cR6SSq/tXIoiYq5vOw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jjpFTnz0Yc1Y7M/dvGri5n0tXtSUOW6fg0KalqDzOkk=;
+ b=ANP3+TJDD1IcoTuWLSt8OyLrmuSXPB/xEKVow9ZMcO5IRhRLJX/KXExoBH3AXJWv//Mk+GCjTxqVs2vUqjjfF1LlGEBPg5JafPXSaM0HUOnwH92KcjJ0/RNrMR56qnpFsWalOpCRdt/m5k6G1oxRI60VxGHqwkBoYk+rT5q1JhA=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by PH8PR12MB7280.namprd12.prod.outlook.com (2603:10b6:510:220::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.12; Mon, 9 Nov
+ 2026 10:59:46 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%3]) with mapi id 15.21.0592.012; Mon, 9 Nov 2026
+ 10:59:46 +0000
+Message-ID: <de268b0f-19fd-4e05-a8d2-e0f436aaedfc@amd.com>
+Date: Mon, 9 Nov 2026 11:59:37 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 06/23] dma-buf: Let the exporter select mapping type at
+ pin/map
+To: Alistair Popple <apopple@nvidia.com>,
+ Karl Mehltretter <kmehltretter@gmail.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ Dongwon Kim <dongwon.kim@intel.com>, Kevin Tian <kevin.tian@intel.com>,
+ Xu Yilun <yilun.xu@linux.intel.com>, Baolu Lu <baolu.lu@linux.intel.com>,
+ Felix Kuehling <felix.kuehling@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+ Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+ Alexey Kardashevskiy <aik@amd.com>, zhipingz@meta.com, treding@nvidia.com,
+ jhubbard@nvidia.com, Jason Gunthorpe <jgg@ziepe.ca>,
+ Leon Romanovsky <leon@kernel.org>
+References: <20261105-dma_mapping_type_v4-v2-0-78b8dc9ae80a@nvidia.com>
+ <20261105-dma_mapping_type_v4-v2-6-78b8dc9ae80a@nvidia.com>
+ <au7mBMbRC8q6NILj@gmail.com> <avE0QsqV5RZoaWc3@nvdebian.thelocal>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <avE0QsqV5RZoaWc3@nvdebian.thelocal>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR4P281CA0385.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f7::10) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-X-Spamd-Result: default: False [-12.01 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.com:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[31];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RL8gn1pxsi5paq6ucqz1qzjyqe)];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -12.01
-X-Spam-Level: 
-X-Rspamd-Queue-Id: E3C561F74A
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH8PR12MB7280:EE_
+X-MS-Office365-Filtering-Correlation-Id: 40f2945f-107e-413c-4277-08df3e5090c6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|7416014|22082099003|18002099003|10067099003|4143699003|11063799006|56012099006|261028144727099003|261026121527099003|261102123227099003|261022075727099003|261022105027099003|261021121427099003|261026140227099003|261009223027099003;
+X-Microsoft-Antispam-Message-Info: qoGw77O/HTNC6edPpNcBFGuUlJfUlac8Uvd7a2ZcsU9ltxGDz0HbszH4wnF1Kt8X6lDL46aXHnXwiXzOdcfVX8bRjDY923pRa1nbf5Ijs63hCIcWedsr4rIvTYPa7f5VxlSbZs7MnBF6axQRFvcTliGfJvcBBqHYmwK9ImmQuI6lQZmaS9hoaKSaq8IPvjQxMuLZm7wczWJWi4kg4WgNdqj+5TB5HfIbf4PkrkCZ56g9C4K3lnRRHZXnghybOwRwzTGsZMDt+vaPMTwvuBlRtAogCsC9TTSpxNkXtshD3K/G90uQaZEXTJQ0BSm2lqNmHlWieAoxiPS8dG9f1gPSn81AUeR9jTAekgr4mXz6hxvMpYQcUmaI1b5gQH6ttUqRkhLkH0g8Ijmh5O2UUkcuHTmYPCp5gW4BuOQecZa8S9cS9Cy+PArc646bJJwyOAnNU5k9SCOTPEeiEn3FUdJnxGgr3BYl0Miq9dxvWDVAc/UbELKcKrlf3Ce/g19fmPWQGIHqLEkixo+C+RNiRVNsbxKlCbLX9fCwJeeuJ+n1RGDlXIfJN+zSmTIDsKodNd6B3/dp0fq9AxQ79CogIwVFrVj9chc24G3HwYJsechBQMU+XwTDMrQ+hEUrTKaRy+o7lFcJgFhr0coRhuQL7HL5IwmGw58svFB9A96+iULZRmI=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(7416014)(22082099003)(18002099003)(10067099003)(4143699003)(11063799006)(56012099006)(261028144727099003)(261026121527099003)(261102123227099003)(261022075727099003)(261022105027099003)(261021121427099003)(261026140227099003)(261009223027099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aHBqK3VLVm00M3BZWGhmS1JmVTVkcVplYkxNSVNRT2ZzaHNiV2doUFRqbXVO?=
+ =?utf-8?B?bnY1SzhPOWR2NUgzRWNwenIrNk45L1hwc0hGN2V1c0g5cEFtTmJFVmVJMzBv?=
+ =?utf-8?B?d0ErSmhiYmxMSDJiU1o4WUVmcktlUnljYUpHRWNTMjFIekJHU3RZTDI4UTVK?=
+ =?utf-8?B?d240RE1yK2NOOEZ1dE1PWDFGTnBlangzMmtGb1dpejY5MXdlQXF0UXBaeWY4?=
+ =?utf-8?B?aVJvVmlpaVVINy95c0N1Y1ZVVkpydmViKzh4N3psWElvWkhBdDNNV1RJVGh3?=
+ =?utf-8?B?MG5lRWtFNGpJOC9TVnMxV1lEWkVFclh4UkJJbDhKa1dwTDBRaVl1VG5nUS9F?=
+ =?utf-8?B?Z2JrU3J0emZmdmRJQUVLSEMzU0FkRlBoMEk2UlRzb1Yzc3QzNklYUDVFK1lm?=
+ =?utf-8?B?VmlzSlZRamZaMGxyZmpJL1FiWFg0SU5GUWVQdmdId1NlQmNuT21mV0ZSOHZt?=
+ =?utf-8?B?Z3UyRmErSmxPUHlKcUtVMEplMVh3OXg5K1BHQlV3WWdJVDZFbzlMUU5GSGxw?=
+ =?utf-8?B?WjdmNzhMRnVlRFZPMmVxWmxWR1ZnOEs2bXVHMlRJM0xPNTBYRUlWL3JOc29W?=
+ =?utf-8?B?THI0eC9UZkovb2hxR3lHaXF3RXFsd3J2SStNMXNtWFpUYi9LZlJ4M25lOUly?=
+ =?utf-8?B?bVA5VHI2Mkt4VExQNEs0NTArS2l4ZDZzT1VtRDMrMS83amg4QjZ6UGxaN21N?=
+ =?utf-8?B?MmhDYmlEb2txdG82c2REWEppRUx5VlljbC9kRm9FM2hScko4RUtoV08wcUZQ?=
+ =?utf-8?B?RlI1ekRpOE5UamcydTFmSGFIU3JzS3NXRTEvekcvUDhYaGFyVUNsdTNxbGpU?=
+ =?utf-8?B?NkZzUVhobkdwNk1MOWIzbXRWczA4YlpMVHFRVmNYSHk1TjRGUk1vUFRzYjdQ?=
+ =?utf-8?B?cVpFaWEzcVJtWXg0OVFVRFlHdmkybXA2WWMxdTl5Q2NiOG1LYUFNME16S1pS?=
+ =?utf-8?B?a0NubUd2ZXk5Z1Z1RXdhRytXQWxoRWhHRjByT2ZjT1pYcGU3bEI2TmpxMnRo?=
+ =?utf-8?B?YW9SNkFRdVhkUWM3b202Ymg2M0diU0hNQllkZm5mVUl4aDlCaU42UTJmTjMv?=
+ =?utf-8?B?QUJva1dzSENTaG1lMCtvbDFiaENJdDFDMUlld0dQaUxFdWt0N1ZFbi9Uc1dE?=
+ =?utf-8?B?bUhFSFhCVzgvOWQwWmNqNkJXYk9uYlI1UWU2c3FpdVNGRGxUK212dzllMHNm?=
+ =?utf-8?B?bERCVytCRyt0aHJBT3BIVU0yL2JSZXMyZW1jMVBnZExXdnVDTmVZM29mVERC?=
+ =?utf-8?B?eUpSaG9TamovcldFbll2R2xHMGt4bXA0MHp1M1FCaUVmSGg0TGZ3VWNsVkR2?=
+ =?utf-8?B?djB3MUFwUStHWkczR3ZWb0NhWkxLRDR1OXlxanRFUHIwWVNvMTZ5U1g4NXBO?=
+ =?utf-8?B?VTVvdnlxbFI2ZVRJQXVyeHFUTGlMNWhYazEyL2hiblRiNTcwNEljUiswWjhz?=
+ =?utf-8?B?Tm1MOW5UYVJQTTFhSENsV3lhdzVxaWRyWGV4UUEwYVlRZ2FJL1BlR0NjTGsr?=
+ =?utf-8?B?TFZzSVhvS3l3MFRobGVUbEg4c0JXNmVqd2pIU0ZqRC9ldG1JQ2h4dTdxNFVq?=
+ =?utf-8?B?dmMxb0xzUE5lcUpsR2FKd3BoUVNyT2duaFV1TXJsMTRaSTVIVnZEVWE5eVJG?=
+ =?utf-8?B?aUVKVGxaMys4Mzl2TXA1K1FmaFFmejlVck4zbVpSWWNFZXNsWjUzZGVnWHo3?=
+ =?utf-8?B?Q2RsYisrVnVXeml6YWd0SmxGcjZjSFBQVktERXlFODdaTFFGcFlvbW1Jejhz?=
+ =?utf-8?B?eHlzVG1TL0s2dzJuSHVSNGRqL2ZmWlNEa0JBSFpYL2dCczJ1K2ZyYWEvWmVq?=
+ =?utf-8?B?UkRFRmNJcS9YSFV0eVVHWktzUlk3aG5ORkF5bi9HdU15eDdyZWI5TkVUZzlu?=
+ =?utf-8?B?UGRkZk5waFZyQ1FIRlZ2Vm1ZaXZJdGl0L2VnWHJCUlNwS0Y1RVRpSVBqa1Ra?=
+ =?utf-8?B?elljbGlXdU9xS0hURVVJMmlocWgwV3hLZERlVTZjaEdaOVZaTkE0K0RoQzVS?=
+ =?utf-8?B?RStkajFzNVFSZEtaODE4RHRBbit1UjJ4Ry9QTTVWZk1jR1EyZXNRMVdXOGdm?=
+ =?utf-8?B?U2RidDNpait0dElxbUhCTUpsekF1K0xkbjdYQlcyekxWSW96bVRrRURCdVAv?=
+ =?utf-8?B?d3pIVzN0RGVxeCtNaVBGYiswZ1RKcnNHMXYvUnIxSklpd3luV1FyWkF3U0pX?=
+ =?utf-8?B?OWt3bldvUE16V0RZUFQwRkZQaGpjTDlnSW1qMnJ3bjBmTmlyeEJHbktnaEIz?=
+ =?utf-8?B?Wkx1cis5TDJxUGZGZGR5OGdrT2U2eHg4Skxhc3hrM3dRYmFISm0yR1F6Nm9J?=
+ =?utf-8?Q?pFzr47XDeC9R0SfxXC?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 40f2945f-107e-413c-4277-08df3e5090c6
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2026 10:59:45.9781
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: U+gRbDQJn+Xt835MzctSJv0SzxEEGYhUWpC5Onx6E28apa85SRLM+JE161Yn6PY+
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7280
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261109_020952_157142_05F29313 
-X-CRM114-Status: GOOD (  19.78  )
+X-CRM114-CacheID: sfid-20261109_025953_973623_A1EE6EF6 
+X-CRM114-Status: GOOD (  25.52  )
 X-Spam-Score: -2.1 (--)
 X-Mailman-Approved-At: Mon, 09 Nov 2026 09:04:24 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -146,234 +169,106 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-7.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Mon, 2026-11-09 at 01:08 +0100, Xose Vazquez Perez wrote:
-> Replace individual vendor udev rules (HPE, NetApp, and VAST Data)
-> with
-> a unified 80-nvmf-storage_arrays.rules file, leaving the rules
-> untouched.
->=20
-> This shifts execution to the 80 range for a logical sequence after
-> base
-> discovery and autoconnect, while simplifying maintenance and
-> packaging.
->=20
-> Cc: John Garry <john.garry@linux.dev>
-> Cc: Nilay Shroff <nilay@linux.ibm.com>
-> Cc: Guixin Liu <kanie@linux.alibaba.com>
-> Cc: Wayne Berthiaume <Wayne.Berthiaume@dell.com>
-> Cc: Vasuki Manikarnike <vasuki.manikarnike@hpe.com>
-> Cc: Matthias Rudolph <Matthias.Rudolph@hitachivantara.com>
-> Cc: Martin George <marting@netapp.com>
-> Cc: NetApp RDAC team <ng-eseries-upstream-maintainers@netapp.com>
-> Cc: Zou Ming <zouming.zouming@huawei.com>
-> Cc: Li Xiaokeng <lixiaokeng@huawei.com>
-> Cc: Randy Jennings <randyj@purestorage.com>
-> Cc: Jyoti Rani <jrani@purestorage.com>
-> Cc: Brian Bunker <brian@purestorage.com>
-> Cc: Uday Shankar <ushankar@purestorage.com>
-> Cc: Chaitanya Kulkarni <kch@nvidia.com>
-> Cc: Sagi Grimberg <sagi@grimberg.me>
-> Cc: Keith Busch <kbusch@kernel.org>
-> Cc: Christoph Hellwig <hch@lst.de>
-> Cc: Marco Patalano <mpatalan@redhat.com>
-> Cc: Ewan D. Milne <emilne@redhat.com>
-> Cc: John Meneghini <jmeneghi@redhat.com>
-> Cc: Daniel Wagner <dwagner@suse.de>
-> Cc: Daniel Wagner <wagi@monom.org>
-> Cc: Hannes Reinecke <hare@suse.de>
-> Cc: Martin Wilck <mwilck@suse.com>
-> Cc: Benjamin Marzinski <bmarzins@redhat.com>
-> Cc: Christophe Varoqui <christophe.varoqui@opensvc.com>
-> Cc: BLOCK-ML <linux-block@vger.kernel.org>
-> Cc: NVME-ML <linux-nvme@lists.infradead.org>
-> Cc: SCSI-ML <linux-scsi@vger.kernel.org>
-> Cc: DM_DEVEL-ML <dm-devel@lists.linux.dev>
-> Signed-off-by: Xose Vazquez Perez <xose.vazquez@gmail.com>
+On 11/9/26 03:58, Alistair Popple wrote:
+> On 2026-11-07 at 19:57 +1100, Karl Mehltretter <kmehltretter@gmail.com> wrote...
+>> On Thu, Nov 05, 2026 at 05:40:41PM +0100, Alistair Popple wrote:
+>>> + * A pin or map that fails after dma_buf_mapping_select() may reopen the
+>>> + * choice only if it was the one that made it. A selection that predates the
+>>> + * call belongs to a live pin or mapping and must survive, otherwise the next
+>>> + * pin or map would reselect under it without an invalidate.
+>>> + */
+>>> +void dma_buf_mapping_unselect(struct dma_buf_attachment *attach,
+>>> +			      bool was_selected)
+>>> +{
+>>> +	dma_resv_assert_held(attach->dmabuf->resv);
+>>> +
+>>> +	if (was_selected)
+>>> +		return;
+>>> +
+>>> +	attach->selected = false;
+>>> +	attach->selected_idx = 0;
+>>> +}
+>>> +
+>>
+>> After dma_buf_invalidate_mappings(), attach->selected is false while
+>> attach->selected_idx still holds that mapping's entry for a pending
+>> unmap. 
+>>
+>> If a pin/map fails before that unmap runs, was_selected is false and
+>> dma_buf_mapping_unselect() resets attach->selected_idx to 0.
+>>
+>> A subsequent dma_buf_unmap_sgt() then uses matches[0].
+> 
+> Actually there's a bigger issue here. The contract at the moment states that
+> mapping type may change after invalidation. However that doesn't account for the
+> fact mappings can outlive the invalidation.
+> 
+> This could be dealt with by switching everything over to the generic
+> dma_buf_mapping_map/unmap() path, but that requires an allocation per mapping
+> just to track the mapping type.
 
-Generally a good idea, but I think nvme-cli has a GitHub based
-development workflow these days.
+You need an allocation per mapping anyway to identify the mapping anyway.
 
-> ---
-> BTW, there are two new I/O policies in development:
-> https://lore.kernel.org/linux-nvme/20260815173502.1185929-1-nilay@linux.i=
-bm.com/
-> https://lore.kernel.org/linux-nvme/20261026111019.3724465-1-kanie@linux.a=
-libaba.com/
-> ---
-> =C2=A0meson.build=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- |=C2=A0 4 +---
-> =C2=A0nvme.spec.in=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
-=A0 4 +---
-> =C2=A0.../udev-rules/71-nvmf-hpe.rules.in=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 5 ----
-> =C2=A0.../udev-rules/71-nvmf-netapp.rules.in=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0 6 -----
-> =C2=A0.../udev-rules/71-nvmf-vastdata.rules.in=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0 5 ----
-> =C2=A0.../80-nvmf-storage_arrays.rules.in=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 23
-> +++++++++++++++++++
-> =C2=A06 files changed, 25 insertions(+), 22 deletions(-)
-> =C2=A0delete mode 100644 nvmf-autoconnect/udev-rules/71-nvmf-hpe.rules.in
-> =C2=A0delete mode 100644 nvmf-autoconnect/udev-rules/71-nvmf-
-> netapp.rules.in
-> =C2=A0delete mode 100644 nvmf-autoconnect/udev-rules/71-nvmf-
-> vastdata.rules.in
-> =C2=A0create mode 100644 nvmf-autoconnect/udev-rules/80-nvmf-
-> storage_arrays.rules.in
->=20
-> diff --git a/meson.build b/meson.build
-> index 90356ad94..00e9ad1be 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -894,9 +894,7 @@ if want_nvme
-> =C2=A0=C2=A0=C2=A0=C2=A0 udev_files =3D {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 '65-persistent-net-nbft.=
-rules': 'nvmf',
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 '70-nvmf-keys.rules':=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'nvmf-autoconnect=
-',
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 '71-nvmf-hpe.rules':=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'nvmf',
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 '71-nvmf-netapp.rules':=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'nvmf',
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 '71-nvmf-vastdata.rules':=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'nvmf',
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 '80-nvmf-storage_arrays.rules=
-': 'nvmf',
-> =C2=A0=C2=A0=C2=A0=C2=A0 }
-> =C2=A0=C2=A0=C2=A0=C2=A0 if want_nvmf_autoconnect
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 udev_files +=3D {'70-nvm=
-f-autoconnect.rules': 'nvmf-
-> autoconnect'}
-> diff --git a/nvme.spec.in b/nvme.spec.in
-> index 23d3d3268..a37c1a08d 100644
-> --- a/nvme.spec.in
-> +++ b/nvme.spec.in
-> @@ -36,9 +36,7 @@ touch %{buildroot}@SYSCONFDIR@/nvme/hostid
-> =C2=A0@UDEVRULESDIR@/65-persistent-net-nbft.rules
-> =C2=A0@UDEVRULESDIR@/70-nvmf-autoconnect.rules
-> =C2=A0@UDEVRULESDIR@/70-nvmf-keys.rules
-> -@UDEVRULESDIR@/71-nvmf-hpe.rules
-> -@UDEVRULESDIR@/71-nvmf-netapp.rules
-> -@UDEVRULESDIR@/71-nvmf-vastdata.rules
-> +@UDEVRULESDIR@/80-nvmf-storage_arrays.rules
-> =C2=A0@DRACUTRULESDIR@/70-nvmf-autoconnect.conf
-> =C2=A0@SYSTEMDDIR@/nvmf-connect@.service
-> =C2=A0@SYSTEMDDIR@/nvmefc-boot-connections.service
-> diff --git a/nvmf-autoconnect/udev-rules/71-nvmf-hpe.rules.in b/nvmf-
-> autoconnect/udev-rules/71-nvmf-hpe.rules.in
-> deleted file mode 100644
-> index b050dd502..000000000
-> --- a/nvmf-autoconnect/udev-rules/71-nvmf-hpe.rules.in
-> +++ /dev/null
-> @@ -1,5 +0,0 @@
-> -# Set appropriate iopolicy for HPE Alletra Storage MP
-> -ACTION=3D=3D"add", SUBSYSTEM=3D=3D"nvme-subsystem", ATTR{subsystype}=3D=
-=3D"nvm",
-> ATTR{model}=3D=3D"HPE Alletra", ATTR{iopolicy}=3D"round-robin"
-> -
-> -# Set ctrl_loss_tmo to -1 for HPE Alletra Storage MP NVMe/TCP
-> -ACTION!=3D"remove", SUBSYSTEM=3D=3D"nvme", KERNEL=3D=3D"nvme*",
-> ATTR{transport}=3D=3D"tcp", ATTR{model}=3D=3D"HPE Alletra",
-> ATTR{ctrl_loss_tmo}=3D"-1"
-> diff --git a/nvmf-autoconnect/udev-rules/71-nvmf-netapp.rules.in
-> b/nvmf-autoconnect/udev-rules/71-nvmf-netapp.rules.in
-> deleted file mode 100644
-> index c76a3c434..000000000
-> --- a/nvmf-autoconnect/udev-rules/71-nvmf-netapp.rules.in
-> +++ /dev/null
-> @@ -1,6 +0,0 @@
-> -# Set appropriate iopolicy for NetApp ONTAP and NetApp E-Series
-> -ACTION=3D=3D"add", SUBSYSTEM=3D=3D"nvme-subsystem", ATTR{subsystype}=3D=
-=3D"nvm",
-> ATTR{model}=3D=3D"NetApp ONTAP Controller", ATTR{iopolicy}=3D"queue-depth=
-"
-> -ACTION=3D=3D"add", SUBSYSTEM=3D=3D"nvme-subsystem", ATTR{subsystype}=3D=
-=3D"nvm",
-> ATTR{model}=3D=3D"NetApp E-Series", ATTR{iopolicy}=3D"round-robin"
-> -
-> -# Set ctrl_loss_tmo to -1 for NetApp ONTAP NVMe/TCP
-> -ACTION!=3D"remove", SUBSYSTEM=3D=3D"nvme", KERNEL=3D=3D"nvme*",
-> ATTR{transport}=3D=3D"tcp", ATTR{model}=3D=3D"NetApp ONTAP Controller",
-> ATTR{ctrl_loss_tmo}=3D"-1"
-> diff --git a/nvmf-autoconnect/udev-rules/71-nvmf-vastdata.rules.in
-> b/nvmf-autoconnect/udev-rules/71-nvmf-vastdata.rules.in
-> deleted file mode 100644
-> index dcd6146d8..000000000
-> --- a/nvmf-autoconnect/udev-rules/71-nvmf-vastdata.rules.in
-> +++ /dev/null
-> @@ -1,5 +0,0 @@
-> -# Enable round-robin for Vast Data Block Subsystem
-> -ACTION=3D=3D"add", SUBSYSTEM=3D=3D"nvme-subsystem", ATTR{subsystype}=3D=
-=3D"nvm",
-> ATTR{model}=3D=3D"VASTData", ATTR{iopolicy}=3D"round-robin"
-> -
-> -# Set ctrl_loss_tmo to -1 for Vast Data Block Controller
-> -ACTION!=3D"remove", SUBSYSTEM=3D=3D"nvme", KERNEL=3D=3D"nvme*",
-> ATTR{model}=3D=3D"VASTData", ATTR{ctrl_loss_tmo}=3D"-1"
-> diff --git a/nvmf-autoconnect/udev-rules/80-nvmf-
-> storage_arrays.rules.in b/nvmf-autoconnect/udev-rules/80-nvmf-
-> storage_arrays.rules.in
-> new file mode 100644
-> index 000000000..1cd6c0c0b
-> --- /dev/null
-> +++ b/nvmf-autoconnect/udev-rules/80-nvmf-storage_arrays.rules.in
-> @@ -0,0 +1,23 @@
-> +##### Storage arrays
-> +
-> +#### Set iopolicy for NVMe-oF
-> +### iopolicy: numa (default), round-robin (>=3D5.1), or queue-depth
-> (>=3D6.11)
-> +
-> +## HPE
-> +# Alletra 9000 / Alletra Storage MP / GreenLake Block Storage MP
-> +ACTION=3D=3D"add", SUBSYSTEM=3D=3D"nvme-subsystem", ATTR{subsystype}=3D=
-=3D"nvm",
-> ATTR{model}=3D=3D"HPE Alletra", ATTR{iopolicy}=3D"round-robin"
-> +ACTION!=3D"remove", SUBSYSTEM=3D=3D"nvme", KERNEL=3D=3D"nvme*",
-> ATTR{transport}=3D=3D"tcp", ATTR{model}=3D=3D"HPE Alletra",
-> ATTR{ctrl_loss_tmo}=3D"-1"
+We currently abuse the sg_table for that, but essentially the idea of having a structure/object to represent the mapping needs to stay around as far as I can see.
 
-I'm not a fan of repeated lengthy match expressions in udev rules.
-Can we improve the readability by using GOTOs and LABELS?
+Regards,
+Christian.
 
-SUBSYSTEM!=3D"nvme*", GOTO=3D"nvmf_end"
+> 
+> The alternate is we update the contract to say mapping type cannot change until
+> after all importers have unmapped. Enforcing this would require tracking the
+> number of live mappings/pins per-attachment, but I think this is the better
+> solution so will add that for the next version.
+> 
+>>>  int dma_buf_pin(struct dma_buf_attachment *attach)
+>>>  {
+>>>  	struct dma_buf *dmabuf = attach->dmabuf;
+>>> +	bool selected = attach->selected;
+>>>  	int ret = 0;
+>>>  
+>>>  	WARN_ON(!attach->importer_ops);
+>>>  
+>>>  	dma_resv_assert_held(dmabuf->resv);
+>>>  
+>>> -	if (dmabuf->ops->pin)
+>>> +	ret = dma_buf_mapping_select(attach);
+>>> +	if (ret)
+>>> +		return ret;
+>>> +
+>>> +	if (dmabuf->ops->pin) {
+>>>  		ret = dmabuf->ops->pin(attach);
+>>> +		if (ret)
+>>> +			dma_buf_mapping_unselect(attach, selected);
+>>> +	}
+>>
+>> dma_buf_mapping_select() sets attach->selected = true before ops->pin()
+>> and the map callbacks run.
+>>
+>> In patches 14/15, xe/amdgpu migrate a VRAM buffer to system memory
+>> during pin and map when the attachment does not accept P2P.
+>>
+>> That migration calls dma_buf_invalidate_mappings() and clears
+>> attach->selected on every attachment, also the one being pinned/mapped. 
+>>
+>> When the callback succeeds, the attachment stays pinned or mapped with
+>> attach->selected == false.
+>>
+>> A later map/pin on the same attachment can then reselect without an
+>> invalidation.
+> 
+> Argh. Thanks. Will fix.
+> 
+>  - Alistair
+> 
+>> Thanks,
+>> Karl
 
-ATTR{model}=3D=3D"HPE Alletra", GOTO=3D"Alletra"
-ATTR{model}=3D=3D"NetApp ONTAP Controller", GOTO=3D"Ontap"
-...
-GOTO=3D"nvmf_end"
-
-LABEL=3D"Alletra"
-ACTION=3D=3D"add", SUBSYSTEM=3D=3D"nvme-subsystem", ATTR{subsystype}=3D=3D"=
-nvm", \
-    ATTR{iopolicy}=3D"queue-depth"
-ACTION!=3D"remove", SUBSYSTEM=3D=3D"nvme", KERNEL=3D=3D"nvme*", \
-    ATTR{transport}=3D=3D"tcp", ATTR{ctrl_loss_tmo}=3D"-1"
-GOTO=3D"nvmf_end"
-
-LABEL=3D"Ontap"
-...
-LABEL=3D"nvmf_end"
-
-
---=20
-Dr. Martin Wilck <mwilck@suse.com>
-SUSE Software Solutions Germany GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg,
-Germany
-Gesch=C3=A4ftsf=C3=BChrer: Stefan Gaiser, Jochen Jaser, Abhinav Puri (HRB
-36809,AG N=C3=BCrnberg)
 
