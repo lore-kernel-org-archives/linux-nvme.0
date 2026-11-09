@@ -2,101 +2,59 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02B43606A31C
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2026 19:37:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06941606A31C
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2026 20:09:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=TXYxs5hi;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=v0noSJEY
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=O2LdA2Sg;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EHAYg8Fv
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=iNu8wevlnlWuO7QPB5Pki9h/6ZFT28xcWP8fY0TirdY=; b=TXYxs5hiL7OsIn
-	M0R/byghC3CNfzqB0/mbmprTdGBO58V0nOWhlF9EfNVyZXGqQp9H9ddFMu/B2/hXdAxpV3pHWldJo
-	caf6dcYzeV3QslHj94mnEIAOb0QwFW5AGE4YDUacxfswxhrCsXkItZEpvw22UMCADn1IERh67o2fn
-	P1jV9CsTVOcCvoIuqmfWHlulXRbbAaat8bA4bnuJlBkZU+MRS5gGBdB3fzmwGprJywmCPvzxojK4l
-	AzeqaWSDFRQC/5NUfRodoc4Vx9MnuESNZK5EggyYj7hS+HgijJl/RLuM8mffklHXazAz4klotJNQf
-	DfQJoZ5h07ucGFG3dUig==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Cc:To:Subject:
+	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Unsubscribe-Post:List-Owner;
+	bh=cD45RP4mu3e4rcXUaMO+K2b6dXzPom7vzbN7besMSyY=; b=O2LdA2Sg5skdHpyVHJ7haR/uKW
+	IWwMa8RigLEfPZQMAdiDlvgRclOct9FtPJw2HvxgH5jqeuv8pzNqik2WTJp40yOlqY7mEoKV4Uz4G
+	yeM9Y2BOdiH1BD3D3j5lQp/za8Wd1O0adzeDwFdPxVr9FJPUu4W8tTIgRiU2mOfQCm2Ov1mC07eR+
+	uz3yDCwe+I/Rox+uPeIOBis8qpFGvtpYITOlMNf26xJWPLtY1XJ872S6B1p/Rz2ebkEMXU/qhet4U
+	stWTVwZGhR6XmecEH4C1wv43kABGshFxnno8OA1LDwEKsJgNTN9mbdl5pAvlWmJlWzNn5ZMVtm10+
+	WXymF/qQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQVAs-00000001Z1Q-28Rg;
-	Mon, 09 Nov 2026 19:37:02 +0000
-Received: from mail-yx2-x05.google.com ([2607:f8b0:4864:41::5])
+	id 1xQVgK-00000001cV5-189M;
+	Mon, 09 Nov 2026 20:09:32 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQVAp-00000001Z0G-23n6
+	id 1xQVgI-00000001cUx-3wIP
 	for linux-nvme@lists.infradead.org;
-	Mon, 09 Nov 2026 19:37:01 +0000
-Received: by mail-yx2-x05.google.com with SMTP id 956f58d0204a3-67a19a2621dso1007283d50.0
-        for <linux-nvme@lists.infradead.org>; Mon, 09 Nov 2026 11:36:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794253018; x=1794857818; darn=lists.infradead.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=iNu8wevlnlWuO7QPB5Pki9h/6ZFT28xcWP8fY0TirdY=;
-        b=v0noSJEYuyR9HTWvcbUARz4BeBmgTqgAbheyOUbf2ZyzDXU05Mrxp6sxRUX/htr8dd
-         s3uE8S7bbhCtwWEq4ZLv7hAJwa4dW0dRy1C0eBKb9qb1rjoU4lIEfd0Hl0BeXKBU7ZTo
-         g1/RqnQTyY+Q0x6WGGjqtFlys7GdKXaHuxOWAEmrebtnZAvrevK2hxOhreg4p8X1+WpO
-         vp7ZPNcaRQU6zu2WjXGRMA9grD3Tmq1FSz93dnY8aSjUuyc1ogcQPuOhHYKztY1sBA3H
-         MaEXTogRzgrfOUGT3U0Hk0T0iK+CPV3+j9XkP5J69262AvvR8/9WOcifcVVw249ev/qj
-         QxSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794253018; x=1794857818;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=iNu8wevlnlWuO7QPB5Pki9h/6ZFT28xcWP8fY0TirdY=;
-        b=Lb10yyTKcyJpm54ChCQUzM7/Rk2Woanea4VmAgTGc1cqU4OC9EO8WleqQPokOzo0NB
-         ziBPbRkmNpaH7Vg+lBbFoa4fI+6YYta4HzRu5HWZJzNR3kW6LJArjXAc8F7OxVacwNlj
-         AGwcEc+d1AV81oerpDkrMG58Z3b5hL1BViz8S1tZWRH1G+hQ4wMtV9W59AZJymfAygyB
-         I+BhIaJap1jgJljhkeIU2yCqmUkyAI64oFQKO4J/YN1RKpjlLRVnGOYrjEA2/c81+IMu
-         I1Zberpi67ysVIGXApZVsiqtNYXyaNmnGNjWANtBszmC1yyRViT0leHnUJWgYTSrxlBf
-         N1Eg==
-X-Gm-Message-State: APuU4Z81cs55BvrHVj5X9sVKc7sI57dSNwiapCIF/MY6hVTN8naI1ZWb
-	2vPBa9LoF0w5nCLKrDzQg1Aq1tLqnyZ0GG4WYCPO85740zgwvDBMbwl4
-X-Gm-Gg: AYBFou2axzxn+aWKwRdj+sb4fYTKOulYCfCpV/sfQEE1ARWjxjnRysVmkY590d/1OT1
-	+PDqLyHrC3m+3LHAQ7OCSoKNcEVCofiEwVAeIfqXtMNmkZH/LRnaAMVtQRCjL7onOG+3ihGykb7
-	QJbmGXIMe7ZWOBuxxZFQbMIdkSceWw+TJdCnzZMHyG65V40jk4wjHXXTBomFigjvbM20mJMFXdU
-	FWD3IiurwRrzvI9yfe6I3xVADNSwKp2ZYQ3XquAsj8ff5/Zv4hZy81xb33XrZZcQXVRFoYIuMPJ
-	K1eKmKFPyYshF9rOIkK1J+Ug5v4OaarghbKJSlnysScRS06dvesQ/QRvcVYyd7jJnV2QUnG9ZDb
-	R5iJCgXi9MWI2pXBLt/zBBdK25HDMATPEPxRbviGSf63pQdJsI9ZKaQt8bb1c7bFQOpGaUHyc0b
-	Xb3Qerkk1bTi59boGhhn10v7C930Skp15+RpDlXwq9V4IgKMwxQ+hb8XhoLZF36cgrbRTZCn3wv
-	awEUJSuo7FgDzRxA8nx9aQprL4+jC1wWtVLzfPrYBt/3EKtnXMRdwkqdEQiiUAFy01qnkBsTfjk
-	wHtrl75nz7VEE5muz6BgiDW9aNoOfOJzvg==
-X-Received: by 2002:a05:690e:4399:b0:67c:3165:bd2d with SMTP id 956f58d0204a3-67c568707e2mr287035d50.68.1794253018056;
-        Mon, 09 Nov 2026 11:36:58 -0800 (PST)
-Received: from [10.0.0.48] ([71.69.222.122])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67c589c70a3sm62367d50.11.2026.11.09.11.36.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Nov 2026 11:36:57 -0800 (PST)
-Message-ID: <8f89c7f8-8f27-477a-a98d-f08845667639@gmail.com>
-Date: Mon, 9 Nov 2026 14:36:56 -0500
-X-Archived-By: <archiver.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] nvme-tcp: consume TLS records without application
- data
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@kernel.org>,
- linux-kernel@vger.kernel.org
-References: <20261109-nvme-tcp-live-ctrlrec-v1-0-47ba61670e65@gmail.com>
- <20261109-nvme-tcp-live-ctrlrec-v1-2-47ba61670e65@gmail.com>
- <sashiko-outbox-205483@kernel.org>
-Content-Language: en-US
-From: Martin Belanger <martin.nvme.dev@gmail.com>
-In-Reply-To: <sashiko-outbox-205483@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261109_113659_542157_F257AB58 
-X-CRM114-Status: GOOD (  12.38  )
-X-Spam-Score: -2.1 (--)
+	Mon, 09 Nov 2026 20:09:30 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id AEE88436E4;
+	Mon,  9 Nov 2026 20:09:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 694871F0089F;
+	Mon,  9 Nov 2026 20:09:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794254970;
+	bh=cD45RP4mu3e4rcXUaMO+K2b6dXzPom7vzbN7besMSyY=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=EHAYg8FvufrbNCJi2SkmA5buNoAZ0WoJdyo2BNpHQwcWCbmNtWHObgc6F8SoU+tgs
+	 32uZOSpVwpOZFMGVqWNSgMzc54WACHB05H3twruNvF6WYEILEA4RA7O3yEevCAZSGE
+	 ujBho2VSUsjJC6tPbLWP9qoLBqBFEnLtj9VImO3RsDwya54O8Uk2Xeuk1ebtMqHsqA
+	 Xp/OVgmDo122h95FsV5zd0JOfcPWURyxVLLSv0uBXjXuRvxelh+KVpwGEClfrN5QHs
+	 Ig5rQLmXcsk4NsxVn+Mg5GSeofOtNfzDamQQyfIh/oLRGMFV0cUmGas3jgpOnZb9Cu
+	 92D7E3twAvgDA==
+Message-ID: <sashiko-outbox-205543@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 01/23] nvmet: add context annotation for nvmet_ns::bdev
+To: "Nilay Shroff" <nilay@linux.ibm.com>
+Cc: linux-nvme@lists.infradead.org
+In-Reply-To: <20261109033102.982191-26-nilay@linux.ibm.com>
+References: <20261109033102.982191-25-nilay@linux.ibm.com>
+ <20261109033102.982191-26-nilay@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 09 Nov 2026 20:09:29 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,40 +64,88 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-4.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
+X-Archived-By: <archiver.kernel.org>
 
+Thank you for your contribution! Sashiko AI review found no new issues
+in this patch, but noticed 1 related pre-existing issue it does not
+introduce:
+- [Critical] nvmet: race in nvmet_bdev_zone_append_bio_done() on
+  inline_bio cleanup [1]
+--
 
+commit bd98b59eeb25b1fa920c66a35d00856fefddae58
+Author: Nilay Shroff <nilay@linux.ibm.com>
 
-On 11/9/26 14:21, sashiko-bot@kernel.org wrote:
-> [Severity: Medium]
-> Can dropping the socket lock here let concurrent callers of
-> nvme_tcp_try_recv() race on the same TLS control record?
+nvmet: add context annotation for nvmet_ns::bdev
 
-The report is correct. On a poll queue, nvme_tcp_io_work() and
-nvme_tcp_poll() both call nvme_tcp_try_recv(). This patch releases the
-socket lock before recvmsg(), so both callers can see the same record.
-The second caller then fails the queue, and the controller reconnects.
+This commit annotates nvmet_ns::bdev with __guarded_by(&subsys->lock), adds
+__must_hold() annotations to namespace management functions, and introduces
+the nvmet_ns_bdev() helper for lockless I/O and request-processing paths.
 
-Without this patch, every such record leads to a reconnect. So the race
-does not make the result worse than today, but it is a bug in this
-patch.
+> diff --git a/drivers/nvme/target/zns.c b/drivers/nvme/target/zns.c
+> index cea05b4bc7409..ce53094536688 100644
+> --- a/drivers/nvme/target/zns.c
+> +++ b/drivers/nvme/target/zns.c
 
-v2 will add a queue flag. The caller that gets -EINVAL from read_sock()
-sets it with test_and_set_bit() before it releases the socket lock, and
-clears it after it takes the lock again. A caller that finds the flag
-set returns 0 and leaves the record to the first one. The flag is set
-and tested only under the socket lock, so its owner knows the record at
-the head of the queue is the one read_sock() reported.
+[ ... ]
 
-v2 will also include the cmsg buffer fix from the report on patch 1,
-and a test with poll queues.
+> @@ -591,10 +593,10 @@ void nvmet_bdev_execute_zone_append(struct nvmet_re=
+q *req)
+> =20
+>  	if (nvmet_use_inline_bvec(req)) {
+>  		bio =3D &req->z.inline_bio;
+> -		bio_init(bio, req->ns->bdev, req->inline_bvec,
+> +		bio_init(bio, bdev, req->inline_bvec,
+>  			 ARRAY_SIZE(req->inline_bvec), opf);
+>  	} else {
+> -		bio =3D bio_alloc(req->ns->bdev, req->sg_cnt, opf, GFP_KERNEL);
+> +		bio =3D bio_alloc(bdev, req->sg_cnt, opf, GFP_KERNEL);
+>  	}
+> =20
+>  	bio->bi_end_io =3D nvmet_bdev_zone_append_bio_done;
 
-Martin
+[Severity: Critical]
+This problem wasn't introduced by this patch, but can
+nvmet_bdev_zone_append_bio_done() cause a use-after-free on req or corrupt
+req->z.inline_bio [1]?
+
+drivers/nvme/target/zns.c:nvmet_bdev_zone_append_bio_done() {
+	...
+	nvmet_req_complete(req, blk_to_nvme_status(req, bio->bi_status));
+	nvmet_req_bio_put(req, bio);
+}
+
+nvmet_req_complete() invokes req->ops->queue_response(), allowing the
+transport to immediately free req or reuse it for a new command before
+nvmet_req_bio_put() runs:
+
+CPU0                                  CPU1
+nvmet_bdev_zone_append_bio_done()
+  nvmet_req_complete(req, ...)
+    req->ops->queue_response(req)
+                                      bio_init(&req->z.inline_bio, ...)
+                                      submit_bio(&req->z.inline_bio)
+  nvmet_req_bio_put(req, bio)
+    bio_uninit(bio)
+      bio->bi_blkg =3D NULL
+                                        blk_cgroup_bio_start(bio)
+                                          <-- NULL pointer dereference
+
+Saving bio->bi_status and calling nvmet_req_bio_put() before
+nvmet_req_complete(), as nvmet_bio_done() does, would avoid touching req and
+inline_bio after completion.
+
+[1] https://sashiko.dev/#/bug/linux-26aa255a-7ec1-4018-9aa1-cc5794fc39c0
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261109033102.9821=
+91-25-nilay@linux.ibm.com?part=3D1
 
