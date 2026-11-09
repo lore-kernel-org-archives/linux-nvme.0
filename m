@@ -2,156 +2,60 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46BFC606A321
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2026 12:02:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD587606D803
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2026 12:09:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Ojy6QSmh;
-	dkim=pass (2048-bit key, unprotected) header.d=wdc.com header.i=@wdc.com header.a=rsa-sha256 header.s=dkim.wdc.com header.b=igT5hvYD;
-	dkim=pass (1024-bit key, unprotected) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-sharedspace-onmicrosoft-com header.b=t+kMIFW/
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=BKAkAugY;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BW0uuf8c
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
-	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Cc:To:Subject:
+	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=eCRrjIWl9YzP6ni88Z6ece198enI+O564aGI5d3w8kg=; b=Ojy6QSmhUmCyA+GAvKRK496CAI
-	JKNPpsuwVa+uYFyotERQ6ZzRCygf8GPHELO8Gf7N2vqErW4C3xaCwsAT1L3hGeevqDcOuHCDQRkRD
-	H0E3DIgUToT55mDquA43y8XdGgVrt5/cCtslg6h/qN/GtA8VOlqTqCpWZ/4BIWXf7arMP65z0QS6W
-	TrUFzrCWmWapjaHIKTPhDCUu/HwlIVykbzZlAeCg6ChNSgx2r+TnJvKGKUfCOXMjq2qUpHUYNgQ1f
-	9cbad7lP4+/hqP6M1spnmsr5XB4IEjhV+wGUepY8bA2TaDXSvjdYCyHE9Q3wLbfOkzIU7UrnrmVd1
-	DhltTcMw==;
+	bh=wikEh2wNcmpWRSkH73zoMOztDUfCBsFhYmukmcMkDAo=; b=BKAkAugYTWVs5vw28NMxCDHMd0
+	A2EYV4LdHfwKaOeH43V0MNoWZk5wf9xmBHqfaYq0p2FwaoNhbU+ZYdOwHAkXHvFqPp0BBbzH4JJU8
+	Y87TjVkH2d8bjBARGl2N3ScGiddA38QFhBIRmgp8LEtM06lx6yH51eCvj0GY2hPSPkSz2F4m6Bu28
+	ZKxvYGTNOEPfqyPqrPVlsAAgIMwuaIkaVrRsw/qckibtjiZ30Q7DcjFD/Upk2zdhCuPggK0+tltg6
+	Ti+dFrqxs9N3fh28dxGI807kc0sHw/WlfIYqOpZ9iJ/XPfQ6l/fNYngWpKHFcEfB/hF6eFaMD1J9i
+	Kn4Cqu4Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQO5O-00000000bev-40QU;
-	Mon, 09 Nov 2026 12:02:54 +0000
-Received: from esa2.hgst.iphmx.com ([68.232.143.124])
+	id 1xQOBg-00000000dDt-3Fra;
+	Mon, 09 Nov 2026 12:09:24 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQO5M-00000000bdQ-1GF7
+	id 1xQOBZ-00000000dAT-3ASx
 	for linux-nvme@lists.infradead.org;
-	Mon, 09 Nov 2026 12:02:53 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1794225772; x=1825761772;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=eAmDE99aVoWBFt2D9wf9i9/vCVx9g0Bmp2geXO03oG0=;
-  b=igT5hvYDMDAmVEvCGW0pppjyT4mSg83PqgdX4PW+CeT2hiutEBnovHbC
-   tDGINPPd4NO3Pt9fdmecF6yFuA7NSQRvdmfRErWz4VZUXMLgv3V23leqS
-   PQBYg718xtwpwXxXrlIhNXTLtviSOYR5LcVYOHUjs2KdD4AiR2s558cEn
-   H0OwLK9gV6twGUeigfAjVThEWF4AmSPrDb4X8YbI/lS6UuLKVNlztyC7W
-   hbyoYKlbFzAoSEvS8MlmV7TD8F86QaVaTifwWbLR4IaHFPTzNx9Wsynf+
-   X4BgzNdZhYg5RSXos6jEJ6ZWEsPW4IUnrVM/nHKILvRxBRHb9dL7yV2W3
-   A==;
-X-CSE-ConnectionGUID: 7XuTd+yOTS2jfjVpAg8NjA==
-X-CSE-MsgGUID: mWF7yetmSDWvo+6Iwv4lfQ==
-X-IronPort-AV: E=Sophos;i="6.27,203,1786982400"; 
-   d="scan'208";a="161332876"
-Received: from mail-northcentralusazon11012030.outbound.protection.outlook.com (HELO CH5PR02CU005.outbound.protection.outlook.com) ([40.107.200.30])
-  by ob1.hgst.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 09 Nov 2026 20:02:51 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vti2Cb8cRv+B2ihDGRS9hDJm3qn92XetE/4/EKP63xf5H/lFfrJ/0+vzvXB6QrS2q7PY6xa7JU6r4jhbFduCfwz4m7ardN349jCywUbRr3GmwFYwz/p+wx4qTyClv+BqdZyA7qqJLNf8sHKGsXwdtaHPUHdnA+poNYwauQYwgAOux5Npk5pI9hSZWPjymSyJyU2tGbAeRxB3148WKFaA6CzwXKX4v7JGRnnvAHL7yNA17qdyEk33ziXAkTUfi2nLqodf2wWF670tYq5Kgw3TLnBUcvQ6prINmuKY1oyUCXCvufdWVyKClzHd4uphgKpCViWzsvyYcwYjKcJlKGiMBg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eCRrjIWl9YzP6ni88Z6ece198enI+O564aGI5d3w8kg=;
- b=JDVLVaqKbnl2X59chTKy9KZ5j9+7Anwb0SgxEzxofWZ+5PiJ5DaXB7Cp7pMtHq/IFKYCerjs5owx3iobVV3OtH5T81xtINCK8H7OVJz7UVIvnsjtbgTtTEZbfHobAW43zjuIHW4cQmmeqql52ZrQFswpxTV/s+kdlMGjuY5pwMqj400LpiX4o9RRVt6cjAoGIfZY+448ASVEj66gX/Cp12rkcQbsG3hXHy4JC8WYCL+ZPpMDQ3pjqi4F0VnA79ieUqK147Tglr0b1eyqKkN3Mfy2adt5ZibMU2IE1aKDDFNCMRhWMJYTllkebdH0Av1r8C0cQ7aHrXvmkUZNmGWuJA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eCRrjIWl9YzP6ni88Z6ece198enI+O564aGI5d3w8kg=;
- b=t+kMIFW/izp3n/cWDWnL5bCAEn8ZN9+VNEZehS+h8WTsuDySlg3SdZwuKr8kTAOceL5OVDP4whURcPA+oOUw6rn2G6MBrs4WWFxuaP4ARwKZ1wIWBu74nBLivJsevTkyIen/brewAtNtbsGvQ12epF7Cf6iZiqNCCVuYwU6Nt54=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-Received: from SA1PR04MB10065.namprd04.prod.outlook.com
- (2603:10b6:806:4dd::14) by DS3PR04MB993825.namprd04.prod.outlook.com
- (2603:10b6:8:600::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.13; Mon, 9 Nov
- 2026 12:00:49 +0000
-Received: from SA1PR04MB10065.namprd04.prod.outlook.com
- ([fe80::9b98:bf8a:b0b1:ef85]) by SA1PR04MB10065.namprd04.prod.outlook.com
- ([fe80::9b98:bf8a:b0b1:ef85%5]) with mapi id 15.21.0592.010; Mon, 9 Nov 2026
- 12:00:48 +0000
-Date: Mon, 9 Nov 2026 21:00:42 +0900
-From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Daejun Park <daejun7.park@samsung.com>
-Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: [PATCH blktests] nvme/071: test reservation preempt with
- multiple hosts
-Message-ID: <avG1szpxkIL-Sj8x@shinmob>
-References: <CGME20261002070851epcms2p85765994ffe5ee25f97ff522c29b04b6a@epcms2p8>
- <20261002070851epcms2p85765994ffe5ee25f97ff522c29b04b6a@epcms2p8>
- <as9W9E4gkBjhZ9sK@shinmob>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <as9W9E4gkBjhZ9sK@shinmob>
-X-ClientProxiedBy: TYCPR01CA0189.jpnprd01.prod.outlook.com
- (2603:1096:400:2b0::14) To SA1PR04MB10065.namprd04.prod.outlook.com
- (2603:10b6:806:4dd::14)
-X-Archived-By: <archiver.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR04MB10065:EE_|DS3PR04MB993825:EE_
-X-MS-Office365-Filtering-Correlation-Id: 086a94a2-3b68-4d9f-f162-08df3e591822
-WDCIPOUTBOUND: EOP-TRUE
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|19092799006|23010399003|376014|22082099003|18002099003|10067099003|3023799007|4143699003|11063799006|261028144727099003|261102123227099003|261022105027099003|56012099006|261021121427099003|261026121527099003|261026140227099003;
-X-Microsoft-Antispam-Message-Info: 4C59KbZCYZteHlSddHEBQB/YuyzO0YQ+5XYjhavqJKzVARBcT2DpnqIjXhCcdAVgivVqvwzgGJ5LbYjMwNavjg1L8tFZ+pJ2ut+rclwn0RmgilaAUoab0/M3lMjUekCALb9uqqlI7W8DXm2O8PN+anWnFPrJNz3CdJ9TGAmcdoFAc/+TV6XwRLhXVWQlqi5fCwkVxbx/Tb8RDnL6Hsu01n/GISenUrcJqaPGbuv+z4vgLK07gWEzNymp9W7HkfHiCDGFXPgWbSfmU9c9pEI5AQuv1UePongiXSDVPCaruTJOjXogcOp0nKsYL2xisfYQaVVoJXeRX5OE0Qc7RYC2mdoTYGdRqA0/IYETnUcBe6TXEPevErkxwMtwuCPgBOTXmfnKAofOFCz+xmM4Gq835sE/gwVtfZBkrVEkpYh4RP7FHFqaPz+OJTUaET/I+vTMBqyZOGsOcId7RqcdI66xyOTkXrg+hHOf9hWktXVrJ6TNub1tkglmcDU4qDTUq7iQXjhIeUE/Xc+GqjlHAB5BAZZlOOEXrnrqeWRj14UC23RK7M7LA5tka1dgolPpxx6btY//b2XvZtPVkxbYsVQDQ5yubKkDM3+e6W3PR3f0fqJtVga4YiD+94TPdKR0vYjB8tebNy8doFmN89h6fgrA2dZYpp+r6Tv/9fUoYXfOl20=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR04MB10065.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(19092799006)(23010399003)(376014)(22082099003)(18002099003)(10067099003)(3023799007)(4143699003)(11063799006)(261028144727099003)(261102123227099003)(261022105027099003)(56012099006)(261021121427099003)(261026121527099003)(261026140227099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?H0JpiBkZO9wkklayYNKCelKu/G+ttV3ggd9oQON7KFQHal2wcH+y/aZDQ+B6?=
- =?us-ascii?Q?okINMCV4y0ksGVDD+SEdPTKRasIRxTjIAQrVkO9NaNe5DIGNMa1oDWPIDvYO?=
- =?us-ascii?Q?apJ0q0MvYKi/p4sxAbpZG0l8/k8lIxV5l1SbZFGOVUJF7EXTJxkWpuBI/w5i?=
- =?us-ascii?Q?KwrsJWZL/KXsgoBx/osx0uNL3HYtb44Caq7TYVKf3xNYyALNsExxWsA+gtC4?=
- =?us-ascii?Q?IZT4VTq+6znsK9xXiei43nYGqBFu3yL1CBLRm65Cp/tPQcaEP4DFHKRe3Xm9?=
- =?us-ascii?Q?qyDxMGQ3oHkQqOhEYrQtQ4Dof/RV/rY6Mk8fVgVhuHvAeuQkoPm0+JNoZi7z?=
- =?us-ascii?Q?jOh5+JH8It8OSSf8t1HbMhCKbaECajisJt9JYWL0Nx1oPoAZP2FXPqWeL3SV?=
- =?us-ascii?Q?i0yqRQzzeQRxoAmE5HUzZdl8Nj+G5t3l6z7stUL4TI87xJVuLDSaRLORaiQ+?=
- =?us-ascii?Q?i3A+Y7+7HNEcYIk7kYn6SQNydDmj3kTEnawgEZNrTA1cMVw54nYQ1XsYqYzW?=
- =?us-ascii?Q?UaLSh8QHu6uS7utn/sXDjhZ7sWxhOrwQ2f2I34CHvGtquqy15AFrwEckI1fU?=
- =?us-ascii?Q?Tc2avTV0rPghrD0Lw02lZejYgsZNokEZHMAHFWixko6P0c4CSx0olhd1PW8Z?=
- =?us-ascii?Q?apFfUdktL3vTl8Mm8BzVQacm4Mpui4mS2cCESy7JzNgsvFVR2qjkTKIQadD+?=
- =?us-ascii?Q?g4FX2fapV2hfNQQv7YpoORAgYOrUroJdYYJzlZyeWORTrHaeN8Wu7YwZiMlR?=
- =?us-ascii?Q?hFiUfBA3/eYGyaC3a6oV8dFAR4dtWMh/N7zxNlWqZRgN3ShfP8v+TGFu3yad?=
- =?us-ascii?Q?JJ9m6OJSHCt2JelKv3pqzm/ACvLljgeIq1SqzCnDsqgLbNGRSGhh4yJWK/tH?=
- =?us-ascii?Q?+Ojvvk8aEAiMi4l5VNHfbKFGusRDbsOdjHYuhsDDTFsXNCNKnSihrx/jF8zq?=
- =?us-ascii?Q?ohelyVThOG4A5I2pEZ8OZ9zE8UpbsTjZSgRE6JJaBatUJFFaBRjkSQF9gv1P?=
- =?us-ascii?Q?9BShvuQZr6OKH2oZKGD0jJ2XeI0fPPYSxUUsSUgo6GfvaW+MBty3JOgWTPo4?=
- =?us-ascii?Q?QLBbDI3kLxTX/WVtRRvKVdo9ruv+Bi1ieUj8SBD1qCZTYvKd5cIC3WdB2sk6?=
- =?us-ascii?Q?0jLeZLgOo5+TrmSCZVnudx9DOPI9KeivDyYB1yOVANSJy+wNjkhM5pSE1+lr?=
- =?us-ascii?Q?9FDEta5alVxOeT+N8PvR6QmBwrfTQkPsJnW7E4HELX2JCUOh6TRWEUPs2QT6?=
- =?us-ascii?Q?Ui9GMHIiQZ8QkIVYd3AYKa5yNLwMcP/OZ46zakizV3fmG4NrDvgB7llaG7cb?=
- =?us-ascii?Q?JLm2uIWSDNHD72XXiN4vk9V/uAsbXsf9E+FUAG1hsubnAyUR5vatuv5p6GNN?=
- =?us-ascii?Q?aU9DU5Hhq+wSCoAJBYKwf5dQovJb4XMaLV0iTz0t3RUIb/NEvSagxyyTpG4i?=
- =?us-ascii?Q?CDnD8YncL7KPQjz10yGDAWxRQmGKap4DXLJvQ9gz1mtomb5IIfuZvRQ5JbXr?=
- =?us-ascii?Q?sDZZcQmNxZdDkP9PeDeIBCRNdy0GuQuJOuWa6H0PT+XogAWcRJrKovhy6+U6?=
- =?us-ascii?Q?wL7dv6cPvmkNtz4Wgva7s1cedCgl28I9d5GvQ17WtTy1Ru+RSfw80C+kL7yr?=
- =?us-ascii?Q?JLquMGiMiNQKhPTRbWBorHEfNz4FaAsEEWgY1ZC5sbA9ZqJh+rZejAvf1ZFN?=
- =?us-ascii?Q?T/eF6a7HUCsQjrx1F0/Mm3+D7DgvkpJnh11PbBUVtWatzR8sB/DKrtdbEPnr?=
- =?us-ascii?Q?OyQIKToeZU7Nfgc6im/auWhOqWX5sCA=3D?=
-X-Exchange-RoutingPolicyChecked: d9DHHwzcog886/boqP6GsYvfYMwoVxGMzkcarMItp2Q5mCrwNkbDEsAyWXFzgJ9szA2gc2H3l1ZtDBo5Xg2SvNoxZX/yOwbcICSW5ojNPmWk+999b4sQBlaOy57z5fG7E6AnRiEv8pi/GITdh4unmkS6C00fL8dCd6qAib5wIx/89N8wJ1tkZ6bvocw7AlEf+UbJvRa4wRXh/KBVmC6KKtBTzWO1XLMZuqIPhmb1Zz1mslB2QUKvbRGrWHIIr8sgn3Q1sc7ZW0GfXB5+tDcGJ26pEQ8+5eVqOQXqyZEeav0nNs+x5tRvwmCX1jGgL8AlI7kE/v554W1tC9VjvB05Ug==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: QxUHaqnlS/gVrIjvc4KSsz5PsBcF/7Bts8v9ftyQgEINOqpxJZy7cP40EWL5VxW/qyXc4kb3Y3N2bfSeA5+E9hYlsZv5Snd9aHzJIqGDcguDp8D/yOprUEErb47YkkR80ey1D7726rTVk1SiSRBpf9wC9rYkrhTIXqgsfp4U+tKESEfqP2oIPOqhv4FumHFRAvx2TyUmtyE+6DmClb8c6D69BeiUphh5eHwdaK6Ab7+x9OFWtGrE5jcwiut/Ay9rqHzt3ggvGYigomdMWu/fGeEgD9Hb3WEG38BweDObjwnnwFGbhNQPLUZoQfHdmGv/qkV23Npv04uCvy8m3MWexxAgKZc5/3/XfMKQW0DunaaIGEuCtL9VQ3kcSLxGfjaW4BTwYLC93VvJaL58xDnSt1nSgn7W+qsywYfDZSXWI3soN2DmNqeTSbRpetGuXwZO27O3mbQuPvPekXYrTIrbK2in+0hco7ZicgEyv0mOaepP5vzWx+MKcDXk09oGpX4IUKvoWqqgXAx5esJd7ZiJBh0XY5CRj+t4JnIsn5SoTlwoe1ShyyUACIt/EFptwXq3j2boLDl2iiPx9idRfybdsUNB8iBTIQVSKqUn2XQ4rMLbYgmfB8IipAgQCty1jcfY
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 086a94a2-3b68-4d9f-f162-08df3e591822
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR04MB10065.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2026 12:00:48.8865
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9B2FRey+ccGCmyAPbsUXFD5QqbdNwBuUOMF3LNo1J1HYsTqX99yNsh+X0iIwnfqTq78dbM8Wo5A4Il6VNAuQCiBV6k/3eugxQWFKANl4xrA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS3PR04MB993825
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261109_040252_387370_2F5085C0 
-X-CRM114-Status: GOOD (  22.82  )
-X-Spam-Score: -4.4 (----)
+	Mon, 09 Nov 2026 12:09:17 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id 26A68631B7;
+	Mon,  9 Nov 2026 12:09:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB60D1F008BD;
+	Mon,  9 Nov 2026 12:09:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794226156;
+	bh=wikEh2wNcmpWRSkH73zoMOztDUfCBsFhYmukmcMkDAo=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=BW0uuf8cJcee/ALlBcj7pl1em3AZqFFaSHWEX8+yxUP2Eehm6AVx8gkOh5ixAx3oW
+	 abX4sWb7BwpyUofziQGglq+S0FIVOmxwzrKTUlPvJrYUjM8P4Ml+o4RgJL4QKopqZb
+	 jcfWqIE0u1uPcui1cQT8YgAJpyT+bjJZo6O+Gvfl+T+2nPOLTYWOMI6QUqWNoGboSE
+	 9wxYFvvtViR5zpsiK3mF9K4nT1Y7f8L5WVEbBCSEXeBE7rn1KhuzPDobgx8reZa/H0
+	 IyYM+VTsK9TCk+npEybRbGbs09vFvJIEzVYcBGmWIqY8LCnmn2h9SAdUYOgrR0N7qt
+	 S4LvcbPIU2asA==
+Message-ID: <sashiko-outbox-204916@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 1/2] nvme: define the SMART / Health Status async event
+ bit
+To: "Guixin Liu" <kanie@linux.alibaba.com>
+Cc: linux-nvme@lists.infradead.org
+In-Reply-To: <20261109120207.1352165-2-kanie@linux.alibaba.com>
+References: <20261109120207.1352165-1-kanie@linux.alibaba.com>
+ <20261109120207.1352165-2-kanie@linux.alibaba.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 09 Nov 2026 12:09:16 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -161,39 +65,71 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
+X-Archived-By: <archiver.kernel.org>
 
-On Oct 14, 2026 / 19:25, Shin'ichiro Kawasaki wrote:
-> On Oct 02, 2026 / 16:08, Daejun Park wrote:
-> > nvme/054 covers the reservation commands with a single host, so its
-> > preempt step can only exercise a reservation holder preempting itself.
-> > 
-> > Add a test that connects three hosts to one namespace and sends the
-> > Preempt and the Preempt and Abort actions of the Reservation Acquire
-> > command from the reservation holder and from a non-holder registrant,
-> > with PRKEY set to the key of another registrant, to the key of the
-> > holder, and to 0h.  After each command the test checks the reservation
-> > type and, for every registrant, its reservation key and whether it
-> > holds the reservation, as reported by the Reservation Report command.
-> > 
-> > The steps in which the reservation holder preempts another registrant
-> > or sends PRKEY 0h fail without the kernel patch "nvmet: fix preempt of
-> > another registrant by the reservation holder".
-> 
-> Thanks for the patch. I ran the new test case and confirmed it fails. Also, I
-> confirmed the kernel patch noted above avoids the failure. Good.
-> 
-> I think the patch is good enough to apply. Said that, I will wait for the kernel
-> side fix patch lands on the Linus master branch to avoid confusion by the test
-> case failure. I think the test case number 071 will need renumbering. I will do
-> that modification when I apply the patch.
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] nvme: NVME_AEN_BIT_SMART and NVME_AEN_CFG_SMART use wrong
+  OAES/CFG bit
+--
 
-FYI, I applied the patch. Please note that I renumbered the test case to
-nvme/076, and added a note about the kernel side commit. Thanks!
+commit be7079eb32755ede896d21f96ed7d1785a179279
+Author: Guixin Liu <kanie@linux.alibaba.com>
+
+nvme: define the SMART / Health Status async event bit
+
+This commit adds NVME_AEN_BIT_SMART and NVME_AEN_CFG_SMART definitions to
+include/linux/nvme.h.
+
+> diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+> index 6248711784b37..2b4f8e269d12d 100644
+> --- a/include/linux/nvme.h
+> +++ b/include/linux/nvme.h
+> @@ -867,6 +867,7 @@ enum {
+>  };
+> =20
+>  enum {
+> +	NVME_AEN_BIT_SMART		=3D 1,
+>  	NVME_AEN_BIT_NS_ATTR		=3D 8,
+>  	NVME_AEN_BIT_FW_ACT		=3D 9,
+>  	NVME_AEN_BIT_ANA_CHANGE		=3D 11,
+> @@ -874,6 +875,7 @@ enum {
+>  };
+> =20
+>  enum {
+> +	NVME_AEN_CFG_SMART		=3D 1 << NVME_AEN_BIT_SMART,
+>  	NVME_AEN_CFG_NS_ATTR		=3D 1 << NVME_AEN_BIT_NS_ATTR,
+>  	NVME_AEN_CFG_FW_ACT		=3D 1 << NVME_AEN_BIT_FW_ACT,
+>  	NVME_AEN_CFG_ANA_CHANGE		=3D 1 << NVME_AEN_BIT_ANA_CHANGE,
+
+[Severity: Medium]
+Do NVME_AEN_BIT_SMART and NVME_AEN_CFG_SMART match the NVMe specification
+for Identify Controller OAES and NVME_FEAT_ASYNC_EVENT?
+
+The value 1 is the Asynchronous Event Type (NVME_AER_SMART =3D 1) reported
+in CQE DW0 bits 2:0, not an OAES or Asynchronous Event Configuration bit.
+In the NVMe Base Specification, SMART / Health Critical Warning events are
+mandatory, so bits 7:0 of OAES are reserved and zero on compliant
+controllers. Checking ctrl->oaes & NVME_AEN_CFG_SMART will therefore find
+the bit cleared and never subscribe to the event.
+
+In the NVME_FEAT_ASYNC_EVENT feature (CDW11), bits 7:0 are individual
+Critical Warning bitmasks corresponding to byte 0 of struct nvme_smart_log,
+already defined right above in include/linux/nvme.h as
+NVME_SMART_CRIT_SPARE through NVME_SMART_CRIT_VOLATILE_MEMORY (and used by
+NVMET_AEN_CFG_ALL in drivers/nvme/target/nvmet.h). Passing 1 << 1 to Set
+Features only enables NVME_SMART_CRIT_TEMPERATURE and leaves spare,
+reliability, media, and volatile memory warnings disabled.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261109120207.1352=
+165-1-kanie@linux.alibaba.com?part=3D1
 
