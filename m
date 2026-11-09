@@ -2,95 +2,100 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7D14606A321
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2026 19:32:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02B43606A31C
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2026 19:37:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=M82x9XGf;
-	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.a=rsa-sha256 header.s=google2022 header.b=HvrYJGPH
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=TXYxs5hi;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=v0noSJEY
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Unsubscribe-Post:List-Owner;
-	bh=6otXJ8lIDv4F0yh10IfYlKI2Iwg38oKsHts05bkX0bk=; b=M82x9XGf55GO1liZDiWxqxKdwi
-	GuDjt2PpugIdzWEjV3WFON1n2cJrp6+YUoQbmDhz2BAEzrFh60eyc3xLvCDjYCZBF9Y8C1/Ri7+6j
-	f8ns3TpaDRrzweXn754bod3vByCChcRSLbTR4jNkoA10pnwJSDCIVz/fEq2EWARO/OmiOnnywcogz
-	xoBvwDu2yx4ESTOFe1/fMZ5I4dot2DH3oMCliuGkXPKbM+6fwK/t/b0m/mVQDnR1VXZFwh0Uv3k0F
-	63cqjmD5LoFpji5Zyb3r5azfYuWJv7Z27fvB50ZXBWT0sDJmr5cm4zqbSyYpuO2Buod1mSYeVEYQl
-	mUqr3v3w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
+	List-Owner; bh=iNu8wevlnlWuO7QPB5Pki9h/6ZFT28xcWP8fY0TirdY=; b=TXYxs5hiL7OsIn
+	M0R/byghC3CNfzqB0/mbmprTdGBO58V0nOWhlF9EfNVyZXGqQp9H9ddFMu/B2/hXdAxpV3pHWldJo
+	caf6dcYzeV3QslHj94mnEIAOb0QwFW5AGE4YDUacxfswxhrCsXkItZEpvw22UMCADn1IERh67o2fn
+	P1jV9CsTVOcCvoIuqmfWHlulXRbbAaat8bA4bnuJlBkZU+MRS5gGBdB3fzmwGprJywmCPvzxojK4l
+	AzeqaWSDFRQC/5NUfRodoc4Vx9MnuESNZK5EggyYj7hS+HgijJl/RLuM8mffklHXazAz4klotJNQf
+	DfQJoZ5h07ucGFG3dUig==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQV6T-00000001Ygy-3Kbv;
-	Mon, 09 Nov 2026 19:32:29 +0000
-Received: from mail-dy1-x1329.google.com ([2607:f8b0:4864:20::1329])
+	id 1xQVAs-00000001Z1Q-28Rg;
+	Mon, 09 Nov 2026 19:37:02 +0000
+Received: from mail-yx2-x05.google.com ([2607:f8b0:4864:41::5])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQV6Q-00000001Yge-3jHV
+	id 1xQVAp-00000001Z0G-23n6
 	for linux-nvme@lists.infradead.org;
-	Mon, 09 Nov 2026 19:32:28 +0000
-Received: by mail-dy1-x1329.google.com with SMTP id 5a478bee46e88-36fc0a3fe93so2471415eec.0
-        for <linux-nvme@lists.infradead.org>; Mon, 09 Nov 2026 11:32:26 -0800 (PST)
+	Mon, 09 Nov 2026 19:37:01 +0000
+Received: by mail-yx2-x05.google.com with SMTP id 956f58d0204a3-67a19a2621dso1007283d50.0
+        for <linux-nvme@lists.infradead.org>; Mon, 09 Nov 2026 11:36:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1794252745; x=1794857545; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=6otXJ8lIDv4F0yh10IfYlKI2Iwg38oKsHts05bkX0bk=;
-        b=HvrYJGPHhmRHZ5Eno9JuUes/szvNg9x8jfGtZ+n0842fwSbB/0cO1/HrkZoJbf4sgD
-         1LizI/rJBAl4wTyPbaK6jI7qYJKz8ierM0Hb1Js5GY5XBWNEpa2h+nFxG511RtC3t3Ds
-         j1jLsYl5HfR6W3iPxTWtlP3Y5sAFipfraGHnwK/6mODegLP1zgXpWHNfqgh7oDglmv8H
-         1HP275frTVEEuP/pHjGchmAQtBV/VsjeMTOyKHnm1u7y49mjWPWhj7TU1dn99WXjLdHe
-         XfHnS3uCukkyyu0K/AUTOCzipOcw+Me6TOrG1fJyTyN6ld2yI5vFX29d1Xp24kBSoOkq
-         ihRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794252745; x=1794857545;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20260707; t=1794253018; x=1794857818; darn=lists.infradead.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=6otXJ8lIDv4F0yh10IfYlKI2Iwg38oKsHts05bkX0bk=;
-        b=dFvYi2XY+OGEFdSOB7n8eY9ZJxrvRUEZuN/KHRrMD0a8Gpf9OELlB4eNbCcG+5XGdh
-         aHubc9uR9DGD3XI+Cg0gfRoYqkdStDHIKhggNNbzolERgGmGkxFSkx2LoUa3hA/PMuuw
-         0CMSLk5joZXjsTEhWU/ZKhKanxCEwnjsYZvFuuT8t0XnlmtwfJ+/WbSSHjciFMdLU6b3
-         LSuDDNJ/Db/3D/cMWgoFNdj1qUKLGiRrEK8Zlj8n8c9MUn4P1Js9VRVAUBT5pFiVGAa8
-         eOSqMktz2GgBxkfdjev9geMTXW97r3pLlDROB/IpI6XLHhGZRBJ817bcda2xkQzDxYdS
-         cLig==
-X-Forwarded-Encrypted: i=1; AL+hErGHQJr8iCkBH3lOq932p6wy0O/bgwzjWXCKN0DFL64xDwpDRvYr15JEdDlO04p7Dfvw0dB/AxHx0GZp@lists.infradead.org
-X-Gm-Message-State: APuU4Z8dDGxljbjnyFHy018YA+Kp6bIBO2IxfHxJbJ2No5CNJXIJZulN
-	wK0BZZg1CTBUvhL0B+HZWZutSg2TNWcXwLC7gRZiZCau+Qa6BwF+oQ4zN1bYPntXP1c=
-X-Gm-Gg: AYBFou0UTgQdfybcjrtopLPU3L3MY0HX+bbrfGcedCLj75K9kzJpZBAygVedtCgvtSG
-	agIuFkG2JVGd1lkivukGp4IiEKlPV6Rombv44C7zzRH7p+jkygbybtQSyYinN2P2XupG7N34my+
-	/E0D72K94T+KX1NSx9sylIWxvzuElzmye6lqMVYiKcd7CnILnxjjG0vzs4bbS4WdxS+GHLP6nsT
-	/9oMFf3EVodIO6//DVueVRYWWzA74jZ6LV6JSHR346Y/VvM2npHUiGQHkbN55k9v5G9c8jYZtiN
-	4UUGH76zLDaHUQb4yRqIMRVcbDK/F0DtJBtGUXLTi3zwKOugVMxe8WdiGTGj6dMQ/evVDS8WGYp
-	kpQuqYaA8o0d/2d0xE4vktnNAYPxalmFTLZjXOmIa6PeRPEtq0brORRRWSOS1uu8KLhhx/aRUFD
-	QBvSkV/QB/PjfcLI7rTKATWzAXT8XACZ1/q+AWbAJ1STm69G8imSyr0hThnxyQNtdBM91QH5qoR
-	rhZG9Jz376JGUQEsUHKgqMyrIfKLitBB+IpD2ggDDyIxNiLjrMD0YDOGpkBZzIEmQPSAf/qFWEm
-	i804WfvZzaxk2vfCChdcOB4HIMyV1xjGx2aJ5V2P6gzN1wQHcpgap+2gvtf8ljfK+Ug8rQ==
-X-Received: by 2002:a05:693c:415b:20b0:36f:29bf:4326 with SMTP id 5a478bee46e88-37519aba60cmr378235eec.0.1794252745062;
-        Mon, 09 Nov 2026 11:32:25 -0800 (PST)
-Received: from medusa.lab.kspace.sh ([208.88.152.253])
-        by smtp.googlemail.com with ESMTPSA id 5a478bee46e88-3751dae6377sm451241eec.3.2026.11.09.11.32.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2026 11:32:24 -0800 (PST)
-Date: Mon, 9 Nov 2026 11:32:23 -0800
-From: Mohamed Khalfella <mkhalfella@purestorage.com>
-To: zhang san <shunsheng1218@gmail.com>
-Cc: kbusch@kernel.org, axboe@fb.com, hch@lst.de, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org
-Subject: Re: Question: NVMe AER completion delivery during controller removal
-Message-ID: <20261109193223.GB765534-mkhalfella@purestorage.com>
-References: <CAGTEBTa9dGn8TjKxRPsfeCFiRYAt-cGMAp-XSLBS86SHB6FJ_A@mail.gmail.com>
- <20261109190854.GA765534-mkhalfella@purestorage.com>
+        bh=iNu8wevlnlWuO7QPB5Pki9h/6ZFT28xcWP8fY0TirdY=;
+        b=v0noSJEYuyR9HTWvcbUARz4BeBmgTqgAbheyOUbf2ZyzDXU05Mrxp6sxRUX/htr8dd
+         s3uE8S7bbhCtwWEq4ZLv7hAJwa4dW0dRy1C0eBKb9qb1rjoU4lIEfd0Hl0BeXKBU7ZTo
+         g1/RqnQTyY+Q0x6WGGjqtFlys7GdKXaHuxOWAEmrebtnZAvrevK2hxOhreg4p8X1+WpO
+         vp7ZPNcaRQU6zu2WjXGRMA9grD3Tmq1FSz93dnY8aSjUuyc1ogcQPuOhHYKztY1sBA3H
+         MaEXTogRzgrfOUGT3U0Hk0T0iK+CPV3+j9XkP5J69262AvvR8/9WOcifcVVw249ev/qj
+         QxSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794253018; x=1794857818;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=iNu8wevlnlWuO7QPB5Pki9h/6ZFT28xcWP8fY0TirdY=;
+        b=Lb10yyTKcyJpm54ChCQUzM7/Rk2Woanea4VmAgTGc1cqU4OC9EO8WleqQPokOzo0NB
+         ziBPbRkmNpaH7Vg+lBbFoa4fI+6YYta4HzRu5HWZJzNR3kW6LJArjXAc8F7OxVacwNlj
+         AGwcEc+d1AV81oerpDkrMG58Z3b5hL1BViz8S1tZWRH1G+hQ4wMtV9W59AZJymfAygyB
+         I+BhIaJap1jgJljhkeIU2yCqmUkyAI64oFQKO4J/YN1RKpjlLRVnGOYrjEA2/c81+IMu
+         I1Zberpi67ysVIGXApZVsiqtNYXyaNmnGNjWANtBszmC1yyRViT0leHnUJWgYTSrxlBf
+         N1Eg==
+X-Gm-Message-State: APuU4Z81cs55BvrHVj5X9sVKc7sI57dSNwiapCIF/MY6hVTN8naI1ZWb
+	2vPBa9LoF0w5nCLKrDzQg1Aq1tLqnyZ0GG4WYCPO85740zgwvDBMbwl4
+X-Gm-Gg: AYBFou2axzxn+aWKwRdj+sb4fYTKOulYCfCpV/sfQEE1ARWjxjnRysVmkY590d/1OT1
+	+PDqLyHrC3m+3LHAQ7OCSoKNcEVCofiEwVAeIfqXtMNmkZH/LRnaAMVtQRCjL7onOG+3ihGykb7
+	QJbmGXIMe7ZWOBuxxZFQbMIdkSceWw+TJdCnzZMHyG65V40jk4wjHXXTBomFigjvbM20mJMFXdU
+	FWD3IiurwRrzvI9yfe6I3xVADNSwKp2ZYQ3XquAsj8ff5/Zv4hZy81xb33XrZZcQXVRFoYIuMPJ
+	K1eKmKFPyYshF9rOIkK1J+Ug5v4OaarghbKJSlnysScRS06dvesQ/QRvcVYyd7jJnV2QUnG9ZDb
+	R5iJCgXi9MWI2pXBLt/zBBdK25HDMATPEPxRbviGSf63pQdJsI9ZKaQt8bb1c7bFQOpGaUHyc0b
+	Xb3Qerkk1bTi59boGhhn10v7C930Skp15+RpDlXwq9V4IgKMwxQ+hb8XhoLZF36cgrbRTZCn3wv
+	awEUJSuo7FgDzRxA8nx9aQprL4+jC1wWtVLzfPrYBt/3EKtnXMRdwkqdEQiiUAFy01qnkBsTfjk
+	wHtrl75nz7VEE5muz6BgiDW9aNoOfOJzvg==
+X-Received: by 2002:a05:690e:4399:b0:67c:3165:bd2d with SMTP id 956f58d0204a3-67c568707e2mr287035d50.68.1794253018056;
+        Mon, 09 Nov 2026 11:36:58 -0800 (PST)
+Received: from [10.0.0.48] ([71.69.222.122])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67c589c70a3sm62367d50.11.2026.11.09.11.36.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Nov 2026 11:36:57 -0800 (PST)
+Message-ID: <8f89c7f8-8f27-477a-a98d-f08845667639@gmail.com>
+Date: Mon, 9 Nov 2026 14:36:56 -0500
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261109190854.GA765534-mkhalfella@purestorage.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] nvme-tcp: consume TLS records without application
+ data
+To: sashiko-reviews@lists.linux.dev
+Cc: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@kernel.org>,
+ linux-kernel@vger.kernel.org
+References: <20261109-nvme-tcp-live-ctrlrec-v1-0-47ba61670e65@gmail.com>
+ <20261109-nvme-tcp-live-ctrlrec-v1-2-47ba61670e65@gmail.com>
+ <sashiko-outbox-205483@kernel.org>
+Content-Language: en-US
+From: Martin Belanger <martin.nvme.dev@gmail.com>
+In-Reply-To: <sashiko-outbox-205483@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261109_113226_931279_82F52977 
-X-CRM114-Status: GOOD (  26.54  )
+X-CRM114-CacheID: sfid-20261109_113659_542157_F257AB58 
+X-CRM114-Status: GOOD (  12.38  )
 X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -102,91 +107,39 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-4.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Mon 2026-11-09 11:08:54 -0800, Mohamed Khalfella wrote:
-> On Wed 2026-11-04 12:50:42 +0800, zhang san wrote:
-> > Hello,
-> > 
-> > We are seeking clarification about asynchronous event request (AER)
-> > completion behavior during NVMe controller removal, before treating an
-> > observed test failure as a production-reachable driver bug.
-> > 
-> > Our source analysis suggests a possible lifetime race between the AEN
-> > completion path, which can requeue nvme_async_event_work, and the
-> > controller removal path. We observed KASAN use-after-free in an
-> > emulated environment on Linux v7.4-rc1 (6628e7d4c6b2).
-> 
-> 
-> My reading of the code suggests this can happen. nvme_stop_ctrl()
-> flushes async_event_work, but the admin queue can still deliver an AER
-> completion afterwards, either from the admin queue interrupt handler or
-> from the final admin CQ poll in nvme_dev_disable():
-> 
-> nvme_remove() ->
->   nvme_dev_disable() ->
->     nvme_poll_irqdisable(&dev->queues[0]) ->
->       nvme_poll_cq() ->
->         nvme_handle_cqe() ->
->           nvme_complete_async_event() ->
-> 	    queue_work(nvme_wq, &ctrl->async_event_work);
-> 
-> 
-> Nothing flushes async_event_work after that, so the work can run after
-> nvme_uninit_ctrl() drops the last reference and the nvme_dev is freed.
-> 
-> > 
-> > However, our test induced an ERROR AEN through an out-of-specification
-> > MMIO doorbell write while the device was being removed. This
-> > deliberately synthetic trigger does not establish that a compliant
-> > controller would generate the same completion.
-> 
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -3909,20 +3909,21 @@ static void nvme_remove(struct pci_dev *pdev)
-> 
->         if (!pci_device_is_present(pdev)) {
->                 nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DEAD);
->                 nvme_dev_disable(dev, true);
->         }
-> 
->         flush_work(&dev->ctrl.reset_work);
->         nvme_stop_ctrl(&dev->ctrl);
->         nvme_remove_namespaces(&dev->ctrl);
->         nvme_dev_disable(dev, true);
-> +       flush_work(&dev->ctrl.async_event_work);
->         nvme_free_host_mem(dev);
->         nvme_dev_remove_admin(dev);
->         nvme_dbbuf_dma_free(dev);
->         nvme_free_queues(dev, 0);
->         mempool_destroy(dev->dmavec_mempool);
->         nvme_release_descriptor_pools(dev);
->         nvme_dev_unmap(dev);
->         nvme_uninit_ctrl(&dev->ctrl);
->  }
-> 
-> Since you are able to reproduce this issue reliabely, how about you try
-> the diff above and see if it fixes the issue.
-
-Looks like it has been already fixed in [1].
-
-1- https://lore.kernel.org/all/20261105114149.970315-1-shunsheng1218@gmail.com/
 
 
-> 
-> > 
-> > Our main question is: can a specification-compliant controller deliver
-> > a completion for a previously submitted AER during the interval in
-> > which the host is disabling the controller and tearing down the admin
-> > queue, or must such completions be quiesced before disable completes?
-> > We would also welcome guidance on the exact point after which the host
-> > may safely assume that no further AER completions can be delivered.
-> 
-> If the above diff fixes the issue for you, then I think this is a driver
-> bug.
+On 11/9/26 14:21, sashiko-bot@kernel.org wrote:
+> [Severity: Medium]
+> Can dropping the socket lock here let concurrent callers of
+> nvme_tcp_try_recv() race on the same TLS control record?
+
+The report is correct. On a poll queue, nvme_tcp_io_work() and
+nvme_tcp_poll() both call nvme_tcp_try_recv(). This patch releases the
+socket lock before recvmsg(), so both callers can see the same record.
+The second caller then fails the queue, and the controller reconnects.
+
+Without this patch, every such record leads to a reconnect. So the race
+does not make the result worse than today, but it is a bug in this
+patch.
+
+v2 will add a queue flag. The caller that gets -EINVAL from read_sock()
+sets it with test_and_set_bit() before it releases the socket lock, and
+clears it after it takes the lock again. A caller that finds the flag
+set returns 0 and leaves the record to the first one. The flag is set
+and tested only under the socket lock, so its owner knows the record at
+the head of the queue is the one read_sock() reported.
+
+v2 will also include the cmsg buffer fix from the report on patch 1,
+and a test with poll queues.
+
+Martin
 
