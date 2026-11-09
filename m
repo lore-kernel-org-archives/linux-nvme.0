@@ -2,120 +2,97 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 312AB606A31C
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2026 13:43:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F3F0606A326
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2026 13:56:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=rwtRAH8+;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=BLPhbfpv
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=pkhIIuIe;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=sGrai2Cb
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=CKWrRE24xGA9Q5PGyFZBNTV8NES0y92YbzNWrmtBCVQ=; b=rwtRAH8+35Sniv
-	hN3l4jwF55bp9ePkx+rvUnQ1xtr40eNSF4lI6aEqm5IUMfMgIPQ66ebgAUCXVn2Dt0HZoqR/LEWlx
-	kF4BH7HpLrfGKd+7ETKKdyQh+aPpdr1t1kqfmFgoQU1QtY+qh8XR/E/bYQuDqKqRyEix7pWZk+zZl
-	j2U87glS8pR3IBpOpo/hxSK3fo0m6Ru+yoJ19vjasyhLwlllqxV1cLLonaARPb8yFhYlv5xbo6c3o
-	qDsmgsv08cyyPjlSV6/zN46DJrtG/TfSQ5BXtAoPrzLo9aoK+kepCFOioCzByUNa+6byEokxyWByK
-	blO3t5ODeDjI07xe16bg==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Unsubscribe-Post:List-Owner;
+	bh=RHv3gURbuO2W+jg43SVbmYLuoiZHrEg+KszD86+zH04=; b=pkhIIuIegSSLDjuhqi2pbeiIXy
+	IMITEiWFScC7ROnOykO3wWTs029uZkv3jc5nhHVIAcMS4UkRk7wRauDjVtkHpQiCj0ZjjbFbHM1YV
+	OepedWuDK0ec7a9PeQZPa1g7ANM0bITrDsv9jyUc9MnzAauR6BrhesCPXyjfwj8pzCx9AmQZgTNqU
+	biH1zLsNyOj/Zv38UHJ4MEwwhe13lsb9e/DNTV2x1YANJqAqlKsDkDhwLx422h7WPqARR6GnUJ3LN
+	sckQiiT+Zo6Xo5Bl7RYTcfZT2kO3T87vrWkN6mK6Wfk3FurVNse/zQmv40xyXOALkSk5Ay5KbgVVQ
+	GKsm8AkQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQPey-00000000rID-2uE7;
-	Mon, 09 Nov 2026 13:43:44 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1xQPr4-00000000tiq-3Vzv;
+	Mon, 09 Nov 2026 13:56:14 +0000
+Received: from mail-dl1-x122b.google.com ([2607:f8b0:4864:20::122b])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQPev-00000000rHJ-2Lsw
+	id 1xQPr1-00000000tiV-3JA5
 	for linux-nvme@lists.infradead.org;
-	Mon, 09 Nov 2026 13:43:44 +0000
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A9DEx973499093;
-	Mon, 9 Nov 2026 13:43:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=CKWrRE
-	24xGA9Q5PGyFZBNTV8NES0y92YbzNWrmtBCVQ=; b=BLPhbfpvKM83n31N068pUC
-	+qzSwy1xjBM0zdQ1jn0SiLnPE0oMAJ6NFw3Izd5KgJLbwXgLNv0JPiu7PB/5Ckw7
-	6o7C+alzkQXur5RsBF2qualDNVzB3r4+RzstYZ1H2Qma39o8u2H485gcSmsKyVgB
-	jFmbdF01F0v8G+lyM1LKLW9ZXTeGXTBOxam6FMS01lWyA5VqeGazUQ4W+cC1Qcl+
-	Fa4Dpxk52tIUc+32bpC8qP61IdzGAosmTxvucDd6M8OsvIR1gGTy1BpVHENUjbbx
-	B6o/INxxLYv7uL6r5kd7DKXq/w7UY09jiIwzyllJQAfXx+91T+FY7Rcrbq8zQCxQ
-	==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hsuq6nc9v-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 09 Nov 2026 13:43:34 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6A9DJtSk131299;
-	Mon, 9 Nov 2026 13:43:33 GMT
-Received: from smtprelay01.wdc07v.mail.ibm.com ([172.16.1.68])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4hth0xykjh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 09 Nov 2026 13:43:33 +0000 (GMT)
-Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
-	by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6A9DhWPh6292236
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 9 Nov 2026 13:43:32 GMT
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5C55958059;
-	Mon,  9 Nov 2026 13:43:32 +0000 (GMT)
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id ED10C58057;
-	Mon,  9 Nov 2026 13:43:28 +0000 (GMT)
-Received: from [9.61.101.130] (unknown [9.61.101.130])
-	by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Mon,  9 Nov 2026 13:43:28 +0000 (GMT)
-Message-ID: <7a2bcf1c-990f-46fa-badd-dc1b14dfa96f@linux.ibm.com>
-Date: Mon, 9 Nov 2026 19:13:27 +0530
+	Mon, 09 Nov 2026 13:56:13 +0000
+Received: by mail-dl1-x122b.google.com with SMTP id a92af1059eb24-1a2af4c8d00so1614292c88.0
+        for <linux-nvme@lists.infradead.org>; Mon, 09 Nov 2026 05:56:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794232570; x=1794837370; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=RHv3gURbuO2W+jg43SVbmYLuoiZHrEg+KszD86+zH04=;
+        b=sGrai2CbmFcMOzHu677dKV2cE5fH6ukBkMZovelEpToWRk+2Ws9fnk/h+ANki3QimA
+         qkbvDJXTDgXeeS+qZAqiUCTz22qxgENwuSxjMd2gQWt6YE4+qyk7sTkeLYTVjOUfcRPe
+         CYHwgcmsAmv95i9MnrXvEURGxQB3g4J3qxPluYw+KGkazhBK+hes9UDQ2RT6SvFKlCw/
+         gNSLGffajEuXxrRHcKAqskixMNdR04p0s7abHBdXrJYl0ohsmG8Rfq2ue20+nRWF7Dkb
+         ESlRB2tmgUDizsO5EdBQFC/iWzPGN+rOstTPigKznJqozGkpB28tCIg4apuspIZ4fIxP
+         5y0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794232570; x=1794837370;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=RHv3gURbuO2W+jg43SVbmYLuoiZHrEg+KszD86+zH04=;
+        b=PZMFN8y1/VOsKxBDEzfU3DvSHPjgPWueESztvDdMcw23PiZ7t9VQuoJ5Qmxs8cZwex
+         82pKVbwDTrVIfQ8Gx3Q3XziB5ABusBRK/BIFMestxCvBSjKrJGUuotS7jfam3iIZm3GB
+         OBTh6wsLs42/z56CQqd/m+6CzCClXanJS7fNuGpDyxwPpAfIXiWXcicvO2DNhCDtVU9H
+         xTuYqDeBshasFSeaWOYxjsYIpFxzIyuYHGFHPhxYW1xSYK67j8BTc9mUCrFWFxIbNks5
+         BSrQqQ07zH66G+0wnrGcVntFvU3jEjT2FiLCEtCnk+Y0l+V5DBy43hELUYITJ8RrappN
+         Wv4Q==
+X-Forwarded-Encrypted: i=1; AL+hErF9uqB/0ByPBF4Nk+4Ja/v2exL4oXzEaCbdoayTOYDraHnJY1tLlBLIpZa0eLszhhR92+ns2hZeC4+6@lists.infradead.org
+X-Gm-Message-State: APuU4Z/YXUAhgEeuK6IX3Yw/h492/9QW2oeqvLJHRrgV7gsleg4xNf04
+	cdNHEDsprUbdeK9PzgfN4zMH0tvNzC3mIrNHKGQQcCZN1jwKnh6b+h4p
+X-Gm-Gg: AYBFou111u/lk3Wolbsx6+ITiV649qOtitbd1+OnQZUnGcp20PhvkSxkJWGCT1/evDj
+	wsVi5PRr0PqNzfRgWyJT6MWSu20DS7C20iiluYOyT9lcBJWEtgYJQx5Pbpbm/HTHxB0e6p13ryb
+	S84PiKTP5FZIC+eGQUQDYShcOyivVnUMtuu+HiKXVTvdqKXWM/L6sGf3kcCZkf0yYdwpEXRoTkS
+	XOZ6gH1TQSkQIuYWa840Kwx6r83rrYVSPkmoR2hbFIGvLpQUQ8G7/bW6C69H1+ACKh3ADm0Dmf6
+	g7Daq7+C6zFtdKrg9hO+tP7G4wEFjQMsyygtRBtRfAqP8IkHBGqb21IbPMymsizwnOyCsvpb/DD
+	zpItDHDH0GQs2JxBU16ajqmHwjRxPkzAmWCwihTPDg7Gf4ip3q71tB6SOc750rzs/CFb/ZdMwEb
+	3PvDxqCIai+WhgBQqWN+kwr1bPmdt2107LbvQ4my0UrA6uNFhCDYQz0tqC6i5skBFlXEYogaRY+
+	CsDuE6LO9Alhw3TpxXuPqSRFzEJ3Aw1rJMMFVGYwrEmI7ap1g+4w0zN2naDBkwkE2ORAxsDlnKH
+	merjuyD2uKYe8qQYnFZLLu31BqECPvABBJYKVW12fQ/L38Oubw==
+X-Received: by 2002:a05:7301:f10:b0:36e:a11a:b2f1 with SMTP id 5a478bee46e88-372573cd51dmr7024741eec.30.1794232570369;
+        Mon, 09 Nov 2026 05:56:10 -0800 (PST)
+Received: from localhost.localdomain ([103.170.54.70])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-372669d48bdsm21677471eec.28.2026.11.09.05.56.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Nov 2026 05:56:09 -0800 (PST)
+From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+To: hch@lst.de,
+	sagi@grimberg.me,
+	kch@nvidia.com,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: kbusch@kernel.org,
+	hare@kernel.org,
+	hare@suse.de,
+	Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+Subject: [PATCH] nvmet: reject invalid write-protect feature values
+Date: Mon,  9 Nov 2026 13:55:36 +0000
+Message-ID: <20261109135536.2772-1-sreekuttan2156239@gmail.com>
+X-Mailer: git-send-email 2.55.0
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH blktests] nvme/081: test the per-queue io_cpu sysfs
- attribute
-To: Saravanan D <saravanand@crusoe.ai>, linux-block@vger.kernel.org
-Cc: shinichiro.kawasaki@wdc.com, linux-nvme@lists.infradead.org,
-        dwagner@suse.de, hare@suse.de, sagi@grimberg.me, kbusch@kernel.org,
-        iyamahata@crusoe.ai, kiyer@crusoe.ai, ganbalagane@crusoe.ai,
-        sjpark@crusoe.ai, bchen@crusoe.ai
-References: <cover.1794015622.git.saravanand@crusoe.ai>
- <20261107095350.98072-1-saravanand@crusoe.ai>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <20261107095350.98072-1-saravanand@crusoe.ai>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA5MDA1MiBTYWx0ZWRfX4HjXv9A4FxSV
- SMpvw35gFuKj9ZbjQtQ2DNnWs1MhjXFKzAvzoV0w33yXKvsns1I+zLPGncxE8oqkIKvudymYBpG
- aBtlWbOVdsfs0/AoUCyYxMtN0xpV2WI=
-X-Authority-Analysis: v=2.4 cv=HbCB3SE8 c=1 sm=1 tr=0 ts=6af1ce06 cx=c_pps
- a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=vo2OPiIVJ99YoxJSP2MA:9
- a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: Ponbikn11T6b_6Y74z-m9BrlAfgMLeDn
-X-Proofpoint-GUID: Ponbikn11T6b_6Y74z-m9BrlAfgMLeDn
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA5MDA1MiBTYWx0ZWRfXzaVZ5Vo+5VV/
- i+F61jOVTIW7cXZHF+ljk8Rbl3u2bUS0ZjHffh9wCiQsLQVpLk+Cx6WZLrherYbrImlc4yhxMmZ
- z9IMGvto6hIaaaG9xrN7jcU++dyl3ERixFVcmz20wj6HcmpcHHPKdS3R0bYE9E+V3erLvAXmN0L
- zLRkKFL9kDLqkGxQZuWsqqPVKsUNlrrrtzaUqAP1DSrBWLIxq/XpYbUH9MGp2SNY7D7Mkus3aKa
- dCYoXy9BW6RU9p8nitLQ4puDSeyo6yE2AhftxZlplzJlA+rx+lZAHL1aqZn+NJBc85cWpdMpek/
- 69qIzcxlzQDICJpEOtbko4VOiXUbE40sqiFvaDoQ75G/ZmiWVE8XJ/Z2rWOfrB1aktIDJt42EV9
- tRffTLltflZfVB/rxEz7QrSpEY0ZN957zehVWnVDtX3YcvQDRH56rnMD7WH6Y4PEKzb5MtdwYoF
- Mt7r6BR7515UAeJb20g==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-09_05,2026-11-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 adultscore=0 spamscore=0 bulkscore=0 phishscore=0
- impostorscore=0 priorityscore=1501 clxscore=1015 lowpriorityscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
- definitions=main-2611090052
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261109_054342_152096_88B0D16D 
-X-CRM114-Status: GOOD (  15.10  )
-X-Spam-Score: -2.6 (--)
+X-CRM114-CacheID: sfid-20261109_055611_829159_CA46E2DD 
+X-CRM114-Status: GOOD (  10.66  )
+X-Spam-Score: -1.9 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -126,63 +103,41 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On 11/7/26 3:23 PM, Saravanan D wrote:
-> +test() {
-> +	echo "Running ${TEST_NAME}"
-> +
-> +	_setup_nvmet
-> +
-> +	local cfs_path="${NVMET_CFS}/subsystems/${def_subsysnqn}"
-> +	local skipped=false
-> +	local nvmedev qdir cpu writer
-> +
-> +	_nvmet_target_setup --blkdev file
-> +
-> +	_nvme_connect_subsys --keep-alive-tmo 1 --reconnect-delay 2
+The Set Features handler for namespace write protection currently
+accepts unsupported values. The default case in the write-protect
+switch leaves the status unchanged, causing the command to return
+success even though no valid setting was applied.
 
-How about adding connection option "--nr-io-queues 2"? If we add
-this option then we may not need to have the requirement of
-_require_min_cpus 2. I think, we shall be able to run this test
-also on the system with only one cpu.
+Return NVME_SC_INVALID_FIELD | NVME_STATUS_DNR for unsupported
+values. This also prevents issuing a namespace-change notification
+for an invalid request.
 
-> +	_nvmf_wait_for_state "${def_subsysnqn}" "live"
-> +	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
-> +	qdir="/sys/class/nvme/${nvmedev}/queues"
-> +	cpu=$(last_online_cpu)
-> +
-Can we also add one more test here which tests whether "$qdir"
-exists or not?
+Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+---
+ drivers/nvme/target/admin-cmd.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-> +	if [[ ! -f "${qdir}/1/io_cpu" ]]; then
-> +		SKIP_REASONS+=("missing per-queue io_cpu attribute")
-> +		skipped=true
-> +	elif [[ "$(nr_queue_dirs "${nvmedev}")" -lt 2 ]]; then
-> +		SKIP_REASONS+=("controller has fewer than 2 I/O queues")
-> +		skipped=true
-
-I think using --nr-io-queues option would also replace the above relative
-comparison with an exact comparison based on num of queues selected.
-
-> +	else
-> +		test_read_write "${qdir}" "${cpu}"
-> +		test_reset "${nvmedev}" "${qdir}" "${cpu}"
-
-The reset test could be updated to ensure that number of queues
-remains unchanged after controller reset. Current test_reset()
-verifies that the io_cpu and managed attributes retain their expected
-values after reset. However, it doesn't explicitly verify that the
-queue directories were recreated with the same count. I would capture
-the queue_count before reset and compare it afterward as well as
-ensure that queue_count matches with nr_queue_dirs.
-
-Thanks,
---Nilay
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index f12d83098644..ee8be237485e 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -1223,6 +1223,7 @@ static u16 nvmet_set_feat_write_protect(struct nvmet_req *req)
+ 		status = 0;
+ 		break;
+ 	default:
++		status = NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
+ 		break;
+ 	}
+ 
+-- 
+2.55.0
 
 
