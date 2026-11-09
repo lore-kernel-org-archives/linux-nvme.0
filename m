@@ -2,57 +2,106 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2F1C606A321
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2026 20:19:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2838606A321
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2026 20:19:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=gq5BoiS8;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HEONdQKF
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Pd+Z9snm;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=i30wVWzd
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
-	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:To:Subject:From
-	:Message-ID:Cc:MIME-Version:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Unsubscribe-Post:List-Owner;
-	bh=RF2wRavp3sgDNccLPxwwHRzWza/X7uzJbYrpa8vlv3M=; b=gq5BoiS8PX/spFt/eafdrcCZob
-	obyqAIQ7iafSYhoLjMGfY1crOjlvYvyFNJrGJcHJ1eKQGBAnPmDbIdu3cmG+ewS4ZOlWGtU0C+9H1
-	Ky/3mwvPk+45yOvxV381DBeo3q15gB5vHRPbfVDS619xM7ZCawqMtq27hwhDJTR/RNFPefciCD3kE
-	5GE+q3/ksAyVEAOjPu9FclHZpdSVdqhM8p0XZVC+IHYbwG8tUkRBTCg+Ko7oX616FMP7B30cpMGVa
-	K7rWEDiJmkIXPr2DKebnNCMpIpGjQ8oUUwpqtXrR50Yw2Eh1XYaMr7mEe7saIxgwS3a5+gvJcesiv
-	O8jwJKkA==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Date:Cc:To:From:Subject:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
+	List-Owner; bh=uK2G0EmkiRXjdKWWa6uXa7gVZboyOyJeRXnb2sW6H8s=; b=Pd+Z9snmVVG35f
+	UYE6If2guoMD9aTYqftsG2FD2nLuxhnHRJwqsRd2LAPx77L6jPu10Ckz/nQc5Me5telN/X7FCtcJC
+	UaVcHCqBSrS1Dskkz0NMFPq/ZjUg5VKDPAudOFA1Yga3x7ScIgIxjoSAKrXzqZxuBgHh9ddtDnzSP
+	q8NWLyNIos/rIvkMfnbDYenG/QqHPcXymFi9perrwlDOs2RtnG6wjJEfU6zseHhdii5aN+a/LqIrw
+	W2xmIrO46OtQC8OI8rhiWmGLK04usuWaHYjQCgxOnbzvcdo/hVM2Pj4YoN4+MUrzOPpKg5qZg+I4d
+	BvZJPARpJ8gKIzS/imKw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQVpk-00000001dLC-3VWF;
-	Mon, 09 Nov 2026 20:19:16 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1xQVqC-00000001dPF-43eC;
+	Mon, 09 Nov 2026 20:19:44 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQVpi-00000001dL4-3cXD
+	id 1xQVq9-00000001dOE-21EF
 	for linux-nvme@lists.infradead.org;
-	Mon, 09 Nov 2026 20:19:16 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id EC7BA60D83;
-	Mon,  9 Nov 2026 20:19:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88C271F0089F;
-	Mon,  9 Nov 2026 20:19:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794255553;
-	bh=RF2wRavp3sgDNccLPxwwHRzWza/X7uzJbYrpa8vlv3M=;
-	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=HEONdQKFYqL5JB46sJVkMDP5UYqmNenJTWylFjA0YhhL1S7k/8/NkXGLwnXZgHgS5
-	 kjkibNl74hiG/Nh+ojCTW1SEIs+9KY9kmUz4zjFXCjcGklDKEd2a035Qi+3lzF6vL0
-	 nkKz51qls+xBi1iBxz8EsTjiUNq7JzruIyoNipM2ggs7t3R/KXPXngsguBBaljvosC
-	 JmcQsc86p9pzMar1kr9UBwRWHyynsCqc3rOqiAwKxoEaZGnNilDKweAgRNN2CAM+Ai
-	 A87aCVIonM4mCikfEcN+hm5V5ggmstMHEz8R/zjBjzeHasF4o3p/07d8fITOdD4IaG
-	 tGiTJXEBuzM2g==
-Message-ID: <sashiko-outbox-205567@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] nvme-pci: add NVME_QUIRK_NO_DEEPEST_PS for Lexar NQ790
-To: "Platon Miller" <platon.ksenzenkokk@gmail.com>, linux-nvme@lists.infradead.org
-In-Reply-To: <20261109201503.10098-1-platon.ksenzenkokk@gmail.com>
-References: <20261109201503.10098-1-platon.ksenzenkokk@gmail.com>
-Content-Type: text/plain; charset=utf-8
+	Mon, 09 Nov 2026 20:19:43 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1794255578;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uK2G0EmkiRXjdKWWa6uXa7gVZboyOyJeRXnb2sW6H8s=;
+	b=i30wVWzdwNtTtDGNh+bqHRqG21miy7NLAwEANlGrsbFBjsyBcI3DpEbAcXj2uCBAsCjRm6
+	KqvYBq58B1EPi+eQBOFOqZ307lNgKVxr/i4pOUeYad4a+rgELmKFTIWQJGrwarvSczqBqF
+	L3EOCWbDu0fIbq5mFJfCcJciPB4hRCY=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-80-dzCBzn_pPRuoBDKgsu4yzQ-1; Mon, 09 Nov 2026 15:19:36 -0500
+X-MC-Unique: dzCBzn_pPRuoBDKgsu4yzQ-1
+X-Mimecast-MFC-AGG-ID: dzCBzn_pPRuoBDKgsu4yzQ_1794255576
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-9308eafb465so210123985a.2
+        for <linux-nvme@lists.infradead.org>; Mon, 09 Nov 2026 12:19:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794255576; x=1794860376;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=cr6YGRe9Ov6g/VRUB3PYrERXuhR5Chhj/ZhidIfJ8oc=;
+        b=BkGSa1vXBhvQHY1g5iKyzVaVzhnUWpIMsqQFxsd9mMIx52E1vPIhRP0p/kwadZpauS
+         0jD2q8QHSLrJuJPeAaUN9nbNWFwjDi/ZHcjXy2iQpcvVHJ+Td0mFuYWhExmu1/5dLmPw
+         PAtNwbn7l4ZlOeU+MhaDDb/uUYftaLnPzW7+vXWPlljj6x7EsEqG6Lrjez1nHY4uH+UR
+         eKPTy7fB9/+LyhWCi0enbqSoJ3GRyPqVarIvj4qePDdVli9p22WJHCreSAzEwjFYFj1V
+         T8YVCUqc9glxFMb8+smWLKnUJTBYZmIXA3e1n3TYTzZdxpGcvhoc1JFHwpXzGX3IY0Lw
+         gXag==
+X-Forwarded-Encrypted: i=1; AL+hErFllmJtMD0z75TqY7+d1mY4qQ/JmIlvcW8Y5pxBY3bIsqoCzoU7IJxmFQvdAZkAFS1Jx2xxej/2odV0@lists.infradead.org
+X-Gm-Message-State: APuU4Z9cY05HGABXQROVqRpp0ffJmTxGHHPEWyskqga6tEMeMmnXC375
+	q83Ye//wEN9ekPJEqMPU0aM2N36Xq67WLkj55q0fXvn12r9LACugMRIwEf1D0yCF1IefcFIG04n
+	DezmiWdyPGK+zgKCvfxhEpj3oQEXv21waM11G7nk3wVBJSdJdQoj5ourg0ymkhjiKdSze
+X-Gm-Gg: AYBFou1JNOEHsnzWdM5T03k0moZk0mXNbFF51ekTpQR1y+eZ+ELVZ34prwgBkc8IrOG
+	gmknv167uTDUXb4lhSV+TMTyrQ16axh7Y9DrKGFQ6mQ1lbZ0dRA53gCVYVhD3mLhhXQfWCAOq7X
+	hFEc7mDe3M/GLEF/XZcDAIp2x2o35ogSJYBo+6Q4JR1lsp3J1PD9SvoYmvYmeaMGN+fIOO9PhX+
+	iAbY6krKq7zYej7hfBHpCHucFgococlJzQmbSyWtY1rqGqBhPdUAm3XQpKi72Morsa1MBSXSit/
+	3Y/RCBW0sDLJW29GFC4U6j4ql8jDJte1f8o5UaBtqrK2ykyZ3w76YlumqxX/dLzqRVv2STZTxE4
+	glQzjvdYJ4ppfvdDNr0MxD9ipl1LRHIjhOPyOwW+m8VynC4dLInSKyUQnf+qG+3C9FNJ8Rm4MmS
+	91N+57qbLQ2FjN5bpnJ8gYL6MMRWZSHODol8ApEpXRH7C9pQ+LO+SGxlDYTDnsmGU44S1itP8=
+X-Received: by 2002:a05:620a:4886:b0:946:2a0:a11b with SMTP id af79cd13be357-9479f32f250mr105888285a.35.1794255575332;
+        Mon, 09 Nov 2026 12:19:35 -0800 (PST)
+X-Received: by 2002:a05:620a:4886:b0:946:2a0:a11b with SMTP id af79cd13be357-9479f32f250mr105881985a.35.1794255574608;
+        Mon, 09 Nov 2026 12:19:34 -0800 (PST)
+Received: from loberman-thinkpadp16gen3.rmtusma.csb ([2600:6c65:2440:d8c:aa2b:ddff:fe88:da74])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9479e7d10c4sm54455085a.32.2026.11.09.12.19.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Nov 2026 12:19:33 -0800 (PST)
+Message-ID: <9b90edc29d5b3be49f5bd0e0ecec5f1701e089bf.camel@redhat.com>
+Subject: Re: [PATCH v9 00/29] Native SCSI Multipath support
+From: Laurence Oberman <loberman@redhat.com>
+To: John Garry <john.garry@linux.dev>,
+ james.bottomley@hansenpartnership.com, 	mkp@kernel.org
+Cc: hare@suse.com, linux-nvme@lists.infradead.org,
+ linux-scsi@vger.kernel.org, 	snitzer@kernel.org, jmeneghi@redhat.com,
+ bmarzins@redhat.com, 	dm-devel@lists.linux.dev, hch@lst.de,
+ michael.christie@oracle.com
+Date: Mon, 09 Nov 2026 15:19:32 -0500
+In-Reply-To: <20261108204733.557995-1-john.garry@linux.dev>
+References: <20261108204733.557995-1-john.garry@linux.dev>
+User-Agent: Evolution 3.60.2 (3.60.2-3.fc44)
+X-Archived-By: <archiver.kernel.org>
+MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 5zZA8lItiWN9o2EBmW481iVDk8YS6NejbZxYI4lhUYA_1794255576
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 09 Nov 2026 20:19:11 +0000
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20261109_121941_666897_5C64D7EE 
+X-CRM114-Status: GOOD (  31.63  )
+X-Spam-Score: -2.8 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -62,65 +111,516 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-20.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
-X-Archived-By: <archiver.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found no new issues
-in this patch, but noticed 1 related pre-existing issue it does not
-introduce:
-- [Medium] nvme-pci: unreachable duplicate PCI ID entries in
-  nvme_id_table [1]
---
+On Sun, 2026-11-08 at 20:47 +0000, John Garry wrote:
+> NATIVE SCSI MULTIPATH:
+>=20
+> This series introduces native SCSI multipath support. It is intended
+> as
+> an alternative to dm-mpath.
+>=20
+> This support aims to provide a multipath-enabled SCSI block device/
+> gendisk.
+>=20
+> For a SCSI device to support native multipath, either of the
+> following
+> conditions must be satisfied:
+> a. unique ID in VPD page 83 and ALUA support and scsi_multipath
+> modparam
+> =C2=A0=C2=A0 enabled
+> b. unique ID in VPD page 83 and scsi_multipath_always modparam
+> enabled
+>=20
+> This series relies on reading sdev->access_state to get path
+> information.
+> This path information would be provided by ALUA. ALUA support which
+> does
+> not rely on device handlers has already been discussed at
+> https://lore.kernel.org/linux-scsi/7755e98f-5619-48ba-bcfc-b64eec930c40@o=
+racle.com/
+> and support will be added in the next phase.
+>=20
+> New classes of devices are added:
+> - scsi_mpath_device
+> - scsi_mpath_disk
+>=20
+> These are required since a multipath scsi_device has no common scsi
+> host.
+> An example of the sysfs files and directories for these new classes
+> is as
+> follows:
+>=20
+> $ ls -l /sys/class/scsi_mpath_device/scsi_mpath_device0/
+> total 0
+> -rw-r--r--=C2=A0=C2=A0=C2=A0 1 root=C2=A0=C2=A0=C2=A0=C2=A0 root=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 4096 Feb 25 11:59 iopolicy
+> drwxr-xr-x=C2=A0=C2=A0=C2=A0 2 root=C2=A0=C2=A0=C2=A0=C2=A0 root=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0 Feb 25 11=
+:59 multipath
+> drwxr-xr-x=C2=A0=C2=A0=C2=A0 2 root=C2=A0=C2=A0=C2=A0=C2=A0 root=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0 Feb 25 11=
+:59 power
+> lrwxrwxrwx=C2=A0=C2=A0=C2=A0 1 root=C2=A0=C2=A0=C2=A0=C2=A0 root=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0 Feb 25 11=
+:59 subsystem ->
+> ../../../../class/scsi_mpath_device
+> -rw-r--r--=C2=A0=C2=A0=C2=A0 1 root=C2=A0=C2=A0=C2=A0=C2=A0 root=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 4096 Feb 25 11:58 uevent
+> -r--r--r--=C2=A0=C2=A0=C2=A0 1 root=C2=A0=C2=A0=C2=A0=C2=A0 root=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 4096 Feb 25 11:59 vpd_id
+> $ ls -l /sys/class/scsi_mpath_device/scsi_mpath_device0/multipath/
+> total 0
+> lrwxrwxrwx=C2=A0=C2=A0=C2=A0 1 root=C2=A0=C2=A0=C2=A0=C2=A0 root=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0 Feb 25 11=
+:59 8:0:0:0 ->
+> ../../../../platform/host8/session1/target8:0:0/8:0:0:0
+> lrwxrwxrwx=C2=A0=C2=A0=C2=A0 1 root=C2=A0=C2=A0=C2=A0=C2=A0 root=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0 Feb 25 11=
+:59 9:0:0:0 ->
+> ../../../../platform/host9/session2/target9:0:0/9:0:0:0
+> $ cat /sys/class/scsi_mpath_device/scsi_mpath_device0/vpd_id
+> naa.600140505200a986f0043c9afa1fd077
+> $ cat /sys/class/scsi_mpath_device/scsi_mpath_device0/iopolicy
+> numa
+> $
+>=20
+> $ ls -l /sys/class/scsi_mpath_disk/scsi_mpath_disk0/
+> total 0
+> drwxr-xr-x=C2=A0=C2=A0=C2=A0 2 root=C2=A0=C2=A0=C2=A0=C2=A0 root=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0 Feb 25 12=
+:00 power
+> drwxr-xr-x=C2=A0=C2=A0 11 root=C2=A0=C2=A0=C2=A0=C2=A0 root=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0 Feb 25 11:58=
+ sdc
+> lrwxrwxrwx=C2=A0=C2=A0=C2=A0 1 root=C2=A0=C2=A0=C2=A0=C2=A0 root=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0 Feb 25 11=
+:58 subsystem ->
+> ../../../../class/scsi_mpath_disk
+> -rw-r--r--=C2=A0=C2=A0=C2=A0 1 root=C2=A0=C2=A0=C2=A0=C2=A0 root=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 4096 Feb 25 11:58 uevent
+> $ ls -l /sys/class/scsi_mpath_disk/scsi_mpath_disk0/sdc/multipath/
+> total 0
+> lrwxrwxrwx=C2=A0=C2=A0=C2=A0 1 root=C2=A0=C2=A0=C2=A0=C2=A0 root=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0 Feb 25 12=
+:00 sdc:0 ->
+> ../../../../../platform/host8/session1/target8:0:0/8:0:0:0/block/sdc:
+> 0
+> lrwxrwxrwx=C2=A0=C2=A0=C2=A0 1 root=C2=A0=C2=A0=C2=A0=C2=A0 root=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0 Feb 25 12=
+:00 sdc:1 ->
+> ../../../../../platform/host9/session2/target9:0:0/9:0:0:0/block/sdc:
+> 1
+>=20
+> $ ls -l /dev/sdc
+> brw-rw----=C2=A0=C2=A0=C2=A0 1 root=C2=A0=C2=A0=C2=A0=C2=A0 disk=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 8,=C2=A0 32 Feb 25 11:58 /dev/sdc
+>=20
+> The scsi_device and scsi_disk classes otherwise remain unmodified.
+> However, the per-path block device is hidden in /dev/. Furthermore,
+> multipathed block devices have a new naming scheme, sdX:Y, where
+> X is the scsi multipath device index and Y is the path index.
+>=20
+> No multipath sg support is added. We still have a per-path sg device.
+> Since the SCSI block device is multipath enabled, we can access
+> multipathed scsi_ioctl() through that block device.
+>=20
+> For failover, we take the approach of cloning bio's and re-submitting
+> them
+> in full (for failover errors).
+>=20
+> LIBMULTIPATH:
+>=20
+> This series introduces also libmultipath. It is essentially a
+> refactoring
+> of NVME multipath support, so we can have a common library to also
+> support
+> native SCSI multipath.
+>=20
+> Much of the code is taken directly from the NVMe multipath code.
+> However,
+> NVMe specifics are removed. A template structure is provided so the
+> driver
+> -may provide callbacks for driver specifics, like ANA support for
+> NVMe.
+>=20
+> Important new structures introduced include:
+>=20
+> - mpath_head
+> These contain much of the multipath-specific functionality from
+> nvme_ns_head, including a pointer to the gendisk structure and
+> a path SRCU-based array.
+>=20
+> - mpath_device
+> This is the per-path structure, and contains much the same
+> multipath-specific functionality in nvme_ns
+>=20
+> libmultipath provides functionality for path management, path
+> selection,
+> data path, and failover handling.
+>=20
+> Full series also available at
+> https://github.com/johnpgarry/linux/tree/scsi-multipath-v7.4-v9
+>=20
+> Differences to v8:
+> - Rebase
+> - Hardening changes advised by sashiko, including "Clear cmd->flags"
+> =C2=A0 change
+>=20
+> Differences to v7:
+> - rebase
+> - simplify scsi_mpath_clone_end_io() (sashiko)
+> - rename bio_list_add_clone() -> bio_list_add_master()
+> - rework checks in mpath_alloc_disk_head() (sashiko)
+>=20
+> John Garry (29):
+> =C2=A0 scsi: core: Clear cmd->flags for terminal queuing error
+> =C2=A0 libmultipath: Add initial framework
+> =C2=A0 libmultipath: Add basic gendisk support
+> =C2=A0 libmultipath: Add path selection support
+> =C2=A0 libmultipath: Add bio handling
+> =C2=A0 libmultipath: Add support for mpath_device management
+> =C2=A0 libmultipath: Add delayed removal support
+> =C2=A0 libmultipath: Add sysfs helpers
+> =C2=A0 libmultipath: Add support for block device IOCTL
+> =C2=A0 libmultipath: Add mpath_bdev_getgeo()
+> =C2=A0 libmultipath: Add mpath_bdev_get_unique_id()
+> =C2=A0 scsi-multipath: introduce basic SCSI device support
+> =C2=A0 scsi-multipath: introduce scsi_device head structure
+> =C2=A0 scsi-multipath: provide sysfs link from to scsi_device
+> =C2=A0 scsi-multipath: support iopolicy
+> =C2=A0 scsi-multipath: clone each bio
+> =C2=A0 scsi-multipath: clear path when device is blocked
+> =C2=A0 scsi-multipath: revalidate paths upon device unblock
+> =C2=A0 scsi-multipath: failover handling
+> =C2=A0 scsi-multipath: provide callbacks for path state
+> =C2=A0 scsi-multipath: add scsi_mpath_{start,end}_request()
+> =C2=A0 scsi-multipath: update request for terminal request queuing error
+> =C2=A0 scsi-multipath: add delayed disk removal support
+> =C2=A0 scsi: sd: add multipath disk class
+> =C2=A0 scsi: sd: add multipath disk attr groups
+> =C2=A0 scsi: sd: support multipath disk
+> =C2=A0 scsi: sd: add mpath_dev file
+> =C2=A0 scsi: sd: add mpath_numa_nodes dev attribute
+> =C2=A0 scsi: sd: add mpath_queue_depth dev attribute
+>=20
+> =C2=A0drivers/scsi/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 |=C2=A0 10 +
+> =C2=A0drivers/scsi/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0=C2=A0 1 +
+> =C2=A0drivers/scsi/scsi.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 |=C2=A0=C2=A0 8 +-
+> =C2=A0drivers/scsi/scsi_lib.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=
+ 20 +-
+> =C2=A0drivers/scsi/scsi_multipath.c | 691 +++++++++++++++++++++++++
+> =C2=A0drivers/scsi/scsi_scan.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
+=A0 4 +
+> =C2=A0drivers/scsi/scsi_sysfs.c=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 10 +
+> =C2=A0drivers/scsi/sd.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 | 611 +++++++++++++++++++++-
+> =C2=A0drivers/scsi/sd.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +
+> =C2=A0include/linux/multipath.h=C2=A0=C2=A0=C2=A0=C2=A0 | 156 ++++++
+> =C2=A0include/scsi/scsi_cmnd.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
+=A0 9 +-
+> =C2=A0include/scsi/scsi_device.h=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +
+> =C2=A0include/scsi/scsi_driver.h=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 4 +
+> =C2=A0include/scsi/scsi_host.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
+=A0 4 +
+> =C2=A0include/scsi/scsi_multipath.h | 129 +++++
+> =C2=A0lib/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 6 +
+> =C2=A0lib/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +
+> =C2=A0lib/multipath.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 948
+> ++++++++++++++++++++++++++++++++++
+> =C2=A018 files changed, 2592 insertions(+), 26 deletions(-)
+> =C2=A0create mode 100644 drivers/scsi/scsi_multipath.c
+> =C2=A0create mode 100644 include/linux/multipath.h
+> =C2=A0create mode 100644 include/scsi/scsi_multipath.h
+> =C2=A0create mode 100644 lib/multipath.c
+>=20
+>=20
+>=20
+On 08/11/2026 20:47, John Garry wrote:
+> This series relies on reading sdev->access_state to get path
+information.
+> This path information would be provided by ALUA. ALUA support which
+does
+> not rely on device handlers has already been discussed at
+>
+https://lore.kernel.org/linux-scsi/7755e98f-5619-48ba-bcfc-b64eec930c40@ora=
+cle.com/
+> and support will be added in the next phase.
 
-commit 429e3e2e059a46cae1c4b2dd37e74978a88e3c7d
-Author: Platon Miller <platon.ksenzenkokk@gmail.com>
+Hi John,
 
-nvme-pci: add NVME_QUIRK_NO_DEEPEST_PS for Lexar NQ790
+I have been testing v9 (your scsi-multipath-v7.4-v9 branch, on
+7.4-rc1) on real hardware and found two problems with ALUA arrays,
+one in scsi_dh_alua and one in the series itself.
 
-This commit adds the NVME_QUIRK_NO_DEEPEST_PS quirk for the Lexar NQ790
-SSD (PCI ID 1d97:5236) to prevent it from entering its non-operational
-PS4 state via APST.
+Setup:
+- HP P2000 G3 FC array, implicit ALUA, two port groups (one per
+  controller)
+- 2 FC HBAs, 2 target ports each, 30 LUNs with 4 paths per LUN
+- scsi_mod.multipath=3Don, dm-multipath not in use
+- Under dm-multipath, the same LUNs show port group 1 at prio 50
+  (active/optimized) and port group 0 at prio 10
+  (active/non-optimized)
 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index f8088d5aa724c..5414b16d44387 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -4508,6 +4508,8 @@ static const struct pci_device_id nvme_id_table[] =
-=3D {
->  	{ PCI_DEVICE(0x1d97, 0x2269), /* Lexar NM760 */
->  		.driver_data =3D NVME_QUIRK_BOGUS_NID |
->  				NVME_QUIRK_IGNORE_DEV_SUBNQN, },
-> +	{ PCI_DEVICE(0x1d97, 0x5236), /* Lexar NQ790 / NM800 PRO */
-> +		.driver_data =3D NVME_QUIRK_NO_DEEPEST_PS, },
+1. sdev->access_state is wrong after boot (scsi_dh_alua, not this
+   series)
 
-[Severity: Medium]
-This problem wasn't introduced by this patch, but nvme_id_table contains
-duplicate PCI ID entries for 0x1d97:0x2263 [1]:
+After boot, every path read active/optimized in
+/sys/class/scsi_device/H:C:T:L/device/access_state, while sg_rtpg
+reports port group 0 as active/non-optimized. No
+"alua: port group XX state ..." message was logged at all.
 
-drivers/nvme/host/pci.c:nvme_id_table[] =3D {
-    ...
-	{ PCI_DEVICE(0x1d97, 0x2263),   /* SPCC */
-		.driver_data =3D NVME_QUIRK_DISABLE_WRITE_ZEROES, },
-    ...
-	{ PCI_DEVICE(0x1d97, 0x2263), /* Lexar NM610 */
-		.driver_data =3D NVME_QUIRK_BOGUS_NID, },
-    ...
-};
+Since 50759b881e1d ("scsi: device_handler: alua: Call
+scsi_device_put() from non-atomic context"), alua_rtpg_queue() only
+queues an RTPG if sdev->handler_data is set, but alua_bus_attach()
+sets handler_data after alua_initialize() has tried to queue the
+initial RTPG. That RTPG is dropped, and access_state stays at its
+zeroed default (active/optimized) until something calls
+scsi_dh_activate(). dm-multipath hides this through pg_init; native
+multipath never calls activate, so the series sees every path as
+optimized.
 
-Because pci_match_device() stops at the first matching vendor and device
-ID, is the Lexar NM610 entry unreachable, leaving those drives with
-NVME_QUIRK_DISABLE_WRITE_ZEROES instead of NVME_QUIRK_BOGUS_NID?
+I have sent a separate fix for this to linux-scsi:
+https://lore.kernel.org/linux-scsi/20261109201120.1067815-1-loberman@redhat=
+.com/
+It is independent of your series, but without it, native multipath
+on ALUA arrays has no correct path state.
 
-[1] https://sashiko.dev/#/bug/linux-6e3b737e-406a-4fa3-94f8-00407fa27202
+2. ANO paths are ranked the same as AO paths
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261109201503.1009=
-8-1-platon.ksenzenkokk@gmail.com?part=3D1
+With the ALUA state corrected (by writing "activate" to dh_state, or
+with the fix above), I/O still went to active/non-optimized paths.
+scsi_multipath_sdev_init() sets mpath_device->access_state to
+MPATH_STATE_OPTIMIZED and nothing updates it, while
+__mpath_find_path(), mpath_round_robin_path() and
+mpath_queue_depth_path() rank paths by that field. Only
+scsi_mpath_is_optimized()/is_disabled() read sdev->access_state.
+
+With numa, the first path in dev_list wins for every node, and
+dev_list order follows sd probe completion, so for about a third of
+the LUNs the current path was an ANO path. Example, LUN sdn, reads
+completed per path for a 2000 x 1M O_DIRECT dd (:0/:3 AO, :1/:2 ANO
+at the time):
+
+  sdn:0 0   sdn:1 2000   sdn:2 0   sdn:3 0
+
+Every read went through the non-owning controller. From the code, for
+these LUNs the numa recheck of is_optimized() fails on every I/O and
+__mpath_find_path() picks the same ANO path again.
+
+With the change below (a template callback so the selectors use the
+live state), plus the scsi_dh_alua fix, all 30 LUNs pick an AO
+current path at boot, and on LUN sdl (:0/:2 AO, :1/:3 ANO):
+
+  numa         2000     0     0     0
+  round-robin  1000     0  1000     0
+  queue-depth 18039     0 13961     0   (8 parallel dd, 64k)
+
+No I/O reached the ANO paths under any policy. This is a test patch to
+show the problem, not a polished change - feel free to fold it in or
+do it differently.
+
+3. Smaller points
+
+- numa with equal NUMA distance uses one path per LUN, so with two AO
+  paths through two HBAs, half the optimized bandwidth is idle (sdl:2
+  above under numa). That matches NVMe, but users coming from
+  dm-multipath service-time will notice. Would round-robin or
+  queue-depth be a better default for SCSI?
+
+- There are no Documentation/ABI entries for the new sysfs attributes
+  (scsi_mpath_device vpd_id/iopolicy/multipath, delayed_removal_secs,
+  mpath_dev, mpath_numa_nodes, mpath_queue_depth), and the
+  scsi_mod.multipath and multipath_iopolicy parameters are not in
+  kernel-parameters.txt. I have a draft ABI file if useful.
+
+- There is no userspace tool yet to show heads, paths and ALUA state
+  (the equivalent of multipath -ll or nvme list-subsys). I used a
+  small sysfs script for this testing. Ben, is native SCSI multipath
+  support in multipath-tools planned?
+
+- CONFIG_SCSI_MULTIPATH/CONFIG_LIBMULTIPATH are only enabled in your
+  branch's x86_64_defconfig, so building from a distro config leaves
+  them off, and scsi_mod.multipath=3D is silently ignored. Maybe worth a
+  note in the cover letter.
+
+I have not tested failover or path loss yet; I will follow up with
+that and a Tested-by once done.
+
+Thanks,
+Laurence
+
+-- >8 --
+From: Laurence Oberman <loberman@redhat.com>
+Subject: [PATCH TEST] libmultipath/scsi-multipath: rank paths by live
+ALUA access state
+
+mpath_device->access_state is set to MPATH_STATE_OPTIMIZED in
+scsi_multipath_sdev_init() and never updated, so the path selectors
+rank active/non-optimized paths equal to active/optimized ones.
+
+Add an optional mpath_head_template.access_state() callback, used by
+the selectors in place of the cached field when provided, and
+implement it for SCSI by mapping the live sdev->access_state.
+
+No change notification is needed: numa rechecks is_optimized() per
+I/O and re-runs __mpath_find_path() when the current path is no
+longer optimized; round-robin and queue-depth walk the list per I/O.
+
+Signed-off-by: Laurence Oberman <loberman@redhat.com>
+---
+diff --git a/drivers/scsi/scsi_multipath.c
+b/drivers/scsi/scsi_multipath.c
+index 58b0be88a..bdae08ecd 100644
+--- a/drivers/scsi/scsi_multipath.c
++++ b/drivers/scsi/scsi_multipath.c
+@@ -330,6 +330,23 @@ static bool scsi_mpath_is_optimized(struct
+mpath_device *mpath_device)
+ =09return access_state =3D=3D SCSI_ACCESS_STATE_OPTIMAL;
+ }
+=20
++static enum mpath_access_state scsi_mpath_access_state(
++=09=09=09struct mpath_device *mpath_device)
++{
++=09struct scsi_mpath_device *scsi_mpath_dev =3D
++=09=09=09=09to_scsi_mpath_device(mpath_device);
++=09struct scsi_device *sdev =3D scsi_mpath_dev->sdev;
++
++=09switch (READ_ONCE(sdev->access_state) &
+SCSI_ACCESS_STATE_MASK) {
++=09case SCSI_ACCESS_STATE_OPTIMAL:
++=09=09return MPATH_STATE_OPTIMIZED;
++=09case SCSI_ACCESS_STATE_ACTIVE:
++=09=09return MPATH_STATE_NONOPTIMIZED;
++=09default:
++=09=09return MPATH_STATE_OTHER;
++=09}
++}
++
+ static bool scsi_mpath_available_path(struct mpath_device
+*mpath_device)
+ {
+ =09struct scsi_mpath_device *scsi_mpath_dev =3D
+@@ -374,6 +391,7 @@ static struct mpath_head_template smpdt =3D {
+ =09.remove_head =3D scsi_mpath_remove_head_work,
+ =09.is_disabled =3D scsi_mpath_is_disabled,
+ =09.is_optimized =3D scsi_mpath_is_optimized,
++=09.access_state =3D scsi_mpath_access_state,
+ =09.available_path =3D scsi_mpath_available_path,
+ =09.clone_bio =3D scsi_mpath_clone_bio,
+ };
+diff --git a/include/linux/multipath.h b/include/linux/multipath.h
+index 7a3708ff3..b47785804 100644
+--- a/include/linux/multipath.h
++++ b/include/linux/multipath.h
+@@ -39,6 +39,7 @@ struct mpath_head_template {
+ =09void (*remove_head)(struct mpath_head *);
+ =09bool (*is_disabled)(struct mpath_device *);
+ =09bool (*is_optimized)(struct mpath_device *);
++=09enum mpath_access_state (*access_state)(struct mpath_device
+*);
+ =09struct bio *(*clone_bio)(struct bio *);
+ =09const struct attribute_group **device_groups;
+ };
+diff --git a/lib/multipath.c b/lib/multipath.c
+index b03080afb..3ddb7296a 100644
+--- a/lib/multipath.c
++++ b/lib/multipath.c
+@@ -142,6 +142,19 @@ static bool mpath_path_is_disabled(struct
+mpath_head *mpath_head,
+ =09return mpath_head->mpdt->is_disabled(mpath_device);
+ }
+=20
++/*
++ * Use the driver's live view of the path access state if it provides
+one,
++ * otherwise fall back to the cached mpath_device->access_state.
++ */
++static enum mpath_access_state mpath_path_access_state(
++=09=09=09struct mpath_head *mpath_head,
++=09=09=09struct mpath_device *mpath_device)
++{
++=09if (mpath_head->mpdt->access_state)
++=09=09return mpath_head->mpdt->access_state(mpath_device);
++=09return mpath_device->access_state;
++}
++
+ static struct mpath_device *__mpath_find_path(struct mpath_head
+*mpath_head,
+ =09=09=09=09=09int node)
+ {
+@@ -161,7 +174,7 @@ static struct mpath_device
+*__mpath_find_path(struct mpath_head *mpath_head,
+ =09=09else
+ =09=09=09distance =3D LOCAL_DISTANCE;
+=20
+-=09=09switch(mpath_device->access_state) {
++=09=09switch (mpath_path_access_state(mpath_head,
+mpath_device)) {
+ =09=09case MPATH_STATE_OPTIMIZED:
+ =09=09    if (distance < found_distance) {
+ =09=09=09    found_distance =3D distance;
+@@ -206,7 +219,7 @@ static struct mpath_device *mpath_round_robin_path(
+ {
+ =09struct mpath_device *mpath_device, *found =3D NULL;
+ =09int node =3D numa_node_id();
+-=09enum mpath_access_state access_state_old;
++=09enum mpath_access_state access_state_old, state;
+ =09struct mpath_device *old =3D
+ =09=09=09srcu_dereference(mpath_head-
+>current_path[node],
+ =09=09=09=09&mpath_head->srcu);
+@@ -226,11 +239,12 @@ static struct mpath_device
+*mpath_round_robin_path(
+=20
+ =09=09if (mpath_path_is_disabled(mpath_head, mpath_device))
+ =09=09=09continue;
+-=09=09if (mpath_device->access_state =3D=3D
+MPATH_STATE_OPTIMIZED) {
++=09=09state =3D mpath_path_access_state(mpath_head,
+mpath_device);
++=09=09if (state =3D=3D MPATH_STATE_OPTIMIZED) {
+ =09=09=09found =3D mpath_device;
+ =09=09=09goto out;
+ =09=09}
+-=09=09if (mpath_device->access_state =3D=3D
+MPATH_STATE_NONOPTIMIZED)
++=09=09if (state =3D=3D MPATH_STATE_NONOPTIMIZED)
+ =09=09=09found =3D mpath_device;
+ =09}
+=20
+@@ -240,7 +254,7 @@ static struct mpath_device *mpath_round_robin_path(
+ =09 *  - no other optimized path found and current is optimized,
+ =09 *  - no other usable path found and current is usable.
+ =09 */
+-=09access_state_old =3D old->access_state;
++=09access_state_old =3D mpath_path_access_state(mpath_head, old);
+ =09if (!mpath_path_is_disabled(mpath_head, old) &&
+ =09    (access_state_old =3D=3D MPATH_STATE_OPTIMIZED ||
+ =09    (!found && access_state_old =3D=3D MPATH_STATE_NONOPTIMIZED)))
+@@ -270,7 +284,7 @@ static struct mpath_device *mpath_queue_depth_path(
+=20
+ =09=09depth =3D atomic_read(mpath_device->nr_active);
+=20
+-=09=09switch (mpath_device->access_state) {
++=09=09switch (mpath_path_access_state(mpath_head,
+mpath_device)) {
+ =09=09case MPATH_STATE_OPTIMIZED:
+ =09=09=09if (depth < min_depth_opt) {
+ =09=09=09=09min_depth_opt =3D depth;
+
 
