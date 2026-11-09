@@ -2,41 +2,41 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 646CA606A336
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2026 02:27:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 710E3606A33C
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2026 02:27:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=TXs/nzmp;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=aXGpDm+q
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=so1XSmeL;
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=W0KJRvO7
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=EWlCku388zkiJoDFJOVevRzaIAp+qsNflU0x74TRlZ4=; b=TXs/nzmpdLXX6m
-	0Jw3myjoJue9UJRb+j8cZh3P8mC8Bqzc5H3it29izo9BBkgIMM+pnk1It4XGaebXJio50D9zbsRkv
-	voVFQOX8qRl2Bcj9Tso37hTXJyLQS6KM237HwoKMhWKKIJxgqvpG9S5zkDpFR/Ef2aSZyTT1PYZKA
-	PGLbsWAAiMwcniG7ytGEjX55PBUK2Dz0dIWXOfijfTs15gx+mEeHvHj/O+eck7xQGLWknyl0bMTsd
-	tEDw+s2/hRumDFnp0CbJryzCEPzGDcmcinVyNWtFoayft2Zcit2Hpud00RvGQ2nEfFZ5G1r/7Nn3u
-	PlQKkC3Enf+PxOce+ynw==;
+	List-Owner; bh=mvajMTdREyKd3ELQIABUMwhErvHcplpwM/gO9EWJ908=; b=so1XSmeLFgq19C
+	w4cK65FqnsYmtBnZ2/Le8Fszgra27+Jb8BzCyWm1I/Pi9BPos94Bk0uFVJbExRPcSZCf+R+/N/KbX
+	8WJAdBNWqWByT76G2ksmp1aIwiL3yZBGwDwPoy1meWDI7dATSwI6KyD7W28xo+KwTJumtFGu1gzpr
+	E5Hrvh8ogI89hPGr+5mM2I3FEjiJhgY7HZLdU7mNRuaphcFjrjDPT79k/1HpjPxdgdg9p5t+uLv9g
+	LB0M0bmH10aVzYua60melP5rCIyswnWbsdFHEeQElMlpc/QrjK6iDWDnX6M8Q6mMGZTqYrJMOtWVN
+	Ovzr0p2G12mfpQsFJ7oA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQF68-0000000H7gM-0pcz;
-	Mon, 09 Nov 2026 02:27:04 +0000
-Received: from out30-119.freemail.mail.aliyun.com ([115.124.30.119])
+	id 1xQF69-0000000H7gf-0jyq;
+	Mon, 09 Nov 2026 02:27:06 +0000
+Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQF64-0000000H7d4-2lNz
+	id 1xQF64-0000000H7d5-3Juo
 	for linux-nvme@lists.infradead.org;
 	Mon, 09 Nov 2026 02:27:02 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1794191215; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=EWlCku388zkiJoDFJOVevRzaIAp+qsNflU0x74TRlZ4=;
-	b=aXGpDm+qR83m9yg2YEHSs+5ILRGW6INRDG1A94xbamHOze6V85ifhtsl4p/EGl/kQ9zVbg7RqDMG7tHVdBEUmkTBRj6C8Ruh2JmtxHAyU1yjg+YfXsgdqamA002dRsLNOe/WKD3eYNDFO9XS8qg8Jg/Q391AeMuJ83pIMS7LUAQ=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R791e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037009110;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XEI5jph_1794191214;
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XEI5jph_1794191214 cluster:ay36)
+	t=1794191216; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=mvajMTdREyKd3ELQIABUMwhErvHcplpwM/gO9EWJ908=;
+	b=W0KJRvO7IaZLc0WwS/UAHt6D6lM7+5KNXlIxl+YDM/8b4+AYdml6bMxaQYgtrQDbESjXBudjpeks6PcqTaLM2C5GzvAddvQ7gCjMcEie9mVHmNOEi4znWqHMM/EqasCPnReVOP5B93OdIm2s2c1RVsP6yGDjV7Pb2MYUy7xJtZ8=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033032089153;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XEI5jq5_1794191215;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XEI5jq5_1794191215 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Mon, 09 Nov 2026 10:26:54 +0800
+          Mon, 09 Nov 2026 10:26:55 +0800
 From: Guixin Liu <kanie@linux.alibaba.com>
 To: Keith Busch <kbusch@kernel.org>,
 	Jens Axboe <axboe@kernel.dk>,
@@ -46,9 +46,9 @@ To: Keith Busch <kbusch@kernel.org>,
 	Daniel Wagner <dwagner@suse.de>,
 	Hannes Reinecke <hare@suse.de>
 Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH v2 3/5] nvme-auth: fix data race on ctrl->transaction
-Date: Mon,  9 Nov 2026 10:26:44 +0800
-Message-ID: <20261109022646.290792-4-kanie@linux.alibaba.com>
+Subject: [PATCH v2 4/5] nvmet: take subsys->lock in nvmet_subsys_attr_tbkas_store()
+Date: Mon,  9 Nov 2026 10:26:45 +0800
+Message-ID: <20261109022646.290792-5-kanie@linux.alibaba.com>
 X-Mailer: git-send-email 2.43.7
 In-Reply-To: <20261109022646.290792-1-kanie@linux.alibaba.com>
 References: <20261109022646.290792-1-kanie@linux.alibaba.com>
@@ -56,8 +56,8 @@ X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261108_182700_855517_261EB034 
-X-CRM114-Status: GOOD (  12.90  )
+X-CRM114-CacheID: sfid-20261108_182700_986998_90BA0BD5 
+X-CRM114-Status: GOOD (  11.50  )
 X-Spam-Score: -17.6 (-----------------)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -78,52 +78,46 @@ X-Spam-Status: No, score=-26.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-nvme_ctrl_auth_work() queues the DH-HMAC-CHAP exchange of every queue
-on nvme-auth-wq without waiting for them, so multiple
-nvme_queue_auth_work() instances run concurrently and all increment
-ctrl->transaction in nvme_queue_auth_work(). The plain increment is a
-data race, and the lost updates hand the same transaction id to
-concurrent queues.
+The tbkas store handler walks subsys->ctrls to force every controller
+to reconnect, but it holds only nvmet_config_sem for write.
+subsys->ctrls is protected by subsys->lock: nvmet_alloc_ctrl() adds an
+entry under subsys->lock, and nvmet_ctrl_free() removes it under
+subsys->lock with list_del() + kfree(). A concurrent controller
+teardown can therefore corrupt the walk.
 
-The controller side only echoes the transaction id within a queue, so
-the race has no functional impact today, but the increment is still
-unsynchronized and KCSAN reports it. Use atomic_inc_return(); the
-first transaction id is now 1 instead of 0, which is immaterial as
-the controller only echoes the id within a queue.
+This is the same bug fixed for nvmet_subsys_attr_qid_max_store() in
+commit 9f426f140511 ("nvmet: take subsys->lock while
+force-reconnecting in nvmet_subsys_attr_qid_max_store()"), which
+missed this second instance of the pattern. Take subsys->lock around
+the list_for_each_entry() loop. ->delete_ctrl() only queues
+asynchronous controller teardown, so it does not re-enter subsys->lock
+under the loop.
 
-Reviewed-by: Hannes Reinecke <hare@kernel.org>
+Fixes: e98e45e9465b ("nvmet: Add traffic based keep alive support to configfs")
+Cc: stable@vger.kernel.org
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>
 Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
 ---
- drivers/nvme/host/auth.c | 2 +-
- drivers/nvme/host/nvme.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/nvme/target/configfs.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
-index 85f005a5efd0..c605e8f47e9a 100644
---- a/drivers/nvme/host/auth.c
-+++ b/drivers/nvme/host/auth.c
-@@ -765,7 +765,7 @@ static void nvme_queue_auth_work(struct work_struct *work)
- 		return;
- 	}
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index b3a5242d06f9..c17f2c8ab2df 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -1466,8 +1466,10 @@ static ssize_t nvmet_subsys_attr_tbkas_store(struct config_item *item,
+ 	subsys->tbkas = tbkas;
  
--	chap->transaction = ctrl->transaction++;
-+	chap->transaction = (u16)atomic_inc_return(&ctrl->transaction);
+ 	/* Force reconnect */
++	mutex_lock(&subsys->lock);
+ 	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry)
+ 		ctrl->ops->delete_ctrl(ctrl);
++	mutex_unlock(&subsys->lock);
+ 	up_write(&nvmet_config_sem);
  
- 	/* DH-HMAC-CHAP Step 1: send negotiate */
- 	dev_dbg(ctrl->device, "%s: qid %d send negotiate\n",
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 92c048002ecd..1fb676dade12 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -446,7 +446,7 @@ struct nvme_ctrl {
- 	struct nvme_dhchap_queue_context *dhchap_ctxs;
- 	struct nvme_dhchap_key *host_key;
- 	struct nvme_dhchap_key *ctrl_key;
--	u16 transaction;
-+	atomic_t transaction;
- #endif
- 	key_serial_t tls_pskid;
- 
+ 	return count;
 -- 
 2.43.7
 
