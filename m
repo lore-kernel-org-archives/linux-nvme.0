@@ -2,76 +2,78 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 124D2606A325
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2026 21:46:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4DAE606A31C
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2026 21:47:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Nzld3Ej4;
-	dkim=pass (2048-bit key, unprotected) header.d=acm.org header.i=@acm.org header.a=rsa-sha256 header.s=mr01 header.b=VjiB7V1j
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=c2Z9gZHV;
+	dkim=pass (2048-bit key, unprotected) header.d=acm.org header.i=@acm.org header.a=rsa-sha256 header.s=mr01 header.b=Tvj5PS1O
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=fLLhg2WUJvAm21+E4LtzurXKIiEmTP+gbE4+JMoGAEM=; b=Nzld3Ej42a6wZr
-	WY1KO3UZWYC40kIMxUsE/nhBy8V0s8bPBONSqWZx8WtB1Hdd4gfLaLqOoGtr4YvNoFcQlbfuPrBqy
-	ogydUFdER55gq+u1qzayq2vGnpHueu6dWL619Rl9ENb9sGRa0NabBKMtoMCTjDVAqo4zRRYmVfeFe
-	Ow8a1sKnfvYYWBr3j10VHiIO/ktemdKRYPfJz45BvUat4hZYQm/51M9YeCWaEfCLZTzyf/sq1a1lj
-	GNsWf9miK+8U/Tj7M+zntbIKXmr5y+i4VwcBYDjdEY3zdYG+QCcktT/ejK96FbOLcKh9K839ofpim
-	za9Elok0WrzT6P8RS9ZQ==;
+	List-Owner; bh=DodFm50n9M2WAOSjPizOY8OuDySUPHXfRyzyu4/+scs=; b=c2Z9gZHVm7+RHk
+	wVMZBjDAD1YK6wNGpL1PKBKZOfP0CUJDCMS/KZ8RPXgI4XwojuiZjZR+bbn1iF5KcBgmOgZbcX6QA
+	5Rr+YC72OpfpIdalD0ChqlYwRCAmG2P976+h7nJ3fbQs5PsDHreOf2qiuW3Tmgqcv0uZV4e0GQ4Y2
+	rO0S3HjvVU9GnOiW1/mlbgEOVnvAVtHbQqVL/iJ0idX65lVpEfNBJnDyGKeW+3zz+KaaT4FlH7Kaa
+	a+Os7/AXgc0Qp4G5PbH8HOlHlKFF5fskMGi1hp7XJk56l9mXaV4AstlEK6POITjbsucI4UBfRiBxD
+	SZpRhndDmmVBLVx6/UXQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQXBu-00000001oBr-0b7q;
-	Mon, 09 Nov 2026 21:46:14 +0000
+	id 1xQXDT-00000001oQR-2Lpw;
+	Mon, 09 Nov 2026 21:47:51 +0000
 Received: from 013.lax.mailroute.net ([199.89.1.16])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQXBr-00000001oAj-3aCA
+	id 1xQXDQ-00000001oPr-2GI6
 	for linux-nvme@lists.infradead.org;
-	Mon, 09 Nov 2026 21:46:13 +0000
+	Mon, 09 Nov 2026 21:47:49 +0000
 Received: from localhost (localhost [127.0.0.1])
-	by 013.lax.mailroute.net (Postfix) with ESMTP id 4jNjyp6TqNzlfvqS;
-	Mon,  9 Nov 2026 21:46:10 +0000 (UTC)
+	by 013.lax.mailroute.net (Postfix) with ESMTP id 4jNk0h26Gmzlfl5v;
+	Mon,  9 Nov 2026 21:47:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
 	content-transfer-encoding:content-type:content-type:in-reply-to
 	:from:from:content-language:references:subject:subject
 	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1794260768; x=1796852769; bh=fLLhg2WUJvAm21+E4LtzurXK
-	IiEmTP+gbE4+JMoGAEM=; b=VjiB7V1jvju3ypuxdmxkR6PeUCMIqSUQv2OcKN6H
-	N5jXVfgIEz4m92sknMCxOLVA/DHQG3O6zhobII58b+bzKvi36lo6ctxrO2CzyTf2
-	++uHJLnNaAZ+vPAy9MMDremSl6TYxUiK53GvPQzYLZav+arJ0SZR2Ol4Ap9JyRf5
-	3hQhkQXalOUlZDpmCN2F071OuvxlJwc+5X6m17+uiRnjAs0Omogf28K9meHiYvUL
-	E9gpzTUbQiSDZT9zubQYnc/uBs6/OMoXQVumXB5bxLUJzQFSyGg6N9+hAwl6G3IU
-	PLi2RkLbIJblfLou7QBQVTwgH7HFooSvn1gcs8EuAtxVLg==
+	 s=mr01; t=1794260866; x=1796852867; bh=DodFm50n9M2WAOSjPizOY8Ou
+	DySUPHXfRyzyu4/+scs=; b=Tvj5PS1OlNS7VTucoKPB3UHQtDj2el6M1HcabJzm
+	3WGBMTGODqrdjeGC1Tj1nI+DfnqAS0wsjwHwrbBikfIipkiqcD+sAENYzR88uQtO
+	ax6tMnbwnqmSmQUzRgKkvnCdeD03wX7a1Itpe4Z9FK5oOnPu584Ngl5HKfve6aRQ
+	VvTqXdmRUXaG9BGaEHh4yiFYstjQqmvYhyFVt5AtaodnBLQHI5duTY1WSgrlt6xS
+	l13MI9Ej01hlQP6ZljX+Q0oF84oUHHxDU3B8dYMo/FST5+KH0uMu06bkN/ptKvvP
+	X5WWpeAKYZTZMszJaporDyVU4bUlJftnYx/gTWQD9+wrBA==
 X-Virus-Scanned: by MailRoute
 Received: from 013.lax.mailroute.net ([127.0.0.1])
  by localhost (013.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id Fki4ulnokL2w; Mon,  9 Nov 2026 21:46:08 +0000 (UTC)
+ id Lamnow-rea2D; Mon,  9 Nov 2026 21:47:46 +0000 (UTC)
 Received: from [100.80.231.125] (unknown [104.135.182.41])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: bvanassche@acm.org)
-	by 013.lax.mailroute.net (Postfix) with ESMTPSA id 4jNjyl6Gb4zlfwgB;
-	Mon,  9 Nov 2026 21:46:07 +0000 (UTC)
-Message-ID: <8beba915-07a5-4eae-b8a4-3ec7330c90f7@acm.org>
-Date: Mon, 9 Nov 2026 13:46:07 -0800
+	by 013.lax.mailroute.net (Postfix) with ESMTPSA id 4jNk0d48qvzlfvqP;
+	Mon,  9 Nov 2026 21:47:45 +0000 (UTC)
+Message-ID: <50a22851-ce22-4c31-afdd-9fcd49854dbb@acm.org>
+Date: Mon, 9 Nov 2026 13:47:44 -0800
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/23] nvmet: add context annotation for nvmet_ns::bdev
+Subject: Re: [PATCH 02/23] nvmet: fix nvmet_ns::bdev access using
+ nvmet_subsys::lock
 To: Nilay Shroff <nilay@linux.ibm.com>, kbusch@kernel.org, hch@lst.de,
  sagi@grimberg.me, axboe@kernel.dk, chaitanyak@nvidia.com
 Cc: gjoyce@linux.ibm.com, elver@google.com, linux-nvme@lists.infradead.org
 References: <20261109033102.982191-25-nilay@linux.ibm.com>
- <20261109033102.982191-26-nilay@linux.ibm.com>
+ <20261109033102.982191-27-nilay@linux.ibm.com>
 Content-Language: en-US
 From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20261109033102.982191-26-nilay@linux.ibm.com>
+In-Reply-To: <20261109033102.982191-27-nilay@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261109_134612_086795_BE17B191 
-X-CRM114-Status: GOOD (  10.51  )
+X-CRM114-CacheID: sfid-20261109_134748_589824_0207F55E 
+X-CRM114-Status: UNSURE (   5.94  )
+X-CRM114-Notice: Please train this message.
 X-Spam-Score: -2.8 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -92,33 +94,10 @@ X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
 On 11/8/26 7:28 PM, Nilay Shroff wrote:
- > The nvmet_ns::bdev field is protected by nvmet_subsys::lock. Annotate
- > it with __guarded_by(&subsys->lock) so that the clang context analyzer
- > can validate accesses to this field.
+> +		__assume_ctx_lock(&ns->subsys->lock);
 
-This patch introduces a compiler error in nvmet_get_smart_log_all() when
-built with CONFIG_WARN_CONTEXT_ANALYSIS=y:
-
-   drivers/nvme/target/admin-cmd.c: error: reading variable 'bdev' requires
-   holding mutex 'ns->subsys->lock' [-Werror,-Wthread-safety-precise]
-
-This is only resolved in patch 02. Please make sure this series is
-bisectable.
-
- > +	/*
- > +	 * Both ctrl->subsys->lock and ns->subsys->lock refers to the same 
-lock.
-
-"refers to" -> "refer to".
-
- > +	 * However there's no way for us to annotate such locking semantics
- > +	 * using clang context annotation. So explicitly assert the capability.
- > +	 */
- > +	__assume_ctx_lock(&ns->subsys->lock);
-
-__assume_ctx_lock() wouldn't be necessary if subsys would be passed
-as a function argument, isn't it? In general, I strongly prefer to
-add a function argument rather than using __assume_ctx_lock().
+Please pass "subsys" as an additional argument to 
+nvmet_get_smart_log_all() instead of using __assume_ctx_lock().
 
 Thanks,
 
