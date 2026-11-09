@@ -2,99 +2,80 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C008D606A321
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2026 14:25:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DDCF606EE9B
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2026 14:59:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=lDfMCmf7;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=VvFpqett
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=h2MTfwLi;
+	dkim=pass (2048-bit key) header.d=zte.com.cn header.i=@zte.com.cn header.a=rsa-sha256 header.s=z202610 header.b=mlp/MgZL
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=GbH9hEkRxL7poVnfKttfcF7GkxvjJPt+uCTzdn29ebA=; b=lDfMCmf70E9qad
-	Qnq9PVsuGTAETIzFJejuTGWBx7dORBbssrRdFL/qxsEwQZe1hV2NW5LUzKO5TjBxPT538SAb2JZTA
-	1DEK9ZtHfSiTfARzFzX/ttzPXKWuOCiZgtAWZ1wDHRzG39Kc586P3fpISIQVvAUAE7yzfi35y4FnA
-	Hb8wMoCQWeLV9KbhXZaNwBcnukr2f16l5JHum4Pd/R/4xy3oe+dHWObuTDfxxKzTP3aT3mrnBHGBT
-	cH+kn3ZRDmhnw2B1TrbdStTOXFz4G+qMM9Q9ZePEFN4EWDMJrLr7E5pGUjZjZq/vO2mQrky+xnfbH
-	Bv9ZJb1LybpQ6cDcg0Vg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Subject:Cc:To:
+	From:Mime-Version:Date:Message-ID:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Unsubscribe-Post:List-Owner;
+	bh=/uGlgNaTZ39GNEO0DIFkGDDlYQv31NwdqtqlJEOxmcM=; b=h2MTfwLibj9B/K+I+iWvtqwbYo
+	D//h/p3tc+xDZwbx+/g0jgkkyOUCpCx4hwRGHijw/Xb07BGKPOrsmYQWvTv6rLYF3hWjXEadcjs0+
+	pdiCkSxOIpOftgBVgO1ivsU6IPbJ+/baahUdnEGxjzz343/QiMUYqki5E4d2tUDnN64AC5TbqOOd1
+	4eOuIwquNCADuj39L7ul9BoDJ6lLnSqnY9l4Ceg32+iAz7sjH38tN9blbNyiIiJEwwyiRcHnOg2D5
+	Q8SmxG7LzkdWy7OmJPzaykUr/FSTitE20BDn69jtSvMGFOFKZoiDASvxdUeNE92I0nWbo4qvdIFLZ
+	PjGxGg8Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQQJ1-00000000wEW-44OB;
-	Mon, 09 Nov 2026 14:25:07 +0000
-Received: from mail-dy1-x1333.google.com ([2607:f8b0:4864:20::1333])
+	id 1xQQqQ-000000010SX-21Qm;
+	Mon, 09 Nov 2026 14:59:38 +0000
+Received: from mxhk.zte.com.cn ([160.30.148.35])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQQIx-00000000wE5-3Wf0
+	id 1xQQqN-000000010QC-0AXQ
 	for linux-nvme@lists.infradead.org;
-	Mon, 09 Nov 2026 14:25:06 +0000
-Received: by mail-dy1-x1333.google.com with SMTP id 5a478bee46e88-36a315ed211so1058098eec.0
-        for <linux-nvme@lists.infradead.org>; Mon, 09 Nov 2026 06:25:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794234303; x=1794839103; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=GbH9hEkRxL7poVnfKttfcF7GkxvjJPt+uCTzdn29ebA=;
-        b=VvFpqettVSO8Yl2eSD/zcxpnURYofVIKli/Tn+7Gw6cG4z+yKQTbx7oEZmrLDvoxNn
-         Hul22xN1rs9OFJOqyN7D+oOLEOU946yinhMtMoFCsNXXZM2r18oEMFkxVzbZDVoMqkdN
-         zFaXxoBNeH8vrNlzvKxjg/CR3NQ0jpfZa2z9HNDYd5ByLMNgx3ojq7Oz9fnhWocwvQFu
-         iCFMoxDOvOM0bdgzIiPlC0NrtSsyB6ITwMORIB8bnOIsNMfGkmLzL87ZZ59V+Cb7etR3
-         A6r59A4s+YrVt1Idti4/WyE+Uac/XhmU/r26vvNd3oOeNNdufdrppJbaO4noaEpCpDfu
-         pLng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794234303; x=1794839103;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=GbH9hEkRxL7poVnfKttfcF7GkxvjJPt+uCTzdn29ebA=;
-        b=tiIJNPi1TT2VXhdOzNsxx39BUCq+5GyQQFdhgELIKgQHJ06ZfkzPBVfN7S97l6Fxyb
-         XY2UjSfNg4wOfcAI4v4Xrvw2Z5YqnmBzJX1L+ZQri05MF92YQEHE3xKxNIhmPpGw805l
-         fJNqwdEmtQ6M96ElOZmeGFtM4M7clkSXC1ASPCWBBDx1IswPXnnKjOOIQkBqc6Nkqsu2
-         t8ezG/eLuSVVc3yEIQZzVLI4lRN+51Fm+FpARQL9aHdHDyhyhNVTQmyYKbVXYu+cPxer
-         9m4QyqaIbC/N2ZvUzfpjGuDrwTGN1QHudMOTAlmS15y/WwAEr3RYc5OkryelRMbXRm3+
-         2ArQ==
-X-Forwarded-Encrypted: i=1; AL+hErGgN2rPrt28orx5TfTmPDfaDpQHI+b+ri9B1mKZWQ1+TmFvx5oXfxuPvhVxvkAd12XqhLVN1rDxpfjf@lists.infradead.org
-X-Gm-Message-State: APuU4Z8jY8tbw9x6JaqQIscXgpgZU+h41KzMjq5IOsuNYdyTYDSTVhRh
-	TComkOTglTOPLdOEJcQvyWUrb1HIWTUS+eah9q0ej2MlTclFA442WS1H
-X-Gm-Gg: AYBFou3ZCpWReFy/PiLwtP3og5T/gByapPTB+4x9s/MY24DfiRd2ziwDegohdISd3Wi
-	hbZ8HUH4XQGYfcJuyb2XCJ2YYq6XC+iZBhGA/4t6p7+TMkzWEfFgNGsx+l0YLhEMkHu7ZxqsHud
-	AnAJW9PBStUKmsDgiImR9Wif/G3qlnnzs8rmGFm/N1XrThEIcJDLGtqUnc5DlcFUWbUQnXryLp0
-	JhnceUz1FSFYRjR2HuwQYNwHZitWDX2dzjtvNiL6PlTxLte8fKn2L9qorSzwTV0RSX2p0X08HGv
-	ZlA2aiNJRuUKcNi5wmrTJwJl1JYJfKGFtBdaFnL2LxiuqcRCoh9c/sjIZ5sxXkMScfmbJ9f2sVw
-	HOqh9I9yzzdoxiuHO9D0NZ/nL2dHxohSVdvLDFft/GAIzcRCVQdlH1zraT2aGmZ+ni4iy7NoZrd
-	ZzvpLPPbasdOkhHklD5BQ8Ln/UGk1u3AY4zYbp8nZLKe14hl0uMIsxpCQJBS5pV6ZoZ6dTGbMuE
-	NdV1Zpr+dLSX5g6qp67sbWsgArESsz98bPINixNdhhaSO5ChC97UnV8w7QMZ4rAyQ9gmwCEj8ZI
-	lcmuit2iQC1/1D0s0hPi5BCKuB13VI3aCKWAt1GsX/RN/U2qVw==
-X-Received: by 2002:a05:7301:dc1:b0:362:2e2f:c261 with SMTP id 5a478bee46e88-370f8269e2cmr10965596eec.27.1794234301815;
-        Mon, 09 Nov 2026 06:25:01 -0800 (PST)
-Received: from localhost.localdomain ([103.170.54.70])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-372661ede11sm16138027eec.21.2026.11.09.06.24.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2026 06:25:01 -0800 (PST)
-From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-To: sreekuttan2156239@gmail.com
-Cc: hare@kernel.org,
-	hare@suse.de,
-	hch@lst.de,
-	kbusch@kernel.org,
-	kch@nvidia.com,
-	linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	sagi@grimberg.me
-Subject: [PATCH v2] nvmet: reject invalid write-protect feature values
-Date: Mon,  9 Nov 2026 14:24:28 +0000
-Message-ID: <20261109142428.2612-1-sreekuttan2156239@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261109135536.2772-1-sreekuttan2156239@gmail.com>
-References: <20261109135536.2772-1-sreekuttan2156239@gmail.com>
+	Mon, 09 Nov 2026 14:59:36 +0000
+Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4jNXxR0phdz8Xrnt;
+	Mon, 09 Nov 2026 22:59:23 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=zte.com.cn;
+	s=z202610; t=1794236363;
+	bh=TpIfpB47CwmdgGId7W2SupsJewo/qXQ10cq1sQ2P0/w=;
+	h=Date:From:To:Cc:Subject;
+	b=mlp/MgZLj/qKsvH/znv5+c7+5DM/vL4lrryDnmZRuIB1CP2pTyKnwCC4DnLgkWl8u
+	 Gh7LoEX0owZ2ajvyDTvogqdttok2Dk8RGB2A7kN9mZUeOdL6rim0m/xhZ+JeEXOUN+
+	 EOZb3vWCQqepXVbWm3IpTn9SkYN+3ZhexE8tuXlm1T/f8MZYuWq7LFOpxG6EE+7azQ
+	 AvunWP5upJqO+ZBkR2hjWiLL3i4aOXZKyZj2yNCHvSyVHQTOzZvQEIyT66bLyssxF2
+	 WtxiRt2w/l+EEH/rQMdslzlF1BaR6ondORd55anuHREG10z/JHk1lBqSftf9mkIiZI
+	 48OBYWi8Q8tfA==
+Received: from xaxapp02.zte.com.cn ([10.88.97.241])
+	by mse-fl2.zte.com.cn with SMTP id 6A9ExCXn067527;
+	Mon, 9 Nov 2026 22:59:12 +0800 (+08)
+	(envelope-from shao.mingyin@zte.com.cn)
+Received: from mapi (xaxapp01[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Mon, 9 Nov 2026 22:59:14 +0800 (CST)
+X-Zmail-TransId: 2af96af1dfc28e3-656bc
+X-Mailer: Zmail v1.0
+Message-ID: <20261109225914306SSjwaKCesNqNUj53kLV1R@zte.com.cn>
+Date: Mon, 9 Nov 2026 22:59:14 +0800 (CST)
 X-Archived-By: <archiver.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+From: <shao.mingyin@zte.com.cn>
+To: <kbusch@kernel.org>, <axboe@kernel.dk>, <hch@lst.de>, <sagi@grimberg.me>,
+        <linux-nvme@lists.infradead.org>
+Cc: <hare@suse.de>, <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
+Subject: =?UTF-8?B?W1BBVENIIDAvMl0gbnZtZTogdXNlIHRoZSBwYXJzZWQgb2Zmc2V0IGZvciBESC1DSEFQIHNlY3JldHM=?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL: mse-fl2.zte.com.cn 6A9ExCXn067527
+X-TLS: YES
+X-ENVELOPE-SENDER: shao.mingyin@zte.com.cn
+X-SOURCE-IP: 10.5.228.133 unknown Mon, 09 Nov 2026 22:59:23 +0800
+X-CLEAN: YES
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 6AF1DFCB.000/4jNXxR0phdz8Xrnt
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261109_062505_381435_582D1BF0 
-X-CRM114-Status: GOOD (  10.99  )
-X-Spam-Score: -1.9 (-)
+X-CRM114-CacheID: sfid-20261109_065935_400382_4382197C 
+X-CRM114-Status: GOOD (  11.92  )
+X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -105,45 +86,51 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=ham
+	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-The Set Features handler for namespace write protection currently
-accepts unsupported values. The default case in the write-protect
-switch leaves the status unchanged, causing the command to return
-success even though no valid setting was applied.
+Both the host and the target parse a DH-HMAC-CHAP secret with
+sscanf("DHHC-1:%hhd:...") and then skip a hardcoded ten characters to
+reach the key.  The prefix is only nine characters when the hash
+identifier is one digit, so a short but accepted secret makes the key
+pointer point past the end of the string and the follow-up strlen() read
+past the allocation.
 
-Return NVME_SC_INVALID_FIELD | NVME_STATUS_DNR for unsupported
-values. This also prevents issuing a namespace-change notification
-for an invalid request.
+Patch 1 changes the host-side parser to record the offset of the key with
+%n and use it instead of the constant.
 
-Fixes: 3a1f7c79ae6d ("nvmet: make nvmet_find_namespace() req based")
-Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+Patch 2 makes the same change on the target side and stores the offset
+with each configured secret, so nvmet_setup_auth() no longer adds the
+constant to the stored string.
+
+The two patches touch different trees (common/host and target) and are
+independent.  Both carry Fixes: and Cc: stable.
+
+Testing: both apply to next-20261105 (`ddfe51b0a0f5`), pass checkpatch.pl
+--strict with 0 errors/0 warnings/0 checks, and the affected files build
+under W=1.
+
+Both were also reproduced on a KASAN kernel (7.3.0-next-20261030,
+CONFIG_NVME_HOST_AUTH/TARGET_AUTH): a 9-byte "DHHC-1:1:" secret written
+through the host sysfs attribute, and a target host entry configured with
+the same key, both made nvme_auth_extract_key() read one byte past the
+10-byte allocation (KASAN slab-out-of-bounds in strlen/strrchr). With the
+two patches the same boots produce no KASAN report.
+
+Shao Mingyin (2):
+  nvme-auth: use the parsed offset for the DH-CHAP key
+  nvmet-auth: store the DH-CHAP key offset instead of hardcoding it
+
+ drivers/nvme/common/auth.c  |  6 ++++--
+ drivers/nvme/target/auth.c  | 17 ++++++++++++-----
+ drivers/nvme/target/nvmet.h |  2 ++
+ 3 files changed, 18 insertions(+), 7 deletions(-)
+
 ---
-v2:
- - Add Fixes trailer
-
- drivers/nvme/target/admin-cmd.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index f12d83098644..ee8be237485e 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -1223,6 +1223,7 @@ static u16 nvmet_set_feat_write_protect(struct nvmet_req *req)
- 		status = 0;
- 		break;
- 	default:
-+		status = NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
- 		break;
- 	}
- 
--- 
-2.55.0
-
+base-commit: ddfe51b0a0f5dc9e415cc2c8ad8db17532dd426b
 
