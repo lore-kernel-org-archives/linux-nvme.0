@@ -2,83 +2,139 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 997DE606EE95
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2026 17:04:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FFD9606A321
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2026 17:04:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=zpskDgi2;
-	dkim=pass (2048-bit key) header.d=zte.com.cn header.i=@zte.com.cn header.a=rsa-sha256 header.s=z202610 header.b=FtQneOuQ
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=3x7YnMxT;
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=gYBNGWyf;
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=edp8xY+3
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Subject:Cc:To:
-	From:Mime-Version:Date:References:In-Reply-To:Message-ID:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Date:Cc:To:From
+	:Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=PgCg/UbfSF4Y1FceeCMsI+hOq/EPutTDQs5k6Ln033M=; b=zpskDgi2/XtJyUm1FzzY9YAzIp
-	g/dbNHyGnJZUWFsUPNE6uewUhaWYiQqtlAax+pQUiHOKfC1dm5IPT/6+ejalpr9zTBKuYfjkJuAtH
-	F+o5MJKf+KpXpIHPLCVKAll3h05u8MoW3jD/shUhsolOI7M9ogA/IIXYs1t6AWIlu7ZC/njDyIi6+
-	DM1MAWs49+D8qUNksdmUH3YFW1w4BPd5LIZBJKFq6Oy9Nmzm9rGt8AfpAUS1FBFZMeA4AH8tsI/q7
-	p88PyZXYF5mvMK1KZOoM4DCsaxQXhQvkfQGQUE/HX/Bzo/dbKJh8O+C9+pEPM4fAUAM1WM0LnQE//
-	bS05nDMg==;
+	bh=pYc2D2gIh1SvVZ578/CJPxnyB11dD1eRwCTe2/iAXXc=; b=3x7YnMxT2qDMQc3GAeeHg9E1RS
+	Nbp1uBiF51/OCcM2/bDr3iA74p+3sL/tWL1S5/2Yi+dRpEJd4ryZyJ03bM4gcZHmsBjsstUdLXHzl
+	Ts7iSSUcb6NKFfsAZVPFQujB+QBRwjgnhVbWZhaxvGylo4hiYjZL9aT+GzqZp9IxCjWHJcX+gVUr/
+	C84QscdFfcXz0aIb2+ahAUPrSq1t8VnX18hBVmd4kOqX588TE2aznhsiElZMrfph38l9WtzPGSjhA
+	Vdm43+2+nQxBeYuhI33lyg3pcwDXFMaTzGWsO4eFIk2pBoMZEzPFpmTl+J+N4Sb8POwqO4081XaPI
+	Lb3rnZFg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQSnG-00000001ICN-0yyF;
-	Mon, 09 Nov 2026 17:04:30 +0000
-Received: from mxct.zte.com.cn ([183.62.165.209])
+	id 1xQSnD-00000001I9q-3hBN;
+	Mon, 09 Nov 2026 17:04:27 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQQqS-000000010R4-0ZRx
+	id 1xQMJz-00000000NAv-3SZ0
 	for linux-nvme@lists.infradead.org;
-	Mon, 09 Nov 2026 14:59:41 +0000
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	Mon, 09 Nov 2026 10:09:54 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mxct.zte.com.cn (FangMail) with ESMTPS id 4jNXxJ6l7Vz4xNtl;
-	Mon, 09 Nov 2026 22:59:16 +0800 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=zte.com.cn;
-	s=z202610; t=1794236356;
-	bh=VyzFy1x5es8MPjdHAbjHFFb6uwYxP6AKzrLvrgEJcko=;
-	h=In-Reply-To:References:Date:From:To:Cc:Subject;
-	b=FtQneOuQk7O9zoipD+DRh3k+7+Lgm8xQZ2yBMAh0b33ZB8sKWA3EowMtwZS9av1WG
-	 8KfwGMoHWPzP7iDJEXFSzJRazhNaUvEhQUoyNNFcLxNxBsYdVZSu6ldoHBYFfU3YMJ
-	 DD3Yx8TB9fiQigyBYFmlMG3t59Fr7QJmHfXNCR3KgGkqekLOfF/2rXCbWrdHN/ONlf
-	 KSWJGOrWiwzX7tLS6U0Nbl32akzVbcE6sleg1xShaI4wL6pE8NBuHSTLt8znoyJLYy
-	 ekoYNGQr2RCSptfQ6m/sFgUC11tlrDS6YvILVRE20K2EJ/YnHZKo5yBmp7fypEQVS/
-	 dqtmQg4hmtolw==
-Received: from xaxapp02.zte.com.cn ([10.88.97.241])
-	by mse-fl1.zte.com.cn with SMTP id 6A9ExGLY093656;
-	Mon, 9 Nov 2026 22:59:16 +0800 (+08)
-	(envelope-from shao.mingyin@zte.com.cn)
-Received: from mapi (xaxapp02[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Mon, 9 Nov 2026 22:59:19 +0800 (CST)
-X-Zmail-TransId: 2afa6af1dfc75d7-7d398
-X-Mailer: Zmail v1.0
-Message-ID: <20261109225919740-DfVem3ttLxIAe7wl3Puh@zte.com.cn>
-In-Reply-To: <20261109225914306SSjwaKCesNqNUj53kLV1R@zte.com.cn>
-References: 20261109225914306SSjwaKCesNqNUj53kLV1R@zte.com.cn
-Date: Mon, 9 Nov 2026 22:59:19 +0800 (CST)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E3C561F74A;
+	Mon,  9 Nov 2026 10:09:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1794218989; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pYc2D2gIh1SvVZ578/CJPxnyB11dD1eRwCTe2/iAXXc=;
+	b=gYBNGWyfTs0hWQSJcZvCCWGIT82PJdPRLIFSOa4Ls6aTat15NIFNBvm7aP1lZhX0VSx05w
+	BDUIp73FXsXCmcqHulJ6MttreAVhMvJN8yEOkLT2sm3j4kszd0bec03YJE/mdu70UMJKIU
+	ste3rvGEGJSjPHM7dRXXVJw6IS6oLaU=
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.com header.s=susede1 header.b=edp8xY+3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1794218988; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pYc2D2gIh1SvVZ578/CJPxnyB11dD1eRwCTe2/iAXXc=;
+	b=edp8xY+3stIEeNp0JT5zOyuqkYQ/wMr8wz+uG/9X7jOChXu+SvyYut7VLFMcNl3lwcKrWt
+	81M9H4tngtdn37T9rNeRzwTytTphV95QbLngWHjIn3HddnqsB3FD/zHNRQNWS19Pw3b9Gu
+	72UnK6PvDXJy+eFhFjcYu+0vC5n3DxU=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2326C13302;
+	Mon,  9 Nov 2026 10:09:48 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id juAiO+ub8WpZVQAAD6G6ig
+	(envelope-from <mwilck@suse.com>); Mon, 09 Nov 2026 10:09:48 +0000
+Message-ID: <f2b862d6106122031d3ad93ea3bd1a7964508de7.camel@suse.com>
+Subject: Re: [PATCH] nvme-cli: nvmf-autoconnect: Consolidate vendor-specific
+ NVMe-oF udev rules into a single file
+From: Martin Wilck <mwilck@suse.com>
+To: Xose Vazquez Perez <xose.vazquez@gmail.com>
+Cc: John Garry <john.garry@linux.dev>, Nilay Shroff <nilay@linux.ibm.com>, 
+ Guixin Liu <kanie@linux.alibaba.com>, Wayne Berthiaume
+ <Wayne.Berthiaume@dell.com>, Vasuki Manikarnike	
+ <vasuki.manikarnike@hpe.com>, Matthias Rudolph	
+ <Matthias.Rudolph@hitachivantara.com>, Martin George <marting@netapp.com>, 
+ NetApp RDAC team <ng-eseries-upstream-maintainers@netapp.com>, Zou Ming
+ <zouming.zouming@huawei.com>, Li Xiaokeng	 <lixiaokeng@huawei.com>, Randy
+ Jennings <randyj@purestorage.com>, Jyoti Rani	 <jrani@purestorage.com>,
+ Brian Bunker <brian@purestorage.com>, Uday Shankar	
+ <ushankar@purestorage.com>, Chaitanya Kulkarni <kch@nvidia.com>, Sagi
+ Grimberg	 <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>, Christoph
+ Hellwig	 <hch@lst.de>, Marco Patalano <mpatalan@redhat.com>, "Ewan D.
+ Milne"	 <emilne@redhat.com>, John Meneghini <jmeneghi@redhat.com>, Daniel
+ Wagner	 <dwagner@suse.de>, Daniel Wagner <wagi@monom.org>, Hannes Reinecke
+ <hare@suse.de>,  Benjamin Marzinski	 <bmarzins@redhat.com>, Christophe
+ Varoqui <christophe.varoqui@opensvc.com>,  BLOCK-ML
+ <linux-block@vger.kernel.org>, NVME-ML <linux-nvme@lists.infradead.org>,
+ SCSI-ML	 <linux-scsi@vger.kernel.org>, DM_DEVEL-ML
+ <dm-devel@lists.linux.dev>
+Date: Mon, 09 Nov 2026 11:09:47 +0100
+In-Reply-To: <20261109000834.513230-1-xose.vazquez@gmail.com>
+References: <20261109000834.513230-1-xose.vazquez@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.62.1 
 X-Archived-By: <archiver.kernel.org>
-Mime-Version: 1.0
-From: <shao.mingyin@zte.com.cn>
-To: <kbusch@kernel.org>, <axboe@kernel.dk>, <hch@lst.de>, <sagi@grimberg.me>,
-        <linux-nvme@lists.infradead.org>
-Cc: <hare@suse.de>, <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
-Subject: =?UTF-8?B?W1BBVENIIDEvMl0gbnZtZS1hdXRoOiB1c2UgdGhlIHBhcnNlZCBvZmZzZXQgZm9yIHRoZSBESC1DSEFQIGtleQ==?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL: mse-fl1.zte.com.cn 6A9ExGLY093656
-X-TLS: YES
-X-ENVELOPE-SENDER: shao.mingyin@zte.com.cn
-X-SOURCE-IP: 10.5.228.132 unknown Mon, 09 Nov 2026 22:59:17 +0800
-X-CLEAN: YES
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6AF1DFC4.000/4jNXxJ6l7Vz4xNtl
-X-Bad-Reply: References and In-Reply-To but no 'Re:' in Subject.
+MIME-Version: 1.0
+X-Spamd-Result: default: False [-12.01 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_ALL(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.com:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[31];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RL8gn1pxsi5paq6ucqz1qzjyqe)];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -12.01
+X-Spam-Level: 
+X-Rspamd-Queue-Id: E3C561F74A
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261109_065940_343507_93453AF8 
-X-CRM114-Status: GOOD (  10.57  )
-X-Spam-Score: -4.4 (----)
+X-CRM114-CacheID: sfid-20261109_020952_157142_05F29313 
+X-CRM114-Status: GOOD (  19.78  )
+X-Spam-Score: -2.1 (--)
 X-Mailman-Approved-At: Mon, 09 Nov 2026 09:04:24 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -93,76 +149,231 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY
-	autolearn=ham autolearn_force=no version=4.0.1
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-From: Shao Mingyin <shao.mingyin@zte.com.cn>
+On Mon, 2026-11-09 at 01:08 +0100, Xose Vazquez Perez wrote:
+> Replace individual vendor udev rules (HPE, NetApp, and VAST Data)
+> with
+> a unified 80-nvmf-storage_arrays.rules file, leaving the rules
+> untouched.
+>=20
+> This shifts execution to the 80 range for a logical sequence after
+> base
+> discovery and autoconnect, while simplifying maintenance and
+> packaging.
+>=20
+> Cc: John Garry <john.garry@linux.dev>
+> Cc: Nilay Shroff <nilay@linux.ibm.com>
+> Cc: Guixin Liu <kanie@linux.alibaba.com>
+> Cc: Wayne Berthiaume <Wayne.Berthiaume@dell.com>
+> Cc: Vasuki Manikarnike <vasuki.manikarnike@hpe.com>
+> Cc: Matthias Rudolph <Matthias.Rudolph@hitachivantara.com>
+> Cc: Martin George <marting@netapp.com>
+> Cc: NetApp RDAC team <ng-eseries-upstream-maintainers@netapp.com>
+> Cc: Zou Ming <zouming.zouming@huawei.com>
+> Cc: Li Xiaokeng <lixiaokeng@huawei.com>
+> Cc: Randy Jennings <randyj@purestorage.com>
+> Cc: Jyoti Rani <jrani@purestorage.com>
+> Cc: Brian Bunker <brian@purestorage.com>
+> Cc: Uday Shankar <ushankar@purestorage.com>
+> Cc: Chaitanya Kulkarni <kch@nvidia.com>
+> Cc: Sagi Grimberg <sagi@grimberg.me>
+> Cc: Keith Busch <kbusch@kernel.org>
+> Cc: Christoph Hellwig <hch@lst.de>
+> Cc: Marco Patalano <mpatalan@redhat.com>
+> Cc: Ewan D. Milne <emilne@redhat.com>
+> Cc: John Meneghini <jmeneghi@redhat.com>
+> Cc: Daniel Wagner <dwagner@suse.de>
+> Cc: Daniel Wagner <wagi@monom.org>
+> Cc: Hannes Reinecke <hare@suse.de>
+> Cc: Martin Wilck <mwilck@suse.com>
+> Cc: Benjamin Marzinski <bmarzins@redhat.com>
+> Cc: Christophe Varoqui <christophe.varoqui@opensvc.com>
+> Cc: BLOCK-ML <linux-block@vger.kernel.org>
+> Cc: NVME-ML <linux-nvme@lists.infradead.org>
+> Cc: SCSI-ML <linux-scsi@vger.kernel.org>
+> Cc: DM_DEVEL-ML <dm-devel@lists.linux.dev>
+> Signed-off-by: Xose Vazquez Perez <xose.vazquez@gmail.com>
 
-nvme_auth_parse_key() accepts the DH-HMAC-CHAP key with
+Generally a good idea, but I think nvme-cli has a GitHub based
+development workflow these days.
 
-	if (sscanf(secret, "DHHC-1:%hhd:%*s:", &key_hash) != 1)
-		return -EINVAL;
+> ---
+> BTW, there are two new I/O policies in development:
+> https://lore.kernel.org/linux-nvme/20260815173502.1185929-1-nilay@linux.i=
+bm.com/
+> https://lore.kernel.org/linux-nvme/20261026111019.3724465-1-kanie@linux.a=
+libaba.com/
+> ---
+> =C2=A0meson.build=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ |=C2=A0 4 +---
+> =C2=A0nvme.spec.in=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
+=A0 4 +---
+> =C2=A0.../udev-rules/71-nvmf-hpe.rules.in=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 5 ----
+> =C2=A0.../udev-rules/71-nvmf-netapp.rules.in=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0 6 -----
+> =C2=A0.../udev-rules/71-nvmf-vastdata.rules.in=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0 5 ----
+> =C2=A0.../80-nvmf-storage_arrays.rules.in=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 23
+> +++++++++++++++++++
+> =C2=A06 files changed, 25 insertions(+), 22 deletions(-)
+> =C2=A0delete mode 100644 nvmf-autoconnect/udev-rules/71-nvmf-hpe.rules.in
+> =C2=A0delete mode 100644 nvmf-autoconnect/udev-rules/71-nvmf-
+> netapp.rules.in
+> =C2=A0delete mode 100644 nvmf-autoconnect/udev-rules/71-nvmf-
+> vastdata.rules.in
+> =C2=A0create mode 100644 nvmf-autoconnect/udev-rules/80-nvmf-
+> storage_arrays.rules.in
+>=20
+> diff --git a/meson.build b/meson.build
+> index 90356ad94..00e9ad1be 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -894,9 +894,7 @@ if want_nvme
+> =C2=A0=C2=A0=C2=A0=C2=A0 udev_files =3D {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 '65-persistent-net-nbft.=
+rules': 'nvmf',
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 '70-nvmf-keys.rules':=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'nvmf-autoconnect=
+',
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 '71-nvmf-hpe.rules':=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'nvmf',
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 '71-nvmf-netapp.rules':=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'nvmf',
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 '71-nvmf-vastdata.rules':=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'nvmf',
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 '80-nvmf-storage_arrays.rules=
+': 'nvmf',
+> =C2=A0=C2=A0=C2=A0=C2=A0 }
+> =C2=A0=C2=A0=C2=A0=C2=A0 if want_nvmf_autoconnect
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 udev_files +=3D {'70-nvm=
+f-autoconnect.rules': 'nvmf-
+> autoconnect'}
+> diff --git a/nvme.spec.in b/nvme.spec.in
+> index 23d3d3268..a37c1a08d 100644
+> --- a/nvme.spec.in
+> +++ b/nvme.spec.in
+> @@ -36,9 +36,7 @@ touch %{buildroot}@SYSCONFDIR@/nvme/hostid
+> =C2=A0@UDEVRULESDIR@/65-persistent-net-nbft.rules
+> =C2=A0@UDEVRULESDIR@/70-nvmf-autoconnect.rules
+> =C2=A0@UDEVRULESDIR@/70-nvmf-keys.rules
+> -@UDEVRULESDIR@/71-nvmf-hpe.rules
+> -@UDEVRULESDIR@/71-nvmf-netapp.rules
+> -@UDEVRULESDIR@/71-nvmf-vastdata.rules
+> +@UDEVRULESDIR@/80-nvmf-storage_arrays.rules
+> =C2=A0@DRACUTRULESDIR@/70-nvmf-autoconnect.conf
+> =C2=A0@SYSTEMDDIR@/nvmf-connect@.service
+> =C2=A0@SYSTEMDDIR@/nvmefc-boot-connections.service
+> diff --git a/nvmf-autoconnect/udev-rules/71-nvmf-hpe.rules.in b/nvmf-
+> autoconnect/udev-rules/71-nvmf-hpe.rules.in
+> deleted file mode 100644
+> index b050dd502..000000000
+> --- a/nvmf-autoconnect/udev-rules/71-nvmf-hpe.rules.in
+> +++ /dev/null
+> @@ -1,5 +0,0 @@
+> -# Set appropriate iopolicy for HPE Alletra Storage MP
+> -ACTION=3D=3D"add", SUBSYSTEM=3D=3D"nvme-subsystem", ATTR{subsystype}=3D=
+=3D"nvm",
+> ATTR{model}=3D=3D"HPE Alletra", ATTR{iopolicy}=3D"round-robin"
+> -
+> -# Set ctrl_loss_tmo to -1 for HPE Alletra Storage MP NVMe/TCP
+> -ACTION!=3D"remove", SUBSYSTEM=3D=3D"nvme", KERNEL=3D=3D"nvme*",
+> ATTR{transport}=3D=3D"tcp", ATTR{model}=3D=3D"HPE Alletra",
+> ATTR{ctrl_loss_tmo}=3D"-1"
+> diff --git a/nvmf-autoconnect/udev-rules/71-nvmf-netapp.rules.in
+> b/nvmf-autoconnect/udev-rules/71-nvmf-netapp.rules.in
+> deleted file mode 100644
+> index c76a3c434..000000000
+> --- a/nvmf-autoconnect/udev-rules/71-nvmf-netapp.rules.in
+> +++ /dev/null
+> @@ -1,6 +0,0 @@
+> -# Set appropriate iopolicy for NetApp ONTAP and NetApp E-Series
+> -ACTION=3D=3D"add", SUBSYSTEM=3D=3D"nvme-subsystem", ATTR{subsystype}=3D=
+=3D"nvm",
+> ATTR{model}=3D=3D"NetApp ONTAP Controller", ATTR{iopolicy}=3D"queue-depth=
+"
+> -ACTION=3D=3D"add", SUBSYSTEM=3D=3D"nvme-subsystem", ATTR{subsystype}=3D=
+=3D"nvm",
+> ATTR{model}=3D=3D"NetApp E-Series", ATTR{iopolicy}=3D"round-robin"
+> -
+> -# Set ctrl_loss_tmo to -1 for NetApp ONTAP NVMe/TCP
+> -ACTION!=3D"remove", SUBSYSTEM=3D=3D"nvme", KERNEL=3D=3D"nvme*",
+> ATTR{transport}=3D=3D"tcp", ATTR{model}=3D=3D"NetApp ONTAP Controller",
+> ATTR{ctrl_loss_tmo}=3D"-1"
+> diff --git a/nvmf-autoconnect/udev-rules/71-nvmf-vastdata.rules.in
+> b/nvmf-autoconnect/udev-rules/71-nvmf-vastdata.rules.in
+> deleted file mode 100644
+> index dcd6146d8..000000000
+> --- a/nvmf-autoconnect/udev-rules/71-nvmf-vastdata.rules.in
+> +++ /dev/null
+> @@ -1,5 +0,0 @@
+> -# Enable round-robin for Vast Data Block Subsystem
+> -ACTION=3D=3D"add", SUBSYSTEM=3D=3D"nvme-subsystem", ATTR{subsystype}=3D=
+=3D"nvm",
+> ATTR{model}=3D=3D"VASTData", ATTR{iopolicy}=3D"round-robin"
+> -
+> -# Set ctrl_loss_tmo to -1 for Vast Data Block Controller
+> -ACTION!=3D"remove", SUBSYSTEM=3D=3D"nvme", KERNEL=3D=3D"nvme*",
+> ATTR{model}=3D=3D"VASTData", ATTR{ctrl_loss_tmo}=3D"-1"
+> diff --git a/nvmf-autoconnect/udev-rules/80-nvmf-
+> storage_arrays.rules.in b/nvmf-autoconnect/udev-rules/80-nvmf-
+> storage_arrays.rules.in
+> new file mode 100644
+> index 000000000..1cd6c0c0b
+> --- /dev/null
+> +++ b/nvmf-autoconnect/udev-rules/80-nvmf-storage_arrays.rules.in
+> @@ -0,0 +1,23 @@
+> +##### Storage arrays
+> +
+> +#### Set iopolicy for NVMe-oF
+> +### iopolicy: numa (default), round-robin (>=3D5.1), or queue-depth
+> (>=3D6.11)
+> +
+> +## HPE
+> +# Alletra 9000 / Alletra Storage MP / GreenLake Block Storage MP
+> +ACTION=3D=3D"add", SUBSYSTEM=3D=3D"nvme-subsystem", ATTR{subsystype}=3D=
+=3D"nvm",
+> ATTR{model}=3D=3D"HPE Alletra", ATTR{iopolicy}=3D"round-robin"
+> +ACTION!=3D"remove", SUBSYSTEM=3D=3D"nvme", KERNEL=3D=3D"nvme*",
+> ATTR{transport}=3D=3D"tcp", ATTR{model}=3D=3D"HPE Alletra",
+> ATTR{ctrl_loss_tmo}=3D"-1"
 
-and then skips a hardcoded ten characters:
+I'm not a fan of repeated lengthy match expressions in udev rules.
+Can we improve the readability by using GOTOs and LABELS?
 
-	key = nvme_auth_extract_key(secret + 10, key_hash);
+SUBSYSTEM!=3D"nvme*", GOTO=3D"nvmf_end"
 
-The ten characters assume that the hash identifier is exactly two
-characters long.  A string such as "DHHC-1:1:" still makes sscanf()
-return 1, and secret + 10 then points one byte past the NUL terminator
-of the buffer.  nvme_auth_extract_key() starts with
-strlen(secret), so it reads past the end of the allocation.  The sysfs
-dhchap_secret and dhchap_ctrl_secret stores only require seven
-characters and a "DHHC-1:" prefix, so a short value reaches this code
-(even though the nvme-fabrics option parser rejects secrets shorter than
-eleven characters).
+ATTR{model}=3D=3D"HPE Alletra", GOTO=3D"Alletra"
+ATTR{model}=3D=3D"NetApp ONTAP Controller", GOTO=3D"Ontap"
+...
+GOTO=3D"nvmf_end"
 
-Use the %n conversion to obtain the real offset after the
-"DHHC-1:<hash>:" prefix and reject a string where the prefix is not
-complete.  This accepts both one and two character hash identifiers and
-never starts the key past the terminator.
+LABEL=3D"Alletra"
+ACTION=3D=3D"add", SUBSYSTEM=3D=3D"nvme-subsystem", ATTR{subsystype}=3D=3D"=
+nvm", \
+    ATTR{iopolicy}=3D"queue-depth"
+ACTION!=3D"remove", SUBSYSTEM=3D=3D"nvme", KERNEL=3D=3D"nvme*", \
+    ATTR{transport}=3D=3D"tcp", ATTR{ctrl_loss_tmo}=3D"-1"
+GOTO=3D"nvmf_end"
 
-Fixes: f50fff73d620 ("nvme: implement In-Band authentication")
-Cc: stable@vger.kernel.org
-Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
----
-Tested on 7.3.0-next-20261030 (QEMU/TCG guest, KASAN) with a live loop
-controller and host DH-CHAP.
+LABEL=3D"Ontap"
+...
+LABEL=3D"nvmf_end"
 
-Writing the 9-byte secret "DHHC-1:1:" to the dhchap_secret sysfs
-attribute makes the driver start the key ten bytes in, one byte past
-the NUL terminator:
 
-  unpatched                            patched
-  KASAN slab-out-of-bounds in          write rejected (-EINVAL)
-  strlen/strrchr, nvme_auth_extract_key
-
-diff --git a/drivers/nvme/common/auth.c b/drivers/nvme/common/auth.c
-index e2e0c736540a..1fdc4e4ed0b9 100644
---- a/drivers/nvme/common/auth.c
-+++ b/drivers/nvme/common/auth.c
-@@ -489,17 +489,19 @@ int nvme_auth_parse_key(const char *secret, struct nvme_dhchap_key **ret_key)
- {
- 	struct nvme_dhchap_key *key;
- 	u8 key_hash;
-+	int offset = 0;
- 
- 	if (!secret) {
- 		*ret_key = NULL;
- 		return 0;
- 	}
- 
--	if (sscanf(secret, "DHHC-1:%hhd:%*s:", &key_hash) != 1)
-+	if (sscanf(secret, "DHHC-1:%hhd:%n", &key_hash, &offset) != 1 ||
-+	    !offset)
- 		return -EINVAL;
- 
- 	/* Pass in the secret without the 'DHHC-1:XX:' prefix */
--	key = nvme_auth_extract_key(secret + 10, key_hash);
-+	key = nvme_auth_extract_key(secret + offset, key_hash);
- 	if (IS_ERR(key)) {
- 		*ret_key = NULL;
- 		return PTR_ERR(key);
+--=20
+Dr. Martin Wilck <mwilck@suse.com>
+SUSE Software Solutions Germany GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg,
+Germany
+Gesch=C3=A4ftsf=C3=BChrer: Stefan Gaiser, Jochen Jaser, Abhinav Puri (HRB
+36809,AG N=C3=BCrnberg)
 
