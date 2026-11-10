@@ -2,55 +2,55 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B969F606A32A
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2026 21:17:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86D3C606A32A
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2026 21:17:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=yn9FKyHS;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iQA/sxsh
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=QvDXORc3;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eVZL7Scw
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=5VuE4/weECRM9eIO6+lamMRzkXENJc2tSdRrjKtP/6E=; b=yn9FKyHSvR2BkZ
-	sA7nmjoJ0ZvOcWWqr7QOxYltB4qmiEUl+pm/33IybsRwT++85tXt9vJswi2kIOlQ0/8uLEc4hhS2k
-	jLo1IBayc06Gp9aqoBMzrcchQn5sZjXKAkWoxL0XMJNCesPldOI4MIiBDvbsLTl3pje7zYA1XY3SW
-	DNBvGXkNneuFGo6jnsYVhHk69/W4I/NhcGaq3HZfgLomHhkgkVDrtaTe/7S7N6E0EtuwWzk+RF+UY
-	b/ror0Ab4fviPFtg+Y6QR70CHpq48WvdGYBdRl84UJYufyKzXRyojreIPHJyPb6hPhaLBdrAGEuPl
-	2vCg/E3FXUQAll5Wu+nw==;
+	List-Owner; bh=Z88P87cKE40+y7S8EwzOM4sUxUBx7Kuk+TuaC3S2Cog=; b=QvDXORc3z4uUTf
+	Cw/csu11ZG+1EGBGXrVuBddfuwFedtAkVNbwSTvDTNskBKQNFPYJELKNbx2I4wufL4iladvJCV2Za
+	Bz2mxOtkyZD9vdjpcu4YDVM5oMtKPoKb3xNTUMlc5D5ZtTiORcfvuOjk8NYml9YtC0IgLI87Rq41t
+	IS38KUgxiFe8Ug6yS9+3JRGfsXxhbwtIizvWhwJHr+Zs9ABro4pvXi6Q0s+ngpaQWfCbJo1JEJlzh
+	tNVGyFCxZHSmanqrrbttYz3hq6jptNPqpU43WD8PP3XjHgq2D/NRlmF3rTuZL1Y5SKGlNgOgxakKX
+	6n9VIHUHxzTu7XWEo3ig==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRFhA-00000007jeP-2n8Q;
-	Wed, 11 Nov 2026 21:17:28 +0000
+	id 1xRFhB-00000007jfj-1Dx6;
+	Wed, 11 Nov 2026 21:17:29 +0000
 Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQi0T-00000003EfU-2XWv
+	id 1xQi0a-00000003Ega-2oGt
 	for linux-nvme@lists.infradead.org;
-	Tue, 10 Nov 2026 09:19:09 +0000
+	Tue, 10 Nov 2026 09:19:16 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 5D6824487E;
+	by sea.source.kernel.org (Postfix) with ESMTP id 6EFC343BE9;
+	Tue, 10 Nov 2026 09:19:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBD051F0089F;
 	Tue, 10 Nov 2026 09:19:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A77511F008A3;
-	Tue, 10 Nov 2026 09:19:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794302349;
-	bh=5VuE4/weECRM9eIO6+lamMRzkXENJc2tSdRrjKtP/6E=;
+	s=k20260515; t=1794302356;
+	bh=Z88P87cKE40+y7S8EwzOM4sUxUBx7Kuk+TuaC3S2Cog=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=iQA/sxshAM8lgjVZtwQBlBlt6Ccgq/KLZUd+ak37Q2oUOuNb3EKD2IEz5QKL7HSuJ
-	 PzfYZUUU9t4mHJQyXpGh/FegWtFPckXXEaWIZpe18Dzveuhdh412cFkoYX9U6GHhAs
-	 FA3mIwVRbXfRG/foFS7hgF8f2XdzXBVoA2mbPV/1dW+mNpe42vnBoqn1KQUo3a7IH3
-	 OShJM3zaQPTgLbpL8PYQYa3MhajH2yuDWbFWTSzcixuX/GpsV21irhlminf8YwjK3i
-	 FcMM/10RV269QdY1WwY6VGtRQ1P449Wk5bY3A8Uk5z3MdBjKp3IUMwp4dCZ2nOAdUX
-	 a+oxx0hQk158g==
+	b=eVZL7Scw//J74VQnr5wpC1JciKmgC6EEcXntO0XfGddwnot9XuJFBBT6CpLU6G9rb
+	 pmxdCGn4mvvkfwVsRZlP7GHScVpTi+QaURvV+yActyYRVPG88Gah/lsV8jbkCAyY+S
+	 +Wbub4HnrOoE/jWICNhiEOAummEBvZ6Ytq1+DBO2weH/kWZ6emmeL7oPq7bqrElzyw
+	 T34OxX5/F3YJKGJq2hordAvRmx1tt30kr0Tk/X6fKUzZ5ZjsO2KqEqa95dlYVhTH/W
+	 u4t7Q5TWviYJ+oRfrOFZbYMq/endQl8GL+Wksf5gE9+8Lg9Q1BSXHCDfuC3VxOHEjX
+	 5LUw0U2nwzPTw==
 From: Christian Brauner <brauner@kernel.org>
-Date: Tue, 10 Nov 2026 10:14:44 +0100
-Subject: [PATCH RFC 28/41] ocfs2: use fc_init_pseudo() for dlmfs
+Date: Tue, 10 Nov 2026 10:14:45 +0100
+Subject: [PATCH RFC 29/41] s390/hypfs: use fc_init_pseudo()
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261110-work-loop-pseudo-v1-28-4c998976c6c7@kernel.org>
+Message-Id: <20261110-work-loop-pseudo-v1-29-4c998976c6c7@kernel.org>
 References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
 In-Reply-To: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -71,12 +71,12 @@ Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>,
  linux-kselftest@vger.kernel.org, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=909; i=brauner@kernel.org;
- h=from:subject:message-id; bh=IdNufAsq5EGNNcdE9WV9rVN1DCJjWbb8v/riZT7kRA0=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWR9erDl3LqF3BIxnOW7s6R69N3au4r1m0WSo7rUW0tPb
- d3ziC+no5SFQYyLQVZMkcWh3SRcbjlPxWajTA2YOaxMIEMYuDgFYCJLTjEydK1aEV6R03Dp6Qur
- 9ReajrtK9AT09OsHms5fHf0wofDSUkaGzj38rmzbCz87b5+14Zu8c8plz01rglO+aJ1tSLofN8u
- eDQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=898; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=1S99ZrioUXIgplFU18XMVOtztLcFYkfXUp54ImS7dA4=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWR9erB1aso75cURLWW8m6Qi7yX+5bFJVs2W2Pc9LaHyv
+ O3VuG92HaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABM56MTwP/Mio/yXk76it2Ws
+ +AxuKPBlcunvPh2Rxnh/ibrkrsKXUxn+O3Eax94y/xZ692yIXegBi1cc+4q8ZGTv+bULt9kbHvn
+ JDAA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 X-Mailman-Approved-At: Wed, 11 Nov 2026 13:17:02 -0800
@@ -98,35 +98,35 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Initialize dlmfs as a pseudo filesystem. This raises SB_I_PSEUDO and
-also SB_I_NOEXEC and SB_I_NODEV. dlmfs never holds executables or
+Initialize hypfs as a pseudo filesystem. This raises SB_I_PSEUDO and
+also SB_I_NOEXEC and SB_I_NODEV. hypfs never holds executables or
 device nodes.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/ocfs2/dlmfs/dlmfs.c | 2 ++
+ arch/s390/hypfs/inode.c | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/fs/ocfs2/dlmfs/dlmfs.c b/fs/ocfs2/dlmfs/dlmfs.c
-index d3bfcada3e3b..1789ec96dc13 100644
---- a/fs/ocfs2/dlmfs/dlmfs.c
-+++ b/fs/ocfs2/dlmfs/dlmfs.c
-@@ -21,6 +21,7 @@
- #include <linux/module.h>
+diff --git a/arch/s390/hypfs/inode.c b/arch/s390/hypfs/inode.c
+index 559b011e6880..8662169de477 100644
+--- a/arch/s390/hypfs/inode.c
++++ b/arch/s390/hypfs/inode.c
+@@ -12,6 +12,7 @@
+ #include <linux/errno.h>
  #include <linux/fs.h>
  #include <linux/fs_context.h>
 +#include <linux/pseudo_fs.h>
- #include <linux/pagemap.h>
- #include <linux/types.h>
- #include <linux/slab.h>
-@@ -563,6 +564,7 @@ static const struct fs_context_operations dlmfs_context_ops = {
+ #include <linux/fs_parser.h>
+ #include <linux/namei.h>
+ #include <linux/vfs.h>
+@@ -301,6 +302,7 @@ static int hypfs_init_fs_context(struct fs_context *fc)
+ 	sbi->gid = current_gid();
  
- static int dlmfs_init_fs_context(struct fs_context *fc)
- {
+ 	fc->s_fs_info = sbi;
 +	fc_init_pseudo(fc);
- 	fc->ops = &dlmfs_context_ops;
- 
+ 	fc->ops = &hypfs_context_ops;
  	return 0;
+ }
 
 -- 
 2.53.0
