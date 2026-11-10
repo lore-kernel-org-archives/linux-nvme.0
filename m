@@ -2,55 +2,55 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D68E606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC208606A31C
 	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2026 21:17:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=FuhSnrm0;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kTLpHzIi
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=O4oHCHqb;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=n/nPEmY/
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=gl42dR2sxHaP3ITJS3b/B04ib5WpCUL9VRtP4KLsRoM=; b=FuhSnrm0EK1TSG
-	uGiZ1tOTdX6xYYinNdMyFwdSz1737dw3r0/Mp7pK37fpCFcPZ10lyVvFnLUGvirx27Ae7cuRhdw7s
-	JA5iP2OlHMT8sPojtH/3mHBJpdAXjgFJ73KC94VKIB75tp8tTFjtgP9m2yyRZ5edAdSSr7/S6Cbk3
-	Q9VUru3UgwpUn1pB4IgBGGBIEK9oLnLqiOmSpNYr+hxfx7T2hLx70RPF2XoxpHil7N0yL6qetVVyY
-	jrApBld5VOkEYPpaEa10tipI3FzDipYE8+Qbq/WueaeTrZdvZ8m230bG0LmCt+XR9G5O0BXCkmRYC
-	Rd1VI/r9TOnrNtq6IMrQ==;
+	List-Owner; bh=6xLCAE1ljQwjM/z7WMvrquNwq7v8NRQjtdpUDUMIMgw=; b=O4oHCHqbUNPgvy
+	xilkeBe3FimhVVwhUZN0s/X2e3ixfZGLCLfYrAwzHovtjWjuJXCHtfQQEu6FUfx+lDIlVUloap8o5
+	EUoIVbOst6o2kOimJNE0lY5swqGOAVVEulZzy6L95wHbPuuASlPCNCKPjrovYRd9XjFxaw+Ac8bxz
+	TuoN/8sg0kk28GpJarU4lFjEiBIyyzzYl7iiZxXmrvRemBvM7tjajtdTj3ZI6vYx7aBR96hdqqr8w
+	+qj6ckwWU6ZmG7BCpEYj7HjLob+L6khMc/b7TchI8GFINYW457O3lkIH9bXUwBqqn/oFSeJk1wI/V
+	GJg5Gd2oGYB8U2ga9G0w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRFh7-00000007jVJ-1rAL;
+	id 1xRFh7-00000007jWW-3TZS;
 	Wed, 11 Nov 2026 21:17:25 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQi09-00000003Eaz-1mz5
+	id 1xQhzh-00000003EUj-21BR
 	for linux-nvme@lists.infradead.org;
-	Tue, 10 Nov 2026 09:18:49 +0000
+	Tue, 10 Nov 2026 09:18:21 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id DAF6063808;
-	Tue, 10 Nov 2026 09:18:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44CC51F008A1;
-	Tue, 10 Nov 2026 09:18:42 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 3F65C42BA9;
+	Tue, 10 Nov 2026 09:18:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99DB51F008A2;
+	Tue, 10 Nov 2026 09:18:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794302328;
-	bh=gl42dR2sxHaP3ITJS3b/B04ib5WpCUL9VRtP4KLsRoM=;
+	s=k20260515; t=1794302301;
+	bh=6xLCAE1ljQwjM/z7WMvrquNwq7v8NRQjtdpUDUMIMgw=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=kTLpHzIiEoHD/GMs6J5o0BY79JvOwuUY76u4r4LtuPpprEn+sEXP1gtvybcHlSLtT
-	 CmJYU8iAHI/ofaZXWihJ5XxShjsnWfKREnaREBGEhVpJuVA8UxIujLE4opfHxMa4l2
-	 4bvvQUPUjvQ2EsFdGM14Zv2VXWcqMXokoHGLWd7/ZTwsxC4J9iKJbm5nnnjuBRICkU
-	 3Q/oQzewdcDhdx+fyfkGitRE0raCCijhxDU/xYg/eIt2ZjWUYaKm5ljV/gc4aZMDUG
-	 Xo7ddzkxLrqw+Yw44oZ3PVfS7jJUGpuyM3cYrfutFlXsGLkg0INiBaZLGiYPLlJfeW
-	 ZQQCq/yJeXwMA==
+	b=n/nPEmY/gv4mqB2kXaUIe0isVNNuSFYe4ifWdFJtsRhYXSoI1dEqHjcK8jXDbyzkv
+	 ertikRvZXtvN4JZinzjTGl2V2W3t61CK19ISiQm4xZZKjvx6Ilozk7a062A5tyZVek
+	 8ONpx6cO+b1cP6f1iIgOK2yxVMDe8jOAVqYq0can3XlRZqUYI7Gp3FGNtEvO8RVw/T
+	 f+noE3Lf2FKsSSXSy3unTl1hqIHTI1UMmGoV2c8K2q9ES1gzqhEiirejgIGUZm9nYu
+	 NqYxgSkqeO0i1tDzYYX2q1T4FJPsyVEQu1wNublFH2+PjjrVHGb4S/n5iQ5M/xLuTU
+	 IGfiSO/ynwQJA==
 From: Christian Brauner <brauner@kernel.org>
-Date: Tue, 10 Nov 2026 10:14:41 +0100
-Subject: [PATCH RFC 25/41] pstore: use fc_init_pseudo()
+Date: Tue, 10 Nov 2026 10:14:37 +0100
+Subject: [PATCH RFC 21/41] nfsd: use fc_init_pseudo()
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261110-work-loop-pseudo-v1-25-4c998976c6c7@kernel.org>
+Message-Id: <20261110-work-loop-pseudo-v1-21-4c998976c6c7@kernel.org>
 References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
 In-Reply-To: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -71,12 +71,12 @@ Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>,
  linux-kselftest@vger.kernel.org, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=882; i=brauner@kernel.org;
- h=from:subject:message-id; bh=JyexvfbQ5pzTQXeLd6YfvhDNydDQY3kHD9zcB9wbg2k=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWR9erAx2J15TcWtFdu9W+eIHjgye9faLyYyW74GeK1Uu
- /LQcab9to5SFgYxLgZZMUUWh3aTcLnlPBWbjTI1YOawMoEMYeDiFICJ9Nxl+M0aJKtZkDT715G8
- vUqnmxUTdvZHiW417mNNuXFzkjPT9FuMDEfPTDuhOseiqbXY1vy/93S+RZWzPGUXneAoPhv++bH
- pOWYA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=896; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=O9QykJ0fSa/ei9QzD3DZ9rjO12HqESJ46S14fhxCm3g=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWR9erBm2RVdl2pllcvx587P2/2Nj+HEnjubhYUvT5nG7
+ rQvYfmalR2lLAxiXAyyYoosDu0m4XLLeSo2G2VqwMxhZQIZwsDFKQATSZVjZOiTVZZ9M+fcLevt
+ JuW1WT9C9YytitQ/n2YJq0v/vW9H2Q5Ghh08Evn7XH9MsUgMSb9yk5f97OVSvTP7v7PqSMtvTvm
+ Tyg4A
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 X-Mailman-Approved-At: Wed, 11 Nov 2026 13:17:02 -0800
@@ -98,35 +98,35 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Initialize pstore as a pseudo filesystem. This raises SB_I_PSEUDO and
-also SB_I_NOEXEC and SB_I_NODEV. pstore never holds executables or
-device nodes.
+Initialize the nfsd filesystem as a pseudo filesystem. This raises
+SB_I_PSEUDO and also SB_I_NOEXEC and SB_I_NODEV. It never holds
+executables or device nodes.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/pstore/inode.c | 2 ++
+ fs/nfsd/nfsctl.c | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/fs/pstore/inode.c b/fs/pstore/inode.c
-index cf499ba72702..4658561cf90b 100644
---- a/fs/pstore/inode.c
-+++ b/fs/pstore/inode.c
-@@ -18,6 +18,7 @@
- #include <linux/ramfs.h>
- #include <linux/fs_parser.h>
+diff --git a/fs/nfsd/nfsctl.c b/fs/nfsd/nfsctl.c
+index f32311f2d7cf..ce2666deddbd 100644
+--- a/fs/nfsd/nfsctl.c
++++ b/fs/nfsd/nfsctl.c
+@@ -9,6 +9,7 @@
+ #include <linux/namei.h>
+ #include <linux/ctype.h>
  #include <linux/fs_context.h>
 +#include <linux/pseudo_fs.h>
- #include <linux/sched.h>
- #include <linux/magic.h>
- #include <linux/pstore.h>
-@@ -491,6 +492,7 @@ static int pstore_init_fs_context(struct fs_context *fc)
- 	ctx->kmsg_bytes = kmsg_bytes;
  
- 	fc->fs_private = ctx;
+ #include <linux/sunrpc/cache.h>
+ #include <linux/sunrpc/svcsock.h>
+@@ -1375,6 +1376,7 @@ static int nfsd_init_fs_context(struct fs_context *fc)
+ {
+ 	put_user_ns(fc->user_ns);
+ 	fc->user_ns = get_user_ns(fc->net_ns->user_ns);
 +	fc_init_pseudo(fc);
- 	fc->ops = &pstore_context_ops;
- 
+ 	fc->ops = &nfsd_fs_context_ops;
  	return 0;
+ }
 
 -- 
 2.53.0
