@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 629A3606A8B4
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2026 21:18:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 682F0606A8B3
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2026 21:18:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=H1HryDbJ;
-	dkim=pass (2048-bit key) header.d=zte.com.cn header.i=@zte.com.cn header.a=rsa-sha256 header.s=z202610 header.b=5NTgfbxf
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=QWaEU+Ob;
+	dkim=pass (2048-bit key) header.d=zte.com.cn header.i=@zte.com.cn header.a=rsa-sha256 header.s=z202610 header.b=WPY4PaN9
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Subject:Cc:To:
@@ -14,50 +14,50 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=QJvVyV94Cv8OIUbiM+u2kGZe6Vw+3fdgWvqCgG/0qUs=; b=H1HryDbJgnaNYFGrDribhFtsNu
-	QV1qs01AWSUCTH0rkxQqiKpOxJcib42KdO6YtCzAc2Yc88aOUdXsIvR7Bhow0I1oVmw/lnZ9IDsIK
-	oc1W9esI/9chOBZkz7m91/9gP9dDe5CqcWFw3J1iEnWaf5crDtAkb3pc7eOLflvWXkkbFFNyy1d+C
-	BaPkK2/MkYKYZXCJjE7eWZyxrg+/hOrdVFDjVUWd/pt0OYfpBBVpluKylflbu7ClnMkdBnmPpu4/u
-	JSuhCA7tJc7KogaVefw4aZV/ZB3ZGoaofTuJJEXqNMYHGM8xWELHX/pzpmE9FvqrAXRkW2DHYwgpH
-	KetNp3xQ==;
+	bh=e4ojIjypxpGFfHLcr9bc7NYtjzNqTM2+V21XA6rWCBM=; b=QWaEU+ObjN06Q6EHU2/KRdH+oR
+	TLW2XmdN7QKhLDkReuI6fud4CPV3tp5J6Z/c2V5sIOH5zkP97j334DzdRtbZgJlBuiNqgiznNdZXm
+	BeDReMaKedrA3w32DcYQr8SkpG2H9gi5ib95zpk9jBAZyAK28MSboLiKYTyyf3rLWO4QrZLNqXGWk
+	F70zwu05jddECTFgLW3Scw/UczSAreFeqKV3P3jkrqBjP1XpZOVs4MFwea5/gWC8gvPyNidfIHKhZ
+	z1cioalRoWsQ6772eGt+nX43EWcw+upr8aA4TmFReCcH1XMV6WILXQdiUosbUna4PzYSsze/JXiNk
+	Aw//QRDA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRFhy-00000007lcA-2wRy;
-	Wed, 11 Nov 2026 21:18:18 +0000
+	id 1xRFhz-00000007leb-2uGU;
+	Wed, 11 Nov 2026 21:18:19 +0000
 Received: from mxct.zte.com.cn ([183.62.165.209])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQnNZ-00000004J7I-1CWf
+	id 1xQnNZ-00000004J7c-3mTK
 	for linux-nvme@lists.infradead.org;
-	Tue, 10 Nov 2026 15:03:22 +0000
-Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+	Tue, 10 Nov 2026 15:03:23 +0000
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mxct.zte.com.cn (FangMail) with ESMTPS id 4jP8zL1r0cz4x6DD;
+	by mxct.zte.com.cn (FangMail) with ESMTPS id 4jP8zL2Bkwz4xNty;
 	Tue, 10 Nov 2026 23:03:10 +0800 (CST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=zte.com.cn;
 	s=z202610; t=1794322990;
-	bh=piI42uDP8SRa2CG5qbL2WUZAnmWJlreP3bqJtI3YcSs=;
+	bh=esywIpnBzUeJpgm9FcNnCUHVepzzgXDRhZGqSs8qLD0=;
 	h=In-Reply-To:References:Date:From:To:Cc:Subject;
-	b=5NTgfbxftbLMd9Aj53xQAjJ85GU74Li0as3fTbM29q1iJ9I+AFTEj9l/i/KKeQOwx
-	 VEmOXJ/UEICfPxsjVH+mBdsnmVnRbUc13sEda5XUth8PHMB5sAGEajLj498LXE49Ei
-	 bzNlOlBzANYqj6y1D5v6zcSoZOaX/UKaWquHkIv7w41KAzF/IASiY632c3j+4x+70a
-	 udBoBIxXoQHRRO7LrPJWKo7mAyJSQ9FtVLaCpV5bohXFIh58iQ4LONodVtO2OScGYe
-	 vXJg5XmY7YJmOQxF3N1YfK+WAHEWRLQTzKzInURk+D2J0g/Id8xlZw8Rnh4uVZeJo2
-	 EgyNMSP55S1IQ==
-Received: from xaxapp05.zte.com.cn ([10.99.98.109])
-	by mse-fl2.zte.com.cn with SMTP id 6AAF396F030665;
-	Tue, 10 Nov 2026 23:03:09 +0800 (+08)
+	b=WPY4PaN9suiNoURjzOXv7BZPw1xatWi5LQHXqd7pTMmANdwLx/fOpI7SNXLALo3jx
+	 J/xDNuzuaV4tJAcOPNSymEG7J4JVlYfgiv0GuK5jcxRVyPghrFJWSlhjKpQIRNk1SZ
+	 X0HEu92QoTl9Cw/jCtZ9L+l6kocI86fnXIkkKnluh05iuX26/G2Ccs3AxoIsehfdJv
+	 XxPd4uSbDzlhnQGsEeqfhtT3nM9lKf2uTkrt4D2fikCkUQFKr6LQ7130Kr1jNxlIwe
+	 b8F7a4zJA2mw4g16TRZvBqWyzXN4PhVuT4yN5yyE3yRmbOoqS1E3qkdvcyaPSPXkPq
+	 7rTnDumAkgyvw==
+Received: from xaxapp02.zte.com.cn ([10.88.97.241])
+	by mse-fl1.zte.com.cn with SMTP id 6AAF38pd011120;
+	Tue, 10 Nov 2026 23:03:08 +0800 (+08)
 	(envelope-from shao.mingyin@zte.com.cn)
-Received: from mapi (xaxapp04[null])
+Received: from mapi (xaxapp05[null])
 	by mapi (Zmail) with MAPI id mid32;
-	Tue, 10 Nov 2026 23:03:10 +0800 (CST)
-X-Zmail-TransId: 2afb6af3322effc-0763b
+	Tue, 10 Nov 2026 23:03:12 +0800 (CST)
+X-Zmail-TransId: 2afc6af3323029a-018de
 X-Mailer: Zmail v1.0
-Message-ID: <20261110230310932grXKWow1mHtiisyby_D4-@zte.com.cn>
+Message-ID: <202611102303123637sawEnPImm3RHiCLaBc7X@zte.com.cn>
 In-Reply-To: <20261110230304050fijuDcYKyYPS3lffioSeA@zte.com.cn>
 References: 20261110230304050fijuDcYKyYPS3lffioSeA@zte.com.cn
-Date: Tue, 10 Nov 2026 23:03:10 +0800 (CST)
+Date: Tue, 10 Nov 2026 23:03:12 +0800 (CST)
 X-Archived-By: <archiver.kernel.org>
 Mime-Version: 1.0
 From: <shao.mingyin@zte.com.cn>
@@ -66,20 +66,21 @@ To: <kbusch@kernel.org>, <axboe@kernel.dk>, <hch@lst.de>, <sagi@grimberg.me>,
 Cc: <justin.tee@broadcom.com>, <nareshgottumukkala83@gmail.com>,
         <paul.ely@broadcom.com>, <kch@nvidia.com>,
         <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
-Subject: =?UTF-8?B?W1BBVENIIDIvNl0gbnZtZXQtdGNwOiBvbmx5IHdhaXQgZm9yIGluLWNhcHN1bGUgZGF0YSBmb3IgaW5saW5lIFNHTHM=?=
+Subject: =?UTF-8?B?W1BBVENIIDMvNl0gbnZtZS10Y3A6IHJlcXVpcmUgdGhlIFIyVCBvZmZzZXQgdG8gbWF0Y2ggdGhlIGRhdGEgc2VudA==?=
 Content-Type: text/plain;
 	charset="UTF-8"
-X-MAIL: mse-fl2.zte.com.cn 6AAF396F030665
+X-MAIL: mse-fl1.zte.com.cn 6AAF38pd011120
 X-TLS: YES
 X-ENVELOPE-SENDER: shao.mingyin@zte.com.cn
-X-SOURCE-IP: 10.5.228.133 unknown Tue, 10 Nov 2026 23:03:10 +0800
+X-SOURCE-IP: 10.5.228.132 unknown Tue, 10 Nov 2026 23:03:10 +0800
 X-CLEAN: YES
 X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6AF3322E.000/4jP8zL1r0cz4x6DD
+X-Fangmail-MID-QID: 6AF3322E.001/4jP8zL2Bkwz4xNty
 X-Bad-Reply: References and In-Reply-To but no 'Re:' in Subject.
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261110_070321_837008_5FFE7FF3 
-X-CRM114-Status: GOOD (  15.78  )
+X-CRM114-CacheID: sfid-20261110_070322_111095_823B54CD 
+X-CRM114-Status: UNSURE (   9.48  )
+X-CRM114-Notice: Please train this message.
 X-Spam-Score: -4.4 (----)
 X-Mailman-Approved-At: Wed, 11 Nov 2026 13:17:03 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -102,112 +103,48 @@ X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 
 From: Shao Mingyin <shao.mingyin@zte.com.cn>
 
-nvmet-tcp decides whether to wait for in-capsule data using only the
-write direction and SGL length.  A write using a transport SGL can fit
-within inline_data_size without carrying any in-capsule data.  The
-response path then withholds its R2T, leaving the command stuck.
+nvme_tcp_handle_r2t() rejects offsets below data_sent but accepts
+larger offsets.  The send iterator still points at data_sent, so the
+next H2CData PDU carries bytes from that position while advertising the
+larger offset.  A target that accepts the PDU can place the data at the
+wrong position; the Linux target rejects it and fails the connection.
 
-If request initialization fails, the same length-only test both
-withholds the error response and attempts to drain inline data that
-will never arrive.  This can also consume the following PDU as data
-or a digest.
+Require the R2T offset to equal data_sent, rejecting the invalid request
+before transmitting data with a mismatched offset.
 
-Require an offset data-block SGL in both checks.  Share a helper that
-only uses command and port fields, as the completion callback can run
-before nvmet_req_init() has finished.
-
-Fixes: bdaf13279192 ("nvmet-tcp: fix a segmentation fault during io parsing error")
-Fixes: 872d26a391da ("nvmet-tcp: add NVMe over TCP target driver")
+Fixes: 3f2304f8c6d6 ("nvme-tcp: add NVMe over TCP host driver")
 Cc: stable@vger.kernel.org
 Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
 ---
-Tested on 7.3.0-next-20261030 (QEMU/TCG guest) with nvmet-tcp over
-loopback.  The standard nvme-tcp host driver only sends in-capsule data
-with an inline SGL, so it can never produce the triggering combination;
-the test instead drives a minimal user-space NVMe/TCP host that crafts
-the ICReq/Connect/command PDUs itself.
+Tested on 7.3.0-next-20261030 (QEMU/TCG guest) with the nvmet-tcp
+target on 127.0.0.1; no extra hardware is needed.
 
-It sends a valid 4 KiB write with a transport SGL (type 0x5A) on an
-enabled controller and I/O queue:
+A test-only hook in the nvmet-tcp target shifts the R2T offset by one
+4 KiB block.  The 4 KiB write to a loopback namespace is then answered
+with an R2T at offset 4096 although the host has sent 0 bytes, so the
+host either transmits an H2CData PDU with the wrong offset (unpatched)
+or rejects the R2T (patched):
 
   unpatched                            patched
-  no R2T, write hangs                  R2T received, H2CData sent,
-                                       write completes (status 0x0000)
+  nvmet_tcp: ttag 2 unexpected data    nvme nvme0: req 99 unexpected
+  offset 4096 (expected 0)             r2t offset 4096 (expected 0)
 
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 8092ce4914b6..a8a435aaa163 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -269,6 +269,23 @@ static inline bool nvmet_tcp_has_inline_data(struct nvmet_tcp_cmd *cmd)
- 		!cmd->rbytes_done;
- }
- 
-+/*
-+ * Check whether the SGL of @cmd carries in-capsule data that the host
-+ * will send right after the command PDU.  Only the offset form of the
-+ * data block descriptor is in-capsule; a regular transport SGL is
-+ * fetched through an R2T instead.
-+ */
-+static inline bool nvmet_tcp_sgl_is_inline(struct nvmet_tcp_cmd *cmd)
-+{
-+	struct nvme_sgl_desc *sgl = &cmd->req.cmd->common.dptr.sgl;
-+	u32 len = le32_to_cpu(sgl->length);
-+
-+	return sgl->type == ((NVME_SGL_FMT_DATA_DESC << 4) |
-+			     NVME_SGL_FMT_OFFSET) &&
-+		nvme_is_write(cmd->req.cmd) && len &&
-+		len <= cmd->req.port->inline_data_size;
-+}
-+
- static inline struct nvmet_tcp_cmd *
- nvmet_tcp_get_cmd(struct nvmet_tcp_queue *queue)
- {
-@@ -625,25 +642,19 @@ static void nvmet_tcp_queue_response(struct nvmet_req *req)
- 	struct nvmet_tcp_queue	*queue = cmd->queue;
- 	enum nvmet_tcp_recv_state queue_state;
- 	struct nvmet_tcp_cmd *queue_cmd;
--	struct nvme_sgl_desc *sgl;
--	u32 len;
- 
- 	/* Pairs with store_release in nvmet_prepare_receive_pdu() */
- 	queue_state = smp_load_acquire(&queue->rcv_state);
- 	queue_cmd = READ_ONCE(queue->cmd);
- 
- 	if (unlikely(cmd == queue_cmd)) {
--		sgl = &cmd->req.cmd->common.dptr.sgl;
--		len = le32_to_cpu(sgl->length);
--
- 		/*
--		 * Wait for inline data before processing the response.
--		 * Avoid using helpers, this might happen before
--		 * nvmet_req_init is completed.
-+		 * Wait for in-capsule data before processing the response.
-+		 * This can happen before nvmet_req_init() has completed, so
-+		 * only look at the SGL descriptor itself.
- 		 */
- 		if (queue_state == NVMET_TCP_RECV_PDU &&
--		    len && len <= cmd->req.port->inline_data_size &&
--		    nvme_is_write(cmd->req.cmd))
-+		    nvmet_tcp_sgl_is_inline(cmd))
- 			return;
+In the unpatched case the target detects the mismatched H2CData offset
+and rejects it.  This test demonstrates transmission of an incorrect
+offset, not a successful corrupted write.  With the patch the host
+rejects the R2T before transmitting H2CData.
+
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index bc46e5f3eaa7..2672aeae086a 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -846,7 +846,7 @@ static int nvme_tcp_handle_r2t(struct nvme_tcp_queue *queue,
+ 		return -EPROTO;
  	}
  
-@@ -981,7 +992,6 @@ static int nvmet_tcp_handle_icreq(struct nvmet_tcp_queue *queue)
- static int nvmet_tcp_handle_req_failure(struct nvmet_tcp_queue *queue,
- 		struct nvmet_tcp_cmd *cmd, struct nvmet_req *req)
- {
--	size_t data_len = le32_to_cpu(req->cmd->common.dptr.sgl.length);
- 	int ret;
- 
- 	/*
-@@ -991,8 +1001,7 @@ static int nvmet_tcp_handle_req_failure(struct nvmet_tcp_queue *queue,
- 	 * otherwise we will need to prepare a buffer and receive the
- 	 * stale data before continuing forward.
- 	 */
--	if (!nvme_is_write(cmd->req.cmd) || !data_len ||
--	    data_len > cmd->req.port->inline_data_size) {
-+	if (!nvmet_tcp_sgl_is_inline(cmd)) {
- 		nvmet_prepare_receive_pdu(queue);
- 		return 0;
- 	}
+-	if (unlikely(r2t_offset < req->data_sent)) {
++	if (unlikely(r2t_offset != req->data_sent)) {
+ 		dev_err(queue->ctrl->ctrl.device,
+ 			"req %d unexpected r2t offset %u (expected %zu)\n",
+ 			rq->tag, r2t_offset, req->data_sent);
 
