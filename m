@@ -2,59 +2,62 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C4AC606A33C
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Nov 2026 10:12:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1BE1606A326
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Nov 2026 11:07:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=bUis+4/G;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eXQPlVtj
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=DU9rEkxX;
+	dkim=pass (1024-bit key, unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=dnzO6eL7
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
-	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Cc:To:Subject:
-	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
 	List-Unsubscribe-Post:List-Owner;
-	bh=Gx/No4gR7ectZMSQQWSGtcO3qmMe2TveUBPq5zvGHyE=; b=bUis+4/G9obhh4gt4I7JoaDHu1
-	YMZFEq/yGSj1UZ7ZjBwE7lF3KmyGSnC+wkL2KfvtXni41jY4wH0xBdSk7kecHA13l2WuCEb5lphKj
-	bZZ39UDft1Nq3Ut6/9hWD+4pi0AUyuYwKj8zGV9R1fHdvmI9kOR0og/OPS7gSWLtutpZZCJ3eKM+V
-	mV74WUj0KffGcuylOVufGtma/mzXFV72dgB8/cB/9jx1BAC0+NpUX89h8n37GSjxi3FnlDvyrlhAU
-	/SPk2WgEmBxiSdvJCNMh4Tf4/wLq3QnIdCkeCsNHgr0NELwqx88qYwscCkqwRHykCjlIU3iuvN3U2
-	RcpwTA8g==;
+	bh=jTAuJxcgrOMXygZbQiiLA+hz6DjBJxMI1k/WE4B9IiM=; b=DU9rEkxXHvdQ6osWTUEApEfjKC
+	hY/KQKyLxjJkBOmf7Dmi6COzJfhLdFsV2AfXI8llGUJl8f88d7BqQqBVzK77ZpVlmsbC/tuYwj8IH
+	iL5kCVTx272lEAzVjuZtk6j7akeBGo+YoBs8RcHaQRGE6ZleXMOZZiXHhIvpQlIrr6Qnp6sA2MQzn
+	5No77XLfx5futjv+Dt5e5FzKwm8dwSltyFxCsIJXemg3ddH8tOkpJFey5pSpX7o3WxMlyxq7uuXsF
+	1Dmvlu/ITTC4SCjlwY5mNBp7BFDpiNxLrl/32c7dDh4HuKlvTqSG3R7C54Wa+iuANQNLepEH0L3JA
+	3ye7gFLw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQipr-00000003QPJ-0MyI;
-	Tue, 10 Nov 2026 10:12:15 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1xQjhc-00000003aC6-2viX;
+	Tue, 10 Nov 2026 11:07:48 +0000
+Received: from out30-113.freemail.mail.aliyun.com ([115.124.30.113])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQipp-00000003QOz-13pK
+	id 1xQjhZ-00000003aAL-2uON
 	for linux-nvme@lists.infradead.org;
-	Tue, 10 Nov 2026 10:12:13 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id A815261829;
-	Tue, 10 Nov 2026 10:12:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D3A61F0089F;
-	Tue, 10 Nov 2026 10:12:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794305532;
-	bh=Gx/No4gR7ectZMSQQWSGtcO3qmMe2TveUBPq5zvGHyE=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=eXQPlVtjWBKBMvsitLCYHwWXS+LuPhRaX9pn+qtTlJkJBYqUw0HWsZKA6dasbTo55
-	 6pJfkEC19E6u4fXLXxxy5/U5SeMtpyiL1zS0WJSZ+j4Pa8eFMgV1hcokovOTl2HpC2
-	 vPGOLPIo8ingVaGXdCPTpoNdbbtB8eVPQxKCJe0G0OwoZRvIqb/tYPxFgYJ5OgyUmf
-	 WX32KisdJLxQGNnKzKEajZ0GyOGV3+rFfnDCltB+QkxWygf5Az/NcicIqNaQfrZrZ4
-	 P/VdUJlBRQ+obo5c5ROAeCoi3CMzoMCqPFlo+BcVZGG01Q5MV/MlutSB0P4FyNXjRF
-	 Ur4vx7oJh+CXg==
-Message-ID: <sashiko-outbox-206840@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3] nvmet: clean up DH group state on initialization
- failure
-To: "Sreeraj S Kurup" <sreekuttan2156239@gmail.com>
+	Tue, 10 Nov 2026 11:07:48 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1794308863; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=jTAuJxcgrOMXygZbQiiLA+hz6DjBJxMI1k/WE4B9IiM=;
+	b=dnzO6eL7ZFagvR6seMHcoNtL6LOUCAjSzD9VF1nAzuAIKf79PyXaRNgSvqRXB1TkFdEbCFn1lH7Lf3p8a7rFs2X6LrWwFLDYBin0c1WGjC1Xk7N3UR7A+vUkwo1ZmFrh/Q4QkwABOTWNrjlH0ybbGm+8aouetPnTkfxLMe2TFkA=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R851e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XEV3tJV_1794308862;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XEV3tJV_1794308862 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Tue, 10 Nov 2026 19:07:42 +0800
+From: Guixin Liu <kanie@linux.alibaba.com>
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Nilay Shroff <nilay@linux.ibm.com>,
+	Daniel Wagner <dwagner@suse.de>,
+	Hannes Reinecke <hare@suse.de>
 Cc: linux-nvme@lists.infradead.org
-In-Reply-To: <20261110100058.4652-1-sreekuttan2156239@gmail.com>
-References: <20261110100058.4652-1-sreekuttan2156239@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Nov 2026 10:12:11 +0000
+Subject: [PATCH v2 0/1] nvme: make SMART / Health Status AENs reach hwmon alarms
+Date: Tue, 10 Nov 2026 19:07:36 +0800
+Message-ID: <20261110110737.3965373-1-kanie@linux.alibaba.com>
+X-Mailer: git-send-email 2.43.7
+X-Archived-By: <archiver.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20261110_030746_254468_D9D8B965 
+X-CRM114-Status: GOOD (  11.26  )
+X-Spam-Score: -17.6 (-----------------)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -64,125 +67,64 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-26.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
-X-Archived-By: <archiver.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Low] nvmet: duplicated error cleanup and stale key state in
-  nvmet_setup_dhgroup()
---
+The NVMe hwmon support exposes the temperature alarm as a plain sysfs
+attribute, so monitoring tools have to poll temp1_alarm to learn about
+a critical temperature condition. The device does send a SMART / Health
+Status asynchronous event when a critical warning is raised, but the
+host never enables it in the Asynchronous Event Configuration, and the
+completion path silently drops the event.
 
-commit 93030c9f4d0e5c6bd96e27ce68cc9495a6c3ffb3
-Author: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+The temperature warning is subscribed unconditionally when hwmon is
+present (it has no OAES capability bit), the deferred work re-reads
+the SMART log to clear the latched event before the Asynchronous Event
+Request is re-armed, and the alarm is announced with
+hwmon_notify_event(), which also feeds the registered thermal zone.
 
-nvmet: clean up DH group state on initialization failure
+Testing: verified end to end against vanilla QEMU's nvme emulation:
+injecting smart_critical_warning over QMP delivers the AEN, poll(2) on
+temp1_alarm wakes immediately with EPOLLERR|EPOLLPRI and reads alarm=1;
+clearing the warning produces no event and no spurious wake;
+re-injecting the bit wakes again.
 
-This commit cleans up the Diffie-Hellman transform, key, and group state
-when DH group initialization fails in nvmet_setup_dhgroup().
+Changes since v1:
 
-> diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
-> index ccba84b1344e0..33f2584973ec1 100644
-> --- a/drivers/nvme/target/auth.c
-> +++ b/drivers/nvme/target/auth.c
-> @@ -97,6 +97,10 @@ int nvmet_setup_dhgroup(struct nvmet_ctrl *ctrl, u8 dh=
-group_id)
->  		ret =3D PTR_ERR(ctrl->dh_tfm);
->  		ctrl->dh_tfm =3D NULL;
->  		ctrl->dh_gid =3D 0;
-> +		kfree_sensitive(ctrl->dh_key);
-> +		ctrl->dh_key =3D NULL;
-> +		ctrl->dh_keysize =3D 0;
-> +		return ret;
->  	} else {
->  		ctrl->dh_gid =3D dhgroup_id;
->  		pr_debug("%s: ctrl %d setup DH group %d\n",
-> @@ -105,9 +109,7 @@ int nvmet_setup_dhgroup(struct nvmet_ctrl *ctrl, u8 d=
-hgroup_id)
->  		if (ret < 0) {
->  			pr_debug("%s: ctrl %d failed to generate private key, err %d\n",
->  				 __func__, ctrl->cntlid, ret);
-> -			kfree_sensitive(ctrl->dh_key);
-> -			ctrl->dh_key =3D NULL;
-> -			return ret;
-> +			goto err;
->  		}
->  		ctrl->dh_keysize =3D crypto_kpp_maxsize(ctrl->dh_tfm);
->  		kfree_sensitive(ctrl->dh_key);
-> @@ -115,18 +117,26 @@ int nvmet_setup_dhgroup(struct nvmet_ctrl *ctrl, u8=
- dhgroup_id)
->  		if (!ctrl->dh_key) {
->  			pr_warn("ctrl %d failed to allocate public key\n",
->  				ctrl->cntlid);
-> -			return -ENOMEM;
-> +			ret =3D -ENOMEM;
-> +			goto err;
->  		}
->  		ret =3D nvme_auth_gen_pubkey(ctrl->dh_tfm, ctrl->dh_key,
->  					   ctrl->dh_keysize);
->  		if (ret < 0) {
->  			pr_warn("ctrl %d failed to generate public key\n",
->  				ctrl->cntlid);
-> -			kfree(ctrl->dh_key);
-> -			ctrl->dh_key =3D NULL;
-> +			goto err;
->  		}
->  	}
-> =20
-> +	return 0;
-> +err:
-> +	kfree_sensitive(ctrl->dh_key);
-> +	ctrl->dh_key =3D NULL;
-> +	crypto_free_kpp(ctrl->dh_tfm);
-> +	ctrl->dh_tfm =3D NULL;
-> +	ctrl->dh_gid =3D 0;
-> +	ctrl->dh_keysize =3D 0;
->  	return ret;
->  }
+ - drop the uapi patch defining an OAES bit for the SMART event: OAES
+   bits 7:0 are reserved; the warning is configured through the
+   SMART / Health Critical Warnings field of the Asynchronous Event
+   Configuration feature (sashiko)
+ - subscribe to the temperature warning unconditionally when hwmon is
+   present, instead of masking against ctrl->oaes (sashiko)
+ - re-read the SMART log in the deferred work to clear the latched
+   event before the Asynchronous Event Request is re-armed, closing an
+   AEN completion tight loop (sashiko)
+ - call hwmon_notify_event() instead of sysfs_notify(), so the thermal
+   zone registered with HWMON_C_REGISTER_TZ is fed as well (sashiko)
+ - correct the cover letter: temp1_alarm reflects the temperature
+   warning only, not the spare-block condition
 
-[Severity: Low]
-Can the IS_ERR(ctrl->dh_tfm) branch set ret =3D PTR_ERR(ctrl->dh_tfm) and
-jump to err instead of duplicating the teardown sequence and keeping the
-else block after a return?  crypto_free_kpp() calls crypto_destroy_tfm(),
-which handles error pointers safely.
+Link: https://lore.kernel.org/all/20261109120207.1352165-1-kanie@linux.alibaba.com/
 
-Also, when ctrl->dh_tfm is already set and nvmet_setup_dhgroup() switches
-to a different dhgroup_id earlier in the function, ctrl->dh_tfm is freed
-without clearing ctrl->dh_key or ctrl->dh_keysize:
+Guixin Liu (1):
+  nvme-hwmon: notify hwmon alarms on the SMART / Health Status AEN
 
-drivers/nvme/target/auth.c:nvmet_setup_dhgroup() {
-    ...
-	if (ctrl->dh_tfm) {
-		if (ctrl->dh_gid =3D=3D dhgroup_id) {
-			pr_debug("%s: ctrl %d reuse existing DH group %d\n",
-				 __func__, ctrl->cntlid, dhgroup_id);
-			return 0;
-		}
-		crypto_free_kpp(ctrl->dh_tfm);
-		ctrl->dh_tfm =3D NULL;
-		ctrl->dh_gid =3D 0;
-	}
+ drivers/nvme/host/core.c  | 17 ++++++++++++++++-
+ drivers/nvme/host/hwmon.c | 40 +++++++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/nvme.h  | 15 +++++++++++++++
+ 3 files changed, 71 insertions(+), 1 deletion(-)
 
-	if (dhgroup_id =3D=3D NVME_AUTH_DHGROUP_NULL)
-		return 0;
-    ...
-}
+Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
 
-If the new dhgroup_id is NVME_AUTH_DHGROUP_NULL (or an invalid group ID),
-the early return leaves the previous group's ctrl->dh_key allocated and
-ctrl->dh_keysize non-zero.  Freeing ctrl->dh_key and zeroing
-ctrl->dh_keysize alongside crypto_free_kpp(ctrl->dh_tfm) there would keep
-all DH state cleared on group changes and make the extra
-kfree_sensitive(ctrl->dh_key) before kzalloc() unnecessary.
+-- 
+2.43.7
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261110100058.4652=
--1-sreekuttan2156239@gmail.com?part=3D1
 
