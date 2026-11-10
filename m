@@ -2,55 +2,56 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CB49606A32A
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2026 21:17:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09BF4606A334
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2026 21:17:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=k6aJ7tgg;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CT+iOXhf
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=O7RWHuQM;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GRiIgHwN
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=XL0wpOwuozhlRhYNz0JipJ6kxKX4QenBWX0X6ItK/K0=; b=k6aJ7tgges4fQR
-	h8tyyOTRjPUblw2+VS3Gjlb5e201JLo3O82Eip7sisIz4bRmwiJxnYnuJ/hkFzdf/St3741TmM1Cr
-	Evq8BvUSyNYcWm7y2XYYTEHGwU1mFG6RZwWmXR/CiuW6FuGaXCCZxNu+gcZLRxYBWYXJDwGHWNY+w
-	G2F4ZS6Rr5qXgX0IG4YOaBgAdPASuM/cNW1olG+DeM8m62j/CQEynbhQv2XULW+MjztcRSTT09BC6
-	Cxp1EGNVOWwBAWQF5NBrEcl3rFzLspEYJpDklOf+TS8bEx97nOdln59+Cn6+HKQ9ZQFdylwJPJQgI
-	7Lw4fkQUGmUkTY8rv/xA==;
+	List-Owner; bh=E+IOyvszTPpv67WVfApXcw8urPUkzwLhKXwxrxd5Q2U=; b=O7RWHuQMQBS3+B
+	XrXERbNESxwgUs2TWPGgVRu6Xv14qZ4NWWtncwzgv+Ut8rxNZpLYNlETse3Ez0kKIn316jpTjUBVh
+	wAXkkKK0sSWFpZcTIeiS/DiHDFKaAY20ADKlLXr9T5lLUm9H5y5crAKGTDdRYaURvP/COMd08XZ5G
+	E7Af0HinZFg9b5UPLTec6Le2vAnAUo9zlriAhV9j9eqMoXxPFkqMgpxAVZlFLZ5G/6AgCUh38oS3E
+	CMLCRZ1aXqmaIIHyZxRNB5vcc1Djul8OXWvg3MoEBIgT7Xl1y1p8sPjylsfsP0EKJMu3gy8DCuSOu
+	mbFsLmg48j+o6/0nPTKw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRFhJ-00000007k0I-02U7;
-	Wed, 11 Nov 2026 21:17:37 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1xRFhL-00000007k6g-15JB;
+	Wed, 11 Nov 2026 21:17:39 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQi11-00000003Ena-2m5W
+	id 1xQi1M-00000003Euo-2tlu
 	for linux-nvme@lists.infradead.org;
-	Tue, 10 Nov 2026 09:19:43 +0000
+	Tue, 10 Nov 2026 09:20:04 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 5BB224087D;
-	Tue, 10 Nov 2026 09:19:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E32A91F008A4;
-	Tue, 10 Nov 2026 09:19:36 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 270A66381F;
+	Tue, 10 Nov 2026 09:20:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5968D1F0089F;
+	Tue, 10 Nov 2026 09:19:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794302383;
-	bh=XL0wpOwuozhlRhYNz0JipJ6kxKX4QenBWX0X6ItK/K0=;
+	s=k20260515; t=1794302403;
+	bh=E+IOyvszTPpv67WVfApXcw8urPUkzwLhKXwxrxd5Q2U=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=CT+iOXhfdXS9EjWhCPxyMwbc6qpk2mfT/FYG65nH7AnMeSTgDu4gtnvPph9s+gyJQ
-	 ZvCsMu20agRk/DN1s3jOLTDIaiE9C33mbBH7UBmpmq1UA5VoUIzICSYA9Tg4ndMgTH
-	 NUHn4RW/Rt1Efr1DcrgvT2Czb0YSTQrx0YgABhREHnhLrge2ohMdRAEXc8ARjQ95GB
-	 N91PcDylNuNGgoO+A1oWCOdoVMTmydTR6bkBvDN7xjUC6o/rf57lsPcqiLH9lVYbog
-	 fqTRi61Xug5bUX+nw+zLWjcrBruwnR9lQKJTUUtPpS/C/b7PBRlfrij5xhG51EYia0
-	 M4TkDbL2tSeqg==
+	b=GRiIgHwNZvImcyL7ZrhwcHTim1Tcg8ha0BAVLvCt63eibDuBdqoGnn3+IZ3T7OBIq
+	 kT6r8YMuTD7me3jVVO4LuvwQYkPqosPEVX8f4q9eZuJZsQvKrNsIgO5JMMLqqeNIuC
+	 5Cpr1r58rbzBBX6KMjeREg5OUsa/9eOU65Z5i70WZg176K2uk1tQ1kAhA4U0o0Rctw
+	 xZ/y1A7h5XbjDTP8H3oewDpTzB4kJ0kw8bjZG9JUpDxnNRmZc91S3mqwbwSIu6bKQ1
+	 710KWpylBRJOXcVv5bGIBzE03omQg/l6rlLylLNvB6cAWjRRFZkeN1M+920TaGjY0B
+	 2UXvy+J5ImDmQ==
 From: Christian Brauner <brauner@kernel.org>
-Date: Tue, 10 Nov 2026 10:14:49 +0100
-Subject: [PATCH RFC 33/41] fs: add file_is_pseudo()
+Date: Tue, 10 Nov 2026 10:14:52 +0100
+Subject: [PATCH RFC 36/41] nvmet: refuse files on pseudo filesystems as
+ namespace backing files
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261110-work-loop-pseudo-v1-33-4c998976c6c7@kernel.org>
+Message-Id: <20261110-work-loop-pseudo-v1-36-4c998976c6c7@kernel.org>
 References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
 In-Reply-To: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -71,12 +72,12 @@ Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>,
  linux-kselftest@vger.kernel.org, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1523; i=brauner@kernel.org;
- h=from:subject:message-id; bh=fWtwbOqSVGrzkIOODqoKjdbZebK5p812wmLNWmDsq10=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWR9erDr3MIVGoy6T1c42Fn1zN66UCnoG5vsrbwj8gcLt
- 77hOtpb11HKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRhFRGhmevWgXzbBfJf9i+
- 0PPiiVlFPwKL+Fc/UFjp/vmC/tGfMw8y/FNqqr0U8TxATPOxjuYj+fU+8bu+/uDa1s7jnDCrjX2
- /FhMA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=834; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=agqenJdWQq7gypo76jkCFbW4mXy4h6l0lNCXX+ASm3g=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWR9erDvm3yLxwpNhn3Vf/xC/LZIi53fJ7yLL7tHITliz
+ 91kU4+kjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIm8FmJk6Auyf5jNeWOi0OnH
+ C2RnbHW9nXtha/oTsYTE2efzD909cIzhf93azF97BBdfrrbP5nki8XXrjrDbU/+oPHgTKJzVsWp
+ jPzcA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 X-Mailman-Approved-At: Wed, 11 Nov 2026 13:17:02 -0800
@@ -98,47 +99,32 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Add a helper to check whether a file is a regular file on a pseudo
-filesystem. Only regular files count. Device nodes on pseudo filesystems
-such as devpts, binderfs or the block devices on bdevfs are what they
-are.
-
-Look at the inode that actually provides the data via d_real_inode().
-overlayfs accepts sysfs, cgroup2, debugfs, tracefs, configfs and
-securityfs as lower layers and reads of such an overlayfs file are
-served by the file on the pseudo filesystem. Checking the overlayfs
-inode would miss that.
-
-No functional changes.
+The file backend takes any path that isn't a block device. With
+buffered_io=1 that includes files on procfs or sysfs which then get read
+and written by a kernel worker on behalf of the host. Refuse files on
+pseudo filesystems just like loop does.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- include/linux/fs.h | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/nvme/target/io-cmd-file.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 99caef43ff3c..407ffb6342ec 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -2553,6 +2553,18 @@ static inline const struct inode *file_user_inode(const struct file *f)
- 	return file_inode(f);
- }
+diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
+index dfa8aa46188c..71c69bac5394 100644
+--- a/drivers/nvme/target/io-cmd-file.c
++++ b/drivers/nvme/target/io-cmd-file.c
+@@ -52,6 +52,11 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
+ 		goto err;
+ 	}
  
-+/*
-+ * Regular files on pseudo filesystems are kernel interfaces and must not be
-+ * used as storage. Look through stacking filesystems at the inode that
-+ * provides the data.
-+ */
-+static inline bool file_is_pseudo(const struct file *file)
-+{
-+	const struct inode *inode = d_real_inode(file->f_path.dentry);
++	if (file_is_pseudo(ns->file)) {
++		ret = -EINVAL;
++		goto err;
++	}
 +
-+	return S_ISREG(inode->i_mode) && (inode->i_sb->s_iflags & SB_I_PSEUDO);
-+}
-+
- static inline struct file *file_clone_open(struct file *file)
- {
- 	return dentry_open(&file->f_path, file->f_flags, file->f_cred);
+ 	nvmet_file_ns_revalidate(ns);
+ 
+ 	/*
 
 -- 
 2.53.0
