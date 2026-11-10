@@ -2,102 +2,103 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD28A606A746
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Nov 2026 13:02:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BC19606E478
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Nov 2026 13:05:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=gdTVSUgv;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=RtpxTKTH;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Zx6uh58w;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=RtpxTKTH;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Zx6uh58w
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=UMt9r2Gz;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=q+LLrnRA;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=9mKtERTg;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=q+LLrnRA;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=9mKtERTg
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=Ghl34wq1FtNUPiIhhVNQsPvTyYStJNLS7xbQDw74B5w=; b=gdTVSUgvh85r3Z
-	/HfJK1MQcXZZ8GNgn+RTh4x5nsCqgT5whvaapYUOYe1mSMyvwtxhyfup0MM3SkfxOiBYY0KqqA1G3
-	RcWTkfyNSc+/MKdrqJFyA6b/JQnG4nUMVSHZXwP49RFiC8vpj7Lxw33mB8+RH2mcH5SK8kVPL5vC2
-	Ztqu0XbCu2u5koH2HfkQkRiMElM/z62QjhoJqNV2QCc5oNgpbVqk80ns68/r6zQ5AsqucsAsM9tnV
-	IAl8WC6S2Vnbdztf+0u8Cnh40vknkg8erKYy7RPCLsjiwS3XQ56QamMI0Fppbc00DUWV/XDom1oSZ
-	3M7HlIH/BXuOYfSV41YA==;
+	List-Owner; bh=SVc+CPW7zoLyGQ3H7jfE36yTV77ec3+3pCaUO3ZepOY=; b=UMt9r2GzvIsUTb
+	bO5AHbC4FfA77eSzbJyU13YVgEvqIcXt+3D+jyYNdGJYlowHq7IHvtxyie8UzHshP2s1MurP0/MZd
+	1bQvu04bOIq04u2hNcfGLJV5vz9ZPMfnkR6vTt0DhJmVElOEfanhkGx4bTsz/+FMJtOPjY7cHJbbb
+	yfNn+NmchWmla17Rv2/Mpjc+k/MkntS9CxKf7t1+pRk76YwboNpjVFrFeq1RaBXkAlHKRpYfL3mQl
+	kIaeWhgAuIvF06udqT0YGlMDUvivJfhCe/ppHoA8Xy9kRmOKj3NPJQ5RfSCruMJ8jMITlwnLXo9vU
+	MeEJtem6N7hdJRYSBKRg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQlV3-00000003xXG-1IK4;
-	Tue, 10 Nov 2026 13:02:57 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1xQlXX-00000003y45-0MeL;
+	Tue, 10 Nov 2026 13:05:31 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQlV1-00000003xVf-0KeT
+	id 1xQlXU-00000003y2N-073O
 	for linux-nvme@lists.infradead.org;
-	Tue, 10 Nov 2026 13:02:56 +0000
+	Tue, 10 Nov 2026 13:05:29 +0000
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 362331F458;
-	Tue, 10 Nov 2026 13:02:53 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4661321F55;
+	Tue, 10 Nov 2026 13:05:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794315773; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1794315926; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Ghl34wq1FtNUPiIhhVNQsPvTyYStJNLS7xbQDw74B5w=;
-	b=RtpxTKTHgtiC40dwWI6SrYO03JXnh3WgpzIj4HwAwNJj8Ln2GcBWQBbLNM5KFZ4W/djg/9
-	olbIXaQZbtIpoMOw4g5DWjnPHfBrne92q4YWD5vFGwyMdQwlTOrpTBjgFSo35HQzoe7xVA
-	nhBAh4zWf6OoBjTIQf0ZGxKmMBCaC80=
+	bh=SVc+CPW7zoLyGQ3H7jfE36yTV77ec3+3pCaUO3ZepOY=;
+	b=q+LLrnRAHGnMhsOAm2AR5PdVjDpVTcHVB1zUGLVl8XVF+10S7zFRJLhAhfuyqNj9jZSsPN
+	7o7mhlD2DrGxcmSfMSVIlVY45YBZx6TBpvxBY1IB7x0xlGIkV8MAkMdknFdsN2DRjTzkJC
+	v48EfLoUtaBxGibD894VNTXCIwe+uSg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794315773;
+	s=susede2_ed25519; t=1794315926;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Ghl34wq1FtNUPiIhhVNQsPvTyYStJNLS7xbQDw74B5w=;
-	b=Zx6uh58w7OGwRG9wTjMOaw7uGfBvHw/NcBCNI/o10SqVWoS4zCZ2/znUH+1MUofYqTMK6x
-	qM9nEqw3rKyIUwAw==
-Authentication-Results: smtp-out2.suse.de;
+	bh=SVc+CPW7zoLyGQ3H7jfE36yTV77ec3+3pCaUO3ZepOY=;
+	b=9mKtERTg9o79kwEmyaZ0oloS/1w3HrCeLuFtvtWqQbmXXBp1t2/Vg+fhBFbpmX8Qoei8qz
+	uWEvqABlY41p2lBg==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794315773; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1794315926; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Ghl34wq1FtNUPiIhhVNQsPvTyYStJNLS7xbQDw74B5w=;
-	b=RtpxTKTHgtiC40dwWI6SrYO03JXnh3WgpzIj4HwAwNJj8Ln2GcBWQBbLNM5KFZ4W/djg/9
-	olbIXaQZbtIpoMOw4g5DWjnPHfBrne92q4YWD5vFGwyMdQwlTOrpTBjgFSo35HQzoe7xVA
-	nhBAh4zWf6OoBjTIQf0ZGxKmMBCaC80=
+	bh=SVc+CPW7zoLyGQ3H7jfE36yTV77ec3+3pCaUO3ZepOY=;
+	b=q+LLrnRAHGnMhsOAm2AR5PdVjDpVTcHVB1zUGLVl8XVF+10S7zFRJLhAhfuyqNj9jZSsPN
+	7o7mhlD2DrGxcmSfMSVIlVY45YBZx6TBpvxBY1IB7x0xlGIkV8MAkMdknFdsN2DRjTzkJC
+	v48EfLoUtaBxGibD894VNTXCIwe+uSg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794315773;
+	s=susede2_ed25519; t=1794315926;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Ghl34wq1FtNUPiIhhVNQsPvTyYStJNLS7xbQDw74B5w=;
-	b=Zx6uh58w7OGwRG9wTjMOaw7uGfBvHw/NcBCNI/o10SqVWoS4zCZ2/znUH+1MUofYqTMK6x
-	qM9nEqw3rKyIUwAw==
+	bh=SVc+CPW7zoLyGQ3H7jfE36yTV77ec3+3pCaUO3ZepOY=;
+	b=9mKtERTg9o79kwEmyaZ0oloS/1w3HrCeLuFtvtWqQbmXXBp1t2/Vg+fhBFbpmX8Qoei8qz
+	uWEvqABlY41p2lBg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EB8A71339F;
-	Tue, 10 Nov 2026 13:02:52 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 13A021339F;
+	Tue, 10 Nov 2026 13:05:26 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id jIacLPwV82qLSgAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 10 Nov 2026 13:02:52 +0000
-Message-ID: <739b20b7-6921-4b37-8712-433ba19e5b84@suse.de>
-Date: Tue, 10 Nov 2026 14:02:52 +0100
+	id FL9NNpUW82oVTQAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 10 Nov 2026 13:05:26 +0000
+Message-ID: <2f0e8fe5-42b6-47d9-9bcd-c549544e099a@suse.de>
+Date: Tue, 10 Nov 2026 14:05:25 +0100
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvmet: clean up DH group state on initialization failure
+Subject: Re: [PATCH v4] nvmet: clean up DH group state on initialization
+ failure
 To: Sreeraj S Kurup <sreekuttan2156239@gmail.com>, hare@kernel.org,
  hch@lst.de, kbusch@kernel.org, kch@nvidia.com, sagi@grimberg.me
 Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
-References: <20261110084832.3508-1-sreekuttan2156239@gmail.com>
+References: <20261110113502.3235-1-sreekuttan2156239@gmail.com>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20261110084832.3508-1-sreekuttan2156239@gmail.com>
+In-Reply-To: <20261110113502.3235-1-sreekuttan2156239@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spam-Level: 
@@ -122,12 +123,12 @@ X-Spamd-Result: default: False [-13.29 / 50.00];
 	RCVD_TLS_ALL(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
 X-Spam-Score: -13.29
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261110_050255_436471_C9F4BF91 
-X-CRM114-Status: GOOD (  16.46  )
-X-Spam-Score: -2.1 (--)
+X-CRM114-CacheID: sfid-20261110_050528_372001_084201B0 
+X-CRM114-Status: GOOD (  20.31  )
+X-Spam-Score: -4.4 (----)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -146,7 +147,7 @@ X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On 11/10/26 9:48 AM, Sreeraj S Kurup wrote:
+On 11/10/26 12:35 PM, Sreeraj S Kurup wrote:
 > nvmet_setup_dhgroup() leaves the DH transform and group ID
 > initialized when private-key generation, public-key allocation,
 > or public-key generation fails.
@@ -158,53 +159,119 @@ On 11/10/26 9:48 AM, Sreeraj S Kurup wrote:
 > Release the transform and reset the group state on initialization
 > failures so that subsequent attempts can properly retry setup.
 > 
+> Fixes: 7a277c37d352 ("nvmet-auth: Diffie-Hellman key exchange support")
 > Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
 > ---
->   drivers/nvme/target/auth.c | 14 +++++++++++++-
->   1 file changed, 13 insertions(+), 1 deletion(-)
+> v4:
+>   - Consolidate DH group error handling and clear stale key state
+>     when switching DH groups.
+> v3:
+>   - Clear stale DH key state when crypto_alloc_kpp() fails during
+>     re-authentication.
+>   - Fix the error path when crypto_alloc_kpp() fails by returning
+>     the allocation error instead of incorrectly reporting success.
+> v2:
+>   - Consolidate error handling in "nvmet_setup_dhgroup()" using
+>     a shared cleanup label to avoid duplicated teardown code.
+>   - Add Fixes trailer.
+> 
+>   drivers/nvme/target/auth.c | 67 +++++++++++++++++++++-----------------
+>   1 file changed, 37 insertions(+), 30 deletions(-)
 > 
 > diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
-> index ccba84b1344e..7733d50de708 100644
+> index ccba84b1344e..681459b5db3b 100644
 > --- a/drivers/nvme/target/auth.c
 > +++ b/drivers/nvme/target/auth.c
-> @@ -105,6 +105,10 @@ int nvmet_setup_dhgroup(struct nvmet_ctrl *ctrl, u8 dhgroup_id)
->   		if (ret < 0) {
->   			pr_debug("%s: ctrl %d failed to generate private key, err %d\n",
->   				 __func__, ctrl->cntlid, ret);
-> +			crypto_free_kpp(ctrl->dh_tfm);
-> +			ctrl->dh_tfm = NULL;
-> +			ctrl->dh_gid = 0;
-> +			ctrl->dh_keysize = 0;
->   			kfree_sensitive(ctrl->dh_key);
->   			ctrl->dh_key = NULL;
->   			return ret;
-> @@ -115,6 +119,10 @@ int nvmet_setup_dhgroup(struct nvmet_ctrl *ctrl, u8 dhgroup_id)
->   		if (!ctrl->dh_key) {
->   			pr_warn("ctrl %d failed to allocate public key\n",
->   				ctrl->cntlid);
-> +			crypto_free_kpp(ctrl->dh_tfm);
-> +			ctrl->dh_tfm = NULL;
-> +			ctrl->dh_gid = 0;
-> +			ctrl->dh_keysize = 0;
->   			return -ENOMEM;
+> @@ -76,8 +76,11 @@ int nvmet_setup_dhgroup(struct nvmet_ctrl *ctrl, u8 dhgroup_id)
+>   			return 0;
 >   		}
->   		ret = nvme_auth_gen_pubkey(ctrl->dh_tfm, ctrl->dh_key,
-> @@ -122,8 +130,12 @@ int nvmet_setup_dhgroup(struct nvmet_ctrl *ctrl, u8 dhgroup_id)
->   		if (ret < 0) {
->   			pr_warn("ctrl %d failed to generate public key\n",
->   				ctrl->cntlid);
-> -			kfree(ctrl->dh_key);
-> +			kfree_sensitive(ctrl->dh_key);
->   			ctrl->dh_key = NULL;
-> +			crypto_free_kpp(ctrl->dh_tfm);
-> +			ctrl->dh_tfm = NULL;
-> +			ctrl->dh_gid = 0;
-> +			ctrl->dh_keysize = 0;
->   		}
+>   		crypto_free_kpp(ctrl->dh_tfm);
+> +		kfree_sensitive(ctrl->dh_key);
+>   		ctrl->dh_tfm = NULL;
+>   		ctrl->dh_gid = 0;
+> +		ctrl->dh_key = NULL;
+> +		ctrl->dh_keysize = 0;
 >   	}
 >   
+>   	if (dhgroup_id == NVME_AUTH_DHGROUP_NULL)
+> @@ -95,38 +98,42 @@ int nvmet_setup_dhgroup(struct nvmet_ctrl *ctrl, u8 dhgroup_id)
+>   			 __func__, ctrl->cntlid, dhgroup_id,
+>   			 PTR_ERR(ctrl->dh_tfm));
+>   		ret = PTR_ERR(ctrl->dh_tfm);
+> -		ctrl->dh_tfm = NULL;
+> -		ctrl->dh_gid = 0;
+> -	} else {
+> -		ctrl->dh_gid = dhgroup_id;
+> -		pr_debug("%s: ctrl %d setup DH group %d\n",
+> -			 __func__, ctrl->cntlid, ctrl->dh_gid);
+> -		ret = nvme_auth_gen_privkey(ctrl->dh_tfm, ctrl->dh_gid);
+> -		if (ret < 0) {
+> -			pr_debug("%s: ctrl %d failed to generate private key, err %d\n",
+> -				 __func__, ctrl->cntlid, ret);
+> -			kfree_sensitive(ctrl->dh_key);
+> -			ctrl->dh_key = NULL;
+> -			return ret;
+> -		}
+> -		ctrl->dh_keysize = crypto_kpp_maxsize(ctrl->dh_tfm);
+> -		kfree_sensitive(ctrl->dh_key);
+> -		ctrl->dh_key = kzalloc(ctrl->dh_keysize, GFP_KERNEL);
+> -		if (!ctrl->dh_key) {
+> -			pr_warn("ctrl %d failed to allocate public key\n",
+> -				ctrl->cntlid);
+> -			return -ENOMEM;
+> -		}
+> -		ret = nvme_auth_gen_pubkey(ctrl->dh_tfm, ctrl->dh_key,
+> -					   ctrl->dh_keysize);
+> -		if (ret < 0) {
+> -			pr_warn("ctrl %d failed to generate public key\n",
+> -				ctrl->cntlid);
+> -			kfree(ctrl->dh_key);
+> -			ctrl->dh_key = NULL;
+> -		}
+> +		goto err;
+> +	}
+> +
+> +	ctrl->dh_gid = dhgroup_id;
+> +	pr_debug("%s: ctrl %d setup DH group %d\n",
+> +		 __func__, ctrl->cntlid, ctrl->dh_gid);
+> +	ret = nvme_auth_gen_privkey(ctrl->dh_tfm, ctrl->dh_gid);
+> +	if (ret < 0) {
+> +		pr_debug("%s: ctrl %d failed to generate private key, err %d\n",
+> +			 __func__, ctrl->cntlid, ret);
+> +		goto err;
+> +	}
+> +	ctrl->dh_keysize = crypto_kpp_maxsize(ctrl->dh_tfm);
+> +	ctrl->dh_key = kzalloc(ctrl->dh_keysize, GFP_KERNEL);
+> +	if (!ctrl->dh_key) {
+> +		pr_warn("ctrl %d failed to allocate public key\n",
+> +			ctrl->cntlid);
+> +		ret = -ENOMEM;
+> +		goto err;
+> +	}
+> +	ret = nvme_auth_gen_pubkey(ctrl->dh_tfm, ctrl->dh_key,
+> +				   ctrl->dh_keysize);
+> +	if (ret < 0) {
+> +		pr_warn("ctrl %d failed to generate public key\n",
+> +			ctrl->cntlid);
+> +		goto err;
+>   	}
+>   
+> +	return 0;
+> +err:
+> +	kfree_sensitive(ctrl->dh_key);
+> +	ctrl->dh_key = NULL;
+> +	crypto_free_kpp(ctrl->dh_tfm);
+> +	ctrl->dh_tfm = NULL;
+> +	ctrl->dh_gid = 0;
+> +	ctrl->dh_keysize = 0;
+>   	return ret;
+>   }
+>   
 
-Can't we make this a helper?
+Still wonder if a helper wouldn't be better here.
+But anyway.
+
+Reviewed-by: Hannes Reinecke <hare@kernel.org>
 
 Cheers,
 
