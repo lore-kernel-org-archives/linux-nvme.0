@@ -2,98 +2,103 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BC6E606A31C
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Nov 2026 11:35:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAEB760A263D
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Nov 2026 11:50:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=tZ8W52QP;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=heD6Kwqe
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Ug36Hrb2;
+	dkim=pass (2048-bit key) header.d=crusoe.ai header.i=@crusoe.ai header.a=rsa-sha256 header.s=google header.b=DazflF/n
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Unsubscribe-Post:List-Owner;
-	bh=eb4IbN5BS1fARhwXlM0e58qZU7d7q3WTMx1lm2ye1vM=; b=tZ8W52QPuQocgbauxDyRe2WT7B
-	WXk9xLeV/nybg3MY3VKe1l2UjcWpOxvZYx61yi3OZPUZffXFWo0u3gUIzI9sC4Hs6BO2Q/SUglh8J
-	f9ZY/Ngq7uwdzBNEJhoIaSd3f7kAku2rjPex8Ldwjr4ftK4XjnfHBTxiw7CR0nkR2zLR4awmWMS3d
-	K0bfGxefKC21zThqh5OKr1JYttQ8ib67xaGlCuWQkxGCehu3M6PBXsWz1mWfE/EpDpSdhf1lem+qD
-	jXhVtzDc8VDOJg5+hsCQa40ZHjrAaKb5ha6ZOoZvjUpgIScQPiSXtfZaEAr51RqP0GK3xVl4t/jHe
-	/laUENfw==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
+	List-Owner; bh=ko4mREqmDAZGw+P8OhAmIBygelpZYVgRRe6KEoxcY3E=; b=Ug36Hrb2+weKUb
+	Ll6uKfz6dTeWRd1DBSXLLLUJpTWI4nc7nqqhntja79LrA6H3XrFSWVO5YiRdj+5kegZdy9wSRgEhS
+	drENdO0m184WLUHiZLeD1pNhAOa0dFwT2rdR5VQGTEtEJZESEalFRESMbKTrSFB5F4BeOeZoXgpr2
+	tcCnkiG777CuQ4y3lCQKMSXV01sKHBrZCw9MQ5UowLdxv+5VSouXTB8F8UCYt7XO1+a8ZJz0ovBD+
+	YjFRXmk9/mAoF3RRhXPT+izrRxgbk7OeT8Gp+B+a7IPBFVTpxcU4sf65TqIPgyTH3CkA1zeOBIYKS
+	SyLl7ooqzfhjdcr1NVIg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQk8a-00000003eX3-2zmf;
-	Tue, 10 Nov 2026 11:35:40 +0000
-Received: from mail-dy1-x1335.google.com ([2607:f8b0:4864:20::1335])
+	id 1xQkMj-00000003hBC-28UO;
+	Tue, 10 Nov 2026 11:50:17 +0000
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQk8Z-00000003eVE-091D
+	id 1xQkMa-00000003gyq-1RM9
 	for linux-nvme@lists.infradead.org;
-	Tue, 10 Nov 2026 11:35:40 +0000
-Received: by mail-dy1-x1335.google.com with SMTP id 5a478bee46e88-33bf40b0c8bso3506000eec.0
-        for <linux-nvme@lists.infradead.org>; Tue, 10 Nov 2026 03:35:38 -0800 (PST)
+	Tue, 10 Nov 2026 11:50:13 +0000
+Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-4a1b07c3c5fso18594115e9.1
+        for <linux-nvme@lists.infradead.org>; Tue, 10 Nov 2026 03:50:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794310538; x=1794915338; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=eb4IbN5BS1fARhwXlM0e58qZU7d7q3WTMx1lm2ye1vM=;
-        b=heD6KwqeEE9/fh4c04qigOlbVIFauTDsaHiS0NXoOg24Zrs3OTJOR43hk5DnjmUh6M
-         GocCyr7e5JJ4mGE2XfWt2/iNqrxwJI+UIacEkgSWyFKed69mcfBdpn2IZr0DNBZxS2nk
-         /gZljhRVQA22sHp0s6QwvWvXb0okmIr0v/s6/2uCBeQP5Y9dCrx4d8UNnWLOR6Cq12bY
-         KizotZ2PIJaofSyePD4iRzTT9U0HRQfIH2WAY10luAFUaCUkR/x/kfDtS8Rc6G4I/phE
-         cBTWQTugVbpb/qo6YJ/q8l7X6aakwGhbgzquWYu19Jz/xij6mCWE7g2pPIBZt3GicVzG
-         1Gxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794310538; x=1794915338;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=crusoe.ai; s=google; t=1794311406; x=1794916206; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=eb4IbN5BS1fARhwXlM0e58qZU7d7q3WTMx1lm2ye1vM=;
-        b=iT9DqaOUh+LL2VZxr1ziVktonyaQ4iuFTcGkoGwOktFM4no9lBWJXrQ8h3qQOHrCU0
-         fsg/EEDS7FBbCFCdvpW4wE8ZdnoCQWkf2ZMcBOaiBOF144YXstQ4SYx9jU2CNc3dsXgJ
-         PRHQuu4xZisR+FgQlze1hySZLj8GgBfpGh62MIbd/wUVot/1EgaZbmTyWY/QTIeu8Lsw
-         /5QPx7o6d+24jK6HcocXUVyZsjDowxpIHqwDV7X6iZ2NQw09iQU/IB00Qq0V5/kdtScX
-         ZxFa197G+Gr1YHSmAZkMNxkVhVaZxz3NuRAUjyH3SmwBnU4D6Eh0nf92p45S2zMpDb6T
-         9SAw==
-X-Forwarded-Encrypted: i=1; AL+hErEMOm3U9dFZiMz2wWG7uoe2ZnLXXDTMLZVVl4halake1xv+ONNFa5Muii+SWIV8tJ/5QrDc5lA9pL+6@lists.infradead.org
-X-Gm-Message-State: APuU4Z96I249c7tCAL2CYYdK0s0ElhMkZxl9nttmyg52uFSBS0nbeUlv
-	+5axsDQITEkJRvphQ1HmyomztQVYqij9SKRR2g4C1ioSsB1cwIRc/uKUGlSNjLuB
-X-Gm-Gg: AYBFou1eK/YnIJsbUDyKtIf8t/dEsV1dW1gonoyw5eTeDZAXFlmwAYFKRoQeq3RKcjo
-	md3rsb8JTTDzGIpue10HxEHm4BhUAOcbsBocHxqjF6lMjIVcMC7THK1u7oSYeJ4TblYTgpP8SFw
-	gdBmUgsvfWS8HYlrVTpqfbk/xsnTWeu5yqHikkUFsfxB5yM5SJI1gLANyQdQ5SiQNOHk+sDaj72
-	R/7qADjdaYjLuW5YycnDVjVAdtZ0FAmxN1eHCvojRd6QwFpfZYOEmvcO/Z0kDP320abQpdOVDbK
-	J4V1Wd91GPrALcBZQSQJiB80xtFiwGkvqklO5gLicBoJYOQMQmfVsSiOjZC7KOM6mPo8VRIJc6g
-	fVNFK6vxZiDMDoVg23ZE+Nbjww9HRXuCUb/eoZmky26CrqdCK2OUTO9QzGD6vVbwOEleBo2qtSf
-	j83r0nr0iBG96AB7BvyoWRTjTT1/JChDWugHL0u1AUbEvXs8SLMi/iogkPV16SgwwzR6IpMjZeN
-	zuEf999yXpt8TWyJdezucuOAGfGD/PbRywV8vaWSreuZ2OhmjAr6TpwFfa4NYT0bR32+JxqiS0K
-	L7MCijs03IMWgx/Wzg/lCh93kwNBoqzGsl98M6gTGBEvwjuNtAB8o/V61I669M89f4oEFdyqkk0
-	=
-X-Received: by 2002:a05:7301:d184:b0:36d:a465:b38e with SMTP id 5a478bee46e88-3751c53689emr3136955eec.5.1794310537844;
-        Tue, 10 Nov 2026 03:35:37 -0800 (PST)
-Received: from localhost.localdomain ([103.179.231.100])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3752060dc0csm7675796eec.14.2026.11.10.03.35.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 03:35:37 -0800 (PST)
-From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-To: hare@kernel.org,
-	hare@suse.de,
-	hch@lst.de,
-	kbusch@kernel.org,
-	kch@nvidia.com,
-	sagi@grimberg.me
-Cc: linux-kernel@vger.kernel.org,
+        bh=ko4mREqmDAZGw+P8OhAmIBygelpZYVgRRe6KEoxcY3E=;
+        b=DazflF/nYNRNQi7ZifblsYz0SZWiX/xILGjEBuO1FhOgqnFvXA4hQL6E3Xq6jCofLQ
+         PyA2dRlG2J+sb8351WE2XQjOwIaI+/+xCpsPnrXQ2SFgWTYZIq+krugD5bz5cFpoW6Ne
+         J4lCJbDUH1kU/LJchUt6Ee/soAYt6CmfIpRlH2j48N3kEDSafKOLHhLo8FepBf5CuTcj
+         QagPHkLsyDYuXsXKzvp2LE/hBnBbyfuscyI0+NkPar7uPVQmwRJQ+2l3T4MgdbKVrvqr
+         J8ZR4nzaPBf66uW2SIFnxipSWfWUkTLUnKYy3Vg2RvLNw8eOKAdMhebkJTdQnveFnq7Q
+         kJLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794311406; x=1794916206;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ko4mREqmDAZGw+P8OhAmIBygelpZYVgRRe6KEoxcY3E=;
+        b=cqBf1PtQxCbxEm4ixxDp3g67XP+hlItysAKNZNNJTgKTRZrHc8XqWuFKC/QXAontmm
+         YKKzp+EQLcUbvh1VEy7WjRirMaN8bPDSIvWvgj+0yCKKOxjmxqydT2rFaCSB+vKhxy7+
+         iVZGz5BhiXjtt/i9dIDCJIJWI3RNQ5NjDnE6j76UDf3t+bO6b703culQ60TOK/2QxP8f
+         kH+6XemTeZ1z8elBQThl4OclIySKwtrGXkIdkTeEmQFnVDTrAms74np2E6A4AM+SpUK/
+         9feDFlfs4sbmkGjGUuqgk43AoBRtN6we159BpvbeVT0kbvTzJmg2yKSyy8Rf54rWGVFN
+         RRrQ==
+X-Forwarded-Encrypted: i=1; AL+hErF6JMarNPS6UMLKr8IaKJTcZ4HuG/uLOxxxdVh7WMnbQpYJ5NKzazBihTdneKFDW1XawsoTSN/vqqXz@lists.infradead.org
+X-Gm-Message-State: APuU4Z9ol6bmp78IDTt9frh2/KIdX37bKQF3nxhY3tOgEukSR8ftCLyo
+	AOlJq1r0jxcfxanNXbWhGnhEvrka3XojI0Rqgek4EHDf2tulRCuWuDRBPobb8gN5Thc=
+X-Gm-Gg: AYBFou0VdJSGzjtgAVKRd+E6/VykUGPaC71T1D32DDCNLK23sw/u5q3jcXmYk2En2yw
+	hiScsVXq4GiHfoMa8L25+wZH/pDD6nPf/ekH5TXfKkFRspGGkkx5qFTUFktJSSN0tHr7KhRMhbb
+	2tWNY46z2fCn5vPzviKoiX0bxxum8ji8H8rKHQFVUvFaI26XudZg77VZYpI5BH3AZE6Hd5dxTQV
+	hN2L+lbpyQ2ieU2swogFmxYNX5FlpQNtqMosY9X1h/fcHfluSiCL139HbChuJ/21tjIOIaLKU2L
+	ojC+7mbRtuUgXFgQZxm8sSrq/AAvbUwuXjMize6r8nqjdgkCvj9hNjRnnLY9gKNQY7sAfp/cq0P
+	Rn3BaUkdQHJ04ckv1HtzA31dfdOg7Qg0BrdfxO1k9+A/SSeSQtUbIXbK2yovJrXLcZev5rNkcLQ
+	3cpdhfjyK/Zyr+mG8J8imi2J8QFMDgSw0FRVL0NM5adHpIDJU59HB8S9e0a2th1Bl+oOnnuA5IK
+	24o+BkDfIOFghwut9zmmCweyxaHU4Ic3z65RpNuKzGkD09tyJpqIr6yOOj0XJeQzXWJcw3Gzy0x
+	4mB1yoveaB4Qh69G7KjXyOdqZ6E5P+PLPefTkuFcgDTEFLHbBOxdlBItGhdVImtUmgRM/Bg=
+X-Received: by 2002:a05:600c:c166:b0:4a1:742e:3 with SMTP id 5b1f17b1804b1-4ba0234e9ebmr38685915e9.27.1794311405845;
+        Tue, 10 Nov 2026 03:50:05 -0800 (PST)
+Received: from MBP-Saravanan-D.civet-hops.ts.net ([83.71.242.57])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-498366c500asm4674805f8f.48.2026.11.10.03.50.04
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Tue, 10 Nov 2026 03:50:05 -0800 (PST)
+From: Saravanan D <saravanand@crusoe.ai>
+To: Nilay Shroff <nilay@linux.ibm.com>
+Cc: linux-block@vger.kernel.org,
+	shinichiro.kawasaki@wdc.com,
 	linux-nvme@lists.infradead.org,
-	Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-Subject: [PATCH v4] nvmet: clean up DH group state on initialization failure
-Date: Tue, 10 Nov 2026 11:35:02 +0000
-Message-ID: <20261110113502.3235-1-sreekuttan2156239@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dwagner@suse.de,
+	hare@suse.de,
+	sagi@grimberg.me,
+	kbusch@kernel.org,
+	iyamahata@crusoe.ai,
+	kiyer@crusoe.ai,
+	ganbalagane@crusoe.ai,
+	sjpark@crusoe.ai,
+	bchen@crusoe.ai
+Subject: Re: [PATCH blktests] nvme/081: test the per-queue io_cpu sysfs attribute
+Date: Tue, 10 Nov 2026 11:49:42 +0000
+Message-ID: <20261110114944.47206-1-saravanand@crusoe.ai>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <7a2bcf1c-990f-46fa-badd-dc1b14dfa96f@linux.ibm.com>
+References: <cover.1794015622.git.saravanand@crusoe.ai> <20261107095350.98072-1-saravanand@crusoe.ai> <7a2bcf1c-990f-46fa-badd-dc1b14dfa96f@linux.ibm.com>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261110_033539_079653_2130A423 
-X-CRM114-Status: GOOD (  15.18  )
-X-Spam-Score: -1.9 (-)
+X-CRM114-CacheID: sfid-20261110_035008_538463_3F0F055E 
+X-CRM114-Status: GOOD (  17.07  )
+X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,134 +109,54 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-8.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-nvmet_setup_dhgroup() leaves the DH transform and group ID
-initialized when private-key generation, public-key allocation,
-or public-key generation fails.
+On Mon, Nov 09, 2026 at 07:13:27PM +0530, Nilay Shroff wrote:
+> > +	_nvme_connect_subsys --keep-alive-tmo 1 --reconnect-delay 2
+>
+> How about adding connection option "--nr-io-queues 2"? If we add
+> this option then we may not need to have the requirement of
+> _require_min_cpus 2. I think, we shall be able to run this test
+> also on the system with only one cpu.
 
-A subsequent invocation with the same DH group incorrectly
-returns success because the existing transform and group ID
-are treated as proof of successful initialization.
+I added --nr-io-queues 2, which pins the queue count. The test still
+needs _require_min_cpus 2 though. nvmf_parse_options() caps
+nr_io_queues at num_online_cpus(), so a single CPU host still gets one
+I/O queue, and the test needs queues 1 and 2.
 
-Release the transform and reset the group state on initialization
-failures so that subsequent attempts can properly retry setup.
+> Can we also add one more test here which tests whether "$qdir"
+> exists or not?
 
-Fixes: 7a277c37d352 ("nvmet-auth: Diffie-Hellman key exchange support")
-Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
----
-v4:
- - Consolidate DH group error handling and clear stale key state
-   when switching DH groups.
-v3:
- - Clear stale DH key state when crypto_alloc_kpp() fails during
-   re-authentication.
- - Fix the error path when crypto_alloc_kpp() fails by returning
-   the allocation error instead of incorrectly reporting success.
-v2:
- - Consolidate error handling in "nvmet_setup_dhgroup()" using
-   a shared cleanup label to avoid duplicated teardown code.
- - Add Fixes trailer.
+Yes. v2 checks the queues directory and the io_cpu attribute
+separately, with a skip reason for each, so a kernel that has only the
+first patch of the series reports which part is missing.
 
- drivers/nvme/target/auth.c | 67 +++++++++++++++++++++-----------------
- 1 file changed, 37 insertions(+), 30 deletions(-)
+> I think using --nr-io-queues option would also replace the above relative
+> comparison with an exact comparison based on num of queues selected.
 
-diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
-index ccba84b1344e..681459b5db3b 100644
---- a/drivers/nvme/target/auth.c
-+++ b/drivers/nvme/target/auth.c
-@@ -76,8 +76,11 @@ int nvmet_setup_dhgroup(struct nvmet_ctrl *ctrl, u8 dhgroup_id)
- 			return 0;
- 		}
- 		crypto_free_kpp(ctrl->dh_tfm);
-+		kfree_sensitive(ctrl->dh_key);
- 		ctrl->dh_tfm = NULL;
- 		ctrl->dh_gid = 0;
-+		ctrl->dh_key = NULL;
-+		ctrl->dh_keysize = 0;
- 	}
- 
- 	if (dhgroup_id == NVME_AUTH_DHGROUP_NULL)
-@@ -95,38 +98,42 @@ int nvmet_setup_dhgroup(struct nvmet_ctrl *ctrl, u8 dhgroup_id)
- 			 __func__, ctrl->cntlid, dhgroup_id,
- 			 PTR_ERR(ctrl->dh_tfm));
- 		ret = PTR_ERR(ctrl->dh_tfm);
--		ctrl->dh_tfm = NULL;
--		ctrl->dh_gid = 0;
--	} else {
--		ctrl->dh_gid = dhgroup_id;
--		pr_debug("%s: ctrl %d setup DH group %d\n",
--			 __func__, ctrl->cntlid, ctrl->dh_gid);
--		ret = nvme_auth_gen_privkey(ctrl->dh_tfm, ctrl->dh_gid);
--		if (ret < 0) {
--			pr_debug("%s: ctrl %d failed to generate private key, err %d\n",
--				 __func__, ctrl->cntlid, ret);
--			kfree_sensitive(ctrl->dh_key);
--			ctrl->dh_key = NULL;
--			return ret;
--		}
--		ctrl->dh_keysize = crypto_kpp_maxsize(ctrl->dh_tfm);
--		kfree_sensitive(ctrl->dh_key);
--		ctrl->dh_key = kzalloc(ctrl->dh_keysize, GFP_KERNEL);
--		if (!ctrl->dh_key) {
--			pr_warn("ctrl %d failed to allocate public key\n",
--				ctrl->cntlid);
--			return -ENOMEM;
--		}
--		ret = nvme_auth_gen_pubkey(ctrl->dh_tfm, ctrl->dh_key,
--					   ctrl->dh_keysize);
--		if (ret < 0) {
--			pr_warn("ctrl %d failed to generate public key\n",
--				ctrl->cntlid);
--			kfree(ctrl->dh_key);
--			ctrl->dh_key = NULL;
--		}
-+		goto err;
-+	}
-+
-+	ctrl->dh_gid = dhgroup_id;
-+	pr_debug("%s: ctrl %d setup DH group %d\n",
-+		 __func__, ctrl->cntlid, ctrl->dh_gid);
-+	ret = nvme_auth_gen_privkey(ctrl->dh_tfm, ctrl->dh_gid);
-+	if (ret < 0) {
-+		pr_debug("%s: ctrl %d failed to generate private key, err %d\n",
-+			 __func__, ctrl->cntlid, ret);
-+		goto err;
-+	}
-+	ctrl->dh_keysize = crypto_kpp_maxsize(ctrl->dh_tfm);
-+	ctrl->dh_key = kzalloc(ctrl->dh_keysize, GFP_KERNEL);
-+	if (!ctrl->dh_key) {
-+		pr_warn("ctrl %d failed to allocate public key\n",
-+			ctrl->cntlid);
-+		ret = -ENOMEM;
-+		goto err;
-+	}
-+	ret = nvme_auth_gen_pubkey(ctrl->dh_tfm, ctrl->dh_key,
-+				   ctrl->dh_keysize);
-+	if (ret < 0) {
-+		pr_warn("ctrl %d failed to generate public key\n",
-+			ctrl->cntlid);
-+		goto err;
- 	}
- 
-+	return 0;
-+err:
-+	kfree_sensitive(ctrl->dh_key);
-+	ctrl->dh_key = NULL;
-+	crypto_free_kpp(ctrl->dh_tfm);
-+	ctrl->dh_tfm = NULL;
-+	ctrl->dh_gid = 0;
-+	ctrl->dh_keysize = 0;
- 	return ret;
- }
- 
--- 
-2.55.0
+Yes. The test now expects exactly two queue directories after connect,
+and a different count fails the test instead of skipping it.
 
+> The reset test could be updated to ensure that number of queues
+> remains unchanged after controller reset. Current test_reset()
+> verifies that the io_cpu and managed attributes retain their expected
+> values after reset. However, it doesn't explicitly verify that the
+> queue directories were recreated with the same count. I would capture
+> the queue_count before reset and compare it afterward as well as
+> ensure that queue_count matches with nr_queue_dirs.
+
+v2 reads queue_count before the reset and checks that it is unchanged
+afterwards. queue_count includes the admin queue, so the test then
+checks that the number of queue directories is queue_count - 1.
+
+I will send v2 in reply to this mail. Thanks also for reviewing both
+kernel patches.
+
+Thanks,
+Saravanan D.
 
