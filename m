@@ -2,60 +2,57 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7A86606A321
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2026 21:17:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37A79606A32D
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2026 21:17:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=tLRYupzx;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iJREp1Nw
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=WFnWP3tB;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BW8cSBu5
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:Date:Subject:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
+	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Unsubscribe-Post:List-Owner;
-	bh=PuZuHEnsND00fHRoxO3q8GjJUd6kGJ0dXTi/U306um4=; b=tLRYupzxRupLlleOa9GkwYbADL
-	pZ+3pXZQJp+H1Daef9+HHWUxKr66nWOp/KPMofuF1xnN0i5TS755qj5m+KRVctsxLYOoYdC1Dy2NM
-	GB1Fl79MeUo4nPv2VjXUgta2oiiLBb0jTiFuCrnoTI2s2VnU4oc99Izs5u2/zy2V5CVfckpOFrkqf
-	J5jZLaMdRWpmK7c9EkMUH3xVKNyTGRPBUUbQ3hJpEt4ZF35ciGDVDjig1FF6le+bswinyGCmyC0w7
-	+sF5QbuPjreuTA8I4LnWRcnjuPFFg2z1Ef7pRl63gewHSZW4heIij9HHjaiJykCdUJx2Ze5FW6Vus
-	dk7mnu8w==;
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
+	List-Owner; bh=ZmsVWE65gHf0tYCZOotZ2fbgGfTg77o991kqs+Fgm8I=; b=WFnWP3tBQP1VKm
+	yZe3Z/aMN1i4Av5kDsQSjJUSBaW9ZUkU2ShSAfj34l5OyQIY+hxNSIcLa8KKEJX6tO1q6iT1q7ihB
+	Le1uAmsG1xpIe5JI+yh9lgUiHOn6vViN3LBXZzK6js99cxhpAblMJWrt2PWKPPN2a5RtGz90oKwdC
+	l8ab7wIgc7+45LSZ/ovr2wbYhaFGeI3mSfowckDwxr9hb/wzJYMsN74XuWP2CZajrCfGurikBR/fr
+	An75ofx4zG3gLBlM7A3RYO9ev7sKIgVNKA3esEJfD0zcp63iv8rAS1oREoivqIlf/O5nfgJwBXPx3
+	6/Ktq2LlY7tyCYlq5w5g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRFgm-00000007ilL-0lXE;
-	Wed, 11 Nov 2026 21:17:04 +0000
+	id 1xRFgn-00000007ioa-3bCJ;
+	Wed, 11 Nov 2026 21:17:05 +0000
 Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQhxO-00000003Dy6-352y
+	id 1xQhyU-00000003ED4-3nfJ
 	for linux-nvme@lists.infradead.org;
-	Tue, 10 Nov 2026 09:15:58 +0000
+	Tue, 10 Nov 2026 09:17:06 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id B15EE602A8;
-	Tue, 10 Nov 2026 09:15:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CCE11F008A1;
-	Tue, 10 Nov 2026 09:15:50 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 5851463803;
+	Tue, 10 Nov 2026 09:17:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 977E81F008A3;
+	Tue, 10 Nov 2026 09:16:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794302157;
-	bh=PuZuHEnsND00fHRoxO3q8GjJUd6kGJ0dXTi/U306um4=;
-	h=From:Subject:Date:To:Cc;
-	b=iJREp1NwHp3BdNh6YhirQMz3aLkdMJad9SaoqicwlHouUofyAaOyHUxlQAMyZlF7r
-	 dxoDogK7Z/SmQMPjvGb107aIw98Hug2c7nyD4DMV9g1SOQKjCPLz3oKAbIbpZoqTaD
-	 pZrbqTndD5C37PARA3QH+ymdbAjgpqhVM8lgzWc8vdrxfAWdPiJr4Zuz7epLK6TvTH
-	 K8+0uuv2p91CoV2BZDxur21nCPhrfDd3bYEfgv9CR8OaiC0kdRmQmvH415KgWFHkQX
-	 DEVbxCY/pgx0ga6OIRh+WS9KothVO+G1SwN3cmU1cAxe1h0Acn2ceEg6DAhgL9k4pG
-	 roZHSfl8QE69g==
+	s=k20260515; t=1794302226;
+	bh=ZmsVWE65gHf0tYCZOotZ2fbgGfTg77o991kqs+Fgm8I=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=BW8cSBu5u5r410tEcT+zMEpXHphJlFpdpAvRKAvEiKkqyi0xID6vk2b0Tbjr4F3K7
+	 awaBsefdY+MBphndwr9KbPvoSGcCvsFqAgttwi2fLxH3+R18Qt4275it2lfQHkFKW3
+	 UWJSti38mAmdmLS3tX3vRlC5H3kzbz/lg2YywjKPfSIrMY163nLZvxRzgh12Gfu740
+	 fCVYcWuwLy19s6iKyC6ZAEcLuBFbK0G08kyGDUPlYe/7HLPPSEk9rvbQ36ZpaFxa7H
+	 vhskSHci2E1kOmUw3DCi+DzAu6HlXgBa1yUahbo2TZ2iHpM1c2csxa56tO5nlkWHht
+	 owe5/3f9zcJNw==
 From: Christian Brauner <brauner@kernel.org>
-Subject: [PATCH RFC 00/41] fs: don't use pseudo filesystem files as storage
-Date: Tue, 10 Nov 2026 10:14:16 +0100
-Message-Id: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
+Date: Tue, 10 Nov 2026 10:14:26 +0100
+Subject: [PATCH RFC 10/41] nullfs: use fc_init_pseudo()
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQ6CMBAF0KuQWTtNSwgpbk08AFvjoi2DVE3bd
- ERNCHeXyvL/+fMWYMqeGI7VApnenn0MW1CHCtxkwo3QD1uGWtatUrLDT8wPfMaYMDHNQ0TdSd0
- 0qtU0KtjeUqbRf//kBfrzCa57ybO9k3sVrMysYUKbTXBTqQorCit2VpQ7rOsPZFHYQaEAAAA=
-X-Change-ID: 20261109-work-loop-pseudo-890844168ef1
+Message-Id: <20261110-work-loop-pseudo-v1-10-4c998976c6c7@kernel.org>
+References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
+In-Reply-To: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
 To: linux-fsdevel@vger.kernel.org
 Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, 
  Josef Bacik <josef@toxicpanda.com>, Christoph Hellwig <hch@lst.de>, 
@@ -72,14 +69,14 @@ Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>,
  linuxppc-dev@lists.ozlabs.org, linux-usb@vger.kernel.org, 
  Amir Goldstein <amir73il@gmail.com>, linux-erofs@lists.ozlabs.org, 
  linux-kselftest@vger.kernel.org, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>, stable@vger.kernel.org
+ "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10223; i=brauner@kernel.org;
- h=from:subject:message-id; bh=WAx5V1LxGhR1UvA5SWC4CADg+JxO9oBzu81M/1sMo5Y=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWR9ejD52Vp9Rt+JU9PPyLRYcDzr9thcK9op63nkT0XG0
- 9tVb6tZO0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACbiG8XI8J1572stqcqPZ3dm
- znK65z3nlUlHTqE/T8hKpkDxSwpWsgz/FKwaX6+8IPBNt3Ftpf31vw35c90UOxbdS3Dp+3xJ6N0
- RDgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=901; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=sE5h4xDpaVEC2u2QAThbBNjL9uzfl1yRVOrJAX0MUt4=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWR9ejD//EYdt1/rJsiFfvkoZ/8qOqx4q8M6HwH1m6/ZZ
+ AI224nydZSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEykdCnDPxurz9VH1LyPmPhq
+ vwyuY532xsvTcZ32qt+q1sFHglVuuzD8D18Z213yU2Sl5aU3uX8PWyTKlr/7O0218syUZaL+TwX
+ WcgEA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 X-Mailman-Approved-At: Wed, 11 Nov 2026 13:17:02 -0800
@@ -101,218 +98,37 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Loop happily takes any regular file with ->read_iter() as a backing
-file and any file that also has ->write_iter() as a writable one. A few
-examples:
-
-* /proc/kcore attaches read-only as a loop device the size of the
-  kernel's virtual address space (64 PiB with 5-level paging)
-* sysfs attributes attach read-write as 4096 byte loop devices
-* using /sys/kernel/mm/transparent_hugepage/enabled for the loop device
-  and writing a block to the loop device changes the THP setting
-
-It's not just silly. It's abusable (is that a word?). Loop calls
-->read_iter() and ->write_iter() of the backing file directly from its
-kworker which runs with kernel credentials.
-
-But pseudo files enforce part of their access rules at read and write
-against the caller. So dozens of sysfs ->show() and ->store() methods
-call capable().
-
-But setting up a loop device requires no capabilities. It only requires
-access to the device nodes. So whoever has a loop device skips all of
-the capable() checks.
-
-A couple of fun examples:
-
-On v7.4-rc1 uid 0 without any capabilities can't kill a process of uid
-1000 and can't poison its memory either:
-
-    $ grep CapEff /proc/self/status
-    CapEff: 0000000000000000
-    $ kill -9 327
-    bash: kill: (327) - Operation not permitted
-    $ echo 0x220689000 > /sys/devices/system/memory/hard_offline_page
-    bash: echo: write error: Operation not permitted
-
-But put hard_offline_page behind a loop device, write a block
-containing 0x220689000 to the loop device and the loop worker happily
-does it:
-
-    Memory failure: 0x220689: recovery action for dirty LRU page: Recovered
-    MCE: Killing victim:327 due to hardware memory corruption fault at 7f468e972000
-
-That hard_offline_page is a write-only file doesn't stop loop from
-using it as a writable backing file either.
-
-Other fun examples:
-
-(1) soft-block radios via /sys/class/rfkill/rfkill*/soft
-    (CAP_NET_ADMIN)
-
-(2) change the reboot mode via /sys/kernel/reboot/mode (CAP_SYS_BOOT)
-
-(3) reconfigure md arrays via /sys/block/md*/md/. md_attr_store()
-    requires CAP_SYS_ADMIN for every md attribute.
-
-(4) reconfigure scsi disks via /sys/class/scsi_disk/*/allow_restart and
-    friends (CAP_SYS_ADMIN)
-
-(5) read dmi-sysfs attributes (CAP_SYS_ADMIN)
-
-And an unprivileged container that was handed a loop device can change
-gro_flush_timeout of its own network devices. That usually requires
-CAP_NET_ADMIN in the initial user namespace (via sysfs and via netlink).
-
-I've reproduced that all on v7.4-rc1.
-
-Aaaand zloop, the nvme target's file backend, the scsi target's fileio
-backend, fuse passthrough and the usb mass storage gadget have the same
-problem. erofs takes pseudo files as images for file-backed mounts as
-well. It reads them with the mounter's credentials though so that's just
-silly and not abusable.
-
-Fwiw, device mapper doesn't need anything. It only takes block devices.
-md's deprecated bitmap file is fine as well. It maps the file with
-bmap() which no pseudo filesystem implements.
-
-So this series adds SB_I_PSEUDO to state that the regular files of a
-filesystem are kernel interfaces and not storage and makes all seven
-refuse such files.
-
-I didn't want to sprinkle SB_I_PSEUDO over all pseudo filesystems one by
-one. Instead there's now a common initialization point for all of them
-via fc_init_pseudo().
-
-init_pseudo() uses it for the internal pseudo filesystems and all
-mountable pseudo filesystems call it from their ->init_fs_context().
-
-kernfs does it once in kernfs_get_tree(). It raises SB_I_PSEUDO,
-SB_I_NOEXEC and SB_I_NODEV. Pseudo filesystems never hold executables or
-device nodes. Some of them raised SB_I_NOEXEC and SB_I_NODEV already,
-most didn't.
-
-I went through every single one of them. None of them needs to execute
-anything. The files that can be mmap()ed map data and the tracing ring
-buffer refuses VM_EXEC anyway.
-
-SB_I_NODEV is cleared again by devpts, binderfs and selinuxfs. The first
-two did that already. selinuxfs needs it because Android init opens
-/sys/fs/selinux/null by path as /dev/null doesn't exist yet at that
-point. Note that systemd mounts most of these filesystems with noexec
-and nodev already.
-
-file_is_pseudo() looks at d_real_inode(). overlayfs happily stacks on
-top of sysfs, cgroup2, debugfs, tracefs, configfs and securityfs and
-reads of such overlayfs files are served by the pseudo file. Only procfs
-and binfmt_misc are refused as they set s_stack_depth to
-FILESYSTEM_MAX_STACK_DEPTH.
-
-Whether all pseudo filesystems should refuse stacking is a separate
-discussion. overlayfs reads the lower file with the mounter's
-credentials so a root-mounted overlayfs on top of a sysfs directory
-hands capability gated reads to every reader. With SB_I_PSEUDO overlayfs
-could easily refuse them.
-
-The first three patches are independent fixes. Loop never checked
-whether its backing file is open for reading. It relied on
-vfs_iter_read() refusing such files. Direct I/O never went through
-vfs_iter_read() and since v6.15 buffered I/O doesn't either. So whoever
-has a loop device can read files they could only open for writing. And
-the nvme target's file backend and the scsi target's fileio backend call
-->read_iter() and ->write_iter() without checking that they exist.
+Initialize nullfs as a pseudo filesystem instead of raising
+SB_I_NOEXEC and SB_I_NODEV by hand. This adds SB_I_PSEUDO.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
-Christian Brauner (41):
-      loop: refuse backing files that aren't open for reading
-      nvmet: check that the file backend supports ->{read,write}_iter
-      target: fileio: check that the backing file supports ->{read,write}_iter
-      fs: add SB_I_PSEUDO
-      kernfs: use fc_init_pseudo()
-      proc: use fc_init_pseudo()
-      binfmt_misc: use fc_init_pseudo()
-      mqueue: use fc_init_pseudo()
-      bpf: use fc_init_pseudo() for bpffs
-      nullfs: use fc_init_pseudo()
-      failfs: use fc_init_pseudo()
-      rust_binderfs: use fc_init_pseudo()
-      devpts: use fc_init_pseudo()
-      debugfs: use fc_init_pseudo()
-      tracefs: use fc_init_pseudo()
-      configfs: use fc_init_pseudo()
-      securityfs: use fc_init_pseudo()
-      selinux: use fc_init_pseudo() for selinuxfs
-      smack: use fc_init_pseudo() for smackfs
-      apparmor: use fc_init_pseudo() for apparmorfs
-      nfsd: use fc_init_pseudo()
-      sunrpc: use fc_init_pseudo() for rpc_pipefs
-      fuse: use fc_init_pseudo() for fusectl
-      efivarfs: use fc_init_pseudo()
-      pstore: use fc_init_pseudo()
-      xenfs: use fc_init_pseudo()
-      openpromfs: use fc_init_pseudo()
-      ocfs2: use fc_init_pseudo() for dlmfs
-      s390/hypfs: use fc_init_pseudo()
-      powerpc/spufs: use fc_init_pseudo()
-      usb: gadget: f_fs: use fc_init_pseudo()
-      usb: gadget: gadgetfs: use fc_init_pseudo()
-      fs: add file_is_pseudo()
-      loop: refuse files on pseudo filesystems as backing files
-      zloop: refuse zone files on pseudo filesystems
-      nvmet: refuse files on pseudo filesystems as namespace backing files
-      target: fileio: refuse files on pseudo filesystems as backing files
-      fuse: refuse files on pseudo filesystems as passthrough backing files
-      usb: gadget: f_mass_storage: refuse files on pseudo filesystems
-      erofs: refuse files on pseudo filesystems as backing files
-      selftests/filesystems: add backing file tests for pseudo files
+ fs/nullfs.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
- arch/powerpc/platforms/cell/spufs/inode.c          |   2 +
- arch/s390/hypfs/inode.c                            |   2 +
- drivers/android/binder/rust_binderfs.c             |   3 +-
- drivers/block/loop.c                               |   6 +
- drivers/block/zloop.c                              |   5 +
- drivers/nvme/target/io-cmd-file.c                  |  10 +
- drivers/target/target_core_file.c                  |  15 ++
- drivers/usb/gadget/function/f_fs.c                 |   2 +
- drivers/usb/gadget/function/storage_common.c       |   5 +
- drivers/usb/gadget/legacy/inode.c                  |   2 +
- drivers/xen/xenfs/super.c                          |   2 +
- fs/binfmt_misc.c                                   |   5 +-
- fs/configfs/mount.c                                |   2 +
- fs/debugfs/inode.c                                 |   2 +
- fs/devpts/inode.c                                  |   2 +
- fs/efivarfs/super.c                                |   2 +
- fs/erofs/super.c                                   |   6 +-
- fs/failfs.c                                        |   3 +-
- fs/fuse/backing.c                                  |   3 +
- fs/fuse/control.c                                  |   2 +
- fs/kernfs/mount.c                                  |   4 +-
- fs/libfs.c                                         |   2 +-
- fs/nfsd/nfsctl.c                                   |   2 +
- fs/nullfs.c                                        |   3 +-
- fs/ocfs2/dlmfs/dlmfs.c                             |   2 +
- fs/openpromfs/inode.c                              |   2 +
- fs/proc/root.c                                     |   4 +-
- fs/pstore/inode.c                                  |   2 +
- fs/tracefs/inode.c                                 |   2 +
- include/linux/fs.h                                 |  12 +
- include/linux/fs/super_types.h                     |   1 +
- include/linux/pseudo_fs.h                          |  11 +
- ipc/mqueue.c                                       |   3 +-
- kernel/bpf/inode.c                                 |   4 +-
- net/sunrpc/rpc_pipe.c                              |   2 +
- security/apparmor/apparmorfs.c                     |   2 +
- security/inode.c                                   |   2 +
- security/selinux/selinuxfs.c                       |   5 +
- security/smack/smackfs.c                           |   2 +
- tools/testing/selftests/filesystems/.gitignore     |   1 +
- tools/testing/selftests/filesystems/Makefile       |   2 +-
- tools/testing/selftests/filesystems/config         |   9 +
- .../selftests/filesystems/pseudo_backing_test.c    | 274 +++++++++++++++++++++
- 43 files changed, 419 insertions(+), 15 deletions(-)
----
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-change-id: 20261109-work-loop-pseudo-890844168ef1
+diff --git a/fs/nullfs.c b/fs/nullfs.c
+index 319c2f5c5a67..2fe24cb97160 100644
+--- a/fs/nullfs.c
++++ b/fs/nullfs.c
+@@ -2,6 +2,7 @@
+ /* Copyright (c) 2026 Christian Brauner <brauner@kernel.org> */
+ #include <linux/fs/super_types.h>
+ #include <linux/fs_context.h>
++#include <linux/pseudo_fs.h>
+ #include <linux/magic.h>
+ #include <linux/splice.h>
+ #include <linux/uio.h>
+@@ -174,7 +175,7 @@ static int nullfs_init_fs_context(struct fs_context *fc)
+ {
+ 	fc->ops		= &nullfs_fs_context_ops;
+ 	fc->sb_flags	|= SB_NOUSER;
+-	fc->s_iflags	|= SB_I_NOEXEC | SB_I_NODEV;
++	fc_init_pseudo(fc);
+ 	return 0;
+ }
+ 
+
+-- 
+2.53.0
 
 
