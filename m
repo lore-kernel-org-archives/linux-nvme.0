@@ -2,59 +2,100 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C473606A76F
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Nov 2026 13:32:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A5C1606A31C
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Nov 2026 13:47:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=pr4zsfB9;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eqqdb4TH
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Tayw2hlP;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=maR1XQFS
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
-	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Cc:To:Subject:
-	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Unsubscribe-Post:List-Owner;
-	bh=OEZgn8Zbp+z86XHAFSsNyw8vuf8Amxex3+czeV9AP14=; b=pr4zsfB9GWY+BEz/YnGRGOXUFi
-	u4oonJoHMcCWeKACRqUVPL9TWo8sixUoI+YvHLloa2jIRKpBr4rM59gdUr8P/BfZacO7Y7IWNQgDV
-	t6ZpUreOMmXX9mSCM7fS5w6QNACNVctykUgHg3iCBZwLB2mxvkmor+PPgp4a3cqD6D9qgolt0vQu0
-	vGBbO3eaSGdh/I/VDa7K76iVPD9cZL+N5dryEg4m0lhheYycqde4yOVLKTjZesVA3RhIclt0MRgyE
-	ZSYFCSTFr3Q/So1MqASvRpDlhctglLlWoXnB5AWDVU5m/uKZco9yjZI49sr3v4edL2molaRHNcT3l
-	jLBEEOsQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
+	List-Owner; bh=61QcDSDsSH5n6LCVlJAKE5htGdjtvYorgYiqBUo3mWE=; b=Tayw2hlPgvZICO
+	xbyAoLz11SDk/6LgghHdWo66Sw3umsu53At9wvTQ/EUqCkdiBv/m62wetIavdGIUxqDyahWEWNime
+	JefDqbFxbqDOwQ8wG+ydVfW62JNeOEYP0d/hD1HjYcqQy1oDiGidOaN0imbxesDWLPBcEEmtmE6+3
+	eQDQpJtM8tQqG3AapBrY3LhKzNmRv2fktCzakJHHQ2U6z5ja7lX30nJDXkKvFHrRLG3swaSar19Ev
+	S3f3lTuIcChk/2jAgJzI6tigHFr5FXJhE0zhVgJhELDmIcQmDArHttFdhubtyL8yy+lLMxBb1W0O1
+	s8xdBpxkJptB510KPHpg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQlxt-000000044Lm-0lty;
-	Tue, 10 Nov 2026 13:32:45 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1xQmCS-0000000476Q-3EnK;
+	Tue, 10 Nov 2026 13:47:48 +0000
+Received: from mail-dy1-x132d.google.com ([2607:f8b0:4864:20::132d])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQlxr-000000044L0-3sni
+	id 1xQmCQ-0000000475t-3fpT
 	for linux-nvme@lists.infradead.org;
-	Tue, 10 Nov 2026 13:32:44 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 01D7660D4B;
-	Tue, 10 Nov 2026 13:32:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EBBD1F0089F;
-	Tue, 10 Nov 2026 13:32:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794317562;
-	bh=OEZgn8Zbp+z86XHAFSsNyw8vuf8Amxex3+czeV9AP14=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=eqqdb4THW2SZHiuTHwJxuqw/wCLG6Atu1No42CXygkoJDncNVhzWa9aMP3q0f/zJd
-	 b+AL1sktmP8VayVb/3461gX7S7w5ujTiCxrnX8qCRsJPvhmmZ5o4JI1gfgJNQq+ttR
-	 29ZVgITU1WoJC9wzxCMGhTvRWAnbK+9V2MJ0wt92X+n8LBg9YNSdN1QbkMQ0GP7bdU
-	 DmCEc2S+nH7W9NKTWatCliCoG3QF6rigU9ZcUVnuhvKEO3ZmM2ixab/bw8TiAVmrhY
-	 S7Vbd16+XMGhmjDqIJYGldQmorUKxbdOgGAdcstK56KW3NWiL7ydva2trNOB1PrSFU
-	 fsm/9OIPFCPCg==
-Message-ID: <sashiko-outbox-207126@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] nvme-multipath: don't wait for a grace period in
- nvme_mpath_set_live()
-To: "Qiliang Yuan" <qiliang.yuan@linux.dev>
-Cc: linux-nvme@lists.infradead.org
-In-Reply-To: <20261110-bug-nvme-mpath-set-live-srcu-v1-1-1f58b405b0f8@linux.dev>
-References: <20261110-bug-nvme-mpath-set-live-srcu-v1-1-1f58b405b0f8@linux.dev>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Nov 2026 13:32:42 +0000
+	Tue, 10 Nov 2026 13:47:48 +0000
+Received: by mail-dy1-x132d.google.com with SMTP id 5a478bee46e88-3704d30b84fso2571589eec.1
+        for <linux-nvme@lists.infradead.org>; Tue, 10 Nov 2026 05:47:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794318466; x=1794923266; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=61QcDSDsSH5n6LCVlJAKE5htGdjtvYorgYiqBUo3mWE=;
+        b=maR1XQFS+joUOy8z/pv9qymdqUYqmwGTA2Yll85YrCtqVGz35lOH61rOtndg8K6Z0Q
+         ID+MLSiN4/iQMKtf4WugVYc4zhk3gNpVE3n8ES7uZRB6/WDTr8aZt9f4WOe0woOOdbkl
+         kwC96nmO4wAfWyQcK5ktDaR4RF4cspG9T9Scy59jWttc/QVdgdyg2ZRteJZwac4gT51r
+         N1r95ef6oIatIRnt0u+sMmWk5yDQ7KeBCeYU52/joTeLE60xYN6B01wP3tEXpFE1sKHy
+         4VMlf97HFjHNBladhN69g69ua+rNsuAaxOgcVLJcUVyN4DWgeKyiq+m+lWIrLbpv+TpV
+         4M0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794318466; x=1794923266;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=61QcDSDsSH5n6LCVlJAKE5htGdjtvYorgYiqBUo3mWE=;
+        b=wGX+7EcCtWrsVBfzpR0kXOHoBfm+tqG6RkyhnUpRHFFpsPiFAM5WMYkWnIH3nhXrK+
+         Q5gEMIMnzHEDyC4hgkjdQ3D0bDZiCDdJ1JH1z6QDCL2vltZWnFxc1/q59YDt4mErQjvR
+         Dyk4j1+yuEVbC5IQLHVuN8AaJgBVVM34/c4/Nn+eDMBRrhmwtNmH3PkR3nIuUSyeci/v
+         BzZTG/oIFX97O9tqD5klx2y1+s48tS8cCFVwk6zMY4UcnNsXN2CQn4ve8itd2cJkpmOz
+         eZ8/flN/MLWg+OiuogD7a5dQp3e/uCT4mVJDAp7bp4ql6KX//xcOdmpq9rsCNrKNUBr6
+         uKLA==
+X-Forwarded-Encrypted: i=1; AL+hErGlKNWUoWyEiJlQaYyEn1swlKltGuzeHusD+J1N92BHB3SNx56Zh8qpqIKp6XTr5w7LHW0IfzkUQR8y@lists.infradead.org
+X-Gm-Message-State: APuU4Z+ovB2wyQH/SQ3udj5++Exw86R7HQF/Lf7cyxKpd8F086QSjvfE
+	GcE8cd4I5Pmx/qw81Iiylp+WW+fCVMmYXA1S6ZFBEnKxZMlo1AtbnoEg
+X-Gm-Gg: AYBFou3znA6ILyWeLVn9RB69Vesy7CTW3CB+ldTaD5jduBmHkkWD0iPB64F4SlhPLq8
+	Tp++kRRJI7FPnetqsZ2goTcTKKT1j1RGgVUoJ1RUy4gVeQ6cGtv48SAF5Do+81ZGrg1lbJwcBOT
+	4upl2o0UURT8NYw4M21oBQq0N1+UGnFbp0/+VBoSfnmViSsYU73GyuYydBwmTfh6lzqHXCTzy3L
+	jV+Lqik0nOGAd8sdBB3nr1IBHkU6gFw24gea68RGqIf7LBdk4GPekKZ3nW2kES/K8E3LtfEtl/u
+	uGCumLJJ9l+HXW24Z+IqSySV08SJU7yj8F8kUk/wjlOg/WlGuQ44Jnd5OB/5xLM5TOkf+zVYf/n
+	/xEpDkK2rCuRkdCLTXag0YT9wamklMybREDHhKuRsshGX+KU2nZR09Cz4QEitefHLWsM6D3m3cZ
+	7/9x2df8K0Uz6/2UEUGTcCO5/pCTaqPM0aXKamJ2AeeW3mOANlRAwfmPZmBupZevWbKpigvJcIb
+	SPRxrqefi1MKd8VDnvC8rCfaWKAXgmJxmAnBbJiX0ChZnQjqOZyGzJZ96Ol/IJ4QwW6rTix6sP4
+	9LX4jbD8L3B+KChXtadjyxbSliaKMn69sV6hlh1IF2YtanL1kw==
+X-Received: by 2002:a05:693c:87d0:20b0:36a:1e0a:accb with SMTP id 5a478bee46e88-37520026b83mr3535881eec.35.1794318465405;
+        Tue, 10 Nov 2026 05:47:45 -0800 (PST)
+Received: from localhost.localdomain ([103.170.54.93])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-375212e76e2sm8350319eec.24.2026.11.10.05.47.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Nov 2026 05:47:44 -0800 (PST)
+From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+To: hare@suse.de
+Cc: hare@kernel.org,
+	hch@lst.de,
+	kbusch@kernel.org,
+	kch@nvidia.com,
+	linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	sagi@grimberg.me,
+	sreekuttan2156239@gmail.com
+Subject: Re: [PATCH v4] nvmet: clean up DH group state on initialization failure
+Date: Tue, 10 Nov 2026 13:47:20 +0000
+Message-ID: <20261110134720.3500-1-sreekuttan2156239@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <2f0e8fe5-42b6-47d9-9bcd-c549544e099a@suse.de>
+References: <2f0e8fe5-42b6-47d9-9bcd-c549544e099a@suse.de>
+X-Archived-By: <archiver.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20261110_054746_913762_97814F78 
+X-CRM114-Status: UNSURE (   6.69  )
+X-CRM114-Notice: Please train this message.
+X-Spam-Score: -1.9 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -64,117 +105,25 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
-X-Archived-By: <archiver.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] nvme-multipath: unlocked requeue_srcu_cookie update in
-  nvme_mpath_set_live()
-It also noticed 1 related pre-existing issue this patch does not
-introduce:
-- [High] nvme-multipath: stranded I/O in delayed_removal_secs_store()
-  [1]
---
+Thanks, Hannes.
 
-commit c9b236e98759e76a4ecd5a5f54a6bd1f8d9ab7be
-Author: Qiliang Yuan <qiliang.yuan@linux.dev>
+I kept the cleanup in a common "err:" path to avoid duplicating the teardown 
+logic across multiple failure paths.
 
-nvme-multipath: don't wait for a grace period in nvme_mpath_set_live()
+The diff looks larger mainly because I removed the existing "else" block after 
+introducing "goto err" for error handling. This allows the successful initialization 
+path to remain linear, with all failures handled through the common cleanup section.
 
-This commit replaces the synchronous synchronize_srcu() call in
-nvme_mpath_set_live() with start_poll_synchronize_srcu() and defers
-waiting for the SRCU grace period to nvme_requeue_work().
+Thanks for the review!
 
-> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-> index ae8059366b57d..4bc94f165c17d 100644
-> --- a/drivers/nvme/host/multipath.c
-> +++ b/drivers/nvme/host/multipath.c
-
-[ ... ]
-
-> @@ -851,7 +857,13 @@ static void nvme_mpath_set_live(struct nvme_ns *ns)
->  	}
->  	mutex_unlock(&head->lock);
-> =20
-> -	synchronize_srcu(&head->srcu);
-> +	/*
-> +	 * Have nvme_requeue_work() wait for the grace period instead of
-> +	 * blocking here, so that namespaces going live together, e.g. on
-> +	 * an ANA change, do not wait for one grace period each.
-> +	 */
-> +	WRITE_ONCE(head->requeue_srcu_cookie,
-> +		   start_poll_synchronize_srcu(&head->srcu));
->  	nvme_mpath_revalidate_zones(head);
->  	kblockd_schedule_work(&head->requeue_work);
->  }
-
-[Severity: Medium]
-Can concurrent nvme_mpath_set_live() calls on the same head overwrite a
-newer head->requeue_srcu_cookie with an older, already-completed cookie?
-
-CPU0                              CPU1
-nvme_mpath_set_live(ns1)
-  mutex_unlock(&head->lock)
-  c1 =3D start_poll_synchronize_srcu()
-  // grace period c1 completes;
-  // ns1 fails over again, and a
-  // reader enters srcu_read_lock()
-  // seeing no usable path
-                                  nvme_mpath_set_live(ns2)
-                                    mutex_unlock(&head->lock)
-                                    c2 =3D start_poll_synchronize_srcu()
-                                    WRITE_ONCE(requeue_srcu_cookie, c2)
-  WRITE_ONCE(requeue_srcu_cookie, c1)
-                                    kblockd_schedule_work(&requeue_work)
-                                  nvme_requeue_work()
-                                    poll_state_synchronize_srcu(..., c1)
-                                      // returns true, skips sync
-                                    bio_list_get(&head->requeue_list)
-                                      <-- misses in-flight reader's bio
-
-When that happens, nvme_requeue_work() drains head->requeue_list before
-the in-flight nvme_ns_head_submit_bio() reader finishes queueing its bio,
-leaving the bio stranded on head->requeue_list until a later path event.
-Updating head->requeue_srcu_cookie before mutex_unlock(&head->lock) would
-serialize the cookie generation and store.
-
-[Severity: High]
-This problem wasn't introduced by this patch, but in the same file,
-delayed_removal_secs_store() [1] can leave parked bios stranded on
-head->requeue_list when delayed_removal_secs is set to 0:
-
-drivers/nvme/host/multipath.c:delayed_removal_secs_store() {
-	...
-	mutex_lock(&head->subsys->lock);
-	head->delayed_removal_secs =3D sec;
-	assign_bit(NVME_NSHEAD_QUEUE_IF_NO_PATH, &head->flags, sec);
-	mutex_unlock(&head->subsys->lock);
-	/*
-	 * Ensure that update to NVME_NSHEAD_QUEUE_IF_NO_PATH is seen
-	 * by its reader.
-	 */
-	synchronize_srcu(&head->srcu);
-
-	return count;
-}
-
-When writing 0 clears NVME_NSHEAD_QUEUE_IF_NO_PATH while no paths are
-usable, any bios already queued on head->requeue_list need to be drained
-and failed, but delayed_removal_secs_store() returns without calling
-kblockd_schedule_work(&head->requeue_work), leaving tasks waiting on
-those bios hung until a separate path event schedules requeue_work.
-
-[1] https://sashiko.dev/#/bug/linux-7d2cc5ea-2752-4473-b874-a955225beb1b
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261110-bug-nvme-m=
-path-set-live-srcu-v1-1-1f58b405b0f8@linux.dev?part=3D1
+Sreeraj
 
