@@ -2,14 +2,14 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C2B360A382A
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2026 21:18:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3ED260A6F7C
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2026 21:18:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=gCOlZtVT;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=c9mE+CRT;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=kal9kkyQ;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=c9mE+CRT;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=kal9kkyQ
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=kxaNk3lQ;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=Tg9pxHAG;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=q20vaKKg;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=Tg9pxHAG;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=q20vaKKg
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
@@ -17,74 +17,74 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=uXIEEsQfVTIPoYksjJrq5Bxki7KhKYAms5GVjwoGo8Y=; b=gCOlZtVTre1uFG1isvyOV+Xzua
-	CDV1Ad0APTm5GMjbTHP0cBtyTYcoca1WNxjv7AFTpth7xLa/Ayy1319onMtsEgJlNf0im4sxVZyOE
-	oROAFwlSunxQcEW9qm7fiwFY6cJomJSsplZnSpzZARdWCEBwTKwY/Bur4/OzZC8J9ruqgHwQlq364
-	vF/Px1GZJg8smVA7xqyR1bLsKNcHv8Pix4WNOoNP65GqMQQAWk9IT7wXC4eRgy5dLdHHebbIhZkJW
-	EA3b3vukjk7yIQ+TVjdpwX5ISQAXB4cFUFnH9dGmzODr6NbnTM3P3e2LPWR1zeZ9PBUtPQCB03DDP
-	8m2+m7Lg==;
+	bh=8KLB44ZvNPPyRXKdiegczIQhHN8ao8apnQUZAyLWj+4=; b=kxaNk3lQ/4tr9W0MQ5fVMtR2wK
+	/2tsGgKDGyF/S5X9NIcYqRxpZbbktsmA+qtkqQYiWXkAFMR42cceRVTNvHcAFnNacPVlKRsVLqLrD
+	Bze6nkrBA9lwPMPAJ0o4xJkOmPTV1xiKMY4c8d25TfawDMsdmQDs3B2siuZLSxhUfRmMO/yGSDyMC
+	cmaEfLjIXK1CMlndlbBY+3ikJCmc9zWwW/DrLRrcC90jMGE5dlGkNGwAn6oojDIvJ5fTgP1drLbqe
+	BMbtbpKrqpTmct4qJTLqjvNdrSC1eKSsEmJlcbB068XIbkgV46m+T+K9axfy2dzEOw9kc7CQ3kEtN
+	tC1RsEKg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRFhg-00000007l2h-2RI8;
-	Wed, 11 Nov 2026 21:18:00 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1xRFhm-00000007l7w-1dzH;
+	Wed, 11 Nov 2026 21:18:07 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQlRH-00000003wU3-1WHg
+	id 1xQlRg-00000003wXc-0kKN
 	for linux-nvme@lists.infradead.org;
-	Tue, 10 Nov 2026 12:59:04 +0000
+	Tue, 10 Nov 2026 12:59:29 +0000
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 96EA721C3C;
-	Tue, 10 Nov 2026 12:59:01 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 56C8E1FB86;
+	Tue, 10 Nov 2026 12:59:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794315541; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1794315566; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=uXIEEsQfVTIPoYksjJrq5Bxki7KhKYAms5GVjwoGo8Y=;
-	b=c9mE+CRTtVzWwHCARJ1vd96Xho3nI/pS4LksT/7Mtmz/enT3ot6Jv+ishWlr43gZSQip4n
-	SM34HuYF7Cvf9TdHqnHerexkyr7m27gwbghlt5kBxleXZTpWWWludIkY/uX/1xq2ZGF1Cl
-	84ZWSnV4g+NJIksQj9LF3uDbQvrtb1Q=
+	bh=8KLB44ZvNPPyRXKdiegczIQhHN8ao8apnQUZAyLWj+4=;
+	b=Tg9pxHAGdtgSeS7Qu42jAWrI2LAmSaoDXcdfGHx1tuvTgldlFIm+epZXlZZj79RfQ/uyYs
+	j7aTWHT3+26/dA5zpMh+gCzr5PQEW79hL4QQOyR+4ECdDFeslymvZjZejsnkfxlL2jXCBs
+	ItKgb+Sl0jU9dDgVqfAl/iGxQ3BwU2Y=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794315541;
+	s=susede2_ed25519; t=1794315566;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=uXIEEsQfVTIPoYksjJrq5Bxki7KhKYAms5GVjwoGo8Y=;
-	b=kal9kkyQ8SEr1Uo3AFh1O8jXLtIAjDTFZiXwnabICsxjbUs+efcLTV1NmhR9cGdyfqXeRJ
-	S89Jh74CnobXgdBQ==
-Authentication-Results: smtp-out1.suse.de;
+	bh=8KLB44ZvNPPyRXKdiegczIQhHN8ao8apnQUZAyLWj+4=;
+	b=q20vaKKgsSX1kEDHQVu62VroC195QLudNGL/QIvX4QmdixQN3bbqOd+0xO46gJ/KYR5M2p
+	3Po4KFQU6XBLecCQ==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794315541; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1794315566; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=uXIEEsQfVTIPoYksjJrq5Bxki7KhKYAms5GVjwoGo8Y=;
-	b=c9mE+CRTtVzWwHCARJ1vd96Xho3nI/pS4LksT/7Mtmz/enT3ot6Jv+ishWlr43gZSQip4n
-	SM34HuYF7Cvf9TdHqnHerexkyr7m27gwbghlt5kBxleXZTpWWWludIkY/uX/1xq2ZGF1Cl
-	84ZWSnV4g+NJIksQj9LF3uDbQvrtb1Q=
+	bh=8KLB44ZvNPPyRXKdiegczIQhHN8ao8apnQUZAyLWj+4=;
+	b=Tg9pxHAGdtgSeS7Qu42jAWrI2LAmSaoDXcdfGHx1tuvTgldlFIm+epZXlZZj79RfQ/uyYs
+	j7aTWHT3+26/dA5zpMh+gCzr5PQEW79hL4QQOyR+4ECdDFeslymvZjZejsnkfxlL2jXCBs
+	ItKgb+Sl0jU9dDgVqfAl/iGxQ3BwU2Y=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794315541;
+	s=susede2_ed25519; t=1794315566;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=uXIEEsQfVTIPoYksjJrq5Bxki7KhKYAms5GVjwoGo8Y=;
-	b=kal9kkyQ8SEr1Uo3AFh1O8jXLtIAjDTFZiXwnabICsxjbUs+efcLTV1NmhR9cGdyfqXeRJ
-	S89Jh74CnobXgdBQ==
+	bh=8KLB44ZvNPPyRXKdiegczIQhHN8ao8apnQUZAyLWj+4=;
+	b=q20vaKKgsSX1kEDHQVu62VroC195QLudNGL/QIvX4QmdixQN3bbqOd+0xO46gJ/KYR5M2p
+	3Po4KFQU6XBLecCQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6DE921339F;
-	Tue, 10 Nov 2026 12:59:01 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 22D901339F;
+	Tue, 10 Nov 2026 12:59:26 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id B0aKEhUV82qHRgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 10 Nov 2026 12:59:01 +0000
+	id o6G5AC4V82quRgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 10 Nov 2026 12:59:26 +0000
 Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 0FDA5224EF; Tue, 10 Nov 2026 13:59:01 +0100 (CET)
-Date: Tue, 10 Nov 2026 13:59:01 +0100
+	id B65D4224F1; Tue, 10 Nov 2026 13:59:25 +0100 (CET)
+Date: Tue, 10 Nov 2026 13:59:25 +0100
 From: Jan Kara <jack@suse.cz>
 To: Christian Brauner <brauner@kernel.org>
 Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>, 
@@ -98,18 +98,18 @@ Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>,
 	linux-efi@vger.kernel.org, xen-devel@lists.xenproject.org, ocfs2-devel@lists.linux.dev, 
 	linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-usb@vger.kernel.org, 
 	Amir Goldstein <amir73il@gmail.com>, linux-erofs@lists.ozlabs.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC 14/41] debugfs: use fc_init_pseudo()
-Message-ID: <tqopv6vbmzwwjyp24wch4hw526xibknezzimun4tniww2dq7wu@ajdlmym5ihdu>
+Subject: Re: [PATCH RFC 16/41] configfs: use fc_init_pseudo()
+Message-ID: <huxjpffxqk5qugzjbc2mvrdvqab6idnvjqi7zla2far65t3im3@4lilbachmbvw>
 References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
- <20261110-work-loop-pseudo-v1-14-4c998976c6c7@kernel.org>
+ <20261110-work-loop-pseudo-v1-16-4c998976c6c7@kernel.org>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261110-work-loop-pseudo-v1-14-4c998976c6c7@kernel.org>
-X-Spamd-Result: default: False [-16.80 / 50.00];
+In-Reply-To: <20261110-work-loop-pseudo-v1-16-4c998976c6c7@kernel.org>
+X-Spam-Level: 
+X-Spamd-Result: default: False [-12.80 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
-	REPLY(-4.00)[];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
@@ -131,11 +131,10 @@ X-Spamd-Result: default: False [-16.80 / 50.00];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -16.80
-X-Spam-Level: 
+X-Spam-Score: -12.80
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261110_045903_584588_2D1C3624 
-X-CRM114-Status: GOOD (  17.41  )
+X-CRM114-CacheID: sfid-20261110_045928_362468_C9C54B85 
+X-CRM114-Status: GOOD (  17.27  )
 X-Spam-Score: -2.1 (--)
 X-Mailman-Approved-At: Wed, 11 Nov 2026 13:17:02 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -156,43 +155,41 @@ X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Tue 10-11-26 10:14:30, Christian Brauner wrote:
-> Initialize debugfs as a pseudo filesystem. This raises SB_I_PSEUDO and
-> also SB_I_NOEXEC and SB_I_NODEV. debugfs never holds executables or
+On Tue 10-11-26 10:14:32, Christian Brauner wrote:
+> Initialize configfs as a pseudo filesystem. This raises SB_I_PSEUDO and
+> also SB_I_NOEXEC and SB_I_NODEV. configfs never holds executables or
 > device nodes.
-> 
-> SB_I_NOEXEC also refuses PROT_EXEC mappings. The debugfs files that
-> can be mapped, kcov, relay channels and powernv's memtrace, map data.
 > 
 > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-OK, makes sense. Feel free to add:
+Makes sense. Feel free to add:
 
 Reviewed-by: Jan Kara <jack@suse.cz>
 
 								Honza
+
 > ---
->  fs/debugfs/inode.c | 2 ++
+>  fs/configfs/mount.c | 2 ++
 >  1 file changed, 2 insertions(+)
 > 
-> diff --git a/fs/debugfs/inode.c b/fs/debugfs/inode.c
-> index b4915551ad31..f163f0bc5703 100644
-> --- a/fs/debugfs/inode.c
-> +++ b/fs/debugfs/inode.c
-> @@ -15,6 +15,7 @@
+> diff --git a/fs/configfs/mount.c b/fs/configfs/mount.c
+> index d8cac1cbf3bd..60ba24e7ae2b 100644
+> --- a/fs/configfs/mount.c
+> +++ b/fs/configfs/mount.c
+> @@ -13,6 +13,7 @@
 >  #include <linux/module.h>
->  #include <linux/fs.h>
+>  #include <linux/mount.h>
 >  #include <linux/fs_context.h>
 > +#include <linux/pseudo_fs.h>
->  #include <linux/fs_parser.h>
 >  #include <linux/pagemap.h>
 >  #include <linux/init.h>
-> @@ -317,6 +318,7 @@ static int debugfs_init_fs_context(struct fs_context *fc)
->  	fsi->mode = DEBUGFS_DEFAULT_MODE;
+>  #include <linux/slab.h>
+> @@ -106,6 +107,7 @@ static const struct fs_context_operations configfs_context_ops = {
 >  
->  	fc->s_fs_info = fsi;
+>  static int configfs_init_fs_context(struct fs_context *fc)
+>  {
 > +	fc_init_pseudo(fc);
->  	fc->ops = &debugfs_context_ops;
+>  	fc->ops = &configfs_context_ops;
 >  	return 0;
 >  }
 > 
