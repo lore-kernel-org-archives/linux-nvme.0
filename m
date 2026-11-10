@@ -2,67 +2,59 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F815606E454
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Nov 2026 13:10:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C473606A76F
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Nov 2026 13:32:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=PgL4ejuN;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=a9eYITwN
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=pr4zsfB9;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eqqdb4TH
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:Message-Id:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Cc:To:Subject:
+	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=AIbTsoYJnqU+UBgdfpuuXZyRGQURHVhq0edfk1ZSOcQ=; b=PgL4ejuNyOSk6NCEUheo32+DCf
-	cNZ5zJy/caKMQmrljRaS9RkVBIwMYD2f4pFOODOYz5Ydp/99Ra5uR0BDfWdRpGxpBtZ5c3ctQdhJt
-	EsxW+dA4g3RvYoel1gx/qU+YImdlrgAKAcC13EtRH+P7bzNMtlbliU75ozh6xh2hl34KXBP38wzd2
-	f6HbRql4Yff4TYL/mMi1vQ70FcOhLptH2rg0e7pb7/lPoc2gQLNg38TvVocfUPnIZDUZrXjUT9PwR
-	VtxcjNGIoLBanrHs9byDPq8rlYrSxsix/Hjgm2JpPnM6Ld8ZqTTGUyDZxjozbMdvpTtwCw89gBu9C
-	F8pHQgtA==;
+	bh=OEZgn8Zbp+z86XHAFSsNyw8vuf8Amxex3+czeV9AP14=; b=pr4zsfB9GWY+BEz/YnGRGOXUFi
+	u4oonJoHMcCWeKACRqUVPL9TWo8sixUoI+YvHLloa2jIRKpBr4rM59gdUr8P/BfZacO7Y7IWNQgDV
+	t6ZpUreOMmXX9mSCM7fS5w6QNACNVctykUgHg3iCBZwLB2mxvkmor+PPgp4a3cqD6D9qgolt0vQu0
+	vGBbO3eaSGdh/I/VDa7K76iVPD9cZL+N5dryEg4m0lhheYycqde4yOVLKTjZesVA3RhIclt0MRgyE
+	ZSYFCSTFr3Q/So1MqASvRpDlhctglLlWoXnB5AWDVU5m/uKZco9yjZI49sr3v4edL2molaRHNcT3l
+	jLBEEOsQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQlcI-00000003yxZ-3iQT;
-	Tue, 10 Nov 2026 13:10:26 +0000
-Received: from out-145.mta0.migadu.com ([2001:41d0:1004:224b::91] helo=mta0.migadu.com)
+	id 1xQlxt-000000044Lm-0lty;
+	Tue, 10 Nov 2026 13:32:45 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQlcF-00000003yuy-0opX
+	id 1xQlxr-000000044L0-3sni
 	for linux-nvme@lists.infradead.org;
-	Tue, 10 Nov 2026 13:10:24 +0000
-X-Envelope-To: linux-nvme@lists.infradead.org
-DKIM-Signature: a=rsa-sha256; bh=952T0Zyn92ruet41jp8SPLUgK+azry6ZsW9QMfdNX5k=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794316212; v=1; x=1794921012;
- b=a9eYITwNp67wmoza8iBvS+dlCvAt7r3ffRcYF0pLLIxzb+fLHR6hlzIVZxRNuFN0rw35Wvm1
- aJaAs3iYOQ0AJgAK5XzAugOyJIqlH6bUx12W6XERo+8+76igOdA4QwHBFZrUJSKzzPTfLQc0rHF
- ZEpwthlD7tyn7WyAwp+ZAQNM=
-X-Envelope-To: linux-nvme@lists.infradead.org
-Received: by smtp.migadu.com with ESMTPS id 700c77a0a9d00a5e;
-	Tue, 10 Nov 2026 13:10:12 +0000
-X-Mizu-Trace-ID: 700c77a0a9d00a5e
-X-Migadu-Flow: FLOW_OUT
-From: Qiliang Yuan <qiliang.yuan@linux.dev>
-Date: Tue, 10 Nov 2026 08:10:06 -0500
-Subject: [PATCH] nvme-multipath: don't wait for a grace period in
+	Tue, 10 Nov 2026 13:32:44 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id 01D7660D4B;
+	Tue, 10 Nov 2026 13:32:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EBBD1F0089F;
+	Tue, 10 Nov 2026 13:32:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794317562;
+	bh=OEZgn8Zbp+z86XHAFSsNyw8vuf8Amxex3+czeV9AP14=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=eqqdb4THW2SZHiuTHwJxuqw/wCLG6Atu1No42CXygkoJDncNVhzWa9aMP3q0f/zJd
+	 b+AL1sktmP8VayVb/3461gX7S7w5ujTiCxrnX8qCRsJPvhmmZ5o4JI1gfgJNQq+ttR
+	 29ZVgITU1WoJC9wzxCMGhTvRWAnbK+9V2MJ0wt92X+n8LBg9YNSdN1QbkMQ0GP7bdU
+	 DmCEc2S+nH7W9NKTWatCliCoG3QF6rigU9ZcUVnuhvKEO3ZmM2ixab/bw8TiAVmrhY
+	 S7Vbd16+XMGhmjDqIJYGldQmorUKxbdOgGAdcstK56KW3NWiL7ydva2trNOB1PrSFU
+	 fsm/9OIPFCPCg==
+Message-ID: <sashiko-outbox-207126@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] nvme-multipath: don't wait for a grace period in
  nvme_mpath_set_live()
-X-Archived-By: <archiver.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261110-bug-nvme-mpath-set-live-srcu-v1-1-1f58b405b0f8@linux.dev>
-X-B4-Tracking: v=1; b=H4sIAK0X82oC/x3MzQpAQBAA4FfRnE0Z+X8VObAGUyztsCl5d5vjd
- /keUHbCCk30gGMvKrsNoDgCs/R2ZpQxGNIkLYgoweGa0fqNcTv6c0HlE1fxjOrMhWYYq7rIJ8r
- yEkJxOJ7k/vu2e98P3WmhJm4AAAA=
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Qiliang Yuan <qiliang.yuan@linux.dev>
-X-Mailer: b4 0.13.0
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261110_051023_515201_36CC323C 
-X-CRM114-Status: GOOD (  14.49  )
-X-Spam-Score: -2.1 (--)
+To: "Qiliang Yuan" <qiliang.yuan@linux.dev>
+Cc: linux-nvme@lists.infradead.org
+In-Reply-To: <20261110-bug-nvme-mpath-set-live-srcu-v1-1-1f58b405b0f8@linux.dev>
+References: <20261110-bug-nvme-mpath-set-live-srcu-v1-1-1f58b405b0f8@linux.dev>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 10 Nov 2026 13:32:42 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,102 +64,117 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
+X-Archived-By: <archiver.kernel.org>
 
-When a path goes live, nvme_mpath_set_live() waits for an SRCU grace
-period of the namespace head before kicking the requeue work, so that
-bios which found no usable path are on the requeue list by the time it
-runs.
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] nvme-multipath: unlocked requeue_srcu_cookie update in
+  nvme_mpath_set_live()
+It also noticed 1 related pre-existing issue this patch does not
+introduce:
+- [High] nvme-multipath: stranded I/O in delayed_removal_secs_store()
+  [1]
+--
 
-The ANA work calls nvme_mpath_set_live() for every namespace that
-becomes optimized or non-optimized, one after another, so an ANA change
-waits for one grace period per namespace.
+commit c9b236e98759e76a4ecd5a5f54a6bd1f8d9ab7be
+Author: Qiliang Yuan <qiliang.yuan@linux.dev>
 
-Start the grace period with start_poll_synchronize_srcu() instead and
-have nvme_requeue_work() wait for it only if it has not completed yet.
-The grace periods of all namespaces then run in parallel, and requeue
-work kicked for other reasons finds the cookie completed and does not
-wait.
+nvme-multipath: don't wait for a grace period in nvme_mpath_set_live()
 
-Flipping an ANA group from inaccessible to optimized ten times over
-nvme-tcp loopback, nvme_read_ana_log() takes (median, min-max in
-parentheses):
+This commit replaces the synchronous synchronize_srcu() call in
+nvme_mpath_set_live() with start_poll_synchronize_srcu() and defers
+waiting for the SRCU grace period to nvme_requeue_work().
 
-  namespaces  before (ms)    after (ms)   change
-         256   51 (32-72)     7 (2.5-12)    -86%
-        1024  157 (133-203)  41 (24-65)     -74%
+> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+> index ae8059366b57d..4bc94f165c17d 100644
+> --- a/drivers/nvme/host/multipath.c
+> +++ b/drivers/nvme/host/multipath.c
 
-Signed-off-by: Qiliang Yuan <qiliang.yuan@linux.dev>
----
- drivers/nvme/host/multipath.c | 14 +++++++++++++-
- drivers/nvme/host/nvme.h      |  1 +
- 2 files changed, 14 insertions(+), 1 deletion(-)
+[ ... ]
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index ae8059366b57d..4bc94f165c17d 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -712,6 +712,11 @@ static void nvme_requeue_work(struct work_struct *work)
- 		container_of(work, struct nvme_ns_head, requeue_work);
- 	struct bio *bio, *next;
- 
-+	/* Let bios that found no usable path reach the requeue list first. */
-+	if (!poll_state_synchronize_srcu(&head->srcu,
-+					 READ_ONCE(head->requeue_srcu_cookie)))
-+		synchronize_srcu(&head->srcu);
-+
- 	spin_lock_irq(&head->requeue_lock);
- 	next = bio_list_get(&head->requeue_list);
- 	spin_unlock_irq(&head->requeue_lock);
-@@ -767,6 +772,7 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
- 	mutex_init(&head->lock);
- 	spin_lock_init(&head->requeue_lock);
- 	INIT_WORK(&head->requeue_work, nvme_requeue_work);
-+	head->requeue_srcu_cookie = get_completed_synchronize_srcu();
- 	INIT_WORK(&head->partition_scan_work, nvme_partition_scan_work);
- 	INIT_DELAYED_WORK(&head->remove_work, nvme_remove_head_work);
- 
-@@ -851,7 +857,13 @@ static void nvme_mpath_set_live(struct nvme_ns *ns)
- 	}
- 	mutex_unlock(&head->lock);
- 
--	synchronize_srcu(&head->srcu);
-+	/*
-+	 * Have nvme_requeue_work() wait for the grace period instead of
-+	 * blocking here, so that namespaces going live together, e.g. on
-+	 * an ANA change, do not wait for one grace period each.
-+	 */
-+	WRITE_ONCE(head->requeue_srcu_cookie,
-+		   start_poll_synchronize_srcu(&head->srcu));
- 	nvme_mpath_revalidate_zones(head);
- 	kblockd_schedule_work(&head->requeue_work);
- }
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 8833a463f1c84..3fff9b394b1cd 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -587,6 +587,7 @@ struct nvme_ns_head {
- 		__guarded_by(&requeue_lock);
- 	spinlock_t		requeue_lock;
- 	struct work_struct	requeue_work;
-+	unsigned long		requeue_srcu_cookie;
- 	struct work_struct	partition_scan_work;
- 	struct mutex		lock;
- 	unsigned long		flags;
+> @@ -851,7 +857,13 @@ static void nvme_mpath_set_live(struct nvme_ns *ns)
+>  	}
+>  	mutex_unlock(&head->lock);
+> =20
+> -	synchronize_srcu(&head->srcu);
+> +	/*
+> +	 * Have nvme_requeue_work() wait for the grace period instead of
+> +	 * blocking here, so that namespaces going live together, e.g. on
+> +	 * an ANA change, do not wait for one grace period each.
+> +	 */
+> +	WRITE_ONCE(head->requeue_srcu_cookie,
+> +		   start_poll_synchronize_srcu(&head->srcu));
+>  	nvme_mpath_revalidate_zones(head);
+>  	kblockd_schedule_work(&head->requeue_work);
+>  }
 
----
-base-commit: b3dfbde62cf1981c4638939c159dfd087b7a72e9
-change-id: 20261110-bug-nvme-mpath-set-live-srcu-cbd8965f1457
+[Severity: Medium]
+Can concurrent nvme_mpath_set_live() calls on the same head overwrite a
+newer head->requeue_srcu_cookie with an older, already-completed cookie?
 
-Best regards,
--- 
-Qiliang Yuan <qiliang.yuan@linux.dev>
+CPU0                              CPU1
+nvme_mpath_set_live(ns1)
+  mutex_unlock(&head->lock)
+  c1 =3D start_poll_synchronize_srcu()
+  // grace period c1 completes;
+  // ns1 fails over again, and a
+  // reader enters srcu_read_lock()
+  // seeing no usable path
+                                  nvme_mpath_set_live(ns2)
+                                    mutex_unlock(&head->lock)
+                                    c2 =3D start_poll_synchronize_srcu()
+                                    WRITE_ONCE(requeue_srcu_cookie, c2)
+  WRITE_ONCE(requeue_srcu_cookie, c1)
+                                    kblockd_schedule_work(&requeue_work)
+                                  nvme_requeue_work()
+                                    poll_state_synchronize_srcu(..., c1)
+                                      // returns true, skips sync
+                                    bio_list_get(&head->requeue_list)
+                                      <-- misses in-flight reader's bio
 
+When that happens, nvme_requeue_work() drains head->requeue_list before
+the in-flight nvme_ns_head_submit_bio() reader finishes queueing its bio,
+leaving the bio stranded on head->requeue_list until a later path event.
+Updating head->requeue_srcu_cookie before mutex_unlock(&head->lock) would
+serialize the cookie generation and store.
+
+[Severity: High]
+This problem wasn't introduced by this patch, but in the same file,
+delayed_removal_secs_store() [1] can leave parked bios stranded on
+head->requeue_list when delayed_removal_secs is set to 0:
+
+drivers/nvme/host/multipath.c:delayed_removal_secs_store() {
+	...
+	mutex_lock(&head->subsys->lock);
+	head->delayed_removal_secs =3D sec;
+	assign_bit(NVME_NSHEAD_QUEUE_IF_NO_PATH, &head->flags, sec);
+	mutex_unlock(&head->subsys->lock);
+	/*
+	 * Ensure that update to NVME_NSHEAD_QUEUE_IF_NO_PATH is seen
+	 * by its reader.
+	 */
+	synchronize_srcu(&head->srcu);
+
+	return count;
+}
+
+When writing 0 clears NVME_NSHEAD_QUEUE_IF_NO_PATH while no paths are
+usable, any bios already queued on head->requeue_list need to be drained
+and failed, but delayed_removal_secs_store() returns without calling
+kblockd_schedule_work(&head->requeue_work), leaving tasks waiting on
+those bios hung until a separate path event schedules requeue_work.
+
+[1] https://sashiko.dev/#/bug/linux-7d2cc5ea-2752-4473-b874-a955225beb1b
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261110-bug-nvme-m=
+path-set-live-srcu-v1-1-1f58b405b0f8@linux.dev?part=3D1
 
