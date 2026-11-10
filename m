@@ -2,55 +2,56 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A080606A32E
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2026 21:17:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71298606A327
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2026 21:17:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Q+yaDn1b;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YSj0RR1a
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=fQcKPglN;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lugfFYds
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=qJiFf9w4hToXcclP9ppmON8B46ZerQobJ1F8sM9X2a8=; b=Q+yaDn1bpXb7Td
-	YUic+B1nBzBKeicEszLSvupv6BxmTdTorFG/svtCO6SDnU94zX5NTGDpc0HmUDC3//HAgDMzPef9f
-	vIpWbgncF7VXqtsg/jPOK02i0CqrkAidIndqWAdtQIuj64tNsYmJcLSToD+2NnjXYeJM/qSNLrNH5
-	UKT7JQy8nik4VGwV4eIUpnw7DRPh2qxQQ8garyIMG/triUgLlV787L26FjxPrQ4PAmtDxojD20mTX
-	7pw4st08ga7l7CP4o2hAmHcjtgOZxyalTm/fUcbjNqIGCYnn5Yewzp1nV325UftLjHUjx7J2BUUO3
-	96tuNPSYNfxS3rA9d7GQ==;
+	List-Owner; bh=wvcrRKkVitwBIHc8bsc86Ap1TkghVmPhKT6D7YPBbwY=; b=fQcKPglNcVhhA0
+	4ksnhLEO40lLVfqJYr7TLGsgOhzptjWyteIZ6w0Hwmtbm2maTvPqbUmfRmOKYJ+EqAGzwR+0th73i
+	Okv5LrJu2sIm6Eg+qKffmTllnMY8V1wWydJ9x/3ABR92XLq27OKeecNoWHdPEWTmA2wwSrQPNXNvT
+	XE7hWty/d1B3kLj4CNFpG3EhH1sW/HsFYAu9Cd7/LB5xGC/pGMjdLnCIaaZgJfl4qm3G2oNUuZ887
+	DZojPerXDEbcoKgi18s0JxiD9TN7qj+mQKtS1VHqBZWFecFtuJMVaWIKIAX7SYyZAgju2mElfpD52
+	cI7VVkvLhSkolGCKwZVA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRFhK-00000007k2x-1FjW;
-	Wed, 11 Nov 2026 21:17:38 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1xRFhM-00000007kAY-1jd6;
+	Wed, 11 Nov 2026 21:17:40 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQi1F-00000003Eri-127H
+	id 1xQi1T-00000003Ex2-37qX
 	for linux-nvme@lists.infradead.org;
-	Tue, 10 Nov 2026 09:19:57 +0000
+	Tue, 10 Nov 2026 09:20:11 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 0712846B0B;
-	Tue, 10 Nov 2026 09:19:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F39D1F008A1;
-	Tue, 10 Nov 2026 09:19:50 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 349816381B;
+	Tue, 10 Nov 2026 09:20:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61E501F008A1;
+	Tue, 10 Nov 2026 09:20:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794302396;
-	bh=qJiFf9w4hToXcclP9ppmON8B46ZerQobJ1F8sM9X2a8=;
+	s=k20260515; t=1794302410;
+	bh=wvcrRKkVitwBIHc8bsc86Ap1TkghVmPhKT6D7YPBbwY=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=YSj0RR1aG6qNPyxHpaLvknjLVj91ILD+92zWFulNcS/9GzuRoaQHatZawU0nYbR8y
-	 wus7ohgAGQBai1txsuKrJnXmIbOHGPu8ofJJf/FVDtHI8ClyJKzU7qfsjBbW0aZ+ce
-	 zWv3AeSLtwvY+Mjd5A9NqJjMByywMDui/mH5eL6dgY9srHxtjNOSh4WuAXPTmUK3oc
-	 rj74FmSQAg97IU/fPvixOSTy1hGHbrW8yJHlHbDd2o5Lngy9Nmbmsk6Ah2dyvn2OaD
-	 xaVAA8ELW3uvaLp+l18HV1m2/38wuA8CuBANF9a3ezWOwggIRGtvqG3gki5e2MoaKT
-	 vZL834m+QNo/A==
+	b=lugfFYdsp+5acpRZ62DrLNSRpPTqwD6ALObkR4htZDZ7jJ4CwxnL+J31LlzQBLdHg
+	 S3Q6wKQ8rLKVDvOjaO/7i9LdpOAAGQkJVKTTZnDkbfMZ0mXM3yVItsw5AH/x4JgMCS
+	 r17kh6jTusP0FcEnEBzFzqzJtQ746vPtMKO+E1iLTHLZ7PgzOBIB9SrMppxD4aMf6g
+	 ++c6vcWP0wgZ4rHVjr+6Av5KOdeAceVogEGD1LonYdJsm5MlecXYdFkPg3OEFOR0DA
+	 l4vCIncvJpwPXykOZGsC4m66wbdnnjiMUoL8mSoluVAzhYGK1Oc9EGsTAAgpOcHIVj
+	 fpmwuommLUy7A==
 From: Christian Brauner <brauner@kernel.org>
-Date: Tue, 10 Nov 2026 10:14:51 +0100
-Subject: [PATCH RFC 35/41] zloop: refuse zone files on pseudo filesystems
+Date: Tue, 10 Nov 2026 10:14:53 +0100
+Subject: [PATCH RFC 37/41] target: fileio: refuse files on pseudo
+ filesystems as backing files
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261110-work-loop-pseudo-v1-35-4c998976c6c7@kernel.org>
+Message-Id: <20261110-work-loop-pseudo-v1-37-4c998976c6c7@kernel.org>
 References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
 In-Reply-To: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -71,12 +72,12 @@ Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>,
  linux-kselftest@vger.kernel.org, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=822; i=brauner@kernel.org;
- h=from:subject:message-id; bh=li+gC8cc0Mt1bD1j4gMcmL8SOHESlN2++n5Uf9tP8Fo=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWR9erDHcu21pTOZuhx19nwxdyrrCmUMb3503015p6SPw
- 76FMcqxHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABN5bMvwv9AwrjaFoTvl5SXZ
- U7d+5SbufCNqdW372nkxojHPVJnq7Rn+R03u+RT9ITNnZY8fx/JF32OmNseuuiD0fVMyz/+nq9X
- nMAAA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=995; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=BDYGZBkzpJOf0luK2Iqx3jSxHLpIeW6e4aOnDtryI1I=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWR9erDf6mtMEqNwmyJbTeSGX/PXP05KecQy9ejD6kOb9
+ /3cf9Hkd0cpC4MYF4OsmCKLQ7tJuNxynorNRpkaMHNYmUCGMHBxCsBETl9m+F99+X7Ky605zSv7
+ GErvWk1zaPix/Pxk04Q9+p1/0oTy/pgx/JXbprm34uPtr4v2Ll0y0cL+SOu1/dVOakafmv0qqj/
+ fj+YCAA==
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 X-Mailman-Approved-At: Wed, 11 Nov 2026 13:17:02 -0800
@@ -98,31 +99,34 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-zloop opens its zone files by name below the base directory but a bind
-mount can put any file there, including a procfs or sysfs file. Refuse
-files on pseudo filesystems as zone files just like loop does.
+fd_dev_name can name any file including files on procfs or sysfs. The
+initiator then gets to read and write kernel interfaces through the LUN
+with kernel credentials. Refuse files on pseudo filesystems just like
+loop does.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- drivers/block/zloop.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/target/target_core_file.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/block/zloop.c b/drivers/block/zloop.c
-index 65634a39b0bf..dcc06dd47b04 100644
---- a/drivers/block/zloop.c
-+++ b/drivers/block/zloop.c
-@@ -1137,6 +1137,11 @@ static int zloop_init_zone(struct zloop_device *zlo, struct zloop_options *opts,
- 		goto out_fput;
+diff --git a/drivers/target/target_core_file.c b/drivers/target/target_core_file.c
+index a5391e57e9aa..7a3cf63dc979 100644
+--- a/drivers/target/target_core_file.c
++++ b/drivers/target/target_core_file.c
+@@ -152,6 +152,13 @@ static int fd_configure_device(struct se_device *dev)
+ 		goto fail;
  	}
  
-+	if (file_is_pseudo(zone->file)) {
++	if (file_is_pseudo(file)) {
++		pr_err("FILEIO: %s is on a pseudo filesystem\n",
++		       fd_dev->fd_dev_name);
 +		ret = -EINVAL;
-+		goto out_fput;
++		goto fail;
 +	}
 +
- 	if (zlo->block_size) {
- 		ret = zloop_get_block_size(zlo, zone);
- 		if (ret)
+ 	/*
+ 	 * If using a block backend with this struct file, we extract
+ 	 * fd_dev->fd_[block,dev]_size from struct block_device.
 
 -- 
 2.53.0
