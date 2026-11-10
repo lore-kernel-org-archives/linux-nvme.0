@@ -2,97 +2,67 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95B4C60774E6
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Nov 2026 09:31:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CC06606D59D
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Nov 2026 09:33:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=h3XBbP3X;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cils9x2o
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Qi9Q65NE;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IKmf+e1g
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Cc:To:Subject:
+	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=YLlZuK32JaWyLywcZsk5CvR69cakJjXk6LbjdCED9YE=; b=h3XBbP3XFOp4Isi6Vs93Y78RQD
-	ZeK8ikTczjJWpBU5bK7ZZoVyNzf+qIYBJlDDoNs32jZYCJ0iMdiCULdg3OLo+fDsdFeUPkaa0BKSf
-	Jlxm4VnMXIODBYIy+f1HvK+sZsbqZMp9JAYQPf5evugZhFrtl+NNvY8RZ8RcoEt/YedrGOF/fCmI0
-	2krqmHe1jp1vFWKT5z7TEwN7cYiR5YnKb1NMEHg9mwLuniyYC5HztPJuaSwvuzG4Wd9KjFpDmMXYc
-	g+d1SHe/AHivrHsIuNrHSOyz/MqDcbl3rfSmnbTNhXeQhYlCAxrfpVNOeciHcIs/mWT27V4ULdxMH
-	D/INlbhA==;
+	bh=bww7nw5bSwEPBt04rDt0/bI4su6VmPuV17HzMgP1WVA=; b=Qi9Q65NETJP7vhXO2jOrzdAa4H
+	bcrdeYJHsoOiSstz1ag5rsYSEkIt8pXDDX6LisKA+kmlBgpA9GfLc8GkK5OSYD36OhoPrO7tL5SnA
+	55wHShZDM8L4MtGY8PYtsKVN+AK3sN1ZbEb+wAU1hfOQq17h/29PgI75OU+du5rpj3wO2CxjMRX5Z
+	3oaFGMAplHHvNWQDORQjjw43LEtkk1EnX9B6qbrcTbuiLkRlgNS7W6eVSfqiiyCTrourSYFqBeKi8
+	zlDkanw+tiXS/+ZhyzprXYoxyuq7ntJACEBmR9cztHQcF5dB2HA/WSWk0tt1qB/lUfU0CWT8gjPrR
+	HQ6VYOlw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQiCQ-00000003HCq-3h1a;
-	Tue, 10 Nov 2026 09:31:30 +0000
-Received: from mail-dy1-x1331.google.com ([2607:f8b0:4864:20::1331])
+	id 1xQiEW-00000003Hmc-0rcH;
+	Tue, 10 Nov 2026 09:33:40 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQiCO-00000003HAt-0gU6
+	id 1xQiEV-00000003HmB-0iqk
 	for linux-nvme@lists.infradead.org;
-	Tue, 10 Nov 2026 09:31:29 +0000
-Received: by mail-dy1-x1331.google.com with SMTP id 5a478bee46e88-3704d30b84fso2239883eec.1
-        for <linux-nvme@lists.infradead.org>; Tue, 10 Nov 2026 01:31:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794303087; x=1794907887; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=YLlZuK32JaWyLywcZsk5CvR69cakJjXk6LbjdCED9YE=;
-        b=cils9x2oRVETsb2owP67YbjF4RFsFuM7K+nLxwGUqtD0vBSU/f2Th+tWXUMhWXfDHU
-         K4bL2qWTcuVCJbIm7B+oWGyhQHejVN5ZkL7NNHKtSJp/l4iXbhKuQ3AcaSWihaFPp7pt
-         6WwilkNnUz7jb+PchMLAKrMeAWVkwKHVS6LNk55WklbPPnSbKjencrYwSgk031eXcQiP
-         MBY/0RjiomHK4sONQuZn9LbEJ5Rswi5WIaGbvcnGO5lkojfPyBhKWKnMskWXCUEiaF9V
-         tAsZOnG6M9q5Z67c1abBrZen+Npr+YTB7PxZeViAYBQ0KPmFRu0ENBucoyv9SZ/MsOOs
-         iYWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794303087; x=1794907887;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=YLlZuK32JaWyLywcZsk5CvR69cakJjXk6LbjdCED9YE=;
-        b=g9Yb53RQWQgaPaIRGk+n6CdCnZm/ea/jltj9mvjadZnBpKjXOa8O58QVrMRnKr8E6h
-         /RxY6j5W8MTWjOGZx8s1g5UIeTKm/X/mmKgipr+T2Xb7j/z0PAfGp4HseMUkQKIJ93Ku
-         tjJuEQbVefRk2wAbxDcH5Nk9iSlNMZXs3nT59lwu8o9h1K0fgltPNcLP8/qF6tn1hj9o
-         iOZYfbsuwGFr63LuH62czjpRD09pJ6opZRD4l3rrsEt9y17zMZRpDJwJA5VFBRohByYv
-         yRXzgx5yEkxPFbNw+nalEnbSiMBP/DPsP9OezghwPKM0VOmXHdshYlY3Tf1vbqz/xvVL
-         99YA==
-X-Forwarded-Encrypted: i=1; AL+hErFUut/K9zUZ9BYPVNvx+iyedheIavCeDYbruYQwpHHD/9Vf9+FCZ13ya2HMQJiC64dJZW3SwmjuDQ+T@lists.infradead.org
-X-Gm-Message-State: APuU4Z/W6z1DtWo57ABhq2Nd1hkY/mAuSAvOYGNrf5oA0ASpby4F+gWo
-	PID45wRxUfns59AT4dXIEgEfDa7mTz7cLaUj6qKVxRV5tv19Uo90cIPej+gZWjZ5
-X-Gm-Gg: AYBFou2mOhk0xZV1DpnmdQMvWvQql60By2TzArsylY5E6HoDwiSk4hAdqzZPe7YoeFp
-	kjXsE399tNWilUmeYUa2zH8+4DI4meTasrGEvyP2DZe2Fys+iJLAotYsXq/nQnf3nZn9RaMmdbe
-	ZV5Ny/UJJ+OObEnoXdgC699MXY06oKOU8Bc1sqeKTO3YgYyE2LGw++HeY/ATR9gThvw/UdT8F4L
-	ALbS14JQU2s0qjZb6dFwRUfUUKjTyTsVnvLsnugxrpNE/lKmkE5iecW/AQ3NAvWKz1sO10/x1yx
-	c3T+vr6ibsL55oBOcfTSFZy+jnkpGpd1DKlmPn2+QPwBd2HN5+kAVIan7huQVHNKwWMUsrVqqQk
-	johgNO6doMWJdTjRGMQwKcG4MeIEA8A0xNZBZWhBi50HlWLXa1jGGEGSbY3cTxq6Uhtj7XgKAgC
-	k6bTo4nPqamKIBWMTo+rNGtvjhstdjM2T9BpwDhlDx5p1Z02ehW+CXQEnsTFWGB9l404YkiDxe6
-	jmR29CUKgLdQwltnNTcoy5Mi3+RbpZ0jXCJG1B9q05gGYK0N3KNWuWU/RFC8QFwTynNel4epX2w
-	zBIIHVDhigqwlBuGIlBy/4amH4VGiPlQgG3GjqJQfP4MbYPJAHMV
-X-Received: by 2002:a05:7301:488e:b0:371:7ecc:b82a with SMTP id 5a478bee46e88-3751f659215mr2769649eec.21.1794303087065;
-        Tue, 10 Nov 2026 01:31:27 -0800 (PST)
-Received: from localhost.localdomain ([103.179.231.100])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3752060dc0csm6610193eec.14.2026.11.10.01.31.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 01:31:26 -0800 (PST)
-From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-To: hare@kernel.org,
-	hare@suse.de,
-	hch@lst.de,
-	kbusch@kernel.org,
-	kch@nvidia.com,
-	sagi@grimberg.me
-Cc: linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-Subject: [PATCH v2] nvmet: clean up DH group state on initialization failure
-Date: Tue, 10 Nov 2026 09:30:47 +0000
-Message-ID: <20261110093047.4290-1-sreekuttan2156239@gmail.com>
-X-Mailer: git-send-email 2.55.0
-X-Archived-By: <archiver.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261110_013128_225509_3B620BBC 
-X-CRM114-Status: GOOD (  12.49  )
-X-Spam-Score: -1.9 (-)
+	Tue, 10 Nov 2026 09:33:39 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id 8FB194487E;
+	Tue, 10 Nov 2026 09:33:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70C081F0089F;
+	Tue, 10 Nov 2026 09:33:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794303218;
+	bh=bww7nw5bSwEPBt04rDt0/bI4su6VmPuV17HzMgP1WVA=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=IKmf+e1gFKkj418fSwF/WvpYdm5kRAazs7jwnCLr8UBX0mWUP8DQEFBBBEZlbkXZ1
+	 XI4prTk7TROigxS8fxK3H7nyiNmObFLtBmkCA0ke0HXW7pt9dEt/aaSRLKtzC4egpf
+	 OEHRA7RgND8FIgqLmipqQVPz2GNvvRJE2PgE7T/NOFf640AwOp8vZiaRQth92bBap0
+	 HKEfy9pnSL5/wTdbiAfkWabIrGIRQRAr+uE+2HXR6t6FbfBJFofcbxlw42H4vOVzXk
+	 w77kmjm4jAJg1fdzTMQ0RDczx8gBsj6Uaq5LnRuUkl/WYcX9JduP6Rs8JOjO15ilQh
+	 USFa7wOu4MpQw==
+Message-ID: <sashiko-outbox-206765@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH RFC 37/41] target: fileio: refuse files on pseudo
+ filesystems as backing files
+To: "Christian Brauner" <brauner@kernel.org>
+Cc: "Jann Horn" <jannh@google.com>, "Chris Mason" <mason@kernel.org>, "Josef
+ Bacik" <josef@toxicpanda.com>, "Christoph Hellwig" <hch@lst.de>, linux-nvme@lists.infradead.org, "Alexander
+ Viro" <viro@zeniv.linux.org.uk>, "Jan Kara" <jack@suse.cz>, linux-scsi@vger.kernel.org, target-devel@vger.kernel.org, linux-mm@kvack.org, bpf@vger.kernel.org, linux-security-module@vger.kernel.org, selinux@vger.kernel.org, apparmor@lists.ubuntu.com, linux-efi@vger.kernel.org, linux-s390@vger.kernel.org, linux-usb@vger.kernel.org, "Amir
+ Goldstein" <amir73il@gmail.com>, "Chuck Lever" <cel@kernel.org>, "Jeff
+ Layton" <jlayton@kernel.org>, "Anna Schumaker" <anna@kernel.org>, "Heiko
+ Carstens" <hca@linux.ibm.com>, "Vasily Gorbik" <gor@linux.ibm.com>, "Alexander
+ Gordeev" <agordeev@linux.ibm.com>, "Christian Borntraeger" <borntraeger@linux.ibm.com>, "Mark
+ Fasheh" <mark@fasheh.com>, "Joel Becker" <jlbec@evilplan.org>, "Joseph Qi" <joseph.qi@linux.alibaba.com>
+In-Reply-To: <20261110-work-loop-pseudo-v1-37-4c998976c6c7@kernel.org>
+References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
+ <20261110-work-loop-pseudo-v1-37-4c998976c6c7@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 10 Nov 2026 09:33:35 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,83 +72,57 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
+X-Archived-By: <archiver.kernel.org>
 
-nvmet_setup_dhgroup() leaves the DH transform and group ID
-initialized when private-key generation, public-key allocation,
-or public-key generation fails.
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] target: fileio: missing file_is_pseudo() check in
+  fd_init_prot()
+--
 
-A subsequent invocation with the same DH group incorrectly
-returns success because the existing transform and group ID
-are treated as proof of successful initialization.
+commit 4e15db58376b542897dd4203d7acdfd99df1aec4
+Author: Christian Brauner <brauner@kernel.org>
 
-Release the transform and reset the group state on initialization
-failures so that subsequent attempts can properly retry setup.
+target: fileio: refuse files on pseudo filesystems as backing files
 
-Fixes: 7a277c37d352 ("nvmet-auth: Diffie-Hellman key exchange support")
-Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
----
-v2:
- - Consolidate error handling in "nvmet_setup_dhgroup()" using 
-   a shared cleanup label to avoid duplicated teardown code.
- - Add Fixes trailer.
+This commit rejects files on pseudo filesystems in fd_configure_device() so
+that SCSI initiators cannot read or write kernel interfaces such as procfs
+or sysfs with kernel credentials.
 
- drivers/nvme/target/auth.c | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+> diff --git a/drivers/target/target_core_file.c b/drivers/target/target_co=
+re_file.c
+> index a5391e57e9aa5..7a3cf63dc979b 100644
+> --- a/drivers/target/target_core_file.c
+> +++ b/drivers/target/target_core_file.c
+> @@ -152,6 +152,13 @@ static int fd_configure_device(struct se_device *dev)
+>  		goto fail;
+>  	}
+> =20
+> +	if (file_is_pseudo(file)) {
+> +		pr_err("FILEIO: %s is on a pseudo filesystem\n",
+> +		       fd_dev->fd_dev_name);
+> +		ret =3D -EINVAL;
+> +		goto fail;
+> +	}
 
-diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
-index ccba84b1344e..20f8c84e8ced 100644
---- a/drivers/nvme/target/auth.c
-+++ b/drivers/nvme/target/auth.c
-@@ -105,9 +105,7 @@ int nvmet_setup_dhgroup(struct nvmet_ctrl *ctrl, u8 dhgroup_id)
- 		if (ret < 0) {
- 			pr_debug("%s: ctrl %d failed to generate private key, err %d\n",
- 				 __func__, ctrl->cntlid, ret);
--			kfree_sensitive(ctrl->dh_key);
--			ctrl->dh_key = NULL;
--			return ret;
-+			goto err;
- 		}
- 		ctrl->dh_keysize = crypto_kpp_maxsize(ctrl->dh_tfm);
- 		kfree_sensitive(ctrl->dh_key);
-@@ -115,18 +113,26 @@ int nvmet_setup_dhgroup(struct nvmet_ctrl *ctrl, u8 dhgroup_id)
- 		if (!ctrl->dh_key) {
- 			pr_warn("ctrl %d failed to allocate public key\n",
- 				ctrl->cntlid);
--			return -ENOMEM;
-+			ret = -ENOMEM;
-+			goto err;
- 		}
- 		ret = nvme_auth_gen_pubkey(ctrl->dh_tfm, ctrl->dh_key,
- 					   ctrl->dh_keysize);
- 		if (ret < 0) {
- 			pr_warn("ctrl %d failed to generate public key\n",
- 				ctrl->cntlid);
--			kfree(ctrl->dh_key);
--			ctrl->dh_key = NULL;
-+			goto err;
- 		}
- 	}
- 
-+	return 0;
-+err:
-+	kfree_sensitive(ctrl->dh_key);
-+	ctrl->dh_key = NULL;
-+	crypto_free_kpp(ctrl->dh_tfm);
-+	ctrl->dh_tfm = NULL;
-+	ctrl->dh_gid = 0;
-+	ctrl->dh_keysize = 0;
- 	return ret;
- }
- 
--- 
-2.55.0
+[Severity: Medium]
+Should fd_init_prot() also check file_is_pseudo() (and ->read_iter /
+->write_iter) when opening fd_dev->fd_prot_file?
 
+When DIF protection is enabled via pi_prot_type_store(), fd_init_prot()
+opens "%s.protection" by pathname without these checks.  If that path is a
+symlink or bind mount to a procfs or sysfs file, fd_execute_rw_buffered() ->
+fd_do_rw() will still read and write it with kernel worker credentials.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261110-work-loop-=
+pseudo-v1-0-4c998976c6c7@kernel.org?part=3D37
 
