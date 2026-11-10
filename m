@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B979C606A31C
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Nov 2026 08:16:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCCB3606A337
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Nov 2026 08:49:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=ZL1OV818;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lasCrbV2
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Vk3M1HZy;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XIdjPt5L
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
@@ -14,64 +14,64 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
 	List-Unsubscribe-Post:List-Owner;
-	bh=esd16OW0Lew55lMSuVcuYFtBqCpJVqbCAV6xh+QEm90=; b=ZL1OV818Q1FJliC7a/0kXE5dw7
-	zhDCSbEv3n0wH/pDfKhN1tncXNZYQtpxg/Zr1VPFybW9Q/ZBMe06hBU3DTvm+uxciego3duKzGj7b
-	L0cuQZpurrRTy6AKZ2p/HghQ4j3xSD6PZu0cADGZxN4DJs7IyfuJmW7xaDFkG0lGLKJdInypLlac5
-	bW++varDjdT0+8Ziay9gGXsRxud77CL2lbWG9d2kzFaMmc4yMiZCWn3J6aY8CilFF5C+1PxG5pYVX
-	sWRnOiR/yXZl4xJzv6+5GP6tgBjCu+fLR5kkuv3o92hh3rE4hpMtltr8KIBKinUx5o4RQVmAEbObG
-	woiUahfQ==;
+	bh=+jpP9hHBLdvkPKqqx3Eoy4sT1PswK17YP171LAP+8rw=; b=Vk3M1HZyh9ovJCCbx0uthjCY29
+	GyYqfGD2+z9dO9evRXqqXnrsN+0hI8gv9uTgA+ctvNack3nO/dzMCPuljZdrMVwZDgzdWmlPvWqGP
+	7hZ6gww3LEOn9uKrFeiq4C9mWbkn4th+OVJz7dwJljv+TABcVvPAEUXAQ8pwdenHtlNMWiz4/58uD
+	2ECpYFtpwHOSARD00YM92TyDnzdlPbfQ+sh+Ur+iI7vKD5h50vyLKUJjwykvau9AfG8YhsFhfAaeb
+	ByvsCep2VOzqH5NPNWX/AetWd7bL+MSM7puJv3OLFAptladZb+IAsCWhaw6eG07Mshcx1m9lnjNId
+	FX+MFqFA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQh1q-000000034GL-2YFU;
-	Tue, 10 Nov 2026 08:16:30 +0000
-Received: from mail-dy1-x132e.google.com ([2607:f8b0:4864:20::132e])
+	id 1xQhXa-00000003Ac7-2BuA;
+	Tue, 10 Nov 2026 08:49:18 +0000
+Received: from mail-dy1-x1330.google.com ([2607:f8b0:4864:20::1330])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQh1o-000000034Fn-2vHV
+	id 1xQhXY-00000003Abd-1u9B
 	for linux-nvme@lists.infradead.org;
-	Tue, 10 Nov 2026 08:16:29 +0000
-Received: by mail-dy1-x132e.google.com with SMTP id 5a478bee46e88-3720addb068so3046009eec.1
-        for <linux-nvme@lists.infradead.org>; Tue, 10 Nov 2026 00:16:28 -0800 (PST)
+	Tue, 10 Nov 2026 08:49:17 +0000
+Received: by mail-dy1-x1330.google.com with SMTP id 5a478bee46e88-36a315ed211so2049967eec.0
+        for <linux-nvme@lists.infradead.org>; Tue, 10 Nov 2026 00:49:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794298588; x=1794903388; darn=lists.infradead.org;
+        d=gmail.com; s=20260707; t=1794300556; x=1794905356; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=esd16OW0Lew55lMSuVcuYFtBqCpJVqbCAV6xh+QEm90=;
-        b=lasCrbV2cGKssddQNMVCX+E25Sd1hqt2/rt8ydMSSi/+JBdKFXT5MeHtcARGJVotBv
-         5q6VLKZ1Cuc+3wxXzPz8yZCgnT2guCEOZOVUNZEsbX8LqsFcDSZUcTTmkNrj8BO2w599
-         HxOzhTGgCEem6a6KcHdimjtrr5LwgkM3efYTKTyws0fk2y6vBaTe94K9/Yiv3JjHokmm
-         lIy7UvgSZhe+TDmJgbfiAZaQIT6e8h9KNQzk9uFPGY9S2g5X9SAcBV8xU7GpEtTA3dOj
-         49W/D9YKVm1ssDNNuMTJv9tbMsEMt3UaZVggy7mR49qrpWOP340oXVW+UUxQvsCzhW8C
-         LUCA==
+        bh=+jpP9hHBLdvkPKqqx3Eoy4sT1PswK17YP171LAP+8rw=;
+        b=XIdjPt5Lo5ZTp2Q5SpsAbsHs1JQ6K6A5yzYF4057AETD34y8QzeMcyX8Rb6XGmbtHv
+         RDWAbLk/u7LjAFnjh8/sQuVaIkwBkgXouhlaUma48lxkfzLhekSKP/jFayXF5ofO8iKO
+         TOxwXi02dB/2j/serTiQItKw1RNGKIjskL/rnQ3MPpdRp5NLMim/IhmwD8tOPBUDkt7E
+         ncmla4EzApFB8Qwh/ofqwt7wuVsEgbV7U6x92cG/CO5wL2DaTBxXhlE0eG3SEzJ/Yske
+         ytip5/6vhAOorHqZz1h/VRoHOJpRYB0yJm/4kxuLEW03CGa0v74+IJLVd09uE7ecz5pX
+         YOZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794298588; x=1794903388;
+        d=1e100.net; s=20260707; t=1794300556; x=1794905356;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=esd16OW0Lew55lMSuVcuYFtBqCpJVqbCAV6xh+QEm90=;
-        b=iqKmxBY+NtanX9meHLTJdJNT3WlJg7OrkI8nAeQdfw4QMBow4AzvwICoRipzse4lsh
-         +8+yDHQyjwFXSLTQGtngMESyLLFvey5uVlZs73pvtIxfbQMJkB0F85Vc9YqXuByViKll
-         2rH8M1sAtDxAn48BFBnJphFxZ1Gy+NVdgI1CS9DgEFbwRg3ayRAhY6ui3UZDFUfHbenL
-         +gzPROwBxNHVDvcpszefbEeSc47FXSJbzwSpDYVlgqQhUG/G5NE8yN65J1WQsi0YLulX
-         5s47CnePPcm7mflp1VTvl+RHHtTWjjBM9z8C/C8dfJ05KewQgrgkd195zlYjumVL4NiT
-         vSOw==
-X-Forwarded-Encrypted: i=1; AL+hErFu160pyU6rqeJVGdT1ZhBO6idUn3oxy9oJ5i5WLViMHkGoJbbUWe3VFgm1TekJnijmVccnlJoP2IXX@lists.infradead.org
-X-Gm-Message-State: APuU4Z9XiYcg02CGhAu4fcDCYFyd/cf5tq9AGWg5aR3ni+8eg/CySIxo
-	fGfeG+nNG60uE00JnvHBZKlNKv1rxYWJstuOUkFKKMFV12T/LMk3uoKA
-X-Gm-Gg: AYBFou0/nwl9nN+HSrVmGbUApXcIsqBTv8ew+DoJAxkFSVh6AxNiNd3g3MAYp5U/IZF
-	xzvPYBAMv3W1xnAY+37WLTJ1RkybW1jcGR1ygYfW7vNR0Ok0qw4C502y+Ij9yWDa0KLrTQsKENy
-	ftn9eM/UyeWe50qJc5lE5H4GaB6THghDZukLG4kFbdngNCxV48DzFcy4gLfJuVXrGm5PoCDzjBt
-	863d3f04PyNFd7znt7vRKzV5fMYgMUACJP8Fx3MRFzaQNLRRvXUaP9vwWHPOgPJ2WmYN3ud4Nig
-	yOd84Mid7m9tZ8YKhBMz45BsCXRd3f8CrZc7uj5wZ1cbQO1WOJCgjqiKy1UJtTNwclYs+GeRkcc
-	Lz5UyXuMKxISY3txh7f7MOfJhcLXGll5UzJc1Bc4w7r5i+Yuo2Vd8bbbpYpcsQu2/P1CkNoDKQX
-	2uLDPOxm6+EshwGhct72X0XE0u86RWKujuidvWe1oqRibFdiyi8JDbwKLkVwZPO7Lgkrf7Epva9
-	zukN58vyj0A6Qmm4As06AOzVfoFNwod2ubmhvc2tlC66GQ3LhvIP31vMe5tFyGVDNz+a+BN6IIQ
-	0blmOyBD2hqVZRBYoIr47KxNSGqOewbvqLHFNXZVGspKc633l+E=
-X-Received: by 2002:a05:7022:6985:b0:182:6c6c:d876 with SMTP id a92af1059eb24-1b3b6037d0amr3423422c88.8.1794298587594;
-        Tue, 10 Nov 2026 00:16:27 -0800 (PST)
-Received: from localhost.localdomain ([103.179.231.66])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5b2fc09sm10891140c88.10.2026.11.10.00.16.22
+        bh=+jpP9hHBLdvkPKqqx3Eoy4sT1PswK17YP171LAP+8rw=;
+        b=bjEKR5+2forgJV+TKrQx5TyKw08eFhSh8U+XvtiSZG7GegBQMOGBJ76krtx3nTNN/A
+         SxCZhFsWRPcVNvklbjoKd1FMx3HXJcu50g+H+Qw59RNcuGS6lj4hmN7tgtDVO6QWBH5k
+         /PcAL4fPmngUOjVqGudGfocdKapLP/SbW1opM4DutD69MvWUN5+nR5GoMI0ACmplzWQk
+         MPHaDt4yXH6eZS4SED0fHbnQALQd/qlmTi1Fj0zL85OFXBG6zton5WIiFBllMWyKGa+4
+         A4pGvM3+pHi9QSeLaIsMeOywX3dxVJ2WoivR1IpSrMBVpfIVBxSoKpzX3PxDtsHoEG4g
+         IQ5Q==
+X-Forwarded-Encrypted: i=1; AL+hErEymVKApTkoMR/sP35nmejjrfejxJu7Zr7+VxxUkiGnpUZONJ4lyeYzl9bjTlPigIrh3PYzpLTC/1Mz@lists.infradead.org
+X-Gm-Message-State: APuU4Z9I/PU2rYLUFc9W/Hd5ypM+yiThASy4CpxHyfa71/JonKiDAOhv
+	N5int90dH9aZoNWj9r4uv84kFf5akLjl3M7h+Vv9vVzmE5K777y2wqD1
+X-Gm-Gg: AYBFou22KiFpr9edvc5hY3qCHLu2gcnp6iZttVWMBrtKDYhZkL/jjuIjKANudyk1aCN
+	bQLkJtlRg2WhfZFHuEG63yay+lLYFEzcNiid8zvqGiTFIboCMvZru2BCWU+Fobf8lCqbQ8JR4sQ
+	OnnUc8sxdkaAO3cKLA/4VFZTxxAUwksnrUxlIckiXvWay8dx/M+sAcNRtYnQUzmYxDVqSxU7OYa
+	Zw0WZihPjVlrF8VayX76M8ZeFwWNLaxxnfNgeIUmmZro39FoYbvfsVcCAZdwwq4YdSiWmTxCUal
+	hfq7qs5lqGFjGUtow9wlg7xarZaXGyvM9PZzhECy1HHHY3wDVEvWzUdb3krU1eluFl7qJ56ZdVp
+	4jv/RDEY+OK51tmYmZq2Bqu5yl/pWSDCMmxF5UaHmhTe6UgzPngpXbgNK+znFGBfqRxfhFAaiYu
+	S2GfON7YOEzghTEkcUuy+rH82oqzIDLkpquVkudERgWjqjFG8qPCsAJIg7ZDxAC4iw6ELxTxJ/p
+	Njqcbk5J4QYb8EFY2DFoIAp/4/xdOaSaQS4IgOstq9YY2OWFW8HsGdlpSYP4ivWEWM7j3W07Wxh
+	0NlQp9Cu5NQKSf5Y2evb0S2jeSMQm1NFuq9UxOeIiq2rBNuBo9C3
+X-Received: by 2002:a05:7300:e9d6:10b0:36a:647b:2d7a with SMTP id 5a478bee46e88-37503f67618mr3036430eec.0.1794300550852;
+        Tue, 10 Nov 2026 00:49:10 -0800 (PST)
+Received: from localhost.localdomain ([103.179.231.100])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-375212e76e2sm5897214eec.24.2026.11.10.00.49.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 00:16:26 -0800 (PST)
+        Tue, 10 Nov 2026 00:49:09 -0800 (PST)
 From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
 To: hare@kernel.org,
 	hare@suse.de,
@@ -82,16 +82,16 @@ To: hare@kernel.org,
 Cc: linux-kernel@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
 	Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-Subject: [PATCH v2] nvmet: synchronize DH-CHAP secret removal
-Date: Tue, 10 Nov 2026 08:15:59 +0000
-Message-ID: <20261110081559.2730-1-sreekuttan2156239@gmail.com>
+Subject: [PATCH] nvmet: clean up DH group state on initialization failure
+Date: Tue, 10 Nov 2026 08:48:32 +0000
+Message-ID: <20261110084832.3508-1-sreekuttan2156239@gmail.com>
 X-Mailer: git-send-email 2.55.0
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261110_001628_737702_D4F206CF 
-X-CRM114-Status: GOOD (  10.11  )
+X-CRM114-CacheID: sfid-20261110_004916_494880_D38B8556 
+X-CRM114-Status: GOOD (  11.47  )
 X-Spam-Score: -1.9 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -111,44 +111,62 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-The empty-secret path in nvmet_auth_set_key() modifies and frees
-host authentication secrets without holding nvmet_config_sem.
+nvmet_setup_dhgroup() leaves the DH transform and group ID
+initialized when private-key generation, public-key allocation,
+or public-key generation fails.
 
-nvmet_setup_auth() accesses these fields under the read lock,
-allowing concurrent secret removal to cause a use-after-free.
+A subsequent invocation with the same DH group incorrectly
+returns success because the existing transform and group ID
+are treated as proof of successful initialization.
 
-Acquire nvmet_config_sem for writing while clearing the secrets
-to synchronize with authentication setup.
+Release the transform and reset the group state on initialization
+failures so that subsequent attempts can properly retry setup.
 
-Fixes: bb2df18958b4 ("nvmet-auth: allow to clear DH-HMAC-CHAP keys")
 Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
 ---
-v2:
- - Add Fixes trailer.
-
- drivers/nvme/target/auth.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/nvme/target/auth.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
-index ccba84b1344e..8fe521690ccd 100644
+index ccba84b1344e..7733d50de708 100644
 --- a/drivers/nvme/target/auth.c
 +++ b/drivers/nvme/target/auth.c
-@@ -26,6 +26,7 @@ int nvmet_auth_set_key(struct nvmet_host *host, const char *secret,
- 	char *dhchap_secret;
- 
- 	if (!strlen(secret)) {
-+		down_write(&nvmet_config_sem);
- 		if (set_ctrl) {
- 			kfree(host->dhchap_ctrl_secret);
- 			host->dhchap_ctrl_secret = NULL;
-@@ -35,6 +36,7 @@ int nvmet_auth_set_key(struct nvmet_host *host, const char *secret,
- 			host->dhchap_secret = NULL;
- 			host->dhchap_key_hash = 0;
+@@ -105,6 +105,10 @@ int nvmet_setup_dhgroup(struct nvmet_ctrl *ctrl, u8 dhgroup_id)
+ 		if (ret < 0) {
+ 			pr_debug("%s: ctrl %d failed to generate private key, err %d\n",
+ 				 __func__, ctrl->cntlid, ret);
++			crypto_free_kpp(ctrl->dh_tfm);
++			ctrl->dh_tfm = NULL;
++			ctrl->dh_gid = 0;
++			ctrl->dh_keysize = 0;
+ 			kfree_sensitive(ctrl->dh_key);
+ 			ctrl->dh_key = NULL;
+ 			return ret;
+@@ -115,6 +119,10 @@ int nvmet_setup_dhgroup(struct nvmet_ctrl *ctrl, u8 dhgroup_id)
+ 		if (!ctrl->dh_key) {
+ 			pr_warn("ctrl %d failed to allocate public key\n",
+ 				ctrl->cntlid);
++			crypto_free_kpp(ctrl->dh_tfm);
++			ctrl->dh_tfm = NULL;
++			ctrl->dh_gid = 0;
++			ctrl->dh_keysize = 0;
+ 			return -ENOMEM;
  		}
-+		up_write(&nvmet_config_sem);
- 		return 0;
+ 		ret = nvme_auth_gen_pubkey(ctrl->dh_tfm, ctrl->dh_key,
+@@ -122,8 +130,12 @@ int nvmet_setup_dhgroup(struct nvmet_ctrl *ctrl, u8 dhgroup_id)
+ 		if (ret < 0) {
+ 			pr_warn("ctrl %d failed to generate public key\n",
+ 				ctrl->cntlid);
+-			kfree(ctrl->dh_key);
++			kfree_sensitive(ctrl->dh_key);
+ 			ctrl->dh_key = NULL;
++			crypto_free_kpp(ctrl->dh_tfm);
++			ctrl->dh_tfm = NULL;
++			ctrl->dh_gid = 0;
++			ctrl->dh_keysize = 0;
+ 		}
  	}
- 	if (sscanf(secret, "DHHC-1:%hhd:%*s", &key_hash) != 1)
+ 
 -- 
 2.55.0
 
