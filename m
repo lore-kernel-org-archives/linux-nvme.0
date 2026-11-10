@@ -2,55 +2,55 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FEF3606A339
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2026 21:17:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D33B606A32E
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2026 21:17:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=CbSB+j1Z;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Bev5vsoQ
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=4Bsz7B1C;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nXwsv5rT
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=6F6bixX9VLJl6u/N0LxDxdpy5DWNAw9MIo1FfuiWwlg=; b=CbSB+j1ZhCzuTL
-	i1AuuJyrzHOARipyUE+N+2my4jfH0o0wZyeKbMWWfJ1PAIzyJv3/TgJf06hThS40vH5ivVeX9a/nm
-	wcfJJEEsSyL/sXrbyVI98RxbSRdG55yXvpMdj6f0/Erurs6iE9mgF3w1OsRjkh/JQUOXCOYfE9FsM
-	Ty4e74I5SbNWSDHaE5aqf8EKCDj5bRHU4w+kDaeH45OJtZLZj627jA1r09tuSoiJ4yRg7uOadqSvZ
-	K3mpzcSdu13nMUP77lQpQtUik9tYB8HCc6iSeJZzDpietLaLBLKz5mFQhVB73D+VDPeruGZ8w+Nof
-	2PX8yIxaIJAc4JRe2lOQ==;
+	List-Owner; bh=rTt9ZODnqMGXt2QPWO0j4LWRDHe8dvGNICyHTYt985E=; b=4Bsz7B1Cads+Bm
+	kZGBAAg4merNd4lPOzPOAd+m9/xc1IUsnuJFdt6eO2uPwdub6hD2lieX9TIIjzPO9+nhASxboFqnt
+	wDfMIRbpqBg3XcIHwq1GYRq6Ts6Dzfy2r6Om0KV1yJCjjvH1yHxCjPFIQJlDrGLnNznV5sXPb8Ict
+	Ais7kwmH+KBfeWRF8cz6WrJoLwgiiWJInS91DdTLPSiDiyN040QUNokLHgyaADq3vIQJnKyin/jgc
+	/MamCr5V/q2hZ8zBS3bxqIoQgzjbuQ3V1soFX2Er0Cin502BRpRTMsUxkXtApjCGLXQiRb5tn1ogX
+	ve52LHBJ1HMHvqYqJa4Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRFhI-00000007jxm-2L4o;
-	Wed, 11 Nov 2026 21:17:36 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1xRFgn-00000007imB-0aZb;
+	Wed, 11 Nov 2026 21:17:05 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQi0v-00000003ElP-1WtN
+	id 1xQhyH-00000003E95-08xw
 	for linux-nvme@lists.infradead.org;
-	Tue, 10 Nov 2026 09:19:37 +0000
+	Tue, 10 Nov 2026 09:16:53 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id B8C0063823;
-	Tue, 10 Nov 2026 09:19:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F84A1F008A3;
-	Tue, 10 Nov 2026 09:19:29 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 78A176021E;
+	Tue, 10 Nov 2026 09:16:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C49B51F0089F;
+	Tue, 10 Nov 2026 09:16:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794302376;
-	bh=6F6bixX9VLJl6u/N0LxDxdpy5DWNAw9MIo1FfuiWwlg=;
+	s=k20260515; t=1794302212;
+	bh=rTt9ZODnqMGXt2QPWO0j4LWRDHe8dvGNICyHTYt985E=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=Bev5vsoQXMD/2z11W7fF7gnr2WOAFCcu91VLKw23i7E0hkqCe1dVrhYy0+KtPJYmF
-	 7SwxXGH2SnKEaJ3Gz1JJnuTNJfiSNXCHsVfu0NtJiKPNIwpXKj4acpNvaSgQsC1nOn
-	 v9D9W8uBh3avkK864v96nnYuhV8CQ/YD06yiqjObPD/ts1Fa3Yra+s2JNGu1CbzXmf
-	 lPoZDKOPKjIY0m0OaT8lZr1lUKx7GexmZFGHwmRV5+QIhPZ8mbIcDCb3vCEt/G7Jt7
-	 jjMDsVbCi3OviaEyzsMqCkhdh4WJddoN0LSF4ef8DVIGv0E0SDkQwiCi9hK2AdSt56
-	 Gfxo6evUdhVLw==
+	b=nXwsv5rTzvrG122CXPiddOJ0ugXqcsoi/AaGfNNbu7zvGK8mvUz48SAGlBU/zLVkz
+	 LooUWqRoN/4S8I3xcJYcAEFNAJv7CmbUQiM+ChF5ZHpfxf63bNo7Z0QdCAiOO59dr1
+	 8fhU2KVqLBCjOH3X9bxaSSk/C75cMEo2HD2kESGJ6Y10yT4ZTrwrUuApzZmSmAZkyq
+	 7KypYuKqM5Pjoxx7X2T/0YDQPSzhDhTa8yf55w0TWoYWrEVFZ6el7TpOiZWeC8kVq8
+	 oCDfcYgrQZNoq58895X8dxus9Cy79YWYO/viOCOJpKnTNCeln3Zt2fAQjdrWaXV2Jd
+	 BAdVF5Rtw3JRQ==
 From: Christian Brauner <brauner@kernel.org>
-Date: Tue, 10 Nov 2026 10:14:48 +0100
-Subject: [PATCH RFC 32/41] usb: gadget: gadgetfs: use fc_init_pseudo()
+Date: Tue, 10 Nov 2026 10:14:24 +0100
+Subject: [PATCH RFC 08/41] mqueue: use fc_init_pseudo()
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261110-work-loop-pseudo-v1-32-4c998976c6c7@kernel.org>
+Message-Id: <20261110-work-loop-pseudo-v1-8-4c998976c6c7@kernel.org>
 References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
 In-Reply-To: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -71,12 +71,12 @@ Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>,
  linux-kselftest@vger.kernel.org, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=980; i=brauner@kernel.org;
- h=from:subject:message-id; bh=HoqM8TovkVWXxEHW73GnjomtfEF10WO79IJ99ILFhZo=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWR9erDTyDeb75KLVcD+3CmXFA8amrwrV9AreTDj+7Lby
- 8T6ktIfdpSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAExkdS8jw7y61UWZSuzH/CUD
- K7cIZcU05XC2Bbk5/nEKXnZy8lbXBob/3nwJfl+n25nnXWg+epP78Jz1HcW8OwRzuVKbKsKnfvB
- hBAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1198; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=McdhKaZYT4i07Xats25HT8jpBIeYReCKfIiqQkLDh7c=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWR9ejDXp05OOqNfiGfutU+mD244ZPwWu6w2Ner6mY67a
+ 1N9rz580VHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRz8EM/8zfXf24LmZt6Maf
+ 748F7bqwrvMdv95q947nnlLsuYdn/j3N8JvF0yvka11ts23/pvzN+To/re7tc+Vlrptwd4bj6ob
+ /3vwA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 X-Mailman-Approved-At: Wed, 11 Nov 2026 13:17:02 -0800
@@ -98,33 +98,40 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Initialize gadgetfs as a pseudo filesystem. This raises SB_I_PSEUDO and
-also SB_I_NOEXEC and SB_I_NODEV. gadgetfs never holds executables or
-device nodes.
+Initialize mqueue as a pseudo filesystem instead of raising
+SB_I_NOEXEC and SB_I_NODEV by hand. This adds SB_I_PSEUDO.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- drivers/usb/gadget/legacy/inode.c | 2 ++
- 1 file changed, 2 insertions(+)
+ ipc/mqueue.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legacy/inode.c
-index 7f6d8460152f..8490e5d0351e 100644
---- a/drivers/usb/gadget/legacy/inode.c
-+++ b/drivers/usb/gadget/legacy/inode.c
-@@ -13,6 +13,7 @@
- #include <linux/module.h>
- #include <linux/fs.h>
+diff --git a/ipc/mqueue.c b/ipc/mqueue.c
+index 322c3dd98c44..8bbe32d0881f 100644
+--- a/ipc/mqueue.c
++++ b/ipc/mqueue.c
+@@ -18,6 +18,7 @@
+ #include <linux/file.h>
+ #include <linux/mount.h>
  #include <linux/fs_context.h>
 +#include <linux/pseudo_fs.h>
- #include <linux/pagemap.h>
- #include <linux/uts.h>
- #include <linux/wait.h>
-@@ -2223,6 +2224,7 @@ static const struct fs_context_operations gadgetfs_context_ops = {
+ #include <linux/namei.h>
+ #include <linux/sysctl.h>
+ #include <linux/poll.h>
+@@ -405,7 +406,6 @@ static int mqueue_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	struct inode *inode;
+ 	struct ipc_namespace *ns = sb->s_fs_info;
  
- static int gadgetfs_init_fs_context(struct fs_context *fc)
- {
+-	sb->s_iflags |= SB_I_NOEXEC | SB_I_NODEV;
+ 	sb->s_blocksize = PAGE_SIZE;
+ 	sb->s_blocksize_bits = PAGE_SHIFT;
+ 	sb->s_magic = MQUEUE_MAGIC;
+@@ -457,6 +457,7 @@ static int mqueue_init_fs_context(struct fs_context *fc)
+ 	put_user_ns(fc->user_ns);
+ 	fc->user_ns = get_user_ns(ctx->ipc_ns->user_ns);
+ 	fc->fs_private = ctx;
 +	fc_init_pseudo(fc);
- 	fc->ops = &gadgetfs_context_ops;
+ 	fc->ops = &mqueue_fs_context_ops;
  	return 0;
  }
 
