@@ -2,82 +2,79 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2BB260A260C
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Nov 2026 15:03:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4862B606A339
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Nov 2026 17:30:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=mn2DmtBk;
-	dkim=pass (2048-bit key) header.d=zte.com.cn header.i=@zte.com.cn header.a=rsa-sha256 header.s=z202610 header.b=Z8kdV5w/
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=AGgOHSvw;
+	dkim=pass (2048-bit key, unprotected) header.d=acm.org header.i=@acm.org header.a=rsa-sha256 header.s=mr01 header.b=Ef4ul6C4
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Subject:Cc:To:
-	From:Mime-Version:Date:Message-ID:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:
+	Cc:To:Subject:MIME-Version:Date:Message-ID:Content-Type:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=F0CMn0G18tWa/Iz5/6L3Q85B7oHt15XFmTZTtpw7n8Q=; b=mn2DmtBkecmhARM3tDOHr6EzUD
-	HcIk9l4lS3vWTEFHf7pYyRmFnp9/Va5k+Cp7Kr1BZt5Brj3+hr4KaR23R56Cj2rQTTM/vWIXqUh33
-	qE4ENYC3WKpkIQB+Mug5ZSiikbg/CpGoQziTeKH/e/yUKBrIZ7A0eK5bL/Ltlnu6Cy03EZvd8oJ3j
-	rtjdGb6s6oWDdS1GjSdUxRf61PvPddXVGp/5Ox42xOeIsMV7NJfy3+QTTWUXl2S87Ui1f4cEcjnjz
-	0XPkj4NOkaGS6/vjDevvcB9J6OCGCy9/Wtn2nNJLoK8A5lDEFosqzWE1npuca0xCyQnAgiXxkyRoF
-	PHwVAZmA==;
+	bh=j3bvEeWvzlcBL30xYDTOjDV/1mv0ah+bBnvE4/5p0uA=; b=AGgOHSvwSNRIf1hokNHo5kGC0N
+	D+uqH/OtqwZRSrtuQyyQ0j5QtIiNYeTNfqafyi1FXQFHOVwt3CGa27wKXKCQnDHiVt5rVSFP/u8FB
+	dyH41eSgfoTU56kuqjbnyVpSEJRaWNiTU6ef7pFmrvhseIcNTUmYsv86fc8IN74Zcc1ZrMpUtItvj
+	bgk9gsOrHxBlnXbPdlsNQqal1AnhRLHXqNPVwJ0PAiOw3Z9+kpjAM//qwgquXGIReOv8FKfWV+ut3
+	oUOgYdFI/py0mUFjzuxr8r7TKaZsZ8AmEt0I8Q/yNBRAuvp/49BA/iKPJaxYsZmUziJYknuAOmM3e
+	NNVXOv3w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQnNT-00000004J68-2tnN;
-	Tue, 10 Nov 2026 15:03:15 +0000
-Received: from mxhk.zte.com.cn ([160.30.148.34])
+	id 1xQpff-00000004ghx-1MfP;
+	Tue, 10 Nov 2026 17:30:11 +0000
+Received: from 011.lax.mailroute.net ([199.89.1.14])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQnNR-00000004J5Y-199k
+	id 1xQpfc-00000004ghL-3BFn
 	for linux-nvme@lists.infradead.org;
-	Tue, 10 Nov 2026 15:03:14 +0000
-Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+	Tue, 10 Nov 2026 17:30:10 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by 011.lax.mailroute.net (Postfix) with ESMTP id 4jPDDv1QS2z1XM6J6;
+	Tue, 10 Nov 2026 17:30:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	in-reply-to:from:from:content-language:references:subject
+	:subject:user-agent:mime-version:date:date:message-id
+	:content-type:content-type:received:received; s=mr01; t=
+	1794331795; x=1796923796; bh=j3bvEeWvzlcBL30xYDTOjDV/1mv0ah+bBnv
+	E4/5p0uA=; b=Ef4ul6C4yS/cAJfYyf75jBxzycWdbNecfAC55oBY0lE/j7ik9+J
+	MePg1f9cu1L1FnC+W1b/ILpuFs4ASQF3Cl0xoyYHOf3qgM8bfJC0ir2xg9cWJ9jY
+	zdn2pZBTsAm54r+reUEOlwLqD6xKgeAAClcGNDdaLlO6mqtyRDAkcT1mGlAm/s7v
+	iOHf8f2kAyiOVOPZ2Aa77J5Zs2fvlS1Q63N1R/b8FF8/5bFeH1Us7BbXfybRVSYw
+	X1mYV/F4XOPE8u3+l1l5Zmd4jMRhf5QahZL4rfh4qqCwbdek2KVEPluRkQSuzMWw
+	ptiNuQpRU1ZHAGuA4qUM/ej0u22e5o1GHGQ==
+X-Virus-Scanned: by MailRoute
+Received: from 011.lax.mailroute.net ([127.0.0.1])
+ by localhost (011.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id 9kHL-oKx8GJt; Tue, 10 Nov 2026 17:29:55 +0000 (UTC)
+Received: from [IPV6:2a00:79e0:2ed2:d:8798:2bba:de2f:8c06] (unknown [104.135.182.42])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4jP8zJ5lM4z6FK1f;
-	Tue, 10 Nov 2026 23:03:08 +0800 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=zte.com.cn;
-	s=z202610; t=1794322988;
-	bh=7X663BhplGetURYCfC415YTYFX63LQtL9sJ7Cgul2HU=;
-	h=Date:From:To:Cc:Subject;
-	b=Z8kdV5w/6bExDk7KHO4RMqUob0T2F56lmdrJv1yHH78vYH6bBmpepHXcC7xIeB/ao
-	 A4o57fq2obescz2XaI9UVcsyPGNZkc1M6naxzsLEveF1G+b0LZwXv5ZnEk5b4VYkmd
-	 0ViQZrPAZikSXJUHFWbzwQcyW1OlXXy9j+BmxSXc1LAXX722R6fIh3WFnOvDVl5Ypv
-	 DQlsMFZ9AE/oZxd9bJuzEYSMLx+24zmshKKF8QXS6QK6WgCVNhAVpkHXkXfqdf5FKH
-	 gaaOD0jBGq1GLjnyWcBCWk/Bqj7weFtxFda6W+fHRBDOfNRGlnobnfR5ILFwdbUf7l
-	 wjvbg0xaHhrYA==
-Received: from xaxapp02.zte.com.cn ([10.88.97.241])
-	by mse-fl2.zte.com.cn with SMTP id 6AAF30um030610;
-	Tue, 10 Nov 2026 23:03:00 +0800 (+08)
-	(envelope-from shao.mingyin@zte.com.cn)
-Received: from mapi (xaxapp05[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Tue, 10 Nov 2026 23:03:04 +0800 (CST)
-X-Zmail-TransId: 2afc6af33228054-01698
-X-Mailer: Zmail v1.0
-Message-ID: <20261110230304050fijuDcYKyYPS3lffioSeA@zte.com.cn>
-Date: Tue, 10 Nov 2026 23:03:04 +0800 (CST)
+	(Authenticated sender: bvanassche@acm.org)
+	by 011.lax.mailroute.net (Postfix) with ESMTPSA id 4jPDDg51Dyz1XM311;
+	Tue, 10 Nov 2026 17:29:55 +0000 (UTC)
+Content-Type: multipart/mixed; boundary="------------46iz4Hfso4MLLiJoUCRsrUaU"
+Message-ID: <6708de12-ed0d-4101-9328-d08864e677a5@acm.org>
+Date: Tue, 10 Nov 2026 09:29:54 -0800
 X-Archived-By: <archiver.kernel.org>
-Mime-Version: 1.0
-From: <shao.mingyin@zte.com.cn>
-To: <kbusch@kernel.org>, <axboe@kernel.dk>, <hch@lst.de>, <sagi@grimberg.me>,
-        <linux-nvme@lists.infradead.org>
-Cc: <justin.tee@broadcom.com>, <nareshgottumukkala83@gmail.com>,
-        <paul.ely@broadcom.com>, <kch@nvidia.com>,
-        <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
-Subject: =?UTF-8?B?W1BBVENIIDAvNl0gbnZtZTogZml4IHRyYW5zcG9ydCByZXF1ZXN0IGFuZCBxdWV1ZSBlcnJvciBoYW5kbGluZw==?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL: mse-fl2.zte.com.cn 6AAF30um030610
-X-TLS: YES
-X-ENVELOPE-SENDER: shao.mingyin@zte.com.cn
-X-SOURCE-IP: 10.5.228.133 unknown Tue, 10 Nov 2026 23:03:08 +0800
-X-CLEAN: YES
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6AF3322C.000/4jP8zJ5lM4z6FK1f
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/23] nvmet: add context annotation for nvmet_ns::bdev
+To: Nilay Shroff <nilay@linux.ibm.com>, kbusch@kernel.org, hch@lst.de,
+ sagi@grimberg.me, axboe@kernel.dk, chaitanyak@nvidia.com
+Cc: gjoyce@linux.ibm.com, elver@google.com, linux-nvme@lists.infradead.org
+References: <20261109033102.982191-25-nilay@linux.ibm.com>
+ <20261109033102.982191-26-nilay@linux.ibm.com>
+ <8beba915-07a5-4eae-b8a4-3ec7330c90f7@acm.org>
+ <e9f42390-9115-40b2-b0a5-df17c53ce38b@linux.ibm.com>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <e9f42390-9115-40b2-b0a5-df17c53ce38b@linux.ibm.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261110_070313_505471_7CE81C9C 
-X-CRM114-Status: GOOD (  11.02  )
-X-Spam-Score: -2.1 (--)
+X-CRM114-CacheID: sfid-20261110_093008_855629_75066D63 
+X-CRM114-Status: GOOD (  24.43  )
+X-Spam-Score: -2.8 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,61 +85,225 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=ham
-	autolearn_force=no version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-The six patches fix independent error paths in the NVMe transports.
+This is a multi-part message in MIME format.
+--------------46iz4Hfso4MLLiJoUCRsrUaU
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Patch 1 releases the target request in nvme-loop when SG setup fails.
-nvmet_req_init() has already taken the queue, namespace and reservation
-references, and blk-mq retries the same request, so each failure leaked a
-set of references.
+On 11/9/26 10:38 PM, Nilay Shroff wrote:
+> I agree that passing the lock owner as a function argument is preferable 
+> whenever
+> possible. For this particular case, I tried passing subsys down the call 
+> chain to
+> nvmet_ns_dev() and annotating the function with __must_hold(&subsys- 
+>  >lock). However,
+> Clang still reports a locking violation when accessing ns->bdev:
 
-Patch 2 makes the TCP target wait for in-capsule data only when the SGL
-is really an offset data block descriptor.  The old check looked only at
-the descriptor length, so a transport SGL of the same length was treated
-as in-capsule data; the same check is used when request initialization
-fails.
+Please take a look at the attached patches and consider to add these to
+the start of this series. These patches are needed to implement what I
+suggested in my previous email in this email thread.
 
-Patch 3 requires the R2T offset to equal the number of bytes already
-sent.  A larger offset let the host advertise an offset past the data
-that its next H2CData PDU carried.
+Thanks,
 
-Patch 4 frees the fcloop LS request when nvmet_fc_rcv_ls_req() fails
-before taking ownership.
+Bart.
+--------------46iz4Hfso4MLLiJoUCRsrUaU
+Content-Type: text/x-patch; charset=UTF-8;
+ name="0001-nvme-Fix-lock-context-annotations-for-nvme_passthru_.patch"
+Content-Disposition: attachment;
+ filename*0="0001-nvme-Fix-lock-context-annotations-for-nvme_passthru_.pa";
+ filename*1="tch"
+Content-Transfer-Encoding: base64
 
-Patch 5 publishes an FC target queue only if its slot is still free.  A
-duplicate Create Connection replaced the old pointer and leaked the queue
-and its controller reference.
+RnJvbSBiMDUxYjc4NGQzMDJjYmYzMzQ4MDNjM2IxYjcxY2MyZGQ1NWNlOGEzIE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBCYXJ0IFZhbiBBc3NjaGUgPGJ2YW5hc3NjaGVAYWNt
+Lm9yZz4KRGF0ZTogVHVlLCAxMCBOb3YgMjAyNiAwOToxMToxMiAtMDgwMApTdWJqZWN0OiBb
+UEFUQ0ggMS8zXSBudm1lOiBGaXggbG9jayBjb250ZXh0IGFubm90YXRpb25zIGZvcgogbnZt
+ZV9wYXNzdGhydV97c3RhcnQsZW5kfSgpCgpSZW1vdmUgdGhlIF9fY29uZF9hY3F1aXJlcygp
+IGFuZCBfX2NvbmRfcmVsZWFzZXMoKSBhbm5vdGF0aW9ucyBmcm9tIHRoZQpudm1lX3Bhc3N0
+aHJ1X3N0YXJ0KCkgYW5kIG52bWVfcGFzc3RocnVfZW5kKCkgZGVjbGFyYXRpb25zIGluIG52
+bWUuaC4KQW5ub3RhdGUgbnZtZV9wYXNzdGhydV9zdGFydCgpIGFuZCBudm1lX3Bhc3N0aHJ1
+X2VuZCgpIGluIGNvcmUuYyB3aXRoCl9fY29udGV4dF91bnNhZmUoLyogY29uZGl0aW9uYWwg
+bG9ja2luZyAqLykuCgpOb3RlIHRoYXQgbnZtZV9wYXNzdGhydV9zdGFydCgpIGFjcXVpcmVz
+IGN0cmwtPnNjYW5fbG9jayBhbmQKY3RybC0+c3Vic3lzLT5sb2NrIG9ubHkgd2hlbiAoZWZm
+ZWN0cyAmIE5WTUVfQ01EX0VGRkVDVFNfQ1NFX01BU0spIGlzCm5vbi16ZXJvLiBDb25zaWRl
+ciB0aGF0IGNvbW1hbmRzIGZyZXF1ZW50bHkgcmV0dXJuIG5vbi16ZXJvIGVmZmVjdHMKKHN1
+Y2ggYXMgTlZNRV9DTURfRUZGRUNUU19DU1VQUCkgd2l0aG91dCBzZXR0aW5nCk5WTUVfQ01E
+X0VGRkVDVFNfQ1NFX01BU0suIERvIG5vdCBhc3N1bWUgdGhhdCBldmVyeSBub24temVybyBy
+ZXR1cm4gdmFsdWUKaW1wbGllcyB0aGF0IGxvY2tzIHdlcmUgYWNxdWlyZWQsIHdoaWNoIGlz
+IHdoYXQgX19jb25kX2FjcXVpcmVzKG5vbnplcm8sCi4uLikgaW5jb3JyZWN0bHkgYXNzdW1l
+cy4KCk9ic2VydmUgYWxzbyB0aGF0IG52bWVfcGFzc3RocnVfZW5kKCkgY29uZGl0aW9uYWxs
+eSByZWxlYXNlcyBsb2NrcyBiYXNlZApvbiB0aGUgImVmZmVjdHMiIHBhcmFtZXRlciByYXRo
+ZXIgdGhhbiBpdHMgcmV0dXJuIHZhbHVlLgoKQWNrbm93bGVkZ2UgdGhhdCBDbGFuZyBsb2Nr
+IGNvbnRleHQgYW5hbHlzaXMgY2Fubm90IG1vZGVsIGNvbmRpdGlvbmFsCmxvY2tpbmcgYmFz
+ZWQgb24gYml0bWFzayBmbGFncy4gU3VwcHJlc3MgbG9jayBjb250ZXh0IGltYmFsYW5jZSB3
+YXJuaW5ncwppbnNpZGUgbnZtZV9wYXNzdGhydV9zdGFydCgpIGFuZCBudm1lX3Bhc3N0aHJ1
+X2VuZCgpIGJ5IG1hcmtpbmcgdGhlbSB3aXRoCl9fY29udGV4dF91bnNhZmUoKS4KCkZpeGVz
+OiBhNjczMmJkODAwM2EgKCJudm1lOiBhZGQgY29udGV4dCBhbm5vdGF0aW9ucyBmb3IgbnZt
+ZV9wYXNzdGhydV97c3RhcnR8c3RvcH0iKQpTaWduZWQtb2ZmLWJ5OiBCYXJ0IFZhbiBBc3Nj
+aGUgPGJ2YW5hc3NjaGVAYWNtLm9yZz4KLS0tCiBkcml2ZXJzL252bWUvaG9zdC9jb3JlLmMg
+fCAgMiArKwogZHJpdmVycy9udm1lL2hvc3QvbnZtZS5oIHwgMTAgKystLS0tLS0tLQogMiBm
+aWxlcyBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDggZGVsZXRpb25zKC0pCgpkaWZmIC0t
+Z2l0IGEvZHJpdmVycy9udm1lL2hvc3QvY29yZS5jIGIvZHJpdmVycy9udm1lL2hvc3QvY29y
+ZS5jCmluZGV4IGY0YWEwMjg2OWI3OS4uZGVmOWFjNmU4YjZhIDEwMDY0NAotLS0gYS9kcml2
+ZXJzL252bWUvaG9zdC9jb3JlLmMKKysrIGIvZHJpdmVycy9udm1lL2hvc3QvY29yZS5jCkBA
+IC0xMjU5LDYgKzEyNTksNyBAQCB1MzIgbnZtZV9jb21tYW5kX2VmZmVjdHMoc3RydWN0IG52
+bWVfY3RybCAqY3RybCwgc3RydWN0IG52bWVfbnMgKm5zLCB1OCBvcGNvZGUpCiBFWFBPUlRf
+U1lNQk9MX05TX0dQTChudm1lX2NvbW1hbmRfZWZmZWN0cywgIk5WTUVfVEFSR0VUX1BBU1NU
+SFJVIik7CiAKIHUzMiBudm1lX3Bhc3N0aHJ1X3N0YXJ0KHN0cnVjdCBudm1lX2N0cmwgKmN0
+cmwsIHN0cnVjdCBudm1lX25zICpucywgdTggb3Bjb2RlKQorCV9fY29udGV4dF91bnNhZmUo
+LyogY29uZGl0aW9uYWwgbG9ja2luZyAqLykKIHsKIAl1MzIgZWZmZWN0cyA9IG52bWVfY29t
+bWFuZF9lZmZlY3RzKGN0cmwsIG5zLCBvcGNvZGUpOwogCkBAIC0xMjgwLDYgKzEyODEsNyBA
+QCBFWFBPUlRfU1lNQk9MX05TX0dQTChudm1lX3Bhc3N0aHJ1X3N0YXJ0LCAiTlZNRV9UQVJH
+RVRfUEFTU1RIUlUiKTsKIAogdTMyIG52bWVfcGFzc3RocnVfZW5kKHN0cnVjdCBudm1lX2N0
+cmwgKmN0cmwsIHN0cnVjdCBudm1lX25zICpucywgdTMyIGVmZmVjdHMsCiAJCSAgICAgICBz
+dHJ1Y3QgbnZtZV9jb21tYW5kICpjbWQsIGludCBzdGF0dXMpCisJX19jb250ZXh0X3Vuc2Fm
+ZSgvKiBjb25kaXRpb25hbCBsb2NraW5nICovKQogewogCWlmIChlZmZlY3RzICYgTlZNRV9D
+TURfRUZGRUNUU19DU0VfTUFTSykgewogCQludm1lX3VuZnJlZXplKGN0cmwpOwpkaWZmIC0t
+Z2l0IGEvZHJpdmVycy9udm1lL2hvc3QvbnZtZS5oIGIvZHJpdmVycy9udm1lL2hvc3QvbnZt
+ZS5oCmluZGV4IDg4MzNhNDYzZjFjOC4uOWMzYTY1NjU3YWZiIDEwMDY0NAotLS0gYS9kcml2
+ZXJzL252bWUvaG9zdC9udm1lLmgKKysrIGIvZHJpdmVycy9udm1lL2hvc3QvbnZtZS5oCkBA
+IC0xMzM0LDE2ICsxMzM0LDEwIEBAIHN0YXRpYyBpbmxpbmUgdm9pZCBudm1lX2F1dGhfcmV2
+b2tlX3Rsc19rZXkoc3RydWN0IG52bWVfY3RybCAqY3RybCkge307CiAKIHUzMiBudm1lX2Nv
+bW1hbmRfZWZmZWN0cyhzdHJ1Y3QgbnZtZV9jdHJsICpjdHJsLCBzdHJ1Y3QgbnZtZV9ucyAq
+bnMsCiAJCQkgdTggb3Bjb2RlKTsKLXUzMiBudm1lX3Bhc3N0aHJ1X3N0YXJ0KHN0cnVjdCBu
+dm1lX2N0cmwgKmN0cmwsIHN0cnVjdCBudm1lX25zICpucywgdTggb3Bjb2RlKQotCV9fY29u
+ZF9hY3F1aXJlcyhub256ZXJvLCAmY3RybC0+c3Vic3lzLT5sb2NrKQotCV9fY29uZF9hY3F1
+aXJlcyhub256ZXJvLCAmY3RybC0+c2Nhbl9sb2NrKTsKLQordTMyIG52bWVfcGFzc3RocnVf
+c3RhcnQoc3RydWN0IG52bWVfY3RybCAqY3RybCwgc3RydWN0IG52bWVfbnMgKm5zLCB1OCBv
+cGNvZGUpOwogaW50IG52bWVfZXhlY3V0ZV9ycShzdHJ1Y3QgcmVxdWVzdCAqcnEsIGJvb2wg
+YXRfaGVhZCk7CiB1MzIgbnZtZV9wYXNzdGhydV9lbmQoc3RydWN0IG52bWVfY3RybCAqY3Ry
+bCwgc3RydWN0IG52bWVfbnMgKm5zLCB1MzIgZWZmZWN0cywKLQkJICAgICAgIHN0cnVjdCBu
+dm1lX2NvbW1hbmQgKmNtZCwgaW50IHN0YXR1cykKLQkJICAgICAgIF9fY29uZF9yZWxlYXNl
+cyhub256ZXJvLCAmY3RybC0+c2Nhbl9sb2NrKQotCQkgICAgICAgX19jb25kX3JlbGVhc2Vz
+KG5vbnplcm8sICZjdHJsLT5zdWJzeXMtPmxvY2spOwotCisJCSAgICAgIHN0cnVjdCBudm1l
+X2NvbW1hbmQgKmNtZCwgaW50IHN0YXR1cyk7CiBzdHJ1Y3QgbnZtZV9jdHJsICpudm1lX2N0
+cmxfZnJvbV9maWxlKHN0cnVjdCBmaWxlICpmaWxlKTsKIHN0cnVjdCBudm1lX25zICpudm1l
+X2ZpbmRfZ2V0X25zKHN0cnVjdCBudm1lX2N0cmwgKmN0cmwsIHVuc2lnbmVkIG5zaWQpOwog
+Ym9vbCBudm1lX2dldF9ucyhzdHJ1Y3QgbnZtZV9ucyAqbnMpOwo=
+--------------46iz4Hfso4MLLiJoUCRsrUaU
+Content-Type: text/x-patch; charset=UTF-8;
+ name="0002-nvme-Pass-the-subsystem-pointer-to-nvme_find_ns_head.patch"
+Content-Disposition: attachment;
+ filename*0="0002-nvme-Pass-the-subsystem-pointer-to-nvme_find_ns_head.pa";
+ filename*1="tch"
+Content-Transfer-Encoding: base64
 
-Patch 6 rolls back the SQ binding and the controller reference taken by
-nvmet_install_queue() when the CQ is already bound to another controller,
-and destroys the CQ binding when the transport cannot install the queue.
+RnJvbSBmMjc4NjgwYTBkNGZhMjA1MzgwMzIzOTBkNmQ3MDU2ZjQ0YzZjYTQwIE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBCYXJ0IFZhbiBBc3NjaGUgPGJ2YW5hc3NjaGVAYWNt
+Lm9yZz4KRGF0ZTogVHVlLCAxMCBOb3YgMjAyNiAwOToxMzoyMSAtMDgwMApTdWJqZWN0OiBb
+UEFUQ0ggMi8zXSBudm1lOiBQYXNzIHRoZSBzdWJzeXN0ZW0gcG9pbnRlciB0byBudm1lX2Zp
+bmRfbnNfaGVhZCgpCgpQYXNzIHRoZSBzdHJ1Y3QgbnZtZV9zdWJzeXN0ZW0gcG9pbnRlciBk
+aXJlY3RseSB0byBudm1lX2ZpbmRfbnNfaGVhZCgpLgpVcGRhdGUgdGhlIF9fbXVzdF9ob2xk
+KCkgYW5ub3RhdGlvbiBhbmQgdGhlIGxvY2tkZXAgYXNzZXJ0aW9uIHRvIGNoZWNrCiZzdWJz
+eXMtPmxvY2sgaW5zdGVhZCBvZiAmY3RybC0+c3Vic3lzLT5sb2NrLCBhbmQgdHJhdmVyc2UK
+JnN1YnN5cy0+bnNoZWFkcyBkaXJlY3RseS4KCk5vdGljZSB0aGF0IG52bWVfc3Vic3lzdGVt
+Ojpuc2hlYWRzIGlzIGd1YXJkZWQgYnkgJm52bWVfc3Vic3lzdGVtOjpsb2NrLgpPYnNlcnZl
+IHRoYXQgQ2xhbmcgbG9jayBjb250ZXh0IGFuYWx5c2lzIGNhbm5vdCB2ZXJpZnkgbG9jayBy
+ZXF1aXJlbWVudHMKd2hlbiBhY2Nlc3NpbmcgbnNoZWFkcyB0aHJvdWdoIHRoZSBuZXN0ZWQg
+cG9pbnRlciBjdHJsLT5zdWJzeXMuIEVuYWJsZQp0aGUgY29tcGlsZXIgdG8gdmVyaWZ5IHRo
+YXQgJnN1YnN5cy0+bG9jayBpcyBoZWxkIHdoaWxlIHRyYXZlcnNpbmcKJnN1YnN5cy0+bnNo
+ZWFkcyBieSBwYXNzaW5nIHRoZSBzdWJzeXN0ZW0gcG9pbnRlciBkaXJlY3RseS4KCkZpeGVz
+OiBkMWZkZjQ5YjVmN2YgKCJudm1lOiBhZGQgY29udGV4dCBhbm5vdGF0aW9ucyBmb3IgbnZt
+ZV9zdWJzeXN0ZW06OmxvY2siKQpTaWduZWQtb2ZmLWJ5OiBCYXJ0IFZhbiBBc3NjaGUgPGJ2
+YW5hc3NjaGVAYWNtLm9yZz4KLS0tCiBkcml2ZXJzL252bWUvaG9zdC9jb3JlLmMgfCAxMSAr
+KysrKystLS0tLQogMSBmaWxlIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlv
+bnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL252bWUvaG9zdC9jb3JlLmMgYi9kcml2ZXJz
+L252bWUvaG9zdC9jb3JlLmMKaW5kZXggZGVmOWFjNmU4YjZhLi45OGMzOWZlZjA2NDYgMTAw
+NjQ0Ci0tLSBhL2RyaXZlcnMvbnZtZS9ob3N0L2NvcmUuYworKysgYi9kcml2ZXJzL252bWUv
+aG9zdC9jb3JlLmMKQEAgLTM5MTAsMTQgKzM5MTAsMTUgQEAgc3RhdGljIGNvbnN0IHN0cnVj
+dCBmaWxlX29wZXJhdGlvbnMgbnZtZV9kZXZfZm9wcyA9IHsKIH07CiAKIHN0YXRpYyBzdHJ1
+Y3QgbnZtZV9uc19oZWFkICpudm1lX2ZpbmRfbnNfaGVhZChzdHJ1Y3QgbnZtZV9jdHJsICpj
+dHJsLAotCQl1bnNpZ25lZCBuc2lkKQotCV9fbXVzdF9ob2xkKCZjdHJsLT5zdWJzeXMtPmxv
+Y2spCisJCQkJCSAgICAgIHN0cnVjdCBudm1lX3N1YnN5c3RlbSAqc3Vic3lzLAorCQkJCQkg
+ICAgICB1bnNpZ25lZCBuc2lkKQorCV9fbXVzdF9ob2xkKCZzdWJzeXMtPmxvY2spCiB7CiAJ
+c3RydWN0IG52bWVfbnNfaGVhZCAqaDsKIAotCWxvY2tkZXBfYXNzZXJ0X2hlbGQoJmN0cmwt
+PnN1YnN5cy0+bG9jayk7CisJbG9ja2RlcF9hc3NlcnRfaGVsZCgmc3Vic3lzLT5sb2NrKTsK
+IAotCWxpc3RfZm9yX2VhY2hfZW50cnkoaCwgJmN0cmwtPnN1YnN5cy0+bnNoZWFkcywgZW50
+cnkpIHsKKwlsaXN0X2Zvcl9lYWNoX2VudHJ5KGgsICZzdWJzeXMtPm5zaGVhZHMsIGVudHJ5
+KSB7CiAJCS8qCiAJCSAqIFByaXZhdGUgbmFtZXNwYWNlcyBjYW4gc2hhcmUgTlNJRHMgdW5k
+ZXIgc29tZSBjb25kaXRpb25zLgogCQkgKiBJbiB0aGF0IGNhc2Ugd2UgY2FuJ3QgdXNlIHRo
+ZSBzYW1lIG5zX2hlYWQgZm9yIG5hbWVzcGFjZXMKQEAgLTQxOTIsNyArNDE5Myw3IEBAIHN0
+YXRpYyBpbnQgbnZtZV9pbml0X25zX2hlYWQoc3RydWN0IG52bWVfbnMgKm5zLCBzdHJ1Y3Qg
+bnZtZV9uc19pbmZvICppbmZvKQogCX0KIAogCW11dGV4X2xvY2soJmN0cmwtPnN1YnN5cy0+
+bG9jayk7Ci0JaGVhZCA9IG52bWVfZmluZF9uc19oZWFkKGN0cmwsIGluZm8tPm5zaWQpOwor
+CWhlYWQgPSBudm1lX2ZpbmRfbnNfaGVhZChjdHJsLCBjdHJsLT5zdWJzeXMsIGluZm8tPm5z
+aWQpOwogCWlmICghaGVhZCkgewogCQlyZXQgPSBudm1lX3N1YnN5c19jaGVja19kdXBsaWNh
+dGVfaWRzKGN0cmwtPnN1YnN5cywgJmluZm8tPmlkcyk7CiAJCWlmIChyZXQpIHsK
+--------------46iz4Hfso4MLLiJoUCRsrUaU
+Content-Type: text/x-patch; charset=UTF-8;
+ name="0003-nvme-Pass-the-subsystem-pointer-to-nvme_alloc_ns_hea.patch"
+Content-Disposition: attachment;
+ filename*0="0003-nvme-Pass-the-subsystem-pointer-to-nvme_alloc_ns_hea.pa";
+ filename*1="tch"
+Content-Transfer-Encoding: base64
 
-The six patches are independent and can be applied in any order or as a
-subset.  All carry Fixes: and Cc: stable.
+RnJvbSBmNmI1MTJmZmRiY2FkODAxNGQwOTgxYTM2ZWI0OWUxMjg5OTY5YzBmIE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBCYXJ0IFZhbiBBc3NjaGUgPGJ2YW5hc3NjaGVAYWNt
+Lm9yZz4KRGF0ZTogVHVlLCAxMCBOb3YgMjAyNiAwOToxNzowMCAtMDgwMApTdWJqZWN0OiBb
+UEFUQ0ggMy8zXSBudm1lOiBQYXNzIHRoZSBzdWJzeXN0ZW0gcG9pbnRlciB0byBudm1lX2Fs
+bG9jX25zX2hlYWQoKQoKUGFzcyB0aGUgc3RydWN0IG52bWVfc3Vic3lzdGVtIHBvaW50ZXIg
+ZGlyZWN0bHkgdG8gbnZtZV9hbGxvY19uc19oZWFkKCkuClVwZGF0ZSB0aGUgX19tdXN0X2hv
+bGQoKSBhbm5vdGF0aW9uIHRvIGNoZWNrICZzdWJzeXMtPmxvY2sgaW5zdGVhZCBvZgombnMt
+PmN0cmwtPnN1YnN5cy0+bG9jaywgYW5kIGFjY2VzcyBzdWJzeXMgZGlyZWN0bHkgaW5zdGVh
+ZCBvZiB0aHJvdWdoCmN0cmwtPnN1YnN5cy4KCk5vdGljZSB0aGF0IG52bWVfc3Vic3lzdGVt
+Ojpuc2hlYWRzIGlzIGd1YXJkZWQgYnkgJm52bWVfc3Vic3lzdGVtOjpsb2NrLgpPYnNlcnZl
+IHRoYXQgQ2xhbmcgbG9jayBjb250ZXh0IGFuYWx5c2lzIGNhbm5vdCB2ZXJpZnkgbG9jayBy
+ZXF1aXJlbWVudHMKd2hlbiBhY2Nlc3NpbmcgbnNoZWFkcyB0aHJvdWdoIHRoZSBuZXN0ZWQg
+cG9pbnRlciBucy0+Y3RybC0+c3Vic3lzLgpFbmFibGUgdGhlIGNvbXBpbGVyIHRvIHZlcmlm
+eSB0aGF0ICZzdWJzeXMtPmxvY2sgaXMgaGVsZCB3aGlsZSBtb2RpZnlpbmcKJnN1YnN5cy0+
+bnNoZWFkcyBieSBwYXNzaW5nIHRoZSBzdWJzeXN0ZW0gcG9pbnRlciBkaXJlY3RseS4KCkZp
+eGVzOiBkMWZkZjQ5YjVmN2YgKCJudm1lOiBhZGQgY29udGV4dCBhbm5vdGF0aW9ucyBmb3Ig
+bnZtZV9zdWJzeXN0ZW06OmxvY2siKQpTaWduZWQtb2ZmLWJ5OiBCYXJ0IFZhbiBBc3NjaGUg
+PGJ2YW5hc3NjaGVAYWNtLm9yZz4KLS0tCiBkcml2ZXJzL252bWUvaG9zdC9jb3JlLmMgfCAx
+NyArKysrKysrKystLS0tLS0tLQogMSBmaWxlIGNoYW5nZWQsIDkgaW5zZXJ0aW9ucygrKSwg
+OCBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL252bWUvaG9zdC9jb3JlLmMg
+Yi9kcml2ZXJzL252bWUvaG9zdC9jb3JlLmMKaW5kZXggOThjMzlmZWYwNjQ2Li5jNWNhMjUx
+MjJmOGUgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvbnZtZS9ob3N0L2NvcmUuYworKysgYi9kcml2
+ZXJzL252bWUvaG9zdC9jb3JlLmMKQEAgLTQwNTIsOCArNDA1Miw5IEBAIHN0YXRpYyB2b2lk
+IG52bWVfYWRkX25zX2NkZXYoc3RydWN0IG52bWVfbnMgKm5zKQogfQogCiBzdGF0aWMgc3Ry
+dWN0IG52bWVfbnNfaGVhZCAqbnZtZV9hbGxvY19uc19oZWFkKHN0cnVjdCBudm1lX25zICpu
+cywKLQkJc3RydWN0IG52bWVfbnNfaW5mbyAqaW5mbykKLQlfX211c3RfaG9sZCgmbnMtPmN0
+cmwtPnN1YnN5cy0+bG9jaykKKwkJCQkJICAgICAgIHN0cnVjdCBudm1lX3N1YnN5c3RlbSAq
+c3Vic3lzLAorCQkJCQkgICAgICAgc3RydWN0IG52bWVfbnNfaW5mbyAqaW5mbykKKwlfX211
+c3RfaG9sZCgmc3Vic3lzLT5sb2NrKQogewogCXN0cnVjdCBudm1lX2N0cmwgKmN0cmwgPSBu
+cy0+Y3RybDsKIAlzdHJ1Y3QgbnZtZV9uc19oZWFkICpoZWFkOwpAQCAtNDA2Nyw3ICs0MDY4
+LDcgQEAgc3RhdGljIHN0cnVjdCBudm1lX25zX2hlYWQgKm52bWVfYWxsb2NfbnNfaGVhZChz
+dHJ1Y3QgbnZtZV9ucyAqbnMsCiAJaGVhZCA9IGt6YWxsb2Moc2l6ZSwgR0ZQX0tFUk5FTCk7
+CiAJaWYgKCFoZWFkKQogCQlnb3RvIG91dDsKLQlyZXQgPSBpZGFfYWxsb2NfbWluKCZjdHJs
+LT5zdWJzeXMtPm5zX2lkYSwgMSwgR0ZQX0tFUk5FTCk7CisJcmV0ID0gaWRhX2FsbG9jX21p
+bigmc3Vic3lzLT5uc19pZGEsIDEsIEdGUF9LRVJORUwpOwogCWlmIChyZXQgPCAwKQogCQln
+b3RvIG91dF9mcmVlX2hlYWQ7CiAJaGVhZC0+aW5zdGFuY2UgPSByZXQ7CkBAIC00MDc1LDcg
+KzQwNzYsNyBAQCBzdGF0aWMgc3RydWN0IG52bWVfbnNfaGVhZCAqbnZtZV9hbGxvY19uc19o
+ZWFkKHN0cnVjdCBudm1lX25zICpucywKIAlyZXQgPSBpbml0X3NyY3Vfc3RydWN0KCZoZWFk
+LT5zcmN1KTsKIAlpZiAocmV0KQogCQlnb3RvIG91dF9pZGFfcmVtb3ZlOwotCWhlYWQtPnN1
+YnN5cyA9IGN0cmwtPnN1YnN5czsKKwloZWFkLT5zdWJzeXMgPSBzdWJzeXM7CiAJaGVhZC0+
+bnNfaWQgPSBpbmZvLT5uc2lkOwogCWhlYWQtPmlkcyA9IGluZm8tPmlkczsKIAloZWFkLT5z
+aGFyZWQgPSBpbmZvLT5pc19zaGFyZWQ7CkBAIC00MTAyLDkgKzQxMDMsOSBAQCBzdGF0aWMg
+c3RydWN0IG52bWVfbnNfaGVhZCAqbnZtZV9hbGxvY19uc19oZWFkKHN0cnVjdCBudm1lX25z
+ICpucywKIAlpZiAocmV0KQogCQlnb3RvIG91dF9jbGVhbnVwX2ZkcDsKIAotCWxpc3RfYWRk
+X3RhaWwoJmhlYWQtPmVudHJ5LCAmY3RybC0+c3Vic3lzLT5uc2hlYWRzKTsKKwlsaXN0X2Fk
+ZF90YWlsKCZoZWFkLT5lbnRyeSwgJnN1YnN5cy0+bnNoZWFkcyk7CiAKLQlrcmVmX2dldCgm
+Y3RybC0+c3Vic3lzLT5yZWYpOworCWtyZWZfZ2V0KCZzdWJzeXMtPnJlZik7CiAKIAlyZXR1
+cm4gaGVhZDsKIG91dF9jbGVhbnVwX2ZkcDoKQEAgLTQxMTIsNyArNDExMyw3IEBAIHN0YXRp
+YyBzdHJ1Y3QgbnZtZV9uc19oZWFkICpudm1lX2FsbG9jX25zX2hlYWQoc3RydWN0IG52bWVf
+bnMgKm5zLAogb3V0X2NsZWFudXBfc3JjdToKIAljbGVhbnVwX3NyY3Vfc3RydWN0KCZoZWFk
+LT5zcmN1KTsKIG91dF9pZGFfcmVtb3ZlOgotCWlkYV9mcmVlKCZjdHJsLT5zdWJzeXMtPm5z
+X2lkYSwgaGVhZC0+aW5zdGFuY2UpOworCWlkYV9mcmVlKCZzdWJzeXMtPm5zX2lkYSwgaGVh
+ZC0+aW5zdGFuY2UpOwogb3V0X2ZyZWVfaGVhZDoKIAlrZnJlZShoZWFkKTsKIAlucy0+aGVh
+ZCA9IE5VTEw7CkBAIC00MjAyLDcgKzQyMDMsNyBAQCBzdGF0aWMgaW50IG52bWVfaW5pdF9u
+c19oZWFkKHN0cnVjdCBudm1lX25zICpucywgc3RydWN0IG52bWVfbnNfaW5mbyAqaW5mbykK
+IAkJCQlpbmZvLT5uc2lkKTsKIAkJCWdvdG8gb3V0X3VubG9jazsKIAkJfQotCQloZWFkID0g
+bnZtZV9hbGxvY19uc19oZWFkKG5zLCBpbmZvKTsKKwkJaGVhZCA9IG52bWVfYWxsb2NfbnNf
+aGVhZChucywgY3RybC0+c3Vic3lzLCBpbmZvKTsKIAkJaWYgKElTX0VSUihoZWFkKSkgewog
+CQkJcmV0ID0gUFRSX0VSUihoZWFkKTsKIAkJCWdvdG8gb3V0X3VubG9jazsK
 
-Shao Mingyin (6):
-  nvme-loop: release the target request when SG setup fails
-  nvmet-tcp: only wait for in-capsule data for inline SGLs
-  nvme-tcp: require the R2T offset to match the data sent
-  nvmet-fcloop: free the LS request when delivery fails
-  nvmet-fc: reject duplicate queue IDs on Create Connection
-  nvmet: roll back queue bindings on connection failure
-
- drivers/nvme/host/tcp.c           |  2 +-
- drivers/nvme/target/fabrics-cmd.c |  3 +++
- drivers/nvme/target/fc.c          | 13 +++++++++++--
- drivers/nvme/target/fcloop.c      |  2 ++
- drivers/nvme/target/loop.c        |  1 +
- drivers/nvme/target/tcp.c         | 35 ++++++++++++++++++++++-------------
- 6 files changed, 40 insertions(+), 16 deletions(-)
-
----
-base-commit: ddfe51b0a0f5dc9e415cc2c8ad8db17532dd426b
+--------------46iz4Hfso4MLLiJoUCRsrUaU--
 
