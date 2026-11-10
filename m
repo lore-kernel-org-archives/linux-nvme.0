@@ -2,143 +2,67 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07824606A325
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Nov 2026 13:09:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F815606E454
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Nov 2026 13:10:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=J7FYhzvG;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=dqxKw8ih;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=uBaLnPHF;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=dqxKw8ih;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=uBaLnPHF
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=PgL4ejuN;
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=a9eYITwN
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=XCZuzNSLN1NYl985gudVq+Bd4tfHqYduRFZdeee+NWI=; b=J7FYhzvG1kmuhR
-	tj8LLWDXPlOZsVA2XKSkq9kURd56oACNXNrMV4NqiKxHPvbc8vCYgmQPkYuTQ5wEd8lhPSlWclCf2
-	+573VQNkVucckgD83LBV9KpE5W6goYd/cCkWQ+ILFpVyhaychVYOjwHbIljFhqVzXfRWt3Vm9f4Ky
-	aosXHf1elj+QwaSw/rcIIO8qH2FYYNL+H/UE9BIMT6I5Ifijmwcu1P3Pc/RDWjJxMh0f12LqEHJBL
-	tvNIFSaQZ59Ak4rQtQ15Wi9RX297JWUW86o2QZkOIHBOBlCZlqC8HGis3/SSEmxwFHQbd6ut5hkkT
-	1OzmRL32VXhcmUJchPOw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:Message-Id:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Unsubscribe-Post:List-Owner;
+	bh=AIbTsoYJnqU+UBgdfpuuXZyRGQURHVhq0edfk1ZSOcQ=; b=PgL4ejuNyOSk6NCEUheo32+DCf
+	cNZ5zJy/caKMQmrljRaS9RkVBIwMYD2f4pFOODOYz5Ydp/99Ra5uR0BDfWdRpGxpBtZ5c3ctQdhJt
+	EsxW+dA4g3RvYoel1gx/qU+YImdlrgAKAcC13EtRH+P7bzNMtlbliU75ozh6xh2hl34KXBP38wzd2
+	f6HbRql4Yff4TYL/mMi1vQ70FcOhLptH2rg0e7pb7/lPoc2gQLNg38TvVocfUPnIZDUZrXjUT9PwR
+	VtxcjNGIoLBanrHs9byDPq8rlYrSxsix/Hjgm2JpPnM6Ld8ZqTTGUyDZxjozbMdvpTtwCw89gBu9C
+	F8pHQgtA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQlbo-00000003yqe-0HnS;
-	Tue, 10 Nov 2026 13:09:56 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1xQlcI-00000003yxZ-3iQT;
+	Tue, 10 Nov 2026 13:10:26 +0000
+Received: from out-145.mta0.migadu.com ([2001:41d0:1004:224b::91] helo=mta0.migadu.com)
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQlbk-00000003yp7-3CdD
+	id 1xQlcF-00000003yuy-0opX
 	for linux-nvme@lists.infradead.org;
-	Tue, 10 Nov 2026 13:09:54 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B906221E39;
-	Tue, 10 Nov 2026 13:09:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794316190; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XCZuzNSLN1NYl985gudVq+Bd4tfHqYduRFZdeee+NWI=;
-	b=dqxKw8ihHDQxyc5XuI/DTRsLMzr1HxMtnF5fitN4zPDZePPlYqTAFQrFV38+duEN9F7Cgb
-	v6N/Kc5gbFhpi6566JwQAo8q0EHyLfk0oana3rZIBl/xMesygkbhbC75YytaGTTpbT8YjA
-	fdgJxwirTP45l5YfCz+LmTEqALtQUU4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794316190;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XCZuzNSLN1NYl985gudVq+Bd4tfHqYduRFZdeee+NWI=;
-	b=uBaLnPHFc6DANj63Li1yXgzWRaRREr8lo1iYH2B7TRwybVCvqRulnEw7SbKE1H9guuCQg8
-	iu0FcmQZcqJ3toCg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=dqxKw8ih;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=uBaLnPHF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794316190; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XCZuzNSLN1NYl985gudVq+Bd4tfHqYduRFZdeee+NWI=;
-	b=dqxKw8ihHDQxyc5XuI/DTRsLMzr1HxMtnF5fitN4zPDZePPlYqTAFQrFV38+duEN9F7Cgb
-	v6N/Kc5gbFhpi6566JwQAo8q0EHyLfk0oana3rZIBl/xMesygkbhbC75YytaGTTpbT8YjA
-	fdgJxwirTP45l5YfCz+LmTEqALtQUU4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794316190;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XCZuzNSLN1NYl985gudVq+Bd4tfHqYduRFZdeee+NWI=;
-	b=uBaLnPHFc6DANj63Li1yXgzWRaRREr8lo1iYH2B7TRwybVCvqRulnEw7SbKE1H9guuCQg8
-	iu0FcmQZcqJ3toCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6529D1339F;
-	Tue, 10 Nov 2026 13:09:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id rXH7D54X82oqUgAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 10 Nov 2026 13:09:50 +0000
-Message-ID: <e222873d-aff7-43a4-9e7e-ebea7df92a5e@suse.de>
-Date: Tue, 10 Nov 2026 14:09:49 +0100
+	Tue, 10 Nov 2026 13:10:24 +0000
+X-Envelope-To: linux-nvme@lists.infradead.org
+DKIM-Signature: a=rsa-sha256; bh=952T0Zyn92ruet41jp8SPLUgK+azry6ZsW9QMfdNX5k=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1794316212; v=1; x=1794921012;
+ b=a9eYITwNp67wmoza8iBvS+dlCvAt7r3ffRcYF0pLLIxzb+fLHR6hlzIVZxRNuFN0rw35Wvm1
+ aJaAs3iYOQ0AJgAK5XzAugOyJIqlH6bUx12W6XERo+8+76igOdA4QwHBFZrUJSKzzPTfLQc0rHF
+ ZEpwthlD7tyn7WyAwp+ZAQNM=
+X-Envelope-To: linux-nvme@lists.infradead.org
+Received: by smtp.migadu.com with ESMTPS id 700c77a0a9d00a5e;
+	Tue, 10 Nov 2026 13:10:12 +0000
+X-Mizu-Trace-ID: 700c77a0a9d00a5e
+X-Migadu-Flow: FLOW_OUT
+From: Qiliang Yuan <qiliang.yuan@linux.dev>
+Date: Tue, 10 Nov 2026 08:10:06 -0500
+Subject: [PATCH] nvme-multipath: don't wait for a grace period in
+ nvme_mpath_set_live()
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 2/2] nvme-tcp: allow setting per-queue io_cpu through
- sysfs
-To: Saravanan D <saravanand@crusoe.ai>, linux-nvme@lists.infradead.org
-Cc: kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, axboe@kernel.dk,
- nilay@linux.ibm.com, dwagner@suse.de, sgogte@purestorage.com,
- hare@kernel.org, linux-kernel@vger.kernel.org, iyamahata@crusoe.ai,
- kiyer@crusoe.ai, ganbalagane@crusoe.ai, sjpark@crusoe.ai, bchen@crusoe.ai
-References: <cover.1794015622.git.saravanand@crusoe.ai>
- <394e47d486979175bc5ebb94c789db8bfacb1736.1794015622.git.saravanand@crusoe.ai>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <394e47d486979175bc5ebb94c789db8bfacb1736.1794015622.git.saravanand@crusoe.ai>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-13.50 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
-	MX_GOOD(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[grimberg.me:email,crusoe.ai:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:dkim];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -13.50
-X-Spam-Level: 
-X-Rspamd-Queue-Id: B906221E39
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261110-bug-nvme-mpath-set-live-srcu-v1-1-1f58b405b0f8@linux.dev>
+X-B4-Tracking: v=1; b=H4sIAK0X82oC/x3MzQpAQBAA4FfRnE0Z+X8VObAGUyztsCl5d5vjd
+ /keUHbCCk30gGMvKrsNoDgCs/R2ZpQxGNIkLYgoweGa0fqNcTv6c0HlE1fxjOrMhWYYq7rIJ8r
+ yEkJxOJ7k/vu2e98P3WmhJm4AAAA=
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Qiliang Yuan <qiliang.yuan@linux.dev>
+X-Mailer: b4 0.13.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261110_050952_957524_15482A5B 
-X-CRM114-Status: GOOD (  20.71  )
-X-Spam-Score: -4.4 (----)
+X-CRM114-CacheID: sfid-20261110_051023_515201_36CC323C 
+X-CRM114-Status: GOOD (  14.49  )
+X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -149,69 +73,101 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=4.0.1
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On 11/7/26 10:53 AM, Saravanan D wrote:
-> nvme_tcp_set_queue_io_cpu() picks each queue's io_cpu at connect time
-> as the least loaded CPU in the queue's blk-mq map group, and all socket
-> work runs there for the connection's lifetime. This decision falls
-> short when the host partitions its CPUs after connect time. On a 384
-> cpu multi tenant host with 128 queue controllers, blk-mq folds three
-> CPUs into every map group, some groups straddle two tenants' cpusets,
-> and 9% of nvme_tcp_io_work executions ran outside the submitting VM's
-> cpuset, seen by the neighbor as steal time.
-> 
-> Expose the io_cpu in each I/O queue's directory
-> 
->    /sys/class/nvme/nvmeX/queues/<qid>/io_cpu
-> 
-> so a control plane that owns CPU placement can set it directly instead
-> of relying on the driver's heuristic. The attribute accepts a decimal
-> cpu number, -1 or "unbound". A user assignment, unbound included, is
-> marked in the queue flags, persists across reconnects and is never
-> reselected by the driver. The read-only managed attribute reports 1
-> while io_cpu is driver managed and 0 once the user assigned it. The
-> accounting of nvme_tcp_cpu_queues applies regardless of who set the
-> io_cpu.
-> 
-> A queue's directory is added once the connect time selection has set its
-> io_cpu, so readers never see a placement that is about to change, and
-> removed when the queue is freed, before it is torn down, so a sysfs
-> store never runs on a freed queue. All io_cpu writes, from
-> sysfs and from the driver, serialize with the accounting under
-> nvme_tcp_cpu_queues_lock, while the I/O paths read io_cpu locklessly.
-> The queue stop now clears NVME_TCP_Q_IO_CPU_SET under that lock, since a
-> sysfs store may move io_cpu in between.
-> 
-> nvme_tcp_free_queue() now clears NVME_TCP_Q_IO_CPU_SET and drops its
-> count, because a queue can still be counted when it is freed. A sysfs
-> store may have run after the queue stop, or the connect may have
-> failed, and the setup error path frees such a queue without calling
-> nvme_tcp_stop_queue(), where the count is normally dropped.
-> 
-> Suggested-by: Sagi Grimberg <sagi@grimberg.me>
-> Link: https://lore.kernel.org/linux-nvme/13c160d0-0657-47ce-9a16-58d348267ab0@grimberg.me/
-> Assisted-by: Claude:claude-opus-5-5 [Claude Code]
-> Signed-off-by: Saravanan D <saravanand@crusoe.ai>
-> ---
->   Documentation/ABI/stable/sysfs-nvme |  31 ++++++
->   drivers/nvme/host/tcp.c             | 167 ++++++++++++++++++++++++----
->   2 files changed, 178 insertions(+), 20 deletions(-)
-> 
-Reviewed-by: Hannes Reinecke <hare@kernel.org>
+When a path goes live, nvme_mpath_set_live() waits for an SRCU grace
+period of the namespace head before kicking the requeue work, so that
+bios which found no usable path are on the requeue list by the time it
+runs.
 
-Cheers,
+The ANA work calls nvme_mpath_set_live() for every namespace that
+becomes optimized or non-optimized, one after another, so an ANA change
+waits for one grace period per namespace.
 
-Hannes
+Start the grace period with start_poll_synchronize_srcu() instead and
+have nvme_requeue_work() wait for it only if it has not completed yet.
+The grace periods of all namespaces then run in parallel, and requeue
+work kicked for other reasons finds the cookie completed and does not
+wait.
+
+Flipping an ANA group from inaccessible to optimized ten times over
+nvme-tcp loopback, nvme_read_ana_log() takes (median, min-max in
+parentheses):
+
+  namespaces  before (ms)    after (ms)   change
+         256   51 (32-72)     7 (2.5-12)    -86%
+        1024  157 (133-203)  41 (24-65)     -74%
+
+Signed-off-by: Qiliang Yuan <qiliang.yuan@linux.dev>
+---
+ drivers/nvme/host/multipath.c | 14 +++++++++++++-
+ drivers/nvme/host/nvme.h      |  1 +
+ 2 files changed, 14 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index ae8059366b57d..4bc94f165c17d 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -712,6 +712,11 @@ static void nvme_requeue_work(struct work_struct *work)
+ 		container_of(work, struct nvme_ns_head, requeue_work);
+ 	struct bio *bio, *next;
+ 
++	/* Let bios that found no usable path reach the requeue list first. */
++	if (!poll_state_synchronize_srcu(&head->srcu,
++					 READ_ONCE(head->requeue_srcu_cookie)))
++		synchronize_srcu(&head->srcu);
++
+ 	spin_lock_irq(&head->requeue_lock);
+ 	next = bio_list_get(&head->requeue_list);
+ 	spin_unlock_irq(&head->requeue_lock);
+@@ -767,6 +772,7 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
+ 	mutex_init(&head->lock);
+ 	spin_lock_init(&head->requeue_lock);
+ 	INIT_WORK(&head->requeue_work, nvme_requeue_work);
++	head->requeue_srcu_cookie = get_completed_synchronize_srcu();
+ 	INIT_WORK(&head->partition_scan_work, nvme_partition_scan_work);
+ 	INIT_DELAYED_WORK(&head->remove_work, nvme_remove_head_work);
+ 
+@@ -851,7 +857,13 @@ static void nvme_mpath_set_live(struct nvme_ns *ns)
+ 	}
+ 	mutex_unlock(&head->lock);
+ 
+-	synchronize_srcu(&head->srcu);
++	/*
++	 * Have nvme_requeue_work() wait for the grace period instead of
++	 * blocking here, so that namespaces going live together, e.g. on
++	 * an ANA change, do not wait for one grace period each.
++	 */
++	WRITE_ONCE(head->requeue_srcu_cookie,
++		   start_poll_synchronize_srcu(&head->srcu));
+ 	nvme_mpath_revalidate_zones(head);
+ 	kblockd_schedule_work(&head->requeue_work);
+ }
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 8833a463f1c84..3fff9b394b1cd 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -587,6 +587,7 @@ struct nvme_ns_head {
+ 		__guarded_by(&requeue_lock);
+ 	spinlock_t		requeue_lock;
+ 	struct work_struct	requeue_work;
++	unsigned long		requeue_srcu_cookie;
+ 	struct work_struct	partition_scan_work;
+ 	struct mutex		lock;
+ 	unsigned long		flags;
+
+---
+base-commit: b3dfbde62cf1981c4638939c159dfd087b7a72e9
+change-id: 20261110-bug-nvme-mpath-set-live-srcu-cbd8965f1457
+
+Best regards,
 -- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Qiliang Yuan <qiliang.yuan@linux.dev>
+
 
