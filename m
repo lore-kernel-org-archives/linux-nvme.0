@@ -2,60 +2,98 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4804A606A321
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Nov 2026 11:32:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BC6E606A31C
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Nov 2026 11:35:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=K+qxmEAg;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NCYyhCOl
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=tZ8W52QP;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=heD6Kwqe
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
-	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Cc:To:Subject:
-	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
 	List-Unsubscribe-Post:List-Owner;
-	bh=Y/Bq6NU1/IpRczkbSWK0oP4bGu0MQGDBx3CDnvVQ39A=; b=K+qxmEAgDbjYLUHKi+PnLMSZrL
-	Zn6f62Kk70TbO7/HmvH0PxhCW/DnLAvVGBU+yxIevJHhXrBuW21M63Q22ZGmbg5hqannlKDbhBv+m
-	REfLF1r7QDzI72hn32DHELoY0UWqAcs0Tjfah1FWAYl/Ked65JJVbE4gA96MJo3hTVEGI6icJ6Bm3
-	Uwzq4C8211rPxsK77wRPnhjBLy6UYqj904SpXKRFL0Q4ZqD/Xg4ApWXI14g6zy5MdoFQeAOdD+3Nk
-	2JOFOjAQGOXXN1Dwv+LqVkjasbr9lsbH4Z6K1UrCLVBQ64JcnIpadA4cIT0KilfPQJzp6a8za4NT6
-	TuRPZsXA==;
+	bh=eb4IbN5BS1fARhwXlM0e58qZU7d7q3WTMx1lm2ye1vM=; b=tZ8W52QPuQocgbauxDyRe2WT7B
+	WXk9xLeV/nybg3MY3VKe1l2UjcWpOxvZYx61yi3OZPUZffXFWo0u3gUIzI9sC4Hs6BO2Q/SUglh8J
+	f9ZY/Ngq7uwdzBNEJhoIaSd3f7kAku2rjPex8Ldwjr4ftK4XjnfHBTxiw7CR0nkR2zLR4awmWMS3d
+	K0bfGxefKC21zThqh5OKr1JYttQ8ib67xaGlCuWQkxGCehu3M6PBXsWz1mWfE/EpDpSdhf1lem+qD
+	jXhVtzDc8VDOJg5+hsCQa40ZHjrAaKb5ha6ZOoZvjUpgIScQPiSXtfZaEAr51RqP0GK3xVl4t/jHe
+	/laUENfw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQk5A-00000003e35-2hxa;
-	Tue, 10 Nov 2026 11:32:08 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1xQk8a-00000003eX3-2zmf;
+	Tue, 10 Nov 2026 11:35:40 +0000
+Received: from mail-dy1-x1335.google.com ([2607:f8b0:4864:20::1335])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQk59-00000003e2z-0ANy
+	id 1xQk8Z-00000003eVE-091D
 	for linux-nvme@lists.infradead.org;
-	Tue, 10 Nov 2026 11:32:07 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 78C4543613;
-	Tue, 10 Nov 2026 11:32:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F3881F0089F;
-	Tue, 10 Nov 2026 11:32:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794310326;
-	bh=Y/Bq6NU1/IpRczkbSWK0oP4bGu0MQGDBx3CDnvVQ39A=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=NCYyhCOlRB/iayAIw68czp2Jkp2EU7ecBo8MkOHVhpXEIiYKQzmCRGFefr6GFVt4L
-	 Ahbds3F5MUsdqmUn3rOFD2Swy0gcVWsy4oumj5u7VrLtUZ2WMtkjUY58g/do6JelRI
-	 k0f+G36VoxiTfKlHRW9Qprt1vKWNYT05DsRDzwC14izpI6lbYxkX3DHDYKPN0aRQ8D
-	 evgV5t550NNbHidgu5OdJ12gkiX+/bDpVxYaQemVjyXnTOPJYy99EiTT5IuZZgpnjM
-	 GupZKMigRS8pXqFP1iUnTmK6uVgspWprlhWfRhMicCHTcRjyUHHfAkWaFtpCK3XxNQ
-	 GfQiAAUEW0dsA==
-Message-ID: <sashiko-outbox-206940@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 1/1] nvme-hwmon: notify hwmon alarms on the SMART /
- Health Status AEN
-To: "Guixin Liu" <kanie@linux.alibaba.com>
-Cc: linux-nvme@lists.infradead.org
-In-Reply-To: <20261110110737.3965373-2-kanie@linux.alibaba.com>
-References: <20261110110737.3965373-1-kanie@linux.alibaba.com>
- <20261110110737.3965373-2-kanie@linux.alibaba.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Nov 2026 11:32:05 +0000
+	Tue, 10 Nov 2026 11:35:40 +0000
+Received: by mail-dy1-x1335.google.com with SMTP id 5a478bee46e88-33bf40b0c8bso3506000eec.0
+        for <linux-nvme@lists.infradead.org>; Tue, 10 Nov 2026 03:35:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794310538; x=1794915338; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=eb4IbN5BS1fARhwXlM0e58qZU7d7q3WTMx1lm2ye1vM=;
+        b=heD6KwqeEE9/fh4c04qigOlbVIFauTDsaHiS0NXoOg24Zrs3OTJOR43hk5DnjmUh6M
+         GocCyr7e5JJ4mGE2XfWt2/iNqrxwJI+UIacEkgSWyFKed69mcfBdpn2IZr0DNBZxS2nk
+         /gZljhRVQA22sHp0s6QwvWvXb0okmIr0v/s6/2uCBeQP5Y9dCrx4d8UNnWLOR6Cq12bY
+         KizotZ2PIJaofSyePD4iRzTT9U0HRQfIH2WAY10luAFUaCUkR/x/kfDtS8Rc6G4I/phE
+         cBTWQTugVbpb/qo6YJ/q8l7X6aakwGhbgzquWYu19Jz/xij6mCWE7g2pPIBZt3GicVzG
+         1Gxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794310538; x=1794915338;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=eb4IbN5BS1fARhwXlM0e58qZU7d7q3WTMx1lm2ye1vM=;
+        b=iT9DqaOUh+LL2VZxr1ziVktonyaQ4iuFTcGkoGwOktFM4no9lBWJXrQ8h3qQOHrCU0
+         fsg/EEDS7FBbCFCdvpW4wE8ZdnoCQWkf2ZMcBOaiBOF144YXstQ4SYx9jU2CNc3dsXgJ
+         PRHQuu4xZisR+FgQlze1hySZLj8GgBfpGh62MIbd/wUVot/1EgaZbmTyWY/QTIeu8Lsw
+         /5QPx7o6d+24jK6HcocXUVyZsjDowxpIHqwDV7X6iZ2NQw09iQU/IB00Qq0V5/kdtScX
+         ZxFa197G+Gr1YHSmAZkMNxkVhVaZxz3NuRAUjyH3SmwBnU4D6Eh0nf92p45S2zMpDb6T
+         9SAw==
+X-Forwarded-Encrypted: i=1; AL+hErEMOm3U9dFZiMz2wWG7uoe2ZnLXXDTMLZVVl4halake1xv+ONNFa5Muii+SWIV8tJ/5QrDc5lA9pL+6@lists.infradead.org
+X-Gm-Message-State: APuU4Z96I249c7tCAL2CYYdK0s0ElhMkZxl9nttmyg52uFSBS0nbeUlv
+	+5axsDQITEkJRvphQ1HmyomztQVYqij9SKRR2g4C1ioSsB1cwIRc/uKUGlSNjLuB
+X-Gm-Gg: AYBFou1eK/YnIJsbUDyKtIf8t/dEsV1dW1gonoyw5eTeDZAXFlmwAYFKRoQeq3RKcjo
+	md3rsb8JTTDzGIpue10HxEHm4BhUAOcbsBocHxqjF6lMjIVcMC7THK1u7oSYeJ4TblYTgpP8SFw
+	gdBmUgsvfWS8HYlrVTpqfbk/xsnTWeu5yqHikkUFsfxB5yM5SJI1gLANyQdQ5SiQNOHk+sDaj72
+	R/7qADjdaYjLuW5YycnDVjVAdtZ0FAmxN1eHCvojRd6QwFpfZYOEmvcO/Z0kDP320abQpdOVDbK
+	J4V1Wd91GPrALcBZQSQJiB80xtFiwGkvqklO5gLicBoJYOQMQmfVsSiOjZC7KOM6mPo8VRIJc6g
+	fVNFK6vxZiDMDoVg23ZE+Nbjww9HRXuCUb/eoZmky26CrqdCK2OUTO9QzGD6vVbwOEleBo2qtSf
+	j83r0nr0iBG96AB7BvyoWRTjTT1/JChDWugHL0u1AUbEvXs8SLMi/iogkPV16SgwwzR6IpMjZeN
+	zuEf999yXpt8TWyJdezucuOAGfGD/PbRywV8vaWSreuZ2OhmjAr6TpwFfa4NYT0bR32+JxqiS0K
+	L7MCijs03IMWgx/Wzg/lCh93kwNBoqzGsl98M6gTGBEvwjuNtAB8o/V61I669M89f4oEFdyqkk0
+	=
+X-Received: by 2002:a05:7301:d184:b0:36d:a465:b38e with SMTP id 5a478bee46e88-3751c53689emr3136955eec.5.1794310537844;
+        Tue, 10 Nov 2026 03:35:37 -0800 (PST)
+Received: from localhost.localdomain ([103.179.231.100])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3752060dc0csm7675796eec.14.2026.11.10.03.35.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Nov 2026 03:35:37 -0800 (PST)
+From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+To: hare@kernel.org,
+	hare@suse.de,
+	hch@lst.de,
+	kbusch@kernel.org,
+	kch@nvidia.com,
+	sagi@grimberg.me
+Cc: linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+Subject: [PATCH v4] nvmet: clean up DH group state on initialization failure
+Date: Tue, 10 Nov 2026 11:35:02 +0000
+Message-ID: <20261110113502.3235-1-sreekuttan2156239@gmail.com>
+X-Mailer: git-send-email 2.55.0
+X-Archived-By: <archiver.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20261110_033539_079653_2130A423 
+X-CRM114-Status: GOOD (  15.18  )
+X-Spam-Score: -1.9 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,154 +103,135 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
-X-Archived-By: <archiver.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 3 potential
-issues to consider:
-- [High] nvme-hwmon: race between smart_work and async_event_work
-  re-arms AER early
-- [High] nvme: NULL submit_async_event() dereference via
-  nvme_enable_aen()
-- [Low] nvme-hwmon: unfiltered NVME_AER_SMART subtype in
-  nvme_complete_async_event()
---
+nvmet_setup_dhgroup() leaves the DH transform and group ID
+initialized when private-key generation, public-key allocation,
+or public-key generation fails.
 
-commit 0ce1f50fb06d20be5bc969ec67713426ed866b3c
-Author: Guixin Liu <kanie@linux.alibaba.com>
+A subsequent invocation with the same DH group incorrectly
+returns success because the existing transform and group ID
+are treated as proof of successful initialization.
 
-nvme-hwmon: notify hwmon alarms on the SMART / Health Status AEN
+Release the transform and reset the group state on initialization
+failures so that subsequent attempts can properly retry setup.
 
-This commit enables the temperature critical warning in the Asynchronous
-Event Configuration when hwmon is present and schedules work on SMART /
-Health Status AEN completions to re-read the SMART log and notify hwmon
-on temp1_alarm.
+Fixes: 7a277c37d352 ("nvmet-auth: Diffie-Hellman key exchange support")
+Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+---
+v4:
+ - Consolidate DH group error handling and clear stale key state
+   when switching DH groups.
+v3:
+ - Clear stale DH key state when crypto_alloc_kpp() fails during
+   re-authentication.
+ - Fix the error path when crypto_alloc_kpp() fails by returning
+   the allocation error instead of incorrectly reporting success.
+v2:
+ - Consolidate error handling in "nvmet_setup_dhgroup()" using
+   a shared cleanup label to avoid duplicated teardown code.
+ - Add Fixes trailer.
 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index f4aa02869b790..9e355fb0e3992 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -1792,6 +1792,17 @@ static void nvme_enable_aen(struct nvme_ctrl *ctrl)
->  	u32 result, supported_aens =3D ctrl->oaes & NVME_AEN_SUPPORTED;
->  	int status;
-> =20
-> +	/*
-> +	 * Unlike the notice events above, SMART / Health Status events have
-> +	 * no OAES capability bit: AEC dw11 bits 7:0 are the SMART / Health
-> +	 * Critical Warnings (SHCW) mask, which mirrors the critical_warning
-> +	 * byte of the SMART log.  Subscribe to the temperature warning
-> +	 * whenever the hwmon support is present, as that is the only
-> +	 * consumer.
-> +	 */
-> +	if (nvme_hwmon_present(ctrl))
-> +		supported_aens |=3D NVME_SMART_CRIT_TEMPERATURE;
-> +
->  	if (!supported_aens)
->  		return;
+ drivers/nvme/target/auth.c | 67 +++++++++++++++++++++-----------------
+ 1 file changed, 37 insertions(+), 30 deletions(-)
 
-[Severity: High]
-Can this cause a NULL pointer dereference in nvme_async_event_work() on
-controllers whose nvme_ctrl_ops do not implement submit_async_event()?
+diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
+index ccba84b1344e..681459b5db3b 100644
+--- a/drivers/nvme/target/auth.c
++++ b/drivers/nvme/target/auth.c
+@@ -76,8 +76,11 @@ int nvmet_setup_dhgroup(struct nvmet_ctrl *ctrl, u8 dhgroup_id)
+ 			return 0;
+ 		}
+ 		crypto_free_kpp(ctrl->dh_tfm);
++		kfree_sensitive(ctrl->dh_key);
+ 		ctrl->dh_tfm = NULL;
+ 		ctrl->dh_gid = 0;
++		ctrl->dh_key = NULL;
++		ctrl->dh_keysize = 0;
+ 	}
+ 
+ 	if (dhgroup_id == NVME_AUTH_DHGROUP_NULL)
+@@ -95,38 +98,42 @@ int nvmet_setup_dhgroup(struct nvmet_ctrl *ctrl, u8 dhgroup_id)
+ 			 __func__, ctrl->cntlid, dhgroup_id,
+ 			 PTR_ERR(ctrl->dh_tfm));
+ 		ret = PTR_ERR(ctrl->dh_tfm);
+-		ctrl->dh_tfm = NULL;
+-		ctrl->dh_gid = 0;
+-	} else {
+-		ctrl->dh_gid = dhgroup_id;
+-		pr_debug("%s: ctrl %d setup DH group %d\n",
+-			 __func__, ctrl->cntlid, ctrl->dh_gid);
+-		ret = nvme_auth_gen_privkey(ctrl->dh_tfm, ctrl->dh_gid);
+-		if (ret < 0) {
+-			pr_debug("%s: ctrl %d failed to generate private key, err %d\n",
+-				 __func__, ctrl->cntlid, ret);
+-			kfree_sensitive(ctrl->dh_key);
+-			ctrl->dh_key = NULL;
+-			return ret;
+-		}
+-		ctrl->dh_keysize = crypto_kpp_maxsize(ctrl->dh_tfm);
+-		kfree_sensitive(ctrl->dh_key);
+-		ctrl->dh_key = kzalloc(ctrl->dh_keysize, GFP_KERNEL);
+-		if (!ctrl->dh_key) {
+-			pr_warn("ctrl %d failed to allocate public key\n",
+-				ctrl->cntlid);
+-			return -ENOMEM;
+-		}
+-		ret = nvme_auth_gen_pubkey(ctrl->dh_tfm, ctrl->dh_key,
+-					   ctrl->dh_keysize);
+-		if (ret < 0) {
+-			pr_warn("ctrl %d failed to generate public key\n",
+-				ctrl->cntlid);
+-			kfree(ctrl->dh_key);
+-			ctrl->dh_key = NULL;
+-		}
++		goto err;
++	}
++
++	ctrl->dh_gid = dhgroup_id;
++	pr_debug("%s: ctrl %d setup DH group %d\n",
++		 __func__, ctrl->cntlid, ctrl->dh_gid);
++	ret = nvme_auth_gen_privkey(ctrl->dh_tfm, ctrl->dh_gid);
++	if (ret < 0) {
++		pr_debug("%s: ctrl %d failed to generate private key, err %d\n",
++			 __func__, ctrl->cntlid, ret);
++		goto err;
++	}
++	ctrl->dh_keysize = crypto_kpp_maxsize(ctrl->dh_tfm);
++	ctrl->dh_key = kzalloc(ctrl->dh_keysize, GFP_KERNEL);
++	if (!ctrl->dh_key) {
++		pr_warn("ctrl %d failed to allocate public key\n",
++			ctrl->cntlid);
++		ret = -ENOMEM;
++		goto err;
++	}
++	ret = nvme_auth_gen_pubkey(ctrl->dh_tfm, ctrl->dh_key,
++				   ctrl->dh_keysize);
++	if (ret < 0) {
++		pr_warn("ctrl %d failed to generate public key\n",
++			ctrl->cntlid);
++		goto err;
+ 	}
+ 
++	return 0;
++err:
++	kfree_sensitive(ctrl->dh_key);
++	ctrl->dh_key = NULL;
++	crypto_free_kpp(ctrl->dh_tfm);
++	ctrl->dh_tfm = NULL;
++	ctrl->dh_gid = 0;
++	ctrl->dh_keysize = 0;
+ 	return ret;
+ }
+ 
+-- 
+2.55.0
 
-The apple-nvme driver does not support asynchronous events, reports
-ctrl->oaes =3D=3D 0, and leaves submit_async_event NULL in its nvme_ctrl_op=
-s,
-but still initializes hwmon via nvme_init_ctrl_finish().  Previously,
-supported_aens remained 0 so nvme_enable_aen() returned early.  With
-NVME_SMART_CRIT_TEMPERATURE set whenever ctrl->hwmon_device is present,
-nvme_enable_aen() now queues ctrl->async_event_work, and
-nvme_async_event_work() unconditionally calls
-ctrl->ops->submit_async_event(ctrl).
-
-> @@ -5006,8 +5017,12 @@ void nvme_complete_async_event(struct nvme_ctrl *c=
-trl, __le16 status,
->  			nvme_handle_aer_persistent_error(ctrl);
->  			return;
->  		}
-> -		fallthrough;
-> +		ctrl->aen_result =3D result;
-> +		break;
->  	case NVME_AER_SMART:
-> +		nvme_hwmon_smart_event(ctrl);
-> +		ctrl->aen_result =3D result;
-> +		break;
-
-[Severity: Low]
-Should this check aer_subtype (or log->critical_warning in
-nvme_hwmon_smart_notify()) before notifying temp1_alarm?
-
-If any non-temperature SMART / Health Status warning is enabled in
-NVME_FEAT_ASYNC_EVENT (for example via admin passthrough),
-nvme_hwmon_smart_notify() will read the SMART log with RAE cleared and
-emit a false temp1_alarm notification and thermal zone update.
-
-> diff --git a/drivers/nvme/host/hwmon.c b/drivers/nvme/host/hwmon.c
-> index 406203d8b9adb..172ef63f1180c 100644
-> --- a/drivers/nvme/host/hwmon.c
-> +++ b/drivers/nvme/host/hwmon.c
-[ ... ]
-> @@ -223,6 +224,39 @@ static const struct hwmon_chip_info nvme_hwmon_chip_=
-info =3D {
->  	.info	=3D nvme_hwmon_info,
->  };
-> =20
-> +static void nvme_hwmon_smart_notify(struct work_struct *work)
-> +{
-> +	struct nvme_hwmon_data *data =3D
-> +		container_of(work, struct nvme_hwmon_data, smart_work);
-> +	struct nvme_ctrl *ctrl =3D data->ctrl;
-> +	int ret;
-> +
-> +	/*
-> +	 * The event stays latched on the controller until the SMART log
-> +	 * is read with RAE cleared, so re-read it here before the
-> +	 * completion path re-arms the Asynchronous Event Request.
-> +	 */
-> +	mutex_lock(&data->read_lock);
-> +	ret =3D nvme_hwmon_get_smart_log(data);
-> +	mutex_unlock(&data->read_lock);
-> +	if (ret)
-> +		return;
-> +
-> +	hwmon_notify_event(ctrl->hwmon_device, hwmon_temp,
-> +			   hwmon_temp_alarm, 0);
-> +}
-
-[Severity: High]
-Does queueing both data->smart_work and ctrl->async_event_work on nvme_wq
-actually guarantee that the SMART log is read before the Asynchronous
-Event Request is re-armed?
-
-nvme_wq is allocated with WQ_UNBOUND and default max_active, so both work
-items run concurrently:
-
-CPU0                                  CPU1
-nvme_complete_async_event()
-  nvme_hwmon_smart_event(ctrl)
-    queue_work(nvme_wq, &smart_work)
-  queue_work(nvme_wq, &async_event_work)
-
-nvme_hwmon_smart_notify()             nvme_async_event_work()
-  nvme_hwmon_get_smart_log()            ctrl->ops->submit_async_event(ctrl)
-    ... (sleeps on admin I/O)             <-- re-arms AER before RAE clear
-
-Because submit_async_event() runs before the synchronous Get Log Page
-command completes and clears the latched event, the controller can
-immediately complete the new AER for the same latched SMART warning,
-causing repeated AER completions and duplicate uevent and hwmon
-notifications.  By comparison, NVME_AER_NOTICE_FW_ACT_STARTING sets
-requeue =3D false in nvme_handle_aen_notice() and queues
-ctrl->async_event_work from nvme_fw_act_work() only after reading the log
-page.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261110110737.3965=
-373-1-kanie@linux.alibaba.com?part=3D1
 
