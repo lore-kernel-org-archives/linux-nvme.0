@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C70F606A321
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2026 20:20:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D057606A327
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2026 20:20:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=RmEzbr6e;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=asc8jOgD
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=G1Co111V;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PAp/grAl
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
 	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:Message-Id:
@@ -14,89 +14,89 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
 	List-Unsubscribe-Post:List-Owner;
-	bh=rL4KwcEFHwkz1jWWL3y7UWO5qvCLFUUwuudRtrnqRrk=; b=RmEzbr6etlRzEBETEfBC5h6SkU
-	YjMqi/BZCluUZ+xLdGapLCrxClPfDJ1/ABfzsKmaI+Wvgj3me80gqSRImgVuFYxRga0CcKf2nIKSy
-	TQcZ3wZXj2tVxm/L0FdbBJZFS6O5043zptOPtkZrGWTcVKk7et2aaZe/BwHJlUZm5RaeSbOvgeQl1
-	mqBqP5GBGUDFtBUz8UIwK8JtGTD00fMz2hA2lhE/qGVdALhjt1YCWJfSnNq3R9VpipM0dnnKiACCE
-	vRZX4RQlo4Xi/1eB+/1EBWUezvT2OZGXDIAFZ+awYUIdhNpePNHFwodifjtLFe5IgQAChKN0cfrJn
-	HYDI0hiw==;
+	bh=4cXMxtzidXGv0WNf5+EEn+FhjoEKK2AECIQimCUPzCA=; b=G1Co111Vv4kSL9AZk8kYq3w0um
+	GZ54rUh0bOvHGKIWEHvYn2XZlhlhP89uzzJW/FTw4nZmm8gE26Q7QONeqGjQiabRffuahXNQLuKpr
+	LIzCOuMFs+344h/sK7VJ9MjbCcDPdjOcygb0iyfPemYDxZRLFeKfcCFgiLYXK/rsMX2m9DcMNxK4t
+	vBBEqzQvkK6RpVTnY+1eF0KicbYG9gy2X2BrRpaF6BKux1eznjqgcskI5x1gTDNMKoaTc7h8Vdpc0
+	veBRoF+IXeYLqJkmYknQYhWT/ksGa5Id4d4CAxn/UnMbGQr3VMRHVyhDWejZdU4W8LDJ3yygtwr+i
+	6ksiHTwQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xREnX-00000007bnB-3twg;
-	Wed, 11 Nov 2026 20:19:59 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1xREoV-00000007byU-17Rz;
+	Wed, 11 Nov 2026 20:20:59 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xREnX-00000007bn2-0uFI
+	id 1xREoU-00000007bxt-1l8A
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Nov 2026 20:19:59 +0000
+	Wed, 11 Nov 2026 20:20:58 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id A99C340945;
-	Wed, 11 Nov 2026 20:19:58 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id DD56744FE5;
+	Wed, 11 Nov 2026 20:20:57 +0000 (UTC)
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794428398;
-	b=xJeA0mwgM938opf3TWx5Z2mVXdPx19885R/FbN1dfkqjzngPMLCbeczyWoIYD+F66luT
-	 tQ3d7PbtechubGcDRXr469lbJ5cYQmJdwcQwfX1PWQz4FInfwfuapDBvRxqXCR02eTNg0
-	 pCCjigTCghBXi8vsuUnIE0PrJqvkm/q1qDy5uaWvgbJMVUowX4D4RcDHh68xC9Eb+xZND
-	 29j6oaLhW7aWwUAOoA1jWfjs7cihbaATNPONUtVZXkk6E8y6CFIx+8IC90vGev6/MBicP
-	 06YiU4OsHdbUckm5M/gsy9GCfu9RmTMIircDztzpkOBA9e4HxMoUZFCtpPcu7cVrHfQ==
+	t=1794428457;
+	b=K5BdtyuEPVN+aCm4OdZ+P6K8wIUb+UpEV6uoYKHiBIJcoxLCHUZizqfXdn0nFNkm6pFW
+	 PWLBtndqtxwHK6KzTzKT63WkU/DlpAfFJ99i7PIzGMJnbVtm9CMwohKF3IoUh/E6n/lxU
+	 0gPMLGpqTzIjyaZ13ZEPy5fCcb7NeRz3TBbFpCx7xBjUPYwhAv+Z0Fntz4Plks8H0vAYo
+	 yi9GAkZJTFh0TsRztSwL2kMI5q6ZU/SrSeTe1k6fOaZHQUxRmczP+QaKd6A0BzE7cK5/2
+	 JHwLmuZJPaXxErlOQ7s7E8elLFrvyWRZny8maIn6NAX0PCKANKV6qT6Wm2I+ExL/FvQ==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794428398;
+	c=relaxed/relaxed; t=1794428457;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To;
-	bh=rL4KwcEFHwkz1jWWL3y7UWO5qvCLFUUwuudRtrnqRrk=;
-	b=feDd9hTkIGVs2T1M5gcMAL/dbMKV0hywus3nDWtN4PLRRQBPDyBOMPMH4hJPWwOVFn42
-	 NsE/nE9U3mqMo5TG51JGjn1l8ERVf0v2whg2aeiOoSSLssbSscrfnBjcyHL+HLJSvWSiN
-	 VC7XObCGgWZik4e3ELnpPtMygneVhG2yAPKhYVoXrDfisfe3wvd4OMMzI5hjpv2XW4naK
-	 UWE5bHWK2InkLq8ab87+sojfr/Is1Qpc35Xl0/Uqm9wqB33us7YgPk6c8L8mSdXh4Tx/q
-	 5e/SCA68uauc+PTL7MQPo3eYOcZ7fzTsLcpxmRCHnZUFjq1qFuJ9pmp31rKLepetAXg==
+	bh=4cXMxtzidXGv0WNf5+EEn+FhjoEKK2AECIQimCUPzCA=;
+	b=ml+miB/KL88JJss1FUYLnep5PPpYceRI7V2YcSctuLRhW8bYcFOn8eAM9kvNqIcTytUb
+	 gVVJXb+SzvHuQEUkJwZDx2J9K6X+fW2OH9/97V924ofW6c4mZl2JoAr+xFBM1rZgMgt9y
+	 lViQss9N9mDoPYbieeDLdqrliwu/yKPvri5dOHKn9UimMQWZytTwbKNodtvdzJoWeTaVQ
+	 VpUV0m7+BGx7/aWgynMNYfq/pLaQv5Rnftubtq8E2mJSPX3bGOzsumV20pqctvdBgd60v
+	 2PmiZW2Q3QMe9mU5P7G9zf4AtydnA6hnSL9r9YI4Vkenf9GlZ0efrZxZAstqm+jLbQw==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id D60181F00A0B;
-	Wed, 11 Nov 2026 20:19:57 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 25CE11F00A05;
+	Wed, 11 Nov 2026 20:20:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794428398;
-	bh=rL4KwcEFHwkz1jWWL3y7UWO5qvCLFUUwuudRtrnqRrk=;
+	s=k20260515; t=1794428457;
+	bh=4cXMxtzidXGv0WNf5+EEn+FhjoEKK2AECIQimCUPzCA=;
 	h=From:Date:Subject:To:Cc:Reply-To;
-	b=asc8jOgDYNZ4kdpN/iIR6YeQtwfTDDlmrQem1J8uyZnUdj2/1vuaJT3AEm5eR1nS4
-	 Gy3VIWkYaybYQcVUIGXX1XvnmWstie9aOKaczPEkhIqqsVF81712UhqwCAzaCxCxe5
-	 B8PnoN9jKxdomqpElGIdSaUX2EdqzSLw1L2POTMcsX+Pi2uITSRFoyT7Tbl6sZvkgq
-	 vBIIOu/sOAYNWwNgx3FLfK9UOjN1Ze6/pHuurFOD724dapit6QewSTYsX/yziNZ8Iy
-	 xvOnKFp4t0mRLcWkX4Nb7T7+Kpm5bcPOAM/dK+edxj2BgQBEJq/FKCbN/fo/we6F1m
-	 EdEKhVAihRCgA==
+	b=PAp/grAl84HyvqvGpytbODnY62wf1NCzFcc2rSb3/BLu9hbcpwukzv5qaAKiFmmXQ
+	 Gb7iMeeNaWi2dVe/CxVESnpZVgEgDoiX0NIE+bhB6a1qkKlQy3vBlbe4RsuH4j6BkW
+	 D9nY+zWScHME8+VcBy9S34LqXCf4ihHRV8N4yNZPD74QewTG11e4BakX9XJLxtuyfK
+	 rycgc/x9sxzlQBPJ/3Ie/YZ4dP03+kJfZMKXOjU9DdQ3TNaBXsZ+J9WuzsWkE3u48C
+	 m3h0KuxzJROZBQ0DDNB976YwiZp6H3bhIeUxqrZ9SmOCB9DLP2hxht7tfEmr/MfVmT
+	 yaI4TerhrBAqw==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 239D3490D9;
-	Wed, 11 Nov 2026 20:19:57 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id A4AF0490E5;
+	Wed, 11 Nov 2026 20:20:56 +0000 (UTC)
 From: Martin Belanger via B4 Relay <devnull+martin.nvme.dev.gmail.com@kernel.org>
-Date: Wed, 11 Nov 2026 15:19:55 -0500
-Subject: [PATCH 7.3.y] nvme-tcp: skip TLS control records while waiting for
- the ICResp
+Date: Wed, 11 Nov 2026 15:20:54 -0500
+Subject: [PATCH 6.18.y] nvme-tcp: skip TLS control records while waiting
+ for the ICResp
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261111-icresp-stable-7-3-v1-1-c9157e951b3f@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWM0Q6CMBAEf4Xss0faAjb6K8aHUg49QpD00GgI/
- 27FfZtNZlYoJ2HFuViR+CUqjymDPRSI9zDdmKTLDGfc0eaRxMQ6ky6hHZk8VdQZV5+Mb/pgG2R
- vTtzLe29e4Muq/OD6v/XZDhyXXw/b9gUrXF2RfAAAAA==
-X-Change-ID: 20261111-icresp-stable-7-3-d0249075fa15
+Message-Id: <20261111-icresp-stable-6-18-v1-1-ccf02268f76a@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWM0QqDMBAEf0XuuScm0ij9leKDSVc9KVZytijiv
+ 5u2+zYLMzspokDplu0U8RGV15TAXDIKQzv1YHkkJltYZ9JYQoTOrEvrn2DHpmaU1l47VL6oSkr
+ iHNHJ+oveyeWmzjdq/r++/YiwfIt0HCd+StLffgAAAA==
+X-Change-ID: 20261111-icresp-stable-6-18-e3225fe7b073
 To: stable@vger.kernel.org
-Cc: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org, 
- Martin Belanger <martin.nvme.dev@gmail.com>, 
- Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@kernel.org>, 
- Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>
+Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
+ Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@kernel.org>, 
+ Martin Belanger <martin.nvme.dev@gmail.com>, linux-nvme@lists.infradead.org, 
+ Jens Axboe <axboe@kernel.dk>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794428396; l=7585;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794428456; l=7592;
  i=martin.nvme.dev@gmail.com; s=20261014; h=from:subject:message-id;
- bh=y4qvjQvefNgN22weaVN+ZwHY2rvrb6aJx8IrJ8atttk=;
- b=fOxl56Lz4C2MsmVbmO+WOcVM0JU1wU6PHJUoGC0Yghu7ecu1NLV+fMiRSxThQYC4dN8IZ3N4A
- 0DY7vuIF5icDKHEaQv7BMuSUri18ubR28jmaD7mJ7oPTy+mTvQrTNcd
+ bh=fFcBJ8BcvPYxw3eQJ+fJa/dnr9zY8euGzsjwV6YDuNE=;
+ b=hMNlSnVTE8oJblKJYQMgVcwCUlTaR5UFRSLWZCw+b8C+ulcgk6yjujA7KADEPamFRv1aAZjyo
+ VoIzjuTyIuWBPZOuSak8KV6TWpwT8lIspYGHnPI2GNtexw4Sf4BRrgp
 X-Developer-Key: i=martin.nvme.dev@gmail.com; a=ed25519;
  pk=4K+XXetGK35w2LzRRddd/bbHawZU222BN+YZRuSpN+k=
 X-Endpoint-Received: by B4 Relay for martin.nvme.dev@gmail.com/20261014
@@ -148,7 +148,7 @@ Signed-off-by: Keith Busch <kbusch@kernel.org>
 [ Martin: resolved a context conflict next to nvme_tcp_cpu_queues ]
 Signed-off-by: Martin Belanger <martin.belanger@dell.com>
 ---
-Upstream has no Cc: stable. Tested on v7.3.4: NewSessionTickets of 64
+Upstream has no Cc: stable. Tested on v6.18.63: NewSessionTickets of 64
 to 1000 bytes ahead of the ICResp now connect; without the patch the
 connect fails.
 ---
@@ -156,10 +156,10 @@ connect fails.
  1 file changed, 140 insertions(+), 22 deletions(-)
 
 diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index ce28c9b03817..2c7e9cfa2253 100644
+index 94495b022871..190eac661e7d 100644
 --- a/drivers/nvme/host/tcp.c
 +++ b/drivers/nvme/host/tcp.c
-@@ -70,6 +70,12 @@ MODULE_PARM_DESC(tls_handshake_timeout,
+@@ -53,6 +53,12 @@ MODULE_PARM_DESC(tls_handshake_timeout,
  		 "nvme TLS handshake timeout in seconds (default 10)");
  #endif
  
@@ -171,8 +171,8 @@ index ce28c9b03817..2c7e9cfa2253 100644
 +
  static atomic_t nvme_tcp_cpu_queues[NR_CPUS];
  
- enum nvme_tcp_send_state {
-@@ -1561,12 +1567,143 @@ static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
+ #ifdef CONFIG_DEBUG_LOCK_ALLOC
+@@ -1535,12 +1541,143 @@ static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
  	mutex_destroy(&queue->pf_cache_lock);
  }
  
@@ -318,7 +318,7 @@ index ce28c9b03817..2c7e9cfa2253 100644
  	struct msghdr msg = {};
  	struct kvec iov;
  	bool ctrl_hdgst, ctrl_ddgst;
-@@ -1604,16 +1741,7 @@ static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
+@@ -1578,16 +1715,7 @@ static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
  		goto free_icresp;
  	}
  
@@ -336,7 +336,7 @@ index ce28c9b03817..2c7e9cfa2253 100644
  	if (ret >= 0 && ret < sizeof(*icresp))
  		ret = -ECONNRESET;
  	if (ret < 0) {
-@@ -1621,16 +1749,6 @@ static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
+@@ -1595,16 +1723,6 @@ static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
  			nvme_tcp_queue_id(queue), ret);
  		goto free_icresp;
  	}
@@ -355,8 +355,8 @@ index ce28c9b03817..2c7e9cfa2253 100644
  		pr_err("queue %d: bad type returned %d\n",
 
 ---
-base-commit: 7595a62d45ee1a2297eafa5f2ef5d0a45142d84d
-change-id: 20261111-icresp-stable-7-3-d0249075fa15
+base-commit: 1cdda838e8475edf89b73ff0cc952005dd0b1fa7
+change-id: 20261111-icresp-stable-6-18-e3225fe7b073
 
 Best regards,
 --  
