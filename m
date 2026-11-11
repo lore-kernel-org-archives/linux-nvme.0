@@ -2,10 +2,10 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED12606A32E
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2026 21:18:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF95C606A330
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2026 21:18:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=cfurm3qu
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=spfOScZQ
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
@@ -13,24 +13,24 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=GonZG2wwIvN+gNPTSiAAkhawJ65Nfia9tR3JjSU8YK0=; b=cfurm3quT5TOm8EOH8xyzt4l7Q
-	I8GNXGTGprZee0sodpvXouADQ8ndOBZM8ZICujhBhwcxNG1DaZXaB8t81WMpIbrN7xninbEyi9qaB
-	YReI/YSMEoulpFMCMfBNSzE9VAJQ3NbvDPxxQ9jSiRQ8Eaj8kmKdEJBmericXDnAQWmpIXnxFNB8D
-	lqKrymJ0qLEnRD6ZPhqYSCP2ljWhNyUf1TtHXE2x4YFJNwz86v1jCh2rCBOUkoPP8ubHZsSsmC2f0
-	u6yiC2Aff3+yCXgy9foenKNuavmkVM8J3OnY4r+4v+7tprk7Uo+ccjaVyfJHQrN+p2N3K/Yul2HLi
-	vvF+ECEA==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=spfOScZQgIzddefvkSCyzgvCtL
+	Qzwp3i7B93M5ZsP0GNJ20sfNnGM24f25Jg1Em6lqNJcPXxlYjxy8inqG80+SN9eRfbNCj+s20m5t1
+	wpCTaOqKn1LMXzxAqWeMA5hgNzbXILBtM5uPhIKKslcclMBcF++E8j9N/8N5jNH3iQjils9rFNMGq
+	DirZL0zdb/YxQE0YjdWMKGLaumXcJkLvdFOqjVCZYc29wK5y3bBv7mgNJVB82HiPQkoWZWdbsRDGe
+	6DsWoWwaGW31KssbJMRhAPbZbCT0ldPMWVqerDXu7ikCafRAtFSFIJfCJDWj4ec60Dr/X3aARs1ui
+	DYGEzVsw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRFiC-00000007m9D-284R;
-	Wed, 11 Nov 2026 21:18:32 +0000
+	id 1xRFiD-00000007mBt-396D;
+	Wed, 11 Nov 2026 21:18:33 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xR9k6-0000000716H-2Dd0
+	id 1xR9kY-0000000718V-2vCt
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Nov 2026 14:56:08 +0000
+	Wed, 11 Nov 2026 14:56:35 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 4C15C68B05; Wed, 11 Nov 2026 15:55:56 +0100 (CET)
-Date: Wed, 11 Nov 2026 15:55:55 +0100
+	id 3FC4B68D05; Wed, 11 Nov 2026 15:56:31 +0100 (CET)
+Date: Wed, 11 Nov 2026 15:56:30 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Christian Brauner <brauner@kernel.org>
 Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>,
@@ -47,21 +47,20 @@ Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>,
 	xen-devel@lists.xenproject.org, ocfs2-devel@lists.linux.dev,
 	linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
 	linux-usb@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>,
-	linux-erofs@lists.ozlabs.org, linux-kselftest@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH RFC 01/41] loop: refuse backing files that aren't open
- for reading
-Message-ID: <20261111145555.GA9996@lst.de>
-References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org> <20261110-work-loop-pseudo-v1-1-4c998976c6c7@kernel.org>
+	linux-erofs@lists.ozlabs.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC 02/41] nvmet: check that the file backend supports
+ ->{read,write}_iter
+Message-ID: <20261111145630.GB9996@lst.de>
+References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org> <20261110-work-loop-pseudo-v1-2-4c998976c6c7@kernel.org>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261110-work-loop-pseudo-v1-1-4c998976c6c7@kernel.org>
+In-Reply-To: <20261110-work-loop-pseudo-v1-2-4c998976c6c7@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261111_065606_736400_DEE8788D 
-X-CRM114-Status: UNSURE (   9.44  )
+X-CRM114-CacheID: sfid-20261111_065634_911985_F90B1C09 
+X-CRM114-Status: UNSURE (   9.17  )
 X-CRM114-Notice: Please train this message.
 X-Spam-Score: -1.9 (-)
 X-Mailman-Approved-At: Wed, 11 Nov 2026 13:17:03 -0800
@@ -83,11 +82,8 @@ X-Spam-Status: No, score=-10.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-The fix itself looks good:
+Looks good:
 
 Reviewed-by: Christoph Hellwig <hch@lst.de>
-
-But i wonder if we want a thin wrapper around ->read_iter/_write_iter
-to do this check so that it matches the normal read/write path?
 
 
