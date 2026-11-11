@@ -2,10 +2,10 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFE92606A338
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2026 21:18:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B188606A8A2
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2026 21:18:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=4phwY3JR
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=LcTu2xve
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
@@ -13,24 +13,24 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=3eXaujzWsI4QrtOtWgTNBZbBC275dnsr/pB67SZEqiA=; b=4phwY3JRPbVa97wjjCM2L96/6E
-	RWsPwzCHrDjI46zOQk/Dp6lDYRzFM2DJS760UDPZLvgoU7hYJJdqKkysA+GGffoF8fV/xngyq1ZiX
-	9BMmVaMm67ajfgq5wrWjQHD0Gkte53pwPN8rTgbBB82yf+yzCnyDLgqH/F1eXd+TaiJ0AVr653rVv
-	5Rt/9w5K4zkvv4MKPjm6tNsm7Tnj0ej8t8o4ls2nz7JFtEU7lbjFd0dmg6ICxn01z8Ig7rBfSYrqK
-	6vkjHazelDgy6EDnkqp5k/DvFGNHm3ol3+G9is/78YxlLeOIQAmr4B/8tBzc2GRP2VtgTD4Widv1C
-	Rqo912NQ==;
+	bh=uTScRtTvc50Ly2VnPZ+IRL7zVmHRGtRnjIEMUslXOU4=; b=LcTu2xveGDIV+xPza6CaP1pFvU
+	hCCjMecQ62lQVBKs/Bh/TfUV7aSbU/DtnRRWg7XXfLszzhxE3mEInyJzvfHxBmAeTsaSfUhqetiZw
+	cOgY+Y432jiqSWAd6fchNs50xHZSboVItRbvsM7iXpkb3W77x0rPgbPDV95X8nSiuqdHUNSb/jE6Z
+	fI5Ao0psDik5HGNvOouuwJehA5MRO5H2CvIWBzdOK6BHVwfRy+qDoZD09lRFB13Kuu7URPkHXeFmX
+	hIL8ksJMeKYgMnroiamiDQwdNgOhDfPXxOPIa3PFpxsqe6GcC3xETRQPzadVTKaGRQ2LxOsa1dOYV
+	EMxt1E6w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRFiL-00000007mXt-0BdW;
-	Wed, 11 Nov 2026 21:18:41 +0000
+	id 1xRFiE-00000007mDZ-0rm9;
+	Wed, 11 Nov 2026 21:18:34 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xR9tM-0000000737c-0wUP
+	id 1xR9kp-000000071A6-0p5G
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Nov 2026 15:05:43 +0000
+	Wed, 11 Nov 2026 14:56:52 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id D9F2668D0D; Wed, 11 Nov 2026 16:05:36 +0100 (CET)
-Date: Wed, 11 Nov 2026 16:05:36 +0100
+	id BF2AF68D09; Wed, 11 Nov 2026 15:56:47 +0100 (CET)
+Date: Wed, 11 Nov 2026 15:56:47 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Christian Brauner <brauner@kernel.org>
 Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>,
@@ -48,19 +48,19 @@ Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>,
 	linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
 	linux-usb@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>,
 	linux-erofs@lists.ozlabs.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC 10/41] nullfs: use fc_init_pseudo()
-Message-ID: <20261111150536.GF10644@lst.de>
-References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org> <20261110-work-loop-pseudo-v1-10-4c998976c6c7@kernel.org>
+Subject: Re: [PATCH RFC 03/41] target: fileio: check that the backing file
+ supports ->{read,write}_iter
+Message-ID: <20261111145647.GC9996@lst.de>
+References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org> <20261110-work-loop-pseudo-v1-3-4c998976c6c7@kernel.org>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261110-work-loop-pseudo-v1-10-4c998976c6c7@kernel.org>
+In-Reply-To: <20261110-work-loop-pseudo-v1-3-4c998976c6c7@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261111_070542_673400_53AECD85 
-X-CRM114-Status: UNSURE (   9.17  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20261111_065651_509347_416E863F 
+X-CRM114-Status: GOOD (  13.41  )
 X-Spam-Score: -1.9 (-)
 X-Mailman-Approved-At: Wed, 11 Nov 2026 13:17:03 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -81,9 +81,19 @@ X-Spam-Status: No, score=-10.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
+On Tue, Nov 10, 2026 at 10:14:19AM +0100, Christian Brauner wrote:
+> With fd_async_io=1 the fileio backend calls ->read_iter() and
+> ->write_iter() of the backing file directly. The synchronous path goes
+> through vfs_iter_read() and vfs_iter_write() which check for them but
+> the aio path doesn't. So a backing file without them calls a NULL
+> pointer on its first I/O.
+> 
+> Refuse such files when configuring the device. On the synchronous path
+> every read or write that needed the missing method failed with EINVAL
+> anyway.
+
 Looks good:
 
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 
->  #include <linux/uio.h>
 
