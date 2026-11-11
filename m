@@ -2,68 +2,106 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0550606A337
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2026 21:18:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6C79606B037
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2026 22:46:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=2Tk/DDCA
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=oo0cPPOu;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GAsmaNuH
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
+	Content-Transfer-Encoding:Cc:To:Message-Id:Content-Type:MIME-Version:Subject:
+	Date:From:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
 	List-Unsubscribe-Post:List-Owner;
-	bh=dehBO8Yxo1qlGsyLOmGqdqT0CExk2sS3MX1Vk4oa/6A=; b=2Tk/DDCAaJ6iNiPrkA0SrC+aAJ
-	d7zLOrioTcjSW7EPvrb1RTn6MFKmNkkAHn3hG+KrgA++xSigRcOG1JZaqWFr1rfYz68Geed9aDOX9
-	vdoNCcc79I6Etg2Bl8Iq8rcLWdiOVSaRa586jyZm/T8TG2lNBPKsji1TJ6UOA4kQplXl+FglBKiiO
-	/BJf89s33fh4TOSt1ZKxA5WJ6dFGHYGBQc0N9gNA9UrCGLJy7QbalteQHhdiBmnYX45Lqd6jjQS/d
-	pOLy4iaAe/x1MUfc/IspIJiu8RXLWVAEhOvqe4VIaVdT8zB40ftMvuIU+C6id4bs35jWklLpiHhQm
-	+C2n4avA==;
+	bh=AjpfbymZu8Tt2ID8CSknEr5GE1ZOsi7uzDe6VqE3cqM=; b=oo0cPPOuhlJt1tfYV1nTv3s1u4
+	L3DsQqnhLErsy6OJj++jCGbD3dxl0+d+A9EDGj2xJFSMXCR5j8rKbovWCuOUMA0/bwOl17AGhmwep
+	P93q+lvyLSWgrZB3lXRf8WT1x0PSG9r1p2NlOjd1c/G7ML2/kYZpi1pFqIm32NMBK4962VJPW6GVX
+	YA3Vh1c92xIXvfgqHzKTxZ3K8U+TJNIbQipxV8vghpOpQS1y8rfHFbK3Qh9+A2m3V2uoJxqbjQzxi
+	D5F2CVmQiI1o3E1Us5IAE/4unWbxFSGf8WOmbIQ+l2FdunkghbAQomkV8lCCcYHqAS3z/7zPt+SFJ
+	ISGUz2Vg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRFiN-00000007mgP-3gvm;
-	Wed, 11 Nov 2026 21:18:43 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1xRH5P-000000082Hl-4BAe;
+	Wed, 11 Nov 2026 22:46:35 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xR9zb-000000073mP-04jv
+	id 1xRH5N-000000082GN-3Pgf
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Nov 2026 15:12:08 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 52A7668D16; Wed, 11 Nov 2026 16:12:03 +0100 (CET)
-Date: Wed, 11 Nov 2026 16:12:02 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>,
-	Chris Mason <mason@kernel.org>, Josef Bacik <josef@toxicpanda.com>,
-	Christoph Hellwig <hch@lst.de>, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-mm@kvack.org,
-	bpf@vger.kernel.org, linux-security-module@vger.kernel.org,
-	selinux@vger.kernel.org, apparmor@lists.ubuntu.com,
-	linux-nfs@vger.kernel.org, netdev@vger.kernel.org,
-	fuse-devel@lists.linux.dev, linux-efi@vger.kernel.org,
-	xen-devel@lists.xenproject.org, ocfs2-devel@lists.linux.dev,
-	linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-usb@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>,
-	linux-erofs@lists.ozlabs.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC 38/41] fuse: refuse files on pseudo filesystems as
- passthrough backing files
-Message-ID: <20261111151202.GA11391@lst.de>
-References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org> <20261110-work-loop-pseudo-v1-38-4c998976c6c7@kernel.org>
+	Wed, 11 Nov 2026 22:46:33 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id 4D23D45B4E;
+	Wed, 11 Nov 2026 22:46:33 +0000 (UTC)
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1794437193;
+	b=OtQuJtYL7wxYk39Gz8k7KG77ZXcNtq4EHliFCRSrBoNf60IPOuP3M0FoetDHBWDGAhwU
+	 5u/cB3sqshlotm1apJorwi4UsF7bYhaXrWJbx+YlCW0Q8qkHBod2hswTC5pq4hLALNv9E
+	 PN8a5u09y76FChoqgC2cKa+6N3HzGkDvWooV43xGb2/yu2JevKhhc/PvRNFJsjI6kRyX+
+	 RMvXQAd5dFUi4Q/dEkrnxUhVbw7EuPqgMEI3GeufLx+Bqx1CuPSe71OVTmAYjEP7RrnJQ
+	 9NKbPC1MUHxb8PEkaLKMSolDk7cKRMibffKhwy48wfMkFo1KCE4qFbdMT9SWtluJsKA==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1794437193;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=AjpfbymZu8Tt2ID8CSknEr5GE1ZOsi7uzDe6VqE3cqM=;
+	b=dDHEwt1LSwyRNrvy6vq8FzgPu4U8ZbMX2d3x2niX1B5WRLOUV02SHLbxDyGLPlP2eTKO
+	 W6ZnTqRgnVxg+ZNL6QAXwybgvA1HHwl0z3O7e4ifHeDrwubOQR2tVgBgeQ7vTNgu9JcPL
+	 +cTXeHA7p+62+wSe3mZhHIc4v5MA/mTZ8MuZg0GEV940kwuaDEJ9fori2oR8vD05nfP35
+	 j1nyHo+W7np1VzZOHs4vQ6x/4w1vBmW/Xl+AIhKXvXYMQsDRF75ec6uHncluG+AK/OFs0
+	 MsRrGyqawE7zwuWKH1A5wASX/OjD9VMD7OjU2Um7bMOIPdp/IU0P19j8nb9ATSHOPrA==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 467611F00A08;
+	Wed, 11 Nov 2026 22:46:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794437193;
+	bh=AjpfbymZu8Tt2ID8CSknEr5GE1ZOsi7uzDe6VqE3cqM=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=GAsmaNuHZ9pShJbdgZGHi61EKqFk3NQRTm04Xm/62F3DGx1wfJmIdTFQrju2c/uyX
+	 J+lnG9EmIZ1xrA9FgqyEzNRoB94t+aokFvy+R+eHEm/09MsgbUTebcjEoFfWBcDewj
+	 NJuONisTmNalqZyuB9X4vMGHvrE3eTQutFP2oSTqu+yiM/QWQBjv15OrN++blwO5KB
+	 g3LdOd0/ePhd+RjaoYO+A8cPAA7GJyrECwJJiQJDMHggL8LLSWF4MVuCXs49TpqaQC
+	 vJxNPPxRIgleG4/YLzkmyUFlks2xoiyQ4O2z/ARAkvtT5CMdX8dJqPF+QuJVVR0iyS
+	 7V+QgCm0pB5eQ==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 8DC7C49139;
+	Wed, 11 Nov 2026 22:46:31 +0000 (UTC)
+From: Mani Tofigh via B4 Relay <devnull+mt4022.columbia.edu@kernel.org>
+Date: Wed, 11 Nov 2026 17:46:31 -0500
+Subject: [PATCH] nvme: fix deadlock on nvme_subsystems_lock in
+ nvme_init_subsystem()
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261110-work-loop-pseudo-v1-38-4c998976c6c7@kernel.org>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261111_071207_225066_3F9F5E3F 
-X-CRM114-Status: UNSURE (   8.43  )
-X-CRM114-Notice: Please train this message.
-X-Spam-Score: -1.9 (-)
-X-Mailman-Approved-At: Wed, 11 Nov 2026 13:17:03 -0800
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261111-nvme-subsys-lock-deadlock-v1-1-1837b8e9076f@columbia.edu>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWMSw7CMAwFr1J5jaU2Aiq4CmIR4kdrPimKoQJVv
+ TumvNWbxcxEhqIw2lcTFYxqOmSHZlVR6mPuwCrOFOqwbXycxzvYXif7GN+GdGVBlOW06wCBiGx
+ 2kdx/FJz1vbQPxz+7d0F6/oI0z1+LO4dAfQAAAA==
+X-Change-ID: 20261111-nvme-subsys-lock-deadlock-742ededdd59a
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ tz2294@columbia.edu, stable@vger.kernel.org, 
+ Mani Tofigh <mt4022@columbia.edu>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794437191; l=2940;
+ i=mt4022@columbia.edu; s=20261026; h=from:subject:message-id;
+ bh=cOZLSGE+OmO3+XZiW2AyMoXiLb0mQ0fDaQF1JNZtd3I=;
+ b=DFCsz9vJwyVkdjRUdcJS1+RgfZoeSSZgklxln7oPkWlolfNySJO2nXIEmKzRhVDzA1zS+lXKZ
+ M3QEdsuQ0g2BRHGDCojYiG0FWbXULh3Y8n+Fdf2bPkfZM6ohEJRIE1B
+X-Developer-Key: i=mt4022@columbia.edu; a=ed25519;
+ pk=gljCMQDuxyKPmd5y37CRpEJGSPXDV1MyAnHBhCgXl0I=
+X-Endpoint-Received: by B4 Relay for mt4022@columbia.edu/20261026 with
+ auth_id=1322
+X-Original-From: Mani Tofigh <mt4022@columbia.edu>
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,16 +111,98 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: mt4022@columbia.edu
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-23.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-I've seen setups where people use fuse to mediate access to sysfs
-sysfs in odd ways.  No idea if that's still around, but if so, this
-patch will break it.
+From: Mani Tofigh <mt4022@columbia.edu>
+
+Connecting a controller to a new subsystem deadlocks when
+sysfs_create_link() fails in nvme_init_subsystem(), e.g., on an
+allocation failure.  The error path drops the last subsystem reference
+with nvme_subsystems_lock held and nvme_destroy_subsystem() takes the
+same lock again:
+
+  nvme nvme0: failed to create sysfs link from subsystem.
+  ============================================
+  WARNING: possible recursive locking detected
+  ...
+  nvmesubsys/95 is trying to acquire lock:
+  (nvme_subsystems_lock){+.+.}-{4:4}, at: nvme_destroy_subsystem+0x1b/0x1e0
+
+  but task is already holding lock:
+  (nvme_subsystems_lock){+.+.}-{4:4}, at: nvme_init_identify+0x81e/0x34b0
+  ...
+  Call Trace:
+   __mutex_lock+0x1a2/0x26e0
+   nvme_destroy_subsystem+0x1b/0x1e0
+   nvme_init_identify.cold+0x3bc/0x56f
+   nvme_init_ctrl_finish+0x1bc/0x7a0
+   nvme_loop_configure_admin_queue+0x205/0x2b0
+   nvme_loop_create_ctrl+0x480/0xd10
+   nvmf_dev_write+0x365/0x650
+   vfs_write+0x1e3/0x1250
+   ksys_write+0xfa/0x200
+   do_syscall_64+0xfb/0x590
+   entry_SYSCALL_64_after_hwframe+0x77/0x7f
+  ...
+  INFO: task nvmesubsys:95 blocked for more than 20 seconds.
+  INFO: task nvmesubsys:95 is blocked on a mutex likely owned by task nvmesubsys:95.
+
+Every later controller setup or removal then waits for the lock too.
+The nvme_validate_cntlid() error path for an existing subsystem does the
+same put, and deadlocks the same way if the other references go away in
+between.
+
+Drop the lock before the put.  For a new subsystem, take it off the list
+first so another controller can't find it in between.  With the fix,
+the connect fails and the next connect works.
+
+This bug was identified and confirmed with the help of a deterministic
+hypervisor currently under development.  The C reproducer below however
+hits it within about 30s.
+
+Fixes: 32fd90c40768 ("nvme: change locking for the per-subsystem controller list")
+Cc: stable@vger.kernel.org
+Signed-off-by: Mani Tofigh <mt4022@columbia.edu>
+---
+Reproducer: https://github.com/manitofigh/files/blob/main/linux-repros/nvmesubsys.c
+
+It uses nvme-loop and fault injection to fail the sysfs link.
+---
+ drivers/nvme/host/core.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index cd0df9b03806..f43582e5f6c4 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3413,7 +3413,11 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ 	return 0;
+ 
+ out_put_subsystem:
++	if (!found)
++		list_del_init(&subsys->entry);
++	mutex_unlock(&nvme_subsystems_lock);
+ 	nvme_put_subsystem(subsys);
++	return ret;
+ out_unlock:
+ 	mutex_unlock(&nvme_subsystems_lock);
+ 	return ret;
+
+---
+base-commit: f92fe8dea19c743eb9e4d998ae0384344dd40091
+change-id: 20261111-nvme-subsys-lock-deadlock-742ededdd59a
+
+Best regards,
+--  
+Mani Tofigh <mt4022@columbia.edu>
+
 
 
