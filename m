@@ -2,78 +2,83 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D19FB606A337
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2026 21:18:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 857B5606A337
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2026 21:18:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=a4tsKLih;
-	dkim=pass (2048-bit key, unprotected) header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=cmZW0raJ
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=UrSjmCh7;
+	dkim=pass (2048-bit key) header.d=zte.com.cn header.i=@zte.com.cn header.a=rsa-sha256 header.s=z202610 header.b=DTjA449H
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Subject:Cc:To:
+	From:Mime-Version:Date:References:In-Reply-To:Message-ID:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=g4FJ8o8UQUtyD0eGI0sUCpicqPvdI4Vdc4LMM0bmn0w=; b=a4tsKLih3uvnJC9O2D+c48S/xg
-	UaWtSjJB4m54xTaH/WiYJxbxzJPqIJF+2SzHMbT/A3Ge3b8IabvPwA/z/AQhLCbPP1mjiRMiAOWYd
-	KJ+RNids5/sgrVu8O2C2aVh/uXIDI65O/VJuE3pmTKhsb96KZXmfvdO2TWpaonkjGKAb5F8r8uA8p
-	f3cCROYVjh+HCBNalfYfl4SZgZ1KxccnHaPrzU8Njb81RXb+Kj0qAiNFh4cvAcocE4V+/ZCtYOklH
-	hzAeehM4CLvxbNn7p0jeZGFWyZfKwPshhq0EniCC8e7ETRdUSzUQQudbn1ZFXdSro9f+nL0Q40OeW
-	ZVjFYSPA==;
+	bh=Is2Qw4KwfsCgWxutP7xyosQOwa+vDqMv8BX4qqT0dxI=; b=UrSjmCh7aaXrCvZ9lH05H6JsVv
+	DoFgLBTQXkHac3JD9f9zMEZ9fvLVlMMvuWvLIqm1EUT7TOz/k85P5TzIHWF3BU187qReWbds21N5z
+	t5miLfW6Rp8oVsiVTBXIjEouQVPRKRBAzyowSUxCvp1NaAb+rcjQMCc+nWiol5mhxNwZOSvgR+9Eq
+	6fXOhLA5sQfP0Ixmg49+dTvuQJrd1RrgiW3l0dtZ6tpq77yEQM8dRGN8z5/fl+U463pOJrjvbht5d
+	H0smigegEGKFAdWr+Fa5z1o0cIz8TUuLYyNzDiszsO6ZCKkCimBYkBNQlcQ02MYCCdWt6LHoVaS5F
+	g4rEKb8w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRFiA-00000007m2D-2DEi;
-	Wed, 11 Nov 2026 21:18:30 +0000
-Received: from stravinsky.debian.org ([2001:41b8:202:deb::311:108])
+	id 1xRFiB-00000007m49-0px6;
+	Wed, 11 Nov 2026 21:18:31 +0000
+Received: from mxhk.zte.com.cn ([160.30.148.34])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xR4v0-00000006En6-015T
+	id 1xR9XK-00000006zlU-24GQ
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Nov 2026 09:47:03 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=g4FJ8o8UQUtyD0eGI0sUCpicqPvdI4Vdc4LMM0bmn0w=; b=cmZW0raJpZImC504fK0B0kMd2h
-	XJQXfLj15TrbtRxuoXIll7+dYj88ZVAl2AayT9vhDBlAQ57+Eho/cFEk5It94wIbKS4EH4G+cdutI
-	0K9jgabrgunrLX95HA3KOWeYRz+hLh5iGe5EyD3w5xx8w9MzCtlstOcNUcfrAtIPd3RxiWEjnELaD
-	hbo41pU2e/eygmvhOngKp7971UVKKEY71/mIvuWf0WfaOur34IyUdpGFowB9/oVJFRm81ZxsZDxLw
-	5M54Kif6OKPedXxyOCO9YpK4/4uqCIxZE2p81NHj3kV9mf9cnMGZSmbBCsLntHmPvgWT1OTOymjci
-	CwvzesXA==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1xR4up-00D5nW-2D;
-	Wed, 11 Nov 2026 09:46:51 +0000
-Date: Wed, 11 Nov 2026 01:46:43 -0800
-From: Breno Leitao <leitao@debian.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>, 
-	Chris Mason <mason@kernel.org>, Josef Bacik <josef@toxicpanda.com>, 
-	Christoph Hellwig <hch@lst.de>, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org, target-devel@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-mm@kvack.org, bpf@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, apparmor@lists.ubuntu.com, 
-	linux-nfs@vger.kernel.org, netdev@vger.kernel.org, fuse-devel@lists.linux.dev, 
-	linux-efi@vger.kernel.org, xen-devel@lists.xenproject.org, ocfs2-devel@lists.linux.dev, 
-	linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-usb@vger.kernel.org, 
-	Amir Goldstein <amir73il@gmail.com>, linux-erofs@lists.ozlabs.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC 16/41] configfs: use fc_init_pseudo()
-Message-ID: <avQ5dv0747H-XKmD@gmail.com>
-References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
- <20261110-work-loop-pseudo-v1-16-4c998976c6c7@kernel.org>
+	Wed, 11 Nov 2026 14:42:56 +0000
+Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4jPmTR4mlCz5BNS0;
+	Wed, 11 Nov 2026 22:42:51 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=zte.com.cn;
+	s=z202610; t=1794408171;
+	bh=IzuiCSP5pU3bvzUwHFnQ1wq0w2ckTj4EwbmRQgtXJyw=;
+	h=In-Reply-To:References:Date:From:To:Cc:Subject;
+	b=DTjA449HmBnNWm7D/JJKB9ay7DNFMz82Jnsuoy/GFxzWlzBut3T8FdOKsf7DEjtUK
+	 +7GEsprgD4XTwYN+UXB7bwbzKs4r3stLs64utWqTtXob4WesdCPJPlsptp1ia6H9og
+	 BGl4Pdz89grcQkeaMZwq9PWcV9X7RCBxRC2AONCIP/a62WLNy7iQMFdLCXztHUtvET
+	 csJ4Qxt06HJpdQsdDAVAA5SiOoeF0Kp6jq1Uply/9KVC6YcW28PizUg51B71xhprog
+	 b1C0qy9Ql9wULtX7StY81L2aQ8Og0RfoVbbLF1ruRfCCB+j1r6nAElSUaEKdU1WYlF
+	 LWW/vMQ+fibFQ==
+Received: from xaxapp01.zte.com.cn ([10.88.99.176])
+	by mse-fl2.zte.com.cn with SMTP id 6ABEgjjl064559;
+	Wed, 11 Nov 2026 22:42:45 +0800 (+08)
+	(envelope-from shao.mingyin@zte.com.cn)
+Received: from mapi (xaxapp02[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Wed, 11 Nov 2026 22:42:47 +0800 (CST)
+X-Zmail-TransId: 2afa6af47ee7701-7a5d3
+X-Mailer: Zmail v1.0
+Message-ID: <20261111224247129g0VbfWdGlwDMhBpChnT-8@zte.com.cn>
+In-Reply-To: <20261111224134934XG6vMtntrNJQL1ztj7imr@zte.com.cn>
+References: 20261111224134934XG6vMtntrNJQL1ztj7imr@zte.com.cn
+Date: Wed, 11 Nov 2026 22:42:47 +0800 (CST)
 X-Archived-By: <archiver.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261110-work-loop-pseudo-v1-16-4c998976c6c7@kernel.org>
-X-Debian-User: leitao
+Mime-Version: 1.0
+From: <shao.mingyin@zte.com.cn>
+To: <kbusch@kernel.org>, <axboe@kernel.dk>, <hch@lst.de>, <sagi@grimberg.me>,
+        <linux-nvme@lists.infradead.org>
+Cc: <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
+Subject: =?UTF-8?B?W1BBVENIIDIvMl0gbnZtZXQ6IHVzZSBvdmVyZmxvdy1zYWZlIHJhbmdlIGNoZWNrcyBpbiB0aGUgZmlsZSBiYWNrZW5k?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL: mse-fl2.zte.com.cn 6ABEgjjl064559
+X-TLS: YES
+X-ENVELOPE-SENDER: shao.mingyin@zte.com.cn
+X-SOURCE-IP: 10.5.228.133 unknown Wed, 11 Nov 2026 22:42:51 +0800
+X-CLEAN: YES
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 6AF47EEB.000/4jPmTR4mlCz5BNS0
+X-Bad-Reply: References and In-Reply-To but no 'Re:' in Subject.
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261111_014702_044608_B0CDA096 
-X-CRM114-Status: UNSURE (   6.80  )
-X-CRM114-Notice: Please train this message.
-X-Spam-Score: -4.4 (----)
+X-CRM114-CacheID: sfid-20261111_064255_106458_134E1C4D 
+X-CRM114-Status: GOOD (  11.98  )
+X-Spam-Score: -2.1 (--)
 X-Mailman-Approved-At: Wed, 11 Nov 2026 13:17:03 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -85,20 +90,136 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-	version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY
+	autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Tue, Nov 10, 2026 at 10:14:32AM +0100, Christian Brauner wrote:
-> Initialize configfs as a pseudo filesystem. This raises SB_I_PSEUDO and
-> also SB_I_NOEXEC and SB_I_NODEV. configfs never holds executables or
-> device nodes.
-> 
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+From: Shao Mingyin <shao.mingyin@zte.com.cn>
 
-Acked-by: Breno Leitao <leitao@debian.org>
+The file backend shifts a host-supplied SLBA to form a byte offset
+before checking it against the namespace size. The shift can discard
+high bits: with a 4 KiB block size, SLBA 2^52 + 1 becomes offset 4096.
+The range check then accepts a command aimed outside the namespace and
+the backend accesses data at the wrapped offset.
+
+Reject overflowing LBA-to-byte conversions and check the transfer
+length against the remaining namespace size without adding it to the
+offset. Apply the checks to reads, writes, discard and write zeroes.
+
+Fixes: 9c891c139894 ("nvmet: check fileio lba range access boundaries")
+Cc: stable@vger.kernel.org
+Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
+---
+
+Tested on 7.3.0-next-20261030 (QEMU/TCG guest) with the loop transport
+and a 4 MiB file-backed namespace.
+
+A Write with SLBA = 2^52 + 1 and a 4 KiB block size yields a byte
+offset that wraps to 0x1000 and passes the size check:
+
+  unpatched                            patched
+  ret=0 (write accepted at 0x1000)     ret=24705 (Capacity Exceeded)
+  drivers/nvme/target/io-cmd-file.c |   41 +++++++++++++++++++++++++++----------
+ 1 file changed, 30 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
+index 695963dd932e..d59dbf61b1b0 100644
+--- a/drivers/nvme/target/io-cmd-file.c
++++ b/drivers/nvme/target/io-cmd-file.c
+@@ -125,17 +125,22 @@ static bool nvmet_file_execute_io(struct nvmet_req *req, int ki_flags)
+ 	size_t len = 0, total_len = 0;
+ 	ssize_t ret = 0;
+ 	loff_t pos;
++	u64 pos64;
+ 	int i;
+ 	struct scatterlist *sg;
+ 
+ 	if (req->f.mpool_alloc && nr_bvec > NVMET_MAX_MPOOL_BVEC)
+ 		is_sync = true;
+ 
+-	pos = le64_to_cpu(req->cmd->rw.slba) << req->ns->blksize_shift;
+-	if (unlikely(pos + req->transfer_len > req->ns->size)) {
++	if (unlikely(check_shl_overflow(le64_to_cpu(req->cmd->rw.slba),
++					req->ns->blksize_shift,
++					&pos64) ||
++		     pos64 > req->ns->size ||
++		     req->transfer_len > req->ns->size - pos64)) {
+ 		ret = -ENOSPC;
+ 		goto complete;
+ 	}
++	pos = pos64;
+ 
+ 	memset(&req->f.iocb, 0, sizeof(struct kiocb));
+ 	for_each_sg(req->sg, sg, req->sg_cnt, i) {
+@@ -269,6 +274,16 @@ static void nvmet_file_execute_flush(struct nvmet_req *req)
+ 	queue_work(nvmet_wq, &req->f.work);
+ }
+ 
++static bool nvmet_file_check_lba_range(struct nvmet_req *req, u64 slba,
++				       u64 nlb, u64 *offset, u64 *len)
++{
++	if (check_shl_overflow(slba, req->ns->blksize_shift, offset) ||
++	    check_shl_overflow(nlb, req->ns->blksize_shift, len))
++		return false;
++
++	return *offset <= req->ns->size && *len <= req->ns->size - *offset;
++}
++
+ static void nvmet_file_execute_discard(struct nvmet_req *req)
+ {
+ 	int mode = FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE;
+@@ -279,19 +294,22 @@ static void nvmet_file_execute_discard(struct nvmet_req *req)
+ 	int i;
+ 
+ 	for (i = 0; i <= le32_to_cpu(req->cmd->dsm.nr); i++) {
++		u64 offset64, len64;
++
+ 		status = nvmet_copy_from_sgl(req, i * sizeof(range), &range,
+ 					sizeof(range));
+ 		if (status)
+ 			break;
+ 
+-		offset = le64_to_cpu(range.slba) << req->ns->blksize_shift;
+-		len = le32_to_cpu(range.nlb);
+-		len <<= req->ns->blksize_shift;
+-		if (offset + len > req->ns->size) {
++		if (!nvmet_file_check_lba_range(req, le64_to_cpu(range.slba),
++						le32_to_cpu(range.nlb),
++						&offset64, &len64)) {
+ 			req->error_slba = le64_to_cpu(range.slba);
+ 			status = errno_to_nvme_status(req, -ENOSPC);
+ 			break;
+ 		}
++		offset = offset64;
++		len = len64;
+ 
+ 		ret = vfs_fallocate(req->ns->file, mode, offset, len);
+ 		if (ret && ret != -EOPNOTSUPP) {
+@@ -336,16 +354,17 @@ static void nvmet_file_write_zeroes_work(struct work_struct *w)
+ 	int mode = FALLOC_FL_ZERO_RANGE | FALLOC_FL_KEEP_SIZE;
+ 	loff_t offset;
+ 	loff_t len;
++	u64 offset64, len64;
+ 	int ret;
+ 
+-	offset = le64_to_cpu(write_zeroes->slba) << req->ns->blksize_shift;
+-	len = (((sector_t)le16_to_cpu(write_zeroes->length) + 1) <<
+-			req->ns->blksize_shift);
+-
+-	if (unlikely(offset + len > req->ns->size)) {
++	if (!nvmet_file_check_lba_range(req, le64_to_cpu(write_zeroes->slba),
++					(u64)le16_to_cpu(write_zeroes->length) + 1,
++					&offset64, &len64)) {
+ 		nvmet_req_complete(req, errno_to_nvme_status(req, -ENOSPC));
+ 		return;
+ 	}
++	offset = offset64;
++	len = len64;
+ 
+ 	ret = vfs_fallocate(req->ns->file, mode, offset, len);
+ 	nvmet_req_complete(req, ret < 0 ? errno_to_nvme_status(req, ret) : 0);
 
