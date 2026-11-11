@@ -2,10 +2,10 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA84A606A32E
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2026 21:18:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B831606A32E
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2026 21:18:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=WnMudu2r
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=1N+pbm86
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
@@ -13,24 +13,24 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=WnMudu2rU7AX7tK3+1QTSp8Lhb
-	fHSfBR3ww6anHV94l6ePIPGjuHrdwD+UhDHpHGSKGZDISWm/G6+qjSEiizfsym5Jlv3MomzJ6bguC
-	FsWo/N6CvtDsFNvLbbrDl4jK04h0wkdUcu3A66pAPw50rQk4ZuF13l1D2gEmeobhQG6wRKSXxjnk2
-	G2IvqgF/8Km7jseFs3+y62H049F36a3wKTjWSCLfN/xLFAIzH72bFnmUXqOwUtxQQjMctWU8KUGw9
-	eol9Ay1d3y84x27vVsvpKzgektuPM9nDagptzAbPho+Dtx8mGWJ4fte8bIYOvxOo2G7aTZbVlkSpI
-	yhPHSA0w==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=1N+pbm86qTW1U+LbNp3PRMyoVC
+	z8pJSLWI1rxoEgS/2GGy1f5bEjaJC8dvzr+RpB3QaPEPMjhlxmCY20lrwqTujqlb193sJC6Tkg3MA
+	pZdn+axra9N5oxoqvdmXzf1UbXRp9scWwcLJ2dUp1U2ZpIMrl/40riayxx/cJxGbOh1O5ohob1gvq
+	GGWrzSvCfF0qg62koxM9ApYefR4GZ66dtg8uQigQn5xlF5ZF3l2wieh/My57XDFdzf85eSVI3JQx6
+	ClanjNxGjBfuDRr75JPn/u0Gb/yc5b2vZu4cVgULucsMa9OHGcMEDYsU2LW/xeYsaGoH12yHbtpA2
+	HyfFwmDQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRFiF-00000007mHY-2xS8;
-	Wed, 11 Nov 2026 21:18:35 +0000
+	id 1xRFiG-00000007mKb-3ZZX;
+	Wed, 11 Nov 2026 21:18:36 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xR9s9-000000072tr-476Q
+	id 1xR9sO-000000072xT-2mUo
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Nov 2026 15:04:28 +0000
+	Wed, 11 Nov 2026 15:04:43 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 9B6F068D0A; Wed, 11 Nov 2026 16:04:20 +0100 (CET)
-Date: Wed, 11 Nov 2026 16:04:19 +0100
+	id 269A268D0F; Wed, 11 Nov 2026 16:04:37 +0100 (CET)
+Date: Wed, 11 Nov 2026 16:04:36 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Christian Brauner <brauner@kernel.org>
 Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>,
@@ -48,18 +48,18 @@ Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>,
 	linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
 	linux-usb@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>,
 	linux-erofs@lists.ozlabs.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC 04/41] fs: add SB_I_PSEUDO
-Message-ID: <20261111150419.GA10644@lst.de>
-References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org> <20261110-work-loop-pseudo-v1-4-4c998976c6c7@kernel.org>
+Subject: Re: [PATCH RFC 05/41] kernfs: use fc_init_pseudo()
+Message-ID: <20261111150436.GB10644@lst.de>
+References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org> <20261110-work-loop-pseudo-v1-5-4c998976c6c7@kernel.org>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261110-work-loop-pseudo-v1-4-4c998976c6c7@kernel.org>
+In-Reply-To: <20261110-work-loop-pseudo-v1-5-4c998976c6c7@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261111_070426_162572_47717A7E 
-X-CRM114-Status: UNSURE (   8.86  )
+X-CRM114-CacheID: sfid-20261111_070440_845524_2CFE7611 
+X-CRM114-Status: UNSURE (   8.96  )
 X-CRM114-Notice: Please train this message.
 X-Spam-Score: -1.9 (-)
 X-Mailman-Approved-At: Wed, 11 Nov 2026 13:17:03 -0800
