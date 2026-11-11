@@ -2,80 +2,108 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A898C606A333
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2026 14:41:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A2A7606A321
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2026 15:37:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=KIHwah6H;
-	dkim=pass (2048-bit key) header.d=zte.com.cn header.i=@zte.com.cn header.a=rsa-sha256 header.s=z202610 header.b=qpsHuCYY
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=jpOwUc6A;
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=l5qKiZQ6
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Subject:Cc:To:
-	From:Mime-Version:Date:Message-ID:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=pALWi25PaiwvAzQ+rk8fhccHyEREP1igMqQCrUiFzbI=; b=KIHwah6Hf1nDaL15BAPqUKwymg
-	8Lsi/uKu0pKCgVPC+ycyCH7BszaaiHO6EquN/AKbcD4c0fv6szoGcAmDbA/qny84Z93+XrGtuCXa+
-	9WsqFsDEdN997HpDZ/X2l8ZIVfk0W3wWt79GyoYOe55CqHdnJtqj8bGd5tQ5Yusdq2AZY8Rr6PiF3
-	cQYzs2zF/Zz1T7Pegp5dxr88/6Rn/j6iZkIR8F/17RfKzQJKFpmppuUyK5/jAKijPqeybQpMA5aR/
-	1f36KchaJrNRBzAWUFL6T8Msn+LWy802x62TbUmVFIzWrj5RCueF91sSAeXFBsZ06vVl6GK96mcQZ
-	AQS+UEiw==;
+	bh=tj3GxIxqCdUc9IJQxKZYu3eLGgYe7ecnDezY1yOGQuw=; b=jpOwUc6Af67Hr8tCiRIp+FyuuN
+	NqRCUdgiSIgMZCvBgeLiIvrhdwi6i6exwdlBATHBhnBNZ5wZPHls78jgizsvVSWqgPOf7/Z4B5JCx
+	Ggg1Iv9mb7AkbN3ZfpoKS5tipuINI80JUejh8BVx5WGpmB4awO5K7D3gEQ6gph8YjHnnEVNiH3ZRm
+	iyw3vo+wUaeTCyiXNZ1Z9kB9hbnFFEROno3UnNaC6r7DW4CCoy3XsIWB2sVkQfGRz6FewUDDXRQTl
+	HHy2tTjgr+zcZ2GlFCyNL4ch37R++GQCRSeYGNZZndQf4SeLUicvca8bXhm+K03LK6AcMIvgmPwnP
+	W8vP6xPA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xR9WM-00000006zW6-3oH1;
-	Wed, 11 Nov 2026 14:41:54 +0000
-Received: from mxhk.zte.com.cn ([160.30.148.35])
+	id 1xRANz-000000076Jy-2EWA;
+	Wed, 11 Nov 2026 15:37:19 +0000
+Received: from mail-qv1-xf2e.google.com ([2607:f8b0:4864:20::f2e])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xR9WJ-00000006zVa-2enJ
+	id 1xRANw-000000076JN-21l4
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Nov 2026 14:41:54 +0000
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4jPmS3625Gz8XrrX;
-	Wed, 11 Nov 2026 22:41:39 +0800 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=zte.com.cn;
-	s=z202610; t=1794408100;
-	bh=lJs51VmRkrJ/aPe+W6Tb69qPGEvDYZ660PLNVtEO16k=;
-	h=Date:From:To:Cc:Subject;
-	b=qpsHuCYYdkNZfvk63f8VQtzXiptxpbfgcAl8sjy97EzId+x1zlIIBok/tNbgnj9ks
-	 /0KWNDL8Rl1Yp/zg8IfUyLKHD+AvB6WH+ALEUZxeIF74EcRSdCzjHNZZ0M6ZGoeE21
-	 GT7AO4ZX957InBnpzsbBtFOUk/5za5OwXgj913f7rFfQHETTa97gtZHrzuGOTyzF0o
-	 6BP0OARlwqK9ZQ6ll1zdX/SBI/6SCRkAhv4Fgzd19Xp7l3aEqUNp4DdcqQozz1Q7F/
-	 2YKxuIaC/qlQKsnb4wMfKmYQUU6PRWnY9jm7Xl2dsXPQCOZt48FyqZ+nqV17+XBYmf
-	 bsRfvzdUvFfOQ==
-Received: from xaxapp01.zte.com.cn ([10.88.99.176])
-	by mse-fl1.zte.com.cn with SMTP id 6ABEfVTW094209;
-	Wed, 11 Nov 2026 22:41:31 +0800 (+08)
-	(envelope-from shao.mingyin@zte.com.cn)
-Received: from mapi (xaxapp05[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Wed, 11 Nov 2026 22:41:34 +0800 (CST)
-X-Zmail-TransId: 2afc6af47e9ea78-5c968
-X-Mailer: Zmail v1.0
-Message-ID: <20261111224134934XG6vMtntrNJQL1ztj7imr@zte.com.cn>
-Date: Wed, 11 Nov 2026 22:41:34 +0800 (CST)
+	Wed, 11 Nov 2026 15:37:17 +0000
+Received: by mail-qv1-xf2e.google.com with SMTP id 6a1803df08f44-91eb7d147b0so14766556d6.3
+        for <linux-nvme@lists.infradead.org>; Wed, 11 Nov 2026 07:37:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1794411435; x=1795016235; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=tj3GxIxqCdUc9IJQxKZYu3eLGgYe7ecnDezY1yOGQuw=;
+        b=l5qKiZQ60ftNCDsHHuDepHFj0NryQw5O+GjBvryFV25zDvkNjTmY8V5yM4y3l+8GAV
+         E7AITD11TSzqxFbxz5gMm3ysN0ZeRR0TEhNJhcRWq2xrtKgHh8e/BxGwYlCE9GQxex/c
+         ZI4SKuU07HI+kCb1iBKyR84C3aqqIDdNRF5fYegrhasneaZC/jy6jrTqZgdR82Vtt+rL
+         bFWHuUStIM3ynMLIfhn55/JWGRODcNNLc4Vf2hmB0RuZvX5XIv65sKFZZlY2ir7QuWXL
+         uQTYZP6f0S0CdBlygLpi15k61YCqs0bmWEiA7jfQmEn/sCGetz5aQYFtor4HNDwMXNBy
+         QccQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794411435; x=1795016235;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=tj3GxIxqCdUc9IJQxKZYu3eLGgYe7ecnDezY1yOGQuw=;
+        b=2GHbdQnMOF9oGyigolJ8Iyp6WsASTPaNgqhT8SBnm+rWYNQK33ZjcZ6brJ4XDSH/S3
+         Md7x+ci6+dX3OgB8dL/pFcGGi/BFGr3vUnZOVY2mux43Eq1Xwr9c/tyuz3yqYiGvGsou
+         ea4FCZnINoMZ69ojZ9lzBjBi9ybdQizmQ087onQ+cGQjb5HKzLYi7JwSkADELKLWWMj9
+         S1IyZlrdZ9CUz+RrD1NDo/KMbHK7G1YCp2zTkzvIEWTinThqICiV22YTyHZpVFxe01tF
+         mgK4VGxtqDXGhzwhE3LH9wnQAUa22qngn4iIXbpAtnSNxO7Gl1CIeKNo1/TGnZvEp77o
+         ZITQ==
+X-Forwarded-Encrypted: i=1; AL+hErGYiJcm8p0sj2JoTNuOSD2Dxnee55Bm0nw87kKQ3IBJ7j4mdIBvvpfDpu4++kBdQ4DkpbAtM/+y/q8T@lists.infradead.org
+X-Gm-Message-State: APuU4Z/9lPswOrAfGC5MnacftbPJ02utiNURljYg6phOSOiqL9uAGAdw
+	lRikfB1XVccaY+jLqmbvIV5QtJ3Gze4oTbY9TyQIJQCTvYutS0nVJwhrdZiGWZAVg5KmMdeYVOh
+	uaZzo
+X-Gm-Gg: AYBFou2xwCOMnhGAP1iePKEaWUXLcA27WOuctzZeMErLe/AFdhrsAxyqAdUf713JgLF
+	SBHPqFINvUNe2uY6mGUg/4oi7gHYrPMNOfiLEV1wo5N0utvDVhQgXRjqmLphRl5Fu29ns2GRrWe
+	vKhdEqi8wBsVuQNtSg1B/C2C8ddjHLgMAYFBeCveKB5CWVwvjVHgJEjfy4XuJRcJ3aSmg+DQNWu
+	tBmEXQrHOe106r7Q/aSblj6bmx4TMRyGq3h+oDgFYMGSHe0EGlhDIlgOvTcgXmCcEfJRj76dBYs
+	DllJCZ9pVaAZw3Nzf4QelVrlNC6FbZHyJesmcgufgbieKmOBXtQVZ0RTX6upzvdC5kbKDn+HRvl
+	2kZSR6xVwYlHItbRemNNcUsnNXoDlUNP9cSKErR5dFxf7fEUztAvAwrxvgeDWcOi0D8Q+zX569G
+	MI3lecWh++ofkoqzNEeNTjsUimWw4Tm2a5p5sfv5QJEqleB5udFjZFOS4rAQEo7PbyPGaHWUxbX
+	/3Ec1AWrspv48d0BE+QoawrhEs3NB496tCRjGO1HXedW+aYX3dY1gsaCDwe7No9InlxwUF3fJq2
+	dQ==
+X-Received: by 2002:a05:6214:3d0f:b0:91e:97f7:c7a2 with SMTP id 6a1803df08f44-91f04072c9dmr46236076d6.11.1794411434568;
+        Wed, 11 Nov 2026 07:37:14 -0800 (PST)
+Received: from ziepe.ca ([99.192.80.87])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91ef05493desm49564276d6.45.2026.11.11.07.37.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Nov 2026 07:37:13 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1xRANs-0000000AjhG-2xzE;
+	Wed, 11 Nov 2026 11:37:12 -0400
+Date: Wed, 11 Nov 2026 11:37:12 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: linux-rdma@vger.kernel.org, linux-nvme@lists.infradead.org,
+	Leon Romanovsky <leon@kernel.org>,
+	Christoph Hellwig <hch@infradead.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Surabhi Gogte <sgogte@purestorage.com>
+Subject: Re: [PATCH RFC 2/2] nvmet-rdma: use a separate lockdep class for the
+ listening cm_id
+Message-ID: <20261111153712.GA2532299@ziepe.ca>
+References: <20261108120154.148824-1-shinichiro.kawasaki@wdc.com>
+ <20261108120154.148824-3-shinichiro.kawasaki@wdc.com>
+ <20261110003243.GS663069@ziepe.ca>
+ <avP07JWvBtMboL8k@shinmob>
 X-Archived-By: <archiver.kernel.org>
-Mime-Version: 1.0
-From: <shao.mingyin@zte.com.cn>
-To: <kbusch@kernel.org>, <axboe@kernel.dk>, <hch@lst.de>, <sagi@grimberg.me>,
-        <linux-nvme@lists.infradead.org>
-Cc: <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
-Subject: =?UTF-8?B?W1BBVENIIDAvMl0gbnZtZXQ6IGZpeCBmaWxlIGJhY2tlbmQgc2hvcnQgSS9PIGFuZCBMQkEgcmFuZ2UgY2hlY2tz?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL: mse-fl1.zte.com.cn 6ABEfVTW094209
-X-TLS: YES
-X-ENVELOPE-SENDER: shao.mingyin@zte.com.cn
-X-SOURCE-IP: 10.5.228.132 unknown Wed, 11 Nov 2026 22:41:40 +0800
-X-CLEAN: YES
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6AF47EA3.001/4jPmS3625Gz8XrrX
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <avP07JWvBtMboL8k@shinmob>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261111_064151_861301_35EF4EAF 
-X-CRM114-Status: UNSURE (   8.67  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20261111_073716_629097_D46C837E 
+X-CRM114-Status: GOOD (  11.57  )
 X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -90,44 +118,28 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=ham
-	autolearn_force=no version=4.0.1
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-The file backend computes byte offsets from the LBA and block size with
-unchecked 64-bit arithmetic and does not handle short reads or writes.
-A host can therefore make the backend report success for a transfer that
-only covered part of the range, and a large LBA or length can wrap the
-range check and reach vfs_fallocate() with an out-of-range offset.
+On Wed, Nov 11, 2026 at 02:01:58PM +0900, Shin'ichiro Kawasaki wrote:
 
-Patch 1 makes nvmet_file_execute_io() stop at an incomplete submit
-instead of advancing the position and eventually reporting success, and
-converts a zero-byte completion on the common path to -EIO.  Patch 2
-adds a shared overflow-safe range check and uses it for read, write,
-discard and write zeroes.
+> diff --git a/drivers/infiniband/core/cma.c b/drivers/infiniband/core/cma.c
+> index 337a49d1acf7..334f39c2f5e5 100644
+> --- a/drivers/infiniband/core/cma.c
+> +++ b/drivers/infiniband/core/cma.c
+> @@ -3949,6 +3949,12 @@ int rdma_listen(struct rdma_cm_id *id, int backlog)
+>  		container_of(id, struct rdma_id_private, id);
+>  	int ret;
+>  
+> +#ifdef CONFIG_DEBUG_LOCK_ALLOC
+> +	static struct lock_class_key cma_listen_handler_mutex_key;
+> +	lockdep_set_class(&id_priv->handler_mutex,
+> +			  &cma_listen_handler_mutex_key);
+> +#endif
+> +
 
-The two patches are independent and can be applied in any order.  Both
-carry Fixes: and Cc: stable.
+This seems OK, I think we already have examples of this in CM IIRC?
 
-Testing: both were tested on 7.3.0-next-20261030 with the loop transport
-and a file-backed namespace under QEMU/TCG.  Patch 1 used failslab to
-reach the chunked path and a shortened backing file to force an
-incomplete chunk; the unpatched target returned 0 with the tail of the
-host buffer unchanged and only part of the write reaching the file, and
-all four cases return 0x6006 after the patch.  Patch 2 wrote SLBA 2^52+1
-with a 4096-byte block size, which wraps to offset 0x1000; the unpatched
-target accepted the command, and it now fails with 0x6081 (Capacity
-Exceeded).  Both patches also apply to next-20261105 and pass
-checkpatch.pl --strict with no errors.
-
-Shao Mingyin (2):
-  nvmet: handle short reads and writes in the file backend
-  nvmet: use overflow-safe range checks in the file backend
-
- drivers/nvme/target/io-cmd-file.c | 48 ++++++++++++++++++++++++++++-----------
- 1 file changed, 35 insertions(+), 13 deletions(-)
-
----
-base-commit: ddfe51b0a0f5dc9e415cc2c8ad8db17532dd426b
+Jason
 
