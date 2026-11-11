@@ -2,73 +2,55 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C119606A31C
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2026 16:34:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC944606A31C
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2026 16:42:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=cHe789/x;
-	dkim=pass (2048-bit key, unprotected) header.d=molgen.mpg.de header.i=@molgen.mpg.de header.a=rsa-sha256 header.s=20260906 header.b=d0c0FhnU
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=iEaXQRGu
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=p7rJwov/3j8Ypjm8ghRAS0uIYAtINjdKXgXc9xzdwyE=; b=cHe789/xhCZamaq9Ffz6tu+0h0
-	zbFyHxRQBx+thKMbPNOppGDUykbq/fjB0hdGfPNRWBOzIMp0K9DDJ+K0kR1NTK/aGwZk77QYPg8Hq
-	SbJB/k8pTJ/TN/RyLtRN4wgNAVZPNcjHfMH287wbtugG2KfJ9GurbFyeVnUlKcqFP50FZgHB6wd9j
-	1nCbvYxgjSSmCVyElQABf7QHcytecmN1swJ/KiYmTAUsHYyAAg1xWqpjKvg8rT27XxbXJxPxdcSCi
-	0zcqUfnWExVwmXELgc16LWiecJnc5CeZ48PCveE7VWomxT+5uyEAR7Qo3743b89nK1acj4cXLfKiC
-	7dUO8Sng==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=iEaXQRGuqeaKNI297wXqMMRt0x
+	ZUAAFkp9KwQfMc6BLGLYtI1YrnKcY7uQmh16B+fT6CkHFYiJS8apgLE/1KniHuOCtYfeWqqrR0rX3
+	21YVzMD32Dy0/0n29HN71hh36IaeLAbqrScDrpFlY+24cJb6+Be4OzFYwyeO4sjRi2hue/4GGgu+t
+	Ei+EV4rOQilvPbJv0EBqavu+hRBePoP68bOl+HUZMOMkyQRLVrfKMzqKzn56Fj6RyVZWxSp7lpkCn
+	M3jyR/pGkTwSeG/cDN2dzvuh3PT4r6guYPWLLLT4mrr16bDJS2b30nsP8IWSO/sSsQzktlZ7eiDWb
+	DtSztSTQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRBHX-00000007Crq-0gJ5;
-	Wed, 11 Nov 2026 16:34:43 +0000
-Received: from mx3.molgen.mpg.de ([141.14.17.11])
+	id 1xRBOd-00000007Dgu-47Io;
+	Wed, 11 Nov 2026 16:42:03 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRBHT-00000007Cm3-3dxx
+	id 1xRBOb-00000007Dgb-0Q2D
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Nov 2026 16:34:42 +0000
-Received: from abreu.molgen.mpg.de (g42.guest.molgen.mpg.de [141.14.220.42])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: pmenzel)
-	by mx.molgen.mpg.de (Postfix) with ESMTPSA id 2900C4C442F7CC;
-	Wed, 11 Nov 2026 17:34:01 +0100 (CET)
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-To: Bjorn Helgaas <bhelgaas@google.com>
-Cc: dlemoal@kernel.org,
-	cassel@kernel.org,
-	kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Paul Menzel <pmenzel@molgen.mpg.de>,
-	linux-pci@vger.kernel.org
-Subject: [PATCH RFC] PCI: Start the reset of WD PC SN730 NVMe controllers early
-Date: Wed, 11 Nov 2026 17:31:43 +0100
-Message-ID: <20261111163145.75027-2-pmenzel@molgen.mpg.de>
-X-Mailer: git-send-email 2.55.0
+	Wed, 11 Nov 2026 16:42:02 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id DA37368D1C; Wed, 11 Nov 2026 17:41:55 +0100 (CET)
+Date: Wed, 11 Nov 2026 17:41:55 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: shao.mingyin@zte.com.cn
+Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 1/2] nvmet: handle short reads and writes in the file
+ backend
+Message-ID: <20261111164155.GA18076@lst.de>
+References: <20261111224134934XG6vMtntrNJQL1ztj7imr@zte.com.cn> <20261111224245786kBVGPR0wSFFqHjmtHwtAJ@zte.com.cn>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=molgen.mpg.de; s=20260906; 
-	t=1794414841; 
-	h=from:from:subject:date:message-id:mime-version:content-type:content-transfer-encoding; 
-	bh=p7rJwov/3j8Ypjm8ghRAS0uIYAtINjdKXgXc9xzdwyE=; 
-	b=d0c0FhnUNtG2eyBG6EmrEbAbSiDZFbKETWdxmZumAxx11pbvhVVYHVTxjZQ7mYUBWvjReR0aqVjB
-	K6lV3pms+Agdf/2W9eBV1EBGjH/Oegn0Acfu3hz4HJvKSBfLUsuAH+EGAbV2mwvQOa/WBGGCj5YyQG
-	rMwqLVvU5vimqbBu02YIccXU8x3I2hiqTSMQ1B8T87Xp1lnZeTDzp8X0BdRDvpelrewt3WBT8sTNo+
-	KsEPI9PU1lAwaDMOUVMiMDpx3fGCwC4si77NgEGcYrcYpZip7MRMNhexvG2Cm7jTGaAbRBw8GDszrg
-	07tY2iIXRBqEKDGXq9k7WCzQWMRc0Z1A==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261111224245786kBVGPR0wSFFqHjmtHwtAJ@zte.com.cn>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261111_083440_385143_C6566C71 
-X-CRM114-Status: GOOD (  18.07  )
-X-Spam-Score: -4.4 (----)
+X-CRM114-CacheID: sfid-20261111_084201_303406_A56D491C 
+X-CRM114-Status: UNSURE (   8.87  )
+X-CRM114-Notice: Please train this message.
+X-Spam-Score: -1.9 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,126 +61,15 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-10.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-[Please consider this a bug report.]
+Looks good:
 
-On a Dell XPS 13 9310 (BIOS 3.17.0) with a WD PC SN730 1 TB (15b7:5006,
-firmware 11170012, the newest available for this OEM drive), about one
-boot in ten mounts the root file system 100 to 700 ms late. With the
-nvme module probing at 0.29 s from a small initrd, the time from probe
-to Identify grows from 9 ms to 74 to 229 ms, and the partition table
-read and the mount get slower too:
-
-    nvme nvme0: pci function 0000:01:00.0                 [0.293894]
-    nvme nvme0: passthrough uses implicit buffer lengths   [0.522525]  (+228.6 ms, usually +9 ms)
-     nvme0n1: p1 p2 p3 p4                                   +27.3 ms  (usually 3 ms)
-    EXT4-fs (nvme0n1p3): mounted filesystem                 +82.2 ms  (usually 8 ms)
-
-Tracing nvme_disable_ctrl() and nvme_enable_ctrl() with function_graph
-over 120 boots shows the time is spent waiting for the controller reset
-nvme_pci_configure_admin_queue() does first, as the firmware hands the
-controller over enabled:
-
-    boot  disable (CSTS.RDY 1->0)  enable (0->1)  4 KiB reads after
-    fast          2 ms                  2 ms           ~0.1 ms
-    slow     81 to 584 ms          16 to 60 ms        5 to 7 ms
-
-The controller state at hand-off, read from the initrd before nvme
-binds, is the same in fast and slow boots, CC=0x00460001 CSTS=0x00000001,
-so there is no shutdown in progress. The slow resets also happen without
-GRUB’s grubenv write before the hand-off (2 of 31 boots) and with the
-probe delayed to 0.76 s (1 of 30 boots), so it is no busy period after
-the firmware phase that a later probe would avoid.
-
-Clearing CC.EN before the driver binds, emulated from the initrd with
-devmem, works: the driver finds CSTS.RDY clear and continues, the reset
-completed within the first poll in 29 of 30 boots (35 polls once), and
-none of the 30 boots showed a slow reset, enable or read, against 8 of
-90 without it. The difference is not yet significant (p = 0.1).
-
-So start the reset in a final fixup during enumeration, at 0.19 s on
-this machine, about 100 ms before nvme probes, which overlaps a slow
-reset with the remaining kernel initialization and the module loading,
-and costs nothing for fast ones.
-
-With this change, 1 of 59 untraced boots stalls, against 7 of 41
-untraced boots without it. In the other 58 boots Identify comes 7 ms
-after probe and the root file system is mounted at 0.31 s. The stalled
-boot:
-
-    pci 0000:01:00.0: NVMe controller reset started early  [0.192544]
-    nvme nvme0: pci function 0000:01:00.0                 [0.292395]
-    nvme nvme0: passthrough uses implicit buffer lengths   [0.441335]  (+148.9 ms)
-     nvme0n1: p1 p2 p3 p4                                   +67.0 ms
-    EXT4-fs (nvme0n1p3): mounted filesystem                +104.7 ms
-
-That boot was not traced, so whether the reset outlasted the 100 ms head
-start or the enable was slow is unknown.
-
-Signed-off-by: Paul Menzel <pmenzel@molgen.mpg.de>
----
- drivers/pci/quirks.c | 38 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
-
-Note, assisted by claude-opus-5-5 (found, traced and drafted)
-
-diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-index 7f1f47ea2ee41..e6535bcb0553e 100644
---- a/drivers/pci/quirks.c
-+++ b/drivers/pci/quirks.c
-@@ -4187,6 +4187,44 @@ static int nvme_disable_and_flr(struct pci_dev *dev, bool probe)
- 	return 0;
- }
- 
-+/*
-+ * The firmware leaves the NVMe controller enabled, so nvme-pci starts by
-+ * resetting it (CC.EN 1 -> 0) to set up its own admin queue.  The WD PC
-+ * SN730 (firmware 11170012) usually completes that within 2 ms, but in
-+ * about one boot in ten it takes 80 to 600 ms, and the enable and the
-+ * first reads after it are slow as well, delaying the root file system.
-+ * Start the reset during enumeration, so it runs in parallel with the
-+ * rest of the boot, and nvme_disable_ctrl() finds the controller disabled.
-+ * Like nvme_disable_ctrl(), skip the shutdown notification, as it could
-+ * complete commands into memory the firmware owned.
-+ */
-+static void quirk_nvme_disable_early(struct pci_dev *dev)
-+{
-+	void __iomem *bar;
-+	u16 cmd;
-+	u32 cc;
-+
-+	if (dev->class != PCI_CLASS_STORAGE_EXPRESS || !pci_resource_start(dev, 0))
-+		return;
-+
-+	pci_read_config_word(dev, PCI_COMMAND, &cmd);
-+	if (!(cmd & PCI_COMMAND_MEMORY))
-+		return;
-+
-+	bar = pci_iomap(dev, 0, NVME_REG_CSTS + sizeof(u32));
-+	if (!bar)
-+		return;
-+
-+	cc = readl(bar + NVME_REG_CC);
-+	if (cc != ~0U && (cc & NVME_CC_ENABLE)) {
-+		writel(cc & ~(NVME_CC_SHN_MASK | NVME_CC_ENABLE), bar + NVME_REG_CC);
-+		pci_info(dev, "NVMe controller reset started early\n");
-+	}
-+
-+	pci_iounmap(dev, bar);
-+}
-+DECLARE_PCI_FIXUP_FINAL(0x15b7, 0x5006, quirk_nvme_disable_early);
-+
- /*
-  * Some NVMe controllers such as Intel DC P3700 and Solidigm P44 Pro will
-  * timeout waiting for ready status to change after NVMe enable if the driver
--- 
-2.54.0
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
 
