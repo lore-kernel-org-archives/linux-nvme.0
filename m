@@ -2,122 +2,134 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8143A606A327
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Nov 2026 09:04:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 703E9606A31C
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Nov 2026 09:07:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=BvdL2ZV+;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=g3C2Eba0
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=yBz1PIJI;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=zdgvaGCV;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=VQwPl0aV;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=zdgvaGCV;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=VQwPl0aV
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=MVcA4chgMMDEmnNMU77vj8Lf679fDrGI3TrVone8Utc=; b=BvdL2ZV+K/TNVW
-	Z+sJDHW2tciBTVd0+B/cjhXYbwH/p0ypjtrZcuWVzFjiakiwLtXffEaKAl8BWnKhFWTMdj9aeCnzB
-	zG4tsIyGTJx25TYdAVIneFlw18ExABxV3jH9vuRIFa0sKnUgcFFevRDbG7k+/ljUUqmJCbIapjx79
-	yVPSnb+FzlCcvfL1xz3F1RXHPK/yfmqlmkIcPHxvDs4rbZO15olIjMW2oP2worDwJ7Vymh7M72D4v
-	WZ+DmuoHlZo/hNkaDeKGnryq8Kr+LMzUW64tYrItstjPdhBMeu+OO2f/u6FCNOtAQI9H5SDEyMn7h
-	kPFJuRfOQr7vkGIdM5+Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Unsubscribe-Post:List-Owner;
+	bh=Ge3bleOIShzu7IxbhTk5+GDi2Z8J3xHnKGzywhphlEw=; b=yBz1PIJIaPRlMHheDESrILnNO8
+	oDlXu5QwpErswPReP4XsgfQW9EMOZnQsK6FLvhWPS2xRa6c2KUSQZmrPhZJVDkPCg6L4YraeQZgpi
+	qpfPY1mIY1fcpPrLRyOdtySWUB18MiQi2tEvDd1Kd3g7hffwIGtU7fyLVzU3lH+Er0ETzy2m+6tNT
+	47ZfCUGQEBN7cXZHmiLCP2PNyuyJwIJcZAeO4879B3RqPFBiAHXwr78qrNSMYbDEuU4QZpLQlNnm4
+	m9gLb0Ca464n4hhd0lL3TQ5E9OseIj4QzIj6RxsT0T02yuSFr2Ycmuz+a7p6M89Fg5EkP9xS5T2zq
+	GkvFLagA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRQjp-00000009HgH-0xiP;
-	Thu, 12 Nov 2026 09:04:57 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1xRQmL-00000009IHj-0YVF;
+	Thu, 12 Nov 2026 09:07:33 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRQjc-00000009Hcn-11WS
+	id 1xRQmH-00000009IGh-2kZU
 	for linux-nvme@lists.infradead.org;
-	Thu, 12 Nov 2026 09:04:52 +0000
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AC2ija52858255;
-	Thu, 12 Nov 2026 09:04:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=MVcA4c
-	hgMMDEmnNMU77vj8Lf679fDrGI3TrVone8Utc=; b=g3C2Eba0eefCaQTN6gskNF
-	ll44ndtCtc29WrZ6R6Mm5JAwmRXsz0ZK0smJ2Pon5PZdtfDDpzi4Ihzqk5B+PPFC
-	LknFAVlHw2fVRvxC8ziQh05RGchbvqfv7uZKLDBicVat/Vj6JxHW9VFGUVn2eiwG
-	PLeCdN7njIMTUsGWgYNI+IjjvpdN88sE8GCebKR17gQIfzikyfiJcJ1DqDs5LUD+
-	ryl3e3+KvbT/UxFtWvhUOvrNxTRRgkZJZ0mdp2QnLajlzNoxoHKPkDZMtOkcNYFN
-	GFvKeXnL+wqKz+PUqZQlDbjMaZ+fUf+Vc227f4pT5JxcJoe5wmqkeZxwzJ9qevjg
-	==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hsumv5ey4-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 12 Nov 2026 09:04:24 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AC8FsWP053986;
-	Thu, 12 Nov 2026 09:04:24 GMT
-Received: from smtprelay07.dal12v.mail.ibm.com ([172.16.1.9])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4hv309r46d-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 12 Nov 2026 09:04:24 +0000 (GMT)
-Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
-	by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6AC94NYR32178814
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 12 Nov 2026 09:04:23 GMT
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B9F3958057;
-	Thu, 12 Nov 2026 09:04:23 +0000 (GMT)
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B631D58061;
-	Thu, 12 Nov 2026 09:04:20 +0000 (GMT)
-Received: from [9.123.7.57] (unknown [9.123.7.57])
-	by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Thu, 12 Nov 2026 09:04:20 +0000 (GMT)
-Message-ID: <13905077-d09f-424e-b04b-cb1a961323c0@linux.ibm.com>
-Date: Thu, 12 Nov 2026 14:34:19 +0530
+	Thu, 12 Nov 2026 09:07:30 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 2B7291F78D;
+	Thu, 12 Nov 2026 09:07:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1794474446; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ge3bleOIShzu7IxbhTk5+GDi2Z8J3xHnKGzywhphlEw=;
+	b=zdgvaGCVOCIPW2O3hFfWuBDUdBQym1SbnaW1jIFmKIvvtiB1dJ7dbGY7PavUW9mXWA6JKy
+	eV4XJQcS2npoGWI5rse8xLD21RC/BZLhJSIKiq3jHu5eZc2dSZTH5w+J8TAXAXZWgLDjad
+	FWaoloOhH2j4DW2kZgkI2ZzgnZ9JPoE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1794474446;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ge3bleOIShzu7IxbhTk5+GDi2Z8J3xHnKGzywhphlEw=;
+	b=VQwPl0aVakQxf9nmcy2+HN9nJkDLunJnJ6bsK6BstEjfTbJmGHovkUmce1YHM+7LPzp5Ek
+	ZYL703M0YYU1cqAw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=zdgvaGCV;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=VQwPl0aV
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1794474446; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ge3bleOIShzu7IxbhTk5+GDi2Z8J3xHnKGzywhphlEw=;
+	b=zdgvaGCVOCIPW2O3hFfWuBDUdBQym1SbnaW1jIFmKIvvtiB1dJ7dbGY7PavUW9mXWA6JKy
+	eV4XJQcS2npoGWI5rse8xLD21RC/BZLhJSIKiq3jHu5eZc2dSZTH5w+J8TAXAXZWgLDjad
+	FWaoloOhH2j4DW2kZgkI2ZzgnZ9JPoE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1794474446;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ge3bleOIShzu7IxbhTk5+GDi2Z8J3xHnKGzywhphlEw=;
+	b=VQwPl0aVakQxf9nmcy2+HN9nJkDLunJnJ6bsK6BstEjfTbJmGHovkUmce1YHM+7LPzp5Ek
+	ZYL703M0YYU1cqAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EEE49134A0;
+	Thu, 12 Nov 2026 09:07:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id wUuOMs2B9WpmbgAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Thu, 12 Nov 2026 09:07:25 +0000
+Date: Thu, 12 Nov 2026 10:07:21 +0100
+From: Daniel Wagner <dwagner@suse.de>
+To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH blktests v2 0/6] nvme: tests for fabrics queue mapping
+ and isolated or offline CPUs
+Message-ID: <6ca6db89-670b-4ec8-952c-c67169f3bbcb@flourine.local>
+References: <20261104-nvme-isolcpu-v2-0-2d59f622a2c8@suse.de>
+ <avPchJ4rj-xrgH4G@shinmob>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/23] nvmet: add context annotation for nvmet_ns::bdev
-To: Bart Van Assche <bvanassche@acm.org>, kbusch@kernel.org, hch@lst.de,
-        sagi@grimberg.me, axboe@kernel.dk, chaitanyak@nvidia.com
-Cc: gjoyce@linux.ibm.com, elver@google.com, linux-nvme@lists.infradead.org
-References: <20261109033102.982191-25-nilay@linux.ibm.com>
- <20261109033102.982191-26-nilay@linux.ibm.com>
- <8beba915-07a5-4eae-b8a4-3ec7330c90f7@acm.org>
- <e9f42390-9115-40b2-b0a5-df17c53ce38b@linux.ibm.com>
- <6708de12-ed0d-4101-9328-d08864e677a5@acm.org>
- <e31029f5-c022-4fc9-be94-d1faadfb327e@linux.ibm.com>
- <849733b4-9790-49fd-9585-25b137eeebf4@acm.org>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <849733b4-9790-49fd-9585-25b137eeebf4@acm.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEyMDAzNCBTYWx0ZWRfXzdb5ekjlHtA+
- T/SX6VS5tcFVEJcVCQN4QSYVpHfYYYxF4yIV5pwM4zCTT4IhgxTHJkk7vA+WyrFqJW8i2mSmiQN
- TI5BvT0fQFOCNhBCKdmkd5LBk8HTmAs=
-X-Authority-Analysis: v=2.4 cv=GISdgeNK c=1 sm=1 tr=0 ts=6af58119 cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=5fGVUrPxiRUIrxGn3CQA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: z9hv5HpD-UFL7syJAkkOXYNnfRXZk8ME
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEyMDAzNCBTYWx0ZWRfX9mfuB6/S/6/u
- eeaJLukg0OGywnGGbot3UpzSsqEdz+pvKhUUF6d3TMkQgNMrImZUpNqPlUWGUnC6oLOT7FUYDhR
- REuSF4QJmOWlbH4xsdizo+KfiLqV+OCSnUvWTmU4dA0khUDqOyp8sVQGxcn7oWxFFKf6qQwDcBL
- hOd66m+u030Z0TNc35ELG+YrY6+3eneXQkSwcMz8yPf8Z5pMLI+Utj5JOebedvs3+8/ipfmRems
- IwIk48DLCVKT9+CRLhdcNlgW+qUs3pDVfwX+KT+jwXI3HsjsAy/LHHBZ1kzFHwev0nqFElKWaOE
- 7lwjj5LDtYAc4P9lSToPEmctm6hc1+wet0PkWHpnytnPIOXnzNCbEBvhhOYJlZEKXM5uO0PHaOy
- kcAiAzuMAcHo6VZVRTgXJCFCh2pqLrX5FkwhvsgM3VE7pwir07Cze6Hs18DiTTqRxG84fgmoWZk
- kC59JHhRYjlewyjII3g==
-X-Proofpoint-ORIG-GUID: Ickgr0zufNmHOt9gnv7CTtdSRmfwBLB2
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-12_01,2026-11-11_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0 impostorscore=0 clxscore=1015 adultscore=0
- priorityscore=1501 phishscore=0 spamscore=0 malwarescore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611120034
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <avPchJ4rj-xrgH4G@shinmob>
+X-Spamd-Result: default: False [-13.51 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -13.51
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 2B7291F78D
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261112_010447_106877_F0D66B5F 
-X-CRM114-Status: GOOD (  12.66  )
-X-Spam-Score: -2.6 (--)
+X-CRM114-CacheID: sfid-20261112_010729_849389_1F55CF6D 
+X-CRM114-Status: GOOD (  11.55  )
+X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -128,38 +140,23 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On 11/11/26 11:30 PM, Bart Van Assche wrote:
-> On 11/10/26 11:25 PM, Nilay Shroff wrote:
->> Attached the complete patch for your reference. Even after making
->> this change, clang still complains about locking violation:
->>
->> drivers/nvme/target/nvmet.h:255:13: error: reading variable 'bdev' requires holding mutex 'ns->subsys->lock' [-Werror,-Wthread-safety-precise]
->>    255 |         return ns->bdev ? disk_to_dev(ns->bdev->bd_disk) : NULL;
->>        |                    ^
->> drivers/nvme/target/nvmet.h:255:13: note: found near match 'subsys->lock'
+On Wed, Nov 11, 2026 at 12:48:51PM +0900, Shin'ichiro Kawasaki wrote:
+> Daniel, thanks for the v2 patch. I applied the first three patches for
+> the test cases above. Please note that I renumbered them to
+> nvme/078-080.
+
+Thanks!
 > 
-> This can be solved by adding a lockdep_assert_held(&ms->bdev->bd_disk)
-> statement, isn't it?
-> I think there's a typo above. I assume you're suggesting adding
-lockdep_assert_held(&ns->subsys->lock) here.
+> The other three patches look good. IIUC, they depend on another kernel patch
+> [*]. I would like to wait for it applied, then take another look on
+> them.
 
-And yes, adding the lockdep assertion resolves the compilation error.
-As I see now (frankly I was not aware about this earlier), lockdep
-internally assumes the required capability, which allows Clang's context
-analyzer to satisfy the corresponding lock annotation.
-
-So as you suggested, for complex call paths involving multiple locks,
-where the same lock may be accessed through different expressions, I'll
-use the appropriate lockdep_assert_held() assertions instead of explicitly
-adding __assume_ctx_lock() annotations as far as possible.
-
-Thanks,
---Nilay
+Yes, let me ping Keith :)
 
