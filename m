@@ -2,104 +2,56 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20AB660A2601
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Nov 2026 21:13:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68DF5606A330
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Nov 2026 21:14:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=La8XDJ46;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SVYBeRnN
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=owzauMgj
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:
-	References:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:
-	Subject:Date:From:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=4E7h/dAcMh6DgfFM0bzw+E2/CsKrlRcwNwCe15KVRis=; b=La8XDJ46x+q6k0
-	F7TzMpNS6YMr9nTo/UmuOnuLqQfzm31Y1D0FFa5kTlEqAL+8z86o4jZR05JqRLEVZsjfkPpg0Enjq
-	LsqNIpulF6gr5Bfh1q95njYZnlqF95wiIDc+y5f4cNUk3YnRKU7+iXkMLOEW/lyqrT2hRRnA/C/xU
-	xwvsi1FBkzo2QWfiU5QeBeBM9AjErCVUL3ryGlDv1EeSYZ/wf/vVpWia2cH77quzYgHc0HKBSfNK+
-	xebksrbS51aDitIIJYKhuMsOb2CbEvravNTWleEIXGlbIN10HTQcc7jr0c8R1JW3TJDDiKDgv4ZmS
-	K7V76sE4SaC+sqHRlFfg==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Unsubscribe-Post:List-Owner;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=owzauMgjaG1caowRp3ymB8jP9W
+	9CbTqeh5orw1woAJ2iteG4DK/zorUY7F5S/p5qCVdMgjn5wrldzyqjQEQEJotwHAReGuvm7OKcKhM
+	jjhUD9RZCmftuSB8MZEBL2E//c9LuvNJmjKr07HJjmITZ8lGl7HuUxUwyJx6UAKTWP2YvIUO0OWPt
+	ONrD7KisX/sViBTlO/PHTmXHogeLXABRiNdGdyOViecwozgQ5RmN7ib675DCU/sTr+mtNNa4k/0Vd
+	wpe1BzZxvYUq8v6onT/Az+atxO+IwwVNxPY617Y/zH0mmHgeMQL/k2NlxltAtXYWnhQePY1rZEcZJ
+	zYT5wwag==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRc72-0000000B44Y-3NRR;
-	Thu, 12 Nov 2026 21:13:40 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1xRc7M-0000000B4DF-0Dgn;
+	Thu, 12 Nov 2026 21:14:00 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRc70-0000000B42O-2Gkx
+	id 1xRc7J-0000000B4CT-2n7L
 	for linux-nvme@lists.infradead.org;
-	Thu, 12 Nov 2026 21:13:38 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id C8EB962392;
-	Thu, 12 Nov 2026 21:13:37 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794518017;
-	b=Y+LiVqoqUXtsUj4jR/WY0KbyvVYS+As7t/wdCTjImdRir4kQkMND2q6OJz2RIXwAxRCM
-	 8FZbkee4ZnIbbMo0PIOTrEj1b5BVEYnUJs2cDET5EElIpPAVIAkHirU55R/B5+WDSLDhJ
-	 3OpwevmAv3BitgMd0eQtwMpUHOEvWsAEk0ru3h0cMLeTrGId3PV8HCInGleMdTtA5rLZw
-	 vzgYdHoxDVMbln5PTAHXDCHILMu4iPgS+lUxP3SSOtAcnjfFpDSexWTcunagIk5azfGUa
-	 Me1G2+SGCrKYiONEGR38+UJQm4uRLMCtV1f1yflh5WiABe+0KRqw4/MnVz5/dYUOXMQ==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794518017;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To;
-	bh=4E7h/dAcMh6DgfFM0bzw+E2/CsKrlRcwNwCe15KVRis=;
-	b=tUx3t3XEJX+lCLSlWSqhjZ4kvyez6OQiNiYls2RlZkr81a3ftIn9IAtyl5wupobambln
-	 RmtXWoFzgOGXDiPb+aCqg8y2UKXHJCGwoGPxabwiUAr8HtY19kM5Uew6TX80MYrG1tUNS
-	 7X71j2/mH9CmxfCBmCwuIyOjyfzQyeaOfYNzH9n5F2zpvRPEfToqBV15c/yKaAMFRKJYH
-	 lf51tc/N5BwW6Lp5m1hClkTUt8U0yEx7o09TtSmc350Q9ietQG/Dl3MRbvCW/yKg1DAjv
-	 4orJr9APvz1Cql/kRM8yT8G+6Tvyt2fM275SY6iw5x9b9GGmmr/weC68C+kyglqwR5w==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id DC5A31F000C7;
-	Thu, 12 Nov 2026 21:13:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794518017;
-	bh=4E7h/dAcMh6DgfFM0bzw+E2/CsKrlRcwNwCe15KVRis=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=SVYBeRnNHa4byo5+KMl6ejx5wFDcEYXAvt0QIh6ftBFp2sp0MsYLRRav42xPHWQ7j
-	 HvL46hITZrOD/Yv3SwloHyiTPyB2MKRaNs3To7kk3k0cHRjgs0N4A1af8p2OMV7Y+N
-	 jgN1QbDquwLaXIXr6hTEqj1KGbQMpNBB61HhVe81SyV1nE8o1EjUXxR0e4fc9oAROE
-	 0BfsD44eotXyJlfMnHbawiT+OokCD2DqC5vpzLUEXRJ50sj6Jzv2zyRACYQbVX9Bco
-	 j2uchYHc9Fo74SVHiXjHbm9o3tJ8eehqZnE6byE2f6aNliv6E/DolLYZCuBYwJ1oBP
-	 AZcG0apPf56Eg==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 68666474F6;
-	Thu, 12 Nov 2026 21:13:35 +0000 (UTC)
-From: Martin Belanger via B4 Relay <devnull+martin.nvme.dev.gmail.com@kernel.org>
-Date: Thu, 12 Nov 2026 16:13:36 -0500
-Subject: [PATCH v3 3/3] nvme-tcp: consume TLS records without application
- data
+	Thu, 12 Nov 2026 21:13:58 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 5DE9768D05; Thu, 12 Nov 2026 22:13:54 +0100 (CET)
+Date: Thu, 12 Nov 2026 22:13:54 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: shao.mingyin@zte.com.cn
+Cc: kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me,
+	linux-nvme@lists.infradead.org, nareshgottumukkala83@gmail.com,
+	paul.ely@broadcom.com, kch@nvidia.com, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 5/6] nvmet-fc: reject duplicate queue IDs on Create
+ Connection
+Message-ID: <20261112211354.GE11126@lst.de>
+References: <20261110230304050fijuDcYKyYPS3lffioSeA@zte.com.cn> <20261110230315189Lj-_xOlluiUEy8Ui7ZA4D@zte.com.cn>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261112-nvme-tcp-live-ctrlrec-v3-3-49760bd9eaa8@gmail.com>
-References: <20261112-nvme-tcp-live-ctrlrec-v3-0-49760bd9eaa8@gmail.com>
-In-Reply-To: <20261112-nvme-tcp-live-ctrlrec-v3-0-49760bd9eaa8@gmail.com>
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
- Hannes Reinecke <hare@kernel.org>
-Cc: Martin Belanger <martin.nvme.dev@gmail.com>, 
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Martin Belanger <martin.belanger@dell.com>, stable@vger.kernel.org
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794518014; l=7069;
- i=martin.nvme.dev@gmail.com; s=20261014; h=from:subject:message-id;
- bh=BXkzTnuE1CdiV8DxLxpXS4wtJqzfrr8MfvY7b3eLfds=;
- b=tMT7D7LfgIfbDrB4BZFfVXM1SOfBdkNW1WY14QcdsyoQsFYX9OtBuhYi9yEJaVDppjF7ZkbrS
- 0+7coV9v28BAQZYb91DiLOxb7kd90UWAprZJc5gnPdsutALk3UIpDlC
-X-Developer-Key: i=martin.nvme.dev@gmail.com; a=ed25519;
- pk=4K+XXetGK35w2LzRRddd/bbHawZU222BN+YZRuSpN+k=
-X-Endpoint-Received: by B4 Relay for martin.nvme.dev@gmail.com/20261014
- with auth_id=1176
-X-Original-From: Martin Belanger <martin.nvme.dev@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261110230315189Lj-_xOlluiUEy8Ui7ZA4D@zte.com.cn>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20261112_131357_842730_12BE18E5 
+X-CRM114-Status: UNSURE (   8.90  )
+X-CRM114-Notice: Please train this message.
+X-Spam-Score: -1.9 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,224 +61,16 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: martin.nvme.dev@gmail.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-10.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-From: Martin Belanger <martin.belanger@dell.com>
+Looks good:
 
-A peer may send a TLS record without application data at any time
-after the handshake: a NewSessionTicket, a KeyUpdate or an alert.
-tls_sw_read_sock() cannot pass such a record to nvme_tcp_recv_skb().
-It returns -EINVAL and leaves the record at the head of the receive
-queue. nvme_tcp_try_recv() then starts error recovery, and the
-controller reconnects.
-
-TLS 1.3 allows a server to send a NewSessionTicket at any time after
-the handshake (RFC 8446, section 4.6.1). Alerts can also arrive at any
-time.
-
-On -EINVAL, read the record with recvmsg(), which reports the record
-type. Discard handshake messages other than KeyUpdate. Log alerts, and
-fail the queue on a fatal alert. Fail the queue on a KeyUpdate, which
-nvme-tcp cannot answer, and on any other record type. recvmsg() takes
-the socket lock, so release it around the read.
-
-Handle these records in one helper, also for the records that arrive
-ahead of the ICResp. A warning alert ahead of the ICResp no longer fails
-the connection.
-
-On a poll queue, nvme_tcp_poll() and nvme_tcp_io_work() can both see
-the record while the socket lock is released. A queue flag makes sure
-that only one of them reads it.
-
-svc_tcp_recvfrom() in sunrpc handles -EINVAL from read_sock() the same
-way.
-
-Fixes: be8e82caa685 ("nvme-tcp: enable TLS handshake upcall")
-Cc: stable@vger.kernel.org
-Signed-off-by: Martin Belanger <martin.belanger@dell.com>
----
- drivers/nvme/host/tcp.c | 113 +++++++++++++++++++++++++++++++++++++++++-------
- 1 file changed, 97 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index c3bf345c4e92..45e66adcf57d 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -123,6 +123,7 @@ enum nvme_tcp_queue_flags {
- 	NVME_TCP_Q_LIVE		= 1,
- 	NVME_TCP_Q_POLLING	= 2,
- 	NVME_TCP_Q_IO_CPU_SET	= 3,
-+	NVME_TCP_Q_TLS_RECORD	= 4,
- };
- 
- #define NVME_TCP_OPT_NR_QUEUES(opts) ((opts)->nr_io_queues + \
-@@ -1450,6 +1451,8 @@ static int nvme_tcp_try_send(struct nvme_tcp_queue *queue)
- 	return ret;
- }
- 
-+static int nvme_tcp_recv_tls_record(struct nvme_tcp_queue *queue);
-+
- static int nvme_tcp_try_recv(struct nvme_tcp_queue *queue)
- {
- 	struct socket *sock = queue->sock;
-@@ -1462,10 +1465,31 @@ static int nvme_tcp_try_recv(struct nvme_tcp_queue *queue)
- 	lock_sock(sk);
- 	queue->nr_cqe = 0;
- 	consumed = sock->ops->read_sock(sk, &rd_desc, nvme_tcp_recv_skb);
-+	/*
-+	 * kTLS cannot pass a TLS record without application data to
-+	 * nvme_tcp_recv_skb(). It returns -EINVAL and leaves the record at
-+	 * the head of the receive queue. recvmsg() takes the socket lock,
-+	 * so read the record without it.
-+	 */
-+	if (unlikely(consumed == -EINVAL && nvme_tcp_queue_tls(queue) &&
-+		     queue->rd_enabled)) {
-+		/*
-+		 * On a poll queue, nvme_tcp_poll() and nvme_tcp_io_work() can
-+		 * both get here for the same record. Only one of them reads it.
-+		 */
-+		if (test_and_set_bit(NVME_TCP_Q_TLS_RECORD, &queue->flags)) {
-+			consumed = 0;
-+		} else {
-+			release_sock(sk);
-+			consumed = nvme_tcp_recv_tls_record(queue);
-+			lock_sock(sk);
-+			clear_bit(NVME_TCP_Q_TLS_RECORD, &queue->flags);
-+		}
-+	}
- 	/*
- 	 * nvme_tcp_recv_skb() handles its own errors, so a queue that is
--	 * still enabled failed inside read_sock(). Handle it before
--	 * release_sock() processes the backlog.
-+	 * still enabled failed inside read_sock() or while reading a TLS
-+	 * record. Handle it before release_sock() processes the backlog.
- 	 */
- 	if (unlikely(consumed < 0 && consumed != -EAGAIN &&
- 		     queue->rd_enabled)) {
-@@ -1666,33 +1690,88 @@ static int nvme_tcp_drain_tls_record(struct nvme_tcp_queue *queue,
- }
- 
- /*
-- * Discard a TLS record that arrived in place of the ICResp. A peer may send
-- * a NewSessionTicket as soon as the handshake completes.
-+ * Consume a TLS record without application data. The first @len bytes of
-+ * the record were read into @msg and @data.
-  *
-- * Returns 0 when the record was discarded and the ICResp can be read, or a
-- * negative errno if the connection cannot continue.
-+ * A KeyUpdate needs new keys that nothing here can supply. Other handshake
-+ * messages, such as a NewSessionTicket, are discarded.
-+ *
-+ * Returns the bytes read after the first @len, or a negative errno if the
-+ * connection cannot continue.
-  */
--static int nvme_tcp_skip_tls_record(struct nvme_tcp_queue *queue,
--				    struct msghdr *msg, u8 ctype, int len)
-+static int nvme_tcp_consume_tls_record(struct nvme_tcp_queue *queue,
-+				       struct msghdr *msg, u8 ctype,
-+				       const u8 *data, int len, int flags)
- {
- 	int ret;
- 
- 	switch (ctype) {
- 	case TLS_RECORD_TYPE_HANDSHAKE:
-+		if (data[0] == TLS_HANDSHAKE_KEYUPDATE) {
-+			dev_err(queue->ctrl->ctrl.device,
-+				"queue %d: TLS KeyUpdate is not supported\n",
-+				nvme_tcp_queue_id(queue));
-+			return -EKEYEXPIRED;
-+		}
- 		break;
- 	case TLS_RECORD_TYPE_ALERT:
- 		ret = nvme_tcp_recv_tls_alert(queue, msg, len);
--		return ret ? : -ENOTCONN;
-+		if (ret)
-+			return ret;
-+		break;
- 	default:
--		pr_err("queue %d: unhandled TLS record %u\n",
--		       nvme_tcp_queue_id(queue), ctype);
--		return -ENOTCONN;
-+		dev_err(queue->ctrl->ctrl.device,
-+			"queue %d: unexpected TLS record %u\n",
-+			nvme_tcp_queue_id(queue), ctype);
-+		return -EPROTO;
- 	}
- 
--	/* the ICResp is in a later record, drain this one first */
--	ret = nvme_tcp_drain_tls_record(queue, msg, 0);
-+	return nvme_tcp_drain_tls_record(queue, msg, flags);
-+}
-+
-+/*
-+ * Read the TLS record that read_sock() could not pass to
-+ * nvme_tcp_recv_skb(). The caller must not hold the socket lock.
-+ *
-+ * Returns the bytes consumed, or a negative errno if the connection cannot
-+ * continue.
-+ */
-+static int nvme_tcp_recv_tls_record(struct nvme_tcp_queue *queue)
-+{
-+	u8 buf[NVME_TCP_TLS_REC_CHUNK];
-+	union nvme_tcp_tls_cmsg u = {};
-+	struct kvec iov = {
-+		.iov_base = buf,
-+		.iov_len = sizeof(buf),
-+	};
-+	struct msghdr msg = {
-+		.msg_control = &u,
-+		.msg_controllen = sizeof(u),
-+	};
-+	int len, ret;
-+	u8 ctype;
-+
-+	len = kernel_recvmsg(queue->sock, &msg, &iov, 1, sizeof(buf),
-+			     MSG_DONTWAIT);
-+	if (len <= 0)
-+		goto fail;
-+
-+	ctype = tls_get_record_type(queue->sock->sk, &u.cmsg);
-+	ret = nvme_tcp_consume_tls_record(queue, &msg, ctype, buf, len,
-+					  MSG_DONTWAIT);
-+	if (ret < 0) {
-+		len = ret;
-+		goto fail;
-+	}
-+
-+	return len + ret;
-+
-+fail:
-+	/* read_sock() left a whole record, so none of it can be missing */
-+	if (len == -EAGAIN)
-+		return -EPROTO;
- 
--	return ret < 0 ? ret : 0;
-+	return len ? : -ECONNRESET;
- }
- 
- /*
-@@ -1729,7 +1808,9 @@ static int nvme_tcp_recv_icresp(struct nvme_tcp_queue *queue,
- 		if (ctype == TLS_RECORD_TYPE_DATA)
- 			return ret;
- 
--		ret = nvme_tcp_skip_tls_record(queue, &msg, ctype, ret);
-+		/* the ICResp is in a later record */
-+		ret = nvme_tcp_consume_tls_record(queue, &msg, ctype,
-+						  (const u8 *)icresp, ret, 0);
- 		if (ret < 0)
- 			return ret;
- 	}
-
--- 
-2.53.0
-
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
 
