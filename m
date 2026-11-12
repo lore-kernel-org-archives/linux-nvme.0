@@ -2,110 +2,101 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84181606A31C
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Nov 2026 22:36:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26C30606A321
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Nov 2026 22:37:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=y0r0JCS7;
-	dkim=pass (2048-bit key, unprotected) header.d=purestorage.com header.i=@purestorage.com header.a=rsa-sha256 header.s=google2022 header.b=AKz/k3Da
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=gIfgx4wh;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XlWds+KB
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=ypr9cxPiv3deakk+O4p4y3+YtXRhrt20LKLToNhf8rs=; b=y0r0JCS7O4MVq0
-	+0XFekmt8wLyTHvyP8zaqXCLOj1BeJqaH2IKburM7+2YtLI9GwtNAK2X8cg590iSlphNCmw8Gzr6D
-	fCIb7RQmVLFBV0FWrQdMVX3ah7gl6HmurIXC2Iamas8O7VzwK+IbPNnlrDFRG+foBzS/ReqN2nogP
-	mICYKncvqKcJjnJw7wAZ6ZIntBbRD4SyzMZXYVxJw+OqUEPYhyTtwItESIukGs5x/bSpCwpz+++92
-	wcajGTsdodrLSSUUI7AAk7RfIW/3NuAy/A7DcV/UJyw59OLUI3txyEHr5/IFMqC+QUjcxRUIkECl+
-	XWpM++Baf19iX4w0tRsA==;
+	List-Owner; bh=nkTkVM1BqTIke4IbVhNaX7QuexqhYsgSxpWyCcqgwJo=; b=gIfgx4wh14pWy0
+	6wQBHk0RPs2q+tyhSasbHB+B764/A0txMIpVA8QIuXVOaXgq5vuQmKp69CkNPqqoSKoYpFbp6PBdv
+	q/1SGxvQbcGi6vp2GPjuWX/6gotEPfRy8TeSFcNZP50XSax/hJ4rkpogXb+FsGnyrweTCG4u+Di3d
+	VxoPRFag2Cm9len9DQ0VcEmupbnvL0HDITN394iGjvAK1o66o1gclE/B+LAbzC/gpX82NSQAfJmAx
+	6HRGP4Pmz7vscZ2OTO9X3f15N83tQu3fTr0g4W1CH7kzFfOUTwn/E4hmBXBHhiexseNqK0h8xnVL+
+	LEXQazw/u9XSIHt8NXgQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRdOp-0000000BBL2-2eXY;
-	Thu, 12 Nov 2026 22:36:07 +0000
-Received: from mail-qt1-x82e.google.com ([2607:f8b0:4864:20::82e])
+	id 1xRdPt-0000000BBTQ-3X32;
+	Thu, 12 Nov 2026 22:37:13 +0000
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRdOj-0000000BBK6-26WF
+	id 1xRdPq-0000000BBSm-2e5I
 	for linux-nvme@lists.infradead.org;
-	Thu, 12 Nov 2026 22:36:06 +0000
-Received: by mail-qt1-x82e.google.com with SMTP id d75a77b69052e-53bb57f1310so4394341cf.2
-        for <linux-nvme@lists.infradead.org>; Thu, 12 Nov 2026 14:36:00 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794522960; cv=none;
-        d=google.com; s=arc-20260327;
-        b=iwYtje0/De9ZEYv8KrEJkhwh3O3JJjLas1xLF7JRvXU3xK0OJd1X5oKRHuavvCIbI2
-         Ly5++W5U29zM26FiFRCp7FACg4vkDNqh/1LJcGU1tmYllswP/8F4yq8v0QGvVFlEjNEa
-         S8HZKp4H+5mrisd0FP5OrNdEIfzrOllGV11IoYCrmpXp59R1Z9gf9wyMF4YooM7R2wKF
-         kMOFqe4sPLfHHLN4UllTQOzLN82ar8TRoWy5Ld01dWX9LKHumyzFoBZQAaD+PvJEFYxr
-         bORLorSvxD8lSD76cjqzLUoeaMU28iHwRKt5eyPmVIN6JkNZDHne4MD80lm4lOXWodTO
-         Afpg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ypr9cxPiv3deakk+O4p4y3+YtXRhrt20LKLToNhf8rs=;
-        fh=GuftQox9xlzs4jkbdQykT9wY8epqQzjsA4ObOU4OqC0=;
-        b=bsiPgbcIwpLHHkfJ4BLddNOFAacXMlxnoSjhlW8+IGd5zomPglfRiz67wLNZeaPkPI
-         R9ffR1TefvlXlgi25sa3FPwZc0RIXTAEHAetBxNfKhuTuY4yvf+UURP9TYiShIufF4hj
-         qupd/LqvJ0anucLNIMP+Onngr/omABmEfURyGXOhxK2F+MdpDfWVk863isbZWKCsKHZO
-         Qr/nTLfQYko47iyTKg7HDFwWHA8qCJzfduVbqtPTJsZzDmXUQT1xuvB6OOWAYyBGxpyJ
-         vcKD6CDS5VPMjdrrDQOCEl0o68S1owhm6+3GI3uKG5IDJBt/qNisCeA0+Q8mt3HsgGky
-         Bj6A==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	Thu, 12 Nov 2026 22:37:12 +0000
+Received: by mail-wr1-x42a.google.com with SMTP id ffacd0b85a97d-492fcbfaa87so129731f8f.3
+        for <linux-nvme@lists.infradead.org>; Thu, 12 Nov 2026 14:37:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1794522960; x=1795127760; darn=lists.infradead.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+        d=gmail.com; s=20260707; t=1794523029; x=1795127829; darn=lists.infradead.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=ypr9cxPiv3deakk+O4p4y3+YtXRhrt20LKLToNhf8rs=;
-        b=AKz/k3DaxWxoin561sv7fGLm27LmkNpLaflFZdWgb+D9Ayfc2Sq1xjzGfjq1evxw/9
-         FA//eGpc1TcTbb8PBC8Dl/5i2uZZME8IthTBItJro/rU68zqbXKfPaPmRs/IZ3hvXPcJ
-         1ulcnUSqr1lpyvdRjcHChcyXJtXpHeMfXQSY8DT7WM57F94KSBshisWzFesvEpDzAwvC
-         88l+56q6rQ9WLu3m7I5yh3ZtATxBvTyO1kavqv868iXk+KYOkP2OzZiqY77nzqDJ//Zh
-         DttJO1fChkIX7+m3tIHTzV+5Ax9v8NMc+2hN7jWp7UUtegdix5hGaSB/iX4ibpqajgCb
-         yQbA==
+        bh=nkTkVM1BqTIke4IbVhNaX7QuexqhYsgSxpWyCcqgwJo=;
+        b=XlWds+KBUlKq2SZF/We4AHW7udj3Hjg0ndazeKuOdjLXHX2Dx5ft78T/ufyWiHAoO+
+         0itHliNMusrEN3ZJajl/EZ7D3P9d/ltiejN2Tvj8ub2TTMQpBwQxJx8BmYcYez52dYsL
+         rSOj7WQsbgwRw8KbPgaq3iJQvoxL2MkKdFUPs+cMDj838D2CfDOVaHrG7SzBJ8gRXDUw
+         +gX1iJsXtgoIjGBKV12FsZNvQb2fYZwKhy66xEQ7Qr5MrEypYaUA4zTWVu7oP/qijwnL
+         2Df3VW9C1y2SLNw4td4TtSFK603WNGICGrjXZLa08o73uIOa2kc+b57tfZvtNPi44mQS
+         6xPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794522960; x=1795127760;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1794523029; x=1795127829;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ypr9cxPiv3deakk+O4p4y3+YtXRhrt20LKLToNhf8rs=;
-        b=0Lu65sfby+rgndz6iZcmky3vRmcXOnVLhrqfA5Dy3p3+fqVpNOHmr91DOMrcGCW2kl
-         VusL8JPPoLhrhtOHihLCpWMbKyVWFmWPnEDMBK1COUbiDL56luIb/0QRQxFT3IgDf544
-         IsARP+Vg0XHgvCJNEIr//YQbsPrM9hcZqaTK78c+xagR5nmQiLNu2t/+sQeb/RI9+6ms
-         Fa+8nV3l9BUc4VKT751CNUIp+SG/tkcyjIJSVQy4cyGRPMbwgOVyCkRar2rUPIh0xakD
-         q1r5Zj/6S9k2B3plx1/Ujb7LyutaDOzyuKMdk2KSJPi+XsIZodr7TliauKAqbRHCejvu
-         aAWA==
-X-Gm-Message-State: APuU4Z9tiEpUZbzq5v0REOmFZswjV/sORzSUSPWkTfgdebKd3ZnqYzvZ
-	UKcygJubkkAxwY7douBkPmpcEdp/ge2KBxgTEzUkuDzKpcMxAAjKdtQus9Hu9ccVoTaw9mhBiXz
-	Tpdu5SWskA7nFye5pHNEnPGNPTQe6OLjxFUOvRVPn1v3N4fi4FkUcJ+mqNw==
-X-Gm-Gg: AYBFou3HAH8cLZh41nZRvMtjdDcrAxiqTyCY2OvlZ1EYYDfFCtNm/oq0xpxzDbMuM2F
-	K+qsoos+sUoi+RzscL+ysYrfzKetcrYZthC0gkWsHnTINvcNAA8mtAkict1PD4hUztyy1KpVpBv
-	Obpp+ZH6PBxcnYduLQ0ZxdSZD57eoxrGKgEGwbFR7kD8OZ49g8ttrRXBOuQl9j+xPbqPbe6c8xw
-	rfOuQ0FENvKmc9I/qXHCNjQTTV7qxY1/1iWBdKqfSnU1KaD4IOcNy4omrZMrA/9pTaG4nwVYP7D
-	s3mlOGjb2tEeeGMkTDzqVXGp2oxus+B0g5bt74r9bSVKSulUX60Jd6HvEzFAdch1dO3QdXj+pyf
-	o6fD8S9VJ4uqXdI0ssFd0IpKk0kkHthprmU7M
-X-Received: by 2002:a05:622a:5984:b0:536:5004:6347 with SMTP id
- d75a77b69052e-55ac717261dmr14420931cf.25.1794522959491; Thu, 12 Nov 2026
- 14:35:59 -0800 (PST)
+        bh=nkTkVM1BqTIke4IbVhNaX7QuexqhYsgSxpWyCcqgwJo=;
+        b=xR14bkPajxw9Zpn4QszB9At3+oFmSAmur9AGhMQ8Sx5FjnB//QtMKqm/PEt0vm9dII
+         RjnWTVJHJGgfeQF5JaeFJrqCXr0TxjzBSrFrClo4V8G2UGPj2ko+hSpNWV6ZbBJIfJff
+         oRj+YlsQRqMHYBUO3+h6ww9qB3ccNlGkekXgr8x5dSOqe4KC+H0BfnEvJCUFpyh0+caR
+         nn+P5XxWnOuYu5RVKRrqjkl/WH83m7639JXRdV+MYtTR0lcwwChHe4j5n1bKGJ1gq8Kh
+         NX2vVjaMCB2vp9wtuHH9D8pDtztDwYSX4hAjv2J/UTcbckhGvMRephHrsOck/GDx3x96
+         htIw==
+X-Forwarded-Encrypted: i=1; AL+hErFIj2xgc5/fLVLxhlKVcFEDChxwZHvlw861ejR4CEcXIAT/06Gn7+SU0wdnhn7cR5zUYXIellbJciRd@lists.infradead.org
+X-Gm-Message-State: APuU4Z8OLqGIXbUe6ZpRHbniNhSaf3QJBWWr7p/KVqSiu8wxQCUsX4P7
+	+4GBuAf5BGqPIlOcbSzAyL/ISvlvH8i0bUqtBoYlvk72pSZ0CGMlpnbX
+X-Gm-Gg: AYBFou1h6b0/5/7kUAz/t53GAbIdV+68XqqqH+CkPCQSnDQcsg3C4qVhHpHWKzKPa4m
+	bN2eBuiAMWehjphtibVerV75ZK0xWUWD4k0m4bbwezKD0UnHW2kbfZStZt9JMJtD45fkJWsq/qj
+	ZsyUU0An0YHb7LY6EnUUYvJQNyN+LqyhsV9ukMjNuqMzns0ftt07gq/MWphFR//acR5rpD7Olls
+	Tafr8SdFaD/Gosjk5QMxQtLmjHF34CL152ks5sqrlbDeBQR62SHqIHO7NasF016Ks9dkX5PRe7a
+	rtwjZ8gvj8XzECj8gDHRmnOt4P7ae835Do4Cbj2vxNol9BLUB846GbHpop++GvAqKMtp6RoQ1gd
+	GHSw7GOQIcrUu6lCDkEwrEOh0g/lVz3VyyLTVm6a4sCdCAeiSTQERHisKmqWivOoNRCtDvF+c46
+	7UxOfSjxFEH1L2OVK/aUokICZb01GvW/tkZsF0WE1NMrbaj4Hw0ysSNgfNLkxnz2JuQt3QlMIMs
+	gj26eTeH370xur/kBNREKnOh8SrWi0dC3wwgXRb9MkmK1sf22NJV07b8esKdm1hv+macJ+kO+zB
+	R6nzqEzOk5Tp8g7EWe2uHTf68tdMhp7gGOdydINom5hztwAInclRmY5HvwRJaRFPoOS/LVSmDUf
+	N8oRqDVcx+7o=
+X-Received: by 2002:a05:6000:25e3:b0:492:b1c5:6db5 with SMTP id ffacd0b85a97d-49c73bf096bmr1548196f8f.32.1794523028610;
+        Thu, 12 Nov 2026 14:37:08 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c60ca70a7sm1494474f8f.51.2026.11.12.14.37.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Nov 2026 14:37:08 -0800 (PST)
+Date: Thu, 12 Nov 2026 22:37:07 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Martin Belanger via B4 Relay
+ <devnull+martin.nvme.dev.gmail.com@kernel.org>
+Cc: martin.nvme.dev@gmail.com, Keith Busch <kbusch@kernel.org>, Jens Axboe
+ <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
+ <sagi@grimberg.me>, Hannes Reinecke <hare@kernel.org>,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, Martin
+ Belanger <martin.belanger@dell.com>, stable@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] nvme-tcp: use an aligned buffer for the TLS
+ record type
+Message-ID: <20261112223707.3bf1e1a6@pumpkin>
+In-Reply-To: <20261111-nvme-tcp-live-ctrlrec-v2-1-6295202b84de@gmail.com>
+References: <20261111-nvme-tcp-live-ctrlrec-v2-0-6295202b84de@gmail.com>
+	<20261111-nvme-tcp-live-ctrlrec-v2-1-6295202b84de@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-References: <20261112-9505880f2c33f0134ef20c39@redhat.com>
-In-Reply-To: <20261112-9505880f2c33f0134ef20c39@redhat.com>
-From: "Surabhi Gogte (she/her)" <sgogte@purestorage.com>
-Date: Thu, 12 Nov 2026 14:35:23 -0800
-X-Gm-Features: AclHuK-z3arf23Ak967LY929iJToASjqdutkcGx83PDYmNodXXSb1FxSCOCatJ8
-Message-ID: <CAMof9cWw6jDht3++cYcybQohq=Nf6DzY4ZL1m_E0b95r9CRxMQ@mail.gmail.com>
-Subject: Re: nvme-tls failing with (61b0ed3be81b6) nvme-tcp: parallelize I/O
- queue allocation and startup
-To: Chris Leech <cleech@redhat.com>
-Cc: linux-nvme@lists.infradead.org, Hannes Reinecke <hare@kernel.org>, 
-	Keith Busch <kbusch@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261112_143601_710225_E40FDA57 
-X-CRM114-Status: GOOD (  10.22  )
+X-CRM114-CacheID: sfid-20261112_143710_701589_6728A365 
+X-CRM114-Status: GOOD (  25.54  )
 X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -117,33 +108,111 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Thu, Nov 12, 2026 at 10:46=E2=80=AFAM Chris Leech <cleech@redhat.com> wr=
-ote:
->
-> Hello,
->
-> I was testing some patchs and ran into trouble with nvme-tls that I
-> bisected back to this change (61b0ed3be81b6 nvme-tcp: parallelize I/O
-> queue allocation and startup).
->
-> I haven't determined what exactly is happening yet, but blktests
-> nvme/062 and nvme/063 both fail with this applied and pass again if I
-> revert it.
+On Wed, 11 Nov 2026 15:42:39 -0500
+Martin Belanger via B4 Relay <devnull+martin.nvme.dev.gmail.com@kernel.org> wrote:
 
-Hi Chris,
-Can you check if the failures you saw are due to an older version of
-ktls-utils/tlshd being used?
-Ref: https://lore.kernel.org/linux-nvme/CAMof9cU5s0ck20fcSAYSvK-xpcP5_Hv2Bm=
-N20Bh3btpLum7THg@mail.gmail.com/.
+> From: Martin Belanger <martin.belanger@dell.com>
+> 
+> The buffers that receive the TLS record type are char arrays.
+> put_cmsg() and tls_get_record_type() access them as struct cmsghdr,
+> which needs a stricter alignment than a char array has.
+> 
+> Use a union with struct cmsghdr, sized with CMSG_SPACE(), as
+> svc_tcp_recv_cmsg() and xs_tls_read_record() in sunrpc do.
+> 
+> Fixes: 2837966ab2a8 ("nvme-tcp: control message handling for recvmsg()")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Martin Belanger <martin.belanger@dell.com>
+> ---
+>  drivers/nvme/host/tcp.c | 23 ++++++++++++++---------
+>  1 file changed, 14 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index 7ecc6c007f8d..749d77b4e172 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -77,6 +77,12 @@ MODULE_PARM_DESC(tls_handshake_timeout,
+>  /* TLS records read while waiting for the ICResp, the ICResp included */
+>  #define NVME_TCP_ICRESP_MAX_RECORDS 8
+>  
+> +/* control message buffer for the TLS record type */
+> +union nvme_tcp_tls_cmsg {
+> +	struct cmsghdr	cmsg;
+> +	u8		buf[CMSG_SPACE(sizeof(u8))];
+> +};
+> +
+>  static int nvme_tcp_cpu_queues[NR_CPUS];
+>  static DEFINE_SPINLOCK(nvme_tcp_cpu_queues_lock);
+>  
+> @@ -1653,11 +1659,11 @@ static int nvme_tcp_skip_tls_record(struct nvme_tcp_queue *queue,
+>  			.iov_base = buf,
+>  			.iov_len = sizeof(buf),
+>  		};
+> -		char cbuf[CMSG_LEN(sizeof(char))] = {};
+> +		union nvme_tcp_tls_cmsg u = {};
 
-If the tests fail with ktls-utils 1.5.0 as well, please share further
-details about the blktest failure logs and kernel logs so I can also
-take a look.
+Is that right?
+You are changing something that was CMSG_LEN(1) to one of CMSG_SPACE(1).
+
+I've a feeling it would be right if it was a struct, not a union.
+
+Did you test it?
+Or even compile it and compare the two object files.
+
+David
+
+>  		/* kTLS fails a control record read without a cmsg buffer */
+>  		struct msghdr drain = {
+> -			.msg_control = cbuf,
+> -			.msg_controllen = sizeof(cbuf),
+> +			.msg_control = &u,
+> +			.msg_controllen = sizeof(u),
+>  		};
+>  
+>  		ret = kernel_recvmsg(queue->sock, &drain, &iov, 1, sizeof(buf),
+> @@ -1682,7 +1688,7 @@ static int nvme_tcp_skip_tls_record(struct nvme_tcp_queue *queue,
+>  static int nvme_tcp_recv_icresp(struct nvme_tcp_queue *queue,
+>  				struct nvme_tcp_icresp_pdu *icresp)
+>  {
+> -	char cbuf[CMSG_LEN(sizeof(char))];
+> +	union nvme_tcp_tls_cmsg u;
+>  	struct msghdr msg;
+>  	struct kvec iov;
+>  	u8 ctype;
+> @@ -1690,12 +1696,12 @@ static int nvme_tcp_recv_icresp(struct nvme_tcp_queue *queue,
+>  
+>  	for (i = 0; i < NVME_TCP_ICRESP_MAX_RECORDS; i++) {
+>  		memset(&msg, 0, sizeof(msg));
+> -		memset(cbuf, 0, sizeof(cbuf));
+> +		memset(&u, 0, sizeof(u));
+>  		iov.iov_base = icresp;
+>  		iov.iov_len = sizeof(*icresp);
+>  		if (nvme_tcp_queue_tls(queue)) {
+> -			msg.msg_control = cbuf;
+> -			msg.msg_controllen = sizeof(cbuf);
+> +			msg.msg_control = &u;
+> +			msg.msg_controllen = sizeof(u);
+>  		}
+>  		msg.msg_flags = MSG_WAITALL;
+>  		ret = kernel_recvmsg(queue->sock, &msg, &iov, 1,
+> @@ -1703,8 +1709,7 @@ static int nvme_tcp_recv_icresp(struct nvme_tcp_queue *queue,
+>  		if (ret <= 0 || !nvme_tcp_queue_tls(queue))
+>  			return ret;
+>  
+> -		ctype = tls_get_record_type(queue->sock->sk,
+> -					    (struct cmsghdr *)cbuf);
+> +		ctype = tls_get_record_type(queue->sock->sk, &u.cmsg);
+>  		if (ctype == TLS_RECORD_TYPE_DATA)
+>  			return ret;
+>  
+> 
+
 
