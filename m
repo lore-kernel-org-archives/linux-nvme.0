@@ -2,10 +2,10 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD393606A31C
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Nov 2026 21:18:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CE5B606A31C
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Nov 2026 21:21:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=ZUCnaQW6
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=EVGy4J9k
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
@@ -13,41 +13,57 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=ZUCnaQW6U+gHX1TF1goBgl/55o
-	ENJ8RLzdoWInZHqsjaTVpT5xvHTEMP+M6TmkkNN642Twiy9CnHBOibE6VusYRGTCzgG5iVyYTPaFY
-	VUfHQAvR1Eob6y5f9ynmLLZgPyom6i/aa1e+yPKZbhH3dmOE8b5G7FpAITMaFrCbUupVUzM/2M/M2
-	/S9pyq8OxGeeuI/7PFayoWpLR9Y2mq9KRBv0KNN/d4mgzy/QZwNNEZOE/fewaA56KVQ/hp3nfWcz3
-	IjCsx5jJE2+pG8Gt2FB2ulybNfZqwtJt9QTZsDxH5DH/8Gnlnz4sAhaL9SJvbqMa52MaWM9FAKfsO
-	W2/n0HCw==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=EVGy4J9kGaMxY1HxLca3xDrcj9
+	wav8GShDPoxcsByR+DJV+slTaH+1GJkNTRF2pxU11+QiQfCQwh1LezYUn5gHUMTcLFxrsKFCferF7
+	5/iYGjET6kG2XHYx7wcr4TC7QTRQnHSPVdyXl+20xqNMhkpfaO/JHnHd9QwGTXUbPpEh3niMi69rm
+	+bpNAzJmTWkTW3K0qWV9YSLyXFDGjoMloUr0N5k6gehuU0Pp6pVNVqnsfxhbwNrnO1nJ9MPxvT+Hv
+	34whajK4GBXrq2dZgMZaRN4eG72cIKwxJUTiUyl/7dU+pgUkhpEViDcQaWqhz1XedenOIsGN3IQkF
+	jKzeuxVg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRcBx-0000000B52O-1eH0;
-	Thu, 12 Nov 2026 21:18:45 +0000
+	id 1xRcEu-0000000B5WX-3bp3;
+	Thu, 12 Nov 2026 21:21:48 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRcBv-0000000B51W-0Dgp
+	id 1xRcEr-0000000B5Un-463Z
 	for linux-nvme@lists.infradead.org;
-	Thu, 12 Nov 2026 21:18:44 +0000
+	Thu, 12 Nov 2026 21:21:47 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id B9C1368D0E; Thu, 12 Nov 2026 22:18:39 +0100 (CET)
-Date: Thu, 12 Nov 2026 22:18:39 +0100
+	id 8A84B68D0F; Thu, 12 Nov 2026 22:21:40 +0100 (CET)
+Date: Thu, 12 Nov 2026 22:21:40 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-Cc: hare@kernel.org, hare@suse.de, kbusch@kernel.org, kch@nvidia.com,
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	sagi@grimberg.me
-Subject: Re: [PATCH v2] nvmet: reject invalid write-protect feature values
-Message-ID: <20261112211839.GD11315@lst.de>
-References: <20261109135536.2772-1-sreekuttan2156239@gmail.com> <20261109142428.2612-1-sreekuttan2156239@gmail.com>
+To: Yuehong Wu <wuyuehong@cmss.chinamobile.com>
+Cc: linux-nvme@lists.infradead.org, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Maurizio Lombardi <mlombard@redhat.com>,
+	Mohamed Khalfella <mkhalfella@purestorage.com>,
+	Nitesh Shetty <nj.shetty@samsung.com>,
+	Hannes Reinecke <hare@suse.de>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Aurelien Aptel <aaptel@nvidia.com>,
+	Nilay Shroff <nilay@linux.ibm.com>,
+	Jesse Taube <jtaubepe@redhat.com>,
+	Rongzheng Wang <testwrzwrz@gmail.com>, Kees Cook <kees@kernel.org>,
+	Rosen Penev <rosenp@gmail.com>,
+	Guixin Liu <kanie@linux.alibaba.com>,
+	Qing Zhang <diasyzhang@tencent.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Julian Sun <sunjunchao@bytedance.com>,
+	Yu Zhang <yuz08559@gmail.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nvmet: clamp the last ANA group index against the real
+ array size
+Message-ID: <20261112212140.GA11411@lst.de>
+References: <20261106-nvmet-ana-grpid-1-yuehongwu@cmss.chinamobile.com>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261109142428.2612-1-sreekuttan2156239@gmail.com>
+In-Reply-To: <20261106-nvmet-ana-grpid-1-yuehongwu@cmss.chinamobile.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261112_131843_235926_E9901372 
-X-CRM114-Status: UNSURE (   8.83  )
+X-CRM114-CacheID: sfid-20261112_132146_162910_10F835FC 
+X-CRM114-Status: UNSURE (   9.81  )
 X-CRM114-Notice: Please train this message.
 X-Spam-Score: -1.9 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
