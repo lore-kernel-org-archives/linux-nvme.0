@@ -2,10 +2,10 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8DF7606A883
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Nov 2026 21:18:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD393606A31C
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Nov 2026 21:18:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=00m57aAR
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=ZUCnaQW6
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
@@ -13,42 +13,41 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=00m57aARR22HWbax0Qa/PA991a
-	RgdmhZkrsoPu7jy/NbKuzQ8v+8nGRy5HEpuPjSRFzXcgxpG15K7m4TuLzpxPCD8UeSyUlmZ+dhpgH
-	gzmJug+lbJIBW+GJddQ7O/i3Tfg2K3toXTXm3GDXdSr6kMHKygRzsyv8DuI5U5uTR38IxbGk/p+Nt
-	F6g16SlS4zagaZyunBu8ZOpetkJScx8kE3Zhmw9cr9l1lye+1NbcT2dQOHX2WaQcllZTYlSowgTUQ
-	W7qVNvZc6b4S3nAcEUfaHuiERtDKtC6LcT69CpoVysSW2RdomjWF9pa3FOyezSy1swek8SqgUHIUp
-	X99ln6vA==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=ZUCnaQW6U+gHX1TF1goBgl/55o
+	ENJ8RLzdoWInZHqsjaTVpT5xvHTEMP+M6TmkkNN642Twiy9CnHBOibE6VusYRGTCzgG5iVyYTPaFY
+	VUfHQAvR1Eob6y5f9ynmLLZgPyom6i/aa1e+yPKZbhH3dmOE8b5G7FpAITMaFrCbUupVUzM/2M/M2
+	/S9pyq8OxGeeuI/7PFayoWpLR9Y2mq9KRBv0KNN/d4mgzy/QZwNNEZOE/fewaA56KVQ/hp3nfWcz3
+	IjCsx5jJE2+pG8Gt2FB2ulybNfZqwtJt9QTZsDxH5DH/8Gnlnz4sAhaL9SJvbqMa52MaWM9FAKfsO
+	W2/n0HCw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRcBQ-0000000B4ss-0ZtA;
-	Thu, 12 Nov 2026 21:18:12 +0000
+	id 1xRcBx-0000000B52O-1eH0;
+	Thu, 12 Nov 2026 21:18:45 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRcBN-0000000B4s7-3nle
+	id 1xRcBv-0000000B51W-0Dgp
 	for linux-nvme@lists.infradead.org;
-	Thu, 12 Nov 2026 21:18:11 +0000
+	Thu, 12 Nov 2026 21:18:44 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 860D768D0E; Thu, 12 Nov 2026 22:18:06 +0100 (CET)
-Date: Thu, 12 Nov 2026 22:18:06 +0100
+	id B9C1368D0E; Thu, 12 Nov 2026 22:18:39 +0100 (CET)
+Date: Thu, 12 Nov 2026 22:18:39 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: shao.mingyin@zte.com.cn
-Cc: kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org, hare@suse.de,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 2/2] nvmet-auth: store the DH-CHAP key offset instead
- of hardcoding it
-Message-ID: <20261112211806.GC11315@lst.de>
-References: <20261109225914306SSjwaKCesNqNUj53kLV1R@zte.com.cn> <20261109225921056-4eg0BGEufMgtHypJbPmM@zte.com.cn>
+To: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+Cc: hare@kernel.org, hare@suse.de, kbusch@kernel.org, kch@nvidia.com,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	sagi@grimberg.me
+Subject: Re: [PATCH v2] nvmet: reject invalid write-protect feature values
+Message-ID: <20261112211839.GD11315@lst.de>
+References: <20261109135536.2772-1-sreekuttan2156239@gmail.com> <20261109142428.2612-1-sreekuttan2156239@gmail.com>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261109225921056-4eg0BGEufMgtHypJbPmM@zte.com.cn>
+In-Reply-To: <20261109142428.2612-1-sreekuttan2156239@gmail.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261112_131810_597782_0C33389E 
-X-CRM114-Status: UNSURE (   9.47  )
+X-CRM114-CacheID: sfid-20261112_131843_235926_E9901372 
+X-CRM114-Status: UNSURE (   8.83  )
 X-CRM114-Notice: Please train this message.
 X-Spam-Score: -1.9 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
