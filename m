@@ -2,10 +2,10 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E6B2606A33A
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Nov 2026 21:22:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7151B606A89E
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Nov 2026 21:23:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=VyN27Xkj
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=yOFFYcsU
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
@@ -13,42 +13,42 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=VyN27XkjMoDQFKqAGSfWILcR4H
-	ODqZmbuiWBAoPdttw1+2JpQJuRAxJb1SEbVjOL6a7T7fUuY8aiivhP2OF0OYOTvHHOvk9Loj1GDhe
-	wL/k43pGSOJxkTv8xVZJTaLRtLuzy7v0y7M3MLY1Mar523GVZ3s+rBft8jCwRWy0qqVMAEwguwP6o
-	fDslqcmMoHUyMLOHlvkdz/gt0WfqwDMAxjTx9pPZgDuKcer8Yc+EQM91c9sh9v62m1y1axI/3xqGf
-	IB9TAqu2EGb/6ujUdyRTexgY5VjcX4d2AfpBCDS4cM9gGxAIMafp6fOy3X0kqEBfp5XRIyt0gm0EQ
-	xF/NFxMg==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=yOFFYcsU/bBC7XF8dT3oss++Qv
+	zCiWWo4Py87sJFleFZ60yTwjQbNYXrSO9Ws2lExCYDlMz97YbDC0Nf6c+bEG829IE/7Jz5S4ugpNh
+	5VFfe8RWzAlNu+FCj61+uXtqV/7N43FROsBJ/uJ1/KMGlT5HGJo7S8OYPsnXVhSz0qRDnfeTJFCoU
+	cz2u2B7+0St3dknJQJi0GoTfc5AHBgorXzccSzVsD7PyOYwjLLj4JZulaaIGuJO+zrkfgBMvkqeMG
+	AFump46KOUhDY99kRGDPqA7w/5Bhh/JzHDnmQK8AYbctnDY8/Gvbf0bskdtm1T29ZFrLOxk6KzguZ
+	BhtUusyQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRcFh-0000000B5dz-0HR1;
-	Thu, 12 Nov 2026 21:22:37 +0000
+	id 1xRcG6-0000000B5kT-1502;
+	Thu, 12 Nov 2026 21:23:02 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRcFe-0000000B5dR-0OX9
+	id 1xRcG1-0000000B5jY-2QL8
 	for linux-nvme@lists.infradead.org;
-	Thu, 12 Nov 2026 21:22:35 +0000
+	Thu, 12 Nov 2026 21:23:00 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id BEB5868D12; Thu, 12 Nov 2026 22:22:30 +0100 (CET)
-Date: Thu, 12 Nov 2026 22:22:30 +0100
+	id 4C28768D12; Thu, 12 Nov 2026 22:22:54 +0100 (CET)
+Date: Thu, 12 Nov 2026 22:22:54 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: shao.mingyin@zte.com.cn
 Cc: kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me,
 	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] nvmet: zero the entire Get Log Page transfer
- buffer
-Message-ID: <20261112212230.GB11411@lst.de>
-References: <20261106230013815Squ68I1R3ds7pODmhHTwr@zte.com.cn> <20261106230019343v9OWwbe7yzjYZeoO4htcW@zte.com.cn>
+Subject: Re: [PATCH v2 2/2] nvmet: zns: return the namespace lookup error
+ for Identify
+Message-ID: <20261112212254.GC11411@lst.de>
+References: <20261106230013815Squ68I1R3ds7pODmhHTwr@zte.com.cn> <20261106230020595sdtR1cTOchAJ3lWjuD06g@zte.com.cn>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261106230019343v9OWwbe7yzjYZeoO4htcW@zte.com.cn>
+In-Reply-To: <20261106230020595sdtR1cTOchAJ3lWjuD06g@zte.com.cn>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261112_132234_278701_FAC1769A 
-X-CRM114-Status: UNSURE (   9.31  )
+X-CRM114-CacheID: sfid-20261112_132257_760975_129D816B 
+X-CRM114-Status: UNSURE (   9.46  )
 X-CRM114-Notice: Please train this message.
 X-Spam-Score: -1.9 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
