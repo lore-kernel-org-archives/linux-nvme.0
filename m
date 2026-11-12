@@ -2,83 +2,106 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08185606A886
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13265606A327
 	for <linux-nvme@archiver.kernel.org>; Fri, 13 Nov 2026 19:35:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=QlheZ536;
-	dkim=pass (2048-bit key) header.d=zte.com.cn header.i=@zte.com.cn header.a=rsa-sha256 header.s=z202610 header.b=aMXOfHyH
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=EhkF/qiH;
+	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.a=rsa-sha256 header.s=s2048 header.b=F+m434hx
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Subject:Cc:To:
-	From:Mime-Version:Date:References:In-Reply-To:Message-ID:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Unsubscribe-Post:List-Owner;
-	bh=m794oFJxY0m+FJ1g0fjPeP5sYKwotuC4zOar6dDhflA=; b=QlheZ536mki4aoe1oIqB8X+H/r
-	PH6hi1GoywsoH/NxOeXipF9d1Yci8p592c9a5kKqlSqp+o6zs4mrxM6UMjkAusKFYsHT65GmSMtFi
-	kVthhd/gZs9tYEz/4Sq9QpkE/DFPVTjVl8gxDCS1D8Bea9l9kR7oU3uFlBTqDat+KS3CEIDLy/X9a
-	XkI3oFhgA4qVVrlw0NZjbGU+xwpIQAbHJbi/aeoZnrR0wtcSgcd0CGXppsVp+QdSW/N4f4M1Maa5s
-	CUqZUVR7/C4hy6g4ukVp76SsA8sc283ydQYRfClXahzKoM1GjqixBFq1ZIpObOKCZy9F1sDo2Gihr
-	cQat3rBQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
+	List-Owner; bh=O8h9fybdyu+Al7CdWlfRBQ6LgqQutaBSF+Rc2HGjCVE=; b=EhkF/qiHCCZyw9
+	KOYRcPh1sSahIRYkIdSSidv8ZDNw7fAgE//Z9LBpIvHPb5vu8oLXMAVxqW5N0uRZ5uEpDtQBBH1N2
+	YBuIJErapYfb94qM2k53thIrr5hbI/NUyvRoUugUK4r8c43tj7FnCTao4+17o8z+bNjhvEjD4hiqb
+	DJ1NvPdgUTXuJwzf3uQMpfvXJM+13jQQcU0GbFueNPQW9k8N6ioH67hI5m8FZM7+c74HAeqKJxkUd
+	d17XfBeqER2uGOulOECOyvGqRrwvE5pUpMMaF3N2LFqn8428hKUfwQvR4AeghRpBBph0Lw6Z3ERbp
+	4xR/HYNBW70mC3sTPDsA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRx3H-0000000ECe9-2Rj4;
+	id 1xRx3H-0000000ECdm-0Jua;
 	Fri, 13 Nov 2026 19:35:11 +0000
-Received: from mxct.zte.com.cn ([183.62.165.209])
+Received: from sonic311-31.consmr.mail.ne1.yahoo.com ([66.163.188.212])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRVMc-0000000AANB-1J6l
+	id 1xRJxW-00000008Rqc-0M90
 	for linux-nvme@lists.infradead.org;
-	Thu, 12 Nov 2026 14:01:26 +0000
-Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mxct.zte.com.cn (FangMail) with ESMTPS id 4jQMVn06Fsz58fdL;
-	Thu, 12 Nov 2026 22:01:05 +0800 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=zte.com.cn;
-	s=z202610; t=1794492065;
-	bh=pe/DgnYm8uD3TZB4qvRZD+eJYrzD0zGxyXSxMz9yUec=;
-	h=In-Reply-To:References:Date:From:To:Cc:Subject;
-	b=aMXOfHyHHhoxOiBIYHMnZ4D8mIxYTDixSaQOFs/WB2FMv4u32zWR/euA3AsWuFojX
-	 KVWbaCRjolPoW8E/1XcrvZnau3OACXQI6V7+oou4A5r7YPlkJ/f55qSECMjlf24hN2
-	 9YTsLEy/T63fQNsvQBD+oqQzQnDIMawbqDVcTOSpKfwUuqmSzy0z+YqN+dGSQG9ST3
-	 3To+IhIjsr0Yaa+VjlsQB5WZPpOQKDzOdYXMxjv5DYMbOjMMfzwxl9TpR8SkLDfGdE
-	 aplMX87lfqTGi2zBSGBPTnGiXjfYJFWAIiQQ4u90k9PH5coyDyaHak5B831qmGWdOp
-	 KDlvR3ONOp48A==
-Received: from xaxapp04.zte.com.cn ([10.99.98.157])
-	by mse-fl2.zte.com.cn with SMTP id 6ACE13Ml036818;
-	Thu, 12 Nov 2026 22:01:03 +0800 (+08)
-	(envelope-from shao.mingyin@zte.com.cn)
-Received: from mapi (xaxapp02[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Thu, 12 Nov 2026 22:01:06 +0800 (CST)
-X-Zmail-TransId: 2afa6af5c6a2955-f60b2
-X-Mailer: Zmail v1.0
-Message-ID: <20261112220106682vEsVrn_uCY7k7JVslANjN@zte.com.cn>
-In-Reply-To: <20261112220058755zQhw_h6UkcVSjRnu478lb@zte.com.cn>
-References: 20261112220058755zQhw_h6UkcVSjRnu478lb@zte.com.cn
-Date: Thu, 12 Nov 2026 22:01:06 +0800 (CST)
+	Thu, 12 Nov 2026 01:50:39 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1794448235; bh=O8h9fybdyu+Al7CdWlfRBQ6LgqQutaBSF+Rc2HGjCVE=; h=Date:Subject:To:Cc:References:From:In-Reply-To:Content-Type:From:Subject:Reply-To:Content-Type; b=F+m434hxnazo+znIsDN87b1q6q2BjDXrSK85l4sPO4/7/Nv6ouklEMGBpfrTHUnO8eGiNQoV5Bbw/uB3JZACliQBg8PtdTRYRP97HHZoegx3ArYwH69kAdVaUPkV7WcyNd89YKs91cZCwmWeziNsUM+FCRLahqzZW3a6Ku8pvIiJlMO/7XaKbdkzRicymfmmSk9XFsFNG+fkHI8UO70pZ1hFT9v2XQiwRrAslvpHUFbDR+3rpTT4Ikh/N/oSBL0qRMnhxDrBkdI0Mmku6tTsyJWpgcJjSTSvBuepznmh0kGiP8yElqSHRAm6ov8qvVTBbZJZj+71HtVfmpD+WAp7XA==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1794448235; bh=cB6ms4YZu3OSr7Oj5Ktyy9vRYllWqlKKBSjCDtAOhd3=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=Wh5tO+A7k6l9RAB9CmF+7nFPpV+s7vwQOvHRCpB836zmpk+EmZdiT1obFQYb3eEYUV/ZZrDMNSGrpqiSFrVBvEAP1+BcX3bVXL8AkZe5aM0djERGyxVy+oivb40ItIA89tHRP/kW5BzO7GaPGZrOTfFkDQF1HHnKQVH/ifoH5PYTL/BXjLkbPViq5JKecTMlRIryhz3iU6NkOHkP1F3oliaijdeTD+Tk00HCA4w802Q1PFZvsZSndMk6hlb4A1wMRPh3z4tVeu12oZckS5JIJR1ywCFknBKWBE+hVxojbZ57Qr3RCaKJrua5vLBD1s/SnsdmRZ+/JLOhUlVDaAQyJw==
+X-YMail-OSG: zqmnDtkVM1n5t6ueog55b_vkFHSYM5E1qoECEJywzBr3UwiKAfUIVI_o6w7R9SH
+ CQ1t93f4qyBpZEcVGjU2OBO9C0Of8.lRAD_UtcVdUMSf6_GiG98G7rNXb1ZhUGsyYLDyJE5oLG69
+ MPpknxdoviNcfunvMa.q1ATsxUiRNZaaYFEtaSi7o3ARz3uzFbYwa4zXUFVTxVNR1M4yEm8E_vMu
+ CX3lc6b1b0MWbnmh3DAeGebLmTpZwI12LuF9QH7MRRpV.Y7YkiPkkooycQl42qWPa_ZCsKSCVnTi
+ cfYjzn7ZtEqmGYVjYEY1kEbVCA4JoS5GMMDKMoO39G5YhBugROnX2jrgGh0AwdwAby30.ZBxmd.l
+ S62hS2hlPvIDoPxGhzS2whxCcIZrt8XbiUGRsBq2lfu8t9x.TIubZ4wIiRqzfDYoZIwioLDCjm6k
+ .cljRFJEOnSix_ImX_sSyVP7eQAAEJ1GsHeUHb7atzAIHDlw0lV7YT_EQZaDbjuCghjYyGwMa7FJ
+ LxdRDFOXlr05WMcbROqV0a4sd0J7UyT01rGVa2p8mqlfg_ZPSk1p0.zKLMJDr5A1o8n0sxe4LbiR
+ qbREBgT6XAwECEJNbNHKO1YTM4iOmevp8GvnGDd6MDNapigfFoPwfu59SMy7zYd9LO3Z8_0VkIJt
+ aPlGTgcyxBF.v1wQggIdb30_WaSmydGJlcGPdQ03irHq2wrwxiCoQO6IJUZEr0jypo3mUQnAGyDG
+ k9vUUntKtCsyi.w0t_vFjR1T1M3Z6Xk5RLKDL9njS7LNW.CupQSEmNQ1GkX7kSwPFQP21HwmyMsp
+ i9SdJowJ0s5y.bw2SrHxrP7sM6YbNToNL5ZVELMODpe5VuCBtDWl7VcCxYMmahr5455.ZE_hGmHs
+ LrmFJx1uQ46OcZ2Ii956498sukETOy0INQsrtoq.ypS01I6QTO8GSI7rVFeq81ZNfcHhvUGJ06ME
+ B8yJmeeVBase_8cBDx_Yk7y0xRppCWZz9S9bNwiHzQcmhSHJ99JaTf4E0zOIsgLWqU5tZh4wLZKp
+ MnYneLIuBkBNwjBcYTuKXcpCwff8fTcsfan2g9ag6_HRqbKvb3lqTrnQRPIG.IGMBIXdu4D1HB2r
+ Ygn65JHFmN1QF2ROBGshwilsGajQNSqHXHgx.co9RO5Evfjv8vx67t__1ew7rn3sc1C.7W_m4N4M
+ cSR8SYdV43PcknGSee9yB1x8pWannWLYRUROzisZnoPLwDPX1S0a5pIeYojUo9jnHaAdfaOw5IJs
+ bc0nB3tQZQ.0b782FrYX_n_pf05DxifKK1hrJ0OqXSo23BlRt.p63_4auT8X4tq9HTs9fxQLg0OA
+ ydi2BtTIKopjFdQtWH0NOUC1U6_wILbgtZfZnlVsbVhHJ7Tk.UZGmAVff_vQl8b4id5D4T9jwtS9
+ 8nKfk1Ghey2tqeZDF9SgVACRH_x6kJa81R1e4J_83TMyBY4Ays_MTt39YbFzXRfBMRqG0I92h9IS
+ Xl4i4wMK_gUqmjpP0P_oaDsTzptxLp7NMOmOY3T81w3i60pQpmuYMvggEU3dv.ebRC4Brat.KcXq
+ ZyjrZ4BouQUvapbNSNNP1Y253sBId7Ys37DryRT0fCsyFp6LIN0DYA1xElaICSH34S2v84muDGZe
+ .CGRnjEo0Q2679LeUfRrG7eDmdHtGbtXa02kyQjntuOc7VrR9y8jRUHqkLiiITgSdxH1QGB5PWuQ
+ ARpFP1xjX3OHKFGeQd7o8WX3xDhKeppcWAPJEhIosno79RY0IQ4.4JX7WCaXgDYbj6BL4okuPPnu
+ 9CEiWKr_A1oRBHcXo_t2XyX1N2Jd1tPqjLAB1WY0vIGe1SVdGRdRloM6.RT24mU1pbFP4DjeRn1w
+ _aXrAymHoztvd7BVNk78MI6f1URU2iBFJ6msmP6JgXQac5cfrtvlS9yn2eohnwEPfv__IKNy26n1
+ mYs7i0yOvj6LH9jEvBJfejsFOAeuf8LBdL.MbTk8ZZiVorhzaxO81Zf4PRAQwZfM29CLtP5dAKbb
+ klVicXy3HgsPrMZiM94qTb2yOlO2WSLEgrPS_2Vx31FNEHJNJpuKXHkfgTtKgjLPmpCr4Taq44yO
+ KB8vbaoDybAHzNwFN22pWQG3NDp.x8aciLmMT8fUQgwMgW8NlLKb6ErL7ChYlwsHUhzhzMbUfvnT
+ 2bA6QlHpoN4OcRsGeb2ygbIpUCMhvL1tqClAnkg41oGlCJa3crNRCKKeXXqZBarf9KzLHJa8i581
+ 0YgHHROuHzbtZ8GRm6ggBoLbsrITMfTGKIshO9uwpGYYxl6nVscbC6LtZUsxlV5iP8t8XsYi.ga0
+ EDsRWYHlK
+X-Sonic-MF: <casey@schaufler-ca.com>
+X-Sonic-ID: 4e6572e0-628c-4102-8309-f6caa349ac8e
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic311.consmr.mail.ne1.yahoo.com with HTTP; Thu, 12 Nov 2026 01:50:35 +0000
+Received: by hermes--production-gq1-fd7994565-9vhlr (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 15d81e1a8a6348ae9dcd84771e3b8196;
+          Thu, 12 Nov 2026 01:50:33 +0000 (UTC)
+Message-ID: <41617b0a-90d9-484e-a143-78e2a92e872c@schaufler-ca.com>
+Date: Wed, 11 Nov 2026 17:50:30 -0800
 X-Archived-By: <archiver.kernel.org>
-Mime-Version: 1.0
-From: <shao.mingyin@zte.com.cn>
-To: <kbusch@kernel.org>, <axboe@kernel.dk>, <hch@lst.de>, <sagi@grimberg.me>,
-        <linux-nvme@lists.infradead.org>
-Cc: <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
-Subject: =?UTF-8?B?W1BBVENIIHYyIDIvMl0gbnZtZXQ6IHVzZSBvdmVyZmxvdy1zYWZlIHJhbmdlIGNoZWNrcyBpbiB0aGUgZmlsZSBiYWNrZW5k?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL: mse-fl2.zte.com.cn 6ACE13Ml036818
-X-TLS: YES
-X-ENVELOPE-SENDER: shao.mingyin@zte.com.cn
-X-SOURCE-IP: 10.5.228.133 unknown Thu, 12 Nov 2026 22:01:05 +0800
-X-CLEAN: YES
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6AF5C6A1.000/4jQMVn06Fsz58fdL
-X-Bad-Reply: References and In-Reply-To but no 'Re:' in Subject.
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [apparmor] [PATCH RFC 19/41] smack: use fc_init_pseudo() for
+ smackfs
+To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
+Cc: linux-efi@vger.kernel.org, Jan Kara <jack@suse.cz>,
+ Amir Goldstein <amir73il@gmail.com>, linux-nvme@lists.infradead.org,
+ fuse-devel@lists.linux.dev, linux-mm@kvack.org,
+ target-devel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ Chris Mason <mason@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ linux-s390@vger.kernel.org, linux-erofs@lists.ozlabs.org,
+ linux-scsi@vger.kernel.org, xen-devel@lists.xenproject.org,
+ driver-core@lists.linux.dev, Jann Horn <jannh@google.com>,
+ selinux@vger.kernel.org, apparmor@lists.ubuntu.com,
+ Josef Bacik <josef@toxicpanda.com>, linux-block@vger.kernel.org,
+ ocfs2-devel@lists.linux.dev, Alexander Viro <viro@zeniv.linux.org.uk>,
+ linux-nfs@vger.kernel.org, netdev@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-security-module@vger.kernel.org, bpf@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, Casey Schaufler <casey@schaufler-ca.com>
+References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
+ <20261110-work-loop-pseudo-v1-19-4c998976c6c7@kernel.org>
+Content-Language: en-US
+From: Casey Schaufler <casey@schaufler-ca.com>
+In-Reply-To: <20261110-work-loop-pseudo-v1-19-4c998976c6c7@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Mailer: WebService/1.1.26943 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261112_060121_796955_0BADCBDC 
-X-CRM114-Status: GOOD (  11.89  )
-X-Spam-Score: -4.4 (----)
+X-CRM114-CacheID: sfid-20261111_175038_205883_656AA33B 
+X-CRM114-Status: GOOD (  10.48  )
+X-Spam-Score: -1.9 (-)
 X-Mailman-Approved-At: Fri, 13 Nov 2026 11:35:09 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -90,128 +113,49 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY
-	autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-15.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-From: Shao Mingyin <shao.mingyin@zte.com.cn>
+On 11/10/2026 1:14 AM, Christian Brauner via AppArmor wrote:
+> Initialize smackfs as a pseudo filesystem. This raises SB_I_PSEUDO and
+> also SB_I_NOEXEC and SB_I_NODEV. smackfs never holds executables or
+> device nodes.
+>
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-The file backend shifts a host-supplied SLBA to form a byte offset
-before checking it against the namespace size. The shift can discard
-high bits: with a 4 KiB block size, SLBA 2^52 + 1 becomes offset 4096.
-The range check then accepts a command aimed outside the namespace and
-the backend accesses data at the wrapped offset.
+Please include me at least as a CC on Smack patches.
+I ain't dead yet. Nonetheless,
 
-Reject overflowing LBA-to-byte conversions and check the transfer
-length against the remaining namespace size without adding it to the
-offset. Apply the checks to reads, writes, discard and write zeroes.
+Acked-by: Casey Schaufler <casey@schaufler-ca.com>
 
-Fixes: 9c891c139894 ("nvmet: check fileio lba range access boundaries")
-Cc: stable@vger.kernel.org
-Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
----
-Changes in v2 (Christoph Hellwig):
-- Share nvmet_file_check_lba_range() with read/write and hide pos64
-  inside it. Pass byte lengths; check block-to-byte length conversion
-  separately for discard and write zeroes. No functional change.
-v1: https://lore.kernel.org/all/20261111224247129g0VbfWdGlwDMhBpChnT-8@zte.com.cn/
-
-A userspace test compiled the range helper and the kernel shift-overflow
-macro with GCC 13 and UBSAN. Boundary and random inputs matched the v1
-checks and a 128-bit arithmetic oracle, including wrapped LBAs, byte and
-block lengths, exact-end access and one-byte overruns.
-
- drivers/nvme/target/io-cmd-file.c | 40 ++++++++++++++++++++++---------
- 1 file changed, 29 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
-index e95ab1f08cff39b0a1147e53bbd7749a831d29a6..3098b902f51987f3da30dcc3cbb47729f62f7718 100644
---- a/drivers/nvme/target/io-cmd-file.c
-+++ b/drivers/nvme/target/io-cmd-file.c
-@@ -117,6 +117,19 @@ static void nvmet_file_io_done(struct kiocb *iocb, long ret)
- 	nvmet_req_complete(req, status);
- }
- 
-+static bool nvmet_file_check_lba_range(struct nvmet_req *req, u64 slba,
-+				       u64 len, loff_t *pos)
-+{
-+	u64 pos64;
-+
-+	if (check_shl_overflow(slba, req->ns->blksize_shift, &pos64) ||
-+	    pos64 > req->ns->size || len > req->ns->size - pos64)
-+		return false;
-+
-+	*pos = pos64;
-+	return true;
-+}
-+
- static bool nvmet_file_execute_io(struct nvmet_req *req, int ki_flags)
- {
- 	ssize_t nr_bvec = req->sg_cnt;
-@@ -131,8 +144,9 @@ static bool nvmet_file_execute_io(struct nvmet_req *req, int ki_flags)
- 	if (req->f.mpool_alloc && nr_bvec > NVMET_MAX_MPOOL_BVEC)
- 		is_sync = true;
- 
--	pos = le64_to_cpu(req->cmd->rw.slba) << req->ns->blksize_shift;
--	if (unlikely(pos + req->transfer_len > req->ns->size)) {
-+	if (unlikely(!nvmet_file_check_lba_range(req,
-+						 le64_to_cpu(req->cmd->rw.slba),
-+						 req->transfer_len, &pos))) {
- 		ret = -ENOSPC;
- 		goto complete;
- 	}
-@@ -282,19 +296,22 @@ static void nvmet_file_execute_discard(struct nvmet_req *req)
- 	int i;
- 
- 	for (i = 0; i <= le32_to_cpu(req->cmd->dsm.nr); i++) {
-+		u64 len64;
-+
- 		status = nvmet_copy_from_sgl(req, i * sizeof(range), &range,
- 					sizeof(range));
- 		if (status)
- 			break;
- 
--		offset = le64_to_cpu(range.slba) << req->ns->blksize_shift;
--		len = le32_to_cpu(range.nlb);
--		len <<= req->ns->blksize_shift;
--		if (offset + len > req->ns->size) {
-+		if (check_shl_overflow((u64)le32_to_cpu(range.nlb),
-+				       req->ns->blksize_shift, &len64) ||
-+		    !nvmet_file_check_lba_range(req, le64_to_cpu(range.slba),
-+					len64, &offset)) {
- 			req->error_slba = le64_to_cpu(range.slba);
- 			status = errno_to_nvme_status(req, -ENOSPC);
- 			break;
- 		}
-+		len = len64;
- 
- 		ret = vfs_fallocate(req->ns->file, mode, offset, len);
- 		if (ret && ret != -EOPNOTSUPP) {
-@@ -339,16 +356,17 @@ static void nvmet_file_write_zeroes_work(struct work_struct *w)
- 	int mode = FALLOC_FL_ZERO_RANGE | FALLOC_FL_KEEP_SIZE;
- 	loff_t offset;
- 	loff_t len;
-+	u64 len64;
- 	int ret;
- 
--	offset = le64_to_cpu(write_zeroes->slba) << req->ns->blksize_shift;
--	len = (((sector_t)le16_to_cpu(write_zeroes->length) + 1) <<
--			req->ns->blksize_shift);
--
--	if (unlikely(offset + len > req->ns->size)) {
-+	if (check_shl_overflow((u64)le16_to_cpu(write_zeroes->length) + 1,
-+			       req->ns->blksize_shift, &len64) ||
-+	    !nvmet_file_check_lba_range(req, le64_to_cpu(write_zeroes->slba),
-+				len64, &offset)) {
- 		nvmet_req_complete(req, errno_to_nvme_status(req, -ENOSPC));
- 		return;
- 	}
-+	len = len64;
- 
- 	ret = vfs_fallocate(req->ns->file, mode, offset, len);
- 	nvmet_req_complete(req, ret < 0 ? errno_to_nvme_status(req, ret) : 0);
+> ---
+>  security/smack/smackfs.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/security/smack/smackfs.c b/security/smack/smackfs.c
+> index a72bc7fabea9..4a56bbeaeca3 100644
+> --- a/security/smack/smackfs.c
+> +++ b/security/smack/smackfs.c
+> @@ -25,6 +25,7 @@
+>  #include <linux/magic.h>
+>  #include <linux/mount.h>
+>  #include <linux/fs_context.h>
+> +#include <linux/pseudo_fs.h>
+>  #include "smack.h"
+>  
+>  #define BEBITS	(sizeof(__be32) * 8)
+> @@ -2880,6 +2881,7 @@ static const struct fs_context_operations smk_context_ops = {
+>   */
+>  static int smk_init_fs_context(struct fs_context *fc)
+>  {
+> +	fc_init_pseudo(fc);
+>  	fc->ops = &smk_context_ops;
+>  	return 0;
+>  }
+>
 
