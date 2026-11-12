@@ -2,81 +2,93 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 505D860A3838
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Nov 2026 14:01:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FA5E606A336
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Nov 2026 14:52:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=JpIO3/jg;
-	dkim=pass (2048-bit key) header.d=zte.com.cn header.i=@zte.com.cn header.a=rsa-sha256 header.s=z202610 header.b=FInfaeEA
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=j4ipChxt;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=H4NZhvs6
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Subject:Cc:To:
-	From:Mime-Version:Date:Message-ID:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:Date:Subject:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
 	List-Unsubscribe-Post:List-Owner;
-	bh=ehMAux4zPO59WGmXjV45w0rvQhEn3+ok2cfsvTCiEm8=; b=JpIO3/jgq00ll6RhFqkbTpWY18
-	xMPgJylxkfRBUvsgOAQ7ltXaRhdzCFWjgTauAIJmETiLaTXOpJEe9f6yEeXwNpzEmBo4TIw6p8H7/
-	/4Nqr+qVxd4c0g9zYI8Fre45AUnSaVmGQujcWnq2wFE863SuxJei2hdk4QgRk/g5AwNGS6020TCyW
-	y6o9yPgwm42T+2NLAZYh2+r2fvcqf1SIv+8eVcA/faveCOQK0mHt/68YXclBgyr+oEvvkKBc8q4ca
-	r1Ry0oepxVm1PUd+b3UnO51VH5gTrM6sd6wDmLB3ksi8SBKijRcRgPZLGCJftGRZR/EmrysFu9kBy
-	kn6hhUIw==;
+	bh=oHKGckLKjhKuC8TFxfYio1TRXf55zru0s2A4nn+WqcQ=; b=j4ipChxtgXvm/kR9PdVBrtyYYZ
+	BJ0OLGGu7fHaPrBfJlD5VpmWPNCebwYG24SbxYzDK5OCN8r78e1xMFwyFBaojVqKNs4IwkTLoAVcf
+	z1lH0gAlwuLKXImxtirleI62ZYSGqkl5MMsnXaVuucatwL0sv3fQuNCZYeuqNN2xnLBTNVvKIzsiZ
+	BBvtGSTqLLHKF2xdaqob8DeQBPfU7+uDVvLW64KOuKGtuM40DY9olcIHOZYuMmLxxPVLDikWgGcWq
+	gC+GsJY/Gm6Tynp/Ox2KKtUNVvQ8wu9r0GopeA9p12caKmFFJCniZ6oRiwS0EkUrbTEs/eEkKC/Ni
+	K++Pyxhg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRVMd-0000000AANh-1hG2;
-	Thu, 12 Nov 2026 14:01:21 +0000
-Received: from mxhk.zte.com.cn ([160.30.148.34])
+	id 1xRWA2-0000000AKRG-0qc0;
+	Thu, 12 Nov 2026 14:52:22 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRVMV-0000000AAM1-1vqn
+	id 1xRWA0-0000000AKQj-2DoV
 	for linux-nvme@lists.infradead.org;
-	Thu, 12 Nov 2026 14:01:14 +0000
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4jQMVj6LXNz4yjjF;
-	Thu, 12 Nov 2026 22:01:01 +0800 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=zte.com.cn;
-	s=z202610; t=1794492061;
-	bh=2vd7az9105wcSaW62eUNl1HKGlFkwj5Se2CmMaZM/+M=;
-	h=Date:From:To:Cc:Subject;
-	b=FInfaeEAsyzxZEXYqHjivnoIpff+/7/yIUXlruzPUln8QVtJLfRNOwdqlaXq9KzzV
-	 YHyVQDnVQnkFcicoF9cW/7HfbygM1EW961hX2XjqC4vcTc8yOtSj3T2frbk/PiEr1s
-	 XfbfdviZ0C3fqbzS71AhBMlGp550PT0xdGNwHtf/rWhIc0pSgXIywVJpN8LjTa4EiW
-	 QldLmqE/IKAtDFXnEKvt+5bvo7Pbhl2U+bjdCn2eE52D6clytFKB3vUyJsiPHUmn9H
-	 rzVI58rM4/XqC/uBTdojt4vTS+/KGPaZDmVBHzaxP9EaykZfuf9UA1/0no/wLRZgyp
-	 Ax9cjAct9hDwA==
-Received: from xaxapp04.zte.com.cn ([10.99.98.157])
-	by mse-fl1.zte.com.cn with SMTP id 6ACE0t93045249;
-	Thu, 12 Nov 2026 22:00:55 +0800 (+08)
-	(envelope-from shao.mingyin@zte.com.cn)
-Received: from mapi (xaxapp04[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Thu, 12 Nov 2026 22:00:58 +0800 (CST)
-X-Zmail-TransId: 2afb6af5c69a44a-d4bc8
-X-Mailer: Zmail v1.0
-Message-ID: <20261112220058755zQhw_h6UkcVSjRnu478lb@zte.com.cn>
-Date: Thu, 12 Nov 2026 22:00:58 +0800 (CST)
+	Thu, 12 Nov 2026 14:52:20 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id 01815404FD;
+	Thu, 12 Nov 2026 14:52:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5264C1F00A08;
+	Thu, 12 Nov 2026 14:52:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794495139;
+	bh=oHKGckLKjhKuC8TFxfYio1TRXf55zru0s2A4nn+WqcQ=;
+	h=From:Subject:Date:To:Cc;
+	b=H4NZhvs6yrF5U2b5PE0UkP9/EK0zs28ghNjyy8pVfXOgVbPrPcvKG/GdSjP3p00VA
+	 UfRgh89IOZt/vDnt9xrRK02cSXrgBczEEunqsGH0JlgJ9BxF66z3UYRE096TzHsv3n
+	 PlmwTtDqlFwxrn12vwd+X/h+c/G6j0bDNx0FsvGDT0Rru/pGN4ycChrl/zFvdQKBxI
+	 rveyJ9nUvC0hkeTASM7iwHsToe7I81cZ/BLRU2OX1gG8ubA+0FY6ucAj+/Tv6kGhxk
+	 DlSL5N/LU8+Eas3QNSYu9PhtwXpDZ1xvhzqAFquvtdMEv6vzCibye0ctJaKk4Y3kLx
+	 p7uifPwzZlozw==
+From: Chuck Lever <cel@kernel.org>
+Subject: [PATCH net-next v2 00/10] Deliver TLS session tags to upper-layer
+ consumers (NFSD)
+Date: Thu, 12 Nov 2026 09:52:04 -0500
+Message-Id: <20261112-tls-session-tags-v2-0-a587a50de7fc@kernel.org>
 X-Archived-By: <archiver.kernel.org>
-Mime-Version: 1.0
-From: <shao.mingyin@zte.com.cn>
-To: <kbusch@kernel.org>, <axboe@kernel.dk>, <hch@lst.de>, <sagi@grimberg.me>,
-        <linux-nvme@lists.infradead.org>
-Cc: <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
-Subject: =?UTF-8?B?W1BBVENIIHYyIDAvMl0gbnZtZXQ6IGZpeCBmaWxlIGJhY2tlbmQgc2hvcnQgSS9PIGFuZCBMQkEgcmFuZ2UgY2hlY2tz?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL: mse-fl1.zte.com.cn 6ACE0t93045249
-X-TLS: YES
-X-ENVELOPE-SENDER: shao.mingyin@zte.com.cn
-X-SOURCE-IP: 10.5.228.132 unknown Thu, 12 Nov 2026 22:01:01 +0800
-X-CLEAN: YES
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6AF5C69D.002/4jQMVj6LXNz4yjjF
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261112_060112_785973_2AEA9E6C 
-X-CRM114-Status: UNSURE (   6.15  )
-X-CRM114-Notice: Please train this message.
-X-Spam-Score: -2.1 (--)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/2WOyw6CMBBFf4XM2tFSi6+V/2FYlHaUGmhNpxIN4
+ d+lGFcu79wzN2cEpuiI4VSMEGlw7IKfg1wVYFrtb4TOzhmkkDtRlRJTx8jEmcOkb4xHK4SS1WF
+ 7VQrmt0ekq3stkxfwlNDTK0H9bfjZ3MmkvJjZRjNhE7U3bT796E2vnc996ziF+F7shnJZXERml
+ X+RoUSBat/Y0h6VrSp5DlGbjtYm9FBP0/QBSExGIu0AAAA=
+X-Change-ID: 20260512-tls-session-tags-9d0042583f44
+To: Donald Hunter <donald.hunter@gmail.com>, 
+ Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+ John Fastabend <john.fastabend@gmail.com>, 
+ Sabrina Dubroca <sd@queasysnail.net>, Keith Busch <kbusch@kernel.org>, 
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
+ Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, 
+ Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
+ NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
+ Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
+ Eric Dumazet <edumazet@kernel.org>
+Cc: kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org, 
+ linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org, 
+ Hannes Reinecke <hare@kernel.org>
+X-Mailer: b4 0.17-dev-9c833
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6480; i=cel@kernel.org;
+ h=from:subject:message-id; bh=1YbGJ7P3cSrTs9FPZDlebICr4QrVxyKnLFjrnYFH80A=;
+ b=owEBbQKS/ZANAwAKATNqszNvZn+XAcsmYgBq9dKYNJriI/yAPqV6HOqTr4MQlqQp2W3ed/0lk
+ vWPnXSj/MKJAjMEAAEKAB0WIQQosuWwEobfJDzyPv4zarMzb2Z/lwUCavXSmAAKCRAzarMzb2Z/
+ l2KOD/9bFLU4QM8kqngzwuhSOKvwW1p5bYMcMs14TnqMpeXYapglkyQ7ER3dtShXNbE2dTnnfN1
+ JuRzvhLmwZnkYSenS/5LlzwUK3x6hHdSG2175BGBf96zjzxAC3ohlh03vuP/RKsh9vUv83b7eGG
+ UtlcKVKxKcc20qlVKCnsoQULixEPg3NtCCUyXI798OqIeQHg7IM6FdHxBNJs4ekvqoSyNkRdCPg
+ 7CCRFHSoMV9RkTTTJR1O7aBMG1aQaEyENtogJ74vE19EujlAwYguyBXQNtCzx+YYJPk1IH0++sj
+ OYWOn0mkc3yaiH1Q3SplwaSHobNwTXEGruCr59DJizgCpq3PBl0/h+GAH6/0+ajpwyBAHxHltFQ
+ v1lUhL6U8f/WJYv58mf58ZsZWm/E3qHsR1QhklC5c4+Af9OOSBa4Lapln40RV8RtFvKjR+3uHVa
+ COEusp614I3/ir+VtIvX1KqZmVt4wM/JBJLi1FmRtaLraKT8TUVDTW/BlmcpQeMPiUh4bX6YqDg
+ jouUZcFpAbmtY9uugMQES4pH91TBjHGJFFfHeeWj/V2rVKtfjPpywaxt59wiU3uIXoVXd4K30Kd
+ gf4k9X2JwKyxvHfaoyM/1gTlOXQDoqwT6U/fHcyWi6m5Usy8PO3CERpD8tpvNEyOcqVlrs1XEN/
+ AseUqA97FNtBecQ==
+X-Developer-Key: i=cel@kernel.org; a=openpgp;
+ fpr=28B2E5B01286DF243CF23EFE336AB3336F667F97
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,42 +99,139 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=ham
-	autolearn_force=no version=4.0.1
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-The file backend computes byte offsets from the LBA and block size with
-unchecked 64-bit arithmetic and does not handle short reads or writes.
-A host can therefore make the backend report success for a transfer that
-only covered part of the range, and a large LBA or length can wrap the
-range check and reach vfs_fallocate() with an out-of-range offset.
+NFSD and similar upper-layer services want access-control decisions
+based on TLS peer-certificate characteristics, but in-kernel x.509
+parsing would duplicate work mature userspace libraries already do.
+tlshd evaluates certificates against admin-defined policy and reports
+the policies that matched back to the kernel as opaque string tags.
+Intersection against per-resource tag sets stays the consumer's
+problem.
 
-Patch 1 makes nvmet_file_execute_io() stop at an incomplete submit
-instead of advancing the position and eventually reporting success, and
-converts a zero-byte completion on the common path to -EIO.  Patch 2
-adds a shared overflow-safe range check and uses it for read, write,
-discard and write zeroes.
+The series builds on commit 81246a65303d ("handshake: Require admin
+permission for DONE command"), now in net-next. Without it a forged
+DONE downcall could set session tags for a real handshake.
 
-The two patches are independent and can be applied in any order.  Both
-carry Fixes: and Cc: stable.
+Four architectural choices shape the series, only one of which is
+visible in any single patch.
 
-Changes in v2 (Christoph Hellwig):
-- Patch 2: use the shared LBA range helper for reads and writes, with
-  pos64 local to the helper. No functional change from v1.
-- Patch 1: unchanged; add Christoph Hellwig's Reviewed-by tag.
-Link to v1: https://lore.kernel.org/all/20261111224134934XG6vMtntrNJQL1ztj7imr@zte.com.cn/
+The tagging vocabulary is opaque to the kernel. tlshd decides what
+each tag means, and the handshake layer and its consumers only test
+membership. Any future attribute the kernel wants to gate on has to
+be expressed as a tag rather than as a new netlink field.
 
-Shao Mingyin (2):
-  nvmet: handle short reads and writes in the file backend
-  nvmet: use overflow-safe range checks in the file backend
+HANDSHAKE_MAX_SESSIONTAGS rides on every ACCEPT reply as
+HANDSHAKE_A_ACCEPT_MAX_SESSION_TAGS (patch 7), so tlshd can size its
+DONE-side tag list to the running kernel's limit rather than to a
+header constant.
 
- drivers/nvme/target/io-cmd-file.c | 47 ++++++++++++++++++++++++++++-----------
- 1 file changed, 34 insertions(+), 13 deletions(-)
+Session tags have one owner at each step. The DONE handler collects
+them into a private stringset before taking the completion gate, so
+no allocation happens inside the gate. The gate's winner hands the
+set to handshake_finish_complete() (patch 6 adds a kunit test for the
+gate). svcsock copies the set into the transport and orders the copy
+before setting XPT_TLS_SESSION. check_xprtsec_policy() reads that bit
+with test_bit_acquire(), so a transport that reports a TLS session
+always has its tags visible.
+
+The stringset helper (patch 2) is a generic library so that NFSD
+export tagging (patches 9 and 10) can use it without further churn in
+net/handshake/.
+
+This series applies to the nfsd-testing branch of
+https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux.git
+The base-commit below is the tip of that branch as of August 18.
 
 ---
-base-commit: ddfe51b0a0f5dc9e415cc2c8ad8db17532dd426b
+Changes in v2:
+- Drop v1's 1/9, sent ahead of the set per Jeff and now merged.
+- Adopt the pinned hr_file/fput lifetime model.
+- Adapt to the errno-valued handshake status (hp_done takes int).
+- Rename "tagset" to "stringset" throughout (Hannes)
+- Warn and return false when a query precedes stringset_finalize().
+- Add a patch with KUnit tests for stringset.
+- Split the hp_done session-tags argument into its own patch.
+- Collect the session tags before taking the completion gate.
+- Pass ownership of the tag set to handshake_finish_complete().
+- Add handshake_session_tag_len(), shared with the NFSD parser.
+- Add KUnit tests for session-tag collection.
+- Check the file reference count in the completion-gate KUnit case.
+- Rename the ACCEPT cap attribute MAX_TAGS to MAX_SESSION_TAGS.
+- Publish the saved tags with smp_wmb() and test_bit_acquire().
+- Deny a tagged export on the non-mTLS arms of check_xprtsec_policy().
+- Extract nfsd_nl_parse_allow_tags() from the netlink export parser.
+- Build stringset only when a consumer selects CONFIG_STRINGSET.
+- Free the session tags as soon as hp_done() returns.
+- Report a rejected session tag or allow-tag through the extack.
+- Show allow_tags in /proc/fs/nfsd/exports.
+- Record the client address and XID in nfsd_export_tags_denied.
+- Link to v1: https://patch.msgid.link/20260605-tls-session-tags-v1-0-47bd1d94d552@oracle.com
+
+---
+Chuck Lever (10):
+      handshake: Add tags to "done" downcall
+      lib: Add a "stringset" data structure
+      lib: Add KUnit tests for the stringset data structure
+      handshake: Add a session-tags argument to the TLS done callback
+      handshake: Pick up session tags passed during the DONE downcall
+      handshake: Add a kunit test for the completion gate
+      handshake: Advertise the session-tag cap to user space
+      SUNRPC: Copy the TLS session tags when they are available
+      NFSD: Implement export tagging
+      NFSD: Add allow_tags to the netlink export interface
+
+ Documentation/core-api/index.rst           |   1 +
+ Documentation/core-api/stringset.rst       | 243 +++++++++++++++++++++++
+ Documentation/netlink/specs/handshake.yaml |  19 ++
+ Documentation/netlink/specs/nfsd.yaml      |  10 +
+ Documentation/networking/tls-handshake.rst |  62 +++++-
+ MAINTAINERS                                |   8 +
+ drivers/nvme/host/tcp.c                    |   3 +-
+ drivers/nvme/target/tcp.c                  |   3 +-
+ fs/nfsd/Kconfig                            |   1 +
+ fs/nfsd/export.c                           | 194 +++++++++++++++++-
+ fs/nfsd/export.h                           |   9 +
+ fs/nfsd/netlink.c                          |   4 +-
+ fs/nfsd/netlink.h                          |   3 +-
+ fs/nfsd/trace.h                            |  27 +++
+ include/linux/stringset.h                  | 191 ++++++++++++++++++
+ include/linux/sunrpc/svc_xprt.h            |   7 +-
+ include/net/handshake.h                    |  50 ++++-
+ include/uapi/linux/handshake.h             |   4 +
+ include/uapi/linux/nfsd_netlink.h          |   1 +
+ lib/Kconfig                                |  12 ++
+ lib/Kconfig.debug                          |   6 +
+ lib/Makefile                               |   1 +
+ lib/stringset.c                            | 190 ++++++++++++++++++
+ lib/tests/Makefile                         |   1 +
+ lib/tests/stringset_kunit.c                | 308 +++++++++++++++++++++++++++++
+ net/Kconfig                                |   1 +
+ net/handshake/genl.c                       |   5 +-
+ net/handshake/handshake-test.c             | 307 ++++++++++++++++++++++++++++
+ net/handshake/handshake.h                  |   9 +
+ net/handshake/netlink.c                    | 110 ++++++++++-
+ net/handshake/request.c                    |  61 +++++-
+ net/handshake/tlshd.c                      |  10 +-
+ net/sunrpc/Kconfig                         |   1 +
+ net/sunrpc/svc_xprt.c                      |  11 +-
+ net/sunrpc/svcauth_unix.c                  |  14 +-
+ net/sunrpc/svcsock.c                       |  63 +++++-
+ net/sunrpc/xprtsock.c                      |   4 +-
+ tools/net/ynl/Makefile.deps                |   3 +-
+ 38 files changed, 1911 insertions(+), 46 deletions(-)
+---
+base-commit: c88fd6989aea9237a60a4859139a265bfb7ddc0b
+change-id: 20260512-tls-session-tags-9d0042583f44
+
+Best regards,
+--  
+Chuck Lever <cel@kernel.org>
+
 
