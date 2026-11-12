@@ -2,108 +2,56 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9EF9606A8BC
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Nov 2026 21:13:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08368606A8B8
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Nov 2026 21:13:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=T53Z82k1;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XmemokO7
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=mA5+x7Rs
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:Date:Subject:
-	From:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=8zLPAe+pEVyOyqD5DKu6e/KhHN+V7arcxoqF3zqvpck=; b=T53Z82k10u/wSdtsUE5ac5lnBH
-	YjmLlqJGbYj8yVIzYPuvEdO/DbyFac1k0P/6A5AEJESC60XVq1in9sswiOB5IXr+7QmGVDm40qi9u
-	r2YrP62QC0K/HQhWze1eg0xAhVMDIQtqPxiWkIIr9e6aTdTKPbOAcPxYmHXdt2gIGwKgheS/5Kmpl
-	aCKu2kQgPz2tRP5B/+K/41aJiyyqhg/YBGmZuMjYGJDD6RJ2SotNAQp6+5xUgajMrJ8WaWnGknQKQ
-	gG+OM7nAnHtgc90j9eh3B+s9QtG/7lpSHyz9l1ZE386K/LJ8r/YQy6bHx1O2LDBC6vwoH3CCxJz1n
-	WbdA74bQ==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=mA5+x7Rs3+/577tGjTAZnxj4N5
+	ju8TfDGsZ0RMt97YAJI9pDiAea0u2DimucBYc5Vd9NkGvDZ3AsOJcqmvLXGgtWfRsPDUQtllPgX0/
+	T14iQEv1pzdDTJTQu6nNWiZN8R9M0DpnHWL5hh3UdxzN2QerqIAKWDVlTJqdNhBW5GEg/5u73Mqyn
+	wOWPoY3QoW5ZhBooh7n17o4x1rPDR8KYAcZ3Tdrb1MA5aDokYaotRt19MuYEJCuV46A4mGvCr9KGn
+	mjnlW7c2Why1sUBvtAfZsIVfQYoQlNIbViqLvjGSgDxWA2KsQnH8etEXWks9f4N2ZLqdIbjspRGEA
+	VSok5Z8g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRc71-0000000B43L-1lQu;
-	Thu, 12 Nov 2026 21:13:39 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1xRc72-0000000B44G-2Ni4;
+	Thu, 12 Nov 2026 21:13:40 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRc6z-0000000B41x-3Guz
+	id 1xRc6z-0000000B41u-0pHU
 	for linux-nvme@lists.infradead.org;
-	Thu, 12 Nov 2026 21:13:37 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 2849C433DD;
-	Thu, 12 Nov 2026 21:13:37 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794518017;
-	b=dRlrCNpzKq4oAfOsdWw4DFFZmRHOVzywR/yzZQkf6JI3qnauGm2x1n+utRiKmA+474UB
-	 4Z9CFGPNeev0H+jVbC/SnF3uT4bVUV8eqtb6L+UFxzQ6gXo69uNWVUtT3Sf9pgZ6piKZW
-	 VQlcoAYIrvkG3mhmTevmWdJeGyQC8vU19PGLSH4fumtKHco06uH5E+0lP3yJxVXj857Qd
-	 WzjNqMFcIrMWU6vxGg1egIY3uGnA8vfZjYSgkoVuvYv1d1Aj/Lh3MZGH1BmptYBAdci3i
-	 P3h0CrIleFOrTNC6oazlPnyu8IlJoTcQQK8P0VCM5y8Rs3qp/5heL/e9WFi9vYA6wFw==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794518017;
-	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
-	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To;
-	bh=8zLPAe+pEVyOyqD5DKu6e/KhHN+V7arcxoqF3zqvpck=;
-	b=xHQTrIlvsQDaXj0ZngaDrgG5kbIj1bJyvFh6thLOeRslWgXthmv3i/g6++XEGQJW3SYE
-	 luB8r26ZOJ+DIkROvkNztFm9x3Txs3ScoKGRDf2F9ifnU5qAFL0ndsnJqAGdVpCLf+SwE
-	 b8k9lUriuSamDPXL3cQv3/r04baHK1DXEN3ewpr3te0Bq5PLu7U9Bh0BCkeADxvufLQwJ
-	 aPcLUkfJ9EQfnj9zxz0KBWB/QHrDffNYfbI9hMzMeqx6N5EQAb+JD3QQ4RAcFWoOccKq+
-	 vikohldg0xfKeyQmT+9W3PA4ontXpYIUreVIq63rJmSFdBU64YSwjg9SwNqOH7mLnEA==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id C62781F000C4;
-	Thu, 12 Nov 2026 21:13:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794518017;
-	bh=8zLPAe+pEVyOyqD5DKu6e/KhHN+V7arcxoqF3zqvpck=;
-	h=From:Subject:Date:To:Cc:Reply-To;
-	b=XmemokO7WbLv0QXBBOMbNCAz0x+kWjiw3rPS7KPst2jwT2evWk0VTjwC/gdpK6KaR
-	 9i4C7giaSpl77Cj5g4Vp8IDrvhUYt/W/g8WNxKBqJ79+MWeWLUilspcN08UbaR5e8o
-	 w5OisE58YE6ASGShE0Fb6+gh/dr6s/0vzKxMxdjMhSTo5We7UpEfUAnhoHc0Gwesy1
-	 oqexZdff/6h4e1oZIbeL1ZUGzh7BGKK9S6e2bqgywn6W0rOuqIbZB2P4AI1WRRusAh
-	 +BZIBpFCvQkKapNQuVciZJh3yBAmppaieW/EhB7KfL+rL7nzBk12mJEmOekpvK65Rp
-	 8jf2CWa4l/Z3Q==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 25DA3474EE;
-	Thu, 12 Nov 2026 21:13:35 +0000 (UTC)
-From: Martin Belanger via B4 Relay <devnull+martin.nvme.dev.gmail.com@kernel.org>
-Subject: [PATCH v3 0/3] nvme-tcp: consume TLS records without application
- data on a live queue
-Date: Thu, 12 Nov 2026 16:13:33 -0500
-Message-Id: <20261112-nvme-tcp-live-ctrlrec-v3-0-49760bd9eaa8@gmail.com>
+	Thu, 12 Nov 2026 21:13:38 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id C75F268C4E; Thu, 12 Nov 2026 22:13:33 +0100 (CET)
+Date: Thu, 12 Nov 2026 22:13:33 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: shao.mingyin@zte.com.cn
+Cc: kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me,
+	linux-nvme@lists.infradead.org, nareshgottumukkala83@gmail.com,
+	paul.ely@broadcom.com, kch@nvidia.com, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 4/6] nvmet-fcloop: free the LS request when delivery
+ fails
+Message-ID: <20261112211333.GD11126@lst.de>
+References: <20261110230304050fijuDcYKyYPS3lffioSeA@zte.com.cn> <20261110230313720JCGXeTg2zOideed82vWy9@zte.com.cn>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4WNyw6CMBQFf4V07TV9QLGu/A/jAsoVanilrY2G8
- O+2uGFjXE4yZ85CHFqDjpyzhVgMxplpjCAOGdFdNbYIpolMOOWSMapgDAOC1zP0JiBob3uLGvJ
- CqFoJRQVlJG5ni3fz2rrX25fds36g9imWjM44P9n3dhxY8v59BAYU8rKuJJMlRVlc2qEy/VFPA
- 0kfge8qjP2q8FiRXBXRq095g/vKuq4fX40k6BIBAAA=
-X-Change-ID: 20261109-nvme-tcp-live-ctrlrec-4539b9390301
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
- Hannes Reinecke <hare@kernel.org>
-Cc: Martin Belanger <martin.nvme.dev@gmail.com>, 
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Martin Belanger <martin.belanger@dell.com>, stable@vger.kernel.org
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794518014; l=4637;
- i=martin.nvme.dev@gmail.com; s=20261014; h=from:subject:message-id;
- bh=gUiuSprHs0Mhe0bj56QmCJuP5xldf9QNMSxecLLi/2o=;
- b=PNyQnvgGAPvQ/Z+qUm3sNRm4Rdmg0EyfKVeJopWgNc6Bl9Ms5ciPLv0gaBIvp7Hrm2HGUJk6m
- h1pRRU88zMvDmCNERBmEWWmhckzhUZZSogWXuV39WzHggjqTrkF60Nh
-X-Developer-Key: i=martin.nvme.dev@gmail.com; a=ed25519;
- pk=4K+XXetGK35w2LzRRddd/bbHawZU222BN+YZRuSpN+k=
-X-Endpoint-Received: by B4 Relay for martin.nvme.dev@gmail.com/20261014
- with auth_id=1176
-X-Original-From: Martin Belanger <martin.nvme.dev@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261110230313720JCGXeTg2zOideed82vWy9@zte.com.cn>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20261112_131337_395556_7439C09B 
+X-CRM114-Status: UNSURE (   9.10  )
+X-CRM114-Notice: Please train this message.
+X-Spam-Score: -1.9 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -113,127 +61,16 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: martin.nvme.dev@gmail.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-10.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-After the TLS handshake, a peer may send records that carry no
-application data: a NewSessionTicket, a KeyUpdate or an alert.
-tls_sw_read_sock() cannot pass such a record to nvme_tcp_recv_skb().
-It returns -EINVAL and leaves the record at the head of the receive
-queue. Since commit 288cfa187208 ("nvme-tcp: start error recovery when
-read_sock fails"), nvme-tcp then starts error recovery, and the
-controller reconnects.
+Looks good:
 
-TLS 1.3 allows a server to send a NewSessionTicket at any time after
-the handshake (RFC 8446, section 4.6.1). Alerts can also arrive at any
-time.
-
-Patch 1 aligns the control message buffer that receives the record
-type.
-
-Patch 2 moves the TLS record read loop into a helper. No functional
-change.
-
-Patch 3 reads the record with recvmsg() when read_sock() returns
--EINVAL, and handles it by type. Handshake messages other than
-KeyUpdate are discarded and alerts are logged. A fatal alert, a
-KeyUpdate or another record type fails the queue. The records that
-arrive ahead of the ICResp use the same handling.
-
-Patch 3 detects a KeyUpdate only when it is the first handshake
-message of the record. A KeyUpdate that follows another message in the
-same record is discarded with it. The next record then fails to
-decrypt, and the queue fails as it does today. kTLS has the same gap
-in tls_check_pending_rekey(). v7 of the kTLS KeyUpdate series will fix 
-it there.
-
-All patches are tagged for stable, because 288cfa187208 is in 6.12.117,
-6.18.63 and 7.3.4.
-
-Tool use
-========
-
-I developed this series with the help of an LLM coding assistant. It
-drafted code, tests and changelogs, and helped with analysis of the
-kTLS and sunrpc sources. I reviewed, edited and tested all of it, and
-I am responsible for the content.
-
-Testing
-=======
-
-Host and target in one VM (virtme-ng), on 7.4-rc2. A test-only change
-to net/tls makes the target send records on a live I/O queue during
-I/O. Each case writes data and reads it back with O_DIRECT.
-
-  Records sent by the target   7.4-rc2     With this series
-  ---------------------------  ----------  --------------------------
-  NewSessionTicket, 64 bytes   reconnect   queue stays live
-  2 x 300, 2 x 1000, 6 x 64    reconnect   queue stays live
-  close_notify alert           reconnect   queue stays live
-  warning alert (90)           reconnect   queue stays live, logged
-  fatal alert (40)             reconnect   reconnect, logged
-  KeyUpdate                    reconnect   reconnect, logged
-
-Records sent by the target ahead of the ICResp, on 7.4-rc2 with this
-series:
-
-  Record ahead of the ICResp   Result
-  ---------------------------  ------------------------------------
-  NewSessionTicket, 64, 1000   connect ok
-  close_notify alert           connect ok
-  warning alert (90)           connect ok, logged
-  fatal alert (40)             connect fails, logged
-  KeyUpdate                    connect fails, logged
-
-Data was correct in all cases. Also built with W=1, with and without
-CONFIG_NVME_TCP_TLS.
-
-Poll queues are not tested. Polled I/O hangs in my test VM, also on
-7.4-rc2 without this series.
-
-Signed-off-by: Martin Belanger <martin.belanger@dell.com>
----
-Changes in v3:
-- Patch 3: one helper handles the records on a live queue and the
-  records ahead of the ICResp. nvme_tcp_skip_tls_record() is removed.
-  A warning alert ahead of the ICResp no longer fails the connection.
-  (Hannes)
-- Patch 3: shorter KeyUpdate log message. (Hannes)
-- Collect Reviewed-by tags on patches 1 and 2.
-- Link to v2: https://patch.msgid.link/20261111-nvme-tcp-live-ctrlrec-v2-0-6295202b84de@gmail.com
-
-Changes in v2:
-- New patch 1: use a union with struct cmsghdr for the record type
-  buffer, as sunrpc does. (Sashiko)
-- Patch 3: on a poll queue, nvme_tcp_poll() and nvme_tcp_io_work()
-  could both read the same record. A queue flag lets only one of them
-  read it. (Sashiko)
-- Patch 3: drop a log line that repeated the error of
-  nvme_tcp_try_recv().
-- Link to v1: https://patch.msgid.link/20261109-nvme-tcp-live-ctrlrec-v1-0-47ba61670e65@gmail.com
-
----
-Martin Belanger (3):
-      nvme-tcp: use an aligned buffer for the TLS record type
-      nvme-tcp: move the TLS record read loop into a helper
-      nvme-tcp: consume TLS records without application data
-
- drivers/nvme/host/tcp.c | 170 ++++++++++++++++++++++++++++++++++++++----------
- 1 file changed, 136 insertions(+), 34 deletions(-)
----
-base-commit: 7475ea8b58616b33c04afb976cf0fbaad9dd63fb
-change-id: 20261109-nvme-tcp-live-ctrlrec-4539b9390301
-
-Best regards,
---  
-Martin Belanger <martin.nvme.dev@gmail.com>
-
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
 
