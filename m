@@ -2,56 +2,56 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F83606A33A
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Nov 2026 14:52:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BD52606A8BC
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Nov 2026 14:52:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=aLpx0URm;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Uq5zeAxY
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=iqee1vVR;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=d9DqX3np
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=PZ091qK/WRT3f3mqj6eOhTw3ukWNNkLM6Hq0Kkfb0DQ=; b=aLpx0URmtfPWD/
-	PKQ76ydZ7XAreZSn3xVG+4z+sBdOGlk2kkG2Tyw9CcxKUfRTl8NrvIBE5Er17rO3jm/+wbqi/FJzI
-	yuoZv5rXFbnZzkXasJLvwpvthfntdN+NvmKzDzgwOZAyDny6B5I4/SFOS6+h24GSWbwPedkWhTxL3
-	Om4isRQz8qyzP0eOBCEz55aUVeKpiJmEChZ6mR0Myz3Why7YlRn7Bi7U+lyI1tAryp0MekF3HNIXS
-	9fJpsnW21MMsnO+f4L6Aaey0aZU0pO31UU34HiIT78AD4hECgxN7yjrYIamaH8HKschvxMguACeYB
-	wxkIBFzCpIPjKV/E6H6g==;
+	List-Owner; bh=27YnK0mIQ1El2Ibmc5yNrcj3chHt28Bbq28AK8+7QzY=; b=iqee1vVRLiMgTt
+	PLsCHKG3kpJnrDnJDKg9UnW5U59HJoLwRjngoXzr6Wdv7s6rXTYvJxHWTk9A4Qdxyx+kWBlEozDZ0
+	WWWlpCoYyxGgy+dQW3pzDf/BszPyche0ALPv1VT9C4NGLd+Z75pBkCOFKt7mTUDAvRhaI7Y8MqL7V
+	ycnEJVvPW6aHxXHyZ3SDSxJazb/s1i6S6gPUqdcp8+ICSJg/fx0FZi2AKc+RKae+WomhdntwR0Bfz
+	PXvbmPB7q6zzkq8Py82k8vRI2D/FZinCHxpTX1v9qURjSz6mIsHgUo7u8zZy+N4rXN1EdPauiOF9R
+	1fXEUQgmU5i0u2kRwgGQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRWAG-0000000AKZo-2oJz;
-	Thu, 12 Nov 2026 14:52:36 +0000
+	id 1xRWAJ-0000000AKcN-0h7H;
+	Thu, 12 Nov 2026 14:52:39 +0000
 Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRWAE-0000000AKY1-3Dup
+	id 1xRWAH-0000000AKaJ-1wZP
 	for linux-nvme@lists.infradead.org;
-	Thu, 12 Nov 2026 14:52:34 +0000
+	Thu, 12 Nov 2026 14:52:37 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 81492474AC;
+	by sea.source.kernel.org (Postfix) with ESMTP id EB3C5404FC;
+	Thu, 12 Nov 2026 14:52:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A18BD1F00A06;
 	Thu, 12 Nov 2026 14:52:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75DCE1F00A08;
-	Thu, 12 Nov 2026 14:52:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794495154;
-	bh=PZ091qK/WRT3f3mqj6eOhTw3ukWNNkLM6Hq0Kkfb0DQ=;
+	s=k20260515; t=1794495156;
+	bh=27YnK0mIQ1El2Ibmc5yNrcj3chHt28Bbq28AK8+7QzY=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=Uq5zeAxYQy0fJHh4qlUlVM07ljzDUm7IqHN3/PDOtgiWKmFAd80E/kJGf6GFZIfRO
-	 0g9yU8FwYT/yyVeAEGC+OGifEuugVv41mbNzkuUzkwglBZcq1fSIzuegIcYoI/Uekf
-	 sk4lHKsAhTqIFAHEmM7Yb/Ecf2NP/TdO8YN0ApzS5+/7jrkHX9DlY5d8vg9+gkoBBr
-	 eP9ohNm1xtbnxkDkgy1gDTSlNF6DUtHcPxS3h292KeJEgzgzmhJNiIgSzAs831cSz1
-	 3Jw3zAX0Wh77WGN+3ogrBqowdMug/i/bbLebwYKhTcCQ80wVM3DQOk5m+QwdxMj0mV
-	 gLt4CSrO6E5wQ==
+	b=d9DqX3npg7c9thjD/nFj9vkWGpy8Scl4HjvUz4i3Zc/4IBJpRf6JmB5/3gBD2rdR8
+	 cBgLZplfjl3DWBs63orMdBLHModOWdzY/YX8dDMGoKD+OqrLMUdW+oiF6t7dCUkOtG
+	 Z2NhRewZ7idxdL6fLHfSG6sGrdVOq+tC5b3KfT2YDuDNBNL7+8b5BWsxNXQC0msERR
+	 W3s2mbrKaGxlVSRmOQBOMDObm47CzTzqIPCWv7MQv3ANxdK7Oo2+3p0OjiEOU2f+pH
+	 1Fg11RXXtrou1+zvJnKvv7a96elt+l/HqfvH8VdR0xjUE+ah6qAbJUEvRjL/YRiT5z
+	 m7/1mdBfCogvA==
 From: Chuck Lever <cel@kernel.org>
-Date: Thu, 12 Nov 2026 09:52:10 -0500
-Subject: [PATCH net-next v2 06/10] handshake: Add a kunit test for the
- completion gate
+Date: Thu, 12 Nov 2026 09:52:11 -0500
+Subject: [PATCH net-next v2 07/10] handshake: Advertise the session-tag cap
+ to user space
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261112-tls-session-tags-v2-6-a587a50de7fc@kernel.org>
+Message-Id: <20261112-tls-session-tags-v2-7-a587a50de7fc@kernel.org>
 References: <20261112-tls-session-tags-v2-0-a587a50de7fc@kernel.org>
 In-Reply-To: <20261112-tls-session-tags-v2-0-a587a50de7fc@kernel.org>
 To: Donald Hunter <donald.hunter@gmail.com>, 
@@ -68,20 +68,20 @@ To: Donald Hunter <donald.hunter@gmail.com>,
 Cc: kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org, 
  linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org
 X-Mailer: b4 0.17-dev-9c833
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6472; i=cel@kernel.org;
- h=from:subject:message-id; bh=lEY5zY3icrQ/AAo5SjcNfZhunCUyVNobKveRg+2ae/o=;
- b=owEBbQKS/ZANAwAKATNqszNvZn+XAcsmYgBq9dKgEx6xwKOVKTUZ8v3G0h1fA9KhxP0VdRPq8
- ZEabV7LwsqJAjMEAAEKAB0WIQQosuWwEobfJDzyPv4zarMzb2Z/lwUCavXSoAAKCRAzarMzb2Z/
- l5SND/wMezQ8+CVK9PSJEMAfr01bjw7FwIG9/mOLZk1iT05lO2mwJImFya40jscF3rHOkDJCQ4m
- CDacyPorrCqD2xSgHMjgA/cqT+FRAiTrWEugJ7stzek4ZWSwZI93KHwVmmf4np0FKp4oqobrj5f
- UAyIDuOfO9OKAVnMRjO2rO/7xekDHAED9E9U+Lpnp/K5xbpFiNu4Ld2f1Ma9904fSwz44UP0drD
- e0/mKNGrYhdQwFfX009U7RNlta+JhGaqzApjKfdy70/XYZx66B7UVTWAVvG4Etdt0njNuMMKbBv
- Sw0Jd6OhbgkGhkC3qdRGo42bOJBRFojpbePhd/eXIviaLyojbNE+MbaAH59tWTdFdfbUfcjAz7V
- N9JzoseqMjbBHH2VejwaTCuySdSTifIRwXbMHq7s5rHG2VNud8SDquDFVQubE1wtXJzx7WXjup3
- HX2hezUreRdRA8n2sg3YXf5znVZXKWno/L8uEs+66/mZTBWatepF3hf28ZJwGpnxWkBBqh4AgBL
- yXMC9WRDZvNuIQckKEo3oRU8Jt0NA6h1/Eww6mvm08bFgKNbcFDfuPoCs2z+8BlxU5Abyiq8Niv
- FwviQNvKj/PzAFD6iBGorXvjyXN2HVj1tnCTxbYIlWLRTyuPjG9OMMCsfpxFe6kRWf1F+htQKqg
- /eWELo2keSY8OUQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3642; i=cel@kernel.org;
+ h=from:subject:message-id; bh=6WJYNUk3mTi3dfWS3T6XBU0WWobsjkHpHjYrqsRESwM=;
+ b=owEBbQKS/ZANAwAKATNqszNvZn+XAcsmYgBq9dKgPAu00EyZMiug6EzJN+CfNXB2t/tGDY39s
+ FiITKqGPXCJAjMEAAEKAB0WIQQosuWwEobfJDzyPv4zarMzb2Z/lwUCavXSoAAKCRAzarMzb2Z/
+ l0Y1D/9m4JP2gyCPgit1MJB3KfWCxCv80IL/9m1EfD+K+QWMTZIA7U1YZ1ikM12kQHE7NSWbGtL
+ QYNl5rW59mY5bvhIckWiyj7Posie2o+Ba21k+dUxnOAbYUMsnK7HUfvmnb3Is9oGSi3I8a42rtL
+ pcGP2oAGtaFe3w4Max2YTW5HhAiFOzQWiFsS2xrtDBemxVNldg/gJaGBZ6h56BYfuBGEjkIa1Mf
+ IUSrfpvP3pq9B12GGixMkLCuL1pn0x5bsLTlQEgbm40iSow10kdK3xcsTqgTgaMKKW6QtZOnuIJ
+ Er/xhwk+Af8mA8bGFxIfTBvxdBHaow6FoL/ATL2V20AvuXuIcTr3LHSfqt12x95WIujz1Yo8nd+
+ aDh4df3eZCs7FGHmA90mXapHN0cBKxnv3r2xctGCjP5N8ku5Uo9qOVLeUraL6jCrSQ5s545Xeti
+ ZN6DciTgNFuAzZQRfBJ1vOpapLpotQZKZokm4S5kJUGFCLMqvBpbLQm0hZi3+AvZ8bjouXwpopn
+ Mo/2aZERQ5NNKOfEscjRsrwg9LFXFXSWeXWSLq/o3cJ1voa/I07oP5SLDuRMLb7r8IW0UVbaKuk
+ pKfhrJZ24RrnOIyo+kfBBcSc8MAb5Q5KtUBWcAP8zBzRIqPIv3S6abddYHuwmZvaMyhuvrKXXVO
+ 09VDOGLuoaUbq+Q==
 X-Developer-Key: i=cel@kernel.org; a=openpgp;
  fpr=28B2E5B01286DF243CF23EFE336AB3336F667F97
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -102,194 +102,97 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-The genl family runs DONE with parallel_ops, so duplicate or
-concurrent DONE downcalls for the same socket can both reach the
-same handshake_req. The split try/finish pair guarantees that
-exactly one caller drives completion to the consumer's hp_done
-callback. Ownership of the collected session tags can then pass to
-the request.
+The kernel caps the number of session tags it accepts in a DONE
+downcall at HANDSHAKE_MAX_SESSIONTAGS. tlshd has no way to learn
+this cap. The value lives in include/net/handshake.h, not in the
+UAPI header, so a daemon cannot size its tag list to it. An
+over-cap list is truncated with one pr_warn_once per boot, which is
+recoverable but easy to miss.
 
-Exercise the gate's exclusivity with a kunit case: only the first
-handshake_try_complete() wins, and a later handshake_complete() on
-the same request leaves hp_done fired exactly once.
+Carry the cap on every ACCEPT reply as
+HANDSHAKE_A_ACCEPT_MAX_SESSION_TAGS, a u32 attribute populated by
+the kernel. User space reads the value at ACCEPT time and can gate
+its DONE-side tag list against it. A list longer than the cap then
+becomes a user-space policy choice instead of a kernel-side
+truncation.
+
+An attribute lets the kernel raise the cap in a later release
+without a new UAPI constant.
 
 Signed-off-by: Chuck Lever <cel@kernel.org>
 ---
- net/handshake/handshake-test.c | 112 ++++++++++++++++++++++++++++++++++++++++-
- net/handshake/request.c        |   2 +
- 2 files changed, 113 insertions(+), 1 deletion(-)
+ Documentation/netlink/specs/handshake.yaml | 4 ++++
+ Documentation/networking/tls-handshake.rst | 8 ++++++++
+ include/uapi/linux/handshake.h             | 1 +
+ net/handshake/tlshd.c                      | 5 +++++
+ 4 files changed, 18 insertions(+)
 
-diff --git a/net/handshake/handshake-test.c b/net/handshake/handshake-test.c
-index 21fccfa94d89..b6992d1fa4ce 100644
---- a/net/handshake/handshake-test.c
-+++ b/net/handshake/handshake-test.c
-@@ -465,6 +465,84 @@ static void handshake_req_cancel_test3(struct kunit *test)
- 	fput(filp);
- }
+diff --git a/Documentation/netlink/specs/handshake.yaml b/Documentation/netlink/specs/handshake.yaml
+index 17521b159e89..f86490cd14c6 100644
+--- a/Documentation/netlink/specs/handshake.yaml
++++ b/Documentation/netlink/specs/handshake.yaml
+@@ -85,6 +85,9 @@ attribute-sets:
+       -
+         name: keyring
+         type: s32
++      -
++        name: max-session-tags
++        type: u32
+   -
+     name: done
+     attributes:
+@@ -136,6 +139,7 @@ operations:
+             - certificate
+             - peername
+             - keyring
++            - max-session-tags
+     -
+       name: done
+       doc: Handler reports handshake completion
+diff --git a/Documentation/networking/tls-handshake.rst b/Documentation/networking/tls-handshake.rst
+index eb8cfe3367cb..ca8f06973fac 100644
+--- a/Documentation/networking/tls-handshake.rst
++++ b/Documentation/networking/tls-handshake.rst
+@@ -272,3 +272,11 @@ If the handshake failed or no tags were assigned, the stringset is
+ empty. The handshake layer always delivers a finalized stringset to
+ the callback, so consumers may call stringset_is_member() and
+ stringset_intersection() unconditionally without a separate guard.
++
++The stringset delivered to the consumer may contain fewer tags than
++the handshake agent assigned. The kernel caps the per-DONE tag
++count at HANDSHAKE_MAX_SESSIONTAGS, and individual tags within
++the cap may be dropped under memory pressure. The kernel reports
++the cap in every ACCEPT reply as
++HANDSHAKE_A_ACCEPT_MAX_SESSION_TAGS, so the agent can size its
++DONE-side tag list to it.
+diff --git a/include/uapi/linux/handshake.h b/include/uapi/linux/handshake.h
+index bbb9ea2fa4fb..a22393527342 100644
+--- a/include/uapi/linux/handshake.h
++++ b/include/uapi/linux/handshake.h
+@@ -52,6 +52,7 @@ enum {
+ 	HANDSHAKE_A_ACCEPT_CERTIFICATE,
+ 	HANDSHAKE_A_ACCEPT_PEERNAME,
+ 	HANDSHAKE_A_ACCEPT_KEYRING,
++	HANDSHAKE_A_ACCEPT_MAX_SESSION_TAGS,
  
-+static int handshake_try_complete_done_count;
-+
-+static void test_done_count_func(struct handshake_req *req, int status,
-+				 struct genl_info *info)
-+{
-+	handshake_try_complete_done_count++;
-+}
-+
-+static struct handshake_proto handshake_req_alloc_proto_count = {
-+	.hp_handler_class	= HANDSHAKE_HANDLER_CLASS_TLSHD,
-+	.hp_accept		= test_accept_func,
-+	.hp_done		= test_done_count_func,
-+};
-+
-+static void handshake_try_complete_test1(struct kunit *test)
-+{
-+	unsigned long fcount_before;
-+	struct handshake_req *req, *next;
-+	struct handshake_net *hn;
-+	struct socket *sock;
-+	struct file *filp;
-+	struct net *net;
-+	bool first, second;
-+	int err;
-+
-+	/* Arrange */
-+	handshake_try_complete_done_count = 0;
-+
-+	req = handshake_req_alloc(&handshake_req_alloc_proto_count, GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, req);
-+
-+	err = __sock_create(&init_net, PF_INET, SOCK_STREAM, IPPROTO_TCP,
-+			    &sock, 1);
-+	KUNIT_ASSERT_EQ(test, err, 0);
-+
-+	filp = sock_alloc_file(sock, O_NONBLOCK, NULL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, filp);
-+	KUNIT_ASSERT_NOT_NULL(test, sock->sk);
-+	sock->file = filp;
-+
-+	fcount_before = file_count(filp);
-+	err = handshake_req_submit(sock, req, GFP_KERNEL);
-+	KUNIT_ASSERT_EQ(test, err, 0);
-+	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before + 1);
-+
-+	net = sock_net(sock->sk);
-+	hn = handshake_pernet(net);
-+	KUNIT_ASSERT_NOT_NULL(test, hn);
-+
-+	/* Pretend to accept this request */
-+	next = handshake_req_next(hn, HANDSHAKE_HANDLER_CLASS_TLSHD);
-+	KUNIT_ASSERT_PTR_EQ(test, req, next);
-+	/* Simulate FD_PREPARE() consuming the file reference handed
-+	 * off by handshake_req_next(); see handshake_nl_accept_doit().
-+	 */
-+	fput(filp);
-+
-+	/* Act */
-+	first = handshake_try_complete(req);
-+	second = handshake_try_complete(req);
-+	handshake_finish_complete(req, 0, NULL, NULL);
-+	/* handshake_finish_complete() drops the request's pin on the file. */
-+	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before);
-+	/* handshake_complete() re-enters the gate via
-+	 * handshake_try_complete(). With the gate already taken,
-+	 * hp_done must not fire a second time.
-+	 */
-+	handshake_complete(req, 0, NULL);
-+
-+	/* Assert */
-+	KUNIT_EXPECT_TRUE(test, first);
-+	KUNIT_EXPECT_FALSE(test, second);
-+	KUNIT_EXPECT_EQ(test, handshake_try_complete_done_count, 1);
-+	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before);
-+
-+	fput(filp);
-+}
-+
- static struct handshake_req *handshake_req_destroy_test;
+ 	__HANDSHAKE_A_ACCEPT_MAX,
+ 	HANDSHAKE_A_ACCEPT_MAX = (__HANDSHAKE_A_ACCEPT_MAX - 1)
+diff --git a/net/handshake/tlshd.c b/net/handshake/tlshd.c
+index a9c5e5bedced..ec050058805a 100644
+--- a/net/handshake/tlshd.c
++++ b/net/handshake/tlshd.c
+@@ -238,6 +238,11 @@ static int tls_handshake_accept(struct handshake_req *req,
+ 			goto out_cancel;
+ 	}
  
- static void test_destroy_func(struct handshake_req *req)
-@@ -651,7 +729,7 @@ static void handshake_sessiontags_duplicate(struct kunit *test)
- 	info.nlhdr = nlh;
- 
- 	KUNIT_EXPECT_EQ(test, handshake_get_sessiontags(&tags, &info), 0);
--	KUNIT_EXPECT_EQ(test, stringset_count(&tags), 2);
-+	KUNIT_EXPECT_EQ(test, stringset_count(&tags), 1);
- 	stringset_finalize(&tags);
- 	KUNIT_EXPECT_EQ(test, stringset_count(&tags), 1);
- 	KUNIT_EXPECT_TRUE(test, stringset_is_member(&tags, "dup"));
-@@ -660,6 +738,30 @@ static void handshake_sessiontags_duplicate(struct kunit *test)
- 	kfree_skb(skb);
- }
- 
-+static void handshake_sessiontags_duplicate_at_cap(struct kunit *test)
-+{
-+	struct genl_info info = {};
-+	struct nlmsghdr *nlh;
-+	struct sk_buff *skb;
-+	DEFINE_STRINGSET(tags);
-+	unsigned int i;
++	ret = nla_put_u32(msg, HANDSHAKE_A_ACCEPT_MAX_SESSION_TAGS,
++			  HANDSHAKE_MAX_SESSIONTAGS);
++	if (ret < 0)
++		goto out_cancel;
 +
-+	skb = handshake_done_msg(test, &nlh);
-+	for (i = 0; i < HANDSHAKE_MAX_SESSIONTAGS; i++)
-+		nla_put_string(skb, HANDSHAKE_A_DONE_TAG, "dup");
-+	nla_put_string(skb, HANDSHAKE_A_DONE_TAG, "last");
-+	nlmsg_end(skb, nlh);
-+	info.nlhdr = nlh;
-+
-+	KUNIT_EXPECT_EQ(test, handshake_get_sessiontags(&tags, &info), 0);
-+	KUNIT_EXPECT_EQ(test, stringset_count(&tags), 2);
-+	stringset_finalize(&tags);
-+	KUNIT_EXPECT_TRUE(test, stringset_is_member(&tags, "last"));
-+
-+	stringset_destroy(&tags);
-+	kfree_skb(skb);
-+}
-+
- static void handshake_sessiontags_truncate(struct kunit *test)
- {
- 	struct genl_info info = {};
-@@ -727,6 +829,10 @@ static struct kunit_case handshake_api_test_cases[] = {
- 		.name			= "req_cancel after done",
- 		.run_case		= handshake_req_cancel_test3,
- 	},
-+	{
-+		.name			= "try_complete gate is exclusive",
-+		.run_case		= handshake_try_complete_test1,
-+	},
- 	{
- 		.name			= "req_destroy works",
- 		.run_case		= handshake_req_destroy_test1,
-@@ -755,6 +861,10 @@ static struct kunit_case handshake_api_test_cases[] = {
- 		.name			= "sessiontags duplicate",
- 		.run_case		= handshake_sessiontags_duplicate,
- 	},
-+	{
-+		.name			= "sessiontags duplicates at cap",
-+		.run_case		= handshake_sessiontags_duplicate_at_cap,
-+	},
- 	{
- 		.name			= "sessiontags truncate at cap",
- 		.run_case		= handshake_sessiontags_truncate,
-diff --git a/net/handshake/request.c b/net/handshake/request.c
-index 72515e5e8cc2..31a81b7cb7e9 100644
---- a/net/handshake/request.c
-+++ b/net/handshake/request.c
-@@ -340,6 +340,7 @@ bool handshake_try_complete(struct handshake_req *req)
- {
- 	return !test_and_set_bit(HANDSHAKE_F_REQ_COMPLETED, &req->hr_flags);
- }
-+EXPORT_SYMBOL_IF_KUNIT(handshake_try_complete);
- 
- /**
-  * handshake_finish_complete - Deliver completion to the consumer
-@@ -372,6 +373,7 @@ void handshake_finish_complete(struct handshake_req *req, int status,
- 
- 	fput(file);
- }
-+EXPORT_SYMBOL_IF_KUNIT(handshake_finish_complete);
- 
- void handshake_complete(struct handshake_req *req, int status,
- 			struct genl_info *info)
+ 	ret = nla_put_u32(msg, HANDSHAKE_A_ACCEPT_AUTH_MODE,
+ 			  treq->th_auth_mode);
+ 	if (ret < 0)
 
 -- 
 2.56.0
