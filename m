@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB972606A323
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Nov 2026 19:35:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 130BD606A334
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Nov 2026 19:35:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=YGhaZCzF;
-	dkim=pass (2048-bit key) header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=soBTUbQt
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=H/nSCQ0b;
+	dkim=pass (2048-bit key) header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=BpxcsSKF
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
@@ -14,69 +14,68 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	:Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=ycFr7tcHP3BtNSevVHScuCcUOF/OuOrXOdu+rsUd7U8=; b=YGhaZCzFPMC0D6IkcWu/kCWV1c
-	koGXOiPHiUnf7/uShg14sZdRf0+XC3RRiB+Gu7H0cXsq65BWgQ4Sz1vLAE+MAw3dSDoS5siyvr/FW
-	PaVoGoldXjXG1pvIyMspQkAQYIIDMgsGRhzgIy+WTaqfUgpOaKqHztjqvwerpYk1gsj4fF3ZrqCFi
-	7KyjnTrTwjf59G8x2qUFJB3Bj4IOSLoUXdtsrdOt10a3RyCWYUBJe2+RNrFMlaA2adv4mf9fliCJP
-	b3mo24zoXHDzPXIORbOJgODfnh07iuOap9aVTbqWVIw44WCfz/VVDD788SwHfAc3ZSX8S0UL2VC26
-	mby8PGeA==;
+	bh=LWRhkHq/o14g3eGvU8PB/2eVsiZ8AcgjQiitoPu4Uko=; b=H/nSCQ0b2Pw0as8VyHSDJcRhxF
+	7syXM4xAcEHscQwpsCf7h51MJu8hco1VNHwbMluIrb6UXUqhPk1c3zPgRQQXeyC3V5AmcRcA4XeKS
+	G9vRZW91Aeya6rOEEAadxVSo2EPS4zc+sx45ZZwiTpTARcdI/MYode6RJZcJiqk611JbnJ0UYQQs3
+	1tmTxBR+2k3k69EAy1ROnL9/t3uwzfP9FOyLLVJjoaSP7R9oVo9FbBtB04tGD0ZPPneVj/hWXwxdL
+	YlqDuchrnoBRl1OOlXel3DXN0NjzAamjD37OcEfGMG9hlxNEAQaF/+X33obYH78jHNxoghcRX1aUb
+	SEhS97vQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRx3Y-0000000EDBu-1dQe;
-	Fri, 13 Nov 2026 19:35:28 +0000
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
+	id 1xRx3Z-0000000EDEg-2Q67;
+	Fri, 13 Nov 2026 19:35:29 +0000
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRoHw-0000000CJqM-0lx5
+	id 1xRoID-0000000CJtI-0Uus
 	for linux-nvme@lists.infradead.org;
-	Fri, 13 Nov 2026 10:13:45 +0000
-Received: by mail-ed1-x534.google.com with SMTP id 4fb4d7f45d1cf-6b757029223so1116389a12.0
-        for <linux-nvme@lists.infradead.org>; Fri, 13 Nov 2026 02:13:43 -0800 (PST)
+	Fri, 13 Nov 2026 10:14:02 +0000
+Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-492690dd5daso1015561f8f.1
+        for <linux-nvme@lists.infradead.org>; Fri, 13 Nov 2026 02:14:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1794564822; x=1795169622; darn=lists.infradead.org;
+        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1794564839; x=1795169639; darn=lists.infradead.org;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=ycFr7tcHP3BtNSevVHScuCcUOF/OuOrXOdu+rsUd7U8=;
-        b=soBTUbQtKwkX19cQYeyNrxWhzQQDw9vIV3ODNykSUdj45B/cms3EIirf6wZcMl5XG8
-         ZgoSPbZjETy2wF4tP3/v8Gf+bznk2Myyop49+bT/Jv4+/xCvldcfH/nDSQdV4fMb5Wa8
-         BcMfTMFTXmIiYurageUEvYp4f5ZYKGEC3lRQ2SbwoiplD+tql5fh9zxybouXddbYJU5o
-         7hCFUB3MXMUkIHsw6ZghiBePNkRow4fQsbJrR3L9m4N3loE7nELbi60IF9aCUmUyIUtK
-         iJRFglX0Avh+reobSFfJ+WTzba9FASJg1xYgwdJwtamxQdi0WA5DcGR/15+amBrCHRbA
-         0ntQ==
+        bh=LWRhkHq/o14g3eGvU8PB/2eVsiZ8AcgjQiitoPu4Uko=;
+        b=BpxcsSKFeHaGOTcq6G2/LWT57D64EGv4WN1zp+Uc8f+rZ5+6r38xKPVGy6yazDUf8o
+         8kqtm001Z374DD/wO1DSh1bFmY/nXUfLOVx3RznPv+AGnQVvjelGwokqfZmiKBqPJEDy
+         9tOtev4+O6ZkBWLF5F5H2Lwr5HewAPtUbQk/gExhVuAHnJF2yPVhOH0NQe2eOSfF7b7n
+         9uvC6BVG3oGzlqfMvriqD6DBWyQRaZv2myKptKaoXpo3r3YHSlvBHb4kJu3NTa939pDb
+         SfJfQzbZ5jTCL/EbwrD8tRSTMN6sRXSrDw5sXBsrQj3Ynd1HpW336gaxB7bIu5fXnTgM
+         /AKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794564822; x=1795169622;
+        d=1e100.net; s=20260707; t=1794564839; x=1795169639;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ycFr7tcHP3BtNSevVHScuCcUOF/OuOrXOdu+rsUd7U8=;
-        b=pqNiuMB8kdWZDO3d7GxEn1ogeUvVnmviarW/HViuQUzESdSU1SWnC7C5R9WHZ8A0b4
-         JuFd88NAf7YtkS18Jj5pHYIIsAcqy0y0qYbqzY+H6aF0+Ttni/lUe9t2AxR4fcjC+HXZ
-         jpCYXwm5J/n7SFg9EOLfbD6QrrXQfrpBNy5yp7sB3td9wQhFHb5UoJlsN0kepMTpjvPd
-         wYpj9cSSjaFL4MlKaPrxaJ7VWDPTeTRJAcGBqEpqWZCLtg5k2PWlRTnErNVaz3l+MGcX
-         HedRCcS4QqRromQ2Q6HvoG7OP0D4ewtaujDpwPNUiaHiV23/xuHKZkYsO6ixw1luugkB
-         pq8Q==
-X-Forwarded-Encrypted: i=1; AL+hErFJsTrtejqftyg7kYKorycWvqSmA5l5tuuyvElggDrI9GFa9oPeqwX7lAH5zTA4UXnNJT6ZDki0R6+H@lists.infradead.org
-X-Gm-Message-State: APuU4Z86Fx78reBQ0MR/uZU2PgxWNxh+TgIahyfiPLD/W/JKR69ifSuB
-	dA3RwTF9yR4yS5sT97lxaES7UfEeYH5brAkD7toAQRcp55KEUNLB4xoWNTvCeHTMJMmE
-X-Gm-Gg: AYBFou0J3eYywB07dHnVD/lY+KtNNCZrgaRhWjj53YkEINZscEf7XI7LRQgeHoq3Inn
-	5UPWxAWdwnFfITgTinXCLx9sGnhnlQFMasuDpt0HwkGeWqfwK6tYQGkfgPBIdu1N5IBoaiRHdWT
-	8t+OAlq7U0OOPuGs0JaMcMEesvypgC3HvQLoxaUl4Ou0PLfH26xCn4bUezuv5LYZirfK4wxwMjo
-	jyATtlvmwYbj7eEjDI7V9hDibNCFc4x2RZ0ICTc5hMuMdihLna+N/dn4qVq1cY6lg1mwJZWP8Xd
-	mpw+sdTZ6cpKgAQz26vK5hcpoqstFXRNtp8vzYe+WeT5qArNtGCAFsePz+pn8JPn6kAjY/nT5in
-	7kQbUohi+r7cABpBxzlaa+AA3fTjU28HcLLCIhVgxIs7f0I795QgFyRXQ8dlXbJFVxFyJpJw+VM
-	gUKmAOKPV2H7bdeo9D/WwIR0XxH4LHbrgftFuYDffbtcLGtp4XcpvbFwPtGkSyzAbRDBEmQeJaJ
-	FDFkct1H2siwifIp34UBUT0+yOvf2NrCHAc4V/L1jqSlomeVLIhH7DrOynVl0ctBUngXEP5vQoK
-	iNHwTTyoMZCjgQXhShYXBq60mG0gb2Uf7Y2tYQTWgf28zTidCUdY80KCak3zlMLcZoDlIBcl7BG
-	E8own8F1n
-X-Received: by 2002:a05:6402:208c:20b0:6b5:69f4:e7ce with SMTP id 4fb4d7f45d1cf-6b7c0c62bacmr1415990a12.39.1794564822367;
-        Fri, 13 Nov 2026 02:13:42 -0800 (PST)
+        bh=LWRhkHq/o14g3eGvU8PB/2eVsiZ8AcgjQiitoPu4Uko=;
+        b=qRAJ0Enb3WYLzHl8GsRE9V9wU944OeTs0+lTt7s3Pt++x/LwuU4yxIiSgzyU7gl+By
+         NLQBW8rLSpJMvCTrQsZjEYViBvMyuPDeZyxutB54mFG39bMponS+PIwH+I7AF3swAlu+
+         +Uk/IPUKadnLNDFqObadOficnXNUVkQie4ExLfxF9xzXSgFY6cddq/dGTnNneEZ4qHJT
+         jS+cHoIwwfD+900UhMzYiS4nOLIXLTrmJFZRXLeeM1B87i0RtNmW04tfdfNGDgYk0daq
+         6FgwJzPUaCPv0L+sEoeqoHB6zd55ABDrPfrxSUwB6M/6D2G/Fe3tTx+UGbAC/kRElIJT
+         IwZw==
+X-Forwarded-Encrypted: i=1; AL+hErG+3Nk/qp0kYnvU41Zf8BTmlBH+sWTgFxnGCWogKuBbBJa1rmCPG5C6UyM5XlRQ9/dixFZcp5BpKPc1@lists.infradead.org
+X-Gm-Message-State: APuU4Z+kcuWNhBbBuw1f5+sm0I+PEyOK4e5Oli7GWYUqxeDaviDSb+XQ
+	/Nq/QQQmxdBj0/vYSqTbbkZThGyQ0lAqdOKgBdjzpGohh9+bQmtHFhdjXUfHgkin/KvP
+X-Gm-Gg: AYBFou3vKTTV9b+Afl5MM1d3O9FcQrqVfFgKlZVA4zghiAzA8iY7TZm7jEUVBUntolg
+	c486enHu3YRqIOcCvLGzNYD0Hny43UTSyOsSZiHsoQfqTbOM47L882Oji07tvXBokvsarfNqxM2
+	6yVmjsZqsUQWwHFVicR6o4ToIAs4Hwrpbj789PzNyFiNcZiX5pTIS84eP65sjNHqmcwqelvtrQK
+	jrGgpikaWYlMpqfBwgv29kvq+Dwl9HW6a2ohwKVPudnf8xdDuwTIiq9JYYcfSVnHTnKjzT6CTDd
+	cYcITDowZyFIBpY274u//Tbh2UsjZC7aU6R5dl8jfeTBjInYbLwkYU6GYjfpbOlNDx/G77ZTnZj
+	zJi0dwxOyEyJ/x3M1NsmBFRZcI/gRt4QIzJJ+17DSJr/OrkX7tpakPeFTXyNJvp9vLMvVr1WA9H
+	0wiLpvZNoFWylHORCaCeEfx70yJNxWlD2sDfyw69xtx2Esjs1su4IwiE1gZBZuTjSfqj5+9J2rj
+	3aQRQpptCLBcLUaYS/AP50UgfNiJau1UV9M4zvU3OXfcbNhmis5VOGRh1e8K2XeZ4/gSvtGGkH+
+	/zk21eDqlQhQjgL96QOmB7EnFmHDdDk6fBhLLsmsFqwpRddfifMTCCrljyfU3Xs=
+X-Received: by 2002:a05:6000:993:b0:48f:bc59:ab9c with SMTP id ffacd0b85a97d-49c6fd932f0mr4358101f8f.12.1794564838578;
+        Fri, 13 Nov 2026 02:13:58 -0800 (PST)
 Received: from [10.0.0.233] (tmo-086-54.customers.d1-online.com. [80.187.86.54])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c603f4d29sm4332158f8f.35.2026.11.13.02.13.40
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49d673ce75fsm190118f8f.55.2026.11.13.02.13.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 02:13:42 -0800 (PST)
-Message-ID: <3546dd28b1d63c1478d391a2015fff4c1b976639.camel@amutable.com>
-Subject: Re: [PATCH RFC 24/41] efivarfs: use fc_init_pseudo()
+        Fri, 13 Nov 2026 02:13:58 -0800 (PST)
+Message-ID: <77855be3fb9f0e1888c6dddc56d73a1683c820f0.camel@amutable.com>
+Subject: Re: [PATCH RFC 25/41] pstore: use fc_init_pseudo()
 From: Alexander Mikhalitsyn <alex@amutable.com>
 To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
 Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, Josef
@@ -94,18 +93,18 @@ Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, Josef
  linuxppc-dev@lists.ozlabs.org, 	linux-usb@vger.kernel.org, Amir Goldstein
  <amir73il@gmail.com>, 	linux-erofs@lists.ozlabs.org,
  linux-kselftest@vger.kernel.org
-Date: Fri, 13 Nov 2026 11:13:40 +0100
-In-Reply-To: <20261110-work-loop-pseudo-v1-24-4c998976c6c7@kernel.org>
+Date: Fri, 13 Nov 2026 11:13:56 +0100
+In-Reply-To: <20261110-work-loop-pseudo-v1-25-4c998976c6c7@kernel.org>
 References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
-	 <20261110-work-loop-pseudo-v1-24-4c998976c6c7@kernel.org>
+	 <20261110-work-loop-pseudo-v1-25-4c998976c6c7@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.2-0+deb13u1 
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261113_021344_298380_85576DED 
-X-CRM114-Status: GOOD (  11.41  )
+X-CRM114-CacheID: sfid-20261113_021401_202904_90004318 
+X-CRM114-Status: GOOD (  11.03  )
 X-Spam-Score: -1.9 (-)
 X-Mailman-Approved-At: Fri, 13 Nov 2026 11:35:09 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -126,9 +125,8 @@ X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
 On Tue, 2026-11-10 at 10:14 +0100, Christian Brauner wrote:
-> Initialize efivarfs as a pseudo filesystem. This raises SB_I_PSEUDO
-> and
-> also SB_I_NOEXEC and SB_I_NODEV. efivarfs never holds executables or
+> Initialize pstore as a pseudo filesystem. This raises SB_I_PSEUDO and
+> also SB_I_NOEXEC and SB_I_NODEV. pstore never holds executables or
 > device nodes.
 >=20
 > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
@@ -136,28 +134,28 @@ On Tue, 2026-11-10 at 10:14 +0100, Christian Brauner wrote:
 Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
 
 > ---
-> =C2=A0fs/efivarfs/super.c | 2 ++
+> =C2=A0fs/pstore/inode.c | 2 ++
 > =C2=A01 file changed, 2 insertions(+)
 >=20
-> diff --git a/fs/efivarfs/super.c b/fs/efivarfs/super.c
-> index 12746ced6dc6..e598d42c5f42 100644
-> --- a/fs/efivarfs/super.c
-> +++ b/fs/efivarfs/super.c
-> @@ -8,6 +8,7 @@
-> =C2=A0#include <linux/efi.h>
-> =C2=A0#include <linux/fs.h>
+> diff --git a/fs/pstore/inode.c b/fs/pstore/inode.c
+> index cf499ba72702..4658561cf90b 100644
+> --- a/fs/pstore/inode.c
+> +++ b/fs/pstore/inode.c
+> @@ -18,6 +18,7 @@
+> =C2=A0#include <linux/ramfs.h>
+> =C2=A0#include <linux/fs_parser.h>
 > =C2=A0#include <linux/fs_context.h>
 > +#include <linux/pseudo_fs.h>
-> =C2=A0#include <linux/fs_parser.h>
-> =C2=A0#include <linux/module.h>
-> =C2=A0#include <linux/pagemap.h>
-> @@ -554,6 +555,7 @@ static int efivarfs_init_fs_context(struct
+> =C2=A0#include <linux/sched.h>
+> =C2=A0#include <linux/magic.h>
+> =C2=A0#include <linux/pstore.h>
+> @@ -491,6 +492,7 @@ static int pstore_init_fs_context(struct
 > fs_context *fc)
-> =C2=A0	}
+> =C2=A0	ctx->kmsg_bytes =3D kmsg_bytes;
 > =C2=A0
-> =C2=A0	fc->s_fs_info =3D sfi;
+> =C2=A0	fc->fs_private =3D ctx;
 > +	fc_init_pseudo(fc);
-> =C2=A0	fc->ops =3D &efivarfs_context_ops;
+> =C2=A0	fc->ops =3D &pstore_context_ops;
 > =C2=A0
 > =C2=A0	return 0;
 
