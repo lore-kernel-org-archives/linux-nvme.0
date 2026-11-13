@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1D05606A882
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Nov 2026 14:52:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEC09606A331
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Nov 2026 14:52:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=ddvk5ybR;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cifDVFcA
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=2HEFUFG3;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JJEhYlnn
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
 	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
@@ -14,48 +14,49 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=bB05LBt2gz1cGnfw6zM9f3lfuVOHO8kFX0AOQuYqJko=; b=ddvk5ybRwNX/aHhBv1jPK1xBja
-	ELXM6wKBrrXxgpb9MBHn/n8xkYXTealHWHZ23aBtA6KxCilvR1MzyvJQUz407TTrXcG7F3j7r9A/A
-	9/51a712K2J1/zNgXaTDSMum/M8Bm6XIKRrUE6hFi+7Go4fqK1fezl3cv+g3dBOlP2GjivBZ7bKYm
-	yFZ2ZmAEZEsx4eyNlY1EsFO2ML0ZM8CGV2B52b09DeV77tWGdpRxS5vD3J/VmvBZCSIfQqrYZwczX
-	UKKMvmYpKa/1ymhwQf8XUdNnRbBnKG5G5UrDo15SmZzt5ujxzc1ALfDs/jZiORBK4LWQojamnoEfv
-	jT8Mde2g==;
+	bh=UD6R5o+6RbaHaSppSQR3YWlOAJjGAmF+PnVW+7XYeQM=; b=2HEFUFG32gysY9fbAdSqM+WBfW
+	EjGcbFFsJ5aVHnJ3YaNPWCloe+P4L5rvmgNUIZcQ0SJ26PAFb2zlYpASzbXbsAJryo4U6hPZnehL+
+	8OvDSq9H2S7nwui6B63LkPlpJ2rmEruvrhI+kSnvESzr1+3KumSLGKH7OAqNsxrTsMKNffOJ4dcX2
+	3aT8wPzXfGTSXzT3DxUVbWwsG7mgGCdNiya3vrY5z9QSfsbxddibvVbmsMeSu6qFV7Gbd7392HwGu
+	d2mv8g7xkoMz7XW2V8lyN0MNXQMyhF7Ik0vOIag2DpHTD2P3YANiWwkUwayNoEPSyo1aMz5u3qSi3
+	MPCoppwg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRsdy-0000000DFIQ-1HAO;
-	Fri, 13 Nov 2026 14:52:46 +0000
+	id 1xRse2-0000000DFLz-27Q5;
+	Fri, 13 Nov 2026 14:52:50 +0000
 Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRsdw-0000000DFH4-2ITY
+	id 1xRsdx-0000000DFHk-0cuB
 	for linux-nvme@lists.infradead.org;
-	Fri, 13 Nov 2026 14:52:44 +0000
+	Fri, 13 Nov 2026 14:52:45 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id C228162776
-	for <linux-nvme@lists.infradead.org>; Fri, 13 Nov 2026 14:52:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E07F1F000C4;
-	Fri, 13 Nov 2026 14:52:43 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 9653262792
+	for <linux-nvme@lists.infradead.org>; Fri, 13 Nov 2026 14:52:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 125481F000C5;
+	Fri, 13 Nov 2026 14:52:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794581563;
-	bh=bB05LBt2gz1cGnfw6zM9f3lfuVOHO8kFX0AOQuYqJko=;
+	s=k20260515; t=1794581564;
+	bh=UD6R5o+6RbaHaSppSQR3YWlOAJjGAmF+PnVW+7XYeQM=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=cifDVFcAh4pm8i5TP26tJ7IYaI5f2Y9Tdowlz/x71HLt2B7trcbbIU49qMRIf1iOP
-	 m4xSiOJR5beAmmVaAzCA5jOenCpa9bZ6TEjBv6wdfwIK2FEcEU6eapIbivrWGV6QT9
-	 OWuNQFoMHTn0iHMYXbIqocLjA2K9egYvAtYeTPqhoFP75L3feloNzmpg9yx/EuJiO7
-	 TpcvlbpwTlD/Y+FLpD/7MbQ9q8vSVTtUhQ6kX9fjuwWtDGRjk0sBn+E3bF6TX3LuKs
-	 X07Obzyt7fPOoPZutwxyo2rJWzH0Uwc3pB2TlKpWtsbpC3Bjw3tLvgqfY6tPlLfLZH
-	 gfxh/gAD/x1WA==
-Message-ID: <sashiko-outbox-213019@kernel.org>
+	b=JJEhYlnnCekWeLgObXGrHZYYIZzZ6wUTzshfi7jv/jC90gKb9kTrpZzwqKcDyILnv
+	 MkWys54WhsOSDM90rbLGAQuWz8SF2YEP+sxiYJwOZyMdU+fNHyXHIYQBNKQJLA3nc5
+	 fcnk87ehNWBdDWOlaxs+oOscPtRXCSK0aljfaW77pBuK0/EJVJH8HO4HMHpZVJ7lAE
+	 ZA/+Am9yKCwrJQ14qdw9ISMloTQgkdckzOlfEpGMDxnfFe6Bh0OtKODrNnDl4jxKZJ
+	 rPFgEcjO6sDGrqyVkv3FY0ix+wV9GDTkbdFv1wKQRJcBEqo5fdlxgBj5V7TvJNOXrl
+	 xAUzeL0MOan+A==
+Message-ID: <sashiko-outbox-213023@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v2 02/10] lib: Add a "stringset" data structure
+Subject: Re: [PATCH net-next v2 06/10] handshake: Add a kunit test for the
+ completion gate
 To: "Chuck Lever" <cel@kernel.org>
 Cc: linux-nvme@lists.infradead.org, "Jeff Layton" <jlayton@kernel.org>, "Anna
  Schumaker" <anna@kernel.org>
-In-Reply-To: <20261112-tls-session-tags-v2-2-a587a50de7fc@kernel.org>
+In-Reply-To: <20261112-tls-session-tags-v2-6-a587a50de7fc@kernel.org>
 References: <20261112-tls-session-tags-v2-0-a587a50de7fc@kernel.org>
- <20261112-tls-session-tags-v2-2-a587a50de7fc@kernel.org>
+ <20261112-tls-session-tags-v2-6-a587a50de7fc@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 13 Nov 2026 14:52:42 +0000
+Date: Fri, 13 Nov 2026 14:52:43 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,64 +78,93 @@ X-Archived-By: <archiver.kernel.org>
 
 Thank you for your contribution! Sashiko AI review found 1 potential
 issue to consider:
-- [Low] lib: stringset: malformed kernel-doc Return sections break
-  htmldocs
+- [Low] handshake: unrelated sessiontags KUnit changes squashed into
+  commit
 --
 
-commit 6b2f2a1d0a32f2df849790a6aef77082faf99b69
+commit b879c6737fc8615a84b7321f23d468457911d409
 Author: Chuck Lever <cel@kernel.org>
 
-lib: Add a "stringset" data structure
+handshake: Add a kunit test for the completion gate
 
-This commit introduces a sorted-array stringset data structure and API for
-string membership testing and set intersection, along with its documentatio=
-n.
+This commit exports handshake_try_complete() and handshake_finish_complete()
+for KUnit and adds a test case verifying completion gate exclusivity, along
+with updates to the session-tag duplicate KUnit tests.
 
-> diff --git a/include/linux/stringset.h b/include/linux/stringset.h
-> new file mode 100644
-> index 0000000000000..fd41ea23f2b17
-> --- /dev/null
-> +++ b/include/linux/stringset.h
+> diff --git a/net/handshake/handshake-test.c b/net/handshake/handshake-tes=
+t.c
+> index 21fccfa94d897..b6992d1fa4ce4 100644
+> --- a/net/handshake/handshake-test.c
+> +++ b/net/handshake/handshake-test.c
 
 [ ... ]
 
-> +/**
-> + * stringset_add - Add a string to a stringset
-> + * @set: An initialized stringset with available capacity
-> + * @str: non-NULL string to be added to @set, in kmalloc'd memory
-> + *
-> + * On success, @str is now owned by @set and will be freed either
-> + * by stringset_finalize() (if a content duplicate) or stringset_destroy=
-().
-> + * The stringset must have been allocated with sufficient capacity via
-> + * stringset_alloc(). Strings must not be added after stringset_finalize=
-()
-> + * has been called. Callers must not hand the same pointer to stringset_=
-add()
-> + * more than once: ownership has already transferred, and a second add
-> + * produces a double-free at stringset_destroy().
-> + *
-> + * Return:
-> + *   %true: @str is now a member of @set
-> + *   %false: @str could not be added (NULL, no capacity, or @set is
-> + *           already finalized)
-> + */
+> @@ -651,7 +729,7 @@ static void handshake_sessiontags_duplicate(struct ku=
+nit *test)
+>  	info.nlhdr =3D nlh;
+> =20
+>  	KUNIT_EXPECT_EQ(test, handshake_get_sessiontags(&tags, &info), 0);
+> -	KUNIT_EXPECT_EQ(test, stringset_count(&tags), 2);
+> +	KUNIT_EXPECT_EQ(test, stringset_count(&tags), 1);
+>  	stringset_finalize(&tags);
+>  	KUNIT_EXPECT_EQ(test, stringset_count(&tags), 1);
+>  	KUNIT_EXPECT_TRUE(test, stringset_is_member(&tags, "dup"));
+> @@ -660,6 +738,30 @@ static void handshake_sessiontags_duplicate(struct k=
+unit *test)
+>  	kfree_skb(skb);
+>  }
+> =20
+> +static void handshake_sessiontags_duplicate_at_cap(struct kunit *test)
+> +{
+> +	struct genl_info info =3D {};
+> +	struct nlmsghdr *nlh;
+> +	struct sk_buff *skb;
+> +	DEFINE_STRINGSET(tags);
+> +	unsigned int i;
+> +
+> +	skb =3D handshake_done_msg(test, &nlh);
+> +	for (i =3D 0; i < HANDSHAKE_MAX_SESSIONTAGS; i++)
+> +		nla_put_string(skb, HANDSHAKE_A_DONE_TAG, "dup");
+> +	nla_put_string(skb, HANDSHAKE_A_DONE_TAG, "last");
+> +	nlmsg_end(skb, nlh);
+> +	info.nlhdr =3D nlh;
+> +
+> +	KUNIT_EXPECT_EQ(test, handshake_get_sessiontags(&tags, &info), 0);
+> +	KUNIT_EXPECT_EQ(test, stringset_count(&tags), 2);
+> +	stringset_finalize(&tags);
+> +	KUNIT_EXPECT_TRUE(test, stringset_is_member(&tags, "last"));
+> +
+> +	stringset_destroy(&tags);
+> +	kfree_skb(skb);
+> +}
+
+[ ... ]
+
+> @@ -755,6 +861,10 @@ static struct kunit_case handshake_api_test_cases[] =
+=3D {
+>  		.name			=3D "sessiontags duplicate",
+>  		.run_case		=3D handshake_sessiontags_duplicate,
+>  	},
+> +	{
+> +		.name			=3D "sessiontags duplicates at cap",
+> +		.run_case		=3D handshake_sessiontags_duplicate_at_cap,
+> +	},
+>  	{
+>  		.name			=3D "sessiontags truncate at cap",
+>  		.run_case		=3D handshake_sessiontags_truncate,
 
 [Severity: Low]
-Does the Return section here (and in stringset_add_dup() and
-stringset_intersection()) need bullet markers (* %true: / * %false:)?
+Were these session-tag duplicate KUnit changes meant to be folded into
+the preceding commit "handshake: Pick up session tags passed during the
+DONE downcall"?
 
-When Documentation/core-api/stringset.rst includes these kernel-doc
-comments during make htmldocs, kdoc_parser strips the two leading spaces
-after Return:, leaving two unindented lines (%true: and %false:) followed
-by an indented continuation line without a preceding blank line or list
-marker, which causes docutils to emit an "Unexpected indentation" error.
-In the remaining multi-line Return sections (stringset_alloc(),
-stringset_is_empty(), stringset_is_member(), and stringset_copy()),
-omitting the list markers also causes the %true and %false descriptions to
-collapse into a single paragraph in the rendered documentation.
+In that commit, handshake_get_sessiontags() already skips duplicate tags
+via handshake_sessiontag_is_dup(), so handshake_sessiontags_duplicate()
+fails its stringset_count(&tags) =3D=3D 2 check until this commit updates i=
+t,
+and the commit message here only describes the completion gate test.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261112-tls-sessio=
-n-tags-v2-0-a587a50de7fc@kernel.org?part=3D2
+n-tags-v2-0-a587a50de7fc@kernel.org?part=3D6
 
