@@ -2,86 +2,59 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 746D2606A32E
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Nov 2026 19:35:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B823E606A327
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Nov 2026 19:41:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=aoFYxUax;
-	dkim=pass (2048-bit key) header.d=zte.com.cn header.i=@zte.com.cn header.a=rsa-sha256 header.s=z202610 header.b=uVepKS4x
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=SAfwLk5g;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hXUuZR13
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Subject:Cc:To:
-	From:Mime-Version:Date:References:In-Reply-To:Message-ID:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Cc:To:Subject:
+	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=98ex+Pn2nBtI8mxDvjHYBDQsrjNC9orlyIfrJ1lLZwM=; b=aoFYxUaxhyKqIlQgPSnNK2u/e7
-	r/dNg0/TOGvDvdAt8jgKKx9QX5xLosdul6OV9JJCJk1lVYhYdGoPI5maxJKc/94zxU6GlsHtBuBdL
-	/ZF1eYD8w6+24u/YXhuvqUR6utFzyr/E8klg0hT00oQEjn+C5R2VNZonhkM8873s3dFdHggDt6Oxw
-	oXAdxJFWltQLJF4B2rLN+moQT/x25pPgmA7VR9QNWVKxhCUG9tSP14o/BieBzXzZG05URpY2Iaiia
-	gq95ImVX6fmqrEB0I2jdsenwQAuvtQbbDq+IBeHbiNa5+WG4s3W/1X6kglGddPh/vE3QbMO6toUj4
-	GciTxbPA==;
+	bh=AQwi/effThSliBhF6fsw5Ok9qQ4ujy7ppAm36/REpa4=; b=SAfwLk5gU5uIQHcTUjZCv3strP
+	CzxIMr10pb2BUvY3PcybiSi95LK1XxoSZF8Y/V/bPQ2J35HvyiTGpgyR6fdubCYDmGbiepj8A9Hwn
+	ipqUCh/kZ1H1gXvRfvmMVTZdildoWiscjOgoIrLu/OH23W5Dclx9AEvNZ8WMyze5k3uq3jTnfm+rO
+	qJKsasF8jMnBRMHyL/u+94iEccwCjjJ0fpHrJmuPzS6VQSm9bJeOEe36CAeD1vo+xfq4OA9110OpF
+	ZmQlZBiDZSZ9C2NyIVapRCdZgW7QIRFZyXq12AkFEs4k6sudDs/s1wrABOvHeT39rE/pmzECG+Iqp
+	UMiIpmJQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRx3y-0000000EE3b-37e8;
-	Fri, 13 Nov 2026 19:35:54 +0000
-Received: from mxhk.zte.com.cn ([160.30.148.34])
+	id 1xRx8y-0000000EGGN-00cQ;
+	Fri, 13 Nov 2026 19:41:04 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRvc7-0000000Dp2K-3kI5
+	id 1xRx8p-0000000EGEF-40Hf
 	for linux-nvme@lists.infradead.org;
-	Fri, 13 Nov 2026 18:03:05 +0000
-Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4jR4qV0XmPz5BNS0;
-	Sat, 14 Nov 2026 02:03:02 +0800 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=zte.com.cn;
-	s=z202610; t=1794592982;
-	bh=Wa+PLqTTMCOV+xu/ec1ktJKOPJdj2fOT1wVmnMmRve0=;
-	h=In-Reply-To:References:Date:From:To:Cc:Subject;
-	b=uVepKS4xIsG1HyI69BVxuCj8OPGNuTaGG0gI3kOol8NRVHWKHa8CWksx0pIhUMXBy
-	 MPP6aNfVRYDbYUNQcJU5Zn4CNFJOu2jfn8rxmHJomYnsmx2kKp4vzB0yzWvJaNrOtz
-	 UGENEHaARPkzmj5Gsd5dLkRUfiy5fghqOCak23aGUhDLOYU6TEMnuRMy5WujR1FRmK
-	 cSM78LtmYo1VF4U5y0jWvUjRQRQgG6zXz4Fi1wZzNSS3uFwkWhMOWO9QN8wlF9ZMJw
-	 QdaxqoEYvQ2XyON6P+dyQQTHdB6JOAJI2Ud6bp9ZTagvbyMx7tSmQ05LQFU1G40iqF
-	 /Q/6Lj+fHHUTg==
-Received: from xaxapp05.zte.com.cn ([10.99.98.109])
-	by mse-fl2.zte.com.cn with SMTP id 6ADI2sVg073617;
-	Sat, 14 Nov 2026 02:02:54 +0800 (+08)
-	(envelope-from shao.mingyin@zte.com.cn)
-Received: from mapi (xaxapp01[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Sat, 14 Nov 2026 02:02:58 +0800 (CST)
-X-Zmail-TransId: 2af96af750d2ec5-15e0b
-X-Mailer: Zmail v1.0
-Message-ID: <20261114020258146m8zL_TJCcRbcnVKxGbNGw@zte.com.cn>
-In-Reply-To: <20261114020245882Mvd6t10TkCZuRWpYFR3m5@zte.com.cn>
-References: 20261114020245882Mvd6t10TkCZuRWpYFR3m5@zte.com.cn
-Date: Sat, 14 Nov 2026 02:02:58 +0800 (CST)
-X-Archived-By: <archiver.kernel.org>
-Mime-Version: 1.0
-From: <shao.mingyin@zte.com.cn>
-To: <kbusch@kernel.org>, <axboe@kernel.dk>, <hch@lst.de>, <sagi@grimberg.me>,
-        <linux-nvme@lists.infradead.org>
-Cc: <justin.tee@broadcom.com>, <nareshgottumukkala83@gmail.com>,
-        <paul.ely@broadcom.com>, <kch@nvidia.com>,
-        <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
-Subject: =?UTF-8?B?W1BBVENIIHYyIDYvNl0gbnZtZXQ6IHJvbGwgYmFjayBxdWV1ZSBiaW5kaW5ncyBvbiBjb25uZWN0aW9uIGZhaWx1cmU=?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL: mse-fl2.zte.com.cn 6ADI2sVg073617
-X-TLS: YES
-X-ENVELOPE-SENDER: shao.mingyin@zte.com.cn
-X-SOURCE-IP: 10.5.228.133 unknown Sat, 14 Nov 2026 02:03:02 +0800
-X-CLEAN: YES
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6AF750D6.000/4jR4qV0XmPz5BNS0
-X-Bad-Reply: References and In-Reply-To but no 'Re:' in Subject.
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261113_100304_118674_F6AA93E0 
-X-CRM114-Status: GOOD (  10.60  )
-X-Spam-Score: -2.1 (--)
-X-Mailman-Approved-At: Fri, 13 Nov 2026 11:35:09 -0800
+	Fri, 13 Nov 2026 19:41:01 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id 48B27418F6;
+	Fri, 13 Nov 2026 19:40:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03C231F000C4;
+	Fri, 13 Nov 2026 19:40:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794598855;
+	bh=AQwi/effThSliBhF6fsw5Ok9qQ4ujy7ppAm36/REpa4=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=hXUuZR13ADB22lXSBgLtUjiG0qgBItqIOjTuRkIQ7i6vXtxRGWZSLNyZOFRvVGjWd
+	 dcCemth0RcCA46Di97Og+hb5xFtBlGlVL4k54+mK+eHKtL+OhDLWx2FpbmLKIjBkvM
+	 lMywE9psgue6XAojI2GQDmrqKBuYO1UnCyr+HvwTyMTo5iHEdU6Gn6wSsHcw4ukGRz
+	 +zOeZhTSBizGffZQ+42IqnuXFzZHO70hJcldfQxJnoaHkFBWhZy4jhrOz4/XTkcdbJ
+	 LKE24AhGf0N1VwK68Qm1cM7kIDLxAhZ1Uv71NtSdUYp+dYFbjXJNgGRj2lX3snVMs3
+	 vjZchVWTPs/OQ==
+Message-ID: <sashiko-outbox-213562@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v3 2/3] perf pmu: Implement tool-provided NVMe PMU
+To: "Ian Rogers" <irogers@google.com>
+Cc: linux-perf-users@vger.kernel.org, linux-nvme@lists.infradead.org
+In-Reply-To: <20261113191234.2509964-3-irogers@google.com>
+References: <20261113191234.2509964-1-irogers@google.com>
+ <20261113191234.2509964-3-irogers@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 13 Nov 2026 19:40:54 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,67 +64,149 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY
-	autolearn=ham autolearn_force=no version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
+X-Archived-By: <archiver.kernel.org>
 
-From: Shao Mingyin <shao.mingyin@zte.com.cn>
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [Medium] perf pmu: missing errno and err_thread handling in
+  evsel__nvme_pmu_open()
+- [Medium] perf evsel: PERF_EVENT_IOC_ENABLE/DISABLE ioctls issued on
+  NVMe device fds
+--
 
-nvmet_install_queue() publishes the SQ controller pointer before
-claiming the CQ. If the CQ is already connected, it leaves the SQ
-pointer and the controller reference taken for it behind on failure.
+commit 1cca3c688611b8ef7867f412d383cb3ae7a315e1
+Author: Ian Rogers <irogers@google.com>
 
-An install_queue() callback failure also leaves the CQ bound after
-clearing the SQ pointer. The reference taken in nvmet_install_queue()
-is in addition to the one the caller already holds: the caller's put
-releases the reference acquired before the call, while this one belongs
-to the CQ binding. It is not released on this path, so the controller
-stays alive and a Connect retry on the same queue keeps finding the
-stale binding.
+perf pmu: Implement tool-provided NVMe PMU
 
-Clear the tentative SQ binding and release the extra reference on a CQ
-conflict. On a transport installation failure, destroy the CQ binding
-as well, so its controller table entry and reference are released.
+This commit adds a tool-provided PMU for NVMe controllers using libnvme,
+exposing metrics from standard NVMe log pages under nvme_<ctrl> PMUs.
 
-Link: https://lore.kernel.org/all/20261106015842.3534898-6-kanie@linux.alibaba.com/
-Fixes: bb78836b3a7c ("nvmet: fabrics: add CQ init and destroy")
-Cc: stable@vger.kernel.org
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
----
-Changes in v2:
-- Code and commit message unchanged; add Christoph Hellwig's Reviewed-by tag.
-Previous version: https://lore.kernel.org/all/20261110230316687z-VG9wgpFwmzFNKVnMGKY@zte.com.cn/
+> diff --git a/tools/perf/util/nvme_pmu.c b/tools/perf/util/nvme_pmu.c
+> new file mode 100644
+> index 0000000000000..3ee967505dec6
+> --- /dev/null
+> +++ b/tools/perf/util/nvme_pmu.c
 
- drivers/nvme/target/fabrics-cmd.c | 3 +++
- 1 file changed, 3 insertions(+)
+[ ... ]
 
-diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-cmd.c
-index fc626c2fd2c924342b550764f686010103e5ec84..6f0fc695e6499247340d3f17929608e4f03c00f2 100644
---- a/drivers/nvme/target/fabrics-cmd.c
-+++ b/drivers/nvme/target/fabrics-cmd.c
-@@ -216,6 +216,8 @@ static u16 nvmet_install_queue(struct nvmet_ctrl *ctrl, struct nvmet_req *req)
- 	if (old) {
- 		pr_warn("queue already connected!\n");
- 		req->error_loc = offsetof(struct nvmf_connect_command, opcode);
-+		req->sq->ctrl = NULL;
-+		nvmet_ctrl_put(ctrl);
- 		return NVME_SC_CONNECT_CTRL_BUSY | NVME_STATUS_DNR;
- 	}
- 
-@@ -242,6 +244,7 @@ static u16 nvmet_install_queue(struct nvmet_ctrl *ctrl, struct nvmet_req *req)
- 
- err:
- 	req->sq->ctrl = NULL;
-+	nvmet_cq_destroy(req->cq);
- 	return ret;
- }
- 
--- 
-2.27.0
+> +static int nvme_pmu__read_val(int fd, uint64_t config, uint64_t *val)
+> +{
+
+[ ... ]
+
+> +	if (ret < 0)
+> +		return -errno ?: -EIO;
+> +	if (ret > 0)
+> +		return -EOPNOTSUPP;
+
+[ ... ]
+
+> +int evsel__nvme_pmu_open(struct evsel *evsel,
+> +			 struct perf_thread_map *threads,
+> +			 int start_cpu_map_idx, int end_cpu_map_idx)
+> +{
+> +	struct nvme_pmu *nvm =3D container_of(evsel->pmu, struct nvme_pmu, pmu);
+> +	int idx =3D start_cpu_map_idx, thread =3D 0, nthreads, err =3D 0;
+> +	int max_cpus, max_threads;
+> +	char path[PATH_MAX];
+> +
+> +	if (evsel->core.attr.sample_period || !evsel->core.fd)
+> +		return -EINVAL;
+> +
+> +	snprintf(path, sizeof(path), "/dev/%s", nvm->dev_name);
+
+[ ... ]
+
+> +	for (idx =3D start_cpu_map_idx; idx < end_cpu_map_idx; idx++) {
+> +		for (thread =3D 0; thread < nthreads; thread++) {
+> +			uint64_t *initial_val;
+> +			int fd =3D open(path, O_RDONLY | O_CLOEXEC);
+> +
+> +			FD(evsel, idx, thread) =3D fd;
+
+[Severity: Medium]
+Does storing a /dev/nvmeX file descriptor in evsel->core.fd cause
+evsel__enable_cpu(), evsel__enable(), evsel__disable_cpu() and
+evsel__disable() to fail with -ENOTTY?
+
+Those functions only special-case evsel__is_tool(evsel) and otherwise call
+ into libperf:
+
+tools/perf/util/evsel.c:evsel__enable_cpu() {
+	if (evsel__is_tool(evsel))
+		err =3D evsel__tool_pmu_enable_cpu(evsel, cpu_map_idx);
+	else
+		err =3D perf_evsel__enable_cpu(&evsel->core, cpu_map_idx);
+
+	if (!err && evsel__is_group_leader(evsel)) {
+    ...
+}
+
+perf_evsel__enable_cpu() and its enable/disable counterparts issue
+PERF_EVENT_IOC_ENABLE and PERF_EVENT_IOC_DISABLE on every fd in
+evsel->core.fd, which the NVMe character device rejects with -ENOTTY.
+That leaves evsel->disabled stale and aborts the group loop before
+userspace members such as duration_time, user_time or system_time are
+enabled or disabled in mixed groups.
+
+> +			if (fd < 0) {
+> +				err =3D -errno;
+> +				goto out_close;
+> +			}
+> +			initial_val =3D xyarray__entry(evsel->nvme.initial_values, idx, threa=
+d);
+> +			err =3D nvme_pmu__read_val(fd, evsel->core.attr.config, initial_val);
+> +			if (err) {
+> +				close(fd);
+> +				FD(evsel, idx, thread) =3D -1;
+> +				goto out_close;
+> +			}
+> +		}
+> +	}
+> +	return 0;
+> +out_close:
+> +	if (err)
+> +		threads->err_thread =3D thread;
+> +
+> +	do {
+> +		while (--thread >=3D 0) {
+> +			if (FD(evsel, idx, thread) >=3D 0)
+> +				close(FD(evsel, idx, thread));
+> +			FD(evsel, idx, thread) =3D -1;
+> +		}
+> +		thread =3D nthreads;
+> +	} while (--idx >=3D start_cpu_map_idx);
+> +	return err;
+> +}
+
+[Severity: Medium]
+Does evsel__nvme_pmu_open() leave errno unset or clobbered on failure while
+also setting threads->err_thread for a controller-wide device?
+
+Callers of evsel__open() and evsel__open_per_cpu_and_thread() such as
+__run_perf_stat(), record__open() and __cmd_top() read errno after a
+negative return.  When a controller does not support an optional log page
+(such as FDP, ZNS or Endurance Group), libnvme returns a positive NVMe
+status code without setting errno, and nvme_pmu__read_val() returns
+-EOPNOTSUPP with errno still 0 (or clobbered by close()).  The -EINVAL and
+!HAVE_LIBNVME_SUPPORT error returns likewise do not set errno.
+
+In addition, setting threads->err_thread =3D thread causes
+stat_handle_error() in perf stat --per-thread mode to treat a controller
+open or log error as a dead thread, removing every thread from the thread
+map in a retry loop until nthreads reaches 0 and evsel__nvme_pmu_open()
+returns 0 with no descriptors opened.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261113191234.2509=
+964-1-irogers@google.com?part=3D2
 
