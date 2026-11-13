@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAE35606A33F
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Nov 2026 19:35:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98A25606A323
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Nov 2026 19:35:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=lJ/B0NEp;
-	dkim=pass (2048-bit key) header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=cSjtKfFR
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=yZwtiJen;
+	dkim=pass (2048-bit key) header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=NW1W4VwL
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
@@ -14,68 +14,69 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	:Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=gXMsjTg9KyNTuX1cuQ9yr2iJq2/VClhNCtHhh+FL0ZU=; b=lJ/B0NEpWrZHbuLlcNeFRTJGJS
-	cKM6uz6wOKJHMqGHJc6LncOu6CiXgNooaM0XjRK2+RFPL8I0JKh+NW3lpoUpn+XOIaq3TqIPmAPAg
-	DcNIXP4Hsp0fRa4J7Z1bhwSEXBD4MWI3olZSfFIIw0SSHbBm0BqwV6k6BWVIKEJn41AaLqpXholNk
-	PsbJ8ibTQzA6vIkEPJfny5eywTMfsJhgpNLKeFnDSqu6/gMpRZSDnmdNHZEnBwK4u1Wb85fltQizc
-	sNGABFykGNlsk4mrbPKy8EfQVSf+nmjDySQDEkRWjiH/9ZhRQOAdLBjiGyMkWtofsa/iaRsbAez/Q
-	uHX7ml1w==;
+	bh=C9TZKYRayQVC7UyXoancZRI4bPIYIHY06/n7s/4tB9k=; b=yZwtiJensCdZj72nSRy7huJr97
+	OLCZqEoA/YJ4lX7MuNZ5EQbQj/pVF0sZZ4Hy5Hl83YCSDwRrIf3DLIOTZLqbi9v4HyM/+KQlvZdUu
+	whtGWNBsKnF2cLZzVyxlg9iCerVLNT2Q99Gt8ujNLwUa+1PR7da5DoQYpTEhM9K4sZtjGmjCmXBxE
+	FuMz9LQQo67TlBmW8cigR4WFBo8pNKOM8yIOLPrng6X17ZoclyLLmRQpm8bcjU7LCMt8KPHPKtVmw
+	JHDnI8ujl5yXdBVkcWzxh6uW9ilK6mFQEO92Rx38/soRlsVt2WRVOmVpk8YI7xXH3zPMjNCrkss8v
+	YXOsymjw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRx3U-0000000ECzE-2SRV;
-	Fri, 13 Nov 2026 19:35:24 +0000
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+	id 1xRx3V-0000000ED5i-41SU;
+	Fri, 13 Nov 2026 19:35:25 +0000
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRoG0-0000000CJYf-31yb
+	id 1xRoGO-0000000CJe4-0Piv
 	for linux-nvme@lists.infradead.org;
-	Fri, 13 Nov 2026 10:11:46 +0000
-Received: by mail-wr1-x42f.google.com with SMTP id ffacd0b85a97d-48e09aa5264so307489f8f.2
-        for <linux-nvme@lists.infradead.org>; Fri, 13 Nov 2026 02:11:44 -0800 (PST)
+	Fri, 13 Nov 2026 10:12:09 +0000
+Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-4a1fbd52ab6so8032555e9.0
+        for <linux-nvme@lists.infradead.org>; Fri, 13 Nov 2026 02:12:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1794564703; x=1795169503; darn=lists.infradead.org;
+        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1794564726; x=1795169526; darn=lists.infradead.org;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=gXMsjTg9KyNTuX1cuQ9yr2iJq2/VClhNCtHhh+FL0ZU=;
-        b=cSjtKfFRcnpLwkbfONRm29Gi26spuBfSjbW5ALw1pj4oJo1c1yQ2cCW8bDHcHzr9vr
-         LUCP/dQPmMYyfJdmrOWOYJaqtSn1FWb6XS4Wzsi4oh2tVralASAb4C0HW1DEgIuWL1Ou
-         X/3r2l6HmazJgEtzvX5b4y7z9e3rkcHA6l+y+k10s0ceBVLiSU0HcG3oEOdjyZ4p/Ppz
-         QN5o3Ovuzgv4CRP/oP8kBrJH7xZYsKZVsCOE+JDFCLanMXlB/ANtB/VP/gK2P/f6U4Zo
-         F6ZEHvaTL9nR587vChcljxcgIyQ8jp1VXizR2K08qaH9RMbRBzsiRLHmCPSdCFeygFu1
-         BZlQ==
+        bh=C9TZKYRayQVC7UyXoancZRI4bPIYIHY06/n7s/4tB9k=;
+        b=NW1W4VwL5I9eTyfiOrN+ExPjdoYEOaF4eSvi7N6YqJIWYPJA5e51hQSu9qJ9cvtKFw
+         LSFHq0fjQyXtctGOSSfUjr5uNR7+m63ylQluRR4uMVuWjnDCLCGQis/9wJGJPFIp2BU6
+         uUr3E0d8yC5yDIffOksqNFspC7v3G0jgfwJ2UH4OREjw726i0eje+yXWf69x07b7RbD1
+         eCkjihIJTSYWscInxwAwla8yrrDF+K7kY+HEKsiyw2RlTbHMvB40pz2LIqBELSlIUe81
+         3Qg4WQaCm47GYLRTfY/gMC7nZiBoj9IkWjZgHcGVRMJSDi3hjDU8ucOYyybaFcVXxv4u
+         /4DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794564703; x=1795169503;
+        d=1e100.net; s=20260707; t=1794564726; x=1795169526;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=gXMsjTg9KyNTuX1cuQ9yr2iJq2/VClhNCtHhh+FL0ZU=;
-        b=iPfQmass78zax5TotahOGvPAXcQOAkHy2yhaVY8KuD+Qh1j2SvfAxvwvFRUAV0yxCE
-         AAG+sF3SdYkLI3Q1pA1KCdHzQ7OXNNzdNp+fRtSbuS3DeegZzse1Q2fjcti78pddIPgQ
-         nYU0YXFDy+tw5dsB2QWqzMTbrY+5IiYSt8j05jCBSmjvrDWlRcpMRNnUZwvHDuRunEpH
-         8VVFEftQXkwPzOCITJoVWBV3mrxYXMN6V8Bt2sZRFqagFDSLPLx6KcaS3pof9hdii36f
-         nAVUQjzSJLHkazbGA1Ii0zlV4efoFJvnYj72bNgULpHtk0oCMgyBQKd+Pq2ld3Hurblm
-         QvDw==
-X-Forwarded-Encrypted: i=1; AL+hErE+w+IWxBagl1BwQUrH51El/mGbJZQveVM8ngNPcRC2/4N1qz34t0E+KxSj9HTA5SAe1vaTuEQIsBV2@lists.infradead.org
-X-Gm-Message-State: APuU4Z+Ze9p6ndniD96JhJEwSVdm6bJChTTfZgTQAVBd4C17tzBrr2Ga
-	ng1GQdZZIELrJ+AIolRXPaOKDeCIO0kz6uSu18ZdcAC8qWu+VaQzz7Sqwjsldw50aVxk
-X-Gm-Gg: AYBFou2cnVyAcEbdqiYDYdDWUx/Jgz8qqBTu9X0qpnFWCIlUJ4dBhEbneh74sXrFTKd
-	fFl0OOVhGweIPLQOKmg4fZILNtGzJW5LfgzIa4Xlq4urCrJ+cN4rlvUbysB673W8vw3pFcp8W0a
-	FMU5sYHCCfPHviJZSMC6f5myJ3jBGC954yFZZZcVd6y/IK9nrgF0JLE2yOaGd37TmY00EKibVEm
-	+TYTGQrFpPfzL4VKHwH2coNmurVoSlaMWUoYAJZZUGKOETMtQmgH7iWaCqre+s+uxmrlMz+cCm5
-	LEC3RyaXn5tVPUIVZkyv9CIDEMIx2Fz8wZ7ghS3+qw3m9pKQfdnAFGvw0+M6Pum1a8lfSlplA1j
-	7P/pC1kgW9OBJ6pJuYo7CQJNEqTMeCgNr2n06UxxrNdTRfQnpxcA6Hn9/Nr0/VapMUZh2a93ZDq
-	Gi/cA2YYOXxRUzFnRDlAUlHUQfEckwBJQepJjAuiDuujSt3H2TB9sx3Ym0xNHgk2zNeTvM/HScd
-	fEvZxcr15YPOj3Sux/6sKZXS/Bt7xz/pjnnhdvc6nVwHjfrA1AM4Q+kd+kWTH/HcJBmi4r0ws9Y
-	vtbOL7w/ur0tdL5AsUTYh0/NSGCAw+GElEkEY9+fLPbhrjKCSmPCfLrZQXmIafI=
-X-Received: by 2002:a05:6000:2501:b0:488:88ec:59c3 with SMTP id ffacd0b85a97d-49c73259cc3mr5012611f8f.14.1794564703010;
-        Fri, 13 Nov 2026 02:11:43 -0800 (PST)
+        bh=C9TZKYRayQVC7UyXoancZRI4bPIYIHY06/n7s/4tB9k=;
+        b=ntium7+vL1u5MNc0t/h2tytFTTH8el+bhoDorwNB/dwEe/KBEel3KK38/BpbQxHUX5
+         /zpKyXIGp52Mo5kfp6CPYSKBcsjULwSN0y89NSo5eztG/FIi+2Bz11MNR2EaTm21QU88
+         kcSHE/z6bMTlcYz2S0zbkZpLgOd5HHf55KToUMGbxrG31+SL0XbF/aIlmIOMvAZsiLGc
+         2o1FWlC3nLA5ZbUj0HH+OPKRlD6ORAm/DxruZcMc7Xhe8oPmZWqNSj3EyKYVQkCS7A4X
+         M/K9rRRS8Ogu2jfivE45BWl8AZaZBwo73qWUE7hyD6JaOdz9DkYdUroklxPSGUIKLorj
+         /qMg==
+X-Forwarded-Encrypted: i=1; AL+hErHVkeY/48I5d92I/bF9tetTzT5EyrjvVyyuu16AyzKrpHOQb6IVce3LGtSzTSXU/hDCMJi7iXk9dlux@lists.infradead.org
+X-Gm-Message-State: APuU4Z+P41b1Leo1eGvBNf3EuK5ZkllugyS5oRf/Q2CLV+Ot7/atTDei
+	8bVVoBc066pfNMLsXrbwL/URBQ5WGI5uLq0WsRa8eds0/8d2wxG03ygcXtl5aRZ6cSHj
+X-Gm-Gg: AYBFou2ElSRZs3+/VQ6iBktq/vG1CdQmvpYvQ4h0siVxgMMVAuDwuvlnfa/wGmj/h8l
+	r4yYL3nuPvOFSmsHXKUKShv+mrQLfhjt4WQR4Hv5rez7mq8PK/1gOmQyclg10iMmmgdm4WWOrLU
+	WZOs3K6+ZqOxMfmGfTvsQPlf9rtcr0nWNt0Xbma6lnq/P8dupuDNvH3jpHndZJl5DJkC7Hu5gJB
+	TXRnDlNTGgqz+5jS/yJ3rS5NEiejKyavwuQrpkrQl0mtX8daPcZuh1sCpoUjXcop+VflAi9lUAA
+	vkaWNtg90bPpXiZ9asJxw7hVxaN5qwwh1MSkuRd6dp7HqP2w0/vps3bgHiduztQIBOdJq4DRxMx
+	79VajNjM69Gv62hsxmAV6ZoeXJZI9w2GdjVYuFPusOsA/J40nLpmMNTokir43a6fJmtvJEumRFQ
+	PR3dLAz9Eu/ea5cj3hDRLuS5fXwuVMmrF77oNVhnbXWGUNPrA+3Fn1En1LC5Yg95W1T7z6SC3K+
+	2TVNiRerYUY19/qH/OiHlewOUjJeuVRlzLUHjH1NeBpoHNsGg+8scxkqU4ZopXB4CXcEdi6irHp
+	UbNpHSDvgiFVQjf2KQtGZCQuEH5Yub8U04l8yCGXZyGRQKimv39La/GETYtcq6U0/IE8wof9lCn
+	dt/q2CWcF
+X-Received: by 2002:a05:600c:c4a3:b0:4a1:6992:f861 with SMTP id 5b1f17b1804b1-4bb55a02932mr40317635e9.1.1794564726124;
+        Fri, 13 Nov 2026 02:12:06 -0800 (PST)
 Received: from [10.0.0.233] (tmo-086-54.customers.d1-online.com. [80.187.86.54])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c5f1c1797sm4931434f8f.11.2026.11.13.02.11.40
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e2842e6sm142085915e9.4.2026.11.13.02.12.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 02:11:42 -0800 (PST)
-Message-ID: <ff6d2a8c8623f5476d5c352dac1ad98ab3da303c.camel@amutable.com>
-Subject: Re: [PATCH RFC 18/41] selinux: use fc_init_pseudo() for selinuxfs
+        Fri, 13 Nov 2026 02:12:05 -0800 (PST)
+Message-ID: <82d691d2db7579d9630bf89f73132e36124bf74e.camel@amutable.com>
+Subject: Re: [PATCH RFC 19/41] smack: use fc_init_pseudo() for smackfs
 From: Alexander Mikhalitsyn <alex@amutable.com>
 To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
 Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, Josef
@@ -93,18 +94,18 @@ Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, Josef
  linuxppc-dev@lists.ozlabs.org, 	linux-usb@vger.kernel.org, Amir Goldstein
  <amir73il@gmail.com>, 	linux-erofs@lists.ozlabs.org,
  linux-kselftest@vger.kernel.org
-Date: Fri, 13 Nov 2026 11:11:40 +0100
-In-Reply-To: <20261110-work-loop-pseudo-v1-18-4c998976c6c7@kernel.org>
+Date: Fri, 13 Nov 2026 11:12:03 +0100
+In-Reply-To: <20261110-work-loop-pseudo-v1-19-4c998976c6c7@kernel.org>
 References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
-	 <20261110-work-loop-pseudo-v1-18-4c998976c6c7@kernel.org>
+	 <20261110-work-loop-pseudo-v1-19-4c998976c6c7@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.2-0+deb13u1 
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261113_021144_798547_ACC7A651 
-X-CRM114-Status: GOOD (  15.34  )
+X-CRM114-CacheID: sfid-20261113_021208_168144_C1687728 
+X-CRM114-Status: GOOD (  12.00  )
 X-Spam-Score: -1.9 (-)
 X-Mailman-Approved-At: Fri, 13 Nov 2026 11:35:09 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -125,60 +126,38 @@ X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
 On Tue, 2026-11-10 at 10:14 +0100, Christian Brauner wrote:
-> Initialize selinuxfs as a pseudo filesystem. This raises SB_I_PSEUDO
+> Initialize smackfs as a pseudo filesystem. This raises SB_I_PSEUDO
 > and
-> SB_I_NOEXEC. selinuxfs never holds executables. SB_I_NOEXEC also
-> refuses PROT_EXEC mappings but the status and policy files are only
-> ever mapped for reading.
->=20
-> But selinuxfs needs device nodes. The kernel replaces file
-> descriptors
-> with /sys/fs/selinux/null on exec via dentry_open() which doesn't
-> care
-> about SB_I_NODEV. Android init however opens /sys/fs/selinux/null by
-> path as /dev/null doesn't exist yet at that point. So clear
-> SB_I_NODEV
-> again in sel_fill_super().
+> also SB_I_NOEXEC and SB_I_NODEV. smackfs never holds executables or
+> device nodes.
 >=20
 > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
 Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
-   I.=20
+
 > ---
-> =C2=A0security/selinux/selinuxfs.c | 5 +++++
-> =C2=A01 file changed, 5 insertions(+)
+> =C2=A0security/smack/smackfs.c | 2 ++
+> =C2=A01 file changed, 2 insertions(+)
 >=20
-> diff --git a/security/selinux/selinuxfs.c
-> b/security/selinux/selinuxfs.c
-> index 310e19efff1d..d7ae853b6d68 100644
-> --- a/security/selinux/selinuxfs.c
-> +++ b/security/selinux/selinuxfs.c
-> @@ -18,6 +18,7 @@
-> =C2=A0#include <linux/vmalloc.h>
-> =C2=A0#include <linux/fs.h>
+> diff --git a/security/smack/smackfs.c b/security/smack/smackfs.c
+> index a72bc7fabea9..4a56bbeaeca3 100644
+> --- a/security/smack/smackfs.c
+> +++ b/security/smack/smackfs.c
+> @@ -25,6 +25,7 @@
+> =C2=A0#include <linux/magic.h>
+> =C2=A0#include <linux/mount.h>
 > =C2=A0#include <linux/fs_context.h>
 > +#include <linux/pseudo_fs.h>
-> =C2=A0#include <linux/hex.h>
-> =C2=A0#include <linux/mount.h>
-> =C2=A0#include <linux/mutex.h>
-> @@ -1852,6 +1853,9 @@ static int sel_fill_super(struct super_block
-> *sb, struct fs_context *fc)
-> =C2=A0 /* last one */ {"", NULL, 0}
-> =C2=A0 };
+> =C2=A0#include "smack.h"
 > =C2=A0
-> + /* Android init opens the null device below by path. */
-> + sb->s_iflags &=3D ~SB_I_NODEV;
-> +
-> =C2=A0 ret =3D selinux_fs_info_create(sb);
-> =C2=A0 if (ret)
-> =C2=A0 goto err;
-> @@ -1955,6 +1959,7 @@ static const struct fs_context_operations
-> sel_context_ops =3D {
-> =C2=A0
-> =C2=A0static int sel_init_fs_context(struct fs_context *fc)
+> =C2=A0#define BEBITS	(sizeof(__be32) * 8)
+> @@ -2880,6 +2881,7 @@ static const struct fs_context_operations
+> smk_context_ops =3D {
+> =C2=A0 */
+> =C2=A0static int smk_init_fs_context(struct fs_context *fc)
 > =C2=A0{
-> + fc_init_pseudo(fc);
-> =C2=A0 fc->ops =3D &sel_context_ops;
-> =C2=A0 return 0;
+> +	fc_init_pseudo(fc);
+> =C2=A0	fc->ops =3D &smk_context_ops;
+> =C2=A0	return 0;
 > =C2=A0}
 
