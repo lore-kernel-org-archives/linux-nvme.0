@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 130BD606A334
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Nov 2026 19:35:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFCBA606A327
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Nov 2026 19:35:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=H/nSCQ0b;
-	dkim=pass (2048-bit key) header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=BpxcsSKF
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=rViQIi80;
+	dkim=pass (2048-bit key) header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=a40WMXuN
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
@@ -14,68 +14,68 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	:Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=LWRhkHq/o14g3eGvU8PB/2eVsiZ8AcgjQiitoPu4Uko=; b=H/nSCQ0b2Pw0as8VyHSDJcRhxF
-	7syXM4xAcEHscQwpsCf7h51MJu8hco1VNHwbMluIrb6UXUqhPk1c3zPgRQQXeyC3V5AmcRcA4XeKS
-	G9vRZW91Aeya6rOEEAadxVSo2EPS4zc+sx45ZZwiTpTARcdI/MYode6RJZcJiqk611JbnJ0UYQQs3
-	1tmTxBR+2k3k69EAy1ROnL9/t3uwzfP9FOyLLVJjoaSP7R9oVo9FbBtB04tGD0ZPPneVj/hWXwxdL
-	YlqDuchrnoBRl1OOlXel3DXN0NjzAamjD37OcEfGMG9hlxNEAQaF/+X33obYH78jHNxoghcRX1aUb
-	SEhS97vQ==;
+	bh=QtOsdPCKGJ1fBhMqXd/zLQfd50NEx4L7veNiE/G2OUE=; b=rViQIi801OB4FIza6ar9y33cCT
+	qDIVArqSvitTN6ruvgJXR08BkPnvvPBoD+W5Wwi3SyO9lYSPkvOouGnBjrxNKEa1pkeKbDDkZELSj
+	UR5u0vcfCqiKHfhNefyVmhZ/LPZuL7JRzpGudjuA3KLYimOrIubhKJ2vMAwrPKtQWURjPJ/PxCKPU
+	4I8y/SaNkqR5IVwb+AaP+x/U2snFjFSxIewmzbRhC2Ad1PhBmnaOUAwUH+CS5ArQs5yPVZzcIwaWj
+	p9A00G84Q0lINPQcUY+bZLsCvfrjrPXxbK3XDyK7/J4Bzki+xtP2HUEeJvmlZFG0KNUQhUryQBmM1
+	/N5dzhcA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRx3Z-0000000EDEg-2Q67;
-	Fri, 13 Nov 2026 19:35:29 +0000
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+	id 1xRx3c-0000000EDHW-0V4O;
+	Fri, 13 Nov 2026 19:35:32 +0000
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRoID-0000000CJtI-0Uus
+	id 1xRoJS-0000000CK8A-45HL
 	for linux-nvme@lists.infradead.org;
-	Fri, 13 Nov 2026 10:14:02 +0000
-Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-492690dd5daso1015561f8f.1
-        for <linux-nvme@lists.infradead.org>; Fri, 13 Nov 2026 02:14:00 -0800 (PST)
+	Fri, 13 Nov 2026 10:15:20 +0000
+Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-4a5087a5348so5469175e9.0
+        for <linux-nvme@lists.infradead.org>; Fri, 13 Nov 2026 02:15:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1794564839; x=1795169639; darn=lists.infradead.org;
+        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1794564917; x=1795169717; darn=lists.infradead.org;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=LWRhkHq/o14g3eGvU8PB/2eVsiZ8AcgjQiitoPu4Uko=;
-        b=BpxcsSKFeHaGOTcq6G2/LWT57D64EGv4WN1zp+Uc8f+rZ5+6r38xKPVGy6yazDUf8o
-         8kqtm001Z374DD/wO1DSh1bFmY/nXUfLOVx3RznPv+AGnQVvjelGwokqfZmiKBqPJEDy
-         9tOtev4+O6ZkBWLF5F5H2Lwr5HewAPtUbQk/gExhVuAHnJF2yPVhOH0NQe2eOSfF7b7n
-         9uvC6BVG3oGzlqfMvriqD6DBWyQRaZv2myKptKaoXpo3r3YHSlvBHb4kJu3NTa939pDb
-         SfJfQzbZ5jTCL/EbwrD8tRSTMN6sRXSrDw5sXBsrQj3Ynd1HpW336gaxB7bIu5fXnTgM
-         /AKA==
+        bh=QtOsdPCKGJ1fBhMqXd/zLQfd50NEx4L7veNiE/G2OUE=;
+        b=a40WMXuNAUZh4N7TI7r9yn5afBeV2oV8xbXD6+hUy+0loiXDSgtM6w8KlriWpt+FKh
+         ZHb5sPFThc4KhyoQjlw8/T+kfT2KqjEe981q5OUsLVs7X+FoyrKgWnQeGE3IgyUrWUg0
+         dG0EL0njDpDQVyqwkWZRdGXBItW/1wOVNDNMD0PWtpskeXbPGKkLWDyG8j4/biiUY6RG
+         Y/e2e8HLz5J5GWMHPduS+m0C9vY56Uljx2IpSIcOmmDIbwIvxCfayMEfVXykLayLg0mT
+         oarGUIgAXXW+UOAF4mATX1ZSRyRWyBY2gZ38MKC/4SmKWqC6u0w+b/q9RD0SU0IyLZqY
+         yUwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794564839; x=1795169639;
+        d=1e100.net; s=20260707; t=1794564917; x=1795169717;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=LWRhkHq/o14g3eGvU8PB/2eVsiZ8AcgjQiitoPu4Uko=;
-        b=qRAJ0Enb3WYLzHl8GsRE9V9wU944OeTs0+lTt7s3Pt++x/LwuU4yxIiSgzyU7gl+By
-         NLQBW8rLSpJMvCTrQsZjEYViBvMyuPDeZyxutB54mFG39bMponS+PIwH+I7AF3swAlu+
-         +Uk/IPUKadnLNDFqObadOficnXNUVkQie4ExLfxF9xzXSgFY6cddq/dGTnNneEZ4qHJT
-         jS+cHoIwwfD+900UhMzYiS4nOLIXLTrmJFZRXLeeM1B87i0RtNmW04tfdfNGDgYk0daq
-         6FgwJzPUaCPv0L+sEoeqoHB6zd55ABDrPfrxSUwB6M/6D2G/Fe3tTx+UGbAC/kRElIJT
-         IwZw==
-X-Forwarded-Encrypted: i=1; AL+hErG+3Nk/qp0kYnvU41Zf8BTmlBH+sWTgFxnGCWogKuBbBJa1rmCPG5C6UyM5XlRQ9/dixFZcp5BpKPc1@lists.infradead.org
-X-Gm-Message-State: APuU4Z+kcuWNhBbBuw1f5+sm0I+PEyOK4e5Oli7GWYUqxeDaviDSb+XQ
-	/Nq/QQQmxdBj0/vYSqTbbkZThGyQ0lAqdOKgBdjzpGohh9+bQmtHFhdjXUfHgkin/KvP
-X-Gm-Gg: AYBFou3vKTTV9b+Afl5MM1d3O9FcQrqVfFgKlZVA4zghiAzA8iY7TZm7jEUVBUntolg
-	c486enHu3YRqIOcCvLGzNYD0Hny43UTSyOsSZiHsoQfqTbOM47L882Oji07tvXBokvsarfNqxM2
-	6yVmjsZqsUQWwHFVicR6o4ToIAs4Hwrpbj789PzNyFiNcZiX5pTIS84eP65sjNHqmcwqelvtrQK
-	jrGgpikaWYlMpqfBwgv29kvq+Dwl9HW6a2ohwKVPudnf8xdDuwTIiq9JYYcfSVnHTnKjzT6CTDd
-	cYcITDowZyFIBpY274u//Tbh2UsjZC7aU6R5dl8jfeTBjInYbLwkYU6GYjfpbOlNDx/G77ZTnZj
-	zJi0dwxOyEyJ/x3M1NsmBFRZcI/gRt4QIzJJ+17DSJr/OrkX7tpakPeFTXyNJvp9vLMvVr1WA9H
-	0wiLpvZNoFWylHORCaCeEfx70yJNxWlD2sDfyw69xtx2Esjs1su4IwiE1gZBZuTjSfqj5+9J2rj
-	3aQRQpptCLBcLUaYS/AP50UgfNiJau1UV9M4zvU3OXfcbNhmis5VOGRh1e8K2XeZ4/gSvtGGkH+
-	/zk21eDqlQhQjgL96QOmB7EnFmHDdDk6fBhLLsmsFqwpRddfifMTCCrljyfU3Xs=
-X-Received: by 2002:a05:6000:993:b0:48f:bc59:ab9c with SMTP id ffacd0b85a97d-49c6fd932f0mr4358101f8f.12.1794564838578;
-        Fri, 13 Nov 2026 02:13:58 -0800 (PST)
+        bh=QtOsdPCKGJ1fBhMqXd/zLQfd50NEx4L7veNiE/G2OUE=;
+        b=aMk8hNrfOMXf7CZCl7/baja3ddUbUC3v/UK1VrTVi4TPRk1UEU3OM41wJFnb+aShWz
+         HHuinwSFQWsaNcIZDh5DpUkm/NGrx23/2gIIcxcklJjVj19WIgJjfb5F7+AA/24obPkA
+         xIBk86U1CVjOmB/ymZzfAGshzJ2FlbsrE/+nT/F9RJ8RhcpVRrIv5xyMOiNsq4UKb2ET
+         tjDnuIhS00w7Wsh6IGWEF32AvN5qW4rIziwPmv57Pf+4vdqZq5t/QHHn08r+Agqb9Hah
+         XY9ZQg27xgAaih/cQM0Bv6p5llmv8BIDspgWvoBezi2OpNzQxHNdd32dv3r8HVSgKZJG
+         5z4w==
+X-Forwarded-Encrypted: i=1; AL+hErGOh/ZMVQ4sBzZ/iASEdLVdMgQ6ufoYhKhqkFr+W57T9MrOnEOUqO3q93yWMAZl5hJkFj4pIgaJRlah@lists.infradead.org
+X-Gm-Message-State: APuU4Z/9EEhyCvVXcTx7cEMc5tQsXg7aJluiq6oAT33jjl30bffgZ/w9
+	+G7Sgal2sWPNICjnoutDc/Cw2WhC5j4kkp7/KtkEK+f7GK1gQcQpwfmVTzp5DggnKriA
+X-Gm-Gg: AYBFou0HJsIO9mgISNykwzhtcqRVcRNGu9Xj3qWNbi2wrwJRZzZhSOv8XQfJtS8a8xU
+	ZH3Tsr5Psd6lhe+/LPxb7RrdPfFe7rkH4IxfdEtRy23cIKhvffv42efdEJ7zv1mRBO3AruYvyln
+	F6AIP/GUbrxT/WuKEdRlYsy+YxPb5mtcGRsaHQDIeuUdGulZqHWSkQeDFSRJNJag2yEZPNAsNgf
+	J4kydensf2YBzNIFANJP3a5UiL4q2f3ogzl2j/lOHqmj0rDcu03Exqvw6O3GO5l4FNMagX2tVGE
+	tntH8gUOVnLsJ4hgXlEiSa2G7KAIkm7fLNgBIMsCbaDnNqzrtEcZlihelJFSeoxN00mmPFtd6Tp
+	z6uliPcrGurNge9vP9ZY6Z0xfHQJckCcSDngMbQ936wzE7yDDXGwBbQaCUYO0lKVdSqsTfFdEGk
+	ptKOzzU3x3VJcjrkkPy+iB8/0roP2hybZ+13MjtDmrcjRUMhfJEuTn4W+s5O09MklBBU23icfHs
+	IXUhg9ZcNAPrhmImdMpHKZ4JJ9KDoiCJ9C6nc34GCJh2rAehNP/UzFBBtytdr//BjsqMb4prA52
+	5aQPdF3Kb1/nGNIgdZD92OQklGvV9rDyNrL4wgl0aMBTYIn1idKefeL+7HeBKbU=
+X-Received: by 2002:a05:600c:4f84:b0:4a7:7f3f:6f8e with SMTP id 5b1f17b1804b1-4bb5599ade1mr43492835e9.0.1794564916955;
+        Fri, 13 Nov 2026 02:15:16 -0800 (PST)
 Received: from [10.0.0.233] (tmo-086-54.customers.d1-online.com. [80.187.86.54])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49d673ce75fsm190118f8f.55.2026.11.13.02.13.56
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb56680ea9sm31982365e9.0.2026.11.13.02.15.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 02:13:58 -0800 (PST)
-Message-ID: <77855be3fb9f0e1888c6dddc56d73a1683c820f0.camel@amutable.com>
-Subject: Re: [PATCH RFC 25/41] pstore: use fc_init_pseudo()
+        Fri, 13 Nov 2026 02:15:16 -0800 (PST)
+Message-ID: <e2edfa06d185acd86b46945622b6eb6dff97b307.camel@amutable.com>
+Subject: Re: [PATCH RFC 33/41] fs: add file_is_pseudo()
 From: Alexander Mikhalitsyn <alex@amutable.com>
 To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
 Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, Josef
@@ -93,18 +93,18 @@ Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, Josef
  linuxppc-dev@lists.ozlabs.org, 	linux-usb@vger.kernel.org, Amir Goldstein
  <amir73il@gmail.com>, 	linux-erofs@lists.ozlabs.org,
  linux-kselftest@vger.kernel.org
-Date: Fri, 13 Nov 2026 11:13:56 +0100
-In-Reply-To: <20261110-work-loop-pseudo-v1-25-4c998976c6c7@kernel.org>
+Date: Fri, 13 Nov 2026 11:15:14 +0100
+In-Reply-To: <20261110-work-loop-pseudo-v1-33-4c998976c6c7@kernel.org>
 References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
-	 <20261110-work-loop-pseudo-v1-25-4c998976c6c7@kernel.org>
+	 <20261110-work-loop-pseudo-v1-33-4c998976c6c7@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.2-0+deb13u1 
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261113_021401_202904_90004318 
-X-CRM114-Status: GOOD (  11.03  )
+X-CRM114-CacheID: sfid-20261113_021519_031019_21A5B580 
+X-CRM114-Status: GOOD (  18.14  )
 X-Spam-Score: -1.9 (-)
 X-Mailman-Approved-At: Fri, 13 Nov 2026 11:35:09 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -125,37 +125,55 @@ X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
 On Tue, 2026-11-10 at 10:14 +0100, Christian Brauner wrote:
-> Initialize pstore as a pseudo filesystem. This raises SB_I_PSEUDO and
-> also SB_I_NOEXEC and SB_I_NODEV. pstore never holds executables or
-> device nodes.
+> Add a helper to check whether a file is a regular file on a pseudo
+> filesystem. Only regular files count. Device nodes on pseudo
+> filesystems
+> such as devpts, binderfs or the block devices on bdevfs are what they
+> are.
+>=20
+> Look at the inode that actually provides the data via d_real_inode().
+> overlayfs accepts sysfs, cgroup2, debugfs, tracefs, configfs and
+> securityfs as lower layers and reads of such an overlayfs file are
+> served by the file on the pseudo filesystem. Checking the overlayfs
+> inode would miss that.
+>=20
+> No functional changes.
 >=20
 > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
 Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
 
 > ---
-> =C2=A0fs/pstore/inode.c | 2 ++
-> =C2=A01 file changed, 2 insertions(+)
+> =C2=A0include/linux/fs.h | 12 ++++++++++++
+> =C2=A01 file changed, 12 insertions(+)
 >=20
-> diff --git a/fs/pstore/inode.c b/fs/pstore/inode.c
-> index cf499ba72702..4658561cf90b 100644
-> --- a/fs/pstore/inode.c
-> +++ b/fs/pstore/inode.c
-> @@ -18,6 +18,7 @@
-> =C2=A0#include <linux/ramfs.h>
-> =C2=A0#include <linux/fs_parser.h>
-> =C2=A0#include <linux/fs_context.h>
-> +#include <linux/pseudo_fs.h>
-> =C2=A0#include <linux/sched.h>
-> =C2=A0#include <linux/magic.h>
-> =C2=A0#include <linux/pstore.h>
-> @@ -491,6 +492,7 @@ static int pstore_init_fs_context(struct
-> fs_context *fc)
-> =C2=A0	ctx->kmsg_bytes =3D kmsg_bytes;
+> diff --git a/include/linux/fs.h b/include/linux/fs.h
+> index 99caef43ff3c..407ffb6342ec 100644
+> --- a/include/linux/fs.h
+> +++ b/include/linux/fs.h
+> @@ -2553,6 +2553,18 @@ static inline const struct inode
+> *file_user_inode(const struct file *f)
+> =C2=A0	return file_inode(f);
+> =C2=A0}
 > =C2=A0
-> =C2=A0	fc->fs_private =3D ctx;
-> +	fc_init_pseudo(fc);
-> =C2=A0	fc->ops =3D &pstore_context_ops;
-> =C2=A0
-> =C2=A0	return 0;
+> +/*
+> + * Regular files on pseudo filesystems are kernel interfaces and
+> must not be
+> + * used as storage. Look through stacking filesystems at the inode
+> that
+> + * provides the data.
+> + */
+> +static inline bool file_is_pseudo(const struct file *file)
+> +{
+> +	const struct inode *inode =3D d_real_inode(file-
+> >f_path.dentry);
+> +
+> +	return S_ISREG(inode->i_mode) && (inode->i_sb->s_iflags &
+> SB_I_PSEUDO);
+> +}
+> +
+> =C2=A0static inline struct file *file_clone_open(struct file *file)
+> =C2=A0{
+> =C2=A0	return dentry_open(&file->f_path, file->f_flags, file-
+> >f_cred);
 
