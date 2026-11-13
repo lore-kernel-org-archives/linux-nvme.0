@@ -2,75 +2,75 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BF44606AFE6
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Nov 2026 16:50:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A97C1606A330
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Nov 2026 16:50:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=xDC3YrBH;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UNvwGFVA
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=YHzo8inQ;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=e5uR8V4V
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=Sj+PtzYdnjGYfbb6t2H2MVysDxpCLFt7LwmF5pgMPGk=; b=xDC3YrBHDGAKWK
-	qPvlH20wV9XpAScqcy3s7AHLsQos7jFrzWvJFnDQvibjA47DPHJSL6ePtbu+iI9u9zXqMo/1ER5gA
-	Ntj+YIbklVbDGWaVkIFvXKs1CTbsnOxRAHOSITSgx2uizP8ttBlJOyIZVtr9ny1e4yOcWm5qXIbFo
-	Hd7MAPvwqxajsOb4hOGjrehIS1CMwSqn0JJgdVvLwWKHCyCnumU+NFY6cShWwhx3eO5AZ2FW1t9Fm
-	J4Q+cdUpvslu/vYJHfxRRyG9Vgjt+skFWsCIjvnqs1M1Yub1RKqj7cLxSBE6QBz7cocidbVrzoLxs
-	bshmy55k2uJ1gi/O+bmw==;
+	List-Owner; bh=kLAcGg2VCpo8eOUcmFqEoR8opJZbxlMwwMLnuPqaB0s=; b=YHzo8inQJzYkhZ
+	gxNz9Jz0EB6d3VxM/3nMJ3cCzqFV7HCubRF+QmP4/DpFcJvIwarzTrfiyUfzi2qYQ7r/+ppPdy8Lw
+	L2KbwOo4midgvpHeXMnBWPuisY24QZBVEjM9igxKU/Ovoe07IwTKM5cF5+VwsKgbQh38hN30P5Hh2
+	myImzzDnFTMBA3eCqhzU9hzLTC5ZZiIylVolnbsVRUGypraDZliDmTn88qA2328Bho7GH+C9d+b0V
+	AnYZxpqqljHyjzPwxaDVGYW/HUl4xVJsMA/Ylc1GZMvB4RKwW3buQ/IiKZQvh+J41JogZ7TpFp0Ku
+	8QD7FDPv71pnfINZAxJQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRuTr-0000000Df6W-3jMV;
-	Fri, 13 Nov 2026 16:50:28 +0000
-Received: from mail-dy1-x1334.google.com ([2607:f8b0:4864:20::1334])
+	id 1xRuTt-0000000Df7c-1XwY;
+	Fri, 13 Nov 2026 16:50:29 +0000
+Received: from mail-dy1-x132f.google.com ([2607:f8b0:4864:20::132f])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRuTp-0000000Df4Z-0nz4
+	id 1xRuTq-0000000Df5s-3Y5g
 	for linux-nvme@lists.infradead.org;
-	Fri, 13 Nov 2026 16:50:26 +0000
-Received: by mail-dy1-x1334.google.com with SMTP id 5a478bee46e88-33fb4680717so3413455eec.1
-        for <linux-nvme@lists.infradead.org>; Fri, 13 Nov 2026 08:50:24 -0800 (PST)
+	Fri, 13 Nov 2026 16:50:28 +0000
+Received: by mail-dy1-x132f.google.com with SMTP id 5a478bee46e88-37986eb6fa2so2845975eec.0
+        for <linux-nvme@lists.infradead.org>; Fri, 13 Nov 2026 08:50:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794588624; x=1795193424; darn=lists.infradead.org;
+        d=gmail.com; s=20260707; t=1794588626; x=1795193426; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Sj+PtzYdnjGYfbb6t2H2MVysDxpCLFt7LwmF5pgMPGk=;
-        b=UNvwGFVAhx2A++SHtx+t1BlWwNUlryUBDsff7visDo1XtsK2CyUVHtthmgdbcNJTkr
-         xajHNivPMxKw4rfe3msE+6HtwMO8Rxrm8LboBMzRJbcQYztiyIHZV+OOIbG8LF1uo9qY
-         JjP3AG3IWeHSwJ9AfWzqRkRWHHJf5vZMVZvVyiMcrKmwxGMRAM53D0rxbQFU9HJ4yJGI
-         OPpyIfoVInwhdd2DXdU1xT5/x7VcEAGcYJRl90WWlyNzEfkLXYu2VExtp5Eqstg9rf3l
-         ECRXU5sLIJH44xrBiMG3poK9gHWH6CF2bd63gJZtaJsXi6/IFhGCxcg0ffdCw8uJos3+
-         TLZA==
+        bh=kLAcGg2VCpo8eOUcmFqEoR8opJZbxlMwwMLnuPqaB0s=;
+        b=e5uR8V4V17kuTTEzBhbrWT70yZTKERlJTfd01+Wwo/FpRtwySj1aUeZ4oYYPC/mSHB
+         +kLJxSk20bYDyXwCW5EJeZPtpHOlMkSTYp32Ebr1gvyKvay+HrafX7NlvITQNlnYUbI2
+         awgwB/P4IGdyOl9FVhZnExzdryDGDFRDGORb4fW+f5VLUaSwo9JukShBNezHWZZpKyok
+         ywsa7Fm4EUWBX6q1/AvrpH3J8LchEr7VmuPccn5EQskv0/CWsY95wwBwT/548Msa2mV3
+         kK9XQRiuOZ5gY6gRlUnV/e4kGKTy611C5QTIrUYE+uDYYRp6gc8n4pZ1gMoYlLulcyS3
+         qfig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794588624; x=1795193424;
+        d=1e100.net; s=20260707; t=1794588626; x=1795193426;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Sj+PtzYdnjGYfbb6t2H2MVysDxpCLFt7LwmF5pgMPGk=;
-        b=h4d4c1kh/7lX32x5P7N/lAmJbWVELMwDlhfEng4g7iJN9YnK/Lx+S5CNFaKMb1BBod
-         JpVdfdazAlyQWFXNKVa0tSlL0VPU9TVJz9Hh60SOfeTf591BgGK4RvYLMSzprECw4RzU
-         l1fTE2up4n5N0bAh2joSKeLeIcVxuywCDjcrYOm6lhObl235h7jjTwn5yRKARr1Ydx9n
-         zXe5HaxZjTEOeEZmnKQIYzCCdzctHnnLM84NuIhuCA429Gkw5lU0kjvd4t645+Y3MC3L
-         /jJSJ8L3D+UlAL8buEcR8R4Ompk5SN/Y6ONg1WBzWgHDfoY1txjcBMMkECEP333xeeiV
-         DhcA==
-X-Gm-Message-State: APuU4Z/MZBdaJ4KvmUpb/hyKk2oiGfW3fKEaz3wNW+zFZurNaOG7Z26i
-	fOVJSSWzheGT5ij5sxLFHgKtdYT1MN9ZUYqSVP0mQHgzQsWEBA/S/yMPX+V1dxaj
-X-Gm-Gg: AYBFou1WWen/0Fnzer3GKsaKRCSajhyM+i9y065g+qwTQo45ZuNsVg6cOZQjg5dAHk+
-	GLSTtAD0ahk3hpna/4FineIl7pdbbOiVt1BtCDcy8LOUX73YpGXwwG8rNdpBJOOndFKRFWEJ67m
-	OUdmetrAEDo2nRdfToSf6cQ9LLyhKmjII/UYNIBbFLNlST/HsF8tGvFCquq0s6VUjxhedVGThPa
-	pYVtPUQtlp6GzB3KhZ8J40te6+yTI2hW33MxaiF4UPxqJOeF+DFfs4V62kAzqTwMM4Eoo7MzYcv
-	uMnNUYGf0TTtiVhMS2n1jz0FuCcEifXfWESMPisD4LOgAc4QIWAWkMNVzXyXP0MJUZfD1DRS8NN
-	lEeB12bqZu1xViqOhGAKF+QbFWXJoQG9csFH6Gj1FU+YBUKeV2sTTOJ8+uve13lbwA8yY6zkoyA
-	d2wf5WjTnV5DdwQiaUWIxggsQHfshNwbJcjf6SbNIN1nT6vWVstktJKssNPv2KKNUA54xD7rEBM
-	+I9LY4rKHOGMmZGB/9cIIB0eMN0ae+4eKkZkJLZfcfhNsM53QXuZHR3Dj+g2DWzLh+OQ/OoCDKd
-	y3ceP8CcADczgbuRTvEb7lt5hSn26A==
-X-Received: by 2002:a05:693c:414c:10b0:369:9062:c392 with SMTP id 5a478bee46e88-379680cf511mr3005715eec.37.1794588622688;
-        Fri, 13 Nov 2026 08:50:22 -0800 (PST)
+        bh=kLAcGg2VCpo8eOUcmFqEoR8opJZbxlMwwMLnuPqaB0s=;
+        b=aAUglfS8LRflnhpnARzq9TdujrZzXTCXG5klB8TJxCNbAnx+2RLbFWYTxy6IxCLJyL
+         kWZJ7iAhg+3x3zCKlD3WWsWU4qDYPAGnrhNAUg9Yzc25xmz9r4G3NDVTqnzJKQvQXnyT
+         SKFRSRpCHXiEbMsnvow5YYuVRi8sw6C6h+MC38Ayhwlj5CAfGTK0l/7dGG1BA9KG+1X8
+         VLsOly++qi62xcbqzHeB+qCwYMACt6rCcOs5EkO08adST9hIQjnIMBlDLQoOEj8qtcj6
+         oKNC3IOwp+34bWnCuBE5J5MSzF/x9y59TGKB5luA0zN8Bwb0dkAGr/Hn42MqfOtS7/OB
+         DG7Q==
+X-Gm-Message-State: APuU4Z9/Dt2L5txmqkduEGEU936e0r8O05xpp6OvUVKlklmC0kcxcX0l
+	fstbyFPMr8bjmASQI7YBH5x04sK03ocR8vRc6ISaVTKcXsnCe22om0i6SVOIWLDR
+X-Gm-Gg: AYBFou2Iz3KzQg8K5CEN3BT0LBTh6jcCBgWIvjdCoxnPr9gcCiEkSVCbRmgBa4sbTe3
+	rCyjZQVBxi4rt4JGIpboxCI+PDHQwhuvvYzdjSru9JUaK4IOjLgCNJsofSHfvHo/U9MwZ2SbfPJ
+	Z51JBudrGYHES06HecEWEIaLJrBsB8i2GlFpnYE4LfG5bftcLMDQmDIw9KucHaPGxv11OmUdC/m
+	ftT6HPBjw+oclAwf3hLuh+NXSFVLFmX9fclQN/XCv28W4oPX/+nFkOfO2OYNQlyURin063CycTz
+	ys+HGKolnAll6NRrRLfvu0ou/1XAFoImBoJ6192H7PUoX9sqp6mIuyRjUyZgeoNGaf15XQmMBd7
+	oniT7LvazO9RPKSQ15RUzuu7g1XUyEFX+0sSz3UAaFk1udAM6rgkrUWen33G1j0T4toofFMdYSb
+	RVxH131bRUbjlTk7Ol3JdkE8GToLhoubTLek/LNxLjyk1SHlxYM25dOxa61jiqjUFbX7IazR4P0
+	d+xKIPVvH8tTI711bBRyx3wXqm1xmIi/Jpc6jpNS1QXOsPQXScjxMPxuN3/pT86o9u1yAdvpoFc
+	D7V5f14UXc7Kd7GNgQK+1BIuCkP33Wk=
+X-Received: by 2002:a05:7300:478e:b0:378:314:402d with SMTP id 5a478bee46e88-3796666e0bamr4156888eec.14.1794588625465;
+        Fri, 13 Nov 2026 08:50:25 -0800 (PST)
 Received: from Ubuntu.netapp.com ([136.226.242.199])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-37955822d58sm8284403eec.10.2026.11.13.08.50.19
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-37955822d58sm8284403eec.10.2026.11.13.08.50.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 08:50:21 -0800 (PST)
+        Fri, 13 Nov 2026 08:50:25 -0800 (PST)
 From: Martin George <martinus.gpy@gmail.com>
 X-Google-Original-From: Martin George <marting@netapp.com>
 To: linux-nvme@lists.infradead.org
@@ -78,9 +78,9 @@ Cc: hch@lst.de,
 	kbusch@kernel.org,
 	sagi@grimberg.me,
 	loberman@redhat.com
-Subject: [PATCH v2 1/3] nvme-fabrics: bound reconnect_delay to avoid overflow
-Date: Fri, 13 Nov 2026 22:20:00 +0530
-Message-ID: <20261113165002.12536-2-marting@netapp.com>
+Subject: [PATCH v2 2/3] nvme-fabrics: bound keep_alive_tmo to avoid overflow
+Date: Fri, 13 Nov 2026 22:20:01 +0530
+Message-ID: <20261113165002.12536-3-marting@netapp.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261113165002.12536-1-marting@netapp.com>
 References: <20261113165002.12536-1-marting@netapp.com>
@@ -88,8 +88,8 @@ X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261113_085025_254011_CF0B5075 
-X-CRM114-Status: GOOD (  13.46  )
+X-CRM114-CacheID: sfid-20261113_085026_903039_4C554F15 
+X-CRM114-Status: GOOD (  13.08  )
 X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -109,46 +109,34 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-reconnect_delay is accepted up to INT_MAX, but every consumer computes
-"reconnect_delay * HZ" in 32-bit (nvme-tcp, nvme-rdma, nvme-fc), so a
-large value wraps into a short, bogus reconnect interval.
+keep_alive_tmo (kato) is only checked for being negative, yet it is sent
+to the controller as "kato * 1000" ms and used as "kato * HZ" jiffies for
+the keep-alive timer; a large value overflows both.
 
-Reject values above INT_MAX / HZ in both the option parser and the
-sysfs store.
+Reject values above INT_MAX / 1000 so the millisecond form "kato * 1000"
+stays within 32 bits. kato is unsigned, so the "kato * HZ" jiffies form
+cannot wrap even on architectures where HZ exceeds 1000 (e.g. alpha).
+This mirrors the target, which caps kato via NVMET_MAX_KATO.
 
 Signed-off-by: Martin George <marting@netapp.com>
 Reviewed-by: Laurence Oberman <loberman@redhat.com>
 ---
  drivers/nvme/host/fabrics.c | 2 +-
- drivers/nvme/host/sysfs.c   | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index c262538523fb..25029978b978 100644
+index 25029978b978..b4ca0f9fd703 100644
 --- a/drivers/nvme/host/fabrics.c
 +++ b/drivers/nvme/host/fabrics.c
-@@ -893,7 +893,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 				ret = -EINVAL;
+@@ -837,7 +837,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
  				goto out;
  			}
--			if (token <= 0) {
-+			if (token <= 0 || token > INT_MAX / HZ) {
- 				pr_err("Invalid reconnect_delay %d\n", token);
+ 
+-			if (token < 0) {
++			if (token < 0 || token > INT_MAX / 1000) {
+ 				pr_err("Invalid keep_alive_tmo %d\n", token);
  				ret = -EINVAL;
  				goto out;
-diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-index 9672ca3f74d2..8876d8db5401 100644
---- a/drivers/nvme/host/sysfs.c
-+++ b/drivers/nvme/host/sysfs.c
-@@ -632,7 +632,7 @@ static ssize_t nvme_ctrl_reconnect_delay_store(struct device *dev,
- 	if (err)
- 		return err;
- 
--	if (!v || v > INT_MAX)
-+	if (!v || v > INT_MAX / HZ)
- 		return -EINVAL;
- 
- 	ctrl->opts->reconnect_delay = v;
 -- 
 2.53.0
 
