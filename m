@@ -2,105 +2,110 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13265606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 721F7606A32E
 	for <linux-nvme@archiver.kernel.org>; Fri, 13 Nov 2026 19:35:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=EhkF/qiH;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.a=rsa-sha256 header.s=s2048 header.b=F+m434hx
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=JQWMIKgI;
+	dkim=pass (2048-bit key, unprotected) header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=dhbf/2lx
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=O8h9fybdyu+Al7CdWlfRBQ6LgqQutaBSF+Rc2HGjCVE=; b=EhkF/qiHCCZyw9
-	KOYRcPh1sSahIRYkIdSSidv8ZDNw7fAgE//Z9LBpIvHPb5vu8oLXMAVxqW5N0uRZ5uEpDtQBBH1N2
-	YBuIJErapYfb94qM2k53thIrr5hbI/NUyvRoUugUK4r8c43tj7FnCTao4+17o8z+bNjhvEjD4hiqb
-	DJ1NvPdgUTXuJwzf3uQMpfvXJM+13jQQcU0GbFueNPQW9k8N6ioH67hI5m8FZM7+c74HAeqKJxkUd
-	d17XfBeqER2uGOulOECOyvGqRrwvE5pUpMMaF3N2LFqn8428hKUfwQvR4AeghRpBBph0Lw6Z3ERbp
-	4xR/HYNBW70mC3sTPDsA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Date:Cc:To:From
+	:Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Unsubscribe-Post:List-Owner;
+	bh=G8DmFU4pJwAPCJlqHBF8SKasEEThxtJNlC1sg/CSkLw=; b=JQWMIKgIccPTmoFz3MxzajQjwa
+	EZQ6YJHBFKclEiij1EhBmwZkHxIGbCNjp2ZqOQf9LXMG9crYpeRtEUU4Jg2JFmBTwl/xu13+e8Thl
+	Q3eBUGagm42rEaMW6wD1AaQZR0nPIGk1B6c8SExmuT09YKmg4bwGZvfkbvT+oTRM9ZTuXhK0y+1Ed
+	dvBZOorIxrA8LF5lN9NOJn+4CiSJoh7gq6Y/+AkzmhtP+p0jLiYsOE/7SQqqZs8hYjZPdBLNlmszk
+	lWVpBLroZR7sbTCFVPmsBFlWSlTF03WtjswMQaHryi1Mb8cZkf94syCU+IRPxv+lNWW1tR6rj6B6U
+	uHCCwZrw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRx3H-0000000ECdm-0Jua;
-	Fri, 13 Nov 2026 19:35:11 +0000
-Received: from sonic311-31.consmr.mail.ne1.yahoo.com ([66.163.188.212])
+	id 1xRx3I-0000000ECfY-0OHX;
+	Fri, 13 Nov 2026 19:35:12 +0000
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRJxW-00000008Rqc-0M90
+	id 1xRnzp-0000000CGp7-2re1
 	for linux-nvme@lists.infradead.org;
-	Thu, 12 Nov 2026 01:50:39 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1794448235; bh=O8h9fybdyu+Al7CdWlfRBQ6LgqQutaBSF+Rc2HGjCVE=; h=Date:Subject:To:Cc:References:From:In-Reply-To:Content-Type:From:Subject:Reply-To:Content-Type; b=F+m434hxnazo+znIsDN87b1q6q2BjDXrSK85l4sPO4/7/Nv6ouklEMGBpfrTHUnO8eGiNQoV5Bbw/uB3JZACliQBg8PtdTRYRP97HHZoegx3ArYwH69kAdVaUPkV7WcyNd89YKs91cZCwmWeziNsUM+FCRLahqzZW3a6Ku8pvIiJlMO/7XaKbdkzRicymfmmSk9XFsFNG+fkHI8UO70pZ1hFT9v2XQiwRrAslvpHUFbDR+3rpTT4Ikh/N/oSBL0qRMnhxDrBkdI0Mmku6tTsyJWpgcJjSTSvBuepznmh0kGiP8yElqSHRAm6ov8qvVTBbZJZj+71HtVfmpD+WAp7XA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1794448235; bh=cB6ms4YZu3OSr7Oj5Ktyy9vRYllWqlKKBSjCDtAOhd3=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=Wh5tO+A7k6l9RAB9CmF+7nFPpV+s7vwQOvHRCpB836zmpk+EmZdiT1obFQYb3eEYUV/ZZrDMNSGrpqiSFrVBvEAP1+BcX3bVXL8AkZe5aM0djERGyxVy+oivb40ItIA89tHRP/kW5BzO7GaPGZrOTfFkDQF1HHnKQVH/ifoH5PYTL/BXjLkbPViq5JKecTMlRIryhz3iU6NkOHkP1F3oliaijdeTD+Tk00HCA4w802Q1PFZvsZSndMk6hlb4A1wMRPh3z4tVeu12oZckS5JIJR1ywCFknBKWBE+hVxojbZ57Qr3RCaKJrua5vLBD1s/SnsdmRZ+/JLOhUlVDaAQyJw==
-X-YMail-OSG: zqmnDtkVM1n5t6ueog55b_vkFHSYM5E1qoECEJywzBr3UwiKAfUIVI_o6w7R9SH
- CQ1t93f4qyBpZEcVGjU2OBO9C0Of8.lRAD_UtcVdUMSf6_GiG98G7rNXb1ZhUGsyYLDyJE5oLG69
- MPpknxdoviNcfunvMa.q1ATsxUiRNZaaYFEtaSi7o3ARz3uzFbYwa4zXUFVTxVNR1M4yEm8E_vMu
- CX3lc6b1b0MWbnmh3DAeGebLmTpZwI12LuF9QH7MRRpV.Y7YkiPkkooycQl42qWPa_ZCsKSCVnTi
- cfYjzn7ZtEqmGYVjYEY1kEbVCA4JoS5GMMDKMoO39G5YhBugROnX2jrgGh0AwdwAby30.ZBxmd.l
- S62hS2hlPvIDoPxGhzS2whxCcIZrt8XbiUGRsBq2lfu8t9x.TIubZ4wIiRqzfDYoZIwioLDCjm6k
- .cljRFJEOnSix_ImX_sSyVP7eQAAEJ1GsHeUHb7atzAIHDlw0lV7YT_EQZaDbjuCghjYyGwMa7FJ
- LxdRDFOXlr05WMcbROqV0a4sd0J7UyT01rGVa2p8mqlfg_ZPSk1p0.zKLMJDr5A1o8n0sxe4LbiR
- qbREBgT6XAwECEJNbNHKO1YTM4iOmevp8GvnGDd6MDNapigfFoPwfu59SMy7zYd9LO3Z8_0VkIJt
- aPlGTgcyxBF.v1wQggIdb30_WaSmydGJlcGPdQ03irHq2wrwxiCoQO6IJUZEr0jypo3mUQnAGyDG
- k9vUUntKtCsyi.w0t_vFjR1T1M3Z6Xk5RLKDL9njS7LNW.CupQSEmNQ1GkX7kSwPFQP21HwmyMsp
- i9SdJowJ0s5y.bw2SrHxrP7sM6YbNToNL5ZVELMODpe5VuCBtDWl7VcCxYMmahr5455.ZE_hGmHs
- LrmFJx1uQ46OcZ2Ii956498sukETOy0INQsrtoq.ypS01I6QTO8GSI7rVFeq81ZNfcHhvUGJ06ME
- B8yJmeeVBase_8cBDx_Yk7y0xRppCWZz9S9bNwiHzQcmhSHJ99JaTf4E0zOIsgLWqU5tZh4wLZKp
- MnYneLIuBkBNwjBcYTuKXcpCwff8fTcsfan2g9ag6_HRqbKvb3lqTrnQRPIG.IGMBIXdu4D1HB2r
- Ygn65JHFmN1QF2ROBGshwilsGajQNSqHXHgx.co9RO5Evfjv8vx67t__1ew7rn3sc1C.7W_m4N4M
- cSR8SYdV43PcknGSee9yB1x8pWannWLYRUROzisZnoPLwDPX1S0a5pIeYojUo9jnHaAdfaOw5IJs
- bc0nB3tQZQ.0b782FrYX_n_pf05DxifKK1hrJ0OqXSo23BlRt.p63_4auT8X4tq9HTs9fxQLg0OA
- ydi2BtTIKopjFdQtWH0NOUC1U6_wILbgtZfZnlVsbVhHJ7Tk.UZGmAVff_vQl8b4id5D4T9jwtS9
- 8nKfk1Ghey2tqeZDF9SgVACRH_x6kJa81R1e4J_83TMyBY4Ays_MTt39YbFzXRfBMRqG0I92h9IS
- Xl4i4wMK_gUqmjpP0P_oaDsTzptxLp7NMOmOY3T81w3i60pQpmuYMvggEU3dv.ebRC4Brat.KcXq
- ZyjrZ4BouQUvapbNSNNP1Y253sBId7Ys37DryRT0fCsyFp6LIN0DYA1xElaICSH34S2v84muDGZe
- .CGRnjEo0Q2679LeUfRrG7eDmdHtGbtXa02kyQjntuOc7VrR9y8jRUHqkLiiITgSdxH1QGB5PWuQ
- ARpFP1xjX3OHKFGeQd7o8WX3xDhKeppcWAPJEhIosno79RY0IQ4.4JX7WCaXgDYbj6BL4okuPPnu
- 9CEiWKr_A1oRBHcXo_t2XyX1N2Jd1tPqjLAB1WY0vIGe1SVdGRdRloM6.RT24mU1pbFP4DjeRn1w
- _aXrAymHoztvd7BVNk78MI6f1URU2iBFJ6msmP6JgXQac5cfrtvlS9yn2eohnwEPfv__IKNy26n1
- mYs7i0yOvj6LH9jEvBJfejsFOAeuf8LBdL.MbTk8ZZiVorhzaxO81Zf4PRAQwZfM29CLtP5dAKbb
- klVicXy3HgsPrMZiM94qTb2yOlO2WSLEgrPS_2Vx31FNEHJNJpuKXHkfgTtKgjLPmpCr4Taq44yO
- KB8vbaoDybAHzNwFN22pWQG3NDp.x8aciLmMT8fUQgwMgW8NlLKb6ErL7ChYlwsHUhzhzMbUfvnT
- 2bA6QlHpoN4OcRsGeb2ygbIpUCMhvL1tqClAnkg41oGlCJa3crNRCKKeXXqZBarf9KzLHJa8i581
- 0YgHHROuHzbtZ8GRm6ggBoLbsrITMfTGKIshO9uwpGYYxl6nVscbC6LtZUsxlV5iP8t8XsYi.ga0
- EDsRWYHlK
-X-Sonic-MF: <casey@schaufler-ca.com>
-X-Sonic-ID: 4e6572e0-628c-4102-8309-f6caa349ac8e
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic311.consmr.mail.ne1.yahoo.com with HTTP; Thu, 12 Nov 2026 01:50:35 +0000
-Received: by hermes--production-gq1-fd7994565-9vhlr (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 15d81e1a8a6348ae9dcd84771e3b8196;
-          Thu, 12 Nov 2026 01:50:33 +0000 (UTC)
-Message-ID: <41617b0a-90d9-484e-a143-78e2a92e872c@schaufler-ca.com>
-Date: Wed, 11 Nov 2026 17:50:30 -0800
+	Fri, 13 Nov 2026 09:55:03 +0000
+Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-c3f04e0e65fso169260666b.2
+        for <linux-nvme@lists.infradead.org>; Fri, 13 Nov 2026 01:54:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1794563698; x=1795168498; darn=lists.infradead.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=G8DmFU4pJwAPCJlqHBF8SKasEEThxtJNlC1sg/CSkLw=;
+        b=dhbf/2lxAAghIUQl4WtvFyk963ukEkZB15xldlEN9aycWtR1FZKVbdNStNQuqE0PEq
+         BRYfNsRKRdHgNgbTbHQj3KeAoMaZtxlfCtP/Vo84tmzy3DlGQgWHdjSO73ug7PrYNwPO
+         K7OGo+dfk8uIM3VFjRSINgMM9b6wUPtYDFVC7UXU28iiRgS/j8Q+z/eUbtsfrjcAXjOc
+         bTFlaDHU97fRpe1m8aBIeeLfFg6+vAUw0QJRa3+CQdh55hfeD4fTo1f0flumI9Vk9R4P
+         roKvVsM7ltE24jmCYmO0L0NTkyWHNXJFrQ8fkOd8AjpFjvGzu7B4vPbG/W34V4qsoqFl
+         joAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794563698; x=1795168498;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=G8DmFU4pJwAPCJlqHBF8SKasEEThxtJNlC1sg/CSkLw=;
+        b=0t3T1IZZq7Nd/8CKZfRNYOR4wgR4Atv/XR02fOg+eyIEZDeEZ7Uvqw/WyIz4ulZoGU
+         KCb/lVEmbpWVo2xErtzUAkZancXuKnvSssCK+wjNZVqjv3NkhkmB6QF+Ff2QvaZ1ChUl
+         IhYofrPaXe1LXX2BjN0DBkw2/8gJnVR0g2cANKuusbGKEZuaSKRVhCshpF/Jvi1y0t1x
+         9Sy2IJtLYprjWu48kP+Vze8KvLNYGvWhfnMy0LBJuUB28IwPktjr9+BXSzCw9/TD5kJ5
+         Dr9WztoaviR1B3afXsgqhUO9o9uDREidTFA2WSLVH95twum7nzXH+8hRxxso8xw/nj0Q
+         /csg==
+X-Forwarded-Encrypted: i=1; AL+hErGzUib1UA0cWNFt1HXFXVEUL51qaOWzLT83YA7/OW2emEQdSnzuIqpV12pb0ZH7px+cYlo9ObxFPC6J@lists.infradead.org
+X-Gm-Message-State: APuU4Z82IsOPFyxqotehVrDCBoH5HxY6Erw+ctQ7yScCjrZxUcW4MKgR
+	Ald3eVl6fBtT1QswwkSxzk9RqMu2CNdfHqN2VtsE5WCqjuHZROmwsJEtUNcFBvkOglkN
+X-Gm-Gg: AYBFou2MPovo2lkDrzmwx0Dv9iDNhwWNiUkFq5oUfnVXIbpRSNQeL5HWNkLPOIGBWwV
+	2DS6XNlRk4UDu7ehM0W3O6WmquoVHwM/NUXLEnHAiN7sb/xvbwctGmTaoNpd3LOLdgDtMmctqZ/
+	Oh7qKr+wGysB/i4qKRoZQbtdj8tqSIiTjX2Rb0t+fXsmRReRcQjtdLKoGcq+N/XwpxupvbotNrO
+	AGSR39PJIPeTqc3gvyD6flfmL/MJrYuXAQ19mYtmAMUUaEOhcc+uzdmpFNR3zWjPgmfGaVqOJZ2
+	vyN6Ecxvipz0WP5fLq+AAEWJeyf5yte0w5ry39WIOWWxb9lztb44x5vPa6SgwkFpllKthu+/iRt
+	WFRFI6C4LLzj/ZMQbs5UZPphrdY/dwXPGW5jvTifI9s5YIZ0fz7U9RROITL3+nPQGQJ7SHzf68/
+	9o6aQFSz92sSIsk9ZHwz7CB4a4xwQGJw63no2H2BN2Ptzdl4wGadKgCR0MgJKEVOYKmLprvu6yE
+	5McsOsB+dQ/scXNKjB8wDjCDJPJWuIU2q+e3kX64wMJKxYJpwe9W12t0KfkkkvQjNYQyr3HtQ6N
+	DrFPti5rwDT6FFKI5Ye95UPfSsIUH3BHeoXutotR9EwxBs6uhriTak+f0epmpuI=
+X-Received: by 2002:a17:907:ea93:b0:c41:4c20:5a80 with SMTP id a640c23a62f3a-c50963bdb9bmr198299566b.44.1794563698514;
+        Fri, 13 Nov 2026 01:54:58 -0800 (PST)
+Received: from [10.0.0.233] (tmo-086-54.customers.d1-online.com. [80.187.86.54])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c50957c6c1fsm75151566b.0.2026.11.13.01.54.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Nov 2026 01:54:58 -0800 (PST)
+Message-ID: <b42c9f4d29a9cbea66929c95cc8f736f12703c72.camel@amutable.com>
+Subject: Re: [PATCH RFC 01/41] loop: refuse backing files that aren't open
+ for reading
+From: Alexander Mikhalitsyn <alex@amutable.com>
+To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
+Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, Josef
+ Bacik	 <josef@toxicpanda.com>, Christoph Hellwig <hch@lst.de>, 
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org,
+ target-devel@vger.kernel.org, 	driver-core@lists.linux.dev,
+ linux-mm@kvack.org, bpf@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
+	apparmor@lists.ubuntu.com, linux-nfs@vger.kernel.org,
+ netdev@vger.kernel.org, 	fuse-devel@lists.linux.dev,
+ linux-efi@vger.kernel.org, 	xen-devel@lists.xenproject.org,
+ ocfs2-devel@lists.linux.dev, 	linux-s390@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, 	linux-usb@vger.kernel.org, Amir Goldstein
+ <amir73il@gmail.com>, 	linux-erofs@lists.ozlabs.org,
+ linux-kselftest@vger.kernel.org, 	stable@vger.kernel.org
+Date: Fri, 13 Nov 2026 10:54:56 +0100
+In-Reply-To: <20261110-work-loop-pseudo-v1-1-4c998976c6c7@kernel.org>
+References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
+	 <20261110-work-loop-pseudo-v1-1-4c998976c6c7@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [apparmor] [PATCH RFC 19/41] smack: use fc_init_pseudo() for
- smackfs
-To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
-Cc: linux-efi@vger.kernel.org, Jan Kara <jack@suse.cz>,
- Amir Goldstein <amir73il@gmail.com>, linux-nvme@lists.infradead.org,
- fuse-devel@lists.linux.dev, linux-mm@kvack.org,
- target-devel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Chris Mason <mason@kernel.org>, Christoph Hellwig <hch@lst.de>,
- linux-s390@vger.kernel.org, linux-erofs@lists.ozlabs.org,
- linux-scsi@vger.kernel.org, xen-devel@lists.xenproject.org,
- driver-core@lists.linux.dev, Jann Horn <jannh@google.com>,
- selinux@vger.kernel.org, apparmor@lists.ubuntu.com,
- Josef Bacik <josef@toxicpanda.com>, linux-block@vger.kernel.org,
- ocfs2-devel@lists.linux.dev, Alexander Viro <viro@zeniv.linux.org.uk>,
- linux-nfs@vger.kernel.org, netdev@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-security-module@vger.kernel.org, bpf@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, Casey Schaufler <casey@schaufler-ca.com>
-References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
- <20261110-work-loop-pseudo-v1-19-4c998976c6c7@kernel.org>
-Content-Language: en-US
-From: Casey Schaufler <casey@schaufler-ca.com>
-In-Reply-To: <20261110-work-loop-pseudo-v1-19-4c998976c6c7@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Mailer: WebService/1.1.26943 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261111_175038_205883_656AA33B 
-X-CRM114-Status: GOOD (  10.48  )
+X-CRM114-CacheID: sfid-20261113_015501_989785_30E441BB 
+X-CRM114-Status: GOOD (  21.10  )
 X-Spam-Score: -1.9 (-)
 X-Mailman-Approved-At: Fri, 13 Nov 2026 11:35:09 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -113,49 +118,65 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-15.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-13.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=4.0.1
+	SPF_PASS autolearn=unavailable autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On 11/10/2026 1:14 AM, Christian Brauner via AppArmor wrote:
-> Initialize smackfs as a pseudo filesystem. This raises SB_I_PSEUDO and
-> also SB_I_NOEXEC and SB_I_NODEV. smackfs never holds executables or
-> device nodes.
->
+On Tue, 2026-11-10 at 10:14 +0100, Christian Brauner wrote:
+> loop_configure() takes any file as long as it implements -
+> >read_iter().
+> Loop itself never checked whether the file was actually opened for
+> reading. Buffered I/O went through vfs_iter_read() which refuses
+> files
+> without FMODE_READ. Direct I/O has called ->read_iter() of the
+> backing
+> file directly ever since loop grew support for it.
+>=20
+> Since commit f2fed441c69b ("loop: stop using vfs_iter_{read,write}
+> for
+> buffered I/O") buffered I/O calls ->read_iter() directly as well.
+> That
+> commit was about O_DIRECT handling and the FMODE_READ check went away
+> as a side effect.
+>=20
+> So whoever can set up a loop device can read a file it was only
+> allowed
+> to open for writing. Open the file O_WRONLY, configure a loop device
+> with it and read the contents through the loop device.
+>=20
+> Refuse backing files that aren't open for reading. Loop always reads
+> from its backing file so a write-only backing file never made sense
+> in
+> the first place.
+>=20
+> Fixes: bc07c10a3603 ("block: loop: support DIO & AIO")
+> Fixes: f2fed441c69b ("loop: stop using vfs_iter_{read,write} for
+> buffered I/O")
+> Cc: stable@vger.kernel.org
 > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-Please include me at least as a CC on Smack patches.
-I ain't dead yet. Nonetheless,
-
-Acked-by: Casey Schaufler <casey@schaufler-ca.com>
+Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
 
 > ---
->  security/smack/smackfs.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/security/smack/smackfs.c b/security/smack/smackfs.c
-> index a72bc7fabea9..4a56bbeaeca3 100644
-> --- a/security/smack/smackfs.c
-> +++ b/security/smack/smackfs.c
-> @@ -25,6 +25,7 @@
->  #include <linux/magic.h>
->  #include <linux/mount.h>
->  #include <linux/fs_context.h>
-> +#include <linux/pseudo_fs.h>
->  #include "smack.h"
->  
->  #define BEBITS	(sizeof(__be32) * 8)
-> @@ -2880,6 +2881,7 @@ static const struct fs_context_operations smk_context_ops = {
->   */
->  static int smk_init_fs_context(struct fs_context *fc)
->  {
-> +	fc_init_pseudo(fc);
->  	fc->ops = &smk_context_ops;
->  	return 0;
->  }
->
+> =C2=A0drivers/block/loop.c | 3 +++
+> =C2=A01 file changed, 3 insertions(+)
+>=20
+> diff --git a/drivers/block/loop.c b/drivers/block/loop.c
+> index a3325ceab484..c96e35c3ef42 100644
+> --- a/drivers/block/loop.c
+> +++ b/drivers/block/loop.c
+> @@ -528,6 +528,9 @@ static void loop_assign_backing_file(struct
+> loop_device *lo, struct file *file)
+> =C2=A0
+> =C2=A0static int loop_check_backing_file(struct file *file)
+> =C2=A0{
+> +	if (!(file->f_mode & FMODE_READ))
+> +		return -EBADF;
+> +
+> =C2=A0	if (!file->f_op->read_iter)
+> =C2=A0		return -EINVAL;
+> =C2=A0
 
