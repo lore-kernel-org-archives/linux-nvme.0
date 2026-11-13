@@ -2,60 +2,64 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15D4F606A8B7
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Nov 2026 10:31:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1570606B261
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Nov 2026 11:03:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=PTAXb6hB;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Czea2v3j
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=UhMEJiM9;
+	dkim=pass (1024-bit key) header.d=scst.dev header.i=@scst.dev header.a=rsa-sha256 header.s=mail header.b=OTRA4icC
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Subject:From:Cc:To:MIME-Version:Date:Message-ID:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
 	List-Unsubscribe-Post:List-Owner;
-	bh=eMV3fy5t0VpY/FSLcuKHKvnqE+X2qfbYOgi2HRBKryk=; b=PTAXb6hBbLw17OGkZnVObjHfPR
-	OYMKMSKIgsBhAwVBYmD+wv9/By6FsmHWoHYnhJnstw7xaPdevN3GODky93+MQaGA5BdD082q4KAtl
-	fDDnfwFf5Gt0hvQjQdOYS4PvmHez9lPeSK6WF7uU6rGudg5hbB68SpmxRkUHJcgIu01OxUVpp0HnJ
-	RfOJ8043Id6xyvZiH6gfPjDBD9A7Or4WiYGEWoGoWoeXnZw+UIfZZoVtQP5ifDU7iPYOj30Tp5y9q
-	5kKwcESat86jeKAIrUvlBjrixFeS++KMPHvxy6SF3kx5iXQwpOSWt9Ig7xjZjY7UX2IhAvbYepMrt
-	gosFFfCw==;
+	bh=0jtrBX8FtvSLkOBcHo3ilWdn8svmU2wZqpyXZecbL3A=; b=UhMEJiM9kDN0eFzEhLTV5zVEMi
+	Ef3nv/GlYzY8Xxe8xXYzJ5kauoN5ILdbNuBmcNmBJSF7/N0wvHRgzfthAhzMqxEQn8d+SmQT9Gc2j
+	b/yM1u9JBAKP27xn8va0ERlB+IFYFshL2YIJ+Xg0yYHlmXJO2+8vSE3nY92lQpY60DZuEYUYQL6eD
+	YLYPL8rg3FyXf3f47uNgieVb4HtE11jPyB2kZeOv/9UjVASp96QQUThCzjbf0ovzPMcREQd0/Phn8
+	Qqi618lvvY3ACya62B0xxspMbXdXaIdxBTRSaE2FGBKf8JQcXduhNkkFU9zsMVapRBSwQdOs5t93l
+	JOWmIQsg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRoZQ-0000000CNVU-3Ihx;
-	Fri, 13 Nov 2026 10:31:48 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1xRp3d-0000000CS6F-12By;
+	Fri, 13 Nov 2026 11:03:01 +0000
+Received: from forward101d.mail.yandex.net ([2a02:6b8:c41:1300:1:45:d181:d101])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRoZP-0000000CNVO-45Av
+	id 1xRp3Y-0000000CS4Y-10VF
 	for linux-nvme@lists.infradead.org;
-	Fri, 13 Nov 2026 10:31:48 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id A11A84127F;
-	Fri, 13 Nov 2026 10:31:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6F301F000C4;
-	Fri, 13 Nov 2026 10:31:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794565907;
-	bh=eMV3fy5t0VpY/FSLcuKHKvnqE+X2qfbYOgi2HRBKryk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=Czea2v3jA1Slv9RRTOWAVO9Uct8INCn23GMuIBv4jdVZnuMTZhH+mKFAI18oOIRCG
-	 RKxdKzNbRyXyym3ldge//q0+JToLF2dxXYMy9NI/N/VpwkRTQCPGX7ooWAF9VfsbNK
-	 tezH2L5GY4rOAYpuTb9VdBOkzXcOQxdQRHy07gDv4VcgDu+OE1z7MJpra6X3lV0NWW
-	 Yzgb1PvG38+iVnu/NyB6q5K/Gdx+l31J+vCgYE8Xr/9tI8KQ2ttbnLVwk3zteVwdLC
-	 k24zS6sonl4BYtTnlA1PQgclXefzp55DEWhnJ2AyPcz0M7cjvM6746fEoPRcva7OZs
-	 DyGYwIS6inIPg==
-Date: Fri, 13 Nov 2026 11:31:42 +0100
-From: Daniel Gomez <da.gomez@kernel.org>
-To: Arthur Simchaev <arthur.simchaev@sandisk.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, Andres Freund <andres@anarazel.de>, Pankaj Raghav <pankaj.raghav@linux.dev>, GOST <gost.dev@samsung.com>, Daniel Gomez <da.gomez@samsung.com>, Avi.Shchislowski@sandisk.com, Alex.Lemberg@sandisk.com
-Subject: Re: [PATCH RFC 0/2] Support for Multiple Atomicity Mode
-Message-ID: <20261113105333.3-da.gomez@kernel.org>
-In-Reply-To: <20261103093839.203841-1-arthur.simchaev@sandisk.com>
-References: <20260929-nvme-mam-v1-0-48dcbe79cece@samsung.com> <20261103093839.203841-1-arthur.simchaev@sandisk.com>
+	Fri, 13 Nov 2026 11:02:59 +0000
+Received: from mail-nwsmtp-smtp-production-main-77 (mail-nwsmtp-smtp-production-main-77.yp-c.yandex.net)
+	by forward101d.mail.yandex.net (postfix) with ESMTPS id 7441DC0056;
+	Fri, 13 Nov 2026 14:02:51 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-77 with ESMTPSA id m2T1LaofYiE0-Hlo0eWK1;
+	Fri, 13 Nov 2026 14:02:50 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=scst.dev; s=mail;
+	t=1794567770; bh=0jtrBX8FtvSLkOBcHo3ilWdn8svmU2wZqpyXZecbL3A=;
+	h=Subject:From:Cc:To:Date:Message-ID;
+	b=OTRA4icC8TyQw7bedOfZ56n6WX2UnOYyEwLgWD6ztbrfp91c3Kdg0mHdDXmai9dr+
+	 xxKMCwg1DQcwugQpnD4c4poUQW1ONjjV6ywhlFHtSHiQeSy1LyuakkveHvJLtmgID2
+	 i8krOWdCKX33zX8Tzx1XDZHswlg9dcd7X4ZtgNMw=
+Authentication-Results: mail-nwsmtp-smtp-production-main-77; dkim=pass header.i=@scst.dev
+Message-ID: <0099f610-a48b-4557-8515-e4df444262e8@scst.dev>
+Date: Fri, 13 Nov 2026 14:02:47 +0300
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-X-Mailer: lorebird
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: linux-nvme@lists.infradead.org
+Cc: hch@lst.de, sagi@grimberg.me, kch@nvidia.com, kbusch@kernel.org,
+ linux-kernel@vger.kernel.org
+From: Gleb Chesnokov <gleb.chesnokov@scst.dev>
+Subject: [PATCH] nvmet: report backend transport errors as path errors
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20261113_030257_976814_B3DEB9C1 
+X-CRM114-Status: UNSURE (   7.72  )
+X-CRM114-Notice: Please train this message.
+X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -66,82 +70,51 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
+The block backend maps BLK_STS_TRANSPORT to NVME_SC_INTERNAL with DNR
+set. This discards the backend's transport error classification. A Linux
+native multipath host completes the request before considering path
+failover, even if another controller can still access the namespace.
 
+Map BLK_STS_TRANSPORT to NVME_SC_INTERNAL_PATH_ERROR without DNR instead.
+The transport failure is behind the controller, so report an internal
+path error rather than a host path error. Associate the error log entry
+with the namespace, as for the existing access-denied status.
 
-On 2026-11-03T11:38:39+02:00, Arthur Simchaev <arthur.simchaev@sandisk.com> wrote:
-> On Tue, Sep 29, 2026 at 01:17:10PM +0200, Daniel Gomez wrote:
-> > While I think this small feature is worth having (hence this RFC)
-> > for users sending atomic write commands that are contiguous, the
-> > question I'd also like to discuss really is how to also expose clear
-> > MAM semantics to userspace for users who can send larger commands,
-> > so they avoid syscall overhead [2] and splitting, and still get the
-> > atomic guarantees in the LBA subranges. RWF_ATOMIC currently exposes
-> > SAM semantics, but I think MAM may be confusing for users, as it's not
-> > simply a larger atomic write but an atomic carrier. Thoughts? What can
-> > work best to leverage MAM from userspace without conflicting with SAM?
->
-> Hi Daniel,
->
-> I agree that RWF_ATOMIC should keep its current meaning: the whole write is
-> untorn. Letting it accept larger writes on MAM devices would silently weaken
-> that guarantee for existing users.
->
-> If we want userspace to send one large write with per-piece guarantees, I would
-> keep RWF_ATOMIC unchanged and add a separate opt-in flag that describes the
-> guarantee rather than the device mode, for example (names are placeholders):
->
->   pwritev2(fd, iov, 1, pos, RWF_ATOMIC_CHUNKED);
->
->   - statx reports a granule G (e.g. stx_atomic_write_chunk)
->   - the range is split at file offsets that are multiples of G
->   - each piece is untorn; nothing is guaranteed across pieces
->
-> If G is tied to atomic_write_unit_max, a G-aligned piece never crosses an atomic
-> boundary, because the block layer already requires the boundary to be a power of
-> two no smaller than unit_max. A SAM device could then implement the flag with
-> one atomic bio per piece, and MAM would only be an optimisation underneath. Open
+This allows otherwise retryable native multipath requests to reach path
+error handling.
 
-You mean a "fallthrough" for MAM while making SAM path an iterator?
-I was thinking in something easier to start with like simply not
-supporting SAM path in this RFW_ATOMIC_CHUNKED flag suggestion, and
-return an error like we do today if you send a non atomic conformat io
-with RWF_ATOMIC.
+Signed-off-by: Gleb Chesnokov <gleb.chesnokov@scst.dev>
+---
+OpenAI Codex assisted with the code analysis, patch and changelog.
 
-The "interesting" thing is (for NVMe MAM) that you can send a large
-command and it will be atomic at the chunk boundary anyways. But I guess
-users may want to have guarantees of their chunk atomic granularity.
+ drivers/nvme/target/io-cmd-bdev.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-> questions would be the semantics of partial completion and errors, and how
-> filesystems keep each piece mapped to one contiguous extent.
+diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+index 72618dced191..da640b8e8241 100644
+--- a/drivers/nvme/target/io-cmd-bdev.c
++++ b/drivers/nvme/target/io-cmd-bdev.c
+@@ -167,6 +167,10 @@ u16 blk_to_nvme_status(struct nvmet_req *req, blk_status_t blk_sts)
+ 		status = NVME_SC_ACCESS_DENIED;
+ 		req->error_loc = offsetof(struct nvme_rw_command, nsid);
+ 		break;
++	case BLK_STS_TRANSPORT:
++		status = NVME_SC_INTERNAL_PATH_ERROR;
++		req->error_loc = offsetof(struct nvme_rw_command, nsid);
++		break;
+ 	case BLK_STS_IOERR:
+ 	default:
+ 		status = NVME_SC_INTERNAL | NVME_STATUS_DNR;
 
-Thanks for the suggestion. I plan to work on it after this series.
-
->
-> Before adding a new flag, though: with this series your fio example (io_uring,
-> iodepth_batch_submit=4) already sends four 16k RWF_ATOMIC writes as one 64k
-> command, so a single large write would only save per-I/O work in the kernel, not
-> device commands. I understand real MAM hardware may not be available, but that
-
-HW is available for those who need it. FYI, I'm currently testing this
-on a real device and post more details in a new revision.
-
-> cost can be estimated without it, e.g. by comparing host CPU usage of a batch of
-> small O_DIRECT writes against one large write of the same total size on any NVMe
-> device. Even a relative number (e.g. % CPU per GB written) would show whether
-> the remaining overhead justifies new uAPI.
-
-100%.
-
-Thanks Arthur for the review. I talked with Keith at LPC about this so
-I was planning to resend it. I will now, take your suggestions and send a
-new version.
-
-
+base-commit: 7e1392a42ea288d70a266f6553fe06f57f8647ea
+-- 
+2.56.0
 
