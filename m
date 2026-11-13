@@ -2,91 +2,94 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F356606A333
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Nov 2026 19:13:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 144F0606A33F
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Nov 2026 19:22:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=WoCn1Wm4;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=MHsVYFN4
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=egqGJZo0;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m80YD4nW
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:From:
-	Subject:Message-ID:References:Mime-Version:In-Reply-To:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:Date:Subject:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
 	List-Unsubscribe-Post:List-Owner;
-	bh=WfUO+QAnUhk3kJEbZLZWOhsMR7Pb1ynIqJCBQIT9iaw=; b=WoCn1Wm4wQT7yJ2G3pJMoSdd3J
-	4HhWaWlpgxsQy9LIBm+4vm8iEquxZWaaGiq+TIpmUYstPt4m8WW4GuMfddQscFwYC3yyOLzjWEdSU
-	g9w6U5C4+ei0jpZm9gUH4UcU8UN5Zj6IieXLCVEd49kVk34NDYMUBQGhIvryJzO4kHwV8xotmMFHI
-	iOqQpYRJgcb79ujTffa5OTXRZyUItsDkSnB4jkfQ7A6Qrts+CCtdRMG8ejc8b1+P5hbFmmSaHL/Iq
-	3n7y9VqAEPMDFOTbYZiDNq1AeRDAv0r5FIjGKeb26XaO0rmXdQttpt9/PdEV7j/0s1/bwUC23j4hc
-	kVNyAmUg==;
+	bh=l0oJbUY+SvzJsICg9xSRT+ZLpUvnIBdovaTpdSZ9ReU=; b=egqGJZo0g2nJfnTYB1M/tm25Le
+	EUsuIuQU03SJeghrISO5+xAoEfOKKQjtwEkiAxkkd+WkJdoyPNy1kcx4GLEafAZqSU4kA4ux8q5T7
+	nTt2RYdgTvpheI3bKAtiTq2cS5sxVm6t6Dxahzt1vUnquS8HSYEBpVKubuUeS5V+/0saNiua1m8eP
+	V0kxUiZPBsMe15cZZDHEqd3CtYXNLK3pQ/cYQtTqiZFGKd/WnffKBBAGW8nTeVKVnwRImHzzMEuzM
+	GSR1Ajo5D5EcNpRsDCxZaXegMzXyGWRuzQGsbguaalvR3RzrkScwONfCkHCt+fZOQTM562E3/TKwE
+	ahydUcvw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRwi7-0000000E7hM-0c2d;
-	Fri, 13 Nov 2026 19:13:19 +0000
-Received: from mail-dl1-x1246.google.com ([2607:f8b0:4864:20::1246])
+	id 1xRwqk-0000000E9Rx-0aMK;
+	Fri, 13 Nov 2026 19:22:14 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRwhz-0000000E7bX-1ZD1
+	id 1xRwqh-0000000E9RM-4BHw
 	for linux-nvme@lists.infradead.org;
-	Fri, 13 Nov 2026 19:13:15 +0000
-Received: by mail-dl1-x1246.google.com with SMTP id a92af1059eb24-139b62317d0so5040606c88.0
-        for <linux-nvme@lists.infradead.org>; Fri, 13 Nov 2026 11:13:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1794597190; x=1795201990; darn=lists.infradead.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=WfUO+QAnUhk3kJEbZLZWOhsMR7Pb1ynIqJCBQIT9iaw=;
-        b=MHsVYFN423ZjJb7d6uVkDPcHx0/ScjBJvKMI7hDgNxV4bfKzdqe1ADXJPhLAM/C/CL
-         kKn5locEp5FsfKcUCL2+z5zhoOIsh7iuaFlidK7Rdt/nodBvG14w0wFNaZpPGOyWW0u4
-         ryep2qrrpaFpQyvo1rdNb8Tzv0reEAzdUxtc7TjuxtGUwGuACjeYB9y3nwEnCOCj/HlX
-         Yft/NeSoVbtTCA+NOWaiSNDhX5qvo5E7ZyHe37Ub5lSJ+0RFW3ZJq0dWUqcSzqowPV16
-         o7bp/ZTsGsDXtiQrHMmsqRKtzYdoe/fQWdqfTz+32VYHX67FaJpAVsCoOaArFMBxlScP
-         Kh6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794597190; x=1795201990;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=WfUO+QAnUhk3kJEbZLZWOhsMR7Pb1ynIqJCBQIT9iaw=;
-        b=QNhR3r2tuO2MqqFTynk82XCKwy46Nf1AM83fmMm7s0QHkIbruklfjr/AxPbjj2BitV
-         AHIfwCRvi/RV4xNopRPBZpCg7zG6jOhqecyvi7cYM7SJtZ3MNb1NL6x09jOT2eQLNbhL
-         REw3CYE38i0NU9wy80rBfEt6P2hfVIuJbXAH9pbyp+9YMnOqRj6X7jig2eWXj8694VBE
-         jRSV0Rc3Nix3oFKvuugiVsdpAGAslKktLoWVuLSydHICDcsaKFA7AU1v+l7C6zUrJGHg
-         NCrbqTy7hdF8Bl1eJMDyBlGV39MIQFiwoj5Bioo+ruKo9T07DZ2WVzM3sAy1R/BZGE0Z
-         Ft7A==
-X-Forwarded-Encrypted: i=1; AL+hErFwl+9uaFgR31FR40TLUebPqWYAqM667Syy3ZBDT//h5mrSpyELS5hz3+oQNT3ATzroXBqGxX6qqSki@lists.infradead.org
-X-Gm-Message-State: APuU4Z/yeHwm3zbnKIuzSqRKoa0N4ks69JQrwkstISoWJ10zhBU+pel5
-	8c5SaT7rImiZhd2H44mZUQwdgqQ9B1eVgB4dtdLZjbraRzKphU50Y+PChEx4JCO1gjmyZE9XfOf
-	HOiBjDj0fZQ==
-X-Received: from dlbuj4.prod.google.com ([2002:a05:7022:3d84:b0:15f:5ef4:b896])
- (user=irogers job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7022:2513:b0:1ab:faad:cc9
- with SMTP id a92af1059eb24-1b503115806mr4410106c88.11.1794597189054; Fri, 13
- Nov 2026 11:13:09 -0800 (PST)
-Date: Fri, 13 Nov 2026 11:12:34 -0800
-In-Reply-To: <20261113191234.2509964-1-irogers@google.com>
+	Fri, 13 Nov 2026 19:22:12 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id 722AF62706;
+	Fri, 13 Nov 2026 19:22:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C183B1F000C7;
+	Fri, 13 Nov 2026 19:22:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794597731;
+	bh=l0oJbUY+SvzJsICg9xSRT+ZLpUvnIBdovaTpdSZ9ReU=;
+	h=From:Subject:Date:To:Cc;
+	b=m80YD4nW0fSqqaREPNFJ4niNtwZSIgriQSD6rOLebnfTHthWB9cJ8vEdL9WgYlfLp
+	 IIIiK5fw7FxZ5IerKXCFawdEaQIHZkaKbC0C+e8q+UNcOGpa7G5b7qMpOUuslfweGb
+	 BIED1I+1Kih1x73llSwPQ3NFhOsXg+ouJQ3i+sq8FwrJ128o3tjRL3z7k1SHNiPUlx
+	 oRdM7hLhWzoGzzKwlBXR9bRryo2wZjos/Xhs3LDvTsJiOTUcJ18xkhywje/fi5OHVD
+	 nFydnM/aDzhFcSW1xj+qlvroq82MnncfrnFNc4wclKGGVVIpxgfepG6wh6kI3SISQM
+	 NjV5BT54CSlnQ==
+From: Chuck Lever <cel@kernel.org>
+Subject: [PATCH net-next v3 00/10] Deliver TLS session tags to upper-layer
+ consumers (NFSD)
+Date: Fri, 13 Nov 2026 14:21:58 -0500
+Message-Id: <20261113-tls-session-tags-v3-0-91271964cdb0@kernel.org>
 X-Archived-By: <archiver.kernel.org>
-Mime-Version: 1.0
-References: <20261113191234.2509964-1-irogers@google.com>
-X-Mailer: git-send-email 2.56.1.703.gf848ed807c-goog
-Message-ID: <20261113191234.2509964-4-irogers@google.com>
-Subject: [PATCH v3 3/3] perf tests: Add NVMe PMU event parsing test
-From: Ian Rogers <irogers@google.com>
-To: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
-	Ian Rogers <irogers@google.com>
-Cc: Christoph Hellwig <hch@infradead.org>, Daniel Wagner <dwagner@suse.de>, Yuzhuo Jing <yuzhuo@google.com>, 
-	Adrian Hunter <adrian.hunter@intel.com>, James Clark <james.clark@linaro.org>, 
-	Tomas Glozar <tglozar@redhat.com>, Michael Jeanson <mjeanson@efficios.com>, 
-	Dmitrii Dolgov <9erthalion6@gmail.com>, Alexandre Chartre <alexandre.chartre@oracle.com>, 
-	Leo Yan <leo.yan@arm.com>, German Gomez <german.gomez@arm.com>, 
-	Anubhav Shelat <ashelat@redhat.com>, linux-perf-users@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261113_111311_444196_A2DAE8D2 
-X-CRM114-Status: GOOD (  23.23  )
-X-Spam-Score: -9.5 (---------)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22PwVIDIRBEfyXF2YlAwE085T+sHFiY3UU3YDFIx
+ UrtvwtYetFjT/e86bkzwuSR2PPuzhIWTz6GKg4PO2YXE2YE76pmkssnroWEvBIQUstBNjPByXG
+ upD4eJqVYXXtPOPlbR76wgBkC3jK7fDv0Mb6izY3YsqMhhDGZYJc2+kk/Xo0PzV885Zg+e7siO
+ rEXqVX+FikCOKhhdMKdlNNanmMydsW9jdd+v8hfghD/vVJkJRh9HIzmDofJnt8wBVz3Mc3ssm3
+ bF4RjwGIvAQAA
+X-Change-ID: 20260512-tls-session-tags-9d0042583f44
+To: Donald Hunter <donald.hunter@gmail.com>, 
+ Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+ John Fastabend <john.fastabend@gmail.com>, 
+ Sabrina Dubroca <sd@queasysnail.net>, Keith Busch <kbusch@kernel.org>, 
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
+ Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, 
+ Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
+ NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
+ Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
+ Eric Dumazet <edumazet@kernel.org>
+Cc: kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org, 
+ linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org, 
+ Hannes Reinecke <hare@kernel.org>
+X-Mailer: b4 0.17-dev-9c833
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6024; i=cel@kernel.org;
+ h=from:subject:message-id; bh=yhODJfup1xU0GU18ny4wSRFuQglH6IQosl5aTnmsIc8=;
+ b=owEBbQKS/ZANAwAKATNqszNvZn+XAcsmYgBq92NYNOzcuW51l+zxrbh6e54OzWGAiAJw5xS32
+ aqMyCu2ZlaJAjMEAAEKAB0WIQQosuWwEobfJDzyPv4zarMzb2Z/lwUCavdjWAAKCRAzarMzb2Z/
+ l3fMD/0Q0VNZKQODVjzh2EN8IOhJzJvaAekl7esbUWeQwAZuBvpgTWlsp80znfSNDRCpKCHbKBf
+ fmpMu09ETTJG6iGv7EIAbnz6xkcBkpBUz9gqUNKbuoSuK9CJXOV7Yr06CqPvp7YdQiYtYY6H+Qm
+ UcNhumRN7BxbX/Xzaudwh4yVVjC2SqEX6FEaVO7c4POhsGmT/OhIsSQTgfh42QWwbIZp8r/QRPL
+ a97ajQkPeOzqFmpfRQ1InEXSbFRaYE0ikbTMs/18N7e+UzZli6YacEGKdtUXQ8TlPRK2jWLsIR7
+ zC+LNJe5TLqkgwolQkD9ad6+wHsXa2nlVMx8G293JSwnPGwQ0J2QLw9bDvA6ZQCBj6Ve//UC8SA
+ RWj69KOJmvv3Z5ia/RuTSVuqsKTC5tB0yjB7RgvUIe/BGrjgJoc3NkQ9RHPRQis185Z5pYB8LIC
+ ta8h2gcix/rM76VWTC1/BQljL7yS2IIzy1qp1jQyhnAyKizn8DG3cU7UB/TZYBlpxN4vQvM4+K/
+ JPzU6Cri2RUHIqz4pXNJDVNVSQnBKWBu/YNagP44CxwSctX6dC3Ec+1KPdpW/iDv5jDE7nysaHB
+ sBagrSGmJKVGDTTQlBhK7XHHKDABI9JM1FBh7sYe3MnxujZ4KSwKLjRoOTj9LIMYKXh+GW/fx0h
+ G5qYcT7WBop4HMg==
+X-Developer-Key: i=cel@kernel.org; a=openpgp;
+ fpr=28B2E5B01286DF243CF23EFE336AB3336F667F97
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,409 +100,128 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-26.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIMWL_WL_MED,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-13.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Introduce a unit test suite for the NVMe tool PMU event parser. The test
-registers a mock test NVMe PMU ('nvme_a_test_nvme_pmu' with alias
-'nvme1234') and verifies:
-- Event parsing without a PMU prefix and with both PMU name and alias.
-- Event config encoding, unit, and scale across SMART, Endurance, FDP,
-  Error, and ZNS log events (including Kelvin temperature scaling).
-- Support for 'event=<name>', raw 'config=0x...', and 'name=' qualifiers.
-- Clean rejection of unknown event names, invalid raw configs, duplicate
-  event terms, and unsupported string terms where term->config is NULL.
+NFSD controls remote access to its exports today by IP address and
+hostname. Neither of these are cryptographically secure. For
+instance, a MitM can replace the response to a server's plaintext
+DNS query. As a result, a malicious NFS client can pretend to be a
+client whose hostname matches one that has access to exports it
+would otherwise be denied access to.
 
-Signed-off-by: Ian Rogers <irogers@google.com>
+So instead, we want access-control decisions to be based on
+cryptographically-vetted objects such as TLS peer-certificates.
+In-kernel x.509 parsing would duplicate work mature userspace
+libraries already do, so let's make tlshd evaluate peer certificates
+in user space.
+
+The certificates are evaluated against admin-defined policy, such
+as whether the certificate's Issuer matches a particular string.
+tlshd then marks NFS TLS sessions with those policy matches. Admins
+also provide a set of policy names on each NFSD export (allow_tags).
+Computing the intersection with these per-export tags is quick and
+completely separate from the details of parsing x.509 certificates.
+
+A yet-to-be-posted patch series introduces tag set support to the
+exportfs command in nfs-utils. tlshd 1.5.0, current as of this
+writing, already implements TLS session tagging.
+
 ---
- tools/perf/tests/Build          |   1 +
- tools/perf/tests/builtin-test.c |   1 +
- tools/perf/tests/nvme_pmu.c     | 303 ++++++++++++++++++++++++++++++++
- tools/perf/tests/tests.h        |   1 +
- tools/perf/util/pmus.c          |   5 +
- tools/perf/util/pmus.h          |   1 +
- 6 files changed, 312 insertions(+)
- create mode 100644 tools/perf/tests/nvme_pmu.c
+Changes in v3:
+- Replace the sloppy cover letter.
+- Avoid a double free in the stringset capacity KUnit case (sashiko).
+- Add list markers to the stringset kernel-doc Return: lists (sashiko).
+- Move the duplicate session-tag KUnit changes into patch 5 (sashiko).
+- Link to v2: https://patch.msgid.link/20261112-tls-session-tags-v2-0-a587a50de7fc@kernel.org
 
-diff --git a/tools/perf/tests/Build b/tools/perf/tests/Build
-index 5eebb2ec5dde..336bad77c8f4 100644
---- a/tools/perf/tests/Build
-+++ b/tools/perf/tests/Build
-@@ -71,6 +71,7 @@ perf-test-y += hybrid-merge.o
- perf-test-y += symbols.o
- perf-test-y += util.o
- perf-test-y += hwmon_pmu.o
-+perf-test-y += nvme_pmu.o
- perf-test-y += tool_pmu.o
- perf-test-y += subcmd-help.o
- perf-test-y += kallsyms-split.o
-diff --git a/tools/perf/tests/builtin-test.c b/tools/perf/tests/builtin-test.c
-index 327483f96401..0b88018c7036 100644
---- a/tools/perf/tests/builtin-test.c
-+++ b/tools/perf/tests/builtin-test.c
-@@ -124,6 +124,7 @@ static struct test_suite *generic_tests[] = {
- 	&suite__pmu,
- 	&suite__pmu_events,
- 	&suite__hwmon_pmu,
-+	&suite__nvme_pmu,
- 	&suite__tool_pmu,
- 	&suite__dso_data,
- 	&suite__perf_evsel__roundtrip_name_test,
-diff --git a/tools/perf/tests/nvme_pmu.c b/tools/perf/tests/nvme_pmu.c
-new file mode 100644
-index 000000000000..c3c17ccc9ea0
---- /dev/null
-+++ b/tools/perf/tests/nvme_pmu.c
-@@ -0,0 +1,303 @@
-+// SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
-+#include "nvme_pmu.h"
-+
-+#include <errno.h>
-+#include <inttypes.h>
-+#include <stdio.h>
-+#include <string.h>
-+#include <linux/compiler.h>
-+#include <linux/kernel.h>
-+#include <linux/list.h>
-+#include <linux/string.h>
-+
-+#include "debug.h"
-+#include "evlist.h"
-+#include "evsel.h"
-+#include "parse-events.h"
-+#include "pmus.h"
-+#include "tests.h"
-+
-+#ifdef HAVE_LIBNVME_SUPPORT
-+
-+enum test_encoding_mode {
-+	TEST_ENCODING_NAME,
-+	TEST_ENCODING_ALIAS_PMU,
-+	TEST_ENCODING_EVENT_TERM,
-+	TEST_ENCODING_RAW_CONFIG,
-+	TEST_ENCODING_WITH_NAME_QUALIFIER,
-+};
-+
-+static const struct test_event {
-+	const char *name;
-+	const char *unit;
-+	double scale;
-+	uint64_t config;
-+} test_events[] = {
-+	{
-+		"smart_temperature",
-+		"K",
-+		1.0,
-+		NVME_SMART(2, temperature),
-+	},
-+	{
-+		"smart_data_units_read",
-+		"B",
-+		512000.0,
-+		NVME_SMART(16, data_units_read),
-+	},
-+	{
-+		"endurance_percent_used",
-+		"",
-+		1.0,
-+		NVME_ENDURANCE(1, percent_used),
-+	},
-+	{
-+		"endurance_data_units_read",
-+		"B",
-+		1000000000.0,
-+		NVME_ENDURANCE(16, data_units_read),
-+	},
-+	{
-+		"fdp_hbmw",
-+		"B",
-+		1.0,
-+		NVME_FDP(16, hbmw),
-+	},
-+	{
-+		"error_count",
-+		"",
-+		1.0,
-+		NVME_ERROR(8, error_count),
-+	},
-+	{
-+		"zns_nrzid",
-+		"",
-+		1.0,
-+		NVME_ZNS(2, nrzid),
-+	},
-+};
-+
-+static int do_test(size_t i, bool with_pmu, enum test_encoding_mode mode)
-+{
-+	struct evlist *evlist = evlist__new();
-+	struct evsel *evsel;
-+	struct parse_events_error err;
-+	int ret;
-+	char str[128];
-+	bool found = false;
-+
-+	if (!evlist) {
-+		pr_err("evlist allocation failed\n");
-+		return TEST_FAIL;
-+	}
-+
-+	if (!with_pmu) {
-+		strlcpy(str, test_events[i].name, sizeof(str));
-+	} else {
-+		switch (mode) {
-+		case TEST_ENCODING_NAME:
-+			snprintf(str, sizeof(str), "nvme_a_test_nvme_pmu/%s/",
-+				 test_events[i].name);
-+			break;
-+		case TEST_ENCODING_ALIAS_PMU:
-+			snprintf(str, sizeof(str), "nvme1234/%s/", test_events[i].name);
-+			break;
-+		case TEST_ENCODING_EVENT_TERM:
-+			snprintf(str, sizeof(str), "nvme_a_test_nvme_pmu/event=%s/",
-+				 test_events[i].name);
-+			break;
-+		case TEST_ENCODING_RAW_CONFIG:
-+			snprintf(str, sizeof(str), "nvme_a_test_nvme_pmu/config=0x%" PRIx64 "/",
-+				 test_events[i].config);
-+			break;
-+		case TEST_ENCODING_WITH_NAME_QUALIFIER:
-+			snprintf(str, sizeof(str),
-+				 "nvme_a_test_nvme_pmu/%s,name=custom_nvme_event/",
-+				 test_events[i].name);
-+			break;
-+		default:
-+			ret = TEST_FAIL;
-+			goto out_put;
-+		}
-+	}
-+
-+	pr_debug("Testing '%s'\n", str);
-+	parse_events_error__init(&err);
-+	ret = parse_events(evlist, str, &err);
-+	if (ret) {
-+		pr_debug("FAILED %s:%d failed to parse event '%s', err %d\n",
-+			 __FILE__, __LINE__, str, ret);
-+		parse_events_error__print(&err, str);
-+		ret = TEST_FAIL;
-+		goto out;
-+	}
-+
-+	ret = TEST_OK;
-+	if (with_pmu ? (evlist__nr_entries(evlist) != 1)
-+		     : (evlist__nr_entries(evlist) < 1)) {
-+		pr_debug("FAILED %s:%d Unexpected number of events for '%s' of %d\n",
-+			 __FILE__, __LINE__, str, evlist__nr_entries(evlist));
-+		ret = TEST_FAIL;
-+		goto out;
-+	}
-+
-+	evlist__for_each_entry(evlist, evsel) {
-+		if (!evsel->pmu || !evsel->pmu->name ||
-+		    strcmp(evsel->pmu->name, "nvme_a_test_nvme_pmu"))
-+			continue;
-+
-+		if (evsel->core.attr.config != test_events[i].config) {
-+			pr_debug("FAILED %s:%d Unexpected config for '%s', %"
-+				 PRIu64 " != %" PRIu64 "\n",
-+				 __FILE__, __LINE__, str,
-+				 (uint64_t)evsel->core.attr.config,
-+				 test_events[i].config);
-+			ret = TEST_FAIL;
-+			goto out;
-+		}
-+		if (!evsel->unit || strcmp(evsel->unit, test_events[i].unit) != 0 ||
-+		    evsel->scale != test_events[i].scale) {
-+			pr_debug("FAILED %s:%d Unexpected unit/scale for '%s', '%s'/%g != '%s'/%g\n",
-+				 __FILE__, __LINE__, str,
-+				 evsel->unit ?: "(null)", evsel->scale,
-+				 test_events[i].unit, test_events[i].scale);
-+			ret = TEST_FAIL;
-+			goto out;
-+		}
-+		if (mode == TEST_ENCODING_WITH_NAME_QUALIFIER &&
-+		    strcmp(evsel__name(evsel), "custom_nvme_event") != 0) {
-+			pr_debug("FAILED %s:%d Unexpected custom name '%s'\n",
-+				 __FILE__, __LINE__, evsel__name(evsel));
-+			ret = TEST_FAIL;
-+			goto out;
-+		}
-+		found = true;
-+	}
-+
-+	if (!found) {
-+		pr_debug("FAILED %s:%d Didn't find nvme event '%s' in parsed evsels\n",
-+			 __FILE__, __LINE__, str);
-+		ret = TEST_FAIL;
-+	}
-+
-+out:
-+	parse_events_error__exit(&err);
-+out_put:
-+	evlist__put(evlist);
-+	return ret;
-+}
-+
-+static int test__nvme_pmu(bool with_pmu)
-+{
-+	struct perf_pmu *pmu = perf_pmus__add_test_nvme_pmu("nvme1234", "a_test_nvme_pmu");
-+	int ret = TEST_OK;
-+
-+	if (!pmu)
-+		return TEST_FAIL;
-+
-+	for (size_t i = 0; i < ARRAY_SIZE(test_events); i++) {
-+		ret = do_test(i, with_pmu, TEST_ENCODING_NAME);
-+		if (ret != TEST_OK)
-+			break;
-+
-+		if (with_pmu) {
-+			ret = do_test(i, with_pmu, TEST_ENCODING_ALIAS_PMU);
-+			if (ret != TEST_OK)
-+				break;
-+
-+			ret = do_test(i, with_pmu, TEST_ENCODING_EVENT_TERM);
-+			if (ret != TEST_OK)
-+				break;
-+
-+			ret = do_test(i, with_pmu, TEST_ENCODING_RAW_CONFIG);
-+			if (ret != TEST_OK)
-+				break;
-+
-+			ret = do_test(i, with_pmu, TEST_ENCODING_WITH_NAME_QUALIFIER);
-+			if (ret != TEST_OK)
-+				break;
-+		}
-+	}
-+
-+	list_del(&pmu->list);
-+	perf_pmu__delete(pmu);
-+	return ret;
-+}
-+
-+static int test__nvme_pmu_invalid_terms(struct test_suite *test __maybe_unused,
-+					int subtest __maybe_unused)
-+{
-+	static const char * const invalid_events[] = {
-+		"nvme_a_test_nvme_pmu/nonexistent_event/",
-+		"nvme_a_test_nvme_pmu/call-graph=fp/",
-+		"nvme_a_test_nvme_pmu/config=0xffffffff/",
-+		"nvme_a_test_nvme_pmu/name=only_name/",
-+		"nvme_a_test_nvme_pmu/smart_temperature,error_count/",
-+		"nvme_a_test_nvme_pmu/smart_temperature=2/",
-+	};
-+	struct perf_pmu *pmu = perf_pmus__add_test_nvme_pmu("nvme1234", "a_test_nvme_pmu");
-+	int ret = TEST_OK;
-+
-+	if (!pmu)
-+		return TEST_FAIL;
-+
-+	for (size_t i = 0; i < ARRAY_SIZE(invalid_events); i++) {
-+		struct evlist *evlist = evlist__new();
-+		struct parse_events_error err;
-+		int parse_ret;
-+
-+		if (!evlist) {
-+			ret = TEST_FAIL;
-+			break;
-+		}
-+		parse_events_error__init(&err);
-+		parse_ret = parse_events(evlist, invalid_events[i], &err);
-+		if (parse_ret == 0 || list_empty(&err.list)) {
-+			pr_debug("FAILED %s:%d Unexpected parse result %d for invalid event '%s'\n",
-+				 __FILE__, __LINE__, parse_ret, invalid_events[i]);
-+			parse_events_error__exit(&err);
-+			evlist__put(evlist);
-+			ret = TEST_FAIL;
-+			break;
-+		}
-+		parse_events_error__exit(&err);
-+		evlist__put(evlist);
-+	}
-+
-+	list_del(&pmu->list);
-+	perf_pmu__delete(pmu);
-+	return ret;
-+}
-+
-+static int test__nvme_pmu_without_pmu(struct test_suite *test __maybe_unused,
-+				      int subtest __maybe_unused)
-+{
-+	return test__nvme_pmu(/*with_pmu=*/false);
-+}
-+
-+static int test__nvme_pmu_with_pmu(struct test_suite *test __maybe_unused,
-+				   int subtest __maybe_unused)
-+{
-+	return test__nvme_pmu(/*with_pmu=*/true);
-+}
-+
-+static struct test_case tests__nvme_pmu[] = {
-+	TEST_CASE("Parsing without PMU name", nvme_pmu_without_pmu),
-+	TEST_CASE("Parsing with PMU name", nvme_pmu_with_pmu),
-+	TEST_CASE("Rejecting invalid event terms", nvme_pmu_invalid_terms),
-+	{	.name = NULL, }
-+};
-+
-+struct test_suite suite__nvme_pmu = {
-+	.desc = "NVMe PMU",
-+	.test_cases = tests__nvme_pmu,
-+};
-+
-+#else
-+
-+struct test_suite suite__nvme_pmu = {
-+	.desc = "NVMe PMU",
-+	.test_cases = NULL,
-+};
-+
-+#endif
-diff --git a/tools/perf/tests/tests.h b/tools/perf/tests/tests.h
-index af822885890d..5a77bc5ecf7a 100644
---- a/tools/perf/tests/tests.h
-+++ b/tools/perf/tests/tests.h
-@@ -133,6 +133,7 @@ DECLARE_SUITE(syscall_openat_tp_fields);
- DECLARE_SUITE(pmu);
- DECLARE_SUITE(pmu_events);
- DECLARE_SUITE(hwmon_pmu);
-+DECLARE_SUITE(nvme_pmu);
- DECLARE_SUITE(tool_pmu);
- DECLARE_SUITE(attr);
- DECLARE_SUITE(dso_data);
-diff --git a/tools/perf/util/pmus.c b/tools/perf/util/pmus.c
-index 980035b640dc..66626ce3494b 100644
---- a/tools/perf/util/pmus.c
-+++ b/tools/perf/util/pmus.c
-@@ -925,6 +925,11 @@ struct perf_pmu *perf_pmus__add_test_hwmon_pmu(const char *hwmon_dir,
- 	return hwmon_pmu__new(&other_pmus, hwmon_dir, sysfs_name, name);
- }
- 
-+struct perf_pmu *perf_pmus__add_test_nvme_pmu(const char *sysfs_name, const char *name)
-+{
-+	return nvme_pmu__new(&other_pmus, sysfs_name, name);
-+}
-+
- struct perf_pmu *perf_pmus__fake_pmu(void)
- {
- 	static struct perf_pmu fake = {
-diff --git a/tools/perf/util/pmus.h b/tools/perf/util/pmus.h
-index 0d55edb3f2fc..2045d4cf44d1 100644
---- a/tools/perf/util/pmus.h
-+++ b/tools/perf/util/pmus.h
-@@ -37,6 +37,7 @@ struct perf_pmu *perf_pmus__add_test_pmu(int test_sysfs_dirfd, const char *name)
- struct perf_pmu *perf_pmus__add_test_hwmon_pmu(const char *hwmon_dir,
- 					       const char *sysfs_name,
- 					       const char *name);
-+struct perf_pmu *perf_pmus__add_test_nvme_pmu(const char *sysfs_name, const char *name);
- struct perf_pmu *perf_pmus__fake_pmu(void);
- struct perf_pmu *perf_pmus__find_core_pmu(void);
- 
--- 
-2.56.1.703.gf848ed807c-goog
+Changes in v2:
+- Drop v1's 1/9, sent ahead of the set per Jeff and now merged.
+- Adopt the pinned hr_file/fput lifetime model.
+- Adapt to the errno-valued handshake status (hp_done takes int).
+- Rename "tagset" to "stringset" throughout (Hannes)
+- Warn and return false when a query precedes stringset_finalize().
+- Add a patch with KUnit tests for stringset.
+- Split the hp_done session-tags argument into its own patch.
+- Collect the session tags before taking the completion gate.
+- Pass ownership of the tag set to handshake_finish_complete().
+- Add handshake_session_tag_len(), shared with the NFSD parser.
+- Add KUnit tests for session-tag collection.
+- Check the file reference count in the completion-gate KUnit case.
+- Rename the ACCEPT cap attribute MAX_TAGS to MAX_SESSION_TAGS.
+- Publish the saved tags with smp_wmb() and test_bit_acquire().
+- Deny a tagged export on the non-mTLS arms of check_xprtsec_policy().
+- Extract nfsd_nl_parse_allow_tags() from the netlink export parser.
+- Build stringset only when a consumer selects CONFIG_STRINGSET.
+- Free the session tags as soon as hp_done() returns.
+- Report a rejected session tag or allow-tag through the extack.
+- Show allow_tags in /proc/fs/nfsd/exports.
+- Record the client address and XID in nfsd_export_tags_denied.
+- Link to v1: https://patch.msgid.link/20260605-tls-session-tags-v1-0-47bd1d94d552@oracle.com
+
+---
+Chuck Lever (10):
+      handshake: Add tags to "done" downcall
+      lib: Add a "stringset" data structure
+      lib: Add KUnit tests for the stringset data structure
+      handshake: Add a session-tags argument to the TLS done callback
+      handshake: Pick up session tags passed during the DONE downcall
+      handshake: Add a kunit test for the completion gate
+      handshake: Advertise the session-tag cap to user space
+      SUNRPC: Copy the TLS session tags when they are available
+      NFSD: Implement export tagging
+      NFSD: Add allow_tags to the netlink export interface
+
+ Documentation/core-api/index.rst           |   1 +
+ Documentation/core-api/stringset.rst       | 243 ++++++++++++++++++++++
+ Documentation/netlink/specs/handshake.yaml |  19 ++
+ Documentation/netlink/specs/nfsd.yaml      |  10 +
+ Documentation/networking/tls-handshake.rst |  62 +++++-
+ MAINTAINERS                                |   8 +
+ drivers/nvme/host/tcp.c                    |   3 +-
+ drivers/nvme/target/tcp.c                  |   3 +-
+ fs/nfsd/Kconfig                            |   1 +
+ fs/nfsd/export.c                           | 194 +++++++++++++++++-
+ fs/nfsd/export.h                           |   9 +
+ fs/nfsd/netlink.c                          |   4 +-
+ fs/nfsd/netlink.h                          |   3 +-
+ fs/nfsd/trace.h                            |  27 +++
+ include/linux/stringset.h                  | 191 ++++++++++++++++++
+ include/linux/sunrpc/svc_xprt.h            |   7 +-
+ include/net/handshake.h                    |  50 ++++-
+ include/uapi/linux/handshake.h             |   4 +
+ include/uapi/linux/nfsd_netlink.h          |   1 +
+ lib/Kconfig                                |  12 ++
+ lib/Kconfig.debug                          |   6 +
+ lib/Makefile                               |   1 +
+ lib/stringset.c                            | 190 ++++++++++++++++++
+ lib/tests/Makefile                         |   1 +
+ lib/tests/stringset_kunit.c                | 311 +++++++++++++++++++++++++++++
+ net/Kconfig                                |   1 +
+ net/handshake/genl.c                       |   5 +-
+ net/handshake/handshake-test.c             | 307 ++++++++++++++++++++++++++++
+ net/handshake/handshake.h                  |   9 +
+ net/handshake/netlink.c                    | 110 +++++++++-
+ net/handshake/request.c                    |  61 +++++-
+ net/handshake/tlshd.c                      |  10 +-
+ net/sunrpc/Kconfig                         |   1 +
+ net/sunrpc/svc_xprt.c                      |  11 +-
+ net/sunrpc/svcauth_unix.c                  |  14 +-
+ net/sunrpc/svcsock.c                       |  63 +++++-
+ net/sunrpc/xprtsock.c                      |   4 +-
+ tools/net/ynl/Makefile.deps                |   3 +-
+ 38 files changed, 1914 insertions(+), 46 deletions(-)
+---
+base-commit: d1f4b7c6b997c29de67ad7178ababac2328cb1b4
+change-id: 20260512-tls-session-tags-9d0042583f44
+
+Best regards,
+--  
+Chuck Lever <cel@kernel.org>
 
 
