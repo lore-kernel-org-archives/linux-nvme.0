@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74AD2606A332
-	for <linux-nvme@archiver.kernel.org>; Sat, 14 Nov 2026 03:30:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E74D0606A33B
+	for <linux-nvme@archiver.kernel.org>; Sat, 14 Nov 2026 03:31:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=lEjtFEiu;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QngF+A0R
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=jbD4qEiV;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UyX4vt9t
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
 	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
@@ -14,47 +14,48 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=X0odMvH757RytC72ratFz/WtNNDqIQlZ8awX9/6JWwk=; b=lEjtFEiu7GXYvU3rX6G3WLxx88
-	anz7Rfr8V0FQSvF7vcUvnMoRv2Yum9CgI+eS4tVAJSX1kPHc/S0/dzbTOwxxCnKPYmWINOFwl0jTS
-	46q/NHEn4igpJ0fDuR06PK4FWtvbaD0r3GG+pCeRodh1b2IaRHA/QgLDKnoswP0R+kukRCvKas2Q5
-	qn8WwnTggolED7iF479tz7S6c/a4xAxCtq/q+4wNvdEImxq5upcc2w0IVkDnNjTBlm+Q1EUwvZYnY
-	G7dmc4FaKvPLZaBPrsV1ghhSTibIhuF7JLckNXWiHqyOxGwltYGkeJeoeReP3GLvvvRt5/LaUoUU4
-	NJkqDowQ==;
+	bh=2bUg9J7vbUtzyS2y8UsLsTkjBSAbCdLxsthQzGNhouo=; b=jbD4qEiVXWraaTifrTXrcY22OT
+	Q82wffSmi5e4RCkxCdLQhIm4SVtxFRq3rzLBIfro/2WvYfKgtIj2ZtT2Vaj/0EWhrWtL1k2PwMkQf
+	Knh+kbXCjrUKyWqiR1itfVmumz41Hrc7y0Jq0dY4VBOS44fqDYjEMi01FI05oIpwIjjv4Qm5qcCjd
+	ui0VS1sFlR9SNaUCX0aI4JNzvppiEaNz32loodUdsqmuD4CZ2ViCGv1ZqP/8huFMYrw84U4WJzr2M
+	YXLcXAiJl36xR0NvN8yAowtuhPrFe3ts6RB2H74X/qC2LdOIRkJRsPqBEt2lTx65nmNuVGTQ1pjly
+	l31Q8dOA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xS4TX-0000000FHA0-0dyS;
-	Sat, 14 Nov 2026 03:30:47 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1xS4Tr-0000000FHGp-2Azb;
+	Sat, 14 Nov 2026 03:31:07 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xS4TV-0000000FH9d-0wF6
+	id 1xS4Tp-0000000FHG5-3rTs
 	for linux-nvme@lists.infradead.org;
-	Sat, 14 Nov 2026 03:30:45 +0000
+	Sat, 14 Nov 2026 03:31:06 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 84905405B1;
-	Sat, 14 Nov 2026 03:30:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B4F71F000C4;
-	Sat, 14 Nov 2026 03:30:44 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 5DAD762647;
+	Sat, 14 Nov 2026 03:31:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1D151F000C4;
+	Sat, 14 Nov 2026 03:31:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794627044;
-	bh=X0odMvH757RytC72ratFz/WtNNDqIQlZ8awX9/6JWwk=;
+	s=k20260515; t=1794627065;
+	bh=2bUg9J7vbUtzyS2y8UsLsTkjBSAbCdLxsthQzGNhouo=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=QngF+A0RsH9po5Jfy31hH/IHxijwYAIfDzE1xZYBhn0IjFgixQCsoMaOVdN6m4ROA
-	 BQQMRHVMHVMbwaf+N4+UNUqx7E1HrsCWWZSoIwZHu/Q/n8J6mDt4P4+gmVIB1T1UJE
-	 0qv6BBy1f08V0RY6B5Ou0fDDfjCz0kNXzctwU4h/7j9COXlm3Oa8JWLwvY17AdgrCo
-	 jTDDTtqP30v4l4OQsLj8iVxjycdRX2Umk8MFxZ37PZQjizET1CK6y4hlkrOZ+qjmjO
-	 ezfxz5QLEV1Xw0uYyt+LRMWoMzBAKYEy0Nx9zCSziAihOtJq2a6tuHUjIhHvmr1yDe
-	 JNBvg9ahCu0ag==
-Message-ID: <sashiko-outbox-214113@kernel.org>
+	b=UyX4vt9tcSNuzU6BV/YcpA8eWpL/UrGjF2OmFiTKC0i1gHxLOh+dhVVDXL0xoRaQD
+	 dDYS5+AesrlI7dGLDVMcrviqIQrgPWA/RriZIhhYe7t5y+L2IcmFlOJvmEBv3Lczbz
+	 3LYd3y/UGoAAqVxFr8DcSvLezkXJFRpeMrtJuWfA4/+EPp1A2zUdw63Iq2xcncBUvk
+	 U7wFWzj/NRoMiGVCPCQLD2ivFkmQSaFYhwTtIrP9cgJf6JVfdDWyY+b/CuLYoTHx4J
+	 Q2cJxgPh/xXPgoohTlOapfr/PvqRv02pjGYS7PoIHkuG2DEbQJAeQXMZlB6jNPTvjn
+	 dRy2/UE1X1gRA==
+Message-ID: <sashiko-outbox-214114@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v7 03/17] nvmet: Implement CCR nvme command
+Subject: Re: [PATCH v7 13/17] nvme-fc: perform error recovery directly from
+ ioerr_work
 To: "Mohamed Khalfella" <mkhalfella@purestorage.com>
 Cc: linux-nvme@lists.infradead.org
-In-Reply-To: <20261114030454.2836543-4-mkhalfella@purestorage.com>
+In-Reply-To: <20261114030454.2836543-14-mkhalfella@purestorage.com>
 References: <20261114030454.2836543-1-mkhalfella@purestorage.com>
- <20261114030454.2836543-4-mkhalfella@purestorage.com>
+ <20261114030454.2836543-14-mkhalfella@purestorage.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 14 Nov 2026 03:30:43 +0000
+Date: Sat, 14 Nov 2026 03:31:04 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,129 +75,125 @@ X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 X-Archived-By: <archiver.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] nvmet: TOCTOU race between nvmet_ctrl_find_get_ccr() and
-  nvmet_start_ctrl()
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [High] nvme-fc: race between nvme_fc_ctrl_ioerr_work() and controller
+  deletion
+- [Low] nvme-fc: unused forward declaration of
+  __nvme_fc_abort_outstanding_ios()
 --
 
-commit 8afa887480a9e0f0751311107895be0ad6ed159f
+commit f47f39335cf25a25520dc165768b29ed4e1e01c4
 Author: Mohamed Khalfella <mkhalfella@purestorage.com>
 
-nvmet: Implement CCR nvme command
+nvme-fc: perform error recovery directly from ioerr_work
 
-This commit implements the Cross-Controller Reset admin command for the
-NVMe target, allowing a source controller to look up and trigger a fatal
-error on an impacted controller matching the specified controller ID, ciu,
-and cirn.
+This commit replaces nvme_fc_error_recovery() with direct association
+teardown, controller stop, and reconnect scheduling inside
+nvme_fc_ctrl_ioerr_work().
 
-> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-=
-cmd.c
-> index 5710ae53eb83a..3df9db454db9c 100644
-> --- a/drivers/nvme/target/admin-cmd.c
-> +++ b/drivers/nvme/target/admin-cmd.c
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> index c4603be381445..0ba621649afed 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -229,6 +229,8 @@ static struct device *fc_udev_device;
+>  static void nvme_fc_complete_rq(struct request *rq);
+>  static void nvme_fc_start_ioerr_recovery(struct nvme_fc_ctrl *ctrl,
+>  					 char *errmsg);
+> +static void __nvme_fc_abort_outstanding_ios(struct nvme_fc_ctrl *ctrl,
+> +					    bool start_queues);
+
+[Severity: Low]
+This isn't a bug, but nothing calls __nvme_fc_abort_outstanding_ios()
+before its definition now that nvme_fc_error_recovery() is removed, so this
+forward declaration is unused.
+
 [ ... ]
-> @@ -1629,6 +1630,78 @@ void nvmet_execute_keep_alive(struct nvmet_req *re=
-q)
->  	nvmet_req_complete(req, status);
->  }
+
+> @@ -1880,7 +1883,23 @@ nvme_fc_ctrl_ioerr_work(struct work_struct *work)
+>  	struct nvme_fc_ctrl *ctrl =3D
+>  			container_of(work, struct nvme_fc_ctrl, ioerr_work);
 > =20
-> +void nvmet_execute_cross_ctrl_reset(struct nvmet_req *req)
-> +{
-[ ... ]
-> +	/* Find and get impacted controller */
-> +	ictrl =3D nvmet_ctrl_find_get_ccr(sctrl->subsys, sctrl->hostnqn,
-> +					cmd->ccr.ciu, cntlid,
-> +					le64_to_cpu(cmd->ccr.cirn));
-[ ... ]
-> +out_unlock:
-> +	mutex_unlock(&sctrl->lock);
-> +	if (status =3D=3D NVME_SC_SUCCESS)
-> +		nvmet_ctrl_fatal_error(ictrl);
-> +	nvmet_ctrl_put(ictrl);
-> +out:
-> +	nvmet_req_complete(req, status);
-> +}
-[ ... ]
-> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-> index 9c9ad4d9b292d..86018e0fb1586 100644
-> --- a/drivers/nvme/target/core.c
-> +++ b/drivers/nvme/target/core.c
-[ ... ]
-> @@ -1432,6 +1446,7 @@ static void nvmet_start_ctrl(struct nvmet_ctrl *ctr=
-l)
->  	if (!nvmet_is_disc_subsys(ctrl->subsys)) {
->  		ctrl->ciu =3D ((u8)(ctrl->ciu + 1)) ? : 1;
->  		ctrl->cirn =3D get_random_u64() ? : 1;
-> +		nvmet_ctrl_cleanup_ccrs(ctrl, false);
->  	}
->  	ctrl->csts =3D NVME_CSTS_RDY;
-> =20
-> @@ -1537,6 +1552,42 @@ struct nvmet_ctrl *nvmet_ctrl_find_get(const char =
-*subsysnqn,
->  	return ctrl;
->  }
-> =20
-> +struct nvmet_ctrl *nvmet_ctrl_find_get_ccr(struct nvmet_subsys *subsys,
-> +					   const char *hostnqn, u8 ciu,
-> +					   u16 cntlid, u64 cirn)
-> +{
-> +	struct nvmet_ctrl *ctrl, *ictrl =3D NULL;
-> +	bool found =3D false;
+> -	nvme_fc_error_recovery(ctrl, "transport detected io error");
+> +	nvme_stop_keep_alive(&ctrl->ctrl);
+> +	flush_work(&ctrl->ctrl.async_event_work);
 > +
-> +	mutex_lock(&subsys->lock);
-> +	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
-> +		if (ctrl->cntlid !=3D cntlid)
-> +			continue;
-> +		if (strncmp(ctrl->hostnqn, hostnqn, NVMF_NQN_SIZE))
-> +			continue;
+> +	/* will block while waiting for io to terminate */
+> +	nvme_fc_delete_association(ctrl);
+> +	nvme_stop_ctrl(&ctrl->ctrl);
 > +
-> +		/*
-> +		 * Enabling the controller regenerates ciu and cirn under
-> +		 * ctrl->lock. Hold the lock so that a controller becoming
-> +		 * ready concurrently is matched against either the old or
-> +		 * the new instance, never a mix of both.
-> +		 */
-> +		mutex_lock(&ctrl->lock);
-> +		if (ctrl->ciu =3D=3D ciu && ctrl->cirn =3D=3D cirn)
-> +			found =3D true;
-> +		mutex_unlock(&ctrl->lock);
+> +	/* Do not reconnect if controller is being deleted */
+> +	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING))
+> +		return;
+> +
+> +	if (ctrl->rport->remoteport.port_state =3D=3D FC_OBJSTATE_ONLINE) {
+> +		queue_delayed_work(nvme_wq, &ctrl->connect_work, 0);
+> +		return;
+> +	}
+> +
+> +	nvme_fc_reconnect_or_delete(ctrl, -ENOTCONN);
+>  }
 
-[Severity: Medium]
-Can nvmet_execute_cross_ctrl_reset() race with nvmet_start_ctrl() and
-trigger a fatal error on a newly enabled controller instance?
+[Severity: High]
+Can nvme_fc_ctrl_ioerr_work() race with controller deletion and re-arm
+ctrl->connect_work after nvme_fc_delete_ctrl() has already canceled it?
 
-nvmet_ctrl_find_get_ccr() drops ctrl->lock right after matching ctrl->ciu
-and ctrl->cirn.  Before nvmet_execute_cross_ctrl_reset() calls
-nvmet_ctrl_fatal_error(ictrl), a concurrent nvmet_update_cc() can enable
-ictrl and advance ictrl->ciu and ictrl->cirn:
+Previously, error recovery called nvme_reset_ctrl(), and
+nvme_do_delete_ctrl() flushed ctrl->reset_work before calling
+nvme_stop_ctrl(), nvme_remove_namespaces(), and ctrl->ops->delete_ctrl().
+Unlike rdma and tcp, nvme_fc_ctrl_ops does not implement .stop_ctrl to
+flush ioerr_work, and nvme_fc_delete_ctrl() cancels connect_work before
+canceling ioerr_work:
 
-CPU0                              CPU1
-nvmet_execute_cross_ctrl_reset()
-  nvmet_ctrl_find_get_ccr()
-    mutex_lock(&ictrl->lock)
-    /* matches ciu and cirn */
-    mutex_unlock(&ictrl->lock)
-                                  nvmet_update_cc()
-                                    mutex_lock(&ictrl->lock)
-                                    nvmet_start_ctrl()
-                                      ictrl->ciu =3D ...;
-                                      ictrl->cirn =3D ...;
-                                    mutex_unlock(&ictrl->lock)
-  nvmet_ctrl_fatal_error(ictrl)   <-- kills the new instance
+drivers/nvme/host/fc.c:nvme_fc_delete_ctrl() {
+	...
+	cancel_delayed_work_sync(&ctrl->connect_work);
+	...
+	nvme_fc_delete_association(ctrl);
+	cancel_work_sync(&ctrl->ioerr_work);
+	...
+}
 
-If the interleaving goes the other way and nvmet_ctrl_fatal_error(ictrl)
-runs just before nvmet_start_ctrl(), nvmet_start_ctrl() overwrites
-ictrl->csts with the ready state, clearing the fatal status bit while
-ictrl->fatal_err_work is already queued.
+If controller deletion starts right after nvme_fc_ctrl_ioerr_work() moves
+the controller to NVME_CTRL_CONNECTING, connect_work can be queued after
+cancel_delayed_work_sync(&ctrl->connect_work) has already completed:
 
-In addition, when a controller is re-enabled in-place via
-nvmet_start_ctrl() rather than freed in nvmet_ctrl_free(),
-nvmet_start_ctrl() only cleans up entries on ctrl->ccr_list where ctrl was
-the source controller, leaving pending entries on other controllers where
-ctrl was the impacted controller active with a non-null ccr->ctrl pointer.
+CPU0                                    CPU1
+nvme_fc_ctrl_ioerr_work()
+  ...
+  nvme_change_ctrl_state(...,
+    NVME_CTRL_CONNECTING)
+                                        nvme_delete_ctrl()
+                                          nvme_change_ctrl_state(...,
+                                            NVME_CTRL_DELETING)
+                                          ...
+                                          nvme_do_delete_ctrl()
+                                            ...
+                                            nvme_fc_delete_ctrl()
+                                              cancel_delayed_work_sync(
+                                                &ctrl->connect_work)
+                                              ...
+                                              cancel_work_sync(
+                                                &ctrl->ioerr_work)
+  queue_delayed_work(nvme_wq,
+    &ctrl->connect_work, 0)
+                                              nvme_remove_io_tag_set()
+                                              nvme_remove_admin_tag_set()
+                                            nvme_uninit_ctrl()
+                                        nvme_fc_connect_ctrl_work()
+                                          nvme_fc_create_association()
+                                            <-- use-after-free
+
+This leaves connect_work running nvme_fc_create_association() while the
+tag sets are torn down and struct nvme_fc_ctrl is freed.
+
+In addition, because nvme_do_delete_ctrl() does not wait for ioerr_work
+before calling nvme_remove_namespaces(), nvme_fc_delete_association() in
+ioerr_work can run concurrently with nvme_remove_namespaces(), racing on
+quiescing and unquiescing the I/O queues while scan_work is flushed and
+hardware queues are deleted.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261114030454.2836=
-543-1-mkhalfella@purestorage.com?part=3D3
+543-1-mkhalfella@purestorage.com?part=3D13
 
