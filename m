@@ -2,55 +2,55 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D62AD606A323
-	for <linux-nvme@archiver.kernel.org>; Sat, 14 Nov 2026 13:56:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAB26606A323
+	for <linux-nvme@archiver.kernel.org>; Sat, 14 Nov 2026 13:56:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=BaKl3Y+a;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NsZWIZ0u
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=3AfX8k+q;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WeNGCImV
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=M+wQ9mIvjJGXRJRbFoASGD8D6MKl3oze995xCAu4PIw=; b=BaKl3Y+aaq49qP
-	Lv2+F96sPxno4r4pkz1pc0ia9jtTUgOaii3SLd3yoFoMgAYyC0uTvdeLaV8rSupgDBhO+XdQKCzt7
-	o/we6TifHSewONW8i46hA+pKKiAjaYhScsr8kJXyIMObVE+P2dBswgFjdBBc9N+oeAenTcAyZ2x4e
-	H9o+9y7B4fXtrRttcVV21E8v2bAv9kQFx6Aw3/mXHh/MHPgS78CPONfSifcPHBHYCi2fMaMIO/HNi
-	16nx1NaYNdkRYU/tlrRtCuVolGqcJL6/12oUsXsuZ5lFZVbB/4JW4UjwQEbReKjSFJXKP+73n2tjf
-	HYcnVgJBlsL6WGUpipKQ==;
+	List-Owner; bh=65YvxNKLucMRpYw1FJVCDVm75IlqsZ0/PV8GwJXc1Cg=; b=3AfX8k+ql0gbmV
+	EEWANeb243w3ht2MhnMamjfL/u5NN4XTGGnKkozB94Of9kuElzxLxGmt0+MTtBL6XyoSJAQNsb3uy
+	LKKmjWNSOpSPjRRwIqD1Rca1wxqDuLpbMbtwuBpdoUt/6ap/eQkdqjx+lxWyiL8ZJYSMd3RrA4jU+
+	LWFqGPYbxMj3lhHV03BBp2yJbdtZxDhEhQlf6Fz7OZ4iEWJcMX1J0mfo5QU6YpdK/3rkc+19uiQb3
+	WfopTNerCemvW7IKzq29bmz4vdZ71AQrgmLAlcswMRVD8ragTPoUXq4B1GYZXQ0AkgwaFsipBYkPA
+	EBZia71UYDqAM3NAmWYw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSEFM-0000000GBRl-3amx;
-	Sat, 14 Nov 2026 13:56:48 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1xSEFN-0000000GBV3-3xc8;
+	Sat, 14 Nov 2026 13:56:49 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSDUD-0000000G4AI-1zwz
+	id 1xSDUY-0000000G4Gv-1dfK
 	for linux-nvme@lists.infradead.org;
-	Sat, 14 Nov 2026 13:08:05 +0000
+	Sat, 14 Nov 2026 13:08:26 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 3F23040ADA;
-	Sat, 14 Nov 2026 13:08:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9255F1F000C5;
-	Sat, 14 Nov 2026 13:07:58 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 2A1754135A;
+	Sat, 14 Nov 2026 13:08:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 780FE1F000CE;
+	Sat, 14 Nov 2026 13:08:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794661685;
-	bh=M+wQ9mIvjJGXRJRbFoASGD8D6MKl3oze995xCAu4PIw=;
+	s=k20260515; t=1794661706;
+	bh=65YvxNKLucMRpYw1FJVCDVm75IlqsZ0/PV8GwJXc1Cg=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=NsZWIZ0uyJ/kEeg27LNsarwDMno74uYeR1qvyZgeFqeOAzIo39kAe0MSpeaDBfyna
-	 OG+SkTUFAd55NxkkZY4/tgrlFTOMIlMqstHT23WH9HmxSQHID6HZivP6RTGGasAtEv
-	 ghdyrIYjK3Gq6GDN43kCLZl7rWTXSXciNlNO9nHbFmzAoVc7dcCL6Fvc9EA7GbsEHM
-	 JDKJiOhvg95JFUcodZAZ1CCOfjp/PYgklweHBo4CkLN70q6kRCKVJf5HI0WMNA4lCf
-	 fVobYC0NGlECT/3MARJG5ONmb7zmOAQZxfL/PpE2kk6Jb29ZnuuOdRMC+6AygDXLUO
-	 SOqbbaseGw8nQ==
+	b=WeNGCImVr8p7F8Uli86lXrcXcfJcXXznRaJ3ysXgWVWZ+J7qA0GAbUGY1fIKmINzD
+	 Gq0TzUSohC0rcSFwgj1YbJpSzLekANRgSJWblc3JmmjY5rfokTtd8Gk9jL+gnxkZgT
+	 4+wocUPn+rNI91e8pLzzUTNjDm+8ueFQcqxvqz59WUo1LF78rr/MQUPWyv9vCtF0MO
+	 WOAUe4WdgY8nZL3LH08OuHHlMKXJGnRXtdR2lA/Lm4R0Jw4Sg256wkbSmrYt+j5HCg
+	 mTSFDIPBWkEk4eVPeI+ryhW2jC/6smQaaaQZ+zk4OTzgM+AIxj8Ie3NyT5lv/+pHem
+	 sh1wJsF9nDAxQ==
 From: Christian Brauner <brauner@kernel.org>
-Date: Sat, 14 Nov 2026 14:02:02 +0100
-Subject: [PATCH RFC v2 21/42] nfsd: use fc_init_pseudo()
+Date: Sat, 14 Nov 2026 14:02:05 +0100
+Subject: [PATCH RFC v2 24/42] efivarfs: use fc_init_pseudo()
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261114-work-loop-pseudo-v2-21-98639a2286fb@kernel.org>
+Message-Id: <20261114-work-loop-pseudo-v2-24-98639a2286fb@kernel.org>
 References: <20261114-work-loop-pseudo-v2-0-98639a2286fb@kernel.org>
 In-Reply-To: <20261114-work-loop-pseudo-v2-0-98639a2286fb@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -70,14 +70,14 @@ Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>,
  Amir Goldstein <amir73il@gmail.com>, linux-erofs@lists.ozlabs.org, 
  linux-kselftest@vger.kernel.org, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>, 
- Chuck Lever <cel@kernel.org>
+ Alexander Mikhalitsyn <alex@amutable.com>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=938; i=brauner@kernel.org;
- h=from:subject:message-id; bh=333wt1W/Zu6jr+pk5l0cVZ7RaBW0U1/QWczclcq5D2g=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9iKmLTHPo2r7Kfu7yRemXBPUWve7/actZfm6rc/k25
- jem724e6ChlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZjIRR5Gho4FIlHz9++53fnK
- eYmA2xVfqS8fnermTZ72xHcPu+nShFOMDBvE1IVLnCTmP3kZv4jlPnfC5t2t7WarJxSWKke6dZS
- u5QQA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=924; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=WuyzjhSjL7aXRZxi4H+U5QfhpdKUXYV3897MSDhz8qA=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9iGlUe3TDrZdvVhVT2mR3k3we9/eJDiu6538yOSXAr
+ Hyo0qCwo5SFQYyLQVZMkcWh3SRcbjlPxWajTA2YOaxMIEMYuDgFYCJ3ahgZ1rM7x73c6uLQZetU
+ O/epajfjD835024Vs10pq1pRdPDiVEaGNQXHTYyVl0ebeNRMbl02gWFxsDZvQuTKh6s+L1DpTtf
+ mBwA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 X-Mailman-Approved-At: Sat, 14 Nov 2026 05:56:41 -0800
@@ -99,36 +99,36 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Initialize the nfsd filesystem as a pseudo filesystem. This raises
-SB_I_PSEUDO and also SB_I_NOEXEC and SB_I_NODEV. It never holds
-executables or device nodes.
+Initialize efivarfs as a pseudo filesystem. This raises SB_I_PSEUDO and
+also SB_I_NOEXEC and SB_I_NODEV. efivarfs never holds executables or
+device nodes.
 
-Acked-by: Chuck Lever <cel@kernel.org>
+Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/nfsd/nfsctl.c | 2 ++
+ fs/efivarfs/super.c | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/fs/nfsd/nfsctl.c b/fs/nfsd/nfsctl.c
-index f32311f2d7cf9..ce2666deddbd9 100644
---- a/fs/nfsd/nfsctl.c
-+++ b/fs/nfsd/nfsctl.c
-@@ -9,6 +9,7 @@
- #include <linux/namei.h>
- #include <linux/ctype.h>
+diff --git a/fs/efivarfs/super.c b/fs/efivarfs/super.c
+index 12746ced6dc63..e598d42c5f42c 100644
+--- a/fs/efivarfs/super.c
++++ b/fs/efivarfs/super.c
+@@ -8,6 +8,7 @@
+ #include <linux/efi.h>
+ #include <linux/fs.h>
  #include <linux/fs_context.h>
 +#include <linux/pseudo_fs.h>
+ #include <linux/fs_parser.h>
+ #include <linux/module.h>
+ #include <linux/pagemap.h>
+@@ -554,6 +555,7 @@ static int efivarfs_init_fs_context(struct fs_context *fc)
+ 	}
  
- #include <linux/sunrpc/cache.h>
- #include <linux/sunrpc/svcsock.h>
-@@ -1375,6 +1376,7 @@ static int nfsd_init_fs_context(struct fs_context *fc)
- {
- 	put_user_ns(fc->user_ns);
- 	fc->user_ns = get_user_ns(fc->net_ns->user_ns);
+ 	fc->s_fs_info = sfi;
 +	fc_init_pseudo(fc);
- 	fc->ops = &nfsd_fs_context_ops;
+ 	fc->ops = &efivarfs_context_ops;
+ 
  	return 0;
- }
 
 -- 
 2.53.0
