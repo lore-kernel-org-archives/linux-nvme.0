@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3E13606A897
-	for <linux-nvme@archiver.kernel.org>; Sat, 14 Nov 2026 03:29:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74AD2606A332
+	for <linux-nvme@archiver.kernel.org>; Sat, 14 Nov 2026 03:30:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=F+sMnXUH;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Xr6AK/Mu
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=lEjtFEiu;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QngF+A0R
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
 	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
@@ -14,48 +14,47 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=k/yp0EQ3u979bMW2ePdKGcLl5vB9hfDHr8pGWVMCVS8=; b=F+sMnXUHPHzYL5KwTFbP9Pnk5z
-	UI50Prn08/57Mo1H2sCAcC1LuO4O5PpWdfngwQxry/2l9Hs6ZYoheYGu5KPCTvAUEynV/dQC4ilnh
-	aslANiaWXyK8zAUET4kbeoXnSRW/JTaSx5he11M1XqzW7XZ8P3urviiBtaFbaopddG/QpXQKZDC+I
-	XcbQvTttcVoITAGstnDyOQO7/HPC1NgBmZ1tsvyUIdXY9GI+RQ230fsIp52A+Le8kBgfBoUCzfXmH
-	y6/rP37xewFV24TEVi6KRwsjPVfSJfZIgaIS/3hEjjwYhb/DUnyhkPWZe9IveTnRhr9nd3bGQjKSx
-	+NSSRzXA==;
+	bh=X0odMvH757RytC72ratFz/WtNNDqIQlZ8awX9/6JWwk=; b=lEjtFEiu7GXYvU3rX6G3WLxx88
+	anz7Rfr8V0FQSvF7vcUvnMoRv2Yum9CgI+eS4tVAJSX1kPHc/S0/dzbTOwxxCnKPYmWINOFwl0jTS
+	46q/NHEn4igpJ0fDuR06PK4FWtvbaD0r3GG+pCeRodh1b2IaRHA/QgLDKnoswP0R+kukRCvKas2Q5
+	qn8WwnTggolED7iF479tz7S6c/a4xAxCtq/q+4wNvdEImxq5upcc2w0IVkDnNjTBlm+Q1EUwvZYnY
+	G7dmc4FaKvPLZaBPrsV1ghhSTibIhuF7JLckNXWiHqyOxGwltYGkeJeoeReP3GLvvvRt5/LaUoUU4
+	NJkqDowQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xS4SM-0000000FGg2-06GM;
-	Sat, 14 Nov 2026 03:29:34 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1xS4TX-0000000FHA0-0dyS;
+	Sat, 14 Nov 2026 03:30:47 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xS4SL-0000000FGfa-0637
+	id 1xS4TV-0000000FH9d-0wF6
 	for linux-nvme@lists.infradead.org;
-	Sat, 14 Nov 2026 03:29:33 +0000
+	Sat, 14 Nov 2026 03:30:45 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 6845F4132F;
-	Sat, 14 Nov 2026 03:29:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E26D1F000C4;
-	Sat, 14 Nov 2026 03:29:32 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 84905405B1;
+	Sat, 14 Nov 2026 03:30:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B4F71F000C4;
+	Sat, 14 Nov 2026 03:30:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794626972;
-	bh=k/yp0EQ3u979bMW2ePdKGcLl5vB9hfDHr8pGWVMCVS8=;
+	s=k20260515; t=1794627044;
+	bh=X0odMvH757RytC72ratFz/WtNNDqIQlZ8awX9/6JWwk=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Xr6AK/MuOzJ0/wTcH39xjAok9VuR5izn5cxOqMQlnTFA74mzpZDDJPO4Nmr3mQuZW
-	 zU5dNU2jC0jWRTPwXDmPNG5TkoSgTJq+Ea9CRmN7LNm1HyVkm8bGqRMsn0N7q30TSe
-	 B/8UGFJChYkD7/IHS7V8MQVXW2RKKkFwnZXfKVwf83rDGg+Inpw9MtCEWweYc0Ow+y
-	 bRfFXsEPpwROoGrus0gxSfWRkuGC25T0Z0asnjEPbRdfEheTfwkxqW+7ztMtspjqV4
-	 gCXUYiC01pE9ThwY3+fVyghebshJvj9ANdLVtSW3/Lb4KwS21uyq3g6oKLy0ATrhe1
-	 Oi4GUaEPzVXyg==
-Message-ID: <sashiko-outbox-214110@kernel.org>
+	b=QngF+A0RsH9po5Jfy31hH/IHxijwYAIfDzE1xZYBhn0IjFgixQCsoMaOVdN6m4ROA
+	 BQQMRHVMHVMbwaf+N4+UNUqx7E1HrsCWWZSoIwZHu/Q/n8J6mDt4P4+gmVIB1T1UJE
+	 0qv6BBy1f08V0RY6B5Ou0fDDfjCz0kNXzctwU4h/7j9COXlm3Oa8JWLwvY17AdgrCo
+	 jTDDTtqP30v4l4OQsLj8iVxjycdRX2Umk8MFxZ37PZQjizET1CK6y4hlkrOZ+qjmjO
+	 ezfxz5QLEV1Xw0uYyt+LRMWoMzBAKYEy0Nx9zCSziAihOtJq2a6tuHUjIhHvmr1yDe
+	 JNBvg9ahCu0ag==
+Message-ID: <sashiko-outbox-214113@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v7 07/17] nvme: Introduce FENCING and FENCED controller
- states
+Subject: Re: [PATCH v7 03/17] nvmet: Implement CCR nvme command
 To: "Mohamed Khalfella" <mkhalfella@purestorage.com>
 Cc: linux-nvme@lists.infradead.org
-In-Reply-To: <20261114030454.2836543-8-mkhalfella@purestorage.com>
+In-Reply-To: <20261114030454.2836543-4-mkhalfella@purestorage.com>
 References: <20261114030454.2836543-1-mkhalfella@purestorage.com>
- <20261114030454.2836543-8-mkhalfella@purestorage.com>
+ <20261114030454.2836543-4-mkhalfella@purestorage.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 14 Nov 2026 03:29:31 +0000
+Date: Sat, 14 Nov 2026 03:30:43 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,100 +74,129 @@ X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 X-Archived-By: <archiver.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [High] nvme: premature non-mpath I/O failure in
-  nvme_fail_nonready_command()
-- [Medium] nvme: live queues re-enabled in nvme_check_ready() when
-  deleting from FENCING
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] nvmet: TOCTOU race between nvmet_ctrl_find_get_ccr() and
+  nvmet_start_ctrl()
 --
 
-commit 78ddca4023a9ef3590c04ed05791d87621f68277
+commit 8afa887480a9e0f0751311107895be0ad6ed159f
 Author: Mohamed Khalfella <mkhalfella@purestorage.com>
 
-nvme: Introduce FENCING and FENCED controller states
+nvmet: Implement CCR nvme command
 
-This commit adds the NVME_CTRL_FENCING and NVME_CTRL_FENCED controller
-states along with their state machine transitions, readiness checks,
-multipath path availability handling, and sysfs state names.
+This commit implements the Cross-Controller Reset admin command for the
+NVMe target, allowing a source controller to look up and trigger a fatal
+error on an impacted controller matching the specified controller ID, ciu,
+and cirn.
 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 38b27d8db0119..4be3ce2e72a78 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-
+> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-=
+cmd.c
+> index 5710ae53eb83a..3df9db454db9c 100644
+> --- a/drivers/nvme/target/admin-cmd.c
+> +++ b/drivers/nvme/target/admin-cmd.c
 [ ... ]
-
-> @@ -622,6 +641,8 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
->  		case NVME_CTRL_LIVE:
->  		case NVME_CTRL_RESETTING:
->  		case NVME_CTRL_CONNECTING:
-> +		case NVME_CTRL_FENCING:
-> +		case NVME_CTRL_FENCED:
->  			changed =3D true;
->  			fallthrough;
->  		default:
+> @@ -1629,6 +1630,78 @@ void nvmet_execute_keep_alive(struct nvmet_req *re=
+q)
+>  	nvmet_req_complete(req, status);
+>  }
+> =20
+> +void nvmet_execute_cross_ctrl_reset(struct nvmet_req *req)
+> +{
+[ ... ]
+> +	/* Find and get impacted controller */
+> +	ictrl =3D nvmet_ctrl_find_get_ccr(sctrl->subsys, sctrl->hostnqn,
+> +					cmd->ccr.ciu, cntlid,
+> +					le64_to_cpu(cmd->ccr.cirn));
+[ ... ]
+> +out_unlock:
+> +	mutex_unlock(&sctrl->lock);
+> +	if (status =3D=3D NVME_SC_SUCCESS)
+> +		nvmet_ctrl_fatal_error(ictrl);
+> +	nvmet_ctrl_put(ictrl);
+> +out:
+> +	nvmet_req_complete(req, status);
+> +}
+[ ... ]
+> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+> index 9c9ad4d9b292d..86018e0fb1586 100644
+> --- a/drivers/nvme/target/core.c
+> +++ b/drivers/nvme/target/core.c
+[ ... ]
+> @@ -1432,6 +1446,7 @@ static void nvmet_start_ctrl(struct nvmet_ctrl *ctr=
+l)
+>  	if (!nvmet_is_disc_subsys(ctrl->subsys)) {
+>  		ctrl->ciu =3D ((u8)(ctrl->ciu + 1)) ? : 1;
+>  		ctrl->cirn =3D get_random_u64() ? : 1;
+> +		nvmet_ctrl_cleanup_ccrs(ctrl, false);
+>  	}
+>  	ctrl->csts =3D NVME_CSTS_RDY;
+> =20
+> @@ -1537,6 +1552,42 @@ struct nvmet_ctrl *nvmet_ctrl_find_get(const char =
+*subsysnqn,
+>  	return ctrl;
+>  }
+> =20
+> +struct nvmet_ctrl *nvmet_ctrl_find_get_ccr(struct nvmet_subsys *subsys,
+> +					   const char *hostnqn, u8 ciu,
+> +					   u16 cntlid, u64 cirn)
+> +{
+> +	struct nvmet_ctrl *ctrl, *ictrl =3D NULL;
+> +	bool found =3D false;
+> +
+> +	mutex_lock(&subsys->lock);
+> +	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
+> +		if (ctrl->cntlid !=3D cntlid)
+> +			continue;
+> +		if (strncmp(ctrl->hostnqn, hostnqn, NVMF_NQN_SIZE))
+> +			continue;
+> +
+> +		/*
+> +		 * Enabling the controller regenerates ciu and cirn under
+> +		 * ctrl->lock. Hold the lock so that a controller becoming
+> +		 * ready concurrently is matched against either the old or
+> +		 * the new instance, never a mix of both.
+> +		 */
+> +		mutex_lock(&ctrl->lock);
+> +		if (ctrl->ciu =3D=3D ciu && ctrl->cirn =3D=3D cirn)
+> +			found =3D true;
+> +		mutex_unlock(&ctrl->lock);
 
 [Severity: Medium]
-When a controller in NVME_CTRL_FENCING or NVME_CTRL_FENCED transitions
-to NVME_CTRL_DELETING, can new I/O be dispatched onto its still-live
-queues while nvme_stop_ctrl() waits for fencing to finish?
+Can nvmet_execute_cross_ctrl_reset() race with nvmet_start_ctrl() and
+trigger a fatal error on a newly enabled controller instance?
 
-While in NVME_CTRL_FENCING, the transport queues remain live and new
-requests are blocked only because __nvme_check_ready() and
-nvme_path_get_state() reject NVME_CTRL_FENCING and NVME_CTRL_FENCED.
-In nvme_do_delete_ctrl(), ctrl->state stays NVME_CTRL_DELETING across
-nvme_stop_ctrl() until nvme_remove_namespaces() sets
-NVME_CTRL_DELETING_NOIO, and both nvme_check_ready() and
-nvme_path_get_state() treat NVME_CTRL_DELETING on a live queue as ready
-and enabled:
+nvmet_ctrl_find_get_ccr() drops ctrl->lock right after matching ctrl->ciu
+and ctrl->cirn.  Before nvmet_execute_cross_ctrl_reset() calls
+nvmet_ctrl_fatal_error(ictrl), a concurrent nvmet_update_cc() can enable
+ictrl and advance ictrl->ciu and ictrl->cirn:
 
-drivers/nvme/host/nvme.h:nvme_check_ready() {
-	if (likely(state =3D=3D NVME_CTRL_LIVE))
-		return true;
-	if (ctrl->ops->flags & NVME_F_FABRICS && state =3D=3D NVME_CTRL_DELETING)
-		return queue_live;
-	return __nvme_check_ready(ctrl, rq, queue_live, state);
-}
+CPU0                              CPU1
+nvmet_execute_cross_ctrl_reset()
+  nvmet_ctrl_find_get_ccr()
+    mutex_lock(&ictrl->lock)
+    /* matches ciu and cirn */
+    mutex_unlock(&ictrl->lock)
+                                  nvmet_update_cc()
+                                    mutex_lock(&ictrl->lock)
+                                    nvmet_start_ctrl()
+                                      ictrl->ciu =3D ...;
+                                      ictrl->cirn =3D ...;
+                                    mutex_unlock(&ictrl->lock)
+  nvmet_ctrl_fatal_error(ictrl)   <-- kills the new instance
 
-drivers/nvme/host/multipath.c:nvme_path_get_state() {
-	if (state !=3D NVME_CTRL_LIVE && state !=3D NVME_CTRL_DELETING)
-		return NVME_PATH_DISABLED_CTRL_DOWN;
-}
+If the interleaving goes the other way and nvmet_ctrl_fatal_error(ictrl)
+runs just before nvmet_start_ctrl(), nvmet_start_ctrl() overwrites
+ictrl->csts with the ready state, clearing the fatal status bit while
+ictrl->fatal_err_work is already queued.
 
-As a result, deleting a fencing controller re-enables multipath
-selection and allows new requests to be queued to the broken controller
-throughout the fence wait instead of failing over immediately.
-
-> @@ -786,6 +807,8 @@ blk_status_t nvme_fail_nonready_command(struct nvme_c=
-trl *ctrl,
-> =20
->  	if (state !=3D NVME_CTRL_DELETING_NOIO &&
->  	    state !=3D NVME_CTRL_DELETING &&
-> +	    state !=3D NVME_CTRL_FENCING &&
-> +	    state !=3D NVME_CTRL_FENCED &&
->  	    state !=3D NVME_CTRL_DEAD &&
->  	    !test_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags) &&
->  	    !blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
-
-[Severity: High]
-Does excluding NVME_CTRL_FENCING and NVME_CTRL_FENCED here cause
-non-multipath I/O to fail immediately with BLK_STS_TRANSPORT during
-fencing?
-
-Multipath requests (REQ_NVME_MPATH or REQ_FAILFAST_TRANSPORT) already
-bypass the BLK_STS_RESOURCE return via the trailing checks and call
-nvme_host_path_error(rq), so excluding NVME_CTRL_FENCING and
-NVME_CTRL_FENCED here only changes the behavior for normal
-non-multipath requests.  Because the queues are not quiesced during
-NVME_CTRL_FENCING, nvme_host_path_error() -> nvme_complete_rq() ->
-nvme_decide_disposition() returns RETRY, and nvme_retry_req() requeues
-the request with zero delay until nvme_max_retries is exhausted in a
-tight loop, after which __nvme_end_req() logs an uninitialized
-nr->cmd->common.opcode in nvme_log_error() (since nvme_check_ready()
-failed before nvme_setup_cmd()) and fails the I/O to the caller.
+In addition, when a controller is re-enabled in-place via
+nvmet_start_ctrl() rather than freed in nvmet_ctrl_free(),
+nvmet_start_ctrl() only cleans up entries on ctrl->ccr_list where ctrl was
+the source controller, leaving pending entries on other controllers where
+ctrl was the impacted controller active with a non-null ccr->ctrl pointer.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261114030454.2836=
-543-1-mkhalfella@purestorage.com?part=3D7
+543-1-mkhalfella@purestorage.com?part=3D3
 
