@@ -2,76 +2,77 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 272DE606A898
-	for <linux-nvme@archiver.kernel.org>; Sat, 14 Nov 2026 03:06:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5509D606A8B4
+	for <linux-nvme@archiver.kernel.org>; Sat, 14 Nov 2026 03:06:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=YykOINMK;
-	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.a=rsa-sha256 header.s=google2022 header.b=ZbgSi0ad
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=1dv67oFH;
+	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.a=rsa-sha256 header.s=google2022 header.b=EBwqo00m
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=KsxqtEqa+j7cIEzVTIS7e2jle9WDM5wz/EJVL2IR09M=; b=YykOINMKcclalh
-	c0ykXcMtlbJoopoWyBF8L1vkiQXfiHFb2lbFbEbxwF1ILwBoM89GUEym+sm2M5Rg2oToM7+77wfuo
-	AFg+QYKhU8lKWnJVwPPbN6spRwUpM0nYDGe7e9Qljr929TlNGPTAaHQseePAXFAfFuGjaAl8PHH+F
-	tGL6+gBMWV0OmgYvDCV5SBl/xkFeQyjQOeZOQrLzUlS6LSuEyKi+4pHUpNGneALgBuWPvodZBWzuo
-	CSd/82G39BpxmbL3D8hi4PmlxWYkkhQNPoI3KLA/+B5QV/KX3MORs5jVmmNBbsbaGx2TbhCUok5lu
-	/kXJCz0r2bdm1nITP0IQ==;
+	List-Owner; bh=Qu0QicR3v2Y9fiT7BuqjEd+nN52bTpIsNe3RHBYUUYQ=; b=1dv67oFH+icdhi
+	v1KSz1xnAlFpZFuNAYiXC79vp2xHcoNL+NpYHwWMiv8JOIqNS8kPl5tNW1O9STpSGE57vvX/T5nXC
+	lolX0KADltOBEy5ndTzw/J875UXNXSF0fxo/KmRur+X18kRf0GdI5mzcLfrDj5ZQ17qAsqqBpEGW8
+	towzssN7CVYxxWP2GlWZfR0QEIHP7GXCUY6tNM4B58QIP2J7j6Js5k5w7sFN8uw8xXukqNpK5ziUu
+	+VLpb236Y0+7us9JmQzriDxqVE/NrzewhfGHqdLXQ+X/+RUkpHyTdtsb4VKcuWKpVwFMPAXywBkRH
+	hWtoxe86JUqh/1UD2UFg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xS45k-0000000FAFP-1Ti8;
+	id 1xS45k-0000000FAGH-3OrI;
 	Sat, 14 Nov 2026 03:06:12 +0000
-Received: from mail-dl1-x1231.google.com ([2607:f8b0:4864:20::1231])
+Received: from mail-dl1-x122a.google.com ([2607:f8b0:4864:20::122a])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xS45Z-0000000F9w6-12IW
+	id 1xS45a-0000000F9yn-1NfZ
 	for linux-nvme@lists.infradead.org;
-	Sat, 14 Nov 2026 03:06:09 +0000
-Received: by mail-dl1-x1231.google.com with SMTP id a92af1059eb24-1a2761c69fbso1079216c88.0
-        for <linux-nvme@lists.infradead.org>; Fri, 13 Nov 2026 19:06:00 -0800 (PST)
+	Sat, 14 Nov 2026 03:06:10 +0000
+Received: by mail-dl1-x122a.google.com with SMTP id a92af1059eb24-1b244fb7fffso1860768c88.1
+        for <linux-nvme@lists.infradead.org>; Fri, 13 Nov 2026 19:06:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1794625560; x=1795230360; darn=lists.infradead.org;
+        d=purestorage.com; s=google2022; t=1794625561; x=1795230361; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=KsxqtEqa+j7cIEzVTIS7e2jle9WDM5wz/EJVL2IR09M=;
-        b=ZbgSi0adK7WT8IB/AHZBnzjCnv3UF1Ru3L3v4IMSstoyFlCvwxX5uBmkbtNnOpADrj
-         P8SZFlEOrw9d04NZk9yYwzbGzYuWxFkliotYHAtfpbmxA+hoMHqseAsR46EVwwVfxKN/
-         1JmmwaIAGr2A0YamJQQ4MtglTxTcibDRLsNaVa/mEc9dxGnWaJyj8jZt6x1X9n0FjXyj
-         vaa4c6jivQv2SgqdshAdr4wDn3I2LRmhzp1cxl9Y61rdRp6KUrs3fWAw1uYxeDbkKncK
-         rjqCx0OTn2IjrHQf3W6FH21K3vmzVt1D7Fbc1kuYkINwFSI6/ClW8FGLtxrLNVEk7Iyu
-         +3xg==
+        bh=Qu0QicR3v2Y9fiT7BuqjEd+nN52bTpIsNe3RHBYUUYQ=;
+        b=EBwqo00mQBRUDUEQgxuSNugtFtt6CM7fq6wR2wc66l35Dbi9lX3CFChGmFabT9e/GO
+         x4H3x6tw4wzoZ5Xf3X7XsYhbcWFPiYYrc4lqxTAlcxUohPdyYoJrwmzz4PMBwWIqr3hP
+         LY+w2cd7DixYdenJXfbs5tCXiz9jstWGJ+r2BXmI5XcSwG2FP6vh7TeM+anE8NWwkU95
+         UwahhYtE4xpe9Z3eJdUv//Y3Brm4uwGBk83Tma99BgzRGgWCkDx2NjG3UVzaRMX8Vuym
+         YYm93BWU1NGoSrZ/iMGwRGMhg4aTN7v7+BDzu+GgHmnS3TAoxdQjIsUlHzRRhX0UX9dH
+         GtFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794625560; x=1795230360;
+        d=1e100.net; s=20260707; t=1794625561; x=1795230361;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=KsxqtEqa+j7cIEzVTIS7e2jle9WDM5wz/EJVL2IR09M=;
-        b=snfXT/UuiXlBKECkTPRAY/779ukYmxMvCUXyxSe0/1OZgDfELwiFbrEpO+5uKLGubN
-         Q/Pv+RvklPw1OGvIXagN9dZ9aSXfml8RZo/jC/RsGGv1Ur5thjAttRVKFaoKjY5x431M
-         upCv+MffpgZiP8/6FAmPRKzZfaPHwctdFiJFxw6QYBx9jcKJnMrGD0oIdpwWT7VS2xQw
-         ks2j34Eips7wu12pEe1D/mLIpJUtGwUm9cNvWY8tXkkW9tssHnbYlJsCzl01J5FYut/A
-         b7HraT+gwtJbGSiewPjBz0Bn2XqSG4AeRPh0WQT61QTtDWECq8yAKbjPbPMaAGPS7d77
-         GOGA==
-X-Forwarded-Encrypted: i=1; AL+hErHNEA+xp941NWEbCWdfOsqtkaXFQyhSmJHjr7yWXbT+oFSOAgJVwehAipvnA0Rn6iBGQkHmhDMZmw2n@lists.infradead.org
-X-Gm-Message-State: APuU4Z/FWLCpcJtj/fGRccs8TOpxQudj+Q2eTzFz1GiOB5PZHrC7JcMk
-	vm7PmOGK3/75CeIwdwxaR2rMKwLCyKEbuPTsvRcQF4rjQHmcwpx3tvHhlRNp+gjP7cM=
-X-Gm-Gg: AYBFou0gToi3XVktfLzauq8vn+yms4vwlxNKO7h2l0LTaCBOIe4KEYWulGpCiHSdTYw
-	PmuBEq0qxprTCRutZHhB0KJk70eTHZQ7XIww9NRnUgDQ+4Xuun8C0/a8OoaQbZw0xWA3Ksqyi73
-	SF5N2pbX/PUrhIW4xmx8do8E4gpEbhPHIJE3gaoimmlrrkJ+OeRgk+oZJWj6gtALlhv/NzyrtC4
-	m6oKOsRjPHhn7sd3H5AWiqxRZoI/ww0U8+pk7aDGSwzo/gGokB9+u/+t2dnqVSX5bcbKr3oX1PC
-	b9136q72+EKq2RJVYilA5f2PE7TG2UiHN/H/AU2CYqI3vbct9lxXbnkpPRFAVY+ZgU+3z/uZiLV
-	UCqxICj+9JE9HuCX2STzD+0HO4lu6VEB1DuYn6F/XiQknmj4X6ofeoQnxByXkZhPzkHcZ8Aqz9S
-	3dBGZAF9usOduQ8bvhtlKl6Dvu02khTP8bUjrrlXz7tdz1J705rIU4Mkhfi5bjkjyPQeNxO/W28
-	E9XM6ZelBwAQ1pdrDLujC6oHSPZ2uBXvaobJ43203qVpmOFgaR0suLiP6q97WoAJFD0A5K3Ytzs
-	6ACVfxuHGgNfuBG8+jNAhD5hvtbTdtjy82se/8Xp2fUkMvG4nodS
-X-Received: by 2002:a05:7022:ed02:b0:1b2:4378:3545 with SMTP id a92af1059eb24-1b5031753eamr3862160c88.21.1794625559780;
-        Fri, 13 Nov 2026 19:05:59 -0800 (PST)
+        bh=Qu0QicR3v2Y9fiT7BuqjEd+nN52bTpIsNe3RHBYUUYQ=;
+        b=x2Zb85ppvqX0aM/CNBlHXKBEfbzLGh0FP8bOHNqxp1LfSZgrFgiRVi8FKtOQSjvh5O
+         DFvguB5FRoTK83F5cBy7Z7y6LTW9bQEM27pwMEEWh1qIxHTU28s/NQwbSnUKOlCvHrS7
+         EcVCKTJZ4KO3eYL/glPMbD7VAfPtqAb79S2LPWzY4lj+GzNRDCnndohK0U92pvzKIvz3
+         f3imgs/nm+p9Ukz6qbks9pD+rSzrYM3+fKeYNteBIoZLCdA5V9IGHcCeuTOqTCJvOWxL
+         Zs0VOEgdK0/S0fuE9gIMuGVMeiAw15Vq4pbVHv4RVDdBhXM1+B9m8HOuuKin50l++4tl
+         iZRg==
+X-Forwarded-Encrypted: i=1; AL+hErGJgLuil/CrWVI8Opxc61XCYKFDpjCVA2W+hv59zdn8F+6BQs9yvwhh8xNY7N49cGrZXbbYC6y7n99j@lists.infradead.org
+X-Gm-Message-State: APuU4Z958XCYugLLlngx+x0l4s0/Z+TtLmjLhQZTLTI3O0LYE5kB3YMe
+	/TV5lTY/xVve/Vx4yJcogfz1Co+8Q5a/HBp59Zr7k5PtWfph094HIk71/IWOT3qOqFQ=
+X-Gm-Gg: AYBFou1BmrsoZK8nxmhKWNm59UajLJ7w4XWAW1SOF/V8TopTEYyJgUiN4FVf0HFOxGt
+	Zl3waTxZ8cvoRtolq6Q4FU2ZOTSEfn/Ui1rPZcr7leX8Hm1NOg1obSSIicNnumPdnjL9Lo2o8Zm
+	jN5BBGgcsD+oWCfHoEdjFs9ixTr3WGoE95Mus+NHAtoiXLQgtERrLeZ8IdDDi6VdLrxQfe1+SRO
+	r6i29K5o4EMNcX6cdob8m1vED6HUSMDfaqO/+XszY3ZToTG5AauwkBszm9Uaz8VYQzth/dC0jXf
+	U3PEqgK2WEvhbLJNHcfNwdSxbJuFLO4Gx8ncIQnVUmPar/NkdyKuA1Eazj32HjfkjlkxZ9w5Um+
+	U6UFDf9dixo1Riq7CXXRBL0vkCYFs3XcY/apru92R2myag7bL29IjIckFDUE2tOkruWBmoNLVCU
+	w+nfrd1I2L1N684eYaxWiHVc2ADLbH5wBRB59t1WD4H5UJwi9vsNMxToSuQMqOmBsuVUd5TG/Uc
+	2yFDZ7NngI9BB1mV6B8W75o++4WEtBkpfetA11Po6WciEWUtNbIQIUesE1T2XsHcVBEek2DNxmk
+	cOeO5RuV4hQXNIGi3sQz1w5sc6BzLROL6Qi45h4leV6ifLUlbX/5GMKperBWm36s/DKeVvtGiQ=
+	=
+X-Received: by 2002:a05:701b:290a:b0:16c:3408:760b with SMTP id a92af1059eb24-1b503121292mr3585620c88.32.1794625560977;
+        Fri, 13 Nov 2026 19:06:00 -0800 (PST)
 Received: from apollo.purestorage.com ([208.88.152.253])
-        by smtp.googlemail.com with ESMTPSA id a92af1059eb24-1b50316e008sm10829382c88.6.2026.11.13.19.05.58
+        by smtp.googlemail.com with ESMTPSA id a92af1059eb24-1b50316e008sm10829382c88.6.2026.11.13.19.06.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 19:05:59 -0800 (PST)
+        Fri, 13 Nov 2026 19:06:00 -0800 (PST)
 From: Mohamed Khalfella <mkhalfella@purestorage.com>
 To: Keith Busch <kbusch@kernel.org>,
 	Jens Axboe <axboe@kernel.dk>,
@@ -88,9 +89,9 @@ Cc: Justin Tee <justin.tee@broadcom.com>,
 	Daniel Wagner <dwagner@suse.de>,
 	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v7 10/17] nvme-tcp: Use CCR to recover controller that hits an error
-Date: Fri, 13 Nov 2026 19:04:24 -0800
-Message-ID: <20261114030454.2836543-11-mkhalfella@purestorage.com>
+Subject: [PATCH v7 11/17] nvme-rdma: Use CCR to recover controller that hits an error
+Date: Fri, 13 Nov 2026 19:04:25 -0800
+Message-ID: <20261114030454.2836543-12-mkhalfella@purestorage.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261114030454.2836543-1-mkhalfella@purestorage.com>
 References: <20261114030454.2836543-1-mkhalfella@purestorage.com>
@@ -98,8 +99,8 @@ X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261113_190601_384751_E16508DE 
-X-CRM114-Status: GOOD (  17.24  )
+X-CRM114-CacheID: sfid-20261113_190604_073521_74D696A4 
+X-CRM114-Status: GOOD (  17.67  )
 X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -126,50 +127,44 @@ controller then moves to RESETTING to continue error recovery.
 
 A request that times out while the controller is FENCING is not
 completed. Its timer is rearmed, since inflight requests must not be
-retried before the fence is over. nvme_tcp_stop_ctrl() flushes
+retried before the fence is over. nvme_rdma_stop_ctrl() flushes
 fencing_work, so deleting a controller that is fencing waits for the
 fence to finish.
 
 Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
-Reviewed-by: Hannes Reinecke <hare@kernel.org>
 ---
- drivers/nvme/host/tcp.c | 39 ++++++++++++++++++++++++++++++++++-----
+ drivers/nvme/host/rdma.c | 39 ++++++++++++++++++++++++++++++++++-----
  1 file changed, 34 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 7ecc6c007f8d..244c6c50cf99 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -195,6 +195,7 @@ struct nvme_tcp_ctrl {
- 	struct sockaddr_storage src_addr;
- 	struct nvme_ctrl	ctrl;
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 32189fdfc0f5..da1ec2dd6205 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -119,6 +119,7 @@ struct nvme_rdma_ctrl {
  
+ 	/* other member variables */
+ 	struct blk_mq_tag_set	tag_set;
 +	struct work_struct	fencing_work;
  	struct work_struct	err_work;
- 	struct delayed_work	connect_work;
- 	struct nvme_tcp_request async_req;
-@@ -651,6 +652,12 @@ static void nvme_tcp_init_recv_ctx(struct nvme_tcp_queue *queue)
  
- static void nvme_tcp_error_recovery(struct nvme_ctrl *ctrl)
+ 	struct nvme_rdma_qe	async_event_sqe;
+@@ -992,6 +993,7 @@ static void nvme_rdma_stop_ctrl(struct nvme_ctrl *nctrl)
  {
-+	if (nvme_change_ctrl_state(ctrl, NVME_CTRL_FENCING)) {
-+		dev_warn(ctrl->device, "starting controller fencing\n");
-+		queue_work(nvme_wq, &to_tcp_ctrl(ctrl)->fencing_work);
-+		return;
-+	}
-+
- 	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
- 		return;
+ 	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(nctrl);
  
-@@ -2767,6 +2774,22 @@ static void nvme_tcp_reconnect_ctrl_work(struct work_struct *work)
- 	nvme_tcp_reconnect_or_remove(ctrl, ret);
++	flush_work(&ctrl->fencing_work);
+ 	flush_work(&ctrl->err_work);
+ 	cancel_delayed_work_sync(&ctrl->reconnect_work);
+ }
+@@ -1153,6 +1155,22 @@ static void nvme_rdma_reconnect_ctrl_work(struct work_struct *work)
+ 	nvme_rdma_reconnect_or_remove(ctrl, ret);
  }
  
-+static void nvme_tcp_fencing_work(struct work_struct *work)
++static void nvme_rdma_fencing_work(struct work_struct *work)
 +{
-+	struct nvme_tcp_ctrl *tcp_ctrl = container_of(work,
-+			struct nvme_tcp_ctrl, fencing_work);
-+	struct nvme_ctrl *ctrl = &tcp_ctrl->ctrl;
++	struct nvme_rdma_ctrl *rdma_ctrl = container_of(work,
++			struct nvme_rdma_ctrl, fencing_work);
++	struct nvme_ctrl *ctrl = &rdma_ctrl->ctrl;
 +	unsigned long rem;
 +
 +	rem = nvme_fence_ctrl(ctrl);
@@ -178,33 +173,38 @@ index 7ecc6c007f8d..244c6c50cf99 100644
 +
 +	nvme_change_ctrl_state(ctrl, NVME_CTRL_FENCED);
 +	if (nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
-+		queue_work(nvme_reset_wq, &tcp_ctrl->err_work);
++		queue_work(nvme_reset_wq, &rdma_ctrl->err_work);
 +}
 +
- static void nvme_tcp_error_recovery_work(struct work_struct *work)
+ static void nvme_rdma_error_recovery_work(struct work_struct *work)
  {
- 	struct nvme_tcp_ctrl *tcp_ctrl = container_of(work,
-@@ -2842,6 +2865,7 @@ static void nvme_reset_ctrl_work(struct work_struct *work)
+ 	struct nvme_rdma_ctrl *ctrl = container_of(work,
+@@ -1180,6 +1198,12 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
  
- static void nvme_tcp_stop_ctrl(struct nvme_ctrl *ctrl)
+ static void nvme_rdma_error_recovery(struct nvme_rdma_ctrl *ctrl)
  {
-+	flush_work(&to_tcp_ctrl(ctrl)->fencing_work);
- 	flush_work(&to_tcp_ctrl(ctrl)->err_work);
- 	cancel_delayed_work_sync(&to_tcp_ctrl(ctrl)->connect_work);
- }
-@@ -2944,17 +2968,19 @@ static enum blk_eh_timer_return nvme_tcp_timeout(struct request *rq)
- 	struct nvme_tcp_cmd_pdu *pdu = nvme_tcp_req_cmd_pdu(req);
- 	struct nvme_command *cmd = &pdu->cmd;
- 	int qid = nvme_tcp_queue_id(req->queue);
++	if (nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_FENCING)) {
++		dev_warn(ctrl->ctrl.device, "starting controller fencing\n");
++		queue_work(nvme_wq, &ctrl->fencing_work);
++		return;
++	}
++
+ 	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RESETTING))
+ 		return;
+ 
+@@ -1991,17 +2015,19 @@ static enum blk_eh_timer_return nvme_rdma_timeout(struct request *rq)
+ 	struct nvme_rdma_ctrl *ctrl = queue->ctrl;
+ 	struct nvme_command *cmd = req->req.cmd;
+ 	int qid = nvme_rdma_queue_idx(queue);
 +	enum nvme_ctrl_state state;
  
- 	dev_warn(ctrl->device,
- 		 "I/O tag %d (%04x) type %d opcode %#x (%s) QID %d timeout\n",
- 		 rq->tag, nvme_cid(rq), pdu->hdr.type, cmd->common.opcode,
+ 	dev_warn(ctrl->ctrl.device,
+ 		 "I/O tag %d (%04x) opcode %#x (%s) QID %d timeout\n",
+ 		 rq->tag, nvme_cid(rq), cmd->common.opcode,
  		 nvme_fabrics_opcode_str(qid, cmd), qid);
  
--	if (nvme_ctrl_state(ctrl) != NVME_CTRL_LIVE) {
-+	state = nvme_ctrl_state(ctrl);
+-	if (nvme_ctrl_state(&ctrl->ctrl) != NVME_CTRL_LIVE) {
++	state = nvme_ctrl_state(&ctrl->ctrl);
 +	if (state != NVME_CTRL_LIVE && state != NVME_CTRL_FENCING) {
  		/*
 -		 * If we are resetting, connecting or deleting we should
@@ -216,7 +216,7 @@ index 7ecc6c007f8d..244c6c50cf99 100644
  		 * - ctrl disable/shutdown fabrics requests
  		 * - connect requests
  		 * - initialization admin requests
-@@ -2970,7 +2996,9 @@ static enum blk_eh_timer_return nvme_tcp_timeout(struct request *rq)
+@@ -2017,7 +2043,9 @@ static enum blk_eh_timer_return nvme_rdma_timeout(struct request *rq)
  
  	/*
  	 * LIVE state should trigger the normal error recovery which will
@@ -225,15 +225,15 @@ index 7ecc6c007f8d..244c6c50cf99 100644
 +	 * not be completed before fencing has finished, so just rearm the
 +	 * timer and let the error recovery pick it up.
  	 */
- 	nvme_tcp_error_recovery(ctrl);
+ 	nvme_rdma_error_recovery(ctrl);
  	return BLK_EH_RESET_TIMER;
-@@ -3209,6 +3237,7 @@ static struct nvme_tcp_ctrl *nvme_tcp_alloc_ctrl(struct device *dev,
+@@ -2328,6 +2356,7 @@ static struct nvme_rdma_ctrl *nvme_rdma_alloc_ctrl(struct device *dev,
  
- 	INIT_DELAYED_WORK(&ctrl->connect_work,
- 			nvme_tcp_reconnect_ctrl_work);
-+	INIT_WORK(&ctrl->fencing_work, nvme_tcp_fencing_work);
- 	INIT_WORK(&ctrl->err_work, nvme_tcp_error_recovery_work);
- 	INIT_WORK(&ctrl->ctrl.reset_work, nvme_reset_ctrl_work);
+ 	INIT_DELAYED_WORK(&ctrl->reconnect_work,
+ 			nvme_rdma_reconnect_ctrl_work);
++	INIT_WORK(&ctrl->fencing_work, nvme_rdma_fencing_work);
+ 	INIT_WORK(&ctrl->err_work, nvme_rdma_error_recovery_work);
+ 	INIT_WORK(&ctrl->ctrl.reset_work, nvme_rdma_reset_ctrl_work);
  
 -- 
 2.56.0
