@@ -2,55 +2,55 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FCDE606A323
-	for <linux-nvme@archiver.kernel.org>; Sat, 14 Nov 2026 13:56:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5882E606A327
+	for <linux-nvme@archiver.kernel.org>; Sat, 14 Nov 2026 13:56:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=2vKlX0Bp;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CNgQBX13
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=qmqeMv24;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UVaFfwiA
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=QuUCHwL/BY1T2vLOc/gPlh6w5Yz8cRxgbnaJubMSr1o=; b=2vKlX0Bp33+Xds
-	4Uqg7Vjort7rXrGFZTxnjh6CsZ+s7kAXE0NKzE7dTzRt60IT8XS9FvD+0zeGGUo+46bxIM78+CEV+
-	q6WvNQujy2ALUbglQT4CHhaJMXP8BhlqnowgsJXVXnhVPhQe/p3p/bxZEInF+23quXW7D9aBPoC9n
-	iGslcd558f/WCicBr6MUT/iZEPORMSG4SJ7KT2Hwo4bX+cQQye0a7zBuU4/VZ1C66ibkXeBOT+V27
-	rkmmAMMPxz94AC7g3C2aK3wV9I1T0Z3NceQbfB99pdrhlKto01HjYjWQmHcSDe48yL/pGrlGPAJLr
-	ocH4I+RzrGLix3Kb3fCQ==;
+	List-Owner; bh=NVjzjsuRRB2UDEz9oF8zpvzwY092/ejVSFo+HtliIvc=; b=qmqeMv24r1G1ie
+	TfhxAopZ77P02utsoc5s1Q1eWk7vsP8W0Fl8VMIkrUkXWm5o3JLohDU8EexNqQakBXzodnjhusGzE
+	Rnp2rhZSqkvPf3/p3SLFTPFUmKueYFWOQifyWic6gD4oH6LXu2Hk6JPQeXN0KXiPscJMJB92+/sLi
+	YbKmua6izHl0nGDtslfZz/b/1EQNZzo3tg/dNEOb3rVbYvlPxPufKKh5wDeAcjYvqF6VuhvDzLfzP
+	TaB/I5r8qWufVunkQorobh/vh2uRg2uVOkqGUUkeJrsrqPrAnALxexYL/ChsJzdfZMjrWkk1/UvXM
+	6EaUCEhfafE99TQSjfbQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSEFR-0000000GBgd-1d8r;
-	Sat, 14 Nov 2026 13:56:53 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1xSEFT-0000000GBpl-2gLL;
+	Sat, 14 Nov 2026 13:56:55 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSDUu-0000000G4Ne-1jRE
+	id 1xSDV0-0000000G4Qg-2o0U
 	for linux-nvme@lists.infradead.org;
-	Sat, 14 Nov 2026 13:08:48 +0000
+	Sat, 14 Nov 2026 13:08:54 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 988B862416;
+	by sea.source.kernel.org (Postfix) with ESMTP id 6BCE543CBA;
+	Sat, 14 Nov 2026 13:08:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D93491F000C5;
 	Sat, 14 Nov 2026 13:08:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA7E61F000C5;
-	Sat, 14 Nov 2026 13:08:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794661727;
-	bh=QuUCHwL/BY1T2vLOc/gPlh6w5Yz8cRxgbnaJubMSr1o=;
+	s=k20260515; t=1794661734;
+	bh=NVjzjsuRRB2UDEz9oF8zpvzwY092/ejVSFo+HtliIvc=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=CNgQBX13ffe3JXhue37YFrjDqTi7QHQwoyhDfFs/RUZghZx9ATR26nsVZvuulojy4
-	 90+O6VwIW2ujBbvNja5FGpIcp4WGb+E74bFqbxprhGFZj99iPgX1n1tw/xqBz3cMB8
-	 MfHWE+d7b/nOaBVNHFm8j1ZuOTqlusKjQeSptMVaBcEBWpesAQInyNISF3BohFJGqH
-	 bJv1esG416Dsi1quyPxAWVW6q3d9soXbqUnTAmvb+rCqacLCr6yXrP17cyauuaOm6l
-	 BRwaK6kRIFJYfyH8/o8Tz/mBRPJMyObZZn+GgRNk6yY2s2rb/dZsJEqaL3QrXA/Ljp
-	 vGyyEiF0/ILGA==
+	b=UVaFfwiA5zRIimVEAgzAS5LMrrD01HUXKaMpbor+Rz5AOd2vHoPXCqbvdwGWBTrIB
+	 m5kX7dz7AGGAwjJjuW0l/5mNTBXOF7cquK+ncIk4FTMBAgz4L/swi8yUiHI0e2qgAr
+	 6bp+zKbJsJ9HY/cYKdz1lp/ddP0/dfUVi5m/8oneZVxiQWMDTgO2bliKT++Ie3Uv6a
+	 8l0UllhuQ7TbovBebBzVOisEiB4Ok49OQ9H6KpFib98QFm6PM9KhfCivOUR1UsxvCZ
+	 9aPQWq9qVax1nQI6TBMVoXocUs+GlzxhB7TqjHWemtwD7yZ1EJQ9uSokpve4k0Q1J0
+	 aujFNglRVEFlA==
 From: Christian Brauner <brauner@kernel.org>
-Date: Sat, 14 Nov 2026 14:02:08 +0100
-Subject: [PATCH RFC v2 27/42] openpromfs: use fc_init_pseudo()
+Date: Sat, 14 Nov 2026 14:02:09 +0100
+Subject: [PATCH RFC v2 28/42] ocfs2: use fc_init_pseudo() for dlmfs
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261114-work-loop-pseudo-v2-27-98639a2286fb@kernel.org>
+Message-Id: <20261114-work-loop-pseudo-v2-28-98639a2286fb@kernel.org>
 References: <20261114-work-loop-pseudo-v2-0-98639a2286fb@kernel.org>
 In-Reply-To: <20261114-work-loop-pseudo-v2-0-98639a2286fb@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -71,12 +71,12 @@ Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>,
  linux-kselftest@vger.kernel.org, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=932; i=brauner@kernel.org;
- h=from:subject:message-id; bh=t/2kRMsiGpRT6NTAIUV0TfnxBeUt9A+YVEprnQjtSPo=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9iGmZa3HwtJek4ZllxQcnP9aLXbCtiHujUrnojYSNt
- aycMZvDO0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACZSLcnI0KN9bfIOOwUTHxZF
- s4I0h5P9rySDnr373Sr2jfuvwbaNVgz/rOz3c3VWSW3/KCX0wje956fP+Zc5IiuTJ+y+warBtiC
- RFwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=949; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=+FO4Y1ymqMYAnXNVc9VhiJCBK4eGvv0E7gd9oyLRaz4=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9iGk7WjSP46SwS3e7d4Kv6MyOb6bppW3Xqv6V7uHTL
+ Jc4cvtcRykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwESUxBgZnt04pCb0syGDj0eq
+ f4e31jfLPX8LHQNWd/7buu8nC9PpW4wMu0Xb+E2Xc3o2TOOI4xToZ91mWvKBzUnka3RtdNyx738
+ 4AQ==
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 X-Mailman-Approved-At: Sat, 14 Nov 2026 05:56:41 -0800
@@ -98,35 +98,36 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Initialize openpromfs as a pseudo filesystem. This raises SB_I_PSEUDO and
-also SB_I_NOEXEC and SB_I_NODEV. openpromfs never holds executables or
+Initialize dlmfs as a pseudo filesystem. This raises SB_I_PSEUDO and
+also SB_I_NOEXEC and SB_I_NODEV. dlmfs never holds executables or
 device nodes.
 
+Reviewed-by: Jan Kara <jack@suse.cz>
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/openpromfs/inode.c | 2 ++
+ fs/ocfs2/dlmfs/dlmfs.c | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/fs/openpromfs/inode.c b/fs/openpromfs/inode.c
-index fb8d84bdedfb2..6cd02d456bac9 100644
---- a/fs/openpromfs/inode.c
-+++ b/fs/openpromfs/inode.c
-@@ -10,6 +10,7 @@
- #include <linux/string.h>
+diff --git a/fs/ocfs2/dlmfs/dlmfs.c b/fs/ocfs2/dlmfs/dlmfs.c
+index d3bfcada3e3bf..1789ec96dc130 100644
+--- a/fs/ocfs2/dlmfs/dlmfs.c
++++ b/fs/ocfs2/dlmfs/dlmfs.c
+@@ -21,6 +21,7 @@
+ #include <linux/module.h>
  #include <linux/fs.h>
  #include <linux/fs_context.h>
 +#include <linux/pseudo_fs.h>
- #include <linux/init.h>
+ #include <linux/pagemap.h>
+ #include <linux/types.h>
  #include <linux/slab.h>
- #include <linux/seq_file.h>
-@@ -419,6 +420,7 @@ static const struct fs_context_operations openpromfs_context_ops = {
+@@ -563,6 +564,7 @@ static const struct fs_context_operations dlmfs_context_ops = {
  
- static int openpromfs_init_fs_context(struct fs_context *fc)
+ static int dlmfs_init_fs_context(struct fs_context *fc)
  {
 +	fc_init_pseudo(fc);
- 	fc->ops = &openpromfs_context_ops;
+ 	fc->ops = &dlmfs_context_ops;
+ 
  	return 0;
- }
 
 -- 
 2.53.0
