@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0B15606A334
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC9F7606A335
 	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 12:40:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=YyKBO3i+;
-	dkim=pass (1024-bit key, unprotected) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=baKFKu6G
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=UiVlCGPP;
+	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=Amp5lxxy
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Content-Type:
@@ -14,66 +14,66 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=SncZUWGrBOxT9WurRufkDIe8hGFcWm37DANGybHY+fQ=; b=YyKBO3i+0QVVAf5Qvp1tq4HEQt
-	3oW4Cu5/BOpr1mvfa6pOQJlkzcN4DMv2ERaXXk+yVKzAdwpLqE5imptRc+wseXqEZ94rW7tvYC+KL
-	Opva0R5R8ErKYaRzdDF4e0fRp6mH/yY+uINZn1cI1o/7/B3tSsAI8764mOYPZZXtzkQ/PvHFUXBeI
-	uFzXN21RykRZh1PUFp/NJIKPOJTBfDI6nMqkQO4NsucjBaf4zmlj05WeG4zjnDLyHIwSBislkdPds
-	/V39OObSoxtUf1iWvS/HylKxuk8PJYO6vrn0TkBKqPOHZNTSoDXlb2x6rKA7eQQFwoyQrxlam+98e
-	rmdKbS6A==;
+	bh=cEK0v6G1yB2cz/8630PKsjvi8Z78P9QyctaIU0ylRW4=; b=UiVlCGPPQ7u6RB1eJce/JHSAZC
+	JBeUJ3owVwzms4wHkiquqMLtg+dmsvJo4/V3jZephGM3qSy0Acj+ckdsaTwC2hR3V7VdIwB8PReLi
+	EzSZKAuhPZ45p849thiCEE1HXKzh9m/ROloXIF6kVRE0YveXapV6Xh0oxBB47ns3E7yTsiqFRnFzd
+	PFeh0J0xegTa/kx4StJGU1VSHwSsrGdxz6Auaw9SSwoBcC9uOOXkXyX6EmtkztgE3ZjzqfaBL6+HP
+	NDgZfCZ5N7y9b2FJKh2op7M1AQV5tPQMUzb95O4PSnbhRzB8N3caZjccKELgzUAv4qsCc1EJn/lyC
+	a5sR920w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSw0q-00000002R0o-0wdx;
+	id 1xSw0q-00000002R1M-1X8j;
 	Mon, 16 Nov 2026 12:40:44 +0000
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435])
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSK0b-0000000Ghxc-3eAX
+	id 1xSK0d-0000000Ghxq-2H5N
 	for linux-nvme@lists.infradead.org;
-	Sat, 14 Nov 2026 20:05:59 +0000
-Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-8b5e5e64494so1463743b3a.1
-        for <linux-nvme@lists.infradead.org>; Sat, 14 Nov 2026 12:05:56 -0800 (PST)
+	Sat, 14 Nov 2026 20:06:00 +0000
+Received: by mail-pg1-x52a.google.com with SMTP id 41be03b00d2f7-cd8ba7c2694so854731a12.1
+        for <linux-nvme@lists.infradead.org>; Sat, 14 Nov 2026 12:05:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chrisdown.name; s=google; t=1794686756; x=1795291556; darn=lists.infradead.org;
+        d=chrisdown.name; s=google; t=1794686758; x=1795291558; darn=lists.infradead.org;
         h=user-agent:message-id:content-disposition:content-type:mime-version
          :references:in-reply-to:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=SncZUWGrBOxT9WurRufkDIe8hGFcWm37DANGybHY+fQ=;
-        b=baKFKu6GRECXz3yWBeIua6jq2zwnwxEO+n2mXrbVK1o8BMiBXSj+8adeoWsstGNypU
-         vHLStgrJb5wf2DEu9Ds/fSYjQ61eXAEHAna9sSE/qloxa8XulWwLJ+PreOQeL+cpJAGZ
-         DOwhmaF2S9iuzIje3PPo4UqqeveEEinYYxDjU=
+        bh=cEK0v6G1yB2cz/8630PKsjvi8Z78P9QyctaIU0ylRW4=;
+        b=Amp5lxxyBayyAv8S1taTR8RrM50wOgNT+jinJ0cMX/yxiTfembqV9PzMoO6oUS+q33
+         M3px+xQfE+WX6m0EZjNyhVTEpdQS60c6MjJSRhDXfGe51FBlutbWL1b6XQ7NGlYPdm6j
+         q1jWRHSKrgxITe7S+v3QMSFVKr6gnAqBw3GUA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794686756; x=1795291556;
+        d=1e100.net; s=20260707; t=1794686758; x=1795291558;
         h=user-agent:message-id:content-disposition:content-type:mime-version
          :references:in-reply-to:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=SncZUWGrBOxT9WurRufkDIe8hGFcWm37DANGybHY+fQ=;
-        b=FzupJxefOaWdCYu+FSP14wdtrMAEhEqI3LojTQr0h5HRlq8jBAopR9dLWGqrH1UPxa
-         4U/CdiAfitfVzgpMYpZUDiTNZqDIVElm5Yf1zF13tOB4T5tKewlvGZQmPzpYV0Eb8zOO
-         A0ChHrfSKUAazxxO/Svuv3e5VrZygdrf1+jjo2sNHuFNBW+jcWEl0J+pZNd+cv8OTTVB
-         N5fWaKjy4+YipiKK8EFDzg30dJOvxITUkXP/ahUVVg2JTf84Vt9fH/aFH5FABMxLNHHF
-         KHayQSRPKsdkArDnBeLLz5Ik/O+ydOmNBz3O9WQODIM7AKH0pazHjkP0/ZGDnNLVvD2/
-         h1aA==
-X-Forwarded-Encrypted: i=1; AL+hErGgq5EdVKKLkJtRoBWJSbLE79x5DU0NXClrjutQ0e/Ut1N/hdLvzpuuK8RqCeunWi61GBA0o5Dr2H8E@lists.infradead.org
-X-Gm-Message-State: APuU4Z/k3qHwXnZimtGsBX5MFh583DwYxfOWCXwwCc7Jy0coaUBuMEvz
-	i9DUz92hUiNIpsBk6a1IOi3oDFFlUuLXRVLWsNg24BianPZIYX8XPIb2u+LDZbI/mzE=
-X-Gm-Gg: AYBFou2qdkAHeprjyUja1KXeDBOnPjR541qLrMa9hnsLxp4tbzJKeYJcqH6awBQVc1J
-	1cNr2xBTY962/3JzXtljovKP10xOufBcNYmOSiUEd+ZnrxFY8PpXJzIIA8yRANRTGMW/QC4thD6
-	esTa7KtFXiRrTENGjIP4V4hhl4MC+4UmFzv7NmHqiFfYrJY7B/hbulBeqVUDj3/vcI1JbVEM89p
-	nUmpvs49zOoX1tfw45jl9/QI5AA/DSpT75IvYkBN5OuLTf6RfFgXbE44uphuTHaTAgE8s/MRZe8
-	8nW9iNcz0yvel9yXgFBTtkafT6jRiDgCTJQSH6p1z/8T5q5xCcR/KpFEQ3DErKJ7ZsZq3brx7+W
-	0j7Qg2jE9FKGyoaTa+NfvpkMatiQzjSOyBg1xNWnFx6Ta6cnYCH9MVa0qNj+byfnaMqpZ/vkt3X
-	xryVnUQZyqWU6U/UsV46CRnURoGcrn2tVnkA7JtujECHn8X33JfUbm7a66Pbgq0JLswvhPRg8mW
-	pQFS5k8wMplAmRM3kz2g6kiJp6kg4/+slwOvcCdXSfyQyukUyut7PTF5eBjlJ1rfcntwHEgvhe6
-	leSm3yQMulTMNBC5X+K2lsZkpQwtQMww4m4ym11Sc821BAXGJU3ftOEoNjlg5N3lZjoZOJQru4y
-	7F2kaIZ2Foebb8ppHyhNEbz0BlMAMVnqzKGs78bMXkc9/Dcs+f+SNW+51HYxCh5Zv55+7032uMd
-	TxlTQG06s9q9wV0YZCmluHCKANhywXssTWSGrDHUS+A89vPUhatkW9bX8y
-X-Received: by 2002:a05:6a21:748b:b0:3e3:37ff:3795 with SMTP id adf61e73a8af0-3f7a4dbfbbfmr5517650637.7.1794686756009;
-        Sat, 14 Nov 2026 12:05:56 -0800 (PST)
+        bh=cEK0v6G1yB2cz/8630PKsjvi8Z78P9QyctaIU0ylRW4=;
+        b=QgeHeUHbJA6f9AS5J6IGzaQ5MN9xt3BgOlnDc3SIki1lGJJ+4hBT7heloYZvegwGON
+         yk/ljE1yaR5phszvckEGCh5waIoeJnUG0mUJBVSUNfGoeOgqLHYFrq9dC7Sgg6RBi3Gs
+         07J7n2SBUdm42MgPjTD9+9kZt9olh3+rsmcedUc3KRNU1fFOTrNHYPRBqsGesa5+leIK
+         KfX7DmMu/TkX37QgwfBxR58fYQY8Ed+ZW+xdsI9Kafl0yHFC6n/sdw6NtHRkkaALh97F
+         +8N3ULK2J/ZfuFkZEpqExGCagJkmT6nFaYnhYwxrmyxTwDTDoUFeXS298V95S0dUbkjN
+         IrOg==
+X-Forwarded-Encrypted: i=1; AL+hErFviFirF458yWZim3tzUG0CiseKzUZQZqI95Tmv6Lfycx523df6ZIlM2eGWWwCG4g819V3XM6ZKvPM8@lists.infradead.org
+X-Gm-Message-State: APuU4Z+HBJ58Ub9vwn56btQ2gHh1a5sVqMfCevTWajNgdKQsmGC2drxM
+	aICHlXE0qzaCRmPJSqGoE/fVh9IBizigblyUQ7dvxLROCWMQa9Pzljgf5WX/6FuUTd0=
+X-Gm-Gg: AYBFou1k7h1f7LffEp+uJSDXbSMah6I31Pf92HyL7zXwJe/RXpBFAz1hQ+EHu0vwVIr
+	NMcvEBY+T4oBqgtISiNlY6iFSynEfy4+gfMz2UVl7wnze3Gg4KGAZh3grQ8fvLGnFGuosFI9bq4
+	CmJ0080NJYQGrJ4dop6TzwQdq0K5hmXtJDQ0oUNCWgvdsSlCSz1YjP+kMlMShHrVS1XkoIwiMDs
+	g+POO6LvxQBW01n9QQw8R1pRB7tuf728Hw8LnVVss3d2vCrpHIOKs/An53uH9T9sCQ/whsKlZ5m
+	OYz8w8mTJq2WZZKCXsFPW0FuCEe+UVPUetg4q9u/AgAY8GxNUEojaOmsqdOTUQFVdCwgEm4F5Cd
+	N9jUG97ETwfKa3wrSzdRJrOQ6VtRyGqldpfoQPMzF4oG8O/MKtA8dKBmywtTtQhkhRw3sMZUeTJ
+	eWa8whlQOjPqQP5nVR8/vmrDPrF/8lJsf0V+rYgGh3FRwhRoPiz1pN2a/4VQfLNF+hDM4nw3RP/
+	U2zDE6/Ow1UtrvGIkiFORJYVE5RFmM3jxu7xmnWWgCuirtMVsNbIWw8RyUfYmrRM4gj7kH91xBb
+	whU9OY2z0gxLAoAQpM5UFS1lbRddJJNnz9FapwFSHLXK/kc897m3qZTvjLgN/Pu69v7cMQ+DGyz
+	2pn2OqcydcoOTs8+rMnvNCBy3E+kZpSIJlCKi9gu1XyhMgeD1pv5lppOR+GMi+HfPhtT0RjbrzN
+	MQrU+vm9KsqNAqO3wgL+asaRTQlVXYYCqFPnck6BedsrgoKXvgqg7E3HsT
+X-Received: by 2002:a17:90b:3b8a:b0:3b0:9f53:e8a8 with SMTP id 98e67ed59e1d1-3b1b0b5f2c1mr6192503a91.52.1794686758572;
+        Sat, 14 Nov 2026 12:05:58 -0800 (PST)
 Received: from [172.22.0.2] ([64.16.22.130])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8bed12a8172sm2271197b3a.13.2026.11.14.12.05.52
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1b266d873sm4654869a91.1.2026.11.14.12.05.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Nov 2026 12:05:54 -0800 (PST)
-Date: Sat, 14 Nov 2026 12:05:50 -0800
+        Sat, 14 Nov 2026 12:05:57 -0800 (PST)
+Date: Sat, 14 Nov 2026 12:05:55 -0800
 From: Chris Down <chris@chrisdown.name>
 To: Christian Brauner <brauner@kernel.org>
 Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>,
@@ -90,22 +90,20 @@ Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>,
 	linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
 	linux-usb@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>,
 	linux-erofs@lists.ozlabs.org, linux-kselftest@vger.kernel.org,
-	stable@vger.kernel.org, Alexander Mikhalitsyn <alex@amutable.com>,
-	Breno Leitao <leitao@debian.org>, Casey Schaufler <casey@schaufler-ca.com>,
-	Chuck Lever <cel@kernel.org>, Sashiko <sashiko-bot@kernel.org>
-Subject: Re: [PATCH RFC v2 00/42] fs: don't use pseudo filesystem files as
-	storage
-In-Reply-To: <20261114-work-loop-pseudo-v2-0-98639a2286fb@kernel.org>
+	Alexander Mikhalitsyn <alex@amutable.com>
+Subject: Re: [PATCH RFC v2 17/42] securityfs: use fc_init_pseudo()
+In-Reply-To: <20261114-work-loop-pseudo-v2-17-98639a2286fb@kernel.org>
 References: <20261114-work-loop-pseudo-v2-0-98639a2286fb@kernel.org>
+	<20261114-work-loop-pseudo-v2-17-98639a2286fb@kernel.org>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-Message-ID: <20261114120550.0c9e73aa12a3072c@chrisdown.name>
+Message-ID: <20261114120555.cbfaf8ab8a92fb25@chrisdown.name>
 User-Agent: Mutt/2.4.3 (cc9e3943) (2026-10-09)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261114_120557_916438_37A9CB35 
-X-CRM114-Status: UNSURE (   6.37  )
+X-CRM114-CacheID: sfid-20261114_120559_605301_A498BF7E 
+X-CRM114-Status: UNSURE (   9.90  )
 X-CRM114-Notice: Please train this message.
 X-Spam-Score: -2.1 (--)
 X-Mailman-Approved-At: Mon, 16 Nov 2026 04:40:40 -0800
@@ -129,21 +127,19 @@ X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 
 Hi Christian,
 
-Patches 1-11, 13-16, 18-26, 28, 31, 32, 34-37 and 39-42 look good to me,
-so for those please feel free to add:
+Christian Brauner writes:
+>AppArmor puts a .null device node into securityfs but only ever opens
+>it via dentry_open() which doesn't care about SB_I_NODEV.
+
+Not a big deal, but userspace can see that node too, as
+/sys/kernel/security/apparmor/.null. Opening it by path works in current
+kernels and fails with EACCES after this patch. Now, I don't know of
+anything that does that, but selinuxfs gets SB_I_NODEV cleared again in
+the next patch for the same kind of node, so I think we should do the
+same thing here. If not, it would be good to have a line in the
+changelog saying that opening it by path is meant to stop working.
+
+Once that's fixed, please feel free to add:
 
 Reviewed-by: Chris Down <chris@chrisdown.name>
-
-I've also tested 5, 6, 34-37, 41 and 42. The selftests all pass with the
-series applied, and a uid 0 without capabilities can no longer change
-/sys/kernel/reboot/mode through a loop device. So for those, please also
-feel free to add:
-
-Tested-by: Chris Down <chris@chrisdown.name>
-
-I've replied separately to 17 and 33.
-
-Thanks!
-
-Chris
 
