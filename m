@@ -2,55 +2,55 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46515606A329
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AAEF606A32E
 	for <linux-nvme@archiver.kernel.org>; Sat, 14 Nov 2026 13:56:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=C3id908T;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GFHvRmPz
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=M1UlNmgi;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ISqS1X59
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=8Ytkno3jTVi+FFRUdCUqmeMcgBru4oLAHALyh9TN4hQ=; b=C3id908T8xFQxb
-	YpywboxsQLLSML9ctukktr8ijEKYSsJmHPd4M+C9WHtHZtRJWrnqTko3HYM75DAiMd5h2r+hWovy0
-	EaSO7qE33f1UyVlR8GqJGAlXko84nhu/y9sBcRyyVtgi6FHcFMLfrhjRkKyps156bIDCk2iJAzLFI
-	f59ubyo9naOuiKDn4Ky9RwIilCku2NhmmearI/2yken6Ox5ve0sIm0TRMfyxCjxaZCsAuRrNSoo9i
-	QLkZ/oT/2evOkpliHSZIhc04zgAV53iiYqLu1L1DCQVGVRvM3hUppd81b7jR1b9R2Vq1yo/RnM+K8
-	ygsZ7EmxyrCg9sBvHJog==;
+	List-Owner; bh=++ggQwwawp+5fpIFwG3B4KdeRqD55EsEpWBb7WM/wus=; b=M1UlNmgiZCkMTs
+	OUzLUOxUgTSQbMgw2rih6PwPLV3OwBFmabf3bLFA3gpASYHxI3TJ3RSDGDnPlK9Uw4+bL+hzW6q3X
+	2MurHrcsnJEc/Vqkj/20kZtpzW3DlOM2v6wIj73Zn4gO773ByMcNXhzxN8/oqWjO2+MD0jBqaAoXR
+	JcV31IvQsm+omq+aV3NntHCOtnrbIqMmyejvtJUNedHULPdi+GU6jBJG2x5/NQ/9Jo55kI0UVA7gs
+	jsgA1qhYTe809uyq+xmgR05nCgHn+1NNVon4VHt+YU4tZQIlxs1OdPsshlSNFPdiDGc1bnvG+8fXG
+	nm8t2wCyv2qKtSTYXmig==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSEFK-0000000GBLe-2U7z;
+	id 1xSEFK-0000000GBMh-3yYF;
 	Sat, 14 Nov 2026 13:56:46 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSDTe-0000000G3vv-23FE
+	id 1xSDTl-0000000G3y8-0815
 	for linux-nvme@lists.infradead.org;
-	Sat, 14 Nov 2026 13:07:30 +0000
+	Sat, 14 Nov 2026 13:07:37 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id E81ED62747;
+	by sea.source.kernel.org (Postfix) with ESMTP id C2CCE464D4;
+	Sat, 14 Nov 2026 13:07:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C6731F000C7;
 	Sat, 14 Nov 2026 13:07:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE82A1F000C5;
-	Sat, 14 Nov 2026 13:07:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794661649;
-	bh=8Ytkno3jTVi+FFRUdCUqmeMcgBru4oLAHALyh9TN4hQ=;
+	s=k20260515; t=1794661656;
+	bh=++ggQwwawp+5fpIFwG3B4KdeRqD55EsEpWBb7WM/wus=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=GFHvRmPzrl9JT/XnWgZ6mHZe9H02hsU97t3+ppYOuzxqJMSfmYjPWgdxAi/Wgu8V/
-	 wrZy1vRHCZdd0bC3qI68hsdNcKgmQ3IfSWbtHayF9hWHqdbEWqPyzLLH8RbYsc2XCZ
-	 dXSM6hWaopdLwe6Tk47JXm5nRSuNnbE8q0uiLEKYHIn3zKgz4gm0hCB1eldl8tNsaw
-	 9r5Nn1nPEqIl+dH7clVv0JN4xn0WgIG2u28WaYeRfsivii2u6GrnUxXBTzpaIAi0hh
-	 87j2TXLbcazLek+XXOfbey7w3PmofUiagXJteCYNZfZvoshvSXFM6Zg0UUYgny94Iv
-	 NhCBc31tgKfxA==
+	b=ISqS1X59OqSfExtxsOiSjr1wpv0Z7FsnoV/unXwmI2iC0oAeE1CZBnUm2rpLbQChY
+	 UlVbIerFORk8Me/5GU683vDPV9tRnmC60uPE2FjWgnWj28UM6HQcw92GM6dJnxpsla
+	 EP0uXvdgCUnVRc67H/T1UGcUcSsgA+crZYnm8xvt2wJzIa3kLO4Fm6nJf9PjOQCsNv
+	 FSz8gs4T9BgUNPq3f8HpnSRTAiJYTu/lTuBvbPvos8+G1tK0oFpzC1YL2EUS2ey9zn
+	 SEWINxYSWGGXxTx69tavZlufHiP8xSylFop7fahaOM11VSh8OruW5Bhgixy7FFv+V+
+	 ODZZedD26ol2g==
 From: Christian Brauner <brauner@kernel.org>
-Date: Sat, 14 Nov 2026 14:01:57 +0100
-Subject: [PATCH RFC v2 16/42] configfs: use fc_init_pseudo()
+Date: Sat, 14 Nov 2026 14:01:58 +0100
+Subject: [PATCH RFC v2 17/42] securityfs: use fc_init_pseudo()
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261114-work-loop-pseudo-v2-16-98639a2286fb@kernel.org>
+Message-Id: <20261114-work-loop-pseudo-v2-17-98639a2286fb@kernel.org>
 References: <20261114-work-loop-pseudo-v2-0-98639a2286fb@kernel.org>
 In-Reply-To: <20261114-work-loop-pseudo-v2-0-98639a2286fb@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -70,14 +70,14 @@ Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>,
  Amir Goldstein <amir73il@gmail.com>, linux-erofs@lists.ozlabs.org, 
  linux-kselftest@vger.kernel.org, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>, 
- Breno Leitao <leitao@debian.org>, Alexander Mikhalitsyn <alex@amutable.com>
+ Alexander Mikhalitsyn <alex@amutable.com>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1052; i=brauner@kernel.org;
- h=from:subject:message-id; bh=Cs6hi+IJv6YL+cABcEV5PmkB4gvNrgirbEkbHavmri4=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9iKmo6zy18/cHrrR7f6484D3B9HbNopIHW//r8rL/b
- 7n/ouvYt45SFgYxLgZZMUUWh3aTcLnlPBWbjTI1YOawMoEMYeDiFICJyIgzMsxe+XjzPdujcT/X
- dlcLtp6+NiOv++ZaxhfruqUl7wfkfepm+O/nmC3+VkJi2/4AH0tulRslnlL+mWJ/ffz2RXNuXWh
- +jh0A
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1094; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=FF9e/eJ7LhW9MgInOaUNZ5e/JVsIh5RgAJXPuTh0Dg8=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9iKnMnrLSQPUw2yXBp68+bj4dIDU/cEGPtJHXzrJlj
+ K0vlnZd7ShlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZhIwjxGhufubMVtdsLcrI83
+ V3z50Gdhay43R1RMqFp4dcnRaZXmXYwMLWe+THc1O5jMduZaU5272ykVxUsi197p3xOIjl0gESb
+ NCAA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 X-Mailman-Approved-At: Sat, 14 Nov 2026 05:56:41 -0800
@@ -99,36 +99,37 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Initialize configfs as a pseudo filesystem. This raises SB_I_PSEUDO and
-also SB_I_NOEXEC and SB_I_NODEV. configfs never holds executables or
+Initialize securityfs as a pseudo filesystem. This raises SB_I_PSEUDO and
+also SB_I_NOEXEC and SB_I_NODEV. securityfs never holds executables or
 device nodes.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
-Acked-by: Breno Leitao <leitao@debian.org>
+AppArmor puts a .null device node into securityfs but only ever opens
+it via dentry_open() which doesn't care about SB_I_NODEV.
+
 Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/configfs/mount.c | 2 ++
+ security/inode.c | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/fs/configfs/mount.c b/fs/configfs/mount.c
-index d8cac1cbf3bd5..60ba24e7ae2b9 100644
---- a/fs/configfs/mount.c
-+++ b/fs/configfs/mount.c
-@@ -13,6 +13,7 @@
- #include <linux/module.h>
- #include <linux/mount.h>
+diff --git a/security/inode.c b/security/inode.c
+index 0804023676741..93997a9f16fcb 100644
+--- a/security/inode.c
++++ b/security/inode.c
+@@ -14,6 +14,7 @@
+ #include <linux/kobject.h>
+ #include <linux/fs.h>
  #include <linux/fs_context.h>
 +#include <linux/pseudo_fs.h>
+ #include <linux/mount.h>
  #include <linux/pagemap.h>
  #include <linux/init.h>
- #include <linux/slab.h>
-@@ -106,6 +107,7 @@ static const struct fs_context_operations configfs_context_ops = {
+@@ -64,6 +65,7 @@ static const struct fs_context_operations securityfs_context_ops = {
  
- static int configfs_init_fs_context(struct fs_context *fc)
+ static int securityfs_init_fs_context(struct fs_context *fc)
  {
 +	fc_init_pseudo(fc);
- 	fc->ops = &configfs_context_ops;
+ 	fc->ops = &securityfs_context_ops;
  	return 0;
  }
 
