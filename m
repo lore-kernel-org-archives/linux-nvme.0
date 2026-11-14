@@ -2,55 +2,55 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 272C2606A323
-	for <linux-nvme@archiver.kernel.org>; Sat, 14 Nov 2026 13:56:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FCDE606A323
+	for <linux-nvme@archiver.kernel.org>; Sat, 14 Nov 2026 13:56:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=CLtECfWk;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hprGHgCq
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=2vKlX0Bp;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CNgQBX13
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=Afo8ed/GIRxi34eV1UuvuxN8L56duYS4vlWsPBP1fM0=; b=CLtECfWkd8jo+k
-	Z1S1rVKKBw0mTd4IGNPcm0wPGtJjrLyuM1PeeH3V65LF3Lx7+VbD47npu66k9tE5aQ4FTrVCg0fmO
-	xxUiiTva55uzaESlae1MfqD8bo0n+cGo6Ie55Eh5/bUaENTH6fLA4Okrl2xRiZ2bq8izroLFLy2WG
-	P5qIBogA0ItelqzNM48RyJXacZM3A/eyTS4zLMAGycD/Lvnu9RtPCOyh4vJ/g/bdmSTvakne30mXT
-	YqAYiioJYZPurha6VQkNcyFRolE0Hy0NhJpkCTXVjMxtGvKsBwqv6PZ9ICmGAEEFldpPb3vE0/tTv
-	oVLMwykyrp7IvdrmlYdw==;
+	List-Owner; bh=QuUCHwL/BY1T2vLOc/gPlh6w5Yz8cRxgbnaJubMSr1o=; b=2vKlX0Bp33+Xds
+	4Uqg7Vjort7rXrGFZTxnjh6CsZ+s7kAXE0NKzE7dTzRt60IT8XS9FvD+0zeGGUo+46bxIM78+CEV+
+	q6WvNQujy2ALUbglQT4CHhaJMXP8BhlqnowgsJXVXnhVPhQe/p3p/bxZEInF+23quXW7D9aBPoC9n
+	iGslcd558f/WCicBr6MUT/iZEPORMSG4SJ7KT2Hwo4bX+cQQye0a7zBuU4/VZ1C66ibkXeBOT+V27
+	rkmmAMMPxz94AC7g3C2aK3wV9I1T0Z3NceQbfB99pdrhlKto01HjYjWQmHcSDe48yL/pGrlGPAJLr
+	ocH4I+RzrGLix3Kb3fCQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSEFO-0000000GBWM-1VxM;
-	Sat, 14 Nov 2026 13:56:50 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1xSEFR-0000000GBgd-1d8r;
+	Sat, 14 Nov 2026 13:56:53 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSDUf-0000000G4JN-3xc4
+	id 1xSDUu-0000000G4Ne-1jRE
 	for linux-nvme@lists.infradead.org;
-	Sat, 14 Nov 2026 13:08:33 +0000
+	Sat, 14 Nov 2026 13:08:48 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 4890441144;
-	Sat, 14 Nov 2026 13:08:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80A411F000C5;
-	Sat, 14 Nov 2026 13:08:26 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 988B862416;
+	Sat, 14 Nov 2026 13:08:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA7E61F000C5;
+	Sat, 14 Nov 2026 13:08:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794661713;
-	bh=Afo8ed/GIRxi34eV1UuvuxN8L56duYS4vlWsPBP1fM0=;
+	s=k20260515; t=1794661727;
+	bh=QuUCHwL/BY1T2vLOc/gPlh6w5Yz8cRxgbnaJubMSr1o=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=hprGHgCqljNfHaaRT8wbU+b4CvrLYNHbt2kQUNxd98TIwvCS2ehJO8vBQg6IjA/4E
-	 QlB02LLCNgV15vU1lPLmWWEwlLoHBLk24m/bQPCp+Xt2+5fcmhBnJkLr6kL6tImYJl
-	 SZ5FGLvBWuN4qnzeJZ1uLhmeUGELgSZ8JHePmJcS8Z1HLYwEkmf3Gob9WB7bFvIcdE
-	 //xR/RRXp75B0I1ifA+qvkckh7ZeIvssKgKnFVvHN/TV1+Tdlu+VrMbzl2SBXWGzb4
-	 0iiVdJi6+Q0l8uSEtN9rtD9y6ItKjTJePfdM28scvMR66rgWPwX2mkMg+R7tSuzj9r
-	 yx06t2VwHiXRQ==
+	b=CNgQBX13ffe3JXhue37YFrjDqTi7QHQwoyhDfFs/RUZghZx9ATR26nsVZvuulojy4
+	 90+O6VwIW2ujBbvNja5FGpIcp4WGb+E74bFqbxprhGFZj99iPgX1n1tw/xqBz3cMB8
+	 MfHWE+d7b/nOaBVNHFm8j1ZuOTqlusKjQeSptMVaBcEBWpesAQInyNISF3BohFJGqH
+	 bJv1esG416Dsi1quyPxAWVW6q3d9soXbqUnTAmvb+rCqacLCr6yXrP17cyauuaOm6l
+	 BRwaK6kRIFJYfyH8/o8Tz/mBRPJMyObZZn+GgRNk6yY2s2rb/dZsJEqaL3QrXA/Ljp
+	 vGyyEiF0/ILGA==
 From: Christian Brauner <brauner@kernel.org>
-Date: Sat, 14 Nov 2026 14:02:06 +0100
-Subject: [PATCH RFC v2 25/42] pstore: use fc_init_pseudo()
+Date: Sat, 14 Nov 2026 14:02:08 +0100
+Subject: [PATCH RFC v2 27/42] openpromfs: use fc_init_pseudo()
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261114-work-loop-pseudo-v2-25-98639a2286fb@kernel.org>
+Message-Id: <20261114-work-loop-pseudo-v2-27-98639a2286fb@kernel.org>
 References: <20261114-work-loop-pseudo-v2-0-98639a2286fb@kernel.org>
 In-Reply-To: <20261114-work-loop-pseudo-v2-0-98639a2286fb@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -69,15 +69,14 @@ Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>,
  linuxppc-dev@lists.ozlabs.org, linux-usb@vger.kernel.org, 
  Amir Goldstein <amir73il@gmail.com>, linux-erofs@lists.ozlabs.org, 
  linux-kselftest@vger.kernel.org, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>, 
- Alexander Mikhalitsyn <alex@amutable.com>
+ "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=940; i=brauner@kernel.org;
- h=from:subject:message-id; bh=ohaN/4o3T0nG31Sa4LtDWeOCgaFP7NFffTjYcKqsHS8=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9iGl65sDr4L+lP+1LwMR9DJK+pUFszdFFZl9j357yX
- dgmd+5/RykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwETYjjH8Mym/V8LV8ePeaeFT
- x7u9pzw6+Fw+X1xVcs/rnm9zFByPHmP477vQ0tL7dpTko/erzdrX7rRZPvXiz6+/Z64TjvOpv/5
- wLRcA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=932; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=t/2kRMsiGpRT6NTAIUV0TfnxBeUt9A+YVEprnQjtSPo=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9iGmZa3HwtJek4ZllxQcnP9aLXbCtiHujUrnojYSNt
+ aycMZvDO0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACZSLcnI0KN9bfIOOwUTHxZF
+ s4I0h5P9rySDnr373Sr2jfuvwbaNVgz/rOz3c3VWSW3/KCX0wje956fP+Zc5IiuTJ+y+warBtiC
+ RFwA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 X-Mailman-Approved-At: Sat, 14 Nov 2026 05:56:41 -0800
@@ -99,36 +98,35 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Initialize pstore as a pseudo filesystem. This raises SB_I_PSEUDO and
-also SB_I_NOEXEC and SB_I_NODEV. pstore never holds executables or
+Initialize openpromfs as a pseudo filesystem. This raises SB_I_PSEUDO and
+also SB_I_NOEXEC and SB_I_NODEV. openpromfs never holds executables or
 device nodes.
 
-Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/pstore/inode.c | 2 ++
+ fs/openpromfs/inode.c | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/fs/pstore/inode.c b/fs/pstore/inode.c
-index cf499ba727026..4658561cf90b7 100644
---- a/fs/pstore/inode.c
-+++ b/fs/pstore/inode.c
-@@ -18,6 +18,7 @@
- #include <linux/ramfs.h>
- #include <linux/fs_parser.h>
+diff --git a/fs/openpromfs/inode.c b/fs/openpromfs/inode.c
+index fb8d84bdedfb2..6cd02d456bac9 100644
+--- a/fs/openpromfs/inode.c
++++ b/fs/openpromfs/inode.c
+@@ -10,6 +10,7 @@
+ #include <linux/string.h>
+ #include <linux/fs.h>
  #include <linux/fs_context.h>
 +#include <linux/pseudo_fs.h>
- #include <linux/sched.h>
- #include <linux/magic.h>
- #include <linux/pstore.h>
-@@ -491,6 +492,7 @@ static int pstore_init_fs_context(struct fs_context *fc)
- 	ctx->kmsg_bytes = kmsg_bytes;
+ #include <linux/init.h>
+ #include <linux/slab.h>
+ #include <linux/seq_file.h>
+@@ -419,6 +420,7 @@ static const struct fs_context_operations openpromfs_context_ops = {
  
- 	fc->fs_private = ctx;
+ static int openpromfs_init_fs_context(struct fs_context *fc)
+ {
 +	fc_init_pseudo(fc);
- 	fc->ops = &pstore_context_ops;
- 
+ 	fc->ops = &openpromfs_context_ops;
  	return 0;
+ }
 
 -- 
 2.53.0
