@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CCEA606A323
-	for <linux-nvme@archiver.kernel.org>; Sat, 14 Nov 2026 11:11:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66BDD606A32D
+	for <linux-nvme@archiver.kernel.org>; Sat, 14 Nov 2026 11:25:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=X9ntpTva;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UwtfAMpN
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=YD1qaPze;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nXTlg0XX
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
 	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
@@ -14,50 +14,50 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=cbYuMu4WUsUGCQIH0/sc2YzB04reRDp9xUgMuHbaCn4=; b=X9ntpTvaFqgs4/BoH3c4UWpWql
-	6mcTZW6brBqzVEIAn1l51Hu6z54fN2HtX+9RyrDsgPNxZi9VQ6SCwhb4GWW9uM4FcIfYoGSaIFIKb
-	jDMGSn+AewEHkot9ZD/eaCz5anaFj0IntmcKfFkwbNvJlRJWjUix2yDDyh0NCo0ruISh+31XWymED
-	2Obqo0u22Q71Ux/54TqrSKLzxnzqopbwbSko4a1b3zM+aMALXTopOeUGwbSRZChEpBO75PiylPNO/
-	7ULVF6mt95Wu+HDDKPeRasewfeR0BBHnCs+PI5XI9zjCHjc5scxBMnxODfwLY6168ZwaHqyKYHD1E
-	geENs7ug==;
+	bh=QsiTmvnYi1/bC68aKEXBe6BBwV5VctGfUYNCz+WL7/I=; b=YD1qaPzei4FV2GdpfljvOfRRlt
+	cukx6Eb0VEZdTp/Rn8HBaC2mPx3I8WKT+dZITY+sio08Z7xb7w/5XrC3FyS16+jNucQk70FfRU5jK
+	XHoXPoP1xu+bXUDx4sUxmJ0MKoTqTsz3FhhXVKNGnv3r4anXjJavQC1iQ769S35xFpTLj/BZfPQ7l
+	QC9bLMGt0dEwdWgRpvpagzvsjHUvJvjDni/TJ2YACdW5+y6pz/TI/sJq2nLYHhh5TYnBwwDY0wIOJ
+	0FT0E+z4KayRUZOECAE8x4b9hTx/421/urVIBhSd+GIEt7wZV1vYWXAzPgul4f9p6cx04Hs1PYaCN
+	8o9QGojw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSBfX-0000000FsON-0oFX;
-	Sat, 14 Nov 2026 11:11:39 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1xSBsg-0000000Fsv2-31x7;
+	Sat, 14 Nov 2026 11:25:14 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSBfV-0000000FsOE-3lBF
+	id 1xSBse-0000000Fsug-2zn9
 	for linux-nvme@lists.infradead.org;
-	Sat, 14 Nov 2026 11:11:37 +0000
+	Sat, 14 Nov 2026 11:25:12 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 58D7761EE1
-	for <linux-nvme@lists.infradead.org>; Sat, 14 Nov 2026 11:11:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9140B1F000C4;
-	Sat, 14 Nov 2026 11:11:36 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id C30E560230
+	for <linux-nvme@lists.infradead.org>; Sat, 14 Nov 2026 11:25:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1453E1F000C4;
+	Sat, 14 Nov 2026 11:25:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794654697;
-	bh=cbYuMu4WUsUGCQIH0/sc2YzB04reRDp9xUgMuHbaCn4=;
+	s=k20260515; t=1794655511;
+	bh=QsiTmvnYi1/bC68aKEXBe6BBwV5VctGfUYNCz+WL7/I=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=UwtfAMpNar/KTN/dBePsvZFv6Goco8vT84PD0R/pMySX0mLppPWXfXODhwxF4L/An
-	 M4unY+1vSs6uWiWq7701SFv+PcIH3RxEI5xYlORneMEdkh2/s8gaLIAqqej+PN431x
-	 CyoDIRM8scltxaItI4WpC1+D4ms5FM80ne8ff/GdVaB+qvenDZaCF+ggofzW901Rqv
-	 +dNsGwox2idCyxE7GBqvwM1Zq+dzVdLpITUx14SOj2GX8C7aRzpWxfWuyusLoCqyIH
-	 hO0UNwzpMGfZlk7d2wrzvN5byLxISdn06W/3pBh+yKRFsmf/1icXCyNkEkBvBHAXRE
-	 k4+BEspOnWkaA==
-Message-ID: <sashiko-outbox-214394@kernel.org>
+	b=nXTlg0XXpFR1qLAj2e9TfeRX3ojYfW9/jjS5N9GtQOGat1zYW3n2QceCk7ahKutlw
+	 sEuN/hiTMQAhCFTeIyOCQws+H0C2F3p6vhVq6iUXP7AjKgyT+mTdkHbJwzIJAxoKqF
+	 cgkRMXyF6KU4+gBQlWnIKuuv5tSxc6t1KEAKuhtDIknDp3hHqtTRNco42Xbx7WbhWm
+	 Px9ClZL9ROLtuMMCpeuSbGLlJaNqtaDnDtSYkS7DdcFUr11qDjHNxgzVkrqJFxJ32X
+	 IabH4+B6mjMIO3YSoy0Hic0xwlLuJsyAetRr2WhpoKMFt3AKxOre4A71ja2TFhHuNJ
+	 XJKVeSg48xf0g==
+Message-ID: <sashiko-outbox-214401@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 11/12] bpf: fs/xattr: take freeze protection in the
- xattr kfuncs
+Subject: Re: [PATCH 04/12] target: fileio: don't free the aio command under
+ the filesystem
 To: "Christian Brauner" <brauner@kernel.org>
 Cc: linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, target-devel@vger.kernel.org, bpf@vger.kernel.org, "Chuck
  Lever" <cel@kernel.org>, "Jeff Layton" <jlayton@kernel.org>, "Anna
  Schumaker" <anna@kernel.org>
-In-Reply-To: <20261114-work-fs-frozen_writes-v1-11-f5ae61c898b1@kernel.org>
+In-Reply-To: <20261114-work-fs-frozen_writes-v1-4-f5ae61c898b1@kernel.org>
 References: <20261114-work-fs-frozen_writes-v1-0-f5ae61c898b1@kernel.org>
- <20261114-work-fs-frozen_writes-v1-11-f5ae61c898b1@kernel.org>
+ <20261114-work-fs-frozen_writes-v1-4-f5ae61c898b1@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 14 Nov 2026 11:11:36 +0000
+Date: Sat, 14 Nov 2026 11:25:10 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,57 +77,81 @@ X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 X-Archived-By: <archiver.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found no new issues
-in this patch, but noticed 1 related pre-existing issue it does not
-introduce:
-- [High] bpf: deadlock in bpf_set_dentry_xattr() via
-  bpf_lsm_inode_need_killpriv() [1]
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] target: fileio: premature target_complete_cmd() in
+  cmd_rw_aio_complete()
 --
 
-commit 486e046b7935f74b8ef238345d31e9322cf39132
+commit 6e1a6f1140a7e9133b9c8d928debaca48c4124cf
 Author: Christian Brauner <brauner@kernel.org>
 
-bpf: fs/xattr: take freeze protection in the xattr kfuncs
+target: fileio: don't free the aio command under the filesystem
 
-This commit takes superblock freeze protection via
-sb_start_write_trylock() in bpf_set_dentry_xattr() and
-bpf_remove_dentry_xattr() so that BPF LSM programs cannot modify a frozen
-filesystem.
+This commit adds a reference count to struct target_core_file_cmd so that
+the command and its embedded kiocb are not freed before ->read_iter() or
+->write_iter() return.
 
-> diff --git a/fs/bpf_fs_kfuncs.c b/fs/bpf_fs_kfuncs.c
-> index 35ccd98a4de64..7f61e2efa08ba 100644
-> --- a/fs/bpf_fs_kfuncs.c
-> +++ b/fs/bpf_fs_kfuncs.c
-> @@ -295,9 +295,13 @@ __bpf_kfunc int bpf_set_dentry_xattr(struct dentry *=
-dentry, const char *name__st
->  	if (!inode)
->  		return -EINVAL;
+> diff --git a/drivers/target/target_core_file.c b/drivers/target/target_co=
+re_file.c
+> index ab9824a4852f1..4dace29b6d662 100644
+> --- a/drivers/target/target_core_file.c
+> +++ b/drivers/target/target_core_file.c
+[ ... ]
+> @@ -244,10 +245,17 @@ static void fd_destroy_device(struct se_device *dev)
+>  struct target_core_file_cmd {
+>  	unsigned long	len;
+>  	struct se_cmd	*cmd;
+> +	refcount_t	ref;
+>  	struct kiocb	iocb;
+>  	struct bio_vec	bvecs[];
+>  };
 > =20
-> +	/* The hook may hold locks or freeze protection already. */
-> +	if (!sb_start_write_trylock(inode->i_sb))
-> +		return -EBUSY;
->  	inode_lock(inode);
->  	ret =3D bpf_set_dentry_xattr_locked(dentry, name__str, value_p, flags);
->  	inode_unlock(inode);
-> +	sb_end_write(inode->i_sb);
->  	return ret;
+> +static void cmd_rw_aio_put(struct target_core_file_cmd *cmd)
+> +{
+> +	if (refcount_dec_and_test(&cmd->ref))
+> +		kfree(cmd);
+> +}
+> +
+>  static void cmd_rw_aio_complete(struct kiocb *iocb, long ret)
+>  {
+>  	struct target_core_file_cmd *cmd;
+> @@ -259,7 +267,7 @@ static void cmd_rw_aio_complete(struct kiocb *iocb, l=
+ong ret)
+>  	else
+>  		target_complete_cmd(cmd->cmd, SAM_STAT_GOOD);
+> =20
+> -	kfree(cmd);
+> +	cmd_rw_aio_put(cmd);
 >  }
 
-[Severity: High]
-This problem wasn't introduced by this patch, but can calling
-bpf_set_dentry_xattr() or bpf_remove_dentry_xattr() from
-bpf_lsm_inode_need_killpriv() deadlock on inode_lock(inode) [1]?
+[Severity: Medium]
+Should target_complete_cmd() also wait until the final reference drops in
+cmd_rw_aio_put(), as loop, zloop, and target_core_iblock do?
 
-During file writes, callers of file_remove_privs_flags() ->
-dentry_needs_remove_privs() -> security_inode_need_killpriv() already hold
-inode_lock(inode).  Because bpf_lsm_inode_need_killpriv is missing from
-d_inode_locked_hooks, the verifier routes xattr kfunc calls from that hook
-to the unlocked variants instead of the _locked ones, causing the thread
-to self-deadlock on inode->i_rwsem.
+fd_execute_rw_aio() sets aio_cmd->iocb.ki_filp to fd_dev->fd_file without
+get_file(), relying on the in-flight se_cmd to hold se_lun->lun_ref and
+keep the backend device alive.  Calling target_complete_cmd() before
+->read_iter() or ->write_iter() returns drops lun_ref early, which allows
+concurrent LUN unlinking and device removal to close fd_dev->fd_file while
+the filesystem is still using iocb->ki_filp:
 
-[1] https://sashiko.dev/#/bug/linux-8b38dfb7-78dd-457e-8674-7955f142df39
+CPU0                              CPU1
+fd_execute_rw_aio()
+  ext4_dio_read_iter()
+    ...
+      submit_bio()
+                                  cmd_rw_aio_complete()
+                                    target_complete_cmd()
+                                      ...
+                                        percpu_ref_put(&lun->lun_ref)
+                                  core_tpg_remove_lun()
+                                  target_free_device()
+                                    fd_destroy_device()
+                                      filp_close(fd_dev->fd_file, NULL)
+    file_accessed(iocb->ki_filp)  <-- use-after-free
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261114-work-fs-fr=
-ozen_writes-v1-0-f5ae61c898b1@kernel.org?part=3D11
+ozen_writes-v1-0-f5ae61c898b1@kernel.org?part=3D4
 
