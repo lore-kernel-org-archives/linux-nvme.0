@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD8D606A329
-	for <linux-nvme@archiver.kernel.org>; Sat, 14 Nov 2026 17:33:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27E13606A32D
+	for <linux-nvme@archiver.kernel.org>; Sat, 14 Nov 2026 17:37:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=WcwIbwEz;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AineyO17
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=wdivV6Em;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gYpeo5w5
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
 	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
@@ -14,45 +14,46 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	:Message-ID:Cc:MIME-Version:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=6FJIyLt8VRakNCAmDd3+eneMPjJv+GXhhUROb2jM6b8=; b=WcwIbwEz48a4kZUPOD7F3kF5CE
-	Hwbc5nmZg95TY2dZhQC7RjgnXxtdxE2swNW4x3DOLIHlWlCjrnpvVnSDJkb+PgigUoLF2avlZzmXE
-	2q3NPl8h7sQiDZCkmRghJst65wZHgjoppkCYMXPIP8Z65x3ax7kLUJoDKWQOAqPeQLnG7OpVXOoBM
-	G1urwbwNQrDi76mA+ciy/6VazCtpEShxPPthMAMocb/TVLQLHRkh71KK/N5+LUHF5qwHgJTYiuYPC
-	3HiuZB3WqIdrWXaf08DqFmUxezLsF/oJHyB33n2d3NnfgBLXqrrFxeVJPpOfsiezvA4SBjwxnJuy8
-	OSmkTXXA==;
+	bh=oVTE3weS0vhGDg+O1CdntIM01MfPebQOmQXP514e+cI=; b=wdivV6EmFl1lJIkflt3jzW1i4h
+	/7bQ4gRszwatDEd0JfqrkCim/qcKyLGHwPhsK0reNqrek2gz87s8S15TdhoGz9vDK9knIVkOPMN85
+	ZIq4cnhnYWId6t4w6KnGkWYopm2BJqv5G3f9a7uzYV3GU8aeH7wT4kdwOYKBGYdqwPxkgGGEHFZnS
+	xmrlWgutQZONmKmSxGmf2ix7a4K4f3PkS60qbqoUnzRMIsWoxt9M1GO+iK7w50nZOawD9DAnhHShC
+	0RcubvRiF2gyvMDcdyUbER+Gv4+uoSIh1hocyuYahY+U5IKPT73N3/yS/FCJTVVdjUZG8GILxPnOY
+	I7hvTQzQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSHcb-0000000GXnX-1gif;
-	Sat, 14 Nov 2026 17:33:01 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1xSHgz-0000000GYNh-0ttc;
+	Sat, 14 Nov 2026 17:37:33 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSHca-0000000GXnN-2Rfg
+	id 1xSHgw-0000000GYNZ-3zIP
 	for linux-nvme@lists.infradead.org;
-	Sat, 14 Nov 2026 17:33:00 +0000
+	Sat, 14 Nov 2026 17:37:31 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id AA8FD625D6;
-	Sat, 14 Nov 2026 17:32:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 416791F000C4;
-	Sat, 14 Nov 2026 17:32:59 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 6CD3D401D7;
+	Sat, 14 Nov 2026 17:37:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 275591F000C4;
+	Sat, 14 Nov 2026 17:37:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794677579;
-	bh=6FJIyLt8VRakNCAmDd3+eneMPjJv+GXhhUROb2jM6b8=;
+	s=k20260515; t=1794677850;
+	bh=oVTE3weS0vhGDg+O1CdntIM01MfPebQOmQXP514e+cI=;
 	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=AineyO174NYDx9MYqnXR58EqT1YVTzfe4jVkL6bKlAo24Ekwz2K9aNN+sZYnkYhqK
-	 qmtuPeM8zscaegE9FwDQ6tQjGp1n6HDjilTCqUh7z0NEb5+BtMyFrQn8x4a7DZvxEE
-	 fb0dxijiDLmio8nqU/FG2/rEQPC6hEG0Ga9UJcON9yoM8kci8hwz63CjdXD0fMnlnb
-	 Ic5KfhUAgXFndDaE0EoiSSMecj9/6LAYwYSpjXrZLIl4PVD+mJnWVcGOiJk55pnOdN
-	 hvKbwDTzx6kRTvv5H3RS709igWZBXgZi0Da6+zKSGcTRSf8VWx3TFEIkXnOxdI8zhI
-	 HjsOWT8byM8tA==
-Message-ID: <sashiko-outbox-214841@kernel.org>
+	b=gYpeo5w5k7cP6jHmKKlnIOjR4kqRF0dBBKi4r1mzzYXJTABMvZJsOZtnaxEc2q6LI
+	 AKoTQDiA9f8twOscr/TPfbocxtlfBB4/fH/P50ZoQ9toXsJSIDarVGPhVcfhHAuEqz
+	 Z+NUdROYZmfGs70rR5yrmhfUxRRAfmhAeakB5jTCfeLoalsVy3n9tQITM45weIOhsM
+	 eHRqumw7kcM4dcv/S66sBw7C+tRyS+H5oQWUpJo+5m8X+P8Fz9scSCiXa3eas4E+Al
+	 M8GdSQ+8+zYjc3/vNR8+Zr3kYRCR/cLCify/epixytI1lQbUAWlta/SWK9C3w5mbUV
+	 YBB56nQCH0xew==
+Message-ID: <sashiko-outbox-214846@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] nvmet: fix the CSTS state iteration in debugfs
+Subject: Re: [PATCH 4/5] nvme: decode the FDP Get Features result as a dword
 To: shao.mingyin@zte.com.cn, linux-nvme@lists.infradead.org
-In-Reply-To: <20261115012806699yIujDZo6TywlxuhhSIktO@zte.com.cn>
-References: <20261115012806699yIujDZo6TywlxuhhSIktO@zte.com.cn>
+In-Reply-To: <202611150127572887TC7vHzVUFLZ6nyW1NuhU@zte.com.cn>
+References: <202611150127512368BGQ07ZNIRAIwClkam-8u@zte.com.cn>
+ <202611150127572887TC7vHzVUFLZ6nyW1NuhU@zte.com.cn>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 14 Nov 2026 17:32:58 +0000
+Date: Sat, 14 Nov 2026 17:37:29 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,46 +76,74 @@ X-Archived-By: <archiver.kernel.org>
 Thank you for your contribution! Sashiko AI review found no new issues
 in this patch, but noticed 1 related pre-existing issue it does not
 introduce:
-- [Medium] nvmet: data race in nvmet_ctrl_kato_show() [1]
+- [Medium] nvme: uninitialized stack memory use in
+  nvme_query_fdp_granularity() [1]
 --
 
-commit 7730565aae4019e36ef00daab9fa6f3d654b6597
+commit 37e4c911db178216572cd8ee6fd19cfc2f58c7f0
 Author: Shao Mingyin <shao.mingyin@zte.com.cn>
 
-nvmet: fix the CSTS state iteration in debugfs
+nvme: decode the FDP Get Features result as a dword
 
-This commit fixes nvmet_ctrl_state_show() to iterate over the 32 bits of
-csts instead of the size of csts_state_names[], checking array bounds and
-printing unknown bits as unsigned values.
+This commit changes nvme_query_fdp_info() to read the NVME_FEAT_FDP Get
+Features result as a u32 and decode the flags and FDP configuration index
+manually so that FDP probing works on big-endian hosts.
 
-> diff --git a/drivers/nvme/target/debugfs.c b/drivers/nvme/target/debugfs.c
-> index e85fe1d4c9f8d..905a08c63669e 100644
-> --- a/drivers/nvme/target/debugfs.c
-> +++ b/drivers/nvme/target/debugfs.c
-> @@ -78,18 +78,19 @@ static int nvmet_ctrl_state_show(struct seq_file *m, =
-void *p)
->  	bool sep =3D false;
->  	int i;
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index a7a4d09644c13..45feafa003257 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -2339,8 +2339,8 @@ static int nvme_query_fdp_info(struct nvme_ns *ns, =
+struct nvme_ns_info *info)
+>  	struct nvme_ns_head *head =3D ns->head;
+>  	struct nvme_ctrl *ctrl =3D ns->ctrl;
+>  	struct nvme_fdp_ruh_status *ruhs;
+> -	struct nvme_fdp_config fdp;
+>  	struct nvme_command c =3D {};
+> +	u32 fdp;
+>  	size_t size;
+>  	int i, ret;
 > =20
-> -	for (i =3D 0; i < ARRAY_SIZE(csts_state_names); i++) {
-> -		int state =3D BIT(i);
-> +	for (i =3D 0; i < BITS_PER_TYPE(u32); i++) {
-> +		u32 state =3D BIT(i);
+> @@ -2351,10 +2351,10 @@ static int nvme_query_fdp_info(struct nvme_ns *ns=
+, struct nvme_ns_info *info)
+>  		return ret;
+>  	}
 > =20
->  		if (!(ctrl->csts & state))
->  			continue;
+> -	if (!(fdp.flags & FDPCFG_FDPE))
+> +	if (!(fdp & FDPCFG_FDPE))
+>  		return 0;
+> =20
+> -	ret =3D nvme_query_fdp_granularity(ctrl, info, fdp.fdpcidx);
+> +	ret =3D nvme_query_fdp_granularity(ctrl, info, (fdp >> 8) & 0xff);
 
 [Severity: Medium]
-This problem wasn't introduced by this patch, but can reading ctrl->csts
-across loop iterations in nvmet_ctrl_state_show() (as well as ctrl->kato
-in nvmet_ctrl_kato_show()) without synchronization or READ_ONCE() cause a
-data race [1] when administrative commands or state transitions
-concurrently update the controller state, resulting in inconsistent or
-torn debugfs output?
+This problem wasn't introduced by this patch, but can
+nvme_query_fdp_granularity() read uninitialized stack memory from hdr.sze
+[1]?
 
-[1] https://sashiko.dev/#/bug/linux-2b037cd9-c44c-44de-95f8-41de5f514a0b
+drivers/nvme/host/core.c:nvme_query_fdp_granularity() {
+	struct nvme_fdp_config_log hdr, *h;
+	...
+	ret =3D nvme_get_log_lsi(ctrl, 0, NVME_LOG_FDP_CONFIGS, 0,
+			       NVME_CSI_NVM, &hdr, size, 0, info->endgid);
+	if (ret) {
+		...
+		return ret;
+	}
+
+	size =3D le32_to_cpu(hdr.sze);
+	...
+	h =3D kvzalloc(size, GFP_KERNEL);
+}
+
+hdr is allocated on the stack without zero-initialization.  If the
+controller completes the log page command with a short data transfer,
+hdr.sze remains uninitialized and is passed as the allocation size to
+kvzalloc().
+
+[1] https://sashiko.dev/#/bug/linux-1cda5d44-a6cc-40a9-bd2b-cbed1b364093
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261115012806699yI=
-ujDZo6TywlxuhhSIktO@zte.com.cn?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/202611150127512368B=
+GQ07ZNIRAIwClkam-8u@zte.com.cn?part=3D4
 
