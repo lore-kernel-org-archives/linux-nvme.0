@@ -2,55 +2,55 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E378606A32D
-	for <linux-nvme@archiver.kernel.org>; Sat, 14 Nov 2026 13:56:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FAC0606A327
+	for <linux-nvme@archiver.kernel.org>; Sat, 14 Nov 2026 13:56:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=V9VORwRJ;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bbvqUTJK
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Ehjz/yib;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZBduMUGq
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=unDyG99Rc2/QnFjGnYYD038yieUDExHdgCgrjykz2ZY=; b=V9VORwRJgsEVjR
-	JwPqZhFR1rWgrJQrjQMLHpGWRno5wWZ5pGLdYXdtEXjWvkuItxG976p3EWHZkWrP19tz/7AZeH5Pf
-	WA8MyzLTtf0Kt02h9ZUfU5cd8Fsz0dRJEUnYWANz+K0FZPZ9UeDb1/5Zd0dIHsQb2Rho5+xJnMzGB
-	qiIlHOz86Vga3WMzVjN0FTI4/VmG7mBZ9gh4R9/GMSWf5HC1QwVIUzP1reO7Jrui8FRJA9c81xLpK
-	YoG1uXDek8etsShKV/7cE1fxpsAV/QsFoAMb3taze0YbXmtvju0/5CBRE8/l85hxXSfirg1ZrpItw
-	tw2NeXAqBT/KNdTRHPZg==;
+	List-Owner; bh=J9s+j/qnomdsSfV9A9X1jZ68ytQ1y88uXgL9lPJcnQQ=; b=Ehjz/yibgtokPW
+	1yLoxTp2/7nAN8HPXWsTNdb4Q5MxtCipts6jYS/tR1uUWdjSEDBNQkKXTk7nJUDM8uv+NtsfwWzEc
+	Hw6pD2mCCLq62lYfyMbLDooeHPleSd6dIQ9ajDGqI1IFJ/3Qf88DGmsWhD2ELLQX8Cn6XuLHyWlBQ
+	fd2RPLicImLt8pUd+FkCwCDNyGLz91aX00Kwuk6wpsOp29P63AgNWRFE1zeWDdhyTTNW8DtYdEk+j
+	3MrIe/sv9FKajd3PDDwGlQZUmZ3b+sqnRobdaUWIympljPGi7UALnP2TVZCb5RSp1z/lnmKSCqiL7
+	tkeAT7ljdvXbsmYwYaqQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSEFI-0000000GBIb-3GJq;
-	Sat, 14 Nov 2026 13:56:44 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1xSEFJ-0000000GBJn-1MAZ;
+	Sat, 14 Nov 2026 13:56:45 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSDTB-0000000G3pQ-18eO
+	id 1xSDTQ-0000000G3t0-0QWV
 	for linux-nvme@lists.infradead.org;
-	Sat, 14 Nov 2026 13:07:01 +0000
+	Sat, 14 Nov 2026 13:07:16 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 0959F4149B;
-	Sat, 14 Nov 2026 13:07:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66F5E1F000C4;
-	Sat, 14 Nov 2026 13:06:54 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 8AA016271C;
+	Sat, 14 Nov 2026 13:07:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CB521F000C4;
+	Sat, 14 Nov 2026 13:07:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794661620;
-	bh=unDyG99Rc2/QnFjGnYYD038yieUDExHdgCgrjykz2ZY=;
+	s=k20260515; t=1794661635;
+	bh=J9s+j/qnomdsSfV9A9X1jZ68ytQ1y88uXgL9lPJcnQQ=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=bbvqUTJKtvMzosAC+DFxEgbW2Vt0FzW0cgiaoIw4p06+FQN0Sb1Tv1DIYKxkGIHgF
-	 nr/z4/kJVkGC0PVIG0S+X2+IVr9KgB6EEAlRappl1aI/jvUBiq8DuKNlLNE8vxcBA5
-	 0JKTxwjjXckE+NeBCr1Bi8VfSd91eEzjplmFXA/4XP/TxEXjCKcLqdTFBZyvuK/4TB
-	 XM/3qFzs564jbujRGcQ6pIz5ll5eRxjrkU5c0H0jv1xeSUhUu14iRQDCczLPJNQJAW
-	 bobeXvnmondRh0cNkkJpqbnGO+HCtPYOqhf/9OsJt9+WANi8Hptd1u6XdBIoycR1Dw
-	 5PqAgnFXrJ7Rg==
+	b=ZBduMUGqp/qi5659mADzFX9+8wf4kVV3NEMIvBS9gKHs6MAUqEHt8cBzj3ZNgbS6d
+	 Nf89OZFMZUZCn2jJ6Mafo9wRMxG9W4SB0eAJp1Mg0VKarsMFlGa9zj428VS1a+b0RY
+	 D6CTCLMwH/+Gy7FwbJfcjx3qkCoh6LyEfI7rfX1ekkbjm/2l1cn+9zhnqWbhtfdgam
+	 Y+PAnxkHWZsnELKY9cqaxrXaHDYmDIwyumXSSeFQKPXZI1w6p3YqMu2+y/31W4BSbI
+	 KTWrP3vhpbirbRroyDnQuVG/W+XGJp6QhDHB9PqcU/GjF+Dz5Sq3c8cIAzqE/bRgNS
+	 ehuHrQrWIS4kA==
 From: Christian Brauner <brauner@kernel.org>
-Date: Sat, 14 Nov 2026 14:01:53 +0100
-Subject: [PATCH RFC v2 12/42] rust_binderfs: use fc_init_pseudo()
+Date: Sat, 14 Nov 2026 14:01:55 +0100
+Subject: [PATCH RFC v2 14/42] debugfs: use fc_init_pseudo()
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261114-work-loop-pseudo-v2-12-98639a2286fb@kernel.org>
+Message-Id: <20261114-work-loop-pseudo-v2-14-98639a2286fb@kernel.org>
 References: <20261114-work-loop-pseudo-v2-0-98639a2286fb@kernel.org>
 In-Reply-To: <20261114-work-loop-pseudo-v2-0-98639a2286fb@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -69,14 +69,15 @@ Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>,
  linuxppc-dev@lists.ozlabs.org, linux-usb@vger.kernel.org, 
  Amir Goldstein <amir73il@gmail.com>, linux-erofs@lists.ozlabs.org, 
  linux-kselftest@vger.kernel.org, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>
+ "Christian Brauner (Amutable)" <brauner@kernel.org>, 
+ Alexander Mikhalitsyn <alex@amutable.com>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1351; i=brauner@kernel.org;
- h=from:subject:message-id; bh=Se/hTFkDp0LtS3ScLeBDxadBnc0o/SVsPeEgiuoeVFc=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9iCn+frwhSzhtu6ttd9fzjo+dooobf9y0jSo35l66+
- IDLR4G0jlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIkUJzD8lbV+Vvz0VtVGta/L
- t5z8Lnjs6u2MqK7DthlNXFl91kl+LowMq9Zuux269XP8tl+abt/e3Tu14f6n3JqV77gfTzl4Z/J
- bEzYA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1131; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=LYVXsmqnxJmzP/zdkj81mpuZ8VVR49+0Ejm2rZDTrDA=;
+ b=kA0DAAoWkcYbwGV43KIByyZiAGr4XHWh3hAo/8SIEYNT/j2jncgmX+7HWMmgK6bgfx63CtOSR
+ oh1BAAWCgAdFiEEQIc0Vx6nDHizMmkokcYbwGV43KIFAmr4XHUACgkQkcYbwGV43KJ5WQEAzj30
+ a+DH4tqF+HU88MmhFrWuShGbUZ/WYvxekVK9nkMBAMzhgdjjYON010GwrBYO16UXD9hyZA5dodO
+ zboH1iSQL
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 X-Mailman-Approved-At: Sat, 14 Nov 2026 05:56:41 -0800
@@ -98,43 +99,40 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Initialize binderfs as a pseudo filesystem instead of raising SB_I_NOEXEC
-by hand. This adds SB_I_PSEUDO. binderfs_fill_super() keeps clearing
-SB_I_NODEV for the binder device nodes.
+Initialize debugfs as a pseudo filesystem. This raises SB_I_PSEUDO and
+also SB_I_NOEXEC and SB_I_NODEV. debugfs never holds executables or
+device nodes.
 
+SB_I_NOEXEC also refuses PROT_EXEC mappings. The debugfs files that
+can be mapped, kcov, relay channels and powernv's memtrace, map data.
+
+Reviewed-by: Jan Kara <jack@suse.cz>
+Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- drivers/android/binder/rust_binderfs.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ fs/debugfs/inode.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/android/binder/rust_binderfs.c b/drivers/android/binder/rust_binderfs.c
-index 5f020226720db..04468c5b5c116 100644
---- a/drivers/android/binder/rust_binderfs.c
-+++ b/drivers/android/binder/rust_binderfs.c
-@@ -3,6 +3,7 @@
- #include <linux/compiler_types.h>
- #include <linux/errno.h>
+diff --git a/fs/debugfs/inode.c b/fs/debugfs/inode.c
+index b4915551ad315..f163f0bc5703a 100644
+--- a/fs/debugfs/inode.c
++++ b/fs/debugfs/inode.c
+@@ -15,6 +15,7 @@
+ #include <linux/module.h>
  #include <linux/fs.h>
+ #include <linux/fs_context.h>
 +#include <linux/pseudo_fs.h>
- #include <linux/fsnotify.h>
- #include <linux/gfp.h>
- #include <linux/idr.h>
-@@ -667,7 +668,6 @@ static int binderfs_fill_super(struct super_block *sb, struct fs_context *fc)
- 	 * necessary and safe.
- 	 */
- 	sb->s_iflags &= ~SB_I_NODEV;
--	sb->s_iflags |= SB_I_NOEXEC;
- 	sb->s_magic = RUST_BINDERFS_SUPER_MAGIC;
- 	sb->s_op = &binderfs_super_ops;
- 	sb->s_time_gran = 1;
-@@ -759,6 +759,7 @@ static int binderfs_init_fs_context(struct fs_context *fc)
- 	ctx->stats_mode = binderfs_stats_mode_unset;
+ #include <linux/fs_parser.h>
+ #include <linux/pagemap.h>
+ #include <linux/init.h>
+@@ -317,6 +318,7 @@ static int debugfs_init_fs_context(struct fs_context *fc)
+ 	fsi->mode = DEBUGFS_DEFAULT_MODE;
  
- 	fc->fs_private = ctx;
+ 	fc->s_fs_info = fsi;
 +	fc_init_pseudo(fc);
- 	fc->ops = &binderfs_fs_context_ops;
- 
+ 	fc->ops = &debugfs_context_ops;
  	return 0;
+ }
 
 -- 
 2.53.0
