@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75B88606A329
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77B7C606A32D
 	for <linux-nvme@archiver.kernel.org>; Sat, 14 Nov 2026 19:12:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=KT1/IT8X;
-	dkim=pass (2048-bit key) header.d=zte.com.cn header.i=@zte.com.cn header.a=rsa-sha256 header.s=z202610 header.b=uVRGv/HS
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=XQpusyTa;
+	dkim=pass (2048-bit key) header.d=zte.com.cn header.i=@zte.com.cn header.a=rsa-sha256 header.s=z202610 header.b=aR33Yuuk
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Subject:Cc:To:
@@ -14,70 +14,70 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=qt+PZYhf7moATmrnYKqOmwNJHY0piXh7VUHf25O4hOA=; b=KT1/IT8XpeaW4Qrp2aQIe0FRh7
-	cwrFCkXWbyKgsYGIlHXMa73dtHfzcS7uFshYdHYfydSr8ZVnrocGGMNHflaJ43G5xSAhgYb5xP3uV
-	JJ5b0B2i89Uap1TkIITGEI2fJtf59b6PZxv0kJsbleFsTcqH0sXtaEsoh0JUnbcJQr32q5WTqvA/b
-	g1eZQB1/STl8XYdjnR/ZdTJiaj9ilw+J08IIvASF/hylF6CEV9nMlqxqJwU6gjumihzVuoJqW3GlI
-	HkqNIC4r+07ufutk9DWex/pZY3E/TqcM+pmHdOomwsPmyw1ohROJnNnSDJz+DaZ4wyWt/2H9+aXlC
-	FvQShkYg==;
+	bh=AhEZAUWU3siQtDB4u7hy2EKIdXyvJUcxhnu0gQ87EUc=; b=XQpusyTap+iNrjC3AhnD9cX1cc
+	MPQEVm+mDQW3SKjhwZasaV1uA7RdiBtcxexGJ9FD4J4k76E8PSSOoh16A++sxRXiLNJo4AolARRHy
+	Yk21fRPTuxIuQF41igL590XzGOLwiDPOCsu2npbObljEcDR7i5ACpawD+AmA27Be5SWMr6Rn1eeWA
+	jOGTJwpQkjhwiGGw0f7Rhx3x/XL8hRADqpyyZQCawt2wV/zIbaLHlQlSzdubYksBmvg2kuoZ4PAQ3
+	i4+OrteosOTYZfECJXz4fHmYVgqHgUdg5Q6RvQUd0Vmp8KMuvEnZV+qcQ/gL567fRwgMI8781rloS
+	/0I2M78g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSJAJ-0000000GeHm-3heG;
-	Sat, 14 Nov 2026 19:11:55 +0000
+	id 1xSJAK-0000000GeHt-005Z;
+	Sat, 14 Nov 2026 19:11:56 +0000
 Received: from mxct.zte.com.cn ([183.62.165.209])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSHXp-0000000GWyP-35FL
+	id 1xSHXq-0000000GWyQ-0C4n
 	for linux-nvme@lists.infradead.org;
-	Sat, 14 Nov 2026 17:28:07 +0000
+	Sat, 14 Nov 2026 17:28:08 +0000
 Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mxct.zte.com.cn (FangMail) with ESMTPS id 4jRh0b3hp4z4xPS1;
-	Sun, 15 Nov 2026 01:27:59 +0800 (CST)
+	by mxct.zte.com.cn (FangMail) with ESMTPS id 4jRh0Z6zPBz4xPRy;
+	Sun, 15 Nov 2026 01:27:58 +0800 (CST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=zte.com.cn;
 	s=z202610; t=1794677279;
-	bh=sB1aNW+0iZJGGQWzuqfYmutpRzCDePbP1duuwkfP40U=;
+	bh=fgbIpa7paOidWzQEQF1V9lKk++iJNa/wFvrwiomXOA4=;
 	h=In-Reply-To:References:Date:From:To:Cc:Subject;
-	b=uVRGv/HSU3xSduRb81XbodjAeDn7FyXBM7Kj97WR1L1tiwfCGWxm9WJ9tcYxYg8fT
-	 SFEAXgZijZVhSD2uCcEow/r53FYOfRKio6q/aMcqjtZ6VcKA0D2UaTZfxm249HWr/I
-	 hMdJGsE7wlL3EU//HVEFa5EvUHOhnxAYJjcpcIzCQJy2UfDc3eApnCJVSdny1PXf+t
-	 FHaGtQTvIVvUk7zaNv/F/PtgsiNJX6TpDLE9mySQ0ea2A573/xKr7rrhaL1Pz6h620
-	 CNezuHvHoDyEGpk3i2Tn2PEF7px8/Oe3rFC6U//a5mTNPz18fbwuGyAaU9GXuAxNqn
-	 /Ks2K8TfCrYVQ==
-Received: from xaxapp05.zte.com.cn ([10.99.98.109])
-	by mse-fl2.zte.com.cn with SMTP id 6AEHRrRE016766;
-	Sun, 15 Nov 2026 01:27:53 +0800 (+08)
+	b=aR33YuukUR+Z92c7RhR7tdOcJejHGXp027xMjyt/c6evgN9p8Sxi2f4oqPulto6hj
+	 aUAfCU5iuM4pOISSBirnOycYdhz56UvFeoJhzI3rXnLZZPVe53j8s4+KVsbJWO0uA7
+	 54LazfDOGobbZq81SfyPslsGUMFehTXw4eVKxlknzlFGgZMTxcTNCVWSFL2Npofw4Y
+	 KStCfZc5n32rOL5G28Wtu0odBD6OGPVCij638Ale1b1nhZzxo9gHDO7NncO7AYYNG/
+	 d6L5VVGor8it2ebuZZuZ1LJL2+8TbVbr71hLmKA5aK0EClF6iErzjNg7lUUCuADQFr
+	 0e6pAiuXe8QsA==
+Received: from xaxapp01.zte.com.cn ([10.88.99.176])
+	by mse-fl2.zte.com.cn with SMTP id 6AEHRqqZ016765;
+	Sun, 15 Nov 2026 01:27:52 +0800 (+08)
 	(envelope-from shao.mingyin@zte.com.cn)
 Received: from mapi (xaxapp04[null])
 	by mapi (Zmail) with MAPI id mid32;
-	Sun, 15 Nov 2026 01:27:57 +0800 (CST)
-X-Zmail-TransId: 2afb6af89a1d225-561cf
+	Sun, 15 Nov 2026 01:27:54 +0800 (CST)
+X-Zmail-TransId: 2afb6af89a1a198-56142
 X-Mailer: Zmail v1.0
-Message-ID: <202611150127572887TC7vHzVUFLZ6nyW1NuhU@zte.com.cn>
+Message-ID: <20261115012754244CUh01sEOwZp4S8maAbDDM@zte.com.cn>
 In-Reply-To: <202611150127512368BGQ07ZNIRAIwClkam-8u@zte.com.cn>
 References: 202611150127512368BGQ07ZNIRAIwClkam-8u@zte.com.cn
-Date: Sun, 15 Nov 2026 01:27:57 +0800 (CST)
+Date: Sun, 15 Nov 2026 01:27:54 +0800 (CST)
 X-Archived-By: <archiver.kernel.org>
 Mime-Version: 1.0
 From: <shao.mingyin@zte.com.cn>
 To: <kbusch@kernel.org>, <axboe@kernel.dk>, <hch@lst.de>, <sagi@grimberg.me>,
         <linux-nvme@lists.infradead.org>
 Cc: <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
-Subject: =?UTF-8?B?W1BBVENIIDQvNV0gbnZtZTogZGVjb2RlIHRoZSBGRFAgR2V0IEZlYXR1cmVzIHJlc3VsdCBhcyBhIGR3b3Jk?=
+Subject: =?UTF-8?B?W1BBVENIIDIvNV0gbnZtZTogbWFwIHBhc3N0aHJvdWdoIGRhdGEgd2hlbiB0aGUgbGVuZ3RoIGlzIG5vbnplcm8=?=
 Content-Type: text/plain;
 	charset="UTF-8"
-X-MAIL: mse-fl2.zte.com.cn 6AEHRrRE016766
+X-MAIL: mse-fl2.zte.com.cn 6AEHRqqZ016765
 X-TLS: YES
 X-ENVELOPE-SENDER: shao.mingyin@zte.com.cn
 X-SOURCE-IP: 10.5.228.133 unknown Sun, 15 Nov 2026 01:27:59 +0800
 X-CLEAN: YES
 X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6AF89A1F.000/4jRh0b3hp4z4xPS1
+X-Fangmail-MID-QID: 6AF89A1E.000/4jRh0Z6zPBz4xPRy
 X-Bad-Reply: References and In-Reply-To but no 'Re:' in Subject.
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261114_092806_124801_07346B02 
-X-CRM114-Status: GOOD (  11.73  )
+X-CRM114-CacheID: sfid-20261114_092806_255270_57EEA42D 
+X-CRM114-Status: GOOD (  11.72  )
 X-Spam-Score: -4.4 (----)
 X-Mailman-Approved-At: Sat, 14 Nov 2026 11:11:54 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -100,77 +100,51 @@ X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 
 From: Shao Mingyin <shao.mingyin@zte.com.cn>
 
-nvme_query_fdp_info() passes a struct nvme_fdp_config, which is exactly
-four bytes, as the result buffer of nvme_get_features():
+nvme_submit_user_cmd() skips mapping when the user address is zero,
+even if a nonzero data length was supplied.  Passthrough ioctls and
+NVME_IOCTL_SUBMIT_IO can therefore submit a data-transfer command
+without a mapped payload.  For example, the loop target returns a
+Data SGL Length Invalid status instead of rejecting the user buffer.
 
-	struct nvme_fdp_config fdp;
+Map whenever a length is given and let the mapping helper validate the
+address.  This also permits address zero if the process has valid
+memory mapped there, matching the io_uring passthrough behavior from
+commit 99fde895ff56 ("nvme: map uring_cmd data even if address is 0").
 
-	ret = nvme_get_features(ctrl, NVME_FEAT_FDP, info->endgid, NULL, 0,
-				&fdp);
-	if (!(fdp.flags & FDPCFG_FDPE))
-		return 0;
-	ret = nvme_query_fdp_granularity(ctrl, info, fdp.fdpcidx);
-
-nvme_features() stores the result with
-
-	*result = le32_to_cpu(res.u32);
-
-i.e. it writes a CPU-endian dword through the pointer.  On a big-endian
-host this puts the flags byte in the fourth byte of the structure, so
-fdp.flags is always zero and FDP support is silently disabled, while
-fdpcidx would be read from the wrong byte.
-
-Read the result as a u32 and decode the flags and the FDP config index
-explicitly, which works on both endiannesses.
-
-Fixes: 30b5f20bb2dd ("nvme: register fdp parameters with the block layer")
+Fixes: d29ec8241c10 ("nvme: submit internal commands through the block layer")
 Cc: stable@vger.kernel.org
 Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
 ---
-Tested on 7.3.0-next-20261030 under QEMU/TCG (guest s390x, big-endian),
-loop transport + file-backed namespace.  The nvmet target needs no FDP
-hardware: a TEST-ONLY stub (applied to both kernels) advertises FDPS and
-answers the FDP Get Features / configs log / RUHS commands; the only
-difference between the two kernels is this patch.  The FDP probe runs
-during namespace scan; the verdict is
-/sys/block/nvme0n1/queue/max_write_streams (= nr_plids):
+Tested on 7.3.0-next-20261030 (QEMU/TCG guest) with the loop transport
+and a file-backed namespace.
 
-  unpatched (big-endian): max_write_streams=0  FDP silently disabled
-  patched   (big-endian): max_write_streams=1  FDP registered
+NVME_IOCTL_IO_CMD with addr=0 and a nonzero data_len skips the mapping
+on the unpatched kernel and submits the command with an empty data
+pointer, so the target rejects it with "Data SGL Length Invalid" (status
+0x600f).  With the patch the mapping helper rejects the null user
+address with -EFAULT before the command is submitted:
 
-On x86 (little-endian) both kernels report max_write_streams=1, i.e. no
-regression.
+  unpatched                            patched
+  control read (valid addr) ret 0      control read (valid addr) ret 0
+  read  addr=0 len=4096 ret 0x600f     read  addr=0 len=4096 -EFAULT
+  write addr=0 len=4096 ret 0x600f     write addr=0 len=4096 -EFAULT
 
- drivers/nvme/host/core.c |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/nvme/host/ioctl.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index a7a4d09644c1..45feafa00325 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2339,8 +2339,8 @@ static int nvme_query_fdp_info(struct nvme_ns *ns, struct nvme_ns_info *info)
- 	struct nvme_ns_head *head = ns->head;
- 	struct nvme_ctrl *ctrl = ns->ctrl;
- 	struct nvme_fdp_ruh_status *ruhs;
--	struct nvme_fdp_config fdp;
- 	struct nvme_command c = {};
-+	u32 fdp;
- 	size_t size;
- 	int i, ret;
+diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+index a87c9ca9d06c..22efc5412416 100644
+--- a/drivers/nvme/host/ioctl.c
++++ b/drivers/nvme/host/ioctl.c
+@@ -207,7 +207,7 @@ static int nvme_submit_user_cmd(struct request_queue *q,
+ 		return PTR_ERR(req);
  
-@@ -2351,10 +2351,10 @@ static int nvme_query_fdp_info(struct nvme_ns *ns, struct nvme_ns_info *info)
- 		return ret;
- 	}
- 
--	if (!(fdp.flags & FDPCFG_FDPE))
-+	if (!(fdp & FDPCFG_FDPE))
- 		return 0;
- 
--	ret = nvme_query_fdp_granularity(ctrl, info, fdp.fdpcidx);
-+	ret = nvme_query_fdp_granularity(ctrl, info, (fdp >> 8) & 0xff);
- 	if (!info->runs)
- 		return ret;
- 
+ 	req->timeout = timeout;
+-	if (ubuffer && bufflen) {
++	if (bufflen) {
+ 		ret = nvme_map_user_request(req, ubuffer, bufflen, meta_buffer,
+ 				meta_len, NULL, flags);
+ 		if (ret)
 -- 
 2.43.0
 
