@@ -2,108 +2,108 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45FD3606A880
-	for <linux-nvme@archiver.kernel.org>; Sat, 14 Nov 2026 02:58:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33B5360A260F
+	for <linux-nvme@archiver.kernel.org>; Sat, 14 Nov 2026 03:05:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=PVOI++MY;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ACDmRbg6
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=H7LrUFzH;
+	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.a=rsa-sha256 header.s=google2022 header.b=CdvWmS31
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:Message-Id:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Unsubscribe-Post:List-Owner;
-	bh=JXqAbYuZ2vpS9frtjoNHLZmHrsnGeUx2jopCaJzDTbs=; b=PVOI++MY2BWu7frWd9/kbidxv+
-	dy0YMZYYyJW+Q/HISzJ2oUmT/dgTUcrYaNlGcLnGCS/eJEc+BHLV1wJvWkZA64q01a/GcUWX0FY3D
-	XE010QbaEuUWEImqoKLGTwBH5HJpaZ4J8KQQ8FcyiV6w+hPPYdwWWmk6o2L4f5WcSS3h2uWQvF3NQ
-	7uZE0z68UB+hf4oln0GFV67zIu8wyRPZSO1sRyMxg0S3tPjXE9eubXuFuPowxD0pNjt9SsJ3MfeZG
-	O8sC8DRl7itaOhoZ0Y2VNk4sWIYygKWtKiTFk0EsUOn0lwBHvfA/GOOpKV5sq+gx1FSrVLMGj6X2H
-	aWZ7TMIw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
+	List-Owner; bh=d5uxBhNS/GnIJw/zYouuj3Fh1xUn/nB9F/ugzp6g0YM=; b=H7LrUFzH2+YEFm
+	lYvKEcLH3FlHDm7xGcXuLrLkxUhYa7AMjN8CStFHD0HNjxMB4bKw0bgVhndRN6WFgS05JVtDM7bkE
+	Cyb3ArGIDTF0BmtL8AOORXiSrg9/gDtHtPNOL3fjMBq2lAosOU0smHEyjaJJwuNYCXV3DnI56CTSt
+	j6wGSp0k8h0CF/RlXAc0KPSbg7K5MpEhMA344YEBVSUWhYX7GjDAaEtSip68ZxYJxVDCBeRWvYmk5
+	iIQR6E4AGUsBBejCapmR/AenQRmaxC1QvsWp0rl0uhuRwSWiC+UQZFVLw1fwYf+8RIfHGeOE2/sCY
+	DLgcf1RFlMJomfUZz5Bw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xS3y8-0000000F8t5-1zqt;
-	Sat, 14 Nov 2026 02:58:20 +0000
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535])
+	id 1xS45R-0000000F9jw-18Cl;
+	Sat, 14 Nov 2026 03:05:53 +0000
+Received: from mail-dl1-x122b.google.com ([2607:f8b0:4864:20::122b])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xS3y6-0000000F8sT-0UOq
+	id 1xS45O-0000000F9f1-0k52
 	for linux-nvme@lists.infradead.org;
-	Sat, 14 Nov 2026 02:58:19 +0000
-Received: by mail-pg1-x535.google.com with SMTP id 41be03b00d2f7-cc4c02ddd62so796314a12.0
-        for <linux-nvme@lists.infradead.org>; Fri, 13 Nov 2026 18:58:17 -0800 (PST)
+	Sat, 14 Nov 2026 03:05:51 +0000
+Received: by mail-dl1-x122b.google.com with SMTP id a92af1059eb24-15ea896ddc8so2288669c88.0
+        for <linux-nvme@lists.infradead.org>; Fri, 13 Nov 2026 19:05:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794625097; x=1795229897; darn=lists.infradead.org;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=JXqAbYuZ2vpS9frtjoNHLZmHrsnGeUx2jopCaJzDTbs=;
-        b=ACDmRbg6pWqSS6qRJWlrShlsau4sg4aqbCwiqzqvWI8/GRCzz/n57SV2RK+x1IYibp
-         9EX78euhAeqfE0oHaWzSLYfAFjszWzPe//MV7tamHu/HmF3qANFxKBxKEOq7REkH+MHO
-         HJE6YI8kfdckkbLnejAGWgjmObKgxXdBMGUyWmw/Yfkhlusd1CVuxJEhIWfDldgo8TFi
-         Qmb32Ru9BPCQsNc1MzVddKFPayQer2H0nJ8SGvcJWrQaO67vYWkfMJedlN7AAMfEN/HJ
-         q8oah4Uoa+iLh7K6raV0vznzpCrLM2n0IIG3qvdv1xHXcTb5SBwExWuOblYt4vSEfhz7
-         z5Sw==
+        d=purestorage.com; s=google2022; t=1794625549; x=1795230349; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=d5uxBhNS/GnIJw/zYouuj3Fh1xUn/nB9F/ugzp6g0YM=;
+        b=CdvWmS31bP15cnjcFz2YvUt1goO4irthDIV0EmlzyPRJ9JAvwibJXU+HeaX2wFluwd
+         JJSwLfJsiDx26w79oW8Sf5Z1MkIUuSqg9w//Hj1BefsnbSfNEGiesz+AgNkcWVnkZ7oq
+         ZvvlbShAR1329blSkZ/4zJ8m5TZ+UEm4L+qLIuuhraSViO+VIXK/GUoY9etTdvFfVVyT
+         bm/lwyM0SrlIt4FRXuHrP8oTkaOEPJr/uHelE5BSPdR2pF0dROL8W0h8KL6XBb+j/vL1
+         h3jREu24UvgFBfMunKldQZl2FrvMj9cR6dZtPmoTDtO0egaciEgWpbrHBvbgYo3k1g5h
+         rQ6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794625097; x=1795229897;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=JXqAbYuZ2vpS9frtjoNHLZmHrsnGeUx2jopCaJzDTbs=;
-        b=gj6fYxA4LRUVnlaY/jjjfdQN2nkIuZ3dQwinfA69U5QkxgMqU+Ebngwg0GNsGtitHW
-         qhjqQ54Da0JdAtZwoaasu7OqdvKqHTw/f9VfJNHfpVigaVIm/67xAPT9PMdjwzgbJ2PV
-         opBk+OEUnNoSjG7+9va+nTEvFSUYSgKSJ7gUhOOrxIJzLrXIkN4sE5Q8vZAVl/8Oj9FB
-         YXP7Ia6bdn88sIPOGIPh3FTiARhehZE4RLCl3PXUoHNZainUn/+PHMlqYxMo883vTa2R
-         sGavlbMM+rNsRkoVM0Cjnz7t1/PE4jmhJbNIgbJKzSHehs3+M6VQPXZhERWbYSiVqK+R
-         tcMQ==
-X-Forwarded-Encrypted: i=1; AL+hErEsxuT7dYSpac22LgOpsT+UvwTTsox1SMD0FX2LBn99qsyZHSoFRBCHfWohbZUJI7EcBqAVtX1+RrVE@lists.infradead.org
-X-Gm-Message-State: APuU4Z84qBhZJu/tGGCmJ6xq5I8i65n3xrcswcjBZZ5a1YXV5qw64dFN
-	ISlqHIKYpNb5QZTZLX0K+cdAs5kTMSROJUyjOCw49sTlr/g5uXb+20qh8YHJnsDE
-X-Gm-Gg: AYBFou1+7XpyhG/NSstQSBJIAE5VddGSyAn+u6Drmy+9PjxfKi1XxD3UCRTtqfYya+V
-	wI/2r+xrj9YxURLlt2VIEX1kKk+sWroCNePiygk1yu6vvA2rHW+Uz/0OQkeEVdQNXq/0UzSYG/K
-	xIKOy3yNUe9YPwmLELjIgw0/dKtNuHPRu48wew+gCpkGQKicLzdLZjK3LlSwVYhgANfYV1VVOCZ
-	ctp/kMp/yoXJLjOFic/7grt/xIFtD+dmhI8rqzL1MxiBLELAzaImYQNSRjLR71cFk93bJ/u2cHN
-	m+tYJgSJF1kRMEOUrOPKyUKtC0T2i6bhTeRlO/EjqFVS/xazHag4qADkwOti/q+3AFPY8JcCUC+
-	KJR2LRW6YXfXrcE2srN1OWus5iznpY0eAmCyTZ31nBK9fjk6uIyXKsruFqTCHoDhP+TAXZ0a7n9
-	HMu/JEabWXcpySxj+LIrGWqswoKJPuRKKu9xR1aTk4Zowog00RRTNR39/YzQxsTJhaNJuixuvMM
-	+WvK8kxMZgJpuY+6CNaAA+B4NjAV03U3Wf5VXAZmNW7xExsUY1dRJ39Azd6JPy0/v1+hvLl0kDp
-	74AEzIB/e4XRy3tmvn6Zhll4XwrrMkfQQ9hscrec2TT+j7wC6rTRBLbx0HisvboSu2zDxkiz0cc
-	ruYeLQ8KfBvWULco6YpDFKlgMHuuP2XQFwCwGUvonPYTWBXrJ49q3hfI=
-X-Received: by 2002:a17:90b:5806:b0:3a7:db88:3491 with SMTP id 98e67ed59e1d1-3b1b0a4cf70mr3720380a91.33.1794625096978;
-        Fri, 13 Nov 2026 18:58:16 -0800 (PST)
-Received: from 1.0.0.127.in-addr.arpa ([2001:f40:90e:5ed4:d53:b5f5:a144:fe4f])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1ae981c55sm7141206a91.1.2026.11.13.18.58.13
+        d=1e100.net; s=20260707; t=1794625549; x=1795230349;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=d5uxBhNS/GnIJw/zYouuj3Fh1xUn/nB9F/ugzp6g0YM=;
+        b=JhtGgPGf6RYgcAArFzA+wIVWz1PWHdDRoKqXPCAwRuklRsvrU266P0UxZWTrhSaZmw
+         fgkkZwQUM8AG6DWGQC0VtHQt63ElUs0gwfOTlHKnowNMTwQTihSsDBVN1KxiW8QT/box
+         +EvpOo9fMxekV1cA25Kq5OfZ9g4FJqt7nB6hacvRQ9LdLo/b45rIsrIOlL0qI59wzQ+9
+         bzMqK7C9tx5ibWh6scR4/yS9M8+cvi7aNypRfrv9st31urdb3CD5HfqKThxlxqCdyAv+
+         tdmL8dZv32VX5NgjVVzPBwpl3Wq50KWRg+Cs5gQvOZQMMuV9UE+rNAq5t0herld9CjYk
+         nykQ==
+X-Forwarded-Encrypted: i=1; AL+hErEuuv/nKyeBfjme2LNTdLJhu/E15q8v8SoUnsmmmLtrAIwOxdGBtgY6Zk1x774qC9wo+wF02w+xXDPb@lists.infradead.org
+X-Gm-Message-State: APuU4Z8atGDd8FMzxpv0cEKOPI9eMC5pCPpliXWxcM/tBSNs1yuR4ujW
+	jpHSx131Eu1hTW1ZEZ4f3JnI/dMxbgTH9ThEjMAh7Yd4+jbCdbSVcSyEjkyEf6m3R7dOsrgkIpU
+	pSzmG
+X-Gm-Gg: AYBFou3WwbEKUvI91Ep/pi57Fa8roI/lsmeUIi54XQcOSCBYmlZpUigvIRNRE/Nvp5N
+	o2kRJSz/DTov3Uzq6NrYYIDfHbNwbylM4BQM85XhHAajfDMTcZ0LsaeZNwgoyVIohMsGxxH5X61
+	7Qj3JO0bHNXX0xxoaWOY6Qdm+FdiDVshSdLb3vyntb5ccASJYIZwqbKvSB3fKxKYUv4fybn7jFQ
+	4Bc6mK+Qw8gL7VMZllWR+hifF+2xQa17cyj4xZi4vW+h48jPJmjRmRo+D2uOSHahFd953vyeXlX
+	awbilSOJJ9GpuZ9fHPa3gsEQz74so2wJuGdy/RUQRtBE6d3p5To9cHG1mktz12fNZ3Kdk1MsbYj
+	4NNNhr/CRRbxw5k2q8nfpOLPRBAp6PB2SnTbjmE6J+wGk5aO2EEni+1W8hTC+yqyF+uXFu+31a4
+	CSgg52VR8F9XfgNV6tT8NCohonniM5N+TZtU2RHt2ZMv2cFVAVnkBQe1dhbsPbW5eu05CppLCpK
+	k4ok0FUZdu8ig7vprQEpZlh/ol5PD3jkQKAW+z8/rOZfHcM6NxT/8HUHhkYFrIOosLmGK3dHYtl
+	55OmeZL05t4s5kDM0txs9WlfxnKv1jVnbpsOzJNrj9OV2KcraANTJjUAPTDNxk7+LQOQJ5nan8A
+	=
+X-Received: by 2002:a05:701a:815a:20b0:14a:8cff:fbb8 with SMTP id a92af1059eb24-1b5030bd61fmr3897546c88.28.1794625548645;
+        Fri, 13 Nov 2026 19:05:48 -0800 (PST)
+Received: from apollo.purestorage.com ([208.88.152.253])
+        by smtp.googlemail.com with ESMTPSA id a92af1059eb24-1b50316e008sm10829382c88.6.2026.11.13.19.05.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 18:58:16 -0800 (PST)
-From: Izaac Chong <izaacchong934@gmail.com>
-Date: Sat, 14 Nov 2026 10:58:04 +0800
-Subject: [PATCH] configfs: fix use-after-free of default group in
- configfs_symlink()
+        Fri, 13 Nov 2026 19:05:48 -0800 (PST)
+From: Mohamed Khalfella <mkhalfella@purestorage.com>
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: Justin Tee <justin.tee@broadcom.com>,
+	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
+	Paul Ely <paul.ely@broadcom.com>,
+	Hannes Reinecke <hare@kernel.org>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	James Smart <jsmart833426@gmail.com>,
+	Randy Jennings <randyj@purestorage.com>,
+	Mohamed Khalfella <mkhalfella@purestorage.com>,
+	Daniel Wagner <dwagner@suse.de>,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Hannes Reinecke <hare@suse.de>
+Subject: [PATCH v7 01/17] nvmet: Rapid Path Failure Recovery set controller identify fields
+Date: Fri, 13 Nov 2026 19:04:15 -0800
+Message-ID: <20261114030454.2836543-2-mkhalfella@purestorage.com>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261114030454.2836543-1-mkhalfella@purestorage.com>
+References: <20261114030454.2836543-1-mkhalfella@purestorage.com>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261114-configfs-symlink-uaf-v1-1-1446154abdda@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAA/yXMQQ6CMBBA0auQWTOJJVDRqxAXbZnioBbSEQIh3
- J2Ky7f4fwOhyCRwzzaINLPwEBJUnoF7mtARcpsMxaXQSqkS3RA8d15Q1s+bwwsn49FVbV1aq83
- tqiGlYyTPy7ltHn/LZHty398L9v0AXpA4CHgAAAA=
-X-Change-ID: 20261114-configfs-symlink-uaf-c5d84bb6a976
-To: Breno Leitao <leitao@debian.org>, 
- Andreas Hindborg <a.hindborg@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>
-Cc: linux-kernel@vger.kernel.org, 
- syzbot+b0996ac2197dd7420c3e@syzkaller.appspotmail.com, 
- linux-nvme@lists.infradead.org, Izaac Chong <izaacchong934@gmail.com>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794625093; l=4212;
- i=izaacchong934@gmail.com; s=20261114; h=from:subject:message-id;
- bh=J+KkHfs0mzJGU6K6QSM4d4XD/5HOyjXhZy3CNgCcS3Q=;
- b=mrAQQ+OlG7DqTqvgoTQiyvjTue8vzz74E39xnsarPkOZ3nCwUlyMJzzPu58vmE637kNmAxcWC
- +nYbFUOXXYnCCmTdRVpJnrE7HHaXot7VvJRYg9//1IR4K1TIrVkGqKb
-X-Developer-Key: i=izaacchong934@gmail.com; a=ed25519;
- pk=IFfOWcK2ZRkDtCqaNggolAwpvIidYMt3Oar3NEnvqzY=
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261113_185818_165380_0875C0A6 
-X-CRM114-Status: GOOD (  17.55  )
-X-Spam-Score: -1.8 (-)
+X-CRM114-CacheID: sfid-20261113_190550_232654_D991A43D 
+X-CRM114-Status: GOOD (  15.63  )
+X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -114,120 +114,133 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-configfs_symlink() drops the parent directory's inode lock while it
-resolves the link target, and keeps a reference to parent_item across
-that window. When the parent is a default group, such as
-ports/<n>/subsystems/ in the NVMe target, parent_item is embedded in
-the containing object (struct nvmet_port). A reference on the embedded
-item does not keep the containing object alive, so a concurrent rmdir of
-the port can free it. allow_link() and the final config_item_put() then
-touch freed memory:
+TP8028 Rapid Path Failure Recovery defined new fields in controller
+identify response. The newly defined fields are:
 
-  BUG: KASAN: slab-use-after-free in nvmet_port_subsys_allow_link+0x41/0x2e0
-  Call Trace:
-   nvmet_port_subsys_allow_link+0x41/0x2e0 drivers/nvme/target/configfs.c:1059
-   configfs_symlink+0x59a/0x1030 fs/configfs/symlink.c:196
-   vfs_symlink+0x18b/0x330 fs/namei.c:5794
+- CIU (Controller Instance Uniquifier): is an 8bit non-zero value that
+  is assigned a random value when controller is first created. The value
+  will be incremented when RDY bit in CSTS register is asserted.
+- CIRN (Controller Instance Random Number): is 64bit random value that
+  gets generated when controller is created. CIRN is regenerated every
+  time RDY bit in CSTS register is asserted.
+- CCRL (Cross-Controller Reset Limit): is an 8bit value that defines the
+  maximum number of in-progress controller reset operations. CCRL is
+  hardcoded to 4 because TP8028 recommended a value no less than 4.
 
-detach_groups() marks a default group's directory S_DEAD while holding
-that directory's inode lock, before the containing object can be freed.
-So drop the parent_item reference before unlocking dir, and after
-re-taking the lock return -ENOENT if dir is dead. Otherwise look
-parent_item up again, which is safe while dir is locked and alive.
+These fields are set for non-discovery subsystems only.
 
-Fixes: 351e5d869e5a ("configfs: fix a deadlock in configfs_symlink()")
-Reported-by: syzbot+b0996ac2197dd7420c3e@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=b0996ac2197dd7420c3e
-Cc: linux-nvme@lists.infradead.org
-Signed-off-by: Izaac Chong <izaacchong934@gmail.com>
+Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Reviewed-by: Daniel Wagner <dwagner@suse.de>
 ---
-Tested with the syzbot C reproducer on v7.4-rc2 in QEMU with KASAN:
-without this patch the reproducer triggers the slab-use-after-free in
-nvmet_port_subsys_allow_link() on the first run; with it, 3 runs of
-5 s each are clean, and normal link/unlink/rmdir of a port still work.
-I tried to have syzbot test it, but #syz test is currently disabled
-(syzkaller issue #8122).
+ drivers/nvme/target/admin-cmd.c |  5 +++++
+ drivers/nvme/target/core.c      |  9 +++++++++
+ drivers/nvme/target/nvmet.h     |  2 ++
+ include/linux/nvme.h            | 10 ++++++++--
+ 4 files changed, 24 insertions(+), 2 deletions(-)
 
-syzbot's AI patch (v1-v3, still in moderation) pinned the root item of
-the default group. This takes a simpler approach: drop the parent
-reference before unlocking, and recheck IS_DEADDIR() after relocking,
-since detach_groups() sets S_DEAD under the same inode lock.
-
-Not tested: lockdep was not enabled during the reproducer runs, and I
-did not confirm that the new -ENOENT path is hit during the race.
----
- fs/configfs/symlink.c | 24 ++++++++++++++++++------
- 1 file changed, 18 insertions(+), 6 deletions(-)
-
-diff --git a/fs/configfs/symlink.c b/fs/configfs/symlink.c
-index 89178f5d371a..1b2c9048a920 100644
---- a/fs/configfs/symlink.c
-+++ b/fs/configfs/symlink.c
-@@ -166,11 +166,11 @@ int configfs_symlink(const struct mnt_idmap *idmap, struct inode *dir,
- 
- 	parent_item = configfs_get_config_item(dentry->d_parent);
- 	type = parent_item->ci_type;
-+	config_item_put(parent_item);
- 
--	ret = -EPERM;
- 	if (!type || !type->ct_item_ops ||
- 	    !type->ct_item_ops->allow_link)
--		goto out_put;
-+		return -EPERM;
- 
- 	/*
- 	 * This is really sick.  What they wanted was a hybrid of
-@@ -200,7 +200,20 @@ int configfs_symlink(const struct mnt_idmap *idmap, struct inode *dir,
- 	ret = get_target(symname, &target_item, &target_sd, dentry->d_sb);
- 	inode_lock(dir);
- 	if (ret)
--		goto out_put;
-+		return ret;
-+
-+	/*
-+	 * parent_item may be a default group embedded in an object that a
-+	 * concurrent rmdir freed while dir was unlocked, so we dropped our
-+	 * reference above.  detach_groups() marks dir S_DEAD under its inode
-+	 * lock before the containing object can go away, so it is safe to
-+	 * look parent_item up again only if dir is still alive.
-+	 */
-+	if (IS_DEADDIR(dir)) {
-+		ret = -ENOENT;
-+		goto out_put_target;
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index f12d83098644..5710ae53eb83 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -702,6 +702,11 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
+ 	id->mdts = nvmet_ctrl_mdts(req);
+ 	id->cntlid = cpu_to_le16(ctrl->cntlid);
+ 	id->ver = cpu_to_le32(ctrl->subsys->ver);
++	if (!nvmet_is_disc_subsys(ctrl->subsys)) {
++		id->ciu = ctrl->ciu;
++		id->cirn = cpu_to_le64(ctrl->cirn);
++		id->ccrl = NVMF_CCR_LIMIT;
 +	}
-+	parent_item = configfs_get_config_item(dentry->d_parent);
  
- 	if (dentry->d_inode || d_unhashed(dentry))
- 		ret = -EEXIST;
-@@ -218,11 +231,10 @@ int configfs_symlink(const struct mnt_idmap *idmap, struct inode *dir,
- 						     target_item);
+ 	/* XXX: figure out what to do about RTD3R/RTD3 */
+ 	id->oaes = cpu_to_le32(NVMET_AEN_CFG_OPTIONAL);
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index cc1955bc8c84..9c9ad4d9b292 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -1429,6 +1429,10 @@ static void nvmet_start_ctrl(struct nvmet_ctrl *ctrl)
+ 		return;
  	}
  
-+	config_item_put(parent_item);
-+out_put_target:
- 	configfs_put(target_sd);
- 	config_item_put(target_item);
--
--out_put:
--	config_item_put(parent_item);
- 	return ret;
- }
++	if (!nvmet_is_disc_subsys(ctrl->subsys)) {
++		ctrl->ciu = ((u8)(ctrl->ciu + 1)) ? : 1;
++		ctrl->cirn = get_random_u64() ? : 1;
++	}
+ 	ctrl->csts = NVME_CSTS_RDY;
  
-
----
-base-commit: 97d73c8251226cf27cc6656b4c542869bb8c69fa
-change-id: 20261114-configfs-symlink-uaf-c5d84bb6a976
-
-Best regards,
---  
-Izaac Chong <izaacchong934@gmail.com>
+ 	/*
+@@ -1729,6 +1733,11 @@ struct nvmet_ctrl *nvmet_alloc_ctrl(struct nvmet_alloc_ctrl_args *args)
+ 	}
+ 	ctrl->cntlid = ret;
+ 
++	if (!nvmet_is_disc_subsys(ctrl->subsys)) {
++		ctrl->ciu = get_random_u8() ? : 1;
++		ctrl->cirn = get_random_u64() ? : 1;
++	}
++
+ 	ret = nvmet_ctrl_init_pr(ctrl);
+ 	if (ret)
+ 		goto init_pr_fail;
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 2c2460ef5e2b..fba4d320f907 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -274,7 +274,9 @@ struct nvmet_ctrl {
+ 	uuid_t			hostid;
+ 	u16			cntlid;
+ 	u16			max_qid;
++	u8			ciu;
+ 	u32			kato;
++	u64			cirn;
+ 	bool			tbkas;
+ 
+ 	struct nvmet_port	*port;
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 6248711784b3..a3c1b1713b4f 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -21,6 +21,8 @@
+ #define NVMF_TRADDR_SIZE	256
+ #define NVMF_TSAS_SIZE		256
+ 
++#define NVMF_CCR_LIMIT		4
++
+ #define NVME_DISC_SUBSYS_NAME	"nqn.2014-08.org.nvmexpress.discovery"
+ 
+ #define NVME_NSID_ALL		0xffffffff
+@@ -328,7 +330,10 @@ struct nvme_id_ctrl {
+ 	__le16			crdt1;
+ 	__le16			crdt2;
+ 	__le16			crdt3;
+-	__u8			rsvd134[122];
++	__u8			rsvd134[1];
++	__u8			ciu;
++	__le64			cirn;
++	__u8			rsvd144[112];
+ 	__le16			oacs;
+ 	__u8			acl;
+ 	__u8			aerl;
+@@ -389,7 +394,8 @@ struct nvme_id_ctrl {
+ 	__u8			msdbd;
+ 	__u8			rsvd1804[2];
+ 	__u8			dctype;
+-	__u8			rsvd1807[241];
++	__u8			ccrl;
++	__u8			rsvd1808[240];
+ 	struct nvme_id_power_state	psd[32];
+ 	__u8			vs[1024];
+ };
+-- 
+2.56.0
 
 
