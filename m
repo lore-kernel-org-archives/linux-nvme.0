@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C179606A329
-	for <linux-nvme@archiver.kernel.org>; Sat, 14 Nov 2026 03:19:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51B70606A89C
+	for <linux-nvme@archiver.kernel.org>; Sat, 14 Nov 2026 03:20:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=nvtW5JT6;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UbQuUcA+
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=rFU+E9H1;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZeUg7N2o
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
 	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
@@ -14,47 +14,47 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=WM8TGHpqWmigDZ+JoCcsGnxLIHubIXd+7QDDtmp3Tho=; b=nvtW5JT6GmyVlXgU8cOA/X40T6
-	qRaf8CdrLqAAny7TBLFPOIB7uX4nob80qFcFgqTeB1KqWv2J9B4Z8PTQXLSe7QnHsJn5gC3pjP2xE
-	4wgJu2zXGtV/mRkzV5lLZBFUb1rOic1XjSXCxrz8M3SM9iiUBHw1Dv0Wy8jbwjVggq0GuPEo7yAGl
-	5RdhEXqPDvw45LGSAm5noF5PdmdUu0JKBfpYMpW4DKC1PTMSAHWG7e0e+vj7wYrHA93gFUVEuS9Lo
-	XG2tav2dnI4RVdpO+uG8c96OEFMyNv4/5fwRdg5bgeKs0bcJX0WlJPdLaOYXjxaxXzLnqiDEvCeeB
-	+YH/gnvg==;
+	bh=60qLoJTHNWpBLf3JG+FihZ1dksT8r1ykR0M7gKBoRBI=; b=rFU+E9H18ASAY8hGoOWzoGOFFd
+	Rg/tZEM3eATfZ4X2c8o2BFwJkynuadckFrxucDSnJ8902Uk45oa+tdgUN4MMnGBRvptrCm49pwUzW
+	p4grWbx3gJ0Ouvq1j+JHE9TOr0UxBy72Vnr+tKe3rjwTvcOMqQ/rC3+S1jfEgL1TfXmvSTJiKBW+9
+	Pce2CJn6duVD/5dxWR6jcMoVDBYWHJaf4YE9YbDwGwsTcIOpxL3NBPMBOejIrxxWnDq+dG2wCJ/KL
+	N+89RL5jGzJ+DhvfPfB8r7ImIloO4ByUmfBkiEmMYFig/97MRu86BfZIg40fwI4J6MdjLpT1IpH4z
+	lLidXpFw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xS4Iy-0000000FETh-3cIp;
-	Sat, 14 Nov 2026 03:19:52 +0000
+	id 1xS4Jv-0000000FEac-0BSt;
+	Sat, 14 Nov 2026 03:20:51 +0000
 Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xS4Ix-0000000FETZ-29QX
+	id 1xS4Ju-0000000FEaR-0Fov
 	for linux-nvme@lists.infradead.org;
-	Sat, 14 Nov 2026 03:19:51 +0000
+	Sat, 14 Nov 2026 03:20:50 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 87C6960DC9;
-	Sat, 14 Nov 2026 03:19:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 206D61F000C4;
-	Sat, 14 Nov 2026 03:19:50 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 41A1761355;
+	Sat, 14 Nov 2026 03:20:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C540E1F000C5;
+	Sat, 14 Nov 2026 03:20:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794626390;
-	bh=WM8TGHpqWmigDZ+JoCcsGnxLIHubIXd+7QDDtmp3Tho=;
+	s=k20260515; t=1794626449;
+	bh=60qLoJTHNWpBLf3JG+FihZ1dksT8r1ykR0M7gKBoRBI=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=UbQuUcA+ggdooQ28c0qIE1zNT9cyD3alUWO5Z6FshfQ1SMAkfGoOZxxkwUKPj1nBW
-	 Tdsw0JMmHonniNe1tPNyRc63MWsOOuDRF60FTNKC7TnJtlu6mHICef5SvMmqakokmx
-	 yYPoGAElN6OdREGmgmkUcmqxvMO87Uh4ZQ5x+2IzCph9FR5pLLTP3pZklWDD15s04A
-	 0kxsPrdeyKdoKMJ7s6X5o8MXSd6hnFKgAnNMh8VfthmCUbneUxsQPRpjVuyvu17mfe
-	 4avJXJ9xvJRC/8NBF8GsTQ9PcMxvYrKGzD9webBG6AZJ1WPqiX/ugU/HL5pCGkOKSj
-	 u1rBmdAkF47hA==
-Message-ID: <sashiko-outbox-214096@kernel.org>
+	b=ZeUg7N2o3lDxwZ1MnKXxGNLeabw/QndMtBYHIYOjMeFrGwDZNkWn8xDsagOkUCTme
+	 SbzMVOAPdv9tlj8no6R1Perk0guxzxkRBfXSJ3vR6z6jAKgsfV9vfJBLyiRXuBfAHt
+	 5si/zAt7LczaaG+w16ONeJ2yj0QZvLkqu1FcOIIHPpvUXA0H6Px7TfYjGxBPI0gRNY
+	 imQ4kYlNYZa1LBQa0qtBSQLXHgCIoeGFejmUGwvkYqOIvh9YXweuWCmVn5zoRc1xyU
+	 wBr0PU2ltYVl7rLt1YXUllaaG8is2CawOdj2mR9+GEGEhVCl6GlCS7f/pLfvCJM6Rc
+	 mNmtSEfhLYk7Q==
+Message-ID: <sashiko-outbox-214097@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] configfs: fix use-after-free of default group in
- configfs_symlink()
-To: "Izaac Chong" <izaacchong934@gmail.com>
+Subject: Re: [PATCH v7 04/17] nvmet: Implement CCR logpage
+To: "Mohamed Khalfella" <mkhalfella@purestorage.com>
 Cc: linux-nvme@lists.infradead.org
-In-Reply-To: <20261114-configfs-symlink-uaf-v1-1-1446154abdda@gmail.com>
-References: <20261114-configfs-symlink-uaf-v1-1-1446154abdda@gmail.com>
+In-Reply-To: <20261114030454.2836543-5-mkhalfella@purestorage.com>
+References: <20261114030454.2836543-1-mkhalfella@purestorage.com>
+ <20261114030454.2836543-5-mkhalfella@purestorage.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 14 Nov 2026 03:19:49 +0000
+Date: Sat, 14 Nov 2026 03:20:48 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,105 +74,97 @@ X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 X-Archived-By: <archiver.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found no new issues
-in this patch, but noticed 1 related pre-existing issue it does not
-introduce:
-- [Critical] configfs: slab-use-after-free on target_item in
-  configfs_symlink() [1]
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [High] nvmet: uninitialized SGL tail leak in
+  nvmet_execute_get_log_page_ccr()
+- [Medium] nvmet: premature CCR cleanup before SGL copy in
+  nvmet_execute_get_log_page_ccr()
 --
 
-commit 6dfc12fe3d6f7e5274806249ad0ae808c90eafd5
-Author: Izaac Chong <izaacchong934@gmail.com>
+commit bd4c242dbfa9b91e0bb3eb6e57be8d11c6a19d19
+Author: Mohamed Khalfella <mkhalfella@purestorage.com>
 
-configfs: fix use-after-free of default group in configfs_symlink()
+nvmet: Implement CCR logpage
 
-This commit fixes a use-after-free of an embedded default group in
-configfs_symlink() by dropping the parent_item reference before unlocking
-dir and re-acquiring it after checking IS_DEADDIR(dir).
+This commit implements the Cross-Controller Reset (CCR) log page (LID 0x1e)
+for the NVMe target and advertises it in the Supported Log Pages log.
 
-> diff --git a/fs/configfs/symlink.c b/fs/configfs/symlink.c
-> index 89178f5d371a6..1b2c9048a920b 100644
-> --- a/fs/configfs/symlink.c
-> +++ b/fs/configfs/symlink.c
+> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-=
+cmd.c
+> index 3df9db454db9c..25c320752d2a7 100644
+> --- a/drivers/nvme/target/admin-cmd.c
+> +++ b/drivers/nvme/target/admin-cmd.c
 
 [ ... ]
 
-> @@ -200,7 +200,20 @@ int configfs_symlink(const struct mnt_idmap *idmap, =
-struct inode *dir,
->  	ret =3D get_target(symname, &target_item, &target_sd, dentry->d_sb);
->  	inode_lock(dir);
->  	if (ret)
-> -		goto out_put;
-> +		return ret;
-> +
-> +	/*
-> +	 * parent_item may be a default group embedded in an object that a
-> +	 * concurrent rmdir freed while dir was unlocked, so we dropped our
-> +	 * reference above.  detach_groups() marks dir S_DEAD under its inode
-> +	 * lock before the containing object can go away, so it is safe to
-> +	 * look parent_item up again only if dir is still alive.
-> +	 */
-> +	if (IS_DEADDIR(dir)) {
-> +		ret =3D -ENOENT;
-> +		goto out_put_target;
-> +	}
-> +	parent_item =3D configfs_get_config_item(dentry->d_parent);
-> =20
->  	if (dentry->d_inode || d_unhashed(dentry))
->  		ret =3D -EEXIST;
-> @@ -218,11 +231,10 @@ int configfs_symlink(const struct mnt_idmap *idmap,=
- struct inode *dir,
->  						     target_item);
->  	}
-> =20
-> +	config_item_put(parent_item);
-> +out_put_target:
->  	configfs_put(target_sd);
->  	config_item_put(target_item);
-> -
-> -out_put:
-> -	config_item_put(parent_item);
->  	return ret;
+> @@ -617,6 +618,46 @@ static void nvmet_execute_get_log_page_features(stru=
+ct nvmet_req *req)
+>  	nvmet_req_complete(req, status);
 >  }
+> =20
+> +static void nvmet_execute_get_log_page_ccr(struct nvmet_req *req)
+> +{
+> +	struct nvmet_ctrl *ctrl =3D req->sq->ctrl;
+> +	struct nvmet_ccr *ccr;
+> +	struct nvme_ccr_log *log;
+> +	int index =3D 0;
+> +	u16 status;
+> +
+> +	log =3D kzalloc_obj(*log);
+> +	if (!log) {
+> +		status =3D NVME_SC_INTERNAL;
+> +		goto out;
+> +	}
+> +
+> +	mutex_lock(&ctrl->lock);
+> +	list_for_each_entry(ccr, &ctrl->ccr_list, entry) {
+> +		u8 flags =3D NVME_CCR_FLAGS_VALIDATED | NVME_CCR_FLAGS_INITIATED;
+> +		u8 ccr_status =3D ccr->ctrl ? NVME_CCR_STATUS_IN_PROGRESS :
+> +					NVME_CCR_STATUS_SUCCESS;
+> +
+> +		log->entries[index].icid =3D cpu_to_le16(ccr->icid);
+> +		log->entries[index].ciu =3D ccr->ciu;
+> +		log->entries[index].acid =3D cpu_to_le16(0xffff);
+> +		log->entries[index].ccrs =3D ccr_status;
+> +		log->entries[index].ccrf =3D flags;
+> +		index++;
+> +	}
+> +
+> +	/* Cleanup completed CCRs if requested */
+> +	if (req->cmd->get_log_page.lsp & 0x1)
+> +		nvmet_ctrl_cleanup_ccrs(ctrl, false);
+> +	mutex_unlock(&ctrl->lock);
 
-[Severity: Critical]
-This problem wasn't introduced by this patch, but can target_item suffer
-from a similar use-after-free or NULL pointer dereference [1] if a
-concurrent rmdir removes the target or an ancestor group after get_target()
-returns?
+[Severity: Medium]
+Can nvmet_ctrl_cleanup_ccrs() discard completed CCR entries when the log
+page fails to copy to the host?
 
-CPU0                                CPU1
-configfs_symlink()
-  inode_unlock(dir)
-  get_target()
-    config_item_get(sd->s_element)
-    configfs_get(sd)
-                                    configfs_rmdir()
-                                      ...
-                                      unlink_group()
-                                        unlink_obj()
-                                          item->ci_group =3D NULL
-                                          item->ci_parent =3D NULL
-                                          config_item_put(item)
-                                          config_group_put(group)
-                                            // frees containing object
-  inode_lock(dir)
-  allow_link(..., target_item)  <-- use-after-free or NULL ci_parent
-  config_item_put(target_item)  <-- use-after-free
+nvmet_execute_get_log_page() only checks that req->transfer_len matches the
+command's NUMDL/NUMDU length.  If a host requests fewer than sizeof(*log)
+bytes (for example, reading the 8-byte header) with LSP bit 0 set,
+nvmet_ctrl_cleanup_ccrs() frees all completed entries from ctrl->ccr_list
+before nvmet_copy_to_sgl() fails with NVME_SC_SGL_INVALID_DATA, so the host
+permanently loses those completion records.
 
-get_target() grabs references to target_item and target_sd and drops the
-path without holding any lock on the target directory or incrementing
-target_sd->s_links (which happens later in create_link() under
-configfs_symlink_mutex).  Because s_links is still 0, a concurrent
-configfs_rmdir() can detach the target.  If target_item is a default group
-embedded in a parent object without its own release callback, unlink_obj()
-drops the parent group reference and frees the containing object while
-target_item is still held; even for standalone items, unlink_obj() clears
-ci_parent and ci_group before allow_link() runs.
+> +
+> +	log->ne =3D cpu_to_le16(index);
+> +	status =3D nvmet_copy_to_sgl(req, 0, log, sizeof(*log));
 
-[1] https://sashiko.dev/#/bug/linux-df6ae898-b1a6-4091-be3b-fbe4c177763f
+[Severity: High]
+Does this leak uninitialized target kernel memory when the host requests
+more than sizeof(*log) bytes?
+
+Transports allocate req->sg for req->transfer_len bytes via sgl_alloc()
+with GFP_KERNEL (without __GFP_ZERO).  Because nvmet_execute_get_log_page()
+only checks that req->transfer_len matches NUMDL/NUMDU and
+nvmet_execute_get_log_page_ccr() neither rejects req->transfer_len !=3D
+sizeof(*log) (like nvmet_execute_get_log_page_rmi() and
+nvmet_execute_get_log_page_smart()) nor zeroes trailing SGL bytes,
+requesting more than 4096 bytes copies sizeof(*log) at offset 0 and returns
+the remaining uninitialized scatterlist pages to the host.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261114-configfs-s=
-ymlink-uaf-v1-1-1446154abdda@gmail.com?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261114030454.2836=
+543-1-mkhalfella@purestorage.com?part=3D4
 
