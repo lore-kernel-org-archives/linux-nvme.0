@@ -2,77 +2,60 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF932606A327
-	for <linux-nvme@archiver.kernel.org>; Sun, 15 Nov 2026 02:24:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96B92606A323
+	for <linux-nvme@archiver.kernel.org>; Sun, 15 Nov 2026 02:36:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=fANRZ1qO;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=pc-heini.de header.i=@pc-heini.de header.a=rsa-sha256 header.s=default2410 header.b=G9nqd3gu
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=BYrDm7YW;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JE2KFYZD
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Subject:Cc:To:From:MIME-Version:Date:Message-ID:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Cc:To:Subject:
+	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=5j1hzcRTNrIlSYJN1dDCP5CrUU232t/NTZx44Lu8pCk=; b=fANRZ1qOeRINODYqnNopVI06PG
-	e1Dlyq47YhClZt3ppc7WCMecg8tTSyrkfXz/2EVFJ+rdJlFM62YTIEMGTIaFlJn3eD3aT6gMv76sd
-	DhElmVzUlo2A62jWbB/2ufV8nqE3WkJORLJ02m+OU+7ofnGgfW7vmNhdq4SqjMAB1v9B6WRGmHjMQ
-	gfyKiPkfio7Ka7uOoJ0Bh83B1QEv0OQ8rnzkH7qg6rOwxGIQ2xAbMqXmY0dhWtXJoaXCsdbvuuzt2
-	/ypHaOftAiMPSxo8QBH/9Mw01mORl2IgXW/BQqVnhfT5J0ASs9KSYJr+yVstjo+p59SnhiLMzU/1i
-	2un2MfEQ==;
+	bh=6iGFbBnREh7O4SlIcpMU+4Ogf6JM1aV3kALmEchfMf0=; b=BYrDm7YWjny1+mhobDfOqZp16N
+	YNl7NItoY6jHMUh5UylWykSFDRw4QbZbm4X/B7TRGhWZyfO3KKhFMt7x+AP3I1S2+is5A6cwazVEy
+	LBsZnSCI6veaqGtGoFJrkyY6s38B4qongPFCdEKUVqXr+FxNE9a43LlnO24arKNKMLSHXuG9YdhAx
+	uC0KyvsgL+65ulUpuRMkw/RGEt/gSUNgldI7JLH1lqAWHYMztGb3RKrTesBosRJJyLw3f9NDOKck8
+	04IEwemJEI/6tv/8pS737PAiHUTXfRuLDMpVeomG9I8aOmaWHPigCtR53TpoAdtmfI5NzEwmNag7e
+	Ivm6FSXQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSPv4-0000000H0A7-34Lx;
-	Sun, 15 Nov 2026 02:24:38 +0000
-Received: from www636.your-server.de ([168.119.26.116])
+	id 1xSQ6M-0000000H0hE-3CZ2;
+	Sun, 15 Nov 2026 02:36:18 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSPv0-0000000H098-3zWd
+	id 1xSQ6K-0000000H0h7-3PPP
 	for linux-nvme@lists.infradead.org;
-	Sun, 15 Nov 2026 02:24:37 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pc-heini.de
-	; s=default2410; h=Content-Transfer-Encoding:Content-Type:Subject:Cc:To:From:
-	MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References; bh=5j1hzcRTNrIlSYJN1dDCP5CrUU232t/NTZx44Lu8pCk=; b=G9
-	nqd3guMtKEHOAXUgr+69Im+RGotgv5MEPhb26NZx8c76CfROuo8lwFNhqan+BFXH94R2BvztwTodj
-	wH/o+3SkOUsDDHBz+kDR6bGlexPVySCUN7r+FuljZRCDKcX7FGvE/ySk8aE5CUsVfBAm1tM+wfk65
-	7J6J5Hsrx74rAzB++QGxDR3NDZOFbJMs6bOZDoFp5M8ZvjYm9xo/B6Wi4bgnMX1a/Jp6igBie7x1p
-	2mWEyXLotGBs70MhRtr7sEW8l/MqihAraZV1RK+cJLlMjs9VsGCVRaCdaQZqrB/kk1sv4ICh4uAIW
-	EqSqNTrw0BIJ5xPC317Z3mEFlhKTgJkw==;
-Received: from sslproxy04.your-server.de ([78.46.152.42])
-	by www636.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <m.hiller@pc-heini.de>)
-	id 1xSPus-000IYs-3C;
-	Sun, 15 Nov 2026 03:24:27 +0100
-Received: from localhost ([127.0.0.1])
-	by sslproxy04.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <m.hiller@pc-heini.de>)
-	id 1xSPus-000FTE-24;
-	Sun, 15 Nov 2026 03:24:26 +0100
-Message-ID: <598ee2b4-32aa-4ad3-99c7-db7f9a7e7736@pc-heini.de>
-Date: Sun, 15 Nov 2026 03:24:26 +0100
-X-Archived-By: <archiver.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Moritz Hiller <m.hiller@pc-heini.de>
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, "Rafael J. Wysocki"
- <rafael@kernel.org>, linux-nvme@lists.infradead.org,
- linux-pci@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: [bug report] nvme-pci: NVMe lost after S3 resume, CSTS reads all-ones
- for a few 100 ms
-Content-Language: de-DE
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: Clear (ClamAV 1.4.6/28183/Sat Nov 14 07:24:17 2026)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261114_182435_684271_ABAE2D46 
-X-CRM114-Status: GOOD (  22.36  )
-X-Spam-Score: -2.1 (--)
+	Sun, 15 Nov 2026 02:36:16 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id BDA18601EE;
+	Sun, 15 Nov 2026 02:36:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FBCE1F000C4;
+	Sun, 15 Nov 2026 02:36:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794710175;
+	bh=6iGFbBnREh7O4SlIcpMU+4Ogf6JM1aV3kALmEchfMf0=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=JE2KFYZDGHnDsrJjxGwFl/ix79askPAdX+B8jHDNlz5EVhImaZa08ioSlbvZPK2EF
+	 AMIxrg86gy4YP8b684AoMBFq8lyIyYi98MZuSQoXbO7gx8+mlsQktdHop7brTeBFGI
+	 WWe5SOeF4vW7rsURB4BREUIKGtAhQUUKGBd/FcjA8ux6arlrrj4PwcJi4UYbAUzsQn
+	 yUrzGMypClFMj/8/KtREN91KiKSrgl1sPnoxDCjbWFs4shlYQEGDjjchXAGPdclPVn
+	 Vux01aaqcTTL8esIKhw9gj2rmzUWisev3RErQ+PTImuxrxkibtC26rA7lOofmCFtXt
+	 yK2WzRlzvAvtA==
+Message-ID: <sashiko-outbox-215189@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v3 1/2] nvme-multipath: apply delayed_removal_secs
+ changes to a pending removal
+To: "Qiliang Yuan" <qiliang.yuan@linux.dev>
+Cc: linux-nvme@lists.infradead.org
+In-Reply-To: <20261114-bug-nvme-mpath-set-live-srcu-v3-1-d84651de6334@linux.dev>
+References: <20261114-bug-nvme-mpath-set-live-srcu-v3-0-d84651de6334@linux.dev>
+ <20261114-bug-nvme-mpath-set-live-srcu-v3-1-d84651de6334@linux.dev>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 15 Nov 2026 02:36:14 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,141 +65,95 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-10.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
+X-Archived-By: <archiver.kernel.org>
 
-Hi,
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] nvme-multipath: race in delayed_removal_secs_store() re-arms
+  remove_work
+--
 
-on my desktop the root NVMe drive sporadically does not come back after
-S3 resume (roughly 5-10% of resumes in automated runs):
+commit 92bcf5100d1d5ed726ca5da1431d5f936dbea0e9
+Author: Qiliang Yuan <qiliang.yuan@linux.dev>
 
-  nvme nvme0: Disabling device after reset failure: -19
+nvme-multipath: apply delayed_removal_secs changes to a pending removal
 
-The single readl(CSTS) in nvme_pci_enable() returns all-ones about
-200 ms after resume. The controller is not dead, it just needs a few
-hundred ms more. A small wait loop (diff below) fixes it here, tested
-on CachyOS kernels and on vanilla v7.4-rc2. I am not asking for the
-diff to be merged as is, I would like to know where this should be
-fixed properly.
+This commit cancels and requeues any pending head->remove_work when
+delayed_removal_secs is written via sysfs so the updated delay takes
+effect immediately.
 
-System:
-- ASUS ROG STRIX X570-F GAMING (BIOS 5044), Ryzen 7 5800X, S3 (deep)
-- Samsung 9100 PRO 2TB [144d:a810], FW 0B2QNXH7, at 0000:01:00.0,
-  directly behind root port 0000:00:01.1 [1022:1483]
+> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+> index ae8059366b57d..35278b9c4de60 100644
+> --- a/drivers/nvme/host/multipath.c
+> +++ b/drivers/nvme/host/multipath.c
+> @@ -1242,6 +1242,9 @@ static ssize_t delayed_removal_secs_store(struct de=
+vice *dev,
+>  	mutex_lock(&head->subsys->lock);
+>  	head->delayed_removal_secs =3D sec;
+>  	assign_bit(NVME_NSHEAD_QUEUE_IF_NO_PATH, &head->flags, sec);
+> +	/* Apply the new delay to a removal that is already pending */
+> +	if (cancel_delayed_work(&head->remove_work))
+> +		queue_delayed_work(nvme_wq, &head->remove_work, sec * HZ);
 
-Observations:
-- pci_pm_resume_noirq takes ~0.3 ms for the SSD, config space answers.
-- At the failing CSTS read config space is intact, the link is up
-  (16 GT/s x4), the device is in D0, no AER errors:
+[Severity: Medium]
+Can this race with nvme_init_ns_head() and re-arm head->remove_work after
+a path has reconnected?
 
-  vendor=144d cmd=0006 (saved 0002) bar0=fcf00004 (saved fcf00004)
-  pmcsr=0008 lnksta=1044 rp_lnksta=3044
+drivers/nvme/host/core.c:nvme_init_ns_head() {
+	...
+	list_add_tail_rcu(&ns->siblings, &head->list);
+	ns->head =3D head;
+	mutex_unlock(&ctrl->subsys->lock);
 
-- sysfs remove + rescan brings the drive back after ~3 s.
-- ASPM is off on this link, pcie_aspm=off and
-  nvme_core.default_ps_max_latency_us=0 make no difference.
-- Unpatched, 2 of 15 and 2 of 24 cycles failed in automated runs
-  (90 s sleep, RTC wake). With the wait, no cycle failed (30/30 on
-  CachyOS, 15/15 on v7.4-rc2); the controller answered after
-  200-400 ms whenever the wait triggered.
+#ifdef CONFIG_NVME_MULTIPATH
+	if (cancel_delayed_work(&head->remove_work))
+		module_put(THIS_MODULE);
+#endif
+}
 
-My reading: pci_power_up() finds PMCSR already in D0 and does not
-wait, and pci_bridge_wait_for_secondary_bus() only runs after D3cold
-and only checks config space. So nothing waits for MMIO to come back,
-and nvme_pci_enable() gives up on the first all-ones read.
+nvme_init_ns_head() adds the new namespace to head->list under
+subsys->lock, but cancels head->remove_work after dropping the lock.  If
+delayed_removal_secs_store() runs in between, it clears the pending bit on
+head->remove_work before nvme_init_ns_head() checks it, and then requeues
+the work:
 
-The diff polls CSTS every 100 ms for up to 10 s, only if
-NVME_CC_SHN_NORMAL is still set (the was_suspend test in
-nvme_reset_work()) and while pci_device_is_present(). Probe and
-runtime resets are unchanged. Known downsides:
-- The 10 s bound is arbitrary.
-- It also triggers on thaw/restore after hibernation (same bit set).
-- The wait sleeps with shutdown_lock held, as nvme_wait_ready() already
-  does in the same call chain.
-- A controller that answers config space but is really dead after
-  resume is declared dead 10 s later than today.
-- A wait that times out is not logged.
+CPU0                              CPU1
+nvme_alloc_ns()
+  nvme_init_ns_head()
+    mutex_lock(&subsys->lock)
+    list_add_tail_rcu(..., &head->list)
+    mutex_unlock(&subsys->lock)
+                                  delayed_removal_secs_store()
+                                    mutex_lock(&subsys->lock)
+                                    cancel_delayed_work(&head->remove_work)
+                                      (returns true)
+    cancel_delayed_work(&head->remove_work)
+      (returns false)
+                                    queue_delayed_work(..., &head->remove_w=
+ork, ...)
+                                    mutex_unlock(&subsys->lock)
+  ...
+  out_unlink_ns:
+    nvme_put_ns_head(ns->head)    <-- frees head with remove_work queued
 
-Should this go into nvme-pci, the PCI core, or a quirk for this board
-or drive? I can provide lspci -vvv, full dmesg or test patches.
+This leaves head->remove_work pending while a path is on head->list.  If
+nvme_alloc_ns() then fails and takes its out_unlink_ns error path, it
+drops both references and frees head while head->remove_work is still
+queued on nvme_wq, causing a use-after-free when the work runs.
 
-The problem has existed on this machine for about a year, possibly
-also with the previous SSD in this slot. It was hard to pin down: when
-it happens the root filesystem is gone, so nothing gets written to
-disk. I only got the first log of a failure in August 2026 via
-netconsole, and every failure captured since then looks the same.
+Checking list_empty(&head->list) under head->subsys->lock before
+cancelling and requeuing head->remove_work (or moving the cancel in
+nvme_init_ns_head() inside subsys->lock) would avoid this race.
 
-Disclosure: I am not a kernel developer. Log analysis, code reading
-and the diff were done with an LLM assistant (Claude); I ran all tests
-on my hardware. I can send patch with Signed-off-by if useful.
-
-Thanks,
-Moritz Hiller
-
----8<--- proof of concept, against v7.3.4 ---8<---
-
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -7,6 +7,7 @@
- #include <linux/acpi.h>
- #include <linux/async.h>
- #include <linux/blkdev.h>
-+#include <linux/delay.h>
- #include <linux/blk-mq-dma.h>
- #include <linux/blk-integrity.h>
- #include <linux/dmi.h>
-@@ -3206,6 +3207,38 @@
- 	return true;
- }
- 
-+/*
-+ * A controller that was shut down for suspend may have lost power while the
-+ * PCI core still treats it as D3hot, so nothing waited for it to come back.
-+ * Config space can already answer while MMIO still reads all-ones. Give such
-+ * a controller some time instead of declaring it dead on the first read.
-+ */
-+#define NVME_RESUME_MMIO_TIMEOUT_MS	10000
-+#define NVME_RESUME_MMIO_POLL_MS	100
-+
-+static bool nvme_pci_wait_mmio_after_suspend(struct nvme_dev *dev)
-+{
-+	struct pci_dev *pdev = to_pci_dev(dev->dev);
-+	unsigned int waited = 0;
-+
-+	/* Same test nvme_reset_work() uses to detect a resume. */
-+	if (!(dev->ctrl.ctrl_config & NVME_CC_SHN_NORMAL))
-+		return false;
-+
-+	while (waited < NVME_RESUME_MMIO_TIMEOUT_MS &&
-+	       pci_device_is_present(pdev)) {
-+		msleep(NVME_RESUME_MMIO_POLL_MS);
-+		waited += NVME_RESUME_MMIO_POLL_MS;
-+		if (readl(dev->bar + NVME_REG_CSTS) != -1) {
-+			dev_warn(dev->ctrl.device,
-+				 "CSTS read all-ones after resume, controller ready after %u ms\n",
-+				 waited);
-+			return true;
-+		}
-+	}
-+	return false;
-+}
-+
- static int nvme_pci_enable(struct nvme_dev *dev)
- {
- 	int result = -ENOMEM;
-@@ -3217,7 +3250,8 @@
- 
- 	pci_set_master(pdev);
- 
--	if (readl(dev->bar + NVME_REG_CSTS) == -1) {
-+	if (readl(dev->bar + NVME_REG_CSTS) == -1 &&
-+	    !nvme_pci_wait_mmio_after_suspend(dev)) {
- 		dev_dbg(dev->ctrl.device, "reading CSTS register failed\n");
- 		result = -ENODEV;
- 		goto disable;
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261114-bug-nvme-m=
+path-set-live-srcu-v3-0-d84651de6334@linux.dev?part=3D1
 
