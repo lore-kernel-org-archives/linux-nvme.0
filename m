@@ -2,55 +2,56 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60084606A323
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 12:39:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31F25606A323
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 12:39:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=BUGs/Zpx;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=k7kWHuk0
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=5B7XAz/D;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Qv+gp8Sx
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=ONDS26Fc5ZAikzBy5Yq3BJDGMgD90Mtcybw+v7fvrMI=; b=BUGs/ZpxtQ2Ffx
-	RhVY3hIUaVR9yHtU6KTvZL51QYXshc1lAxDrP3BH6rTNm1soEf1RrD+3WRDuVza2vAHQrlpTiSy78
-	xX/YaZhd+JoF31R/N3OU0P9GYCmqt/zORPqqLaBsImMh445p7UmtsiTcIukWKYhCAjsw2djn4+Inr
-	wsOwuFndoP5FPyfJziz7wCyVDJgTI7a+QdyFG0aG1JlX6AGK+RRM7veGHo+toE4gk4r2BeEisuJPC
-	Kt3d/cZglDgnRNFKTYq1HbDEMRJg/mso0eUy1vvDE5f8H9I6BpxEmJVMw3M97nfOJUY0xIa/ZV8ig
-	pd5rj5a7OJ3oajv1mXQg==;
+	List-Owner; bh=1H8Xh93n2dg9eAr21Dx1zMiF5X4Ak3L7LjGKuq60qTI=; b=5B7XAz/DWBfwPu
+	UPKsxzuXtHSCX1Ees1bZtJhv13zUyZY8uwuZ8tbszDrGSZnN+Ilw8FtJyhGdq9MzlTrxnNIZxb9A/
+	Nt1ICAXOVdbGU38Xkcx/l5WlZeSjK+hDuiMIE5V82grbUCHI5+BJuiRwJv8Bbdt7mVhzkPlJHDexE
+	IdoNxNhv99B4kk+pIA0QaMBILx1CbxSze1yfIZMUt58rw6D7M9HhOT9Ko2297+ktB286bZZI65yGp
+	Yw9iQ8nZZVGQQWDFEqVuuUoUGWeJP4d6RsoVZVF95ywD0+K5cgJpwNajVpieG0DOyyMNgO9lZdGDr
+	r8mAxHNM6P0JQy5cJNsA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSvzu-00000002OrQ-3dTV;
-	Mon, 16 Nov 2026 12:39:46 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1xSvzv-00000002OtM-1CMg;
+	Mon, 16 Nov 2026 12:39:47 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSubR-000000027n0-28Jb
+	id 1xSubZ-000000027p2-04w1
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Nov 2026 11:10:26 +0000
+	Mon, 16 Nov 2026 11:10:33 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id EDCA662932;
-	Mon, 16 Nov 2026 11:10:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43F061F000C8;
-	Mon, 16 Nov 2026 11:10:18 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 7447F6291F;
+	Mon, 16 Nov 2026 11:10:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 482751F000C4;
+	Mon, 16 Nov 2026 11:10:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794827424;
-	bh=ONDS26Fc5ZAikzBy5Yq3BJDGMgD90Mtcybw+v7fvrMI=;
+	s=k20260515; t=1794827432;
+	bh=1H8Xh93n2dg9eAr21Dx1zMiF5X4Ak3L7LjGKuq60qTI=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=k7kWHuk0vT1TU02u6FNnXUqb9m9PljW9HH7vb2QE/IgCRzadel7KvX8DtuilQwcGt
-	 yc9BN5YAt3E2rq3hJ2IuK/1cnO5yBFpB5J/a/QYkEw3HWAJaGxBQ3b/nLndLrnjkQR
-	 wes6PZ3bkDfTEdq0NHQdQhz/wfkgAEpiH8rIRcqvSHf+NIKem69czEwilAoCTqubWF
-	 PdUa+rVjClCKEIl1BiVeB828bGW19Y3XLEM17DUuRIHtySa9jtiOqM3qJ4EAKDirz5
-	 iYtgDTA48smqXWey1P5lvRxDKDFzobQ8FHnt/JwTp8R6w2fQIj02S3gzllm9EW4Ekp
-	 5f5LtDGqnCZcA==
+	b=Qv+gp8SxFvTYEiGZq7WIE/agQK090FiR70GXAeekS1OplOolirKwCH/zLYBDNXzq0
+	 82XLudzjNFrzvVWoZyEOTPSZTpmeNXt/UCBPmq+05hm/YtAPZrCgKRToGO46LgRBEX
+	 ImP9hFUWMZDojefV99IdUQmIRI+I1B7gKqWJ5KJPAMj3aUpw6raPzU1ubhxuAVkSAJ
+	 ratfucFWbzuqRWKtRRRoBJoHNQ4F/vgweZWDI2Sw1yxx+sabg478I4+vwvLIxnXThc
+	 PsvH2zBjetTl0YhopTahD70H4fzJ1QCjbHQcFIEDOKvLzH+H893kI0I79oiEWjYL6e
+	 EM050TCGdUUMw==
 From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 16 Nov 2026 12:05:08 +0100
-Subject: [PATCH RFC v3 35/44] fs: add file_check_backing()
+Date: Mon, 16 Nov 2026 12:05:09 +0100
+Subject: [PATCH RFC v3 36/44] loop: refuse files on pseudo filesystems as
+ backing files
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261116-work-loop-pseudo-v3-35-8cbbea1cf34f@kernel.org>
+Message-Id: <20261116-work-loop-pseudo-v3-36-8cbbea1cf34f@kernel.org>
 References: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
 In-Reply-To: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -69,14 +70,16 @@ Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>,
  linuxppc-dev@lists.ozlabs.org, linux-usb@vger.kernel.org, 
  Amir Goldstein <amir73il@gmail.com>, linux-erofs@lists.ozlabs.org, 
  linux-kselftest@vger.kernel.org, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>
+ "Christian Brauner (Amutable)" <brauner@kernel.org>, 
+ Alexander Mikhalitsyn <alex@amutable.com>, 
+ Chris Down <chris@chrisdown.name>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5551; i=brauner@kernel.org;
- h=from:subject:message-id; bh=QP5rfW7L1Yos2/x0K40PE01xt91j5V7LTt4ZJzVPG/Y=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9etyuku+3S1tIM0eP1+SXfJZdp4pxm7nDn1Pqm/xOX
- PLuUTzeUcrCIMbFICumyOLQbhIut5ynYrNRpgbMHFYmkCEMXJwCMBHD0wz/U31s969ybu+0msX7
- oVX5sFVRMLeRt+oa/QeKnJn+lys2MjKs83kTq/XL/fD051nzGfV2/y9wtJwrv2brTYVXVdu8F+Y
- xAQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3933; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=YAQ3VdFop25KuddjJBUap+th0WtUAOpdA+YAegR0Rwc=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9etyh2q8/O/2EyrvzpQZi063lrY5+en/xo+aSZ3/ms
+ jfEizF86yhlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZiIvjMjw6qdbrWvhSInlW25
+ tWMX66LDx9s7/s7Nfv+I5daJH1dmHXFh+Kct9n/C2iBp+SNzhLSebHrBvzTs1qak9o6IM+UMyxL
+ f72YBAA==
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 X-Mailman-Approved-At: Mon, 16 Nov 2026 04:39:20 -0800
@@ -98,136 +101,101 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Loop, zloop, the nvme target, the scsi target, fuse passthrough, the usb
-mass storage gadget, erofs and acct all take a file from userspace and
-use it as storage. Currently, each of them has its own idea of what to
-check before using a file like that:
+Currently loop accepts any regular file that implements ->read_iter() as
+a backing file and any that also implements ->write_iter() as a writable
+one. That includes files on procfs, sysfs and other pseudo filesystems.
+For example, /proc/kcore attaches read-only as a loop device the size of
+the kernel's virtual address space, 64 PiB with 5-level paging. sysfs
+attributes attach read-write as 4096 byte loop devices. Writing a block
+to the loop device of /sys/kernel/mm/transparent_hugepage/enabled
+changes the THP setting.
 
-- loop and the gadget check for a regular file or a block device, the
-  nvme target, the scsi target and zloop take any file type
-- loop checks the open mode, the gadget checks FMODE_CAN_READ, the nvme
-  target, the scsi target and zloop only check for ->read_iter() and
-  ->write_iter()
-- apart from acct which refuses procfs and sysfs files none of them
-  cares whether the file is a kernel interface
+That's not just nonsensical, it can be abused. Loop calls ->read_iter()
+and ->write_iter() of the backing file directly from its worker which
+runs with kernel credentials. But pseudo files enforce part of their
+access rules at read and write time against current. Dozens of sysfs
+->show() and ->store() methods call capable(). Behind a loop device all
+of these checks are done against the loop worker instead of the task
+that opened the file. And setting up a loop device requires no
+capabilities, only access to the device nodes. So on v7.4-rc1:
 
-Add a helper that does all of it in one place. It only accepts regular
-files and, if the caller passes S_IFBLK, block devices. It refuses files
-on pseudo filesystems. And it checks that the file is open for what the
-caller is going to do with it and implements ->read_iter() for reading
-and ->write_iter() for writing.
+- uid 0 without any capabilities can't write to /sys/kernel/reboot/mode
+  as mode_store() requires CAP_SYS_BOOT. Writing "warm" through a loop
+  device works.
 
-O_PATH files are refused unless the caller passes FMODE_PATH. That is
-for callers that only need the path of the file. fuse passthrough is
-one of them and has accepted O_PATH file descriptors since commit
-efad7153bf93 ("fuse: allow O_PATH fd for FUSE_DEV_IOC_BACKING_OPEN").
+- uid 0 without any capabilities can't read the files in
+  /sys/firmware/dmi/entries/*/ as dmi_sysfs_attr_show() requires
+  CAP_SYS_ADMIN. Reading them through a loop device works.
 
-Block devices are fine even though bdevfs is a pseudo filesystem. A
-block device that userspace hands in is a device node on devtmpfs or
-some other filesystem. Files on bdevfs only come from
-bdev_file_open_by_*() and never end up here.
+- An unprivileged container that was handed a loop device can't change
+  gro_flush_timeout of its own network devices as
+  gro_flush_timeout_store() requires CAP_NET_ADMIN in the initial user
+  namespace. Writing it through a loop device works.
 
-The pseudo filesystem check looks at the inode that actually provides
-the data via d_real_data_inode(). overlayfs accepts sysfs, cgroup2,
-debugfs, tracefs, configfs and securityfs as lower layers and reads of
-such an overlayfs file are served by the file on the pseudo filesystem.
-Checking the overlayfs inode would miss that.
+The same goes for hard_offline_page, the md and sd attributes, rfkill
+and others.
 
-For an O_PATH file nothing might have looked up the data yet. overlayfs
-only looks up the data of a metacopy file in a data-only layer when the
-file is opened. d_real_data_inode() does the lookup then and if that
-fails we return the error.
+Refuse files on pseudo filesystems as loop backing files by switching to
+file_check_backing(). Note that it looks through overlayfs so stacking
+overlayfs on top of sysfs doesn't get around this.
 
-Note that the file type is taken from the inode of the file and not from
-the host of ->f_mapping like loop and the gadget do it. A driver can
-point ->f_mapping somewhere else in ->open(). It makes no difference for
-block devices as both inodes are block devices.
+The helper also does the file type, open mode and method checks that
+loop did itself so far. The check for a regular file or a block device
+now happens before the loop device is locked and it looks at the inode
+of the file instead of the host of ->f_mapping. For regular files and
+block devices both have the same type.
 
-No functional changes. Nothing calls the helper yet.
-
+Reviewed-by: Jan Kara <jack@suse.cz>
+Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
+Reviewed-by: Chris Down <chris@chrisdown.name>
+Tested-by: Chris Down <chris@chrisdown.name>
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/read_write.c    | 53 +++++++++++++++++++++++++++++++++++++++++++++++++++++
- include/linux/fs.h |  2 ++
- 2 files changed, 55 insertions(+)
+ drivers/block/loop.c | 17 ++++-------------
+ 1 file changed, 4 insertions(+), 13 deletions(-)
 
-diff --git a/fs/read_write.c b/fs/read_write.c
-index 6767283108991..9f1e7bfcbd4f1 100644
---- a/fs/read_write.c
-+++ b/fs/read_write.c
-@@ -866,6 +866,59 @@ static ssize_t do_loop_readv_writev(struct file *filp, struct iov_iter *iter,
- 	return ret;
+diff --git a/drivers/block/loop.c b/drivers/block/loop.c
+index c96e35c3ef423..776bd063f900c 100644
+--- a/drivers/block/loop.c
++++ b/drivers/block/loop.c
+@@ -492,7 +492,6 @@ static inline int is_loop_device(struct file *file)
+ 
+ static int loop_validate_file(struct file *file, struct block_device *bdev)
+ {
+-	struct inode	*inode = file->f_mapping->host;
+ 	struct file	*f = file;
+ 
+ 	/* Avoid recursion */
+@@ -510,8 +509,6 @@ static int loop_validate_file(struct file *file, struct block_device *bdev)
+ 		rmb();
+ 		f = l->lo_backing_file;
+ 	}
+-	if (!S_ISREG(inode->i_mode) && !S_ISBLK(inode->i_mode))
+-		return -EINVAL;
+ 	return 0;
  }
  
-+/**
-+ * file_check_backing - check that the kernel can use a file as storage
-+ * @file: file that userspace handed in
-+ * @mode: FMODE_READ and/or FMODE_WRITE the kernel will do I/O with, or
-+ *        FMODE_PATH if only the path of @file is used
-+ * @type: S_IFBLK if a block device is fine as well, 0 otherwise
-+ *
-+ * Call this where a file from userspace is taken as a backing file. Only
-+ * regular files and, if @type is S_IFBLK, block devices are storage. Files
-+ * on pseudo filesystems are kernel interfaces and are refused. The file
-+ * must be open for @mode and implement ->read_iter() for reading and
-+ * ->write_iter() for writing. O_PATH files are only fine with FMODE_PATH.
-+ *
-+ * Return: 0 on success, -EBADF if @file isn't open for @mode, -EINVAL if it
-+ * can't be used as storage, or the error from looking up the data of @file
-+ * on a stacking filesystem.
-+ */
-+int file_check_backing(const struct file *file, fmode_t mode, umode_t type)
-+{
-+	fmode_t io = mode & (FMODE_READ | FMODE_WRITE);
-+	/* Drivers may point ->f_mapping at something else. */
-+	umode_t fmt = file_inode(file)->i_mode & S_IFMT;
-+	struct inode *real_inode;
-+
-+	/* O_PATH files are only fine for callers that just use the path. */
-+	if ((file->f_mode & FMODE_PATH) && !(mode & FMODE_PATH))
-+		return -EBADF;
-+
-+	if ((file->f_mode & io) != io)
-+		return -EBADF;
-+
-+	if (fmt != S_IFREG && !(type == S_IFBLK && fmt == S_IFBLK))
-+		return -EINVAL;
-+
-+	/* Look through stacking filesystems at the inode with the data. */
-+	real_inode = d_real_data_inode(file->f_path.dentry);
-+	if (IS_ERR(real_inode))
-+		return PTR_ERR(real_inode);
-+	if (real_inode->i_sb->s_iflags & SB_I_PSEUDO)
-+		return -EINVAL;
-+
-+	if ((mode & FMODE_READ) &&
-+	    (!(file->f_mode & FMODE_CAN_READ) || !file->f_op->read_iter))
-+		return -EINVAL;
-+
-+	if ((mode & FMODE_WRITE) &&
-+	    (!(file->f_mode & FMODE_CAN_WRITE) || !file->f_op->write_iter))
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(file_check_backing);
-+
- ssize_t vfs_iocb_iter_read(struct file *file, struct kiocb *iocb,
- 			   struct iov_iter *iter)
+@@ -528,16 +525,10 @@ static void loop_assign_backing_file(struct loop_device *lo, struct file *file)
+ 
+ static int loop_check_backing_file(struct file *file)
  {
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 99caef43ff3c4..b1c7ebafbadbe 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -2553,6 +2553,8 @@ static inline const struct inode *file_user_inode(const struct file *f)
- 	return file_inode(f);
+-	if (!(file->f_mode & FMODE_READ))
+-		return -EBADF;
+-
+-	if (!file->f_op->read_iter)
+-		return -EINVAL;
+-
+-	if ((file->f_mode & FMODE_WRITE) && !file->f_op->write_iter)
+-		return -EINVAL;
+-
+-	return 0;
++	/* A backing file that isn't open for writing gives a read-only device. */
++	return file_check_backing(file,
++				  FMODE_READ | (file->f_mode & FMODE_WRITE),
++				  S_IFBLK);
  }
  
-+int file_check_backing(const struct file *file, fmode_t mode, umode_t type);
-+
- static inline struct file *file_clone_open(struct file *file)
- {
- 	return dentry_open(&file->f_path, file->f_flags, file->f_cred);
+ /* loop sysfs attributes */
 
 -- 
 2.53.0
