@@ -2,164 +2,92 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48AC8606A8A1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65AB2606A8AA
 	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 13:15:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=mXdAqvax;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=LTB7ktJB
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=tqYLhffk
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=hYciQj3SKQaeterWqoO2WWlbcMQ4WfWLOXZDSmdLoMU=; b=mXdAqvaxhV5HpNy0zCEmqPRYPq
-	fUvs7/5i+0uAsc24ZOK7RtAprLqE3HHUmnvbGY+RtxXQR7LMjMsys7v7xAh4YVDVjO+vs2bz3VlqC
-	obj4m0UF/CGVArtSdxfmOIprBExqsfhxI6NZdMfioZqDcwHORbH8cFxZrd/TzVYhfSCn1eSzqGNr+
-	ndLzJJGBL+mUa8LHB2FZ0OR5EsChEDWt9H4YYbQnRn51/l1fNP0Nal+G8Q2y2fXJHxl+XBgNMdGXn
-	dXGVKoB9WsSK0gGJbI1UaDxCK3NHH6/2ot1VoaXO6QrpW8rb9m5Ti7EaqKa6YvCFSF1u2u00pCcxq
-	fb/x8/Dg==;
+	bh=/79yD/ePkhOWtFp46GUyu6ts/vcC2MmXQ7vdqbMevlI=; b=tqYLhffkj5bjKhOd+VnlETcysk
+	t4I6aNubhSeLTWnvwW3g+Y3lH75pnODxvHpEM7V28Cr7BWBCFCZtv+4MkwF4rUQnJhLMaMZmyShas
+	/XUAd5AULfbuQ2cYlEwTrS7LeKOZlC0RfzMxhFvnWvEG8gpK+6UFgHAo9+T7R6I+kAQ2f+ux2Mq9s
+	f8wFGEj04yXwN32jHf3k4IytniEVGB4WJzoqHoH8RcBMT8JqU7WOemNBx/4AiBjPVN7Ks/TsiVczk
+	xYq3/E1so913v5r01EurnTC9P7eB28Vuumoge0SzRYOVSPo2/74RAJUvsEpKJYFOzwJHfex2KKKsL
+	e4xO+3yQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSwY9-00000002ZJi-3laE;
-	Mon, 16 Nov 2026 13:15:09 +0000
-Received: from mail-southcentralusazlp170110003.outbound.protection.outlook.com ([2a01:111:f403:c10d::3] helo=SN4PR0501CU005.outbound.protection.outlook.com)
+	id 1xSwYA-00000002ZJw-0CBw;
+	Mon, 16 Nov 2026 13:15:10 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSwHd-00000002V75-0oqv
+	id 1xSwR0-00000002Xww-0EEa
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Nov 2026 12:58:06 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UM3/DMFJ2RQXohHDT6VLfgkwG7ONDcUg2nM6lOH4Madcj5TaHqs6Lo1TWrngKCMDVDISSF3lbu/ER7NK3M2xkF8XoALznWnFtXP7nBrdL2oFwsJi4THDLQKr2xXlhqGUfCtgqb3ULpUQynSxnlsCOnVaPqf35HT/HCKysjpvVThZJqYifJsz4FsDhmKlRSxlPbFUK9Spp497x2PevQ+QPGxhHDlYNP50EhpIIYQqt43KTRoJs/V/HXwQVOaRqvQBkb8P1zxD5tn/cS2bkBguzWfjKHTo/HK6PI2pnd7sqBM9mycTESNofr3fbzQfXuAECG5RAtdvbkcdHSXpi12Tgw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hYciQj3SKQaeterWqoO2WWlbcMQ4WfWLOXZDSmdLoMU=;
- b=ORO0edwr1w5WJblaP1SB8KvO5w+3o0w2ae6cRK+6Fegk78ElL6qDZ1g3ZaKF+Aci79ZfcfQfVATx7k4O9mqsdm0qhGjA8LWUOWQyK2kj1AGOc3cN4uFD2Q9+AJ4CwldxHuEkGyXcf+DTfJagxWPvqW86sczTMniPlleHlh7ACFDXD6KPPNw6Hl8xdut7UK6J/qUPXsznQAShgdLNbBweulPRyWWYJciIcpLjTgnYkzAUQZolY/N/J0OUeA8fy4gNawpZri6FZtvD/U7Hdpx+Rldtg4+UEdE9NemPi8XI3nAfln/RYcLUdV7yCKES8Zrs/SEPR9dF+bAd9Zxfk9M/oA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hYciQj3SKQaeterWqoO2WWlbcMQ4WfWLOXZDSmdLoMU=;
- b=LTB7ktJBRH3xPIPnGuhmu8fwcys9kRSflGfBdrbI86SRU1rbhEoRmuXCP4ICCXiODMWXPX8TbQjSidKnKPxkxjF8lVc4HRy2tFEiIjpU19kZlR+jhwyBAmIIK8Uojh8q+S7D203niKBkPZpFi0ibRFQONl0TtKlOgbxApCtcWZ0=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by IA1PR12MB6068.namprd12.prod.outlook.com (2603:10b6:208:3ec::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Mon, 16 Nov
- 2026 12:57:59 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%3]) with mapi id 15.21.0615.013; Mon, 16 Nov 2026
- 12:57:58 +0000
-Message-ID: <8768b2e1-e944-46a0-8508-84a9ff491412@amd.com>
-Date: Mon, 16 Nov 2026 13:57:39 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 06/23] dma-buf: Let the exporter select mapping type at
- pin/map
-To: Alistair Popple <apopple@nvidia.com>
-Cc: Karl Mehltretter <kmehltretter@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Simona Vetter <simona.vetter@ffwll.ch>,
- Matthew Brost <matthew.brost@intel.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Dongwon Kim <dongwon.kim@intel.com>, Kevin Tian <kevin.tian@intel.com>,
- Xu Yilun <yilun.xu@linux.intel.com>, Baolu Lu <baolu.lu@linux.intel.com>,
- Felix Kuehling <felix.kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
- Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- Alexey Kardashevskiy <aik@amd.com>, zhipingz@meta.com, treding@nvidia.com,
- jhubbard@nvidia.com, Jason Gunthorpe <jgg@ziepe.ca>,
- Leon Romanovsky <leon@kernel.org>
-References: <20261105-dma_mapping_type_v4-v2-0-78b8dc9ae80a@nvidia.com>
- <20261105-dma_mapping_type_v4-v2-6-78b8dc9ae80a@nvidia.com>
- <au7mBMbRC8q6NILj@gmail.com> <avE0QsqV5RZoaWc3@nvdebian.thelocal>
- <de268b0f-19fd-4e05-a8d2-e0f436aaedfc@amd.com>
- <avqgQ1k8zx0_N4rM@nvdebian.thelocal>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <avqgQ1k8zx0_N4rM@nvdebian.thelocal>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BN9PR03CA0601.namprd03.prod.outlook.com
- (2603:10b6:408:106::6) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	Mon, 16 Nov 2026 13:07:47 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 19E8621DC4;
+	Mon, 16 Nov 2026 13:07:44 +0000 (UTC)
+Authentication-Results: smtp-out1.suse.de;
+	none
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DE2B51334C;
+	Mon, 16 Nov 2026 13:07:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id BvIgLh8A+2pNEgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 16 Nov 2026 13:07:43 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id 6CC7424E06; Mon, 16 Nov 2026 14:07:43 +0100 (CET)
+Date: Mon, 16 Nov 2026 14:07:43 +0100
+From: Jan Kara <jack@suse.cz>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>, 
+	Chris Mason <mason@kernel.org>, Josef Bacik <josef@toxicpanda.com>, 
+	Christoph Hellwig <hch@lst.de>, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org, target-devel@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-mm@kvack.org, bpf@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, apparmor@lists.ubuntu.com, 
+	linux-nfs@vger.kernel.org, netdev@vger.kernel.org, fuse-devel@lists.linux.dev, 
+	linux-efi@vger.kernel.org, xen-devel@lists.xenproject.org, ocfs2-devel@lists.linux.dev, 
+	linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-usb@vger.kernel.org, 
+	Amir Goldstein <amir73il@gmail.com>, linux-erofs@lists.ozlabs.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC v3 35/44] fs: add file_check_backing()
+Message-ID: <fvmgoq6g3orrcbz5j7xoxrqkz4kc4jiopndjfar4cv45pj2y4g@bfgcucrsffnm>
+References: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
+ <20261116-work-loop-pseudo-v3-35-8cbbea1cf34f@kernel.org>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|IA1PR12MB6068:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0f7a7d3c-22b2-41c0-c9c3-08df43e13d2f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|1800799024|366016|376014|7416014|261102123227099003|261028144727099003|261102130727099003|261022075727099003|261022105027099003|261021135927099003|261021121427099003|261026121527099003|261026140227099003|11063799006|4143699003|56012099006|10067099003|18002099003|22082099003|261009223027099003|3023799007;
-X-Microsoft-Antispam-Message-Info: bUTXmXzBj5NAF6d8lYILsVTGtOpLbAzFmBibZuErWbvGHLguWWBeENOpI8rI3KbLe7AiT+NhD4Qf4q2SzRNrLoy6psqhAaly1rm3Cr/GNRXSNJb1cE9p1lM99vkXwQuazlVegKr852pc1m/vaS4V0V/DX8deEGXX7vH/2thFMrlmVdWn5bc8P0VQSOMzGXkZvDG+ffkRGR56fmygr8itz4O3Dg0AQiue7tkI8nctqgQMk9/vFd1qvRoGiPuZds4VPNVgNrY36h2QYizxegEpDZbhmXtBmP/oJpcVKY58rUHulQgm38jV3nHftrGEnmsapNbS/81vaM9RfjT9qG9uyiFwhpn6C34I5dABhPRqu481u1P48ezqj+uEN8N86lNw4BwFCWfie71jlEwH+wvohdKe4lv1B7oHPusPQuZTmOzAeNp66utau0sNrmHMgncllMAemnYSGQn0tBnosDPV8pqLPZuePIMO5bXyF4pLHZD9u/ifB0uWxNUXHIM7PNJJTZGtnzO+waXAIaTwQlUSMRcozA1wCgKxDqUe5seddBXjOMP413nJZVne+CdCxIOwepDuwwmmeJ2pgXhUMipHDOz3BKrBi/nNgQm4dJKq1vqjyusxMiGQGZCrtK1Jn3xBsDNVPO+aN28YYZcYctEq3hwZWJvce7CRiFZpDMdiqCE=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(366016)(376014)(7416014)(261102123227099003)(261028144727099003)(261102130727099003)(261022075727099003)(261022105027099003)(261021135927099003)(261021121427099003)(261026121527099003)(261026140227099003)(11063799006)(4143699003)(56012099006)(10067099003)(18002099003)(22082099003)(261009223027099003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VVp5cGJtYW5vblhHdFlacDd1anZnYk9ta2JoRkRBWTlCV29zTGVxL2VHcS9j?=
- =?utf-8?B?QjVsaGJOM2JZUzJ4cWR4Z2V5YlA1ZDZucy9EWjhHUWFEcU1JR1RWWFJ3bmpH?=
- =?utf-8?B?VmZDZHJBMDBsWmQwOEhOVHM4eHVuYmFPeHdGZFZLcS9qWDFPdUh4QmZmZmxa?=
- =?utf-8?B?S0ZsMkdSZGpuR0dCc0w5dXVOTk1yRHZVaytJQW9RUHFXUkZiMWdQdzFDamxR?=
- =?utf-8?B?RTBYYUxobENpQW15ODRtWk9KSXRhaEZzZHp1ZEgwa0Q5V2h0d1FGaHF0bStS?=
- =?utf-8?B?dGhNOEtDNU0vK0NUdmNneGhmazh0cTdmMjFZZUJIR0RnRWJlQlN3ckFlODEv?=
- =?utf-8?B?NFllTUIvak41dEN3SGxvc3VOTFFmVjBqa2lJcjZiUTlqeVdIUHBrYWVsTUtx?=
- =?utf-8?B?bTBpNkN2Nm1WY0wxZm92SitHbXRibzJvRjI1TGw0NGJzQmo2VE92ZXpDU1kw?=
- =?utf-8?B?OFo0ZjBnUDhJNVhhNjhYUTA1VDExZStJRUZleFhsNmN1QUdKYVlpMFYxWGEz?=
- =?utf-8?B?TlZQbjB5SmZkVWZlMC9TZUk3Uml3d0lnc2Foa0d3TjRFNEE0QmVjVWM1MVJZ?=
- =?utf-8?B?cU9EWHhLUXpvVDA3RWl3TjV1RWkzbC9tSXNzcU5qNzZCNlE5SjJzcmZ4dUlS?=
- =?utf-8?B?Szd0SFNRWTFhc1FYOTZiVlFURW93SGgza1hyMllTa1VGb3NhVEhYYy85SC9w?=
- =?utf-8?B?MUJCTDNYNENWMkZieXFLTVZ1cE1kdk9Eem9ZKzNveU5MbjBLOVBoYklBVVYr?=
- =?utf-8?B?bTUraGExTGE2SHhKSG1YSFp6U2ViUTBpcUd0dkR6NHRzT29YVk5iWGhTV1Js?=
- =?utf-8?B?WEFMVFZ2bFI2WTZRdFdtUE1FVDYxV29RNTZDUTNEclRLQ1cwUTVtb0RBQ3Fx?=
- =?utf-8?B?T1llNld2M3Q2RWthQ1cvTXlpamhGZWIrTkdzeXBVTTh6MitHcWlsdjNVT1lu?=
- =?utf-8?B?VTVEa1pSZzEvZWR2WllKNmVGdllURC9mTloydm1zY3pCZ3JaZEl2VjRydlRP?=
- =?utf-8?B?b1BGb1dyTEFlNGtDWWpITnEyMTVpQ21GZko0b2xhK2M5NWhBV2ZjcjdlTXlh?=
- =?utf-8?B?U2ZVREFhN0lsOGoxWHpJcEx2R0lxMnJyNGZybjM2dXdnQUtLRWllYlhvdGl2?=
- =?utf-8?B?Q2U2N1VZKytLN3FPZ2pTeW1aMTg0R2NKcm1DdEtpZUlGVjl6RnFwYVZLdXVM?=
- =?utf-8?B?dnRpL0NTUjkxbVRzOFZ0SkE1dmtFeHp5SFJZQkVwaXZHaE5Rbk1kNW9VWnFM?=
- =?utf-8?B?QkZvNG9NQU9ITkg4MVFSb3NsYXRNNHZUYUJGZ0pQQzVzMktmT0dVdlVLQUI0?=
- =?utf-8?B?bzdvMEFDRWk3VHpFandRbG5kKzIvUlBLRU5hOXc4R0VuRFNMWk5UOU9WTXVm?=
- =?utf-8?B?OG1aWk95Um00VktwVGU3QXN6Mjg2MDdPUFlMRUpBeHdNZkNvY0JoRW9tdmI4?=
- =?utf-8?B?TTc0SUMzZ09ERVJyS2F2b1JjdjdGR3NSbGpjS0dNSU9WczdMd3RZajZFTWF0?=
- =?utf-8?B?OHFHeG43TmxpbnpqZGJ2S1M4U253MnJqRU5lekNlSW9DSGgwUHFTMjFXdER3?=
- =?utf-8?B?YjFlcnc0MTJ6Ly9OSklpYWVETThaT3luT1BQcU1xa1Q2ZGRDc3gyV2tHWXFS?=
- =?utf-8?B?L3hkWWV1NkJsNGhtcnhUR2xQU3FzcVJZZ0pJdXM0TEhhaGY3L3dPdTI2aGYx?=
- =?utf-8?B?SVhuMnZrV3BUY0g0MGRIZFZVd2kzUnM1ZldIcFFobm9QdGFsTVJjUmxiU2NF?=
- =?utf-8?B?Yzk5WUIrd3M1UkowcEtpOHRxeWwyRm1lVVBTM1l0bDhmUUpLV0NGdHcrTEVM?=
- =?utf-8?B?M2ZaZzJ2dW5ybDhRYUo1c2g4b3FXeXNrNmd3N1c5dFlQWnRDcC9QeGdsZjhq?=
- =?utf-8?B?YkxUc09LTGNmcFdSVis5cnNTR1YxeVdaSGhLc0lIVGdzclFjVVNJbG5XR2E2?=
- =?utf-8?B?aUJobHJUU01DQTJrVVA2d0J2TmZ5TXJ1ZXFvRnhvanp0OGoxUDZrYm9PMFIx?=
- =?utf-8?B?Y3c5SXQrdVN0TzRsYkczeVhxT1U2RXJ4Si9mbFhLOHdaVHJpR3FPSFVScmhj?=
- =?utf-8?B?cXp1QWZFYTVUZTdRcHlPLzlRVXJsZE5EY1hXaGVyNDNTS2xFU2xDa09uTnFT?=
- =?utf-8?B?Tk93YTBZRWorbENqVFFrWGo4Qm94L0hicG1Tb1B1RWNGaThRWkpWWXlsRjVH?=
- =?utf-8?B?SUhRS0JJT0R0MmVQV05KRy9JSndRWU8rVVpuWjdOOGpraGFCam8ya2FHa01a?=
- =?utf-8?B?WjRpRW1yRW5ySCs2TmFzblRoVjlkSlRHdjJ0RlJheXdsVzE0UmtNN29nYzFq?=
- =?utf-8?Q?47fBIFgJbCbjZaw8sE?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0f7a7d3c-22b2-41c0-c9c3-08df43e13d2f
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2026 12:57:58.5489
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NfsjKpikeXvk0eFUXeC36vVisqiFEDJ62gQvE1j6B7OvZ7a0iG3co00NSvADw4lX
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6068
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261116-work-loop-pseudo-v3-35-8cbbea1cf34f@kernel.org>
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Queue-Id: 19E8621DC4
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[]
+X-Spam-Score: -4.00
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261116_045805_315850_93BC1A4B 
-X-CRM114-Status: GOOD (  27.36  )
-X-Spam-Score: -2.1 (--)
+X-CRM114-CacheID: sfid-20261116_050746_246811_334511C6 
+X-CRM114-Status: GOOD (  45.28  )
+X-Spam-Score: -4.2 (----)
 X-Mailman-Approved-At: Mon, 16 Nov 2026 05:15:08 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -171,132 +99,156 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-7.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=4.0.1
+X-Spam-Status: No, score=-13.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=unavailable autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On 11/16/26 07:27, Alistair Popple wrote:
-> On 2026-11-09 at 21:59 +1100, Christian König <christian.koenig@amd.com> wrote...
->> On 11/9/26 03:58, Alistair Popple wrote:
->>> On 2026-11-07 at 19:57 +1100, Karl Mehltretter <kmehltretter@gmail.com> wrote...
->>>> On Thu, Nov 05, 2026 at 05:40:41PM +0100, Alistair Popple wrote:
->>>>> + * A pin or map that fails after dma_buf_mapping_select() may reopen the
->>>>> + * choice only if it was the one that made it. A selection that predates the
->>>>> + * call belongs to a live pin or mapping and must survive, otherwise the next
->>>>> + * pin or map would reselect under it without an invalidate.
->>>>> + */
->>>>> +void dma_buf_mapping_unselect(struct dma_buf_attachment *attach,
->>>>> +			      bool was_selected)
->>>>> +{
->>>>> +	dma_resv_assert_held(attach->dmabuf->resv);
->>>>> +
->>>>> +	if (was_selected)
->>>>> +		return;
->>>>> +
->>>>> +	attach->selected = false;
->>>>> +	attach->selected_idx = 0;
->>>>> +}
->>>>> +
->>>>
->>>> After dma_buf_invalidate_mappings(), attach->selected is false while
->>>> attach->selected_idx still holds that mapping's entry for a pending
->>>> unmap. 
->>>>
->>>> If a pin/map fails before that unmap runs, was_selected is false and
->>>> dma_buf_mapping_unselect() resets attach->selected_idx to 0.
->>>>
->>>> A subsequent dma_buf_unmap_sgt() then uses matches[0].
->>>
->>> Actually there's a bigger issue here. The contract at the moment states that
->>> mapping type may change after invalidation. However that doesn't account for the
->>> fact mappings can outlive the invalidation.
->>>
->>> This could be dealt with by switching everything over to the generic
->>> dma_buf_mapping_map/unmap() path, but that requires an allocation per mapping
->>> just to track the mapping type.
->>
->> You need an allocation per mapping anyway to identify the mapping anyway.
->>
->> We currently abuse the sg_table for that, but essentially the idea of having a structure/object to represent the mapping needs to stay around as far as I can see.
+On Mon 16-11-26 12:05:08, Christian Brauner wrote:
+> Loop, zloop, the nvme target, the scsi target, fuse passthrough, the usb
+> mass storage gadget, erofs and acct all take a file from userspace and
+> use it as storage. Currently, each of them has its own idea of what to
+> check before using a file like that:
 > 
-> Oh right, I see that now.
+> - loop and the gadget check for a regular file or a block device, the
+>   nvme target, the scsi target and zloop take any file type
+> - loop checks the open mode, the gadget checks FMODE_CAN_READ, the nvme
+>   target, the scsi target and zloop only check for ->read_iter() and
+>   ->write_iter()
+> - apart from acct which refuses procfs and sysfs files none of them
+>   cares whether the file is a kernel interface
 > 
-> Do you think it makes sense to convert all exporters to return a mapping type
-> specific struct (eg. dma_buf_sgt_mapping) rather than the sgt directly?
-
-No, we essentially want to get away from the whole sgt approach.
-
-The whole purpose of DMA-buf was to exchange DMA addresses between drivers and sgt is problematic for that job because it mixed both the input as well as the output of the DMA mapping operation into one structure.
-
-What we need is the functionality to either say map the buffer at this specific address in that address space (IOMMU domain, internal address space whatever) or just to return DMA addresses plus the information in which address space those addresses are valid.
-
-Regards,
-Christian.
-
-> Ie. change map_dma_buf() callbacks to return *dma_buf_sgt_mapping instead of
-> *sg_table and convert exporters to allocate that instead of a *sg_table.
+> Add a helper that does all of it in one place. It only accepts regular
+> files and, if the caller passes S_IFBLK, block devices. It refuses files
+> on pseudo filesystems. And it checks that the file is open for what the
+> caller is going to do with it and implements ->read_iter() for reading
+> and ->write_iter() for writing.
 > 
-> I've taken a look at doing that and whilst it touches all the exporters the
-> changes are fairly mechanical in nature, with only two or three annoying
-> exporters that have slightly different patterns (one of which is buggy).
+> O_PATH files are refused unless the caller passes FMODE_PATH. That is
+> for callers that only need the path of the file. fuse passthrough is
+> one of them and has accepted O_PATH file descriptors since commit
+> efad7153bf93 ("fuse: allow O_PATH fd for FUSE_DEV_IOC_BACKING_OPEN").
 > 
->  - Alistair
+> Block devices are fine even though bdevfs is a pseudo filesystem. A
+> block device that userspace hands in is a device node on devtmpfs or
+> some other filesystem. Files on bdevfs only come from
+> bdev_file_open_by_*() and never end up here.
 > 
->> Regards,
->> Christian.
->>
->>>
->>> The alternate is we update the contract to say mapping type cannot change until
->>> after all importers have unmapped. Enforcing this would require tracking the
->>> number of live mappings/pins per-attachment, but I think this is the better
->>> solution so will add that for the next version.
->>>
->>>>>  int dma_buf_pin(struct dma_buf_attachment *attach)
->>>>>  {
->>>>>  	struct dma_buf *dmabuf = attach->dmabuf;
->>>>> +	bool selected = attach->selected;
->>>>>  	int ret = 0;
->>>>>  
->>>>>  	WARN_ON(!attach->importer_ops);
->>>>>  
->>>>>  	dma_resv_assert_held(dmabuf->resv);
->>>>>  
->>>>> -	if (dmabuf->ops->pin)
->>>>> +	ret = dma_buf_mapping_select(attach);
->>>>> +	if (ret)
->>>>> +		return ret;
->>>>> +
->>>>> +	if (dmabuf->ops->pin) {
->>>>>  		ret = dmabuf->ops->pin(attach);
->>>>> +		if (ret)
->>>>> +			dma_buf_mapping_unselect(attach, selected);
->>>>> +	}
->>>>
->>>> dma_buf_mapping_select() sets attach->selected = true before ops->pin()
->>>> and the map callbacks run.
->>>>
->>>> In patches 14/15, xe/amdgpu migrate a VRAM buffer to system memory
->>>> during pin and map when the attachment does not accept P2P.
->>>>
->>>> That migration calls dma_buf_invalidate_mappings() and clears
->>>> attach->selected on every attachment, also the one being pinned/mapped. 
->>>>
->>>> When the callback succeeds, the attachment stays pinned or mapped with
->>>> attach->selected == false.
->>>>
->>>> A later map/pin on the same attachment can then reselect without an
->>>> invalidation.
->>>
->>> Argh. Thanks. Will fix.
->>>
->>>  - Alistair
->>>
->>>> Thanks,
->>>> Karl
->>
+> The pseudo filesystem check looks at the inode that actually provides
+> the data via d_real_data_inode(). overlayfs accepts sysfs, cgroup2,
+> debugfs, tracefs, configfs and securityfs as lower layers and reads of
+> such an overlayfs file are served by the file on the pseudo filesystem.
+> Checking the overlayfs inode would miss that.
+> 
+> For an O_PATH file nothing might have looked up the data yet. overlayfs
+> only looks up the data of a metacopy file in a data-only layer when the
+> file is opened. d_real_data_inode() does the lookup then and if that
+> fails we return the error.
+> 
+> Note that the file type is taken from the inode of the file and not from
+> the host of ->f_mapping like loop and the gadget do it. A driver can
+> point ->f_mapping somewhere else in ->open(). It makes no difference for
+> block devices as both inodes are block devices.
+> 
+> No functional changes. Nothing calls the helper yet.
+> 
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
+Looks good to me. Feel free to add:
+
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+								Honza
+
+> ---
+>  fs/read_write.c    | 53 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  include/linux/fs.h |  2 ++
+>  2 files changed, 55 insertions(+)
+> 
+> diff --git a/fs/read_write.c b/fs/read_write.c
+> index 6767283108991..9f1e7bfcbd4f1 100644
+> --- a/fs/read_write.c
+> +++ b/fs/read_write.c
+> @@ -866,6 +866,59 @@ static ssize_t do_loop_readv_writev(struct file *filp, struct iov_iter *iter,
+>  	return ret;
+>  }
+>  
+> +/**
+> + * file_check_backing - check that the kernel can use a file as storage
+> + * @file: file that userspace handed in
+> + * @mode: FMODE_READ and/or FMODE_WRITE the kernel will do I/O with, or
+> + *        FMODE_PATH if only the path of @file is used
+> + * @type: S_IFBLK if a block device is fine as well, 0 otherwise
+> + *
+> + * Call this where a file from userspace is taken as a backing file. Only
+> + * regular files and, if @type is S_IFBLK, block devices are storage. Files
+> + * on pseudo filesystems are kernel interfaces and are refused. The file
+> + * must be open for @mode and implement ->read_iter() for reading and
+> + * ->write_iter() for writing. O_PATH files are only fine with FMODE_PATH.
+> + *
+> + * Return: 0 on success, -EBADF if @file isn't open for @mode, -EINVAL if it
+> + * can't be used as storage, or the error from looking up the data of @file
+> + * on a stacking filesystem.
+> + */
+> +int file_check_backing(const struct file *file, fmode_t mode, umode_t type)
+> +{
+> +	fmode_t io = mode & (FMODE_READ | FMODE_WRITE);
+> +	/* Drivers may point ->f_mapping at something else. */
+> +	umode_t fmt = file_inode(file)->i_mode & S_IFMT;
+> +	struct inode *real_inode;
+> +
+> +	/* O_PATH files are only fine for callers that just use the path. */
+> +	if ((file->f_mode & FMODE_PATH) && !(mode & FMODE_PATH))
+> +		return -EBADF;
+> +
+> +	if ((file->f_mode & io) != io)
+> +		return -EBADF;
+> +
+> +	if (fmt != S_IFREG && !(type == S_IFBLK && fmt == S_IFBLK))
+> +		return -EINVAL;
+> +
+> +	/* Look through stacking filesystems at the inode with the data. */
+> +	real_inode = d_real_data_inode(file->f_path.dentry);
+> +	if (IS_ERR(real_inode))
+> +		return PTR_ERR(real_inode);
+> +	if (real_inode->i_sb->s_iflags & SB_I_PSEUDO)
+> +		return -EINVAL;
+> +
+> +	if ((mode & FMODE_READ) &&
+> +	    (!(file->f_mode & FMODE_CAN_READ) || !file->f_op->read_iter))
+> +		return -EINVAL;
+> +
+> +	if ((mode & FMODE_WRITE) &&
+> +	    (!(file->f_mode & FMODE_CAN_WRITE) || !file->f_op->write_iter))
+> +		return -EINVAL;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(file_check_backing);
+> +
+>  ssize_t vfs_iocb_iter_read(struct file *file, struct kiocb *iocb,
+>  			   struct iov_iter *iter)
+>  {
+> diff --git a/include/linux/fs.h b/include/linux/fs.h
+> index 99caef43ff3c4..b1c7ebafbadbe 100644
+> --- a/include/linux/fs.h
+> +++ b/include/linux/fs.h
+> @@ -2553,6 +2553,8 @@ static inline const struct inode *file_user_inode(const struct file *f)
+>  	return file_inode(f);
+>  }
+>  
+> +int file_check_backing(const struct file *file, fmode_t mode, umode_t type);
+> +
+>  static inline struct file *file_clone_open(struct file *file)
+>  {
+>  	return dentry_open(&file->f_path, file->f_flags, file->f_cred);
+> 
+> -- 
+> 2.53.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
 
