@@ -2,56 +2,55 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4695460A2629
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 11:05:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3B256073C6A
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 11:05:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=dSbBL43n;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Kdh28b2u
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=32g5S7/A;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=n0gNWaP6
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=vlnGjiz0WitO6a++5wfKz3FIFE4QfP7og6wENObjkjQ=; b=dSbBL43n/xSUfe
-	6txAi6ZJ9Gi2PX9fPf7MBISEuxE7wcJKGnhliphsDTvMXrLsk81At0WCuT/2QmHuiCi4/xglwTn2K
-	Xc0GO91AU9FIR5lsWhEH1iiXKmZXqI84viYsZSEDPnQFpXa8zulghrJmLjKLyaRlmiudpHoGpNC6r
-	FFe6U21ytgUml0oq7Pgw4E3T7Np0sSjJoCtAR1IMwA5SSDfc2ydlO4NCGJQEycLC4c0Riz5ZkPpaa
-	ZUo/Gz4jYyZo2V1Pt/CrehOtNdabf6tIYU53mSrTsllbvCSpIJl19nSrcmaeHRCKX5QVbomb9GbKM
-	H+/W/BHgHSloFBrBniWA==;
+	List-Owner; bh=6nxQGkR2+dQ77VXhMKkc6TeWhcz+nCP3lMiHG+fTsXY=; b=32g5S7/ATY1JvZ
+	7S4OONKYOdHhRVEDtJyXD0N58JvSsgptIourNmYiDOCSd5ORhhbsugvDXeHzY8NBTUyokGXKBgk8Q
+	xeFeO3WcVRJnvlUK2k2vgCAPgCjH8AbWs3xboMd/JLm9Q7qWP7XA6icR/M3RPk0Jd0BUe4LcSg20H
+	ba1dq2WRO8HIjsgRo9WuHJ0wmnQZL3iFLpZW2AV59TeLDyQDTUHRi034QAsIf4mfZ2k57LOEK5M1D
+	GjPCbzH5c9W2ZA4AgnuOeUiVBVTVX9iyANwZxJGV1S1LZIZk8mhtwpEHZnJcEyzYiMQw6qPdfaLap
+	64O//TdqVLT53KfmDHUQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSuWa-000000025Yn-3yH7;
-	Mon, 16 Nov 2026 11:05:24 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1xSuWi-000000025eR-17kU;
+	Mon, 16 Nov 2026 11:05:32 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSuWZ-000000025Ws-2bys
+	id 1xSuWd-000000025cN-44OP
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Nov 2026 11:05:23 +0000
+	Mon, 16 Nov 2026 11:05:28 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 60DD643BEE;
+	by tor.source.kernel.org (Postfix) with ESMTP id 69F436295A;
+	Mon, 16 Nov 2026 11:05:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC38D1F00927;
 	Mon, 16 Nov 2026 11:05:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EE001F000C8;
-	Mon, 16 Nov 2026 11:05:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794827123;
-	bh=vlnGjiz0WitO6a++5wfKz3FIFE4QfP7og6wENObjkjQ=;
+	s=k20260515; t=1794827127;
+	bh=6nxQGkR2+dQ77VXhMKkc6TeWhcz+nCP3lMiHG+fTsXY=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=Kdh28b2udiuoZvahWOKbTcq54DCpt3h5t8ExLilpPqtyX/5WyAekxbdCf/uw1aLh3
-	 wrX+xVfd2cjX8BV0FYMz7vvaNw27klurDso8/rw1E0ggPWg6QrVEmm9yJ0pYFXPcfo
-	 K2SfE3aFRJ92HhK5tgSGO8OQLAJb7JhNrIH2vit46k/PsSeLT8faE0iaLdMmev7cJU
-	 8edF6r1Ip6VgOtMTcN+XEsv+eU5Us3+rEe/9ECrna83dAmIpG1u5yr25pXNKcuNNhR
-	 aFlVE5w4qWjyarF1BzBUiUZTIW71T5/AuGEsXI+SeWkvtl/xNDHqoQx9chli0UScfs
-	 X+HqfAVBrQ8sA==
+	b=n0gNWaP6+UaJle+lzPIjzK+kyrdMuW2wim4FMgJ0DTFVHRkmRwb05GQtyZ4lcrEsr
+	 WlFZlJjd6EHmIj8NzzqDTKy4RpNXFIE4ZB5YKinWiLIV4yE4N/uGMY+6QoW1uNGMzv
+	 WoAeWTa83/6NZeA9JdwkbDDGa3YMvfBApWd5SppCS24LPewTESUQ0Ef4mKIVfC5vWA
+	 Ir+k9QzWOr857A5zUwd6ZoxCqLRz8FoDlRyKmkMQqHSNs0HSYvIfzdmpkuYyXj0m6h
+	 s6cTQ+4KoNp8FYesvPVXR2KA8ehz0xzT8rIyuF5ll1Hqf9UsF8qMO0hse7R038w17P
+	 sCSrre2Hcixmw==
 From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 16 Nov 2026 12:03:54 +0100
-Subject: [PATCH v2 14/17] nfsd: take freeze protection for the truncate on
- open
+Date: Mon, 16 Nov 2026 12:03:55 +0100
+Subject: [PATCH v2 15/17] loop: use kiocb_write_iter()
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261116-work-fs-frozen_writes-v2-14-ecc4a2aac40e@kernel.org>
+Message-Id: <20261116-work-fs-frozen_writes-v2-15-ecc4a2aac40e@kernel.org>
 References: <20261116-work-fs-frozen_writes-v2-0-ecc4a2aac40e@kernel.org>
 In-Reply-To: <20261116-work-fs-frozen_writes-v2-0-ecc4a2aac40e@kernel.org>
 To: Jan Kara <jack@suse.cz>
@@ -63,14 +62,14 @@ Cc: Shakeel Butt <shakeel.butt@linux.dev>,
  linux-scsi@vger.kernel.org, target-devel@vger.kernel.org, 
  linux-unionfs@vger.kernel.org, bpf@vger.kernel.org, 
  linux-nfs@vger.kernel.org, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>, stable@vger.kernel.org
+ "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1520; i=brauner@kernel.org;
- h=from:subject:message-id; bh=d7TUoTxYNm2vxq8SD7MXgIqBY32W95I8i/PEQ3ekloQ=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9eqzLaBI1W2q3a8PtvT8mzXTnPWq88hIj18m7QfuuX
- JD9qJjT0lHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAnCTuRj+GfNo88tZ/T5sOHOf
- pYBAXehqIVP1HbG7zDzPm+85w7PjDMNfQU3mM4GXo3Tan//9eZKXqWKzSeLR0KkhFU+8D538deQ
- CBwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1200; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=WndiNS7xqPSBhItB27WExsGLYYFKg/7/xrVo1D0g96o=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9eqxXtP1Yx59vm07NWnTitsu3rH+TNSNvb/70UOxp1
+ LaO6rdh3R2lLAxiXAyyYoosDu0m4XLLeSo2G2VqwMxhZQIZwsDFKQATUVnF8M+kT8HKTKFTvPkQ
+ S/BFj+BK3YqMldUXL1zIzWvT36sSZwFU8bjpkNHbAwqTIjpDBdZwKp7cKMudIf2tb9GRoD9+b+U
+ YAQ==
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -91,48 +90,44 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-An OPEN that truncates an existing file ends up in nfsd4_truncate()
-which calls nfsd_setattr() on the already verified file handle. For a
-verified file handle nfsd_setattr() leaves fh_want_write() to the
-caller but nfsd4_truncate() never takes it, and do_lookup_open() has
-dropped its own write access by then. So a freeze of the exported
-filesystem that lands in between lets the truncate modify a frozen
-filesystem.
+Use the new helpers instead of open-coding freeze protection for writes
+to the backing file.
 
-Take write access around nfsd_setattr() like nfsd4_setattr() does.
+No functional changes.
 
-Fixes: 9f67f189939e ("nfsd: notify_change needs elevated write count")
-Cc: stable@vger.kernel.org
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/nfsd/nfs4state.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ drivers/block/loop.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/fs/nfsd/nfs4state.c b/fs/nfsd/nfs4state.c
-index 1de6c6d757c3e..e561903b9180f 100644
---- a/fs/nfsd/nfs4state.c
-+++ b/fs/nfsd/nfs4state.c
-@@ -6681,11 +6681,19 @@ nfsd4_truncate(struct svc_rqst *rqstp, struct svc_fh *fh,
- 	struct nfsd_attrs attrs = {
- 		.na_iattr	= &iattr,
- 	};
-+	__be32 status;
-+	int err;
-+
- 	if (!open->op_truncate)
- 		return 0;
- 	if (!(open->op_share_access & NFS4_SHARE_ACCESS_WRITE))
- 		return nfserr_inval;
--	return nfsd_setattr(rqstp, fh, &attrs, NULL);
-+	err = fh_want_write(fh);
-+	if (err)
-+		return nfserrno(err);
-+	status = nfsd_setattr(rqstp, fh, &attrs, NULL);
-+	fh_drop_write(fh);
-+	return status;
+diff --git a/drivers/block/loop.c b/drivers/block/loop.c
+index d2f29aadabcc1..872d78006b131 100644
+--- a/drivers/block/loop.c
++++ b/drivers/block/loop.c
+@@ -325,8 +325,7 @@ static void lo_rw_aio_do_completion(struct loop_cmd *cmd)
+ 		return;
+ 	kfree(cmd->bvec);
+ 	cmd->bvec = NULL;
+-	if (req_op(rq) == REQ_OP_WRITE)
+-		kiocb_end_write(&cmd->iocb);
++	kiocb_end_write_iter(&cmd->iocb);
+ 	if (likely(!blk_should_fake_timeout(rq->q)))
+ 		blk_mq_complete_request(rq);
  }
+@@ -395,10 +394,9 @@ static int lo_rw_aio(struct loop_device *lo, struct loop_cmd *cmd,
+ 		cmd->iocb.ki_flags = 0;
+ 	}
  
- static __be32 nfs4_get_vfs_file(struct svc_rqst *rqstp, struct nfs4_file *fp,
+-	if (rw == ITER_SOURCE) {
+-		kiocb_start_write(&cmd->iocb);
+-		ret = file->f_op->write_iter(&cmd->iocb, &iter);
+-	} else
++	if (rw == ITER_SOURCE)
++		ret = kiocb_write_iter(&cmd->iocb, &iter);
++	else
+ 		ret = file->f_op->read_iter(&cmd->iocb, &iter);
+ 
+ 	lo_rw_aio_do_completion(cmd);
 
 -- 
 2.53.0
