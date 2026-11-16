@@ -2,55 +2,55 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D45D4606A323
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 12:39:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62366606A31C
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 12:39:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=hQq7uFQf;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hqVGQD92
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=RmbZfwYI;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=R9B5RaEQ
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=ek7FYduULSVbUq5arr3ZrFc9sF73FP4dcX9AYxY+9Ag=; b=hQq7uFQfntba41
-	HmT/tSxdSrgWek1PTYofCO8NUB7mPaWxKNr+RBtkmKLhabVqnp5N/9LOHuAA+Ydv82h6UB5Rx9ytT
-	319OjuSF8DbsrZWWbguJurE1HqFFLHdiF1uZPY5pFVsDNlcawVgc4L/a9cPzapD4MRJu6TR+5QiS/
-	LTlNk9DhSMJpmdGrnQ6QMEJJKSeyn2p8vVcCbWt1V6dHyo2pP/ati1AvEEdcZb0gr4QUS5ESJwU+t
-	PKgTcriNS3zj3rA2xuTiffi/wvLiswKsmnDYyXGjSkWVj8CAHpx+TmuWqENdKWH1nZaW3/06kFG1N
-	O+GX8FaKpaUFy6hcMYxg==;
+	List-Owner; bh=WZa8raruWf4jzyZcy4zjAHZiv8qEDUIon9hD96nRur0=; b=RmbZfwYIPXiw1y
+	aERBeydbkogP4z1r88fcyR310ciqShN+X9oXxuqGkOgi5xn9Ykr1Fz5wfVumbVM20lAVb4IMmla5W
+	mr5dYX29cTcmjSPZSR2Aghl4+Z2ALOjjVNRnN4cjSna5kafxEehyXEFx7PNCSeNoigWyZj882r+lb
+	gM0NxAlkfdAEFDLbLN9Zkj2fu+40pWsxk48iDlG6XuKK/15LIMEzvytj/qm2jFhnppWBiQ6/T8LeK
+	VtL4qleIUX880qmabsEXPJebBVlxUXz93tCIfLuL2xKHpcjZttWU5bQnwYAk6kklRzwR525YQBLoT
+	z2OHae32vgHjl67MCQNw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSvzi-00000002O9p-0E31;
+	id 1xSvzi-00000002ODJ-2I3v;
 	Mon, 16 Nov 2026 12:39:34 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSua2-000000027Ig-37n1
+	id 1xSua9-000000027MS-3T9Z
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Nov 2026 11:08:58 +0000
+	Mon, 16 Nov 2026 11:09:05 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 337C5601FA;
+	by sea.source.kernel.org (Postfix) with ESMTP id 92ADC41233;
+	Mon, 16 Nov 2026 11:09:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 643CC1F000C7;
 	Mon, 16 Nov 2026 11:08:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDB211F000C4;
-	Mon, 16 Nov 2026 11:08:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794827337;
-	bh=ek7FYduULSVbUq5arr3ZrFc9sF73FP4dcX9AYxY+9Ag=;
+	s=k20260515; t=1794827345;
+	bh=WZa8raruWf4jzyZcy4zjAHZiv8qEDUIon9hD96nRur0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=hqVGQD92ptf9qqnybXZsjl1lBXLy25LXcD3qck0h3II6D1+uj2w0UCe7AnC8yfuUK
-	 DBvlP7U/ezRfWQ8Rs5suLaGriT1BSlssZ9axHhjPhAuXDlS1Y/K2QWswiS2nf0hd15
-	 mgNz1M9WUrIByUmgj4LNTVaef0wBQawvbuFhB9JsfbJP+PbGz3/XCoYokswy4kK25Q
-	 X2hrdX3tY06xzdGLazSIumYwZqYdKkoPSnb1hfbzQy+wt09vb/IMMve/bJQLAIa6F1
-	 vAjADxJuDTMP4T1sHKG0OZOaWsM6OFV3enjzvFavLrjqm3CNNR7zTo5aWyeLsdFncs
-	 cnHuExJ0EguVA==
+	b=R9B5RaEQmiwsAP1jIczB2zWH7HySjdmMzkng/+3APaCz2aIiR/5pA6QHlhTGPsx8z
+	 CRzgX8ndXpYp0sjoyAbMIp1+MxGD+2DAlrY7udq0z+KNdGy7F3kxcIwyC6zbTjxhWm
+	 yirFYavZHEFP6gIEwpXBYIN6SxBglphEPLbBaCq7FRAcuqs7D0l1JDGItjul5ABdHB
+	 d9KuKk4ck+bWHEQ7LhylcskCqFiUIBf3v15nKwFrhNFGCCv2wRxQdpOvT+/bHvNnrt
+	 DnN5kVqm7vTrOkR80gnd3fRgFIsX/hlTkS2T+BoxTB5bUiUfAjvwd6zlckKAgcRgHy
+	 1qyB+N2C8a43g==
 From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 16 Nov 2026 12:04:56 +0100
-Subject: [PATCH RFC v3 23/44] fuse: use fc_init_pseudo() for fusectl
+Date: Mon, 16 Nov 2026 12:04:57 +0100
+Subject: [PATCH RFC v3 24/44] efivarfs: use fc_init_pseudo()
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261116-work-loop-pseudo-v3-23-8cbbea1cf34f@kernel.org>
+Message-Id: <20261116-work-loop-pseudo-v3-24-8cbbea1cf34f@kernel.org>
 References: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
 In-Reply-To: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -73,12 +73,12 @@ Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>,
  Alexander Mikhalitsyn <alex@amutable.com>, 
  Chris Down <chris@chrisdown.name>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=999; i=brauner@kernel.org;
- h=from:subject:message-id; bh=7AmoNzP4UOKW+VKhMYMUlDwuPOwZV6Om3UBU1WIAvFs=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9elx50rnV4OoK6YIK/Q26axukqwxsMu5p3Jl8d71vu
- a5nhWt/RykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwEQ6NRj+qb3+utWQ88yGsDn1
- fz35NzrGiu+9VZp3a+fs5gueVgtSwhj+Sh5vPv5J8uPZIynqDy8WReRO0+3vnPshjGGN0vOzJl/
- fMwAA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=972; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=U3c0nafflYvUbB7XCWz+41zdupMknG85VhFAzpOuQl4=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9elxl0evIXDdr63nf8LI7X+5e612rf6tTU7lporhxj
+ mdZts/6jlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIl0/WL4K3elzLjM+M6M+brf
+ 9/5bG75Vlvfsk9/+7EWxqyIett05Vc/wP8X9yuP865WvUu2fte80N+1KFXWeciZ+5nF3c9snSkG
+ ZTAA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 X-Mailman-Approved-At: Mon, 16 Nov 2026 04:39:20 -0800
@@ -100,37 +100,37 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Initialize fusectl as a pseudo filesystem. This raises SB_I_PSEUDO and
-also SB_I_NOEXEC and SB_I_NODEV. fusectl never holds executables or
+Initialize efivarfs as a pseudo filesystem. This raises SB_I_PSEUDO and
+also SB_I_NOEXEC and SB_I_NODEV. efivarfs never holds executables or
 device nodes.
 
 Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
 Reviewed-by: Chris Down <chris@chrisdown.name>
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/fuse/control.c | 2 ++
+ fs/efivarfs/super.c | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/fs/fuse/control.c b/fs/fuse/control.c
-index 21ffde596d611..4497362e7df06 100644
---- a/fs/fuse/control.c
-+++ b/fs/fuse/control.c
-@@ -10,6 +10,7 @@
- #include <linux/init.h>
- #include <linux/module.h>
+diff --git a/fs/efivarfs/super.c b/fs/efivarfs/super.c
+index 12746ced6dc63..e598d42c5f42c 100644
+--- a/fs/efivarfs/super.c
++++ b/fs/efivarfs/super.c
+@@ -8,6 +8,7 @@
+ #include <linux/efi.h>
+ #include <linux/fs.h>
  #include <linux/fs_context.h>
 +#include <linux/pseudo_fs.h>
- #include <linux/namei.h>
+ #include <linux/fs_parser.h>
+ #include <linux/module.h>
+ #include <linux/pagemap.h>
+@@ -554,6 +555,7 @@ static int efivarfs_init_fs_context(struct fs_context *fc)
+ 	}
  
- #define FUSE_CTL_SUPER_MAGIC 0x65735543
-@@ -334,6 +335,7 @@ static const struct fs_context_operations fuse_ctl_context_ops = {
+ 	fc->s_fs_info = sfi;
++	fc_init_pseudo(fc);
+ 	fc->ops = &efivarfs_context_ops;
  
- static int fuse_ctl_init_fs_context(struct fs_context *fsc)
- {
-+	fc_init_pseudo(fsc);
- 	fsc->ops = &fuse_ctl_context_ops;
  	return 0;
- }
 
 -- 
 2.53.0
