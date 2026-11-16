@@ -2,42 +2,57 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D43A606A880
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 08:12:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D574606A887
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 08:12:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=b4PkIso+;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=KN8FnyeC
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=X8m5a5BV;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=UF9/ABR8;
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=xfPjnX13
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Unsubscribe-Post:List-Owner;
-	bh=VxAv89LYfn/72Kx82hU8pl1AOR7zFwTlzXMiqMQFm7A=; b=b4PkIso+dbvi3bnmCWalY+94hC
-	fBab7EdUkbI6bU8tL5Bfup1Nqtyv2bP632BCnyRL/fzl107mlRtC/EUwI+S66fP6/Et4dtclQGg7d
-	427k1h2CH8KwhP0tz06eXAO9/NovfKKvQLyG2iYpOjDJpB7h9ZZW8oReCHTd3cpX5vNLWQtBVoD6J
-	eSs1Jeip+VD1znELJT5u+Nud7MOhzlc6sfXe2Xu3hytTZ2s5l/fD8KictAWezLXjTneJYr82uuW2H
-	rIHMR8Z/SSDILYBR8axGfw9IF823IY9USo01xsdGop9ekR/Mzm7iISHWrb5GlYON42jBWmadbJ2Nk
-	udmXBbLQ==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
+	List-Owner; bh=YsycSKqdpWgQAYZyBHElOv6U4YsHuIG1R77AoE0kvjY=; b=X8m5a5BVke3Uof
+	/agFGs5+tx3CtbKGQ6LBK6gFeJsOy/1V6wxAf2dr80I3x65oraPAQXn/Z8CodIf69rcGVVNKVpWE9
+	utS98LuuvavGbUromNLXDoGfub299MAvf8U2mswpfOUlOzD/GsMUHo2ORK2BEcMYsi9Ny55pmR10C
+	oiWwlNOsy7K4LeivtFhvXfNKwSR1eaVFLx2ey8pwPCZtFRNFAGuaUv12yBP5QQY870FkpoVppfLiO
+	HGLSA5p9vSoGbttr1AsG7KsK+DmUQWaVnWUUWsjMZJuDDJBVVIAWU8SscrpThCK3Z893fCLToR6ce
+	a0+wHH8W0qaUv0V7o3uQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSrpC-00000001WoY-408n;
-	Mon, 16 Nov 2026 08:12:26 +0000
-Received: from out199-15.us.a.mail.aliyun.com ([47.90.199.15])
+	id 1xSrpS-00000001WvG-0rja;
+	Mon, 16 Nov 2026 08:12:42 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSrp8-00000001Wn2-2ibm
+	id 1xSrpQ-00000001Wu2-30rT
+	for linux-nvme@bombadil.infradead.org;
+	Mon, 16 Nov 2026 08:12:41 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
+	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-Type:Content-ID:Content-Description;
+	bh=YsycSKqdpWgQAYZyBHElOv6U4YsHuIG1R77AoE0kvjY=; b=UF9/ABR8hV/lngxxKjs8EpnYzR
+	I17ecwAlKfbC0qVPnCZxJaRSbwvtmFORj1HdMDwH4IxDDSMFUL4XFIaMOMKnkdw0QdKdcCynHaMtr
+	hU0yoqawn8DNrD1dyb0bOhmdv9uChKMP302e4IJdiP9O3K438x1F5+DDMHw4k3qDkwDU3HGuo8Bsn
+	7cB3eg3Ov1CJHsJL7Z/Tbp0H9K4v+6ov2vSik1fldQLzNyAh12sQCmxjWqJTLdg7HzLybgfYMfXXO
+	/1PNghJsOj5cnqt8remFbgalKDP/PqMdxl07bKvfDB6G4DU/BcNPp60UvRoePlu5S9x9YEYTm4HQw
+	8zc5LagQ==;
+Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130])
+	by desiato.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xSrpI-0000000DUW1-3KZf
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Nov 2026 08:12:25 +0000
+	Mon, 16 Nov 2026 08:12:38 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1794816737; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=VxAv89LYfn/72Kx82hU8pl1AOR7zFwTlzXMiqMQFm7A=;
-	b=KN8FnyeCymAnaQo3nuUxTVk2bRCO99SH/hime9ITtVMh2ErZRznOaPQbTvU0/gThyufLatK6Zq9h8BmrVdsgwG4dSltN6u8HRC9sgMDlK3pKx4XiD8z8mycn75fIfbT+yA6g7JnkBdrN6b8G7BCG+F1nktVFK7HBjNpYKzCUvsw=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R101e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XEp0PdQ_1794816736;
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XEp0PdQ_1794816736 cluster:ay36)
+	t=1794816738; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=YsycSKqdpWgQAYZyBHElOv6U4YsHuIG1R77AoE0kvjY=;
+	b=xfPjnX13uYB2TmCqFQ3IXubL8e94qRWtXN0dAAbdtAYEYZB8uVXxXTqi6yJ+qO4i4vG0oxIWQC1fD9n2/I6X6k5bx6C46aVsH/Z1ftPwgTPCz5vL+WWCF1XwWy4vbPglrQ0MaOR8gBxi0XQtMnEyevVKdDQ3139E2Q3L8R7mdCo=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R191e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XEoakS5_1794816737;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XEoakS5_1794816737 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Mon, 16 Nov 2026 16:12:16 +0800
+          Mon, 16 Nov 2026 16:12:17 +0800
 From: Guixin Liu <kanie@linux.alibaba.com>
 To: Keith Busch <kbusch@kernel.org>,
 	Jens Axboe <axboe@kernel.dk>,
@@ -47,17 +62,19 @@ To: Keith Busch <kbusch@kernel.org>,
 	Daniel Wagner <dwagner@suse.de>,
 	Hannes Reinecke <hare@suse.de>
 Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH v3 0/2] nvme: fabrics and target fixes
-Date: Mon, 16 Nov 2026 16:12:09 +0800
-Message-ID: <20261116081211.1757155-1-kanie@linux.alibaba.com>
+Subject: [PATCH v3 1/2] nvme-fc: fix use-after-free in nvme_fc_match_disconn_ls()
+Date: Mon, 16 Nov 2026 16:12:10 +0800
+Message-ID: <20261116081211.1757155-2-kanie@linux.alibaba.com>
 X-Mailer: git-send-email 2.43.7
+In-Reply-To: <20261116081211.1757155-1-kanie@linux.alibaba.com>
+References: <20261116081211.1757155-1-kanie@linux.alibaba.com>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261116_001224_073024_11B1D151 
-X-CRM114-Status: GOOD (  11.68  )
-X-Spam-Score: -17.6 (-----------------)
+X-CRM114-CacheID: sfid-20261116_081235_174050_0F4B7938 
+X-CRM114-Status: GOOD (  20.52  )
+X-Spam-Score: -15.7 (---------------)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,55 +85,108 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-21.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-26.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Two remaining fixes from the previous rounds of this series:
+Commit b71cbcf7d170e ("nvme-fc: don't hold rport lock when putting ctrl")
+dropped the rport lock inside the loop to put the reference of a
+non-matching controller, because nvme_fc_ctrl_free() takes the rport
+lock to unlink the controller. But no iterator is sound across that
+drop: with list_for_each_entry_safe() the prefetched next entry can be
+freed in the window, and with a plain iterator the loop's own
+nvme_fc_ctrl_put() can be the final reference, freeing the current
+entry before the iterator reads its ->next pointer.
 
- - a use-after-free in nvme_fc_match_disconn_ls(): no iterator is
-   sound across the rport lock drop inside the loop, so the loop is
-   reworked to run entirely under the rport lock and to take a
-   reference only for the match; reproduced under KASAN through fcloop
- - a data race on the shared authentication transaction counter,
-   reworked per review to a per-queue counter, dropping the shared
-   ctrl->transaction field entirely
+The reference dance is unnecessary in the first place. An entry cannot
+leave ctrl_list while rport->lock is held, as the final put unlinks it
+under that very lock, so association_id can be inspected under
+ctrl->lock without holding a reference. Take a reference only for the
+matching controller, still under the rport lock, and hand it to the
+caller as before. The loop then no longer needs to drop the lock at
+all, which also removes the reason the lock was dropped for in the
+first place.
 
-The other three patches from v2 are already resolved: the GFP_KERNEL
-persistent reservation change and the tbkas configfs locking are in
-nvme-7.4 now, and the reconnect_delay fix was superseded by an earlier
-identical patch posted by someone else.
+Fixes: b71cbcf7d170e ("nvme-fc: don't hold rport lock when putting ctrl")
+Cc: stable@vger.kernel.org
+Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+---
 
-Both patches are verified on an initiator/target VM pair: the fc loop
-is compile tested and exercised under KASAN through fcloop with six
-controllers on one remote port across tbkas force-reconnect cycles
-and concurrent disconnects with no reports; the
-DH-HMAC-CHAP authenticated session including I/O covers the auth path.
+Reproduced under KASAN in a VM through fcloop with several controllers
+on one remote port and a tbkas force-reconnect racing concurrent
+controller disconnects; the lock-drop window was widened with a
+test-only mdelay(200) to make the microsecond window deterministic:
 
-Changes since v2:
+  BUG: KASAN: slab-use-after-free in nvme_fc_match_disconn_ls
+  Read of size 8 by task kworker
+  Workqueue: events nvme_fc_handle_ls_rqst_work
+  Call Trace:
+   nvme_fc_match_disconn_ls
+   nvme_fc_ls_disconnect_assoc
+   nvme_fc_handle_ls_rqst_work
+   process_one_work
 
- - rework the nvme-auth fix to a per-queue counter (Keith Busch),
-   drop the now unused shared field, and add the Fixes tag (sashiko);
-   the Reviewed-by on v2 covered the atomic_t variant and is dropped
- - resend the unchanged nvme-fc patch, still awaiting review
- - drop the reconnect_delay patch (superseded), the GFP_KERNEL patch
-   (applied) and the tbkas patch (applied)
+The freed object was the prefetched next entry, allocated by
+nvme_fc_alloc_ctrl() on connect and freed by nvme_free_ctrl() on the
+concurrent teardown. The loop increment dereferences it before
+nvme_fc_ctrl_get() gets a chance to reject it, which is why the
+get-unless-zero check in the loop body does not help. The reworked
+loop does not drop the lock, so no such window is left to widen.
+---
+ drivers/nvme/host/fc.c | 22 ++++++++++++----------
+ 1 file changed, 12 insertions(+), 10 deletions(-)
 
-Link: https://lore.kernel.org/all/20261109022646.290792-1-kanie@linux.alibaba.com/
-
-Guixin Liu (2):
-  nvme-fc: fix use-after-free in nvme_fc_match_disconn_ls()
-  nvme-auth: fix data race on ctrl->transaction
-
- drivers/nvme/host/auth.c |  3 +--
- drivers/nvme/host/fc.c   | 22 ++++++++++++----------
- drivers/nvme/host/nvme.h |  1 -
- 3 files changed, 13 insertions(+), 13 deletions(-)
-
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 2cbd744ffd22..ce4598dd227f 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -1469,29 +1469,31 @@ nvme_fc_match_disconn_ls(struct nvme_fc_rport *rport,
+ {
+ 	struct fcnvme_ls_disconnect_assoc_rqst *rqst =
+ 					&lsop->rqstbuf->rq_dis_assoc;
+-	struct nvme_fc_ctrl *ctrl, *tmp, *ret = NULL;
++	struct nvme_fc_ctrl *ctrl, *ret = NULL;
+ 	struct nvmefc_ls_rcv_op *oldls = NULL;
+ 	u64 association_id = be64_to_cpu(rqst->associd.association_id);
+ 	unsigned long flags;
+ 
+ 	spin_lock_irqsave(&rport->lock, flags);
+ 
+-	list_for_each_entry_safe(ctrl, tmp, &rport->ctrl_list, ctrl_list) {
+-		if (!nvme_fc_ctrl_get(ctrl))
+-			continue;
++	list_for_each_entry(ctrl, &rport->ctrl_list, ctrl_list) {
+ 		spin_lock(&ctrl->lock);
+ 		if (association_id == ctrl->association_id) {
+-			oldls = ctrl->rcv_disconn;
+-			ctrl->rcv_disconn = lsop;
+-			ret = ctrl;
++			/*
++			 * Entries cannot leave the list while rport->lock is
++			 * held, so they can be inspected without a reference.
++			 * Only the match needs one, for the caller.
++			 */
++			if (nvme_fc_ctrl_get(ctrl)) {
++				oldls = ctrl->rcv_disconn;
++				ctrl->rcv_disconn = lsop;
++				ret = ctrl;
++			}
+ 		}
+ 		spin_unlock(&ctrl->lock);
+ 		if (ret)
+ 			/* leave the ctrl get reference */
+ 			break;
+-		spin_unlock_irqrestore(&rport->lock, flags);
+-		nvme_fc_ctrl_put(ctrl);
+-		spin_lock_irqsave(&rport->lock, flags);
+ 	}
+ 
+ 	spin_unlock_irqrestore(&rport->lock, flags);
 -- 
 2.43.7
 
