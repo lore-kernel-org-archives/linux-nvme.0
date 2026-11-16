@@ -2,55 +2,56 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4058C606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E77DE606A31C
 	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 12:39:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=LX6BhTnW;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FUIH1F6N
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=cUnyUGff;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mmCSykMY
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=JUBUitc/wTfMb7cZo0KLtSOkDXoKMBIaahrb6Pvq2WU=; b=LX6BhTnWwPksyp
-	2rvLBj5q4Pf0gkZHhTOOIz5jKilsjdGM103v9jxMxKd+yqiSWP9Ly5NF1tgE6RwUMrWfIW0Xixdpz
-	t9kGmgFvbhjc0//pq57z933S7kL3qHPU507Ba9+yGOa3AEXUPnGetUM04W5+8+ghPvke3Xtt240AG
-	Eeyb37PO6djGWiAbiFSit/4wNB3Ygi2/4Tkju4ml9fRR+DQ+ENMsva2QhsjmwIg5D2vTp/uE+yWZ4
-	TwPP482MELRKmsV4JTK7lT5MaTnZa57YZUFUOtA4koWTwzyoragn2SCa84V90JNW5GzoqRJHLVzxS
-	iGM6BQKlJMW7c711WXVg==;
+	List-Owner; bh=V+osxLoh40BKAExDHaAgHTnjFjsOBXyAUQavRmbvZdM=; b=cUnyUGff5Ku408
+	MeKODXX2sUnJU0hA8YgI7bRVq1gxzHGIb29b2B8GHYuG6G/fXtXvjj4GSbOFvpGgGryvyr+oLIi96
+	idwbThrQHDKKa8opSiOdudgXarIm6z6q6vFWw1gFDmeVERJwY4St/TWXXjdzaJSeOZvXf7sgX1VDZ
+	i7gRWYm2kL9fNhDY+sXscgixHs11IxcexxerkfbvFyAi62jrRStves/Fjg+gJUoKzyE+LdxidUfVZ
+	XChBp7y1W0EWpxfvgYB2V0swsBf0Aa19aCJygaOnHcxKnz+BHeH/tBqRHyt8KD/h7W39FYU+5T+fs
+	0USlXLQU5oKPntkqiRuw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSvzm-00000002OS7-2jVR;
-	Mon, 16 Nov 2026 12:39:38 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1xSvzX-00000002NjG-1Jld;
+	Mon, 16 Nov 2026 12:39:23 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSuak-000000027W9-0Vpq
+	id 1xSuXc-000000026Qt-1ePV
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Nov 2026 11:09:42 +0000
+	Mon, 16 Nov 2026 11:06:29 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id DC6D0436A6;
-	Mon, 16 Nov 2026 11:09:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C6731F000C4;
-	Mon, 16 Nov 2026 11:09:35 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 28F4643DD9;
+	Mon, 16 Nov 2026 11:06:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3410E1F000C6;
+	Mon, 16 Nov 2026 11:06:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794827381;
-	bh=JUBUitc/wTfMb7cZo0KLtSOkDXoKMBIaahrb6Pvq2WU=;
+	s=k20260515; t=1794827188;
+	bh=V+osxLoh40BKAExDHaAgHTnjFjsOBXyAUQavRmbvZdM=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=FUIH1F6NGssyVW4COeuJyW+JXf9ZOuXxGiqbs4A0riZEC9KRZSSdvKNcURoDsDRgh
-	 9xYCbzX7EojI2QWlJla3qu7db5L+WQYXUZcNIeoO8I7Bq0+B09BmicfrMgxZ/Ox3on
-	 bFe8B7Gi//6ibg1Rcjs9Q9iX4wuprOmsQHVd3UNmADXkOZuZMUFwH7kba1alb352e9
-	 OJSNgp54/odFq5qdzwapiUJoJRaOPOoAwCSGsb7ksHyXtWMzlopVECEIT0G38kcQBE
-	 pg6QF0PX4eGcaaN9wK+k7kydBrzrK2s+1vVH5dg8hQFATIYPm4jdZtaIfe7R5PvR2a
-	 60xFyqANj+2cg==
+	b=mmCSykMYbLbUMgfAzsTRriPXLKntVd5F4h0335Zci+KFp7/M6E26jCvFFmFm6/FOh
+	 ZimtlOfuTCf0AKdMb7DArxCbNTGAd0e0/CO69vZW620lEXfAn1pqfCoje10jxhSc1J
+	 cSFCUZF5FEkl71fXKb5wgdAjz1AWCWq6VhUkPeo06V02hbI/WxzaCyHgNvxkzI3sLo
+	 2GdAQUK0Zyr6xa2Qe+qIUwF/i/vhwqVU6IgGnQbVzU/wiykqChN6i8GKS5TT8NvnN7
+	 zLrxUiks7eYGPstb/dmbg814Xp6NJSPByht4od2BBPOlpnQ+JR68HmJS8oj1md4KvV
+	 tKiRrZHSvNGsg==
 From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 16 Nov 2026 12:05:02 +0100
-Subject: [PATCH RFC v3 29/44] s390/hypfs: use fc_init_pseudo()
+Date: Mon, 16 Nov 2026 12:04:36 +0100
+Subject: [PATCH RFC v3 03/44] target: fileio: check that the backing file
+ supports ->{read,write}_iter
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261116-work-loop-pseudo-v3-29-8cbbea1cf34f@kernel.org>
+Message-Id: <20261116-work-loop-pseudo-v3-3-8cbbea1cf34f@kernel.org>
 References: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
 In-Reply-To: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -69,14 +70,15 @@ Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>,
  linuxppc-dev@lists.ozlabs.org, linux-usb@vger.kernel.org, 
  Amir Goldstein <amir73il@gmail.com>, linux-erofs@lists.ozlabs.org, 
  linux-kselftest@vger.kernel.org, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>
+ "Christian Brauner (Amutable)" <brauner@kernel.org>, 
+ Chris Down <chris@chrisdown.name>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=900; i=brauner@kernel.org;
- h=from:subject:message-id; bh=EnQ7f/LKwwXo6PyRpnVfj7bCGw1qYUMZQQO6IXtl1m0=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9etzAs//A4QyrntTfr5Y7yH5s6yi2sbvx+oICZxt3h
- d1kbZ/4jlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIk8e8HIcCtlltKlLKv9RupJ
- PUs2C3cvYefO2P3yrXS3UKbMrdVTVjH8M14Z2P06RDR52paz7g98lpWbd4vzSeWeD7J7ZqRssXQ
- eDwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1508; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=tSA3soIyhcve68q21MuFcaunaKBcO2eetu56IE80bMc=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9epzEXGTe+sJUZYufjwnje3Vtz4w3241//XLYb7Dlz
+ clNJz9d7ShlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZiIxk9Ght6dlz/J/z+mfrBJ
+ vHbFY9ZvJotOF860Pjt95QXHWeof7qkzMlxf+8bzxp25H/hkNDaErSk2OqtYfjKAI+ps4N2d1nc
+ PbGMBAA==
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 X-Mailman-Approved-At: Mon, 16 Nov 2026 04:39:20 -0800
@@ -98,35 +100,44 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Initialize hypfs as a pseudo filesystem. This raises SB_I_PSEUDO and
-also SB_I_NOEXEC and SB_I_NODEV. hypfs never holds executables or
-device nodes.
+With fd_async_io=1 the fileio backend calls ->read_iter() and
+->write_iter() of the backing file directly. The synchronous path goes
+through vfs_iter_read() and vfs_iter_write() which check for them but
+the aio path doesn't. So a backing file without them calls a NULL
+pointer on its first I/O.
 
+Refuse such files when configuring the device. On the synchronous path
+every read or write that needed the missing method failed with EINVAL
+anyway.
+
+Fixes: 769031c92c8b ("scsi: target: target/file: Add support of direct and async I/O")
+Reviewed-by: Jan Kara <jack@suse.cz>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Chris Down <chris@chrisdown.name>
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- arch/s390/hypfs/inode.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/target/target_core_file.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/arch/s390/hypfs/inode.c b/arch/s390/hypfs/inode.c
-index 559b011e68800..8662169de477a 100644
---- a/arch/s390/hypfs/inode.c
-+++ b/arch/s390/hypfs/inode.c
-@@ -12,6 +12,7 @@
- #include <linux/errno.h>
- #include <linux/fs.h>
- #include <linux/fs_context.h>
-+#include <linux/pseudo_fs.h>
- #include <linux/fs_parser.h>
- #include <linux/namei.h>
- #include <linux/vfs.h>
-@@ -301,6 +302,7 @@ static int hypfs_init_fs_context(struct fs_context *fc)
- 	sbi->gid = current_gid();
- 
- 	fc->s_fs_info = sbi;
-+	fc_init_pseudo(fc);
- 	fc->ops = &hypfs_context_ops;
- 	return 0;
- }
+diff --git a/drivers/target/target_core_file.c b/drivers/target/target_core_file.c
+index ab9824a4852f1..a5391e57e9aa5 100644
+--- a/drivers/target/target_core_file.c
++++ b/drivers/target/target_core_file.c
+@@ -144,6 +144,14 @@ static int fd_configure_device(struct se_device *dev)
+ 		goto fail;
+ 	}
+ 	fd_dev->fd_file = file;
++
++	if (!file->f_op->read_iter || !file->f_op->write_iter) {
++		pr_err("FILEIO: %s lacks ->read_iter or ->write_iter\n",
++		       fd_dev->fd_dev_name);
++		ret = -EINVAL;
++		goto fail;
++	}
++
+ 	/*
+ 	 * If using a block backend with this struct file, we extract
+ 	 * fd_dev->fd_[block,dev]_size from struct block_device.
 
 -- 
 2.53.0
