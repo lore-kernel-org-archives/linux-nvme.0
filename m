@@ -2,109 +2,132 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82705606A32C
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 12:40:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89D2C606A329
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 13:11:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=zOZwcmhE;
-	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=ggNcsLaZ
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=BEVXHooc;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=I8euH6Il;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=qwmTbebB;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=pSgqltap;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=BfFSlZfG
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Content-Type:
-	MIME-Version:References:In-Reply-To:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=L9fh6nGpkdQ3PKE1Pv6VuACg3WWhS00/MicQv00SggM=; b=zOZwcmhEkn2UHl6M6Q+AG95fPf
-	tjxbM7SODAy8MPQKiDPIvw26qwJ4xgOBND/VWNmaRB2Azrw6dZEfHtNYhDF0UEMVMzfLMMHNaThnb
-	l+zBQUgKPloju2JmEOLQTKR5q4Dc2Hym9qdQig6t/Lrd8MC02N88vSjtpjiq3X3nkbWX6rl+z5pkd
-	OifyQ3rZwX5ZNUQ5YCihugNKOuaNeRytkFBB8SZlw+kYMCFVq/uPxyNPRmZfsEPxKxsy3yiQJlmFU
-	wNXJW5bt7LnB71zYshbdm662eZgYxu5jHZI9JMN2aDZL13sO27NMJnS6jF/Rzmy02fo59hatY+Y+N
-	pQzSJRJQ==;
+	bh=aPB7W49SWsBu17qqGr8ORha9SlgtVrvHW1dZhYH+JXU=; b=BEVXHooc7o3ufbdyCfeppuamnS
+	rKl9gIDIpJCtwocmkx/xIb8icFfiaj8vVFNJfTGVachDpY2VRosY+8f+tAt5LrhAnWWVKME9a/tz/
+	FZPS3RSO598FXGfwKij6a2WENZAnEnvr1Bxnmn23GNBH9KNrgKp1BgqOeycREjekO+V3AdDl28qjP
+	p7QHjN45FtBzYuMORjZRtEdvDx2MJKkdjse0wxeoIoIMOEV6AS0HIZn+Q6RwUlTIj2CBZOF1JoHc4
+	DI8a0KukBCuX1sAlex8XdbiEzUnLpUy/e4AApSCl7nfF1pKuJPUW3yd3DZRAs9bOqstvqJOSHJE3e
+	7aM2tg2g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSw0q-00000002R2S-3nr9;
-	Mon, 16 Nov 2026 12:40:44 +0000
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e])
+	id 1xSwUm-00000002YYW-3POR;
+	Mon, 16 Nov 2026 13:11:40 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSK0g-0000000GhyO-0yMW
+	id 1xSwUj-00000002YXg-0kxb
 	for linux-nvme@lists.infradead.org;
-	Sat, 14 Nov 2026 20:06:03 +0000
-Received: by mail-pg1-x52e.google.com with SMTP id 41be03b00d2f7-cdb628232d2so2076437a12.0
-        for <linux-nvme@lists.infradead.org>; Sat, 14 Nov 2026 12:06:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chrisdown.name; s=google; t=1794686761; x=1795291561; darn=lists.infradead.org;
-        h=user-agent:message-id:content-disposition:content-type:mime-version
-         :references:in-reply-to:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=L9fh6nGpkdQ3PKE1Pv6VuACg3WWhS00/MicQv00SggM=;
-        b=ggNcsLaZVnIVVFfhKgipS4O5oMTd0y32qS7G7Xx6epyF6A3PBP9hmhzqIHktMgI190
-         E8qOelRsgPh9aJFQmQtSHzJSn1WloCKpxP+CbPkxNz6+wAUHB2xYWa9Ijm/TYIFYovZ2
-         DkYrJsGhPtWIaS9ucBy742/30MFrwXdnwOXYk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794686761; x=1795291561;
-        h=user-agent:message-id:content-disposition:content-type:mime-version
-         :references:in-reply-to:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=L9fh6nGpkdQ3PKE1Pv6VuACg3WWhS00/MicQv00SggM=;
-        b=CPOlUaOt5KsCiluHWQWLW+Dw+uytLjoTyYAvCqmsNUv2tlOeKN3OqiO2o9vzH1k3bP
-         eoD7JJs7z6jyXHPEYn3WdA2Y89ZeTBE3O2tMpcew/3JMDtwEJLVyNTInZ+hJuUU1YvIp
-         3JYKoqLS/duKPvIRADMRevFTQrqGJrMZtPlLLHENEszfedRxBvMSLe3HtbWU+m0em29m
-         PD7Gnb326BszumEOlxmxav2KKFFbqNsDyyN5gVRbhjpiiv0sieu7hneyMFwWER4/RVBC
-         vaonQ7iKLy5ZRK0vPGk6j9w/C21J1JKQlwnPpXuuuA0jxpQq2f/cOw/aa7NxC+qsbJd2
-         FkSg==
-X-Forwarded-Encrypted: i=1; AL+hErEOgJHv1vqjc23ix8DB7C2gXAjlhAXhaqSngcRE/9e1z8zqE+7HJvzmodnsiABKJeAA/LGXuiIKsTWp@lists.infradead.org
-X-Gm-Message-State: APuU4Z8vjweVPY8HrTinYQ+IwSDmeracWUVkVmUX6L/FIEr4sM0lw3vJ
-	2g4N3Yt+P7Fnaxf05WhbyHC6AuJKvvID5ieLNArTdiCBlZhL46FrGH0wI9yvhorsrIA=
-X-Gm-Gg: AYBFou23qdv2q26BXFGxBjxCGLGnsVdYROa9CSSVwVdzkIj2LBYFlMB5sHvYUItnfjU
-	MxpLTU2ePvMmIMrVeardYGa4HNAqoixJx6+wd4EfQppq4dhcw0wqdK6WHAz1zWImUESWokYSE8v
-	13oF77Ecm3LMgpzO4lRyO5n9w2G/0gmT6czuRBJsY34aAPFLgai1/ocGjg4mqs7jfM+YVM7D75G
-	zRmeyqiwUBmvuwGDC9mGkB9t/saE1BO3wVHZMOFtdT8nx85rSd7WUe6/NGCoVCFGg227F5MHYXV
-	yJQZVbCHFs1NdUWW+4fd/PME+FuW5IbXm67+SjlHy9kRCYh5LiiHQKieByf3fWoIDLndcYHQvem
-	SsnAdt6H+bxvUoFy68k4Ol3GH/9R7zqeUEVlay2r6DvTiUHeiZFOVLtqukN9kYlj+yLGEhws0St
-	lLeL67LjqcXCQZayQyTNKFALNKhiR11FO7yuEVgU0hrk90cT6GUTYcZ1+q2ejAspVUiSznS1Gzi
-	nU3ucu6VfJttoer5DtO052iVnnlvwU4/Zz6ikoiAViLfcc0X89qnQs/LCZRFm1jNiFAmWiACQcZ
-	T3OJ6bePx9yUf+cxwvLIT1VYY022URdE2qcpeqmQ9GCBx+emFX0Tm2B6YcuEnFbONGXDEziJNFv
-	aDMA61byQoQFzpAdZp/9nFWxRFP15f0a4r0OZ5QdYIOOPRmn+8TWY054pBPKlkaLtUk9C7RFNoH
-	r0oa1HO53LGT1nXlAn0gOtJw8Pc7vdkrjESOGvA+x5vGyY5Maf5J2Guq3g
-X-Received: by 2002:a17:90b:2584:b0:3ac:9f00:3bc7 with SMTP id 98e67ed59e1d1-3b1b0ba61famr5629200a91.33.1794686761104;
-        Sat, 14 Nov 2026 12:06:01 -0800 (PST)
-Received: from [172.22.0.2] ([64.16.22.130])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1b1e9ef15sm5258887a91.0.2026.11.14.12.05.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Nov 2026 12:06:00 -0800 (PST)
-Date: Sat, 14 Nov 2026 12:05:57 -0800
-From: Chris Down <chris@chrisdown.name>
+	Mon, 16 Nov 2026 13:11:38 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 1F84D1F7E2;
+	Mon, 16 Nov 2026 13:11:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794834695; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aPB7W49SWsBu17qqGr8ORha9SlgtVrvHW1dZhYH+JXU=;
+	b=I8euH6IlQMpNAUEBl1FpKwvTnQyWvu1d5+pITe3P72DU+tp+gRy3yicid9gtfdxU+lTbso
+	Rrz3qgHiixhF9J8sjk7Kr6zIsO6GAfI+Kit/XpLmeD6+To5mA70BV+ae75eUL4PIOtGDas
+	ID7BPgofKV5nJHkFndl5+q+9Dx4f4mg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794834695;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aPB7W49SWsBu17qqGr8ORha9SlgtVrvHW1dZhYH+JXU=;
+	b=qwmTbebBt6+Ox2iRA4n3FoLPk+UPdfPnrf/tIxR6+SCZLGOy4hZrC4IuRMoNCFiEItFAZJ
+	A2HXJbkHSifMqdAQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794834694; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aPB7W49SWsBu17qqGr8ORha9SlgtVrvHW1dZhYH+JXU=;
+	b=pSgqltapJr03XTCLjGW//WA6uIDKKTGVD3CwoLmHAZISAvGZkIdxS1Xl7gNXhUqPhRDYbY
+	e4aTeNazuxGRaY74LPU14CkzuSlRplbk6TElZmtmOEZ9MpDAKMCHU97HrSaGKjNVYHBctK
+	+97v9dTWy3e7emRU/5RPEMzMl2O0quM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794834694;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aPB7W49SWsBu17qqGr8ORha9SlgtVrvHW1dZhYH+JXU=;
+	b=BfFSlZfGF/FsSOuZel6GvoytLZpzlS/wgikjcS8HGyKwKUTr9Vci7wNDJUSW5lawF9m1by
+	w3iqpct4CYOGmGDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E91841334C;
+	Mon, 16 Nov 2026 13:11:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id cqV9MAUB+2rHFQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 16 Nov 2026 13:11:33 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id 7A8AA24E08; Mon, 16 Nov 2026 14:11:33 +0100 (CET)
+Date: Mon, 16 Nov 2026 14:11:33 +0100
+From: Jan Kara <jack@suse.cz>
 To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>,
-	Chris Mason <mason@kernel.org>, Josef Bacik <josef@toxicpanda.com>,
-	Christoph Hellwig <hch@lst.de>, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-mm@kvack.org, bpf@vger.kernel.org,
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
-	apparmor@lists.ubuntu.com, linux-nfs@vger.kernel.org, netdev@vger.kernel.org,
-	fuse-devel@lists.linux.dev, linux-efi@vger.kernel.org,
-	xen-devel@lists.xenproject.org, ocfs2-devel@lists.linux.dev,
-	linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-usb@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>,
-	linux-erofs@lists.ozlabs.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC v2 33/42] fs: add file_check_backing()
-In-Reply-To: <20261114-work-loop-pseudo-v2-33-98639a2286fb@kernel.org>
-References: <20261114-work-loop-pseudo-v2-0-98639a2286fb@kernel.org>
-	<20261114-work-loop-pseudo-v2-33-98639a2286fb@kernel.org>
+Cc: Jan Kara <jack@suse.cz>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jens Axboe <axboe@kernel.dk>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, io-uring@vger.kernel.org, Christoph Hellwig <hch@lst.de>, 
+	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, 
+	target-devel@vger.kernel.org, linux-unionfs@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-nfs@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v2 01/17] fs: add kiocb_start_write_trylock()
+Message-ID: <6dnk35xcsruinjvqrgi2tfl3i63rbfs7bs3qxodw2joumqu6vn@zewmqpvkbbwk>
+References: <20261116-work-fs-frozen_writes-v2-0-ecc4a2aac40e@kernel.org>
+ <20261116-work-fs-frozen_writes-v2-1-ecc4a2aac40e@kernel.org>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20261114120557.4bc1eb6e57218cdc@chrisdown.name>
-User-Agent: Mutt/2.4.3 (cc9e3943) (2026-10-09)
+In-Reply-To: <20261116-work-fs-frozen_writes-v2-1-ecc4a2aac40e@kernel.org>
+X-Spamd-Result: default: False [-12.80 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -12.80
+X-Spam-Level: 
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261114_120602_280868_3F0BBD01 
-X-CRM114-Status: GOOD (  12.49  )
+X-CRM114-CacheID: sfid-20261116_051137_513238_01004C33 
+X-CRM114-Status: GOOD (  27.19  )
 X-Spam-Score: -2.1 (--)
-X-Mailman-Approved-At: Mon, 16 Nov 2026 04:40:40 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -115,51 +138,103 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-7.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Hi Christian,
+On Mon 16-11-26 12:03:41, Christian Brauner wrote:
+> kiocb_start_write() waits until a frozen filesystem is thawed. A
+> nonblocking submission can't use it. io_uring open-codes the trylock
+> variant for its IOCB_NOWAIT writes.
+> 
+> Add kiocb_start_write_trylock() next to kiocb_start_write() and use it
+> in io_uring. kiocb_write_iter() is going to need it as well.
+> 
+> No functional changes.
+> 
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-Christian Brauner writes:
->+	/* Look through stacking filesystems at the inode with the data. */
->+	if (d_real_inode(file->f_path.dentry)->i_sb->s_iflags & SB_I_PSEUDO)
->+		return -EINVAL;
+Looks good. Feel free to add:
 
-This looks good in general, but what the bots said about O_PATH files
-here is real. With FMODE_PATH this is reached for a file that was never
-opened, so on overlayfs nothing has been through ovl_open() to look up
-the lowerdata of a metacopy file yet. ovl_d_real() then does the lookup
-itself, and when that fails it hits the WARN(1) at its end and returns
-the overlayfs dentry, so the check passes as well.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-Only fuse passes FMODE_PATH, so it takes CAP_SYS_ADMIN to get there, but
-it's easy to trigger with that. From a quick test with a metacopy file
-whose redirect into a data-only layer points at nothing, registering an
-O_PATH fd of it with FUSE_DEV_IOC_BACKING_OPEN gives
+								Honza
 
-     ovl_d_real(/f, 0): real dentry not found
-     WARNING: fs/overlayfs/super.c:79 at ovl_d_real+0xc9/0x210
-     [...]
-      file_check_backing+0x308/0x5e0
-      fuse_backing_new+0x219/0x4a0
-      fuse_backing_open+0xe8/0x390
-      fuse_dev_ioctl+0x53a/0x7d0
-
-and the ioctl still succeeds. A normal open of that file fails with
-ENOENT, so nothing could have used it as a backing file anyway, but with
-panic_on_warn this is now a panic.
-
-Maybe ovl_d_real() should just stop warning when the lookup fails, now
-that it has a caller that isn't trace_uprobe? The check would still pass
-for an O_PATH file whose lowerdata couldn't be looked up at that point,
-though.
-
-Thanks!
-
-Chris
+> ---
+>  include/linux/fs.h | 22 ++++++++++++++++++++++
+>  io_uring/rw.c      |  9 +--------
+>  2 files changed, 23 insertions(+), 8 deletions(-)
+> 
+> diff --git a/include/linux/fs.h b/include/linux/fs.h
+> index 99caef43ff3c4..eefc2c9d4af19 100644
+> --- a/include/linux/fs.h
+> +++ b/include/linux/fs.h
+> @@ -2801,6 +2801,28 @@ static inline void kiocb_start_write(struct kiocb *iocb)
+>  	__sb_writers_release(inode->i_sb, SB_FREEZE_WRITE);
+>  }
+>  
+> +/**
+> + * kiocb_start_write_trylock - try to get write access to a superblock for
+> + *			       async file io
+> + * @iocb: the io context we want to submit the write with
+> + *
+> + * This is kiocb_start_write() for a submission that must not wait until a
+> + * frozen filesystem is thawed. Should be matched with a call to
+> + * kiocb_end_write() if it succeeds.
+> + *
+> + * Return: true if write access was acquired, false if it wasn't.
+> + */
+> +static inline bool kiocb_start_write_trylock(struct kiocb *iocb)
+> +{
+> +	struct inode *inode = file_inode(iocb->ki_filp);
+> +
+> +	if (!sb_start_write_trylock(inode->i_sb))
+> +		return false;
+> +	/* Fool lockdep just like kiocb_start_write() does. */
+> +	__sb_writers_release(inode->i_sb, SB_FREEZE_WRITE);
+> +	return true;
+> +}
+> +
+>  /**
+>   * kiocb_end_write - drop write access to a superblock after async file io
+>   * @iocb: the io context we sumbitted the write with
+> diff --git a/io_uring/rw.c b/io_uring/rw.c
+> index 3a8559ff4dc66..a0a16fc521455 100644
+> --- a/io_uring/rw.c
+> +++ b/io_uring/rw.c
+> @@ -1095,9 +1095,6 @@ int io_read_mshot(struct io_kiocb *req, unsigned int issue_flags)
+>  
+>  static bool io_kiocb_start_write(struct io_kiocb *req, struct kiocb *kiocb)
+>  {
+> -	struct inode *inode;
+> -	bool ret;
+> -
+>  	if (!(req->flags & REQ_F_ISREG))
+>  		return true;
+>  	if (!(kiocb->ki_flags & IOCB_NOWAIT)) {
+> @@ -1105,11 +1102,7 @@ static bool io_kiocb_start_write(struct io_kiocb *req, struct kiocb *kiocb)
+>  		return true;
+>  	}
+>  
+> -	inode = file_inode(kiocb->ki_filp);
+> -	ret = sb_start_write_trylock(inode->i_sb);
+> -	if (ret)
+> -		__sb_writers_release(inode->i_sb, SB_FREEZE_WRITE);
+> -	return ret;
+> +	return kiocb_start_write_trylock(kiocb);
+>  }
+>  
+>  int io_write(struct io_kiocb *req, unsigned int issue_flags)
+> 
+> -- 
+> 2.53.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
 
