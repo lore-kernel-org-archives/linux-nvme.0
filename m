@@ -2,59 +2,96 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42A3C606A31C
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 12:39:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8CCD606A323
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 12:39:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Z7SoDHXb;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NGs9hgRo
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=kV2B4JbK;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=G82NOfhr
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:Cc:To:From:Subject:
-	References:In-Reply-To:Message-Id:MIME-Version:Content-Type:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:From:
+	Subject:Message-ID:References:Mime-Version:In-Reply-To:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=ewJeUaksgXnSPjHwujvoiDsCY2620AwnIo92RczcOPg=; b=Z7SoDHXbN7eDiyC2/BS9hvALM/
-	Im3FKGXITAmUMPILJraVxEb4oVEIdTEObTgH889OrD0aLtgj7UtWcAENsc0ITzfx6wh+Kh4ISHBzc
-	pJ3U3cOmqyb73S2M1K8SbkMD7a1zvTz0JVCc+91RTcNlAHt6c3Sh1uYyBG9cJrgeORORJ5lxRtWOy
-	qPVHAwbZ+C/fLmi5LfJm16SgEU7Wk7qUc+9KlaIshxh4LsPYnS5DmKzCupXKM9VO9MqElNRimTkXj
-	afrMPQkhJlXufAmeRRgEVug8POBEbNkLub51D2HvyG+BFnyDOYjYWHs40P+RQ0LEcM4VsvXQr0h+F
-	S2Yd6X5A==;
+	bh=kLAz6sn1EqmF7aJ7KDEBtraVgj4ybxLcfJJY1MY6K34=; b=kV2B4JbKFkS7jrfE//UixDUDAg
+	WdNYzQS8oXn8xah7GZXZvq+b/3hJ7WER7KjVB1jxAm0FV/jZ5Zkdw/iFZLcXi0Qt3cXLH1cnq/fdX
+	gUM+t7EoeJ6XUmgj0zI5cRqg0E0jxR1H5qvDLHJLElVA57IKtKDK31EiS2WXqo79zdwbY8f2oucKV
+	wpeNtodJV3aDY0bER4dUDpcvxuNb/k0EsngFdGieT7SbctSMHYoRettf3yj8c5tDH2wdyBWI7Lohc
+	YbDdsr3hAOnLHerEYiwRcjbHf2EqAZPDt/QbzCxM+ctGcjDqG2Mg5VyFO4z7ET7IKgcoe4lOwZSUI
+	7FfwuRZQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSw04-00000002PNu-2LJn;
-	Mon, 16 Nov 2026 12:39:56 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1xSw05-00000002PRW-2gON;
+	Mon, 16 Nov 2026 12:39:57 +0000
+Received: from mail-wr1-x448.google.com ([2a00:1450:4864:20::448])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSvNk-00000002HQw-1Z6Q
+	id 1xSvOM-00000002HYo-2psO
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Nov 2026 12:00:20 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 9956A62984;
-	Mon, 16 Nov 2026 12:00:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B1241F000C4;
-	Mon, 16 Nov 2026 12:00:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794830419;
-	bh=ewJeUaksgXnSPjHwujvoiDsCY2620AwnIo92RczcOPg=;
-	h=In-Reply-To:References:Subject:From:To:Cc:Date;
-	b=NGs9hgRo8Pm53dwqOowj804JfWGt9pNSxyXsA5ZbufV3wNEO1pXrEV/P2nYSJ6s0h
-	 RkTVtrJGGRLTAc/i5stGgdH7MoEG/RRlQzCp8xsSKAlYN1LFViwB+sXdk4YoAbt7yZ
-	 PR7EK3GRWabIulVC1l0sYiPb/s/WJh1GIS+NuEi9fxzz0zXVvfrqLfrCezMd74ZtjC
-	 IEP94sDVVDwuNz+mWo090jAlScdWhDl8h+8NtgR+BEvWRcqbaBD+sHm90zfAZDrFLE
-	 Ium0YC6BRRHbiChOy1fGM3bxcnzkJeY8LsKxgOeIXXUZU9bjQC0KNhILzz6Uz/yD+e
-	 WluvUktyVhSBw==
-Content-Type: multipart/mixed; boundary="===============1962703051549190966=="
+	Mon, 16 Nov 2026 12:01:00 +0000
+Received: by mail-wr1-x448.google.com with SMTP id ffacd0b85a97d-4923b9fdd43so2415776f8f.3
+        for <linux-nvme@lists.infradead.org>; Mon, 16 Nov 2026 04:00:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1794830455; x=1795435255; darn=lists.infradead.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=kLAz6sn1EqmF7aJ7KDEBtraVgj4ybxLcfJJY1MY6K34=;
+        b=G82NOfhrCh3lqQ/k/vS9mD+kMrqU5FXWC4lcWs2hh7FoOyZej1mORe7rqveQ2lGupO
+         lnl6NvQ36+dMhdJrLr0SSCWB0S4v//F6ezjr0+l/ftkaMZ8+o7nGd5KPhsYM8RQp5F1/
+         M9ONw3QJuEMNqipTxP9r/LL4f/RaZ5VgZ12F1btEtJDiLCMdFsBqUeQjbVNnSkYqB7jd
+         P5rTxl0jZnMRzXgxmbRKiFXjNsYIFZ4LO5SKuJ/P2QczsvWOVrTlXtobp256ujwc2xe+
+         FzLuRK3qyAVbPuwXxVLBinzb9HFeAAfPumQo7ZMgeHyIgRamyjy3/sjHUALAIaGnboto
+         KH4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794830455; x=1795435255;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=kLAz6sn1EqmF7aJ7KDEBtraVgj4ybxLcfJJY1MY6K34=;
+        b=jW15DoViCJFgdX5Qrb69xhgb2oHD3LCtDA3ZlzqjyMaKPmJX/MHvphNbDwXBb9Otdn
+         5UePHVTJZ57xiBFFjOw1+pKlNt4uhVyT8/7wX/UdCiN5XgRcVar3fn0uLj/SAr/Y4LBJ
+         bC6ZTHmLuX6e8hlvXqFcCJYWOjN2LeQ9mvY8OECAdzQBCqcKMp2YhzSU2uAPZ8+0RTaO
+         qjL3pw2JfWD5qg0OwVGgfTlh0Pnes7LR0tRAKjD0VIEzz+5nwXb2+Ubtqd8e4nPodlf1
+         bH+yTNWc5P9aH5JLEO7anna+i5qxEpMDJ1ffcLQUWs2R0o3MNbeisHYH9iR/e20OiXsC
+         mOdA==
+X-Forwarded-Encrypted: i=1; AL+hErHuInM7IDe1FaMNHR42j0gl5dDQzbzqMmWgMj1Bi3/7W4dHxII4dQkwSK5z3mIgtAWRo9iyfd0OOeJv@lists.infradead.org
+X-Gm-Message-State: APuU4Z/9G1kHVr++mffWpCDIB02Ef3Uj5GHTouIPT7egiiGaucAKPYHI
+	e5D8bf1s+kuckm86esFdu3J+q3+Ov5uS8pUSbDHZXowv6DdE7Q3ektHfuvDMKElnyQLuKyd0Avz
+	LlRRguc/lYlSBeXYpkw==
+X-Received: from wrso13.prod.google.com ([2002:a5d:474d:0:b0:493:3d97:6e88])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:adf:e007:0:20b0:48e:3697:708d with SMTP id ffacd0b85a97d-49c70ed8e41mr16698595f8f.12.1794830455230;
+ Mon, 16 Nov 2026 04:00:55 -0800 (PST)
+Date: Mon, 16 Nov 2026 12:00:53 +0000
+In-Reply-To: <20261116-work-loop-pseudo-v3-12-8cbbea1cf34f@kernel.org>
 X-Archived-By: <archiver.kernel.org>
-MIME-Version: 1.0
-Message-Id: <56b5bed0bd75b5b0c7368009493734cda89f1ca37c0fc29c81ed65048cbfeca4@mail.kernel.org>
-In-Reply-To: <20261116-work-loop-pseudo-v3-44-8cbbea1cf34f@kernel.org>
-References: <20261116-work-loop-pseudo-v3-44-8cbbea1cf34f@kernel.org>
-Subject: Re: [PATCH RFC v3 44/44] selftests/filesystems: add backing file tests for pseudo files
-From: bot+bpf-ci@kernel.org
-To: brauner@kernel.org,linux-fsdevel@vger.kernel.org
-Cc: jannh@google.com,mason@kernel.org,josef@toxicpanda.com,hch@lst.de,linux-block@vger.kernel.org,linux-kernel@vger.kernel.org,linux-nvme@lists.infradead.org,viro@zeniv.linux.org.uk,jack@suse.cz,linux-scsi@vger.kernel.org,target-devel@vger.kernel.org,driver-core@lists.linux.dev,linux-mm@kvack.org,bpf@vger.kernel.org,linux-security-module@vger.kernel.org,selinux@vger.kernel.org,apparmor@lists.ubuntu.com,linux-nfs@vger.kernel.org,netdev@vger.kernel.org,fuse-devel@lists.linux.dev,linux-efi@vger.kernel.org,xen-devel@lists.xenproject.org,ocfs2-devel@lists.linux.dev,linux-s390@vger.kernel.org,linuxppc-dev@lists.ozlabs.org,linux-usb@vger.kernel.org,amir73il@gmail.com,linux-erofs@lists.ozlabs.org,linux-kselftest@vger.kernel.org,brauner@kernel.org,alex@amutable.com,chris@chrisdown.name,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,mason@kernel.org,ihor.solodrai@linux.dev
-Date: Mon, 16 Nov 2026 12:00:17 +0000 (UTC)
+Mime-Version: 1.0
+References: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org> <20261116-work-loop-pseudo-v3-12-8cbbea1cf34f@kernel.org>
+X-Mailer: git-send-email 2.56.0.611.g1030f0b940-goog
+Message-ID: <20261116120053.371591-1-aliceryhl@google.com>
+Subject: Re: [PATCH RFC v3 12/44] rust_binderfs: use fc_init_pseudo()
+From: Alice Ryhl <aliceryhl@google.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Alice Ryhl <aliceryhl@google.com>, linux-fsdevel@vger.kernel.org, 
+	Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, Josef Bacik <josef@toxicpanda.com>, 
+	Christoph Hellwig <hch@lst.de>, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org, target-devel@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-mm@kvack.org, bpf@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
+	apparmor@lists.ubuntu.com, linux-nfs@vger.kernel.org, netdev@vger.kernel.org, 
+	fuse-devel@lists.linux.dev, linux-efi@vger.kernel.org, 
+	xen-devel@lists.xenproject.org, ocfs2-devel@lists.linux.dev, 
+	linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-usb@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>, 
+	linux-erofs@lists.ozlabs.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20261116_040058_966572_11FB9FD1 
+X-CRM114-Status: UNSURE (   7.95  )
+X-CRM114-Notice: Please train this message.
+X-Spam-Score: -9.5 (---------)
 X-Mailman-Approved-At: Mon, 16 Nov 2026 04:39:20 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -66,159 +103,20 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-21.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIMWL_WL_MED,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL
+	autolearn=unavailable autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
---===============1962703051549190966==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+On Mon, Nov 16, 2026 at 12:04:45PM +0100, Christian Brauner wrote:
+> Initialize binderfs as a pseudo filesystem instead of raising SB_I_NOEXEC
+> by hand. This adds SB_I_PSEUDO. binderfs_fill_super() keeps clearing
+> SB_I_NODEV for the binder device nodes.
+> 
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-> selftests/filesystems: add backing file tests for pseudo files
-
-TL;DR:
-- Selftest: fuse tests may fail instead of skip without
-  CONFIG_FUSE_PASSTHROUGH (-EOPNOTSUPP, not -EPERM)
-- Metacopy test may fail without CONFIG_TMPFS_XATTR
-- Minor duplicated setup code
-
-> diff --git a/tools/testing/selftests/filesystems/config b/tools/testing/selftests/filesystems/config
-> --- a/tools/testing/selftests/filesystems/config
-> +++ b/tools/testing/selftests/filesystems/config
-> @@ -6,3 +6,19 @@ CONFIG_NET=y
->  CONFIG_NET_NS=y
->  CONFIG_INET=y
->  CONFIG_SYSFS=y
-> +CONFIG_BLK_DEV_LOOP=y
-> +CONFIG_OVERLAY_FS=y
-> +CONFIG_TMPFS=y
-> +CONFIG_CONFIGFS_FS=y
-[ ... ]
-
-Should CONFIG_TMPFS_XATTR=y be added here as well?
-
-TEST(fuse_passthrough_overlayfs_metacopy_file) mounts a private tmpfs
-through setup_tmp() and then does:
-
-    ASSERT_EQ(setxattr("/tmp/lower/file", "trusted.overlay.metacopy",
-                       "", 0, 0), 0);
-
-shmem_fill_super() only sets sb->s_xattr under CONFIG_TMPFS_XATTR, which
-defaults to n, and CONFIG_TMPFS does not select it.  Without it
-setxattr() fails with EOPNOTSUPP, the ASSERT_EQ() aborts, and the run
-reports a failure rather than a skip.  tools/testing/selftests/landlock/config
-lists CONFIG_TMPFS_XATTR=y next to CONFIG_TMPFS=y.
-
-Alternatively the test could SKIP when setxattr() returns EOPNOTSUPP.
-
-> diff --git a/tools/testing/selftests/filesystems/pseudo_backing_test.c b/tools/testing/selftests/filesystems/pseudo_backing_test.c
-> new file mode 100644
-> --- /dev/null
-> +++ b/tools/testing/selftests/filesystems/pseudo_backing_test.c
-
-[ ... ]
-
-> +TEST(overlayfs_on_sysfs_backing_file)
-> +{
-> +	if (!can_use_loop())
-> +		SKIP(return, "loop devices unavailable");
-> +
-> +	ASSERT_EQ(unshare(CLONE_NEWNS), 0);
-> +	ASSERT_EQ(mount(NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL), 0);
-> +	ASSERT_EQ(mount("tmpfs", "/tmp", "tmpfs", 0, NULL), 0);
-
-this isn't a bug, but could overlayfs_on_sysfs_backing_file() call
-ASSERT_EQ(setup_tmp(), 0) like the other tests, instead of repeating its
-three steps?  Similarly, usb_mass_storage_backing_file() repeats the
-statfs()/CONFIGFS_MAGIC/mount() logic of setup_configfs(), and the comment
-"Mounting configfs on top of itself fails with EBUSY." appears twice.
-
-[ ... ]
-
-> +TEST(fuse_passthrough_backing_file)
-> +{
-> +	int fuse_fd, ret;
-> +
-[ ... ]
-> +	ASSERT_EQ(create_file("/tmp/file"), 0);
-> +	ret = fuse_backing_path(fuse_fd, "/tmp/file", O_PATH);
-> +	if (ret == -EPERM)
-> +		SKIP(return, "no fuse passthrough");
-> +	EXPECT_EQ(ret, 0);
-
-Is -EPERM the right errno to key the skip on?  On a kernel with
-CONFIG_FUSE_FS=y and CONFIG_FUSE_PASSTHROUGH=n the test filesystem mounts
-fine, and then fuse_dev_ioctl_backing_open() returns before any
-permission check:
-
-    if (!IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
-        return -EOPNOTSUPP;
-
--EPERM only comes from fuse_backing_open_file() when fc->passthrough is
-clear or CAP_SYS_ADMIN is missing.  So here EXPECT_EQ(ret, 0) and the
-later -EINVAL checks see -EOPNOTSUPP and fail, and the harness records
-"not ok" for a feature that is not configured.  Kernels that predate
-FUSE_DEV_IOC_BACKING_OPEN return -ENOTTY and fail the same way.
-
-Should -EOPNOTSUPP (and possibly -ENOTTY) also lead to the SKIP?
-
-[ ... ]
-
-> +TEST(fuse_passthrough_overlayfs_metacopy_file)
-[ ... ]
-> +	ASSERT_EQ(create_file("/tmp/lower/file"), 0);
-> +	ASSERT_EQ(setxattr("/tmp/lower/file", "trusted.overlay.metacopy",
-> +			   "", 0, 0), 0);
-> +	ASSERT_EQ(setxattr("/tmp/lower/file", "trusted.overlay.redirect",
-> +			   "/missing", strlen("/missing"), 0), 0);
-
-Can these setxattr() calls fail on a kernel without CONFIG_TMPFS_XATTR?
-
-The private tmpfs from setup_tmp() has no xattr handlers in that case, so
-setxattr() returns EOPNOTSUPP, the ASSERT_EQ() aborts, and the program
-exits with a failure instead of KSFT_SKIP.  The mount of overlayfs just
-below already has a SKIP for missing support.  Would a SKIP on
-EOPNOTSUPP here, or CONFIG_TMPFS_XATTR=y in the config fragment, avoid
-this?
-
-> +	ret = fuse_backing_path(fuse_fd, "/tmp/file", O_PATH);
-> +	if (ret == -EPERM)
-> +		SKIP(return, "no fuse passthrough");
-> +	ASSERT_EQ(ret, 0);
-
-The same -EPERM check as in fuse_passthrough_backing_file() is used here,
-so ASSERT_EQ(ret, 0) fails with -EOPNOTSUPP when CONFIG_FUSE_PASSTHROUGH
-is off.
-
-[ ... ]
-
-> +TEST(fuse_passthrough_io)
-[ ... ]
-> +		srv.backing_ids[i] = fuse_backing_open(srv.fd, fd);
-> +		EXPECT_EQ(close(fd), 0);
-> +		if (srv.backing_ids[i] == -EPERM)
-> +			SKIP(return, "no fuse passthrough");
-> +		ASSERT_GT(srv.backing_ids[i], 0);
-
-Does this skip also miss the unconfigured case?  With
-CONFIG_FUSE_PASSTHROUGH=n, fuse_backing_open() gets -EOPNOTSUPP from the
-ioctl, which is not -EPERM, so ASSERT_GT(srv.backing_ids[i], 0) fails and
-run_one() records "not ok" for the whole pseudo_backing_test.  No fuse
-server has been started at this point, so nothing hangs.  The config
-fragment does list CONFIG_FUSE_PASSTHROUGH=y, but should -EOPNOTSUPP and
--ENOTTY also lead to SKIP(return, "no fuse passthrough") in all three fuse
-tests?
-
-
----
-AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
-
-CI run summary: https://github.com/kernel-patches/bpf/actions/runs/43858134663
---===============1962703051549190966==--
+Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 
