@@ -2,102 +2,103 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBBE4606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDF3C606A329
 	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 23:08:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=PBf27tRg;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MtQzGS8u
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=YXmVa5/E;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=LqWd1b6/
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
 	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=ASqD7yYrxwRTXpvky24aSldHzEJHTNv4OUWKJ01NHN8=; b=PBf27tRgdjGphV
-	e/9QJN1f+n6bf6fmuC89FHKwB84oCw46QpvcqpNBi1yIXu78LQaayvMJ8Fr1A+W81PVaTxN94LE/7
-	+R1yLoVMXoBj15QG98c3SCsif/w0fj5RrKyjwwLejRzbuY3x19XiMTtouRUyywUwFA+dv2QEeTw1H
-	kIYj0rY8+U2A7NxN61TWSdfD8GzChSHEQtUisswTCLir1Bt5di75lJ7am+5/GxbUIa/qnXYYom3bH
-	AqYEgATvocsSb3av45PVJtRZomZnuZeBznC3kNwEqDwBvESQb4uJdhEnjR3HLnAy/N8lKg9iUSKL1
-	n7XYfZfc/R1EqWthUcUA==;
+	List-Owner; bh=FEtpE65JhLGyAYaL/FOW2ebUIws2WwBZ/4Zy8VNXUuw=; b=YXmVa5/EhHb/7f
+	4S23UjMEOf8Qw80BIn+8Bpu0rISBIaA7iEgRJ9tBJynRoEZibKhdcdrrjXvunxkQ0sYpknLMKRwIu
+	j5rHemsSQ6xU0kYMclAz0jmj7sG0/NLFmRbI9NblpaNj1n1oT4dP5NoDEacbuofWzvfGWeGhyRdb/
+	f1BpI96OjAfn3we1S/6S/gujolIIfBzVaFYzodXi4AdWk+MJ9CwG1f1Ri/xUXh3DkmHBAnnVu05Fy
+	YnWTE8/QeX3BGgxUUbTmI6Qkm5P8+UU1ggDe1dBtQqs5LVMXrtiHnwhT+Jb0Wit1O6Eb1eeh8p1hC
+	kKWeMdky9LPnKjHh4J+w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xT5oZ-000000047ga-0Qve;
+	id 1xT5oZ-000000047go-1Ks4;
 	Mon, 16 Nov 2026 23:08:43 +0000
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xT0e1-00000003QMD-2XDG
+	id 1xT2vy-00000003ouT-33JK
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Nov 2026 17:37:32 +0000
-Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-6b81214ab40so218683a12.0
-        for <linux-nvme@lists.infradead.org>; Mon, 16 Nov 2026 09:37:29 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794850648; cv=none;
+	Mon, 16 Nov 2026 20:04:12 +0000
+Received: by mail-wr1-x42c.google.com with SMTP id ffacd0b85a97d-48e47347279so1838152f8f.1
+        for <linux-nvme@lists.infradead.org>; Mon, 16 Nov 2026 12:04:09 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794859448; cv=none;
         d=google.com; s=arc-20260327;
-        b=RrYypSnF9s6JOB7+SAT4+kMXfMUCW4I3tDTFMN5TmHydee2BS7fSE2bD/UxsuzqvJo
-         PLcFbPaH+O6f8bsxmDFF2twjntLA+xCTlThcCr2OC442rD7bgpUdr1es9bqvvVJqDgAh
-         CHXspG4RlleVeOQ9RDXWmklRD2XyV70MOOZ53PIxw8sANOh84EF2y7cP4clU/qFisVws
-         8unXDI+Jofj9A9/PbQie1Hz5qjrgf4SiaOF2JDh2k76FKKry9hQ6iWKR0vQwiraxUvz2
-         tV557IWv3VwnDFjrvQDmpRhaTSNerb86d1VjWT9TTtrW3GKKSPxAnZOLRnyOKcORtyyo
-         SzxQ==
+        b=jdVOC35AgUHPfyAOFC6Us2Hn/g+MkAMXLl3A8nzb8i7RCvhvX+JA2wUSjmDVO4MERV
+         GFMZCiGtj59Aj7EntXIBT8ChYoC9oB6GWShWO6PWdA9qHOWeDyxRIH66Ho3TDKXbKXH/
+         5NZB20fGAQkkOSl2iTilf/sPRLYsbbUYKbVRi9RODwtklCUEFRAliVDktQuB/BqrtY4J
+         pF1InBhRcZmprYmX5kh8P+KpijSZvvvkLco6PdRm+RBI4PQLH/GzZ4dyUfYgrzi56LO/
+         Efa2lxYhu5yRh3A/CpWYU3yGU/R406jPiMsFojQ55jIMFIFoog9Hw7NrzhhgogiWo+Yt
+         e+nw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=ASqD7yYrxwRTXpvky24aSldHzEJHTNv4OUWKJ01NHN8=;
-        fh=zhjIqh5efMASGdiod9J6vVq0wVHVpAQUl83SY9vmYFg=;
-        b=MehcgOtXL7TiOrVmi0oBzGMrAfTxoXNSpw43dGGA2mJDmhB7h2rH5J0rArf1tKGHpD
-         +//ujMlOqqWQijBT23UcMhVjg3wDTo5Kjn/2LtYIdjm4ySvtduHyq9DjndlEi9odr0g3
-         ma9rNDR4MqENZfewsUqPcPmJ/XgzfwPIRQ751UPQyd5kSVHEfErunNq/kKwOj+Ax6/fS
-         BFy0E+q1ayL2EhHm1khX3lhRkTwrPvkTeL0InIt0aAmaXbisD4JMXKoHjM+TLzOV90RI
-         Rb5fzUs6bv2C3XdN7kbypUgY29W4sUmVg48Ks4+LWCEhuIdb+Ak1CvuXO1h3RYLwu0Mk
-         i8Yg==;
+        bh=FEtpE65JhLGyAYaL/FOW2ebUIws2WwBZ/4Zy8VNXUuw=;
+        fh=H6Ggzr0QBjDPU/y4x8Vue36h5C/j0BbNqG19rm7MqUI=;
+        b=A+Iyxgrn25YjoWSu3Zd5fnopiIGdj9nXNGNCIkCPSW7NboZ6a6r8cGS7Xu/s1m9FYO
+         SWynv2LBBU428wrjAd/VzowRYKdY1Ftzzfe5aZHGjZUACMYAaPkMc4Wn1kX+BZ8ZCQhl
+         y3H6vnQXzcFGzeB3ZhsqepU8dBpTNFCspNJ72FvWYW7mYqvp8NgGKZT424x4pxjBciWr
+         5b4FPcOAnHMfyc7SoZn1xJMaWtBO5TCuH+nA7Y5T0skW833bCVJY6XACzXYAmFBmS2tJ
+         Q6Th/D03WuNt+e6pKi+J5XkyAccwKSby+iDzcJW+z2btOb3f+sA1ir7LEwNeCBt9qapS
+         ggpw==;
         darn=lists.infradead.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794850648; x=1795455448; darn=lists.infradead.org;
+        d=gmail.com; s=20260707; t=1794859448; x=1795464248; darn=lists.infradead.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=ASqD7yYrxwRTXpvky24aSldHzEJHTNv4OUWKJ01NHN8=;
-        b=MtQzGS8urU7+e4iMQ17zK7L23QY2Vuzv8pWO6MT1oPQgV10O38WYGOXcckv8bgI96Q
-         QlUtwtra03xXk8ti59owi57WwZo15J0DG4ISGL0PEtiXsmZzU0rGlu6IW9oCwlzA5765
-         pdCMg+o3ktLkC/6dPSRvyqdOQKiplHmp2+LXSZ8wAij5PJrrkYE1+js306WGCO8AQpOs
-         ao/FguQ4uIME+KuKYhvvXrmb8JaJJDNtcQ/m9t5VidzRpjuCG34gI0bUzS4JLdoLA9Nx
-         ZCH+sjZUhtUyzhqq+PurYfLLm2h+TGkdpBGFhpBgVIVPjpLw54n2/bl1ghi5zcRmSgHe
-         ynmA==
+        bh=FEtpE65JhLGyAYaL/FOW2ebUIws2WwBZ/4Zy8VNXUuw=;
+        b=LqWd1b6/pn8hMMY8e9LHjWDQF4fZ1QMOTmmPcudl7DXrJgI3hGdzPbIuc1fRoGghhJ
+         s20AZdqFpxC2be3JU0XbgJDIc/sfXeB9XHjlkTr93f0KM9nseUe+ha5uMnYxvzqACnHp
+         FkZWOJSDnQOBGSj2+sSxAfwZ+bJnS3RwRYCs6Vel9UMmNBBeU+s8F2ADvkTukbTjTF3N
+         PDyYpwey+6qzmUmrsRMPwqPDIuFZpvj11juZMCLFzIBYA/3+d5AdXsF95khONg8DiqV7
+         u2VH9NRRsrEfmSIKAgs2wIG/vMbu8+W8Pzhjo31oDHSno5g+2XrL2Ss6nwIbg6sMwiYp
+         UmMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794850648; x=1795455448;
+        d=1e100.net; s=20260707; t=1794859448; x=1795464248;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ASqD7yYrxwRTXpvky24aSldHzEJHTNv4OUWKJ01NHN8=;
-        b=jlloQ1Hw/IVufOtdpURoNdWCaWVl+C13C1XEEpewwLr1e6/iANivLPnEouH/RDDtlM
-         fnVyms5ifHpr2n4OgLCbir9yWoD+p7kcHQkR5GCnQgW587EfdsznumglsGAgVCHKOGSR
-         4M8RzFyX4ykxUnUzcymD8Jb74Aqd41InJm50taViBWODAGidq1+2azFyAwUjYJ/PHpSr
-         JVxpvv3zgun8UQXTgjvdOgOzYIw7LVofD9qq0v/YJ0wY5WinJFDpLNroQAy1IWTpAzxq
-         5Z4baFfSA93wTMJABXOuHck7f3xD4Qz2M6Uw4+lb4OtvM5FytHNKysAVN35DZSKpyw18
-         Ju/w==
-X-Forwarded-Encrypted: i=1; AL+hErFU5ASwGNRyNwtQTxCe0c3pr2qYoeGd2CG+hcMf2WvnXw9PJmg1zykDw2XfsXP2cDE3z+tCyBoLXZkC@lists.infradead.org
-X-Gm-Message-State: APuU4Z/s/ZTMU5kQ5zbr8skteX7Nvlhhi34HcpKni+7HE9X29Byh2hbO
-	lqE8rytBrYdhRCuGko6OGJfL8p3tIOGquwa0oEhgG8prFOpBmVvWqkcotTPkrssoPTP+La5H2aj
-	NTJ5Oh6Ar/13zdz8CQrsHuR2VEVgWsVo=
-X-Gm-Gg: AYBFou2XhrjDvQGan3VEIFQ4nRCaQu9rrpal+OD6JEVRJgou+xz16H9t5L2PCDrykFU
-	qAE0bu1mHoeyVtgclBDkc2vBkK37g1iFp7cyGU/QnGMEH+81frkCELfXqTebagaqsxdKG0CZGEZ
-	xlX6JXjUiZ86oXVck0ra8y84iNCU8KCQdKLx9qM/i4Tsbc6ShBapS4zu6XypLofqOLS75SxgvSB
-	OAyVITVVwEh8hrCe31DCNmf0ZlaEeK6SOlN8sOMLFPK07qJVM5ivVMHGq8g7B5A4Rr19Ce5JQk0
-	KJCQYzTMNXUKOOuu/B5TbHiv633KCHiRGueA/eKG8wBAOdNx/DI8nR8weD0FWy0LyxrTpusk5kf
-	qAdaMwmit7CJ9SwaTL5SQkGyJNFQKJIibIJrdH9nkR1OlHnO4jSn5igpPOwM1NL2VVwoOaQ==
-X-Received: by 2002:a05:6402:1598:b0:6b5:7250:d621 with SMTP id
- 4fb4d7f45d1cf-6b859ae1a00mr134291a12.15.1794850647426; Mon, 16 Nov 2026
- 09:37:27 -0800 (PST)
+        bh=FEtpE65JhLGyAYaL/FOW2ebUIws2WwBZ/4Zy8VNXUuw=;
+        b=fFoqYIArtYhFZMnps4lzZC2FgESviHn/JLf0mnHSvCt/71RK8eDXYtd0Lef0q+YBwG
+         w73WMd/fToF0hBEFMAGL2d96nrFhMiv8ICbW/HdduN2p93Bw1DMCkxmrHktCN4tMsNYI
+         dcG78flOH4twrAHMEZUw6oXErc5+vshBaudFBWZXlqGS3eO+BGTobr9YW4wiHJVMqUnH
+         KmwNNg2OpmPY7gs7SGQZzBanPSzO/p21Fipq1cEMQZ0l4DscbgC/DAXdy0WJUj7T0T8i
+         U0aOs/jchNwGVmUl1dUT3vy2Bo1aKs8igJgssH+NsVeN0gkXde7y/WDEUBSgqOvOPMje
+         deNA==
+X-Forwarded-Encrypted: i=1; AL+hErF9tWWMZTFahgJOxOo5ROXWhJ1I6dEM4uBlHmdrjO5tF+KjeTZVB2JUrNPtZv9tCULMnkkeNeWn3sld@lists.infradead.org
+X-Gm-Message-State: APuU4Z/T5lghBMg8fAbFuKJfO3NaLoGgOnJgFtfHSisX1mDp5Xvswb1v
+	K/CqX8my7OGZ93zJnT+wWFTJXDmSHPGJgDlruHfWciylm/iMiXScWE/Jl8o8Vt+eTvlo3VnX4lg
+	QwQB0QgWO9nWzkePhUUJc7hbh7rAITEY=
+X-Gm-Gg: AZFdTZeDiUtthyaa4CkpDbDlMWf6XIL+3VIzCEx+LG3utMTN9JIgw7ZckxzEjeSfI8/
+	NYC6JWMVZpM3hKeGcxPu00ovaqNsyV+F4DyP/aofUEBbQnbcO49PfWtXuyP8RgvqKNJZjzXQdqW
+	ivQi8dYF14dBGept5KI+CxO+neIpe1H+eYykb7okyY3R24yY4pzIGZAU0j3Zhz0XGsLXPryhy/W
+	XuOm/FSX9zPTtaioetmThHeVkTJFOVIGk6+dK/yBoavulk2ID/GzfIL1aZfewzC3YUNnfvWxDKe
+	6Gt952yL2IZEA2vchQD8ex6O42KBY6KW/yNVa9WqRVSRKsxZBCQyc/AAsYGJO4eFnuq0Hw4Tm0K
+	8DIGqtDIgumYK7GFHMM+CxhtPNzbIWgYPnj89OBqGU1ufMbzSnq25NEu15b3+V9CnwIukny+Rl+
+	F7vPCbcxVQTm39Kielp2o=
+X-Received: by 2002:a05:6000:4692:b0:491:3fdd:af34 with SMTP id
+ ffacd0b85a97d-49d61c80db3mr13343868f8f.36.1794859448335; Mon, 16 Nov 2026
+ 12:04:08 -0800 (PST)
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-References: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org> <20261116-work-loop-pseudo-v3-33-8cbbea1cf34f@kernel.org>
-In-Reply-To: <20261116-work-loop-pseudo-v3-33-8cbbea1cf34f@kernel.org>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Mon, 16 Nov 2026 18:37:16 +0100
-X-Gm-Features: AclHuK_sKnxFPAK3k65pZhjyZC94SJD4eZ9z2j_P12s3kyb9TMw6hurQcjyq55Q
-Message-ID: <CAOQ4uxgPerkkG4ie0SyHVXaBD9VZN2wYfQpEAEi4hytn=ara3A@mail.gmail.com>
-Subject: Re: [PATCH RFC v3 33/44] ovl: refuse data-only layers on pseudo filesystems
+References: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org> <20261116-work-loop-pseudo-v3-9-8cbbea1cf34f@kernel.org>
+In-Reply-To: <20261116-work-loop-pseudo-v3-9-8cbbea1cf34f@kernel.org>
+From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date: Mon, 16 Nov 2026 12:03:57 -0800
+X-Gm-Features: Aa3M54q6P4M0RFDCKQ8HHGNCWJafItTSPdWR1qNwVGtToDAv2VOv8vDfWHzYR6A
+Message-ID: <CAEf4BzbLFVawibuX0wk=8uzy0WZSYHbkgK55d7rqLab2qAM1Fg@mail.gmail.com>
+Subject: Re: [PATCH RFC v3 09/44] bpf: use fc_init_pseudo() for bpffs
 To: Christian Brauner <brauner@kernel.org>
 Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>, 
 	Chris Mason <mason@kernel.org>, Josef Bacik <josef@toxicpanda.com>, Christoph Hellwig <hch@lst.de>, 
@@ -110,13 +111,14 @@ Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>,
 	fuse-devel@lists.linux.dev, linux-efi@vger.kernel.org, 
 	xen-devel@lists.xenproject.org, ocfs2-devel@lists.linux.dev, 
 	linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-usb@vger.kernel.org, linux-erofs@lists.ozlabs.org, 
-	linux-kselftest@vger.kernel.org
+	linux-usb@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>, 
+	linux-erofs@lists.ozlabs.org, linux-kselftest@vger.kernel.org, 
+	Alexander Mikhalitsyn <alex@amutable.com>, Chris Down <chris@chrisdown.name>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261116_093729_668484_59D0D303 
-X-CRM114-Status: GOOD (  27.47  )
+X-CRM114-CacheID: sfid-20261116_120410_785310_F54D8BA3 
+X-CRM114-Status: GOOD (  15.67  )
 X-Spam-Score: -2.1 (--)
 X-Mailman-Approved-At: Mon, 16 Nov 2026 15:08:42 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -137,73 +139,57 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Mon, Nov 16, 2026 at 12:10=E2=80=AFPM Christian Brauner <brauner@kernel.=
-org> wrote:
+On Mon, Nov 16, 2026 at 3:21=E2=80=AFAM Christian Brauner <brauner@kernel.o=
+rg> wrote:
 >
-> The data of a metacopy file can live in a data-only layer. overlayfs
-> doesn't look that data up when it looks up the file. It only remembers
-> the absolute redirect and looks up the data lazily the first time
-> someone needs it. So until then nothing can tell which filesystem holds
-> the data of such a file.
+> Initialize bpffs as a pseudo filesystem instead of raising
+> SB_I_NOEXEC and SB_I_NODEV by hand. This adds SB_I_PSEUDO.
 >
-> But a data-only layer has no business being a pseudo filesystem in the
-> first place. All it does is hold the data of metacopy files and the
-> regular files of a pseudo filesystem are kernel interfaces, not storage.
-> So let's refuse data-only layers on superblocks with SB_I_PSEUDO at
-> mount time.
->
-> Data-only layers can be added via the "::" separator in "lowerdir=3D" and
-> via "datadir+" by path or by file descriptor. All of them end up at the
-> end of ctx->lower. So a single check in ovl_get_lowerstack() covers all
-> of them.
->
-> Note that regular lower layers on pseudo filesystems are left alone.
-> Stacking overlayfs on top of sysfs keeps working.
->
-> Suggested-by: Amir Goldstein <amir73il@gmail.com>
-> Link: https://lore.kernel.org/all/CAOQ4uxhGxpBtMZ5kfuzR1tQAewiecoX7UjXQRo=
-91QjJHH9T_Yw@mail.gmail.com
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
+> Reviewed-by: Chris Down <chris@chrisdown.name>
 > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 > ---
->  fs/overlayfs/super.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+>  kernel/bpf/inode.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/fs/overlayfs/super.c b/fs/overlayfs/super.c
-> index 39d4d57dec230..719c2569dfeaf 100644
-> --- a/fs/overlayfs/super.c
-> +++ b/fs/overlayfs/super.c
-> @@ -1237,6 +1237,14 @@ static struct ovl_entry *ovl_get_lowerstack(struct=
- super_block *sb,
->         for (i =3D 0; i < ctx->nr; i++) {
->                 l =3D &ctx->lower[i];
+
+Acked-by: Andrii Nakryiko <andrii@kernel.org>
+
+> diff --git a/kernel/bpf/inode.c b/kernel/bpf/inode.c
+> index c6f328e4752e1..57cf3775c0766 100644
+> --- a/kernel/bpf/inode.c
+> +++ b/kernel/bpf/inode.c
+> @@ -15,6 +15,7 @@
+>  #include <linux/namei.h>
+>  #include <linux/fs.h>
+>  #include <linux/fs_context.h>
+> +#include <linux/pseudo_fs.h>
+>  #include <linux/fs_parser.h>
+>  #include <linux/kdev_t.h>
+>  #include <linux/filter.h>
+> @@ -1197,8 +1198,6 @@ static int bpf_fill_super(struct super_block *sb, s=
+truct fs_context *fc)
+>         sb->s_magic =3D BPF_FS_MAGIC;
+>         sb->s_op =3D &bpf_super_ops;
+>         sb->s_xattr =3D bpf_fs_xattr_handlers;
+> -       sb->s_iflags |=3D SB_I_NOEXEC;
+> -       sb->s_iflags |=3D SB_I_NODEV;
+>         sb->s_time_gran =3D 1;
 >
-> +               /* Pseudo filesystems don't hold data for metacopy files.=
- */
-> +               if (i >=3D ctx->nr - ctx->nr_data &&
-> +                   (l->path.dentry->d_sb->s_iflags & SB_I_PSEUDO)) {
-> +                       pr_err("filesystem on %s not supported as data-on=
-ly layer\n",
-> +                              l->name);
-> +                       return ERR_PTR(-EINVAL);
-> +               }
-> +
-
-How about we make this just a tad more restrictive:
-
-                /* Pseudo filesystems don't belong in composefs setup */
-                if (ctx->nr_data &&
-                    (l->path.dentry->d_sb->s_iflags & SB_I_PSEUDO)) {
-                        pr_err("filesystem on %s not supported along
-with data-only layers\n",
-                               l->name);
-                        return ERR_PTR(-EINVAL);
-                }
-
-I could send this as followup patch, but since this version is simpler
-there is no real reason to have the intermediate "only ban datadir" step.
-
-Only the commit message needs a little more flexing to justify this.
-
-Thanks,
-Amir.
+>         inode =3D bpf_get_inode(sb, NULL, S_IFDIR | 0777);
+> @@ -1261,6 +1260,7 @@ static int bpf_init_fs_context(struct fs_context *f=
+c)
+>         opts->delegate_attachs =3D 0;
+>
+>         fc->s_fs_info =3D opts;
+> +       fc_init_pseudo(fc);
+>         fc->ops =3D &bpf_context_ops;
+>         return 0;
+>  }
+>
+> --
+> 2.53.0
+>
+>
 
