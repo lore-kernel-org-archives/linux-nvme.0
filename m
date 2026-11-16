@@ -2,55 +2,55 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C35F1606A323
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 12:39:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFEC6606A331
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 12:39:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=HmA8ldc0;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YvkLPRy/
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=E6ppE0bY;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WAHd6iSb
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=PqfeLGmjk4y0+kxRkxjSur2IdVXjx1oPYJuREevbBc0=; b=HmA8ldc0b+oS4/
-	nLEvK1kDJ1zBrceU7KV9KJbQcFe6sR6Bf8ldLza4ypIiarjvZFCxraPHFRGtsahj7MgaxxMt6+Ks7
-	9CHxm01a5jZ2xbo9Eb0qhAzYP63SnzqoStgrRvK/L11Q19cITp76dk7j6kzbjn0KrL2Zs8fwFP2qK
-	NdQc3GqAAr2smtynf/fPpQEqc+LXeN0Aa3PPZ6nRXqRrc1txKLyTi5neLPNdYTeDYc/r2Cg/3rjPO
-	EEE1bXtoz153B7BR5urV54hLIZFuXlhgibK7+vQWit5W7tLOPjexPyY8nO0FB8zmN1G24+0FHOsdi
-	zY6gjZ4p/cOLjEdEcKVg==;
+	List-Owner; bh=CQcOz9pf9yUAnUZyyI8ZqFilBp97onIP4xdHL0RQnuE=; b=E6ppE0bYaAIv3V
+	ArXz+VxhbkEbzwb26l1h6AeQNO2rbHg3EpvPsAik7sC0gdV1eZHwrVdI0D+xnRC/bwc2oKm/RG8Hp
+	dqqtBuhL5K/BGohW1OHMZp9LOKO/PNXzDw4O92jfcqOD+XDCo2WIaFbp1lLvO85Becj0RcbAPvXCb
+	BldPYmO6+hMfQJzVGX8HhVLBVeFt+79Dqm3o0mClNYKS+0gQUynXYHR+aqA3Ftc83gFiz1J91O0mV
+	fEPuOWHqqlSwgRXSWuZe4t4sXs3yMviKCLsvsEHVUS6qi7JwdvvaB7e1q02GZALIDcadoaXeWq8Ab
+	3H+V9EM5fFs7gmxBXAmA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSvzZ-00000002Np4-0sOB;
-	Mon, 16 Nov 2026 12:39:25 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1xSvzY-00000002Nk1-0OGS;
+	Mon, 16 Nov 2026 12:39:24 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSuZ3-0000000271m-3Bxa
+	id 1xSuYT-000000026os-0KaK
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Nov 2026 11:07:57 +0000
+	Mon, 16 Nov 2026 11:07:21 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 83C1F41A97;
-	Mon, 16 Nov 2026 11:07:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88D961F000C5;
-	Mon, 16 Nov 2026 11:07:50 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 806126295D;
+	Mon, 16 Nov 2026 11:07:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F1991F000C6;
+	Mon, 16 Nov 2026 11:07:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794827277;
-	bh=PqfeLGmjk4y0+kxRkxjSur2IdVXjx1oPYJuREevbBc0=;
+	s=k20260515; t=1794827240;
+	bh=CQcOz9pf9yUAnUZyyI8ZqFilBp97onIP4xdHL0RQnuE=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=YvkLPRy/TdN3pcwscLXBhpcduUBjYfqgxZuCJwXsSL+UDnogKKD+92Xz/+diWB7NI
-	 0mqTTOVlCiRH9R0uBfT3YiIB2BmI3UU7ll0jcE3kk2lC7TLroBC6Pkv/qkjCb2pKNw
-	 zDc5Qqdo1HgBsZBD3BoeHwLBK/Raft20V7BmIejOzs9J/6v/WXVyn+g9CQ2gGm+AqX
-	 J1BdMMjoyxnVFZYvSfydNC+8KMf09MmPJr+eYY10D9OpdtxnRAAZVeQJdaGrm0Le+R
-	 4Rzjk+4/AJ7X87jNNtb5qnMUVnAQtEquA0JDBGjIxtZx98uV2qTRkccJqkx7xTRA3w
-	 c7AFtct/ZdTHA==
+	b=WAHd6iSbCEtifefZMSqk0cXPnktLAZIBAaCQy60YJ2nJaxqT8DKgVk5VsUN67+gWm
+	 z8mxW0ifANULaEn6eoO1YSyCH77pTBjTLQpEuHRCSgNzBdVAIhSKqn4sWkQPFyXdBt
+	 tXJ1An451qL0NHQ9VXwP8ewze057R4HqD/VydKBcBWfCdpBT29zz5SWbRmbhPZIy7t
+	 krh0rS/lszKzpG2HbfXO42srT3A406priAC+52NrNl/HXbwY35qFpwU2cri/sdCERB
+	 F2qr5cKieSSqcVwo+4jbRcbTuZvJ374VxYIuXO00ayF/nT6+GuMDVyrWKkf+vRGeEh
+	 HJAAygLW0S83g==
 From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 16 Nov 2026 12:04:48 +0100
-Subject: [PATCH RFC v3 15/44] tracefs: use fc_init_pseudo()
+Date: Mon, 16 Nov 2026 12:04:43 +0100
+Subject: [PATCH RFC v3 10/44] nullfs: use fc_init_pseudo()
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261116-work-loop-pseudo-v3-15-8cbbea1cf34f@kernel.org>
+Message-Id: <20261116-work-loop-pseudo-v3-10-8cbbea1cf34f@kernel.org>
 References: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
 In-Reply-To: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -73,12 +73,12 @@ Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>,
  Alexander Mikhalitsyn <alex@amutable.com>, 
  Chris Down <chris@chrisdown.name>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1157; i=brauner@kernel.org;
- h=from:subject:message-id; bh=jWsk7jA40wU8aE/ukx0Eq/KUmnvJ+ql3poj8uK0lOp0=;
- b=kA0DAAoWkcYbwGV43KIByyZiAGr643Cha2aEDzogEHXFHDf4ItcyB4+yUL4ANkviCVs/P6sGm
- 4h1BAAWCgAdFiEEQIc0Vx6nDHizMmkokcYbwGV43KIFAmr643AACgkQkcYbwGV43KI/pwEA638U
- 1d15U79N804Xlrmzg1WVT0YbKUtsgjGXa9iRx+MA/RH2I1+OACZjxtKr5OTHN7a/GnbvmGcfgyl
- DomehAAUO
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1090; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=r8cREnFKSRz4SaxSdJTVTJtjPA949EUN40oz/vuaT38=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9epx17FvHFoV3U5iXzd8/4c/mG66STx2Sspkf5j38u
+ eHRZFGGWR2lLAxiXAyyYoosDu0m4XLLeSo2G2VqwMxhZQIZwsDFKQATmR/NyHDKmqvQXFLhWaON
+ 1Yr9emFz317b8/vF0rgo9uCmt549tVoMf/hXbrBsap/pJMm51TgxM3VdUKfemt6Ay/afb55aob/
+ BigkA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 X-Mailman-Approved-At: Mon, 16 Nov 2026 04:39:20 -0800
@@ -100,41 +100,39 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Initialize tracefs as a pseudo filesystem. This raises SB_I_PSEUDO and
-also SB_I_NOEXEC and SB_I_NODEV. tracefs never holds executables or
-device nodes.
+Initialize nullfs as a pseudo filesystem instead of raising
+SB_I_NOEXEC and SB_I_NODEV by hand. This adds SB_I_PSEUDO.
 
-SB_I_NOEXEC also refuses PROT_EXEC mappings. The only tracefs files
-that can be mapped are the ring buffers and __rb_map_vma() refuses
-VM_EXEC already.
-
+Reviewed-by: Jan Kara <jack@suse.cz>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
 Reviewed-by: Chris Down <chris@chrisdown.name>
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/tracefs/inode.c | 2 ++
- 1 file changed, 2 insertions(+)
+ fs/nullfs.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/fs/tracefs/inode.c b/fs/tracefs/inode.c
-index 5020365ca7048..e04febd868eb4 100644
---- a/fs/tracefs/inode.c
-+++ b/fs/tracefs/inode.c
-@@ -12,6 +12,7 @@
- #include <linux/module.h>
- #include <linux/fs.h>
+diff --git a/fs/nullfs.c b/fs/nullfs.c
+index 319c2f5c5a671..2fe24cb97160e 100644
+--- a/fs/nullfs.c
++++ b/fs/nullfs.c
+@@ -2,6 +2,7 @@
+ /* Copyright (c) 2026 Christian Brauner <brauner@kernel.org> */
+ #include <linux/fs/super_types.h>
  #include <linux/fs_context.h>
 +#include <linux/pseudo_fs.h>
- #include <linux/fs_parser.h>
- #include <linux/kobject.h>
- #include <linux/namei.h>
-@@ -510,6 +511,7 @@ static int tracefs_init_fs_context(struct fs_context *fc)
- 	fsi->mode = TRACEFS_DEFAULT_MODE;
- 
- 	fc->s_fs_info = fsi;
+ #include <linux/magic.h>
+ #include <linux/splice.h>
+ #include <linux/uio.h>
+@@ -174,7 +175,7 @@ static int nullfs_init_fs_context(struct fs_context *fc)
+ {
+ 	fc->ops		= &nullfs_fs_context_ops;
+ 	fc->sb_flags	|= SB_NOUSER;
+-	fc->s_iflags	|= SB_I_NOEXEC | SB_I_NODEV;
 +	fc_init_pseudo(fc);
- 	fc->ops = &tracefs_context_ops;
  	return 0;
  }
+ 
 
 -- 
 2.53.0
