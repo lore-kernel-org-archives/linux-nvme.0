@@ -2,68 +2,94 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DD86606A33E
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 09:41:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 384CA606A32C
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 10:03:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Ca/rl815;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kzkbn6tP
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=FmTJhd4T;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fUevHugf
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
 	List-Unsubscribe-Post:List-Owner;
-	bh=hXng9hYJH3diUcfIm+3EkeLNi/DrI5XwE9hJbmJZ9MI=; b=Ca/rl815KMWrWoUh1Orz/RgobI
-	0hktY7VW262cOMc7agvvB9ZDZXvf6qv2ftMFzVOuh7os652j8UyD6nft/7H5yIfS/9wHJGs2mRELL
-	Y8sDqy7DPQz6NK0D8siCI0b9f52JoAIPoYU9AK+rBY7zEesY/AGVS98GJjJO/C/ropKTnOc98Uv5a
-	OD49N0XcEY5fTN8i1N3RPVe8QeWR/61TDxghTv1eAwuXmIz6Tu6lMZxIZ+9Onp2IpEZPxJ5uOvWjN
-	+lZVtu+LzEPnG1e0rHSZCosfEj85Yxrujw3KIz4p3KvJSqgtziaD/JXGV/LWkXV7u7hh6SIw0ZKRE
-	xvuX3Ryg==;
+	bh=uHbg2HzLCA2EqXujQVGgAMakXQXDDTDr0qqnRFlDbJ8=; b=FmTJhd4TMgbtC9MsJADb2bWaOH
+	8iX5AwkJHkQUNFFkMsHKgLz5PB+p2cHiky3LmLCmFfLB18nY8qTUD4O1clQfHZ1PmI5KMueUan0Yc
+	SzjmcAXYWDDZW94w9QNOGcp9WDnnMy18hov8MNBsb0MrfOs5ndDqnocVGuQm8VKBCerQ0jaTWp41D
+	NOBV3lTIisf6qpQLUP0MBaNIYJzxhA2tjRaazyANRc0EkkW8FiejbknerPqIEM5V2jrT7tiYoh99R
+	KJgSiZbRicqtsXcYpt21NBw1YnkJX8NDeeVAmnrC7mrfS1k4M6kyv4fftGs1zGZhnaO5wCsp+XzVk
+	x5oViPbQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xStDq-00000001ocG-0uKh;
-	Mon, 16 Nov 2026 09:41:58 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1xStYD-00000001t24-2JI5;
+	Mon, 16 Nov 2026 10:03:01 +0000
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xStDo-00000001obM-2Jxq
+	id 1xStYA-00000001t0Q-2SaW
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Nov 2026 09:41:56 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 29AC44341D;
-	Mon, 16 Nov 2026 09:41:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5A231F000C5;
-	Mon, 16 Nov 2026 09:41:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794822116;
-	bh=hXng9hYJH3diUcfIm+3EkeLNi/DrI5XwE9hJbmJZ9MI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=kzkbn6tPB2bS/Zn/Pn5gXJRXwYUjckO+3EyZRv12Tme1m2pQkOlyS27Q2NJx0bLjq
-	 iAF35/8jh5WK0aPjealgqEWqPtYQ2eIjwus2l7uEA6Rw6F/DzFARz9BZlmZeeRX4IA
-	 a8T9Xm8NCDxJP3dX2atLlDz9ZBm8mqYBsqZVK7vDVaxJ/ohv+LFKZYXH6eS5lGqyub
-	 cuo0dCjJOQ9Cm7L88ZJ23RQ4pRGG9KOeHzD56rkH8lmKmPt3M3ylorww7aaA+S2CPt
-	 kiO/myHptFlIERKjXIXwXpMeNSX+FLQjdkTiW70P+l/3Lf4R8ggQC98SE8Kxc70N4V
-	 A+Zhh9qKrjqLA==
-Date: Mon, 16 Nov 2026 10:41:49 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jan Kara <jack@suse.cz>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jens Axboe <axboe@kernel.dk>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, io-uring@vger.kernel.org, linux-block@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, target-devel@vger.kernel.org, 
-	linux-unionfs@vger.kernel.org, bpf@vger.kernel.org, linux-nfs@vger.kernel.org, 
-	stable@vger.kernel.org
-Subject: Re: [PATCH 07/12] zloop: take freeze protection when recording write
- pointers
-Message-ID: <20261116-biegen-flaute-flanke-cebddae97444@brauner>
-References: <20261114-work-fs-frozen_writes-v1-0-f5ae61c898b1@kernel.org>
- <20261114-work-fs-frozen_writes-v1-7-f5ae61c898b1@kernel.org>
- <20261116064820.GB2964@lst.de>
+	Mon, 16 Nov 2026 10:02:59 +0000
+Received: by mail-pj1-x102e.google.com with SMTP id 98e67ed59e1d1-3b0d09df973so3837233a91.0
+        for <linux-nvme@lists.infradead.org>; Mon, 16 Nov 2026 02:02:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794823377; x=1795428177; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=uHbg2HzLCA2EqXujQVGgAMakXQXDDTDr0qqnRFlDbJ8=;
+        b=fUevHugf788VjmKfZYWFFVm/mE3XDQXc5a8MFvlNtRBy2v06gI2CSQkTl8nq0VsBdg
+         +H9LxrMGYYcSK7TcKYRY35c8PxIOPVcA5fNbHSFO+GBqvMBBQ7aIowEGmZzfS2PsacUi
+         g48cuANkeyA/pjbj6KR2JGmWG6ULJKvVcxY3shZ/sIHA23qS3CX+MEqFx1XRvm59vA4T
+         4IRVh700BXGF7gixNcS05u7nMuDJhm4zJgzdcbKOTfv2L8vzP4qkm47fXe92nwpw7S/L
+         DPhbtvRT7NPlQArbFIKuthkyXms22swSw5rG4OiCBMs6wDt2sEgVaT/QgSZ8F8DftMmI
+         Opzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794823377; x=1795428177;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=uHbg2HzLCA2EqXujQVGgAMakXQXDDTDr0qqnRFlDbJ8=;
+        b=XzeLi08RY+ThVoReMtat6Pi5//IQAy5yM2IR3+3tfkb4xp1Nj+nVJjrLOVSKttHCXz
+         PJ/dCAg5hBYdaJM+mDQ0rTOAHJOVwwjfmzINR27N225HfTAKxfPTK05gepfK5mMAkqPn
+         0uQ2FJNhiiqfCH0g9ADPdUO9Uvblw3zNLW9BXSKM7+9TBrla9UvFw3k8FwmPz782Et2r
+         Es2fBQUYOJcpN6XSB5PFvpXBfQA4J1nKrmjbgSefJGY0efDEXPRMQXmUcTj8e0BFRs12
+         gIYuAnRBBE3zlMVOAjw+u537Kru6aqpPYwm4RyjZQGK8jPujUrjQNjqTDgsXmbcgc8/H
+         Nu1g==
+X-Gm-Message-State: APuU4Z+b2hpzfBK4DoFTjvaDt0z/nMn/L13MYm1rnKvmNpE6BCeV2y27
+	Qg9d/hQGwQU8DTBvxdwvNFGZn+SD/2deBW6OSDl5e6zNBGiuC43Br8DExvX54/54
+X-Gm-Gg: AZFdTZfjHAD3S5aT+Liw3my1Uv1TGNxUZeTbVmFv+ElyTosn6cIXrlaBYPNHyssMqfS
+	JrmuqfzOEQp66iPGacZAywbq4W7vtHGBJ5Rdlu+eABJK1WEP7EJHkrAfoIcL5lbQv8kWS6isB9N
+	Bb5k03x/eiHSHBKy6In4orlsSJQJ5vg+ch2wmhbrinJVubd7JSUYBB/ncDxQjrUQ9H2PiFn58hy
+	/eQUeFhxm9XTV8Hb3EGovmIhlQKeS3zVph0i1YdT5MqGE+9d6YHSsg02qErlA2282mssQ+w4W91
+	UpnL2y9/PWgxuEf3miBXn63z95IyZwqXtyk4tiuzdcRi/IKE92PBUiWGHemmntCft4o9EDpVPxh
+	2LBSdvxfl8WMOD/FVh1jP+a62TCnizR3sezU1VAfxmwGbwmuaM0xQp1AFtVAuQgCXQMri+CtHfp
+	9h6+lUTFnqsYOU9PKMG9hpMN1y9nU9bGyecGIogH0/H9X6kdl0gGDbJ3Gm4I7Sps0uuKb6G80JS
+	JBpFbYU2GFbvuvhExgwLuQcoA49RRE7MpDRTXR2Zm+pJ/nmRAkAMzFd9CJ9YNJ8mhfKD1jvJ8/L
+	6h0SFiAu8uWFwqhrOtjnAiPPw4dow7P6AXJKN83rG4/nZHTo/Q==
+X-Received: by 2002:a17:90b:4c44:b0:3ac:7f4c:a68c with SMTP id 98e67ed59e1d1-3b1b0a437b2mr10028717a91.49.1794823377092;
+        Mon, 16 Nov 2026 02:02:57 -0800 (PST)
+Received: from Ubuntu.netapp.com ([136.226.244.199])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ee0f7d994dsm33804245ad.33.2026.11.16.02.02.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Nov 2026 02:02:56 -0800 (PST)
+From: Martin George <martinus.gpy@gmail.com>
+X-Google-Original-From: Martin George <marting@netapp.com>
+To: linux-nvme@lists.infradead.org
+Cc: hch@lst.de,
+	kbusch@kernel.org,
+	sagi@grimberg.me,
+	hare@kernel.org
+Subject: [PATCH 0/2] nvme: use kfree_sensitive() for DH-HMAC-CHAP secrets
+Date: Mon, 16 Nov 2026 15:32:42 +0530
+Message-ID: <20261116100244.7824-1-marting@netapp.com>
+X-Mailer: git-send-email 2.53.0
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261116064820.GB2964@lst.de>
+Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20261116_020258_641505_529B50E0 
+X-CRM114-Status: UNSURE (   8.60  )
+X-CRM114-Notice: Please train this message.
+X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,134 +100,31 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Mon, Nov 16, 2026 at 07:48:20AM +0100, Christoph Hellwig wrote:
-> Looks good:
-> 
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> 
-> Can we get some kind of debug check into vfs_setxattr to enforce
-> callers have taken the write protection?
+The host side stores the raw DH-HMAC-CHAP secret ("DHHC-1:...") but frees 
+it with plain kfree() in a few places, leaving the secret in freed slab 
+until the memory is reused. Switch those kfrees to kfree_sensitive() so 
+the contents are wiped on free.
 
-I considered that and decided against it becuase it will mean everyone
-starts splatting which means everyone needs to get their act together by
-7.5.
+This is a hardening-only series; it fixes no functional bug and changes 
+no behaviour.
 
-You might not have seen it but I sent out a bunch of bug reports for
-subsystems that suffer from the same bug class but that need way more
-invasive fixes than anything I'm doing here.
+Martin George (2):
+  nvme-sysfs: use kfree_sensitive() for DH-HMAC-CHAP secrets
+  nvme-fabrics: use kfree_sensitive() for the old DH-HMAC-CHAP secret
 
-But I guess we can do it if we use the VFS_* macros which are compiled
-out unless CONFIG_DEBUG_FS is set. This will still mean that syzbot will
-start splatting at these subsystems. If we're fine with that I'm good to
-go with this.
-
-Fwiw, the check can't go into __vfs_setxattr(), __vfs_setxattr_noperm()
-or __vfs_removexattr(). cap_inode_killpriv(), IMA and EVM call those
-from ->write_iter() via file_remove_privs() and kiocb_start_write()
-hides the freeze protection from lockdep for aio and io_uring. I have
-not bothered to figure out why. Maybe you already know? In any case,
-until that's fixed we can't place it there which means this doesn't
-catch IMA/EVM at which point this patch becomes pointless.
-
-So that kiocb_start_write() stuff needs to be sorted first by someone.
-I'm about 300+ patches or more deep into various tree-wide cleanups. I'm
-going to defer this as this seems minor to all the other sh*it that's
-waiting to be cleaned up.
-
--- >8 --
-Subject: [PATCH] fs: assert freeze protection for xattr and acl writes
-
-Writing an xattr or a POSIX ACL modifies the filesystem but
-vfs_setxattr() and friends leave freeze protection to the caller. Most
-callers get it from mnt_want_write(). Some in-kernel callers forgot
-about it. zloop and overlayfs are fixed earlier in this series and
-ecryptfs and ksmbd have been reported. Christoph asked for a debug check
-to catch the next one (cf. [1]).
-
-So warn in __vfs_setxattr_locked(), __vfs_removexattr_locked(),
-vfs_set_acl(), vfs_remove_acl() and set_posix_acl() if SB_FREEZE_WRITE
-isn't held. This only does something with CONFIG_DEBUG_VFS and lockdep.
-Without lockdep sb_write_started() can't tell and claims it's held.
-Until ecryptfs and ksmbd are fixed this will warn for them.
-
-Note that __vfs_setxattr(), __vfs_setxattr_noperm() and
-__vfs_removexattr() don't get the check. They're also called from
-->write_iter() via file_remove_privs() -> notify_change() for
-security.capability and by IMA and EVM. aio, io_uring and the in-kernel
-async writers call kiocb_start_write() which hides the freeze protection
-from lockdep before ->write_iter() is called. So the check would fire
-for writes that are perfectly fine.
-
-[1]: https://lore.kernel.org/r/20261116064820.GB2964@lst.de
-
-Suggested-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- fs/posix_acl.c | 6 ++++++
- fs/xattr.c     | 4 ++++
- 2 files changed, 10 insertions(+)
-
-diff --git a/fs/posix_acl.c b/fs/posix_acl.c
-index fe77934ea8f20..61de6f105ff4f 100644
---- a/fs/posix_acl.c
-+++ b/fs/posix_acl.c
-@@ -942,6 +942,8 @@ set_posix_acl(const struct mnt_idmap *idmap, struct dentry *dentry,
- {
- 	struct inode *inode = d_inode(dentry);
- 
-+	VFS_WARN_ON_ONCE(!sb_write_started(inode->i_sb));
-+
- 	if (!IS_POSIXACL(inode))
- 		return -EOPNOTSUPP;
- 	if (!inode->i_op->set_acl)
-@@ -1099,6 +1101,8 @@ int vfs_set_acl(const struct mnt_idmap *idmap, struct dentry *dentry,
- 	struct inode *inode = d_inode(dentry);
- 	struct delegated_inode delegated_inode = { };
- 
-+	VFS_WARN_ON_ONCE(!sb_write_started(inode->i_sb));
-+
- 	acl_type = posix_acl_type(acl_name);
- 	if (acl_type < 0)
- 		return -EINVAL;
-@@ -1220,6 +1224,8 @@ int vfs_remove_acl(const struct mnt_idmap *idmap, struct dentry *dentry,
- 	struct inode *inode = d_inode(dentry);
- 	struct delegated_inode delegated_inode = { };
- 
-+	VFS_WARN_ON_ONCE(!sb_write_started(inode->i_sb));
-+
- 	acl_type = posix_acl_type(acl_name);
- 	if (acl_type < 0)
- 		return -EINVAL;
-diff --git a/fs/xattr.c b/fs/xattr.c
-index 0705801a62cc5..715d04111c274 100644
---- a/fs/xattr.c
-+++ b/fs/xattr.c
-@@ -302,6 +302,8 @@ __vfs_setxattr_locked(const struct mnt_idmap *idmap, struct dentry *dentry,
- 	struct inode *inode = dentry->d_inode;
- 	int error;
- 
-+	VFS_WARN_ON_ONCE(!sb_write_started(inode->i_sb));
-+
- 	error = xattr_permission(idmap, inode, name, MAY_WRITE);
- 	if (error)
- 		return error;
-@@ -564,6 +566,8 @@ __vfs_removexattr_locked(const struct mnt_idmap *idmap,
- 	struct inode *inode = dentry->d_inode;
- 	int error;
- 
-+	VFS_WARN_ON_ONCE(!sb_write_started(inode->i_sb));
-+
- 	error = xattr_permission(idmap, inode, name, MAY_WRITE);
- 	if (error)
- 		return error;
+ drivers/nvme/host/fabrics.c |  4 ++--
+ drivers/nvme/host/sysfs.c   | 12 ++++++------
+ 2 files changed, 8 insertions(+), 8 deletions(-)
 
 -- 
+2.53.0
+
 
