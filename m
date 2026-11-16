@@ -2,98 +2,72 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3C81606A32C
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 23:19:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D9B8606A333
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 23:37:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=jdRlpzCs;
-	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.a=rsa-sha256 header.s=google2022 header.b=dbYEl6ry
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=O7r3tDcP;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cv1pUwpi
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Date:Cc:To:From
+	:Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=8iePJ2j9hYRhBFpXy6COEqiXeGRhguwoRsD0/kPxjro=; b=jdRlpzCs5LBqGkL25tPmqq6ot3
-	lDsG0XdPh8UArS5+X3zvIXvTJjfdsPgaOve6OMV9mV81Dz9vpVGwahCn2lBhk99Rv1QrqHr2l+wOc
-	3XxO4H3MpH6IZIvOP2VvYnFr1YsETFRejFRthT49QuoL6uzs+VkiXWFdKP6ancWJb1KLwM4UnTgKX
-	tWkVfGYBniaqr8syEv/SNnnjSMJuDIL7nRd/3N3QyZeYatwT7tZNgaUp0JJRYqxX71neD2XhHMvYh
-	/a2YqIbeQ/0ggnspZVmiUnMMOp5upySroFm688BjFfninJnsknlRnonL9aIDdsN7Q44PGAUKQw2Sc
-	cNPdn92A==;
+	bh=o2SqahcM4kyLW7BSRqG2OG52HMwdvQnWSPoyVJTyOXQ=; b=O7r3tDcPFUoJeH3Mj/lsF4n6tu
+	yYnByDl9fspZ75uod/6nPA9hJLoPCDD/Djcio1zVZeZ5gJ8C8ClJsoR+3dnH9wMQvhfcK4rOmhKZZ
+	kmMUD/6hUEcpoSdZ346JobJxQt4Isi+R38TTadvA2xi7l+cz+Ujbrx3dskt1+/Mnui3Ups3xhZbhe
+	kQ+d6a1v4tiKaDV9eeT3KW/1n7KFbZnPIkC+SAw4lTYEYI6qBeOLGpBvx6BlcUZPQVAGWRD0sKBuF
+	uFZpviu9GGIufY4LqueYbePQnlYZZZtJTwzvDxd7lKEGqPFmmKSh7SFic+2LRV8uNxl817Q/Ublld
+	N4O/nd8Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xT5yz-000000049b7-2X79;
-	Mon, 16 Nov 2026 23:19:29 +0000
-Received: from mail-dl1-x122e.google.com ([2607:f8b0:4864:20::122e])
+	id 1xT6G4-00000004BOP-3ZRO;
+	Mon, 16 Nov 2026 23:37:08 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xT5yx-000000049Zt-1TCb
+	id 1xT6G3-00000004BOD-2EFv
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Nov 2026 23:19:28 +0000
-Received: by mail-dl1-x122e.google.com with SMTP id a92af1059eb24-14394530ec6so5071902c88.1
-        for <linux-nvme@lists.infradead.org>; Mon, 16 Nov 2026 15:19:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1794871166; x=1795475966; darn=lists.infradead.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=8iePJ2j9hYRhBFpXy6COEqiXeGRhguwoRsD0/kPxjro=;
-        b=dbYEl6rybDsVL+L/6Z6jcdCI00jLc5TK+6pDHaBgPqODhwx171SVHcz01Ht+vQftuP
-         kHqv/4Ma9eNcbM4Q1X2TGn38A4EzGF4vDu8fKFQOASsdvK1aPXYE7/q399RociSdroPz
-         LiL3QiHwtsPEP+wpsZRHsFRoYM8cfSUe20fh7AflkekX3YeS4MMVT9hDX/dNQh4TXBYR
-         zr3XHXKabTzoHlXe/LTf0qVsy+DFJE+yG/56+1F2h6HV64vJcaGGrld0tF8Pt7rlMFSd
-         N0qJFn+I29aVFQQmoJGeMbfQcJy9RBHMO4gDVyqVWCMpwkzTKdgVJTj+I1Myi07BXVRC
-         iyiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794871166; x=1795475966;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=8iePJ2j9hYRhBFpXy6COEqiXeGRhguwoRsD0/kPxjro=;
-        b=e05j9AwIQzQCOoA80Qt/Y30aVaI6t93NEXxYY4STmfwcnHlbtB0VeshInNQ4wRvaMH
-         gvl020Ovj19C1MMeb0lU27GnrKnjhUF2bI551gJ3eTFy2hkw6kvCE+/8cVbREZdnR6VE
-         JeMPiZqkF9oejoks+nYFbPvF/Afm8d2Rl+H96ALqvpkbEgNgjIAE544DZhnnbzmh2mH0
-         Xljfq8t9pgiL8Hz/owB9wIKqmTatPf6jk0t4NXoKCfgzFm+jdxzMwhaXmkH5h1FQWr83
-         yVYljlyZCOFl/WkhEjmyaZSfURrfHpy/gw/soXqJgzGp8c6DitTLRXgZ1lKpGoA85Mmz
-         KswQ==
-X-Gm-Message-State: APuU4Z+HK6RqElwG2fpJUQFCgsLeu4nZw9ZpAO6fa3zYn879wJnxC7kC
-	wYXE2GHY/WgDCP1E67lV3k7OpG1ABPkPc+GWaD6hLrFIXt3Xevb6Qq5JRRSa8+4ZljUDUU6H7rn
-	ztAyU
-X-Gm-Gg: AYBFou1X6EzCaYPuwVNp37k2KX7qVI9KEiJ/uvoXHCCtnZJM/5Ag5/paT/wmpSf9yCE
-	RNcIx4eVHKfVMn7UNzU8aWpdE4ZKwUi9GUu0y+eLRrcOc+kv8MHPq3WY9pTdU7FZ0tk94jIl6TH
-	ueqn9rG/bFGOLDTfLgQBu2rp9vdzlQb+z21ZtxS3evGOTTt5UhH3Ooj1Sq+25QRa/6yp+Z7Hlep
-	AJ2CjXPUWrSmhOWOayUrwCcZRYd3ziAPF19TX/SeBHuuXXSu5r6WG75JbaSWuy4+nENUCSRDAHM
-	/WkdZcj9YbJXhsaRGTAbXISdM3bkkFsN1on30btr1+GhR3nCyeCTD2PjXX0cpCMxMIESPK5AUrR
-	K8IRo+1RKvVbGUg4JgfGHxCcVcefGphEyK51ZcJlHrCBl+P2Rwfq7l9dMa3nmQcxwDYdN+vnrPF
-	apw5x/vbxDUXSzitMcAc4CSaa2xBnjT7+bRwUopCWyCSicphlSbmKGhtPogwOHo5e1hK5asuX/C
-	DHL2wAaq9uC9Z0FPcPIILRiQgeEl7YDqQhegitz8eFl8vrg21kiPebvjD4k5Ku2Pazu03FjTF6c
-	la7hh4Q2qi8DKESaSfqyPMQcAeir4h4Iwu0EeZmx+bQ0YIRk4Q==
-X-Received: by 2002:a05:7023:a89:b0:1b2:4da6:bccd with SMTP id a92af1059eb24-1b50312b2f7mr13094928c88.34.1794871165920;
-        Mon, 16 Nov 2026 15:19:25 -0800 (PST)
-Received: from medusa.lab.kspace.sh ([208.88.152.253])
-        by smtp.googlemail.com with ESMTPSA id a92af1059eb24-1b50319d40asm36020092c88.11.2026.11.16.15.19.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2026 15:19:25 -0800 (PST)
-Date: Mon, 16 Nov 2026 15:19:24 -0800
-From: Mohamed Khalfella <mkhalfella@purestorage.com>
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v7 02/17] nvmet/debugfs: Export controller CIU and CIRN
- via debugfs
-Message-ID: <20261116231924.GB1670230-mkhalfella@purestorage.com>
-References: <20261114030454.2836543-1-mkhalfella@purestorage.com>
- <20261114030454.2836543-3-mkhalfella@purestorage.com>
- <sashiko-outbox-214069@kernel.org>
+	Mon, 16 Nov 2026 23:37:07 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id D6102408A4;
+	Mon, 16 Nov 2026 23:37:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4778C1F000C4;
+	Mon, 16 Nov 2026 23:37:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794872226;
+	bh=o2SqahcM4kyLW7BSRqG2OG52HMwdvQnWSPoyVJTyOXQ=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=cv1pUwpiKGyXEIQxljbhsSoH7D+mJ3/1o1/ihWuNk8wg9FTdfDqLjF84S+skH9cpu
+	 ip0TQccRA7gepSjg8hfajb9TzIngEmYH270VROiuH3ZQTXVTw34l2tc4Y2kM0R+3t5
+	 dHHu6+uS0vxxgoRU/hsjK2gZz6EpJ7dTAWjF7GSuN+j38e4iyus6hbs5/B77vWRHgQ
+	 bJehheDj1cwhmQi+AT2Z50iEvkVTvAbmjWfeYvO2gU267E3gtXGRGzU+d4oigaqWWU
+	 CPmSMsp4dkRFNYur6XNgnda45vTKkkW489f3IuhjcbZvym14znlrKxXLqCbTjNe2Ov
+	 vJWlxoQPOYWWw==
+Message-ID: <2cfb2d8ea3d59bfe0acead4fe5879b6f4882a920.camel@kernel.org>
+Subject: Re: [PATCH v2 14/17] nfsd: take freeze protection for the truncate
+ on open
+From: Jeff Layton <jlayton@kernel.org>
+To: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+Cc: Shakeel Butt <shakeel.butt@linux.dev>, Alexander Viro	
+ <viro@zeniv.linux.org.uk>, Jens Axboe <axboe@kernel.dk>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	io-uring@vger.kernel.org, Christoph Hellwig <hch@lst.de>, 
+	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	linux-scsi@vger.kernel.org, target-devel@vger.kernel.org, 
+	linux-unionfs@vger.kernel.org, bpf@vger.kernel.org,
+ linux-nfs@vger.kernel.org, 	stable@vger.kernel.org
+Date: Mon, 16 Nov 2026 15:37:05 -0800
+In-Reply-To: <20261116-work-fs-frozen_writes-v2-14-ecc4a2aac40e@kernel.org>
+References: <20261116-work-fs-frozen_writes-v2-0-ecc4a2aac40e@kernel.org>
+	 <20261116-work-fs-frozen_writes-v2-14-ecc4a2aac40e@kernel.org>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual; keydata=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 QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-3.fc44) 
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <sashiko-outbox-214069@kernel.org>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261116_151927_418779_E9F6D7FF 
-X-CRM114-Status: GOOD (  18.45  )
-X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,71 +78,60 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Sat 2026-11-14 03:12:01 +0000, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential
-> issue to consider:
-> - [Low] nvmet: torn 64-bit read of ctrl->cirn in
->   nvmet_ctrl_instance_cirn_show()
-> --
-> 
-> commit 70231338c7dc52cc534009767cd7997ab988025e
-> Author: Mohamed Khalfella <mkhalfella@purestorage.com>
-> 
-> nvmet/debugfs: Export controller CIU and CIRN via debugfs
-> 
-> This commit exports a target controller's CIU and CIRN fields as debugfs
-> attributes under the controller's debugfs directory.
-> 
-> > diff --git a/drivers/nvme/target/debugfs.c b/drivers/nvme/target/debugfs.c
-> > index e85fe1d4c9f8d..221fa81e124fe 100644
-> > --- a/drivers/nvme/target/debugfs.c
-> > +++ b/drivers/nvme/target/debugfs.c
-> > @@ -153,6 +153,24 @@ static int nvmet_ctrl_tls_concat_show(struct seq_file *m, void *p)
-> >  NVMET_DEBUGFS_ATTR(nvmet_ctrl_tls_concat);
-> >  #endif
-> >  
-> > +static int nvmet_ctrl_instance_ciu_show(struct seq_file *m, void *p)
-> > +{
-> > +	struct nvmet_ctrl *ctrl = m->private;
-> > +
-> > +	seq_printf(m, "%02x\n", ctrl->ciu);
-> > +	return 0;
-> > +}
-> > +NVMET_DEBUGFS_ATTR(nvmet_ctrl_instance_ciu);
-> > +
-> > +static int nvmet_ctrl_instance_cirn_show(struct seq_file *m, void *p)
-> > +{
-> > +	struct nvmet_ctrl *ctrl = m->private;
-> > +
-> > +	seq_printf(m, "%016llx\n", ctrl->cirn);
-> > +	return 0;
-> > +}
-> > +NVMET_DEBUGFS_ATTR(nvmet_ctrl_instance_cirn);
-> 
-> [Severity: Low]
-> Can nvmet_ctrl_instance_cirn_show() observe a torn 64-bit read of
-> ctrl->cirn on 32-bit architectures?
-> 
-> nvmet_alloc_ctrl() calls nvmet_debugfs_ctrl_setup() before the host
-> enables the controller, and nvmet_update_cc() -> nvmet_start_ctrl() later
-> writes a new 64-bit value to ctrl->cirn under ctrl->lock whenever the
-> controller is enabled or re-enabled.  Reading ctrl->cirn without holding
-> ctrl->lock races with that update and can report a corrupted mix of the
-> old and new values to userspace.
+On Mon, 2026-11-16 at 12:03 +0100, Christian Brauner wrote:
+> An OPEN that truncates an existing file ends up in nfsd4_truncate()
+> which calls nfsd_setattr() on the already verified file handle. For a
+> verified file handle nfsd_setattr() leaves fh_want_write() to the
+> caller but nfsd4_truncate() never takes it, and do_lookup_open() has
+> dropped its own write access by then. So a freeze of the exported
+> filesystem that lands in between lets the truncate modify a frozen
+> filesystem.
+>=20
+> Take write access around nfsd_setattr() like nfsd4_setattr() does.
+>=20
+> Fixes: 9f67f189939e ("nfsd: notify_change needs elevated write count")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> ---
+>  fs/nfsd/nfs4state.c | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/fs/nfsd/nfs4state.c b/fs/nfsd/nfs4state.c
+> index 1de6c6d757c3e..e561903b9180f 100644
+> --- a/fs/nfsd/nfs4state.c
+> +++ b/fs/nfsd/nfs4state.c
+> @@ -6681,11 +6681,19 @@ nfsd4_truncate(struct svc_rqst *rqstp, struct svc=
+_fh *fh,
+>  	struct nfsd_attrs attrs =3D {
+>  		.na_iattr	=3D &iattr,
+>  	};
+> +	__be32 status;
+> +	int err;
+> +
+>  	if (!open->op_truncate)
+>  		return 0;
+>  	if (!(open->op_share_access & NFS4_SHARE_ACCESS_WRITE))
+>  		return nfserr_inval;
+> -	return nfsd_setattr(rqstp, fh, &attrs, NULL);
+> +	err =3D fh_want_write(fh);
+> +	if (err)
+> +		return nfserrno(err);
+> +	status =3D nfsd_setattr(rqstp, fh, &attrs, NULL);
+> +	fh_drop_write(fh);
+> +	return status;
+>  }
+> =20
+>  static __be32 nfs4_get_vfs_file(struct svc_rqst *rqstp, struct nfs4_file=
+ *fp,
 
-Not worth it IMO. I will keep the code at it is. If we are considering a
-race with a controller that is becoming ready, then the value will
-change and old values are stale because CIRN and CIU are random
-variables.
 
-> 
-> -- 
-> Sashiko AI review · https://sashiko.dev/#/patchset/20261114030454.2836543-1-mkhalfella@purestorage.com?part=2
+Reviewed-by: Jeff Layton <jlayton@kernel.org>
 
