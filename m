@@ -2,100 +2,68 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A47E3606A334
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 08:45:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DD86606A33E
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 09:41:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=EXntoDFV;
-	dkim=pass (2048-bit key) header.d=yadro.com header.i=@yadro.com header.a=rsa-sha256 header.s=mta-02 header.b=hoXJPo8C;
-	dkim=pass (2048-bit key) header.d=yadro.com header.i=@yadro.com header.a=rsa-sha256 header.s=mta-03 header.b=BtP272eU
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Ca/rl815;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kzkbn6tP
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:CC:To:From:Date:Reply-To:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=Q/p5cdT16DqEKxyY/aNGzE4KrR5OZR8Sl7QoM7V26FQ=; b=EXntoDFVmiz3ipam2kbLd3531i
-	Vy/L2NNO0S1/0mB+uubkyh2l9Yh7+b+BKmqz9TGQDYkLblgZA5SJDdsUy0V80PYWLrxI6Z0krnv8b
-	E8tB77Rb1s8LIPF8k2klSLUPYEKEqbDe0hgteKiNp7nlCqDUbmmjPVzzGSTyD7OFE3hY0Pl69UVdr
-	I5Lii42hR6iK7OBajxfZJ6sOv7QXRCbYwQ6W0un1b8Ha+p0CI5U6TVn3pfIQYMZR8a3Q+3QKCYGUh
-	dwARi7gbkMlKxONHOuG6vHjfxOk1cL0IsZcR/dtHroALM93ogMmhjGWNoiLAYSudnfLv3lpI0mEfY
-	zBhAE3lg==;
+	bh=hXng9hYJH3diUcfIm+3EkeLNi/DrI5XwE9hJbmJZ9MI=; b=Ca/rl815KMWrWoUh1Orz/RgobI
+	0hktY7VW262cOMc7agvvB9ZDZXvf6qv2ftMFzVOuh7os652j8UyD6nft/7H5yIfS/9wHJGs2mRELL
+	Y8sDqy7DPQz6NK0D8siCI0b9f52JoAIPoYU9AK+rBY7zEesY/AGVS98GJjJO/C/ropKTnOc98Uv5a
+	OD49N0XcEY5fTN8i1N3RPVe8QeWR/61TDxghTv1eAwuXmIz6Tu6lMZxIZ+9Onp2IpEZPxJ5uOvWjN
+	+lZVtu+LzEPnG1e0rHSZCosfEj85Yxrujw3KIz4p3KvJSqgtziaD/JXGV/LWkXV7u7hh6SIw0ZKRE
+	xvuX3Ryg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSsLU-00000001eeq-2pbu;
-	Mon, 16 Nov 2026 08:45:48 +0000
-Received: from mta-01.yadro.com ([195.3.219.148])
+	id 1xStDq-00000001ocG-0uKh;
+	Mon, 16 Nov 2026 09:41:58 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSsLQ-00000001ec3-3HcU;
-	Mon, 16 Nov 2026 08:45:46 +0000
-Received: from mta-01.yadro.com (localhost [127.0.0.1])
-	by mta-01.yadro.com (Postfix) with ESMTP id ACF082000A;
-	Mon, 16 Nov 2026 11:45:36 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mta-01.yadro.com ACF082000A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; s=mta-02;
-	t=1794818736; bh=Q/p5cdT16DqEKxyY/aNGzE4KrR5OZR8Sl7QoM7V26FQ=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:From;
-	b=hoXJPo8CVJqLylH5WoU5WlmZxAHKmkNlEK/TS9oKOW8GDjdr+U47aKm7jcI+taZ8g
-	 QN7JtWDWe7qn2XYaku/s1iQJLo2M6uAxYGduoUmDdCEiL2Tw16yG88CnVFIc2Ue8G/
-	 Pte5FDs6uWtOZn3K+tJLnsRQyMH8UgIhMJs224x2O0p0jjdbvL/rQAVS6ZD2kWMYb2
-	 neivw4jNSH1zBEjl8dbKbVFk90m2ouBNUEOXlnQYyWNhcxiaram98Zme7u3Cg9aBxE
-	 2uA9G9f9jcwa3vzMZvf46D+UDMzhZKOTmHC68wWBeMaGIshePl6VR/I0p65jgxVB/g
-	 0yTqQp0D8eanQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; s=mta-03;
-	t=1794818736; bh=Q/p5cdT16DqEKxyY/aNGzE4KrR5OZR8Sl7QoM7V26FQ=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:From;
-	b=BtP272eUPW/V+k7SW5fkHLG6HCn5BFyU8Jtrpq91E3YHbUrSd+EacfzJ7QBj8iTLj
-	 7pKctUP73yJYMsbQleZ10IeufJA2UzGECJnIX1Du2Y/K6E/r94iYKduvY5ouA2xf0Q
-	 moQkram0a+oLV9FkRoWENqooceW3FNu7FPz8l6fYfquZpGp0AvbbcrgMCfDaZvqMRe
-	 lWgM8tI40eu8bc1ifAouLoEUmKz/SYx4PMPsn2DUIx/xP3GNw15lf4q2Sj0AS5IjPF
-	 ZWzyhfPK4Lx6BnQCzl3lnglDp6gp8eJzDnomdREAl4QnUnGA6CoEv8ycnXfR7BSEXp
-	 Ia+B92ZkvB72A==
-Received: from RTM-EXCH-06.corp.yadro.com (unknown [10.34.9.206])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mta-01.yadro.com (Postfix) with ESMTPS;
-	Mon, 16 Nov 2026 11:45:35 +0300 (MSK)
-Received: from yadro.com (10.34.9.247) by RTM-EXCH-06.corp.yadro.com
- (10.34.9.206) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.56; Mon, 16 Nov
- 2026 11:45:36 +0300
-Date: Mon, 16 Nov 2026 11:45:40 +0300
-From: Dmitry Bogdanov <d.bogdanov@yadro.com>
-To: Mohamed Khalfella <linux-nvme-bounces@lists.infradead.org>
-CC: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph
- Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Justin Tee
-	<justin.tee@broadcom.com>, Naresh Gottumukkala
-	<nareshgottumukkala83@gmail.com>, Paul Ely <paul.ely@broadcom.com>, Hannes
- Reinecke <hare@kernel.org>, Chaitanya Kulkarni <kch@nvidia.com>, James Smart
-	<jsmart833426@gmail.com>, Randy Jennings <randyj@purestorage.com>, Mohamed
- Khalfella <mkhalfella@purestorage.com>, Daniel Wagner <dwagner@suse.de>,
-	<linux-nvme@lists.infradead.org>, <linux-kernel@vger.kernel.org>, Hannes
- Reinecke <hare@suse.de>
-Subject: Re: [PATCH v7 03/17] nvmet: Implement CCR nvme command
-Message-ID: <20261116084540.GA3655@yadro.com>
-References: <20261114030454.2836543-1-mkhalfella@purestorage.com>
- <20261114030454.2836543-4-mkhalfella@purestorage.com>
+	id 1xStDo-00000001obM-2Jxq
+	for linux-nvme@lists.infradead.org;
+	Mon, 16 Nov 2026 09:41:56 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id 29AC44341D;
+	Mon, 16 Nov 2026 09:41:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5A231F000C5;
+	Mon, 16 Nov 2026 09:41:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794822116;
+	bh=hXng9hYJH3diUcfIm+3EkeLNi/DrI5XwE9hJbmJZ9MI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=kzkbn6tPB2bS/Zn/Pn5gXJRXwYUjckO+3EyZRv12Tme1m2pQkOlyS27Q2NJx0bLjq
+	 iAF35/8jh5WK0aPjealgqEWqPtYQ2eIjwus2l7uEA6Rw6F/DzFARz9BZlmZeeRX4IA
+	 a8T9Xm8NCDxJP3dX2atLlDz9ZBm8mqYBsqZVK7vDVaxJ/ohv+LFKZYXH6eS5lGqyub
+	 cuo0dCjJOQ9Cm7L88ZJ23RQ4pRGG9KOeHzD56rkH8lmKmPt3M3ylorww7aaA+S2CPt
+	 kiO/myHptFlIERKjXIXwXpMeNSX+FLQjdkTiW70P+l/3Lf4R8ggQC98SE8Kxc70N4V
+	 A+Zhh9qKrjqLA==
+Date: Mon, 16 Nov 2026 10:41:49 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jan Kara <jack@suse.cz>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jens Axboe <axboe@kernel.dk>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, io-uring@vger.kernel.org, linux-block@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, target-devel@vger.kernel.org, 
+	linux-unionfs@vger.kernel.org, bpf@vger.kernel.org, linux-nfs@vger.kernel.org, 
+	stable@vger.kernel.org
+Subject: Re: [PATCH 07/12] zloop: take freeze protection when recording write
+ pointers
+Message-ID: <20261116-biegen-flaute-flanke-cebddae97444@brauner>
+References: <20261114-work-fs-frozen_writes-v1-0-f5ae61c898b1@kernel.org>
+ <20261114-work-fs-frozen_writes-v1-7-f5ae61c898b1@kernel.org>
+ <20261116064820.GB2964@lst.de>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261114030454.2836543-4-mkhalfella@purestorage.com>
-X-ClientProxiedBy: RTM-EXCH-03.corp.yadro.com (10.34.9.203) To
- RTM-EXCH-06.corp.yadro.com (10.34.9.206)
-X-KSMG-AntiPhishing: NotDetected
-X-KSMG-AntiSpam-Interceptor-Info: not scanned
-X-KSMG-AntiSpam-Status: not scanned, disabled by settings
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.1.8310, bases: 2026/11/16 06:36:00 #28892114
-X-KSMG-AntiVirus-Status: NotDetected, skipped
-X-KSMG-KATA-Status: Not Scanned
-X-KSMG-LinksScanning: NotDetected
-X-KSMG-Message-Action: skipped
-X-KSMG-Rule-ID: 5
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261116_004545_533762_C0E46E7F 
-X-CRM114-Status: GOOD (  20.33  )
-X-Spam-Score: -2.1 (--)
+In-Reply-To: <20261116064820.GB2964@lst.de>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -114,72 +82,126 @@ X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Fri, Nov 13, 2026 at 07:04:17PM -0800, Mohamed Khalfella wrote:
+On Mon, Nov 16, 2026 at 07:48:20AM +0100, Christoph Hellwig wrote:
+> Looks good:
 > 
-> Defined by TP8028 Rapid Path Failure Recovery, CCR (Cross-Controller
-> Reset) command is an nvme command issued to source controller by
-> initiator to reset impacted controller. Implement CCR command for linux
-> nvme target.
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
 > 
-> Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
-> Reviewed-by: Hannes Reinecke <hare@suse.de>
-> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-> ---
->  drivers/nvme/target/admin-cmd.c | 76 ++++++++++++++++++++++++++++++
->  drivers/nvme/target/core.c      | 83 +++++++++++++++++++++++++++++++++
->  drivers/nvme/target/nvmet.h     | 13 ++++++
->  include/linux/nvme.h            | 23 +++++++++
->  4 files changed, 195 insertions(+)
-> 
-> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-> index 5710ae53eb83..3df9db454db9 100644
-> --- a/drivers/nvme/target/admin-cmd.c
-> +++ b/drivers/nvme/target/admin-cmd.c
-> @@ -378,6 +378,7 @@ static void nvmet_get_cmd_effects_admin(struct nvmet_ctrl *ctrl,
->         log->acs[nvme_admin_get_features] =
->         log->acs[nvme_admin_async_event] =
->         log->acs[nvme_admin_keep_alive] =
-> +       log->acs[nvme_admin_cross_ctrl_reset] =
->                 cpu_to_le32(NVME_CMD_EFFECTS_CSUPP);
->  }
-> 
-> @@ -1629,6 +1630,78 @@ void nvmet_execute_keep_alive(struct nvmet_req *req)
->         nvmet_req_complete(req, status);
->  }
-> 
-> +void nvmet_execute_cross_ctrl_reset(struct nvmet_req *req)
-> +{
-> +       struct nvmet_ctrl *ictrl, *sctrl = req->sq->ctrl;
-> +       struct nvme_command *cmd = req->cmd;
-> +       struct nvmet_ccr *ccr, *new_ccr;
-> +       int ccr_active, ccr_total;
-> +       u16 cntlid, status = NVME_SC_SUCCESS;
-> +
-> +       if (!nvmet_check_transfer_len(req, 0))
-> +               return;
-> +
-> +       cntlid = le16_to_cpu(cmd->ccr.icid);
-> +       if (sctrl->cntlid == cntlid) {
-> +               req->error_loc =
-> +                       offsetof(struct nvme_cross_ctrl_reset_cmd, icid);
-> +               status = NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
-> +               goto out;
-> +       }
+> Can we get some kind of debug check into vfs_setxattr to enforce
+> callers have taken the write protection?
 
-cntlid has to be validated against the configured range of the controller
-ids (subsys->cntlid_min <= cntlid <= subsys->cntlid_max).
-That will allow CCR to work correctly on a distributed target.
+I considered that and decided against it becuase it will mean everyone
+starts splatting which means everyone needs to get their act together by
+7.5.
 
-> +
-> +       /* Find and get impacted controller */
-> +       ictrl = nvmet_ctrl_find_get_ccr(sctrl->subsys, sctrl->hostnqn,
-> +                                       cmd->ccr.ciu, cntlid,
-> +                                       le64_to_cpu(cmd->ccr.cirn));
-> +       if (!ictrl) {
-> +               /* Immediate Reset Successful */
-> +               nvmet_set_result(req, 1);
-> +               status = NVME_SC_SUCCESS;
-> +               goto out;
-> +       }
-> +
+You might not have seen it but I sent out a bunch of bug reports for
+subsystems that suffer from the same bug class but that need way more
+invasive fixes than anything I'm doing here.
+
+But I guess we can do it if we use the VFS_* macros which are compiled
+out unless CONFIG_DEBUG_FS is set. This will still mean that syzbot will
+start splatting at these subsystems. If we're fine with that I'm good to
+go with this.
+
+Fwiw, the check can't go into __vfs_setxattr(), __vfs_setxattr_noperm()
+or __vfs_removexattr(). cap_inode_killpriv(), IMA and EVM call those
+from ->write_iter() via file_remove_privs() and kiocb_start_write()
+hides the freeze protection from lockdep for aio and io_uring. I have
+not bothered to figure out why. Maybe you already know? In any case,
+until that's fixed we can't place it there which means this doesn't
+catch IMA/EVM at which point this patch becomes pointless.
+
+So that kiocb_start_write() stuff needs to be sorted first by someone.
+I'm about 300+ patches or more deep into various tree-wide cleanups. I'm
+going to defer this as this seems minor to all the other sh*it that's
+waiting to be cleaned up.
+
+-- >8 --
+Subject: [PATCH] fs: assert freeze protection for xattr and acl writes
+
+Writing an xattr or a POSIX ACL modifies the filesystem but
+vfs_setxattr() and friends leave freeze protection to the caller. Most
+callers get it from mnt_want_write(). Some in-kernel callers forgot
+about it. zloop and overlayfs are fixed earlier in this series and
+ecryptfs and ksmbd have been reported. Christoph asked for a debug check
+to catch the next one (cf. [1]).
+
+So warn in __vfs_setxattr_locked(), __vfs_removexattr_locked(),
+vfs_set_acl(), vfs_remove_acl() and set_posix_acl() if SB_FREEZE_WRITE
+isn't held. This only does something with CONFIG_DEBUG_VFS and lockdep.
+Without lockdep sb_write_started() can't tell and claims it's held.
+Until ecryptfs and ksmbd are fixed this will warn for them.
+
+Note that __vfs_setxattr(), __vfs_setxattr_noperm() and
+__vfs_removexattr() don't get the check. They're also called from
+->write_iter() via file_remove_privs() -> notify_change() for
+security.capability and by IMA and EVM. aio, io_uring and the in-kernel
+async writers call kiocb_start_write() which hides the freeze protection
+from lockdep before ->write_iter() is called. So the check would fire
+for writes that are perfectly fine.
+
+[1]: https://lore.kernel.org/r/20261116064820.GB2964@lst.de
+
+Suggested-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+ fs/posix_acl.c | 6 ++++++
+ fs/xattr.c     | 4 ++++
+ 2 files changed, 10 insertions(+)
+
+diff --git a/fs/posix_acl.c b/fs/posix_acl.c
+index fe77934ea8f20..61de6f105ff4f 100644
+--- a/fs/posix_acl.c
++++ b/fs/posix_acl.c
+@@ -942,6 +942,8 @@ set_posix_acl(const struct mnt_idmap *idmap, struct dentry *dentry,
+ {
+ 	struct inode *inode = d_inode(dentry);
+ 
++	VFS_WARN_ON_ONCE(!sb_write_started(inode->i_sb));
++
+ 	if (!IS_POSIXACL(inode))
+ 		return -EOPNOTSUPP;
+ 	if (!inode->i_op->set_acl)
+@@ -1099,6 +1101,8 @@ int vfs_set_acl(const struct mnt_idmap *idmap, struct dentry *dentry,
+ 	struct inode *inode = d_inode(dentry);
+ 	struct delegated_inode delegated_inode = { };
+ 
++	VFS_WARN_ON_ONCE(!sb_write_started(inode->i_sb));
++
+ 	acl_type = posix_acl_type(acl_name);
+ 	if (acl_type < 0)
+ 		return -EINVAL;
+@@ -1220,6 +1224,8 @@ int vfs_remove_acl(const struct mnt_idmap *idmap, struct dentry *dentry,
+ 	struct inode *inode = d_inode(dentry);
+ 	struct delegated_inode delegated_inode = { };
+ 
++	VFS_WARN_ON_ONCE(!sb_write_started(inode->i_sb));
++
+ 	acl_type = posix_acl_type(acl_name);
+ 	if (acl_type < 0)
+ 		return -EINVAL;
+diff --git a/fs/xattr.c b/fs/xattr.c
+index 0705801a62cc5..715d04111c274 100644
+--- a/fs/xattr.c
++++ b/fs/xattr.c
+@@ -302,6 +302,8 @@ __vfs_setxattr_locked(const struct mnt_idmap *idmap, struct dentry *dentry,
+ 	struct inode *inode = dentry->d_inode;
+ 	int error;
+ 
++	VFS_WARN_ON_ONCE(!sb_write_started(inode->i_sb));
++
+ 	error = xattr_permission(idmap, inode, name, MAY_WRITE);
+ 	if (error)
+ 		return error;
+@@ -564,6 +566,8 @@ __vfs_removexattr_locked(const struct mnt_idmap *idmap,
+ 	struct inode *inode = dentry->d_inode;
+ 	int error;
+ 
++	VFS_WARN_ON_ONCE(!sb_write_started(inode->i_sb));
++
+ 	error = xattr_permission(idmap, inode, name, MAY_WRITE);
+ 	if (error)
+ 		return error;
+
+-- 
 
