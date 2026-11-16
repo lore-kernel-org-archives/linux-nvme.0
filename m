@@ -2,100 +2,86 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D780606A329
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 16:15:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E99C606A331
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 16:18:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=yxUdhfzN;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Gkv+AhDe
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=gIH02bJr
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:MIME-Version:Date:Message-ID:Subject:References:In-Reply-To:CC:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=yKYud9p8+aP8cT7V12zkUbmCop1ErkdHEczU+hWaU/k=; b=yxUdhfzN7cwrXK
-	unz6Kg86MuObd1oAM6/6PH0P9WmbQGvuqQLNC3R+inoPA4owJzgx5zb8dOQjgXmUwWAS6CqAjygvB
-	9TvNXDoTFC4TZ6HWCQxIqP8RBxkM+DM2wzF+tAL8DS7Z4cM5qcXFPWIlifdtsCL+ts9tJz+LVsU4p
-	MdTspNvQeQI/dE5Lta7aTuVo9wXt2IIgIjOIKKNWZS2oRRZfhvLaWqloO5xKfPa8UtudGsdr7MV4t
-	IQWdgZmtFLmV+Wuh0ht0GhPwY/YziRBExCiFvczQsKomy46E1iBk+qUDR1zmjL1vkao62Uhe3ORzf
-	y4k5uoknbOoJuCbvd6Bg==;
+	List-Owner; bh=7UXGBzR+5rEYyQlPP5+mMP0S0QqtG1TcgnC8R1Thm6I=; b=gIH02bJrkvAo+4
+	4BoRwNXtVz6u6UdW42SkzOW0Xk4EP+r/a+O2lUxCqpLPuOBkyGySHuLs0oEMFsyHP3R5+WNYyBRcx
+	YeXZuW67F8EcbQMY0VyiSvdgv0ZsfPRoPGE8u+wFPW89Cm0NMG/cNJMMRWGRDBQK7IDmfamUPkjph
+	YJrU2xCgcgN01HoZNm0KT9ibtm3fX6iOLPTpgv8cdm+rzb8VqPqPmyMZZaElrWue1w5bun0+cKRcx
+	JJT93X68iIkSFPplsUtDBEDIG0aJnCPe6/TOkdV/iPDI6zx7H1901peNudCOdna2HcNWSzD/Mmew7
+	Uh27wMq6yZg7fXYPPx7w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSzML-00000003AsB-1OMa;
-	Mon, 16 Nov 2026 16:15:09 +0000
-Received: from mail-dy1-x1335.google.com ([2607:f8b0:4864:20::1335])
+	id 1xSzPr-00000003BEQ-0ZLF;
+	Mon, 16 Nov 2026 16:18:47 +0000
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSzMI-00000003ArW-0RoQ
+	id 1xSzPo-00000003BCx-0RM3
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Nov 2026 16:15:08 +0000
-Received: by mail-dy1-x1335.google.com with SMTP id 5a478bee46e88-33bf40b0c8bso906536eec.0
-        for <linux-nvme@lists.infradead.org>; Mon, 16 Nov 2026 08:15:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794845703; x=1795450503; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=yKYud9p8+aP8cT7V12zkUbmCop1ErkdHEczU+hWaU/k=;
-        b=Gkv+AhDeLGeAfC5wqb20+r/LHwvzYmaB8gjVknigp5BPVin2QTk+RzfmgLRJnBXDIS
-         UXzxklPL6T6hOqTk89DwmCAZK/7lj0XYUdSm8SF9bjj/KA57RtYwyNggoyUXXk+foIb9
-         ZoRsZSsc89wQtOtqsH2EqkdhypxffE6thWxrZ5FP/f2ev9BOHAwSKvXBI+fqwilvWryL
-         2nbshX4YB3IiaYkELb6wuyOjrTYnEio+yzmCfigtqk4h7ASKqazDA4ttJKVF9PDySVs4
-         za24q6Sz6hWjKQ4LBiHhfLCRSYMZy1s5iWaILyXT0JCjkUZybwZhMhe1029AjLTe3pLo
-         mAJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794845703; x=1795450503;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=yKYud9p8+aP8cT7V12zkUbmCop1ErkdHEczU+hWaU/k=;
-        b=UYQu2gXGRraiQa16pw7xCyDp4sJceM45L7BNEllSYhmbMMXpr8tuAW5QnSxFRTHkHV
-         Xatmvl2COXQj1Su2n0SoHy3pTJ9eMTK3cgLnN5bl/MLM7rGOhNBrJs9NMhQEnEyXjoxY
-         bdoUxcbb5IiMQz3UpqXA3JY9Vq/zTSyKEZmE5QAJD2atQ8YQ6wldONFYa5rynUoaxMtG
-         MdmDITIE1mTzqN4MRAziXyHGplcJ7Q3w39wpxFS9gbNikd37WCkwVbbQWOCWDg2U0XKd
-         ZlCiUE/qBLLDubIOvepYmeS3iECbNphSpUzStPoKeg4kjd66TdSYbKiEMIEJFEvz+U+3
-         tSPQ==
-X-Forwarded-Encrypted: i=1; AL+hErFz4pHJi08IKsPK7xQxQ9SRkkricLV+Jek/49iXaWWQSPpTRuhTFCUvq1oNlzY2+Dp3D7nVSlreCZAh@lists.infradead.org
-X-Gm-Message-State: APuU4Z9vdGG5JWzZTUn/6DgDBTNGUUGYZXeltHqrCLUDBetSZQire31F
-	XjtasgkdnRLTDoZZVqpyJDhIgWBXw8KG0GCdXlLz0h/RSBdpPJ96xgeB
-X-Gm-Gg: AYBFou2Na1rjmND9MS6AJRE4P+9eJEeIUWFbMutJWFzGSYLnvKnWIJzrP50UccghGdl
-	p2FA0ppBPT+C/sHS1+jkl1wqQGuIKc1QmCqProf6lT4PD/F2ZlvIBiV3/Mnw2PU/vQbLUFmx2rR
-	8getIr2Fly/iUvFpiAwCHgo/2/H7iwx7C16/nMRqBQc7kGJP53canG+LvDY+xSsud+eJk+g2QOX
-	4CzhCVe+RxbGW2GUoUPASiC/Bf5NWbtj2RzDlqVwckaMTEB4R6rTvsas8k6T3VRs02G1TBFpEtX
-	2aSQWXN2JsTrEAyvcjk/3CNjnIESX2vfIoQGbqlvl4IqWLp/cm/s3EYdUyNmLV2jd1JiI+KoJ73
-	faxDtrNeIUCT4FFtKPYEpN2/1q44yU+iBtnjb1iJqWD9MUCRohsts3CYt9fybLum6rbP1X82o+W
-	m5l9Vn29NWr2Y9CtoGcVdyuD68yT83tE4FEcZb4tPWGaYQO78c7aWdZF0lyRj+G/3DjI3Ks298J
-	YHniToqF1i1fvFktI4Tj2wsHN0Uu0Q0Scs1nEZgLtgiAprquqKxFUUlbYY692cUvT/+B60/DjF7
-	2rzqigdMiX1ms24VCCZ87nmfRjsEtK/SYIxsX5XGfOKviMNWCmizJ/XTNUhGG4Fr6V7trDkT
-X-Received: by 2002:a05:693c:811a:b0:36e:9763:9268 with SMTP id 5a478bee46e88-3796695b721mr11102878eec.26.1794845702938;
-        Mon, 16 Nov 2026 08:15:02 -0800 (PST)
-Received: from localhost.localdomain ([103.178.205.79])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-380e031f3e5sm1494597eec.12.2026.11.16.08.14.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2026 08:15:02 -0800 (PST)
-From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-To: kbusch@kernel.org
-Cc: hare@kernel.org,
-	hare@suse.de,
-	hch@lst.de,
-	kch@nvidia.com,
-	linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	sagi@grimberg.me,
-	sreekuttan2156239@gmail.com
-Subject: Re: [PATCH v2] nvmet: reject invalid write-protect feature values
-Date: Mon, 16 Nov 2026 16:14:39 +0000
-Message-ID: <20261116161439.2767-1-sreekuttan2156239@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <179484220923.249619.10986402925266130295.b4-ty@kernel.org>
-References: <179484220923.249619.10986402925266130295.b4-ty@kernel.org>
+	Mon, 16 Nov 2026 16:18:45 +0000
+Received: from pps.filterd (m0109332.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AGGIguh2345161
+	for <linux-nvme@lists.infradead.org>; Mon, 16 Nov 2026 08:18:43 -0800
+Received: from mail.thefacebook.com ([163.114.134.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4hxp8hjfdw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Mon, 16 Nov 2026 08:18:42 -0800 (PST)
+Received: from twshared26372.02.snb2.facebook.com (2620:10d:c085:208::7cb7) by
+ mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.56; Mon, 16 Nov 2026 16:18:41 +0000
+Received: from devbig197.nha3.facebook.com (localhost [IPv6:::1])
+	by devbig197.nha3.facebook.com (Postfix) with ESMTP id AB9172F08A7BB;
+	Mon, 16 Nov 2026 08:18:29 -0800 (PST)
+From: Keith Busch <kbusch@kernel.org>
+To: <linux-nvme@lists.infradead.org>, Martin George <martinus.gpy@gmail.com>
+CC: <hch@lst.de>, <sagi@grimberg.me>, <hare@kernel.org>
+In-Reply-To: <20261116100244.7824-1-marting@netapp.com>
+References: <20261116100244.7824-1-marting@netapp.com>
+Subject: Re: [PATCH 0/2] nvme: use kfree_sensitive() for DH-HMAC-CHAP
+ secrets
+Message-ID: <179484590970.648177.14486358557240564408.b4-ty@kernel.org>
+Date: Mon, 16 Nov 2026 08:18:29 -0800
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
+X-FB-Internal: Safe
+X-Proofpoint-ORIG-GUID: hSLH84sf-RuNIgmUj8UpRaIUJEGlJ2Bu
+X-Proofpoint-GUID: hSLH84sf-RuNIgmUj8UpRaIUJEGlJ2Bu
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE2MDA2NCBTYWx0ZWRfX2FLdVpHdx9a2
+ 08XRX4OolbuAkgGj9vAo7STrENtA+fZVSsWRUrmun1KVQBlNOTKSZgR1vydfrynHV7dquGL6dV9
+ TUqmaSOty79QGcCDHNpOdLMeFmW9j88xeB2sW6F5UNHOm7yd0yaCU85q5WJhOzOEUJx0P9DNSFh
+ ImBUsVbPeLzrCrfoEIJ9DJl5eYbCJ00hWpPsJMxnLqyAP8J8RGby/pgofzJm66LMmsiaT8XEsMS
+ HRqbn6tOfYIOiurwozuV9flYa4JtvPKBPg3b7Zww8rwh3i78zB4ihB1WOt93R6bSHvez0kpTKMn
+ vYroB6PCaqG8alL2Cuck7oiorZOU8H9ZEMCBVL1kPrfq5r6wpwFY5lwV19m7SHPpUWg8Mbcz0SU
+ THlDUaE+P+ws9nWMFCoPkQ+chVE2KoXTqoGrkDGHl0B8LyOcyOPpGNuyQA/ByEyjKhXBVUzTL1m
+ DhbW5lIIHBvCcziuQnA==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE2MDA2NCBTYWx0ZWRfXzsJp53pH1qGz
+ 3IAnUqtB1wsnoasSldk+x2qXu/zykS7337Ps9cmfGgVQQB6mriEsZg3Ja58Saa9GYVaFioWi9+W
+ t7veA+Av+WN7HiWUTxaTqtgp8ldm40M=
+X-Authority-Analysis: v=2.4 cv=J+4/fwnS c=1 sm=1 tr=0 ts=6afb2ce2 cx=c_pps
+ a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22 a=xtH7KyWI9dI7BmFOsl-x:22
+ a=VwQbUJbxAAAA:8 a=6A6OBvg0bk2zjrTHOSAA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-16_05,2026-11-16_01,2025-10-01_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261116_081507_574118_10576B40 
-X-CRM114-Status: UNSURE (   5.80  )
+X-CRM114-CacheID: sfid-20261116_081844_265194_67F3DF2C 
+X-CRM114-Status: UNSURE (   9.27  )
 X-CRM114-Notice: Please train this message.
-X-Spam-Score: -1.9 (-)
+X-Spam-Score: -1.2 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,18 +92,31 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
-	version=4.0.1
+X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Hi,
+On Mon, 16 Nov 2026 15:32:42 +0530, Martin George wrote:
+> The host side stores the raw DH-HMAC-CHAP secret ("DHHC-1:...") but frees
+> it with plain kfree() in a few places, leaving the secret in freed slab
+> until the memory is reused. Switch those kfrees to kfree_sensitive() so
+> the contents are wiped on free.
+> 
+> This is a hardening-only series; it fixes no functional bug and changes
+> no behaviour.
+> 
+> [...]
 
-Thanks for applying the patch!
+Thanks, applied to nvme-7.4.
 
-Best regards,
-Sreeraj
+[1/2] nvme-sysfs: use kfree_sensitive() for DH-HMAC-CHAP secrets
+      commit: 7fce38923253c27650835c91201b222214aeb149
+[2/2] nvme-fabrics: use kfree_sensitive() for the old DH-HMAC-CHAP secret
+      commit: 68099cf27253a8c89d703a282d3d811446d9453b
+--
+Keith Busch <kbusch@kernel.org>
+
 
