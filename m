@@ -2,55 +2,55 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93BF7606A32A
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 12:39:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41A1F606A334
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 12:39:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=x6G8yHS+;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jk/FjUy0
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=UNs3vh3M;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SYR9TaGr
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=ZjUZ/LbyySofwJKchunYgmcW+hv6mWM9r+0t30zrAC4=; b=x6G8yHS+VLRUb/
-	cBUde2j20K+SX3ZGs6Tzz5x45wpo1viqUqaTtPblo+CHAnUf5mGN5+1qLneKcT+PlFLrgq4ggfsrq
-	Vn+mIGE4zaaoTfLKzWI3O5rS2L54WLQTtaVe4BSl/x4lvEAM0DamhueuaKR8zv1ZD7/ZeaOOW1i5J
-	D7Yrq8ClBxp6IrbBQVGzDJDdN49/npmpQJ58/bS0hHkeeJID/I7Wha1mb3Kc6P7R9y4fFRlD4zoiZ
-	P5EcB9cfv7ggcjSE9Z8wEIe18RxkpOeIJuYvAhuhkAH1zCaxhwkXEEolegea1NAt1xk4yTMXHkTo9
-	w4xo2GP3LE4mm5VYbCrg==;
+	List-Owner; bh=bRo8rafT0SI0ZYIjwSP5s8nuDkHhspwSH2/U5D4Vwdo=; b=UNs3vh3MkaF1eC
+	6H4dA3sOk4T+C1bW43klowNbR1o5Ax9rp1Yxy/yX5m1vaX2tHKrBQWM7cf+YiZM+b5euISrGmPw92
+	WQJfanvlEiIXiGQDA7B5L+ib4UGwO9FY0aY1n8x8+jASbE6IwxO3AZWDhrnW0vMflzmW9wufcEHyp
+	e9HS+hpVmVPzuR8n51Z7tWiS+eETscnn6Fi5b2GBMpG4YD9yrwemqg7ZWO4TKoBi43M2VntO5DSL6
+	pZhoo0w5H9rnofpvas73DPhL5WfUUUo/XIlF3oGzbmHszGkQTrT0jYc/QYRdFqiJRHgcBZ7FFrjRr
+	Bpc/NRe1Gvov1rmLDvnQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSvzX-00000002Njo-3lMj;
-	Mon, 16 Nov 2026 12:39:23 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1xSvzY-00000002Nnx-3Q9r;
+	Mon, 16 Nov 2026 12:39:24 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSuYD-000000026iQ-3Gfp
+	id 1xSuYo-000000026wZ-3QET
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Nov 2026 11:07:05 +0000
+	Mon, 16 Nov 2026 11:07:42 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 780A64398A;
-	Mon, 16 Nov 2026 11:07:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59EBE1F000CC;
-	Mon, 16 Nov 2026 11:06:58 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 8E70F41B40;
+	Mon, 16 Nov 2026 11:07:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22E231F000C8;
+	Mon, 16 Nov 2026 11:07:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794827225;
-	bh=ZjUZ/LbyySofwJKchunYgmcW+hv6mWM9r+0t30zrAC4=;
+	s=k20260515; t=1794827262;
+	bh=bRo8rafT0SI0ZYIjwSP5s8nuDkHhspwSH2/U5D4Vwdo=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=jk/FjUy0cS6GgqVt9SsPloY8k3i4CqrkgFOMuEfM9XpfG/P/xdaYstLnK6As2uWUx
-	 DEasrHPORlAiJurUDvkuRuudCdX4+089Oc2tRistqib9WEwQ5lBrReoBhl8MhZJbHr
-	 l6aBHu8foX0BKN0F6xwxKuR1wHN/HENZS+AdFP226DO8djRCuCN7EcShhykNWGeUfv
-	 2qReXmfM4j5HwLrmWLj8INf6brOXbWCkQPlzkcCvyFZ79G4NtpxPZuc+Bt5iZoOrkI
-	 QVXW8/XVnBthjiWRTNhaVer+CxRfjJN9ob0t6JGwEOzJgRSBms1wlYdaktJYkpCcpN
-	 a/EAYoQOnhFDQ==
+	b=SYR9TaGrdGbZIarQmb7FZiAh3aYqeET1aKxpQildzBF54+XkCs3w2hwe012i9YDNn
+	 KwplWWfrUqSG6YeiB4M+R0HFxuvky3aQ6H/xSTFl3YsGJUXt6YKVqEho4Ze+G1tUXj
+	 1LBnFF1Tjb5B8Wq8WvTQUAgcpvPTABUb9ZbFJurPQxuPY16ScwtILZqX1vzDRAK0zF
+	 WYGfVFRgoNgVMFqCXJGrivTUJE7Uqv9I3Kjf3hFqKNQ0l1/yg7xjQvZGT4y6D6g3Hu
+	 GlJP4jytTeb5jsL1OPfVY2sB4N+I4DKQZdsAQ/ckyHlMUVC8NaHv6jRpgn76WWmzBp
+	 MIF24A6RZBJQg==
 From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 16 Nov 2026 12:04:41 +0100
-Subject: [PATCH RFC v3 08/44] mqueue: use fc_init_pseudo()
+Date: Mon, 16 Nov 2026 12:04:46 +0100
+Subject: [PATCH RFC v3 13/44] devpts: use fc_init_pseudo()
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261116-work-loop-pseudo-v3-8-8cbbea1cf34f@kernel.org>
+Message-Id: <20261116-work-loop-pseudo-v3-13-8cbbea1cf34f@kernel.org>
 References: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
 In-Reply-To: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -73,12 +73,12 @@ Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>,
  Alexander Mikhalitsyn <alex@amutable.com>, 
  Chris Down <chris@chrisdown.name>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1349; i=brauner@kernel.org;
- h=from:subject:message-id; bh=eUpb/5VRc6uGUB6tbJ3+67OknD2n3CMn6o+Ub0d1Knw=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9epzhGiew20J0pdn/rc+br7ncYiy+qrz264M7t5VXX
- HtelL34bkcpC4MYF4OsmCKLQ7tJuNxynorNRpkaMHNYmUCGMHBxCsBESi0YGV5Vvm5S2zypdNU1
- 0asTlm32TIpeYct0smnHH95QyWeSPuEM/x1bNttw/OG9Ib/orjXbnP81Nr9VO1SydlbPvJgivPC
- LNT8A
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1022; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=bmgpF+T0PjaM4BszluBOeRyncWOMZk/p8QFUkfXrwyU=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9epwbMLfmqPHCfTn5hRfrWbZIf8s8rLk06bC0camwg
+ mzGq1XBHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABOpFWRkOPz/xJLoOzVBuYb7
+ +QSlfCOaZ5lzMH+rzjNdtcfly5aJtxj+552pNBCM1J7apuA9/7a7a/D7lgk6wf0+3lyc19/OLmz
+ iAAA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 X-Mailman-Approved-At: Mon, 16 Nov 2026 04:39:20 -0800
@@ -100,43 +100,35 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Initialize mqueue as a pseudo filesystem instead of raising
-SB_I_NOEXEC and SB_I_NODEV by hand. This adds SB_I_PSEUDO.
+Initialize devpts as a pseudo filesystem. This raises SB_I_PSEUDO and
+SB_I_NOEXEC. devpts never holds executables. devpts_fill_super() keeps
+clearing SB_I_NODEV for the pty device nodes.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
 Reviewed-by: Chris Down <chris@chrisdown.name>
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- ipc/mqueue.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ fs/devpts/inode.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/ipc/mqueue.c b/ipc/mqueue.c
-index 322c3dd98c447..8bbe32d0881f2 100644
---- a/ipc/mqueue.c
-+++ b/ipc/mqueue.c
-@@ -18,6 +18,7 @@
- #include <linux/file.h>
- #include <linux/mount.h>
+diff --git a/fs/devpts/inode.c b/fs/devpts/inode.c
+index bd1e8eb26edb7..47ef12241d92d 100644
+--- a/fs/devpts/inode.c
++++ b/fs/devpts/inode.c
+@@ -13,6 +13,7 @@
+ #include <linux/init.h>
+ #include <linux/fs.h>
  #include <linux/fs_context.h>
 +#include <linux/pseudo_fs.h>
+ #include <linux/fs_parser.h>
+ #include <linux/sched.h>
  #include <linux/namei.h>
- #include <linux/sysctl.h>
- #include <linux/poll.h>
-@@ -405,7 +406,6 @@ static int mqueue_fill_super(struct super_block *sb, struct fs_context *fc)
- 	struct inode *inode;
- 	struct ipc_namespace *ns = sb->s_fs_info;
+@@ -438,6 +439,7 @@ static int devpts_init_fs_context(struct fs_context *fc)
+ 		fsi->mount_opts.reserve = true;
  
--	sb->s_iflags |= SB_I_NOEXEC | SB_I_NODEV;
- 	sb->s_blocksize = PAGE_SIZE;
- 	sb->s_blocksize_bits = PAGE_SHIFT;
- 	sb->s_magic = MQUEUE_MAGIC;
-@@ -457,6 +457,7 @@ static int mqueue_init_fs_context(struct fs_context *fc)
- 	put_user_ns(fc->user_ns);
- 	fc->user_ns = get_user_ns(ctx->ipc_ns->user_ns);
- 	fc->fs_private = ctx;
+ 	fc->s_fs_info = fsi;
 +	fc_init_pseudo(fc);
- 	fc->ops = &mqueue_fs_context_ops;
+ 	fc->ops = &devpts_context_ops;
  	return 0;
  }
 
