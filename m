@@ -2,56 +2,56 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 553A6606F1ED
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 11:05:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93EED606AB60
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 11:05:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=ZbO1gvnF;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BNoGazjB
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=lYNCNWDB;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cQFtUDoF
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=rGbOPfT1yqUwvO1m52rPtj56PBfhsl6HwTcjr6r9MlY=; b=ZbO1gvnFXiv/iV
-	J39sasYsBLSok+ss9StFpq36z4XN+vRLGupOL/FnR+fiB0gQzS9yD59ueIWgsnLzbtEe7bW1eotiz
-	ISQDCLldqOEdHPD03oyPXQ7uiZQEeqb2g5GRsI9e7hTly67SseJ22E/qES0YPbKsIgwdyI/yFjAKu
-	oO3BNStTKmGu63pGNS/58MbxI7/59wKCfHtEESZo8ug2IJSMA5LJHgfsa62kyjG9bnm5wnuoWTZmS
-	w64g66Mx1Wjkc2z+BWugV9eNF88c2nLeZ0dJuN18rf1wf4SlM8tug4umZJIjBiInXO2geeA884R9y
-	Qvm64tvzMSd7rIaaCnng==;
+	List-Owner; bh=jHld24Oo1MWppo8/tfsSpZWU26RUmIMv95z42v9sotY=; b=lYNCNWDBEvz/Ta
+	uliT6FpY7r8KctZ+/RULoaeL0STXtJFn2KUVxGEg7vo2SxnI/DIV/yh/k6qVWAfwYQnDmdOGDUomg
+	LPxY3E+Hhr/TI3quWlX09N0fdKmdUArmKAHvOqeHyxOkMtf0qO4K7nxzdlYvfnDKF1E2BpmdPLCTm
+	5j1zB7AxEoVHjiRvRr9Zp9BLNcxy4A1cUlCKR3ssH/DBmufCE6pTd6KPKUfQyfqBTVGtk4ALbd3/h
+	IU7hJGXqO3K7K2/zgmL/ny4Q7KC+aTwc956suKUPBPtH45oGNPp0Ip+tkuJEiXN5q5kgDXR38NuGm
+	GMFSi5/rJYe1p119p0yw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSuWB-0000000251K-3tcY;
-	Mon, 16 Nov 2026 11:04:59 +0000
+	id 1xSuWG-0000000257V-0FjI;
+	Mon, 16 Nov 2026 11:05:04 +0000
 Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSuWA-00000002509-2Pnw
+	id 1xSuWE-0000000255Z-3tsP
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Nov 2026 11:04:58 +0000
+	Mon, 16 Nov 2026 11:05:03 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 0A76E62954;
+	by tor.source.kernel.org (Postfix) with ESMTP id 5F9596294E;
+	Mon, 16 Nov 2026 11:05:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 558C11F01573;
 	Mon, 16 Nov 2026 11:04:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B7B81F000C5;
-	Mon, 16 Nov 2026 11:04:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794827097;
-	bh=rGbOPfT1yqUwvO1m52rPtj56PBfhsl6HwTcjr6r9MlY=;
+	s=k20260515; t=1794827102;
+	bh=jHld24Oo1MWppo8/tfsSpZWU26RUmIMv95z42v9sotY=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=BNoGazjBxWR+CNpzOdNZGQkEHyjMC5rjb3rqOwRQrvHhl4JuTermScglTO41V4rUK
-	 hZndB2qWZxm/m+nVDVm2meccG5hgcZmAhgFPyyCKAWza6Zxtqw9x9QO5gVl2vUD0sp
-	 gJmMvzERCz8KJHDDGOztHplpn6ncwf+KBAqGQ5MCdP9BCzItG0p4dUghIfRRxO01KM
-	 g1NdHIXg77CPcNpQfV2xMrsoxfm32siNqfBzYGzljzXna82cJGpeIQ+DjTjuiC7Y7/
-	 nXfqzRwSL4TsON4GFDoArUv9Sk5x9ALaaafE3GUxdDIaifsqEMHi1T7Q2N7xk685Dk
-	 815Mk1Puw6t7w==
+	b=cQFtUDoFrQUz2WcbhXtkg02LHOrOLlYpUiFModvav8ZzlPl9cVV1Hd6Mzx97pXc8E
+	 uC9A9hM3FdwQDgXCii3ZlvLmTUSWghY0gyv6DTq2Bf7hrtzjJzlrZ+W9lGQazMtuR6
+	 q8WK06huhLK+DSB7eBUyu8cN4jTmRbZp520sbGPQtqw1zHjXF182+fiGQ63eN4SJdt
+	 yzlmcWsQK7yMX8m8MTzLT5pPVNZvCXbixSM1pKr7rj22/l5wh28GiSpnygnvBeLDgi
+	 Fi53LVfO78qk7qtdkRpPavVN5CQmViQGdt0QHOZaF9kN2LMnVGvoHEn6CPtk2AAmVw
+	 fjnHFGrm6VARw==
 From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 16 Nov 2026 12:03:48 +0100
-Subject: [PATCH v2 08/17] loop: take freeze protection for discard and
- write zeroes
+Date: Mon, 16 Nov 2026 12:03:49 +0100
+Subject: [PATCH v2 09/17] zloop: take freeze protection when recording
+ write pointers
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261116-work-fs-frozen_writes-v2-8-ecc4a2aac40e@kernel.org>
+Message-Id: <20261116-work-fs-frozen_writes-v2-9-ecc4a2aac40e@kernel.org>
 References: <20261116-work-fs-frozen_writes-v2-0-ecc4a2aac40e@kernel.org>
 In-Reply-To: <20261116-work-fs-frozen_writes-v2-0-ecc4a2aac40e@kernel.org>
 To: Jan Kara <jack@suse.cz>
@@ -65,12 +65,12 @@ Cc: Shakeel Butt <shakeel.butt@linux.dev>,
  linux-nfs@vger.kernel.org, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>, stable@vger.kernel.org
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1772; i=brauner@kernel.org;
- h=from:subject:message-id; bh=3iiZH5iMD4I3JcLZEMc4xg7xYKXAAdlzVQQRTB4v7fk=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9eqxW9uBZ9rfzwnIFc5vS2rgZlu3fmji3J3qu6+xgh
- Rh+zqzXHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABNJTGX4X7v2hsP5RkmlkO5/
- hxVuzfq9mtlRe6VEzwe/hP7+2lB3Tob/mS+v2z1bcumyVcktC833q/7P6ubZqyifpRq4O8p82p9
- J/AA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1992; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=RHFI0o15CfHlL7wXbapiTqB0SqtZl6Dvtj6uSPjdx74=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9eqyu897T6MG0jN4vHBm5s4MeGO7ISJJ2eH7JTaxHp
+ Ut6woSXHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABMJ3MHI0OB33ZO3h+/nCrbg
+ SI0ZP5XmmskdebwqUIA9VuavjLv6FYb/WS1H99zdbuv1b83KI9OZ6g4yKabxZFuKXl4WcuH0td9
+ nuQA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -91,22 +91,22 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Discard and write zeroes requests end up in lo_fallocate() which calls
-->fallocate() of the backing file directly. That skips the freeze
-protection vfs_fallocate() would have taken. So they go straight
-through to a filesystem that is frozen. With the backing file on ext4:
+With discard_write_cache a flush records the write pointer of each
+active zone in an xattr of its zone file. zloop_record_safe_wps() uses
+vfs_setxattr() for that which leaves freeze protection to the caller.
+So a flush rewrites the xattrs on a filesystem that is frozen. With the
+zone files on ext4:
 
-  WARNING: fs/ext4/ext4_jbd2.c:90 at ext4_journal_check_start+0x1f6/0x2d0, CPU#3: kworker/u16:1/44
-  Workqueue: loop1 loop_rootcg_workfn
+  WARNING: fs/ext4/ext4_jbd2.c:90 at ext4_journal_check_start+0x1f6/0x2d0, CPU#0: kworker/u16:2/46
+  Workqueue: zloop0 zloop_cmd_workfn
   Call Trace:
    <TASK>
    __ext4_journal_start_sb+0x7a/0x470
-   ext4_dirty_inode+0xa1/0x120
-   __mark_inode_dirty+0x154/0x1110
-   file_update_time_flags+0x3ab/0x4b0
-   ext4_fallocate+0x286/0x3440
-   lo_fallocate+0x13e/0x290
-   loop_process_work+0x486/0xe70
+   ext4_xattr_set+0x20d/0x380
+   __vfs_setxattr+0x10f/0x170
+   __vfs_setxattr_noperm+0xf4/0x5e0
+   vfs_setxattr+0x14d/0x3d0
+   zloop_cmd_workfn+0x384/0x1ff0
    process_one_work+0x946/0x1820
    worker_thread+0x4f1/0xd60
    kthread+0x364/0x460
@@ -114,29 +114,37 @@ through to a filesystem that is frozen. With the backing file on ext4:
    ret_from_fork_asm+0x1a/0x30
    </TASK>
 
-Take freeze protection around ->fallocate() like vfs_fallocate() does.
+Take freeze protection around vfs_setxattr() with mnt_want_write_file()
+like fsetxattr() does.
 
-Fixes: dfaa2ef68e80 ("loop: add discard support for loop devices")
+Fixes: 829def1e35ca ("zloop: forget write cache on force removal")
 Cc: stable@vger.kernel.org
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- drivers/block/loop.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/block/zloop.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/block/loop.c b/drivers/block/loop.c
-index a3325ceab484a..d2f29aadabcc1 100644
---- a/drivers/block/loop.c
-+++ b/drivers/block/loop.c
-@@ -259,7 +259,8 @@ static int lo_fallocate(struct loop_device *lo, struct request *rq, loff_t pos,
- 	if (!bdev_max_discard_sectors(lo->lo_device))
- 		return -EOPNOTSUPP;
+diff --git a/drivers/block/zloop.c b/drivers/block/zloop.c
+index 76d54c9b89c0b..d20a0d2afa855 100644
+--- a/drivers/block/zloop.c
++++ b/drivers/block/zloop.c
+@@ -719,8 +719,13 @@ static int zloop_record_safe_wps(struct zloop_device *zlo)
  
--	ret = file->f_op->fallocate(file, mode, pos, blk_rq_bytes(rq));
-+	scoped_guard(file_write, file)
-+		ret = file->f_op->fallocate(file, mode, pos, blk_rq_bytes(rq));
- 	if (unlikely(ret && ret != -EINVAL && ret != -EOPNOTSUPP))
- 		return -EIO;
- 
+ 		if (!zloop_zone_is_active(zone))
+ 			continue;
+-		ret = vfs_setxattr(file_mnt_idmap(file), file_dentry(file),
+-				"user.zloop.wp", &zone->wp, sizeof(zone->wp), 0);
++		ret = mnt_want_write_file(file);
++		if (!ret) {
++			ret = vfs_setxattr(file_mnt_idmap(file),
++					file_dentry(file), "user.zloop.wp",
++					&zone->wp, sizeof(zone->wp), 0);
++			mnt_drop_write_file(file);
++		}
+ 		if (ret) {
+ 			pr_err("%pg: failed to record write pointer (%d)\n",
+ 				zlo->disk->part0, ret);
 
 -- 
 2.53.0
