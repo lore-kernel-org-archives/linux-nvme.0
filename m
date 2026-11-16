@@ -2,56 +2,56 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43F39606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6C55606A31C
 	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 12:39:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=C4bP0s+b;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XFkCPZLO
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=eoy57rY+;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QNisDWf7
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=64fy1ZrurHksDYaEdeBVzwJEogDQqSWMHixC8IXM43k=; b=C4bP0s+bBGK3bS
-	o5Il0v8pO7LhcwYp9r55eLfFjYQ71cPgN621Ge5USlrQk2PZPohT10+hEP+FDPN6YErmRDfTFbXp8
-	d5rHFLWfO44iKv66MUiHMi/yNjmF18AMb+nExIVVHHWiw3rfIyBS/9HSnQ0M8Tk2omoHBuRHuEtIZ
-	jqdOJtpLOUapw2g05bDmcRdppjHWT2ZJWzuMmqnc4k/c787JS8ZPcbQRK716oLFBCpPvj/pZaEz71
-	k+lOg2nEwEP7Yfzz1Ya/6t7odwgEwhQabnY/dwW4Ds/8kce8yr2/MzQmVjwd9+l+02hSdsU1+KacS
-	Z/jgBRuCZH1e/IXpNt1w==;
+	List-Owner; bh=AMxV5fDFlTE8OAKC1riUjdbxNUfnGfJUWLINJ0DSOYU=; b=eoy57rY+vg4mru
+	cedAvxdREE/zrpv6XlWnp6y74D1FuUyp9dUIi3Zho66QjGEljLu4mWwyaGNYX84DMlnnfO/+cN1hW
+	i94HX4hnajThFfr2QWz9ApY31RmiEQOaW4+pAKnpCZUXV4MGS6med0bqNaXvc962o0oRNwUrn434w
+	xStJ7PcSRpbRZXDxKupGnKWjosm8x3D+F4RgoWWweAIbzuLtGgeJCXtEUbxLDoQLVmbxY2/S9Ufzj
+	/tUtzevxf30EvPt23J6aU2RVArxbkYuaFlpY0UKSQheWrj1SpeLcsKHPVvyuycE7M1GcA/Wa11txd
+	HCnE+k7tPGdnXgXWW+NA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSvzt-00000002Ol7-00gb;
+	id 1xSvzt-00000002Oo1-3TZe;
 	Mon, 16 Nov 2026 12:39:45 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSubD-000000027hw-3f3R
+	id 1xSubK-000000027k9-0T2p
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Nov 2026 11:10:11 +0000
+	Mon, 16 Nov 2026 11:10:18 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 1E44A6292B;
+	by sea.source.kernel.org (Postfix) with ESMTP id D9EBF46197;
+	Mon, 16 Nov 2026 11:10:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E6C51F000C6;
 	Mon, 16 Nov 2026 11:10:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 483D51F000C5;
-	Mon, 16 Nov 2026 11:10:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794827410;
-	bh=64fy1ZrurHksDYaEdeBVzwJEogDQqSWMHixC8IXM43k=;
+	s=k20260515; t=1794827417;
+	bh=AMxV5fDFlTE8OAKC1riUjdbxNUfnGfJUWLINJ0DSOYU=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=XFkCPZLOyT6temTwAkvo4voI/JBsg/Z4henG9tv1l4AP+unIyDGq5gVd+SYbfTNkW
-	 J2q+A4W9ncbFM3o2CJeB1KlGFOQOyWo8ySYnVIO/5YximXo+mSB8h+1obwLjCcGEvW
-	 A1UXSeiotXqdUuyPaAj9hOORnO/ihLGR8bgH8DCMlnoWpdtPxHllMf91dA7wxs97Eq
-	 yjHuVmibG1NowwYf+Q8JcoJLbSPOUKYKONh6M5SqznmTuA/gM7dxnMZNsRN9PfbJft
-	 +J4kIRFgBCIHj5EPRzp5FFbIDcQ2AbpmpaJCmFvcccbVtq7fFVdRiQ+kdhPCTlwHV7
-	 761XGVhpeq4Nw==
+	b=QNisDWf7U3h663SyoRV0uxWbOVyLtGNDCxOalmGb2Oy1P+x3yPzMj9NJ8VjnhaIgT
+	 qFDnHLurOuTPsUtv0TnbCEh8CcE8J2YoDDqRxBvPi3b+0t34sV2ZdQ8WcBJFQAzW01
+	 dZV/hUpqsrYSFkjkxKEMYRXKXDlMGRSVBAFcDSt0ZpAWonzunAmi6+H0IT7dCmHDOv
+	 Q2tBNYIqTL3Wj8Lpy3eAb86aT5io7YVR2DHh83QvVZ1oViOXs+zhpN9+3TBnhkmBpP
+	 P5uSY+0IieOD78GEeEis0B8qJFz0aqRqI7v0WUd9WPnDMgp4QpBzej9YDHKTMsq6SM
+	 NnKmRaKURUOpw==
 From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 16 Nov 2026 12:05:06 +0100
-Subject: [PATCH RFC v3 33/44] ovl: refuse data-only layers on pseudo
- filesystems
+Date: Mon, 16 Nov 2026 12:05:07 +0100
+Subject: [PATCH RFC v3 34/44] selftests/ovl: test data-only layers on
+ pseudo filesystems
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261116-work-loop-pseudo-v3-33-8cbbea1cf34f@kernel.org>
+Message-Id: <20261116-work-loop-pseudo-v3-34-8cbbea1cf34f@kernel.org>
 References: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
 In-Reply-To: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -72,12 +72,12 @@ Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>,
  linux-kselftest@vger.kernel.org, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1983; i=brauner@kernel.org;
- h=from:subject:message-id; bh=Smh6T1OxDytywEa5/SA4YQOn0qat/3OEFq2S8CKkHFQ=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9etzKv1zn0/fF8VbJ056U/V2j8fZ05/RKp3DlWuv16
- b/0c+MfdZSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEzkkz0jw/FI3n9/PH4HhZ1d
- ys8rckDxnqnu2en5RiGRkRGiO5TUohkZnmV/WFDrXXLFbNEWtocf1uvk3Hommj2NYaaXF8OJCE4
- pHgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5266; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=RU/dYDB+jdMMzNMeo0U5oo6JSftdyfWqQOmLqwIlGOg=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9etzGd2ObhO1hy2rNxbOC9s22uNMhOfPpjadPOhLub
+ jlkHKla0VHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRCYKMDFM/BeYEvN8w4/c0
+ 41kSN3JS3x/VP/Wr6sTU13ffvhGcvfchI8P17p+CIg2c/FPY556OFjotvWWz6DTee+d3yU1wCJc
+ /mcsEAA==
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 X-Mailman-Approved-At: Mon, 16 Nov 2026 04:39:20 -0800
@@ -99,52 +99,181 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-The data of a metacopy file can live in a data-only layer. overlayfs
-doesn't look that data up when it looks up the file. It only remembers
-the absolute redirect and looks up the data lazily the first time
-someone needs it. So until then nothing can tell which filesystem holds
-the data of such a file.
+Add tests that overlayfs refuses data-only layers on pseudo filesystems:
 
-But a data-only layer has no business being a pseudo filesystem in the
-first place. All it does is hold the data of metacopy files and the
-regular files of a pseudo filesystem are kernel interfaces, not storage.
-So let's refuse data-only layers on superblocks with SB_I_PSEUDO at
-mount time.
+- sysfs and procfs via the "::" separator in "lowerdir="
+- sysfs and procfs via "datadir+" by path
+- sysfs and procfs via "datadir+" by file descriptor
+- tmpfs as data-only layer
+- sysfs as regular lower layer
 
-Data-only layers can be added via the "::" separator in "lowerdir=" and
-via "datadir+" by path or by file descriptor. All of them end up at the
-end of ctx->lower. So a single check in ovl_get_lowerstack() covers all
-of them.
+The last two must keep mounting.
 
-Note that regular lower layers on pseudo filesystems are left alone.
-Stacking overlayfs on top of sysfs keeps working.
-
-Suggested-by: Amir Goldstein <amir73il@gmail.com>
-Link: https://lore.kernel.org/all/CAOQ4uxhGxpBtMZ5kfuzR1tQAewiecoX7UjXQRo91QjJHH9T_Yw@mail.gmail.com
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/overlayfs/super.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ .../selftests/filesystems/overlayfs/.gitignore     |   1 +
+ .../selftests/filesystems/overlayfs/Makefile       |   1 +
+ .../filesystems/overlayfs/pseudo_datadir.c         | 131 +++++++++++++++++++++
+ 3 files changed, 133 insertions(+)
 
-diff --git a/fs/overlayfs/super.c b/fs/overlayfs/super.c
-index 39d4d57dec230..719c2569dfeaf 100644
---- a/fs/overlayfs/super.c
-+++ b/fs/overlayfs/super.c
-@@ -1237,6 +1237,14 @@ static struct ovl_entry *ovl_get_lowerstack(struct super_block *sb,
- 	for (i = 0; i < ctx->nr; i++) {
- 		l = &ctx->lower[i];
+diff --git a/tools/testing/selftests/filesystems/overlayfs/.gitignore b/tools/testing/selftests/filesystems/overlayfs/.gitignore
+index b343cc430051d..e1410fee2269d 100644
+--- a/tools/testing/selftests/filesystems/overlayfs/.gitignore
++++ b/tools/testing/selftests/filesystems/overlayfs/.gitignore
+@@ -3,3 +3,4 @@ dev_in_maps
+ set_layers_via_fds
+ idmapped_mounts
+ automount_in_layer
++pseudo_datadir
+diff --git a/tools/testing/selftests/filesystems/overlayfs/Makefile b/tools/testing/selftests/filesystems/overlayfs/Makefile
+index 382a59bda5e70..ace75f5627e0f 100644
+--- a/tools/testing/selftests/filesystems/overlayfs/Makefile
++++ b/tools/testing/selftests/filesystems/overlayfs/Makefile
+@@ -10,6 +10,7 @@ TEST_GEN_PROGS := dev_in_maps
+ TEST_GEN_PROGS += set_layers_via_fds
+ TEST_GEN_PROGS += idmapped_mounts
+ TEST_GEN_PROGS += automount_in_layer
++TEST_GEN_PROGS += pseudo_datadir
  
-+		/* Pseudo filesystems don't hold data for metacopy files. */
-+		if (i >= ctx->nr - ctx->nr_data &&
-+		    (l->path.dentry->d_sb->s_iflags & SB_I_PSEUDO)) {
-+			pr_err("filesystem on %s not supported as data-only layer\n",
-+			       l->name);
-+			return ERR_PTR(-EINVAL);
-+		}
+ include ../../lib.mk
+ 
+diff --git a/tools/testing/selftests/filesystems/overlayfs/pseudo_datadir.c b/tools/testing/selftests/filesystems/overlayfs/pseudo_datadir.c
+new file mode 100644
+index 0000000000000..3b59fd3e9f5c2
+--- /dev/null
++++ b/tools/testing/selftests/filesystems/overlayfs/pseudo_datadir.c
+@@ -0,0 +1,131 @@
++// SPDX-License-Identifier: GPL-2.0
++#define _GNU_SOURCE
 +
- 		err = ovl_lower_dir(l->name, &l->path, ofs, &sb->s_stack_depth);
- 		if (err)
- 			return ERR_PTR(err);
++#include <errno.h>
++#include <fcntl.h>
++#include <sched.h>
++#include <stdbool.h>
++#include <stdio.h>
++#include <sys/mount.h>
++#include <sys/stat.h>
++#include <unistd.h>
++
++#include "kselftest_harness.h"
++#include "../wrappers.h"
++
++static int setup_tmp(void)
++{
++	if (unshare(CLONE_NEWNS))
++		return -errno;
++	if (sys_mount(NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL))
++		return -errno;
++	if (sys_mount("tmpfs", "/tmp", "tmpfs", 0, NULL))
++		return -errno;
++	if (mkdir("/tmp/lower", 0755) || mkdir("/tmp/data", 0755) ||
++	    mkdir("/tmp/merged", 0755))
++		return -errno;
++	return 0;
++}
++
++/* Mount an overlayfs with the legacy "lowerdir=" option. */
++static int mount_lowerdir(const char *lowerdir)
++{
++	char opts[256];
++
++	snprintf(opts, sizeof(opts), "lowerdir=%s", lowerdir);
++	if (sys_mount("overlay", "/tmp/merged", "overlay", MS_RDONLY, opts))
++		return -errno;
++	if (umount2("/tmp/merged", 0))
++		return -errno;
++	return 0;
++}
++
++static int set_layer(int fd_context, const char *key, const char *path,
++		     bool by_fd)
++{
++	int fd, ret = 0;
++
++	if (!by_fd) {
++		if (sys_fsconfig(fd_context, FSCONFIG_SET_STRING, key, path, 0))
++			return -errno;
++		return 0;
++	}
++
++	fd = open(path, O_DIRECTORY | O_CLOEXEC);
++	if (fd < 0)
++		return -errno;
++	if (sys_fsconfig(fd_context, FSCONFIG_SET_FD, key, NULL, fd))
++		ret = -errno;
++	close(fd);
++	return ret;
++}
++
++/* Create an overlayfs with "lowerdir+" and "datadir+" through fsconfig. */
++static int fsmount_layers(const char *lower, const char *data, bool by_fd)
++{
++	int fd_context, fd_mnt, ret;
++
++	fd_context = sys_fsopen("overlay", FSOPEN_CLOEXEC);
++	if (fd_context < 0)
++		return -errno;
++
++	ret = set_layer(fd_context, "lowerdir+", lower, by_fd);
++	if (ret)
++		goto out;
++	ret = set_layer(fd_context, "datadir+", data, by_fd);
++	if (ret)
++		goto out;
++
++	if (sys_fsconfig(fd_context, FSCONFIG_CMD_CREATE, NULL, NULL, 0)) {
++		ret = -errno;
++		goto out;
++	}
++
++	fd_mnt = sys_fsmount(fd_context, FSMOUNT_CLOEXEC, 0);
++	if (fd_mnt < 0)
++		ret = -errno;
++	else
++		close(fd_mnt);
++out:
++	close(fd_context);
++	return ret;
++}
++
++TEST(datadir_sysfs)
++{
++	ASSERT_EQ(setup_tmp(), 0);
++
++	EXPECT_EQ(mount_lowerdir("/tmp/lower::/sys/kernel"), -EINVAL);
++	EXPECT_EQ(fsmount_layers("/tmp/lower", "/sys/kernel", false), -EINVAL);
++	EXPECT_EQ(fsmount_layers("/tmp/lower", "/sys/kernel", true), -EINVAL);
++}
++
++TEST(datadir_procfs)
++{
++	ASSERT_EQ(setup_tmp(), 0);
++
++	EXPECT_EQ(mount_lowerdir("/tmp/lower::/proc"), -EINVAL);
++	EXPECT_EQ(fsmount_layers("/tmp/lower", "/proc", false), -EINVAL);
++	EXPECT_EQ(fsmount_layers("/tmp/lower", "/proc", true), -EINVAL);
++}
++
++TEST(datadir_tmpfs)
++{
++	ASSERT_EQ(setup_tmp(), 0);
++
++	EXPECT_EQ(mount_lowerdir("/tmp/lower::/tmp/data"), 0);
++	EXPECT_EQ(fsmount_layers("/tmp/lower", "/tmp/data", false), 0);
++	EXPECT_EQ(fsmount_layers("/tmp/lower", "/tmp/data", true), 0);
++}
++
++TEST(lowerdir_sysfs)
++{
++	ASSERT_EQ(setup_tmp(), 0);
++
++	EXPECT_EQ(mount_lowerdir("/sys/kernel:/tmp/lower"), 0);
++	EXPECT_EQ(mount_lowerdir("/sys/kernel::/tmp/data"), 0);
++	EXPECT_EQ(fsmount_layers("/sys/kernel", "/tmp/data", false), 0);
++	EXPECT_EQ(fsmount_layers("/sys/kernel", "/tmp/data", true), 0);
++}
++
++TEST_HARNESS_MAIN
 
 -- 
 2.53.0
