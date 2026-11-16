@@ -2,79 +2,100 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D574606A887
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 08:12:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A47E3606A334
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 08:45:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=X8m5a5BV;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=UF9/ABR8;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=xfPjnX13
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=EXntoDFV;
+	dkim=pass (2048-bit key) header.d=yadro.com header.i=@yadro.com header.a=rsa-sha256 header.s=mta-02 header.b=hoXJPo8C;
+	dkim=pass (2048-bit key) header.d=yadro.com header.i=@yadro.com header.a=rsa-sha256 header.s=mta-03 header.b=BtP272eU
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=YsycSKqdpWgQAYZyBHElOv6U4YsHuIG1R77AoE0kvjY=; b=X8m5a5BVke3Uof
-	/agFGs5+tx3CtbKGQ6LBK6gFeJsOy/1V6wxAf2dr80I3x65oraPAQXn/Z8CodIf69rcGVVNKVpWE9
-	utS98LuuvavGbUromNLXDoGfub299MAvf8U2mswpfOUlOzD/GsMUHo2ORK2BEcMYsi9Ny55pmR10C
-	oiWwlNOsy7K4LeivtFhvXfNKwSR1eaVFLx2ey8pwPCZtFRNFAGuaUv12yBP5QQY870FkpoVppfLiO
-	HGLSA5p9vSoGbttr1AsG7KsK+DmUQWaVnWUUWsjMZJuDDJBVVIAWU8SscrpThCK3Z893fCLToR6ce
-	a0+wHH8W0qaUv0V7o3uQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:CC:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Unsubscribe-Post:List-Owner;
+	bh=Q/p5cdT16DqEKxyY/aNGzE4KrR5OZR8Sl7QoM7V26FQ=; b=EXntoDFVmiz3ipam2kbLd3531i
+	Vy/L2NNO0S1/0mB+uubkyh2l9Yh7+b+BKmqz9TGQDYkLblgZA5SJDdsUy0V80PYWLrxI6Z0krnv8b
+	E8tB77Rb1s8LIPF8k2klSLUPYEKEqbDe0hgteKiNp7nlCqDUbmmjPVzzGSTyD7OFE3hY0Pl69UVdr
+	I5Lii42hR6iK7OBajxfZJ6sOv7QXRCbYwQ6W0un1b8Ha+p0CI5U6TVn3pfIQYMZR8a3Q+3QKCYGUh
+	dwARi7gbkMlKxONHOuG6vHjfxOk1cL0IsZcR/dtHroALM93ogMmhjGWNoiLAYSudnfLv3lpI0mEfY
+	zBhAE3lg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSrpS-00000001WvG-0rja;
-	Mon, 16 Nov 2026 08:12:42 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1xSsLU-00000001eeq-2pbu;
+	Mon, 16 Nov 2026 08:45:48 +0000
+Received: from mta-01.yadro.com ([195.3.219.148])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSrpQ-00000001Wu2-30rT
-	for linux-nvme@bombadil.infradead.org;
-	Mon, 16 Nov 2026 08:12:41 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=YsycSKqdpWgQAYZyBHElOv6U4YsHuIG1R77AoE0kvjY=; b=UF9/ABR8hV/lngxxKjs8EpnYzR
-	I17ecwAlKfbC0qVPnCZxJaRSbwvtmFORj1HdMDwH4IxDDSMFUL4XFIaMOMKnkdw0QdKdcCynHaMtr
-	hU0yoqawn8DNrD1dyb0bOhmdv9uChKMP302e4IJdiP9O3K438x1F5+DDMHw4k3qDkwDU3HGuo8Bsn
-	7cB3eg3Ov1CJHsJL7Z/Tbp0H9K4v+6ov2vSik1fldQLzNyAh12sQCmxjWqJTLdg7HzLybgfYMfXXO
-	/1PNghJsOj5cnqt8remFbgalKDP/PqMdxl07bKvfDB6G4DU/BcNPp60UvRoePlu5S9x9YEYTm4HQw
-	8zc5LagQ==;
-Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130])
-	by desiato.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSrpI-0000000DUW1-3KZf
-	for linux-nvme@lists.infradead.org;
-	Mon, 16 Nov 2026 08:12:38 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1794816738; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=YsycSKqdpWgQAYZyBHElOv6U4YsHuIG1R77AoE0kvjY=;
-	b=xfPjnX13uYB2TmCqFQ3IXubL8e94qRWtXN0dAAbdtAYEYZB8uVXxXTqi6yJ+qO4i4vG0oxIWQC1fD9n2/I6X6k5bx6C46aVsH/Z1ftPwgTPCz5vL+WWCF1XwWy4vbPglrQ0MaOR8gBxi0XQtMnEyevVKdDQ3139E2Q3L8R7mdCo=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R191e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XEoakS5_1794816737;
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XEoakS5_1794816737 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Mon, 16 Nov 2026 16:12:17 +0800
-From: Guixin Liu <kanie@linux.alibaba.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Nilay Shroff <nilay@linux.ibm.com>,
-	Daniel Wagner <dwagner@suse.de>,
-	Hannes Reinecke <hare@suse.de>
-Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH v3 1/2] nvme-fc: fix use-after-free in nvme_fc_match_disconn_ls()
-Date: Mon, 16 Nov 2026 16:12:10 +0800
-Message-ID: <20261116081211.1757155-2-kanie@linux.alibaba.com>
-X-Mailer: git-send-email 2.43.7
-In-Reply-To: <20261116081211.1757155-1-kanie@linux.alibaba.com>
-References: <20261116081211.1757155-1-kanie@linux.alibaba.com>
+	id 1xSsLQ-00000001ec3-3HcU;
+	Mon, 16 Nov 2026 08:45:46 +0000
+Received: from mta-01.yadro.com (localhost [127.0.0.1])
+	by mta-01.yadro.com (Postfix) with ESMTP id ACF082000A;
+	Mon, 16 Nov 2026 11:45:36 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mta-01.yadro.com ACF082000A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; s=mta-02;
+	t=1794818736; bh=Q/p5cdT16DqEKxyY/aNGzE4KrR5OZR8Sl7QoM7V26FQ=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:From;
+	b=hoXJPo8CVJqLylH5WoU5WlmZxAHKmkNlEK/TS9oKOW8GDjdr+U47aKm7jcI+taZ8g
+	 QN7JtWDWe7qn2XYaku/s1iQJLo2M6uAxYGduoUmDdCEiL2Tw16yG88CnVFIc2Ue8G/
+	 Pte5FDs6uWtOZn3K+tJLnsRQyMH8UgIhMJs224x2O0p0jjdbvL/rQAVS6ZD2kWMYb2
+	 neivw4jNSH1zBEjl8dbKbVFk90m2ouBNUEOXlnQYyWNhcxiaram98Zme7u3Cg9aBxE
+	 2uA9G9f9jcwa3vzMZvf46D+UDMzhZKOTmHC68wWBeMaGIshePl6VR/I0p65jgxVB/g
+	 0yTqQp0D8eanQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; s=mta-03;
+	t=1794818736; bh=Q/p5cdT16DqEKxyY/aNGzE4KrR5OZR8Sl7QoM7V26FQ=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:From;
+	b=BtP272eUPW/V+k7SW5fkHLG6HCn5BFyU8Jtrpq91E3YHbUrSd+EacfzJ7QBj8iTLj
+	 7pKctUP73yJYMsbQleZ10IeufJA2UzGECJnIX1Du2Y/K6E/r94iYKduvY5ouA2xf0Q
+	 moQkram0a+oLV9FkRoWENqooceW3FNu7FPz8l6fYfquZpGp0AvbbcrgMCfDaZvqMRe
+	 lWgM8tI40eu8bc1ifAouLoEUmKz/SYx4PMPsn2DUIx/xP3GNw15lf4q2Sj0AS5IjPF
+	 ZWzyhfPK4Lx6BnQCzl3lnglDp6gp8eJzDnomdREAl4QnUnGA6CoEv8ycnXfR7BSEXp
+	 Ia+B92ZkvB72A==
+Received: from RTM-EXCH-06.corp.yadro.com (unknown [10.34.9.206])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mta-01.yadro.com (Postfix) with ESMTPS;
+	Mon, 16 Nov 2026 11:45:35 +0300 (MSK)
+Received: from yadro.com (10.34.9.247) by RTM-EXCH-06.corp.yadro.com
+ (10.34.9.206) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.56; Mon, 16 Nov
+ 2026 11:45:36 +0300
+Date: Mon, 16 Nov 2026 11:45:40 +0300
+From: Dmitry Bogdanov <d.bogdanov@yadro.com>
+To: Mohamed Khalfella <linux-nvme-bounces@lists.infradead.org>
+CC: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph
+ Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Justin Tee
+	<justin.tee@broadcom.com>, Naresh Gottumukkala
+	<nareshgottumukkala83@gmail.com>, Paul Ely <paul.ely@broadcom.com>, Hannes
+ Reinecke <hare@kernel.org>, Chaitanya Kulkarni <kch@nvidia.com>, James Smart
+	<jsmart833426@gmail.com>, Randy Jennings <randyj@purestorage.com>, Mohamed
+ Khalfella <mkhalfella@purestorage.com>, Daniel Wagner <dwagner@suse.de>,
+	<linux-nvme@lists.infradead.org>, <linux-kernel@vger.kernel.org>, Hannes
+ Reinecke <hare@suse.de>
+Subject: Re: [PATCH v7 03/17] nvmet: Implement CCR nvme command
+Message-ID: <20261116084540.GA3655@yadro.com>
+References: <20261114030454.2836543-1-mkhalfella@purestorage.com>
+ <20261114030454.2836543-4-mkhalfella@purestorage.com>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20261114030454.2836543-4-mkhalfella@purestorage.com>
+X-ClientProxiedBy: RTM-EXCH-03.corp.yadro.com (10.34.9.203) To
+ RTM-EXCH-06.corp.yadro.com (10.34.9.206)
+X-KSMG-AntiPhishing: NotDetected
+X-KSMG-AntiSpam-Interceptor-Info: not scanned
+X-KSMG-AntiSpam-Status: not scanned, disabled by settings
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.1.8310, bases: 2026/11/16 06:36:00 #28892114
+X-KSMG-AntiVirus-Status: NotDetected, skipped
+X-KSMG-KATA-Status: Not Scanned
+X-KSMG-LinksScanning: NotDetected
+X-KSMG-Message-Action: skipped
+X-KSMG-Rule-ID: 5
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261116_081235_174050_0F4B7938 
-X-CRM114-Status: GOOD (  20.52  )
-X-Spam-Score: -15.7 (---------------)
+X-CRM114-CacheID: sfid-20261116_004545_533762_C0E46E7F 
+X-CRM114-Status: GOOD (  20.33  )
+X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,109 +106,80 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-26.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
-	version=4.0.1
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Commit b71cbcf7d170e ("nvme-fc: don't hold rport lock when putting ctrl")
-dropped the rport lock inside the loop to put the reference of a
-non-matching controller, because nvme_fc_ctrl_free() takes the rport
-lock to unlink the controller. But no iterator is sound across that
-drop: with list_for_each_entry_safe() the prefetched next entry can be
-freed in the window, and with a plain iterator the loop's own
-nvme_fc_ctrl_put() can be the final reference, freeing the current
-entry before the iterator reads its ->next pointer.
+On Fri, Nov 13, 2026 at 07:04:17PM -0800, Mohamed Khalfella wrote:
+> 
+> Defined by TP8028 Rapid Path Failure Recovery, CCR (Cross-Controller
+> Reset) command is an nvme command issued to source controller by
+> initiator to reset impacted controller. Implement CCR command for linux
+> nvme target.
+> 
+> Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
+> Reviewed-by: Hannes Reinecke <hare@suse.de>
+> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+> ---
+>  drivers/nvme/target/admin-cmd.c | 76 ++++++++++++++++++++++++++++++
+>  drivers/nvme/target/core.c      | 83 +++++++++++++++++++++++++++++++++
+>  drivers/nvme/target/nvmet.h     | 13 ++++++
+>  include/linux/nvme.h            | 23 +++++++++
+>  4 files changed, 195 insertions(+)
+> 
+> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+> index 5710ae53eb83..3df9db454db9 100644
+> --- a/drivers/nvme/target/admin-cmd.c
+> +++ b/drivers/nvme/target/admin-cmd.c
+> @@ -378,6 +378,7 @@ static void nvmet_get_cmd_effects_admin(struct nvmet_ctrl *ctrl,
+>         log->acs[nvme_admin_get_features] =
+>         log->acs[nvme_admin_async_event] =
+>         log->acs[nvme_admin_keep_alive] =
+> +       log->acs[nvme_admin_cross_ctrl_reset] =
+>                 cpu_to_le32(NVME_CMD_EFFECTS_CSUPP);
+>  }
+> 
+> @@ -1629,6 +1630,78 @@ void nvmet_execute_keep_alive(struct nvmet_req *req)
+>         nvmet_req_complete(req, status);
+>  }
+> 
+> +void nvmet_execute_cross_ctrl_reset(struct nvmet_req *req)
+> +{
+> +       struct nvmet_ctrl *ictrl, *sctrl = req->sq->ctrl;
+> +       struct nvme_command *cmd = req->cmd;
+> +       struct nvmet_ccr *ccr, *new_ccr;
+> +       int ccr_active, ccr_total;
+> +       u16 cntlid, status = NVME_SC_SUCCESS;
+> +
+> +       if (!nvmet_check_transfer_len(req, 0))
+> +               return;
+> +
+> +       cntlid = le16_to_cpu(cmd->ccr.icid);
+> +       if (sctrl->cntlid == cntlid) {
+> +               req->error_loc =
+> +                       offsetof(struct nvme_cross_ctrl_reset_cmd, icid);
+> +               status = NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
+> +               goto out;
+> +       }
 
-The reference dance is unnecessary in the first place. An entry cannot
-leave ctrl_list while rport->lock is held, as the final put unlinks it
-under that very lock, so association_id can be inspected under
-ctrl->lock without holding a reference. Take a reference only for the
-matching controller, still under the rport lock, and hand it to the
-caller as before. The loop then no longer needs to drop the lock at
-all, which also removes the reason the lock was dropped for in the
-first place.
+cntlid has to be validated against the configured range of the controller
+ids (subsys->cntlid_min <= cntlid <= subsys->cntlid_max).
+That will allow CCR to work correctly on a distributed target.
 
-Fixes: b71cbcf7d170e ("nvme-fc: don't hold rport lock when putting ctrl")
-Cc: stable@vger.kernel.org
-Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
----
-
-Reproduced under KASAN in a VM through fcloop with several controllers
-on one remote port and a tbkas force-reconnect racing concurrent
-controller disconnects; the lock-drop window was widened with a
-test-only mdelay(200) to make the microsecond window deterministic:
-
-  BUG: KASAN: slab-use-after-free in nvme_fc_match_disconn_ls
-  Read of size 8 by task kworker
-  Workqueue: events nvme_fc_handle_ls_rqst_work
-  Call Trace:
-   nvme_fc_match_disconn_ls
-   nvme_fc_ls_disconnect_assoc
-   nvme_fc_handle_ls_rqst_work
-   process_one_work
-
-The freed object was the prefetched next entry, allocated by
-nvme_fc_alloc_ctrl() on connect and freed by nvme_free_ctrl() on the
-concurrent teardown. The loop increment dereferences it before
-nvme_fc_ctrl_get() gets a chance to reject it, which is why the
-get-unless-zero check in the loop body does not help. The reworked
-loop does not drop the lock, so no such window is left to widen.
----
- drivers/nvme/host/fc.c | 22 ++++++++++++----------
- 1 file changed, 12 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 2cbd744ffd22..ce4598dd227f 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -1469,29 +1469,31 @@ nvme_fc_match_disconn_ls(struct nvme_fc_rport *rport,
- {
- 	struct fcnvme_ls_disconnect_assoc_rqst *rqst =
- 					&lsop->rqstbuf->rq_dis_assoc;
--	struct nvme_fc_ctrl *ctrl, *tmp, *ret = NULL;
-+	struct nvme_fc_ctrl *ctrl, *ret = NULL;
- 	struct nvmefc_ls_rcv_op *oldls = NULL;
- 	u64 association_id = be64_to_cpu(rqst->associd.association_id);
- 	unsigned long flags;
- 
- 	spin_lock_irqsave(&rport->lock, flags);
- 
--	list_for_each_entry_safe(ctrl, tmp, &rport->ctrl_list, ctrl_list) {
--		if (!nvme_fc_ctrl_get(ctrl))
--			continue;
-+	list_for_each_entry(ctrl, &rport->ctrl_list, ctrl_list) {
- 		spin_lock(&ctrl->lock);
- 		if (association_id == ctrl->association_id) {
--			oldls = ctrl->rcv_disconn;
--			ctrl->rcv_disconn = lsop;
--			ret = ctrl;
-+			/*
-+			 * Entries cannot leave the list while rport->lock is
-+			 * held, so they can be inspected without a reference.
-+			 * Only the match needs one, for the caller.
-+			 */
-+			if (nvme_fc_ctrl_get(ctrl)) {
-+				oldls = ctrl->rcv_disconn;
-+				ctrl->rcv_disconn = lsop;
-+				ret = ctrl;
-+			}
- 		}
- 		spin_unlock(&ctrl->lock);
- 		if (ret)
- 			/* leave the ctrl get reference */
- 			break;
--		spin_unlock_irqrestore(&rport->lock, flags);
--		nvme_fc_ctrl_put(ctrl);
--		spin_lock_irqsave(&rport->lock, flags);
- 	}
- 
- 	spin_unlock_irqrestore(&rport->lock, flags);
--- 
-2.43.7
-
+> +
+> +       /* Find and get impacted controller */
+> +       ictrl = nvmet_ctrl_find_get_ccr(sctrl->subsys, sctrl->hostnqn,
+> +                                       cmd->ccr.ciu, cntlid,
+> +                                       le64_to_cpu(cmd->ccr.cirn));
+> +       if (!ictrl) {
+> +               /* Immediate Reset Successful */
+> +               nvmet_set_result(req, 1);
+> +               status = NVME_SC_SUCCESS;
+> +               goto out;
+> +       }
+> +
 
