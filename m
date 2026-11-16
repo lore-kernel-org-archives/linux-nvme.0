@@ -2,100 +2,100 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CC15606A329
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 16:13:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D780606A329
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 16:15:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=jMM4lqtH;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=cQS7ljb6
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=yxUdhfzN;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Gkv+AhDe
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=sB1SE0+x8zWHSF23lZUFMhizy3rFzl0NBN2KJ6cwwgI=; b=jMM4lqtH0bj4AB
-	rx+m+T0LBT/IXV0spwul0RgVRWNhMmoJMTQQu1N/YzCeFQMDcs7ltHw5GTCZptXS4q/KjY0yZMY2c
-	IeyB73jCAiYzbqOrOu9Cg9K0UbBe+qnBrTdGF2Ljt5ZS9I3YxI2Bzk8lOHREzRZM6Alx2GnJ9/9NE
-	75sj9ggBBcGL2T/FXZLzUc2D44nDVWoEcAL7pA7fsW+EM0+zSGHSuegWFnaql7OUIAcI/bUha0458
-	A8Aqc3dwVd13x0b9JanoLMFrH/P9vK2nvkY1W23YJfZaR4EsFKj9kYhp0/sjDE7xHk2VtkOH6xH2l
-	GZVjxuEf80W83dShYsHg==;
+	List-Owner; bh=yKYud9p8+aP8cT7V12zkUbmCop1ErkdHEczU+hWaU/k=; b=yxUdhfzN7cwrXK
+	unz6Kg86MuObd1oAM6/6PH0P9WmbQGvuqQLNC3R+inoPA4owJzgx5zb8dOQjgXmUwWAS6CqAjygvB
+	9TvNXDoTFC4TZ6HWCQxIqP8RBxkM+DM2wzF+tAL8DS7Z4cM5qcXFPWIlifdtsCL+ts9tJz+LVsU4p
+	MdTspNvQeQI/dE5Lta7aTuVo9wXt2IIgIjOIKKNWZS2oRRZfhvLaWqloO5xKfPa8UtudGsdr7MV4t
+	IQWdgZmtFLmV+Wuh0ht0GhPwY/YziRBExCiFvczQsKomy46E1iBk+qUDR1zmjL1vkao62Uhe3ORzf
+	y4k5uoknbOoJuCbvd6Bg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSzL0-00000003AiP-03Jm;
-	Mon, 16 Nov 2026 16:13:46 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1xSzML-00000003AsB-1OMa;
+	Mon, 16 Nov 2026 16:15:09 +0000
+Received: from mail-dy1-x1335.google.com ([2607:f8b0:4864:20::1335])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSzKw-00000003Ai1-46L3
+	id 1xSzMI-00000003ArW-0RoQ
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Nov 2026 16:13:44 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1794845621;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sB1SE0+x8zWHSF23lZUFMhizy3rFzl0NBN2KJ6cwwgI=;
-	b=cQS7ljb6bUvVZlXjlo8lwkxq4U/rK2OdHgWwubZkTYw7fGYPlgNH2EzZO9dr6j+YbO4FIb
-	8N4y3yZ6J3wE+FsFs3KqgmcNYckMRqR+uB6m4uieb4/2wlJ9BxMVMvksNSZ0sm4GyQOxhB
-	K4ID5sy2mEL/7pRqRreyQ1YPQF6T+z4=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-622-I0nXmlwsPKe_24Y4XRwZfQ-1; Mon, 16 Nov 2026 11:13:39 -0500
-X-MC-Unique: I0nXmlwsPKe_24Y4XRwZfQ-1
-X-Mimecast-MFC-AGG-ID: I0nXmlwsPKe_24Y4XRwZfQ_1794845618
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-49d8ce126f6so2246660f8f.1
-        for <linux-nvme@lists.infradead.org>; Mon, 16 Nov 2026 08:13:39 -0800 (PST)
+	Mon, 16 Nov 2026 16:15:08 +0000
+Received: by mail-dy1-x1335.google.com with SMTP id 5a478bee46e88-33bf40b0c8bso906536eec.0
+        for <linux-nvme@lists.infradead.org>; Mon, 16 Nov 2026 08:15:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794845703; x=1795450503; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=yKYud9p8+aP8cT7V12zkUbmCop1ErkdHEczU+hWaU/k=;
+        b=Gkv+AhDeLGeAfC5wqb20+r/LHwvzYmaB8gjVknigp5BPVin2QTk+RzfmgLRJnBXDIS
+         UXzxklPL6T6hOqTk89DwmCAZK/7lj0XYUdSm8SF9bjj/KA57RtYwyNggoyUXXk+foIb9
+         ZoRsZSsc89wQtOtqsH2EqkdhypxffE6thWxrZ5FP/f2ev9BOHAwSKvXBI+fqwilvWryL
+         2nbshX4YB3IiaYkELb6wuyOjrTYnEio+yzmCfigtqk4h7ASKqazDA4ttJKVF9PDySVs4
+         za24q6Sz6hWjKQ4LBiHhfLCRSYMZy1s5iWaILyXT0JCjkUZybwZhMhe1029AjLTe3pLo
+         mAJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794845618; x=1795450418;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=sB1SE0+x8zWHSF23lZUFMhizy3rFzl0NBN2KJ6cwwgI=;
-        b=oSiyfl+Rb23rAmsNBaEOUEJDJzJ1HHD5mAzGjLgHjkm4Blav31RXaf3vJKHsl0cjGx
-         FfeXRhnmQBIdbH+AzdSQmfoJMfrpjwwVFUTfzZyPPQfcn/jz6t408EXgmhWIcjUEbL8z
-         tYZ3YY0L4s0kuNCS78pbEiXYS+BZjKMA8c7eBar/cMluQFn7322isW9shzboXzuQOlCL
-         QyYengeqML8N3SxZ+hmCOEGSwMT9JAHDHrPJxmxt4Du5B2ERYDEl7Omu5Pq/o0JuB3FE
-         v83Kp0+zc/EClgefIbTg4fe1AfSdWdLDcxcc4QIVtzACSakM8eL/pNVBhQSJd+HjuHIL
-         Hm8w==
-X-Forwarded-Encrypted: i=1; AL+hErGKkBNRHmBNhDcfi23zU4F6av0OosGr/ElowbQli4d0hTv9nxxqVGCXVBAxPu7UEoWrAStFwgY56pUx@lists.infradead.org
-X-Gm-Message-State: APuU4Z8HnIVE8owezxY7FY6kJUq0a2arvaggF0wYLnV2QC8BUMdROUVX
-	Qit5Q6l9VTTKaIkPEjp1psexOVmUqIz9ftt42/hzB16H0WxGu/abuSD1zkTo5d2CYkeVMS6kNKM
-	yxDjXM66ao1NJgsg7XEz3JhNz3YWgG604RgJyyVk0DBzcxnSK0GTopLDG4/qv4znsuaXiXzcUYE
-	DXjEXRCuvzWKgbqJiC3dJUODdFrDzUszIVtF5KBXEd/vI=
-X-Gm-Gg: AZFdTZdkQaEbOAEVJqaBqJEZzYMoX/hDEQjOgUzvFNIDu2ODDZekOnXW4sfQaYy2vpR
-	NTkutl4sZEibp/9m2UB2GY8Lp8SarsSp75vQLn3W72Lsiq2BYHCGkgKuDlO0vOx9SrAsUnozUU7
-	7su4VfqG8Od0k5orTPjjRzhpqStt1ZAkf2YLgP6aRnbw+aucPH3VWt41dsLfUzUv/6Szx5Z2Hia
-	//3i56U0QmW30ojSw==
-X-Received: by 2002:a05:6000:5c7:b0:48d:f996:1814 with SMTP id ffacd0b85a97d-49c7325b40amr21495662f8f.57.1794845618198;
-        Mon, 16 Nov 2026 08:13:38 -0800 (PST)
-X-Received: by 2002:a05:6000:5c7:b0:48d:f996:1814 with SMTP id
- ffacd0b85a97d-49c7325b40amr21495612f8f.57.1794845617844; Mon, 16 Nov 2026
- 08:13:37 -0800 (PST)
+        d=1e100.net; s=20260707; t=1794845703; x=1795450503;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=yKYud9p8+aP8cT7V12zkUbmCop1ErkdHEczU+hWaU/k=;
+        b=UYQu2gXGRraiQa16pw7xCyDp4sJceM45L7BNEllSYhmbMMXpr8tuAW5QnSxFRTHkHV
+         Xatmvl2COXQj1Su2n0SoHy3pTJ9eMTK3cgLnN5bl/MLM7rGOhNBrJs9NMhQEnEyXjoxY
+         bdoUxcbb5IiMQz3UpqXA3JY9Vq/zTSyKEZmE5QAJD2atQ8YQ6wldONFYa5rynUoaxMtG
+         MdmDITIE1mTzqN4MRAziXyHGplcJ7Q3w39wpxFS9gbNikd37WCkwVbbQWOCWDg2U0XKd
+         ZlCiUE/qBLLDubIOvepYmeS3iECbNphSpUzStPoKeg4kjd66TdSYbKiEMIEJFEvz+U+3
+         tSPQ==
+X-Forwarded-Encrypted: i=1; AL+hErFz4pHJi08IKsPK7xQxQ9SRkkricLV+Jek/49iXaWWQSPpTRuhTFCUvq1oNlzY2+Dp3D7nVSlreCZAh@lists.infradead.org
+X-Gm-Message-State: APuU4Z9vdGG5JWzZTUn/6DgDBTNGUUGYZXeltHqrCLUDBetSZQire31F
+	XjtasgkdnRLTDoZZVqpyJDhIgWBXw8KG0GCdXlLz0h/RSBdpPJ96xgeB
+X-Gm-Gg: AYBFou2Na1rjmND9MS6AJRE4P+9eJEeIUWFbMutJWFzGSYLnvKnWIJzrP50UccghGdl
+	p2FA0ppBPT+C/sHS1+jkl1wqQGuIKc1QmCqProf6lT4PD/F2ZlvIBiV3/Mnw2PU/vQbLUFmx2rR
+	8getIr2Fly/iUvFpiAwCHgo/2/H7iwx7C16/nMRqBQc7kGJP53canG+LvDY+xSsud+eJk+g2QOX
+	4CzhCVe+RxbGW2GUoUPASiC/Bf5NWbtj2RzDlqVwckaMTEB4R6rTvsas8k6T3VRs02G1TBFpEtX
+	2aSQWXN2JsTrEAyvcjk/3CNjnIESX2vfIoQGbqlvl4IqWLp/cm/s3EYdUyNmLV2jd1JiI+KoJ73
+	faxDtrNeIUCT4FFtKPYEpN2/1q44yU+iBtnjb1iJqWD9MUCRohsts3CYt9fybLum6rbP1X82o+W
+	m5l9Vn29NWr2Y9CtoGcVdyuD68yT83tE4FEcZb4tPWGaYQO78c7aWdZF0lyRj+G/3DjI3Ks298J
+	YHniToqF1i1fvFktI4Tj2wsHN0Uu0Q0Scs1nEZgLtgiAprquqKxFUUlbYY692cUvT/+B60/DjF7
+	2rzqigdMiX1ms24VCCZ87nmfRjsEtK/SYIxsX5XGfOKviMNWCmizJ/XTNUhGG4Fr6V7trDkT
+X-Received: by 2002:a05:693c:811a:b0:36e:9763:9268 with SMTP id 5a478bee46e88-3796695b721mr11102878eec.26.1794845702938;
+        Mon, 16 Nov 2026 08:15:02 -0800 (PST)
+Received: from localhost.localdomain ([103.178.205.79])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-380e031f3e5sm1494597eec.12.2026.11.16.08.14.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Nov 2026 08:15:02 -0800 (PST)
+From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+To: kbusch@kernel.org
+Cc: hare@kernel.org,
+	hare@suse.de,
+	hch@lst.de,
+	kch@nvidia.com,
+	linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	sagi@grimberg.me,
+	sreekuttan2156239@gmail.com
+Subject: Re: [PATCH v2] nvmet: reject invalid write-protect feature values
+Date: Mon, 16 Nov 2026 16:14:39 +0000
+Message-ID: <20261116161439.2767-1-sreekuttan2156239@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <179484220923.249619.10986402925266130295.b4-ty@kernel.org>
+References: <179484220923.249619.10986402925266130295.b4-ty@kernel.org>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-References: <20261104173842.2937092-1-jtaubepe@redhat.com> <avWUy2nQQChS7dsu@shinmob>
-In-Reply-To: <avWUy2nQQChS7dsu@shinmob>
-From: Jesse Taube <jtaubepe@redhat.com>
-Date: Mon, 16 Nov 2026 11:13:26 -0500
-X-Gm-Features: Aa3M54oatI2uOPy95QX9eiVR4ZGnjUeWcUc7CEQ_hJu_GQvfIawjS5e-k7-pXg8
-Message-ID: <CADRr4bdwGdeQsH5Rwhzd0HjRYDuPopK5_6SLi7BKnpg=XOLpbA@mail.gmail.com>
-Subject: Re: [blktests] nvme/077: Add ANA log page information leak test
-To: "Shin'ichiro Kawasaki" <shinichiro.kawasaki@wdc.com>
-Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	John Meneghini <jmeneghi@redhat.com>, Daniel Wagner <dwagner@suse.de>, kbusch@kernel.org, kch@nvidia.com, 
-	hch@lst.de, sagi@grimberg.me, "Ewan D . Milne" <emilne@redhat.com>, 
-	"Claude Opus 4.6" <noreply@anthropic.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: keT0d0kxmMgpIJnEn1_UfMlv0zQ8YkL3V9n8577T8Bs_1794845618
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261116_081343_089435_03B82A19 
-X-CRM114-Status: GOOD (  21.90  )
-X-Spam-Score: -2.8 (--)
+X-CRM114-CacheID: sfid-20261116_081507_574118_10576B40 
+X-CRM114-Status: UNSURE (   5.80  )
+X-CRM114-Notice: Please train this message.
+X-Spam-Score: -1.9 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,64 +106,18 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Thu, Nov 12, 2026 at 5:36=E2=80=AFAM Shin'ichiro Kawasaki
-<shinichiro.kawasaki@wdc.com> wrote:
->
-> On Nov 04, 2026 / 12:38, Jesse Taube wrote:
-> > Regression test for reading memory contents beyond valid data when
-> > reading ANA log page. The NVMe target must zero-fill the ANA log page
-> > response buffer beyond the valid data so that stale kernel memory is
-> > not leaked to the host.
-> >
-> > The helper program (nvme-ana-log), requests the ANA log page,
-> > parses the response header to find where valid data ends, and checks
-> > that every trailing byte is zero. The check is repeated 64 times becaus=
-e
-> > leaked data may incidentally be zeroed.
-> >
-> > Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
-> > Signed-off-by: Jesse Taube <jtaubepe@redhat.com>
-> > ---
-> > This test is meant to test:
-> > Lore Link: https://lore.kernel.org/linux-nvme/20261104172833.161567-1-e=
-milne@redhat.com/
->
-> Thank you for the patch. I ran the new test case on the v7.4-rc2 kernel a=
-nd
-> confirmed it passes. When I reverted the kernel commit 29b8758b470 (" nvm=
-et:
-> don't return memory contents beyond valid data when reading ANA log page"=
-),
-> the test case failed. Looks working well.
->
-> Overall, this blktests patch looks good. I have three minor comments belo=
-w:
->
->  1) src/.gitignore should have "/nvme-ana-log".
->  2) it's the better to note about the kernel commit in the commit log and
->     the test case comment
->  3) I think "--port 0" option of _nvme_connect_subsys call in test() is n=
-ot
->     required
->
-> Jesee, if you are fine, I will make ammendments based on the comments abo=
-ve
-> and apply this patch. Or you can respin the patch. Please let me know you=
-r
-> preference.
+Hi,
 
-Sorry I seem to have missed this. Yes it would be great if you could
-make those fixes.
-It will be faster than resubmitting and waiting for a review again.
+Thanks for applying the patch!
 
-Thanks,
-Jesse Taube
-
+Best regards,
+Sreeraj
 
